@@ -28,5 +28,5 @@ appsdir   = $(kde_appsdir)/Games
 EXTRA_DIST = $(apps_DATA) 
 
 messages:
-	$(XGETTEXT) -C -kI18N_NOOP -ki18n -x $(includedir)/kde.pot $(kpat_SOURCES) && mv messages.po $(podir)/kpat.pot
+	$(XGETTEXT) $(kpat_SOURCES) -o $(podir)/kpat.pot
 
