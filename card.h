@@ -44,7 +44,7 @@ class Card: public QObject, public QCanvasRectangle {
 
 public:
     enum Suits { Clubs = 1, Diamonds, Hearts, Spades };
-    enum Values { Ace = 1, Two, Three, Four, Five, Six, Seven, Eight,
+    enum Values { None = 0, Ace = 1, Two, Three, Four, Five, Six, Seven, Eight,
                   Nine, Ten, Jack, Queen, King };
 
     QPixmap pixmap() const;
