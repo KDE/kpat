@@ -99,6 +99,7 @@ pWidget::pWidget()
     }
     games->setItems(list);
 
+    KGlobal::dirs()->addResourceType("wallpaper", KStandardDirs::kde_default("data") + "kpat/backgrounds/");  
     KGlobal::dirs()->addResourceType("wallpaper", KStandardDirs::kde_default("data") + "ksnake/backgrounds/");
     wallpapers = new KSelectAction(i18n("&Change Background"), 0, this,
                               SLOT(changeWallpaper()),
