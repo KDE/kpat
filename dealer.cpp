@@ -1273,6 +1273,21 @@ void Dealer::setAnchorName(const QString &name)
 
 QString Dealer::anchorName() const { return ac; }
 
+void Dealer::wheelEvent( QWheelEvent *e )
+{
+    QWheelEvent ce( viewport()->mapFromGlobal( e->globalPos() ),
+                    e->globalPos(), e->delta(), e->state());
+    viewportWheelEvent(&ce);
+    if ( !ce.isAccepted() ) {
+	if ( e->orientation() == Horizontal && hScrollBarMode () == AlwaysOn )
+	    QApplication::sendEvent( horizontalScrollBar(), e);
+	else  if (e->orientation() == Vertical && vScrollBarMode () == AlwaysOn )
+	    QApplication::sendEvent( verticalScrollBar(), e);
+    } else {
+	e->accept();
+    }
+}
+
 MoveHint::MoveHint(Card * c, Pile *_to, bool d)
 {
     _card = c; to = _to; _dropiftarget = d;

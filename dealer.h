@@ -149,6 +149,7 @@ protected:
     virtual void contentsMouseMoveEvent( QMouseEvent* );
     virtual void contentsMouseReleaseEvent( QMouseEvent* );
     virtual void contentsMouseDoubleClickEvent( QMouseEvent* );
+    virtual void wheelEvent( QWheelEvent *e );
 
     void unmarkAll();
     void mark(Card *c);
