@@ -121,34 +121,34 @@ Klondike::Klondike( bool easy, KMainWindow* parent, const char* _name )
 //  a target pile and that it is no longer needed on any of the play piles
 //  (this is why this function is recursive). This more ambitious rule lets
 //  us extend the base case with the second lowest value (2).
-bool Klondike::noLongerNeeded(const Card & t) {
+bool Klondike::noLongerNeeded(Card::Values v, Card::Suits s) {
 
-    if (t.value() <= Card::Two) return true; //  Base case.
+    if (v <= Card::Two) return true; //  Base case.
 
     //  Find the 2 suits of opposite color. "- 1" is used here because the
     //  siuts are ranged 1 .. 4 but target_tops is indexed 0 .. 3. (Of course
     //  the subtraction of 1 does not affect performance because it is a
     //  constant expression that is calculated at compile time).
     unsigned char a = Card::Clubs - 1, b = Card::Spades - 1;
-    if (t.suit() == Card::Clubs || t.suit() == Card::Spades)
+    if (s == Card::Clubs || s == Card::Spades)
         a = Card::Diamonds - 1, b = Card::Hearts - 1;
 
     const Card::Values depending_value
-        = static_cast<Card::Values>(t.value() - 1);
+        = static_cast<Card::Values>(v - 1);
     return
       (((target_tops[a] >= depending_value)
         ||
         ((target_tops[a] >= depending_value - 1)
          &&
          (noLongerNeeded
-              (Card(depending_value, static_cast<Card::Suits>(a + 1))))))
+              (depending_value, static_cast<Card::Suits>(a + 1)))))
        &&
        ((target_tops[b] >= depending_value)
         ||
         ((target_tops[b] >= depending_value - 1)
          &&
          (noLongerNeeded
-              (Card(depending_value, static_cast<Card::Suits>(b + 1)))))));
+              (depending_value, static_cast<Card::Suits>(b + 1))))));
 }
 
 bool Klondike::tryToDrop(Card *t)
@@ -162,7 +162,7 @@ bool Klondike::tryToDrop(Card *t)
     if (tgt) {
         newHint
             (new MoveHint
-                 (t, tgt, noLongerNeeded(Card(t->value(), t->suit()))));
+                 (t, tgt, noLongerNeeded(t->value(), t->suit())));
         return true;
     }
     return false;

@@ -62,7 +62,7 @@ private:
     KlondikePile *pile;
     Deck* deck;
     Card::Values target_tops[4];
-    bool noLongerNeeded(const Card &);
+    bool noLongerNeeded(Card::Values v, Card::Suits s );
 };
 
 #endif
