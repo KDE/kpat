@@ -41,7 +41,7 @@ public slots:
     void hint();
 
 private: // functions
-    static bool CanPut (const Pile* c1, const CardList& c2);
+    virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
     void dealRow(int row);
 
 private:

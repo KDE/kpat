@@ -37,9 +37,10 @@ public slots:
 private:
     void deal();
 
-    static bool Ustep1( const Pile *c1, const CardList& c2);
-    static bool Dstep1( const Pile* c1, const CardList& c2);
-    static bool justOne( const Pile* c1, const CardList& c2);
+    bool CanPutTarget( const Pile *c1, const CardList& c2) const;
+    bool CanPutCentre( const Pile* c1, const CardList& c2) const;
+
+    virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
 
     Pile* pile;
     Pile* target[4];

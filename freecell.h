@@ -36,11 +36,14 @@ public slots:
     void deal();
     virtual void restart();
 
-private: // functions
-    static bool CanPutStack(const Pile *c1, const CardList& c2);
-    static bool CanPutStore(const Pile *c1, const CardList& c2);
-    static bool CanPutFreeCell(const Pile *c1, const CardList& c2);
-    static bool CanRemove(const Pile *c1, const Card *c);
+protected:
+    virtual bool checkRemove( int checkIndex, const Pile *c1, const Card *c) const;
+    virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
+
+    bool CanPutStack(const Pile *c1, const CardList& c2) const;
+    bool CanPutStore(const Pile *c1, const CardList& c2) const;
+    bool CanPutFreeCell(const Pile *c1, const CardList& c2) const;
+    bool CanRemove(const Pile *c1, const Card *c) const;
 
 public:
     int CountFreeCells();

@@ -39,20 +39,19 @@ Freecell::Freecell( KMainWindow* parent, const char* name)
         stack[i]->move(8+80*i, 113);
         stack[i]->setAddFlags(Pile::addSpread | Pile::several);
         stack[i]->setRemoveFlags(Pile::several);
-        stack[i]->setAddFun(&CanPutStack);
-        stack[i]->setRemoveFun(&CanRemove);
+        stack[i]->setCheckIndex(0);
     }
 
     for (int i = 0; i < 4; i++)
     {
         freecell[i] = new Pile (9+i, this);
         freecell[i]->move(8+76*i, 8);
-        freecell[i]->setAddFun (&CanPutFreeCell);
+        freecell[i]->setCheckIndex(2);
 
         store[i] = new Pile(13+i, this);
         store[i]->move(338+76*i, 8);
         store[i]->setRemoveFlags(Pile::disallow);
-        store[i]->setAddFun(&CanPutStore);
+        store[i]->setCheckIndex(1);
         store[i]->setTarget(true);
     }
 
@@ -86,7 +85,7 @@ int Freecell::CountFreeCells()
 
 //-------------------------------------------------------------------------//
 
-bool Freecell::CanPutStore(const Pile *c1, const CardList &c2)
+bool Freecell::CanPutStore(const Pile *c1, const CardList &c2) const
 {
     assert(c2.count() == 1);
     Card *c = c2.first();
@@ -100,12 +99,7 @@ bool Freecell::CanPutStore(const Pile *c1, const CardList &c2)
           && ((c1->top()->value()+1) == c->value());
 }
 
-bool Freecell::CanPutFreeCell(const Pile *c1, const CardList &)
-{
-    return (c1->isEmpty());
-}
-
-bool Freecell::CanPutStack(const Pile *c1, const CardList &c2)
+bool Freecell::CanPutStack(const Pile *c1, const CardList &c2) const
 {
     kdDebug() << "CanPutStack " << (void*)c1 << " " << c1->cardsLeft() << " " << c2.first()->name() << " " << (c1->top() ? c1->top()->name() : "<none>") << " " << c1->index() << endl;
     // ok if the target is empty
@@ -119,10 +113,27 @@ bool Freecell::CanPutStack(const Pile *c1, const CardList &c2)
             && (c1->top()->isRed() != c->isRed()));
 }
 
+bool Freecell::checkAdd(int index, const Pile *c1, const CardList &c2) const
+{
+    switch (index) {
+        case 0:
+            return CanPutStack(c1, c2);
+        case 1:
+            return CanPutStore(c1, c2);
+        case 2:
+            return (c1->isEmpty() && c2.count() == 1);
+        default:
+            return false;
+    }
+}
+
 //-------------------------------------------------------------------------//
 
-bool Freecell::CanRemove (const Pile *p, const Card *c)
+bool Freecell::checkRemove (int checkIndex, const Pile *p, const Card *c) const
 {
+    if (checkIndex != 0)
+        return false;
+
     // ok if just one card
     if (c == p->top())
         return true;

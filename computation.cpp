@@ -48,7 +48,7 @@ Computation::Computation( KMainWindow *parent, const char *name )
 
         target[i]->setAddFlags(Pile::several);
         target[i]->setRemoveFlags(Pile::disallow);
-        target[i]->setAddFun(&step);
+        target[i]->setCheckIndex(0);
         target[i]->setTarget(true);
     }
 
@@ -84,8 +84,9 @@ inline bool matches(const CardList &cl, Card *start, int offset)
     return true;
 }
 
-bool Computation::step( const Pile* c1, const CardList& cl) {
-    assert(c1->index() >= 5 && c1->index() <= 8);
+bool Computation::checkAdd( int index, const Pile* c1, const CardList& cl) const
+{
+    assert(index == 0 && c1->index() >= 5 && c1->index() <= 8);
 
     int offset = c1->index() - 4;
 

@@ -49,7 +49,7 @@ Klondike::Klondike( bool easy, KMainWindow* _parent, const char* _name )
         play[i]->move(10 + 85 * i, 130);
         play[i]->setAddFlags(Pile::addSpread | Pile::several);
         play[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop | Pile::wholeColumn);
-        play[i]->setAddFun(&altStep);
+        play[i]->setCheckIndex(0);
     }
 
     for( int i = 0; i < 4; i++ ) {
@@ -57,7 +57,7 @@ Klondike::Klondike( bool easy, KMainWindow* _parent, const char* _name )
         target[i]->move(265 + i * 85, 10);
         target[i]->setAddFlags(Pile::Default);
         target[i]->setRemoveFlags(Pile::disallow);
-        target[i]->setAddFun(&step1);
+        target[i]->setCheckIndex(1);
         target[i]->setTarget(true);
     }
 
@@ -143,7 +143,8 @@ void Klondike::deal() {
     canvas()->update();
 }
 
-bool Klondike::step1( const Pile* c1, const CardList& c2 ) {
+bool Klondike::step1( const Pile* c1, const CardList& c2 ) const
+{
 
     if (c2.isEmpty()) {
         return false;
@@ -160,7 +161,7 @@ bool Klondike::step1( const Pile* c1, const CardList& c2 ) {
     return t;
 }
 
-bool Klondike::altStep(  const Pile* c1, const CardList& c2 )
+bool Klondike::altStep(  const Pile* c1, const CardList& c2 ) const
 {
     if (c2.isEmpty()) {
         return false;
@@ -175,6 +176,14 @@ bool Klondike::altStep(  const Pile* c1, const CardList& c2 )
     bool t = ((newone->value() == top->value() - 1)
                && (top->isRed() != newone->isRed()));
     return t;
+}
+
+bool Klondike::checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const
+{
+    if (checkIndex == 0)
+        return altStep(c1, c2);
+    else
+        return step1(c1, c2);
 }
 
 void Klondike::cardClicked(Card *c) {

@@ -40,16 +40,16 @@ Napoleon::Napoleon( KMainWindow* parent, const char* _name )
     for (int i = 0; i < 4; i++)
     {
         store[i] = new Pile( 2 + i, this );
-        store[i]->setAddFun( &justOne );
+        store[i]->setCheckIndex( 0 );
         target[i] = new Pile( 6 + i, this);
         target[i]->setRemoveFlags( Pile::disallow );
-        target[i]->setAddFun( &Ustep1 );
+        target[i]->setCheckIndex(2);
         target[i]->setTarget(true);
     }
 
     centre = new Pile( 10, this );
     centre->setRemoveFlags( Pile::disallow );
-    centre->setAddFun( &Dstep1 );
+    centre->setCheckIndex(1);
     centre->setTarget(true);
 
     store[0]->move( 160,  10);
@@ -70,7 +70,7 @@ void Napoleon::restart() {
     deal();
 }
 
-bool Napoleon::Ustep1( const Pile* c1, const CardList& cl) {
+bool Napoleon::CanPutTarget( const Pile* c1, const CardList& cl) const {
     Card *c2 = cl.first();
 
     if (c1->isEmpty())
@@ -79,7 +79,7 @@ bool Napoleon::Ustep1( const Pile* c1, const CardList& cl) {
         return (c2->value() == c1->top()->value() + 1);
 }
 
-bool Napoleon::Dstep1( const Pile* c1, const CardList& cl) {
+bool Napoleon::CanPutCentre( const Pile* c1, const CardList& cl) const {
     Card *c2 = cl.first();
 
     if (c1->isEmpty())
@@ -91,8 +91,18 @@ bool Napoleon::Dstep1( const Pile* c1, const CardList& cl) {
         return (c2->value() == c1->top()->value() - 1);
 }
 
-bool Napoleon::justOne( const Pile* c1, const CardList& ) {
-    return (c1->isEmpty());
+bool Napoleon::checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const
+{
+    switch (checkIndex) {
+        case 0:
+            return c1->isEmpty();
+        case 1:
+            return CanPutCentre(c1, c2);
+        case 2:
+            return CanPutTarget(c1, c2);
+        default:
+            return false;
+    }
 }
 
 void Napoleon::deal() {

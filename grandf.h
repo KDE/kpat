@@ -49,10 +49,11 @@ public slots:
     virtual void restart();
     virtual void hint();
 
-private: // functions
+protected:
     void collect();
-    static bool step1( const Pile* c1, const CardList& c2);
-    static bool Sstep1( const Pile* c1, const CardList& c2);
+    virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
+    bool step1( const Pile* c1, const CardList& c2) const;
+    bool Sstep1( const Pile* c1, const CardList& c2) const;
     virtual void cardDblClicked(Card *);
 
 private:

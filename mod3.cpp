@@ -49,7 +49,7 @@ Mod3::Mod3( KMainWindow* parent, const char* _name)
             stack[ r ][ c ] = new Pile ( r + 1, this );
             stack[r][c]->move( 8 + 80 * c, 8 + 105 * r + 32 * ( r == 3 ));
             if( r < 3 ) {
-                stack[r][c]->setAddFun( &CanPut );
+                stack[r][c]->setCheckIndex( 0 );
                 stack[r][c]->setLegalMove(moves);
                 stack[r][c]->setTarget(true);
             } else
@@ -73,9 +73,9 @@ Mod3::Mod3( KMainWindow* parent, const char* _name)
 
 //-------------------------------------------------------------------------//
 
-bool Mod3::CanPut (const Pile *c1, const CardList &cl)
+bool Mod3::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
 {
-    if (cl.isEmpty())
+    if (checkIndex != 0)
         return false;
 
     Card *c2 = cl.first();
@@ -178,7 +178,7 @@ void Mod3::hint()
             for (PileList::ConstIterator it = candidates.begin();
                  it != candidates.end(); ++it)
             {
-                if (CanPut(*it, empty)) {
+                if (checkAdd(0, *it, empty)) {
                     bool markit = true;
                     if (r < 3) { // the card may already be perfect
                         Card *v = stack[r][c]->top();

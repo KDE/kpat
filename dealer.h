@@ -65,6 +65,9 @@ public:
     void addPile(Pile *p);
     void removePile(Pile *p);
 
+    virtual bool checkRemove( int checkIndex, const Pile *c1, const Card *c) const;
+    virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
+
 public slots:
 
     // restart is pure virtual, so we need something else
@@ -79,6 +82,7 @@ signals:
 protected:
 
     virtual void restart() = 0;
+
     virtual void contentsMousePressEvent(QMouseEvent* e);
     virtual void contentsMouseMoveEvent( QMouseEvent* );
     virtual void contentsMouseReleaseEvent( QMouseEvent* );

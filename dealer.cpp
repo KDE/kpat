@@ -573,4 +573,12 @@ bool Dealer::isGameWon() const
     return true;
 }
 
+bool Dealer::checkRemove( int, const Pile *, const Card *) const {
+    return true;
+}
+
+bool Dealer::checkAdd   ( int, const Pile *, const CardList&) const {
+    return true;
+}
+
 #include "dealer.moc"

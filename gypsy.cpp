@@ -25,8 +25,8 @@ Gypsy::Gypsy( KMainWindow* parent, const char *name )
         target[i] = new Pile(i+1, this);
         target[i]->move(10+80*(8+(i/4)), 10 + (i%4)*105);
 //        target[i]->setRemoveFlags(Pile::disallow);
-        target[i]->setAddFun(&CanTarget);
         target[i]->setTarget(true);
+        target[i]->setCheckIndex(1);
     }
 
     for (int i=0; i<8; i++) {
@@ -34,8 +34,7 @@ Gypsy::Gypsy( KMainWindow* parent, const char *name )
         store[i]->move(10+80*i, 10);
         store[i]->setAddFlags(Pile::addSpread | Pile::several);
         store[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
-        store[i]->setAddFun(&CanStore);
-        store[i]->setRemoveFun(&CanStoreRemove);
+        store[i]->setCheckIndex(0);
     }
 
     deal();
@@ -63,7 +62,8 @@ void Gypsy::deal() {
 /**
  * final location
  **/
-bool Gypsy::CanTarget( const Pile* c1, const CardList& c2 ) {
+bool Gypsy::CanPutTarget( const Pile* c1, const CardList& c2 ) const
+{
     Card *top = c1->top();
 
     Card *newone = c2.first();
@@ -75,7 +75,7 @@ bool Gypsy::CanTarget( const Pile* c1, const CardList& c2 ) {
     return t;
 }
 
-bool Gypsy::CanStore( const Pile* c1, const CardList& c2)
+bool Gypsy::CanPutStore( const Pile* c1, const CardList& c2) const
 {
     if (c1->isEmpty())
         return true;
@@ -85,9 +85,20 @@ bool Gypsy::CanStore( const Pile* c1, const CardList& c2)
     }
 }
 
-/// freecell
-bool Gypsy::CanStoreRemove( const Pile* p, const Card *c)
+bool Gypsy::checkAdd( int index, const Pile* c1, const CardList& c2) const
 {
+    if (index == 0)
+        return CanPutStore(c1, c2);
+    else
+        return CanPutTarget(c1, c2);
+}
+
+/// freecell
+bool Gypsy::checkRemove( int checkIndex, const Pile* p, const Card *c) const
+{
+    if (checkIndex != 0)
+        return false;
+
     // ok if just one card
     if (c == p->top())
         return true;

@@ -36,8 +36,7 @@ Pile::Pile( int _index, Dealer* parent)
     dealer()->addPile(this);
     QCanvasRectangle::setVisible(true); // default
     setSize( cardMap::CARDX, cardMap::CARDY );
-    removeCheckFun = 0;
-    addCheckFun = 0;
+    _checkIndex = -1;
     addFlags = removeFlags = 0;
     setBrush(Qt::black);
     setPen(QPen(Qt::black));
@@ -95,14 +94,9 @@ bool Pile::legalAdd( const CardList& _card ) const
         return false;
     }
 
-    if( addCheckFun ) {
-        bool result = addCheckFun( this, _card );
-        kdDebug() << "addCheckFun returned " << result << endl;
-        return result;
-    }
-
-    kdDebug() << "legalAdd\n";
-    return true;
+    bool result = dealer()->checkAdd( checkIndex(), this, _card );
+    kdDebug() << "addCheckFun returned " << result << endl;
+    return result;
 }
 
 bool Pile::legalRemove(const Card *c) const
@@ -119,14 +113,9 @@ bool Pile::legalRemove(const Card *c) const
         return false;
     }
 
-    if( removeCheckFun ) {
-        bool b = removeCheckFun( this, c);
-        kdDebug() << "removeCheckFun returned " << b << endl;
-        return b;
-    }
-    kdDebug() << "ok\n";
-
-    return true;
+    bool b = dealer()->checkRemove( checkIndex(), this, c);
+    kdDebug() << "removeCheckFun returned " << b << endl;
+    return b;
 }
 
 void Pile::setVisible(bool vis)

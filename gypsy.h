@@ -22,9 +22,10 @@ public slots:
 
 private: // functions
     void dealRow(bool faceup);
-    static bool CanTarget( const Pile* c1, const CardList& c2);
-    static bool CanStore( const Pile* c1, const CardList& c2);
-    static bool CanStoreRemove( const Pile* c1, const Card *c);
+    bool CanPutTarget( const Pile* c1, const CardList& c2) const;
+    bool CanPutStore( const Pile* c1, const CardList& c2) const;
+    bool checkRemove( int index, const Pile* c1, const Card *c) const;
+    bool checkAdd( int index, const Pile* c1, const CardList& cl) const;
 
 private:
     Pile* store[8];

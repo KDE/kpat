@@ -42,7 +42,7 @@ Grandf::Grandf( KMainWindow* parent, const char *name )
         target[i] = new Pile(i+1, this);
         target[i]->move(110+i*100, 10);
         target[i]->setRemoveFlags(Pile::disallow);
-        target[i]->setAddFun(&step1);
+        target[i]->setCheckIndex(0);
         target[i]->setLegalMove(list);
         target[i]->setTarget(true);
     }
@@ -52,7 +52,7 @@ Grandf::Grandf( KMainWindow* parent, const char *name )
         store[i]->move(10+100*i, 150);
         store[i]->setAddFlags(Pile::addSpread | Pile::several);
         store[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
-        store[i]->setAddFun(&Sstep1);
+        store[i]->setCheckIndex(1);
         store[i]->setLegalMove(list);
     }
 
@@ -209,7 +209,7 @@ void Grandf::collect() {
 /**
  * final location
  **/
-bool Grandf::step1( const Pile* c1, const CardList& c2 ) {
+bool Grandf::step1( const Pile* c1, const CardList& c2 ) const {
 
     if (c2.isEmpty()) {
         return false;
@@ -226,7 +226,7 @@ bool Grandf::step1( const Pile* c1, const CardList& c2 ) {
     return t;
 }
 
-bool Grandf::Sstep1( const Pile* c1, const CardList& c2)
+bool Grandf::Sstep1( const Pile* c1, const CardList& c2) const
 {
     if (c1->isEmpty())
         return c2.first()->value() == Card::King;
@@ -234,6 +234,13 @@ bool Grandf::Sstep1( const Pile* c1, const CardList& c2)
         return (c2.first()->value() == c1->top()->value() - 1)
                      && c1->top()->suit() == c2.first()->suit();
     }
+}
+
+bool Grandf::checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const {
+    if (checkIndex == 0)
+        return step1(c1, c2);
+    else
+        return Sstep1(c1, c2);
 }
 
 void Grandf::cardDblClicked(Card *c)

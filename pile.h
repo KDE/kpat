@@ -32,11 +32,6 @@ public:
     virtual ~Pile();
 
     CardList cards() const { return myCards; }
-    typedef bool (*addCheckPtr)(const Pile*, const CardList& );
-    addCheckPtr addCheckFun;
-
-    typedef bool (*removeCheckPtr)(const Pile*, const Card *c);
-    removeCheckPtr removeCheckFun;
 
     bool legalAdd(const CardList &c ) const;
     bool legalRemove(const Card *c) const;
@@ -46,9 +41,11 @@ public:
 
     void setRemoveFlags( int flag ) { removeFlags = flag; }
     void setAddFlags( int flag ) { addFlags = flag; }
+
     void setLegalMove( const QValueList<int> &moves ) { legalMoves = moves; }
-    void setAddFun( addCheckPtr f) { addCheckFun = f; }
-    void setRemoveFun( removeCheckPtr f) { removeCheckFun = f; }
+
+    void setCheckIndex( int index ) { _checkIndex = index; }
+    virtual int checkIndex() const { return _checkIndex; }
 
     void setTarget(bool t) { _target = t; }
     bool target() const { return _target; }
@@ -95,7 +92,7 @@ protected:
     CardList myCards;
 
 private:
-
+    int _checkIndex;
     Dealer *_dealer;
     int myIndex;
     bool _target;
