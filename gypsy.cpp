@@ -45,6 +45,7 @@ void Gypsy::deal() {
     dealRow(false);
     dealRow(false);
     dealRow(true);
+    takeState();
 }
 
 Card *Gypsy::demoNewCards()
