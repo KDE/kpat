@@ -444,87 +444,136 @@ You can go through the talon only once.
 <sect1 id="mod3">
 <title>Mod3<anchor id="game_mod3"></title>
 <para>
-Mod-3 wird mit zwei Kartenp&auml;ckchen ohne Asse gespielt. Ziel ist es,
-alle Karten in den drei oberen Reihen anzuordnen. In der ersten Reihe
-sollen echte Abfolgen der Form 2-5-8-B, in der zweiten Reihe der Form
-3-6-9-D und in der dritten Reihe der Form 4-7-10-K angeordnet werden.
-Hier ist die Farbe der Karte wichtig, so kann z.B. auf eine Herz-zwei
-nur eine Herz-f&uuml;nf gelegt werden.
-</para><para>
-Die unterste Reihe ist Hilfsstapel und Ablage zugleich. Auf eine leere
-Ablage kann eine Karte aus den oberen drei Reihen gelegt werden oder
-eine auf einem anderen Ablagestapel liegende.  
-</para><para>
-K&ouml;nnen keine weiteren Karten verschoben werden, ergeben sich neue M&ouml;glichkeiten
-durch einen Klick auf den Talon. Dann wird auf jede Ablage eine neue
-Karte gelegt. 
-</para><para>
-[auto drop] ist bei dieser Patience abgestellt.
+Mod-3 is played with two card decks without aces. Goal of the game is to 
+put all cards on the top three rows. In those you have to build sequences
+of the same color. In the first row you have to create the sequence 2-5-8-B,
+in the second row the sequence 3-6-9-D and in the third row the sequence
+4-7-10-K. The color of the cards has to be the same in each sequence, so you 
+can put a hearts five only on top of a hearts two.
+</para>
+
+<para>
+The fourth row is waste pile and playing pile at once. On an empty slot
+you can put any card from the first three rows or one of top of the
+fourth row.
+</para>
+
+<para>
+If you can't move any more cards, you can get new cards on the fourth
+row in clicking on the talon.
+</para>
+
+<para>
+[auto drop] is disabled at this patience.
 </para>
 </sect1>
 
 <sect1 id="calculation">
-<title>Berechnung<anchor id="game_calculation"></title>
+<title>Calculation<anchor id="game_calculation"></title>
 <para>
-Berechnung ist einen Patience, die man erst ein paar mal spielen mu&szlig;,
-um damit "warm zu werden". Sie wird mit einem Kartenp&auml;ckchen gespielt. 
-</para><para>
-Ziel von Berechnung ist es, alle Karten in der Basis anzuordenen. Dabei
-sind folgende Reihenfolgen zu beachten: Auf dem ersten Stapel m&uuml;ssen
-die Karten als steigende Familie (A-2-3-4-5-6-7-8-9-10-B-D-K) angeordnet
-werden. Auf dem zweiten Stapel: 2-4-6-8-10-D-A-3-5-7-9-B-K. Bei Stapel
-Nummer drei: 3-6-9-D-2-5-8-B-A-4-7-10-K. Und auf dem letzten Stapel
-4-8-D-3-7-B-2-6-10-A-5-9-K. Die Farben der Karten spielt keine Rolle.
-</para><para>
-Die oberste Karte des Talons kann auf jeden der vier Hilfsstapel gelegt
-werden. Dabei sollte man die Position so w&auml;hlen, dass ein sp&auml;teres
-ablegen auf die Basis leicht m&ouml;glich ist. Auf ein leeren Hilfsstapel
-kann nur eine Karte aus dem Talon gelegt werden.
+Calculation is surely a patience you have to get used to. It is played with
+one card deck and the goal of the game is to put all cards in the four 
+foundation piles as rising families without caring the color of the cards.
+</para>
+
+<para>
+For the foundation you have to follow these orders:
+</para>
+<blockquote>
+<informaltable pgwide=0>
+<tgroup cols=2>
+<tbody>
+
+<row>
+<entry>1. pile</entry>
+<entry>A-2-3-4-5-6-7-8-9-10-B-D-K</entry>
+</row>
+
+<row>
+<entry>2. pile</entry>
+<entry>2-4-6-8-10-D-A-3-5-7-9-B-K</entry>
+</row>
+
+<row>
+<entry>3. pile</entry>
+<entry>3-6-9-D-2-5-8-B-A-4-7-10-K</entry>
+</row>
+
+<row>
+<entry>4. pile</entry>
+<entry>4-8-D-3-7-B-2-6-10-A-5-9-K</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</blockquote>
+
+<para>
+The card on top of the talon can be put on any of the four playing piles.
+You should do this, so you can put following cards easier on the foundation.
 </para>
 </sect1>
 
 <sect1 id="gypsy">
-<title>Zigeuner<anchor id="game_gypsy"></title>
+<title>Gypsy<anchor id="game_gypsy"></title>
 <para>
-Zigeuner wird mit zwei Kartenp&auml;ckchen gespielt. Ziel des Spiels ist
-es, alle Karten als echte Familien steigend auf die Basis anzuordnen. 
-</para><para>
-Die Spielfolgen m&uuml;ssen fallend angeordnet werden, wobei sich immer
-schwarze und rote Karten abwechseln. Es k&ouml;nnen nur Sequenzen oder
-einzelne Karten verschoben werden. Auf eine freie Ablage kann jede
-beliebige Karte oder Sequenz gelegt werden.
-</para><para>
-K&ouml;nnen keine weiteren Karten verschoben werden, ergeben sich neue M&ouml;glichkeiten
-durch einen Klick auf den Talon. Dann wird auf jede Ablage eine neue
-Karte gelegt. 
-</para><para>
-Durch eine h&auml;ufige Benutzung von [r&uuml;ckg&auml;nig] ist es leichter, ein Spiel
-zu gewinnen.
+Gypsy is played with two card decks. Goal of the game is to put all cards
+in real families rising on the foundation.
+</para>
+
+<para>
+The playing piles have to be falling while red and black cards have to
+alternate. You can only move sequences or single cards. On a free slot you
+can put any card or sequence.
+</para>
+
+<para>
+If you can't move any more cards, you can click on the talon to get a new
+bunch of cards on each playing pile.
+</para>
+
+<para>
+In using the undo feature you can ease the game quite a lot as you have to
+take quite some decisions and some of them might turn out to be wrong after
+you clicked the talon.
 </para>
 </sect1>
 
 <sect1 id="forty_and_eight">
-<title>Vierzig und Acht<anchor id="game_forty_and_eight"></title>
+<title>Forty And Eight<anchor id="game_forty_and_eight"></title>
 <para>
-Vierzig und Acht wird mit zwei Kartenp&auml;ckchen gespielt. Ziel des Spiels
-ist es, alle Karten als echte Familien steigend auf die Basis anzuordnen.
-</para><para>
-Die Spielfolgen m&uuml;ssen fallend angeordnet werden, wobei nur Herz auf
-Herz, Pik auf Pik, .... gelegt werden kann. 
-</para><para>
-Es kann nur eine einzelne oben liegene Karte pro Spielzug bewegt werden.
-Auf eine freie Ablage kann jede beliebige Karte gelegt werden.
-</para><para>
-Mit einem Klick auf den Talon wird eine Karte auf den Hilfsstapel gelegt,
-von wo aus sie auf die Ablagen oder die Basis bewegt werden kann.
-Ist der Talon leer, wird mit einem weiteren Klick der Hilfsstapel
-zu einen neuen Talon. Jedoch kann der Talon kann nur zweimal durchgesehen
-werden.
+Forty and Eight is played with two card decks. Goal of the game is to put all
+cards as real families on the foundation.
+</para>
+
+<para>
+The playing piles have to be falling while you have to care about colors.
+So you can only put a hearts five on a hearts six. 
+</para>
+
+<para>
+You can only move one single card on top of a pile. In a free slot you can
+put any card.
+</para>
+
+<para>
+In clicking on the talon you can put a card on the waste pile, from where you
+can put it on a playing pile or the foundation (this will do &kpat; for you).
+Is the talon empty you can put all cards on the waste pile back on the talon.
+This works only once, after the second time the talon empties, the game is
+over.
+</para>
+
+<para>
+This patience isn't really easy to solve, but with some experience, you can
+solve quite some deals. Especially if you use the undo feature from time to
+time to correct your and the decisions &kpat; does in putting cards on the
+foundation.
 </para>
 </sect1>
 
 <sect1 id="simple_simon">
-<title>Einfach Simon<anchor id="game_simple_simon"></title>
+<title>Simple Simon<anchor id="game_simple_simon"></title>
 <para>
 Einfach Simon wird mit einem Kartenp&auml;ckchen gespielt. Ziel des Spiels
 ist es, alle Karten als echte Familien steigend auf die Basis anzuordnen.
@@ -562,7 +611,7 @@ gelegt werden, unabh&auml;nig davon, wieviele Karten auf der Pik-f&uuml;nf liege
 werden.</para>
 </sect1>
 
-<sect1 id="grandfather_s_clock">
+<sect1 id="grandfathers_clock">
 <title>Gro&szlig;vaters Uhr<anchor id="game_grandfathers_clock"></title>
 <para>
 Gro&szlig;vaters Uhr ist eine einfache Patience und mit ein bi&szlig;chen knobeln
