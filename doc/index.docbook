@@ -53,13 +53,11 @@ Please make any comments and additions to the author.</para>
 <keyword>game</keyword>
 <keyword>patience</keyword>
 <keyword>solitaire</keyword>
-<keyword>klondike</keyword>
 </keywordset>
 </bookinfo>
 
 <chapter id="introduction">
 <title>Introduction</title>
-
 <para>
 To play a patience you need - as the name suggests: patience.
 For simple games, where the way the game goes depends only on
@@ -84,14 +82,16 @@ a special order in moving, turning and reordering them.
 A card game contains one or two card decks of 52 cards each. Each deck
 contains the four deck colors:
 </para>
-<informaltable frame=none pgwide=1>
+
+<blockquote>
+<informaltable pgwide=0 frame=none>
 <tgroup cols=2>
-<colspec colwidth=50pt>
-<colspec align=left>
+<colspec colwidth=90>
+<colspec>
 <tbody>
 
 <row valign=middle>
-<entry align=right>
+<entry>
 <inlinemediaobject>
 <imageobject>
 <imagedata fileref="clubs.png">
@@ -104,7 +104,7 @@ Clubs
 </row>
 
 <row valign=middle>
-<entry align=right>
+<entry>
 <inlinemediaobject>
 <imageobject>
 <imagedata fileref="spades.png">
@@ -117,7 +117,7 @@ Spades
 </row>
 
 <row valign=middle>
-<entry align=right>
+<entry>
 <inlinemediaobject>
 <imageobject>
 <imagedata fileref="hearts.png">
@@ -130,7 +130,7 @@ Hearts
 </row>
 
 <row valign=middle>
-<entry align=right>
+<entry>
 <inlinemediaobject>
 <imageobject>
 <imagedata fileref="diamonds.png">
@@ -145,6 +145,7 @@ Diamonds
 </tbody>
 </tgroup>
 </informaltable>
+</blockquote>
 
 <para>
 Each of these colors contains itself the following cards types:
@@ -163,7 +164,6 @@ Diamonds).
 <para>
 If the family is not complete, it's called a sequence.
 </para>
-
 
 <para>
 <mediaobject>
@@ -189,6 +189,7 @@ deck. These cards are put down on the so called Talon, which you can
 find quite easy as it is in most games the only pile showing the back
 side.
 </para>
+
 <para>
 If no card shows the back side, all cards are dealt out and there is
 no talon. These card games are the hardest as there is no random 
@@ -204,6 +205,7 @@ involved after the start of the game, so there is nothing to blame
 Many games put cards from the talon first on a waste pile when you click
 on the backside of the top card on the talon.
 </para>
+
 <para>From there you can take the card (which is then face up) and put
 it into the game. 
 </para>
@@ -249,6 +251,7 @@ Use of the menu is too easy to be described now.
 
 <sect1 id="klondike">
 <title>Klondike</title>
+<anchor id="game_klondike">
 
 <para>
 Klondike is the most famous patience - most likely because an often used
@@ -277,6 +280,7 @@ from where you can move it to the playing piles or the foundation.
 Is the talon empty, you can move the complete waste pile on the talon
 in clicking on the empty talon.
 </para>
+
 <para>
 You can look through the cards on the talon without any limit, but you
 should learn fast that you've lost if you can't find one card to move
@@ -286,6 +290,7 @@ and that a new shift doesn't help you in finding new solutions.
 
 <sect1 id="grandfather">
 <title>Grandfather</title>
+<anchor id="game_grandfather">
 
 <para>
 This game has been introduced to Paul by his grandfather, so it got this
@@ -328,87 +333,116 @@ is still hard to win, but is still a joy to play (or because of that).
 
 <sect1 id="aces_up">
 <title>Aces up</title>
+<anchor id="game_aces_up">
 
 <para>
-Diese Patience hat sehr einfache Regeln, ist somit leicht zu spielen,
-aber schwer zu gewinnen. Sie wird mit einem Kartenp&auml;ckchen gespielt.
-Ziel des Spiels ist es, alle Karten au&szlig;er den Assen auf die Basis
-zu legen, wobei auf jeder Ablage ein Ass zu liegen hat.
-</para><para>
-Jede obere Karte, die von geringerem Wert als eine andere obere Karte
-und von der selben Farbe (z.B. Pik) ist, kann per Klick auf die Basis
-gelegt werden.
-</para><para>
-K&ouml;nnen keine weiteren Karten auf die Basis gelegt werden, wird mit
-einem Klick auf den Talon auf jede Ablage eine neue Karte gelegt.
-</para><para>
-Ist eine Ablage frei, so kann per Klick auf eine Karte auf einer anderen
-Ablage diese dorthin bewegt werden. Diese Karte sollte m&ouml;glichst so
-gew&auml;hlt werden, dass dannach weitere Karten auf die Basis gelegt werden
-k&ouml;nnen. 
-</para><para>
-[auto drop] ist bei dieser Patience abgestellt.
+This patience has very simple rules, but is still hard to win.
+It is played with one deck and the goal is to put all cards beside
+the aces to the foundation. After that there should be an ace on 
+every playing pile left.
+</para>
+
+<para>
+Each top card that is of the same color (e.g. Spades) and has a lower
+value than another top card (e.g. spades six and spades five) can be
+put on the foundation in clicking on it. 
+</para>
+
+<para>
+If you can't move any more cards to the foundation, you can get a new
+card for each playing pile in clicking on the talon.
+</para>
+
+<para>
+On a free pile you can move every other card on top of a pile. You should
+choose these moves to free piles the way that new cards can be moved to
+the foundation after that.
+</para>
+
+<para>
+[auto drop] is disabled for this patience.
 </para>
 </sect1>
 
 <sect1 id="freecell">
 <title>Freecell</title>
+<anchor id="game_freecell">
+
 <para>
-Freecell wird mit einem Kartenp&auml;ckchen gespielt. Im Spielfeld befinden
-sich links oben vier freie Zellen, daneben die Basis mit vier Positionen
-und darunter acht Ablagen. 
-</para><para>
-Ziel ist es, alle Karten als echte Familien steigend auf die Basis
-anzuordnen. Dieses gelingt sehr oft, da Freecell zu c.a. 99,9 % l&ouml;sbar
-ist.
-</para><para>
-In den Ablagen m&uuml;ssen die Spielfolgen fallend, mit roten und schwarzen
-Karten im Wechsel, angeordnet werden. In eine freie Zelle kann nur
-eine einzige Karte gelegt werden. 
-</para><para>
-Bei einem Spielzug darf immer nur eine einzelne, oben liegende Karte
-verschoben werden. Sequenzen oder Teile von Sequenzen k&ouml;nnen nur verschoben
-werden, wenn gen&uuml;gend freie Zellen und/oder freie Ablagen vorhanden
-sind. Dabei kann jede beliebige Karte auf eine freie Position gelegt
-werden. 
+Freecell is playing with one card deck. You have four free cells in the
+left top corner. Beside that there are the four foundation piles and below
+it there are eight playing piles.
 </para>
 
 <para>
-Das verschieben von Sequenzen wird, bei ausreichendem Platz, von &kpat;
-unterst&uuml;tzt. Die maximale Anzahl der verschiebbaren Karten berechnet
-sich durch (freie Zellen +1)*2 hoch (freie Ablagen).
+The goal of the game is to have all cards as real families rising on
+the founation. This works quite often if you know how to play as freecell
+is solvable at a rate of 99.9% approximatly (of the first 32000 deals
+there is only one unsolvable - 11982 if you want to know).
+</para>
+
+<para>
+In the playing piles you have to build falling sequences, where red and
+black cards alternate. In a free cell you can put any card if it the free
+cell is free.
+</para>
+
+<para>
+You can only move one single card that lays on top of a pile or a free cell.
+Sequences can only be moved, if you have enough free room (free cells or
+free playing piles) to put the cards in between you move.
+</para>
+
+<para>
+The moving of sequences will be supported by &kpat; if there is enough
+room. The maximum of cards you can move is calculated by:</para>
+
+<blockquote><sidebar><para>
+(#{free cells} + 1) * 2<superscript>#{free piles}</superscript>
+</para></sidebar></blockquote>
+
+<para>
+To solve this game it is recommended to grab the cards out of the playing
+sequences in the same order they have to be put into the foundation (first
+the aces, then the twos, etc.)
 </para>
 <para>
-Um dieses Spiel zu l&ouml;sen, empfiehlt es sich Karten in der Reihenfolge
-"auszugraben", wie sie auf die Basis gelegt werden k&ouml;nnen. Dabei sollte
-man versuchen gen&uuml;gend Zellen und/oder Ablagen frei zu halten und
-unechte Familien auf den Ablagen zu bilden.
-</para><para>
-DEMO - .... TODO
+You should try to keep as many free cells and/or playing piles empty, so you
+can build as long sequences as possible.
 </para>
+
 </sect1>
 
 <sect1 id="napoleons_tomb">
-<title>Napoleons Grab</title>
+<title>Napoleon's Tomb<anchor id="game_napoleons_tomb"></title>
 <para>
-Napoleons Grab wird mit einem Kartenp&auml;ckchen gespielt. 
-</para><para>
-Ziel ist es, alle Karten auf die Basis anzuordnen. Die Basis besteht
-hier aus f&uuml;nf Stapeln, die als X angeornet sind. In den vier Ecken
-m&uuml;ssen die Karten als Sequenz von sieben bis K&ouml;nig gelegt werden und
-in der Mitte vier mal die Sequenzen von sechs bis As. Die Farbe spielt
-keine Rolle. 
-</para><para>
-Die restlichen vier Felder des Spielfeldes k&ouml;nnen als vor&uuml;bergehende
-Ablage f&uuml;r jeweils eine Karte genutzt werden. Der Talon kann nur einmal
-durchgesehen werden.
-</para><para>
-[auto drop] ist bei dieser Patience abgestellt.
+Napoleon's Tomb is played with one deck. Goal is to put all cards on the foundations
+as rising families without caring the card colors.
+</para>
+
+<para>
+The foundation is made out of five piles, that are put as a X. On the four corners
+of this X you have to build sequences starting with seven and ending with king.
+</para>
+
+<para>
+The pile in the middle takes four times the sequence from six down to ace. The color
+doesn't mater for all five piles.  
+</para>
+
+<para>
+The other four piles on the sides of the pile in the middle (or in between the X -
+however you want to put it) can take one card each to place cards temporarly.
+You can go through the talon only once.
+</para>
+
+<para>
+[auto drop] ist disabled for this patience.
 </para>
 </sect1>
 
 <sect1 id="mod3">
-<title>Mod3</title>
+<title>Mod3<anchor id="game_mod3"></title>
 <para>
 Mod-3 wird mit zwei Kartenp&auml;ckchen ohne Asse gespielt. Ziel ist es,
 alle Karten in den drei oberen Reihen anzuordnen. In der ersten Reihe
@@ -430,7 +464,7 @@ Karte gelegt.
 </sect1>
 
 <sect1 id="calculation">
-<title>Berechnung</title>
+<title>Berechnung<anchor id="game_calculation"></title>
 <para>
 Berechnung ist einen Patience, die man erst ein paar mal spielen mu&szlig;,
 um damit "warm zu werden". Sie wird mit einem Kartenp&auml;ckchen gespielt. 
@@ -450,7 +484,7 @@ kann nur eine Karte aus dem Talon gelegt werden.
 </sect1>
 
 <sect1 id="gypsy">
-<title>Zigeuner</title>
+<title>Zigeuner<anchor id="game_gypsy"></title>
 <para>
 Zigeuner wird mit zwei Kartenp&auml;ckchen gespielt. Ziel des Spiels ist
 es, alle Karten als echte Familien steigend auf die Basis anzuordnen. 
@@ -470,7 +504,7 @@ zu gewinnen.
 </sect1>
 
 <sect1 id="forty_and_eight">
-<title>Vierzig und Acht</title>
+<title>Vierzig und Acht<anchor id="game_forty_and_eight"></title>
 <para>
 Vierzig und Acht wird mit zwei Kartenp&auml;ckchen gespielt. Ziel des Spiels
 ist es, alle Karten als echte Familien steigend auf die Basis anzuordnen.
@@ -490,7 +524,7 @@ werden.
 </sect1>
 
 <sect1 id="simple_simon">
-<title>Einfach Simon</title>
+<title>Einfach Simon<anchor id="game_simple_simon"></title>
 <para>
 Einfach Simon wird mit einem Kartenp&auml;ckchen gespielt. Ziel des Spiels
 ist es, alle Karten als echte Familien steigend auf die Basis anzuordnen.
@@ -513,7 +547,7 @@ man sie anschlie&szlig;end der Farbe nach sortieren.
 </sect1>
 
 <sect1 id="yukon">
-<title>Yukon</title>
+<title>Yukon<anchor id="game_yukon"></title>
 
         <para>Yukon wird mit einem Kartenp&auml;ckchen gespielt. Ziel des Spiels ist es,
 alle Karten als echte Familien steigend auf die Basis anzuordnen.
@@ -528,8 +562,8 @@ gelegt werden, unabh&auml;nig davon, wieviele Karten auf der Pik-f&uuml;nf liege
 werden.</para>
 </sect1>
 
-<sect1 id="grandfathers_clock">
-<title>Gro&szlig;vaters Uhr</title>
+<sect1 id="grandfather_s_clock">
+<title>Gro&szlig;vaters Uhr<anchor id="game_grandfathers_clock"></title>
 <para>
 Gro&szlig;vaters Uhr ist eine einfache Patience und mit ein bi&szlig;chen knobeln
 geht fast jedes Spiel auf. Diese Patience wird mit einem Kartenp&auml;ckchen
@@ -548,7 +582,7 @@ Karte bewegt werden.
 </sect1>
 
 <sect1 id="kings">
-<title>K&ouml;nige</title>
+<title>K&ouml;nige<anchor id="game_kings"></title>
 <para>
 Die Patience K&ouml;nige wird mit zwei Kartenp&auml;ckchen gespielt. Die Karten
 werden so ausgeteilt, dass unter jedem Ablagestapel ein K&ouml;nig liegt.
