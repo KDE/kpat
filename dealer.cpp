@@ -550,6 +550,12 @@ bool Dealer::cardDblClicked(Card *c)
 
 void Dealer::startNew()
 {
+    if ( ahint )
+        ahint->setEnabled( true );
+    if ( ademo )
+        ademo->setEnabled( true );
+    if ( aredeal )
+        aredeal->setEnabled( true );
     minsize = QSize(0,0);
     _won = false;
     _waiting = 0;
@@ -754,6 +760,12 @@ void Dealer::takeState()
         }
         else if (isGameLost()) {
             QTimer::singleShot(400, this, SIGNAL(gameLost()));
+            if ( ahint )
+                ahint->setEnabled( false );
+            if ( ademo )
+                ademo->setEnabled( false );
+            if ( aredeal )
+                aredeal->setEnabled( false );
             return;
         }
     }
