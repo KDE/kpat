@@ -123,7 +123,7 @@ pWidget::pWidget(QWidget *, const char *)
 
   m->insertSeparator();
 
-  QPopupMenu *help = kapp->getHelpMenu(true, QString(i18n("Patience"))
+  QPopupMenu *help = kapp->getHelpMenu(true, i18n("Patience")
                                      + " " + KPAT_VERSION
                                      + i18n("\n\nby Paul Olav Tvetei\n\n")
                                      + i18n("Additional work done by:\n")
