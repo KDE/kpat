@@ -43,7 +43,7 @@ public:
     bool legalRemove(const Card *c) const;
 
     void moveCards(CardList &c, Pile *to = 0);
-    void moveCardsBack(CardList &c);
+    void moveCardsBack(CardList &c, bool anim = true);
 
     void setRemoveFlags( int flag ) { removeFlags = flag; }
     void setAddFlags( int flag ) { addFlags = flag; }

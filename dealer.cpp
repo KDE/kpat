@@ -522,7 +522,7 @@ void Dealer::won()
                 y = 3*canvas()->height()/2 - (kapp->random() % (canvas()->height() * 2));
                 p.moveTopLeft(QPoint(x, y));
             } while (can.intersects(p));
-	    c->animatedMove( x, y, 50 );
+	    c->animatedMove( x, y, 0, 20);
        }
     }
     canvas()->update();

@@ -268,11 +268,13 @@ void Pile::moveCards(CardList &cl, Pile *to)
         }
     }
 
-    to->moveCardsBack(cl);
+    to->moveCardsBack(cl, false);
 }
 
-void Pile::moveCardsBack(CardList &cl)
+void Pile::moveCardsBack(CardList &cl, bool anim)
 {
+    kdDebug() << "moveCardsBack\n";
+
     if (!cl.count())
         return;
 
@@ -280,6 +282,10 @@ void Pile::moveCardsBack(CardList &cl)
 
     Card *before = 0;
     int off = 0;
+
+    int steps = 5;
+    if (!anim)
+        steps = 0;
 
     for (CardList::Iterator it = myCards.begin(); it != myCards.end(); ++it)
     {
@@ -293,13 +299,11 @@ void Pile::moveCardsBack(CardList &cl)
                         off = SPREAD;
                 }
 
-                c->setZ(before->z() + 1);
-                c->move( before->x(), before->y() + off );
+                c->animatedMove( before->x(), before->y() + off, before->z() + 1, steps);
                 dealer()->enlargeCanvas(c);
             }
             else {
-                c->setZ( z() + 1);
-                c->move( x(), y() );
+                c->animatedMove( x(), y(), z() + 1, steps);
             }
             break;
         } else
@@ -316,8 +320,7 @@ void Pile::moveCardsBack(CardList &cl)
 
     for (; it != cl.end(); ++it)
     {
-        (*it)->move( before->x(), before->y() + off );
-        (*it)->setZ( before->z() + 1);
+        (*it)->animatedMove( before->x(), before->y() + off, before->z() + 1, steps);
         dealer()->enlargeCanvas(*it);
         before = *it;
     }

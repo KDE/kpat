@@ -33,6 +33,7 @@ Napoleon::Napoleon( KMainWindow* parent, const char* _name )
     deck->move( 500, 290);
 
     pile = new Pile( 1, this );
+    pile->setAddFlags( Pile::disallow );
     pile->move(400, 290);
 
     for (int i = 0; i < 4; i++)

@@ -66,6 +66,7 @@ Card::Card( Values v, Suits s, QCanvas* _parent )
 
     faceup = true;
     setSize( cardMap::CARDX, cardMap::CARDY );
+    flipping = false;
 }
 
 QPixmap Card::pixmap() const
@@ -138,6 +139,14 @@ bool Card::realFace() const
 **********************************************************************/
 
 static const double flipLift = 1.5;
+int Card::hz = 0;
+
+void Card::setZ(int z)
+{
+    QCanvasRectangle::setZ(z);
+    if (z > hz)
+        hz = z;
+}
 
 void Card::flipTo(int x2, int y2, int steps)
 {
@@ -160,6 +169,7 @@ void Card::flipTo(int x2, int y2, int steps)
 
 void Card::advance(int stage)
 {
+    kdDebug() << "advance " << name() << endl;
     if ( stage==1 ) {
 	if ( animSteps-- <= 0 ) {
 	    setAnimated(false);
@@ -182,21 +192,29 @@ void Card::advance(int stage)
     QCanvasRectangle::advance(stage);
 }
 
-void Card::animatedMove(int x2, int y2, int steps)
+void Card::animatedMove(int x2, int y2, int z2, int steps)
 {
     destX = x2;
     destY = y2;
+    destZ = z2;
 
     double x1 = x(), y1 = y(), dx = x2 - x1, dy = y2 - y1;
+    setZ(hz++);
 
-    // Ensure a good speed
-    while ( fabs(dx/steps)+fabs(dy/steps) < 5.0 && steps > 4 )
-	steps--;
+    if (steps) {
+        // Ensure a good speed
+        while ( fabs(dx/steps)+fabs(dy/steps) < 5.0 && steps > 4 )
+            steps--;
 
-    setAnimated(TRUE);
-    setVelocity(dx/steps, dy/steps);
+        setAnimated(true);
+        setVelocity(dx/steps, dy/steps);
 
-    animSteps = steps;
+        animSteps = steps;
+    } else {
+        // _really_ fast
+        setAnimated(true);
+        setAnimated(false);
+    }
 }
 
 void Card::setAnimated(bool anim)
@@ -207,6 +225,7 @@ void Card::setAnimated(bool anim)
         flipping = FALSE;
         setVelocity(0,0);
         move(destX,destY); // exact
+        setZ(destZ);
     }
     QCanvasRectangle::setAnimated(anim);
 

@@ -69,8 +69,9 @@ public:
     const char *name() const { return _name; }
     virtual int rtti() const { return RTTI; }
     virtual void moveBy(double dx, double dy);
-    void animatedMove(int x2, int y2, int steps);
+    void animatedMove(int x2, int y2, int z, int steps);
     virtual void setAnimated(bool anim);
+    void setZ(int z);
 
     int realX() const;
     int realY() const;
@@ -88,12 +89,13 @@ private:
     char *_name;
 
     // used for animations
-    int destX, destY;
+    int destX, destY, destZ;
     int animSteps;
     int flipSteps;
     bool flipping;
     int savedX, savedY;
     double scaleX, scaleY;
+    static int hz;
 };
 
 #endif
