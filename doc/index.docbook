@@ -377,7 +377,7 @@ The auto drop feature is disabled for this patience.
 </sect1>
 
 <sect1 id="freecell">
-<title>Freecell <anchor id="game_FREEecell"/></title>
+<title>Freecell <anchor id="game_freecell"/></title>
 
 <para>
 Freecell is playing with one card deck. You have four free cells in the left top
