@@ -126,6 +126,12 @@ void Mod3::redeal()
     }
     dealRow(3);
     aredeal->setEnabled( !deck->isEmpty() );
+    takeState();
+}
+
+void Mod3::setGameState( QDataStream & )
+{
+    aredeal->setEnabled( !deck->isEmpty() );
 }
 
 //-------------------------------------------------------------------------//

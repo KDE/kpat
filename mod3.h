@@ -43,6 +43,7 @@ protected:
 
 private: // functions
     virtual bool checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const;
+    virtual void setGameState( QDataStream & stream );
     void dealRow(int row);
 
 private:
