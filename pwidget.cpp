@@ -56,7 +56,6 @@ pWidget::pWidget()
     : KMainWindow(0, "pwidget"), dill(0)
 {
     current_pwidget = this;
-    setAutoSaveSettings();
     // KCrash::setEmergencySaveFunction(::saveGame);
     KStdAction::quit(kapp, SLOT(quit()), actionCollection(), "game_exit");
 
@@ -156,6 +155,8 @@ pWidget::pWidget()
     KAcceleratorManager::manage(menuBar());
 
     newGameType();
+    adjustSize();
+    setAutoSaveSettings();
 }
 
 pWidget::~pWidget()
