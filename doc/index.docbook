@@ -1,9 +1,9 @@
-<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook V3.1-Based Variant V1.0//EN" [
+<?xml version="1.0" ?><!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1-Based Variant V1.0//EN" "dtd/kdex.dtd" [
   <!ENTITY kappname "&kpat;">
   <!ENTITY % addindex "IGNORE">
-  <!ENTITY % English "INCLUDE" -- change language only here -->
-  <!ENTITY % ents PUBLIC "-//KDE//ENTITIES Documentation V1.0//EN">
-  %ents;
+  <!ENTITY % English "INCLUDE" > <!-- change language only here -->
+  
+  
 ]>
  
 <book lang="&language;">
@@ -103,15 +103,15 @@ the four suits:
 
 <informaltable pgwide="0" frame="none">
 <tgroup cols="2">
-<colspec colwidth="90">
-<colspec>
+<colspec colwidth="90"/>
+<colspec/>
 <tbody>
 
 <row valign="middle">
 <entry>
 <inlinemediaobject>
 <imageobject>
-<imagedata fileref="clubs.png">
+<imagedata fileref="clubs.png"/>
 </imageobject>
 </inlinemediaobject>
 </entry>
@@ -124,7 +124,7 @@ Clubs
 <entry>
 <inlinemediaobject>
 <imageobject>
-<imagedata fileref="spades.png">
+<imagedata fileref="spades.png"/>
 </imageobject>
 </inlinemediaobject>
 </entry>
@@ -137,7 +137,7 @@ Spades
 <entry>
 <inlinemediaobject>
 <imageobject>
-<imagedata fileref="hearts.png">
+<imagedata fileref="hearts.png"/>
 </imageobject>
 </inlinemediaobject>
 </entry>
@@ -150,7 +150,7 @@ Hearts
 <entry>
 <inlinemediaobject>
 <imageobject>
-<imagedata fileref="diamonds.png">
+<imagedata fileref="diamonds.png"/>
 </imageobject>
 </inlinemediaobject>
 </entry>
@@ -180,7 +180,7 @@ If the family is not complete, it's called a sequence.
 </para>
 
 <mediaobject>
-<imageobject><imagedata fileref="playfield.png" format="PNG"></imageobject>
+<imageobject><imagedata fileref="playfield.png" format="PNG"/></imageobject>
 <textobject>
 <phrase>The game field of &kpat;</phrase>
 </textobject>
@@ -263,7 +263,7 @@ Use of the menu is too easy to be described now.
 </sect1>
 
 <sect1 id="klondike">
-<title>Klondike <anchor id="game_klondike"></title>
+<title>Klondike <anchor id="game_klondike"/></title>
 
 
 <para>
@@ -303,7 +303,7 @@ shift doesn't help you in finding new solutions.
 </sect1>
 
 <sect1 id="grandfather">
-<title>Grandfather <anchor id="game_grandfather"></title>
+<title>Grandfather <anchor id="game_grandfather"/></title>
 
 
 <para>
@@ -346,7 +346,7 @@ hard to win, but is still a joy to play (or because of that).
 </sect1>
 
 <sect1 id="aces-up">
-<title>Aces up <anchor id="game_aces_up"></title>
+<title>Aces up <anchor id="game_aces_up"/></title>
 
 
 <para>
@@ -378,7 +378,7 @@ after that.
 </sect1>
 
 <sect1 id="freecell">
-<title>Freecell <anchor id="game_freecell"></title>
+<title>Freecell <anchor id="game_freecell"/></title>
 
 
 <para>
@@ -428,7 +428,7 @@ build as long sequences as possible.
 </sect1>
 
 <sect1 id="napoleons-tomb">
-<title>Napoleon's Tomb<anchor id="game_napoleons_tomb"></title>
+<title>Napoleon's Tomb<anchor id="game_napoleons_tomb"/></title>
 
 <para>
 Napoleon's Tomb is played with one deck. Goal is to put all cards on the
@@ -458,7 +458,7 @@ You can go through the talon only once.
 </sect1>
 
 <sect1 id="mod3">
-<title>Mod3<anchor id="game_mod3"></title>
+<title>Mod3<anchor id="game_mod3"/></title>
 
 <para>
 Mod-3 is played with two card decks without aces. Goal of the game is to put all
@@ -485,7 +485,7 @@ clicking on the talon.
 </sect1>
 
 <sect1 id="calculation">
-<title>Calculation<anchor id="game_calculation"></title>
+<title>Calculation<anchor id="game_calculation"/></title>
 
 <para>
 Calculation is surely a patience you have to get used to. It is played with one
@@ -533,7 +533,7 @@ You should do this, so you can put following cards easier on the foundation.
 </sect1>
 
 <sect1 id="gypsy">
-<title>Gypsy<anchor id="game_gypsy"></title>
+<title>Gypsy<anchor id="game_gypsy"/></title>
 
 <para>
 Gypsy is played with two card decks. Goal of the game is to put all cards in
@@ -559,7 +559,7 @@ clicked the talon.
 </sect1>
 
 <sect1 id="forty-and-eight">
-<title>Forty And Eight<anchor id="game_forty_and_eight"></title>
+<title>Forty And Eight<anchor id="game_forty_and_eight"/></title>
 
 <para>
 Forty and Eight is played with two card decks. Goal of the game is to put all
@@ -592,7 +592,7 @@ foundation.
 </sect1>
 
 <sect1 id="simple-simon">
-<title>Simple Simon<anchor id="game_simple_simon"></title>
+<title>Simple Simon<anchor id="game_simple_simon"/></title>
 
 <para>
 Simple Simon is played with one card deck. Goal of the game is to put all cards
@@ -628,7 +628,7 @@ color, so they can be moved to the foundation.
 </sect1>
 
 <sect1 id="yukon">
-<title>Yukon<anchor id="game_yukon"></title>
+<title>Yukon<anchor id="game_yukon"/></title>
 
 <para>
 Yukon is played with one card deck. Goal of the game is to put all cards as real
@@ -649,7 +649,7 @@ of it)
 </sect1>
 
 <sect1 id="grandfathers-clock">
-<title>Grandfather's Clock<anchor id="game_grandfathers_clock"></title>
+<title>Grandfather's Clock<anchor id="game_grandfathers_clock"/></title>
 
 <para>
 Grandfather's clock is a simple patience and after some experiments you should
@@ -674,7 +674,7 @@ cards. You can only move one single card at a time.
 </sect1>
 
 <sect1 id="kings">
-<title>Kings<anchor id="game_kings"></title>
+<title>Kings<anchor id="game_kings"/></title>
 
 <para>
 The patience Kings is played with two card decks. The cards are dealt in a way
@@ -750,3 +750,4 @@ sgml-omittag: nil
 sgml-shorttag: t
 End:
 -->
+
