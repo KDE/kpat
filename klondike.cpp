@@ -132,23 +132,23 @@ bool Klondike::noLongerNeeded(const Card & t) {
     //  the subtraction of 1 does not affect performance because it is a
     //  constant expression that is calculated at compile time).
     unsigned char a = Card::Clubs - 1, b = Card::Spades - 1;
-    if (t.suit() == Card::Clubs or t.suit() == Card::Spades)
+    if (t.suit() == Card::Clubs || t.suit() == Card::Spades)
         a = Card::Diamonds - 1, b = Card::Hearts - 1;
 
     const Card::Values depending_value
         = static_cast<Card::Values>(t.value() - 1);
     return
       (((target_tops[a] >= depending_value)
-        or
+        ||
         ((target_tops[a] >= depending_value - 1)
-         and
+         &&
          (noLongerNeeded
               (Card(depending_value, static_cast<Card::Suits>(a + 1))))))
-       and
+       &&
        ((target_tops[b] >= depending_value)
-        or
+        ||
         ((target_tops[b] >= depending_value - 1)
-         and
+         &&
          (noLongerNeeded
               (Card(depending_value, static_cast<Card::Suits>(b + 1)))))));
 }
