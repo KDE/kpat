@@ -234,7 +234,6 @@ void Card::animatedMove(int x2, int y2, int z2, int steps)
 
         animSteps = steps;
 
-        }
     } else {
         // _really_ fast
         setAnimated(true);
