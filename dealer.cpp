@@ -1,5 +1,5 @@
 #include "dealer.h"
-#include <qobjcoll.h>
+#include <qobjectlist.h>
 #include <kstaticdeleter.h>
 #include <kdebug.h>
 #include <assert.h>

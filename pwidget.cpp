@@ -21,7 +21,7 @@
 #include <stdio.h>
 
 #include <qregexp.h>
-#include <qobjcoll.h>
+#include <qobjectlist.h>
 #include <kmessagebox.h>
 
 #include <kapp.h>
