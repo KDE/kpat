@@ -1,11 +1,10 @@
-<!DOCTYPE book PUBLIC  "-//KDE//DTD DocBook V3.1-Based Variant V1.0//EN" [
-  <!ENTITY kappname "&kpatience;" -- this only *seems* redundant -->
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook V3.1-Based Variant V1.0//EN" [
+  <!ENTITY kappname "&kpat;" -- this only *seems* redundant -->
   <!ENTITY % addindex "IGNORE">
-  <!ENTITY % English "INCLUDE">
   <!ENTITY % ents PUBLIC "-//KDE//ENTITIES Documentation V1.0//EN">
   %ents;
 ]>
-
+ 
 <book lang="&language;">
 <bookinfo>
 <title>The &kpat; Handbook</title>
@@ -14,6 +13,14 @@
 <author>
 <firstname>Paul Olav</firstname>
 <surname>Tvete</surname>
+</author>
+<author>
+<firstname>Maren</firstname>
+<surname>Pakura</surname>
+</author>
+<author>
+<firstname>Stephan</firstname>
+<surname>Kulow</surname>
 </author>
 <othercredit role="reviewer">
 <firstname>Mike</firstname><surname>McBride</surname>
@@ -26,15 +33,19 @@
 <year>2000</year>
 <holder>Paul Olav Tvete</holder>
 </copyright>
+<copyright>
+<year>2001</year>
+<holder>Maren Pakura</holder>
+</copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>16/12/2000</date>
-<releaseinfo>0.07.04</releaseinfo>
+<date>14/02/2001</date>
+<releaseinfo>1.8.7</releaseinfo>
 <abstract>
 
-<para>This documentation was last updated for &kpat; version 0.7.04. Please make
-any comments and additions to the author.</para>
+<para>This documentation was last updated for &kpat; version 1.8.7.
+Please make any comments and additions to the author.</para>
 
 </abstract>
 <keywordset>
@@ -42,305 +53,475 @@ any comments and additions to the author.</para>
 <keyword>game</keyword>
 <keyword>patience</keyword>
 <keyword>solitaire</keyword>
+<keyword>klondike</keyword>
 </keywordset>
 </bookinfo>
 
-<chapter id="Introduction">
+<chapter id="introduction">
 <title>Introduction</title>
 
-<para>&kpat; is a collection of 9 card games.  All the games are single player
-games.</para>
+<para>
+To play a patience you need - as the name suggests: patience.
+For simple games, where the way the game goes depends only on
+how the cards fall, your patience is even the only thing you
+need.
+</para>
+<para>
+But there are also patience, where you also need to plan your
+strategy and think forehand to win.
+</para>
 
+<para>
+All games have in common, that you have to put the cards in
+a special order in moving, turning and reordering them.
+</para>
 </chapter>
 
-<chapter id="using-kpat">
-<title>Using &kpat;</title>
+<chapter id="rules">
+<title>Rules</title>
 
-<para>Like all computer based solitare games, the computer has already dealt you
-a game.</para>
+<para>
+A card game contains one or two card decks of 52 cards each. Each deck
+contains the deck colors Clubs, Spades, Hearts and Diamonds. Each of these
+colors contains itself the following cards types:
+as, two, three, four, five, six, seven, eight, nine, ten, jack, queen and
+king.
+<-- TODO: create small images for each to explain >
+</para>
 
-<para>Click on a card and hold the mouse button down to drag a card to a new
-location.  With some games, you can double click on a card to make a specific
-play.</para>
+<para>
+This complete order of cards is called a family. There are real families 
+and alternating ones. Die real families are all of one color (e.g. Hearts)
+while the alternating families the card color changes from one to another
+between a black color (Clubs and Spades) and a red color (Hearts and
+Diamonds).
+</para>
 
-<para>For more specific information, see the section on <link
-linkend="rules-of-the-game">Rules of the Games"</link>.</para>
+<para>
+If the family is not complete, it's called a sequence.
+</para>
 
-</chapter>
 
-<chapter id="rules-of-the-game">
-<title>Rules of the games</title>
+<para>
+<mediaobject>
+<imageobject><imagedata fileref="playfield.png" format="png"></imageobject>
+<textobject>
+<phrase>The game field of &kpat;</phrase>
+</textobject>
+</mediaobject>
+</para>
 
-<para>&kpat; contains 9 card games.  Simply click on the name of the game to
-view the rules of the game"</para>
+<para>
+There are only a few different elements in typical patience game.
+These should be introduced in the following.
+</para>
 
-<itemizedlist>
-<listitem><para><link linkend="klondike">Klondike</link></para></listitem>
-<listitem><para><link linkend="microsolitaire">MicroSolitare</link></para></listitem>
-<listitem><para><link linkend="calculation">Calculation</link></para></listitem>
-<listitem><para><link linkend="napoleon-s-tomb">Napoleon's Tomb</link></para></listitem>
-<listitem><para><link linkend="the-idiot">The Idiot</link></para></listitem>
-<listitem><para><link linkend="grandfather">Grandfather</link></para></listitem>
-<listitem><para><link linkend="ten">Ten</link></para></listitem>
-<listitem><para><link linkend="mod3">Mod3</link></para></listitem>
-<listitem><para><link linkend="freecell">Freecell</link></para></listitem>
-</itemizedlist>
+<variablelist>
+<varlistentry><term>1. Talon</term>
+<listitem>
+<para>
+In the beginning of each game all cards are mixed in the deck. But 
+not in every game all cards are dealt out, but some reside in the 
+deck. These cards are put down on the so called Talon, which you can
+find quite easy as it is in most games the only pile showing the back
+side.
+</para>
+<para>
+If no card shows the back side, all cards are dealt out and there is
+no talon. These card games are the hardest as there is no random 
+involved after the start of the game, so there is nothing to blame
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>2. Waste Pile</term>
+<listitem>
+<para>
+Many games put cards from the talon first on a waste pile when you click
+on the backside of the top card on the talon.
+</para>
+<para>From there you can take the card (which is then face up) and put
+it into the game. 
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>3. Foundation</term>
+<listitem>
+<para>
+The foundation piles is where you want to have your cards in the end. 
+If all cards end up there in the right order, you've won.
+</para>
+<para>
+In most card games these piles are empty in the beginning, but
+&kpat; drops cards there when it sees them fitting to save you
+this most often boring part.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>4. Playing Piles</term>
+<listitem>
+<para>
+These piles are the ones where the actual reordering happens. The rules
+for these piles vary a lot between the games. Some show all cards on them,
+some not. Some allow only card to be removed, some allow every card to 
+be removed, etc. See the following chapters for details.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<sect1 id="general_use">
+<title>General Use</title>
+
+<para>
+Use of the menu is too easy to be described now.
+</para>
+
+</sect1>
 
 <sect1 id="klondike">
 <title>Klondike</title>
 
-<para>You know this one. Alternate red and black on the foundations.  Follow
-suit on the top. When you click on the deck, three more cards are dealt.  Simple
-rules means that excess cards are put on top of the deck, hard rules that they
-are left on bottom. </para>
+<para>
+Klondike is the most famous patience - most likely because an often used
+operating system comes with it. It is played with one deck.
+</para>
 
-</sect1>
+<para>
+Goal of Klondike is, to put all cards as real families rising on the
+foundation. This works usually pretty well as soon as all cards are
+lying face up in the playing piles. 
+</para>
 
-<sect1 id="microsolitaire">
-<title>MicroSolitaire</title>
+<para>
+The sequences on the game piles have to be put there falling while the
+cards should alternate in colors (red and black). You can move whole
+sequences or parts of it if the first card fits on another pile.
+</para>
+<para>
+On a free pile you can put a king of any color or a sequence starting with
+a king.
+</para>
 
-<para>This version of Klondike was popularized by a large software company.
-Alternate red and black on the foundations. Follow suit on the top.  When you
-click on the deck, one card is dealt. </para>
-
-</sect1>
-
-<sect1 id="calculation">
-<title>Calculation</title>
-
-<para>This one takes some time to get used to. The objective is to move all
-cards to the top four piles. </para>
-
-<para>Unlike most other forms of patience, you do not need to follow
-suit.</para>
-
-<para>On the leftmost pile, put the cards in sequence
-A-2-3-4-5-6-7-8-9-10-J-Q-K. On the second pile the sequence is
-2-4-6-8-10-Q-A-3-5-7-9-J-K, on the third 3-6-9-Q-2-5-8-J-A-4-7-10-K, and on the
-rightmost 4-8-Q-3-7-J-2-6-10-A-5-9-K.</para>
-
-<para>You may use the bottom piles any way you want, but remember that it is possible
-to transfer sequences as well as single cards to the top piles.</para>
-
-</sect1>
-
-<sect1 id="napoleon-s-tomb">
-<title>Napoleon's Tomb</title>
-
-<para>The four diagonal piles takes cards of any suit, of increasing value
-starting with 7 and ending up with K.  The middle pile takes cards of any suit,
-starting with 6, decreasing down to A, and string over again with 6. The
-remaining four positions are for temporary storage, each may hold one
-card. </para>
-
-</sect1>
-
-<sect1 id="the-idiot">
-<title>The Idiot</title>
-
-<para>If more than one card of the same suit is exposed, you can remove the
-lower-valued ones.  You can move cards to empty positions. The objective is to
-end up with only aces. </para>
-
+<para>
+When you click on the talon, one card from will be moved to the waste pile,
+from where you can move it to the playing piles or the foundation.
+Is the talon empty, you can move the complete waste pile on the talon
+in clicking on the empty talon.
+</para>
+<para>
+You can look through the cards on the talon without any limit, but you
+should learn fast that you've lost if you can't find one card to move
+and that a new shift doesn't help you in finding new solutions.
+</para>
 </sect1>
 
 <sect1 id="grandfather">
 <title>Grandfather</title>
 
-<para>The objective is to move all cards to the top four piles, in ascending
-order and following suit in each pile. On the foundation, you may move a card to
-the next card of the same suit; you may move the five of spades on top of the
-six of spades, even if there are other cards on top of the five of spades.  When
-no further moves are possible, click "<guibutton>Redeal</guibutton>".  The game
-is over after two redeals. </para>
+<para>
+This game has been introduced to Paul by his grandfather, so it got this
+name. There aren't any other patience games known implementing this patience
+game.
+</para>
+        
+<para>
+Grandfather deals one deck to seven playing piles while some cards on
+each pile are face down on initial deal.
+</para>
 
+<para>
+The goal is to put all cards as real families rising on the foundations.
+</para>
+
+<para>
+You can move every card on every pile if it fits on another card to
+build a real sequence with falling order. For example you can move the 
+Spades Five on top of the Spades Six, no mater how many cards on are on top
+of the Spades Five. Just the Spades Six has to be on top of its pile.
+</para>
+
+<para>
+On a free pile you can place a king (again no mater how many cards are on
+top of it)
+</para>
+
+<para>
+Can no more cards be moved, you can redeal up to two times. All cards
+already in the foundations stay there, but the cards in the playing
+piles are reordered to give you a new chance to find a solution.
+</para>
+
+<para>
+Even though the rules are simple and allow quite some moves, the game
+is still hard to win, but is still a joy to play (or because of that).
+</para>
 </sect1>
 
-<sect1 id="ten">
-<title>Ten</title>
+<sect1 id="aces_up">
+<title>Aces up</title>
 
-<para>If three cards on the outer edge of one pile sums to 10, 20 or 30, you can
-remove them. </para>
-
-<para>K, Q and J count as 10. To remove cards, just click on the pile.</para>
-
-<para>The objective is to remove all cards. </para>
-
-<para>If this is too much mental strain, just select "<guibutton>Full
-Auto</guibutton>" and watch the machine do your relaxation for you. </para>
-
-</sect1>
-
-<sect1 id="mod3">
-<title>Mod3</title>
-
-<para>The objective is to move all cards to the top three rows.</para>
-
-<para>The first row takes cards starting with 2, the second starts with 3, the
-third starts with 4. The other cards must be of the same suit, increasing by
-3.</para>
-
-<para>In other words, the first three rows takes the sequences 2-5-8-J, 3-6-9-Q,
-4-7-10-K, respectively. You can only place a 8 on the top of a 5 on the first
-row if the 5 is on the top of a 2. The 2 can be placed on an empty place of the
-first row. At each redeal, eight more cards goes to the fourth row.  Aces don't
-play. </para> 
-
+<para>
+Diese Patience hat sehr einfache Regeln, ist somit leicht zu spielen,
+aber schwer zu gewinnen. Sie wird mit einem Kartenp&auml;ckchen gespielt.
+Ziel des Spiels ist es, alle Karten au&szlig;er den Assen auf die Basis
+zu legen, wobei auf jeder Ablage ein Ass zu liegen hat.
+</para><para>
+Jede obere Karte, die von geringerem Wert als eine andere obere Karte
+und von der selben Farbe (z.B. Pik) ist, kann per Klick auf die Basis
+gelegt werden.
+</para><para>
+K&ouml;nnen keine weiteren Karten auf die Basis gelegt werden, wird mit
+einem Klick auf den Talon auf jede Ablage eine neue Karte gelegt.
+</para><para>
+Ist eine Ablage frei, so kann per Klick auf eine Karte auf einer anderen
+Ablage diese dorthin bewegt werden. Diese Karte sollte m&ouml;glichst so
+gew&auml;hlt werden, dass dannach weitere Karten auf die Basis gelegt werden
+k&ouml;nnen. 
+</para><para>
+[auto drop] ist bei dieser Patience abgestellt.
+</para>
 </sect1>
 
 <sect1 id="freecell">
 <title>Freecell</title>
+<para>
+Freecell wird mit einem Kartenp&auml;ckchen gespielt. Im Spielfeld befinden
+sich links oben vier freie Zellen, daneben die Basis mit vier Positionen
+und darunter acht Ablagen. 
+</para><para>
+Ziel ist es, alle Karten als echte Familien steigend auf die Basis
+anzuordnen. Dieses gelingt sehr oft, da Freecell zu c.a. 99,9 % l&ouml;sbar
+ist.
+</para><para>
+In den Ablagen m&uuml;ssen die Spielfolgen fallend, mit roten und schwarzen
+Karten im Wechsel, angeordnet werden. In eine freie Zelle kann nur
+eine einzige Karte gelegt werden. 
+</para><para>
+Bei einem Spielzug darf immer nur eine einzelne, oben liegende Karte
+verschoben werden. Sequenzen oder Teile von Sequenzen k&ouml;nnen nur verschoben
+werden, wenn gen&uuml;gend freie Zellen und/oder freie Ablagen vorhanden
+sind. Dabei kann jede beliebige Karte auf eine freie Position gelegt
+werden. 
+</para>
 
-<para>The objective is to move all cards to the store positions (the four
-top-right places), starting with aces, in ascending order, following
-suits. </para>
-
-<para>The free cells (the four top-left places) can hold any -- and just one --
-card.  Alternate red and black (in ascending order) to put cards on the other
-eight stacks.</para>
-
-<para>If one of the stacks is empty, any card can be placed there. If there is
-enough free cells you can move multiple cards if they are in the correct
-sequence and with alternate colors. The number of free cells required is the
-same as if you would make an equivalent sequence of moves with single
-cards. </para>
-
+<para>
+Das verschieben von Sequenzen wird, bei ausreichendem Platz, von &kpat;
+unterst&uuml;tzt. Die maximale Anzahl der verschiebbaren Karten berechnet
+sich durch (freie Zellen +1)*2 hoch (freie Ablagen).
+</para>
+<para>
+Um dieses Spiel zu l&ouml;sen, empfiehlt es sich Karten in der Reihenfolge
+"auszugraben", wie sie auf die Basis gelegt werden k&ouml;nnen. Dabei sollte
+man versuchen gen&uuml;gend Zellen und/oder Ablagen frei zu halten und
+unechte Familien auf den Ablagen zu bilden.
+</para><para>
+DEMO - .... TODO
+</para>
 </sect1>
+
+<sect1 id="napoleons_tomb">
+<title>Napoleons Grab</title>
+<para>
+Napoleons Grab wird mit einem Kartenp&auml;ckchen gespielt. 
+</para><para>
+Ziel ist es, alle Karten auf die Basis anzuordnen. Die Basis besteht
+hier aus f&uuml;nf Stapeln, die als X angeornet sind. In den vier Ecken
+m&uuml;ssen die Karten als Sequenz von sieben bis K&ouml;nig gelegt werden und
+in der Mitte vier mal die Sequenzen von sechs bis As. Die Farbe spielt
+keine Rolle. 
+</para><para>
+Die restlichen vier Felder des Spielfeldes k&ouml;nnen als vor&uuml;bergehende
+Ablage f&uuml;r jeweils eine Karte genutzt werden. Der Talon kann nur einmal
+durchgesehen werden.
+</para><para>
+[auto drop] ist bei dieser Patience abgestellt.
+</para>
+</sect1>
+
+<sect1 id="mod3">
+<title>Mod3</title>
+<para>
+Mod-3 wird mit zwei Kartenp&auml;ckchen ohne Asse gespielt. Ziel ist es,
+alle Karten in den drei oberen Reihen anzuordnen. In der ersten Reihe
+sollen echte Abfolgen der Form 2-5-8-B, in der zweiten Reihe der Form
+3-6-9-D und in der dritten Reihe der Form 4-7-10-K angeordnet werden.
+Hier ist die Farbe der Karte wichtig, so kann z.B. auf eine Herz-zwei
+nur eine Herz-f&uuml;nf gelegt werden.
+</para><para>
+Die unterste Reihe ist Hilfsstapel und Ablage zugleich. Auf eine leere
+Ablage kann eine Karte aus den oberen drei Reihen gelegt werden oder
+eine auf einem anderen Ablagestapel liegende.  
+</para><para>
+K&ouml;nnen keine weiteren Karten verschoben werden, ergeben sich neue M&ouml;glichkeiten
+durch einen Klick auf den Talon. Dann wird auf jede Ablage eine neue
+Karte gelegt. 
+</para><para>
+[auto drop] ist bei dieser Patience abgestellt.
+</para>
+</sect1>
+
+<sect1 id="calculation">
+<title>Berechnung</title>
+<para>
+Berechnung ist einen Patience, die man erst ein paar mal spielen mu&szlig;,
+um damit "warm zu werden". Sie wird mit einem Kartenp&auml;ckchen gespielt. 
+</para><para>
+Ziel von Berechnung ist es, alle Karten in der Basis anzuordenen. Dabei
+sind folgende Reihenfolgen zu beachten: Auf dem ersten Stapel m&uuml;ssen
+die Karten als steigende Familie (A-2-3-4-5-6-7-8-9-10-B-D-K) angeordnet
+werden. Auf dem zweiten Stapel: 2-4-6-8-10-D-A-3-5-7-9-B-K. Bei Stapel
+Nummer drei: 3-6-9-D-2-5-8-B-A-4-7-10-K. Und auf dem letzten Stapel
+4-8-D-3-7-B-2-6-10-A-5-9-K. Die Farben der Karten spielt keine Rolle.
+</para><para>
+Die oberste Karte des Talons kann auf jeden der vier Hilfsstapel gelegt
+werden. Dabei sollte man die Position so w&auml;hlen, dass ein sp&auml;teres
+ablegen auf die Basis leicht m&ouml;glich ist. Auf ein leeren Hilfsstapel
+kann nur eine Karte aus dem Talon gelegt werden.
+</para>
+</sect1>
+
+<sect1 id="gypsy">
+<title>Zigeuner</title>
+<para>
+Zigeuner wird mit zwei Kartenp&auml;ckchen gespielt. Ziel des Spiels ist
+es, alle Karten als echte Familien steigend auf die Basis anzuordnen. 
+</para><para>
+Die Spielfolgen m&uuml;ssen fallend angeordnet werden, wobei sich immer
+schwarze und rote Karten abwechseln. Es k&ouml;nnen nur Sequenzen oder
+einzelne Karten verschoben werden. Auf eine freie Ablage kann jede
+beliebige Karte oder Sequenz gelegt werden.
+</para><para>
+K&ouml;nnen keine weiteren Karten verschoben werden, ergeben sich neue M&ouml;glichkeiten
+durch einen Klick auf den Talon. Dann wird auf jede Ablage eine neue
+Karte gelegt. 
+</para><para>
+Durch eine h&auml;ufige Benutzung von [r&uuml;ckg&auml;nig] ist es leichter, ein Spiel
+zu gewinnen.
+</para>
+</sect1>
+
+<sect1 id="forty_and_eight">
+<title>Vierzig und Acht</title>
+<para>
+Vierzig und Acht wird mit zwei Kartenp&auml;ckchen gespielt. Ziel des Spiels
+ist es, alle Karten als echte Familien steigend auf die Basis anzuordnen.
+</para><para>
+Die Spielfolgen m&uuml;ssen fallend angeordnet werden, wobei nur Herz auf
+Herz, Pik auf Pik, .... gelegt werden kann. 
+</para><para>
+Es kann nur eine einzelne oben liegene Karte pro Spielzug bewegt werden.
+Auf eine freie Ablage kann jede beliebige Karte gelegt werden.
+</para><para>
+Mit einem Klick auf den Talon wird eine Karte auf den Hilfsstapel gelegt,
+von wo aus sie auf die Ablagen oder die Basis bewegt werden kann.
+Ist der Talon leer, wird mit einem weiteren Klick der Hilfsstapel
+zu einen neuen Talon. Jedoch kann der Talon kann nur zweimal durchgesehen
+werden.
+</para>
+</sect1>
+
+<sect1 id="simple_simon">
+<title>Einfach Simon</title>
+<para>
+Einfach Simon wird mit einem Kartenp&auml;ckchen gespielt. Ziel des Spiels
+ist es, alle Karten als echte Familien steigend auf die Basis anzuordnen.
+</para><para>
+In den Ablagen k&ouml;nnen echte und unechte fallende Sequenzen gebildet
+werden. Mehrere Karten k&ouml;nnen nur dann bewegt werden, wenn sie Mitglied
+einer echten Sequenz sind. 
+</para><para>
+Die Karten werden nur auf die Basis gelegt, wenn alle 13 Karten einer
+Farbe im Spielfeld als echte fallende Familie angeordnet wurden. 
+</para><para>
+Es empfiehlt sich m&ouml;glichst fr&uuml;h Karten von der rechten Seite des Spielfeldes
+"wegzur&auml;umen", um freie Ablagen zu schaffen. Auf eine freie Ablage
+kann jede Karte oder Sequenz gelegt werden. 
+</para><para>
+Mit gen&uuml;gend Platz kann man dann beginnen fallende Familien auf eine
+freie Ablage zu legen. Hat man alle Karten als so angeordnet, kann
+man sie anschlie&szlig;end der Farbe nach sortieren.
+</para>
+</sect1>
+
+<sect1 id="yukon">
+<title>Yukon</title>
+
+        <para>Yukon wird mit einem Kartenp&auml;ckchen gespielt. Ziel des Spiels ist es,
+alle Karten als echte Familien steigend auf die Basis anzuordnen.
+</para>
+
+        <para>Die Spielfolgen m&uuml;ssen fallend angeordnet werden, wobei sich immer
+schwarze und rote Karten abwechseln. Man kann jede aufgedeckte Karte
+bewegen. So kann z.B. die Pik-f&uuml;nf auf eine oben liegende Herz-sechs
+gelegt werden, unabh&auml;nig davon, wieviele Karten auf der Pik-f&uuml;nf liegen. </para>
+
+        <para>Auf eine freie Ablage kann jede beliebige Karte oder Sequenz gelegt
+werden.</para>
+</sect1>
+
+<sect1 id="grandfathers_clock">
+<title>Gro&szlig;vaters Uhr</title>
+<para>
+Gro&szlig;vaters Uhr ist eine einfache Patience und mit ein bi&szlig;chen knobeln
+geht fast jedes Spiel auf. Diese Patience wird mit einem Kartenp&auml;ckchen
+gespielt. 
+</para><para>
+Ziel ist es, die Karten als echte steigende Sequenzen derart in der
+Basis anzuordnen, dass die Ziffern einer Uhr entstehen. Wobei Ass
+die Eins symbolisiert, Bube die Elf und Dame die Zw&ouml;lf.
+</para><para>
+Die Ablage besteht aus acht Stapeln mit je f&uuml;nf Karten. In der Ablage
+k&ouml;nnen die Karten als fallende Sequenzen angeordnet werden, wobei
+die Farbe hier keine Rolle spielt. Es kann pro Spielzug nur eine einzelne
+Karte bewegt werden. 
+</para>
+<para>[auto drop] ist bei dieser Patience abgestellt.</para>
+</sect1>
+
+<sect1 id="kings">
+<title>K&ouml;nige</title>
+<para>
+Die Patience K&ouml;nige wird mit zwei Kartenp&auml;ckchen gespielt. Die Karten
+werden so ausgeteilt, dass unter jedem Ablagestapel ein K&ouml;nig liegt.
+Die Karten, die im Stapel zwischen zwei K&ouml;nigen liegen, werden auf
+den jeweils ersten gelegt. Dadurch k&ouml;nnen sehr unterschiedlich gro&szlig;e
+Stapel entstehen.
+</para><para>
+Ziel des Spiels ist es, alle Karten als echte Familien steigend auf
+die Basis (rechts im Spielfeld) anzuordnen.
+</para><para>
+Die Spielfolgen m&uuml;ssen fallend angeordnet werden, wobei sich immer
+schwarze und rote Karten abwechseln. Mehrere Karten k&ouml;nnen nur dann
+bewegt werden, wenn sie Mitglied einer unechten Sequenz sind. 
+</para><para>
+In die acht ferien Zellen im oberen Spelfeld k&ouml;nnen jeweils eine einzige
+Karte gelegt werden. Auf eine freie Ablage kann jede beliebige Karte
+oder Sequenz gelegt werden.
+</para>
+</sect1>
+
 </chapter>
 
-<chapter id="menus">
-<title>Menu Commands</title>
-<para>All the commands available to &kpat; can be found within the menu
-commands</para>
-
-<sect1 id="file-menu"><title>File Menu</title>
-<variablelist>
-<varlistentry>
-<term><menuchoice>
-<shortcut>
-<keycombo><keycap>Ctrl</keycap><keycap>Q</keycap></keycombo>
-</shortcut>
-<guimenu>File</guimenu><guimenuitem>Quit</guimenuitem></menuchoice></term>
-<listitem>
-<para>
-Selecting this item will end your current game, and exit the &kpat;.
-</para>
-</listitem>
-</varlistentry>
-</variablelist>
-</sect1>
-
-<sect1 id="game-menu"><title>Game Menu</title>
-<para>The edit menus are used to change options or to switch to a different
- game.</para>
-
-<variablelist>
-
-<varlistentry>
-<term><menuchoice>
-<guimenu>Game</guimenu><guimenuitem>Undo</guimenuitem></menuchoice></term>
-<listitem>
-<para>Reverses the last move.  This can be used if you notice you made a mistake
-on the last move.</para></listitem>
-</varlistentry>
-<varlistentry>
-<term><menuchoice>
-<shortcut>
-<keycombo><keycap>Ctrl</keycap><keycap>R</keycap></keycombo>
-</shortcut>
-<guimenu>Game</guimenu><guimenuitem>Restart Game</guimenuitem></menuchoice></term>
-<listitem>
-<para>Aborts the current game, and deals another hand.</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><menuchoice>
-<guimenu>Game</guimenu><guimenuitem>Choose New Game</guimenuitem></menuchoice></term>
-<listitem>
-<para>Selecting this option provides you with a submenu listing the 9 available
-games.  Simply select the game you want, and &kpat; will stop the current game,
-and deal a new hand in the new game type.</para>
-</listitem>
-</varlistentry>
-</variablelist>
-</sect1>
-<sect1 id="settings-menu"><title>Settings Menu</title> 
-<variablelist>
-<varlistentry>
-<term><menuchoice>
-<guimenu>Edit</guimenu><guimenuitem>Card Backside</guimenuitem></menuchoice></term>
-<listitem>
-<para>
-Lets you choose a new pattern for the backs of the cards.
-</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><menuchoice>
-<guimenu>Edit</guimenu><guimenuitem>Animation on Startup.</guimenuitem></menuchoice></term>
-<listitem>
-<para>If there is a checkmark in front of this option, when you first start
-&kpat;, there is a short animation and title page which appears.  To disable
-this, simply remove the check from in front of this option.</para>
-</listitem>
-</varlistentry>
-</variablelist>
-</sect1>
-<sect1 id="help">
-<title>The <guimenuitem>Help</guimenuitem> Menu</title>
-
-<variablelist>
-<varlistentry>
-<term><anchor id="contents"><menuchoice>
-<shortcut><keycombo><keycap>F1</keycap></keycombo></shortcut>
-<guimenu>Help</guimenu><guimenuitem>Contents</guimenuitem></menuchoice></term>
-<listitem><para>This invokes the KDE help system starting at the the top of this
-help file.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><anchor id="whats-this"><menuchoice>
-<shortcut><keycombo><keycap>Shift</keycap><keycap>F1</keycap></keycombo></shortcut>
-<guimenu>Help</guimenu><guimenuitem>What's This?</guimenuitem></menuchoice></term>
-<listitem><para>This changes the mouse cursor to a combination arrow and
-question mark.  Clicking on items within &kpat; with this arrow will open a help
-window (if one exists for the particular item) explaining the item's
-function.</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><anchor id="bug-report"><menuchoice>
-<guimenu>Help</guimenu><guimenuitem>Report Bug.</guimenuitem></menuchoice></term>
-<listitem><para>If you find an error in the program, or you have an idea on how
-to improve the game, clicking this option will let you send an official bug
-report to the KDE team.</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><anchor id="about-kpat"><menuchoice>
-<guimenu>Help</guimenu><guimenuitem>About KPatience</guimenuitem></menuchoice></term>
-<listitem><para>This will display version and author
-information.</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><anchor id="about-kde"><menuchoice>
-<guimenu>Help</guimenu><guimenuitem>About KDE</guimenuitem></menuchoice></term>
-<listitem><para>This displays the KDE version and other basic
-information.</para></listitem>
-</varlistentry>
-</variablelist>
-</sect1>
-
-</chapter>
-
-<chapter id="Credits">
+<chapter id="credits">
 <title>Credits and License</title>
 
 <para>
 &kpat; Copyright 1995-2000  Paul Olav Tvete 
 </para>
+<para>
+&kpat; Copyright 2001 Stephan Kulow
+<email>coolo@kde.org</email>
+</para>
+<para>
+Freecell Solver by Shlomi Fish
+<email>shlomif@vipe.technion.ac.il</email>
+</para
 <para>
 Documentation Copyright 2000 Paul Olav Tvete 
 </para>
@@ -348,50 +529,18 @@ Documentation Copyright 2000 Paul Olav Tvete
 Documentation updated for KDE 2.0 by Michael McBride
 <email>mpmcbride7@yahoo.com</email>
 </para>
+<para>
+Documentation updated for KDE 2.1 by Maren Pakura
+<email>maren@kde.org</email>
+</para>
 
 &underFDL;
 &underX11License;
 
 </chapter>
 
-<appendix id="installation">
-<title>Installation</title>
-
-<sect1 id="getting-kpat">
-<title>How to obtain &kpat;</title>
-
-<para>&kpat; is part of the KDE project
-<ulink url="http://www.kde.org">http://www.kde.org</ulink>.
-&kpat; can be found in the kdeutils package on
-<ulink url="ftp://ftp.kde.org/pub/kde/">ftp://ftp.kde.org/pub/kde/</ulink>, the
-main ftp site of the KDE project. </para>
-</sect1>
-
-<sect1 id="compilation">
-<title>Compilation and installation</title>
-
-<para>In order to compile and install &kpat; on your system, type the following
-in the base directory of source distribution:</para>
-
-<screen width="40">
-<prompt>%</prompt> <userinput>cd kdegames</userinput>
-<prompt>%</prompt> <userinput>./configure</userinput>
-<prompt>%</prompt> <userinput>cd kpat</userinput>
-<prompt>%</prompt> <userinput>make</userinput>
-<prompt>%</prompt> <userinput>make install</userinput>
-</screen>
-
-<para>Since &kpat; uses <application>autoconf</application> and
-<application>automake</application> you should have not trouble compiling
-it.</para>
-
-<para>Should you run into problems please report them to the KDE mailing
-lists.</para>
-
-</sect1>
-</appendix>
-
 </book>
+
 <!--
 Local Variables:
 mode: sgml
