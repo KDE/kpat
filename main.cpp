@@ -38,6 +38,7 @@ int main( int argc, char **argv )
   aboutData.addAuthor("Mario Weilguni",0,"mweilguni@kde.org");
   aboutData.addAuthor("Matthias Ettrich",0,"ettrich@kde.org");
   aboutData.addAuthor("Rodolfo Borges",0,"barrett@labma.ufrj.br");
+  aboutData.addAuthor("Peter H. Ruegg",0,"kpat@incense.org");
 
   KCmdLineArgs::init( argc, argv, &aboutData );
 

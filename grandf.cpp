@@ -65,6 +65,7 @@ void Grandf::restart()  {
 
   deal();
   numberOfDeals = 1;
+  rb.show();
 }
 
 void Grandf::hint() {
@@ -167,10 +168,10 @@ void Grandf::redeal() {
     collect();
     deal(); 
     numberOfDeals++;
-  } else
-    QMessageBox::information(this, i18n("Information"), 
-			    i18n("Only 3 deals allowed"),
-			    i18n("OK"));
+  } 
+  if (numberOfDeals == 3) {
+    rb.hide();
+  }
 }
 
 void Grandf::deal() {

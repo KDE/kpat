@@ -81,9 +81,6 @@ pWidget::pWidget( const char* _name )
   m = new KMenuBar( this );
   connect( m, SIGNAL( activated( int ) ), this, SLOT( action( int ) ) );
 
-  // start default game
-  actionNewGame( getDefaultType() + ID_GNEWTYPE );
-
   QPopupMenu *p1 = new QPopupMenu;
   p1->insertItem( i18n( "&Quit" ), ID_FQUIT );
 
@@ -130,7 +127,8 @@ pWidget::pWidget( const char* _name )
 				     + "Rodolfo Borges (barrett@labma.ufrj.br)\n"
                                      + "Matthias Ettrich (ettrich@kde.org)\n"
                                      + "Mario Weilguni (mweilguni@sime.com)\n"
-                                     + "Michael Koch (koch@kde.org)");
+                                     + "Michael Koch (koch@kde.org)\n"
+                                     + "Peter H. Ruegg (kpat@incense.org)");
   m->insertItem( i18n( "&Help" ), help );
 
   // create the toolbar
@@ -157,7 +155,7 @@ pWidget::pWidget( const char* _name )
   m->setAccel( CTRL + Key_F, ID_GNFREECELL );
   m->setAccel( CTRL + Key_Q, ID_FQUIT );
   m->setAccel( CTRL + Key_R, ID_GRESTART );
-  // m->setAccel( CTRL + Key_Z, ID_GUNDO );
+  m->setAccel( CTRL + Key_Z, ID_GUNDO );
 
   if( config )
   {
@@ -175,13 +173,15 @@ pWidget::pWidget( const char* _name )
     m->setItemChecked( ID_OANIMATION, animate );
   }
 
-  m->show();
-  dill->show();
-  tb->show();  
-  setView( dill );
   setMenu( m );
   addToolBar( tb );
-  updateRects();
+  m->show();
+  tb->show();  
+
+  // start default game
+  actionNewGame( getDefaultType() + ID_GNEWTYPE );
+  inInit = true;
+
 }
 
 void pWidget::action( int _id)
@@ -305,6 +305,12 @@ void pWidget::actionNewGame(int _id )
   setCaption( kapp->caption() );
 
   setDefaultType();  
+}
+
+void pWidget::focusInEvent(class QFocusEvent *e)
+{
+  if (inInit) actionNewGame( getDefaultType() + ID_GNEWTYPE );
+  inInit = FALSE;
 }
 
 void pWidget::setDefaultType()

@@ -62,6 +62,9 @@ class pWidget: public KTMainWindow {
 public:
   pWidget(const char *name=0 );
 
+protected:
+  virtual void focusInEvent(QFocusEvent *);
+
 private:
   void help();
   void helpRules();
@@ -81,6 +84,7 @@ private:
   KStatusBar *sb;
   dealer* dill;
   int type;
+  bool inInit;
 };
 
 #endif
