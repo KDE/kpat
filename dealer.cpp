@@ -1,6 +1,8 @@
 #include "dealer.h"
 #include <qobjectlist.h>
 #include <kstaticdeleter.h>
+#include <qstyle.h>
+#include <qpainter.h>
 #include <kdebug.h>
 #include <assert.h>
 #include "pile.h"
@@ -58,7 +60,7 @@ void Dealer::setBackgroundPixmap(const QPixmap &background, const QColor &midcol
 
 void Dealer::setupActions() {
 
-    QList<KAction> actionlist;
+    QPtrList<KAction> actionlist;
 
     kdDebug(11111) << "setupActions " << actions() << endl;
 
@@ -772,7 +774,7 @@ void Dealer::saveGame(QDataStream &s) {
     s << _id; // dealer number
     s << Q_UINT64(gameNumber());
     s << undoList.count();
-    QListIterator<State> it(undoList);
+    QPtrListIterator<State> it(undoList);
 
     for (; it.current(); ++it)
     {
@@ -1035,7 +1037,7 @@ void Dealer::demo() {
 
         for (CardList::Iterator it = empty.begin(); it != empty.end(); ++it) {
             Card *t = *it;
-            ASSERT(!t->animated());
+            Q_ASSERT(!t->animated());
             t->setAnimated(false);
             t->turn(true);
             oldcoords[i++] = int(t->realX());
@@ -1169,7 +1171,9 @@ void Dealer::drawPile(KPixmap &pixmap, Pile *pile, bool selected)
     QColorGroup colgrp( Qt::black, Qt::white, midColor().light(),
                         midColor().dark(), midColor(), Qt::black,
                         Qt::white );
+#if QT_VERSION < 300
     kapp->style().drawPanel( &painter, 0, 0, cardMap::CARDX, cardMap::CARDY, colgrp, true );
+#endif
 }
 
 int Dealer::freeCells() const

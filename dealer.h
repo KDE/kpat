@@ -186,7 +186,7 @@ protected:
     QCanvas myCanvas;
     QSize minsize;
     QSize viewsize;
-    QList<State> undoList;
+    QPtrList<State> undoList;
     long gamenumber;
     QValueList<MoveHint*> hints;
     Card *towait;

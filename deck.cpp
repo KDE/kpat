@@ -22,7 +22,7 @@ Deck::Deck( int index, Dealer* parent, int m )
     : Pile( index, parent ), mult( m )
 {
     deck = new Card * [mult*NumberOfCards];
-    CHECK_PTR (deck);
+    Q_CHECK_PTR (deck);
 
     makedeck();
     addToDeck();

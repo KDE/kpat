@@ -22,7 +22,7 @@
 
 #include <qregexp.h>
 #include <qobjectlist.h>
-#include <kmessagebox.h>
+#include <qtimer.h>
 
 #include <kapp.h>
 #include <kglobal.h>
@@ -44,6 +44,7 @@
 #include <kio/netaccess.h>
 #include <kcrash.h>
 #include "speeds.h"
+#include <kmessagebox.h>  
 
 static pWidget *current_pwidget = 0;
 
@@ -327,6 +328,7 @@ void pWidget::chooseGame()
     QString text = QInputDialog::getText( i18n("Game Number"),
                                           i18n( "Enter a game number "
                                                 "(1 to 32000 are the same as in the FreeCell FAQ)" ),
+                                          QLineEdit::Normal, 
                                           QString::number(dill->gameNumber()), &ok, this );
     if ( ok && !text.isEmpty() ) {
         long number = text.toLong(&ok);

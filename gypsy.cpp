@@ -5,7 +5,7 @@
 #include "deck.h"
 #include <kmainwindow.h>
 #include <kaction.h>
-#include <qlist.h>
+#include <qptrlist.h>
 
 Gypsy::Gypsy( KMainWindow* parent, const char *name )
     : Dealer( parent, name )
