@@ -123,7 +123,6 @@ bool Card::realFace() const
 {
     if (animated()) {
         bool face = isFaceUp();
-        kdDebug() << "realFace " << animSteps << " " << flipSteps <<  " " << face << endl;
         if ( animSteps >= flipSteps / 2-1 )
             return !face;
         else
