@@ -372,10 +372,22 @@ bool Klondike::isGameLost() const
         }
     }
 
-    // ### Fix this so that it works with draw3, too
     CardList srcPileCards;
-    srcPileCards = pile->cards();
-    srcPileCards += deck->cards();
+    if ( EasyRules ) {
+        srcPileCards = pile->cards();
+        srcPileCards += deck->cards();
+    } else {
+        /* In the draw3 mode, not every card in the source pile is accessible,
+         * but only third one. For the cards in the deck, start from the back
+         * since the cards are in reverse order.
+         */
+        for ( int i = deck->cards().count() - 3; i > 2; i -= 3 ) {
+            srcPileCards += deck->cards()[ i ];
+        }
+        if ( !deck->cards().isEmpty() && deck->cards().count() % 3 != 0 ) {
+            srcPileCards += deck->cards()[ 0 ];
+        }
+    }
 
     //  Check all seven stores
     for ( int i = 0; i < 7; ++i ) {
