@@ -11,7 +11,6 @@
 const int Pile::Default       = 0x0000;
 const int Pile::disallow      = 0x0001;
 const int Pile::several       = 0x0002; // default: move one card
-const int Pile::faceDown      = 0x0004; // move/add cards facedown
 
 // Add-flags
 const int Pile::addSpread     = 0x0100;
@@ -219,13 +218,24 @@ void Pile::add( Card* _card, bool _facedown, bool _spread )
                 off = SPREAD;
         }
     }
+    int x2, y2, z2;
+
     if (t) {
-        _card->move( t->x(), t->y() + off );
-        _card->setZ( t->z() + 1);
+        x2 = int(t->realX());
+        y2 = int(t->realY() + off);
+        z2 = int(t->realZ() + 1);
     } else {
-        _card->move( x(), y() );
-        _card->setZ( z() + 1);
+        x2 = int(x());
+        y2 = int(y());
+        z2 = int(z() + 1);
     }
+    if (_facedown) {
+        _card->move( x2, y2 );
+        _card->setZ( z2 );
+    } else {
+        _card->animatedMove(x2, y2, z2, 10);
+    }
+
     dealer()->enlargeCanvas(_card);
 }
 

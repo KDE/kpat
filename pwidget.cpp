@@ -76,8 +76,9 @@ pWidget::pWidget( const char* _name )
             max_type = index;
     }
     games->setItems(list);
+    (void)cardMap::self(); // load the cards
 
-    backs = new KAction(i18n("&Switch Cards"), 0, this,
+    backs = new KAction(i18n("&Switch Cards..."), 0, this,
                         SLOT(changeBackside()),
                         actionCollection(), "backside");
 
@@ -191,6 +192,8 @@ void pWidget::newGameType()
 
 void pWidget::setBackSide(const QString &deck, const QString &cards)
 {
+    kdDebug() << "setBackSide\n";
+
     KConfig *config = kapp->config();
     KConfigGroupSaver kcs(config, settings_group);
     QPixmap pm(deck);

@@ -20,13 +20,11 @@ public:
     static const int Default;
     static const int disallow;
     static const int several; // default: move one card
-    static const int faceDown; //  move/add cards facedown
 
     // Add-flags
     static const int addSpread;
 
     // Remove-flags
-    static const int alsoFaceDown;
     static const int autoTurnTop;
     static const int wholeColumn;
 

@@ -31,19 +31,21 @@ Idiot::Idiot( KMainWindow* parent, const char* _name)
   : Dealer( parent, _name )
 {
     deck = new Deck( 0, this );
-    deck->move(210, 10);
+    deck->move(10, 10);
 
     away = new Pile( 5, this );
-    away->hide();
     away->setTarget(true);
 
     for( int i = 0; i < 4; i++ )
     {
         play[ i ] = new Pile( i + 1, this);
-        play[i]->move(10 + 100 * i, 150);
+        play[i]->move(150 + 85 * i, 10);
         play[i]->setAddFlags( Pile::addSpread );
         play[i]->setRemoveFlags( Pile::disallow );
     }
+
+    away->move(200 + 85 * 4, 10);
+
     deal();
 }
 
@@ -77,7 +79,7 @@ void Idiot::cardClicked(Card *c)
         higher( c, play[ 1 ]->top() ) ||
         higher( c, play[ 2 ]->top() ) ||
         higher( c, play[ 3 ]->top() ) )
-        away->add(c, false, true);
+        away->add(c, false, false);
     else if( play[ 0 ]->isEmpty() )
         play[0]->add(c, false, true);
     else if( play[ 1 ]->isEmpty() )
@@ -99,7 +101,7 @@ void Idiot::deal()
 static class LocalDealerInfo4 : public DealerInfo
 {
 public:
-    LocalDealerInfo4() : DealerInfo(I18N_NOOP("The &Idiot"), 2) {}
+    LocalDealerInfo4() : DealerInfo(I18N_NOOP("&Aces Up"), 2) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Idiot(parent); }
 } ldi4;
 

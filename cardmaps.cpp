@@ -53,6 +53,7 @@ int cardMap::CARDY = 96;
 
 cardMap::cardMap( )
 {
+    kdDebug() << "cardMap\n";
     KConfig *config = kapp->config();
     KConfigGroupSaver cs(config, settings_group );
 
