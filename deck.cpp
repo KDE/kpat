@@ -70,6 +70,7 @@ static void pseudoRandom_srand(long seed) {
     pseudoRandomSeed=seed;
 }
 
+// documented as in http://support.microsoft.com/default.aspx?scid=kb;EN-US;Q28150
 static long pseudoRandom_random() {
     pseudoRandomSeed = 214013*pseudoRandomSeed+2531011;
     return (pseudoRandomSeed >> 16) & 0x7fff;
