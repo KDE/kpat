@@ -239,6 +239,13 @@ void FreecellBase::findSolution()
 
         assert(!ret);
     }
+    /*
+     * I'm using the more standard interface instead of the depracated
+     * user_set_game one. I'd like that each function will have its
+     * own dedicated purpose.
+     *
+     *     Shlomi Fish
+     * */
 #if 0
     ret = freecell_solver_user_set_game(solver_instance,
                                             freecell.count(),
