@@ -24,9 +24,9 @@
 
 #include "klondike.h"
 #include <klocale.h>
-#include <card.h>
-#include <deck.h>
-#include <pile.h>
+#include "card.h"
+#include "deck.h"
+#include "pile.h"
 #include <kdebug.h>
 #include <assert.h>
 #include "cardmaps.h"

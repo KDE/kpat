@@ -4,7 +4,7 @@
 #include <kdebug.h>
 #include "deck.h"
 #include <assert.h>
-#include <freecell-solver/fcs_enums.h>
+#include "freecell-solver/fcs_enums.h"
 #include "cardmaps.h"
 
 Kings::Kings( KMainWindow* parent, const char *name )
