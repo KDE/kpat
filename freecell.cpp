@@ -40,7 +40,10 @@ void FreecellPile::moveCards(CardList &c, Pile *to)
         Pile::moveCards(c, to);
         return;
     }
-    dynamic_cast<FreecellBase*>(dealer())->moveCards(c, this, to);
+    FreecellBase *b = dynamic_cast<FreecellBase*>(dealer());
+    if (b) {
+        b->moveCards(c, this, to);
+    }
 }
 
 //-------------------------------------------------------------------------//
