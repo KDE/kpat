@@ -54,7 +54,7 @@
 <legalnotice>&FDLNotice;</legalnotice>
 
 <date>18/02/2001</date>
-<releaseinfo>1.8.7</releaseinfo>
+<releaseinfo>2.0</releaseinfo>
 <abstract>
 
 <para>&kpat; is a highly addictive card game for &kde;</para>
@@ -726,7 +726,7 @@ Documentation updated for KDE 2.0 by Michael McBride
 </para>
 
 <para>
-Documentation updated for KDE 2.1 by Maren Pakura
+Documentation rewritten for &kpat; 2.0 (KDE 2.1) by Maren Pakura
 <email>maren@kde.org</email>
 </para>
 
