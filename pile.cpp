@@ -11,11 +11,10 @@
 const int Pile::Default       = 0x0000;
 const int Pile::disallow      = 0x0001;
 const int Pile::several       = 0x0002; // default: move one card
-const int Pile::faceDown      = 0x0004; //  move/add cards facedown
+const int Pile::faceDown      = 0x0004; // move/add cards facedown
 
 // Add-flags
 const int Pile::addSpread     = 0x0100;
-const int Pile::addRotated    = 0x0600; // Note: cannot have Spread && Rotate
 
 // Remove-flags
 const int Pile::autoTurnTop   = 0x0200;

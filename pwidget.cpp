@@ -36,6 +36,7 @@
 #include <dealer.h>
 #include <kdebug.h>
 #include "cardmaps.h"
+#include <kcarddialog.h>
 
 pWidget::pWidget( const char* _name )
     : KMainWindow(0, _name), dill(0)
@@ -71,6 +72,8 @@ pWidget::pWidget( const char* _name )
     }
     games->setItems(list);
 
+    /*
+
     backs = new KSelectAction(i18n("&Card backside"), 0, this,
                               SLOT(changeBackside()),
                               actionCollection(), "backside");
@@ -82,14 +85,18 @@ pWidget::pWidget( const char* _name )
     list.append(i18n( "Technical" ));
     backs->setItems(list);
 
+*/
+    backs = new KAction(i18n("&Switch backside"), 0, this,
+                        SLOT(changeBackside()),
+                        actionCollection(), "backside");
+
     animation = new KToggleAction(i18n( "&Animation on startup" ),
                                   0, this, SLOT(animationChanged()),
                                   actionCollection(), "animation");
 
-
     KConfig *config = kapp->config();
     KConfigGroupSaver cs(config, settings_group );
-    int bg = config->readNumEntry( "Backside", 0 );
+    QString bg = config->readEntry( "Back", KCardDialog::getDefaultDeck());
     setBackSide( bg );
 
     bool animate = config->readBoolEntry( "Animation", true);
@@ -116,7 +123,15 @@ void pWidget::undoMove() {
 }
 
 void pWidget::changeBackside() {
-    setBackSide(backs->currentItem());
+    KConfig *config = kapp->config();
+    KConfigGroupSaver kcs(config, settings_group);
+
+    QString deck = config->readEntry("Back");
+    QString dummy;
+    if (KCardDialog::getCardDeck(deck, dummy, this, KCardDialog::NoCards) == QDialog::Accepted)
+    {
+        setBackSide(deck);
+    }
 }
 
 void pWidget::animationChanged() {
@@ -162,24 +177,22 @@ void pWidget::newGameType()
     dill->show();
 }
 
-void pWidget::setBackSide(int id)
+void pWidget::setBackSide(const QString &id)
 {
     KConfig *config = kapp->config();
     KConfigGroupSaver kcs(config, settings_group);
-    QPixmap pm = BarIcon(QString("back%1").arg(id));
+    QPixmap pm(id);
     if(!pm.isNull()) {
         cardMap::self()->setBackSide(pm);
-        config->writeEntry("Backside", id);
+        config->writeEntry("Back", id);
     } else
         KMessageBox::sorry(this,
                            i18n("Could not load background image!"));
 
-    backs->setCurrentItem(id);
     if (dill) {
         dill->canvas()->setAllChanged();
         dill->canvas()->update();
     }
-
 }
 
 #include "pwidget.moc"

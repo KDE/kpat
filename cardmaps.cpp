@@ -46,6 +46,7 @@
 #include <kstaticdeleter.h>
 #include <qimage.h>
 #include <kimageeffect.h>
+#include <kcarddialog.h>
 
 int cardMap::CARDX;
 int cardMap::CARDY;
@@ -65,7 +66,7 @@ cardMap::cardMap( )
     if( animate ) {
         t1 = QTime::currentTime();
         w = new QWidget( 0, "", Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool );
-        pm1 = BarIcon( "back1" );
+        pm1.load(KCardDialog::getDefaultDeck());
         QWidget* dt = qApp->desktop();
         w->setBackgroundColor( Qt::darkGreen );
         w->setGeometry( ( dt->width() - 510 ) / 2, ( dt->height() - 180 ) / 2, 510, 180);
@@ -87,6 +88,8 @@ cardMap::cardMap( )
     }
 
     QString imgname;
+    QString dir = KCardDialog::getDefaultCardDir();
+
     for(int idx = 1; idx < 53; idx++)
     {
         // translate index to suit/rank
@@ -111,7 +114,11 @@ cardMap::cardMap( )
                 break;
         }
 
-        QImage image = KGlobal::iconLoader()->loadIconImage(QString::number(idx), KIcon::Toolbar);
+        imgname = KCardDialog::getCardPath(dir, idx);
+
+        QImage image;
+        image.load(imgname);
+
         if( image.isNull())
             kdFatal() << "PANIC, cannot load card pixmap \"" << imgname << "\"\n";
 

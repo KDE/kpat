@@ -38,9 +38,6 @@ class pWidget: public KMainWindow {
 public:
     pWidget( const char *name=0 );
 
-private:
-    void setBackSide(int);
-
 protected slots:
     void undoMove();
     void changeBackside();
@@ -49,9 +46,11 @@ protected slots:
     void restart();
 
 private:
+    void setBackSide(const QString &id);
+
     Dealer* dill;
     KSelectAction *games;
-    KSelectAction *backs;
+    KAction *backs;
     KToggleAction *animation;
 };
 

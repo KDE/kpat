@@ -1,5 +1,5 @@
 
-INCLUDES = $(all_includes) -I$(top_srcdir)/libkdegames
+INCLUDES = -I$(top_srcdir)/libkdegames $(all_includes) 
 
 LDFLAGS = $(all_libraries) $(KDE_RPATH)
 LDADD = $(LIB_KDEUI) $(top_builddir)/libkdegames/libkdegames.la
@@ -12,7 +12,7 @@ kpat_SOURCES = main.cpp cardmaps.cpp card.cpp dealer.cpp \
 
 METASOURCES = AUTO
 
-SUBDIRS = icons pics
+SUBDIRS = icons 
 
 apps_DATA = kpat.desktop
 appsdir   = $(kde_appsdir)/Games
