@@ -263,6 +263,8 @@ bool Klondike::cardClicked(Card *c) {
         pileClicked(deck);
         return true;
     }
+
+    return false;
 }
 
 void Klondike::pileClicked(Pile *c) {
