@@ -71,11 +71,6 @@ Grandf::Grandf( KMainWindow* parent, const char *name )
     numberOfDeals = 1;
 }
 
-Grandf::~Grandf()
-{
-    parent()->guiFactory()->unplugActionList( parent(), QString::fromLatin1("game_actions"));
-}
-
 void Grandf::restart() {
     deck->collectAndShuffle();
     deal();

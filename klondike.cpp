@@ -74,11 +74,6 @@ Klondike::Klondike( bool easy, KMainWindow* parent, const char* _name )
     deal();
 }
 
-Klondike::~Klondike()
-{
-    parent()->guiFactory()->unplugActionList( parent(), QString::fromLatin1("game_actions"));
-}
-
 void Klondike::changeDiffLevel( int l ) {
     if ( EasyRules == (l == 0) )
         return;
@@ -301,7 +296,7 @@ void Klondike::cardDblClicked(Card *c) {
 
 bool Klondike::tryToDrop(Card *t)
 {
-    if (!t || !t->realFace())
+    if (!t || !t->realFace() || t->takenDown())
         return false;
 
     kdDebug() << "tryToDrop " << t->name() << endl;

@@ -37,6 +37,8 @@ Dealer::Dealer( KMainWindow* _parent , const char* _name )
 
 Dealer::~Dealer()
 {
+    parent()->guiFactory()->unplugActionList( parent(), QString::fromLatin1("game_actions"));
+
     while (!piles.isEmpty())
         delete piles.first(); // removes itself
 }
@@ -404,6 +406,7 @@ public:
     double y;
     double z;
     bool faceup;
+    bool tookdown;
     int i;
     CardState() {}
 public:
@@ -416,7 +419,7 @@ public:
     bool operator==(const CardState &rhs) const {
         return (it == rhs.it && source == rhs.source && x == rhs.x &&
                 y == rhs.y && z == rhs.z && faceup == rhs.faceup &&
-                i == rhs.i);
+                i == rhs.i && tookdown == rhs.tookdown);
     }
 };
 
@@ -455,6 +458,7 @@ State *Dealer::getState()
            s.y = c->realY();
            s.z = c->realZ();
            s.faceup = c->realFace();
+           s.tookdown = c->takenDown();
            n->append(s);
        }
     }
@@ -477,6 +481,9 @@ void Dealer::setState(State *st)
         if ((*it)->rtti() == Pile::RTTI) {
             Pile *p = dynamic_cast<Pile*>(*it);
             assert(p);
+            CardList cards = p->cards();
+            for (CardList::Iterator it = cards.begin(); it != cards.end(); ++it)
+                (*it)->setTakenDown(p->target());
             p->clear();
         }
     }
@@ -485,11 +492,13 @@ void Dealer::setState(State *st)
     {
         Card *c = (*it).it;
         CardState s = *it;
+        bool target = c->takenDown(); // abused
         s.source->add(c, s.i);
         c->setAnimated(false);
         c->setX(s.x);
         c->setY(s.y);
         c->setZ(s.z);
+        c->setTakenDown(s.tookdown || (target && !s.source->target()));
         c->turn(s.faceup);
     }
 

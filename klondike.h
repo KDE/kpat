@@ -37,7 +37,6 @@ class Klondike : public Dealer {
 
 public:
     Klondike( bool easy, KMainWindow* parent=0, const char* name=0);
-    virtual ~Klondike();
 
 public slots:
     void changeDiffLevel(int lvl);
@@ -75,5 +74,3 @@ private:
 };
 
 #endif
-
-

@@ -167,8 +167,11 @@ void Pile::add( Card *_card, int index)
     if (_card->source() == this)
         return;
 
-    if (_card->source())
-        _card->source()->remove(_card);
+    Pile *source = _card->source();
+    if (source) {
+        _card->setTakenDown(source->target() && !target());
+        source->remove(_card);
+    }
 
     _card->setSource(this);
 

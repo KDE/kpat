@@ -79,6 +79,9 @@ public:
     int realZ() const;
     bool realFace() const;
 
+    void setTakenDown(bool td);
+    bool takenDown() const;
+
 signals:
     void stoped(Card *c);
 
@@ -101,6 +104,7 @@ private:
     int savedX, savedY;
     double scaleX, scaleY;
     static int hz;
+    bool tookDown;
 };
 
 #endif

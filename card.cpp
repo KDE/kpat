@@ -36,7 +36,7 @@ static const char *value_names[] = {"Ace", "Two", "Three", "Four", "Five", "Six"
                                     "Nine", "Ten", "Jack", "Queen", "King" };
 
 Card::Card( Values v, Suits s, QCanvas* _parent )
-  : QCanvasRectangle( _parent ),  _source(0), _suit( s ), _value( v ), scaleX(1.0), scaleY(1.0)
+    : QCanvasRectangle( _parent ),  _source(0), _suit( s ), _value( v ), scaleX(1.0), scaleY(1.0), tookDown(false)
 {
     _name = qstrdup(QString("%1 %2").arg(suit_names[s-1]).arg(value_names[v-1]).utf8());
 
@@ -250,6 +250,16 @@ void Card::setAnimated(bool anim)
     QCanvasRectangle::setAnimated(anim);
     assert(anim == animated());
 
+}
+
+void Card::setTakenDown(bool td)
+{
+    tookDown = td;
+}
+
+bool Card::takenDown() const
+{
+    return tookDown;
 }
 
 #include "card.moc"

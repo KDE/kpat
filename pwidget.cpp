@@ -223,7 +223,7 @@ void pWidget::chooseGame()
     bool ok = false;
     QString text = QInputDialog::getText( i18n("Game Number"),
                                           i18n( "Enter a game number "
-                                                "between 1 and 32000" ),
+                                                "(1 and 32000 are the same as in the FreeCell FAQ)" ),
                                           QString::number(dill->gameNumber()), &ok, this );
     if ( ok && !text.isEmpty() ) {
         long number = text.toLong(&ok);
