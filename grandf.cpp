@@ -43,7 +43,7 @@ CardBox::CardBox( const QPixmap &pix, QWidget *parent )
   p->resize( pix.size() );
   w = QMAX( w, p->width() );
 
-  QPushButton *button = new QPushButton( i18n("Ok"), this, "button" );
+  QPushButton *button = new QPushButton( i18n("OK"), this, "button" );
   connect( button, SIGNAL(clicked()), SLOT(accept()) );
   QFont font( "Helvetica", 12 );
   font.setWeight( QFont::Bold );
