@@ -82,11 +82,74 @@ a special order in moving, turning and reordering them.
 
 <para>
 A card game contains one or two card decks of 52 cards each. Each deck
-contains the deck colors Clubs, Spades, Hearts and Diamonds. Each of these
-colors contains itself the following cards types:
+contains the four deck colors:
+</para>
+<informaltable frame=none pgwide=1>
+<tgroup cols=2>
+<colspec colwidth=50pt>
+<colspec align=left>
+<tbody>
+
+<row valign=middle>
+<entry align=right>
+<inlinemediaobject>
+<imageobject>
+<imagedata fileref="clubs.png">
+</imageobject>
+</inlinemediaobject>
+</entry>
+<entry>
+Clubs
+</entry>
+</row>
+
+<row valign=middle>
+<entry align=right>
+<inlinemediaobject>
+<imageobject>
+<imagedata fileref="spades.png">
+</imageobject>
+</inlinemediaobject>
+</entry>
+<entry>
+Spades
+</entry>
+</row>
+
+<row valign=middle>
+<entry align=right>
+<inlinemediaobject>
+<imageobject>
+<imagedata fileref="hearts.png">
+</imageobject>
+</inlinemediaobject>
+</entry>
+<entry>
+Hearts
+</entry>
+</row>
+
+<row valign=middle>
+<entry align=right>
+<inlinemediaobject>
+<imageobject>
+<imagedata fileref="diamonds.png">
+</imageobject>
+</inlinemediaobject>
+</entry>
+<entry>
+Diamonds
+</entry>
+</row>
+
+</tbody>
+</tgroup>
+</informaltable>
+
+<para>
+Each of these colors contains itself the following cards types:
 as, two, three, four, five, six, seven, eight, nine, ten, jack, queen and
 king.
-<-- TODO: create small images for each to explain >
 </para>
 
 <para>
