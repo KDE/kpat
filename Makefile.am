@@ -28,6 +28,6 @@ EXTRA_DIST = $(apps_DATA)
 rcdir = $(kde_datadir)/kpat
 rc_DATA = kpatui.rc
 
-messages:
-	$(XGETTEXT) $(kpat_SOURCES) -o $(podir)/kpat.pot
+messages: rc.cpp
+	$(XGETTEXT) *.cpp -o $(podir)/kpat.pot
 
