@@ -48,6 +48,39 @@ extern void freecell_solver_a_star_enqueue_state(
 
 
 #if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INTERNAL_HASH)
+#ifdef FCS_WITH_MHASH
+#define fcs_caas_check_and_insert()            \
+    /*                                            \
+        Calculate the MD5 checksum of the state.   \
+    */                   \
+    {        \
+        char * temp_ptr;    \
+        instance->mhash_context = mhash_init(instance->mhash_type); \
+        mhash(instance->mhash_context, (void *)new_state, sizeof(fcs_state_t));    \
+        temp_ptr = mhash_end(instance->mhash_context); \
+        /* Retrieve the first 32 bits and make them the hash value */      \
+        hash_value_int = *(SFO_hash_value_t*)temp_ptr;      \
+        free(temp_ptr);      \
+    }      \
+            \
+    if (hash_value_int < 0)       \
+    {    \
+        /*             \
+         * This is a bit mask that nullifies the sign bit of the  \
+         * number so it will always be positive           \
+         * */            \
+        hash_value_int &= (~(1<<((sizeof(hash_value_int)<<3)-1)));     \
+    }    \
+    check = ((*existing_state = SFO_hash_insert(          \
+        instance->hash,              \
+        new_state,                   \
+        hash_value_int,              \
+        1                            \
+        )) == NULL);                  
+
+
+
+#else
 #define fcs_caas_check_and_insert()              \
     /*                                            \
         Calculate the MD5 checksum of the state.   \
@@ -72,6 +105,7 @@ extern void freecell_solver_a_star_enqueue_state(
         1                            \
         )) == NULL);                  
 
+#endif
 #elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INDIRECT)
 #define fcs_caas_check_and_insert()              \
     /* Try to see if the state is found in indirect_prev_states */  \

@@ -113,7 +113,7 @@ else if ((check == FCS_STATE_EXCEEDS_MAX_NUM_TIMES) || \
         fcs_move_stack_push(moves, temp_move);           \
         instance->proto_solution_moves[depth] = moves;    \
     }          \
-    else if ( (check == FCS_STATE_BEGIN_SUSPEND_PROCESS) &&  ((instance->method == FCS_METHOD_BFS)||(instance->method == FCS_METHOD_A_STAR)) )    \
+    else if ( (check == FCS_STATE_BEGIN_SUSPEND_PROCESS) &&  ((instance->method == FCS_METHOD_BFS)||(instance->method == FCS_METHOD_A_STAR)||(instance->method == FCS_METHOD_OPTIMIZE)) )    \
     {             \
         /* Do nothing because those methods expect us to have a move stack present in every state */  \
     }              \

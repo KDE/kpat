@@ -213,6 +213,10 @@ freecell_solver_instance_t * freecell_solver_alloc_instance(void)
 
     instance->optimize_solution_path = 0;
 
+#ifdef FCS_WITH_MHASH
+    instance->mhash_type = MHASH_MD5;
+#endif
+
 
     return instance;
 }
@@ -668,15 +672,19 @@ int freecell_solver_resume_instance(
         ret = FCS_STATE_IS_NOT_SOLVEABLE;
     }
 
-    if (ret == FCS_STATE_WAS_SOLVED)
+    if ((ret == FCS_STATE_WAS_SOLVED) && (instance->method != FCS_METHOD_OPTIMIZE))
     {
         if (instance->optimize_solution_path)
         {
-            freecell_solver_optimize_solution(instance);
-        }
-        freecell_solver_create_total_moves_stack(instance);
+            ret = freecell_solver_optimize_solution(instance);
+        }        
     }
 
+    if (ret == FCS_STATE_WAS_SOLVED)
+    {
+        freecell_solver_create_total_moves_stack(instance);
+    }
+        
     return ret;
 }
 

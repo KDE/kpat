@@ -15,11 +15,8 @@ extern "C" {
 #endif
 
 /* #define DEBUG_STATES */
-/* #define COMPACT_STATES */
-#define INDIRECT_STACK_STATES
-
-/* #define INDIRECT_STATE_STORAGE */
-
+#define COMPACT_STATES
+/* #define INDIRECT_STACK_STATES */
 
 /* #define DEBUG */
 
@@ -58,13 +55,13 @@ extern "C" {
  * The maximal number of Freecells. For efficiency's sake it should be a
  * multiple of 4.
  * */
-#define MAX_NUM_FREECELLS 8 
+#define MAX_NUM_FREECELLS 4
 
 /*
  * The maximal number of Stacks. For efficiency's sake it should be a 
  * multiple of 4.
  * */
-#define MAX_NUM_STACKS 12
+#define MAX_NUM_STACKS 8
 
 
 /*
@@ -73,7 +70,7 @@ extern "C" {
  * */
 #define MAX_NUM_INITIAL_CARDS_IN_A_STACK 7
 
-#define MAX_NUM_DECKS 1
+#define MAX_NUM_DECKS 2
 
 /* #define FCS_NON_DFS */
 
@@ -98,5 +95,5 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-    
+
 #endif
