@@ -100,8 +100,8 @@ cardMaps::cardMaps( QObject* parent ) : QObject(parent, 0) {
     if(img[rank][suit]->width() == 0 ||
        img[rank][suit]->height() == 0) {
       fprintf(stderr, 
-	      i18n("kpat: PANIC, cannot load card pixmap \"%s\"\n"),
-	      imgname.data());
+	      i18n("kpat: PANIC, cannot load card pixmap \"%s\"\n").ascii(),
+	      imgname.ascii());
       exit(1);
     }
 
@@ -200,7 +200,7 @@ QPixmap* cardMaps::image( int value, int suit) const {
     return img[value-1][suit-1];
   else {
     fprintf(stderr, 
-	    i18n("KPAT: access to invalid card %d, %d\n"), 
+	    i18n("KPAT: access to invalid card %d, %d\n").ascii(), 
 	    value, suit);
     return 0;
   }

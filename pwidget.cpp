@@ -255,44 +255,44 @@ void pWidget::actionNewGame(int id) {
   type = id - ID_GNEWTYPE;
   switch(id) {
   case ID_GNTEN:
-    dill = new Ten(this, i18n("Ten"));
+    dill = new Ten(this, i18n("Ten").ascii());
     break;
 
   case ID_GNMOD3:
-    dill = new Mod3(this, i18n("Mod3"));
+    dill = new Mod3(this, i18n("Mod3").ascii());
     break;
 
   case ID_GNFREECELL:
-    dill = new Freecell(this, i18n("Freecell"));
+    dill = new Freecell(this, i18n("Freecell").ascii());
     break;
 
   case ID_GNGRANDFATHER:
-    dill = new Grandf(this, i18n("Grandfather"));
+    dill = new Grandf(this, i18n("Grandfather").ascii());
     break;
 
   case ID_GNKLONDIKE:
-    dill = new Klondike(this, i18n("Klondike"));
+    dill = new Klondike(this, i18n("Klondike").ascii());
     break;
 
   case ID_GNMSOLITAIRE:
-    dill = new MicroSolitaire(this, i18n("MicroSolitaire"));
+    dill = new MicroSolitaire(this, i18n("MicroSolitaire").ascii());
     break;
 
   case ID_GNCOMPUTATION:
-    dill = new Computation(this, i18n("Calculation"));
+    dill = new Computation(this, i18n("Calculation").ascii());
     break;
 
   case ID_GNIDIOT:
-    dill = new Idiot(this, i18n("The Idiot"));
+    dill = new Idiot(this, i18n("The Idiot").ascii());
     break;
 
   case ID_GNNAPOLEON:
-    dill = new Napoleon(this, i18n("Napoleons Tomb"));
+    dill = new Napoleon(this, i18n("Napoleons Tomb").ascii());
     break;
 
   default:
     fprintf(stderr, 
-	    i18n("kpat: unimplemented game type %d\n"), 
+	    i18n("kpat: unimplemented game type %d\n").ascii(),
 	    type);
     kapp->quit();
     break;
@@ -333,8 +333,8 @@ void pWidget::setBackSide(int id) {
       config->setGroup("General Settings");
 	config->writeEntry("Backside", 0);
     } else {
-      QString fname;
-      fname.sprintf("%s/back%d.bmp", PICDIR.data(), id);
+      QString fname("%1/back%2.bmp");
+      fname = fname.arg(PICDIR).arg(id);
       QPixmap *pm = new QPixmap(fname);
       if(pm->width() > 0 && pm->height() > 0) {
 	cardmaps->setBackSide(pm);
