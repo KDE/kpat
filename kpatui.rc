@@ -1,14 +1,14 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="standard_containers" version="4">
+<kpartgui name="standard_containers" version="5">
 <MenuBar>
-  <Menu name="game"><text>&amp;Game</text>
+  <Menu name="game" noMerge="1"><text>&amp;Game</text>
     <Action name="new_game"/>
     <Action name="choose_game"/>
     <Action name="restart_game"/>
     <ActionList name="game_actions"/>
     <Action name="game_exit"/>
   </Menu>
-  <Menu name="edit"><text>&amp;Edit</text>
+  <Menu name="edit" noMerge="1"><text>&amp;Edit</text>
     <Action name="undo_move"/>
     <Action name="game_type"/>
     <Action name="backside"/>
