@@ -164,6 +164,10 @@ Card *Mod3::demoNewCards()
    return stack[3][0]->top();
 }
 
+virtual bool Mod3::startAutoDrop() {
+    return false;
+}
+
 bool Mod3::isGameLost() const {
     int n,r,c;
     kdDebug(11111) << "isGameLost ?"<< endl;
