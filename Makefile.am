@@ -25,4 +25,4 @@ messages: rc.cpp
 	$(XGETTEXT) *.cpp -o $(podir)/kpat.pot
 
 install-data-local:
-	rm -rf $(kde_appsdir)/Games/kpat.desktop
+	rm -rf $(DESTDIR)$(kde_appsdir)/Games/kpat.desktop
