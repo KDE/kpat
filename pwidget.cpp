@@ -28,7 +28,6 @@
 #include <kglobal.h>
 #include <kconfig.h>
 #include <kiconloader.h>
-#include <kwm.h>
 
 #include "pwidget.h"
 #include "version.h"
@@ -67,17 +66,6 @@ pWidget::pWidget( const char* _name )
   type = PT_NONE;
   dill = 0;
 
-  // set application icon: for 16 and 32 bit display use
-  // a very color-hungry icon, otherwise use a 16 color
-  // icon
-  QPixmap pix;
-  if( QColor::numBitPlanes() > 8 )
-    pix = KGlobal::iconLoader()->loadIcon( "kpat.xpm" );
-  else
-    pix = KGlobal::iconLoader()->loadIcon( "kpat-lq.xpm" );
-  KWM::setIcon( winId(), pix );
-  KWM::setMiniIcon( winId(), pix );
-  
   m = new KMenuBar( this );
   connect( m, SIGNAL( activated( int ) ), this, SLOT( action( int ) ) );
 
