@@ -411,7 +411,7 @@ void pWidget::gameLost()
     if (KMessageBox::questionYesNo(this, i18n("You couldn't win this game, "
                                               "but there is always a second try.\nStart a new game?"),
                                    i18n("Couldn't Win!"),
-                                   i18n("New Game"), i18n("Continue")) == KMessageBox::Yes)
+                                   i18n("New Game"), KStdGuiItem::cont()) == KMessageBox::Yes)
         QTimer::singleShot(0, this, SLOT(newGame()));
  }
 
