@@ -24,10 +24,11 @@
 #include <qobjcoll.h>
 #include <qmessagebox.h>
 
-#include <kwm.h>
 #include <kapp.h>
 #include <kglobal.h>
+#include <kconfig.h>
 #include <kiconloader.h>
+#include <kwm.h>
 
 #include "pwidget.h"
 #include "version.h"

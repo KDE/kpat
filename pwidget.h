@@ -28,7 +28,6 @@
 #include <qkeycode.h>
 
 #include <kmenubar.h>
-#include <kmsgbox.h>
 #include <ktopwidget.h>
 #include <ktoolbar.h>
 #include <kstatusbar.h>
