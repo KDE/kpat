@@ -14,8 +14,26 @@
 #include <kconfig.h>
 #include "version.h"
 
+
+// ================================================================
+//                         class MoveHint
+
+
+MoveHint::MoveHint(Card *card, Pile *to, bool d)
+{
+    m_card         = card;
+    m_to           = to;
+    m_dropiftarget = d;
+}
+
+
+// ================================================================
+//                    class DealerInfoList
+
+
 DealerInfoList *DealerInfoList::_self = 0;
 static KStaticDeleter<DealerInfoList> dl;
+
 
 DealerInfoList *DealerInfoList::self()
 {
@@ -28,6 +46,11 @@ void DealerInfoList::add(DealerInfo *dealer)
 {
     list.append(dealer);
 }
+
+
+// ================================================================
+//                            class Dealer
+
 
 Dealer *Dealer::s_instance = 0;
 
@@ -1372,10 +1395,6 @@ void Dealer::wheelEvent( QWheelEvent *e )
     }
 }
 
-MoveHint::MoveHint(Card * c, Pile *_to, bool d)
-{
-    _card = c; to = _to; _dropiftarget = d;
-}
 
 void Dealer::countLoss()
 {
