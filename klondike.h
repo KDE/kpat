@@ -53,8 +53,11 @@ public:
 
     bool tryToDrop(Card *t);
 
+    virtual bool isGameLost() const;
+
 private:
     bool EasyRules;
+    bool redealt;
 
     Pile* play[7];
     Pile* target[4];

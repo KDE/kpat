@@ -90,6 +90,8 @@ Klondike::Klondike( bool easy, KMainWindow* parent, const char* _name )
     }
 
     setActions(Dealer::Hint | Dealer::Demo);
+
+    redealt = false;
 }
 
 //  This function returns true when it is certain that the card t is no longer
@@ -242,6 +244,7 @@ Card *Klondike::demoNewCards() {
 void Klondike::restart() {
     kdDebug(11111) << "restart\n";
     deck->collectAndShuffle();
+    redealt = false;
     deal();
 }
 
@@ -300,6 +303,8 @@ void Klondike::redeal() {
         (*it)->setAnimated(false);
         deck->add(*it, true, false); // facedown, nospread
     }
+
+    redealt = true;
 }
 
 void Klondike::deal() {
@@ -338,6 +343,133 @@ bool Klondike::startAutoDrop()
         return false;
     if (pile->isEmpty() && !pileempty)
         deal3();
+    return true;
+}
+
+bool Klondike::isGameLost() const
+{
+    kdDebug( 1111 ) << "Is the game lost?" << endl;
+
+    // If we did not even redeal once, and the deck is not empty yet, we cannot
+    // tell what the source pile contains, so we cannot tell whether the game
+    // is lost or not.
+    if ( !redealt && !deck->isEmpty() ) {
+        kdDebug( 1111 ) << "No, we don't know all cards in the pile yet." << endl;
+        return false;
+    }
+
+    // Check whether top of the pile can be added to any of the target piles
+    if ( !pile->isEmpty() ) {
+        for ( int i = 0; i < 4; ++i ) {
+            if ( target[ i ]->isEmpty() ) {
+                continue;
+            }
+            if ( pile->top()->suit() == target[ i ]->top()->suit() &&
+                 pile->top()->value() - 1 == target[ i ]->top()->value() ) {
+                kdDebug( 1111 ) << "No, the source pile's top card could be added to target pile " << i << endl;
+                return false;
+            }
+        }
+    }
+
+    CardList srcPileCards = pile->cards();
+    srcPileCards += deck->cards();
+
+    //  Check all seven stores
+    for ( int i = 0; i < 7; ++i ) {
+
+        // If this store is empty...
+        if ( play[ i ]->isEmpty() ) {
+            // ...check whether the pile contains a king we could move here.
+            CardList::ConstIterator it = srcPileCards.begin();
+            CardList::ConstIterator end = srcPileCards.end();
+            for ( ; it != end; ++it ) {
+                if ( ( *it )->value() == Card::King ) {
+                    kdDebug( 1111 ) << "No, the pile contains a king which we could move onto store " << i << endl;
+                    return false;
+                }
+            }
+
+            // ...check whether any of the other stores contains a (visible)
+            // king we could move here.
+            for ( int j = 0; j < 7; ++j ) {
+                if ( j == i ) {
+                    continue;
+                }
+                const CardList cards = play[ j ]->cards();
+                CardList::ConstIterator it = ++cards.begin();
+                CardList::ConstIterator end = cards.end();
+                for ( ; it != end; ++it ) {
+                    if ( ( *it )->realFace() && ( *it )->value() == Card::King ) {
+                        kdDebug( 1111 ) << "No, store " << j << " contains a visible king which we could move onto store " << i << endl;
+                        return false;
+                    }
+                }
+            }
+        } else { // This store is not empty...
+            Card *topCard = play[ i ]->top();
+
+            // ...check whether the top card is an Ace (we can start a target)
+            if ( topCard->value() == Card::Ace ) {
+                kdDebug( 1111 ) << "No, store " << i << " has an Ace, we could start a target pile." << endl;
+                return false;
+            }
+
+            // ...check whether the top card can be added to any target pile
+            for ( int targetIdx = 0; targetIdx < 4; ++targetIdx ) {
+                if ( target[ targetIdx ]->isEmpty() ) {
+                    continue;
+                }
+                if ( target[ targetIdx ]->top()->suit() == topCard->suit() &&
+                     target[ targetIdx ]->top()->value() == topCard->value() - 1 ) {
+                    kdDebug( 1111 ) << "No, store " << i << "'s top card could be added to target pile " << targetIdx << endl;
+                    return false;
+                }
+            }
+
+            // ...check whether the source pile contains a card which can be
+            // put onto this store.
+            CardList::ConstIterator it = srcPileCards.begin();
+            CardList::ConstIterator end = srcPileCards.end();
+            for ( ; it != end; ++it ) {
+                if ( ( *it )->isRed() != topCard->isRed() &&
+                     ( *it )->value() == topCard->value() - 1 ) {
+                    kdDebug( 1111 ) << "No, the pile contains a card which we could add to store " << i << endl;
+                    return false;
+                }
+            }
+
+            // ...check whether any of the other stores contains a visible card
+            // which can be put onto this store, and which is on top of an
+            // uncovered card.
+            for ( int j = 0; j < 7; ++j ) {
+                if ( j == i ) {
+                    continue;
+                }
+                const CardList cards = play[ j ]->cards();
+                CardList::ConstIterator it = cards.begin();
+                CardList::ConstIterator end = cards.end();
+                for ( ; it != end; ++it ) {
+                    if ( ( *it )->realFace() &&
+                         ( *it )->isRed() != topCard->isRed() &&
+                         ( *it )->value() == topCard->value() - 1 ) {
+                        if ( it == cards.begin() ) {
+                            kdDebug( 1111 ) << "No, store " << j << " contains a card which we could add to store " << i << endl;
+                            return false;
+                        } else {
+                            CardList::ConstIterator prevCard = it;
+                            --prevCard;
+                            if ( !( *prevCard )->realFace() ) {
+                                kdDebug( 1111 ) << "No, store " << j << " contains a card which we could add to store " << i << endl;
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    kdDebug( 1111 ) << "Yep, all hope is lost." << endl;
     return true;
 }
 
