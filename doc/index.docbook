@@ -29,7 +29,7 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>17/08/2000</date>
+<date>04/09/2000</date>
 <releaseinfo>0.07.04</releaseinfo>
 <abstract>
 
@@ -381,10 +381,8 @@ Documentation updated for KDE 2.0 by Michael McBride
 <email>mmcbride@ematic.com</email>
 </para>
 
-<para>This program is licensed under the terms of the
-<ulink URL="common/gfdl-license.html">GNU GFDL</ulink>.
+&x11license-links;
 
-</para>
 </chapter>
 </book>
 <!--
