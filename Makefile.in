@@ -77,7 +77,7 @@ clean:
 distclean: clean
 	rm -f Makefile
 
-install:
+install: all
 	$(INSTALL_DIR) $(BINDIR)
 	$(INSTALL) $(TARGET) $(BINDIR)
 	$(INSTALL_DIR) $(BINDIR)
