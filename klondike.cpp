@@ -253,13 +253,15 @@ void Klondike::deal() {
             play[i]->add(deck->nextCard(), i != round, true);
 }
 
-void Klondike::cardClicked(Card *c) {
+bool Klondike::cardClicked(Card *c) {
     kdDebug(11111) << "card clicked " << c->name() << endl;
 
-    Dealer::cardClicked(c);
+    if (Dealer::cardClicked(c))
+        return true;
+
     if (c->source() == deck) {
         pileClicked(deck);
-        return;
+        return true;
     }
 }
 

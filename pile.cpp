@@ -435,14 +435,16 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
     }
 }
 
-void Pile::cardClicked(Card *c)
+bool Pile::cardClicked(Card *c)
 {
     emit clicked(c);
+    return false;
 }
 
-void Pile::cardDblClicked(Card *c)
+bool Pile::cardDblClicked(Card *c)
 {
     emit dblClicked(c);
+    return false;
 }
 
 #include "pile.moc"

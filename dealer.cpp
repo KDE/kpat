@@ -34,7 +34,7 @@ Dealer *Dealer::s_instance = 0;
 Dealer::Dealer( KMainWindow* _parent , const char* _name )
     : QCanvasView( 0, _parent, _name ), towait(0), myActions(0),
 ademo(0), ahint(0), aredeal(0),
-takeTargets(false), _won(false), _waiting(0), stop_demo_next(false)
+      takeTargets(false), _won(false), _waiting(0), stop_demo_next(false), _autodrop(true)
 {
     setResizePolicy(QScrollView::Manual);
     setVScrollBarMode(AlwaysOff);
@@ -521,20 +521,21 @@ void Dealer::resizeEvent(QResizeEvent *e)
         QCanvasView::resizeEvent(e);
 }
 
-void Dealer::cardClicked(Card *c) {
-    c->source()->cardClicked(c);
+bool Dealer::cardClicked(Card *c) {
+    return c->source()->cardClicked(c);
 }
 
 void Dealer::pileClicked(Pile *c) {
     c->cardClicked(0);
 }
 
-void Dealer::cardDblClicked(Card *c)
+bool Dealer::cardDblClicked(Card *c)
 {
-    c->source()->cardDblClicked(c);
+    if (c->source()->cardDblClicked(c))
+        return true;
 
     if (c->animated())
-        return;
+        return false;
 
     if (c == c->source()->top() && c->realFace()) {
         Pile *tgt = findTarget(c);
@@ -543,8 +544,10 @@ void Dealer::cardDblClicked(Card *c)
             empty.append(c);
             c->source()->moveCards(empty, tgt);
             canvas()->update();
+            return true;
         }
     }
+    return false;
 }
 
 void Dealer::startNew()

@@ -157,9 +157,9 @@ protected:
     void unmarkAll();
     void mark(Card *c);
     Pile *findTarget(Card *c);
-    virtual void cardClicked(Card *);
+    virtual bool cardClicked(Card *);
     virtual void pileClicked(Pile *);
-    virtual void cardDblClicked(Card *);
+    virtual bool cardDblClicked(Card *);
     void won();
 
     virtual void getHints();

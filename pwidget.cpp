@@ -302,6 +302,8 @@ void pWidget::newGameType()
     connect(dill, SIGNAL(gameWon(bool)), SLOT(gameWon(bool)));
     connect(dill, SIGNAL(gameLost()), SLOT(gameLost()));
 
+    dill->setAutoDropEnabled(dropaction->isChecked());
+
     // it's a bit tricky - we have to do this here as the
     // base class constructor runs before the derived class's
     dill->takeState();

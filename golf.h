@@ -28,7 +28,7 @@ protected slots:
 protected:
     virtual bool startAutoDrop() { return false; }
     virtual Card *demoNewCards();
-    void cardClicked(Card *c);
+    virtual bool cardClicked(Card *c);
 
 private: // functions
     virtual bool checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const;

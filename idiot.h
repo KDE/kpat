@@ -33,8 +33,8 @@ public:
     virtual bool isGameWon() const;
 
 protected:
-    virtual void cardClicked(Card *);
-    virtual void cardDblClicked(Card *);
+    virtual bool cardClicked(Card *);
+    virtual bool cardDblClicked(Card *);
     virtual void getHints();
     virtual Card *demoNewCards();
     virtual bool startAutoDrop() { return false; }

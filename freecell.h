@@ -72,7 +72,7 @@ protected:
 
     virtual void stopDemo();
     virtual void newDemoMove(Card *m);
-
+    virtual bool cardDblClicked(Card *c);
 
 protected:
     QValueList<FreecellPile*> store;

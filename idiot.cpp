@@ -78,15 +78,15 @@ bool Idiot::canMoveAway(Card *c)
              higher( c, play[ 3 ]->top() ) );
 }
 
-void Idiot::cardClicked(Card *c)
+bool Idiot::cardClicked(Card *c)
 {
     if (c->source() == deck) {
         deal();
-        return;
+        return true;
     }
 
     if (c != c->source()->top())
-        return;
+        return false;
 
     if( canMoveAway(c) )
         away->add(c, false, false);
@@ -98,6 +98,8 @@ void Idiot::cardClicked(Card *c)
         play[2]->add( c, false, true);
     else if( play[ 3 ]->isEmpty() )
         play[3]->add(c, false, true);
+
+    return true; // may be a lie, but noone cares
 }
 
 bool Idiot::isGameWon() const
@@ -112,8 +114,9 @@ bool Idiot::isGameWon() const
     return true;
 }
 
-void Idiot::cardDblClicked(Card *)
+bool Idiot::cardDblClicked(Card *)
 {
+    return false; // nothing - nada
 }
 
 void Idiot::deal()

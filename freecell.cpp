@@ -500,6 +500,27 @@ void FreecellBase::waitForMoving(Card *c)
     startMoving();
 }
 
+bool FreecellBase::cardDblClicked(Card *c)
+{
+    // target move
+    if (Dealer::cardDblClicked(c))
+        return true;
+
+    if (c->animated())
+        return false;
+
+    if (c == c->source()->top() && c->realFace())
+        for (uint i = 0; i < freecell.count(); i++)
+            if (freecell[i]->isEmpty()) {
+                CardList empty;
+                empty.append(c);
+                c->source()->moveCards(empty, freecell[i]);
+                canvas()->update();
+                return true;
+            }
+    return false;
+}
+
 bool FreecellBase::CanPutStore(const Pile *c1, const CardList &c2) const
 {
     int fcs, fss;

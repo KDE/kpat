@@ -46,7 +46,7 @@ public:
     void deal();
     void deal3(); // move up to 3 cards from deck to pile
 
-    virtual void cardClicked(Card *);
+    virtual bool cardClicked(Card *);
     virtual void pileClicked(Pile *c);
     virtual void getHints();
 

@@ -113,24 +113,25 @@ Card *Golf::demoNewCards()
     return waste->top();
 }
 
-void Golf::cardClicked(Card *c)
+bool Golf::cardClicked(Card *c)
 {
     if (c->source()->checkIndex() !=1) {
-        Dealer::cardClicked(c);
-        return;
+        return Dealer::cardClicked(c);
     }
 
     if (c != c->source()->top())
-        return;
+        return false;
 
     Pile*p=findTarget(c);
-    if(p)
+    if (p)
     {
         CardList empty;
         empty.append(c);
         c->source()->moveCards(empty, p);
         canvas()->update();
+        return true;
     }
+    return false;
 }
 
 bool Golf::isGameLost() const

@@ -108,8 +108,8 @@ public:
     void setHSpread(int s) { _hspread = s; }
 
 public slots:
-    virtual void cardClicked(Card *c);
-    virtual void cardDblClicked(Card *c);
+    virtual bool cardClicked(Card *c);
+    virtual bool cardDblClicked(Card *c);
 
 signals:
     void clicked(Card *c);
