@@ -18,6 +18,7 @@ class Fortyeight : public Dealer
 
 public:
     Fortyeight( KMainWindow* parent=0, const char* name=0);
+    virtual bool isGameLost() const;
 
 public slots:
     void deal();

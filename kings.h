@@ -14,6 +14,7 @@ class Kings : public FreecellBase {
 
 public:
     Kings( KMainWindow* parent=0, const char* name=0);
+    virtual bool isGameLost() const;
 
 public slots:
     virtual void deal();

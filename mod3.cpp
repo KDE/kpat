@@ -150,6 +150,92 @@ Card *Mod3::demoNewCards()
    return stack[3][0]->top();
 }
 
+bool Mod3::isGameLost() const {
+	int n,r,c;
+    kdDebug(11111) << "isGameLost ?"<< endl;
+		
+	bool nextTest=false;
+	for(n=0; n <24; n++){
+		r=n/8;
+		c= n %8;
+		if(stack[r][c]->isEmpty()){
+			nextTest=true;
+			break;
+			}
+		if(stack[r][c]->at(0)->value() == (Card::Two +r)){
+			nextTest=true;
+			break;
+			}
+		}
+	if(!nextTest)
+		return true;
+
+	if(!deck->isEmpty())
+		 return false;
+
+	for(c=0; c < 8; c++){
+		if(stack[3][c]->isEmpty())
+			return false;
+		}
+
+	int n2,r2,c2,c3;
+	Card *ctop, *card;
+
+	for(n=0; n < 24; n++){
+		r=n / 8;
+		c=n % 8;
+		if(stack[r][c]->isEmpty()){
+			for(c3=0; c3 < 8; c3++){
+				if(stack[3][c3]->top()->value()==(Card::Two+r))
+					return false;
+				}
+			for(n2=0; n2 < 16;n2++){
+				r2=(r+1+(n2 / 8)) % 3;
+				c2=n2 % 8;
+			
+				if(stack[r2][c2]->isEmpty())
+					continue;
+				if(stack[r2][c2]->top()->value()==(Card::Two+r))
+					return false;
+				}
+			}	
+		else{
+			ctop=stack[r][c]->top();
+    kdDebug(11111) << "considering ["<<r<<"]["<<c<<"] " << ctop->name() << flush;
+
+			if(stack[r][c]->at(0)->value() !=(Card::Two+r))
+				continue;
+
+
+			for(c3=0; c3 < 8; c3++){
+				card=stack[3][c3]->top();
+				if(card->suit() == ctop->suit() && card->value() == ctop->value()+3)
+					return false;
+				}
+		kdDebug(11111) <<" cant stack from bottom row" << flush;
+
+			for(int n_2=1;n_2 < 24; n_2++){
+				n2=(n+n_2) % 24;
+				r2= n2 / 8;
+				c2= n2 % 8;
+
+				if(stack[r2][c2]->isEmpty())
+					continue;
+
+				card=stack[r2][c2]->top();
+
+				if(stack[r2][c2]->indexOf(card) != 0)
+					continue;
+
+				if(card->suit() == ctop->suit() && card->value() == ctop->value()+3)
+					return false;
+				}
+			}
+		}
+					
+	return true;
+}
+
 static class LocalDealerInfo5 : public DealerInfo
 {
 public:

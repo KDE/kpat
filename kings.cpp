@@ -1,6 +1,7 @@
 #include "kings.h"
 #include <klocale.h>
 #include "pile.h"
+#include <kdebug.h>
 #include "deck.h"
 #include <assert.h>
 #include <freecell-solver/fcs_enums.h>
@@ -48,6 +49,68 @@ void Kings::deal() {
             ++it;
     }
     assert(cn == 104);
+}
+
+bool Kings::isGameLost() const {
+	int i,indexi;
+	Card *c,*cnext,*ctarget;
+	CardList targets,ctops;
+
+	for(i=0; i < 8; i++){
+		if(freecell[i]->isEmpty())
+			return false;
+		if(store[i]->isEmpty())
+			return false;
+		if(store[i]->top()->value() == Card::Ace)
+			return false;
+		}
+
+	for(i=0; i < 8; i++){
+		if(!target[i]->isEmpty())
+			targets.append(target[i]->top());
+
+		if(!store[i]->isEmpty())
+			ctops.append(store[i]->top());
+		} 
+
+	for(i=0; i < 8; i++){
+		if(store[i]->isEmpty())
+			continue;
+
+		c=store[i]->top();
+		for (CardList::Iterator it = targets.begin(); it != targets.end(); ++it) {
+			ctarget=*it;
+			if(c->value()-1 == ctarget->value() &&
+				c->suit() == ctarget->suit()){
+				kdDebug(11111)<< "test 1" << endl;
+				return false;
+			}
+		}
+		
+		for(indexi=store[i]->indexOf(store[i]->top()); indexi>=0;indexi--){
+			c=store[i]->at(indexi);
+			if(indexi > 0)
+				cnext=store[i]->at(indexi-1);
+
+			for (CardList::Iterator it = ctops.begin(); it != ctops.end(); ++it) {
+				ctarget=*it;
+				if(c->value()+1 == ctarget->value() &&
+					c->isRed() != ctarget->isRed()){
+
+					if(indexi == 0)
+						return false;
+
+					if(cnext->value() != ctarget->value() || cnext->suit() != ctarget->suit())
+						return false;
+				}
+			}
+			if(cnext->value() != c->value()+1 && 
+				cnext->isRed() != c->isRed())
+				break;
+		}
+	}
+
+	return true;
 }
 
 static class LocalDealerInfo12 : public DealerInfo

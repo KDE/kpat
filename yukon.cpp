@@ -1,5 +1,6 @@
 #include "yukon.h"
 #include <klocale.h>
+#include <kdebug.h>
 #include "pile.h"
 #include "deck.h"
 #include <assert.h>
@@ -53,6 +54,71 @@ void Yukon::deal() {
                 store[j]->add(deck->nextCard(), round < j && j != 0, true);
         }
     }
+}
+
+bool Yukon::isGameLost() const {
+   int i,j,k,l,indexi,freeStore=0;
+   Card *c, *cNewTop;
+
+ kdDebug(11111) <<"isGameLost" << endl;
+
+   for(i=0; i < 7; i++){
+      if( store[i]->isEmpty() ){
+         freeStore++;
+         continue;
+         }
+
+      if(store[i]->top()->value() == Card::Ace ||
+         ! store[i]->top()->isFaceUp())
+         return false;
+
+      for(indexi=store[i]->indexOf(store[i]->top()); indexi >=0; indexi--){
+
+         c=store[i]->at(indexi);
+         if( !c->isFaceUp() )
+            break;
+
+         if(freeStore > 0 && indexi > 0 && c->value() == Card::King)
+            return false;
+
+         for(j=0; j < 4;j++){
+            if(!target[j]->isEmpty() &&
+               c->value()-1 == target[j]->top()->value() &&
+               c->suit() == target[j]->top()->suit())
+               return false;
+         }
+
+         for(j=1; j < 7; j++){
+            k=(i+j) % 7;
+            if( !store[k]->isEmpty() ) {
+               if(c->value()+1 == store[k]->top()->value() &&
+                  (c->isRed() != store[k]->top()->isRed())){
+
+                  if(indexi ==  0)
+                     return false;
+                  else{
+                     cNewTop=store[i]->at(indexi-1);
+                     if(!cNewTop->isFaceUp())
+                        return false;
+                     if(cNewTop->value() == Card::Ace)
+                        return false;
+                     if(cNewTop->value() != store[k]->top()->value() ||
+                        cNewTop->isRed() != store[k]->top()->isRed())
+                        return false;
+
+                     for(l=0; l < 4;l++){
+                        if(!target[l]->isEmpty() &&
+                           cNewTop->value()-1 == target[l]->top()->value() &&
+                           cNewTop->suit() == target[l]->top()->suit())
+                           return false;
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+   return (freeStore!=7);
 }
 
 static class LocalDealerInfo10 : public DealerInfo

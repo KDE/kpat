@@ -1,5 +1,6 @@
 #include "fortyeight.h"
 #include <klocale.h>
+#include <kdebug.h>
 #include "deck.h"
 #include "pile.h"
 #include <assert.h>
@@ -122,6 +123,50 @@ void Fortyeight::setGameState( QDataStream & stream )
     Q_INT8 i;
     stream >> i;
     lastdeal = i;
+}
+
+bool Fortyeight::isGameLost() const{
+   kdDebug(11111) << "isGameLost ?" << endl;
+   if(!lastdeal)
+	return false;
+   if(!deck->isEmpty())
+	return false;
+
+   Card *c;
+   for(int i=0; i < 8; i++){
+	if(stack[i]->isEmpty())
+		return false;
+	c=stack[i]->top();	
+
+	if(c->value() == Card::Ace)
+		return false;
+	if(!pile->isEmpty())
+		if(pile->top()->suit() == c->suit() &&
+			pile->top()->value()-1 == c->value())
+			return false;
+	for(int j=0; j <8;j++){
+		if(target[j]->isEmpty())
+			continue;
+		if(c->suit() == target[j]->top()->suit() &&
+			c->value()-1 ==target[j]->top()->value())
+			return false;
+		}
+	for(int j=1; j < 8; j++){
+		int k=(i+j) % 8;
+		if(c->suit() == stack[k]->top()->suit() &&
+			c->value()+1 ==stack[k]->top()->value()){
+			int indexi=stack[i]->indexOf(c);
+			if(indexi==0)	
+				return false;
+			Card *c2=stack[i]->at(indexi-1);
+			if(c2->value()!=stack[k]->top()->value() ||
+				c2->suit()!=stack[k]->top()->suit())
+				return false;
+			}
+		}
+	}
+
+   return true;
 }
 
 static class LocalDealerInfo8 : public DealerInfo

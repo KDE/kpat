@@ -33,6 +33,7 @@ public:
     Mod3( KMainWindow* parent=0, const char* name=0);
     void deal();
     virtual void restart();
+    virtual bool isGameLost() const;
 
 public slots:
     void deckClicked(Card *c);

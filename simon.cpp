@@ -1,5 +1,6 @@
 #include "simon.h"
 #include <klocale.h>
+#include <kdebug.h>
 #include "pile.h"
 #include "deck.h"
 #include <assert.h>
@@ -107,6 +108,43 @@ bool Simon::checkRemove(int checkIndex, const Pile *p, const Card *c) const
     }
 
     return true;
+}
+
+bool Simon::isGameLost() const
+{
+	kdDebug(11111) <<"isGameLost" << endl;
+    for (int i=0; i<10; i++) {
+		if(store[i]->isEmpty())
+			return false;
+	kdDebug(11111) <<"store["<<i<<"]" << endl;
+
+		Card *c;
+		Card *top=store[i]->top();		
+		int indexi=store[i]->indexOf(top);
+		while(--indexi >=0){
+		kdDebug(11111) <<top->name() << endl;
+			c=store[i]->at(indexi);
+			if(c->suit() == top->suit() &&
+				(top->value()+1) == c->value())
+				top=c;
+			else
+				break;
+			}
+		
+		kdDebug(11111) <<"selected: " << top->name() << endl;
+		for(int j=1; j <10; j++){
+			int k=(i+j) % 10;
+
+			if(store[k]->isEmpty())
+				return false;
+
+			kdDebug(11111) <<"vs "<<store[k]->top()->name() << endl;
+			if((top->value() +1) == store[k]->top()->value())
+				return false;
+			}
+		}
+
+	return true;
 }
 
 static class LocalDealerInfo9 : public DealerInfo
