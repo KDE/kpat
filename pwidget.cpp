@@ -271,12 +271,26 @@ void pWidget::enableAutoDrop()
 
 void pWidget::newGame() {
     dill->setGameNumber(kapp->random());
+    setGameCaption();
     restart();
 }
 
 void pWidget::restart() {
     statusBar()->clear();
     dill->startNew();
+}
+
+void pWidget::setGameCaption()
+{
+    QString name = games->currentText();
+    QString newname;
+    QString gamenum;
+    gamenum.setNum( dill->gameNumber() );
+    for (uint i = 0; i < name.length(); i++)
+        if (name.at(i) != QChar('&'))
+            newname += name.at(i);
+
+    setCaption( newname + " - " + gamenum );
 }
 
 void pWidget::newGameType()
@@ -317,13 +331,8 @@ void pWidget::newGameType()
         kdError() << "unimplemented game type " << id << endl;
         dill = DealerInfoList::self()->games().first()->createGame(this);
     }
-    QString name = games->currentText();
-    QString newname;
-    for (uint i = 0; i < name.length(); i++)
-        if (name.at(i) != QChar('&'))
-            newname += name.at(i);
 
-    setCaption( newname );
+    setGameCaption();
 
     KConfig *config = kapp->config();
     KConfigGroupSaver kcs(config, settings_group);
@@ -381,6 +390,7 @@ void pWidget::chooseGame()
     long number = KInputDialog::getText(i18n("Game Number"), i18n("Enter a game number (FreeCell deals are the same as in the FreeCell FAQ):"), QString::number(dill->gameNumber()), 0, this).toLong(&ok);
     if (ok) {
         dill->setGameNumber(number);
+        setGameCaption();
         restart();
     }
 }
@@ -436,6 +446,7 @@ void pWidget::openGame(const KURL &url)
             }
         }
         dill->openGame(doc);
+        setGameCaption();
         KIO::NetAccess::removeTempFile( tmpFile );
         recent->addURL(url);
         recent->saveEntries(KGlobal::config());

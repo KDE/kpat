@@ -62,6 +62,7 @@ public slots:
     void enableAutoDrop();
 
 private:
+    void setGameCaption();
     void setBackSide(const QString &deck, const QString &dir);
     virtual void showEvent(QShowEvent *e);
 
