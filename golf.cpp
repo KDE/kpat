@@ -61,6 +61,23 @@ bool Golf::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
 
 }
 
+bool Golf::isGameLost() const
+{
+	if( !deck->isEmpty())
+		return false;
+
+	for( int r = 0; r < 7; r++ ) {
+		if( !stack[r]->isEmpty()){
+			CardList stackTops;
+			stackTops.append(stack[r]->top());
+			if(this->checkAdd(0,waste,stackTops))
+				return false;
+			}
+		}
+			
+    return true;
+}
+
 bool Golf::checkRemove( int checkIndex, const Pile *, const Card *c2) const
 {
     if (checkIndex == 0)

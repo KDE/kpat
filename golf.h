@@ -20,6 +20,7 @@ public:
     Golf( KMainWindow* parent=0, const char* name=0);
     void deal();
     virtual void restart();
+    virtual bool isGameLost() const;
 
 protected slots:
     void deckClicked(Card *);

@@ -33,6 +33,7 @@ public:
     virtual void getHints();
     virtual Card *demoNewCards();
     virtual bool startAutoDrop() { return false; }
+    virtual bool isGameLost() const;
 
 public slots:
     void deal1(Card *c);

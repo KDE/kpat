@@ -260,6 +260,7 @@ void pWidget::newGameType()
 
     connect(dill, SIGNAL(undoPossible(bool)), SLOT(undoPossible(bool)));
     connect(dill, SIGNAL(gameWon(bool)), SLOT(gameWon(bool)));
+    connect(dill, SIGNAL(gameLost()), SLOT(gameLost()));
 
     // it's a bit tricky - we have to do this here as the
     // base class constructor runs before the derived class's
@@ -357,6 +358,15 @@ void pWidget::gameWon(bool withhelp)
 #if TEST_SOLVER == 1
     dill->demo();
 #endif
+}
+
+void pWidget::gameLost()
+{
+	QString sorry;
+
+	sorry=i18n("Game Lost.");
+    KMessageBox::information(this, sorry, i18n("Sorry"));
+    QTimer::singleShot(0, this, SLOT(newGame()));
 }
 
 

@@ -69,6 +69,7 @@ public:
     long gameNumber() const;
 
     virtual bool isGameWon() const;
+    virtual bool isGameLost() const;
 
     void setViewSize(const QSize &size);
 
@@ -119,6 +120,7 @@ public slots:
 signals:
     void undoPossible(bool poss);
     void gameWon(bool withhelp);
+    void gameLost();
     void saveGame(); // emergency
     void gameInfo(const QString &info);
 

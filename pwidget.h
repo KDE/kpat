@@ -55,6 +55,7 @@ public slots:
     void chooseGame();
     void undoPossible(bool poss);
     void gameWon(bool withhelp);
+    void gameLost();
     void changeWallpaper();
     void slotGameInfo(const QString &);
     void helpGame();

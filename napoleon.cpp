@@ -127,6 +127,31 @@ Card *Napoleon::demoNewCards()
     return pile->top();
 }
 
+bool Napoleon::isGameLost() const {
+    CardList cards;
+    for (int i = 0; i < 4; i++)
+    {
+        if (store[i]->isEmpty())
+			return false;
+		else
+            cards.append(store[i]->top());
+    }
+
+    if (pile->top())
+        cards.append(pile->top());
+
+    for (CardList::Iterator it = cards.begin(); it != cards.end(); ++it) {
+        CardList empty;
+        empty.append(*it);
+		if(CanPutCentre(centre,empty)) return false;
+		for(int i=0; i<4; i++)
+			if(CanPutTarget(target[i],empty)) return false;
+		}
+
+	return (deck->isEmpty());
+}
+
+
 void Napoleon::getHints() {
     CardList cards;
     for (int i = 0; i < 4; i++)

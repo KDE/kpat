@@ -755,7 +755,11 @@ void Dealer::takeState()
     }
 
     if (n) {
-        if (isGameWon()) {
+		if (isGameLost()){
+			emit gameLost();	
+	    	return;
+			}
+        else if (isGameWon()) {
             won();
             return;
         } else if (!demoActive() && !waiting()) {
@@ -1106,6 +1110,12 @@ bool Dealer::isGameWon() const
             return false;
     }
     return true;
+}
+
+bool Dealer::isGameLost() const
+{
+//PCG: assume not, let the individual games decide.
+	return false;
 }
 
 bool Dealer::checkRemove( int, const Pile *, const Card *) const {
