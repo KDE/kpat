@@ -114,7 +114,10 @@ void Napoleon::deal() {
 }
 
 void Napoleon::deal1(Card *) {
-    pile->add(deck->nextCard(), false, false);
+    Card *c = deck->nextCard();
+    pile->add(c, true, false);
+    c->move(deck->x(), deck->y());
+    c->flipTo(pile->x(), pile->y(), 8);
 }
 
 static class LocalDealerInfo4 : public DealerInfo

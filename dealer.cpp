@@ -509,12 +509,12 @@ void Dealer::takeState()
     if (n) {
         if (isGameWon()) {
             won();
+            return;
         } else {
             if (startAutoDrop()) {
                 takeState(); // and down we go
             }
         }
-        return;
     }
     emit undoPossible(undoList.count() > 1);
 }

@@ -201,6 +201,9 @@ QSize Pile::cardOffset( bool _spread, bool _facedown, const Card *before) const
 /* override cardtype (for initial deal ) */
 void Pile::add( Card* _card, bool _facedown, bool _spread )
 {
+    if (!_card)
+        return;
+
     Card *t = top();
 
     if (visible()) {
