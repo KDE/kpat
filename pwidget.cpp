@@ -42,6 +42,8 @@
 #include <kstatusbar.h>
 #include "speeds.h"
 #include <kmessagebox.h>
+#include <kaccelmanager.h>
+#include <kmenubar.h>
 
 static pWidget *current_pwidget = 0;
 
@@ -145,6 +147,7 @@ pWidget::pWidget()
     games->setCurrentItem(game);
 
     createGUI(QString::null, false);
+    KAcceleratorManager::manage(menuBar());
 
     newGameType();
 }

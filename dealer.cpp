@@ -18,7 +18,7 @@ static KStaticDeleter<DealerInfoList> dl;
 DealerInfoList *DealerInfoList::self()
 {
     if (!_self)
-        _self = dl.setObject(new DealerInfoList());
+        _self = dl.setObject(_self, new DealerInfoList());
     return _self;
 }
 
