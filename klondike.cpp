@@ -44,20 +44,12 @@ Klondike::Klondike( bool easy, KMainWindow* _parent, const char* _name )
     pile->setAddFlags(Pile::disallow);
     pile->setRemoveFlags(Pile::Default);
 
-    QValueList<int> legalmoves;
-    legalmoves.append(0);
-    for (int i = 0; i < 7; i++ )
-        legalmoves.append(i + 5);
-    for (int i = 0; i < 4; i++)
-        legalmoves.append(i + 1);
-
     for( int i = 0; i < 7; i++ ) {
         play[ i ] = new Pile( i + 5, this);
         play[i]->move(10 + 85 * i, 130);
         play[i]->setAddFlags(Pile::addSpread | Pile::several);
         play[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop | Pile::wholeColumn);
         play[i]->setAddFun(&altStep);
-        play[i]->setLegalMove(legalmoves);
     }
 
     for( int i = 0; i < 4; i++ ) {
@@ -66,7 +58,6 @@ Klondike::Klondike( bool easy, KMainWindow* _parent, const char* _name )
         target[i]->setAddFlags(Pile::Default);
         target[i]->setRemoveFlags(Pile::disallow);
         target[i]->setAddFun(&step1);
-        target[i]->setLegalMove(legalmoves);
     }
 
     deal();

@@ -16,9 +16,6 @@ const int Pile::faceDown      = 0x0004; //  move/add cards facedown
 // Add-flags
 const int Pile::addSpread     = 0x0100;
 const int Pile::addRotated    = 0x0600; // Note: cannot have Spread && Rotate
-const int Pile::minus45       = 0x0400;
-const int Pile::plus45        = 0x0200;
-const int Pile::plus90        = 0x0600;
 
 // Remove-flags
 const int Pile::autoTurnTop   = 0x0200;
@@ -83,7 +80,7 @@ bool Pile::legalAdd( const CardList& _card ) const
         return false;
     }
 
-    if (!legalMoves.contains(_card.first()->source()->index()))
+    if (!legalMoves.isEmpty() && !legalMoves.contains(_card.first()->source()->index()))
     {
         kdDebug() << "illegal source: " << _card.first()->source()->index() << "  "
                   << legalMoves.count() << endl;

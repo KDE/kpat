@@ -22,34 +22,33 @@
 #ifndef P_NAPOLEON
 #define P_NAPOLEON
 
-#include "patience.h"
 #include "dealer.h"
 
-class Napoleon : public dealer {
-  Q_OBJECT
+class Napoleon : public Dealer {
+    Q_OBJECT
 public:
-  Napoleon (QWidget* parent=0, const char* name=0);
-  virtual ~Napoleon();
+    Napoleon (KMainWindow* parent=0, const char* name=0);
+    virtual ~Napoleon();
 
-  virtual void restart();
-  virtual void show();
-  QSize sizeHint() const;
+    virtual void restart();
+    virtual void show();
 
 public slots:
-  void deal1();
+    void deal1();
 
 private:
-  void deal();
+    void deal();
+    virtual void cardClicked(Card *c);
 
-  static bool Ustep1( const Card* c1, const Card* c2);
-  static bool Dstep1( const Card* c1, const Card* c2);
-  static bool justOne( const Card* c1, const Card* c2);
+    static bool Ustep1( const Pile *c1, const CardList& c2);
+    static bool Dstep1( const Pile* c1, const CardList& c2);
+    static bool justOne( const Pile* c1, const CardList& c2);
 
-  cardPos* pile;
-  cardPos* target[4];
-  cardPos* centre;
-  cardPos* store[4];
-  Deck* deck;
+    Pile* pile;
+    Pile* target[4];
+    Pile* centre;
+    Pile* store[4];
+    Deck* deck;
 };
 
 #endif

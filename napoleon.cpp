@@ -20,158 +20,125 @@
 #include "napoleon.h"
 #include <qevent.h>
 #include <qpainter.h>
-#include "patience.h"
 #include "dealer.h"
 #include <klocale.h>
+#include <kmainwindow.h>
+#include <deck.h>
+#include <pile.h>
 
-Napoleon::Napoleon( QWidget* _parent, const char* _name )
-  : dealer( _parent, _name )
+Napoleon::Napoleon( KMainWindow* parent, const char* _name )
+  : Dealer( parent, _name )
 {
-  const int Store   = 1;
-  const int Store2  = 2;
-  const int Target  = 3;
-  const int Target2 = 4;
-  const int Centre  = 5;
-  const int Pile    = 6;
+    deck = new Deck( 0, this );
+    deck->move( 500, 290);
 
-  Card::setAddFlags( Pile, Card::Default );
-  Card::setRemoveFlags( Pile, Card::Default );
+    pile = new Pile( 1, this );
+    pile->move(400, 290);
 
-  Card::setAddFlags( Store, Card::Default );
-  Card::setRemoveFlags( Store, Card::Default );
-  Card::setAddFun( Store, &justOne );
+    for (int i = 0; i < 4; i++)
+    {
+        store[i] = new Pile( 2 + i, this );
+        store[i]->setAddFun( &justOne );
+        target[i] = new Pile( 6 + i, this);
+        target[i]->setRemoveFlags( Pile::disallow );
+        target[i]->setAddFun( &Ustep1 );
+    }
 
-  Card::setAddFlags( Store2, Card::plus90 );
-  Card::setRemoveFlags( Store2, Card::Default );
-  Card::setAddFun( Store2, &justOne );
+    centre = new Pile( 10, this );
+    centre->setRemoveFlags( Pile::disallow );
+    centre->setAddFun( &Dstep1 );
 
-  Card::setAddFlags( Target,  Card::plus45 );
-  Card::setRemoveFlags( Target, Card::disallow );
-  Card::setAddFun( Target, &Ustep1 );
+    store[0]->move( 160,  10);
+    store[1]->move( 270, 150);
+    store[2]->move( 160, 290);
+    store[3]->move(  50, 150);
+    target[0]->move(  70,  30);
+    target[1]->move( 250,  30);
+    target[2]->move( 250, 270);
+    target[3]->move(  70, 270);
+    centre->move(160, 150);
 
-  Card::setAddFlags( Target2, Card::minus45 );
-  Card::setRemoveFlags( Target2, Card::disallow );
-  Card::setAddFun( Target2, &Ustep1 );
-
-  Card::setAddFlags( Centre, Card::Default );
-  Card::setRemoveFlags( Centre, Card::disallow );
-  Card::setAddFun( Centre, &Dstep1 );
-
-  Card::setLegalMove( Store, Target );
-  Card::setLegalMove( Store, Target2 );
-  Card::setLegalMove( Store, Centre );
-
-  Card::setLegalMove( Store2, Target );
-  Card::setLegalMove( Store2, Target2 );
-  Card::setLegalMove( Store2, Centre );
-
-  Card::setLegalMove( Pile, Target );
-  Card::setLegalMove( Pile, Target2 );
-  Card::setLegalMove( Pile, Centre );
-  Card::setLegalMove( Pile, Store );
-  Card::setLegalMove( Pile, Store2 );
-
-  Card::setLegalMove( DeckType, Target );
-  Card::setLegalMove( DeckType, Target2 );
-  Card::setLegalMove( DeckType, Store );
-  Card::setLegalMove( DeckType, Store2 );
-  Card::setLegalMove( DeckType, Centre );
-  Card::setLegalMove( DeckType, Pile );
-
-  deck = new Deck( 500, 290, this );
-
-  // override standard Deck definitions
-  Card::setAddFlags( DeckType, Card::disallow );
-
-  pile = new cardPos( 400, 290, this, Pile );
-  Card::setSendBack( pile );
-
-  target[ 0 ] = new cardPos( 10,  10,  this, Target2 );
-  target[ 1 ] = new cardPos( 250, 10,  this, Target );
-  target[ 2 ] = new cardPos( 250, 268, this, Target2 );
-  target[ 3 ] = new cardPos( 10,  268, this, Target );
-
-  store[ 0 ] = new cardPos( 160, 10,  this, Store );
-  store[ 1 ] = new cardPos( 272, 167,  this, Store2 );
-  store[ 2 ] = new cardPos( 160, 290, this, Store );
-  store[ 3 ] = new cardPos( 10,  167,  this, Store2 );
-
-  centre = new cardPos( 160, 150, this, Centre );
-
-  // connect( deck, SIGNAL( nonMovableCardPressed( int ) ), SLOT( deal1() ) );
-  deal();
+    deal();
 }
 
 Napoleon::~Napoleon() {
-  delete deck;
-  delete pile;
-  delete centre;
 
-  for( int i=0; i<4; i++)
-    delete target[i];
+    delete pile;
+    delete centre;
 
-  for( int i=0; i<4; i++)
-    delete store[i];
+    for( int i=0; i<4; i++)
+        delete target[i];
+
+    for( int i=0; i<4; i++)
+        delete store[i];
+
+    delete deck;
 }
 
 void Napoleon::show() {
-  deck->show();
-  pile->show();
-  centre->show();
+    QWidget::show();
 
-  for( int i=0; i<4; i++)
-    target[i]->show();
+    deck->show();
+    pile->show();
+    centre->show();
 
-  for( int i=0; i<4; i++)
-    store[i]->show();
+    for( int i=0; i<4; i++)
+        target[i]->show();
+
+    for( int i=0; i<4; i++)
+        store[i]->show();
 }
 
 void Napoleon::restart() {
-  deck->collectAndShuffle();
-  deal();
+    deck->collectAndShuffle();
+    deal();
 }
 
-bool Napoleon::Ustep1( const Card* c1, const Card* c2) {
-  if (c1->Suit() == Card::Empty)
-    return c2->Value() == Card::Seven;
-  else
-    return (c2->Value() == c1->Value() + 1);
+bool Napoleon::Ustep1( const Pile* c1, const CardList& cl) {
+    Card *c2 = cl.first();
+
+    if (c1->isEmpty())
+        return c2->value() == Card::Seven;
+    else
+        return (c2->value() == c1->top()->value() + 1);
 }
 
-bool Napoleon::Dstep1( const Card* c1, const Card* c2) {
-  if (c1->Suit() == Card::Empty)
-    return c2->Value() == Card::Six;
+bool Napoleon::Dstep1( const Pile* c1, const CardList& cl) {
+    Card *c2 = cl.first();
 
-  if (c1->Value() == Card::Ace)
-    return (c2->Value() == Card::Six);
-  else
-    return (c2->Value() == c1->Value() - 1);
+    if (c1->isEmpty())
+        return c2->value() == Card::Six;
+
+    if (c1->top()->value() == Card::Ace)
+        return (c2->value() == Card::Six);
+    else
+        return (c2->value() == c1->top()->value() - 1);
 }
 
-
-bool Napoleon::justOne( const Card* c1, const Card* ) {
-  return (c1->Suit() == Card::Empty);
+bool Napoleon::justOne( const Pile* c1, const CardList& ) {
+    return (c1->isEmpty());
 }
 
 void Napoleon::deal() {
-  for (int i=0; i<4; i++)
-    store[i]->add(deck->getCard(), false, false);
+    for (int i=0; i<4; i++)
+        store[i]->add(deck->nextCard(), false, false);
+}
+
+void Napoleon::cardClicked(Card *c)
+{
+    if (c->source() == deck)
+        deal1();
 }
 
 void Napoleon::deal1() {
-  Card::dont_undo();
-  pile->add(deck->getCard(), false, false);
-}
-
-QSize Napoleon::sizeHint() const {
-  return QSize(600, 476);
+    pile->add(deck->nextCard(), false, false);
 }
 
 static class LocalDealerInfo3 : public DealerInfo
 {
 public:
     LocalDealerInfo3() : DealerInfo(I18N_NOOP("&Napoleon's Tomb"), 3) {}
-    virtual dealer *createGame(QWidget *parent) { return new Napoleon(parent); }
+    virtual Dealer *createGame(KMainWindow *parent) { return new Napoleon(parent); }
 } gfi;
 
 #include "napoleon.moc"
