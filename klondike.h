@@ -30,6 +30,8 @@
 #include <qcombobox.h>
 #include "dealer.h"
 
+class KlondikePile;
+
 class Klondike : public Dealer {
     Q_OBJECT
 
@@ -58,7 +60,7 @@ private:
     Pile* play[7];
     Pile* target[4];
 
-    Pile *pile;
+    KlondikePile *pile;
     Deck* deck;
     Card::Values lowest_card[2];
 };

@@ -31,6 +31,27 @@
 #include <assert.h>
 #include "cardmaps.h"
 
+class KlondikePile : public Pile
+{
+public:
+    KlondikePile( int _index, Dealer* parent)
+        : Pile(_index, parent) {}
+
+    void clearSpread() { cardlist.clear(); }
+
+    void addSpread(Card *c) {
+        cardlist.append(c);
+    }
+    virtual QSize cardOffset( bool _spread, bool, const Card *c) const {
+        kdDebug() << "cardOffset " << _spread << " " << (c? c->name() : "(null)") << endl;
+        if (cardlist.contains(const_cast<Card * const>(c)))
+            return QSize(+dspread(), 0);
+        return QSize(0, 0);
+    }
+private:
+    CardList cardlist;
+};
+
 Klondike::Klondike( bool easy, KMainWindow* parent, const char* _name )
   : Dealer( parent, _name )
 {
@@ -44,7 +65,8 @@ Klondike::Klondike( bool easy, KMainWindow* parent, const char* _name )
 
     EasyRules = easy;
 
-    pile = new Pile( 13, this);
+    pile = new KlondikePile( 13, this);
+
     pile->move(margin + cardMap::CARDX() + cardMap::CARDX() / 4, margin);
     // Move the visual representation of the pile to the intended position
     // on the game board.
@@ -172,17 +194,25 @@ void Klondike::deal3()
 {
     int draw;
 
-    if ( EasyRules) {
+    if ( EasyRules ) {
         draw = 1;
     } else {
         draw = 3;
     }
+
+    pile->clearSpread();
 
     if (deck->isEmpty())
     {
         redeal();
         return;
     }
+
+    // move the cards back on the deck, so we can have three new
+    for (int i = 0; i < pile->cardsLeft(); ++i) {
+        pile->at(i)->move(pile->x(), pile->y());
+    }
+
     for (int flipped = 0; flipped < draw ; ++flipped) {
 
         Card *item = deck->nextCard();
@@ -190,11 +220,13 @@ void Klondike::deal3()
             kdDebug(11111) << "deck empty!!!\n";
             return;
         }
-        pile->add(item, true, false); // facedown, nospread
+        pile->add(item, true, true); // facedown, nospread
+        if (flipped < draw - 1)
+            pile->addSpread(item);
         // move back to flip
         item->move(deck->x(), deck->y());
 
-        item->flipTo( int(pile->x()), int(pile->y()), 8 * (flipped + 1) );
+        item->flipTo( int(pile->x()) + pile->dspread() * (flipped), int(pile->y()), 8 * (flipped + 1) );
     }
 
 }
@@ -256,5 +288,13 @@ public:
     LocalDealerInfo0() : DealerInfo(I18N_NOOP("&Klondike"), 0) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Klondike(true, parent); }
 } ldi0;
+
+static class LocalDealerInfo14 : public DealerInfo
+{
+public:
+    LocalDealerInfo14() : DealerInfo(I18N_NOOP("&Klondike (draw 3)"), 14) {}
+    virtual Dealer *createGame(KMainWindow *parent) { return new Klondike(false, parent); }
+} ldi14;
+
 
 #include "klondike.moc"
