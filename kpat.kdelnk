@@ -1,7 +1,6 @@
 # KDE Config File 
 [KDE Desktop Entry]
 Name=Patience
-Name[br]=Habaskter
 Name[ca]=Paciència
 Name[da]=Kabale
 Name[es]=Solitario
@@ -21,7 +20,6 @@ Exec=kpat -caption "%c"
 Type=Application
 DocPath=kpat/index.html
 Comment=Several nice card games
-Comment[br]=Meur a c'hoari kartoù brav
 Comment[ca]=Diversos jocs de cartes
 Comment[cs]=Rùzné pìkné karetní hry
 Comment[da]=Adskillige sjove kortspil
