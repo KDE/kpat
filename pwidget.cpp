@@ -152,7 +152,7 @@ pWidget::pWidget()
 
     statusBar()->insertItem( "", 1, 0, true );
     
-    createGUI(QString::null, false);
+    createGUI();
     KAcceleratorManager::manage(menuBar());
 
     newGameType();
