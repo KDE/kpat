@@ -21,7 +21,9 @@ public:
   dealer( QWidget* parent = 0, const char* name = 0 );
   virtual ~dealer();
 
-  QSize sizeHint() const;
+  virtual QSize sizeHint() const;
+
+  virtual void repaintCards();
 
 public slots:
 

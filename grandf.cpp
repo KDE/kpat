@@ -21,6 +21,7 @@
 #include <qdialog.h>
 #include "grandf.h"
 #include <klocale.h>
+#include <kdebug.h>
 
 class CardBox : public QDialog {
 public:
@@ -96,60 +97,63 @@ void Grandf::hint() {
 }
 
 void Grandf::undo() {
-  Card::undoLastMove();
+    Card::undoLastMove();
 }
 
 void Grandf::show()  {
-  for(int i=0; i<4; i++)
-    target[i]->show();
+    QWidget::show();
+    for(int i=0; i<4; i++)
+        target[i]->show();
 
-  for(int i=0; i<7; i++)
-    store[i]->show();
+    for(int i=0; i<7; i++)
+        store[i]->show();
 
-  rb.show();
+    rb.show();
 }
 
-Grandf::Grandf( QWidget* parent, const char* name )
+Grandf::Grandf( QWidget* parent, const char *name )
   : dealer( parent, name ), rb( i18n( "Redeal" ), this )
 {
-  const int Store = 1;
-  const int Target = 2;
+    kdDebug() << "grandf\n";
 
-  //    Card::setSafeMove();
+    const int Store = 1;
+    const int Target = 2;
 
-  Card::setAddFlags(Store, Card::addSpread | Card::several);
-  Card::setRemoveFlags(Store, Card::several | Card::autoTurnTop);
-  Card::setAddFun(Store, &Sstep1);
+    //    Card::setSafeMove();
 
-  //    Card::setAddFlags(Target, Card::default);
-  Card::setRemoveFlags(Target, Card::disallow);
-  Card::setAddFun(Target, &step1);
+    Card::setAddFlags(Store, Card::addSpread | Card::several);
+    Card::setRemoveFlags(Store, Card::several | Card::autoTurnTop);
+    Card::setAddFun(Store, &Sstep1);
 
-  Card::setLegalMove(Store, Target);
-  Card::setLegalMove(Store, Store);
+    //    Card::setAddFlags(Target, Card::default);
+    Card::setRemoveFlags(Target, Card::disallow);
+    Card::setAddFun(Target, &step1);
 
-  deck = new Deck (-100, -100, this);
+    Card::setLegalMove(Store, Target);
+    Card::setLegalMove(Store, Store);
 
-  for(int i=0; i<4; i++)
-    target[i] = new cardPos(110+i*100, 10, this, Target);
+    deck = new Deck (-100, -100, this);
 
-  for(int i=0; i<7; i++)
-    store[i] = new cardPos(10+100*i, 150, this, Store);
+    for(int i=0; i<4; i++)
+        target[i] = new cardPos(110+i*100, 10, this, Target);
 
-  //    resize(1000,600);
+    for(int i=0; i<7; i++)
+        store[i] = new cardPos(10+100*i, 150, this, Store);
 
-  rb.move(10,40);
-  rb.adjustSize();
-  connect( &rb, SIGNAL( clicked()) , SLOT( redeal() ) );
+    //    resize(1000,600);
 
-  QPushButton* hb= new QPushButton(i18n("Hint"),this);
-  hb->move(10,80);
-  hb->adjustSize();
-  connect( hb, SIGNAL( clicked()) , SLOT( hint() ) );
-  hb->show();
+    rb.move(10,40);
+    rb.adjustSize();
+    connect( &rb, SIGNAL( clicked()) , SLOT( redeal() ) );
 
-  deal();
-  numberOfDeals = 1;
+    QPushButton* hb= new QPushButton(i18n("Hint"),this);
+    hb->move(10,80);
+    hb->adjustSize();
+    connect( hb, SIGNAL( clicked()) , SLOT( hint() ) );
+    hb->show();
+
+    deal();
+    numberOfDeals = 1;
 }
 
 Grandf::~Grandf() {

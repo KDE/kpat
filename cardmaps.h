@@ -21,32 +21,31 @@
 #ifndef P_HACK_CARDMAP
 #define P_HACK_CARDMAP
 
-class QPixmap;
-
+#include <qpixmap.h>
 #include <qobject.h>
 
-class cardMaps: public QObject
+class cardMap
 {
-  Q_OBJECT
-
 public:
 
-  cardMaps( QObject* _parent = 0 );
+    static cardMap *self();
 
-  static int CARDX;
-  static int CARDY;
+    static int CARDX;
+    static int CARDY;
 
-  static const int NumColors = 4;
-  static const int CardsPerColor = 13;
+    static const int NumColors = 4;
+    static const int CardsPerColor = 13;
 
-  QPixmap* image( int _value, int _suit ) const;
-  QPixmap* backSide();
-  void setBackSide( QPixmap* _pix );
+    QPixmap image( int _value, int _suit ) const;
+    QPixmap backSide() const;
+    void setBackSide( const QPixmap & _pix );
 
 private:
 
-  QPixmap* img[ CardsPerColor ][ NumColors ];
-  QPixmap* back;
+    cardMap();
+    QPixmap img[ CardsPerColor ][ NumColors ];
+    QPixmap back;
+    static cardMap *_self;
 };
 
 #endif

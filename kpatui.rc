@@ -1,24 +1,23 @@
 <!DOCTYPE kpartgui>
 <kpartgui name="standard_containers" version="1">
 <MenuBar>
-  <Menu name="file"><text>&amp;Game</text>
   <Menu name="game"><text>&amp;Game</text>
-    <Action name="game_new"/>
-    <Separator/>
-    <Action name="game_highscores"/>
-    <Action name="game_quit"/>
+    <Action name="restart_game"/>
+
+    <Action name="game_exit"/>
   </Menu>
   <Menu name="edit"><text>&amp;Edit</text>
-    <Action name="edit_undo"/>
-    <Action name="edit_redo"/>
+    <Action name="undo_move"/>
+    <Action name="game_type"/>
+    <Action name="backside"/>
+    <Action name="animation"/>
   </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar">
-  <Action name="file_new"/>
+  <Action name="restart_game"/>
   <Separator/>
-  <Action name="edit_undo"/>
-  <Action name="edit_redo"/>
-  <Action name="help"/>
+  <Action name="undo_move"/>
+  <Action name="help_contents"/>
 </ToolBar>
 <StatusBar/>
 </kpartgui>

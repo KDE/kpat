@@ -50,56 +50,59 @@
 pWidget::pWidget( const char* _name )
     : KMainWindow(0, _name)
 {
-  type = PT_NONE;
-  dill = 0;
+    type = PT_NONE;
+    dill = 0;
 
-  KStdAction::quit(kapp, SLOT(quit()), actionCollection(), "game_exit");
+    KStdAction::quit(kapp, SLOT(quit()), actionCollection(), "game_exit");
 
-  KStdAction::undo(this, SLOT(undoMove()),
-                   actionCollection(), "undo_move");
-  new KAction(i18n("&Restart game"), "restart_game",
-              Key_F3, this, SLOT(restart()),
-              actionCollection());
+    KStdAction::undo(this, SLOT(undoMove()),
+                     actionCollection(), "undo_move");
+    KAction *restart = KStdAction::openNew(this, SLOT(restart()),
+                                           actionCollection(), "restart_game");
+    restart->setText(i18n("&Restart game"));
 
-  games = new KSelectAction(i18n("&Choose New Game"), 0, this,
-                            SLOT(newGameType()),
-                            actionCollection(), "game_type");
-  QStringList list;
-  list.append( i18n( "&Klondike" ) );
-  list.append( i18n( "MicroSolitaire" ));
-  list.append( i18n( "Calculation" ));
-  list.append( i18n( "Napoleon's Tomb" ));
-  list.append( i18n( "The Idiot" ));
-  list.append( i18n( "Grandfather" ));
-  list.append( i18n( "Ten"));
-  list.append( i18n( "Mod3"));
-  list.append( i18n( "Freecell"));
-  games->setItems(list);
+    games = new KSelectAction(i18n("&Game Type"), 0, this,
+                              SLOT(newGameType()),
+                              actionCollection(), "game_type");
+    QStringList list;
+    list.append( i18n( "&Klondike" ) );
+    list.append( i18n( "MicroSolitaire" ));
+    list.append( i18n( "Calculation" ));
+    list.append( i18n( "Napoleon's Tomb" ));
+    list.append( i18n( "The Idiot" ));
+    list.append( i18n( "Grandfather" ));
+    list.append( i18n( "Ten"));
+    list.append( i18n( "Mod3"));
+    list.append( i18n( "Freecell"));
+    games->setItems(list);
 
-  backs = new KSelectAction(i18n("&Card backside"), 0, this,
-                            SLOT(changeBackside()),
-                            actionCollection(), "backside");
+    backs = new KSelectAction(i18n("&Card backside"), 0, this,
+                              SLOT(changeBackside()),
+                              actionCollection(), "backside");
 
-  list.clear();
-  list.append(i18n( "KDE" ));
-  list.append(i18n( "Classic blue" ));
-  list.append(i18n( "Classic red" ));
-  backs->setItems(list);
+    list.clear();
+    list.append(i18n( "KDE" ));
+    list.append(i18n( "Classic blue" ));
+    list.append(i18n( "Classic red" ));
+    list.append(i18n( "Technical" ));
+    backs->setItems(list);
 
-  animation = new KToggleAction(i18n( "&Animation on startup" ),
-                                0, this, SLOT(animationChanged()),
-                                actionCollection(), "animation");
+    animation = new KToggleAction(i18n( "&Animation on startup" ),
+                                  0, this, SLOT(animationChanged()),
+                                  actionCollection(), "animation");
 
 
-  KConfig *config = kapp->config();
-  KConfigGroupSaver cs(config, "General Settings" );
-  config->setGroup( "General Settings" );
-  int bg = config->readNumEntry( "Backside", 0 );
-  setBackSide( bg );
+    KConfig *config = kapp->config();
+    KConfigGroupSaver cs(config, settings_group );
+    config->setGroup( settings_group );
+    int bg = config->readNumEntry( "Backside", 0 );
+    setBackSide( bg );
 
-  bool animate = config->readBoolEntry( "Animation", true);
-  animation->setEnabled( animate );
+    bool animate = config->readBoolEntry( "Animation", true);
+    animation->setChecked( animate );
 
+    actionNewGame( PT_GRANDFATHER );
+    createGUI();
 }
 
 void pWidget::undoMove() {
@@ -108,89 +111,84 @@ void pWidget::undoMove() {
 }
 
 void pWidget::changeBackside() {
+    setBackSide(backs->currentItem());
 }
 
 void pWidget::animationChanged() {
     bool anim = animation->isChecked();
     KConfig *config = kapp->config();
-    KConfigGroupSaver cs(config, "General Settings" );
+    KConfigGroupSaver cs(config, settings_group );
     config->writeEntry( "Animation", anim);
 }
 
 void pWidget::newGameType() {
+    kdDebug() << "newGameType\n";
 }
 
 void pWidget::restart() {
-    if( dill )
-        dill->restart();
+    dill->restart();
 }
 
 void pWidget::actionNewGame(int _id )
 {
-  if( dill != 0 )
-  {
     delete dill;
     dill = 0;
-  }
 
-  switch( _id )
-  {
-  case PT_TEN:
-      dill = new Ten(this, i18n("Ten").ascii());
-      break;
+    switch( _id ) {
+    case PT_TEN:
+        dill = new Ten(this);
+        break;
 
-  case PT_MOD3:
-      dill = new Mod3(this, i18n("Mod3").ascii());
-      break;
+    case PT_MOD3:
+        dill = new Mod3(this);
+        break;
 
-  case PT_FREECELL:
-      dill = new Freecell(this, i18n("Freecell").ascii());
-      break;
+    case PT_FREECELL:
+        dill = new Freecell(this);
+        break;
 
-  case PT_GRANDFATHER:
-      dill = new Grandf(this, i18n("Grandfather").ascii());
-     break;
+    case PT_GRANDFATHER:
+        dill = new Grandf(this);
+        break;
 
-  case PT_KLONDIKE:
-      dill = new Klondike(this, i18n("Klondike").ascii());
-      break;
+    case PT_KLONDIKE:
+        dill = new Klondike(this);
+        break;
 
-  case PT_MSOLITAIRE:
-      dill = new MicroSolitaire(this, i18n("MicroSolitaire").ascii());
-      break;
+    case PT_MSOLITAIRE:
+        dill = new MicroSolitaire(this);
+        break;
 
-  case PT_COMPUTATION:
-      dill = new Computation(this, i18n("Calculation").ascii());
-      break;
+    case PT_COMPUTATION:
+        dill = new Computation(this);
+        break;
 
-  case PT_IDIOT:
-      dill = new Idiot(this, i18n("The Idiot").ascii());
-      break;
+    case PT_IDIOT:
+        dill = new Idiot(this);
+        break;
 
-  case PT_NAPOLEON:
-      dill = new Napoleon(this, i18n("Napoleons Tomb").ascii());
-      break;
+    case PT_NAPOLEON:
+        dill = new Napoleon(this);
+        break;
 
-  default:
-      kdFatal() << "unimplemented game type " << type << endl;
-      break;
-  }
+    default:
+        kdFatal() << "unimplemented game type " << type << endl;
+        break;
+    }
 
-  //dill->setFixedSize( dill->sizeHint() );
-  dill->resize( dill->sizeHint() );
-  dill->show();
-  setCentralWidget(dill);
+    dill->show();
+    setCentralWidget(dill);
 
-  setCaption( kapp->caption() );
+    setCaption( kapp->caption() );
 
-  setDefaultType();
+    setDefaultType();
 }
 
 void pWidget::setDefaultType()
 {
     if(type != PT_NONE) {
         KConfig *config = kapp->config();
-        KConfigGroupSaver kcs(config, "General Settings");
+        KConfigGroupSaver kcs(config, settings_group);
         config->writeEntry("DefaultGame", type);
     }
 }
@@ -198,41 +196,26 @@ void pWidget::setDefaultType()
 int pWidget::getDefaultType()
 {
     KConfig *config = kapp->config();
-    KConfigGroupSaver kcs(config, "General Settings");
+    KConfigGroupSaver kcs(config, settings_group);
     return config->readNumEntry("DefaultGame", PT_KLONDIKE);
 }
 
 void pWidget::setBackSide(int id)
 {
-     KConfig *config = kapp->config();
-     KConfigGroupSaver kcs(config, "General Settings");
-     if(cardmaps != 0) {
-         if(id == 0) {
-             cardmaps->setBackSide(0);
-             config->setGroup("General Settings");
-             config->writeEntry("Backside", 0);
-         } else {
-             QPixmap pm = BarIcon(QString("back%1").arg(id));
-             if(pm.width() > 0 && pm.height() > 0) {
-                 cardmaps->setBackSide(&pm);
-                 config->setGroup("General Settings");
-                 config->writeEntry("Backside", id);
-             } else
-                 KMessageBox::sorry(this,
-                                    i18n("Could not load background image!"));
-         }
-     }
+    KConfig *config = kapp->config();
+    KConfigGroupSaver kcs(config, settings_group);
+    QPixmap pm = BarIcon(QString("back%1").arg(id));
+    if(!pm.isNull()) {
+        cardMap::self()->setBackSide(pm);
+        config->writeEntry("Backside", id);
+    } else
+        KMessageBox::sorry(this,
+                           i18n("Could not load background image!"));
 
-     /* this hack is needed, update() is not enough
-     QObjectList *ol = queryList("basicCard");
-     QObjectListIt it( *ol );
-     while(it.current()) {
-         QWidget *w = (QWidget *)it.current();
-         ++it;
-         w->repaint(TRUE);
-     }
-     delete ol;
-     */
+    backs->setCurrentItem(id);
+    if (dill)
+        dill->repaintCards();
+
 }
 
 #include "pwidget.moc"
