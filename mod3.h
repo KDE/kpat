@@ -39,7 +39,6 @@ public slots:
     void deckClicked(Card *c);
 
 protected:
-    virtual bool startAutoDrop() { return false; }
     virtual Card *demoNewCards();
 
 private: // functions

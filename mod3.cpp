@@ -39,13 +39,16 @@ Mod3::Mod3( KMainWindow* parent, const char* _name)
     deck->move(8 + dist_x * 8 + 20, 8 + dist_y * 3 + margin);
     connect(deck, SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
 
-    aces = new Pile(40, this);
-    aces->hide();
+    aces = new Pile(50, this);
+    aces->move(16 + dist_x * 8, 8 + dist_y / 2);
+    // aces->hide();
     aces->setTarget(true);
+    aces->setCheckIndex(2);
+    aces->setAddFlags(Pile::addSpread | Pile::several);
 
     for( int r = 0; r < 4; r++ ) {
         for( int c = 0; c < 8; c++ ) {
-            stack[ r ][ c ] = new Pile ( r * 8 + c  + 1, this );
+            stack[ r ][ c ] = new Pile ( r * 10 + c  + 1, this );
             stack[r][c]->move( 8 + dist_x * c, 8 + dist_y * r + margin * ( r == 3 ));
             if( r < 3 ) {
                 stack[r][c]->setCheckIndex( 0 );
@@ -65,24 +68,33 @@ Mod3::Mod3( KMainWindow* parent, const char* _name)
 
 bool Mod3::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
 {
+    // kdDebug() << "checkAdd " << checkIndex << " " << c1->top()->name() << " " << c1->index() << " " << c1->index() / 10 << endl;
     if (checkIndex == 0) {
         Card *c2 = cl.first();
 
         if (c1->isEmpty())
-            return (c2->value() == (c1->index()+1));
+            return (c2->value() == ( ( c1->index() / 10 ) + 2 ) );
+
+        kdDebug() << "not empty\n";
 
         if (c1->top()->suit() != c2->suit())
             return false;
 
+        kdDebug() << "same suit\n";
         if (c2->value() != (c1->top()->value()+3))
             return false;
 
+        kdDebug() << "+3 " << c1->cardsLeft() << " " << c1->top()->value() << " " << c1->index()+1 << endl;
         if (c1->cardsLeft() == 1)
-            return (c1->top()->value() == (c1->index()+1));
+            return (c1->top()->value() == ((c1->index() / 10) + 2));
+
+        kdDebug() << "+1\n";
 
         return true;
     } else if (checkIndex == 1) {
         return c1->isEmpty();
+    } else if (checkIndex == 2) {
+        return cl.first()->value() == Card::Ace;
     } else return false;
 }
 
@@ -132,11 +144,12 @@ void Mod3::deal()
 {
     unmarkAll();
     CardList list = deck->cards();
-    for (CardList::Iterator it = list.begin(); it != list.end(); ++it)
+/*    for (CardList::Iterator it = list.begin(); it != list.end(); ++it)
         if ((*it)->value() == Card::Ace) {
             aces->add(*it);
             (*it)->hide();
         }
+*/
     kdDebug(11111) << "init " << aces->cardsLeft() << " " << deck->cardsLeft() << endl;
 
     for (int r = 0; r < 4; r++)
@@ -152,89 +165,89 @@ Card *Mod3::demoNewCards()
 }
 
 bool Mod3::isGameLost() const {
-	int n,r,c;
+    int n,r,c;
     kdDebug(11111) << "isGameLost ?"<< endl;
 
-	bool nextTest=false;
-	for(n=0; n <24; n++){
-		r=n/8;
-		c= n %8;
-		if(stack[r][c]->isEmpty()){
-			nextTest=true;
-			break;
-			}
-		if(stack[r][c]->at(0)->value() == (Card::Two +r)){
-			nextTest=true;
-			break;
-			}
-		}
-	if(!nextTest)
-		return true;
+    bool nextTest=false;
+    for(n=0; n <24; n++){
+        r=n/8;
+        c= n %8;
+        if(stack[r][c]->isEmpty()){
+            nextTest=true;
+            break;
+        }
+        if(stack[r][c]->at(0)->value() == (Card::Two +r)){
+            nextTest=true;
+            break;
+        }
+    }
+    if(!nextTest)
+        return true;
 
-	if(!deck->isEmpty())
-		 return false;
+    if(!deck->isEmpty())
+        return false;
 
-	for(c=0; c < 8; c++){
-		if(stack[3][c]->isEmpty())
-			return false;
-		}
+    for(c=0; c < 8; c++){
+        if(stack[3][c]->isEmpty())
+            return false;
+    }
 
-	int n2,r2,c2,c3;
-	Card *ctop, *card;
+    int n2,r2,c2,c3;
+    Card *ctop, *card;
 
-	for(n=0; n < 24; n++){
-		r=n / 8;
-		c=n % 8;
-		if(stack[r][c]->isEmpty()){
-			for(c3=0; c3 < 8; c3++){
-				if(stack[3][c3]->top()->value()==(Card::Two+r))
-					return false;
-				}
-			for(n2=0; n2 < 16;n2++){
-				r2=(r+1+(n2 / 8)) % 3;
-				c2=n2 % 8;
+    for(n=0; n < 24; n++){
+        r=n / 8;
+        c=n % 8;
+        if(stack[r][c]->isEmpty()){
+            for(c3=0; c3 < 8; c3++){
+                if(stack[3][c3]->top()->value()==(Card::Two+r))
+                    return false;
+            }
+            for(n2=0; n2 < 16;n2++){
+                r2=(r+1+(n2 / 8)) % 3;
+                c2=n2 % 8;
 
-				if(stack[r2][c2]->isEmpty())
-					continue;
-				if(stack[r2][c2]->top()->value()==(Card::Two+r))
-					return false;
-				}
-			}
-		else{
-			ctop=stack[r][c]->top();
-    kdDebug(11111) << "considering ["<<r<<"]["<<c<<"] " << ctop->name() << flush;
+                if(stack[r2][c2]->isEmpty())
+                    continue;
+                if(stack[r2][c2]->top()->value()==(Card::Two+r))
+                    return false;
+            }
+        }
+        else{
+            ctop=stack[r][c]->top();
+            kdDebug(11111) << "considering ["<<r<<"]["<<c<<"] " << ctop->name() << flush;
 
-			if(stack[r][c]->at(0)->value() !=(Card::Two+r))
-				continue;
+            if(stack[r][c]->at(0)->value() !=(Card::Two+r))
+                continue;
 
 
-			for(c3=0; c3 < 8; c3++){
-				card=stack[3][c3]->top();
-				if(card->suit() == ctop->suit() && card->value() == ctop->value()+3)
-					return false;
-				}
-		kdDebug(11111) <<" cant stack from bottom row" << flush;
+            for(c3=0; c3 < 8; c3++){
+                card=stack[3][c3]->top();
+                if(card->suit() == ctop->suit() && card->value() == ctop->value()+3)
+                    return false;
+            }
+            kdDebug(11111) <<" cant stack from bottom row" << flush;
 
-			for(int n_2=1;n_2 < 24; n_2++){
-				n2=(n+n_2) % 24;
-				r2= n2 / 8;
-				c2= n2 % 8;
+            for(int n_2=1;n_2 < 24; n_2++){
+                n2=(n+n_2) % 24;
+                r2= n2 / 8;
+                c2= n2 % 8;
 
-				if(stack[r2][c2]->isEmpty())
-					continue;
+                if(stack[r2][c2]->isEmpty())
+                    continue;
 
-				card=stack[r2][c2]->top();
+                card=stack[r2][c2]->top();
 
-				if(stack[r2][c2]->indexOf(card) != 0)
-					continue;
+                if(stack[r2][c2]->indexOf(card) != 0)
+                    continue;
 
-				if(card->suit() == ctop->suit() && card->value() == ctop->value()+3)
-					return false;
-				}
-			}
-		}
+                if(card->suit() == ctop->suit() && card->value() == ctop->value()+3)
+                    return false;
+            }
+        }
+    }
 
-	return true;
+    return true;
 }
 
 static class LocalDealerInfo5 : public DealerInfo
