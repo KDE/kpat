@@ -547,6 +547,8 @@ bool Dealer::cardDblClicked(Card *c)
             CardList empty;
             empty.append(c);
             c->source()->moveCards(empty, tgt);
+            ++moves;
+            emit setMoves( moves );
             canvas()->update();
             return true;
         }
