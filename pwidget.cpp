@@ -128,6 +128,7 @@ pWidget::pWidget()
     dropaction = new KToggleAction(i18n("&Enable Autodrop"),
                                    0, this, SLOT(enableAutoDrop()),
                                    actionCollection(), "enable_autodrop");
+    dropaction->setCheckedState(i18n("Disable Autodrop"));
 
     KConfig *config = kapp->config();
     KConfigGroupSaver cs(config, settings_group );
