@@ -29,7 +29,7 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>21/10/2000</date>
+<date>25/11/2000</date>
 <releaseinfo>0.07.04</releaseinfo>
 <abstract>
 
@@ -255,16 +255,6 @@ commands</para>
 <varlistentry>
 <term><menuchoice>
 <shortcut>
-<keycombo><keycap>Ctrl</keycap><keycap>N</keycap></keycombo>
-</shortcut>
-<guimenu>File</guimenu><guimenuitem>Restart Game</guimenuitem></menuchoice></term>
-<listitem>
-<para>Aborts the current game, and deals another hand.</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><menuchoice>
-<shortcut>
 <keycombo><keycap>Ctrl</keycap><keycap>Q</keycap></keycombo>
 </shortcut>
 <guimenu>File</guimenu><guimenuitem>Quit</guimenuitem></menuchoice></term>
@@ -277,27 +267,42 @@ Selecting this item will end your current game, and exit the &kapp;.
 </variablelist>
 </sect1>
 
-<sect1 id="edit-menu"><title>Edit Menu</title>
+<sect1 id="game-menu"><title>Game Menu</title>
 <para>The edit menus are used to change options or to switch to a different
  game.</para>
 
 <variablelist>
+
 <varlistentry>
 <term><menuchoice>
-<guimenu>Edit</guimenu><guimenuitem>Undo</guimenuitem></menuchoice></term>
+<guimenu>Game</guimenu><guimenuitem>Undo</guimenuitem></menuchoice></term>
 <listitem>
 <para>Reverses the last move.  This can be used if you notice you made a mistake
 on the last move.</para></listitem>
 </varlistentry>
 <varlistentry>
 <term><menuchoice>
-<guimenu>Edit</guimenu><guimenuitem>Game Type</guimenuitem></menuchoice></term>
+<shortcut>
+<keycombo><keycap>Ctrl</keycap><keycap>R</keycap></keycombo>
+</shortcut>
+<guimenu>Game</guimenu><guimenuitem>Restart Game</guimenuitem></menuchoice></term>
+<listitem>
+<para>Aborts the current game, and deals another hand.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Game</guimenu><guimenuitem>Choose New Game</guimenuitem></menuchoice></term>
 <listitem>
 <para>Selecting this option provides you with a submenu listing the 9 available
 games.  Simply select the game you want, and &kapp; will stop the current game,
 and deal a new hand in the new game type.</para>
 </listitem>
 </varlistentry>
+</variablelist>
+</sect1>
+<sect1 id="settings-menu"><title>Settings Menu</title> 
+<variablelist>
 <varlistentry>
 <term><menuchoice>
 <guimenu>Edit</guimenu><guimenuitem>Card Backside</guimenuitem></menuchoice></term>
@@ -309,7 +314,7 @@ Lets you choose a new pattern for the backs of the cards.
 </varlistentry>
 <varlistentry>
 <term><menuchoice>
-<guimenu>Edit</guimenu><guimenuitem>Animation Startup.</guimenuitem></menuchoice></term>
+<guimenu>Edit</guimenu><guimenuitem>Animation on Startup.</guimenuitem></menuchoice></term>
 <listitem>
 <para>If there is a checkmark in front of this option, when you first start
 &kapp;, there is a short animation and title page which appears.  To disable
