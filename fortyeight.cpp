@@ -14,7 +14,7 @@ HorLeftPile::HorLeftPile( int _index, Dealer* parent)
 QSize HorLeftPile::cardOffset( bool _spread, bool, const Card *) const
 {
     if (_spread)
-        return QSize(-Pile::DSPREAD, 0);
+        return QSize(-Pile::HSPREAD, 0);
 
     return QSize(0, 0);
 }
@@ -46,7 +46,7 @@ Fortyeight::Fortyeight( KMainWindow* parent, const char* name)
 
     }
 
-    deal();
+    setActions(Dealer::Hint | Dealer::Demo);
 }
 
 //-------------------------------------------------------------------------//
@@ -85,8 +85,6 @@ bool Fortyeight::CanPutStack(const Pile *c1, const CardList &c2) const
     if (c1->isEmpty())
         return true;
 
-    kdDebug() << "canputstack " << c1->top()->name() << " " << c->name() << endl;
-
     // ok if in sequence, same suit
     return (c1->top()->suit() == c->suit())
           && (c1->top()->value() == (c->value()+1));
@@ -102,6 +100,55 @@ bool Fortyeight::CanPutTarget(const Pile *c1, const CardList &c2) const
     // ok if in sequence, alternate colors
     return ((c1->top()->value()+1) == c->value())
             && (c1->top()->suit() == c->suit());
+}
+
+void Fortyeight::getHints()
+{
+    CardList empty;
+    CardList candidates;
+    if (pile->top()) {
+        candidates.append(pile->top());
+    }
+    for (int i = 0; i < 8; i++) {
+        if (stack[i]->top())
+            candidates.append(stack[i]->top());
+    }
+    for (CardList::Iterator it = candidates.begin(); it != candidates.end(); ++it)
+    {
+        empty.clear();
+        empty.append(*it);
+        for (int i = 0; i < 8; i++) {
+            if (CanPutTarget(target[i], empty)) {
+                newHint(new MoveHint(*it, target[i]));
+                continue;
+            }
+            if (!CanPutStack(stack[i], empty))
+                continue;
+
+            if ((*it)->source() != pile) {
+
+                if ((*it)->source()->cardsLeft() == 1)
+                    continue;
+
+                Card *c1 = (*it)->source()->at((*it)->source()->indexOf(*it)-1);
+
+                bool perfect =  (c1->suit() == (*it)->suit()
+                                 && (c1->value() == ((*it)->value()+1)));
+
+                if (perfect)
+                    continue;
+            }
+            newHint(new MoveHint(*it, stack[i]));
+        }
+    }
+}
+
+Card *Fortyeight::demoNewCards()
+{
+    if (deck->isEmpty() && lastdeal)
+        return 0;
+    deckClicked(0);
+    return pile->top();
 }
 
 bool Fortyeight::checkAdd(int index, const Pile *c1, const CardList &c2) const

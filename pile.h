@@ -3,6 +3,8 @@
 
 #include <qlabel.h>
 #include "card.h"
+#include <kpixmap.h>
+
 class Dealer;
 
 /***************************************
@@ -79,8 +81,11 @@ public:
 
     virtual QSize cardOffset( bool _spread, bool _facedown, const Card *before) const;
 
+    void resetCache();
+
     static int SPREAD;
     static int DSPREAD;
+    static int HSPREAD;
 
 public slots:
     virtual void cardClicked(Card *c);
@@ -101,6 +106,7 @@ private:
     Dealer *_dealer;
     int myIndex;
     bool _target;
+    KPixmap cache, cache_selected;
 };
 
 typedef QValueList<Pile*> PileList;

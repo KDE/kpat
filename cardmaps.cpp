@@ -47,12 +47,18 @@
 #include <qimage.h>
 #include <kimageeffect.h>
 #include <kcarddialog.h>
+#include <assert.h>
 
 int cardMap::CARDX = 72;
 int cardMap::CARDY = 96;
 
-cardMap::cardMap( )
+cardMap *cardMap::_self = 0;
+static KStaticDeleter<cardMap> cms;
+
+cardMap::cardMap(const QColor &dim) : dimcolor(dim)
 {
+    assert(!_self);
+
     kdDebug() << "cardMap\n";
     KConfig *config = kapp->config();
     KConfigGroupSaver cs(config, settings_group );
@@ -63,6 +69,7 @@ cardMap::cardMap( )
     QString dir = config->readEntry("Cards",  KCardDialog::getRandomCardDir());
     setCardDir( dir );
 
+    _self = cms.setObject(this);
 //    kdDebug() << "card " << CARDX << " " << CARDY << endl;
 }
 
@@ -137,7 +144,7 @@ void cardMap::setCardDir( const QString &dir)
             kdFatal() << "cannot load card pixmap \"" << imgname << "\" in (" << idx << ") " << dir << "\n";
 
         img[rank][suit].normal.convertFromImage(image);
-        KImageEffect::fade(image, 0.4, Qt::darkGreen);
+        KImageEffect::fade(image, 0.4, dimcolor);
         img[rank][suit].inverted.convertFromImage(image);
 
         if( animate )
@@ -206,12 +213,8 @@ QPixmap cardMap::image( Card::Values _value, Card::Suits _suit, bool inverted) c
     return 0;
 }
 
-cardMap *cardMap::_self = 0;
-static KStaticDeleter<cardMap> cs;
-
 cardMap *cardMap::self() {
-    if( !_self )
-        _self = cs.setObject(new cardMap); //   The pictures...
+    assert(_self);
     return _self;
 }
 

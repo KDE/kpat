@@ -27,6 +27,9 @@ public slots:
 protected:
     virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
 
+    virtual void getHints();
+    virtual Card *demoNewCards();
+
     bool CanPutStack(const Pile *c1, const CardList& c2) const;
     bool CanPutTarget(const Pile *c1, const CardList& c2) const;
 

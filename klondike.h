@@ -30,17 +30,11 @@
 #include <qcombobox.h>
 #include "dealer.h"
 
-class KAction;
-
 class Klondike : public Dealer {
     Q_OBJECT
 
 public:
     Klondike( bool easy, KMainWindow* parent=0, const char* name=0);
-
-public slots:
-    void changeDiffLevel(int lvl);
-    void hint();
 
 public:
     virtual void restart();
@@ -54,7 +48,9 @@ public:
 
     virtual void cardClicked(Card *);
     virtual void pileClicked(Pile *c);
-    virtual void cardDblClicked(Card *);
+    virtual void getHints();
+
+    virtual Card *demoNewCards();
 
     bool tryToDrop(Card *t);
 
@@ -70,7 +66,6 @@ private:
     Pile *pile;
     Deck* deck;
     Card::Values lowest_card[2];
-    KAction *ahint;
 };
 
 #endif

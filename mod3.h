@@ -25,20 +25,22 @@
 
 #include "dealer.h"
 
-class KAction;
-
 class Mod3 : public Dealer
 {
     Q_OBJECT
 
 public:
     Mod3( KMainWindow* parent=0, const char* name=0);
+    void deal();
+    virtual void restart();
 
 public slots:
     void redeal();
-    void deal();
-    virtual void restart();
-    void hint();
+
+protected:
+    virtual void getHints();
+    virtual bool startAutoDrop() { return false; }
+    virtual Card *demoNewCards();
 
 private: // functions
     virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
@@ -48,8 +50,6 @@ private:
     Pile* stack[4][8];
     Pile* aces;
     Deck* deck;
-    KAction *ahint;
-    KAction *aredeal;
 };
 
 #endif

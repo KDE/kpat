@@ -30,17 +30,19 @@ class Idiot: public Dealer
 public:
 
     Idiot( KMainWindow* parent = 0, const char* name = 0 );
+    virtual bool isGameWon() const;
 
 protected:
     virtual void cardClicked(Card *);
+    virtual void cardDblClicked(Card *);
+    virtual void getHints();
+    virtual Card *demoNewCards();
+    virtual bool startAutoDrop() { return false; }
 
 public slots:
 
     virtual void restart();
     void deal();
-
-protected slots:
-    void autoPlay();
 
 private:
     bool canMoveAway(Card *c);
@@ -51,5 +53,3 @@ private:
 };
 
 #endif
-
-

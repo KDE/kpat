@@ -1,0 +1,29 @@
+#ifndef SIMON_H
+#define SIMON_H
+
+#include "dealer.h"
+#include "card.h"
+
+class Simon : public Dealer {
+    Q_OBJECT
+
+public:
+    Simon( KMainWindow* parent=0, const char* name=0);
+
+public slots:
+    void deal();
+    virtual void restart();
+
+protected:
+    virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
+    virtual bool checkRemove( int checkIndex, const Pile *c1, const Card *c) const;
+
+    virtual Card *demoNewCards();
+
+private:
+    Pile* store[10];
+    Pile* target[4];
+    Deck *deck;
+};
+
+#endif

@@ -38,6 +38,10 @@
 #include "cardmaps.h"
 #include <kcarddialog.h>
 #include <qinputdialog.h>
+#include <kstddirs.h>
+#include <kfiledialog.h>
+#include <ktempfile.h>
+#include <kio/netaccess.h>
 
 pWidget::pWidget( const char* _name )
     : KMainWindow(0, _name), dill(0)
@@ -49,6 +53,10 @@ pWidget::pWidget( const char* _name )
     undo->setEnabled(false);
     (void)KStdAction::openNew(this, SLOT(newGame()),
                               actionCollection(), "new_game");
+    (void)KStdAction::open(this, SLOT(openGame()),
+                           actionCollection(), "open");
+    (void)KStdAction::saveAs(this, SLOT(saveGame()),
+                           actionCollection(), "save");
     (void)new KAction(i18n("&Choose game..."), 0, this, SLOT(chooseGame()),
                       actionCollection(), "choose_game");
     (void)new KAction(i18n("&Restart game"), QString::fromLatin1("reload"), 0,
@@ -77,7 +85,21 @@ pWidget::pWidget( const char* _name )
             max_type = index;
     }
     games->setItems(list);
-    (void)cardMap::self(); // load the cards
+
+    KGlobal::dirs()->addResourceType("wallpaper", KStandardDirs::kde_default("data") + "ksnake/backgrounds/");
+    wallpapers = new KSelectAction(i18n("&Change Background"), 0, this,
+                              SLOT(changeWallpaper()),
+                              actionCollection(), "wallpaper");
+    list.clear();
+    wallpaperlist = KGlobal::dirs()->findAllResources("wallpaper", "*.jpg", false, true, list);
+    for (QStringList::Iterator it = list.begin(); it != list.end(); ++it)
+        *it = (*it).left((*it).length() - 4);
+    wallpapers->setItems(list);
+    wallpapers->setCurrentItem(list.findIndex("Totally-New-Product-1"));
+
+    changeWallpaper();
+
+    (void)new cardMap(midcolor);
 
     backs = new KAction(i18n("&Switch Cards..."), 0, this,
                         SLOT(changeBackside()),
@@ -130,6 +152,39 @@ void pWidget::changeBackside() {
     }
 }
 
+void pWidget::changeWallpaper()
+{
+    background = QPixmap(locate("wallpaper", wallpaperlist[wallpapers->currentItem()]));
+    QImage bg = background.convertToImage().convertDepth(8, 0);
+    long r = 0;
+    long g = 0;
+    long b = 0;
+    for (int i = 0; i < bg.numColors(); ++i)
+    {
+        QRgb rgb = bg.color(i);
+        r += qRed(rgb);
+        g += qGreen(rgb);
+        b += qBlue(rgb);
+    }
+    r /= bg.numColors();
+    b /= bg.numColors();
+    g /= bg.numColors();
+    midcolor = QColor(r, b, g);
+
+    if (dill) {
+        KConfig *config = kapp->config();
+        KConfigGroupSaver kcs(config, settings_group);
+
+        QString deck = config->readEntry("Back");
+        QString dummy = config->readEntry("Cards");
+        setBackSide(deck, dummy);
+
+        dill->setBackgroundPixmap(background, midcolor);
+        dill->canvas()->setAllChanged();
+        dill->canvas()->update();
+    }
+}
+
 void pWidget::animationChanged() {
     bool anim = animation->isChecked();
     KConfig *config = kapp->config();
@@ -156,12 +211,16 @@ void pWidget::newGameType()
     for (QValueList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin(); it != DealerInfoList::self()->games().end(); ++it) {
         if ((*it)->gameindex == id) {
             dill = (*it)->createGame(this);
+            dill->setGameId(id);
+            dill->setupActions();
+            dill->setBackgroundPixmap(background, midcolor);
+            dill->startNew();
             break;
         }
     }
 
     connect(dill, SIGNAL(undoPossible(bool)), SLOT(undoPossible(bool)));
-    connect(dill, SIGNAL(gameWon()), SLOT(gameWon()));
+    connect(dill, SIGNAL(gameWon(bool)), SLOT(gameWon(bool)));
 
     // it's a bit tricky - we have to do this here as the
     // base class constructor runs before the derived class's
@@ -234,10 +293,40 @@ void pWidget::chooseGame()
     }
 }
 
-void pWidget::gameWon()
+void pWidget::gameWon(bool withhelp)
 {
-    KMessageBox::information(this, i18n("Congratulation! You've won!"), i18n("Congratulation!"));
+    QString congrats;
+    if (withhelp)
+        congrats = i18n("Congratulation! We've won!");
+    else
+        congrats = i18n("Congratulation! You've won!");
+    KMessageBox::information(this, congrats, i18n("Congratulation!"));
     newGame();
+}
+
+
+void pWidget::openGame()
+{
+    KURL url = KFileDialog::getOpenURL();
+    QString tmpFile;
+    if( KIO::NetAccess::download( url, tmpFile ) )
+    {
+        QFile of(tmpFile);
+        of.open(IO_ReadOnly);
+        QDataStream is(&of);
+        dill->openGame(is);
+        KIO::NetAccess::removeTempFile( tmpFile );
+    }
+}
+
+void pWidget::saveGame()
+{
+    KURL url = KFileDialog::getSaveURL();
+    KTempFile file;
+    QDataStream *stream = file.dataStream();
+    dill->saveGame(*stream);
+    file.close();
+    KIO::NetAccess::upload(file.name(), url);
 }
 
 #include "pwidget.moc"

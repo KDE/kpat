@@ -45,18 +45,26 @@ protected slots:
     void animationChanged();
     void newGameType();
     void restart();
+
+    void openGame();
+    void saveGame();
+
     void newGame();
     void chooseGame();
     void undoPossible(bool poss);
-    void gameWon();
+    void gameWon(bool withhelp);
+    void changeWallpaper();
 
 private:
     void setBackSide(const QString &deck, const QString &dir);
 
     Dealer* dill;
-    KSelectAction *games;
+    KSelectAction *games, *wallpapers;
     KAction *backs, *undo;
     KToggleAction *animation;
+    QPixmap background;
+    QColor midcolor;
+    QStringList wallpaperlist;
 };
 
 #endif

@@ -52,47 +52,39 @@ Mod3::Mod3( KMainWindow* parent, const char* _name)
                 stack[r][c]->setCheckIndex( 0 );
                 stack[r][c]->setLegalMove(moves);
                 stack[r][c]->setTarget(true);
-            } else
+            } else {
                 stack[r][c]->setAddFlags( Pile::addSpread );
+                stack[r][c]->setCheckIndex( 1 );
+            }
         }
     }
 
-    QList<KAction> actions;
-    ahint = new KAction( i18n("&Hint"), QString::fromLatin1("wizard"), 0, this,
-                         SLOT(hint()),
-                         parent->actionCollection(), "game_hint");
-    aredeal = new KAction (i18n("&Redeal"), QString::fromLatin1("queue"), 0, this,
-                           SLOT(redeal()),
-                           parent->actionCollection(), "game_redeal");
-    actions.append(ahint);
-    actions.append(aredeal);
-    parent->guiFactory()->plugActionList( parent, QString::fromLatin1("game_actions"), actions);
-
-    deal();
+    setActions(Dealer::Hint | Dealer::Redeal | Dealer::Demo );
 }
 
 //-------------------------------------------------------------------------//
 
 bool Mod3::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
 {
-    if (checkIndex != 0)
-        return false;
+    if (checkIndex == 0) {
+        Card *c2 = cl.first();
 
-    Card *c2 = cl.first();
+        if (c1->isEmpty())
+            return (c2->value() == (c1->index()+1));
 
-    if (c1->isEmpty())
-        return (c2->value() == (c1->index()+1));
+        if (c1->top()->suit() != c2->suit())
+            return false;
 
-    if (c1->top()->suit() != c2->suit())
-        return false;
+        if (c2->value() != (c1->top()->value()+3))
+            return false;
 
-    if (c2->value() != (c1->top()->value()+3))
-        return false;
+        if (c1->cardsLeft() == 1)
+            return (c1->top()->value() == (c1->index()+1));
 
-    if (c1->cardsLeft() == 1)
-        return (c1->top()->value() == (c1->index()+1));
-
-    return true;
+        return true;
+    } else if (checkIndex == 1) {
+        return c1->isEmpty();
+    } else return false;
 }
 
 //-------------------------------------------------------------------------//
@@ -107,6 +99,9 @@ void Mod3::restart()
 
 void Mod3::dealRow(int row)
 {
+    if (deck->isEmpty())
+        return;
+
     for (int c = 0; c < 8; c++)
     {
         Card *card;
@@ -149,7 +144,15 @@ void Mod3::deal()
     aredeal->setEnabled(true);
 }
 
-void Mod3::hint()
+Card *Mod3::demoNewCards()
+{
+   if (deck->isEmpty())
+       return 0;
+   redeal();
+   return stack[3][0]->top();
+}
+
+void Mod3::getHints()
 {
     unmarkAll();
 
@@ -187,11 +190,25 @@ void Mod3::hint()
                             markit = false;
                     }
                     if (markit)
-                        mark(empty.first());
+                        newHint(new MoveHint(empty.first(), *it));
                 }
             }
         }
     }
+
+    Pile *theempty = 0;
+
+    for (int i = 0; i < 8; ++i)
+    {
+        if (stack[3][i]->isEmpty()) {
+            theempty = stack[3][i];
+            break;
+        }
+    }
+    if (theempty)
+        for (int i = 0; i < 8; ++i)
+            if (stack[3][i]->cardsLeft() > 1)
+                newHint(new MoveHint(stack[3][i]->top(), theempty));
 }
 
 static class LocalDealerInfo5 : public DealerInfo

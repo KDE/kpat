@@ -7,6 +7,7 @@
 #include <qdrawutil.h>
 #include <kapp.h>
 #include <assert.h>
+#include <kpixmap.h>
 
 const int Pile::Default       = 0x0000;
 const int Pile::disallow      = 0x0001;
@@ -21,6 +22,7 @@ const int Pile::wholeColumn   = 0x0400;
 
 int Pile::SPREAD = 20;
 int Pile::DSPREAD = 5;
+int Pile::HSPREAD = 9;
 
 Card *Pile::top() const
 {
@@ -59,62 +61,57 @@ Pile::~Pile()
     }
 }
 
-static QColorGroup colgrp( Qt::black, Qt::white, Qt::darkGreen.light(),
-                           Qt::darkGreen.dark(), Qt::darkGreen, Qt::black,
-                           Qt::white );
+void Pile::resetCache()
+{
+    cache.resize(0, 0);
+    cache_selected.resize(0, 0);
+}
 
 void Pile::drawShape ( QPainter & painter )
 {
-    QColor green = Qt::darkGreen.dark();
     if (selected()) {
-        green = green.light(300);
+        if (cache.isNull())
+            dealer()->drawPile(cache, this, false);
+        painter.drawPixmap(int(x()), int(y()), cache);
+    } else {
+        if (cache_selected.isNull())
+            dealer()->drawPile(cache_selected, this, true);
+        painter.drawPixmap(int(x()), int(y()), cache_selected);
     }
-    painter.fillRect( int(x()), int(y()), width(), height(), green);         // initialize pixmap
-    kapp->style().drawPanel( &painter, int(x()), int(y()), cardMap::CARDX, cardMap::CARDY, colgrp, true );
 }
 
 bool Pile::legalAdd( const CardList& _card ) const
 {
     if( addFlags & disallow ) {
-        kdDebug() << "no adding allowed\n";
         return false;
     }
 
     if (!legalMoves.isEmpty() && !legalMoves.contains(_card.first()->source()->index()))
     {
-        kdDebug() << "illegal source: " << _card.first()->source()->index() << "  "
-                  << legalMoves.count() << endl;
         return false;
     }
 
     if( !( addFlags & several ) &&
         _card.count() > 1 )
     {
-        kdDebug() << "several not allowed\n";
         return false;
     }
 
     bool result = dealer()->checkAdd( checkIndex(), this, _card );
-    kdDebug() << "addCheckFun returned " << result << endl;
     return result;
 }
 
 bool Pile::legalRemove(const Card *c) const
 {
-    kdDebug() << "legalRemove\n";
-
     if( removeFlags & disallow ) {
-        kdDebug() << "disallowed\n";
         return false;
     }
     if( !( removeFlags & several ) && top() != c)
     {
-        kdDebug() << "not last\n";
         return false;
     }
 
     bool b = dealer()->checkRemove( checkIndex(), this, c);
-    kdDebug() << "removeCheckFun returned " << b << endl;
     return b;
 }
 
@@ -150,6 +147,8 @@ int Pile::indexOf(const Card *c) const
 
 Card *Pile::at(int index) const
 {
+    if (index < 0 || index >= int(myCards.count()))
+        return 0;
     return *myCards.at(index);
 }
 

@@ -31,7 +31,8 @@ int main( int argc, char **argv )
 {
     KAboutData aboutData( "kpat", I18N_NOOP("KPatience"),
                           KPAT_VERSION, description, KAboutData::License_GPL,
-                          "(c) 1995, Paul Olav Tvete");
+                          "(c) 1995, Paul Olav Tvete\n"
+                          "(c) 2000 Stephan Kulow");
     aboutData.addAuthor("Paul Olav Tvete");
     aboutData.addAuthor("Mario Weilguni",0,"mweilguni@kde.org");
     aboutData.addAuthor("Matthias Ettrich",0,"ettrich@kde.org");

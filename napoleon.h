@@ -30,6 +30,9 @@ public:
     Napoleon (KMainWindow* parent=0, const char* name=0);
 
     virtual void restart();
+    virtual void getHints();
+    virtual Card *demoNewCards();
+    virtual bool startAutoDrop() { return false; }
 
 public slots:
     void deal1(Card *c);

@@ -30,6 +30,7 @@ class cardMap
 public:
 
     static cardMap *self();
+    cardMap(const QColor &dimcolor);
 
     static int CARDX;
     static int CARDY;
@@ -51,6 +52,7 @@ private:
         QPixmap inverted;
     } img[ CardsPerColor ][ NumColors ];
     QPixmap back;
+    QColor dimcolor;
     static cardMap *_self;
 };
 

@@ -62,7 +62,7 @@ Napoleon::Napoleon( KMainWindow* parent, const char* _name )
     target[3]->move(  70, 270);
     centre->move(160, 150);
 
-    deal();
+    setActions(Dealer::Hint | Dealer::Demo);
 }
 
 void Napoleon::restart() {
@@ -118,6 +118,49 @@ void Napoleon::deal1(Card *) {
     pile->add(c, true, false);
     c->move(deck->x(), deck->y());
     c->flipTo(pile->x(), pile->y(), 8);
+}
+
+Card *Napoleon::demoNewCards()
+{
+    if (deck->isEmpty())
+        return 0;
+    deal1(0);
+    return pile->top();
+}
+
+void Napoleon::getHints() {
+    CardList cards;
+    for (int i = 0; i < 4; i++)
+    {
+        if (!store[i]->isEmpty())
+            cards.append(store[i]->top());
+    }
+    if (pile->top())
+        cards.append(pile->top());
+
+    for (CardList::Iterator it = cards.begin(); it != cards.end(); ++it) {
+        CardList empty;
+        empty.append(*it);
+        if (CanPutCentre(centre, empty)) {
+            newHint(new MoveHint(*it, centre));
+            continue;
+        }
+        for (int i = 0; i < 4; i++) {
+            if (CanPutTarget(target[i], empty)) {
+                newHint(new MoveHint(*it, target[i]));
+                break;
+            }
+        }
+    }
+    if (pile->isEmpty())
+        return;
+
+    for (int i = 0; i < 4; i++) {
+        if (store[i]->isEmpty()) {
+            newHint(new MoveHint(pile->top(), store[i]));
+            return;
+        }
+    }
 }
 
 static class LocalDealerInfo4 : public DealerInfo

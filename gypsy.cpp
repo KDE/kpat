@@ -37,7 +37,8 @@ Gypsy::Gypsy( KMainWindow* parent, const char *name )
         store[i]->setCheckIndex(0);
     }
 
-    deal();
+    setActions(Dealer::Hint | Dealer::Demo);
+
 }
 
 void Gypsy::dealRow(bool faceup) {
@@ -125,6 +126,14 @@ bool Gypsy::checkRemove( int checkIndex, const Pile* p, const Card *c) const
     }
 
     return true;
+}
+
+Card *Gypsy::demoNewCards()
+{
+    if (deck->isEmpty())
+        return 0;
+    dealRow(true);
+    return store[0]->top();
 }
 
 static class LocalDealerInfo7 : public DealerInfo

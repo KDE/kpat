@@ -152,7 +152,7 @@ bool Card::realFace() const
 **
 **********************************************************************/
 
-static const double flipLift = 1.5;
+static const double flipLift = 1.2;
 int Card::hz = 0;
 
 void Card::setZ(int z)
@@ -188,7 +188,8 @@ void Card::advance(int stage)
     if ( stage==1 ) {
 	if ( animSteps-- <= 0 ) {
 	    setAnimated(false);
-	} else {
+            emit stoped(this);
+        } else {
 	    if ( flipping ) {
 		if ( animSteps > flipSteps / 2 ) {
 		    // animSteps = flipSteps .. flipSteps/2 (flip up) -> 1..0
@@ -233,6 +234,7 @@ void Card::animatedMove(int x2, int y2, int z2, int steps)
         // _really_ fast
         setAnimated(true);
         setAnimated(false);
+        emit stoped(this);
     }
 }
 
@@ -245,15 +247,14 @@ void Card::setAnimated(bool anim)
         setVelocity(0,0);
         move(destX,destY); // exact
         setZ(destZ);
-        emit stoped(this);
     }
     QCanvasRectangle::setAnimated(anim);
-    assert(anim == animated());
-
 }
 
 void Card::setTakenDown(bool td)
 {
+    if (td)
+        kdDebug() << "took down " << name() << endl;
     tookDown = td;
 }
 

@@ -32,6 +32,7 @@
 #include <kdebug.h>
 #include <assert.h>
 #include <kaction.h>
+#include <qtimer.h>
 
 Klondike::Klondike( bool easy, KMainWindow* parent, const char* _name )
   : Dealer( parent, _name )
@@ -64,36 +65,40 @@ Klondike::Klondike( bool easy, KMainWindow* parent, const char* _name )
         target[i]->setTarget(true);
     }
 
-    QList<KAction> actions;
-    ahint = new KAction( i18n("&Hint"), QString::fromLatin1("wizard"), 0, this,
-                         SLOT(hint()),
-                         parent->actionCollection(), "game_hint");
-    actions.append(ahint);
-    parent->guiFactory()->plugActionList( parent, QString::fromLatin1("game_actions"), actions);
-
-    deal();
+    setActions(Dealer::Hint | Dealer::Demo);
 }
 
-void Klondike::changeDiffLevel( int l ) {
-    if ( EasyRules == (l == 0) )
-        return;
+bool Klondike::tryToDrop(Card *t)
+{
+    if (!t || !t->realFace() || t->takenDown())
+        return false;
 
-    int r = KMessageBox::warningContinueCancel(this,
-                                               i18n("This will end the current game.\n"
-                                                    "Are you sure you want to do this?"),
-                                               QString::null,
-                                               i18n("OK"));
-    if(r == KMessageBox::Cancel) {
-        // TODO cb->setCurrentItem(1-cb->currentItem());
-        return;
+//    kdDebug() << "tryToDrop " << t->name() << endl;
+
+    bool shoulddrop = (t->value() <= Card::Two || t->value() <= lowest_card[t->isRed() ? 1 : 0] + 1);
+    Pile *tgt = findTarget(t);
+    if (tgt) {
+        newHint(new MoveHint(t, tgt, shoulddrop));
+        return true;
+    }
+    return false;
+}
+
+void Klondike::getHints() {
+
+    int tops[4] = {0, 0, 0, 0};
+
+    for( int i = 0; i < 4; i++ )
+    {
+        Card *c = target[i]->top();
+        if (!c) continue;
+        tops[c->suit() - 1] = c->value();
     }
 
-    EasyRules = (bool)(l == 0);
-    restart();
-}
+    lowest_card[0] = static_cast<Card::Values>(QMIN(tops[1], tops[2])); // red
+    lowest_card[1] = static_cast<Card::Values>(QMIN(tops[0], tops[3])); //black
 
-void Klondike::hint() {
-    unmarkAll();
+//    kdDebug() << "startAutoDrop red:" << lowest_card[0] << " black:" << lowest_card[1] << endl;
 
     Card* t[7];
     for(int i=0; i<7;i++)
@@ -118,7 +123,7 @@ void Klondike::hint() {
 
                 if (altStep(play[j], empty)) {
                     if (((*it)->value() != Card::King) || it != list.begin()) {
-                        mark(*it);
+                        newHint(new MoveHint(*it, play[j]));
                         break;
                     }
                 }
@@ -126,27 +131,31 @@ void Klondike::hint() {
             break; // the first face up
         }
 
-        if (findTarget(play[i]->top()))
-            mark(play[i]->top());
+        tryToDrop(play[i]->top());
     }
     if (!pile->isEmpty())
     {
-        if (findTarget(pile->top()))
-        {
-            mark(pile->top());
-        } else
+        Card *t = pile->top();
+        if (!tryToDrop(t))
         {
             for (int j = 0; j < 7; j++)
             {
                 CardList empty;
-                empty.append(pile->top());
+                empty.append(t);
                 if (altStep(play[j], empty)) {
-                    mark(pile->top());
+                    newHint(new MoveHint(t, play[j]));
                     break;
                 }
             }
         }
     }
+}
+
+Card *Klondike::demoNewCards() {
+    deal3();
+    if (!deck->isEmpty() && pile->isEmpty())
+        deal3(); // again
+    return pile->top();
 }
 
 void Klondike::restart() {
@@ -186,7 +195,6 @@ void Klondike::deal3()
 
 }
 
-
 //  Add cards from  pile to deck, in reverse direction
 void Klondike::redeal() {
 
@@ -201,7 +209,6 @@ void Klondike::redeal() {
         (*it)->setAnimated(false);
         deck->add(*it, true, false); // facedown, nospread
     }
-
 }
 
 void Klondike::deal() {
@@ -213,7 +220,6 @@ void Klondike::deal() {
 
 bool Klondike::step1( const Pile* c1, const CardList& c2 ) const
 {
-
     if (c2.isEmpty()) {
         return false;
     }
@@ -263,7 +269,6 @@ void Klondike::cardClicked(Card *c) {
         pileClicked(deck);
         return;
     }
-
 }
 
 void Klondike::pileClicked(Pile *c) {
@@ -275,80 +280,14 @@ void Klondike::pileClicked(Pile *c) {
     }
 }
 
-void Klondike::cardDblClicked(Card *c) {
-    kdDebug() << "card dbl clicked " << c->name() << endl;
-
-    Dealer::cardDblClicked(c);
-
-    if (c->animated())
-        return;
-
-    if (c == c->source()->top() && c->realFace()) {
-        Pile *tgt = findTarget(c);
-        if (tgt) {
-            CardList empty;
-            empty.append(c);
-            c->source()->moveCards(empty, tgt);
-            canvas()->update();
-        }
-    }
-}
-
-bool Klondike::tryToDrop(Card *t)
-{
-    if (!t || !t->realFace() || t->takenDown())
-        return false;
-
-    kdDebug() << "tryToDrop " << t->name() << endl;
-
-    if (t->value() <= Card::Two || t->value() <= lowest_card[t->isRed() ? 1 : 0] + 1)
-    {
-        Pile *tgt = findTarget(t);
-        if (tgt) {
-            kdDebug() << "found target for " << t->name() << endl;
-            CardList empty;
-            empty.append(t);
-            t->setAnimated(false);
-            t->turn(true);
-            int x = int(t->x());
-            int y = int(t->y());
-            t->source()->moveCards(empty, tgt);
-            t->move(x, y);
-            t->animatedMove(t->source()->x(), t->source()->y(), t->z(), 8);
-            return true;
-        }
-    }
-    return false;
-}
-
 bool Klondike::startAutoDrop()
 {
-    int tops[4] = {0, 0, 0, 0};
-
-    for( int i = 0; i < 4; i++ )
-    {
-        Card *c = target[i]->top();
-        if (!c) continue;
-        tops[c->suit() - 1] = c->value();
-    }
-
-    lowest_card[0] = static_cast<Card::Values>(QMIN(tops[1], tops[2])); // red
-    lowest_card[1] = static_cast<Card::Values>(QMIN(tops[0], tops[3])); //black
-
-    kdDebug() << "startAutoDrop red:" << lowest_card[0] << " black:" << lowest_card[1] << endl;
-
-    for( int i = 0; i < 7; i++ )
-    {
-        if (tryToDrop(play[i]->top()))
-            return true;
-    }
-    if (tryToDrop(pile->top())) {
-        if (pile->isEmpty())
-            deal3();
-        return true;
-    }
-
-    return false;
+    bool pileempty = pile->isEmpty();
+    if (!Dealer::startAutoDrop())
+        return false;
+    if (pile->isEmpty() && !pileempty)
+        deal3();
+    return true;
 }
 
 static class LocalDealerInfo0 : public DealerInfo

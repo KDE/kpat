@@ -5,10 +5,16 @@
 #include <qcanvas.h>
 #include "card.h"
 #include "pile.h"
+#include "hint.h"
+#include <krandomsequence.h>
 
 class KMainWindow;
 class Dealer;
 class DealerInfo;
+class KAction;
+class KSelectAction;
+class KToggleAction;
+class KPixmap;
 
 class DealerInfoList {
 public:
@@ -73,6 +79,21 @@ public:
 
     virtual bool checkRemove( int checkIndex, const Pile *c1, const Card *c) const;
     virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
+    virtual Card *demoNewCards();
+
+    virtual void setupActions();
+
+    bool demoActive() const;
+
+    void drawPile(KPixmap &, Pile *p, bool selected);
+
+    QColor midColor() const { return _midcolor; }
+    void setBackgroundPixmap(const QPixmap &background, const QColor &midcolor);
+
+    void saveGame(QDataStream &s);
+    void openGame(QDataStream &s);
+
+    void setGameId(int id) { _id = id; }
 
 public slots:
 
@@ -81,12 +102,24 @@ public slots:
     void undo();
     virtual void takeState();
     virtual bool startAutoDrop();
+    void hint();
 
 signals:
     void undoPossible(bool poss);
-    void gameWon();
+    void gameWon(bool withhelp);
+
+public slots:
+    void demo();
+    void waitForDemo(Card *);
+    void toggleDemo();
+    void stopDemo();
 
 protected:
+
+    enum { None = 0, Hint = 1, Demo = 2, Redeal = 4 } Actions;
+
+    void setActions(int actions) { myActions = actions; }
+    int actions() const { return myActions; }
 
     virtual void restart() = 0;
 
@@ -104,6 +137,12 @@ protected:
     virtual void cardDblClicked(Card *);
     void won();
 
+    virtual void getHints();
+    void newHint(MoveHint *mh);
+    void clearHints();
+    // it's not const because it changes the random seed
+    virtual MoveHint *chooseHint();
+
     KMainWindow *parent() const;
 
 protected:
@@ -112,10 +151,14 @@ protected:
     State *getState();
     void setState(State *);
 
+    void loadCardState( QDataStream& s, CardState& l, CardList &toload);
+
     // reimplement this to add game-specific information in the state structure
     virtual void getGameState( QDataStream & ) {}
     // reimplement this to use the game-specific information from the state structure
     virtual void setGameState( QDataStream & ) {}
+
+    void newDemoMove(Card *m);
 
     bool moved;
     CardList movingCards;
@@ -128,8 +171,17 @@ protected:
     QSize viewsize;
     QList<State> undoList;
     long gamenumber;
+    QValueList<MoveHint*> hints;
+    Card *towait;
+    QTimer *demotimer;
+    int myActions;
 
+    KToggleAction *ademo;
+    KAction *ahint, *aredeal;
 
+    KRandomSequence randseq;
+    QColor _midcolor;
+    int _id;
 };
 
 #endif
