@@ -260,10 +260,10 @@ void Grandf::cardDblClicked(Card *c)
     }
 }
 
-static class GrandfDealerInfo : public DealerInfo
+static class LocalDealerInfo1 : public DealerInfo
 {
 public:
-    GrandfDealerInfo() : DealerInfo(I18N_NOOP("&Grandfather"), 1) {}
+    LocalDealerInfo1() : DealerInfo(I18N_NOOP("&Grandfather"), 1) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Grandf(parent); }
 } gfdi;
 

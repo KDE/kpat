@@ -98,10 +98,10 @@ void Idiot::deal()
             play[ i ]->add( deck->nextCard(), false, true );
 }
 
-static class LocalDealerInfo4 : public DealerInfo
+static class LocalDealerInfo2 : public DealerInfo
 {
 public:
-    LocalDealerInfo4() : DealerInfo(I18N_NOOP("&Aces Up"), 2) {}
+    LocalDealerInfo2() : DealerInfo(I18N_NOOP("&Aces Up"), 2) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Idiot(parent); }
 } ldi4;
 

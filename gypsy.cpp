@@ -127,10 +127,10 @@ bool Gypsy::checkRemove( int checkIndex, const Pile* p, const Card *c) const
     return true;
 }
 
-static class GypsyDealerInfo : public DealerInfo
+static class LocalDealerInfo7 : public DealerInfo
 {
 public:
-    GypsyDealerInfo() : DealerInfo(I18N_NOOP("G&ypsy"), 7) {}
+    LocalDealerInfo7() : DealerInfo(I18N_NOOP("G&ypsy"), 7) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Gypsy(parent); }
 } gyfdi;
 

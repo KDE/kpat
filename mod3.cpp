@@ -194,10 +194,10 @@ void Mod3::hint()
     }
 }
 
-static class LocalDealerInfo7 : public DealerInfo
+static class LocalDealerInfo5 : public DealerInfo
 {
 public:
-    LocalDealerInfo7() : DealerInfo(I18N_NOOP("M&od3"), 5) {}
+    LocalDealerInfo5() : DealerInfo(I18N_NOOP("M&od3"), 5) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Mod3(parent); }
 } ldi7;
 

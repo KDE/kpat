@@ -107,10 +107,10 @@ bool Computation::checkAdd( int index, const Pile* c1, const CardList& cl) const
     return matches(cl, c1->top(), offset);
 }
 
-static class LocalDealerInfo2 : public DealerInfo
+static class LocalDealerInfo6 : public DealerInfo
 {
 public:
-    LocalDealerInfo2() : DealerInfo(I18N_NOOP("&Calculation"), 6) {}
+    LocalDealerInfo6() : DealerInfo(I18N_NOOP("&Calculation"), 6) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Computation(parent); }
 } ldi2;
 

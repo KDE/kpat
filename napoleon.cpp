@@ -117,10 +117,10 @@ void Napoleon::deal1() {
     pile->add(deck->nextCard(), false, false);
 }
 
-static class LocalDealerInfo3 : public DealerInfo
+static class LocalDealerInfo4 : public DealerInfo
 {
 public:
-    LocalDealerInfo3() : DealerInfo(I18N_NOOP("&Napoleon's Tomb"), 4) {}
+    LocalDealerInfo4() : DealerInfo(I18N_NOOP("&Napoleon's Tomb"), 4) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Napoleon(parent); }
 } ldi3;
 
