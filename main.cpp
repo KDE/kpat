@@ -54,6 +54,5 @@ int main( int argc, char **argv )
 
     a.setMainWidget(p);
     int r = a.exec();
-    delete p;
     return r;
 }
