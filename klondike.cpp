@@ -372,7 +372,9 @@ bool Klondike::isGameLost() const
         }
     }
 
-    CardList srcPileCards = pile->cards();
+    // ### Fix this so that it works with draw3, too
+    CardList srcPileCards;
+    srcPileCards = pile->cards();
     srcPileCards += deck->cards();
 
     //  Check all seven stores
@@ -453,17 +455,8 @@ bool Klondike::isGameLost() const
                     if ( ( *it )->realFace() &&
                          ( *it )->isRed() != topCard->isRed() &&
                          ( *it )->value() == topCard->value() - 1 ) {
-                        if ( it == cards.begin() ) {
-                            kdDebug( 1111 ) << "No, store " << j << " contains a card which we could add to store " << i << endl;
-                            return false;
-                        } else {
-                            CardList::ConstIterator prevCard = it;
-                            --prevCard;
-                            if ( !( *prevCard )->realFace() ) {
-                                kdDebug( 1111 ) << "No, store " << j << " contains a card which we could add to store " << i << endl;
-                                return false;
-                            }
-                        }
+                        kdDebug( 1111 ) << "No, store " << j << " contains a card which we could add to store " << i << endl;
+                        return false;
                     }
                 }
             }
