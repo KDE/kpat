@@ -1,3 +1,8 @@
+2002-05-10  Dirk Mueller  <mueller@kde.org>
+
+	* removed board_gen subdir and test_* files as they appear to 
+	contain code that is possibly copyrighted by Microsoft. 
+
 From 1.6.1 to 1.6.2
 -------------------
 
