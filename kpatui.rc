@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="standard_containers" version="8">
+<kpartgui name="standard_containers" version="9">
 <MenuBar>
   <Menu name="game" noMerge="1"><text>&amp;Game</text>
     <Action name="new_game"/>
@@ -19,7 +19,7 @@
     <Action name="animation"/>
   </Menu>
 </MenuBar>
-<ToolBar name="mainToolBar">
+<ToolBar name="mainToolBar"><text>Main Toolbar</text>
   <Action name="new_game"/>
   <Action name="restart_game"/>
   <Action name="undo_move"/>
