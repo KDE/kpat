@@ -3,6 +3,22 @@ TODO:
          kpat already supports a lot, but they aren't accessible via GUI yet
       - preview on cards that are hidden but faceup (RMB)
       - Grandfather's clock, golf, Forthy & Eight
+
+"The kings" (description by David)
+ 1) Setting up the game:
+   Take a king out of the 104 cards
+   Put cards on it, face up, until you arrive to the next king
+   Do it again, to put all of the 104 cards down
+ 2) There is room for the 8 aces (usual)
+   and for 8 free cards (the player can put cards there when he wants)
+ 3) Playing:
+   The player can mount on aces, move cards to the free area (up to 8),
+   and alternate red and black on the foundations.
+ This patience is interesting because there's no random (besides the initial
+ setup). The player sees everything, and has to think much, to decide when
+ it's worth filling the 8 free spaces, making sure he'll be able to empty them
+ somehow (on the foundations or on the aces).
+
      
 DONE:
       - animation when a card moves back automatically
