@@ -105,4 +105,7 @@ install: all
 uninstall:
 	rm -f $(BINDIR)/$(TARGET)
 
+messages:
+	@XGETTEXT@ -C -ktranslate -x ../../kdelibs/po/kde.pot *.cpp && mv messages.po ../po/kpat.pot
+
 # DO NOT DELETE THIS LINE -- make depend depends on it.
