@@ -119,7 +119,7 @@ void Napoleon::deal1(Card *) {
         return;
     pile->add(c, true, false);
     c->move(deck->x(), deck->y());
-    c->flipTo(pile->x(), pile->y(), 8);
+    c->flipTo(int(pile->x()), int(pile->y()), 8);
 }
 
 Card *Napoleon::demoNewCards()
