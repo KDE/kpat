@@ -772,7 +772,7 @@ void Dealer::takeState()
 void Dealer::saveGame(QDataStream &s) {
     s << 0; // file format
     s << _id; // dealer number
-    s << Q_UINT64(gameNumber());
+    s << Q_ULONG (gameNumber());
     s << undoList.count();
     QPtrListIterator<State> it(undoList);
 
@@ -787,7 +787,7 @@ void Dealer::saveGame(QDataStream &s) {
 void Dealer::openGame(QDataStream &s)
 {
     unmarkAll();
-    Q_UINT64 gn;
+    Q_ULONG gn;
     s >> gn;
     setGameNumber(gn);
     uint count;
