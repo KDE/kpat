@@ -40,7 +40,6 @@
 #include <config.h>
 #include <kdebug.h>
 #include <kapp.h>
-#include <kconfig.h>
 #include <klocale.h>
 #include "version.h"
 #include <kstaticdeleter.h>
