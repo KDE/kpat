@@ -188,7 +188,7 @@ void Spider::getHints()
 
         // if there is an empty column and this stack is on
         // another card, hint
-        if (empty && cl[column].count() < stack[column]->cardsLeft()) {
+        if (empty && cl[column].count() < (uint)stack[column]->cardsLeft()) {
             newHint(new MoveHint(cl[column].first(), empty));
             continue;
         }
@@ -465,14 +465,14 @@ public:
 static class LocalDealerInfo16 : public DealerInfo
 {
 public:
-    LocalDealerInfo16() : DealerInfo(I18N_NOOP("S&pider (Medium)"), 16) {}
+    LocalDealerInfo16() : DealerInfo(I18N_NOOP("Spider (&Medium)"), 16) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Spider(2, parent); }
 } ldi16;
 
 static class LocalDealerInfo17 : public DealerInfo
 {
 public:
-    LocalDealerInfo17() : DealerInfo(I18N_NOOP("S&pider (Hard)"), 17) {}
+    LocalDealerInfo17() : DealerInfo(I18N_NOOP("Spider (&Hard)"), 17) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Spider(4, parent); }
 } ldi17;
 
