@@ -180,7 +180,7 @@ bool Mod3::isGameLost() const {
             nextTest=true;
             break;
         }
-        if(stack[r][c]->at(0)->value() == (Card::Two +r)){
+        if(stack[r][c]->at(0)->value() == (Card::Two +r) || stack[r][c]->at(0)->value() == Card::Ace) {
             nextTest=true;
             break;
         }
