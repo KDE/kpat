@@ -239,7 +239,7 @@ void FreecellBase::findSolution()
 
         assert(!ret);
     }
-
+#if 0
     ret = freecell_solver_user_set_game(solver_instance,
                                             freecell.count(),
                                             store.count(),
@@ -248,6 +248,15 @@ void FreecellBase::findSolution()
                                             unlimited_move,
                                             es_filling);
     assert(!ret);
+#else
+    assert(!freecell_solver_user_set_num_freecells(solver_instance,freecell.count()));
+    assert(!freecell_solver_user_set_num_stacks(solver_instance,store.count()));
+    assert(!freecell_solver_user_set_num_decks(solver_instance,deck->decksNum()));
+    assert(!freecell_solver_user_set_sequences_are_built_by_type(solver_instance, FCS_SEQ_BUILT_BY_ALTERNATE_COLOR));
+    assert(!freecell_solver_user_set_sequence_move(solver_instance, unlimited_move));
+    assert(!freecell_solver_user_set_empty_stacks_filled_by(solver_instance, es_filling));
+                
+#endif
 
     freecell_solver_user_limit_iterations(solver_instance, CHUNKSIZE);
 
