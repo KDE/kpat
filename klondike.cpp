@@ -109,15 +109,15 @@ static bool moreThan2(Card* p) {
 }
 
 void Klondike::show() {
-  int i;
+    QWidget::show();
 
-  pile->show();
+    pile->show();
 
-  for(i = 0; i < 4; i++)
-    target[i]->show();
+    for(int i = 0; i < 4; i++)
+        target[i]->show();
 
-  for(i = 0; i < 7; i++)
-    play[i]->show();
+    for(int i = 0; i < 7; i++)
+        play[i]->show();
 }
 
 void Klondike::undo() {

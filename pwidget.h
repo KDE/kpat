@@ -30,18 +30,6 @@ class KToggleAction;
 class KSelectAction;
 class KAction;
 
-// type identifier for games
-#define PT_NONE		0
-#define PT_KLONDIKE	1
-#define PT_MSOLITAIRE	2
-#define PT_IDIOT	3
-#define PT_GRANDFATHER	4
-#define PT_NAPOLEON	5
-#define PT_TEN		6
-#define PT_COMPUTATION	7
-#define PT_MOD3		8
-#define PT_FREECELL	9
-
 class pWidget: public KMainWindow {
     Q_OBJECT
 
@@ -49,12 +37,6 @@ public:
     pWidget( const char *name=0 );
 
 private:
-    void help();
-    void helpRules();
-    void about();
-    void setDefaultType();
-    int  getDefaultType();
-    void actionNewGame(int);
     void setBackSide(int);
 
 protected slots:

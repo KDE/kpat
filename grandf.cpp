@@ -114,8 +114,6 @@ void Grandf::show()  {
 Grandf::Grandf( QWidget* parent, const char *name )
   : dealer( parent, name ), rb( i18n( "Redeal" ), this )
 {
-    kdDebug() << "grandf\n";
-
     const int Store = 1;
     const int Target = 2;
 

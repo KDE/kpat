@@ -48,11 +48,8 @@
 #include "ten.h"
 
 pWidget::pWidget( const char* _name )
-    : KMainWindow(0, _name)
+    : KMainWindow(0, _name), dill(0), type(0)
 {
-    type = PT_NONE;
-    dill = 0;
-
     KStdAction::quit(kapp, SLOT(quit()), actionCollection(), "game_exit");
 
     KStdAction::undo(this, SLOT(undoMove()),
@@ -65,15 +62,15 @@ pWidget::pWidget( const char* _name )
                               SLOT(newGameType()),
                               actionCollection(), "game_type");
     QStringList list;
+    list.append( i18n( "&Ten"));
+    list.append( i18n( "Mo&d3"));
+    list.append( i18n( "&Freecell"));
+    list.append( i18n( "&Grandfather" ));
     list.append( i18n( "&Klondike" ) );
-    list.append( i18n( "MicroSolitaire" ));
-    list.append( i18n( "Calculation" ));
-    list.append( i18n( "Napoleon's Tomb" ));
-    list.append( i18n( "The Idiot" ));
-    list.append( i18n( "Grandfather" ));
-    list.append( i18n( "Ten"));
-    list.append( i18n( "Mod3"));
-    list.append( i18n( "Freecell"));
+    list.append( i18n( "&MicroSolitaire" ));
+    list.append( i18n( "&Calculation" ));
+    list.append( i18n( "&Napoleon's Tomb" ));
+    list.append( i18n( "The &Idiot" ));
     games->setItems(list);
 
     backs = new KSelectAction(i18n("&Card backside"), 0, this,
@@ -101,7 +98,11 @@ pWidget::pWidget( const char* _name )
     bool animate = config->readBoolEntry( "Animation", true);
     animation->setChecked( animate );
 
-    actionNewGame( PT_GRANDFATHER );
+    int game = config->readNumEntry("DefaultGame", 0);
+    games->setCurrentItem(game);
+
+    newGameType();
+
     createGUI();
 }
 
@@ -121,54 +122,52 @@ void pWidget::animationChanged() {
     config->writeEntry( "Animation", anim);
 }
 
-void pWidget::newGameType() {
-    kdDebug() << "newGameType\n";
-}
-
 void pWidget::restart() {
     dill->restart();
 }
 
-void pWidget::actionNewGame(int _id )
+void pWidget::newGameType( )
 {
     delete dill;
     dill = 0;
 
+    int _id = games->currentItem();
+
     switch( _id ) {
-    case PT_TEN:
+    case 0:
         dill = new Ten(this);
         break;
 
-    case PT_MOD3:
+    case 1:
         dill = new Mod3(this);
         break;
 
-    case PT_FREECELL:
+    case 2:
         dill = new Freecell(this);
         break;
 
-    case PT_GRANDFATHER:
+    case 3:
         dill = new Grandf(this);
         break;
 
-    case PT_KLONDIKE:
+    case 4:
         dill = new Klondike(this);
         break;
 
-    case PT_MSOLITAIRE:
+    case 5:
         dill = new MicroSolitaire(this);
         break;
 
-    case PT_COMPUTATION:
+    case 6:
         dill = new Computation(this);
         break;
 
-    case PT_IDIOT:
-        dill = new Idiot(this);
+    case 7:
+        dill = new Napoleon(this);
         break;
 
-    case PT_NAPOLEON:
-        dill = new Napoleon(this);
+    case 8:
+        dill = new Idiot(this);
         break;
 
     default:
@@ -181,23 +180,9 @@ void pWidget::actionNewGame(int _id )
 
     setCaption( kapp->caption() );
 
-    setDefaultType();
-}
-
-void pWidget::setDefaultType()
-{
-    if(type != PT_NONE) {
-        KConfig *config = kapp->config();
-        KConfigGroupSaver kcs(config, settings_group);
-        config->writeEntry("DefaultGame", type);
-    }
-}
-
-int pWidget::getDefaultType()
-{
     KConfig *config = kapp->config();
     KConfigGroupSaver kcs(config, settings_group);
-    return config->readNumEntry("DefaultGame", PT_KLONDIKE);
+    config->writeEntry("DefaultGame", type);
 }
 
 void pWidget::setBackSide(int id)

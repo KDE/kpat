@@ -96,8 +96,9 @@ void Ten::startAuto()
 
 void Ten::show()
 {
-  for( int i = 0; i < 8; i++ )
-    play[ i ]-> show();
+    QWidget::show();
+    for( int i = 0; i < 8; i++ )
+        play[ i ]-> show();
 }
 
 void Ten::undo()
