@@ -126,7 +126,7 @@ pWidget::pWidget()
     KConfig *config = kapp->config();
     KConfigGroupSaver cs(config, settings_group );
 
-    QString bgpath = config->readEntry("Background");
+    QString bgpath = config->readPathEntry("Background");
     kdDebug() << "bgpath '" << bgpath << "'" << endl;
     if (bgpath.isEmpty())
         bgpath = locate("wallpaper", "No-Ones-Laughing-3.jpg");
@@ -240,7 +240,7 @@ void pWidget::changeWallpaper()
         QString dummy = config->readEntry("Cards", KCardDialog::getDefaultCardDir());
         setBackSide(deck, dummy);
 
-	config->writeEntry("Background", bgpath);
+	config->writePathEntry("Background", bgpath);
         dill->setBackgroundPixmap(background, midcolor);
         dill->canvas()->setAllChanged();
         dill->canvas()->update();
