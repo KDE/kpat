@@ -76,21 +76,7 @@ pWidget::pWidget( const char* _name )
     }
     games->setItems(list);
 
-    /*
-
-    backs = new KSelectAction(i18n("&Card backside"), 0, this,
-                              SLOT(changeBackside()),
-                              actionCollection(), "backside");
-
-    list.clear();
-    list.append(i18n( "KDE" ));
-    list.append(i18n( "Classic blue" ));
-    list.append(i18n( "Classic red" ));
-    list.append(i18n( "Technical" ));
-    backs->setItems(list);
-
-*/
-    backs = new KAction(i18n("&Switch backside"), 0, this,
+    backs = new KAction(i18n("&Switch Cards"), 0, this,
                         SLOT(changeBackside()),
                         actionCollection(), "backside");
 
@@ -100,8 +86,6 @@ pWidget::pWidget( const char* _name )
 
     KConfig *config = kapp->config();
     KConfigGroupSaver cs(config, settings_group );
-    QString bg = config->readEntry( "Back", KCardDialog::getDefaultDeck());
-    setBackSide( bg );
 
     bool animate = config->readBoolEntry( "Animation", true);
     animation->setChecked( animate );
@@ -131,10 +115,10 @@ void pWidget::changeBackside() {
     KConfigGroupSaver kcs(config, settings_group);
 
     QString deck = config->readEntry("Back");
-    QString dummy;
+    QString dummy = config->readEntry("Cards");
     if (KCardDialog::getCardDeck(deck, dummy, this, KCardDialog::Both) == QDialog::Accepted)
     {
-        setBackSide(deck);
+        setBackSide(deck, dummy);
     }
 }
 
@@ -204,14 +188,16 @@ void pWidget::newGameType()
     kdDebug() << "size2 " << dill->width() << " " << width() << " " << dill->sizeHint().width() << endl;
 }
 
-void pWidget::setBackSide(const QString &id)
+void pWidget::setBackSide(const QString &deck, const QString &cards)
 {
     KConfig *config = kapp->config();
     KConfigGroupSaver kcs(config, settings_group);
-    QPixmap pm(id);
+    QPixmap pm(deck);
     if(!pm.isNull()) {
         cardMap::self()->setBackSide(pm);
-        config->writeEntry("Back", id);
+        config->writeEntry("Back", deck);
+        cardMap::self()->setCardDir(cards);
+        config->writeEntry("Cards", cards);
     } else
         KMessageBox::sorry(this,
                            i18n("Could not load background image!"));

@@ -50,7 +50,7 @@ protected slots:
     void gameWon();
 
 private:
-    void setBackSide(const QString &id);
+    void setBackSide(const QString &deck, const QString &dir);
 
     Dealer* dill;
     KSelectAction *games;

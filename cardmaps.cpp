@@ -48,25 +48,39 @@
 #include <kimageeffect.h>
 #include <kcarddialog.h>
 
-int cardMap::CARDX;
-int cardMap::CARDY;
+int cardMap::CARDX = 72;
+int cardMap::CARDY = 96;
 
 cardMap::cardMap( )
 {
     KConfig *config = kapp->config();
     KConfigGroupSaver cs(config, settings_group );
+
+    QString bg = config->readEntry( "Back", KCardDialog::getRandomDeck());
+    setBackSide( bg );
+
+    QString dir = config->readEntry("Cards",  KCardDialog::getRandomCardDir());
+    setCardDir( dir );
+
+//    kdDebug() << "card " << CARDX << " " << CARDY << endl;
+}
+
+void cardMap::setCardDir( const QString &dir)
+{
+    KConfig *config = kapp->config();
+    KConfigGroupSaver cs(config, settings_group );
+
     // create an animation window while loading pixmaps (this
     // may take a while (approx. 3 seconds on my AMD K6PR200)
-    bool animate = (bool) ( config->readNumEntry( "Animation", 0 ) != 0 );
+    bool animate = config->readBoolEntry( "Animation", true);
+
     QWidget* w = 0;
-    QPixmap pm1;
     QPainter p;
     QTime t1, t2;
 
     if( animate ) {
         t1 = QTime::currentTime();
         w = new QWidget( 0, "", Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool );
-        pm1.load(KCardDialog::getDefaultDeck());
         QWidget* dt = qApp->desktop();
         w->setBackgroundColor( Qt::darkGreen );
         w->setGeometry( ( dt->width() - 510 ) / 2, ( dt->height() - 180 ) / 2, 510, 180);
@@ -88,7 +102,6 @@ cardMap::cardMap( )
     }
 
     QString imgname;
-    QString dir = KCardDialog::getDefaultCardDir();
 
     for(int idx = 1; idx < 53; idx++)
     {
@@ -120,7 +133,7 @@ cardMap::cardMap( )
         image.load(imgname);
 
         if( image.isNull())
-            kdFatal() << "PANIC, cannot load card pixmap \"" << imgname << "\"\n";
+            kdFatal() << "cannot load card pixmap \"" << imgname << "\" in (" << idx << ") " << dir << "\n";
 
         img[rank][suit].normal.convertFromImage(image);
         KImageEffect::fade(image, 0.4, Qt::darkGreen);
@@ -129,7 +142,7 @@ cardMap::cardMap( )
         if( animate )
         {
             if( idx > 1 )
-                p.drawPixmap( 10 + ( idx - 1 ) * 8, 45, pm1 );
+                p.drawPixmap( 10 + ( idx - 1 ) * 8, 45, back );
             p.drawPixmap( 10 + idx * 8, 45, img[ rank ][ suit ].normal );
             p.flush();
         }
@@ -144,18 +157,22 @@ cardMap::cardMap( )
         delete w;
     }
 
-    CARDX = img[ 0 ][ 0 ].normal.width();
-    CARDY = img[ 0 ][ 0 ].normal.height();
 
-    setBackSide(0);
 }
 
 void cardMap::setBackSide( const QPixmap &pm )
 {
     back = pm;
 
+    if (!CARDX || !CARDY) {
+        CARDX = back.width();
+        CARDY = back.height();
+    }
+
     if(back.width() != CARDX ||
-       back.height() != CARDY) {
+       back.height() != CARDY)
+    {
+        kdDebug() << "scaling back¡!!\n";
         // scale to fit size
         QWMatrix wm;
         wm.scale(((float)(CARDX))/back.width(),

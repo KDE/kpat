@@ -24,6 +24,7 @@
 #include "deck.h"
 #include "pile.h"
 #include <assert.h>
+#include <kdebug.h>
 
 //-------------------------------------------------------------------------//
 
@@ -122,9 +123,33 @@ bool Freecell::CanPutStack(const Pile *c1, const CardList &c2)
 
 //-------------------------------------------------------------------------//
 
-bool Freecell::CanRemove (const Pile *, const Card *)
+bool Freecell::CanRemove (const Pile *p, const Card *c)
 {
-// see gypsy
+    // ok if just one card
+    if (c == p->top())
+        return true;
+
+    // Now we're trying to move two or more cards.
+
+    // First, let's check if the column is in valid
+    // (that is, in sequence, alternated colors).
+    int index = p->indexOf(c) + 1;
+    const Card *before = c;
+    while (true)
+    {
+        c = p->at(index++);
+
+        if (!((c->value() == (before->value()-1))
+              && (c->isRed() != before->isRed())))
+        {
+            kdDebug() << c->name() << " - " << before->name() << endl;
+            return false;
+        }
+        if (c == p->top())
+            return true;
+        before = c;
+    }
+
     return true;
 }
 
