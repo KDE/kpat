@@ -83,7 +83,7 @@ public:
     virtual QSize cardOffset( bool _spread, bool _facedown, const Card *before) const;
 
     void resetCache();
-    void initSizes();
+    virtual void initSizes();
 
     enum PileType { Custom, KlondikeTarget, KlondikeStore, GypsyStore, FreeCell, FreecellStore};
     void setType( PileType t);
