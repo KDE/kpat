@@ -1,0 +1,124 @@
+<!doctype linuxdoc system>
+
+<article>
+<title>The KPat Handbook
+<author>Paul Olav Tvete
+<date>Version 0.7.1, 6 June 1998
+<abstract>This documentation was last updated for kpat version 0.7. 
+Please make any comments and additions to the author.
+</abstract>
+
+<toc>
+
+<sect>Rules of the game
+<p>
+
+<sect1>Klondike
+<p>
+You know this one. Alternate red and black on the foundations. 
+Follow suit on the top. When you click on the deck, three more cards are dealt. 
+Simple rules means that excess cards are put on top of the deck, hard rules that they are left on bottom. 
+
+<sect1>MicroSolitaire
+<p>
+This version of Klondike was popularized by a large software company. 
+Alternate red and black on the foundations. Follow suit on the top. 
+When you click on the deck, one card is dealt. 
+
+<sect1>Calculation
+<p>
+This one takes some time to get used to. The objective is to move all cards to the top four piles. 
+Unlike most other forms of patience, you do not need to follow suit. 
+On the leftmost pile, put the cards in sequence A-2-3-4-5-6-7-8-9-10-J-Q-K. 
+On the second pile the sequence is 2-4-6-8-10-Q-A-3-5-7-9-J-K, on the third 3-6-9-Q-2-5-8-J-A-4-7-10-K, 
+and on the rightmost 4-8-Q-3-7-J-2-6-10-A-5-9-K. 
+You may use the bottom piles any way you want, but remember that it is possible to transfer 
+sequences as well as single cards to the top piles.
+
+<sect1>Napoleon's Tomb
+<p>
+The four diagonal piles takes cards of any suit, 
+of increasing value starting with 7 and ending up with K. 
+The middle pile takes cards of any suit, starting with 6, decreasing down to A, 
+and string over again with 6. The remaining four positions are for temporary storage, 
+each may hold one card. 
+
+<sect1>The Idiot
+<p>
+If more than one card of the same suit is exposed, you can remove the lower-valued ones. 
+You can move cards to empty positions. The objective is to end up with only aces. 
+
+<sect1>Grandfather
+<p>
+The objective is to move all cards to the top four piles, 
+in ascending order and following suit in each pile. On the foundation, 
+you may move a card to the next card of the same suit; 
+you may move the five of spades on top of the six of spades, 
+even if there are other cards on top of the five of spades. 
+When no further moves are possible, click "Redeal". 
+The game is over after two redeals. 
+
+<sect1>Ten
+<p>
+If three cards on the outer edge of one pile sums to 10, 20 or 30, you can remove them. 
+K, Q and J count as 10. To remove cards, just click on the pile. 
+The objective is to remove all cards. 
+If this is too much mental strain, just select "Full Auto" and watch the machine do your relaxation for you. 
+
+<sect1>Mod3
+<p>
+The objective is to move all cards to the top three rows. 
+The first row takes cards starting with 2, the second starts with 3, 
+the third starts with 4. The other cards must be of the same suit, 
+increasing by 3. In other words, the first three rows takes the sequences 2-5-8-J, 
+3-6-9-Q, 4-7-10-K, respectively. You can only place a 8 on the top of a 5 on 
+the first row if the 5 is on the top of a 2. The 2 can be placed on an empty 
+place of the first row. At each redeal, eight more cards goes to the fourth row. 
+Aces don't play. 
+
+<sect1>Freecell
+<p>
+The objective is to move all cards to the store positions (the four top-right places), 
+starting with aces, in ascending order, following suits. 
+The free cells (the four top-left places) can hold any -- and just one -- card. 
+Alternate red and black (in ascending order) to put cards on the other eight stacks. 
+If one of the stacks is empty, any card can be placed there. If there is enough free 
+cells you can move multiple cards if they are in the correct sequence and with 
+alternate colors. The number of free cells required is the same as if you would make an 
+equivalent sequence of moves with single cards. 
+      
+
+<sect>Epilogue
+<p>
+
+<sect1>Developer
+<p>
+<tt>Paul Olav Tvete</tt>
+
+<sect1>Authors
+<p>
+<tt>Paul Olav Tvete</tt>
+
+<tt><htmlurl url="mailto:rwilliams@kde.org" 
+name="Robert Williams"></tt> - Editor<p>
+
+<sect1>Copyright
+<p>
+Patience -- a general class for patience card games 
+Copyright (C) 1995  Paul Olav Tvete 
+<p>
+Permission to use, copy, modify, and distribute this software and its 
+documentation for any purpose and without fee is hereby granted, 
+provided that the above copyright notice appear in all copies and that 
+both that copyright notice and this permission notice appear in 
+supporting documentation. 
+<p>
+This file is provided AS IS with no warranties of any kind.  The author 
+shall have no liability with respect to the infringement of copyrights, 
+trade secrets or any patents by this file or any part thereof.  In no 
+event will the author be liable for any lost revenue or profits or 
+other special, indirect and consequential damages. 
+
+
+
+</article>
