@@ -170,7 +170,7 @@ bool Grandf::isGameLost() const
                 CardList p = store[j]->cards();
                 for (CardList::ConstIterator it = p.begin(); it != p.end(); ++it){
                     Card *c= *it;
-                    if( it != p.begin() && c->isFaceUp() && c->value() == Card::King)
+                    if( it != p.begin() && c->realFace() && c->value() == Card::King)
                         return false;
                 }
             }
