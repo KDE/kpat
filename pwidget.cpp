@@ -119,7 +119,7 @@ pWidget::pWidget()
     backs = new KAction(i18n("&Switch Cards..."), 0, this,
                         SLOT(changeBackside()),
                         actionCollection(), "backside");
-	 stats = new KAction(i18n("&Statistics..."), 0, this, SLOT(showStats()),
+	 stats = new KAction(i18n("&Statistics"), 0, this, SLOT(showStats()),
 			 actionCollection(),"game_stats");
 
     animation = new KToggleAction(i18n( "&Animation on Startup" ),
@@ -151,7 +151,7 @@ pWidget::pWidget()
     games->setCurrentItem(game);
 
     statusBar()->insertItem( "", 1, 0, true );
-    
+
     createGUI(QString::null, false);
     KAcceleratorManager::manage(menuBar());
 
@@ -344,7 +344,7 @@ void pWidget::newGameType()
     }
 
     dill->resetMoves();
-    
+
     setGameCaption();
 
     KConfig *config = kapp->config();
