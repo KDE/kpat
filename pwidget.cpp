@@ -430,14 +430,39 @@ void pWidget::gameWon(bool withhelp)
 #endif
 }
 
+
 void pWidget::gameLost()
 {
+    QString   dontAskAgainName = "gameLostDontAskAgain";
+
+    // The following code is taken out of kmessagebox.cpp in kdeui.
+    // Is there a better way?
+    KConfig  *config = 0;
+    QString grpNotifMsgs = QString::fromLatin1("Notification Messages");
+
+    config = KGlobal::config();
+    KConfigGroupSaver saver(config, grpNotifMsgs);
+    QString  dontAsk = config->readEntry(dontAskAgainName).lower();
+
+    // If we are ordered never to ask again and to continue the game,
+    // then do so.
+    if (dontAsk == "no")
+	return;
+    // If it says yes, we ask anyway. Just starting a new game would
+    // be incredibly annoying.
+    if (dontAsk == "yes")
+	dontAskAgainName = QString::null;
+
     if (KMessageBox::questionYesNo(this, i18n("You could not win this game, "
                                               "but there is always a second try.\nStart a new game?"),
                                    i18n("Could Not Win!"),
-                                   i18n("New Game"), KStdGuiItem::cont()) == KMessageBox::Yes)
+                                   i18n("New Game"),
+				   KStdGuiItem::cont(),
+				   dontAskAgainName) == KMessageBox::Yes) {
         QTimer::singleShot(0, this, SLOT(newGame()));
- }
+    }
+}
+
 
 void pWidget::openGame(const KURL &url)
 {
