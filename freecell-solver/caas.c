@@ -235,7 +235,7 @@ extern void freecell_solver_a_star_enqueue_state(
             *existing_state = (fcs_state_with_locations_t *)(value.data);     \
         }         \
     }
-
+        
 #else 
 #error no define
 #endif

@@ -9,11 +9,7 @@
 
 #include "state.h"
 #include "fcs.h"
-#include <malloc.h>
-
-#ifdef __osf__
-extern void *malloc(size_t);
-#endif
+#include <stdlib.h>
 
 void fcs_state_ia_init(freecell_solver_instance_t * instance)
 {

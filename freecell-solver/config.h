@@ -25,8 +25,8 @@ extern "C" {
 
 /* #define CARD_DEBUG_PRES */
 
-/* Make sure one and only one of DEBUG_STATES and COMPACT_STATES is defined.
- * The preferred is COMPACT_STATES because it occupies less memory and is
+/* Make sure one and only one of DEBUG_STATES and COMPACT_STATES is defined. 
+ * The preferred is COMPACT_STATES because it occupies less memory and is 
  * faster.
  */
 #if (!defined(DEBUG_STATES)) && (!defined(COMPACT_STATES)) && (!defined(INDIRECT_STACK_STATES))
@@ -43,7 +43,7 @@ extern "C" {
 /*
     The amount prev_states grow by each time it each resized.
     Should be greater than 0 and in order for the program to be
-    efficient, should be much bigger than
+    efficient, should be much bigger than 
     PREV_STATES_SORT_MARGIN.
 */
 #define PREV_STATES_GROW_BY 128
@@ -61,7 +61,7 @@ extern "C" {
 #define MAX_NUM_FREECELLS 8
 
 /*
- * The maximal number of Stacks. For efficiency's sake it should be a
+ * The maximal number of Stacks. For efficiency's sake it should be a 
  * multiple of 4.
  * */
 #define MAX_NUM_STACKS 12
@@ -77,7 +77,7 @@ extern "C" {
 
 /* #define FCS_NON_DFS */
 
-
+    
 #define FCS_STATE_STORAGE_INDIRECT 0
 #define FCS_STATE_STORAGE_INTERNAL_HASH 1
 #define FCS_STATE_STORAGE_LIBAVL_AVL_TREE 2
@@ -93,10 +93,10 @@ extern "C" {
 #define FCS_STACK_STORAGE_LIBREDBLACK_TREE 3
 #define FCS_STACK_STORAGE_GLIB_TREE 4
 #define FCS_STACK_STORAGE_GLIB_HASH 5
-/* #define FCS_STACK_STORAGE FCS_STACK_STORAGE_INTERNAL_HASH */
+/* #define FCS_STACK_STORAGE FCS_STACK_STORAGE_INTERNAL_HASH */ 
 
 #ifdef __cplusplus
 }
 #endif
-
+    
 #endif

@@ -159,6 +159,7 @@ int freecell_solver_user_resume_solution(
             free((void*)user->instance->solution_states[a]);
         }
         free((void*)user->instance->solution_states);
+        user->instance->solution_states = NULL;
 
         fcs_move_stack_normalize(
             user->instance->solution_moves,
