@@ -109,16 +109,11 @@ pWidget::pWidget( const char* _name )
     uint game = config->readNumEntry("DefaultGame", 0);
     if (game > max_type)
         game = max_type;
-    kdDebug() << "DefaultGame " << game << " " << max_type << endl;
     games->setCurrentItem(game);
-    kdDebug() << "DefaultGame " << games->currentItem() << endl;
 
     createGUI(QString::null, false);
 
     newGameType();
-
-    QSize minsize(700, 400);
-    dill->resize(minsize.expandedTo(dill->canvas()->size()));
 }
 
 void pWidget::undoMove() {
@@ -196,8 +191,17 @@ void pWidget::newGameType()
     KConfigGroupSaver kcs(config, settings_group);
     config->writeEntry("DefaultGame", id);
 
+    QSize minsize(700, 400);
+    kdDebug() << "size1 " << dill->canvas()->size().width() << endl;
+    minsize = minsize.expandedTo(dill->canvas()->size());
+    dill->resetSize(minsize);
+    dill->resize(minsize);
+    dill->setMinimumSize(minsize);
+
     setCentralWidget(dill);
     dill->show();
+
+    kdDebug() << "size2 " << dill->width() << " " << width() << " " << dill->sizeHint().width() << endl;
 }
 
 void pWidget::setBackSide(const QString &id)

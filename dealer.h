@@ -60,6 +60,7 @@ public:
     virtual bool isGameWon() const;
 
     void setViewSize(const QSize &size);
+    virtual QSize sizeHint() const;
 
     void addPile(Pile *p);
     void removePile(Pile *p);

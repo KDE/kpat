@@ -293,7 +293,12 @@ void Dealer::contentsMouseDoubleClickEvent( QMouseEvent*e )
 
 void Dealer::resetSize(const QSize &size) {
     maxsize = size;
-    canvas()->resize(size.width(), size.height());
+    resize(size.width(), size.height());
+}
+
+QSize Dealer::sizeHint() const
+{
+    return QCanvasView::sizeHint();
 }
 
 void Dealer::cardClicked(Card *c) {
