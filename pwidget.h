@@ -40,7 +40,7 @@ public:
     pWidget( const char *name=0 );
     ~pWidget();
 
-protected slots:
+public slots:
     void undoMove();
     void changeBackside();
     void animationChanged();

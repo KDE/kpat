@@ -495,12 +495,14 @@ struct MoveAway {
 
 void Freecell::movePileToPile(CardList &c, Pile *to, PileList fss, PileList &fcs, uint start, uint count, int debug_level)
 {
+    kdDebug() << debug_level << " movePileToPile" << c.count() << " " << start  << " " << count << endl;
     uint moveaway = 0;
     if (count > fcs.count() + 1) {
-        moveaway = 1;
+        moveaway = (fcs.count() + 1);
         while (moveaway * 2 < count)
             moveaway <<= 1;
     }
+    kdDebug() << debug_level << " moveaway " << moveaway << endl;
 
     QValueList<MoveAway> moves_away;
 
