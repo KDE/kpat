@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
-<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
-  <!ENTITY kappname "&kpat;">
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
+  <!ENTITY kappname "&kpatience;">
   <!ENTITY package "kdegames">
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % English "INCLUDE" > <!-- change language only here -->
@@ -8,7 +8,7 @@
  
 <book lang="&language;">
 <bookinfo>
-<title>The &kpat; Handbook</title>
+<title>The &kpatience; Handbook</title>
 
 <authorgroup>
 <author>
@@ -60,7 +60,7 @@
 <releaseinfo>2.00.00</releaseinfo>
 <abstract>
 
-<para>&kpat; is a highly addictive card game for &kde;</para>
+<para>&kpatience; is a highly addictive card game for &kde;</para>
 
 </abstract>
 
@@ -182,7 +182,7 @@ If the family is not complete, it's called a sequence.
 <mediaobject>
 <imageobject><imagedata fileref="playfield.png" format="PNG"/></imageobject>
 <textobject>
-<phrase>The game field of &kpat;</phrase>
+<phrase>The game field of &kpatience;</phrase>
 </textobject>
 </mediaobject>
 
@@ -234,7 +234,7 @@ cards end up there in the right order, you've won.
 </para>
 
 <para>
-In most card games these piles are empty in the beginning, but &kpat; drops
+In most card games these piles are empty in the beginning, but &kpatience; drops
 cards there when it sees them fitting to save you this most often boring part.
 </para>
 </listitem>
@@ -405,7 +405,7 @@ playing piles) to put the cards in between you move.
 </para>
 
 <para>
-The moving of sequences will be supported by &kpat; if there is enough room. The
+The moving of sequences will be supported by &kpatience; if there is enough room. The
 maximum of cards you can move is calculated by:</para>
 
 <sidebar><para>
@@ -577,7 +577,7 @@ any card.
 
 <para>
 In clicking on the talon you can put a card on the waste pile, from where you
-can put it on a playing pile or the foundation (this &kpat; will do for you).
+can put it on a playing pile or the foundation (this &kpatience; will do for you).
 Is the talon empty you can put all cards on the waste pile back on the talon.
 This works only once, after the second time the talon empties, the game is over.
 </para>
@@ -585,7 +585,7 @@ This works only once, after the second time the talon empties, the game is over.
 <para>
 This patience isn't really easy to solve, but with some experience, you can
 solve many deals, especially if you use the undo feature from time to time to
-correct your decisions, and the decisions &kpat; does in putting cards on the
+correct your decisions, and the decisions &kpatience; does in putting cards on the
 foundation.
 </para>
 </sect1>
@@ -706,11 +706,11 @@ temporarily. On a free playing pile you can put any card or sequence.
 <title>Credits and License</title>
 
 <para>
-&kpat; Copyright 1995-2000 Paul Olav Tvete 
+&kpatience; Copyright 1995-2000 Paul Olav Tvete 
 </para>
 
 <para>
-&kpat; Copyright 2001 Stephan Kulow
+&kpatience; Copyright 2001 Stephan Kulow
 <email>coolo@kde.org</email>
 </para>
 
@@ -729,7 +729,7 @@ Documentation updated for KDE 2.0 by Michael McBride
 </para>
 
 <para>
-Documentation rewritten for &kpat; 2.0 (KDE 2.1) by Maren Pakura
+Documentation rewritten for &kpatience; 2.0 (KDE 2.1) by Maren Pakura
 <email>maren@kde.org</email>
 </para>
 
