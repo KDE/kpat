@@ -61,7 +61,7 @@ cardMap::cardMap(const QColor &dim) : dimcolor(dim)
     QString dir = config->readEntry("Cards",  KCardDialog::getDefaultCardDir());
     setCardDir( dir );
 
-    _self = cms.setObject(this);
+    cms.setObject(_self, this);
 //    kdDebug(11111) << "card " << CARDX << " " << CARDY << endl;
 }
 
