@@ -137,13 +137,13 @@ void cardMaps::setBackSide(QPixmap *pm) {
 
   if(pm == 0) { // ok, let's use the default KDE background
     QColorGroup  mycolgroup( 
-			    QApplication::palette()->normal().foreground(), 
-			    QApplication::palette()->normal().background(),
+			    QApplication::palette().normal().foreground(), 
+			    QApplication::palette().normal().background(),
 			    lightGray,
-			    QApplication::palette()->normal().dark(), 
-			    QApplication::palette()->normal().mid(),
-			    QApplication::palette()->normal().text(), 
-			    QApplication::palette()->normal().base());
+			    QApplication::palette().normal().dark(), 
+			    QApplication::palette().normal().mid(),
+			    QApplication::palette().normal().text(), 
+			    QApplication::palette().normal().base());
 
     back =  new QPixmap(CARDX, CARDY);
     back->fill( darkRed );         // initialize pixmap
