@@ -813,13 +813,13 @@ bool Dealer::startAutoDrop()
         MoveHint *mh = *it;
         if (mh->pile()->target() && mh->dropIfTarget() && !mh->card()->takenDown()) {
             Card *t = mh->card();
-            CardList empty;
-            empty.append(t);
+            CardList cards = mh->card()->source()->cards();
+            while (cards.count() && cards.first() != t) cards.remove(cards.begin());
             t->setAnimated(false);
             t->turn(true);
             int x = int(t->x());
             int y = int(t->y());
-            t->source()->moveCards(empty, mh->pile());
+            t->source()->moveCards(cards, mh->pile());
             t->move(x, y);
             t->animatedMove(t->source()->x(), t->source()->y(), t->z(), 8);
             takeState();
