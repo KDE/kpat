@@ -236,7 +236,7 @@ bool Grandf::step1( const Card* c1, const Card* c2 )  {
 
 bool Grandf::Sstep1( const Card* c1, const Card* c2)  {
 
-  Card* c = c2;
+  const Card* c = c2;
   bool found = FALSE;
 
   if (c1->Suit() == Card::Empty) 
