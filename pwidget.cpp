@@ -52,10 +52,8 @@
 #define ID_OAFTERBACK	820
 #define ID_OANIMATION	821
 
-// help menu
-#define ID_HHELP	901
-#define ID_HABOUT	903
-#define ID_HABOUTQT	904
+
+#define ID_HHELP	100	
 
 pWidget::pWidget(QWidget *, const char *) 
   : KTopLevelWidget()
@@ -123,12 +121,15 @@ pWidget::pWidget(QWidget *, const char *)
   m->insertItem(locale->translate("&Options"), m_opt);
 
   m->insertSeparator();
-  QPopupMenu *m_help = new QPopupMenu;
-  m_help->insertItem(locale->translate("&Help..."), ID_HHELP);
-  m_help->insertSeparator();
-  m_help->insertItem(locale->translate("About &Qt..."), ID_HABOUTQT);
-  m_help->insertItem(locale->translate("A&bout..."), ID_HABOUT);
-  m->insertItem(locale->translate("&Help"), m_help);
+
+  QPopupMenu *help = kapp->getHelpMenu(true, QString(i18n("Patience"))
+                                     + " " + KPAT_VERSION
+                                     + i18n("\n\nby Paul Olav Tvetei\n\n")
+                                     + "Additional work done by:\n"
+				     + "Rodolfo Borges (barrett@labma.ufrj.br)\n"
+                                     + "Matthias Ettrich (ettrich@kde.org)\n"
+                                     + "Mario Weilguni (mweilguni@sime.com)");
+  m->insertItem(locale->translate("&Help"), help);
 
   // create the toolbar
   tb = new KToolBar(this);
@@ -142,6 +143,7 @@ pWidget::pWidget(QWidget *, const char *)
   	ID_FQUIT, -1, locale->translate("Quit"));
   tb->insertButton(loader->loadIcon("help.xpm"), 
   	ID_HHELP, -1, locale->translate("Help"));
+
   connect(tb, SIGNAL(clicked(int)),
 	  this, SLOT(action(int)));
 
@@ -156,8 +158,7 @@ pWidget::pWidget(QWidget *, const char *)
   m->setAccel(CTRL+Key_3, ID_GNMOD3);
   m->setAccel(CTRL+Key_F, ID_GNFREECELL);
   m->setAccel(CTRL+Key_Q, ID_FQUIT);
-  m->setAccel(Key_F1, ID_HHELP);
-  m->setAccel(CTRL+Key_Z, ID_GUNDO);
+//  m->setAccel(CTRL+Key_Z, ID_GUNDO);
 
   if(config) {
     config->setGroup("General Settings");
@@ -228,24 +229,17 @@ void pWidget::action(int id) {
     break;
 
   case ID_HHELP:
-    help();
+    KApplication::getKApplication()->invokeHTMLHelp("", "");
     break;
 
-  case ID_HABOUTQT:
-    QMessageBox::aboutQt(this);
-    break;
-
-  case ID_HABOUT:
-    about();
-    break;
-    
   default:
     // background stuff?
     if(id >= ID_OBACK && id < ID_OAFTERBACK) {
       setBackSide(id - ID_OBACK);
-    } else
+    }/* else
       fprintf(stderr, 
 	      locale->translate("COMMAND %d not implemented!\n"), id);
+*/
   }
 }
 
@@ -306,40 +300,9 @@ void pWidget::actionNewGame(int id) {
   setView(dill);
   updateRects();
 
-  QString title = "kpat: \"" + QString(dill->name()) + "\"";
-  setCaption(title.data());
+  setCaption( kapp->getCaption() );
 
   setDefaultType();  
-}
-
-void pWidget::helpRules() {
-  if (dill) {
-    QString topic = dill->name();
-    topic = topic.replace(QRegExp(" "), "_");
-    topic = topic.lower();
-    kapp->invokeHTMLHelp("", topic.data());
-  } else
-    kapp->invokeHTMLHelp("", "");
-}
-
-void pWidget::help() {
-  kapp->invokeHTMLHelp("", "");
-}
-
-void pWidget::about() {
-  QString s = locale->translate("KPat\n\nVersion ");
-  s += KPAT_VERSION;
-  s += locale->translate("\n" \
-    "Copyright (C) 1997  Paul Olav Tvete\n\n"\
-    "Additional work done by:\n"\
-    "\tRodolfo Borges\t<barrett@labma.ufrj.br>\n"\
-    "\tMatthias Ettrich\t<ettrich@kde.org>\n"\
-    "\tMario Weilguni\t<mweilguni@sime.com>\n"\
-    "\nThis program is part of the K Desktop Environment.\n"\
-    "Use help for license information.");
-  KMsgBox::message(this, 
-		   locale->translate("About kpat"),
-		   s.data());
 }
 
 void pWidget::setDefaultType() {
