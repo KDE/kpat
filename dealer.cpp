@@ -472,14 +472,23 @@ void Dealer::startNew()
 {
     _won = false;
     _waiting = 0;
+    kdDebug() << "startNew stopDemo\n";
     stopDemo();
+    kdDebug() << "startNew unmarkAll\n";
     unmarkAll();
+    kdDebug() << "startNew setAnimated(false)\n";
     QCanvasItemList list = canvas()->allItems();
-    for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
+    for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it) {
+        if ((*it)->rtti() == Card::RTTI)
+            static_cast<Card*>(*it)->disconnect();
+
+        (*it)->setAnimated(true);
         (*it)->setAnimated(false);
+    }
 
     undoList.clear();
     emit undoPossible(false);
+    kdDebug() << "startNew restart\n";
     restart();
     Card *towait = 0;
     for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it) {
@@ -488,6 +497,7 @@ void Dealer::startNew()
             break;
         }
     }
+    kdDebug() << "startNew takeState\n";
     if (!towait)
         takeState();
     else

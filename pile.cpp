@@ -309,14 +309,12 @@ void Pile::add( Card* _card, bool _facedown, bool _spread )
 
     add(_card);
 
-    if (_facedown) {
+    if (_facedown || !visible()) {
         _card->move( x2, y2 );
         _card->setZ( z2 );
     } else {
         _card->animatedMove(x2, y2, z2, STEPS_INITIALDEAL);
     }
-
-
 
     dealer()->enlargeCanvas(_card);
 }

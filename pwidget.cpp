@@ -212,8 +212,9 @@ void pWidget::newGame() {
 
 void pWidget::restart() {
     statusBar()->clear();
-    dill->resetSize(QSize(dill->visibleWidth(), dill->visibleHeight()));
+    dill->resetSize(QSize(0, 0)); // QSize(dill->visibleWidth(), dill->visibleHeight()));
     dill->startNew();
+    dill->resetSize(QSize(dill->visibleWidth(), dill->visibleHeight()));
 }
 
 void pWidget::newGameType()
@@ -329,7 +330,7 @@ void pWidget::gameWon(bool withhelp)
 #if TEST_SOLVER == 0
     KMessageBox::information(this, congrats, i18n("Congratulation!"));
 #endif
-    newGame();
+    QTimer::singleShot(0, this, SLOT(newGame()));
 #if TEST_SOLVER == 1
     dill->demo();
 #endif
