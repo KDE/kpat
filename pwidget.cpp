@@ -325,11 +325,11 @@ void pWidget::gameWon(bool withhelp)
 {
     QString congrats;
     if (withhelp)
-        congrats = i18n("Congratulation! We've won!");
+        congrats = i18n("Congratulations! We've won!");
     else
-        congrats = i18n("Congratulation! You've won!");
+        congrats = i18n("Congratulations! You've won!");
 #if TEST_SOLVER == 0
-    KMessageBox::information(this, congrats, i18n("Congratulation!"));
+    KMessageBox::information(this, congrats, i18n("Congratulations!"));
 #endif
     QTimer::singleShot(0, this, SLOT(newGame()));
 #if TEST_SOLVER == 1
