@@ -548,7 +548,7 @@ From 1.3.5 to 1.3.6
 From 1.3.4 to 1.3.5
 -------------------
 
-* Made the A* weights run-time paramters.
+* Made the A* weights run-time parameters.
 
 * Placed them in an array.
 
@@ -793,7 +793,7 @@ Not tested yet.
 From 0.11.8 to 0.11.9
 ---------------------
 
-* Added the ignore_osins (ignore original state is not solveable) paramter
+* Added the ignore_osins (ignore original state is not solveable) parameter
 to the sfs tests.
 
 * Modified the code of move_top_stack_cards_to_founds and 
@@ -1198,7 +1198,7 @@ From 0.7.9 to 0.7.10
 
 * Modified user_state_to_c.
 
-* Fixed an ouput bug in state_as_string().
+* Fixed an output bug in state_as_string().
 
 From 0.7.8 to 0.7.9
 -------------------
@@ -1469,7 +1469,7 @@ states or direct state storage.
 
 * Fixed some bugs in the user_state_to_c function.
 
-* Added support for specifing the contents of the free cells and the
+* Added support for specifying the contents of the free cells and the
 foundations, and added support for stacks of variable length.
 
 * The check_state_validity function to make sure all cards are present

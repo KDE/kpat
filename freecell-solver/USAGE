@@ -8,9 +8,9 @@ Freecell Solver's Command-Line Syntax and Usage
 Most command-line switches have two versions: a short POSIX one which
 is a dash followed by a letter; and a long GNU one which is two dashes
 followed by the command string. Note, that Freecell Solver does not
-support specifing more than one command letter after a dash, (e.g:
+support specifying more than one command letter after a dash, (e.g:
 "-sip"). Furthermore, a command that accepts a parameter, will require
-this paramter to be present in the next command-line argument, not in
+this parameter to be present in the next command-line argument, not in
 the GNU manner of "--command=option".
 
 I don't use getopt because I want Freecell Solver to be a pure ANSI C
@@ -140,7 +140,7 @@ consume much more memory. For details consult the file INSTALL.
 --max-iters [Maximal number of iterations]
 
 Freecell Solver solves Freecell boards by storing each state it arrived
-to, and making sure it does not check it again. This paramter specifies
+to, and making sure it does not check it again. This parameter specifies
 the maximal number of states that can be stored this way.
 
 It is generally a good idea to set it to some value, so the program
@@ -150,7 +150,7 @@ will not occupy too much memory.
 -md [Maximal depth]
 --max-depth [Maximal depth]
 
-Freecell Solver recurses into the solution. This paramter specifies a
+Freecell Solver recurses into the solution. This parameter specifies a
 maximal recursion depth. Generally speaking, it's not a good idea to
 set it, because that way several important intermediate states become
 inaccessible.
@@ -162,7 +162,7 @@ inaccessible.
 This option specifies the order in which Freecell Solver will try the
 differnet types of moves that it can perform. Each move is specified by
 one character, and they are performed in the order in which they appear
-in the paramter string. You can omit tests by not including their
+in the parameter string. You can omit tests by not including their
 correpsonding characters in the string.
 
 The tests along with their characters are:
@@ -245,7 +245,7 @@ slows it down a bit.
 --state-output
 
 This option makes little sense by itself, and is applicable only if
--i/--iter-ouput was also specified at the command-line. If specified,
+-i/--iter-output was also specified at the command-line. If specified,
 this option also output the cards and formation of the board itself,
 for every state that is checked. "fc-solve -i -s" yields a nice
 real-time display of the progress of Freecell Solver, but you usually
