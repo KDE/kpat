@@ -126,7 +126,7 @@ pWidget::pWidget(QWidget *, const char *)
   QPopupMenu *help = kapp->getHelpMenu(true, QString(i18n("Patience"))
                                      + " " + KPAT_VERSION
                                      + i18n("\n\nby Paul Olav Tvetei\n\n")
-                                     + "Additional work done by:\n"
+                                     + i18n("Additional work done by:\n")
 				     + "Rodolfo Borges (barrett@labma.ufrj.br)\n"
                                      + "Matthias Ettrich (ettrich@kde.org)\n"
                                      + "Mario Weilguni (mweilguni@sime.com)");
