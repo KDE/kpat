@@ -323,6 +323,7 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
             if (!c->animated()) {
                 cardClicked(c);
                 takeState();
+                canvas()->update();
             }
             return;
         }
@@ -331,6 +332,7 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
             assert(c);
             pileClicked(c);
             takeState();
+            canvas()->update();
             return;
         }
     }
@@ -454,7 +456,6 @@ QSize Dealer::minimumCardSize() const
 
 void Dealer::resizeEvent(QResizeEvent *e)
 {
-    kdDebug() << "resizeEvent " << e << endl;
     int x = width();
     int y = height();
     int hs = horizontalScrollBar()->sizeHint().height();
@@ -488,7 +489,6 @@ void Dealer::resizeEvent(QResizeEvent *e)
     resizeContents(dx, dy);
     setVScrollBarMode(showv ? AlwaysOn : AlwaysOff);
     setHScrollBarMode(showh ? AlwaysOn : AlwaysOff);
-    kdDebug() << "setScrolls " << showv << " " << showh << endl;
 
     if (!e)
         updateScrollBars();
