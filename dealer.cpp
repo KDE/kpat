@@ -436,7 +436,7 @@ CardStateList *Dealer::getState()
            s.i = c->source()->indexOf(c);
            s.x = c->realX();
            s.y = c->realY();
-           s.z = c->z();
+           s.z = c->realZ();
            s.faceup = c->realFace();
            n->append(s);
        }
@@ -464,6 +464,7 @@ void Dealer::setState(CardStateList *n)
         Card *c = (*it).it;
         CardState s = *it;
         s.source->add(c, s.i);
+        c->setAnimated(false);
         c->setX(s.x);
         c->setY(s.y);
         c->setZ(s.z);

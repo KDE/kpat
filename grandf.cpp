@@ -116,10 +116,10 @@ Grandf::Grandf( KMainWindow* parent, const char *name )
     }
 
     QList<KAction> actions;
-    ahint = new KAction( i18n("&Hint"), 0, this,
+    ahint = new KAction( i18n("&Hint"), QString::fromLatin1("wizard"), 0, this,
                          SLOT(hint()),
                          parent->actionCollection(), "game_hint");
-    aredeal = new KAction (i18n("&Redeal"), 0, this,
+    aredeal = new KAction (i18n("&Redeal"), QString::fromLatin1("queue"), 0, this,
                            SLOT(redeal()),
                            parent->actionCollection(), "game_redeal");
     actions.append(ahint);

@@ -50,7 +50,8 @@ pWidget::pWidget( const char* _name )
                               actionCollection(), "new_game");
     (void)new KAction(i18n("&Choose game"), 0, this, SLOT(chooseGame()),
                       actionCollection(), "choose_game");
-    (void)new KAction(i18n("&Restart game"), 0, this, SLOT(restart()),
+    (void)new KAction(i18n("&Restart game"), QString::fromLatin1("reload"), 0,
+                      this, SLOT(restart()),
                       actionCollection(), "restart_game");
 
     games = new KSelectAction(i18n("&Game Type"), 0, this,
@@ -177,7 +178,7 @@ void pWidget::newGameType()
 
     QSize minsize(700, 400);
     kdDebug() << "size1 " << dill->canvas()->size().width() << endl;
-    minsize = minsize.expandedTo(dill->canvas()->size());
+    minsize = minsize.expandedTo(dill->sizeHint());
     dill->resetSize(minsize);
     dill->resize(minsize);
     dill->setMinimumSize(minsize);
