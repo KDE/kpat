@@ -94,7 +94,7 @@ void cardMap::setCardDir( const QString &dir)
 
         p.setFont(QFont("Times", 24));
         p.drawText(0, 0, 510, 40, Qt::AlignCenter,
-                   i18n("KPat - a Solitaire game"));
+                   i18n("KPatience - a Solitaire game"));
 
         p.setPen(QPen(QColor(0, 0, 0), 4));
         p.setBrush(Qt::NoBrush);
