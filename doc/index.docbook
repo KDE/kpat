@@ -1,23 +1,19 @@
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook V3.1-Based Variant V1.0//EN">
+
 <book lang="en">
 <bookinfo>
 <title>The KPat Handbook</title>
 <authorgroup>
 <author>
-<surname>Paul Olav Tvete</surname>
+<firstname>Paul Olav</firstname>
+<surname>Tvete</surname>
 </author>
 </authorgroup>
-<date>Version 0.7.1, 6 June 1998</date>
-<releaseinfo><!-- information about this particular version --></releaseinfo>
-<revhistory>
-<revision>
-<revnumber></revnumber>
-<date></date>
-</revision>
-</revhistory>
+<date>06/06/1998</date>
+<releaseinfo>0.07.01</releaseinfo>
 <abstract>
 <para>This documentation was last updated for kpat version 0.7. Please make any comments and additions to the author.</para>
-<para>KDE Patience</para><!-- Merge this with the previous paragraph; it comes from <META NAME="description" CONTENT="..."> --></abstract>
+</abstract>
 <keywordset>
 <keyword>KDE</keyword>
 <keyword>game</keyword>
@@ -25,6 +21,7 @@
 <keyword>solitaire</keyword>
 </keywordset>
 </bookinfo>
+
 <chapter id="Rulesofthegame">
 <title>Rules of the game</title>
 <sect1 id="klondike">
