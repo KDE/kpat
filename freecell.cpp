@@ -3,6 +3,7 @@
   freecell.cpp  implements a patience card game
 
      Copyright (C) 1997  Rodolfo Borges
+               (C) 2000  Stephan Kulow
 
  * Permission to use, copy, modify, and distribute this software and its
  * documentation for any purpose and without fee is hereby granted,
@@ -26,6 +27,22 @@
 #include <assert.h>
 #include <kdebug.h>
 
+class FreecellPile : public Pile
+{
+public:
+    FreecellPile(int _index, Dealer* parent = 0) : Pile(_index, parent) {}
+    virtual void moveCards(CardList &c, Pile *to);
+};
+
+void FreecellPile::moveCards(CardList &c, Pile *to)
+{
+    if (c.count() == 1) {
+        Pile::moveCards(c, to);
+        return;
+    }
+    dynamic_cast<Freecell*>(dealer())->moveCards(c, this, to);
+}
+
 //-------------------------------------------------------------------------//
 
 Freecell::Freecell( KMainWindow* parent, const char* name)
@@ -35,7 +52,7 @@ Freecell::Freecell( KMainWindow* parent, const char* name)
     deck->hide();
 
     for (int i = 0; i < 8; i++) {
-        store[i] = new Pile(1 + i, this);
+        store[i] = new FreecellPile(1 + i, this);
         store[i]->move(8+80*i, 113);
         store[i]->setAddFlags(Pile::addSpread | Pile::several);
         store[i]->setRemoveFlags(Pile::several);
@@ -51,6 +68,7 @@ Freecell::Freecell( KMainWindow* parent, const char* name)
         target[i] = new Pile(13+i, this);
         target[i]->move(338+76*i, 8);
         target[i]->setType(Pile::KlondikeTarget);
+        target[i]->setRemoveFlags(Pile::Default);
     }
 
     setActions(Dealer::Demo | Dealer::Hint);
@@ -64,26 +82,114 @@ void Freecell::restart()
     deal();
 }
 
-//-------------------------------------------------------------------------//
-
-int Freecell::CountFreeCells()
+void Freecell::countFreeCells(int &free_cells, int &free_stores) const
 {
-    int n = 0;
-
-    for (int i = 0; i < 8; i++)
-        if (store[i]->isEmpty())
-            n++;
+    free_cells = 0;
+    free_stores = 0;
 
     for (int i = 0; i < 4; i++)
-        if (freecell[i]->isEmpty())
-            n++;
+        if (freecell[i]->isEmpty()) free_cells++;
+    for (int i = 0; i < 8; i++)
+        if (store[i]->isEmpty()) free_stores++;
+}
 
-    return n;
+void Freecell::moveCards(CardList &c, FreecellPile *from, Pile *to)
+{
+    assert(c.count() > 1);
+
+    from->moveCardsBack(c);
+    waitfor = c.first();
+    connect(waitfor, SIGNAL(stoped(Card*)), SLOT(waitForMoving(Card*)));
+
+    PileList fcs;
+
+    for (int i = 0; i < 4; i++)
+        if (freecell[i]->isEmpty()) fcs.append(freecell[i]);
+
+    PileList fss;
+
+    for (int i = 0; i < 8; i++)
+        if (store[i]->isEmpty() && to != store[i]) fss.append(store[i]);
+
+    uint free_stores_needed = (c.count() - 1) / (fcs.count() + 1);
+    kdDebug() << "free stores needed " << free_stores_needed << endl;
+    assert(free_stores_needed <= fss.count());
+
+    while (moves.count()) { delete moves.first(); moves.remove(moves.begin()); }
+    uint already = 0;
+    if (free_stores_needed > 0) {
+        for (uint i = 0; i < free_stores_needed; ++i) {
+            already += movePileToPile(c, fss[i], fcs, already);
+        }
+        already += movePileToPile(c, to, fcs, already);
+        kdDebug() << "already moved " << already << endl;
+        assert(already == c.count());
+        kdDebug() << "real main card " << c[0]->name() << endl;
+//        moves.append(new MoveHint(c[0], to));
+        already = 0;
+        for (uint i = 0; i < free_stores_needed; ++i) {
+            already = movePileToPile(c, to, fcs, already);
+        }
+    } else
+        movePileToPile(c, to, fcs, 0);
+}
+
+int Freecell::movePileToPile(CardList &c, Pile *to, PileList &fcs, int start)
+{
+    kdDebug() << "movePileToPile " << c.count() <<  " " << fcs.count() << " " << start << endl;
+    uint moving = QMIN(c.count() - start, fcs.count() + 1);
+
+    for (uint i = 0; i < moving - 1; i++) {
+        kdDebug() << "moving " << c[c.count() - i - 1 - start]->name() << endl;
+        moves.append(new MoveHint(c[c.count() - i - 1 - start], fcs[i]));
+    }
+    kdDebug() << "main card " << c[c.count() - start - 1 - (moving - 1)]->name() << endl;
+    moves.append(new MoveHint(c[c.count() - start - 1 - (moving - 1)], to));
+
+    for (int i = moving - 2; i >= 0; --i) {
+        kdDebug() << "moving back " << c[c.count() - i - 1 - start]->name() << endl;
+        moves.append(new MoveHint(c[c.count() - i - 1 - start], to));
+    }
+    return moving;
+}
+
+void Freecell::startMoving()
+{
+    if (moves.isEmpty()) {
+        takeState();
+        return;
+    }
+
+    MoveHint *mh = moves.first();
+    kdDebug() << "startMoving " << mh->card()->name() << " " << moves.count() << " left\n";
+    moves.remove(moves.begin());
+    CardList empty;
+    empty.append(mh->card());
+    mh->pile()->add(mh->card());
+    mh->pile()->moveCardsBack(empty, true);
+    waitfor = mh->card();
+    connect(mh->card(), SIGNAL(stoped(Card*)), SLOT(waitForMoving(Card*)));
+    delete mh;
+}
+
+void Freecell::waitForMoving(Card *c)
+{
+    if (waitfor != c)
+        return;
+    startMoving();
 }
 
 bool Freecell::CanPutStore(const Pile *c1, const CardList &c2) const
 {
-    kdDebug() << "CanPutStack " << (void*)c1 << " " << c1->cardsLeft() << " " << c2.first()->name() << " " << (c1->top() ? c1->top()->name() : "<none>") << " " << c1->index() << endl;
+    int n, m;
+    countFreeCells(n, m);
+
+    if (c1->isEmpty()) // destination is empty
+        m--;
+
+    if (int(c2.count()) > (n+1) * (m+1))
+        return false;
+
     // ok if the target is empty
     if (c1->isEmpty())
         return true;
@@ -102,7 +208,7 @@ bool Freecell::checkAdd(int, const Pile *c1, const CardList &c2) const
 
 //-------------------------------------------------------------------------//
 
-bool Freecell::checkRemove (int checkIndex, const Pile *p, const Card *c) const
+bool Freecell::checkRemove(int checkIndex, const Pile *p, const Card *c) const
 {
     if (checkIndex != 0)
         return false;
@@ -124,7 +230,6 @@ bool Freecell::checkRemove (int checkIndex, const Pile *p, const Card *c) const
         if (!((c->value() == (before->value()-1))
               && (c->isRed() != before->isRed())))
         {
-            kdDebug() << c->name() << " - " << before->name() << endl;
             return false;
         }
         if (c == p->top())

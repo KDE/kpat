@@ -35,7 +35,7 @@ void DealerInfoList::add(DealerInfo *dealer)
 
 Dealer::Dealer( KMainWindow* _parent , const char* _name )
     : QCanvasView( 0, _parent, _name ), towait(0), myActions(0), ademo(0), ahint(0), aredeal(0),
-      takeTargets(false)
+takeTargets(false), _won(false)
 {
     setGameNumber(kapp->random());
     myCanvas.setAdvancePeriod(30);
@@ -63,7 +63,7 @@ void Dealer::setupActions() {
 
     if (actions() & Dealer::Hint) {
 
-        ahint = new KAction( i18n("&Hint"), QString::fromLatin1("wizard"), 0, this,
+        ahint = new KAction( i18n("&Hint"), QString::fromLatin1("wizard"), Key_H, this,
                              SLOT(hint()),
                              parent()->actionCollection(), "game_hint");
         actionlist.append(ahint);
@@ -71,7 +71,7 @@ void Dealer::setupActions() {
         ahint = 0;
 
     if (actions() & Dealer::Demo) {
-        ademo = new KToggleAction( i18n("&Demo"), QString::fromLatin1("1rightarrow"), 0, this,
+        ademo = new KToggleAction( i18n("&Demo"), QString::fromLatin1("1rightarrow"), CTRL+Key_D, this,
                                    SLOT(toggleDemo()),
                                    parent()->actionCollection(), "game_demo");
         actionlist.append(ademo);
@@ -124,7 +124,7 @@ void Dealer::getHints()
         Pile *store = *it;
         if (store->isEmpty())
             continue;
-        kdDebug() << "trying " << store->top()->name() << endl;
+//        kdDebug() << "trying " << store->top()->name() << endl;
 
         CardList cards = store->cards();
         while (cards.count() && !cards.first()->realFace()) cards.remove(cards.begin());
@@ -133,7 +133,7 @@ void Dealer::getHints()
         while (it != cards.end())
         {
             if (store->legalRemove(*it)) {
-                kdDebug() << "could remove " << (*it)->name() << endl;
+//                kdDebug() << "could remove " << (*it)->name() << endl;
                 for (PileList::Iterator pit = piles.begin(); pit != piles.end(); ++pit)
                 {
                     if (*pit == store)
@@ -300,8 +300,6 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
             if (!c->animated()) {
                 cardClicked(c);
                 takeState();
-            } else {
-                kdDebug() << "clicked on animated card\n";
             }
             return;
         }
@@ -434,6 +432,7 @@ QSize Dealer::sizeHint() const
 }
 
 void Dealer::cardClicked(Card *c) {
+    kdDebug() << "card clicked " << c->name() << endl;
     c->source()->cardClicked(c);
 }
 
@@ -463,6 +462,7 @@ void Dealer::cardDblClicked(Card *c)
 
 void Dealer::startNew()
 {
+    _won = false;
     stopDemo();
     unmarkAll();
     QCanvasItemList list = canvas()->allItems();
@@ -770,6 +770,7 @@ void Dealer::openGame(QDataStream &s)
         takeState(); // copying it again
         emit undoPossible(undoList.count() > 1);
     }
+    takeState();
 }
 
 void Dealer::undo()
@@ -873,6 +874,9 @@ void Dealer::toggleDemo()
 
 void Dealer::won()
 {
+    if (_won)
+        return;
+    _won = true;
     QCanvasItemList list = canvas()->allItems();
     for (QCanvasItemList::ConstIterator it = list.begin(); it != list.end(); ++it)
     {
@@ -1073,5 +1077,13 @@ void Dealer::drawPile(KPixmap &pixmap, Pile *pile, bool selected)
     kapp->style().drawPanel( &painter, 0, 0, cardMap::CARDX, cardMap::CARDY, colgrp, true );
 }
 
-#include "dealer.moc"
+int Dealer::freeCells() const
+{
+    int n = 0;
+    for (PileList::ConstIterator it = piles.begin(); it != piles.end(); ++it)
+        if ((*it)->isEmpty() && !(*it)->target())
+            n++;
+    return n;
+}
 
+#include "dealer.moc"

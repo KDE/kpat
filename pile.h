@@ -38,13 +38,11 @@ public:
     bool legalAdd(const CardList &c ) const;
     bool legalRemove(const Card *c) const;
 
-    void moveCards(CardList &c, Pile *to = 0);
+    virtual void moveCards(CardList &c, Pile *to = 0);
     void moveCardsBack(CardList &c, bool anim = true);
 
     void setRemoveFlags( int flag ) { removeFlags = flag; }
     void setAddFlags( int flag ) { addFlags = flag; }
-
-    void setLegalMove( const QValueList<int> &moves ) { legalMoves = moves; }
 
     void setCheckIndex( int index ) { _checkIndex = index; }
     virtual int checkIndex() const { return _checkIndex; }
@@ -116,7 +114,6 @@ signals:
 protected:
     int   removeFlags;
     int   addFlags;
-    QValueList<int> legalMoves;
     CardList myCards;
 
 private:

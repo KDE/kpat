@@ -16,14 +16,15 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 
- (I don't know a name for this one, if you do, please tell me.)
-
 ---------------------------------------------------------------------------*/
 
 #ifndef _FREECELL_H_
 #define _FREECELL_H_
 
 #include "dealer.h"
+#include "hint.h"
+
+class FreecellPile;
 
 class Freecell : public Dealer
 {
@@ -31,10 +32,12 @@ class Freecell : public Dealer
 
 public:
     Freecell( KMainWindow* parent=0, const char* name=0);
+    void moveCards(CardList &c, FreecellPile *from, Pile *to);
 
 public slots:
     void deal();
     virtual void restart();
+    void waitForMoving(Card *c);
 
 protected:
     virtual bool checkRemove( int checkIndex, const Pile *c1, const Card *c) const;
@@ -43,14 +46,19 @@ protected:
     bool CanPutStore(const Pile *c1, const CardList& c2) const;
     bool CanRemove(const Pile *c1, const Card *c) const;
 
-public:
-    int CountFreeCells();
+    void countFreeCells(int &free_cells, int &free_stores) const;
+    void startMoving();
+
+    void getHints2() {}
+    int movePileToPile(CardList &c, Pile *to, PileList &fcs, int start);
 
 private:
-    Pile *store[8];
+    FreecellPile *store[8];
     Pile *freecell[4];
     Pile *target[4];
     Deck *deck;
+    QValueList<MoveHint*> moves;
+    Card *waitfor;
 };
 
 #endif

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="standard_containers" version="7">
+<kpartgui name="standard_containers" version="8">
 <MenuBar>
   <Menu name="game" noMerge="1"><text>&amp;Game</text>
     <Action name="new_game"/>
@@ -8,6 +8,7 @@
     <Action name="open"/>
     <Action name="save"/>
     <ActionList name="game_actions"/>
+    <Action name="open_recent"/>
     <Action name="game_exit"/>
   </Menu>
   <Menu name="edit" noMerge="1"><text>&amp;Edit</text>

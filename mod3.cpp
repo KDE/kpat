@@ -40,17 +40,12 @@ Mod3::Mod3( KMainWindow* parent, const char* _name)
     aces->hide();
     aces->setTarget(true);
 
-    QValueList<int> moves;
-    for (int r = 0; r < 4; r++)
-        moves.append(r+1);
-
     for( int r = 0; r < 4; r++ ) {
         for( int c = 0; c < 8; c++ ) {
             stack[ r ][ c ] = new Pile ( r + 1, this );
             stack[r][c]->move( 8 + 80 * c, 8 + 105 * r + 32 * ( r == 3 ));
             if( r < 3 ) {
                 stack[r][c]->setCheckIndex( 0 );
-                stack[r][c]->setLegalMove(moves);
                 stack[r][c]->setTarget(true);
             } else {
                 stack[r][c]->setAddFlags( Pile::addSpread );

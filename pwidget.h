@@ -28,6 +28,7 @@
 class Dealer;
 class KToggleAction;
 class KSelectAction;
+class KRecentFilesAction;
 class KAction;
 class QWidgetStack;
 class QLabel;
@@ -47,6 +48,7 @@ protected slots:
     void restart();
 
     void openGame();
+    void openGame(const KURL &url);
     void saveGame();
 
     void newGame();
@@ -65,6 +67,7 @@ private:
     QPixmap background;
     QColor midcolor;
     QStringList wallpaperlist;
+    KRecentFilesAction *recent;
 };
 
 #endif

@@ -134,11 +134,6 @@ bool Pile::legalAdd( const CardList& _cards ) const
         return false;
     }
 
-    if (!legalMoves.isEmpty() && !legalMoves.contains(_cards.first()->source()->index()))
-    {
-        return false;
-    }
-
     if( !( addFlags & several ) &&
         _cards.count() > 1 )
     {
@@ -182,7 +177,6 @@ bool Pile::legalRemove(const Card *c) const
         case KlondikeTarget:
         case GypsyStore:
         case KlondikeStore:
-            assert(0);
             break;
         case FreecellStore:
             return remove_freecellStore(c);
@@ -191,7 +185,7 @@ bool Pile::legalRemove(const Card *c) const
             return (top() == c);
             break;
     }
-    return false;
+    return true;
 }
 
 void Pile::setVisible(bool vis)

@@ -55,6 +55,9 @@ pWidget::pWidget( const char* _name )
                               actionCollection(), "new_game");
     (void)KStdAction::open(this, SLOT(openGame()),
                            actionCollection(), "open");
+    recent = KStdAction::openRecent(this, SLOT(openGame(const KURL&)),
+                                    actionCollection(), "open_recent");
+    recent->loadEntries(KGlobal::config());
     (void)KStdAction::saveAs(this, SLOT(saveGame()),
                            actionCollection(), "save");
     (void)new KAction(i18n("&Choose game..."), 0, this, SLOT(chooseGame()),
@@ -305,9 +308,8 @@ void pWidget::gameWon(bool withhelp)
 }
 
 
-void pWidget::openGame()
+void pWidget::openGame(const KURL &url)
 {
-    KURL url = KFileDialog::getOpenURL();
     QString tmpFile;
     if( KIO::NetAccess::download( url, tmpFile ) )
     {
@@ -330,7 +332,15 @@ void pWidget::openGame()
         }
         dill->openGame(is);
         KIO::NetAccess::removeTempFile( tmpFile );
+        recent->addURL(url);
+        recent->saveEntries(KGlobal::config());
     }
+}
+
+void pWidget::openGame()
+{
+    KURL url = KFileDialog::getOpenURL();
+    openGame(url);
 }
 
 void pWidget::saveGame()
@@ -341,6 +351,8 @@ void pWidget::saveGame()
     dill->saveGame(*stream);
     file.close();
     KIO::NetAccess::upload(file.name(), url);
+    recent->addURL(url);
+    recent->saveEntries(KGlobal::config());
 }
 
 #include "pwidget.moc"

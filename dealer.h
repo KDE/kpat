@@ -98,6 +98,8 @@ public:
     void setTakeTargetForHints(bool e) { takeTargets = e; }
     bool takeTargetForHints() const { return takeTargets; }
 
+    int freeCells() const;
+
 public slots:
 
     // restart is pure virtual, so we need something else
@@ -186,6 +188,7 @@ protected:
     QColor _midcolor;
     int _id;
     bool takeTargets;
+    bool _won;
 };
 
 #endif
