@@ -23,38 +23,36 @@
 #ifndef _FREECELL_H_
 #define _FREECELL_H_
 
-#include "patience.h"
 #include "dealer.h"
 
-class Freecell : public dealer
+class Freecell : public Dealer
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	Freecell( QWidget* parent=0, const char* name=0);
-	virtual ~Freecell();
+    Freecell( KMainWindow* parent=0, const char* name=0);
+    virtual ~Freecell();
 
-	virtual void show();
-	virtual void undo();
-
-	QSize sizeHint() const;
+    virtual void show();
 
 public slots:
-	void deal();
-	virtual void restart();
+    void deal();
+    virtual void restart();
 
 private: // functions
-	static bool CanPut (const Card *c1, const Card *c2);
+    static bool CanPutStack(const Pile *c1, const CardList& c2);
+    static bool CanPutStore(const Pile *c1, const CardList& c2);
+    static bool CanPutFreeCell(const Pile *c1, const CardList& c2);
+    static bool CanRemove(const Pile *c1, const Card *c);
 
 public:
-	int CountFreeCells();
-	int CountCards (const Card *c);
+    int CountFreeCells();
 
 private:
-	cardPos *stack[8];
-	cardPos *freecell[4];
-	cardPos *store[4];
-	Deck *deck;
+    Pile *stack[8];
+    Pile *freecell[4];
+    Pile *store[4];
+    Deck *deck;
 };
 
 #endif

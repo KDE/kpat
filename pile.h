@@ -45,7 +45,7 @@ public:
     typedef bool (*addCheckPtr)(const Pile*, const CardList& );
     addCheckPtr addCheckFun;
 
-    typedef bool (*removeCheckPtr)(const Pile*);
+    typedef bool (*removeCheckPtr)(const Pile*, const Card *c);
     removeCheckPtr removeCheckFun;
 
     bool legalAdd(const CardList &c ) const;
@@ -60,7 +60,6 @@ public:
     void setAddFlags( int flag ) { addFlags = flag; }
     void setLegalMove( const QValueList<int> &moves ) { legalMoves = moves; }
     void setAddFun( addCheckPtr f) { addCheckFun = f; }
-
     void setRemoveFun( removeCheckPtr f) { removeCheckFun = f; }
 
     CardList cardPressed(Card *c);

@@ -74,7 +74,6 @@ void Pile::drawShape ( QPainter & painter )
 
 bool Pile::legalAdd( const CardList& _card ) const
 {
-
     if( addFlags & disallow ) {
         kdDebug() << "no adding allowed\n";
         return false;
@@ -114,12 +113,11 @@ bool Pile::legalRemove(const Card *c) const
     if( !( removeFlags & several ) && myCards.find(const_cast<Card*>(c)) != myCards.end() )
         return false;
 
-    /*    if( !isFaceUp() && myCards.count() > 0 )
-        return false;
-    */
-    if( removeCheckFun )
-        return removeCheckFun( this );
-
+    if( removeCheckFun ) {
+        bool b = removeCheckFun( this, c);
+        kdDebug() << "removeCheckFun returned " << b << endl;
+        return b;
+    }
     return true;
 }
 
@@ -198,12 +196,13 @@ void Pile::clear()
 CardList Pile::cardPressed(Card *c)
 {
     CardList result;
+
+    if (!legalRemove(c))
+        return result;
+
     int below = -1;
 
     if (!c->isFaceUp())
-        return result;
-
-    if (removeFlags & Pile::disallow)
         return result;
 
     for (CardList::Iterator it = myCards.begin(); it != myCards.end(); ++it)

@@ -21,249 +21,191 @@
 #include <qdialog.h>
 #include "freecell.h"
 #include <klocale.h>
-
-#define STACK 1
-#define FREECELL 2
-#define STORE 3
-
-bool CanPut (const Card *c1, const Card *c2);
-bool CanRemove (const Card *c2);
-Freecell *freecell_game;
-int dont_put_on_free_stack = 0;
+#include "deck.h"
+#include "pile.h"
+#include <assert.h>
 
 //-------------------------------------------------------------------------//
 
 void Freecell::restart()
 {
-        deck->collectAndShuffle();
-
-        deal();
-}
-
-//-------------------------------------------------------------------------//
-
-void Freecell::undo()
-{
-        Card::undoLastMove();
+    deck->collectAndShuffle();
+    deal();
 }
 
 //-------------------------------------------------------------------------//
 
 void Freecell::show()
 {
-        int i;
+    QWidget::show();
 
-        for (i = 0; i < 8; i++)
-                stack[i]->show();
+    for (int i = 0; i < 8; i++)
+        stack[i]->show();
 
-        for (i = 0; i < 4; i++)
-        {
-                freecell[i]->show();
-                store[i]->show();
-        }
+    for (int i = 0; i < 4; i++)
+    {
+        freecell[i]->show();
+        store[i]->show();
+    }
 }
 
 //-------------------------------------------------------------------------//
 
-Freecell::Freecell( QWidget* parent, const char* name)
-        : dealer(parent,name)
+Freecell::Freecell( KMainWindow* parent, const char* name)
+        : Dealer(parent,name)
 {
-        freecell_game = this;
+    deck = new Deck(0, this);
+    deck->hide();
 
-        deck = new Deck (-666, -666, this);
-
-        Card::setLegalMove (STACK, STORE);
-        Card::setLegalMove (FREECELL, STORE);
-        Card::setLegalMove (STACK, STACK);
-        Card::setLegalMove (FREECELL, STACK);
-        Card::setLegalMove (STACK, FREECELL);
-        Card::setLegalMove (FREECELL, FREECELL);
-
-        Card::setAddFlags (STACK, Card::addSpread | Card::several);
-        Card::setRemoveFlags (STACK, Card::several);
-        Card::setAddFlags (FREECELL, Card::Default);
-        Card::setAddFlags (STORE, Card::Default);
-        Card::setRemoveFlags (STORE, Card::disallow);
-
-        Card::setAddFun (STACK, &::CanPut);
-        Card::setAddFun (FREECELL, &::CanPut);
-        Card::setAddFun (STORE, &::CanPut);
-        Card::setRemoveFun (STACK, &::CanRemove);
-
-        for (int r = 0; r < 4; r++)
-        {
-                int i;
-
-                for (i = 0; i < 8; i++)
-                        stack[i] = new cardPos (8+80*i, 113, this, STACK);
-
-                for (i = 0; i < 4; i++)
-                {
-                        freecell[i] = new cardPos (8+76*i, 8, this, FREECELL);
-                        store[i] = new cardPos (338+76*i, 8, this, STORE);
-                }
+    for (int r = 0; r < 4; r++)
+    {
+        for (int i = 0; i < 8; i++) {
+            stack[i] = new Pile(1 + i, this);
+            stack[i]->move(8+80*i, 113);
+            stack[i]->setAddFlags(Pile::addSpread | Pile::several);
+            stack[i]->setRemoveFlags(Pile::several);
+            stack[i]->setAddFun(&CanPutStack);
+            stack[i]->setRemoveFun(&CanRemove);
         }
 
-/*
-  QPushButton* hb= new QPushButton(i18n("Hint"),this);
-  hb->move(10,380);
-  hb->adjustSize();
-  connect( hb, SIGNAL( clicked()) , SLOT( hint() ) );
-  hb->show();
-*/
+        for (int i = 0; i < 4; i++)
+        {
+            freecell[i] = new Pile (9+i, this);
+            freecell[i]->move(8+76*i, 8);
+            freecell[i]->setAddFun (&CanPutFreeCell);
 
-        deal();
+            store[i] = new Pile(13+i, this);
+            store[i]->move(338+76*i, 8);
+            store[i]->setRemoveFlags(Pile::disallow);
+            store[i]->setAddFun(&CanPutStore);
+        }
+    }
+
+    deal();
 }
 
 //-------------------------------------------------------------------------//
 
 Freecell::~Freecell()
 {
-        delete deck;
+    for (int i = 0; i < 8; i++)
+        delete stack[i];
 
-        int i;
+    for (int i = 0; i < 4; i++)
+    {
+        delete freecell[i];
+        delete store[i];
+    }
 
-        for (i = 0; i < 8; i++)
-                delete stack[i];
-
-        for (i = 0; i < 4; i++)
-        {
-                delete freecell[i];
-                delete store[i];
-        }
-}
-
-//-------------------------------------------------------------------------//
-
-int Freecell::CountCards (const Card *c)
-{
-        int n = 0;
-
-        while (c->next())
-        {
-                n++;
-                c = c->next();
-        }
-
-        return n;
+    delete deck;
 }
 
 //-------------------------------------------------------------------------//
 
 int Freecell::CountFreeCells()
 {
-        int i, n = 0;
+    int n = 0;
 
-        for (i = 0; i < 8; i++)
-                if (!stack[i]->next())
-                        n++;
+    for (int i = 0; i < 8; i++)
+        if (stack[i]->isEmpty())
+            n++;
 
-        for (i = 0; i < 4; i++)
-                if (!freecell[i]->next())
-                        n++;
+    for (int i = 0; i < 4; i++)
+        if (freecell[i]->isEmpty())
+            n++;
 
-        return n;
+    return n;
 }
 
 //-------------------------------------------------------------------------//
 
-//bool Freecell::CanPut (const Card *c1, const Card *c2)
-bool CanPut (const Card *c1, const Card *c2)
+bool Freecell::CanPutStore(const Pile *c1, const CardList &c2)
 {
-        if (c1 == c2)
-                return 0;
+    assert(c2.count() == 1);
+    Card *c = c2.first();
 
-        switch (c1->type())
-        {
-        case STORE:
-                // only aces in empty spaces
-                if (c1->Suit() == Card::Empty)
-                        return (c2->Value() == Card::Ace);
+    // only aces in empty spaces
+    if (c1->isEmpty())
+        return (c->value() == Card::Ace);
 
-                // ok if in sequence, same suit
-                return (c1->Suit() == c2->Suit())
-                        && ((c1->Value()+1) == c2->Value());
-                break;
+    // ok if in sequence, same suit
+    return (c1->top()->suit() == c->suit())
+          && ((c1->top()->value()+1) == c->value());
+}
 
-        case FREECELL:
-                // ok if the target is empty
-                return (c1->Suit() == Card::Empty);
-                break;
+bool Freecell::CanPutFreeCell(const Pile *c1, const CardList &)
+{
+    return (c1->isEmpty());
+}
 
-        case STACK:
-                // ok if the target is empty
-                if (c1->Suit() == Card::Empty)
-                        // unless this flag is set (explained on CanRemove())
-                        return (!dont_put_on_free_stack);
+bool Freecell::CanPutStack(const Pile *c1, const CardList &c2)
+{
+    // ok if the target is empty
+    if (c1->isEmpty())
+        return true;
 
-                // ok if in sequence, alternate colors
-                return ((c1->Value() == (c2->Value()+1))
-                        && (c1->Red() != c2->Red()));
-        }
+    Card *c = c2.first(); // we assume there are only valid sequences
 
-        return 0;
+    // ok if in sequence, alternate colors
+    return ((c1->top()->value() == (c->value()+1))
+            && (c1->top()->isRed() != c->isRed()));
 }
 
 //-------------------------------------------------------------------------//
 
-bool CanRemove (const Card *c)
+bool Freecell::CanRemove (const Pile *p, const Card *c)
 {
-        dont_put_on_free_stack = 0;
+    // ok if just one card
+    if (c == p->top())
+        return true;
 
-        // ok if just one card
-        if (!c->next())
-                return 1;
+    return false;
+    /* TODO
 
-        // Now we're trying to move two or more cards.
+    // Now we're trying to move two or more cards.
 
-        // First, let's check if the column is in valid
-        // (that is, in sequence, alternated colors).
-        for (const Card *t = c; t->next(); t = t->next())
+    // First, let's check if the column is in valid
+    // (that is, in sequence, alternated colors).
+    for (const Card *t = c; t->next(); t = t->next())
+    {
+        if (!((t->Value() == (t->next()->Value()+1))
+              && (t->Red() != t->next()->Red())))
         {
-                if (!((t->Value() == (t->next()->Value()+1))
-                        && (t->Red() != t->next()->Red())))
-                {
-                        return 0;
-                }
+            return 0;
         }
+    }
 
-        // Now, let's see if there are enough free cells available.
-        int numFreeCells = freecell_game->CountFreeCells();
-        int numCards = freecell_game->CountCards (c);
+    // Now, let's see if there are enough free cells available.
+    int numFreeCells = CountFreeCells();
+    int numCards = freecell_game->CountCards (c);
 
-        // If the the destination will be a free stack, the number of
-        // free cells needs to be greater. (We couldn't count the
-        // destination free stack.)
-        if (numFreeCells == numCards)
-                dont_put_on_free_stack = 1;
+    // If the the destination will be a free stack, the number of
+    // free cells needs to be greater. (We couldn't count the
+    // destination free stack.)
+    if (numFreeCells == numCards)
+        dont_put_on_free_stack = 1;
 
-        return (numCards <= numFreeCells);
+    return (numCards <= numFreeCells);
+*/
 }
 
 //-------------------------------------------------------------------------//
 
 void Freecell::deal()
 {
-	int column = 0;
-	while (deck->next())
-	{
-		stack[column]->add (deck->getCard(), false, true);
-		column = (column + 1) % 8;
-	}
-}
-
-//-------------------------------------------------------------------------//
-
-QSize Freecell::sizeHint() const
-{
-        return QSize (650, 450);
+    int column = 0;
+    while (!deck->isEmpty())
+    {
+        stack[column]->add (deck->nextCard(), false, true);
+        column = (column + 1) % 8;
+    }
 }
 
 static class LocalDealerInfo8 : public DealerInfo
 {
 public:
     LocalDealerInfo8() : DealerInfo(I18N_NOOP("&Freecell"), 8) {}
-    virtual dealer *createGame(QWidget *parent) { return new Freecell(parent); }
+    virtual Dealer *createGame(KMainWindow *parent) { return new Freecell(parent); }
 } gfi;
 
 //-------------------------------------------------------------------------//
