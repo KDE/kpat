@@ -102,6 +102,11 @@ pWidget::pWidget( const char* _name )
     newGameType();
 }
 
+pWidget::~pWidget()
+{
+    delete dill;
+}
+
 void pWidget::undoMove() {
     if( dill )
         dill->undo();

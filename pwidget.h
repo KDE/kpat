@@ -37,6 +37,7 @@ class pWidget: public KMainWindow {
 
 public:
     pWidget( const char *name=0 );
+    ~pWidget();
 
 protected slots:
     void undoMove();
