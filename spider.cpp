@@ -205,10 +205,12 @@ void Spider::getHints()
 
                 // if target pile is the same suit as this card,
                 // or if there are no cards under this one,
-                // or if it couldn't move to where it is now, hint
+                // or if it couldn't move to where it is now,
+                // or if the card under this one is face down, hint
                 if (cl[c2].last()->suit() == cl[column].first()->suit() ||
                     index == 0 || stack[column]->at(index-1)->value() !=
-                    cl[column].first()->value()+1)
+                    cl[column].first()->value()+1 ||
+                    !(stack[column]->at(index-1)->realFace()))
                         newHint(new MoveHint(cl[column].first(), stack[c2]));
             }
         }
@@ -333,8 +335,13 @@ void Spider::dealRow()
     if (m_redeal > 4)
         return;
 
-    for (int column = 0; column < 10; column++)
+    for (int column = 0; column < 10; column++) {
         stack[column]->add(redeals[m_redeal]->top(), false, true);
+
+        // I may put an Ace on a K->2 pile so it could need cleared.
+        if (stack[column]->top()->value() == Card::Ace)
+            checkPileDeck(stack[column]);
+    }
 
     redeals[m_redeal++]->setVisible(false);
 }
