@@ -1,0 +1,55 @@
+	- fixed the bug in Napoleon (cards not completly drawn)
+	- added locale
+	- german translation
+
+since kpat-0.4
+
+	- major rewrite of pwidget.(cpp|h)
+	- KDE compliant menubar and dialogs
+	- kpat now stores preferences (type of game...)
+	- window title includes current game type
+	- misc. cleanups
+	- kpat uses now kfixedtopwidget (similar to ktoplevelwidget)
+	- toolbar added (though it does not have many buttons)
+	- uses KMsgBox instead of QMessageBox
+	- now kpat has a fixed size
+	- (hopefully) KDE compliant shortcut keys
+	- did a lot of reformatting the sourcecode to make
+	  it more readable (had to many empty lines IMHO)
+	- pwidget does not decide which sizes to use for
+	  the different type of games, now the games itself supply
+	  a sizehint (will make it more extendible)
+	- HTML help
+	- animation on startup, since loading the cards may take 
+	  several seconds to finish on slow machines.
+	- a lot more not mentioned here...
+
+since  kpat-0.3
+
+    - kpat is a KApplication now (Matthias)
+
+since kpat-0.2
+
+    - added "MicroSolitaire" game (Paul)
+    - removed "cheating" option from Klondike (Paul)
+    - set wholeColumn for Klondike (Paul)
+    - Changed Klondike accelerator to Ctrl+K (Paul)
+    - Added menu bar hot keys (Paul)
+
+since kpat-0.1
+
+    - changed shading colorGroup (Paul)
+    - fixed drawing of suit symbols (Paul)
+    - renamed "very easy" to "cheating" :) (Paul)
+    - fixed spurious core dump(Paul)
+    - handle mousePress outside cards (Paul)
+    - menu cleanup (Paul)
+
+since "patience"
+
+    - renamed the stuff kpat-0.1 (Matthias)
+    - improved drag'n'drop (no more weird jumping of cards) (Matthias)
+    - improved look (shaded borders around the cards and piles) (Matthias)
+    - hopefully improved cards-background (Matthias)
+    - "very easy"-option for klondike to give only one card. (Matthias)
+    - unset wholeColumn for klondike, but this all belongs into OPTIONS (Matthias)

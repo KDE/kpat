@@ -1,0 +1,102 @@
+# This is a sample Makefile.in 
+
+# @CXXFLAGS@     : is set to -g -Wall (when debuging) or -O2 -Wall (when not)
+# @all_includes@ : is set to all needed include paths for QT, KDE and X11
+# -I.. 	         : needed for config.h
+CXXFLAGS= @CXXFLAGS@ @all_includes@ -DHAVE_CONFIG_H -I..
+
+# @LDFLAGS@    : is set to -s (when not debuging) for stripping
+# @all_libra.@ : is set to all needed libraries paths for QT, KDE and X11
+# you need also @LIBSOCKET@, if you link with -lkfm
+LDFLAGS	= @LDFLAGS@ @all_libraries@ -lkdecore -lqt -lXext -lX11 -lkdeui
+
+# both are clear, I think
+CXX     = @CXX@
+MOC   	= @MOC@
+
+############# INSTALL #################
+
+install = @INSTALL@
+INSTALL = $(install) -m 0755
+INSTALL_DATA = $(install) -m 0644
+INSTALL_DIR = $(install) -d -m 0755
+INSTALL_DIR_PRIVATE = $(install) -d -m 0700
+
+prefix = @prefix@
+KDEINC = $(prefix)/include
+BINDIR = $(prefix)/bin
+APPSDIR = $(prefix)/apps/Games
+LIBDIR = $(prefix)/lib
+PICSDIR = $(LIBDIR)/pics
+KPATPICDIR = $(prefix)/lib/pics/kpat
+DOCDIR = $(prefix)/share/doc/HTML/kpat
+
+########### File Formats ###########
+
+.SUFFIXES: .cpp
+
+.cpp.o:
+	$(CXX) -c $(CXXFLAGS) $<
+
+%.moc: %.h
+	$(MOC) $< -o $@
+
+########## Files #####################
+
+OBJECTS	= main.o patience.o rnd.o cardmaps.o \
+	  computation.o klondike.o grandf.o ten.o\
+	  basiccard.o card.o napoleon.o idiot.o\
+	  microsol.o pwidget.o kfixedtopwidget.o
+SRCMETA	= patience.moc computation.moc klondike.moc\
+	  grandf.moc basiccard.moc card.moc\
+	  ten.moc napoleon.moc idiot.moc\
+	  microsol.moc pwidget.moc cardmaps.moc\
+	  kfixedtopwidget.moc
+
+PICS=1.bmp 2.bmp 3.bmp 4.bmp 5.bmp 6.bmp 7.bmp 8.bmp 9.bmp \
+	10.bmp 11.bmp 12.bmp 13.bmp 14.bmp 15.bmp 16.bmp 17.bmp 18.bmp 19.bmp \
+	20.bmp 21.bmp 22.bmp 23.bmp 24.bmp 25.bmp 26.bmp 27.bmp 28.bmp 29.bmp \
+	30.bmp 31.bmp 32.bmp 33.bmp 34.bmp 35.bmp 36.bmp 37.bmp 38.bmp 39.bmp \
+	40.bmp 41.bmp 42.bmp 43.bmp 44.bmp 45.bmp 46.bmp 47.bmp 48.bmp 49.bmp \
+	50.bmp 51.bmp 52.bmp \
+	back1.bmp back2.bmp back3.bmp
+
+TARGET = kpat
+
+######### build rules ################
+
+all: Makefile $(TARGET)
+
+Makefile: Makefile.in
+	cd .. && CONFIG_FILES=kpat/$@ CONFIG_HEADERS= $(SHELL) ./config.status
+
+$(TARGET): $(SRCMETA) $(OBJECTS)
+	$(CXX) $(OBJECTS) -o $(TARGET) $(LDFLAGS)
+
+clean:
+	rm -f *.o *.bak *~ *% #*
+	rm -f $(SRCMETA) $(TARGET)
+
+distclean: clean
+	rm -f Makefile
+
+install:
+	$(INSTALL_DIR) $(BINDIR)
+	$(INSTALL) $(TARGET) $(BINDIR)
+	$(INSTALL_DIR) $(BINDIR)
+	$(INSTALL) $(TARGET) $(BINDIR)
+	$(INSTALL_DIR) $(APPSDIR)
+	$(INSTALL_DATA) kpat.kdelnk $(APPSDIR)
+	$(INSTALL_DIR) $(KPATPICDIR)
+	@for i in $(PICS); do \
+	echo $(INSTALL_DATA) pics/$$i $(KPATPICDIR); \
+	$(INSTALL_DATA) pics/$$i $(KPATPICDIR)/$$i; \
+	done
+	$(INSTALL_DIR) $(DOCDIR)
+	$(INSTALL_DATA) html/kpat.html $(DOCDIR)
+
+
+uninstall:
+	rm -f $(BINDIR)/$(TARGET)
+
+# DO NOT DELETE THIS LINE -- make depend depends on it.

@@ -1,0 +1,23 @@
+Hello,
+
+this is the very first release of kpat, the KDE solitaire patience game.
+
+It is an almost unchanged "patience" from Paul Olav Tvete, who uploaded
+this stuff some months ago on www.troll.no.
+
+My changes are so far:
+
+    - renamed the stuff kpat-0.1
+    - improved drag'n'drop (no more weird jumping of cards)
+    - improved look (shaded borders around the cards and piles)
+    - hopefully improved cards-background 
+    - "very easy"-option for klondike to give only one card. 
+    - unset wholeColumn for klondike, but this all belongs into OPTIONS
+
+Anway, kpat is IMO already yet the best X-based solitaire-like game,
+thanks to Paul Olav Tvete and Qt :-)
+
+
+Greets,
+
+  Matthias
