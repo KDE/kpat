@@ -41,6 +41,7 @@ class Grandf : public Dealer {
 
 public:
     Grandf( KMainWindow* parent=0, const char* name=0);
+    ~Grandf();
 
 public slots:
     void redeal();

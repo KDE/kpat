@@ -28,9 +28,56 @@
 #include <kaction.h>
 #include <qlist.h>
 
+Grandf::Grandf( KMainWindow* parent, const char *name )
+    : Dealer( parent, name ), aredeal(0)
+{
+    deck = new Deck(0, this);
+    deck->hide();
+
+    QValueList<int> list;
+    for (int i=0; i < 7; i++) list.append(5+i);
+    for (int i=0; i < 4; i++) list.append(1+i);
+
+    for (int i=0; i<4; i++) {
+        target[i] = new Pile(i+1, this);
+        target[i]->move(110+i*100, 10);
+        target[i]->setRemoveFlags(Pile::disallow);
+        target[i]->setAddFun(&step1);
+        target[i]->setLegalMove(list);
+        target[i]->setTarget(true);
+    }
+
+    for (int i=0; i<7; i++) {
+        store[i] = new Pile(5+i, this);
+        store[i]->move(10+100*i, 150);
+        store[i]->setAddFlags(Pile::addSpread | Pile::several);
+        store[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
+        store[i]->setAddFun(&Sstep1);
+        store[i]->setLegalMove(list);
+    }
+
+    QList<KAction> actions;
+    ahint = new KAction( i18n("&Hint"), QString::fromLatin1("wizard"), 0, this,
+                         SLOT(hint()),
+                         parent->actionCollection(), "game_hint");
+    aredeal = new KAction (i18n("&Redeal"), QString::fromLatin1("queue"), 0, this,
+                           SLOT(redeal()),
+                           parent->actionCollection(), "game_redeal");
+    actions.append(ahint);
+    actions.append(aredeal);
+    parent->guiFactory()->plugActionList( parent, QString::fromLatin1("game_actions"), actions);
+
+    deal();
+    numberOfDeals = 1;
+}
+
+Grandf::~Grandf()
+{
+    parent()->guiFactory()->unplugActionList( parent(), QString::fromLatin1("game_actions"));
+}
+
 void Grandf::restart() {
     deck->collectAndShuffle();
-
     deal();
     numberOfDeals = 1;
 }
@@ -85,49 +132,6 @@ void Grandf::hint() {
 
     canvas()->update();
 
-}
-
-Grandf::Grandf( KMainWindow* parent, const char *name )
-    : Dealer( parent, name ), aredeal(0)
-{
-    deck = new Deck(0, this);
-    deck->hide();
-
-    QValueList<int> list;
-    for (int i=0; i < 7; i++) list.append(5+i);
-    for (int i=0; i < 4; i++) list.append(1+i);
-
-    for (int i=0; i<4; i++) {
-        target[i] = new Pile(i+1, this);
-        target[i]->move(110+i*100, 10);
-        target[i]->setRemoveFlags(Pile::disallow);
-        target[i]->setAddFun(&step1);
-        target[i]->setLegalMove(list);
-        target[i]->setTarget(true);
-    }
-
-    for (int i=0; i<7; i++) {
-        store[i] = new Pile(5+i, this);
-        store[i]->move(10+100*i, 150);
-        store[i]->setAddFlags(Pile::addSpread | Pile::several);
-        store[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
-        store[i]->setAddFun(&Sstep1);
-        store[i]->setLegalMove(list);
-    }
-
-    QList<KAction> actions;
-    ahint = new KAction( i18n("&Hint"), QString::fromLatin1("wizard"), 0, this,
-                         SLOT(hint()),
-                         parent->actionCollection(), "game_hint");
-    aredeal = new KAction (i18n("&Redeal"), QString::fromLatin1("queue"), 0, this,
-                           SLOT(redeal()),
-                           parent->actionCollection(), "game_redeal");
-    actions.append(ahint);
-    actions.append(aredeal);
-    parent->guiFactory()->plugActionList( parent, QString::fromLatin1("game_actions"), actions);
-
-    deal();
-    numberOfDeals = 1;
 }
 
 void Grandf::redeal() {

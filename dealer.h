@@ -92,6 +92,8 @@ protected:
     virtual void cardDblClicked(Card *);
     void won();
 
+    KMainWindow *parent() const;
+
 private:
 
     CardStateList *getState();

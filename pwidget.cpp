@@ -48,7 +48,7 @@ pWidget::pWidget( const char* _name )
                      actionCollection(), "undo_move");
     (void)KStdAction::openNew(this, SLOT(newGame()),
                               actionCollection(), "new_game");
-    (void)new KAction(i18n("&Choose game"), 0, this, SLOT(chooseGame()),
+    (void)new KAction(i18n("&Choose game..."), 0, this, SLOT(chooseGame()),
                       actionCollection(), "choose_game");
     (void)new KAction(i18n("&Restart game"), QString::fromLatin1("reload"), 0,
                       this, SLOT(restart()),

@@ -41,6 +41,11 @@ Dealer::~Dealer()
         delete piles.first(); // removes itself
 }
 
+KMainWindow *Dealer::parent() const
+{
+    return dynamic_cast<KMainWindow*>(QCanvasView::parent());
+}
+
 void Dealer::contentsMouseMoveEvent(QMouseEvent* e)
 {
     if (movingCards.isEmpty())

@@ -121,7 +121,7 @@ int Card::realZ() const
 
 bool Card::realFace() const
 {
-    if (animated()) {
+    if (animated() && flipping) {
         bool face = isFaceUp();
         if ( animSteps >= flipSteps / 2-1 )
             return !face;
