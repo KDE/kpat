@@ -2,3 +2,4 @@
 KDE_DOCS = AUTO
 KDE_LANG = en
 
+KDE_MANS = AUTO
