@@ -18,6 +18,7 @@ Name[ro]=Pasenþe
 Name[sl]=Pasjansa
 Name[sv]=Patiens
 Exec=kpat -caption "%c"
+Icon=kpat.xpm
 Type=Application
 DocPath=kpat/index.html
 Comment=Several nice card games
