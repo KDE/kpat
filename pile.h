@@ -79,6 +79,9 @@ public:
     int indexOf(const Card *c) const;
     Card *at(int index) const;
 
+    void hideCards( const CardList & cards );
+    void unhideCards( const CardList & cards );
+
     virtual QSize cardOffset( bool _spread, bool _facedown, const Card *before) const;
 
     void resetCache();
@@ -86,6 +89,21 @@ public:
     static int SPREAD;
     static int DSPREAD;
     static int HSPREAD;
+
+    enum PileType { Custom, KlondikeTarget, KlondikeStore, GypsyStore, FreeCell, FreecellStore};
+    void setType( PileType t);
+    void setAddType( PileType t);
+    void setRemoveType( PileType t);
+    PileType addType() const { return _atype; }
+    PileType removeType() const { return _rtype; }
+
+    // pile_algorithms
+    bool add_klondikeTarget( const CardList& c2 ) const;
+    bool add_klondikeStore( const CardList& c2 ) const;
+    bool add_gypsyStore( const CardList& c2 ) const;
+    bool add_freeCell( const CardList& c2) const;
+
+    bool remove_freecellStore( const Card *c) const;
 
 public slots:
     virtual void cardClicked(Card *c);
@@ -107,6 +125,7 @@ private:
     int myIndex;
     bool _target;
     KPixmap cache, cache_selected;
+    PileType _atype, _rtype;
 };
 
 typedef QValueList<Pile*> PileList;

@@ -59,6 +59,7 @@ Mod3::Mod3( KMainWindow* parent, const char* _name)
         }
     }
 
+    setTakeTargetForHints(true);
     setActions(Dealer::Hint | Dealer::Redeal | Dealer::Demo );
 }
 
@@ -150,65 +151,6 @@ Card *Mod3::demoNewCards()
        return 0;
    redeal();
    return stack[3][0]->top();
-}
-
-void Mod3::getHints()
-{
-    unmarkAll();
-
-    PileList candidates;
-    for (int r = 0; r < 3; r++)
-    {
-        for (int c = 0; c < 8; c++)
-        {
-            Pile *p = stack[r][c];
-            if (p->isEmpty()) {
-                candidates.append(p);
-                continue;
-            }
-            if (p->cardsLeft() > 1 || p->top()->value() == (p->index()+1))
-                candidates.append(p);
-        }
-    }
-    for (int r = 0; r < 4; r++)
-    {
-        for (int c = 0; c < 8; c++)
-        {
-            if (stack[r][c]->isEmpty())
-                continue;
-            CardList empty;
-            empty.append(stack[r][c]->top());
-            for (PileList::ConstIterator it = candidates.begin();
-                 it != candidates.end(); ++it)
-            {
-                if (checkAdd(0, *it, empty)) {
-                    bool markit = true;
-                    if (r < 3) { // the card may already be perfect
-                        Card *v = stack[r][c]->top();
-                        if (v->source()->cardsLeft() > 1 ||
-                            v->source()->index() + 1 == v->value())
-                            markit = false;
-                    }
-                    if (markit)
-                        newHint(new MoveHint(empty.first(), *it));
-                }
-            }
-        }
-    }
-
-    Pile *theempty = 0;
-
-    for (int i = 0; i < 8; ++i)
-    {
-        if (stack[3][i]->isEmpty()) {
-            theempty = stack[3][i];
-            break;
-        }
-    }
-    if (theempty)
-        for (int i = 0; i < 8; ++i)
-            if (stack[3][i]->cardsLeft() > 1)
-                newHint(new MoveHint(stack[3][i]->top(), theempty));
 }
 
 static class LocalDealerInfo5 : public DealerInfo

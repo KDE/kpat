@@ -40,18 +40,16 @@ protected:
     virtual bool checkRemove( int checkIndex, const Pile *c1, const Card *c) const;
     virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
 
-    bool CanPutStack(const Pile *c1, const CardList& c2) const;
     bool CanPutStore(const Pile *c1, const CardList& c2) const;
-    bool CanPutFreeCell(const Pile *c1, const CardList& c2) const;
     bool CanRemove(const Pile *c1, const Card *c) const;
 
 public:
     int CountFreeCells();
 
 private:
-    Pile *stack[8];
+    Pile *store[8];
     Pile *freecell[4];
-    Pile *store[4];
+    Pile *target[4];
     Deck *deck;
 };
 

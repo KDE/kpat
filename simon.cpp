@@ -38,11 +38,6 @@ void Simon::restart() {
     deal();
 }
 
-Card *Simon::demoNewCards()
-{
-    return 0;
-}
-
 void Simon::deal() {
     int piles = 3;
 
@@ -67,7 +62,6 @@ bool Simon::checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const
     } else {
         if (!c1->isEmpty())
             return false;
-        kdDebug() << "checkAdd " << c2.first()->name() << " " << c2.last()->name() << endl;
         return (c2.first()->value() == Card::King && c2.last()->value() == Card::Ace);
     }
 }
@@ -94,7 +88,6 @@ bool Simon::checkRemove(int checkIndex, const Pile *p, const Card *c) const
         if (!((c->value() == (before->value()-1))
               && (c->suit() == before->suit())))
         {
-            kdDebug() << c->name() << " - " << before->name() << endl;
             return false;
         }
         if (c == p->top())

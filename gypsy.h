@@ -22,10 +22,6 @@ public slots:
 
 private: // functions
     void dealRow(bool faceup);
-    bool CanPutTarget( const Pile* c1, const CardList& c2) const;
-    bool CanPutStore( const Pile* c1, const CardList& c2) const;
-    virtual bool checkRemove( int index, const Pile* c1, const Card *c) const;
-    virtual bool checkAdd( int index, const Pile* c1, const CardList& cl) const;
     virtual Card *demoNewCards();
 
 private:

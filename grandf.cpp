@@ -27,6 +27,7 @@
 #include <kmainwindow.h>
 #include <kaction.h>
 #include <qlist.h>
+#include <assert.h>
 
 Grandf::Grandf( KMainWindow* parent, const char *name )
     : Dealer( parent, name )
@@ -34,17 +35,10 @@ Grandf::Grandf( KMainWindow* parent, const char *name )
     deck = new Deck(0, this);
     deck->hide();
 
-    QValueList<int> list;
-    for (int i=0; i < 7; i++) list.append(5+i);
-    for (int i=0; i < 4; i++) list.append(1+i);
-
     for (int i=0; i<4; i++) {
         target[i] = new Pile(i+1, this);
         target[i]->move(110+i*100, 10);
-        target[i]->setRemoveFlags(Pile::disallow);
-        target[i]->setCheckIndex(0);
-        target[i]->setLegalMove(list);
-        target[i]->setTarget(true);
+        target[i]->setType(Pile::KlondikeTarget);
     }
 
     for (int i=0; i<7; i++) {
@@ -53,7 +47,6 @@ Grandf::Grandf( KMainWindow* parent, const char *name )
         store[i]->setAddFlags(Pile::addSpread | Pile::several);
         store[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
         store[i]->setCheckIndex(1);
-        store[i]->setLegalMove(list);
     }
 
     setActions(Dealer::Hint | Dealer::Demo | Dealer::Redeal);
@@ -61,46 +54,8 @@ Grandf::Grandf( KMainWindow* parent, const char *name )
 
 void Grandf::restart() {
     deck->collectAndShuffle();
-
     deal();
     numberOfDeals = 1;
-}
-
-void Grandf::getHints() {
-
-    Card* t[7];
-    for(int i=0; i<7;i++)
-        t[i] = store[i]->top();
-
-    for(int i=0; i<7; i++) {
-        CardList list = store[i]->cards();
-
-        for (CardList::ConstIterator it = list.begin(); it != list.end(); ++it)
-        {
-            if (!(*it)->isFaceUp())
-                continue;
-
-            CardList empty;
-            empty.append(*it);
-
-            for (int j = 0; j < 7; j++)
-            {
-                if (i == j)
-                    continue;
-
-                if (Sstep1(store[j], empty)) {
-                    if (((*it)->value() != Card::King) || it != list.begin()) {
-                        newHint(new MoveHint(*it, store[j]));
-                        break;
-                    }
-                }
-            }
-        }
-
-        Pile *to = findTarget(t[i]);
-        if (to)
-            newHint(new MoveHint(t[i], to));
-    }
 }
 
 void Grandf::redeal() {
@@ -185,41 +140,13 @@ void Grandf::collect() {
     }
 }
 
-/**
- * final location
- **/
-bool Grandf::step1( const Pile* c1, const CardList& c2 ) const {
-
-    if (c2.isEmpty()) {
-        return false;
-    }
-    Card *top = c1->top();
-
-    Card *newone = c2.first();
-    if (!top) {
-        return (newone->value() == Card::Ace);
-    }
-
-    bool t = ((newone->value() == top->value() + 1)
-               && (top->suit() == newone->suit()));
-    return t;
-}
-
-bool Grandf::Sstep1( const Pile* c1, const CardList& c2) const
-{
+bool Grandf::checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const {
+    assert (checkIndex == 1);
     if (c1->isEmpty())
         return c2.first()->value() == Card::King;
-    else {
-        return (c2.first()->value() == c1->top()->value() - 1)
-                     && c1->top()->suit() == c2.first()->suit();
-    }
-}
-
-bool Grandf::checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const {
-    if (checkIndex == 0)
-        return step1(c1, c2);
     else
-        return Sstep1(c1, c2);
+        return (c2.first()->value() == c1->top()->value() - 1)
+               && c1->top()->suit() == c2.first()->suit();
 }
 
 void Grandf::getGameState( QDataStream & stream )

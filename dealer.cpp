@@ -21,8 +21,6 @@ typedef QValueList<MoveHint*> HintList;
 
 #define T1 200
 
-static int current_file_format = 0;
-
 DealerInfoList *DealerInfoList::self()
 {
     if (!_self)
@@ -36,7 +34,8 @@ void DealerInfoList::add(DealerInfo *dealer)
 }
 
 Dealer::Dealer( KMainWindow* _parent , const char* _name )
-    : QCanvasView( 0, _parent, _name ), towait(0), myActions(0), ademo(0), ahint(0), aredeal(0)
+    : QCanvasView( 0, _parent, _name ), towait(0), myActions(0), ademo(0), ahint(0), aredeal(0),
+      takeTargets(false)
 {
     setGameNumber(kapp->random());
     myCanvas.setAdvancePeriod(30);
@@ -119,13 +118,10 @@ void Dealer::getHints()
 {
     for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
     {
-        if ((*it)->target())
+        if (!takeTargetForHints() && (*it)->target())
             continue;
 
         Pile *store = *it;
-        Pile *t = findTarget(store->top());
-        if (t)
-            newHint(new MoveHint(store->top(), t));
         if (store->isEmpty())
             continue;
         kdDebug() << "trying " << store->top()->name() << endl;
@@ -144,10 +140,18 @@ void Dealer::getHints()
                         continue;
                     if (store->indexOf(*it) == 0 && (*pit)->isEmpty() && !(*pit)->target())
                         continue;
-                    if ((*pit)->legalAdd(cards))
+                    if (!(*pit)->legalAdd(cards))
+                        continue;
+                    if (!takeTargetForHints() && (*pit)->target())
                         newHint(new MoveHint(*it, *pit));
+                    else {
+                        store->hideCards(cards);
+                        // if it could be here as well, then it's no use
+                        if ((store->isEmpty() && !(*pit)->isEmpty()) || !store->legalAdd(cards))
+                            newHint(new MoveHint(*it, *pit));
+                        store->unhideCards(cards);
+                    }
                 }
-                break;
             }
             cards.remove(it);
             it = cards.begin();
@@ -728,15 +732,8 @@ void Dealer::saveGame(QDataStream &s) {
     }
 }
 
-void Dealer::openGame(QDataStream &s) {
-
-    s >> current_file_format; // file format
-    int id;
-    s >> id; // dealer number
-    if (id != _id) {
-        KMessageBox::sorry(this, i18n("Changing games is not yet implemented"));
-        return;
-    }
+void Dealer::openGame(QDataStream &s)
+{
     Q_UINT64 gn;
     s >> gn;
     setGameNumber(gn);

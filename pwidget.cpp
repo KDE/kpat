@@ -314,6 +314,20 @@ void pWidget::openGame()
         QFile of(tmpFile);
         of.open(IO_ReadOnly);
         QDataStream is(&of);
+        int current_file_format;
+        is >> current_file_format; // file format
+        is.setVersion(current_file_format);
+        int id;
+        is >> id; // dealer number
+        if (id != games->currentItem()) {
+            games->setCurrentItem(id);
+            newGameType();
+            if (!dill) {
+                KMessageBox::error(this, i18n("The saved game is of unknown type!"));
+                games->setCurrentItem(0);
+                newGameType();
+            }
+        }
         dill->openGame(is);
         KIO::NetAccess::removeTempFile( tmpFile );
     }

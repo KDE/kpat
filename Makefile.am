@@ -7,8 +7,9 @@ LDADD = $(LIB_KFILE) $(top_builddir)/libkdegames/libkdegames.la
 bin_PROGRAMS = kpat
 
 kpat_SOURCES = main.cpp cardmaps.cpp card.cpp dealer.cpp \
-	pwidget.cpp pile.cpp deck.cpp simon.cpp klondike.cpp grandf.cpp  mod3.cpp \
-	idiot.cpp napoleon.cpp computation.cpp freecell.cpp gypsy.cpp fortyeight.cpp 
+	pwidget.cpp pile.cpp deck.cpp pile_algorithms.cpp simon.cpp klondike.cpp grandf.cpp \
+	mod3.cpp idiot.cpp napoleon.cpp computation.cpp freecell.cpp gypsy.cpp fortyeight.cpp \
+	yukon.cpp 
 
 METASOURCES = AUTO
 

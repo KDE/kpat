@@ -51,11 +51,8 @@ public slots:
 protected:
     void collect();
     virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
-    bool step1( const Pile* c1, const CardList& c2) const;
-    bool Sstep1( const Pile* c1, const CardList& c2) const;
     virtual void getGameState( QDataStream & stream );
     virtual void setGameState( QDataStream & stream );
-    virtual void getHints();
     virtual Card *demoNewCards();
 
 private:

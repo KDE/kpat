@@ -50,19 +50,18 @@ Klondike::Klondike( bool easy, KMainWindow* parent, const char* _name )
     for( int i = 0; i < 7; i++ ) {
         play[ i ] = new Pile( i + 5, this);
         play[i]->move(10 + 85 * i, 130);
-        play[i]->setAddFlags(Pile::addSpread | Pile::several);
+        play[i]->setAddType(Pile::KlondikeStore);
         play[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop | Pile::wholeColumn);
-        play[i]->setCheckIndex(0);
     }
 
     for( int i = 0; i < 4; i++ ) {
         target[ i ] = new Pile( i + 1, this );
         target[i]->move(265 + i * 85, 10);
-        target[i]->setAddFlags(Pile::Default);
-        if (!EasyRules)
-            target[i]->setRemoveFlags(Pile::disallow);
-        target[i]->setCheckIndex(1);
-        target[i]->setTarget(true);
+        target[i]->setAddType(Pile::KlondikeTarget);
+        if (EasyRules) // change default
+            target[i]->setRemoveFlags(Pile::Default);
+        else
+            target[i]->setRemoveType(Pile::KlondikeTarget);
     }
 
     setActions(Dealer::Hint | Dealer::Demo);
@@ -96,7 +95,7 @@ void Klondike::getHints() {
     }
 
     lowest_card[0] = static_cast<Card::Values>(QMIN(tops[1], tops[2])); // red
-    lowest_card[1] = static_cast<Card::Values>(QMIN(tops[0], tops[3])); //black
+    lowest_card[1] = static_cast<Card::Values>(QMIN(tops[0], tops[3])); // black
 
 //    kdDebug() << "startAutoDrop red:" << lowest_card[0] << " black:" << lowest_card[1] << endl;
 
@@ -121,7 +120,7 @@ void Klondike::getHints() {
                 if (i == j)
                     continue;
 
-                if (altStep(play[j], empty)) {
+                if (play[j]->legalAdd(empty)) {
                     if (((*it)->value() != Card::King) || it != list.begin()) {
                         newHint(new MoveHint(*it, play[j]));
                         break;
@@ -142,7 +141,7 @@ void Klondike::getHints() {
             {
                 CardList empty;
                 empty.append(t);
-                if (altStep(play[j], empty)) {
+                if (play[j]->legalAdd(empty)) {
                     newHint(new MoveHint(t, play[j]));
                     break;
                 }
@@ -215,50 +214,6 @@ void Klondike::deal() {
     for(int round=0; round < 7; round++)
         for (int i = round; i < 7; i++ )
             play[i]->add(deck->nextCard(), i != round, true);
-    canvas()->update();
-}
-
-bool Klondike::step1( const Pile* c1, const CardList& c2 ) const
-{
-    if (c2.isEmpty()) {
-        return false;
-    }
-    Card *top = c1->top();
-
-    Card *newone = c2.first();
-    if (!top) {
-        return (newone->value() == Card::Ace);
-    }
-
-    bool t = ((newone->value() == top->value() + 1)
-               && (top->suit() == newone->suit()));
-    return t;
-}
-
-bool Klondike::altStep(  const Pile* c1, const CardList& c2 ) const
-{
-    if (c2.isEmpty()) {
-        return false;
-    }
-    Card *top = c1->top();
-
-    Card *newone = c2.first();
-    if (!top) {
-        return (newone->value() == Card::King);
-    }
-
-    bool t = ((newone->value() == top->value() - 1)
-               && (top->isRed() != newone->isRed()));
-    return t;
-}
-
-bool Klondike::checkAdd   ( int checkIndex, const Pile *c1,
-                            const CardList& c2) const
-{
-    if (checkIndex == 0)
-        return altStep(c1, c2);
-    else
-        return step1(c1, c2);
 }
 
 void Klondike::cardClicked(Card *c) {

@@ -35,27 +35,25 @@ Freecell::Freecell( KMainWindow* parent, const char* name)
     deck->hide();
 
     for (int i = 0; i < 8; i++) {
-        stack[i] = new Pile(1 + i, this);
-        stack[i]->move(8+80*i, 113);
-        stack[i]->setAddFlags(Pile::addSpread | Pile::several);
-        stack[i]->setRemoveFlags(Pile::several);
-        stack[i]->setCheckIndex(0);
+        store[i] = new Pile(1 + i, this);
+        store[i]->move(8+80*i, 113);
+        store[i]->setAddFlags(Pile::addSpread | Pile::several);
+        store[i]->setRemoveFlags(Pile::several);
+        store[i]->setCheckIndex(0);
     }
 
     for (int i = 0; i < 4; i++)
     {
         freecell[i] = new Pile (9+i, this);
         freecell[i]->move(8+76*i, 8);
-        freecell[i]->setCheckIndex(2);
+        freecell[i]->setType(Pile::FreeCell);
 
-        store[i] = new Pile(13+i, this);
-        store[i]->move(338+76*i, 8);
-        store[i]->setRemoveFlags(Pile::disallow);
-        store[i]->setCheckIndex(1);
-        store[i]->setTarget(true);
+        target[i] = new Pile(13+i, this);
+        target[i]->move(338+76*i, 8);
+        target[i]->setType(Pile::KlondikeTarget);
     }
 
-    deal();
+    setActions(Dealer::Demo | Dealer::Hint);
 }
 
 //-------------------------------------------------------------------------//
@@ -73,7 +71,7 @@ int Freecell::CountFreeCells()
     int n = 0;
 
     for (int i = 0; i < 8; i++)
-        if (stack[i]->isEmpty())
+        if (store[i]->isEmpty())
             n++;
 
     for (int i = 0; i < 4; i++)
@@ -83,23 +81,7 @@ int Freecell::CountFreeCells()
     return n;
 }
 
-//-------------------------------------------------------------------------//
-
 bool Freecell::CanPutStore(const Pile *c1, const CardList &c2) const
-{
-    assert(c2.count() == 1);
-    Card *c = c2.first();
-
-    // only aces in empty spaces
-    if (c1->isEmpty())
-        return (c->value() == Card::Ace);
-
-    // ok if in sequence, same suit
-    return (c1->top()->suit() == c->suit())
-          && ((c1->top()->value()+1) == c->value());
-}
-
-bool Freecell::CanPutStack(const Pile *c1, const CardList &c2) const
 {
     kdDebug() << "CanPutStack " << (void*)c1 << " " << c1->cardsLeft() << " " << c2.first()->name() << " " << (c1->top() ? c1->top()->name() : "<none>") << " " << c1->index() << endl;
     // ok if the target is empty
@@ -113,18 +95,9 @@ bool Freecell::CanPutStack(const Pile *c1, const CardList &c2) const
             && (c1->top()->isRed() != c->isRed()));
 }
 
-bool Freecell::checkAdd(int index, const Pile *c1, const CardList &c2) const
+bool Freecell::checkAdd(int, const Pile *c1, const CardList &c2) const
 {
-    switch (index) {
-        case 0:
-            return CanPutStack(c1, c2);
-        case 1:
-            return CanPutStore(c1, c2);
-        case 2:
-            return (c1->isEmpty() && c2.count() == 1);
-        default:
-            return false;
-    }
+    return CanPutStore(c1, c2);
 }
 
 //-------------------------------------------------------------------------//
@@ -169,7 +142,7 @@ void Freecell::deal()
     int column = 0;
     while (!deck->isEmpty())
     {
-        stack[column]->add (deck->nextCard(), false, true);
+        store[column]->add (deck->nextCard(), false, true);
         column = (column + 1) % 8;
     }
 }

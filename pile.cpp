@@ -33,7 +33,12 @@ Card *Pile::top() const
 }
 
 Pile::Pile( int _index, Dealer* parent)
-    : QCanvasRectangle( parent->canvas() ), _dealer(parent), myIndex(_index), _target(false)
+    : QCanvasRectangle( parent->canvas() ),
+_dealer(parent),
+myIndex(_index),
+_target(false),
+_atype(Custom),
+_rtype(Custom)
 {
     dealer()->addPile(this);
     QCanvasRectangle::setVisible(true); // default
@@ -43,6 +48,49 @@ Pile::Pile( int _index, Dealer* parent)
     setBrush(Qt::black);
     setPen(QPen(Qt::black));
     setZ(0);
+}
+
+void Pile::setType(PileType type)
+{
+    setAddType(type);
+    setRemoveType(type);
+}
+
+void Pile::setAddType(PileType type)
+{
+    _atype = type;
+    switch (type) {
+        case Custom:
+        case FreeCell:
+            break;
+        case KlondikeTarget:
+            setTarget(true);
+            break;
+        case KlondikeStore:
+        case GypsyStore:
+        case FreecellStore:
+            setAddFlags(Pile::addSpread | Pile::several);
+            break;
+    }
+}
+
+void Pile::setRemoveType(PileType type)
+{
+    _rtype = type;
+    switch (type) {
+        case Custom:
+            break;
+        case KlondikeTarget:
+            setRemoveFlags(Pile::disallow);
+            break;
+        case KlondikeStore:
+        case GypsyStore:
+        case FreeCell:
+            break;
+        case FreecellStore:
+            setRemoveFlags(Pile::several | Pile::autoTurnTop);
+            break;
+    }
 }
 
 Pile::~Pile()
@@ -80,25 +128,41 @@ void Pile::drawShape ( QPainter & painter )
     }
 }
 
-bool Pile::legalAdd( const CardList& _card ) const
+bool Pile::legalAdd( const CardList& _cards ) const
 {
     if( addFlags & disallow ) {
         return false;
     }
 
-    if (!legalMoves.isEmpty() && !legalMoves.contains(_card.first()->source()->index()))
+    if (!legalMoves.isEmpty() && !legalMoves.contains(_cards.first()->source()->index()))
     {
         return false;
     }
 
     if( !( addFlags & several ) &&
-        _card.count() > 1 )
+        _cards.count() > 1 )
     {
         return false;
     }
 
-    bool result = dealer()->checkAdd( checkIndex(), this, _card );
-    return result;
+    switch (addType()) {
+        case Custom:
+            return dealer()->checkAdd( checkIndex(), this, _cards );
+            break;
+        case KlondikeTarget:
+            return add_klondikeTarget(_cards);
+            break;
+        case FreecellStore:
+        case KlondikeStore:
+            return add_klondikeStore(_cards);
+            break;
+        case GypsyStore:
+            return add_gypsyStore(_cards);
+            break;
+        case FreeCell:
+            return add_freeCell(_cards);
+    }
+    return false;
 }
 
 bool Pile::legalRemove(const Card *c) const
@@ -111,8 +175,23 @@ bool Pile::legalRemove(const Card *c) const
         return false;
     }
 
-    bool b = dealer()->checkRemove( checkIndex(), this, c);
-    return b;
+    switch (removeType()) {
+        case Custom:
+            return dealer()->checkRemove( checkIndex(), this, c);
+            break;
+        case KlondikeTarget:
+        case GypsyStore:
+        case KlondikeStore:
+            assert(0);
+            break;
+        case FreecellStore:
+            return remove_freecellStore(c);
+            break;
+        case FreeCell:
+            return (top() == c);
+            break;
+    }
+    return false;
 }
 
 void Pile::setVisible(bool vis)
@@ -247,6 +326,18 @@ void Pile::remove(Card *c)
 {
     assert(myCards.contains(c));
     myCards.remove(c);
+}
+
+void Pile::hideCards( const CardList & cards )
+{
+    for (CardList::ConstIterator it = cards.begin(); it != cards.end(); ++it)
+        myCards.remove(*it);
+}
+
+void Pile::unhideCards( const CardList & cards )
+{
+    for (CardList::ConstIterator it = cards.begin(); it != cards.end(); ++it)
+        myCards.append(*it);
 }
 
 CardList Pile::cardPressed(Card *c)

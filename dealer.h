@@ -95,6 +95,9 @@ public:
 
     void setGameId(int id) { _id = id; }
 
+    void setTakeTargetForHints(bool e) { takeTargets = e; }
+    bool takeTargetForHints() const { return takeTargets; }
+
 public slots:
 
     // restart is pure virtual, so we need something else
@@ -182,6 +185,7 @@ protected:
     KRandomSequence randseq;
     QColor _midcolor;
     int _id;
+    bool takeTargets;
 };
 
 #endif

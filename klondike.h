@@ -40,8 +40,6 @@ public:
     virtual void restart();
     virtual bool startAutoDrop();
 
-    virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
-
     void redeal(); // put pile back into deck
     void deal();
     void deal3(); // move up to 3 cards from deck to pile
@@ -55,9 +53,6 @@ public:
     bool tryToDrop(Card *t);
 
 private:
-    bool step1( const Pile* c1, const CardList& c2) const;
-    bool altStep( const Pile* c1, const CardList& c2) const;
-
     bool EasyRules;
 
     Pile* play[7];

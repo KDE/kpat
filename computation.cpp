@@ -54,7 +54,7 @@ Computation::Computation( KMainWindow *parent, const char *name )
     pile->setRemoveFlags(Pile::autoTurnTop);
     pile->move(10, 10);
 
-    deal();
+    setActions(Dealer::Demo | Dealer::Hint);
 }
 
 void Computation::restart() {
