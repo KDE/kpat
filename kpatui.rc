@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?> 
 <!DOCTYPE kpartgui>
-<kpartgui name="standard_containers" version="11">
+<kpartgui name="standard_containers" version="12">
 <MenuBar>
   <Menu name="game" noMerge="1"><text>&amp;Game</text>
     <Action name="new_game"/>

@@ -757,10 +757,11 @@ void Dealer::takeState()
         else if (isGameLost()) {
             QTimer::singleShot(400, this, SIGNAL(gameLost()));
             return;
-        } else if (!demoActive() && !waiting()) {
-            QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
         }
     }
+    if (!demoActive() && !waiting())
+            QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
+
     emit undoPossible(undoList.count() > 1 && !waiting());
 }
 
