@@ -1,7 +1,0 @@
-# KDE Config File 
-[KDE Desktop Entry]
-Name=Patience
-Exec=kpat -caption "%c"
-Type=Application
-DocPath=kpat/index.html
-Comment=Several nice card games
