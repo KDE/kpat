@@ -185,7 +185,7 @@ void Klondike::deal3()
         // move back to flip
         item->move(deck->x(), deck->y());
 
-        item->flipTo( pile->x(), pile->y(), 8 * (flipped + 1) );
+        item->flipTo( int(pile->x()), int(pile->y()), 8 * (flipped + 1) );
     }
 
 }

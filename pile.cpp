@@ -376,7 +376,7 @@ void Pile::moveCards(CardList &cl, Pile *to)
     if (removeFlags & autoTurnTop && top()) {
         Card *t = top();
         if (!t->isFaceUp()) {
-            t->flipTo(t->x(), t->y(), 8);
+            t->flipTo(int(t->x()), int(t->y()), 8);
             canvas()->update();
         }
     }
@@ -409,7 +409,7 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
                 dealer()->enlargeCanvas(c);
             }
             else {
-                c->animatedMove( x(), y(), z() + 1, steps);
+                c->animatedMove( int(x()), int(y()), int(z()) + 1, steps);
             }
             break;
         } else

@@ -577,11 +577,11 @@ void Dealer::enlargeCanvas(QCanvasRectangle *c)
     bool changed = false;
 
     if (c->x() + c->width() + 10 > minsize.width()) {
-        minsize.setWidth(c->x() + c->width() + 10);
+        minsize.setWidth(int(c->x()) + c->width() + 10);
         changed = true;
     }
     if (c->y() + c->height() + 10 > minsize.height()) {
-        minsize.setHeight(c->y() + c->height() + 10);
+        minsize.setHeight(int(c->y()) + c->height() + 10);
         changed = true;
     }
     if (changed)
@@ -722,7 +722,7 @@ void Dealer::setState(State *st)
         c->setAnimated(false);
         c->setX(s.x);
         c->setY(s.y);
-        c->setZ(s.z);
+        c->setZ(int(s.z));
         c->setTakenDown(s.tookdown || (target && !s.source->target()));
         c->turn(s.faceup);
     }
@@ -885,7 +885,7 @@ bool Dealer::startAutoDrop()
             t->source()->moveCards(cards, mh->pile());
             t->move(x, y);
             kdDebug(11111) << "autodrop " << t->name() << endl;
-            t->animatedMove(t->source()->x(), t->source()->y(), t->z(), STEPS_AUTODROP);
+            t->animatedMove(int(t->source()->x()), int(t->source()->y()), int(t->z()), STEPS_AUTODROP);
             connect(t, SIGNAL(stoped(Card*)), SLOT(waitForAutoDrop(Card*)));
             return true;
         }
@@ -1054,7 +1054,7 @@ void Dealer::demo() {
             int x2 = int(t->realX());
             int y2 = int(t->realY());
             t->move(x1, y1);
-            t->animatedMove(x2, y2, t->z(), STEPS_DEMO);
+            t->animatedMove(x2, y2, int(t->z()), STEPS_DEMO);
         }
 
         delete [] oldcoords;
@@ -1119,7 +1119,7 @@ bool Dealer::checkAdd( int, const Pile *, const CardList&) const {
 void Dealer::drawPile(KPixmap &pixmap, Pile *pile, bool selected)
 {
     QPixmap bg = myCanvas.backgroundPixmap();
-    QRect bounding(pile->x(), pile->y(), cardMap::CARDX, cardMap::CARDY);
+    QRect bounding(int(pile->x()), int(pile->y()), cardMap::CARDX, cardMap::CARDY);
 
     pixmap.resize(bounding.width(), bounding.height());
     pixmap.fill(Qt::white);
