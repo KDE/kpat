@@ -1,12 +1,12 @@
 
 picsdir = $(kde_datadir)/kpat/pics
 
-pics_DATA =1.bmp 2.bmp 3.bmp 4.bmp 5.bmp 6.bmp 7.bmp 8.bmp 9.bmp \
-	10.bmp 11.bmp 12.bmp 13.bmp 14.bmp 15.bmp 16.bmp 17.bmp 18.bmp 19.bmp \
-	20.bmp 21.bmp 22.bmp 23.bmp 24.bmp 25.bmp 26.bmp 27.bmp 28.bmp 29.bmp \
-	30.bmp 31.bmp 32.bmp 33.bmp 34.bmp 35.bmp 36.bmp 37.bmp 38.bmp 39.bmp \
-	40.bmp 41.bmp 42.bmp 43.bmp 44.bmp 45.bmp 46.bmp 47.bmp 48.bmp 49.bmp \
-	50.bmp 51.bmp 52.bmp back1.bmp back2.bmp back3.bmp
+pics_DATA =1.png 2.png 3.png 4.png 5.png 6.png 7.png 8.png 9.png \
+	10.png 11.png 12.png 13.png 14.png 15.png 16.png 17.png 18.png 19.png \
+	20.png 21.png 22.png 23.png 24.png 25.png 26.png 27.png 28.png 29.png \
+	30.png 31.png 32.png 33.png 34.png 35.png 36.png 37.png 38.png 39.png \
+	40.png 41.png 42.png 43.png 44.png 45.png 46.png 47.png 48.png 49.png \
+	50.png 51.png 52.png back1.png back2.png back3.png
 
 EXTRA_DIST = $(pics_DATA)
 
