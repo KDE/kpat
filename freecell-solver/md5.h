@@ -15,7 +15,8 @@ typedef unsigned __int32 u_int32_t;
 typedef unsigned int u_int32_t;
 #elif !defined(__linux__)
 typedef uint32_t u_int32_t;
-#endif
+#endif  
+
 
 typedef struct MD5Context {
     u_int32_t buf[4];

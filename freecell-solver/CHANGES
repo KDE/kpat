@@ -1,3 +1,28 @@
+From 1.4.0 to 1.4.1
+-------------------
+
+* Set proto_solution_moves and solution_states to NULL in two places
+they were not set to. (Thanks Markus Oberhumer!)
+
+
+From 1.3.42 to 1.4.0
+--------------------
+
+* Win32 adaptation to the new module organization. 
+
+* And finally, a new major version!
+
+From 1.3.41 to 1.3.42
+---------------------
+
+* Another patch from Stephan Kulow - this time regarding int32_t in md5.h.
+
+* Replaced malloc.h by stdlib.h.
+
+* Made the inclusion of search.h into an #ifdef dependant on libredblack only.
+
+* A makefile fix regarding DLFLAGS.
+
 From 1.3.40 to 1.3.41
 ---------------------
 

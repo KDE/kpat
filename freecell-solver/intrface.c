@@ -7,7 +7,6 @@
  */
 
 #include <stdlib.h>
-#include <search.h>
 #include <string.h>
 #include <limits.h>
 #include <stdio.h>
@@ -16,6 +15,10 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#if FCS_STATE_STORAGE==FCS_STATE_STORAGE_LIBREDBLACK_TREE
+#include <search.h>
+#endif
+
 
 #include "config.h"
 #include "state.h"
@@ -76,6 +79,7 @@ freecell_solver_instance_t * freecell_solver_alloc_instance(void)
     instance->dfs_max_depth = 0;
 
 #define SET_TO_NULL(what) instance->what = NULL;
+    SET_TO_NULL(solution_moves);
     SET_TO_NULL(solution_states);
     SET_TO_NULL(proto_solution_moves);
     SET_TO_NULL(soft_dfs_states_to_check);
@@ -532,7 +536,7 @@ void freecell_solver_finish_instance(
         fcs_state_ia_foreach(instance, freecell_solver_destroy_move_stack_of_state, NULL);
     }               
     fcs_state_ia_finish(instance);
-
+    
 #if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBREDBLACK_TREE)
     rbdestroy(instance->tree);
 #elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBAVL_AVL_TREE)
@@ -585,6 +589,8 @@ void freecell_solver_finish_instance(
     instance->db->close(instance->db,0);
 #endif
 
+
+
     /* Free the BFS linked list */
     {
         fcs_states_linked_list_item_t * item, * next_item;
@@ -599,6 +605,7 @@ void freecell_solver_finish_instance(
 
     PQueueFree(instance->a_star_pqueue);
     free(instance->a_star_pqueue);
+
     
     /* Soft-DFS stuff */
     
@@ -635,16 +642,19 @@ void freecell_solver_finish_instance(
 #undef MYFREE
     }
     
+    
     if (instance->proto_solution_moves != NULL)
     {
         free(instance->proto_solution_moves);
         instance->proto_solution_moves = NULL;
     }
+    
     if (instance->solution_states != NULL)
     {
         free(instance->solution_states);
         instance->solution_states = NULL;
     }
+    
 }
 
 void freecell_solver_soft_dfs_add_state(

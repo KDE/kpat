@@ -8,11 +8,13 @@
  */
 
 #include <stdlib.h>
-#include <search.h>
 #include <string.h>
 #include <limits.h>
 #include <stdio.h>
 #include <math.h>
+#if FCS_STATE_STORAGE==FCS_STATE_STORAGE_LIBREDBLACK_TREE
+#include <search.h>
+#endif
 
 #include "config.h"
 #include "state.h"
@@ -171,9 +173,9 @@ int freecell_solver_solve_for_state_resume_solution(
     else
     {
         free(instance->solution_states);
-	instance->solution_states = NULL;
+        instance->solution_states = NULL;
         free(instance->proto_solution_moves);
-	instance->proto_solution_moves = NULL;
+        instance->proto_solution_moves = NULL;
         check = FCS_STATE_IS_NOT_SOLVEABLE;
     }
 

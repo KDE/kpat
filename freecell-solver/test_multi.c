@@ -188,7 +188,7 @@ char * get_board(int gamenumber)
     return ret;
 }
 
-#define LIMIT_STEP 10000
+#define LIMIT_STEP 500
 #define LIMIT_MAX 50000
 
 int main(int argc, char * argv[])

@@ -11,13 +11,14 @@
 #include "fcs.h"
 #include <stdlib.h>
 
+
 void fcs_state_ia_init(freecell_solver_instance_t * instance)
 {
     instance->max_num_state_packs = IA_STATE_PACKS_GROW_BY;
     instance->state_packs = (fcs_state_with_locations_t * *)malloc(sizeof(fcs_state_with_locations_t *) * instance->max_num_state_packs);
     instance->num_state_packs = 1;
     instance->state_pack_len = 0x010000 / sizeof(fcs_state_with_locations_t);
-    instance->state_packs[0] = (fcs_state_with_locations_t*) malloc(instance->state_pack_len*sizeof(fcs_state_with_locations_t));
+    instance->state_packs[0] = malloc(instance->state_pack_len*sizeof(fcs_state_with_locations_t));
 
     instance->num_states_in_last_pack = 0;
 }
@@ -31,7 +32,7 @@ fcs_state_with_locations_t * fcs_state_ia_alloc(freecell_solver_instance_t * ins
             instance->max_num_state_packs += IA_STATE_PACKS_GROW_BY;
             instance->state_packs = (fcs_state_with_locations_t * *)realloc(instance->state_packs, sizeof(fcs_state_with_locations_t *) * instance->max_num_state_packs);
         }
-        instance->state_packs[instance->num_state_packs] = (fcs_state_with_locations_t*)malloc(instance->state_pack_len * sizeof(fcs_state_with_locations_t));
+        instance->state_packs[instance->num_state_packs] = malloc(instance->state_pack_len * sizeof(fcs_state_with_locations_t));
         instance->num_state_packs++;
         instance->num_states_in_last_pack = 0;
     }

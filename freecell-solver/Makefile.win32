@@ -1,22 +1,22 @@
 all: fc-solve.exe fc-solve-debug.exe
 
-OFLAGS=/Og2 /DHASH_STATE_STORAGE /DINTERNAL_HASH_IMPLEMENTATION /DWIN32
+OFLAGS=/Og2 /DFCS_STATE_STORAGE=FCS_STATE_STORAGE_INTERNAL_HASH /DWIN32
 DFLAGS=$(OFLAGS) /DDEBUG
-INCLUDES=card.h config.h fcs.h fcs_dm.h fcs_enums.h fcs_hash.h fcs_isa.h fcs_move.h fcs_user.h md5.h move.h preset.h state.h
+INCLUDES=card.h config.h fcs.h fcs_dm.h fcs_enums.h fcs_hash.h fcs_isa.h fcs_move.h fcs_user.h md5.h move.h preset.h state.h pqueue.h
 CC=cl
 
+
+caas.obj: caas.c $(INCLUDES)
+	$(CC) /c /Focaas.obj $(OFLAGS) caas.c
+
+caas-debug.obj: caas.c $(INCLUDES)
+	$(CC) /c /Focaas-debug.obj $(DFLAGS) caas.c
 
 card.obj: card.c $(INCLUDES)
 	$(CC) /c /Focard.obj $(OFLAGS) card.c
 
 card-debug.obj: card.c $(INCLUDES)
 	$(CC) /c /Focard-debug.obj $(DFLAGS) card.c
-
-dfs.obj: dfs.c $(INCLUDES)
-	$(CC) /c /Fodfs.obj $(OFLAGS) dfs.c
-
-dfs-debug.obj: dfs.c $(INCLUDES)
-	$(CC) /c /Fodfs-debug.obj $(DFLAGS) dfs.c
 
 fcs_dm.obj: fcs_dm.c $(INCLUDES)
 	$(CC) /c /Fofcs_dm.obj $(OFLAGS) fcs_dm.c
@@ -42,6 +42,12 @@ freecell.obj: freecell.c $(INCLUDES)
 freecell-debug.obj: freecell.c $(INCLUDES)
 	$(CC) /c /Fofreecell-debug.obj $(DFLAGS) freecell.c
 
+intrface.obj: intrface.c $(INCLUDES)
+	$(CC) /c /Fointrface.obj $(OFLAGS) intrface.c
+
+intrface-debug.obj: intrface.c $(INCLUDES)
+	$(CC) /c /Fointrface-debug.obj $(DFLAGS) intrface.c
+
 main.obj: main.c $(INCLUDES)
 	$(CC) /c /Fomain.obj $(OFLAGS) main.c
 
@@ -66,15 +72,27 @@ preset.obj: preset.c $(INCLUDES)
 preset-debug.obj: preset.c $(INCLUDES)
 	$(CC) /c /Fopreset-debug.obj $(DFLAGS) preset.c
 
+scans.obj: scans.c $(INCLUDES)
+	$(CC) /c /Foscans.obj $(OFLAGS) scans.c
+
+scans-debug.obj: scans.c $(INCLUDES)
+	$(CC) /c /Foscans-debug.obj $(DFLAGS) scans.c
+
 state.obj: state.c $(INCLUDES)
 	$(CC) /c /Fostate.obj $(OFLAGS) state.c
 
 state-debug.obj: state.c $(INCLUDES)
 	$(CC) /c /Fostate-debug.obj $(DFLAGS) state.c
 
-fc-solve.exe: card.obj dfs.obj fcs_dm.obj fcs_hash.obj fcs_isa.obj freecell.obj main.obj md5c.obj move.obj preset.obj state.obj
-	$(CC) /Fefc-solve.exe /F0x2000000 card.obj dfs.obj fcs_dm.obj fcs_hash.obj fcs_isa.obj freecell.obj main.obj md5c.obj move.obj preset.obj state.obj
+pqueue.obj: pqueue.c $(INCLUDES)
+	$(CC) /c /Fopqueue.obj $(OFLAGS) pqueue.c
 
-fc-solve-debug.exe: card-debug.obj dfs-debug.obj fcs_dm-debug.obj fcs_hash-debug.obj fcs_isa-debug.obj freecell-debug.obj main-debug.obj md5c-debug.obj move-debug.obj preset-debug.obj state-debug.obj
-	$(CC) /Fefc-solve-debug.exe /F0x2000000 card-debug.obj dfs-debug.obj fcs_dm-debug.obj fcs_hash-debug.obj fcs_isa-debug.obj freecell-debug.obj main-debug.obj md5c-debug.obj move-debug.obj preset-debug.obj state-debug.obj
+pqueue-debug.obj: pqueue.c $(INCLUDES)
+	$(CC) /c /Fopqueue-debug.obj $(DFLAGS) pqueue.c
+
+fc-solve.exe: caas.obj card.obj fcs_dm.obj fcs_hash.obj fcs_isa.obj freecell.obj intrface.obj main.obj md5c.obj move.obj preset.obj scans.obj state.obj pqueue.obj
+	$(CC) /Fefc-solve.exe /F0x2000000 caas.obj card.obj fcs_dm.obj fcs_hash.obj fcs_isa.obj freecell.obj intrface.obj main.obj md5c.obj move.obj preset.obj scans.obj state.obj pqueue.obj
+
+fc-solve-debug.exe: caas-debug.obj card-debug.obj fcs_dm-debug.obj fcs_hash-debug.obj fcs_isa-debug.obj freecell-debug.obj intrface-debug.obj main-debug.obj md5c-debug.obj move-debug.obj preset-debug.obj scans-debug.obj state-debug.obj pqueue-debug.obj
+	$(CC) /Fefc-solve-debug.exe /F0x2000000 caas-debug.obj card-debug.obj fcs_dm-debug.obj fcs_hash-debug.obj fcs_isa-debug.obj freecell-debug.obj intrface-debug.obj main-debug.obj md5c-debug.obj move-debug.obj preset-debug.obj scans-debug.obj state-debug.obj pqueue-debug.obj
 clean: 	del *.obj *.exe

@@ -28,7 +28,7 @@ extern freecell_solver_solve_for_state_test_t freecell_solver_sfs_tests[FCS_TEST
  * This macro determines if child can be placed above parent.
  *
  * instance has to be defined.
- *
+ * 
  * */
 #define fcs_is_parent_card(child, parent) \
     ((fcs_card_card_num(child)+1 == fcs_card_card_num(parent)) && \
@@ -39,7 +39,7 @@ extern freecell_solver_solve_for_state_test_t freecell_solver_sfs_tests[FCS_TEST
             ((fcs_card_deck(child) & 0x1) != (fcs_card_deck(parent)&0x1))   \
         ))                \
     )
-
-
+    
+    
 
 #endif /* __TESTS_H */

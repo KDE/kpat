@@ -2,13 +2,13 @@
 
 use strict;
 
-my @objects=(qw(card dfs fcs_dm fcs_hash fcs_isa freecell),
-    qw(main md5c move preset state));
+my @objects=(qw(caas card fcs_dm fcs_hash fcs_isa freecell intrface),
+    qw(main md5c move preset scans state pqueue));
 
 my @headers=(qw(card config fcs fcs_dm fcs_enums fcs_hash fcs_isa),
-    qw(fcs_move fcs_user md5 move preset state));
+    qw(fcs_move fcs_user md5 move preset state pqueue));
 
-my @defines=(qw(HASH_STATE_STORAGE INTERNAL_HASH_IMPLEMENTATION WIN32));
+my @defines=(qw(FCS_STATE_STORAGE=FCS_STATE_STORAGE_INTERNAL_HASH WIN32));
 
 my @debug_defines = (qw(DEBUG));
 

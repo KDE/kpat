@@ -11,6 +11,10 @@
 #include <limits.h>
 #include <stdio.h>
 #include <math.h>
+#if FCS_STATE_STORAGE==FCS_STATE_STORAGE_LIBREDBLACK_TREE
+#include <search.h>
+#endif
+
 
 #include "config.h"
 #include "state.h"
