@@ -23,7 +23,7 @@
 #include "version.h"
 #include "pwidget.h"
 
-static const char *description = I18N_NOOP("KDE Patience Game");
+static const char description[] = I18N_NOOP("KDE Patience Game");
 
 static KCmdLineOptions options[] =
 {
