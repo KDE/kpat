@@ -23,12 +23,9 @@ INSTALL_DIR = $(install) -d -m 0755
 INSTALL_DIR_PRIVATE = $(install) -d -m 0700
 
 prefix = @prefix@
-KDEINC = $(prefix)/include
 BINDIR = $(prefix)/bin
-APPSDIR = $(prefix)/apps/Games
-LIBDIR = $(prefix)/lib
-PICSDIR = $(LIBDIR)/pics
-KPATPICDIR = $(prefix)/lib/pics/kpat
+APPSDIR = $(prefix)/share/applnk/Games
+KPATPICDIR = $(prefix)/share/apps/kpat/pics/
 DOCDIR = $(prefix)/share/doc/HTML/kpat
 
 ########### File Formats ###########
@@ -98,5 +95,5 @@ install:
 
 uninstall:
 	rm -f $(BINDIR)/$(TARGET)
-
+	
 # DO NOT DELETE THIS LINE -- make depend depends on it.
