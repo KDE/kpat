@@ -102,7 +102,7 @@ pWidget::pWidget()
     }
     games->setItems(list);
 
-    KGlobal::dirs()->addResourceType("wallpaper", KStandardDirs::kde_default("data") + "kpat/backgrounds/");  
+    KGlobal::dirs()->addResourceType("wallpaper", KStandardDirs::kde_default("data") + "kpat/backgrounds/");
     KGlobal::dirs()->addResourceType("wallpaper", KStandardDirs::kde_default("data") + "ksnake/backgrounds/");
     wallpapers = new KSelectAction(i18n("&Change Background"), 0, this,
                               SLOT(changeWallpaper()),
@@ -297,15 +297,15 @@ void pWidget::newGame()
     // Check if the user is already running a game, and if she is,
     // then ask if she wants to abort it.
     if (!dill->isGameWon()
-	&& KMessageBox::warningYesNo(0,
-		       i18n("You are already running an unfinished game.  "
-			    "If you abort the old game to start a new one, "
-			    "the old game will be registered as a loss in "
-			    "the statistics file.\n"
-			    "What do you want to do?"),
-		       i18n("Abort Current Game?"),
-		       i18n("Abort Old Game"),
-		       i18n("Continue Old Game")) == KMessageBox::No)
+	&& KMessageBox::warningContinueCancel(0,
+                                     i18n("You are already running an unfinished game.  "
+                                          "If you abort the old game to start a new one, "
+                                          "the old game will be registered as a loss in "
+                                          "the statistics file.\n"
+                                          "What do you want to do?"),
+                                     i18n("Abort Current Game?"),
+                                     i18n("Abort Old Game"),
+                                     "careaboutstats" )  == KMessageBox::Cancel)
         return;
 
     dill->setGameNumber(kapp->random());
@@ -473,7 +473,7 @@ void pWidget::gameLost()
     QString grpNotifMsgs = QString::fromLatin1("Notification Messages");
 
     config = KGlobal::config();
-    KConfigGroupSaver saver(config, 
+    KConfigGroupSaver saver(config,
 			    QString::fromLatin1("Notification Messages"));
     QString dontAsk = config->readEntry(dontAskAgainName).lower();
 
@@ -489,7 +489,7 @@ void pWidget::gameLost()
     if (KMessageBox::questionYesNo(this, i18n("You could not win this game, "
                                               "but there is always a second try.\nStart a new game?"),
                                    i18n("Could Not Win!"),
-                                   i18n("New Game"), 
+                                   i18n("New Game"),
 				   KStdGuiItem::cont(),
 				   dontAskAgainName) == KMessageBox::Yes) {
 
