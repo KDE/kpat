@@ -128,7 +128,7 @@
                                 <cstring>textLabel8</cstring>
                             </property>
                             <property name="text">
-                                <string>Longest loosing streak</string>
+                                <string>Longest losing streak</string>
                             </property>
                         </widget>
                         <widget class="QLabel" row="2" column="1">
