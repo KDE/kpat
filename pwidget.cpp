@@ -186,9 +186,9 @@ void pWidget::changeBackside() {
         if (image.width() != cardMap::CARDX() || image.height() != cardMap::CARDY())
         {
             change = true;
-            if (KMessageBox::warningContinueCancel(this, i18n("The cards you've choosen has a different size "
-                                                              "than the one you're currently using. "
-                                                              "This requires a restart of the current game.")) == KMessageBox::Cancel)
+            if (KMessageBox::warningContinueCancel(this, i18n("The cards you have chosen have a different "
+                                                              "size than the ones you are currently using. "
+                                                              "This requires the current game to be restarted.")) == KMessageBox::Cancel)
                 return;
         }
         setBackSide(deck, cards);
