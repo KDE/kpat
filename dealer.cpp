@@ -1054,31 +1054,48 @@ void Dealer::toggleDemo()
         demo();
 }
 
+class CardPtr
+{
+ public:
+    Card *ptr;
+};
+
+bool operator <(const CardPtr &p1, const CardPtr &p2)
+{
+    return ( p1.ptr->z() < p2.ptr->z() );
+}
+
 void Dealer::won()
 {
     if (_won)
         return;
     _won = true;
-    QCanvasItemList list = canvas()->allItems();
-    for (QCanvasItemList::ConstIterator it = list.begin(); it != list.end(); ++it)
-    {
-        if ((*it)->rtti() == Card::RTTI)
-        {
-            Card *c = dynamic_cast<Card*>(*it);
-            assert(c);
-            c->turn(true);
-            QRect p(0, 0, c->width(), c->height());
-            QRect can(0, 0, canvas()->width(), canvas()->height());
-            int x, y;
 
-            do {
-                // disperse the cards everywhere
-                x = 3*canvas()->width()/2 - kapp->random() % (canvas()->width() * 2);
-                y = 3*canvas()->height()/2 - (kapp->random() % (canvas()->height() * 2));
-                p.moveTopLeft(QPoint(x, y));
-            } while (can.intersects(p));
-	    c->animatedMove( x, y, 0, STEPS_WON);
-       }
+    // sort cards by increasing z
+    QCanvasItemList list = canvas()->allItems();
+    QValueList<CardPtr> cards;
+    for (QCanvasItemList::ConstIterator it=list.begin(); it!=list.end(); ++it)
+        if ((*it)->rtti() == Card::RTTI) {
+            CardPtr p;
+            p.ptr = dynamic_cast<Card*>(*it);
+            assert(p.ptr);
+            cards.push_back(p);
+        }
+    qHeapSort(cards);
+
+    // disperse the cards everywhere
+    QRect can(0, 0, canvas()->width(), canvas()->height());
+    QValueList<CardPtr>::ConstIterator it = cards.begin();
+    for (; it != cards.end(); ++it) {
+        (*it).ptr->turn(true);
+        QRect p(0, 0, (*it).ptr->width(), (*it).ptr->height());
+        int x, y;
+        do {
+            x = 3*canvas()->width()/2 - kapp->random() % (canvas()->width() * 2);
+            y = 3*canvas()->height()/2 - (kapp->random() % (canvas()->height() * 2));
+            p.moveTopLeft(QPoint(x, y));
+        } while (can.intersects(p));
+	    (*it).ptr->animatedMove( x, y, 0, STEPS_WON);
     }
     bool demo = demoActive();
     stopDemo();
