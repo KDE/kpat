@@ -562,6 +562,7 @@ void Dealer::startNew()
         ademo->setEnabled( true );
     if ( aredeal )
         aredeal->setEnabled( true );
+    toldAboutLostGame = false;
     minsize = QSize(0,0);
     _won = false;
     _waiting = 0;
@@ -772,7 +773,7 @@ void Dealer::takeState()
             won();
             return;
         }
-        else if (isGameLost()) {
+        else if (isGameLost() && !toldAboutLostGame) {
             if ( ahint )
                 ahint->setEnabled( false );
             if ( ademo )
@@ -780,6 +781,7 @@ void Dealer::takeState()
             if ( aredeal )
                 aredeal->setEnabled( false );
             QTimer::singleShot(400, this, SIGNAL(gameLost()));
+            toldAboutLostGame = true;
             return;
         }
     }

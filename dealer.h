@@ -199,6 +199,7 @@ protected:
     Card *towait;
     QTimer *demotimer;
     int myActions;
+    bool toldAboutLostGame;
 
     KToggleAction *ademo;
     KAction *ahint, *aredeal;
