@@ -18,7 +18,6 @@
 
 ****************************************/
 
-#include <qapplication.h>
 #include <qpainter.h>
 #include <qcolor.h>
 #include <qwmatrix.h>
@@ -50,7 +49,7 @@ cardMaps::cardMaps( QObject* parent ) : QObject(parent, 0) {
     t1 = QTime::currentTime();
     w = new QWidget(0, "", 
 			     WStyle_Customize|WStyle_NoBorder|WStyle_Tool);
-    pm1.load((PICDIR + "back1.bmp").data());
+    pm1.load((PICDIR + "back1.bmp"));
     QWidget *dt = qApp->desktop();
     w->setBackgroundColor(darkGreen);  
     w->setGeometry((dt->width() - 510)/2, (dt->height() - 180)/2, 
@@ -96,8 +95,8 @@ cardMaps::cardMaps( QObject* parent ) : QObject(parent, 0) {
       break;
     }
 
-    imgname.sprintf("%s/%d.bmp", PICDIR.data(), idx);
-    img[rank][suit] = new QPixmap(imgname.data());
+    imgname = QString("%s/%d.bmp").arg(PICDIR).arg(idx);
+    img[rank][suit] = new QPixmap(imgname);
 
     if(img[rank][suit]->width() == 0 ||
        img[rank][suit]->height() == 0) {
