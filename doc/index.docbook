@@ -734,6 +734,18 @@ win at Easy, and very difficult to win at Hard.
 
 </sect1>
 
+<sect1 id="golf">
+<title>Golf</title>
+
+<para><indexterm><primary>Golf</primary></indexterm> 
+Golf is played with one card deck.  The goal of Golf is to move all the cards on the tableau to the foundation. </para>
+ 
+<para>The layout of golf solitare is straight forward.  At the beginning of the game you will see, the tableau, on it are seven columns each containing five cards.  Below that is the talon and the foundation. </para>
+
+<para>Playing golf solitare is simple, but does require strategy to win.  The cards at the base of each column on the tableau are available for play.  Available cards are built upon the top foundation card in ascending or descending sequence regardless of suit.  If there are no moves available a card may be dealt from the talon to the foundation.  A game is over when all the cards in the talon have been dealt and there are no more possible moves.</para>
+
+</sect1>
+
 </chapter>
 
 <chapter id="credits">
