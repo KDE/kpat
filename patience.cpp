@@ -37,9 +37,9 @@ const long Deck::n = 52;
 CardTable::CardTable( QWidget* parent, const char* name )
   : QWidget( parent, name )
 {
-  setBackgroundColor( darkGreen );
-  setMouseTracking( TRUE );
-  show();
+    setBackgroundColor( darkGreen );
+    setMouseTracking( TRUE );
+    show();
 }
 
 CardTable::~CardTable()
@@ -48,98 +48,98 @@ CardTable::~CardTable()
 
 void CardTable::mouseMoveEvent( QMouseEvent* _event )
 {
-  Card::mouseMoveHandle( _event->pos() );
+    Card::mouseMoveHandle( _event->pos() );
 }
 
 void CardTable::mousePressEvent( QMouseEvent* )
 {
-  Card::stopMovingIfResting();
+    Card::stopMovingIfResting();
 }
 
 Card* Deck::getCard() {
-  Card* c;
+    Card* c;
 
-  c = next();  // Dealing from bottom of deck ....
-  if( c )
-    c->unlink();
-  return c;
+    c = next();  // Dealing from bottom of deck ....
+    if( c )
+        c->unlink();
+    return c;
 }
 
 
 Deck::Deck( int x, int y, CardTable* parent, int m )
-  : cardPos( x, y, parent, DeckType ), f( parent ), mult( m )
+    : cardPos( x, y, parent, DeckType ), f( parent ), mult( m )
 {
-  deck = new Card * [mult*n];
-  CHECK_PTR (deck);
+    deck = new Card * [mult*n];
+    CHECK_PTR (deck);
 
-  makedeck();
-  shuffle();
-  addToDeck();
+    makedeck();
+    shuffle();
+    addToDeck();
 }
 
 
 void Deck::makedeck() {
-  int i=0;
+    int i=0;
 
-  setAddFlags(DeckType, Card::disallow);
-  setRemoveFlags(DeckType, Card::noSendBack);
-  show();
-  for ( Card::Suits s = Card::Clubs; s <=  Card::Spades ; s++)
-    for ( Card::Values  v = Card::Ace; v <= Card::King; v++)
-      for ( int m = 0; m < mult; m++)
-        (deck[i++] = new Card(v, s, f))->show();
+    setAddFlags(DeckType, Card::disallow);
+    setRemoveFlags(DeckType, Card::noSendBack);
+    show();
+    for ( Card::Suits s = Card::Clubs; s <=  Card::Spades ; s++)
+        for ( Card::Values  v = Card::Ace; v <= Card::King; v++)
+            for ( int m = 0; m < mult; m++)
+                (deck[i++] = new Card(v, s, f))->show();
 }
 
 Deck::~Deck() {
-  unlinkAll();
-  clearAllFlags();
+    unlinkAll();
+    clearAllFlags();
 
-  for (int i=0; i < mult*n; i++)
-    delete deck[i];
+    for (int i=0; i < mult*n; i++)
+        delete deck[i];
 }
 
 void Deck::collectAndShuffle() {
-  unlinkAll();
-  shuffle();
-  addToDeck();
+    unlinkAll();
+    shuffle();
+    addToDeck();
 }
 
 
 void Deck::setSendBack(cardPos* c ) {
-  sendBackPos = c;
+    sendBackPos = c;
 }
 
 
 // Shuffle deck, assuming all cards are in deck[]
 void Deck::shuffle() {
-  //  Something is rotten...
-  KRandomSequence R(0);
+    //  Something is rotten...
+    KRandomSequence R(0);
 
-  Card* t;
-  long z;
-  for (int i = mult*n-1; i >= 1; i--) {
-    z = R.getLong(i);
-    t = deck[z];
-    deck[z] = deck[i];
-    deck[i] = t;
-  }
+    Card* t;
+    long z;
+    for (int i = mult*n-1; i >= 1; i--) {
+        z = R.getLong(i);
+        t = deck[z];
+        deck[z] = deck[i];
+        deck[i] = t;
+    }
 }
 
 // add cards in deck[] to Deck
 void Deck::addToDeck() {
-  Card *c = this;
-  for (int i = 0; i < mult*n; i++) {
-    c->add( deck[i], TRUE, FALSE );
-    c = deck[i];
-  }
+    Card *c = this;
+    for (int i = 0; i < mult*n; i++) {
+        c->add( deck[i], TRUE, FALSE );
+        c = deck[i];
+    }
 }
 
 // unlink all cards
 void Deck::unlinkAll() {
-  Card::stopMoving();
+    Card::stopMoving();
 
-  for (int i=0; i < mult*n; i++)
-    deck[i]->unlink();
+    for (int i=0; i < mult*n; i++)
+        deck[i]->unlink();
 }
 
 #include "patience.moc"

@@ -27,28 +27,25 @@
 
 void Mod3::restart()
 {
-	deck->collectAndShuffle();
+    deck->collectAndShuffle();
 
-	deal();
-       rb.show();
+    deal();
 }
 
 //-------------------------------------------------------------------------//
 
 void Mod3::undo()
 {
-	Card::undoLastMove();
+    Card::undoLastMove();
 }
 
 //-------------------------------------------------------------------------//
 
 void Mod3::show()
 {
-	for (int r = 0; r < 4; r++)
-		for (int c = 0; c < 8; c++)
-			stack[r][c]->show();
-
-	rb.show();
+    for (int r = 0; r < 4; r++)
+        for (int c = 0; c < 8; c++)
+            stack[r][c]->show();
 }
 
 //-------------------------------------------------------------------------//
@@ -56,119 +53,115 @@ void Mod3::show()
 Mod3::Mod3( QWidget* _parent, const char* _name)
 	: dealer( _parent, _name ), rb( i18n( "Redeal" ), this )
 {
-  deck = new Deck( -666, -666, this, 2 );
+    deck = new Deck( -666, -666, this, 2 );
 
-  for( int r = 0; r < 4; r++ )
-  {
-    for( int i = 1; i <= 3; i++ )
-      Card::setLegalMove( r + 1, i );
+    for( int r = 0; r < 4; r++ ) {
+        for( int i = 1; i <= 3; i++ )
+            Card::setLegalMove( r + 1, i );
 
-    if( r < 3 )
-    {
-      Card::setAddFlags( r + 1, Card::Default );
-      Card::setAddFun( r + 1, &CanPut );
+        if( r < 3 ) {
+            Card::setAddFlags( r + 1, Card::Default );
+            Card::setAddFun( r + 1, &CanPut );
+        }
+        else
+            Card::setAddFlags( r + 1, Card::addSpread );
+
+        for( int c = 0; c < 8; c++ )
+            stack[ r ][ c ] = new cardPos ( 8 + 80 * c, 8 + 105 * r + 32 * ( r == 3 ), this, r + 1 );
     }
-    else
-      Card::setAddFlags( r + 1, Card::addSpread );
 
-    for( int c = 0; c < 8; c++ )
-      stack[ r ][ c ] = new cardPos ( 8 + 80 * c, 8 + 105 * r + 32 * ( r == 3 ), this, r + 1 );
-  }
+    rb.move( 8, 322 );
+    rb.adjustSize();
+    connect( &rb, SIGNAL( clicked() ) , SLOT( redeal() ) );
 
-  rb.move( 8, 322 );
-  rb.adjustSize();
-  connect( &rb, SIGNAL( clicked() ) , SLOT( redeal() ) );
+    /*
+      QPushButton* hb= new QPushButton( i18n( "Hint" ),this );
+      hb->move( 10, 380 );
+      hb->adjustSize();
+      connect( hb, SIGNAL( clicked() ) , SLOT( hint() ) );
+      hb->show();
+    */
 
-/*
-  QPushButton* hb= new QPushButton( i18n( "Hint" ),this );
-  hb->move( 10, 380 );
-  hb->adjustSize();
-  connect( hb, SIGNAL( clicked() ) , SLOT( hint() ) );
-  hb->show();
-*/
-
-  deal();
+    deal();
 }
 
 //-------------------------------------------------------------------------//
 
 Mod3::~Mod3()
 {
-	delete deck;
+    delete deck;
 
-	for (int r = 0; r < 4; r++)
-		for (int c = 0; c < 8; c++)
-			delete stack[r][c];
+    for (int r = 0; r < 4; r++)
+        for (int c = 0; c < 8; c++)
+            delete stack[r][c];
 }
 
 //-------------------------------------------------------------------------//
 
 bool Mod3::CanPut (const Card *c1, const Card *c2)
 {
-	if (c1 == c2)
-		return 0;
+    if (c1 == c2)
+        return 0;
 
-	if (c1->Suit() == Card::Empty)
-		return (c2->Value() == (c1->type()+1));
+    if (c1->Suit() == Card::Empty)
+        return (c2->Value() == (c1->type()+1));
 
-	if (c1->Suit() != c2->Suit())
-		return 0;
+    if (c1->Suit() != c2->Suit())
+        return 0;
 
-	if (c2->Value() != (c1->Value()+3))
-		return 0;
+    if (c2->Value() != (c1->Value()+3))
+        return 0;
 
-	if (c1->prev()->Suit() == Card::Empty)
-		return (c1->Value() == (c1->type()+1));
+    if (c1->prev()->Suit() == Card::Empty)
+        return (c1->Value() == (c1->type()+1));
 
-	return 1;
+    return 1;
 }
 
 //-------------------------------------------------------------------------//
 
 void Mod3::redeal()
 {
-	if (!deck->next())
-	{
-	  KMessageBox::information(this, i18n("No more cards"));
-	  return;
-	}
+    if (!deck->next()) {
+        KMessageBox::information(this, i18n("No more cards"));
+        return;
+    }
 
-	for (int c = 0; c < 8; c++)
-	{
-		Card *card;
+    for (int c = 0; c < 8; c++) {
+        Card *card;
 
-		do
-			card = deck->getCard();
-		while ((card->Value() == Card::Ace) && deck->next());
+        do
+            card = deck->getCard();
+        while ((card->Value() == Card::Ace) && deck->next());
 
-		stack[3][c]->add (card, FALSE, TRUE);
-	}
+        stack[3][c]->add (card, FALSE, TRUE);
+    }
 
-       if (! deck->next()) rb.hide();
+    rb.setEnabled( deck->next() );
 }
 
 //-------------------------------------------------------------------------//
 
 void Mod3::deal()
 {
-	for (int r = 0; r < 4; r++)
-		for (int c = 0; c < 8; c++)
-		{
-			Card *card;
+    for (int r = 0; r < 4; r++)
+        for (int c = 0; c < 8; c++) {
+            Card *card;
 
-			do
-				card = deck->getCard();
-			while (card->Value() == Card::Ace);
+            do
+                card = deck->getCard();
+            while (card->Value() == Card::Ace);
 
-			stack[r][c]->add (card, FALSE, TRUE);
-		}
+            stack[r][c]->add (card, FALSE, TRUE);
+        }
+    rb.setEnabled(true);
 }
 
 //-------------------------------------------------------------------------//
 
 QSize Mod3::sizeHint() const
 {
-	return QSize (650, 550);
+    return QSize (650, 550);
 }
 
 //-------------------------------------------------------------------------//

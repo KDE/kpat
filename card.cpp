@@ -179,79 +179,68 @@ void Card::quickMoveTo( const QPoint& _point )
 
 void Card::unrotate()
 {
-  rotate45( 0 );
+    rotate45( 0 );
 
-  if( nextPtr )
-  {
-    nextPtr->rotate45( 0 );
-  }
+    if( nextPtr )
+        nextPtr->rotate45( 0 );
 }
 
 void Card::changeType( int _type )
 {
-  switch( AddFlags[ _type ] & addRotated )
-  {
+    switch( AddFlags[ _type ] & addRotated ) {
     case minus45:
-      rotate45( -1 );
-      break;
+        rotate45( -1 );
+        break;
     case plus45:
-      rotate45( 1 );
-      break;
+        rotate45( 1 );
+        break;
     case plus90:
-      rotate45( 2 );
-      break;
+        rotate45( 2 );
+        break;
     case 0:
-      rotate45(0);
-      break;
-  }
+        rotate45(0);
+        break;
+    }
 
-  cardType = _type;
-  if( nextPtr )
-  {
-    nextPtr->changeType( _type );
-  }
+    cardType = _type;
+    if( nextPtr )
+        nextPtr->changeType( _type );
 }
 
 /* add card to top of pile */
 void Card::add( Card* _card )
 {
-  // Assume legal move
-  // adjust flags
+    // Assume legal move
+    // adjust flags
 
-  if( !nextPtr )
-  {
-    _card->changeType( cardType );
-    nextPtr = _card;
-    _card->prevPtr = this;
-    QPoint off( 0, !empty() && AddFlags[ cardType ] & addSpread ?
-	       !FaceUp() ? DSPREAD : SPREAD : 0);
-    _card->moveTo( pos() + off );
-  }
-  else
-  {
-    nextPtr->add( _card );
-  }
+    if( !nextPtr ) {
+        _card->changeType( cardType );
+        nextPtr = _card;
+        _card->prevPtr = this;
+        QPoint off( 0, !empty() && AddFlags[ cardType ] & addSpread ?
+                    !FaceUp() ? DSPREAD : SPREAD : 0);
+        _card->moveTo( pos() + off );
+    }
+    else
+        nextPtr->add( _card );
 }
 
 /* override cardtype (for initial deal ) */
 void Card::add( Card* _card, bool _facedown, bool _spread )
 {
-  // NOTE: this duplicates code from Card::add( Card* )
-  // "// new" signifies new or changed code
-  if( !nextPtr )
-  {
-    _card->turn( !_facedown );          // new
+    // NOTE: this duplicates code from Card::add( Card* )
+    // "// new" signifies new or changed code
+    if( !nextPtr ) {
+        _card->turn( !_facedown );          // new
 
-    _card->changeType( cardType );
-    nextPtr = _card;
-    _card->prevPtr = this;
-    QPoint off( 0, !empty() && _spread ? _facedown || !FaceUp() ? DSPREAD : SPREAD : 0 ); // new
-    _card->moveTo( pos() + off );
-  }
-  else
-  {
-    nextPtr->add( _card, _facedown, _spread ); // new
-  }
+        _card->changeType( cardType );
+        nextPtr = _card;
+        _card->prevPtr = this;
+        QPoint off( 0, !empty() && _spread ? _facedown || !FaceUp() ? DSPREAD : SPREAD : 0 ); // new
+        _card->moveTo( pos() + off );
+    }
+    else
+        nextPtr->add( _card, _facedown, _spread ); // new
 }
 
 /*
@@ -552,30 +541,29 @@ Card::~Card()
 }
 
 Card::Card( Values _value, Suits _suit, QWidget* _parent, int _type, bool _empty )
-  : basicCard( _value, _suit, _parent, _empty )
-  , cardType( _type )
+    : basicCard( _value, _suit, _parent, _empty )
+    , cardType( _type )
 {
-  nextPtr = 0;
-  prevPtr = 0;
+    nextPtr = 0;
+    prevPtr = 0;
 
-  char name[ 3 ];
-  name[ 0 ] = vsym();
-  name[ 1 ] = ssym();
-  name[ 2 ] = 0;
-  setName( name );
+    char name[ 3 ];
+    name[ 0 ] = vsym();
+    name[ 1 ] = ssym();
+    name[ 2 ] = 0;
+    setName( name );
 
-  switch( AddFlags[ _type ] & addRotated )
-  {
+    switch( AddFlags[ _type ] & addRotated ) {
     case minus45:
-      rotate45( -1 );
-      break;
+        rotate45( -1 );
+        break;
     case plus45:
-      rotate45( 1 );
-      break;
+        rotate45( 1 );
+        break;
     case plus90:
-      rotate45( 2 );
-      break;
-  }
+        rotate45( 2 );
+        break;
+    }
 }
 
 #include "card.moc"

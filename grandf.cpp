@@ -31,69 +31,69 @@ public:
 CardBox::CardBox( const QPixmap &pix, QWidget *parent )
   : QDialog( parent, 0, TRUE )
 {
-  QLabel *label = new QLabel( i18n("Try to move card:"), this );
-  label->setAlignment( AlignCenter );
-  QSize s = label->sizeHint();
-  label->resize( s.width() + 4, s.height() + 4 );
-  int w = label->width();
+    QLabel *label = new QLabel( i18n("Try to move card:"), this );
+    label->setAlignment( AlignCenter );
+    QSize s = label->sizeHint();
+    label->resize( s.width() + 4, s.height() + 4 );
+    int w = label->width();
 
-  QLabel *p = new QLabel( this, "label" );
-  p->setPixmap( pix );
-  p->resize( pix.size() );
-  w = QMAX( w, p->width() );
+    QLabel *p = new QLabel( this, "label" );
+    p->setPixmap( pix );
+    p->resize( pix.size() );
+    w = QMAX( w, p->width() );
 
-  QPushButton *button = new QPushButton( i18n("OK"), this, "button" );
-  connect( button, SIGNAL(clicked()), SLOT(accept()) );
-  QFont font( "Helvetica", 12 );
-  font.setWeight( QFont::Bold );
-  button->setFont( font );
-  w = QMAX( w, button->width() );
+    QPushButton *button = new QPushButton( i18n("OK"), this, "button" );
+    connect( button, SIGNAL(clicked()), SLOT(accept()) );
+    QFont font( "Helvetica", 12 );
+    font.setWeight( QFont::Bold );
+    button->setFont( font );
+    w = QMAX( w, button->width() );
 
-  label->move( QMAX( (w - label->width())/2, 0), 0 );
-  p->move( QMAX( (w - p->width())/2, 0), label->height() );
-  button->move( QMAX( (w - button->width())/2, 0),
-		p->height() + label->height() );
+    label->move( QMAX( (w - label->width())/2, 0), 0 );
+    p->move( QMAX( (w - p->width())/2, 0), label->height() );
+    button->move( QMAX( (w - button->width())/2, 0),
+                  p->height() + label->height() );
 }
 
 void displayCard( Card* c ) {
-  CardBox cb( c->pixmap() );
-  cb.exec();
+    CardBox cb( c->pixmap() );
+    cb.exec();
 }
 
 void Grandf::restart()  {
-  deck->collectAndShuffle();
+    deck->collectAndShuffle();
 
-  deal();
-  numberOfDeals = 1;
-  rb.show();
+    deal();
+    numberOfDeals = 1;
+    rb.show();
 }
 
 void Grandf::hint() {
-  bool found = FALSE;
+    bool found = FALSE;
 
-  Card* t[7];
-  Card* c=0;
-  for(int i=0; i<7;i++)
-    t[i] = store[i]->top();
+    Card* t[7];
+    Card* c=0;
+    for(int i=0; i<7;i++)
+        t[i] = store[i]->top();
 
-  for(int i=0; i<7&&!found; i++) {
-    c=store[i];
-    while (!found && (c=c->next()) ) {
-      if (!c->FaceUp())
-	continue;
+    for(int i=0; i<7&&!found; i++) {
+        c=store[i];
+        while (!found && (c=c->next()) ) {
+            if (!c->FaceUp())
+                continue;
 
-      int j=0;
-      while (j<7 && !found) {
-	found = (i!=j) && Sstep1(t[j],c);
-	if ((c->Value() == Card::King) && (c == store[i]->next()))
-	    found = FALSE;
-	j++;
-      }
+            int j=0;
+            while (j<7 && !found) {
+                found = (i!=j) && Sstep1(t[j],c);
+                if ((c->Value() == Card::King) && (c == store[i]->next()))
+                    found = FALSE;
+                j++;
+            }
+        }
     }
-  }
 
-  if (found)
-    displayCard(c);
+    if (found)
+        displayCard(c);
 }
 
 void Grandf::undo() {
@@ -104,11 +104,14 @@ void Grandf::show()  {
     QWidget::show();
     for(int i=0; i<4; i++)
         target[i]->show();
+    /*
+
 
     for(int i=0; i<7; i++)
         store[i]->show();
 
     rb.show();
+    */
 }
 
 Grandf::Grandf( QWidget* parent, const char *name )
@@ -155,48 +158,49 @@ Grandf::Grandf( QWidget* parent, const char *name )
 }
 
 Grandf::~Grandf() {
-  delete deck;
+    delete deck;
 
-  for(int i=0; i<4; i++)
-    delete target[i];
+    for(int i=0; i<4; i++)
+        delete target[i];
 
-  for(int i=0; i<7; i++)
-    delete store[i];
+    for(int i=0; i<7; i++)
+        delete store[i];
 }
 
 void Grandf::redeal() {
-  if (numberOfDeals < 3) {
-    collect();
-    deal();
-    numberOfDeals++;
-  }
-  if (numberOfDeals == 3) {
-    rb.hide();
-  }
+    if (numberOfDeals < 3) {
+        collect();
+        deal();
+        numberOfDeals++;
+    }
+    if (numberOfDeals == 3) {
+        rb.setEnabled(false);
+    }
 }
 
 void Grandf::deal() {
-  int start = 0;
-  int stop = 7-1;
-  int dir = 1;
-  for(int round=0; round < 7; round++) {
-    int i = start;
-    do {
-      if (deck->next())
-	store[i]->add(deck->getCard(), i != start, TRUE);
-      i += dir;
-    } while ( i != stop + dir);
-    int t = start;
-    start = stop;
-    stop = t+dir;
-    dir = -dir;
-  }
+    int start = 0;
+    int stop = 7-1;
+    int dir = 1;
+    for(int round=0; round < 7; round++) {
+        int i = start;
+        do {
+            if (deck->next())
+                store[i]->add(deck->getCard(), i != start, TRUE);
+            i += dir;
+        } while ( i != stop + dir);
+        int t = start;
+        start = stop;
+        stop = t+dir;
+        dir = -dir;
+    }
 
-  int i = 0;
-  while (deck->next()){
-    store[i+1]->add(deck->getCard(), FALSE , TRUE);
-    i = (i+1)%6;
-  }
+    int i = 0;
+    while (deck->next()){
+        store[i+1]->add(deck->getCard(), FALSE , TRUE);
+        i = (i+1)%6;
+    }
+    rb.setEnabled(true);
 }
 
 /*****************************
@@ -208,14 +212,14 @@ void Grandf::deal() {
 
 ******************************/
 void Grandf::collect() {
-  Card* p;
-  for (int pos = 6; pos >= 0; pos--) {
-    p = store[pos]->next();
-    if (p) {
-      p->remove();
-      deck->add(p,TRUE,FALSE);
+    Card* p;
+    for (int pos = 6; pos >= 0; pos--) {
+        p = store[pos]->next();
+        if (p) {
+            p->remove();
+            deck->add(p,TRUE,FALSE);
+        }
     }
-  }
 }
 
 /*
@@ -229,27 +233,27 @@ bool step11( const Card* c1, const Card* c2 )  {
 */
 
 bool Grandf::step1( const Card* c1, const Card* c2 )  {
-  return  (c2->Value() == c1->Value() + 1)
-    && (c1->Suit() != Card::Empty ? c1->Suit() == c2->Suit() : TRUE);
+    return  (c2->Value() == c1->Value() + 1)
+        && (c1->Suit() != Card::Empty ? c1->Suit() == c2->Suit() : TRUE);
 
-  //    return step11( c1, c2->top() );
+    //    return step11( c1, c2->top() );
 }
 
 bool Grandf::Sstep1( const Card* c1, const Card* c2)  {
 
-  const Card* c = c2;
-  bool found = FALSE;
+    const Card* c = c2;
+    bool found = FALSE;
 
-  if (c1->Suit() == Card::Empty)
-    return c2->Value() == Card::King;
-  else {
-    while (!found && (c=c->next())) { found = (c == c1); }
-    return (found ? FALSE : (c2->Value() == c1->Value() - 1) && c1->Suit() == c2->Suit());
-  }
+    if (c1->Suit() == Card::Empty)
+        return c2->Value() == Card::King;
+    else {
+        while (!found && (c=c->next())) { found = (c == c1); }
+        return (found ? FALSE : (c2->Value() == c1->Value() - 1) && c1->Suit() == c2->Suit());
+    }
 }
 
 QSize Grandf::sizeHint() const {
-  return QSize(700, 600);
+    return QSize(700, 600);
 }
 
 #include "grandf.moc"

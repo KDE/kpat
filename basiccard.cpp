@@ -169,14 +169,11 @@ void basicCard::showCard()
     } else {
         setFrameStyle( QFrame::Panel | QFrame::Raised);
         setAlignment( AlignTop | AlignLeft );
-        if( faceup )
-            {
-                //bitBlt( this, 0, 0, maps.image( Value() - 1, Suit() - 1 ), 0, 0, -1, -1 );
-            }
-        else
-            {
-                setBackgroundColor( darkRed );
-            }
+        if( faceup ) {
+            //bitBlt( this, 0, 0, maps.image( Value() - 1, Suit() - 1 ), 0, 0, -1, -1 );
+        } else {
+            setBackgroundColor( darkRed );
+        }
     }
 }
 
@@ -184,16 +181,14 @@ basicCard::~basicCard()
 {
 }
 
-
-
-basicCard::basicCard( Values _value, Suits _suit,  QWidget* _parent, bool _empty )
+basicCard::basicCard( Values _value, Suits _suit,
+                      QWidget* _parent, bool _empty )
     : QLabel( _parent, 0 )
     , suit( _suit )
     , value( _value )
     , empty_flag( _empty )
     , direction( 0 )
 {
-
     faceup = TRUE;
     resize( cardMap::CARDX, cardMap::CARDY );
     showCard();

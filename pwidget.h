@@ -51,7 +51,6 @@ private:
     KSelectAction *games;
     KSelectAction *backs;
     KToggleAction *animation;
-    int type;
 };
 
 #endif

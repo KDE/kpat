@@ -73,8 +73,7 @@ class cardPos: public Card
 public:
 
   cardPos( int x, int y,  QWidget* parent = 0, int type = 0 )
-    : Card( Empty, Empty, parent, type, TRUE )
-  { move( x, y ); }
+      : Card( Empty, Empty, parent, type, TRUE ) { move(x, y); }
 
   virtual ~cardPos() {};
 };

@@ -48,7 +48,7 @@
 #include "ten.h"
 
 pWidget::pWidget( const char* _name )
-    : KMainWindow(0, _name), dill(0), type(0)
+    : KMainWindow(0, _name), dill(0)
 {
     KStdAction::quit(kapp, SLOT(quit()), actionCollection(), "game_exit");
 
@@ -131,9 +131,9 @@ void pWidget::newGameType( )
     delete dill;
     dill = 0;
 
-    int _id = games->currentItem();
+    int id = games->currentItem();
 
-    switch( _id ) {
+    switch( id ) {
     case 0:
         dill = new Ten(this);
         break;
@@ -171,18 +171,25 @@ void pWidget::newGameType( )
         break;
 
     default:
-        kdFatal() << "unimplemented game type " << type << endl;
+        kdFatal() << "unimplemented game type " << id << endl;
         break;
     }
 
-    dill->show();
+    QString name = games->currentText();
+    QString newname;
+    for (uint i = 0; i < name.length(); i++)
+        if (name.at(i) != QChar('&'))
+            newname += name.at(i);
+
     setCentralWidget(dill);
 
-    setCaption( kapp->caption() );
+    setCaption( newname );
 
     KConfig *config = kapp->config();
     KConfigGroupSaver kcs(config, settings_group);
-    config->writeEntry("DefaultGame", type);
+    config->writeEntry("DefaultGame", id);
+
+    dill->show();
 }
 
 void pWidget::setBackSide(int id)
