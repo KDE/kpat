@@ -1,0 +1,174 @@
+INSTALL file for Freecell Solver
+================================
+
+Quick and Dirty Compilation
+---------------------------
+
+Usually typing "make" will build "fc-solve" and "fc-solve-debug" which are 
+the two Freecell Solver executables for you. If you don't have gcc installed
+you need to change the CC variable in the makefile to the name of your 
+compiler.
+
+It's also possible the makefile is causing you trouble. You can try typing 
+"make -f Makefile.lite" instead (in case you don't have GNU make
+installed).
+
+
+Changing the Maximal number of Freecells or Stacks or Cards per Stack
+---------------------------------------------------------------------
+
+Those parameters are hard-coded into the Freecell Solver programs. If you
+wish to change them, you will need to edit the file "config.h" in this
+directory. The comments and the macros' names there will tell you which 
+constants to edit.
+
+Notice that it's very important to set the maximal number of initial cards
+per stack, or else it's possible that a stack will eventually overflow.
+
+If you wish to be able to effectively solve games of "Die Schlange" and
+"Der Katzenschwantz", you should also enable the indirect stack states
+feature. See the "Indirect Stack States" section below for more information
+on how to do that.
+
+For your convenience you can copy the file "config.h.dkds" in the
+distribution on top of "config.h" in order to compile Freecell Solver
+in a "Der Katzenschwantz"/"Die Schlange" compliant mode (which is
+slower for other games). The original "config.h" can also be found as
+the file "config.h.freecell".
+
+Indirect Stack States
+---------------------
+
+The indirect stack states caches the stacks, and only stores pointers to 
+them inside the boards. Thus there is one copy of a particular stack present
+in memory, which enables FCS to conserve more memory. If you are low on
+memory you will probably want to enable this feature, but otherwise it will
+result in a performance lost.
+
+Indirect stack states are especially useful for solving boards of 
+"Der Katzenschwantz" and "Die Schlange" where the stacks can be very long.
+
+To enable 
+
+
+Building the Freecell Solver Library
+------------------------------------
+
+To build the library type "make libfcs.a", which will build a static library.
+The headers needed to use it are the files "fcs_user.h", "fcs_enums.h"
+and "fcs_move.h". See the file "test_lib.c" for an example on how to
+use it.
+
+
+Using a Balanced Binary Tree Implementation
+-------------------------------------------
+
+Freecell Solver has a compile-time option to use a balanced binary
+search tree for storing the states it checked. However, in order to do
+that, it requires external libraries to be installed. It used to make
+Freecell Solver about 33% faster, but ever since the internal hash with
+the MD5 hashing function was introduced, that's not already the case.
+
+Here is the list of the balanced tree implemntations that Freecell
+Solver can use:
+
+* glib's balanced tree
+
+* libredblack's Red-Black tree
+
+* The "avl" library AVL tree
+
+* The "avl" library Red-Black tree
+
+glib is an integral part of Gtk+ and GNOME so it's not unlikely that
+you have it installed. libredblack and avl are not part of most
+standard operating systems but they can be easily downloaded and
+installed.
+
+To do that, install one of the two and then go to the makefile, and
+uncomment one of the WHICH_STATE_ALLOCATION lines that corresponds to
+the library you installed.
+
+Benchmarks for the four implmentations for 1000 test boards were (1):
+
+Indirect state storage: 17:47 minutes
+Internal Hash: 12:01
+
+libredblack: 13:22
+avl's AVL tree: 12:20
+avl's Red-Black Tree: 12:27
+glib's tree: 13:49
+
+You can find the URL for the three libraries through Freshmeat. I did
+not include them in the distribution nor made them the default, because
+they are licensed under the LGPL and the GPL, while Freecell Solver is
+public domain software.
+
+
+1 - The benchmarks were made on a Pentium III 600 MHz with 64 MB of RAM
+running Linux.
+
+Indirect Stack States
+---------------------
+
+The indirect stack states caches the stacks, and only stores pointers to 
+them inside the boards. Thus there is one copy of a particular stack present
+in memory, which enables FCS to conserve more memory. If you are low on
+memory you will probably want to enable this feature, but otherwise it will
+result in a performance lost.
+
+Indirect stack states are especially useful for solving boards of 
+"Der Katzenschwantz" and "Die Schlange" where the stacks can be very long.
+
+To enable this feature uncomment the line defining the macro 
+INDIRECT_STACK_STATES while commenting out the line defining the macro
+DIRECT_STACK_STATES. The stacks cache can also use one of the balanced
+tree implementations described above, and you can use them instead of the
+default (which is the internal hash implementation) by modifying the
+makefile. Make sure you have one of them installed or else you will get a 
+compilation error.
+
+Installing under Win32
+----------------------
+
+Freecell Solver is distributed with a makefile suitable for use with 
+Microsoft Visual C++. Therefore, you can just type "nmake /f Makefile.win32"
+to compile Freecell Solver.
+
+If you have an IDE of some sort you can take the following steps to compile
+Freecell Solver:
+
+1. Open a project for Freecell Solver.
+
+2. Add all the C files to it.
+
+3. Define the macros HASH_STATE_STORAGE and
+INTERNAL_HASH_IMPLEMENTATION , either in config.h or in the C compiler
+paramters.
+
+4. Build.
+
+If you would like to build fc-solve-debug, you will also need to define
+the macro DEBUG.
+
+If you are using gcc or some other command-line compiler, you should 
+write the makefile based on the files "Makefile" or "Makefile.lite", 
+and then compile according to it.
+
+Soft-DFS
+--------
+
+The method used by Freecell Solver in order to solve games, is called 
+Depth First Search or DFS for short. DFS requires recursion in order to
+work. If your system limits you to a certain stack size (Linux is not the
+case), you can compile Freecell Solver so it will use a "soft" recursion,
+which is implemented using an array rather than procedure recursion.
+
+To do that comment out the line 
+#define FCS_METHOD FCS_METHOD_HARD_DFS
+and comment the line
+/* #define FCS_METHOD FCS_METHOD_SOFT_DFS */
+
+Later versions of Freecell Solver will give the user a choice between the
+Soft-DFS and the hardware-assited DFS at runtime.
+

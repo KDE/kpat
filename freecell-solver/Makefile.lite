@@ -1,0 +1,101 @@
+
+CC = gcc
+DFLAGS = -Wall -O3 -DDEBUG -DHASH_STATE_STORAGE -DINTERNAL_HASH_IMPLEMENTATION
+OFLAGS = -Wall -O3 -DHASH_STATE_STORAGE -DINTERNAL_HASH_IMPLEMENTATION
+OLFLAGS = 
+DLFLAGS = 
+
+END_OLFLAGS = 
+END_DLFLAGS = 
+
+INCLUDES = state.h card.h config.h fcs_dm.h fcs_isa.h fcs.h move.h fcs_hash.h md5.h preset.h
+
+TARGETS = fc-solve
+DTARGETS = fc-solve-debug
+
+#all: $(TARGETS)
+all: $(TARGETS) $(DTARGETS)
+
+board_gen: dummy
+	make -C board_gen/
+
+dummy:
+
+
+state-debug.o: state.c $(INCLUDES)
+	$(CC) -c $(DFLAGS) -o $@ $<
+
+state.o: state.c $(INCLUDES)
+	$(CC) -c $(OFLAGS) -o $@ $<
+
+freecell-debug.o: freecell.c $(INCLUDES)
+	$(CC) -c $(DFLAGS) -o $@ $<
+
+freecell.o: freecell.c $(INCLUDES)
+	$(CC) -c $(OFLAGS) -o $@ $<
+
+card-debug.o: card.c $(INCLUDES)
+	$(CC) -c $(DFLAGS) -o $@ $<
+
+card.o: card.c $(INCLUDES)
+	$(CC) -c $(OFLAGS) -o $@ $<
+
+move-debug.o: move.c $(INCLUDES)
+	$(CC) -c $(DFLAGS) -o $@ $<
+
+move.o: move.c $(INCLUDES)
+	$(CC) -c $(OFLAGS) -o $@ $<
+
+fcs_dm-debug.o: fcs_dm.c $(INCLUDES)
+	$(CC) -c $(DFLAGS) -o $@ $<
+
+fcs_dm.o: fcs_dm.c $(INCLUDES)
+	$(CC) -c $(OFLAGS) -o $@ $<
+
+fcs_isa-debug.o: fcs_isa.c $(INCLUDES)
+	$(CC) -c $(DFLAGS) -o $@ $<
+
+fcs_isa.o: fcs_isa.c $(INCLUDES)
+	$(CC) -c $(OFLAGS) -o $@ $<
+
+fcs_hash-debug.o: fcs_hash.c $(INCLUDES)
+	$(CC) -c $(DFLAGS) -o $@ $<
+
+fcs_hash.o: fcs_hash.c $(INCLUDES)
+	$(CC) -c $(OFLAGS) -o $@ $<
+
+md5c-debug.o: md5c.c $(INCLUDES)
+	$(CC) -c $(DFLAGS) -o $@ $<
+
+md5c.o: md5c.c $(INCLUDES)
+	$(CC) -c $(OFLAGS) -o $@ $<
+
+main-debug.o: main.c $(INCLUDES)
+	$(CC) -c $(DFLAGS) -o $@ $<
+
+main.o: main.c $(INCLUDES)
+	$(CC) -c $(OFLAGS) -o $@ $<
+
+dfs-debug.o: dfs.c $(INCLUDES)
+	$(CC) -c $(DFLAGS) -o $@ $<
+
+dfs.o: dfs.c $(INCLUDES)
+	$(CC) -c $(OFLAGS) -o $@ $<
+
+preset-debug.o: preset.c $(INCLUDES)
+	$(CC) -c $(DFLAGS) -o $@ $<
+
+preset.o: preset.c $(INCLUDES)
+	$(CC) -c $(OFLAGS) -o $@ $<
+
+
+fc-solve-debug: freecell-debug.o state-debug.o card-debug.o fcs_dm-debug.o fcs_isa-debug.o main-debug.o fcs_hash-debug.o md5c-debug.o move-debug.o dfs-debug.o preset-debug.o
+	$(CC) $(DLFLAGS) -o $@ freecell-debug.o state-debug.o card-debug.o fcs_dm-debug.o fcs_isa-debug.o main-debug.o fcs_hash-debug.o md5c-debug.o move-debug.o dfs-debug.o preset-debug.o $(END_DLFLAGS) 
+
+fc-solve: freecell.o state.o card.o fcs_dm.o fcs_isa.o main.o fcs_hash.o md5c.o move.o dfs.o preset.o
+	$(CC) $(OLFLAGS) -o $@ freecell.o state.o card.o fcs_dm.o fcs_isa.o main.o fcs_hash.o md5c.o move.o dfs.o preset.o $(END_OLFLAGS)
+
+clean:
+	rm -f *.o $(TARGETS) $(DTARGETS)
+
+

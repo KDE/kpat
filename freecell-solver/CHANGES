@@ -1,0 +1,893 @@
+From 1.1.14 to 1.2.0
+--------------------
+
+* Checked that it works with libredblack and libavl (and both). Looks good.
+
+* A fix for md5.h to make it compile cleanly on Solaris.
+
+* Updated the file config.h.dkds.
+
+* Modified the files README and INSTALL.
+
+From 1.1.13 to 1.1.14
+---------------------
+
+* Removed the fcs_tree macros and enabled an application to use libavl's 
+AVL tree for the states and its red-black tree for the stacks (or vise
+versa).
+
+From 1.1.12 to 1.1.13
+---------------------
+
+* Modified the makefile to enable the different stack allocation mechanisms.
+
+* TODO: test it against a working installation of libavl and libredblack.
+
+From 1.1.11 to 1.1.12
+---------------------
+
+* Implemented indirect stack storage with Glib's balanced tree.
+
+* Implemented indirect stack storage with Glib's Hash Table.
+
+From 1.1.10 to 1.1.11
+---------------------
+
+* Implemented indirect stack storage with libavl (AVL and Red-Black trees).
+
+* Implemented indirect stack storage with libredblack.
+
+* TODO: Modify the makefile to support this.
+
+From 1.1.9 to 1.1.10
+--------------------
+
+* Added a common function for SOFT_DFS resume and solve_for_state.
+
+* Coded a macro fcs_caas_check_and_insert which contain the state storage
+implementation specific details. Now there is one common check_and_add_state
+function.
+
+From 1.1.8 to 1.1.9
+-------------------
+
+* Made sure that if only kings can be on empty stacks, then I won't descend
+into the rest of the function in move_sequences_to_free_stacks.
+
+* Some Soft-DFS fixes to make the resume work. Not finished yet.
+
+* A possibly working Soft-DFS resume_solution function. TODO: merge the code
+ of it and solve_for_state into one function.
+
+* Added the "#include <string.h>" line to the file lib.c.
+
+* Tested the Soft-DFS resume. Looks good!
+
+From 1.1.7 to 1.1.8
+-------------------
+
+* More robust argument handling. No more segfaults - hopefully.
+
+From 1.1.6 to 1.1.7
+-------------------
+
+* Improved move_sequences_to_free_stacks so it will also move sequences
+that are under some cards. (quite rare but possible.)
+
+* TODO: If only kings can be on empty stacks then don't continue unless
+this_card is king.
+
+From 1.1.5 to 1.1.6
+-------------------
+
+* Improved the move_freecell_cards_on_top_of_stacks so it will move freecell
+cards on top of non-top stack cards.
+
+From 1.1.4 to 1.1.5
+-------------------
+
+* Added the Win32 makefiles.
+
+From 1.1.3 to 1.1.4
+-------------------
+
+* Soft-DFS organization and integeration with the main solution model. No
+resume though.
+
+From 1.1.2 to 1.1.3
+-------------------
+
+* A working implementation of Soft-DFS (i.e. without using function recursion)
+. Now to make it conform to the regular conventions.
+
+From 1.1.1 to 1.1.2
+-------------------
+
+* Removed the check for cards under parent in
+move_stack_cards_to_different_stack because it is already handled by the 
+c and seq_end routines.
+
+From 1.1.0 to 1.1.1
+-------------------
+
+* Fixed the seq_end code of move_stack_cards_to_different_stack for
+sequences at the end of the stack.
+
+* The c loop of move_stack_cards_to_different stacks now skips to seq_end+1,
+so it saves iterations.
+
+* Added a "#include <string.h>" line to preset.c.
+
+From 1.0.2 to 1.1.0
+-------------------
+
+* Added a CREDITS file.
+
+* Changed the makefile to delete test-lib and libfcs.a.
+
+* Modified move_stack_cards_to_different_stacks so it will also move source 
+sequences that are below some cards.
+
+* Checked if Freecell Solver solves MS-Freecell board No. 7477 and that Seahaven Towers
+board Tom Holroyd sent me. It does.
+
+* Checked half of the solution of 7477 to see if it's valid. It looks OK.
+
+From 1.0.1 to 1.0.2
+-------------------
+
+* Changed fcs_card_deck() to fcs_card_card_num() in the checks for whether
+to return FCS_STATE_ORIGINAL_STATE_IS_NOT_SOLVEABLE. A major bug!
+
+From 1.0.0 to 1.0.1
+-------------------
+
+* Added an "#include <string.h>" line to fcs_hash.c.
+
+* Added a u_int32_t typedef for WIN32 in md5.h/
+
+* Added an initialization of debug_iter_output in alloc_instance().
+
+* Added an initialization of debug_context.debug_iter_state_output in 
+main().
+
+From 0.11.14 to 1.0.0
+---------------------
+
+* Some changes to the documentation.
+
+* New Initial digit!
+
+From 0.11.13 to 0.11.14
+-----------------------
+
+* Some changes to the TODO file.
+
+From 0.11.12 to 0.11.13
+-----------------------
+
+* Added the files "config.h.dkds" and "config.h.freecell"
+
+* Added documentation about them and about INDIRECT_STACK_STATES to 
+INSTALL.
+
+* Fixed some typos in INSTALL.
+
+From 0.11.11 to 0.11.12
+-----------------------
+
+* Optimized the check_and_add_state() of libredblack. Now there is only one
+call to the rb functions instead of two.
+
+* Checked that libredblack is working. It does.
+
+* Modified the file "README".
+
+* Modified the file "INSTALL".
+
+* Added headers to the new files.
+
+From 0.11.10 to 0.11.11
+-----------------------
+
+* Fixed the function move_top_stack_cards_to_founds and 
+move_freecell_cards_to_founds.
+
+* Fixed the resume code in the check_and_add_state() function of 
+DIRECT_STATE_STORAGE. I have to fix all the other storages!
+
+* Fixed all the check_and_add_states(). libredblack was not tested yet
+because I don't have it installed here.
+
+From 0.11.9 to 0.11.10
+----------------------
+
+* Added the lib.c and fcs_user.h files to be the foundation of the 
+user library.
+
+Not tested yet.
+
+From 0.11.8 to 0.11.9
+---------------------
+
+* Added the ignore_osins (ignore original state is not solveable) paramter
+to the sfs tests.
+
+* Modified the code of move_top_stack_cards_to_founds and 
+move_freecell_cards_to_founds to make use of this parameter.
+
+From 0.11.7 to 0.11.8
+---------------------
+
+* Added a de-allocation of the moves stack in solve_for_state_resume.
+
+* Added the function freecell_solver_unresume_instance().
+
+* Modified main.c to make use of the new interface.
+
+From 0.11.6 to 0.11.7
+---------------------
+
+* Added a de-allocation to the memory allocated for the stacks in
+INDIRECT_STACK_STATES.
+
+* Added the premature-termination of a solving process and its resuming.
+Checked it and it works OK.
+
+From 0.11.5 to 0.11.6
+---------------------
+
+* Made sure the loop over the decks in sfs_move_top_stack_cards_to_founds
+took consideration of d. (it was a bug).
+
+* Handled the case of sequences built by rank.
+
+* Same for move_freecell_cards_to_founds.
+
+From 0.11.4 to 0.11.5
+---------------------
+
+* Added the FCS_NON_DFS compile-time option, which is currently applicable
+only for libavl and for COMPACT_STATES or DEBUG_STATES. 
+
+Not recording the states only seem to make matters much worse.
+
+From 0.11.3 to 0.11.4
+---------------------
+
+* Implemented the function fcs_move_to_string
+
+* Implemented the "-m" option.
+
+From 0.11.2 to 0.11.3
+---------------------
+
+* Changed sequences_are_built_by_suit to sequences_are_built_by with three
+options: rank, suit and alternate colours.
+
+* Added the Baker's Dozen preset.
+
+* Added the Good Measure preset.
+
+* Added the Cruel preset. (I don't support the re-deal feature for the 
+while).
+
+From 0.11.1 to 0.11.2
+---------------------
+
+* Modified the presets code so it will not exceed the hard-coded limits
+of stacks, freecells, etc.
+
+From 0.11.0 to 0.11.1
+---------------------
+
+* Code cleaning and organization. Made sure all STORAGE's worked OK with
+the INDIRECT_STACK_STATES.
+
+From 0.10.0 to 0.11.0
+---------------------
+
+* Changed "die_schalange" to "die_schlange".
+
+* Implemnted INDIRECT_STACK_STATES. At the moment, present only with
+libavl.
+
+* Solution of several Die Schlange boards is fine.
+
+From 0.9.15 to 0.10.0
+---------------------
+
+* Added the new options to the help string.
+
+* Modified the file USAGE.
+
+* Modified the file board_gen/make_pysol_freecell_board.py to generate
+boards for the new games.
+
+* Modified user_state_to_c to input several decks in the foundations.
+
+* Fixed a nasty bug in fcs_Check_state_Validity()
+
+
+From 0.9.14 to 0.9.15
+---------------------
+
+* Added the preset module and interfaced it with main().
+
+From 0.9.13 to 0.9.14
+---------------------
+
+* Added opening comments to move.h, move.c and dfs.c
+
+* Added some comments in dfs.c.
+
+* Added an opening comment in fcs_hash.c and fcs_hash.h
+
+* Added some extern "C" { ... } wrapping around the header file.
+
+* Removed the check to FCS_CANONIZE_STATE in main,c
+
+* Added some initializations in freecell_solver_alloc_instance().
+
+* Removed many of the local variables of main(). I now use instance
+and debug_context to store all of the dynamic information.
+
+From 0.9.12 to 0.9.13
+---------------------
+
+* Added the fcs_move_stack_get_num_moves() function.
+
+* Added the fcs_move_stack_duplicate() function.
+
+* Replaced the stack swallowing code in fcs_move_stack_normalize with 
+  a call to fcs_move_stack_swallow().
+
+* Updated Makefile.lite.
+
+From 0.9.11 to 0.9.12
+---------------------
+
+* Modified user_state_to_c() so it will accept empty freecells by
+specifiying them with a "*" or "-".
+
+* Modified check_state_validity() so it will report in case there's a hole
+in one of the stacks.
+
+* Modified main() accordingly.
+
+* Created the fcs_move_stack_normalize() function, so end-users of the
+library woould not need to canonize the intermediate states.
+
+From 0.9.10 to 0.9.11
+---------------------
+
+* Wrote the perl script and the one state per line output seems to be good
+on many test boards I checked.
+
+* Changed the arguments of fcs_apply_move so freecells_num will come before 
+stacks_num and decks_num.
+
+* Removed the part about recursion states state output in main, and made
+the moves state output to stdout.
+
+* Fixed a bug in which fcs_move_stack_destroy was called twice in main for
+the same stack.
+
+* Changed the move stack growth to the maximum of 16 and 1/8 of its current 
+size.
+
+* Placed check_and_add_state() inside the file dfs.c.
+
+From 0.9.9 to 0.9.10
+--------------------
+
+* Implemented the FCS_MOVE_TYPE_CANONIZE solution and it seems to be
+working.
+
+* Added some missing fcs_move_stack_reset() calls.
+
+* Output from the 0000.board seems fine, but diff is not very helpful. I'm
+going to write a perl script to convert each state into a single line, so it
+will be more sensible. I'll also try playing a game.
+
+From 0.9.8 to 0.9.9
+-------------------
+
+* Added a move loop and dump into main.c.
+
+* I realized that the problem with the move bugs is that the move refer to
+the canonized indexes of the stacks and freecells. I have two ideas how to
+solve this problem:
+
+1. Add a reverse_stack_locs and reverse_fc_locs array to the
+state_with_locations and use it to lookup the real index.
+
+2. Add a FCS_MOVE_TYPE_CANONIZE move and operate on the canonized indexes
+of the stacks and freecells.
+
+Currently I'll try #2, and see if it works out. Anyway I'm going to close a
+version so I'll later may be able to start from this position and try #1.
+
+From 0.9.7 to 0.9.8
+-------------------
+
+* Fixed a place in move_stack_cards_to_a_parent_on_the_same_stack
+where I should have used fcs_is_parent_card.
+
+* Started implementing the moves and move stacks.
+
+* Added move support (probably buggy) into freecell.c.
+
+From 0.9.6 to 0.9.7
+-------------------
+
+* Fixed a bug in the parsing of the "FC: " line if there is a trailing
+whitespace.
+
+* Added the internal hash implementation with the MD5 hash function. It runs
+really quickly. (faster than libavl's AVL tree).
+
+From 0.9.5 to 0.9.6
+-------------------
+
+* Added the empty_stacks_fill option in the instance struct.
+
+* Added appropriate bindings to the main function.
+
+* Added the code for the Empty stacks filled by kings only and Empty stacks
+not filled at all.
+
+* Tested on Forecell board No. 26, and the solution is correct.
+
+From 0.9.4 to 0.9.5
+-------------------
+
+* Tested the solver on a Baker's Game board. Looks good!
+
+* Added the startegy documents inside the devel_docs sub-dir. I'll
+remove them towards the final release.
+
+* Added code for Berkeley DB files. The database creation is not working for
+some reason.
+
+* Implemented the unlimited (or relaxed) sequence move. It can solve game
+#11982 of MS-Freecell!
+
+From 0.9.3 to 0.9.4
+-------------------
+
+* Added a sequences_are_built_by_suit member to instance, and modified main
+to support it.
+
+* Added the fcs_is_parent_card macro in freecell.c and changed all the
+parent-child checking to it.
+
+* Added an if->return statement to handle the sequences built by suit
+stuff in moving cards to the foundations.
+
+From 0.9.2 to 0.9.3
+-------------------
+
+* Changed check_state_validity to reflect the multiple decks.
+
+* Changed the bitwise or in move_top_stack_cards_to_founds and 
+move_freecell_cards_to_found to bitwise xor. It was a bug!, and exists
+in version 0.2, 0.4, 0.6, and 0.8 too.
+
+* Fixed a bug in the main function in inputting the number of stacks. It
+also exists in FCS 0.8.
+
+* Modified the freecell.c functions to make use of the multiple decks.
+
+From 0.9.1 to 0.9.2
+-------------------
+
+* Added decks_num to freecell_solver_instance
+
+* Added decks_num in the main function and in the debug_context.
+
+* Added decks_num support to the parseable part of state_as_string.
+
+* Added decks_num support to the non-p part of state_as_string.
+
+From 0.8.0 to 0.9.1
+-------------------
+
+* Added the MAX_NUM_DECKS macro and modified state.h accordingly.
+
+From 0.7.21 to 0.8.0
+--------------------
+
+* Added the section about changing stacks, freecells and cards per stack
+maximal numbers in INSTALL.
+
+* Changed MAX_NUM_INITIAL_CARDS_IN_A_STACK back to 7.
+
+* Changed the version number to 0.8
+
+* Changed the makefile to be a release one.
+
+From 0.7.20 to 0.7.21
+---------------------
+
+* I realized that storing the solution states is done centrally in 
+solve_for_state. Thus, I removed it from the macros, and from one of the
+tests functions in which it was present.
+
+* I changed the constants 0 and 1 to FCS_STATE_WAS_SOLVED and 
+FCS_STATE_ORIGINAL_STATE_IS_NOT_SOLVEABLE.
+
+* The makefile distributed with 0.7.20 had been set to HASH_STATE_STORAGE.
+Ouch!
+I modified it to be INDIRECT_STATE_STORAGE.
+
+* changed the constants 0 and 1 in solve_for_state to FCS_STATE_WAS_SOLVED
+and FCS_STATE_IS_NOT_SOLVEABLE.
+
+From 0.7.19 to 0.7.20
+---------------------
+
+* Finished the file USAGE and fixed README. 
+
+From 0.7.18 to 0.7.19
+---------------------
+
+* Added support for glib's balanced binary trees.
+
+From 0.7.17 to 0.7.18
+---------------------
+
+* Started to write the USAGE file
+
+* Added the hash-table state storage (which is as slow as hell)
+
+From 0.7.16 to 0.7.17
+---------------------
+
+* Added an INSTALL file.
+
+* Modified the README file.
+
+* Added a README in the board_gen sub-dir.
+
+From 0.7.15 to 0.7.16
+---------------------
+
+* Added the ability to consider "T" and "0" as card 10.
+
+* Added the same for the output.
+
+* Modified the help text to include the new switches.
+
+* Changed the shorts in card.c to ints.
+
+* Wrote a new and improved makefile to handle all those state storage 
+  mechanisms. The old makefile is preserved in the file Makefile.lite
+
+From 0.7.14 to 0.7.15
+---------------------
+
+* Modified the makefile and headers so libredblack will be compiled with
+the -lredblack flag.
+
+* Removed redblack.c and redblack.h from the archive. (I don't want anything
+in here to divert from the public domain).
+
+From 0.7.13 to 0.7.14
+---------------------
+
+* Implemented the variable number of cards in a stack.
+
+From 0.7.12 to 0.7.13
+---------------------
+
+* Added freecells_num and stacks_num to call to canonize_state() 
+in DIRECT_STATES
+
+* Removed the call to free inside solve_for_state().
+
+* Various fixes so fcs will compile smoothly with the trees.
+
+* Timed the trees vs. indirect on 1000 sample boards. The trees were 
+approximately 33% faster.
+
+From 0.7.11 to 0.7.12
+---------------------
+
+* Added freecells_num and stacks_num to call to canonize_state() 
+in INDIRECT_STATES
+
+* Bug fixes related to variable number of stacks and freecells.
+
+* Variable stacks and freecells num now works.
+
+* TODO: Variable number of cards in stacks.
+
+From 0.7.10 to 0.7.11
+---------------------
+
+* Changed 8 to instance->stacks_num. It doesn't work yet.
+
+* TODO: Fix it.
+
+From 0.7.9 to 0.7.10
+--------------------
+
+* Modified user_state_to_c.
+
+* Fixed an ouput bug in state_as_string().
+
+From 0.7.8 to 0.7.9
+-------------------
+
+* Fixed the state_as_string -p option to properly handle a variable
+number of freecells. Next we have to check if it can handle a variable
+amount of stacks.
+
+From 0.7.7 to 0.7.8
+-------------------
+
+* Some more variable nubmer of freecells and stacks modifications.
+
+* Tested that it works with less than 4 freecells.
+
+* TODO: Write a proper not -p output state_as_string function.
+
+* TODO: Implement variable number of stacks.
+
+* TODO: Fix user_state_to_c
+
+From 0.7.6 to 0.7.7
+-------------------
+
+* Started implementing the variable nubmer of freecells and stacks.
+Still a lot to do though, especially in the algorithm.
+
+From 0.7.5 to 0.7.6
+-------------------
+
+* Using avl instead of libredblack.
+
+TODO:
+
+ *TREE_IMPLEMENTATION macros in config.h
+benchmarking the results.
+Makefile ifdefs and stuff for handling the avl library.
+
+From 0.7.4 to 0.7.5
+-------------------
+
+* Cleanups and organization of the macros.
+
+* Defined the macro LIBREDBLACK_TREE_IMPLEMENTATION and there will also be
+AVL_AVL_TREE_IMPLEMENTATION AND AVL_REDBLACK_TREE_IMPLEMENTATION.
+
+From 0.7.3 to 0.7.4
+-------------------
+
+* Implemented REDBLACK_TREE_STATE_STORAGE (in a macro-wise ugly way).
+
+* Modified the makefile to compiled redblack.c too.
+
+* Changed if (!solve_for_state(...)) to 
+if (solve_for_state(....) == FCS_STATE_WAS_SOLVED) in the 
+check_and_add_state functions.
+
+From 0.7.2 to 0.7.3
+-------------------
+
+* Fixed a bug in the board generation of
+(pi_)?make_microsoft_freecell_board.c . The pseudocode given as reference 
+had a mistake!
+
+From 0.7.1 to 0.7.2
+-------------------
+
+* Pre-calculated the maximal sequence length in 
+sfs_move_sequences_to_free_stacks().
+
+
+From 0.6.2 to 0.7.1
+-------------------
+
+* Changed the calc_max_sequence_move to the (fc+1)<<fs calculation. It
+enabled me to implement it as a macro.
+
+
+* Moved the board generation programs to the board_gen sub-dir of the 
+distribution.
+
+* Added make_microsoft_freecell_board.c, 
+pi_make_microsoft_freecell_board.c (buggy), 
+make_pysol_freecell_board.c 
+(should not be used because of 64-bit problems) 
+and make_pysol_freecell_board.py (O.K.)
+
+
+From 0.6.1 to 0.6.2
+-------------------
+
+* In make_gnome_freecell_board.c removed the declaration of rectify,
+and added a call to free at the end of the main() function.
+
+From 0.6 to 0.6.1
+-----------------
+
+* Changed num_freestacks to num_freestacks-1 on the following line in
+freecell.c:
+
+/* One stack is the destination stack, so we have one     *
+ * less stack in that case                                */
+while ((calc_max_sequence_move(num_freecells, num_freestacks-1) < cards_num -c) && (c > 0))
+{ 
+    c--;
+}
+
+It was a bug, and it probably exists in freecell solver version 0.4.x and
+0.2.x too.
+
+
+From 0.5.30 to 0.6
+------------------
+
+* Checked that fc-solve solves my boards and released a stable release.
+
+From 0.5.29 to 0.5.30
+---------------------
+
+* Added an opening comment to main.c and fcs.h, and modified freecell.c's.
+
+* Changed Makefile.release.
+
+
+From 0.5.27 to 0.5.29
+---------------------
+
+* Nothing much. Replaced tabs by 4 whitespaces, cleaned the code a little.
+
+From 0.5.26 to 0.5.27
+---------------------
+
+* Placed the main function and other non-library functions inside main.c.
+  freecell.c remains with the actual solving algorithm.
+
+From 0.5.24 to 0.5.26
+---------------------
+
+* Fixed a bug that instance was freed before num_times is printed.
+
+* Created the following functions:
+      freecell_solver_init_instance
+      freecell_solver_solve_instance
+      freecell_solver_finish_instance
+
+  and replaced their code in main with calls to them.
+
+From 0.5.23 to 0.5.24
+---------------------
+
+* Added a help string for tests-order.
+
+From 0.5.22 to 0.5.23
+---------------------
+
+* Added the ability to specify the order of the tests. No help string on it
+though.
+
+From 0.5.21 to 0.5.22
+---------------------
+
+* Splitted the move stack cards to stacks function into two:
+  1. Move stack cards to diffrent stacks.
+  2. Move single stack cards to a non-immediate parent on the same stack.
+
+From 0.5.19 to 0.5.21
+---------------------
+
+* Placed each of the various solve_for_state tests in its own function, 
+made an array of those tests and solve_for_state is a loop over them.
+
+From 0.5.18 to 0.5.19
+---------------------
+
+* Placed the "remove cards from stack in order to put a card in the decks"
+in the beginning of solve_for_state.
+
+From 0.5.17 to 0.5.18
+---------------------
+
+* Modified the help string to mention max-depth and max-iter-num.
+
+From 0.5.16 to 0.5.17
+---------------------
+
+* Added an optional user-specified limit to a maximal number of iterations 
+or depth.
+
+From 0.5.15 to 0.5.16
+---------------------
+
+* Eliminated putting the initial board in prev_states[0] in
+INDIRECT_STATE_STORAGE.
+
+* Handled instance variables that are specific to DIRECT_STATE_STORAGE or
+INDIRECT_STATE_STORAGE.
+
+* Placed the state output on each iteration inside a callback function.
+
+From 0.5.14 to 0.5.15
+---------------------
+
+* Placed the command-line options inside the instance struct.
+
+From 0.5.13 to 0.5.14
+---------------------
+
+* Added fcs_ prefix to macros.
+
+* Added fcs_ prefix to functions.
+
+
+From 0.5.10 to 0.5.13
+---------------------
+
+* Compiled and ran with DIRECT_STATE_STORAGE and fixed some bugs.
+
+* Added the option to print in canonic or location-preservative order.
+
+From 0.5.6 to 0.5.10
+--------------------
+
+* Implemented the remember the original location of every stack and freecell,
+so the user will not see them re-arranged all the time.
+
+From 0.5.5 to 0.5.6
+-------------------
+
+* More global variables transfered to freecell_solver_instance_t
+
+* Solution boards now stored as state_t's.
+
+From 0.4.1 to 0.5.5
+-------------------
+
+* Added the portion about moving a card to a parent card when they
+are both in the same stack.
+
+* Created a freecell_solver_instance_t struct to hold all the global
+variables.
+
+From 0.4 to 0.4.1
+-----------------
+
+* Minor tweaks to get all the files compile on Win32. 
+
+
+From version 0.2 to version 0.4
+-------------------------------
+
+* Replaced qsorting the sort margin with a call to 
+SFO_merge_large_and_small_sorted_arrays. Now, the sort margin is kept 
+outside the main array of previous states, and it is kept sorted.
+
+* Added a check_and_add_state function that checks the state, and if it 
+is not present in the previous states records it adds it there and then
+call solve_for_state on it.
+
+* Implemented Compact States, which store the states in much less memory.
+(and are faster at least on Pentiums). Program can be compiled with either
+compact states or debug states (the old int and short based states).
+
+* Implemented Indirect State storage, in which the pointers to the states
+are sorted rather than the whole states data-structures. Added the
+state_isa.c module to allocate memory for the states in a 
+memory-conservative fashion. Program can be compiled with either indirect
+states or direct state storage.
+
+* Fixed some bugs in the user_state_to_c function.
+
+* Added support for specifing the contents of the free cells and the
+foundations, and added support for stacks of variable length.
+
+* The check_state_validity function to make sure all cards are present
+in the initial board.

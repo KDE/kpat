@@ -1,0 +1,230 @@
+Freecell Solver's Command-Line Syntax and Usage
+===============================================
+
+
+1. The programs
+
+First note that there are two version of Freecell Solver: "fc-solve" and 
+"fc-solve-debug". "fc-solve" is slightly faster and consumes less memory than 
+"fc-solve-debug" but also supports less options and does not accepts
+signals at run-time. Unless noted otherwise all options are common to
+both versions.
+
+Most command-line switches have two versions: a short POSIX one which
+is a dash followed by a letter; and a long GNU one which is two dashes
+followed by the command string. Note, that Freecell Solver does not
+support specifing more than one command letter after a dash, (e.g:
+"-sip"). Furthermore, a command that accepts a parameter, will require
+this paramter to be present in the next command-line argument, not in
+the GNU manner of "--command=option".
+
+I don't use getopt because I want Freecell Solver to be a pure ANSI C
+program, so I'm sorry for the inconvenience.
+
+
+2. Getting Help
+
+-h      --help
+
+This option displays a help text on the screen. This help
+text summarizes the command-line options and their meaning, as well as
+the signal combinations that fc-solve-debug accepts.
+
+
+3. Output Options
+
+-p      --parseable-output
+
+This option will display the stacks in a format that can be more easily
+manipulated by text-processing programs such as grep or perl. Namely,
+The freecells will be displayed in one line, and the foundations in a
+separate line. Plus, Each stack will be displayed horizontally, in its
+own line, while beginning with a ":".
+
+
+-t      --display-10-as-t
+
+This option will display the 10 cards as a capital T instead of a 10.
+Thus, the cards will be more properly aligned.
+
+
+-c      --canonized-order-output
+
+Freecell Solver re-arranges the stacks and freecells in a given state
+according to their first card. It keeps their actual position in a
+separate place, but internally it uses their canonized place. Use
+this option, if you want Freecell Solver to display them in that order.
+One should be warned that that way the place of a given stack in the
+board will not be preserved throughout the solution.
+
+
+-m      --display-moves
+
+This option will display the moves instead of the intermediate states.
+Each move will be displayed in a separate line, in a format that is
+human-readable, but that can also be parsed and analyzed by a computer
+program with some effort on the programmer's part.
+
+
+4. Game Variants Options
+
+
+--freecells-num [Number of Freecells]
+
+This option specifies the number of freecells which are available to
+the program. Freecell Solver can use any number of freecells as long as
+it does not exceed its maximal number.
+
+This maximum is hard-coded into the program, and can be specified at
+compile-time by modifying the file "config.h". See the file INSTALL for
+details.
+
+
+--stacks-num [Number of Stacks]
+
+This option specifies the number of stacks present in the board. Again,
+this number cannot exceed the maximal number of stacks, which can be
+specified in the file "config.h" during compile-time of Freecell
+Solver.
+
+
+--decks-num [Number of Decks]
+
+This options specifies how many decks are found in the board. This number
+cannot exceed the maximal number of decks, which can be specified in the
+file "config.h" during compile time of Freecell Solver.
+
+
+--sequences-are-built-by {suit|alternate_color|rank}
+
+This option specifies whether a card sequence is built by suit or by
+alternate colour or by rank regardless of suit.
+
+
+--sequence-move {limited|unlimited}
+
+This option specifies whether the sequence move is limited by the
+number of freecells or vacant stacks or not. 
+
+
+--empty-stacks-filled-by {kings|none|all}
+
+Specifies which cards can fill an empty stack.
+
+
+--game [game]   --preset [game]  -g [game]
+
+Specifies the type of game. Each preset implies several of the
+settings options above. Available presets:
+
+     bakers_dozen     - Baker's Dozen
+     bakers_game      - Baker's Game
+     cruel            - Cruel
+     der_katz         - Der Katzenschwantz
+     die_schlange     - Die Schlange
+     eight_off        - Eight Off
+     forecell         - Forecell
+     freecell         - Freecell
+     good_measure     - Good Measure
+     ko_bakers_game   - Kings' Only Baker's Game
+     relaxed_freecell - Relaxed Freecell
+     relaxed_sehaven  - Relaxed Seahaven Towers
+     seahaven         - Seahaven Towers
+
+Note: in order to solve Der Katzenschwantz and Die Schlange I recommend you
+compile Freecell Solver with the INDIRECT_STACK_STATES option, or else it will
+consume much more memory. For details consult the file INSTALL.
+
+5. Solving Algorithm Options
+
+-mi [Maximal number of iterations]
+--max-iters [Maximal number of iterations]
+
+Freecell Solver solves Freecell boards by storing each state it arrived
+to, and making sure it does not check it again. This paramter specifies
+the maximal number of states that can be stored this way.
+
+It is generally a good idea to set it to some value, so the program
+will not occupy too much memory.
+
+
+-md [Maximal depth]
+--max-depth [Maximal depth]
+
+Freecell Solver recurses into the solution. This paramter specifies a
+maximal recursion depth. Generally speaking, it's not a good idea to
+set it, because that way several important intermediate states become
+inaccesible.
+
+
+-to [Test's Order]
+--tests-order [Test's Order]
+
+This option specifies the order in which Freecell Solver will try the
+differnet types of moves that it can perform. Each move is specified by
+one character, and they are performed in the order in which they appear
+in the paramter string. You can omit tests by not including their
+correpsonding characters in the string.
+
+The tests along with their characters are:
+
+'0' - put top stack cards in the foundations.
+'1' - put freecell cards in the foundations.
+'2' - put freecell cards on top of stacks.
+'3' - put non-top stack cards in the foundations.
+'4' - move stack cards to different stacks.
+'5' - move stack cards to a parent card on the same stack.
+'6' - move sequences of cards onto free stacks.
+'7' - put freecell cards on empty stacks.
+'8' - move cards to a different parent.
+'9' - empty an entire stack into the freecells.
+
+Mainuplating the tests order can be very helpful to the quick solution
+of a given board. If you found that a certain board cannot be solved in
+after a long time or in a certain maximal number of iterations, you
+should try different tests' orders. Usually, one can find a test order
+that solves a board very quickly.
+
+
+6. Run-time Display Options (specific to fc-solve-debug only)
+
+-i
+--iter-output
+
+This option tells fc-solve-debug to print the iteration number and the
+recursion depth of every state which is checked, to the standard
+output. It's a good way to keep track of how it's doing, but the output
+slows it down a bit.
+
+-s
+--state-output
+
+This option makes little sense by itself, and is applicable only if
+-i/--iter-ouput was also specified at the command-line. If specified,
+this option also output the cards and formation of the board itself,
+for every state that is checked. "fc-solve-debug -i -s" yields a nice
+real-time display of the progress of Freecell Solver, but you usually
+cannot make what is going on because it is so fast.
+
+
+7. Signal Combinations that can be Sent to "fc-solve-debug"
+
+If you are working on a UNIX or a simliar system then you can set some
+run-time options in "fc-solve-debug" by sending it some signal
+combinations.
+
+If you send the signal USR1, without sending any other signals before
+that, then "fc-solve-debug" will output the present number of
+iterations. This method is a good way to monitor an instance that takes
+a long time to solve.
+
+If you send it the signal USR2 and then USR1, then "fc-solve-debug"
+will print the iteration number and depth on every state that it
+checks. It is the equivalent of specifiying (or unspecifiying) the
+option -i/--iter-output.
+
+If you send it two USR2 signals and then USR1, then "fc-solve-debug"
+will also print the board of every state. Again, this will only be done
+assuming the iteration output is turned on.
+
+
