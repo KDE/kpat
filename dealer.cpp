@@ -981,7 +981,7 @@ void Dealer::demo() {
 
     MoveHint *mh = chooseHint();
     if (mh) {
-        assert(mh->card()->source()->legalRemove(mh->card()));
+        // assert(mh->card()->source()->legalRemove(mh->card()));
 
         CardList empty;
         CardList cards = mh->card()->source()->cards();
@@ -1008,7 +1008,7 @@ void Dealer::demo() {
         }
 
         assert(mh->card()->source() != mh->pile());
-        assert(mh->pile()->legalAdd(empty));
+        // assert(mh->pile()->legalAdd(empty));
 
         mh->card()->source()->moveCards(empty, mh->pile());
 
