@@ -34,7 +34,7 @@ const long Deck::n = 52;
  *    CardTable -- place to put cards
  *
  */
-CardTable::CardTable( QWidget* parent, const char* name ) 
+CardTable::CardTable( QWidget* parent, const char* name )
   : QWidget( parent, name )
 {
   setBackgroundColor( darkGreen );
@@ -66,15 +66,15 @@ Card* Deck::getCard() {
 }
 
 
-Deck::Deck( int x, int y, CardTable* parent, int m ) 
+Deck::Deck( int x, int y, CardTable* parent, int m )
   : cardPos( x, y, parent, DeckType ), f( parent ), mult( m )
-{ 
+{
   deck = new Card * [mult*n];
   CHECK_PTR (deck);
 
-  makedeck(); 
-  shuffle(); 
-  addToDeck(); 
+  makedeck();
+  shuffle();
+  addToDeck();
 }
 
 
@@ -93,20 +93,20 @@ void Deck::makedeck() {
 Deck::~Deck() {
   unlinkAll();
   clearAllFlags();
-  
+
   for (int i=0; i < mult*n; i++)
     delete deck[i];
 }
 
-void Deck::collectAndShuffle() { 
-  unlinkAll(); 
-  shuffle(); 
-  addToDeck(); 
+void Deck::collectAndShuffle() {
+  unlinkAll();
+  shuffle();
+  addToDeck();
 }
 
 
-void Deck::setSendBack(cardPos* c ) { 
-  sendBackPos = c; 
+void Deck::setSendBack(cardPos* c ) {
+  sendBackPos = c;
 }
 
 
@@ -119,8 +119,8 @@ void Deck::shuffle() {
   long z;
   for (int i = mult*n-1; i >= 1; i--) {
     z = R.getLong(i);
-    t = deck[z]; 
-    deck[z] = deck[i]; 
+    t = deck[z];
+    deck[z] = deck[i];
     deck[i] = t;
   }
 }
@@ -134,38 +134,12 @@ void Deck::addToDeck() {
   }
 }
 
-// unlink all cards 
+// unlink all cards
 void Deck::unlinkAll() {
   Card::stopMoving();
-  
+
   for (int i=0; i < mult*n; i++)
     deck[i]->unlink();
-}
-
-
-dealer::dealer( QWidget* _parent , const char* _name )
-  : CardTable( _parent, _name )
-{
-}
-
-dealer::~dealer()
-{
-}
-
-void dealer::stopActivity()
-{ 
-  Card::stopMoving(); 
-}
-
-QSize dealer::sizeHint() const
-{
-  // just a dummy size
-  //fprintf( stderr, "kpat: dealer::sizeHint() called!\n" );
-  return QSize( 100, 100 );
-}
-
-void dealer::undo() { 
-  Card::undoLastMove(); 
 }
 
 #include "patience.moc"

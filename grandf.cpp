@@ -20,7 +20,7 @@
 
 #include <qdialog.h>
 #include "grandf.h"
-#include "global.h"
+#include <klocale.h>
 
 class CardBox : public QDialog {
 public:
@@ -34,7 +34,7 @@ CardBox::CardBox( const QPixmap &pix, QWidget *parent )
   label->setAlignment( AlignCenter );
   QSize s = label->sizeHint();
   label->resize( s.width() + 4, s.height() + 4 );
-  int w = label->width();    
+  int w = label->width();
 
   QLabel *p = new QLabel( this, "label" );
   p->setPixmap( pix );
@@ -50,12 +50,12 @@ CardBox::CardBox( const QPixmap &pix, QWidget *parent )
 
   label->move( QMAX( (w - label->width())/2, 0), 0 );
   p->move( QMAX( (w - p->width())/2, 0), label->height() );
-  button->move( QMAX( (w - button->width())/2, 0), 
+  button->move( QMAX( (w - button->width())/2, 0),
 		p->height() + label->height() );
 }
 
 void displayCard( Card* c ) {
-  CardBox cb( c->pixmap() ); 
+  CardBox cb( c->pixmap() );
   cb.exec();
 }
 
@@ -72,13 +72,13 @@ void Grandf::hint() {
 
   Card* t[7];
   Card* c=0;
-  for(int i=0; i<7;i++) 
+  for(int i=0; i<7;i++)
     t[i] = store[i]->top();
 
   for(int i=0; i<7&&!found; i++) {
     c=store[i];
     while (!found && (c=c->next()) ) {
-      if (!c->FaceUp()) 
+      if (!c->FaceUp())
 	continue;
 
       int j=0;
@@ -91,7 +91,7 @@ void Grandf::hint() {
     }
   }
 
-  if (found) 
+  if (found)
     displayCard(c);
 }
 
@@ -110,7 +110,7 @@ void Grandf::show()  {
 }
 
 Grandf::Grandf( QWidget* parent, const char* name )
-  : dealer( parent, name ), rb( i18n( "Redeal" ), this ) 
+  : dealer( parent, name ), rb( i18n( "Redeal" ), this )
 {
   const int Store = 1;
   const int Target = 2;
@@ -141,7 +141,7 @@ Grandf::Grandf( QWidget* parent, const char* name )
   rb.move(10,40);
   rb.adjustSize();
   connect( &rb, SIGNAL( clicked()) , SLOT( redeal() ) );
-    
+
   QPushButton* hb= new QPushButton(i18n("Hint"),this);
   hb->move(10,80);
   hb->adjustSize();
@@ -165,9 +165,9 @@ Grandf::~Grandf() {
 void Grandf::redeal() {
   if (numberOfDeals < 3) {
     collect();
-    deal(); 
+    deal();
     numberOfDeals++;
-  } 
+  }
   if (numberOfDeals == 3) {
     rb.hide();
   }
@@ -218,7 +218,7 @@ void Grandf::collect() {
 
 /*
 bool step11( const Card* c1, const Card* c2 )  {
-    
+
     return !c2 || (c2->Value() == c1->Value() + 1)
 	&& (c1->Suit() != Card::Empty ? c1->Suit() == c2->Suit() : TRUE)
 	&& step11( c2, c2->prev()) ;
@@ -229,7 +229,7 @@ bool step11( const Card* c1, const Card* c2 )  {
 bool Grandf::step1( const Card* c1, const Card* c2 )  {
   return  (c2->Value() == c1->Value() + 1)
     && (c1->Suit() != Card::Empty ? c1->Suit() == c2->Suit() : TRUE);
-    
+
   //    return step11( c1, c2->top() );
 }
 
@@ -238,7 +238,7 @@ bool Grandf::Sstep1( const Card* c1, const Card* c2)  {
   const Card* c = c2;
   bool found = FALSE;
 
-  if (c1->Suit() == Card::Empty) 
+  if (c1->Suit() == Card::Empty)
     return c2->Value() == Card::King;
   else {
     while (!found && (c=c->next())) { found = (c == c1); }

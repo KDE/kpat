@@ -1,5 +1,5 @@
 /* -*- C++ -*-
- * 
+ *
  * patience -- main program
  *   Copyright (C) 1995  Paul Olav Tvete
  *
@@ -23,27 +23,12 @@
 #ifndef __PWIDGET__H__
 #define __PWIDGET__H__
 
-#include <qwidget.h>
-#include <qpopupmenu.h>
-#include <qkeycode.h>
+#include <kmainwindow.h>
 
-#include <kmenubar.h>
-#include <ktmainwindow.h>
-#include <ktoolbar.h>
-#include <kstatusbar.h>
-#include <kmenubar.h>
-#include <kapp.h>
-
-#include "card.h"
-#include "klondike.h"
-#include "microsol.h"
-#include "computation.h"
-#include "grandf.h"
-#include "ten.h"
-#include "idiot.h"
-#include "napoleon.h"
-#include "mod3.h"
-#include "freecell.h"
+class dealer;
+class KToggleAction;
+class KSelectAction;
+class KAction;
 
 // type identifier for games
 #define PT_NONE		0
@@ -57,34 +42,34 @@
 #define PT_MOD3		8
 #define PT_FREECELL	9
 
-class pWidget: public KTMainWindow {
-  Q_OBJECT
+class pWidget: public KMainWindow {
+    Q_OBJECT
+
 public:
-  pWidget(const char *name=0 );
-
-protected:
-  virtual void focusInEvent(QFocusEvent *);
+    pWidget( const char *name=0 );
 
 private:
-  void help();
-  void helpRules();
-  void about();
-  void setDefaultType();
-  int  getDefaultType();
-  void actionNewGame(int);
-  void setBackSide(int);
+    void help();
+    void helpRules();
+    void about();
+    void setDefaultType();
+    int  getDefaultType();
+    void actionNewGame(int);
+    void setBackSide(int);
 
-private slots:
-  void action(int);
-  void slotToolbarChanged();
+protected slots:
+    void undoMove();
+    void changeBackside();
+    void animationChanged();
+    void newGameType();
+    void restart();
 
 private:
-  KMenuBar *m;
-  KToolBar *tb;
-  KStatusBar *sb;
-  dealer* dill;
-  int type;
-  bool inInit;
+    dealer* dill;
+    KSelectAction *games;
+    KSelectAction *backs;
+    KToggleAction *animation;
+    int type;
 };
 
 #endif

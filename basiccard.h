@@ -25,7 +25,7 @@
 
 #include "cardmaps.h"
 
-class basicCard : public QLabel { 
+class basicCard : public QLabel {
   Q_OBJECT
 public:
   typedef char Suits;
@@ -51,20 +51,20 @@ public:
   static const Values Queen;
   static const Values King;
 
-  basicCard( Values v, Suits s,  QWidget *parent=0,  bool empty=FALSE); 
+  basicCard( Values v, Suits s,  QWidget *parent=0,  bool empty=FALSE);
   virtual ~basicCard();
 
-  const QPixmap & pixmap();
+  QPixmap pixmap() const;
 
 private:
-  static const char vs[15]; 
-  static const char ss[6];  
+  static const char vs[15];
+  static const char ss[6];
   static cardMaps *maps; //   The pictures...
   //   Note: we have to use a pointer
   //   because of Qt restrictions.
   //   ( QPainter objects needs a
   //   running QApplication. )
-  //   
+  //
 
   Suits suit;
   Values value;
@@ -74,19 +74,19 @@ private:
 
 protected:
   void paintEvent( QPaintEvent * );
-  void showCard(); 
-  void turn(bool faceup = TRUE); 
+  void showCard();
+  void turn(bool faceup = TRUE);
   void rotate45(int d);
 
 public:
-  Suits Suit() const {return suit;}     
-  Values  Value() const {return value;} 
-  Values  ValueA() const {return value==Ace?14:value;} 
+  Suits Suit() const {return suit;}
+  Values  Value() const {return value;}
+  Values  ValueA() const {return value==Ace?14:value;}
 
   bool Red() const { return suit==Diamonds || suit==Hearts; }
   bool Black() const { return suit==Clubs || suit==Spades; }
 
-  bool FaceUp() const {return faceup;}  
+  bool FaceUp() const {return faceup;}
 
   Values vsym() const { return vs[value]; }
   Suits ssym() const { return ss[suit]; }

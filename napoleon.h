@@ -23,6 +23,7 @@
 #define P_NAPOLEON
 
 #include "patience.h"
+#include "dealer.h"
 
 class Napoleon : public dealer {
   Q_OBJECT
@@ -41,7 +42,7 @@ private:
   void deal();
 
   static bool Ustep1( const Card* c1, const Card* c2);
-  static bool Dstep1( const Card* c1, const Card* c2);    
+  static bool Dstep1( const Card* c1, const Card* c2);
   static bool justOne( const Card* c1, const Card* c2);
 
   cardPos* pile;

@@ -28,6 +28,7 @@
 #define P_MICROSOL
 
 #include "patience.h"
+#include "dealer.h"
 
 class MicroSolitaire : public dealer {
   Q_OBJECT

@@ -28,6 +28,7 @@
 #define P_GRANDF_7
 
 #include "patience.h"
+#include "dealer.h"
 
 class Grandf : public dealer {
   Q_OBJECT

@@ -72,13 +72,13 @@ void basicCard::turn( bool _faceup )
 }
 
 void basicCard::rotate45( int _direction )
-{ 
+{
   if( _direction <= 2 &&
       _direction >= -1 &&
       _direction != direction )
   {
-    direction = _direction; 
-    if( direction ) 
+    direction = _direction;
+    if( direction )
       if( direction % 2 )
       {
 	int size = (int) ( ( maps->CARDX + maps->CARDY ) / 1.4142136 );
@@ -89,7 +89,7 @@ void basicCard::rotate45( int _direction )
 	resize( maps->CARDY, maps->CARDX );
       }
     else
-    { 
+    {
       resize( maps->CARDX, maps->CARDY );
     }
   }
@@ -105,8 +105,8 @@ void basicCard::paintEvent( QPaintEvent* _event )
 
     pix.fill( backgroundColor() );         // initialize pixmap
 
-    QPainter painter;                           
-    painter.begin( &pix );                       
+    QPainter painter;
+    painter.begin( &pix );
 
     if ( empty() )
     {
@@ -126,19 +126,19 @@ void basicCard::paintEvent( QPaintEvent* _event )
     }
     else
     {
-      if( direction == 1 ) 
+      if( direction == 1 )
 	painter.translate( maps->CARDX, 0.0 );
-      else if( direction == 2 ) 
+      else if( direction == 2 )
 	painter.translate( maps->CARDY, 0.0 );
-      else if( direction == -1 ) 
+      else if( direction == -1 )
 	painter.translate( 0.0, maps->CARDX / sqrt( 2 ) );
       painter.rotate( direction * 45.0 );
-      if( FaceUp() ) 
+      if( FaceUp() )
 	painter.drawPixmap( 0, 0, *maps->image( value,suit ) );
       else
 	painter.drawPixmap( 0, 0, *maps->backSide() );
     }
-    painter.end();                             
+    painter.end();
 
     // bitBlt( this, 0, 0, &pix, 0, 0, -1, -1 ); // copy pixmap to widget
     bitBlt( this, _event->rect().topLeft() , &pix, _event->rect() ); // copy pixmap to widget
@@ -150,19 +150,19 @@ void basicCard::paintEvent( QPaintEvent* _event )
 
     pix.fill( backgroundColor() );         // initialize pixmap
 
-    QPainter painter;                           
-    painter.begin( &pix );                       
-    painter.drawRect( 0, 0, width(), height());      
+    QPainter painter;
+    painter.begin( &pix );
+    painter.drawRect( 0, 0, width(), height());
     qDrawShadePanel( &painter, 0, 0, width(), height(), colgrp, TRUE);
-    painter.end();                             
+    painter.end();
 
     bitBlt( this, _event->rect().topLeft() , &pix, _event->rect() ); // copy pixmap to widget
     // bitBlt( this, 0, 0, &pix, 0, 0, -1, -1 ); // copy pixmap to widget
   }
   else
   {
-    if( FaceUp() ) 
-      bitBlt( this, _event->rect().topLeft(), maps->image( value, suit ), _event->rect() ); // copy pixmap to widget 
+    if( FaceUp() )
+      bitBlt( this, _event->rect().topLeft(), maps->image( value, suit ), _event->rect() ); // copy pixmap to widget
       // bitBlt( this, 0, 0, maps->image( value, suit ), 0, 0, -1, -1 );
     else
       bitBlt( this, _event->rect().topLeft(), maps->backSide(), _event->rect() ); // copy pixmap to widget
@@ -172,15 +172,12 @@ void basicCard::paintEvent( QPaintEvent* _event )
 
 void basicCard::showCard()
 {
-  if( parentWidget() ) 
+  if( parentWidget() )
     setBackgroundColor( parentWidget()->backgroundColor() );
 
-  if( empty() )
-  { 
+  if( empty() ) {
     setFrameStyle( QFrame::Panel | QFrame::Plain );
-  }
-  else
-  {
+  } else {
     setFrameStyle( QFrame::Panel | QFrame::Raised);
     setAlignment( AlignTop | AlignLeft );
     if( faceup )
@@ -216,7 +213,7 @@ basicCard::basicCard( Values _value, Suits _suit,  QWidget* _parent, bool _empty
   showCard();
 }
 
-const QPixmap & basicCard::pixmap()
+QPixmap basicCard::pixmap() const
 {
   return *maps->image( value,suit );
 }

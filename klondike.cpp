@@ -23,8 +23,7 @@
 ****************************************/
 
 #include "klondike.h"
-#include "global.h"
-
+#include <klocale.h>
 #include <kmessagebox.h>
 
 Klondike::Klondike( QWidget* _parent, const char* _name )
@@ -35,7 +34,7 @@ Klondike::Klondike( QWidget* _parent, const char* _name )
   const int Target = 3;
 
   Card::setAddFlags(Play, Card::addSpread | Card::several);
-  Card::setRemoveFlags(Play, Card::several | Card::autoTurnTop 
+  Card::setRemoveFlags(Play, Card::several | Card::autoTurnTop
 		       | Card::wholeColumn);
   Card::setAddFun(Play, altStep);
 
@@ -74,17 +73,17 @@ Klondike::Klondike( QWidget* _parent, const char* _name )
 
   for( int i = 0; i < 4; i++ )
     target[ i ] = new cardPos( 210 + i * 85, 10, this, Target );
-  
-  for( int i = 0; i < 7; i++ ) 
+
+  for( int i = 0; i < 7; i++ )
     play[ i ] = new cardPos( 110 + 85 * i, 150, this, Play );
-  
-  connect( deck, SIGNAL( nonMovableCardPressed( int ) ), 
+
+  connect( deck, SIGNAL( nonMovableCardPressed( int ) ),
 	   SLOT( deal3() ) );
   deal();
 }
 
 void Klondike::changeDiffLevel( int l ) {
-  if ( EasyRules == (l == 0) ) 
+  if ( EasyRules == (l == 0) )
     return;
 
   int r = KMessageBox::warningContinueCancel(this,
@@ -109,14 +108,14 @@ static bool moreThan2(Card* p) {
   return p->next() && p->next()->next() && p->next()->next()->next();
 }
 
-void Klondike::show() {    
+void Klondike::show() {
   int i;
 
   pile->show();
 
   for(i = 0; i < 4; i++)
     target[i]->show();
-  
+
   for(i = 0; i < 7; i++)
     play[i]->show();
 }
@@ -126,7 +125,7 @@ void Klondike::undo() {
 }
 
 void Klondike::restart() {
-  deck->collectAndShuffle();  
+  deck->collectAndShuffle();
   deal();
 }
 
@@ -144,8 +143,8 @@ Klondike::~Klondike() {
 void Klondike::deal3() {
   Card::dont_undo();
 
-  if ( !EasyRules && !deck->next() 
-       ||  EasyRules && !moreThan2(deck) && pile->next() ) 
+  if ( !EasyRules && !deck->next()
+       ||  EasyRules && !moreThan2(deck) && pile->next() )
     {
       redeal();
       return;
@@ -157,7 +156,7 @@ void Klondike::deal3() {
     p->remove();
     pile->add(p, FALSE, FALSE); // faceup, nospread
     p = t;
-  }    
+  }
 }
 
 
@@ -170,7 +169,7 @@ void Klondike::redeal() {
     // of the new deck
 
     olddeck = deck->next();
-    if (olddeck) 
+    if (olddeck)
       olddeck->remove();
   }
 
@@ -184,7 +183,7 @@ void Klondike::redeal() {
 
   if (EasyRules)
     // put the cards from the old deck on top
-    if (olddeck) 
+    if (olddeck)
       deck->add(olddeck);
 }
 
@@ -195,9 +194,9 @@ void Klondike::deal() {
 }
 
 bool Klondike::wholeBunch( const Card* c ) {
-  if (c->prev()) 
+  if (c->prev())
     return c->prev()->empty()  || !c->prev()->FaceUp();
-  else 
+  else
     return TRUE;	
 }
 
@@ -207,7 +206,7 @@ bool Klondike::step1( const Card* c1, const Card* c2 ) {
 }
 
 bool Klondike::altStep( const Card* c1, const Card* c2) {
-  if (c1->Suit() == Card::Empty) 
+  if (c1->Suit() == Card::Empty)
     return c2->Value() == Card::King;
   else
     return (c2->Value() == c1->Value() - 1) && c1->Red() != c2->Red();

@@ -20,8 +20,7 @@
 
 #include <qdialog.h>
 #include "mod3.h"
-#include "global.h"
-
+#include <klocale.h>
 #include <kmessagebox.h>
 
 //-------------------------------------------------------------------------//
@@ -55,7 +54,7 @@ void Mod3::show()
 //-------------------------------------------------------------------------//
 
 Mod3::Mod3( QWidget* _parent, const char* _name)
-	: dealer( _parent, _name ), rb( i18n( "Redeal" ), this ) 
+	: dealer( _parent, _name ), rb( i18n( "Redeal" ), this )
 {
   deck = new Deck( -666, -666, this, 2 );
 
