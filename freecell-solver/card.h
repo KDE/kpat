@@ -46,7 +46,8 @@ extern char * fcs_p2u_card_number(
     int num, 
     char * str, 
     int * card_num_is_null,
-    int t);
+    int t,
+    int flipped);
 
 
 /*
@@ -54,9 +55,11 @@ extern char * fcs_p2u_card_number(
  *
  * */
 char * fcs_p2u_suit(
-        int suit, 
-        char * str, 
-        int card_num_is_null);
+    int suit, 
+    char * str, 
+    int card_num_is_null,
+    int flipped
+    );
 
 /*
  * This function converts a card number from its user representation

@@ -6,7 +6,7 @@ my @objects=(qw(caas card fcs_dm fcs_hash fcs_isa freecell intrface),
     qw(main md5c move preset scans state pqueue));
 
 my @headers=(qw(card config fcs fcs_dm fcs_enums fcs_hash fcs_isa),
-    qw(fcs_move fcs_user md5 move preset state pqueue));
+    qw(fcs_move fcs_user jhjtypes md5 move pqueue preset state tests));
 
 my @defines=(qw(FCS_STATE_STORAGE=FCS_STATE_STORAGE_INTERNAL_HASH WIN32));
 

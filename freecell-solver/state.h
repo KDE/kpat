@@ -27,7 +27,8 @@ extern "C" {
 struct fcs_struct_card_t
 {
     short card_num;
-    short deck;
+    char suit;
+    char flags;
 };
 
 typedef struct fcs_struct_card_t fcs_card_t;
@@ -46,7 +47,11 @@ struct fcs_struct_state_t
 {
     fc_stack_t stacks[MAX_NUM_STACKS];
     fcs_card_t freecells[MAX_NUM_FREECELLS];
-    int decks[MAX_NUM_DECKS*4];
+    int foundations[MAX_NUM_DECKS*4];
+#ifdef FCS_WITH_TALONS    
+    fcs_card_t * talon;
+    char talon_params[4];
+#endif
 };
 
 typedef struct fcs_struct_state_t fcs_state_t;
@@ -66,39 +71,42 @@ typedef struct fcs_struct_state_with_locations_t fcs_state_with_locations_t;
 
 #define fcs_stack_len(state, s) \
     ( (state).stacks[(s)].num_cards )    
-
-#define fcs_stack_card_num(state, s, c) \
-    ( (state).stacks[(s)].cards[(c)].card_num )
-
-#define fcs_stack_card_deck(state, s, c) \
-    ( (state).stacks[(s)].cards[(c)].deck )
-
+  
 #define fcs_stack_card(state, s, c) \
     ( (state).stacks[(s)].cards[(c)] )
 
+#define fcs_stack_card_suit(state, s, c) \
+    ( fcs_card_suit(fcs_stack_card((state),(s),(c))) )
+
+#define fcs_stack_card_num(state, s, c) \
+    ( fcs_card_card_num(fcs_stack_card((state),(s),(c))) )
+    
 #define fcs_card_card_num(card) \
     ( (card).card_num )
 
 #define fcs_card_suit(card) \
-    ( (card).deck )
+    ((int)( (card).suit ))
+
+#define fcs_card_get_flipped(card) \
+    ( (card).flags )
 
 #define fcs_freecell_card(state, f) \
     ( (state).freecells[(f)] )
     
 #define fcs_freecell_card_num(state, f) \
-    ( (state).freecells[(f)].card_num )
-    
-#define fcs_freecell_card_deck(state, f) \
-    ( (state).freecells[(f)].deck )
+    ( fcs_card_card_num(fcs_freecell_card((state),(f))) )
 
-#define fcs_deck_value(state, d) \
-    ( (state).decks[(d)] )
+#define fcs_freecell_card_suit(state, f) \
+    ( fcs_card_suit(fcs_freecell_card((state),(f))) )
 
-#define fcs_increment_deck(state, d) \
-    ( (state).decks[(d)]++ )
+#define fcs_foundation_value(state, found) \
+    ( (state).foundations[(found)] )
 
-#define fcs_set_deck(state, d, value) \
-    ( (state).decks[(d)] = (value) )
+#define fcs_increment_foundation(state, found) \
+    ( (state).foundations[(found)]++ )
+
+#define fcs_set_foundation(state, found, value) \
+    ( (state).foundations[(found)] = (value) )
     
 #define fcs_pop_stack_card(state, s, into) \
     {        \
@@ -120,23 +128,41 @@ typedef struct fcs_struct_state_with_locations_t fcs_state_with_locations_t;
     }
 
 #define fcs_duplicate_state(dest, src) \
-    (dest) = (src);
+    (dest) = (src)
 
 #define fcs_put_card_in_freecell(state, f, card) \
-    (state).freecells[(f)] = (card);
+    (state).freecells[(f)] = (card)
 
 #define fcs_empty_freecell(state, f) \
-    (state).freecells[(f)] = fcs_empty_card;
+    (state).freecells[(f)] = fcs_empty_card
 
 #define fcs_card_set_suit(card, d) \
-    (card).deck = (d) ;
+    (card).suit = (d) 
 
 #define fcs_card_set_num(card, num) \
-    (card).card_num = (num);
+    (card).card_num = (num)
+
+#define fcs_card_set_flipped(card, flipped) \
+    (card).flags = (flipped)
+
+#define fcs_flip_stack_card(state, s, c) \
+    fcs_card_set_flipped(fcs_stack_card((state),(s),(c)), 0)
+
+#ifdef FCS_WITH_TALONS
+#define fcs_talon_len(state) \
+    ((state).talon_params[0])
+
+#define fcs_talon_pos(state) \
+    ((state).talon_params[1])
+
+#define fcs_get_talon_card(state, pos) \
+    ((state).talon[pos])
+
+#define fcs_put_card_in_talon(state, pos, card) \
+    ((state).talon[pos] = (card))
+#endif    
     
-
-
-
+#define fcs_clean_state(state) 
 
 #elif defined(COMPACT_STATES)    /* #ifdef DEBUG_STATES */
 
@@ -158,6 +184,10 @@ extern fcs_card_t fcs_empty_card;
 struct fcs_struct_state_t
 {
     char data[MAX_NUM_STACKS*(MAX_NUM_CARDS_IN_A_STACK+1)+MAX_NUM_FREECELLS+4*MAX_NUM_DECKS];
+#ifdef FCS_WITH_TALON    
+    fcs_card_t * talon;
+    char talon_params[4];    
+#endif
 };
 /*
  * Stack: 0 - Number of cards 
@@ -198,7 +228,7 @@ typedef struct fcs_struct_state_with_locations_t fcs_state_with_locations_t;
     ( (card) & 0x0F )
 
 #define fcs_card_suit(card) \
-    ( (card) >> 4 )
+    ( ((card) >> 4) & 0x03 )
 
 #define fcs_stack_len(state, s) \
     ( (state).data[s*(MAX_NUM_CARDS_IN_A_STACK+1)] )
@@ -209,7 +239,7 @@ typedef struct fcs_struct_state_with_locations_t fcs_state_with_locations_t;
 #define fcs_stack_card_num(state, s, c) \
     ( fcs_card_card_num(fcs_stack_card((state),(s),(c))) )
 
-#define fcs_stack_card_deck(state, s, c) \
+#define fcs_stack_card_suit(state, s, c) \
     ( fcs_card_suit(fcs_stack_card((state),(s),(c))) )
 
 #define FCS_FREECELLS_OFFSET ((MAX_NUM_STACKS)*(MAX_NUM_CARDS_IN_A_STACK+1))
@@ -220,18 +250,18 @@ typedef struct fcs_struct_state_with_locations_t fcs_state_with_locations_t;
 #define fcs_freecell_card_num(state, f) \
     ( fcs_card_card_num(fcs_freecell_card((state),(f))) )
 
-#define fcs_freecell_card_deck(state, f) \
+#define fcs_freecell_card_suit(state, f) \
     ( fcs_card_suit(fcs_freecell_card((state),(f))) )
 
 #define FCS_FOUNDATIONS_OFFSET (((MAX_NUM_STACKS)*(MAX_NUM_CARDS_IN_A_STACK+1))+(MAX_NUM_FREECELLS))
     
-#define fcs_deck_value(state, d) \
+#define fcs_foundation_value(state, d) \
     ( (state).data[FCS_FOUNDATIONS_OFFSET+(d)])
 
-#define fcs_increment_deck(state, d) \
+#define fcs_increment_foundation(state, d) \
     ( (state).data[FCS_FOUNDATIONS_OFFSET+(d)]++ )
 
-#define fcs_set_deck(state, d, value) \
+#define fcs_set_foundation(state, d, value) \
     ( (state).data[FCS_FOUNDATIONS_OFFSET+(d)] = (value) )
 
 #define fcs_pop_stack_card(state, s, into) \
@@ -262,9 +292,35 @@ typedef struct fcs_struct_state_with_locations_t fcs_state_with_locations_t;
 #define fcs_card_set_num(card, num) \
     (card) = (((card)&0xF0)|(num));
 
-#define fcs_card_set_suit(card, deck) \
-    (card) = (((card)&0x0F)|((deck)<<4));
+#define fcs_card_set_suit(card, suit) \
+    (card) = (((card)&0x4F)|((suit)<<4));
 
+#define fcs_card_set_flipped(card, flipped) \
+    (card) = (((card)&((fcs_card_t)0x3F))|((fcs_card_t)((flipped)<<6)))
+
+#define fcs_card_get_flipped(card) \
+    ( (card) >> 6 )
+
+
+#define fcs_clean_state(state) 
+
+#ifdef FCS_WITH_TALONS
+#define fcs_talon_len(state) \
+    ((state).talon_params[0])
+
+#define fcs_talon_pos(state) \
+    ((state).talon_params[1])
+
+#define fcs_put_card_in_talon(state, pos, card) \
+    ((state).talon[pos] = (card))
+
+#define fcs_get_talon_card(state, pos) \
+    ((state).talon[pos])
+#endif
+
+#define fcs_flip_stack_card(state, s, c) \
+    (fcs_card_set_flipped(fcs_stack_card((state),(s),(c)), ((fcs_card_t)0) ))
+    
 #elif defined(INDIRECT_STACK_STATES)
 
 typedef char fcs_card_t;
@@ -276,6 +332,10 @@ struct fcs_struct_state_t
     fcs_card_t * stacks[MAX_NUM_STACKS];
     fcs_card_t freecells[MAX_NUM_FREECELLS];
     char foundations[MAX_NUM_DECKS*4];
+#ifdef FCS_WITH_TALONS    
+    fcs_card_t * talon;
+    char talon_params[4];
+#endif
 };
  
 typedef struct fcs_struct_state_t fcs_state_t;
@@ -297,7 +357,10 @@ typedef struct fcs_struct_state_with_locations_t fcs_state_with_locations_t;
     ( (card) & 0x0F )
 
 #define fcs_card_suit(card) \
-    ( (card) >> 4 )
+    ( ((card) >> 4) & 0x03 )
+
+#define fcs_card_get_flipped(card) \
+    ( (card) >> 6 )
 
 #define fcs_standalone_stack_len(stack) \
     ( (int)(stack[0]) )
@@ -311,7 +374,7 @@ typedef struct fcs_struct_state_with_locations_t fcs_state_with_locations_t;
 #define fcs_stack_card_num(state, s, c) \
     ( fcs_card_card_num(fcs_stack_card((state),(s),(c))) )
 
-#define fcs_stack_card_deck(state, s, c) \
+#define fcs_stack_card_suit(state, s, c) \
     ( fcs_card_suit(fcs_stack_card((state),(s),(c))) )
 
 #define fcs_freecell_card(state, f) \
@@ -320,16 +383,16 @@ typedef struct fcs_struct_state_with_locations_t fcs_state_with_locations_t;
 #define fcs_freecell_card_num(state, f) \
     ( fcs_card_card_num(fcs_freecell_card((state),(f))) )
 
-#define fcs_freecell_card_deck(state, f) \
+#define fcs_freecell_card_suit(state, f) \
     ( fcs_card_suit(fcs_freecell_card((state),(f))) )
 
-#define fcs_deck_value(state, d) \
+#define fcs_foundation_value(state, d) \
     ( (state).foundations[(d)] )
 
-#define fcs_increment_deck(state, d) \
+#define fcs_increment_foundation(state, d) \
     ( (state).foundations[(d)]++ )
 
-#define fcs_set_deck(state, d, value) \
+#define fcs_set_foundation(state, d, value) \
     ( (state).foundations[(d)] = (value) )
 
 #define fcs_pop_stack_card(state, s, into) \
@@ -350,16 +413,36 @@ typedef struct fcs_struct_state_with_locations_t fcs_state_with_locations_t;
     fcs_push_card_into_stack((state), (ds), fcs_stack_card((state), (ss), (sc)))
 
 #define fcs_put_card_in_freecell(state, f, card) \
-    (state).freecells[(f)] = (card);
+    (state).freecells[(f)] = (card)
 
 #define fcs_empty_freecell(state, f) \
     fcs_put_card_in_freecell((state), (f), fcs_empty_card)
 
 #define fcs_card_set_num(card, num) \
-    (card) = (((card)&0xF0)|(num));
+    (card) = (((card)&0xF0)|(num))
 
-#define fcs_card_set_suit(card, deck) \
-    (card) = (((card)&0x0F)|((deck)<<4));
+#define fcs_card_set_suit(card, suit) \
+    (card) = (((card)&0x4F)|((suit)<<4))
+
+#define fcs_card_set_flipped(card, flipped) \
+    (card) = (fcs_card_t)(((card)&0x3F)|((fcs_card_t)(flipped<<6)))
+
+#ifdef FCS_WITH_TALONS
+#define fcs_talon_len(state) \
+    ((state).talon_params[0])
+
+#define fcs_talon_pos(state) \
+    ((state).talon_params[1])
+
+#define fcs_put_card_in_talon(state, pos, card) \
+    ((state).talon[pos] = (card))
+
+#define fcs_get_talon_card(state, pos) \
+    ((state).talon[pos])
+#endif    
+
+#define fcs_flip_stack_card(state, s, c) \
+    (fcs_card_set_flipped(fcs_stack_card(state,s,c), ((fcs_card_t)0) ))
 
 extern void fcs_duplicate_state_proto(
     fcs_state_with_locations_t * dest, 
@@ -368,11 +451,45 @@ extern void fcs_duplicate_state_proto(
     
 #define fcs_duplicate_state(dest, src) \
     fcs_duplicate_state_proto(&(dest), &(src));
+
+void fcs_clean_state(
+    fcs_state_with_locations_t * state
+    );    
     
 #endif /* #ifdef DEBUG_STATES - 
           #elif defined COMPACT_STATES - 
           #elif defined INDIRECT_STACK_STATES
         */
+
+#ifdef FCS_WITH_TALONS
+#define fcs_klondike_talon_len(state) \
+    ((state).talon[0])
+    
+#define fcs_klondike_talon_stack_pos(state) \
+    ((state).talon_params[0])
+
+#define fcs_klondike_talon_queue_pos(state) \
+    ((state).talon_params[1])
+
+#define fcs_klondike_talon_num_redeals_left(state) \
+    ((state).talon_params[2])
+
+#define fcs_klondike_talon_get_top_card(state) \
+    ((state).talon[(int)fcs_klondike_talon_stack_pos(state)])
+
+#define fcs_klondike_talon_queue_to_stack(state) \
+    ( ((state).talon[(int)((++fcs_klondike_talon_stack_pos(state))+1)]) =  \
+      ((state).talon[(int)((fcs_klondike_talon_queue_pos(state)++)+1)]) )
+
+#define fcs_klondike_talon_redeal_bare(state) \
+    {         \
+        fcs_klondike_talon_stack_pos(state) = -1; \
+        fcs_klondike_talon_queue_pos(state) = 0; \
+    }         
+    
+#define fcs_klondike_talon_decrement_stack(state) \
+    ((state).talon[(int)((fcs_klondike_talon_stack_pos(state)--)+1)] = fcs_empty_card)   
+#endif
 
 extern void fcs_canonize_state(
     fcs_state_with_locations_t * state, 
@@ -396,6 +513,10 @@ extern int fcs_state_compare_indirect(const void * s1, const void * s2);
 extern int fcs_state_compare_indirect_with_context(const void * s1, const void * s2, void * context);
 #endif
 
+#ifdef FCS_WITH_TALONS
+extern int fcs_talon_compare_with_context(const void * s1, const void * s2, fcs_compare_context_t context);
+#endif
+
 extern void fcs_state_init(
     fcs_state_with_locations_t * state,
     int stacks_num
@@ -405,7 +526,12 @@ extern fcs_state_with_locations_t fcs_initial_user_state_to_c(
     int freecells_num,
     int stacks_num,
     int decks_num
+#ifdef FCS_WITH_TALONS
+    ,int talon_type
+#endif
     );
+
+
 extern char * fcs_state_as_string(
     fcs_state_with_locations_t * state, 
     int freecells_num, 
@@ -420,11 +546,22 @@ extern int fcs_check_state_validity(
     int freecells_num,
     int stacks_num,
     int decks_num,
+#ifdef FCS_WITH_TALONS    
+    int talon_type,
+#endif    
     fcs_card_t * misplaced_card
     );
 
 #ifdef __cplusplus
 }
 #endif
+
+enum FCS_VISITED_T
+{
+    FCS_VISITED_VISITED = 0x1,
+    FCS_VISITED_IN_SOLUTION_PATH = 0x2,
+    FCS_VISITED_IN_OPTIMIZED_PATH = 0x4,
+};
+
 
 #endif /* __STATE_H */

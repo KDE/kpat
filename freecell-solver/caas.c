@@ -24,11 +24,7 @@
 #include "md5.h"
 #endif
 
-void freecell_solver_soft_dfs_add_state(
-    freecell_solver_instance_t * instance, 
-    int depth,
-    fcs_state_with_locations_t * state
-    );
+
 
 extern int freecell_solver_solve_for_state(freecell_solver_instance_t * instance, fcs_state_with_locations_t * state, int depth, int ignore_osins);
 
@@ -53,9 +49,13 @@ extern void freecell_solver_a_star_enqueue_state(
 
 #if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INTERNAL_HASH)
 #define fcs_caas_check_and_insert()              \
+    /*                                            \
+        Calculate the MD5 checksum of the state.   \
+    */                   \
     MD5Init(&(instance->md5_context));      \
     MD5Update(&(instance->md5_context), (unsigned char *)new_state, sizeof(fcs_state_t)); \
     MD5Final(instance->hash_value, &(instance->md5_context)); \
+    /* Retrieve the first 32 bits and make them the hash value */      \
     hash_value_int = *(SFO_hash_value_t*)instance->hash_value;      \
     if (hash_value_int < 0)       \
     {    \
@@ -68,10 +68,11 @@ extern void freecell_solver_a_star_enqueue_state(
     check = ((*existing_state = SFO_hash_insert(          \
         instance->hash,              \
         new_state,                   \
-        hash_value_int              \
+        hash_value_int,              \
+        1                            \
         )) == NULL);                  
 
-#elif defined(INDIRECT_STATE_STORAGE)
+#elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INDIRECT)
 #define fcs_caas_check_and_insert()              \
     /* Try to see if the state is found in indirect_prev_states */  \
     if ((pos_ptr = (fcs_state_with_locations_t * *)bsearch(&new_state,                                         \
@@ -157,6 +158,8 @@ extern void freecell_solver_a_star_enqueue_state(
 #define fcs_caas_check_and_insert()       \
     *existing_state = fcs_libavl_states_tree_insert(instance->tree, new_state); \
     check = (*existing_state == NULL);
+
+#undef fcs_libavl_states_tree_insert
 
 #elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_GLIB_TREE)
 #define fcs_caas_check_and_insert()       \
@@ -257,6 +260,7 @@ void freecell_solver_cache_stacks(
     {
         new_state->s.stacks[a] = realloc(new_state->s.stacks[a], fcs_stack_len(new_state->s, a)+1);
 #if FCS_STACK_STORAGE == FCS_STACK_STORAGE_INTERNAL_HASH
+        /* Calculate the hash value for the stack */
         MD5Init(&(instance->md5_context));
         MD5Update(&(instance->md5_context), new_state->s.stacks[a], fcs_stack_len(new_state->s, a)+1);
         MD5Final(instance->hash_value, &(instance->md5_context));
@@ -274,7 +278,8 @@ void freecell_solver_cache_stacks(
         cached_stack = (void *)SFO_hash_insert(
             instance->stacks_hash, 
             new_state->s.stacks[a],
-            hash_value_int
+            hash_value_int,
+            1
             );
         
         if (cached_stack != NULL)
@@ -293,7 +298,8 @@ void freecell_solver_cache_stacks(
             new_state->s.stacks[a]
             );
 #if 0
-            )        /* In order to settle gvim */
+            )        /* In order to settle gvim and other editors that
+                         are keen on parenthesis matching */
 #endif
 
         if (cached_stack != NULL)
@@ -355,6 +361,63 @@ void freecell_solver_cache_stacks(
 #define freecell_solver_cache_stacks(instance, new_state)
 #endif
 
+
+#ifdef FCS_WITH_TALONS
+void freecell_solver_cache_talon(
+    freecell_solver_instance_t * instance,
+    fcs_state_with_locations_t * new_state
+    )
+{
+    void * cached_talon;
+    int hash_value_int;
+
+    new_state->s.talon = realloc(new_state->s.talon, fcs_klondike_talon_len(new_state->s)+1);
+    MD5Init(&(instance->md5_context));
+    MD5Update(&(instance->md5_context), new_state->s.talon, fcs_klondike_talon_len(new_state->s)+1);
+    MD5Final(instance->hash_value, &(instance->md5_context));
+    hash_value_int = *(SFO_hash_value_t*)instance->hash_value;
+    if (hash_value_int < 0)
+    {
+        /*
+         * This is a bit mask that nullifies the sign bit of the 
+         * number so it will always be positive
+         * */
+        hash_value_int &= (~(1<<((sizeof(hash_value_int)<<3)-1)));
+    }
+
+    cached_talon = (void *)SFO_hash_insert(
+        instance->talons_hash, 
+        new_state->s.talon,
+        hash_value_int,
+        1
+        );
+
+    if (cached_talon != NULL)
+    {
+        free(new_state->s.talon);
+        new_state->s.talon = cached_talon;
+    }
+}
+#endif
+
+
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_GLIB_HASH)
+guint freecell_solver_hash_function(gconstpointer key)
+{
+    MD5_CTX md5_context;
+    unsigned char hash_value[MD5_HASHBYTES];
+    
+    MD5Init(&md5_context);
+    MD5Update(&md5_context, (unsigned char *)key, sizeof(fcs_state_t));
+    MD5Final(hash_value, &md5_context);
+
+    return (*(guint *)hash_value);
+}
+#endif
+
+
+
+
 /*
  * check_and_add_state() does the following things:
  *
@@ -375,19 +438,6 @@ void freecell_solver_cache_stacks(
  *        5b. Call solve_for_state() on the board.
  *
  * */
-#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_GLIB_HASH)
-guint freecell_solver_hash_function(gconstpointer key)
-{
-    MD5_CTX md5_context;
-    unsigned char hash_value[MD5_HASHBYTES];
-    
-    MD5Init(&md5_context);
-    MD5Update(&md5_context, (unsigned char *)key, sizeof(fcs_state_t));
-    MD5Final(hash_value, &md5_context);
-
-    return (*(guint *)hash_value);
-}
-#endif
 
 int freecell_solver_check_and_add_state(
     freecell_solver_instance_t * instance, 
@@ -398,7 +448,7 @@ int freecell_solver_check_and_add_state(
 #if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INTERNAL_HASH)
     SFO_hash_value_t hash_value_int;
 #endif
-#if defined(INDIRECT_STATE_STORAGE)
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INDIRECT)
     fcs_state_with_locations_t * * pos_ptr;
     int found;
 #endif
@@ -425,14 +475,19 @@ int freecell_solver_check_and_add_state(
     fcs_caas_check_and_insert();
     if (check)
     {
-        /* The new state was not found, and it was already inserted */
+        /* The new state was not found in the cache, and it was already inserted */
         if (instance->method == FCS_METHOD_SOFT_DFS)
         {
+            /* A return value that indicates that the state should be
+               placed in the recursed states collection of the current
+               depth
+            */
             return FCS_STATE_DOES_NOT_EXIST;
         }
         else if (instance->method == FCS_METHOD_HARD_DFS)
         {
             int ret;
+            /* Recurse */
             ret = freecell_solver_solve_for_state(instance, 
                 new_state
                 , depth+1,0);
@@ -451,11 +506,13 @@ int freecell_solver_check_and_add_state(
         }
         else if (instance->method == FCS_METHOD_BFS)
         {
+            /* Enqueue the state */
             freecell_solver_bfs_enqueue_state(instance, new_state);
             return FCS_STATE_IS_NOT_SOLVEABLE;
         }
         else if (instance->method == FCS_METHOD_A_STAR)
         {
+            /* Enqueue the state */
             freecell_solver_a_star_enqueue_state(instance, new_state);
             return FCS_STATE_IS_NOT_SOLVEABLE;
         }
@@ -466,7 +523,35 @@ int freecell_solver_check_and_add_state(
     }
     else
     {
-        return FCS_STATE_ALREADY_EXISTS;
+        /* The state was found in the cache so return that it already
+           exists 
+        */
+
+        if ((instance->method == FCS_METHOD_OPTIMIZE) &&
+            (((*existing_state)->visited & FCS_VISITED_IN_SOLUTION_PATH) &&
+            (!((*existing_state)->visited & FCS_VISITED_IN_OPTIMIZED_PATH)))
+           )
+        {
+            /*
+             * Modify the existing state so it will now be a parent
+             * of the parent of the state that was recommended 
+             * */
+            (*existing_state)->visited |= FCS_VISITED_IN_OPTIMIZED_PATH;
+            (*existing_state)->parent = new_state->parent;
+            if ((*existing_state)->moves_to_parent != NULL)
+            {
+                fcs_move_stack_destroy((*existing_state)->moves_to_parent);
+            }
+            (*existing_state)->moves_to_parent = new_state->moves_to_parent;
+            (*existing_state)->depth = new_state->depth;
+            freecell_solver_bfs_enqueue_state(instance, *existing_state);
+
+            return FCS_STATE_OPTIMIZED;
+        }
+        else
+        {
+            return FCS_STATE_ALREADY_EXISTS;
+        }
     }
 }
 

@@ -94,6 +94,9 @@ int freecell_solver_user_solve_board(
         user->instance->freecells_num, 
         user->instance->stacks_num,
         user->instance->decks_num
+#ifdef FCS_WITH_TALONS        
+        ,user->instance->talon_type
+#endif        
         );
 
     ret = fcs_check_state_validity(
@@ -101,6 +104,9 @@ int freecell_solver_user_solve_board(
         user->instance->freecells_num, 
         user->instance->stacks_num, 
         user->instance->decks_num,
+#ifdef FCS_WITH_TALONS        
+        FCS_TALON_NONE,
+#endif        
         &card);
 
     if (ret != 0)
@@ -244,29 +250,31 @@ void freecell_solver_user_set_solving_method(
     user->instance->method = method;
 }
 
-int freecell_solver_user_set_game(void * user_instance,
-                                  int freecells_num,
-                                  int stacks_num,
-                                  int decks_num,
-                                  int sequences_are_built_by,
-                                  int unlimited_sequence_move,
-                                  int empty_stacks_fill)
+int freecell_solver_user_set_game(
+    void * user_instance,
+    int freecells_num,
+    int stacks_num,
+    int decks_num,
+    int sequences_are_built_by,
+    int unlimited_sequence_move,
+    int empty_stacks_fill
+    )
 {
     fcs_user_t * user;
     
     user = (fcs_user_t *)user_instance;
 
-    if (freecells_num < 0 || freecells_num > MAX_NUM_FREECELLS)
+    if ((freecells_num < 0) || (freecells_num > MAX_NUM_FREECELLS))
         return 1;
-    if (stacks_num < 1 || stacks_num > MAX_NUM_STACKS)
+    if ((stacks_num < 1) || (stacks_num > MAX_NUM_STACKS))
         return 2;
-    if (decks_num < 1 || decks_num > MAX_NUM_DECKS)
+    if ((decks_num < 1) || (decks_num > MAX_NUM_DECKS))
         return 3;
-    if (sequences_are_built_by < 0 || sequences_are_built_by > 2)
+    if ((sequences_are_built_by < 0) || (sequences_are_built_by > 2))
         return 4;
-    if (unlimited_sequence_move < 0 || unlimited_sequence_move > 1)
+    if ((unlimited_sequence_move < 0) || (unlimited_sequence_move > 1))
         return 5;
-    if (empty_stacks_fill < 0 || empty_stacks_fill > 2)
+    if ((empty_stacks_fill < 0) || (empty_stacks_fill > 2))
         return 6;
 
     user->instance->freecells_num = freecells_num;
@@ -282,7 +290,7 @@ int freecell_solver_user_set_game(void * user_instance,
 
 int freecell_solver_user_get_num_times(void * user_instance)
 {
-fcs_user_t * user;
+    fcs_user_t * user;
     
     user = (fcs_user_t *)user_instance;
     
@@ -291,7 +299,7 @@ fcs_user_t * user;
 
 int freecell_solver_user_get_limit_iterations(void * user_instance)
 {
-fcs_user_t * user;
+    fcs_user_t * user;
     
     user = (fcs_user_t *)user_instance;
     
@@ -307,4 +315,16 @@ int freecell_solver_user_get_moves_left(void * user_instance)
         return user->instance->solution_moves->num_moves;
     else 
         return 0;
+}
+
+void freecell_solver_user_set_solution_optimization(
+    void * user_instance, 
+    int optimize
+)
+{
+    fcs_user_t * user;
+    
+    user = (fcs_user_t *)user_instance;
+    
+    user->instance->optimize_solution_path = optimize;
 }

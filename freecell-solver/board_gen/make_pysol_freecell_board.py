@@ -205,10 +205,12 @@ def createCards(num_decks=1):
                 id = id + 1
     return cards
 
-def card_to_string(card,not_append_ws):
+def card_to_string(card,not_append_ws,flipped=0):
     suit = card >> 4
     rank = card & 0x0F
     ret = ""
+    if flipped:
+        ret = ret + "<"
     if rank == 1:
         ret = ret + "A"
     elif rank <= 10:
@@ -229,10 +231,18 @@ def card_to_string(card,not_append_ws):
     elif suit == 3:
         ret = ret + "D"
 
+    if flipped:
+        ret = ret + ">"
     if (not(not_append_ws)):
         ret = ret + " "
     
     return ret
+
+def flip_card(card_str, flip):
+    if flip:
+        return "<" + card_str + ">"
+    else:
+        return card_str
 
 def shlomif_main(args):
     game_num = long(args[1])
@@ -240,7 +250,7 @@ def shlomif_main(args):
         which_game = args[2]
     else:
         which_game = "freecell"
-    if ((which_game == "der_katz") or (which_game == "der_katzenschwantz") or (which_game == "die_schlange")):
+    if ((which_game == "der_katz") or (which_game == "der_katzenschwantz") or (which_game == "die_schlange") or (which_game == "gypsy")):
         orig_cards = createCards(2)
     else:
         orig_cards = createCards()
@@ -343,6 +353,53 @@ def shlomif_main(args):
 
         for i in range(13):
             print output[i]
+    elif (which_game == "gypsy"):
+        output = range(8);
+        for i in range(8):
+            output[i] = ""
+        for i in range(24):
+            output[i%8] = output[i%8] + flip_card(card_to_string(cards[i], 1), (i<16))
+            if (i < 16):
+                output[i%8] = output[i%8] + " "
+
+        talon = "Talon:"
+        for i in range(24,8*13):
+            talon = talon + " " + card_to_string(cards[i], 1)
+                
+        print talon
+        for i in range(8):
+            print output[i]
+    elif ((which_game == "klondike") or (which_game == "klondike_by_threes") or (which_game == "casino_klondike") or (which_game == "small_harp") or (which_game == "thumb_and_pouch") or (which_game == "vegas_klondike") or (which_game == "whitehead")):
+        #o = ""
+        #for i in cards:
+        #    o = o + " " + card_to_string(i, 1)
+        #print o
+        output = range(7);
+        for i in range(7):
+            output[i] = ""
+        card_num = 0
+        for r in range(1,7):
+            for s in range(7-r):
+                output[s] = output[s] + card_to_string(cards[card_num], 0, flipped=(which_game != "whitehead"))
+                card_num = card_num + 1
+        for s in range(7):
+            output[s] = output[s] + card_to_string(cards[card_num], 1)
+            card_num = card_num + 1
+
+        talon = "Talon: "
+        while card_num < 52:
+            talon = talon + card_to_string(cards[card_num], (card_num == 52-1))
+            card_num = card_num + 1
+            
+        
+        print talon
+        if (not (which_game == "small_harp")):
+            output.reverse();
+        for i in output:
+            print i
+            
+        
+            
             
             
 if __name__ == "__main__":

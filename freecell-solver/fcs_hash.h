@@ -17,8 +17,12 @@ typedef int SFO_hash_value_t;
 
 struct SFO_hash_symlink_item_struct
 {
+    /* A pointer to the data structure that is to be collected */
     void * key;
+    /* We also store the hash value corresponding to this key for faster
+       comparisons */
     SFO_hash_value_t hash_value;
+    /* The next item in the list */
     struct SFO_hash_symlink_item_struct * next;
 };
 
@@ -33,10 +37,16 @@ typedef struct SFO_hash_symlink_struct SFO_hash_symlink_t;
 
 struct SFO_hash_struct
 {
+    /* The vector of the hash table itself */
     SFO_hash_symlink_t * entries;
+    /* A comparison function that can be used for comparing two keys
+       in the collection */
     int (*compare_function)(const void * key1, const void * key2, void * context);
+    /* The size of the hash table */
     int size;
+    /* The number of elements stored inside the hash */
     int num_elems;
+    /* A context to pass to the comparison function */
     void * context;
 };
 
@@ -52,7 +62,8 @@ SFO_hash_t * SFO_hash_init(
 void * SFO_hash_insert(
     SFO_hash_t * hash,
     void * key,
-    SFO_hash_value_t hash_value
+    SFO_hash_value_t hash_value,
+    int optimize_for_caching
     );
 
 

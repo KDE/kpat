@@ -34,14 +34,7 @@ specified in the command line (including DFS and Soft-DFS).
 
 * Get rid of the indirect state allocation mechanism. (?) 
 
-* Optimize the solution using a BFS scan on the states in the solution path.
-
 * Add a limit to stacks number (in the case of Indirect Stack States),
 number of states that are stored anywhere, etc.
 
-* Modify the documentation to reflect the A*, Soft-DFS changes.
-
-* Go over the Soft-DFS code and see if we can create a stack of
-freecells_nums, freestacks_num, etc.
-
-* Implement Cache-Hash.
+* Convert the building process to autoconf/automake/libtool.

@@ -4,10 +4,9 @@ INSTALL file for Freecell Solver
 Quick and Dirty Compilation
 ---------------------------
 
-Usually typing "make" will build "fc-solve" and "fc-solve-debug" which are 
-the two Freecell Solver executables for you. If you don't have gcc installed
-you need to change the CC variable in the makefile to the name of your 
-compiler.
+Usually typing "make" will build "fc-solve" which is the Freecell
+Solver executable for you. If you don't have gcc installed you need to
+change the CC variable in the makefile to the name of your  compiler.
 
 It's also possible the makefile is causing you trouble. You can try typing 
 "make -f Makefile.lite" instead (in case you don't have GNU make

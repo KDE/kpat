@@ -13,6 +13,7 @@
 #include "config.h"
 #include "state.h"
 #include "card.h"
+#include "fcs_enums.h"
 
 #ifndef min
 #define min(a,b) ((a)<(b)?(a):(b))
@@ -30,6 +31,22 @@ fcs_card_t fcs_empty_card = 0;
 #endif
 
 #ifdef INDIRECT_STACK_STATES
+void fcs_clean_state(
+    fcs_state_with_locations_t * state
+    )
+{
+    int s;
+    for(s=0;s<MAX_NUM_STACKS;s++)
+    {
+        if (state->s.stacks[s] != NULL)
+        {
+            free(state->s.stacks[s]);
+        }
+    }
+}
+#endif
+#ifdef INDIRECT_STACK_STATES
+
 void fcs_duplicate_state_proto(
     fcs_state_with_locations_t * dest,
     fcs_state_with_locations_t * src
@@ -116,6 +133,25 @@ int fcs_stack_compare_for_comparison(const void * v_s1, const void * v_s2)
     const fcs_card_t * s1 = (const fcs_card_t *)v_s1;
     const fcs_card_t * s2 = (const fcs_card_t *)v_s2;
 
+    int min_len;
+    int a, ret;
+
+    min_len = min(s1[0], s2[0]);
+    
+    for(a=0;a<min_len;a++)
+    {
+        ret = fcs_card_compare(s1+a+1,s2+a+1);
+        if (ret != 0)
+        {
+            return ret;
+        }
+    }
+    /*
+     * The reason I do the stack length comparisons after the card-by-card
+     * comparison is to maintain correspondence with 
+     * fcs_stack_compare_for_stack_sort, and with the one card comparison
+     * of the other state representation mechanisms.
+     * */
     if (s1[0] < s2[0])
     {
         return -1;
@@ -125,20 +161,32 @@ int fcs_stack_compare_for_comparison(const void * v_s1, const void * v_s2)
         return 1;
     }
     else
-    {
-        int a, ret;
-        for(a=0;a<s1[0];a++)
-        {
-            ret = fcs_card_compare(s1+a+1,s2+a+1);
-            if (ret != 0)
-            {
-                return ret;
-            }
-        }
+    {   
+        return 0;
     }
-    return 0;    
 }
 
+#endif
+
+#ifdef FCS_WITH_TALONS
+int fcs_talon_compare_with_context(const void * p1, const void * p2, fcs_compare_context_t context)
+{
+    fcs_card_t * t1 = (fcs_card_t *)p1;
+    fcs_card_t * t2 = (fcs_card_t *)p2;
+    
+    if (t1[0] < t2[0])
+    {
+        return -1;
+    }    
+    else if (t1[0] > t2[0])
+    {
+        return 1;
+    }
+    else
+    {
+        return memcmp(t1,t2,t1[0]+1);
+    }
+}
 #endif
 
 #ifdef DEBUG_STATES
@@ -395,6 +443,8 @@ int fcs_state_compare_indirect_with_context(const void * s1, const void * s2, vo
 
 static const char * const freecells_prefixes[] = { "FC:", "Freecells:", "Freecell:", ""};
 static const char * const foundations_prefixes[] = { "Decks:", "Deck:", "Founds:", "Foundations:", "Foundation:", "Found:", ""};
+static const char * const talon_prefixes[] = { "Talon:", "Queue:" , ""};
+static const char * const num_redeals_prefixes[] = { "Num-Redeals:", "Readels-Num:", "Readeals-Number:", ""};
 
 #ifdef WIN32
 #define strncasecmp(a,b,c) (strnicmp((a),(b),(c)))
@@ -405,6 +455,9 @@ fcs_state_with_locations_t fcs_initial_user_state_to_c(
     int freecells_num,
     int stacks_num,
     int decks_num
+#ifdef FCS_WITH_TALONS    
+    ,int talon_type
+#endif    
     )
 {
     fcs_state_with_locations_t ret_with_locations;
@@ -425,6 +478,13 @@ fcs_state_with_locations_t fcs_initial_user_state_to_c(
     first_line = 1;
 
 #define ret (ret_with_locations.s)
+
+#ifdef FCS_WITH_TALONS
+    if (talon_type == FCS_TALON_KLONDIKE)
+    {
+        fcs_klondike_talon_num_redeals_left(ret) = -1;
+    }
+#endif
     
     for(s=0;s<stacks_num;s++)
     {
@@ -522,7 +582,7 @@ fcs_state_with_locations_t fcs_initial_user_state_to_c(
 
             for(d=0;d<decks_num*4;d++)
             {
-                fcs_set_deck(ret, d, 0);
+                fcs_set_foundation(ret, d, 0);
             }
             
             for(d=0;d<4;d++)
@@ -550,7 +610,7 @@ fcs_state_with_locations_t fcs_initial_user_state_to_c(
                     str++;
                 }
 
-                fcs_set_deck(ret, (decks_index[d]*4+d), c);
+                fcs_set_foundation(ret, (decks_index[d]*4+d), c);
                 decks_index[d]++;
                 if (decks_index[d] >= decks_num)
                 {
@@ -560,6 +620,115 @@ fcs_state_with_locations_t fcs_initial_user_state_to_c(
             s--;
             continue;
         }
+
+#ifdef FCS_WITH_TALONS
+        prefixes = talon_prefixes;
+        prefix_found = 0;
+        for(i=0;prefixes[i][0] != '\0'; i++)
+        {
+            if (!strncasecmp(str, prefixes[i], strlen(prefixes[i])))
+            {
+                prefix_found = 1;
+                str += strlen(prefixes[i]);
+                break;
+            }
+        }
+    
+        if (prefix_found)
+        {
+            /* Input the Talon */
+            int talon_size;
+
+            talon_size = MAX_NUM_DECKS*52+16;
+            ret.talon = malloc(sizeof(fcs_card_t)*talon_size);
+            fcs_talon_pos(ret) = 0;
+
+            for(c=0 ; c < talon_size ; c++)
+            {
+                /* Move to the next card */
+                if (c!=0)
+                {
+                    while(
+                        ((*str) != ' ') && 
+                        ((*str) != '\t') && 
+                        ((*str) != '\n') && 
+                        ((*str) != '\r')
+                    )
+                    {
+                        str++;
+                    }
+                    if ((*str == '\n') || (*str == '\r'))
+                    {
+                        break;
+                    }
+                }
+                
+                while ((*str == ' ') || (*str == '\t'))
+                {
+                    str++;
+                }
+                
+                if ((*str == '\n') || (*str == '\r'))
+                {
+                    break;
+                }
+                
+                card = fcs_card_user2perl(str);
+                
+                fcs_put_card_in_talon(ret, c+(talon_type==FCS_TALON_KLONDIKE), card);
+            }
+            fcs_talon_len(ret) = c;
+
+            if (talon_type == FCS_TALON_KLONDIKE)
+            {
+                int talon_len;
+                
+                talon_len = fcs_talon_len(ret);
+                fcs_klondike_talon_len(ret) = talon_len;
+                fcs_klondike_talon_stack_pos(ret) = -1;
+                fcs_klondike_talon_queue_pos(ret) = 0;
+            }
+
+            s--;
+            continue;
+        }
+
+        prefixes = num_redeals_prefixes;
+        prefix_found = 0;
+        for(i=0;prefixes[i][0] != '\0'; i++)
+        {
+            if (!strncasecmp(str, prefixes[i], strlen(prefixes[i])))
+            {
+                prefix_found = 1;
+                str += strlen(prefixes[i]);
+                break;
+            }
+        }
+
+        if (prefix_found)
+        {
+            while ((*str < '0') && (*str > '9') && (*str != '\n'))
+            {
+                str++;
+            }
+            if (*str != '\n')
+            {
+                int num_redeals;
+
+                num_redeals = atoi(str);
+                if (talon_type == FCS_TALON_KLONDIKE)
+                {
+                    fcs_klondike_talon_num_redeals_left(ret) = 
+                        (num_redeals < 0) ? 
+                            (-1) :
+                            ((num_redeals > 127) ? 127 : num_redeals)
+                                ;
+                }
+            }
+            s--;
+            continue;
+        }
+#endif
         
         for(c=0 ; c < MAX_NUM_CARDS_IN_A_STACK ; c++)
         {
@@ -605,6 +774,9 @@ int fcs_check_state_validity(
     int freecells_num,
     int stacks_num,
     int decks_num,
+#ifdef FCS_WITH_TALONS
+    int talon_type,
+#endif
     fcs_card_t * misplaced_card)
 {
     int cards[4][14];
@@ -626,7 +798,7 @@ int fcs_check_state_validity(
     /* Mark the cards in the decks */
     for(d=0;d<decks_num*4;d++)
     {
-        for(c=1;c<=fcs_deck_value(*state, d);c++)
+        for(c=1;c<=fcs_foundation_value(*state, d);c++)
         {
             cards[d%4][c]++;
         }
@@ -638,7 +810,7 @@ int fcs_check_state_validity(
         if (fcs_freecell_card_num(*state, f) != 0)
         {
             cards
-                [fcs_freecell_card_deck(*state, f)]
+                [fcs_freecell_card_suit(*state, f)]
                 [fcs_freecell_card_num(*state, f)] ++;
         }
     }
@@ -654,10 +826,29 @@ int fcs_check_state_validity(
                 return 3;
             }
             cards
-                [fcs_stack_card_deck(*state, s, c)]
+                [fcs_stack_card_suit(*state, s, c)]
                 [fcs_stack_card_num(*state, s, c)] ++;
+
         }
     }
+
+#ifdef FCS_WITH_TALONS
+    /* Mark the cards in the (gypsy) talon */
+    if ((talon_type == FCS_TALON_GYPSY) || (talon_type == FCS_TALON_KLONDIKE))
+    {
+        for(c = ((talon_type == FCS_TALON_GYPSY)?fcs_talon_pos(*state):1) ; 
+            c < ((talon_type==FCS_TALON_GYPSY) ? fcs_talon_len(*state) : (fcs_klondike_talon_len(*state)+1)) ; 
+            c++)
+        {
+            if (fcs_get_talon_card(*state,c) != fcs_empty_card)
+            {
+                cards
+                    [fcs_card_suit(fcs_get_talon_card(*state, c))]
+                    [fcs_card_card_num(fcs_get_talon_card(*state, c))] ++;
+            }
+        }
+    }
+#endif
     
     /* Now check if there are extra or missing cards */
     
@@ -667,6 +858,7 @@ int fcs_check_state_validity(
         {
             if (cards[d][c] != decks_num)
             {
+                *misplaced_card = fcs_empty_card;
                 fcs_card_set_suit(*misplaced_card, d);
                 fcs_card_set_num(*misplaced_card, c);
                 return (cards[d][c] < decks_num) ? 1 : 2;
@@ -731,10 +923,11 @@ char * fcs_state_as_string(
     for(a=0;a<decks_num*4;a++)
     {
         fcs_p2u_card_number( 
-            fcs_deck_value(*state, a), 
+            fcs_foundation_value(*state, a), 
             decks[a], 
             &card_num_is_null,
-            display_10_as_t
+            display_10_as_t,
+            0
             );
         if (decks[a][0] == ' ')
             decks[a][0] = '0';

@@ -12,7 +12,7 @@
 #include "move.h"
 #include "state.h"
 
-/* #define MYDEBUG */
+
 
 #define FCS_MOVE_STACK_GROW_BY 16
 
@@ -22,31 +22,27 @@
 
 int msc_counter=0;
 
+/* This function allocates an empty move stack */
 fcs_move_stack_t * fcs_move_stack_create(void)
 {
     fcs_move_stack_t * ret;
     
+    /* Allocate the data structure itself */
     ret = (fcs_move_stack_t *)malloc(sizeof(fcs_move_stack_t));
 
     ret->max_num_moves = FCS_MOVE_STACK_GROW_BY;
     ret->num_moves = 0;
+    /* Allocate some space for the moves */
     ret->moves = (fcs_move_t *)malloc(sizeof(fcs_move_t)*ret->max_num_moves);
     
-#ifdef MYDEBUG    
-    msc_counter++;
-    {
-    	FILE * d;
-    	
-    	d = fopen("msc.txt","a");
-    	fprintf(d,"c 0x%x\n", (int)ret);
-    	fclose(d);
-    }
-#endif
     return ret;
 }
 
 int fcs_move_stack_push(fcs_move_stack_t * stack, fcs_move_t move)
 {
+    /* If all the moves inside the stack are taken then
+       resize the move vector */
+       
     if (stack->num_moves == stack->max_num_moves)
     {
         int a, b;
@@ -79,19 +75,7 @@ int fcs_move_stack_pop(fcs_move_stack_t * stack, fcs_move_t * move)
 void fcs_move_stack_destroy(fcs_move_stack_t * stack)
 {
     free(stack->moves);
-    free(stack);
-    
-#ifdef MYDEBUG    
-    msc_counter--;
-    {
-    	FILE * d;
-    	
-    	d = fopen("msc.txt","a");
-    	fprintf(d,"d 0x%x\n", (int)stack);
-    	fclose(d);
-    }
-#endif
-    
+    free(stack);   
 }
 
 void fcs_move_stack_swallow_stack(
@@ -121,6 +105,9 @@ int fcs_move_stack_get_num_moves(
     return stack->num_moves;
 }
 
+/*
+    This function duplicates a move stack
+*/
 fcs_move_stack_t * fcs_move_stack_duplicate(
     fcs_move_stack_t * stack
     )
@@ -134,20 +121,13 @@ fcs_move_stack_t * fcs_move_stack_duplicate(
     ret->moves = (fcs_move_t *)malloc(sizeof(fcs_move_t) * ret->max_num_moves);
     memcpy(ret->moves, stack->moves, sizeof(fcs_move_t) * ret->max_num_moves);
 
-#ifdef MYDEBUG    
-    msc_counter++;
-    {
-    	FILE * d;
-    	
-    	d = fopen("msc.txt","a");
-    	fprintf(d,"c 0x%x\n", (int)ret);
-    	fclose(d);
-    }
-#endif
-
     return ret;
 }
 
+/*
+    This function performs a given move on a state 
+
+  */
 void fcs_apply_move(fcs_state_with_locations_t * state_with_locations, fcs_move_t move, int freecells_num, int stacks_num, int decks_num)
 {
     fcs_state_t * state;
@@ -212,13 +192,13 @@ void fcs_apply_move(fcs_state_with_locations_t * state_with_locations, fcs_move_
         case FCS_MOVE_TYPE_STACK_TO_FOUNDATION:
         {
             fcs_pop_stack_card(*state, src_stack, temp_card);
-            fcs_increment_deck(*state, fcs_move_get_foundation(move));
+            fcs_increment_foundation(*state, fcs_move_get_foundation(move));
         }
         break;
         case FCS_MOVE_TYPE_FREECELL_TO_FOUNDATION:
         {
             fcs_empty_freecell(*state, src_freecell);
-            fcs_increment_deck(*state, fcs_move_get_foundation(move));        
+            fcs_increment_foundation(*state, fcs_move_get_foundation(move));        
         }
         break;
         case FCS_MOVE_TYPE_CANONIZE:
@@ -229,6 +209,11 @@ void fcs_apply_move(fcs_state_with_locations_t * state_with_locations, fcs_move_
     }
 }
 
+/*
+    The purpose of this function is to convert the moves from using
+    the canonized positions of the stacks and freecells to their
+    user positions.
+*/
 void fcs_move_stack_normalize(
     fcs_move_stack_t * moves,
     fcs_state_with_locations_t * init_state,
@@ -319,8 +304,13 @@ void fcs_move_stack_normalize(
     fcs_move_stack_reset(moves);
 
     fcs_move_stack_swallow_stack(moves, temp_moves);
+
+    fcs_clean_state(&dynamic_state);
 }
 
+/* 
+    This function creates a string that represents a move.
+*/
 char * fcs_move_to_string(fcs_move_t move)
 {
     char string[256];

@@ -26,6 +26,11 @@ enum fcs_move_types
     FCS_MOVE_TYPE_FREECELL_TO_FREECELL,
     FCS_MOVE_TYPE_STACK_TO_FOUNDATION,
     FCS_MOVE_TYPE_FREECELL_TO_FOUNDATION,
+    FCS_MOVE_TYPE_FLIP_CARD,
+    FCS_MOVE_TYPE_DEAL_GYPSY_TALON,
+    FCS_MOVE_TYPE_KLONDIKE_TALON_TO_STACK,
+    FCS_MOVE_TYPE_KLONDIKE_FLIP_TALON,
+    FCS_MOVE_TYPE_KLONDIKE_REDEAL_TALON,
     FCS_MOVE_TYPE_CANONIZE,
     FCS_MOVE_TYPE_SEPARATOR,
     FCS_MOVE_TYPE_NULL,
@@ -75,6 +80,7 @@ struct fcs_move_struct
 #define FCS_MOVE_SRC                 1
 #define FCS_MOVE_DEST                2
 #define FCS_MOVE_NUM_CARDS_IN_SEQ    3
+#define FCS_MOVE_NUM_CARDS_FLIPPED   3
 
 #define fcs_move_set_src_stack(move,value)        (move).c[FCS_MOVE_SRC] = (value);
 #define fcs_move_set_src_freecell(move,value)     (move).c[FCS_MOVE_SRC] = (value);
@@ -83,6 +89,7 @@ struct fcs_move_struct
 #define fcs_move_set_foundation(move,value)       (move).c[FCS_MOVE_DEST] = (value);
 #define fcs_move_set_type(move,value)             (move).c[FCS_MOVE_TYPE] = (value);
 #define fcs_move_set_num_cards_in_seq(move,value) (move).c[FCS_MOVE_NUM_CARDS_IN_SEQ] = (value);
+#define fcs_move_set_num_cards_flipped(move,value) (move).c[FCS_MOVE_NUM_CARDS_FLIPPED] = (value);
 
 #define fcs_move_get_src_stack(move)              ((move).c[FCS_MOVE_SRC])
 #define fcs_move_get_src_freecell(move)           ((move).c[FCS_MOVE_SRC])
@@ -91,6 +98,7 @@ struct fcs_move_struct
 #define fcs_move_get_foundation(move)             ((move).c[FCS_MOVE_DEST])
 #define fcs_move_get_type(move)                   ((move).c[FCS_MOVE_TYPE])
 #define fcs_move_get_num_cards_in_seq(move)       ((move).c[FCS_MOVE_NUM_CARDS_IN_SEQ])
+#define fcs_move_get_num_cards_flipped(move,value) ((move).c[FCS_MOVE_NUM_CARDS_FLIPPED])
 #endif
 
 typedef struct fcs_move_struct fcs_move_t;

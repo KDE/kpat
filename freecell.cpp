@@ -152,6 +152,8 @@ void FreecellBase::findSolution()
     freecell_solver_user_set_solving_method(solver_instance,
                                             FCS_METHOD_SOFT_DFS);
 
+    freecell_solver_user_set_solution_optimization(solver_instance,
+                                                   1);
 
     int ret = freecell_solver_user_set_game(solver_instance,
                                             freecell.count(),
@@ -201,7 +203,7 @@ void FreecellBase::resumeSolution()
     freecell_solver_user_limit_iterations(solver_instance,
                                           max_iters);
 
-    if (max_iters > 80000) {
+    if (max_iters > 120000) {
         solver_ret = FCS_STATE_IS_NOT_SOLVEABLE;
         resumeSolution();
         return;

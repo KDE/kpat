@@ -43,13 +43,10 @@ int freecell_solver_solve_for_state(
 
     int num_freestacks, num_freecells;
 
-#ifdef DEBUG
     int iter_num = instance->num_times;
-#endif
     instance->num_times++;
 
 
-#ifdef DEBUG
     if (instance->debug_iter_output)
     {
         instance->debug_iter_output_func(
@@ -61,7 +58,6 @@ int freecell_solver_solve_for_state(
                 );
     }
     
-#endif        
 
     /* Count the free-cells */
     num_freecells = 0;
@@ -93,6 +89,8 @@ int freecell_solver_solve_for_state(
         instance->solution_states = malloc(sizeof(fcs_state_with_locations_t*) * instance->num_solution_states);
         instance->proto_solution_moves = malloc(sizeof(fcs_move_stack_t *) * (instance->num_solution_states-1));
 
+        /* Mark this state as part of the non-optimized solution path */
+        ptr_state_with_locations->visited |= FCS_VISITED_IN_SOLUTION_PATH;
         instance->solution_states[depth] = malloc(sizeof(fcs_state_with_locations_t)); 
         fcs_duplicate_state(*(instance->solution_states[depth]), *ptr_state_with_locations); 
 
@@ -115,6 +113,9 @@ int freecell_solver_solve_for_state(
 
         if (check == FCS_STATE_WAS_SOLVED)
         {
+            /* Mark this state as part of the non-optimized solution path */
+            ptr_state_with_locations->visited |= FCS_VISITED_IN_SOLUTION_PATH;
+
             instance->solution_states[depth] =
                 malloc(sizeof(fcs_state_with_locations_t));
             fcs_duplicate_state(
@@ -252,7 +253,12 @@ static void freecell_solver_increase_dfs_max_depth(
     instance->dfs_max_depth = new_dfs_max_depth;
 }
 
+/*
+    freecell_solver_soft_dfs_do_solve_or_resume is the event loop of the Soft-DFS
+    scan. DFS which is recursive in nature is handled here without procedural recursion
+    by using some dedicated stacks for the traversal.
 
+  */
 #define state (ptr_state_with_locations->s)
 
 static int freecell_solver_soft_dfs_do_solve_or_resume(
@@ -269,6 +275,9 @@ static int freecell_solver_soft_dfs_do_solve_or_resume(
 
     if (!resume)
     {
+        /*
+            Allocate some space for the states at depth 0. 
+        */
         depth=0;
     
         freecell_solver_increase_dfs_max_depth(instance);
@@ -286,34 +295,51 @@ static int freecell_solver_soft_dfs_do_solve_or_resume(
     }
     else
     {
+        /*
+            Set the initial depth to that of the last state encountered.
+        */
         depth = instance->num_solution_states - 1;
     }
 
+    /*
+        The main loop.
+    */
     while (depth >= 0)
     {
+        /*
+            Increase the "maximal" depth if it about to be exceeded.
+        */
         if (depth+1 >= instance->dfs_max_depth)
         {
             freecell_solver_increase_dfs_max_depth(instance);
         }
-
+        
+        /* All the resultant states in the last test conducted were covered */
         if (instance->soft_dfs_current_state_indexes[depth] == instance->soft_dfs_num_states_to_check[depth])
         {
+        
             if (instance->soft_dfs_test_indexes[depth] >= instance->tests_order_num)
             {
+                /*
+                    Destroy the move stacks that were left by the last test conducted in this
+                    depth 
+                */
                 for(a=0;a<instance->soft_dfs_num_states_to_check[depth];a++)
                 {
-                	fcs_move_stack_destroy(instance->soft_dfs_states_to_check_move_stacks[depth][a]);
+                    fcs_move_stack_destroy(instance->soft_dfs_states_to_check_move_stacks[depth][a]);
                 }
+                /* Backtrack to the previous depth. */
                 depth--;
                 continue; /* Just to make sure depth is not -1 now */    
             }        
+        
         
             /* Destroy the move stacks that were left by the previous test */
             if (instance->soft_dfs_test_indexes[depth] != 0)
             {
                 for(a=0;a<instance->soft_dfs_num_states_to_check[depth];a++)
                 {
-            	    fcs_move_stack_destroy(instance->soft_dfs_states_to_check_move_stacks[depth][a]);
+                    fcs_move_stack_destroy(instance->soft_dfs_states_to_check_move_stacks[depth][a]);
                 }            
             }
             
@@ -322,10 +348,12 @@ static int freecell_solver_soft_dfs_do_solve_or_resume(
             ptr_state_with_locations = instance->solution_states[depth];
         
 
+            /* If this is the first test, then count the number of unoccupied
+               freeceelsc and stacks and check if we are done. */
             if (instance->soft_dfs_test_indexes[depth] == 0)
             {
-            	int num_freestacks, num_freecells;
-#ifdef DEBUG            
+                int num_freestacks, num_freecells;
+
                 if (instance->debug_iter_output)
                 {
                     instance->debug_iter_output_func(
@@ -336,7 +364,7 @@ static int freecell_solver_soft_dfs_do_solve_or_resume(
                         ptr_state_with_locations
                         );
                 }
-#endif           
+
                 /* Count the free-cells */
                 num_freecells = 0;
                 for(a=0;a<instance->freecells_num;a++)
@@ -358,23 +386,39 @@ static int freecell_solver_soft_dfs_do_solve_or_resume(
                     }
                 }
 
+                /* Check if we have reached the empty state */
                 if ((num_freestacks == instance->stacks_num) && (num_freecells == instance->freecells_num))
                 {
                     int d;
+                    fcs_state_with_locations_t * ptr_state;
         
+                    /*
+                        Copy all the states to a separetely malloced memory, so they won't 
+                        be lost when the state packs are de-allocated.
+                    */
                     instance->num_solution_states = depth+1;
                     for(d=0;d<=depth;d++)
                     {
-                        fcs_state_with_locations_t * ptr_state;
-                    
+                        /* Mark the states in the solution path as part of the non-optimized
+                           solution
+                        */
+                        instance->solution_states[d]->visited |= FCS_VISITED_IN_SOLUTION_PATH;
                         ptr_state = (fcs_state_with_locations_t *)malloc(sizeof(fcs_state_with_locations_t));
                         fcs_duplicate_state(*ptr_state, *(instance->solution_states[d]));
                         instance->solution_states[d] = ptr_state;
-
+                        if (d < depth)
+                        {
+                            /* So it won't be destroyed twice because of the path optimization */
+                            instance->proto_solution_moves[d] = fcs_move_stack_duplicate(instance->proto_solution_moves[d]);
+                        }
                     }
                     return FCS_STATE_WAS_SOLVED;
                 }
-                
+                /*
+                    Cache num_freecells and num_freestacks in their 
+                    appropriate stacks, so they won't be calculated over and over
+                    again.
+                  */
                 instance->soft_dfs_num_freecells[depth] = num_freecells;
                 instance->soft_dfs_num_freestacks[depth] = num_freestacks;
             }
@@ -385,12 +429,12 @@ static int freecell_solver_soft_dfs_do_solve_or_resume(
             check = freecell_solver_sfs_tests[instance->tests_order[
                     instance->soft_dfs_test_indexes[depth]
                 ]] (
-                   instance,
-                   ptr_state_with_locations,
-                depth,
-                instance->soft_dfs_num_freestacks[depth],
-                instance->soft_dfs_num_freecells[depth],
-                1
+                    instance,
+                    ptr_state_with_locations,
+                    depth,
+                    instance->soft_dfs_num_freestacks[depth],
+                    instance->soft_dfs_num_freecells[depth],
+                    1   /* Pass TRUE as ignore_osins */
                 );
         
             if ((check == FCS_STATE_BEGIN_SUSPEND_PROCESS) ||
@@ -401,8 +445,12 @@ static int freecell_solver_soft_dfs_do_solve_or_resume(
                 return FCS_STATE_SUSPEND_PROCESS;
             }
         
+            /* Move the counter to the next test */
             instance->soft_dfs_test_indexes[depth]++;
         
+            /* We just performed a test, so the index of the first state that
+               ought to be checked in this depth is 0.
+               */
             instance->soft_dfs_current_state_indexes[depth] = 0;
         }
         
@@ -416,7 +464,7 @@ static int freecell_solver_soft_dfs_do_solve_or_resume(
             instance->soft_dfs_current_state_indexes[depth]++;
             if (!ptr_recurse_into_state_with_locations->visited)
             {
-                ptr_recurse_into_state_with_locations->visited = 1;
+                ptr_recurse_into_state_with_locations->visited = FCS_VISITED_VISITED;
                 instance->num_times++;
                 instance->solution_states[depth+1] = ptr_recurse_into_state_with_locations;
                 instance->proto_solution_moves[depth] = 
@@ -592,7 +640,7 @@ pq_rating_t freecell_solver_a_star_rate_state(
     num_cards_in_founds = 0;
     for(a=0;a<instance->decks_num*4;a++)
     {
-        num_cards_in_founds += fcs_deck_value(state, a);
+        num_cards_in_founds += fcs_foundation_value(state, a);
     }
 
     ret += ((double)num_cards_in_founds/(instance->decks_num*52)) * instance->a_star_weights[FCS_A_STAR_WEIGHT_CARDS_OUT];
@@ -640,6 +688,9 @@ pq_rating_t freecell_solver_a_star_rate_state(
 }
 
 
+
+
+
 void freecell_solver_a_star_enqueue_state(
     freecell_solver_instance_t * instance,
     fcs_state_with_locations_t * ptr_state_with_locations
@@ -652,6 +703,20 @@ void freecell_solver_a_star_enqueue_state(
         );
 }
 
+
+
+
+
+
+/*
+    freecell_solver_a_star_or_bfs_do_solve_or_resume() is the main event
+    loop of the A* And BFS scans. It is quite simple as all it does is
+    extract elements out of the queue or priority queue and run all the test
+    of them. 
+    
+    It goes on in this fashion until the final state was reached or 
+    there are no more states in the queue.
+*/
 int freecell_solver_a_star_or_bfs_do_solve_or_resume(
     freecell_solver_instance_t * instance,
     fcs_state_with_locations_t * ptr_state_with_locations_orig,
@@ -666,6 +731,7 @@ int freecell_solver_a_star_or_bfs_do_solve_or_resume(
 
     if (!resume)
     {
+        /* Initialize the first element to indicate it is the first */
         ptr_state_with_locations_orig->parent = NULL;
         ptr_state_with_locations_orig->moves_to_parent = NULL;
         ptr_state_with_locations_orig->depth = 0;
@@ -673,6 +739,8 @@ int freecell_solver_a_star_or_bfs_do_solve_or_resume(
 
     ptr_state_with_locations = ptr_state_with_locations_orig;
     
+    /* Continue as long as there are states in the queue or 
+       priority queue. */
     while ( ptr_state_with_locations != NULL)
     {
         /* Count the free-cells */
@@ -696,7 +764,6 @@ int freecell_solver_a_star_or_bfs_do_solve_or_resume(
             }
         }
 
-#ifdef DEBUG
         if (instance->debug_iter_output)
         {
             instance->debug_iter_output_func(
@@ -707,7 +774,6 @@ int freecell_solver_a_star_or_bfs_do_solve_or_resume(
                     ptr_state_with_locations
                     );
         }    
-#endif        
 
 
         if ((num_freestacks == instance->stacks_num) && (num_freecells == instance->freecells_num))
@@ -720,25 +786,38 @@ int freecell_solver_a_star_or_bfs_do_solve_or_resume(
 
             s1 = ptr_state_with_locations;
 
+            /* The depth of the last state reached is the number of them */
             num_solution_states = instance->num_solution_states = s1->depth+1;
+            /* Allocate space for the solution stacks */
             instance->solution_states = malloc(sizeof(fcs_state_with_locations_t *)*num_solution_states);
             instance->proto_solution_moves = malloc(sizeof(fcs_move_stack_t *) * (num_solution_states-1));
+            /* Retrace the step from the current state to its parents */
             while (s1->parent != NULL)
             {
+                /* Mark the state as part of the non-optimized solution */
+                s1->visited |= FCS_VISITED_IN_SOLUTION_PATH;
+                /* Duplicate the move stack */
                 instance->proto_solution_moves[s1->depth-1] = fcs_move_stack_duplicate(s1->moves_to_parent);
+                /* Duplicate the state to a freshly malloced memory */
                 instance->solution_states[s1->depth] = (fcs_state_with_locations_t*)malloc(sizeof(fcs_state_with_locations_t));
                 fcs_duplicate_state(*(instance->solution_states[s1->depth]), *s1);
         
+                /* Move to the parent state */
                 s1 = s1->parent;
             }
+            /* There's one more state that there are move stacks */
             instance->solution_states[0] = (fcs_state_with_locations_t*)malloc(sizeof(fcs_state_with_locations_t));
             fcs_duplicate_state(*(instance->solution_states[0]), *s1);
             
             return FCS_STATE_WAS_SOLVED;
         }
 
+        /* Increase the number of iterations by one */
         instance->num_times++;
 
+        /* Do all the tests at one go, because that the way it should be
+           done for BFS and A* 
+        */
         for(a=0 ;
             a < instance->tests_order_num;
             a++)
@@ -755,6 +834,7 @@ int freecell_solver_a_star_or_bfs_do_solve_or_resume(
                 (check == FCS_STATE_EXCEEDS_MAX_NUM_TIMES) ||
                 (check == FCS_STATE_SUSPEND_PROCESS))
             {
+                /* Save the current position in the scan */
                 instance->first_state_to_check = ptr_state_with_locations;
                 return FCS_STATE_SUSPEND_PROCESS;
             }
@@ -763,7 +843,7 @@ int freecell_solver_a_star_or_bfs_do_solve_or_resume(
         /*
             Extract the next item in the queue/priority queue.
         */
-        if (instance->method == FCS_METHOD_BFS)
+        if ((instance->method == FCS_METHOD_BFS) || (instance->method == FCS_METHOD_OPTIMIZE))
         {
             if (instance->bfs_queue->next != instance->bfs_queue_last_item)
             {
@@ -779,7 +859,7 @@ int freecell_solver_a_star_or_bfs_do_solve_or_resume(
         }
         else
         {
-            /* A* */
+            /* It is an A* scan */
             ptr_state_with_locations = PQueuePop(instance->a_star_pqueue);
         }
     }

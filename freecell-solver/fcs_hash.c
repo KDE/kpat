@@ -20,6 +20,10 @@
 
 #define NUM_PRIMES 136
 
+/*
+    A list of primes in the range between 256 and 2^31. There 
+    are roughly 6 in an x .. 2x decade.    
+  */
 static const int primes_list[NUM_PRIMES+1] = {
     257,
     293,
@@ -174,10 +178,13 @@ SFO_hash_t * SFO_hash_init(
     int size,i;
     SFO_hash_t * hash;
 
+    /* Find a prime number that is greater than the initial wanted size */
     for(i=0;i<NUM_PRIMES;i++)
     {
         if (primes_list[i] > wanted_size)
+        {
             break;
+        }
     }
 
     size = primes_list[i];
@@ -188,11 +195,16 @@ SFO_hash_t * SFO_hash_init(
 
     hash->num_elems = 0;
 
-    hash->entries = (SFO_hash_symlink_t *)malloc(sizeof(SFO_hash_symlink_t)*size);
+    /* Allocate a table of size entries */
+    hash->entries = (SFO_hash_symlink_t *)malloc(
+        sizeof(SFO_hash_symlink_t) * size
+        );
 
     hash->compare_function = compare_function;
     hash->context = context;
 
+    /* Initialize all the cells of the hash table to NULL, which indicate
+       that the cork of the linked list is right at the start */
     memset(hash->entries, 0, sizeof(SFO_hash_symlink_t)*size);
     
     return hash;
@@ -201,18 +213,22 @@ SFO_hash_t * SFO_hash_init(
 void * SFO_hash_insert(
     SFO_hash_t * hash,
     void * key,
-    SFO_hash_value_t hash_value
+    SFO_hash_value_t hash_value,
+    int optimize_for_caching
     )
 {
     int place;
     SFO_hash_symlink_t * list;
     SFO_hash_symlink_item_t * item, * last_item;
 
-    place = hash_value % hash->size;
+    /* Get the index of the appropriate chain in the hash table */
+    place = hash_value % (hash->size);
 
     list = &(hash->entries[place]);
+    /* If first_item is non-existent */
     if (list->first_item == NULL)
     {
+        /* Allocate a first item with that key */
         item = list->first_item = (SFO_hash_symlink_item_t *)malloc(sizeof(SFO_hash_symlink_item_t));
         item->next = NULL;
         item->key = key;
@@ -221,25 +237,61 @@ void * SFO_hash_insert(
         goto rehash_check;
     }
 
+    /* Initialize item to the chain's first_item */
     item = list->first_item;
+    last_item = NULL;
 
     while (item != NULL)
     {
+        /*
+            We first compare the hash values, because it is faster than
+            comparing the entire data structure.
+
+        */
         if (
             (item->hash_value == hash_value) && 
             (!(hash->compare_function(item->key, key, hash->context)))
            )
         {
+            if (optimize_for_caching)
+            {
+                /*
+                 * Place the item in the beginning of the chain.
+                 * If last_item == NULL it is already the first item so leave
+                 * it alone
+                 * */
+                if (last_item != NULL)
+                {
+                    last_item->next = item->next;
+                    item->next = list->first_item;
+                    list->first_item = item;
+                }
+            }
             return item->key;
         }
+        /* Cache the item before the current in last_item */
         last_item = item;
+        /* Move to the next item */
         item = item->next;
     }
 
-    item = last_item->next = (SFO_hash_symlink_item_t *)malloc(sizeof(SFO_hash_symlink_item_t));
-    item->next = NULL;
-    item->key = key;
-    item->hash_value = hash_value;
+    if (optimize_for_caching)
+    {
+        /* Put the new element at the beginning of the list */
+        item = (SFO_hash_symlink_item_t *)malloc(sizeof(SFO_hash_symlink_item_t));
+        item->next = list->first_item;
+        item->key = key;
+        item->hash_value = hash_value;
+        list->first_item = item;
+    }
+    else
+    {
+        /* Put the new element at the end of the list */
+        item = last_item->next = (SFO_hash_symlink_item_t *)malloc(sizeof(SFO_hash_symlink_item_t));
+        item->next = NULL;
+        item->key = key;
+        item->hash_value = hash_value;
+    }
 
 rehash_check:
 
@@ -305,6 +357,11 @@ void SFO_hash_free(
 }
 
 
+/*
+    This function "rehashes" a hash. I.e: it increases the size of its
+    hash table, allowing for smaller chains, and faster lookup.
+
+  */
 static void SFO_hash_rehash(
     SFO_hash_t * hash
     )
@@ -312,11 +369,12 @@ static void SFO_hash_rehash(
     int old_size, new_size;
     int i;
     SFO_hash_t * new_hash;
-    SFO_hash_symlink_item_t * item, * next_item, * new_item;
+    SFO_hash_symlink_item_t * item, * next_item;
     int place;
 
     old_size = hash->size;
     
+    /* Allocate a new hash with hash_init() */
     new_hash = SFO_hash_init(
         old_size * 2,
         hash->compare_function,
@@ -333,27 +391,36 @@ static void SFO_hash_rehash(
     for(i=0;i<old_size;i++)
     {
         item = hash->entries[i].first_item;
+        /* traverse the chain item by item */
         while(item != NULL)
         {
+            /* The place in the new hash table */
             place = item->hash_value % new_size;
-            new_item = (SFO_hash_symlink_item_t *)malloc(sizeof(SFO_hash_symlink_item_t));
-            new_item->next = new_hash->entries[place].first_item;
-            new_item->key = item->key;
-            new_item->hash_value = item->hash_value;
-                            
-            new_hash->entries[place].first_item = new_item;
-            next_item = item->next;
-
-            free(item);
             
+            /* Store the next item in the linked list in a safe place,
+               so we can retrieve it after the assignment */
+            next_item = item->next;
+            /* It is placed in front of the first element in the chain,
+               so it should link to it */
+            item->next = new_hash->entries[place].first_item;
+            
+            /* Make it the first item in its chain */
+            new_hash->entries[place].first_item = item;
+
+            /* Move to the next item this one. */
             item = next_item;
         }
     };
 
+    /* Free the entries of the old hash */
     free(hash->entries);
 
+    /* Copy the new hash to the old one */
     *hash = *new_hash;
 
+    /* De-allocate the space that was allocated by new_hash's struct
+       per-se.
+    */
     free(new_hash);
 }
 

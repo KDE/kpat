@@ -72,13 +72,21 @@ extern int freecell_solver_user_get_moves_left(
     void * user_instance
     );
 
-extern int freecell_solver_user_set_game(void * user_instance,
-                                         int freecells_num,
-                                         int stacks_num,
-                                         int decks_num,
-                                         int sequences_are_built_by,
-                                         int unlimited_sequence_move,
-                                         int empty_stacks_fill);
+extern int freecell_solver_user_set_game(
+    void * user_instance,
+    int freecells_num,
+    int stacks_num,
+    int decks_num,
+    int sequences_are_built_by,
+    int unlimited_sequence_move,
+    int empty_stacks_fill
+    );
+
+extern void freecell_solver_user_set_solution_optimization(
+    void * user_instance, 
+    int optimize
+);
+
 #ifdef __cplusplus
 }
 #endif

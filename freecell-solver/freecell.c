@@ -62,18 +62,42 @@ extern int freecell_solver_check_and_add_state(
     int depth);
 
 
+/*
+ * This macro is used by sfs_check_state_begin() which is in turn
+ * used in all the tests functions.
+ *
+ * What it does is allocate some space for the state that is derived from 
+ * the current one. The derived state will be manipulated to create the 
+ * board after the test was done. 
+ * */
 #define sfs_check_state_init() \
-    ptr_new_state_with_locations = fcs_state_ia_alloc(instance);        
+    ptr_new_state_with_locations = fcs_state_ia_alloc(instance);
 
-
+/*
+ * This macro is used by _all_ the tests to handle some check_and_add_state()
+ * return codes. Notice the "else if" at its beginning.
+ * */
 #define sfs_check_state_finish() \
-else if ((check == FCS_STATE_IS_NOT_SOLVEABLE) && ((instance->method == FCS_METHOD_BFS) || (instance->method == FCS_METHOD_A_STAR))) \
+else if ((check == FCS_STATE_IS_NOT_SOLVEABLE) && ((instance->method == FCS_METHOD_BFS) || (instance->method == FCS_METHOD_A_STAR)||(instance->method == FCS_METHOD_OPTIMIZE))) \
 {  \
+    /* In A* or BFS, check_and_add_state() returns STATE_IS_NOT_SOLVEABLE \
+     * if the state was just found to be unencountered so far, and was    \
+     * placed in the queue or priority queue of the scan.                 \
+     *                                                                    \
+     * If it was indeed placed in the queue, then the move stack leading  \
+     * to it was also recorded inside the fcs_state_with_locations_t      \
+     * which encapsulates it. Thus, we need a fresh one here.             \
+     */           \
     moves = fcs_move_stack_create();  \
 } \
-else if ((check == FCS_STATE_ALREADY_EXISTS)) \
+else if ((check == FCS_STATE_ALREADY_EXISTS) || (check == FCS_STATE_OPTIMIZED)) \
 {             \
+    /* The state already exists so we can release its pointer */    \
     fcs_state_ia_release(instance);          \
+    if (check == FCS_STATE_OPTIMIZED)  \
+    {               \
+        moves = fcs_move_stack_create();  \
+    }          \
 }           \
 else if ((check == FCS_STATE_EXCEEDS_MAX_NUM_TIMES) || \
          (check == FCS_STATE_SUSPEND_PROCESS) || \
@@ -82,6 +106,9 @@ else if ((check == FCS_STATE_EXCEEDS_MAX_NUM_TIMES) || \
 {          \
     if ((check == FCS_STATE_SUSPEND_PROCESS)) \
     {              \
+        /* Record the moves so far in a move stack in the stack of  \
+         * move stacks that belong to the scan.            \
+         * */            \
         fcs_move_set_type(temp_move,FCS_MOVE_TYPE_CANONIZE);      \
         fcs_move_stack_push(moves, temp_move);           \
         instance->proto_solution_moves[depth] = moves;    \
@@ -98,18 +125,29 @@ else if ((check == FCS_STATE_EXCEEDS_MAX_NUM_TIMES) || \
 }    
 
 
-
+/*
+ * A macro that manages the Soft-DFS stuff. It is placed inside
+ * sfs_check_state_end() or in move_top_stack_cards_to_founds or
+ * move_freecell_cards_to_founds.
+ * */
 #define sfs_check_state_handle_soft_dfs() \
 if (instance->method == FCS_METHOD_SOFT_DFS)         \
 {                                                    \
+    /* Record the state  */                         \
     instance->soft_dfs_states_to_check[depth][       \
         instance->soft_dfs_num_states_to_check[depth]     \
         ] = ptr_new_state_with_locations;            \
+    /* Record its move stack */                        \
     instance->soft_dfs_states_to_check_move_stacks[depth][  \
         instance->soft_dfs_num_states_to_check[depth]    \
         ] = moves;                                        \
+    /* Increment the number of recorded states */            \
     instance->soft_dfs_num_states_to_check[depth]++;         \
+    /* Create a fresh move stack because the current one was   \
+     * recorded and must not be changed at this point */       \
     moves = fcs_move_stack_create();                        \
+    /* We are going to exceed the maximum number of recorderd states  \
+     * so we should resize it */    \
     if (instance->soft_dfs_num_states_to_check[depth] ==     \
         instance->soft_dfs_max_num_states_to_check[depth])   \
     {                                  \
@@ -126,30 +164,53 @@ if (instance->method == FCS_METHOD_SOFT_DFS)         \
             );          \
     }        \
     \
-}                                                    \
+}
 
+
+/*
+ * sfs_check_state_begin() is now used by all the tests.
+ *
+ * */
 #define sfs_check_state_begin() \
 sfs_check_state_init() \
+/* Initialize the derived state from the source state */    \
 fcs_duplicate_state(new_state_with_locations, state_with_locations); \
-if ( (instance->method == FCS_METHOD_BFS) || (instance->method == FCS_METHOD_A_STAR) )     \
+ptr_new_state_with_locations->moves_to_parent = NULL;         \
+if ( (instance->method == FCS_METHOD_BFS) || (instance->method == FCS_METHOD_A_STAR) || (instance->method == FCS_METHOD_OPTIMIZE))     \
 {       \
+    /*  Some A* and BFS parameters that need to be initialized in the derived \
+     *  state.               \
+     * */        \
     ptr_new_state_with_locations->parent = ptr_state_with_locations;    \
     ptr_new_state_with_locations->moves_to_parent = moves; \
     ptr_new_state_with_locations->depth = depth+1; \
 } \
 ptr_new_state_with_locations->visited = 0; 
 
+
+
+/*
+ * This macro is not used by move_top_stack_cards_to_founds and
+ * move_freecell_cards_to_founds because of their deducing of 
+ * dead-end operations.
+ * */
 #define sfs_check_state_end()                        \
+/* The last move in a move stack should be FCS_MOVE_TYPE_CANONIZE \
+ * because it indicates that the order of the stacks and freecells \
+ * need to be recalculated \ 
+ * */ \
 fcs_move_set_type(temp_move,FCS_MOVE_TYPE_CANONIZE); \
 fcs_move_stack_push(moves, temp_move);               \
     \
 {                                                    \
     fcs_state_with_locations_t * existing_state;     \
-check = freecell_solver_check_and_add_state(         \
-    instance,                                        \
-    ptr_new_state_with_locations,                    \
-    &existing_state,                                  \
-    depth);                                          \
+    check = freecell_solver_check_and_add_state(     \
+        instance,                                    \
+        ptr_new_state_with_locations,                \
+        &existing_state,                             \
+        depth);                                      \
+    /* In Soft-DFS I'd like to save memory by pointing each state  \
+     * to its cached state */   \
     if ((instance->method == FCS_METHOD_SOFT_DFS) && \
         (check == FCS_STATE_ALREADY_EXISTS))         \
     {                                                    \
@@ -157,6 +218,10 @@ check = freecell_solver_check_and_add_state(         \
     }                                                    \
 }                                                    \
 sfs_check_state_handle_soft_dfs()                    \
+                                                     \
+                                                     \
+/* This is for Hard-DFS: we put all the intermediate \
+ * move stacks in proto_solution_moves */            \
                                                      \
 if (check == FCS_STATE_WAS_SOLVED)                   \
 {                                                    \
@@ -166,13 +231,42 @@ if (check == FCS_STATE_WAS_SOLVED)                   \
 sfs_check_state_finish();
 
 
-
+/*
+ *  Those are some macros to make it easier for the programmer.
+ * */
 #define state_with_locations (*ptr_state_with_locations)
 #define state (ptr_state_with_locations->s)
 #define new_state_with_locations (*ptr_new_state_with_locations)
 #define new_state (ptr_new_state_with_locations->s)
 
 
+/*
+    This macro checks if the top card in the stack is a flipped card
+    , and if so flips it so its face is up.
+  */
+#define fcs_flip_top_card(stack) \
+                    {            \
+                        int cards_num;         \
+                        cards_num = fcs_stack_len(new_state,stack);    \
+                                                                \
+                        if (cards_num > 0)              \
+                        {                \
+                            if (fcs_card_get_flipped(fcs_stack_card(new_state,stack,cards_num-1)) == 1)        \
+                            {               \
+                                fcs_flip_stack_card(new_state,stack,cards_num-1);            \
+                                fcs_move_set_type(temp_move, FCS_MOVE_TYPE_FLIP_CARD);        \
+                                fcs_move_set_src_stack(temp_move, stack);           \
+                                    \
+                                fcs_move_stack_push(moves, temp_move);              \
+                            }          \
+                        }          \
+                    }          \
+
+
+/*
+ * This function tries to move stack cards that are present at the
+ * top of stacks to the foundations.
+ * */
 int freecell_solver_sfs_move_top_stack_cards_to_founds(
         freecell_solver_instance_t * instance,
         fcs_state_with_locations_t * ptr_state_with_locations,
@@ -201,11 +295,12 @@ int freecell_solver_sfs_move_top_stack_cards_to_founds(
     {
         cards_num = fcs_stack_len(state, stack);
         if (cards_num)
-        { 
+        {
+            /* Get the top card in the stack */
             card = fcs_stack_card(state,stack,cards_num-1);
             for(deck=0;deck<instance->decks_num;deck++)
             {
-                if (fcs_deck_value(state, deck*4+fcs_card_suit(card)) == fcs_card_card_num(card) - 1)
+                if (fcs_foundation_value(state, deck*4+fcs_card_suit(card)) == fcs_card_card_num(card) - 1)
                 {
                     /* We can put it there */
 
@@ -213,7 +308,7 @@ int freecell_solver_sfs_move_top_stack_cards_to_founds(
 
                     fcs_pop_stack_card(new_state, stack, temp_card);
 
-                    fcs_increment_deck(new_state, deck*4+fcs_card_suit(card));
+                    fcs_increment_foundation(new_state, deck*4+fcs_card_suit(card));
 
                     fcs_move_stack_reset(moves);
 
@@ -222,7 +317,13 @@ int freecell_solver_sfs_move_top_stack_cards_to_founds(
                     fcs_move_set_foundation(temp_move,deck*4+fcs_card_suit(card));
 
                     fcs_move_stack_push(moves, temp_move);
-                    
+
+                    fcs_flip_top_card(stack);
+
+                    /* The last move needs to be FCS_MOVE_TYPE_CANONIZE
+                     * because it indicates that the internal order of the 
+                     * stacks
+                     * and freecells may have changed. */
                     fcs_move_set_type(temp_move,FCS_MOVE_TYPE_CANONIZE);
                     fcs_move_stack_push(moves, temp_move);
 
@@ -270,7 +371,7 @@ int freecell_solver_sfs_move_top_stack_cards_to_founds(
                         {
                             for(d=0;d<instance->decks_num*4;d++)
                             {
-                                if (fcs_card_card_num(card) - 2 > fcs_deck_value(state, d))
+                                if (fcs_card_card_num(card) - 2 > fcs_foundation_value(state, d))
                                 {
                                     break;
                                 }
@@ -287,8 +388,8 @@ int freecell_solver_sfs_move_top_stack_cards_to_founds(
                             /* instance->sequences_are_built_by == FCS_SEQ_BUILT_BY_ALTERNATE_COLOR */
                             for(d=0;d<instance->decks_num;d++)
                             {
-                                if (!((fcs_card_card_num(card) - 2 <= fcs_deck_value(state, d*4+(fcs_card_suit(card)^0x1))) &&
-                                    (fcs_card_card_num(card) - 2 <= fcs_deck_value(state, d*4+(fcs_card_suit(card)^0x3)))))
+                                if (!((fcs_card_card_num(card) - 2 <= fcs_foundation_value(state, d*4+(fcs_card_suit(card)^0x1))) &&
+                                    (fcs_card_card_num(card) - 2 <= fcs_foundation_value(state, d*4+(fcs_card_suit(card)^0x3)))))
                                 {
                                     break;
                                 }
@@ -313,6 +414,11 @@ int freecell_solver_sfs_move_top_stack_cards_to_founds(
     return FCS_STATE_IS_NOT_SOLVEABLE;
 }
 
+
+/*
+ * This test moves single cards that are present in the freecells to 
+ * the foundations.
+ * */
 int freecell_solver_sfs_move_freecell_cards_to_founds(
         freecell_solver_instance_t * instance,
         fcs_state_with_locations_t * ptr_state_with_locations,
@@ -343,14 +449,14 @@ int freecell_solver_sfs_move_freecell_cards_to_founds(
         {
             for(deck=0;deck<instance->decks_num;deck++)
             {
-                if (fcs_deck_value(state, deck*4+fcs_card_suit(card)) == fcs_card_card_num(card) - 1)
+                if (fcs_foundation_value(state, deck*4+fcs_card_suit(card)) == fcs_card_card_num(card) - 1)
                 {
                     /* We can put it there */
                     sfs_check_state_begin()
                         
                     fcs_empty_freecell(new_state, fc);
 
-                    fcs_increment_deck(new_state, deck*4+fcs_card_suit(card));
+                    fcs_increment_foundation(new_state, deck*4+fcs_card_suit(card));
 
                     fcs_move_stack_reset(moves);
                     fcs_move_set_type(temp_move,FCS_MOVE_TYPE_FREECELL_TO_FOUNDATION);
@@ -409,7 +515,7 @@ int freecell_solver_sfs_move_freecell_cards_to_founds(
                         {
                             for(d=0;d<instance->decks_num*4;d++)
                             {
-                                if (fcs_card_card_num(card) - 2 > fcs_deck_value(state, d))
+                                if (fcs_card_card_num(card) - 2 > fcs_foundation_value(state, d))
                                 {
                                     break;
                                 }
@@ -426,8 +532,8 @@ int freecell_solver_sfs_move_freecell_cards_to_founds(
                             /* instance->sequences_are_built_by == FCS_SEQ_BUILT_BY_ALTERNATE_COLOR */
                             for(d=0;d<instance->decks_num;d++)
                             {
-                                if (!((fcs_card_card_num(card) - 2 <= fcs_deck_value(state, d*4+(fcs_card_suit(card)^0x1))) &&
-                                    (fcs_card_card_num(card) - 2 <= fcs_deck_value(state, d*4+(fcs_card_suit(card)^0x3)))))
+                                if (!((fcs_card_card_num(card) - 2 <= fcs_foundation_value(state, d*4+(fcs_card_suit(card)^0x1))) &&
+                                    (fcs_card_card_num(card) - 2 <= fcs_foundation_value(state, d*4+(fcs_card_suit(card)^0x3)))))
                                 {
                                     break;
                                 }
@@ -477,25 +583,35 @@ int freecell_solver_sfs_move_freecell_cards_on_top_of_stacks(
 
     /* Let's try to put cards in the freecells on top of stacks */
 
+    /* ds stands for destination stack */
     for(ds=0;ds<instance->stacks_num;ds++)
     {
         dest_cards_num = fcs_stack_len(state, ds);
 
+        /* If the stack is not empty we can proceed */
         if (dest_cards_num > 0)
         {
+            /*
+             * Let's search for a suitable card in the stack
+             * */
             for(dc=dest_cards_num-1;dc>=0;dc--)
             {
                 dest_card = fcs_stack_card(state, ds, dc);
 
+                /* Scan the freecells */
                 for(fc=0;fc<instance->freecells_num;fc++)
                 {
                     src_card = fcs_freecell_card(state, fc);
     
+                    /* If the freecell is not empty and dest_card is its parent
+                     * */
                     if ( (fcs_card_card_num(src_card) != 0) && 
                          fcs_is_parent_card(src_card,dest_card)     )
                     {
                         /* Let's check if we can put it there */
 
+                        /* Check if the destination card is already below a
+                         * suitable card */
                         is_seq_in_dest = 0;
                         if (dest_cards_num - 1 > dc)
                         {
@@ -626,22 +742,32 @@ int freecell_solver_sfs_move_non_top_stack_cards_to_founds(
     
 
     /* Now let's check if a card that is under some other cards can be placed 
-     * in the decks. */
+     * in the foundations. */
 
     for(stack=0;stack<instance->stacks_num;stack++)
     {
         cards_num = fcs_stack_len(state, stack);
+        /*
+         * We starts from cards_num-2 because the top card is already covered
+         * by move_top_stack_cards_to_founds.
+         * */
         for(c=cards_num-2 ; c >= 0 ; c--)
         {
             card = fcs_stack_card(state, stack, c);
             for(deck=0;deck<instance->decks_num;deck++)
             {
-                if (fcs_deck_value(state, deck*4+fcs_card_suit(card)) == fcs_card_card_num(card)-1)
+                if (fcs_foundation_value(state, deck*4+fcs_card_suit(card)) == fcs_card_card_num(card)-1)
                 {
-                    /* The card is deckable. Now let's check if we can move the
-                     * cards above it to the freecells and stacks */
+                    /* The card is foundation-able. Now let's check if we 
+                     * can move the cards above it to the freecells and 
+                     * stacks */
 
-                    if (num_freecells + ((instance->empty_stacks_fill == FCS_ES_FILLED_BY_ANY_CARD) ? num_freestacks : 0) >= cards_num-(c+1))
+                    if ((num_freecells + 
+                        ((instance->empty_stacks_fill == FCS_ES_FILLED_BY_ANY_CARD) ? 
+                            num_freestacks : 
+                            0
+                        )) 
+                            >= cards_num-(c+1))
                     {
                         /* We can move it */
                         
@@ -669,6 +795,8 @@ int freecell_solver_sfs_move_non_top_stack_cards_to_founds(
                             fcs_move_set_dest_freecell(temp_move,b);
 
                             fcs_move_stack_push(moves, temp_move);
+
+                            fcs_flip_top_card(stack);
                         }
 
                         /* Fill the free stacks with the cards below them */
@@ -692,16 +820,20 @@ int freecell_solver_sfs_move_non_top_stack_cards_to_founds(
                             fcs_move_set_num_cards_in_seq(temp_move,1);
 
                             fcs_move_stack_push(moves, temp_move);
+
+                            fcs_flip_top_card(stack);
                         }
 
                         fcs_pop_stack_card(new_state, stack, temp_card);
-                        fcs_increment_deck(new_state, deck*4+fcs_card_suit(temp_card));
+                        fcs_increment_foundation(new_state, deck*4+fcs_card_suit(temp_card));
 
                         fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_FOUNDATION);
                         fcs_move_set_src_stack(temp_move,stack);
                         fcs_move_set_foundation(temp_move,deck*4+fcs_card_suit(temp_card));
 
                         fcs_move_stack_push(moves, temp_move);
+
+                        fcs_flip_top_card(stack);
                         
                         sfs_check_state_end()
                     }
@@ -746,7 +878,7 @@ int freecell_solver_sfs_move_stack_cards_to_a_parent_on_the_same_stack(
 
     /*
      * Now let's try to move a stack card to a parent card which is found
-     * in the same stack.
+     * on the same stack.
      * */
     for (stack=0;stack<instance->stacks_num;stack++)
     {
@@ -1057,139 +1189,148 @@ int freecell_solver_sfs_move_stack_cards_to_different_stacks(
 
             card = fcs_stack_card(state, stack, c);
 
-
-            for(ds=0 ; ds<instance->stacks_num; ds++)
+            /* Make sure the card is not flipped or else we can't move it */
+            if (fcs_card_get_flipped(card) == 0)
             {
-                if (ds != stack)
+                for(ds=0 ; ds<instance->stacks_num; ds++)
                 {
-                    dest_cards_num = fcs_stack_len(state, ds);
-                    for(dc=0;dc<dest_cards_num;dc++)
+                    if (ds != stack)
                     {
-                        dest_card = fcs_stack_card(state, ds, dc);
-                        
-                        if (fcs_is_parent_card(card, dest_card))
+                        dest_cards_num = fcs_stack_len(state, ds);
+                        for(dc=0;dc<dest_cards_num;dc++)
                         {
-                            /* Corresponding cards - see if it is feasible to move
-                               the source to the destination. */
-
-                            is_seq_in_dest = 0;
-                            if (dest_cards_num - 1 > dc)
+                            dest_card = fcs_stack_card(state, ds, dc);
+                            
+                            if (fcs_is_parent_card(card, dest_card))
                             {
-                                dest_below_card = fcs_stack_card(state, ds, dc+1);
-                                if (fcs_is_parent_card(dest_below_card, dest_card))
+                                /* Corresponding cards - see if it is feasible to move
+                                   the source to the destination. */
+
+                                is_seq_in_dest = 0;
+                                if (dest_cards_num - 1 > dc)
                                 {
-                                    is_seq_in_dest = 1;
-                                }
-                            }
-
-                            if (! is_seq_in_dest)
-                            {
-                                num_cards_to_relocate = dest_cards_num - dc - 1 + cards_num - seq_end - 1;
-
-                                freecells_to_fill = min(num_cards_to_relocate, num_freecells);
-
-                                num_cards_to_relocate -= freecells_to_fill;
-                                  
-                                if (instance->empty_stacks_fill == FCS_ES_FILLED_BY_ANY_CARD)
-                                {
-                                    freestacks_to_fill = min(num_cards_to_relocate, num_freestacks);
-
-                                    num_cards_to_relocate -= freestacks_to_fill;
-                                }
-                                else
-                                {
-                                    freestacks_to_fill = 0;
-                                }
-
-                                if ((num_cards_to_relocate == 0) &&
-                                   (calc_max_sequence_move(num_freecells-freecells_to_fill, num_freestacks-freestacks_to_fill) >=
-                                    seq_end - c + 1))
-                                {
-                                    /* We can move it */
-                                    int from_which_stack;
-                                    
-                                    sfs_check_state_begin()
-
-                                    fcs_move_stack_reset(moves);
-                                    
-                                    /* Fill the freecells with the top cards */
-                                    
-                                    for(a=0 ; a<freecells_to_fill ; a++)
+                                    dest_below_card = fcs_stack_card(state, ds, dc+1);
+                                    if (fcs_is_parent_card(dest_below_card, dest_card))
                                     {
-                                        /* Find a vacant freecell */
-                                        for(b=0;b<instance->freecells_num;b++)
-                                        {
-                                            if (fcs_freecell_card_num(new_state, b) == 0)
-                                            {
-                                                break;
-                                            }
-                                        }
+                                        is_seq_in_dest = 1;
+                                    }
+                                }
 
-                                        if (fcs_stack_len(new_state, ds) == dc+1)
-                                        {
-                                            from_which_stack = stack;
-                                        }
-                                        else
-                                        {
-                                            from_which_stack = ds;
-                                        }
-                                        fcs_pop_stack_card(new_state, from_which_stack, temp_card);
+                                if (! is_seq_in_dest)
+                                {
+                                    num_cards_to_relocate = dest_cards_num - dc - 1 + cards_num - seq_end - 1;
 
-                                        fcs_put_card_in_freecell(new_state, b, temp_card);
+                                    freecells_to_fill = min(num_cards_to_relocate, num_freecells);
 
-                                        fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_FREECELL);
-                                        fcs_move_set_src_stack(temp_move,from_which_stack);
-                                        fcs_move_set_dest_freecell(temp_move,b);
-                                        fcs_move_stack_push(moves, temp_move);
+                                    num_cards_to_relocate -= freecells_to_fill;
+                                      
+                                    if (instance->empty_stacks_fill == FCS_ES_FILLED_BY_ANY_CARD)
+                                    {
+                                        freestacks_to_fill = min(num_cards_to_relocate, num_freestacks);
+
+                                        num_cards_to_relocate -= freestacks_to_fill;
+                                    }
+                                    else
+                                    {
+                                        freestacks_to_fill = 0;
                                     }
 
-                                    /* Fill the free stacks with the cards below them */
-                                    for(a=0; a < freestacks_to_fill ; a++)
+                                    if ((num_cards_to_relocate == 0) &&
+                                       (calc_max_sequence_move(num_freecells-freecells_to_fill, num_freestacks-freestacks_to_fill) >=
+                                        seq_end - c + 1))
                                     {
-                                        /*  Find a vacant stack */
-                                        for(b=0;b<instance->stacks_num;b++)
-                                        {
-                                            if (fcs_stack_len(new_state, b) == 0)
-                                            {
-                                                break;
-                                            }
-                                        }
-
-                                        if (fcs_stack_len(new_state, ds) == dc+1)
-                                        {
-                                            from_which_stack = stack;
-                                        }
-                                        else
-                                        {
-                                            from_which_stack = ds;
-                                        }
-
+                                        /* We can move it */
+                                        int from_which_stack;
                                         
-                                        fcs_pop_stack_card(new_state, from_which_stack, temp_card);
-                                        fcs_push_card_into_stack(new_state, b, temp_card);
+                                        sfs_check_state_begin()
+
+                                        fcs_move_stack_reset(moves);
+                                        
+                                        /* Fill the freecells with the top cards */
+                                        
+                                        for(a=0 ; a<freecells_to_fill ; a++)
+                                        {
+                                            /* Find a vacant freecell */
+                                            for(b=0;b<instance->freecells_num;b++)
+                                            {
+                                                if (fcs_freecell_card_num(new_state, b) == 0)
+                                                {
+                                                    break;
+                                                }
+                                            }
+
+                                            if (fcs_stack_len(new_state, ds) == dc+1)
+                                            {
+                                                from_which_stack = stack;
+                                            }
+                                            else
+                                            {
+                                                from_which_stack = ds;
+                                            }
+                                            fcs_pop_stack_card(new_state, from_which_stack, temp_card);
+
+                                            fcs_put_card_in_freecell(new_state, b, temp_card);
+
+                                            fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_FREECELL);
+                                            fcs_move_set_src_stack(temp_move,from_which_stack);
+                                            fcs_move_set_dest_freecell(temp_move,b);
+                                            fcs_move_stack_push(moves, temp_move);
+
+                                            fcs_flip_top_card(from_which_stack);
+                                        }
+
+                                        /* Fill the free stacks with the cards below them */
+                                        for(a=0; a < freestacks_to_fill ; a++)
+                                        {
+                                            /*  Find a vacant stack */
+                                            for(b=0;b<instance->stacks_num;b++)
+                                            {
+                                                if (fcs_stack_len(new_state, b) == 0)
+                                                {
+                                                    break;
+                                                }
+                                            }
+
+                                            if (fcs_stack_len(new_state, ds) == dc+1)
+                                            {
+                                                from_which_stack = stack;
+                                            }
+                                            else
+                                            {
+                                                from_which_stack = ds;
+                                            }
+
+                                            
+                                            fcs_pop_stack_card(new_state, from_which_stack, temp_card);
+                                            fcs_push_card_into_stack(new_state, b, temp_card);
+                                            fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_STACK);
+                                            fcs_move_set_src_stack(temp_move,from_which_stack);
+                                            fcs_move_set_dest_stack(temp_move,b);
+                                            fcs_move_set_num_cards_in_seq(temp_move,1);
+                                            fcs_move_stack_push(moves, temp_move);
+
+                                            fcs_flip_top_card(from_which_stack);
+                                        }
+
+                                        for(a=c ; a <= seq_end ; a++)
+                                        {
+                                            fcs_push_stack_card_into_stack(new_state, ds, stack, a);
+                                        }
+
+                                        for(a=0; a < seq_end-c+1 ;a++)
+                                        {
+                                            fcs_pop_stack_card(new_state, stack, temp_card);
+                                        }
                                         fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_STACK);
-                                        fcs_move_set_src_stack(temp_move,from_which_stack);
-                                        fcs_move_set_dest_stack(temp_move,b);
-                                        fcs_move_set_num_cards_in_seq(temp_move,1);
+                                        fcs_move_set_src_stack(temp_move,stack);
+                                        fcs_move_set_dest_stack(temp_move,ds);
+                                        fcs_move_set_num_cards_in_seq(temp_move,seq_end-c+1);
                                         fcs_move_stack_push(moves, temp_move);
-                                    }
 
-                                    for(a=c ; a <= seq_end ; a++)
-                                    {
-                                        fcs_push_stack_card_into_stack(new_state, ds, stack, a);
+                                        fcs_flip_top_card(stack);
+                                        
+                                        sfs_check_state_end()
                                     }
-
-                                    for(a=0; a < seq_end-c+1 ;a++)
-                                    {
-                                        fcs_pop_stack_card(new_state, stack, temp_card);
-                                    }
-                                    fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_STACK);
-                                    fcs_move_set_src_stack(temp_move,stack);
-                                    fcs_move_set_dest_stack(temp_move,ds);
-                                    fcs_move_set_num_cards_in_seq(temp_move,seq_end-c+1);
-                                    fcs_move_stack_push(moves, temp_move);
-                                    
-                                    sfs_check_state_end()
                                 }
                             }
                         }
@@ -1203,7 +1344,6 @@ int freecell_solver_sfs_move_stack_cards_to_different_stacks(
 
     return FCS_STATE_IS_NOT_SOLVEABLE;
 }
-
 
 
 
@@ -1570,6 +1710,15 @@ int freecell_solver_sfs_move_cards_to_a_different_parent(
                    a = 0;  
                 }
             }
+            /* And do not move cards that are flipped */
+            if (!a)
+            {
+                this_card = fcs_stack_card(state,stack,c);
+                if (fcs_card_get_flipped(this_card))
+                {
+                    a = 0;
+                }
+            }
             if (!a)
             {
                 for(ds=0 ; ds<instance->stacks_num; ds++)
@@ -1781,7 +1930,201 @@ int freecell_solver_sfs_empty_stack_into_freecells(
 
 }
 
+#ifdef FCS_WITH_TALONS
+/*
+    Let's try to deal the Gypsy-type Talon.
+    
+  */
+int freecell_solver_sfs_deal_gypsy_talon(
+        freecell_solver_instance_t * instance,
+        fcs_state_with_locations_t * ptr_state_with_locations,
+        int depth,
+        int num_freestacks,
+        int num_freecells,
+        int ignore_osins
+        )
+{
+    fcs_state_with_locations_t * ptr_new_state_with_locations;
+    int check;
 
+    fcs_card_t temp_card;
+    int a;
+
+    fcs_move_stack_t * moves;
+    fcs_move_t temp_move;
+
+    if (instance->talon_type != FCS_TALON_GYPSY)
+    {
+        return FCS_STATE_IS_NOT_SOLVEABLE;
+    }
+
+    moves = fcs_move_stack_create();
+    
+    if (fcs_talon_pos(state) < fcs_talon_len(state))
+    {
+        sfs_check_state_begin()
+        for(a=0;a<instance->stacks_num;a++)
+        {
+            temp_card = fcs_get_talon_card(new_state, fcs_talon_pos(new_state)+a);
+            fcs_push_card_into_stack(new_state,a,temp_card);
+        }
+        fcs_talon_pos(new_state) += instance->stacks_num;
+        fcs_move_set_type(temp_move, FCS_MOVE_TYPE_DEAL_GYPSY_TALON);
+        fcs_move_stack_push(moves, temp_move);
+
+        sfs_check_state_end()
+    }
+
+    fcs_move_stack_destroy(moves);    
+    
+    return FCS_STATE_IS_NOT_SOLVEABLE;
+}
+
+
+int freecell_solver_sfs_get_card_from_klondike_talon(
+        freecell_solver_instance_t * instance,
+        fcs_state_with_locations_t * ptr_state_with_locations,
+        int depth,
+        int num_freestacks,
+        int num_freecells,
+        int ignore_osins
+        )
+{
+
+    fcs_state_with_locations_t * ptr_new_state_with_locations;
+    fcs_state_with_locations_t * talon_temp;
+
+    fcs_move_stack_t * moves;
+    fcs_move_t temp_move;
+
+    int check;
+    int num_redeals_left, num_redeals_done, num_cards_moved[2];
+    int first_iter;
+    fcs_card_t card_to_check, top_card;
+    int s;
+    int cards_num;
+    int a;
+
+    if (instance->talon_type != FCS_TALON_KLONDIKE)
+    {
+        return FCS_STATE_IS_NOT_SOLVEABLE;
+    }
+
+    moves = fcs_move_stack_create();
+
+    /* Duplicate the talon and its parameters into talon_temp */
+    talon_temp = malloc(sizeof(fcs_state_with_locations_t));
+    talon_temp->s.talon = malloc(fcs_klondike_talon_len(state)+1);
+    memcpy(
+        talon_temp->s.talon, 
+        ptr_state_with_locations->s.talon, 
+        fcs_klondike_talon_len(state)+1
+        );
+    memcpy(
+        talon_temp->s.talon_params, 
+        ptr_state_with_locations->s.talon_params, 
+        sizeof(ptr_state_with_locations->s.talon_params)
+        );
+
+    /* Make sure we redeal the talon only once */
+    num_redeals_left = fcs_klondike_talon_num_redeals_left(state);
+    if ((num_redeals_left > 0) || (num_redeals_left < 0))
+    {
+        num_redeals_left = 1;
+    }
+    num_redeals_done = 0;
+    num_cards_moved[0] = 0;
+    num_cards_moved[1] = 0;
+
+    first_iter = 1;
+    while (num_redeals_left >= 0)
+    {
+        if ((fcs_klondike_talon_stack_pos(talon_temp->s) == -1) &&
+            (fcs_klondike_talon_queue_pos(talon_temp->s) == fcs_klondike_talon_len(talon_temp->s)))
+        {
+            break;
+        }
+        if ((!first_iter) || (fcs_klondike_talon_stack_pos(talon_temp->s) == -1))
+        {
+            if (fcs_klondike_talon_queue_pos(talon_temp->s) == fcs_klondike_talon_len(talon_temp->s))
+            {
+                if (num_redeals_left > 0)
+                {
+                    fcs_klondike_talon_len(talon_temp->s) = fcs_klondike_talon_stack_pos(talon_temp->s);
+                    fcs_klondike_talon_redeal_bare(talon_temp->s);
+                    
+                    num_redeals_left--;
+                    num_redeals_done++;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            fcs_klondike_talon_queue_to_stack(talon_temp->s);
+            num_cards_moved[num_redeals_done]++;
+        }
+        first_iter = 0;
+
+        card_to_check = fcs_klondike_talon_get_top_card(talon_temp->s);
+        for(s=0 ; s<instance->stacks_num ; s++)
+        {
+            cards_num = fcs_stack_len(state,s);
+            top_card = fcs_stack_card(state,s,cards_num-1);
+            if (fcs_is_parent_card(card_to_check, top_card))
+            {
+                /* We have a card in the talon that we can move 
+                to the stack, so let's move it */
+                sfs_check_state_begin()
+                
+                new_state.talon = malloc(fcs_klondike_talon_len(talon_temp->s)+1);
+                memcpy(
+                    new_state.talon,
+                    talon_temp->s.talon,
+                    fcs_klondike_talon_len(talon_temp->s)+1
+                    );
+
+                memcpy(
+                    ptr_new_state_with_locations->s.talon_params, 
+                    talon_temp->s.talon_params,
+                    sizeof(ptr_state_with_locations->s.talon_params)
+                );
+
+                for(a=0;a<=num_redeals_done;a++)
+                {
+                    fcs_move_set_type(temp_move, FCS_MOVE_TYPE_KLONDIKE_FLIP_TALON);
+                    fcs_move_set_num_cards_flipped(temp_move, num_cards_moved[a]);
+                    fcs_move_stack_push(moves, temp_move);
+                    if (a != num_redeals_done)
+                    {
+                        fcs_move_set_type(temp_move, FCS_MOVE_TYPE_KLONDIKE_REDEAL_TALON);
+                        fcs_move_stack_push(moves,temp_move);
+                    }
+                }
+                fcs_push_card_into_stack(new_state, s, fcs_klondike_talon_get_top_card(new_state));
+                fcs_move_set_type(temp_move, FCS_MOVE_TYPE_KLONDIKE_TALON_TO_STACK);
+                fcs_move_set_dest_stack(temp_move, s);
+                fcs_klondike_talon_decrement_stack(new_state);
+
+                sfs_check_state_end()
+            }            
+        }
+    }
+
+
+
+#if 0
+ cleanup:
+#endif
+    free(talon_temp->s.talon);
+    free(talon_temp);
+    
+    fcs_move_stack_destroy(moves);
+
+    return FCS_STATE_IS_NOT_SOLVEABLE;
+
+}
+#endif
 
 #undef state
 #undef new_state_with_locations
@@ -1800,6 +2143,11 @@ freecell_solver_solve_for_state_test_t freecell_solver_sfs_tests[FCS_TESTS_NUM] 
     freecell_solver_sfs_move_freecell_cards_to_empty_stack,
     freecell_solver_sfs_move_cards_to_a_different_parent,
     freecell_solver_sfs_empty_stack_into_freecells
+#ifdef FCS_WITH_TALONS        
+        ,
+    freecell_solver_sfs_deal_gypsy_talon,
+    freecell_solver_sfs_get_card_from_klondike_talon
+#endif        
 };
 
 

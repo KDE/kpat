@@ -279,14 +279,6 @@ static int fcs_get_preset_id_by_name(
     return ret;
 }
 
-enum fcs_presets_return_codes
-{
-    FCS_PRESET_CODE_OK,
-    FCS_PRESET_CODE_NOT_FOUND,
-    FCS_PRESET_CODE_FREECELLS_EXCEED_MAX,
-    FCS_PRESET_CODE_STACKS_EXCEED_MAX,
-    FCS_PRESET_CODE_DECKS_EXCEED_MAX
-};
 
 static int fcs_apply_preset(
     freecell_solver_instance_t * instance,
@@ -338,7 +330,10 @@ int fcs_apply_preset_by_name(
     int preset_id = fcs_get_preset_id_by_name(name);
     if (preset_id >= 0)
     {
-        return ((fcs_apply_preset(instance, preset_id) == FCS_PRESET_CODE_OK)?0:2);
+        return (fcs_apply_preset(instance, preset_id));
     }
-    return 1;
+    else
+    {
+        return FCS_PRESET_CODE_NOT_FOUND;
+    }
 }

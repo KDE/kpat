@@ -5,12 +5,6 @@ Freecell Solver's Command-Line Syntax and Usage
 1. The programs
 ---------------
 
-First note that there are two version of Freecell Solver: "fc-solve" and 
-"fc-solve-debug". "fc-solve" is slightly faster and consumes less memory than 
-"fc-solve-debug" but also supports less options and does not accepts
-signals at run-time. Unless noted otherwise all options are common to
-both versions.
-
 Most command-line switches have two versions: a short POSIX one which
 is a dash followed by a letter; and a long GNU one which is two dashes
 followed by the command string. Note, that Freecell Solver does not
@@ -30,7 +24,7 @@ program, so I'm sorry for the inconvenience.
 
 This option displays a help text on the screen. This help
 text summarizes the command-line options and their meaning, as well as
-the signal combinations that fc-solve-debug accepts.
+the signal combinations that fc-solve accepts.
 
 
 3. Output Options
@@ -229,15 +223,20 @@ The numbers are, in order:
 The default weights are respectively: 0.5,0,0.3,0,0.2
 
 
+-opt
+--optimize-solution
 
-6. Run-time Display Options (specific to fc-solve-debug only)
--------------------------------------------------------------
+This option instructs Freecell Solver to try and optimize the solution
+path so it will have a smaller number of moves.
+
+6. Run-time Display Options
+---------------------------
 
 
 -i
 --iter-output
 
-This option tells fc-solve-debug to print the iteration number and the
+This option tells fc-solve to print the iteration number and the
 recursion depth of every state which is checked, to the standard
 output. It's a good way to keep track of how it's doing, but the output
 slows it down a bit.
@@ -248,29 +247,29 @@ slows it down a bit.
 This option makes little sense by itself, and is applicable only if
 -i/--iter-ouput was also specified at the command-line. If specified,
 this option also output the cards and formation of the board itself,
-for every state that is checked. "fc-solve-debug -i -s" yields a nice
+for every state that is checked. "fc-solve -i -s" yields a nice
 real-time display of the progress of Freecell Solver, but you usually
 cannot make what is going on because it is so fast.
 
 
-7. Signal Combinations that can be Sent to "fc-solve-debug"
------------------------------------------------------------
+7. Signal Combinations
+----------------------
 
 If you are working on a UNIX or a simliar system then you can set some
-run-time options in "fc-solve-debug" by sending it some signal
+run-time options in "fc-solve" by sending it some signal
 combinations.
 
 If you send the signal USR1, without sending any other signals before
-that, then "fc-solve-debug" will output the present number of
+that, then "fc-solve" will output the present number of
 iterations. This method is a good way to monitor an instance that takes
 a long time to solve.
 
-If you send it the signal USR2 and then USR1, then "fc-solve-debug"
+If you send it the signal USR2 and then USR1, then "fc-solve"
 will print the iteration number and depth on every state that it
 checks. It is the equivalent of specifiying (or unspecifiying) the
 option -i/--iter-output.
 
-If you send it two USR2 signals and then USR1, then "fc-solve-debug"
+If you send it two USR2 signals and then USR1, then "fc-solve"
 will also print the board of every state. Again, this will only be done
 assuming the iteration output is turned on.
 

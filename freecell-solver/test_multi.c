@@ -188,7 +188,7 @@ char * get_board(int gamenumber)
     return ret;
 }
 
-#define LIMIT_STEP 500
+#define LIMIT_STEP 10000
 #define LIMIT_MAX 50000
 
 int main(int argc, char * argv[])
@@ -196,7 +196,9 @@ int main(int argc, char * argv[])
     void * user;
     /* char buffer[2048]; */
     int ret;
+#if 0
     fcs_move_t move;
+#endif
     int board_num;
     char * buffer;
     int limit;
@@ -212,11 +214,14 @@ int main(int argc, char * argv[])
     for(board_num=start_board;board_num<=end_board;board_num++)
     {
         user = freecell_solver_user_alloc();
-        freecell_solver_user_free(user);
-        continue;
         freecell_solver_user_set_solving_method(
             user,
             FCS_METHOD_SOFT_DFS
+            );
+
+        freecell_solver_user_set_solution_optimization(
+            user,
+            1
             );
 
         buffer = get_board(board_num);
@@ -242,14 +247,18 @@ int main(int argc, char * argv[])
 
         }
 
+#if 0
         if (ret == FCS_STATE_WAS_SOLVED)
         {
             while (freecell_solver_user_get_next_move(user, &move) == 0)
             {
-            	printf("%i\n", (int)fcs_move_get_type(move)); printf("%i\n",
-            	(int)fcs_move_get_num_cards_in_seq(move));
+                printf("%i\n", (int)fcs_move_get_type(move)); printf("%i\n",
+                (int)fcs_move_get_num_cards_in_seq(move));
             }
         }
+#endif
+        printf("\n");
+        fflush(stdout);
 
         freecell_solver_user_free(user);
         

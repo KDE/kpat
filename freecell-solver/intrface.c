@@ -28,7 +28,30 @@
 
 #include "fcs_isa.h"
 
-
+/*
+    General use of this interface:
+    1. freecell_solver_alloc_instance()
+    2. Set the parameters of the game
+    3. If you wish to revert, go to step #11.
+    4. freecell_solver_init_instance()
+    5. Call freecell_solver_solve_instance() with the initial board.
+    6. If it returns FCS_STATE_SUSPEND_PROCESS and you wish to proceed,
+       then increase the iteration limit and call 
+       freecell_solver_resume_instance().
+    7. Repeat Step #6 zero or more times.
+    8. If the last call to solve_instance() or resume_instance() returned
+       FCS_STATE_SUSPEND_PROCESS then call 
+       freecell_solver_unresume_instance().
+    9. If the solving was successful you can use the move stacks or the
+       intermediate stacks. (Just don't destory them in any way).
+    10. Call freecell_solver_finish_instance().
+    11. Call freecell_solver_free_instance().
+       
+    The library functions inside lib.c (a.k.a fcs_user()) give an
+    easier approach for embedding Freecell Solver into your library. The 
+    intent of this comment is to document the code, rather than to be 
+    a guideline for the user.
+*/
 
 #if 0
 static const double freecell_solver_a_star_default_weights[5] = {0.5,0,0.5,0,0};
@@ -36,6 +59,73 @@ static const double freecell_solver_a_star_default_weights[5] = {0.5,0,0.5,0,0};
 static const double freecell_solver_a_star_default_weights[5] = {0.5,0,0.3,0,0.2};
 #endif
 
+
+
+
+
+
+
+void freecell_solver_initialize_bfs_queue(freecell_solver_instance_t * instance)
+{
+    /* Initialize the BFS queue. We have one dummy element at the beginning
+       in order to make operations simpler. */
+    instance->bfs_queue = (fcs_states_linked_list_item_t*)malloc(sizeof(fcs_states_linked_list_item_t));
+    instance->bfs_queue->next = (fcs_states_linked_list_item_t*)malloc(sizeof(fcs_states_linked_list_item_t));
+    instance->bfs_queue_last_item = instance->bfs_queue->next;
+    instance->bfs_queue_last_item->next = NULL;
+}
+
+
+void freecell_solver_clean_soft_dfs(
+    freecell_solver_instance_t * instance
+    )
+{
+    /* De-allocate the Soft-DFS specific stacks */
+    {    
+        int depth, a;
+        for(depth=0;depth<instance->num_solution_states-1;depth++)
+        {
+            for(a=0;a<instance->soft_dfs_num_states_to_check[depth];a++)
+            {
+                fcs_move_stack_destroy(instance->soft_dfs_states_to_check_move_stacks[depth][a]);
+            }
+            free(instance->soft_dfs_states_to_check[depth]);
+            free(instance->soft_dfs_states_to_check_move_stacks[depth]);            
+        }
+        for(;depth<instance->dfs_max_depth;depth++)
+        {
+            if (instance->soft_dfs_max_num_states_to_check[depth] != 0)
+            {
+                free(instance->soft_dfs_states_to_check[depth]);
+                free(instance->soft_dfs_states_to_check_move_stacks[depth]);            
+            }
+        }
+
+#define MYFREE(what) free(instance->what);
+        MYFREE(soft_dfs_states_to_check);
+        MYFREE(soft_dfs_states_to_check_move_stacks);
+        MYFREE(soft_dfs_num_states_to_check);
+        MYFREE(soft_dfs_test_indexes);
+        MYFREE(soft_dfs_current_state_indexes);
+        MYFREE(soft_dfs_max_num_states_to_check);
+        MYFREE(soft_dfs_num_freecells);
+        MYFREE(soft_dfs_num_freestacks);
+#undef MYFREE
+    }    
+}
+
+
+
+
+
+/*
+    This function allocates a Freecell Solver instance struct and set the
+    default values in it. After the call to this function, the program can
+    set parameters in it which are different from the default.
+    
+    Afterwards freecell_solver_init_instance() should be called in order 
+    to really prepare it for solving.
+  */
 freecell_solver_instance_t * freecell_solver_alloc_instance(void)
 {
     freecell_solver_instance_t * instance;
@@ -44,15 +134,9 @@ freecell_solver_instance_t * freecell_solver_alloc_instance(void)
 
     instance = malloc(sizeof(freecell_solver_instance_t));
 
-    instance->unsorted_prev_states_start_at = 0;
-#ifdef INDIRECT_STATE_STORAGE
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INDIRECT)
     instance->num_indirect_prev_states = 0;
     instance->max_num_indirect_prev_states = 0;
-
-    instance->max_num_state_packs = 0;
-    instance->num_state_packs = 0;
-    instance->num_states_in_last_pack = 0;
-    instance->state_pack_len = 0;
 #endif
 
     instance->num_times = 0;
@@ -60,11 +144,16 @@ freecell_solver_instance_t * freecell_solver_alloc_instance(void)
     instance->max_num_times = -1;
     instance->max_depth = -1;
 
+    /* Initialize the default test order */
     instance->tests_order_num = FCS_TESTS_NUM;
     for(a=0;a<FCS_TESTS_NUM;a++)
     {
         instance->tests_order[a] = a;
     }
+
+    /* All these parameters are for playing Freecell. See fcs.h for 
+       explanation on what each is. 
+    */
 
     instance->freecells_num = 4;
     instance->stacks_num = 8;
@@ -74,10 +163,17 @@ freecell_solver_instance_t * freecell_solver_alloc_instance(void)
     instance->unlimited_sequence_move = 0;
     instance->empty_stacks_fill = FCS_ES_FILLED_BY_ANY_CARD;
 
+#ifdef FCS_WITH_TALONS
+    instance->talon_type = FCS_TALON_NONE;
+#endif
+
+    /****************************************/
+
     instance->debug_iter_output = 0;
 
     instance->dfs_max_depth = 0;
 
+    /* Initialize all the Soft-DFS stacks to NULL */
 #define SET_TO_NULL(what) instance->what = NULL;
     SET_TO_NULL(solution_moves);
     SET_TO_NULL(solution_states);
@@ -93,13 +189,14 @@ freecell_solver_instance_t * freecell_solver_alloc_instance(void)
     SET_TO_NULL(soft_dfs_num_freestacks);
 #undef SET_TO_NULL
 
+    /* The default solving method */
     instance->method = FCS_METHOD_HARD_DFS;
 
-    instance->bfs_queue = (fcs_states_linked_list_item_t*)malloc(sizeof(fcs_states_linked_list_item_t));
-    instance->bfs_queue->next = (fcs_states_linked_list_item_t*)malloc(sizeof(fcs_states_linked_list_item_t));
-    instance->bfs_queue_last_item = instance->bfs_queue->next;
-    instance->bfs_queue_last_item->next = NULL;
+    instance->orig_method = FCS_METHOD_NONE;
 
+    freecell_solver_initialize_bfs_queue(instance);
+
+    /* Initialize the priotity queue of the A* scan */
     instance->a_star_pqueue = malloc(sizeof(PQUEUE));
     PQueueInitialise(
         instance->a_star_pqueue,
@@ -108,27 +205,49 @@ freecell_solver_instance_t * freecell_solver_alloc_instance(void)
         1
         );
 
+    /* Set the default A* weigths */
     for(a=0;a<(sizeof(instance->a_star_weights)/sizeof(instance->a_star_weights[0]));a++)
     {
         instance->a_star_weights[a] = freecell_solver_a_star_default_weights[a];
     }
 
+    instance->optimize_solution_path = 0;
+
+
     return instance;
 }
 
-void freecell_solver_free_instance(freecell_solver_instance_t * instance)
+
+
+
+
+void freecell_solver_free_bfs_queue(freecell_solver_instance_t * instance)
 {
     /* Free the BFS linked list */
+    fcs_states_linked_list_item_t * item, * next_item;
+    item = instance->bfs_queue;
+    while (item != NULL)
     {
-        fcs_states_linked_list_item_t * item, * next_item;
-        item = instance->bfs_queue;
-        while (item != NULL)
-        {            
-            next_item = item->next;
-            free(item);
-            item = next_item;
-        }
+        next_item = item->next;
+        free(item);
+        item = next_item;
     }
+}
+
+
+
+
+
+
+
+/*
+    This function is the last function that should be called in the
+    sequence of operations on instance, and it is meant for de-allocating
+    whatever memory was allocated by alloc_instance().
+  */
+void freecell_solver_free_instance(freecell_solver_instance_t * instance)
+{
+    freecell_solver_free_bfs_queue(instance);
 
     PQueueFree(instance->a_star_pqueue);
     free(instance->a_star_pqueue);
@@ -136,18 +255,25 @@ void freecell_solver_free_instance(freecell_solver_instance_t * instance)
     free(instance);
 }
 
+
+
+
+
+
 void freecell_solver_init_instance(freecell_solver_instance_t * instance)
 {
     instance->num_prev_states_margin = 0;
 
-#ifdef INDIRECT_STATE_STORAGE
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INDIRECT)
     instance->max_num_indirect_prev_states = PREV_STATES_GROW_BY;
 
     instance->indirect_prev_states = (fcs_state_with_locations_t * *)malloc(sizeof(fcs_state_with_locations_t *) * instance->max_num_indirect_prev_states);
 #endif
 
+    /* Initialize the state packs */
     fcs_state_ia_init(instance);
 
+    /* Normalize the A* Weights, so the sum of all of them would be 1. */
     {
         double sum;
         unsigned int a;
@@ -171,7 +297,14 @@ void freecell_solver_init_instance(freecell_solver_instance_t * instance)
     }
 }
 
+
+
+
+/* These are all stack comparison functions to be used for the stacks
+   cache when using INDIRECT_STACK_STATES 
+*/
 #if defined(INDIRECT_STACK_STATES)
+
 extern int fcs_stack_compare_for_comparison(const void * v_s1, const void * v_s2);
 
 #if ((FCS_STACK_STORAGE != FCS_STACK_STORAGE_GLIB_TREE) && (FCS_STACK_STORAGE != FCS_STACK_STORAGE_GLIB_HASH))
@@ -189,7 +322,12 @@ static int fcs_stack_compare_for_comparison_with_context(
 }
 #endif
 
+
+
+
+
 #if (FCS_STACK_STORAGE == FCS_STACK_STORAGE_GLIB_HASH)
+/* A hash calculation function for use in glib's hash */
 static guint freecell_solver_glib_hash_stack_hash_function (
     gconstpointer key
     )
@@ -211,6 +349,10 @@ static guint freecell_solver_glib_hash_stack_hash_function (
     return *(guint*)hash_value;
 }
 
+
+
+
+
 static gint freecell_solver_glib_hash_stack_compare (
     gconstpointer a,
     gconstpointer b
@@ -218,9 +360,17 @@ static gint freecell_solver_glib_hash_stack_compare (
 {
     return !(fcs_stack_compare_for_comparison(a,b));
 }
-#endif
+#endif // (FCS_STACK_STORAGE == FCS_STACK_STORAGE_GLIB_HASH)
 
-#endif
+
+
+
+
+#endif // defined(INDIRECT_STACK_STATES)
+
+
+
+
 
 #if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_GLIB_HASH)
 /*
@@ -230,6 +380,14 @@ static gint freecell_solver_glib_hash_stack_compare (
 extern guint freecell_solver_hash_function(gconstpointer key);
 #endif
 
+
+
+
+
+/*
+    This functs.ion combines the move stacks of every depth to one big
+    move stack.
+*/
 static void freecell_solver_create_total_moves_stack(
     freecell_solver_instance_t * instance
     )
@@ -237,10 +395,17 @@ static void freecell_solver_create_total_moves_stack(
     int depth;
     fcs_move_stack_t * temp_move_stack;
     instance->solution_moves = fcs_move_stack_create();
+    /* The moves are inserted from the highest depth to depth 0 in order
+       to preserve their order stack-wise 
+    */
     for(depth=instance->num_solution_states-2;depth>=0;depth--)
     {
         if (instance->method == FCS_METHOD_SOFT_DFS)
         {
+            /* If we are using Soft-DFS, then this move stack is going
+               to be de-allocated later, as part of 
+               soft_dfs_states_to_check_move_stacks. So let's duplicate
+               it */
             temp_move_stack = fcs_move_stack_duplicate(
                 instance->proto_solution_moves[depth]
                 );
@@ -258,6 +423,60 @@ static void freecell_solver_create_total_moves_stack(
     instance->proto_solution_moves = NULL;
 }
 
+/*
+    This function optimizes the solution path using a BFS scan on the 
+    states in the solution path.
+*/
+static int freecell_solver_optimize_solution(
+    freecell_solver_instance_t * instance
+    )
+{
+    if (instance->method == FCS_METHOD_SOFT_DFS)
+    {
+        freecell_solver_clean_soft_dfs(instance);
+    }
+    instance->orig_method = instance->method;
+    instance->method = FCS_METHOD_OPTIMIZE;
+
+    /* Re-init the queue in preparation for the BFS scan */
+    freecell_solver_free_bfs_queue(instance);
+    freecell_solver_initialize_bfs_queue(instance);
+
+    {
+        int d;
+        for(d=0;d<instance->num_solution_states-1;d++)
+        {
+            fcs_clean_state(instance->solution_states[d]);
+            free(instance->solution_states[d]);
+            fcs_move_stack_destroy(instance->proto_solution_moves[d]);    
+        }
+        /* There's one more state than move stack */
+        fcs_clean_state(instance->solution_states[d]);
+        free(instance->solution_states[d]);
+        
+        free(instance->solution_states);
+     
+        free(instance->proto_solution_moves);
+    }
+
+    return freecell_solver_a_star_or_bfs_solve_for_state(
+        instance,
+        instance->state_copy_ptr
+        );
+}
+
+
+extern void freecell_solver_cache_talon(
+    freecell_solver_instance_t * instance,
+    fcs_state_with_locations_t * new_state
+    );
+
+/*
+    This function starts the solution process _for the first time_. If one
+    wishes to proceed after the iterations limit was reached, one should
+    use freecell_solver_resume_instance.
+
+  */
 int freecell_solver_solve_instance(
     freecell_solver_instance_t * instance,
     fcs_state_with_locations_t * init_state
@@ -266,10 +485,15 @@ int freecell_solver_solve_instance(
     int ret;
     
     fcs_state_with_locations_t * state_copy_ptr;
+    
+    /* Allocate the first state and initialize it to init_state */
     state_copy_ptr = fcs_state_ia_alloc(instance);
 
     fcs_duplicate_state(*state_copy_ptr, *init_state);
 
+    instance->state_copy_ptr = state_copy_ptr;
+
+    /* Initialize the data structure that will manage the state collection */
 #if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBREDBLACK_TREE)    
     instance->tree = rbinit(fcs_state_compare_with_context, NULL);
 #elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBAVL_AVL_TREE)
@@ -293,7 +517,11 @@ int freecell_solver_solve_instance(
        );
 #endif
 
+    /****************************************************/
+
 #ifdef INDIRECT_STACK_STATES
+    /* Initialize the data structure that will manage the stack
+       collection */
 #if FCS_STACK_STORAGE == FCS_STACK_STORAGE_INTERNAL_HASH
     instance->stacks_hash = SFO_hash_init(
             2048,
@@ -325,7 +553,24 @@ int freecell_solver_solve_instance(
 #endif
 #endif
 
+    /***********************************************/
+
+#ifdef FCS_WITH_TALONS
+    /* Initialize the Talon's Cache */
+    if (instance->talon_type == FCS_TALON_KLONDIKE)
+    {
+        instance->talons_hash = SFO_hash_init(
+            512,
+            fcs_talon_compare_with_context,
+            NULL
+            );
+
+        freecell_solver_cache_talon(instance, instance->state_copy_ptr);
+    }
+#endif
+
 #if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_DB_FILE)
+    /* Not working - ignore */
     db_open(
         NULL,
         DB_BTREE,
@@ -339,6 +584,7 @@ int freecell_solver_solve_instance(
     
 
 
+    /* Call the solving function that is specific to each scan */
     if (instance->method == FCS_METHOD_HARD_DFS)
     {
         ret = freecell_solver_solve_for_state(
@@ -377,16 +623,30 @@ int freecell_solver_solve_instance(
 
     if (ret == FCS_STATE_WAS_SOLVED)
     {
+        if (instance->optimize_solution_path)
+        {
+            ret = freecell_solver_optimize_solution(instance);
+        }
+    }
+
+    if (ret == FCS_STATE_WAS_SOLVED)
+    {
         freecell_solver_create_total_moves_stack(instance);
     }
     return ret;
 }
 
+
+
+
+
+/* Resume a solution process that was stopped in the middle */
 int freecell_solver_resume_instance(
     freecell_solver_instance_t * instance
     )
 {
     int ret;
+    /* Call the resume function that is specific to each scan */
     if (instance->method == FCS_METHOD_HARD_DFS)
     {
         ret = freecell_solver_solve_for_state_resume_solution(instance, 0);
@@ -397,7 +657,7 @@ int freecell_solver_resume_instance(
             instance
             );
     }
-    else if ((instance->method == FCS_METHOD_BFS) || (instance->method == FCS_METHOD_A_STAR))
+    else if ((instance->method == FCS_METHOD_BFS) || (instance->method == FCS_METHOD_A_STAR) || (instance->method == FCS_METHOD_OPTIMIZE))
     {
         ret = freecell_solver_a_star_or_bfs_resume_solution(
             instance
@@ -410,41 +670,23 @@ int freecell_solver_resume_instance(
 
     if (ret == FCS_STATE_WAS_SOLVED)
     {
+        if (instance->optimize_solution_path)
+        {
+            freecell_solver_optimize_solution(instance);
+        }
         freecell_solver_create_total_moves_stack(instance);
     }
 
     return ret;
 }
 
-#if 0
-void freecell_solver_unresume_instance(
-    freecell_solver_instance_t * instance
-    )
-{
-    if ((instance->method == FCS_METHOD_HARD_DFS) || (instance->method == FCS_METHOD_SOFT_DFS))
-    {
-        int depth;
-        for(depth=0;depth<instance->num_solution_states-1;depth++)
-        {
-            fcs_move_stack_destroy(instance->proto_solution_moves[depth]);
-            if (instance->method == FCS_METHOD_HARD_DFS)
-            {
-            	free(instance->solution_states[depth]);
-            }
-        }
-        /* There's one more state than move stacks */
-        if (instance->method == FCS_METHOD_HARD_DFS)
-        {
-            free(instance->solution_states[depth]);
-        }
 
-        free(instance->proto_solution_moves);
-        instance->proto_solution_moves = NULL;
-        free(instance->solution_states);
-        instance->solution_states = NULL;
-    }
-}
-#else
+
+/*
+    Clean up a solving process that was terminated in the middle. 
+    This function does not substitute for later calling 
+    finish_instance() and free_instance().
+  */
 void freecell_solver_unresume_instance(
     freecell_solver_instance_t * instance
     )
@@ -453,6 +695,7 @@ void freecell_solver_unresume_instance(
     {
         if (instance->method == FCS_METHOD_HARD_DFS)
         {
+            /* Free the intermediate states and move stacks of the DFS scan */
             int depth;
             for(depth=0;depth<instance->num_solution_states-1;depth++)
             {
@@ -469,7 +712,7 @@ void freecell_solver_unresume_instance(
         instance->solution_states = NULL;
     }
 }
-#endif
+
 
 #if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBAVL_AVL_TREE) || (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBAVL_REDBLACK_TREE)
 
@@ -479,6 +722,10 @@ static void freecell_solver_tree_do_nothing(void * data, void * context)
 
 #endif
 
+
+/* A function for freeing a stack for the cleanup of the 
+   stacks collection 
+*/
 #ifdef INDIRECT_STACK_STATES
 #if (FCS_STACK_STORAGE == FCS_STACK_STORAGE_INTERNAL_HASH) || (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBAVL_AVL_TREE) || (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBAVL_REDBLACK_TREE)
 static void freecell_solver_stack_free(void * key, void * context)
@@ -527,6 +774,11 @@ static void freecell_solver_glib_hash_foreach_destroy_stack_action
 
 #endif
 
+/***********************************************************/
+
+
+
+
 void freecell_solver_destroy_move_stack_of_state(
         fcs_state_with_locations_t * ptr_state_with_locations, 
         void * context
@@ -538,20 +790,29 @@ void freecell_solver_destroy_move_stack_of_state(
     }
 }
 
+/*
+    This function should be called after the user has retrieved the
+    results generated by the scan as it will destroy them.
+  */
 void freecell_solver_finish_instance(
     freecell_solver_instance_t * instance
     )
 {
+    fcs_clean_state(instance->state_copy_ptr);
 
-#ifdef INDIRECT_STATE_STORAGE        
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INDIRECT)
     free(instance->indirect_prev_states);
 #endif
-    if ((instance->method == FCS_METHOD_A_STAR) || (instance->method == FCS_METHOD_BFS))
+
+    /* Destroy all the intermediate move stacks in the solution graph */
+    if ((instance->method == FCS_METHOD_A_STAR) || (instance->method == FCS_METHOD_BFS) || (instance->method == FCS_METHOD_OPTIMIZE))
     {
         fcs_state_ia_foreach(instance, freecell_solver_destroy_move_stack_of_state, NULL);
-    }               
+    }
+    /* De-allocate the state packs */
     fcs_state_ia_finish(instance);
     
+    /* De-allocate the state collection */
 #if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBREDBLACK_TREE)
     rbdestroy(instance->tree);
 #elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBAVL_AVL_TREE)
@@ -568,6 +829,10 @@ void freecell_solver_finish_instance(
     SFO_hash_free(instance->hash);
 #endif
 
+
+
+    /* De-allocate the stack collection while free()'ing the stacks
+    in the process */
 #ifdef INDIRECT_STACK_STATES
 #if FCS_STACK_STORAGE == FCS_STACK_STORAGE_INTERNAL_HASH
     SFO_hash_free_with_callback(instance->stacks_hash, freecell_solver_stack_free);
@@ -605,44 +870,13 @@ void freecell_solver_finish_instance(
 #endif
 
 
-
-
-
-    
-    /* Soft-DFS stuff */
-    
     if (instance->method == FCS_METHOD_SOFT_DFS)
     {
-        int depth, a;
-        for(depth=0;depth<instance->num_solution_states-1;depth++)
-        {
-            for(a=0;a<instance->soft_dfs_num_states_to_check[depth];a++)
-            {
-                fcs_move_stack_destroy(instance->soft_dfs_states_to_check_move_stacks[depth][a]);
-            }
-            free(instance->soft_dfs_states_to_check[depth]);
-            free(instance->soft_dfs_states_to_check_move_stacks[depth]);            
-        }
-        for(;depth<instance->dfs_max_depth;depth++)
-        {
-            if (instance->soft_dfs_max_num_states_to_check[depth] != 0)
-            {
-                free(instance->soft_dfs_states_to_check[depth]);
-                free(instance->soft_dfs_states_to_check_move_stacks[depth]);            
-            }
-        }
-
-#define MYFREE(what) free(instance->what);
-        MYFREE(soft_dfs_states_to_check);
-        MYFREE(soft_dfs_states_to_check_move_stacks);
-        MYFREE(soft_dfs_num_states_to_check);
-        MYFREE(soft_dfs_test_indexes);
-        MYFREE(soft_dfs_current_state_indexes);
-        MYFREE(soft_dfs_max_num_states_to_check);
-        MYFREE(soft_dfs_num_freecells);
-        MYFREE(soft_dfs_num_freestacks);
-#undef MYFREE
+        freecell_solver_clean_soft_dfs(instance);
     }
+
+
+    
     
     
     if (instance->proto_solution_moves != NULL)
@@ -658,13 +892,3 @@ void freecell_solver_finish_instance(
     }
     
 }
-
-void freecell_solver_soft_dfs_add_state(
-    freecell_solver_instance_t * instance,
-    int depth,
-    fcs_state_with_locations_t * state
-    )
-{
-    instance->solution_states[depth] = state;
-}
-

@@ -15,9 +15,7 @@
 #include "card.h"
 #include "preset.h"
 
-#ifdef DEBUG
 #include <signal.h>
-#endif
 
 
 struct struct_freecell_solver_display_information_context
@@ -66,7 +64,6 @@ void freecell_solver_display_information(
 }
 
 
-#ifdef DEBUG
 
 int command_num = 0;
 
@@ -98,8 +95,6 @@ void command_signal_handler(int signal_num)
 
     command_num = 0;
 }
-
-#endif
 
 
 char * help_string = 
@@ -197,6 +192,9 @@ char * help_string =
 "     4. The length of the sequences which are found over renegade cards.\n"
 "     5. The depth of the board in the solution.\n"
 "\n"
+"-opt         --optimize-solution\n"
+"     Try and optimize the solution for a small number of moves.\n"
+"\n"
 "\n"
 "Signals: (applicable only for fc-solve-debug)\n"
 "SIGUSR1 - Prints the number of states that were checked so far to stderr.\n"
@@ -213,6 +211,26 @@ char * help_string =
 #define min(a,b) (((a)<(b))?(a):(b))
 #endif
 
+
+int freecell_solver_char_to_test_num(char c)
+{
+    if ((c >= '0') && (c <= '9'))
+    {
+        return c-'0';
+    }
+    else if ((c >= 'a') && (c <= 'z'))
+    {
+        return c-'a'+10;
+    }
+    else if ((c >= 'A') && (c <= 'Z'))
+    {
+        return c-'A'+10;
+    }
+    else
+    {
+        return 0;
+    }
+}
 
 int main(int argc, char * argv[])
 {
@@ -314,7 +332,7 @@ int main(int argc, char * argv[])
             instance->tests_order_num = min(strlen(argv[arg]), FCS_TESTS_NUM);
             for(a=0;a<instance->tests_order_num;a++)
             {
-                instance->tests_order[a] = (argv[arg][a]-'0')%FCS_TESTS_NUM;
+                instance->tests_order[a] = freecell_solver_char_to_test_num(argv[arg][a])%FCS_TESTS_NUM;
             }
         }
         else if ((!strcmp(argv[arg], "--freecells-num")))
@@ -501,18 +519,42 @@ int main(int argc, char * argv[])
             }
             
             ret = fcs_apply_preset_by_name(instance, argv[arg]);
-            if (ret == 1)
+            if (ret == FCS_PRESET_CODE_NOT_FOUND)
             {
                 fprintf(stderr, "Unknown game \"%s\"!\n\n", argv[arg]);
+                freecell_solver_free_instance(instance);
                 return (-1);
             }
-            else if (ret == 2)
+            else if (ret == FCS_PRESET_CODE_FREECELLS_EXCEED_MAX)
+            {
+                fprintf(stderr, "The game \"%s\" exceeds the maximal number "
+                        "of freecells in the program.\n" 
+                        "Modify the file \"config.h\" and recompile, " 
+                        "if you wish to solve one of its boards.\n",
+                        argv[arg]
+                        );
+                freecell_solver_free_instance(instance);
+                return (-1);
+            }
+            else if (ret == FCS_PRESET_CODE_STACKS_EXCEED_MAX)
+            {
+                fprintf(stderr, "The game \"%s\" exceeds the maximal number "
+                        "of stacks in the program.\n" 
+                        "Modify the file \"config.h\" and recompile, " 
+                        "if you wish to solve one of its boards.\n",
+                        argv[arg]
+                        );
+                freecell_solver_free_instance(instance);
+                return (-1);                
+            }
+            else if (ret != FCS_PRESET_CODE_OK)
             {
                 fprintf(stderr, 
                     "The game \"%s\" exceeds the limits of the program.\n"
                     "Modify the file \"config.h\" and recompile, if you wish to solve one of its boards.\n", 
                     argv[arg]
                 );
+                freecell_solver_free_instance(instance);
                 return (-1);
             }
         }
@@ -605,6 +647,39 @@ int main(int argc, char * argv[])
                 }
             }
         }
+#ifdef FCS_WITH_TALONS        
+        else if (!strcmp(argv[arg], "--talon"))
+        {
+            arg++;
+            if (!strcmp(argv[arg], "none"))
+            {
+                instance->talon_type = FCS_TALON_NONE;
+            }
+            else if (!strcmp(argv[arg], "gypsy"))
+            {
+                instance->talon_type = FCS_TALON_GYPSY;
+            }
+            else if (!strcmp(argv[arg], "klondike"))
+            {
+                instance->talon_type = FCS_TALON_KLONDIKE;
+            }
+            else
+            {
+                fprintf(
+                    stderr,
+                    "Unknown talon type \"%s\".\n", 
+                    argv[arg]
+                    );
+
+                freecell_solver_free_instance(instance);
+                return -1;
+            }
+        }
+#endif        
+        else if ((!strcmp(argv[arg], "-opt")) || (!strcmp(argv[arg], "--optimize-solution")))
+        {
+            instance->optimize_solution_path = 1;
+        }
         else
         {
             break;
@@ -653,14 +728,22 @@ int main(int argc, char * argv[])
         user_state, 
         instance->freecells_num, 
         instance->stacks_num,
-        instance->decks_num);
+        instance->decks_num
+#ifdef FCS_WITH_TALONS
+        ,instance->talon_type
+#endif        
+        );
     
     ret = fcs_check_state_validity(
         &state, 
         instance->freecells_num, 
         instance->stacks_num, 
         instance->decks_num,
-        &card);
+#ifdef FCS_WITH_TALONS        
+        instance->talon_type,
+#endif        
+        &card
+        );
     
     if (ret != 0)
     {
@@ -694,9 +777,7 @@ int main(int argc, char * argv[])
         instance->stacks_num
         );
 
-#ifdef DEBUG
     current_instance = instance;
-#endif
 
     instance->debug_iter_output_func = freecell_solver_display_information;
     instance->debug_iter_output_context = &debug_context;
@@ -705,12 +786,10 @@ int main(int argc, char * argv[])
     debug_context.stacks_num = instance->stacks_num;
     debug_context.decks_num = instance->decks_num;
 
-#ifdef DEBUG
 /* Win32 Does not have those signals */
 #ifndef WIN32
     signal(SIGUSR1, command_signal_handler);
     signal(SIGUSR2, select_signal_handler);
-#endif
 #endif
 
     freecell_solver_init_instance(instance);
@@ -746,6 +825,7 @@ int main(int argc, char * argv[])
             printf("%s\n\n====================\n\n", as_string);
             free(as_string);            
 #endif
+            fcs_clean_state(instance->solution_states[a]);
             free((void*)instance->solution_states[a]);
 
         }
@@ -809,12 +889,14 @@ int main(int argc, char * argv[])
                 fprintf(move_dump, "%s\n\n====================\n\n", as_string);
                 fflush(move_dump);
                 free(as_string);
-                
+
+#if 0
                 ret = fcs_check_state_validity(
                     &dynamic_state, 
                     instance->freecells_num, 
                     instance->stacks_num, 
                     instance->decks_num,
+                    instance->talon_type,
                     &card);
                 
                 if (ret != 0)
@@ -838,11 +920,13 @@ int main(int argc, char * argv[])
 
                     return -1;
                 }
+#endif
                 counter++;
             }
 #if 0       
             fclose(move_dump);
 #endif
+            fcs_clean_state(&dynamic_state);
         }
         else
         {
@@ -897,9 +981,19 @@ int main(int argc, char * argv[])
 
     freecell_solver_finish_instance(instance);
 
+#if 0
+    printf("Hello\n");
+    fflush(stdout);
+#endif
     freecell_solver_free_instance(instance);
 
-
+#if 0
+    printf("To\n");
+    fflush(stdout);
+#endif
+    fcs_clean_state(&normalized_state);
+    fcs_clean_state(&state);
+    
     return 0;
 }
 

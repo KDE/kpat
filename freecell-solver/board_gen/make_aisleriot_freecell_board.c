@@ -83,7 +83,7 @@ char * card_to_string(char * s, int card, int not_append_ws)
     switch (suit)
     {
         case 0:
-            strcat(s, "C");
+            strcat(s, "S");
             break;
         case 1:
             strcat(s, "D");
@@ -92,7 +92,7 @@ char * card_to_string(char * s, int card, int not_append_ws)
             strcat(s, "H");
             break;
         case 3:
-            strcat(s, "S");
+            strcat(s, "C");
             break;
     }
 
@@ -108,7 +108,8 @@ int main(int argc, char * argv[])
 {
     char output[8][30];
     char card_string[10];
-    int i;
+    int i, j, card_num;
+    int is_klondike = 0;
     
     if (argc == 1)
     {
@@ -117,24 +118,62 @@ int main(int argc, char * argv[])
     else
     {
         srandom(atoi(argv[1]));
+        if (argc > 2)
+        {
+            is_klondike = (!strcmp(argv[2], "klondike"));
+        }
     }
 
     make_standard_deck();
     shuffle_deck();
 
+    if (is_klondike)
+    {
+        for(i = 0 ; i < 7 ; i++)
+        {
+            output[i][0] = '\0';
+        }
+        card_num = 0;
+        for(i = 0 ; i < 7 ; i++)
+        {
+            for(j = i ; j < 7 ; j++)
+            {
+                strcat(output[j], card_to_string(card_string, deck[card_num], (j == i)));
+                card_num++;                            
+            }
+        }
 
-    for (i = 0; i < 8; i++) {
-        output[i][0] = '\0';
+        printf("%s", "Talon: ");
+        for( ; card_num < 52; card_num++)
+        {
+            printf("%s", card_to_string(card_string, deck[card_num], (card_num == 52-1)));
+        }
+        printf("\n");
+
+        for (i = 0; i < 7; i++) 
+        {
+            printf("%s\n", output[i]);
+        }
+        
     }
+    else
+    {
+        /* Freecell */
+        for (i = 0; i < 8; i++) 
+        {
+            output[i][0] = '\0';
+        }
 
-    for (i = 0; i < 52; i++) {
-        strcat(output[i % 8], card_to_string(card_string, deck[i], (i>=52-8)));
+        for (i = 0; i < 52; i++) 
+        {
+            strcat(output[i % 8], card_to_string(card_string, deck[i], (i>=52-8)));
+        }
+
+        for (i = 0; i < 8; i++) 
+        {
+            printf("%s\n", output[i]);
+        }
     }
-
-    for (i = 0; i < 8; i++) {
-        printf("%s\n", output[i]);
-    }
-
     return 0;
 }
 
