@@ -22,15 +22,10 @@ noinst_HEADERS = basiccard.h global.h napoleon.h card.h grandf.h patience.h \
 
 SUBDIRS = icons pics
 
-docsdir = $(kde_htmldir)/en/kpat
-
-# if there are more docs, use a sub directory
-docs_DATA = index.html index-1.html index-2.html logotp3.gif
-
 apps_DATA = kpat.kdelnk
 appsdir = $(kde_appsdir)/Games
 
-EXTRA_DIST = $(apps_DATA) $(docs_DATA)
+EXTRA_DIST = $(apps_DATA) 
 
 messages:
 	$(XGETTEXT) -C -ki18n -x $(includedir)/kde.pot $(kpat_SOURCES) && mv messages.po ../po/kpat.pot
