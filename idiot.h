@@ -39,7 +39,11 @@ public slots:
     virtual void restart();
     void deal();
 
+protected slots:
+    void autoPlay();
+
 private:
+    bool canMoveAway(Card *c);
 
     Pile* play[ 4 ];
     Pile* away;

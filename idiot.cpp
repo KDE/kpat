@@ -26,6 +26,17 @@
 #include <deck.h>
 #include <pile.h>
 #include <kmainwindow.h>
+#include <qtimer.h>
+
+// Define this to see that this game is so idiot that the computer can play alone :)
+/// #define AUTOPLAY
+
+// Time between deal and auto-moving
+#define T1 250
+// Time between moving to empty pile and auto-moving
+#define T2 200
+// Time between end of auto-moving and deal
+#define T3 200
 
 Idiot::Idiot( KMainWindow* parent, const char* _name)
   : Dealer( parent, _name )
@@ -68,6 +79,14 @@ inline bool higher( const Card* c1, const Card* c2)
     return (c1->value() < c2->value());
 }
 
+bool Idiot::canMoveAway(Card *c)
+{
+    return ( higher( c, play[ 0 ]->top() ) ||
+             higher( c, play[ 1 ]->top() ) ||
+             higher( c, play[ 2 ]->top() ) ||
+             higher( c, play[ 3 ]->top() ) );
+}
+
 void Idiot::cardClicked(Card *c)
 {
     if (c->source() == deck) {
@@ -75,10 +94,7 @@ void Idiot::cardClicked(Card *c)
         return;
     }
 
-    if( higher( c, play[ 0 ]->top() ) ||
-        higher( c, play[ 1 ]->top() ) ||
-        higher( c, play[ 2 ]->top() ) ||
-        higher( c, play[ 3 ]->top() ) )
+    if( canMoveAway(c) )
         away->add(c, false, false);
     else if( play[ 0 ]->isEmpty() )
         play[0]->add(c, false, true);
@@ -89,13 +105,70 @@ void Idiot::cardClicked(Card *c)
     else if( play[ 3 ]->isEmpty() )
         play[3]->add(c, false, true);
 
+    autoPlay();
 }
 
 void Idiot::deal()
 {
     if( !deck->isEmpty() )
+    {
         for( int i = 0; i < 4; i++ )
             play[ i ]->add( deck->nextCard(), false, true );
+        QTimer::singleShot(T1, this, SLOT(autoPlay())); // kind of a goto-to-beginning-of-method
+    }
+}
+
+void Idiot::autoPlay()
+{
+    // auto-play feature
+#ifdef AUTOPLAY
+    // first, move away everything we can
+    while (true)
+    {
+        bool cardMoved = false;
+        for( int i = 0; i < 4; i++ )
+            if ( canMoveAway( play[i]->top() ) )
+            {
+                cardMoved = true;
+                away->add(play[i]->top(), false, false);
+            }
+        if (!cardMoved)
+            break;
+    }
+    // now let's try to be a bit clever with the empty piles
+    for( int i = 0; i < 4; i++ )
+        if (play[i]->isEmpty())
+        {
+            // Find a card to move there
+            int biggestPile = -1;
+            int sizeBiggestPile = -1;
+            for( int j = 0; j < 4; j++ )
+            {
+                if ( i != j && play[j]->cardsLeft()>1 )
+                {
+                    // Ace on top of the pile ? -> move it
+                    if ( play[j]->top()->value() == Card::Ace )
+                    {
+                        biggestPile = j;
+                        break;
+                    }
+                    // Otherwise choose the biggest pile
+                    if ( play[j]->cardsLeft() > sizeBiggestPile )
+                    {
+                        sizeBiggestPile = play[j]->cardsLeft();
+                        biggestPile = j;
+                    }
+                }
+            }
+            if ( biggestPile != -1 )
+            {
+               play[i]->add(play[biggestPile]->top(), false, true);
+               QTimer::singleShot(T2, this, SLOT(autoPlay())); // kind of a goto-to-beginning-of-method
+               return;
+            }
+        }
+    QTimer::singleShot(T3, this, SLOT(deal())); // will do nothing if the deck is empty, will call us back otherwise
+#endif
 }
 
 static class LocalDealerInfo2 : public DealerInfo
