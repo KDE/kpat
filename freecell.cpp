@@ -188,10 +188,10 @@ void FreecellBase::resumeSolution()
         return;
     }
     if (solver_ret == FCS_STATE_IS_NOT_SOLVEABLE) {
+	int moves = freecell_solver_user_get_num_times(solver_instance);
         freeSolution();
         emit gameInfo(i18n("unsolved after %1 moves")
-                      .arg(freecell_solver_user_get_num_times(
-                          solver_instance)));
+                      .arg(moves));
         stopDemo();
         return;
     }
