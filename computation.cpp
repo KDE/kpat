@@ -22,7 +22,7 @@
 ****************************************/
 
 #include <qcombobox.h>
-#include "rnd.h"
+#include <krandomsequence.h>
 #include "computation.h"
 #include "global.h"
 
@@ -54,14 +54,14 @@ void Computation::changeDiffLevel( int l ) {
 
 void Computation::initByDiffLevel() {
   int used[4] = {0, 0, 0, 0};
-  Rnd rand;
+  KRandomSequence rand(0);
   int i;
     
   int n = (5 - diffLevel) % 5;   // How many cards do we give?
 
   while ( n-- ){
     do {
-      i = rand.rInt(4);
+      i = rand.getLong(4);
     } while ( used[i] );
     used[i] = 1;
 

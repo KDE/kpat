@@ -21,7 +21,8 @@
 */
 
 #include "patience.h"
-#include "rnd.h"
+
+#include <krandomsequence.h>
 
 const long Deck::n = 52;
 
@@ -112,12 +113,12 @@ void Deck::setSendBack(cardPos* c ) {
 // Shuffle deck, assuming all cards are in deck[]
 void Deck::shuffle() {
   //  Something is rotten...
-  Rnd R;
+  KRandomSequence R(0);
 
   Card* t;
   long z;
   for (int i = mult*n-1; i >= 1; i--) {
-    z = R.rInt(i);
+    z = R.getLong(i);
     t = deck[z]; 
     deck[z] = deck[i]; 
     deck[i] = t;
