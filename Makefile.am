@@ -35,7 +35,7 @@ appsdir = $(kde_appsdir)/Games
 EXTRA_DIST = $(apps_DATA) $(docs_DATA)
 
 messages:
-	@XGETTEXT@ -C -ktranslate -ki18n -x ../../kdelibs/po/kde.pot *.cpp && mv messages.po ../po/kpat.pot
+	$(XGETTEXT) -C -ktranslate -ki18n -x $(includedir)/kde.pot $(kpat_SOURCES) && mv messages.po ../po/kpat.pot
 
 # Dependencies
 basiccard.cpp:basiccard.moc
