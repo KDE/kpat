@@ -3,6 +3,7 @@
 Name=Patience
 Name[pl]=Pasjans
 Name[fi]=Kärsivällisyys
+Name[pt]=Paciência
 Exec=kpat
 Type=Application
 DocPath=kpat/index.html
@@ -10,3 +11,4 @@ Comment=Several nice card games
 Comment[de]=Ein paar kleine Kartenspiele
 Comment[pl]=Kilka ró¿nych pasjansów.
 Comment[fi]=Monia erilaisia korttipelejä
+Comment[pt]=Vários jogos de cartas
