@@ -31,6 +31,7 @@
 #include "cardmaps.h"
 
 #include <freecell-solver/fcs_user.h>
+#include <freecell-solver/fcs_cl.h>
 
 const int CHUNKSIZE = 100;
 
@@ -136,6 +137,66 @@ int getDeck(Card::Suits suit)
     return 0;
 }
 
+static const char * freecell_solver_cmd_line_args[280] = 
+{
+"--method", "soft-dfs", "-to", "0123456789", "-step", 
+"500", "--st-name", "1", "-nst", "--method", 
+"soft-dfs", "-to", "0123467", "-step", "500", 
+"--st-name", "2", "-nst", "--method", "random-dfs", 
+"-seed", "2", "-to", "0[01][23456789]", "-step", 
+"500", "--st-name", "3", "-nst", "--method", 
+"random-dfs", "-seed", "1", "-to", "0[0123456789]", 
+"-step", "500", "--st-name", "4", "-nst", "--method", 
+"random-dfs", "-seed", "3", "-to", "0[01][23467]", 
+"-step", "500", "--st-name", "5", "-nst", "--method", 
+"random-dfs", "-seed", "4", "-to", "0[0123467]", 
+"-step", "500", "--st-name", "9", "-nst", "--method", 
+"random-dfs", "-to", "[01][23456789]", "-seed", "8", 
+"-step", "500", "--st-name", "10", "-nst", 
+"--method", "random-dfs", "-to", "[01][23456789]", 
+"-seed", "268", "-step", "500", "--st-name", "12", 
+"-nst", "--method", "a-star", "-asw", 
+"0.2,0.3,0.5,0,0", "-step", "500", "--st-name", "16", 
+"-nst", "--method", "a-star", "-to", "0123467", 
+"-asw", "0.5,0,0.3,0,0", "-step", "500", "--st-name", 
+"18", "-nst", "--method", "soft-dfs", "-to", 
+"0126394875", "-step", "500", "--st-name", "19", 
+"--prelude", 
+"350@2,350@5,350@9,350@12,350@2,350@10,350@3,350@9,350@5,350@18,350@2,350@5,350@4,350@10,350@4,350@12,1050@9,700@18,350@10,350@5,350@2,350@10,1050@16,350@2,700@4,350@10,1050@2,1400@3,350@18,1750@5,350@16,350@18,700@4,1050@12,2450@5,1400@18,1050@2,1400@10,6300@1,4900@12,8050@18", 
+"-ni", "--method", "soft-dfs", "-to", "01ABCDE", 
+"-step", "500", "--st-name", "0", "-nst", "--method", 
+"random-dfs", "-to", "[01][ABCDE]", "-seed", "1", 
+"-step", "500", "--st-name", "1", "-nst", "--method", 
+"random-dfs", "-to", "[01][ABCDE]", "-seed", "2", 
+"-step", "500", "--st-name", "2", "-nst", "--method", 
+"random-dfs", "-to", "[01][ABCDE]", "-seed", "3", 
+"-step", "500", "--st-name", "3", "-nst", "--method", 
+"random-dfs", "-to", "01[ABCDE]", "-seed", "268", 
+"-step", "500", "--st-name", "4", "-nst", "--method", 
+"a-star", "-to", "01ABCDE", "-step", "500", 
+"--st-name", "5", "-nst", "--method", "a-star", 
+"-to", "01ABCDE", "-asw", "0.2,0.3,0.5,0,0", "-step", 
+"500", "--st-name", "6", "-nst", "--method", 
+"a-star", "-to", "01ABCDE", "-asw", "0.5,0,0.5,0,0", 
+"-step", "500", "--st-name", "7", "-nst", "--method", 
+"random-dfs", "-to", "[01][ABD][CE]", "-seed", "1900", 
+"-step", "500", "--st-name", "8", "-nst", "--method", 
+"random-dfs", "-to", "[01][ABCDE]", "-seed", "192", 
+"-step", "500", "--st-name", "9", "-nst", "--method", 
+"random-dfs", "-to", "[01ABCDE]", "-seed", "1977", 
+"-step", "500", "--st-name", "10", "-nst", 
+"--method", "random-dfs", "-to", "[01ABCDE]", "-seed", 
+"24", "-step", "500", "--st-name", "11", "-nst", 
+"--method", "soft-dfs", "-to", "01ABDCE", "-step", 
+"500", "--st-name", "12", "-nst", "--method", 
+"soft-dfs", "-to", "ABC01DE", "-step", "500", 
+"--st-name", "13", "-nst", "--method", "soft-dfs", 
+"-to", "01EABCD", "-step", "500", "--st-name", "14", 
+"-nst", "--method", "soft-dfs", "-to", "01BDAEC", 
+"-step", "500", "--st-name", "15", "--prelude", 
+"1000@0,1000@3,1000@0,1000@9,1000@4,1000@9,1000@3,1000@4,2000@2,1000@0,2000@1,1000@14,2000@11,1000@14,1000@3,1000@11,1000@2,1000@0,2000@4,2000@10,1000@0,1000@2,2000@10,1000@0,2000@11,2000@1,1000@10,1000@2,1000@10,2000@0,1000@9,1000@1,1000@2,1000@14,3000@8,1000@2,1000@14,1000@1,1000@10,3000@6,2000@4,1000@2,2000@0,1000@2,1000@11,2000@6,1000@0,5000@1,1000@0,2000@1,1000@2,3000@3,1000@10,1000@14,2000@6,1000@0,1000@2,2000@11,6000@8,8000@9,3000@1,2000@10,2000@14,3000@15,4000@0,1000@8,1000@10,1000@14,7000@0,14000@2,6000@3,7000@4,1000@8,4000@9,2000@15,2000@6,4000@3,2000@4,3000@15,2000@0,6000@1,2000@4,4000@6,4000@9,4000@14,7000@8,3000@0,3000@1,5000@2,3000@3,4000@9,8000@10,9000@3,5000@8,7000@11,11000@12,12000@0,8000@3,11000@9,9000@15,7000@2,12000@8,16000@5,8000@13,18000@0,9000@15,12000@10,16000@0,14000@3,16000@9,26000@4,23000@3,42000@6,22000@8,27000@10,38000@7,41000@0,42000@3,84000@13,61000@15,159000@5,90000@9" 
+};
+
 void FreecellBase::findSolution()
 {
     kdDebug(11111) << "findSolution\n";
@@ -145,13 +206,33 @@ void FreecellBase::findSolution()
 
     solver_instance = freecell_solver_user_alloc();
 
-    freecell_solver_user_set_solving_method(solver_instance,
-                                            FCS_METHOD_SOFT_DFS);
+    //freecell_solver_user_set_solving_method(solver_instance,
+    //                                        FCS_METHOD_SOFT_DFS);
 
-    freecell_solver_user_set_solution_optimization(solver_instance,
-                                                   1);
+    //freecell_solver_user_set_solution_optimization(solver_instance,
+    //                                              1);
 
-    int ret = freecell_solver_user_set_game(solver_instance,
+    char * error_string;
+    int error_arg;
+    char * known_parameters[1] = {NULL};
+    
+    
+    int ret = freecell_solver_user_cmd_line_parse_args(
+        solver_instance,
+        sizeof(freecell_solver_cmd_line_args)/sizeof(freecell_solver_cmd_line_args[0]),
+        freecell_solver_cmd_line_args,
+        0,
+        known_parameters,
+        NULL,
+        NULL,
+        &error_string,
+        &error_arg
+        );
+        
+
+    assert(!ret);
+
+    ret = freecell_solver_user_set_game(solver_instance,
                                             freecell.count(),
                                             store.count(),
                                             deck->decksNum(),

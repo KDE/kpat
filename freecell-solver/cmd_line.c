@@ -519,7 +519,7 @@ int freecell_solver_user_cmd_line_parse_args_with_file_nesting_count(
                 int a;
                 char * start_num;
                 char * end_num;
-                char save;
+                char * num_copy;
                 start_num = argv[arg];
                 for(a=0;a<5;a++)
                 {
@@ -536,14 +536,15 @@ int freecell_solver_user_cmd_line_parse_args_with_file_nesting_count(
                     {
                         end_num++;
                     }
-                    save = *end_num;
-                    *end_num = '\0';
+                    num_copy = malloc(end_num-start_num+1);
+                    memcpy(num_copy, start_num, end_num-start_num);
+                    num_copy[end_num-start_num] = '\0';
                     freecell_solver_user_set_a_star_weight(
                         instance,
                         a,
                         atof(start_num)
                         );
-                    *end_num = save;
+                    free(num_copy);
                     start_num=end_num+1;
                 }
             }
