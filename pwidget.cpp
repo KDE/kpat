@@ -307,7 +307,7 @@ void pWidget::actionNewGame(int _id )
   setDefaultType();  
 }
 
-void pWidget::focusInEvent(class QFocusEvent *e)
+void pWidget::focusInEvent(class QFocusEvent *)
 {
   if (inInit) actionNewGame( getDefaultType() + ID_GNEWTYPE );
   inInit = FALSE;
