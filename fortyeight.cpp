@@ -131,7 +131,7 @@ void Fortyeight::deal()
 static class LocalDealerInfo9 : public DealerInfo
 {
 public:
-    LocalDealerInfo9() : DealerInfo(I18N_NOOP("F&orty and Eight"), 0) {}
+    LocalDealerInfo9() : DealerInfo(I18N_NOOP("F&orty and Eight"), 9) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Fortyeight(parent); }
 } ldi9;
 
