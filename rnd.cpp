@@ -19,21 +19,27 @@
 //
 // I couldn't get Libg++'s random function to work on my machine
 //
+// 17-Feb-1999, David Faure <faure@kde.org> : used random() function
+// (defined in kdelibs/kdecore/fakes.cpp if not defined on the system)
 
 
 ****************************************/
 
 #include <stdlib.h>
 #include <time.h>
+#include <config.h>
 #include "rnd.h"
+
 
 Rnd::Rnd(unsigned int seed)  {
     if (seed)
-	srand(seed);
+	srandom(seed);
     else
-	srand(time(0));
+	srandom(time(0));
 }
 
 int Rnd::rInt(int Range) {
-    return int((Range+1.0)*rand()/(RAND_MAX));
+    //return int((Range+1.0)*rand()/(RAND_MAX));
+    return random()%(Range+1); // returns an int between 0 and Range
 }
+
