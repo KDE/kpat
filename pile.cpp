@@ -122,7 +122,7 @@ void Pile::resetCache()
 
 void Pile::drawShape ( QPainter & painter )
 {
-    if (selected()) {
+    if (isSelected()) {
         if (cache.isNull())
             dealer()->drawPile(cache, this, false);
         painter.drawPixmap(int(x()), int(y()), cache);
@@ -291,7 +291,7 @@ void Pile::add( Card* _card, bool _facedown, bool _spread )
 
     Card *t = top();
 
-    if (visible()) {
+    if (isVisible()) {
         _card->show();
     } else
         _card->hide();
@@ -314,7 +314,7 @@ void Pile::add( Card* _card, bool _facedown, bool _spread )
 
     add(_card);
 
-    if (_facedown || !visible()) {
+    if (_facedown || !isVisible()) {
         _card->move( x2, y2 );
         _card->setZ( z2 );
     } else {

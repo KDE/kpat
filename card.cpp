@@ -66,7 +66,7 @@ void Card::turn( bool _faceup )
 {
     if (faceup != _faceup) {
         faceup = _faceup;
-        setActive(!active()); // abuse
+        setActive(!isActive()); // abuse
     }
 }
 
@@ -74,7 +74,7 @@ void Card::draw( QPainter &p )
 {
     QPixmap side;
     if( isFaceUp() )
-        side = cardMap::self()->image( _value, _suit, selected());
+        side = cardMap::self()->image( _value, _suit, isSelected());
     else
         side = cardMap::self()->backSide();
 

@@ -575,7 +575,7 @@ void Dealer::slotTakeState(Card *c) {
 
 void Dealer::enlargeCanvas(QCanvasRectangle *c)
 {
-    if (!c->visible() || c->animated())
+    if (!c->isVisible() || c->animated())
         return;
 
     bool changed = false;
@@ -722,7 +722,7 @@ void Dealer::setState(State *st)
         CardState s = *it;
         bool target = c->takenDown(); // abused
         s.source->add(c, s.i);
-        c->setVisible(s.source->visible());
+        c->setVisible(s.source->isVisible());
         c->setAnimated(false);
         c->setX(s.x);
         c->setY(s.y);
