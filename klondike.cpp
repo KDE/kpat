@@ -214,7 +214,7 @@ bool Klondike::altStep( const Card* c1, const Card* c2) {
 }
 
 QSize Klondike::sizeHint() const {
-  return QSize(710, 476);
+  return QSize(730, 476);
 }
 
 #include "klondike.moc"
