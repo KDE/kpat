@@ -38,6 +38,7 @@
 #include <qimage.h>
 #include <kimageeffect.h>
 #include <kcarddialog.h>
+#include <kglobalsettings.h>
 #include <assert.h>
 
 cardMap *cardMap::_self = 0;
@@ -103,9 +104,9 @@ bool cardMap::setCardDir( const QString &dir)
     if( animate ) {
         t1 = QTime::currentTime();
         w = new QWidget( 0, "", Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool );
-        QWidget* dt = qApp->desktop();
+        QRect dg = KGlobalSettings::splashScreenDesktopGeometry();
         w->setBackgroundColor( Qt::darkGreen );
-        w->setGeometry( ( dt->width() - greeting_width ) / 2, ( dt->height() - 180 ) / 2, greeting_width, 180);
+        w->setGeometry( dg.left() + ( dg.width() - greeting_width ) / 2, dg.top() + ( dg.height() - 180 ) / 2, greeting_width, 180);
         w->show();
         qApp->processEvents();
 
