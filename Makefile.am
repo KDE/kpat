@@ -1,14 +1,15 @@
 
-INCLUDES = $(all_includes)
+INCLUDES = $(all_includes) -I$(top_srcdir)/libkdegames
 
 LDFLAGS = $(all_libraries) $(KDE_RPATH)
-LDADD =       $(LIB_KDEUI)
+LDADD = $(LIB_KDEUI) $(top_builddir)/libkdegames/libkdegames.la
 
 bin_PROGRAMS = kpat
 
 kpat_SOURCES = main.cpp cardmaps.cpp card.cpp dealer.cpp \
-	pwidget.cpp pile.cpp deck.cpp grandf.cpp klondike.cpp mod3.cpp
-#	  computation.cpp ten.cpp napoleon.cpp idiot.cpp freecell.cpp 
+	pwidget.cpp pile.cpp deck.cpp grandf.cpp klondike.cpp mod3.cpp \
+	idiot.cpp # napoleon.cpp
+#	  computation.cpp  freecell.cpp 
 
 METASOURCES = AUTO
 

@@ -23,124 +23,99 @@
 #include "idiot.h"
 #include "dealer.h"
 #include <klocale.h>
+#include <deck.h>
+#include <pile.h>
+#include <kmainwindow.h>
 
-Idiot::Idiot( QWidget* _parent, const char* _name)
-  : dealer( _parent, _name )
+Idiot::Idiot( KMainWindow* parent, const char* _name)
+  : Dealer( parent, _name )
 {
-  for( int Play = 1; Play <= 4; Play++ )
-  {
-    Card::setAddFlags( Play, Card::addSpread );
-    Card::setRemoveFlags( Play, Card::disallow );
-  }
+    deck = new Deck( 0, this );
+    deck->move(210, 10);
 
-  deck = new Deck( 210, 10, this );
+    away = new Pile( 5, this );
+    away->hide();
 
-  // override standard Deck definition
-  Card::setAddFlags( DeckType, Card::disallow );
-  Card::setRemoveFlags( DeckType, Card::disallow );
-
-  away = new cardPos( -100, -100, this, 5 );
-  Card::setAddFlags( 5, Card::disallow );
-  Card::setRemoveFlags( 5, Card::disallow );
-
-  for( int i = 0; i < 4; i++ )
-  {
-    play[ i ] = new cardPos( 10 + 100 * i, 150, this, i + 1 );
-    connect( play[ i ] , SIGNAL( nonMovableCardPressed( int ) ),
-             SLOT( handle( int ) ) );
-  }
-  connect( deck, SIGNAL( nonMovableCardPressed( int ) ), SLOT( deal() ) );
-  deal();
+    for( int i = 0; i < 4; i++ )
+    {
+        play[ i ] = new Pile( i + 1, this);
+        play[i]->move(10 + 100 * i, 150);
+        play[i]->setAddFlags( Pile::addSpread );
+        play[i]->setRemoveFlags( Pile::disallow );
+    }
+    deal();
 }
 
 void Idiot::show()
 {
-  for( int i = 0; i < 4; i++ )
-  {
-    play[ i ]-> show();
-  }
-}
+    QWidget::show();
 
-void Idiot::undo()
-{
-  Card::undoLastMove();
+    for( int i = 0; i < 4; i++ )
+        play[ i ]-> show();
+    deck->show();
 }
 
 void Idiot::restart()
 {
-  deck->collectAndShuffle();
-
-  deal();
+    deck->collectAndShuffle();
+    deal();
 }
 
 Idiot::~Idiot()
 {
-  delete deck;
-
-  for( int i = 0; i < 4; i++ )
-    delete play[ i ];
+    for( int i = 0; i < 4; i++ )
+        delete play[ i ];
+    delete deck;
 }
 
-inline bool higher( Card* c1, Card* c2)
+inline bool higher( const Card* c1, const Card* c2)
 {
-  return c1->Suit() == c2->Suit() && c1->ValueA() < c2->ValueA();
+    if (!c1 || !c2 || c1 == c2)
+        return false;
+    if (c1->suit() != c2->suit())
+        return false;
+    if (c2->value() == Card::Ace) // special case
+        return true;
+    if (c1->value() == Card::Ace)
+        return false;
+    return (c1->value() < c2->value());
 }
 
-inline void moveCard( Card* c1, Card* c2 )
+void Idiot::cardClicked(Card *c)
 {
-  if (c1->Suit() != Card::Empty) {
-    c1->remove();
-    c2->add( c1 );
-  }
-}
+    if (c->source() == deck) {
+        deal();
+        return;
+    }
 
-bool Idiot::handle( int pile )
-{
-  pile--;
+    if( higher( c, play[ 0 ]->top() ) ||
+        higher( c, play[ 1 ]->top() ) ||
+        higher( c, play[ 2 ]->top() ) ||
+        higher( c, play[ 3 ]->top() ) )
+        away->add(c, false, true);
+    else if( play[ 0 ]->isEmpty() )
+        play[0]->add(c, false, true);
+    else if( play[ 1 ]->isEmpty() )
+        play[1]->add(c, false, true);
+    else if( play[ 2 ]->isEmpty() )
+        play[2]->add( c, false, true);
+    else if( play[ 3 ]->isEmpty() )
+        play[3]->add(c, false, true);
 
-  if( !play[ pile ] )
-    return false;
-
-  Card* c = play[ pile ]->top();
-  bool Ok = true;
-
-  if( higher( c, play[ 0 ]->top() ) ||
-      higher( c, play[ 1 ]->top() ) ||
-      higher( c, play[ 2 ]->top() ) ||
-      higher( c, play[ 3 ]->top() ) )
-    moveCard( c,away );
-  else if( !play[ 0 ]->next() )
-    moveCard( c, play[ 0 ] );
-  else if( !play[ 1 ]->next() )
-    moveCard( c, play[ 1 ] );
-  else if( !play[ 2 ]->next() )
-    moveCard( c, play[ 2 ] );
-  else if( !play[ 3 ]->next() )
-    moveCard( c, play[ 3 ] );
-  else
-    Ok = false;
-
-  return Ok;
 }
 
 void Idiot::deal()
 {
-  if( deck->next() )
-    for( int i = 0; i < 4; i++ )
-      play[ i ]->add( deck->getCard(), false, true );
+    if( !deck->isEmpty() )
+        for( int i = 0; i < 4; i++ )
+            play[ i ]->add( deck->nextCard(), false, true );
 }
-
-QSize Idiot::sizeHint() const
-{
-  return QSize( 540, 476 );
-}
-
 
 static class LocalDealerInfo4 : public DealerInfo
 {
 public:
     LocalDealerInfo4() : DealerInfo(I18N_NOOP("The &Idiot"), 4) {}
-    virtual dealer *createGame(QWidget *parent) { return new Idiot(parent); }
+    virtual Dealer *createGame(KMainWindow *parent) { return new Idiot(parent); }
 } gfi;
 
 

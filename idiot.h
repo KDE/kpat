@@ -21,36 +21,32 @@
 #ifndef P_IDIOT
 #define P_IDIOT
 
-#include "patience.h"
 #include "dealer.h"
 
-class Idiot: public dealer
+class Idiot: public Dealer
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
 
-  Idiot( QWidget* parent = 0, const char* name = 0 );
-  virtual ~Idiot();
+    Idiot( KMainWindow* parent = 0, const char* name = 0 );
+    virtual ~Idiot();
 
-  virtual void show();
-  QSize sizeHint() const;
+    virtual void show();
+
+protected:
+    virtual void cardClicked(Card *);
 
 public slots:
 
-  virtual void restart();
-  virtual void undo();
-  void deal();
-
-private slots:
-
-  bool handle( int pile );
+    virtual void restart();
+    void deal();
 
 private:
 
-  cardPos* play[ 4 ];
-  cardPos* away;
-  Deck* deck;
+    Pile* play[ 4 ];
+    Pile* away;
+    Deck* deck;
 };
 
 #endif
