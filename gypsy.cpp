@@ -1,11 +1,7 @@
 #include "gypsy.h"
 #include <klocale.h>
-#include <kdebug.h>
 #include "pile.h"
 #include "deck.h"
-#include <kmainwindow.h>
-#include <kaction.h>
-#include <qptrlist.h>
 
 Gypsy::Gypsy( KMainWindow* parent, const char *name )
     : Dealer( parent, name )

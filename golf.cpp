@@ -1,12 +1,8 @@
-#include <qdialog.h>
 #include "golf.h"
 #include <klocale.h>
-#include <kmessagebox.h>
 #include "deck.h"
 #include "pile.h"
 #include <kdebug.h>
-#include <kmainwindow.h>
-#include <kaction.h>
 
 HorRightPile::HorRightPile( int _index, Dealer* parent)
     : Pile(_index, parent)

@@ -18,15 +18,11 @@
 
 ****************************************/
 
-#include <qdialog.h>
 #include "grandf.h"
 #include <klocale.h>
-#include <kdebug.h>
 #include "pile.h"
 #include "deck.h"
-#include <kmainwindow.h>
 #include <kaction.h>
-#include <qptrlist.h>
 #include <assert.h>
 
 Grandf::Grandf( KMainWindow* parent, const char *name )

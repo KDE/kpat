@@ -24,15 +24,11 @@
 
 #include "klondike.h"
 #include <klocale.h>
-#include <kmessagebox.h>
 #include <card.h>
-#include <kmainwindow.h>
 #include <deck.h>
 #include <pile.h>
 #include <kdebug.h>
 #include <assert.h>
-#include <kaction.h>
-#include <qtimer.h>
 
 Klondike::Klondike( bool easy, KMainWindow* parent, const char* _name )
   : Dealer( parent, _name )

@@ -18,7 +18,6 @@
 
 *******************************************************/
 
-#include <qapplication.h>
 
 #include "card.h"
 #include <kdebug.h>
@@ -26,7 +25,6 @@
 #include <qpainter.h>
 #include <math.h>
 #include "pile.h"
-#include <qimage.h>
 #include <assert.h>
 
 

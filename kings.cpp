@@ -1,12 +1,7 @@
-#include <qdialog.h>
 #include "kings.h"
 #include <klocale.h>
-#include <kdebug.h>
 #include "pile.h"
 #include "deck.h"
-#include <kmainwindow.h>
-#include <kaction.h>
-#include <qptrlist.h>
 #include <assert.h>
 #include <freecell-solver/fcs_enums.h>
 

@@ -22,16 +22,8 @@
 #include <unistd.h>
 
 #include <qpainter.h>
-#include <qcolor.h>
-#include <qwmatrix.h>
-#include <qdrawutil.h>
-#include <qwidget.h>
-#include <qapplication.h>
-#include <qdatetime.h>
 
 #include <kconfig.h>
-#include <kglobal.h>
-#include <kiconloader.h>
 
 #include <config.h>
 #include "cardmaps.h"

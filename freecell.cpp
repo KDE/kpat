@@ -19,7 +19,6 @@
 
 ---------------------------------------------------------------------------*/
 
-#include <qdialog.h>
 #include "freecell.h"
 #include <klocale.h>
 #include "deck.h"
@@ -27,10 +26,6 @@
 #include <assert.h>
 #include <kdebug.h>
 #include <stdio.h>
-#include <ktempfile.h>
-#include <kprocess.h>
-#include <qtextstream.h>
-#include <qfile.h>
 #include <stdlib.h>
 #include <qtimer.h>
 

@@ -1,10 +1,8 @@
-#include <qdialog.h>
 #include "fortyeight.h"
 #include <klocale.h>
 #include "deck.h"
 #include "pile.h"
 #include <assert.h>
-#include <kdebug.h>
 
 HorLeftPile::HorLeftPile( int _index, Dealer* parent)
     : Pile(_index, parent)

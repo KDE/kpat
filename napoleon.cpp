@@ -18,11 +18,8 @@
  */
 
 #include "napoleon.h"
-#include <qevent.h>
-#include <qpainter.h>
 #include "dealer.h"
 #include <klocale.h>
-#include <kmainwindow.h>
 #include <deck.h>
 #include <pile.h>
 

@@ -18,15 +18,12 @@
    4 positions, remove lowest card(s) of suit
 */
 
-#include <qapplication.h>
 
 #include "idiot.h"
 #include "dealer.h"
 #include <klocale.h>
 #include <deck.h>
 #include <pile.h>
-#include <kmainwindow.h>
-#include <qtimer.h>
 
 Idiot::Idiot( KMainWindow* parent, const char* _name)
   : Dealer( parent, _name )

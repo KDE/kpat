@@ -1,9 +1,7 @@
 #include "yukon.h"
 #include <klocale.h>
-#include <kdebug.h>
 #include "pile.h"
 #include "deck.h"
-#include <kmainwindow.h>
 #include <assert.h>
 
 Yukon::Yukon( KMainWindow* parent, const char *name )

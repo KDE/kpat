@@ -21,13 +21,9 @@
 #include <stdio.h>
 
 #include <qregexp.h>
-#include <qobjectlist.h>
 #include <qtimer.h>
 
 #include <kapplication.h>
-#include <kglobal.h>
-#include <kconfig.h>
-#include <kiconloader.h>
 #include <klocale.h>
 #include "pwidget.h"
 #include "version.h"
@@ -42,7 +38,6 @@
 #include <kfiledialog.h>
 #include <ktempfile.h>
 #include <kio/netaccess.h>
-#include <kcrash.h>
 #include "speeds.h"
 #include <kmessagebox.h>  
 

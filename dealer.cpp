@@ -1,19 +1,14 @@
 #include "dealer.h"
-#include <qobjectlist.h>
 #include <kstaticdeleter.h>
-#include <qstyle.h>
 #include <qpainter.h>
 #include <kdebug.h>
 #include <assert.h>
 #include "pile.h"
 #include "kmainwindow.h"
-#include <qtl.h>
 #include <kapplication.h>
-#include <kmessagebox.h>
 #include <qtimer.h>
 #include <kaction.h>
 #include <klocale.h>
-#include <kstandarddirs.h>
 #include <cardmaps.h>
 #include <speeds.h>
 

@@ -1,9 +1,7 @@
 #include "simon.h"
 #include <klocale.h>
-#include <kdebug.h>
 #include "pile.h"
 #include "deck.h"
-#include <kmainwindow.h>
 #include <assert.h>
 
 Simon::Simon( KMainWindow* parent, const char *name )

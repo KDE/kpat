@@ -21,11 +21,8 @@
 //
 ****************************************/
 
-#include <qcombobox.h>
-#include <krandomsequence.h>
 #include "computation.h"
 #include <klocale.h>
-#include <kmainwindow.h>
 #include <pile.h>
 #include <deck.h>
 #include <assert.h>

@@ -4,10 +4,7 @@
 #include <kdebug.h>
 #include <qpainter.h>
 #include "cardmaps.h"
-#include <qdrawutil.h>
-#include <kapplication.h>
 #include <assert.h>
-#include <kpixmap.h>
 #include "speeds.h"
 
 const int Pile::Default       = 0x0000;
