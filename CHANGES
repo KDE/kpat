@@ -1,3 +1,9 @@
+2004-10-19 Inge Wallin <inge@lysator.liu.se>
+
+	- Backport fix for bug 89755: Aces up move counter doesn't
+	  work (idiot.cpp)
+	- bump version to 2.2.1
+
 since kpat-0.7.3 (18/Nov/1999) <kpat@incense.org>
 
 	- bugfix in idiot.cpp
