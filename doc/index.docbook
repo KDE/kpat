@@ -99,13 +99,13 @@ A card game contains one or two card decks of 52 cards each. Each deck contains
 the four suits:
 </para>
 
-<informaltable pgwide=0 frame=none>
-<tgroup cols=2>
-<colspec colwidth=90>
+<informaltable pgwide="0" frame="none">
+<tgroup cols="2">
+<colspec colwidth="90">
 <colspec>
 <tbody>
 
-<row valign=middle>
+<row valign="middle">
 <entry>
 <inlinemediaobject>
 <imageobject>
@@ -118,7 +118,7 @@ Clubs
 </entry>
 </row>
 
-<row valign=middle>
+<row valign="middle">
 <entry>
 <inlinemediaobject>
 <imageobject>
@@ -131,7 +131,7 @@ Spades
 </entry>
 </row>
 
-<row valign=middle>
+<row valign="middle">
 <entry>
 <inlinemediaobject>
 <imageobject>
@@ -144,7 +144,7 @@ Hearts
 </entry>
 </row>
 
-<row valign=middle>
+<row valign="middle">
 <entry>
 <inlinemediaobject>
 <imageobject>
@@ -496,8 +496,8 @@ For the foundation you have to follow these orders:
 </para>
 
 <blockquote>
-<informaltable pgwide=0>
-<tgroup cols=2>
+<informaltable pgwide="0">
+<tgroup cols="2">
 <tbody>
 
 <row>
@@ -705,7 +705,7 @@ temporarily. On a free playing pile you can put any card or sequence.
 <title>Credits and License</title>
 
 <para>
-&kpat; Copyright 1995-2000  Paul Olav Tvete 
+&kpat; Copyright 1995-2000 Paul Olav Tvete 
 </para>
 
 <para>
@@ -716,7 +716,7 @@ temporarily. On a free playing pile you can put any card or sequence.
 <para>
 Freecell Solver by Shlomi Fish
 <email>shlomif@vipe.technion.ac.il</email>
-</para
+</para>
 
 <para>
 Documentation Copyright 2000 Paul Olav Tvete 
