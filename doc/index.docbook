@@ -178,7 +178,7 @@ If the family is not complete, it's called a sequence.
 </para>
 
 <mediaobject>
-<imageobject><imagedata fileref="playfield.png" format="png"></imageobject>
+<imageobject><imagedata fileref="playfield.png" format="PNG"></imageobject>
 <textobject>
 <phrase>The game field of &kpat;</phrase>
 </textobject>
