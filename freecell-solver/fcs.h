@@ -19,21 +19,19 @@ extern "C" {
 #include "move.h"
 #include "fcs_enums.h"
 
-#if defined(LIBREDBLACK_TREE_IMPLEMENTATION) || (defined(INDIRECT_STACK_STATES) && (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBREDBLACK_TREE))
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBREDBLACK_TREE) || (defined(INDIRECT_STACK_STATES) && (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBREDBLACK_TREE))
 
 #include <redblack.h>
 
 #endif
 
-#if defined(AVL_AVL_TREE_IMPLEMENTATION) || (defined(INDIRECT_STACK_STATES) && (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBAVL_AVL_TREE))
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBAVL_AVL_TREE) || (defined(INDIRECT_STACK_STATES) && (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBAVL_AVL_TREE))
 
 #include <avl.h>
 
-/* #define TREE_IMP_PREFIX(func_name) avl_##func_name */
-
 #endif
 
-#if defined(AVL_REDBLACK_TREE_IMPLEMENTATION) || (defined(INDIRECT_STACK_STATES) && (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBAVL_REDBLACK_TREE))
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBAVL_REDBLACK_TREE) || (defined(INDIRECT_STACK_STATES) && (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBAVL_REDBLACK_TREE))
 
 #include <rb.h>
 
@@ -42,27 +40,14 @@ extern "C" {
 #endif
 
 
-
-#if 0
-#define fcs_tree TREE_IMP_PREFIX(tree)
-#define fcs_tree_create TREE_IMP_PREFIX(create)
-#define fcs_tree_destroy TREE_IMP_PREFIX(destroy)
-#define fcs_tree_insert TREE_IMP_PREFIX(insert)
-#define fcs_tree_delete TREE_IMP_PREFIX(delete)
-#endif
-
-#if defined(GLIB_TREE_IMPLEMENTATION) || (defined(INDIRECT_STACK_STATES) && ((FCS_STACK_STORAGE == FCS_STACK_STORAGE_GLIB_TREE) || (FCS_STACK_STORAGE == FCS_STACK_STORAGE_GLIB_HASH)))
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_GLIB_TREE) || (FCS_STATE_STORAGE == FCS_STATE_STORAGE_GLIB_HASH) || (defined(INDIRECT_STACK_STATES) && ((FCS_STACK_STORAGE == FCS_STACK_STORAGE_GLIB_TREE) || (FCS_STACK_STORAGE == FCS_STACK_STORAGE_GLIB_HASH)))
 
 #include <glib.h>
 
 #endif
 
 
-#ifdef GLIB_HASH_IMPLEMENTATION
-#include <glib.h>
-#endif
-
-#ifdef INTERNAL_HASH_IMPLEMENTATION
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INTERNAL_HASH)
 #include "fcs_hash.h"
 #include "md5.h"
 #endif
@@ -72,7 +57,7 @@ extern "C" {
 #include "md5.h"
 #endif
 
-#ifdef DB_FILE_STATE_STORAGE
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_DB_FILE)
 #include <sys/types.h>
 #include <limits.h>
 #include <db.h>
@@ -106,13 +91,12 @@ typedef struct freecell_solver_instance
     int max_num_indirect_prev_states;
 #endif    
 
-#if defined(INDIRECT_STATE_STORAGE) || defined(TREE_STATE_STORAGE) || defined(HASH_STATE_STORAGE) || defined(DB_FILE_STATE_STORAGE)
     fcs_state_with_locations_t * * state_packs;
     int max_num_state_packs;
     int num_state_packs;
     int num_states_in_last_pack;
     int state_pack_len;
-#endif
+    
     int num_times;
     fcs_state_with_locations_t * * solution_states;
     int num_solution_states;
@@ -136,27 +120,23 @@ typedef struct freecell_solver_instance
     int tests_order_num;
     int tests_order[FCS_TESTS_NUM];
 
-#ifdef TREE_STATE_STORAGE
-#ifdef LIBREDBLACK_TREE_IMPLEMENTATION
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBREDBLACK_TREE)
     struct rbtree * tree;
-#elif defined(AVL_AVL_TREE_IMPLEMENTATION)
+#elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBAVL_AVL_TREE)
     avl_tree * tree;
-#elif defined(AVL_REDBLACK_TREE_IMPLEMENTATION)
+#elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBAVL_REDBLACK_TREE)
     rb_tree * tree;
-#elif defined(GLIB_TREE_IMPLEMENTATION)
+#elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_GLIB_TREE)
     GTree * tree;
 #endif
-#endif
 
-#if defined(HASH_STATE_STORAGE)
-#ifdef GLIB_HASH_IMPLEMENTATION
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_GLIB_HASH)
     GHashTable * hash;
-#elif defined(INTERNAL_HASH_IMPLEMENTATION)
+#elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INTERNAL_HASH)
     SFO_hash_t * hash;
 #endif
-#endif
 
-#if (defined(INDIRECT_STACK_STATES) && (FCS_STACK_STORAGE == FCS_STACK_STORAGE_INTERNAL_HASH)) || defined(INTERNAL_HASH_IMPLEMENTATION)
+#if (defined(INDIRECT_STACK_STATES) && (FCS_STACK_STORAGE == FCS_STACK_STORAGE_INTERNAL_HASH)) || (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INTERNAL_HASH)
     MD5_CTX md5_context;
     unsigned char hash_value[MD5_HASHBYTES];    
 #endif
@@ -177,7 +157,7 @@ typedef struct freecell_solver_instance
 #endif
 #endif
 
-#ifdef DB_FILE_STATE_STORAGE
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_DB_FILE)
     DB * db;
 #endif  
 
@@ -198,11 +178,6 @@ typedef struct freecell_solver_instance
 
     PQUEUE * a_star_pqueue;
     double a_star_initial_cards_under_sequences;
-#if 0
-    double a_star_weight_of_cards_out;
-    double a_star_weight_of_max_sequence_move;
-    double a_star_weight_of_cards_under_sequences;
-#endif
     double a_star_weights[5];
 
     fcs_state_with_locations_t * first_state_to_check;
@@ -213,6 +188,8 @@ typedef struct freecell_solver_instance
     int * soft_dfs_max_num_states_to_check;
     int * soft_dfs_current_state_indexes;
     int * soft_dfs_test_indexes;
+    int * soft_dfs_num_freestacks;
+    int * soft_dfs_num_freecells;
 } freecell_solver_instance_t;
 
 #define FCS_SOFT_DFS_STATES_TO_CHECK_GROW_BY 32
@@ -240,7 +217,46 @@ void freecell_solver_unresume_instance(
     freecell_solver_instance_t * instance
     );
 
+extern int freecell_solver_solve_for_state(
+    freecell_solver_instance_t * instance,
+    fcs_state_with_locations_t * ptr_state_with_locations,
+    int depth,
+    int ignore_osins
+    );
+    
+extern int freecell_solver_soft_dfs_solve_for_state(
+    freecell_solver_instance_t * instance,
+    fcs_state_with_locations_t * ptr_state_with_locations_orig
+    );
+    
+extern void freecell_solver_a_star_initialize_rater(
+    freecell_solver_instance_t * instance, 
+    fcs_state_with_locations_t * ptr_state_with_locations
+    );
+    
+extern int freecell_solver_a_star_or_bfs_do_solve_or_resume(
+    freecell_solver_instance_t * instance,
+    fcs_state_with_locations_t * ptr_state_with_locations_orig,
+    int resume
+    );
+    
+extern int freecell_solver_solve_for_state_resume_solution(
+    freecell_solver_instance_t * instance,
+    int depth
+    );
 
+extern int freecell_solver_soft_dfs_solve_for_state_resume_solution(
+    freecell_solver_instance_t * instance
+    );
+
+extern int freecell_solver_a_star_or_bfs_solve_for_state(
+    freecell_solver_instance_t * instance,
+    fcs_state_with_locations_t * ptr_state_with_locations_orig
+    );
+    
+extern int freecell_solver_a_star_or_bfs_resume_solution(
+    freecell_solver_instance_t * instance
+    );
 #ifdef __cplusplus
 }
 #endif

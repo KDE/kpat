@@ -13,7 +13,7 @@
 
 #define uc(c) ( (((c)>='a') && ((c)<='z')) ?  ((c)+'A'-'a') : (c))
 
-int fcs_u2p_card_number(char * string)
+int fcs_u2p_card_number(const char * string)
 {
     char rest = uc(*string);
 
@@ -53,7 +53,7 @@ int fcs_u2p_card_number(char * string)
 
 
 
-int fcs_u2p_deck(char * deck)
+int fcs_u2p_deck(const char * deck)
 {
     char c;
 
@@ -82,7 +82,7 @@ int fcs_u2p_deck(char * deck)
         return 0;
 }
 
-fcs_card_t fcs_card_user2perl(char * str)
+fcs_card_t fcs_card_user2perl(const char * str)
 {
     fcs_card_t card;
 #if defined(COMPACT_STATES)||defined(INDIRECT_STACK_STATES)

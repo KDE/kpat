@@ -11,7 +11,7 @@ extern "C" {
 
 #ifdef WIN32
 typedef unsigned __int32 u_int32_t;
-#elif !defined(linux)
+#elif !defined(__linux__)
 typedef uint32_t u_int32_t;
 #endif
 

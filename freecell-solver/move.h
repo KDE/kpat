@@ -1,5 +1,5 @@
 /*
- * move.h - header file for the move and move stacks functions of
+ * move.h - header file for the move and move stacks functions of 
  * Freecell Solver
  *
  * Written by Shlomi Fish (shlomif@vipe.technion.ac.il), 2000
@@ -28,10 +28,6 @@ int fcs_move_stack_get_num_moves(fcs_move_stack_t * stack);
 fcs_move_stack_t * fcs_move_stack_duplicate(fcs_move_stack_t * stack);
 
 void fcs_apply_move(fcs_state_with_locations_t * state_with_locations, fcs_move_t move, int freecells_num, int stacks_num, int decks_num);
-
-#if 0
-char * fcs_move_as_string(fcs_move_t move);
-#endif
 
 void fcs_move_stack_normalize(
     fcs_move_stack_t * moves,

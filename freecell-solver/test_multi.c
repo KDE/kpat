@@ -188,8 +188,8 @@ char * get_board(int gamenumber)
     return ret;
 }
 
-#define LIMIT_STEP 200
-#define LIMIT_MAX 2000
+#define LIMIT_STEP 10000
+#define LIMIT_MAX 50000
 
 int main(int argc, char * argv[])
 {
@@ -200,14 +200,22 @@ int main(int argc, char * argv[])
     int board_num;
     char * buffer;
     int limit;
-    int start_board, end_board;
+    int start_board, end_board, stop_at;
+    char line[80];
+    
+    
     start_board = atoi(argv[1]);
     end_board = atoi(argv[2]);
+    stop_at = atoi(argv[3]);
 
     /* for(board_num=1;board_num<100000;board_num++) */
     for(board_num=start_board;board_num<=end_board;board_num++)
     {
         user = freecell_solver_user_alloc();
+        freecell_solver_user_set_solving_method(
+            user,
+            FCS_METHOD_SOFT_DFS
+            );
 
         buffer = get_board(board_num);
         
@@ -240,6 +248,12 @@ int main(int argc, char * argv[])
         }
 
         freecell_solver_user_free(user);
+        
+        if (board_num % stop_at == 0)
+        {
+            printf ("Press Return to continue:\n");
+            fgets(line, sizeof(line), stdin);
+        }
     }    
     
     return 0;

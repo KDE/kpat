@@ -1,5 +1,5 @@
 /*
- * fcs.h - header file of the preset management functions for Freecell Solver. 
+ * fcs.h - header file of the preset management functions for Freecell Solver.
  *
  * Written by Shlomi Fish (shlomif@vipe.technion.ac.il), 2000
  *
@@ -17,9 +17,9 @@ extern "C" {
 
 int fcs_apply_preset_by_name(
     freecell_solver_instance_t * instance,
-    char * name
+    const char * name
     );
-        
+
 #ifdef __cplusplus
 }
 #endif

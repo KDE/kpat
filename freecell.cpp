@@ -34,8 +34,7 @@
 #include <stdlib.h>
 #include <qtimer.h>
 
-#include <freecell-solver/fcs.h>
-#include <freecell-solver/preset.h>
+#include <freecell-solver/fcs_user.h>
 
 const int CHUNKSIZE = 100;
 
@@ -53,7 +52,7 @@ void FreecellPile::moveCards(CardList &c, Pile *to)
 FreecellBase::FreecellBase( int decks, int stores, int freecells, int fill, bool unlimit,
                             KMainWindow* parent, const char* name)
     : Dealer(parent,name),
-solver_instance(0), solver_state(0), es_filling(fill), solver_ret(FCS_STATE_NOT_BEGAN_YET),
+solver_instance(0), es_filling(fill), solver_ret(FCS_STATE_NOT_BEGAN_YET),
 unlimited_move(unlimit)
 {
     deck = new Deck(0, this, decks);
@@ -141,17 +140,6 @@ int getDeck(Card::Suits suit)
     return 0;
 }
 
-fcs_card_t getCard(Card *c)
-{
-    if (!c)
-        return fcs_empty_card;
-
-    fcs_card_t card = 0;
-    fcs_card_set_num(card, static_cast<int>(c->value()));
-    fcs_card_set_deck(card, getDeck(c->suit()));
-    return card;
-}
-
 void FreecellBase::findSolution()
 {
     kdDebug() << "findSolution\n";
@@ -159,99 +147,67 @@ void FreecellBase::findSolution()
     QString output = solverFormat();
     fprintf(stderr, "%s\n", output.latin1());
 
-    freecell_solver_instance_t *instance = 0;
-    instance = freecell_solver_alloc_instance();
-    freecell_solver_init_instance(instance);
-    instance->freecells_num = freecell.count();
-    instance->stacks_num = store.count();
-    instance->decks_num = deck->decksNum();
-    instance->sequences_are_built_by = FCS_SEQ_BUILT_BY_ALTERNATE_COLOR;
-    instance->unlimited_sequence_move = unlimited_move;
-    instance->empty_stacks_fill = es_filling;
-    instance->method = FCS_METHOD_HARD_DFS;
-    instance->max_num_times = CHUNKSIZE;
-    instance->solution_moves = 0;
-    instance->solution_states = 0;
-    instance->num_solution_states = 0;
+    solver_instance = freecell_solver_user_alloc();
 
-    fcs_state_with_locations_t *state = new fcs_state_with_locations_t;
-    fcs_state_init(state, instance->stacks_num);
-    for(int c=0;c<instance->freecells_num;c++) {
-        fcs_empty_freecell(state->s, c);
-        fcs_put_card_in_freecell(state->s, c, getCard(freecell[c]->top()));
-    }
-    for(int d=0; d < 4*instance->decks_num ;d++)
-    {
-        fcs_set_deck(state->s, d, 0);
-    }
-    int deck_index[4] = {0, 0, 0, 0};
+    freecell_solver_user_set_solving_method(solver_instance,
+                                            FCS_METHOD_HARD_DFS);
 
-    for (uint d = 0; d < target.count(); d++)
-    {
-        Card *c = target[d]->top();
-        if (c) {
-            fcs_set_deck(state->s, deck_index[getDeck(c->suit())]*4 + getDeck(c->suit()), static_cast<int>(c->value()));
-            deck_index[getDeck(c->suit())]++;
-        }
-    }
-    for (int s = 0; s < instance->stacks_num; s++) {
-        CardList cards = store[s]->cards();
-        for (CardList::ConstIterator it = cards.begin(); it != cards.end(); ++it)
-        {
-            fcs_push_card_into_stack(state->s, s, getCard(*it));
-        }
-    }
 
-    fcs_card_t card;
-    assert(fcs_check_state_validity(state, instance->freecells_num, instance->stacks_num, instance->decks_num, &card) == 0);
+    int ret = freecell_solver_user_set_game(solver_instance,
+                                            freecell.count(),
+                                            store.count(),
+                                            deck->decksNum(),
+                                            FCS_SEQ_BUILT_BY_ALTERNATE_COLOR,
+                                            unlimited_move,
+                                            es_filling);
+    assert(!ret);
 
-    fcs_canonize_state(state, instance->freecells_num, instance->stacks_num);
-    solver_ret = freecell_solver_solve_instance(instance, state);
-    solver_instance = instance;
-    solver_state = state;
+    freecell_solver_user_limit_iterations(solver_instance, CHUNKSIZE);
+
+    solver_ret = freecell_solver_user_solve_board(solver_instance,
+                                                  output.latin1());
     resumeSolution();
 }
 
 void FreecellBase::resumeSolution()
 {
-    freecell_solver_instance_t *instance = static_cast<freecell_solver_instance_t *>(solver_instance);
-    fcs_state_with_locations_t *state = static_cast<fcs_state_with_locations_t *>(solver_state);
-
-    if (!instance)
+    if (!solver_instance)
         return;
 
-    emit gameInfo(i18n("%1 tries - depth %2").arg(instance->max_num_times).arg(instance->num_solution_states));
+    emit gameInfo(i18n("%1 tries - depth %2")
+                  .arg(freecell_solver_user_get_num_times(solver_instance))
+                  .arg(freecell_solver_user_get_current_depth(solver_instance)));
 
     if (solver_ret == FCS_STATE_WAS_SOLVED)
     {
-        fcs_move_stack_normalize(
-            instance->solution_moves,
-            state,
-            instance->freecells_num,
-            instance->stacks_num,
-            instance->decks_num
-            );
-        emit gameInfo(i18n("solved after %1 tries").arg(instance->num_times));
+        emit gameInfo(i18n("solved after %1 tries").
+                      arg(freecell_solver_user_get_num_times(
+                          solver_instance)));
         kdDebug() << "solved\n";
         Dealer::demo();
         return;
     }
     if (solver_ret == FCS_STATE_IS_NOT_SOLVEABLE) {
         freeSolution();
-        emit gameInfo(i18n("unsolved after %1 moves").arg(instance->num_times));
+        emit gameInfo(i18n("unsolved after %1 moves")
+                      .arg(freecell_solver_user_get_num_times(
+                          solver_instance)));
         stopDemo();
         return;
     }
 
-    instance->max_num_times += CHUNKSIZE;
-    if (instance->max_num_times > 80000) {
+    unsigned int max_iters = freecell_solver_user_get_limit_iterations(
+        solver_instance) + CHUNKSIZE;
+    freecell_solver_user_limit_iterations(solver_instance,
+                                          max_iters);
+
+    if (max_iters > 80000) {
         solver_ret = FCS_STATE_IS_NOT_SOLVEABLE;
         resumeSolution();
         return;
     }
 
-    solver_ret = freecell_solver_resume_instance(instance);
-
+    solver_ret = freecell_solver_user_resume_solution(solver_instance);
     QTimer::singleShot(0, this, SLOT(resumeSolution()));
 
 }
@@ -360,16 +316,17 @@ void FreecellBase::demo()
 
 MoveHint *FreecellBase::chooseHint()
 {
-    freecell_solver_instance_t *instance = static_cast<freecell_solver_instance_t *>(solver_instance);
-    kdDebug() << "choosing " << instance << " " << (instance ? instance->solution_moves->num_moves : 0) << " " << solver_ret  << endl;
+    if (solver_instance && freecell_solver_user_get_moves_left(solver_instance)) {
 
-    fcs_move_t move;
-    if (instance && instance->solution_moves->num_moves > 0) {
-        emit gameInfo(i18n("%1 moves before finish").arg(instance->solution_moves->num_moves));
-        move = instance->solution_moves->moves[--instance->solution_moves->num_moves];
-        MoveHint *mh = translateMove(&move);
-        oldmoves.append(mh);
-        return mh;
+        emit gameInfo(i18n("%1 moves before finish").arg(freecell_solver_user_get_moves_left(solver_instance)));
+
+        fcs_move_t move;
+        if (!freecell_solver_user_get_next_move(solver_instance, &move)) {
+            MoveHint *mh = translateMove(&move);
+            oldmoves.append(mh);
+            return mh;
+        } else
+            return 0;
     } else
         return Dealer::chooseHint();
 }
@@ -391,33 +348,12 @@ void FreecellBase::freeSolution()
     for (HintList::Iterator it = oldmoves.begin(); it != oldmoves.end(); ++it)
         delete *it;
     oldmoves.clear();
-    freecell_solver_instance_t *instance = static_cast<freecell_solver_instance_t *>(solver_instance);
-    if (!instance)
-        return;
-    if (instance->solution_moves && solver_ret == FCS_STATE_WAS_SOLVED)
-    {
-        fcs_move_stack_destroy(instance->solution_moves);
-        if (instance->solution_states && instance->num_solution_states)
-        {
-            for(int a=0;a<instance->num_solution_states;a++)
-            {
-                free((void*)instance->solution_states[a]);
-            }
-            free((void*)instance->solution_states);
-        }
-    }
 
-    freecell_solver_finish_instance(instance);
-    freecell_solver_free_instance(instance);
+    if (!solver_instance)
+        return;
+    freecell_solver_user_free(solver_instance);
+
     solver_instance = 0;
-    fcs_state_with_locations_t *state = static_cast<fcs_state_with_locations_t *>(solver_state);
-#if defined(INDIRECT_STACK_STATES)
-    for(int a=0;a<MAX_NUM_STACKS;a++)
-        if (state->s.stacks[a] != NULL)
-            free(state->s.stacks[a]);
-#endif
-    delete state;
-    solver_state = 0;
     solver_ret = FCS_STATE_NOT_BEGAN_YET;
 }
 

@@ -11,7 +11,7 @@
 
 #include "config.h"
 
-#if (defined(HASH_STATE_STORAGE) && defined(INTERNAL_HASH_IMPLEMENTATION)) || defined(INDIRECT_STACK_STATES)
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INTERNAL_HASH) || defined(INDIRECT_STACK_STATES)
 
 #include <stdlib.h>
 #include <string.h>
@@ -358,6 +358,7 @@ static void SFO_hash_rehash(
 }
 
 #else
-void fcs_hash_c_dummy(); /* ANSI C doesn't allow empty compilation units */
 
-#endif /* defined(HASH_STATE_STORAGE) && defined(INTERNAL_HASH_IMPLEMENTATION) */
+void SFO_hash_c_dummy(); /* ANSI C doesn't allow empty compilation */
+
+#endif /* (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INTERNAL_HASH) || defined(INDIRECT_STACK_STATES) */

@@ -1,10 +1,7 @@
 /*
- * dfs.c - the various possible implementations of the function
+ * caas.c - the various possible implementations of the function
  * freecell_solver_check_and_add_state().
  * 
- * DFS stands for Depth-First Search, which is the scan used by 
- * Freecell Solver to solve a board.
- *
  * Written by Shlomi Fish (shlomif@vipe.technion.ac.il), 2000
  *
  * This file is in the public domain (it's uncopyrighted).
@@ -18,7 +15,7 @@
 
 #include "fcs_isa.h"
 
-#ifdef HASH_STATE_STORAGE
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INTERNAL_HASH) || (FCS_STATE_STORAGE == FCS_STATE_STORAGE_GLIB_HASH)
 #include "md5.h"
 #endif
 
@@ -54,7 +51,7 @@ extern void freecell_solver_a_star_enqueue_state(
   */
 
 
-#ifdef INTERNAL_HASH_IMPLEMENTATION
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INTERNAL_HASH)
 #define fcs_caas_check_and_insert()              \
     MD5Init(&(instance->md5_context));      \
     MD5Update(&(instance->md5_context), (unsigned char *)new_state, sizeof(fcs_state_t)); \
@@ -77,11 +74,11 @@ extern void freecell_solver_a_star_enqueue_state(
 #elif defined(INDIRECT_STATE_STORAGE)
 #define fcs_caas_check_and_insert()              \
     /* Try to see if the state is found in indirect_prev_states */  \
-    if (bsearch(&new_state,                                         \
+    if ((pos_ptr = (fcs_state_with_locations_t * *)bsearch(&new_state,                                         \
                 instance->indirect_prev_states,                     \
                 instance->num_indirect_prev_states,                 \
                 sizeof(fcs_state_with_locations_t *),               \
-                fcs_state_compare_indirect) == NULL)                \
+                fcs_state_compare_indirect)) == NULL)                \
     {                                                               \
         /* It isn't in prev_states, but maybe it's in the sort margin */        \
         pos_ptr = (fcs_state_with_locations_t * *)SFO_bsearch(              \
@@ -96,6 +93,7 @@ extern void freecell_solver_a_star_enqueue_state(
         if (found)                \
         {                             \
             check = 0;                   \
+            *existing_state = *pos_ptr;     \
         }                                 \
         else                               \
         {                                     \
@@ -138,35 +136,40 @@ extern void freecell_solver_a_star_enqueue_state(
     }                   \
     else                 \
     {         \
+        *existing_state = *pos_ptr; \
         check = 0;          \
     }          
 
-#elif defined(LIBREDBLACK_TREE_IMPLEMENTATION)
+#elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBREDBLACK_TREE)
 
 #define fcs_caas_check_and_insert()               \
-    check = (rbsearch(new_state, instance->tree) == new_state);
+    *existing_state = (fcs_state_with_locations_t *)rbsearch(new_state, instance->tree); \
+    check = ((*existing_state) == new_state);
 
-#elif defined(AVL_AVL_TREE_IMPLEMENTATION)||defined(AVL_REDBLACK_TREE_IMPLEMENTATION)
-#ifdef AVL_AVL_TREE_IMPLEMENTATION
+#elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBAVL_AVL_TREE) || (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBAVL_REDBLACK_TREE)
+
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBAVL_AVL_TREE)
 #define fcs_libavl_states_tree_insert(a,b) avl_insert((a),(b))
-#elif defined(AVL_REDBLACK_TREE_IMPLEMENTATION)
+#elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBAVL_REDBLACK_TREE)
 #define fcs_libavl_states_tree_insert(a,b) rb_insert((a),(b))
 #endif 
 
 #define fcs_caas_check_and_insert()       \
-    check = (fcs_libavl_states_tree_insert(instance->tree, new_state) == NULL);
+    *existing_state = fcs_libavl_states_tree_insert(instance->tree, new_state); \
+    check = (*existing_state == NULL);
 
-#elif defined (GLIB_TREE_IMPLEMENTATION)
+#elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_GLIB_TREE)
 #define fcs_caas_check_and_insert()       \
-    if (g_tree_lookup(instance->tree, (gpointer)new_state) == NULL) \
+    *existing_state = g_tree_lookup(instance->tree, (gpointer)new_state);  \
+    if (*existing_state == NULL) \
     {            \
         /* The new state was not found. Let's insert it.       \
-         * The value should be non-NULL or else g_hash_table_lookup() will   \
-         * return NULL even if it exists. */                  \
+         * The value must be the same as the key, so g_tree_lookup()   \
+         * will return it. */                  \
         g_tree_insert(                        \
             instance->tree,                      \
             (gpointer)new_state,              \
-            (gpointer)0x7348e9f2                 \
+            (gpointer)new_state                 \
             );                         \
         check = 1;                  \
     }              \
@@ -177,17 +180,18 @@ extern void freecell_solver_a_star_enqueue_state(
 
 
                     
-#elif defined (GLIB_HASH_IMPLEMENTATION)
+#elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_GLIB_HASH)
 #define fcs_caas_check_and_insert()       \
-    if (g_hash_table_lookup(instance->hash, (gpointer)new_state) == NULL) \
+    *existing_state = g_hash_table_lookup(instance->hash, (gpointer)new_state); \
+    if (*existing_state == NULL) \
     { \
-        /* The new state was not found. Let's insert it. \
-         * The value should be non-NULL or else g_hash_table_lookup() will \
-         * return NULL even if it exists. */       \
+        /* The new state was not found. Let's insert it.       \
+         * The value must be the same as the key, so g_tree_lookup()   \
+         * will return it. */                  \
         g_hash_table_insert(         \
             instance->hash,          \
             (gpointer)new_state,          \
-            (gpointer)0x7348e9f2            \
+            (gpointer)new_state            \
         \
             );           \
         check = 1;              \
@@ -197,6 +201,43 @@ extern void freecell_solver_a_star_enqueue_state(
         check = 0;     \
     }
 
+#elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_DB_FILE)
+#define fcs_caas_check_and_insert()     \
+    {         \
+        DBT key, value;      \
+        key.data = new_state; \
+        key.size = sizeof(*new_state);      \
+        if (instance->db->get(         \
+            instance->db,        \
+            NULL,        \
+            &key,      \
+            &value,      \
+            0        \
+            ) == 0) \
+        {      \
+            /* The new state was not found. Let's insert it.       \
+             * The value must be the same as the key, so g_tree_lookup()   \
+             * will return it. */                  \
+                \
+            value.data = key.data;     \
+            value.size = key.size;     \
+            instance->db->put(         \
+                instance->db,      \
+                NULL,           \
+                &key,         \
+                &value,         \
+                0);             \
+            check = 1;        \
+        }         \
+        else         \
+        {         \
+            check = 0;        \
+            *existing_state = (fcs_state_with_locations_t *)(value.data);     \
+        }         \
+    }
+
+#else 
+#error no define
 #endif
 
 
@@ -334,9 +375,7 @@ void freecell_solver_cache_stacks(
  *        5b. Call solve_for_state() on the board.
  *
  * */
-
-
-#if defined(GLIB_HASH_IMPLEMENTATION)
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_GLIB_HASH)
 guint freecell_solver_hash_function(gconstpointer key)
 {
     MD5_CTX md5_context;
@@ -356,7 +395,7 @@ int freecell_solver_check_and_add_state(
     fcs_state_with_locations_t * * existing_state,
     int depth)
 {
-#if defined(INTERNAL_HASH_IMPLEMENTATION)
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INTERNAL_HASH)
     SFO_hash_value_t hash_value_int;
 #endif
 #if defined(INDIRECT_STATE_STORAGE)
@@ -387,18 +426,10 @@ int freecell_solver_check_and_add_state(
     if (check)
     {
         /* The new state was not found, and it was already inserted */
-#if 0
         if (instance->method == FCS_METHOD_SOFT_DFS)
         {
-            freecell_solver_soft_dfs_add_state(instance, depth+1, new_state);
-            return FCS_STATE_WAS_SOLVED;
+            return FCS_STATE_DOES_NOT_EXIST;
         }
-#else
-    if (instance->method == FCS_METHOD_SOFT_DFS)
-    {
-        return FCS_STATE_DOES_NOT_EXIST;
-    }
-#endif
         else if (instance->method == FCS_METHOD_HARD_DFS)
         {
             int ret;
@@ -447,7 +478,7 @@ int freecell_solver_check_and_add_state(
  * */
 
 
-#ifdef DB_FILE_STATE_STORAGE
+#if 0
 
 static char meaningless_data[16] = "Hello World!";
 

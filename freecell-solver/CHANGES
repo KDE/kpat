@@ -1,3 +1,114 @@
+From 1.3.39 to 1.3.40
+---------------------
+
+* Set proto_solution_moves and solution_states to NULL where they were
+freed, and added a call to free for them in finish_instance.
+
+* Some changes to the documentation.
+
+* Set solution_states to NULL in the main function of fc-solve.
+
+* Ditto for test_mulit.c.
+
+From 1.3.38 to 1.3.39
+---------------------
+
+* Added memory-leak fprintf's to the move stack creation/deletion functions.
+They are cancelled with an #ifdef, but I'm keeping them for the while.
+
+* De-allocated the move stacks that were left by the previous test function
+in soft_dfs_do_solve_or_resume.
+
+From 1.3.37 to 1.3.38
+---------------------
+
+* Added a deallocation to the states_to_check arrays between
+num_solution_states to dfs_max_depth.
+
+From 1.3.36 to 1.3.37
+---------------------
+
+* Added de-allocation routines to the soft-dfs stuff. Right now, mtest
+crashes from time to time, but I have to figure out why.
+
+* Well, the soft-dfs cleaning up is working and no segfaults happen with
+mtest or fc-solve.
+
+* I placed the total move stack creation on a separate function because it
+is used in both solve_instance and resume_instance.
+
+From 1.3.35 to 1.3.36
+---------------------
+
+* Modified the file USAGE to mention the method choosing and the A* 
+weights.
+
+* Added a soft_dfs_num_free{stacks,cells} array to the instance data
+structure, and modified the algorithm to use it so it won't re-calculate
+them time after time.
+
+* Note: I don't seem to free the soft_dfs related arrays. So I should.
+
+From 1.3.34 to 1.3.35
+---------------------
+
+* Removed some unnecessary "#if 0"'s and "#if 1"'s.
+
+* Added Soft-DFS support for the other state storage implmentations.
+
+* Created a preprocessor FCS_STATE_STORAGE enum.
+
+* Converted internal hash to use FCS_STATE_STORAGE.
+
+* Converted libavl's AVL and Red-Black tree to use FCS_STATE_STORAGE
+
+* Converted libredblack to the enum.
+
+* Converted glib's tree and hash to FCS_STATE_STORAGE.
+
+* Converted DB-File to FCS_STATE_STORAGE
+
+From 1.3.33 to 1.3.34
+---------------------
+
+* Some head comments to the new files.
+
+From 1.3.32 to 1.3.33
+---------------------
+
+* Placed the interface functions of the instance handling routines in
+intrface.c.
+
+* Placed the Scan-specific functions in scans.c.
+
+* Renamed dfs.c to caas.c.
+
+From 1.3.31 to 1.3.32
+---------------------
+
+* Removed calls to free for the solution_states in the Soft-DFS unresume
+function.
+
+From 1.3.30 to 1.3.31
+---------------------
+
+* Removed the allocation of instance->solution_moves in solve_for_state(). A
+minor bug.
+
+From 1.3.29 to 1.3.30
+---------------------
+
+* Various changes to make the code more ANSI C/ANSI C++ compatible. Thanks 
+should go to Stephan Kulow!
+
+* Added a library function to tell what is the current depth.
+
+From 1.3.28 to 1.3.29
+---------------------
+
+* Added some calls to fcs_move_stack_destory() in the pre-mature breakup
+of move_freecell_cards_to_founds and move_top_stack_cards_to_founds.
+
 From 1.3.27 to 1.3.28
 ---------------------
 

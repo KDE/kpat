@@ -7,9 +7,10 @@
  * 
  */
 
-#include "fcs.h"
 
 #include <string.h>
+
+#include "fcs.h"
 #include "preset.h"
 
 struct fcs_preset_struct
@@ -258,12 +259,15 @@ static fcs_preset_name_t fcs_preset_names[17] =
 };
 
 static int fcs_get_preset_id_by_name(
-    char * name
+    const char * name
 )
 {
-    unsigned int a;
+    int a;
     int ret = -1;
-    for(a=0;a<(sizeof(fcs_preset_names)/sizeof(fcs_preset_names[0]));a++)
+    int num_elems;
+    
+    num_elems = ( (int) (sizeof(fcs_preset_names)/sizeof(fcs_preset_names[0])));
+    for(a=0;a<num_elems;a++)
     {
         if (!strcmp(name, fcs_preset_names[a].name))
         {
@@ -289,8 +293,12 @@ static int fcs_apply_preset(
     int preset_id
     )
 {
-    unsigned int preset_index;
-    for(preset_index=0 ; preset_index < (sizeof(fcs_presets)/sizeof(fcs_presets[0])) ; preset_index++)
+    int preset_index;
+    int num_elems;
+    
+    num_elems = ( (int) (sizeof(fcs_presets)/sizeof(fcs_presets[0])));
+    
+    for(preset_index=0 ; preset_index < num_elems ; preset_index++)
     {
         if (fcs_presets[preset_index].preset_id == preset_id)
         {
@@ -324,7 +332,7 @@ static int fcs_apply_preset(
 
 int fcs_apply_preset_by_name(
     freecell_solver_instance_t * instance,
-    char * name
+    const char * name
     )
 {
     int preset_id = fcs_get_preset_id_by_name(name);

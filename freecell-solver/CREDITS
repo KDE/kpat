@@ -26,4 +26,4 @@ Justin-Heyes Jones - wrote a nice introduction to the A* algorithm, and
 wrote the basis for the pqueue.c code.
 
 Stephan Kulow - integrated Freecell Solver into the kpat Solitaire suite for
-KDE 2.1 and onwards.
+KDE 2.1 and onwards; reported several bugs and memory leaks.

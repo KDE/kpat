@@ -36,28 +36,13 @@ in a "Der Katzenschwantz"/"Die Schlange" compliant mode (which is
 slower for other games). The original "config.h" can also be found as
 the file "config.h.freecell".
 
-Indirect Stack States
----------------------
-
-The indirect stack states caches the stacks, and only stores pointers to 
-them inside the boards. Thus there is one copy of a particular stack present
-in memory, which enables FCS to conserve more memory. If you are low on
-memory you will probably want to enable this feature, but otherwise it will
-result in a performance lost.
-
-Indirect stack states are especially useful for solving boards of 
-"Der Katzenschwantz" and "Die Schlange" where the stacks can be very long.
-
-To enable 
-
-
 Building the Freecell Solver Library
 ------------------------------------
 
 To build the library type "make libfcs.a", which will build a static library.
 The headers needed to use it are the files "fcs_user.h", "fcs_enums.h"
-and "fcs_move.h". See the file "test_lib.c" for an example on how to
-use it.
+and "fcs_move.h". See the files "test_lib.c" and "test_multi.c" for
+examples on how to use it.
 
 
 Using a Balanced Binary Tree Implementation
@@ -140,11 +125,12 @@ Freecell Solver:
 
 1. Open a project for Freecell Solver.
 
-2. Add all the C files to it.
+2. Add all the C files except "lib.c", "test_lib.c" and "test_multi.c"
+to the project.
 
-3. Define the macros HASH_STATE_STORAGE and
-INTERNAL_HASH_IMPLEMENTATION , either in config.h or in the C compiler
-paramters.
+3. Define the macro FCS_STATE_STORAGE as
+FCS_STATE_STORAGE_INTERNAL_HASH, either in config.h or in the
+parameters for the C compiler.
 
 4. Build.
 
@@ -154,21 +140,3 @@ the macro DEBUG.
 If you are using gcc or some other command-line compiler, you should 
 write the makefile based on the files "Makefile" or "Makefile.lite", 
 and then compile according to it.
-
-Soft-DFS
---------
-
-The method used by Freecell Solver in order to solve games, is called 
-Depth First Search or DFS for short. DFS requires recursion in order to
-work. If your system limits you to a certain stack size (Linux is not the
-case), you can compile Freecell Solver so it will use a "soft" recursion,
-which is implemented using an array rather than procedure recursion.
-
-To do that comment out the line 
-#define FCS_METHOD FCS_METHOD_HARD_DFS
-and comment the line
-/* #define FCS_METHOD FCS_METHOD_SOFT_DFS */
-
-Later versions of Freecell Solver will give the user a choice between the
-Soft-DFS and the hardware-assited DFS at runtime.
-

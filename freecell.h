@@ -83,7 +83,7 @@ private:
     HintList moves;
     HintList oldmoves;
     Card *waitfor;
-    void *solver_instance, *solver_state;
+    void *solver_instance;
     int es_filling;
     int solver_ret;
     bool unlimited_move;

@@ -17,7 +17,7 @@
 
 #include "config.h"
 
-#if defined(HASH_STATE_STORAGE)||defined(INDIRECT_STACK_STATES)
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INTERNAL_HASH) || (FCS_STATE_STORAGE == FCS_STATE_STORAGE_GLIB_HASH) || defined(INDIRECT_STACK_STATES)
 
 #include <string.h>        /* for memcpy() */
 #include "md5.h"
@@ -250,4 +250,4 @@ void MD5Transform(u_int32_t buf[4], u_int32_t const in[16])
     buf[3] += d;
 }
 
-#endif /*  HASH_STATE_STORAGE */
+#endif /*  (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INTERNAL_HASH) || (FCS_STATE_STORAGE == FCS_STATE_STORAGE_GLIB_HASH) || defined(INDIRECT_STACK_STATES) */

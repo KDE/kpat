@@ -12,11 +12,15 @@
 #include "move.h"
 #include "state.h"
 
+/* #define MYDEBUG */
+
 #define FCS_MOVE_STACK_GROW_BY 16
 
 #ifndef max
 #define max(a,b) (((a)>(b))?(a):(b))
 #endif
+
+int msc_counter=0;
 
 fcs_move_stack_t * fcs_move_stack_create(void)
 {
@@ -27,7 +31,17 @@ fcs_move_stack_t * fcs_move_stack_create(void)
     ret->max_num_moves = FCS_MOVE_STACK_GROW_BY;
     ret->num_moves = 0;
     ret->moves = (fcs_move_t *)malloc(sizeof(fcs_move_t)*ret->max_num_moves);
-
+    
+#ifdef MYDEBUG    
+    msc_counter++;
+    {
+    	FILE * d;
+    	
+    	d = fopen("msc.txt","a");
+    	fprintf(d,"c 0x%x\n", (int)ret);
+    	fclose(d);
+    }
+#endif
     return ret;
 }
 
@@ -66,6 +80,18 @@ void fcs_move_stack_destroy(fcs_move_stack_t * stack)
 {
     free(stack->moves);
     free(stack);
+    
+#ifdef MYDEBUG    
+    msc_counter--;
+    {
+    	FILE * d;
+    	
+    	d = fopen("msc.txt","a");
+    	fprintf(d,"d 0x%x\n", (int)stack);
+    	fclose(d);
+    }
+#endif
+    
 }
 
 void fcs_move_stack_swallow_stack(
@@ -107,6 +133,17 @@ fcs_move_stack_t * fcs_move_stack_duplicate(
     ret->num_moves = stack->num_moves;
     ret->moves = (fcs_move_t *)malloc(sizeof(fcs_move_t) * ret->max_num_moves);
     memcpy(ret->moves, stack->moves, sizeof(fcs_move_t) * ret->max_num_moves);
+
+#ifdef MYDEBUG    
+    msc_counter++;
+    {
+    	FILE * d;
+    	
+    	d = fopen("msc.txt","a");
+    	fprintf(d,"c 0x%x\n", (int)ret);
+    	fclose(d);
+    }
+#endif
 
     return ret;
 }

@@ -361,7 +361,7 @@ void fcs_state_init(fcs_state_with_locations_t * state, int stacks_num)
 }
 
 
-#if defined(TREE_STATE_STORAGE) || defined(HASH_STATE_STORAGE)
+#if (FCS_STATE_STORAGE != FCS_STATE_STORAGE_INDIRECT)
 int fcs_state_compare(const void * s1, const void * s2)
 {
     return memcmp(s1,s2,sizeof(fcs_state_t));
@@ -381,7 +381,7 @@ int fcs_state_compare_with_context(
 {
     return memcmp(s1,s2,sizeof(fcs_state_t));
 }
-#elif defined(INDIRECT_STATE_STORAGE)
+#else
 int fcs_state_compare_indirect(const void * s1, const void * s2)
 {
     return memcmp(*(fcs_state_with_locations_t * *)s1, *(fcs_state_with_locations_t * *)s2, sizeof(fcs_state_t));
@@ -401,7 +401,7 @@ static const char * foundations_prefixes[] = { "Decks:", "Deck:", "Founds:", "Fo
 #endif
 
 fcs_state_with_locations_t fcs_initial_user_state_to_c(
-    char * string, 
+    const char * string, 
     int freecells_num,
     int stacks_num,
     int decks_num
@@ -410,12 +410,12 @@ fcs_state_with_locations_t fcs_initial_user_state_to_c(
     fcs_state_with_locations_t ret_with_locations;
 
     int s,c;
-    char * str;
+    const char * str;
     fcs_card_t card;
     int first_line;
     
     int prefix_found;
-    char * * prefixes;
+    const char * * prefixes;
     int i;
     int decks_index[4];
 

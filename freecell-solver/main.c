@@ -750,6 +750,7 @@ int main(int argc, char * argv[])
 
         }
         free((void*)instance->solution_states);
+        instance->solution_states = NULL;
 
         if (!display_moves)
         {

@@ -3,6 +3,7 @@ Freecell Solver's Command-Line Syntax and Usage
 
 
 1. The programs
+---------------
 
 First note that there are two version of Freecell Solver: "fc-solve" and 
 "fc-solve-debug". "fc-solve" is slightly faster and consumes less memory than 
@@ -23,6 +24,7 @@ program, so I'm sorry for the inconvenience.
 
 
 2. Getting Help
+---------------
 
 -h      --help
 
@@ -32,6 +34,7 @@ the signal combinations that fc-solve-debug accepts.
 
 
 3. Output Options
+-----------------
 
 -p      --parseable-output
 
@@ -67,6 +70,7 @@ program with some effort on the programmer's part.
 
 
 4. Game Variants Options
+------------------------
 
 
 --freecells-num [Number of Freecells]
@@ -136,6 +140,7 @@ compile Freecell Solver with the INDIRECT_STACK_STATES option, or else it will
 consume much more memory. For details consult the file INSTALL.
 
 5. Solving Algorithm Options
+----------------------------
 
 -mi [Maximal number of iterations]
 --max-iters [Maximal number of iterations]
@@ -185,8 +190,49 @@ after a long time or in a certain maximal number of iterations, you
 should try different tests' orders. Usually, one can find a test order
 that solves a board very quickly.
 
+Note that this test order usually makes sense only for the Depth-First 
+Search scans (see the "--method" option below).
+
+
+-me [Solving Method]
+--method [Solving Method]
+
+This option specifies the solving method that will be used to solve the
+board. Currently, the following methods are available:
+
+a-star   - An A* scan
+bfs      - A Breadth-First Search (or BFS) scan
+dfs      - A Depth-First Search (or DFS) scan
+soft-dfs - A "soft" DFS scan
+
+The difference between "dfs" and "soft-dfs" is that the soft DFS does not
+use procedural recursion but rather its own internal stack.
+
+BFS does not yield good results, and a-star has a mixed behaviour, so for
+the time being I recommend using either DFS or Soft-DFS.
+
+
+-asw [A* Weights]   
+--a-star-weight [A* Weights]
+
+Specify weights for the A* scan, assuming it is used. The parameter
+should be a comma-separated list of numbers, each one is proportional
+to the weight of its corresponding test.
+
+The numbers are, in order:
+1. The number of cards out.
+2. The maximal sequence move.
+3. The number of cards under sequences.
+4. The length of the sequences which are found over renegade cards.
+5. The depth of the board in the solution.
+
+The default weights are respectively: 0.5,0,0.3,0,0.2
+
+
 
 6. Run-time Display Options (specific to fc-solve-debug only)
+-------------------------------------------------------------
+
 
 -i
 --iter-output
@@ -208,6 +254,7 @@ cannot make what is going on because it is so fast.
 
 
 7. Signal Combinations that can be Sent to "fc-solve-debug"
+-----------------------------------------------------------
 
 If you are working on a UNIX or a simliar system then you can set some
 run-time options in "fc-solve-debug" by sending it some signal

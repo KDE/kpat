@@ -19,15 +19,6 @@ extern "C" {
 /* #define INDIRECT_STACK_STATES */
 
 /* #define INDIRECT_STATE_STORAGE */
-/* #define TREE_STATE_STORAGE */
-
-/* These macros are only applicable if TREE_STATE_STORAGE is defined */
-
-/* #define LIBREDBLACK_TREE_IMPLEMENTATION */
-/* #define AVL_AVL_TREE_IMPLEMENTATION */
-/* #define AVL_REDBLACK_TREE_IMPLEMENTATION */
-/* #define GLIB_TREE_IMPLEMENTATION */
-
 
 
 /* #define DEBUG */
@@ -44,25 +35,6 @@ extern "C" {
 #undef DEBUG_STATES
 #endif
 
-
-/* Recent Note:
- *
- * Basically, this code is obsolete because they (or TREE_STATE_STORAGE or
- * HASH_STATE_STORAGE) are now defined in the Makefile or in the project's
- * options of the IDE */
-
-#if (!defined(INDIRECT_STATE_STORAGE)) && (!defined(TREE_STATE_STORAGE)) && (!defined(HASH_STATE_STORAGE)) && (!defined(DB_FILE_STATE_STORAGE))
-
-#define INDIRECT_STATE_STORAGE
-
-#elif defined(INDIRECT_STATE_STORAGE)
-
-#ifdef TREE_STATE_STORAGE
-#undef TREE_STATE_STORAGE
-#endif
-
-#elif defined(TREE_STATE_STORAGE)
-#endif
 
 /*
     The sort margin size for the previous states array.
@@ -105,10 +77,15 @@ extern "C" {
 
 /* #define FCS_NON_DFS */
 
-#define FCS_METHOD_HARD_DFS 0
-#define FCS_METHOD_SOFT_DFS 1
-#define FCS_METHOD_BFS 2
-#define FCS_METHOD_A_STAR 3
+
+#define FCS_STATE_STORAGE_INDIRECT 0
+#define FCS_STATE_STORAGE_INTERNAL_HASH 1
+#define FCS_STATE_STORAGE_LIBAVL_AVL_TREE 2
+#define FCS_STATE_STORAGE_LIBAVL_REDBLACK_TREE 3
+#define FCS_STATE_STORAGE_LIBREDBLACK_TREE 4
+#define FCS_STATE_STORAGE_GLIB_TREE 5
+#define FCS_STATE_STORAGE_GLIB_HASH 6
+#define FCS_STATE_STORAGE_DB_FILE 7
 
 #define FCS_STACK_STORAGE_INTERNAL_HASH 0
 #define FCS_STACK_STORAGE_LIBAVL_AVL_TREE 1

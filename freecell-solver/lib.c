@@ -10,6 +10,7 @@
 
 #include "fcs.h"
 #include "preset.h"
+#include "fcs_user.h"
 
 struct fcs_user_struct
 {
@@ -32,7 +33,7 @@ void * freecell_solver_user_alloc(void)
 
 int freecell_solver_user_apply_preset(
     void * user_instance,
-    char * preset_name)
+    const char * preset_name)
 {
     fcs_user_t * user;
 
@@ -62,7 +63,7 @@ void freecell_solver_user_limit_iterations(
 
 void freecell_solver_user_set_tests_order(
     void * user_instance,
-    char * tests_order
+    const char * tests_order
     )
 {
     fcs_user_t * user;
@@ -79,7 +80,7 @@ void freecell_solver_user_set_tests_order(
 
 int freecell_solver_user_solve_board(
     void * user_instance,
-    char * state_as_string
+    const char * state_as_string
     )
 {
     fcs_user_t * user;
@@ -126,6 +127,7 @@ int freecell_solver_user_solve_board(
             free((void*)user->instance->solution_states[a]);
         }
         free((void*)user->instance->solution_states);
+        user->instance->solution_states = NULL;
 
         fcs_move_stack_normalize(
             user->instance->solution_moves,
@@ -213,4 +215,91 @@ void freecell_solver_user_free(
     freecell_solver_free_instance(user->instance);
 
     free(user);
+}
+
+int freecell_solver_user_get_current_depth(
+    void * user_instance
+    )
+{
+    fcs_user_t * user;
+    
+    user = (fcs_user_t *)user_instance;
+    
+    return (user->instance->num_solution_states - 1);
+}
+
+void freecell_solver_user_set_solving_method(
+    void * user_instance,
+    int method
+    )
+{
+    fcs_user_t * user;
+    
+    user = (fcs_user_t *)user_instance;
+    
+    user->instance->method = method;
+}
+
+int freecell_solver_user_set_game(void * user_instance,
+                                  int freecells_num,
+                                  int stacks_num,
+                                  int decks_num,
+                                  int sequences_are_built_by,
+                                  int unlimited_sequence_move,
+                                  int empty_stacks_fill)
+{
+    fcs_user_t * user;
+    
+    user = (fcs_user_t *)user_instance;
+
+    if (freecells_num > MAX_NUM_FREECELLS)
+        {
+            return 1;
+        }
+    if (stacks_num > MAX_NUM_STACKS)
+        {
+            return 2;
+        }
+    if (decks_num > MAX_NUM_DECKS)
+        {
+            return 3;
+        }
+    user->instance->freecells_num = freecells_num;
+    user->instance->stacks_num = stacks_num;
+    user->instance->decks_num = decks_num;
+    
+    user->instance->sequences_are_built_by = sequences_are_built_by;
+    user->instance->unlimited_sequence_move = unlimited_sequence_move;
+    user->instance->empty_stacks_fill = empty_stacks_fill;
+    
+    return 0;
+}
+
+int freecell_solver_user_get_num_times(void * user_instance)
+{
+fcs_user_t * user;
+    
+    user = (fcs_user_t *)user_instance;
+    
+    return user->instance->num_times;
+}
+
+int freecell_solver_user_get_limit_iterations(void * user_instance)
+{
+fcs_user_t * user;
+    
+    user = (fcs_user_t *)user_instance;
+    
+    return user->instance->max_num_times;
+}
+
+int freecell_solver_user_get_moves_left(void * user_instance)
+{
+    fcs_user_t * user;
+    
+    user = (fcs_user_t *)user_instance;
+    if (user->ret == FCS_STATE_WAS_SOLVED)
+        return user->instance->solution_moves->num_moves;
+    else 
+        return 0;
 }
