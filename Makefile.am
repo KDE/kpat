@@ -27,6 +27,6 @@ appsdir   = $(kde_appsdir)/Games
 
 EXTRA_DIST = $(apps_DATA) 
 
-messages:
-	$(XGETTEXT) $(kpat_SOURCES) -o $(podir)/kpat.pot
+messages: rc.cpp
+	$(XGETTEXT) *.cpp -o $(podir)/kpat.pot
 
