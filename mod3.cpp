@@ -84,6 +84,11 @@ bool Mod3::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
     } else return false;
 }
 
+bool Mod3::checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const
+{
+    return (checkIndex == 0 && c1->isEmpty() && c2.first()->value() == (c1->index()+1));
+}
+
 //-------------------------------------------------------------------------//
 
 void Mod3::restart()
