@@ -55,6 +55,7 @@ pWidget::pWidget( const char* _name )
     : KMainWindow(0, _name), dill(0)
 {
     current_pwidget = this;
+    setAutoSaveSettings();
     // KCrash::setEmergencySaveFunction(::saveGame);
     KStdAction::quit(kapp, SLOT(quit()), actionCollection(), "game_exit");
 
