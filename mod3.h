@@ -42,9 +42,11 @@ public slots:
 
 private: // functions
     static bool CanPut (const Pile* c1, const CardList& c2);
+    void dealRow(int row);
 
 private:
     Pile* stack[4][8];
+    Pile* aces;
     Deck* deck;
     KAction *ahint;
     KAction *aredeal;

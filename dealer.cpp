@@ -37,9 +37,8 @@ Dealer::Dealer( KMainWindow* _parent , const char* _name )
 
 Dealer::~Dealer()
 {
-    QCanvasItemList list = canvas()->allItems();
-    for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
-        delete *it;
+    while (!piles.isEmpty())
+        delete piles.first(); // removes itself
 }
 
 void Dealer::contentsMouseMoveEvent(QMouseEvent* e)
@@ -425,6 +424,10 @@ CardStateList *Dealer::getState()
            CardState s;
            s.it = c;
            s.source = c->source();
+           if (!s.source) {
+               kdDebug() << c->name() << " has no parent\n";
+               assert(false);
+           }
            s.i = c->source()->indexOf(c);
            s.x = c->realX();
            s.y = c->realY();

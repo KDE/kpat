@@ -13,10 +13,7 @@ Card* Deck::nextCard() {
 
     c = myCards.fromLast();  // Dealing from bottom of deck ....
     if ( c != myCards.end() ) {
-        Card *card = *c;
-        myCards.remove(c);
-        card->setSource(0);
-        return card;
+        return *c;
     } else
         return 0;
 }

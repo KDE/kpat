@@ -36,6 +36,10 @@ Mod3::Mod3( KMainWindow* parent, const char* _name)
     deck = new Deck( 0, this, 2);
     deck->hide();
 
+    aces = new Pile(40, this);
+    aces->hide();
+    aces->setTarget(true);
+
     QValueList<int> moves;
     for (int r = 0; r < 4; r++)
         moves.append(r+1);
@@ -96,11 +100,30 @@ bool Mod3::CanPut (const Pile *c1, const CardList &cl)
 void Mod3::restart()
 {
     deck->collectAndShuffle();
-
     deal();
 }
 
 //-------------------------------------------------------------------------//
+
+void Mod3::dealRow(int row)
+{
+    for (int c = 0; c < 8; c++)
+    {
+        Card *card;
+
+        bool foundone = false;
+
+        do {
+            card = deck->nextCard();
+            if (card->value() != Card::Ace)
+                foundone = true;
+            else
+                aces->add(card);
+        } while (!foundone);
+
+        stack[row][c]->add (card, false, true);
+    }
+}
 
 void Mod3::redeal()
 {
@@ -110,16 +133,7 @@ void Mod3::redeal()
         KMessageBox::information(this, i18n("No more cards"));
         return;
     }
-    for (int c = 0; c < 8; c++) {
-        Card *card;
-
-        do
-            card = deck->nextCard();
-        while ((card->value() == Card::Ace) && !deck->isEmpty());
-
-        stack[3][c]->add (card, false, true);
-    }
-
+    dealRow(3);
     aredeal->setEnabled( !deck->isEmpty() );
 }
 
@@ -130,18 +144,8 @@ void Mod3::deal()
     unmarkAll();
 
     for (int r = 0; r < 4; r++)
-    {
-        for (int c = 0; c < 8; c++)
-        {
-            Card *card;
+        dealRow(r);
 
-            do
-                card = deck->nextCard();
-            while (card->value() == Card::Ace);
-
-            stack[r][c]->add (card, false, true);
-        }
-    }
     aredeal->setEnabled(true);
 }
 
