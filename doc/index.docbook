@@ -3,8 +3,6 @@
   <!ENTITY kappname "&kpat;">
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % English "INCLUDE" > <!-- change language only here -->
-  
-  
 ]>
  
 <book lang="&language;">
@@ -401,7 +399,7 @@ cards alternate. In a free cell you can put any card.
 
 <para>
 You can only move one single card that lays on top of a pile or a free cell.
-Sequences can only be moved, if you have enough free room (free cells or free
+Sequences can only be moved if you have enough free room (free cells or free
 playing piles) to put the cards in between you move.
 </para>
 
