@@ -459,6 +459,7 @@ void Freecell::moveCards(CardList &c, FreecellPile *from, Pile *to)
     }
 
     assert(c.count() > 1);
+    setWaiting(true);
 
     from->moveCardsBack(c);
     waitfor = c.first();
@@ -548,6 +549,7 @@ void Freecell::startMoving()
             waitForDemo(towait);
         }
         takeState();
+        setWaiting(false);
         return;
     }
 

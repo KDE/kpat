@@ -14,8 +14,7 @@
 extern "C" {
 #endif
 
-#define HASH_STATE_STORAGE 1
-#define INTERNAL_HASH_IMPLEMENTATION 1
+
 
 /* #define DEBUG_STATES */
 #define COMPACT_STATES
@@ -23,7 +22,7 @@ extern "C" {
 
 /* #define DIRECT_STATE_STORAGE */
 /* #define INDIRECT_STATE_STORAGE */
-/* #define TREE_STATE_STORAGE */ 
+/* #define TREE_STATE_STORAGE */
 
 
 
@@ -31,7 +30,7 @@ extern "C" {
 
 /* #define LIBREDBLACK_TREE_IMPLEMENTATION */
 /* #define AVL_AVL_TREE_IMPLEMENTATION */
-/* #define AVL_REDBLACK_TREE_IMPLEMENTATION */ 
+/* #define AVL_REDBLACK_TREE_IMPLEMENTATION */
 /* #define GLIB_TREE_IMPLEMENTATION */
 
 
@@ -40,8 +39,8 @@ extern "C" {
 
 /* #define CARD_DEBUG_PRES */
 
-/* Make sure one and only one of DEBUG_STATES and COMPACT_STATES is defined. 
- * The preferred is COMPACT_STATES because it occupies less memory and is 
+/* Make sure one and only one of DEBUG_STATES and COMPACT_STATES is defined.
+ * The preferred is COMPACT_STATES because it occupies less memory and is
  * faster.
  */
 #if (!defined(DEBUG_STATES)) && (!defined(COMPACT_STATES)) && (!defined(INDIRECT_STACK_STATES))
@@ -51,7 +50,7 @@ extern "C" {
 #endif
 
 
-/* Make sure that one and only one of DIRECT_STATE_STORAGE and 
+/* Make sure that one and only one of DIRECT_STATE_STORAGE and
  * INDIRECT_STATE_STORAGE is defined. The default is INDIRECT_STATE_STORAGE
  * because it's faster.
  */
@@ -60,7 +59,7 @@ extern "C" {
  * Basically, this code is obsolete because they (or TREE_STATE_STORAGE or
  * HASH_STATE_STORAGE) are now defined in the Makefile or in the project's
  * options of the IDE */
-    
+
 #if (!defined(DIRECT_STATE_STORAGE)) && (!defined(INDIRECT_STATE_STORAGE)) && (!defined(TREE_STATE_STORAGE)) && (!defined(HASH_STATE_STORAGE)) && (!defined(DB_FILE_STATE_STORAGE))
 
 #define INDIRECT_STATE_STORAGE
@@ -86,7 +85,7 @@ extern "C" {
 /*
     The amount prev_states grow by each time it each resized.
     Should be greater than 0 and in order for the program to be
-    efficient, should be much bigger than 
+    efficient, should be much bigger than
     PREV_STATES_SORT_MARGIN.
 */
 #define PREV_STATES_GROW_BY 128
@@ -94,7 +93,7 @@ extern "C" {
 /*
     The amount the pack pointers array grows by. Shouldn't be too high
     because it doesn't happen too often.
-    
+
     Doesn't apply for DIRECT_STATE_STORAGE.
 */
 #define IA_STATE_PACKS_GROW_BY 32
@@ -106,7 +105,7 @@ extern "C" {
 #define MAX_NUM_FREECELLS 4
 
 /*
- * The maximal number of Stacks. For efficiency's sake it should be a 
+ * The maximal number of Stacks. For efficiency's sake it should be a
  * multiple of 4.
  * */
 #define MAX_NUM_STACKS 12
@@ -134,10 +133,10 @@ extern "C" {
 #define FCS_STACK_STORAGE_LIBREDBLACK_TREE 3
 #define FCS_STACK_STORAGE_GLIB_TREE 4
 #define FCS_STACK_STORAGE_GLIB_HASH 5
-/* #define FCS_STACK_STORAGE FCS_STACK_STORAGE_INTERNAL_HASH */ 
+/* #define FCS_STACK_STORAGE FCS_STACK_STORAGE_INTERNAL_HASH */
 
 #ifdef __cplusplus
 }
 #endif
-    
+
 #endif

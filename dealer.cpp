@@ -33,8 +33,9 @@ void DealerInfoList::add(DealerInfo *dealer)
 }
 
 Dealer::Dealer( KMainWindow* _parent , const char* _name )
-    : QCanvasView( 0, _parent, _name ), towait(0), myActions(0), ademo(0), ahint(0), aredeal(0),
-takeTargets(false), _won(false)
+    : QCanvasView( 0, _parent, _name ), towait(0), myActions(0),
+ademo(0), ahint(0), aredeal(0),
+takeTargets(false), _won(false), _waiting(false)
 {
     setGameNumber(kapp->random());
     myCanvas.setAdvancePeriod(30);
@@ -249,6 +250,8 @@ void Dealer::contentsMousePressEvent(QMouseEvent* e)
 {
     unmarkAll();
     stopDemo();
+    if (waiting())
+        return;
 
     QCanvasItemList list = canvas()->collisions(e->pos());
 
@@ -407,6 +410,9 @@ void Dealer::contentsMouseDoubleClickEvent( QMouseEvent*e )
 {
     stopDemo();
     unmarkAll();
+    if (waiting())
+        return;
+
     if (!movingCards.isEmpty()) {
         movingCards.first()->source()->moveCardsBack(movingCards);
         movingCards.clear();

@@ -70,7 +70,7 @@ extern int freecell_solver_solve_for_state(freecell_solver_instance_t * instance
         hash_value_int &= (~(1<<((sizeof(hash_value_int)<<3)-1)));     \
     }    \
     check = (SFO_hash_insert(          \
-        instance->hash,              \
+        instance->hash_value,              \
         new_state,                   \
         hash_value_int               \
         ) == NULL);                  

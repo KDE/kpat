@@ -151,6 +151,9 @@ protected:
 
     KMainWindow *parent() const;
 
+    bool waiting() const { return _waiting; }
+    void setWaiting(bool w) { _waiting = w; }
+
 protected:
     PileList piles;
 
@@ -189,7 +192,7 @@ protected:
     QColor _midcolor;
     int _id;
     bool takeTargets;
-    bool _won;
+    bool _won, _waiting;
 };
 
 #endif
