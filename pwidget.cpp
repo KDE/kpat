@@ -49,8 +49,8 @@ void saveGame(int) {
     current_pwidget->saveGame();
 }
 
-pWidget::pWidget( const char* _name )
-    : KMainWindow(0, _name), dill(0)
+pWidget::pWidget()
+    : KMainWindow(0, "pwidget"), dill(0)
 {
     current_pwidget = this;
     setAutoSaveSettings();
