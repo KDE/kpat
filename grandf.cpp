@@ -171,7 +171,8 @@ void Grandf::redeal() {
     numberOfDeals++;
   } else
     QMessageBox::information(this, i18n("Information"), 
-			    i18n("Only 3 deals allowed"));
+			    i18n("Only 3 deals allowed"),
+			    i18n("OK"));
 }
 
 void Grandf::deal() {

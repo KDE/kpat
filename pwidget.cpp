@@ -340,7 +340,8 @@ void pWidget::setBackSide(int id) {
 	config->writeEntry("Backside", id);
       } else
 	QMessageBox::warning(this, i18n("Error"),
-			     i18n("Could not load background image!"));
+			     i18n("Could not load background image!"),
+			     i18n("OK"));
     }
   }
 

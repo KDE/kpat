@@ -133,7 +133,8 @@ void Mod3::redeal()
 	if (!deck->next())
 	{
 	    QMessageBox::information (this, i18n ("Information"), 
-				      i18n ("No more cards"));
+				      i18n ("No more cards"),
+				      i18n("OK"));
 		return;
 	}
 
