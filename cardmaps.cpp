@@ -31,6 +31,7 @@
 #include <qdatetm.h>
 #include <kconfig.h>
 #include <kmisc.h>
+#include <kapp.h>
 
 int cardMaps::CARDX;
 int cardMaps::CARDY;
@@ -59,11 +60,11 @@ cardMaps::cardMaps( QObject* parent ) : QObject(parent, 0) {
     p.begin(w);
     
     p.drawText(0, 150, 510, 20, AlignCenter, 
-	       locale->translate("please wait, loading cards..."));
+	       i18n("please wait, loading cards..."));
     
     p.setFont(QFont("Times", 24));
     p.drawText(0, 0, 510, 40, AlignCenter, 
-	       locale->translate("KPat - a Solitaire game"));  
+	       i18n("KPat - a Solitaire game"));  
 
     p.setPen(QPen(QColor(0, 0, 0), 4));
     p.setBrush(NoBrush);
@@ -101,7 +102,7 @@ cardMaps::cardMaps( QObject* parent ) : QObject(parent, 0) {
     if(img[rank][suit]->width() == 0 ||
        img[rank][suit]->height() == 0) {
       fprintf(stderr, 
-	      locale->translate("kpat: PANIC, cannot load card pixmap \"%s\"\n"),
+	      i18n("kpat: PANIC, cannot load card pixmap \"%s\"\n"),
 	      imgname.data());
       exit(1);
     }
@@ -201,7 +202,7 @@ QPixmap* cardMaps::image( int value, int suit) const {
     return img[value-1][suit-1];
   else {
     fprintf(stderr, 
-	    locale->translate("KPAT: access to invalid card %d, %d\n"), 
+	    i18n("KPAT: access to invalid card %d, %d\n"), 
 	    value, suit);
     return 0;
   }

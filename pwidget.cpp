@@ -28,6 +28,7 @@
 #include <kiconloader.h>
 #include <qmsgbox.h>
 #include <kwm.h>
+#include <kapp.h>
 
 // menu constants
 // file menu
@@ -84,41 +85,41 @@ pWidget::pWidget(QWidget *, const char *)
   actionNewGame(getDefaultType() + ID_GNEWTYPE);
 
   QPopupMenu *p1 = new QPopupMenu;
-  p1->insertItem(locale->translate("&Quit"), ID_FQUIT);
+  p1->insertItem(i18n("&Quit"), ID_FQUIT);
 
-  m->insertItem(locale->translate("&File"), p1 );
+  m->insertItem(i18n("&File"), p1 );
 
   QPopupMenu *p2 = new QPopupMenu;
-  m->insertItem(locale->translate("&Game"), p2 );
+  m->insertItem(i18n("&Game"), p2 );
 
-  p2->insertItem(locale->translate("&Undo"), ID_GUNDO);
-  p2->insertItem(locale->translate("&Restart game"), ID_GRESTART);
+  p2->insertItem(i18n("&Undo"), ID_GUNDO);
+  p2->insertItem(i18n("&Restart game"), ID_GRESTART);
 
   QPopupMenu *popup = new QPopupMenu;
 
-  popup->insertItem(locale->translate("&Klondike"), ID_GNKLONDIKE);
-  popup->insertItem(locale->translate("MicroSolitaire"), ID_GNMSOLITAIRE);
-  popup->insertItem(locale->translate("Calculation"), ID_GNCOMPUTATION);
-  popup->insertItem(locale->translate("Napoleon's Tomb"), ID_GNNAPOLEON);
-  popup->insertItem(locale->translate("The Idiot"), ID_GNIDIOT);
-  popup->insertItem(locale->translate("Grandfather"), ID_GNGRANDFATHER);
-  popup->insertItem(locale->translate("Ten"), ID_GNTEN);
-  popup->insertItem(locale->translate("Mod3"), ID_GNMOD3);
-  popup->insertItem(locale->translate("Freecell"), ID_GNFREECELL);
+  popup->insertItem(i18n("&Klondike"), ID_GNKLONDIKE);
+  popup->insertItem(i18n("MicroSolitaire"), ID_GNMSOLITAIRE);
+  popup->insertItem(i18n("Calculation"), ID_GNCOMPUTATION);
+  popup->insertItem(i18n("Napoleon's Tomb"), ID_GNNAPOLEON);
+  popup->insertItem(i18n("The Idiot"), ID_GNIDIOT);
+  popup->insertItem(i18n("Grandfather"), ID_GNGRANDFATHER);
+  popup->insertItem(i18n("Ten"), ID_GNTEN);
+  popup->insertItem(i18n("Mod3"), ID_GNMOD3);
+  popup->insertItem(i18n("Freecell"), ID_GNFREECELL);
 
-  p2->insertItem(locale->translate("Choose new game"), popup);
+  p2->insertItem(i18n("Choose new game"), popup);
 
   // option menu
   QPopupMenu *m_opt = new QPopupMenu();
   m_opt->setCheckable(TRUE);
   QPopupMenu *m_opt_bg = new QPopupMenu();
-  m_opt_bg->insertItem(locale->translate("KDE"), ID_OBACK);
-  m_opt_bg->insertItem(locale->translate("Classic blue"), ID_OBACK + 1);
-  m_opt_bg->insertItem(locale->translate("Classic red"), ID_OBACK + 2);
-  m_opt_bg->insertItem(locale->translate("Technical"), ID_OBACK+3);
-  m_opt->insertItem(locale->translate("Card backside"), m_opt_bg);
-  m_opt->insertItem(locale->translate("Animation on startup"), ID_OANIMATION);
-  m->insertItem(locale->translate("&Options"), m_opt);
+  m_opt_bg->insertItem(i18n("KDE"), ID_OBACK);
+  m_opt_bg->insertItem(i18n("Classic blue"), ID_OBACK + 1);
+  m_opt_bg->insertItem(i18n("Classic red"), ID_OBACK + 2);
+  m_opt_bg->insertItem(i18n("Technical"), ID_OBACK+3);
+  m_opt->insertItem(i18n("Card backside"), m_opt_bg);
+  m_opt->insertItem(i18n("Animation on startup"), ID_OANIMATION);
+  m->insertItem(i18n("&Options"), m_opt);
 
   m->insertSeparator();
 
@@ -129,7 +130,7 @@ pWidget::pWidget(QWidget *, const char *)
 				     + "Rodolfo Borges (barrett@labma.ufrj.br)\n"
                                      + "Matthias Ettrich (ettrich@kde.org)\n"
                                      + "Mario Weilguni (mweilguni@sime.com)");
-  m->insertItem(locale->translate("&Help"), help);
+  m->insertItem(i18n("&Help"), help);
 
   // create the toolbar
   tb = new KToolBar(this);
@@ -140,9 +141,9 @@ pWidget::pWidget(QWidget *, const char *)
 
   KIconLoader *loader = kapp->getIconLoader();
   tb->insertButton(loader->loadIcon("exit.xpm"), 
-  	ID_FQUIT, -1, locale->translate("Quit"));
+  	ID_FQUIT, -1, i18n("Quit"));
   tb->insertButton(loader->loadIcon("help.xpm"), 
-  	ID_HHELP, -1, locale->translate("Help"));
+  	ID_HHELP, -1, i18n("Help"));
 
   connect(tb, SIGNAL(clicked(int)),
 	  this, SLOT(action(int)));
@@ -195,6 +196,7 @@ void pWidget::action(int id) {
 
   switch(id) {
   case ID_FQUIT:
+    delete this;
     kapp->quit();
     break;
 
@@ -238,7 +240,7 @@ void pWidget::action(int id) {
       setBackSide(id - ID_OBACK);
     }/* else
       fprintf(stderr, 
-	      locale->translate("COMMAND %d not implemented!\n"), id);
+	      i18n("COMMAND %d not implemented!\n"), id);
 */
   }
 }
@@ -252,44 +254,44 @@ void pWidget::actionNewGame(int id) {
   type = id - ID_GNEWTYPE;
   switch(id) {
   case ID_GNTEN:
-    dill = new Ten(this, locale->translate("Ten"));
+    dill = new Ten(this, i18n("Ten"));
     break;
 
   case ID_GNMOD3:
-    dill = new Mod3(this, locale->translate("Mod3"));
+    dill = new Mod3(this, i18n("Mod3"));
     break;
 
   case ID_GNFREECELL:
-    dill = new Freecell(this, locale->translate("Freecell"));
+    dill = new Freecell(this, i18n("Freecell"));
     break;
 
   case ID_GNGRANDFATHER:
-    dill = new Grandf(this, locale->translate("Grandfather"));
+    dill = new Grandf(this, i18n("Grandfather"));
     break;
 
   case ID_GNKLONDIKE:
-    dill = new Klondike(this, locale->translate("Klondike"));
+    dill = new Klondike(this, i18n("Klondike"));
     break;
 
   case ID_GNMSOLITAIRE:
-    dill = new MicroSolitaire(this, locale->translate("MicroSolitaire"));
+    dill = new MicroSolitaire(this, i18n("MicroSolitaire"));
     break;
 
   case ID_GNCOMPUTATION:
-    dill = new Computation(this, locale->translate("Calculation"));
+    dill = new Computation(this, i18n("Calculation"));
     break;
 
   case ID_GNIDIOT:
-    dill = new Idiot(this, locale->translate("The Idiot"));
+    dill = new Idiot(this, i18n("The Idiot"));
     break;
 
   case ID_GNNAPOLEON:
-    dill = new Napoleon(this, locale->translate("Napoleons Tomb"));
+    dill = new Napoleon(this, i18n("Napoleons Tomb"));
     break;
 
   default:
     fprintf(stderr, 
-	    locale->translate("kpat: unimplemented game type %d\n"), 
+	    i18n("kpat: unimplemented game type %d\n"), 
 	    type);
     kapp->quit();
     break;
@@ -338,8 +340,8 @@ void pWidget::setBackSide(int id) {
 	config->setGroup("General Settings");
 	config->writeEntry("Backside", id);
       } else
-	KMsgBox::message(this, locale->translate("Error"),
-			 locale->translate("Could not load background image!"),
+	KMsgBox::message(this, i18n("Error"),
+			 i18n("Could not load background image!"),
 			 KMsgBox::STOP);
     }
   }

@@ -21,7 +21,7 @@
 //
 ****************************************/
 
-#include <qapp.h>
+#include <kapp.h>
 #include <qcombo.h>
 #include "rnd.h"
 #include "computation.h"
@@ -89,16 +89,16 @@ Computation::Computation( QWidget *parent, const char *name )
   initMetaObject(); 
 
   QComboBox *cb = new QComboBox( this, "comboBox" );
-  cb->insertItem( locale->translate("Easy 4") );
-  cb->insertItem( locale->translate("Easy 3") );
-  cb->insertItem( locale->translate("Easy 2") );
-  cb->insertItem( locale->translate("Easy 1") );
-  cb->insertItem( locale->translate("Normal") );
-  cb->insertItem( locale->translate("Hard 1") );
-  cb->insertItem( locale->translate("Hard 2") );
-  cb->insertItem( locale->translate("Hard 3") );
-  cb->insertItem( locale->translate("Hard 4") );
-  cb->insertItem( locale->translate("Hard 5") );
+  cb->insertItem( i18n("Easy 4") );
+  cb->insertItem( i18n("Easy 3") );
+  cb->insertItem( i18n("Easy 2") );
+  cb->insertItem( i18n("Easy 1") );
+  cb->insertItem( i18n("Normal") );
+  cb->insertItem( i18n("Hard 1") );
+  cb->insertItem( i18n("Hard 2") );
+  cb->insertItem( i18n("Hard 3") );
+  cb->insertItem( i18n("Hard 4") );
+  cb->insertItem( i18n("Hard 5") );
 
   cb->setCurrentItem(4);
   diffLevel = 0;

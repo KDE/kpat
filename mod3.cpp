@@ -19,6 +19,7 @@
 ---------------------------------------------------------------------------*/
 
 #include <qdialog.h>
+#include <kapp.h>
 #include "mod3.h"
 #include <kmsgbox.h>
 #include "global.h"
@@ -53,7 +54,7 @@ void Mod3::show()
 //-------------------------------------------------------------------------//
 
 Mod3::Mod3( QWidget* parent, const char* name)
-	: dealer(parent,name), rb(locale->translate("Redeal"), this) 
+	: dealer(parent,name), rb(i18n("Redeal"), this) 
 {
 	initMetaObject();
 
@@ -83,7 +84,7 @@ Mod3::Mod3( QWidget* parent, const char* name)
 	connect (&rb, SIGNAL (clicked()) , SLOT (redeal()));
 
 /*
-  QPushButton* hb= new QPushButton(locale->translate("Hint"),this);
+  QPushButton* hb= new QPushButton(i18n("Hint"),this);
   hb->move(10,380);
   hb->adjustSize();
   connect( hb, SIGNAL( clicked()) , SLOT( hint() ) );
@@ -132,8 +133,8 @@ void Mod3::redeal()
 {
 	if (!deck->next())
 	{
-		KMsgBox::message (this, locale->translate ("Information"), 
-			locale->translate ("No more cards"));
+		KMsgBox::message (this, i18n ("Information"), 
+			i18n ("No more cards"));
 		return;
 	}
 

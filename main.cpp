@@ -22,13 +22,10 @@
 
 KConfig *config = 0;
 QString PICDIR;
-KLocale *locale;
 
 int main( int argc, char **argv )
 {
   KApplication a( argc, argv, "kpat");
-
-  locale = a.getLocale();
 
   config = a.getConfig();
   PICDIR = a.kde_datadir() + "/kpat/pics/";

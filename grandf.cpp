@@ -18,6 +18,7 @@
 
 ****************************************/
 
+#include <kapp.h>
 #include <qdialog.h>
 #include "grandf.h"
 #include <kmsgbox.h>
@@ -31,7 +32,7 @@ public:
 CardBox::CardBox( const QPixmap &pix, QWidget *parent )
   : QDialog( parent, 0, TRUE )
 {
-  QLabel *label = new QLabel( locale->translate("Try to move card:"), this );
+  QLabel *label = new QLabel( i18n("Try to move card:"), this );
   label->setAlignment( AlignCenter );
   QSize s = label->sizeHint();
   label->resize( s.width() + 4, s.height() + 4 );
@@ -42,7 +43,7 @@ CardBox::CardBox( const QPixmap &pix, QWidget *parent )
   p->resize( pix.size() );
   w = QMAX( w, p->width() );
 
-  QPushButton *button = new QPushButton( locale->translate("Ok"), this, "button" );
+  QPushButton *button = new QPushButton( i18n("Ok"), this, "button" );
   connect( button, SIGNAL(clicked()), SLOT(accept()) );
   QFont font( "Helvetica", 12 );
   font.setWeight( QFont::Bold );
@@ -110,7 +111,7 @@ void Grandf::show()  {
 }
 
 Grandf::Grandf( QWidget* parent, const char* name)
-  : dealer(parent,name), rb(locale->translate("Redeal"), this) 
+  : dealer(parent,name), rb(i18n("Redeal"), this) 
 {
   initMetaObject();
 
@@ -144,7 +145,7 @@ Grandf::Grandf( QWidget* parent, const char* name)
   rb.adjustSize();
   connect( &rb, SIGNAL( clicked()) , SLOT( redeal() ) );
     
-  QPushButton* hb= new QPushButton(locale->translate("Hint"),this);
+  QPushButton* hb= new QPushButton(i18n("Hint"),this);
   hb->move(10,80);
   hb->adjustSize();
   connect( hb, SIGNAL( clicked()) , SLOT( hint() ) );
@@ -170,8 +171,8 @@ void Grandf::redeal() {
     deal(); 
     numberOfDeals++;
   } else
-    KMsgBox::message(this, locale->translate("Information"), 
-		     locale->translate("Only 3 deals allowed"));
+    KMsgBox::message(this, i18n("Information"), 
+		     i18n("Only 3 deals allowed"));
 }
 
 void Grandf::deal() {

@@ -1,3 +1,7 @@
+Sat May  2 13:49:46 1998    Mario Weilguni <mweilguni@kde.org>
+
+	* replaced all locale->translate with i18n
+
 kapt 0.7.1
 	- [Robert Williams] added getHelpMenu()
         - [Robert Williams] added -caption "%c" to kpat.kdelnk

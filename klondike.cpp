@@ -22,7 +22,7 @@
 
 ****************************************/
 
-#include <qapp.h>
+#include <kapp.h>
 #include "klondike.h"
 #include <kmsgbox.h>
 #include "global.h"
@@ -64,8 +64,8 @@ Klondike::Klondike( QWidget* parent, const char* name)
 
   cb = new QComboBox( this, "comboBox" );
   //cb->insertItem( "Cheating" );
-  cb->insertItem( locale->translate("Easy rules"), 0);
-  cb->insertItem( locale->translate("Hard rules"), 1);
+  cb->insertItem( i18n("Easy rules"), 0);
+  cb->insertItem( i18n("Hard rules"), 1);
   cb->setGeometry( 10, 30, 120, 30 );
   cb->setAutoResize( TRUE );
   cb->setCurrentItem(0);
@@ -90,8 +90,8 @@ void Klondike::changeDiffLevel( int l ) {
   if ( EasyRules == (l == 0) ) 
     return;
 
-  int r = KMsgBox::yesNo(this, locale->translate("Warning"), 
-			 locale->translate("This will end the current game\n" \
+  int r = KMsgBox::yesNo(this, i18n("Warning"), 
+			 i18n("This will end the current game\n" \
 			 "Are you sure you want to do this?"),
 			 KMsgBox::EXCLAMATION);
   if(r == 2) {

@@ -108,7 +108,7 @@ Freecell::Freecell( QWidget* parent, const char* name)
 	}
 
 /*
-  QPushButton* hb= new QPushButton(locale->translate("Hint"),this);
+  QPushButton* hb= new QPushButton(i18n("Hint"),this);
   hb->move(10,380);
   hb->adjustSize();
   connect( hb, SIGNAL( clicked()) , SLOT( hint() ) );

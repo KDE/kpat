@@ -25,7 +25,7 @@
 ****************************************/
 
 
-#include <qapp.h>
+#include <kapp.h>
 #include <qpushbt.h>
 #include "ten.h"
 #include "global.h"
@@ -37,7 +37,7 @@ Ten::Ten( QWidget* parent, const char* name)
 {
   initMetaObject();
 
-  pb = new QPushButton(locale->translate("Full Auto"), this );
+  pb = new QPushButton(i18n("Full Auto"), this );
   pb->setToggleButton( TRUE );
   pb->move(10,50);
   pb->adjustSize(); 
