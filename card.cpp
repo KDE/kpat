@@ -104,6 +104,14 @@ int Card::realY() const
         return int(y());
 }
 
+int Card::realZ() const
+{
+    if (animated())
+        return destZ;
+    else
+        return int(z());
+}
+
 bool Card::realFace() const
 {
     if (animated()) {

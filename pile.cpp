@@ -303,7 +303,7 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
                         off = SPREAD;
                 }
 
-                c->animatedMove( before->x(), before->y() + off, before->z() + 1, steps);
+                c->animatedMove( before->realX(), before->realY() + off, before->realZ() + 1, steps);
                 dealer()->enlargeCanvas(c);
             }
             else {
@@ -324,7 +324,7 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
 
     for (; it != cl.end(); ++it)
     {
-        (*it)->animatedMove( before->x(), before->y() + off, before->z() + 1, steps);
+        (*it)->animatedMove( before->realX(), before->realY() + off, before->realZ() + 1, steps);
         dealer()->enlargeCanvas(*it);
         before = *it;
     }

@@ -75,6 +75,7 @@ public:
 
     int realX() const;
     int realY() const;
+    int realZ() const;
     bool realFace() const;
 
 protected:
