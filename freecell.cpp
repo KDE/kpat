@@ -188,7 +188,7 @@ static class LocalDealerInfo8 : public DealerInfo
 public:
     LocalDealerInfo8() : DealerInfo(I18N_NOOP("&Freecell"), 3) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Freecell(parent); }
-} gfi;
+} ldi8;
 
 //-------------------------------------------------------------------------//
 

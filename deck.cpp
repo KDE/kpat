@@ -67,15 +67,15 @@ void Deck::collectAndShuffle() {
     shuffle();
 }
 
-static long cs = 0;
+static long pseudoRandomSeed = 0;
 
-static void srand(long seed) {
-    cs=seed;
+static void pseudoRandom_srand(long seed) {
+    pseudoRandomSeed=seed;
 }
 
-static long random() {
-    cs = 214013*cs+2531011;
-    return (cs >> 16) & 0x7fff;
+static long pseudoRandom_random() {
+    pseudoRandomSeed = 214013*pseudoRandomSeed+2531011;
+    return (pseudoRandomSeed >> 16) & 0x7fff;
 }
 
 // Shuffle deck, assuming all cards are in myCards
@@ -84,7 +84,7 @@ void Deck::shuffle() {
     assert(myCards.count() == uint(mult*NumberOfCards));
 
     assert(dealer()->gameNumber() >= 0);
-    srand(dealer()->gameNumber());
+    pseudoRandom_srand(dealer()->gameNumber());
 
     kdDebug() << "first card " << myCards[0]->name() << " " << dealer()->gameNumber() << endl;
 
@@ -92,7 +92,7 @@ void Deck::shuffle() {
     long z;
     int left = mult*NumberOfCards;
     for (int i = 0; i < mult*NumberOfCards; i++) {
-        z = random() % left;
+        z = pseudoRandom_random() % left;
         t = myCards[z];
         myCards[z] = myCards[left-1];
         myCards[left-1] = t;

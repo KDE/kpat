@@ -127,6 +127,6 @@ static class LocalDealerInfo3 : public DealerInfo
 public:
     LocalDealerInfo3() : DealerInfo(I18N_NOOP("&Napoleon's Tomb"), 4) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Napoleon(parent); }
-} gfi;
+} ldi3;
 
 #include "napoleon.moc"

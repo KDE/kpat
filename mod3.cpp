@@ -209,7 +209,7 @@ static class LocalDealerInfo7 : public DealerInfo
 public:
     LocalDealerInfo7() : DealerInfo(I18N_NOOP("M&od3"), 5) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Mod3(parent); }
-} gfi;
+} ldi7;
 
 //-------------------------------------------------------------------------//
 

@@ -227,6 +227,6 @@ static class LocalDealerInfo0 : public DealerInfo
 public:
     LocalDealerInfo0() : DealerInfo(I18N_NOOP("&Klondike"), 0) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Klondike(true, parent); }
-} gfi;
+} ldi0;
 
 #include "klondike.moc"
