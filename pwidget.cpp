@@ -297,7 +297,7 @@ void pWidget::newGame()
     // Check if the user is already running a game, and if she is,
     // then ask if she wants to abort it.
     if (!dill->isGameWon()
-	&& KMessageBox::warningYesNo(0,
+	&& KMessageBox::warningContinueCancel(0,
 		       i18n("You are already running an unfinished game.  "
 			    "If you abort the old game to start a new one, "
 			    "the old game will be registered as a loss in "
@@ -305,7 +305,7 @@ void pWidget::newGame()
 			    "What do you want to do?"),
 		       i18n("Abort Current Game?"),
 		       i18n("Abort Old Game"),
-		       i18n("Continue Old Game")) == KMessageBox::No)
+                                     "careaboutstats" )  == KMessageBox::Cancel)
         return;
 
     dill->setGameNumber(kapp->random());
