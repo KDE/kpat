@@ -48,6 +48,7 @@ Type=Application
 Icon=kpat
 DocPath=kpat/index.html
 GenericName=Card Games
+GenericName[af]=kaart speletjies
 GenericName[ar]=إلعاب ورق
 GenericName[be]=Картачныя гульні
 GenericName[bg]=Игра на Карти
