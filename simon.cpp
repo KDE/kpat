@@ -52,6 +52,16 @@ void Simon::deal() {
     assert(deck->isEmpty());
 }
 
+bool Simon::checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const
+{
+    if (checkIndex == 1) {
+        if (c1->isEmpty())
+            return false;
+
+        return (c1->top()->suit() == c2.first()->suit());
+    } else return false; // it's just important to keep this unique
+}
+
 bool Simon::checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const
 {
     if (checkIndex == 1) {

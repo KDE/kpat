@@ -92,9 +92,6 @@ void Card::draw( QPainter &p )
 
 void Card::moveBy(double dx, double dy)
 {
-    if (value() == Card::King) {
-        kdDebug() << name() << " moving " << dx << " " << dy << " " << animSteps << endl;
-    }
     QCanvasRectangle::moveBy(dx, dy);
 }
 

@@ -134,19 +134,29 @@ void Dealer::getHints()
 //                kdDebug() << "could remove " << (*iti)->name() << endl;
                 for (PileList::Iterator pit = piles.begin(); pit != piles.end(); ++pit)
                 {
-                    if (*pit == store)
+                    Pile *dest = *pit;
+                    if (dest == store)
                         continue;
-                    if (store->indexOf(*iti) == 0 && (*pit)->isEmpty() && !(*pit)->target())
+                    if (store->indexOf(*iti) == 0 && dest->isEmpty() && !dest->target())
                         continue;
-                    if (!(*pit)->legalAdd(cards))
+                    if (!dest->legalAdd(cards))
                         continue;
-                    if (!takeTargetForHints() && (*pit)->target())
-                        newHint(new MoveHint(*iti, *pit));
+
+                    bool old_prefer = checkPrefering( dest->checkIndex(), dest, cards );
+                    if (!takeTargetForHints() && dest->target())
+                        newHint(new MoveHint(*iti, dest));
                     else {
                         store->hideCards(cards);
                         // if it could be here as well, then it's no use
-                        if ((store->isEmpty() && !(*pit)->isEmpty()) || !store->legalAdd(cards))
-                            newHint(new MoveHint(*iti, *pit));
+                        if ((store->isEmpty() && !dest->isEmpty()) || !store->legalAdd(cards))
+                            newHint(new MoveHint(*iti, dest));
+                        else {
+                            if (old_prefer && !checkPrefering( store->checkIndex(),
+                                                               store, cards ))
+                            { // if checkPrefers says so, we add it nonetheless
+                                newHint(new MoveHint(*iti, dest));
+                            }
+                        }
                         store->unhideCards(cards);
                     }
                 }
@@ -155,6 +165,11 @@ void Dealer::getHints()
             iti = cards.begin();
         }
     }
+}
+
+bool Dealer::checkPrefering( int /*checkIndex*/, const Pile *, const CardList& ) const
+{
+    return false;
 }
 
 void Dealer::clearHints()
