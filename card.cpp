@@ -32,6 +32,7 @@
 static const char *suit_names[] = {"Clubs", "Diamonds", "Hearts", "Spades"};
 static const char *value_names[] = {"Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight",
                                     "Nine", "Ten", "Jack", "Queen", "King" };
+const int Card::RTTI = 1001;
 
 Card::Card( Values v, Suits s, QCanvas* _parent )
     : QCanvasRectangle( _parent ),  _source(0), _suit( s ), _value( v ), scaleX(1.0), scaleY(1.0), tookDown(false)
@@ -151,13 +152,13 @@ bool Card::realFace() const
 **********************************************************************/
 
 static const double flipLift = 1.2;
-int Card::hz = 0;
+int Card::Hz = 0;
 
 void Card::setZ(int z)
 {
     QCanvasRectangle::setZ(z);
-    if (z > hz)
-        hz = z;
+    if (z > Hz)
+        Hz = z;
 }
 
 void Card::flipTo(int x2, int y2, int steps)
@@ -175,7 +176,7 @@ void Card::flipTo(int x2, int y2, int steps)
     destX = x2;
     destY = y2;
     destZ = int(z());
-    setZ(hz++);
+    setZ(Hz++);
     animSteps = flipSteps;
     setVelocity(dx/animSteps, dy/animSteps-flipLift);
     setAnimated(TRUE);
@@ -217,7 +218,7 @@ void Card::animatedMove(int x2, int y2, int z2, int steps)
         setZ(z2);
         return;
     }
-    setZ(hz++);
+    setZ(Hz++);
 
     if (steps) {
         // Ensure a good speed
@@ -267,7 +268,7 @@ void Card::getUp(int steps)
     destZ = int(z());
     destX = int(x());
     destY = int(y());
-    setZ(hz+1);
+    setZ(Hz+1);
     animSteps = steps;
     setVelocity(0, 0);
     setAnimated(TRUE);

@@ -63,7 +63,7 @@ public:
 
     void turn(bool faceup = true);
 
-    static const int RTTI = 1001;
+    static const int RTTI;
 
     Pile *source() const { return _source; }
     void setSource(Pile *p) { _source = p; }
@@ -104,7 +104,7 @@ private:
     bool flipping;
     int savedX, savedY;
     double scaleX, scaleY;
-    static int hz;
+    static int Hz;
     bool tookDown;
 };
 
