@@ -1,0 +1,29 @@
+/* XPM */
+/* Drawn  by Nico Shirwing for the K Desktop Environment */
+/* See http://www.kde.org */
+static char*kpatience[]={
+"16 16 7 1",
+"# c #000000",
+"c c #c0c0c0",
+"a c #ffffff",
+"b c #ff0000",
+"e c #0000ff",
+"d c #c0ffc0",
+". c None",
+".###..###...###.",
+"#aaa##aaa#.#aaa#",
+"#aba##a#a#.#aba#",
+"#aaa##aaa#.#aaa#",
+"#aaa##aaa#.#aaa#",
+"#ccc#a####.#ccc#",
+"#aaa#a###..#aaa#",
+"######ded#.#####",
+"#aaa##ede#.#aaa#",
+"#aaa##ded#.#aaa#",
+"#ccc##ede#..###.",
+"#aaa#.###.......",
+"#####...........",
+"#aaa#...........",
+"#aaa#...........",
+".###............"};
+
