@@ -37,7 +37,7 @@ class pWidget: public KMainWindow {
     Q_OBJECT
 
 public:
-    pWidget( const char *name=0 );
+    pWidget();
     ~pWidget();
 
 public slots:
@@ -46,6 +46,9 @@ public slots:
     void animationChanged();
     void newGameType();
     void restart();
+    void hint();
+    void toggleDemo();
+    void redeal();
 
     void openGame();
     void openGame(const KURL &url);

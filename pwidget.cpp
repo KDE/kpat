@@ -22,26 +22,28 @@
 
 #include <qregexp.h>
 #include <qtimer.h>
+#include <qimage.h>
 
 #include <kapplication.h>
 #include <klocale.h>
-#include "pwidget.h"
-#include "version.h"
 #include <kstdaction.h>
 #include <kaction.h>
-#include <dealer.h>
 #include <kdebug.h>
-#include "cardmaps.h"
 #include <kcarddialog.h>
 #include <klineeditdlg.h>
 #include <kstandarddirs.h>
 #include <kfiledialog.h>
 #include <ktempfile.h>
 #include <kio/netaccess.h>
-#include "speeds.h"
 #include <kmessagebox.h>
-#include <qimage.h>
 #include <kstatusbar.h>
+#include <kstdgameaction.h>
+
+#include "pwidget.h"
+#include "version.h"
+#include "cardmaps.h"
+#include "dealer.h"
+#include "speeds.h"
 
 static pWidget *current_pwidget = 0;
 
@@ -49,36 +51,34 @@ void saveGame(int) {
     current_pwidget->saveGame();
 }
 
-pWidget::pWidget( const char* _name )
-    : KMainWindow(0, _name), dill(0)
+pWidget::pWidget()
+    : KMainWindow(0, "pwidget"), dill(0)
 {
     current_pwidget = this;
     setAutoSaveSettings();
     // KCrash::setEmergencySaveFunction(::saveGame);
-    KStdAction::quit(kapp, SLOT(quit()), actionCollection(), "game_exit");
+    KStdGameAction::quit(this, SLOT(close()), actionCollection());
 
-    undo = KStdAction::undo(this, SLOT(undoMove()),
-                     actionCollection(), "undo_move");
+    undo = KStdGameAction::undo(this, SLOT(undoMove()), actionCollection());
     undo->setEnabled(false);
-    (void)KStdAction::openNew(this, SLOT(newGame()),
-                              actionCollection(), "new_game");
-    (void)KStdAction::open(this, SLOT(openGame()),
-                           actionCollection(), "open");
-    recent = KStdAction::openRecent(this, SLOT(openGame(const KURL&)),
-                                    actionCollection(), "open_recent");
+    KStdGameAction::gameNew(this, SLOT(newGame()), actionCollection());
+    KStdGameAction::load(this, SLOT(openGame()), actionCollection());
+    recent = KStdGameAction::loadRecent(this, SLOT(openGame(const KURL&)),
+                                        actionCollection());
     recent->loadEntries(KGlobal::config());
-    (void)KStdAction::saveAs(this, SLOT(saveGame()),
-                           actionCollection(), "save");
+    KStdGameAction::saveAs(this, SLOT(saveGame()), actionCollection());
     (void)new KAction(i18n("&Choose Game..."), 0, this, SLOT(chooseGame()),
-                      actionCollection(), "choose_game");
-    (void)new KAction(i18n("Restart &Game"), QString::fromLatin1("reload"), 0,
-                      this, SLOT(restart()),
-                      actionCollection(), "restart_game");
-    (void)KStdAction::help(this, SLOT(helpGame()), actionCollection(), "help_game");
+                      actionCollection(), "game_choose");
+    KStdGameAction::restart(this, SLOT(restart()), actionCollection());
 
-    games = new KSelectAction(i18n("&Game Type"), 0, this,
-                              SLOT(newGameType()),
-                              actionCollection(), "game_type");
+    KStdGameAction::hint(this, SLOT(hint()), actionCollection());
+    KStdGameAction::demo(this, SLOT(toggleDemo()), actionCollection());
+    (void)new KAction (i18n("&Redeal"), QString::fromLatin1("queue"),
+                       0, this, SLOT(redeal()),
+                       actionCollection(), "move_redeal");
+
+    games = KStdGameAction::chooseGameType(this, SLOT(newGameType()),
+                                           actionCollection());
     QStringList list;
     QValueList<DealerInfo*>::ConstIterator it;
     uint max_type = 0;
@@ -272,6 +272,21 @@ void pWidget::newGame() {
 void pWidget::restart() {
     statusBar()->clear();
     dill->startNew();
+}
+
+void pWidget::hint()
+{
+    if (dill) dill->hint();
+}
+
+void pWidget::toggleDemo()
+{
+    if (dill) dill->toggleDemo();
+}
+
+void pWidget::redeal()
+{
+    if (dill) dill->redeal();
 }
 
 void pWidget::newGameType()

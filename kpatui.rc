@@ -1,39 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <!DOCTYPE kpartgui>
-<kpartgui name="standard_containers" version="12">
+<kpartgui name="kpat" version="13">
+
 <MenuBar>
-  <Menu name="game" noMerge="1"><text>&amp;Game</text>
-    <Action name="new_game"/>
-    <Action name="open"/>
-    <Action name="open_recent"/>
-    <Separator/>
-    <Action name="save"/>
-    <Separator/>
-    <Action name="choose_game"/>
-    <Action name="restart_game"/>
-    <Separator/>
-    <ActionList name="game_actions"/>
-    <Separator/>
-    <Action name="game_exit"/>
+  <Menu name="game"><text>&amp;Game</text>
+	<Action name="game_choose" append="new_merge"/>
   </Menu>
-  <Menu name="edit" noMerge="1"><text>&amp;Edit</text>
-    <Action name="undo_move"/>
+  <Menu name="move"><text>&amp;Move</text>
+    <Action name="move_redeal"/>
   </Menu>
-  <Menu name="settings" noMerge="1"><text>&amp;Settings</text>
-    <Action name="game_type"/>
+  <Menu name="settings"><text>&amp;Settings</text>
     <Action name="backside"/>
     <Action name="wallpaper"/>
     <Action name="animation"/> 
     <Action name="enable_autodrop"/>
   </Menu>
 </MenuBar>
-<ToolBar name="mainToolBar"><text>Main Toolbar</text>
-  <Action name="new_game"/>
-  <Action name="restart_game"/>
-  <Action name="undo_move"/>
-  <ActionList name="game_actions"/>
-  <Action name="help_game"/>
-  <Action name="game_exit"/>
+
+<ToolBar name="mainToolBar" noMerge="1"><text>Main Toolbar</text>
+  <Action name="game_new"/>
+  <Action name="game_restart"/>
+  <Separator/>
+  <Action name="move_undo"/>
+  <Separator/>
+  <Action name="help_contents"/>
+  <Separator/>
+  <Action name="game_quit"/>
 </ToolBar>
+
 <StatusBar/>
+
 </kpartgui>
