@@ -10,7 +10,7 @@ Gypsy::Gypsy( KMainWindow* parent, const char *name )
     const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
     const int dist_y = cardMap::CARDY() * 11 / 10 + 1;
 
-    deck = new Deck(0, this, 2);
+    deck = Deck::new_deck(this, 2);
     deck->move(10 + dist_x / 2 + 8*dist_x, 10 + 45 * cardMap::CARDY() / 10);
 
     connect(deck, SIGNAL(clicked(Card*)), SLOT(slotClicked(Card *)));
@@ -63,7 +63,7 @@ bool Gypsy::isGameLost() const {
 	for(int i=0; i < 8; i++){
 		if(store[i]->isEmpty())
 			return false;
-		
+
 		if(store[i]->top()->value() == Card::Ace)
 			return false;
 
@@ -90,19 +90,19 @@ bool Gypsy::isGameLost() const {
 
 			for(j=1; j <8; j++){
 				k=(i+k) % 8;
-	
-				if((cardi->value()+1 == store[k]->top()->value()) && 
+
+				if((cardi->value()+1 == store[k]->top()->value()) &&
 					cardi->isRed() != store[k]->top()->isRed()){
 
 				// this test doesn't apply if indexi==0, but fails gracefully.
 					if(cnext->value() == store[k]->top()->value() &&
-						cnext->suit() == store[k]->top()->suit()) 
+						cnext->suit() == store[k]->top()->suit())
 						break; //nothing gained; keep looking.
 
 					return false;// TODO: look deeper, move may not be helpful.
 				}
 			}
-			
+
 		} while((indexi>=0) && (cardi->value()+1 == cnext->value()) &&
 			(cardi->isRed() != cnext->isRed()));
 	}

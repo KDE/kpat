@@ -6,16 +6,19 @@ class dealer;
 
 /***************************************
 
-  Deck -- create and shuffle 52 cards
+  Deck (Pile with id 0) -- create and shuffle 52 cards
 
 **************************************/
 class Deck: public Pile
 {
 
-public:
-
-    Deck( int index, Dealer* parent = 0, int m = 1 );
+private:
+    Deck( Dealer* parent = 0, int m = 1 );
     virtual ~Deck();
+
+public:
+    static Deck *new_deck( Dealer *parent = 0, int m = 1 );
+    static Deck *deck() { return my_deck; }
 
     static const long n;
 
@@ -25,7 +28,7 @@ public:
 
     uint decksNum() const { return mult; }
 
- private: // functions
+private: // functions
 
     void makedeck();
     void addToDeck();
@@ -34,7 +37,8 @@ public:
 private:
 
     uint mult;
-    Card** deck;
+    Card** _deck;
+    static Deck *my_deck;
 };
 
 #endif

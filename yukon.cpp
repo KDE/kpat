@@ -12,7 +12,7 @@ Yukon::Yukon( KMainWindow* parent, const char *name )
     const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
     const int dist_y = cardMap::CARDY() * 11 / 10 + 1;
 
-    deck = new Deck(0, this);
+    deck = Deck::new_deck(this);
     deck->move(10, 10+dist_y*3);
     deck->hide();
 

@@ -18,11 +18,11 @@ Card* Deck::nextCard() {
         return 0;
 }
 
-Deck::Deck( int index, Dealer* parent, int m )
-    : Pile( index, parent ), mult( m )
+Deck::Deck( Dealer* parent, int m )
+    : Pile( 0, parent ), mult( m )
 {
-    deck = new Card * [mult*NumberOfCards];
-    Q_CHECK_PTR (deck);
+    _deck = new Card * [mult*NumberOfCards];
+    Q_CHECK_PTR (_deck);
 
     makedeck();
     addToDeck();
@@ -30,6 +30,14 @@ Deck::Deck( int index, Dealer* parent, int m )
 
     setAddFlags(Pile::disallow);
     setRemoveFlags(Pile::disallow);
+}
+
+Deck *Deck::my_deck = 0;
+
+Deck *Deck::new_deck( Dealer *parent, int m )
+{
+    my_deck = new Deck(parent, m);
+    return my_deck;
 }
 
 void Deck::makedeck() {
@@ -42,9 +50,9 @@ void Deck::makedeck() {
         {
             for ( int s = Card::Clubs; s <=  Card::Spades ; s++)
             {
-                deck[i] = new Card(static_cast<Card::Values>(v),
+                _deck[i] = new Card(static_cast<Card::Values>(v),
                                    static_cast<Card::Suits>(s), dealer()->canvas());
-                deck[i]->move(x(), y());
+                _deck[i]->move(x(), y());
                 i++;
             }
         }
@@ -53,10 +61,10 @@ void Deck::makedeck() {
 
 Deck::~Deck() {
     for (uint i=0; i < mult*NumberOfCards; i++) {
-        delete deck[i];
+        delete _deck[i];
     }
     myCards.clear();
-    delete [] deck;
+    delete [] _deck;
 }
 
 void Deck::collectAndShuffle() {
@@ -103,8 +111,8 @@ void Deck::addToDeck() {
     clear();
 
     for (uint i = 0; i < mult*NumberOfCards; i++) {
-        deck[i]->setTakenDown(false);
-        add( deck[i], true, false );
+        _deck[i]->setTakenDown(false);
+        add( _deck[i], true, false );
     }
 }
 

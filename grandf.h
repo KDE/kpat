@@ -52,8 +52,8 @@ public slots:
 protected:
     void collect();
     virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
-    virtual void getGameState( QDataStream & stream );
-    virtual void setGameState( QDataStream & stream );
+    virtual QString getGameState() const;
+    virtual void setGameState( const QString & stream );
     virtual Card *demoNewCards();
 
 private:

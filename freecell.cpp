@@ -51,7 +51,7 @@ FreecellBase::FreecellBase( int decks, int stores, int freecells, int fill, bool
 solver_instance(0), es_filling(fill), solver_ret(FCS_STATE_NOT_BEGAN_YET),
 unlimited_move(unlimit)
 {
-    deck = new Deck(0, this, decks);
+    deck = Deck::new_deck(this, decks);
     deck->hide();
 
     kdDebug(11111) << "cards " << deck->cards().count() << endl;

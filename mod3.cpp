@@ -34,7 +34,8 @@ Mod3::Mod3( KMainWindow* parent, const char* _name)
     const int dist_y = cardMap::CARDY() * 11 / 10 + 1;
     const int margin = cardMap::CARDY() / 3;
 
-    deck = new Deck( 0, this, 2);
+    deck = Deck::new_deck( this, 2);
+
     deck->move(8 + dist_x * 8 + 20, 8 + dist_y * 3 + margin);
     connect(deck, SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
 
@@ -44,7 +45,7 @@ Mod3::Mod3( KMainWindow* parent, const char* _name)
 
     for( int r = 0; r < 4; r++ ) {
         for( int c = 0; c < 8; c++ ) {
-            stack[ r ][ c ] = new Pile ( r + 1, this );
+            stack[ r ][ c ] = new Pile ( r * 8 + c  + 1, this );
             stack[r][c]->move( 8 + dist_x * c, 8 + dist_y * r + margin * ( r == 3 ));
             if( r < 3 ) {
                 stack[r][c]->setCheckIndex( 0 );
@@ -153,7 +154,7 @@ Card *Mod3::demoNewCards()
 bool Mod3::isGameLost() const {
 	int n,r,c;
     kdDebug(11111) << "isGameLost ?"<< endl;
-		
+
 	bool nextTest=false;
 	for(n=0; n <24; n++){
 		r=n/8;
@@ -192,13 +193,13 @@ bool Mod3::isGameLost() const {
 			for(n2=0; n2 < 16;n2++){
 				r2=(r+1+(n2 / 8)) % 3;
 				c2=n2 % 8;
-			
+
 				if(stack[r2][c2]->isEmpty())
 					continue;
 				if(stack[r2][c2]->top()->value()==(Card::Two+r))
 					return false;
 				}
-			}	
+			}
 		else{
 			ctop=stack[r][c]->top();
     kdDebug(11111) << "considering ["<<r<<"]["<<c<<"] " << ctop->name() << flush;
@@ -232,7 +233,7 @@ bool Mod3::isGameLost() const {
 				}
 			}
 		}
-					
+
 	return true;
 }
 

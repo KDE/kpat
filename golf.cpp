@@ -26,7 +26,7 @@ Golf::Golf( KMainWindow* parent, const char* _name)
     const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
     const int pile_dist = 10 + 3 * cardMap::CARDY();
 
-    deck = new Deck( 0, this);
+    deck = Deck::new_deck( this);
     deck->move(10, pile_dist);
     connect(deck, SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
 

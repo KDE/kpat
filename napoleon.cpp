@@ -27,7 +27,7 @@
 Napoleon::Napoleon( KMainWindow* parent, const char* _name )
   : Dealer( parent, _name )
 {
-    deck = new Deck( 0, this );
+    deck = Deck::new_deck( this );
     connect(deck, SIGNAL(clicked(Card *)), SLOT(deal1(Card*)));
 
     pile = new Pile( 1, this );

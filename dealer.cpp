@@ -2,6 +2,7 @@
 #include <kstaticdeleter.h>
 #include <qpainter.h>
 #include <kdebug.h>
+#include <deck.h>
 #include <assert.h>
 #include "pile.h"
 #include "kmainwindow.h"
@@ -620,7 +621,7 @@ public:
     double z;
     bool faceup;
     bool tookdown;
-    int i;
+    int source_index;
     CardState() {}
 public:
     // as every card is only once we can sort after the card.
@@ -631,59 +632,26 @@ public:
     bool operator>=(const CardState &rhs) const { return it > rhs.it; }
     bool operator==(const CardState &rhs) const {
         return (it == rhs.it && source == rhs.source && x == rhs.x &&
-                y == rhs.y && z == rhs.z && faceup == rhs.faceup &&
-                i == rhs.i && tookdown == rhs.tookdown);
+                y == rhs.y && z == rhs.z && faceup == rhs.faceup
+                && source_index == rhs.source_index && tookdown == rhs.tookdown);
+    }
+    void fillNode(QDomElement &e) const {
+        e.setAttribute("value", it->value());
+        e.setAttribute("suit", it->suit());
+        e.setAttribute("source", source->index());
+        e.setAttribute("x", x);
+        e.setAttribute("y", y);
+        e.setAttribute("z", z);
+        e.setAttribute("faceup", faceup);
+        e.setAttribute("tookdown", tookdown);
+        e.setAttribute("source_index", source_index);
     }
 };
-
-
 
 typedef class QValueList<CardState> CardStateList;
 
 bool operator==( const State & st1, const State & st2) {
     return st1.cards == st2.cards && st1.gameData == st2.gameData;
-}
-
-QDataStream& operator<<( QDataStream& s, const CardState& l ) {
-    s << Q_INT8(l.it->value());
-    s << Q_INT8(l.it->suit());
-    s << Q_INT8(l.source->index());
-    s << Q_INT16(l.x) << Q_INT16(l.y) << Q_INT16(l.z) << Q_INT8(l.faceup) << Q_INT8(l.tookdown) << Q_INT8(l.i);
-    return s;
-}
-
-void Dealer::loadCardState( QDataStream& s, CardState& l, CardList &toload) {
-    Q_INT8 v, suit;
-    s >> v >> suit;
-    l.it = 0;
-
-    for (CardList::Iterator it = toload.begin(); it != toload.end(); ++it)
-    {
-        if ((*it)->value() == v && (*it)->suit() == suit) {
-            l.it = *it;
-            toload.remove(it);
-            break;
-        }
-    }
-    assert(l.it);
-    Q_INT8 index;
-    s >> index;
-    l.source = 0;
-    for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
-        if ((*it)->index() == index) {
-            l.source = *it;
-            kdDebug() << l.it->name() << " has already a source\n";
-        }
-    assert(l.source);
-    Q_INT8 tookdown, faceup, i;
-    Q_INT16 x, y, z;
-    s >> x >> y >> z >> faceup >> tookdown >> i;
-    l.tookdown = tookdown;
-    l.faceup = faceup;
-    l.x = x;
-    l.y = y;
-    l.z = z;
-    l.i = i;
 }
 
 State *Dealer::getState()
@@ -703,7 +671,7 @@ State *Dealer::getState()
                kdDebug(11111) << c->name() << " has no parent\n";
                assert(false);
            }
-           s.i = c->source()->indexOf(c);
+           s.source_index = c->source()->indexOf(c);
            s.x = c->realX();
            s.y = c->realY();
            s.z = c->realZ();
@@ -715,8 +683,7 @@ State *Dealer::getState()
     qHeapSort(st->cards);
 
     // Game specific information
-    QDataStream stream( st->gameData, IO_WriteOnly );
-    getGameState( stream );
+    st->gameData = getGameState( );
 
     return st;
 }
@@ -743,7 +710,7 @@ void Dealer::setState(State *st)
         Card *c = (*it).it;
         CardState s = *it;
         bool target = c->takenDown(); // abused
-        s.source->add(c, s.i);
+        s.source->add(c, s.source_index);
         c->setVisible(s.source->isVisible());
         c->setAnimated(false);
         c->setX(s.x);
@@ -754,8 +721,7 @@ void Dealer::setState(State *st)
     }
 
     // restore game-specific information
-    QDataStream stream( st->gameData, IO_ReadOnly );
-    setGameState(stream);
+    setGameState( st->gameData );
 
     delete st;
     canvas()->update();
@@ -795,54 +761,140 @@ void Dealer::takeState()
     emit undoPossible(undoList.count() > 1 && !waiting());
 }
 
-void Dealer::saveGame(QDataStream &s) {
-    s << (Q_UINT32)0; // file format
-    s << _id; // dealer number
-    s << Q_ULONG (gameNumber());
-    s << Q_UINT32(undoList.count());
-    QPtrListIterator<State> it(undoList);
+void Dealer::saveGame(QDomDocument &doc) {
+    QDomElement dealer = doc.createElement("dealer");
+    doc.appendChild(dealer);
+    dealer.setAttribute("id", _id);
+    dealer.setAttribute("number", QString::number(gameNumber()));
+    QString data = getGameState();
+    if (!data.isEmpty())
+        dealer.setAttribute("data", data);
 
+    bool taken[1000];
+    memset(taken, 0, sizeof(taken));
+
+    QCanvasItemList list = canvas()->allItems();
+    for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
+    {
+        if ((*it)->rtti() == Pile::RTTI) {
+            Pile *p = dynamic_cast<Pile*>(*it);
+            assert(p);
+            if (taken[p->index()]) {
+                kdDebug() << "pile index " << p->index() << " taken twice\n";
+                return;
+            }
+            taken[p->index()] = true;
+
+            QDomElement pile = doc.createElement("pile");
+            pile.setAttribute("index", p->index());
+
+            CardList cards = p->cards();
+            for (CardList::Iterator it = cards.begin();
+                 it != cards.end();
+                 ++it)
+            {
+                QDomElement card = doc.createElement("card");
+                card.setAttribute("suit", (*it)->suit());
+                card.setAttribute("value", (*it)->value());
+                card.setAttribute("faceup", (*it)->isFaceUp());
+                card.setAttribute("x", (*it)->realX());
+                card.setAttribute("y", (*it)->realY());
+                card.setAttribute("z", (*it)->realZ());
+                card.setAttribute("name", (*it)->name());
+                pile.appendChild(card);
+            }
+            dealer.appendChild(pile);
+        }
+    }
+
+    /*
+    QDomElement eList = doc.createElement("undo");
+
+    QPtrListIterator<State> it(undoList);
     for (; it.current(); ++it)
     {
         State *n = it.current();
-        s << n->gameData;
-        s << n->cards;
+        QDomElement state = doc.createElement("state");
+        if (!n->gameData.isEmpty())
+            state.setAttribute("data", n->gameData);
+        QDomElement cards = doc.createElement("cards");
+        for (QValueList<CardState>::ConstIterator it2 = n->cards.begin();
+             it2 != n->cards.end(); ++it2)
+        {
+            QDomElement item = doc.createElement("item");
+            (*it2).fillNode(item);
+            cards.appendChild(item);
+        }
+        state.appendChild(cards);
+        eList.appendChild(state);
     }
+    dealer.appendChild(eList);
+    */
+    // kdDebug() << doc.toString() << endl;
 }
 
-void Dealer::openGame(QDataStream &s)
+void Dealer::openGame(QDomDocument &doc)
 {
     unmarkAll();
-    Q_ULONG gn;
-    s >> gn;
-    setGameNumber(gn);
-    Q_UINT32 count;
-    s >> count;
+    QDomElement dealer = doc.documentElement();
+
+    setGameNumber(dealer.attribute("number").toULong());
     undoList.clear();
 
-    for (; count != 0; count--)
+    QDomNodeList piles = dealer.elementsByTagName("pile");
+
+    QCanvasItemList list = canvas()->allItems();
+
+    CardList cards;
+    for (QCanvasItemList::ConstIterator it = list.begin(); it != list.end(); ++it)
+        if ((*it)->rtti() == Card::RTTI)
+            cards.append(static_cast<Card*>(*it));
+
+    Deck::deck()->collectAndShuffle();
+
+    for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
     {
-        CardList cards;
-
-        QCanvasItemList list = canvas()->allItems();
-        for (QCanvasItemList::ConstIterator it = list.begin(); it != list.end(); ++it)
-            if ((*it)->rtti() == Card::RTTI)
-                cards.append(static_cast<Card*>(*it));
-
-        State *n = new State();
-        s >> n->gameData;
-        n->cards.clear();
-        Q_UINT32 c;
-        s >> c;
-        for( Q_UINT32 i = 0; i < c; ++i )
+        if ((*it)->rtti() == Pile::RTTI)
         {
-            CardState t;
-            loadCardState(s, t, cards);
-            n->cards.append( t );
+            Pile *p = dynamic_cast<Pile*>(*it);
+            assert(p);
+
+            for (uint i = 0; i < piles.count(); ++i)
+            {
+                QDomElement pile = piles.item(i).toElement();
+                if (pile.attribute("index").toInt() == p->index())
+                {
+                    QDomNodeList pcards = pile.elementsByTagName("card");
+                    for (uint j = 0; j < pcards.count(); ++j)
+                    {
+                        QDomElement card = pcards.item(j).toElement();
+                        Card::Suits s = static_cast<Card::Suits>(card.attribute("suit").toInt());
+                        Card::Values v = static_cast<Card::Values>(card.attribute("value").toInt());
+
+                        for (CardList::Iterator it2 = cards.begin();
+                             it2 != cards.end(); ++it2)
+                        {
+                            if ((*it2)->suit() == s && (*it2)->value() == v) {
+                                if (QString((*it2)->name()) == "Diamonds Eight") {
+                                    kdDebug() << i << " " << j << endl;
+                                }
+                                p->add(*it2);
+                                (*it2)->setAnimated(false);
+                                (*it2)->turn(card.attribute("faceup").toInt());
+                                (*it2)->setX(card.attribute("x").toInt());
+                                (*it2)->setY(card.attribute("y").toInt());
+                                (*it2)->setZ(card.attribute("z").toInt());
+                                (*it2)->setVisible(p->isVisible());
+                                cards.remove(it2);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
         }
-        assert(cards.isEmpty());
-        undoList.append(n);
     }
+    setGameState( dealer.attribute("data") );
 
     if (undoList.count() > 1) {
         setState(undoList.take(undoList.count() - 1));

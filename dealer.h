@@ -8,6 +8,7 @@
 #include "hint.h"
 #include <krandomsequence.h>
 
+class QDomDocument;
 class KMainWindow;
 class Dealer;
 class DealerInfo;
@@ -47,7 +48,7 @@ typedef QValueList<CardState> CardStateList;
 struct State
 {
     CardStateList cards;
-    QByteArray gameData;
+    QString gameData;
 };
 
 /***************************************************************
@@ -93,8 +94,8 @@ public:
     QColor midColor() const { return _midcolor; }
     void setBackgroundPixmap(const QPixmap &background, const QColor &midcolor);
 
-    void saveGame(QDataStream &s);
-    void openGame(QDataStream &s);
+    void saveGame(QDomDocument &doc);
+    void openGame(QDomDocument &doc);
 
     void setGameId(int id) { _id = id; }
 
@@ -174,12 +175,10 @@ protected:
     State *getState();
     void setState(State *);
 
-    void loadCardState( QDataStream& s, CardState& l, CardList &toload);
-
     // reimplement this to add game-specific information in the state structure
-    virtual void getGameState( QDataStream & ) {}
+    virtual QString getGameState() const { return QString::null; }
     // reimplement this to use the game-specific information from the state structure
-    virtual void setGameState( QDataStream & ) {}
+    virtual void setGameState( const QString & ) {}
 
     virtual void newDemoMove(Card *m);
 

@@ -39,12 +39,12 @@ Klondike::Klondike( bool easy, KMainWindow* parent, const char* _name )
     const int hspacing = cardMap::CARDX() / 6 + 1; // horizontal spacing between card piles
     const int vspacing = cardMap::CARDY() / 4; // vertical spacing between card piles
 
-    deck = new Deck(13, this);
+    deck = Deck::new_deck(this);
     deck->move(margin, margin);
 
     EasyRules = easy;
 
-    pile = new Pile( 0, this);
+    pile = new Pile( 13, this);
     pile->move(margin + cardMap::CARDX() + cardMap::CARDX() / 4, margin);
     // Move the visual representation of the pile to the intended position
     // on the game board.

@@ -22,7 +22,7 @@ QSize HorLeftPile::cardOffset( bool _spread, bool, const Card *) const
 Fortyeight::Fortyeight( KMainWindow* parent, const char* name)
         : Dealer(parent,name)
 {
-    deck = new Deck(0, this, 2);
+    deck = Deck::new_deck(this, 2);
 
     const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
     const int dist_y = cardMap::CARDY() * 11 / 10 + 1;
@@ -31,7 +31,7 @@ Fortyeight::Fortyeight( KMainWindow* parent, const char* name)
     deck->move(10 + cardMap::CARDX() * 82 / 10, 10 + cardMap::CARDX() * 56 / 10);
     deck->setZ(20);
 
-    pile = new HorLeftPile(13, this);
+    pile = new HorLeftPile(20, this);
     pile->setAddFlags(Pile::addSpread | Pile::disallow);
     pile->move(10 + cardMap::CARDX() * 69 / 10, 10 + cardMap::CARDX() * 56 / 10 );
 
@@ -113,16 +113,14 @@ void Fortyeight::deal()
     pile->add(deck->nextCard(), false, false);
 }
 
-void Fortyeight::getGameState( QDataStream & stream )
+QString Fortyeight::getGameState() const
 {
-    stream << (Q_INT8)lastdeal;
+    return QString::number(lastdeal);
 }
 
-void Fortyeight::setGameState( QDataStream & stream )
+void Fortyeight::setGameState( const QString &s )
 {
-    Q_INT8 i;
-    stream >> i;
-    lastdeal = i;
+    lastdeal = s.toInt();
 }
 
 bool Fortyeight::isGameLost() const{
@@ -158,7 +156,7 @@ bool Fortyeight::isGameLost() const{
 		if(c->suit() == stack[k]->top()->suit() &&
 			c->value()+1 ==stack[k]->top()->value()){
 			int indexi=stack[i]->indexOf(c);
-			if(indexi==0)	
+			if(indexi==0)
 				return false;
 			Card *c2=stack[i]->at(indexi-1);
 			if(c2->value()!=stack[k]->top()->value() ||

@@ -11,7 +11,7 @@ Clock::Clock( KMainWindow* parent, const char *name )
     const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
     const int dist_y = cardMap::CARDY() * 11 / 10 + 1;
 
-    deck = new Deck(0, this);
+    deck = Deck::new_deck(this);
     deck->move(10, 10+dist_y*3);
     deck->hide();
 
@@ -26,7 +26,7 @@ Clock::Clock( KMainWindow* parent, const char *name )
     }
 
     for (int i=0; i<8; i++) {
-        store[i] = new Pile(5+i, this);
+        store[i] = new Pile(14+i, this);
         store[i]->move(15+dist_x*(i%4), 10 + cardMap::CARDY() * 5 / 2 * (i/4));
         store[i]->setAddFlags(Pile::addSpread);
         store[i]->setCheckIndex(0);

@@ -9,7 +9,7 @@
 Simon::Simon( KMainWindow* parent, const char *name )
     : Dealer( parent, name )
 {
-    deck = new Deck(0, this);
+    deck = Deck::new_deck(this);
     deck->move(10, 10);
     deck->hide();
 
@@ -119,7 +119,7 @@ bool Simon::isGameLost() const
 	kdDebug(11111) <<"store["<<i<<"]" << endl;
 
 		Card *c;
-		Card *top=store[i]->top();		
+		Card *top=store[i]->top();
 		int indexi=store[i]->indexOf(top);
 		while(--indexi >=0){
 		kdDebug(11111) <<top->name() << endl;
@@ -130,7 +130,7 @@ bool Simon::isGameLost() const
 			else
 				break;
 			}
-		
+
 		kdDebug(11111) <<"selected: " << top->name() << endl;
 		for(int j=1; j <10; j++){
 			int k=(i+j) % 10;

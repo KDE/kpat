@@ -31,7 +31,7 @@
 Computation::Computation( KMainWindow *parent, const char *name )
     :Dealer( parent, name)
 {
-    deck = new Deck(0, this);
+    deck = Deck::new_deck(this);
     deck->hide();
 
     for (int i = 0; i < 4; i++) {

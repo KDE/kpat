@@ -29,7 +29,7 @@
 Idiot::Idiot( KMainWindow* parent, const char* _name)
   : Dealer( parent, _name )
 {
-    deck = new Deck( 0, this );
+    deck = Deck::new_deck( this );
     deck->move(10, 10);
 
     away = new Pile( 5, this );

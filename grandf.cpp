@@ -29,7 +29,7 @@
 Grandf::Grandf( KMainWindow* parent, const char *name )
     : Dealer( parent, name )
 {
-    deck = new Deck(0, this);
+    deck = Deck::new_deck(this);
     deck->hide();
 
     const int distx = cardMap::CARDX() * 14 / 10;
@@ -147,16 +147,14 @@ bool Grandf::checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const
                && c2.first()->suit() == c1->top()->suit();
 }
 
-void Grandf::getGameState( QDataStream & stream )
+QString Grandf::getGameState() const
 {
-    stream << (Q_INT8)numberOfDeals;
+    return QString::number(numberOfDeals);
 }
 
-void Grandf::setGameState( QDataStream & stream )
+void Grandf::setGameState( const QString &s)
 {
-    Q_INT8 i;
-    stream >> i;
-    numberOfDeals = i;
+    numberOfDeals = s.toInt();
     aredeal->setEnabled(numberOfDeals < 3);
 }
 

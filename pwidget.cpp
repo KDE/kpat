@@ -357,7 +357,7 @@ void pWidget::chooseGame()
 {
     KLineEditDlg dlg(i18n("Enter a game number (1 to 32000 are the same as in the FreeCell FAQ):"), QString::number(dill->gameNumber()), this);
     dlg.setCaption(i18n("Game Number"));
-    
+
     bool ok;
     if (dlg.exec()) {
         long number = dlg.text().toLong(&ok);
@@ -400,12 +400,15 @@ void pWidget::openGame(const KURL &url)
     {
         QFile of(tmpFile);
         of.open(IO_ReadOnly);
-        QDataStream is(&of);
-        Q_UINT32 current_file_format;
-        is >> current_file_format; // file format
-        is.setVersion(3);
-        Q_UINT32 id;
-        is >> id; // dealer number
+        QDomDocument doc;
+        QString error;
+        if (!doc.setContent(&of, &error))
+        {
+            KMessageBox::sorry(this, error);
+            return;
+        }
+        uint id = doc.documentElement().attribute("id").toUInt();
+
         if (id != (Q_UINT32)games->currentItem()) {
             games->setCurrentItem(id);
             newGameType();
@@ -415,7 +418,7 @@ void pWidget::openGame(const KURL &url)
                 newGameType();
             }
         }
-        dill->openGame(is);
+        dill->openGame(doc);
         KIO::NetAccess::removeTempFile( tmpFile );
         recent->addURL(url);
         recent->saveEntries(KGlobal::config());
@@ -432,8 +435,10 @@ void pWidget::saveGame()
 {
     KURL url = KFileDialog::getSaveURL();
     KTempFile file;
-    QDataStream *stream = file.dataStream();
-    dill->saveGame(*stream);
+    QDomDocument doc("kpat");
+    dill->saveGame(doc);
+    QTextStream *stream = file.textStream();
+    *stream << doc.toString();
     file.close();
     KIO::NetAccess::upload(file.name(), url);
     recent->addURL(url);
