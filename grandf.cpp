@@ -159,13 +159,20 @@ void Grandf::setGameState( const QString &s)
 
 bool Grandf::isGameLost() const
 {
+    // If we can redeal, then nothing's lost yet.
     if (numberOfDeals <3)
         return false;
 
-    for(int i=0; i < 7; i++) { // check each store
+    // Work through the stores, look for killer criteria.
+    for(int i=0; i < 7; i++) {
 
-        if(store[i]->isEmpty()){ //look for a face up king
-            for(int i2=1; i2 < 7; i2++) { // check the other stores.
+        /* If this store is empty, then iterate through the other stores and
+         * check if there is a (visible) King card. If so, then we could move
+         * that to the free store (which means a turn is possible, so the
+         * game is not lost yet).
+         */
+        if(store[i]->isEmpty()){
+            for(int i2=1; i2 < 7; i2++) {
                 int j=(i+i2) % 7;
                 CardList p = store[j]->cards();
                 for (CardList::ConstIterator it = p.begin(); it != p.end(); ++it){
@@ -176,18 +183,25 @@ bool Grandf::isGameLost() const
             }
         }
         else{
-            //can we start a target pile ?
+            /* If this store has an Ace as it's top card, then we can start a
+             * new target pile!
+             */
             if(store[i]->top()->value() == Card::Ace)
                 return false;
 
-            // can we add to a target ?
+            /* Check whether the top card of this store could be added to
+             * any of the target piles.
+             */
             for(int j=0; j <4; j++)
                 if( !target[j]->isEmpty())
                     if(store[i]->top()->suit() == target[j]->top()->suit())
                         if( store[i]->top()->value() == target[j]->top()->value() +1)
                             return false;
 
-            for(int i2=1; i2 < 7; i2++) { // check the other stores.
+            /* Check whether any (group of) cards from another store could
+             * be put onto this store's top card.
+             */
+            for(int i2=1; i2 < 7; i2++) {
                 int j=(i+i2) % 7;
                 CardList p = store[j]->cards();
                 for (CardList::ConstIterator it = p.begin(); it != p.end(); ++it){
