@@ -23,7 +23,7 @@ SUBDIRS = icons pics
 docsdir = $(kde_htmldir)/en/kpat
 
 # if there are more docs, use a sub directory
-docs_DATA = index.html
+docs_DATA = index.html index-1.html index-2.html logotp3.gif
 
 apps_DATA = kpat.kdelnk
 appsdir = $(kde_appsdir)/Games

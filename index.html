@@ -1,136 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 <HTML>
 <HEAD>
-   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
-   <META NAME="GENERATOR" CONTENT="vi">
-   <TITLE>KPat</TITLE>
-<!-- Created by: Mario Weilguni,  6-Aug-1997 -->
-<!-- Changed by: Mario Weilguni, 11-Aug-1997 -->
-<!-- Changed by: Rodolfo Borges, 21-Oct-1997 -->
+<TITLE>The KPat Handbook</TITLE>
+<META HTTP-EQUIV="content-type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="keywords" CONTENT="KDE game patience solitaire">
+<META NAME="description" CONTENT="KDE Patience">
 </HEAD>
-<BODY>
+<BODY BGCOLOR="#ffffff" LINK="#aa0000" TEXT="#000000" > 
+<FONT FACE="Helvetica">
+<A HREF="http://www.kde.org/"><IMG SRC="logotp3.gif" BORDER="0" ALT="The K Desktop Environment"></A>
+<HR WIDTH="100%" SIZE=2 ALIGN="CENTER" NOSHADE>
 
-<CENTER>
-<H1>
-KPat - a patience (or solitaire) game
-</H1>
-version 0.7 - 21/Oct/1997
-</CENTER>
+ 
+<P ALIGN="RIGHT">
 
-<H2>
-Rules of the games
-</H2>
+<A HREF="index-1.html">Next</A>
+PreviousTable of Contents</P>
+<H1>The KPat Handbook</H1>
 
-<UL>&nbsp;<A HREF="#klondike">"Klondike"</A>
-<BR>&nbsp;<A HREF="#microsolitaire">"MicroSolitaire"</A>
-<BR><A HREF="#calculation">"Calculation"</A>
-<BR>&nbsp;<A HREF="#napoleon">"Napoleon's Tomb"</A>
-<BR>&nbsp;<A HREF="#the_idiot">"The Idiot"</A>
-<BR>&nbsp;<A HREF="#grandfather">"Grandfather"</A>
-<BR>&nbsp;<A HREF="#ten">"Ten"</A>
-<BR>&nbsp;<A HREF="#mod3">"Mod3"</A>
-<BR>&nbsp;<A HREF="#freecell">"Freecell"</A>
+<SMALL><I>
+Paul Olav Tvete
+</I></SMALL>
+<BR><I><SMALL>Version 0.7, 17 February 1998</SMALL></I><BR>
+<P><HR>
+<EM>This documentation was last updated for kpat version 0.7. Please make any comments and additions to the author.</EM>
+<HR>
+<P>
+<H2><A NAME="toc1">1.</A> <A HREF="index-1.html">Rules of the game</A></H2>
+
+<UL>
+<LI><A HREF="index-1.html#ss1.1">1.1 Klondike</A>
+<LI><A HREF="index-1.html#ss1.2">1.2 MicroSolitaire</A>
+<LI><A HREF="index-1.html#ss1.3">1.3 Calculation</A>
+<LI><A HREF="index-1.html#ss1.4">1.4 Napoleon's Tomb</A>
+<LI><A HREF="index-1.html#ss1.5">1.5 The Idiot</A>
+<LI><A HREF="index-1.html#ss1.6">1.6 Grandfather</A>
+<LI><A HREF="index-1.html#ss1.7">1.7 Ten</A>
+<LI><A HREF="index-1.html#ss1.8">1.8 Mod3</A>
+<LI><A HREF="index-1.html#ss1.9">1.9 Freecell</A>
 </UL>
+<P>
+<H2><A NAME="toc2">2.</A> <A HREF="index-2.html">Epilogue</A></H2>
 
-<H3>
-<A NAME="klondike"></A>Rules for "Klondike"</H3>
-You know this one. Alternate red and black on the foundations. Follow suit
-on the top. When you click on the deck, three more cards are dealt. Simple
-rules means that excess cards are put on top of the deck, hard rules that
-they are left on bottom.
+<UL>
+<LI><A HREF="index-2.html#ss2.1">2.1 Authors</A>
+<LI><A HREF="index-2.html#ss2.2">2.2 Copyright</A>
+</UL>
+<P ALIGN="RIGHT">
 
-<H3>
-<A NAME="microsolitaire"></A>Rules for "MicroSolitaire"</H3>
-This version of Klondike was popularized by a large software company.
-Alternate red and black on the foundations. Follow suit on the top.
-When you click on the deck, one card&nbsp; is dealt.
-
-<h3><a name=calculation></a>Rules for "Calculation"</h3>
-This one takes some time to get used to. The objective is to move all cards
-to the top four piles. Unlike most other forms of patience, you do not need
-to follow suit. On the leftmost pile, put the cards in sequence
-A-2-3-4-5-6-7-8-9-10-J-Q-K. On the second pile the sequence is
-2-4-6-8-10-Q-A-3-5-7-9-J-K, on the third 3-6-9-Q-2-5-8-J-A-4-7-10-K,
-and on the rightmost 4-8-Q-3-7-J-2-6-10-A-5-9-K.
-<br>
-You may use the bottom piles any way you want, but remember that it is
-possible to transfer sequences as well as single cards to the top piles.
-
-<h3><a name=napoleons_tomb></a>Rules for "Napoleon's Tomb"</h3>
-The four diagonal piles takes cards of any suit, of increasing value starting
-with 7 and ending up with K. The middle pile takes cards of any suit,
-starting with 6, decreasing down to A, and string over again with 6. The
-remaining four positions are for temporary storage, each may hold one card.
-
-<h3><A NAME="the_idiot"></A>Rules for "The Idiot"</H3>
-If more than one card of the same suit is exposed, you can remove the
-lower-valued ones. You can move cards to empty positions. The objective is
-to end up with only aces.
-
-<h3><a name=grandfather></a>Rules for "Grandfather"</h3>
-The objective is to move all cards to the top four piles, in ascending order
-and following suit in each pile. On the foundation, you may move a card to
-the next card of the same suit; you may move the five of spades on top of
-the six of  spades, even if there are other cards on top of the five of
-spades. When no further moves are possible, click "Redeal". The game is over
-after two redeals.
-
-<h3><a name=ten></a>Rules for "Ten"</h3>
-If three cards on the outer edge of one pile sums to 10, 20 or 30, you can
-remove them. K, Q and J count as 10. To remove cards, just click on the pile.
-The objective is to remove all cards. If this is too much mental strain, just
-select "Full Auto"  and watch the machine do your relaxation for you.
-
-<h3><a name=mod3></a>Rules for "Mod3"</h3>
-The objective is to move all cards to the top three rows.
-The first row takes cards starting with 2, the second starts with 3,
-the third starts with 4. The other cards must be of the same suit,
-increasing by 3. In other words, the first three rows takes the sequences
-2-5-8-J, 3-6-9-Q, 4-7-10-K, respectively.
-You can only place a 8 on the top of a 5 on the first row if the 5 is on the
-top of a 2. The 2 can be placed on an empty place of the first row.
-At each redeal, eight more cards goes to the fourth row.
-Aces don't play.
-
-<h3><a name=freecell></a>Rules for "Freecell"</h3>
-The objective is to move all cards to the store positions (the four top-right
-places), starting with aces, in ascending order, following suits.
-The free cells (the four top-left places) can hold any -- and just one --
-card.
-Alternate red and black (in ascending order) to put cards on the other
-eight stacks. If one of the stacks is empty, any card can be placed there.
-If there is enough free cells you can move multiple cards if they are in
-the correct sequence and with alternate colors.
-The number of free cells required is the same as if you would make an
-equivalent sequence of moves with single cards.
-
-<BR>&nbsp;
-<BR>&nbsp;
-<BR>&nbsp;
-<H2>
-Copyright notice</H2>
-<I>&nbsp;&nbsp;&nbsp;&nbsp; Patience -- a general class for patience card
-games</I>
-<BR><I>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Copyright (C) 1995&nbsp; Paul Olav
-Tvete</I><I></I>
-
-<P><I>&nbsp; Permission to use, copy, modify, and distribute this software
-and its</I>
-<BR><I>&nbsp; documentation for any purpose and without fee is hereby granted,</I>
-<BR><I>&nbsp; provided that the above copyright notice appear in all copies
-and that</I>
-<BR><I>&nbsp; both that copyright notice and this permission notice appear
-in</I>
-<BR><I>&nbsp; supporting documentation.</I>
-<BR><I>&nbsp;</I>
-<BR><I>&nbsp; This file is provided AS IS with no warranties of any kind.&nbsp;
-The author</I>
-<BR><I>&nbsp; shall have no liability with respect to the infringement
-of copyrights,</I>
-<BR><I>&nbsp; trade secrets or any patents by this file or any part thereof.&nbsp;
-In no</I>
-<BR><I>&nbsp; event will the author be liable for any lost revenue or profits
-or</I>
-<BR><I>&nbsp; other special, indirect and consequential damages.</I><I></I>
+<A HREF="index-1.html">Next</A>
+PreviousTable of Contents</P>
+<CENTER>
+<HR WIDTH="100%" SIZE=3 ALIGN=CENTER NOSHADE>
+</CENTER>    
+</FONT>
 
 </BODY>
 </HTML>

@@ -54,7 +54,6 @@
 
 // help menu
 #define ID_HHELP	901
-#define ID_HHELPRULES	902
 #define ID_HABOUT	903
 #define ID_HABOUTQT	904
 
@@ -126,7 +125,6 @@ pWidget::pWidget(QWidget *, const char *)
   m->insertSeparator();
   QPopupMenu *m_help = new QPopupMenu;
   m_help->insertItem(locale->translate("&Help..."), ID_HHELP);
-  m_help->insertItem(locale->translate("Help on &rules..."), ID_HHELPRULES);
   m_help->insertSeparator();
   m_help->insertItem(locale->translate("About &Qt..."), ID_HABOUTQT);
   m_help->insertItem(locale->translate("A&bout..."), ID_HABOUT);
@@ -231,10 +229,6 @@ void pWidget::action(int id) {
 
   case ID_HHELP:
     help();
-    break;
-
-  case ID_HHELPRULES:
-    helpRules();
     break;
 
   case ID_HABOUTQT:
