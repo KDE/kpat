@@ -74,36 +74,34 @@ bool Gypsy::isGameLost() const {
 		}
 	}
 
-	Card *cardi,*cnext;
-	int i, j, k, indexi;
+	for(int i=0; i < 8; i++) {
+            Card *cnext=store[i]->top();
+            int indexi=store[i]->indexOf(cnext);
 
-	for(i=0; i < 8; i++){
-		cnext=store[i]->top();
-		indexi=store[i]->indexOf(cnext);
+            Card *cardi= 0;
+            do{
+                cardi=cnext;
+                if (indexi>0)
+                    cnext=store[i]->at( --indexi );
 
-		do{
-			cardi=cnext;
-			if (indexi>0)
-				cnext=store[i]->at( --indexi );
+                for(int k=0; k <8; k++) {
+                    if (i == k)
+                        continue;
 
+                    if((cardi->value()+1 == store[k]->top()->value()) &&
+                       cardi->isRed() != store[k]->top()->isRed()){
 
-			for(j=1; j <8; j++){
-				k=(i+k) % 8;
+                        // this test doesn't apply if indexi==0, but fails gracefully.
+                        if(cnext->value() == store[k]->top()->value() &&
+                           cnext->suit() == store[k]->top()->suit())
+                            break; //nothing gained; keep looking.
 
-				if((cardi->value()+1 == store[k]->top()->value()) &&
-					cardi->isRed() != store[k]->top()->isRed()){
+                        return false;// TODO: look deeper, move may not be helpful.
+                    }
+                }
 
-				// this test doesn't apply if indexi==0, but fails gracefully.
-					if(cnext->value() == store[k]->top()->value() &&
-						cnext->suit() == store[k]->top()->suit())
-						break; //nothing gained; keep looking.
-
-					return false;// TODO: look deeper, move may not be helpful.
-				}
-			}
-
-		} while((indexi>=0) && (cardi->value()+1 == cnext->value()) &&
-			(cardi->isRed() != cnext->isRed()));
+            } while((indexi>=0) && (cardi->value()+1 == cnext->value()) &&
+                    (cardi->isRed() != cnext->isRed()));
 	}
 
 	return true;
