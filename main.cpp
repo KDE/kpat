@@ -32,7 +32,7 @@ KConfig* config = 0;
 int main( int argc, char **argv )
 {
   KAboutData aboutData( "kpat", I18N_NOOP("KPatience"), 
-    KPAT_VERSION, description, KAboutData::GPL, 
+    KPAT_VERSION, description, KAboutData::License_GPL, 
     "(c) 1995, Paul Olav Tvete");
   aboutData.addAuthor("Paul Olav Tvete");
   aboutData.addAuthor("Mario Weilguni",0,"mweilguni@kde.org");
