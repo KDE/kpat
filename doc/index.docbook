@@ -1,21 +1,21 @@
 <!DOCTYPE book PUBLIC  "-//KDE//DTD DocBook V3.1-Based Variant V1.0//EN" [
-  <!ENTITY kapp "<application>KPatience</application>">
-  <!ENTITY kappname "&kapp;" -- this only *seems* redundant -->
+  <!ENTITY kappname "&kpatience;" -- this only *seems* redundant -->
   <!ENTITY % addindex "IGNORE">
-  <!ENTITY % ents PUBLIC "-//KDE//ENTITIES Application-Variable Entities V1.0//EN">
+  <!ENTITY % English "INCLUDE">
+  <!ENTITY % ents PUBLIC "-//KDE//ENTITIES Documentation V1.0//EN">
   %ents;
 ]>
 
-<book lang="en">
+<book lang="&language;">
 <bookinfo>
-<title>The KPatience Handbook</title>
+<title>The &kpat; Handbook</title>
 
 <authorgroup>
 <author>
 <firstname>Paul Olav</firstname>
 <surname>Tvete</surname>
 </author>
-<othercredit>
+<othercredit role="reviewer">
 <firstname>Mike</firstname><surname>McBride</surname>
 <contrib>Reviewer</contrib>
 <affiliation><address><email>mpmcbride7@yahoo.com</email></address></affiliation>
@@ -29,11 +29,11 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>25/11/2000</date>
+<date>16/12/2000</date>
 <releaseinfo>0.07.04</releaseinfo>
 <abstract>
 
-<para>This documentation was last updated for &kapp; version 0.7.04. Please make
+<para>This documentation was last updated for &kpat; version 0.7.04. Please make
 any comments and additions to the author.</para>
 
 </abstract>
@@ -48,50 +48,13 @@ any comments and additions to the author.</para>
 <chapter id="Introduction">
 <title>Introduction</title>
 
-<para>&kapp; is a collection of 9 card games.  All the games are single player
+<para>&kpat; is a collection of 9 card games.  All the games are single player
 games.</para>
 
 </chapter>
 
-<chapter id="installation">
-<title>Installation</title>
-
-<sect1 id="getting-kpat">
-<title>How to obtain &kapp;</title>
-
-<para>&kapp; is part of the KDE project
-<ulink url="http://www.kde.org">http://www.kde.org</ulink>.
-&kapp; can be found in the kdeutils package on
-<ulink url="ftp://ftp.kde.org/pub/kde/">ftp://ftp.kde.org/pub/kde/</ulink>, the
-main ftp site of the KDE project. </para>
-</sect1>
-
-<sect1 id="compilation">
-<title>Compilation and installation</title>
-
-<para>In order to compile and install &kapp; on your system, type the following
-in the base directory of source distribution:</para>
-
-<screen width="40">
-<prompt>%</prompt> <userinput>cd kdegames</userinput>
-<prompt>%</prompt> <userinput>./configure</userinput>
-<prompt>%</prompt> <userinput>cd kpat</userinput>
-<prompt>%</prompt> <userinput>make</userinput>
-<prompt>%</prompt> <userinput>make install</userinput>
-</screen>
-
-<para>Since &kapp; uses <application>autoconf</application> and
-<application>automake</application> you should have not trouble compiling
-it.</para>
-
-<para>Should you run into problems please report them to the KDE mailing
-lists.</para>
-
-</sect1>
-</chapter>
-
 <chapter id="using-kpat">
-<title>Using &kapp;</title>
+<title>Using &kpat;</title>
 
 <para>Like all computer based solitare games, the computer has already dealt you
 a game.</para>
@@ -108,7 +71,7 @@ linkend="rules-of-the-game">Rules of the Games"</link>.</para>
 <chapter id="rules-of-the-game">
 <title>Rules of the games</title>
 
-<para>&kapp; contains 9 card games.  Simply click on the name of the game to
+<para>&kpat; contains 9 card games.  Simply click on the name of the game to
 view the rules of the game"</para>
 
 <itemizedlist>
@@ -247,7 +210,7 @@ cards. </para>
 
 <chapter id="menus">
 <title>Menu Commands</title>
-<para>All the commands available to &kapp; can be found within the menu
+<para>All the commands available to &kpat; can be found within the menu
 commands</para>
 
 <sect1 id="file-menu"><title>File Menu</title>
@@ -260,7 +223,7 @@ commands</para>
 <guimenu>File</guimenu><guimenuitem>Quit</guimenuitem></menuchoice></term>
 <listitem>
 <para>
-Selecting this item will end your current game, and exit the &kapp;.
+Selecting this item will end your current game, and exit the &kpat;.
 </para>
 </listitem>
 </varlistentry>
@@ -295,7 +258,7 @@ on the last move.</para></listitem>
 <guimenu>Game</guimenu><guimenuitem>Choose New Game</guimenuitem></menuchoice></term>
 <listitem>
 <para>Selecting this option provides you with a submenu listing the 9 available
-games.  Simply select the game you want, and &kapp; will stop the current game,
+games.  Simply select the game you want, and &kpat; will stop the current game,
 and deal a new hand in the new game type.</para>
 </listitem>
 </varlistentry>
@@ -317,7 +280,7 @@ Lets you choose a new pattern for the backs of the cards.
 <guimenu>Edit</guimenu><guimenuitem>Animation on Startup.</guimenuitem></menuchoice></term>
 <listitem>
 <para>If there is a checkmark in front of this option, when you first start
-&kapp;, there is a short animation and title page which appears.  To disable
+&kpat;, there is a short animation and title page which appears.  To disable
 this, simply remove the check from in front of this option.</para>
 </listitem>
 </varlistentry>
@@ -341,7 +304,7 @@ help file.</para>
 <shortcut><keycombo><keycap>Shift</keycap><keycap>F1</keycap></keycombo></shortcut>
 <guimenu>Help</guimenu><guimenuitem>What's This?</guimenuitem></menuchoice></term>
 <listitem><para>This changes the mouse cursor to a combination arrow and
-question mark.  Clicking on items within &kapp; with this arrow will open a help
+question mark.  Clicking on items within &kpat; with this arrow will open a help
 window (if one exists for the particular item) explaining the item's
 function.</para></listitem>
 </varlistentry>
@@ -376,7 +339,7 @@ information.</para></listitem>
 <title>Credits and License</title>
 
 <para>
-&kapp; Copyright 1995-2000  Paul Olav Tvete 
+&kpat; Copyright 1995-2000  Paul Olav Tvete 
 </para>
 <para>
 Documentation Copyright 2000 Paul Olav Tvete 
@@ -386,9 +349,48 @@ Documentation updated for KDE 2.0 by Michael McBride
 <email>mpmcbride7@yahoo.com</email>
 </para>
 
-&x11license-links;
+&underFDL;
+&underX11License;
 
 </chapter>
+
+<appendix id="installation">
+<title>Installation</title>
+
+<sect1 id="getting-kpat">
+<title>How to obtain &kpat;</title>
+
+<para>&kpat; is part of the KDE project
+<ulink url="http://www.kde.org">http://www.kde.org</ulink>.
+&kpat; can be found in the kdeutils package on
+<ulink url="ftp://ftp.kde.org/pub/kde/">ftp://ftp.kde.org/pub/kde/</ulink>, the
+main ftp site of the KDE project. </para>
+</sect1>
+
+<sect1 id="compilation">
+<title>Compilation and installation</title>
+
+<para>In order to compile and install &kpat; on your system, type the following
+in the base directory of source distribution:</para>
+
+<screen width="40">
+<prompt>%</prompt> <userinput>cd kdegames</userinput>
+<prompt>%</prompt> <userinput>./configure</userinput>
+<prompt>%</prompt> <userinput>cd kpat</userinput>
+<prompt>%</prompt> <userinput>make</userinput>
+<prompt>%</prompt> <userinput>make install</userinput>
+</screen>
+
+<para>Since &kpat; uses <application>autoconf</application> and
+<application>automake</application> you should have not trouble compiling
+it.</para>
+
+<para>Should you run into problems please report them to the KDE mailing
+lists.</para>
+
+</sect1>
+</appendix>
+
 </book>
 <!--
 Local Variables:
