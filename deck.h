@@ -23,6 +23,8 @@ public:
 
     Card* nextCard();
 
+    uint decksNum() const { return mult; }
+
  private: // functions
 
     void makedeck();
@@ -31,7 +33,7 @@ public:
 
 private:
 
-    int mult;
+    uint mult;
     Card** deck;
 };
 

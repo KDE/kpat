@@ -114,9 +114,10 @@ signals:
     void undoPossible(bool poss);
     void gameWon(bool withhelp);
     void saveGame(); // emergency
+    void gameInfo(const QString &info);
 
 public slots:
-    void demo();
+    virtual void demo();
     void waitForDemo(Card *);
     void toggleDemo();
     virtual void stopDemo();

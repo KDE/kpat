@@ -501,6 +501,7 @@ void Dealer::slotTakeState(Card *c) {
         c->disconnect();
     takeState();
 }
+
 void Dealer::enlargeCanvas(QCanvasRectangle *c)
 {
     if (!c->visible() || c->animated())
@@ -742,7 +743,7 @@ void Dealer::takeState()
             QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
         }
     }
-    emit undoPossible(undoList.count() > 1);
+    emit undoPossible(undoList.count() > 1 && !waiting());
 }
 
 void Dealer::saveGame(QDataStream &s) {
@@ -837,6 +838,7 @@ void Dealer::setWaiting(bool w)
         _waiting++;
     else
         _waiting--;
+    emit undoPossible(!waiting());
     kdDebug() << "setWaiting " << w << " " << _waiting << endl;
 }
 

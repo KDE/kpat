@@ -2,7 +2,8 @@
 
   freecell.cpp  implements a patience card game
 
-     Copyright (C) 1997  Rodolfo Borges
+     Copyright (C) 1997 Rodolfo Borges
+               (C) 2000 Stephan Kulow
 
  * Permission to use, copy, modify, and distribute this software and its
  * documentation for any purpose and without fee is hereby granted,
@@ -24,21 +25,30 @@
 #include "dealer.h"
 #include "hint.h"
 
-class FreecellPile;
+class FreecellPile : public Pile
+{
+public:
+    FreecellPile(int _index, Dealer* parent = 0) : Pile(_index, parent) {}
+    virtual void moveCards(CardList &c, Pile *to);
+};
 
-class Freecell : public Dealer
+class FreecellBase : public Dealer
 {
     Q_OBJECT
 
 public:
-    Freecell( KMainWindow* parent=0, const char* name=0);
+    FreecellBase( int decks, int stores, int freecells, int es_filling,
+                  KMainWindow* parent=0, const char* name=0);
     void moveCards(CardList &c, FreecellPile *from, Pile *to);
+    QString solverFormat() const;
 
 public slots:
-    void deal();
+    virtual void deal() = 0;
     virtual void restart();
     void waitForMoving(Card *c);
     void startMoving();
+    void resumeSolution();
+    virtual void demo();
 
 protected:
     virtual bool checkRemove( int checkIndex, const Pile *c1, const Card *c) const;
@@ -63,17 +73,20 @@ protected:
     virtual void stopDemo();
     virtual void newDemoMove(Card *m);
 
-private:
-    FreecellPile *store[8];
-    Pile *freecell[4];
-    Pile *target[4];
+
+protected:
+    QValueList<FreecellPile*> store;
+    PileList freecell;
+    PileList target;
     Deck *deck;
+private:
     QValueList<MoveHint*> moves;
     Card *waitfor;
-    void *solver_instance;
+    void *solver_instance, *solver_state;
+    int es_filling;
+    int solver_ret;
 };
 
 #endif
-
 
 //-------------------------------------------------------------------------//

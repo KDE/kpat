@@ -36,7 +36,7 @@ void Deck::makedeck() {
     int i=0;
 
     show();
-    for ( int m = 0; m < mult; m++)
+    for ( uint m = 0; m < mult; m++)
     {
         for ( int v = Card::Ace; v <= Card::King; v++)
         {
@@ -52,7 +52,7 @@ void Deck::makedeck() {
 }
 
 Deck::~Deck() {
-    for (int i=0; i < mult*NumberOfCards; i++) {
+    for (uint i=0; i < mult*NumberOfCards; i++) {
         delete deck[i];
     }
     myCards.clear();
@@ -88,7 +88,7 @@ void Deck::shuffle() {
     Card* t;
     long z;
     int left = mult*NumberOfCards;
-    for (int i = 0; i < mult*NumberOfCards; i++) {
+    for (uint i = 0; i < mult*NumberOfCards; i++) {
         z = pseudoRandom_random() % left;
         t = myCards[z];
         myCards[z] = myCards[left-1];
@@ -101,8 +101,10 @@ void Deck::shuffle() {
 void Deck::addToDeck() {
     clear();
 
-    for (int i = 0; i < mult*NumberOfCards; i++)
+    for (uint i = 0; i < mult*NumberOfCards; i++) {
+        deck[i]->setTakenDown(false);
         add( deck[i], true, false );
+    }
 }
 
 

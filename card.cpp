@@ -253,7 +253,7 @@ void Card::setAnimated(bool anim)
 
 void Card::setTakenDown(bool td)
 {
-    if (false && td)
+    if (td)
         kdDebug() << "took down " << name() << endl;
     tookDown = td;
 }

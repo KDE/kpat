@@ -211,6 +211,7 @@ void pWidget::newGame() {
 }
 
 void pWidget::restart() {
+    statusBar()->clear();
     dill->resetSize(QSize(dill->visibleWidth(), dill->visibleHeight()));
     dill->startNew();
 }
@@ -225,6 +226,8 @@ void pWidget::newGameType()
         if ((*it)->gameindex == id) {
             dill = (*it)->createGame(this);
             connect(dill, SIGNAL(saveGame()), SLOT(saveGame()));
+            connect(dill, SIGNAL(gameInfo(const QString&)),
+                    SLOT(slotGameInfo(const QString &)));
             dill->setGameId(id);
             dill->setupActions();
             dill->setBackgroundPixmap(background, midcolor);
@@ -267,6 +270,11 @@ void pWidget::newGameType()
     dill->show();
 
     kdDebug() << "size2 " << dill->width() << " " << width() << " " << dill->sizeHint().width() << endl;
+}
+
+void pWidget::slotGameInfo(const QString &text)
+{
+    statusBar()->message(text, 3000);
 }
 
 void pWidget::setBackSide(const QString &deck, const QString &cards)
