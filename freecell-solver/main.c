@@ -165,8 +165,8 @@ char * help_string =
 "     Specify a maximal number of iterations number.\n"
 "\n"
 "-to [tests_order]   --tests-order  [tests_order] \n"
-"    Specify a test order string. Each test is represented by one character.\n"
-"    Valid tests:\n"
+"     Specify a test order string. Each test is represented by one character.\n"
+"     Valid tests:\n"
 "        '0' - put top stack cards in the foundations.\n"
 "        '1' - put freecell cards in the foundations.\n"
 "        '2' - put freecell cards on top of stacks.\n"
@@ -177,6 +177,25 @@ char * help_string =
 "        '7' - put freecell cards on empty stacks.\n"
 "        '8' - move cards to a different parent.\n"
 "        '9' - empty an entire stack into the freecells.\n"
+"\n"
+"-me [solving_method]   --method [solving_method]\n"
+"     Specify a solving method. Available methods are:\n"
+"        \"a-star\" - A*\n"
+"        \"bfs\" - Breadth-First Search\n"
+"        \"dfs\" - Depth-First Search (default)\n"
+"        \"soft-dfs\" - \"Soft\" DFS\n"
+"\n"
+"-asw [A* Weights]   --a-star-weight [A* Weights]\n" 
+"     Specify weights for the A* scan, assuming it is used. The parameter\n"
+"     should be a comma-separated list of numbers, each one is proportional\n"
+"     to the weight of its corresponding test.\n"
+"\n"
+"     The numbers are, in order:\n"
+"     1. The number of cards out.\n"
+"     2. The maximal sequence move.\n"
+"     3. The number of cards under sequences.\n"
+"     4. The length of the sequences which are found over renegade cards.\n"
+"     5. The depth of the board in the solution.\n"
 "\n"
 "\n"
 "Signals: (applicable only for fc-solve-debug)\n"
@@ -501,6 +520,91 @@ int main(int argc, char * argv[])
         {
             display_moves = 1;
         }
+        else if ((!strcmp(argv[arg], "-me")) || (!strcmp(argv[arg], "--method")))
+        {
+            arg++;
+            if (arg == argc)
+            {
+                fprintf(
+                    stderr,
+                    "The option \"%s\" should be followed by a parameter.\n",
+                    argv[arg-1]
+                    );
+
+                freecell_solver_free_instance(instance);
+                return -1;                        
+            }
+            if (!strcmp(argv[arg], "dfs"))
+            {
+                instance->method = FCS_METHOD_HARD_DFS;
+            }
+            else if (!strcmp(argv[arg], "soft-dfs"))
+            {
+                instance->method = FCS_METHOD_SOFT_DFS;
+            }
+            else if (!strcmp(argv[arg], "bfs"))
+            {
+                instance->method = FCS_METHOD_BFS;
+            }
+            else if (!strcmp(argv[arg], "a-star"))
+            {
+                instance->method = FCS_METHOD_A_STAR;
+            }
+            else
+            {
+                fprintf(
+                    stderr,
+                    "Unknown solving method \"%s\".\n", 
+                    argv[arg]
+                    );
+
+                freecell_solver_free_instance(instance);
+                return -1;                        
+            }
+        }
+        else if ((!strcmp(argv[arg], "-asw")) || (!strcmp(argv[arg], "--a-star-weights")))
+        {
+            arg++;
+            if (arg == argc)
+            {
+                fprintf(
+                    stderr,
+                    "The option \"%s\" should be followed by a parameter.\n",
+                    argv[arg-1]
+                    );
+
+                freecell_solver_free_instance(instance);
+                return -1;                        
+            }
+            {
+                int a;
+                char * start_num;
+                char * end_num;
+                char save;
+                start_num = argv[arg];
+                for(a=0;a<5;a++)
+                {
+                    while ((*start_num > '9') && (*start_num < '0') && (*start_num != '\0'))
+                    {
+                        start_num++;
+                    }
+                    if (*start_num == '\0')
+                    {
+                        break;
+                    }
+                    end_num = start_num+1;
+                    while ((((*end_num >= '0') && (*end_num <= '9')) || (*end_num == '.')) && (*end_num != '\0'))
+                    {
+                        end_num++;
+                    }
+                    save = *end_num;
+                    *end_num = '\0';
+                    instance->a_star_weights[a] = atof(start_num);
+                    *end_num = save;
+                    start_num=end_num+1;
+                }
+            }
+        }
         else
         {
             break;
@@ -612,6 +716,13 @@ int main(int argc, char * argv[])
     freecell_solver_init_instance(instance);
 
     ret = freecell_solver_solve_instance(instance, &state);
+#if 0
+    while (ret == FCS_STATE_SUSPEND_PROCESS) 
+    {        
+        instance->max_num_times += 1000;
+        ret = freecell_solver_resume_instance(instance);
+    }
+#endif
 
     if (ret == FCS_STATE_WAS_SOLVED)
     {
@@ -625,12 +736,12 @@ int main(int argc, char * argv[])
 
             as_string = fcs_state_as_string(
                 instance->solution_states[a], 
-                freecells_num,
-                stacks_num,
-                decks_num,
-                parseable_output, 
-                canonized_order_output,
-                display_10_as_t);
+                instance->freecells_num,
+                instance->stacks_num,
+                instance->decks_num,
+                debug_context.parseable_output, 
+                debug_context.canonized_order_output,
+                debug_context.display_10_as_t);
 
             printf("%s\n\n====================\n\n", as_string);
             free(as_string);            
@@ -645,7 +756,8 @@ int main(int argc, char * argv[])
             fcs_move_t move;
             fcs_state_with_locations_t dynamic_state;
             FILE * move_dump;
-            char * as_string;                
+            char * as_string;
+            int counter = 0;
 
             fcs_move_stack_normalize(
                 instance->solution_moves,
@@ -692,10 +804,40 @@ int main(int argc, char * argv[])
                     debug_context.parseable_output, 
                     debug_context.canonized_order_output,
                     debug_context.display_10_as_t);
-            
+                    
                 fprintf(move_dump, "%s\n\n====================\n\n", as_string);
                 fflush(move_dump);
                 free(as_string);
+                
+                ret = fcs_check_state_validity(
+                    &dynamic_state, 
+                    instance->freecells_num, 
+                    instance->stacks_num, 
+                    instance->decks_num,
+                    &card);
+                
+                if (ret != 0)
+                {
+                    char card_str[10];
+                    fcs_card_perl2user(card, card_str, debug_context.display_10_as_t);
+                    if (ret == 3)
+                    {
+                        fprintf(move_dump, "%s\n",
+                            "There's an empty slot in one of the stacks."
+                            );
+                    }
+                    else
+                    {
+                        fprintf(move_dump, "%s%s counter=%i.\n",
+                            ((ret == 2)? "There's an extra card: " : "There's a missing card: "),
+                            card_str,
+                            counter
+                        );
+                    }
+
+                    return -1;
+                }
+                counter++;
             }
 #if 0       
             fclose(move_dump);
@@ -748,6 +890,9 @@ int main(int argc, char * argv[])
     }
     
     printf ("Total number of states checked is %i.\n", instance->num_times);
+#if 0
+    printf ("Stored states: %i.\n", instance->hash->num_elems);
+#endif
 
     freecell_solver_finish_instance(instance);
 

@@ -78,24 +78,25 @@ extern "C" {
 #include <db.h>
 #endif
 
+#include "pqueue.h"
+
+struct fcs_states_linked_list_item_struct
+{
+    fcs_state_with_locations_t * s;
+    struct fcs_states_linked_list_item_struct * next;
+};
+
+typedef struct fcs_states_linked_list_item_struct fcs_states_linked_list_item_t;
+
+
+
 #define FCS_TESTS_NUM 10
 
 typedef struct freecell_solver_instance
 {
-#ifdef DIRECT_STATE_STORAGE
-    fcs_state_with_locations_t * prev_states;
-
-    int num_prev_states;
-    int max_num_prev_states;
-#endif    
-
     int unsorted_prev_states_start_at;
 
-#ifdef DIRECT_STATE_STORAGE
-    fcs_state_with_locations_t prev_states_margin[PREV_STATES_SORT_MARGIN];
-#elif defined(INDIRECT_STATE_STORAGE)
     fcs_state_with_locations_t * indirect_prev_states_margin[PREV_STATES_SORT_MARGIN];
-#endif
     
     int num_prev_states_margin;    
 
@@ -188,10 +189,39 @@ typedef struct freecell_solver_instance
     int unlimited_sequence_move;
     int empty_stacks_fill;
 
-#if FCS_METHOD == FCS_METHOD_SOFT_DFS
+
     int dfs_max_depth;
+    int method;
+
+    fcs_states_linked_list_item_t * bfs_queue;
+    fcs_states_linked_list_item_t * bfs_queue_last_item;
+
+    PQUEUE * a_star_pqueue;
+    double a_star_initial_cards_under_sequences;
+#if 0
+    double a_star_weight_of_cards_out;
+    double a_star_weight_of_max_sequence_move;
+    double a_star_weight_of_cards_under_sequences;
 #endif
+    double a_star_weights[5];
+
+    fcs_state_with_locations_t * first_state_to_check;
+
+    fcs_state_with_locations_t * * * soft_dfs_states_to_check;
+    fcs_move_stack_t * * * soft_dfs_states_to_check_move_stacks;
+    int * soft_dfs_num_states_to_check;
+    int * soft_dfs_max_num_states_to_check;
+    int * soft_dfs_current_state_indexes;
+    int * soft_dfs_test_indexes;
 } freecell_solver_instance_t;
+
+#define FCS_SOFT_DFS_STATES_TO_CHECK_GROW_BY 32
+
+#define FCS_A_STAR_WEIGHT_CARDS_OUT 0
+#define FCS_A_STAR_WEIGHT_MAX_SEQUENCE_MOVE 1
+#define FCS_A_STAR_WEIGHT_CARDS_UNDER_SEQUENCES 2
+#define FCS_A_STAR_WEIGHT_SEQS_OVER_RENEGADE_CARDS 3
+#define FCS_A_STAR_WEIGHT_DEPTH 4 
 
 freecell_solver_instance_t * freecell_solver_alloc_instance(void);
 void freecell_solver_init_instance(freecell_solver_instance_t * instance);

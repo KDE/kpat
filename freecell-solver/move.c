@@ -122,27 +122,27 @@ void fcs_apply_move(fcs_state_with_locations_t * state_with_locations, fcs_move_
 
     state = (&(state_with_locations->s));
 
-    dest_stack = move.dest_stack;
-    src_stack = move.src_stack;
-    dest_freecell = move.dest_freecell;
-    src_freecell = move.src_freecell;
+    dest_stack = fcs_move_get_dest_stack(move);
+    src_stack = fcs_move_get_src_stack(move);
+    dest_freecell = fcs_move_get_dest_freecell(move);
+    src_freecell = fcs_move_get_src_freecell(move);
 
 
-    switch(move.type)
+    switch(fcs_move_get_type(move))
     {
         case FCS_MOVE_TYPE_STACK_TO_STACK:
         {
             src_stack_len = fcs_stack_len(*state, src_stack);
-            for(a=0 ; a<move.num_cards_in_sequence ; a++)
+            for(a=0 ; a<fcs_move_get_num_cards_in_seq(move) ; a++)
             {
                 fcs_push_stack_card_into_stack(
                     *state, 
                     dest_stack,
                     src_stack,
-                    src_stack_len-move.num_cards_in_sequence+a
+                    src_stack_len - fcs_move_get_num_cards_in_seq(move)+a
                     );            
             }
-            for(a=0 ; a<move.num_cards_in_sequence ; a++)
+            for(a=0 ; a<fcs_move_get_num_cards_in_seq(move) ; a++)
             {
                 fcs_pop_stack_card(
                     *state,
@@ -175,13 +175,13 @@ void fcs_apply_move(fcs_state_with_locations_t * state_with_locations, fcs_move_
         case FCS_MOVE_TYPE_STACK_TO_FOUNDATION:
         {
             fcs_pop_stack_card(*state, src_stack, temp_card);
-            fcs_increment_deck(*state, move.foundation);
+            fcs_increment_deck(*state, fcs_move_get_foundation(move));
         }
         break;
         case FCS_MOVE_TYPE_FREECELL_TO_FOUNDATION:
         {
             fcs_empty_freecell(*state, src_freecell);
-            fcs_increment_deck(*state, move.foundation);        
+            fcs_increment_deck(*state, fcs_move_get_foundation(move));        
         }
         break;
         case FCS_MOVE_TYPE_CANONIZE:
@@ -221,53 +221,53 @@ void fcs_move_stack_normalize(
             stacks_num,
             decks_num
             );
-        if (in_move.type == FCS_MOVE_TYPE_CANONIZE)
+        if (fcs_move_get_type(in_move) == FCS_MOVE_TYPE_CANONIZE)
         {
             /* Do Nothing */
         }
         else
         {
-            out_move.type = in_move.type;
-            if ((in_move.type == FCS_MOVE_TYPE_STACK_TO_STACK) ||
-                (in_move.type == FCS_MOVE_TYPE_STACK_TO_FREECELL) ||
-                (in_move.type == FCS_MOVE_TYPE_STACK_TO_FOUNDATION))
+            fcs_move_set_type(out_move, fcs_move_get_type(in_move));
+            if ((fcs_move_get_type(in_move) == FCS_MOVE_TYPE_STACK_TO_STACK) ||
+                (fcs_move_get_type(in_move) == FCS_MOVE_TYPE_STACK_TO_FREECELL) ||
+                (fcs_move_get_type(in_move) == FCS_MOVE_TYPE_STACK_TO_FOUNDATION))
             {
-                out_move.src_stack = dynamic_state.stack_locs[in_move.src_stack];
+                fcs_move_set_src_stack(out_move,dynamic_state.stack_locs[(int)fcs_move_get_src_stack(in_move)]);
             }
             
             if (
-                (in_move.type == FCS_MOVE_TYPE_FREECELL_TO_STACK) ||
-                (in_move.type == FCS_MOVE_TYPE_FREECELL_TO_FREECELL) ||
-                (in_move.type == FCS_MOVE_TYPE_FREECELL_TO_FOUNDATION))
+                (fcs_move_get_type(in_move) == FCS_MOVE_TYPE_FREECELL_TO_STACK) ||
+                (fcs_move_get_type(in_move) == FCS_MOVE_TYPE_FREECELL_TO_FREECELL) ||
+                (fcs_move_get_type(in_move) == FCS_MOVE_TYPE_FREECELL_TO_FOUNDATION))
             {
-                out_move.src_freecell = dynamic_state.fc_locs[in_move.src_freecell];
+                fcs_move_set_src_freecell(out_move,dynamic_state.fc_locs[(int)fcs_move_get_src_freecell(in_move)]);
             }
 
             if (
-                (in_move.type == FCS_MOVE_TYPE_STACK_TO_STACK) ||
-                (in_move.type == FCS_MOVE_TYPE_FREECELL_TO_STACK)
+                (fcs_move_get_type(in_move) == FCS_MOVE_TYPE_STACK_TO_STACK) ||
+                (fcs_move_get_type(in_move) == FCS_MOVE_TYPE_FREECELL_TO_STACK)
                 )
             {
-                out_move.dest_stack = dynamic_state.stack_locs[in_move.dest_stack];
+                fcs_move_set_dest_stack(out_move,dynamic_state.stack_locs[(int)fcs_move_get_dest_stack(in_move)]);
             }
 
             if (
-                (in_move.type == FCS_MOVE_TYPE_STACK_TO_FREECELL) ||
-                (in_move.type == FCS_MOVE_TYPE_FREECELL_TO_FREECELL)
+                (fcs_move_get_type(in_move) == FCS_MOVE_TYPE_STACK_TO_FREECELL) ||
+                (fcs_move_get_type(in_move) == FCS_MOVE_TYPE_FREECELL_TO_FREECELL)
                 )
             {
-                out_move.dest_freecell = dynamic_state.fc_locs[in_move.dest_freecell];
+                fcs_move_set_dest_freecell(out_move,dynamic_state.fc_locs[(int)fcs_move_get_dest_freecell(in_move)]);
             }
 
-            if ((in_move.type == FCS_MOVE_TYPE_STACK_TO_FOUNDATION) ||
-                (in_move.type == FCS_MOVE_TYPE_FREECELL_TO_FOUNDATION))
+            if ((fcs_move_get_type(in_move) == FCS_MOVE_TYPE_STACK_TO_FOUNDATION) ||
+                (fcs_move_get_type(in_move) == FCS_MOVE_TYPE_FREECELL_TO_FOUNDATION))
             {
-                out_move.foundation = in_move.foundation;
+                fcs_move_set_foundation(out_move,fcs_move_get_foundation(in_move));
             }
 
-            if ((in_move.type == FCS_MOVE_TYPE_STACK_TO_STACK))
+            if ((fcs_move_get_type(in_move) == FCS_MOVE_TYPE_STACK_TO_STACK))
             {
-                out_move.num_cards_in_sequence = in_move.num_cards_in_sequence;
+                fcs_move_set_num_cards_in_seq(out_move,fcs_move_get_num_cards_in_seq(in_move));
             }
 
             fcs_move_stack_push(temp_moves, out_move);
@@ -287,44 +287,44 @@ void fcs_move_stack_normalize(
 char * fcs_move_to_string(fcs_move_t move)
 {
     char string[256];
-    switch(move.type)
+    switch(fcs_move_get_type(move))
     {
         case FCS_MOVE_TYPE_STACK_TO_STACK:
             sprintf(string, "Move %i cards from stack %i to stack %i",
-                move.num_cards_in_sequence,
-                move.src_stack,
-                move.dest_stack
+                fcs_move_get_num_cards_in_seq(move),
+                fcs_move_get_src_stack(move),
+                fcs_move_get_dest_stack(move)
                 );
             
         break;
 
         case FCS_MOVE_TYPE_FREECELL_TO_STACK:
             sprintf(string, "Move a card from freecell %i to stack %i",
-                move.src_freecell,
-                move.dest_stack
+                fcs_move_get_src_freecell(move),
+                fcs_move_get_dest_stack(move)
                 );
             
         break;
 
         case FCS_MOVE_TYPE_FREECELL_TO_FREECELL:
             sprintf(string, "Move a card from freecell %i to freecell %i",
-                move.src_freecell,
-                move.dest_freecell
+                fcs_move_get_src_freecell(move),
+                fcs_move_get_dest_freecell(move)
                 );
 
         break;
 
         case FCS_MOVE_TYPE_STACK_TO_FREECELL:
             sprintf(string, "Move a card from stack %i to freecell %i",
-                move.src_stack,
-                move.dest_freecell
+                fcs_move_get_src_stack(move),
+                fcs_move_get_dest_freecell(move)
                 );
 
         break;
 
         case FCS_MOVE_TYPE_STACK_TO_FOUNDATION:
             sprintf(string, "Move a card from stack %i to the foundations",
-                move.src_stack
+                fcs_move_get_src_stack(move)
                 );
 
         break;
@@ -332,7 +332,7 @@ char * fcs_move_to_string(fcs_move_t move)
 
         case FCS_MOVE_TYPE_FREECELL_TO_FOUNDATION:
             sprintf(string, "Move a card from freecell %i to the foundations",
-                move.src_freecell
+                fcs_move_get_src_freecell(move)
                 );
 
         break;

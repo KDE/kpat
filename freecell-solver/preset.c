@@ -8,9 +8,9 @@
  */
 
 #include "fcs.h"
-#include "preset.h"
 
 #include <string.h>
+#include "preset.h"
 
 struct fcs_preset_struct
 {
@@ -179,7 +179,7 @@ static fcs_preset_t fcs_presets[13] =
 
 struct fcs_preset_name_struct
 {
-    const char *name;
+    char name[32];
     int preset_id;
 };
 
@@ -258,7 +258,7 @@ static fcs_preset_name_t fcs_preset_names[17] =
 };
 
 static int fcs_get_preset_id_by_name(
-    const char * name
+    char * name
 )
 {
     unsigned int a;
@@ -324,7 +324,7 @@ static int fcs_apply_preset(
 
 int fcs_apply_preset_by_name(
     freecell_solver_instance_t * instance,
-    const char * name
+    char * name
     )
 {
     int preset_id = fcs_get_preset_id_by_name(name);

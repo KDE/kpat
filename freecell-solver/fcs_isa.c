@@ -5,7 +5,6 @@
 */
 
 #include "config.h"
-#if defined(INDIRECT_STATE_STORAGE) || defined(TREE_STATE_STORAGE) || defined(HASH_STATE_STORAGE) || defined(DB_FILE_STATE_STORAGE)
 
 
 #include "state.h"
@@ -33,7 +32,7 @@ fcs_state_with_locations_t * fcs_state_ia_alloc(freecell_solver_instance_t * ins
             instance->max_num_state_packs += IA_STATE_PACKS_GROW_BY;
             instance->state_packs = (fcs_state_with_locations_t * *)realloc(instance->state_packs, sizeof(fcs_state_with_locations_t *) * instance->max_num_state_packs);
         }
-        instance->state_packs[instance->num_state_packs] = malloc(instance->state_pack_len*sizeof(fcs_state_with_locations_t));
+        instance->state_packs[instance->num_state_packs] = malloc(instance->state_pack_len * sizeof(fcs_state_with_locations_t));
         instance->num_state_packs++;
         instance->num_states_in_last_pack = 0;
     }
@@ -54,4 +53,19 @@ void fcs_state_ia_finish(freecell_solver_instance_t * instance)
     }
     free(instance->state_packs);
 }
-#endif
+
+void fcs_state_ia_foreach(freecell_solver_instance_t * instance, void (*ptr_function)(fcs_state_with_locations_t *, void *), void * context)
+{
+    int p,s;
+    for(p=0;p<instance->num_state_packs-1;p++)
+    {
+        for(s=0 ; s < instance->state_pack_len ; s++)
+        {
+            ptr_function(&(instance->state_packs[p][s]), context);
+        }
+    }
+    for(s=0; s < instance->num_states_in_last_pack ; s++)
+    {
+        ptr_function(&(instance->state_packs[p][s]), context);
+    }
+}

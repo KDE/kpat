@@ -255,44 +255,44 @@ void FreecellBase::resumeSolution()
 
 }
 MoveHint *FreecellBase::translateMove(void *m) {
-    fcs_move_t *move = static_cast<fcs_move_t *>(m);
-    uint cards = move->num_cards_in_sequence;
+    fcs_move_t move = *(static_cast<fcs_move_t *>(m));
+    uint cards = fcs_move_get_num_cards_in_seq(move);
     Pile *from = 0;
     Pile *to = 0;
 
-    switch(move->type)
+    switch(fcs_move_get_type(move))
     {
         case FCS_MOVE_TYPE_STACK_TO_STACK:
-            from = store[move->src_stack];
-            to = store[move->dest_stack];
+            from = store[fcs_move_get_src_stack(move)];
+            to = store[fcs_move_get_dest_stack(move)];
             break;
 
         case FCS_MOVE_TYPE_FREECELL_TO_STACK:
-            from = freecell[move->src_freecell];
-            to = store[move->dest_stack];
+            from = freecell[fcs_move_get_src_freecell(move)];
+            to = store[fcs_move_get_dest_stack(move)];
             cards = 1;
             break;
 
         case FCS_MOVE_TYPE_FREECELL_TO_FREECELL:
-            from = freecell[move->src_freecell];
-            to = freecell[move->dest_freecell];
+            from = freecell[fcs_move_get_src_freecell(move)];
+            to = freecell[fcs_move_get_dest_freecell(move)];
             cards = 1;
             break;
 
         case FCS_MOVE_TYPE_STACK_TO_FREECELL:
-            from = store[move->src_stack];
-            to = freecell[move->dest_freecell];
+            from = store[fcs_move_get_src_stack(move)];
+            to = freecell[fcs_move_get_dest_freecell(move)];
             cards = 1;
             break;
 
         case FCS_MOVE_TYPE_STACK_TO_FOUNDATION:
-            from = store[move->src_stack];
+            from = store[fcs_move_get_src_stack(move)];
             cards = 1;
             to = 0;
             break;
 
         case FCS_MOVE_TYPE_FREECELL_TO_FOUNDATION:
-            from = freecell[move->src_freecell];
+            from = freecell[fcs_move_get_src_freecell(move)];
             cards = 1;
             to = 0;
     }

@@ -1,5 +1,5 @@
 /*
- * move.h - header file for the move and move stacks functions of 
+ * move.h - header file for the move and move stacks functions of
  * Freecell Solver
  *
  * Written by Shlomi Fish (shlomif@vipe.technion.ac.il), 2000
@@ -17,14 +17,6 @@ extern "C" {
 #include "state.h"
 #include "fcs_move.h"
 
-struct fcs_move_stack_struct
-{
-    fcs_move_t * moves;
-    int max_num_moves;
-    int num_moves;
-};
-
-typedef struct fcs_move_stack_struct fcs_move_stack_t;
 
 fcs_move_stack_t * fcs_move_stack_create(void);
 int fcs_move_stack_push(fcs_move_stack_t * stack, fcs_move_t move);
@@ -55,4 +47,4 @@ char * fcs_move_to_string(fcs_move_t move);
 }
 #endif
 
-#endif
+#endif  /* __MOVE_H */

@@ -357,5 +357,7 @@ static void SFO_hash_rehash(
     free(new_hash);
 }
 
+#else
+void fcs_hash_c_dummy(); /* ANSI C doesn't allow empty compilation units */
 
 #endif /* defined(HASH_STATE_STORAGE) && defined(INTERNAL_HASH_IMPLEMENTATION) */

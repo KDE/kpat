@@ -55,4 +55,4 @@ extern void freecell_solver_user_free(
 }
 #endif
 
-#endif
+#endif // __FCS_USER_H

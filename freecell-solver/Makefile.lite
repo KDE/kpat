@@ -8,7 +8,7 @@ DLFLAGS =
 END_OLFLAGS = 
 END_DLFLAGS = 
 
-INCLUDES = state.h card.h config.h fcs_dm.h fcs_isa.h fcs.h move.h fcs_hash.h md5.h preset.h
+INCLUDES = state.h card.h config.h fcs_dm.h fcs_isa.h fcs.h move.h fcs_hash.h md5.h preset.h pqueue.h jhjtypes.h
 
 TARGETS = fc-solve
 DTARGETS = fc-solve-debug
@@ -88,12 +88,18 @@ preset-debug.o: preset.c $(INCLUDES)
 preset.o: preset.c $(INCLUDES)
 	$(CC) -c $(OFLAGS) -o $@ $<
 
+pqueue-debug.o: pqueue.c $(INCLUDES)
+	$(CC) -c $(DFLAGS) -o $@ $<
 
-fc-solve-debug: freecell-debug.o state-debug.o card-debug.o fcs_dm-debug.o fcs_isa-debug.o main-debug.o fcs_hash-debug.o md5c-debug.o move-debug.o dfs-debug.o preset-debug.o
-	$(CC) $(DLFLAGS) -o $@ freecell-debug.o state-debug.o card-debug.o fcs_dm-debug.o fcs_isa-debug.o main-debug.o fcs_hash-debug.o md5c-debug.o move-debug.o dfs-debug.o preset-debug.o $(END_DLFLAGS) 
+pqueue.o: pqueue.c $(INCLUDES)
+	$(CC) -c $(OFLAGS) -o $@ $<
 
-fc-solve: freecell.o state.o card.o fcs_dm.o fcs_isa.o main.o fcs_hash.o md5c.o move.o dfs.o preset.o
-	$(CC) $(OLFLAGS) -o $@ freecell.o state.o card.o fcs_dm.o fcs_isa.o main.o fcs_hash.o md5c.o move.o dfs.o preset.o $(END_OLFLAGS)
+
+fc-solve-debug: freecell-debug.o state-debug.o card-debug.o fcs_dm-debug.o fcs_isa-debug.o main-debug.o fcs_hash-debug.o md5c-debug.o move-debug.o dfs-debug.o preset-debug.o pqueue-debug.o
+	$(CC) $(DLFLAGS) -o $@ freecell-debug.o state-debug.o card-debug.o fcs_dm-debug.o fcs_isa-debug.o main-debug.o fcs_hash-debug.o md5c-debug.o move-debug.o dfs-debug.o preset-debug.o pqueue-debug.o $(END_DLFLAGS) 
+
+fc-solve: freecell.o state.o card.o fcs_dm.o fcs_isa.o main.o fcs_hash.o md5c.o move.o dfs.o preset.o pqueue.o
+	$(CC) $(OLFLAGS) -o $@ freecell.o state.o card.o fcs_dm.o fcs_isa.o main.o fcs_hash.o md5c.o move.o dfs.o preset.o pqueue.o $(END_OLFLAGS)
 
 clean:
 	rm -f *.o $(TARGETS) $(DTARGETS)

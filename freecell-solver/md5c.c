@@ -250,7 +250,4 @@ void MD5Transform(u_int32_t buf[4], u_int32_t const in[16])
     buf[3] += d;
 }
 
-#else
-void dummy_md5c_c();
-void dummy_md5c_c() {}
 #endif /*  HASH_STATE_STORAGE */

@@ -39,7 +39,8 @@ enum freecell_solver_state_solving_return_codes
     FCS_STATE_EXCEEDS_MAX_DEPTH,
     FCS_STATE_ORIGINAL_STATE_IS_NOT_SOLVEABLE,
     FCS_STATE_INVALID_STATE,
-    FCS_STATE_NOT_BEGAN_YET
+    FCS_STATE_NOT_BEGAN_YET,
+    FCS_STATE_DOES_NOT_EXIST
 };
 
 
@@ -47,4 +48,4 @@ enum freecell_solver_state_solving_return_codes
 }
 #endif
 
-#endif
+#endif /* __FCS_ENUMS_H */

@@ -16,9 +16,7 @@
 #include "fcs_dm.h"
 #include "fcs.h"
 
-#if defined(INDIRECT_STATE_STORAGE)||defined(TREE_STATE_STORAGE)||defined(HASH_STATE_STORAGE)||defined(DB_FILE_STATE_STORAGE)
 #include "fcs_isa.h"
-#endif
 
 #ifdef HASH_STATE_STORAGE
 #include "md5.h"
@@ -29,23 +27,24 @@
 #include "md5.h"
 #endif
 
-#if FCS_METHOD == FCS_METHOD_SOFT_DFS
-
 void freecell_solver_soft_dfs_add_state(
     freecell_solver_instance_t * instance, 
     int depth,
     fcs_state_with_locations_t * state
     );
 
-#elif FCS_METHOD == FCS_METHOD_HARD_DFS
-
-#ifdef DIRECT_STATE_STORAGE
-extern int freecell_solver_solve_for_state(freecell_solver_instance_t * instance, fcs_state_with_locations_t state, int depth, int ignore_osins);
-#elif defined(INDIRECT_STATE_STORAGE)||defined(TREE_STATE_STORAGE)||defined(HASH_STATE_STORAGE)||defined(HASH_STATE_STORAGE)||defined(DB_FILE_STATE_STORAGE)
 extern int freecell_solver_solve_for_state(freecell_solver_instance_t * instance, fcs_state_with_locations_t * state, int depth, int ignore_osins);
-#endif
 
-#endif
+extern void freecell_solver_bfs_enqueue_state(
+    freecell_solver_instance_t * instance,
+    fcs_state_with_locations_t * state
+    );
+
+extern void freecell_solver_a_star_enqueue_state(
+    freecell_solver_instance_t * instance,
+    fcs_state_with_locations_t * state
+    );
+
 
 /*
     The objective of the fcs_caas_check_and_insert macros is:
@@ -69,11 +68,11 @@ extern int freecell_solver_solve_for_state(freecell_solver_instance_t * instance
          * */            \
         hash_value_int &= (~(1<<((sizeof(hash_value_int)<<3)-1)));     \
     }    \
-    check = (SFO_hash_insert(          \
-        instance->hash_value,              \
+    check = ((*existing_state = SFO_hash_insert(          \
+        instance->hash,              \
         new_state,                   \
-        hash_value_int               \
-        ) == NULL);                  
+        hash_value_int              \
+        )) == NULL);                  
 
 #elif defined(INDIRECT_STATE_STORAGE)
 #define fcs_caas_check_and_insert()              \
@@ -142,73 +141,6 @@ extern int freecell_solver_solve_for_state(freecell_solver_instance_t * instance
         check = 0;          \
     }          
 
-#elif defined(DIRECT_STATE_STORAGE)
-#define fcs_caas_check_and_insert()               \
-    /* Try to see if the state is found in prev_states */           \
-    if (bsearch(new_state,                                         \
-                instance->prev_states,          \
-                instance->num_prev_states,       \
-                sizeof(fcs_state_with_locations_t),       \
-                fcs_state_compare) == NULL)            \
-                \
-    {  \
-        /* It isn't in prev_states, but maybe it's in the sort margin */ \
-        pos_ptr = (fcs_state_with_locations_t *)SFO_bsearch(        \
-            new_state,         \
-            instance->prev_states_margin,       \
-            instance->num_prev_states_margin,         \
-            sizeof(fcs_state_with_locations_t),   \
-            fcs_state_compare_with_context,         \
-            NULL,            \
-            &found);              \
-        if (found)            \
-        {                \
-            check = 0;          \
-        }            \
-        else           \
-        {              \
-            /* Insert the state into its corresponding place in the sort      \
-             * margin */              \
-            memmove((void*)(pos_ptr+1), (void*)pos_ptr, sizeof(fcs_state_with_locations_t) * (instance->num_prev_states_margin - (pos_ptr - instance->prev_states_margin)));         \
-            *pos_ptr = *new_state;           \
-                 \
-            instance->num_prev_states_margin++;         \
-           \
-            if (instance->num_prev_states_margin >= PREV_STATES_SORT_MARGIN)        \
-            {             \
-                /* The sort margin is full, let's combine it with the main array */       \
-                if (instance->num_prev_states + instance->num_prev_states_margin > instance->max_num_prev_states)      \
-                {            \
-                    while (instance->num_prev_states + instance->num_prev_states_margin > instance->max_num_prev_states)        \
-                    {             \
-                        instance->max_num_prev_states += PREV_STATES_GROW_BY;      \
-                    }          \
-         \
-                    instance->prev_states = (fcs_state_with_locations_t *)realloc(instance->prev_states, sizeof(fcs_state_with_locations_t) * instance->max_num_prev_states);        \
-                }          \
-         \
-                SFO_merge_large_and_small_sorted_arrays(      \
-                    instance->prev_states,          \
-                    instance->num_prev_states,       \
-                    instance->prev_states_margin,      \
-                    instance->num_prev_states_margin,       \
-                    sizeof(fcs_state_with_locations_t), \
-                    fcs_state_compare_with_context,        \
-                    NULL          \
-                );         \
-          \
-                instance->num_prev_states += instance->num_prev_states_margin;       \
-          \
-                instance->num_prev_states_margin=0;       \
-            }         \
-            check = 1;       \
-        }         \
-          \
-    }        \
-    else        \
-    {   \
-        check = 0;        \
-    }
 #elif defined(LIBREDBLACK_TREE_IMPLEMENTATION)
 
 #define fcs_caas_check_and_insert()               \
@@ -314,11 +246,14 @@ void freecell_solver_cache_stacks(
 #if (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBAVL_AVL_TREE)
             avl_insert(
 #elif (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBAVL_REDBLACK_TREE)
-            rb_insert(    
+            rb_insert(   
 #endif
             instance->stacks_tree, 
             new_state->s.stacks[a]
             );
+#if 0
+            )        /* In order to settle gvim */
+#endif
 
         if (cached_stack != NULL)
         {
@@ -418,6 +353,7 @@ guint freecell_solver_hash_function(gconstpointer key)
 int freecell_solver_check_and_add_state(
     freecell_solver_instance_t * instance, 
     fcs_state_with_locations_t * new_state,
+    fcs_state_with_locations_t * * existing_state,
     int depth)
 {
 #if defined(INTERNAL_HASH_IMPLEMENTATION)
@@ -427,17 +363,12 @@ int freecell_solver_check_and_add_state(
     fcs_state_with_locations_t * * pos_ptr;
     int found;
 #endif
-#if defined(DIRECT_STATE_STORAGE)
-    fcs_state_with_locations_t * pos_ptr;
-    int found;
-#endif
-#if FCS_METHOD == FCS_METHOD_HARD_DFS
-    int ret;
-#endif
+
     int check;
 
     if ((instance->max_num_times >= 0) &&
-        (instance->max_num_times <= instance->num_times))
+        (instance->max_num_times <= (instance->num_times + ((instance->method == FCS_METHOD_A_STAR) ? instance->a_star_pqueue->CurrentSize : 0)) )
+        )
     {
         return FCS_STATE_BEGIN_SUSPEND_PROCESS;
     }
@@ -456,30 +387,51 @@ int freecell_solver_check_and_add_state(
     if (check)
     {
         /* The new state was not found, and it was already inserted */
-#if FCS_METHOD == FCS_METHOD_SOFT_DFS
-        freecell_solver_soft_dfs_add_state(instance, depth+1, new_state);
-        return FCS_STATE_WAS_SOLVED;
-#elif FCS_METHOD == FCS_METHOD_HARD_DFS
-        ret = freecell_solver_solve_for_state(instance, 
-#if defined DIRECT_STATE_STORAGE
-            *new_state
-#else
-            new_state
-#endif
-            , depth+1,0);
-        if (ret == FCS_STATE_WAS_SOLVED)
+#if 0
+        if (instance->method == FCS_METHOD_SOFT_DFS)
         {
+            freecell_solver_soft_dfs_add_state(instance, depth+1, new_state);
             return FCS_STATE_WAS_SOLVED;
         }
-        else if (ret == FCS_STATE_SUSPEND_PROCESS)
+#else
+    if (instance->method == FCS_METHOD_SOFT_DFS)
+    {
+        return FCS_STATE_DOES_NOT_EXIST;
+    }
+#endif
+        else if (instance->method == FCS_METHOD_HARD_DFS)
         {
-            return FCS_STATE_SUSPEND_PROCESS;
+            int ret;
+            ret = freecell_solver_solve_for_state(instance, 
+                new_state
+                , depth+1,0);
+            if (ret == FCS_STATE_WAS_SOLVED)
+            {
+                return FCS_STATE_WAS_SOLVED;
+            }
+            else if (ret == FCS_STATE_SUSPEND_PROCESS)
+            {
+                return FCS_STATE_SUSPEND_PROCESS;
+            }
+            else
+            {
+                return FCS_STATE_IS_NOT_SOLVEABLE;
+            }
+        }
+        else if (instance->method == FCS_METHOD_BFS)
+        {
+            freecell_solver_bfs_enqueue_state(instance, new_state);
+            return FCS_STATE_IS_NOT_SOLVEABLE;
+        }
+        else if (instance->method == FCS_METHOD_A_STAR)
+        {
+            freecell_solver_a_star_enqueue_state(instance, new_state);
+            return FCS_STATE_IS_NOT_SOLVEABLE;
         }
         else
         {
             return FCS_STATE_IS_NOT_SOLVEABLE;
         }
-#endif
     }
     else
     {

@@ -25,10 +25,6 @@ iterations limit.
 
 * Load and save instances to the disk.
 
-* Add documentation about the new switches in USAGE.
-
-* Implement the indirect stack storage as a libavl/libredblack tree.
-
 * Implement BFS and A* (and Minimax, and others?). Which technique can be 
 specified in the command line (including DFS and Soft-DFS).
 
@@ -36,3 +32,7 @@ specified in the command line (including DFS and Soft-DFS).
 
 * Replace the two varying state storage macros with one consistent 
 integer like that of the stack storage.
+
+* Code test functions for atomic moves.
+
+* Get rid of the indirect state allocation mechanism. (?) 

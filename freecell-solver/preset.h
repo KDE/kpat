@@ -17,7 +17,7 @@ extern "C" {
 
 int fcs_apply_preset_by_name(
     freecell_solver_instance_t * instance,
-    const char * name
+    char * name
     );
         
 #ifdef __cplusplus

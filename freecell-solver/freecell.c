@@ -11,6 +11,7 @@
 #include <string.h>
 #include <limits.h>
 #include <stdio.h>
+#include <math.h>
 
 #include "config.h"
 #include "state.h"
@@ -18,9 +19,7 @@
 #include "fcs_dm.h"
 #include "fcs.h"
 
-#if defined(INDIRECT_STATE_STORAGE)||defined(TREE_STATE_STORAGE)||defined(HASH_STATE_STORAGE)||defined(DB_FILE_STATE_STORAGE)
 #include "fcs_isa.h"
-#endif
 
 /*
  * The number of cards that can be moved is 
@@ -67,35 +66,22 @@
  * DFS stands for Depth First Search which is the type of scan Freecell 
  * Solver uses to solve a given board.
  * */
-extern int freecell_solver_check_and_add_state(freecell_solver_instance_t * instance, fcs_state_with_locations_t * new_state, int depth);
+extern int freecell_solver_check_and_add_state(
+    freecell_solver_instance_t * instance, 
+    fcs_state_with_locations_t * new_state, 
+    fcs_state_with_locations_t * * existing_state,
+    int depth);
 
 
-#ifdef DIRECT_STATE_STORAGE
 #define sfs_check_state_init() \
-        
-#define sfs_check_state_finish() \
-else if ((check == FCS_STATE_EXCEEDS_MAX_NUM_TIMES) || \
-         (check == FCS_STATE_SUSPEND_PROCESS) || \
-         (check == FCS_STATE_BEGIN_SUSPEND_PROCESS) || \
-         (check == FCS_STATE_EXCEEDS_MAX_DEPTH)) \
-{    \
-    if ((check == FCS_STATE_SUSPEND_PROCESS)) \
-    {              \
-        temp_move.type = FCS_MOVE_TYPE_CANONIZE;      \
-        fcs_move_stack_push(moves, temp_move);           \
-        instance->proto_solution_moves[depth] = moves;    \
-    }          \
-    else           \
-    {             \
-        fcs_move_stack_destroy(moves);    \
-    }         \
-    return check;  \
-}
+    ptr_new_state_with_locations = fcs_state_ia_alloc(instance);        
 
-#elif defined(INDIRECT_STATE_STORAGE)||defined(TREE_STATE_STORAGE)||defined(HASH_STATE_STORAGE)||defined(DB_FILE_STATE_STORAGE)
-#define sfs_check_state_init() \
-ptr_new_state_with_locations = fcs_state_ia_alloc(instance);
+
 #define sfs_check_state_finish() \
+else if ((check == FCS_STATE_IS_NOT_SOLVEABLE) && ((instance->method == FCS_METHOD_BFS) || (instance->method == FCS_METHOD_A_STAR))) \
+{  \
+    moves = fcs_move_stack_create();  \
+} \
 else if ((check == FCS_STATE_ALREADY_EXISTS)) \
 {             \
     fcs_state_ia_release(instance);          \
@@ -107,31 +93,87 @@ else if ((check == FCS_STATE_EXCEEDS_MAX_NUM_TIMES) || \
 {          \
     if ((check == FCS_STATE_SUSPEND_PROCESS)) \
     {              \
-        temp_move.type = FCS_MOVE_TYPE_CANONIZE;      \
+        fcs_move_set_type(temp_move,FCS_MOVE_TYPE_CANONIZE);      \
         fcs_move_stack_push(moves, temp_move);           \
         instance->proto_solution_moves[depth] = moves;    \
     }          \
+    else if ( (check == FCS_STATE_BEGIN_SUSPEND_PROCESS) &&  ((instance->method == FCS_METHOD_BFS)||(instance->method == FCS_METHOD_A_STAR)) )    \
+    {             \
+        /* Do nothing because those methods expect us to have a move stack present in every state */  \
+    }              \
     else           \
     {             \
         fcs_move_stack_destroy(moves);    \
     }         \
     return check;   \
 }    
+
+
+#if 0
+printf("%i,%i\n", depth, instance->soft_dfs_num_states_to_check[depth]);                                                 
 #endif
+
+#define sfs_check_state_handle_soft_dfs() \
+if (instance->method == FCS_METHOD_SOFT_DFS)         \
+{                                                    \
+    instance->soft_dfs_states_to_check[depth][       \
+        instance->soft_dfs_num_states_to_check[depth]     \
+        ] = ptr_new_state_with_locations;            \
+    instance->soft_dfs_states_to_check_move_stacks[depth][  \
+        instance->soft_dfs_num_states_to_check[depth]    \
+        ] = moves;                                        \
+    instance->soft_dfs_num_states_to_check[depth]++;         \
+    moves = fcs_move_stack_create();                        \
+    if (instance->soft_dfs_num_states_to_check[depth] ==     \
+        instance->soft_dfs_max_num_states_to_check[depth])   \
+    {                                  \
+        instance->soft_dfs_max_num_states_to_check[depth] += FCS_SOFT_DFS_STATES_TO_CHECK_GROW_BY;    \
+        instance->soft_dfs_states_to_check[depth] = realloc(     \
+            instance->soft_dfs_states_to_check[depth],           \
+            sizeof(instance->soft_dfs_states_to_check[depth][0]) *    \
+                instance->soft_dfs_max_num_states_to_check[depth]      \
+            );          \
+        instance->soft_dfs_states_to_check_move_stacks[depth] = realloc(     \
+            instance->soft_dfs_states_to_check_move_stacks[depth],           \
+            sizeof(instance->soft_dfs_states_to_check_move_stacks[depth][0]) *    \
+                instance->soft_dfs_max_num_states_to_check[depth]      \
+            );          \
+    }        \
+    \
+}                                                    \
 
 #define sfs_check_state_begin() \
 sfs_check_state_init() \
-fcs_duplicate_state(new_state_with_locations, state_with_locations);
+fcs_duplicate_state(new_state_with_locations, state_with_locations); \
+if ( (instance->method == FCS_METHOD_BFS) || (instance->method == FCS_METHOD_A_STAR) )     \
+{       \
+    ptr_new_state_with_locations->parent = ptr_state_with_locations;    \
+    ptr_new_state_with_locations->moves_to_parent = moves; \
+    ptr_new_state_with_locations->depth = depth+1; \
+} \
+ptr_new_state_with_locations->visited = 0; 
 
 #define sfs_check_state_end()                        \
+fcs_move_set_type(temp_move,FCS_MOVE_TYPE_CANONIZE); \
+fcs_move_stack_push(moves, temp_move);               \
+    \
+{                                                    \
+    fcs_state_with_locations_t * existing_state;     \
 check = freecell_solver_check_and_add_state(         \
     instance,                                        \
     ptr_new_state_with_locations,                    \
+    &existing_state,                                  \
     depth);                                          \
+    if ((instance->method == FCS_METHOD_SOFT_DFS) && \
+        (check == FCS_STATE_ALREADY_EXISTS))         \
+    {                                                    \
+        ptr_new_state_with_locations = existing_state;    \
+    }                                                    \
+}                                                    \
+sfs_check_state_handle_soft_dfs()                    \
+                                                     \
 if (check == FCS_STATE_WAS_SOLVED)                   \
 {                                                    \
-    temp_move.type = FCS_MOVE_TYPE_CANONIZE;         \
-    fcs_move_stack_push(moves, temp_move);           \
     instance->proto_solution_moves[depth] = moves;   \
     return FCS_STATE_WAS_SOLVED;                     \
 }                                                    \
@@ -152,14 +194,9 @@ int freecell_solver_sfs_move_top_stack_cards_to_founds(
         int num_freestacks,
         int num_freecells,
         int ignore_osins
-#ifdef DIRECT_STATE_STORAGE        
-        ,fcs_state_with_locations_t * ptr_new_state_with_locations
-#endif  
         )
 {
-#if defined(INDIRECT_STATE_STORAGE) || defined(TREE_STATE_STORAGE) || defined(HASH_STATE_STORAGE)||defined(DB_FILE_STATE_STORAGE)
     fcs_state_with_locations_t * ptr_new_state_with_locations;
-#endif
     int stack;
     int cards_num;
     int deck;
@@ -170,6 +207,7 @@ int freecell_solver_sfs_move_top_stack_cards_to_founds(
 
     fcs_move_stack_t * moves;
     fcs_move_t temp_move;
+    fcs_state_with_locations_t * existing_state;
 
     moves = fcs_move_stack_create();
 
@@ -193,22 +231,31 @@ int freecell_solver_sfs_move_top_stack_cards_to_founds(
 
                     fcs_move_stack_reset(moves);
 
-                    temp_move.type = FCS_MOVE_TYPE_STACK_TO_FOUNDATION;
-                    temp_move.src_stack = stack;
-                    temp_move.foundation = deck*4+fcs_card_deck(card);
+                    fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_FOUNDATION);
+                    fcs_move_set_src_stack(temp_move,stack);
+                    fcs_move_set_foundation(temp_move,deck*4+fcs_card_deck(card));
 
+                    fcs_move_stack_push(moves, temp_move);
+                    
+                    fcs_move_set_type(temp_move,FCS_MOVE_TYPE_CANONIZE);
                     fcs_move_stack_push(moves, temp_move);
 
                     check = freecell_solver_check_and_add_state(
                         instance, 
                         &new_state_with_locations,
+                        &existing_state,
                         depth);
+
+                    if ((instance->method == FCS_METHOD_SOFT_DFS) &&
+                        (check == FCS_STATE_ALREADY_EXISTS))
+                    {
+                        ptr_new_state_with_locations = existing_state;
+                    }
+                    
+                    sfs_check_state_handle_soft_dfs()
 
                     if (check == FCS_STATE_WAS_SOLVED)
                     {
-                        temp_move.type = FCS_MOVE_TYPE_CANONIZE;
-                        fcs_move_stack_push(moves, temp_move);
-
                         instance->proto_solution_moves[depth] = moves;
 
                         return FCS_STATE_WAS_SOLVED;
@@ -219,12 +266,10 @@ int freecell_solver_sfs_move_top_stack_cards_to_founds(
                         (!ignore_osins)
                         )
                     {
-#if defined(INDIRECT_STATE_STORAGE)||defined(TREE_STATE_STORAGE)||defined(HASH_STATE_STORAGE)||defined(DB_FILE_STATE_STORAGE)
                         if (check == FCS_STATE_ALREADY_EXISTS)
                         {
                             fcs_state_ia_release(instance);
                         }
-#endif
                         /*  If the decks of the other colour are higher than the card number  *
                          *  of this card + 2, it means that if th sub-state is not solveable, *
                          *  then this state is not solveable either.                          */
@@ -286,14 +331,9 @@ int freecell_solver_sfs_move_freecell_cards_to_founds(
         int num_freestacks,
         int num_freecells,
         int ignore_osins
-#ifdef DIRECT_STATE_STORAGE        
-        ,fcs_state_with_locations_t * ptr_new_state_with_locations
-#endif          
         )
 {
-#if defined(INDIRECT_STATE_STORAGE) || defined(TREE_STATE_STORAGE) || defined(HASH_STATE_STORAGE)||defined(DB_FILE_STATE_STORAGE)
     fcs_state_with_locations_t * ptr_new_state_with_locations;
-#endif
     int fc;
     int deck;
     int d;
@@ -301,6 +341,7 @@ int freecell_solver_sfs_move_freecell_cards_to_founds(
     int check;
     fcs_move_stack_t * moves;
     fcs_move_t temp_move;
+    fcs_state_with_locations_t * existing_state;
 
     moves = fcs_move_stack_create();
 
@@ -323,23 +364,30 @@ int freecell_solver_sfs_move_freecell_cards_to_founds(
                     fcs_increment_deck(new_state, deck*4+fcs_card_deck(card));
 
                     fcs_move_stack_reset(moves);
-                    temp_move.type = FCS_MOVE_TYPE_FREECELL_TO_FOUNDATION;
-                    temp_move.src_freecell = fc;
-                    temp_move.foundation = deck*4+fcs_card_deck(card);
+                    fcs_move_set_type(temp_move,FCS_MOVE_TYPE_FREECELL_TO_FOUNDATION);
+                    fcs_move_set_src_freecell(temp_move,fc);
+                    fcs_move_set_foundation(temp_move,deck*4+fcs_card_deck(card));
 
                     fcs_move_stack_push(moves, temp_move);
                     
+                    fcs_move_set_type(temp_move,FCS_MOVE_TYPE_CANONIZE);
+                    fcs_move_stack_push(moves, temp_move);                    
 
                     check = freecell_solver_check_and_add_state(
                             instance, 
                             ptr_new_state_with_locations,
+                            &existing_state,
                             depth);
+                    if ((instance->method == FCS_METHOD_SOFT_DFS) &&
+                        (check == FCS_STATE_ALREADY_EXISTS))
+                    {
+                        ptr_new_state_with_locations = existing_state;
+                    }
+                    
+                    sfs_check_state_handle_soft_dfs()
 
                     if (check == FCS_STATE_WAS_SOLVED)
                     {
-                        temp_move.type = FCS_MOVE_TYPE_CANONIZE;
-                        fcs_move_stack_push(moves, temp_move);
-
                         instance->proto_solution_moves[depth] = moves;
 
                         return FCS_STATE_WAS_SOLVED;
@@ -350,12 +398,10 @@ int freecell_solver_sfs_move_freecell_cards_to_founds(
                         (!ignore_osins)
                         )
                     {
-#if defined(INDIRECT_STATE_STORAGE)||defined(TREE_STATE_STORAGE)||defined(HASH_STATE_STORAGE)||defined(DB_FILE_STATE_STORAGE)
                         if (check == FCS_STATE_ALREADY_EXISTS)
                         {
                             fcs_state_ia_release(instance);
                         }
-#endif
                         /*  If the decks of the other colour are higher than the card number  *
                          *  of this card + 2, it means that if th sub-state is not solveable, *
                          *  then this state is not solveable either.                          */
@@ -414,7 +460,6 @@ int freecell_solver_sfs_move_freecell_cards_to_founds(
     return FCS_STATE_IS_NOT_SOLVEABLE;
 }
 
-#if 0
 int freecell_solver_sfs_move_freecell_cards_on_top_of_stacks(
         freecell_solver_instance_t * instance,
         fcs_state_with_locations_t * ptr_state_with_locations,
@@ -422,85 +467,9 @@ int freecell_solver_sfs_move_freecell_cards_on_top_of_stacks(
         int num_freestacks,
         int num_freecells,
         int ignore_osins
-#ifdef DIRECT_STATE_STORAGE        
-        ,fcs_state_with_locations_t * ptr_new_state_with_locations
-#endif          
         )
 {
-#if defined(INDIRECT_STATE_STORAGE) || defined(TREE_STATE_STORAGE) || defined(HASH_STATE_STORAGE)||defined(DB_FILE_STATE_STORAGE)
     fcs_state_with_locations_t * ptr_new_state_with_locations;
-#endif
-    int cards_num;
-    int stack, fc;
-    fcs_card_t card, temp_card;
-    int check;
-    fcs_move_stack_t * moves;
-    fcs_move_t temp_move;
-
-    moves = fcs_move_stack_create();
-
-    /* Let's try to put cards in the freecells on top of stacks */
-
-    for(stack=0;stack<instance->stacks_num;stack++)
-    {
-        cards_num = fcs_stack_len(state, stack);
-
-        if (cards_num > 0)
-        {
-            card = fcs_stack_card(state, stack, cards_num-1);
-
-            for(fc=0;fc<instance->freecells_num;fc++)
-            {
-                temp_card = fcs_freecell_card(state, fc);
-
-                if (fcs_card_card_num(temp_card) != 0)
-                {
-                    if (fcs_is_parent_card(temp_card,card))
-                    {
-                        /* We can put it there */
-                        sfs_check_state_begin()
-                            
-                        fcs_push_card_into_stack(new_state, stack, temp_card);
-
-                        fcs_empty_freecell(new_state, fc);
-
-                        fcs_move_stack_reset(moves);
-
-                        temp_move.type = FCS_MOVE_TYPE_FREECELL_TO_STACK;
-                        temp_move.src_freecell = fc;
-                        temp_move.dest_stack = stack;
-                        
-                        fcs_move_stack_push(moves, temp_move);
-
-                        sfs_check_state_end()
-                    }
-                }
-            }
-        }
-    }
-
-    fcs_move_stack_destroy(moves);    
-
-    return FCS_STATE_IS_NOT_SOLVEABLE;
-}
-
-#else
-
-int freecell_solver_sfs_move_freecell_cards_on_top_of_stacks(
-        freecell_solver_instance_t * instance,
-        fcs_state_with_locations_t * ptr_state_with_locations,
-        int depth,
-        int num_freestacks,
-        int num_freecells,
-        int ignore_osins
-#ifdef DIRECT_STATE_STORAGE        
-        ,fcs_state_with_locations_t * ptr_new_state_with_locations
-#endif          
-        )
-{
-#if defined(INDIRECT_STATE_STORAGE) || defined(TREE_STATE_STORAGE) || defined(HASH_STATE_STORAGE)||defined(DB_FILE_STATE_STORAGE)
-    fcs_state_with_locations_t * ptr_new_state_with_locations;
-#endif
     int dest_cards_num;
     int ds, fc, dc;
     fcs_card_t dest_card, src_card, temp_card, dest_below_card;
@@ -589,9 +558,9 @@ int freecell_solver_sfs_move_freecell_cards_on_top_of_stacks(
 
                                     fcs_put_card_in_freecell(new_state, b, temp_card);
 
-                                    temp_move.type = FCS_MOVE_TYPE_STACK_TO_FREECELL;
-                                    temp_move.src_stack = ds;
-                                    temp_move.dest_freecell = b;
+                                    fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_FREECELL);
+                                    fcs_move_set_src_stack(temp_move,ds);
+                                    fcs_move_set_dest_freecell(temp_move,b);
                                     fcs_move_stack_push(moves, temp_move);
                                 }
 
@@ -609,41 +578,23 @@ int freecell_solver_sfs_move_freecell_cards_on_top_of_stacks(
 
                                     fcs_pop_stack_card(new_state, ds, temp_card);
                                     fcs_push_card_into_stack(new_state, b, temp_card);
-                                    temp_move.type = FCS_MOVE_TYPE_STACK_TO_STACK;
-                                    temp_move.src_stack = ds;
-                                    temp_move.dest_stack = b;
-                                    temp_move.num_cards_in_sequence = 1;
+                                    fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_STACK);
+                                    fcs_move_set_src_stack(temp_move,ds);
+                                    fcs_move_set_dest_stack(temp_move,b);
+                                    fcs_move_set_num_cards_in_seq(temp_move,1);
                                     fcs_move_stack_push(moves, temp_move);
                                 }
 
                                 /* Now put the freecell card on top of the stack */
                                 fcs_push_card_into_stack(new_state, ds, src_card);
                                 fcs_empty_freecell(new_state, fc);
-                                temp_move.type = FCS_MOVE_TYPE_FREECELL_TO_STACK;
-                                temp_move.src_freecell = fc;
-                                temp_move.dest_stack = ds;
+                                fcs_move_set_type(temp_move,FCS_MOVE_TYPE_FREECELL_TO_STACK);
+                                fcs_move_set_src_freecell(temp_move,fc);
+                                fcs_move_set_dest_stack(temp_move,ds);
                                 fcs_move_stack_push(moves, temp_move);
 
                                 sfs_check_state_end()
                             }
-
-#if 0
-                            sfs_check_state_begin()
-                                
-                            fcs_push_card_into_stack(new_state, stack, temp_card);
-
-                            fcs_empty_freecell(new_state, fc);
-
-                            fcs_move_stack_reset(moves);
-
-                            temp_move.type = FCS_MOVE_TYPE_FREECELL_TO_STACK;
-                            temp_move.src_freecell = fc;
-                            temp_move.dest_stack = stack;
-                    
-                            fcs_move_stack_push(moves, temp_move);
-
-                            sfs_check_state_end()
-#endif
                         }
                     }
                 }
@@ -658,8 +609,6 @@ int freecell_solver_sfs_move_freecell_cards_on_top_of_stacks(
 
 
 
-#endif
-
 int freecell_solver_sfs_move_non_top_stack_cards_to_founds(
         freecell_solver_instance_t * instance,
         fcs_state_with_locations_t * ptr_state_with_locations,
@@ -667,14 +616,9 @@ int freecell_solver_sfs_move_non_top_stack_cards_to_founds(
         int num_freestacks,
         int num_freecells,
         int ignore_osins
-#ifdef DIRECT_STATE_STORAGE        
-        ,fcs_state_with_locations_t * ptr_new_state_with_locations
-#endif          
         )
 {
-#if defined(INDIRECT_STATE_STORAGE) || defined(TREE_STATE_STORAGE) || defined(HASH_STATE_STORAGE)||defined(DB_FILE_STATE_STORAGE)
     fcs_state_with_locations_t * ptr_new_state_with_locations;
-#endif
     int check;
 
     int stack;
@@ -728,9 +672,9 @@ int freecell_solver_sfs_move_non_top_stack_cards_to_founds(
 
                             fcs_put_card_in_freecell(new_state, b, temp_card);
 
-                            temp_move.type = FCS_MOVE_TYPE_STACK_TO_FREECELL;
-                            temp_move.src_stack = stack;
-                            temp_move.dest_freecell = b;
+                            fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_FREECELL);
+                            fcs_move_set_src_stack(temp_move,stack);
+                            fcs_move_set_dest_freecell(temp_move,b);
 
                             fcs_move_stack_push(moves, temp_move);
                         }
@@ -750,10 +694,10 @@ int freecell_solver_sfs_move_non_top_stack_cards_to_founds(
                             fcs_pop_stack_card(new_state, stack, temp_card);
                             fcs_push_card_into_stack(new_state, b, temp_card);
 
-                            temp_move.type = FCS_MOVE_TYPE_STACK_TO_STACK;
-                            temp_move.src_stack = stack;
-                            temp_move.dest_stack = b;
-                            temp_move.num_cards_in_sequence = 1;
+                            fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_STACK);
+                            fcs_move_set_src_stack(temp_move,stack);
+                            fcs_move_set_dest_stack(temp_move,b);
+                            fcs_move_set_num_cards_in_seq(temp_move,1);
 
                             fcs_move_stack_push(moves, temp_move);
                         }
@@ -761,9 +705,9 @@ int freecell_solver_sfs_move_non_top_stack_cards_to_founds(
                         fcs_pop_stack_card(new_state, stack, temp_card);
                         fcs_increment_deck(new_state, deck*4+fcs_card_deck(temp_card));
 
-                        temp_move.type = FCS_MOVE_TYPE_STACK_TO_FOUNDATION;
-                        temp_move.src_stack = stack;
-                        temp_move.foundation = deck*4+fcs_card_deck(temp_card);
+                        fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_FOUNDATION);
+                        fcs_move_set_src_stack(temp_move,stack);
+                        fcs_move_set_foundation(temp_move,deck*4+fcs_card_deck(temp_card));
 
                         fcs_move_stack_push(moves, temp_move);
                         
@@ -790,14 +734,9 @@ int freecell_solver_sfs_move_stack_cards_to_a_parent_on_the_same_stack(
         int num_freestacks,
         int num_freecells,
         int ignore_osins
-#ifdef DIRECT_STATE_STORAGE        
-        ,fcs_state_with_locations_t * ptr_new_state_with_locations
-#endif          
         )
 {
-#if defined(INDIRECT_STATE_STORAGE) || defined(TREE_STATE_STORAGE) || defined(HASH_STATE_STORAGE)||defined(DB_FILE_STATE_STORAGE)
     fcs_state_with_locations_t * ptr_new_state_with_locations;
-#endif
     int check;
 
     int stack, c, cards_num, a, dc,b;
@@ -907,9 +846,9 @@ int freecell_solver_sfs_move_stack_cards_to_a_parent_on_the_same_stack(
                                             fcs_pop_stack_card(new_state, ds, temp_card);
                                             fcs_put_card_in_freecell(new_state, b, temp_card);
 
-                                            temp_move.type = FCS_MOVE_TYPE_STACK_TO_FREECELL;
-                                            temp_move.src_stack = ds;
-                                            temp_move.dest_freecell = b;
+                                            fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_FREECELL);
+                                            fcs_move_set_src_stack(temp_move,ds);
+                                            fcs_move_set_dest_freecell(temp_move,b);
 
                                             fcs_move_stack_push(moves, temp_move);
 
@@ -929,10 +868,10 @@ int freecell_solver_sfs_move_stack_cards_to_a_parent_on_the_same_stack(
                                             fcs_pop_stack_card(new_state, ds, temp_card);
                                             fcs_push_card_into_stack(new_state, b, temp_card);
 
-                                            temp_move.type = FCS_MOVE_TYPE_STACK_TO_STACK;
-                                            temp_move.src_stack = ds;
-                                            temp_move.dest_stack = b;
-                                            temp_move.num_cards_in_sequence = 1;
+                                            fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_STACK);
+                                            fcs_move_set_src_stack(temp_move,ds);
+                                            fcs_move_set_dest_stack(temp_move,b);
+                                            fcs_move_set_num_cards_in_seq(temp_move,1);
 
                                             fcs_move_stack_push(moves, temp_move);
                                             
@@ -952,9 +891,9 @@ int freecell_solver_sfs_move_stack_cards_to_a_parent_on_the_same_stack(
                                             }
                                         }
                                         fcs_put_card_in_freecell(new_state, b, moved_card);
-                                        temp_move.type = FCS_MOVE_TYPE_STACK_TO_FREECELL;
-                                        temp_move.src_stack = ds;
-                                        temp_move.dest_freecell = b;
+                                        fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_FREECELL);
+                                        fcs_move_set_src_stack(temp_move,ds);
+                                        fcs_move_set_dest_freecell(temp_move,b);
                                         fcs_move_stack_push(moves, temp_move);
 
                                         source_type = 0;
@@ -970,11 +909,11 @@ int freecell_solver_sfs_move_stack_cards_to_a_parent_on_the_same_stack(
                                             }
                                         }
                                         fcs_push_card_into_stack(new_state, b, moved_card);
-                                        /* TODO: FINISH HERE */
-                                        temp_move.type = FCS_MOVE_TYPE_STACK_TO_STACK;
-                                        temp_move.src_stack = ds;
-                                        temp_move.dest_stack = b;
-                                        temp_move.num_cards_in_sequence = 1;
+                                        
+                                        fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_STACK);
+                                        fcs_move_set_src_stack(temp_move,ds);
+                                        fcs_move_set_dest_stack(temp_move,b);
+                                        fcs_move_set_num_cards_in_seq(temp_move,1);
                                         fcs_move_stack_push(moves, temp_move);
 
                                         source_type = 1;
@@ -997,9 +936,9 @@ int freecell_solver_sfs_move_stack_cards_to_a_parent_on_the_same_stack(
                                             fcs_pop_stack_card(new_state, ds, temp_card);
                                             fcs_put_card_in_freecell(new_state, b, temp_card);
 
-                                            temp_move.type = FCS_MOVE_TYPE_STACK_TO_FREECELL;
-                                            temp_move.src_stack = ds;
-                                            temp_move.dest_freecell = b;
+                                            fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_FREECELL);
+                                            fcs_move_set_src_stack(temp_move,ds);
+                                            fcs_move_set_dest_freecell(temp_move,b);
                                             
                                             fcs_move_stack_push(moves, temp_move);
                                         }
@@ -1018,10 +957,10 @@ int freecell_solver_sfs_move_stack_cards_to_a_parent_on_the_same_stack(
                                             fcs_pop_stack_card(new_state, ds, temp_card);
                                             fcs_push_card_into_stack(new_state, b, temp_card);
 
-                                            temp_move.type = FCS_MOVE_TYPE_STACK_TO_STACK;
-                                            temp_move.src_stack = ds;
-                                            temp_move.dest_stack = b;
-                                            temp_move.num_cards_in_sequence = 1;
+                                            fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_STACK);
+                                            fcs_move_set_src_stack(temp_move,ds);
+                                            fcs_move_set_dest_stack(temp_move,b);
+                                            fcs_move_set_num_cards_in_seq(temp_move,1);
                                             
                                             fcs_move_stack_push(moves, temp_move);
                                             
@@ -1036,19 +975,19 @@ int freecell_solver_sfs_move_stack_cards_to_a_parent_on_the_same_stack(
                                         moved_card = fcs_freecell_card(new_state, source_index);
                                         fcs_empty_freecell(new_state, source_index);
 
-                                        temp_move.type = FCS_MOVE_TYPE_FREECELL_TO_STACK;
-                                        temp_move.src_freecell = source_index;
-                                        temp_move.dest_stack = ds;
+                                        fcs_move_set_type(temp_move,FCS_MOVE_TYPE_FREECELL_TO_STACK);
+                                        fcs_move_set_src_freecell(temp_move,source_index);
+                                        fcs_move_set_dest_stack(temp_move,ds);
                                         fcs_move_stack_push(moves, temp_move);
                                     }
                                     else
                                     {
                                         fcs_pop_stack_card(new_state, source_index, moved_card);
                                         
-                                        temp_move.type = FCS_MOVE_TYPE_STACK_TO_STACK;
-                                        temp_move.src_stack = source_index;
-                                        temp_move.dest_stack = ds;
-                                        temp_move.num_cards_in_sequence = 1;
+                                        fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_STACK);
+                                        fcs_move_set_src_stack(temp_move,source_index);
+                                        fcs_move_set_dest_stack(temp_move,ds);
+                                        fcs_move_set_num_cards_in_seq(temp_move,1);
                                         fcs_move_stack_push(moves, temp_move);
                                     }
 
@@ -1078,14 +1017,9 @@ int freecell_solver_sfs_move_stack_cards_to_different_stacks(
         int num_freestacks,
         int num_freecells,
         int ignore_osins
-#ifdef DIRECT_STATE_STORAGE        
-        ,fcs_state_with_locations_t * ptr_new_state_with_locations
-#endif          
         )
 {
-#if defined(INDIRECT_STATE_STORAGE) || defined(TREE_STATE_STORAGE) || defined(HASH_STATE_STORAGE)||defined(DB_FILE_STATE_STORAGE)
     fcs_state_with_locations_t * ptr_new_state_with_locations;
-#endif
     int check;
 
     int stack, c, cards_num, a, dc, ds,b;
@@ -1215,9 +1149,9 @@ int freecell_solver_sfs_move_stack_cards_to_different_stacks(
 
                                         fcs_put_card_in_freecell(new_state, b, temp_card);
 
-                                        temp_move.type = FCS_MOVE_TYPE_STACK_TO_FREECELL;
-                                        temp_move.src_stack = from_which_stack;
-                                        temp_move.dest_freecell = b;
+                                        fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_FREECELL);
+                                        fcs_move_set_src_stack(temp_move,from_which_stack);
+                                        fcs_move_set_dest_freecell(temp_move,b);
                                         fcs_move_stack_push(moves, temp_move);
                                     }
 
@@ -1245,10 +1179,10 @@ int freecell_solver_sfs_move_stack_cards_to_different_stacks(
                                         
                                         fcs_pop_stack_card(new_state, from_which_stack, temp_card);
                                         fcs_push_card_into_stack(new_state, b, temp_card);
-                                        temp_move.type = FCS_MOVE_TYPE_STACK_TO_STACK;
-                                        temp_move.src_stack = from_which_stack;
-                                        temp_move.dest_stack = b;
-                                        temp_move.num_cards_in_sequence = 1;
+                                        fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_STACK);
+                                        fcs_move_set_src_stack(temp_move,from_which_stack);
+                                        fcs_move_set_dest_stack(temp_move,b);
+                                        fcs_move_set_num_cards_in_seq(temp_move,1);
                                         fcs_move_stack_push(moves, temp_move);
                                     }
 
@@ -1261,10 +1195,10 @@ int freecell_solver_sfs_move_stack_cards_to_different_stacks(
                                     {
                                         fcs_pop_stack_card(new_state, stack, temp_card);
                                     }
-                                    temp_move.type = FCS_MOVE_TYPE_STACK_TO_STACK;
-                                    temp_move.src_stack = stack;
-                                    temp_move.dest_stack = ds;
-                                    temp_move.num_cards_in_sequence = seq_end-c+1;
+                                    fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_STACK);
+                                    fcs_move_set_src_stack(temp_move,stack);
+                                    fcs_move_set_dest_stack(temp_move,ds);
+                                    fcs_move_set_num_cards_in_seq(temp_move,seq_end-c+1);
                                     fcs_move_stack_push(moves, temp_move);
                                     
                                     sfs_check_state_end()
@@ -1292,14 +1226,9 @@ int freecell_solver_sfs_move_sequences_to_free_stacks(
         int num_freestacks,
         int num_freecells,
         int ignore_osins
-#ifdef DIRECT_STATE_STORAGE
-        ,fcs_state_with_locations_t * ptr_new_state_with_locations
-#endif          
         )
 {
-#if defined(INDIRECT_STATE_STORAGE) || defined(TREE_STATE_STORAGE) || defined(HASH_STATE_STORAGE)||defined(DB_FILE_STATE_STORAGE)
     fcs_state_with_locations_t * ptr_new_state_with_locations;
-#endif
     int check;
 
     int stack, cards_num, c, ds, a, b, seq_end;
@@ -1384,10 +1313,10 @@ int freecell_solver_sfs_move_sequences_to_free_stacks(
                             fcs_pop_stack_card(new_state, stack, temp_card);
                         }
 
-                        temp_move.type = FCS_MOVE_TYPE_STACK_TO_STACK;
-                        temp_move.src_stack = stack;
-                        temp_move.dest_stack = ds;
-                        temp_move.num_cards_in_sequence = cards_num-c;
+                        fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_STACK);
+                        fcs_move_set_src_stack(temp_move,stack);
+                        fcs_move_set_dest_stack(temp_move,ds);
+                        fcs_move_set_num_cards_in_seq(temp_move,cards_num-c);
 
                         fcs_move_stack_push(moves, temp_move);
                   
@@ -1435,8 +1364,6 @@ int freecell_solver_sfs_move_sequences_to_free_stacks(
                             )
                         )
                         {
-                            /* TODO TODO TODO FILL IN FILL IN FILL IN */
-
                             sfs_check_state_begin();
 
                             fcs_move_stack_reset(moves);
@@ -1456,9 +1383,9 @@ int freecell_solver_sfs_move_sequences_to_free_stacks(
                                 fcs_pop_stack_card(new_state, stack, temp_card);
                                 fcs_put_card_in_freecell(new_state, b, temp_card);
 
-                                temp_move.type = FCS_MOVE_TYPE_STACK_TO_FREECELL;
-                                temp_move.src_stack = stack;
-                                temp_move.dest_freecell = b;
+                                fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_FREECELL);
+                                fcs_move_set_src_stack(temp_move,stack);
+                                fcs_move_set_dest_freecell(temp_move,b);
                                 fcs_move_stack_push(moves, temp_move);
                             }
 
@@ -1475,10 +1402,10 @@ int freecell_solver_sfs_move_sequences_to_free_stacks(
                                 }
                                 fcs_pop_stack_card(new_state, stack, temp_card);
                                 fcs_push_card_into_stack(new_state, b, temp_card);
-                                temp_move.type = FCS_MOVE_TYPE_STACK_TO_STACK;
-                                temp_move.src_stack = stack;
-                                temp_move.dest_stack = b;
-                                temp_move.num_cards_in_sequence = 1;
+                                fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_STACK);
+                                fcs_move_set_src_stack(temp_move,stack);
+                                fcs_move_set_dest_stack(temp_move,b);
+                                fcs_move_set_num_cards_in_seq(temp_move,1);
                                 fcs_move_stack_push(moves, temp_move);
                             }
 
@@ -1500,10 +1427,10 @@ int freecell_solver_sfs_move_sequences_to_free_stacks(
                                 fcs_pop_stack_card(new_state, stack, temp_card);
                             }
 
-                            temp_move.type = FCS_MOVE_TYPE_STACK_TO_STACK;
-                            temp_move.src_stack = stack;
-                            temp_move.dest_stack = b;
-                            temp_move.num_cards_in_sequence = seq_end-seq_start+1;
+                            fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_STACK);
+                            fcs_move_set_src_stack(temp_move,stack);
+                            fcs_move_set_dest_stack(temp_move,b);
+                            fcs_move_set_num_cards_in_seq(temp_move,seq_end-seq_start+1);
                             fcs_move_stack_push(moves, temp_move);
 
                             sfs_check_state_end();
@@ -1528,14 +1455,9 @@ int freecell_solver_sfs_move_freecell_cards_to_empty_stack(
         int num_freestacks,
         int num_freecells,
         int ignore_osins
-#ifdef DIRECT_STATE_STORAGE        
-        ,fcs_state_with_locations_t * ptr_new_state_with_locations
-#endif          
         )
 {
-#if defined(INDIRECT_STATE_STORAGE) || defined(TREE_STATE_STORAGE) || defined(HASH_STATE_STORAGE)||defined(DB_FILE_STATE_STORAGE)
     fcs_state_with_locations_t * ptr_new_state_with_locations;
-#endif
     int check;
     int fc, stack;
     fcs_card_t card;    
@@ -1579,9 +1501,9 @@ int freecell_solver_sfs_move_freecell_cards_to_empty_stack(
                 fcs_push_card_into_stack(new_state, stack, card);
                 fcs_empty_freecell(new_state, fc);
 
-                temp_move.type = FCS_MOVE_TYPE_FREECELL_TO_STACK;
-                temp_move.src_freecell = fc;
-                temp_move.dest_stack = stack;
+                fcs_move_set_type(temp_move,FCS_MOVE_TYPE_FREECELL_TO_STACK);
+                fcs_move_set_src_freecell(temp_move,fc);
+                fcs_move_set_dest_stack(temp_move,stack);
                 fcs_move_stack_push(moves, temp_move);
                 
                 sfs_check_state_end()
@@ -1601,14 +1523,9 @@ int freecell_solver_sfs_move_cards_to_a_different_parent(
         int num_freestacks,
         int num_freecells,
         int ignore_osins
-#ifdef DIRECT_STATE_STORAGE        
-        ,fcs_state_with_locations_t * ptr_new_state_with_locations
-#endif          
         )
 {
-#if defined(INDIRECT_STATE_STORAGE) || defined(TREE_STATE_STORAGE) || defined(HASH_STATE_STORAGE)||defined(DB_FILE_STATE_STORAGE)
     fcs_state_with_locations_t * ptr_new_state_with_locations;
-#endif
     int check;
 
     int stack, cards_num, c, a, b, ds, dc;
@@ -1738,9 +1655,9 @@ int freecell_solver_sfs_move_cards_to_a_different_parent(
 
                                                 fcs_put_card_in_freecell(new_state, b, temp_card);
 
-                                                temp_move.type = FCS_MOVE_TYPE_STACK_TO_FREECELL;
-                                                temp_move.src_stack = ds;
-                                                temp_move.dest_freecell = b;
+                                                fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_FREECELL);
+                                                fcs_move_set_src_stack(temp_move,ds);
+                                                fcs_move_set_dest_freecell(temp_move,b);
                                                 fcs_move_stack_push(moves, temp_move);
                                             }
 
@@ -1759,10 +1676,10 @@ int freecell_solver_sfs_move_cards_to_a_different_parent(
                                                 fcs_pop_stack_card(new_state, ds, temp_card);
                                                 fcs_push_card_into_stack(new_state, b, temp_card);
 
-                                                temp_move.type = FCS_MOVE_TYPE_STACK_TO_STACK;
-                                                temp_move.src_stack = ds;
-                                                temp_move.dest_stack = b;
-                                                temp_move.num_cards_in_sequence = 1;
+                                                fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_STACK);
+                                                fcs_move_set_src_stack(temp_move,ds);
+                                                fcs_move_set_dest_stack(temp_move,b);
+                                                fcs_move_set_num_cards_in_seq(temp_move,1);
                                                 fcs_move_stack_push(moves, temp_move);
                                             }
 
@@ -1776,10 +1693,10 @@ int freecell_solver_sfs_move_cards_to_a_different_parent(
                                                 fcs_pop_stack_card(new_state, stack, temp_card);
                                             }
 
-                                            temp_move.type = FCS_MOVE_TYPE_STACK_TO_STACK;
-                                            temp_move.src_stack = stack;
-                                            temp_move.dest_stack = ds;
-                                            temp_move.num_cards_in_sequence = cards_num-c;
+                                            fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_STACK);
+                                            fcs_move_set_src_stack(temp_move,stack);
+                                            fcs_move_set_dest_stack(temp_move,ds);
+                                            fcs_move_set_num_cards_in_seq(temp_move,cards_num-c);
                                             fcs_move_stack_push(moves, temp_move);
 
                                             sfs_check_state_end()
@@ -1809,14 +1726,9 @@ int freecell_solver_sfs_empty_stack_into_freecells(
         int num_freestacks,
         int num_freecells,
         int ignore_osins
-#ifdef DIRECT_STATE_STORAGE        
-        ,fcs_state_with_locations_t * ptr_new_state_with_locations
-#endif          
         )
 {
-#if defined(INDIRECT_STATE_STORAGE) || defined(TREE_STATE_STORAGE) || defined(HASH_STATE_STORAGE) || defined(DB_FILE_STATE_STORAGE)
     fcs_state_with_locations_t * ptr_new_state_with_locations;
-#endif
     int check;
 
     int stack, cards_num, c, b;
@@ -1864,9 +1776,9 @@ int freecell_solver_sfs_empty_stack_into_freecells(
 
                     fcs_put_card_in_freecell(new_state, b, temp_card);
 
-                    temp_move.type = FCS_MOVE_TYPE_STACK_TO_FREECELL;
-                    temp_move.src_stack = stack;
-                    temp_move.dest_freecell = b;
+                    fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_FREECELL);
+                    fcs_move_set_src_stack(temp_move,stack);
+                    fcs_move_set_dest_freecell(temp_move,b);
                     fcs_move_stack_push(moves, temp_move);
                 }
                 
@@ -1895,9 +1807,6 @@ typedef int (*freecell_solver_solve_for_state_test_t)(
         int,
         int,
         int
-#ifdef DIRECT_STATE_STORAGE
-        ,fcs_state_with_locations_t *
-#endif
         );
 
 freecell_solver_solve_for_state_test_t freecell_solver_sfs_tests[FCS_TESTS_NUM] = 
@@ -1915,22 +1824,7 @@ freecell_solver_solve_for_state_test_t freecell_solver_sfs_tests[FCS_TESTS_NUM] 
 };
 
 
-#if FCS_METHOD == FCS_METHOD_HARD_DFS
 
-#ifdef DIRECT_STATE_STORAGE
-
-#define ptr_state_with_locations (&state_with_locations)
-#define state (state_with_locations.s)
-
-
-int freecell_solver_solve_for_state (
-    freecell_solver_instance_t * instance,
-    fcs_state_with_locations_t state_with_locations,
-    int depth,
-    int ignore_osins
-    )
-
-#elif defined(INDIRECT_STATE_STORAGE) || defined(TREE_STATE_STORAGE) || defined(HASH_STATE_STORAGE)  || defined(DB_FILE_STATE_STORAGE)
 
 #define state (ptr_state_with_locations->s)
 
@@ -1942,14 +1836,7 @@ int freecell_solver_solve_for_state(
     int ignore_osins
     )
 
-#endif
 {
-#ifdef DIRECT_STATE_STORAGE    
-
-    fcs_state_with_locations_t new_state_with_locations;
-#define ptr_new_state_with_locations (&new_state_with_locations)    
-#endif
-    
     
     int a;
     int check;
@@ -2026,9 +1913,6 @@ int freecell_solver_solve_for_state(
                 num_freestacks,
                 num_freecells,
                 ignore_osins
-#ifdef DIRECT_STATE_STORAGE
-                ,ptr_new_state_with_locations
-#endif                
                 );
 
         if (check == FCS_STATE_WAS_SOLVED)
@@ -2067,13 +1951,6 @@ int freecell_solver_solve_for_state(
     return FCS_STATE_IS_NOT_SOLVEABLE;
 }
 
-#ifdef DIRECT_STATE_STORAGE
-
-#undef ptr_state_with_locations
-#undef ptr_new_state_with_locations
-
-#endif
-
 
 static int freecell_solver_solve_for_state_resume_solution(
     freecell_solver_instance_t * instance,
@@ -2106,11 +1983,7 @@ static int freecell_solver_solve_for_state_resume_solution(
     {
         check = freecell_solver_solve_for_state(
             instance,
-#ifdef DIRECT_STATE_STORAGE
-            *ptr_state_with_locations,
-#else
             ptr_state_with_locations,
-#endif
             depth,
             1);
         use_own_moves = 0;
@@ -2140,9 +2013,6 @@ static int freecell_solver_solve_for_state_resume_solution(
 
 
 
-#elif FCS_METHOD == FCS_METHOD_SOFT_DFS
-
-
 
 static void freecell_solver_increase_dfs_max_depth(
     freecell_solver_instance_t * instance
@@ -2151,6 +2021,23 @@ static void freecell_solver_increase_dfs_max_depth(
     int new_dfs_max_depth = instance->dfs_max_depth + 16;
     int d;
 
+#define MYREALLOC(what) \
+    instance->what = realloc( \
+        instance->what,       \
+        sizeof(instance->what[0])*new_dfs_max_depth \
+        ); \
+
+    MYREALLOC(solution_states);
+    MYREALLOC(proto_solution_moves);
+    MYREALLOC(soft_dfs_states_to_check);
+    MYREALLOC(soft_dfs_states_to_check_move_stacks);
+    MYREALLOC(soft_dfs_num_states_to_check);
+    MYREALLOC(soft_dfs_current_state_indexes);
+    MYREALLOC(soft_dfs_test_indexes);
+    MYREALLOC(soft_dfs_max_num_states_to_check)
+#undef MYREALLOC
+    
+#if 0
     instance->solution_states = realloc(
         instance->solution_states,
         sizeof(instance->solution_states[0])*new_dfs_max_depth
@@ -2160,20 +2047,26 @@ static void freecell_solver_increase_dfs_max_depth(
         instance->proto_solution_moves,
         sizeof(instance->proto_solution_moves[0])*new_dfs_max_depth
         );
+#endif
 
 
     for(d=instance->dfs_max_depth ; d<new_dfs_max_depth; d++)
     {
         instance->solution_states[d] = NULL;
         instance->proto_solution_moves[d] = NULL;
+        instance->soft_dfs_max_num_states_to_check[d] = 0;
+        instance->soft_dfs_test_indexes[d] = 0;
+        instance->soft_dfs_current_state_indexes[d] = 0;
+        instance->soft_dfs_num_states_to_check[d] = 0;
     }
 
     instance->dfs_max_depth = new_dfs_max_depth;
 }
 
+
 #define state (ptr_state_with_locations->s)
 
-static int freecell_solver_do_solve_or_resume(
+static int freecell_solver_soft_dfs_do_solve_or_resume(
     freecell_solver_instance_t * instance,
     fcs_state_with_locations_t * ptr_state_with_locations_orig,
     int resume
@@ -2181,7 +2074,8 @@ static int freecell_solver_do_solve_or_resume(
 {
     int depth;
     int num_freestacks, num_freecells;
-    fcs_state_with_locations_t * ptr_state_with_locations;
+    fcs_state_with_locations_t * ptr_state_with_locations, 
+        * ptr_recurse_into_state_with_locations;
     int a;
     int check;
 
@@ -2191,11 +2085,16 @@ static int freecell_solver_do_solve_or_resume(
     
         freecell_solver_increase_dfs_max_depth(instance);
 
-        freecell_solver_check_and_add_state(
-            instance,
-            ptr_state_with_locations_orig,
-            -1
+        instance->soft_dfs_max_num_states_to_check[depth] = FCS_SOFT_DFS_STATES_TO_CHECK_GROW_BY;
+        instance->soft_dfs_states_to_check[depth] = malloc(
+            sizeof(instance->soft_dfs_states_to_check[depth][0]) *
+            instance->soft_dfs_max_num_states_to_check[depth]
             );
+        instance->soft_dfs_states_to_check_move_stacks[depth] = malloc(
+            sizeof(instance->soft_dfs_states_to_check_move_stacks[depth][0]) *
+            instance->soft_dfs_max_num_states_to_check[depth]
+            );
+        instance->solution_states[0] = ptr_state_with_locations_orig;
     }
     else
     {
@@ -2208,59 +2107,87 @@ static int freecell_solver_do_solve_or_resume(
         {
             freecell_solver_increase_dfs_max_depth(instance);
         }
-
-        ptr_state_with_locations = instance->solution_states[depth];
-
-        /* Count the free-cells */
-        num_freecells = 0;
-        for(a=0;a<instance->freecells_num;a++)
+        
+        if (instance->soft_dfs_test_indexes[depth] >= instance->tests_order_num)
         {
-            if (fcs_freecell_card_num(state, a) == 0)
-            {
-                num_freecells++;
-            }
+            depth--;
+            continue; /* Just to make sure depth is not -1 now */    
         }
 
-        /* Count the number of unoccupied stacks */
-
-        num_freestacks = 0;    
-        for(a=0;a<instance->stacks_num;a++)
+        if (instance->soft_dfs_current_state_indexes[depth] == instance->soft_dfs_num_states_to_check[depth])
         {
-            if (fcs_stack_len(state, a) == 0)
+        
+            instance->soft_dfs_num_states_to_check[depth] = 0;
+        
+            ptr_state_with_locations = instance->solution_states[depth];
+        
+#ifdef DEBUG
+            if (instance->soft_dfs_test_indexes[depth] == 0)
             {
-                num_freestacks++;
+                if (instance->debug_iter_output)
+                {
+                    instance->debug_iter_output_func(
+                        (void*)instance->debug_iter_output_context,
+                        instance->num_times,
+                        depth,
+                        (void*)instance,
+                        ptr_state_with_locations
+                        );
+                }
             }
-        }
+#endif
+        
 
-        if ((num_freestacks == instance->stacks_num) && (num_freecells == instance->freecells_num))
-        {
-            int d;
-
-            instance->num_solution_states = depth+1;
-            for(d=0;d<=depth;d++)
+            /* Count the free-cells */
+            num_freecells = 0;
+            for(a=0;a<instance->freecells_num;a++)
             {
-                fcs_state_with_locations_t * ptr_state;
+                if (fcs_freecell_card_num(state, a) == 0)
+                {
+                    num_freecells++;
+                }
+            }
+
+            /* Count the number of unoccupied stacks */
+
+            num_freestacks = 0;    
+            for(a=0;a<instance->stacks_num;a++)
+            {
+                if (fcs_stack_len(state, a) == 0)
+                {
+                    num_freestacks++;
+                }
+            }
+
+            if ((num_freestacks == instance->stacks_num) && (num_freecells == instance->freecells_num))
+            {
+                int d;
+    
+                instance->num_solution_states = depth+1;
+                for(d=0;d<=depth;d++)
+                {
+                    fcs_state_with_locations_t * ptr_state;
                 
-                ptr_state = (fcs_state_with_locations_t *)malloc(sizeof(fcs_state_with_locations_t));
-                fcs_duplicate_state(*ptr_state, *(instance->solution_states[d]));
-                instance->solution_states[d] = ptr_state;
+                    ptr_state = (fcs_state_with_locations_t *)malloc(sizeof(fcs_state_with_locations_t));
+                    fcs_duplicate_state(*ptr_state, *(instance->solution_states[d]));
+                    instance->solution_states[d] = ptr_state;
 
+                }
+                return FCS_STATE_WAS_SOLVED;
             }
-            return FCS_STATE_WAS_SOLVED;
-        }
 
-        for(a=0 ;
-            a < instance->tests_order_num;
-            a++)
-        {
-            check = freecell_solver_sfs_tests[instance->tests_order[a]] (
-                    instance,
-                    ptr_state_with_locations,
-                    depth,
-                    num_freestacks,
-                    num_freecells,
-                    1
-                    );
+        
+            check = freecell_solver_sfs_tests[instance->tests_order[
+                    instance->soft_dfs_test_indexes[depth]
+                ]] (
+                   instance,
+                   ptr_state_with_locations,
+                depth,
+                num_freestacks,
+                num_freecells,
+                1
+                );
+        
             if ((check == FCS_STATE_BEGIN_SUSPEND_PROCESS) ||
                 (check == FCS_STATE_EXCEEDS_MAX_NUM_TIMES) ||
                 (check == FCS_STATE_SUSPEND_PROCESS))
@@ -2268,91 +2195,287 @@ static int freecell_solver_do_solve_or_resume(
                 instance->num_solution_states = depth+1;
                 return FCS_STATE_SUSPEND_PROCESS;
             }
-            if (instance->solution_states[depth+1] != NULL)
+        
+            instance->soft_dfs_test_indexes[depth]++;
+        
+            instance->soft_dfs_current_state_indexes[depth] = 0;
+        }
+        
+        while (instance->soft_dfs_current_state_indexes[depth] < 
+               instance->soft_dfs_num_states_to_check[depth])
+        {
+            ptr_recurse_into_state_with_locations = (instance->soft_dfs_states_to_check[depth][ 
+                    instance->soft_dfs_current_state_indexes[depth]
+                ]);
+            
+            instance->soft_dfs_current_state_indexes[depth]++;
+            if (!ptr_recurse_into_state_with_locations->visited)
             {
+                ptr_recurse_into_state_with_locations->visited = 1;
+                instance->num_times++;
+                instance->solution_states[depth+1] = ptr_recurse_into_state_with_locations;
+                instance->proto_solution_moves[depth] = 
+                    instance->soft_dfs_states_to_check_move_stacks[depth][
+                        instance->soft_dfs_current_state_indexes[depth]-1
+                    ];
+                /*
+                    I'm using current_state_indexes[depth]-1 because we already
+                    increaded it by one, so now it refers to the next state.
+                */
+                depth++;
+                instance->soft_dfs_test_indexes[depth] = 0;
+                instance->soft_dfs_current_state_indexes[depth] = 0;
+                instance->soft_dfs_num_states_to_check[depth] = 0;
+                
+                if (instance->soft_dfs_max_num_states_to_check[depth] == 0)
+                {
+                    instance->soft_dfs_max_num_states_to_check[depth] = FCS_SOFT_DFS_STATES_TO_CHECK_GROW_BY;
+                    instance->soft_dfs_states_to_check[depth] = malloc(
+                        sizeof(instance->soft_dfs_states_to_check[depth][0]) *
+                        instance->soft_dfs_max_num_states_to_check[depth]
+                        );
+                    instance->soft_dfs_states_to_check_move_stacks[depth] = malloc(
+                        sizeof(instance->soft_dfs_states_to_check_move_stacks[depth][0]) *
+                        instance->soft_dfs_max_num_states_to_check[depth]
+                        );
+                }
                 break;
             }
-        }
-        if (instance->solution_states[depth+1] != NULL)
-        {
-            depth++;
-            instance->num_times++;
-        }
-        else
-        {
-            if (depth > 0)
-            {
-                fcs_move_stack_destroy(instance->proto_solution_moves[depth-1]); 
-            }
-            instance->solution_states[depth] = NULL;
-            depth--;
-        }
-
+        }    
     }
 
+    instance->num_solution_states = 0;
+    
     return FCS_STATE_IS_NOT_SOLVEABLE;
 }
 
-static int freecell_solver_solve_for_state(
+#undef state
+
+static int freecell_solver_soft_dfs_solve_for_state(
     freecell_solver_instance_t * instance,
-    fcs_state_with_locations_t * ptr_state_with_locations_orig,
-    int depth_unusedc,
-    int ignore_osins
+    fcs_state_with_locations_t * ptr_state_with_locations_orig
     )
 {
-    return freecell_solver_do_solve_or_resume(
+    return freecell_solver_soft_dfs_do_solve_or_resume(
         instance,
         ptr_state_with_locations_orig,
         0
         );
 }
 
-static int freecell_solver_solve_for_state_resume_solution(
-    freecell_solver_instance_t * instance,
-    int depth
+static int freecell_solver_soft_dfs_solve_for_state_resume_solution(
+    freecell_solver_instance_t * instance
     )
 {
-    return freecell_solver_do_solve_or_resume(
+    return freecell_solver_soft_dfs_do_solve_or_resume(
         instance,
         NULL,
         1
         );
 }
 
+
+void freecell_solver_bfs_enqueue_state(
+    freecell_solver_instance_t * instance,
+    fcs_state_with_locations_t * state
+    )
+{
+    instance->bfs_queue_last_item->next = (fcs_states_linked_list_item_t*)malloc(sizeof(fcs_states_linked_list_item_t));
+    instance->bfs_queue_last_item->s = state;
+    instance->bfs_queue_last_item->next->next = NULL;
+    instance->bfs_queue_last_item = instance->bfs_queue_last_item->next;
+}
+
+
+#define FCS_A_STAR_CARDS_UNDER_SEQUENCES_EXPONENT 1.3
+#define FCS_A_STAR_SEQS_OVER_RENEGADE_CARDS_EXPONENT 1.3
+
+#define state (ptr_state_with_locations->s)
+
+void freecell_solver_a_star_initialize_rater(
+    freecell_solver_instance_t * instance, 
+    fcs_state_with_locations_t * ptr_state_with_locations
+    )
+{
+    int a, c, cards_num;
+    fcs_card_t this_card, prev_card;
+    double cards_under_sequences;
+    cards_under_sequences = 0;
+    for(a=0;a<instance->stacks_num;a++)
+    {
+        cards_num = fcs_stack_len(state, a);
+        if (cards_num <= 1)
+        {
+            continue;
+        }
+
+        c = cards_num-2;
+        this_card = fcs_stack_card(state, a, c+1);
+        prev_card = fcs_stack_card(state, a, c);
+        while (fcs_is_parent_card(this_card,prev_card) && (c >= 0))
+        {
+            c--;
+            this_card = prev_card;
+            if (c>=0)
+            {
+                prev_card = fcs_stack_card(state, a, c);
+            }
+        }
+        cards_under_sequences += pow(c+1, FCS_A_STAR_CARDS_UNDER_SEQUENCES_EXPONENT);
+    }
+    instance->a_star_initial_cards_under_sequences = cards_under_sequences;
+}
+
+
 #if 0
-static int freecell_solver_solve_for_state(
+#define FCS_A_STAR_WEIGHT_CARDS_IN_FOUNDATIONS 0.33
+#define FCS_A_STAR_WEIGHT_MAX_SEQUENCE_MOVE 0
+#define FCS_A_STAR_WEIGHT_CARDS_UNDER_SEQUENCES 0.33
+#endif
+
+pq_rating_t freecell_solver_a_star_rate_state(
+    freecell_solver_instance_t * instance, 
+    fcs_state_with_locations_t * ptr_state_with_locations)
+{
+    double ret=0;
+    int a, c, cards_num, num_cards_in_founds;
+    int num_freestacks, num_freecells;
+    fcs_card_t this_card, prev_card;
+    double cards_under_sequences, temp;
+    double seqs_over_renegade_cards;
+
+    cards_under_sequences = 0;
+    num_freestacks = 0;
+    seqs_over_renegade_cards = 0;
+    for(a=0;a<instance->stacks_num;a++)
+    {
+        cards_num = fcs_stack_len(state, a);
+        if (cards_num == 0)
+        {
+            num_freestacks++;
+        }
+        
+        if (cards_num <= 1)
+        {
+            continue;
+        }
+
+        c = cards_num-2;
+        this_card = fcs_stack_card(state, a, c+1);
+        prev_card = fcs_stack_card(state, a, c);
+        while ((c >= 0) && fcs_is_parent_card(this_card,prev_card))
+        {
+            c--;
+            this_card = prev_card;
+            if (c>=0)
+            {
+                prev_card = fcs_stack_card(state, a, c);
+            }
+        }
+        cards_under_sequences += pow(c+1, FCS_A_STAR_CARDS_UNDER_SEQUENCES_EXPONENT);
+        if (c >= 0)
+        {
+            seqs_over_renegade_cards += 
+                ((instance->unlimited_sequence_move) ? 
+                    1 :
+                    pow(cards_num-c-1, FCS_A_STAR_SEQS_OVER_RENEGADE_CARDS_EXPONENT)
+                    );
+        }
+    }
+
+    ret += ((instance->a_star_initial_cards_under_sequences - cards_under_sequences) 
+            / instance->a_star_initial_cards_under_sequences) * instance->a_star_weights[FCS_A_STAR_WEIGHT_CARDS_UNDER_SEQUENCES];
+
+    ret += (seqs_over_renegade_cards / 
+               pow(instance->decks_num*52, FCS_A_STAR_SEQS_OVER_RENEGADE_CARDS_EXPONENT) )
+           * instance->a_star_weights[FCS_A_STAR_WEIGHT_SEQS_OVER_RENEGADE_CARDS];
+
+    num_cards_in_founds = 0;
+    for(a=0;a<instance->decks_num*4;a++)
+    {
+        num_cards_in_founds += fcs_deck_value(state, a);
+    }
+
+    ret += ((double)num_cards_in_founds/(instance->decks_num*52)) * instance->a_star_weights[FCS_A_STAR_WEIGHT_CARDS_OUT];
+
+    num_freecells = 0;
+    for(a=0;a<instance->freecells_num;a++)
+    {
+        if (fcs_freecell_card_num(state,a) == 0)
+        {
+            num_freecells++;
+        }
+    }
+
+    if (instance->empty_stacks_fill == FCS_ES_FILLED_BY_ANY_CARD)
+    {
+        if (instance->unlimited_sequence_move)
+        {
+            temp = (((double)num_freecells+num_freestacks)/(instance->freecells_num+instance->stacks_num));
+        }
+        else
+        {
+            temp = (((double)((num_freecells+1)<<num_freestacks)) / ((instance->freecells_num+1)<<(instance->stacks_num)));
+        }
+    }
+    else
+    {
+        if (instance->unlimited_sequence_move)
+        {
+            temp = (((double)num_freecells)/instance->freecells_num);
+        }
+        else
+        {
+            temp = 0;
+        }
+    }
+
+    ret += (temp * instance->a_star_weights[FCS_A_STAR_WEIGHT_MAX_SEQUENCE_MOVE]);
+    
+    if (ptr_state_with_locations->depth <= 20000)
+    {
+        ret += ((20000 - ptr_state_with_locations->depth)/20000.0) * instance->a_star_weights[FCS_A_STAR_WEIGHT_DEPTH];
+    }
+
+    return (int)(ret*INT_MAX);
+}
+
+
+void freecell_solver_a_star_enqueue_state(
+    freecell_solver_instance_t * instance,
+    fcs_state_with_locations_t * ptr_state_with_locations
+    )
+{
+    PQueuePush(
+        instance->a_star_pqueue,
+        ptr_state_with_locations,
+        freecell_solver_a_star_rate_state(instance, ptr_state_with_locations)
+        );
+}
+
+static int freecell_solver_a_star_or_bfs_do_solve_or_resume(
     freecell_solver_instance_t * instance,
     fcs_state_with_locations_t * ptr_state_with_locations_orig,
-    int depth_unusedc,
-    int ignore_osins
+    int resume
     )
 {
-    int depth;
-    int num_freestacks, num_freecells;
     fcs_state_with_locations_t * ptr_state_with_locations;
+    int num_freestacks, num_freecells;
+    fcs_states_linked_list_item_t * save_item;
     int a;
     int check;
 
-    depth=0;
-
-    freecell_solver_increase_dfs_max_depth(instance);
-
-    freecell_solver_check_and_add_state(
-        instance,
-        ptr_state_with_locations_orig,
-        -1
-        );
-
-
-    while (depth >= 0)
+    if (!resume)
     {
-        if (depth+1 >= instance->dfs_max_depth)
-        {
-            freecell_solver_increase_dfs_max_depth(instance);
-        }
+        ptr_state_with_locations_orig->parent = NULL;
+        ptr_state_with_locations_orig->moves_to_parent = NULL;
+        ptr_state_with_locations_orig->depth = 0;
+    }
 
-        ptr_state_with_locations = instance->solution_states[depth];
-
+    ptr_state_with_locations = ptr_state_with_locations_orig;
+    
+    while ( ptr_state_with_locations != NULL)
+    {
         /* Count the free-cells */
         num_freecells = 0;
         for(a=0;a<instance->freecells_num;a++)
@@ -2374,183 +2497,139 @@ static int freecell_solver_solve_for_state(
             }
         }
 
-        if ((num_freestacks == instance->stacks_num) && (num_freecells == instance->freecells_num))
+#ifdef DEBUG
+        if (instance->debug_iter_output)
         {
-            int d;
-
-            instance->num_solution_states = depth+1;
-            for(d=0;d<=depth;d++)
-            {
-                fcs_state_with_locations_t * ptr_state;
-                
-                ptr_state = (fcs_state_with_locations_t *)malloc(sizeof(fcs_state_with_locations_t));
-                fcs_duplicate_state(*ptr_state, *(instance->solution_states[d]));
-                instance->solution_states[d] = ptr_state;
-
-            }
-            return FCS_STATE_WAS_SOLVED;
-        }
-
-        for(a=0 ;
-            a < instance->tests_order_num;
-            a++)
-        {
-            check = freecell_solver_sfs_tests[instance->tests_order[a]] (
-                    instance,
-                    ptr_state_with_locations,
-                    depth,
-                    num_freestacks,
-                    num_freecells,
-                    1
+            instance->debug_iter_output_func(
+                    (void*)instance->debug_iter_output_context,
+                    instance->num_times,
+                    ptr_state_with_locations->depth,
+                    (void*)instance,
+                    ptr_state_with_locations
                     );
-            if ((check == FCS_STATE_BEGIN_SUSPEND_PROCESS) ||
-                (check == FCS_STATE_EXCEEDS_MAX_NUM_TIMES) ||
-                (check == FCS_STATE_SUSPEND_PROCESS))
-            {
-                instance->num_solution_states = depth+1;
-                return FCS_STATE_SUSPEND_PROCESS;
-            }
-            if (instance->solution_states[depth+1] != NULL)
-            {
-                break;
-            }
-        }
-        if (instance->solution_states[depth+1] != NULL)
-        {
-            depth++;
-            instance->num_times++;
-        }
-        else
-        {
-            if (depth > 0)
-            {
-                fcs_move_stack_destroy(instance->proto_solution_moves[depth-1]); 
-            }
-            instance->solution_states[depth] = NULL;
-            depth--;
-        }
+        }    
+#endif        
 
-    }
-
-    return FCS_STATE_IS_NOT_SOLVEABLE;
-
-}
-
-static int freecell_solver_solve_for_state_resume_solution(
-    freecell_solver_instance_t * instance,
-    int depth
-    )
-{
-    int num_freestacks, num_freecells;
-    fcs_state_with_locations_t * ptr_state_with_locations;
-    int a;
-    int check;
-
-    freecell_solver_increase_dfs_max_depth(instance);
-
-    depth = instance->num_solution_states - 1;
-
-
-    while (depth >= 0)
-    {
-        if (depth+1 >= instance->dfs_max_depth)
-        {
-            freecell_solver_increase_dfs_max_depth(instance);
-        }
-
-        ptr_state_with_locations = instance->solution_states[depth];
-
-        /* Count the free-cells */
-        num_freecells = 0;
-        for(a=0;a<instance->freecells_num;a++)
-        {
-            if (fcs_freecell_card_num(state, a) == 0)
-            {
-                num_freecells++;
-            }
-        }
-
-        /* Count the number of unoccupied stacks */
-
-        num_freestacks = 0;    
-        for(a=0;a<instance->stacks_num;a++)
-        {
-            if (fcs_stack_len(state, a) == 0)
-            {
-                num_freestacks++;
-            }
-        }
 
         if ((num_freestacks == instance->stacks_num) && (num_freecells == instance->freecells_num))
         {
-            int d;
+            /*
+                Trace the solution.
+            */
+            int num_solution_states;
+            fcs_state_with_locations_t * s1;
 
-            instance->num_solution_states = depth+1;
-            for(d=0;d<=depth;d++)
+            s1 = ptr_state_with_locations;
+
+            num_solution_states = instance->num_solution_states = s1->depth+1;
+            instance->solution_states = malloc(sizeof(fcs_state_with_locations_t *)*num_solution_states);
+            instance->proto_solution_moves = malloc(sizeof(fcs_move_stack_t *) * (num_solution_states-1));
+            while (s1->parent != NULL)
             {
-                fcs_state_with_locations_t * ptr_state;
-                
-                ptr_state = (fcs_state_with_locations_t *)malloc(sizeof(fcs_state_with_locations_t));
-                fcs_duplicate_state(*ptr_state, *(instance->solution_states[d]));
-                instance->solution_states[d] = ptr_state;
-
+                instance->proto_solution_moves[s1->depth-1] = fcs_move_stack_duplicate(s1->moves_to_parent);
+                instance->solution_states[s1->depth] = (fcs_state_with_locations_t*)malloc(sizeof(fcs_state_with_locations_t));
+                fcs_duplicate_state(*(instance->solution_states[s1->depth]), *s1);
+        
+                s1 = s1->parent;
             }
+            instance->solution_states[0] = (fcs_state_with_locations_t*)malloc(sizeof(fcs_state_with_locations_t));
+            fcs_duplicate_state(*(instance->solution_states[0]), *s1);
+            
             return FCS_STATE_WAS_SOLVED;
         }
 
-        for(a=0 ;
-            a < instance->tests_order_num;
-            a++)
+        instance->num_times++;
+#if 0
         {
-            check = freecell_solver_sfs_tests[instance->tests_order[a]] (
-                    instance,
-                    ptr_state_with_locations,
-                    depth,
-                    num_freestacks,
-                    num_freecells,
-                    1
-                    );
-            if ((check == FCS_STATE_BEGIN_SUSPEND_PROCESS) ||
-                (check == FCS_STATE_EXCEEDS_MAX_NUM_TIMES) ||
-                (check == FCS_STATE_SUSPEND_PROCESS))
+            if ((instance->num_times % 1000) == 0)
             {
-                instance->num_solution_states = depth+1;
-                return FCS_STATE_SUSPEND_PROCESS;
-            }
-            if (instance->solution_states[depth+1] != NULL)
-            {
-                break;
+                printf("%i: %i\n", instance->num_times, ptr_state_with_locations->depth);
+                fflush(stdout);
             }
         }
-        if (instance->solution_states[depth+1] != NULL)
-        {
-            depth++;
-            instance->num_times++;
-        }
-        else
-        {
-            if (depth > 0)
-            {
-                fcs_move_stack_destroy(instance->proto_solution_moves[depth-1]); 
-            }
-            instance->solution_states[depth] = NULL;
-            depth--;
-        }
-
-    }
-
-    return FCS_STATE_IS_NOT_SOLVEABLE;
-}
 #endif
+
+        for(a=0 ;
+            a < instance->tests_order_num;
+            a++)
+        {
+            check = freecell_solver_sfs_tests[instance->tests_order[a]] (
+                    instance,
+                    ptr_state_with_locations,
+                    ptr_state_with_locations->depth,
+                    num_freestacks,
+                    num_freecells,
+                    1
+                    );
+            if ((check == FCS_STATE_BEGIN_SUSPEND_PROCESS) ||
+                (check == FCS_STATE_EXCEEDS_MAX_NUM_TIMES) ||
+                (check == FCS_STATE_SUSPEND_PROCESS))
+            {
+                instance->first_state_to_check = ptr_state_with_locations;
+                return FCS_STATE_SUSPEND_PROCESS;
+            }
+        }
+
+        /*
+            Extract the next item in the queue/priority queue.
+        */
+        if (instance->method == FCS_METHOD_BFS)
+        {
+            if (instance->bfs_queue->next != instance->bfs_queue_last_item)
+            {
+                save_item = instance->bfs_queue->next;
+                ptr_state_with_locations = save_item->s;
+                instance->bfs_queue->next = instance->bfs_queue->next->next;
+                free(save_item);
+            }
+            else
+            {
+                ptr_state_with_locations = NULL;
+            }
+        }
+        else
+        {
+            /* A* */
+            ptr_state_with_locations = PQueuePop(instance->a_star_pqueue);
+        }
+    }
+
+    return FCS_STATE_IS_NOT_SOLVEABLE;
+}
+
+
+static int freecell_solver_a_star_or_bfs_solve_for_state(
+    freecell_solver_instance_t * instance,
+    fcs_state_with_locations_t * ptr_state_with_locations_orig
+    )
+{
+    return freecell_solver_a_star_or_bfs_do_solve_or_resume(
+            instance,
+            ptr_state_with_locations_orig,
+            0
+            );
+}
+
+static int freecell_solver_a_star_or_bfs_resume_solution(
+    freecell_solver_instance_t * instance
+    )
+{
+    return freecell_solver_a_star_or_bfs_do_solve_or_resume(
+            instance,
+            instance->first_state_to_check,
+            1
+            );
+}
+
 
 #undef state
 
+
+#if 1
+double freecell_solver_a_star_default_weights[5] = {0.5,0,0.5,0,0};
+#else
+double freecell_solver_a_star_default_weights[5] = {0.5,0,0.3,0,0.2};
 #endif
-
-
-
-
-
 
 freecell_solver_instance_t * freecell_solver_alloc_instance(void)
 {
@@ -2560,10 +2639,6 @@ freecell_solver_instance_t * freecell_solver_alloc_instance(void)
 
     instance = malloc(sizeof(freecell_solver_instance_t));
 
-#ifdef DIRECT_STATE_STORAGE
-    instance->num_prev_states = 0;
-    instance->max_num_prev_states = 0;
-#endif
     instance->unsorted_prev_states_start_at = 0;
 #ifdef INDIRECT_STATE_STORAGE
     instance->num_indirect_prev_states = 0;
@@ -2596,14 +2671,43 @@ freecell_solver_instance_t * freecell_solver_alloc_instance(void)
 
     instance->debug_iter_output = 0;
 
-#if FCS_METHOD == FCS_METHOD_SOFT_DFS
-
     instance->dfs_max_depth = 0;
 
+#if 0
     instance->solution_states = NULL;
     instance->proto_solution_moves = NULL;
-
 #endif
+#define SET_TO_NULL(what) instance->what = NULL;
+    SET_TO_NULL(solution_states);
+    SET_TO_NULL(proto_solution_moves);
+    SET_TO_NULL(soft_dfs_states_to_check);
+    SET_TO_NULL(soft_dfs_states_to_check_move_stacks);
+    SET_TO_NULL(soft_dfs_num_states_to_check);
+    SET_TO_NULL(soft_dfs_current_state_indexes);
+    SET_TO_NULL(soft_dfs_test_indexes);
+    SET_TO_NULL(soft_dfs_current_state_indexes);
+    SET_TO_NULL(soft_dfs_max_num_states_to_check);
+#undef SET_TO_NULL
+
+    instance->method = FCS_METHOD_HARD_DFS;
+
+    instance->bfs_queue = (fcs_states_linked_list_item_t*)malloc(sizeof(fcs_states_linked_list_item_t));
+    instance->bfs_queue->next = (fcs_states_linked_list_item_t*)malloc(sizeof(fcs_states_linked_list_item_t));
+    instance->bfs_queue_last_item = instance->bfs_queue->next;
+    instance->bfs_queue_last_item->next = NULL;
+
+    instance->a_star_pqueue = malloc(sizeof(PQUEUE));
+    PQueueInitialise(
+        instance->a_star_pqueue,
+        1024,
+        INT_MAX,
+        1
+        );
+
+    for(a=0;a<(sizeof(instance->a_star_weights)/sizeof(instance->a_star_weights[0]));a++)
+    {
+        instance->a_star_weights[a] = freecell_solver_a_star_default_weights[a];
+    }
 
     return instance;
 }
@@ -2615,14 +2719,6 @@ void freecell_solver_free_instance(freecell_solver_instance_t * instance)
 
 void freecell_solver_init_instance(freecell_solver_instance_t * instance)
 {
-#ifdef DIRECT_STATE_STORAGE    
-    instance->max_num_prev_states = PREV_STATES_GROW_BY;
-
-    instance->prev_states = (fcs_state_with_locations_t *)malloc(instance->max_num_prev_states*sizeof(fcs_state_with_locations_t));
-
-    instance->num_prev_states = 0;
-#endif
-
     instance->num_prev_states_margin = 0;
 
 #ifdef INDIRECT_STATE_STORAGE
@@ -2631,9 +2727,29 @@ void freecell_solver_init_instance(freecell_solver_instance_t * instance)
     instance->indirect_prev_states = (fcs_state_with_locations_t * *)malloc(sizeof(fcs_state_with_locations_t *) * instance->max_num_indirect_prev_states);
 #endif
 
-#if defined(INDIRECT_STATE_STORAGE) || defined(TREE_STATE_STORAGE) || defined(HASH_STATE_STORAGE) || defined(DB_FILE_STATE_STORAGE)
     fcs_state_ia_init(instance);
-#endif
+
+    {
+        double sum;
+        int a;
+        sum = 0;
+        for(a=0;a<(sizeof(instance->a_star_weights)/sizeof(instance->a_star_weights[0]));a++)
+        {
+            if (instance->a_star_weights[a] < 0)
+            {
+                instance->a_star_weights[a] = freecell_solver_a_star_default_weights[a];
+            }
+            sum += instance->a_star_weights[a];
+        }
+        if (sum == 0)
+        {
+            sum = 1;
+        }
+        for(a=0;a<(sizeof(instance->a_star_weights)/sizeof(instance->a_star_weights[0]));a++)
+        {
+            instance->a_star_weights[a] /= sum;
+        }
+    }
 }
 
 #if defined(INDIRECT_STACK_STATES)
@@ -2702,17 +2818,10 @@ int freecell_solver_solve_instance(
 {
     int ret;
     
-#if defined(INDIRECT_STATE_STORAGE) || defined(TREE_STATE_STORAGE) || defined(HASH_STATE_STORAGE) || defined(DB_FILE_STATE_STORAGE)
     fcs_state_with_locations_t * state_copy_ptr;
-#endif
-#ifdef DIRECT_STATE_STORAGE
-    fcs_duplicate_state(instance->prev_states[0], *init_state);
-    instance->num_prev_states++;
-#elif defined(INDIRECT_STATE_STORAGE) || defined(TREE_STATE_STORAGE) || defined(HASH_STATE_STORAGE) || defined(DB_FILE_STATE_STORAGE)
     state_copy_ptr = fcs_state_ia_alloc(instance);
 
     fcs_duplicate_state(*state_copy_ptr, *init_state);
-#endif
 
 #ifdef TREE_STATE_STORAGE
 #ifdef LIBREDBLACK_TREE_IMPLEMENTATION
@@ -2786,23 +2895,42 @@ int freecell_solver_solve_instance(
 #endif
     
 
-#ifdef DIRECT_STATE_STORAGE
 
-    ret = freecell_solver_solve_for_state(
-        instance,
-        *init_state,
-        0,
-        0);
+    if (instance->method == FCS_METHOD_HARD_DFS)
+    {
+        ret = freecell_solver_solve_for_state(
+            instance,
+            state_copy_ptr,
+            0,
+            0);
+    }
+    else if (instance->method == FCS_METHOD_SOFT_DFS)
+    {
+        ret = freecell_solver_soft_dfs_solve_for_state(
+            instance,
+            state_copy_ptr
+            );
+    }
+    else if ((instance->method == FCS_METHOD_BFS) || (instance->method == FCS_METHOD_A_STAR))
+    {
+        if (instance->method == FCS_METHOD_A_STAR)
+        {
+            freecell_solver_a_star_initialize_rater(
+                instance,
+                state_copy_ptr
+                );
+        }
 
-#elif defined(INDIRECT_STATE_STORAGE) || defined(TREE_STATE_STORAGE) || defined(HASH_STATE_STORAGE) || defined(DB_FILE_STATE_STORAGE)
-
-    ret = freecell_solver_solve_for_state(
-        instance,
-        state_copy_ptr,
-        0,
-        0);
-
-#endif
+        ret = freecell_solver_a_star_or_bfs_solve_for_state(
+            instance,
+            state_copy_ptr
+            );
+        
+    }
+    else
+    {
+        ret = FCS_STATE_IS_NOT_SOLVEABLE;
+    }
 
     if (ret == FCS_STATE_WAS_SOLVED)
     {
@@ -2826,7 +2954,26 @@ int freecell_solver_resume_instance(
     )
 {
     int ret;
-    ret = freecell_solver_solve_for_state_resume_solution(instance, 0);
+    if (instance->method == FCS_METHOD_HARD_DFS)
+    {
+        ret = freecell_solver_solve_for_state_resume_solution(instance, 0);
+    }
+    else if (instance->method == FCS_METHOD_SOFT_DFS)
+    {
+        ret = freecell_solver_soft_dfs_solve_for_state_resume_solution(
+            instance
+            );
+    }
+    else if ((instance->method == FCS_METHOD_BFS) || (instance->method == FCS_METHOD_A_STAR))
+    {
+        ret = freecell_solver_a_star_or_bfs_resume_solution(
+            instance
+            );
+    }
+    else
+    {
+        ret = FCS_STATE_IS_NOT_SOLVEABLE;
+    }
 
     if (ret == FCS_STATE_WAS_SOLVED)
     {
@@ -2849,17 +2996,20 @@ void freecell_solver_unresume_instance(
     freecell_solver_instance_t * instance
     )
 {
-    int depth;
-    for(depth=0;depth<instance->num_solution_states-1;depth++)
+    if ((instance->method == FCS_METHOD_HARD_DFS) || (instance->method == FCS_METHOD_SOFT_DFS))
     {
-        fcs_move_stack_destroy(instance->proto_solution_moves[depth]);
+        int depth;
+        for(depth=0;depth<instance->num_solution_states-1;depth++)
+        {
+            fcs_move_stack_destroy(instance->proto_solution_moves[depth]);
+            free(instance->solution_states[depth]);
+        }
+        /* There's one more state than move stacks */        
         free(instance->solution_states[depth]);
-    }
-    /* There's one more state than move stacks */
-    free(instance->solution_states[depth]);
 
-    free(instance->solution_moves);
-    free(instance->solution_states);
+        free(instance->proto_solution_moves);
+        free(instance->solution_states);
+    }
 }
 
 
@@ -2923,6 +3073,17 @@ static void freecell_solver_glib_hash_foreach_destroy_stack_action
 
 #endif
 
+void freecell_solver_destroy_move_stack_of_state(
+        fcs_state_with_locations_t * ptr_state_with_locations, 
+        void * context
+        )
+{
+    if (ptr_state_with_locations->moves_to_parent != NULL)
+    {
+        fcs_move_stack_destroy(ptr_state_with_locations->moves_to_parent);
+    }
+}
+
 void freecell_solver_finish_instance(
     freecell_solver_instance_t * instance
     )
@@ -2931,12 +3092,11 @@ void freecell_solver_finish_instance(
 #ifdef INDIRECT_STATE_STORAGE        
     free(instance->indirect_prev_states);
 #endif
-#ifdef DIRECT_STATE_STORAGE        
-    free(instance->prev_states);
-#endif        
-#if defined(INDIRECT_STATE_STORAGE) || defined(TREE_STATE_STORAGE) || defined(HASH_STATE_STORAGE) || defined(DB_FILE_STATE_STORAGE)
+    if ((instance->method == FCS_METHOD_A_STAR) || (instance->method == FCS_METHOD_BFS))
+    {
+        fcs_state_ia_foreach(instance, freecell_solver_destroy_move_stack_of_state, NULL);
+    }               
     fcs_state_ia_finish(instance);
-#endif
 
 #ifdef TREE_STATE_STORAGE
 #ifdef LIBREDBLACK_TREE_IMPLEMENTATION
@@ -2994,9 +3154,22 @@ void freecell_solver_finish_instance(
     instance->db->close(instance->db,0);
 #endif
 
+    /* Free the BFS linked list */
+    {
+        fcs_states_linked_list_item_t * item, * next_item;
+        item = instance->bfs_queue;
+        while (item != NULL)
+        {            
+            next_item = item->next;
+            free(item);
+            item = next_item;
+        }
+    }
+
+    PQueueFree(instance->a_star_pqueue);
+    free(instance->a_star_pqueue);
 }
 
-#if FCS_METHOD == FCS_METHOD_SOFT_DFS
 void freecell_solver_soft_dfs_add_state(
     freecell_solver_instance_t * instance,
     int depth,
@@ -3005,4 +3178,4 @@ void freecell_solver_soft_dfs_add_state(
 {
     instance->solution_states[depth] = state;
 }
-#endif
+

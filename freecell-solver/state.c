@@ -361,7 +361,7 @@ void fcs_state_init(fcs_state_with_locations_t * state, int stacks_num)
 }
 
 
-#if defined(DIRECT_STATE_STORAGE) || defined(TREE_STATE_STORAGE) || defined(HASH_STATE_STORAGE)
+#if defined(TREE_STATE_STORAGE) || defined(HASH_STATE_STORAGE)
 int fcs_state_compare(const void * s1, const void * s2)
 {
     return memcmp(s1,s2,sizeof(fcs_state_t));
@@ -415,7 +415,7 @@ fcs_state_with_locations_t fcs_initial_user_state_to_c(
     int first_line;
     
     int prefix_found;
-    const char * * prefixes;
+    char * * prefixes;
     int i;
     int decks_index[4];
 

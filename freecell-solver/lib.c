@@ -10,7 +10,6 @@
 
 #include "fcs.h"
 #include "preset.h"
-#include "fcs_user.h"
 
 struct fcs_user_struct
 {
