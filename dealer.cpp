@@ -833,6 +833,9 @@ void Dealer::setWaiting(bool w)
 
 bool Dealer::startAutoDrop()
 {
+    if (movingCards.count())
+        return false;
+
     kdDebug() << "startAutoDrop\n";
 
     unmarkAll();
