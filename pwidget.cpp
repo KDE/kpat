@@ -72,9 +72,9 @@ pWidget::pWidget( const char* _name )
   // icon
   QPixmap pix;
   if( QColor::numBitPlanes() > 8 )
-    pix = KGlobal::iconLoader()->loadApplicationIcon( "kpat.xpm" );
+    pix = KGlobal::iconLoader()->loadIcon( "kpat.xpm" );
   else
-    pix = KGlobal::iconLoader()->loadApplicationIcon( "kpat-lq.xpm" );
+    pix = KGlobal::iconLoader()->loadIcon( "kpat-lq.xpm" );
   KWM::setIcon( winId(), pix );
   KWM::setMiniIcon( winId(), pix );
   
@@ -379,3 +379,4 @@ void pWidget::slotMenubarChanged()
 }
 
 #include "pwidget.moc"
+
