@@ -329,6 +329,11 @@ void pWidget::newGameType()
         }
     }
 
+    if (!dill) {
+        kdError() << "unimplemented game type " << id << endl;
+        dill = DealerInfoList::self()->games().first()->createGame(this);
+    }
+
     connect(dill, SIGNAL(undoPossible(bool)), SLOT(undoPossible(bool)));
     connect(dill, SIGNAL(gameWon(bool)), SLOT(gameWon(bool)));
     connect(dill, SIGNAL(gameLost()), SLOT(gameLost()));
@@ -338,11 +343,6 @@ void pWidget::newGameType()
     // it's a bit tricky - we have to do this here as the
     // base class constructor runs before the derived class's
     dill->takeState();
-
-    if (!dill) {
-        kdError() << "unimplemented game type " << id << endl;
-        dill = DealerInfoList::self()->games().first()->createGame(this);
-    }
 
     dill->resetMoves();
 

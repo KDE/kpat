@@ -113,6 +113,13 @@ bool Kings::isGameLost() const {
 }
 
 #if 0
+NOTE: When this is reenabled, renumber the following patiences back again:
+Golf
+Klondike, draw 3
+Spider Easy
+Spider Medium
+Spider Hard
+
 static class LocalDealerInfo12 : public DealerInfo
 {
 public:

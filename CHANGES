@@ -1,5 +1,8 @@
 2004-10-14 Inge Wallin <inge@lysator.liu.se>
 
+	- fix bug 87451: crash in patience when selecting 'unknown' as game type
+        ---- CVS commit here ----
+
 	- fix bug 89755: Aces up move counter doesn't work (idiot.cpp)
 	- bump version to 2.2.1
 

@@ -458,21 +458,21 @@ bool Spider::isGameLost() const
 static class LocalDealerInfo15 : public DealerInfo
 {
 public:
-    LocalDealerInfo15() : DealerInfo(I18N_NOOP("S&pider (Easy)"), 15) {}
+    LocalDealerInfo15() : DealerInfo(I18N_NOOP("S&pider (Easy)"), 14) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Spider(1, parent); }
 } ldi15;
 
 static class LocalDealerInfo16 : public DealerInfo
 {
 public:
-    LocalDealerInfo16() : DealerInfo(I18N_NOOP("Spider (&Medium)"), 16) {}
+    LocalDealerInfo16() : DealerInfo(I18N_NOOP("Spider (&Medium)"), 15) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Spider(2, parent); }
 } ldi16;
 
 static class LocalDealerInfo17 : public DealerInfo
 {
 public:
-    LocalDealerInfo17() : DealerInfo(I18N_NOOP("Spider (&Hard)"), 17) {}
+    LocalDealerInfo17() : DealerInfo(I18N_NOOP("Spider (&Hard)"), 16) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Spider(4, parent); }
 } ldi17;
 
