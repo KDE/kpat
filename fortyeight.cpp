@@ -67,8 +67,11 @@ void Fortyeight::deckClicked(Card *)
         if (lastdeal)
             return;
         lastdeal = true;
-        while (!pile->isEmpty())
-            deck->add(pile->at(pile->cardsLeft()-1), true, false);
+        while (!pile->isEmpty()) {
+            Card *c = pile->at(pile->cardsLeft()-1);
+            c->setAnimated(false);
+            deck->add(c, true, false);
+        }
     }
     Card *c = deck->nextCard();
     pile->add(c, true, true);
