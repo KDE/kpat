@@ -109,6 +109,18 @@ void Fortyeight::deal()
     pile->add(deck->nextCard(), false, false);
 }
 
+void Fortyeight::getGameState( QDataStream & stream )
+{
+    stream << (Q_INT8)lastdeal;
+}
+
+void Fortyeight::setGameState( QDataStream & stream )
+{
+    Q_INT8 i;
+    stream >> i;
+    lastdeal = i;
+}
+
 static class LocalDealerInfo8 : public DealerInfo
 {
 public:
