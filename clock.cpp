@@ -83,7 +83,7 @@ void Clock::deal() {
 static class LocalDealerInfo11 : public DealerInfo
 {
 public:
-    LocalDealerInfo11() : DealerInfo(I18N_NOOP("&Grandfather's Clock"), 11) {}
+    LocalDealerInfo11() : DealerInfo(I18N_NOOP("G&randfather's Clock"), 11) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Clock(parent); }
 } gfi11;
 

@@ -59,7 +59,7 @@ Card *Gypsy::demoNewCards()
 static class LocalDealerInfo7 : public DealerInfo
 {
 public:
-    LocalDealerInfo7() : DealerInfo(I18N_NOOP("G&ypsy"), 7) {}
+    LocalDealerInfo7() : DealerInfo(I18N_NOOP("Gy&psy"), 7) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Gypsy(parent); }
 } gyfdi;
 
