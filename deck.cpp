@@ -16,11 +16,17 @@ Card* Deck::nextCard() {
         return 0;
 }
 
-Deck::Deck( Dealer* parent, int m )
+Deck::Deck( Dealer* parent, int m, int s )
     : Pile( 0, parent ), mult( m )
 {
     _deck = new Card * [mult*NumberOfCards];
     Q_CHECK_PTR (_deck);
+
+    // only allow 1, 2, or 4 suits
+    if ( s == 1 || s == 2 )
+        suits = s;
+    else
+        suits = 4;
 
     makedeck();
     addToDeck();
@@ -32,9 +38,9 @@ Deck::Deck( Dealer* parent, int m )
 
 Deck *Deck::my_deck = 0;
 
-Deck *Deck::new_deck( Dealer *parent, int m )
+Deck *Deck::new_deck( Dealer *parent, int m, int s )
 {
-    my_deck = new Deck(parent, m);
+    my_deck = new Deck(parent, m, s);
     return my_deck;
 }
 
@@ -46,10 +52,11 @@ void Deck::makedeck() {
     {
         for ( int v = Card::Ace; v <= Card::King; v++)
         {
-            for ( int s = Card::Clubs; s <=  Card::Spades ; s++)
+            for ( int s = Card::Spades-1; s >=  Card::Clubs-1 ; s--)
             {
                 _deck[i] = new Card(static_cast<Card::Values>(v),
-                                   static_cast<Card::Suits>(s), dealer()->canvas());
+                                   static_cast<Card::Suits>(Card::Spades - (s % suits)),
+                                   dealer()->canvas());
                 _deck[i]->move(x(), y());
                 i++;
             }

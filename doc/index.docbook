@@ -705,6 +705,35 @@ temporarily. On a free playing pile you can put any card or sequence.
 
 </sect1>
 
+<sect1 id="spider">
+<title>Spider<anchor id="game_spider"/></title>
+
+<para><indexterm><primary>Spider</primary></indexterm>
+Spider is played with two card decks. The cards are dealt out into 10 playing
+piles, 4 of 6 cards and 6 of 5 cards each. This leaves 50 cards that can be
+dealt out 10 at a time, one on each playing pile.
+</para>
+
+<para>
+In the playing piles, a card can be placed on another card of any suit and
+of one higher value.  A sequence of ascending cards of the same suit may be
+moved from one playing pile to another.
+</para>
+
+<para>
+The goal of spider is to put all cards as real families descending from
+Kings anywhere in the playing piles.  When such a family is built in a
+playing pile, it is removed to the lower-left corner of the window.
+</para>
+
+<para>
+The different levels determine how many suits are dealt - Easy uses 1 suit,
+Medium uses 2 suits, and Hard uses all 4 suits.  The game is fairly easy to
+win at Easy, and very difficult to win at Hard.
+</para>
+
+</sect1>
+
 </chapter>
 
 <chapter id="credits">

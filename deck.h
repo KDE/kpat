@@ -13,11 +13,11 @@ class Deck: public Pile
 {
 
 private:
-    Deck( Dealer* parent = 0, int m = 1 );
+    Deck( Dealer* parent = 0, int m = 1, int s = 4 );
     virtual ~Deck();
 
 public:
-    static Deck *new_deck( Dealer *parent = 0, int m = 1 );
+    static Deck *new_deck( Dealer *parent = 0, int m = 1, int s = 4 );
     static Deck *deck() { return my_deck; }
 
     static const long n;
@@ -37,6 +37,7 @@ private: // functions
 private:
 
     uint mult;
+    uint suits;
     Card** _deck;
     static Deck *my_deck;
 };
