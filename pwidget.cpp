@@ -32,7 +32,7 @@
 #include <kdebug.h>
 #include "cardmaps.h"
 #include <kcarddialog.h>
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 #include <kstandarddirs.h>
 #include <kfiledialog.h>
 #include <ktempfile.h>
@@ -377,16 +377,11 @@ void pWidget::setBackSide(const QString &deck, const QString &cards)
 
 void pWidget::chooseGame()
 {
-    KLineEditDlg dlg(i18n("Enter a game number (FreeCell deals are the same as in the FreeCell FAQ):"), QString::number(dill->gameNumber()), this);
-    dlg.setCaption(i18n("Game Number"));
-
     bool ok;
-    if (dlg.exec()) {
-        long number = dlg.text().toLong(&ok);
-        if (ok) {
-            dill->setGameNumber(number);
-            restart();
-        }
+    long number = KInputDialog::getText(i18n("Game Number"), i18n("Enter a game number (FreeCell deals are the same as in the FreeCell FAQ):"), QString::number(dill->gameNumber()), 0, this).toLong(&ok);
+    if (ok) {
+        dill->setGameNumber(number);
+        restart();
     }
 }
 
