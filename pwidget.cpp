@@ -93,7 +93,6 @@ pWidget::pWidget( const char* _name )
             if (list.count() <= i)
                 list.append("unknown");
         list[index] = i18n((*it)->name);
-        kdDebug() << "add " << list[index] << endl;
         if (max_type < index)
             max_type = index;
     }
@@ -281,8 +280,6 @@ void pWidget::slotGameInfo(const QString &text)
 
 void pWidget::setBackSide(const QString &deck, const QString &cards)
 {
-    kdDebug() << "setBackSide\n";
-
     KConfig *config = kapp->config();
     KConfigGroupSaver kcs(config, settings_group);
     QPixmap pm(deck);

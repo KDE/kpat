@@ -35,7 +35,7 @@ public:
     virtual void restart();
 
 public slots:
-    void redeal();
+    void deckClicked(Card *c);
 
 protected:
     virtual bool startAutoDrop() { return false; }
@@ -43,7 +43,6 @@ protected:
 
 private: // functions
     virtual bool checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const;
-    virtual void setGameState( QDataStream & stream );
     void dealRow(int row);
 
 private:

@@ -34,7 +34,8 @@ Mod3::Mod3( KMainWindow* parent, const char* _name)
         : Dealer( parent, _name )
 {
     deck = new Deck( 0, this, 2);
-    deck->hide();
+    deck->move(8 + 80 * 8 + 20, 8 + 105 * 3 + 32);
+    connect(deck, SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
 
     aces = new Pile(40, this);
     aces->hide();
@@ -55,7 +56,7 @@ Mod3::Mod3( KMainWindow* parent, const char* _name)
     }
 
     setTakeTargetForHints(true);
-    setActions(Dealer::Hint | Dealer::Redeal | Dealer::Demo );
+    setActions(Dealer::Hint | Dealer::Demo );
 }
 
 //-------------------------------------------------------------------------//
@@ -102,36 +103,20 @@ void Mod3::dealRow(int row)
     {
         Card *card;
 
-        bool foundone = false;
-
-        do {
-            card = deck->nextCard();
-            if (card->value() != Card::Ace)
-                foundone = true;
-            else
-                aces->add(card);
-        } while (!foundone);
-
+        card = deck->nextCard();
         stack[row][c]->add (card, false, true);
     }
 }
 
-void Mod3::redeal()
+void Mod3::deckClicked(Card*)
 {
-    unmarkAll();
-
-    if (deck->isEmpty()) {
-        KMessageBox::information(this, i18n("No more cards"));
+    kdDebug() << "deck clicked " << deck->cardsLeft() << endl;
+    if (deck->isEmpty())
         return;
-    }
-    dealRow(3);
-    aredeal->setEnabled( !deck->isEmpty() );
-    takeState();
-}
 
-void Mod3::setGameState( QDataStream & )
-{
-    aredeal->setEnabled( !deck->isEmpty() );
+    unmarkAll();
+    dealRow(3);
+    takeState();
 }
 
 //-------------------------------------------------------------------------//
@@ -139,18 +124,23 @@ void Mod3::setGameState( QDataStream & )
 void Mod3::deal()
 {
     unmarkAll();
+    CardList list = deck->cards();
+    for (CardList::Iterator it = list.begin(); it != list.end(); ++it)
+        if ((*it)->value() == Card::Ace) {
+            aces->add(*it);
+            (*it)->hide();
+        }
+    kdDebug() << "init " << aces->cardsLeft() << " " << deck->cardsLeft() << endl;
 
     for (int r = 0; r < 4; r++)
         dealRow(r);
-
-    aredeal->setEnabled(true);
 }
 
 Card *Mod3::demoNewCards()
 {
    if (deck->isEmpty())
        return 0;
-   redeal();
+   deckClicked(0);
    return stack[3][0]->top();
 }
 
