@@ -18,7 +18,6 @@
 
 ****************************************/
 
-#include <kapp.h>
 #include <qdialog.h>
 #include "grandf.h"
 #include <kmsgbox.h>

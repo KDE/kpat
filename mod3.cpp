@@ -19,7 +19,6 @@
 ---------------------------------------------------------------------------*/
 
 #include <qdialog.h>
-#include <kapp.h>
 #include "mod3.h"
 #include <kmsgbox.h>
 #include "global.h"

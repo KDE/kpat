@@ -21,7 +21,6 @@
 //
 ****************************************/
 
-#include <kapp.h>
 #include <qcombobox.h>
 #include "rnd.h"
 #include "computation.h"

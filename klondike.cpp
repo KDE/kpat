@@ -22,7 +22,6 @@
 
 ****************************************/
 
-#include <kapp.h>
 #include "klondike.h"
 #include <kmsgbox.h>
 #include "global.h"

@@ -30,7 +30,6 @@
 #include <qdatetime.h>
 #include <kconfig.h>
 #include <config.h>
-#include <kapp.h>
 
 int cardMaps::CARDX;
 int cardMaps::CARDY;

@@ -333,7 +333,7 @@ void pWidget::setBackSide(int id) {
 	config->writeEntry("Backside", 0);
     } else {
       QString fname;
-      fname.sprintf("%s/back%d.bmp", PICDIR, id);
+      fname.sprintf("%s/back%d.bmp", PICDIR.data(), id);
       QPixmap *pm = new QPixmap(fname);
       if(pm->width() > 0 && pm->height() > 0) {
 	cardmaps->setBackSide(pm);

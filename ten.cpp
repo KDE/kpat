@@ -25,7 +25,6 @@
 ****************************************/
 
 
-#include <kapp.h>
 #include <qpushbutton.h>
 #include "ten.h"
 #include "global.h"
