@@ -175,7 +175,7 @@ bool Fortyeight::isGameLost() const{
 static class LocalDealerInfo8 : public DealerInfo
 {
 public:
-    LocalDealerInfo8() : DealerInfo(I18N_NOOP("F&orty and Eight"), 8) {}
+    LocalDealerInfo8() : DealerInfo(I18N_NOOP("F&orty && Eight"), 8) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Fortyeight(parent); }
 } ldi9;
 
