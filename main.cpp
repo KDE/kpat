@@ -27,7 +27,7 @@ int main( int argc, char **argv )
 {
   KApplication a( argc, argv, "kpat");
 
-  config = a.getConfig();
+  config = a.config();
 
   pWidget *p = new pWidget(0);
   p->show();

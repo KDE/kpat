@@ -127,7 +127,7 @@ pWidget::pWidget( const char* _name )
 
   m->insertSeparator();
 
-  QPopupMenu* help = kapp->getHelpMenu( true, i18n( "Patience" )
+  QPopupMenu* help = kapp->helpMenu( true, i18n( "Patience" )
                                      + " " + KPAT_VERSION
                                      + i18n( "\n\nby Paul Olav Tvetei\n\n" )
                                      + i18n( "Additional work done by:\n" )
@@ -233,7 +233,7 @@ void pWidget::action( int _id)
       m->setItemChecked( ID_OANIMATION, animate );
       break;
     case ID_HHELP:
-      KApplication::getKApplication()->invokeHTMLHelp("", "");
+      KApplication::kApplication()->invokeHTMLHelp("", "");
       break;
   default:
     // background stuff?
@@ -310,7 +310,7 @@ void pWidget::actionNewGame(int _id )
   setView(dill);
   updateRects();
 
-  setCaption( kapp->getCaption() );
+  setCaption( kapp->caption() );
 
   setDefaultType();  
 }
