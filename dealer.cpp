@@ -33,7 +33,7 @@ void DealerInfoList::add(DealerInfo *dealer)
 Dealer::Dealer( KMainWindow* _parent , const char* _name )
     : QCanvasView( 0, _parent, _name ), towait(0), myActions(0),
 ademo(0), ahint(0), aredeal(0),
-takeTargets(false), _won(false), _waiting(0)
+takeTargets(false), _won(false), _waiting(0), stop_demo_next(false)
 {
     setGameNumber(kapp->random());
     myCanvas.setAdvancePeriod(30);
@@ -893,6 +893,12 @@ void Dealer::removePile(Pile *p)
 
 void Dealer::stopDemo()
 {
+    kdDebug() << "stopDemo " << waiting() << " " << stop_demo_next << endl;
+    if (waiting()) {
+        stop_demo_next = true;
+        return;
+    } else stop_demo_next = false;
+
     if (towait == (Card*)-1)
         towait = 0;
 
@@ -965,6 +971,11 @@ MoveHint *Dealer::chooseHint()
 }
 
 void Dealer::demo() {
+    if (stop_demo_next) {
+        stopDemo();
+        return;
+    }
+    stop_demo_next = false;
     unmarkAll();
     towait = (Card*)-1;
     clearHints();

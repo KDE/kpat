@@ -197,6 +197,7 @@ protected:
     bool takeTargets;
     bool _won;
     int _waiting;
+    bool stop_demo_next;
 };
 
 #endif
