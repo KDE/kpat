@@ -8,12 +8,12 @@
 #include "pile.h"
 #include "kmainwindow.h"
 #include <qtl.h>
-#include <kapp.h>
+#include <kapplication.h>
 #include <kmessagebox.h>
 #include <qtimer.h>
 #include <kaction.h>
 #include <klocale.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <cardmaps.h>
 #include <speeds.h>
 

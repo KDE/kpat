@@ -24,7 +24,7 @@
 #include <qobjectlist.h>
 #include <qtimer.h>
 
-#include <kapp.h>
+#include <kapplication.h>
 #include <kglobal.h>
 #include <kconfig.h>
 #include <kiconloader.h>
@@ -38,7 +38,7 @@
 #include "cardmaps.h"
 #include <kcarddialog.h>
 #include <qinputdialog.h>
-#include <kstddirs.h>
+#include <kstandarddirs.h>
 #include <kfiledialog.h>
 #include <ktempfile.h>
 #include <kio/netaccess.h>

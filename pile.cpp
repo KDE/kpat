@@ -5,7 +5,7 @@
 #include <qpainter.h>
 #include "cardmaps.h"
 #include <qdrawutil.h>
-#include <kapp.h>
+#include <kapplication.h>
 #include <assert.h>
 #include <kpixmap.h>
 #include "speeds.h"
