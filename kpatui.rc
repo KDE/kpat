@@ -13,7 +13,7 @@
     <Action name="animation"/>
   </Menu>
 </MenuBar>
-<ToolBar name="mainToolBar">
+<ToolBar name="mainToolBar"><text>Main Toolbar</text>
   <Action name="restart_game"/>
   <Action name="undo_move"/>
   <Action name="help_contents"/>
