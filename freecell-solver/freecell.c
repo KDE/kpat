@@ -7,7 +7,6 @@
  */
 
 #include <stdlib.h>
-#include <search.h>
 #include <string.h>
 #include <limits.h>
 #include <stdio.h>
