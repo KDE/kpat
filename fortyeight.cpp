@@ -8,6 +8,8 @@
 HorLeftPile::HorLeftPile( int _index, Dealer* parent)
     : Pile(_index, parent)
 {
+    // TODO: create a pile that moves the cards together when filling space
+    setHSpread( cardMap::CARDX() / 11 + 1 );
 }
 
 QSize HorLeftPile::cardOffset( bool _spread, bool, const Card *) const
@@ -17,6 +19,13 @@ QSize HorLeftPile::cardOffset( bool _spread, bool, const Card *) const
 
     return QSize(0, 0);
 }
+
+void HorLeftPile::initSizes()
+{
+    Pile::initSizes();
+    setHSpread( cardMap::CARDX() / 11 + 1 );
+}
+
 
 Fortyeight::Fortyeight( KMainWindow* parent, const char* name)
         : Dealer(parent,name)
