@@ -162,6 +162,7 @@ void Card::flipTo(int x2, int y2, int steps)
     flipping = TRUE;
     destX = x2;
     destY = y2;
+    destZ = z();
     animSteps = flipSteps;
     setVelocity(dx/animSteps, dy/animSteps-flipLift);
     setAnimated(TRUE);
