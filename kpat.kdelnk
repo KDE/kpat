@@ -1,6 +1,7 @@
 # KDE Config File 
 [KDE Desktop Entry]
 Name=Patience
+Name[pl]=Pasjans
 Exec=kpat
 Type=Application
 Comment=Several nice card games
