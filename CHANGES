@@ -1,7 +1,13 @@
+2004-11-10 Inge Wallin <inge@lysator.liu.se>
+
+	Continue the code cleaning
+	- card.h, card.cpp
 2004-11-04 Inge Wallin <inge@lysator.liu.se>
 
 	Fix the fix for 92002 below:
 	- Only ask for confirmation if the user actively aborts the game.
+
+        ---- CVS commit here ----
 
 	Start of a thorough code cleaning:
 	- Start with hide.h and dealer.cpp

@@ -36,8 +36,15 @@ class Dealer;
 class Pile;
 class Card;
 
+
+// A list of cards.  Used in many places.
 typedef QValueList<Card*> CardList;
 
+
+// In kpat, a Card is an object that has at least two purposes:
+//  - It has card properties (Suit, Rank, etc)
+//  - It is a graphic entity on a QCanvas that can be moved around.
+//
 class Card: public QObject, public QCanvasRectangle {
     Q_OBJECT
 
@@ -46,65 +53,78 @@ public:
     enum Values { None = 0, Ace = 1, Two, Three, Four, Five, Six, Seven, Eight,
                   Nine, Ten, Jack, Queen, King };
 
-    QPixmap pixmap() const;
-
     Card( Values v, Suits s,  QCanvas *parent=0);
     virtual ~Card();
 
-    Suits suit() const { return _suit; }
-    Values value() const { return _value; }
+    // Properties of the card.
+    Suits    suit()  const     { return m_suit;  }
+    Values   value() const     { return m_value; }
 
-    bool isRed() const { return _suit==Diamonds || _suit==Hearts; }
+    // Some basic tests.
+    bool       isRed()    const  { return m_suit==Diamonds || m_suit==Hearts; }
+    bool       isFaceUp() const  { return faceup; }
 
-    bool isFaceUp() const { return faceup; }
+    QPixmap    pixmap() const;
 
-    void flipTo(int x, int y, int steps);
-
-    void turn(bool faceup = true);
+    void       flipTo(int x, int y, int steps);
+    void       turn(bool faceup = true);
 
     static const int RTTI;
 
-    Pile *source() const { return _source; }
-    void setSource(Pile *p) { _source = p; }
-    const char *name() const { return _name; }
-    virtual int rtti() const { return RTTI; }
+    Pile        *source() const     { return m_source; }
+    void         setSource(Pile *p) { m_source = p; }
+
+    const char  *name() const       { return m_name; }
+    virtual int  rtti() const       { return RTTI; }
+
     virtual void moveBy(double dx, double dy);
-    void animatedMove(int x2, int y2, int z, int steps);
+    void         animatedMove(int x2, int y2, int z, int steps);
     virtual void setAnimated(bool anim);
-    void setZ(double z);
-    void getUp(int steps = 12);
+    void         setZ(double z);
+    void         getUp(int steps = 12);
 
-    int realX() const;
-    int realY() const;
-    int realZ() const;
-    bool realFace() const;
+    int          realX() const;
+    int          realY() const;
+    int          realZ() const;
+    bool         realFace() const;
 
-    void setTakenDown(bool td);
-    bool takenDown() const;
+    void         setTakenDown(bool td);
+    bool         takenDown() const;
 
 signals:
-    void stoped(Card *c);
+    void         stoped(Card *c);
 
 protected:
-    void draw( QPainter &p );
-    void advance(int stage);
+    void         draw( QPainter &p );	// Redraw the card.
+    void         advance(int stage);
 
 private:
-    Pile *_source;
-    Suits _suit;
-    Values _value;
-    bool faceup;
-    char *_name;
+    // The card.
+    Suits       m_suit;
+    Values      m_value;
+    char       *m_name;
 
-    // used for animations
-    int destX, destY, destZ;
-    int animSteps;
-    int flipSteps;
-    bool flipping;
-    int savedX, savedY;
-    double scaleX, scaleY;
-    static int Hz;
-    bool tookDown;
+    bool        faceup;
+    Pile       *m_source;
+
+    double      scaleX;
+    double      scaleY;
+
+    bool        tookDown;
+
+    // Used for animation
+    int         destX;	// Destination point.
+    int         destY;
+    int         destZ;
+    int         animSteps;
+
+    // The maximum Z ever used.
+    static int  Hz;
+
+    // Used if flipping during an animated move.
+    bool        flipping;
+    int         flipSteps;
 };
+
 
 #endif
