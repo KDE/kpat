@@ -36,6 +36,8 @@ class cardPos;
 class Deck;
 class dealer;
 
+#define N_TYPES 16
+
 class Card: public basicCard {
   friend class dealer;
   friend class CardTable;
@@ -43,28 +45,23 @@ class Card: public basicCard {
 public:
 
   //  Add- and remove-flags
-
-  const int Default       = 0x0000;
-  const int disallow      = 0x0001;
-  const int several       = 0x0002; // default: move one card
-  const int faceDown      = 0x0004; //  move/add cards facedown
+  static const int Default;
+  static const int disallow;
+  static const int several; // default: move one card
+  static const int faceDown; //  move/add cards facedown
 
   // Add-flags
-
-  const int addSpread     = 0x0100;
-  const int addRotated    = 0x0600; // Note: cannot have Spread && Rotate
-  const int minus45       = 0x0400; 
-  const int plus45        = 0x0200; 
-  const int plus90        = 0x0600; 
+  static const int addSpread;
+  static const int addRotated; // Note: cannot have Spread && Rotate
+  static const int minus45; 
+  static const int plus45; 
+  static const int plus90; 
 
   // Remove-flags
-
-  const int alsoFaceDown  = 0x0100; 
-  const int autoTurnTop   = 0x0200;
-  const int noSendBack    = 0x0400;  
-  const int wholeColumn   = 0x0800;  
-				       
-  const int N_TYPES = 16;
+  static const int alsoFaceDown; 
+  static const int autoTurnTop;
+  static const int noSendBack;  
+  static const int wholeColumn;  
 
   Card( Values v, Suits s,  QWidget *parent=0, int type=0, bool empty=FALSE);
   virtual ~Card();

@@ -63,11 +63,11 @@ private:
 
   int diffLevel;
 
-  const int Store = 1;
-  const int Target1 = 2;
-  const int Target2 = 3;
-  const int Target3 = 4;
-  const int Target4 = 5;
+  static const int Store;
+  static const int Target1;
+  static const int Target2;
+  static const int Target3;
+  static const int Target4;
 };
 
 #endif

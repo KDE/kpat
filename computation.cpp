@@ -27,6 +27,12 @@
 #include "computation.h"
 #include "global.h"
 
+const int Computation::Store = 1;
+const int Computation::Target1 = 2;
+const int Computation::Target2 = 3;
+const int Computation::Target3 = 4;
+const int Computation::Target4 = 5;
+
 Card *Computation::getCardByValue( char v ) {
   Card* p;
 

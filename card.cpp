@@ -38,6 +38,26 @@ Card* Card::justTurned = 0;
 Card* Card::sendBackTo = 0;
 QWidget* Card::widAtCurPos = 0;
 
+
+const int Card::Default       = 0x0000;
+const int Card::disallow      = 0x0001;
+const int Card::several       = 0x0002; // default: move one card
+const int Card::faceDown      = 0x0004; //  move/add cards facedown
+
+// Add-flags
+const int Card::addSpread     = 0x0100;
+const int Card::addRotated    = 0x0600; // Note: cannot have Spread && Rotate
+const int Card::minus45       = 0x0400; 
+const int Card::plus45        = 0x0200; 
+const int Card::plus90        = 0x0600; 
+
+// Remove-flags
+const int Card::alsoFaceDown  = 0x0100; 
+const int Card::autoTurnTop   = 0x0200;
+const int Card::noSendBack    = 0x0400;  
+const int Card::wholeColumn   = 0x0800;  
+
+
 // end static member def
 
 void Card::clearAllFlags() {

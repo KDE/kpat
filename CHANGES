@@ -1,3 +1,7 @@
+1999-02-01  Mario Weilguni <mweilguni@kde.org>
+
+	* fixes to avoid many warning from egcs
+
 Sat May  2 13:49:46 1998    Mario Weilguni <mweilguni@kde.org>
 
 	* replaced all locale->translate with i18n

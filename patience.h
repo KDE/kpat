@@ -109,7 +109,7 @@ public:
   virtual ~cardPos() {};
 };
 
-const DeckType=0;
+const int DeckType=0;
 
 
 /***************************************
@@ -123,7 +123,7 @@ public:
   Deck( int x=0, int y=0, CardTable* parent=0, int m = 1 );
   virtual ~Deck();
 
-  const long n=52;
+  static const long n;
 
   void collectAndShuffle();
   void setSendBack(cardPos* c );

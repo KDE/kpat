@@ -37,6 +37,27 @@ cardMaps* basicCard::maps=0; //   The pictures...
 
 cardMaps *cardmaps = 0;
 
+const basicCard::Suits basicCard::Clubs    = 1;
+const basicCard::Suits basicCard::Diamonds = 2;
+const basicCard::Suits basicCard::Hearts   = 3;
+const basicCard::Suits basicCard::Spades   = 4;
+
+const basicCard::Values basicCard::Empty = 0;
+const basicCard::Values basicCard::Ace   = 1;
+const basicCard::Values basicCard::Two   = 2;
+const basicCard::Values basicCard::Three = 3;
+const basicCard::Values basicCard::Four  = 4;
+const basicCard::Values basicCard::Five  = 5;
+const basicCard::Values basicCard::Six   = 6;
+const basicCard::Values basicCard::Seven = 7;
+const basicCard::Values basicCard::Eight = 8;
+const basicCard::Values basicCard::Nine  = 9;
+const basicCard::Values basicCard::Ten   = 10;
+const basicCard::Values basicCard::Jack  = 11;
+const basicCard::Values basicCard::Queen = 12;
+const basicCard::Values basicCard::King  = 13;
+
+
 // end static member def
 void basicCard::turn( bool fu)  {
   faceup = fu;

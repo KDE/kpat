@@ -30,6 +30,10 @@ unimplemented flags: alsoFaceDown
 #include "rnd.h"
 #include <stdio.h>
 
+
+const long Deck::n = 52;
+
+
 /*
  *    General support class for patience type card games
  *

@@ -31,25 +31,25 @@ public:
   typedef char Suits;
   typedef char Values;
 
-  const Suits Clubs    = 1;
-  const Suits Diamonds = 2;
-  const Suits Hearts   = 3;
-  const Suits Spades   = 4;
+  static const Suits Clubs;
+  static const Suits Diamonds;
+  static const Suits Hearts;
+  static const Suits Spades;
 
-  const Values Empty = 0;
-  const Values Ace   = 1;
-  const Values Two   = 2;
-  const Values Three = 3;
-  const Values Four  = 4;
-  const Values Five  = 5;
-  const Values Six   = 6;
-  const Values Seven = 7;
-  const Values Eight = 8;
-  const Values Nine  = 9;
-  const Values Ten   = 10;
-  const Values Jack  = 11;
-  const Values Queen = 12;
-  const Values King  = 13;
+  static const Values Empty;
+  static const Values Ace;
+  static const Values Two;
+  static const Values Three;
+  static const Values Four;
+  static const Values Five;
+  static const Values Six;
+  static const Values Seven;
+  static const Values Eight;
+  static const Values Nine;
+  static const Values Ten;
+  static const Values Jack;
+  static const Values Queen;
+  static const Values King;
 
   basicCard( Values v, Suits s,  QWidget *parent=0,  bool empty=FALSE); 
   virtual ~basicCard();
