@@ -23,7 +23,7 @@ noinst_HEADERS = basiccard.h global.h napoleon.h card.h grandf.h patience.h \
 SUBDIRS = icons pics
 
 apps_DATA = kpat.desktop
-appsdir   = $(kde_appsdir)/Programs/Games
+appsdir   = $(kde_appsdir)/Games
 
 EXTRA_DIST = $(apps_DATA) 
 
