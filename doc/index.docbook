@@ -27,19 +27,19 @@
 </bookinfo>
 <chapter id="Rulesofthegame">
 <title>Rules of the game</title>
-<sect1>
+<sect1 id="klondike">
 <title>Klondike</title>
 <para>You know this one. Alternate red and black on the foundations. 
 Follow suit on the top. When you click on the deck, three more cards are dealt. 
 Simple rules means that excess cards are put on top of the deck, hard rules that they are left on bottom. </para>
 </sect1>
-<sect1>
+<sect1 id="microsolitaire">
 <title>MicroSolitaire</title>
 <para>This version of Klondike was popularized by a large software company. 
 Alternate red and black on the foundations. Follow suit on the top. 
 When you click on the deck, one card is dealt. </para>
 </sect1>
-<sect1>
+<sect1 id="calculation">
 <title>Calculation</title>
 <para>This one takes some time to get used to. The objective is to move all cards to the top four piles. 
 Unlike most other forms of patience, you do not need to follow suit. 
@@ -49,7 +49,7 @@ and on the rightmost 4-8-Q-3-7-J-2-6-10-A-5-9-K.
 You may use the bottom piles any way you want, but remember that it is possible to transfer 
 sequences as well as single cards to the top piles.</para>
 </sect1>
-<sect1>
+<sect1 id="napoleon-s-tomb">
 <title>Napoleon's Tomb</title>
 <para>The four diagonal piles takes cards of any suit, 
 of increasing value starting with 7 and ending up with K. 
@@ -57,12 +57,12 @@ The middle pile takes cards of any suit, starting with 6, decreasing down to A,
 and string over again with 6. The remaining four positions are for temporary storage, 
 each may hold one card. </para>
 </sect1>
-<sect1>
+<sect1 id="the-idiot">
 <title>The Idiot</title>
 <para>If more than one card of the same suit is exposed, you can remove the lower-valued ones. 
 You can move cards to empty positions. The objective is to end up with only aces. </para>
 </sect1>
-<sect1>
+<sect1 id="grandfather">
 <title>Grandfather</title>
 <para>The objective is to move all cards to the top four piles, 
 in ascending order and following suit in each pile. On the foundation, 
@@ -72,14 +72,14 @@ even if there are other cards on top of the five of spades.
 When no further moves are possible, click "Redeal". 
 The game is over after two redeals. </para>
 </sect1>
-<sect1>
+<sect1 id="ten">
 <title>Ten</title>
 <para>If three cards on the outer edge of one pile sums to 10, 20 or 30, you can remove them. 
 K, Q and J count as 10. To remove cards, just click on the pile. 
 The objective is to remove all cards. 
 If this is too much mental strain, just select "Full Auto" and watch the machine do your relaxation for you. </para>
 </sect1>
-<sect1>
+<sect1 id="mod3">
 <title>Mod3</title>
 <para>The objective is to move all cards to the top three rows. 
 The first row takes cards starting with 2, the second starts with 3, 
@@ -90,7 +90,7 @@ the first row if the 5 is on the top of a 2. The 2 can be placed on an empty
 place of the first row. At each redeal, eight more cards goes to the fourth row. 
 Aces don't play. </para>
 </sect1>
-<sect1>
+<sect1 id="freecell">
 <title>Freecell</title>
 <para>The objective is to move all cards to the store positions (the four top-right places), 
 starting with aces, in ascending order, following suits. 
@@ -104,16 +104,16 @@ equivalent sequence of moves with single cards. </para>
 </chapter>
 <chapter id="Epilogue">
 <title>Epilogue</title>
-<sect1>
+<sect1 id="developer">
 <title>Developer</title>
 <para><literal remap="tt">Paul Olav Tvete</literal></para>
 </sect1>
-<sect1>
+<sect1 id="authors">
 <title>Authors</title>
 <para><literal remap="tt">Paul Olav Tvete</literal></para>
 <para><literal remap="tt"><ulink url="mailto:rwilliams@kde.org">Robert Williams</ulink></literal> - Editor</para>
 </sect1>
-<sect1>
+<sect1 id="copyright">
 <title>Copyright</title>
 <para>Patience -- a general class for patience card games 
 Copyright (C) 1995  Paul Olav Tvete </para>
