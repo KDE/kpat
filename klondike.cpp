@@ -221,6 +221,6 @@ static class LocalDealerInfo0 : public DealerInfo
 public:
     LocalDealerInfo0() : DealerInfo(I18N_NOOP("&Klondike"), 0) {}
     virtual dealer *createGame(QWidget *parent) { return new Klondike(parent); }
-} gfi;
+} gfi0;
 
 #include "klondike.moc"

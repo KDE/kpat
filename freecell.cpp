@@ -264,7 +264,7 @@ static class LocalDealerInfo8 : public DealerInfo
 public:
     LocalDealerInfo8() : DealerInfo(I18N_NOOP("&Freecell"), 8) {}
     virtual dealer *createGame(QWidget *parent) { return new Freecell(parent); }
-} gfi;
+} gfi8;
 
 //-------------------------------------------------------------------------//
 

@@ -160,6 +160,6 @@ static class LocalDealerInfo1 : public DealerInfo
 public:
     LocalDealerInfo1() : DealerInfo(I18N_NOOP("&MicroSolitaire"), 1) {}
     virtual dealer *createGame(QWidget *parent) { return new MicroSolitaire(parent); }
-} gfi;
+} gfi1;
 
 #include "microsol.moc"

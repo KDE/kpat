@@ -169,7 +169,7 @@ static class LocalDealerInfo7 : public DealerInfo
 public:
     LocalDealerInfo7() : DealerInfo(I18N_NOOP("M&od3"), 7) {}
     virtual dealer *createGame(QWidget *parent) { return new Mod3(parent); }
-} gfi;
+} gfi7;
 
 //-------------------------------------------------------------------------//
 

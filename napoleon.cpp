@@ -172,6 +172,6 @@ static class LocalDealerInfo3 : public DealerInfo
 public:
     LocalDealerInfo3() : DealerInfo(I18N_NOOP("&Napoleon's Tomb"), 3) {}
     virtual dealer *createGame(QWidget *parent) { return new Napoleon(parent); }
-} gfi;
+} gfi3;
 
 #include "napoleon.moc"

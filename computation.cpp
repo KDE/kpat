@@ -204,6 +204,6 @@ static class LocalDealerInfo2 : public DealerInfo
 public:
     LocalDealerInfo2() : DealerInfo(I18N_NOOP("&Calculation"), 2) {}
     virtual dealer *createGame(QWidget *parent) { return new Computation(parent); }
-} gfi;
+} gfi2;
 
 #include "computation.moc"

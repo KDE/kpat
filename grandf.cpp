@@ -261,6 +261,6 @@ static class GrandfDealerInfo : public DealerInfo
 public:
     GrandfDealerInfo() : DealerInfo(I18N_NOOP("&Grandfather"), 5) {}
     virtual dealer *createGame(QWidget *parent) { return new Grandf(parent); }
-} gfi;
+} gfigf;
 
 #include "grandf.moc"
