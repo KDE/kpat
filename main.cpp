@@ -19,6 +19,7 @@
 #include <kapp.h>
 #include <klocale.h>
 #include <kcmdlineargs.h>
+#include <kaboutdata.h>
 
 #include "version.h"
 #include "pwidget.h"
@@ -30,7 +31,15 @@ KConfig* config = 0;
 
 int main( int argc, char **argv )
 {
-  KCmdLineArgs::init(argc, argv, "kpat", description, KPAT_VERSION );
+  KAboutData aboutData( "kpat", I18N_NOOP("KPatience"), 
+    KPAT_VERSION, description, KAboutData::GPL, 
+    "(c) 1995, Paul Olav Tvete");
+  aboutData.addAuthor("Paul Olav Tvete");
+  aboutData.addAuthor("Mario Weilguni",0,"mweilguni@kde.org");
+  aboutData.addAuthor("Matthias Ettrich",0,"ettrich@kde.org");
+  aboutData.addAuthor("Rodolfo Borges",0,"barrett@labma.ufrj.br");
+
+  KCmdLineArgs::init( argc, argv, &aboutData );
 
   KApplication a;
 
