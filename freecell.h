@@ -43,7 +43,7 @@ public slots:
 	virtual void restart();
 
 private: // functions
-	static bool CanPut (const Card *c, const Card *c);
+	static bool CanPut (const Card *c1, const Card *c2);
 
 public:
 	int CountFreeCells();

@@ -221,7 +221,7 @@ bool CanRemove (const Card *c)
 
 	// First, let's check if the column is in valid
 	// (that is, in sequence, alternated colors).
-	for (Card *t = c; t->next(); t = t->next())
+	for (const Card *t = c; t->next(); t = t->next())
 	{
 		if (!((t->Value() == (t->next()->Value()+1))
 			&& (t->Red() != t->next()->Red())))
