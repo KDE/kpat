@@ -1,7 +1,6 @@
 TODO: 
       - more options (wholeColumn, etc.)
          kpat already supports a lot, but they aren't accessible via GUI yet
-      - golf
       - implement support for nice (configurable) backgrounds, like
         color gradients, background pixmaps (tiled, wallpaper, etc. ).
 

@@ -10,7 +10,7 @@ bin_PROGRAMS = kpat
 kpat_SOURCES = main.cpp cardmaps.cpp card.cpp dealer.cpp \
 	pwidget.cpp pile.cpp deck.cpp pile_algorithms.cpp kings.cpp freecell.cpp klondike.cpp simon.cpp grandf.cpp \
 	mod3.cpp idiot.cpp napoleon.cpp computation.cpp  gypsy.cpp fortyeight.cpp \
-	yukon.cpp clock.cpp 
+	yukon.cpp clock.cpp golf.cpp
 
 METASOURCES = AUTO
 

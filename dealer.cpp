@@ -548,11 +548,13 @@ void Dealer::startNew()
     emit undoPossible(false);
     kdDebug() << "startNew restart\n";
     restart();
+    takeState();
     Card *towait = 0;
     for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it) {
         if ((*it)->rtti() == Card::RTTI) {
             towait = static_cast<Card*>(*it);
-            break;
+            if (towait->animated())
+                break;
         }
     }
     kdDebug() << "startNew takeState\n";
