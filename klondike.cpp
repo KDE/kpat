@@ -310,7 +310,11 @@ bool Klondike::tryToDrop(Card *t)
             empty.append(t);
             t->setAnimated(false);
             t->turn(true);
+            int x = int(t->x());
+            int y = int(t->y());
             t->source()->moveCards(empty, tgt);
+            t->move(x, y);
+            t->animatedMove(t->source()->x(), t->source()->y(), t->z(), 8);
             return true;
         }
     }
