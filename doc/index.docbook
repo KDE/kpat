@@ -43,6 +43,8 @@
 </othercredit>
 </authorgroup>
 
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
 <copyright>
 <year>2000</year>
 <holder>Paul Olav Tvete</holder>
@@ -731,6 +733,8 @@ Documentation updated for KDE 2.0 by Michael McBride
 Documentation rewritten for &kpat; 2.0 (KDE 2.1) by Maren Pakura
 <email>maren@kde.org</email>
 </para>
+
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 
 &underFDL;
 &underX11License;
