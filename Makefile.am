@@ -15,14 +15,10 @@ METASOURCES = AUTO
 
 SUBDIRS = icons freecell-solver
 
-apps_DATA = kpat.desktop
-appsdir   = $(kde_appsdir)/Games/Card
+xdg_apps_DATA = kpat.desktop
 
 rcdir = $(kde_datadir)/kpat
 rc_DATA = kpatui.rc
 
 messages: rc.cpp
 	$(XGETTEXT) *.cpp -o $(podir)/kpat.pot
-
-install-data-local:
-	rm -rf $(DESTDIR)$(kde_appsdir)/Games/kpat.desktop
