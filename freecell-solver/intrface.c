@@ -459,8 +459,10 @@ static int freecell_solver_optimize_solution(
         free(instance->solution_states[d]);
         
         free(instance->solution_states);
+        instance->solution_states = NULL;
      
         free(instance->proto_solution_moves);
+        instance->proto_solution_moves = NULL;
     }
 
     return freecell_solver_a_star_or_bfs_solve_for_state(
