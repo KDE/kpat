@@ -290,10 +290,12 @@ void Klondike::cardDblClicked(Card *c) {
 
     if (c == c->source()->top() && c->realFace()) {
         Pile *tgt = findTarget(c);
-        CardList empty;
-        empty.append(c);
-        c->source()->moveCards(empty, tgt);
-        canvas()->update();
+        if (tgt) {
+            CardList empty;
+            empty.append(c);
+            c->source()->moveCards(empty, tgt);
+            canvas()->update();
+        }
     }
 }
 
