@@ -38,6 +38,12 @@ class CardState;
 
 typedef QValueList<CardState> CardStateList;
 
+struct State
+{
+    CardStateList cards;
+    QByteArray gameData;
+};
+
 /***************************************************************
 
   Dealer -- abstract base class of all varieties of patience
@@ -103,8 +109,13 @@ protected:
 protected:
     PileList piles;
 
-    CardStateList *getState();
-    void setState(CardStateList *);
+    State *getState();
+    void setState(State *);
+
+    // reimplement this to add game-specific information in the state structure
+    virtual void getGameState( QDataStream & ) {}
+    // reimplement this to use the game-specific information from the state structure
+    virtual void setGameState( QDataStream & ) {}
 
     bool moved;
     CardList movingCards;
@@ -115,7 +126,7 @@ protected:
     QCanvas myCanvas;
     QSize maxsize;
     QSize viewsize;
-    QList<CardStateList> undoList;
+    QList<State> undoList;
     long gamenumber;
 
 

@@ -55,6 +55,8 @@ protected:
     bool step1( const Pile* c1, const CardList& c2) const;
     bool Sstep1( const Pile* c1, const CardList& c2) const;
     virtual void cardDblClicked(Card *);
+    virtual void getGameState( QDataStream & stream );
+    virtual void setGameState( QDataStream & stream );
 
 private:
     Pile* store[7];

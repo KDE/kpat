@@ -333,6 +333,7 @@ void Dealer::startNew()
         (*it)->setAnimated(false);
 
     undoList.clear();
+    emit undoPossible(false);
     restart();
     takeState();
 }
@@ -421,10 +422,13 @@ public:
 
 typedef class QValueList<CardState> CardStateList;
 
-CardStateList *Dealer::getState()
+bool operator==( const State & st1, const State & st2) { return st1.cards == st2.cards && st1.gameData == st2.gameData; }
+
+State *Dealer::getState()
 {
     QCanvasItemList list = canvas()->allItems();
-    CardStateList *n = new CardStateList;
+    State * st = new State;
+    CardStateList *n = &st->cards;
 
     for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
     {
@@ -456,11 +460,16 @@ CardStateList *Dealer::getState()
     }
     qHeapSort(*n);
 
-    return n;
+    // Game specific information
+    QDataStream stream( st->gameData, IO_WriteOnly );
+    getGameState( stream );
+
+    return st;
 }
 
-void Dealer::setState(CardStateList *n)
+void Dealer::setState(State *st)
 {
+    CardStateList * n = &st->cards;
     QCanvasItemList list = canvas()->allItems();
 
     for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
@@ -484,18 +493,22 @@ void Dealer::setState(CardStateList *n)
         c->turn(s.faceup);
     }
 
-    delete n;
+    // restore game-specific information
+    QDataStream stream( st->gameData, IO_ReadOnly );
+    setGameState(stream);
+
+    delete st;
     canvas()->update();
 }
 
 void Dealer::takeState()
 {
-    CardStateList *n = getState();
+    State *n = getState();
 
     if (!undoList.count()) {
         undoList.append(getState());
     } else {
-        CardStateList *old = undoList.last();
+        State *old = undoList.last();
 
         if (*old == *n) {
             kdDebug() << "nothing changed\n";
@@ -526,6 +539,7 @@ void Dealer::undo()
         undoList.removeLast(); // the current state
         setState(undoList.take(undoList.count() - 1));
         takeState(); // copying it again
+        emit undoPossible(undoList.count() > 1);
     }
 }
 

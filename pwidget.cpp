@@ -46,6 +46,7 @@ pWidget::pWidget( const char* _name )
 
     undo = KStdAction::undo(this, SLOT(undoMove()),
                      actionCollection(), "undo_move");
+    undo->setEnabled(false);
     (void)KStdAction::openNew(this, SLOT(newGame()),
                               actionCollection(), "new_game");
     (void)new KAction(i18n("&Choose game..."), 0, this, SLOT(chooseGame()),

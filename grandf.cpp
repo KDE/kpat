@@ -134,6 +134,7 @@ void Grandf::redeal() {
     if (numberOfDeals == 3) {
         aredeal->setEnabled(false);
     }
+    takeState();
 }
 
 void Grandf::deal() {
@@ -247,6 +248,19 @@ void Grandf::cardDblClicked(Card *c)
             }
         }
     }
+}
+
+void Grandf::getGameState( QDataStream & stream )
+{
+    stream << (Q_INT8)numberOfDeals;
+}
+
+void Grandf::setGameState( QDataStream & stream )
+{
+    Q_INT8 i;
+    stream >> i;
+    numberOfDeals = i;
+    aredeal->setEnabled(numberOfDeals < 3);
 }
 
 static class LocalDealerInfo1 : public DealerInfo
