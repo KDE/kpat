@@ -1,5 +1,9 @@
 
-docsdir = $(kde_htmldir)/en/kpat
 docs_DATA = index.html index-1.html index-2.html logotp3.gif
 
-EXTRA_DIST = $(docs_DATA) 
+docsdir = $(kde_htmldir)/en/kpat
+
+EXTRA_DIST = $(docs_DATA) index.sgml index.nif
+
+doc: index.sgml index.nif
+	ksgml2html index en
