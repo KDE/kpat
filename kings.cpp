@@ -16,6 +16,11 @@ Kings::Kings( KMainWindow* parent, const char *name )
     }
 }
 
+void Kings::demo()
+{
+    Dealer::demo();
+}
+
 void Kings::deal() {
     CardList cards = deck->cards();
     CardList::Iterator it = cards.begin();
