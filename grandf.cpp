@@ -115,7 +115,7 @@ void Grandf::show()  {
 }
 
 Grandf::Grandf( QWidget* parent, const char *name )
-  : dealer( parent, name ), rb( i18n( "Redeal" ), this )
+    : dealer( parent, name ), rb( i18n( "Redeal" ), this )
 {
     const int Store = 1;
     const int Target = 2;
@@ -255,5 +255,12 @@ bool Grandf::Sstep1( const Card* c1, const Card* c2)  {
 QSize Grandf::sizeHint() const {
     return QSize(700, 600);
 }
+
+static class GrandfDealerInfo : public DealerInfo
+{
+public:
+    GrandfDealerInfo() : DealerInfo(I18N_NOOP("&Grandfather"), 3) {}
+    virtual dealer *createGame(QWidget *parent) { return new Grandf(parent); }
+} gfi;
 
 #include "grandf.moc"

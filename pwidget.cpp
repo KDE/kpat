@@ -62,15 +62,18 @@ pWidget::pWidget( const char* _name )
                               SLOT(newGameType()),
                               actionCollection(), "game_type");
     QStringList list;
-    list.append( i18n( "&Ten"));
-    list.append( i18n( "Mo&d3"));
-    list.append( i18n( "&Freecell"));
-    list.append( i18n( "&Grandfather" ));
-    list.append( i18n( "&Klondike" ) );
-    list.append( i18n( "&MicroSolitaire" ));
-    list.append( i18n( "&Calculation" ));
-    list.append( i18n( "&Napoleon's Tomb" ));
-    list.append( i18n( "The &Idiot" ));
+    QValueList<DealerInfo*>::ConstIterator it;
+    for (it = DealerInfoList::self()->games().begin();
+         it != DealerInfoList::self()->games().end(); ++it)
+    {
+        // while we develop, it may happen that some lower
+        // indices do not exist
+        uint index = (*it)->gameindex;
+        for (uint i = 0; i <= index; i++)
+            if (list.count() <= i)
+                list.append("unknown");
+        list[index] = i18n((*it)->name);
+    }
     games->setItems(list);
 
     backs = new KSelectAction(i18n("&Card backside"), 0, this,
@@ -131,49 +134,14 @@ void pWidget::newGameType( )
     delete dill;
     dill = 0;
 
-    int id = games->currentItem();
-
-    switch( id ) {
-    case 0:
-        dill = new Ten(this);
-        break;
-
-    case 1:
-        dill = new Mod3(this);
-        break;
-
-    case 2:
-        dill = new Freecell(this);
-        break;
-
-    case 3:
-        dill = new Grandf(this);
-        break;
-
-    case 4:
-        dill = new Klondike(this);
-        break;
-
-    case 5:
-        dill = new MicroSolitaire(this);
-        break;
-
-    case 6:
-        dill = new Computation(this);
-        break;
-
-    case 7:
-        dill = new Napoleon(this);
-        break;
-
-    case 8:
-        dill = new Idiot(this);
-        break;
-
-    default:
-        kdFatal() << "unimplemented game type " << id << endl;
-        break;
+    uint id = games->currentItem();
+    for (QValueList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin(); it != DealerInfoList::self()->games().end(); ++it) {
+        if ((*it)->gameindex == id)
+            dill = (*it)->createGame(this);
     }
+
+    if (!dill)
+        kdFatal() << "unimplemented game type " << id << endl;
 
     QString name = games->currentText();
     QString newname;

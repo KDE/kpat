@@ -6,10 +6,11 @@ LDADD =       $(LIB_KDEUI)
 
 bin_PROGRAMS = kpat
 
-kpat_SOURCES = main.cpp patience.cpp cardmaps.cpp \
-	  computation.cpp klondike.cpp grandf.cpp ten.cpp\
-	  basiccard.cpp card.cpp napoleon.cpp idiot.cpp\
-	  microsol.cpp pwidget.cpp freecell.cpp mod3.cpp dealer.cpp
+kpat_SOURCES = main.cpp patience.cpp cardmaps.cpp basiccard.cpp \
+	card.cpp dealer.cpp pwidget.cpp grandf.cpp
+#	  computation.cpp klondike.cpp grandf.cpp ten.cpp\
+	   napoleon.cpp idiot.cpp\
+	  microsol.cpp pwidget.cpp freecell.cpp mod3.cpp
 
 METASOURCES = AUTO
 

@@ -23,6 +23,7 @@ unimplemented flags: alsoFaceDown
 #include <qapplication.h>
 
 #include "card.h"
+#include <kdebug.h>
 
 // static member definitions
 int   Card::RemoveFlags[ N_TYPES ];
@@ -64,55 +65,51 @@ const int DSPREAD = 5;
 
 void Card::clearAllFlags()
 {
-  moving = FALSE;
-  resting = FALSE;
-  mov = 0;
-  source = 0;
-  justTurned = 0;
-  sendBackTo = 0;
+    moving = FALSE;
+    resting = FALSE;
+    mov = 0;
+    source = 0;
+    justTurned = 0;
+    sendBackTo = 0;
 
-  for( int index1 = 0; index1 < N_TYPES; index1++ )
-  {
-    RemoveFlags[ index1 ] = 0;
-    AddFlags[ index1 ] = 0;
-    addCheckFun[ index1 ] = 0;
-    removeCheckFun[ index1 ] = 0;
-    for( int index2 = 0; index2 < N_TYPES; index2++ )
-      LegalMove[ index1 ][ index2 ] = 0;
-  }
+    for( int index1 = 0; index1 < N_TYPES; index1++ ) {
+        RemoveFlags[ index1 ] = 0;
+        AddFlags[ index1 ] = 0;
+        addCheckFun[ index1 ] = 0;
+        removeCheckFun[ index1 ] = 0;
+        for( int index2 = 0; index2 < N_TYPES; index2++ )
+            LegalMove[ index1 ][ index2 ] = 0;
+    }
 
 }
 
 bool Card::legalAdd( Card* _card ) const
 {
-  if( AddFlags[ cardType ] & disallow )
-    return FALSE;
+    if( AddFlags[ cardType ] & disallow )
+        return FALSE;
 
-  if( !LegalMove[ _card->cardType ][ cardType ] )
-    return FALSE;
+    if( !LegalMove[ _card->cardType ][ cardType ] )
+        return FALSE;
 
-  if( !( AddFlags[ cardType ] & several ) &&
-      _card->nextPtr )
-    return FALSE;
+    if( !( AddFlags[ cardType ] & several ) &&
+        _card->nextPtr )
+        return FALSE;
 
-  if( addCheckFun[ cardType ] )
-    return addCheckFun[ cardType ]( this, _card );
+    if( addCheckFun[ cardType ] )
+        return addCheckFun[ cardType ]( this, _card );
 
-  return TRUE;
+    return TRUE;
 }
 
 // this function isn't used yet
 void Card::propagateCardClicked( Card* _card )
 {
-  if( prev() )
-  {
-    prev()->propagateCardClicked( _card );
-  }
-  else
-  {
-    emit cardClicked( _card );
-    emit cardClicked( _card->cardType );
-  }
+    if( prev() )
+        prev()->propagateCardClicked( _card );
+    else {
+        emit cardClicked( _card );
+        emit cardClicked( _card->cardType );
+    }
 }
 
 void Card::propagateNonMovableCardPressed( int _cardType )
@@ -129,52 +126,50 @@ void Card::propagateNonMovableCardPressed( int _cardType )
 
 bool Card::legalRemove() const
 {
-  if( !movable() )
-    return FALSE;
+    if ( !movable() )
+        return FALSE;
 
-  if( RemoveFlags[ cardType ] & disallow )
-    return FALSE;
+    if( RemoveFlags[ cardType ] & disallow )
+        return FALSE;
 
-  if( !( RemoveFlags[ cardType ] & several ) && nextPtr )
-    return FALSE;
+    if( !( RemoveFlags[ cardType ] & several ) && nextPtr )
+        return FALSE;
 
-  if( !FaceUp() && next() )
-    return FALSE;
+    if( !FaceUp() && next() )
+        return FALSE;
 
-  if( removeCheckFun[ cardType ] )
-    return removeCheckFun[ cardType ]( this );
+    if( removeCheckFun[ cardType ] )
+        return removeCheckFun[ cardType ]( this );
 
-  return TRUE;
+    return TRUE;
 }
 
 /* The old move function for cards and piles. Rather slow. */
 void Card::moveTo( int _x, int _y )
 {
-  QPoint point( _x, _y );
-  moveTo ( point );
+    QPoint point( _x, _y );
+    moveTo ( point );
 }
 
 void Card::moveTo( const QPoint& _point )
 {
-  move( _point );
-  raise();
-  if( nextPtr )
-  {
-    QPoint off( 0, !empty() && AddFlags[ cardType ] & addSpread ? SPREAD : 0 );
-    nextPtr->moveTo( _point + off );
-  }
+    move( _point );
+    raise();
+    if( nextPtr ) {
+        QPoint off( 0, !empty() && AddFlags[ cardType ] & addSpread ? SPREAD : 0 );
+        nextPtr->moveTo( _point + off );
+    }
 }
 
 /* This one is much faster for piles, since we only need to paint the
    visible part. */
 void Card::quickMoveTo( const QPoint& _point )
 {
-  if( nextPtr )
-  {
-    QPoint off( 0, !empty() && AddFlags[ cardType ] & addSpread ? SPREAD : 0 );
-    nextPtr->quickMoveTo( _point + off );
-  }
-  move( _point );
+    if( nextPtr ) {
+        QPoint off( 0, !empty() && AddFlags[ cardType ] & addSpread ? SPREAD : 0 );
+        nextPtr->quickMoveTo( _point + off );
+    }
+    move( _point );
 }
 
 void Card::unrotate()
@@ -269,159 +264,152 @@ void Card::unlink()
 
 void Card::startMove( const QPoint& _fudge_arg )
 {
-  ASSERT( !moving || !resting );
+    ASSERT( !moving || !resting );
 
-  if( nextPtr &&
-      prevPtr &&
-      prevPtr->FaceUp() &&
-      prevPtr->movable() &&
-      (wholeColumn & RemoveFlags[ cardType ] ) )
-  {
-    prevPtr->startMove( _fudge_arg + QPoint( 0, SPREAD ) );
-    return;
-  }
-  if( legalRemove() )
-  {
-    if( !( faceDown & RemoveFlags[ cardType ] ) )
-      turn();
+    if( nextPtr &&
+        prevPtr &&
+        prevPtr->FaceUp() &&
+        prevPtr->movable() &&
+        (wholeColumn & RemoveFlags[ cardType ] ) )
+        {
+            prevPtr->startMove( _fudge_arg + QPoint( 0, SPREAD ) );
+            return;
+        }
+    if( legalRemove() )
+        {
+            if( !( faceDown & RemoveFlags[ cardType ] ) )
+                turn();
 
-    moveTo( pos() ); //raise cards
-    moving = TRUE;
-    unrotate();
-    source = prevPtr;
-    remove();
-    mov = this;
-    fudge = _fudge_arg;
-    if( fudge.x() > width() )
-      fudge.setX( width() );
-    if( fudge.y() > height() )
-      fudge.setY( height() );
-    if( fudge != _fudge_arg )
-      quickMoveTo( pos() + mapFromGlobal( QCursor::pos() ) - fudge );
-  }
-  else
-  {
-    if( RemoveFlags[ cardType ] & disallow )
-      propagateNonMovableCardPressed( cardType );
-    // should emit signals if illegalRemove
+            moveTo( pos() ); //raise cards
+            moving = TRUE;
+            unrotate();
+            source = prevPtr;
+            remove();
+            mov = this;
+            fudge = _fudge_arg;
+            if( fudge.x() > width() )
+                fudge.setX( width() );
+            if( fudge.y() > height() )
+                fudge.setY( height() );
+            if( fudge != _fudge_arg )
+                quickMoveTo( pos() + mapFromGlobal( QCursor::pos() ) - fudge );
+        }
     else
-      if( prev() && prev()->FaceUp() )
-	prev()->startMove( _fudge_arg + QPoint( 0, SPREAD ) );
-  }
+        {
+            if( RemoveFlags[ cardType ] & disallow )
+                propagateNonMovableCardPressed( cardType );
+            // should emit signals if illegalRemove
+            else
+                if( prev() && prev()->FaceUp() )
+                    prev()->startMove( _fudge_arg + QPoint( 0, SPREAD ) );
+        }
 }
 
 void Card::turnTop()
 {
-  ASSERT( !moving || !resting );
+    ASSERT( !moving || !resting );
 
-  if( !next() )
-  {
-    if( !FaceUp() )
-    {
-      // turn card and place it correctly
-      Card* base = prev();
-      turn();
-      if( base )
-      {
-	remove();
-	base->add( this );
-	// ought to forbid sendback after this
-	justTurned = source; // DANGEROUS
-      }
-    }
-  }
-  else next()->turnTop();
+    if( !next() )
+        {
+            if( !FaceUp() )
+                {
+                    // turn card and place it correctly
+                    Card* base = prev();
+                    turn();
+                    if( base )
+                        {
+                            remove();
+                            base->add( this );
+                            // ought to forbid sendback after this
+                            justTurned = source; // DANGEROUS
+                        }
+                }
+        }
+    else next()->turnTop();
 }
 
 void Card::endMove()
 {
-  ASSERT( !moving || !resting );
+    ASSERT( !moving || !resting );
 
-  if( resting )
-  {
-    if( source && ( RemoveFlags[ source->cardType ] & autoTurnTop ) )
-    {
-      source->turnTop();
-    }
-    resting = FALSE;
-    return;
-  }
+    if( resting )
+        {
+            if( source && ( RemoveFlags[ source->cardType ] & autoTurnTop ) )
+                {
+                    source->turnTop();
+                }
+            resting = FALSE;
+            return;
+        }
 
-  if( next() )
-  {
-    next()->endMove();
-  }
-  else
-  {
-    if( legalAdd( mov ) )
-    {
-      moving = FALSE;
-      add( mov );
-      if ( source && ( RemoveFlags[ source->cardType ] & autoTurnTop ) )
-	source->turnTop();
-    }
+    if( next() )
+        {
+            next()->endMove();
+        }
     else
-    {
-      sendBack();
-    }
-  }
+        {
+            if( legalAdd( mov ) )
+                {
+                    moving = FALSE;
+                    add( mov );
+                    if ( source && ( RemoveFlags[ source->cardType ] & autoTurnTop ) )
+                        source->turnTop();
+                }
+            else
+                {
+                    sendBack();
+                }
+        }
 }
 
 void Card::restMove()
 {
-  ASSERT( !moving || !resting );
+    ASSERT( !moving || !resting );
 
-  if( next() )
-  {
-    next()->restMove();
-  }
-  else
-  {
-    if( legalAdd( mov ) && this != source )
-    {
-      moving = FALSE;
-      resting = TRUE;
-      add( mov );
-    }
-  }
+    if( next() )
+        {
+            next()->restMove();
+        }
+    else
+        {
+            if( legalAdd( mov ) && this != source )
+                {
+                    moving = FALSE;
+                    resting = TRUE;
+                    add( mov );
+                }
+        }
 }
 
 void Card::stopMoving()
 {
-  ASSERT( !moving || !resting );
+    kdDebug() << "stopMoving\n";
+    ASSERT( !moving || !resting );
 
-  resting = FALSE;
-  if( moving )
-  {
-    // unconditional sendback
-    moving = FALSE;
-    source->add( mov );
-  }
+    resting = FALSE;
+    if( moving )
+        {
+            // unconditional sendback
+            moving = FALSE;
+            source->add( mov );
+        }
 }
 
 void Card::mousePressEvent( QMouseEvent* _event )
 {
-  ASSERT( !moving || !resting );
+    ASSERT( !moving || !resting );
 
-  if( _event->button() == LeftButton )
-  {
-    if( moving )
-    {
-      endMove();
+    if( _event->button() == LeftButton ) {
+        if( moving ) {
+            endMove();
+        } else if( resting ) {
+            endMove();
+        } else {
+            startMove( _event->pos() );
+        }
+    } else if( _event->button() == RightButton ) {
+        emit rightButtonPressed( cardType );
     }
-    else if( resting )
-    {
-      endMove();
-    }
-    else
-    {
-      startMove( _event->pos() );
-    }
-  }
-  else if( _event->button() == RightButton )
-  {
-    emit rightButtonPressed( cardType );
-  }
 }
 
 void Card::mouseReleaseEvent( QMouseEvent* )

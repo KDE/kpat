@@ -15,9 +15,9 @@
 </MenuBar>
 <ToolBar name="mainToolBar">
   <Action name="restart_game"/>
-  <Separator/>
   <Action name="undo_move"/>
   <Action name="help_contents"/>
+  <Action name="game_exit"/>
 </ToolBar>
 <StatusBar/>
 </kpartgui>

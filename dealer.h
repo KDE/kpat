@@ -2,6 +2,34 @@
 #define _DEALER_H_
 
 #include "patience.h"
+#include <qvaluelist.h>
+
+class dealer;
+class DealerInfo;
+
+class DealerInfoList {
+ public:
+    static DealerInfoList *self();
+    void add(DealerInfo *);
+
+    const QValueList<DealerInfo*> games() const { return list; }
+ private:
+    QValueList<DealerInfo*> list;
+    static DealerInfoList *_self;
+};
+
+class DealerInfo {
+ public:
+    DealerInfo(const char *_name, int _index)
+        : name(_name),
+        gameindex(_index)
+        {
+            DealerInfoList::self()->add(this);
+        }
+    const char *name;
+    uint gameindex;
+    virtual dealer *createGame(QWidget *parent) = 0;
+};
 
 /***************************************************************
 

@@ -166,11 +166,11 @@ void Computation::show() {
   p12.show();
   p13.show();
   if (diffLevel <= 0) {
-    p14.show();
+      //    p14.show();
     p14.setEnabled(TRUE);
   }
   else {
-    p14.hide();
+      // p14.hide();
     p14.setEnabled(FALSE);
   }
 }

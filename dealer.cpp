@@ -1,5 +1,21 @@
 #include "dealer.h"
 #include <qobjcoll.h>
+#include <kstaticdeleter.h>
+
+DealerInfoList *DealerInfoList::_self = 0;
+static KStaticDeleter<DealerInfoList> dl;
+
+DealerInfoList *DealerInfoList::self()
+{
+    if (!_self)
+        _self = dl.setObject(new DealerInfoList());
+    return _self;
+}
+
+void DealerInfoList::add(DealerInfo *dealer)
+{
+    list.append(dealer);
+}
 
 dealer::dealer( QWidget* _parent , const char* _name )
   : CardTable( _parent, _name )

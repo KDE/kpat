@@ -27,7 +27,7 @@
 #ifndef PATIENCE_CARD
 #define PATIENCE_CARD
 
-#include <qpoint.h> 
+#include <qpoint.h>
 
 #include "basiccard.h"
 
@@ -54,21 +54,21 @@ public:
   // Add-flags
   static const int addSpread;
   static const int addRotated; // Note: cannot have Spread && Rotate
-  static const int minus45; 
-  static const int plus45; 
-  static const int plus90; 
+  static const int minus45;
+  static const int plus45;
+  static const int plus90;
 
   // Remove-flags
-  static const int alsoFaceDown; 
+  static const int alsoFaceDown;
   static const int autoTurnTop;
-  static const int noSendBack;  
-  static const int wholeColumn;  
+  static const int noSendBack;
+  static const int wholeColumn;
 
   Card( Values v, Suits s,  QWidget *parent=0, int type=0, bool empty=FALSE);
   virtual ~Card();
 
   void add( Card* c);
-  void add( Card* c, bool facedown, bool spread); // for initial deal 
+  void add( Card* c, bool facedown, bool spread); // for initial deal
 
   void moveTo (const QPoint&);
   void moveTo (int x, int y);
@@ -126,7 +126,7 @@ private:
   static bool moving;   // Are we currently moving a card?
   static Card *mov;     // If so, which?
   static Card *source;  // And where did it come from?
-  static Card *justTurned; // The last card that got turned over 
+  static Card *justTurned; // The last card that got turned over
   static bool resting;  // Are the cards only temporarily placed?
   static Card *sendBackTo; // Where do we put the unwanted cards?
 
@@ -157,12 +157,12 @@ public:
   static void setAddFlags( int type, int flag ) { AddFlags[type] = flag; }
   static void setLegalMove( int from, int to ) { LegalMove[from][to] = TRUE; }
   static void setSendBack( Card* c ) { sendBackTo = c; }
-  static void setAddFun( int type, addCheckPtr f) 
+  static void setAddFun( int type, addCheckPtr f)
   { addCheckFun[type] = f; }
 
-  static void setRemoveFun( int type, removeCheckPtr f) 
+  static void setRemoveFun( int type, removeCheckPtr f)
   { removeCheckFun[type] = f; }
-  
+
   //    static void setSafeMove() { moveSafe = TRUE; }
 };
 
