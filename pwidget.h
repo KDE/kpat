@@ -28,7 +28,7 @@
 #include <qkeycode.h>
 
 #include <kmenubar.h>
-#include <ktopwidget.h>
+#include <ktmainwindow.h>
 #include <ktoolbar.h>
 #include <kstatusbar.h>
 #include <kmenubar.h>
