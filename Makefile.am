@@ -2,7 +2,7 @@
 INCLUDES = -I$(top_srcdir)/libkdegames $(all_includes) 
 
 LDFLAGS = $(all_libraries) $(KDE_RPATH)
-LDADD = $(LIB_KFILE) $(top_builddir)/libkdegames/libkdegames.la ./freecell-solver/libfcs.la
+LDADD = $(LIB_KFILE) $(LIB_KDEGAMES) ./freecell-solver/libfcs.la
 
 bin_PROGRAMS = kpat
 
