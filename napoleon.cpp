@@ -115,6 +115,8 @@ void Napoleon::deal() {
 
 void Napoleon::deal1(Card *) {
     Card *c = deck->nextCard();
+    if (!c)
+        return;
     pile->add(c, true, false);
     c->move(deck->x(), deck->y());
     c->flipTo(pile->x(), pile->y(), 8);

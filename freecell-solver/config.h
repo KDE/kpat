@@ -19,13 +19,13 @@ extern "C" {
 /* #define INDIRECT_STACK_STATES */
 
 /* #define INDIRECT_STATE_STORAGE */
-/* #define TREE_STATE_STORAGE */ 
+/* #define TREE_STATE_STORAGE */
 
 /* These macros are only applicable if TREE_STATE_STORAGE is defined */
 
 /* #define LIBREDBLACK_TREE_IMPLEMENTATION */
 /* #define AVL_AVL_TREE_IMPLEMENTATION */
-/* #define AVL_REDBLACK_TREE_IMPLEMENTATION */ 
+/* #define AVL_REDBLACK_TREE_IMPLEMENTATION */
 /* #define GLIB_TREE_IMPLEMENTATION */
 
 
@@ -34,8 +34,8 @@ extern "C" {
 
 /* #define CARD_DEBUG_PRES */
 
-/* Make sure one and only one of DEBUG_STATES and COMPACT_STATES is defined. 
- * The preferred is COMPACT_STATES because it occupies less memory and is 
+/* Make sure one and only one of DEBUG_STATES and COMPACT_STATES is defined.
+ * The preferred is COMPACT_STATES because it occupies less memory and is
  * faster.
  */
 #if (!defined(DEBUG_STATES)) && (!defined(COMPACT_STATES)) && (!defined(INDIRECT_STACK_STATES))
@@ -50,7 +50,7 @@ extern "C" {
  * Basically, this code is obsolete because they (or TREE_STATE_STORAGE or
  * HASH_STATE_STORAGE) are now defined in the Makefile or in the project's
  * options of the IDE */
-    
+
 #if (!defined(INDIRECT_STATE_STORAGE)) && (!defined(TREE_STATE_STORAGE)) && (!defined(HASH_STATE_STORAGE)) && (!defined(DB_FILE_STATE_STORAGE))
 
 #define INDIRECT_STATE_STORAGE
@@ -71,7 +71,7 @@ extern "C" {
 /*
     The amount prev_states grow by each time it each resized.
     Should be greater than 0 and in order for the program to be
-    efficient, should be much bigger than 
+    efficient, should be much bigger than
     PREV_STATES_SORT_MARGIN.
 */
 #define PREV_STATES_GROW_BY 128
@@ -86,10 +86,10 @@ extern "C" {
  * The maximal number of Freecells. For efficiency's sake it should be a
  * multiple of 4.
  * */
-#define MAX_NUM_FREECELLS 4
+#define MAX_NUM_FREECELLS 8
 
 /*
- * The maximal number of Stacks. For efficiency's sake it should be a 
+ * The maximal number of Stacks. For efficiency's sake it should be a
  * multiple of 4.
  * */
 #define MAX_NUM_STACKS 12
@@ -99,9 +99,9 @@ extern "C" {
  * The maximal number of initial cards that can be found in a stack. The rule
  * of the thumb is that it plus 13 should be a multiple of 4.
  * */
-#define MAX_NUM_INITIAL_CARDS_IN_A_STACK 7
+#define MAX_NUM_INITIAL_CARDS_IN_A_STACK 91
 
-#define MAX_NUM_DECKS 1
+#define MAX_NUM_DECKS 2
 
 /* #define FCS_NON_DFS */
 
@@ -116,10 +116,10 @@ extern "C" {
 #define FCS_STACK_STORAGE_LIBREDBLACK_TREE 3
 #define FCS_STACK_STORAGE_GLIB_TREE 4
 #define FCS_STACK_STORAGE_GLIB_HASH 5
-/* #define FCS_STACK_STORAGE FCS_STACK_STORAGE_INTERNAL_HASH */ 
+/* #define FCS_STACK_STORAGE FCS_STACK_STORAGE_INTERNAL_HASH */
 
 #ifdef __cplusplus
 }
 #endif
-    
+
 #endif

@@ -11,7 +11,7 @@
 #include <freecell-solver/fcs.h>
 
 Kings::Kings( KMainWindow* parent, const char *name )
-    : FreecellBase( 2, 8, 8, FCS_ES_FILLED_BY_KINGS_ONLY, parent, name )
+    : FreecellBase( 2, 8, 8, FCS_ES_FILLED_BY_KINGS_ONLY, true, parent, name )
 {
     for (int i=0; i<8; i++) {
         target[i]->move((8 + i/4) * 80 + 40, 10 + (i % 4) * 130);

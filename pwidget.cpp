@@ -212,9 +212,7 @@ void pWidget::newGame() {
 
 void pWidget::restart() {
     statusBar()->clear();
-    dill->resetSize(QSize(0, 0)); // QSize(dill->visibleWidth(), dill->visibleHeight()));
     dill->startNew();
-    dill->resetSize(QSize(dill->visibleWidth(), dill->visibleHeight()));
 }
 
 void pWidget::newGameType()
@@ -260,17 +258,20 @@ void pWidget::newGameType()
     KConfigGroupSaver kcs(config, settings_group);
     config->writeEntry("DefaultGame", id);
 
-    QSize minsize(700, 400);
-    kdDebug() << "size1 " << dill->canvas()->size().width() << endl;
-    minsize = minsize.expandedTo(dill->sizeHint());
-    dill->resetSize(minsize);
-    dill->resize(minsize);
-    dill->setMinimumSize(minsize);
-
+    QSize min(700,400);
+    min = min.expandedTo(dill->minimumCardSize());
+    dill->setMinimumSize(min);
+    dill->resize(min);
+    updateGeometry();
     setCentralWidget(dill);
     dill->show();
+}
 
-    kdDebug() << "size2 " << dill->width() << " " << width() << " " << dill->sizeHint().width() << endl;
+void pWidget::showEvent(QShowEvent *e)
+{
+    if (dill)
+        dill->setMinimumSize(QSize(0,0));
+    KMainWindow::showEvent(e);
 }
 
 void pWidget::slotGameInfo(const QString &text)

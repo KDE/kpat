@@ -65,14 +65,12 @@ public:
     virtual ~Dealer();
 
     void enlargeCanvas(QCanvasRectangle *c);
-    void resetSize(const QSize &size);
     void setGameNumber(long gmn);
     long gameNumber() const;
 
     virtual bool isGameWon() const;
 
     void setViewSize(const QSize &size);
-    virtual QSize sizeHint() const;
 
     void addPile(Pile *p);
     void removePile(Pile *p);
@@ -99,6 +97,9 @@ public:
 
     void setTakeTargetForHints(bool e) { takeTargets = e; }
     bool takeTargetForHints() const { return takeTargets; }
+
+    virtual QSize minimumCardSize() const;
+    virtual void resizeEvent(QResizeEvent *);
 
     int freeCells() const;
 
@@ -138,7 +139,6 @@ protected:
     virtual void contentsMouseMoveEvent( QMouseEvent* );
     virtual void contentsMouseReleaseEvent( QMouseEvent* );
     virtual void contentsMouseDoubleClickEvent( QMouseEvent* );
-    virtual void viewportResizeEvent ( QResizeEvent * );
 
     void unmarkAll();
     void mark(Card *c);
@@ -181,7 +181,7 @@ protected:
     Dealer( Dealer& );  // don't allow copies or assignments
     void operator = ( Dealer& );  // don't allow copies or assignments
     QCanvas myCanvas;
-    QSize maxsize;
+    QSize minsize;
     QSize viewsize;
     QList<State> undoList;
     long gamenumber;

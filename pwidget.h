@@ -60,6 +60,7 @@ public slots:
 
 private:
     void setBackSide(const QString &deck, const QString &dir);
+    virtual void showEvent(QShowEvent *e);
 
     Dealer* dill;
     KSelectAction *games, *wallpapers;

@@ -35,6 +35,9 @@ Dealer::Dealer( KMainWindow* _parent , const char* _name )
 ademo(0), ahint(0), aredeal(0),
 takeTargets(false), _won(false), _waiting(0), stop_demo_next(false)
 {
+    setResizePolicy(QScrollView::Manual);
+    setVScrollBarMode(AlwaysOff);
+    setHScrollBarMode(AlwaysOff);
     setGameNumber(kapp->random());
     myCanvas.setAdvancePeriod(30);
     // myCanvas.setBackgroundColor( darkGreen );
@@ -444,14 +447,53 @@ void Dealer::contentsMouseDoubleClickEvent( QMouseEvent*e )
     }
 }
 
-void Dealer::resetSize(const QSize &size) {
-    maxsize = size;
-    resize(size.width(), size.height());
+QSize Dealer::minimumCardSize() const
+{
+    return minsize;
 }
 
-QSize Dealer::sizeHint() const
+void Dealer::resizeEvent(QResizeEvent *e)
 {
-    return QCanvasView::sizeHint();
+    kdDebug() << "resizeEvent " << e << endl;
+    int x = width();
+    int y = height();
+    int hs = horizontalScrollBar()->sizeHint().height();
+    int vs = verticalScrollBar()->sizeHint().width();
+
+    int mx = minsize.width();
+    int my = minsize.height();
+
+    int dx = x;
+    int dy = y;
+    bool showh = false;
+    bool showv = false;
+
+    if (mx > x) {
+        dx = mx;
+        if (my + vs < y)
+            dy -= vs;
+        else {
+            showv = true;
+        }
+        showh = true;
+    } else if (my > y) {
+        dy = my;
+        if (mx + hs < x)
+            dx -= hs;
+        else
+            showh = true;
+        showv = true;
+    }
+    canvas()->resize(dx, dy);
+    resizeContents(dx, dy);
+    setVScrollBarMode(showv ? AlwaysOn : AlwaysOff);
+    setHScrollBarMode(showh ? AlwaysOn : AlwaysOff);
+    kdDebug() << "setScrolls " << showv << " " << showh << endl;
+
+    if (!e)
+        updateScrollBars();
+    else
+        QCanvasView::resizeEvent(e);
 }
 
 void Dealer::cardClicked(Card *c) {
@@ -485,6 +527,7 @@ void Dealer::cardDblClicked(Card *c)
 
 void Dealer::startNew()
 {
+    minsize = QSize(0,0);
     _won = false;
     _waiting = 0;
     kdDebug() << "startNew stopDemo\n";
@@ -517,6 +560,7 @@ void Dealer::startNew()
         takeState();
     else
         connect(towait, SIGNAL(stoped(Card*)), SLOT(slotTakeState(Card *)));
+    resizeEvent(0);
 }
 
 void Dealer::slotTakeState(Card *c) {
@@ -532,55 +576,16 @@ void Dealer::enlargeCanvas(QCanvasRectangle *c)
 
     bool changed = false;
 
-    if (c->x() + c->width() + 10 > maxsize.width()) {
-        maxsize.setWidth(c->x() + c->width() + 10);
+    if (c->x() + c->width() + 10 > minsize.width()) {
+        minsize.setWidth(c->x() + c->width() + 10);
         changed = true;
     }
-    if (c->y() + c->height() + 10 > maxsize.height()) {
-        maxsize.setHeight(c->y() + c->height() + 10);
-        changed = true;
-    }
-    if (maxsize.width() < viewsize.width()) {
-        maxsize.setWidth(viewsize.width());
-        changed = true;
-    }
-
-    if (maxsize.height() < viewsize.height()) {
-        maxsize.setHeight(viewsize.height());
+    if (c->y() + c->height() + 10 > minsize.height()) {
+        minsize.setHeight(c->y() + c->height() + 10);
         changed = true;
     }
     if (changed)
-        c->canvas()->resize(maxsize.width(), maxsize.height());
-}
-
-void Dealer::viewportResizeEvent ( QResizeEvent *e )
-{
-    QSize size = canvas()->size();
-    viewsize = e->size();
-
-    bool changed = false;
-    if (size.width() > maxsize.width() + 1) {
-        size.setWidth(maxsize.width());
-        changed = true;
-    }
-
-    if (size.height() > maxsize.height() + 1) {
-        size.setHeight(maxsize.height());
-        changed = true;
-    }
-
-    if (size.width() < viewsize.width() - 1) {
-        size.setWidth(viewsize.width());
-        changed = true;
-    }
-
-    if (size.height() < viewsize.height() - 1) {
-        size.setHeight(viewsize.height());
-        changed = true;
-    }
-
-    if (changed)
-        canvas()->resize(size.width(), size.height());
+        resizeEvent(0);
 }
 
 class CardState {

@@ -50,10 +50,11 @@ void FreecellPile::moveCards(CardList &c, Pile *to)
 
 //-------------------------------------------------------------------------//
 
-FreecellBase::FreecellBase( int decks, int stores, int freecells, int fill,
+FreecellBase::FreecellBase( int decks, int stores, int freecells, int fill, bool unlimit,
                             KMainWindow* parent, const char* name)
     : Dealer(parent,name),
-solver_instance(0), solver_state(0), es_filling(fill), solver_ret(FCS_STATE_NOT_BEGAN_YET)
+solver_instance(0), solver_state(0), es_filling(fill), solver_ret(FCS_STATE_NOT_BEGAN_YET),
+unlimited_move(unlimit)
 {
     deck = new Deck(0, this, decks);
     deck->hide();
@@ -165,9 +166,9 @@ void FreecellBase::findSolution()
     instance->stacks_num = store.count();
     instance->decks_num = deck->decksNum();
     instance->sequences_are_built_by = FCS_SEQ_BUILT_BY_ALTERNATE_COLOR;
-    instance->unlimited_sequence_move = 0;
+    instance->unlimited_sequence_move = unlimited_move;
     instance->empty_stacks_fill = es_filling;
-
+    instance->method = FCS_METHOD_HARD_DFS;
     instance->max_num_times = CHUNKSIZE;
     instance->solution_moves = 0;
     instance->solution_states = 0;
@@ -433,6 +434,10 @@ void FreecellBase::moveCards(CardList &c, FreecellPile *from, Pile *to)
     }
 
     assert(c.count() > 1);
+    if (unlimited_move) {
+        from->Pile::moveCards(c, to);
+        return;
+    }
     setWaiting(true);
 
     from->moveCardsBack(c);
@@ -569,7 +574,7 @@ bool FreecellBase::CanPutStore(const Pile *c1, const CardList &c2) const
     if (c1->isEmpty()) // destination is empty
         fss--;
 
-    if (int(c2.count()) > ((fcs)+1)<<fss)
+    if (!unlimited_move && int(c2.count()) > ((fcs)+1)<<fss)
         return false;
 
     // ok if the target is empty
@@ -632,7 +637,7 @@ public:
 };
 
 Freecell::Freecell( KMainWindow* parent, const char* name)
-    : FreecellBase(1, 8, 4, FCS_ES_FILLED_BY_ANY_CARD, parent, name)
+    : FreecellBase(1, 8, 4, FCS_ES_FILLED_BY_ANY_CARD, false, parent, name)
 {
     for (int i = 0; i < 8; i++)
         store[i]->move(8+80*i, 113);
@@ -664,92 +669,3 @@ public:
 //-------------------------------------------------------------------------//
 
 #include"freecell.moc"
-
-//-------------------------------------------------------------------------//
-
-#if 0
-
-Pile *FreecellBase::pileForName(QString line) const
-{
-    if (line.left(5) == "stack") {
-        line = line.mid(6);
-        bool ok;
-        int stack = line.left(line.find(' ')).toInt(&ok);
-        assert(ok);
-        assert(stack >= 0 && stack <= 7);
-        return store[stack];
-    }
-    if (line.left(8) == "freecell") {
-        line = line.mid(9);
-        bool ok;
-        int stack = line.left(line.find(' ')).toInt(&ok);
-        assert(ok);
-        assert(stack >= 0 && stack <= 3);
-        return freecell[stack];
-    }
-    return 0;
-}
-
-    KTempFile outf;
-    outf.setAutoDelete(true);
-    KTempFile inf;
-    // inf.setAutoDelete(true);
-    KShellProcess proc;
-    outf.close();
-    // << "-to" << "016543297"
-    proc << "fc-solve" << "-m"  << inf.name() << ">" << outf.name() << "2>&1";
-    QString output = solverFormat();
-
-    fprintf(inf.fstream(), output.utf8().data());
-    inf.close();
-    if (!proc.start(KProcess::Block))
-        kdError() << "can't run fc-solve\n";
-    kdDebug() << "exit " << proc.exitStatus() << endl;
-
-    QFile f(outf.name());
-    f.open(IO_ReadOnly);
-    QTextStream is(&f);
-    QString line;
-    while (!is.eof()) {
-        line = is.readLine();
-        printf("%s\n", line.latin1());
-        if (foundhint)
-            continue;
-
-        if (line.left(17) == "I could not solve") {
-            Dealer::getHints();
-            return;
-        }
-        if (line.left(5) == "Move ") {
-            // "Move a card from stack 6 to the foundations"
-            line = line.mid(5);
-            QString num = line.left(line.find(' '));
-            kdDebug() << "num \"" << num << "\"\n";
-            uint cards = 0;
-            if (num == QString::fromLatin1("a"))
-                cards = 1;
-            else
-                cards = num.toUInt();
-            kdDebug() << "cards " << cards << endl;
-            line = line.mid(line.find("from ") + 5);
-
-            Pile *from = pileForName(line);
-            if (cards > from->cards().count()) {
-                Dealer::getHints();
-                return;
-            }
-
-            assert(cards <= from->cards().count());
-            Card *c = from->cards()[from->cards().count() - cards];
-
-            line = line.mid(line.find("to ") + 3);
-            kdDebug() << "should move " << c->name() << " to " << line << endl;
-            Pile *to = pileForName(line);
-            if (!to)
-                to = findTarget(c);
-            assert(to);
-            newHint(new MoveHint(c, to));
-            foundhint = true;
-        }
-    }
-#endif
