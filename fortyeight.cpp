@@ -152,7 +152,7 @@ bool Fortyeight::isGameLost() const{
 		return false;
 	if(!pile->isEmpty())
 		if(pile->top()->suit() == c->suit() &&
-			pile->top()->value()-1 == c->value())
+			pile->top()->value()+1 == c->value())
 			return false;
 	for(int j=0; j <8;j++){
 		if(target[j]->isEmpty())
