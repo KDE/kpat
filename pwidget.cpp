@@ -178,8 +178,15 @@ void pWidget::changeBackside() {
 void pWidget::changeWallpaper()
 {
     QString bgpath=locate("wallpaper", wallpaperlist[wallpapers->currentItem()]);
+	if (bgpath.isEmpty())
+			return;
     background = QPixmap(bgpath);
+	if (background.isNull())
+			return;
+
     QImage bg = background.convertToImage().convertDepth(8, 0);
+	if (bg.isNull() || !bg.numColors())
+			return;
     long r = 0;
     long g = 0;
     long b = 0;
