@@ -171,7 +171,9 @@ int freecell_solver_solve_for_state_resume_solution(
     else
     {
         free(instance->solution_states);
+	instance->solution_states = NULL;
         free(instance->proto_solution_moves);
+	instance->proto_solution_moves = NULL;
         check = FCS_STATE_IS_NOT_SOLVEABLE;
     }
 
