@@ -459,7 +459,7 @@ You can go through the talon only once.
 <title>Mod3<anchor id="game_mod3"/></title>
 
 <para><indexterm><primary>Mod3</primary></indexterm>
-Mod-3 is played with two card decks without aces. Goal of the game is to put all
+Mod-3 is played with two card decks. Goal of the game is to put all
 cards on the top three rows. In those you have to build sequences of the same
 color. In the first row you have to create the sequence 2-5-8-B, in the second
 row the sequence 3-6-9-D and in the third row the sequence 4-7-10-K. The suit of
@@ -470,6 +470,11 @@ only on top of a two of hearts.
 <para>
 The fourth row is waste pile and playing pile at once. On an empty slot you can
 put any card from the first three rows or one of top of the fourth row.
+</para>
+
+<para>
+Aces you can put on the aces piles on top of the talon. They are in the game
+so you have a starting point for creating free slots.
 </para>
 
 <para>
