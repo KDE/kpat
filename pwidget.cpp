@@ -417,9 +417,9 @@ void pWidget::gameWon(bool withhelp)
 {
     QString congrats;
     if (withhelp)
-        congrats = i18n("Congratulations! We've won!");
+        congrats = i18n("Congratulations! We have won!");
     else
-        congrats = i18n("Congratulations! You've won!");
+        congrats = i18n("Congratulations! You have won!");
 #if TEST_SOLVER == 0
     KMessageBox::information(this, congrats, i18n("Congratulations!"));
 #endif
@@ -431,9 +431,9 @@ void pWidget::gameWon(bool withhelp)
 
 void pWidget::gameLost()
 {
-    if (KMessageBox::questionYesNo(this, i18n("You couldn't win this game, "
+    if (KMessageBox::questionYesNo(this, i18n("You could not win this game, "
                                               "but there is always a second try.\nStart a new game?"),
-                                   i18n("Couldn't Win!"),
+                                   i18n("Could Not Win!"),
                                    i18n("New Game"), KStdGuiItem::cont()) == KMessageBox::Yes)
         QTimer::singleShot(0, this, SLOT(newGame()));
  }
