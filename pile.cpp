@@ -21,10 +21,6 @@ const int Pile::addSpread     = 0x0100;
 const int Pile::autoTurnTop   = 0x0200;
 const int Pile::wholeColumn   = 0x0400;
 
-int Pile::SPREAD = 20;
-int Pile::DSPREAD = 5;
-int Pile::HSPREAD = 9;
-
 Card *Pile::top() const
 {
     if (myCards.isEmpty())
@@ -49,6 +45,14 @@ _rtype(Custom)
     setBrush(Qt::black);
     setPen(QPen(Qt::black));
     setZ(0);
+
+    const int SPREAD = 20;
+    const int DSPREAD = 5;
+    const int HSPREAD = 9;
+
+    setSpread(SPREAD);
+    setHSpread(HSPREAD);
+    setDSpread(DSPREAD);
 }
 
 void Pile::setType(PileType type)
@@ -262,12 +266,12 @@ QSize Pile::cardOffset( bool _spread, bool _facedown, const Card *before) const
 {
     if (_spread) {
         if (_facedown)
-            return QSize(0, DSPREAD);
+            return QSize(0, dspread());
         else {
             if (before && !before->isFaceUp())
-                return QSize(0, DSPREAD);
+                return QSize(0, dspread());
             else
-                return QSize(0, SPREAD);
+                return QSize(0, spread());
         }
     }
 

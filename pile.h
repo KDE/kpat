@@ -84,10 +84,6 @@ public:
 
     void resetCache();
 
-    static int SPREAD;
-    static int DSPREAD;
-    static int HSPREAD;
-
     enum PileType { Custom, KlondikeTarget, KlondikeStore, GypsyStore, FreeCell, FreecellStore};
     void setType( PileType t);
     void setAddType( PileType t);
@@ -102,6 +98,13 @@ public:
     bool add_freeCell( const CardList& c2) const;
 
     bool remove_freecellStore( const Card *c) const;
+
+    int spread() const { return _spread; }
+    void setSpread(int s) { _spread = s; }
+    int dspread() const { return _dspread; }
+    void setDSpread(int s) { _dspread = s; }
+    int hspread() const { return _hspread; }
+    void setHSpread(int s) { _hspread = s; }
 
 public slots:
     virtual void cardClicked(Card *c);
@@ -123,6 +126,7 @@ private:
     bool _target;
     KPixmap cache, cache_selected;
     PileType _atype, _rtype;
+    int _spread, _hspread, _dspread;
 };
 
 typedef QValueList<Pile*> PileList;

@@ -14,7 +14,7 @@ HorLeftPile::HorLeftPile( int _index, Dealer* parent)
 QSize HorLeftPile::cardOffset( bool _spread, bool, const Card *) const
 {
     if (_spread)
-        return QSize(-Pile::HSPREAD, 0);
+        return QSize(-hspread(), 0);
 
     return QSize(0, 0);
 }
@@ -25,6 +25,7 @@ Fortyeight::Fortyeight( KMainWindow* parent, const char* name)
     deck = new Deck(0, this, 2);
     connect(deck, SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
     deck->move(600, 450);
+    deck->setZ(20);
 
     pile = new HorLeftPile(13, this);
     pile->setAddFlags(Pile::addSpread | Pile::disallow);
@@ -41,6 +42,7 @@ Fortyeight::Fortyeight( KMainWindow* parent, const char* name)
         stack[i]->setAddFlags(Pile::addSpread);
         stack[i]->setRemoveFlags(Pile::autoTurnTop);
         stack[i]->setCheckIndex(1);
+        stack[i]->setSpread(stack[i]->spread() * 3 / 4);
     }
 
     setActions(Dealer::Hint | Dealer::Demo);
