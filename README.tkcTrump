@@ -1,0 +1,8 @@
+If you bought a binary of tkcTrump from theKompany and want to modify
+the source code to fit your needs, check out
+http://developer.kde.org/~coolo/tkcTrump-path.diff.bz2
+
+Please note: I do not support the code, but if you saw something in tkcTrump
+worth backporting, look at the patch.
+
+Stephan Kulow
