@@ -13,7 +13,7 @@ extern "C" {
 typedef unsigned __int32 u_int32_t;
 #elif defined(__osf__)
 typedef unsigned int u_int32_t;
-#elif !defined(__linux__)
+#elif !defined(__linux__) && !defined(__NetBSD__)
 typedef uint32_t u_int32_t;
 #endif  
 
