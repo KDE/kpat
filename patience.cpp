@@ -75,7 +75,7 @@ Card* Deck::getCard() {
 Deck::Deck( int x, int y, CardTable* parent, int m ) 
   : cardPos(x, y, parent, DeckType), f(parent), mult (m)
 { 
-  deck = new (Card *) [mult*n];
+  deck = new Card * [mult*n];
   CHECK_PTR (deck);
 
   initMetaObject(); 

@@ -29,6 +29,8 @@
 #include <qmessagebox.h>
 #include <kwm.h>
 #include <kapp.h>
+#include <stdio.h>
+#include <kglobal.h>
 
 // menu constants
 // file menu
@@ -67,9 +69,9 @@ pWidget::pWidget(QWidget *, const char *)
   // icon
   QPixmap pm;
   if(QColor::numBitPlanes() > 8)
-    pm = kapp->getIconLoader()->loadIcon("kpat.xpm");
+    pm = ICON("kpat.xpm");
   else
-    pm = kapp->getIconLoader()->loadIcon("kpat-lq.xpm");
+    pm = ICON("kpat-lq.xpm");
   KWM::setIcon(winId(), pm);
   KWM::setMiniIcon(winId(), pm);
   
@@ -139,10 +141,9 @@ pWidget::pWidget(QWidget *, const char *)
 	  this, SLOT(slotToolbarChanged()));
 #undef BarPosition
 
-  KIconLoader *loader = kapp->getIconLoader();
-  tb->insertButton(loader->loadIcon("exit.xpm"), 
+  tb->insertButton(ICON("exit.xpm"), 
   	ID_FQUIT, -1, i18n("Quit"));
-  tb->insertButton(loader->loadIcon("help.xpm"), 
+  tb->insertButton(ICON("help.xpm"), 
   	ID_HHELP, -1, i18n("Help"));
 
   connect(tb, SIGNAL(clicked(int)),

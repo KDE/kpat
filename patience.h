@@ -89,8 +89,8 @@ protected:
   void stopActivity();
 
 private:
-  dealer(dealer&) {};  // don't allow copies or assignments
-  void operator=(dealer&) {};  // don't allow copies or assignments
+  dealer(dealer&);  // don't allow copies or assignments
+  void operator=(dealer&);  // don't allow copies or assignments
 };
 
 
