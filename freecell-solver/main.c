@@ -1,24 +1,11 @@
-/*
- * main.c - main program of Freecell Solver (single-threaded)
- *
- * Written by Shlomi Fish (shlomif@vipe.technion.ac.il), 2000
- *
- * This file is in the public domain (it's uncopyrighted).
- * 
- */
-
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-
-#include "fcs.h"
-#include "card.h"
-#include "preset.h"
-
 #include <signal.h>
 
+#include "fcs_cl.h"
 
-struct struct_freecell_solver_display_information_context
+struct freecell_solver_display_information_context_struct
 {
     int debug_iter_state_output;
     int freecells_num;
@@ -27,100 +14,164 @@ struct struct_freecell_solver_display_information_context
     int parseable_output;
     int canonized_order_output;
     int display_10_as_t;
+    int display_parent_iter_num;
+    int debug_iter_output_on;
+    int display_moves;
+    int display_states;
+    int standard_notation;
 };
 
-typedef struct struct_freecell_solver_display_information_context freecell_solver_display_information_context_t;
+typedef struct freecell_solver_display_information_context_struct freecell_solver_display_information_context_t;
 
-void freecell_solver_display_information(
-    void * lp_context,
+static void init_debug_context(
+    freecell_solver_display_information_context_t * dc
+    )
+{
+    dc->parseable_output = 0;
+    dc->canonized_order_output = 0;
+    dc->display_10_as_t = 0;
+    dc->display_parent_iter_num = 0;
+    dc->display_moves = 0;
+    dc->display_states = 1;
+    dc->standard_notation = 0;
+}
+
+
+
+static void my_iter_handler(
+    void * user_instance,
     int iter_num,
     int depth,
-    void * lp_instance,
-    fcs_state_with_locations_t * ptr_state_with_locations
+    void * ptr_state,
+    int parent_iter_num,
+    void * lp_context
     )
 {
     freecell_solver_display_information_context_t * context;
-    
     context = (freecell_solver_display_information_context_t*)lp_context;
-    
+
     fprintf(stdout, "Iteration: %i\n", iter_num);
-    fprintf(stdout, "Depth: %i\n\n", depth);
+    fprintf(stdout, "Depth: %i\n", depth);
+    fprintf(stdout, "Stored-States: %i\n",
+        freecell_solver_user_get_num_states_in_collection(user_instance)
+        );
+    if (context->display_parent_iter_num)
+    {
+        fprintf(stdout, "Parent Iteration: %i\n", parent_iter_num);
+    }
+    fprintf(stdout, "\n");
 
 
     if (context->debug_iter_state_output)
-    {           
-        char * state_string = fcs_state_as_string(
-                ptr_state_with_locations, 
-                context->freecells_num,
-                context->stacks_num,
-                context->decks_num,
-                context->parseable_output, 
+    {
+        char * state_string =
+            freecell_solver_user_iter_state_as_string(
+                user_instance,
+                ptr_state,
+                context->parseable_output,
                 context->canonized_order_output,
                 context->display_10_as_t
                 );
         printf("%s\n---------------\n\n\n", state_string);
         free((void*)state_string);
     }
+
+#ifdef MYDEBUG
+    {
+        fcs_card_t card;
+        int ret;
+        char card_str[10];
+
+        ret = fcs_check_state_validity(
+            ptr_state_with_locations,
+            context->freecells_num,
+            context->stacks_num,
+            context->decks_num,
+            &card
+            );
+
+        if (ret != 0)
+        {
+
+            fcs_card_perl2user(card, card_str, context->display_10_as_t);
+            if (ret == 3)
+            {
+                fprintf(stdout, "%s\n",
+                    "There's an empty slot in one of the stacks."
+                    );
+            }
+            else
+            {
+                fprintf(stdout, "%s%s.\n",
+                    ((ret == 2)? "There's an extra card: " : "There's a missing card: "),
+                    card_str
+                );
+            }
+            exit(-1);
+        }
+    }
+#endif
 }
 
-
-
-int command_num = 0;
-
-void select_signal_handler(int signal_num)
+struct help_screen_struct
 {
-    command_num = (command_num+1)%3;
-}
+    char * key;
+    char * screen;
+};
 
-freecell_solver_instance_t * current_instance;
+typedef struct help_screen_struct help_screen_t;
 
-void command_signal_handler(int signal_num)
+help_screen_t help_screens[] = {
 {
-    freecell_solver_display_information_context_t * dc;
-
-    dc = (freecell_solver_display_information_context_t *)current_instance->debug_iter_output_context;
-    
-    if (command_num == 0)
-    {
-        fprintf(stderr, "The number of iterations is %i\n", current_instance->num_times);
-    }
-    else if (command_num == 1)
-    {
-        current_instance->debug_iter_output = ! current_instance->debug_iter_output;
-    }
-    else if (command_num == 2)
-    {
-        dc->debug_iter_state_output = ! dc->debug_iter_state_output;
-    }
-
-    command_num = 0;
-}
-
-
-char * help_string = 
+    "configs",
+"These configurations are usually faster than the unmodified run:\n"
+"\n"
+"    fc-solve -l cool-jives\n"
+"    fc-solve -l john-galt-line\n"
+"\n"
+"Or if you want an accurate verdict:\n"
+"\n"
+"    fc-solve -l fools-gold\n"
+"\n"
+"If you want to try constructing your own configurations refer to the\n"
+"USAGE file in the Freecell Solver distribution\n"
+},
+{
+    "options", 
 "fc-solve [options] board_file\n"
 "\n"
 "If board_file is - or unspecified reads standard input\n"
 "\n"
 "Available Options:\n"
-"-h   --help           \n"
-"     display this help screen\n"
-"-i   --iter-output    \n"
+"-h     --help\n"
+"     display the default help screen\n"
+"--help-summary\n"
+"     display the summary help screen\n"
+"-i     --iter-output\n"
 "     display the iteration number and depth in every state that is checked\n"
-"     ( applicable only for fc-solve-debug )\n"
-"-s   --state-output   \n"
+"-s     --state-output\n"
 "     also output the state in every state that is checked\n"
-"     ( applicable only for fc-solve-debug )\n"
-"-p   --parseable-output \n"
+"-p     --parseable-output\n"
 "     Output the states in a format that is friendly to perl, grep and\n"
 "     friends.\n"
-"-c   --canonized-order-output \n"
+"-c     --canonized-order-output\n"
 "     Output the stacks and freecells according to their canonic order.\n"
 "     (That means that stacks and freecells won't retain their place.)\n"
-"-t   --display-10-as-t \n"
+"-t     --display-10-as-t\n"
 "     Display the card 10 as a capital T instead of \"10\".\n"
-"-m   --display-moves \n"
+"-m     --display-moves\n"
 "     Display the moves instead of the intermediate states.\n"
+"-sam   --display-states-and-moves \n"
+"     Display both intermediate states and moves.\n"
+"-sn    --standard-notation\n"
+"     Display the moves in standard (non-verbose) notation.\n"
+"     (Applicable only if -m was specified)\n"
+"-snx   --standard-notation-extended\n"
+"     Display the moves in extended standard notation while specifying the\n"
+"     number of cards moved if applicable\n"
+"-pi    --display-parent-iter \n"
+"     Display the index of the parent iteration of each state in the\n"
+"     run-time dump.\n"
 "\n"
 "--freecells-num [Freecells\' Number]\n"
 "     The number of freecells present in the board.\n"
@@ -140,28 +191,37 @@ char * help_string =
 "--game [game]   --preset [game]  -g [game]\n"
 "     Specifies the type of game. (Implies several of the game settings\n"
 "     options above.). Available presets:\n"
-"     bakers_dozen      - Baker\'s Dozen\n"
-"     bakers_game       - Baker\'s Game\n"
-"     cruel             - Cruel\n"
-"     der_katz          - Der Katzenschwanz\n"
-"     die_schlange      - Die Schlange\n"
-"     eight_off         - Eight Off\n"
-"     forecell          - Forecell\n"
-"     freecell          - Freecell\n"
-"     good_measure      - Good Measure\n"
-"     ko_bakers_game    - Kings\' Only Baker\'s Game\n"
-"     relaxed_freecell  - Relaxed Freecell\n"
-"     relaxed_seahaven  - Relaxed Seahaven Towers\n"
-"     seahaven          - Seahaven Towers\n"
+"     bakers_dozen       - Baker\'s Dozen\n"
+"     bakers_game        - Baker\'s Game\n"
+"     beleaguered_castle - Beleaguered Castle\n"
+"     citadel            - Citadel\n"
+"     cruel              - Cruel\n"
+"     der_katz           - Der Katzenschwanz\n"
+"     die_schlange       - Die Schlange\n"
+"     eight_off          - Eight Off\n"
+"     fan                - Fan\n"
+"     forecell           - Forecell\n"
+"     freecell           - Freecell\n"
+"     good_measure       - Good Measure\n"
+"     ko_bakers_game     - Kings\' Only Baker\'s Game\n"
+"     relaxed_freecell   - Relaxed Freecell\n"
+"     relaxed_seahaven   - Relaxed Seahaven Towers\n"
+"     seahaven           - Seahaven Towers\n"
+"     simple_simon       - Simple Simon\n"
+"     streets_and_alleys - Streets and Alleys\n"
 "\n"
 "-md [depth]       --max-depth [depth] \n"
 "     Specify a maximal search depth for the solution process.\n"
 "-mi [iter_num]    --max-iters [iter_num] \n"
 "     Specify a maximal number of iterations number.\n"
+"-mss [states_num] --max-stored-states [states_num] \n"
+"     Specify the maximal number of states stored in memory.\n"
 "\n"
 "-to [tests_order]   --tests-order  [tests_order] \n"
 "     Specify a test order string. Each test is represented by one character.\n"
 "     Valid tests:\n"
+"        Freecell Tests:\n"
+"\n"
 "        '0' - put top stack cards in the foundations.\n"
 "        '1' - put freecell cards in the foundations.\n"
 "        '2' - put freecell cards on top of stacks.\n"
@@ -173,14 +233,41 @@ char * help_string =
 "        '8' - move cards to a different parent.\n"
 "        '9' - empty an entire stack into the freecells.\n"
 "\n"
+"        Atomic Freecell Tests:\n"
+"\n"
+"        'A' - move a stack card to an empty stack.\n"
+"        'B' - move a stack card to a parent on a different stack.\n"
+"        'C' - move a stack card to a freecell.\n"
+"        'D' - move a freecel card to a parent.\n"
+"        'E' - move a freecel card to an empty stack.\n"
+"\n"
+"        Simple Simon Tests:\n"
+"\n"
+"        'a' - move a full sequence to the foundations.\n"
+"        'b' - move a sequence to a true parent of his.\n"
+"        'c' - move a whole stack sequence to a false parent (in order to\n"
+"              clear the stack)\n"
+"        'd' - move a sequence to a true parent that has some cards above it.\n"
+"        'e' - move a sequence with some cards above it to a true parent.\n"
+"        'f' - move a sequence with a junk sequence above it to a true parent\n"
+"              that has some cards above it.\n"
+"        'g' - move a whole stack sequence to a false parent which has some\n"
+"              cards above it.\n"
+"        'h' - move a sequence to a parent on the same stack.\n"
+"\n"
+"        Tests are grouped with parenthesis or square brackets. Each group\n"
+"        will be randomized as a whole by the random-dfs scan.\n"
+"\n"
+"\n"
 "-me [solving_method]   --method [solving_method]\n"
 "     Specify a solving method. Available methods are:\n"
 "        \"a-star\" - A*\n"
 "        \"bfs\" - Breadth-First Search\n"
 "        \"dfs\" - Depth-First Search (default)\n"
+"        \"random-dfs\" - A randomized DFS\n"
 "        \"soft-dfs\" - \"Soft\" DFS\n"
 "\n"
-"-asw [A* Weights]   --a-star-weight [A* Weights]\n" 
+"-asw [A* Weights]   --a-star-weight [A* Weights]\n"
 "     Specify weights for the A* scan, assuming it is used. The parameter\n"
 "     should be a comma-separated list of numbers, each one is proportional\n"
 "     to the weight of its corresponding test.\n"
@@ -192,11 +279,60 @@ char * help_string =
 "     4. The length of the sequences which are found over renegade cards.\n"
 "     5. The depth of the board in the solution.\n"
 "\n"
+"-seed [seed_number]\n"
+"     Set the seed for the random number generator used by the\n"
+"     \"random-dfs\" scan.\n"
+"\n"
+"-nst         --next-soft-thread\n"
+"     Move to the next Soft-Thread. I.e: input another scan to run in\n"
+"     parallel.\n"
+"-step [step iterations]     --soft-thread-step [step iterations]\n"
+"     Set the number of iterations in the step of the current soft-thread.\n"
+"-nht        --next-hard-thread\n"
+"     Move to the next Hard-Thread. This is a new group of scans to run\n"
+"     in their own system thread (assuming the executable was compiled with\n"
+"     support for them.)\n"
+"--st-name\n"
+"     Set the name of the soft-thread.\n"
+"\n"
+"--prelude [prelude_string]\n"
+"     Set the prelude string of the hard thread. A prelude is a static\n"
+"     sequence of iterations quotas that are executed at the beginning of\n"
+"     the search. The format is a list of [Limit]@[Soft-Thread Name]\n"
+"     delimited by commas.\n"
+"\n"
+"-ni         --next-instance\n"
+"     Move to the next distinct solver instance. This is a separate scan\n"
+"     which would run only if the previous ones returned an unsolvable\n"
+"     verdict.\n"
+"\n"
 "-opt         --optimize-solution\n"
 "     Try and optimize the solution for a small number of moves.\n"
+"-opt-to      --optimization-tests-order\n"
+"     The test order of the optimization scan.\n"
 "\n"
 "\n"
-"Signals: (applicable only for fc-solve-debug)\n"
+"--reparent-states\n"
+"     Reparent states that have a larger depth than that of the state\n"
+"     from which they were reached a posteriori.\n"
+"--calc-real-depth\n"
+"     If --reparent-states is enabled, then explictly calculate the real\n"
+"     depth of a state by tracing its path to the initial state\n"
+"--scans-synergy {none|dead-end-marks}\n"
+"     Specifies the cooperation between the scans.\n"
+"\n"
+"\n"
+"--reset\n"
+"     Reset the program to its initial, unconfigured state.\n"
+"--read-from-file [{num_skip},]filename\n"
+"     Reads configuration parameter with the file while skipping num_skip\n"
+"     arguments from the beginning.\n"
+"-l [configuration]      --load-config [configuration]\n"
+"     Reads the configuration [configruration] and configures the solver\n"
+"     accordingly.\n"
+"\n"
+"\n"
+"Signals:\n"
 "SIGUSR1 - Prints the number of states that were checked so far to stderr.\n"
 "SIGUSR2 SIGUSR1 - Turns iteration output on/off.\n"
 "SIGUSR2 SIGUSR2 SIGUSR1 - Turns iteration's state output on/off.\n"
@@ -205,501 +341,341 @@ char * help_string =
 "Freecell Solver was written by Shlomi Fish.\n"
 "Homepage: http://vipe.technion.ac.il/~shlomif/freecell-solver/\n"
 "Send comments and suggestions to shlomif@vipe.technion.ac.il\n"
+},
+{
+    "real-help",
+"The environment variable FREECELL_SOLVER_DEFAULT_HELP sets the default help\n"
+"screen. The name of the help screen is the same name as its \"--help-\" flag\n"
+"but without the preceding \"--help-\". Type:\n"
+"\n"
+"    fc-solve --help-summary\n"
+"\n"
+"for the available help screens.\n"
+"\n"
+"Refer to your system's documentation for information on how to set environment\n"
+"variables.\n"
+},
+{
+    "problems",
+"To be discussed.\n"
+},
+{
+    "short-sol",
+"The following configurations may produce shorter solutions:\n"
+"\n"
+"    fc-solve -opt\n"
+"    fc-solve --method a-star -opt\n"
+"    fc-solve --reparent-states -opt\n"
+"    fc-solve --method a-star --reparent-states -opt\n"
+"\n"
+"If \"--method a-star\" is specified you can set the weights with\n"
+"-asw {comma separated list of 5 numeric weights}, which may improve\n"
+"the length of the solution. (refer to the USAGE file for more information)\n"
+},
+{
+    "summary",
+"fc-solve [flags] [board_file|-]\n"
+"\n"
+"Reads board from standard input by default or if a \"-\" is specified.\n"
+"\n"
+"- If it takes too long to finish, type \"fc-solve --help-configs\"\n"
+"- If it erroneously reports a board as unsolvable, try adding the\n"
+"  \"-to 01ABCDE\" flag\n"
+"- If the solution is too long type \"fc-solve --help-short-sol\"\n"
+"- To present the moves only try adding \"-m\" or \"-m -snx\"\n"
+"- For a description of all options type \"fc-solve --help-options\"\n"
+"- To deal with other problems type \"fc-solve --help-problems\"\n"
+"- To turn --help into something more useful, type\n"
+"  \"fc-solve --help-real-help\"\n"
+"\n"
+"Contact Shlomi Fish, shlomif@vipe.technion.ac.il for more information.\n" 
+},
+{
+    NULL,
+    NULL
+}
+}
 ;
 
-#ifndef min
-#define min(a,b) (((a)<(b))?(a):(b))
-#endif
-
-
-int freecell_solver_char_to_test_num(char c)
+enum MY_FCS_CMD_LINE_RET_VALUES
 {
-    if ((c >= '0') && (c <= '9'))
+    EXIT_AND_RETURN_0 = FCS_CMD_LINE_USER,
+
+};
+
+static void print_help_string(char * key)
+{
+    int i;
+    for(i=0;help_screens[i].key != NULL ; i++)
     {
-        return c-'0';
-    }
-    else if ((c >= 'a') && (c <= 'z'))
-    {
-        return c-'a'+10;
-    }
-    else if ((c >= 'A') && (c <= 'Z'))
-    {
-        return c-'A'+10;
-    }
-    else
-    {
-        return 0;
+        if (!strcmp(key, help_screens[i].key))
+        {
+            printf("%s", help_screens[i].screen);
+        }
     }
 }
 
-int main(int argc, char * argv[])
+static int cmd_line_callback(
+    void * instance,
+    int argc,
+    char * argv[],
+    int arg,
+    int * num_to_skip,
+    int * ret,
+    void * context
+    )
 {
-    char user_state[1024];
+    freecell_solver_display_information_context_t * dc;
+    *num_to_skip = 0;
 
-    FILE * file;
+    dc = (freecell_solver_display_information_context_t * )context;
 
-    fcs_state_with_locations_t state, normalized_state;
-    int ret;
-    fcs_card_t card;
-
-    int arg, a;
-
-    int display_moves;
-
-    freecell_solver_instance_t * instance;
-    freecell_solver_display_information_context_t debug_context;
-
-    instance = freecell_solver_alloc_instance();
-
-    debug_context.parseable_output = 0;
-    debug_context.display_10_as_t = 0;
-    debug_context.canonized_order_output = 0;
-    debug_context.debug_iter_state_output = 0;
-
-    display_moves = 0;
-
-    for(arg=1;arg<argc;arg++)
+    if ((!strcmp(argv[arg], "-h")) || (!strcmp(argv[arg], "--help")))
     {
-        if ((!strcmp(argv[arg], "-h")) || (!strcmp(argv[arg], "--help")))
+        char * help_key;
+        
+        help_key = getenv("FREECELL_SOLVER_DEFAULT_HELP");
+        if (help_key == NULL)
         {
-            printf("%s", help_string);
-            return 0;
+            help_key = "summary";
         }
-        else if ((!strcmp(argv[arg], "-i")) || (!strcmp(argv[arg], "--iter-output")))
-        {
-            instance->debug_iter_output = 1;
-        }
-        else if ((!strcmp(argv[arg], "-s")) || (!strcmp(argv[arg], "--state-output")))
-        {
-            debug_context.debug_iter_state_output = 1;
-        }
-        else if ((!strcmp(argv[arg], "-p")) || (!strcmp(argv[arg], "--parseable-output")))
-        {
-            debug_context.parseable_output = 1;
-        }
-        else if ((!strcmp(argv[arg], "-c")) || (!strcmp(argv[arg], "--canonized-order-output")))
-        {
-            debug_context.canonized_order_output = 1;
-        }
-        else if ((!strcmp(argv[arg], "-md")) || (!strcmp(argv[arg], "--max-depth")))
-        {
-            arg++;
-            if (arg == argc)
-            {
-                fprintf(
-                    stderr,
-                    "The option \"%s\" should be followed by a parameter.\n",
-                    argv[arg-1]
-                    );
+        print_help_string(help_key);
+        *ret = EXIT_AND_RETURN_0;
+        return FCS_CMD_LINE_STOP;
+    }
+    else if (!strncmp(argv[arg], "--help-", 7))
+    {
+        print_help_string(argv[arg]+7);
+        *ret = EXIT_AND_RETURN_0;
+        return FCS_CMD_LINE_STOP;
+    }
+    else if ((!strcmp(argv[arg], "-i")) || (!strcmp(argv[arg], "--iter-output")))
+    {
+#define set_iter_handler() \
+        freecell_solver_user_set_iter_handler(   \
+            instance,   \
+            my_iter_handler,   \
+            dc    \
+            );        \
+        dc->debug_iter_output_on = 1;
 
-                freecell_solver_free_instance(instance);
-                return -1;                        
-            }
-            
-            instance->max_depth = atoi(argv[arg]);
-        }
-        else if ((!strcmp(argv[arg], "-mi")) || (!strcmp(argv[arg], "--max-iters")))
-        {
-            arg++;
-            if (arg == argc)
-            {
-                fprintf(
-                    stderr,
-                    "The option \"%s\" should be followed by a parameter.\n",
-                    argv[arg-1]
-                    );
+        set_iter_handler();
+    }
+    else if ((!strcmp(argv[arg], "-s")) || (!strcmp(argv[arg], "--state-output")))
+    {
+        set_iter_handler();
+        dc->debug_iter_state_output = 1;
+#undef set_iter_handler
+    }
+    else if ((!strcmp(argv[arg], "-p")) || (!strcmp(argv[arg], "--parseable-output")))
+    {
+        dc->parseable_output = 1;
+    }
+    else if ((!strcmp(argv[arg], "-c")) || (!strcmp(argv[arg], "--canonized-order-output")))
+    {
+        dc->canonized_order_output = 1;
+    }
+    else if ((!strcmp(argv[arg], "-t")) || (!strcmp(argv[arg], "--display-10-as-t")))
+    {
+        dc->display_10_as_t = 1;
+    }
+    else if ((!strcmp(argv[arg], "-m")) || (!strcmp(argv[arg], "--display-moves")))
+    {
+        dc->display_moves = 1;
+        dc->display_states = 0;
+    }
+    else if ((!strcmp(argv[arg], "-sn")) || (!strcmp(argv[arg], "--standard-notation")))
+    {
+        dc->standard_notation = 1;
+    
+    }
+    else if ((!strcmp(argv[arg], "-snx")) || (!strcmp(argv[arg], "--standard-notation-extended")))
+    {
+        dc->standard_notation = 2;   
+    }
+    else if ((!strcmp(argv[arg], "-sam")) || (!strcmp(argv[arg], "--display-states-and-moves")))
+    {
+        dc->display_moves = 1;
+        dc->display_states = 1;
+    }
+    else if ((!strcmp(argv[arg], "-pi")) || (!strcmp(argv[arg], "--display-parent-iter")))
+    {
+        dc->display_parent_iter_num = 1;
+    }
+    else if ((!strcmp(argv[arg], "--reset")))
+    {
+        init_debug_context(dc);
+        freecell_solver_user_set_iter_handler(
+            instance,
+            NULL,
+            NULL
+            );                
+        *num_to_skip = 0;
+        return FCS_CMD_LINE_OK;
+    }
+    else
+    {
+        printf("Unimplemented option - \"%s\"!", argv[arg]);
+        exit(-1);
+    }
+    *num_to_skip = 1;
+    return FCS_CMD_LINE_SKIP;
+}
 
-                freecell_solver_free_instance(instance);
-                return -1;                        
-            }
-            
-            instance->max_num_times = atoi(argv[arg]);
-        }
-        else if ((!strcmp(argv[arg], "-to")) || (!strcmp(argv[arg], "--tests-order")))
-        {
-            arg++;
-            if (arg == argc)
-            {
-                fprintf(
-                    stderr,
-                    "The option \"%s\" should be followed by a parameter.\n",
-                    argv[arg-1]
-                    );
 
-                freecell_solver_free_instance(instance);
-                return -1;                        
-            }
-            instance->tests_order_num = min(strlen(argv[arg]), FCS_TESTS_NUM);
-            for(a=0;a<instance->tests_order_num;a++)
-            {
-                instance->tests_order[a] = freecell_solver_char_to_test_num(argv[arg][a])%FCS_TESTS_NUM;
-            }
-        }
-        else if ((!strcmp(argv[arg], "--freecells-num")))
-        {
-            arg++;
-            if (arg == argc)
-            {
-                fprintf(
-                    stderr,
-                    "The option \"%s\" should be followed by a parameter.\n",
-                    argv[arg-1]
-                    );
+static int command_num = 0;
+static int debug_iter_output_on = 0;
 
-                freecell_solver_free_instance(instance);
-                return -1;                        
-            }
-            instance->freecells_num = atoi(argv[arg]);
-            if (instance->freecells_num > MAX_NUM_FREECELLS)
-            {
-                fprintf(stderr, 
-                    "Error! The freecells\' number " 
-                    "exceeds the maximum of %i.\n"
-                    "Recompile the program if you wish to have more.\n", 
-                    MAX_NUM_FREECELLS
-                    );
+static void select_signal_handler(int signal_num)
+{
+    command_num = (command_num+1)%3;
+}
 
-                freecell_solver_free_instance(instance);
-                return (-1);
-            }
-        }
-        else if ((!strcmp(argv[arg], "--stacks-num")))
-        {
-            arg++;
-            if (arg == argc)
-            {
-                fprintf(
-                    stderr,
-                    "The option \"%s\" should be followed by a parameter.\n",
-                    argv[arg-1]
-                    );
+static void * current_instance;
+static freecell_solver_display_information_context_t * dc;
 
-                freecell_solver_free_instance(instance);
-                return -1;                        
-            }            
-            instance->stacks_num = atoi(argv[arg]);
-            if (instance->stacks_num > MAX_NUM_STACKS)
-            {
-                fprintf(stderr, 
-                    "Error! The stacks\' number " 
-                    "exceeds the maximum of %i.\n"
-                    "Recompile the program if you wish to have more.\n", 
-                    MAX_NUM_STACKS
-                    );
-                return (-1);
-            }
-        }
-        else if ((!strcmp(argv[arg], "-t")) || (!strcmp(argv[arg], "--display-10-as-t")))
-        {
-            debug_context.display_10_as_t = 1;
-        }
-        else if ((!strcmp(argv[arg], "--decks-num")))
-        {
-            arg++;
-            if (arg == argc)
-            {
-                fprintf(
-                    stderr,
-                    "The option \"%s\" should be followed by a parameter.\n",
-                    argv[arg-1]
-                    );
 
-                freecell_solver_free_instance(instance);
-                return -1;                        
-            }            
-            instance->decks_num = atoi(argv[arg]);
-            if (instance->decks_num > MAX_NUM_DECKS)
-            {
-                fprintf(stderr,
-                    "Error! The decks\' number "
-                    "exceeds the maximum of %i.\n"
-                    "Recopmile the program if you wish to have more.\n",
-                    MAX_NUM_DECKS
-                    );
-                return (-1);
-            }
-        }            
-        else if ((!strcmp(argv[arg], "--sequences-are-built-by")))
+static void command_signal_handler(int signal_num)
+{
+    if (command_num == 0)
+    {
+        fprintf(
+            stderr,
+            "The number of iterations is %i\n",
+            freecell_solver_user_get_num_times(current_instance)
+            );
+    }
+    else if (command_num == 1)
+    {
+        if (debug_iter_output_on)
         {
-            arg++;
-            if (arg == argc)
-            {
-                fprintf(
-                    stderr,
-                    "The option \"%s\" should be followed by a parameter.\n",
-                    argv[arg-1]
-                    );
-
-                freecell_solver_free_instance(instance);
-                return -1;                        
-            }
-            
-            if (!strcmp(argv[arg], "suit"))
-            {
-                instance->sequences_are_built_by = FCS_SEQ_BUILT_BY_SUIT;
-            }
-            else if (!strcmp(argv[arg], "rank"))
-            {
-                instance->sequences_are_built_by = FCS_SEQ_BUILT_BY_RANK;
-            }
-            else
-            {
-                instance->sequences_are_built_by = FCS_SEQ_BUILT_BY_ALTERNATE_COLOR;
-            }
-        }
-        else if ((!strcmp(argv[arg], "--sequence-move")))
-        {
-            arg++;
-            if (arg == argc)
-            {
-                fprintf(
-                    stderr,
-                    "The option \"%s\" should be followed by a parameter.\n",
-                    argv[arg-1]
-                    );
-
-                freecell_solver_free_instance(instance);
-                return -1;                        
-            }
-            
-            if (!strcmp(argv[arg], "unlimited"))
-            {
-                instance->unlimited_sequence_move = 1;
-            }
-            else
-            {
-                instance->unlimited_sequence_move = 0;
-            }
-        }
-        else if (!strcmp(argv[arg], "--empty-stacks-filled-by"))
-        {
-            arg++;
-            if (arg == argc)
-            {
-                fprintf(
-                    stderr,
-                    "The option \"%s\" should be followed by a parameter.\n",
-                    argv[arg-1]
-                    );
-
-                freecell_solver_free_instance(instance);
-                return -1;                        
-            }
-            
-            if (!strcmp(argv[arg], "kings"))
-            {
-                instance->empty_stacks_fill = FCS_ES_FILLED_BY_KINGS_ONLY;
-            }
-            else if (!strcmp(argv[arg], "none"))
-            {
-                instance->empty_stacks_fill = FCS_ES_FILLED_BY_NONE;
-            }
-            else
-            {
-                instance->empty_stacks_fill = FCS_ES_FILLED_BY_ANY_CARD;
-            }
-        }
-        else if (
-            (!strcmp(argv[arg], "--game")) ||
-            (!strcmp(argv[arg], "--preset")) ||
-            (!strcmp(argv[arg], "-g"))
-            )
-        {
-            arg++;
-            if (arg == argc)
-            {
-                fprintf(
-                    stderr,
-                    "The option \"%s\" should be followed by a parameter.\n",
-                    argv[arg-1]
-                    );
-
-                freecell_solver_free_instance(instance);
-                return -1;                        
-            }
-            
-            ret = fcs_apply_preset_by_name(instance, argv[arg]);
-            if (ret == FCS_PRESET_CODE_NOT_FOUND)
-            {
-                fprintf(stderr, "Unknown game \"%s\"!\n\n", argv[arg]);
-                freecell_solver_free_instance(instance);
-                return (-1);
-            }
-            else if (ret == FCS_PRESET_CODE_FREECELLS_EXCEED_MAX)
-            {
-                fprintf(stderr, "The game \"%s\" exceeds the maximal number "
-                        "of freecells in the program.\n" 
-                        "Modify the file \"config.h\" and recompile, " 
-                        "if you wish to solve one of its boards.\n",
-                        argv[arg]
-                        );
-                freecell_solver_free_instance(instance);
-                return (-1);
-            }
-            else if (ret == FCS_PRESET_CODE_STACKS_EXCEED_MAX)
-            {
-                fprintf(stderr, "The game \"%s\" exceeds the maximal number "
-                        "of stacks in the program.\n" 
-                        "Modify the file \"config.h\" and recompile, " 
-                        "if you wish to solve one of its boards.\n",
-                        argv[arg]
-                        );
-                freecell_solver_free_instance(instance);
-                return (-1);                
-            }
-            else if (ret != FCS_PRESET_CODE_OK)
-            {
-                fprintf(stderr, 
-                    "The game \"%s\" exceeds the limits of the program.\n"
-                    "Modify the file \"config.h\" and recompile, if you wish to solve one of its boards.\n", 
-                    argv[arg]
+            freecell_solver_user_set_iter_handler(
+                current_instance,
+                NULL,
+                NULL
                 );
-                freecell_solver_free_instance(instance);
-                return (-1);
-            }
-        }
-        else if ((!strcmp(argv[arg], "-m")) || (!strcmp(argv[arg], "--display-moves")))
-        {
-            display_moves = 1;
-        }
-        else if ((!strcmp(argv[arg], "-me")) || (!strcmp(argv[arg], "--method")))
-        {
-            arg++;
-            if (arg == argc)
-            {
-                fprintf(
-                    stderr,
-                    "The option \"%s\" should be followed by a parameter.\n",
-                    argv[arg-1]
-                    );
-
-                freecell_solver_free_instance(instance);
-                return -1;                        
-            }
-            if (!strcmp(argv[arg], "dfs"))
-            {
-                instance->method = FCS_METHOD_HARD_DFS;
-            }
-            else if (!strcmp(argv[arg], "soft-dfs"))
-            {
-                instance->method = FCS_METHOD_SOFT_DFS;
-            }
-            else if (!strcmp(argv[arg], "bfs"))
-            {
-                instance->method = FCS_METHOD_BFS;
-            }
-            else if (!strcmp(argv[arg], "a-star"))
-            {
-                instance->method = FCS_METHOD_A_STAR;
-            }
-            else
-            {
-                fprintf(
-                    stderr,
-                    "Unknown solving method \"%s\".\n", 
-                    argv[arg]
-                    );
-
-                freecell_solver_free_instance(instance);
-                return -1;                        
-            }
-        }
-        else if ((!strcmp(argv[arg], "-asw")) || (!strcmp(argv[arg], "--a-star-weights")))
-        {
-            arg++;
-            if (arg == argc)
-            {
-                fprintf(
-                    stderr,
-                    "The option \"%s\" should be followed by a parameter.\n",
-                    argv[arg-1]
-                    );
-
-                freecell_solver_free_instance(instance);
-                return -1;                        
-            }
-            {
-                int a;
-                char * start_num;
-                char * end_num;
-                char save;
-                start_num = argv[arg];
-                for(a=0;a<5;a++)
-                {
-                    while ((*start_num > '9') && (*start_num < '0') && (*start_num != '\0'))
-                    {
-                        start_num++;
-                    }
-                    if (*start_num == '\0')
-                    {
-                        break;
-                    }
-                    end_num = start_num+1;
-                    while ((((*end_num >= '0') && (*end_num <= '9')) || (*end_num == '.')) && (*end_num != '\0'))
-                    {
-                        end_num++;
-                    }
-                    save = *end_num;
-                    *end_num = '\0';
-                    instance->a_star_weights[a] = atof(start_num);
-                    *end_num = save;
-                    start_num=end_num+1;
-                }
-            }
-        }
-#ifdef FCS_WITH_TALONS        
-        else if (!strcmp(argv[arg], "--talon"))
-        {
-            arg++;
-            if (!strcmp(argv[arg], "none"))
-            {
-                instance->talon_type = FCS_TALON_NONE;
-            }
-            else if (!strcmp(argv[arg], "gypsy"))
-            {
-                instance->talon_type = FCS_TALON_GYPSY;
-            }
-            else if (!strcmp(argv[arg], "klondike"))
-            {
-                instance->talon_type = FCS_TALON_KLONDIKE;
-            }
-            else
-            {
-                fprintf(
-                    stderr,
-                    "Unknown talon type \"%s\".\n", 
-                    argv[arg]
-                    );
-
-                freecell_solver_free_instance(instance);
-                return -1;
-            }
-        }
-#endif        
-        else if ((!strcmp(argv[arg], "-opt")) || (!strcmp(argv[arg], "--optimize-solution")))
-        {
-            instance->optimize_solution_path = 1;
+            debug_iter_output_on = 0;
         }
         else
         {
-            break;
-        } 
+            freecell_solver_user_set_iter_handler(
+                current_instance,
+                my_iter_handler,
+                dc
+                );
+            debug_iter_output_on = 1;
+        }
+    }
+    else if (command_num == 2)
+    {
+        dc->debug_iter_state_output = ! dc->debug_iter_state_output;
     }
 
-    
+    command_num = 0;
+}
+
+
+static char * known_parameters[] = {
+    "-h", "--help",
+        "--help-configs", "--help-options", "--help-problems", 
+        "--help-real-help", "--help-short-sol", "--help-summary",
+    "-i", "--iter-output",
+    "-s", "--state-output",
+    "-p", "--parseable-output",
+    "-c", "--canonized-order-output",
+    "-t", "--display-10-as-t",
+    "-m", "--display-moves",
+    "-sn", "--standard-notation",
+    "-snx", "--standard-notation-extended",
+    "-sam", "--display-states-and-moves",
+    "-pi", "--display-parent-iter",
+    "--reset",
+    NULL
+    };
+
+#define USER_STATE_SIZE 1024
+
+int main(int argc, char * argv[])
+{
+    int parser_ret;
+    void * instance;
+    char * error_string;
+    int arg;
+    FILE * file;
+    char user_state[USER_STATE_SIZE];
+    int ret;
+
+    freecell_solver_display_information_context_t debug_context;
+
+    init_debug_context(&debug_context);
+
+    dc = &debug_context;
+
+    instance = freecell_solver_user_alloc();
+
+    current_instance = instance;
+
+
+    parser_ret =
+        freecell_solver_user_cmd_line_parse_args(
+            instance,
+            argc,
+            argv,
+            1,
+            known_parameters,
+            cmd_line_callback,
+            &debug_context,
+            &error_string,
+            &arg
+            );
+
+    if (parser_ret == EXIT_AND_RETURN_0)
+    {
+        freecell_solver_user_free(instance);
+        return 0;
+    }
+    else if (
+        (parser_ret == FCS_CMD_LINE_PARAM_WITH_NO_ARG)
+            )
+    {
+        fprintf(stderr, "The command line parameter \"%s\" requires an argument"
+                " and was not supplied with one.\n", argv[arg]);
+        return (-1);
+    }
+    else if (        
+        (parser_ret == FCS_CMD_LINE_ERROR_IN_ARG)
+        )
+    {
+        if (error_string != NULL)
+        {
+            fprintf(stderr, "%s", error_string);
+            free(error_string);
+        }
+        freecell_solver_user_free(instance);
+        return -1;
+    }
+
     if ((arg == argc) || (!strcmp(argv[arg], "-")))
     {
         file = stdin;
+        if (!getenv("FREECELL_SOLVER_QUIET"))
+        {
+            fprintf(stderr, "%s", 
+                    "Reading the board from the standard input.\n"
+                    "Type \"fc-solve --help\" for more usage information.\n"
+                    "To cancel this message set the FREECELL_SOLVER_QUIET environment variable.\n"
+                   );
+        }
     }
     else if (argv[arg][0] == '-')
     {
-        fprintf(stderr, 
-                "Unknown option \"%s\". " 
-                "Type \"%s --help\" for usage information.\n", 
+        fprintf(stderr,
+                "Unknown option \"%s\". "
+                "Type \"%s --help\" for usage information.\n",
                 argv[arg],
                 argv[0]
                 );
-        freecell_solver_free_instance(instance);
+        freecell_solver_user_free(instance);
 
         return -1;
     }
@@ -708,292 +684,176 @@ int main(int argc, char * argv[])
         file = fopen(argv[arg], "r");
         if (file == NULL)
         {
-            fprintf(stderr, 
-                "Could not open file \"%s\" for input. Exiting.\n", 
+            fprintf(stderr,
+                "Could not open file \"%s\" for input. Exiting.\n",
                 argv[arg]
                 );
-            freecell_solver_free_instance(instance);
-            
+            freecell_solver_user_free(instance);
+
             return -1;
         }
     }
-    fread(user_state, sizeof(user_state[0]), sizeof(user_state)/sizeof(user_state[0]), file);
+    memset(user_state, '\0', sizeof(user_state));
+    fread(user_state, sizeof(user_state[0]), USER_STATE_SIZE-1, file);
     fclose(file);
-        
-   
 
-
-
-    state = fcs_initial_user_state_to_c(
-        user_state, 
-        instance->freecells_num, 
-        instance->stacks_num,
-        instance->decks_num
-#ifdef FCS_WITH_TALONS
-        ,instance->talon_type
-#endif        
-        );
-    
-    ret = fcs_check_state_validity(
-        &state, 
-        instance->freecells_num, 
-        instance->stacks_num, 
-        instance->decks_num,
-#ifdef FCS_WITH_TALONS        
-        instance->talon_type,
-#endif        
-        &card
-        );
-    
-    if (ret != 0)
-    {
-        char card_str[10];
-        fcs_card_perl2user(card, card_str, debug_context.display_10_as_t);
-        if (ret == 3)
-        {
-            fprintf(stderr, "%s\n", 
-                "There's an empty slot in one of the stacks."
-                );
-        }
-        else
-        {
-            fprintf(stderr, "%s%s.\n",
-                ((ret == 2)? "There's an extra card: " : "There's a missing card: "),
-                card_str
-            );            
-        }
-
-        freecell_solver_free_instance(instance);
-        
-        return -1;    
-    }
-    
-    
-    fcs_duplicate_state(normalized_state, state);
-
-    fcs_canonize_state(
-        &state, 
-        instance->freecells_num, 
-        instance->stacks_num
-        );
-
-    current_instance = instance;
-
-    instance->debug_iter_output_func = freecell_solver_display_information;
-    instance->debug_iter_output_context = &debug_context;
-    
-    debug_context.freecells_num = instance->freecells_num;
-    debug_context.stacks_num = instance->stacks_num;
-    debug_context.decks_num = instance->decks_num;
-
-/* Win32 Does not have those signals */
+    /* Win32 Does not have those signals */
 #ifndef WIN32
     signal(SIGUSR1, command_signal_handler);
     signal(SIGUSR2, select_signal_handler);
 #endif
 
-    freecell_solver_init_instance(instance);
-
-    ret = freecell_solver_solve_instance(instance, &state);
-#if 0
-    while (ret == FCS_STATE_SUSPEND_PROCESS) 
-    {        
-        instance->max_num_times += 1000;
-        ret = freecell_solver_resume_instance(instance);
-    }
-#endif
-
-    if (ret == FCS_STATE_WAS_SOLVED)
+#if 1
     {
-        int a;
-
-        printf("-=-=-=-=-=-=-=-=-=-=-=-\n\n");
-        for(a=0;a<instance->num_solution_states;a++)
+        int limit = 100;
+        freecell_solver_user_limit_iterations(instance, limit);
+        ret = freecell_solver_user_solve_board(instance, user_state);
+        while (ret == FCS_STATE_SUSPEND_PROCESS)
         {
-#if 0
-            char * as_string;
-
-            as_string = fcs_state_as_string(
-                instance->solution_states[a], 
-                instance->freecells_num,
-                instance->stacks_num,
-                instance->decks_num,
-                debug_context.parseable_output, 
-                debug_context.canonized_order_output,
-                debug_context.display_10_as_t);
-
-            printf("%s\n\n====================\n\n", as_string);
-            free(as_string);            
-#endif
-            fcs_clean_state(instance->solution_states[a]);
-            free((void*)instance->solution_states[a]);
-
+            limit += 100;
+            freecell_solver_user_limit_iterations(instance, limit);
+            ret = freecell_solver_user_resume_solution(instance);
         }
-        free((void*)instance->solution_states);
-        instance->solution_states = NULL;
+    }
+#else
+    ret = freecell_solver_user_solve_board(instance, user_state);
+#endif
 
-        if (!display_moves)
-        {
-            fcs_move_t move;
-            fcs_state_with_locations_t dynamic_state;
-            FILE * move_dump;
-            char * as_string;
-            int counter = 0;
-
-            fcs_move_stack_normalize(
-                instance->solution_moves,
-                &state,
-                instance->freecells_num,
-                instance->stacks_num,
-                instance->decks_num
+    if (ret == FCS_STATE_INVALID_STATE)
+    {
+        char * error_string;
+        error_string =
+            freecell_solver_user_get_invalid_state_error_string(
+                instance,
+                debug_context.display_10_as_t
                 );
-
-            fcs_duplicate_state(dynamic_state, normalized_state);
-
-            
-            move_dump = stdout;
-            as_string = fcs_state_as_string(
-                &dynamic_state, 
-                instance->freecells_num,
-                instance->stacks_num,
-                instance->decks_num,
-                debug_context.parseable_output, 
-                debug_context.canonized_order_output,
-                debug_context.display_10_as_t);
-            
-            fprintf(move_dump, "%s\n\n====================\n\n", as_string);
-            fflush(move_dump);
-            free(as_string);            
-            while (
-                fcs_move_stack_pop(
-                    instance->solution_moves,
-                    &move
-                    ) == 0)
-            {
-                fcs_apply_move(
-                    &dynamic_state,
-                    move,
-                    instance->freecells_num,
-                    instance->stacks_num,
-                    instance->decks_num
-                    );
-                as_string = fcs_state_as_string(
-                    &dynamic_state, 
-                    instance->freecells_num,
-                    instance->stacks_num,
-                    instance->decks_num,
-                    debug_context.parseable_output, 
-                    debug_context.canonized_order_output,
-                    debug_context.display_10_as_t);
-                    
-                fprintf(move_dump, "%s\n\n====================\n\n", as_string);
-                fflush(move_dump);
-                free(as_string);
-
-#if 0
-                ret = fcs_check_state_validity(
-                    &dynamic_state, 
-                    instance->freecells_num, 
-                    instance->stacks_num, 
-                    instance->decks_num,
-                    instance->talon_type,
-                    &card);
-                
-                if (ret != 0)
-                {
-                    char card_str[10];
-                    fcs_card_perl2user(card, card_str, debug_context.display_10_as_t);
-                    if (ret == 3)
-                    {
-                        fprintf(move_dump, "%s\n",
-                            "There's an empty slot in one of the stacks."
-                            );
-                    }
-                    else
-                    {
-                        fprintf(move_dump, "%s%s counter=%i.\n",
-                            ((ret == 2)? "There's an extra card: " : "There's a missing card: "),
-                            card_str,
-                            counter
-                        );
-                    }
-
-                    return -1;
-                }
-#endif
-                counter++;
-            }
-#if 0       
-            fclose(move_dump);
-#endif
-            fcs_clean_state(&dynamic_state);
-        }
-        else
-        {
-            fcs_move_t move;
-            FILE * move_dump;
-            char * as_string;
-
-            fcs_move_stack_normalize(
-                instance->solution_moves,
-                &state,
-                instance->freecells_num,
-                instance->stacks_num,
-                instance->decks_num
-                );
-
-            move_dump = stdout;
-            while (
-                fcs_move_stack_pop(
-                    instance->solution_moves,
-                    &move
-                    ) == 0)
-            {
-                as_string = fcs_move_to_string(move);
-            
-                fprintf(move_dump, "%s\n\n====================\n\n", as_string);
-                fflush(move_dump);
-                free(as_string);
-            }
-#if 0       
-            fclose(move_dump);
-#endif
-        }
- 
-        printf("This game is solveable.\n");
-
-        fcs_move_stack_destroy(instance->solution_moves);
+        printf("%s\n", error_string);
+        free(error_string);
     }
     else
     {
-        printf ("I could not solve this game.\n");
-
-        if (ret == FCS_STATE_SUSPEND_PROCESS)
+        if (ret == FCS_STATE_WAS_SOLVED)
         {
-            freecell_solver_unresume_instance(instance);
+            printf("-=-=-=-=-=-=-=-=-=-=-=-\n\n");
+            {
+                fcs_move_t move;
+                FILE * move_dump;
+                char * as_string;
+                int move_num = 0;
+
+                move_dump = stdout;
+
+
+                if (debug_context.display_states)
+                {
+                    as_string =
+                        freecell_solver_user_current_state_as_string(
+                            instance,
+                            debug_context.parseable_output,
+                            debug_context.canonized_order_output,
+                            debug_context.display_10_as_t
+                            );
+
+                    fprintf(move_dump, "%s\n", as_string);
+
+                    free(as_string);
+
+                    fprintf(move_dump, "%s", "\n====================\n\n");
+                }
+
+                while (
+                        freecell_solver_user_get_next_move(
+                            instance,
+                            &move
+                            ) == 0
+                        )
+                {
+                    if (debug_context.display_moves)
+                    {
+                        as_string =
+                            freecell_solver_user_move_to_string_w_state(
+                                instance,
+                                move,
+                                debug_context.standard_notation
+                                );
+
+                        if (debug_context.display_states && debug_context.standard_notation)
+                        {
+                            fprintf(move_dump, "Move: ");
+                        }
+
+                        fprintf(
+                            move_dump,
+                            (debug_context.standard_notation ?
+                                "%s " :
+                                "%s\n"
+                            ),
+                            as_string
+                            );
+                        move_num++;
+                        if (debug_context.standard_notation)
+                        {
+                            if ((move_num % 10 == 0) || debug_context.display_states)
+                            {
+                                fprintf(move_dump, "\n");
+                            }
+                        }
+                        if (debug_context.display_states)
+                        {
+                            fprintf(move_dump, "\n");
+                        }
+                        fflush(move_dump);
+                        free(as_string);
+                    }
+
+                    if (debug_context.display_states)
+                    {
+                        as_string =
+                            freecell_solver_user_current_state_as_string(
+                                instance,
+                                debug_context.parseable_output,
+                                debug_context.canonized_order_output,
+                                debug_context.display_10_as_t
+                                );
+
+                        fprintf(move_dump, "%s\n", as_string);
+
+                        free(as_string);
+                    }
+
+                    if (debug_context.display_states || (!debug_context.standard_notation))
+                    {
+                        fprintf(move_dump, "%s", "\n====================\n\n");
+                    }
+                }
+
+                if (debug_context.standard_notation && (!debug_context.display_states))
+                {
+                    fprintf(move_dump, "\n\n");
+                }
+            }
+
+            printf("This game is solveable.\n");
         }
+        else
+        {
+            printf ("I could not solve this game.\n");
+        }
+
+        printf(
+            "Total number of states checked is %i.\n",
+            freecell_solver_user_get_num_times(instance)
+            );
+#if 1
+        printf(
+            "This scan generated %i states.\n",
+            freecell_solver_user_get_num_states_in_collection(instance)
+            );
+#endif
     }
-    
-    printf ("Total number of states checked is %i.\n", instance->num_times);
-#if 0
-    printf ("Stored states: %i.\n", instance->hash->num_elems);
-#endif
 
-    freecell_solver_finish_instance(instance);
+    freecell_solver_user_free(instance);
 
-#if 0
-    printf("Hello\n");
-    fflush(stdout);
-#endif
-    freecell_solver_free_instance(instance);
-
-#if 0
-    printf("To\n");
-    fflush(stdout);
-#endif
-    fcs_clean_state(&normalized_state);
-    fcs_clean_state(&state);
-    
     return 0;
 }
 

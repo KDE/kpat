@@ -1,23 +1,31 @@
-/* config.h.  Generated automatically by configure.  */
-/* config.h.in.  Generated automatically from configure.in by autoheader.  */
+/*
+    config.h - Configuration file for Freecell Solver
 
-/* Define to empty if the keyword does not work.  */
-/* #undef const */
+    Written by Shlomi Fish, 2000
 
-/* Define as the return type of signal handlers (int or void).  */
-#define RETSIGTYPE void
+    This file is distributed under the public domain.
+    (It is not copyrighted).
+*/
 
-/* Define to `unsigned' if <sys/types.h> doesn't define.  */
-/* #undef size_t */
+#ifndef __CONFIG_H
+#define __CONFIG_H
 
-/* Define if you have the ANSI C header files.  */
-#define STDC_HEADERS 1
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-/* #undef DEBUG_STATES */
-/* #undef COMPACT_STATES */
-#define INDIRECT_STACK_STATES 1
+#undef DEBUG_STATES
+#undef COMPACT_STATES
+#undef INDIRECT_STACK_STATES
 
-/* #undef CARD_DEBUG_PRES */
+#undef CARD_DEBUG_PRES
+
+/*
+ * Define this macro if the C compiler supports the keyword inline or
+ * a similar keyword that was found by Autoconf (and defined as inline).
+ * */
+#undef HAVE_C_INLINE
+
 
 /*
     The sort margin size for the previous states array.
@@ -37,7 +45,17 @@
 */
 #define IA_STATE_PACKS_GROW_BY 32
 
+/*
+ * The maximal number of Freecells. For efficiency's sake it should be a
+ * multiple of 4.
+ * */
+
 #define MAX_NUM_FREECELLS 4
+
+/*
+ * The maximal number of Stacks. For efficiency's sake it should be a
+ * multiple of 4.
+ * */
 
 #define MAX_NUM_STACKS 10
 /*
@@ -47,6 +65,7 @@
 #define MAX_NUM_INITIAL_CARDS_IN_A_STACK 8
 
 #define MAX_NUM_DECKS 2
+
 
 #define FCS_STATE_STORAGE_INDIRECT 0
 #define FCS_STATE_STORAGE_INTERNAL_HASH 1
@@ -64,33 +83,11 @@
 #define FCS_STACK_STORAGE_GLIB_TREE 4
 #define FCS_STACK_STORAGE_GLIB_HASH 5
 
-#define FCS_STATE_STORAGE FCS_STATE_STORAGE_INTERNAL_HASH
-#define FCS_STACK_STORAGE FCS_STACK_STORAGE_INTERNAL_HASH
+#undef FCS_STATE_STORAGE
+#undef FCS_STACK_STORAGE
 
-/* Define if you have the strdup function.  */
-#define HAVE_STRDUP 1
+#ifdef __cplusplus
+}
+#endif
 
-/* Define if you have the <dlfcn.h> header file.  */
-#define HAVE_DLFCN_H 1
-
-/* Define if you have the <limits.h> header file.  */
-#define HAVE_LIMITS_H 1
-
-/* Define if you have the avl library (-lavl).  */
-/* #undef HAVE_LIBAVL */
-
-/* Define if you have the glib library (-lglib).  */
-/* #undef HAVE_LIBGLIB */
-
-/* Define if you have the m library (-lm).  */
-#define HAVE_LIBM 1
-
-/* Define if you have the redblack library (-lredblack).  */
-/* #undef HAVE_LIBREDBLACK */
-
-/* Name of package */
-#define PACKAGE "freecell-solver"
-
-/* Version number of package */
-#define VERSION "2.5.28"
-
+#endif

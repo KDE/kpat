@@ -1,8 +1,8 @@
 /*
     fcs_dm.c - Freecell Solver's data management routines.
-    
+
     Written by Shlomi Fish, 2000
-    
+
     This file is distributed under the public domain.
     (It's not copyrighted)
 */
@@ -12,20 +12,24 @@
 
 #include "fcs_dm.h"
 
+#ifdef DMALLOC
+#include "dmalloc.h"
+#endif
+
 /*
-    SFO_bsearch - an improved binary search function. Highlights:
-    
-    * The comparison function accepts a common context argument that 
+    freecell_solver_bsearch - an improved binary search function. Highlights:
+
+    * The comparison function accepts a common context argument that
     is passed to SFO_bsearch.
     * If the item was not found the function returns the place in which
     it should be placed, while setting *found to 0. If it was found
-      *found is set to 1.
+      (*found) is set to 1.
 */
-void * SFO_bsearch
+void * freecell_solver_bsearch
 (
-    void * key, 
-    void * void_array, 
-    size_t len, 
+    void * key,
+    void * void_array,
+    size_t len,
     size_t width,
     int (* compare)(const void *, const void *, void *),
     void * context,
@@ -67,18 +71,18 @@ void * SFO_bsearch
 
 
 /*
-    SFO_merge_large_and_small_sorted_array - merges a large sorted array 
-    with a small sorted array. The arrays could be of any length 
+    freecell_solver_merge_large_and_small_sorted_array - merges a large sorted
+    array with a small sorted array. The arrays could be of any length
     whatsoever, but it works faster if the first is significantly bigger
     than the second.
-    
+
     This function assumes that big_array is allocated with enough
     space to hold the extra elements.
-    
+
     The array should be distinct or else there would be unexpected
     results.
 */
-int SFO_merge_large_and_small_sorted_arrays
+int freecell_solver_merge_large_and_small_sorted_arrays
 (
     void * void_big_array,
     size_t size_big_array,
@@ -103,7 +107,7 @@ int SFO_merge_large_and_small_sorted_arrays
 
     for(item_to_move = size_small_array-1 ; item_to_move>=0; item_to_move--)
     {
-        pos_ptr = SFO_bsearch (
+        pos_ptr = freecell_solver_bsearch (
             small_array+item_to_move*width,
             big_array,
             size_big_array-num_big_items_moved,
@@ -115,25 +119,25 @@ int SFO_merge_large_and_small_sorted_arrays
 
         pos = (pos_ptr-big_array)/width;
 
-        end_offset = size_big_array + size_small_array - 
-            num_big_items_moved - 
+        end_offset = size_big_array + size_small_array -
+            num_big_items_moved -
             (size_small_array-item_to_move-1);
 
-        start_offset = end_offset + pos - 
+        start_offset = end_offset + pos -
             (size_big_array - num_big_items_moved);
 
         memmove(
-            big_array+start_offset*width, 
-            big_array+pos*width, 
+            big_array+start_offset*width,
+            big_array+pos*width,
             (end_offset-start_offset)*width
         );
 
         memcpy(
-            big_array+(start_offset-1)*width, 
-            small_array+item_to_move*width, 
+            big_array+(start_offset-1)*width,
+            small_array+item_to_move*width,
             width
         );
-        
+
         num_big_items_moved += (end_offset - start_offset);
     }
 

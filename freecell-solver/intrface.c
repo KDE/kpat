@@ -1,4 +1,4 @@
-/* 
+/*
  * intrface.c - instance interface functions for Freecell Solver
  *
  * Written by Shlomi Fish (shlomif@vipe.technion.ac.il), 2000-2001
@@ -11,22 +11,35 @@
 #include <limits.h>
 #include <stdio.h>
 #include <math.h>
+#include <ctype.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+
+#define NUM_TIMES_STEP 50
+
+#include "config.h"
+
+/* So the FCS_STATE_STORAGE macros would be defined */
 #if FCS_STATE_STORAGE==FCS_STATE_STORAGE_LIBREDBLACK_TREE
 #include <search.h>
 #endif
 
-
-#include "config.h"
 #include "state.h"
 #include "card.h"
 #include "fcs_dm.h"
 #include "fcs.h"
 
 #include "fcs_isa.h"
+
+#include "caas.h"
+
+#include "preset.h"
+
+#ifdef DMALLOC
+#include "dmalloc.h"
+#endif
 
 /*
     General use of this interface:
@@ -36,20 +49,20 @@
     4. freecell_solver_init_instance()
     5. Call freecell_solver_solve_instance() with the initial board.
     6. If it returns FCS_STATE_SUSPEND_PROCESS and you wish to proceed,
-       then increase the iteration limit and call 
+       then increase the iteration limit and call
        freecell_solver_resume_instance().
     7. Repeat Step #6 zero or more times.
     8. If the last call to solve_instance() or resume_instance() returned
-       FCS_STATE_SUSPEND_PROCESS then call 
+       FCS_STATE_SUSPEND_PROCESS then call
        freecell_solver_unresume_instance().
     9. If the solving was successful you can use the move stacks or the
        intermediate stacks. (Just don't destory them in any way).
     10. Call freecell_solver_finish_instance().
     11. Call freecell_solver_free_instance().
-       
+
     The library functions inside lib.c (a.k.a fcs_user()) give an
-    easier approach for embedding Freecell Solver into your library. The 
-    intent of this comment is to document the code, rather than to be 
+    easier approach for embedding Freecell Solver into your library. The
+    intent of this comment is to document the code, rather than to be
     a guideline for the user.
 */
 
@@ -65,72 +78,248 @@ static const double freecell_solver_a_star_default_weights[5] = {0.5,0,0.3,0,0.2
 
 
 
-void freecell_solver_initialize_bfs_queue(freecell_solver_instance_t * instance)
+static void freecell_solver_initialize_bfs_queue(freecell_solver_soft_thread_t * soft_thread)
 {
     /* Initialize the BFS queue. We have one dummy element at the beginning
        in order to make operations simpler. */
-    instance->bfs_queue = (fcs_states_linked_list_item_t*)malloc(sizeof(fcs_states_linked_list_item_t));
-    instance->bfs_queue->next = (fcs_states_linked_list_item_t*)malloc(sizeof(fcs_states_linked_list_item_t));
-    instance->bfs_queue_last_item = instance->bfs_queue->next;
-    instance->bfs_queue_last_item->next = NULL;
+    soft_thread->bfs_queue = (fcs_states_linked_list_item_t*)malloc(sizeof(fcs_states_linked_list_item_t));
+    soft_thread->bfs_queue->next = (fcs_states_linked_list_item_t*)malloc(sizeof(fcs_states_linked_list_item_t));
+    soft_thread->bfs_queue_last_item = soft_thread->bfs_queue->next;
+    soft_thread->bfs_queue_last_item->next = NULL;
+}
+
+static void foreach_soft_thread(
+    freecell_solver_instance_t * instance,
+    void (*soft_thread_callback)(
+        freecell_solver_soft_thread_t * soft_thread,
+        void * context
+        ),
+    void * context
+    )
+
+{
+    int ht_idx, st_idx;
+    freecell_solver_hard_thread_t * hard_thread;
+    int num_soft_threads;
+    freecell_solver_soft_thread_t * * ht_soft_threads;
+    for(ht_idx = 0 ; ht_idx<instance->num_hard_threads; ht_idx++)
+    {
+        hard_thread = instance->hard_threads[ht_idx];
+        num_soft_threads = hard_thread->num_soft_threads;
+        ht_soft_threads = hard_thread->soft_threads;
+        for(st_idx = 0 ; st_idx < num_soft_threads; st_idx++)
+        {
+            soft_thread_callback(ht_soft_threads[st_idx], context);
+        }
+    }
+
+    if (instance->optimization_thread)
+    {
+        soft_thread_callback(instance->optimization_thread->soft_threads[0], context);
+    }
 }
 
 
-void freecell_solver_clean_soft_dfs(
-    freecell_solver_instance_t * instance
+
+static void soft_thread_clean_soft_dfs(
+    freecell_solver_soft_thread_t * soft_thread,
+    void * context
     )
 {
-    /* De-allocate the Soft-DFS specific stacks */
-    {    
-        int depth, a;
-        for(depth=0;depth<instance->num_solution_states-1;depth++)
-        {
-            for(a=0;a<instance->soft_dfs_num_states_to_check[depth];a++)
-            {
-                fcs_move_stack_destroy(instance->soft_dfs_states_to_check_move_stacks[depth][a]);
-            }
-            free(instance->soft_dfs_states_to_check[depth]);
-            free(instance->soft_dfs_states_to_check_move_stacks[depth]);            
-        }
-        for(;depth<instance->dfs_max_depth;depth++)
-        {
-            if (instance->soft_dfs_max_num_states_to_check[depth] != 0)
-            {
-                free(instance->soft_dfs_states_to_check[depth]);
-                free(instance->soft_dfs_states_to_check_move_stacks[depth]);            
-            }
-        }
+    int num_solution_states;
+    int dfs_max_depth;
+    fcs_soft_dfs_stack_item_t * soft_dfs_info, * info_ptr;
+    /* Check if a Soft-DFS-type scan was called in the first place */
+    if (soft_thread->soft_dfs_info == NULL)
+    {
+        /* If not - do nothing */
+        return;
+    }
 
-#define MYFREE(what) free(instance->what);
-        MYFREE(soft_dfs_states_to_check);
-        MYFREE(soft_dfs_states_to_check_move_stacks);
-        MYFREE(soft_dfs_num_states_to_check);
-        MYFREE(soft_dfs_test_indexes);
-        MYFREE(soft_dfs_current_state_indexes);
-        MYFREE(soft_dfs_max_num_states_to_check);
-        MYFREE(soft_dfs_num_freecells);
-        MYFREE(soft_dfs_num_freestacks);
-#undef MYFREE
-    }    
+    soft_dfs_info = soft_thread->soft_dfs_info;
+    num_solution_states = soft_thread->num_solution_states;
+    dfs_max_depth = soft_thread->dfs_max_depth;
+    /* De-allocate the Soft-DFS specific stacks */
+    {
+        int depth;
+        info_ptr = soft_dfs_info;
+        for(depth=0;depth<num_solution_states-1;depth++)
+        {
+            free(info_ptr->derived_states_list.states);
+            free(info_ptr->derived_states_random_indexes);
+            info_ptr++;
+        }
+        for(;depth<dfs_max_depth;depth++)
+        {
+            if (info_ptr->derived_states_list.max_num_states)
+            {
+                free(info_ptr->derived_states_list.states);
+                free(info_ptr->derived_states_random_indexes);
+            }
+            info_ptr++;
+        }
+        
+        free(soft_dfs_info);
+
+        soft_thread->soft_dfs_info = NULL;
+
+        soft_thread->dfs_max_depth = 0;
+
+    }
 }
 
+static void clean_soft_dfs(
+        freecell_solver_instance_t * instance
+        )
+{
+    foreach_soft_thread(instance, soft_thread_clean_soft_dfs, NULL);
+}
 
+static freecell_solver_soft_thread_t * alloc_soft_thread(
+        freecell_solver_hard_thread_t * hard_thread
+        )
+{
+    freecell_solver_soft_thread_t * soft_thread;
+    int a;
 
+    /* Make sure we are not exceeding the maximal number of soft threads
+     * for an instance. */
+    if (hard_thread->instance->next_soft_thread_id == MAX_NUM_SCANS)
+    {
+        return NULL;
+    }
+
+    soft_thread = malloc(sizeof(freecell_solver_soft_thread_t));
+
+    soft_thread->hard_thread = hard_thread;
+
+    soft_thread->id = (hard_thread->instance->next_soft_thread_id)++;
+
+    soft_thread->dfs_max_depth = 0;
+
+    soft_thread->tests_order.num = 0;
+    soft_thread->tests_order.tests = NULL;
+    soft_thread->tests_order.max_num = 0;
+    
+
+    /* Initialize all the Soft-DFS stacks to NULL */
+    soft_thread->soft_dfs_info = NULL;
+
+    /* The default solving method */
+    soft_thread->method = FCS_METHOD_SOFT_DFS;
+
+    soft_thread->orig_method = FCS_METHOD_NONE;
+
+    freecell_solver_initialize_bfs_queue(soft_thread);
+
+    /* Initialize the priotity queue of the A* scan */
+    soft_thread->a_star_pqueue = malloc(sizeof(PQUEUE));
+    freecell_solver_PQueueInitialise(
+        soft_thread->a_star_pqueue,
+        1024
+        );
+
+    /* Set the default A* weigths */
+    for(a=0;a<(sizeof(soft_thread->a_star_weights)/sizeof(soft_thread->a_star_weights[0]));a++)
+    {
+        soft_thread->a_star_weights[a] = freecell_solver_a_star_default_weights[a];
+    }
+
+    soft_thread->rand_gen = freecell_solver_rand_alloc(soft_thread->rand_seed = 24);
+
+    soft_thread->initialized = 0;
+
+    soft_thread->num_times_step = NUM_TIMES_STEP;
+
+#if 0
+    {
+        char * no_use;
+        freecell_solver_apply_tests_order(soft_thread, "[01][23456789]", &no_use);
+    }
+#else
+    soft_thread->tests_order.num = soft_thread->hard_thread->instance->instance_tests_order.num;
+    soft_thread->tests_order.tests = 
+        malloc(sizeof(soft_thread->tests_order.tests[0]) * soft_thread->tests_order.num);
+    memcpy(soft_thread->tests_order.tests, 
+        soft_thread->hard_thread->instance->instance_tests_order.tests, 
+        sizeof(soft_thread->tests_order.tests[0]) * soft_thread->tests_order.num
+        );
+    soft_thread->tests_order.max_num = soft_thread->tests_order.num;
+#endif
+
+    soft_thread->is_finished = 0;
+
+    soft_thread->name = NULL;
+
+    return soft_thread;
+}
+
+static freecell_solver_hard_thread_t * alloc_hard_thread(
+        freecell_solver_instance_t * instance
+        )
+{
+    freecell_solver_hard_thread_t * hard_thread;
+
+    /* Make sure we are not exceeding the maximal number of soft threads
+     * for an instance. */
+    if (instance->next_soft_thread_id == MAX_NUM_SCANS)
+    {
+        return NULL;
+    }
+
+    hard_thread = malloc(sizeof(freecell_solver_hard_thread_t));
+
+    hard_thread->instance = instance;
+
+    hard_thread->num_times = 0;
+
+    hard_thread->num_soft_threads = 1;
+
+    hard_thread->soft_threads =
+        malloc(sizeof(hard_thread->soft_threads[0]) *
+               hard_thread->num_soft_threads
+        );
+
+    hard_thread->soft_threads[0] = alloc_soft_thread(hard_thread);
+
+    /* Set a limit on the Hard-Thread's scan. */
+    hard_thread->num_times_step = NUM_TIMES_STEP;
+
+    hard_thread->ht_max_num_times = hard_thread->num_times_step;
+
+    hard_thread->max_num_times = -1;
+
+    hard_thread->num_soft_threads_finished = 0;
+
+#ifdef INDIRECT_STACK_STATES
+    hard_thread->stacks_allocator = 
+        freecell_solver_compact_allocator_new();
+#endif
+    hard_thread->move_stacks_allocator =
+        freecell_solver_compact_allocator_new();
+
+    fcs_move_stack_alloc_into_var(hard_thread->reusable_move_stack);
+
+    hard_thread->prelude_as_string = NULL;
+    hard_thread->prelude = NULL;
+    hard_thread->prelude_num_items = 0;
+    hard_thread->prelude_idx = 0;
+
+    return hard_thread;
+}
 
 
 /*
     This function allocates a Freecell Solver instance struct and set the
     default values in it. After the call to this function, the program can
     set parameters in it which are different from the default.
-    
-    Afterwards freecell_solver_init_instance() should be called in order 
+
+    Afterwards freecell_solver_init_instance() should be called in order
     to really prepare it for solving.
   */
 freecell_solver_instance_t * freecell_solver_alloc_instance(void)
 {
     freecell_solver_instance_t * instance;
-
-    unsigned int a;
 
     instance = malloc(sizeof(freecell_solver_instance_t));
 
@@ -141,75 +330,45 @@ freecell_solver_instance_t * freecell_solver_alloc_instance(void)
 
     instance->num_times = 0;
 
+    instance->num_states_in_collection = 0;
+
     instance->max_num_times = -1;
     instance->max_depth = -1;
+    instance->max_num_states_in_collection = -1;
 
-    /* Initialize the default test order */
-    instance->tests_order_num = FCS_TESTS_NUM;
-    for(a=0;a<FCS_TESTS_NUM;a++)
-    {
-        instance->tests_order[a] = a;
-    }
+    instance->instance_tests_order.num = 0;
+    instance->instance_tests_order.tests = NULL;
+    instance->instance_tests_order.max_num = 0;
 
-    /* All these parameters are for playing Freecell. See fcs.h for 
-       explanation on what each is. 
-    */
+    instance->opt_tests_order_set = 0;
 
-    instance->freecells_num = 4;
-    instance->stacks_num = 8;
-    instance->decks_num = 1;
- 
-    instance->sequences_are_built_by = FCS_SEQ_BUILT_BY_ALTERNATE_COLOR;
-    instance->unlimited_sequence_move = 0;
-    instance->empty_stacks_fill = FCS_ES_FILLED_BY_ANY_CARD;
+    instance->opt_tests_order.num = 0;
+    instance->opt_tests_order.tests = NULL;
+    instance->opt_tests_order.max_num = 0;
+    
+    
 
 #ifdef FCS_WITH_TALONS
     instance->talon_type = FCS_TALON_NONE;
 #endif
 
+    instance->num_hard_threads = 0;
+
+    freecell_solver_apply_preset_by_name(instance, "freecell");
+
     /****************************************/
 
     instance->debug_iter_output = 0;
 
-    instance->dfs_max_depth = 0;
+    instance->next_soft_thread_id = 0;
 
-    /* Initialize all the Soft-DFS stacks to NULL */
-#define SET_TO_NULL(what) instance->what = NULL;
-    SET_TO_NULL(solution_moves);
-    SET_TO_NULL(solution_states);
-    SET_TO_NULL(proto_solution_moves);
-    SET_TO_NULL(soft_dfs_states_to_check);
-    SET_TO_NULL(soft_dfs_states_to_check_move_stacks);
-    SET_TO_NULL(soft_dfs_num_states_to_check);
-    SET_TO_NULL(soft_dfs_current_state_indexes);
-    SET_TO_NULL(soft_dfs_test_indexes);
-    SET_TO_NULL(soft_dfs_current_state_indexes);
-    SET_TO_NULL(soft_dfs_max_num_states_to_check);
-    SET_TO_NULL(soft_dfs_num_freecells);
-    SET_TO_NULL(soft_dfs_num_freestacks);
-#undef SET_TO_NULL
+    instance->num_hard_threads = 1;
 
-    /* The default solving method */
-    instance->method = FCS_METHOD_HARD_DFS;
+    instance->hard_threads = malloc(sizeof(instance->hard_threads[0]) * instance->num_hard_threads);
 
-    instance->orig_method = FCS_METHOD_NONE;
+    instance->hard_threads[0] = alloc_hard_thread(instance);
 
-    freecell_solver_initialize_bfs_queue(instance);
-
-    /* Initialize the priotity queue of the A* scan */
-    instance->a_star_pqueue = malloc(sizeof(PQUEUE));
-    PQueueInitialise(
-        instance->a_star_pqueue,
-        1024,
-        INT_MAX,
-        1
-        );
-
-    /* Set the default A* weigths */
-    for(a=0;a<(sizeof(instance->a_star_weights)/sizeof(instance->a_star_weights[0]));a++)
-    {
-        instance->a_star_weights[a] = freecell_solver_a_star_default_weights[a];
-    }
+    instance->solution_moves = NULL;
 
     instance->optimize_solution_path = 0;
 
@@ -217,6 +376,17 @@ freecell_solver_instance_t * freecell_solver_alloc_instance(void)
     instance->mhash_type = MHASH_MD5;
 #endif
 
+    instance->optimization_thread = NULL;
+
+    instance->num_hard_threads_finished = 0;
+
+    instance->calc_real_depth = 0;
+
+    instance->to_reparent_states = 0;
+
+    /* Make the 1 the default, because otherwise scans will not cooperate
+     * with one another. */
+    instance->scans_synergy = 1;
 
     return instance;
 }
@@ -225,11 +395,11 @@ freecell_solver_instance_t * freecell_solver_alloc_instance(void)
 
 
 
-void freecell_solver_free_bfs_queue(freecell_solver_instance_t * instance)
+static void free_bfs_queue(freecell_solver_soft_thread_t * soft_thread)
 {
     /* Free the BFS linked list */
     fcs_states_linked_list_item_t * item, * next_item;
-    item = instance->bfs_queue;
+    item = soft_thread->bfs_queue;
     while (item != NULL)
     {
         next_item = item->next;
@@ -238,11 +408,50 @@ void freecell_solver_free_bfs_queue(freecell_solver_instance_t * instance)
     }
 }
 
+static void free_instance_soft_thread_callback(freecell_solver_soft_thread_t * soft_thread, void * context)
+{
+    free_bfs_queue(soft_thread);
+    freecell_solver_rand_free(soft_thread->rand_gen);
 
+    freecell_solver_PQueueFree(soft_thread->a_star_pqueue);
+    free(soft_thread->a_star_pqueue);
 
+    free(soft_thread->tests_order.tests);
 
+    if (soft_thread->name != NULL)
+    {
+        free(soft_thread->name);
+    }
+    /* The data-structure itself was allocated */
+    free(soft_thread);
+}
 
+static void free_instance_hard_thread_callback(freecell_solver_hard_thread_t * hard_thread)
+{
+    if (hard_thread->prelude_as_string)
+    {
+        free (hard_thread->prelude_as_string);
+    }
+    if (hard_thread->prelude)
+    {
+        free (hard_thread->prelude);
+    }
+    fcs_move_stack_destroy(hard_thread->reusable_move_stack);
+                
+    free(hard_thread->soft_threads);
 
+    if (hard_thread->move_stacks_allocator)
+    {
+        freecell_solver_compact_allocator_finish(hard_thread->move_stacks_allocator);
+    }
+#ifdef INDIRECT_STACK_STATES
+    if (hard_thread->stacks_allocator)
+    {
+        freecell_solver_compact_allocator_finish(hard_thread->stacks_allocator);
+    }
+#endif
+    free(hard_thread);    
+}
 
 /*
     This function is the last function that should be called in the
@@ -251,70 +460,242 @@ void freecell_solver_free_bfs_queue(freecell_solver_instance_t * instance)
   */
 void freecell_solver_free_instance(freecell_solver_instance_t * instance)
 {
-    freecell_solver_free_bfs_queue(instance);
+    int ht_idx;
 
-    PQueueFree(instance->a_star_pqueue);
-    free(instance->a_star_pqueue);
+    foreach_soft_thread(instance, free_instance_soft_thread_callback, NULL);
+
+    for(ht_idx=0; ht_idx < instance->num_hard_threads; ht_idx++)
+    {
+        free_instance_hard_thread_callback(instance->hard_threads[ht_idx]);
+    }
+    free(instance->hard_threads);
+    if (instance->optimization_thread)
+    {
+        free_instance_hard_thread_callback(instance->optimization_thread);
+    }
+
+    free(instance->instance_tests_order.tests);
+
+    if (instance->opt_tests_order_set)
+    {
+        free(instance->opt_tests_order.tests);
+    }
 
     free(instance);
 }
 
 
+static void normalize_a_star_weights(
+    freecell_solver_soft_thread_t * soft_thread,
+    void * context
+    )
+{
+    /* Normalize the A* Weights, so the sum of all of them would be 1. */
+    double sum;
+    int a;
+    sum = 0;
+    for(a=0;a<(sizeof(soft_thread->a_star_weights)/sizeof(soft_thread->a_star_weights[0]));a++)
+    {
+        if (soft_thread->a_star_weights[a] < 0)
+        {
+            soft_thread->a_star_weights[a] = freecell_solver_a_star_default_weights[a];
+        }
+        sum += soft_thread->a_star_weights[a];
+    }
+    if (sum == 0)
+    {
+        sum = 1;
+    }
+    for(a=0;a<(sizeof(soft_thread->a_star_weights)/sizeof(soft_thread->a_star_weights[0]));a++)
+    {
+        soft_thread->a_star_weights[a] /= sum;
+    }
+}
 
+static void accumulate_tests_order(
+    freecell_solver_soft_thread_t * soft_thread,
+    void * context
+    )
+{
+    int * tests_order = (int *)context;
+    int a;
+    for(a=0;a<soft_thread->tests_order.num;a++)
+    {
+        *tests_order |= (1 << (soft_thread->tests_order.tests[a] & FCS_TEST_ORDER_NO_FLAGS_MASK));
+    }
+}
 
+static void determine_scan_completeness(
+    freecell_solver_soft_thread_t * soft_thread,
+    void * context
+    )
+{
+    int global_tests_order = *(int *)context;
+    int tests_order = 0;
+    int a;
+    for(a=0;a<soft_thread->tests_order.num;a++)
+    {
+        tests_order |= (1 << (soft_thread->tests_order.tests[a] & FCS_TEST_ORDER_NO_FLAGS_MASK));
+    }
+    soft_thread->is_a_complete_scan = (tests_order == global_tests_order);
+}
+
+enum FCS_COMPILE_PRELUDE_ERRORS_T
+{
+    FCS_COMPILE_PRELUDE_OK,
+    FCS_COMPILE_PRELUDE_NO_AT_SIGN,
+    FCS_COMPILE_PRELUDE_UNKNOWN_SCAN_ID
+};
+
+static int compile_prelude(
+    freecell_solver_hard_thread_t * hard_thread
+    )
+{
+    char * p_quota, * p_scan, * p;
+    char * string;
+    int last_one = 0;
+    int num_items = 0;
+    int max_num_items = 16;
+    fcs_prelude_item_t * prelude;
+    int st_idx;
+
+    prelude = malloc(sizeof(prelude[0]) * max_num_items);
+    string = hard_thread->prelude_as_string;
+
+    p = string;
+    
+    while (! last_one)
+    {
+        p_quota = p;
+        while((*p) && isdigit(*p))
+        {
+            p++;
+        }
+        if (*p != '@')
+        {
+            free(prelude);
+            return FCS_COMPILE_PRELUDE_NO_AT_SIGN;
+        }
+        *p = '\0';
+        p++;
+        p_scan = p;
+        while((*p) && ((*p) != ','))
+        {
+            p++;
+        }
+        if ((*p) == '\0')
+        {
+            last_one = 1;
+        }
+        *p = '\0';
+        p++;
+        
+        for(st_idx = 0; st_idx < hard_thread->num_soft_threads ; st_idx++)
+        {
+            if (!strcmp(hard_thread->soft_threads[st_idx]->name, p_scan))
+            {
+                break;
+            }
+        }
+        if (st_idx == hard_thread->num_soft_threads)
+        {
+            free(prelude);
+            return FCS_COMPILE_PRELUDE_UNKNOWN_SCAN_ID;
+        }
+        prelude[num_items].scan_idx = st_idx;
+        prelude[num_items].quota = atoi(p_quota);
+        num_items++;
+        if (num_items == max_num_items)
+        {
+            max_num_items += 16;
+            prelude = realloc(prelude, sizeof(prelude[0]) * max_num_items);
+        }
+    }
+
+    hard_thread->prelude = prelude;
+    hard_thread->prelude_num_items = num_items;
+    hard_thread->prelude_idx = 0;
+
+    return FCS_COMPILE_PRELUDE_OK;    
+}
 
 
 void freecell_solver_init_instance(freecell_solver_instance_t * instance)
 {
+    int ht_idx;
+    freecell_solver_hard_thread_t * hard_thread;
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INDIRECT)
     instance->num_prev_states_margin = 0;
 
-#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INDIRECT)
     instance->max_num_indirect_prev_states = PREV_STATES_GROW_BY;
 
     instance->indirect_prev_states = (fcs_state_with_locations_t * *)malloc(sizeof(fcs_state_with_locations_t *) * instance->max_num_indirect_prev_states);
 #endif
 
     /* Initialize the state packs */
-    fcs_state_ia_init(instance);
+    for(ht_idx=0;ht_idx<instance->num_hard_threads;ht_idx++)
+    {
+        hard_thread = instance->hard_threads[ht_idx];
+        if (hard_thread->prelude_as_string)
+        {
+            compile_prelude(hard_thread);
+        }
+        hard_thread->num_times_left_for_soft_thread =
+            hard_thread->soft_threads[0]->num_times_step;
+        freecell_solver_state_ia_init(hard_thread);
+    }
 
     /* Normalize the A* Weights, so the sum of all of them would be 1. */
+    foreach_soft_thread(instance, normalize_a_star_weights, NULL);
+
     {
-        double sum;
-        unsigned int a;
-        sum = 0;
-        for(a=0;a<(sizeof(instance->a_star_weights)/sizeof(instance->a_star_weights[0]));a++)
+        int total_tests = 0;
+        foreach_soft_thread(instance, accumulate_tests_order, &total_tests);
+        foreach_soft_thread(instance, determine_scan_completeness, &total_tests);
+        if (instance->opt_tests_order_set == 0)
         {
-            if (instance->a_star_weights[a] < 0)
+            /*
+             *
+             * What this code does is convert the bit map of total_tests
+             * to a valid tests order.
+             * 
+             * */
+            int bit_idx, num_tests = 0;
+            int * tests = malloc(sizeof(total_tests)*8*sizeof(tests[0]));
+                        
+            for(bit_idx=0; total_tests != 0; bit_idx++, total_tests >>= 1)
             {
-                instance->a_star_weights[a] = freecell_solver_a_star_default_weights[a];
+                if ((total_tests & 0x1) != 0)
+                {
+                    tests[num_tests++] = bit_idx;
+                }
             }
-            sum += instance->a_star_weights[a];
-        }
-        if (sum == 0)
-        {
-            sum = 1;
-        }
-        for(a=0;a<(sizeof(instance->a_star_weights)/sizeof(instance->a_star_weights[0]));a++)
-        {
-            instance->a_star_weights[a] /= sum;
+            tests = realloc(tests, num_tests*sizeof(tests[0]));
+            instance->opt_tests_order.tests = tests;
+            instance->opt_tests_order.num =
+                instance->opt_tests_order.max_num =
+                num_tests;
+            instance->opt_tests_order_set = 1;
         }
     }
+
+
 }
 
 
 
 
 /* These are all stack comparison functions to be used for the stacks
-   cache when using INDIRECT_STACK_STATES 
+   cache when using INDIRECT_STACK_STATES
 */
 #if defined(INDIRECT_STACK_STATES)
 
-extern int fcs_stack_compare_for_comparison(const void * v_s1, const void * v_s2);
+extern int freecell_solver_stack_compare_for_comparison(const void * v_s1, const void * v_s2);
 
 #if ((FCS_STACK_STORAGE != FCS_STACK_STORAGE_GLIB_TREE) && (FCS_STACK_STORAGE != FCS_STACK_STORAGE_GLIB_HASH))
 static int fcs_stack_compare_for_comparison_with_context(
-    const void * v_s1, 
-    const void * v_s2, 
+    const void * v_s1,
+    const void * v_s2,
 #if (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBREDBLACK_TREE)
     const
 #endif
@@ -322,7 +703,7 @@ static int fcs_stack_compare_for_comparison_with_context(
 
     )
 {
-    return fcs_stack_compare_for_comparison(v_s1, v_s2);
+    return freecell_solver_stack_compare_for_comparison(v_s1, v_s2);
 }
 #endif
 
@@ -336,21 +717,19 @@ static guint freecell_solver_glib_hash_stack_hash_function (
     gconstpointer key
     )
 {
-    MD5_CTX md5_context;
-    fcs_card_t * stack;
-    char hash_value[16];
-    
-    stack = (fcs_card_t * )key;
+    guint hash_value_int;
+    /* Calculate the hash value for the stack */
+    /* This hash function was ripped from the Perl source code.
+     * (It is not derived work however). */
+    const char * s_ptr = (char*)key;
+    const char * s_end = s_ptr+fcs_standalone_stack_len((fcs_card_t *)key)+1;
+    hash_value_int = 0;
+    while (s_ptr < s_end)
+    {
+        hash_value_int += (hash_value_int << 5) + *(s_ptr++);
+    }
+    hash_value_int += (hash_value_int >> 5);
 
-    MD5Init(&md5_context);
-    MD5Update(
-        &md5_context, 
-        key, 
-        fcs_standalone_stack_len(stack)+1
-        );
-    MD5Final(hash_value, &md5_context);
-    
-    return *(guint*)hash_value;
 }
 
 
@@ -379,96 +758,121 @@ static gint freecell_solver_glib_hash_stack_compare (
 #if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_GLIB_HASH)
 /*
  * This hash function is defined in caas.c
- * 
+ *
  * */
 extern guint freecell_solver_hash_function(gconstpointer key);
 #endif
 
-
-
-
-
 /*
-    This functs.ion combines the move stacks of every depth to one big
-    move stack.
-*/
-static void freecell_solver_create_total_moves_stack(
+ * This function traces the solution from the final state down
+ * to the initial state
+ * */
+static void trace_solution(
     freecell_solver_instance_t * instance
     )
 {
-    int depth;
-    fcs_move_stack_t * temp_move_stack;
-    instance->solution_moves = fcs_move_stack_create();
-    /* The moves are inserted from the highest depth to depth 0 in order
-       to preserve their order stack-wise 
+    /*
+        Trace the solution.
     */
-    for(depth=instance->num_solution_states-2;depth>=0;depth--)
+    fcs_state_with_locations_t * s1;
+    fcs_move_stack_t * solution_moves;
+    int move_idx;
+    fcs_move_stack_t * stack;
+    fcs_move_t * moves;
+
+    if (instance->solution_moves != NULL)
     {
-        if (instance->method == FCS_METHOD_SOFT_DFS)
-        {
-            /* If we are using Soft-DFS, then this move stack is going
-               to be de-allocated later, as part of 
-               soft_dfs_states_to_check_move_stacks. So let's duplicate
-               it */
-            temp_move_stack = fcs_move_stack_duplicate(
-                instance->proto_solution_moves[depth]
-                );
-        }
-        else
-        {
-            temp_move_stack = instance->proto_solution_moves[depth];
-        }
-        fcs_move_stack_swallow_stack(
-            instance->solution_moves,
-            temp_move_stack
-            );
+        fcs_move_stack_destroy(instance->solution_moves);
+        instance->solution_moves = NULL;
     }
-    free(instance->proto_solution_moves);
-    instance->proto_solution_moves = NULL;
+
+    fcs_move_stack_alloc_into_var(solution_moves);
+    instance->solution_moves = solution_moves;
+
+    s1 = instance->final_state;
+
+    /* Retrace the step from the current state to its parents */
+    while (s1->parent != NULL)
+    {
+        /* Mark the state as part of the non-optimized solution */
+        s1->visited |= FCS_VISITED_IN_SOLUTION_PATH;
+        /* Duplicate the move stack */
+        {
+            stack = s1->moves_to_parent;
+            moves = stack->moves;
+            for(move_idx=stack->num_moves-1;move_idx>=0;move_idx--)
+            {
+                fcs_move_stack_push(solution_moves, moves[move_idx]);
+            }            
+        }
+        /* Duplicate the state to a freshly malloced memory */
+
+        /* Move to the parent state */
+        s1 = s1->parent;
+    }
+    /* There's one more state than there are move stacks */
+    s1->visited |= FCS_VISITED_IN_SOLUTION_PATH;
+}
+
+
+static fcs_tests_order_t tests_order_dup(fcs_tests_order_t * orig)
+{
+    fcs_tests_order_t ret;
+
+    ret.max_num = ret.num = orig->num;
+    ret.tests = malloc(sizeof(ret.tests[0]) * ret.num);
+    memcpy(ret.tests, orig->tests, sizeof(ret.tests[0]) * ret.num);
+    
+    return ret;
 }
 
 /*
-    This function optimizes the solution path using a BFS scan on the 
+    This function optimizes the solution path using a BFS scan on the
     states in the solution path.
 */
 static int freecell_solver_optimize_solution(
     freecell_solver_instance_t * instance
     )
 {
-    if (instance->method == FCS_METHOD_SOFT_DFS)
-    {
-        freecell_solver_clean_soft_dfs(instance);
-    }
-    instance->orig_method = instance->method;
-    instance->method = FCS_METHOD_OPTIMIZE;
+    freecell_solver_hard_thread_t * optimization_thread;
+    freecell_solver_soft_thread_t * soft_thread;
+    
+    optimization_thread = alloc_hard_thread(instance);
+    instance->optimization_thread = optimization_thread;
 
-    /* Re-init the queue in preparation for the BFS scan */
-    freecell_solver_free_bfs_queue(instance);
-    freecell_solver_initialize_bfs_queue(instance);
+    soft_thread = optimization_thread->soft_threads[0];
 
+    if (instance->opt_tests_order_set)
     {
-        int d;
-        for(d=0;d<instance->num_solution_states-1;d++)
+        if (soft_thread->tests_order.tests != NULL)
         {
-            fcs_clean_state(instance->solution_states[d]);
-            free(instance->solution_states[d]);
-            fcs_move_stack_destroy(instance->proto_solution_moves[d]);    
+            free(soft_thread->tests_order.tests);
         }
-        /* There's one more state than move stack */
-        fcs_clean_state(instance->solution_states[d]);
-        free(instance->solution_states[d]);
         
-        free(instance->solution_states);
-        instance->solution_states = NULL;
-     
-        free(instance->proto_solution_moves);
-        instance->proto_solution_moves = NULL;
+        soft_thread->tests_order = 
+            tests_order_dup(&(instance->opt_tests_order));
     }
+    
+    soft_thread->method = FCS_METHOD_OPTIMIZE;
 
-    return freecell_solver_a_star_or_bfs_solve_for_state(
-        instance,
-        instance->state_copy_ptr
-        );
+    soft_thread->is_a_complete_scan = 1;
+
+    /* Initialize the optimization hard-thread and soft-thread */
+    optimization_thread->num_times_left_for_soft_thread = 1000000;
+    freecell_solver_state_ia_init(optimization_thread);
+
+    /* Instruct the optimization hard thread to run indefinitely AFA it
+     * is concerned */
+    optimization_thread->max_num_times = -1;
+    optimization_thread->ht_max_num_times = -1;
+
+    return 
+        freecell_solver_a_star_or_bfs_do_solve_or_resume(
+            optimization_thread->soft_threads[0],
+            instance->state_copy_ptr,
+            0
+            );
+
 }
 
 
@@ -488,37 +892,50 @@ int freecell_solver_solve_instance(
     fcs_state_with_locations_t * init_state
     )
 {
-    int ret;
-    
     fcs_state_with_locations_t * state_copy_ptr;
-    
+
     /* Allocate the first state and initialize it to init_state */
-    state_copy_ptr = fcs_state_ia_alloc(instance);
+    fcs_state_ia_alloc_into_var(state_copy_ptr, instance->hard_threads[0]);
 
     fcs_duplicate_state(*state_copy_ptr, *init_state);
+
+    {
+        int a;
+        for(a=0;a<instance->stacks_num;a++)
+        {
+            fcs_copy_stack(*state_copy_ptr, a, instance->hard_threads[0]->indirect_stacks_buffer);
+        }
+    }
+
+    /* Initialize the state to be a base state for the game tree */
+    state_copy_ptr->depth = 0;
+    state_copy_ptr->moves_to_parent = NULL;
+    state_copy_ptr->visited = 0;
+    state_copy_ptr->parent = NULL;
+    memset(&(state_copy_ptr->scan_visited), '\0', sizeof(state_copy_ptr->scan_visited));
 
     instance->state_copy_ptr = state_copy_ptr;
 
     /* Initialize the data structure that will manage the state collection */
-#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBREDBLACK_TREE)    
-    instance->tree = rbinit(fcs_state_compare_with_context, NULL);
+#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBREDBLACK_TREE)
+    instance->tree = rbinit(freecell_solver_state_compare_with_context, NULL);
 #elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBAVL_AVL_TREE)
-    instance->tree = avl_create(fcs_state_compare_with_context, NULL);
+    instance->tree = avl_create(freecell_solver_state_compare_with_context, NULL);
 #elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBAVL_REDBLACK_TREE)
-    instance->tree = rb_create(fcs_state_compare_with_context, NULL);
+    instance->tree = rb_create(freecell_solver_state_compare_with_context, NULL);
 #elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_GLIB_TREE)
-    instance->tree = g_tree_new(fcs_state_compare);
+    instance->tree = g_tree_new(freecell_solver_state_compare);
 #endif
 
 #if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_GLIB_HASH)
     instance->hash = g_hash_table_new(
         freecell_solver_hash_function,
-        fcs_state_compare_equal
+        freecell_solver_state_compare_equal
         );
 #elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INTERNAL_HASH)
-    instance->hash = SFO_hash_init(
+    instance->hash = freecell_solver_hash_init(
             2048,
-            fcs_state_compare_with_context,
+            freecell_solver_state_compare_with_context,
             NULL
        );
 #endif
@@ -529,12 +946,12 @@ int freecell_solver_solve_instance(
     /* Initialize the data structure that will manage the stack
        collection */
 #if FCS_STACK_STORAGE == FCS_STACK_STORAGE_INTERNAL_HASH
-    instance->stacks_hash = SFO_hash_init(
+    instance->stacks_hash = freecell_solver_hash_init(
             2048,
             fcs_stack_compare_for_comparison_with_context,
             NULL
         );
-#elif (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBAVL_AVL_TREE) 
+#elif (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBAVL_AVL_TREE)
     instance->stacks_tree = avl_create(
             fcs_stack_compare_for_comparison_with_context,
             NULL
@@ -565,7 +982,7 @@ int freecell_solver_solve_instance(
     /* Initialize the Talon's Cache */
     if (instance->talon_type == FCS_TALON_KLONDIKE)
     {
-        instance->talons_hash = SFO_hash_init(
+        instance->talons_hash = freecell_solver_hash_init(
             512,
             fcs_talon_compare_with_context,
             NULL
@@ -587,63 +1004,310 @@ int freecell_solver_solve_instance(
         &(instance->db)
         );
 #endif
-    
 
-
-    /* Call the solving function that is specific to each scan */
-    if (instance->method == FCS_METHOD_HARD_DFS)
     {
-        ret = freecell_solver_solve_for_state(
-            instance,
+        fcs_state_with_locations_t * no_use;
+
+        freecell_solver_check_and_add_state(
+            instance->hard_threads[0]->soft_threads[0],
             state_copy_ptr,
-            0,
-            0);
-    }
-    else if (instance->method == FCS_METHOD_SOFT_DFS)
-    {
-        ret = freecell_solver_soft_dfs_solve_for_state(
-            instance,
-            state_copy_ptr
+            &no_use
             );
-    }
-    else if ((instance->method == FCS_METHOD_BFS) || (instance->method == FCS_METHOD_A_STAR))
-    {
-        if (instance->method == FCS_METHOD_A_STAR)
-        {
-            freecell_solver_a_star_initialize_rater(
-                instance,
-                state_copy_ptr
-                );
-        }
 
-        ret = freecell_solver_a_star_or_bfs_solve_for_state(
-            instance,
-            state_copy_ptr
-            );
-        
-    }
-    else
-    {
-        ret = FCS_STATE_IS_NOT_SOLVEABLE;
     }
 
-    if (ret == FCS_STATE_WAS_SOLVED)
+    instance->ht_idx = 0;
     {
-        if (instance->optimize_solution_path)
+        int ht_idx;
+        for(ht_idx=0; ht_idx < instance->num_hard_threads ; ht_idx++)
         {
-            ret = freecell_solver_optimize_solution(instance);
+            freecell_solver_hard_thread_t * hard_thread;
+            hard_thread = instance->hard_threads[ht_idx];
+            
+            if (hard_thread->prelude != NULL)
+            {
+                hard_thread->prelude_idx = 0;
+                hard_thread->st_idx = hard_thread->prelude[hard_thread->prelude_idx].scan_idx;
+                hard_thread->num_times_left_for_soft_thread = hard_thread->prelude[hard_thread->prelude_idx].quota;
+                hard_thread->prelude_idx++;
+            }
+            else
+            {
+                hard_thread->st_idx = 0;
+            }
         }
     }
 
-    if (ret == FCS_STATE_WAS_SOLVED)
-    {
-        freecell_solver_create_total_moves_stack(instance);
-    }
-    return ret;
+    return freecell_solver_resume_instance(instance);
 }
 
 
+static int run_hard_thread(freecell_solver_hard_thread_t * hard_thread)
+{
+    freecell_solver_soft_thread_t * soft_thread;
+    int num_times_started_at;
+    int ret;
+    freecell_solver_instance_t * instance = hard_thread->instance;
+    /* 
+     * Again, making sure that not all of the soft_threads in this 
+     * hard thread are finished.
+     * */
 
+    ret = FCS_STATE_SUSPEND_PROCESS;
+    while(hard_thread->num_soft_threads_finished < hard_thread->num_soft_threads)
+    {
+        soft_thread = hard_thread->soft_threads[hard_thread->st_idx];
+        /*
+         * Move to the next thread if it's already finished
+         * */
+        if (soft_thread->is_finished)
+        {
+            /*
+             * Hmmpf - duplicate code. That's ANSI C for you.
+             * A macro, anyone?
+             * */
+
+#define switch_to_next_soft_thread() \
+            /*      \
+             * Switch to the next soft thread in the hard thread,   \
+             * since we are going to call continue and this is     \
+             * a while loop     \
+                             * */    \
+            if ((hard_thread->prelude != NULL) &&    \
+                (hard_thread->prelude_idx < hard_thread->prelude_num_items))   \
+            {      \
+                hard_thread->st_idx = hard_thread->prelude[hard_thread->prelude_idx].scan_idx; \
+                hard_thread->num_times_left_for_soft_thread = hard_thread->prelude[hard_thread->prelude_idx].quota; \
+                hard_thread->prelude_idx++; \
+            }    \
+            else       \
+            {       \
+                hard_thread->st_idx++;      \
+                if (hard_thread->st_idx == hard_thread->num_soft_threads)     \
+                {       \
+                    hard_thread->st_idx = 0;    \
+                }      \
+                hard_thread->num_times_left_for_soft_thread = hard_thread->soft_threads[hard_thread->st_idx]->num_times_step;  \
+            }
+
+
+
+            switch_to_next_soft_thread();
+            
+            continue;
+        }
+
+        /*
+         * Keep record of the number of iterations since this 
+         * thread started.
+         * */
+        num_times_started_at = hard_thread->num_times;
+        /*
+         * Calculate a soft thread-wise limit for this hard
+         * thread to run.
+         * */
+        hard_thread->max_num_times = hard_thread->num_times + hard_thread->num_times_left_for_soft_thread;
+
+
+
+        /* 
+         * Call the resume or solving function that is specific 
+         * to each scan
+         * 
+         * This switch-like construct calls for declaring a class
+         * that will abstract a scan. But it's not critical since
+         * I don't support user-defined scans.
+         * */
+        switch(soft_thread->method)
+        {
+            case FCS_METHOD_HARD_DFS:
+                
+            if (! soft_thread->initialized)
+            {
+                ret = freecell_solver_hard_dfs_solve_for_state(
+                    soft_thread,
+                    instance->state_copy_ptr,
+                    0,
+                    0);
+
+                soft_thread->initialized = 1;
+            }
+            else
+            {
+                ret = freecell_solver_hard_dfs_resume_solution(soft_thread, 0);
+            }
+            break;
+
+            case FCS_METHOD_SOFT_DFS:
+
+            if (! soft_thread->initialized)
+            {
+                ret = 
+                    freecell_solver_soft_dfs_or_random_dfs_do_solve_or_resume(
+                        soft_thread,
+                        instance->state_copy_ptr,
+                        0,
+                        0
+                        );
+                soft_thread->initialized = 1;
+            }
+            else
+            {
+                ret = 
+                    freecell_solver_soft_dfs_or_random_dfs_do_solve_or_resume(
+                        soft_thread,
+                        NULL,
+                        1,
+                        0
+                        );
+            }
+            break;
+
+            case FCS_METHOD_RANDOM_DFS:
+
+            if (! soft_thread->initialized)
+            {
+                ret = 
+                    freecell_solver_soft_dfs_or_random_dfs_do_solve_or_resume(
+                        soft_thread,
+                        instance->state_copy_ptr,
+                        0,
+                        1
+                        );
+
+                soft_thread->initialized = 1;
+            }
+            else
+            {
+                ret = 
+                    freecell_solver_soft_dfs_or_random_dfs_do_solve_or_resume(
+                        soft_thread,
+                        NULL,
+                        1,
+                        1
+                        );
+            }
+            break;
+
+            case FCS_METHOD_BFS:
+            case FCS_METHOD_A_STAR:
+            case FCS_METHOD_OPTIMIZE:
+                        if (! soft_thread->initialized)
+            {
+                if (soft_thread->method == FCS_METHOD_A_STAR)
+                {
+                    freecell_solver_a_star_initialize_rater(
+                        soft_thread,
+                        instance->state_copy_ptr
+                        );
+                }
+
+                ret = freecell_solver_a_star_or_bfs_do_solve_or_resume(
+                    soft_thread,
+                    instance->state_copy_ptr,
+                    0
+                );
+
+                soft_thread->initialized = 1;
+            }
+            else
+            {
+                ret =
+                    freecell_solver_a_star_or_bfs_do_solve_or_resume(
+                        soft_thread,
+                        soft_thread->first_state_to_check,
+                        1
+                        );
+            }
+            break;
+            
+            default:
+            ret = FCS_STATE_IS_NOT_SOLVEABLE;
+            break;
+        }
+        /*
+         * Determine how much iterations we still have left
+         * */
+        hard_thread->num_times_left_for_soft_thread -= (hard_thread->num_times - num_times_started_at);
+
+        /*
+         * I use <= instead of == because it is possible that 
+         * there will be a few more iterations than what this
+         * thread was allocated, due to the fact that
+         * check_and_add_state is only called by the test 
+         * functions.
+         *
+         * It's a kludge, but it works.
+         * */
+        if (hard_thread->num_times_left_for_soft_thread <= 0)
+        {
+            switch_to_next_soft_thread();
+            /* 
+             * Reset num_times_left_for_soft_thread 
+             * */
+            
+        }
+
+        /*
+         * It this thread indicated that the scan was finished,
+         * disable the thread or even stop searching altogether.
+         * */
+        if (ret == FCS_STATE_IS_NOT_SOLVEABLE)
+        {
+            soft_thread->is_finished = 1;
+            hard_thread->num_soft_threads_finished++;
+            if (hard_thread->num_soft_threads_finished == hard_thread->num_soft_threads)
+            {
+                instance->num_hard_threads_finished++;
+            }
+            /*
+             * Check if this thread is a complete scan and if so,
+             * terminate the search
+             * */
+            if (soft_thread->is_a_complete_scan)
+            {
+                return FCS_STATE_IS_NOT_SOLVEABLE;
+            }
+            else
+            {
+                /* 
+                 * Else, make sure ret is something more sensible
+                 * */
+                ret = FCS_STATE_SUSPEND_PROCESS;
+            }
+        }
+
+        if ((ret == FCS_STATE_WAS_SOLVED) ||
+            (
+                (ret == FCS_STATE_SUSPEND_PROCESS) &&
+                /* There's a limit to the scan only 
+                 * if max_num_times is greater than 0 */
+                (
+                    (
+                        (instance->max_num_times > 0) &&
+                        (instance->num_times >= instance->max_num_times)
+                    ) ||
+                    (
+                        (instance->max_num_states_in_collection > 0) &&
+                        (instance->num_states_in_collection >= instance->max_num_states_in_collection)
+                        
+                    )
+                )
+            )
+           )
+        {
+            return ret;
+        }
+        else if ((ret == FCS_STATE_SUSPEND_PROCESS) &&
+            (hard_thread->num_times >= hard_thread->ht_max_num_times))
+        {
+            hard_thread->ht_max_num_times += hard_thread->num_times_step;
+            break;
+        }
+    }
+
+    return ret;
+}
 
 
 /* Resume a solution process that was stopped in the middle */
@@ -651,76 +1315,138 @@ int freecell_solver_resume_instance(
     freecell_solver_instance_t * instance
     )
 {
-    int ret;
-    /* Call the resume function that is specific to each scan */
-    if (instance->method == FCS_METHOD_HARD_DFS)
+    int ret = FCS_STATE_SUSPEND_PROCESS;
+    freecell_solver_hard_thread_t * hard_thread;
+
+    /*
+     * If the optimization thread is defined, it means we are in the 
+     * optimization phase of the total scan. In that case, just call
+     * its scanning function.
+     *
+     * Else, proceed with the normal total scan.
+     * */
+    if (instance->optimization_thread)
     {
-        ret = freecell_solver_solve_for_state_resume_solution(instance, 0);
-    }
-    else if (instance->method == FCS_METHOD_SOFT_DFS)
-    {
-        ret = freecell_solver_soft_dfs_solve_for_state_resume_solution(
-            instance
-            );
-    }
-    else if ((instance->method == FCS_METHOD_BFS) || (instance->method == FCS_METHOD_A_STAR) || (instance->method == FCS_METHOD_OPTIMIZE))
-    {
-        ret = freecell_solver_a_star_or_bfs_resume_solution(
-            instance
-            );
+        ret =
+            freecell_solver_a_star_or_bfs_do_solve_or_resume(
+                instance->optimization_thread->soft_threads[0],
+                instance->optimization_thread->soft_threads[0]->first_state_to_check,
+                1
+                );
     }
     else
     {
-        ret = FCS_STATE_IS_NOT_SOLVEABLE;
+        /*
+         * instance->num_hard_threads_finished signals to us that
+         * all the incomplete soft threads terminated. It is necessary
+         * in case the scan only contains incomplete threads.
+         *
+         * I.e: 01235 and 01246, where no thread contains all tests.
+         * */
+        while(instance->num_hard_threads_finished < instance->num_hard_threads)
+        {
+            /*
+             * A loop on the hard threads.
+             * Note that we do not initialize instance->ht_idx because:
+             * 1. It is initialized before the first call to this function.
+             * 2. It is reset to zero below.
+             * */
+            for(;
+                instance->ht_idx < instance->num_hard_threads ;
+                    instance->ht_idx++)
+            {
+                hard_thread = instance->hard_threads[instance->ht_idx];
+
+                ret = run_hard_thread(hard_thread);
+                if ((ret == FCS_STATE_IS_NOT_SOLVEABLE) ||
+                    (ret == FCS_STATE_WAS_SOLVED) ||
+                    (
+                        (ret == FCS_STATE_SUSPEND_PROCESS) &&
+                        /* There's a limit to the scan only 
+                         * if max_num_times is greater than 0 */
+                        (
+                            (
+                                (instance->max_num_times > 0) &&
+                                (instance->num_times >= instance->max_num_times)
+                            ) ||
+                            (
+                                (instance->max_num_states_in_collection > 0) &&
+                                (instance->num_states_in_collection >= instance->max_num_states_in_collection)
+                                
+                            )
+                        )
+                    )
+
+                   )
+                {
+                    goto end_of_hard_threads_loop;
+                }
+            }
+            /* 
+             * Avoid over-flow 
+             * */
+            if (instance->ht_idx == instance->num_hard_threads)
+            {
+                instance->ht_idx = 0;
+            }
+        }
+
+        end_of_hard_threads_loop:
+
+        /*
+         * If all the incomplete scans finished, then terminate.
+         * */
+        if (instance->num_hard_threads_finished == instance->num_hard_threads)
+        {
+            ret = FCS_STATE_IS_NOT_SOLVEABLE;
+        }
+
+        if (ret == FCS_STATE_WAS_SOLVED)
+        {
+            /* Create solution_moves in the first place */
+            trace_solution(instance);
+        }
     }
 
-    if ((ret == FCS_STATE_WAS_SOLVED) && (instance->method != FCS_METHOD_OPTIMIZE))
-    {
-        if (instance->optimize_solution_path)
-        {
-            ret = freecell_solver_optimize_solution(instance);
-        }        
-    }
 
     if (ret == FCS_STATE_WAS_SOLVED)
     {
-        freecell_solver_create_total_moves_stack(instance);
+        if (instance->optimize_solution_path)
+        {
+            /* Call optimize_solution only once. Make sure that if
+             * it has already run - we retain the old ret. */
+            if (! instance->optimization_thread)
+            {
+                ret = freecell_solver_optimize_solution(instance);
+            }
+            if (ret == FCS_STATE_WAS_SOLVED)
+            {
+                /* Create the solution_moves in the first place */
+                trace_solution(instance);
+            }
+        }
     }
-        
+
     return ret;
 }
 
 
 
 /*
-    Clean up a solving process that was terminated in the middle. 
-    This function does not substitute for later calling 
+    Clean up a solving process that was terminated in the middle.
+    This function does not substitute for later calling
     finish_instance() and free_instance().
   */
 void freecell_solver_unresume_instance(
     freecell_solver_instance_t * instance
     )
 {
-    if ((instance->method == FCS_METHOD_HARD_DFS) || (instance->method == FCS_METHOD_SOFT_DFS))
-    {
-        if (instance->method == FCS_METHOD_HARD_DFS)
-        {
-            /* Free the intermediate states and move stacks of the DFS scan */
-            int depth;
-            for(depth=0;depth<instance->num_solution_states-1;depth++)
-            {
-                free(instance->solution_states[depth]);
-                fcs_move_stack_destroy(instance->proto_solution_moves[depth]);
-            }
-            /* There's one more state than move stacks */
-            free(instance->solution_states[depth]);
-        }
-        
-        free(instance->proto_solution_moves);
-        instance->proto_solution_moves = NULL;
-        free(instance->solution_states);
-        instance->solution_states = NULL;
-    }
+    /*
+     * Do nothing - since finish_instance() can take care of solution_states
+     * and proto_solution_moves as they were created by these scans, then
+     * I don't need to do it here, too
+     *
+     * */
 }
 
 
@@ -733,15 +1459,17 @@ static void freecell_solver_tree_do_nothing(void * data, void * context)
 #endif
 
 
-/* A function for freeing a stack for the cleanup of the 
-   stacks collection 
+/* A function for freeing a stack for the cleanup of the
+   stacks collection
 */
 #ifdef INDIRECT_STACK_STATES
 #if (FCS_STACK_STORAGE == FCS_STACK_STORAGE_INTERNAL_HASH) || (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBAVL_AVL_TREE) || (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBAVL_REDBLACK_TREE)
+#if 0
 static void freecell_solver_stack_free(void * key, void * context)
 {
     free(key);
 }
+#endif
 
 #elif FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBREDBLACK_TREE
 static void freecell_solver_libredblack_walk_destroy_stack_action
@@ -766,7 +1494,7 @@ static gint freecell_solver_glib_tree_walk_destroy_stack_action
 )
 {
     free(key);
-    
+
     return 0;
 }
 
@@ -790,7 +1518,7 @@ static void freecell_solver_glib_hash_foreach_destroy_stack_action
 
 
 void freecell_solver_destroy_move_stack_of_state(
-        fcs_state_with_locations_t * ptr_state_with_locations, 
+        fcs_state_with_locations_t * ptr_state_with_locations,
         void * context
         )
 {
@@ -808,20 +1536,34 @@ void freecell_solver_finish_instance(
     freecell_solver_instance_t * instance
     )
 {
-    fcs_clean_state(instance->state_copy_ptr);
+    int ht_idx;
+    freecell_solver_hard_thread_t * hard_thread;
 
 #if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INDIRECT)
     free(instance->indirect_prev_states);
 #endif
 
-    /* Destroy all the intermediate move stacks in the solution graph */
-    if ((instance->method == FCS_METHOD_A_STAR) || (instance->method == FCS_METHOD_BFS) || (instance->method == FCS_METHOD_OPTIMIZE))
-    {
-        fcs_state_ia_foreach(instance, freecell_solver_destroy_move_stack_of_state, NULL);
-    }
     /* De-allocate the state packs */
-    fcs_state_ia_finish(instance);
-    
+    for(ht_idx=0;ht_idx<instance->num_hard_threads;ht_idx++)
+    {
+        hard_thread = instance->hard_threads[ht_idx];
+        freecell_solver_state_ia_finish(hard_thread);
+
+#ifdef INDIRECT_STACK_STATES
+        freecell_solver_compact_allocator_finish(hard_thread->stacks_allocator);
+        hard_thread->stacks_allocator = NULL;
+#endif
+        freecell_solver_compact_allocator_finish(hard_thread->move_stacks_allocator);
+        hard_thread->move_stacks_allocator = NULL;
+        
+    }
+
+    if (instance->optimization_thread)
+    {
+        freecell_solver_state_ia_finish(instance->optimization_thread);
+    }
+
+
     /* De-allocate the state collection */
 #if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBREDBLACK_TREE)
     rbdestroy(instance->tree);
@@ -836,7 +1578,7 @@ void freecell_solver_finish_instance(
 #if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_GLIB_HASH)
     g_hash_table_destroy(instance->hash);
 #elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INTERNAL_HASH)
-    SFO_hash_free(instance->hash);
+    freecell_solver_hash_free(instance->hash);
 #endif
 
 
@@ -845,32 +1587,49 @@ void freecell_solver_finish_instance(
     in the process */
 #ifdef INDIRECT_STACK_STATES
 #if FCS_STACK_STORAGE == FCS_STACK_STORAGE_INTERNAL_HASH
-    SFO_hash_free_with_callback(instance->stacks_hash, freecell_solver_stack_free);
-#elif (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBAVL_AVL_TREE) 
+#if 0
+    freecell_solver_hash_free_with_callback(instance->stacks_hash, freecell_solver_stack_free);
+#else
+    freecell_solver_hash_free(instance->stacks_hash);
+#endif
+#elif (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBAVL_AVL_TREE)
+#if 0
     avl_destroy(instance->stacks_tree, freecell_solver_stack_free);
+#else
+    avl_destroy(instance->stacks_tree, NULL);
+#endif
 #elif (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBAVL_REDBLACK_TREE)
+#if 0
     rb_destroy(instance->stacks_tree, freecell_solver_stack_free);
+#else
+    rb_destroy(instance->stacks_tree, NULL);
+#endif
 #elif (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBREDBLACK_TREE)
-    rbwalk(instance->stacks_tree, 
+#if 0
+    rbwalk(instance->stacks_tree,
         freecell_solver_libredblack_walk_destroy_stack_action,
         NULL
         );
+#endif
     rbdestroy(instance->stacks_tree);
 #elif (FCS_STACK_STORAGE == FCS_STACK_STORAGE_GLIB_TREE)
+#if 0
     g_tree_traverse(
         instance->stacks_tree,
         freecell_solver_glib_tree_walk_destroy_stack_action,
         G_IN_ORDER,
         NULL
         );
-
+#endif
     g_tree_destroy(instance->stacks_tree);
 #elif (FCS_STACK_STORAGE == FCS_STACK_STORAGE_GLIB_HASH)
+#if 0
     g_hash_table_foreach(
         instance->stacks_hash,
         freecell_solver_glib_hash_foreach_destroy_stack_action,
         NULL
         );
+#endif
     g_hash_table_destroy(instance->stacks_hash);
 #endif
 #endif
@@ -880,25 +1639,120 @@ void freecell_solver_finish_instance(
 #endif
 
 
-    if (instance->method == FCS_METHOD_SOFT_DFS)
+    clean_soft_dfs(instance);    
+}
+
+freecell_solver_soft_thread_t * freecell_solver_instance_get_soft_thread(
+        freecell_solver_instance_t * instance,
+        int ht_idx,
+        int st_idx
+        )
+{
+    if (ht_idx >= instance->num_hard_threads)
     {
-        freecell_solver_clean_soft_dfs(instance);
+        return NULL;
+    }
+    else
+    {
+        freecell_solver_hard_thread_t * hard_thread;
+        hard_thread = instance->hard_threads[ht_idx];
+        if (st_idx >= hard_thread->num_soft_threads)
+        {
+            return NULL;
+        }
+        else
+        {
+            return hard_thread->soft_threads[st_idx];
+        }
+    }
+}
+
+freecell_solver_soft_thread_t * freecell_solver_new_soft_thread(
+    freecell_solver_soft_thread_t * soft_thread
+    )
+{
+    freecell_solver_soft_thread_t * ret;
+    freecell_solver_hard_thread_t * hard_thread;
+
+    hard_thread = soft_thread->hard_thread;
+    ret = alloc_soft_thread(hard_thread);
+
+    /* Exceeded the maximal number of Soft-Threads in an instance */
+    if (ret == NULL)
+    {
+        return NULL;
     }
 
+    hard_thread->soft_threads = realloc(hard_thread->soft_threads, sizeof(hard_thread->soft_threads[0])*(hard_thread->num_soft_threads+1));
+    hard_thread->soft_threads[hard_thread->num_soft_threads] = ret;
+    hard_thread->num_soft_threads++;
 
-    
-    
-    
-    if (instance->proto_solution_moves != NULL)
+    return ret;
+}
+
+freecell_solver_soft_thread_t * freecell_solver_new_hard_thread(
+    freecell_solver_instance_t * instance
+    )
+{
+    freecell_solver_hard_thread_t * ret;
+
+    /* Exceeded the maximal number of Soft-Threads in an instance */
+    ret = alloc_hard_thread(instance);
+
+    if (ret == NULL)
     {
-        free(instance->proto_solution_moves);
-        instance->proto_solution_moves = NULL;
+        return NULL;
     }
+
+    instance->hard_threads =
+        realloc(
+            instance->hard_threads,
+            (sizeof(instance->hard_threads[0]) * (instance->num_hard_threads+1))
+            );
+
+    instance->hard_threads[instance->num_hard_threads] = ret;
+
+    instance->num_hard_threads++;
+
+    return ret->soft_threads[0];
+}
+
+void freecell_solver_recycle_instance(
+    freecell_solver_instance_t * instance
+        )
+{
+    int ht_idx, st_idx;
+    freecell_solver_hard_thread_t * hard_thread;
+    freecell_solver_soft_thread_t * soft_thread;
     
-    if (instance->solution_states != NULL)
+    freecell_solver_finish_instance(instance);
+
+    instance->num_times = 0;
+
+    instance->num_hard_threads_finished = 0;
+
+    for(ht_idx = 0;  ht_idx < instance->num_hard_threads; ht_idx++)
     {
-        free(instance->solution_states);
-        instance->solution_states = NULL;
+        hard_thread = instance->hard_threads[ht_idx];
+        hard_thread->num_times = 0;
+        hard_thread->ht_max_num_times = hard_thread->num_times_step;
+        hard_thread->max_num_times = -1;
+        hard_thread->num_soft_threads_finished = 0;
+        hard_thread->move_stacks_allocator =
+            freecell_solver_compact_allocator_new();
+#ifdef INDIRECT_STACK_STATES
+        hard_thread->stacks_allocator = 
+            freecell_solver_compact_allocator_new();
+#endif
+        for(st_idx = 0; st_idx < hard_thread->num_soft_threads ; st_idx++)
+        {
+            soft_thread = hard_thread->soft_threads[st_idx];
+            soft_thread->is_finished = 0;
+            soft_thread->initialized = 0;
+
+            freecell_solver_rand_srand(soft_thread->rand_gen, soft_thread->rand_seed);
+            /* Reset the priority queue */
+            soft_thread->a_star_pqueue->CurrentSize = 0;
+        }
     }
-    
 }

@@ -1,71 +1,83 @@
 /* fcs_isa.c - Freecell Solver Indirect State Allocation Routines
-   
+
    Written by Shlomi Fish, 2000
    This file is distributed under the public domain.
 */
+
+#include <stdlib.h>
+#include <stdio.h>
 
 #include "config.h"
 
 
 #include "state.h"
 #include "fcs.h"
-#include <stdlib.h>
 
+#include "fcs_isa.h"
 
-void fcs_state_ia_init(freecell_solver_instance_t * instance)
+#ifdef DMALLOC
+#include "dmalloc.h"
+#endif
+
+void freecell_solver_state_ia_init(freecell_solver_hard_thread_t * hard_thread)
 {
-    instance->max_num_state_packs = IA_STATE_PACKS_GROW_BY;
-    instance->state_packs = (fcs_state_with_locations_t * *)malloc(sizeof(fcs_state_with_locations_t *) * instance->max_num_state_packs);
-    instance->num_state_packs = 1;
-    instance->state_pack_len = 0x010000 / sizeof(fcs_state_with_locations_t);
-    instance->state_packs[0] = malloc(instance->state_pack_len*sizeof(fcs_state_with_locations_t));
+    hard_thread->max_num_state_packs = IA_STATE_PACKS_GROW_BY;
+    hard_thread->state_packs = (fcs_state_with_locations_t * *)malloc(sizeof(fcs_state_with_locations_t *) * hard_thread->max_num_state_packs);
+    hard_thread->num_state_packs = 1;
+    hard_thread->state_pack_len = 0x010000 / sizeof(fcs_state_with_locations_t);
+    hard_thread->state_packs[0] = malloc(hard_thread->state_pack_len*sizeof(fcs_state_with_locations_t));
 
-    instance->num_states_in_last_pack = 0;
+    hard_thread->num_states_in_last_pack = 0;
 }
 
-fcs_state_with_locations_t * fcs_state_ia_alloc(freecell_solver_instance_t * instance)
+#if 0
+fcs_state_with_locations_t * fcs_state_ia_alloc(freecell_solver_hard_thread_t * hard_thread)
 {
-    if (instance->num_states_in_last_pack == instance->state_pack_len)
+    if (hard_thread->num_states_in_last_pack == hard_thread->state_pack_len)
     {
-        if (instance->num_state_packs == instance->max_num_state_packs)
+        if (hard_thread->num_state_packs == hard_thread->max_num_state_packs)
         {
-            instance->max_num_state_packs += IA_STATE_PACKS_GROW_BY;
-            instance->state_packs = (fcs_state_with_locations_t * *)realloc(instance->state_packs, sizeof(fcs_state_with_locations_t *) * instance->max_num_state_packs);
+            hard_thread->max_num_state_packs += IA_STATE_PACKS_GROW_BY;
+            hard_thread->state_packs = (fcs_state_with_locations_t * *)realloc(hard_thread->state_packs, sizeof(fcs_state_with_locations_t *) * hard_thread->max_num_state_packs);
         }
-        instance->state_packs[instance->num_state_packs] = malloc(instance->state_pack_len * sizeof(fcs_state_with_locations_t));
-        instance->num_state_packs++;
-        instance->num_states_in_last_pack = 0;
+        hard_thread->state_packs[hard_thread->num_state_packs] = malloc(hard_thread->state_pack_len * sizeof(fcs_state_with_locations_t));
+        hard_thread->num_state_packs++;
+        hard_thread->num_states_in_last_pack = 0;
     }
-    return &(instance->state_packs[instance->num_state_packs-1][instance->num_states_in_last_pack++]);
+    return &(hard_thread->state_packs[hard_thread->num_state_packs-1][hard_thread->num_states_in_last_pack++]);
 }
+#endif
 
-void fcs_state_ia_release(freecell_solver_instance_t * instance)
+#if 0
+void fcs_state_ia_release(freecell_solver_hard_thread_t * hard_thread)
 {
-    instance->num_states_in_last_pack--;
+    hard_thread->num_states_in_last_pack--;
 }
+#endif
 
-void fcs_state_ia_finish(freecell_solver_instance_t * instance)
+void freecell_solver_state_ia_finish(freecell_solver_hard_thread_t * hard_thread)
 {
     int a;
-    for(a=0;a<instance->num_state_packs;a++)
+    for(a=0;a<hard_thread->num_state_packs;a++)
     {
-        free(instance->state_packs[a]);
+        free(hard_thread->state_packs[a]);
     }
-    free(instance->state_packs);
+    free(hard_thread->state_packs);
+    hard_thread->state_packs = NULL;
 }
 
-void fcs_state_ia_foreach(freecell_solver_instance_t * instance, void (*ptr_function)(fcs_state_with_locations_t *, void *), void * context)
+void freecell_solver_state_ia_foreach(freecell_solver_hard_thread_t * hard_thread, void (*ptr_function)(fcs_state_with_locations_t *, void *), void * context)
 {
     int p,s;
-    for(p=0;p<instance->num_state_packs-1;p++)
+    for(p=0;p<hard_thread->num_state_packs-1;p++)
     {
-        for(s=0 ; s < instance->state_pack_len ; s++)
+        for(s=0 ; s < hard_thread->state_pack_len ; s++)
         {
-            ptr_function(&(instance->state_packs[p][s]), context);
+            ptr_function(&(hard_thread->state_packs[p][s]), context);
         }
     }
-    for(s=0; s < instance->num_states_in_last_pack ; s++)
+    for(s=0; s < hard_thread->num_states_in_last_pack ; s++)
     {
-        ptr_function(&(instance->state_packs[p][s]), context);
+        ptr_function(&(hard_thread->state_packs[p][s]), context);
     }
 }

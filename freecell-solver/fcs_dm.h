@@ -19,18 +19,18 @@ extern "C" {
 #include <stddef.h>
 
 
-void * SFO_bsearch
+void * freecell_solver_bsearch
 (
-    void * key, 
-    void * void_array, 
-    size_t len, 
+    void * key,
+    void * void_array,
+    size_t len,
     size_t width,
     int (* compare)(const void *, const void *, void *),
     void * context,
     int * found
 );
 
-int SFO_merge_large_and_small_sorted_arrays
+int freecell_solver_merge_large_and_small_sorted_arrays
 (
     void * void_big_array,
     size_t size_big_array,

@@ -67,6 +67,7 @@ enum fcs_presets_return_codes
 #define FCS_METHOD_BFS 2
 #define FCS_METHOD_A_STAR 3
 #define FCS_METHOD_OPTIMIZE 4
+#define FCS_METHOD_RANDOM_DFS 5
 
 
 #ifdef __cplusplus

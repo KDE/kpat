@@ -1,42 +1,39 @@
 /*
  * caas.c - the various possible implementations of the function
  * freecell_solver_check_and_add_state().
- * 
+ *
  * Written by Shlomi Fish (shlomif@vipe.technion.ac.il), 2000
  *
  * This file is in the public domain (it's uncopyrighted).
  */
 
+#ifndef __CAAS_C
+#define __CAAS_C
+
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "fcs_dm.h"
 #include "fcs.h"
 
 #include "fcs_isa.h"
 
-#if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INTERNAL_HASH) || (FCS_STATE_STORAGE == FCS_STATE_STORAGE_GLIB_HASH)
-#include "md5.h"
-#endif
+#include "lookup2.h"
+
 
 #ifdef INDIRECT_STACK_STATES
 #include "fcs_hash.h"
-#include "md5.h"
 #endif
 
+#include "caas.h"
+#include "ms_ca.h"
 
+#include "test_arr.h"
 
-extern int freecell_solver_solve_for_state(freecell_solver_instance_t * instance, fcs_state_with_locations_t * state, int depth, int ignore_osins);
-
-extern void freecell_solver_bfs_enqueue_state(
-    freecell_solver_instance_t * instance,
-    fcs_state_with_locations_t * state
-    );
-
-extern void freecell_solver_a_star_enqueue_state(
-    freecell_solver_instance_t * instance,
-    fcs_state_with_locations_t * state
-    );
+#ifdef DMALLOC
+#include "dmalloc.h"
+#endif
 
 
 /*
@@ -51,7 +48,7 @@ extern void freecell_solver_a_star_enqueue_state(
 #ifdef FCS_WITH_MHASH
 #define fcs_caas_check_and_insert()            \
     /*                                            \
-        Calculate the MD5 checksum of the state.   \
+        Calculate the has function of the state.   \
     */                   \
     {        \
         char * temp_ptr;    \
@@ -71,39 +68,46 @@ extern void freecell_solver_a_star_enqueue_state(
          * */            \
         hash_value_int &= (~(1<<((sizeof(hash_value_int)<<3)-1)));     \
     }    \
-    check = ((*existing_state = SFO_hash_insert(          \
+    check = ((*existing_state = freecell_solver_hash_insert(          \
         instance->hash,              \
         new_state,                   \
         hash_value_int,              \
         1                            \
-        )) == NULL);                  
+        )) == NULL);
 
 
 
 #else
-#define fcs_caas_check_and_insert()              \
-    /*                                            \
-        Calculate the MD5 checksum of the state.   \
-    */                   \
-    MD5Init(&(instance->md5_context));      \
-    MD5Update(&(instance->md5_context), (unsigned char *)new_state, sizeof(fcs_state_t)); \
-    MD5Final(instance->hash_value, &(instance->md5_context)); \
-    /* Retrieve the first 32 bits and make them the hash value */      \
-    hash_value_int = *(SFO_hash_value_t*)instance->hash_value;      \
-    if (hash_value_int < 0)       \
-    {    \
-        /*             \
-         * This is a bit mask that nullifies the sign bit of the  \
-         * number so it will always be positive           \
-         * */            \
-        hash_value_int &= (~(1<<((sizeof(hash_value_int)<<3)-1)));     \
-    }    \
-    check = ((*existing_state = SFO_hash_insert(          \
-        instance->hash,              \
-        new_state,                   \
-        hash_value_int,              \
-        1                            \
-        )) == NULL);                  
+#define fcs_caas_check_and_insert()                                     \
+    {                                                                   \
+        const char * s_ptr = (char*)new_state;                          \
+        const char * s_end = s_ptr+sizeof(fcs_state_t);                 \
+        hash_value_int = 0;                                             \
+        while (s_ptr < s_end)                                           \
+        {                                                               \
+            hash_value_int += (hash_value_int << 5) + *(s_ptr++);       \
+        }                                                               \
+        hash_value_int += (hash_value_int>>5);                          \
+    }                                                                   \
+    if (hash_value_int < 0)                                             \
+    {                                                                   \
+        /*                                                              \
+         * This is a bit mask that nullifies the sign bit of the        \
+         * number so it will always be positive                         \
+         * */                                                           \
+        hash_value_int &= (~(1<<((sizeof(hash_value_int)<<3)-1)));      \
+    }                                                                   \
+    check = ((*existing_state = freecell_solver_hash_insert(            \
+        instance->hash,                                                 \
+        new_state,                                                      \
+        freecell_solver_lookup2_hash_function(                          \
+            (ub1 *)new_state,                                           \
+            sizeof(fcs_state_t),                                        \
+            24                                                          \
+            ),                                                          \
+        hash_value_int,                                                 \
+        1                                                               \
+        )) == NULL);
 
 #endif
 #elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INDIRECT)
@@ -113,15 +117,15 @@ extern void freecell_solver_a_star_enqueue_state(
                 instance->indirect_prev_states,                     \
                 instance->num_indirect_prev_states,                 \
                 sizeof(fcs_state_with_locations_t *),               \
-                fcs_state_compare_indirect)) == NULL)                \
+                freecell_solver_state_compare_indirect)) == NULL)                \
     {                                                               \
         /* It isn't in prev_states, but maybe it's in the sort margin */        \
-        pos_ptr = (fcs_state_with_locations_t * *)SFO_bsearch(              \
+        pos_ptr = (fcs_state_with_locations_t * *)freecell_solver_bsearch(              \
             &new_state,                                                     \
             instance->indirect_prev_states_margin,                          \
             instance->num_prev_states_margin,                               \
             sizeof(fcs_state_with_locations_t *),                           \
-            fcs_state_compare_indirect_with_context,                        \
+            freecell_solver_state_compare_indirect_with_context, \
             NULL,                  \
             &found);              \
                              \
@@ -134,7 +138,12 @@ extern void freecell_solver_a_star_enqueue_state(
         {                                     \
             /* Insert the state into its corresponding place in the sort         \
              * margin */                             \
-            memmove((void*)(pos_ptr+1), (void*)pos_ptr, sizeof(fcs_state_with_locations_t *)*(instance->num_prev_states_margin-(pos_ptr-instance->indirect_prev_states_margin)));          \
+            memmove((void*)(pos_ptr+1),       \
+                    (void*)pos_ptr,       \
+                    sizeof(fcs_state_with_locations_t *) * \
+                    (instance->num_prev_states_margin-  \
+                      (pos_ptr-instance->indirect_prev_states_margin)   \
+                    ));  \
             *pos_ptr = new_state;                \
                        \
             instance->num_prev_states_margin++;             \
@@ -151,13 +160,13 @@ extern void freecell_solver_a_star_enqueue_state(
                     instance->indirect_prev_states = realloc(instance->indirect_prev_states, sizeof(fcs_state_with_locations_t *) * instance->max_num_indirect_prev_states);       \
                 }             \
                             \
-                SFO_merge_large_and_small_sorted_arrays(           \
+                freecell_solver_merge_large_and_small_sorted_arrays(           \
                     instance->indirect_prev_states,              \
                     instance->num_indirect_prev_states,           \
                     instance->indirect_prev_states_margin,          \
                     instance->num_prev_states_margin,              \
                     sizeof(fcs_state_with_locations_t *),           \
-                    fcs_state_compare_indirect_with_context,          \
+                    freecell_solver_state_compare_indirect_with_context,          \
                     NULL                        \
                 );                   \
                                   \
@@ -173,7 +182,7 @@ extern void freecell_solver_a_star_enqueue_state(
     {         \
         *existing_state = *pos_ptr; \
         check = 0;          \
-    }          
+    }
 
 #elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBREDBLACK_TREE)
 
@@ -187,13 +196,11 @@ extern void freecell_solver_a_star_enqueue_state(
 #define fcs_libavl_states_tree_insert(a,b) avl_insert((a),(b))
 #elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_LIBAVL_REDBLACK_TREE)
 #define fcs_libavl_states_tree_insert(a,b) rb_insert((a),(b))
-#endif 
+#endif
 
 #define fcs_caas_check_and_insert()       \
     *existing_state = fcs_libavl_states_tree_insert(instance->tree, new_state); \
     check = (*existing_state == NULL);
-
-#undef fcs_libavl_states_tree_insert
 
 #elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_GLIB_TREE)
 #define fcs_caas_check_and_insert()       \
@@ -216,7 +223,7 @@ extern void freecell_solver_a_star_enqueue_state(
     }
 
 
-                    
+
 #elif (FCS_STATE_STORAGE == FCS_STATE_STORAGE_GLIB_HASH)
 #define fcs_caas_check_and_insert()       \
     *existing_state = g_hash_table_lookup(instance->hash, (gpointer)new_state); \
@@ -272,15 +279,14 @@ extern void freecell_solver_a_star_enqueue_state(
             *existing_state = (fcs_state_with_locations_t *)(value.data);     \
         }         \
     }
-        
-#else 
+
+#else
 #error no define
 #endif
 
-
 #ifdef INDIRECT_STACK_STATES
-void freecell_solver_cache_stacks(
-        freecell_solver_instance_t * instance,
+static void GCC_INLINE freecell_solver_cache_stacks(
+        freecell_solver_hard_thread_t * hard_thread,
         fcs_state_with_locations_t * new_state
         )
 {
@@ -289,46 +295,79 @@ void freecell_solver_cache_stacks(
     SFO_hash_value_t hash_value_int;
 #endif
     void * cached_stack;
+    char * new_ptr;
+    freecell_solver_instance_t * instance = hard_thread->instance;
+    int stacks_num = instance->stacks_num;
+    
 
-    for(a=0 ; a<instance->stacks_num ; a++)
+    for(a=0 ; a<stacks_num ; a++)
     {
-        new_state->s.stacks[a] = realloc(new_state->s.stacks[a], fcs_stack_len(new_state->s, a)+1);
+        /* 
+         * If the stack is not a copy - it is already cached so skip
+         * to the next stack
+         * */
+        if (! (new_state->stacks_copy_on_write_flags & (1 << a)))
+        {
+            continue;
+        }
+        /* new_state->s.stacks[a] = realloc(new_state->s.stacks[a], fcs_stack_len(new_state->s, a)+1); */
+        fcs_compact_alloc_typed_ptr_into_var(new_ptr, char, hard_thread->stacks_allocator, (fcs_stack_len(new_state->s, a)+1));
+        memcpy(new_ptr, new_state->s.stacks[a], (fcs_stack_len(new_state->s, a)+1));
+        new_state->s.stacks[a] = new_ptr;
+
 #if FCS_STACK_STORAGE == FCS_STACK_STORAGE_INTERNAL_HASH
         /* Calculate the hash value for the stack */
-        MD5Init(&(instance->md5_context));
-        MD5Update(&(instance->md5_context), new_state->s.stacks[a], fcs_stack_len(new_state->s, a)+1);
-        MD5Final(instance->hash_value, &(instance->md5_context));
-        hash_value_int = *(SFO_hash_value_t*)instance->hash_value;
+        /* This hash function was ripped from the Perl source code.
+         * (It is not derived work however). */
+        {
+            const char * s_ptr = (char*)(new_state->s.stacks[a]);
+            const char * s_end = s_ptr+fcs_stack_len(new_state->s, a)+1;
+            hash_value_int = 0;
+            while (s_ptr < s_end)
+            {
+                hash_value_int += (hash_value_int << 5) + *(s_ptr++);
+            }
+            hash_value_int += (hash_value_int >> 5);
+        }
 
         if (hash_value_int < 0)
         {
             /*
-             * This is a bit mask that nullifies the sign bit of the 
+             * This is a bit mask that nullifies the sign bit of the
              * number so it will always be positive
              * */
             hash_value_int &= (~(1<<((sizeof(hash_value_int)<<3)-1)));
         }
 
-        cached_stack = (void *)SFO_hash_insert(
-            instance->stacks_hash, 
+        cached_stack = (void *)freecell_solver_hash_insert(
+            instance->stacks_hash,
             new_state->s.stacks[a],
+            freecell_solver_lookup2_hash_function(
+                new_state->s.stacks[a],
+                (fcs_stack_len(new_state->s, a)+1),
+                24
+                ),
             hash_value_int,
             1
             );
-        
-        if (cached_stack != NULL)
-        {
-            free(new_state->s.stacks[a]);
-            new_state->s.stacks[a] = cached_stack;
+
+#define replace_with_cached(condition_expr) \
+        if (cached_stack != NULL)     \
+        {      \
+            fcs_compact_alloc_release(hard_thread->stacks_allocator);    \
+            new_state->s.stacks[a] = cached_stack;       \
         }
+
+        replace_with_cached(cached_stack != NULL);
+        
 #elif (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBAVL_AVL_TREE) || (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBAVL_REDBLACK_TREE)
-        cached_stack = 
+        cached_stack =
 #if (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBAVL_AVL_TREE)
             avl_insert(
 #elif (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBAVL_REDBLACK_TREE)
-            rb_insert(   
+            rb_insert(
 #endif
-            instance->stacks_tree, 
+            instance->stacks_tree,
             new_state->s.stacks[a]
             );
 #if 0
@@ -336,32 +375,23 @@ void freecell_solver_cache_stacks(
                          are keen on parenthesis matching */
 #endif
 
-        if (cached_stack != NULL)
-        {
-            free(new_state->s.stacks[a]);
-            new_state->s.stacks[a] = cached_stack;
-        }
+        replace_with_cached(cached_stack != NULL);
 
 #elif (FCS_STACK_STORAGE == FCS_STACK_STORAGE_LIBREDBLACK_TREE)
         cached_stack = (void *)rbsearch(
             new_state->s.stacks[a],
             instance->stacks_tree
             );
-        if (cached_stack != new_state->s.stacks[a])
-        {
-            free(new_state->s.stacks[a]);
-            new_state->s.stacks[a] = cached_stack;
-        }
+
+        replace_with_cached(cached_stack != new_state->s.stacks[a]);
 #elif (FCS_STACK_STORAGE == FCS_STACK_STORAGE_GLIB_TREE)
         cached_stack = g_tree_lookup(
-             instance->stacks_tree, 
+             instance->stacks_tree,
              (gpointer)new_state->s.stacks[a]
              );
-        if (cached_stack != NULL)
-        {
-            free(new_state->s.stacks[a]);
-            new_state->s.stacks[a] = cached_stack;
-        }
+
+        /* replace_with_cached contains an if statement */
+        replace_with_cached(cached_stack != NULL)
         else
         {
             g_tree_insert(
@@ -375,11 +405,7 @@ void freecell_solver_cache_stacks(
             instance->stacks_hash,
             (gconstpointer)new_state->s.stacks[a]
             );
-        if (cached_stack != NULL)
-        {
-            free(new_state->s.stacks[a]);
-            new_state->s.stacks[a] = cached_stack;
-        }
+        replace_with_cached(cached_stack != NULL)
         else
         {
             g_hash_table_insert(
@@ -406,21 +432,19 @@ void freecell_solver_cache_talon(
     int hash_value_int;
 
     new_state->s.talon = realloc(new_state->s.talon, fcs_klondike_talon_len(new_state->s)+1);
-    MD5Init(&(instance->md5_context));
-    MD5Update(&(instance->md5_context), new_state->s.talon, fcs_klondike_talon_len(new_state->s)+1);
-    MD5Final(instance->hash_value, &(instance->md5_context));
+#error Add Hash Code
     hash_value_int = *(SFO_hash_value_t*)instance->hash_value;
     if (hash_value_int < 0)
     {
         /*
-         * This is a bit mask that nullifies the sign bit of the 
+         * This is a bit mask that nullifies the sign bit of the
          * number so it will always be positive
          * */
         hash_value_int &= (~(1<<((sizeof(hash_value_int)<<3)-1)));
     }
 
-    cached_talon = (void *)SFO_hash_insert(
-        instance->talons_hash, 
+    cached_talon = (void *)freecell_solver_hash_insert(
+        instance->talons_hash,
         new_state->s.talon,
         hash_value_int,
         1
@@ -438,18 +462,19 @@ void freecell_solver_cache_talon(
 #if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_GLIB_HASH)
 guint freecell_solver_hash_function(gconstpointer key)
 {
-    MD5_CTX md5_context;
-    unsigned char hash_value[MD5_HASHBYTES];
-    
-    MD5Init(&md5_context);
-    MD5Update(&md5_context, (unsigned char *)key, sizeof(fcs_state_t));
-    MD5Final(hash_value, &md5_context);
+    guint hash_value;
+    const char * s_ptr = (char*)key;
+    const char * s_end = s_ptr+sizeof(fcs_state_t);
+    hash_value = 0;
+    while (s_ptr < s_end)
+    {
+        hash_value += (hash_value << 5) + *(s_ptr++);
+    }
+    hash_value += (hash_value >> 5);
 
-    return (*(guint *)hash_value);
+    return hash_value;
 }
 #endif
-
-
 
 
 /*
@@ -458,7 +483,7 @@ guint freecell_solver_hash_function(gconstpointer key)
  * 1. Check if the number of iterations exceeded its maximum, and if so
  *    return FCS_STATE_EXCEEDS_MAX_NUM_TIMES in order to terminate the
  *    solving process.
- * 2. Check if the maximal depth was reached and if so return 
+ * 2. Check if the maximal depth was reached and if so return
  *    FCS_STATE_EXCEEDS_MAX_DEPTH
  * 3. Canonize the state.
  * 4. Check if the state is already found in the collection of the states
@@ -468,16 +493,16 @@ guint freecell_solver_hash_function(gconstpointer key)
  *        5a. Return FCS_STATE_ALREADY_EXISTS
  *
  *    If it isn't:
- *    
+ *
  *        5b. Call solve_for_state() on the board.
  *
  * */
 
-int freecell_solver_check_and_add_state(
-    freecell_solver_instance_t * instance, 
+GCC_INLINE int freecell_solver_check_and_add_state(
+    freecell_solver_soft_thread_t * soft_thread,
     fcs_state_with_locations_t * new_state,
-    fcs_state_with_locations_t * * existing_state,
-    int depth)
+    fcs_state_with_locations_t * * existing_state
+    )
 {
 #if (FCS_STATE_STORAGE == FCS_STATE_STORAGE_INTERNAL_HASH)
     SFO_hash_value_t hash_value_int;
@@ -486,106 +511,44 @@ int freecell_solver_check_and_add_state(
     fcs_state_with_locations_t * * pos_ptr;
     int found;
 #endif
+    freecell_solver_hard_thread_t * hard_thread = soft_thread->hard_thread;
+    freecell_solver_instance_t * instance = hard_thread->instance;
 
     int check;
 
-    if ((instance->max_num_times >= 0) &&
-        (instance->max_num_times <= (instance->num_times + ((instance->method == FCS_METHOD_A_STAR) ? instance->a_star_pqueue->CurrentSize : 0)) )
-        )
+    if (check_if_limits_exceeded())
     {
         return FCS_STATE_BEGIN_SUSPEND_PROCESS;
     }
 
-    if ((instance->max_depth >= 0) &&
-        (instance->max_depth <= depth))
-    {
-        return FCS_STATE_EXCEEDS_MAX_DEPTH;
-    }
-    
-    fcs_canonize_state(new_state, instance->freecells_num, instance->stacks_num);
+    freecell_solver_cache_stacks(hard_thread, new_state);
 
-    freecell_solver_cache_stacks(instance, new_state);
+    fcs_canonize_state(new_state, instance->freecells_num, instance->stacks_num);
 
     fcs_caas_check_and_insert();
     if (check)
     {
         /* The new state was not found in the cache, and it was already inserted */
-        if (instance->method == FCS_METHOD_SOFT_DFS)
+        if (new_state->parent)
         {
-            /* A return value that indicates that the state should be
-               placed in the recursed states collection of the current
-               depth
-            */
-            return FCS_STATE_DOES_NOT_EXIST;
+            new_state->parent->num_active_children++;
         }
-        else if (instance->method == FCS_METHOD_HARD_DFS)
+        instance->num_states_in_collection++;
+
+        if (new_state->moves_to_parent != NULL)
         {
-            int ret;
-            /* Recurse */
-            ret = freecell_solver_solve_for_state(instance, 
-                new_state
-                , depth+1,0);
-            if (ret == FCS_STATE_WAS_SOLVED)
-            {
-                return FCS_STATE_WAS_SOLVED;
-            }
-            else if (ret == FCS_STATE_SUSPEND_PROCESS)
-            {
-                return FCS_STATE_SUSPEND_PROCESS;
-            }
-            else
-            {
-                return FCS_STATE_IS_NOT_SOLVEABLE;
-            }
+            new_state->moves_to_parent = 
+                freecell_solver_move_stack_compact_allocate(
+                    hard_thread, 
+                    new_state->moves_to_parent
+                    );
         }
-        else if (instance->method == FCS_METHOD_BFS)
-        {
-            /* Enqueue the state */
-            freecell_solver_bfs_enqueue_state(instance, new_state);
-            return FCS_STATE_IS_NOT_SOLVEABLE;
-        }
-        else if (instance->method == FCS_METHOD_A_STAR)
-        {
-            /* Enqueue the state */
-            freecell_solver_a_star_enqueue_state(instance, new_state);
-            return FCS_STATE_IS_NOT_SOLVEABLE;
-        }
-        else
-        {
-            return FCS_STATE_IS_NOT_SOLVEABLE;
-        }
+
+        return FCS_STATE_DOES_NOT_EXIST;
     }
     else
     {
-        /* The state was found in the cache so return that it already
-           exists 
-        */
-
-        if ((instance->method == FCS_METHOD_OPTIMIZE) &&
-            (((*existing_state)->visited & FCS_VISITED_IN_SOLUTION_PATH) &&
-            (!((*existing_state)->visited & FCS_VISITED_IN_OPTIMIZED_PATH)))
-           )
-        {
-            /*
-             * Modify the existing state so it will now be a parent
-             * of the parent of the state that was recommended 
-             * */
-            (*existing_state)->visited |= FCS_VISITED_IN_OPTIMIZED_PATH;
-            (*existing_state)->parent = new_state->parent;
-            if ((*existing_state)->moves_to_parent != NULL)
-            {
-                fcs_move_stack_destroy((*existing_state)->moves_to_parent);
-            }
-            (*existing_state)->moves_to_parent = new_state->moves_to_parent;
-            (*existing_state)->depth = new_state->depth;
-            freecell_solver_bfs_enqueue_state(instance, *existing_state);
-
-            return FCS_STATE_OPTIMIZED;
-        }
-        else
-        {
-            return FCS_STATE_ALREADY_EXISTS;
-        }
+        return FCS_STATE_ALREADY_EXISTS;
     }
 }
 
@@ -604,7 +567,7 @@ static char meaningless_data[16] = "Hello World!";
 int freecell_solver_check_and_add_state(freecell_solver_instance_t * instance, fcs_state_with_locations_t * new_state, int depth)
 {
     DBT key, value;
-    
+
     if ((instance->max_num_times >= 0) &&
         (instance->max_num_times <= instance->num_times))
     {
@@ -616,14 +579,14 @@ int freecell_solver_check_and_add_state(freecell_solver_instance_t * instance, f
     {
         return FCS_STATE_EXCEEDS_MAX_DEPTH;
     }
-    
+
     fcs_canonize_state(new_state, instance->freecells_num, instance->stacks_num);
 
     freecell_solver_cache_stacks(instance, new_state);
 
     key.data = new_state;
     key.size = sizeof(*new_state);
-    
+
     if (instance->db->get(
         instance->db,
         NULL,
@@ -632,7 +595,7 @@ int freecell_solver_check_and_add_state(freecell_solver_instance_t * instance, f
         0
         ) == 0)
     {
-        /* The new state was not found. Let's insert it. 
+        /* The new state was not found. Let's insert it.
          * The value should be non-NULL or else g_hash_table_lookup() will
          * return NULL even if it exists. */
 
@@ -662,3 +625,5 @@ int freecell_solver_check_and_add_state(freecell_solver_instance_t * instance, f
 
 
 #endif
+
+#endif /* #ifndef __CAAS_C */
