@@ -28,7 +28,7 @@ static const char *description = I18N_NOOP("KDE Patience Game");
 static KCmdLineOptions options[] =
 {
     { "+file",          I18N_NOOP("File to load"), 0 },
-    { 0,0,0 }
+    KCmdLineLastOption
 };
 
 int main( int argc, char **argv )
