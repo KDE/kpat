@@ -23,33 +23,33 @@
 #ifndef _MOD3_H_
 #define _MOD3_H_
 
-#include "patience.h"
+#include "dealer.h"
 
-class Mod3 : public dealer
+class KAction;
+
+class Mod3 : public Dealer
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	Mod3( QWidget* parent=0, const char* name=0);
-	virtual ~Mod3();
-
-	virtual void show();
-	virtual void undo();
-
-	QSize sizeHint() const;
+    Mod3( KMainWindow* parent=0, const char* name=0);
+    virtual ~Mod3();
 
 public slots:
-	void redeal();
-	void deal();
-	virtual void restart();
+    void redeal();
+    void deal();
+    virtual void restart();
+    virtual void show();
+    void hint();
 
 private: // functions
-	static bool CanPut (const Card* c1, const Card* c2);
+    static bool CanPut (const Pile* c1, const CardList& c2);
 
 private:
-	cardPos* stack[4][8];
-	Deck *deck;
-	QPushButton rb;
+    Pile* stack[4][8];
+    Deck* deck;
+    KAction *ahint;
+    KAction *aredeal;
 };
 
 #endif

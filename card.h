@@ -27,143 +27,69 @@
 #ifndef PATIENCE_CARD
 #define PATIENCE_CARD
 
-#include <qpoint.h> 
-
-#include "basiccard.h"
+#include <qpoint.h>
+#include <qcanvas.h>
 
 // The following classes are defined in other headers:
-class CardTable;
 class cardPos;
 class Deck;
 class dealer;
+class Pile;
+class Card;
 
-#define N_TYPES 16
+typedef QValueList<Card*> CardList;
 
-class Card: public basicCard {
-  friend class dealer;
-  friend class CardTable;
-  Q_OBJECT
+class Card: public QCanvasRectangle {
+
 public:
+    enum Suits { Clubs = 1, Diamonds, Hearts, Spades };
+    enum Values { Ace = 1, Two, Three, Four, Five, Six, Seven, Eight,
+                  Nine, Ten, Jack, Queen, King };
 
-  //  Add- and remove-flags
-  static const int Default;
-  static const int disallow;
-  static const int several; // default: move one card
-  static const int faceDown; //  move/add cards facedown
+    QPixmap pixmap() const;
 
-  // Add-flags
-  static const int addSpread;
-  static const int addRotated; // Note: cannot have Spread && Rotate
-  static const int minus45; 
-  static const int plus45; 
-  static const int plus90; 
+    Card( Values v, Suits s,  QCanvas *parent=0);
+    virtual ~Card();
 
-  // Remove-flags
-  static const int alsoFaceDown; 
-  static const int autoTurnTop;
-  static const int noSendBack;  
-  static const int wholeColumn;  
+    Suits suit() const { return _suit; }
+    Values value() const { return _value; }
 
-  Card( Values v, Suits s,  QWidget *parent=0, int type=0, bool empty=FALSE);
-  virtual ~Card();
+    bool isRed() const { return _suit==Diamonds || _suit==Hearts; }
 
-  void add( Card* c);
-  void add( Card* c, bool facedown, bool spread); // for initial deal 
+    bool isFaceUp() const { return faceup; }
 
-  void moveTo (const QPoint&);
-  void moveTo (int x, int y);
-  void quickMoveTo (const QPoint&);
+    void flipTo(int x, int y, int steps);
 
-  bool legalAdd(Card *c) const;
-  bool legalRemove() const;
+    void turn(bool faceup = true);
+    static void enlargeCanvas(QCanvasRectangle *c);
 
-  static void stopMovingIfResting();
-  static bool sendBack();
-  static bool undoLastMove();
+    static const int RTTI = 1001;
 
-signals:
-  void cardClicked(Card*);
-  void cardClicked(int cardtype);
-  void nonMovableCardPressed(int cardtype);
-  void rightButtonPressed(int cardtype);
-
-private:
-  void propagateCardClicked(Card*);
-  void propagateNonMovableCardPressed(int cardtype);
-
-public slots:
-  void remove();
-  void unlink(); // Should this be protected?
-  void turnTop();
-  void flipCard() { turn( !FaceUp() ); }
-
-private:
-  static int   RemoveFlags[N_TYPES];
-  static int   AddFlags[N_TYPES];
-  static bool  LegalMove[N_TYPES][N_TYPES];
-
-  typedef bool (*addCheckPtr)(const Card*, const Card*);
-  static addCheckPtr addCheckFun[N_TYPES];
-
-  typedef bool (*removeCheckPtr)(const Card*);
-  static  removeCheckPtr removeCheckFun[N_TYPES];
-
-  int cardType;
+    Pile *source() const { return _source; }
+    void setSource(Pile *p) { _source = p; }
+    const char *name() const { return _name; }
+    virtual int rtti() const { return RTTI; }
+    virtual void moveBy(double dx, double dy);
 
 protected:
-  virtual void mouseMoveEvent (QMouseEvent*);
-  virtual void mousePressEvent (QMouseEvent*);
-  virtual void mouseReleaseEvent (QMouseEvent*);
-
-  static void mouseMoveHandle(const QPoint&);
-  static void stopMoving();
-  static void clearAllFlags();
+    void draw( QPainter &p );
+    void advance(int stage);
 
 private:
-  Card *nextPtr;
-  Card *prevPtr; // doubly linked list
+    Pile *_source;
+    Suits _suit;
+    Values _value;
+    bool faceup;
+    char *_name;
 
-  static bool moving;   // Are we currently moving a card?
-  static Card *mov;     // If so, which?
-  static Card *source;  // And where did it come from?
-  static Card *justTurned; // The last card that got turned over 
-  static bool resting;  // Are the cards only temporarily placed?
-  static Card *sendBackTo; // Where do we put the unwanted cards?
-
-  static QWidget *widAtCurPos;
-
-  static bool movingCard(QWidget*);
-  QPoint  fudge;
-
-private slots:
-  void changeType(int type);
-  void startMove(const QPoint&);
-  void endMove();
-  void unrotate();
-  void restMove(); // place temporarily
-
-public:
-  int type() const {return cardType; }
-  Card* next() const {return nextPtr; }
-  Card* prev() const {return prevPtr; }
-  Card* top() {	
-    if (!next()) return this;
-    else  return next()->top();
-  }
-
-  static void dont_undo() { if (!moving) {mov = source = 0; } }
-
-  static void setRemoveFlags( int type, int flag ) { RemoveFlags[type] = flag; }
-  static void setAddFlags( int type, int flag ) { AddFlags[type] = flag; }
-  static void setLegalMove( int from, int to ) { LegalMove[from][to] = TRUE; }
-  static void setSendBack( Card* c ) { sendBackTo = c; }
-  static void setAddFun( int type, addCheckPtr f) 
-  { addCheckFun[type] = f; }
-
-  static void setRemoveFun( int type, removeCheckPtr f) 
-  { removeCheckFun[type] = f; }
-  
-  //    static void setSafeMove() { moveSafe = TRUE; }
+    // used for animations
+    int destX, destY;
+    int animSteps;
+    int flipSteps;
+    bool flipping;
+    int savedX, savedY;
+    double scaleX, scaleY;
+    int xOff, yOff;
 };
 
 #endif

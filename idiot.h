@@ -22,6 +22,7 @@
 #define P_IDIOT
 
 #include "patience.h"
+#include "dealer.h"
 
 class Idiot: public dealer
 {

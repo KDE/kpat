@@ -2,15 +2,19 @@ TODO:
       - more options (wholeColumn, etc.)
          kpat already supports a lot, but they aren't accessible via GUI yet
       - counter system similar to MS-Windows. 
-      - dblclick to put cards directly onto the piles.
       - animation when a card moves back automatically
       - nice animation when you wan a game
-      - kpat still uses the WidgetAt function when dropping cards. That
-         means it is not possible to put the hot spot onto the middle of the
-         dragged cards what would be better.
+      - preview on cards that are hidden but faceup (RMB)
+      - ambigious place - choose one
+      - undo 
 
 DONE:
+      - flip animation
+      - dblclick to put cards directly onto the piles.
       - more colorful cards (there are some nice with xpat2)
 	same cards as KPoker (shamelessly stolen :-)
       - better scaling (what about a 640x480 resolution?)
       - more options (different backgrounds)
+      - kpat still uses the WidgetAt function when dropping cards. That
+         means it is not possible to put the hot spot onto the middle of the
+         dragged cards what would be better.

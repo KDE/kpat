@@ -28,6 +28,7 @@
 
 #include "patience.h"
 #include <qscrollbar.h>
+#include "dealer.h"
 
 class Computation : public dealer {
   Q_OBJECT

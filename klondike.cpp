@@ -23,198 +23,240 @@
 ****************************************/
 
 #include "klondike.h"
-#include "global.h"
-
+#include <klocale.h>
 #include <kmessagebox.h>
+#include <card.h>
+#include <kmainwindow.h>
+#include <deck.h>
+#include <pile.h>
+#include <kdebug.h>
 
-Klondike::Klondike( QWidget* _parent, const char* _name )
-  : dealer( _parent, _name )
+Klondike::Klondike( bool easy, KMainWindow* _parent, const char* _name )
+  : Dealer( _parent, _name )
 {
-  const int Pile   = 1;
-  const int Play   = 2;
-  const int Target = 3;
+    deck = new Deck(13, this);
+    deck->move(10, 10);
 
-  Card::setAddFlags(Play, Card::addSpread | Card::several);
-  Card::setRemoveFlags(Play, Card::several | Card::autoTurnTop 
-		       | Card::wholeColumn);
-  Card::setAddFun(Play, altStep);
+    EasyRules = easy;
 
-  Card::setAddFlags(Target, Card::Default);
-  Card::setRemoveFlags(Target, Card::disallow);
-  Card::setAddFun(Target, &step1);
+    pile = new Pile( 0, this);
+    pile->move(100, 10);
+    pile->setAddFlags(Pile::disallow);
+    pile->setRemoveFlags(Pile::Default);
 
-  Card::setAddFlags(Pile, Card::disallow);
-  Card::setRemoveFlags(Pile, Card::Default);
+    QValueList<int> legalmoves;
+    legalmoves.append(0);
+    for (int i = 0; i < 7; i++ )
+        legalmoves.append(i + 5);
+    for (int i = 0; i < 4; i++)
+        legalmoves.append(i + 1);
 
-  Card::setLegalMove(Play, Target);
-  Card::setLegalMove(Play, Play);
+    for( int i = 0; i < 7; i++ ) {
+        play[ i ] = new Pile( i + 5, this);
+        play[i]->move(10 + 85 * i, 130);
+        play[i]->setAddFlags(Pile::addSpread | Pile::several);
+        play[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop | Pile::wholeColumn);
+        play[i]->setAddFun(&altStep);
+        play[i]->setLegalMove(legalmoves);
+    }
 
-  Card::setLegalMove(Pile, Play);
-  Card::setLegalMove(Pile, Target);
+    for( int i = 0; i < 4; i++ ) {
+        target[ i ] = new Pile( i + 1, this );
+        target[i]->move(265 + i * 85, 10);
+        target[i]->setAddFlags(Pile::Default);
+        target[i]->setRemoveFlags(Pile::disallow);
+        target[i]->setAddFun(&step1);
+        target[i]->setLegalMove(legalmoves);
+    }
 
-  deck = new Deck (10, 80, this);
-
-  // override standard Deck definitions
-  Card::setAddFlags(DeckType, Card::disallow);
-  Card::setRemoveFlags(DeckType, Card::disallow);
-
-  EasyRules = TRUE;
-
-  cb = new QComboBox( this, "comboBox" );
-  //cb->insertItem( "Cheating" );
-  cb->insertItem( i18n( "Easy rules" ), 0 );
-  cb->insertItem( i18n( "Hard rules" ), 1 );
-  cb->setGeometry( 10, 30, 120, 30 );
-  cb->setAutoResize( TRUE );
-  cb->setCurrentItem( 0 );
-  cb->show();
-  connect( cb, SIGNAL( activated( int ) ), SLOT( changeDiffLevel( int ) ) );
-
-  pile = new cardPos( 10, 230, this, Pile );
-
-  for( int i = 0; i < 4; i++ )
-    target[ i ] = new cardPos( 210 + i * 85, 10, this, Target );
-  
-  for( int i = 0; i < 7; i++ ) 
-    play[ i ] = new cardPos( 110 + 85 * i, 150, this, Play );
-  
-  connect( deck, SIGNAL( nonMovableCardPressed( int ) ), 
-	   SLOT( deal3() ) );
-  deal();
+    deal();
 }
 
 void Klondike::changeDiffLevel( int l ) {
-  if ( EasyRules == (l == 0) ) 
-    return;
+    if ( EasyRules == (l == 0) )
+        return;
 
-  int r = KMessageBox::warningContinueCancel(this,
-			 i18n("This will end the current game.\n"
-			      "Are you sure you want to do this?"),
-					     QString::null,
-					     i18n("OK"));
-  if(r == KMessageBox::Cancel) {
-    cb->setCurrentItem(1-cb->currentItem());
-    return;
-  }
+    int r = KMessageBox::warningContinueCancel(this,
+                                               i18n("This will end the current game.\n"
+                                                    "Are you sure you want to do this?"),
+                                               QString::null,
+                                               i18n("OK"));
+    if(r == KMessageBox::Cancel) {
+        cb->setCurrentItem(1-cb->currentItem());
+        return;
+    }
 
-  EasyRules = (bool)(l == 0);
-  restart();
+    EasyRules = (bool)(l == 0);
+    restart();
 }
 
-/*
-  Check that there are 3 or more cards in pile (not including argument)
-  assumes that p != 0
- */
-static bool moreThan2(Card* p) {
-  return p->next() && p->next()->next() && p->next()->next()->next();
-}
+void Klondike::show() {
+    QWidget::show();
 
-void Klondike::show() {    
-  int i;
+    deck->show();
 
-  pile->show();
+    pile->show();
 
-  for(i = 0; i < 4; i++)
-    target[i]->show();
-  
-  for(i = 0; i < 7; i++)
-    play[i]->show();
-}
+    for(int i = 0; i < 4; i++)
+        target[i]->show();
 
-void Klondike::undo() {
-  Card::undoLastMove();
+    for(int i = 0; i < 7; i++)
+        play[i]->show();
 }
 
 void Klondike::restart() {
-  deck->collectAndShuffle();  
-  deal();
+    kdDebug() << "restart\n";
+    deck->collectAndShuffle();
+    deal();
 }
 
 Klondike::~Klondike() {
-  delete deck;
-  delete pile;
+    delete deck;
+    delete pile;
 
-  for(int i=0; i<4; i++)
-    delete target[i];
+    for(int i=0; i<4; i++)
+        delete target[i];
 
-  for(int i=0; i<7; i++)
-    delete play[i];
+    for(int i=0; i<7; i++)
+        delete play[i];
 }
 
-void Klondike::deal3() {
-  Card::dont_undo();
+void Klondike::deal3()
+{
+    int draw;
 
-  if ( !EasyRules && !deck->next() 
-       ||  EasyRules && !moreThan2(deck) && pile->next() ) 
-    {
-      redeal();
-      return;
+    if ( EasyRules) {
+        draw = 1;
+    } else {
+        draw = 3;
     }
 
-  Card *p = deck->top();
-  for(int i = 0; i<3 && (!p->empty()) ; i++) {
-    Card* t = p->prev();
-    p->remove();
-    pile->add(p, FALSE, FALSE); // faceup, nospread
-    p = t;
-  }    
+    if (deck->isEmpty())
+    {
+        redeal();
+        return;
+    }
+    for (int flipped = 0; flipped < draw ; ++flipped) {
+
+        Card *item = deck->nextCard();
+        if (!item) {
+            kdDebug() << "deck empty!!!\n";
+            return;
+        }
+        pile->add(item, true, false); // facedown, nospread
+        // move back to flip
+        item->move(deck->x(), deck->y());
+
+        item->flipTo( pile->x(), pile->y(), 8 * (flipped + 1) );
+    }
+
 }
 
 
 //  Add cards from  pile to deck, in reverse direction
 void Klondike::redeal() {
-  Card* olddeck = 0;
 
-  if (EasyRules) {
-    // the remaining cards in deck should be on top
-    // of the new deck
+    CardList pilecards = pile->cards();
+    if (EasyRules)
+        // the remaining cards in deck should be on top
+        // of the new deck
+        pilecards += deck->cards();
 
-    olddeck = deck->next();
-    if (olddeck) 
-      olddeck->remove();
-  }
+    for (CardList::Iterator it = pilecards.fromLast(); it != pilecards.end(); --it)
+    {
+        deck->add(*it, true, false); // facedown, nospread
+    }
 
-  Card* p = pile->top();
-  while (!p->empty()) {
-    Card* t = p->prev();
-    p->remove();
-    deck->add(p, TRUE, FALSE); // facedown, nospread
-    p = t;
-  }
-
-  if (EasyRules)
-    // put the cards from the old deck on top
-    if (olddeck) 
-      deck->add(olddeck);
 }
 
 void Klondike::deal() {
-  for(int round=0; round < 7; round++)
-    for (int i = round; i < 7; i++ )
-      play[i]->add(deck->getCard(), i != round, TRUE);
+    for(int round=0; round < 7; round++)
+        for (int i = round; i < 7; i++ )
+            play[i]->add(deck->nextCard(), i != round, true);
+    canvas()->update();
 }
 
-bool Klondike::wholeBunch( const Card* c ) {
-  if (c->prev()) 
-    return c->prev()->empty()  || !c->prev()->FaceUp();
-  else 
-    return TRUE;	
+bool Klondike::step1( const Pile* c1, const CardList& c2 ) {
+
+    if (c2.isEmpty()) {
+        return false;
+    }
+    Card *top = c1->top();
+
+    Card *newone = c2.first();
+    if (!top) {
+        return (newone->value() == Card::Ace);
+    }
+
+    bool t = ((newone->value() == top->value() + 1)
+               && (top->suit() == newone->suit()));
+    return t;
 }
 
-bool Klondike::step1( const Card* c1, const Card* c2 ) {
-  return (c2->Value() == c1->Value() + 1)
-    && (c1->Suit() != Card::Empty ? c1->Suit() == c2->Suit() : TRUE);
+bool Klondike::altStep(  const Pile* c1, const CardList& c2 )
+{
+    if (c2.isEmpty()) {
+        return false;
+    }
+    Card *top = c1->top();
+
+    Card *newone = c2.first();
+    if (!top) {
+        return (newone->value() == Card::King);
+    }
+
+    bool t = ((newone->value() == top->value() - 1)
+               && (top->isRed() != newone->isRed()));
+    return t;
 }
 
-bool Klondike::altStep( const Card* c1, const Card* c2) {
-  if (c1->Suit() == Card::Empty) 
-    return c2->Value() == Card::King;
-  else
-    return (c2->Value() == c1->Value() - 1) && c1->Red() != c2->Red();
+void Klondike::cardClicked(Card *c) {
+
+    Dealer::cardClicked(c);
+    if (c->source() == deck) {
+        pileClicked(deck);
+        return;
+    }
+
+}
+void Klondike::pileClicked(Pile *c) {
+    Dealer::pileClicked(c);
+
+    if (c == deck) {
+        deal3();
+    }
 }
 
-QSize Klondike::sizeHint() const {
-  return QSize(730, 476);
+void Klondike::cardDblClicked(Card *c) {
+    Dealer::cardDblClicked(c);
+
+    if (c == c->source()->top() && c->isFaceUp()) {
+        CardList empty;
+        empty.append(c);
+
+        for (int j = 0; j < 4; j++)
+        {
+            if (step1(target[j], empty)) {
+                c->source()->moveCards(empty, target[j]);
+                canvas()->update();
+                break;
+            }
+        }
+    }
 }
+
+static class LocalDealerInfo0 : public DealerInfo
+{
+public:
+    LocalDealerInfo0() : DealerInfo(I18N_NOOP("&Klondike - Draw 1"), 1) {}
+    virtual Dealer *createGame(KMainWindow *parent) { return new Klondike(true, parent); }
+} gfi;
+
+static class LocalDealerInfo0_2 : public DealerInfo
+{
+public:
+    LocalDealerInfo0_2() : DealerInfo(I18N_NOOP("Klondike - &Draw 3"), 2) {}
+    virtual Dealer *createGame(KMainWindow *parent) { return new Klondike(false, parent); }
+} gfi2;
 
 #include "klondike.moc"

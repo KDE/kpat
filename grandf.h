@@ -27,36 +27,44 @@
 #ifndef P_GRANDF_7
 #define P_GRANDF_7
 
-#include "patience.h"
+#include "dealer.h"
+#include "card.h"
+#include <qpushbutton.h>
 
-class Grandf : public dealer {
-  Q_OBJECT
+class KAction;
+class Pile;
+class Deck;
+class KMainWindow;
+
+class Grandf : public Dealer {
+    Q_OBJECT
+
 public:
-  Grandf( QWidget* parent=0, const char* name=0);
-  virtual ~Grandf();
+    Grandf( KMainWindow* parent=0, const char* name=0);
+    virtual ~Grandf();
 
-  virtual void show();
-  virtual void undo();
-
-  QSize sizeHint() const;
+    virtual void show();
 
 public slots:
-  void redeal();
-  void deal();
-  virtual void restart();
-  virtual void hint();
+    void redeal();
+    void deal();
+    virtual void restart();
+    virtual void hint();
 
 private: // functions
-  void collect();
-  static bool step1( const Card* c1, const Card* c2);
-  static bool Sstep1( const Card* c1, const Card* c2);
+    void collect();
+    static bool step1( const Pile* c1, const CardList& c2);
+    static bool Sstep1( const Pile* c1, const CardList& c2);
+    virtual void cardDblClicked(Card *);
 
 private:
-  cardPos* store[7];
-  cardPos* target[4];
-  Deck *deck;
-  QPushButton rb;
-  int numberOfDeals;
+    Pile* store[7];
+    Pile* target[4];
+    Deck *deck;
+    int numberOfDeals;
+    KAction *ahint;
+    KAction *aredeal;
+
 };
 
 #endif

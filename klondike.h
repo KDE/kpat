@@ -27,43 +27,45 @@
 #ifndef P_KLONDIKE
 #define P_KLONDIKE
 
-#include "patience.h"
 #include <qcombobox.h>
+#include "dealer.h"
 
-class Klondike : public dealer {
-  Q_OBJECT
+class Klondike : public Dealer {
+    Q_OBJECT
+
 public:
-  Klondike( QWidget* parent=0, const char* name=0);
-  virtual ~Klondike();
+    Klondike( bool easy, KMainWindow* parent=0, const char* name=0);
+    virtual ~Klondike();
 
-  virtual void show();
-  QSize sizeHint() const;
+    virtual void show();
 
 public slots:
-  void changeDiffLevel(int lvl);
-  virtual void restart();
-  
-  void redeal(); // put pile back into deck
-  void deal();
-  void deal3(); // move up to 3 cards from deck to pile
-  virtual void undo();
+    void changeDiffLevel(int lvl);
 
-  //signals:
-  //void setDiffLevel();
+public:
+    virtual void restart();
+
+    void redeal(); // put pile back into deck
+    void deal();
+    void deal3(); // move up to 3 cards from deck to pile
+
+    virtual void cardClicked(Card *);
+    virtual void pileClicked(Pile *c);
+    virtual void cardDblClicked(Card *);
 
 private:
-  static bool step1( const Card* c1, const Card* c2);
-  static bool altStep( const Card* c1, const Card* c2);
-  static bool wholeBunch( const Card* c);
+    static bool step1( const Pile* c1, const CardList& c2);
+    static bool altStep( const Pile* c1, const CardList& c2);
+    static bool wholeBunch( const Card* c);
 
-  bool EasyRules;
+    bool EasyRules;
 
-  cardPos* play[7];
-  cardPos* target[4];
+    Pile* play[7];
+    Pile* target[4];
 
-  cardPos *pile;
-  Deck* deck;
-  QComboBox *cb;
+    Pile *pile;
+    Deck* deck;
+    QComboBox *cb;
 };
 
 #endif

@@ -1,32 +1,24 @@
 
-INCLUDES = $(all_includes) 
+INCLUDES = $(all_includes)
 
 LDFLAGS = $(all_libraries) $(KDE_RPATH)
 LDADD =       $(LIB_KDEUI)
 
 bin_PROGRAMS = kpat
 
-kpat_SOURCES = main.cpp patience.cpp cardmaps.cpp \
-	  computation.cpp klondike.cpp grandf.cpp ten.cpp\
-	  basiccard.cpp card.cpp napoleon.cpp idiot.cpp\
-	  microsol.cpp pwidget.cpp freecell.cpp mod3.cpp
+kpat_SOURCES = main.cpp cardmaps.cpp card.cpp dealer.cpp \
+	pwidget.cpp pile.cpp deck.cpp grandf.cpp klondike.cpp mod3.cpp
+#	  computation.cpp ten.cpp napoleon.cpp idiot.cpp freecell.cpp 
 
-METASOURCES = patience.moc computation.moc klondike.moc\
-	  grandf.moc basiccard.moc card.moc mod3.moc\
-	  ten.moc napoleon.moc idiot.moc freecell.moc\
-	  microsol.moc pwidget.moc cardmaps.moc
-
-noinst_HEADERS = basiccard.h global.h napoleon.h card.h grandf.h patience.h \
-				cardmaps.h idiot.h pwidget.h computation.h klondike.h \
-				copyright.h microsol.h ten.h freecell.h mod3.h version.h     
+METASOURCES = AUTO
 
 SUBDIRS = icons pics
 
 apps_DATA = kpat.desktop
 appsdir   = $(kde_appsdir)/Games
 
-EXTRA_DIST = $(apps_DATA) 
+rcdir = $(kde_datadir)/kpat
+rc_DATA = kpatui.rc
 
 messages: rc.cpp
 	$(XGETTEXT) *.cpp -o $(podir)/kpat.pot
-

@@ -24,7 +24,7 @@
 #include <qcombobox.h>
 #include <krandomsequence.h>
 #include "computation.h"
-#include "global.h"
+#include <klocale.h>
 
 const int Computation::Store = 1;
 const int Computation::Target1 = 2;
@@ -56,7 +56,7 @@ void Computation::initByDiffLevel() {
   int used[4] = {0, 0, 0, 0};
   KRandomSequence rand(0);
   int i;
-    
+
   int n = (5 - diffLevel) % 5;   // How many cards do we give?
 
   while ( n-- ){
@@ -68,17 +68,17 @@ void Computation::initByDiffLevel() {
     Card* p = getCardByValue( i+1 );
     p->turnTop();
     switch (i+1) {
-    case 1: p01.add(p); break; 
-    case 2: p02.add(p); break; 
-    case 3: p03.add(p); break; 
-    case 4: p04.add(p); break; 
+    case 1: p01.add(p); break;
+    case 2: p02.add(p); break;
+    case 3: p03.add(p); break;
+    case 4: p04.add(p); break;
       // default: panic
     }
   }
 }
 
 Computation::Computation( QWidget *parent, const char *name )
-  :dealer( parent, name), 
+  :dealer( parent, name),
 
    d(10, 100, this),
    p01(110, 10, this, Target1),
@@ -90,7 +90,7 @@ Computation::Computation( QWidget *parent, const char *name )
    p13(310, 150, this, Store),
    p14(410, 150, this, Store)
 
-{ 
+{
   QComboBox *cb = new QComboBox( this, "comboBox" );
   cb->insertItem( i18n("Easy 4") );
   cb->insertItem( i18n("Easy 3") );
@@ -105,9 +105,9 @@ Computation::Computation( QWidget *parent, const char *name )
 
   cb->setCurrentItem(4);
   diffLevel = 0;
-    
+
   cb->setGeometry( 10, 30, 120, 30 );
-  cb->setAutoResize( TRUE );
+  cb->setAutoResize( true );
   cb->show();
   connect( cb, SIGNAL(activated(int)), SLOT(changeDiffLevel(int)) );
 
@@ -157,7 +157,7 @@ void Computation::restart() {
 }
 
 void Computation::show() {
-  d.show();   
+  d.show();
   p01.show();
   p02.show();
   p03.show();
@@ -166,37 +166,44 @@ void Computation::show() {
   p12.show();
   p13.show();
   if (diffLevel <= 0) {
-    p14.show();
-    p14.setEnabled(TRUE);
+      //    p14.show();
+    p14.setEnabled(true);
   }
   else {
-    p14.hide();
-    p14.setEnabled(FALSE);
+      // p14.hide();
+    p14.setEnabled(false);
   }
 }
 
 bool Computation::step1( const Card* c1, const Card* c2)  {
   return (c2->Value() % 13 == (c1->Value() + 1) % 13)
-    && (c2->next() ? step1( c2, c2->next()) : TRUE);
+    && (c2->next() ? step1( c2, c2->next()) : true);
 }
 
 bool Computation::step2( const Card* c1, const Card* c2) {
   return (c2->Value() % 13 == (c1->Value() + 2) % 13)
-    && (c2->next() ? step2( c2, c2->next()) : TRUE);
+    && (c2->next() ? step2( c2, c2->next()) : true);
 }
 
 bool Computation::step3( const Card* c1, const Card* c2) {
   return (c2->Value() % 13 == (c1->Value() + 3) % 13)
-    && (c2->next() ? step3( c2, c2->next()) : TRUE);
+    && (c2->next() ? step3( c2, c2->next()) : true);
 }
 
 bool Computation::step4( const Card* c1, const Card* c2) {
   return (c2->Value() % 13 == (c1->Value() + 4) % 13)
-    && (c2->next() ? step4( c2, c2->next()) : TRUE);
+    && (c2->next() ? step4( c2, c2->next()) : true);
 }
 
 QSize Computation::sizeHint() const {
   return QSize(540, 476);
 }
+
+static class LocalDealerInfo2 : public DealerInfo
+{
+public:
+    LocalDealerInfo2() : DealerInfo(I18N_NOOP("&Calculation"), 2) {}
+    virtual dealer *createGame(QWidget *parent) { return new Computation(parent); }
+} gfi;
 
 #include "computation.moc"

@@ -20,7 +20,7 @@
 
 #include <qdialog.h>
 #include "freecell.h"
-#include "global.h"
+#include <klocale.h>
 
 #define STACK 1
 #define FREECELL 2
@@ -35,74 +35,74 @@ int dont_put_on_free_stack = 0;
 
 void Freecell::restart()
 {
-	deck->collectAndShuffle();
+        deck->collectAndShuffle();
 
-	deal();
+        deal();
 }
 
 //-------------------------------------------------------------------------//
 
 void Freecell::undo()
 {
-	Card::undoLastMove();
+        Card::undoLastMove();
 }
 
 //-------------------------------------------------------------------------//
 
 void Freecell::show()
 {
-	int i;
+        int i;
 
-	for (i = 0; i < 8; i++)
-		stack[i]->show();
+        for (i = 0; i < 8; i++)
+                stack[i]->show();
 
-	for (i = 0; i < 4; i++)
-	{
-		freecell[i]->show();
-		store[i]->show();
-	}
+        for (i = 0; i < 4; i++)
+        {
+                freecell[i]->show();
+                store[i]->show();
+        }
 }
 
 //-------------------------------------------------------------------------//
 
 Freecell::Freecell( QWidget* parent, const char* name)
-	: dealer(parent,name)
+        : dealer(parent,name)
 {
-	freecell_game = this;
+        freecell_game = this;
 
-	deck = new Deck (-666, -666, this);
+        deck = new Deck (-666, -666, this);
 
-	Card::setLegalMove (STACK, STORE);
-	Card::setLegalMove (FREECELL, STORE);
-	Card::setLegalMove (STACK, STACK);
-	Card::setLegalMove (FREECELL, STACK);
-	Card::setLegalMove (STACK, FREECELL);
-	Card::setLegalMove (FREECELL, FREECELL);
+        Card::setLegalMove (STACK, STORE);
+        Card::setLegalMove (FREECELL, STORE);
+        Card::setLegalMove (STACK, STACK);
+        Card::setLegalMove (FREECELL, STACK);
+        Card::setLegalMove (STACK, FREECELL);
+        Card::setLegalMove (FREECELL, FREECELL);
 
-	Card::setAddFlags (STACK, Card::addSpread | Card::several);
-	Card::setRemoveFlags (STACK, Card::several);
-	Card::setAddFlags (FREECELL, Card::Default);
-	Card::setAddFlags (STORE, Card::Default);
-	Card::setRemoveFlags (STORE, Card::disallow);
+        Card::setAddFlags (STACK, Card::addSpread | Card::several);
+        Card::setRemoveFlags (STACK, Card::several);
+        Card::setAddFlags (FREECELL, Card::Default);
+        Card::setAddFlags (STORE, Card::Default);
+        Card::setRemoveFlags (STORE, Card::disallow);
 
-	Card::setAddFun (STACK, &::CanPut);
-	Card::setAddFun (FREECELL, &::CanPut);
-	Card::setAddFun (STORE, &::CanPut);
-	Card::setRemoveFun (STACK, &::CanRemove);
+        Card::setAddFun (STACK, &::CanPut);
+        Card::setAddFun (FREECELL, &::CanPut);
+        Card::setAddFun (STORE, &::CanPut);
+        Card::setRemoveFun (STACK, &::CanRemove);
 
-	for (int r = 0; r < 4; r++)
-	{
-		int i;
+        for (int r = 0; r < 4; r++)
+        {
+                int i;
 
-		for (i = 0; i < 8; i++)
-			stack[i] = new cardPos (8+80*i, 113, this, STACK);
+                for (i = 0; i < 8; i++)
+                        stack[i] = new cardPos (8+80*i, 113, this, STACK);
 
-		for (i = 0; i < 4; i++)
-		{
-			freecell[i] = new cardPos (8+76*i, 8, this, FREECELL);
-			store[i] = new cardPos (338+76*i, 8, this, STORE);
-		}
-	}
+                for (i = 0; i < 4; i++)
+                {
+                        freecell[i] = new cardPos (8+76*i, 8, this, FREECELL);
+                        store[i] = new cardPos (338+76*i, 8, this, STORE);
+                }
+        }
 
 /*
   QPushButton* hb= new QPushButton(i18n("Hint"),this);
@@ -112,57 +112,57 @@ Freecell::Freecell( QWidget* parent, const char* name)
   hb->show();
 */
 
-	deal();
+        deal();
 }
 
 //-------------------------------------------------------------------------//
 
 Freecell::~Freecell()
 {
-	delete deck;
+        delete deck;
 
-	int i;
+        int i;
 
-	for (i = 0; i < 8; i++)
-		delete stack[i];
+        for (i = 0; i < 8; i++)
+                delete stack[i];
 
-	for (i = 0; i < 4; i++)
-	{
-		delete freecell[i];
-		delete store[i];
-	}
+        for (i = 0; i < 4; i++)
+        {
+                delete freecell[i];
+                delete store[i];
+        }
 }
 
 //-------------------------------------------------------------------------//
 
 int Freecell::CountCards (const Card *c)
 {
-	int n = 0;
+        int n = 0;
 
-	while (c->next())
-	{
-		n++;
-		c = c->next();
-	}
+        while (c->next())
+        {
+                n++;
+                c = c->next();
+        }
 
-	return n;
+        return n;
 }
 
 //-------------------------------------------------------------------------//
 
 int Freecell::CountFreeCells()
 {
-	int i, n = 0;
+        int i, n = 0;
 
-	for (i = 0; i < 8; i++)
-		if (!stack[i]->next())
-			n++;
+        for (i = 0; i < 8; i++)
+                if (!stack[i]->next())
+                        n++;
 
-	for (i = 0; i < 4; i++)
-		if (!freecell[i]->next())
-			n++;
+        for (i = 0; i < 4; i++)
+                if (!freecell[i]->next())
+                        n++;
 
-	return n;
+        return n;
 }
 
 //-------------------------------------------------------------------------//
@@ -170,74 +170,74 @@ int Freecell::CountFreeCells()
 //bool Freecell::CanPut (const Card *c1, const Card *c2)
 bool CanPut (const Card *c1, const Card *c2)
 {
-	if (c1 == c2)
-		return 0;
+        if (c1 == c2)
+                return 0;
 
-	switch (c1->type())
-	{
-	case STORE:
-		// only aces in empty spaces
-		if (c1->Suit() == Card::Empty)
-			return (c2->Value() == Card::Ace);
+        switch (c1->type())
+        {
+        case STORE:
+                // only aces in empty spaces
+                if (c1->Suit() == Card::Empty)
+                        return (c2->Value() == Card::Ace);
 
-		// ok if in sequence, same suit
-		return (c1->Suit() == c2->Suit())
-			&& ((c1->Value()+1) == c2->Value());
-		break;
+                // ok if in sequence, same suit
+                return (c1->Suit() == c2->Suit())
+                        && ((c1->Value()+1) == c2->Value());
+                break;
 
-	case FREECELL:
-		// ok if the target is empty
-		return (c1->Suit() == Card::Empty);
-		break;
+        case FREECELL:
+                // ok if the target is empty
+                return (c1->Suit() == Card::Empty);
+                break;
 
-	case STACK:
-		// ok if the target is empty
-		if (c1->Suit() == Card::Empty)
-			// unless this flag is set (explained on CanRemove())
-			return (!dont_put_on_free_stack);
+        case STACK:
+                // ok if the target is empty
+                if (c1->Suit() == Card::Empty)
+                        // unless this flag is set (explained on CanRemove())
+                        return (!dont_put_on_free_stack);
 
-		// ok if in sequence, alternate colors
-		return ((c1->Value() == (c2->Value()+1))
-			&& (c1->Red() != c2->Red()));
-	}
+                // ok if in sequence, alternate colors
+                return ((c1->Value() == (c2->Value()+1))
+                        && (c1->Red() != c2->Red()));
+        }
 
-	return 0;
+        return 0;
 }
 
 //-------------------------------------------------------------------------//
 
 bool CanRemove (const Card *c)
 {
-	dont_put_on_free_stack = 0;
+        dont_put_on_free_stack = 0;
 
-	// ok if just one card
-	if (!c->next())
-		return 1;
+        // ok if just one card
+        if (!c->next())
+                return 1;
 
-	// Now we're trying to move two or more cards.
+        // Now we're trying to move two or more cards.
 
-	// First, let's check if the column is in valid
-	// (that is, in sequence, alternated colors).
-	for (const Card *t = c; t->next(); t = t->next())
-	{
-		if (!((t->Value() == (t->next()->Value()+1))
-			&& (t->Red() != t->next()->Red())))
-		{
-			return 0;
-		}
-	}
+        // First, let's check if the column is in valid
+        // (that is, in sequence, alternated colors).
+        for (const Card *t = c; t->next(); t = t->next())
+        {
+                if (!((t->Value() == (t->next()->Value()+1))
+                        && (t->Red() != t->next()->Red())))
+                {
+                        return 0;
+                }
+        }
 
-	// Now, let's see if there are enough free cells available.
-	int numFreeCells = freecell_game->CountFreeCells();
-	int numCards = freecell_game->CountCards (c);
+        // Now, let's see if there are enough free cells available.
+        int numFreeCells = freecell_game->CountFreeCells();
+        int numCards = freecell_game->CountCards (c);
 
-	// If the the destination will be a free stack, the number of
-	// free cells needs to be greater. (We couldn't count the
-	// destination free stack.)
-	if (numFreeCells == numCards)
-		dont_put_on_free_stack = 1;
+        // If the the destination will be a free stack, the number of
+        // free cells needs to be greater. (We couldn't count the
+        // destination free stack.)
+        if (numFreeCells == numCards)
+                dont_put_on_free_stack = 1;
 
-	return (numCards <= numFreeCells);
+        return (numCards <= numFreeCells);
 }
 
 //-------------------------------------------------------------------------//
@@ -247,7 +247,7 @@ void Freecell::deal()
 	int column = 0;
 	while (deck->next())
 	{
-		stack[column]->add (deck->getCard(), FALSE, TRUE);
+		stack[column]->add (deck->getCard(), false, true);
 		column = (column + 1) % 8;
 	}
 }
@@ -256,8 +256,15 @@ void Freecell::deal()
 
 QSize Freecell::sizeHint() const
 {
-	return QSize (650, 450);
+        return QSize (650, 450);
 }
+
+static class LocalDealerInfo8 : public DealerInfo
+{
+public:
+    LocalDealerInfo8() : DealerInfo(I18N_NOOP("&Freecell"), 8) {}
+    virtual dealer *createGame(QWidget *parent) { return new Freecell(parent); }
+} gfi;
 
 //-------------------------------------------------------------------------//
 
