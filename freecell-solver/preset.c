@@ -32,8 +32,8 @@ enum fcs_presets_ids
     FCS_PRESET_BAKERS_DOZEN,
     FCS_PRESET_BAKERS_GAME,
     FCS_PRESET_CRUEL,
-    FCS_PRESET_DER_KATZENSCHWANTZ,
-    FCS_PRESET_DIE_SCHALANGE, 
+    FCS_PRESET_DER_KATZENSCHWANZ,
+    FCS_PRESET_DIE_SCHLANGE, 
     FCS_PRESET_EIGHT_OFF,
     FCS_PRESET_FORECELL, 
     FCS_PRESET_FREECELL,
@@ -44,7 +44,7 @@ enum fcs_presets_ids
     FCS_PRESET_SEAHAVEN_TOWERS
 };
 
-static fcs_preset_t fcs_presets[13] =
+static const fcs_preset_t fcs_presets[13] =
 {
     {
         FCS_PRESET_BAKERS_DOZEN,
@@ -77,7 +77,7 @@ static fcs_preset_t fcs_presets[13] =
         FCS_ES_FILLED_BY_NONE,
     },
     {
-        FCS_PRESET_DER_KATZENSCHWANTZ,
+        FCS_PRESET_DER_KATZENSCHWANZ,
         8,
         9,
         2,
@@ -87,7 +87,7 @@ static fcs_preset_t fcs_presets[13] =
         FCS_ES_FILLED_BY_NONE,
     },
     {
-        FCS_PRESET_DIE_SCHALANGE,
+        FCS_PRESET_DIE_SCHLANGE,
         8,
         9,
         2,
@@ -180,13 +180,13 @@ static fcs_preset_t fcs_presets[13] =
 
 struct fcs_preset_name_struct
 {
-    char name[32];
+    const char name[32];
     int preset_id;
 };
 
 typedef struct fcs_preset_name_struct fcs_preset_name_t;
 
-static fcs_preset_name_t fcs_preset_names[17] =
+static const fcs_preset_name_t fcs_preset_names[17] =
 {
     {
         "bakers_dozen",
@@ -201,16 +201,16 @@ static fcs_preset_name_t fcs_preset_names[17] =
         FCS_PRESET_CRUEL,
     },
     {
-        "der_katzenschwantz",
-        FCS_PRESET_DER_KATZENSCHWANTZ,
+        "der_katzenschwanz",
+        FCS_PRESET_DER_KATZENSCHWANZ,
     },
     {
         "der_katz",
-        FCS_PRESET_DER_KATZENSCHWANTZ,
+        FCS_PRESET_DER_KATZENSCHWANZ,
     },
     {
         "die_schlange",
-        FCS_PRESET_DIE_SCHALANGE,
+        FCS_PRESET_DIE_SCHLANGE,
     },
     {
         "eight_off",

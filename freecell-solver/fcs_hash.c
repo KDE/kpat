@@ -20,7 +20,7 @@
 
 #define NUM_PRIMES 136
 
-static int primes_list[NUM_PRIMES+1] = {
+static const int primes_list[NUM_PRIMES+1] = {
     257,
     293,
     331,

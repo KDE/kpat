@@ -205,7 +205,7 @@ int freecell_solver_sfs_move_top_stack_cards_to_founds(
             card = fcs_stack_card(state,stack,cards_num-1);
             for(deck=0;deck<instance->decks_num;deck++)
             {
-                if (fcs_deck_value(state, deck*4+fcs_card_deck(card)) == fcs_card_card_num(card) - 1)
+                if (fcs_deck_value(state, deck*4+fcs_card_suit(card)) == fcs_card_card_num(card) - 1)
                 {
                     /* We can put it there */
 
@@ -213,13 +213,13 @@ int freecell_solver_sfs_move_top_stack_cards_to_founds(
 
                     fcs_pop_stack_card(new_state, stack, temp_card);
 
-                    fcs_increment_deck(new_state, deck*4+fcs_card_deck(card));
+                    fcs_increment_deck(new_state, deck*4+fcs_card_suit(card));
 
                     fcs_move_stack_reset(moves);
 
                     fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_FOUNDATION);
                     fcs_move_set_src_stack(temp_move,stack);
-                    fcs_move_set_foundation(temp_move,deck*4+fcs_card_deck(card));
+                    fcs_move_set_foundation(temp_move,deck*4+fcs_card_suit(card));
 
                     fcs_move_stack_push(moves, temp_move);
                     
@@ -287,8 +287,8 @@ int freecell_solver_sfs_move_top_stack_cards_to_founds(
                             /* instance->sequences_are_built_by == FCS_SEQ_BUILT_BY_ALTERNATE_COLOR */
                             for(d=0;d<instance->decks_num;d++)
                             {
-                                if (!((fcs_card_card_num(card) - 2 <= fcs_deck_value(state, d*4+(fcs_card_deck(card)^0x1))) &&
-                                    (fcs_card_card_num(card) - 2 <= fcs_deck_value(state, d*4+(fcs_card_deck(card)^0x3)))))
+                                if (!((fcs_card_card_num(card) - 2 <= fcs_deck_value(state, d*4+(fcs_card_suit(card)^0x1))) &&
+                                    (fcs_card_card_num(card) - 2 <= fcs_deck_value(state, d*4+(fcs_card_suit(card)^0x3)))))
                                 {
                                     break;
                                 }
@@ -343,19 +343,19 @@ int freecell_solver_sfs_move_freecell_cards_to_founds(
         {
             for(deck=0;deck<instance->decks_num;deck++)
             {
-                if (fcs_deck_value(state, deck*4+fcs_card_deck(card)) == fcs_card_card_num(card) - 1)
+                if (fcs_deck_value(state, deck*4+fcs_card_suit(card)) == fcs_card_card_num(card) - 1)
                 {
                     /* We can put it there */
                     sfs_check_state_begin()
                         
                     fcs_empty_freecell(new_state, fc);
 
-                    fcs_increment_deck(new_state, deck*4+fcs_card_deck(card));
+                    fcs_increment_deck(new_state, deck*4+fcs_card_suit(card));
 
                     fcs_move_stack_reset(moves);
                     fcs_move_set_type(temp_move,FCS_MOVE_TYPE_FREECELL_TO_FOUNDATION);
                     fcs_move_set_src_freecell(temp_move,fc);
-                    fcs_move_set_foundation(temp_move,deck*4+fcs_card_deck(card));
+                    fcs_move_set_foundation(temp_move,deck*4+fcs_card_suit(card));
 
                     fcs_move_stack_push(moves, temp_move);
                     
@@ -426,8 +426,8 @@ int freecell_solver_sfs_move_freecell_cards_to_founds(
                             /* instance->sequences_are_built_by == FCS_SEQ_BUILT_BY_ALTERNATE_COLOR */
                             for(d=0;d<instance->decks_num;d++)
                             {
-                                if (!((fcs_card_card_num(card) - 2 <= fcs_deck_value(state, d*4+(fcs_card_deck(card)^0x1))) &&
-                                    (fcs_card_card_num(card) - 2 <= fcs_deck_value(state, d*4+(fcs_card_deck(card)^0x3)))))
+                                if (!((fcs_card_card_num(card) - 2 <= fcs_deck_value(state, d*4+(fcs_card_suit(card)^0x1))) &&
+                                    (fcs_card_card_num(card) - 2 <= fcs_deck_value(state, d*4+(fcs_card_suit(card)^0x3)))))
                                 {
                                     break;
                                 }
@@ -636,7 +636,7 @@ int freecell_solver_sfs_move_non_top_stack_cards_to_founds(
             card = fcs_stack_card(state, stack, c);
             for(deck=0;deck<instance->decks_num;deck++)
             {
-                if (fcs_deck_value(state, deck*4+fcs_card_deck(card)) == fcs_card_card_num(card)-1)
+                if (fcs_deck_value(state, deck*4+fcs_card_suit(card)) == fcs_card_card_num(card)-1)
                 {
                     /* The card is deckable. Now let's check if we can move the
                      * cards above it to the freecells and stacks */
@@ -695,11 +695,11 @@ int freecell_solver_sfs_move_non_top_stack_cards_to_founds(
                         }
 
                         fcs_pop_stack_card(new_state, stack, temp_card);
-                        fcs_increment_deck(new_state, deck*4+fcs_card_deck(temp_card));
+                        fcs_increment_deck(new_state, deck*4+fcs_card_suit(temp_card));
 
                         fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_FOUNDATION);
                         fcs_move_set_src_stack(temp_move,stack);
-                        fcs_move_set_foundation(temp_move,deck*4+fcs_card_deck(temp_card));
+                        fcs_move_set_foundation(temp_move,deck*4+fcs_card_suit(temp_card));
 
                         fcs_move_stack_push(moves, temp_move);
                         
@@ -765,7 +765,7 @@ int freecell_solver_sfs_move_stack_cards_to_a_parent_on_the_same_stack(
             {
                 prev_card = fcs_stack_card(state, stack, c-1);
                 if ((fcs_card_card_num(prev_card) == fcs_card_card_num(card)+1) &&
-                    ((fcs_card_deck(prev_card) & 0x1) != (fcs_card_deck(card) & 0x1)))
+                    ((fcs_card_suit(prev_card) & 0x1) != (fcs_card_suit(card) & 0x1)))
                 {
                    a = 0;  
                 }

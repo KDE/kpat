@@ -1,3 +1,36 @@
+From 1.4.5 to 1.4.6
+-------------------
+
+* Applied the NetBSD+MD5 patch sent to me by Stephan Kulow.
+
+From 1.4.4 to 1.4.5
+-------------------
+
+* Backported the bug fix of the Soft-DFS scan that I discovered in the 1.5.x
+branch. Sometimes when doing the last test, the scan left the current depth, 
+while there were other states waiting.
+
+From 1.4.3 to 1.4.4
+-------------------
+
+* Placed the Priority Queue and BFS Queue de-allocation in 
+free_instance() instead of finish_instance().
+
+* Placed the Architecture.txt and Architecture.summary.txt documents in
+devel_docs.
+
+From 1.4.2 to 1.4.3
+-------------------
+
+* Made sure tat finish_instance is not called if user_solve was not called
+in lib.c
+
+From 1.4.1 to 1.4.2
+-------------------
+
+* Applied the patch from Markus Oberhumer. Basically, some spelling errors
+and some const stuff.
+
 From 1.4.0 to 1.4.1
 -------------------
 

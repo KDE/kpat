@@ -1,5 +1,6 @@
 /*
- * card.c - card functions module for Freecell Solver
+ * card.c - functions to convert cards and card components to and from
+ * its user representation. 
  *
  * Written by Shlomi Fish (shlomif@vipe.technion.ac.il), 2000
  *
@@ -13,6 +14,11 @@
 
 #define uc(c) ( (((c)>='a') && ((c)<='z')) ?  ((c)+'A'-'a') : (c))
 
+/*
+ * This function converts a card number from its user representation
+ * (e.g: "A", "K", "9") to its card number that can be used by
+ * the program.
+ * */
 int fcs_u2p_card_number(const char * string)
 {
     char rest = uc(*string);
@@ -52,12 +58,18 @@ int fcs_u2p_card_number(const char * string)
 }
 
 
-
-int fcs_u2p_deck(const char * deck)
+/*
+ * This function converts a string containing a suit letter (that is
+ * one of H,S,D,C) into its suit ID.
+ *
+ * The suit letter may come somewhat after the beginning of the string.
+ *
+ * */
+int fcs_u2p_suit(const char * suit)
 {
     char c;
 
-    c = uc(*deck);
+    c = uc(*suit);
     while (
             (c != 'H') &&
             (c != 'S') &&
@@ -66,8 +78,8 @@ int fcs_u2p_deck(const char * deck)
             (c != ' ') &&
             (c != '\0'))
     {
-        deck++;
-        c = uc(*deck);
+        suit++;
+        c = uc(*suit);
     }
 
     if (c == 'H')
@@ -82,6 +94,10 @@ int fcs_u2p_deck(const char * deck)
         return 0;
 }
 
+/*
+ * This function converts an entire card from its string representations
+ * (e.g: "AH", "KS", "8D"), to a fcs_card_t data type.
+ * */
 fcs_card_t fcs_card_user2perl(const char * str)
 {
     fcs_card_t card;
@@ -89,11 +105,20 @@ fcs_card_t fcs_card_user2perl(const char * str)
     card = 0;
 #endif
     fcs_card_set_num(card, fcs_u2p_card_number(str));
-    fcs_card_set_deck(card, fcs_u2p_deck(str));
+    fcs_card_set_suit(card, fcs_u2p_suit(str));
 
     return card;
 }
 
+
+/*
+ * Those strings contain the string representations of the different cards.
+ * If CARD_DEBUG_PRES is defined then an asterisk is printed as an empty card.
+ *
+ * Notice that there are two of them: one prints 10 and one prints T for the
+ * 10 card.
+ * 
+ * */
 #ifdef CARD_DEBUG_PRES
 char card_map_3_10[14][4] = { "*", "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
 
@@ -106,7 +131,20 @@ char card_map_3_T[14][4] = { " ", "A", "2", "3", "4", "5", "6", "7", "8", "9", "
 
 #endif
 
-char * fcs_p2u_card_number(int num, char * str, int * card_num_is_null, int t)
+/*
+ * Converts a card_number from its internal representation to a string.
+ * 
+ * num - the card number
+ * str - the string to output to.
+ * card_num_is_null - a pointer to a bool that indicates whether 
+ *      the card number is out of range or equal to zero
+ * t - whether 10 should be printed as T or not.
+ * */
+char * fcs_p2u_card_number(
+    int num, 
+    char * str, 
+    int * card_num_is_null, 
+    int t)
 {
     char (*card_map_3) [4] = card_map_3_10;
     if (t)
@@ -126,9 +164,13 @@ char * fcs_p2u_card_number(int num, char * str, int * card_num_is_null, int t)
     return str;
 }
 
-char * fcs_p2u_deck(int deck, char * str, int card_num_is_null)
+/*
+ * Converts a suit to its user representation. 
+ *
+ * */
+char * fcs_p2u_suit(int suit, char * str, int card_num_is_null)
 {
-    if (deck == 0)
+    if (suit == 0)
     {
         if (card_num_is_null)
 #ifdef CARD_DEBUG_PRES
@@ -139,17 +181,21 @@ char * fcs_p2u_deck(int deck, char * str, int card_num_is_null)
         else
             strncpy(str, "H", 2);
     }
-    else if (deck == 1)
+    else if (suit == 1)
         strncpy(str, "S", 2);
-    else if (deck == 2)
+    else if (suit == 2)
         strncpy(str, "D", 2);
-    else if (deck == 3)
+    else if (suit == 3)
         strncpy(str, "C", 2);
     else
         strncpy(str, " ", 2);
     return str;
 }
 
+/*
+ * Convert an entire card to its user representation.
+ * 
+ * */
 char * fcs_card_perl2user(fcs_card_t card, char * str, int t)
 {
     int card_num_is_null;
@@ -159,7 +205,12 @@ char * fcs_card_perl2user(fcs_card_t card, char * str, int t)
             str, 
             &card_num_is_null, 
             t);
-    fcs_p2u_deck(fcs_card_deck(card), str+strlen(str), card_num_is_null);
+    /*
+     * Notice that if card_num_is_null is found to be true
+     * it will affect the output of the suit too.
+     *
+     * */
+    fcs_p2u_suit(fcs_card_suit(card), str+strlen(str), card_num_is_null);
 
     return str;
 }

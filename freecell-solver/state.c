@@ -69,11 +69,11 @@ int fcs_card_compare(const void * card1, const void * card2)
     }
     else
     {
-        if (fcs_card_deck(*c1) > fcs_card_deck(*c2))
+        if (fcs_card_suit(*c1) > fcs_card_suit(*c2))
         {
             return 1;
         }
-        else if (fcs_card_deck(*c1) < fcs_card_deck(*c2))
+        else if (fcs_card_suit(*c1) < fcs_card_suit(*c2))
         {
             return -1;
         }
@@ -393,8 +393,8 @@ int fcs_state_compare_indirect_with_context(const void * s1, const void * s2, vo
 }
 #endif
 
-static const char * freecells_prefixes[] = { "FC:", "Freecells:", "Freecell:", ""};
-static const char * foundations_prefixes[] = { "Decks:", "Deck:", "Founds:", "Foundations:", "Foundation:", "Found:", ""};
+static const char * const freecells_prefixes[] = { "FC:", "Freecells:", "Freecell:", ""};
+static const char * const foundations_prefixes[] = { "Decks:", "Deck:", "Founds:", "Foundations:", "Foundation:", "Found:", ""};
 
 #ifdef WIN32
 #define strncasecmp(a,b,c) (strnicmp((a),(b),(c)))
@@ -415,7 +415,7 @@ fcs_state_with_locations_t fcs_initial_user_state_to_c(
     int first_line;
     
     int prefix_found;
-    const char * * prefixes;
+    const char * const * prefixes;
     int i;
     int decks_index[4];
 
@@ -535,7 +535,7 @@ fcs_state_with_locations_t fcs_initial_user_state_to_c(
                     str++;
                 if ((*str == '\n') || (*str == '\r'))
                     break;
-                d = fcs_u2p_deck(str);
+                d = fcs_u2p_suit(str);
                 str++;
                 while (*str == '-')
                     str++;
@@ -667,7 +667,7 @@ int fcs_check_state_validity(
         {
             if (cards[d][c] != decks_num)
             {
-                fcs_card_set_deck(*misplaced_card, d);
+                fcs_card_set_suit(*misplaced_card, d);
                 fcs_card_set_num(*misplaced_card, c);
                 return (cards[d][c] < decks_num) ? 1 : 2;
             }

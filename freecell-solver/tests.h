@@ -35,8 +35,8 @@ extern freecell_solver_solve_for_state_test_t freecell_solver_sfs_tests[FCS_TEST
     ((instance->sequences_are_built_by == FCS_SEQ_BUILT_BY_RANK) ?   \
         1 :                                                          \
         ((instance->sequences_are_built_by == FCS_SEQ_BUILT_BY_SUIT) ?   \
-            (fcs_card_deck(child) == fcs_card_deck(parent)) :     \
-            ((fcs_card_deck(child) & 0x1) != (fcs_card_deck(parent)&0x1))   \
+            (fcs_card_suit(child) == fcs_card_suit(parent)) :     \
+            ((fcs_card_suit(child) & 0x1) != (fcs_card_suit(parent)&0x1))   \
         ))                \
     )
     

@@ -79,7 +79,7 @@ typedef struct fcs_struct_state_with_locations_t fcs_state_with_locations_t;
 #define fcs_card_card_num(card) \
     ( (card).card_num )
 
-#define fcs_card_deck(card) \
+#define fcs_card_suit(card) \
     ( (card).deck )
 
 #define fcs_freecell_card(state, f) \
@@ -128,7 +128,7 @@ typedef struct fcs_struct_state_with_locations_t fcs_state_with_locations_t;
 #define fcs_empty_freecell(state, f) \
     (state).freecells[(f)] = fcs_empty_card;
 
-#define fcs_card_set_deck(card, d) \
+#define fcs_card_set_suit(card, d) \
     (card).deck = (d) ;
 
 #define fcs_card_set_num(card, num) \
@@ -197,7 +197,7 @@ typedef struct fcs_struct_state_with_locations_t fcs_state_with_locations_t;
 #define fcs_card_card_num(card) \
     ( (card) & 0x0F )
 
-#define fcs_card_deck(card) \
+#define fcs_card_suit(card) \
     ( (card) >> 4 )
 
 #define fcs_stack_len(state, s) \
@@ -210,7 +210,7 @@ typedef struct fcs_struct_state_with_locations_t fcs_state_with_locations_t;
     ( fcs_card_card_num(fcs_stack_card((state),(s),(c))) )
 
 #define fcs_stack_card_deck(state, s, c) \
-    ( fcs_card_deck(fcs_stack_card((state),(s),(c))) )
+    ( fcs_card_suit(fcs_stack_card((state),(s),(c))) )
 
 #define FCS_FREECELLS_OFFSET ((MAX_NUM_STACKS)*(MAX_NUM_CARDS_IN_A_STACK+1))
     
@@ -221,7 +221,7 @@ typedef struct fcs_struct_state_with_locations_t fcs_state_with_locations_t;
     ( fcs_card_card_num(fcs_freecell_card((state),(f))) )
 
 #define fcs_freecell_card_deck(state, f) \
-    ( fcs_card_deck(fcs_freecell_card((state),(f))) )
+    ( fcs_card_suit(fcs_freecell_card((state),(f))) )
 
 #define FCS_FOUNDATIONS_OFFSET (((MAX_NUM_STACKS)*(MAX_NUM_CARDS_IN_A_STACK+1))+(MAX_NUM_FREECELLS))
     
@@ -262,7 +262,7 @@ typedef struct fcs_struct_state_with_locations_t fcs_state_with_locations_t;
 #define fcs_card_set_num(card, num) \
     (card) = (((card)&0xF0)|(num));
 
-#define fcs_card_set_deck(card, deck) \
+#define fcs_card_set_suit(card, deck) \
     (card) = (((card)&0x0F)|((deck)<<4));
 
 #elif defined(INDIRECT_STACK_STATES)
@@ -296,7 +296,7 @@ typedef struct fcs_struct_state_with_locations_t fcs_state_with_locations_t;
 #define fcs_card_card_num(card) \
     ( (card) & 0x0F )
 
-#define fcs_card_deck(card) \
+#define fcs_card_suit(card) \
     ( (card) >> 4 )
 
 #define fcs_standalone_stack_len(stack) \
@@ -312,7 +312,7 @@ typedef struct fcs_struct_state_with_locations_t fcs_state_with_locations_t;
     ( fcs_card_card_num(fcs_stack_card((state),(s),(c))) )
 
 #define fcs_stack_card_deck(state, s, c) \
-    ( fcs_card_deck(fcs_stack_card((state),(s),(c))) )
+    ( fcs_card_suit(fcs_stack_card((state),(s),(c))) )
 
 #define fcs_freecell_card(state, f) \
     ( (state).freecells[(f)] )
@@ -321,7 +321,7 @@ typedef struct fcs_struct_state_with_locations_t fcs_state_with_locations_t;
     ( fcs_card_card_num(fcs_freecell_card((state),(f))) )
 
 #define fcs_freecell_card_deck(state, f) \
-    ( fcs_card_deck(fcs_freecell_card((state),(f))) )
+    ( fcs_card_suit(fcs_freecell_card((state),(f))) )
 
 #define fcs_deck_value(state, d) \
     ( (state).foundations[(d)] )
@@ -358,7 +358,7 @@ typedef struct fcs_struct_state_with_locations_t fcs_state_with_locations_t;
 #define fcs_card_set_num(card, num) \
     (card) = (((card)&0xF0)|(num));
 
-#define fcs_card_set_deck(card, deck) \
+#define fcs_card_set_suit(card, deck) \
     (card) = (((card)&0x0F)|((deck)<<4));
 
 extern void fcs_duplicate_state_proto(

@@ -211,7 +211,10 @@ void freecell_solver_user_free(
         freecell_solver_unresume_instance(user->instance);
     }
 
-    freecell_solver_finish_instance(user->instance);
+    if (user->ret != FCS_STATE_NOT_BEGAN_YET)
+    {
+        freecell_solver_finish_instance(user->instance);
+    }
 
     freecell_solver_free_instance(user->instance);
 
@@ -253,18 +256,19 @@ int freecell_solver_user_set_game(void * user_instance,
     
     user = (fcs_user_t *)user_instance;
 
-    if (freecells_num > MAX_NUM_FREECELLS)
-        {
-            return 1;
-        }
-    if (stacks_num > MAX_NUM_STACKS)
-        {
-            return 2;
-        }
-    if (decks_num > MAX_NUM_DECKS)
-        {
-            return 3;
-        }
+    if (freecells_num < 0 || freecells_num > MAX_NUM_FREECELLS)
+        return 1;
+    if (stacks_num < 1 || stacks_num > MAX_NUM_STACKS)
+        return 2;
+    if (decks_num < 1 || decks_num > MAX_NUM_DECKS)
+        return 3;
+    if (sequences_are_built_by < 0 || sequences_are_built_by > 2)
+        return 4;
+    if (unlimited_sequence_move < 0 || unlimited_sequence_move > 1)
+        return 5;
+    if (empty_stacks_fill < 0 || empty_stacks_fill > 2)
+        return 6;
+
     user->instance->freecells_num = freecells_num;
     user->instance->stacks_num = stacks_num;
     user->instance->decks_num = decks_num;

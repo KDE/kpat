@@ -26,13 +26,13 @@ Notice that it's very important to set the maximal number of initial cards
 per stack, or else it's possible that a stack will eventually overflow.
 
 If you wish to be able to effectively solve games of "Die Schlange" and
-"Der Katzenschwantz", you should also enable the indirect stack states
+"Der Katzenschwanz", you should also enable the indirect stack states
 feature. See the "Indirect Stack States" section below for more information
 on how to do that.
 
 For your convenience you can copy the file "config.h.dkds" in the
 distribution on top of "config.h" in order to compile Freecell Solver
-in a "Der Katzenschwantz"/"Die Schlange" compliant mode (which is
+in a "Der Katzenschwanz"/"Die Schlange" compliant mode (which is
 slower for other games). The original "config.h" can also be found as
 the file "config.h.freecell".
 
@@ -103,7 +103,7 @@ memory you will probably want to enable this feature, but otherwise it will
 result in a performance lost.
 
 Indirect stack states are especially useful for solving boards of 
-"Der Katzenschwantz" and "Die Schlange" where the stacks can be very long.
+"Der Katzenschwanz" and "Die Schlange" where the stacks can be very long.
 
 To enable this feature uncomment the line defining the macro 
 INDIRECT_STACK_STATES while commenting out the line defining the macro

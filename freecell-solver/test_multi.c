@@ -212,6 +212,8 @@ int main(int argc, char * argv[])
     for(board_num=start_board;board_num<=end_board;board_num++)
     {
         user = freecell_solver_user_alloc();
+        freecell_solver_user_free(user);
+        continue;
         freecell_solver_user_set_solving_method(
             user,
             FCS_METHOD_SOFT_DFS
@@ -244,6 +246,8 @@ int main(int argc, char * argv[])
         {
             while (freecell_solver_user_get_next_move(user, &move) == 0)
             {
+            	printf("%i\n", (int)fcs_move_get_type(move)); printf("%i\n",
+            	(int)fcs_move_get_num_cards_in_seq(move));
             }
         }
 

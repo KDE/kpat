@@ -118,6 +118,21 @@ freecell_solver_instance_t * freecell_solver_alloc_instance(void)
 
 void freecell_solver_free_instance(freecell_solver_instance_t * instance)
 {
+    /* Free the BFS linked list */
+    {
+        fcs_states_linked_list_item_t * item, * next_item;
+        item = instance->bfs_queue;
+        while (item != NULL)
+        {            
+            next_item = item->next;
+            free(item);
+            item = next_item;
+        }
+    }
+
+    PQueueFree(instance->a_star_pqueue);
+    free(instance->a_star_pqueue);
+
     free(instance);
 }
 
@@ -591,20 +606,7 @@ void freecell_solver_finish_instance(
 
 
 
-    /* Free the BFS linked list */
-    {
-        fcs_states_linked_list_item_t * item, * next_item;
-        item = instance->bfs_queue;
-        while (item != NULL)
-        {            
-            next_item = item->next;
-            free(item);
-            item = next_item;
-        }
-    }
 
-    PQueueFree(instance->a_star_pqueue);
-    free(instance->a_star_pqueue);
 
     
     /* Soft-DFS stuff */

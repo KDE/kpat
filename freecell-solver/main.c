@@ -148,7 +148,7 @@ char * help_string =
 "     bakers_dozen      - Baker\'s Dozen\n"
 "     bakers_game       - Baker\'s Game\n"
 "     cruel             - Cruel\n"
-"     der_katz          - Der Katzenschwantz\n"
+"     der_katz          - Der Katzenschwanz\n"
 "     die_schlange      - Die Schlange\n"
 "     eight_off         - Eight Off\n"
 "     forecell          - Forecell\n"
