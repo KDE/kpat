@@ -16,7 +16,11 @@ BUILTSOURCES = patience.moc computation.moc klondike.moc\
 	  ten.moc napoleon.moc idiot.moc freecell.moc\
 	  microsol.moc pwidget.moc cardmaps.moc
 
+noinst_HEADERS = basiccard.h global.h napoleon.h card.h grandf.h patience.h \
+				cardmaps.h idiot.h pwidget.h computation.h klondike.h rnd.h \
+				copyright.h microsol.h ten.h freecell.h mod3.h version.h     
 DISTCLEANFILES = $(BUILTSOURCES)
+
 
 SUBDIRS = icons pics
 
@@ -27,6 +31,8 @@ docs_DATA = index.html index-1.html index-2.html logotp3.gif
 
 apps_DATA = kpat.kdelnk
 appsdir = $(kde_appsdir)/Games
+
+EXTRA_DIST = $(apps_DATA) $(docs_DATA)
 
 messages:
 	@XGETTEXT@ -C -ktranslate -ki18n -x ../../kdelibs/po/kde.pot *.cpp && mv messages.po ../po/kpat.pot

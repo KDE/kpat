@@ -8,3 +8,5 @@ pics_DATA =1.bmp 2.bmp 3.bmp 4.bmp 5.bmp 6.bmp 7.bmp 8.bmp 9.bmp \
 	40.bmp 41.bmp 42.bmp 43.bmp 44.bmp 45.bmp 46.bmp 47.bmp 48.bmp 49.bmp \
 	50.bmp 51.bmp 52.bmp back1.bmp back2.bmp back3.bmp
 
+EXTRA_DIST = $(pics_DATA)
+
