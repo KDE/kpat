@@ -1,7 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Patience
-Name[af]=patience
 Name[az]=Səbir
 Name[bg]=Пасиянс
 Name[br]=Habaskter
@@ -48,7 +47,7 @@ Type=Application
 Icon=kpat
 DocPath=kpat/index.html
 GenericName=Card Games
-GenericName[af]=kaart speletjies
+GenericName[af]=Kaart Speletjies
 GenericName[ar]=إلعاب ورق
 GenericName[be]=Картачныя гульні
 GenericName[bg]=Игра на Карти
@@ -60,7 +59,6 @@ GenericName[el]=Παιχνίδια Καρτών
 GenericName[eo]=Kartludoj
 GenericName[es]=Juego de cartas
 GenericName[et]=Kaardimängud
-GenericName[eu]=Karta Jokoa
 GenericName[fi]=Korttipelit
 GenericName[fr]=Jeux de cartes
 GenericName[he]=משחקי קלפים
