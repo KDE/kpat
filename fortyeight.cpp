@@ -134,7 +134,8 @@ void Fortyeight::setGameState( const QString &s )
     lastdeal = s.toInt();
 }
 
-bool Fortyeight::isGameLost() const{
+bool Fortyeight::isGameLost() const
+{
    kdDebug(11111) << "isGameLost ?" << endl;
    if(!lastdeal)
 	return false;
@@ -142,17 +143,26 @@ bool Fortyeight::isGameLost() const{
 	return false;
 
    Card *c;
-   for(int i=0; i < 8; i++){
+    for(int i=0; i < 8; i++)
+    {
 	if(stack[i]->isEmpty())
 		return false;
+
 	c=stack[i]->top();
 
 	if(c->value() == Card::Ace)
 		return false;
-	if(!pile->isEmpty())
+
+        if(!pile->isEmpty()) {
 		if(pile->top()->suit() == c->suit() &&
 			pile->top()->value()+1 == c->value())
 			return false;
+
+            if ( !target[i]->isEmpty() &&
+                 pile->top()->suit() == target[i]->top()->suit() &&
+                 pile->top()->value() == target[i]->top()->value()+1)
+                return false;
+        }
 	for(int j=0; j <8;j++){
 		if(target[j]->isEmpty())
 			continue;
@@ -160,7 +170,7 @@ bool Fortyeight::isGameLost() const{
 			c->value()-1 ==target[j]->top()->value())
 			return false;
 		}
-	for(int j=1; j < 8; j++){
+        for(int j=1; j < 8; j++) {
 		int k=(i+j) % 8;
 		if (stack[k]->isEmpty())
 			continue;
