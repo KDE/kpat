@@ -201,8 +201,8 @@ void pWidget::changeBackside() {
     KConfig *config = kapp->config();
     KConfigGroupSaver kcs(config, settings_group);
 
-    QString deck = config->readEntry("Back");
-    QString cards = config->readEntry("Cards");
+    QString deck = config->readEntry("Back", KCardDialog::getDefaultDeck());
+    QString cards = config->readEntry("Cards", KCardDialog::getDefaultCardDir());
     if (KCardDialog::getCardDeck(deck, cards, this, KCardDialog::Both) == QDialog::Accepted)
     {
         QString imgname = KCardDialog::getCardPath(cards, 11);
