@@ -18,7 +18,7 @@
 <othercredit>
 <firstname>Mike</firstname><surname>McBride</surname>
 <contrib>Reviewer</contrib>
-<affiliation><address><email>mmcbride@ematic.com</email></address></affiliation>
+<affiliation><address><email>mpmcbride7@yahoo.com</email></address></affiliation>
 </othercredit>
 </authorgroup>
 
@@ -29,7 +29,7 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>04/09/2000</date>
+<date>21/10/2000</date>
 <releaseinfo>0.07.04</releaseinfo>
 <abstract>
 
@@ -378,7 +378,7 @@ Documentation Copyright 2000 Paul Olav Tvete
 </para>
 <para>
 Documentation updated for KDE 2.0 by Michael McBride
-<email>mmcbride@ematic.com</email>
+<email>mpmcbride7@yahoo.com</email>
 </para>
 
 &x11license-links;
