@@ -55,7 +55,7 @@ cardMaps::cardMaps( QObject* _parent )
   {
     t1 = QTime::currentTime();
     w = new QWidget( 0, "", WStyle_Customize | WStyle_NoBorder | WStyle_Tool );
-    pm1 = Icon( "back1.png" );
+    pm1 = BarIcon( "back1" );
     QWidget* dt = qApp->desktop();
     w->setBackgroundColor( darkGreen );  
     w->setGeometry( ( dt->width() - 510 ) / 2, ( dt->height() - 180 ) / 2, 510, 180); 
@@ -101,7 +101,7 @@ cardMaps::cardMaps( QObject* _parent )
       break;
     }
 
-    img[rank][suit] = new QPixmap( Icon(QString("%1.png").arg(idx)) );
+    img[rank][suit] = new QPixmap( BarIcon(QString::number(idx)) );
 
     if( img[ rank ][ suit ]->width() == 0 ||
         img[ rank ][ suit ]->height() == 0)

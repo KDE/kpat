@@ -22,7 +22,7 @@
 
 #include <qregexp.h>
 #include <qobjcoll.h>
-#include <qmessagebox.h>
+#include <kmessagebox.h>
 
 #include <kapp.h>
 #include <kglobal.h>
@@ -144,8 +144,8 @@ pWidget::pWidget( const char* _name )
   connect( tb, SIGNAL( moved( BarPosition ) ), this, SLOT( slotToolbarChanged() ) );
 #undef BarPosition
 
-  tb->insertButton( ICON( "exit.xpm" ), ID_FQUIT, -1, i18n( "Quit" ) ); 
-  tb->insertButton( ICON( "help.xpm" ), ID_HHELP, -1, i18n( "Help" ) );
+  tb->insertButton( BarIcon( "exit" ), ID_FQUIT, -1, i18n( "Quit" ) ); 
+  tb->insertButton( BarIcon( "help" ), ID_HHELP, -1, i18n( "Help" ) );
 
   connect( tb, SIGNAL( clicked( int ) ), this, SLOT( action( int ) ) );
 
@@ -343,15 +343,13 @@ void pWidget::setBackSide(int id)
       config->setGroup("General Settings");
 	config->writeEntry("Backside", 0);
     } else {
-      QPixmap pm = Icon(QString("back%1.png").arg(id));
+      QPixmap pm = BarIcon(QString("back%1").arg(id));
       if(pm.width() > 0 && pm.height() > 0) {
 	cardmaps->setBackSide(&pm);
 	config->setGroup("General Settings");
 	config->writeEntry("Backside", id);
       } else
-	QMessageBox::warning(this, i18n("Error"),
-			     i18n("Could not load background image!"),
-			     i18n("OK"));
+	KMessageBox::sorry(this, i18n("Could not load background image!"));
     }
   }
 
