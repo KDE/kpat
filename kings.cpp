@@ -16,7 +16,7 @@ Kings::Kings( KMainWindow* parent, const char *name )
     for (int i=0; i<8; i++) {
         target[i]->move((8 + i/4) * 80 + 40, 10 + (i % 4) * 130);
         store[i]->move(10+80*i, 130);
-        store[i]->setSpread(9);
+        store[i]->setSpread(13);
         freecell[i]->move(10 + 80 * i, 10);
     }
 }
