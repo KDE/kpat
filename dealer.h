@@ -112,6 +112,9 @@ public:
     QString anchorName() const;
     void setAnchorName(const QString &name);
 
+    void setAutoDropEnabled(bool a);
+    bool autoDrop() const { return _autodrop; }
+
 public slots:
 
     // restart is pure virtual, so we need something else
@@ -211,6 +214,7 @@ protected:
     bool stop_demo_next;
     QString ac;
     static Dealer *s_instance;
+    bool _autodrop;
 };
 
 #endif

@@ -120,6 +120,9 @@ pWidget::pWidget( const char* _name )
     animation = new KToggleAction(i18n( "&Animation on Startup" ),
                                   0, this, SLOT(animationChanged()),
                                   actionCollection(), "animation");
+    dropaction = new KToggleAction(i18n("&Enable Autodrop"),
+                                   0, this, SLOT(enableAutoDrop()),
+                                   actionCollection(), "enable_autodrop");
 
     KConfig *config = kapp->config();
     KConfigGroupSaver cs(config, settings_group );
@@ -132,6 +135,9 @@ pWidget::pWidget( const char* _name )
 
     bool animate = config->readBoolEntry( "Animation", true);
     animation->setChecked( animate );
+
+    bool autodrop = config->readBoolEntry("Autodrop", true);
+    dropaction->setChecked(autodrop);
 
     uint game = config->readNumEntry("DefaultGame", 0);
     if (game > max_type)
@@ -247,6 +253,15 @@ void pWidget::animationChanged() {
     KConfig *config = kapp->config();
     KConfigGroupSaver cs(config, settings_group );
     config->writeEntry( "Animation", anim);
+}
+
+void pWidget::enableAutoDrop()
+{
+    bool drop = dropaction->isChecked();
+    KConfig *config = kapp->config();
+    KConfigGroupSaver cs(config, settings_group );
+    config->writeEntry( "Autodrop", drop);
+    dill->setAutoDropEnabled(drop);
 }
 
 void pWidget::newGame() {

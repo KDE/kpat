@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="standard_containers" version="10">
+<kpartgui name="standard_containers" version="11">
 <MenuBar>
   <Menu name="game" noMerge="1"><text>&amp;Game</text>
     <Action name="new_game"/>
@@ -22,7 +22,8 @@
     <Action name="game_type"/>
     <Action name="backside"/>
     <Action name="wallpaper"/>
-    <Action name="animation"/>
+    <Action name="animation"/> 
+    <Action name="enable_autodrop"/>
   </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar"><text>Main Toolbar</text>

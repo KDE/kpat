@@ -943,10 +943,23 @@ void Dealer::setWaiting(bool w)
     kdDebug(11111) << "setWaiting " << w << " " << _waiting << endl;
 }
 
+void Dealer::setAutoDropEnabled(bool a) {
+    _autodrop = a;
+    QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
+}
+
 bool Dealer::startAutoDrop()
 {
-    if (movingCards.count())
+    if (!autoDrop())
         return false;
+
+    QCanvasItemList list = canvas()->allItems();
+
+    for (QCanvasItemList::ConstIterator it = list.begin(); it != list.end(); ++it)
+        if ((*it)->animated()) {
+            QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
+            return true;
+        }
 
     kdDebug(11111) << "startAutoDrop\n";
 

@@ -59,6 +59,7 @@ public slots:
     void changeWallpaper();
     void slotGameInfo(const QString &);
     void helpGame();
+    void enableAutoDrop();
 
 private:
     void setBackSide(const QString &deck, const QString &dir);
@@ -67,7 +68,7 @@ private:
     Dealer* dill;
     KSelectAction *games, *wallpapers;
     KAction *backs, *undo;
-    KToggleAction *animation;
+    KToggleAction *animation, *dropaction;
     QPixmap background;
     QColor midcolor;
     QStringList wallpaperlist;
