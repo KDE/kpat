@@ -1,3 +1,7 @@
+2004-10-31 Inge Wallin <inge@lysator.liu.se>
+
+	 - fix wish 92002: Restart game button should have a confirmation dialog
+
 2004-10-15 Inge Wallin <inge@lysator.liu.se>
 
 	- fix bug 89276: kpat: make nag screen "you have lost this game" an option

@@ -41,7 +41,6 @@
 #include <qimage.h>
 #include <kstatusbar.h>
 #include "speeds.h"
-#include <kmessagebox.h>
 #include <kaccelmanager.h>
 #include <kmenubar.h>
 #include "gamestatsimpl.h"
@@ -277,6 +276,18 @@ void pWidget::enableAutoDrop()
 }
 
 void pWidget::newGame() {
+    if (KMessageBox
+	::warningYesNo(0,
+		       i18n("You are already running an unfinished game.  "
+			    "If you abort the old game to start a new one, "
+			    "the old game will be registered as a loss in "
+			    "the statistics file.\n"
+			    "What do you want to do?"),
+		       i18n("Abort current game?"),
+		       i18n("Abort the old game"),
+		       i18n("Continue the old game")) == KMessageBox::No)
+      return;
+
     dill->setGameNumber(kapp->random());
     setGameCaption();
     restart();
