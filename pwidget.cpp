@@ -415,7 +415,7 @@ void pWidget::gameLost()
 void pWidget::openGame(const KURL &url)
 {
     QString tmpFile;
-    if( KIO::NetAccess::download( url, tmpFile ) )
+    if( KIO::NetAccess::download( url, tmpFile, this ) )
     {
         QFile of(tmpFile);
         of.open(IO_ReadOnly);
@@ -459,7 +459,7 @@ void pWidget::saveGame()
     QTextStream *stream = file.textStream();
     *stream << doc.toString();
     file.close();
-    KIO::NetAccess::upload(file.name(), url);
+    KIO::NetAccess::upload(file.name(), url, this);
     recent->addURL(url);
     recent->saveEntries(KGlobal::config());
 }
