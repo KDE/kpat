@@ -22,7 +22,6 @@
 
 KConfig *config = 0;
 QString PICDIR;
-QString KDEPICDIR;
 KLocale *locale;
 
 int main( int argc, char **argv )
@@ -33,7 +32,6 @@ int main( int argc, char **argv )
 
   config = a.getConfig();
   PICDIR = a.kdedir() + "/share/apps/kpat/pics/";
-  KDEPICDIR = a.kdedir() + "/lib/pics/";
 
   pWidget *p = new pWidget(0);
   p->show();
@@ -41,5 +39,3 @@ int main( int argc, char **argv )
   a.setMainWidget(p);
   a.exec();
 }
-
-

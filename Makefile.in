@@ -25,8 +25,9 @@ INSTALL_DIR_PRIVATE = $(install) -d -m 0700
 prefix = @prefix@
 BINDIR = $(prefix)/bin
 APPSDIR = $(prefix)/share/applnk/Games
-KPATPICDIR = $(prefix)/share/apps/kpat/pics/
-DOCDIR = $(prefix)/share/doc/HTML/kpat
+KPATPICDIR = $(prefix)/share/apps/kpat/pics
+DOCDIR = $(prefix)/share/doc/HTML/default/kpat
+ICONDIR = $(prefix)/share/icons
 
 ########### File Formats ###########
 
@@ -43,12 +44,11 @@ DOCDIR = $(prefix)/share/doc/HTML/kpat
 OBJECTS	= main.o patience.o rnd.o cardmaps.o \
 	  computation.o klondike.o grandf.o ten.o\
 	  basiccard.o card.o napoleon.o idiot.o\
-	  microsol.o pwidget.o kfixedtopwidget.o
+	  microsol.o pwidget.o
 SRCMETA	= patience.moc computation.moc klondike.moc\
 	  grandf.moc basiccard.moc card.moc\
 	  ten.moc napoleon.moc idiot.moc\
-	  microsol.moc pwidget.moc cardmaps.moc\
-	  kfixedtopwidget.moc
+	  microsol.moc pwidget.moc cardmaps.moc
 
 PICS=1.bmp 2.bmp 3.bmp 4.bmp 5.bmp 6.bmp 7.bmp 8.bmp 9.bmp \
 	10.bmp 11.bmp 12.bmp 13.bmp 14.bmp 15.bmp 16.bmp 17.bmp 18.bmp 19.bmp \
@@ -90,10 +90,13 @@ install: all
 	$(INSTALL_DATA) pics/$$i $(KPATPICDIR)/$$i; \
 	done
 	$(INSTALL_DIR) $(DOCDIR)
-	$(INSTALL_DATA) html/kpat.html $(DOCDIR)
+	$(INSTALL_DATA) html/index.html $(DOCDIR)
+	$(INSTALL_DIR) $(ICONDIR)
+	$(INSTALL_DATA) icons/kpat.xpm $(ICONDIR)
+	$(INSTALL_DATA) icons/kpat-lq.xpm $(ICONDIR)
 
 
 uninstall:
 	rm -f $(BINDIR)/$(TARGET)
-	
+
 # DO NOT DELETE THIS LINE -- make depend depends on it.

@@ -29,6 +29,7 @@
 #include "global.h"
 #include <unistd.h>
 #include <qdatetm.h>
+#include <kconfig.h>
 
 int cardMaps::CARDX;
 int cardMaps::CARDY;
@@ -36,8 +37,8 @@ int cardMaps::CARDY;
 cardMaps::cardMaps( QObject* parent ) : QObject(parent, 0) {
   // create an animation window while loading pixmaps (this
   // may take a while (approx. 3 seconds on my AMD K6PR200)
-  config->setGroup(QString("General settings"));
-  bool animate = (bool)(config->readNumEntry(QString("Animation"), 1) != 0);
+  config->setGroup("General settings");
+  bool animate = (bool)(config->readNumEntry("Animation", 1) != 0);
   QWidget *w = 0;
   QPixmap pm1;
   QPainter p;

@@ -26,6 +26,8 @@
 #include "basiccard.h"
 #include <qobjcoll.h>
 #include <kiconloader.h>
+#include <qmsgbox.h>
+#include <kwm.h>
 
 // menu constants
 // file menu
@@ -52,12 +54,24 @@
 #define ID_HHELP	901
 #define ID_HHELPRULES	902
 #define ID_HABOUT	903
+#define ID_HABOUTQT	904
 
 pWidget::pWidget(QWidget *, const char *) 
-  : KFixedTopWidget()
+  : KTopLevelWidget()
 {
   type = PT_NONE;
   dill = 0;
+
+  // set application icon: for 16 and 32 bit display use
+  // a very color-hungry icon, otherwise use a 16 color
+  // icon
+  QPixmap pm;
+  if(QColor::numBitPlanes() > 8)
+    pm = kapp->getIconLoader()->loadIcon("kpat.xpm");
+  else
+    pm = kapp->getIconLoader()->loadIcon("kpat-lq.xpm");
+  KWM::setIcon(winId(), pm);
+  KWM::setMiniIcon(winId(), pm);
   
   m = new KMenuBar( this );
   connect(m, SIGNAL(activated(int)),
@@ -107,10 +121,11 @@ pWidget::pWidget(QWidget *, const char *)
 
   m->insertSeparator();
   QPopupMenu *m_help = new QPopupMenu;
-  m_help->insertItem(locale->translate("Help..."), ID_HHELP);
-  m_help->insertItem(locale->translate("Help on rules..."), ID_HHELPRULES);
+  m_help->insertItem(locale->translate("&Help..."), ID_HHELP);
+  m_help->insertItem(locale->translate("Help on &rules..."), ID_HHELPRULES);
   m_help->insertSeparator();
-  m_help->insertItem(locale->translate("About..."), ID_HABOUT);
+  m_help->insertItem(locale->translate("About &Qt..."), ID_HABOUTQT);
+  m_help->insertItem(locale->translate("A&bout..."), ID_HABOUT);
   m->insertItem(locale->translate("&Help"), m_help);
 
   // create the toolbar
@@ -141,23 +156,23 @@ pWidget::pWidget(QWidget *, const char *)
   m->setAccel(CTRL+Key_Z, ID_GUNDO);
 
   if(config) {
-    config->setGroup(QString("General Settings"));
-    int bg = config->readNumEntry(QString("Backside"), 0);
+    config->setGroup("General Settings");
+    int bg = config->readNumEntry("Backside", 0);
     setBackSide(bg);
 
     // move the toolbar to it's default position
-    config->setGroup(QString("General Settings"));
-    int tbpos = config->readNumEntry(QString("Toolbar_1_Position"), 
+    config->setGroup("General Settings");
+    int tbpos = config->readNumEntry("Toolbar_1_Position", 
 				     (int)(KToolBar::Left));
     tb->setBarPos((KToolBar::BarPosition)(tbpos));
 
     // move the menubar to it's default position
-    int mbpos = config->readNumEntry(QString("Menubar_Position"), 
+    int mbpos = config->readNumEntry("Menubar_Position", 
 				     (int)(KMenuBar::Top));
     m->setMenuBarPos((KMenuBar::menuPosition)(mbpos));
 
     bool animate = \
-      (bool)(config->readNumEntry(QString("Animation"), 1) != 0);
+      (bool)(config->readNumEntry("Animation", 1) != 0);
     m->setItemChecked(ID_OANIMATION, animate);
   }
 
@@ -200,9 +215,9 @@ void pWidget::action(int id) {
     break;
 
   case ID_OANIMATION:
-    animate = !(bool)(config->readNumEntry(QString("Animation"), 1) != 0);    
-    config->setGroup(QString("General Settings"));
-    config->writeEntry(QString("Animation"), (int)animate);
+    animate = !(bool)(config->readNumEntry("Animation", 1) != 0);    
+    config->setGroup("General Settings");
+    config->writeEntry("Animation", (int)animate);
     m->setItemChecked(ID_OANIMATION, animate);
     break;
 
@@ -212,6 +227,10 @@ void pWidget::action(int id) {
 
   case ID_HHELPRULES:
     helpRules();
+    break;
+
+  case ID_HABOUTQT:
+    QMessageBox::aboutQt(this);
     break;
 
   case ID_HABOUT:
@@ -315,8 +334,8 @@ void pWidget::about() {
 void pWidget::setDefaultType() {
   if(type != PT_NONE) {
     if(config != 0) {
-      config->setGroup(QString("General Settings"));
-      config->writeEntry(QString("DefaultGame"), type);
+      config->setGroup("General Settings");
+      config->writeEntry("DefaultGame", type);
     }
   }
 }
@@ -325,8 +344,8 @@ int pWidget::getDefaultType() {
   if(config == 0)
     return PT_KLONDIKE;
   else {
-    config->setGroup(QString("General Settings"));
-    return config->readNumEntry(QString("DefaultGame"), PT_KLONDIKE);
+    config->setGroup("General Settings");
+    return config->readNumEntry("DefaultGame", PT_KLONDIKE);
   }
 }
 
@@ -334,16 +353,16 @@ void pWidget::setBackSide(int id) {
   if(cardmaps != 0) {
     if(id == 0) {
       cardmaps->setBackSide(0);
-      config->setGroup(QString("General Settings"));
-	config->writeEntry(QString("Backside"), 0);
+      config->setGroup("General Settings");
+	config->writeEntry("Backside", 0);
     } else {
       QString fname;
       fname.sprintf("%s/back%d.bmp", PICDIR.data(), id);
       QPixmap *pm = new QPixmap(fname.data());
       if(pm->width() > 0 && pm->height() > 0) {
 	cardmaps->setBackSide(pm);
-	config->setGroup(QString("General Settings"));
-	config->writeEntry(QString("Backside"), id);
+	config->setGroup("General Settings");
+	config->writeEntry("Backside", id);
       } else
 	KMsgBox::message(this, locale->translate("Error"),
 			 locale->translate("Could not load background image!"),
@@ -364,14 +383,14 @@ void pWidget::setBackSide(int id) {
 
 void pWidget::slotToolbarChanged() {
   int p = (int)tb->barPos();
-  config->setGroup(QString("General Settings"));
-  config->writeEntry(QString("Toolbar_1_Position"), p);
+  config->setGroup("General Settings");
+  config->writeEntry("Toolbar_1_Position", p);
 }
 
 void pWidget::slotMenubarChanged() {
   int p = (int)m->menuBarPos();
-  config->setGroup(QString("General Settings"));
-  config->writeEntry(QString("Menubar_Position"), p);
+  config->setGroup("General Settings");
+  config->writeEntry("Menubar_Position", p);
 }
 
 #include "pwidget.moc"

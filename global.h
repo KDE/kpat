@@ -9,7 +9,6 @@
 
 extern KConfig *config;
 extern QString PICDIR;
-extern QString KDEPICDIR;
 extern KLocale *locale;
 
 #endif

@@ -39,7 +39,6 @@
 #include <ktopwidget.h>
 #include <ktoolbar.h>
 #include <kstatusbar.h>
-#include "kfixedtopwidget.h"
 #include <kmenubar.h>
 #include <kapp.h>
 
@@ -53,7 +52,7 @@
 #define PT_TEN		6
 #define PT_COMPUTATION	7
 
-class pWidget: public KFixedTopWidget {
+class pWidget: public KTopLevelWidget {
   Q_OBJECT
 public:
   pWidget(QWidget *parent=0, const char *name=0 );

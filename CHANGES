@@ -1,3 +1,11 @@
+	- bugfix for "Grandfather"-hint
+	- new KDE FSSTND compliant
+	- depending on display colors sets either a 
+	  16 color or high color icon and miniicon
+	- fixes for new KConfig
+
+since kpat-0.5
+
 	- fixed the bug in Napoleon (cards not completly drawn)
 	- added locale
 	- german translation
@@ -53,3 +61,4 @@ since "patience"
     - hopefully improved cards-background (Matthias)
     - "very easy"-option for klondike to give only one card. (Matthias)
     - unset wholeColumn for klondike, but this all belongs into OPTIONS (Matthias)
+

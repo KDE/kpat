@@ -84,6 +84,8 @@ void Grandf::hint() {
       int j=0;
       while (j<7 && !found) {
 	found = (i!=j) && Sstep1(t[j],c);
+	if ((c->Value() == Card::King) && (c == store[i]->next()))
+	    found = FALSE;
 	j++;
       }
     }
