@@ -73,7 +73,8 @@ public slots:
     // restart is pure virtual, so we need something else
     virtual void startNew();
     void undo();
-    void takeState();
+    virtual void takeState();
+    virtual bool startAutoDrop();
 
 signals:
     void undoPossible(bool poss);
@@ -91,6 +92,7 @@ protected:
 
     void unmarkAll();
     void mark(Card *c);
+    Pile *findTarget(Card *c);
     virtual void cardClicked(Card *);
     virtual void pileClicked(Pile *);
     virtual void cardDblClicked(Card *);
@@ -98,7 +100,8 @@ protected:
 
     KMainWindow *parent() const;
 
-private:
+protected:
+    PileList piles;
 
     CardStateList *getState();
     void setState(CardStateList *);
@@ -114,7 +117,7 @@ private:
     QSize viewsize;
     QList<CardStateList> undoList;
     long gamenumber;
-    PileList piles;
+
 
 };
 

@@ -33,13 +33,14 @@
 // The following classes are defined in other headers:
 class cardPos;
 class Deck;
-class dealer;
+class Dealer;
 class Pile;
 class Card;
 
 typedef QValueList<Card*> CardList;
 
-class Card: public QCanvasRectangle {
+class Card: public QObject, public QCanvasRectangle {
+    Q_OBJECT
 
 public:
     enum Suits { Clubs = 1, Diamonds, Hearts, Spades };
@@ -77,6 +78,9 @@ public:
     int realY() const;
     int realZ() const;
     bool realFace() const;
+
+signals:
+    void stoped(Card *c);
 
 protected:
     void draw( QPainter &p );

@@ -506,8 +506,14 @@ void Dealer::takeState()
         }
     }
 
-    if (n && isGameWon()) {
-        won();
+    if (n) {
+        if (isGameWon()) {
+            won();
+        } else {
+            if (startAutoDrop()) {
+                takeState(); // and down we go
+            }
+        }
         return;
     }
     emit undoPossible(undoList.count() > 1);
@@ -523,6 +529,28 @@ void Dealer::undo()
     }
 }
 
+Pile *Dealer::findTarget(Card *c)
+{
+    if (!c)
+        return 0;
+
+    CardList empty;
+    empty.append(c);
+    for (PileList::ConstIterator it = piles.begin(); it != piles.end(); ++it)
+    {
+        if (!(*it)->target())
+            continue;
+        if ((*it)->legalAdd(empty))
+            return *it;
+    }
+    return 0;
+}
+
+bool Dealer::startAutoDrop()
+{
+    return false;
+}
+
 long Dealer::gameNumber() const
 {
     return gamenumber;
@@ -532,7 +560,6 @@ void Dealer::setGameNumber(long gmn)
 {
     gamenumber = ((gmn + 31998) % 31999) + 1;
 }
-
 
 void Dealer::addPile(Pile *p)
 {

@@ -31,7 +31,7 @@ Napoleon::Napoleon( KMainWindow* parent, const char* _name )
 {
     deck = new Deck( 0, this );
     deck->move( 500, 290);
-    connect(deck, SIGNAL(clicked()), SLOT(deal1()));
+    connect(deck, SIGNAL(clicked(Card *)), SLOT(deal1(Card*)));
 
     pile = new Pile( 1, this );
     pile->setAddFlags( Pile::disallow );
@@ -113,7 +113,7 @@ void Napoleon::deal() {
         store[i]->add(deck->nextCard(), false, false);
 }
 
-void Napoleon::deal1() {
+void Napoleon::deal1(Card *) {
     pile->add(deck->nextCard(), false, false);
 }
 

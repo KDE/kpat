@@ -36,7 +36,7 @@ static const char *value_names[] = {"Ace", "Two", "Three", "Four", "Five", "Six"
                                     "Nine", "Ten", "Jack", "Queen", "King" };
 
 Card::Card( Values v, Suits s, QCanvas* _parent )
-    : QCanvasRectangle( _parent ),  _source(0), _suit( s ), _value( v ), scaleX(1.0), scaleY(1.0)
+  : QCanvasRectangle( _parent ),  _source(0), _suit( s ), _value( v ), scaleX(1.0), scaleY(1.0)
 {
     _name = qstrdup(QString("%1 %2").arg(suit_names[s-1]).arg(value_names[v-1]).utf8());
 
@@ -185,7 +185,6 @@ void Card::flipTo(int x2, int y2, int steps)
 
 void Card::advance(int stage)
 {
-    kdDebug() << "advance " << name() << stage << " " << animSteps << endl;
     if ( stage==1 ) {
 	if ( animSteps-- <= 0 ) {
 	    setAnimated(false);
@@ -215,7 +214,6 @@ void Card::animatedMove(int x2, int y2, int z2, int steps)
     destZ = z2;
 
     double x1 = x(), y1 = y(), dx = x2 - x1, dy = y2 - y1;
-    kdDebug() << "animatedMove " << dx << " " << dy << endl;
     if (!dx && !dy) {
         setZ(z2);
         return;
@@ -240,8 +238,6 @@ void Card::animatedMove(int x2, int y2, int z2, int steps)
 
 void Card::setAnimated(bool anim)
 {
-    kdDebug() << "setAnimated " << anim << endl;
-
     if (animated() && !anim) {
         scaleX = 1.0;
         scaleY = 1.0;
@@ -249,8 +245,11 @@ void Card::setAnimated(bool anim)
         setVelocity(0,0);
         move(destX,destY); // exact
         setZ(destZ);
+        emit stoped(this);
     }
     QCanvasRectangle::setAnimated(anim);
     assert(anim == animated());
 
 }
+
+#include "card.moc"

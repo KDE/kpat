@@ -32,7 +32,7 @@ public:
     virtual void restart();
 
 public slots:
-    void deal1();
+    void deal1(Card *c);
 
 private:
     void deal();

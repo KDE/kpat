@@ -115,19 +115,8 @@ void Grandf::hint() {
             }
         }
 
-        for (int j = 0; j < 4; j++)
-        {
-            if (!t[i])
-                continue;
-
-            CardList empty;
-            empty.append(t[i]);
-
-            if (step1(target[j], empty)) {
-                mark(t[i]);
-                break;
-            }
-        }
+        if (findTarget(t[i]))
+            mark(t[i]);
     }
 
     canvas()->update();

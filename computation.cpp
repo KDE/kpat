@@ -112,6 +112,6 @@ static class LocalDealerInfo6 : public DealerInfo
 public:
     LocalDealerInfo6() : DealerInfo(I18N_NOOP("&Calculation"), 6) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Computation(parent); }
-} ldi2;
+} ldi6;
 
 #include "computation.moc"
