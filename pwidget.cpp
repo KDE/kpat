@@ -70,14 +70,14 @@ pWidget::pWidget( const char* _name )
   connect( m, SIGNAL( activated( int ) ), this, SLOT( action( int ) ) );
 
   QPopupMenu *p1 = new QPopupMenu;
-  p1->insertItem( i18n( "&Quit" ), ID_FQUIT );
+  p1->insertItem( SmallIcon("exit"), i18n( "&Quit" ), ID_FQUIT );
 
   m->insertItem( i18n( "&File" ), p1 );
 
   QPopupMenu *p2 = new QPopupMenu;
   m->insertItem( i18n( "&Game" ), p2 );
 
-  p2->insertItem( i18n( "&Undo"), ID_GUNDO );
+  p2->insertItem( SmallIcon("undo"), i18n( "&Undo"), ID_GUNDO );
   p2->insertItem( i18n( "&Restart game"), ID_GRESTART );
 
   QPopupMenu *popup = new QPopupMenu;
@@ -104,7 +104,7 @@ pWidget::pWidget( const char* _name )
   m_opt_bg->insertItem( i18n( "Technical" ), ID_OBACK + 3 );
   m_opt->insertItem( i18n( "Card backside" ), m_opt_bg );
   m_opt->insertItem( i18n( "Animation on startup" ), ID_OANIMATION );
-  m->insertItem( i18n( "&Options" ), m_opt );
+  m->insertItem( i18n( "&Settings" ), m_opt );
 
   m->insertSeparator();
 
