@@ -87,6 +87,7 @@ private:
     int es_filling;
     int solver_ret;
     bool unlimited_move;
+    bool noLongerNeeded(const Card &);
 };
 
 #endif

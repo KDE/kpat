@@ -79,7 +79,7 @@ unlimited_move(unlimit)
         t = new Pile(1 + stores + freecells +i, this);
         target.append(t);
         t->setType(Pile::KlondikeTarget);
-        t->setRemoveFlags(Pile::Default);
+        // COOLO: I'm still not too sure about that t->setRemoveFlags(Pile::Default);
     }
 
     setActions(Dealer::Demo | Dealer::Hint);
@@ -401,9 +401,130 @@ QString FreecellBase::solverFormat() const
     return output;
 }
 
+//  Idea stolen from klondike.cpp
+//
+//  This function returns true when it is certain that the card t is no longer
+//  needed on any of the play piles.
+//
+//  To determine wether a card is no longer needed on any of the play piles we
+//  obviously must know what a card can be used for there. According to the
+//  rules a card can be used to store another card with 1 less unit of value
+//  and opposite color. This is the only thing that a card can be used for
+//  there. Therefore the cards with lowest value (1) are useless there (base
+//  case). The other cards each have 2 cards that can be stored on them, let us
+//  call those 2 cards *depending cards*.
+//
+//  The object of the game is to put all cards on the target piles. Therefore
+//  cards that are no longer needed on any of the play piles should be put on
+//  the target piles if possible. Cards on the target piles can not be moved
+//  and they can not store any of its depending cards. Let us call this that
+//  the cards on the target piles are *out of play*.
+//
+//  The simple and obvious rule is:
+//    A card is no longer needed when both of its depending cards are out of
+//    play.
+//
+//  More complex:
+//    Assume card t is red.  Now, if the lowest unplayed black card is
+//    t.value()-2, then t may be needed to hold that black t.value()-1 card.
+//    If the lowest unplayed black card is t.value()-1, it will be playable
+//    to the target, unless it is needed for a red card of value t.value()-2.
+//
+//  So, t is not needed if the lowest unplayed red card is t.value()-2 and the
+//  lowest unplayed black card is t.value()-1, OR if the lowest unplayed black
+//  card is t.value().  So, no recursion needed - we did it ahead of time.
+
+bool FreecellBase::noLongerNeeded(const Card & t)
+{
+
+    if (t.value() <= Card::Two) return true; //  Base case.
+
+    bool cardIsRed = t.isRed();
+
+    uint numSame = 0, numDiff = 0;
+    Card::Values lowSame = Card::King, lowDiff = Card::King;
+    for (PileList::Iterator it = target.begin(); it != target.end(); ++it)
+    {
+        if ((*it)->isEmpty())
+            continue;
+        if ((*it)->top()->isRed() == cardIsRed) {
+            numSame++;
+            if ((*it)->top()->value() < lowSame)
+                lowSame = static_cast<Card::Values>((*it)->top()->value()+1);
+        } else {
+            numDiff++;
+            if ((*it)->top()->value() < lowDiff)
+                lowDiff = static_cast<Card::Values>((*it)->top()->value()+1);
+        }
+    }
+    if (numSame < target.count()/2) lowSame = Card::Ace;
+    if (numDiff < target.count()/2) lowDiff = Card::Ace;
+
+    return (lowDiff >= t.value() ||
+        (lowDiff >= t.value()-1 && lowSame >= t.value()-2));
+}
+
+//  This is the getHints() from dealer.cpp with one line changed
+//  to use noLongerNeeded() to decide if the card should be
+//  dropped or not.
+//
+//  I would recommend adding a virtual bool noLongerNeeded(const Card &t)
+//  to the base class (Dealer) that just returns true, and then calling
+//  it like is done here.  That would preserve current functionality
+//  but eliminate this code duplication
 void FreecellBase::getHints()
 {
-    Dealer::getHints();
+    for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
+    {
+        if (!takeTargetForHints() && (*it)->target())
+            continue;
+
+        Pile *store = *it;
+        if (store->isEmpty())
+            continue;
+//        kdDebug(11111) << "trying " << store->top()->name() << endl;
+
+        CardList cards = store->cards();
+        while (cards.count() && !cards.first()->realFace()) cards.remove(cards.begin());
+
+        CardList::Iterator iti = cards.begin();
+        while (iti != cards.end())
+        {
+            if (store->legalRemove(*iti)) {
+//                kdDebug(11111) << "could remove " << (*iti)->name() << endl;
+                for (PileList::Iterator pit = piles.begin(); pit != piles.end(); ++pit)
+                {
+                    Pile *dest = *pit;
+                    if (dest == store)
+                        continue;
+                    if (store->indexOf(*iti) == 0 && dest->isEmpty() && !dest->target())
+                        continue;
+                    if (!dest->legalAdd(cards))
+                        continue;
+
+                    bool old_prefer = checkPrefering( dest->checkIndex(), dest, cards );
+                    if (!takeTargetForHints() && dest->target())
+                        newHint(new MoveHint(*iti, dest, noLongerNeeded(*(*iti))));
+                    else {
+                        store->hideCards(cards);
+                        // if it could be here as well, then it's no use
+                        if ((store->isEmpty() && !dest->isEmpty()) || !store->legalAdd(cards))
+                            newHint(new MoveHint(*iti, dest));
+                        else {
+                            if (old_prefer && !checkPrefering( store->checkIndex(),
+                                                               store, cards ))
+                            { // if checkPrefers says so, we add it nonetheless
+                                newHint(new MoveHint(*iti, dest));
+                            }
+                        }
+                        store->unhideCards(cards);
+                    }
+                }
+            }
+            cards.remove(iti);
+            iti = cards.begin();
+        }
+    }
 }
 
 void FreecellBase::demo()
