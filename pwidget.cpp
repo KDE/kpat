@@ -339,9 +339,8 @@ void pWidget::setBackSide(int id) {
 	config->setGroup("General Settings");
 	config->writeEntry("Backside", id);
       } else
-	KMsgBox::message(this, i18n("Error"),
-			 i18n("Could not load background image!"),
-			 KMsgBox::STOP);
+	QMessageBox::warning(this, i18n("Error"),
+			     i18n("Could not load background image!"));
     }
   }
 

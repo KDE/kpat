@@ -25,7 +25,6 @@
 
 #include <qcombobox.h>
 #include <qapplication.h>
-#include <kmsgbox.h>
 #include "microsol.h"
 
 MicroSolitaire::MicroSolitaire( QWidget* parent, const char* name)

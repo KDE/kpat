@@ -20,7 +20,6 @@
 
 #include <qdialog.h>
 #include "freecell.h"
-#include <kmsgbox.h>
 #include "global.h"
 
 #define STACK 1

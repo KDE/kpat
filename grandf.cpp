@@ -20,8 +20,8 @@
 
 #include <qdialog.h>
 #include "grandf.h"
-#include <kmsgbox.h>
 #include "global.h"
+#include <qmessagebox.h>
 
 class CardBox : public QDialog {
 public:
@@ -170,8 +170,8 @@ void Grandf::redeal() {
     deal(); 
     numberOfDeals++;
   } else
-    KMsgBox::message(this, i18n("Information"), 
-		     i18n("Only 3 deals allowed"));
+    QMessageBox::information(this, i18n("Information"), 
+			    i18n("Only 3 deals allowed"));
 }
 
 void Grandf::deal() {

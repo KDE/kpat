@@ -23,8 +23,8 @@
 ****************************************/
 
 #include "klondike.h"
-#include <kmsgbox.h>
 #include "global.h"
+#include <qmessagebox.h>
 
 Klondike::Klondike( QWidget* parent, const char* name)
   : dealer(parent, name)
@@ -89,11 +89,11 @@ void Klondike::changeDiffLevel( int l ) {
   if ( EasyRules == (l == 0) ) 
     return;
 
-  int r = KMsgBox::yesNo(this, i18n("Warning"), 
+  int r = QMessageBox::warning(this, i18n("Warning"), 
 			 i18n("This will end the current game\n" \
-			 "Are you sure you want to do this?"),
-			 KMsgBox::EXCLAMATION);
-  if(r == 2) {
+			      "Are you sure you want to do this?"), 
+			       i18n("OK"), i18n("Cancel"));
+  if(r == 1) {
     cb->setCurrentItem(1-cb->currentItem());
     return;
   }
