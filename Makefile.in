@@ -98,8 +98,8 @@ install: all
 	$(INSTALL_DIR) $(DOCDIR)
 	$(INSTALL_DATA) html/index.html $(DOCDIR)
 	$(INSTALL_DIR) $(ICONDIR)
-#	$(INSTALL_DATA) icons/kpat.xpm $(ICONDIR)
-#	$(INSTALL_DATA) icons/kpat-lq.xpm $(ICONDIR)
+	$(INSTALL_DATA) icons/kpat.xpm $(ICONDIR)
+	$(INSTALL_DATA) icons/kpat-lq.xpm $(ICONDIR)
 
 
 uninstall:
