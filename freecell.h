@@ -38,6 +38,7 @@ public slots:
     void deal();
     virtual void restart();
     void waitForMoving(Card *c);
+    void startMoving();
 
 protected:
     virtual bool checkRemove( int checkIndex, const Pile *c1, const Card *c) const;
@@ -47,10 +48,20 @@ protected:
     bool CanRemove(const Pile *c1, const Card *c) const;
 
     void countFreeCells(int &free_cells, int &free_stores) const;
-    void startMoving();
 
-    void getHints2() {}
-    int movePileToPile(CardList &c, Pile *to, PileList &fcs, int start);
+    virtual void getHints();
+    void movePileToPile(CardList &c, Pile *to, PileList fss, PileList &fcs,
+                        uint start, uint count, int debug_level);
+
+    Pile *pileForName(QString line) const;
+    void findSolution();
+
+    virtual MoveHint *chooseHint();
+    MoveHint *translateMove(void *m);
+    void freeSolution();
+
+    virtual void stopDemo();
+    virtual void newDemoMove(Card *m);
 
 private:
     FreecellPile *store[8];
@@ -59,6 +70,7 @@ private:
     Deck *deck;
     QValueList<MoveHint*> moves;
     Card *waitfor;
+    void *solver_instance;
 };
 
 #endif

@@ -2,7 +2,7 @@
 INCLUDES = -I$(top_srcdir)/libkdegames $(all_includes) 
 
 LDFLAGS = $(all_libraries) $(KDE_RPATH)
-LDADD = $(LIB_KFILE) $(top_builddir)/libkdegames/libkdegames.la
+LDADD = $(LIB_KFILE) $(top_builddir)/libkdegames/libkdegames.la ./freecell-solver/libfcs.la
 
 bin_PROGRAMS = kpat
 
@@ -13,7 +13,7 @@ kpat_SOURCES = main.cpp cardmaps.cpp card.cpp dealer.cpp \
 
 METASOURCES = AUTO
 
-SUBDIRS = icons 
+SUBDIRS = icons freecell-solver
 
 apps_DATA = kpat.desktop
 appsdir   = $(kde_appsdir)/Games

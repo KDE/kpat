@@ -8,6 +8,7 @@
 #include <kapp.h>
 #include <assert.h>
 #include <kpixmap.h>
+#include "speeds.h"
 
 const int Pile::Default       = 0x0000;
 const int Pile::disallow      = 0x0001;
@@ -308,7 +309,7 @@ void Pile::add( Card* _card, bool _facedown, bool _spread )
         _card->move( x2, y2 );
         _card->setZ( z2 );
     } else {
-        _card->animatedMove(x2, y2, z2, 10);
+        _card->animatedMove(x2, y2, z2, STEPS_INITIALDEAL);
     }
 
 
@@ -362,8 +363,6 @@ CardList Pile::cardPressed(Card *c)
 
 void Pile::moveCards(CardList &cl, Pile *to)
 {
-    kdDebug() << "moveCards\n";
-
     if (!cl.count())
         return;
 
@@ -383,8 +382,6 @@ void Pile::moveCards(CardList &cl, Pile *to)
 
 void Pile::moveCardsBack(CardList &cl, bool anim)
 {
-    kdDebug() << "moveCardsBack\n";
-
     if (!cl.count())
         return;
 
@@ -393,7 +390,7 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
     Card *before = 0;
     QSize off;
 
-    int steps = 5;
+    int steps = STEPS_MOVEBACK;
     if (!anim)
         steps = 0;
 

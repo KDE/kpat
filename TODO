@@ -1,7 +1,6 @@
 TODO: 
       - more options (wholeColumn, etc.)
          kpat already supports a lot, but they aren't accessible via GUI yet
-      - preview on cards that are hidden but faceup (RMB)
       - golf
       - implement support for nice (configurable) backgrounds, like
         color gradients, background pixmaps (tiled, wallpaper, etc. ).
@@ -22,6 +21,7 @@ TODO:
  somehow (on the foundations or on the aces).
 
 DONE:
+      - preview on cards that are hidden but faceup (RMB)
       - animation when a card moves back automatically
       - nice animation when you win a game
       - game numbers as in MS freecell (thanks Marcus)

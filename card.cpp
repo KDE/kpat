@@ -263,4 +263,15 @@ bool Card::takenDown() const
     return tookDown;
 }
 
+void Card::getUp(int steps)
+{
+    destZ = int(z());
+    destX = int(x());
+    destY = int(y());
+    setZ(hz+1);
+    animSteps = steps;
+    setVelocity(0, 0);
+    setAnimated(TRUE);
+}
+
 #include "card.moc"

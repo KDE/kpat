@@ -13,13 +13,12 @@
 #include <klocale.h>
 #include <kstddirs.h>
 #include <cardmaps.h>
+#include <speeds.h>
 
 DealerInfoList *DealerInfoList::_self = 0;
 static KStaticDeleter<DealerInfoList> dl;
 
 typedef QValueList<MoveHint*> HintList;
-
-#define T1 200
 
 DealerInfoList *DealerInfoList::self()
 {
@@ -259,17 +258,22 @@ void Dealer::contentsMousePressEvent(QMouseEvent* e)
     if (!list.count())
         return;
 
-    if (list.first()->rtti() == Card::RTTI) {
-        Card *c = dynamic_cast<Card*>(list.first());
-        assert(c);
-        movingCards = c->source()->cardPressed(c);
-        moving_start = e->pos();
-        return;
+    if (e->button() == LeftButton) {
+        if (list.first()->rtti() == Card::RTTI) {
+            Card *c = dynamic_cast<Card*>(list.first());
+            assert(c);
+            movingCards = c->source()->cardPressed(c);
+            moving_start = e->pos();
+            return;
+        }
     }
 
-    if (list.first()->rtti() == Pile::RTTI) {
-        Pile *c = dynamic_cast<Pile*>(list.first());
-        assert(c);
+    if (e->button() == RightButton) {
+        if (list.first()->rtti() == Card::RTTI) {
+            Card *preview = dynamic_cast<Card*>(list.first());
+            assert(preview);
+            preview->getUp();
+        }
     }
 
     movingCards.clear();
@@ -472,7 +476,17 @@ void Dealer::startNew()
     undoList.clear();
     emit undoPossible(false);
     restart();
-    takeState();
+    Card *towait = 0;
+    for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it) {
+        if ((*it)->rtti() == Card::RTTI) {
+            towait = static_cast<Card*>(*it);
+            break;
+        }
+    }
+    if (!towait)
+        takeState();
+    else
+        connect(towait, SIGNAL(stoped(Card*)), SLOT(takeState()));
 }
 
 void Dealer::enlargeCanvas(QCanvasRectangle *c)
@@ -711,7 +725,7 @@ void Dealer::takeState()
             won();
             return;
         } else if (!demoActive()) {
-            QTimer::singleShot(T1, this, SLOT(startAutoDrop()));
+            QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
         }
     }
     emit undoPossible(undoList.count() > 1);
@@ -734,6 +748,7 @@ void Dealer::saveGame(QDataStream &s) {
 
 void Dealer::openGame(QDataStream &s)
 {
+    unmarkAll();
     Q_UINT64 gn;
     s >> gn;
     setGameNumber(gn);
@@ -819,7 +834,7 @@ bool Dealer::startAutoDrop()
             int y = int(t->y());
             t->source()->moveCards(cards, mh->pile());
             t->move(x, y);
-            t->animatedMove(t->source()->x(), t->source()->y(), t->z(), 8);
+            t->animatedMove(t->source()->x(), t->source()->y(), t->z(), STEPS_AUTODROP);
             takeState();
             return true;
         }
@@ -850,6 +865,9 @@ void Dealer::removePile(Pile *p)
 
 void Dealer::stopDemo()
 {
+    if (towait == (Card*)-1)
+        towait = 0;
+
     if (towait) {
         towait->disconnect();
         towait = 0;
@@ -895,7 +913,7 @@ void Dealer::won()
                 y = 3*canvas()->height()/2 - (kapp->random() % (canvas()->height() * 2));
                 p.moveTopLeft(QPoint(x, y));
             } while (can.intersects(p));
-	    c->animatedMove( x, y, 0, 20);
+	    c->animatedMove( x, y, 0, STEPS_WON);
        }
     }
     bool demo = demoActive();
@@ -920,12 +938,15 @@ MoveHint *Dealer::chooseHint()
 
 void Dealer::demo() {
     unmarkAll();
+    towait = (Card*)-1;
     clearHints();
     getHints();
     demotimer->stop();
 
     MoveHint *mh = chooseHint();
     if (mh) {
+        assert(mh->card()->source()->legalRemove(mh->card()));
+
         CardList empty;
         CardList cards = mh->card()->source()->cards();
         bool after = false;
@@ -951,6 +972,7 @@ void Dealer::demo() {
         }
 
         assert(mh->card()->source() != mh->pile());
+        assert(mh->pile()->legalAdd(empty));
 
         mh->card()->source()->moveCards(empty, mh->pile());
 
@@ -963,7 +985,7 @@ void Dealer::demo() {
             int x2 = int(t->realX());
             int y2 = int(t->realY());
             t->move(x1, y1);
-            t->animatedMove(x2, y2, t->z(), 10);
+            t->animatedMove(x2, y2, t->z(), STEPS_DEMO);
         }
 
         delete [] oldcoords;
@@ -998,10 +1020,11 @@ void Dealer::newDemoMove(Card *m)
 
 void Dealer::waitForDemo(Card *t)
 {
+    if (t == (Card*)-1)
+        return;
     if (towait != t)
         return;
     towait = 0;
-    kdDebug() << "stoped " << t->name() << endl;
     demotimer->start(250, true);
 }
 
@@ -1019,7 +1042,7 @@ bool Dealer::checkRemove( int, const Pile *, const Card *) const {
     return true;
 }
 
-bool Dealer::checkAdd   ( int, const Pile *, const CardList&) const {
+bool Dealer::checkAdd( int, const Pile *, const CardList&) const {
     return true;
 }
 

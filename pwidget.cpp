@@ -214,6 +214,7 @@ void pWidget::newGameType()
     for (QValueList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin(); it != DealerInfoList::self()->games().end(); ++it) {
         if ((*it)->gameindex == id) {
             dill = (*it)->createGame(this);
+            connect(dill, SIGNAL(saveGame()), SLOT(saveGame()));
             dill->setGameId(id);
             dill->setupActions();
             dill->setBackgroundPixmap(background, midcolor);

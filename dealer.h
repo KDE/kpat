@@ -112,12 +112,13 @@ public slots:
 signals:
     void undoPossible(bool poss);
     void gameWon(bool withhelp);
+    void saveGame(); // emergency
 
 public slots:
     void demo();
     void waitForDemo(Card *);
     void toggleDemo();
-    void stopDemo();
+    virtual void stopDemo();
 
 protected:
 
@@ -163,7 +164,7 @@ protected:
     // reimplement this to use the game-specific information from the state structure
     virtual void setGameState( QDataStream & ) {}
 
-    void newDemoMove(Card *m);
+    virtual void newDemoMove(Card *m);
 
     bool moved;
     CardList movingCards;
