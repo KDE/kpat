@@ -112,11 +112,13 @@ bool Kings::isGameLost() const {
 	return true;
 }
 
+#if 0
 static class LocalDealerInfo12 : public DealerInfo
 {
 public:
     LocalDealerInfo12() : DealerInfo(I18N_NOOP("&The Kings"), 12) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Kings(parent); }
 } gfdi12;
+#endif
 
 #include "kings.moc"
