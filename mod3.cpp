@@ -164,7 +164,7 @@ Card *Mod3::demoNewCards()
    return stack[3][0]->top();
 }
 
-virtual bool Mod3::startAutoDrop() {
+bool Mod3::startAutoDrop() {
     return false;
 }
 
