@@ -1,3 +1,8 @@
+2005-02-18 Inge Wallin <inge@lysator.liu.se>
+
+	Bumped version number to 2.2.2 because of all the bug fixes
+	during the last months and the upcoming release of KDE 3.4.
+
 2005-01-07 Inge Wallin <inge@lysator.liu.se>
 
 	Fix bug 91317: Klondike (draw 3) incorrect unwinnable game message
