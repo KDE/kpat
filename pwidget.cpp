@@ -213,7 +213,7 @@ void pWidget::action( int _id)
       m->setItemChecked( ID_OANIMATION, animate );
       break;
     case ID_HHELP:
-      KApplication::kApplication()->invokeHTMLHelp("", "");
+      KApplication::kApplication()->invokeHelp();
       break;
   default:
     // background stuff?
