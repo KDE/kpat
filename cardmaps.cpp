@@ -30,6 +30,7 @@
 #include <unistd.h>
 #include <qdatetm.h>
 #include <kconfig.h>
+#include <kmisc.h>
 
 int cardMaps::CARDX;
 int cardMaps::CARDY;
