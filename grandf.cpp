@@ -113,10 +113,9 @@ void Grandf::deal() {
 
     for (int round=0; round < 7; round++)
     {
-        Card *c = store[i]->top();
-        if (c && !c->isFaceUp()) {
+        Card *c = store[round]->top();
+        if (c)
             c->turn(true);
-        }
     }
     aredeal->setEnabled(true);
     canvas()->update();
