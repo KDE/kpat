@@ -136,7 +136,7 @@ bool Fortyeight::isGameLost() const{
    for(int i=0; i < 8; i++){
 	if(stack[i]->isEmpty())
 		return false;
-	c=stack[i]->top();	
+	c=stack[i]->top();
 
 	if(c->value() == Card::Ace)
 		return false;
@@ -153,6 +153,8 @@ bool Fortyeight::isGameLost() const{
 		}
 	for(int j=1; j < 8; j++){
 		int k=(i+j) % 8;
+		if (stack[k]->isEmpty())
+			continue;
 		if(c->suit() == stack[k]->top()->suit() &&
 			c->value()+1 ==stack[k]->top()->value()){
 			int indexi=stack[i]->indexOf(c);
