@@ -2,9 +2,11 @@
 [KDE Desktop Entry]
 Name=Patience
 Name[pl]=Pasjans
+Name[fi]=Kärsivällisyys
 Exec=kpat
 Type=Application
 DocPath=kpat/index.html
 Comment=Several nice card games
 Comment[de]=Ein paar kleine Kartenspiele
 Comment[pl]=Kilka ró¿nych pasjansów.
+Comment[fi]=Monia erilaisia korttipelejä
