@@ -2,5 +2,6 @@
 [KDE Desktop Entry]
 Name=Patience
 Exec=kpat
+Type=Application
 Info=Several nice card games
 Info[de]=Ein paar kleine Kartenspiele
