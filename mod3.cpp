@@ -110,7 +110,7 @@ void Mod3::dealRow(int row)
 
 void Mod3::deckClicked(Card*)
 {
-    kdDebug() << "deck clicked " << deck->cardsLeft() << endl;
+    kdDebug(11111) << "deck clicked " << deck->cardsLeft() << endl;
     if (deck->isEmpty())
         return;
 
@@ -130,7 +130,7 @@ void Mod3::deal()
             aces->add(*it);
             (*it)->hide();
         }
-    kdDebug() << "init " << aces->cardsLeft() << " " << deck->cardsLeft() << endl;
+    kdDebug(11111) << "init " << aces->cardsLeft() << " " << deck->cardsLeft() << endl;
 
     for (int r = 0; r < 4; r++)
         dealRow(r);

@@ -72,7 +72,7 @@ bool Klondike::tryToDrop(Card *t)
     if (!t || !t->realFace() || t->takenDown())
         return false;
 
-//    kdDebug() << "tryToDrop " << t->name() << endl;
+//    kdDebug(11111) << "tryToDrop " << t->name() << endl;
 
     bool shoulddrop = (t->value() <= Card::Two || t->value() <= lowest_card[t->isRed() ? 1 : 0] + 1);
     Pile *tgt = findTarget(t);
@@ -97,7 +97,7 @@ void Klondike::getHints() {
     lowest_card[0] = static_cast<Card::Values>(QMIN(tops[1], tops[2])); // red
     lowest_card[1] = static_cast<Card::Values>(QMIN(tops[0], tops[3])); // black
 
-//    kdDebug() << "startAutoDrop red:" << lowest_card[0] << " black:" << lowest_card[1] << endl;
+//    kdDebug(11111) << "startAutoDrop red:" << lowest_card[0] << " black:" << lowest_card[1] << endl;
 
     Card* t[7];
     for(int i=0; i<7;i++)
@@ -158,7 +158,7 @@ Card *Klondike::demoNewCards() {
 }
 
 void Klondike::restart() {
-    kdDebug() << "restart\n";
+    kdDebug(11111) << "restart\n";
     deck->collectAndShuffle();
     deal();
 }
@@ -182,7 +182,7 @@ void Klondike::deal3()
 
         Card *item = deck->nextCard();
         if (!item) {
-            kdDebug() << "deck empty!!!\n";
+            kdDebug(11111) << "deck empty!!!\n";
             return;
         }
         pile->add(item, true, false); // facedown, nospread
@@ -217,7 +217,7 @@ void Klondike::deal() {
 }
 
 void Klondike::cardClicked(Card *c) {
-    kdDebug() << "card clicked " << c->name() << endl;
+    kdDebug(11111) << "card clicked " << c->name() << endl;
 
     Dealer::cardClicked(c);
     if (c->source() == deck) {
@@ -227,7 +227,7 @@ void Klondike::cardClicked(Card *c) {
 }
 
 void Klondike::pileClicked(Pile *c) {
-    kdDebug() << "pile clicked " << endl;
+    kdDebug(11111) << "pile clicked " << endl;
     Dealer::pileClicked(c);
 
     if (c == deck) {

@@ -59,7 +59,7 @@ cardMap::cardMap(const QColor &dim) : dimcolor(dim)
 {
     assert(!_self);
 
-    kdDebug() << "cardMap\n";
+    kdDebug(11111) << "cardMap\n";
     KConfig *config = kapp->config();
     KConfigGroupSaver cs(config, settings_group );
 
@@ -78,7 +78,7 @@ cardMap::cardMap(const QColor &dim) : dimcolor(dim)
     }
 
     _self = cms.setObject(this);
-//    kdDebug() << "card " << CARDX << " " << CARDY << endl;
+//    kdDebug(11111) << "card " << CARDX << " " << CARDY << endl;
 }
 
 bool cardMap::setCardDir( const QString &dir)
@@ -149,7 +149,7 @@ bool cardMap::setCardDir( const QString &dir)
         image.load(imgname);
 
         if( image.isNull()) {
-            kdDebug() << "cannot load card pixmap \"" << imgname << "\" in (" << idx << ") " << dir << "\n";
+            kdDebug(11111) << "cannot load card pixmap \"" << imgname << "\" in (" << idx << ") " << dir << "\n";
             p.end();
             delete w;
             return false;
@@ -194,7 +194,7 @@ bool cardMap::setBackSide( const QPixmap &pm )
     if(back.width() != CARDX ||
        back.height() != CARDY)
     {
-        kdDebug() << "scaling back¡!!\n";
+        kdDebug(11111) << "scaling back¡!!\n";
         // scale to fit size
         QWMatrix wm;
         wm.scale(((float)(CARDX))/back.width(),

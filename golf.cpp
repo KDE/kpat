@@ -55,7 +55,7 @@ bool Golf::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
 
     Card *c2 = cl.first();
 
-    kdDebug()<<"check add "<< c1->name()<<" " << c2->name() <<" "<<endl;
+    kdDebug(11111)<<"check add "<< c1->name()<<" " << c2->name() <<" "<<endl;
 
     if ((c2->value() != (c1->top()->value()+1)) && (c2->value() != (c1->top()->value()-1)))
         return false;

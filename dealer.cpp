@@ -60,7 +60,7 @@ void Dealer::setupActions() {
 
     QList<KAction> actionlist;
 
-    kdDebug() << "setupActions " << actions() << endl;
+    kdDebug(11111) << "setupActions " << actions() << endl;
 
     if (actions() & Dealer::Hint) {
 
@@ -125,7 +125,7 @@ void Dealer::getHints()
         Pile *store = *it;
         if (store->isEmpty())
             continue;
-//        kdDebug() << "trying " << store->top()->name() << endl;
+//        kdDebug(11111) << "trying " << store->top()->name() << endl;
 
         CardList cards = store->cards();
         while (cards.count() && !cards.first()->realFace()) cards.remove(cards.begin());
@@ -134,7 +134,7 @@ void Dealer::getHints()
         while (iti != cards.end())
         {
             if (store->legalRemove(*iti)) {
-//                kdDebug() << "could remove " << (*iti)->name() << endl;
+//                kdDebug(11111) << "could remove " << (*iti)->name() << endl;
                 for (PileList::Iterator pit = piles.begin(); pit != piles.end(); ++pit)
                 {
                     Pile *dest = *pit;
@@ -221,7 +221,7 @@ void Dealer::contentsMouseMoveEvent(QMouseEvent* e)
                 if (p->isEmpty() && !sources.contains(p))
                     sources.append(p);
             } else {
-                kdDebug() << "unknown object " << *it << " " << (*it)->rtti() << endl;
+                kdDebug(11111) << "unknown object " << *it << " " << (*it)->rtti() << endl;
             }
         }
     }
@@ -271,7 +271,7 @@ void Dealer::contentsMousePressEvent(QMouseEvent* e)
 
     QCanvasItemList list = canvas()->collisions(e->pos());
 
-    kdDebug() << "mouse pressed " << list.count() << " " << canvas()->allItems().count() << endl;
+    kdDebug(11111) << "mouse pressed " << list.count() << " " << canvas()->allItems().count() << endl;
     moved = false;
 
     if (!list.count())
@@ -390,7 +390,7 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
                     sources.append(t);
                 }
             } else {
-                kdDebug() << "unknown object " << *it << " " << (*it)->rtti() << endl;
+                kdDebug(11111) << "unknown object " << *it << " " << (*it)->rtti() << endl;
             }
         }
     }
@@ -497,7 +497,7 @@ void Dealer::resizeEvent(QResizeEvent *e)
 }
 
 void Dealer::cardClicked(Card *c) {
-    kdDebug() << "card clicked " << c->name() << endl;
+    kdDebug(11111) << "card clicked " << c->name() << endl;
     c->source()->cardClicked(c);
 }
 
@@ -509,7 +509,7 @@ void Dealer::cardDblClicked(Card *c)
 {
     c->source()->cardDblClicked(c);
 
-    kdDebug() << "card dbl clicked " << c->name() << endl;
+    kdDebug(11111) << "card dbl clicked " << c->name() << endl;
 
     if (c->animated())
         return;
@@ -530,11 +530,11 @@ void Dealer::startNew()
     minsize = QSize(0,0);
     _won = false;
     _waiting = 0;
-    kdDebug() << "startNew stopDemo\n";
+    kdDebug(11111) << "startNew stopDemo\n";
     stopDemo();
-    kdDebug() << "startNew unmarkAll\n";
+    kdDebug(11111) << "startNew unmarkAll\n";
     unmarkAll();
-    kdDebug() << "startNew setAnimated(false)\n";
+    kdDebug(11111) << "startNew setAnimated(false)\n";
     QCanvasItemList list = canvas()->allItems();
     for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it) {
         if ((*it)->rtti() == Card::RTTI)
@@ -546,7 +546,7 @@ void Dealer::startNew()
 
     undoList.clear();
     emit undoPossible(false);
-    kdDebug() << "startNew restart\n";
+    kdDebug(11111) << "startNew restart\n";
     restart();
     takeState();
     Card *towait = 0;
@@ -557,7 +557,7 @@ void Dealer::startNew()
                 break;
         }
     }
-    kdDebug() << "startNew takeState\n";
+    kdDebug(11111) << "startNew takeState\n";
     if (!towait)
         takeState();
     else
@@ -676,7 +676,7 @@ State *Dealer::getState()
            s.it = c;
            s.source = c->source();
            if (!s.source) {
-               kdDebug() << c->name() << " has no parent\n";
+               kdDebug(11111) << c->name() << " has no parent\n";
                assert(false);
            }
            s.i = c->source()->indexOf(c);
@@ -739,7 +739,7 @@ void Dealer::setState(State *st)
 
 void Dealer::takeState()
 {
-    kdDebug() << "takeState\n";
+    kdDebug(11111) << "takeState\n";
 
     State *n = getState();
 
@@ -860,7 +860,7 @@ void Dealer::setWaiting(bool w)
     else
         _waiting--;
     emit undoPossible(!waiting());
-    kdDebug() << "setWaiting " << w << " " << _waiting << endl;
+    kdDebug(11111) << "setWaiting " << w << " " << _waiting << endl;
 }
 
 bool Dealer::startAutoDrop()
@@ -868,7 +868,7 @@ bool Dealer::startAutoDrop()
     if (movingCards.count())
         return false;
 
-    kdDebug() << "startAutoDrop\n";
+    kdDebug(11111) << "startAutoDrop\n";
 
     unmarkAll();
     clearHints();
@@ -886,7 +886,7 @@ bool Dealer::startAutoDrop()
             int y = int(t->y());
             t->source()->moveCards(cards, mh->pile());
             t->move(x, y);
-            kdDebug() << "autodrop " << t->name() << endl;
+            kdDebug(11111) << "autodrop " << t->name() << endl;
             t->animatedMove(t->source()->x(), t->source()->y(), t->z(), STEPS_AUTODROP);
             connect(t, SIGNAL(stoped(Card*)), SLOT(waitForAutoDrop(Card*)));
             return true;
@@ -897,7 +897,7 @@ bool Dealer::startAutoDrop()
 }
 
 void Dealer::waitForAutoDrop(Card * c) {
-    kdDebug() << "waitForAutoDrop " << c->name() << endl;
+    kdDebug(11111) << "waitForAutoDrop " << c->name() << endl;
     setWaiting(false);
     c->disconnect();
     takeState();
@@ -925,7 +925,7 @@ void Dealer::removePile(Pile *p)
 
 void Dealer::stopDemo()
 {
-    kdDebug() << "stopDemo " << waiting() << " " << stop_demo_next << endl;
+    kdDebug(11111) << "stopDemo " << waiting() << " " << stop_demo_next << endl;
     if (waiting()) {
         stop_demo_next = true;
         return;
@@ -1183,7 +1183,7 @@ int Dealer::freeCells() const
 
 void Dealer::setAnchorName(const QString &name)
 {
-    kdDebug() << "setAnchorname " << name << endl;
+    kdDebug(11111) << "setAnchorname " << name << endl;
     ac = name;
 }
 

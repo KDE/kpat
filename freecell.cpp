@@ -58,7 +58,7 @@ unlimited_move(unlimit)
     deck = new Deck(0, this, decks);
     deck->hide();
 
-    kdDebug() << "cards " << deck->cards().count() << endl;
+    kdDebug(11111) << "cards " << deck->cards().count() << endl;
     Pile *t;
     for (int i = 0; i < stores; i++) {
         FreecellPile *p = new FreecellPile(1 + i, this);
@@ -142,10 +142,10 @@ int getDeck(Card::Suits suit)
 
 void FreecellBase::findSolution()
 {
-    kdDebug() << "findSolution\n";
+    kdDebug(11111) << "findSolution\n";
 
     QString output = solverFormat();
-    fprintf(stderr, "%s\n", output.latin1());
+    kdDebug(11111) << output << endl;
 
     solver_instance = freecell_solver_user_alloc();
 
@@ -185,7 +185,7 @@ void FreecellBase::resumeSolution()
         emit gameInfo(i18n("solved after %1 tries").
                       arg(freecell_solver_user_get_num_times(
                           solver_instance)));
-        kdDebug() << "solved\n";
+        kdDebug(11111) << "solved\n";
         Dealer::demo();
         return;
     }
@@ -311,7 +311,7 @@ void FreecellBase::demo()
     }
     towait = (Card*)-1;
     unmarkAll();
-    kdDebug() << "demo " << (!solver_instance && solver_ret != FCS_STATE_IS_NOT_SOLVEABLE) << endl;
+    kdDebug(11111) << "demo " << (!solver_instance && solver_ret != FCS_STATE_IS_NOT_SOLVEABLE) << endl;
     if (!solver_instance && solver_ret != FCS_STATE_IS_NOT_SOLVEABLE)
         findSolution();
 }
@@ -414,14 +414,14 @@ struct MoveAway {
 
 void FreecellBase::movePileToPile(CardList &c, Pile *to, PileList fss, PileList &fcs, uint start, uint count, int debug_level)
 {
-    kdDebug() << debug_level << " movePileToPile" << c.count() << " " << start  << " " << count << endl;
+    kdDebug(11111) << debug_level << " movePileToPile" << c.count() << " " << start  << " " << count << endl;
     uint moveaway = 0;
     if (count > fcs.count() + 1) {
         moveaway = (fcs.count() + 1);
         while (moveaway * 2 < count)
             moveaway <<= 1;
     }
-    kdDebug() << debug_level << " moveaway " << moveaway << endl;
+    kdDebug(11111) << debug_level << " moveaway " << moveaway << endl;
 
     QValueList<MoveAway> moves_away;
 
@@ -465,7 +465,7 @@ void FreecellBase::movePileToPile(CardList &c, Pile *to, PileList fss, PileList 
 
 void FreecellBase::startMoving()
 {
-    kdDebug() << "startMoving\n";
+    kdDebug(11111) << "startMoving\n";
     if (moves.isEmpty()) {
         if (demoActive() && towait) {
             waitForDemo(towait);
@@ -484,7 +484,7 @@ void FreecellBase::startMoving()
     mh->pile()->add(mh->card());
     mh->pile()->moveCardsBack(empty, true);
     waitfor = mh->card();
-    kdDebug() << "wait for moving end " << mh->card()->name() << endl;
+    kdDebug(11111) << "wait for moving end " << mh->card()->name() << endl;
     connect(mh->card(), SIGNAL(stoped(Card*)), SLOT(waitForMoving(Card*)));
     delete mh;
 }
