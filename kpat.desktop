@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Patience
+Name[ar]=لعبة الصبر (Patience)
 Name[az]=Səbir
 Name[bn]=পেশেন্স
 Name[br]=Habaskter
@@ -95,4 +96,4 @@ GenericName[zh_CN]=考验耐心的牌类游戏
 GenericName[zh_TW]=耐心的紙牌遊戲
 GenericName[zu]=Umdlalo wesineke wamakhadi
 X-DCOP-ServiceType=Multi
-Categories=Qt;KDE;Game;CardGame
+Categories=Qt;KDE;Game;CardGame;
