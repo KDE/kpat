@@ -41,6 +41,7 @@
 #include <qimage.h>
 #include <kstatusbar.h>
 #include "speeds.h"
+#include <kmessagebox.h>
 
 static pWidget *current_pwidget = 0;
 
@@ -211,8 +212,10 @@ void pWidget::changeWallpaper()
     if (bgpath.isEmpty())
         return;
     background = QPixmap(bgpath);
-    if (background.isNull())
+    if (background.isNull()) {
+        KMessageBox::sorry(this, i18n("<qt>Couldn't load wallpaper<br/>%1</qt>").arg(bgpath));
         return;
+    }
 
     QImage bg = background.convertToImage().convertDepth(8, 0);
     if (bg.isNull() || !bg.numColors())
