@@ -57,12 +57,12 @@ int main( int argc, char **argv )
 
     KApplication a;
 
-    pWidget p("pwidget");
+    pWidget* p = new pWidget("pwidget");
     if (args->count())
-        p.openGame(args->url(0));
-    p.show();
+        p->openGame(args->url(0));
+    p->show();
 
-    a.setMainWidget(&p);
+    a.setMainWidget(p);
     int r = a.exec();
     return r;
 }
