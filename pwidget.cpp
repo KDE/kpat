@@ -29,7 +29,7 @@
 #include "version.h"
 #include <kstdaction.h>
 #include <kaction.h>
-#include <dealer.h>
+#include "dealer.h"
 #include <kdebug.h>
 #include "cardmaps.h"
 #include <kcarddialog.h>

@@ -2,7 +2,7 @@
 #include <kstaticdeleter.h>
 #include <qpainter.h>
 #include <kdebug.h>
-#include <deck.h>
+#include "deck.h"
 #include <assert.h>
 #include "pile.h"
 #include "kmainwindow.h"
@@ -11,8 +11,8 @@
 #include <qtimer.h>
 #include <kaction.h>
 #include <klocale.h>
-#include <cardmaps.h>
-#include <speeds.h>
+#include "cardmaps.h"
+#include "speeds.h"
 
 DealerInfoList *DealerInfoList::_self = 0;
 static KStaticDeleter<DealerInfoList> dl;
