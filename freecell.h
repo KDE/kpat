@@ -41,6 +41,7 @@ public:
                   KMainWindow* parent=0, const char* name=0);
     void moveCards(CardList &c, FreecellPile *from, Pile *to);
     QString solverFormat() const;
+    virtual ~FreecellBase();
 
 public slots:
     virtual void deal() = 0;

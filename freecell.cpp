@@ -83,6 +83,14 @@ unlimited_move(unlimit)
     setActions(Dealer::Demo | Dealer::Hint);
 }
 
+FreecellBase::~FreecellBase()
+{
+    if (solver_instance)
+    {
+        freecell_solver_user_free(solver_instance);
+        solver_instance = NULL;
+    }
+}
 //-------------------------------------------------------------------------//
 
 void FreecellBase::restart()
@@ -204,33 +212,33 @@ void FreecellBase::findSolution()
     QString output = solverFormat();
     kdDebug(11111) << output << endl;
 
-    solver_instance = freecell_solver_user_alloc();
+    int ret;
 
-    //freecell_solver_user_set_solving_method(solver_instance,
-    //                                        FCS_METHOD_SOFT_DFS);
+    /* If solver_instance was not initialized yet - initialize it */
+    if (! solver_instance)
+    {
+        solver_instance = freecell_solver_user_alloc();
 
-    //freecell_solver_user_set_solution_optimization(solver_instance,
-    //                                              1);
-
-    char * error_string;
-    int error_arg;
-    char * known_parameters[1] = {NULL};
+        char * error_string;
+        int error_arg;
+        char * known_parameters[1] = {NULL};
     
     
-    int ret = freecell_solver_user_cmd_line_parse_args(
-        solver_instance,
-        sizeof(freecell_solver_cmd_line_args)/sizeof(freecell_solver_cmd_line_args[0]),
-        freecell_solver_cmd_line_args,
-        0,
-        known_parameters,
-        NULL,
-        NULL,
-        &error_string,
-        &error_arg
-        );
+        ret = freecell_solver_user_cmd_line_parse_args(
+            solver_instance,
+            sizeof(freecell_solver_cmd_line_args)/sizeof(freecell_solver_cmd_line_args[0]),
+            freecell_solver_cmd_line_args,
+            0,
+            known_parameters,
+            NULL,
+            NULL,
+            &error_string,
+            &error_arg
+            );
         
 
-    assert(!ret);
+        assert(!ret);
+    }
 
     ret = freecell_solver_user_set_game(solver_instance,
                                             freecell.count(),
@@ -388,8 +396,8 @@ void FreecellBase::demo()
     }
     towait = (Card*)-1;
     unmarkAll();
-    kdDebug(11111) << "demo " << (!solver_instance && solver_ret != FCS_STATE_IS_NOT_SOLVEABLE) << endl;
-    if (!solver_instance && solver_ret != FCS_STATE_IS_NOT_SOLVEABLE)
+    kdDebug(11111) << "demo " << (solver_ret != FCS_STATE_IS_NOT_SOLVEABLE) << endl;
+    if (solver_ret != FCS_STATE_IS_NOT_SOLVEABLE)
         findSolution();
 }
 
@@ -430,9 +438,7 @@ void FreecellBase::freeSolution()
 
     if (!solver_instance)
         return;
-    freecell_solver_user_free(solver_instance);
-
-    solver_instance = 0;
+    freecell_solver_user_recycle(solver_instance);
     solver_ret = FCS_STATE_NOT_BEGAN_YET;
 }
 

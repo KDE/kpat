@@ -134,7 +134,7 @@ HAVE_PRESET:
 int freecell_solver_user_cmd_line_parse_args_with_file_nesting_count(
     void * instance,
     int argc,
-    char * argv[],
+    const char * argv[],
     int start_arg,
     char * * known_parameters,
     freecell_solver_user_cmd_line_known_commands_callback_t callback,
@@ -517,7 +517,7 @@ int freecell_solver_user_cmd_line_parse_args_with_file_nesting_count(
             }
             {
                 int a;
-                char * start_num;
+                const char * start_num;
                 char * end_num;
                 char * num_copy;
                 start_num = argv[arg];
@@ -926,7 +926,7 @@ int freecell_solver_user_cmd_line_parse_args_with_file_nesting_count(
 int freecell_solver_user_cmd_line_parse_args(
     void * instance,
     int argc,
-    char * argv[],
+    const char * argv[],
     int start_arg,
     char * * known_parameters,
     freecell_solver_user_cmd_line_known_commands_callback_t callback,
