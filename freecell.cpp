@@ -169,7 +169,6 @@ void FreecellBase::findSolution()
     instance->empty_stacks_fill = es_filling;
 
     instance->max_num_times = CHUNKSIZE;
-    instance->max_depth = 250;
     instance->solution_moves = 0;
 
     fcs_state_with_locations_t *state = new fcs_state_with_locations_t;
@@ -253,6 +252,11 @@ void FreecellBase::resumeSolution()
     }
 
     instance->max_num_times += CHUNKSIZE;
+    if (instance->max_num_times > 80000) {
+        solver_ret = FCS_STATE_IS_NOT_SOLVEABLE;
+        resumeSolution();
+        return;
+    }
 
     solver_ret = freecell_solver_resume_instance(instance);
 
