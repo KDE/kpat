@@ -128,6 +128,7 @@ void Klondike::hint() {
                     }
                 }
             }
+            break; // the first face up
         }
 
         if (findTarget(play[i]->top()))
@@ -135,13 +136,19 @@ void Klondike::hint() {
     }
     if (!pile->isEmpty())
     {
-        for (int j = 0; j < 7; j++)
+        if (findTarget(pile->top()))
         {
-            CardList empty;
-            empty.append(pile->top());
-            if (altStep(play[j], empty)) {
-                mark(pile->top());
-                break;
+            mark(pile->top());
+        } else
+        {
+            for (int j = 0; j < 7; j++)
+            {
+                CardList empty;
+                empty.append(pile->top());
+                if (altStep(play[j], empty)) {
+                    mark(pile->top());
+                    break;
+                }
             }
         }
     }
