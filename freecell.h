@@ -80,7 +80,8 @@ protected:
     PileList target;
     Deck *deck;
 private:
-    QValueList<MoveHint*> moves;
+    HintList moves;
+    HintList oldmoves;
     Card *waitfor;
     void *solver_instance, *solver_state;
     int es_filling;

@@ -24,8 +24,8 @@ extern "C" {
 
 struct fcs_struct_card_t
 {
-    unsigned char card_num;
-    unsigned char deck;
+    int card_num : 4;
+    int deck : 2;
 };
 
 typedef struct fcs_struct_card_t fcs_card_t;

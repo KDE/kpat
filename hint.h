@@ -7,7 +7,7 @@ class Pile;
 class MoveHint
 {
 public:
-    MoveHint(Card *c, Pile *_to, bool d=true) { _card = c; to = _to; _dropiftarget = d; }
+    MoveHint(Card *c, Pile *_to, bool d=true);
     bool dropIfTarget() const { return _dropiftarget; }
     Card *card() const { return _card; }
     Pile *pile() const { return to; }
@@ -17,5 +17,7 @@ private:
     Pile *to;
     bool _dropiftarget;
 };
+
+typedef QValueList<MoveHint*> HintList;
 
 #endif

@@ -170,6 +170,8 @@ void FreecellBase::findSolution()
 
     instance->max_num_times = CHUNKSIZE;
     instance->solution_moves = 0;
+    instance->solution_states = 0;
+    instance->num_solution_states = 0;
 
     fcs_state_with_locations_t *state = new fcs_state_with_locations_t;
     fcs_state_init(state, instance->stacks_num);
@@ -219,19 +221,8 @@ void FreecellBase::resumeSolution()
 
     emit gameInfo(i18n("%1 tries - depth %2").arg(instance->max_num_times).arg(instance->num_solution_states));
 
-    kdDebug() << "resumeSolution " << instance->max_num_times
-              << " " << solver_ret << endl;
-
     if (solver_ret == FCS_STATE_WAS_SOLVED)
     {
-        int a;
-
-        for(a=0;a<instance->num_solution_states;a++)
-        {
-            free((void*)instance->solution_states[a]);
-        }
-        free((void*)instance->solution_states);
-
         fcs_move_stack_normalize(
             instance->solution_moves,
             state,
@@ -259,9 +250,6 @@ void FreecellBase::resumeSolution()
     }
 
     solver_ret = freecell_solver_resume_instance(instance);
-
-    kdDebug() << "resumeSolution2 " << instance->max_num_times
-              << " " << solver_ret << endl;
 
     QTimer::singleShot(0, this, SLOT(resumeSolution()));
 
@@ -378,8 +366,9 @@ MoveHint *FreecellBase::chooseHint()
     if (instance && instance->solution_moves->num_moves > 0) {
         emit gameInfo(i18n("%1 moves before finish").arg(instance->solution_moves->num_moves));
         move = instance->solution_moves->moves[--instance->solution_moves->num_moves];
-        kdDebug() << "move " << fcs_move_to_string(move) << endl;
-        return translateMove(&move); // TODO: memory leak because of abuse!!!
+        MoveHint *mh = translateMove(&move);
+        oldmoves.append(mh);
+        return mh;
     } else
         return Dealer::chooseHint();
 }
@@ -398,15 +387,35 @@ void FreecellBase::countFreeCells(int &free_cells, int &free_stores) const
 
 void FreecellBase::freeSolution()
 {
+    for (HintList::Iterator it = oldmoves.begin(); it != oldmoves.end(); ++it)
+        delete *it;
+    oldmoves.clear();
     solver_ret = FCS_STATE_NOT_BEGAN_YET;
     freecell_solver_instance_t *instance = static_cast<freecell_solver_instance_t *>(solver_instance);
     if (!instance)
         return;
+
+    if (instance->solution_states && instance->num_solution_states)
+    {
+        for(int a=0;a<instance->num_solution_states;a++)
+        {
+            free((void*)instance->solution_states[a]);
+        }
+        free((void*)instance->solution_states);
+    }
     if (instance->solution_moves)
         fcs_move_stack_destroy(instance->solution_moves);
     freecell_solver_finish_instance(instance);
     freecell_solver_free_instance(instance);
     solver_instance = 0;
+    fcs_state_with_locations_t *state = static_cast<fcs_state_with_locations_t *>(solver_state);
+#if defined(INDIRECT_STACK_STATES)
+    for(int a=0;a<MAX_NUM_STACKS;a++)
+        if (state->s.stacks[a] != NULL)
+            free(state->s.stacks[a]);
+#endif
+    delete state;
+    solver_state = 0;
 }
 
 void FreecellBase::stopDemo()

@@ -18,8 +18,6 @@
 DealerInfoList *DealerInfoList::_self = 0;
 static KStaticDeleter<DealerInfoList> dl;
 
-typedef QValueList<MoveHint*> HintList;
-
 DealerInfoList *DealerInfoList::self()
 {
     if (!_self)
@@ -636,15 +634,6 @@ State *Dealer::getState()
 {
     QCanvasItemList list = canvas()->allItems();
     State * st = new State;
-    CardStateList *n = &st->cards;
-
-    for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
-    {
-        if ((*it)->rtti() == Pile::RTTI) {
-            Pile *p = dynamic_cast<Pile*>(*it);
-            assert(p);
-        }
-    }
 
     for (QCanvasItemList::ConstIterator it = list.begin(); it != list.end(); ++it)
     {
@@ -664,10 +653,10 @@ State *Dealer::getState()
            s.z = c->realZ();
            s.faceup = c->realFace();
            s.tookdown = c->takenDown();
-           n->append(s);
+           st->cards.append(s);
        }
     }
-    qHeapSort(*n);
+    qHeapSort(st->cards);
 
     // Game specific information
     QDataStream stream( st->gameData, IO_WriteOnly );
@@ -723,7 +712,7 @@ void Dealer::takeState()
     State *n = getState();
 
     if (!undoList.count()) {
-        undoList.append(getState());
+        undoList.append(n);
     } else {
         State *old = undoList.last();
 
@@ -1144,6 +1133,11 @@ int Dealer::freeCells() const
         if ((*it)->isEmpty() && !(*it)->target())
             n++;
     return n;
+}
+
+MoveHint::MoveHint(Card * c, Pile *_to, bool d)
+{
+    _card = c; to = _to; _dropiftarget = d;
 }
 
 #include "dealer.moc"

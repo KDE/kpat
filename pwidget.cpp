@@ -55,7 +55,9 @@ pWidget::pWidget( const char* _name )
     : KMainWindow(0, _name), dill(0)
 {
     current_pwidget = this;
+#ifndef NDEBUG
     KCrash::setEmergencySaveFunction(::saveGame);
+#endif
     KStdAction::quit(kapp, SLOT(quit()), actionCollection(), "game_exit");
 
     undo = KStdAction::undo(this, SLOT(undoMove()),

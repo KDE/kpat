@@ -273,9 +273,10 @@ void SFO_hash_free_with_callback(
             item = next_item;
         }
     }
+
+    free(hash->entries);
     
     free(hash);
-
 }
 
 void SFO_hash_free(
@@ -297,6 +298,8 @@ void SFO_hash_free(
             item = next_item;
         }
     }
+
+    free(hash->entries);
     
     free(hash);
 }
@@ -319,6 +322,8 @@ static void SFO_hash_rehash(
         hash->compare_function,
         hash->context
         );
+
+    new_hash->num_elems = hash->num_elems;
        
     old_size = hash->size;
     new_size = new_hash->size;
