@@ -116,6 +116,7 @@ public:
     bool autoDrop() const { return _autodrop; }
 
 public slots:
+
     // restart is pure virtual, so we need something else
     virtual void startNew();
     void undo();
@@ -123,7 +124,6 @@ public slots:
     virtual bool startAutoDrop();
     void hint();
     void slotTakeState(Card *c);
-    virtual void redeal() {}
 
 signals:
     void undoPossible(bool poss);

@@ -13,7 +13,6 @@
 #include <klocale.h>
 #include <cardmaps.h>
 #include <speeds.h>
-#include <kstdgameaction.h>
 
 DealerInfoList *DealerInfoList::_self = 0;
 static KStaticDeleter<DealerInfoList> dl;
@@ -34,8 +33,8 @@ Dealer *Dealer::s_instance = 0;
 
 Dealer::Dealer( KMainWindow* _parent , const char* _name )
     : QCanvasView( 0, _parent, _name ), towait(0), myActions(0),
-      takeTargets(false), _won(false), _waiting(0), stop_demo_next(false),
-      _autodrop(true)
+ademo(0), ahint(0), aredeal(0),
+      takeTargets(false), _won(false), _waiting(0), stop_demo_next(false), _autodrop(true)
 {
     setResizePolicy(QScrollView::Manual);
     setVScrollBarMode(AlwaysOff);
@@ -50,13 +49,6 @@ Dealer::Dealer( KMainWindow* _parent , const char* _name )
     connect(demotimer, SIGNAL(timeout()), SLOT(demo()));
     assert(!s_instance);
     s_instance = this;
-
-    aredeal = parent()->actionCollection()->action("move_redeal");
-    const char *name = KStdGameAction::name(KStdGameAction::Hint);
-    ahint = parent()->actionCollection()->action(name);
-    name = KStdGameAction::name(KStdGameAction::Demo);
-    ademo =
-      static_cast<KToggleAction *>(parent()->actionCollection()->action(name));
 }
 
 const Dealer *Dealer::instance()
@@ -76,14 +68,42 @@ void Dealer::setBackgroundPixmap(const QPixmap &background, const QColor &midcol
 
 void Dealer::setupActions() {
 
-    ahint->setEnabled( actions() & Dealer::Hint );
-    ademo->setEnabled( actions() & Dealer::Demo );
-    aredeal->setEnabled( actions() & Dealer::Redeal );
+    QPtrList<KAction> actionlist;
+
+    kdDebug(11111) << "setupActions " << actions() << endl;
+
+    if (actions() & Dealer::Hint) {
+
+        ahint = new KAction( i18n("&Hint"), QString::fromLatin1("wizard"), Key_H, this,
+                             SLOT(hint()),
+                             parent()->actionCollection(), "game_hint");
+        actionlist.append(ahint);
+    } else
+        ahint = 0;
+
+    if (actions() & Dealer::Demo) {
+        ademo = new KToggleAction( i18n("&Demo"), QString::fromLatin1("1rightarrow"), CTRL+Key_D, this,
+                                   SLOT(toggleDemo()),
+                                   parent()->actionCollection(), "game_demo");
+        actionlist.append(ademo);
+    } else
+        ademo = 0;
+
+    if (actions() & Dealer::Redeal) {
+        aredeal = new KAction (i18n("&Redeal"), QString::fromLatin1("queue"), 0, this,
+                               SLOT(redeal()),
+                               parent()->actionCollection(), "game_redeal");
+        actionlist.append(aredeal);
+    } else
+        aredeal = 0;
+
+    parent()->guiFactory()->plugActionList( parent(), QString::fromLatin1("game_actions"), actionlist);
 }
 
 Dealer::~Dealer()
 {
     clearHints();
+    parent()->guiFactory()->unplugActionList( parent(), QString::fromLatin1("game_actions"));
 
     while (!piles.isEmpty())
         delete piles.first(); // removes itself
@@ -1017,7 +1037,8 @@ void Dealer::stopDemo()
         towait = 0;
     }
     demotimer->stop();
-    ademo->setChecked(false);
+    if (ademo)
+        ademo->setChecked(false);
 }
 
 bool Dealer::demoActive() const
@@ -1033,49 +1054,31 @@ void Dealer::toggleDemo()
         demo();
 }
 
-class CardPtr
-{
- public:
-    Card *ptr;
-};
-
-bool operator <(const CardPtr &p1, const CardPtr &p2)
-{
-    return ( p1.ptr->z() < p2.ptr->z() );
-}
-
 void Dealer::won()
 {
     if (_won)
         return;
     _won = true;
-
-    // sort card by increasing z
     QCanvasItemList list = canvas()->allItems();
-    QValueList<CardPtr> cards;
-    for (QCanvasItemList::ConstIterator it=list.begin(); it!=list.end(); ++it)
-        if ((*it)->rtti() == Card::RTTI) {
-            CardPtr p;
-            p.ptr = dynamic_cast<Card*>(*it);
-            assert(p.ptr);
-            cards.push_back(p);
-        }
-    qHeapSort(cards);
+    for (QCanvasItemList::ConstIterator it = list.begin(); it != list.end(); ++it)
+    {
+        if ((*it)->rtti() == Card::RTTI)
+        {
+            Card *c = dynamic_cast<Card*>(*it);
+            assert(c);
+            c->turn(true);
+            QRect p(0, 0, c->width(), c->height());
+            QRect can(0, 0, canvas()->width(), canvas()->height());
+            int x, y;
 
-    QRect can(0, 0, canvas()->width(), canvas()->height());
-    QValueList<CardPtr>::ConstIterator it = cards.begin();
-    for (; it != cards.end(); ++it) {
-        (*it).ptr->turn(true);
-        QRect p(0, 0, (*it).ptr->width(), (*it).ptr->height());
-        int x, y;
-
-        do {
-            // disperse the cards everywhere
-            x = 3*canvas()->width()/2 - kapp->random() % (canvas()->width() * 2);
-            y = 3*canvas()->height()/2 - (kapp->random() % (canvas()->height() * 2));
-            p.moveTopLeft(QPoint(x, y));
-        } while (can.intersects(p));
-	    (*it).ptr->animatedMove( x, y, 0, STEPS_WON);
+            do {
+                // disperse the cards everywhere
+                x = 3*canvas()->width()/2 - kapp->random() % (canvas()->width() * 2);
+                y = 3*canvas()->height()/2 - (kapp->random() % (canvas()->height() * 2));
+                p.moveTopLeft(QPoint(x, y));
+            } while (can.intersects(p));
+	    c->animatedMove( x, y, 0, STEPS_WON);
+       }
     }
     bool demo = demoActive();
     stopDemo();

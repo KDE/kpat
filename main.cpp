@@ -56,16 +56,13 @@ int main( int argc, char **argv )
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
 
     KApplication a;
-    KGlobal::locale()->insertCatalogue("libkdegames");
 
-    if (a.isRestored())
-        RESTORE(pWidget)
-    else {
-        pWidget *w = new pWidget;
-        if (args->count())
-            w->openGame(args->url(0));
-        a.setMainWidget(w);
-        w->show();
-    }
-    return a.exec();
+    pWidget* p = new pWidget("pwidget");
+    if (args->count())
+        p->openGame(args->url(0));
+    p->show();
+
+    a.setMainWidget(p);
+    int r = a.exec();
+    return r;
 }
