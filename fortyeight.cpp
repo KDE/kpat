@@ -67,7 +67,12 @@ void Fortyeight::deckClicked(Card *)
         while (!pile->isEmpty())
             deck->add(pile->at(pile->cardsLeft()-1), true, false);
     }
-    pile->add(deck->nextCard(), false, true);
+    Card *c = deck->nextCard();
+    pile->add(c, true, true);
+    int x = int(c->x());
+    int y = int(c->y());
+    c->move(deck->x(), deck->y());
+    c->flipTo(x, y, 8);
     kdDebug() << "left " << deck->cardsLeft() << endl;
 }
 
