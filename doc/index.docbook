@@ -631,41 +631,48 @@ on top of it)
 <sect1 id="grandfathers_clock">
 <title>Granfather's Clock<anchor id="game_grandfathers_clock"></title>
 <para>
-Gro&szlig;vaters Uhr ist eine einfache Patience und mit ein bi&szlig;chen knobeln
-geht fast jedes Spiel auf. Diese Patience wird mit einem Kartenp&auml;ckchen
-gespielt. 
-</para><para>
-Ziel ist es, die Karten als echte steigende Sequenzen derart in der
-Basis anzuordnen, dass die Ziffern einer Uhr entstehen. Wobei Ass
-die Eins symbolisiert, Bube die Elf und Dame die Zw&ouml;lf.
-</para><para>
-Die Ablage besteht aus acht Stapeln mit je f&uuml;nf Karten. In der Ablage
-k&ouml;nnen die Karten als fallende Sequenzen angeordnet werden, wobei
-die Farbe hier keine Rolle spielt. Es kann pro Spielzug nur eine einzelne
-Karte bewegt werden. 
+Grandfather's clock is a simple patience and after some experiments you should
+be able to solve most deals. It is played with one card deck and goal of the
+game is put the cards as real rising sequences on the foundation.
 </para>
-<para>[auto drop] ist bei dieser Patience abgestellt.</para>
+
+<para>
+The foundation is on the right side and consists of 12 piles that form
+the shape of a clock. The ace is on one o'clock, jack is on 11 o'clock
+and queen on 12 o'clock.
+</para>
+
+<para>
+There are 8 playing piles beside the clock and on each are 5 cards.On the
+playing piles you can build falling sequences without caring on the color
+of the cards. You can only move one single card at a time.
+</para>
+<para>[auto drop] is disable for this patience.</para>
 </sect1>
 
 <sect1 id="kings">
-<title>K&ouml;nige<anchor id="game_kings"></title>
+<title>Kings<anchor id="game_kings"></title>
 <para>
-Die Patience K&ouml;nige wird mit zwei Kartenp&auml;ckchen gespielt. Die Karten
-werden so ausgeteilt, dass unter jedem Ablagestapel ein K&ouml;nig liegt.
-Die Karten, die im Stapel zwischen zwei K&ouml;nigen liegen, werden auf
-den jeweils ersten gelegt. Dadurch k&ouml;nnen sehr unterschiedlich gro&szlig;e
-Stapel entstehen.
-</para><para>
-Ziel des Spiels ist es, alle Karten als echte Familien steigend auf
-die Basis (rechts im Spielfeld) anzuordnen.
-</para><para>
-Die Spielfolgen m&uuml;ssen fallend angeordnet werden, wobei sich immer
-schwarze und rote Karten abwechseln. Mehrere Karten k&ouml;nnen nur dann
-bewegt werden, wenn sie Mitglied einer unechten Sequenz sind. 
-</para><para>
-In die acht ferien Zellen im oberen Spelfeld k&ouml;nnen jeweils eine einzige
-Karte gelegt werden. Auf eine freie Ablage kann jede beliebige Karte
-oder Sequenz gelegt werden.
+The patience Kings is played with two card decks. The cards are dealt in a
+way that below each playing pile is a king. The cards between two kings
+are put on of them (the first cards are obviously put on the first king).
+This way you can get piles with <emphasis>very</emphasis> different lenghts.
+</para>
+
+<para>
+Goal of the game is to put all cards as real families rising on the foundation
+(on the ride side of the playing piles).
+</para>
+
+<para>
+The sequences on the playing piles have to be falling while red and black
+cards have to alternate. Several cards can only be moved when they are part
+of an alternating sequence.
+</para>
+
+<para>
+In the 8 free cells on the top of the playing field you can put a single
+card temporarly. On a free playing pile you can put any card or sequence.
 </para>
 </sect1>
 
