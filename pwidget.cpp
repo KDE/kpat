@@ -372,7 +372,7 @@ void pWidget::setBackSide(const QString &deck, const QString &cards)
 
 void pWidget::chooseGame()
 {
-    KLineEditDlg dlg(i18n("Enter a game number (1 to 32000 are the same as in the FreeCell FAQ):"), QString::number(dill->gameNumber()), this);
+    KLineEditDlg dlg(i18n("Enter a game number (FreeCell deals are the same as in the FreeCell FAQ):"), QString::number(dill->gameNumber()), this);
     dlg.setCaption(i18n("Game Number"));
 
     bool ok;

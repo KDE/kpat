@@ -1007,7 +1007,8 @@ long Dealer::gameNumber() const
 
 void Dealer::setGameNumber(long gmn)
 {
-    gamenumber = ((gmn + 31998) % 31999) + 1;
+    // Deal in the range of 1 to INT_MAX.
+    gamenumber = ((gmn < 1) ? 1 : ((gmn > 0x7FFFFFFF) ? 0x7FFFFFFF : gmn));
 }
 
 void Dealer::addPile(Pile *p)
