@@ -1,4 +1,4 @@
-/*
+/* 
   napoleon.cpp  implements a patience card game
 
       Copyright (C) 1995  Paul Olav Tvete
@@ -18,11 +18,9 @@
  */
 
 #include "napoleon.h"
-#include <qevent.h>
+#include <qevent.h> 
 #include <qpainter.h>
 #include "patience.h"
-#include "dealer.h"
-#include <klocale.h>
 
 Napoleon::Napoleon( QWidget* _parent, const char* _name )
   : dealer( _parent, _name )
@@ -84,7 +82,7 @@ Napoleon::Napoleon( QWidget* _parent, const char* _name )
   Card::setAddFlags( DeckType, Card::disallow );
 
   pile = new cardPos( 400, 290, this, Pile );
-  Card::setSendBack( pile );
+  Card::setSendBack( pile );    
 
   target[ 0 ] = new cardPos( 10,  10,  this, Target2 );
   target[ 1 ] = new cardPos( 250, 10,  this, Target );
@@ -132,19 +130,19 @@ void Napoleon::restart() {
 }
 
 bool Napoleon::Ustep1( const Card* c1, const Card* c2) {
-  if (c1->Suit() == Card::Empty)
+  if (c1->Suit() == Card::Empty) 
     return c2->Value() == Card::Seven;
   else
     return (c2->Value() == c1->Value() + 1);
 }
 
 bool Napoleon::Dstep1( const Card* c1, const Card* c2) {
-  if (c1->Suit() == Card::Empty)
+  if (c1->Suit() == Card::Empty) 
     return c2->Value() == Card::Six;
-
+    
   if (c1->Value() == Card::Ace)
     return (c2->Value() == Card::Six);
-  else
+  else  
     return (c2->Value() == c1->Value() - 1);
 }
 
@@ -166,12 +164,5 @@ void Napoleon::deal1() {
 QSize Napoleon::sizeHint() const {
   return QSize(600, 476);
 }
-
-static class LocalDealerInfo3 : public DealerInfo
-{
-public:
-    LocalDealerInfo3() : DealerInfo(I18N_NOOP("&Napoleon's Tomb"), 3) {}
-    virtual dealer *createGame(QWidget *parent) { return new Napoleon(parent); }
-} gfi3;
 
 #include "napoleon.moc"

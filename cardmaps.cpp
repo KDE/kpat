@@ -25,7 +25,6 @@
 #include <qcolor.h>
 #include <qwmatrix.h>
 #include <qdrawutil.h>
-#include <qwidget.h>
 #include <qapplication.h>
 #include <qdatetime.h>
 
@@ -35,54 +34,50 @@
 
 #include <config.h>
 #include "cardmaps.h"
+#include "global.h"
 #include <stdlib.h>
 
 #include <config.h>
-#include <kdebug.h>
-#include <kapp.h>
-#include <kconfig.h>
-#include <klocale.h>
-#include "version.h"
-#include <kstaticdeleter.h>
 
-int cardMap::CARDX;
-int cardMap::CARDY;
+int cardMaps::CARDX;
+int cardMaps::CARDY;
 
-cardMap::cardMap( )
+cardMaps::cardMaps( QObject* _parent )
+  : QObject( _parent, 0 )
 {
-    KConfig *config = kapp->config();
-    KConfigGroupSaver cs(config, settings_group );
-    // create an animation window while loading pixmaps (this
-    // may take a while (approx. 3 seconds on my AMD K6PR200)
-    bool animate = (bool) ( config->readNumEntry( "Animation", 1 ) != 0 );
-    QWidget* w = 0;
-    QPixmap pm1;
-    QPainter p;
-    QTime t1, t2;
+  // create an animation window while loading pixmaps (this
+  // may take a while (approx. 3 seconds on my AMD K6PR200)
+  config->setGroup( "General settings" );
+  bool animate = (bool) ( config->readNumEntry( "Animation", 1 ) != 0 );
+  QWidget* w = 0;
+  QPixmap pm1;
+  QPainter p;
+  QTime t1, t2;
 
-    if( animate ) {
-        t1 = QTime::currentTime();
-        w = new QWidget( 0, "", Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool );
-        pm1 = BarIcon( "back1" );
-        QWidget* dt = qApp->desktop();
-        w->setBackgroundColor( Qt::darkGreen );
-        w->setGeometry( ( dt->width() - 510 ) / 2, ( dt->height() - 180 ) / 2, 510, 180);
-        w->show();
-        qApp->processEvents();
+  if( animate )
+  {
+    t1 = QTime::currentTime();
+    w = new QWidget( 0, "", WStyle_Customize | WStyle_NoBorder | WStyle_Tool );
+    pm1 = BarIcon( "back1" );
+    QWidget* dt = qApp->desktop();
+    w->setBackgroundColor( darkGreen );  
+    w->setGeometry( ( dt->width() - 510 ) / 2, ( dt->height() - 180 ) / 2, 510, 180); 
+    w->show();
+    qApp->processEvents();
 
-        p.begin( w );
-        p.drawText(0, 150, 510, 20, Qt::AlignCenter,
-                   i18n("please wait, loading cards..."));
+    p.begin( w );
+    p.drawText(0, 150, 510, 20, AlignCenter, 
+	       i18n("please wait, loading cards..."));
+    
+    p.setFont(QFont("Times", 24));
+    p.drawText(0, 0, 510, 40, AlignCenter, 
+	       i18n("KPat - a Solitaire game"));  
 
-        p.setFont(QFont("Times", 24));
-        p.drawText(0, 0, 510, 40, Qt::AlignCenter,
-                   i18n("KPat - a Solitaire game"));
-
-        p.setPen(QPen(QColor(0, 0, 0), 4));
-        p.setBrush(Qt::NoBrush);
-        p.drawRect(0, 0, 510, 180);
-        p.flush();
-    }
+    p.setPen(QPen(QColor(0, 0, 0), 4));
+    p.setBrush(NoBrush);
+    p.drawRect(0, 0, 510, 180);
+    p.flush();
+  }
 
   QString imgname;
   for(int idx = 1; idx < 53; idx++)
@@ -109,59 +104,114 @@ cardMap::cardMap( )
       break;
     }
 
-    img[rank][suit] = BarIcon(QString::number(idx));
+    img[rank][suit] = new QPixmap( BarIcon(QString::number(idx)) );
 
-    if( img[ rank ][ suit ].isNull())
-        kdFatal() << "PANIC, cannot load card pixmap \"" << imgname << "\"\n";
+    if( img[ rank ][ suit ]->width() == 0 ||
+        img[ rank ][ suit ]->height() == 0)
+    {
+      fprintf( stderr, i18n( "kpat: PANIC, cannot load card pixmap \"%1\"\n" ).ascii(), imgname.ascii() );
+      exit( 1 );
+    }
 
     if( animate )
     {
-        if( idx > 1 )
-            p.drawPixmap( 10 + ( idx - 1 ) * 8, 45, pm1 );
-        p.drawPixmap( 10 + idx * 8, 45, img[ rank ][ suit ] );
-        p.flush();
+      if( idx > 1 )
+	p.drawPixmap( 10 + ( idx - 1 ) * 8, 45, pm1 );
+      p.drawPixmap( 10 + idx * 8, 45, *img[ rank ][ suit ] );
+      p.flush();
     }
   }
 
   if( animate )
   {
-      p.end();
-      t2 = QTime::currentTime();
-      if(t1.msecsTo(t2) < 1500)
-          usleep((1500-t1.msecsTo(t2))*1000);
-      delete w;
+    p.end();
+    t2 = QTime::currentTime();
+    if(t1.msecsTo(t2) < 1500) 
+      usleep((1500-t1.msecsTo(t2))*1000);
+    delete w;
   }
 
-  CARDX = img[ 0 ][ 0 ].width();
-  CARDY = img[ 0 ][ 0 ].height();
+  CARDX = img[ 0 ][ 0 ]->width();
+  CARDY = img[ 0 ][ 0 ]->height();
 
   back = 0;
   setBackSide(0);
 }
 
-void cardMap::setBackSide( const QPixmap &pm )
+void cardMaps::setBackSide( QPixmap* pm )
 {
-    back = pm;
+  // delete old background
+  if(back != 0)
+  {
+    delete back;
+    back = 0;
+  }
 
-    if(back.width() != CARDX ||
-       back.height() != CARDY) {
-        // scale to fit size
-        QWMatrix wm;
-        wm.scale(((float)(CARDX))/back.width(),
-                 ((float)(CARDY))/back.height());
-        back = back.xForm(wm);
+  if(pm == 0)
+  { // ok, let's use the default KDE background
+    QColorGroup mycolgroup( QApplication::palette().normal().foreground(),
+			    QApplication::palette().normal().background(),
+			    lightGray,
+			    QApplication::palette().normal().dark(), 
+			    QApplication::palette().normal().mid(),
+			    QApplication::palette().normal().text(), 
+			    QApplication::palette().normal().base());
+
+    back =  new QPixmap(CARDX, CARDY);
+    back->fill( darkRed );         // initialize pixmap
+    QPainter p;                           
+    p.begin( back );                       
+    QFont f( "times", 17, QFont::Black );
+    f.setStyleHint( QFont::Times );
+    p.setFont(f);
+    QRect br = p.fontMetrics().boundingRect( "KDEI");
+    p.rotate (45);
+    int y = -CARDY;
+    int x = -CARDX;
+    while (y < 2 * CARDY)
+    {
+      p.setPen(darkGray);
+      p.drawText(x + 2, y + 2, "KDE");
+      p.setPen(gray);
+      p.drawText(x, y, "KDE");
+      x += br.width();
+      if (x > 2 * CARDX){
+	x -= 3 * CARDX + br.width();
+	y += (int) (br.height() * 1.5);
+      }
     }
+
+    //     p.setPen(white);
+    //     for ( int y =  -CARDY ; y < 2*CARDY  ; y += 10) {
+    // 	p.drawLine( 0 ,  y, CARDX , y + CARDX ); 
+    // 	p.drawLine( 0 ,  y, CARDX , y - CARDX ); 
+    //     }
+
+    p.rotate( -45 );
+    qDrawShadePanel(&p, 0, 0, CARDX, CARDY, mycolgroup);
+    p.end();
+  } else {
+    back = new QPixmap(*pm);
+    if(back->width() != CARDX ||
+       back->height() != CARDY) {
+      // scale to fit size
+      QWMatrix wm;
+      wm.scale(((float)(CARDX))/back->width(),
+	       ((float)(CARDY))/back->height());
+      *back = back->xForm(wm);
+    }
+  }  
 }
 
-QPixmap cardMap::backSide() const
+QPixmap* cardMaps::backSide()
 {
   return back;
 }
 
-QPixmap cardMap::image( int _value, int _suit) const
-{
+QPixmap* cardMaps::image( int _value, int _suit) const
+{ 
   if( 1 <= _value &&
-      _value <= 13 &&
+      _value <= 13 && 
       1 <= _suit &&
       _suit <= 4 )
   {
@@ -169,17 +219,10 @@ QPixmap cardMap::image( int _value, int _suit) const
   }
   else
   {
-    kdError() << "access to invalid card " << _value << ", " << _suit << endl;
+    fprintf( stderr, i18n( "KPAT: access to invalid card %d, %d\n").ascii(), _value, _suit );
+    return 0;
   }
-  return 0;
 }
 
-cardMap *cardMap::_self = 0;
-static KStaticDeleter<cardMap> cs;
-
-cardMap *cardMap::self() {
-    if( !_self )
-        _self = cs.setObject(new cardMap); //   The pictures...
-    return _self;
-}
+#include "cardmaps.moc"
 

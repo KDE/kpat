@@ -24,7 +24,6 @@
 #define _MOD3_H_
 
 #include "patience.h"
-#include "dealer.h"
 
 class Mod3 : public dealer
 {

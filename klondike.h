@@ -29,7 +29,6 @@
 
 #include "patience.h"
 #include <qcombobox.h>
-#include "dealer.h"
 
 class Klondike : public dealer {
   Q_OBJECT
@@ -43,7 +42,7 @@ public:
 public slots:
   void changeDiffLevel(int lvl);
   virtual void restart();
-
+  
   void redeal(); // put pile back into deck
   void deal();
   void deal3(); // move up to 3 cards from deck to pile

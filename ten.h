@@ -24,7 +24,6 @@
 
 #include "patience.h"
 #include <qtimer.h>
-#include "dealer.h"
 
 class QPushButton;
 

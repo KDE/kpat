@@ -24,7 +24,6 @@
 #define _FREECELL_H_
 
 #include "patience.h"
-#include "dealer.h"
 
 class Freecell : public dealer
 {

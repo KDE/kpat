@@ -8,19 +8,20 @@
    provided that the above copyright notice appear in all copies and that
    both that copyright notice and this permission notice appear in
    supporting documentation.
-
+  
    This file is provided AS IS with no warranties of any kind.  The author
    shall have no liability with respect to the infringement of copyrights,
    trade secrets or any patents by this file or any part thereof.  In no
    event will the author be liable for any lost revenue or profits or
    other special, indirect and consequential damages.
-
+  
    8 positions, remove 3 cards when sum = 10, 20 or 30
 */
 
 #include <qpushbutton.h>
-#include <klocale.h>
+
 #include "ten.h"
+#include "global.h"
 
 const int weight[ 14 ] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10 };
 
@@ -30,7 +31,7 @@ Ten::Ten( QWidget* parent, const char* name)
   pb = new QPushButton( i18n( "Full Auto" ), this );
   pb->setToggleButton( TRUE );
   pb->move( 10, 50 );
-  pb->adjustSize();
+  pb->adjustSize(); 
   connect( pb, SIGNAL( toggled( bool ) ) , SLOT( changeAuto( bool ) ) );
   pb->show();
 
@@ -47,11 +48,11 @@ Ten::Ten( QWidget* parent, const char* name)
 
   for( int i = 0; i < 8; i++ ) {
     play[ i ] = new cardPos( 10 + 100 * i, 150, this, i + 1 );
-    connect( play[ i ] , SIGNAL( nonMovableCardPressed( int ) ),
-             SLOT( remove( int ) ) );
+    connect( play[ i ] , SIGNAL( nonMovableCardPressed( int ) ), 
+	     SLOT( remove( int ) ) );
   }
-  connect( deck, SIGNAL( nonMovableCardPressed( int ) ),
-           SLOT( dealNext() ) );
+  connect( deck, SIGNAL( nonMovableCardPressed( int ) ), 
+	   SLOT( dealNext() ) );
   deal();
 
   connect( &timer, SIGNAL( timeout() ), SLOT( stepAuto() ) );
@@ -68,19 +69,19 @@ void Ten::stepAuto()
   {
     do
     {
-      autoState++;
+      autoState++; 
     }
     while( autoState <= 8 && !remove( autoState ) );
-    if( autoState > 8 )
+    if( autoState > 8 ) 
       dealNext();
   }
 }
 
 void Ten::changeAuto( bool b )
 {
-  if( b )
+  if( b ) 
     startAuto();
-  else
+  else 
     stopAuto();
 }
 
@@ -96,9 +97,8 @@ void Ten::startAuto()
 
 void Ten::show()
 {
-    QWidget::show();
-    for( int i = 0; i < 8; i++ )
-        play[ i ]-> show();
+  for( int i = 0; i < 8; i++ )
+    play[ i ]-> show();
 }
 
 void Ten::undo()
@@ -177,15 +177,15 @@ bool Ten::remove( int pile )
     Card* c5 = c6->prev();
     Card* c4 = c5->prev();
 
-    if( sumTen( c1, c2, c6 ) )
+    if( sumTen( c1, c2, c6 ) )       
       takeCards( c1, c2, c6, deck );
-    else if( sumTen( c1, c5, c6 ) )
+    else if( sumTen( c1, c5, c6 ) ) 
       takeCards( c1, c5, c6, deck );
-    else if( sumTen( c4, c5, c6 ) )
+    else if( sumTen( c4, c5, c6 ) ) 
       takeCards( c4, c5, c6, deck );
-    else if( sumTen( c1, c2, c3 ) )
+    else if( sumTen( c1, c2, c3 ) ) 
       takeCards( c1, c2, c3, deck );
-    else
+    else  
       return FALSE;
 
     return TRUE;
@@ -210,12 +210,5 @@ QSize Ten::sizeHint() const
 {
   return QSize( 800, 476 );
 }
-
-static class LocalDealerInfo6 : public DealerInfo
-{
-public:
-    LocalDealerInfo6() : DealerInfo(I18N_NOOP("&Ten"), 6) {}
-    virtual dealer *createGame(QWidget *parent) { return new Ten(parent); }
-} gfi6;
 
 #include "ten.moc"

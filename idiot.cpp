@@ -8,21 +8,19 @@
    provided that the above copyright notice appear in all copies and that
    both that copyright notice and this permission notice appear in
    supporting documentation.
-
+  
    This file is provided AS IS with no warranties of any kind.  The author
    shall have no liability with respect to the infringement of copyrights,
    trade secrets or any patents by this file or any part thereof.  In no
    event will the author be liable for any lost revenue or profits or
    other special, indirect and consequential damages.
 
-   4 positions, remove lowest card(s) of suit
+   4 positions, remove lowest card(s) of suit 
 */
 
 #include <qapplication.h>
 
 #include "idiot.h"
-#include "dealer.h"
-#include <klocale.h>
 
 Idiot::Idiot( QWidget* _parent, const char* _name)
   : dealer( _parent, _name )
@@ -46,10 +44,10 @@ Idiot::Idiot( QWidget* _parent, const char* _name)
   for( int i = 0; i < 4; i++ )
   {
     play[ i ] = new cardPos( 10 + 100 * i, 150, this, i + 1 );
-    connect( play[ i ] , SIGNAL( nonMovableCardPressed( int ) ),
-             SLOT( handle( int ) ) );
+    connect( play[ i ] , SIGNAL( nonMovableCardPressed( int ) ), 
+	     SLOT( handle( int ) ) );
   }
-  connect( deck, SIGNAL( nonMovableCardPressed( int ) ), SLOT( deal() ) );
+  connect( deck, SIGNAL( nonMovableCardPressed( int ) ), SLOT( deal() ) ); 
   deal();
 }
 
@@ -98,7 +96,7 @@ bool Idiot::handle( int pile )
 {
   pile--;
 
-  if( !play[ pile ] )
+  if( !play[ pile ] ) 
     return FALSE;
 
   Card* c = play[ pile ]->top();
@@ -117,7 +115,7 @@ bool Idiot::handle( int pile )
     moveCard( c, play[ 2 ] );
   else if( !play[ 3 ]->next() )
     moveCard( c, play[ 3 ] );
-  else
+  else  
     Ok = FALSE;
 
   return Ok;
@@ -134,14 +132,5 @@ QSize Idiot::sizeHint() const
 {
   return QSize( 540, 476 );
 }
-
-
-static class LocalDealerInfo4 : public DealerInfo
-{
-public:
-    LocalDealerInfo4() : DealerInfo(I18N_NOOP("The &Idiot"), 4) {}
-    virtual dealer *createGame(QWidget *parent) { return new Idiot(parent); }
-} gfi4;
-
 
 #include "idiot.moc"

@@ -1,4 +1,4 @@
-/*
+/* 
      patience -- main program
       Copyright (C) 1995  Paul Olav Tvete
 
@@ -23,31 +23,32 @@
 
 #include "version.h"
 #include "pwidget.h"
+#include "global.h"
 
-static const char *description = I18N_NOOP("KDE Patience Game");
+static const char *description = I18N_NOOP("KDE Card Game");
+
+KConfig* config = 0;
 
 int main( int argc, char **argv )
 {
-    KAboutData aboutData( "kpat", I18N_NOOP("KPatience"),
-                          KPAT_VERSION, description, KAboutData::License_GPL,
-                          "(c) 1995, Paul Olav Tvete");
-    aboutData.addAuthor("Paul Olav Tvete");
-    aboutData.addAuthor("Mario Weilguni",0,"mweilguni@kde.org");
-    aboutData.addAuthor("Matthias Ettrich",0,"ettrich@kde.org");
-    aboutData.addAuthor("Rodolfo Borges",0,"barrett@labma.ufrj.br");
-    aboutData.addAuthor("Peter H. Ruegg",0,"kpat@incense.org");
-    aboutData.addAuthor("Michael Koch", I18N_NOOP("Bug fixes"), "koch@kde.org");
-    aboutData.addAuthor("Stephan Kulow", I18N_NOOP("Port to KDE2 and bug fixes"),
-                        "coolo@kde.org");
+  KAboutData aboutData( "kpat", I18N_NOOP("KPatience"), 
+    KPAT_VERSION, description, KAboutData::License_GPL, 
+    "(c) 1995, Paul Olav Tvete");
+  aboutData.addAuthor("Paul Olav Tvete");
+  aboutData.addAuthor("Mario Weilguni",0,"mweilguni@kde.org");
+  aboutData.addAuthor("Matthias Ettrich",0,"ettrich@kde.org");
+  aboutData.addAuthor("Rodolfo Borges",0,"barrett@labma.ufrj.br");
+  aboutData.addAuthor("Peter H. Ruegg",0,"kpat@incense.org");
 
-    KCmdLineArgs::init( argc, argv, &aboutData );
+  KCmdLineArgs::init( argc, argv, &aboutData );
 
-    KApplication a;
+  KApplication a;
 
-    pWidget *p = new pWidget("pwidget");
-    p->show();
+  config = a.config();
 
-    a.setMainWidget(p);
-    int r = a.exec();
-    return r;
+  pWidget *p = new pWidget(0);
+  p->show();
+  
+  a.setMainWidget(p);
+  a.exec();
 }
