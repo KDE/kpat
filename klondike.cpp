@@ -41,7 +41,7 @@ public:
         cardlist.append(c);
     }
     virtual QSize cardOffset( bool _spread, bool, const Card *c) const {
-        kdDebug() << "cardOffset " << _spread << " " << (c? c->name() : "(null)") << endl;
+        kdDebug(11111) << "cardOffset " << _spread << " " << (c? c->name() : "(null)") << endl;
         if (cardlist.contains(const_cast<Card * const>(c)))
             return QSize(+dspread(), 0);
         return QSize(0, 0);

@@ -133,7 +133,7 @@ pWidget::pWidget()
     KConfigGroupSaver cs(config, settings_group );
 
     QString bgpath = config->readPathEntry("Background");
-    kdDebug() << "bgpath '" << bgpath << "'" << endl;
+    kdDebug(11111) << "bgpath '" << bgpath << "'" << endl;
     if (bgpath.isEmpty())
         bgpath = locate("wallpaper", "No-Ones-Laughing-3.jpg");
     background = QPixmap(bgpath);

@@ -796,7 +796,7 @@ void Dealer::saveGame(QDomDocument &doc) {
             Pile *p = dynamic_cast<Pile*>(*it);
             assert(p);
             if (taken[p->index()]) {
-                kdDebug() << "pile index " << p->index() << " taken twice\n";
+                kdDebug(11111) << "pile index " << p->index() << " taken twice\n";
                 return;
             }
             taken[p->index()] = true;
@@ -846,7 +846,7 @@ void Dealer::saveGame(QDomDocument &doc) {
     }
     dealer.appendChild(eList);
     */
-    // kdDebug() << doc.toString() << endl;
+    // kdDebug(11111) << doc.toString() << endl;
 }
 
 void Dealer::openGame(QDomDocument &doc)
@@ -892,7 +892,7 @@ void Dealer::openGame(QDomDocument &doc)
                         {
                             if ((*it2)->suit() == s && (*it2)->value() == v) {
                                 if (QString((*it2)->name()) == "Diamonds Eight") {
-                                    kdDebug() << i << " " << j << endl;
+                                    kdDebug(11111) << i << " " << j << endl;
                                 }
                                 p->add(*it2);
                                 (*it2)->setAnimated(false);
