@@ -36,8 +36,8 @@ int main( int argc, char **argv )
     aboutData.addAuthor("Matthias Ettrich",0,"ettrich@kde.org");
     aboutData.addAuthor("Rodolfo Borges",0,"barrett@labma.ufrj.br");
     aboutData.addAuthor("Peter H. Ruegg",0,"kpat@incense.org");
-    aboutData.addAuthor("Michael Koch", i18n("Bug fixes"), "koch@kde.org");
-    aboutData.addAuthor("Stephan Kulow", i18n("Port to KDE2 and bug fixes"),
+    aboutData.addAuthor("Michael Koch", I18N_NOOP("Bug fixes"), "koch@kde.org");
+    aboutData.addAuthor("Stephan Kulow", I18N_NOOP("Port to KDE2 and bug fixes"),
                         "coolo@kde.org");
 
     KCmdLineArgs::init( argc, argv, &aboutData );
