@@ -303,9 +303,9 @@ void pWidget::newGame()
 			    "the old game will be registered as a loss in "
 			    "the statistics file.\n"
 			    "What do you want to do?"),
-		       i18n("Abort current game?"),
-		       i18n("Abort the old game"),
-		       i18n("Continue the old game")) == KMessageBox::No)
+		       i18n("Abort Current Game?"),
+		       i18n("Abort Old Game"),
+		       i18n("Continue Old Game")) == KMessageBox::No)
         return;
 
     dill->setGameNumber(kapp->random());
