@@ -67,11 +67,6 @@ void Deck::collectAndShuffle() {
     addToDeck();
 }
 
-void Deck::setSendBack(Pile* c ) {
-    sendBackPos = c;
-}
-
-
 // Shuffle deck, assuming all cards are in deck[]
 void Deck::shuffle() {
     //  Something is rotten...

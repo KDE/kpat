@@ -25,185 +25,100 @@
 #include <krandomsequence.h>
 #include "computation.h"
 #include <klocale.h>
+#include <kmainwindow.h>
+#include <pile.h>
+#include <deck.h>
+#include <assert.h>
 
-const int Computation::Store = 1;
-const int Computation::Target1 = 2;
-const int Computation::Target2 = 3;
-const int Computation::Target3 = 4;
-const int Computation::Target4 = 5;
-
-Card *Computation::getCardByValue( char v ) {
-  Card* p;
-
-  p = &d;
-  while (p && p->Value() != v)
-    p = p->next();
-
-  if (p) {
-    p->unlink();
-    return p;
-  }
-  return 0;
-}
-
-void Computation::changeDiffLevel( int l ) {
-  //if areYouSure() ....
-  diffLevel = l - 4;
-  restart();
-}
-
-void Computation::initByDiffLevel() {
-  int used[4] = {0, 0, 0, 0};
-  KRandomSequence rand(0);
-  int i;
-
-  int n = (5 - diffLevel) % 5;   // How many cards do we give?
-
-  while ( n-- ){
-    do {
-      i = rand.getLong(4);
-    } while ( used[i] );
-    used[i] = 1;
-
-    Card* p = getCardByValue( i+1 );
-    p->turnTop();
-    switch (i+1) {
-    case 1: p01.add(p); break;
-    case 2: p02.add(p); break;
-    case 3: p03.add(p); break;
-    case 4: p04.add(p); break;
-      // default: panic
+void Computation::deal() {
+    while (!deck->isEmpty()) {
+        Card *c = deck->nextCard();
+        pile->add(c, !deck->isEmpty(), false);
     }
-  }
 }
 
-Computation::Computation( QWidget *parent, const char *name )
-  :dealer( parent, name),
-
-   d(10, 100, this),
-   p01(110, 10, this, Target1),
-   p02(210, 10, this, Target2),
-   p03(310, 10, this, Target3),
-   p04(410, 10, this, Target4),
-   p11(110, 150, this, Store),
-   p12(210, 150, this, Store),
-   p13(310, 150, this, Store),
-   p14(410, 150, this, Store)
-
+Computation::Computation( KMainWindow *parent, const char *name )
+    :Dealer( parent, name)
 {
-  QComboBox *cb = new QComboBox( this, "comboBox" );
-  cb->insertItem( i18n("Easy 4") );
-  cb->insertItem( i18n("Easy 3") );
-  cb->insertItem( i18n("Easy 2") );
-  cb->insertItem( i18n("Easy 1") );
-  cb->insertItem( i18n("Normal") );
-  cb->insertItem( i18n("Hard 1") );
-  cb->insertItem( i18n("Hard 2") );
-  cb->insertItem( i18n("Hard 3") );
-  cb->insertItem( i18n("Hard 4") );
-  cb->insertItem( i18n("Hard 5") );
+    deck = new Deck(0, this);
 
-  cb->setCurrentItem(4);
-  diffLevel = 0;
+    deck->hide();
 
-  cb->setGeometry( 10, 30, 120, 30 );
-  cb->setAutoResize( true );
-  cb->show();
-  connect( cb, SIGNAL(activated(int)), SLOT(changeDiffLevel(int)) );
+    for (int i = 0; i < 4; i++) {
+        play[i] = new Pile(1 + i, this);
+        play[i]->move(110 + i * 100, 150);
+        play[i]->setAddFlags(Pile::addSpread);
+        play[i]->setRemoveFlags(Pile::several);
 
-  Card::setAddFlags(Store, Card::addSpread);
-  Card::setRemoveFlags(Store, Card::several);
-  Card::setAddFun(Store, 0);
+        target[i] = new Pile(5 + i, this);
+        target[i]->move(110 + i * 100, 10);
 
-  Card::setAddFlags(Target1, Card::several);
-  Card::setRemoveFlags(Target1, Card::disallow);
-  Card::setAddFun(Target1, &step1);
+        target[i]->setAddFlags(Pile::several);
+        target[i]->setRemoveFlags(Pile::disallow);
+        target[i]->setAddFun(&step);
+    }
 
-  Card::setAddFlags(Target2, Card::several);
-  Card::setRemoveFlags(Target2, Card::disallow);
-  Card::setAddFun(Target2, &step2);
+    pile = new Pile(13, this);
+    pile->setAddFlags(Pile::disallow);
+    pile->setRemoveFlags(Pile::autoTurnTop);
+    pile->move(10, 10);
 
-  Card::setAddFlags(Target3, Card::several);
-  Card::setRemoveFlags(Target3, Card::disallow);
-  Card::setAddFun(Target3, &step3);
-
-  Card::setAddFlags(Target4, Card::several);
-  Card::setRemoveFlags(Target4, Card::disallow);
-  Card::setAddFun(Target4, &step4);
-
-  Card::setLegalMove(DeckType, Store);
-
-  Card::setLegalMove(DeckType, Target1);
-  Card::setLegalMove(Store, Target1);
-
-  Card::setLegalMove(DeckType, Target2);
-  Card::setLegalMove(Store, Target2);
-
-  Card::setLegalMove(DeckType, Target3);
-  Card::setLegalMove(Store, Target3);
-
-  Card::setLegalMove(DeckType, Target4);
-  Card::setLegalMove(Store, Target4);
+    deal();
 }
 
 Computation::~Computation() {
+    for (int i = 0; i < 4; i++) {
+        delete play[i];
+        delete target[i];
+    }
+    delete pile;
 }
 
 void Computation::restart() {
-  //diffLevel++;
-  d.collectAndShuffle();
-  initByDiffLevel();
-  show();
+    deck->collectAndShuffle();
+    deal();
 }
 
 void Computation::show() {
-  d.show();
-  p01.show();
-  p02.show();
-  p03.show();
-  p04.show();
-  p11.show();
-  p12.show();
-  p13.show();
-  if (diffLevel <= 0) {
-      //    p14.show();
-    p14.setEnabled(true);
-  }
-  else {
-      // p14.hide();
-    p14.setEnabled(false);
-  }
+    QWidget::show();
+
+    pile->show();
+    for (int i = 0; i < 4; i++) {
+        play[i]->show();
+        target[i]->show();
+    }
 }
 
-bool Computation::step1( const Card* c1, const Card* c2)  {
-  return (c2->Value() % 13 == (c1->Value() + 1) % 13)
-    && (c2->next() ? step1( c2, c2->next()) : true);
+inline bool matches(const CardList &cl, Card *start, int offset)
+{
+    Card *before = start; // maybe 0 for ignore first card
+    for (CardList::ConstIterator it = cl.begin(); it != cl.end(); ++it)
+    {
+        if (before && (*it)->value() % 13 != (before->value() + offset) % 13)
+            return false;
+        before = *it;
+    }
+    return true;
 }
 
-bool Computation::step2( const Card* c1, const Card* c2) {
-  return (c2->Value() % 13 == (c1->Value() + 2) % 13)
-    && (c2->next() ? step2( c2, c2->next()) : true);
-}
+bool Computation::step( const Pile* c1, const CardList& cl) {
+    assert(c1->index() >= 5 && c1->index() <= 8);
 
-bool Computation::step3( const Card* c1, const Card* c2) {
-  return (c2->Value() % 13 == (c1->Value() + 3) % 13)
-    && (c2->next() ? step3( c2, c2->next()) : true);
-}
+    int offset = c1->index() - 4;
 
-bool Computation::step4( const Card* c1, const Card* c2) {
-  return (c2->Value() % 13 == (c1->Value() + 4) % 13)
-    && (c2->next() ? step4( c2, c2->next()) : true);
-}
+    if (c1->isEmpty()) {
+        Card::Values start = static_cast<Card::Values>(Card::Ace + (offset - 1));
+        return cl.first()->value() == start && matches(cl, 0, offset);
+    }
 
-QSize Computation::sizeHint() const {
-  return QSize(540, 476);
+    return matches(cl, c1->top(), offset);
 }
 
 static class LocalDealerInfo2 : public DealerInfo
 {
 public:
-    LocalDealerInfo2() : DealerInfo(I18N_NOOP("&Calculation"), 2) {}
-    virtual dealer *createGame(QWidget *parent) { return new Computation(parent); }
+    LocalDealerInfo2() : DealerInfo(I18N_NOOP("&Calculation"), 8) {}
+    virtual Dealer *createGame(KMainWindow *parent) { return new Computation(parent); }
 } gfi;
 
 #include "computation.moc"

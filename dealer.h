@@ -48,7 +48,7 @@ class Dealer: public QCanvasView
 
 public:
 
-    Dealer( QWidget* parent = 0, const char* name = 0 );
+    Dealer( KMainWindow* parent = 0, const char* name = 0 );
     virtual ~Dealer();
 
     virtual QSize sizeHint() const;

@@ -20,7 +20,6 @@ public:
     static const long n;
 
     void collectAndShuffle();
-    void setSendBack( Pile* c );
 
     Card* nextCard();
 
@@ -34,7 +33,6 @@ private:
 
     int mult;
     Card** deck;
-    Pile* sendBackPos;
 };
 
 #endif

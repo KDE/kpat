@@ -26,49 +26,29 @@
 #ifndef P_COMPUTATION_H
 #define P_COMPUTATION_H
 
-#include "patience.h"
-#include <qscrollbar.h>
 #include "dealer.h"
 
-class Computation : public dealer {
-  Q_OBJECT
+class Computation : public Dealer {
+    Q_OBJECT
+
 public:
-  Computation(  QWidget *parent = 0, const char *name=0 );
-  virtual ~Computation();
+    Computation( KMainWindow *parent = 0, const char *name=0 );
+    virtual ~Computation();
 
-  virtual void restart();
-  virtual void show();
-  QSize sizeHint() const;
-
-public slots:
-  void changeDiffLevel(int lvl);
+    virtual void restart();
+    virtual void show();
 
 private:
-  Card *getCardByValue( char v );
-  void initByDiffLevel();
-  static bool step1( const Card* c1, const Card* c2);
-  static bool step2( const Card* c1, const Card* c2);
-  static bool step3( const Card* c1, const Card* c2);
-  static bool step4( const Card* c1, const Card* c2);
+    Card *getCardByValue( char v );
+    void deal();
 
-  Deck d;
+    static bool step( const Pile* c1, const CardList& c2);
 
-  cardPos p01;
-  cardPos p02;
-  cardPos p03;
-  cardPos p04;
-  cardPos p11;
-  cardPos p12;
-  cardPos p13;
-  cardPos p14;
+    Deck *deck;
+    Pile *pile;
 
-  int diffLevel;
-
-  static const int Store;
-  static const int Target1;
-  static const int Target2;
-  static const int Target3;
-  static const int Target4;
+    Pile *play[4];
+    Pile *target[4];
 };
 
 #endif

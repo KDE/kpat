@@ -4,6 +4,7 @@
 #include <kdebug.h>
 #include <assert.h>
 #include "pile.h"
+#include <kmainwindow.h>
 
 DealerInfoList *DealerInfoList::_self = 0;
 static KStaticDeleter<DealerInfoList> dl;
@@ -20,7 +21,7 @@ void DealerInfoList::add(DealerInfo *dealer)
     list.append(dealer);
 }
 
-Dealer::Dealer( QWidget* _parent , const char* _name )
+Dealer::Dealer( KMainWindow* _parent , const char* _name )
     : QCanvasView( 0, _parent, _name )
 {
     myCanvas.resize(100, 200);
