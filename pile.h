@@ -23,10 +23,6 @@ public:
 
     // Add-flags
     static const int addSpread;
-    static const int addRotated; // Note: cannot have Spread && Rotate
-    static const int minus45;
-    static const int plus45;
-    static const int plus90;
 
     // Remove-flags
     static const int alsoFaceDown;
@@ -35,11 +31,6 @@ public:
 
     Pile( int _index, Dealer* parent = 0);
     virtual ~Pile();
-
-    int   removeFlags;
-    int   addFlags;
-    QValueList<int> legalMoves;
-    CardList myCards;
 
     CardList cards() const { return myCards; }
     typedef bool (*addCheckPtr)(const Pile*, const CardList& );
@@ -54,8 +45,6 @@ public:
     void moveCards(CardList &c, Pile *to = 0);
     void moveCardsBack(CardList &c);
 
-    void clear();
-
     void setRemoveFlags( int flag ) { removeFlags = flag; }
     void setAddFlags( int flag ) { addFlags = flag; }
     void setLegalMove( const QValueList<int> &moves ) { legalMoves = moves; }
@@ -67,6 +56,7 @@ public:
     Card *top() const;
 
     void add( Card* c, bool facedown, bool spread); // for initial deal
+    void add( Card *c);
     void remove(Card *c);
 
     int index() const { return myIndex; }
@@ -84,7 +74,14 @@ public:
 
     int cardsLeft() const { return myCards.count(); }
 
+protected:
+    int   removeFlags;
+    int   addFlags;
+    QValueList<int> legalMoves;
+    CardList myCards;
+
 private:
+
     Dealer *_dealer;
     int myIndex;
     int direction;

@@ -14,6 +14,7 @@ Card* Deck::nextCard() {
     if ( c != myCards.end() ) {
         Card *card = *c;
         myCards.remove(c);
+        card->setSource(0);
         return card;
     } else
         return 0;
@@ -45,7 +46,6 @@ void Deck::makedeck() {
             {
                 deck[i] = new Card(static_cast<Card::Values>(v),
                                    static_cast<Card::Suits>(s), dealer()->canvas());
-                deck[i]->setSource(this);
                 deck[i]->move(x(), y());
                 i++;
             }
@@ -55,7 +55,6 @@ void Deck::makedeck() {
 
 Deck::~Deck() {
     for (int i=0; i < mult*NumberOfCards; i++) {
-        deck[i]->setSource(0);
         delete deck[i];
     }
     myCards.clear();

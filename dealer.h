@@ -51,7 +51,8 @@ public:
     Dealer( KMainWindow* parent = 0, const char* name = 0 );
     virtual ~Dealer();
 
-    virtual QSize sizeHint() const;
+    void enlargeCanvas(QCanvasRectangle *c);
+    void resetSize(const QSize &size);
 
 public slots:
 
@@ -65,6 +66,7 @@ protected:
     virtual void contentsMouseMoveEvent( QMouseEvent* );
     virtual void contentsMouseReleaseEvent( QMouseEvent* );
     virtual void contentsMouseDoubleClickEvent( QMouseEvent* );
+    virtual void viewportResizeEvent ( QResizeEvent * );
 
     void unmarkAll();
     void mark(Card *c);
@@ -81,6 +83,7 @@ private:
     Dealer( Dealer& );  // don't allow copies or assignments
     void operator = ( Dealer& );  // don't allow copies or assignments
     QCanvas myCanvas;
+    QSize maxsize;
 };
 
 #endif

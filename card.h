@@ -61,7 +61,6 @@ public:
     void flipTo(int x, int y, int steps);
 
     void turn(bool faceup = true);
-    static void enlargeCanvas(QCanvasRectangle *c);
 
     static const int RTTI = 1001;
 

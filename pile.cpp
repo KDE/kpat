@@ -106,53 +106,68 @@ bool Pile::legalRemove(const Card *c) const
 {
     kdDebug() << "legalRemove\n";
 
-    if( removeFlags & disallow )
+    if( removeFlags & disallow ) {
+        kdDebug() << "disallowed\n";
         return false;
-
-    if( !( removeFlags & several ) && myCards.find(const_cast<Card*>(c)) != myCards.end() )
+    }
+    if( !( removeFlags & several ) && top() != c)
+    {
+        kdDebug() << "not last\n";
         return false;
+    }
 
     if( removeCheckFun ) {
         bool b = removeCheckFun( this, c);
         kdDebug() << "removeCheckFun returned " << b << endl;
         return b;
     }
+    kdDebug() << "ok\n";
+
     return true;
 }
 
 void Pile::setVisible(bool vis)
 {
     QCanvasRectangle::setVisible(vis);
-    Card::enlargeCanvas(this);
+    dealer()->enlargeCanvas(this);
 
     for (CardList::Iterator it = myCards.begin(); it != myCards.end(); ++it)
     {
         (*it)->setVisible(vis);
-        Card::enlargeCanvas(*it);
+        dealer()->enlargeCanvas(*it);
     }
 }
 
 void Pile::moveBy(double dx, double dy)
 {
     QCanvasRectangle::moveBy(dx, dy);
-    Card::enlargeCanvas(this);
+    dealer()->enlargeCanvas(this);
 
     for (CardList::Iterator it = myCards.begin(); it != myCards.end(); ++it)
     {
         (*it)->moveBy(dx, dy);
-        Card::enlargeCanvas(*it);
+        dealer()->enlargeCanvas(*it);
     }
+}
+
+void Pile::add( Card *_card)
+{
+    if (_card->source() == this)
+        return;
+
+    if (_card->source())
+        _card->source()->remove(_card);
+
+    _card->setSource(this);
+    myCards.append(_card);
 }
 
 /* override cardtype (for initial deal ) */
 void Pile::add( Card* _card, bool _facedown, bool _spread )
 {
-    if (_card->source() && _card->source() != this) {
-        _card->source()->remove(_card);
-    }
-    _card->setSource(this);
     Card *t = top();
-    myCards.append(_card);
+
+    add(_card);
 
     if (visible()) {
         _card->show();
@@ -179,17 +194,13 @@ void Pile::add( Card* _card, bool _facedown, bool _spread )
         _card->move( x(), y() );
         _card->setZ( z() + 1);
     }
-    Card::enlargeCanvas(_card);
+    dealer()->enlargeCanvas(_card);
 }
 
 void Pile::remove(Card *c)
 {
+    assert(myCards.contains(c));
     myCards.remove(c);
-}
-
-void Pile::clear()
-{
-    myCards.clear();
 }
 
 CardList Pile::cardPressed(Card *c)
@@ -223,19 +234,9 @@ void Pile::moveCards(CardList &cl, Pile *to)
     if (!cl.count())
         return;
 
-    Card *c = cl.first();
-    bool gotit = false;
+    for (CardList::Iterator it = cl.begin(); it != cl.end(); ++it)
+        to->add(*it);
 
-    for (CardList::Iterator it = myCards.begin(); it != myCards.end(); )
-    {
-        if (c == *it) // everything below the first moved card is moved
-            gotit = true;
-        if (gotit) {
-            (*it)->setSource(0);
-            it = myCards.remove(it);
-        } else
-            ++it;
-    }
     if (removeFlags & autoTurnTop && top()) {
         Card *t = top();
         if (!t->isFaceUp()) {
@@ -244,12 +245,6 @@ void Pile::moveCards(CardList &cl, Pile *to)
         }
     }
 
-    for (CardList::Iterator it = cl.begin(); it != cl.end(); ++it)
-    {
-        (*it)->setSource(to);
-    }
-
-    to->myCards += cl;
     to->moveCardsBack(cl);
 }
 
@@ -277,6 +272,7 @@ void Pile::moveCardsBack(CardList &cl)
 
                 c->setZ(before->z() + 1);
                 c->move( before->x(), before->y() + off );
+                dealer()->enlargeCanvas(c);
             }
             else {
                 c->setZ( z() + 1);
@@ -299,6 +295,7 @@ void Pile::moveCardsBack(CardList &cl)
     {
         (*it)->move( before->x(), before->y() + off );
         (*it)->setZ( before->z() + 1);
+        dealer()->enlargeCanvas(*it);
         before = *it;
     }
 }

@@ -55,14 +55,14 @@ Card::~Card()
     hide();
 }
 
-static const char *suit_names[] = {"None", "Clubs", "Diamonds", "Hearts", "Spades"};
+static const char *suit_names[] = {"Clubs", "Diamonds", "Hearts", "Spades"};
 static const char *value_names[] = {"Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight",
                                     "Nine", "Ten", "Jack", "Queen", "King" };
 
 Card::Card( Values v, Suits s, QCanvas* _parent )
     : QCanvasRectangle( _parent ),  _source(0), _suit( s ), _value( v ), scaleX(1.0), scaleY(1.0)
 {
-    _name = qstrdup(QString("%1 %2").arg(suit_names[s]).arg(value_names[v]).utf8());
+    _name = qstrdup(QString("%1 %2").arg(suit_names[s-1]).arg(value_names[v-1]).utf8());
 
     faceup = true;
     setSize( cardMap::CARDX, cardMap::CARDY );
@@ -85,26 +85,6 @@ void Card::turn( bool _faceup )
 void Card::moveBy(double dx, double dy)
 {
     QCanvasRectangle::moveBy(dx, dy);
-}
-
-void Card::enlargeCanvas(QCanvasRectangle *c)
-{
-    if (!c->visible())
-        return;
-
-    bool changed = false;
-    QSize size = c->canvas()->size();
-    if (c->x() + c->width() + 10 > size.width()) {
-        size.setWidth(c->x() + c->width() + 10);
-        changed = true;
-    }
-    if (c->y() + c->height() + 10 > size.height()) {
-        size.setHeight(c->y() + c->height() + 10);
-        changed = true;
-    }
-
-    if (changed)
-        c->canvas()->resize(size.width(), size.height());
 }
 
 /// the following copyright is for the flipping code

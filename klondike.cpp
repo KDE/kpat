@@ -102,7 +102,7 @@ void Klondike::restart() {
 }
 
 Klondike::~Klondike() {
-    delete deck;
+
     delete pile;
 
     for(int i=0; i<4; i++)
@@ -110,6 +110,8 @@ Klondike::~Klondike() {
 
     for(int i=0; i<7; i++)
         delete play[i];
+
+    delete deck;
 }
 
 void Klondike::deal3()
@@ -239,15 +241,8 @@ void Klondike::cardDblClicked(Card *c) {
 static class LocalDealerInfo0 : public DealerInfo
 {
 public:
-    LocalDealerInfo0() : DealerInfo(I18N_NOOP("&Klondike - Draw 1"), 1) {}
+    LocalDealerInfo0() : DealerInfo(I18N_NOOP("&Klondike"), 0) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Klondike(true, parent); }
 } gfi;
-
-static class LocalDealerInfo0_2 : public DealerInfo
-{
-public:
-    LocalDealerInfo0_2() : DealerInfo(I18N_NOOP("Klondike - &Draw 3"), 2) {}
-    virtual Dealer *createGame(KMainWindow *parent) { return new Klondike(false, parent); }
-} gfi2;
 
 #include "klondike.moc"

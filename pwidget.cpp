@@ -113,8 +113,8 @@ pWidget::pWidget( const char* _name )
 
     newGameType();
 
-    setCentralWidget(dill);
-    resize(700, 400);
+    QSize minsize(700, 400);
+    dill->resize(minsize.expandedTo(dill->canvas()->size()));
 }
 
 void pWidget::undoMove() {
@@ -142,6 +142,7 @@ void pWidget::animationChanged() {
 }
 
 void pWidget::restart() {
+    dill->resetSize(QSize(dill->visibleWidth(), dill->visibleHeight()));
     dill->restart();
 }
 
@@ -174,6 +175,7 @@ void pWidget::newGameType()
     KConfigGroupSaver kcs(config, settings_group);
     config->writeEntry("DefaultGame", id);
 
+    setCentralWidget(dill);
     dill->show();
 }
 

@@ -114,7 +114,7 @@ void Idiot::deal()
 static class LocalDealerInfo4 : public DealerInfo
 {
 public:
-    LocalDealerInfo4() : DealerInfo(I18N_NOOP("The &Idiot"), 4) {}
+    LocalDealerInfo4() : DealerInfo(I18N_NOOP("The &Idiot"), 2) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Idiot(parent); }
 } gfi;
 

@@ -24,7 +24,6 @@ void DealerInfoList::add(DealerInfo *dealer)
 Dealer::Dealer( KMainWindow* _parent , const char* _name )
     : QCanvasView( 0, _parent, _name )
 {
-    myCanvas.resize(100, 200);
     myCanvas.setAdvancePeriod(30);
     myCanvas.setBackgroundColor( darkGreen );
     setCanvas(&myCanvas);
@@ -34,14 +33,6 @@ Dealer::Dealer( KMainWindow* _parent , const char* _name )
 Dealer::~Dealer()
 {
 }
-
-QSize Dealer::sizeHint() const
-{
-    // just a dummy size
-    return QSize( 900, 500 );
-}
-
-#include "dealer.moc"
 
 void Dealer::contentsMouseMoveEvent(QMouseEvent* e)
 {
@@ -150,6 +141,14 @@ void Dealer::contentsMousePressEvent(QMouseEvent* e)
     movingCards.clear();
 }
 
+class Hit {
+public:
+    Pile *source;
+    QRect intersect;
+    bool top;
+};
+typedef QValueList<Hit> HitList;
+
 void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
 {
     kdDebug() << "Dealer::mouseReleasevent " << moved << endl;
@@ -178,13 +177,13 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
 
     if (!movingCards.count())
         return;
-    Card *c = dynamic_cast<Card*>(movingCards.first());
+    Card *c = static_cast<Card*>(movingCards.first());
     assert(c);
 
     unmarkAll();
 
     QCanvasItemList list = canvas()->collisions(movingCards.first()->rect());
-    PileList sources;
+    HitList sources;
 
     for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
     {
@@ -195,39 +194,74 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
                 continue;
             if (c->source() == movingCards.first()->source())
                 continue;
-            if (sources.contains(c->source()))
+            Hit t;
+            t.source = c->source();
+            t.intersect = c->rect().intersect(movingCards.first()->rect());
+            t.top = (c == c->source()->top());
+
+            bool found = false;
+            for (HitList::Iterator hi = sources.begin(); hi != sources.end(); ++hi)
+            {
+                if ((*hi).source == c->source()) {
+                    found = true;
+                    if ((*hi).intersect.width() * (*hi).intersect.height() >
+                        t.intersect.width() * t.intersect.height())
+                    {
+                        (*hi).intersect = t.intersect;
+                        (*hi).top |= t.top;
+                    }
+                }
+            }
+            if (found)
                 continue;
-            sources.append(c->source());
+
+            sources.append(t);
         } else {
             if ((*it)->rtti() == Pile::RTTI) {
                 Pile *p = static_cast<Pile*>(*it);
-                if (!sources.contains(p))
-                    sources.append(p);
+                if (p->isEmpty())
+                {
+                    Hit t;
+                    t.source = p;
+                    t.intersect = p->rect().intersect(movingCards.first()->rect());
+                    t.top = true;
+                    sources.append(t);
+                }
             } else {
                 kdDebug() << "unknown object " << *it << " " << (*it)->rtti() << endl;
             }
         }
     }
 
-    for (PileList::Iterator it = sources.begin(); it != sources.end(); )
+    for (HitList::Iterator it = sources.begin(); it != sources.end(); )
     {
-        kdDebug() << "hit " << (*it)->index() << endl;
-        if (!(*it)->legalAdd(movingCards))
+        kdDebug() << "hit " << (*it).source->index() << endl;
+        if (!(*it).source->legalAdd(movingCards))
             it = sources.remove(it);
         else
             ++it;
     }
     kdDebug() << "count " << sources.count() << endl;
 
-    if (sources.count() != 1) {
+    if (sources.isEmpty()) {
         c->source()->moveCardsBack(movingCards);
     } else {
-        c->source()->moveCards(movingCards, sources.first());
+        HitList::Iterator best = sources.begin();
+        HitList::Iterator it = best;
+        for (++it; it != sources.end(); ++it )
+        {
+            if ((*it).intersect.width() * (*it).intersect.height() >
+                (*best).intersect.width() * (*best).intersect.height()
+                || ((*it).top && !(*best).top))
+            {
+                best = it;
+            }
+        }
+        c->source()->moveCards(movingCards, (*best).source);
     }
     movingCards.clear();
     canvas()->update();
 }
-
 
 void Dealer::contentsMouseDoubleClickEvent( QMouseEvent*e )
 {
@@ -247,6 +281,11 @@ void Dealer::contentsMouseDoubleClickEvent( QMouseEvent*e )
     cardDblClicked(c);
 }
 
+void Dealer::resetSize(const QSize &size) {
+    maxsize = size;
+    canvas()->resize(size.width(), size.height());
+}
+
 void Dealer::cardClicked(Card *c) {
     kdDebug() << "clicked " << c->name() << endl;
 }
@@ -258,3 +297,55 @@ void Dealer::pileClicked(Pile *c) {
 void Dealer::cardDblClicked(Card *c) {
     kdDebug() << "dbl clicked " << c->name() << endl;
 }
+
+void Dealer::enlargeCanvas(QCanvasRectangle *c)
+{
+    if (!c->visible())
+        return;
+
+    bool changed = false;
+
+    if (c->x() + c->width() + 10 > maxsize.width()) {
+        maxsize.setWidth(c->x() + c->width() + 10);
+        changed = true;
+    }
+    if (c->y() + c->height() + 10 > maxsize.height()) {
+        maxsize.setHeight(c->y() + c->height() + 10);
+        changed = true;
+    }
+
+    if (changed)
+        c->canvas()->resize(maxsize.width(), maxsize.height());
+}
+
+void Dealer::viewportResizeEvent ( QResizeEvent *e )
+{
+    QSize size = canvas()->size();
+    QSize msize = e->size();
+    kdDebug() << "resize " << msize.width() << " - " << msize.height() << endl;
+
+    bool changed = false;
+    if (size.width() > maxsize.width() + 1) {
+        size.setWidth(maxsize.width());
+        changed = true;
+    }
+    if (size.height() > maxsize.height() + 1) {
+        size.setHeight(maxsize.height());
+        changed = true;
+    }
+    if (size.width() < msize.width() - 1) {
+        size.setWidth(msize.width());
+        changed = true;
+    }
+    if (size.height() < msize.height() - 1) {
+        size.setHeight(msize.height());
+        changed = true;
+    }
+
+    kdDebug() << "resize2 " << msize.width() << " - " << msize.height() << endl;
+
+    if (changed)
+        canvas()->resize(size.width(), size.height());
+}
+
+#include "dealer.moc"

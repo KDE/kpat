@@ -273,7 +273,7 @@ void Grandf::cardDblClicked(Card *c)
 static class GrandfDealerInfo : public DealerInfo
 {
 public:
-    GrandfDealerInfo() : DealerInfo(I18N_NOOP("&Grandfather"), 4) {}
+    GrandfDealerInfo() : DealerInfo(I18N_NOOP("&Grandfather"), 1) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Grandf(parent); }
 } gfi;
 
