@@ -68,15 +68,23 @@ private:
     void setBackSide(const QString &deck, const QString &dir);
     virtual void showEvent(QShowEvent *e);
 
-    Dealer* dill;
-    KSelectAction *games, *wallpapers;
-    KAction *backs, *undo;
-    KToggleAction *animation, *dropaction;
-	 KAction *stats;
-    QPixmap background;
-    QColor midcolor;
-    QStringList wallpaperlist;
-    KRecentFilesAction *recent;
+private:
+    // Members
+
+    Dealer         *dill;	// The current patience
+
+    KSelectAction  *games;
+    KSelectAction  *wallpapers;
+    KAction        *backs;
+    KAction        *undo;
+    KToggleAction  *animation;
+    KToggleAction  *dropaction;
+    KAction        *stats;
+
+    QPixmap         background;
+    QColor          midcolor;
+    QStringList     wallpaperlist;
+    KRecentFilesAction  *recent;
 };
 
 #endif

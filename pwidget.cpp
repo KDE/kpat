@@ -22,15 +22,12 @@
 
 #include <qregexp.h>
 #include <qtimer.h>
+#include <qimage.h>
 
 #include <kapplication.h>
 #include <klocale.h>
-#include "pwidget.h"
-#include "version.h"
 #include <kaction.h>
-#include "dealer.h"
 #include <kdebug.h>
-#include "cardmaps.h"
 #include <kcarddialog.h>
 #include <kinputdialog.h>
 #include <kstandarddirs.h>
@@ -38,14 +35,20 @@
 #include <ktempfile.h>
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
-#include <qimage.h>
 #include <kstatusbar.h>
-#include "speeds.h"
 #include <kaccelmanager.h>
 #include <kmenubar.h>
+
+#include "pwidget.h"
+#include "version.h"
+#include "dealer.h"
+#include "cardmaps.h"
+#include "speeds.h"
 #include "gamestatsimpl.h"
 
+
 static pWidget *current_pwidget = 0;
+
 
 void saveGame(int) {
     current_pwidget->saveGame();
@@ -289,7 +292,10 @@ void pWidget::enableAutoDrop()
     dill->setAutoDropEnabled(drop);
 }
 
-void pWidget::newGame() {
+void pWidget::newGame()
+{
+    // Check if the user is already running a game, and if she is,
+    // then ask if she wants to abort it.
     if (!dill->isGameWon()
 	&& KMessageBox::warningYesNo(0,
 		       i18n("You are already running an unfinished game.  "
@@ -300,14 +306,16 @@ void pWidget::newGame() {
 		       i18n("Abort current game?"),
 		       i18n("Abort the old game"),
 		       i18n("Continue the old game")) == KMessageBox::No)
-      return;
+        return;
 
     dill->setGameNumber(kapp->random());
     setGameCaption();
     restart();
 }
 
-void pWidget::restart() {
+
+void pWidget::restart()
+{
     statusBar()->clear();
     dill->resetMoves();
     slotSetMoves( 0 );
@@ -487,7 +495,7 @@ void pWidget::gameLost()
 
         QTimer::singleShot(0, this, SLOT(newGame()));
     }
- }
+}
 
 void pWidget::openGame(const KURL &url)
 {
