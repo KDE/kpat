@@ -1,6 +1,7 @@
 # KDE Config File 
 [KDE Desktop Entry]
 Name=Patience
+Name[da]=Kabale
 Name[es]=Solitario
 Name[fi]=Pasianssi
 Name[fr]=Réussite
@@ -18,6 +19,7 @@ Type=Application
 DocPath=kpat/index.html
 Comment=Several nice card games
 Comment[cs]=Rùzné pìkné karetní hry
+Comment[da]=Adskillige sjove kortspil
 Comment[de]=Ein paar kleine Kartenspiele
 Comment[es]=Varios juegos de cartas agradables
 Comment[fi]=Monia erilaisia korttipelejä
