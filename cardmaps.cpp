@@ -35,6 +35,7 @@
 #include <config.h>
 #include "cardmaps.h"
 #include "global.h"
+#include <stdlib.h>
 
 int cardMaps::CARDX;
 int cardMaps::CARDY;
