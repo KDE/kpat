@@ -69,6 +69,8 @@ public:
     const char *name() const { return _name; }
     virtual int rtti() const { return RTTI; }
     virtual void moveBy(double dx, double dy);
+    void animatedMove(int x2, int y2, int steps);
+    virtual void setAnimated(bool anim);
 
     int realX() const;
     int realY() const;

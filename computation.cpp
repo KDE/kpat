@@ -114,6 +114,21 @@ bool Computation::step( const Pile* c1, const CardList& cl) {
     return matches(cl, c1->top(), offset);
 }
 
+bool Computation::isGameWon() const
+{
+    if (!deck->isEmpty())
+        return false;
+
+    if (!pile->isEmpty())
+        return false;
+
+    for (int c = 0; c < 4; c++)
+        if (!play[c]->isEmpty())
+            return false;
+
+    return true;
+}
+
 static class LocalDealerInfo2 : public DealerInfo
 {
 public:

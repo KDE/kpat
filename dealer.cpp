@@ -7,6 +7,7 @@
 #include <kmainwindow.h>
 #include <qtl.h>
 #include <kapp.h>
+#include <kmessagebox.h>
 
 DealerInfoList *DealerInfoList::_self = 0;
 static KStaticDeleter<DealerInfoList> dl;
@@ -307,6 +308,10 @@ void Dealer::cardDblClicked(Card *c) {
 
 void Dealer::startNew()
 {
+    QCanvasItemList list = canvas()->allItems();
+    for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
+        (*it)->setAnimated(false);
+
     undoList.clear();
     restart();
     takeState();
@@ -448,15 +453,6 @@ void Dealer::setState(CardStateList *n)
         c->turn(s.faceup);
     }
 
-    for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
-    {
-        if ((*it)->rtti() == Pile::RTTI) {
-            Pile *p = dynamic_cast<Pile*>(*it);
-            assert(p);
-        }
-    }
-
-
     delete n;
     canvas()->update();
 }
@@ -464,6 +460,7 @@ void Dealer::setState(CardStateList *n)
 void Dealer::takeState()
 {
     CardStateList *n = getState();
+
     if (!undoList.count()) {
         undoList.append(getState());
     } else {
@@ -472,11 +469,16 @@ void Dealer::takeState()
         if (*old == *n) {
             kdDebug() << "nothing changed\n";
             delete n;
+            n = 0;
         } else {
             undoList.append(n);
         }
     }
 
+    if (n && isGameWon()) {
+        won();
+        return;
+    }
     emit undoPossible(undoList.count() > 1);
 }
 
@@ -498,6 +500,33 @@ long Dealer::gameNumber() const
 void Dealer::setGameNumber(long gmn)
 {
     gamenumber = ((gmn + 31998) % 31999) + 1;
+}
+
+void Dealer::won()
+{
+    QCanvasItemList list = canvas()->allItems();
+    for (QCanvasItemList::ConstIterator it = list.begin(); it != list.end(); ++it)
+    {
+        if ((*it)->rtti() == Card::RTTI)
+        {
+            Card *c = dynamic_cast<Card*>(*it);
+            assert(c);
+            c->turn(true);
+            QRect p(0, 0, c->width(), c->height());
+            QRect can(0, 0, canvas()->width(), canvas()->height());
+            int x, y;
+
+            do {
+                // disperse the cards everywhere
+                x = 3*canvas()->width()/2 - kapp->random() % (canvas()->width() * 2);
+                y = 3*canvas()->height()/2 - (kapp->random() % (canvas()->height() * 2));
+                p.moveTopLeft(QPoint(x, y));
+            } while (can.intersects(p));
+	    c->animatedMove( x, y, 50 );
+       }
+    }
+    canvas()->update();
+    emit gameWon();
 }
 
 #include "dealer.moc"

@@ -44,6 +44,7 @@ public:
     virtual ~Grandf();
 
     virtual void show();
+    virtual bool isGameWon() const;
 
 public slots:
     void redeal();

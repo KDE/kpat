@@ -162,12 +162,7 @@ void Card::advance(int stage)
 {
     if ( stage==1 ) {
 	if ( animSteps-- <= 0 ) {
-	    scaleX = 1.0;
-	    scaleY = 1.0;
-	    flipping = FALSE;
-	    setVelocity(0,0);
-	    setAnimated(FALSE);
-	    move(destX,destY); // exact
+	    setAnimated(false);
 	} else {
 	    if ( flipping ) {
 		if ( animSteps > flipSteps / 2 ) {
@@ -187,4 +182,32 @@ void Card::advance(int stage)
     QCanvasRectangle::advance(stage);
 }
 
+void Card::animatedMove(int x2, int y2, int steps)
+{
+    destX = x2;
+    destY = y2;
 
+    double x1 = x(), y1 = y(), dx = x2 - x1, dy = y2 - y1;
+
+    // Ensure a good speed
+    while ( fabs(dx/steps)+fabs(dy/steps) < 5.0 && steps > 4 )
+	steps--;
+
+    setAnimated(TRUE);
+    setVelocity(dx/steps, dy/steps);
+
+    animSteps = steps;
+}
+
+void Card::setAnimated(bool anim)
+{
+    if (animated() && !anim) {
+        scaleX = 1.0;
+        scaleY = 1.0;
+        flipping = FALSE;
+        setVelocity(0,0);
+        move(destX,destY); // exact
+    }
+    QCanvasRectangle::setAnimated(anim);
+
+}

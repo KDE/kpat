@@ -270,6 +270,18 @@ void Grandf::cardDblClicked(Card *c)
     }
 }
 
+bool Grandf::isGameWon() const
+{
+    if (!deck->isEmpty())
+        return false;
+
+    for (int i = 0; i < 7; i++)
+        if (!store[i]->isEmpty())
+            return false;
+
+    return true;
+}
+
 static class GrandfDealerInfo : public DealerInfo
 {
 public:

@@ -35,6 +35,8 @@ public:
     Mod3( KMainWindow* parent=0, const char* name=0);
     virtual ~Mod3();
 
+    virtual bool isGameWon() const;
+
 public slots:
     void redeal();
     void deal();

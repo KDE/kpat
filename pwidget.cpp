@@ -174,6 +174,7 @@ void pWidget::newGameType()
     }
 
     connect(dill, SIGNAL(undoPossible(bool)), SLOT(undoPossible(bool)));
+    connect(dill, SIGNAL(gameWon()), SLOT(gameWon()));
 
     // it's a bit tricky - we have to do this here as the
     // base class constructor runs before the derived class's
@@ -231,6 +232,12 @@ void pWidget::chooseGame()
             restart();
         }
     }
+}
+
+void pWidget::gameWon()
+{
+    KMessageBox::information(this, i18n("Congratulation! You've won!"), i18n("Congratulation!"));
+    newGame();
 }
 
 #include "pwidget.moc"

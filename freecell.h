@@ -34,6 +34,7 @@ public:
     virtual ~Freecell();
 
     virtual void show();
+    virtual bool isGameWon() const;
 
 public slots:
     void deal();

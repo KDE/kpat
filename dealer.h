@@ -56,6 +56,8 @@ public:
     void setGameNumber(long gmn);
     long gameNumber() const;
 
+    virtual bool isGameWon() const = 0;
+
 public slots:
 
     // restart is pure virtual, so we need something else
@@ -66,6 +68,7 @@ public slots:
 
 signals:
     void undoPossible(bool poss);
+    void gameWon();
 
 protected:
 
@@ -81,6 +84,7 @@ protected:
     virtual void cardClicked(Card *);
     virtual void pileClicked(Pile *);
     virtual void cardDblClicked(Card *);
+    void won();
 
 private:
 

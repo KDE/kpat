@@ -32,6 +32,7 @@ public:
 
     virtual void restart();
     virtual void show();
+    virtual bool isGameWon() const;
 
 public slots:
     void deal1();

@@ -201,6 +201,20 @@ void Freecell::deal()
     }
 }
 
+bool Freecell::isGameWon() const
+{
+    for (int c = 0; c < 4; c++)
+        if (!freecell[c]->isEmpty())
+            return false;
+
+    for (int c = 0; c < 8; c++)
+        if (!stack[c]->isEmpty())
+            return false;
+
+    return true;
+}
+
+
 static class LocalDealerInfo8 : public DealerInfo
 {
 public:

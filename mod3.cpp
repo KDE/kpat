@@ -209,6 +209,21 @@ void Mod3::hint()
     }
 }
 
+bool Mod3::isGameWon() const
+{
+    if (!deck->isEmpty())
+        return false;
+
+    for (int c = 0; c < 8; c++)
+        if (!stack[3][c]->isEmpty())
+            return false;
+
+    // if all cards fit in the top three rows
+    // they are correctly set up
+    return true;
+
+}
+
 static class LocalDealerInfo7 : public DealerInfo
 {
 public:

@@ -47,6 +47,7 @@ protected slots:
     void newGame();
     void chooseGame();
     void undoPossible(bool poss);
+    void gameWon();
 
 private:
     void setBackSide(const QString &id);

@@ -37,6 +37,7 @@ public:
 
     virtual void restart();
     virtual void show();
+    virtual bool isGameWon() const;
 
 private:
     Card *getCardByValue( char v );

@@ -2,10 +2,10 @@ TODO:
       - more options (wholeColumn, etc.)
          kpat already supports a lot, but they aren't accessible via GUI yet
       - animation when a card moves back automatically
-      - nice animation when you win a game
       - preview on cards that are hidden but faceup (RMB)
      
 DONE:
+      - nice animation when you win a game
       - game numbers as in MS freecell (thanks Marcus)
       - undo 
       - ambigious place - choose one

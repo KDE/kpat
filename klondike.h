@@ -38,6 +38,7 @@ public:
     virtual ~Klondike();
 
     virtual void show();
+    virtual bool isGameWon() const;
 
 public slots:
     void changeDiffLevel(int lvl);
@@ -65,7 +66,6 @@ private:
 
     Pile *pile;
     Deck* deck;
-    QComboBox *cb;
 };
 
 #endif

@@ -73,7 +73,7 @@ void Klondike::changeDiffLevel( int l ) {
                                                QString::null,
                                                i18n("OK"));
     if(r == KMessageBox::Cancel) {
-        cb->setCurrentItem(1-cb->currentItem());
+        // TODO cb->setCurrentItem(1-cb->currentItem());
         return;
     }
 
@@ -236,6 +236,16 @@ void Klondike::cardDblClicked(Card *c) {
             }
         }
     }
+}
+
+bool Klondike::isGameWon() const
+{
+    if (!deck->isEmpty() || !pile->isEmpty())
+        return false;
+    for (int i = 0; i < 7; i++)
+        if (!play[i]->isEmpty())
+            return false;
+    return true;
 }
 
 static class LocalDealerInfo0 : public DealerInfo

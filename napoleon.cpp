@@ -134,6 +134,21 @@ void Napoleon::deal1() {
     pile->add(deck->nextCard(), false, false);
 }
 
+bool Napoleon::isGameWon() const
+{
+    if (!deck->isEmpty())
+        return false;
+
+    if (!pile->isEmpty())
+        return false;
+
+    for (int c = 0; c < 4; c++)
+        if (!store[c]->isEmpty())
+            return false;
+
+    return true;
+}
+
 static class LocalDealerInfo3 : public DealerInfo
 {
 public:

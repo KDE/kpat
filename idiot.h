@@ -33,6 +33,7 @@ public:
     virtual ~Idiot();
 
     virtual void show();
+    virtual bool isGameWon() const;
 
 protected:
     virtual void cardClicked(Card *);
