@@ -46,26 +46,10 @@ Idiot::Idiot( KMainWindow* parent, const char* _name)
     deal();
 }
 
-void Idiot::show()
-{
-    QWidget::show();
-
-    for( int i = 0; i < 4; i++ )
-        play[ i ]-> show();
-    deck->show();
-}
-
 void Idiot::restart()
 {
     deck->collectAndShuffle();
     deal();
-}
-
-Idiot::~Idiot()
-{
-    for( int i = 0; i < 4; i++ )
-        delete play[ i ];
-    delete deck;
 }
 
 inline bool higher( const Card* c1, const Card* c2)

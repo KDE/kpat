@@ -27,30 +27,6 @@
 
 //-------------------------------------------------------------------------//
 
-void Freecell::restart()
-{
-    deck->collectAndShuffle();
-    deal();
-}
-
-//-------------------------------------------------------------------------//
-
-void Freecell::show()
-{
-    QWidget::show();
-
-    for (int i = 0; i < 8; i++)
-        stack[i]->show();
-
-    for (int i = 0; i < 4; i++)
-    {
-        freecell[i]->show();
-        store[i]->show();
-    }
-}
-
-//-------------------------------------------------------------------------//
-
 Freecell::Freecell( KMainWindow* parent, const char* name)
         : Dealer(parent,name)
 {
@@ -86,18 +62,10 @@ Freecell::Freecell( KMainWindow* parent, const char* name)
 
 //-------------------------------------------------------------------------//
 
-Freecell::~Freecell()
+void Freecell::restart()
 {
-    for (int i = 0; i < 8; i++)
-        delete stack[i];
-
-    for (int i = 0; i < 4; i++)
-    {
-        delete freecell[i];
-        delete store[i];
-    }
-
-    delete deck;
+    deck->collectAndShuffle();
+    deal();
 }
 
 //-------------------------------------------------------------------------//

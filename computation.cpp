@@ -30,13 +30,6 @@
 #include <deck.h>
 #include <assert.h>
 
-void Computation::deal() {
-    while (!deck->isEmpty()) {
-        Card *c = deck->nextCard();
-        pile->add(c, !deck->isEmpty(), false);
-    }
-}
-
 Computation::Computation( KMainWindow *parent, const char *name )
     :Dealer( parent, name)
 {
@@ -66,26 +59,15 @@ Computation::Computation( KMainWindow *parent, const char *name )
     deal();
 }
 
-Computation::~Computation() {
-    for (int i = 0; i < 4; i++) {
-        delete play[i];
-        delete target[i];
-    }
-    delete pile;
-}
-
 void Computation::restart() {
     deck->collectAndShuffle();
     deal();
 }
 
-void Computation::show() {
-    QWidget::show();
-
-    pile->show();
-    for (int i = 0; i < 4; i++) {
-        play[i]->show();
-        target[i]->show();
+void Computation::deal() {
+    while (!deck->isEmpty()) {
+        Card *c = deck->nextCard();
+        pile->add(c, !deck->isEmpty(), false);
     }
 }
 

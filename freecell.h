@@ -31,9 +31,7 @@ class Freecell : public Dealer
 
 public:
     Freecell( KMainWindow* parent=0, const char* name=0);
-    virtual ~Freecell();
 
-    virtual void show();
     virtual bool isGameWon() const;
 
 public slots:

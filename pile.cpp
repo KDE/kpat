@@ -34,6 +34,7 @@ Card *Pile::top() const
 Pile::Pile( int _index, Dealer* parent)
     : QCanvasRectangle( parent->canvas() ), _dealer(parent), myIndex(_index), direction(0)
 {
+    QCanvasRectangle::setVisible(true); // default
     setSize( cardMap::CARDX, cardMap::CARDY );
     removeCheckFun = 0;
     addCheckFun = 0;

@@ -77,26 +77,6 @@ Mod3::Mod3( KMainWindow* parent, const char* _name)
 
 //-------------------------------------------------------------------------//
 
-Mod3::~Mod3()
-{
-    for (int r = 0; r < 4; r++)
-        for (int c = 0; c < 8; c++)
-            delete stack[r][c];
-
-    delete deck;
-}
-
-void Mod3::show()
-{
-    QCanvasView::show();
-
-    for (int r = 0; r < 4; r++)
-        for (int c = 0; c < 8; c++)
-            stack[r][c]->show();
-}
-
-//-------------------------------------------------------------------------//
-
 bool Mod3::CanPut (const Pile *c1, const CardList &cl)
 {
     if (cl.isEmpty())

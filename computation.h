@@ -33,10 +33,8 @@ class Computation : public Dealer {
 
 public:
     Computation( KMainWindow *parent = 0, const char *name=0 );
-    virtual ~Computation();
 
     virtual void restart();
-    virtual void show();
     virtual bool isGameWon() const;
 
 private:

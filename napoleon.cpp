@@ -62,34 +62,6 @@ Napoleon::Napoleon( KMainWindow* parent, const char* _name )
     deal();
 }
 
-Napoleon::~Napoleon() {
-
-    delete pile;
-    delete centre;
-
-    for( int i=0; i<4; i++)
-        delete target[i];
-
-    for( int i=0; i<4; i++)
-        delete store[i];
-
-    delete deck;
-}
-
-void Napoleon::show() {
-    QWidget::show();
-
-    deck->show();
-    pile->show();
-    centre->show();
-
-    for( int i=0; i<4; i++)
-        target[i]->show();
-
-    for( int i=0; i<4; i++)
-        store[i]->show();
-}
-
 void Napoleon::restart() {
     deck->collectAndShuffle();
     deal();

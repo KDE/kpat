@@ -37,6 +37,9 @@ Dealer::Dealer( KMainWindow* _parent , const char* _name )
 
 Dealer::~Dealer()
 {
+    QCanvasItemList list = canvas()->allItems();
+    for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
+        delete *it;
 }
 
 void Dealer::contentsMouseMoveEvent(QMouseEvent* e)

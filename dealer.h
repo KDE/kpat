@@ -62,7 +62,6 @@ public slots:
 
     // restart is pure virtual, so we need something else
     virtual void startNew();
-    virtual void show() = 0;
     void undo();
     void takeState();
 

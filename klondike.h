@@ -35,9 +35,7 @@ class Klondike : public Dealer {
 
 public:
     Klondike( bool easy, KMainWindow* parent=0, const char* name=0);
-    virtual ~Klondike();
 
-    virtual void show();
     virtual bool isGameWon() const;
 
 public slots:

@@ -28,10 +28,8 @@ class Napoleon : public Dealer {
     Q_OBJECT
 public:
     Napoleon (KMainWindow* parent=0, const char* name=0);
-    virtual ~Napoleon();
 
     virtual void restart();
-    virtual void show();
     virtual bool isGameWon() const;
 
 public slots:

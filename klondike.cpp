@@ -81,37 +81,10 @@ void Klondike::changeDiffLevel( int l ) {
     restart();
 }
 
-void Klondike::show() {
-    QWidget::show();
-
-    deck->show();
-
-    pile->show();
-
-    for(int i = 0; i < 4; i++)
-        target[i]->show();
-
-    for(int i = 0; i < 7; i++)
-        play[i]->show();
-}
-
 void Klondike::restart() {
     kdDebug() << "restart\n";
     deck->collectAndShuffle();
     deal();
-}
-
-Klondike::~Klondike() {
-
-    delete pile;
-
-    for(int i=0; i<4; i++)
-        delete target[i];
-
-    for(int i=0; i<7; i++)
-        delete play[i];
-
-    delete deck;
 }
 
 void Klondike::deal3()
@@ -212,6 +185,7 @@ void Klondike::cardClicked(Card *c) {
     }
 
 }
+
 void Klondike::pileClicked(Pile *c) {
     Dealer::pileClicked(c);
 

@@ -87,16 +87,6 @@ void Grandf::hint() {
 
 }
 
-void Grandf::show()
-{
-    QWidget::show();
-    for(int i=0; i<4; i++)
-        target[i]->show();
-
-    for(int i=0; i<7; i++)
-        store[i]->show();
-}
-
 Grandf::Grandf( KMainWindow* parent, const char *name )
     : Dealer( parent, name ), aredeal(0)
 {
@@ -113,7 +103,6 @@ Grandf::Grandf( KMainWindow* parent, const char *name )
         target[i]->setRemoveFlags(Pile::disallow);
         target[i]->setAddFun(&step1);
         target[i]->setLegalMove(list);
-        target[i]->show();
     }
 
     for (int i=0; i<7; i++) {
@@ -123,7 +112,6 @@ Grandf::Grandf( KMainWindow* parent, const char *name )
         store[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
         store[i]->setAddFun(&Sstep1);
         store[i]->setLegalMove(list);
-        store[i]->show();
     }
 
     QList<KAction> actions;
@@ -139,16 +127,6 @@ Grandf::Grandf( KMainWindow* parent, const char *name )
 
     deal();
     numberOfDeals = 1;
-}
-
-Grandf::~Grandf() {
-    delete deck;
-
-    for(int i=0; i<4; i++)
-        delete target[i];
-
-    for(int i=0; i<7; i++)
-        delete store[i];
 }
 
 void Grandf::redeal() {
