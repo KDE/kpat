@@ -1,7 +1,6 @@
 
-kde_icon_DATA = kpat-lq.xpm
+EXTRA_DIST = kpat-lq.png
 
 KDE_ICON = kpat
 
-EXTRA_DIST = $(kde_icon_DATA)
 
