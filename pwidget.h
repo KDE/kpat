@@ -60,7 +60,7 @@
 class pWidget: public KTMainWindow {
   Q_OBJECT
 public:
-  pWidget(QWidget *parent=0, const char *name=0 );
+  pWidget(const char *name=0 );
 
 private:
   void help();

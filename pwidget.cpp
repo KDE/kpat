@@ -61,8 +61,8 @@
 
 #define ID_HHELP	100	
 
-pWidget::pWidget( QWidget* _parent, const char* _name ) 
-  : KTMainWindow()
+pWidget::pWidget( const char* _name ) 
+  : KTMainWindow(_name)
 {
   type = PT_NONE;
   dill = 0;
