@@ -544,12 +544,13 @@ void Freecell::movePileToPile(CardList &c, Pile *to, PileList fss, PileList &fcs
 
 void Freecell::startMoving()
 {
+    kdDebug() << "startMoving\n";
     if (moves.isEmpty()) {
         if (demoActive() && towait) {
             waitForDemo(towait);
         }
-        takeState();
         setWaiting(false);
+        takeState();
         return;
     }
 
@@ -562,6 +563,7 @@ void Freecell::startMoving()
     mh->pile()->add(mh->card());
     mh->pile()->moveCardsBack(empty, true);
     waitfor = mh->card();
+    kdDebug() << "wait for moving end " << mh->card()->name() << endl;
     connect(mh->card(), SIGNAL(stoped(Card*)), SLOT(waitForMoving(Card*)));
     delete mh;
 }
@@ -577,7 +579,7 @@ void Freecell::waitForMoving(Card *c)
 {
     if (waitfor != c)
         return;
-
+    c->disconnect();
     startMoving();
 }
 

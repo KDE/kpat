@@ -108,6 +108,7 @@ public slots:
     virtual void takeState();
     virtual bool startAutoDrop();
     void hint();
+    void slotTakeState(Card *c);
 
 signals:
     void undoPossible(bool poss);
@@ -119,6 +120,7 @@ public slots:
     void waitForDemo(Card *);
     void toggleDemo();
     virtual void stopDemo();
+    void waitForAutoDrop(Card *);
 
 protected:
 
@@ -151,8 +153,8 @@ protected:
 
     KMainWindow *parent() const;
 
-    bool waiting() const { return _waiting; }
-    void setWaiting(bool w) { _waiting = w; }
+    bool waiting() const { return _waiting != 0; }
+    void setWaiting(bool w);
 
 protected:
     PileList piles;
@@ -192,7 +194,8 @@ protected:
     QColor _midcolor;
     int _id;
     bool takeTargets;
-    bool _won, _waiting;
+    bool _won;
+    int _waiting;
 };
 
 #endif

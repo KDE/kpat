@@ -35,7 +35,7 @@ void DealerInfoList::add(DealerInfo *dealer)
 Dealer::Dealer( KMainWindow* _parent , const char* _name )
     : QCanvasView( 0, _parent, _name ), towait(0), myActions(0),
 ademo(0), ahint(0), aredeal(0),
-takeTargets(false), _won(false), _waiting(false)
+takeTargets(false), _won(false), _waiting(0)
 {
     setGameNumber(kapp->random());
     myCanvas.setAdvancePeriod(30);
@@ -473,6 +473,7 @@ void Dealer::cardDblClicked(Card *c)
 void Dealer::startNew()
 {
     _won = false;
+    _waiting = 0;
     stopDemo();
     unmarkAll();
     QCanvasItemList list = canvas()->allItems();
@@ -492,9 +493,14 @@ void Dealer::startNew()
     if (!towait)
         takeState();
     else
-        connect(towait, SIGNAL(stoped(Card*)), SLOT(takeState()));
+        connect(towait, SIGNAL(stoped(Card*)), SLOT(slotTakeState(Card *)));
 }
 
+void Dealer::slotTakeState(Card *c) {
+    if (c)
+        c->disconnect();
+    takeState();
+}
 void Dealer::enlargeCanvas(QCanvasRectangle *c)
 {
     if (!c->visible() || c->animated())
@@ -711,6 +717,8 @@ void Dealer::setState(State *st)
 
 void Dealer::takeState()
 {
+    kdDebug() << "takeState\n";
+
     State *n = getState();
 
     if (!undoList.count()) {
@@ -730,7 +738,7 @@ void Dealer::takeState()
         if (isGameWon()) {
             won();
             return;
-        } else if (!demoActive()) {
+        } else if (!demoActive() && !waiting()) {
             QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
         }
     }
@@ -823,14 +831,26 @@ Pile *Dealer::findTarget(Card *c)
     return 0;
 }
 
+void Dealer::setWaiting(bool w)
+{
+    if (w)
+        _waiting++;
+    else
+        _waiting--;
+    kdDebug() << "setWaiting " << w << " " << _waiting << endl;
+}
+
 bool Dealer::startAutoDrop()
 {
+    kdDebug() << "startAutoDrop\n";
+
     unmarkAll();
     clearHints();
     getHints();
     for (HintList::ConstIterator it = hints.begin(); it != hints.end(); ++it) {
         MoveHint *mh = *it;
         if (mh->pile()->target() && mh->dropIfTarget() && !mh->card()->takenDown()) {
+            setWaiting(true);
             Card *t = mh->card();
             CardList cards = mh->card()->source()->cards();
             while (cards.count() && cards.first() != t) cards.remove(cards.begin());
@@ -840,13 +860,21 @@ bool Dealer::startAutoDrop()
             int y = int(t->y());
             t->source()->moveCards(cards, mh->pile());
             t->move(x, y);
+            kdDebug() << "autodrop " << t->name() << endl;
             t->animatedMove(t->source()->x(), t->source()->y(), t->z(), STEPS_AUTODROP);
-            takeState();
+            connect(t, SIGNAL(stoped(Card*)), SLOT(waitForAutoDrop(Card*)));
             return true;
         }
     }
     clearHints();
     return false;
+}
+
+void Dealer::waitForAutoDrop(Card * c) {
+    kdDebug() << "waitForAutoDrop " << c->name() << endl;
+    setWaiting(false);
+    c->disconnect();
+    takeState();
 }
 
 long Dealer::gameNumber() const
@@ -1030,6 +1058,7 @@ void Dealer::waitForDemo(Card *t)
         return;
     if (towait != t)
         return;
+    t->disconnect();
     towait = 0;
     demotimer->start(250, true);
 }

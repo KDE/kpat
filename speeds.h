@@ -1,7 +1,9 @@
 #ifndef __SPEEDS_H_
 #define __SPEEDS_H_
 
-#if !defined(DEBUG_SOLVER)
+#define TEST_SOLVER 0
+
+#ifdef TEST_SOLVER
 #define STEPS_AUTODROP 8
 #define STEPS_WON 20
 #define STEPS_DEMO 7

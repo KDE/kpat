@@ -43,6 +43,7 @@
 #include <ktempfile.h>
 #include <kio/netaccess.h>
 #include <kcrash.h>
+#include "speeds.h"
 
 static pWidget *current_pwidget = 0;
 
@@ -313,8 +314,13 @@ void pWidget::gameWon(bool withhelp)
         congrats = i18n("Congratulation! We've won!");
     else
         congrats = i18n("Congratulation! You've won!");
+#if TEST_SOLVER == 0
     KMessageBox::information(this, congrats, i18n("Congratulation!"));
+#endif
     newGame();
+#if TEST_SOLVER == 1
+    dill->demo();
+#endif
 }
 
 
