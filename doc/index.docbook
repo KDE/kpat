@@ -349,7 +349,6 @@ hard to win, but is still a joy to play (or because of that).
 <sect1 id="aces-up">
 <title>Aces up <anchor id="game_aces_up"/></title>
 
-
 <para>
 This patience has very simple rules, but is still hard to win.  It is played
 with one deck and the goal is to put all cards beside the aces to the
@@ -358,8 +357,8 @@ foundation. After that there should be an ace on every playing pile left.
 
 <para>
 Each top card that is of the same color (&eg; spades) and has a lower
-value than another top card (&eg; six of spades and five of spades) can be
-put on the foundation by clicking on it. 
+value than another top card (&eg; six of spades and four of spades) can be
+put on the foundation by clicking on it.
 </para>
 
 <para>
@@ -374,13 +373,13 @@ after that.
 </para>
 
 <para>
-[auto drop] is disabled for this patience.
+The auto drop feature is disabled for this patience.
 </para>
+
 </sect1>
 
 <sect1 id="freecell">
 <title>Freecell <anchor id="game_freecell"/></title>
-
 
 <para>
 Freecell is playing with one card deck. You have four free cells in the left top
@@ -397,8 +396,7 @@ one unsolvable - 11982 if you want to know).
 
 <para>
 In the playing piles you have to build descending sequences, where red and black
-cards alternate. In a free cell you can put any card if it the free cell is
-free.
+cards alternate. In a free cell you can put any card.
 </para>
 
 <para>
@@ -557,6 +555,7 @@ In using the undo feature you can ease the game quite a lot as you have to take
 quite some decisions and some of them might turn out to be wrong after you
 clicked the talon.
 </para>
+
 </sect1>
 
 <sect1 id="forty-and-eight">
