@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="standard_containers" version="2">
+<kpartgui name="standard_containers" version="3">
 <MenuBar>
   <Menu name="game"><text>&amp;Game</text>
     <Action name="restart_game"/>

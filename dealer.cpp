@@ -5,6 +5,7 @@
 #include <assert.h>
 #include "pile.h"
 #include <kmainwindow.h>
+#include <qtl.h>
 
 DealerInfoList *DealerInfoList::_self = 0;
 static KStaticDeleter<DealerInfoList> dl;
@@ -28,6 +29,7 @@ Dealer::Dealer( KMainWindow* _parent , const char* _name )
     myCanvas.setBackgroundColor( darkGreen );
     setCanvas(&myCanvas);
     myCanvas.setDoubleBuffering(true);
+    undoList.setAutoDelete(true);
 }
 
 Dealer::~Dealer()
@@ -135,7 +137,6 @@ void Dealer::contentsMousePressEvent(QMouseEvent* e)
     if (list.first()->rtti() == Pile::RTTI) {
         Pile *c = dynamic_cast<Pile*>(list.first());
         assert(c);
-        kdDebug() << "hit pile " << c->index() << endl;
     }
 
     movingCards.clear();
@@ -165,12 +166,14 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
             Card *c = dynamic_cast<Card*>(*it);
             assert(c);
             cardClicked(c);
+            takeState();
             return;
         }
         if ((*it)->rtti() == Pile::RTTI) {
             Pile *c = dynamic_cast<Pile*>(*it);
             assert(c);
             pileClicked(c);
+            takeState();
             return;
         }
     }
@@ -258,6 +261,7 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
             }
         }
         c->source()->moveCards(movingCards, (*best).source);
+        takeState();
     }
     movingCards.clear();
     canvas()->update();
@@ -279,6 +283,7 @@ void Dealer::contentsMouseDoubleClickEvent( QMouseEvent*e )
     Card *c = dynamic_cast<Card*>(*it);
     assert(c);
     cardDblClicked(c);
+    takeState();
 }
 
 void Dealer::resetSize(const QSize &size) {
@@ -296,6 +301,13 @@ void Dealer::pileClicked(Pile *c) {
 
 void Dealer::cardDblClicked(Card *c) {
     kdDebug() << "dbl clicked " << c->name() << endl;
+}
+
+void Dealer::startNew()
+{
+    undoList.clear();
+    restart();
+    takeState();
 }
 
 void Dealer::enlargeCanvas(QCanvasRectangle *c)
@@ -346,6 +358,132 @@ void Dealer::viewportResizeEvent ( QResizeEvent *e )
 
     if (changed)
         canvas()->resize(size.width(), size.height());
+}
+
+class CardState {
+public:
+    Card *it;
+    Pile *source;
+    double x;
+    double y;
+    double z;
+    bool faceup;
+    int i;
+    CardState() {}
+public:
+    // as every card is only once we can sort after the card.
+    // < is the same as <= in that context. == is different
+    bool operator<(const CardState &rhs) const { return it < rhs.it; }
+    bool operator<=(const CardState &rhs) const { return it <= rhs.it; }
+    bool operator>(const CardState &rhs) const { return it > rhs.it; }
+    bool operator>=(const CardState &rhs) const { return it > rhs.it; }
+    bool operator==(const CardState &rhs) const {
+        return (it == rhs.it && source == rhs.source && x == rhs.x &&
+                y == rhs.y && z == rhs.z && faceup == rhs.faceup &&
+                i == rhs.i);
+    }
+};
+
+typedef class QValueList<CardState> CardStateList;
+
+CardStateList *Dealer::getState()
+{
+    QCanvasItemList list = canvas()->allItems();
+    CardStateList *n = new CardStateList;
+
+    for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
+    {
+        if ((*it)->rtti() == Pile::RTTI) {
+            Pile *p = dynamic_cast<Pile*>(*it);
+            assert(p);
+        }
+    }
+
+    for (QCanvasItemList::ConstIterator it = list.begin(); it != list.end(); ++it)
+    {
+       if ((*it)->rtti() == Card::RTTI) {
+           Card *c = dynamic_cast<Card*>(*it);
+           assert(c);
+           CardState s;
+           s.it = c;
+           s.source = c->source();
+           s.i = c->source()->indexOf(c);
+           s.x = c->x();
+           s.y = c->y();
+           s.z = c->z();
+           s.faceup = c->isFaceUp();
+           n->append(s);
+       }
+    }
+    qHeapSort(*n);
+
+    return n;
+}
+
+void Dealer::setState(CardStateList *n)
+{
+    QCanvasItemList list = canvas()->allItems();
+
+    for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
+    {
+        if ((*it)->rtti() == Pile::RTTI) {
+            Pile *p = dynamic_cast<Pile*>(*it);
+            assert(p);
+            p->clear();
+        }
+    }
+
+    for (CardStateList::ConstIterator it = n->begin(); it != n->end(); ++it)
+    {
+        Card *c = (*it).it;
+        CardState s = *it;
+        s.source->add(c, s.i);
+        c->setX(s.x);
+        c->setY(s.y);
+        c->setZ(s.z);
+        c->turn(s.faceup);
+    }
+
+    for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
+    {
+        if ((*it)->rtti() == Pile::RTTI) {
+            Pile *p = dynamic_cast<Pile*>(*it);
+            assert(p);
+        }
+    }
+
+
+    delete n;
+    canvas()->update();
+}
+
+void Dealer::takeState()
+{
+    CardStateList *n = getState();
+    if (!undoList.count()) {
+        undoList.append(getState());
+        return;
+    }
+    CardStateList *old = undoList.last();
+
+    if (*old == *n) {
+        kdDebug() << "nothing changed\n";
+        delete n;
+    } else {
+        undoList.append(n);
+    }
+
+    emit undoPossible(undoList.count() > 1);
+}
+
+void Dealer::undo()
+{
+    unmarkAll();
+    if (undoList.count() > 1) {
+        undoList.removeLast(); // the current state
+        setState(undoList.take(undoList.count() - 1));
+        takeState(); // copying it again
+    }
 }
 
 #include "dealer.moc"

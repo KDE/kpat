@@ -150,7 +150,22 @@ void Pile::moveBy(double dx, double dy)
     }
 }
 
-void Pile::add( Card *_card)
+int Pile::indexOf(Card *c) const
+{
+    assert(c->source() == this);
+    return myCards.findIndex(c);
+}
+
+void Pile::clear()
+{
+    for (CardList::Iterator it = myCards.begin(); it != myCards.end(); ++it)
+    {
+        (*it)->setSource(0);
+    }
+    myCards.clear();
+}
+
+void Pile::add( Card *_card, int index)
 {
     if (_card->source() == this)
         return;
@@ -159,7 +174,15 @@ void Pile::add( Card *_card)
         _card->source()->remove(_card);
 
     _card->setSource(this);
-    myCards.append(_card);
+
+    if (index == -1)
+        myCards.append(_card);
+    else {
+        while (myCards.count() <= uint(index))
+            myCards.append(0);
+        assert(myCards[index] == 0);
+        myCards[index] = _card;
+    }
 }
 
 /* override cardtype (for initial deal ) */

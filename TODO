@@ -18,3 +18,59 @@ DONE:
       - kpat still uses the WidgetAt function when dropping cards. That
          means it is not possible to put the hot spot onto the middle of the
          dragged cards what would be better.
+
+DWORD   _current_RANDOM = 0;
+
+srand(WORD seed) {
+            _current_RANDOM=seed;
+}
+
+_random() {
+            current_random = 214013*current_random+2531011;
+            return (current_random >> 16) & 0x7fff;
+}
+
+#define     BLACK           0               // COLOUR(card)
+#define     RED             1
+
+#define     ACE             0               // VALUE(card)
+#define     DEUCE           1
+
+#define     CLUB            0               // SUIT(card)
+#define     DIAMOND         1
+#define     HEART           2
+#define     SPADE           3
+
+#define     SUIT(card)      ((card) % 4)
+#define     VALUE(card)     ((card) / 4)
+#define     COLOUR(card)    (SUIT(card) == DIAMOND || SUIT(card) ==
+HEART)
+
+#define     MAXPOS         21
+#define     MAXCOL          9    // includes top row as column 0
+CARD    card[MAXCOL][MAXPOS];    // current layout of cards, CARDs are
+ints
+
+    int  i, j;                // generic counters
+    int  col, pos;
+    int  wLeft = 52;          // cards left to be chosen in shuffle
+    CARD deck[52];            // deck of 52 unique cards
+
+    for (col = 0; col < MAXCOL; col++)          // clear the deck
+        for (pos = 0; pos < MAXPOS; pos++)
+            card[col][pos] = EMPTY;
+
+    /* shuffle cards */
+
+    for (i = 0; i < 52; i++)      // put unique card in each deck loc.
+        deck[i] = i;
+
+    srand(gamenumber);            // gamenumber is seed for rand()
+    for (i = 0; i < 52; i++)
+    {
+        j = rand() % wLeft;
+        card[(i%8)+1][i/8] = deck[j];
+        deck[j] = deck[--wLeft];
+    }
+
+

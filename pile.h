@@ -56,8 +56,9 @@ public:
     Card *top() const;
 
     void add( Card* c, bool facedown, bool spread); // for initial deal
-    void add( Card *c);
+    void add( Card *c, int index = -1);
     void remove(Card *c);
+    void clear();
 
     int index() const { return myIndex; }
     bool isEmpty() const { return myCards.count() == 0; }
@@ -73,6 +74,8 @@ public:
     virtual void moveBy(double dx, double dy);
 
     int cardsLeft() const { return myCards.count(); }
+
+    int indexOf(Card *c) const;
 
 protected:
     int   removeFlags;

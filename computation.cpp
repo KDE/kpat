@@ -117,7 +117,7 @@ bool Computation::step( const Pile* c1, const CardList& cl) {
 static class LocalDealerInfo2 : public DealerInfo
 {
 public:
-    LocalDealerInfo2() : DealerInfo(I18N_NOOP("&Calculation"), 6) {}
+    LocalDealerInfo2() : DealerInfo(I18N_NOOP("&Computation"), 6) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Computation(parent); }
 } gfi;
 

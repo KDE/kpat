@@ -43,7 +43,7 @@ pWidget::pWidget( const char* _name )
 {
     KStdAction::quit(kapp, SLOT(quit()), actionCollection(), "game_exit");
 
-    KStdAction::undo(this, SLOT(undoMove()),
+    undo = KStdAction::undo(this, SLOT(undoMove()),
                      actionCollection(), "undo_move");
     KAction *restart = KStdAction::openNew(this, SLOT(restart()),
                                            actionCollection(), "restart_game");
@@ -122,6 +122,11 @@ void pWidget::undoMove() {
         dill->undo();
 }
 
+void pWidget::undoPossible(bool poss)
+{
+    undo->setEnabled(poss);
+}
+
 void pWidget::changeBackside() {
     KConfig *config = kapp->config();
     KConfigGroupSaver kcs(config, settings_group);
@@ -143,7 +148,7 @@ void pWidget::animationChanged() {
 
 void pWidget::restart() {
     dill->resetSize(QSize(dill->visibleWidth(), dill->visibleHeight()));
-    dill->restart();
+    dill->startNew();
 }
 
 void pWidget::newGameType()
@@ -158,6 +163,10 @@ void pWidget::newGameType()
             break;
         }
     }
+
+    // it's a bit tricky - we have to do this here as the
+    // base class constructor runs before the derived class's
+    dill->takeState();
 
     if (!dill) {
         kdError() << "unimplemented game type " << id << endl;

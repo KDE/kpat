@@ -33,13 +33,13 @@ public:
     virtual Dealer *createGame(KMainWindow *parent) = 0;
 };
 
+class CardState;
+
+typedef QValueList<CardState> CardStateList;
+
 /***************************************************************
 
   Dealer -- abstract base class of all varieties of patience
-
-
-
-  MORE WORK IS NEEDED -- especially on allocation/deallocation
 
 ***************************************************************/
 class Dealer: public QCanvasView
@@ -56,12 +56,18 @@ public:
 
 public slots:
 
-    virtual void restart() = 0;
-    virtual void undo() {}
+    // restart is pure virtual, so we need something else
+    virtual void startNew();
     virtual void show() = 0;
+    void undo();
+    void takeState();
+
+signals:
+    void undoPossible(bool poss);
 
 protected:
 
+    virtual void restart() = 0;
     virtual void contentsMousePressEvent(QMouseEvent* e);
     virtual void contentsMouseMoveEvent( QMouseEvent* );
     virtual void contentsMouseReleaseEvent( QMouseEvent* );
@@ -76,6 +82,9 @@ protected:
 
 private:
 
+    CardStateList *getState();
+    void setState(CardStateList *);
+
     bool moved;
     CardList movingCards;
     QCanvasItemList marked;
@@ -84,6 +93,8 @@ private:
     void operator = ( Dealer& );  // don't allow copies or assignments
     QCanvas myCanvas;
     QSize maxsize;
+    QList<CardStateList> undoList;
+
 };
 
 #endif

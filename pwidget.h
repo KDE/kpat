@@ -44,13 +44,14 @@ protected slots:
     void animationChanged();
     void newGameType();
     void restart();
+    void undoPossible(bool poss);
 
 private:
     void setBackSide(const QString &id);
 
     Dealer* dill;
     KSelectAction *games;
-    KAction *backs;
+    KAction *backs, *undo;
     KToggleAction *animation;
 };
 
