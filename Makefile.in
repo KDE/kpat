@@ -50,10 +50,10 @@ ICONDIR = $(prefix)/share/icons
 OBJECTS	= main.o patience.o rnd.o cardmaps.o \
 	  computation.o klondike.o grandf.o ten.o\
 	  basiccard.o card.o napoleon.o idiot.o\
-	  microsol.o pwidget.o
+	  microsol.o pwidget.o freecell.o mod3.o
 SRCMETA	= patience.moc computation.moc klondike.moc\
-	  grandf.moc basiccard.moc card.moc\
-	  ten.moc napoleon.moc idiot.moc\
+	  grandf.moc basiccard.moc card.moc mod3.moc\
+	  ten.moc napoleon.moc idiot.moc freecell.moc\
 	  microsol.moc pwidget.moc cardmaps.moc
 
 PICS=1.bmp 2.bmp 3.bmp 4.bmp 5.bmp 6.bmp 7.bmp 8.bmp 9.bmp \
