@@ -77,6 +77,11 @@ public:
     int indexOf(const Card *c) const;
     Card *at(int index) const;
 
+    virtual QSize cardOffset( bool _spread, bool _facedown, const Card *before) const;
+
+    static int SPREAD;
+    static int DSPREAD;
+
 public slots:
     virtual void cardClicked(Card *c);
     virtual void cardDblClicked(Card *c);

@@ -574,10 +574,12 @@ bool Dealer::isGameWon() const
 }
 
 bool Dealer::checkRemove( int, const Pile *, const Card *) const {
+    kdDebug() << "checkRemove\n";
     return true;
 }
 
 bool Dealer::checkAdd   ( int, const Pile *, const CardList&) const {
+    kdDebug() << "checkAdd\n";
     return true;
 }
 

@@ -8,7 +8,7 @@ bin_PROGRAMS = kpat
 
 kpat_SOURCES = main.cpp cardmaps.cpp card.cpp dealer.cpp \
 	pwidget.cpp pile.cpp deck.cpp grandf.cpp klondike.cpp mod3.cpp \
-	idiot.cpp napoleon.cpp computation.cpp freecell.cpp gypsy.cpp
+	idiot.cpp napoleon.cpp computation.cpp freecell.cpp gypsy.cpp fortyeight.cpp 
 
 METASOURCES = AUTO
 

@@ -19,8 +19,8 @@ const int Pile::addSpread     = 0x0100;
 const int Pile::autoTurnTop   = 0x0200;
 const int Pile::wholeColumn   = 0x0400;
 
-const int SPREAD = 20;
-const int DSPREAD = 5;
+int Pile::SPREAD = 20;
+int Pile::DSPREAD = 5;
 
 Card *Pile::top() const
 {
@@ -182,12 +182,26 @@ void Pile::add( Card *_card, int index)
     }
 }
 
+QSize Pile::cardOffset( bool _spread, bool _facedown, const Card *before) const
+{
+    if (_spread) {
+        if (_facedown)
+            return QSize(0, DSPREAD);
+        else {
+            if (before && !before->isFaceUp())
+                return QSize(0, DSPREAD);
+            else
+                return QSize(0, SPREAD);
+        }
+    }
+
+    return QSize(0, 0);
+}
+
 /* override cardtype (for initial deal ) */
 void Pile::add( Card* _card, bool _facedown, bool _spread )
 {
     Card *t = top();
-
-    add(_card);
 
     if (visible()) {
         _card->show();
@@ -196,34 +210,30 @@ void Pile::add( Card* _card, bool _facedown, bool _spread )
 
     _card->turn( !_facedown );
 
-    int off = 0;
-    if (_spread) {
-        if (_facedown)
-            off = DSPREAD;
-        else {
-            if (t && !t->isFaceUp())
-                off = DSPREAD;
-            else
-                off = SPREAD;
-        }
-    }
+    QSize offset = cardOffset(_spread, _facedown, t);
+
     int x2, y2, z2;
 
     if (t) {
-        x2 = int(t->realX());
-        y2 = int(t->realY() + off);
+        x2 = int(t->realX() + offset.width());
+        y2 = int(t->realY() + offset.height());
         z2 = int(t->realZ() + 1);
     } else {
         x2 = int(x());
         y2 = int(y());
         z2 = int(z() + 1);
     }
+
+    add(_card);
+
     if (_facedown) {
         _card->move( x2, y2 );
         _card->setZ( z2 );
     } else {
         _card->animatedMove(x2, y2, z2, 10);
     }
+
+
 
     dealer()->enlargeCanvas(_card);
 }
@@ -291,7 +301,7 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
     Card *c = cl.first();
 
     Card *before = 0;
-    int off = 0;
+    QSize off;
 
     int steps = 5;
     if (!anim)
@@ -301,15 +311,10 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
     {
         if (c == *it) {
             if (before) {
-
-                if (addFlags & Pile::addSpread) {
-                    if (!before->isFaceUp())
-                        off = DSPREAD;
-                    else
-                        off = SPREAD;
-                }
-
-                c->animatedMove( before->realX(), before->realY() + off, before->realZ() + 1, steps);
+                off = cardOffset(addFlags & Pile::addSpread, false, before);
+                c->animatedMove( before->realX() + off.width(),
+                                 before->realY() + off.height(),
+                                 before->realZ() + 1, steps);
                 dealer()->enlargeCanvas(c);
             }
             else {
@@ -324,13 +329,13 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
     CardList::Iterator it = cl.begin(); // == c
     ++it;
 
-    off = 0;
-    if (addFlags & Pile::addSpread)
-        off = SPREAD;
+    off = cardOffset(addFlags & Pile::addSpread, false, 0);
 
     for (; it != cl.end(); ++it)
     {
-        (*it)->animatedMove( before->realX(), before->realY() + off, before->realZ() + 1, steps);
+        (*it)->animatedMove( before->realX() + off.width(),
+                             before->realY() + off.height(),
+                             before->realZ() + 1, steps);
         dealer()->enlargeCanvas(*it);
         before = *it;
     }

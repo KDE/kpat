@@ -40,6 +40,7 @@ private:
     Card *getCardByValue( char v );
     void deal();
 
+    bool checkStore(const Pile* c1, const CardList& c2) const;
     virtual bool checkAdd( int index, const Pile* c1, const CardList& c2) const;
 
     Deck *deck;

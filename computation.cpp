@@ -34,19 +34,16 @@ Computation::Computation( KMainWindow *parent, const char *name )
     :Dealer( parent, name)
 {
     deck = new Deck(0, this);
-
     deck->hide();
 
     for (int i = 0; i < 4; i++) {
         play[i] = new Pile(1 + i, this);
         play[i]->move(110 + i * 100, 150);
         play[i]->setAddFlags(Pile::addSpread);
-        play[i]->setRemoveFlags(Pile::several);
+        play[i]->setCheckIndex(1);
 
         target[i] = new Pile(5 + i, this);
         target[i]->move(110 + i * 100, 10);
-
-        target[i]->setAddFlags(Pile::several);
         target[i]->setRemoveFlags(Pile::disallow);
         target[i]->setCheckIndex(0);
         target[i]->setTarget(true);
@@ -68,8 +65,10 @@ void Computation::restart() {
 void Computation::deal() {
     while (!deck->isEmpty()) {
         Card *c = deck->nextCard();
-        pile->add(c, !deck->isEmpty(), false);
+        pile->add(c, true, false);
     }
+    // no animation
+    pile->top()->turn(true);
 }
 
 inline bool matches(const CardList &cl, Card *start, int offset)
@@ -84,9 +83,19 @@ inline bool matches(const CardList &cl, Card *start, int offset)
     return true;
 }
 
+bool Computation::checkStore( const Pile*, const CardList& cl) const
+{
+    if (cl.count() != 1)
+        return false;
+    return (cl.first()->source()->index() == 13);
+}
+
 bool Computation::checkAdd( int index, const Pile* c1, const CardList& cl) const
 {
-    assert(index == 0 && c1->index() >= 5 && c1->index() <= 8);
+    if (index == 1)
+        return checkStore(c1, cl);
+
+    assert(c1->index() >= 5 && c1->index() <= 8);
 
     int offset = c1->index() - 4;
 
@@ -101,7 +110,7 @@ bool Computation::checkAdd( int index, const Pile* c1, const CardList& cl) const
 static class LocalDealerInfo2 : public DealerInfo
 {
 public:
-    LocalDealerInfo2() : DealerInfo(I18N_NOOP("&Computation"), 6) {}
+    LocalDealerInfo2() : DealerInfo(I18N_NOOP("&Calculation"), 6) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Computation(parent); }
 } ldi2;
 
