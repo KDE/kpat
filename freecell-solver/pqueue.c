@@ -50,7 +50,7 @@ void freecell_solver_PQueueInitialise(
 }
 
 /* join a priority queue
-   returns TRUE if succesful, FALSE if fails. (You fail by filling the pqueue.)
+   returns TRUE if successful, FALSE if fails. (You fail by filling the pqueue.)
    PGetRating is a function which returns the rating of the item you're adding for sorting purposes */
 
 int freecell_solver_PQueuePush( PQUEUE *pq, void *item, pq_rating_t r)

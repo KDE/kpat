@@ -449,7 +449,7 @@ struct freecell_solver_hard_thread_struct
      * that is about to be checked. I decided to make them globals so
      * they won't have to be re-allocated and freed all the time.
      *
-     * Notice that it is only used with my internal hash implmentation
+     * Notice that it is only used with my internal hash implementation
      * as GLib requires a dedicated hash function, which cannot
      * access the instance.
      *
