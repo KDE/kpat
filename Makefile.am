@@ -29,7 +29,7 @@ apps_DATA = kpat.kdelnk
 appsdir = $(kde_appsdir)/Games
 
 messages:
-	@XGETTEXT@ -C -ktranslate -x ../../kdelibs/po/kde.pot *.cpp && mv messages.po ../po/kpat.pot
+	@XGETTEXT@ -C -ktranslate -ki18n -x ../../kdelibs/po/kde.pot *.cpp && mv messages.po ../po/kpat.pot
 
 # Dependencies
 basiccard.cpp:basiccard.moc
