@@ -158,7 +158,7 @@ bool Golf::isGameLost() const
 static class LocalDealerInfo13 : public DealerInfo
 {
 public:
-    LocalDealerInfo13() : DealerInfo(I18N_NOOP("G&olf"), 13) {}
+    LocalDealerInfo13() : DealerInfo(I18N_NOOP("Go&lf"), 13) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Golf(parent); }
 } ldi13;
 
