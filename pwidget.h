@@ -58,6 +58,7 @@ public slots:
     void gameLost();
     void changeWallpaper();
     void slotGameInfo(const QString &);
+    void slotSetMoves( int moves );
     void helpGame();
     void enableAutoDrop();
 	 void showStats();

@@ -150,6 +150,8 @@ pWidget::pWidget()
         game = max_type;
     games->setCurrentItem(game);
 
+    statusBar()->insertItem( "", 1, 0, true );
+    
     createGUI(QString::null, false);
     KAcceleratorManager::manage(menuBar());
 
@@ -281,6 +283,8 @@ void pWidget::newGame() {
 
 void pWidget::restart() {
     statusBar()->clear();
+    dill->resetMoves();
+    slotSetMoves( 0 );
     dill->startNew();
 }
 
@@ -301,6 +305,7 @@ void pWidget::newGameType()
 {
     delete dill;
     dill = 0;
+    slotSetMoves( 0 );
 
     uint id = games->currentItem();
     for (QValueList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin(); it != DealerInfoList::self()->games().end(); ++it) {
@@ -313,6 +318,8 @@ void pWidget::newGameType()
             connect(dill, SIGNAL(saveGame()), SLOT(saveGame()));
             connect(dill, SIGNAL(gameInfo(const QString&)),
                     SLOT(slotGameInfo(const QString &)));
+            connect(dill, SIGNAL(setMoves(int)),
+                    SLOT(slotSetMoves(int)));
             dill->setGameId(id);
             dill->setupActions();
             dill->setBackgroundPixmap(background, midcolor);
@@ -336,6 +343,8 @@ void pWidget::newGameType()
         dill = DealerInfoList::self()->games().first()->createGame(this);
     }
 
+    dill->resetMoves();
+    
     setGameCaption();
 
     KConfig *config = kapp->config();
@@ -361,6 +370,11 @@ void pWidget::showEvent(QShowEvent *e)
 void pWidget::slotGameInfo(const QString &text)
 {
     statusBar()->message(text, 3000);
+}
+
+void pWidget::slotSetMoves( int moves )
+{
+  statusBar()->changeItem( i18n("Moves: %1").arg( moves ), 1 );
 }
 
 void pWidget::setBackSide(const QString &deck, const QString &cards)

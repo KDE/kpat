@@ -34,7 +34,7 @@ Dealer *Dealer::s_instance = 0;
 Dealer::Dealer( KMainWindow* _parent , const char* _name )
     : QCanvasView( 0, _parent, _name ), towait(0), myActions(0),
 ademo(0), ahint(0), aredeal(0),
-      takeTargets(false), _won(false), _waiting(0), stop_demo_next(false), _autodrop(true)
+      takeTargets(false), _won(false), _waiting(0), stop_demo_next(false), _autodrop(true), moves(0)
 {
     setResizePolicy(QScrollView::Manual);
     setVScrollBarMode(AlwaysOff);
@@ -445,6 +445,8 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
             }
         }
         c->source()->moveCards(movingCards, (*best).source);
+        ++moves;
+        emit setMoves( moves );
         takeState();
     }
     movingCards.clear();
@@ -799,6 +801,7 @@ void Dealer::saveGame(QDomDocument &doc) {
     QString data = getGameState();
     if (!data.isEmpty())
         dealer.setAttribute("data", data);
+    dealer.setAttribute("moves", QString::number(moves));
 
     bool taken[1000];
     memset(taken, 0, sizeof(taken));
@@ -931,6 +934,9 @@ void Dealer::openGame(QDomDocument &doc)
         takeState(); // copying it again
         emit undoPossible(undoList.count() > 1);
     }
+    
+    emit setMoves( dealer.attribute("moves").toInt() );
+        
     takeState();
 }
 
@@ -941,6 +947,8 @@ void Dealer::undo()
     if (undoList.count() > 1) {
         undoList.removeLast(); // the current state
         setState(undoList.take(undoList.count() - 1));
+        --moves;
+        emit setMoves( moves );
         takeState(); // copying it again
         emit undoPossible(undoList.count() > 1);
     }
