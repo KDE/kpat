@@ -63,7 +63,7 @@ public:
     bool isEmpty() const { return myCards.count() == 0; }
 
     virtual void drawShape ( QPainter & p );
-    static const int RTTI = 1002;
+    static const int RTTI;
 
     virtual int rtti() const { return RTTI; }
 

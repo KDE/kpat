@@ -7,6 +7,8 @@
 #include <assert.h>
 #include "speeds.h"
 
+const int Pile::RTTI          = 1002;
+
 const int Pile::Default       = 0x0000;
 const int Pile::disallow      = 0x0001;
 const int Pile::several       = 0x0002; // default: move one card
