@@ -80,12 +80,15 @@ bool Idiot::cardClicked(Card *c)
 {
     if (c->source() == deck) {
         deal();
+	++moves;
+	emit setMoves(moves);
         return true;
     }
 
     if (c != c->source()->top())
         return false;
 
+    bool  didMove = true;
     if( canMoveAway(c) )
         away->add(c, false, false);
     else if( play[ 0 ]->isEmpty() )
@@ -96,6 +99,13 @@ bool Idiot::cardClicked(Card *c)
         play[2]->add( c, false, true);
     else if( play[ 3 ]->isEmpty() )
         play[3]->add(c, false, true);
+    else
+	didMove = false;
+
+    if (didMove) {
+	++moves;
+	emit setMoves(moves);
+    }
 
     return true; // may be a lie, but noone cares
 }

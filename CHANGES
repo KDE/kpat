@@ -1,3 +1,10 @@
+2004-10-14 Inge Wallin <inge@lysator.liu.se>
+
+	- fix bug 89755: Aces up move counter doesn't work (idiot.cpp)
+	- bump version to 2.2.1
+
+------------------ KDE 3.3.1 released here ---------------------
+
 since kpat-0.7.3 (18/Nov/1999) <kpat@incense.org>
 
 	- bugfix in idiot.cpp
