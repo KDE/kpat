@@ -1,4 +1,12 @@
-	- bugfix for "Grandfather"-hint
+since kpat-0.7  (11/Dec/1997)
+
+	- added "Mod3" game (Rodolfo)
+	- added "Freecell" game (Rodolfo)
+	- Deck class can now handle any multiple of 52 cards (Rodolfo)
+
+since kpat-0.6
+
+	- bugfix for "Grandfather"-hint (Rodolfo)
 	- new KDE FSSTND compliant
 	- depending on display colors sets either a 
 	  16 color or high color icon and miniicon

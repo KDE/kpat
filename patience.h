@@ -120,7 +120,7 @@ const DeckType=0;
 class Deck: public cardPos {
   Q_OBJECT
 public:
-  Deck( int x=0, int y=0, CardTable* parent=0 );
+  Deck( int x=0, int y=0, CardTable* parent=0, int m = 1 );
   virtual ~Deck();
 
   const long n=52;
@@ -138,7 +138,8 @@ private: // functions
 
 private:
   CardTable* f;
-  Card* deck[n];
+  int mult;
+  Card** deck;
   cardPos* sendBackPos;
 };
 

@@ -145,6 +145,7 @@ private slots:
   void restMove(); // place temporarily
 
 public:
+  int type() const {return cardType; }
   Card* next() const {return nextPtr; }
   Card* prev() const {return prevPtr; }
   Card* top() {	

@@ -32,6 +32,8 @@
 #include "ten.h"
 #include "idiot.h"
 #include "napoleon.h"
+#include "mod3.h"
+#include "freecell.h"
 #include <qpopmenu.h>
 #include <qkeycode.h>
 #include <kmenubar.h>
@@ -51,6 +53,8 @@
 #define PT_NAPOLEON	5
 #define PT_TEN		6
 #define PT_COMPUTATION	7
+#define PT_MOD3		8
+#define PT_FREECELL	9
 
 class pWidget: public KTopLevelWidget {
   Q_OBJECT

@@ -21,3 +21,21 @@ thanks to Paul Olav Tvete and Qt :-)
 Greets,
 
   Matthias
+
+
+
+----- original README (probably Paul):
+
+This is an implementation of patience (solitaire). It consists of a
+general class library and six games implemented using it.
+
+I wrote this program when learning Qt. There are a number of things I
+would have done differently now. One of the silliest is that all the
+intelligence lies in the cards (which are individual widgets, by the way)
+instead of in a Patience class.
+
+There are a lot of static variables. Don't try to instantiate more than one
+dealer at a time -- that way lies madness.
+
+The general base classes could doubtlessly have been a lot more general.
+

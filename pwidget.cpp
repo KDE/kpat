@@ -34,15 +34,17 @@
 #define ID_FQUIT	101
 
 // game menu
-#define ID_GUNDO	201
-#define ID_GRESTART	202
-#define ID_GNEWTYPE	203
-#define ID_GNKLONDIKE	(ID_GNEWTYPE + PT_KLONDIKE)
-#define ID_GNMSOLITAIRE	(ID_GNEWTYPE + PT_MSOLITAIRE)
-#define ID_GNIDIOT	(ID_GNEWTYPE + PT_IDIOT)
+#define ID_GUNDO		201
+#define ID_GRESTART		202
+#define ID_GNEWTYPE		203
+#define ID_GNKLONDIKE		(ID_GNEWTYPE + PT_KLONDIKE)
+#define ID_GNMSOLITAIRE		(ID_GNEWTYPE + PT_MSOLITAIRE)
+#define ID_GNIDIOT		(ID_GNEWTYPE + PT_IDIOT)
 #define ID_GNGRANDFATHER	(ID_GNEWTYPE + PT_GRANDFATHER)
-#define ID_GNNAPOLEON	(ID_GNEWTYPE + PT_NAPOLEON)
-#define ID_GNTEN	(ID_GNEWTYPE + PT_TEN)
+#define ID_GNNAPOLEON		(ID_GNEWTYPE + PT_NAPOLEON)
+#define ID_GNTEN		(ID_GNEWTYPE + PT_TEN)
+#define ID_GNMOD3		(ID_GNEWTYPE + PT_MOD3)
+#define ID_GNFREECELL		(ID_GNEWTYPE + PT_FREECELL)
 #define ID_GNCOMPUTATION	(ID_GNEWTYPE + PT_COMPUTATION)
 
 // option menu
@@ -104,6 +106,8 @@ pWidget::pWidget(QWidget *, const char *)
   popup->insertItem(locale->translate("The Idiot"), ID_GNIDIOT);
   popup->insertItem(locale->translate("Grandfather"), ID_GNGRANDFATHER);
   popup->insertItem(locale->translate("Ten"), ID_GNTEN);
+  popup->insertItem(locale->translate("Mod3"), ID_GNMOD3);
+  popup->insertItem(locale->translate("Freecell"), ID_GNFREECELL);
 
   p2->insertItem(locale->translate("Choose new game"), popup);
 
@@ -151,6 +155,8 @@ pWidget::pWidget(QWidget *, const char *)
   m->setAccel(CTRL+Key_I, ID_GNIDIOT);
   m->setAccel(CTRL+Key_G, ID_GNGRANDFATHER);
   m->setAccel(CTRL+Key_T, ID_GNTEN);
+  m->setAccel(CTRL+Key_3, ID_GNMOD3);
+  m->setAccel(CTRL+Key_F, ID_GNFREECELL);
   m->setAccel(CTRL+Key_Q, ID_FQUIT);
   m->setAccel(Key_F1, ID_HHELP);
   m->setAccel(CTRL+Key_Z, ID_GUNDO);
@@ -210,6 +216,8 @@ void pWidget::action(int id) {
   case ID_GNGRANDFATHER:
   case ID_GNNAPOLEON:
   case ID_GNTEN:
+  case ID_GNMOD3:
+  case ID_GNFREECELL:
   case ID_GNCOMPUTATION:
     actionNewGame(id);
     break;
@@ -257,6 +265,14 @@ void pWidget::actionNewGame(int id) {
   switch(id) {
   case ID_GNTEN:
     dill = new Ten(this, locale->translate("Ten"));
+    break;
+
+  case ID_GNMOD3:
+    dill = new Mod3(this, locale->translate("Mod3"));
+    break;
+
+  case ID_GNFREECELL:
+    dill = new Freecell(this, locale->translate("Freecell"));
     break;
 
   case ID_GNGRANDFATHER:
@@ -320,11 +336,12 @@ void pWidget::about() {
   QString s = locale->translate("KPat\n\nVersion ");
   s += KPAT_VERSION;
   s += locale->translate("\n" \
-    "Copyright (C) 1995  Paul Olav Tvete\n\n"\
-    "Additional work done by:\t\t \n"\
+    "Copyright (C) 1997  Paul Olav Tvete\n\n"\
+    "Additional work done by:\n"\
+    "\tRodolfo Borges\t<barrett@labma.ufrj.br>\n"\
     "\tMatthias Ettrich\t<ettrich@kde.org>\n"\
-    "\tMario Weilguni\t<mweilguni@sime.com>\n\n"\
-    "This program is part of the K Desktop Environment.\n"\
+    "\tMario Weilguni\t<mweilguni@sime.com>\n"\
+    "\nThis program is part of the K Desktop Environment.\n"\
     "Use help for license information.");
   KMsgBox::message(this, 
 		   locale->translate("About kpat"),

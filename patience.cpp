@@ -68,9 +68,12 @@ Card* Deck::getCard() {
 }
 
 
-Deck::Deck( int x=0, int y=0, CardTable* parent=0 ) 
-  : cardPos(x, y, parent, DeckType), f(parent)
+Deck::Deck( int x=0, int y=0, CardTable* parent=0, int m=1 ) 
+  : cardPos(x, y, parent, DeckType), f(parent), mult (m)
 { 
+  deck = new (Card *) [mult*n];
+  CHECK_PTR (deck);
+
   initMetaObject(); 
   makedeck(); 
   shuffle(); 
@@ -86,14 +89,15 @@ void Deck::makedeck() {
   show();
   for ( Card::Suits s = Card::Clubs; s <=  Card::Spades ; s++)
     for ( Card::Values  v = Card::Ace; v <= Card::King; v++)
-      (deck[i++] = new Card(v, s, f))->show();
+      for ( int m = 0; m < mult; m++)
+        (deck[i++] = new Card(v, s, f))->show();
 }
 
 Deck::~Deck() {
   unlinkAll();
   clearAllFlags();
   
-  for (int i=0; i < n; i++)
+  for (int i=0; i < mult*n; i++)
     delete deck[i];
 }
 
@@ -116,7 +120,7 @@ void Deck::shuffle() {
 
   Card* t;
   long z;
-  for (int i = n-1; i >= 1; i--) {
+  for (int i = mult*n-1; i >= 1; i--) {
     z = R.rInt(i);
     t = deck[z]; 
     deck[z] = deck[i]; 
@@ -127,7 +131,7 @@ void Deck::shuffle() {
 // add cards in deck[] to Deck
 void Deck::addToDeck() {
   Card *c = this;
-  for (int i = 0; i < n; i++) {
+  for (int i = 0; i < mult*n; i++) {
     c->add( deck[i], TRUE, FALSE );
     c = deck[i];
   }
@@ -137,7 +141,7 @@ void Deck::addToDeck() {
 void Deck::unlinkAll() {
   Card::stopMoving();
   
-  for (int i=0; i < n; i++)
+  for (int i=0; i < mult*n; i++)
     deck[i]->unlink();
 }
 
