@@ -374,7 +374,7 @@ void pWidget::slotGameInfo(const QString &text)
 
 void pWidget::slotSetMoves( int moves )
 {
-  statusBar()->changeItem( i18n("Moves: %1").arg( moves ), 1 );
+  statusBar()->changeItem( i18n("1 move", "%n moves", moves), 1 );
 }
 
 void pWidget::setBackSide(const QString &deck, const QString &cards)
