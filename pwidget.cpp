@@ -69,9 +69,9 @@ pWidget::pWidget( const char* _name )
     recent->loadEntries(KGlobal::config());
     (void)KStdAction::saveAs(this, SLOT(saveGame()),
                            actionCollection(), "save");
-    (void)new KAction(i18n("&Choose game..."), 0, this, SLOT(chooseGame()),
+    (void)new KAction(i18n("&Choose Game..."), 0, this, SLOT(chooseGame()),
                       actionCollection(), "choose_game");
-    (void)new KAction(i18n("&Restart game"), QString::fromLatin1("reload"), 0,
+    (void)new KAction(i18n("&Restart Game"), QString::fromLatin1("reload"), 0,
                       this, SLOT(restart()),
                       actionCollection(), "restart_game");
     (void)KStdAction::help(this, SLOT(helpGame()), actionCollection(), "help_game");
@@ -117,7 +117,7 @@ pWidget::pWidget( const char* _name )
                         SLOT(changeBackside()),
                         actionCollection(), "backside");
 
-    animation = new KToggleAction(i18n( "&Animation on startup" ),
+    animation = new KToggleAction(i18n( "&Animation on Startup" ),
                                   0, this, SLOT(animationChanged()),
                                   actionCollection(), "animation");
 
