@@ -21,14 +21,12 @@
 #include "global.h"
 
 KConfig *config = 0;
-QString PICDIR;
 
 int main( int argc, char **argv )
 {
   KApplication a( argc, argv, "kpat");
 
   config = a.getConfig();
-  PICDIR = a.kde_datadir() + "/kpat/pics/";
 
   pWidget *p = new pWidget(0);
   p->show();

@@ -69,9 +69,9 @@ pWidget::pWidget(QWidget *, const char *)
   // icon
   QPixmap pm;
   if(QColor::numBitPlanes() > 8)
-    pm = ICON("kpat.xpm");
+    pm = KGlobal::iconLoader()->loadApplicationIcon("kpat.xpm");
   else
-    pm = ICON("kpat-lq.xpm");
+    pm = KGlobal::iconLoader()->loadApplicationIcon("kpat-lq.xpm");
   KWM::setIcon(winId(), pm);
   KWM::setMiniIcon(winId(), pm);
   
@@ -333,11 +333,9 @@ void pWidget::setBackSide(int id) {
       config->setGroup("General Settings");
 	config->writeEntry("Backside", 0);
     } else {
-      QString fname("%1/back%2.bmp");
-      fname = fname.arg(PICDIR).arg(id);
-      QPixmap *pm = new QPixmap(fname);
-      if(pm->width() > 0 && pm->height() > 0) {
-	cardmaps->setBackSide(pm);
+      QPixmap pm = Icon(QString("back%1.png").arg(id));
+      if(pm.width() > 0 && pm.height() > 0) {
+	cardmaps->setBackSide(&pm);
 	config->setGroup("General Settings");
 	config->writeEntry("Backside", id);
       } else

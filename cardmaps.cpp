@@ -29,6 +29,8 @@
 #include <unistd.h>
 #include <qdatetime.h>
 #include <kconfig.h>
+#include <kglobal.h>
+#include <kiconloader.h>
 #include <config.h>
 
 int cardMaps::CARDX;
@@ -48,7 +50,7 @@ cardMaps::cardMaps( QObject* parent ) : QObject(parent, 0) {
     t1 = QTime::currentTime();
     w = new QWidget(0, "", 
 			     WStyle_Customize|WStyle_NoBorder|WStyle_Tool);
-    pm1.load((PICDIR + "back1.bmp"));
+    pm1 = Icon("back1.png");
     QWidget *dt = qApp->desktop();
     w->setBackgroundColor(darkGreen);  
     w->setGeometry((dt->width() - 510)/2, (dt->height() - 180)/2, 
@@ -94,13 +96,12 @@ cardMaps::cardMaps( QObject* parent ) : QObject(parent, 0) {
       break;
     }
 
-    imgname = QString("%s/%d.bmp").arg(PICDIR).arg(idx);
-    img[rank][suit] = new QPixmap(imgname);
+    img[rank][suit] = new QPixmap( Icon(QString("%1.png").arg(idx)) );
 
     if(img[rank][suit]->width() == 0 ||
        img[rank][suit]->height() == 0) {
       fprintf(stderr, 
-	      i18n("kpat: PANIC, cannot load card pixmap \"%s\"\n").ascii(),
+	      i18n("kpat: PANIC, cannot load card pixmap \"%1\"\n").ascii(),
 	      imgname.ascii());
       exit(1);
     }

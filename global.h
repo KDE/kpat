@@ -8,7 +8,6 @@
 #include <klocale.h>
 
 extern KConfig *config;
-extern QString PICDIR;
 extern KLocale *locale;
 
 #endif
