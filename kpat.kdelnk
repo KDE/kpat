@@ -3,5 +3,5 @@
 Name=Patience
 Exec=kpat
 Type=Application
-Info=Several nice card games
-Info[de]=Ein paar kleine Kartenspiele
+Comment=Several nice card games
+Comment[de]=Ein paar kleine Kartenspiele
