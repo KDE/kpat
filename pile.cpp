@@ -32,8 +32,9 @@ Card *Pile::top() const
 }
 
 Pile::Pile( int _index, Dealer* parent)
-    : QCanvasRectangle( parent->canvas() ), _dealer(parent), myIndex(_index), direction(0)
+    : QCanvasRectangle( parent->canvas() ), _dealer(parent), myIndex(_index), direction(0), _target(false)
 {
+    dealer()->addPile(this);
     QCanvasRectangle::setVisible(true); // default
     setSize( cardMap::CARDX, cardMap::CARDY );
     removeCheckFun = 0;
@@ -46,6 +47,8 @@ Pile::Pile( int _index, Dealer* parent)
 
 Pile::~Pile()
 {
+    dealer()->removePile(this);
+
     for (CardList::Iterator it = myCards.begin(); it != myCards.end(); ++it)
     {
         if ((*it)->source() != this) {

@@ -57,9 +57,12 @@ public:
     void setGameNumber(long gmn);
     long gameNumber() const;
 
-    virtual bool isGameWon() const = 0;
+    virtual bool isGameWon() const;
 
     void setViewSize(const QSize &size);
+
+    void addPile(Pile *p);
+    void removePile(Pile *p);
 
 public slots:
 

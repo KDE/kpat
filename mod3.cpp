@@ -30,15 +30,6 @@
 
 //-------------------------------------------------------------------------//
 
-void Mod3::restart()
-{
-    deck->collectAndShuffle();
-
-    deal();
-}
-
-//-------------------------------------------------------------------------//
-
 Mod3::Mod3( KMainWindow* parent, const char* _name)
         : Dealer( parent, _name )
 {
@@ -56,6 +47,7 @@ Mod3::Mod3( KMainWindow* parent, const char* _name)
             if( r < 3 ) {
                 stack[r][c]->setAddFun( &CanPut );
                 stack[r][c]->setLegalMove(moves);
+                stack[r][c]->setTarget(true);
             } else
                 stack[r][c]->setAddFlags( Pile::addSpread );
         }
@@ -97,6 +89,15 @@ bool Mod3::CanPut (const Pile *c1, const CardList &cl)
         return (c1->top()->value() == (c1->index()+1));
 
     return true;
+}
+
+//-------------------------------------------------------------------------//
+
+void Mod3::restart()
+{
+    deck->collectAndShuffle();
+
+    deal();
 }
 
 //-------------------------------------------------------------------------//
@@ -187,21 +188,6 @@ void Mod3::hint()
             }
         }
     }
-}
-
-bool Mod3::isGameWon() const
-{
-    if (!deck->isEmpty())
-        return false;
-
-    for (int c = 0; c < 8; c++)
-        if (!stack[3][c]->isEmpty())
-            return false;
-
-    // if all cards fit in the top three rows
-    // they are correctly set up
-    return true;
-
 }
 
 static class LocalDealerInfo7 : public DealerInfo

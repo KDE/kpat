@@ -58,6 +58,7 @@ Klondike::Klondike( bool easy, KMainWindow* _parent, const char* _name )
         target[i]->setAddFlags(Pile::Default);
         target[i]->setRemoveFlags(Pile::disallow);
         target[i]->setAddFun(&step1);
+        target[i]->setTarget(true);
     }
 
     deal();
@@ -210,16 +211,6 @@ void Klondike::cardDblClicked(Card *c) {
             }
         }
     }
-}
-
-bool Klondike::isGameWon() const
-{
-    if (!deck->isEmpty() || !pile->isEmpty())
-        return false;
-    for (int i = 0; i < 7; i++)
-        if (!play[i]->isEmpty())
-            return false;
-    return true;
 }
 
 static class LocalDealerInfo0 : public DealerInfo

@@ -42,8 +42,6 @@ class Grandf : public Dealer {
 public:
     Grandf( KMainWindow* parent=0, const char* name=0);
 
-    virtual bool isGameWon() const;
-
 public slots:
     void redeal();
     void deal();

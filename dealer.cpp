@@ -511,6 +511,17 @@ void Dealer::setGameNumber(long gmn)
     gamenumber = ((gmn + 31998) % 31999) + 1;
 }
 
+
+void Dealer::addPile(Pile *p)
+{
+    piles.append(p);
+}
+
+void Dealer::removePile(Pile *p)
+{
+    piles.remove(p);
+}
+
 void Dealer::won()
 {
     QCanvasItemList list = canvas()->allItems();
@@ -536,6 +547,16 @@ void Dealer::won()
     }
     canvas()->update();
     emit gameWon();
+}
+
+bool Dealer::isGameWon() const
+{
+    for (PileList::ConstIterator it = piles.begin(); it != piles.end(); ++it)
+    {
+        if (!(*it)->target() && !(*it)->isEmpty())
+            return false;
+    }
+    return true;
 }
 
 #include "dealer.moc"

@@ -30,7 +30,6 @@ public:
     Napoleon (KMainWindow* parent=0, const char* name=0);
 
     virtual void restart();
-    virtual bool isGameWon() const;
 
 public slots:
     void deal1();

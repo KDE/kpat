@@ -103,6 +103,7 @@ Grandf::Grandf( KMainWindow* parent, const char *name )
         target[i]->setRemoveFlags(Pile::disallow);
         target[i]->setAddFun(&step1);
         target[i]->setLegalMove(list);
+        target[i]->setTarget(true);
     }
 
     for (int i=0; i<7; i++) {
@@ -246,18 +247,6 @@ void Grandf::cardDblClicked(Card *c)
             }
         }
     }
-}
-
-bool Grandf::isGameWon() const
-{
-    if (!deck->isEmpty())
-        return false;
-
-    for (int i = 0; i < 7; i++)
-        if (!store[i]->isEmpty())
-            return false;
-
-    return true;
 }
 
 static class GrandfDealerInfo : public DealerInfo

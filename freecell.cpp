@@ -54,6 +54,7 @@ Freecell::Freecell( KMainWindow* parent, const char* name)
             store[i]->move(338+76*i, 8);
             store[i]->setRemoveFlags(Pile::disallow);
             store[i]->setAddFun(&CanPutStore);
+            store[i]->setTarget(true);
         }
     }
 
@@ -168,20 +169,6 @@ void Freecell::deal()
         column = (column + 1) % 8;
     }
 }
-
-bool Freecell::isGameWon() const
-{
-    for (int c = 0; c < 4; c++)
-        if (!freecell[c]->isEmpty())
-            return false;
-
-    for (int c = 0; c < 8; c++)
-        if (!stack[c]->isEmpty())
-            return false;
-
-    return true;
-}
-
 
 static class LocalDealerInfo8 : public DealerInfo
 {

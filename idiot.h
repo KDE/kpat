@@ -31,8 +31,6 @@ public:
 
     Idiot( KMainWindow* parent = 0, const char* name = 0 );
 
-    virtual bool isGameWon() const;
-
 protected:
     virtual void cardClicked(Card *);
 

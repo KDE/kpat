@@ -35,6 +35,7 @@ Idiot::Idiot( KMainWindow* parent, const char* _name)
 
     away = new Pile( 5, this );
     away->hide();
+    away->setTarget(true);
 
     for( int i = 0; i < 4; i++ )
     {
@@ -93,18 +94,6 @@ void Idiot::deal()
     if( !deck->isEmpty() )
         for( int i = 0; i < 4; i++ )
             play[ i ]->add( deck->nextCard(), false, true );
-}
-
-bool Idiot::isGameWon() const
-{
-    if (!deck->isEmpty())
-        return false;
-
-    for (int c = 0; c < 4; c++)
-        if (!play[c]->isEmpty())
-            return false;
-
-    return true;
 }
 
 static class LocalDealerInfo4 : public DealerInfo

@@ -51,6 +51,9 @@ public:
     void setAddFun( addCheckPtr f) { addCheckFun = f; }
     void setRemoveFun( removeCheckPtr f) { removeCheckFun = f; }
 
+    void setTarget(bool t) { _target = t; }
+    bool target() const { return _target; }
+
     CardList cardPressed(Card *c);
 
     Card *top() const;
@@ -88,6 +91,7 @@ private:
     Dealer *_dealer;
     int myIndex;
     int direction;
+    bool _target;
 };
 
 typedef QValueList<Pile*> PileList;

@@ -32,8 +32,6 @@ class Freecell : public Dealer
 public:
     Freecell( KMainWindow* parent=0, const char* name=0);
 
-    virtual bool isGameWon() const;
-
 public slots:
     void deal();
     virtual void restart();

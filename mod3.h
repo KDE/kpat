@@ -34,8 +34,6 @@ class Mod3 : public Dealer
 public:
     Mod3( KMainWindow* parent=0, const char* name=0);
 
-    virtual bool isGameWon() const;
-
 public slots:
     void redeal();
     void deal();

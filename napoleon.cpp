@@ -43,11 +43,13 @@ Napoleon::Napoleon( KMainWindow* parent, const char* _name )
         target[i] = new Pile( 6 + i, this);
         target[i]->setRemoveFlags( Pile::disallow );
         target[i]->setAddFun( &Ustep1 );
+        target[i]->setTarget(true);
     }
 
     centre = new Pile( 10, this );
     centre->setRemoveFlags( Pile::disallow );
     centre->setAddFun( &Dstep1 );
+    centre->setTarget(true);
 
     store[0]->move( 160,  10);
     store[1]->move( 270, 150);
@@ -105,21 +107,6 @@ void Napoleon::cardClicked(Card *c)
 
 void Napoleon::deal1() {
     pile->add(deck->nextCard(), false, false);
-}
-
-bool Napoleon::isGameWon() const
-{
-    if (!deck->isEmpty())
-        return false;
-
-    if (!pile->isEmpty())
-        return false;
-
-    for (int c = 0; c < 4; c++)
-        if (!store[c]->isEmpty())
-            return false;
-
-    return true;
 }
 
 static class LocalDealerInfo3 : public DealerInfo
