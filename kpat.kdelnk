@@ -3,6 +3,7 @@
 Name=Patience
 Name[pl]=Pasjans
 Name[fi]=Kärsivällisyys
+Name[hu]=Passziánsz
 Name[pt]=Paciência
 Exec=kpat
 Type=Application
@@ -11,4 +12,5 @@ Comment=Several nice card games
 Comment[de]=Ein paar kleine Kartenspiele
 Comment[pl]=Kilka ró¿nych pasjansów.
 Comment[fi]=Monia erilaisia korttipelejä
+Comment[hu]=Többfajta passziánsz játék
 Comment[pt]=Vários jogos de cartas
