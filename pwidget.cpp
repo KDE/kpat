@@ -125,6 +125,10 @@ pWidget::pWidget( const char* _name )
     KConfig *config = kapp->config();
     KConfigGroupSaver cs(config, settings_group );
 
+    QString bgpath = config->readEntry("Background");
+    if (!bgpath.isNull())
+         background = QPixmap(bgpath);
+
     bool animate = config->readBoolEntry( "Animation", true);
     animation->setChecked( animate );
 
@@ -132,7 +136,7 @@ pWidget::pWidget( const char* _name )
     if (game > max_type)
         game = max_type;
     games->setCurrentItem(game);
-
+    
     createGUI(QString::null, false);
 
     newGameType();
@@ -174,7 +178,8 @@ void pWidget::changeBackside() {
 
 void pWidget::changeWallpaper()
 {
-    background = QPixmap(locate("wallpaper", wallpaperlist[wallpapers->currentItem()]));
+    QString bgpath=locate("wallpaper", wallpaperlist[wallpapers->currentItem()]);
+    background = QPixmap(bgpath);
     QImage bg = background.convertToImage().convertDepth(8, 0);
     long r = 0;
     long g = 0;
@@ -199,6 +204,7 @@ void pWidget::changeWallpaper()
         QString dummy = config->readEntry("Cards");
         setBackSide(deck, dummy);
 
+	config->writeEntry("Background", bgpath);
         dill->setBackgroundPixmap(background, midcolor);
         dill->canvas()->setAllChanged();
         dill->canvas()->update();
