@@ -22,10 +22,23 @@
 <firstname>Stephan</firstname>
 <surname>Kulow</surname>
 </author>
+
 <othercredit role="reviewer">
 <firstname>Mike</firstname><surname>McBride</surname>
 <contrib>Reviewer</contrib>
 <affiliation><address><email>mpmcbride7@yahoo.com</email></address></affiliation>
+</othercredit>
+
+<othercredit role="developer">
+<firstname>Paul Olav</firstname>
+<surname>Tvete</surname>
+<contrib>Developer</contrib>
+</othercredit>
+
+<othercredit role="developer">
+<firstname>Stephan</firstname>
+<surname>Kulow</surname>
+<contrib>Developer</contrib>
 </othercredit>
 </authorgroup>
 
@@ -40,14 +53,14 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>14/02/2001</date>
+<date>18/02/2001</date>
 <releaseinfo>1.8.7</releaseinfo>
 <abstract>
 
-<para>This documentation was last updated for &kpat; version 1.8.7.
-Please make any comments and additions to the author.</para>
+<para>&kpat; is a highly addictive card game for &kde;</para>
 
 </abstract>
+
 <keywordset>
 <keyword>KDE</keyword>
 <keyword>game</keyword>
@@ -58,32 +71,33 @@ Please make any comments and additions to the author.</para>
 
 <chapter id="introduction">
 <title>Introduction</title>
+
 <para>
-To play a patience you need - as the name suggests: patience.
-For simple games, where the way the game goes depends only on
-how the cards fall, your patience is even the only thing you
-need.
-</para>
-<para>
-But there are also patience, where you also need to plan your
-strategy and think forehand to win.
+To play a patience you need - as the name suggests: patience.  For simple games,
+where the way the game goes depends only on how the cards fall, your patience is
+even the only thing you need.
 </para>
 
 <para>
-All games have in common, that you have to put the cards in
-a special order in moving, turning and reordering them.
+But there are also patience, where you also need to plan your strategy and think
+forehand to win.
 </para>
+
+<para>
+All games have in common that you have to put the cards in a special order in
+moving, turning and reordering them.
+</para>
+
 </chapter>
 
 <chapter id="rules">
 <title>Rules</title>
 
 <para>
-A card game contains one or two card decks of 52 cards each. Each deck
-contains the four deck colors:
+A card game contains one or two card decks of 52 cards each. Each deck contains
+the four deck colors:
 </para>
 
-<blockquote>
 <informaltable pgwide=0 frame=none>
 <tgroup cols=2>
 <colspec colwidth=90>
@@ -145,84 +159,79 @@ Diamonds
 </tbody>
 </tgroup>
 </informaltable>
-</blockquote>
 
 <para>
-Each of these colors contains itself the following cards types:
-as, two, three, four, five, six, seven, eight, nine, ten, jack, queen and
-king.
+Each of these colors contains itself the following cards types: ace, two, three,
+four, five, six, seven, eight, nine, ten, jack, queen and king.
 </para>
 
 <para>
-This complete order of cards is called a family. There are real families 
-and alternating ones. Die real families are all of one color (e.g. Hearts)
-while the alternating families the card color changes from one to another
-between a black color (Clubs and Spades) and a red color (Hearts and
-Diamonds).
+This complete order of cards is called a family. There are real families and
+alternating ones. The real families are all of one suit (&eg; Hearts) while the
+alternating families the card color changes from one to another between a black
+color (Clubs and Spades) and a red color (Hearts and Diamonds).
 </para>
 
 <para>
 If the family is not complete, it's called a sequence.
 </para>
 
-<para>
 <mediaobject>
 <imageobject><imagedata fileref="playfield.png" format="png"></imageobject>
 <textobject>
 <phrase>The game field of &kpat;</phrase>
 </textobject>
 </mediaobject>
-</para>
 
 <para>
-There are only a few different elements in typical patience game.
-These should be introduced in the following.
+There are only a few different elements in typical patience game.  These should
+be introduced in the following.
 </para>
 
 <variablelist>
-<varlistentry><term>1. Talon</term>
+<varlistentry><term>Talon</term>
 <listitem>
 <para>
-In the beginning of each game all cards are mixed in the deck. But 
-not in every game all cards are dealt out, but some reside in the 
-deck. These cards are put down on the so called Talon, which you can
-find quite easy as it is in most games the only pile showing the back
-side.
+In the beginning of each game all cards are mixed in the deck. But not in every
+game all cards are dealt out, but some reside in the deck. These cards are put
+down on the so called talon, which you can find quite easy as it is in most
+games the only pile showing the reverse.
 </para>
 
 <para>
-If no card shows the back side, all cards are dealt out and there is
-no talon. These card games are the hardest as there is no random 
-involved after the start of the game, so there is nothing to blame
+If no card shows the reverse side, all cards are dealt out and there is no
+talon. These card games are the hardest as there is no randomness involved after
+the start of the game, so there is nothing to blame
 </para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term>2. Waste Pile</term>
+<term>Waste Pile</term>
 <listitem>
 <para>
-Many games put cards from the talon first on a waste pile when you click
-on the backside of the top card on the talon.
+Many games put cards from the talon first on a waste pile when you click on the
+reverse of the top card on the talon.
 </para>
 
-<para>From there you can take the card (which is then face up) and put
+<para>
+From there you can take the card (which is then face up) and put
 it into the game. 
 </para>
+
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term>3. Foundation</term>
+<term>Foundation</term>
 <listitem>
 <para>
-The foundation piles is where you want to have your cards in the end. 
-If all cards end up there in the right order, you've won.
+The foundation piles is where you want to have your cards in the end.  If all
+cards end up there in the right order, you've won.
 </para>
 <para>
-In most card games these piles are empty in the beginning, but
-&kpat; drops cards there when it sees them fitting to save you
-this most often boring part.
+In most card games these piles are empty in the beginning, but &kpat; drops
+cards there when it sees them fitting to save you this most often boring part.
 </para>
 </listitem>
 </varlistentry>
@@ -231,10 +240,10 @@ this most often boring part.
 <term>4. Playing Piles</term>
 <listitem>
 <para>
-These piles are the ones where the actual reordering happens. The rules
-for these piles vary a lot between the games. Some show all cards on them,
-some not. Some allow only card to be removed, some allow every card to 
-be removed, etc. See the following chapters for details.
+These piles are the ones where the actual reordering happens. The rules for
+these piles vary a lot between the games. Some show all cards on them, some
+not. Some allow only card to be removed, some allow every card to be removed,
+etc. See the following chapters for details.
 </para>
 </listitem>
 </varlistentry>
@@ -259,19 +268,20 @@ operating system comes with it. It is played with one deck.
 </para>
 
 <para>
-Goal of Klondike is, to put all cards as real families rising on the
-foundation. This works usually pretty well as soon as all cards are
-lying face up in the playing piles. 
+Goal of Klondike is, to put all cards as real families ascending on the
+foundation. This works usually pretty well as soon as all cards are lying face
+up in the playing piles.
 </para>
 
 <para>
-The sequences on the game piles have to be put there falling while the
-cards should alternate in colors (red and black). You can move whole
-sequences or parts of it if the first card fits on another pile.
+The sequences on the game piles have to be put there descending while the cards
+should alternate in colors (red and black). You can move whole sequences or
+parts of it if the first card fits on another pile.
 </para>
+
 <para>
-On a free pile you can put a king of any color or a sequence starting with
-a king.
+On a free pile you can put a king of any color or a sequence starting with a
+king.
 </para>
 
 <para>
@@ -282,9 +292,9 @@ in clicking on the empty talon.
 </para>
 
 <para>
-You can look through the cards on the talon without any limit, but you
-should learn fast that you've lost if you can't find one card to move
-and that a new shift doesn't help you in finding new solutions.
+You can look through the cards on the talon without any limit, but you should
+learn fast that you've lost if you can't find one card to move and that a new
+shift doesn't help you in finding new solutions.
 </para>
 </sect1>
 
@@ -299,8 +309,8 @@ game.
 </para>
         
 <para>
-Grandfather deals one deck to seven playing piles while some cards on
-each pile are face down on initial deal.
+Grandfather deals one deck to seven playing piles while some cards on each pile
+are face down on initial deal.
 </para>
 
 <para>
@@ -308,26 +318,26 @@ The goal is to put all cards as real families rising on the foundations.
 </para>
 
 <para>
-You can move every card on every pile if it fits on another card to
-build a real sequence with falling order. For example you can move the 
-Spades Five on top of the Spades Six, no mater how many cards on are on top
-of the Spades Five. Just the Spades Six has to be on top of its pile.
+You can move every card on every pile if it fits on another card to build a real
+sequence with descending order. For example you can move the five of spades on
+top of the six of spades, no mater how many cards on are on top of the five of
+spades. Just the six of spades has to be on top of its pile.
 </para>
 
 <para>
-On a free pile you can place a king (again no mater how many cards are on
-top of it)
+On a free pile you can place a king (again no mater how many cards are on top of
+it)
 </para>
 
 <para>
-Can no more cards be moved, you can redeal up to two times. All cards
-already in the foundations stay there, but the cards in the playing
-piles are reordered to give you a new chance to find a solution.
+If no more cards can be moved, you can redeal up to two times. All cards already
+in the foundations stay there, but the cards in the playing piles are reordered
+to give you a new chance to find a solution.
 </para>
 
 <para>
-Even though the rules are simple and allow quite some moves, the game
-is still hard to win, but is still a joy to play (or because of that).
+Even though the rules are simple and allow quite some moves, the game is still
+hard to win, but is still a joy to play (or because of that).
 </para>
 </sect1>
 
@@ -336,27 +346,26 @@ is still hard to win, but is still a joy to play (or because of that).
 <anchor id="game_aces_up">
 
 <para>
-This patience has very simple rules, but is still hard to win.
-It is played with one deck and the goal is to put all cards beside
-the aces to the foundation. After that there should be an ace on 
-every playing pile left.
+This patience has very simple rules, but is still hard to win.  It is played
+with one deck and the goal is to put all cards beside the aces to the
+foundation. After that there should be an ace on every playing pile left.
 </para>
 
 <para>
-Each top card that is of the same color (e.g. Spades) and has a lower
-value than another top card (e.g. spades six and spades five) can be
-put on the foundation in clicking on it. 
+Each top card that is of the same color (&eg;. spades) and has a lower
+value than another top card (&eg; six of spades and five of spades) can be
+put on the foundation by clicking on it. 
 </para>
 
 <para>
-If you can't move any more cards to the foundation, you can get a new
-card for each playing pile in clicking on the talon.
+If you can't move any more cards to the foundation, you can get a new card for
+each playing pile in clicking on the talon.
 </para>
 
 <para>
-On a free pile you can move every other card on top of a pile. You should
-choose these moves to free piles the way that new cards can be moved to
-the foundation after that.
+On a free pile you can move every other card on top of a pile. You should choose
+these moves to free piles the way that new cards can be moved to the foundation
+after that.
 </para>
 
 <para>
@@ -369,116 +378,121 @@ the foundation after that.
 <anchor id="game_freecell">
 
 <para>
-Freecell is playing with one card deck. You have four free cells in the
-left top corner. Beside that there are the four foundation piles and below
-it there are eight playing piles.
+Freecell is playing with one card deck. You have four free cells in the left top
+corner. Beside that there are the four foundation piles and below it there are
+eight playing piles.
 </para>
 
 <para>
-The goal of the game is to have all cards as real families rising on
-the founation. This works quite often if you know how to play as freecell
-is solvable at a rate of 99.9% approximatly (of the first 32000 deals
-there is only one unsolvable - 11982 if you want to know).
+The goal of the game is to have all cards as real families rising on the
+founation. This works quite often if you know how to play as freecell is
+solvable at a rate of 99.9% approximatly (of the first 32000 deals there is only
+one unsolvable - 11982 if you want to know).
 </para>
 
 <para>
-In the playing piles you have to build falling sequences, where red and
-black cards alternate. In a free cell you can put any card if it the free
-cell is free.
+In the playing piles you have to build falling sequences, where red and black
+cards alternate. In a free cell you can put any card if it the free cell is
+free.
 </para>
 
 <para>
 You can only move one single card that lays on top of a pile or a free cell.
-Sequences can only be moved, if you have enough free room (free cells or
-free playing piles) to put the cards in between you move.
+Sequences can only be moved, if you have enough free room (free cells or free
+playing piles) to put the cards in between you move.
 </para>
 
 <para>
-The moving of sequences will be supported by &kpat; if there is enough
-room. The maximum of cards you can move is calculated by:</para>
+The moving of sequences will be supported by &kpat; if there is enough room. The
+maximum of cards you can move is calculated by:</para>
 
-<blockquote><sidebar><para>
+<sidebar><para>
 (#{free cells} + 1) * 2<superscript>#{free piles}</superscript>
-</para></sidebar></blockquote>
+</para></sidebar>
 
 <para>
 To solve this game it is recommended to grab the cards out of the playing
-sequences in the same order they have to be put into the foundation (first
-the aces, then the twos, etc.)
+sequences in the same order they have to be put into the foundation (first the
+aces, then the twos, &etc;)
 </para>
+
 <para>
-You should try to keep as many free cells and/or playing piles empty, so you
-can build as long sequences as possible.
+You should try to keep as many free cells and/or playing piles empty, so you can
+build as long sequences as possible.
 </para>
 
 </sect1>
 
 <sect1 id="napoleons_tomb">
 <title>Napoleon's Tomb<anchor id="game_napoleons_tomb"></title>
-<para>
-Napoleon's Tomb is played with one deck. Goal is to put all cards on the foundations
-as rising families without caring the card colors.
+
+<para>descending
+Napoleon's Tomb is played with one deck. Goal is to put all cards on the
+foundations as ascending families without caring about the card colors or suits.
 </para>
 
 <para>
-The foundation is made out of five piles, that are put as a X. On the four corners
-of this X you have to build sequences starting with seven and ending with king.
+The foundation is made out of five piles, that are put as a X. On the four
+corners of this X you have to build sequences starting with seven and ending
+with king.
 </para>
 
 <para>
-The pile in the middle takes four times the sequence from six down to ace. The color
-doesn't mater for all five piles.  
+The pile in the middle takes four times the sequence from six down to ace. The
+color doesn't mater for all five piles.
 </para>
 
 <para>
-The other four piles on the sides of the pile in the middle (or in between the X -
-however you want to put it) can take one card each to place cards temporarly.
+The other four piles on the sides of the pile in the middle (or in between the X
+- however you want to put it) can take one card each to place cards temporarly.
 You can go through the talon only once.
 </para>
 
 <para>
-[auto drop] ist disabled for this patience.
+[auto drop] is disabled for this patience.
 </para>
 </sect1>
 
 <sect1 id="mod3">
 <title>Mod3<anchor id="game_mod3"></title>
+
 <para>
-Mod-3 is played with two card decks without aces. Goal of the game is to 
-put all cards on the top three rows. In those you have to build sequences
-of the same color. In the first row you have to create the sequence 2-5-8-B,
-in the second row the sequence 3-6-9-D and in the third row the sequence
-4-7-10-K. The color of the cards has to be the same in each sequence, so you 
-can put a hearts five only on top of a hearts two.
+Mod-3 is played with two card decks without aces. Goal of the game is to put all
+cards on the top three rows. In those you have to build sequences of the same
+color. In the first row you have to create the sequence 2-5-8-B, in the second
+row the sequence 3-6-9-D and in the third row the sequence 4-7-10-K. The suit of
+the cards has to be the same in each sequence, so you can put a five of hearts
+only on top of a two of hearts.
 </para>
 
 <para>
-The fourth row is waste pile and playing pile at once. On an empty slot
-you can put any card from the first three rows or one of top of the
-fourth row.
+The fourth row is waste pile and playing pile at once. On an empty slot you can
+put any card from the first three rows or one of top of the fourth row.
 </para>
 
 <para>
-If you can't move any more cards, you can get new cards on the fourth
-row in clicking on the talon.
+If you can't move any more cards, you can get new cards on the fourth row in
+clicking on the talon.
 </para>
 
 <para>
-[auto drop] is disabled at this patience.
+[auto drop] is disabled for this patience.
 </para>
 </sect1>
 
 <sect1 id="calculation">
 <title>Calculation<anchor id="game_calculation"></title>
+
 <para>
-Calculation is surely a patience you have to get used to. It is played with
-one card deck and the goal of the game is to put all cards in the four 
-foundation piles as rising families without caring the color of the cards.
+Calculation is surely a patience you have to get used to. It is played with one
+card deck and the goal of the game is to put all cards in the four foundation
+piles as ascending families without caring the color of the cards.
 </para>
 
 <para>
 For the foundation you have to follow these orders:
 </para>
+
 <blockquote>
 <informaltable pgwide=0>
 <tgroup cols=2>
@@ -516,120 +530,123 @@ You should do this, so you can put following cards easier on the foundation.
 
 <sect1 id="gypsy">
 <title>Gypsy<anchor id="game_gypsy"></title>
+
 <para>
-Gypsy is played with two card decks. Goal of the game is to put all cards
-in real families rising on the foundation.
+Gypsy is played with two card decks. Goal of the game is to put all cards in
+real families ascending on the foundation.
 </para>
 
 <para>
-The playing piles have to be falling while red and black cards have to
-alternate. You can only move sequences or single cards. On a free slot you
-can put any card or sequence.
+The playing piles have to be descending while red and black cards have to
+alternate. You can only move sequences or single cards. On a free slot you can
+put any card or sequence.
 </para>
 
 <para>
-If you can't move any more cards, you can click on the talon to get a new
-bunch of cards on each playing pile.
+If you can't move any more cards, you can click on the talon to get a new bunch
+of cards on each playing pile.
 </para>
 
 <para>
-In using the undo feature you can ease the game quite a lot as you have to
-take quite some decisions and some of them might turn out to be wrong after
-you clicked the talon.
+In using the undo feature you can ease the game quite a lot as you have to take
+quite some decisions and some of them might turn out to be wrong after you
+clicked the talon.
 </para>
 </sect1>
 
 <sect1 id="forty_and_eight">
 <title>Forty And Eight<anchor id="game_forty_and_eight"></title>
+
 <para>
 Forty and Eight is played with two card decks. Goal of the game is to put all
 cards as real families on the foundation.
 </para>
 
 <para>
-The playing piles have to be falling while you have to care about colors.
-So you can only put a hearts five on a hearts six. 
+The playing piles have to be falling while you have to care about colors.  So
+you can only put a five of hearts on a six of hearts.
 </para>
 
 <para>
-You can only move one single card on top of a pile. In a free slot you can
-put any card.
+You can only move one single card on top of a pile. In a free slot you can put
+any card.
 </para>
 
 <para>
 In clicking on the talon you can put a card on the waste pile, from where you
 can put it on a playing pile or the foundation (this will do &kpat; for you).
 Is the talon empty you can put all cards on the waste pile back on the talon.
-This works only once, after the second time the talon empties, the game is
-over.
+This works only once, after the second time the talon empties, the game is over.
 </para>
 
 <para>
 This patience isn't really easy to solve, but with some experience, you can
-solve quite some deals. Especially if you use the undo feature from time to
-time to correct your and the decisions &kpat; does in putting cards on the
+solve many deals, especially if you use the undo feature from time to time to
+correct your decisions, and the decisions &kpat; does in putting cards on the
 foundation.
 </para>
 </sect1>
 
 <sect1 id="simple_simon">
 <title>Simple Simon<anchor id="game_simple_simon"></title>
+
 <para>
-Simple Simon is played wit one card deck. Goal of the game is to put all
-cards as real families on the foundation.
+Simple Simon is played wit one card deck. Goal of the game is to put all cards
+as real families on the foundation.
 </para>
 
 <para>
-In the playing piles you can build sequences. In general you don't have
-to care about the colors of the cards, but sequences can only be moved
-if they are part of a real sequence. (e.g. you can move the spades six
-only if on top of it is the spades five and not move it if on top of it
-is the clubs five).
+In the playing piles you can build sequences. In general you don't have to care
+about the suits of the cards, but sequences can only be moved if they are part
+of a real sequence. (&eg; you can move the six of spades only if on top of it is
+the five of spades and not move it if on top of it is the five of clubs).
 </para>
 
 <para>
-The cards can only be moved to the foundation if all 13 cards of one family
-lay on top of each other in the playing piles. 
+The cards can only be moved to the foundation if all 13 cards of one family lay
+on top of each other in the playing piles.
 </para>
 
-<note>
+<tip>
 <title>Suggestion</title>
 <para>
-You should try as soon as possible to move away the cards on the right piles
-to get free piles to place cards temporarly as you can put on those any card.
+You should try as soon as possible to move away the cards on the right piles to
+get free piles to place cards temporarly as you can put on those any card.
 </para>
 
 <para>
-With enough free room you can build families on free slots independently of
-the color. If you have all cards in such families you can sort them after
-their color, so they can be moved to the foundation.
+With enough free room you can build families on free slots independently of the
+color. If you have all cards in such families you can sort them after their
+color, so they can be moved to the foundation.
 </para>
-</note>
+</tip>
+
 </sect1>
 
 <sect1 id="yukon">
 <title>Yukon<anchor id="game_yukon"></title>
 
 <para>
-Yukon is played with one card deck. Goal of the game is to put all cards
-as real families rising on the foundation.
+Yukon is played with one card deck. Goal of the game is to put all cards as real
+families rising on the foundation.
 </para>
 
 <para>
-The sequences on the playing piles have to be falling with alternating
-red and black cards. You can move every face up card no mater how many
-cards are on top of it. So you can put a spades five on a spades six
-if this one is on top of its pile.
+The sequences on the playing piles have to be falling with alternating red and
+black cards. You can move every face up card no mater how many cards are on top
+of it. So you can put a five of spades on a six of spades if this one is on top
+of its pile.
 </para>
 
 <para>
-In a free slot you can put any card (again: no mater how many cards are
-on top of it)
+In a free slot you can put any card (again, no matter how many cards are on top
+of it)
 </para>
 </sect1>
 
 <sect1 id="grandfathers_clock">
 <title>Granfather's Clock<anchor id="game_grandfathers_clock"></title>
+
 <para>
 Grandfather's clock is a simple patience and after some experiments you should
 be able to solve most deals. It is played with one card deck and goal of the
@@ -637,43 +654,47 @@ game is put the cards as real rising sequences on the foundation.
 </para>
 
 <para>
-The foundation is on the right side and consists of 12 piles that form
-the shape of a clock. The ace is on one o'clock, jack is on 11 o'clock
-and queen on 12 o'clock.
+The foundation is on the right side and consists of 12 piles that form the shape
+of a clock. The ace is on one o'clock, jack is on 11 o'clock and queen on 12
+o'clock.
 </para>
 
 <para>
 There are 8 playing piles beside the clock and on each are 5 cards.On the
-playing piles you can build falling sequences without caring on the color
-of the cards. You can only move one single card at a time.
+playing piles you can build falling sequences without caring on the color of the
+cards. You can only move one single card at a time.
 </para>
-<para>[auto drop] is disable for this patience.</para>
+
+<para>[auto drop] is disabled for this patience.</para>
+
 </sect1>
 
 <sect1 id="kings">
 <title>Kings<anchor id="game_kings"></title>
+
 <para>
-The patience Kings is played with two card decks. The cards are dealt in a
-way that below each playing pile is a king. The cards between two kings
-are put on of them (the first cards are obviously put on the first king).
-This way you can get piles with <emphasis>very</emphasis> different lenghts.
+The patience Kings is played with two card decks. The cards are dealt in a way
+that below each playing pile is a king. The cards between two kings are put on
+of them (the first cards are obviously put on the first king).  This way you can
+get piles with <emphasis>very</emphasis> different lenghts.
 </para>
 
 <para>
-Goal of the game is to put all cards as real families rising on the foundation
-(on the right side of the playing piles).
+Goal of the game is to put all cards as real families ascending on the
+foundation (on the right side of the playing piles).
 </para>
 
 <para>
-The sequences on the playing piles have to be falling while red and black
-cards have to alternate. Several cards can only be moved when they are part
-of an alternating sequence.
+The sequences on the playing piles have to be descending while red and black
+cards have to alternate. Several cards can only be moved when they are part of
+an alternating sequence.
 </para>
 
 <para>
-In the 8 free cells on the top of the playing field you can put a single
-card temporarly. On a free playing pile you can put any card or sequence.
+In the 8 free cells on the top of the playing field you can put a single card
+temporarly. On a free playing pile you can put any card or sequence.
 </para>
+
 </sect1>
 
 </chapter>
@@ -684,21 +705,26 @@ card temporarly. On a free playing pile you can put any card or sequence.
 <para>
 &kpat; Copyright 1995-2000  Paul Olav Tvete 
 </para>
+
 <para>
 &kpat; Copyright 2001 Stephan Kulow
 <email>coolo@kde.org</email>
 </para>
+
 <para>
 Freecell Solver by Shlomi Fish
 <email>shlomif@vipe.technion.ac.il</email>
 </para
+
 <para>
 Documentation Copyright 2000 Paul Olav Tvete 
 </para>
+
 <para>
 Documentation updated for KDE 2.0 by Michael McBride
 <email>mpmcbride7@yahoo.com</email>
 </para>
+
 <para>
 Documentation updated for KDE 2.1 by Maren Pakura
 <email>maren@kde.org</email>
