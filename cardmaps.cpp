@@ -40,9 +40,6 @@
 #include <kcarddialog.h>
 #include <assert.h>
 
-int cardMap::CARDX = 72;
-int cardMap::CARDY = 96;
-
 cardMap *cardMap::_self = 0;
 static KStaticDeleter<cardMap> cms;
 
@@ -50,23 +47,18 @@ cardMap::cardMap(const QColor &dim) : dimcolor(dim)
 {
     assert(!_self);
 
+    card_width = 0;
+    card_height = 0;
+
     kdDebug(11111) << "cardMap\n";
     KConfig *config = kapp->config();
     KConfigGroupSaver cs(config, settings_group );
 
-    QString bg = config->readEntry( "Back", KCardDialog::getRandomDeck());
-    if (!setBackSide( bg )) {
-        bg = KCardDialog::getRandomDeck();
-        config->writeEntry( "Back", bg);
-        setBackSide( bg );
-    }
+    QString bg = config->readEntry( "Back", KCardDialog::getDefaultDeck());
+    setBackSide( bg, false);
 
-    QString dir = config->readEntry("Cards",  KCardDialog::getRandomCardDir());
-    if (!setCardDir( dir )) {
-        dir = KCardDialog::getRandomCardDir();
-        config->writeEntry("Cards", dir);
-        setCardDir( dir );
-    }
+    QString dir = config->readEntry("Cards",  KCardDialog::getDefaultCardDir());
+    setCardDir( dir );
 
     _self = cms.setObject(this);
 //    kdDebug(11111) << "card " << CARDX << " " << CARDY << endl;
@@ -85,30 +77,53 @@ bool cardMap::setCardDir( const QString &dir)
     QPainter p;
     QTime t1, t2;
 
+    QString imgname = KCardDialog::getCardPath(dir, 11);
+
+    QImage image;
+    image.load(imgname);
+    if( image.isNull()) {
+        kdDebug(11111) << "cannot load card pixmap \"" << imgname << "\" in " << dir << "\n";
+        p.end();
+        delete w;
+        return false;
+    }
+
+    int old_card_width = card_width;
+    int old_card_height = card_height;
+
+    card_width = image.width();
+    card_height = image.height();
+
+    const int diff_x_between_cards = QMAX(card_width / 9, 1);
+    QString wait_message = i18n("please wait, loading cards...");
+    QString greeting = i18n("KPatience - a Solitaire game");
+
+    const int greeting_width = 20 + diff_x_between_cards * 52 + card_width;
+
     if( animate ) {
         t1 = QTime::currentTime();
         w = new QWidget( 0, "", Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool );
         QWidget* dt = qApp->desktop();
         w->setBackgroundColor( Qt::darkGreen );
-        w->setGeometry( ( dt->width() - 510 ) / 2, ( dt->height() - 180 ) / 2, 510, 180);
+        w->setGeometry( ( dt->width() - greeting_width ) / 2, ( dt->height() - 180 ) / 2, greeting_width, 180);
         w->show();
         qApp->processEvents();
 
         p.begin( w );
-        p.drawText(0, 150, 510, 20, Qt::AlignCenter,
-                   i18n("please wait, loading cards..."));
+        p.drawText(0, 150, greeting_width, 20, Qt::AlignCenter,
+                   wait_message );
 
         p.setFont(QFont("Times", 24));
-        p.drawText(0, 0, 510, 40, Qt::AlignCenter,
-                   i18n("KPatience - a Solitaire game"));
+        p.drawText(0, 0, greeting_width, 40, Qt::AlignCenter,
+                   greeting);
 
         p.setPen(QPen(QColor(0, 0, 0), 4));
         p.setBrush(Qt::NoBrush);
-        p.drawRect(0, 0, 510, 180);
+        p.drawRect(0, 0, greeting_width, 180);
         p.flush();
     }
 
-    QString imgname;
+    setBackSide(back, true);
 
     for(int idx = 1; idx < 53; idx++)
     {
@@ -135,16 +150,19 @@ bool cardMap::setCardDir( const QString &dir)
         }
 
         imgname = KCardDialog::getCardPath(dir, idx);
-
-        QImage image;
         image.load(imgname);
 
-        if( image.isNull()) {
+        if( image.isNull() || image.width() != card_width || image.height() != card_height ) {
             kdDebug(11111) << "cannot load card pixmap \"" << imgname << "\" in (" << idx << ") " << dir << "\n";
             p.end();
             delete w;
+            card_width = old_card_width;
+            card_height = old_card_height;
+
+            setBackSide(back, true);
             return false;
         }
+
         img[rank][suit].normal.convertFromImage(image);
         KImageEffect::fade(image, 0.4, dimcolor);
         img[rank][suit].inverted.convertFromImage(image);
@@ -152,48 +170,52 @@ bool cardMap::setCardDir( const QString &dir)
         if( animate )
         {
             if( idx > 1 )
-                p.drawPixmap( 10 + ( idx - 1 ) * 8, 45, back );
-            p.drawPixmap( 10 + idx * 8, 45, img[ rank ][ suit ].normal );
+                p.drawPixmap( 10 + ( idx - 1 ) * diff_x_between_cards, 45, back );
+            p.drawPixmap( 10 + idx * diff_x_between_cards, 45, img[ rank ][ suit ].normal );
             p.flush();
         }
     }
 
     if( animate )
     {
+        const int time_to_see = 900;
         p.end();
         t2 = QTime::currentTime();
-        if(t1.msecsTo(t2) < 1500)
-            usleep((1500-t1.msecsTo(t2))*1000);
+        if(t1.msecsTo(t2) < time_to_see)
+          usleep((time_to_see-t1.msecsTo(t2))*1000);
         delete w;
     }
 
     return true;
 }
 
-bool cardMap::setBackSide( const QPixmap &pm )
+bool cardMap::setBackSide( const QPixmap &pm, bool scale )
 {
     if (pm.isNull())
         return false;
 
     back = pm;
 
-    if (!CARDX || !CARDY) {
-        CARDX = back.width();
-        CARDY = back.height();
-    }
-
-    if(back.width() != CARDX ||
-       back.height() != CARDY)
+    if(scale && (back.width() != card_width ||
+                 back.height() != card_height))
     {
-        kdDebug(11111) << "scaling back¡!!\n";
+        kdDebug(11111) << "scaling back!!\n";
         // scale to fit size
         QWMatrix wm;
-        wm.scale(((float)(CARDX))/back.width(),
-                 ((float)(CARDY))/back.height());
+        wm.scale(((float)(card_width))/back.width(),
+                 ((float)(card_height))/back.height());
         back = back.xForm(wm);
     }
 
     return true;
+}
+
+int cardMap::CARDX() {
+    return self()->card_width; // 72;
+}
+
+int cardMap::CARDY() {
+    return self()->card_height; // 96;
 }
 
 QPixmap cardMap::backSide() const

@@ -28,6 +28,8 @@ void DealerInfoList::add(DealerInfo *dealer)
     list.append(dealer);
 }
 
+Dealer *Dealer::s_instance = 0;
+
 Dealer::Dealer( KMainWindow* _parent , const char* _name )
     : QCanvasView( 0, _parent, _name ), towait(0), myActions(0),
 ademo(0), ahint(0), aredeal(0),
@@ -44,14 +46,23 @@ takeTargets(false), _won(false), _waiting(0), stop_demo_next(false)
     undoList.setAutoDelete(true);
     demotimer = new QTimer(this);
     connect(demotimer, SIGNAL(timeout()), SLOT(demo()));
+    assert(!s_instance);
+    s_instance = this;
+}
+
+const Dealer *Dealer::instance()
+{
+    return s_instance;
 }
 
 void Dealer::setBackgroundPixmap(const QPixmap &background, const QColor &midcolor)
 {
     _midcolor = midcolor;
     canvas()->setBackgroundPixmap(background);
-    for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
+    for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it) {
         (*it)->resetCache();
+        (*it)->initSizes();
+    }
 }
 
 void Dealer::setupActions() {
@@ -95,6 +106,9 @@ Dealer::~Dealer()
 
     while (!piles.isEmpty())
         delete piles.first(); // removes itself
+
+    if (s_instance == this)
+        s_instance = 0;
 }
 
 KMainWindow *Dealer::parent() const
@@ -183,6 +197,11 @@ void Dealer::clearHints()
 void Dealer::newHint(MoveHint *mh)
 {
     hints.append(mh);
+}
+
+bool Dealer::isMoving(Card *c) const
+{
+    return movingCards.find(c) != movingCards.end();
 }
 
 void Dealer::contentsMouseMoveEvent(QMouseEvent* e)
@@ -279,21 +298,28 @@ void Dealer::contentsMousePressEvent(QMouseEvent* e)
         if (list.first()->rtti() == Card::RTTI) {
             Card *c = dynamic_cast<Card*>(list.first());
             assert(c);
-            movingCards = c->source()->cardPressed(c);
+            CardList mycards = c->source()->cardPressed(c);
+            for (CardList::Iterator it = mycards.begin(); it != mycards.end(); ++it)
+                (*it)->setAnimated(false);
+            movingCards = mycards;
             moving_start = e->pos();
-            return;
         }
+        return;
     }
 
     if (e->button() == RightButton) {
         if (list.first()->rtti() == Card::RTTI) {
             Card *preview = dynamic_cast<Card*>(list.first());
             assert(preview);
-            preview->getUp();
+            if (!preview->animated() && !isMoving(preview))
+                preview->getUp();
         }
+        return;
     }
 
-    movingCards.clear();
+    // if it's nothing else, we move the cards back
+    contentsMouseReleaseEvent(e);
+
 }
 
 class Hit {
@@ -495,7 +521,6 @@ void Dealer::resizeEvent(QResizeEvent *e)
 }
 
 void Dealer::cardClicked(Card *c) {
-    kdDebug(11111) << "card clicked " << c->name() << endl;
     c->source()->cardClicked(c);
 }
 
@@ -506,8 +531,6 @@ void Dealer::pileClicked(Pile *c) {
 void Dealer::cardDblClicked(Card *c)
 {
     c->source()->cardDblClicked(c);
-
-    kdDebug(11111) << "card dbl clicked " << c->name() << endl;
 
     if (c->animated())
         return;
@@ -611,8 +634,9 @@ public:
                 y == rhs.y && z == rhs.z && faceup == rhs.faceup &&
                 i == rhs.i && tookdown == rhs.tookdown);
     }
-
 };
+
+
 
 typedef class QValueList<CardState> CardStateList;
 
@@ -646,8 +670,10 @@ void Dealer::loadCardState( QDataStream& s, CardState& l, CardList &toload) {
     s >> index;
     l.source = 0;
     for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
-        if ((*it)->index() == index)
+        if ((*it)->index() == index) {
             l.source = *it;
+            kdDebug() << l.it->name() << " has already a source\n";
+        }
     assert(l.source);
     Q_INT8 tookdown, faceup, i;
     Q_INT16 x, y, z;
@@ -755,10 +781,10 @@ void Dealer::takeState()
     }
 
     if (n) {
-		if (isGameLost()){
-			emit gameLost();	
-	    	return;
-			}
+        if (isGameLost()){
+            emit gameLost();
+            return;
+        }
         else if (isGameWon()) {
             won();
             return;
@@ -770,10 +796,10 @@ void Dealer::takeState()
 }
 
 void Dealer::saveGame(QDataStream &s) {
-    s << 0; // file format
+    s << (Q_UINT32)0; // file format
     s << _id; // dealer number
     s << Q_ULONG (gameNumber());
-    s << undoList.count();
+    s << Q_UINT32(undoList.count());
     QPtrListIterator<State> it(undoList);
 
     for (; it.current(); ++it)
@@ -790,7 +816,7 @@ void Dealer::openGame(QDataStream &s)
     Q_ULONG gn;
     s >> gn;
     setGameNumber(gn);
-    uint count;
+    Q_UINT32 count;
     s >> count;
     undoList.clear();
 
@@ -1005,6 +1031,9 @@ MoveHint *Dealer::chooseHint()
 }
 
 void Dealer::demo() {
+    if (waiting())
+        return;
+
     if (stop_demo_next) {
         stopDemo();
         return;
@@ -1114,8 +1143,7 @@ bool Dealer::isGameWon() const
 
 bool Dealer::isGameLost() const
 {
-//PCG: assume not, let the individual games decide.
-	return false;
+    return false;
 }
 
 bool Dealer::checkRemove( int, const Pile *, const Card *) const {
@@ -1129,7 +1157,7 @@ bool Dealer::checkAdd( int, const Pile *, const CardList&) const {
 void Dealer::drawPile(KPixmap &pixmap, Pile *pile, bool selected)
 {
     QPixmap bg = myCanvas.backgroundPixmap();
-    QRect bounding(int(pile->x()), int(pile->y()), cardMap::CARDX, cardMap::CARDY);
+    QRect bounding(int(pile->x()), int(pile->y()), cardMap::CARDX(), cardMap::CARDY());
 
     pixmap.resize(bounding.width(), bounding.height());
     pixmap.fill(Qt::white);
@@ -1162,7 +1190,7 @@ void Dealer::drawPile(KPixmap &pixmap, Pile *pile, bool selected)
     }
 
 
-    float s = -0.1;
+    float s = -0.4;
     float n = -0.3;
 
     int mid = (midColor().red() + midColor().green() + midColor().blue()) / 3;

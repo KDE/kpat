@@ -3,6 +3,7 @@
 #include "deck.h"
 #include "pile.h"
 #include <assert.h>
+#include "cardmaps.h"
 
 HorLeftPile::HorLeftPile( int _index, Dealer* parent)
     : Pile(_index, parent)
@@ -21,22 +22,26 @@ Fortyeight::Fortyeight( KMainWindow* parent, const char* name)
         : Dealer(parent,name)
 {
     deck = new Deck(0, this, 2);
+
+    const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
+    const int dist_y = cardMap::CARDY() * 11 / 10 + 1;
+
     connect(deck, SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
-    deck->move(600, 450);
+    deck->move(10 + cardMap::CARDX() * 82 / 10, 10 + cardMap::CARDX() * 56 / 10);
     deck->setZ(20);
 
     pile = new HorLeftPile(13, this);
     pile->setAddFlags(Pile::addSpread | Pile::disallow);
-    pile->move(510, 450);
+    pile->move(10 + cardMap::CARDX() * 69 / 10, 10 + cardMap::CARDX() * 56 / 10 );
 
     for (int i = 0; i < 8; i++) {
 
         target[i] = new Pile(9 + i, this);
-        target[i]->move(8+80*i, 10);
+        target[i]->move(8+dist_x*i, 10);
         target[i]->setType(Pile::KlondikeTarget);
 
         stack[i] = new Pile(1 + i, this);
-        stack[i]->move(8+80*i, 110);
+        stack[i]->move(8+dist_x*i, 10 + dist_y);
         stack[i]->setAddFlags(Pile::addSpread);
         stack[i]->setRemoveFlags(Pile::autoTurnTop);
         stack[i]->setCheckIndex(1);

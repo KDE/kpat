@@ -24,6 +24,7 @@
 #include <klocale.h>
 #include <deck.h>
 #include <pile.h>
+#include "cardmaps.h"
 
 Idiot::Idiot( KMainWindow* parent, const char* _name)
   : Dealer( parent, _name )
@@ -35,15 +36,17 @@ Idiot::Idiot( KMainWindow* parent, const char* _name)
     away->setTarget(true);
     away->setRemoveFlags(Pile::disallow);
 
+    const int distx = cardMap::CARDX() + cardMap::CARDX() / 10 + 1;
+
     for( int i = 0; i < 4; i++ )
     {
         play[ i ] = new Pile( i + 1, this);
-        play[i]->move(150 + 85 * i, 10);
+        play[i]->move(10 + cardMap::CARDX() * 18 / 10 + distx * i, 10);
         play[i]->setAddFlags( Pile::addSpread );
         play[i]->setRemoveFlags( Pile::disallow );
     }
 
-    away->move(200 + 85 * 4, 10);
+    away->move(10 + cardMap::CARDX() * 5 / 2 + distx * 4, 10);
     setActions(Dealer::Hint | Dealer::Demo);
 
 }

@@ -24,6 +24,7 @@
 #include "deck.h"
 #include <kaction.h>
 #include <assert.h>
+#include "cardmaps.h"
 
 Grandf::Grandf( KMainWindow* parent, const char *name )
     : Dealer( parent, name )
@@ -31,15 +32,17 @@ Grandf::Grandf( KMainWindow* parent, const char *name )
     deck = new Deck(0, this);
     deck->hide();
 
+    const int distx = cardMap::CARDX() * 14 / 10;
+
     for (int i=0; i<4; i++) {
         target[i] = new Pile(i+1, this);
-        target[i]->move(110+i*100, 10);
+        target[i]->move(10+(i+1)*distx, 10);
         target[i]->setType(Pile::KlondikeTarget);
     }
 
     for (int i=0; i<7; i++) {
         store[i] = new Pile(5+i, this);
-        store[i]->move(10+100*i, 150);
+        store[i]->move(10+distx*i, 10 + cardMap::CARDY() * 15 / 10);
         store[i]->setAddFlags(Pile::addSpread | Pile::several);
         store[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
         store[i]->setCheckIndex(1);
@@ -135,13 +138,13 @@ void Grandf::collect() {
     }
 }
 
-bool Grandf::checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const {
+bool Grandf::checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const {
     assert (checkIndex == 1);
     if (c1->isEmpty())
         return c2.first()->value() == Card::King;
     else
         return (c2.first()->value() == c1->top()->value() - 1)
-               && c1->top()->suit() == c2.first()->suit();
+               && c2.first()->suit() == c1->top()->suit();
 }
 
 void Grandf::getGameState( QDataStream & stream )
@@ -155,6 +158,54 @@ void Grandf::setGameState( QDataStream & stream )
     stream >> i;
     numberOfDeals = i;
     aredeal->setEnabled(numberOfDeals < 3);
+}
+
+bool Grandf::isGameLost() const
+{
+    int i,i2,j;
+
+    if(numberOfDeals <3)
+        return false;
+
+    for(i=0; i < 7; i++) { // check each store
+
+        if(store[i]->isEmpty()){ //look for a face up king
+            for(i2=1; i2 < 7; i2++) { // check the other stores.
+                j=(i+i2) % 7;
+                CardList p = store[j]->cards();
+                for (CardList::ConstIterator it = p.begin(); it != p.end(); ++it){
+                    Card *c= *it;
+                    if( it != p.begin() && c->isFaceUp() && c->value() == Card::King)
+                        return false;
+                }
+            }
+        }
+        else{
+            //can we start a target pile ?
+            if(store[i]->top()->value() == Card::Ace)
+                return false;
+
+            // can we add to a target ?
+            for(j=0; j <4; j++)
+                if( !target[j]->isEmpty())
+                    if(store[i]->top()->suit() == target[j]->top()->suit())
+                        if( store[i]->top()->value() == target[j]->top()->value() +1)
+                            return false;
+
+            for(i2=1; i2 < 7; i2++) { // check the other stores.
+                j=(i+i2) % 7;
+                CardList p = store[j]->cards();
+                for (CardList::ConstIterator it = p.begin(); it != p.end(); ++it){
+                    Card *c= *it;
+                    if( c->isFaceUp() &&
+                        c->value() == (store[i]->top()->value()-1) &&
+                        c->suit() == store[i]->top()->suit() )
+                        return false;
+                }
+            }
+        }
+    }
+    return true; // can't move.
 }
 
 static class LocalDealerInfo1 : public DealerInfo

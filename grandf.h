@@ -46,6 +46,7 @@ public slots:
     void redeal();
     void deal();
     virtual void restart();
+    virtual bool isGameLost() const;
 
 
 protected:

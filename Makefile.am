@@ -1,7 +1,6 @@
 
 INCLUDES = -I$(top_srcdir)/libkdegames $(all_includes) 
 
-AM_CPPFLAGS = 
 LDFLAGS = $(all_libraries) $(KDE_RPATH)
 LDADD = $(LIB_KFILE) $(top_builddir)/libkdegames/libkdegames.la ./freecell-solver/libfcs.la
 

@@ -27,6 +27,12 @@
 
 static const char *description = I18N_NOOP("KDE Patience Game");
 
+static KCmdLineOptions options[] =
+{
+    { "+file",          I18N_NOOP("File to load"), 0 },
+    { 0,0,0 }
+};
+
 int main( int argc, char **argv )
 {
     KAboutData aboutData( "kpat", I18N_NOOP("KPatience"),
@@ -46,13 +52,17 @@ int main( int argc, char **argv )
                         "coolo@kde.org");
 
     KCmdLineArgs::init( argc, argv, &aboutData );
+    KCmdLineArgs::addCmdLineOptions (options);
+    KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
 
     KApplication a;
 
-    pWidget *p = new pWidget("pwidget");
-    p->show();
+    pWidget p("pwidget");
+    if (args->count())
+        p.openGame(args->url(0));
+    p.show();
 
-    a.setMainWidget(p);
+    a.setMainWidget(&p);
     int r = a.exec();
     return r;
 }

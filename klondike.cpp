@@ -29,30 +29,39 @@
 #include <pile.h>
 #include <kdebug.h>
 #include <assert.h>
+#include "cardmaps.h"
 
 Klondike::Klondike( bool easy, KMainWindow* parent, const char* _name )
   : Dealer( parent, _name )
 {
+    // The units of the follwoing constants are pixels
+    const int margin = 10; // between card piles and board edge
+    const int hspacing = cardMap::CARDX() / 6 + 1; // horizontal spacing between card piles
+    const int vspacing = cardMap::CARDY() / 4; // vertical spacing between card piles
+
     deck = new Deck(13, this);
-    deck->move(10, 10);
+    deck->move(margin, margin);
 
     EasyRules = easy;
 
     pile = new Pile( 0, this);
-    pile->move(100, 10);
+    pile->move(margin + cardMap::CARDX() + cardMap::CARDX() / 4, margin);
+    // Move the visual representation of the pile to the intended position
+    // on the game board.
+
     pile->setAddFlags(Pile::disallow);
     pile->setRemoveFlags(Pile::Default);
 
     for( int i = 0; i < 7; i++ ) {
         play[ i ] = new Pile( i + 5, this);
-        play[i]->move(10 + 85 * i, 130);
+        play[i]->move(margin + (cardMap::CARDX() + hspacing) * i, margin + cardMap::CARDY() + vspacing);
         play[i]->setAddType(Pile::KlondikeStore);
         play[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop | Pile::wholeColumn);
     }
 
     for( int i = 0; i < 4; i++ ) {
         target[ i ] = new Pile( i + 1, this );
-        target[i]->move(265 + i * 85, 10);
+        target[i]->move(margin + (3 + i) * (cardMap::CARDX()+ hspacing), margin);
         target[i]->setAddType(Pile::KlondikeTarget);
         if (EasyRules) // change default
             target[i]->setRemoveFlags(Pile::Default);

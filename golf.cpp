@@ -3,6 +3,7 @@
 #include "deck.h"
 #include "pile.h"
 #include <kdebug.h>
+#include "cardmaps.h"
 
 HorRightPile::HorRightPile( int _index, Dealer* parent)
     : Pile(_index, parent)
@@ -22,19 +23,23 @@ QSize HorRightPile::cardOffset( bool _spread, bool, const Card *) const
 Golf::Golf( KMainWindow* parent, const char* _name)
         : Dealer( parent, _name )
 {
+    const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
+
+    const int pile_dist = 10 + 3 * cardMap::CARDY();
+
     deck = new Deck( 0, this);
-    deck->move(30, 300);
+    deck->move(10, pile_dist);
     connect(deck, SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
 
     for( int r = 0; r < 7; r++ ) {
         stack[r]=new Pile(1+r, this);
-        stack[r]->move(30+r*90,10);
+        stack[r]->move(10+r*dist_x,10);
         stack[r]->setAddFlags( Pile::addSpread | Pile::disallow);
         stack[r]->setCheckIndex( 1 );
     }
 
     waste=new HorRightPile(8,this);
-    waste->move(120,300);
+    waste->move(10 + cardMap::CARDX() * 5 / 4, pile_dist);
     waste->setTarget(true);
     waste->setCheckIndex( 0 );
     waste->setAddFlags( Pile::addSpread);
@@ -59,23 +64,6 @@ bool Golf::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
 
     return true;
 
-}
-
-bool Golf::isGameLost() const
-{
-	if( !deck->isEmpty())
-		return false;
-
-	for( int r = 0; r < 7; r++ ) {
-		if( !stack[r]->isEmpty()){
-			CardList stackTops;
-			stackTops.append(stack[r]->top());
-			if(this->checkAdd(0,waste,stackTops))
-				return false;
-			}
-		}
-			
-    return true;
 }
 
 bool Golf::checkRemove( int checkIndex, const Pile *, const Card *c2) const
@@ -146,6 +134,23 @@ void Golf::cardClicked(Card *c)
         c->source()->moveCards(empty, p);
         canvas()->update();
     }
+}
+
+bool Golf::isGameLost() const
+{
+    if( !deck->isEmpty())
+        return false;
+
+    for( int r = 0; r < 7; r++ ) {
+        if( !stack[r]->isEmpty()){
+            CardList stackTops;
+            stackTops.append(stack[r]->top());
+            if(this->checkAdd(0,waste,stackTops))
+                return false;
+        }
+    }
+
+    return true;
 }
 
 

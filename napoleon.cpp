@@ -22,17 +22,16 @@
 #include <klocale.h>
 #include <deck.h>
 #include <pile.h>
+#include "cardmaps.h"
 
 Napoleon::Napoleon( KMainWindow* parent, const char* _name )
   : Dealer( parent, _name )
 {
     deck = new Deck( 0, this );
-    deck->move( 500, 290);
     connect(deck, SIGNAL(clicked(Card *)), SLOT(deal1(Card*)));
 
     pile = new Pile( 1, this );
     pile->setAddFlags( Pile::disallow );
-    pile->move(400, 290);
 
     for (int i = 0; i < 4; i++)
     {
@@ -44,20 +43,28 @@ Napoleon::Napoleon( KMainWindow* parent, const char* _name )
         target[i]->setTarget(true);
     }
 
+    const int dist_store = cardMap::CARDX() * 55 / 100;
+    const int dist_target = dist_store / 2;
+    const int centre_x = 10 + cardMap::CARDX() + dist_store;
+    const int centre_y = 10 + cardMap::CARDY() + dist_store;
+
+    deck->move( centre_x + cardMap::CARDX() * 47 / 10, centre_y + cardMap::CARDY() + dist_store);
+    pile->move( centre_x + cardMap::CARDX() * 33 / 10, centre_y + cardMap::CARDY() + dist_store);
+
     centre = new Pile( 10, this );
     centre->setRemoveFlags( Pile::disallow );
     centre->setCheckIndex(1);
     centre->setTarget(true);
 
-    store[0]->move( 160,  10);
-    store[1]->move( 270, 150);
-    store[2]->move( 160, 290);
-    store[3]->move(  50, 150);
-    target[0]->move(  70,  30);
-    target[1]->move( 250,  30);
-    target[2]->move( 250, 270);
-    target[3]->move(  70, 270);
-    centre->move(160, 150);
+    store[0]->move( centre_x, centre_y - cardMap::CARDY() - dist_store );
+    store[1]->move( centre_x + cardMap::CARDX() + dist_store, centre_y);
+    store[2]->move( centre_x, centre_y + cardMap::CARDY() + dist_store );
+    store[3]->move( centre_x - cardMap::CARDX() - dist_store, centre_y);
+    target[0]->move( centre_x - cardMap::CARDX() - dist_target, centre_y - cardMap::CARDY() - dist_target );
+    target[1]->move( centre_x + cardMap::CARDX() + dist_target, centre_y - cardMap::CARDY() - dist_target);
+    target[2]->move( centre_x + cardMap::CARDX() + dist_target, centre_y + cardMap::CARDY() + dist_target);
+    target[3]->move( centre_x - cardMap::CARDX() - dist_target, centre_y + cardMap::CARDY() + dist_target);
+    centre->move(centre_x, centre_y);
 
     setActions(Dealer::Hint | Dealer::Demo);
 }
@@ -127,31 +134,6 @@ Card *Napoleon::demoNewCards()
     return pile->top();
 }
 
-bool Napoleon::isGameLost() const {
-    CardList cards;
-    for (int i = 0; i < 4; i++)
-    {
-        if (store[i]->isEmpty())
-			return false;
-		else
-            cards.append(store[i]->top());
-    }
-
-    if (pile->top())
-        cards.append(pile->top());
-
-    for (CardList::Iterator it = cards.begin(); it != cards.end(); ++it) {
-        CardList empty;
-        empty.append(*it);
-		if(CanPutCentre(centre,empty)) return false;
-		for(int i=0; i<4; i++)
-			if(CanPutTarget(target[i],empty)) return false;
-		}
-
-	return (deck->isEmpty());
-}
-
-
 void Napoleon::getHints() {
     CardList cards;
     for (int i = 0; i < 4; i++)
@@ -186,6 +168,33 @@ void Napoleon::getHints() {
         }
     }
 }
+
+bool Napoleon::isGameLost() const
+{
+    CardList cards;
+    for (int i = 0; i < 4; i++)
+    {
+        if (store[i]->isEmpty())
+            return false;
+        else
+            cards.append(store[i]->top());
+    }
+
+    if (pile->top())
+        cards.append(pile->top());
+
+    for (CardList::Iterator it = cards.begin(); it != cards.end(); ++it) {
+        CardList empty;
+        empty.append(*it);
+        if(CanPutCentre(centre,empty)) return false;
+        for(int i=0; i<4; i++)
+            if(CanPutTarget(target[i],empty)) return false;
+    }
+
+    return (deck->isEmpty());
+}
+
+
 
 static class LocalDealerInfo4 : public DealerInfo
 {

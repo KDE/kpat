@@ -64,6 +64,8 @@ public:
     Dealer( KMainWindow* parent = 0, const char* name = 0 );
     virtual ~Dealer();
 
+    static const Dealer *instance();
+
     void enlargeCanvas(QCanvasRectangle *c);
     void setGameNumber(long gmn);
     long gameNumber() const;
@@ -98,6 +100,8 @@ public:
 
     void setTakeTargetForHints(bool e) { takeTargets = e; }
     bool takeTargetForHints() const { return takeTargets; }
+
+    bool isMoving(Card *c) const;
 
     virtual QSize minimumCardSize() const;
     virtual void resizeEvent(QResizeEvent *);
@@ -200,12 +204,13 @@ protected:
 
     KRandomSequence randseq;
     QColor _midcolor;
-    int _id;
+    Q_UINT32 _id;
     bool takeTargets;
     bool _won;
     int _waiting;
     bool stop_demo_next;
     QString ac;
+    static Dealer *s_instance;
 };
 
 #endif

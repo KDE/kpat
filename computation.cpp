@@ -26,6 +26,7 @@
 #include <pile.h>
 #include <deck.h>
 #include <assert.h>
+#include "cardmaps.h"
 
 Computation::Computation( KMainWindow *parent, const char *name )
     :Dealer( parent, name)
@@ -35,12 +36,12 @@ Computation::Computation( KMainWindow *parent, const char *name )
 
     for (int i = 0; i < 4; i++) {
         play[i] = new Pile(1 + i, this);
-        play[i]->move(110 + i * 100, 150);
+        play[i]->move(10 + (i+1) * cardMap::CARDX() * 14 / 10, 10 + cardMap::CARDY() * 15 / 10);
         play[i]->setAddFlags(Pile::addSpread);
         play[i]->setCheckIndex(1);
 
         target[i] = new Pile(5 + i, this);
-        target[i]->move(110 + i * 100, 10);
+        target[i]->move(10 + (i+1) * cardMap::CARDX() * 14 / 10, 10);
         target[i]->setRemoveFlags(Pile::disallow);
         target[i]->setCheckIndex(0);
         target[i]->setTarget(true);
@@ -93,6 +94,9 @@ bool Computation::checkAdd( int index, const Pile* c1, const CardList& cl) const
         return checkStore(c1, cl);
 
     assert(c1->index() >= 5 && c1->index() <= 8);
+
+    if ( c1->top() && c1->top()->value() == Card::King) // finished
+        return false;
 
     if ( c1->cardsLeft() == 13 )
       return false;

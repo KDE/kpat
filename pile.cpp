@@ -38,20 +38,20 @@ _rtype(Custom)
 {
     dealer()->addPile(this);
     QCanvasRectangle::setVisible(true); // default
-    setSize( cardMap::CARDX, cardMap::CARDY );
     _checkIndex = -1;
     addFlags = removeFlags = 0;
     setBrush(Qt::black);
     setPen(QPen(Qt::black));
     setZ(0);
+    initSizes();
+}
 
-    const int SPREAD = 20;
-    const int DSPREAD = 5;
-    const int HSPREAD = 9;
-
-    setSpread(SPREAD);
-    setHSpread(HSPREAD);
-    setDSpread(DSPREAD);
+void Pile::initSizes()
+{
+    setSpread( cardMap::CARDY() / 5 + 1 );
+    setHSpread( spread() / 4 );
+    setDSpread( cardMap::CARDY() / 8 );
+    setSize( cardMap::CARDX(), cardMap::CARDY() );
 }
 
 void Pile::setType(PileType type)
@@ -359,6 +359,7 @@ CardList Pile::cardPressed(Card *c)
             below = 0;
         }
         if (below >= 0) {
+            (*it)->setAnimated(false);
             (*it)->setZ(128 + below);
             below++;
             result.append(*it);

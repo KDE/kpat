@@ -32,8 +32,8 @@ public:
     static cardMap *self();
     cardMap(const QColor &dimcolor);
 
-    static int CARDX;
-    static int CARDY;
+    static int CARDX();
+    static int CARDY();
 
     static const int NumColors = 4;
     static const int CardsPerColor = 13;
@@ -41,7 +41,7 @@ public:
     QPixmap image( Card::Values _value, Card::Suits _suit, bool inverted = false) const;
     QPixmap backSide() const;
     bool setCardDir( const QString &dir);
-    bool setBackSide( const QPixmap & _pix );
+    bool setBackSide( const QPixmap & _pix, bool scale = true);
 
 private:
 
@@ -53,6 +53,8 @@ private:
     } img[ CardsPerColor ][ NumColors ];
     QPixmap back;
     QColor dimcolor;
+    int card_width, card_height;
+
     static cardMap *_self;
 };
 

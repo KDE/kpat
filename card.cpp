@@ -43,7 +43,7 @@ Card::Card( Values v, Suits s, QCanvas* _parent )
     destY = 0;
     destZ = 0;
     faceup = true;
-    setSize( cardMap::CARDX, cardMap::CARDY );
+    setSize( cardMap::CARDX(), cardMap::CARDY() );
     flipping = false;
     animSteps = flipSteps = 0;
 }
@@ -83,7 +83,7 @@ void Card::draw( QPainter &p )
         side = side.xForm( s );
         int xoff = side.width() / 2;
         int yoff = side.height() / 2;
-        p.drawPixmap( x() + cardMap::CARDX/2 - xoff, y() + cardMap::CARDY/2 - yoff, side );
+        p.drawPixmap( x() + cardMap::CARDX()/2 - xoff, y() + cardMap::CARDY()/2 - yoff, side );
     } else
         p.drawPixmap( x(), y(), side );
 }
@@ -154,11 +154,11 @@ bool Card::realFace() const
 static const double flipLift = 1.2;
 int Card::Hz = 0;
 
-void Card::setZ(int z)
+void Card::setZ(double z)
 {
     QCanvasRectangle::setZ(z);
     if (z > Hz)
-        Hz = z;
+        Hz = int(z);
 }
 
 void Card::flipTo(int x2, int y2, int steps)

@@ -28,6 +28,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <qtimer.h>
+#include "cardmaps.h"
 
 #include <freecell-solver/fcs_user.h>
 
@@ -573,13 +574,15 @@ Freecell::Freecell( KMainWindow* parent, const char* name)
     : FreecellBase(1, 8, 4, FCS_ES_FILLED_BY_ANY_CARD, false, parent, name)
 {
     for (int i = 0; i < 8; i++)
-        store[i]->move(8+80*i, 113);
+        store[i]->move(8 + ( cardMap::CARDX() * 11 / 10 + 1 ) * i, 8 + cardMap::CARDY() * 11 / 10);
+
+    const int right = 8 + ( cardMap::CARDX() * 11 / 10 + 1 ) * 7 + cardMap::CARDX();
 
     for (int i = 0; i < 4; i++)
-        freecell[i]->move(8+76*i, 8);
+        freecell[i]->move(8 + ( cardMap::CARDX() * 13 / 12 ) * i, 8);
 
     for (int i = 0; i < 4; i++)
-        target[i]->move(338+76*i, 8);
+        target[i]->move(right - (3-i) * ( cardMap::CARDX() * 13 / 12 ) -cardMap::CARDX()  , 8);
 }
 
 void Freecell::deal()

@@ -41,7 +41,7 @@
 #include "speeds.h"
 #include <kmessagebox.h>
 #include <qimage.h>
-#include <kstatusbar.h>  
+#include <kstatusbar.h>
 
 static pWidget *current_pwidget = 0;
 
@@ -125,8 +125,10 @@ pWidget::pWidget( const char* _name )
     KConfigGroupSaver cs(config, settings_group );
 
     QString bgpath = config->readEntry("Background");
-    if (!bgpath.isNull())
-         background = QPixmap(bgpath);
+    kdDebug() << "bgpath '" << bgpath << "'" << endl;
+    if (bgpath.isEmpty())
+        bgpath = locate("wallpaper", "Totally-New-Product-1.jpg");
+    background = QPixmap(bgpath);
 
     bool animate = config->readBoolEntry( "Animation", true);
     animation->setChecked( animate );
@@ -135,7 +137,7 @@ pWidget::pWidget( const char* _name )
     if (game > max_type)
         game = max_type;
     games->setCurrentItem(game);
-    
+
     createGUI(QString::null, false);
 
     newGameType();
@@ -168,25 +170,48 @@ void pWidget::changeBackside() {
     KConfigGroupSaver kcs(config, settings_group);
 
     QString deck = config->readEntry("Back");
-    QString dummy = config->readEntry("Cards");
-    if (KCardDialog::getCardDeck(deck, dummy, this, KCardDialog::Both) == QDialog::Accepted)
+    QString cards = config->readEntry("Cards");
+    if (KCardDialog::getCardDeck(deck, cards, this, KCardDialog::Both) == QDialog::Accepted)
     {
-        setBackSide(deck, dummy);
+        QString imgname = KCardDialog::getCardPath(cards, 11);
+
+        QImage image;
+        image.load(imgname);
+        if( image.isNull()) {
+            kdDebug(11111) << "cannot load card pixmap \"" << imgname << "\" in " << cards << "\n";
+            return;
+        }
+
+        bool change = false;
+        if (image.width() != cardMap::CARDX() || image.height() != cardMap::CARDY())
+        {
+            change = true;
+            if (KMessageBox::warningContinueCancel(this, i18n("The cards you've choosen has a different size "
+                                                              "than the one you're currently using. "
+                                                              "This requires a restart of the current game.")) == KMessageBox::Cancel)
+                return;
+        }
+        setBackSide(deck, cards);
+        if (change) {
+
+            newGameType();
+        }
     }
+
 }
 
 void pWidget::changeWallpaper()
 {
     QString bgpath=locate("wallpaper", wallpaperlist[wallpapers->currentItem()]);
-	if (bgpath.isEmpty())
-			return;
+    if (bgpath.isEmpty())
+        return;
     background = QPixmap(bgpath);
-	if (background.isNull())
-			return;
+    if (background.isNull())
+        return;
 
     QImage bg = background.convertToImage().convertDepth(8, 0);
-	if (bg.isNull() || !bg.numColors())
-			return;
+    if (bg.isNull() || !bg.numColors())
+        return;
     long r = 0;
     long g = 0;
     long b = 0;
@@ -206,8 +231,8 @@ void pWidget::changeWallpaper()
         KConfig *config = kapp->config();
         KConfigGroupSaver kcs(config, settings_group);
 
-        QString deck = config->readEntry("Back");
-        QString dummy = config->readEntry("Cards");
+        QString deck = config->readEntry("Back", KCardDialog::getDefaultDeck());
+        QString dummy = config->readEntry("Cards", KCardDialog::getDefaultCardDir());
         setBackSide(deck, dummy);
 
 	config->writeEntry("Background", bgpath);
@@ -309,7 +334,7 @@ void pWidget::setBackSide(const QString &deck, const QString &cards)
     KConfigGroupSaver kcs(config, settings_group);
     QPixmap pm(deck);
     if(!pm.isNull()) {
-        cardMap::self()->setBackSide(pm);
+        cardMap::self()->setBackSide(pm, false);
         config->writeEntry("Back", deck);
         bool ret = cardMap::self()->setCardDir(cards);
         if (!ret) {
@@ -317,6 +342,7 @@ void pWidget::setBackSide(const QString &deck, const QString &cards)
 
         }
         config->writeEntry("Cards", cards);
+        cardMap::self()->setBackSide(pm, true);
     } else
         KMessageBox::sorry(this,
                            i18n("Could not load background image!"));
@@ -333,7 +359,7 @@ void pWidget::chooseGame()
     QString text = QInputDialog::getText( i18n("Game Number"),
                                           i18n( "Enter a game number "
                                                 "(1 to 32000 are the same as in the FreeCell FAQ)" ),
-                                          QLineEdit::Normal, 
+                                          QLineEdit::Normal,
                                           QString::number(dill->gameNumber()), &ok, this );
     if ( ok && !text.isEmpty() ) {
         long number = text.toLong(&ok);
@@ -362,13 +388,11 @@ void pWidget::gameWon(bool withhelp)
 
 void pWidget::gameLost()
 {
-	QString sorry;
-
-	sorry=i18n("Game Lost.");
-    KMessageBox::information(this, sorry, i18n("Sorry"));
+    KMessageBox::information(this, i18n("You couldn't win this game, "
+                                        "but there is always a second try."),
+                             i18n("Sorry"));
     QTimer::singleShot(0, this, SLOT(newGame()));
-}
-
+ }
 
 void pWidget::openGame(const KURL &url)
 {
@@ -378,10 +402,10 @@ void pWidget::openGame(const KURL &url)
         QFile of(tmpFile);
         of.open(IO_ReadOnly);
         QDataStream is(&of);
-        int current_file_format;
+        Q_UINT32 current_file_format;
         is >> current_file_format; // file format
-        is.setVersion(current_file_format);
-        int id;
+        is.setVersion(3);
+        Q_UINT32 id;
         is >> id; // dealer number
         if (id != games->currentItem()) {
             games->setCurrentItem(id);

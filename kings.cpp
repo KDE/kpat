@@ -4,16 +4,24 @@
 #include "deck.h"
 #include <assert.h>
 #include <freecell-solver/fcs_enums.h>
+#include "cardmaps.h"
 
 Kings::Kings( KMainWindow* parent, const char *name )
     : FreecellBase( 2, 8, 8, FCS_ES_FILLED_BY_KINGS_ONLY, true, parent, name )
 {
+    const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
+
     for (int i=0; i<8; i++) {
-        target[i]->move((8 + i/4) * 80 + 40, 10 + (i % 4) * 130);
-        store[i]->move(10+80*i, 130);
+        target[i]->move((8 + i/4) * dist_x + 10 + cardMap::CARDX() * 4 / 10, 10 + (i % 4) * cardMap::CARDY() * 14 / 10 );
+        store[i]->move(10+dist_x*i, 10 + cardMap::CARDY() * 5 / 4);
         store[i]->setSpread(13);
-        freecell[i]->move(10 + 80 * i, 10);
+        freecell[i]->move(10 + dist_x * i, 10);
     }
+}
+
+void Kings::demo()
+{
+    Dealer::demo();
 }
 
 void Kings::deal() {

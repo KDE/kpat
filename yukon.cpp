@@ -3,23 +3,27 @@
 #include "pile.h"
 #include "deck.h"
 #include <assert.h>
+#include "cardmaps.h"
 
 Yukon::Yukon( KMainWindow* parent, const char *name )
     : Dealer( parent, name )
 {
+    const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
+    const int dist_y = cardMap::CARDY() * 11 / 10 + 1;
+
     deck = new Deck(0, this);
-    deck->move(10, 10+105*3);
+    deck->move(10, 10+dist_y*3);
     deck->hide();
 
     for (int i=0; i<4; i++) {
         target[i] = new Pile(i+1, this);
-        target[i]->move(20+7*80, 10+105 *i);
+        target[i]->move(20+7*dist_x, 10+dist_y *i);
         target[i]->setType(Pile::KlondikeTarget);
     }
 
     for (int i=0; i<7; i++) {
         store[i] = new Pile(5+i, this);
-        store[i]->move(15+80*i, 10);
+        store[i]->move(15+dist_x*i, 10);
         store[i]->setAddType(Pile::KlondikeStore);
         store[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
     }

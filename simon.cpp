@@ -3,6 +3,7 @@
 #include "pile.h"
 #include "deck.h"
 #include <assert.h>
+#include "cardmaps.h"
 
 Simon::Simon( KMainWindow* parent, const char *name )
     : Dealer( parent, name )
@@ -11,9 +12,11 @@ Simon::Simon( KMainWindow* parent, const char *name )
     deck->move(10, 10);
     deck->hide();
 
+    const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
+
     for (int i=0; i<4; i++) {
         target[i] = new Pile(i+1, this);
-        target[i]->move(250+i*80, 10);
+        target[i]->move(10+(i+3)*dist_x, 10);
         target[i]->setRemoveFlags(Pile::disallow);
         target[i]->setAddFlags(Pile::several);
         target[i]->setCheckIndex(0);
@@ -22,7 +25,7 @@ Simon::Simon( KMainWindow* parent, const char *name )
 
     for (int i=0; i<10; i++) {
         store[i] = new Pile(5+i, this);
-        store[i]->move(15+80*i, 150);
+        store[i]->move(15+dist_x*i, 10 + cardMap::CARDY() * 73 / 50);
         store[i]->setAddFlags(Pile::addSpread | Pile::several);
         store[i]->setRemoveFlags(Pile::several);
         store[i]->setCheckIndex(1);

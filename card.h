@@ -72,7 +72,7 @@ public:
     virtual void moveBy(double dx, double dy);
     void animatedMove(int x2, int y2, int z, int steps);
     virtual void setAnimated(bool anim);
-    void setZ(int z);
+    void setZ(double z);
     void getUp(int steps = 12);
 
     int realX() const;

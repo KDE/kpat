@@ -19,6 +19,7 @@
 ---------------------------------------------------------------------------*/
 
 #include "mod3.h"
+#include "cardmaps.h"
 #include <klocale.h>
 #include "deck.h"
 #include "pile.h"
@@ -29,8 +30,12 @@
 Mod3::Mod3( KMainWindow* parent, const char* _name)
         : Dealer( parent, _name )
 {
+    const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
+    const int dist_y = cardMap::CARDY() * 11 / 10 + 1;
+    const int margin = cardMap::CARDY() / 3;
+
     deck = new Deck( 0, this, 2);
-    deck->move(8 + 80 * 8 + 20, 8 + 105 * 3 + 32);
+    deck->move(8 + dist_x * 8 + 20, 8 + dist_y * 3 + margin);
     connect(deck, SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
 
     aces = new Pile(40, this);
@@ -40,7 +45,7 @@ Mod3::Mod3( KMainWindow* parent, const char* _name)
     for( int r = 0; r < 4; r++ ) {
         for( int c = 0; c < 8; c++ ) {
             stack[ r ][ c ] = new Pile ( r + 1, this );
-            stack[r][c]->move( 8 + 80 * c, 8 + 105 * r + 32 * ( r == 3 ));
+            stack[r][c]->move( 8 + dist_x * c, 8 + dist_y * r + margin * ( r == 3 ));
             if( r < 3 ) {
                 stack[r][c]->setCheckIndex( 0 );
                 stack[r][c]->setTarget(true);

@@ -17,6 +17,7 @@ public:
 
 public slots:
     virtual void deal();
+    virtual void demo();
 };
 
 #endif
