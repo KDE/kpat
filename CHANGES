@@ -1,6 +1,9 @@
 2004-11-04 Inge Wallin <inge@lysator.liu.se>
 
-	Start of a thorough code cleaning
+	Fix the fix for 92002 below:
+	- Only ask for confirmation if the user actively aborts the game.
+
+	Start of a thorough code cleaning:
 	- Start with hide.h and dealer.cpp
 
 2004-10-31 Inge Wallin <inge@lysator.liu.se>

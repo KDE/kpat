@@ -276,8 +276,8 @@ void pWidget::enableAutoDrop()
 }
 
 void pWidget::newGame() {
-    if (KMessageBox
-	::warningYesNo(0,
+    if (!dill->isGameWon()
+	&& KMessageBox::warningYesNo(0,
 		       i18n("You are already running an unfinished game.  "
 			    "If you abort the old game to start a new one, "
 			    "the old game will be registered as a loss in "

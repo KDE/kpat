@@ -1129,19 +1129,20 @@ void Dealer::won()
     if (_won)
         return;
     _won = true;
-	 // update score, 'win' in demo mode also counts (keep it that way?)
-	 { // wrap in own scope to make KConfigGroupSave work
-    KConfig *config = kapp->config();
-    KConfigGroupSaver kcs(config, scores_group);
-	 unsigned int n = config->readUnsignedNumEntry(QString("won%1").arg(_id),0) + 1;
-	 config->writeEntry(QString("won%1").arg(_id),n);
-	 n = config->readUnsignedNumEntry(QString("winstreak%1").arg(_id),0) + 1;
-	 config->writeEntry(QString("winstreak%1").arg(_id),n);
-	 unsigned int m = config->readUnsignedNumEntry(QString("maxwinstreak%1").arg(_id),0);
-	 if (n>m)
-		 config->writeEntry(QString("maxwinstreak%1").arg(_id),n);
-	 config->writeEntry(QString("loosestreak%1").arg(_id),0);
-	 }
+
+    // update score, 'win' in demo mode also counts (keep it that way?)
+    { // wrap in own scope to make KConfigGroupSave work
+	KConfig *config = kapp->config();
+	KConfigGroupSaver kcs(config, scores_group);
+	unsigned int n = config->readUnsignedNumEntry(QString("won%1").arg(_id),0) + 1;
+	config->writeEntry(QString("won%1").arg(_id),n);
+	n = config->readUnsignedNumEntry(QString("winstreak%1").arg(_id),0) + 1;
+	config->writeEntry(QString("winstreak%1").arg(_id),n);
+	unsigned int m = config->readUnsignedNumEntry(QString("maxwinstreak%1").arg(_id),0);
+	if (n>m)
+	    config->writeEntry(QString("maxwinstreak%1").arg(_id),n);
+	config->writeEntry(QString("loosestreak%1").arg(_id),0);
+    }
 
     // sort cards by increasing z
     QCanvasItemList list = canvas()->allItems();
@@ -1167,8 +1168,10 @@ void Dealer::won()
             y = 3*canvas()->height()/2 - (kapp->random() % (canvas()->height() * 2));
             p.moveTopLeft(QPoint(x, y));
         } while (can.intersects(p));
-	    (*it).ptr->animatedMove( x, y, 0, STEPS_WON);
+
+	(*it).ptr->animatedMove( x, y, 0, STEPS_WON);
     }
+
     bool demo = demoActive();
     stopDemo();
     canvas()->update();
