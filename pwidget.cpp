@@ -304,7 +304,7 @@ void pWidget::chooseGame()
     bool ok = false;
     QString text = QInputDialog::getText( i18n("Game Number"),
                                           i18n( "Enter a game number "
-                                                "(1 and 32000 are the same as in the FreeCell FAQ)" ),
+                                                "(1 to 32000 are the same as in the FreeCell FAQ)" ),
                                           QString::number(dill->gameNumber()), &ok, this );
     if ( ok && !text.isEmpty() ) {
         long number = text.toLong(&ok);
