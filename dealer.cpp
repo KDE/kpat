@@ -6,6 +6,7 @@
 #include "pile.h"
 #include "kmainwindow.h"
 #include <kapplication.h>
+#include <kpixmapeffect.h>
 #include <qtimer.h>
 #include <kaction.h>
 #include <klocale.h>

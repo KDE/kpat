@@ -39,7 +39,9 @@
 #include <ktempfile.h>
 #include <kio/netaccess.h>
 #include "speeds.h"
-#include <kmessagebox.h>  
+#include <kmessagebox.h>
+#include <qimage.h>
+#include <kstatusbar.h>  
 
 static pWidget *current_pwidget = 0;
 
