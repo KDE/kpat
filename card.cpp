@@ -185,6 +185,7 @@ void Card::flipTo(int x2, int y2, int steps)
 
 void Card::advance(int stage)
 {
+    kdDebug() << "advance " << name() << stage << " " << animSteps << endl;
     if ( stage==1 ) {
 	if ( animSteps-- <= 0 ) {
 	    setAnimated(false);
@@ -214,6 +215,11 @@ void Card::animatedMove(int x2, int y2, int z2, int steps)
     destZ = z2;
 
     double x1 = x(), y1 = y(), dx = x2 - x1, dy = y2 - y1;
+    kdDebug() << "animatedMove " << dx << " " << dy << endl;
+    if (!dx && !dy) {
+        setZ(z2);
+        return;
+    }
     setZ(hz++);
 
     if (steps) {
@@ -234,6 +240,8 @@ void Card::animatedMove(int x2, int y2, int z2, int steps)
 
 void Card::setAnimated(bool anim)
 {
+    kdDebug() << "setAnimated " << anim << endl;
+
     if (animated() && !anim) {
         scaleX = 1.0;
         scaleY = 1.0;
@@ -243,5 +251,6 @@ void Card::setAnimated(bool anim)
         setZ(destZ);
     }
     QCanvasRectangle::setAnimated(anim);
+    assert(anim == animated());
 
 }

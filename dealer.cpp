@@ -175,8 +175,12 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
         if ((*it)->rtti() == Card::RTTI) {
             Card *c = dynamic_cast<Card*>(*it);
             assert(c);
-            cardClicked(c);
-            takeState();
+            if (!c->animated()) {
+                cardClicked(c);
+                takeState();
+            } else {
+                kdDebug() << "clicked on animated card\n";
+            }
             return;
         }
         if ((*it)->rtti() == Pile::RTTI) {
@@ -292,8 +296,12 @@ void Dealer::contentsMouseDoubleClickEvent( QMouseEvent*e )
         return;
     Card *c = dynamic_cast<Card*>(*it);
     assert(c);
-    cardDblClicked(c);
-    takeState();
+    if (!c->animated()) {
+        cardDblClicked(c);
+        takeState();
+    } else {
+        kdDebug() << "dbl clicked on animated card " << c->animated() << endl;;
+    }
 }
 
 void Dealer::resetSize(const QSize &size) {
