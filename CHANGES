@@ -1,3 +1,7 @@
+2004-10-15 Inge Wallin <inge@lysator.liu.se>
+
+	- fix bug 89276: kpat: make nag screen "you have lost this game" an option
+
 2004-10-14 Inge Wallin <inge@lysator.liu.se>
 
 	- fix bug 87451: crash in patience when selecting 'unknown' as game type
