@@ -1355,7 +1355,7 @@ void Dealer::drawPile(KPixmap &pixmap, Pile *pile, bool selected)
     float s = -0.4;
     float n = -0.3;
 
-    int mid = (midColor().red() + midColor().green() + midColor().blue()) / 3;
+    int mid = QMAX( QMAX(midColor().red(), midColor().green()), midColor().blue());
 
     // if it's too dark - light instead of dark
     if (mid < 120) {
