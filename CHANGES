@@ -1,3 +1,9 @@
+since kpat-0.7.3 (18/Nov/1999) <kpat@incense.org>
+
+	- bugfix in idiot.cpp
+ 	- bugfixes in grandf.cpp
+	- added CTRL-R for new game
+
 1999-02-01  Mario Weilguni <mweilguni@kde.org>
 
 	* fixes to avoid many warning from egcs

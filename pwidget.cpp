@@ -156,6 +156,7 @@ pWidget::pWidget( const char* _name )
   m->setAccel( CTRL + Key_3, ID_GNMOD3 );
   m->setAccel( CTRL + Key_F, ID_GNFREECELL );
   m->setAccel( CTRL + Key_Q, ID_FQUIT );
+  m->setAccel( CTRL + Key_R, ID_GRESTART );
   // m->setAccel( CTRL + Key_Z, ID_GUNDO );
 
   if( config )

@@ -234,14 +234,20 @@ bool Grandf::step1( const Card* c1, const Card* c2 )  {
 }
 
 bool Grandf::Sstep1( const Card* c1, const Card* c2)  {
+
+  Card* c = c2;
+  bool found = FALSE;
+
   if (c1->Suit() == Card::Empty) 
     return c2->Value() == Card::King;
-  else
-    return (c2->Value() == c1->Value() - 1) && c1->Suit() == c2->Suit();
+  else {
+    while (!found && (c=c->next())) { found = (c == c1); }
+    return (found ? FALSE : (c2->Value() == c1->Value() - 1) && c1->Suit() == c2->Suit());
+  }
 }
 
 QSize Grandf::sizeHint() const {
-  return QSize(700, 476);
+  return QSize(700, 600);
 }
 
 #include "grandf.moc"

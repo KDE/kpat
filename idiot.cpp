@@ -86,8 +86,10 @@ inline bool higher( Card* c1, Card* c2)
 
 inline void moveCard( Card* c1, Card* c2 )
 {
-  c1->remove();
-  c2->add( c1 );
+  if (c1->Suit() != Card::Empty) {
+    c1->remove();
+    c2->add( c1 );
+  }
 }
 
 bool Idiot::handle( int pile )
