@@ -21,7 +21,6 @@
 #include <qdialog.h>
 #include "grandf.h"
 #include "global.h"
-#include <qmessagebox.h>
 
 class CardBox : public QDialog {
 public:

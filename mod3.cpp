@@ -21,7 +21,8 @@
 #include <qdialog.h>
 #include "mod3.h"
 #include "global.h"
-#include <qmessagebox.h>
+
+#include <kmessagebox.h>
 
 //-------------------------------------------------------------------------//
 
@@ -129,10 +130,8 @@ void Mod3::redeal()
 {
 	if (!deck->next())
 	{
-	    QMessageBox::information (this, i18n ("Information"), 
-				      i18n ("No more cards"),
-				      i18n("OK"));
-		return;
+	  KMessageBox::information(this, i18n("No more cards"));
+	  return;
 	}
 
 	for (int c = 0; c < 8; c++)
