@@ -1179,6 +1179,14 @@ int Dealer::freeCells() const
     return n;
 }
 
+void Dealer::setAnchorName(const QString &name)
+{
+    kdDebug() << "setAnchorname " << name << endl;
+    ac = name;
+}
+
+QString Dealer::anchorName() const { return ac; }
+
 MoveHint::MoveHint(Card * c, Pile *_to, bool d)
 {
     _card = c; to = _to; _dropiftarget = d;

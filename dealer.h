@@ -103,6 +103,9 @@ public:
 
     int freeCells() const;
 
+    QString anchorName() const;
+    void setAnchorName(const QString &name);
+
 public slots:
 
     // restart is pure virtual, so we need something else
@@ -200,6 +203,7 @@ protected:
     bool _won;
     int _waiting;
     bool stop_demo_next;
+    QString ac;
 };
 
 #endif

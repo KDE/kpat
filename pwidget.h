@@ -57,6 +57,7 @@ public slots:
     void gameWon(bool withhelp);
     void changeWallpaper();
     void slotGameInfo(const QString &);
+    void helpGame();
 
 private:
     void setBackSide(const QString &deck, const QString &dir);

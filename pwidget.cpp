@@ -75,6 +75,7 @@ pWidget::pWidget( const char* _name )
     (void)new KAction(i18n("&Restart game"), QString::fromLatin1("reload"), 0,
                       this, SLOT(restart()),
                       actionCollection(), "restart_game");
+    (void)KStdAction::help(this, SLOT(helpGame()), actionCollection(), "help_game");
 
     games = new KSelectAction(i18n("&Game Type"), 0, this,
                               SLOT(newGameType()),
@@ -145,6 +146,13 @@ pWidget::~pWidget()
 void pWidget::undoMove() {
     if( dill )
         dill->undo();
+}
+
+void pWidget::helpGame()
+{
+    if (!dill)
+        return;
+    kapp->invokeHelp(dill->anchorName());
 }
 
 void pWidget::undoPossible(bool poss)
@@ -223,6 +231,10 @@ void pWidget::newGameType()
     for (QValueList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin(); it != DealerInfoList::self()->games().end(); ++it) {
         if ((*it)->gameindex == id) {
             dill = (*it)->createGame(this);
+            QString name = (*it)->name;
+            name = name.replace(QRegExp("[&']"), "");
+            name = name.replace(QRegExp("[ ]"), "_").lower();
+            dill->setAnchorName("game_" + name);
             connect(dill, SIGNAL(saveGame()), SLOT(saveGame()));
             connect(dill, SIGNAL(gameInfo(const QString&)),
                     SLOT(slotGameInfo(const QString &)));
