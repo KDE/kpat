@@ -295,19 +295,19 @@ static int freecell_solver_soft_dfs_do_solve_or_resume(
         {
             freecell_solver_increase_dfs_max_depth(instance);
         }
-        
-        if (instance->soft_dfs_test_indexes[depth] >= instance->tests_order_num)
-        {
-            for(a=0;a<instance->soft_dfs_num_states_to_check[depth];a++)
-            {
-            	fcs_move_stack_destroy(instance->soft_dfs_states_to_check_move_stacks[depth][a]);
-            }
-            depth--;
-            continue; /* Just to make sure depth is not -1 now */    
-        }
 
         if (instance->soft_dfs_current_state_indexes[depth] == instance->soft_dfs_num_states_to_check[depth])
         {
+            if (instance->soft_dfs_test_indexes[depth] >= instance->tests_order_num)
+            {
+                for(a=0;a<instance->soft_dfs_num_states_to_check[depth];a++)
+                {
+                	fcs_move_stack_destroy(instance->soft_dfs_states_to_check_move_stacks[depth][a]);
+                }
+                depth--;
+                continue; /* Just to make sure depth is not -1 now */    
+            }        
+        
             /* Destroy the move stacks that were left by the previous test */
             if (instance->soft_dfs_test_indexes[depth] != 0)
             {
