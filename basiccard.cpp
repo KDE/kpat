@@ -27,7 +27,7 @@
 #include <qcolor.h>
 #include <qpixmap.h>
 #include <qpainter.h>
-#include <qdrawutl.h>
+#include <qdrawutil.h>
 #include <math.h>
 
 // static member definitions
@@ -82,8 +82,8 @@ void basicCard::rotate45(int d) {
   }
 }
 
-static QColorGroup colgrp( black, white, darkGreen.light(), darkGreen.dark(), 
-			   darkGreen, black, white);
+static QColorGroup colgrp( Qt::black, Qt::white, Qt::darkGreen.light(), Qt::darkGreen.dark(), 
+			   Qt::darkGreen, Qt::black, Qt::white);
 
 void basicCard::paintEvent( QPaintEvent* e ) {
   if (direction) {

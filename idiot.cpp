@@ -24,7 +24,7 @@
 
 ****************************************/
 
-#include <qapp.h>
+#include <qapplication.h>
 #include "idiot.h"
 
 Idiot::Idiot( QWidget* parent, const char* name)

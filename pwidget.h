@@ -34,7 +34,7 @@
 #include "napoleon.h"
 #include "mod3.h"
 #include "freecell.h"
-#include <qpopmenu.h>
+#include <qpopupmenu.h>
 #include <qkeycode.h>
 #include <kmenubar.h>
 #include <kmsgbox.h>

@@ -23,8 +23,8 @@
 
 ****************************************/
 
-#include <qcombo.h>
-#include <qapp.h>
+#include <qcombobox.h>
+#include <qapplication.h>
 #include <kmsgbox.h>
 #include "microsol.h"
 

@@ -22,7 +22,7 @@
 ****************************************/
 
 #include <kapp.h>
-#include <qcombo.h>
+#include <qcombobox.h>
 #include "rnd.h"
 #include "computation.h"
 #include "global.h"

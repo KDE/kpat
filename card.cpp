@@ -21,7 +21,7 @@ unimplemented flags: alsoFaceDown
 *******************************************************/
 
 #include "card.moc"
-#include "qapp.h"
+#include "qapplication.h"
 
 // static member definitions
 int   Card::RemoveFlags[N_TYPES];

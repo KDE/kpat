@@ -26,7 +26,7 @@
 #include "basiccard.h"
 #include <qobjcoll.h>
 #include <kiconloader.h>
-#include <qmsgbox.h>
+#include <qmessagebox.h>
 #include <kwm.h>
 #include <kapp.h>
 

@@ -28,7 +28,7 @@
 #define P_KLONDIKE
 
 #include "patience.h"
-#include <qcombo.h>
+#include <qcombobox.h>
 
 class Klondike : public dealer {
   Q_OBJECT

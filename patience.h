@@ -34,8 +34,8 @@
 
 
 #include <qevent.h> 
-#include <qpushbt.h>
-#include <qapp.h>
+#include <qpushbutton.h>
+#include <qapplication.h>
 #include "card.h"
 
 

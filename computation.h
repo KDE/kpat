@@ -27,7 +27,7 @@
 #define P_COMPUTATION_H
 
 #include "patience.h"
-#include <qscrbar.h>
+#include <qscrollbar.h>
 
 class Computation : public dealer {
   Q_OBJECT

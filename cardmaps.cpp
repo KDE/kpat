@@ -18,17 +18,17 @@
 
 ****************************************/
 
-#include <qapp.h>
+#include <qapplication.h>
 #include <qpainter.h>
 #include <qcolor.h>
 #include <qwmatrix.h>
-#include <qdrawutl.h>
-#include <qapp.h>
+#include <qdrawutil.h>
+#include <qapplication.h>
 #include <stdio.h>
 #include "cardmaps.h"
 #include "global.h"
 #include <unistd.h>
-#include <qdatetm.h>
+#include <qdatetime.h>
 #include <kconfig.h>
 #include <config.h>
 #include <kapp.h>
