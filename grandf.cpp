@@ -193,7 +193,7 @@ bool Grandf::isGameLost() const
                 CardList p = store[j]->cards();
                 for (CardList::ConstIterator it = p.begin(); it != p.end(); ++it){
                     Card *c= *it;
-                    if( c->isFaceUp() &&
+                    if( c->realFace() &&
                         c->value() == (store[i]->top()->value()-1) &&
                         c->suit() == store[i]->top()->suit() )
                         return false;
