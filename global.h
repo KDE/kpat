@@ -7,7 +7,7 @@
 #include <qstring.h>
 #include <klocale.h>
 
-extern KConfig *config;
-extern KLocale *locale;
+extern KConfig* config;
+extern KLocale* locale;
 
 #endif

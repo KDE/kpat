@@ -22,11 +22,9 @@
 #include <qpainter.h>
 #include "patience.h"
 
-Napoleon::Napoleon( QWidget* parent, const char* name)
-  :dealer(parent,name)
+Napoleon::Napoleon( QWidget* _parent, const char* _name )
+  : dealer( _parent, _name )
 {
-  initMetaObject();
-
   const int Store   = 1;
   const int Store2  = 2;
   const int Target  = 3;
@@ -34,71 +32,71 @@ Napoleon::Napoleon( QWidget* parent, const char* name)
   const int Centre  = 5;
   const int Pile    = 6;
 
-  Card::setAddFlags(Pile, Card::Default);
-  Card::setRemoveFlags(Pile, Card::Default);
+  Card::setAddFlags( Pile, Card::Default );
+  Card::setRemoveFlags( Pile, Card::Default );
 
-  Card::setAddFlags(Store, Card::Default);
-  Card::setRemoveFlags(Store, Card::Default);
-  Card::setAddFun(Store, &justOne);
+  Card::setAddFlags( Store, Card::Default );
+  Card::setRemoveFlags( Store, Card::Default );
+  Card::setAddFun( Store, &justOne );
 
-  Card::setAddFlags(Store2, Card::plus90);
-  Card::setRemoveFlags(Store2, Card::Default);
-  Card::setAddFun(Store2, &justOne);
+  Card::setAddFlags( Store2, Card::plus90 );
+  Card::setRemoveFlags( Store2, Card::Default );
+  Card::setAddFun( Store2, &justOne );
 
-  Card::setAddFlags(Target,  Card::plus45);
-  Card::setRemoveFlags(Target, Card::disallow);
-  Card::setAddFun(Target, &Ustep1);
+  Card::setAddFlags( Target,  Card::plus45 );
+  Card::setRemoveFlags( Target, Card::disallow );
+  Card::setAddFun( Target, &Ustep1 );
 
-  Card::setAddFlags(Target2, Card::minus45);
-  Card::setRemoveFlags(Target2, Card::disallow);
-  Card::setAddFun(Target2, &Ustep1);
+  Card::setAddFlags( Target2, Card::minus45 );
+  Card::setRemoveFlags( Target2, Card::disallow );
+  Card::setAddFun( Target2, &Ustep1 );
 
-  Card::setAddFlags(Centre, Card::Default);
-  Card::setRemoveFlags(Centre, Card::disallow);
-  Card::setAddFun(Centre, &Dstep1);
+  Card::setAddFlags( Centre, Card::Default );
+  Card::setRemoveFlags( Centre, Card::disallow );
+  Card::setAddFun( Centre, &Dstep1 );
 
-  Card::setLegalMove(Store, Target);
-  Card::setLegalMove(Store, Target2);
-  Card::setLegalMove(Store, Centre);
+  Card::setLegalMove( Store, Target );
+  Card::setLegalMove( Store, Target2 );
+  Card::setLegalMove( Store, Centre );
 
-  Card::setLegalMove(Store2, Target);
-  Card::setLegalMove(Store2, Target2);
-  Card::setLegalMove(Store2, Centre);
+  Card::setLegalMove( Store2, Target );
+  Card::setLegalMove( Store2, Target2 );
+  Card::setLegalMove( Store2, Centre );
 
-  Card::setLegalMove(Pile, Target);
-  Card::setLegalMove(Pile, Target2);
-  Card::setLegalMove(Pile, Centre);
-  Card::setLegalMove(Pile, Store);
-  Card::setLegalMove(Pile, Store2);
+  Card::setLegalMove( Pile, Target );
+  Card::setLegalMove( Pile, Target2 );
+  Card::setLegalMove( Pile, Centre );
+  Card::setLegalMove( Pile, Store );
+  Card::setLegalMove( Pile, Store2 );
 
-  Card::setLegalMove(DeckType, Target);
-  Card::setLegalMove(DeckType, Target2);
-  Card::setLegalMove(DeckType, Store);
-  Card::setLegalMove(DeckType, Store2);
-  Card::setLegalMove(DeckType, Centre);
-  Card::setLegalMove(DeckType, Pile);
+  Card::setLegalMove( DeckType, Target );
+  Card::setLegalMove( DeckType, Target2 );
+  Card::setLegalMove( DeckType, Store );
+  Card::setLegalMove( DeckType, Store2 );
+  Card::setLegalMove( DeckType, Centre );
+  Card::setLegalMove( DeckType, Pile );
 
-  deck = new Deck (500, 290, this);
+  deck = new Deck( 500, 290, this );
 
   // override standard Deck definitions
-  Card::setAddFlags(DeckType, Card::disallow);
+  Card::setAddFlags( DeckType, Card::disallow );
 
-  pile = new cardPos(400, 290, this, Pile);
-  Card::setSendBack(pile);    
+  pile = new cardPos( 400, 290, this, Pile );
+  Card::setSendBack( pile );    
 
-  target[0] = new cardPos(10,  10,  this, Target2);
-  target[1] = new cardPos(250, 10,  this, Target);
-  target[2] = new cardPos(250, 268, this, Target2);
-  target[3] = new cardPos(10,  268, this, Target);
+  target[ 0 ] = new cardPos( 10,  10,  this, Target2 );
+  target[ 1 ] = new cardPos( 250, 10,  this, Target );
+  target[ 2 ] = new cardPos( 250, 268, this, Target2 );
+  target[ 3 ] = new cardPos( 10,  268, this, Target );
 
-  store[0] = new cardPos(160, 10,  this, Store);
-  store[1] = new cardPos(272, 167,  this, Store2);
-  store[2] = new cardPos(160, 290, this, Store);
-  store[3] = new cardPos(10,  167,  this, Store2);
+  store[ 0 ] = new cardPos( 160, 10,  this, Store );
+  store[ 1 ] = new cardPos( 272, 167,  this, Store2 );
+  store[ 2 ] = new cardPos( 160, 290, this, Store );
+  store[ 3 ] = new cardPos( 10,  167,  this, Store2 );
 
-  centre = new cardPos(160, 150, this, Centre);
+  centre = new cardPos( 160, 150, this, Centre );
 
-  //    connect( deck , SIGNAL(nonMovableCardPressed(int)), SLOT(deal1()) );
+  // connect( deck, SIGNAL( nonMovableCardPressed( int ) ), SLOT( deal1() ) );
   deal();
 }
 

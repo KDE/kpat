@@ -23,25 +23,31 @@
 
 #include "patience.h"
 
-class Idiot: public dealer {
+class Idiot: public dealer
+{
   Q_OBJECT
+
 public:
-  Idiot( QWidget* parent=0, const char* name=0);
+
+  Idiot( QWidget* parent = 0, const char* name = 0 );
   virtual ~Idiot();
 
   virtual void show();
   QSize sizeHint() const;
 
 public slots:
+
   virtual void restart();
-  void deal();
   virtual void undo();
+  void deal();
 
 private slots:
-  bool handle(int pile);
+
+  bool handle( int pile );
 
 private:
-  cardPos* play[4];
+
+  cardPos* play[ 4 ];
   cardPos* away;
   Deck* deck;
 };

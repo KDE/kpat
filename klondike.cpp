@@ -26,11 +26,9 @@
 #include "global.h"
 #include <qmessagebox.h>
 
-Klondike::Klondike( QWidget* parent, const char* name)
-  : dealer(parent, name)
+Klondike::Klondike( QWidget* _parent, const char* _name )
+  : dealer( _parent, _name )
 {
-  initMetaObject();
-
   const int Pile   = 1;
   const int Play   = 2;
   const int Target = 3;
@@ -63,25 +61,24 @@ Klondike::Klondike( QWidget* parent, const char* name)
 
   cb = new QComboBox( this, "comboBox" );
   //cb->insertItem( "Cheating" );
-  cb->insertItem( i18n("Easy rules"), 0);
-  cb->insertItem( i18n("Hard rules"), 1);
+  cb->insertItem( i18n( "Easy rules" ), 0 );
+  cb->insertItem( i18n( "Hard rules" ), 1 );
   cb->setGeometry( 10, 30, 120, 30 );
   cb->setAutoResize( TRUE );
-  cb->setCurrentItem(0);
+  cb->setCurrentItem( 0 );
   cb->show();
-  connect(cb, SIGNAL(activated(int)), 
-	  SLOT(changeDiffLevel(int)) );
+  connect( cb, SIGNAL( activated( int ) ), SLOT( changeDiffLevel( int ) ) );
 
-  pile = new cardPos(10, 230, this, Pile);
+  pile = new cardPos( 10, 230, this, Pile );
 
-  for(int i=0; i<4; i++)
-    target[i] = new cardPos(210+i*85, 10, this, Target);
+  for( int i = 0; i < 4; i++ )
+    target[ i ] = new cardPos( 210 + i * 85, 10, this, Target );
   
-  for(int i=0; i<7; i++) 
-    play[i] = new cardPos(110+85*i, 150, this, Play);
+  for( int i = 0; i < 7; i++ ) 
+    play[ i ] = new cardPos( 110 + 85 * i, 150, this, Play );
   
-  connect( deck , SIGNAL(nonMovableCardPressed(int)), 
-	   SLOT(deal3()) );
+  connect( deck, SIGNAL( nonMovableCardPressed( int ) ), 
+	   SLOT( deal3() ) );
   deal();
 }
 

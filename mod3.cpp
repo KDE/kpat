@@ -52,45 +52,41 @@ void Mod3::show()
 
 //-------------------------------------------------------------------------//
 
-Mod3::Mod3( QWidget* parent, const char* name)
-	: dealer(parent,name), rb(i18n("Redeal"), this) 
+Mod3::Mod3( QWidget* _parent, const char* _name)
+	: dealer( _parent, _name ), rb( i18n( "Redeal" ), this ) 
 {
-	initMetaObject();
+  deck = new Deck( -666, -666, this, 2 );
 
-	deck = new Deck (-666, -666, this, 2);
+  for( int r = 0; r < 4; r++ )
+  {
+    for( int i = 1; i <= 3; i++ )
+      Card::setLegalMove( r + 1, i );
 
-	for (int r = 0; r < 4; r++)
-	{
-		for (int i = 1; i <= 3; i++)
-			Card::setLegalMove (r+1, i);
+    if( r < 3 )
+    {
+      Card::setAddFlags( r + 1, Card::Default );
+      Card::setAddFun( r + 1, &CanPut );
+    }
+    else
+      Card::setAddFlags( r + 1, Card::addSpread );
 
-		if (r < 3)
-		{
-			Card::setAddFlags (r+1, Card::Default);
-			Card::setAddFun (r+1, &CanPut);
-		}
-		else
-			Card::setAddFlags (r+1, Card::addSpread);
+    for( int c = 0; c < 8; c++ )
+      stack[ r ][ c ] = new cardPos ( 8 + 80 * c, 8 + 105 * r + 32 * ( r == 3 ), this, r + 1 );
+  }
 
-		for (int c = 0; c < 8; c++)
-			stack[r][c] = new cardPos (
-				8+80*c, 8+105*r + 32*(r == 3),
-				this, r+1);
-	}
-
-	rb.move (8, 322);
-	rb.adjustSize();
-	connect (&rb, SIGNAL (clicked()) , SLOT (redeal()));
+  rb.move( 8, 322 );
+  rb.adjustSize();
+  connect( &rb, SIGNAL( clicked() ) , SLOT( redeal() ) );
 
 /*
-  QPushButton* hb= new QPushButton(i18n("Hint"),this);
-  hb->move(10,380);
+  QPushButton* hb= new QPushButton( i18n( "Hint" ),this );
+  hb->move( 10, 380 );
   hb->adjustSize();
-  connect( hb, SIGNAL( clicked()) , SLOT( hint() ) );
+  connect( hb, SIGNAL( clicked() ) , SLOT( hint() ) );
   hb->show();
 */
 
-	deal();
+  deal();
 }
 
 //-------------------------------------------------------------------------//

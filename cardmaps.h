@@ -24,21 +24,28 @@
 #include <qbitmap.h>
 #include <qobject.h>
 
-class cardMaps: public QObject {
+#define NUM_OF_COLORS   4
+#define CARDS_PER_COLOR 13
+
+class cardMaps: public QObject
+{
   Q_OBJECT
+
 public:
-  cardMaps( QObject* parent = 0 );
+
+  cardMaps( QObject* _parent = 0 );
 
   static int CARDX;
   static int CARDY;
 
-  QPixmap *image( int value, int suit) const;
-  QPixmap *backSide();
-  void setBackSide(QPixmap *);
+  QPixmap* image( int _value, int _suit ) const;
+  QPixmap* backSide();
+  void setBackSide( QPixmap* _pix );
 
 private:
-  QPixmap *img[13][4];
-  QPixmap *back;
+
+  QPixmap* img[ CARDS_PER_COLOR ][ NUM_OF_COLORS ];
+  QPixmap* back;
 };
 
 #endif

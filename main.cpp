@@ -16,11 +16,12 @@
 
  */
 
-#include "pwidget.h"
 #include <kapp.h>
+
+#include "pwidget.h"
 #include "global.h"
 
-KConfig *config = 0;
+KConfig* config = 0;
 
 int main( int argc, char **argv )
 {

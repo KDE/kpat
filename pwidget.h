@@ -24,6 +24,17 @@
 #define __PWIDGET__H__
 
 #include <qwidget.h>
+#include <qpopupmenu.h>
+#include <qkeycode.h>
+
+#include <kmenubar.h>
+#include <kmsgbox.h>
+#include <ktopwidget.h>
+#include <ktoolbar.h>
+#include <kstatusbar.h>
+#include <kmenubar.h>
+#include <kapp.h>
+
 #include "card.h"
 #include "klondike.h"
 #include "microsol.h"
@@ -34,14 +45,6 @@
 #include "napoleon.h"
 #include "mod3.h"
 #include "freecell.h"
-#include <qpopupmenu.h>
-#include <qkeycode.h>
-#include <kmenubar.h>
-#include <ktopwidget.h>
-#include <ktoolbar.h>
-#include <kstatusbar.h>
-#include <kmenubar.h>
-#include <kapp.h>
 
 // type identifier for games
 #define PT_NONE		0
@@ -55,7 +58,7 @@
 #define PT_MOD3		8
 #define PT_FREECELL	9
 
-class pWidget: public KTopLevelWidget {
+class pWidget: public KTMainWindow {
   Q_OBJECT
 public:
   pWidget(QWidget *parent=0, const char *name=0 );

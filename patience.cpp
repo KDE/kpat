@@ -1,40 +1,31 @@
+/*
+ Patience.cpp -- support classes for patience type card games
 
-/******************************************************
+   Copyright (C) 1995  Paul Olav Tvete
 
-  Patience.cpp -- support classes for patience type card games
+ Permission to use, copy, modify, and distribute this software and its
+ documentation for any purpose and without fee is hereby granted,
+ provided that the above copyright notice appear in all copies and that
+ both that copyright notice and this permission notice appear in
+ supporting documentation.
 
-     Copyright (C) 1995  Paul Olav Tvete
+ This file is provided AS IS with no warranties of any kind.  The author
+ shall have no liability with respect to the infringement of copyrights,
+ trade secrets or any patents by this file or any part thereof.  In no
+ event will the author be liable for any lost revenue or profits or
+ other special, indirect and consequential damages.
 
- * Permission to use, copy, modify, and distribute this software and its
- * documentation for any purpose and without fee is hereby granted,
- * provided that the above copyright notice appear in all copies and that
- * both that copyright notice and this permission notice appear in
- * supporting documentation.
- *
- * This file is provided AS IS with no warranties of any kind.  The author
- * shall have no liability with respect to the infringement of copyrights,
- * trade secrets or any patents by this file or any part thereof.  In no
- * event will the author be liable for any lost revenue or profits or
- * other special, indirect and consequential damages.
+ NB!
 
-NB!
-
-unimplemented flags: alsoFaceDown
-
-
-
-
-*******************************************************/
+ unimplemented flags: alsoFaceDown
+*/
 
 #include "patience.h"
 #include "rnd.h"
-#include <stdio.h>
-
 
 const long Deck::n = 52;
 
-
-/*
+/**
  *    General support class for patience type card games
  *
  *    Card -- basic class
@@ -42,24 +33,25 @@ const long Deck::n = 52;
  *    CardTable -- place to put cards
  *
  */
-CardTable::CardTable( QWidget *parent, const char *name ) 
-  :QWidget(parent, name)
+CardTable::CardTable( QWidget* parent, const char* name ) 
+  : QWidget( parent, name )
 {
-  initMetaObject();
-
-  setBackgroundColor(darkGreen);
-  setMouseTracking(TRUE);
+  setBackgroundColor( darkGreen );
+  setMouseTracking( TRUE );
   show();
 }
 
-CardTable::~CardTable() {
+CardTable::~CardTable()
+{
 }
 
-void CardTable::mouseMoveEvent (QMouseEvent* e) {
-  Card::mouseMoveHandle(e->pos());
+void CardTable::mouseMoveEvent( QMouseEvent* _event )
+{
+  Card::mouseMoveHandle( _event->pos() );
 }
 
-void CardTable::mousePressEvent (QMouseEvent*) {
+void CardTable::mousePressEvent( QMouseEvent* )
+{
   Card::stopMovingIfResting();
 }
 
@@ -67,18 +59,18 @@ Card* Deck::getCard() {
   Card* c;
 
   c = next();  // Dealing from bottom of deck ....
-  if (c) c->unlink();
+  if( c )
+    c->unlink();
   return c;
 }
 
 
 Deck::Deck( int x, int y, CardTable* parent, int m ) 
-  : cardPos(x, y, parent, DeckType), f(parent), mult (m)
+  : cardPos( x, y, parent, DeckType ), f( parent ), mult( m )
 { 
   deck = new Card * [mult*n];
   CHECK_PTR (deck);
 
-  initMetaObject(); 
   makedeck(); 
   shuffle(); 
   addToDeck(); 
@@ -150,23 +142,25 @@ void Deck::unlinkAll() {
 }
 
 
-dealer::dealer( QWidget *parent , const char *name )
-  :CardTable(parent, name)
+dealer::dealer( QWidget* _parent , const char* _name )
+  : CardTable( _parent, _name )
 {
-  initMetaObject();
 }
 
-dealer::~dealer() {
+dealer::~dealer()
+{
 }
 
-void dealer::stopActivity() { 
+void dealer::stopActivity()
+{ 
   Card::stopMoving(); 
 }
 
-QSize dealer::sizeHint() const {
+QSize dealer::sizeHint() const
+{
   // just a dummy size
-  fprintf(stderr, "kpat: dealer::sizeHint() called!\n");
-  return QSize(100, 100);
+  //fprintf( stderr, "kpat: dealer::sizeHint() called!\n" );
+  return QSize( 100, 100 );
 }
 
 void dealer::undo() { 

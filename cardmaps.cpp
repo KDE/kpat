@@ -18,47 +18,51 @@
 
 ****************************************/
 
+#include <stdio.h>
+#include <unistd.h>
+
 #include <qpainter.h>
 #include <qcolor.h>
 #include <qwmatrix.h>
 #include <qdrawutil.h>
 #include <qapplication.h>
-#include <stdio.h>
-#include "cardmaps.h"
-#include "global.h"
-#include <unistd.h>
 #include <qdatetime.h>
+
 #include <kconfig.h>
 #include <kglobal.h>
 #include <kiconloader.h>
+
 #include <config.h>
+#include "cardmaps.h"
+#include "global.h"
 
 int cardMaps::CARDX;
 int cardMaps::CARDY;
 
-cardMaps::cardMaps( QObject* parent ) : QObject(parent, 0) {
+cardMaps::cardMaps( QObject* _parent )
+  : QObject( _parent, 0 )
+{
   // create an animation window while loading pixmaps (this
   // may take a while (approx. 3 seconds on my AMD K6PR200)
-  config->setGroup("General settings");
-  bool animate = (bool)(config->readNumEntry("Animation", 1) != 0);
-  QWidget *w = 0;
+  config->setGroup( "General settings" );
+  bool animate = (bool) ( config->readNumEntry( "Animation", 1 ) != 0 );
+  QWidget* w = 0;
   QPixmap pm1;
   QPainter p;
   QTime t1, t2;
 
-  if(animate) {
+  if( animate )
+  {
     t1 = QTime::currentTime();
-    w = new QWidget(0, "", 
-			     WStyle_Customize|WStyle_NoBorder|WStyle_Tool);
-    pm1 = Icon("back1.png");
-    QWidget *dt = qApp->desktop();
-    w->setBackgroundColor(darkGreen);  
-    w->setGeometry((dt->width() - 510)/2, (dt->height() - 180)/2, 
-		 510, 180);
+    w = new QWidget( 0, "", WStyle_Customize | WStyle_NoBorder | WStyle_Tool );
+    pm1 = Icon( "back1.png" );
+    QWidget* dt = qApp->desktop();
+    w->setBackgroundColor( darkGreen );  
+    w->setGeometry( ( dt->width() - 510 ) / 2, ( dt->height() - 180 ) / 2, 510, 180); 
     w->show();
     qApp->processEvents();
-    p.begin(w);
-    
+
+    p.begin( w );
     p.drawText(0, 150, 510, 20, AlignCenter, 
 	       i18n("please wait, loading cards..."));
     
@@ -73,7 +77,8 @@ cardMaps::cardMaps( QObject* parent ) : QObject(parent, 0) {
   }
 
   QString imgname;
-  for(int idx = 1; idx < 53; idx++) {
+  for(int idx = 1; idx < 53; idx++)
+  {
     // translate index to suit/rank
     // this is necessary since kpoker uses another
     // mapping in the pictures
@@ -98,23 +103,24 @@ cardMaps::cardMaps( QObject* parent ) : QObject(parent, 0) {
 
     img[rank][suit] = new QPixmap( Icon(QString("%1.png").arg(idx)) );
 
-    if(img[rank][suit]->width() == 0 ||
-       img[rank][suit]->height() == 0) {
-      fprintf(stderr, 
-	      i18n("kpat: PANIC, cannot load card pixmap \"%1\"\n").ascii(),
-	      imgname.ascii());
-      exit(1);
+    if( img[ rank ][ suit ]->width() == 0 ||
+        img[ rank ][ suit ]->height() == 0)
+    {
+      fprintf( stderr, i18n( "kpat: PANIC, cannot load card pixmap \"%1\"\n" ).ascii(), imgname.ascii() );
+      exit( 1 );
     }
 
-    if(animate) {
-      if(idx > 1)
-	p.drawPixmap(10 + (idx-1)*8, 45, pm1);
-      p.drawPixmap(10 + idx*8, 45, *img[rank][suit]);
+    if( animate )
+    {
+      if( idx > 1 )
+	p.drawPixmap( 10 + ( idx - 1 ) * 8, 45, pm1 );
+      p.drawPixmap( 10 + idx * 8, 45, *img[ rank ][ suit ] );
       p.flush();
     }
   }
 
-  if(animate) {
+  if( animate )
+  {
     p.end();
     t2 = QTime::currentTime();
     if(t1.msecsTo(t2) < 1500) 
@@ -122,23 +128,25 @@ cardMaps::cardMaps( QObject* parent ) : QObject(parent, 0) {
     delete w;
   }
 
-  CARDX = img[0][0]->width();
-  CARDY = img[0][0]->height();
+  CARDX = img[ 0 ][ 0 ]->width();
+  CARDY = img[ 0 ][ 0 ]->height();
 
   back = 0;
   setBackSide(0);
 }
 
-void cardMaps::setBackSide(QPixmap *pm) {
+void cardMaps::setBackSide( QPixmap* pm )
+{
   // delete old background
-  if(back != 0) {
+  if(back != 0)
+  {
     delete back;
     back = 0;
   }
 
-  if(pm == 0) { // ok, let's use the default KDE background
-    QColorGroup  mycolgroup( 
-			    QApplication::palette().normal().foreground(), 
+  if(pm == 0)
+  { // ok, let's use the default KDE background
+    QColorGroup mycolgroup( QApplication::palette().normal().foreground(),
 			    QApplication::palette().normal().background(),
 			    lightGray,
 			    QApplication::palette().normal().dark(), 
@@ -157,7 +165,8 @@ void cardMaps::setBackSide(QPixmap *pm) {
     p.rotate (45);
     int y = -CARDY;
     int x = -CARDX;
-    while (y < 2 * CARDY){
+    while (y < 2 * CARDY)
+    {
       p.setPen(darkGray);
       p.drawText(x + 2, y + 2, "KDE");
       p.setPen(gray);
@@ -191,20 +200,26 @@ void cardMaps::setBackSide(QPixmap *pm) {
   }  
 }
 
-QPixmap *cardMaps::backSide() {
+QPixmap* cardMaps::backSide()
+{
   return back;
 }
 
-QPixmap* cardMaps::image( int value, int suit) const { 
-  if ( 1 <= value && value <= 13 && 
-       1 <= suit && suit <= 4 )
-    return img[value-1][suit-1];
-  else {
-    fprintf(stderr, 
-	    i18n("KPAT: access to invalid card %d, %d\n").ascii(), 
-	    value, suit);
+QPixmap* cardMaps::image( int _value, int _suit) const
+{ 
+  if( 1 <= _value &&
+      _value <= 13 && 
+      1 <= _suit &&
+      _suit <= 4 )
+  {
+    return img[ _value - 1 ][ _suit - 1 ];
+  }
+  else
+  {
+    fprintf( stderr, i18n( "KPAT: access to invalid card %d, %d\n").ascii(), _value, _suit );
     return 0;
   }
 }
 
 #include "cardmaps.moc"
+

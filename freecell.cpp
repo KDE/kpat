@@ -68,8 +68,6 @@ void Freecell::show()
 Freecell::Freecell( QWidget* parent, const char* name)
 	: dealer(parent,name)
 {
-	initMetaObject();
-
 	freecell_game = this;
 
 	deck = new Deck (-666, -666, this);

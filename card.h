@@ -28,6 +28,7 @@
 #define PATIENCE_CARD
 
 #include <qpoint.h> 
+
 #include "basiccard.h"
 
 // The following classes are defined in other headers:

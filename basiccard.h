@@ -21,8 +21,8 @@
 #ifndef P_BASIC_CARD
 #define P_BASIC_CARD
 
-
 #include <qlabel.h>
+
 #include "cardmaps.h"
 
 class basicCard : public QLabel { 
