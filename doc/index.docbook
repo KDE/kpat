@@ -50,14 +50,14 @@
 <holder>Paul Olav Tvete</holder>
 </copyright>
 <copyright>
-<year>2001</year>
+<year>2001</year><year>2004</year>
 <holder>Maren Pakura</holder>
 </copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2001-02-18</date>
-<releaseinfo>2.00.00</releaseinfo>
+<date>2004-02-07</date>
+<releaseinfo>3.2</releaseinfo>
 <abstract>
 
 <para>&kpatience; is a highly addictive card game for &kde;</para>
@@ -97,7 +97,7 @@ in moving, turning and reordering them.
 <title>Rules</title>
 
 <para><indexterm><primary>suits</primary></indexterm>
-A card game contains one or two card decks of 52 cards each. Each deck contains
+A card game contains one or more card decks of 52 cards each. Each deck contains
 the four suits:
 </para>
 
