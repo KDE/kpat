@@ -98,7 +98,6 @@ private:
 
     Dealer *_dealer;
     int myIndex;
-    int direction;
     bool _target;
 };
 

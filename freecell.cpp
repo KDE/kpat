@@ -34,29 +34,26 @@ Freecell::Freecell( KMainWindow* parent, const char* name)
     deck = new Deck(0, this);
     deck->hide();
 
-    for (int r = 0; r < 4; r++)
+    for (int i = 0; i < 8; i++) {
+        stack[i] = new Pile(1 + i, this);
+        stack[i]->move(8+80*i, 113);
+        stack[i]->setAddFlags(Pile::addSpread | Pile::several);
+        stack[i]->setRemoveFlags(Pile::several);
+        stack[i]->setAddFun(&CanPutStack);
+        stack[i]->setRemoveFun(&CanRemove);
+    }
+
+    for (int i = 0; i < 4; i++)
     {
-        for (int i = 0; i < 8; i++) {
-            stack[i] = new Pile(1 + i, this);
-            stack[i]->move(8+80*i, 113);
-            stack[i]->setAddFlags(Pile::addSpread | Pile::several);
-            stack[i]->setRemoveFlags(Pile::several);
-            stack[i]->setAddFun(&CanPutStack);
-            stack[i]->setRemoveFun(&CanRemove);
-        }
+        freecell[i] = new Pile (9+i, this);
+        freecell[i]->move(8+76*i, 8);
+        freecell[i]->setAddFun (&CanPutFreeCell);
 
-        for (int i = 0; i < 4; i++)
-        {
-            freecell[i] = new Pile (9+i, this);
-            freecell[i]->move(8+76*i, 8);
-            freecell[i]->setAddFun (&CanPutFreeCell);
-
-            store[i] = new Pile(13+i, this);
-            store[i]->move(338+76*i, 8);
-            store[i]->setRemoveFlags(Pile::disallow);
-            store[i]->setAddFun(&CanPutStore);
-            store[i]->setTarget(true);
-        }
+        store[i] = new Pile(13+i, this);
+        store[i]->move(338+76*i, 8);
+        store[i]->setRemoveFlags(Pile::disallow);
+        store[i]->setAddFun(&CanPutStore);
+        store[i]->setTarget(true);
     }
 
     deal();
@@ -110,6 +107,7 @@ bool Freecell::CanPutFreeCell(const Pile *c1, const CardList &)
 
 bool Freecell::CanPutStack(const Pile *c1, const CardList &c2)
 {
+    kdDebug() << "CanPutStack " << (void*)c1 << " " << c1->cardsLeft() << " " << c2.first()->name() << " " << (c1->top() ? c1->top()->name() : "<none>") << " " << c1->index() << endl;
     // ok if the target is empty
     if (c1->isEmpty())
         return true;

@@ -31,7 +31,7 @@ Card *Pile::top() const
 }
 
 Pile::Pile( int _index, Dealer* parent)
-    : QCanvasRectangle( parent->canvas() ), _dealer(parent), myIndex(_index), direction(0), _target(false)
+    : QCanvasRectangle( parent->canvas() ), _dealer(parent), myIndex(_index), _target(false)
 {
     dealer()->addPile(this);
     QCanvasRectangle::setVisible(true); // default
@@ -273,6 +273,8 @@ CardList Pile::cardPressed(Card *c)
 
 void Pile::moveCards(CardList &cl, Pile *to)
 {
+    kdDebug() << "moveCards\n";
+
     if (!cl.count())
         return;
 

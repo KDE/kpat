@@ -29,6 +29,47 @@
 #include <qimage.h>
 #include <assert.h>
 
+
+
+static const char *suit_names[] = {"Clubs", "Diamonds", "Hearts", "Spades"};
+static const char *value_names[] = {"Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight",
+                                    "Nine", "Ten", "Jack", "Queen", "King" };
+
+Card::Card( Values v, Suits s, QCanvas* _parent )
+    : QCanvasRectangle( _parent ),  _source(0), _suit( s ), _value( v ), scaleX(1.0), scaleY(1.0)
+{
+    _name = qstrdup(QString("%1 %2").arg(suit_names[s-1]).arg(value_names[v-1]).utf8());
+
+    destX = 0;
+    destY = 0;
+    destZ = 0;
+    faceup = true;
+    setSize( cardMap::CARDX, cardMap::CARDY );
+    flipping = false;
+    animSteps = flipSteps = 0;
+}
+
+Card::~Card()
+{
+    if (source()) source()->remove(this);
+    delete [] _name;
+    hide();
+}
+
+QPixmap Card::pixmap() const
+{
+    return cardMap::self()->image( _value, _suit );
+}
+
+// end static member def
+void Card::turn( bool _faceup )
+{
+    if (faceup != _faceup) {
+        faceup = _faceup;
+        setActive(!active()); // abuse
+    }
+}
+
 void Card::draw( QPainter &p )
 {
     QPixmap side;
@@ -48,40 +89,6 @@ void Card::draw( QPainter &p )
         p.drawPixmap( x(), y(), side );
 }
 
-Card::~Card()
-{
-    if (source()) source()->remove(this);
-    delete [] _name;
-    hide();
-}
-
-static const char *suit_names[] = {"Clubs", "Diamonds", "Hearts", "Spades"};
-static const char *value_names[] = {"Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight",
-                                    "Nine", "Ten", "Jack", "Queen", "King" };
-
-Card::Card( Values v, Suits s, QCanvas* _parent )
-    : QCanvasRectangle( _parent ),  _source(0), _suit( s ), _value( v ), scaleX(1.0), scaleY(1.0)
-{
-    _name = qstrdup(QString("%1 %2").arg(suit_names[s-1]).arg(value_names[v-1]).utf8());
-
-    faceup = true;
-    setSize( cardMap::CARDX, cardMap::CARDY );
-    flipping = false;
-}
-
-QPixmap Card::pixmap() const
-{
-    return cardMap::self()->image( _value, _suit );
-}
-
-// end static member def
-void Card::turn( bool _faceup )
-{
-    if (faceup != _faceup) {
-        faceup = _faceup;
-        setActive(!active()); // abuse
-    }
-}
 
 void Card::moveBy(double dx, double dy)
 {
