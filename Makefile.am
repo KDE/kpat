@@ -36,3 +36,18 @@ appsdir = $(kde_appsdir)/Games
 messages:
 	@XGETTEXT@ -C -ktranslate -x ../../kdelibs/po/kde.pot *.cpp && mv messages.po ../po/kpat.pot
 
+# Dependencies
+basiccard.cpp: basiccard.moc
+card.cpp: card.moc
+cardmaps.cpp: cardmaps.moc
+computation.cpp: computation.moc
+freecell.cpp: freecell.moc
+grandf.cpp: grandf.moc
+idiot.cpp: idiot.moc
+klondike.cpp: klondike.moc
+microsol.cpp: microsol.moc
+mod3.cpp: mod3.moc
+napoleon.cpp: napoleon.moc
+patience.cpp: patience.moc
+pwidget.cpp: pwidget.moc
+ten.cpp: ten.moc
