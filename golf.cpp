@@ -24,7 +24,6 @@ Golf::Golf( KMainWindow* parent, const char* _name)
         : Dealer( parent, _name )
 {
     const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
-
     const int pile_dist = 10 + 3 * cardMap::CARDY();
 
     deck = new Deck( 0, this);
@@ -61,9 +60,7 @@ bool Golf::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
     if ((c2->value() != (c1->top()->value()+1)) && (c2->value() != (c1->top()->value()-1)))
         return false;
 
-
     return true;
-
 }
 
 bool Golf::checkRemove( int checkIndex, const Pile *, const Card *c2) const
@@ -141,8 +138,11 @@ bool Golf::isGameLost() const
     if( !deck->isEmpty())
         return false;
 
+    bool onecard = false;
+
     for( int r = 0; r < 7; r++ ) {
         if( !stack[r]->isEmpty()){
+            onecard = true;
             CardList stackTops;
             stackTops.append(stack[r]->top());
             if(this->checkAdd(0,waste,stackTops))
@@ -150,7 +150,7 @@ bool Golf::isGameLost() const
         }
     }
 
-    return true;
+    return onecard;
 }
 
 
