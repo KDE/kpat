@@ -11,6 +11,8 @@
 #include <klocale.h>
 #include "cardmaps.h"
 #include "speeds.h"
+#include <kconfig.h>
+#include "version.h"
 
 DealerInfoList *DealerInfoList::_self = 0;
 static KStaticDeleter<DealerInfoList> dl;
@@ -100,6 +102,8 @@ void Dealer::setupActions() {
 
 Dealer::~Dealer()
 {
+	 if (!_won)
+		 countLoss();
     clearHints();
     parent()->guiFactory()->unplugActionList( parent(), QString::fromLatin1("game_actions"));
 
@@ -550,6 +554,8 @@ bool Dealer::cardDblClicked(Card *c)
 
 void Dealer::startNew()
 {
+    if (!_won)
+		 countLoss();
     minsize = QSize(0,0);
     _won = false;
     _waiting = 0;
@@ -580,6 +586,14 @@ void Dealer::startNew()
                 break;
         }
     }
+	 // count started game
+	 { // wrap in own scope to make KConfigGroupSave work
+    KConfig *config = kapp->config();
+    KConfigGroupSaver kcs(config, scores_group);
+	 unsigned int Total = config->readUnsignedNumEntry(QString("total%1").arg(_id),0);
+	 ++Total;
+	 config->writeEntry(QString("total%1").arg(_id),Total);
+	 }
     kdDebug(11111) << "startNew takeState\n";
     if (!towait)
         takeState();
@@ -1068,6 +1082,19 @@ void Dealer::won()
     if (_won)
         return;
     _won = true;
+	 // update score, 'win' in demo mode also counts (keep it that way?)
+	 { // wrap in own scope to make KConfigGroupSave work
+    KConfig *config = kapp->config();
+    KConfigGroupSaver kcs(config, scores_group);
+	 unsigned int n = config->readUnsignedNumEntry(QString("won%1").arg(_id),0) + 1;
+	 config->writeEntry(QString("won%1").arg(_id),n);
+	 n = config->readUnsignedNumEntry(QString("winstreak%1").arg(_id),0) + 1;
+	 config->writeEntry(QString("winstreak%1").arg(_id),n);
+	 unsigned int m = config->readUnsignedNumEntry(QString("maxwinstreak%1").arg(_id),0);
+	 if (n>m)
+		 config->writeEntry(QString("maxwinstreak%1").arg(_id),n);
+	 config->writeEntry(QString("loosestreak%1").arg(_id),0);
+	 }
 
     // sort cards by increasing z
     QCanvasItemList list = canvas()->allItems();
@@ -1324,6 +1351,19 @@ void Dealer::wheelEvent( QWheelEvent *e )
 MoveHint::MoveHint(Card * c, Pile *_to, bool d)
 {
     _card = c; to = _to; _dropiftarget = d;
+}
+
+void Dealer::countLoss()
+{
+	 // update score
+    KConfig *config = kapp->config();
+    KConfigGroupSaver kcs(config, scores_group);
+	 unsigned int n = config->readUnsignedNumEntry(QString("loosestreak%1").arg(_id),0) + 1;
+	 config->writeEntry(QString("loosestreak%1").arg(_id),n);
+	 unsigned int m = config->readUnsignedNumEntry(QString("maxloosestreak%1").arg(_id),0);
+	 if (n>m)
+		 config->writeEntry(QString("maxloosestreak%1").arg(_id),n);
+	 config->writeEntry(QString("winstreak%1").arg(_id),0);
 }
 
 #include "dealer.moc"

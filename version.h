@@ -3,3 +3,4 @@
 #endif
 
 #define settings_group "General Settings"
+#define scores_group "Scores"

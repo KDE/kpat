@@ -11,6 +11,7 @@
     <Separator/>
     <Action name="choose_game"/>
     <Action name="restart_game"/>
+    <Action name="game_stats"/>
     <Separator/>
     <ActionList name="game_actions"/>
     <Separator/>

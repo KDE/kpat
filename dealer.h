@@ -95,6 +95,7 @@ public:
     void openGame(QDomDocument &doc);
 
     void setGameId(int id) { _id = id; }
+	 int gameId() const { return _id; }
 
     void setTakeTargetForHints(bool e) { takeTargets = e; }
     bool takeTargetForHints() const { return takeTargets; }
@@ -212,6 +213,9 @@ protected:
     QString ac;
     static Dealer *s_instance;
     bool _autodrop;
+
+private:
+	 void countLoss();
 };
 
 #endif

@@ -44,6 +44,7 @@
 #include <kmessagebox.h>
 #include <kaccelmanager.h>
 #include <kmenubar.h>
+#include "gamestatsimpl.h"
 
 static pWidget *current_pwidget = 0;
 
@@ -118,6 +119,8 @@ pWidget::pWidget()
     backs = new KAction(i18n("&Switch Cards..."), 0, this,
                         SLOT(changeBackside()),
                         actionCollection(), "backside");
+	 stats = new KAction(i18n("&Statistics..."), 0, this, SLOT(showStats()),
+			 actionCollection(),"game_stats");
 
     animation = new KToggleAction(i18n( "&Animation on Startup" ),
                                   0, this, SLOT(animationChanged()),
@@ -471,6 +474,14 @@ void pWidget::saveGame()
     KIO::NetAccess::upload(file.name(), url, this);
     recent->addURL(url);
     recent->saveEntries(KGlobal::config());
+}
+
+void pWidget::showStats()
+{
+	GameStatsImpl* dlg = new GameStatsImpl(this,"statistics dialog");
+	if (dill)
+		dlg->showGameType(dill->gameId());
+	dlg->exec();
 }
 
 #include "pwidget.moc"

@@ -60,6 +60,7 @@ public slots:
     void slotGameInfo(const QString &);
     void helpGame();
     void enableAutoDrop();
+	 void showStats();
 
 private:
     void setGameCaption();
@@ -70,6 +71,7 @@ private:
     KSelectAction *games, *wallpapers;
     KAction *backs, *undo;
     KToggleAction *animation, *dropaction;
+	 KAction *stats;
     QPixmap background;
     QColor midcolor;
     QStringList wallpaperlist;
