@@ -64,16 +64,24 @@ cardMap::cardMap(const QColor &dim) : dimcolor(dim)
     KConfigGroupSaver cs(config, settings_group );
 
     QString bg = config->readEntry( "Back", KCardDialog::getRandomDeck());
-    setBackSide( bg );
+    if (!setBackSide( bg )) {
+        bg = KCardDialog::getRandomDeck();
+        config->writeEntry( "Back", bg);
+        setBackSide( bg );
+    }
 
     QString dir = config->readEntry("Cards",  KCardDialog::getRandomCardDir());
-    setCardDir( dir );
+    if (!setCardDir( dir )) {
+        dir = KCardDialog::getRandomCardDir();
+        config->writeEntry("Cards", dir);
+        setCardDir( dir );
+    }
 
     _self = cms.setObject(this);
 //    kdDebug() << "card " << CARDX << " " << CARDY << endl;
 }
 
-void cardMap::setCardDir( const QString &dir)
+bool cardMap::setCardDir( const QString &dir)
 {
     KConfig *config = kapp->config();
     KConfigGroupSaver cs(config, settings_group );
@@ -140,9 +148,12 @@ void cardMap::setCardDir( const QString &dir)
         QImage image;
         image.load(imgname);
 
-        if( image.isNull())
-            kdFatal() << "cannot load card pixmap \"" << imgname << "\" in (" << idx << ") " << dir << "\n";
-
+        if( image.isNull()) {
+            kdDebug() << "cannot load card pixmap \"" << imgname << "\" in (" << idx << ") " << dir << "\n";
+            p.end();
+            delete w;
+            return false;
+        }
         img[rank][suit].normal.convertFromImage(image);
         KImageEffect::fade(image, 0.4, dimcolor);
         img[rank][suit].inverted.convertFromImage(image);
@@ -165,11 +176,14 @@ void cardMap::setCardDir( const QString &dir)
         delete w;
     }
 
-
+    return true;
 }
 
-void cardMap::setBackSide( const QPixmap &pm )
+bool cardMap::setBackSide( const QPixmap &pm )
 {
+    if (pm.isNull())
+        return false;
+
     back = pm;
 
     if (!CARDX || !CARDY) {
@@ -187,6 +201,8 @@ void cardMap::setBackSide( const QPixmap &pm )
                  ((float)(CARDY))/back.height());
         back = back.xForm(wm);
     }
+
+    return true;
 }
 
 QPixmap cardMap::backSide() const

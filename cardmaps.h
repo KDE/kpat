@@ -40,8 +40,8 @@ public:
 
     QPixmap image( Card::Values _value, Card::Suits _suit, bool inverted = false) const;
     QPixmap backSide() const;
-    void setCardDir( const QString &dir);
-    void setBackSide( const QPixmap & _pix );
+    bool setCardDir( const QString &dir);
+    bool setBackSide( const QPixmap & _pix );
 
 private:
 

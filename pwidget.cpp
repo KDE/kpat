@@ -287,7 +287,11 @@ void pWidget::setBackSide(const QString &deck, const QString &cards)
     if(!pm.isNull()) {
         cardMap::self()->setBackSide(pm);
         config->writeEntry("Back", deck);
-        cardMap::self()->setCardDir(cards);
+        bool ret = cardMap::self()->setCardDir(cards);
+        if (!ret) {
+            config->writeEntry("Back", "");
+
+        }
         config->writeEntry("Cards", cards);
     } else
         KMessageBox::sorry(this,
