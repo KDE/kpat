@@ -71,7 +71,7 @@ pWidget::pWidget( const char* _name )
                            actionCollection(), "save");
     (void)new KAction(i18n("&Choose Game..."), 0, this, SLOT(chooseGame()),
                       actionCollection(), "choose_game");
-    (void)new KAction(i18n("&Restart Game"), QString::fromLatin1("reload"), 0,
+    (void)new KAction(i18n("Restart &Game"), QString::fromLatin1("reload"), 0,
                       this, SLOT(restart()),
                       actionCollection(), "restart_game");
     (void)KStdAction::help(this, SLOT(helpGame()), actionCollection(), "help_game");
