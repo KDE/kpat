@@ -150,7 +150,7 @@ void FreecellBase::findSolution()
     solver_instance = freecell_solver_user_alloc();
 
     freecell_solver_user_set_solving_method(solver_instance,
-                                            FCS_METHOD_HARD_DFS);
+                                            FCS_METHOD_SOFT_DFS);
 
 
     int ret = freecell_solver_user_set_game(solver_instance,

@@ -145,6 +145,11 @@ bool Pile::legalAdd( const CardList& _cards ) const
         return false;
     }
 
+    // getHint removes cards without turning, so it could be it
+    // checks later if cards can be added to a face down card
+    if (top() && !top()->realFace())
+	return false;
+
     switch (addType()) {
         case Custom:
             return dealer()->checkAdd( checkIndex(), this, _cards );
