@@ -781,12 +781,12 @@ void Dealer::takeState()
     }
 
     if (n) {
-        if (isGameLost()){
-            emit gameLost();
+        if (isGameWon()) {
+            won();
             return;
         }
-        else if (isGameWon()) {
-            won();
+        else if (isGameLost()) {
+            QTimer::singleShot(400, this, SIGNAL(gameLost()));
             return;
         } else if (!demoActive() && !waiting()) {
             QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));

@@ -162,16 +162,14 @@ void Grandf::setGameState( QDataStream & stream )
 
 bool Grandf::isGameLost() const
 {
-    int i,i2,j;
-
-    if(numberOfDeals <3)
+    if (numberOfDeals <3)
         return false;
 
-    for(i=0; i < 7; i++) { // check each store
+    for(int i=0; i < 7; i++) { // check each store
 
         if(store[i]->isEmpty()){ //look for a face up king
-            for(i2=1; i2 < 7; i2++) { // check the other stores.
-                j=(i+i2) % 7;
+            for(int i2=1; i2 < 7; i2++) { // check the other stores.
+                int j=(i+i2) % 7;
                 CardList p = store[j]->cards();
                 for (CardList::ConstIterator it = p.begin(); it != p.end(); ++it){
                     Card *c= *it;
@@ -186,14 +184,14 @@ bool Grandf::isGameLost() const
                 return false;
 
             // can we add to a target ?
-            for(j=0; j <4; j++)
+            for(int j=0; j <4; j++)
                 if( !target[j]->isEmpty())
                     if(store[i]->top()->suit() == target[j]->top()->suit())
                         if( store[i]->top()->value() == target[j]->top()->value() +1)
                             return false;
 
-            for(i2=1; i2 < 7; i2++) { // check the other stores.
-                j=(i+i2) % 7;
+            for(int i2=1; i2 < 7; i2++) { // check the other stores.
+                int j=(i+i2) % 7;
                 CardList p = store[j]->cards();
                 for (CardList::ConstIterator it = p.begin(); it != p.end(); ++it){
                     Card *c= *it;

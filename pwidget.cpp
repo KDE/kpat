@@ -388,10 +388,11 @@ void pWidget::gameWon(bool withhelp)
 
 void pWidget::gameLost()
 {
-    KMessageBox::information(this, i18n("You couldn't win this game, "
-                                        "but there is always a second try."),
-                             i18n("Sorry"));
-    QTimer::singleShot(0, this, SLOT(newGame()));
+    if (KMessageBox::questionYesNo(this, i18n("You couldn't win this game, "
+                                              "but there is always a second try.\nWant to start new game?"),
+                                   i18n("Couldn't win!"),
+                                   i18n("New Game"), i18n("Continue")) == KMessageBox::Yes)
+        QTimer::singleShot(0, this, SLOT(newGame()));
  }
 
 void pWidget::openGame(const KURL &url)
@@ -407,7 +408,7 @@ void pWidget::openGame(const KURL &url)
         is.setVersion(3);
         Q_UINT32 id;
         is >> id; // dealer number
-        if (id != games->currentItem()) {
+        if (id != (Q_UINT32)games->currentItem()) {
             games->setCurrentItem(id);
             newGameType();
             if (!dill) {
