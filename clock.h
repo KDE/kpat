@@ -2,7 +2,6 @@
 #define CLOCK_H
 
 #include "dealer.h"
-#include "card.h"
 
 class Clock : public Dealer {
     Q_OBJECT

@@ -21,8 +21,6 @@
 #ifndef P_HACK_CARDMAP
 #define P_HACK_CARDMAP
 
-#include <qpixmap.h>
-#include <qobject.h>
 #include "card.h"
 
 class cardMap

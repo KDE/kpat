@@ -23,7 +23,6 @@
 #define _FREECELL_H_
 
 #include "dealer.h"
-#include "hint.h"
 
 class FreecellPile : public Pile
 {

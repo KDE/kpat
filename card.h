@@ -27,7 +27,6 @@
 #ifndef PATIENCE_CARD
 #define PATIENCE_CARD
 
-#include <qpoint.h>
 #include <qcanvas.h>
 
 // The following classes are defined in other headers:

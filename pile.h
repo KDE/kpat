@@ -1,7 +1,6 @@
 #ifndef _PILE_H
 #define _PILE_H
 
-#include <qlabel.h>
 #include "card.h"
 #include <kpixmap.h>
 

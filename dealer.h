@@ -1,9 +1,6 @@
 #ifndef _DEALER_H_
 #define _DEALER_H_
 
-#include <qvaluelist.h>
-#include <qcanvas.h>
-#include "card.h"
 #include "pile.h"
 #include "hint.h"
 #include <krandomsequence.h>

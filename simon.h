@@ -2,7 +2,6 @@
 #define SIMON_H
 
 #include "dealer.h"
-#include "card.h"
 
 class Simon : public Dealer {
     Q_OBJECT

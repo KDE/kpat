@@ -27,7 +27,6 @@
 #ifndef P_KLONDIKE
 #define P_KLONDIKE
 
-#include <qcombobox.h>
 #include "dealer.h"
 
 class KlondikePile;

@@ -28,8 +28,6 @@
 #define P_GRANDF_7
 
 #include "dealer.h"
-#include "card.h"
-#include <qpushbutton.h>
 
 class KAction;
 class Pile;

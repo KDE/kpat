@@ -2,7 +2,6 @@
 #define YUKON_H
 
 #include "dealer.h"
-#include "card.h"
 
 class Yukon : public Dealer {
     Q_OBJECT

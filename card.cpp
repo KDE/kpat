@@ -18,16 +18,14 @@
 
 *******************************************************/
 
-
 #include "card.h"
-#include <kdebug.h>
-#include "cardmaps.h"
-#include <qpainter.h>
-#include <math.h>
 #include "pile.h"
+#include "cardmaps.h"
+#include <qwmatrix.h>
+#include <qpainter.h>
+#include <kdebug.h>
+#include <math.h>
 #include <assert.h>
-
-
 
 static const char *suit_names[] = {"Clubs", "Diamonds", "Hearts", "Spades"};
 static const char *value_names[] = {"Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight",
@@ -83,9 +81,9 @@ void Card::draw( QPainter &p )
         side = side.xForm( s );
         int xoff = side.width() / 2;
         int yoff = side.height() / 2;
-        p.drawPixmap( x() + cardMap::CARDX()/2 - xoff, y() + cardMap::CARDY()/2 - yoff, side );
+        p.drawPixmap( int(x() + cardMap::CARDX()/2 - xoff), int(y() + cardMap::CARDY()/2 - yoff), side );
     } else
-        p.drawPixmap( x(), y(), side );
+        p.drawPixmap( int(x()), int(y()), side );
 }
 
 
