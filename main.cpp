@@ -17,15 +17,22 @@
  */
 
 #include <kapp.h>
+#include <klocale.h>
+#include <kcmdlineargs.h>
 
+#include "version.h"
 #include "pwidget.h"
 #include "global.h"
+
+static const char *description = I18N_NOOP("KDE Card Game");
 
 KConfig* config = 0;
 
 int main( int argc, char **argv )
 {
-  KApplication a( argc, argv, "kpat");
+  KCmdLineArgs::init(argc, argv, "kpat", description, KPAT_VERSION );
+
+  KApplication a;
 
   config = a.config();
 
