@@ -203,6 +203,7 @@ void Klondike::redeal() {
 
     for (CardList::Iterator it = pilecards.fromLast(); it != pilecards.end(); --it)
     {
+        (*it)->setAnimated(false);
         deck->add(*it, true, false); // facedown, nospread
     }
 
@@ -260,6 +261,7 @@ bool Klondike::checkAdd   ( int checkIndex, const Pile *c1,
 }
 
 void Klondike::cardClicked(Card *c) {
+    kdDebug() << "card clicked " << c->name() << endl;
 
     Dealer::cardClicked(c);
     if (c->source() == deck) {
@@ -270,6 +272,7 @@ void Klondike::cardClicked(Card *c) {
 }
 
 void Klondike::pileClicked(Pile *c) {
+    kdDebug() << "pile clicked " << endl;
     Dealer::pileClicked(c);
 
     if (c == deck) {
@@ -278,9 +281,14 @@ void Klondike::pileClicked(Pile *c) {
 }
 
 void Klondike::cardDblClicked(Card *c) {
+    kdDebug() << "card dbl clicked " << c->name() << endl;
+
     Dealer::cardDblClicked(c);
 
-    if (c == c->source()->top() && c->isFaceUp()) {
+    if (c->animated())
+        return;
+
+    if (c == c->source()->top() && c->realFace()) {
         Pile *tgt = findTarget(c);
         CardList empty;
         empty.append(c);
@@ -303,6 +311,7 @@ bool Klondike::tryToDrop(Card *t)
             kdDebug() << "found target for " << t->name() << endl;
             CardList empty;
             empty.append(t);
+            t->setAnimated(false);
             t->turn(true);
             t->source()->moveCards(empty, tgt);
             return true;
