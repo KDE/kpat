@@ -50,6 +50,7 @@ int main( int argc, char **argv )
     aboutData.addAuthor("Shlomi Fish", I18N_NOOP("Freecell Solver"), "shlomif@vipe.technion.ac.il");
     aboutData.addAuthor("Stephan Kulow", I18N_NOOP("Rewrite and current maintainer"),
                         "coolo@kde.org");
+    aboutData.addAuthor("Erik Sigra", I18N_NOOP("Improved klondike"), "sigra@home.se");
 
     KCmdLineArgs::init( argc, argv, &aboutData );
     KCmdLineArgs::addCmdLineOptions (options);

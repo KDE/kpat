@@ -94,6 +94,65 @@ Klondike::Klondike( bool easy, KMainWindow* parent, const char* _name )
     setActions(Dealer::Hint | Dealer::Demo);
 }
 
+//  This function returns true when it is certain that the card t is no longer
+//  needed on any of the play piles. This function is recursive but the
+//  recursion will not get deep.
+//
+//  To determine wether a card is no longer needed on any of the play piles we
+//  obviously must know what a card can be used for there. According to the
+//  rules a card can be used to store another card with 1 less unit of value
+//  and opposite color. This is the only thing that a card can be used for
+//  there. Therefore the cards with lowest value (1) are useless there (base
+//  case). The other cards each have 2 cards that can be stored on them, let us
+//  call those 2 cards *depending cards*.
+//
+//  The object of the game is to put all cards on the target piles. Therefore
+//  cards that are no longer needed on any of the play piles should be put on
+//  the target piles if possible. Cards on the target piles can not be moved
+//  and they can not store any of its depending cards. Let us call this that
+//  the cards on the target piles are *out of play*.
+//
+//  The simple and obvious rule is:
+//    A card is no longer needed when both of its depending cards are out of
+//    play.
+//
+//  But using only the simplest rule to determine if a card is no longer
+//  needed on any of the play piles is not ambitios enough. Therefore, if a
+//  depending card is not out of play, we test if it could become out of play.
+//  The requirement for getting a card out of play is that it can be placed on
+//  a target pile and that it is no longer needed on any of the play piles
+//  (this is why this function is recursive). This more ambitious rule lets
+//  us extend the base case with the second lowest value (2).
+bool Klondike::noLongerNeeded(const Card & t) {
+
+    if (t.value() <= Card::Two) return true; //  Base case.
+
+    //  Find the 2 suits of opposite color. "- 1" is used here because the
+    //  siuts are ranged 1 .. 4 but target_tops is indexed 0 .. 3. (Of course
+    //  the subtraction of 1 does not affect performance because it is a
+    //  constant expression that is calculated at compile time).
+    unsigned char a = Card::Clubs - 1, b = Card::Spades - 1;
+    if (t.suit() == Card::Clubs or t.suit() == Card::Spades)
+        a = Card::Diamonds - 1, b = Card::Hearts - 1;
+
+    const Card::Values depending_value
+        = static_cast<Card::Values>(t.value() - 1);
+    return
+      (((target_tops[a] >= depending_value)
+        or
+        ((target_tops[a] >= depending_value - 1)
+         and
+         (noLongerNeeded
+              (Card(depending_value, static_cast<Card::Suits>(a + 1))))))
+       and
+       ((target_tops[b] >= depending_value)
+        or
+        ((target_tops[b] >= depending_value - 1)
+         and
+         (noLongerNeeded
+              (Card(depending_value, static_cast<Card::Suits>(b + 1)))))));
+}
+
 bool Klondike::tryToDrop(Card *t)
 {
     if (!t || !t->realFace() || t->takenDown())
@@ -101,10 +160,11 @@ bool Klondike::tryToDrop(Card *t)
 
 //    kdDebug(11111) << "tryToDrop " << t->name() << endl;
 
-    bool shoulddrop = (t->value() <= Card::Two || t->value() <= lowest_card[t->isRed() ? 1 : 0] + 1);
     Pile *tgt = findTarget(t);
     if (tgt) {
-        newHint(new MoveHint(t, tgt, shoulddrop));
+        newHint
+            (new MoveHint
+                 (t, tgt, noLongerNeeded(Card(t->value(), t->suit()))));
         return true;
     }
     return false;
@@ -112,19 +172,16 @@ bool Klondike::tryToDrop(Card *t)
 
 void Klondike::getHints() {
 
-    int tops[4] = {0, 0, 0, 0};
+    target_tops[0] = target_tops[1] = target_tops[2] = target_tops[3]
+        = Card::None;
 
     for( int i = 0; i < 4; i++ )
     {
         Card *c = target[i]->top();
         if (!c) continue;
-        tops[c->suit() - 1] = c->value();
+        target_tops[c->suit() - 1] = c->value();
     }
 
-    lowest_card[0] = static_cast<Card::Values>(QMIN(tops[1], tops[2])); // red
-    lowest_card[1] = static_cast<Card::Values>(QMIN(tops[0], tops[3])); // black
-
-//    kdDebug(11111) << "startAutoDrop red:" << lowest_card[0] << " black:" << lowest_card[1] << endl;
 
     Card* t[7];
     for(int i=0; i<7;i++)
