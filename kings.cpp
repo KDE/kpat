@@ -8,7 +8,7 @@
 #include <kaction.h>
 #include <qlist.h>
 #include <assert.h>
-#include <freecell-solver/fcs.h>
+#include <freecell-solver/fcs_enums.h>
 
 Kings::Kings( KMainWindow* parent, const char *name )
     : FreecellBase( 2, 8, 8, FCS_ES_FILLED_BY_KINGS_ONLY, true, parent, name )

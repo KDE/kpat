@@ -1,7 +1,7 @@
 
 INCLUDES = -I$(top_srcdir)/libkdegames $(all_includes) 
 
-AM_CPPFLAGS = -DFCS_STATE_STORAGE=FCS_STATE_STORAGE_INTERNAL_HASH -DFCS_STACK_STORAGE=FCS_STACK_STORAGE_INTERNAL_HASH
+AM_CPPFLAGS = 
 LDFLAGS = $(all_libraries) $(KDE_RPATH)
 LDADD = $(LIB_KFILE) $(top_builddir)/libkdegames/libkdegames.la ./freecell-solver/libfcs.la
 
