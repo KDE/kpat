@@ -286,7 +286,7 @@ void pWidget::actionNewGame(int _id )
   dill->show();
   setCentralWidget(dill);
 
-  setCaption( kapp->caption() );
+  setPlainCaption( kapp->caption() );
 
   setDefaultType();  
 }
