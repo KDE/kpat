@@ -3,7 +3,7 @@
 #ifndef __GLOBAL__H__
 #define __GLOBAL__H__
 
-#include <Kconfig.h>
+#include <kconfig.h>
 #include <qstring.h>
 #include <klocale.h>
 
