@@ -15,8 +15,8 @@ extern "C" {
 #endif
 
 /* #define DEBUG_STATES */
-#define COMPACT_STATES
-/* #define INDIRECT_STACK_STATES */
+/* #define COMPACT_STATES */
+#define INDIRECT_STACK_STATES
 
 /* #define DEBUG */
 
