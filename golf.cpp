@@ -1,7 +1,6 @@
 #include "golf.h"
 #include <klocale.h>
 #include "deck.h"
-#include "pile.h"
 #include <kdebug.h>
 #include "cardmaps.h"
 

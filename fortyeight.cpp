@@ -2,7 +2,6 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include "deck.h"
-#include "pile.h"
 #include <assert.h>
 #include "cardmaps.h"
 

@@ -18,10 +18,8 @@
  */
 
 #include "napoleon.h"
-#include "dealer.h"
 #include <klocale.h>
 #include "deck.h"
-#include "pile.h"
 #include "cardmaps.h"
 
 Napoleon::Napoleon( KMainWindow* parent, const char* _name )

@@ -1,6 +1,5 @@
 #include "gypsy.h"
 #include <klocale.h>
-#include "pile.h"
 #include "deck.h"
 #include "cardmaps.h"
 

@@ -20,7 +20,6 @@
 
 #include "grandf.h"
 #include <klocale.h>
-#include "pile.h"
 #include "deck.h"
 #include <kaction.h>
 #include <assert.h>

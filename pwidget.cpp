@@ -27,7 +27,6 @@
 #include <klocale.h>
 #include "pwidget.h"
 #include "version.h"
-#include <kstdaction.h>
 #include <kaction.h>
 #include "dealer.h"
 #include <kdebug.h>
@@ -38,10 +37,10 @@
 #include <kfiledialog.h>
 #include <ktempfile.h>
 #include <kio/netaccess.h>
-#include "speeds.h"
 #include <kmessagebox.h>
 #include <qimage.h>
 #include <kstatusbar.h>
+#include "speeds.h"
 
 static pWidget *current_pwidget = 0;
 

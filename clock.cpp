@@ -1,6 +1,5 @@
 #include "clock.h"
 #include <klocale.h>
-#include "pile.h"
 #include "deck.h"
 #include <assert.h>
 #include "cardmaps.h"

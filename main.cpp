@@ -17,13 +17,11 @@
  */
 
 #include <kapplication.h>
-#include <klocale.h>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 
 #include "version.h"
 #include "pwidget.h"
-#include "deck.h"
 
 static const char *description = I18N_NOOP("KDE Patience Game");
 

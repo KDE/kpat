@@ -1,6 +1,5 @@
 #include "pile.h"
 #include "dealer.h"
-#include "card.h"
 #include <kdebug.h>
 #include <qpainter.h>
 #include "cardmaps.h"

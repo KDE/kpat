@@ -1,10 +1,8 @@
 #include "dealer.h"
 #include <kstaticdeleter.h>
-#include <qpainter.h>
 #include <kdebug.h>
 #include "deck.h"
 #include <assert.h>
-#include "pile.h"
 #include "kmainwindow.h"
 #include <kapplication.h>
 #include <kpixmapeffect.h>

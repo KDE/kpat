@@ -20,10 +20,8 @@
 
 
 #include "idiot.h"
-#include "dealer.h"
 #include <klocale.h>
 #include "deck.h"
-#include "pile.h"
 #include "cardmaps.h"
 
 Idiot::Idiot( KMainWindow* parent, const char* _name)

@@ -21,7 +21,6 @@
 #include "card.h"
 #include "pile.h"
 #include "cardmaps.h"
-#include <qwmatrix.h>
 #include <qpainter.h>
 #include <kdebug.h>
 #include <math.h>

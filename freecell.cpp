@@ -22,7 +22,6 @@
 #include "freecell.h"
 #include <klocale.h>
 #include "deck.h"
-#include "pile.h"
 #include <assert.h>
 #include <kdebug.h>
 #include <stdio.h>

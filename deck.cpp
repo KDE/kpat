@@ -1,6 +1,4 @@
-#include "pile.h"
 #include <kdebug.h>
-#include "card.h"
 #include "deck.h"
 #include "dealer.h"
 #include <time.h>
