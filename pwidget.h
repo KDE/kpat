@@ -74,7 +74,6 @@ private:
 private slots:
   void action(int);
   void slotToolbarChanged();
-  void slotMenubarChanged();
 
 private:
   KMenuBar *m;

@@ -81,10 +81,6 @@ pWidget::pWidget( const char* _name )
   m = new KMenuBar( this );
   connect( m, SIGNAL( activated( int ) ), this, SLOT( action( int ) ) );
 
-#define menuPosition
-  connect( m, SIGNAL( moved( menuPosition ) ), this, SLOT( slotMenubarChanged() ) );
-#undef menuPosition
-
   // start default game
   actionNewGame( getDefaultType() + ID_GNEWTYPE );
 
@@ -173,11 +169,6 @@ pWidget::pWidget( const char* _name )
     int tbpos = config->readNumEntry( "Toolbar_1_Position", 
 				      (int) (KToolBar::Left) );
     tb->setBarPos( (KToolBar::BarPosition) (tbpos) );
-
-    // move the menubar to it's default position
-    int mbpos = config->readNumEntry( "Menubar_Position", 
-				      (int) (KMenuBar::Top) );
-    m->setMenuBarPos( (KMenuBar::menuPosition) (mbpos) );
 
     bool animate = (bool) (config->readNumEntry( "Animation", 1 ) != 0 );
     m->setItemChecked( ID_OANIMATION, animate );
@@ -369,13 +360,6 @@ void pWidget::slotToolbarChanged()
   int p = (int)tb->barPos();
   config->setGroup("General Settings");
   config->writeEntry("Toolbar_1_Position", p);
-}
-
-void pWidget::slotMenubarChanged()
-{
-  int p = (int)m->menuBarPos();
-  config->setGroup("General Settings");
-  config->writeEntry("Menubar_Position", p);
 }
 
 #include "pwidget.moc"
