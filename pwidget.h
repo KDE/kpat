@@ -37,7 +37,7 @@ class pWidget: public KMainWindow {
     Q_OBJECT
 
 public:
-    pWidget( const char *name=0 );
+    pWidget();
     ~pWidget();
 
 public slots:
