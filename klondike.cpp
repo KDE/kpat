@@ -346,19 +346,17 @@ bool Klondike::startAutoDrop()
     return true;
 }
 
+
 bool Klondike::isGameLost() const
 {
     kdDebug( 1111 ) << "Is the game lost?" << endl;
 
-    // If we did not even redeal once, and the deck is not empty yet, we cannot
-    // tell what the source pile contains, so we cannot tell whether the game
-    // is lost or not.
-    if ( !redealt && !deck->isEmpty() ) {
-        kdDebug( 1111 ) << "No, we don't know all cards in the pile yet." << endl;
+    if (!deck->isEmpty()) {
+        kdDebug( 1111 ) << "We should only check this when the deck is exhausted." << endl;
         return false;
     }
 
-    // Check whether top of the pile can be added to any of the target piles
+    // Check whether top of the pile can be added to any of the target piles.
     if ( !pile->isEmpty() ) {
         for ( int i = 0; i < 4; ++i ) {
             if ( target[ i ]->isEmpty() ) {
@@ -372,20 +370,22 @@ bool Klondike::isGameLost() const
         }
     }
 
+    // Create a card list - srcPileCards - that contains all accessible
+    // cards in the pile and the deck.
     CardList srcPileCards;
     if ( EasyRules ) {
         srcPileCards = pile->cards();
-        srcPileCards += deck->cards();
     } else {
-        /* In the draw3 mode, not every card in the source pile is accessible,
-         * but only third one. For the cards in the deck, start from the back
-         * since the cards are in reverse order.
+        /* In the draw3 mode, not every card in the source pile is
+         * accessible, but only every third one.
          */
-        for ( int i = deck->cards().count() - 3; i > 2; i -= 3 ) {
-            srcPileCards += deck->cards()[ i ];
+        for ( unsigned int i = 2; i < pile->cards().count(); i += 3 ) {
+	    kdDebug( 1111 ) << "Found card "<< pile->cards()[i]->name()<< endl;
+            srcPileCards += pile->cards()[ i ];
         }
-        if ( !deck->cards().isEmpty() && deck->cards().count() % 3 != 0 ) {
-            srcPileCards += deck->cards()[ 0 ];
+        if ( !pile->cards().isEmpty() && pile->cards().count() % 3 != 0 ) {
+	    kdDebug( 1111 ) << "Found last card "<< pile->cards()[pile->cards().count() - 1]->name()<< endl;
+            srcPileCards += pile->cards()[ pile->cards().count() - 1 ];
         }
     }
 
@@ -395,7 +395,7 @@ bool Klondike::isGameLost() const
         // If this store is empty...
         if ( play[ i ]->isEmpty() ) {
             // ...check whether the pile contains a king we could move here.
-            CardList::ConstIterator it = srcPileCards.begin();
+            CardList::ConstIterator it  = srcPileCards.begin();
             CardList::ConstIterator end = srcPileCards.end();
             for ( ; it != end; ++it ) {
                 if ( ( *it )->value() == Card::King ) {

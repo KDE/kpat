@@ -1,7 +1,12 @@
 2005-01-07 Inge Wallin <inge@lysator.liu.se>
 
+	Fix bug 91317: Klondike (draw 3) incorrect unwinnable game message
+	- Fix criteria for lost game in klondike.
+
+        ---- CVS commit here ----
+
 	Fix bug 96531: KPat: Mod3 incorrect unwinnable game message
-	- mod3.cpp(isGameLost): Fix criteria for lost game.
+	- Fix criteria for lost game in mod3.
 
 2004-11-10 Inge Wallin <inge@lysator.liu.se>
 
