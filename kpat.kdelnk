@@ -2,6 +2,7 @@
 [KDE Desktop Entry]
 Name=Patience
 Name[pl]=Pasjans
+Name[no]=Kabal
 Name[fi]=Kärsivällisyys
 Name[hu]=Passziánsz
 Name[pt]=Paciência
@@ -11,6 +12,7 @@ Exec=kpat -caption "%c"
 Type=Application
 DocPath=kpat/index.html
 Comment=Several nice card games
+Comment[no]=Et par små kortspill
 Comment[de]=Ein paar kleine Kartenspiele
 Comment[pl]=Kilka ró¿nych pasjansów.
 Comment[fi]=Monia erilaisia korttipelejä
