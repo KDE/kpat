@@ -556,6 +556,12 @@ void Dealer::startNew()
 {
     if (!_won)
 		 countLoss();
+    if ( ahint )
+        ahint->setEnabled( true );
+    if ( ademo )
+        ademo->setEnabled( true );
+    if ( aredeal )
+        aredeal->setEnabled( true );
     minsize = QSize(0,0);
     _won = false;
     _waiting = 0;
@@ -767,6 +773,12 @@ void Dealer::takeState()
             return;
         }
         else if (isGameLost()) {
+            if ( ahint )
+                ahint->setEnabled( false );
+            if ( ademo )
+                ademo->setEnabled( false );
+            if ( aredeal )
+                aredeal->setEnabled( false );
             QTimer::singleShot(400, this, SIGNAL(gameLost()));
             return;
         }
