@@ -246,4 +246,4 @@ QSize Grandf::sizeHint() const {
   return QSize(700, 476);
 }
 
-#include"grandf.moc"
+#include "grandf.moc"
