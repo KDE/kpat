@@ -32,7 +32,7 @@ int main( int argc, char **argv )
   locale = a.getLocale();
 
   config = a.getConfig();
-  PICDIR = a.kdedir() + "/lib/pics/kpat/";
+  PICDIR = a.kdedir() + "/share/apps/kpat/pics/";
   KDEPICDIR = a.kdedir() + "/lib/pics/";
 
   pWidget *p = new pWidget(0);

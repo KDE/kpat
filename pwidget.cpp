@@ -25,6 +25,7 @@
 #include <qregexp.h>
 #include "basiccard.h"
 #include <qobjcoll.h>
+#include <kiconloader.h>
 
 // menu constants
 // file menu
@@ -119,10 +120,11 @@ pWidget::pWidget(QWidget *, const char *)
 	  this, SLOT(slotToolbarChanged()));
 #undef BarPosition
 
-  QPixmap *pm1 = new QPixmap((KDEPICDIR + "exit.xpm").data());
-  QPixmap *pm2 = new QPixmap((KDEPICDIR + "help.xpm").data());
-  tb->insertButton(*pm1, ID_FQUIT, -1, locale->translate("Quit"));
-  tb->insertButton(*pm2, ID_HHELP, -1, locale->translate("Help"));
+  KIconLoader *loader = kapp->getIconLoader();
+  tb->insertButton(loader->loadIcon("exit.xpm"), 
+  	ID_FQUIT, -1, locale->translate("Quit"));
+  tb->insertButton(loader->loadIcon("help.xpm"), 
+  	ID_HHELP, -1, locale->translate("Help"));
   connect(tb, SIGNAL(clicked(int)),
 	  this, SLOT(action(int)));
 

@@ -1,3 +1,6 @@
+# KDE Config File 
 [KDE Desktop Entry]
+Name=Patience
 Exec=kpat
 Info=Several nice card games
+Info[de]=Ein paar kleine Kartenspiele
