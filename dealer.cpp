@@ -1124,30 +1124,33 @@ void Dealer::drawPile(KPixmap &pixmap, Pile *pile, bool selected)
     pixmap.resize(bounding.width(), bounding.height());
     pixmap.fill(Qt::white);
 
-    for (int x=bounding.x()/bg.width();
-         x<(bounding.x()+bounding.width()+bg.width()-1)/bg.width(); x++)
-    {
-        for (int y=bounding.y()/bg.height();
-             y<(bounding.y()+bounding.height()+bg.height()-1)/bg.height(); y++)
+    if (!bg.isNull()) {
+        for (int x=bounding.x()/bg.width();
+             x<(bounding.x()+bounding.width()+bg.width()-1)/bg.width(); x++)
         {
-            int sx = 0;
-            int sy = 0;
-            int dx = x*bg.width()-bounding.x();
-            int dy = y*bg.height()-bounding.y();
-            int w = bg.width();
-            int h = bg.height();
-            if (dx < 0) {
-                sx = -dx;
+            for (int y=bounding.y()/bg.height();
+                 y<(bounding.y()+bounding.height()+bg.height()-1)/bg.height(); y++)
+            {
+                int sx = 0;
+                int sy = 0;
+                int dx = x*bg.width()-bounding.x();
+                int dy = y*bg.height()-bounding.y();
+                int w = bg.width();
+                int h = bg.height();
+                if (dx < 0) {
+                    sx = -dx;
                 dx = 0;
+                }
+                if (dy < 0) {
+                    sy = -dy;
+                    dy = 0;
+                }
+                bitBlt(&pixmap, dx, dy, &bg,
+                       sx, sy, w, h, Qt::CopyROP, true);
             }
-            if (dy < 0) {
-                sy = -dy;
-                dy = 0;
-            }
-            bitBlt(&pixmap, dx, dy, &bg,
-                   sx, sy, w, h, Qt::CopyROP, true);
         }
     }
+
 
     float s = -0.1;
     float n = -0.3;
@@ -1161,15 +1164,6 @@ void Dealer::drawPile(KPixmap &pixmap, Pile *pile, bool selected)
     }
 
     KPixmapEffect::intensity(pixmap, selected ? s : n);
-
-    QPainter painter(&pixmap);
-
-    QColorGroup colgrp( Qt::black, Qt::white, midColor().light(),
-                        midColor().dark(), midColor(), Qt::black,
-                        Qt::white );
-#if QT_VERSION < 300
-    kapp->style().drawPanel( &painter, 0, 0, cardMap::CARDX, cardMap::CARDY, colgrp, true );
-#endif
 }
 
 int Dealer::freeCells() const
