@@ -1,3 +1,8 @@
+2005-01-07 Inge Wallin <inge@lysator.liu.se>
+
+	Fix bug 96531: KPat: Mod3 incorrect unwinnable game message
+	- mod3.cpp(isGameLost): Fix criteria for lost game.
+
 2004-11-10 Inge Wallin <inge@lysator.liu.se>
 
 	Continue the code cleaning

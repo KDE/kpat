@@ -167,84 +167,113 @@ bool Mod3::startAutoDrop() {
     return false;
 }
 
-bool Mod3::isGameLost() const {
-    int n,r,c;
+bool Mod3::isGameLost() const
+{
+    int n,row,col;
     kdDebug(11111) << "isGameLost ?"<< endl;
 
     bool nextTest=false;
-    for(n=0; n <24; n++){
-        r=n/8;
-        c= n %8;
-        if(stack[r][c]->isEmpty()){
-            nextTest=true;
-            break;
-        }
-        if(stack[r][c]->at(0)->value() == (Card::Two +r) || stack[r][c]->at(0)->value() == Card::Ace) {
-            nextTest=true;
-            break;
-        }
-    }
-    if(!nextTest)
-        return true;
 
-    if(!deck->isEmpty())
-        return false;
-
-    for(c=0; c < 8; c++){
-        if(stack[3][c]->isEmpty())
+    // If there is an empty stack below, the game is not lost.
+    for (col=0; col < 8; col++){
+        if (stack[3][col]->isEmpty())
             return false;
     }
 
-    int n2,r2,c2,c3;
-    Card *ctop, *card;
+    // Ok, so now empty stack below.
+    // If there is neither an empty stack on the board (an ace counts
+    // as this) nor a card placed in the correct row, all is lost.
+    // Otherwise we have to do more tests.
+    for (n = 0; n < 24; n++) {
+        row = n / 8;
+        col = n % 8;
 
-    for(n=0; n < 24; n++){
-        r=n / 8;
-        c=n % 8;
-        if(stack[r][c]->isEmpty()){
-            for(c3=0; c3 < 8; c3++){
-                if(stack[3][c3]->top()->value()==(Card::Two+r))
+	// If there is a stack on the board that is either empty or
+	// contains an ace, the game is not finished.
+        if (stack[row][col]->isEmpty()
+	    || stack[row][col]->at(0)->value() == Card::Ace) {
+            nextTest = true;
+            break;
+        }
+
+	// If there is a card that is correctly placed, the game is
+	// not lost.
+        if (stack[row][col]->at(0)->value() == Card::Two + row) {
+            nextTest = true;
+            break;
+        }
+    }
+    if (!nextTest)
+        return true;
+
+    // If there are more cards in the deck, the game is not lost.
+    if (!deck->isEmpty())
+        return false;
+
+    int    n2, row2, col2, col3;
+    Card  *ctop;
+    Card  *card;
+
+    // For all stacks on the board, check if:
+    // 
+    for (n = 0; n < 24; n++){
+        row = n / 8;
+        col = n % 8;
+
+	// Empty stack: Can we move a card there?
+        if (stack[row][col]->isEmpty()) {
+	    // Can we move a card from below?
+            for (col3=0; col3 < 8; col3++) {
+                if (stack[3][col3]->top()->value() == (Card::Two+row))
                     return false;
             }
-            for(n2=0; n2 < 16;n2++){
-                r2=(r+1+(n2 / 8)) % 3;
-                c2=n2 % 8;
 
-                if(stack[r2][c2]->isEmpty())
+	    // Can we move a card from another row?
+            for (n2 = 0; n2 < 16; n2++) {
+                row2 = (row + 1 + (n2 / 8)) % 3;
+                col2 = n2 % 8;
+
+                if (stack[row2][col2]->isEmpty())
                     continue;
-                if(stack[r2][c2]->top()->value()==(Card::Two+r))
+                if (stack[row2][col2]->top()->value() == (Card::Two + row))
                     return false;
             }
         }
-        else{
-            ctop=stack[r][c]->top();
-            kdDebug(11111) << "considering ["<<r<<"]["<<c<<"] " << ctop->name() << flush;
+        else {
+	    // Non-empty stack.
+            ctop = stack[row][col]->top();
+            kdDebug(11111) << "considering ["<<row<<"]["<<col<<"] " << ctop->name() << flush;
 
-            if(stack[r][c]->at(0)->value() !=(Card::Two+r))
+	    // Card not in its final position?  Then we can't build on it.
+            if (stack[row][col]->at(0)->value() != Card::Two + row)
                 continue;
 
-
-            for(c3=0; c3 < 8; c3++){
-                card=stack[3][c3]->top();
-                if(card->suit() == ctop->suit() && card->value() == ctop->value()+3)
+	    // Can we move a card from below here?
+            for (col3 = 0; col3 < 8; col3++) {
+                card = stack[3][col3]->top();
+                if (card->suit() == ctop->suit()
+		    && card->value() == ctop->value() + 3)
                     return false;
             }
-            kdDebug(11111) <<" cant stack from bottom row" << flush;
+            kdDebug(11111) <<" Can't stack from bottom row" << flush;
 
-            for(int n_2=1;n_2 < 24; n_2++){
-                n2=(n+n_2) % 24;
-                r2= n2 / 8;
-                c2= n2 % 8;
+	    // Can we move a card from another stack here?
+            for (int n_2 = 1; n_2 < 24; n_2++) {
+                n2 = (n + n_2) % 24;
+                row2 = n2 / 8;
+                col2 = n2 % 8;
 
-                if(stack[r2][c2]->isEmpty())
+                if (stack[row2][col2]->isEmpty())
                     continue;
 
-                card=stack[r2][c2]->top();
+                card = stack[row2][col2]->top();
 
-                if(stack[r2][c2]->indexOf(card) != 0)
+		// Only consider cards that are not on top of other cards.
+                if (stack[row2][col2]->indexOf(card) != 0)
                     continue;
 
-                if(card->suit() == ctop->suit() && card->value() == ctop->value()+3)
+                if (card->suit() == ctop->suit()
+		    && card->value() == ctop->value() + 3)
                     return false;
             }
         }
@@ -252,6 +281,7 @@ bool Mod3::isGameLost() const {
 
     return true;
 }
+
 
 static class LocalDealerInfo5 : public DealerInfo
 {
