@@ -28,7 +28,7 @@
 #include <qkeycode.h>
 
 #include <kmenubar.h>
-#include <ktmainwindow.h>
+#include <kmainwindow.h>
 #include <ktoolbar.h>
 #include <kstatusbar.h>
 #include <kmenubar.h>
@@ -57,7 +57,7 @@
 #define PT_MOD3		8
 #define PT_FREECELL	9
 
-class pWidget: public KTMainWindow {
+class pWidget: public KMainWindow {
   Q_OBJECT
 public:
   pWidget(const char *name=0 );

@@ -61,7 +61,7 @@
 #define ID_HHELP	100	
 
 pWidget::pWidget( const char* _name ) 
-  : KTMainWindow(_name)
+  : KMainWindow(0,_name)
 {
   type = PT_NONE;
   dill = 0;
@@ -161,15 +161,12 @@ pWidget::pWidget( const char* _name )
     m->setItemChecked( ID_OANIMATION, animate );
   }
 
-  setMenu( m );
-  addToolBar( tb );
   m->show();
   tb->show();  
 
   // start default game
   actionNewGame( getDefaultType() + ID_GNEWTYPE );
   inInit = true;
-
 }
 
 void pWidget::action( int _id)
@@ -287,8 +284,7 @@ void pWidget::actionNewGame(int _id )
   //dill->setFixedSize( dill->sizeHint() );
   dill->resize( dill->sizeHint() );
   dill->show();
-  setView(dill);
-  updateRects();
+  setCentralWidget(dill);
 
   setCaption( kapp->caption() );
 
