@@ -322,7 +322,7 @@ void Dealer::startNew()
 
 void Dealer::enlargeCanvas(QCanvasRectangle *c)
 {
-    if (!c->visible())
+    if (!c->visible() || c->animated())
         return;
 
     bool changed = false;
@@ -335,7 +335,15 @@ void Dealer::enlargeCanvas(QCanvasRectangle *c)
         maxsize.setHeight(c->y() + c->height() + 10);
         changed = true;
     }
+    if (maxsize.width() < viewsize.width()) {
+        maxsize.setWidth(viewsize.width());
+        changed = true;
+    }
 
+    if (maxsize.height() < viewsize.height()) {
+        maxsize.setHeight(viewsize.height());
+        changed = true;
+    }
     if (changed)
         c->canvas()->resize(maxsize.width(), maxsize.height());
 }
@@ -343,30 +351,28 @@ void Dealer::enlargeCanvas(QCanvasRectangle *c)
 void Dealer::viewportResizeEvent ( QResizeEvent *e )
 {
     QSize size = canvas()->size();
-    QSize msize = e->size();
-    kdDebug() << "resize " << msize.width() << " - " << msize.height() << endl;
+    viewsize = e->size();
 
     bool changed = false;
     if (size.width() > maxsize.width() + 1) {
         size.setWidth(maxsize.width());
         changed = true;
-        assert(false);
     }
+
     if (size.height() > maxsize.height() + 1) {
         size.setHeight(maxsize.height());
         changed = true;
-        assert(false);
     }
-    if (size.width() < msize.width() - 1) {
-        size.setWidth(msize.width());
-        changed = true;
-    }
-    if (size.height() < msize.height() - 1) {
-        size.setHeight(msize.height());
+
+    if (size.width() < viewsize.width() - 1) {
+        size.setWidth(viewsize.width());
         changed = true;
     }
 
-    kdDebug() << "resize2 " << msize.width() << " - " << msize.height() << endl;
+    if (size.height() < viewsize.height() - 1) {
+        size.setHeight(viewsize.height());
+        changed = true;
+    }
 
     if (changed)
         canvas()->resize(size.width(), size.height());

@@ -137,7 +137,7 @@ void pWidget::changeBackside() {
 
     QString deck = config->readEntry("Back");
     QString dummy;
-    if (KCardDialog::getCardDeck(deck, dummy, this, KCardDialog::NoCards) == QDialog::Accepted)
+    if (KCardDialog::getCardDeck(deck, dummy, this, KCardDialog::Both) == QDialog::Accepted)
     {
         setBackSide(deck);
     }

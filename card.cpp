@@ -170,7 +170,6 @@ void Card::flipTo(int x2, int y2, int steps)
 
 void Card::advance(int stage)
 {
-    kdDebug() << "advance " << name() << endl;
     if ( stage==1 ) {
 	if ( animSteps-- <= 0 ) {
 	    setAnimated(false);

@@ -4,6 +4,7 @@
 #include <qvaluelist.h>
 #include <qcanvas.h>
 #include "card.h"
+#include "pile.h"
 
 class KMainWindow;
 class Dealer;
@@ -58,6 +59,8 @@ public:
 
     virtual bool isGameWon() const = 0;
 
+    void setViewSize(const QSize &size);
+
 public slots:
 
     // restart is pure virtual, so we need something else
@@ -101,6 +104,7 @@ private:
     QSize viewsize;
     QList<CardStateList> undoList;
     long gamenumber;
+    PileList piles;
 
 };
 
