@@ -104,11 +104,24 @@ pWidget::pWidget()
                               SLOT(changeWallpaper()),
                               actionCollection(), "wallpaper");
     list.clear();
-    wallpaperlist = KGlobal::dirs()->findAllResources("wallpaper", "*.jpg", false, true, list);
-    for (QStringList::Iterator it = list.begin(); it != list.end(); ++it)
-        *it = (*it).left((*it).length() - 4);
-    wallpapers->setItems(list);
-    wallpapers->setCurrentItem(list.findIndex("No-Ones-Laughing-3"));
+    wallpaperlist.clear();
+    QStringList wallpaperlist2 = KGlobal::dirs()->findAllResources("wallpaper", QString::null,
+                                                                   false, true, list);
+    QStringList list2;
+    for (QStringList::ConstIterator it = list.begin(); it != list.end(); ++it) {
+	QString file = *it;
+	int rindex = file.findRev('.');
+	if (rindex != -1) {
+	  QString ext = file.mid(rindex + 1).lower();
+	  if (ext == "jpeg" || ext == "png" || ext == "jpg") {
+	     list2.append(file.left(rindex));
+             wallpaperlist.append( file );
+          }
+	}
+    }
+
+    wallpapers->setItems(list2);
+    wallpapers->setCurrentItem(list2.findIndex("No-Ones-Laughing-3"));
 
     changeWallpaper();
 
