@@ -314,7 +314,7 @@ sets the client geometry of the main widget.
 <para>
 &kpat; is documented in detail in <emphasis>The &kpat;
 Handbook</emphasis>
-(<filename>$<envar>KDEDIR</envar>share/doc/HTML/en/katomic/index.html</filename>
+(<filename>$<envar>KDEDIR</envar>share/doc/HTML/en/kpat/index.html</filename>
 or enter <userinput>help://kpat/index.html</userinput> in
 &konqueror;).</para>
 		
