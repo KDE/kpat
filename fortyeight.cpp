@@ -133,10 +133,10 @@ void Fortyeight::deal()
     pile->add(deck->nextCard(), false, false);
 }
 
-static class LocalDealerInfo9 : public DealerInfo
+static class LocalDealerInfo8 : public DealerInfo
 {
 public:
-    LocalDealerInfo9() : DealerInfo(I18N_NOOP("F&orty and Eight"), 9) {}
+    LocalDealerInfo8() : DealerInfo(I18N_NOOP("F&orty and Eight"), 8) {}
     virtual Dealer *createGame(KMainWindow *parent) { return new Fortyeight(parent); }
 } ldi9;
 
