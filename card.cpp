@@ -87,6 +87,35 @@ void Card::moveBy(double dx, double dy)
     QCanvasRectangle::moveBy(dx, dy);
 }
 
+int Card::realX() const
+{
+    if (animated())
+        return destX;
+    else
+        return int(x());
+}
+
+int Card::realY() const
+{
+    if (animated())
+        return destY;
+    else
+        return int(y());
+}
+
+bool Card::realFace() const
+{
+    if (animated()) {
+        bool face = isFaceUp();
+        kdDebug() << "realFace " << animSteps << " " << flipSteps <<  " " << face << endl;
+        if ( animSteps >= flipSteps / 2-1 )
+            return !face;
+        else
+            return face;
+    } else
+        return isFaceUp();
+}
+
 /// the following copyright is for the flipping code
 /**********************************************************************
 ** Copyright (C) 2000 Trolltech AS.  All rights reserved.

@@ -23,6 +23,7 @@
 
 #include "version.h"
 #include "pwidget.h"
+#include "deck.h"
 
 static const char *description = I18N_NOOP("KDE Patience Game");
 
@@ -37,7 +38,9 @@ int main( int argc, char **argv )
     aboutData.addAuthor("Rodolfo Borges",0,"barrett@labma.ufrj.br");
     aboutData.addAuthor("Peter H. Ruegg",0,"kpat@incense.org");
     aboutData.addAuthor("Michael Koch", I18N_NOOP("Bug fixes"), "koch@kde.org");
-    aboutData.addAuthor("Stephan Kulow", I18N_NOOP("Port to KDE2 and bug fixes"),
+    aboutData.addAuthor("Marcus Meissner", I18N_NOOP("Shuffle algorithm for game numbers"),
+                        "mm@caldera.de");
+    aboutData.addAuthor("Stephan Kulow", I18N_NOOP("Rewrite and current maintainer"),
                         "coolo@kde.org");
 
     KCmdLineArgs::init( argc, argv, &aboutData );

@@ -53,6 +53,8 @@ public:
 
     void enlargeCanvas(QCanvasRectangle *c);
     void resetSize(const QSize &size);
+    void setGameNumber(long gmn);
+    long gameNumber() const;
 
 public slots:
 
@@ -93,7 +95,9 @@ private:
     void operator = ( Dealer& );  // don't allow copies or assignments
     QCanvas myCanvas;
     QSize maxsize;
+    QSize viewsize;
     QList<CardStateList> undoList;
+    long gamenumber;
 
 };
 

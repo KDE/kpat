@@ -70,6 +70,10 @@ public:
     virtual int rtti() const { return RTTI; }
     virtual void moveBy(double dx, double dy);
 
+    int realX() const;
+    int realY() const;
+    bool realFace() const;
+
 protected:
     void draw( QPainter &p );
     void advance(int stage);
@@ -88,7 +92,6 @@ private:
     bool flipping;
     int savedX, savedY;
     double scaleX, scaleY;
-    int xOff, yOff;
 };
 
 #endif

@@ -6,6 +6,7 @@
 #include "pile.h"
 #include <kmainwindow.h>
 #include <qtl.h>
+#include <kapp.h>
 
 DealerInfoList *DealerInfoList::_self = 0;
 static KStaticDeleter<DealerInfoList> dl;
@@ -25,6 +26,7 @@ void DealerInfoList::add(DealerInfo *dealer)
 Dealer::Dealer( KMainWindow* _parent , const char* _name )
     : QCanvasView( 0, _parent, _name )
 {
+    setGameNumber(kapp->random());
     myCanvas.setAdvancePeriod(30);
     myCanvas.setBackgroundColor( darkGreen );
     setCanvas(&myCanvas);
@@ -340,10 +342,12 @@ void Dealer::viewportResizeEvent ( QResizeEvent *e )
     if (size.width() > maxsize.width() + 1) {
         size.setWidth(maxsize.width());
         changed = true;
+        assert(false);
     }
     if (size.height() > maxsize.height() + 1) {
         size.setHeight(maxsize.height());
         changed = true;
+        assert(false);
     }
     if (size.width() < msize.width() - 1) {
         size.setWidth(msize.width());
@@ -408,10 +412,10 @@ CardStateList *Dealer::getState()
            s.it = c;
            s.source = c->source();
            s.i = c->source()->indexOf(c);
-           s.x = c->x();
-           s.y = c->y();
+           s.x = c->realX();
+           s.y = c->realY();
            s.z = c->z();
-           s.faceup = c->isFaceUp();
+           s.faceup = c->realFace();
            n->append(s);
        }
     }
@@ -462,15 +466,15 @@ void Dealer::takeState()
     CardStateList *n = getState();
     if (!undoList.count()) {
         undoList.append(getState());
-        return;
-    }
-    CardStateList *old = undoList.last();
-
-    if (*old == *n) {
-        kdDebug() << "nothing changed\n";
-        delete n;
     } else {
-        undoList.append(n);
+        CardStateList *old = undoList.last();
+
+        if (*old == *n) {
+            kdDebug() << "nothing changed\n";
+            delete n;
+        } else {
+            undoList.append(n);
+        }
     }
 
     emit undoPossible(undoList.count() > 1);
@@ -484,6 +488,16 @@ void Dealer::undo()
         setState(undoList.take(undoList.count() - 1));
         takeState(); // copying it again
     }
+}
+
+long Dealer::gameNumber() const
+{
+    return gamenumber;
+}
+
+void Dealer::setGameNumber(long gmn)
+{
+    gamenumber = ((gmn + 31998) % 31999) + 1;
 }
 
 #include "dealer.moc"

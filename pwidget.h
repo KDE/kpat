@@ -44,6 +44,8 @@ protected slots:
     void animationChanged();
     void newGameType();
     void restart();
+    void newGame();
+    void chooseGame();
     void undoPossible(bool poss);
 
 private:

@@ -1,9 +1,10 @@
 #include "pile.h"
 #include <kdebug.h>
 #include "card.h"
-#include "krandomsequence.h"
 #include "deck.h"
 #include "dealer.h"
+#include <time.h>
+#include <assert.h>
 
 const int NumberOfCards = 52;
 
@@ -27,8 +28,8 @@ Deck::Deck( int index, Dealer* parent, int m )
     CHECK_PTR (deck);
 
     makedeck();
-    shuffle();
     addToDeck();
+    shuffle();
 
     setAddFlags(Pile::disallow);
     setRemoveFlags(Pile::disallow);
@@ -38,11 +39,11 @@ void Deck::makedeck() {
     int i=0;
 
     show();
-    for ( int s = Card::Clubs; s <=  Card::Spades ; s++)
+    for ( int m = 0; m < mult; m++)
     {
         for ( int v = Card::Ace; v <= Card::King; v++)
         {
-            for ( int m = 0; m < mult; m++)
+            for ( int s = Card::Clubs; s <=  Card::Spades ; s++)
             {
                 deck[i] = new Card(static_cast<Card::Values>(v),
                                    static_cast<Card::Suits>(s), dealer()->canvas());
@@ -62,30 +63,49 @@ Deck::~Deck() {
 }
 
 void Deck::collectAndShuffle() {
-    shuffle();
     addToDeck();
+    shuffle();
 }
 
-// Shuffle deck, assuming all cards are in deck[]
+static long cs = 0;
+
+static void srand(long seed) {
+    cs=seed;
+}
+
+static long random() {
+    cs = 214013*cs+2531011;
+    return (cs >> 16) & 0x7fff;
+}
+
+// Shuffle deck, assuming all cards are in myCards
 void Deck::shuffle() {
-    //  Something is rotten...
-    KRandomSequence R(0);
+
+    assert(myCards.count() == uint(mult*NumberOfCards));
+
+    assert(dealer()->gameNumber() >= 0);
+    srand(dealer()->gameNumber());
+
+    kdDebug() << "first card " << myCards[0]->name() << " " << dealer()->gameNumber() << endl;
 
     Card* t;
     long z;
-    for (int i = mult*NumberOfCards-1; i >= 1; i--) {
-        z = R.getLong(i);
-        t = deck[z];
-        deck[z] = deck[i];
-        deck[i] = t;
+    int left = mult*NumberOfCards;
+    for (int i = 0; i < mult*NumberOfCards; i++) {
+        z = random() % left;
+        t = myCards[z];
+        myCards[z] = myCards[left-1];
+        myCards[left-1] = t;
+        left--;
     }
 }
 
 // add cards in deck[] to Deck
 void Deck::addToDeck() {
+    clear();
+
     for (int i = 0; i < mult*NumberOfCards; i++)
         add( deck[i], true, false );
 }
 
-// #include "deck.moc"
 

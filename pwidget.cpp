@@ -37,6 +37,7 @@
 #include <kdebug.h>
 #include "cardmaps.h"
 #include <kcarddialog.h>
+#include <qinputdialog.h>
 
 pWidget::pWidget( const char* _name )
     : KMainWindow(0, _name), dill(0)
@@ -45,9 +46,12 @@ pWidget::pWidget( const char* _name )
 
     undo = KStdAction::undo(this, SLOT(undoMove()),
                      actionCollection(), "undo_move");
-    KAction *restart = KStdAction::openNew(this, SLOT(restart()),
-                                           actionCollection(), "restart_game");
-    restart->setText(i18n("&Restart game"));
+    (void)KStdAction::openNew(this, SLOT(newGame()),
+                              actionCollection(), "new_game");
+    (void)new KAction(i18n("&Choose game"), 0, this, SLOT(chooseGame()),
+                      actionCollection(), "choose_game");
+    (void)new KAction(i18n("&Restart game"), 0, this, SLOT(restart()),
+                      actionCollection(), "restart_game");
 
     games = new KSelectAction(i18n("&Game Type"), 0, this,
                               SLOT(newGameType()),
@@ -146,6 +150,11 @@ void pWidget::animationChanged() {
     config->writeEntry( "Animation", anim);
 }
 
+void pWidget::newGame() {
+    dill->setGameNumber(kapp->random());
+    restart();
+}
+
 void pWidget::restart() {
     dill->resetSize(QSize(dill->visibleWidth(), dill->visibleHeight()));
     dill->startNew();
@@ -163,6 +172,8 @@ void pWidget::newGameType()
             break;
         }
     }
+
+    connect(dill, SIGNAL(undoPossible(bool)), SLOT(undoPossible(bool)));
 
     // it's a bit tricky - we have to do this here as the
     // base class constructor runs before the derived class's
@@ -203,6 +214,22 @@ void pWidget::setBackSide(const QString &id)
     if (dill) {
         dill->canvas()->setAllChanged();
         dill->canvas()->update();
+    }
+}
+
+void pWidget::chooseGame()
+{
+    bool ok = false;
+    QString text = QInputDialog::getText( i18n("Game Number"),
+                                          i18n( "Enter a game number "
+                                                "between 1 and 32000" ),
+                                          QString::number(dill->gameNumber()), &ok, this );
+    if ( ok && !text.isEmpty() ) {
+        long number = text.toLong(&ok);
+        if (ok) {
+            dill->setGameNumber(number);
+            restart();
+        }
     }
 }
 
