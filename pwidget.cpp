@@ -107,7 +107,7 @@ pWidget::pWidget()
     for (QStringList::Iterator it = list.begin(); it != list.end(); ++it)
         *it = (*it).left((*it).length() - 4);
     wallpapers->setItems(list);
-    wallpapers->setCurrentItem(list.findIndex("Totally-New-Product-1"));
+    wallpapers->setCurrentItem(list.findIndex("No-Ones-Laughing-3"));
 
     changeWallpaper();
 
@@ -130,7 +130,7 @@ pWidget::pWidget()
     QString bgpath = config->readEntry("Background");
     kdDebug() << "bgpath '" << bgpath << "'" << endl;
     if (bgpath.isEmpty())
-        bgpath = locate("wallpaper", "Totally-New-Product-1.jpg");
+        bgpath = locate("wallpaper", "No-Ones-Laughing-3.jpg");
     background = QPixmap(bgpath);
 
     bool animate = config->readBoolEntry( "Animation", true);
