@@ -26,6 +26,7 @@
 #include <qcombobox.h>
 #include <qapplication.h>
 #include "microsol.h"
+#include <klocale.h>
 
 MicroSolitaire::MicroSolitaire( QWidget* parent, const char* name )
   : dealer( parent, name )
@@ -75,7 +76,7 @@ void MicroSolitaire::show() {
 
   for(int i=0; i<4; i++)
     target[i]-> show() ;
-  
+
   for(int i=0; i<6; i++)
     play[i]-> show() ;
 }
@@ -132,9 +133,9 @@ void MicroSolitaire::deal() {
 }
 
 bool MicroSolitaire::wholeBunch( const Card* c ) {
-  if (c->prev()) 
+  if (c->prev())
     return   c->prev()->empty()  || !c->prev()->FaceUp();
-  else 
+  else
     return TRUE;
 }
 
@@ -144,7 +145,7 @@ bool MicroSolitaire::step1( const Card* c1, const Card* c2 ) {
 }
 
 bool MicroSolitaire::altStep( const Card* c1, const Card* c2)  {
-  if (c1->Suit() == Card::Empty) 
+  if (c1->Suit() == Card::Empty)
     return c2->Value() == Card::King;
   else
     return (c2->Value() == c1->Value() - 1) && c1->Red() != c2->Red();
@@ -154,5 +155,11 @@ QSize MicroSolitaire::sizeHint() const {
   return QSize(700, 476);
 }
 
+static class LocalDealerInfo1 : public DealerInfo
+{
+public:
+    LocalDealerInfo1() : DealerInfo(I18N_NOOP("&MicroSolitaire"), 1) {}
+    virtual dealer *createGame(QWidget *parent) { return new MicroSolitaire(parent); }
+} gfi;
 
 #include "microsol.moc"

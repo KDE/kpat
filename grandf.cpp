@@ -226,8 +226,8 @@ void Grandf::collect() {
 bool step11( const Card* c1, const Card* c2 )  {
 
     return !c2 || (c2->Value() == c1->Value() + 1)
-	&& (c1->Suit() != Card::Empty ? c1->Suit() == c2->Suit() : TRUE)
-	&& step11( c2, c2->prev()) ;
+        && (c1->Suit() != Card::Empty ? c1->Suit() == c2->Suit() : TRUE)
+        && step11( c2, c2->prev()) ;
 
 }
 */
@@ -259,7 +259,7 @@ QSize Grandf::sizeHint() const {
 static class GrandfDealerInfo : public DealerInfo
 {
 public:
-    GrandfDealerInfo() : DealerInfo(I18N_NOOP("&Grandfather"), 3) {}
+    GrandfDealerInfo() : DealerInfo(I18N_NOOP("&Grandfather"), 5) {}
     virtual dealer *createGame(QWidget *parent) { return new Grandf(parent); }
 } gfi;
 

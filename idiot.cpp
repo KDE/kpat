@@ -22,6 +22,7 @@
 
 #include "idiot.h"
 #include "dealer.h"
+#include <klocale.h>
 
 Idiot::Idiot( QWidget* _parent, const char* _name)
   : dealer( _parent, _name )
@@ -46,7 +47,7 @@ Idiot::Idiot( QWidget* _parent, const char* _name)
   {
     play[ i ] = new cardPos( 10 + 100 * i, 150, this, i + 1 );
     connect( play[ i ] , SIGNAL( nonMovableCardPressed( int ) ),
-	     SLOT( handle( int ) ) );
+             SLOT( handle( int ) ) );
   }
   connect( deck, SIGNAL( nonMovableCardPressed( int ) ), SLOT( deal() ) );
   deal();
@@ -133,5 +134,14 @@ QSize Idiot::sizeHint() const
 {
   return QSize( 540, 476 );
 }
+
+
+static class LocalDealerInfo4 : public DealerInfo
+{
+public:
+    LocalDealerInfo4() : DealerInfo(I18N_NOOP("The &Idiot"), 4) {}
+    virtual dealer *createGame(QWidget *parent) { return new Idiot(parent); }
+} gfi;
+
 
 #include "idiot.moc"

@@ -22,6 +22,7 @@
 #include <qpainter.h>
 #include "patience.h"
 #include "dealer.h"
+#include <klocale.h>
 
 Napoleon::Napoleon( QWidget* _parent, const char* _name )
   : dealer( _parent, _name )
@@ -165,5 +166,12 @@ void Napoleon::deal1() {
 QSize Napoleon::sizeHint() const {
   return QSize(600, 476);
 }
+
+static class LocalDealerInfo3 : public DealerInfo
+{
+public:
+    LocalDealerInfo3() : DealerInfo(I18N_NOOP("&Napoleon's Tomb"), 3) {}
+    virtual dealer *createGame(QWidget *parent) { return new Napoleon(parent); }
+} gfi;
 
 #include "napoleon.moc"

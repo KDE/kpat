@@ -51,7 +51,7 @@ void Mod3::show()
 //-------------------------------------------------------------------------//
 
 Mod3::Mod3( QWidget* _parent, const char* _name)
-	: dealer( _parent, _name ), rb( i18n( "Redeal" ), this )
+        : dealer( _parent, _name ), rb( i18n( "Redeal" ), this )
 {
     deck = new Deck( -666, -666, this, 2 );
 
@@ -163,6 +163,13 @@ QSize Mod3::sizeHint() const
 {
     return QSize (650, 550);
 }
+
+static class LocalDealerInfo7 : public DealerInfo
+{
+public:
+    LocalDealerInfo7() : DealerInfo(I18N_NOOP("M&od3"), 7) {}
+    virtual dealer *createGame(QWidget *parent) { return new Mod3(parent); }
+} gfi;
 
 //-------------------------------------------------------------------------//
 

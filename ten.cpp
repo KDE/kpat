@@ -48,10 +48,10 @@ Ten::Ten( QWidget* parent, const char* name)
   for( int i = 0; i < 8; i++ ) {
     play[ i ] = new cardPos( 10 + 100 * i, 150, this, i + 1 );
     connect( play[ i ] , SIGNAL( nonMovableCardPressed( int ) ),
-	     SLOT( remove( int ) ) );
+             SLOT( remove( int ) ) );
   }
   connect( deck, SIGNAL( nonMovableCardPressed( int ) ),
-	   SLOT( dealNext() ) );
+           SLOT( dealNext() ) );
   deal();
 
   connect( &timer, SIGNAL( timeout() ), SLOT( stepAuto() ) );
@@ -210,5 +210,12 @@ QSize Ten::sizeHint() const
 {
   return QSize( 800, 476 );
 }
+
+static class LocalDealerInfo6 : public DealerInfo
+{
+public:
+    LocalDealerInfo6() : DealerInfo(I18N_NOOP("&Ten"), 6) {}
+    virtual dealer *createGame(QWidget *parent) { return new Ten(parent); }
+} gfi;
 
 #include "ten.moc"

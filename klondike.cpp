@@ -35,7 +35,7 @@ Klondike::Klondike( QWidget* _parent, const char* _name )
 
   Card::setAddFlags(Play, Card::addSpread | Card::several);
   Card::setRemoveFlags(Play, Card::several | Card::autoTurnTop
-		       | Card::wholeColumn);
+                       | Card::wholeColumn);
   Card::setAddFun(Play, altStep);
 
   Card::setAddFlags(Target, Card::Default);
@@ -78,7 +78,7 @@ Klondike::Klondike( QWidget* _parent, const char* _name )
     play[ i ] = new cardPos( 110 + 85 * i, 150, this, Play );
 
   connect( deck, SIGNAL( nonMovableCardPressed( int ) ),
-	   SLOT( deal3() ) );
+           SLOT( deal3() ) );
   deal();
 }
 
@@ -87,10 +87,10 @@ void Klondike::changeDiffLevel( int l ) {
     return;
 
   int r = KMessageBox::warningContinueCancel(this,
-			 i18n("This will end the current game.\n"
-			      "Are you sure you want to do this?"),
-					     QString::null,
-					     i18n("OK"));
+                         i18n("This will end the current game.\n"
+                              "Are you sure you want to do this?"),
+                                             QString::null,
+                                             i18n("OK"));
   if(r == KMessageBox::Cancel) {
     cb->setCurrentItem(1-cb->currentItem());
     return;
@@ -197,7 +197,7 @@ bool Klondike::wholeBunch( const Card* c ) {
   if (c->prev())
     return c->prev()->empty()  || !c->prev()->FaceUp();
   else
-    return TRUE;	
+    return TRUE;
 }
 
 bool Klondike::step1( const Card* c1, const Card* c2 ) {
@@ -215,5 +215,12 @@ bool Klondike::altStep( const Card* c1, const Card* c2) {
 QSize Klondike::sizeHint() const {
   return QSize(710, 476);
 }
+
+static class LocalDealerInfo0 : public DealerInfo
+{
+public:
+    LocalDealerInfo0() : DealerInfo(I18N_NOOP("&Klondike"), 0) {}
+    virtual dealer *createGame(QWidget *parent) { return new Klondike(parent); }
+} gfi;
 
 #include "klondike.moc"
