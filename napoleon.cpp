@@ -31,6 +31,7 @@ Napoleon::Napoleon( KMainWindow* parent, const char* _name )
 {
     deck = new Deck( 0, this );
     deck->move( 500, 290);
+    connect(deck, SIGNAL(clicked()), SLOT(deal1()));
 
     pile = new Pile( 1, this );
     pile->setAddFlags( Pile::disallow );
@@ -95,14 +96,11 @@ bool Napoleon::justOne( const Pile* c1, const CardList& ) {
 }
 
 void Napoleon::deal() {
+    if (deck->isEmpty())
+        return;
+
     for (int i=0; i<4; i++)
         store[i]->add(deck->nextCard(), false, false);
-}
-
-void Napoleon::cardClicked(Card *c)
-{
-    if (c->source() == deck)
-        deal1();
 }
 
 void Napoleon::deal1() {

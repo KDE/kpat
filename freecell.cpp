@@ -122,40 +122,10 @@ bool Freecell::CanPutStack(const Pile *c1, const CardList &c2)
 
 //-------------------------------------------------------------------------//
 
-bool Freecell::CanRemove (const Pile *p, const Card *c)
+bool Freecell::CanRemove (const Pile *, const Card *)
 {
-    // ok if just one card
-    if (c == p->top())
-        return true;
-
-    return false;
-    /* TODO
-
-    // Now we're trying to move two or more cards.
-
-    // First, let's check if the column is in valid
-    // (that is, in sequence, alternated colors).
-    for (const Card *t = c; t->next(); t = t->next())
-    {
-        if (!((t->Value() == (t->next()->Value()+1))
-              && (t->Red() != t->next()->Red())))
-        {
-            return 0;
-        }
-    }
-
-    // Now, let's see if there are enough free cells available.
-    int numFreeCells = CountFreeCells();
-    int numCards = freecell_game->CountCards (c);
-
-    // If the the destination will be a free stack, the number of
-    // free cells needs to be greater. (We couldn't count the
-    // destination free stack.)
-    if (numFreeCells == numCards)
-        dont_put_on_free_stack = 1;
-
-    return (numCards <= numFreeCells);
-*/
+// see gypsy
+    return true;
 }
 
 //-------------------------------------------------------------------------//

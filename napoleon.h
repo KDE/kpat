@@ -36,7 +36,6 @@ public slots:
 
 private:
     void deal();
-    virtual void cardClicked(Card *c);
 
     static bool Ustep1( const Pile *c1, const CardList& c2);
     static bool Dstep1( const Pile* c1, const CardList& c2);

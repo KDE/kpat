@@ -154,10 +154,15 @@ void Pile::moveBy(double dx, double dy)
     }
 }
 
-int Pile::indexOf(Card *c) const
+int Pile::indexOf(const Card *c) const
 {
     assert(c->source() == this);
-    return myCards.findIndex(c);
+    return myCards.findIndex(const_cast<Card*>(c)); // the list is of non-const cards
+}
+
+Card *Pile::at(int index) const
+{
+    return *myCards.at(index);
 }
 
 void Pile::clear()
@@ -330,3 +335,14 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
     }
 }
 
+void Pile::cardClicked(Card *c)
+{
+    emit clicked(c);
+}
+
+void Pile::cardDblClicked(Card *c)
+{
+    emit dblClicked(c);
+}
+
+#include "pile.moc"

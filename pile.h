@@ -10,8 +10,9 @@ class Dealer;
   cardPos -- position on the table which can receive cards
 
 **************************************/
-class Pile : public QCanvasRectangle
+class Pile : public QObject, public QCanvasRectangle
 {
+    Q_OBJECT
 
 public:
 
@@ -78,7 +79,16 @@ public:
 
     int cardsLeft() const { return myCards.count(); }
 
-    int indexOf(Card *c) const;
+    int indexOf(const Card *c) const;
+    Card *at(int index) const;
+
+public slots:
+    virtual void cardClicked(Card *c);
+    virtual void cardDblClicked(Card *c);
+
+signals:
+    void clicked(Card *c);
+    void dblClicked(Card *c);
 
 protected:
     int   removeFlags;

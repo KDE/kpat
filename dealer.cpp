@@ -297,15 +297,15 @@ void Dealer::resetSize(const QSize &size) {
 }
 
 void Dealer::cardClicked(Card *c) {
-    kdDebug() << "clicked " << c->name() << endl;
+    c->source()->cardClicked(c);
 }
 
 void Dealer::pileClicked(Pile *c) {
-    kdDebug() << "clicked " << c->index() << endl;
+    c->cardClicked(0);
 }
 
 void Dealer::cardDblClicked(Card *c) {
-    kdDebug() << "dbl clicked " << c->name() << endl;
+    c->source()->cardDblClicked(c);
 }
 
 void Dealer::startNew()
