@@ -352,7 +352,7 @@ void FreecellBase::demo()
     }
     towait = (Card*)-1;
     unmarkAll();
-    kdDebug() << "demo\n";
+    kdDebug() << "demo " << (!solver_instance && solver_ret != FCS_STATE_IS_NOT_SOLVEABLE) << endl;
     if (!solver_instance && solver_ret != FCS_STATE_IS_NOT_SOLVEABLE)
         findSolution();
 }
@@ -390,21 +390,22 @@ void FreecellBase::freeSolution()
     for (HintList::Iterator it = oldmoves.begin(); it != oldmoves.end(); ++it)
         delete *it;
     oldmoves.clear();
-    solver_ret = FCS_STATE_NOT_BEGAN_YET;
     freecell_solver_instance_t *instance = static_cast<freecell_solver_instance_t *>(solver_instance);
     if (!instance)
         return;
-
-    if (instance->solution_states && instance->num_solution_states)
+    if (instance->solution_moves && solver_ret == FCS_STATE_WAS_SOLVED)
     {
-        for(int a=0;a<instance->num_solution_states;a++)
-        {
-            free((void*)instance->solution_states[a]);
-        }
-        free((void*)instance->solution_states);
-    }
-    if (instance->solution_moves)
         fcs_move_stack_destroy(instance->solution_moves);
+        if (instance->solution_states && instance->num_solution_states)
+        {
+            for(int a=0;a<instance->num_solution_states;a++)
+            {
+                free((void*)instance->solution_states[a]);
+            }
+            free((void*)instance->solution_states);
+        }
+    }
+
     freecell_solver_finish_instance(instance);
     freecell_solver_free_instance(instance);
     solver_instance = 0;
@@ -416,12 +417,12 @@ void FreecellBase::freeSolution()
 #endif
     delete state;
     solver_state = 0;
+    solver_ret = FCS_STATE_NOT_BEGAN_YET;
 }
 
 void FreecellBase::stopDemo()
 {
     Dealer::stopDemo();
-    solver_ret = FCS_STATE_IS_NOT_SOLVEABLE;
     freeSolution();
 }
 
@@ -481,6 +482,9 @@ void FreecellBase::movePileToPile(CardList &c, Pile *to, PileList fss, PileList 
 
     QValueList<MoveAway> moves_away;
 
+    if (count - moveaway < (fcs.count() + 1) && (count <= 2 * (fcs.count() + 1))) {
+        moveaway = count - (fcs.count() + 1);
+    }
     while (count > fcs.count() + 1) {
         assert(fss.count());
         MoveAway ma;
