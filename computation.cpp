@@ -97,6 +97,9 @@ bool Computation::checkAdd( int index, const Pile* c1, const CardList& cl) const
 
     assert(c1->index() >= 5 && c1->index() <= 8);
 
+    if ( c1->cardsLeft() == 13 )
+      return false;
+
     int offset = c1->index() - 4;
 
     if (c1->isEmpty()) {
