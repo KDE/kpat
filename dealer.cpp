@@ -129,32 +129,32 @@ void Dealer::getHints()
         CardList cards = store->cards();
         while (cards.count() && !cards.first()->realFace()) cards.remove(cards.begin());
 
-        CardList::Iterator it = cards.begin();
-        while (it != cards.end())
+        CardList::Iterator iti = cards.begin();
+        while (iti != cards.end())
         {
-            if (store->legalRemove(*it)) {
-//                kdDebug() << "could remove " << (*it)->name() << endl;
+            if (store->legalRemove(*iti)) {
+//                kdDebug() << "could remove " << (*iti)->name() << endl;
                 for (PileList::Iterator pit = piles.begin(); pit != piles.end(); ++pit)
                 {
                     if (*pit == store)
                         continue;
-                    if (store->indexOf(*it) == 0 && (*pit)->isEmpty() && !(*pit)->target())
+                    if (store->indexOf(*iti) == 0 && (*pit)->isEmpty() && !(*pit)->target())
                         continue;
                     if (!(*pit)->legalAdd(cards))
                         continue;
                     if (!takeTargetForHints() && (*pit)->target())
-                        newHint(new MoveHint(*it, *pit));
+                        newHint(new MoveHint(*iti, *pit));
                     else {
                         store->hideCards(cards);
                         // if it could be here as well, then it's no use
                         if ((store->isEmpty() && !(*pit)->isEmpty()) || !store->legalAdd(cards))
-                            newHint(new MoveHint(*it, *pit));
+                            newHint(new MoveHint(*iti, *pit));
                         store->unhideCards(cards);
                     }
                 }
             }
-            cards.remove(it);
-            it = cards.begin();
+            cards.remove(iti);
+            iti = cards.begin();
         }
     }
 }
