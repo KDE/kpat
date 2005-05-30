@@ -1354,7 +1354,7 @@ void Dealer::drawPile(KPixmap &pixmap, Pile *pile, bool selected)
                     dy = 0;
                 }
                 bitBlt(&pixmap, dx, dy, &bg,
-                       sx, sy, w, h, Qt::CopyROP, true);
+                       sx, sy, w, h);
             }
         }
     }
