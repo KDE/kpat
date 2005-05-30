@@ -1,3 +1,5 @@
+//Added by qt3to4:
+#include <Q3ValueList>
 #ifndef HINT_H
 #define HINT_H
 
@@ -22,7 +24,7 @@ private:
 };
 
 
-typedef QValueList<MoveHint*>  HintList;
+typedef Q3ValueList<MoveHint*>  HintList;
 
 
 #endif

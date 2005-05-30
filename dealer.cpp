@@ -7,6 +7,13 @@
 #include <kapplication.h>
 #include <kpixmapeffect.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <QWheelEvent>
+#include <QPixmap>
+#include <Q3PtrList>
+#include <Q3ValueList>
+#include <QResizeEvent>
+#include <QMouseEvent>
 #include <kaction.h>
 #include <klocale.h>
 #include "cardmaps.h"
@@ -55,11 +62,11 @@ void DealerInfoList::add(DealerInfo *dealer)
 Dealer *Dealer::s_instance = 0;
 
 Dealer::Dealer( KMainWindow* _parent , const char* _name )
-    : QCanvasView( 0, _parent, _name ), towait(0), myActions(0),
+    : Q3CanvasView( 0, _parent, _name ), towait(0), myActions(0),
 ademo(0), ahint(0), aredeal(0),
       takeTargets(false), _won(false), _waiting(0), stop_demo_next(false), _autodrop(true), moves(0)
 {
-    setResizePolicy(QScrollView::Manual);
+    setResizePolicy(Q3ScrollView::Manual);
     setVScrollBarMode(AlwaysOff);
     setHScrollBarMode(AlwaysOff);
     setGameNumber(kapp->random());
@@ -91,13 +98,13 @@ void Dealer::setBackgroundPixmap(const QPixmap &background, const QColor &midcol
 
 void Dealer::setupActions() {
 
-    QPtrList<KAction> actionlist;
+    Q3PtrList<KAction> actionlist;
 
     kdDebug(11111) << "setupActions " << actions() << endl;
 
     if (actions() & Dealer::Hint) {
 
-        ahint = new KAction( i18n("&Hint"), QString::fromLatin1("wizard"), Key_H, this,
+        ahint = new KAction( i18n("&Hint"), QString::fromLatin1("wizard"), Qt::Key_H, this,
                              SLOT(hint()),
                              parent()->actionCollection(), "game_hint");
         actionlist.append(ahint);
@@ -105,7 +112,7 @@ void Dealer::setupActions() {
         ahint = 0;
 
     if (actions() & Dealer::Demo) {
-        ademo = new KToggleAction( i18n("&Demo"), QString::fromLatin1("1rightarrow"), CTRL+Key_D, this,
+        ademo = new KToggleAction( i18n("&Demo"), QString::fromLatin1("1rightarrow"), Qt::CTRL+Qt::Key_D, this,
                                    SLOT(toggleDemo()),
                                    parent()->actionCollection(), "game_demo");
         actionlist.append(ademo);
@@ -139,7 +146,7 @@ Dealer::~Dealer()
 
 KMainWindow *Dealer::parent() const
 {
-    return dynamic_cast<KMainWindow*>(QCanvasView::parent());
+    return dynamic_cast<KMainWindow*>(Q3CanvasView::parent());
 }
 
 void Dealer::hint()
@@ -244,9 +251,9 @@ void Dealer::contentsMouseMoveEvent(QMouseEvent* e)
     }
 
     PileList sources;
-    QCanvasItemList list = canvas()->collisions(movingCards.first()->rect());
+    Q3CanvasItemList list = canvas()->collisions(movingCards.first()->rect());
 
-    for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
+    for (Q3CanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
     {
         if ((*it)->rtti() == Card::RTTI) {
             Card *c = dynamic_cast<Card*>(*it);
@@ -298,7 +305,7 @@ void Dealer::mark(Card *c)
 
 void Dealer::unmarkAll()
 {
-    for (QCanvasItemList::Iterator it = marked.begin(); it != marked.end(); ++it)
+    for (Q3CanvasItemList::Iterator it = marked.begin(); it != marked.end(); ++it)
     {
         (*it)->setSelected(false);
     }
@@ -312,7 +319,7 @@ void Dealer::contentsMousePressEvent(QMouseEvent* e)
     if (waiting())
         return;
 
-    QCanvasItemList list = canvas()->collisions(e->pos());
+    Q3CanvasItemList list = canvas()->collisions(e->pos());
 
     kdDebug(11111) << "mouse pressed " << list.count() << " " << canvas()->allItems().count() << endl;
     moved = false;
@@ -320,7 +327,7 @@ void Dealer::contentsMousePressEvent(QMouseEvent* e)
     if (!list.count())
         return;
 
-    if (e->button() == LeftButton) {
+    if (e->button() == Qt::LeftButton) {
         if (list.first()->rtti() == Card::RTTI) {
             Card *c = dynamic_cast<Card*>(list.first());
             assert(c);
@@ -333,7 +340,7 @@ void Dealer::contentsMousePressEvent(QMouseEvent* e)
         return;
     }
 
-    if (e->button() == RightButton) {
+    if (e->button() == Qt::RightButton) {
         if (list.first()->rtti() == Card::RTTI) {
             Card *preview = dynamic_cast<Card*>(list.first());
             assert(preview);
@@ -354,7 +361,7 @@ public:
     QRect intersect;
     bool top;
 };
-typedef QValueList<Hit> HitList;
+typedef Q3ValueList<Hit> HitList;
 
 void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
 {
@@ -363,10 +370,10 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
             movingCards.first()->source()->moveCardsBack(movingCards);
             movingCards.clear();
         }
-        QCanvasItemList list = canvas()->collisions(e->pos());
+        Q3CanvasItemList list = canvas()->collisions(e->pos());
         if (list.isEmpty())
             return;
-        QCanvasItemList::Iterator it = list.begin();
+        Q3CanvasItemList::Iterator it = list.begin();
         if ((*it)->rtti() == Card::RTTI) {
             Card *c = dynamic_cast<Card*>(*it);
             assert(c);
@@ -394,10 +401,10 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
 
     unmarkAll();
 
-    QCanvasItemList list = canvas()->collisions(movingCards.first()->rect());
+    Q3CanvasItemList list = canvas()->collisions(movingCards.first()->rect());
     HitList sources;
 
-    for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
+    for (Q3CanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
     {
         if ((*it)->rtti() == Card::RTTI) {
             Card *c = dynamic_cast<Card*>(*it);
@@ -487,10 +494,10 @@ void Dealer::contentsMouseDoubleClickEvent( QMouseEvent*e )
         movingCards.first()->source()->moveCardsBack(movingCards);
         movingCards.clear();
     }
-    QCanvasItemList list = canvas()->collisions(e->pos());
+    Q3CanvasItemList list = canvas()->collisions(e->pos());
     if (list.isEmpty())
         return;
-    QCanvasItemList::Iterator it = list.begin();
+    Q3CanvasItemList::Iterator it = list.begin();
     if ((*it)->rtti() != Card::RTTI)
         return;
     Card *c = dynamic_cast<Card*>(*it);
@@ -545,7 +552,7 @@ void Dealer::resizeEvent(QResizeEvent *e)
     if (!e)
         updateScrollBars();
     else
-        QCanvasView::resizeEvent(e);
+        Q3CanvasView::resizeEvent(e);
 }
 
 bool Dealer::cardClicked(Card *c) {
@@ -598,8 +605,8 @@ void Dealer::startNew()
     kdDebug(11111) << "startNew unmarkAll\n";
     unmarkAll();
     kdDebug(11111) << "startNew setAnimated(false)\n";
-    QCanvasItemList list = canvas()->allItems();
-    for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it) {
+    Q3CanvasItemList list = canvas()->allItems();
+    for (Q3CanvasItemList::Iterator it = list.begin(); it != list.end(); ++it) {
         if ((*it)->rtti() == Card::RTTI)
             static_cast<Card*>(*it)->disconnect();
 
@@ -613,7 +620,7 @@ void Dealer::startNew()
     restart();
     takeState();
     Card *towait = 0;
-    for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it) {
+    for (Q3CanvasItemList::Iterator it = list.begin(); it != list.end(); ++it) {
         if ((*it)->rtti() == Card::RTTI) {
             towait = static_cast<Card*>(*it);
             if (towait->animated())
@@ -642,7 +649,7 @@ void Dealer::slotTakeState(Card *c) {
     takeState();
 }
 
-void Dealer::enlargeCanvas(QCanvasRectangle *c)
+void Dealer::enlargeCanvas(Q3CanvasRectangle *c)
 {
     if (!c->isVisible() || c->animated())
         return;
@@ -697,7 +704,7 @@ public:
     }
 };
 
-typedef class QValueList<CardState> CardStateList;
+typedef class QList<CardState> CardStateList;
 
 bool operator==( const State & st1, const State & st2) {
     return st1.cards == st2.cards && st1.gameData == st2.gameData;
@@ -705,10 +712,10 @@ bool operator==( const State & st1, const State & st2) {
 
 State *Dealer::getState()
 {
-    QCanvasItemList list = canvas()->allItems();
+    Q3CanvasItemList list = canvas()->allItems();
     State * st = new State;
 
-    for (QCanvasItemList::ConstIterator it = list.begin(); it != list.end(); ++it)
+    for (Q3CanvasItemList::ConstIterator it = list.begin(); it != list.end(); ++it)
     {
        if ((*it)->rtti() == Card::RTTI) {
            Card *c = dynamic_cast<Card*>(*it);
@@ -729,7 +736,7 @@ State *Dealer::getState()
            st->cards.append(s);
        }
     }
-    qHeapSort(st->cards);
+    qSort(st->cards);
 
     // Game specific information
     st->gameData = getGameState( );
@@ -740,9 +747,9 @@ State *Dealer::getState()
 void Dealer::setState(State *st)
 {
     CardStateList * n = &st->cards;
-    QCanvasItemList list = canvas()->allItems();
+    Q3CanvasItemList list = canvas()->allItems();
 
-    for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
+    for (Q3CanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
     {
         if ((*it)->rtti() == Pile::RTTI) {
             Pile *p = dynamic_cast<Pile*>(*it);
@@ -831,8 +838,8 @@ void Dealer::saveGame(QDomDocument &doc) {
     bool taken[1000];
     memset(taken, 0, sizeof(taken));
 
-    QCanvasItemList list = canvas()->allItems();
-    for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
+    Q3CanvasItemList list = canvas()->allItems();
+    for (Q3CanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
     {
         if ((*it)->rtti() == Pile::RTTI) {
             Pile *p = dynamic_cast<Pile*>(*it);
@@ -901,29 +908,29 @@ void Dealer::openGame(QDomDocument &doc)
 
     QDomNodeList piles = dealer.elementsByTagName("pile");
 
-    QCanvasItemList list = canvas()->allItems();
+    Q3CanvasItemList list = canvas()->allItems();
 
     CardList cards;
-    for (QCanvasItemList::ConstIterator it = list.begin(); it != list.end(); ++it)
+    for (Q3CanvasItemList::ConstIterator it = list.begin(); it != list.end(); ++it)
         if ((*it)->rtti() == Card::RTTI)
             cards.append(static_cast<Card*>(*it));
 
     Deck::deck()->collectAndShuffle();
 
-    for (QCanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
+    for (Q3CanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
     {
         if ((*it)->rtti() == Pile::RTTI)
         {
             Pile *p = dynamic_cast<Pile*>(*it);
             assert(p);
 
-            for (uint i = 0; i < piles.count(); ++i)
+            for (int i = 0; i < piles.count(); ++i)
             {
                 QDomElement pile = piles.item(i).toElement();
                 if (pile.attribute("index").toInt() == p->index())
                 {
                     QDomNodeList pcards = pile.elementsByTagName("card");
-                    for (uint j = 0; j < pcards.count(); ++j)
+                    for (int j = 0; j < pcards.count(); ++j)
                     {
                         QDomElement card = pcards.item(j).toElement();
                         Card::Suits s = static_cast<Card::Suits>(card.attribute("suit").toInt());
@@ -1016,9 +1023,9 @@ bool Dealer::startAutoDrop()
     if (!autoDrop())
         return false;
 
-    QCanvasItemList list = canvas()->allItems();
+    Q3CanvasItemList list = canvas()->allItems();
 
-    for (QCanvasItemList::ConstIterator it = list.begin(); it != list.end(); ++it)
+    for (Q3CanvasItemList::ConstIterator it = list.begin(); it != list.end(); ++it)
         if ((*it)->animated()) {
             QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
             return true;
@@ -1145,23 +1152,24 @@ void Dealer::won()
     }
 
     // sort cards by increasing z
-    QCanvasItemList list = canvas()->allItems();
-    QValueList<CardPtr> cards;
-    for (QCanvasItemList::ConstIterator it=list.begin(); it!=list.end(); ++it)
+    Q3CanvasItemList list = canvas()->allItems();
+    QList<CardPtr> cards;
+    for (Q3CanvasItemList::ConstIterator it=list.begin(); it!=list.end(); ++it)
         if ((*it)->rtti() == Card::RTTI) {
             CardPtr p;
             p.ptr = dynamic_cast<Card*>(*it);
             assert(p.ptr);
             cards.push_back(p);
         }
-    qHeapSort(cards);
+    qSort(cards);
 
     // disperse the cards everywhere
     QRect can(0, 0, canvas()->width(), canvas()->height());
-    QValueList<CardPtr>::ConstIterator it = cards.begin();
-    for (; it != cards.end(); ++it) {
-        (*it).ptr->turn(true);
-        QRect p(0, 0, (*it).ptr->width(), (*it).ptr->height());
+    QListIterator<CardPtr> it(cards);
+    while (it.hasNext()) {
+        CardPtr card = it.next();
+        card.ptr->turn(true);
+        QRect p(0, 0, card.ptr->width(), card.ptr->height());
         int x, y;
         do {
             x = 3*canvas()->width()/2 - kapp->random() % (canvas()->width() * 2);
@@ -1169,7 +1177,7 @@ void Dealer::won()
             p.moveTopLeft(QPoint(x, y));
         } while (can.intersects(p));
 
-	(*it).ptr->animatedMove( x, y, 0, STEPS_WON);
+	card.ptr->animatedMove( x, y, 0, STEPS_WON);
     }
 
     bool demo = demoActive();
@@ -1355,7 +1363,7 @@ void Dealer::drawPile(KPixmap &pixmap, Pile *pile, bool selected)
     float s = -0.4;
     float n = -0.3;
 
-    int mid = QMAX( QMAX(midColor().red(), midColor().green()), midColor().blue());
+    int mid = qMax( qMax(midColor().red(), midColor().green()), midColor().blue());
 
     // if it's too dark - light instead of dark
     if (mid < 120) {
@@ -1389,9 +1397,9 @@ void Dealer::wheelEvent( QWheelEvent *e )
                     e->globalPos(), e->delta(), e->state());
     viewportWheelEvent(&ce);
     if ( !ce.isAccepted() ) {
-	if ( e->orientation() == Horizontal && hScrollBarMode () == AlwaysOn )
+	if ( e->orientation() == Qt::Horizontal && hScrollBarMode () == AlwaysOn )
 	    QApplication::sendEvent( horizontalScrollBar(), e);
-	else  if (e->orientation() == Vertical && vScrollBarMode () == AlwaysOn )
+	else  if (e->orientation() == Qt::Vertical && vScrollBarMode () == AlwaysOn )
 	    QApplication::sendEvent( verticalScrollBar(), e);
     } else {
 	e->accept();

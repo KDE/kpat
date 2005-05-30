@@ -4,6 +4,8 @@
 
 #include <qcombobox.h>
 #include <qlabel.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 #include <kapplication.h>
 #include <kconfig.h>
@@ -13,14 +15,14 @@ GameStatsImpl::GameStatsImpl(QWidget* aParent, const char* aname)
 	: GameStats(aParent, aname)
 {
 	QStringList list;
-	QValueList<DealerInfo*>::ConstIterator it;
+	Q3ValueList<DealerInfo*>::ConstIterator it;
 	for (it = DealerInfoList::self()->games().begin();
 			it != DealerInfoList::self()->games().end(); ++it)
 	{
 		// while we develop, it may happen that some lower
 		// indices do not exist
-		uint index = (*it)->gameindex;
-		for (uint i = 0; i <= index; i++)
+		int index = (*it)->gameindex;
+		for (int i = 0; i <= index; i++)
 			if (list.count() <= i)
 				list.append("unknown");
 		list[index] = i18n((*it)->name);

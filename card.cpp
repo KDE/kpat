@@ -22,6 +22,8 @@
 #include <assert.h>
 
 #include <qpainter.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 #include <kdebug.h>
 
@@ -38,8 +40,8 @@ static const char  *value_names[] = {"Ace", "Two", "Three", "Four", "Five", "Six
 const int Card::RTTI = 1001;
 
 
-Card::Card( Values v, Suits s, QCanvas* _parent )
-    : QCanvasRectangle( _parent ),
+Card::Card( Values v, Suits s, Q3Canvas* _parent )
+    : Q3CanvasRectangle( _parent ),
       m_suit( s ), m_value( v ),
       m_source(0), scaleX(1.0), scaleY(1.0), tookDown(false)
 {
@@ -104,7 +106,7 @@ void Card::draw( QPainter &p )
 
     // Rescale the image if necessary.
     if (scaleX <= 0.98 || scaleY <= 0.98) {
-        QWMatrix  s;
+        QMatrix  s;
         s.scale( scaleX, scaleY );
         side = side.xForm( s );
         int xoff = side.width() / 2;
@@ -118,7 +120,7 @@ void Card::draw( QPainter &p )
 
 void Card::moveBy(double dx, double dy)
 {
-    QCanvasRectangle::moveBy(dx, dy);
+    Q3CanvasRectangle::moveBy(dx, dy);
 }
 
 
@@ -211,7 +213,7 @@ int  Card::Hz = 0;
 
 void Card::setZ(double z)
 {
-    QCanvasRectangle::setZ(z);
+    Q3CanvasRectangle::setZ(z);
     if (z > Hz)
         Hz = int(z);
 }
@@ -272,7 +274,7 @@ void Card::advance(int stage)
     }
 
     // Animate the translation of the card.
-    QCanvasRectangle::advance(stage);
+    Q3CanvasRectangle::advance(stage);
 }
 
 
@@ -330,7 +332,7 @@ void Card::setAnimated(bool anim)
         setZ(destZ);
     }
 
-    QCanvasRectangle::setAnimated(anim);
+    Q3CanvasRectangle::setAnimated(anim);
 }
 
 

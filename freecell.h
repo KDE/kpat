@@ -23,6 +23,8 @@
 #define _FREECELL_H_
 
 #include "dealer.h"
+//Added by qt3to4:
+#include <Q3ValueList>
 
 class FreecellPile : public Pile
 {
@@ -61,7 +63,7 @@ protected:
 
     virtual void getHints();
     void movePileToPile(CardList &c, Pile *to, PileList fss, PileList &fcs,
-                        uint start, uint count, int debug_level);
+                        int start, int count, int debug_level);
 
     Pile *pileForName(QString line) const;
     void findSolution();
@@ -75,7 +77,7 @@ protected:
     virtual bool cardDblClicked(Card *c);
 
 protected:
-    QValueList<FreecellPile*> store;
+    Q3ValueList<FreecellPile*> store;
     PileList freecell;
     PileList target;
     Deck *deck;

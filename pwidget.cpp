@@ -23,6 +23,11 @@
 #include <qregexp.h>
 #include <qtimer.h>
 #include <qimage.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QTextStream>
+#include <Q3ValueList>
+#include <QShowEvent>
 
 #include <kapplication.h>
 #include <klocale.h>
@@ -84,7 +89,7 @@ pWidget::pWidget()
                               SLOT(newGameType()),
                               actionCollection(), "game_type");
     QStringList list;
-    QValueList<DealerInfo*>::ConstIterator it;
+    Q3ValueList<DealerInfo*>::ConstIterator it;
     uint max_type = 0;
 
     for (it = DealerInfoList::self()->games().begin();
@@ -93,7 +98,7 @@ pWidget::pWidget()
         // while we develop, it may happen that some lower
         // indices do not exist
         uint index = (*it)->gameindex;
-        for (uint i = 0; i <= index; i++)
+        for (int i = 0; i <= index; i++)
             if (list.count() <= i)
                 list.append("unknown");
         list[index] = i18n((*it)->name);
@@ -342,7 +347,7 @@ void pWidget::newGameType()
     slotSetMoves( 0 );
 
     uint id = games->currentItem();
-    for (QValueList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin(); it != DealerInfoList::self()->games().end(); ++it) {
+    for (Q3ValueList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin(); it != DealerInfoList::self()->games().end(); ++it) {
         if ((*it)->gameindex == id) {
             dill = (*it)->createGame(this);
             QString name = (*it)->name;
@@ -503,7 +508,7 @@ void pWidget::openGame(const KURL &url)
     if( KIO::NetAccess::download( url, tmpFile, this ) )
     {
         QFile of(tmpFile);
-        of.open(IO_ReadOnly);
+        of.open(QIODevice::ReadOnly);
         QDomDocument doc;
         QString error;
         if (!doc.setContent(&of, &error))

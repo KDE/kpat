@@ -28,7 +28,7 @@ Card *Pile::top() const
 }
 
 Pile::Pile( int _index, Dealer* parent)
-    : QCanvasRectangle( parent->canvas() ),
+    : Q3CanvasRectangle( parent->canvas() ),
 _dealer(parent),
 myIndex(_index),
 _target(false),
@@ -36,7 +36,7 @@ _atype(Custom),
 _rtype(Custom)
 {
     dealer()->addPile(this);
-    QCanvasRectangle::setVisible(true); // default
+    Q3CanvasRectangle::setVisible(true); // default
     _checkIndex = -1;
     addFlags = removeFlags = 0;
     setBrush(Qt::black);
@@ -198,7 +198,7 @@ bool Pile::legalRemove(const Card *c) const
 
 void Pile::setVisible(bool vis)
 {
-    QCanvasRectangle::setVisible(vis);
+    Q3CanvasRectangle::setVisible(vis);
     dealer()->enlargeCanvas(this);
 
     for (CardList::Iterator it = myCards.begin(); it != myCards.end(); ++it)
@@ -210,7 +210,7 @@ void Pile::setVisible(bool vis)
 
 void Pile::moveBy(double dx, double dy)
 {
-    QCanvasRectangle::moveBy(dx, dy);
+    Q3CanvasRectangle::moveBy(dx, dy);
     dealer()->enlargeCanvas(this);
 
     for (CardList::Iterator it = myCards.begin(); it != myCards.end(); ++it)

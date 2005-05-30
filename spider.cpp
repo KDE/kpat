@@ -188,7 +188,7 @@ void Spider::getHints()
 
         // if there is an empty column and this stack is on
         // another card, hint
-        if (empty && cl[column].count() < (uint)stack[column]->cardsLeft()) {
+        if (empty && cl[column].count() < stack[column]->cardsLeft()) {
             newHint(new MoveHint(cl[column].first(), empty));
             continue;
         }
