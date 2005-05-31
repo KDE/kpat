@@ -90,14 +90,14 @@ pWidget::pWidget()
                               actionCollection(), "game_type");
     QStringList list;
     Q3ValueList<DealerInfo*>::ConstIterator it;
-    uint max_type = 0;
+    int max_type = 0;
 
     for (it = DealerInfoList::self()->games().begin();
          it != DealerInfoList::self()->games().end(); ++it)
     {
         // while we develop, it may happen that some lower
         // indices do not exist
-        uint index = (*it)->gameindex;
+        int index = (*it)->gameindex;
         for (int i = 0; i <= index; i++)
             if (list.count() <= i)
                 list.append("unknown");
@@ -165,7 +165,7 @@ pWidget::pWidget()
     bool autodrop = config->readBoolEntry("Autodrop", true);
     dropaction->setChecked(autodrop);
 
-    uint game = config->readNumEntry("DefaultGame", 0);
+    int game = config->readNumEntry("DefaultGame", 0);
     if (game > max_type)
         game = max_type;
     games->setCurrentItem(game);
@@ -239,6 +239,9 @@ void pWidget::changeBackside() {
 
 void pWidget::changeWallpaper()
 {
+    if (wallpapers->currentItem() < 0 || wallpapers->currentItem() >= wallpaperlist.count())
+	return;
+
     QString bgpath=locate("wallpaper", wallpaperlist[wallpapers->currentItem()]);
     if (bgpath.isEmpty())
         return;
@@ -333,7 +336,7 @@ void pWidget::setGameCaption()
     QString newname;
     QString gamenum;
     gamenum.setNum( dill->gameNumber() );
-    for (uint i = 0; i < name.length(); i++)
+    for (int i = 0; i < name.length(); i++)
         if (name.at(i) != QChar('&'))
             newname += name.at(i);
 
