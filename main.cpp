@@ -40,7 +40,7 @@ int main( int argc, char **argv )
     aboutData.addAuthor("Paul Olav Tvete");
     aboutData.addAuthor("Mario Weilguni",0,"mweilguni@kde.org");
     aboutData.addAuthor("Matthias Ettrich",0,"ettrich@kde.org");
-    aboutData.addAuthor("Rodolfo Borges",I18N_NOOP("Some Game Types"),"barrett@labma.ufrj.br");
+    aboutData.addAuthor("Rodolfo Borges",I18N_NOOP("Some Game Types"),"barrett@9hells.org");
     aboutData.addAuthor("Peter H. Ruegg",0,"kpat@incense.org");
     aboutData.addAuthor("Michael Koch", I18N_NOOP("Bug fixes"), "koch@kde.org");
     aboutData.addAuthor("Marcus Meissner", I18N_NOOP("Shuffle algorithm for game numbers"),
