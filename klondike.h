@@ -65,7 +65,7 @@ private:
     KlondikePile *pile;
     Deck* deck;
     Card::Rank target_tops[4];
-    bool noLongerNeeded(Card::Rank r, Card::Suits s );
+    bool noLongerNeeded(Card::Rank r, Card::Suit s );
 };
 
 #endif

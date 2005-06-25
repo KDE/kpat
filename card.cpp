@@ -30,20 +30,20 @@
 #include "cardmaps.h"
 
 
-static const char  *suit_names[]  = {"Clubs", "Diamonds", "Hearts", "Spades"};
-static const char  *value_names[] = {"Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight",
+static const char  *suit_names[] = {"Clubs", "Diamonds", "Hearts", "Spades"};
+static const char  *rank_names[] = {"Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight",
                                      "Nine", "Ten", "Jack", "Queen", "King" };
 
 // Run time type id
 const int Card::RTTI = 1001;
 
 
-Card::Card( Values v, Suits s, QCanvas* _parent )
+Card::Card( Rank r, Suit s, QCanvas* _parent )
     : QCanvasRectangle( _parent ),
-      m_suit( s ), m_value( v ),
+      m_suit( s ), m_rank( r ),
       m_source(0), scaleX(1.0), scaleY(1.0), tookDown(false)
 {
-    m_name = qstrdup(QString("%1 %2").arg(suit_names[s-1]).arg(value_names[v-1]).utf8());
+    m_name = qstrdup(QString("%1 %2").arg(suit_names[s-1]).arg(rank_names[r-1]).utf8());
 
     // Default for the card is face up, standard size.
     faceup = true;
@@ -75,7 +75,7 @@ Card::~Card()
 //
 QPixmap Card::pixmap() const
 {
-    return cardMap::self()->image( m_value, m_suit );
+    return cardMap::self()->image( m_rank, m_suit );
 }
 
 
@@ -98,7 +98,7 @@ void Card::draw( QPainter &p )
 
     // Get the image to draw (front / back)
     if( isFaceUp() )
-        side = cardMap::self()->image( m_value, m_suit, isSelected());
+        side = cardMap::self()->image( m_rank, m_suit, isSelected());
     else
         side = cardMap::self()->backSide();
 

@@ -123,7 +123,7 @@ Klondike::Klondike( bool easy, KMainWindow* parent, const char* _name )
 //  a target pile and that it is no longer needed on any of the play piles
 //  (this is why this function is recursive). This more ambitious rule lets
 //  us extend the base case with the second lowest value (2).
-bool Klondike::noLongerNeeded(Card::Rank r, Card::Suits s) {
+bool Klondike::noLongerNeeded(Card::Rank r, Card::Suit s) {
 
     if (r <= Card::Two) return true; //  Base case.
 
@@ -142,14 +142,14 @@ bool Klondike::noLongerNeeded(Card::Rank r, Card::Suits s) {
         ((target_tops[a] >= depending_rank - 1)
          &&
          (noLongerNeeded
-              (depending_rank, static_cast<Card::Suits>(a + 1)))))
+              (depending_rank, static_cast<Card::Suit>(a + 1)))))
        &&
        ((target_tops[b] >= depending_rank)
         ||
         ((target_tops[b] >= depending_rank - 1)
          &&
          (noLongerNeeded
-              (depending_rank, static_cast<Card::Suits>(b + 1))))));
+              (depending_rank, static_cast<Card::Suit>(b + 1))))));
 }
 
 bool Klondike::tryToDrop(Card *t)
