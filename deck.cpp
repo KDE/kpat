@@ -50,12 +50,12 @@ void Deck::makedeck() {
     show();
     for ( uint m = 0; m < mult; m++)
     {
-        for ( int v = Card::Ace; v <= Card::King; v++)
+        for ( int r = Card::Ace; r <= Card::King; r++)
         {
             for ( int s = Card::Spades-1; s >=  Card::Clubs-1 ; s--)
             {
-                _deck[i] = new Card(static_cast<Card::Values>(v),
-                                   static_cast<Card::Suits>(Card::Spades - (s % suits)),
+                _deck[i] = new Card(static_cast<Card::Rank>(r),
+                                   static_cast<Card::Suit>(Card::Spades - (s % suits)),
                                    dealer()->canvas());
                 _deck[i]->move(x(), y());
                 i++;

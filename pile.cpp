@@ -19,6 +19,11 @@ const int Pile::addSpread     = 0x0100;
 const int Pile::autoTurnTop   = 0x0200;
 const int Pile::wholeColumn   = 0x0400;
 
+
+
+// Return the top card of this pile.
+//
+
 Card *Pile::top() const
 {
     if (myCards.isEmpty())
@@ -29,11 +34,11 @@ Card *Pile::top() const
 
 Pile::Pile( int _index, Dealer* parent)
     : QCanvasRectangle( parent->canvas() ),
-_dealer(parent),
-myIndex(_index),
-_target(false),
-_atype(Custom),
-_rtype(Custom)
+      _dealer(parent),
+      myIndex(_index),
+      _target(false),
+      _atype(Custom),
+      _rtype(Custom)
 {
     dealer()->addPile(this);
     QCanvasRectangle::setVisible(true); // default
@@ -265,6 +270,12 @@ void Pile::add( Card *_card, int index)
     }
 }
 
+
+// Return the number of pixels in x and y that the card should be
+// offset from the start position of the pile. 
+//
+// Note: Default is to only have vertical spread (Y direction). 
+
 QSize Pile::cardOffset( bool _spread, bool _facedown, const Card *before) const
 {
     if (_spread) {
@@ -287,11 +298,13 @@ void Pile::add( Card* _card, bool _facedown, bool _spread )
     if (!_card)
         return;
 
+    // The top card
     Card *t = top();
 
-    if (isVisible()) {
+    // If this pile is visible, then also show the card.
+    if (isVisible())
         _card->show();
-    } else
+    else
         _card->hide();
 
     _card->turn( !_facedown );

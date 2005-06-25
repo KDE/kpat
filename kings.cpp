@@ -30,7 +30,7 @@ void Kings::deal() {
     int cn = 0;
     for (int stack = -1; stack < 8; )
     {
-        while (it != cards.end() && (*it)->value() != Card::King) {
+        while (it != cards.end() && (*it)->rank() != Card::King) {
             if (stack >= 0) {
                 store[stack]->add(*it, false, true);
                 cn++;
@@ -60,7 +60,7 @@ bool Kings::isGameLost() const {
 			return false;
 		if(store[i]->isEmpty())
 			return false;
-		if(store[i]->top()->value() == Card::Ace)
+		if(store[i]->top()->rank() == Card::Ace)
 			return false;
 		}
 
@@ -79,7 +79,7 @@ bool Kings::isGameLost() const {
 		c=store[i]->top();
 		for (CardList::Iterator it = targets.begin(); it != targets.end(); ++it) {
 			ctarget=*it;
-			if(c->value()-1 == ctarget->value() &&
+			if(c->rank()-1 == ctarget->rank() &&
 				c->suit() == ctarget->suit()){
 				kdDebug(11111)<< "test 1" << endl;
 				return false;
@@ -93,17 +93,18 @@ bool Kings::isGameLost() const {
 
 			for (CardList::Iterator it = ctops.begin(); it != ctops.end(); ++it) {
 				ctarget=*it;
-				if(c->value()+1 == ctarget->value() &&
+				if(c->rank()+1 == ctarget->rank() &&
 					c->isRed() != ctarget->isRed()){
 
 					if(indexi == 0)
 						return false;
 
-					if(cnext->value() != ctarget->value() || cnext->suit() != ctarget->suit())
+					if(cnext->rank() != ctarget->rank()
+					   || cnext->suit() != ctarget->suit())
 						return false;
 				}
 			}
-			if(cnext->value() != c->value()+1 && 
+			if(cnext->rank() != c->rank()+1 && 
 				cnext->isRed() != c->isRed())
 				break;
 		}

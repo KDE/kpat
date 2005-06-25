@@ -140,9 +140,9 @@ void Grandf::collect() {
 bool Grandf::checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const {
     assert (checkIndex == 1);
     if (c1->isEmpty())
-        return c2.first()->value() == Card::King;
+        return c2.first()->rank() == Card::King;
     else
-        return (c2.first()->value() == c1->top()->value() - 1)
+        return (c2.first()->rank() == c1->top()->rank() - 1)
                && c2.first()->suit() == c1->top()->suit();
 }
 
@@ -177,7 +177,7 @@ bool Grandf::isGameLost() const
                 CardList p = store[j]->cards();
                 for (CardList::ConstIterator it = p.begin(); it != p.end(); ++it){
                     Card *c= *it;
-                    if( it != p.begin() && c->realFace() && c->value() == Card::King)
+                    if( it != p.begin() && c->realFace() && c->rank() == Card::King)
                         return false;
                 }
             }
@@ -186,7 +186,7 @@ bool Grandf::isGameLost() const
             /* If this store has an Ace as it's top card, then we can start a
              * new target pile!
              */
-            if(store[i]->top()->value() == Card::Ace)
+            if(store[i]->top()->rank() == Card::Ace)
                 return false;
 
             /* Check whether the top card of this store could be added to
@@ -195,7 +195,7 @@ bool Grandf::isGameLost() const
             for(int j=0; j <4; j++)
                 if( !target[j]->isEmpty())
                     if(store[i]->top()->suit() == target[j]->top()->suit())
-                        if( store[i]->top()->value() == target[j]->top()->value() +1)
+                        if( store[i]->top()->rank() == target[j]->top()->rank() +1)
                             return false;
 
             /* Check whether any (group of) cards from another store could
@@ -207,7 +207,7 @@ bool Grandf::isGameLost() const
                 for (CardList::ConstIterator it = p.begin(); it != p.end(); ++it){
                     Card *c= *it;
                     if( c->realFace() &&
-                        c->value() == (store[i]->top()->value()-1) &&
+                        c->rank() == (store[i]->top()->rank()-1) &&
                         c->suit() == store[i]->top()->suit() )
                         return false;
                 }

@@ -76,21 +76,21 @@ bool Napoleon::CanPutTarget( const Pile* c1, const CardList& cl) const {
     Card *c2 = cl.first();
 
     if (c1->isEmpty())
-        return c2->value() == Card::Seven;
+        return c2->rank() == Card::Seven;
     else
-        return (c2->value() == c1->top()->value() + 1);
+        return (c2->rank() == c1->top()->rank() + 1);
 }
 
 bool Napoleon::CanPutCentre( const Pile* c1, const CardList& cl) const {
     Card *c2 = cl.first();
 
     if (c1->isEmpty())
-        return c2->value() == Card::Six;
+        return c2->rank() == Card::Six;
 
-    if (c1->top()->value() == Card::Ace)
-        return (c2->value() == Card::Six);
+    if (c1->top()->rank() == Card::Ace)
+        return (c2->rank() == Card::Six);
     else
-        return (c2->value() == c1->top()->value() - 1);
+        return (c2->rank() == c1->top()->rank() - 1);
 }
 
 bool Napoleon::checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const

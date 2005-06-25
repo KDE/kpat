@@ -1,3 +1,8 @@
+Cleaning:
+  type Dealer       -->  Patience
+  type Card::Value  -->  Card::Rank
+
+
 TODO: 
       - more options (wholeColumn, etc.)
          kpat already supports a lot, but they aren't accessible via GUI yet

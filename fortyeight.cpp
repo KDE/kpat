@@ -104,7 +104,7 @@ bool Fortyeight::checkAdd(int, const Pile *c1, const CardList &c2) const
 
     // ok if in sequence, same suit
     return (c1->top()->suit() == c2.first()->suit())
-       && (c1->top()->value() == (c2.first()->value()+1));
+       && (c1->top()->rank() == (c2.first()->rank()+1));
 }
 
 void Fortyeight::deal()
@@ -150,24 +150,24 @@ bool Fortyeight::isGameLost() const
 
         c=stack[i]->top();
 
-        if(c->value() == Card::Ace)
+        if(c->rank() == Card::Ace)
             return false;
 
         if(!pile->isEmpty()) {
             if(pile->top()->suit() == c->suit() &&
-               pile->top()->value()+1 == c->value())
+               pile->top()->rank()+1 == c->rank())
                 return false;
 
             if ( !target[i]->isEmpty() &&
                  pile->top()->suit() == target[i]->top()->suit() &&
-                 pile->top()->value() == target[i]->top()->value()+1)
+                 pile->top()->rank() == target[i]->top()->rank()+1)
                 return false;
         }
         for(int j=0; j <8;j++){
             if(target[j]->isEmpty())
                 continue;
             if(c->suit() == target[j]->top()->suit() &&
-               c->value()-1 ==target[j]->top()->value())
+               c->rank()-1 ==target[j]->top()->rank())
                 return false;
         }
         for(int j=1; j < 8; j++) {
@@ -175,12 +175,12 @@ bool Fortyeight::isGameLost() const
             if (stack[k]->isEmpty())
                 continue;
             if(c->suit() == stack[k]->top()->suit() &&
-               c->value()+1 ==stack[k]->top()->value()){
+               c->rank()+1 ==stack[k]->top()->rank()){
                 int indexi=stack[i]->indexOf(c);
                 if(indexi==0)
                     return false;
                 Card *c2=stack[i]->at(indexi-1);
-                if(c2->value()!=stack[k]->top()->value() ||
+                if(c2->rank()!=stack[k]->top()->rank() ||
                    c2->suit()!=stack[k]->top()->suit())
                     return false;
             }

@@ -48,6 +48,7 @@ struct State
     QString gameData;
 };
 
+
 /***************************************************************
 
   Dealer -- abstract base class of all varieties of patience

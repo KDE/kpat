@@ -69,11 +69,11 @@ bool Simon::checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const
         if (c1->isEmpty())
             return true;
 
-        return (c1->top()->value() == c2.first()->value() + 1);
+        return (c1->top()->rank() == c2.first()->rank() + 1);
     } else {
         if (!c1->isEmpty())
             return false;
-        return (c2.first()->value() == Card::King && c2.last()->value() == Card::Ace);
+        return (c2.first()->rank() == Card::King && c2.last()->rank() == Card::Ace);
     }
 }
 
@@ -96,7 +96,7 @@ bool Simon::checkRemove(int checkIndex, const Pile *p, const Card *c) const
     {
         c = p->at(index++);
 
-        if (!((c->value() == (before->value()-1))
+        if (!((c->rank() == (before->rank()-1))
               && (c->suit() == before->suit())))
         {
             return false;
@@ -124,7 +124,7 @@ bool Simon::isGameLost() const
 		kdDebug(11111) <<top->name() << endl;
 			c=store[i]->at(indexi);
 			if(c->suit() == top->suit() &&
-				(top->value()+1) == c->value())
+				(top->rank()+1) == c->rank())
 				top=c;
 			else
 				break;
@@ -138,7 +138,7 @@ bool Simon::isGameLost() const
 				return false;
 
 			kdDebug(11111) <<"vs "<<store[k]->top()->name() << endl;
-			if((top->value() +1) == store[k]->top()->value())
+			if((top->rank() +1) == store[k]->top()->rank())
 				return false;
 			}
 		}

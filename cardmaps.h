@@ -36,7 +36,7 @@ public:
     static const int NumColors = 4;
     static const int CardsPerColor = 13;
 
-    QPixmap image( Card::Values _value, Card::Suits _suit, bool inverted = false) const;
+    QPixmap image( Card::Rank _rank, Card::Suit _suit, bool inverted = false) const;
     QPixmap backSide() const;
     bool setCardDir( const QString &dir);
     bool setBackSide( const QPixmap & _pix, bool scale = true);
