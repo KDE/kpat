@@ -73,7 +73,7 @@ inline bool matches(const CardList &cl, Card *start, int offset)
     Card *before = start; // maybe 0 for ignore first card
     for (CardList::ConstIterator it = cl.begin(); it != cl.end(); ++it)
     {
-        if (before && (*it)->value() % 13 != (before->value() + offset) % 13)
+        if (before && (*it)->rank() % 13 != (before->rank() + offset) % 13)
             return false;
         before = *it;
     }
@@ -94,7 +94,7 @@ bool Computation::checkAdd( int index, const Pile* c1, const CardList& cl) const
 
     assert(c1->index() >= 5 && c1->index() <= 8);
 
-    if ( c1->top() && c1->top()->value() == Card::King) // finished
+    if ( c1->top() && c1->top()->rank() == Card::King) // finished
         return false;
 
     if ( c1->cardsLeft() == 13 )
@@ -103,8 +103,8 @@ bool Computation::checkAdd( int index, const Pile* c1, const CardList& cl) const
     int offset = c1->index() - 4;
 
     if (c1->isEmpty()) {
-        Card::Values start = static_cast<Card::Values>(Card::Ace + (offset - 1));
-        return cl.first()->value() == start && matches(cl, 0, offset);
+        Card::Rank start = static_cast<Card::Rank>(Card::Ace + (offset - 1));
+        return cl.first()->rank() == start && matches(cl, 0, offset);
     }
 
     return matches(cl, c1->top(), offset);

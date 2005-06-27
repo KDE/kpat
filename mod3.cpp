@@ -72,7 +72,7 @@ bool Mod3::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
         Card *c2 = cl.first();
 
         if (c1->isEmpty())
-            return (c2->value() == ( ( c1->index() / 10 ) + 2 ) );
+            return (c2->rank() == ( ( c1->index() / 10 ) + 2 ) );
 
         kdDebug(11111) << "not empty\n";
 
@@ -80,12 +80,12 @@ bool Mod3::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
             return false;
 
         kdDebug(11111) << "same suit\n";
-        if (c2->value() != (c1->top()->value()+3))
+        if (c2->rank() != (c1->top()->rank()+3))
             return false;
 
-        kdDebug(11111) << "+3 " << c1->cardsLeft() << " " << c1->top()->value() << " " << c1->index()+1 << endl;
+        kdDebug(11111) << "+3 " << c1->cardsLeft() << " " << c1->top()->rank() << " " << c1->index()+1 << endl;
         if (c1->cardsLeft() == 1)
-            return (c1->top()->value() == ((c1->index() / 10) + 2));
+            return (c1->top()->rank() == ((c1->index() / 10) + 2));
 
         kdDebug(11111) << "+1\n";
 
@@ -93,13 +93,13 @@ bool Mod3::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
     } else if (checkIndex == 1) {
         return c1->isEmpty();
     } else if (checkIndex == 2) {
-        return cl.first()->value() == Card::Ace;
+        return cl.first()->rank() == Card::Ace;
     } else return false;
 }
 
 bool Mod3::checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const
 {
-    return (checkIndex == 0 && c1->isEmpty() && c2.first()->value() == (c1->index()+1));
+    return (checkIndex == 0 && c1->isEmpty() && c2.first()->rank() == (c1->index()+1));
 }
 
 //-------------------------------------------------------------------------//
@@ -144,7 +144,7 @@ void Mod3::deal()
     unmarkAll();
     CardList list = deck->cards();
 /*    for (CardList::Iterator it = list.begin(); it != list.end(); ++it)
-        if ((*it)->value() == Card::Ace) {
+        if ((*it)->rank() == Card::Ace) {
             aces->add(*it);
             (*it)->hide();
         }
@@ -191,14 +191,14 @@ bool Mod3::isGameLost() const
 	// If there is a stack on the board that is either empty or
 	// contains an ace, the game is not finished.
         if (stack[row][col]->isEmpty()
-	    || stack[row][col]->at(0)->value() == Card::Ace) {
+	    || stack[row][col]->at(0)->rank() == Card::Ace) {
             nextTest = true;
             break;
         }
 
 	// If there is a card that is correctly placed, the game is
 	// not lost.
-        if (stack[row][col]->at(0)->value() == Card::Two + row) {
+        if (stack[row][col]->at(0)->rank() == Card::Two + row) {
             nextTest = true;
             break;
         }
@@ -224,7 +224,7 @@ bool Mod3::isGameLost() const
         if (stack[row][col]->isEmpty()) {
 	    // Can we move a card from below?
             for (col3=0; col3 < 8; col3++) {
-                if (stack[3][col3]->top()->value() == (Card::Two+row))
+                if (stack[3][col3]->top()->rank() == (Card::Two+row))
                     return false;
             }
 
@@ -235,7 +235,7 @@ bool Mod3::isGameLost() const
 
                 if (stack[row2][col2]->isEmpty())
                     continue;
-                if (stack[row2][col2]->top()->value() == (Card::Two + row))
+                if (stack[row2][col2]->top()->rank() == (Card::Two + row))
                     return false;
             }
         }
@@ -245,14 +245,14 @@ bool Mod3::isGameLost() const
             kdDebug(11111) << "considering ["<<row<<"]["<<col<<"] " << ctop->name() << flush;
 
 	    // Card not in its final position?  Then we can't build on it.
-            if (stack[row][col]->at(0)->value() != Card::Two + row)
+            if (stack[row][col]->at(0)->rank() != Card::Two + row)
                 continue;
 
 	    // Can we move a card from below here?
             for (col3 = 0; col3 < 8; col3++) {
                 card = stack[3][col3]->top();
                 if (card->suit() == ctop->suit()
-		    && card->value() == ctop->value() + 3)
+		    && card->rank() == ctop->rank() + 3)
                     return false;
             }
             kdDebug(11111) <<" Can't stack from bottom row" << flush;
@@ -273,7 +273,7 @@ bool Mod3::isGameLost() const
                     continue;
 
                 if (card->suit() == ctop->suit()
-		    && card->value() == ctop->value() + 3)
+		    && card->rank() == ctop->rank() + 3)
                     return false;
             }
         }

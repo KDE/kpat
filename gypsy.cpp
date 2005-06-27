@@ -63,13 +63,13 @@ bool Gypsy::isGameLost() const {
 		if(store[i]->isEmpty())
 			return false;
 
-		if(store[i]->top()->value() == Card::Ace)
+		if(store[i]->top()->rank() == Card::Ace)
 			return false;
 
 		for(int j=0; j <8; j++){
 			if(!target[j]->isEmpty() &&
 				(store[i]->top()->suit()==target[j]->top()->suit()) &&
-				(store[i]->top()->value()==(target[j]->top()->value()+1)))
+				(store[i]->top()->rank()==(target[j]->top()->rank()+1)))
 				return false;
 		}
 	}
@@ -88,11 +88,11 @@ bool Gypsy::isGameLost() const {
                     if (i == k)
                         continue;
 
-                    if((cardi->value()+1 == store[k]->top()->value()) &&
+                    if((cardi->rank()+1 == store[k]->top()->rank()) &&
                        cardi->isRed() != store[k]->top()->isRed()){
 
                         // this test doesn't apply if indexi==0, but fails gracefully.
-                        if(cnext->value() == store[k]->top()->value() &&
+                        if(cnext->rank() == store[k]->top()->rank() &&
                            cnext->suit() == store[k]->top()->suit())
                             break; //nothing gained; keep looking.
 
@@ -100,7 +100,7 @@ bool Gypsy::isGameLost() const {
                     }
                 }
 
-            } while((indexi>=0) && (cardi->value()+1 == cnext->value()) &&
+            } while((indexi>=0) && (cardi->rank()+1 == cnext->rank()) &&
                     (cardi->isRed() != cnext->isRed()));
 	}
 

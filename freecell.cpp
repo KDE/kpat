@@ -104,8 +104,8 @@ void FreecellBase::restart()
     deal();
 }
 
-QString suitToString(Card::Suits v) {
-    switch (v) {
+QString suitToString(Card::Suit s) {
+    switch (s) {
         case Card::Clubs:
             return "C";
         case Card::Hearts:
@@ -118,9 +118,9 @@ QString suitToString(Card::Suits v) {
     return QString::null;
 }
 
-QString valueToString(Card::Values v)
+QString rankToString(Card::Rank r)
 {
-    switch (v) {
+    switch (r) {
         case Card::King:
             return "K";
         case Card::Ace:
@@ -130,11 +130,11 @@ QString valueToString(Card::Values v)
         case Card::Queen:
             return "Q";
         default:
-            return QString::number(v);
+            return QString::number(r);
     }
 }
 
-int getDeck(Card::Suits suit)
+int getDeck(Card::Suit suit)
 {
     switch (suit) {
         case Card::Hearts:
@@ -378,7 +378,7 @@ QString FreecellBase::solverFormat() const
     for (uint i = 0; i < target.count(); i++) {
         if (target[i]->isEmpty())
             continue;
-        tmp += suitToString(target[i]->top()->suit()) + "-" + valueToString(target[i]->top()->value()) + " ";
+        tmp += suitToString(target[i]->top()->suit()) + "-" + rankToString(target[i]->top()->rank()) + " ";
     }
     if (!tmp.isEmpty())
         output += QString::fromLatin1("Foundations: %1\n").arg(tmp);
@@ -388,7 +388,7 @@ QString FreecellBase::solverFormat() const
         if (freecell[i]->isEmpty())
             tmp += "- ";
         else
-            tmp += valueToString(freecell[i]->top()->value()) + suitToString(freecell[i]->top()->suit()) + " ";
+            tmp += rankToString(freecell[i]->top()->rank()) + suitToString(freecell[i]->top()->suit()) + " ";
     }
     if (!tmp.isEmpty())
         output += QString::fromLatin1("Freecells: %1\n").arg(tmp);
@@ -397,7 +397,7 @@ QString FreecellBase::solverFormat() const
     {
         CardList cards = store[i]->cards();
         for (CardList::ConstIterator it = cards.begin(); it != cards.end(); ++it)
-            output += valueToString((*it)->value()) + suitToString((*it)->suit()) + " ";
+            output += rankToString((*it)->rank()) + suitToString((*it)->suit()) + " ";
         output += "\n";
     }
     return output;
@@ -439,31 +439,31 @@ QString FreecellBase::solverFormat() const
 bool FreecellBase::noLongerNeeded(const Card & t)
 {
 
-    if (t.value() <= Card::Two) return true; //  Base case.
+    if (t.rank() <= Card::Two) return true; //  Base case.
 
     bool cardIsRed = t.isRed();
 
     uint numSame = 0, numDiff = 0;
-    Card::Values lowSame = Card::King, lowDiff = Card::King;
+    Card::Rank lowSame = Card::King, lowDiff = Card::King;
     for (PileList::Iterator it = target.begin(); it != target.end(); ++it)
     {
         if ((*it)->isEmpty())
             continue;
         if ((*it)->top()->isRed() == cardIsRed) {
             numSame++;
-            if ((*it)->top()->value() < lowSame)
-                lowSame = static_cast<Card::Values>((*it)->top()->value()+1);
+            if ((*it)->top()->rank() < lowSame)
+                lowSame = static_cast<Card::Rank>((*it)->top()->rank()+1);
         } else {
             numDiff++;
-            if ((*it)->top()->value() < lowDiff)
-                lowDiff = static_cast<Card::Values>((*it)->top()->value()+1);
+            if ((*it)->top()->rank() < lowDiff)
+                lowDiff = static_cast<Card::Rank>((*it)->top()->rank()+1);
         }
     }
     if (numSame < target.count()/2) lowSame = Card::Ace;
     if (numDiff < target.count()/2) lowDiff = Card::Ace;
 
-    return (lowDiff >= t.value() ||
-        (lowDiff >= t.value()-1 && lowSame >= t.value()-2));
+    return (lowDiff >= t.rank() ||
+        (lowDiff >= t.rank()-1 && lowSame >= t.rank()-2));
 }
 
 //  This is the getHints() from dealer.cpp with one line changed
@@ -767,7 +767,7 @@ bool FreecellBase::CanPutStore(const Pile *c1, const CardList &c2) const
     Card *c = c2.first(); // we assume there are only valid sequences
 
     // ok if in sequence, alternate colors
-    return ((c1->top()->value() == (c->value()+1))
+    return ((c1->top()->rank() == (c->rank()+1))
             && (c1->top()->isRed() != c->isRed()));
 }
 
@@ -797,7 +797,7 @@ bool FreecellBase::checkRemove(int checkIndex, const Pile *p, const Card *c) con
     {
         c = p->at(index++);
 
-        if (!((c->value() == (before->value()-1))
+        if (!((c->rank() == (before->rank()-1))
               && (c->isRed() != before->isRed())))
         {
             return false;

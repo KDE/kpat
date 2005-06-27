@@ -24,6 +24,7 @@
 #include "deck.h"
 #include "cardmaps.h"
 
+
 Idiot::Idiot( KMainWindow* parent, const char* _name)
   : Dealer( parent, _name )
 {
@@ -46,8 +47,8 @@ Idiot::Idiot( KMainWindow* parent, const char* _name)
 
     away->move(10 + cardMap::CARDX() * 5 / 2 + distx * 4, 10);
     setActions(Dealer::Hint | Dealer::Demo);
-
 }
+
 
 void Idiot::restart()
 {
@@ -57,15 +58,21 @@ void Idiot::restart()
 
 inline bool higher( const Card* c1, const Card* c2)
 {
+    // Sanity check.
     if (!c1 || !c2 || c1 == c2)
         return false;
+
+    // Must be same suit.
     if (c1->suit() != c2->suit())
         return false;
-    if (c2->value() == Card::Ace) // special case
+
+    // Aces form a special case.
+    if (c2->rank() == Card::Ace)
         return true;
-    if (c1->value() == Card::Ace)
+    if (c1->rank() == Card::Ace)
         return false;
-    return (c1->value() < c2->value());
+
+    return (c1->rank() < c2->rank());
 }
 
 bool Idiot::canMoveAway(Card *c)
@@ -110,28 +117,46 @@ bool Idiot::cardClicked(Card *c)
     return true; // may be a lie, but noone cares
 }
 
+
+// The game is won when:
+//  1. all cards are dealt.
+//  2. all piles contain exactly one ace.
+//  3. the rest of the cards are thrown away (follows automatically from 1, 2.
+//
 bool Idiot::isGameWon() const
 {
+    // Criterium 1.
     if (!deck->isEmpty())
         return false;
 
+    // Criterium 2.
     for (int i = 0; i < 4; i++) {
-        if (play[i]->cardsLeft() != 1 || play[i]->top()->value() != Card::Ace)
+        if (play[i]->cardsLeft() != 1 || play[i]->top()->rank() != Card::Ace)
             return false;
     }
+
     return true;
 }
+
+
+// This patience doesn't support double click.
+//
 
 bool Idiot::cardDblClicked(Card *)
 {
     return false; // nothing - nada
 }
 
+
+// Deal 4 cards face up - one on each pile.
+//
+
 void Idiot::deal()
 {
     if( !deck->isEmpty() )
     {
         for( int i = 0; i < 4; i++ )
+	    // Move the top card of the deck, faceup, spread out.
             play[ i ]->add( deck->nextCard(), false, true );
     }
 }
@@ -161,7 +186,7 @@ void Idiot::getHints()
                 if ( i != j && play[j]->cardsLeft()>1 )
                 {
                     // Ace on top of the pile ? -> move it
-                    if ( play[j]->top()->value() == Card::Ace )
+                    if ( play[j]->top()->rank() == Card::Ace )
                     {
                         biggestPile = j;
                         break;

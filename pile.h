@@ -55,7 +55,7 @@ public:
 
     Card *top() const;
 
-    void add( Card* c, bool facedown, bool spread); // for initial deal
+    void add( Card *c, bool facedown, bool spread); // for initial deal
     void add( Card *c, int index = -1);
     void remove(Card *c);
     void clear();

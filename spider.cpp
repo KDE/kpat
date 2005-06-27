@@ -36,7 +36,7 @@ void SpiderPile::moveCards(CardList &c, Pile *to)
     // the run I just moved is the same suit as the pile,
     // and the destination pile now has more than 12 cards,
     // then it could have a full deck that needs removed.
-    if (c.last()->value() == Card::Ace &&
+    if (c.last()->rank() == Card::Ace &&
         c.first()->suit() == to->top()->suit() &&
         to->cardsLeft() > 12) {
             Spider *b = dynamic_cast<Spider*>(dealer());
@@ -107,8 +107,8 @@ bool Spider::checkAdd(int /*checkIndex*/, const Pile *c1, const CardList& c2) co
 {
     // assuming the cardlist is a valid unit, since I allowed
     // it to be removed - can drop any card on empty pile or
-    // on any suit card of one higher value
-    if (c1->isEmpty() || c1->top()->value() == c2.first()->value()+1)
+    // on any suit card of one higher rank
+    if (c1->isEmpty() || c1->top()->rank() == c2.first()->rank()+1)
         return true;
 
     return false;
@@ -123,7 +123,7 @@ bool Spider::checkRemove(int /*checkIndex*/, const Pile *p, const Card *c) const
     while (c != p->top()) {
         before = c;
         c = p->at(++index);
-        if (before->suit() != c->suit() || before->value() != c->value()+1)
+        if (before->suit() != c->suit() || before->rank() != c->rank()+1)
             return false;
     }
     return true;
@@ -158,19 +158,19 @@ void Spider::getHints()
                 if (cl[column].isEmpty() || col == column)
                     continue;
                 if (cl[column].last()->suit() == s &&
-                    cl[column].last()->value() <= vTop+1 &&
-                    cl[column].first()->value() > vTop)
+                    cl[column].last()->rank() <= vTop+1 &&
+                    cl[column].first()->rank() > vTop)
                 {
                     bGrowing = true;
-                    if (cl[column].first()->value() > vTopNew) {
+                    if (cl[column].first()->rank() > vTopNew) {
                         colNew = column;
-                        vTopNew = cl[column].first()->value();
+                        vTopNew = cl[column].first()->rank();
                     }
                 }
             }
             if (bGrowing && vTop)
                 hl.append(new MoveHint(cl[col][vTop-
-                   cl[colNew].last()->value()+1], stack[colNew]));
+                   cl[colNew].last()->rank()+1], stack[colNew]));
         }
         if (vTopNew == 13)
             hints += hl;
@@ -198,7 +198,7 @@ void Spider::getHints()
             if (c2 == column || cl[c2].isEmpty())
                 continue;
 
-            if (cl[c2].last()->value() == cl[column].first()->value()+1)
+            if (cl[c2].last()->rank() == cl[column].first()->rank()+1)
             {
                 // I can hint this move - should I?
                 int index = stack[column]->indexOf(cl[column].first());
@@ -208,8 +208,8 @@ void Spider::getHints()
                 // or if it couldn't move to where it is now,
                 // or if the card under this one is face down, hint
                 if (cl[c2].last()->suit() == cl[column].first()->suit() ||
-                    index == 0 || stack[column]->at(index-1)->value() !=
-                    cl[column].first()->value()+1 ||
+                    index == 0 || stack[column]->at(index-1)->rank() !=
+                    cl[column].first()->rank()+1 ||
                     !(stack[column]->at(index-1)->realFace()))
                         newHint(new MoveHint(cl[column].first(), stack[c2]));
             }
@@ -291,13 +291,13 @@ CardList Spider::getRun(Card *c) const
 
     result.append(c);
 
-    Card::Suits s = c->suit();
-    int v = c->value();
+    Card::Suit s = c->suit();
+    int v = c->rank();
 
     int index = p->indexOf(c);
     c = p->at(--index);
     while (index >= 0 && c->realFace() &&
-        c->suit() == s && c->value() == ++v)
+        c->suit() == s && c->rank() == ++v)
     {
         result.prepend(c);
         c = p->at(--index);
@@ -312,10 +312,10 @@ void Spider::checkPileDeck(Pile *check)
     if (check->isEmpty())
         return;
 
-    if (check->top()->value() == Card::Ace) {
+    if (check->top()->rank() == Card::Ace) {
         // just using the CardList to see if this goes to King
         CardList run = getRun(check->top());
-        if (run.first()->value() == Card::King) {
+        if (run.first()->rank() == Card::King) {
             legs[m_leg]->setVisible(true);
 
             // remove this full deck from this pile
@@ -339,7 +339,7 @@ void Spider::dealRow()
         stack[column]->add(redeals[m_redeal]->top(), false, true);
 
         // I may put an Ace on a K->2 pile so it could need cleared.
-        if (stack[column]->top()->value() == Card::Ace)
+        if (stack[column]->top()->rank() == Card::Ace)
             checkPileDeck(stack[column]);
     }
 
@@ -424,7 +424,7 @@ bool Spider::isGameLost() const
                 continue;
 
             // if I can move this run to another pile, I'm not done
-            if (cl[c2].last()->value() == cl[column].first()->value()+1)
+            if (cl[c2].last()->rank() == cl[column].first()->rank()+1)
                 return false;
         }
 
@@ -438,11 +438,11 @@ bool Spider::isGameLost() const
             int column = 0;
             while (column < 10 && !bGrowing) {
                 if (cl[column].last()->suit() == s &&
-                    cl[column].last()->value() <= vTop+1 &&
-                    cl[column].first()->value() > vTop)
+                    cl[column].last()->rank() <= vTop+1 &&
+                    cl[column].first()->rank() > vTop)
                 {
                     bGrowing = true;
-                    vTop = cl[column].first()->value();
+                    vTop = cl[column].first()->rank();
                 }
                 column++;
             }

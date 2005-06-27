@@ -47,29 +47,29 @@ bool Clock::checkAdd( int ci, const Pile *c1, const CardList& c2) const
         if (c1->isEmpty())
             return true;
 
-        return (newone->value() == c1->top()->value() - 1);
+        return (newone->rank() == c1->top()->rank() - 1);
     } else {
         if (c1->top()->suit() != newone->suit())
             return false;
-        if (c1->top()->value() == Card::King)
-            return (newone->value() == Card::Ace);
-        return (newone->value() == c1->top()->value() + 1);
+        if (c1->top()->rank() == Card::King)
+            return (newone->rank() == Card::Ace);
+        return (newone->rank() == c1->top()->rank() + 1);
     }
 }
 
 void Clock::deal() {
-    static const Card::Suits suits[12] = { Card::Diamonds, Card::Spades, Card::Hearts, Card::Clubs,
-                                           Card::Diamonds, Card::Spades, Card::Hearts, Card::Clubs,
-                                           Card::Diamonds, Card::Spades, Card::Hearts, Card::Clubs, };
-    static const Card::Values values[12] = { Card::Nine, Card::Ten, Card::Jack, Card::Queen,
-                                             Card::King, Card::Two, Card::Three, Card::Four,
-                                             Card::Five, Card::Six, Card::Seven, Card::Eight};
+    static const Card::Suit suits[12] = { Card::Diamonds, Card::Spades, Card::Hearts, Card::Clubs,
+					  Card::Diamonds, Card::Spades, Card::Hearts, Card::Clubs,
+					  Card::Diamonds, Card::Spades, Card::Hearts, Card::Clubs, };
+    static const Card::Rank ranks[12] = { Card::Nine, Card::Ten, Card::Jack, Card::Queen,
+					  Card::King, Card::Two, Card::Three, Card::Four,
+					  Card::Five, Card::Six, Card::Seven, Card::Eight};
 
     int j = 0;
     while (!deck->isEmpty()) {
         Card *c = deck->nextCard();
         for (int i = 0; i < 12; i++)
-            if (c->value() == values[i] && c->suit() == suits[i]) {
+            if (c->rank() == ranks[i] && c->suit() == suits[i]) {
                 target[i]->add(c, false, true);
                 c = 0;
                 break;

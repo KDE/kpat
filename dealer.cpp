@@ -692,7 +692,7 @@ public:
                 && source_index == rhs.source_index && tookdown == rhs.tookdown);
     }
     void fillNode(QDomElement &e) const {
-        e.setAttribute("value", it->value());
+        e.setAttribute("value", it->rank());
         e.setAttribute("suit", it->suit());
         e.setAttribute("source", source->index());
         e.setAttribute("x", x);
@@ -860,7 +860,7 @@ void Dealer::saveGame(QDomDocument &doc) {
             {
                 QDomElement card = doc.createElement("card");
                 card.setAttribute("suit", (*it)->suit());
-                card.setAttribute("value", (*it)->value());
+                card.setAttribute("value", (*it)->rank());
                 card.setAttribute("faceup", (*it)->isFaceUp());
                 card.setAttribute("x", (*it)->realX());
                 card.setAttribute("y", (*it)->realY());
@@ -933,13 +933,13 @@ void Dealer::openGame(QDomDocument &doc)
                     for (int j = 0; j < pcards.count(); ++j)
                     {
                         QDomElement card = pcards.item(j).toElement();
-                        Card::Suits s = static_cast<Card::Suits>(card.attribute("suit").toInt());
-                        Card::Values v = static_cast<Card::Values>(card.attribute("value").toInt());
+                        Card::Suit s = static_cast<Card::Suit>(card.attribute("suit").toInt());
+                        Card::Rank v = static_cast<Card::Rank>(card.attribute("value").toInt());
 
                         for (CardList::Iterator it2 = cards.begin();
                              it2 != cards.end(); ++it2)
                         {
-                            if ((*it2)->suit() == s && (*it2)->value() == v) {
+                            if ((*it2)->suit() == s && (*it2)->rank() == v) {
                                 if (QString((*it2)->name()) == "Diamonds Eight") {
                                     kdDebug(11111) << i << " " << j << endl;
                                 }

@@ -52,16 +52,16 @@ class Card: public QObject, public Q3CanvasRectangle {
     Q_OBJECT
 
 public:
-    enum Suits { Clubs = 1, Diamonds, Hearts, Spades };
-    enum Values { None = 0, Ace = 1, Two, Three, Four, Five, Six, Seven, Eight,
-                  Nine, Ten, Jack, Queen, King };
+    enum Suit { Clubs = 1, Diamonds, Hearts, Spades };
+    enum Rank { None = 0, Ace = 1, Two,  Three, Four, Five,  Six, Seven, 
+		          Eight,   Nine, Ten,   Jack, Queen, King };
 
-    Card( Values v, Suits s,  Q3Canvas *parent=0);
+    Card( Rank r, Suit s,  Q3Canvas *parent=0);
     virtual ~Card();
 
     // Properties of the card.
-    Suits    suit()  const     { return m_suit;  }
-    Values   value() const     { return m_value; }
+    Suit       suit()     const  { return m_suit; }
+    Rank       rank()     const  { return m_rank; }
 
     // Some basic tests.
     bool       isRed()    const  { return m_suit==Diamonds || m_suit==Hearts; }
@@ -103,8 +103,8 @@ protected:
 
 private:
     // The card.
-    Suits       m_suit;
-    Values      m_value;
+    Suit        m_suit;
+    Rank        m_rank;
     char       *m_name;
 
     bool        faceup;

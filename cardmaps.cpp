@@ -224,21 +224,19 @@ QPixmap cardMap::backSide() const
     return back;
 }
 
-QPixmap cardMap::image( Card::Values _value, Card::Suits _suit, bool inverted) const
+QPixmap cardMap::image( Card::Rank _rank, Card::Suit _suit, bool inverted) const
 {
-    if( 1 <= _value &&
-        _value <= 13 &&
-        1 <= _suit &&
-        _suit <= 4 )
+    if( 1 <= _rank && _rank <= 13 
+	&& 1 <= _suit && _suit <= 4 )
     {
         if (inverted)
-            return img[ _value - 1 ][ _suit - 1 ].inverted;
+            return img[ _rank - 1 ][ _suit - 1 ].inverted;
         else
-            return img[ _value - 1 ][ _suit - 1 ].normal;
+            return img[ _rank - 1 ][ _suit - 1 ].normal;
     }
     else
     {
-        kdError() << "access to invalid card " << int(_value) << ", " << int(_suit) << endl;
+        kdError() << "access to invalid card " << int(_rank) << ", " << int(_suit) << endl;
     }
     return 0;
 }

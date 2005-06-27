@@ -123,9 +123,9 @@ Klondike::Klondike( bool easy, KMainWindow* parent, const char* _name )
 //  a target pile and that it is no longer needed on any of the play piles
 //  (this is why this function is recursive). This more ambitious rule lets
 //  us extend the base case with the second lowest value (2).
-bool Klondike::noLongerNeeded(Card::Values v, Card::Suits s) {
+bool Klondike::noLongerNeeded(Card::Rank r, Card::Suit s) {
 
-    if (v <= Card::Two) return true; //  Base case.
+    if (r <= Card::Two) return true; //  Base case.
 
     //  Find the 2 suits of opposite color. "- 1" is used here because the
     //  siuts are ranged 1 .. 4 but target_tops is indexed 0 .. 3. (Of course
@@ -135,22 +135,21 @@ bool Klondike::noLongerNeeded(Card::Values v, Card::Suits s) {
     if (s == Card::Clubs || s == Card::Spades)
         a = Card::Diamonds - 1, b = Card::Hearts - 1;
 
-    const Card::Values depending_value
-        = static_cast<Card::Values>(v - 1);
+    const Card::Rank depending_rank = static_cast<Card::Rank>(r - 1);
     return
-      (((target_tops[a] >= depending_value)
+      (((target_tops[a] >= depending_rank)
         ||
-        ((target_tops[a] >= depending_value - 1)
+        ((target_tops[a] >= depending_rank - 1)
          &&
          (noLongerNeeded
-              (depending_value, static_cast<Card::Suits>(a + 1)))))
+              (depending_rank, static_cast<Card::Suit>(a + 1)))))
        &&
-       ((target_tops[b] >= depending_value)
+       ((target_tops[b] >= depending_rank)
         ||
-        ((target_tops[b] >= depending_value - 1)
+        ((target_tops[b] >= depending_rank - 1)
          &&
          (noLongerNeeded
-              (depending_value, static_cast<Card::Suits>(b + 1))))));
+              (depending_rank, static_cast<Card::Suit>(b + 1))))));
 }
 
 bool Klondike::tryToDrop(Card *t)
@@ -163,8 +162,7 @@ bool Klondike::tryToDrop(Card *t)
     Pile *tgt = findTarget(t);
     if (tgt) {
         newHint
-            (new MoveHint
-                 (t, tgt, noLongerNeeded(t->value(), t->suit())));
+            (new MoveHint(t, tgt, noLongerNeeded(t->rank(), t->suit())));
         return true;
     }
     return false;
@@ -179,7 +177,7 @@ void Klondike::getHints() {
     {
         Card *c = target[i]->top();
         if (!c) continue;
-        target_tops[c->suit() - 1] = c->value();
+        target_tops[c->suit() - 1] = c->rank();
     }
 
 
@@ -205,7 +203,7 @@ void Klondike::getHints() {
                     continue;
 
                 if (play[j]->legalAdd(empty)) {
-                    if (((*it)->value() != Card::King) || it != list.begin()) {
+                    if (((*it)->rank() != Card::King) || it != list.begin()) {
                         newHint(new MoveHint(*it, play[j]));
                         break;
                     }
@@ -363,7 +361,7 @@ bool Klondike::isGameLost() const
                 continue;
             }
             if ( pile->top()->suit() == target[ i ]->top()->suit() &&
-                 pile->top()->value() - 1 == target[ i ]->top()->value() ) {
+                 pile->top()->rank() - 1 == target[ i ]->top()->rank() ) {
                 kdDebug( 11111 ) << "No, the source pile's top card could be added to target pile " << i << endl;
                 return false;
             }
@@ -398,7 +396,7 @@ bool Klondike::isGameLost() const
             CardList::ConstIterator it  = srcPileCards.begin();
             CardList::ConstIterator end = srcPileCards.end();
             for ( ; it != end; ++it ) {
-                if ( ( *it )->value() == Card::King ) {
+                if ( ( *it )->rank() == Card::King ) {
                     kdDebug( 11111 ) << "No, the pile contains a king which we could move onto store " << i << endl;
                     return false;
                 }
@@ -414,7 +412,7 @@ bool Klondike::isGameLost() const
                 CardList::ConstIterator it = ++cards.begin();
                 CardList::ConstIterator end = cards.end();
                 for ( ; it != end; ++it ) {
-                    if ( ( *it )->realFace() && ( *it )->value() == Card::King ) {
+                    if ( ( *it )->realFace() && ( *it )->rank() == Card::King ) {
                         kdDebug( 11111 ) << "No, store " << j << " contains a visible king which we could move onto store " << i << endl;
                         return false;
                     }
@@ -424,7 +422,7 @@ bool Klondike::isGameLost() const
             Card *topCard = play[ i ]->top();
 
             // ...check whether the top card is an Ace (we can start a target)
-            if ( topCard->value() == Card::Ace ) {
+            if ( topCard->rank() == Card::Ace ) {
                 kdDebug( 11111 ) << "No, store " << i << " has an Ace, we could start a target pile." << endl;
                 return false;
             }
@@ -435,7 +433,7 @@ bool Klondike::isGameLost() const
                     continue;
                 }
                 if ( target[ targetIdx ]->top()->suit() == topCard->suit() &&
-                     target[ targetIdx ]->top()->value() == topCard->value() - 1 ) {
+                     target[ targetIdx ]->top()->rank() == topCard->rank() - 1 ) {
                     kdDebug( 11111 ) << "No, store " << i << "'s top card could be added to target pile " << targetIdx << endl;
                     return false;
                 }
@@ -447,7 +445,7 @@ bool Klondike::isGameLost() const
             CardList::ConstIterator end = srcPileCards.end();
             for ( ; it != end; ++it ) {
                 if ( ( *it )->isRed() != topCard->isRed() &&
-                     ( *it )->value() == topCard->value() - 1 ) {
+                     ( *it )->rank() == topCard->rank() - 1 ) {
                     kdDebug( 11111 ) << "No, the pile contains a card which we could add to store " << i << endl;
                     return false;
                 }
@@ -466,7 +464,7 @@ bool Klondike::isGameLost() const
                 for ( ; it != end; ++it ) {
                     if ( ( *it )->realFace() &&
                          ( *it )->isRed() != topCard->isRed() &&
-                         ( *it )->value() == topCard->value() - 1 ) {
+                         ( *it )->rank() == topCard->rank() - 1 ) {
                         kdDebug( 11111 ) << "No, store " << j << " contains a card which we could add to store " << i << endl;
                         return false;
                     }
