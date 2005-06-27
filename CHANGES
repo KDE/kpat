@@ -1,3 +1,9 @@
+2005-06-25 Inge Wallin <inge@lysator.liu.se>
+
+        Code cleaning
+        - Rename Card::Value  --> Card::Rank
+        - Rename Card::Suites --> Card::Suit
+
 2005-02-18 Inge Wallin <inge@lysator.liu.se>
 
 	Bumped version number to 2.2.2 because of all the bug fixes

@@ -21,34 +21,29 @@ const int Pile::wholeColumn   = 0x0400;
 
 
 
-// Return the top card of this pile.
-//
-
-Card *Pile::top() const
-{
-    if (myCards.isEmpty())
-        return 0;
-
-    return myCards.last();
-}
-
 Pile::Pile( int _index, Dealer* parent)
     : QCanvasRectangle( parent->canvas() ),
-      _dealer(parent),
-      myIndex(_index),
-      _target(false),
+      m_dealer(parent),
       _atype(Custom),
-      _rtype(Custom)
+      _rtype(Custom),
+      myIndex(_index),
+      _target(false)
 {
+    // Make the patience aware of this pile.
     dealer()->addPile(this);
+
     QCanvasRectangle::setVisible(true); // default
     _checkIndex = -1;
-    addFlags = removeFlags = 0;
+    addFlags    = 0;
+    removeFlags = 0;
+
     setBrush(Qt::black);
     setPen(QPen(Qt::black));
+
     setZ(0);
     initSizes();
 }
+
 
 void Pile::initSizes()
 {
@@ -105,7 +100,7 @@ Pile::~Pile()
 {
     dealer()->removePile(this);
 
-    for (CardList::Iterator it = myCards.begin(); it != myCards.end(); ++it)
+    for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
         if ((*it)->source() != this) {
             int i = -13;
@@ -206,7 +201,7 @@ void Pile::setVisible(bool vis)
     QCanvasRectangle::setVisible(vis);
     dealer()->enlargeCanvas(this);
 
-    for (CardList::Iterator it = myCards.begin(); it != myCards.end(); ++it)
+    for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
         (*it)->setVisible(vis);
         dealer()->enlargeCanvas(*it);
@@ -218,7 +213,7 @@ void Pile::moveBy(double dx, double dy)
     QCanvasRectangle::moveBy(dx, dy);
     dealer()->enlargeCanvas(this);
 
-    for (CardList::Iterator it = myCards.begin(); it != myCards.end(); ++it)
+    for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
         (*it)->moveBy(dx, dy);
         dealer()->enlargeCanvas(*it);
@@ -228,23 +223,34 @@ void Pile::moveBy(double dx, double dy)
 int Pile::indexOf(const Card *c) const
 {
     assert(c->source() == this);
-    return myCards.findIndex(const_cast<Card*>(c)); // the list is of non-const cards
+    return m_cards.findIndex(const_cast<Card*>(c)); // the list is of non-const cards
 }
 
 Card *Pile::at(int index) const
 {
-    if (index < 0 || index >= int(myCards.count()))
+    if (index < 0 || index >= int(m_cards.count()))
         return 0;
-    return *myCards.at(index);
+    return *m_cards.at(index);
+}
+
+// Return the top card of this pile.
+//
+
+Card *Pile::top() const
+{
+    if (m_cards.isEmpty())
+        return 0;
+
+    return m_cards.last();
 }
 
 void Pile::clear()
 {
-    for (CardList::Iterator it = myCards.begin(); it != myCards.end(); ++it)
+    for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
         (*it)->setSource(0);
     }
-    myCards.clear();
+    m_cards.clear();
 }
 
 void Pile::add( Card *_card, int index)
@@ -261,12 +267,12 @@ void Pile::add( Card *_card, int index)
     _card->setSource(this);
 
     if (index == -1)
-        myCards.append(_card);
+        m_cards.append(_card);
     else {
-        while (myCards.count() <= uint(index))
-            myCards.append(0);
-        assert(myCards[index] == 0);
-        myCards[index] = _card;
+        while (m_cards.count() <= uint(index))
+            m_cards.append(0);
+        assert(m_cards[index] == 0);
+        m_cards[index] = _card;
     }
 }
 
@@ -329,7 +335,7 @@ void Pile::add( Card* _card, bool _facedown, bool _spread )
         _card->move( x2, y2 );
         _card->setZ( z2 );
     } else {
-        _card->animatedMove(x2, y2, z2, STEPS_INITIALDEAL);
+        _card->moveTo(x2, y2, z2, STEPS_INITIALDEAL);
     }
 
     dealer()->enlargeCanvas(_card);
@@ -337,20 +343,20 @@ void Pile::add( Card* _card, bool _facedown, bool _spread )
 
 void Pile::remove(Card *c)
 {
-    assert(myCards.contains(c));
-    myCards.remove(c);
+    assert(m_cards.contains(c));
+    m_cards.remove(c);
 }
 
 void Pile::hideCards( const CardList & cards )
 {
     for (CardList::ConstIterator it = cards.begin(); it != cards.end(); ++it)
-        myCards.remove(*it);
+        m_cards.remove(*it);
 }
 
 void Pile::unhideCards( const CardList & cards )
 {
     for (CardList::ConstIterator it = cards.begin(); it != cards.end(); ++it)
-        myCards.append(*it);
+        m_cards.append(*it);
 }
 
 CardList Pile::cardPressed(Card *c)
@@ -365,7 +371,7 @@ CardList Pile::cardPressed(Card *c)
     if (!c->isFaceUp())
         return result;
 
-    for (CardList::Iterator it = myCards.begin(); it != myCards.end(); ++it)
+    for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
         if (c == *it) {
             below = 0;
@@ -413,18 +419,18 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
     if (!anim)
         steps = 0;
 
-    for (CardList::Iterator it = myCards.begin(); it != myCards.end(); ++it)
+    for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
         if (c == *it) {
             if (before) {
                 off = cardOffset(addFlags & Pile::addSpread, false, before);
-                c->animatedMove( before->realX() + off.width(),
-                                 before->realY() + off.height(),
-                                 before->realZ() + 1, steps);
+                c->moveTo( before->realX() + off.width(),
+			   before->realY() + off.height(),
+			   before->realZ() + 1, steps);
                 dealer()->enlargeCanvas(c);
             }
             else {
-                c->animatedMove( int(x()), int(y()), int(z()) + 1, steps);
+                c->moveTo( int(x()), int(y()), int(z()) + 1, steps);
             }
             break;
         } else
@@ -439,7 +445,7 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
 
     for (; it != cl.end(); ++it)
     {
-        (*it)->animatedMove( before->realX() + off.width(),
+        (*it)->moveTo( before->realX() + off.width(),
                              before->realY() + off.height(),
                              before->realZ() + 1, steps);
         dealer()->enlargeCanvas(*it);

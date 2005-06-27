@@ -54,30 +54,47 @@ void DealerInfoList::add(DealerInfo *dealer)
 
 Dealer *Dealer::s_instance = 0;
 
+
 Dealer::Dealer( KMainWindow* _parent , const char* _name )
-    : QCanvasView( 0, _parent, _name ), towait(0), myActions(0),
-ademo(0), ahint(0), aredeal(0),
-      takeTargets(false), _won(false), _waiting(0), stop_demo_next(false), _autodrop(true), moves(0)
+  : QCanvasView( 0, _parent, _name ),
+    towait(0),
+    myActions(0),
+    ademo(0),
+    ahint(0), 
+    aredeal(0),
+    takeTargets(false),
+    _won(false),
+    _waiting(0),
+    stop_demo_next(false),
+    _autodrop(true),
+    moves(0)
 {
     setResizePolicy(QScrollView::Manual);
     setVScrollBarMode(AlwaysOff);
     setHScrollBarMode(AlwaysOff);
+
     setGameNumber(kapp->random());
     myCanvas.setAdvancePeriod(30);
     // myCanvas.setBackgroundColor( darkGreen );
     setCanvas(&myCanvas);
     myCanvas.setDoubleBuffering(true);
+
     undoList.setAutoDelete(true);
+
     demotimer = new QTimer(this);
+
     connect(demotimer, SIGNAL(timeout()), SLOT(demo()));
+
     assert(!s_instance);
     s_instance = this;
 }
+
 
 const Dealer *Dealer::instance()
 {
     return s_instance;
 }
+
 
 void Dealer::setBackgroundPixmap(const QPixmap &background, const QColor &midcolor)
 {
@@ -142,6 +159,10 @@ KMainWindow *Dealer::parent() const
     return dynamic_cast<KMainWindow*>(QCanvasView::parent());
 }
 
+
+// ----------------------------------------------------------------
+
+
 void Dealer::hint()
 {
     unmarkAll();
@@ -152,6 +173,7 @@ void Dealer::hint()
     clearHints();
     canvas()->update();
 }
+
 
 void Dealer::getHints()
 {
@@ -1006,7 +1028,8 @@ void Dealer::setWaiting(bool w)
     kdDebug(11111) << "setWaiting " << w << " " << _waiting << endl;
 }
 
-void Dealer::setAutoDropEnabled(bool a) {
+void Dealer::setAutoDropEnabled(bool a)
+{
     _autodrop = a;
     QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
 }
@@ -1043,7 +1066,7 @@ bool Dealer::startAutoDrop()
             t->source()->moveCards(cards, mh->pile());
             t->move(x, y);
             kdDebug(11111) << "autodrop " << t->name() << endl;
-            t->animatedMove(int(t->source()->x()), int(t->source()->y()), int(t->z()), STEPS_AUTODROP);
+            t->moveTo(int(t->source()->x()), int(t->source()->y()), int(t->z()), STEPS_AUTODROP);
             connect(t, SIGNAL(stoped(Card*)), SLOT(waitForAutoDrop(Card*)));
             return true;
         }
@@ -1169,7 +1192,7 @@ void Dealer::won()
             p.moveTopLeft(QPoint(x, y));
         } while (can.intersects(p));
 
-	(*it).ptr->animatedMove( x, y, 0, STEPS_WON);
+	(*it).ptr->moveTo( x, y, 0, STEPS_WON);
     }
 
     bool demo = demoActive();
@@ -1249,7 +1272,7 @@ void Dealer::demo() {
             int x2 = int(t->realX());
             int y2 = int(t->realY());
             t->move(x1, y1);
-            t->animatedMove(x2, y2, int(t->z()), STEPS_DEMO);
+            t->moveTo(x2, y2, int(t->z()), STEPS_DEMO);
         }
 
         delete [] oldcoords;

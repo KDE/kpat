@@ -37,9 +37,10 @@ Idiot::Idiot( KMainWindow* parent, const char* _name)
 
     const int distx = cardMap::CARDX() + cardMap::CARDX() / 10 + 1;
 
-    for( int i = 0; i < 4; i++ )
-    {
-        play[ i ] = new Pile( i + 1, this);
+    // Create 4 piles where the cards will be placed during the game.
+    for( int i = 0; i < 4; i++ ) {
+        play[i] = new Pile( i + 1, this);
+
         play[i]->move(10 + cardMap::CARDX() * 18 / 10 + distx * i, 10);
         play[i]->setAddFlags( Pile::addSpread );
         play[i]->setRemoveFlags( Pile::disallow );
@@ -75,6 +76,7 @@ inline bool higher( const Card* c1, const Card* c2)
     return (c1->rank() < c2->rank());
 }
 
+
 bool Idiot::canMoveAway(Card *c)
 {
     return ( higher( c, play[ 0 ]->top() ) ||
@@ -83,8 +85,10 @@ bool Idiot::canMoveAway(Card *c)
              higher( c, play[ 3 ]->top() ) );
 }
 
+
 bool Idiot::cardClicked(Card *c)
 {
+    // If the deck is clicked, deal 4 more cards.
     if (c->source() == deck) {
         deal();
 	++moves;
@@ -92,23 +96,30 @@ bool Idiot::cardClicked(Card *c)
         return true;
     }
 
+    // Only the top card of a pile can be clicked.
     if (c != c->source()->top())
         return false;
 
     bool  didMove = true;
     if( canMoveAway(c) )
+	// Add to 'away', face up, no spread
         away->add(c, false, false);
     else if( play[ 0 ]->isEmpty() )
+	// Add to pile 1, face up, spread.
         play[0]->add(c, false, true);
     else if( play[ 1 ]->isEmpty() )
+	// Add to pile 2, face up, spread.
         play[1]->add(c, false, true);
     else if( play[ 2 ]->isEmpty() )
+	// Add to pile 3, face up, spread.
         play[2]->add( c, false, true);
     else if( play[ 3 ]->isEmpty() )
+	// Add to pile 4, face up, spread.
         play[3]->add(c, false, true);
     else
 	didMove = false;
 
+    // If a card was actually moved, increase the shown moves.
     if (didMove) {
 	++moves;
 	emit setMoves(moves);
@@ -153,9 +164,8 @@ bool Idiot::cardDblClicked(Card *)
 
 void Idiot::deal()
 {
-    if( !deck->isEmpty() )
-    {
-        for( int i = 0; i < 4; i++ )
+    if ( !deck->isEmpty() ) {
+        for ( int i = 0; i < 4; i++ )
 	    // Move the top card of the deck, faceup, spread out.
             play[ i ]->add( deck->nextCard(), false, true );
     }
@@ -164,9 +174,8 @@ void Idiot::deal()
 void Idiot::getHints()
 {
     bool cardMoved = false;
-    for( int i = 0; i < 4; i++ )
-        if ( canMoveAway( play[i]->top() ) )
-        {
+    for ( int i = 0; i < 4; i++ )
+        if ( canMoveAway( play[i]->top() ) ) {
             cardMoved = true;
             newHint(new MoveHint(play[i]->top(), away));
         }
@@ -207,6 +216,7 @@ void Idiot::getHints()
         }
 }
 
+
 Card *Idiot::demoNewCards()
 {
     if( deck->isEmpty() )
@@ -214,6 +224,7 @@ Card *Idiot::demoNewCards()
     deal();
     return play[0]->top();
 }
+
 
 static class LocalDealerInfo2 : public DealerInfo
 {

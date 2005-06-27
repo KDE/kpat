@@ -43,26 +43,30 @@ Card::Card( Rank r, Suit s, QCanvas* _parent )
       m_suit( s ), m_rank( r ),
       m_source(0), scaleX(1.0), scaleY(1.0), tookDown(false)
 {
-    m_name = qstrdup(QString("%1 %2").arg(suit_names[s-1]).arg(rank_names[r-1]).utf8());
+    // Set the name of the card
+    // FIXME: i18n()
+    m_name = QString("%1 %2").arg(suit_names[s-1]).arg(rank_names[r-1]).utf8();
 
     // Default for the card is face up, standard size.
-    faceup = true;
+    m_faceup = true;
     setSize( cardMap::CARDX(), cardMap::CARDY() );
 
-    destX = 0;
-    destY = 0;
-    destZ = 0;
+    m_destX = 0;
+    m_destY = 0;
+    m_destZ = 0;
 
-    flipping  = false;
-    animSteps = 0;
-    flipSteps = 0;
+    m_flipping  = false;
+    m_animSteps = 0;
+    m_flipSteps = 0;
 }
 
 
 Card::~Card()
 {
-    if (source()) source()->remove(this);
-    delete [] m_name;
+    // If the card is in a pile, remove it from there.
+    if (source())
+	source()->remove(this);
+
     hide();
 }
 
@@ -84,8 +88,8 @@ QPixmap Card::pixmap() const
 //
 void Card::turn( bool _faceup )
 {
-    if (faceup != _faceup) {
-        faceup = _faceup;
+    if (m_faceup != _faceup) {
+        m_faceup = _faceup;
         setActive(!isActive()); // abuse
     }
 }
@@ -128,7 +132,7 @@ void Card::moveBy(double dx, double dy)
 int Card::realX() const
 {
     if (animated())
-        return destX;
+        return m_destX;
     else
         return int(x());
 }
@@ -140,7 +144,7 @@ int Card::realX() const
 int Card::realY() const
 {
     if (animated())
-        return destY;
+        return m_destY;
     else
         return int(y());
 }
@@ -152,7 +156,7 @@ int Card::realY() const
 int Card::realZ() const
 {
     if (animated())
-        return destZ;
+        return m_destZ;
     else
         return int(z());
 }
@@ -167,9 +171,9 @@ int Card::realZ() const
 
 bool Card::realFace() const
 {
-    if (animated() && flipping) {
+    if (animated() && m_flipping) {
         bool face = isFaceUp();
-        if ( animSteps >= flipSteps / 2 - 1 )
+        if ( m_animSteps >= m_flipSteps / 2 - 1 )
             return !face;
         else
             return face;
@@ -217,79 +221,21 @@ void Card::setZ(double z)
 }
 
 
-// Animate a move to (x2, y2), and at the same time flip the card.
-//
-void Card::flipTo(int x2, int y2, int steps)
-{
-    assert(!animated());
-
-    flipSteps = steps;
-
-    int x1 = (int)x();
-    int y1 = (int)y();
-    double dx = x2 - x1;
-    double dy = y2 - y1;
-
-    flipping = TRUE;
-    destX = x2;
-    destY = y2;
-    destZ = int(z());
-    setZ(Hz++);
-    animSteps = flipSteps;
-    setVelocity(dx/animSteps, dy/animSteps-flipLift);
-
-    setAnimated(TRUE);
-}
-
-
-// Advance a card animation one step.  This function adds flipping of
-// the card to the translation animation that QCanvasRectangle offers.
-//
-void Card::advance(int stage)
-{
-    if ( stage==1 ) {
-	// If the animation is finished, emit stoped. (FIXME: name)
-	if ( animSteps-- <= 0 ) {
-	    setAnimated(false);
-            emit stoped(this);
-        } else {
-	    // Animation is not finished. Check for flipping and add
-	    // that animation to the simple translation.
-	    if ( flipping ) {
-		if ( animSteps > flipSteps / 2 ) {
-		    // animSteps = flipSteps .. flipSteps/2 (flip up) -> 1..0
-		    scaleX = ((double)animSteps/flipSteps-0.5)*2;
-		} else {
-		    // animSteps = flipSteps/2 .. 0 (flip down) -> 0..1
-		    scaleX = 1-((double)animSteps/flipSteps)*2;
-		}
-		if ( animSteps == flipSteps / 2-1 ) {
-		    setYVelocity(yVelocity()+flipLift*2);
-		    turn( !isFaceUp() );
-		}
-	    }
-	}
-    }
-
-    // Animate the translation of the card.
-    QCanvasRectangle::advance(stage);
-}
-
-
 // Start a move of the card using animation.
 // 
 // 'steps' is the number of steps the animation should take.
 //
-void Card::animatedMove(int x2, int y2, int z2, int steps)
+void Card::moveTo(int x2, int y2, int z2, int steps)
 {
-    destX = x2;
-    destY = y2;
-    destZ = z2;
+    m_destX = x2;
+    m_destY = y2;
+    m_destZ = z2;
 
     double  x1 = x();
     double  y1 = y();
     double  dx = x2 - x1;
     double  dy = y2 - y1;
+
     if (!dx && !dy) {
         setZ(z2);
         return;
@@ -304,7 +250,7 @@ void Card::animatedMove(int x2, int y2, int z2, int steps)
         setAnimated(true);
         setVelocity(dx/steps, dy/steps);
 
-        animSteps = steps;
+        m_animSteps = steps;
 
     } else {
         // _really_ fast
@@ -315,6 +261,71 @@ void Card::animatedMove(int x2, int y2, int z2, int steps)
 }
 
 
+// Animate a move to (x2, y2), and at the same time flip the card.
+//
+void Card::flipTo(int x2, int y2, int steps)
+{
+    // Check that we are not already animating.
+    assert(!animated());
+
+    int     x1 = (int)x();
+    int     y1 = (int)y();
+    double  dx = x2 - x1;
+    double  dy = y2 - y1;
+
+    // Mark this animation as a flip as well.
+    m_flipping  = true;
+    m_flipSteps = steps;
+
+    // Set the target of the animation
+    m_destX = x2;
+    m_destY = y2;
+    m_destZ = int(z());
+
+    // Let the card be above all others during the animation.
+    setZ(Hz++);
+
+    m_animSteps = steps;
+    setVelocity(dx/m_animSteps, dy/m_animSteps-flipLift);
+
+    setAnimated(TRUE);
+}
+
+
+// Advance a card animation one step.  This function adds flipping of
+// the card to the translation animation that QCanvasRectangle offers.
+//
+void Card::advance(int stage)
+{
+    if ( stage==1 ) {
+	// If the animation is finished, emit stoped. (FIXME: name)
+	if ( m_animSteps-- <= 0 ) {
+	    setAnimated(false);
+            emit stoped(this);
+        } else {
+	    // Animation is not finished. Check for flipping and add
+	    // that animation to the simple translation.
+	    if ( m_flipping ) {
+		if ( m_animSteps > m_flipSteps / 2 ) {
+		    // animSteps = flipSteps .. flipSteps/2 (flip up) -> 1..0
+		    scaleX = ((double)m_animSteps/m_flipSteps-0.5)*2;
+		} else {
+		    // animSteps = flipSteps/2 .. 0 (flip down) -> 0..1
+		    scaleX = 1-((double)m_animSteps/m_flipSteps)*2;
+		}
+		if ( m_animSteps == m_flipSteps / 2-1 ) {
+		    setYVelocity(yVelocity()+flipLift*2);
+		    turn( !isFaceUp() );
+		}
+	    }
+	}
+    }
+
+    // Animate the translation of the card.
+    QCanvasRectangle::advance(stage);
+}
+
+
 // Set 'animated' status to a new value, and set secondary values as
 // well.
 //
@@ -322,12 +333,15 @@ void Card::setAnimated(bool anim)
 {
     // If no more animation, reset some other values as well.
     if (animated() && !anim) {
+	// Reset all things that might have changed during the animation.
         scaleX = 1.0;
         scaleY = 1.0;
-        flipping = FALSE;
+        m_flipping = FALSE;
         setVelocity(0, 0);
-        move(destX, destY); // exact
-        setZ(destZ);
+
+	// Move the card to its destination immediately.
+        move(m_destX, m_destY);
+        setZ(m_destZ);
     }
 
     QCanvasRectangle::setAnimated(anim);
@@ -348,13 +362,17 @@ bool Card::takenDown() const
 }
 
 
+// Get the card to the top.
+
 void Card::getUp(int steps)
 {
-    destZ = int(z());
-    destX = int(x());
-    destY = int(y());
+    m_destZ = int(z());
+    m_destX = int(x());
+    m_destY = int(y());
     setZ(Hz+1);
-    animSteps = steps;
+
+    // Animation
+    m_animSteps = steps;
     setVelocity(0, 0);
     setAnimated(TRUE);
 }

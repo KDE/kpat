@@ -38,7 +38,7 @@ class Card;
 
 
 // A list of cards.  Used in many places.
-typedef QValueList<Card*> CardList;
+typedef QValueList<Card*>  CardList;
 
 
 // In kpat, a Card is an object that has at least two purposes:
@@ -57,16 +57,16 @@ public:
     virtual ~Card();
 
     // Properties of the card.
-    Suit       suit()     const  { return m_suit; }
-    Rank       rank()     const  { return m_rank; }
+    Suit          suit()  const  { return m_suit; }
+    Rank          rank()  const  { return m_rank; }
+    const QString name()  const  { return m_name; }
 
     // Some basic tests.
     bool       isRed()    const  { return m_suit==Diamonds || m_suit==Hearts; }
-    bool       isFaceUp() const  { return faceup; }
+    bool       isFaceUp() const  { return m_faceup; }
 
-    QPixmap    pixmap() const;
+    QPixmap    pixmap()   const;
 
-    void       flipTo(int x, int y, int steps);
     void       turn(bool faceup = true);
 
     static const int RTTI;
@@ -74,11 +74,11 @@ public:
     Pile        *source() const     { return m_source; }
     void         setSource(Pile *p) { m_source = p; }
 
-    const char  *name() const       { return m_name; }
     virtual int  rtti() const       { return RTTI; }
 
     virtual void moveBy(double dx, double dy);
-    void         animatedMove(int x2, int y2, int z, int steps);
+    void         moveTo(int x2, int y2, int z, int steps);
+    void         flipTo(int x, int y, int steps);
     virtual void setAnimated(bool anim);
     void         setZ(double z);
     void         getUp(int steps = 12);
@@ -99,12 +99,13 @@ protected:
     void         advance(int stage);
 
 private:
-    // The card.
+    // The card values.
     Suit        m_suit;
     Rank        m_rank;
-    char       *m_name;
+    QString     m_name;
 
-    bool        faceup;
+    // Grapics properties.
+    bool        m_faceup;	// True if card lies with the face up.
     Pile       *m_source;
 
     double      scaleX;
@@ -113,17 +114,17 @@ private:
     bool        tookDown;
 
     // Used for animation
-    int         destX;	// Destination point.
-    int         destY;
-    int         destZ;
-    int         animSteps;
+    int         m_destX;	// Destination point.
+    int         m_destY;
+    int         m_destZ;
+    int         m_animSteps;	// Let the animation take this many steps.
+
+    // Used if flipping during an animated move.
+    bool        m_flipping;
+    int         m_flipSteps;
 
     // The maximum Z ever used.
     static int  Hz;
-
-    // Used if flipping during an animated move.
-    bool        flipping;
-    int         flipSteps;
 };
 
 
