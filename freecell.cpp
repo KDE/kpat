@@ -375,7 +375,7 @@ QString FreecellBase::solverFormat() const
 {
     QString output;
     QString tmp;
-    for (uint i = 0; i < target.count(); i++) {
+    for (int i = 0; i < target.count(); i++) {
         if (target[i]->isEmpty())
             continue;
         tmp += suitToString(target[i]->top()->suit()) + "-" + rankToString(target[i]->top()->rank()) + " ";
@@ -384,7 +384,7 @@ QString FreecellBase::solverFormat() const
         output += QString::fromLatin1("Foundations: %1\n").arg(tmp);
 
     tmp.truncate(0);
-    for (uint i = 0; i < freecell.count(); i++) {
+    for (int i = 0; i < freecell.count(); i++) {
         if (freecell[i]->isEmpty())
             tmp += "- ";
         else
@@ -443,7 +443,7 @@ bool FreecellBase::noLongerNeeded(const Card & t)
 
     bool cardIsRed = t.isRed();
 
-    uint numSame = 0, numDiff = 0;
+    int numSame = 0, numDiff = 0;
     Card::Rank lowSame = Card::King, lowDiff = Card::King;
     for (PileList::Iterator it = target.begin(); it != target.end(); ++it)
     {
@@ -564,10 +564,10 @@ void FreecellBase::countFreeCells(int &free_cells, int &free_stores) const
     free_cells = 0;
     free_stores = 0;
 
-    for (uint i = 0; i < freecell.count(); i++)
+    for (int i = 0; i < freecell.count(); i++)
         if (freecell[i]->isEmpty()) free_cells++;
     if (es_filling == FCS_ES_FILLED_BY_ANY_CARD)
-        for (uint i = 0; i < store.count(); i++)
+        for (int i = 0; i < store.count(); i++)
             if (store[i]->isEmpty()) free_stores++;
 }
 
@@ -608,13 +608,13 @@ void FreecellBase::moveCards(CardList &c, FreecellPile *from, Pile *to)
 
     PileList fcs;
 
-    for (uint i = 0; i < freecell.count(); i++)
+    for (int i = 0; i < freecell.count(); i++)
         if (freecell[i]->isEmpty()) fcs.append(freecell[i]);
 
     PileList fss;
 
     if (es_filling == FCS_ES_FILLED_BY_ANY_CARD)
-        for (uint i = 0; i < store.count(); i++)
+        for (int i = 0; i < store.count(); i++)
             if (store[i]->isEmpty() && to != store[i]) fss.append(store[i]);
 
     if (fcs.count() == 0) {
@@ -639,7 +639,7 @@ struct MoveAway {
 void FreecellBase::movePileToPile(CardList &c, Pile *to, PileList fss, PileList &fcs, int start, int count, int debug_level)
 {
     kdDebug(11111) << debug_level << " movePileToPile" << c.count() << " " << start  << " " << count << endl;
-    uint moveaway = 0;
+    int moveaway = 0;
     if (count > fcs.count() + 1) {
         moveaway = (fcs.count() + 1);
         while (moveaway * 2 < count)
@@ -670,7 +670,7 @@ void FreecellBase::movePileToPile(CardList &c, Pile *to, PileList fss, PileList 
     int moving = qMin(count, qMin(c.count() - start, fcs.count() + 1));
     assert(moving);
 
-    for (uint i = 0; i < moving - 1; i++) {
+    for (int i = 0; i < moving - 1; i++) {
         moves.append(new MoveHint(c[c.count() - i - 1 - start], fcs[i]));
     }
     moves.append(new MoveHint(c[c.count() - start - 1 - (moving - 1)], to));
@@ -738,7 +738,7 @@ bool FreecellBase::cardDblClicked(Card *c)
         return false;
 
     if (c == c->source()->top() && c->realFace())
-        for (uint i = 0; i < freecell.count(); i++)
+        for (int i = 0; i < freecell.count(); i++)
             if (freecell[i]->isEmpty()) {
                 CardList empty;
                 empty.append(c);

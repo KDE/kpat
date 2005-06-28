@@ -92,7 +92,7 @@ static long pseudoRandom_random() {
 // Shuffle deck, assuming all cards are in myCards
 void Deck::shuffle() {
 
-    assert(myCards.count() == uint(mult*NumberOfCards));
+    assert(myCards.count() == int(mult*NumberOfCards));
 
     assert(dealer()->gameNumber() >= 0);
     pseudoRandom_srand(dealer()->gameNumber());
