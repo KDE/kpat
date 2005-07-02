@@ -18,10 +18,13 @@
 
 ****************************************/
 
+
 #ifndef P_IDIOT
 #define P_IDIOT
 
+
 #include "dealer.h"
+
 
 class Idiot: public Dealer
 {
@@ -42,7 +45,7 @@ protected:
 public slots:
 
     virtual void restart();
-    void deal();
+    void         deal();
 
 private:
     bool canMoveAway(Card *c);

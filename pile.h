@@ -1,23 +1,34 @@
 #ifndef _PILE_H
 #define _PILE_H
 
+
 #include "card.h"
 #include <kpixmap.h>
 //Added by qt3to4:
 #include <Q3ValueList>
 
+
 class Dealer;
+
 
 /***************************************
 
-  cardPos -- position on the table which can receive cards
+  Pile -- A pile on the board that can hold cards.
 
 **************************************/
+
 class Pile : public QObject, public Q3CanvasRectangle
 {
     Q_OBJECT
 
 public:
+
+    enum PileType { Custom, 
+		    KlondikeTarget,
+		    KlondikeStore, 
+		    GypsyStore, 
+		    FreeCell, 
+		    FreecellStore};
 
     //  Add- and remove-flags
     static const int Default;
@@ -34,7 +45,8 @@ public:
     Pile( int _index, Dealer* parent = 0);
     virtual ~Pile();
 
-    CardList cards() const { return myCards; }
+    Dealer   *dealer() const { return m_dealer; }
+    CardList  cards()  const { return m_cards; }
 
     bool legalAdd(const CardList &c ) const;
     bool legalRemove(const Card *c) const;
@@ -61,19 +73,17 @@ public:
     void clear();
 
     int index() const { return myIndex; }
-    bool isEmpty() const { return myCards.count() == 0; }
+    bool isEmpty() const { return m_cards.count() == 0; }
 
     virtual void drawShape ( QPainter & p );
     static const int RTTI;
 
     virtual int rtti() const { return RTTI; }
 
-    Dealer *dealer() const { return _dealer; }
-
     virtual void setVisible(bool vis);
     virtual void moveBy(double dx, double dy);
 
-    int cardsLeft() const { return myCards.count(); }
+    int cardsLeft() const { return m_cards.count(); }
 
     int indexOf(const Card *c) const;
     Card *at(int index) const;
@@ -86,7 +96,6 @@ public:
     void resetCache();
     virtual void initSizes();
 
-    enum PileType { Custom, KlondikeTarget, KlondikeStore, GypsyStore, FreeCell, FreecellStore};
     void setType( PileType t);
     void setAddType( PileType t);
     void setRemoveType( PileType t);
@@ -101,11 +110,12 @@ public:
 
     bool remove_freecellStore( const Card *c) const;
 
-    int spread() const { return _spread; }
-    void setSpread(int s) { _spread = s; }
-    int dspread() const { return _dspread; }
+    // The spread properties.
+    int  spread() const    { return _spread; }
+    void setSpread(int s)  { _spread = s; }
+    int  dspread() const   { return _dspread; }
     void setDSpread(int s) { _dspread = s; }
-    int hspread() const { return _hspread; }
+    int  hspread() const   { return _hspread; }
     void setHSpread(int s) { _hspread = s; }
 
 public slots:
@@ -117,18 +127,23 @@ signals:
     void dblClicked(Card *c);
 
 protected:
-    int   removeFlags;
-    int   addFlags;
-    CardList myCards;
+    int       removeFlags;
+    int       addFlags;
+    CardList  m_cards;
 
 private:
+    Dealer   *m_dealer;
+
+    PileType  _atype;
+    PileType  _rtype;
+    int       _spread;
+    int       _hspread;
+    int       _dspread;
+
     int _checkIndex;
-    Dealer *_dealer;
     int myIndex;
     bool _target;
     KPixmap cache, cache_selected;
-    PileType _atype, _rtype;
-    int _spread, _hspread, _dspread;
 };
 
 typedef Q3ValueList<Pile*> PileList;

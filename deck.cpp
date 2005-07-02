@@ -9,8 +9,8 @@ const int NumberOfCards = 52;
 Card* Deck::nextCard() {
     CardList::Iterator c;
 
-    c = myCards.fromLast();  // Dealing from bottom of deck ....
-    if ( c != myCards.end() ) {
+    c = m_cards.fromLast();  // Dealing from bottom of deck ....
+    if ( c != m_cards.end() ) {
         return *c;
     } else
         return 0;
@@ -68,7 +68,7 @@ Deck::~Deck() {
     for (uint i=0; i < mult*NumberOfCards; i++) {
         delete _deck[i];
     }
-    myCards.clear();
+    m_cards.clear();
     delete [] _deck;
 }
 
@@ -89,24 +89,28 @@ static long pseudoRandom_random() {
     return (pseudoRandomSeed >> 16) & 0x7fff;
 }
 
-// Shuffle deck, assuming all cards are in myCards
+// Shuffle deck, assuming all cards are in m_cards
 void Deck::shuffle() {
 
+<<<<<<< .working
     assert(myCards.count() == int(mult*NumberOfCards));
+=======
+    assert(m_cards.count() == uint(mult*NumberOfCards));
+>>>>>>> .merge-right.r430621
 
     assert(dealer()->gameNumber() >= 0);
     pseudoRandom_srand(dealer()->gameNumber());
 
-    kdDebug(11111) << "first card " << myCards[0]->name() << " " << dealer()->gameNumber() << endl;
+    kdDebug(11111) << "first card " << m_cards[0]->name() << " " << dealer()->gameNumber() << endl;
 
     Card* t;
     long z;
     int left = mult*NumberOfCards;
     for (uint i = 0; i < mult*NumberOfCards; i++) {
         z = pseudoRandom_random() % left;
-        t = myCards[z];
-        myCards[z] = myCards[left-1];
-        myCards[left-1] = t;
+        t = m_cards[z];
+        m_cards[z] = m_cards[left-1];
+        m_cards[left-1] = t;
         left--;
     }
 }
