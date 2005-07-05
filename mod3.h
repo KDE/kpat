@@ -31,7 +31,9 @@ class Mod3 : public Dealer
 
 public:
     Mod3( KMainWindow* parent=0, const char* name=0);
+
     void deal();
+
     virtual void restart();
     virtual bool isGameLost() const;
     virtual bool startAutoDrop();
@@ -45,12 +47,14 @@ protected:
 private: // functions
     virtual bool checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const;
     virtual bool checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const;
-    void dealRow(int row);
+
+    void         dealRow(int row);
 
 private:
-    Pile* stack[4][8];
-    Pile* aces;
-    Deck* deck;
+    Deck  *deck;
+
+    Pile  *stack[4][8];
+    Pile  *aces;
 };
 
 #endif

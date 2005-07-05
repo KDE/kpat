@@ -33,23 +33,26 @@ Mod3::Mod3( KMainWindow* parent, const char* _name)
     const int dist_y = cardMap::CARDY() * 11 / 10 + 1;
     const int margin = cardMap::CARDY() / 3;
 
+    // This patience uses 2 deck of cards.
     deck = Deck::new_deck( this, 2);
-
     deck->move(8 + dist_x * 8 + 20, 8 + dist_y * 3 + margin);
+
     connect(deck, SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
 
     aces = new Pile(50, this);
     aces->move(16 + dist_x * 8, 8 + dist_y / 2);
-    // aces->hide();
     aces->setTarget(true);
     aces->setCheckIndex(2);
     aces->setAddFlags(Pile::addSpread | Pile::several);
 
-    for( int r = 0; r < 4; r++ ) {
-        for( int c = 0; c < 8; c++ ) {
-            stack[ r ][ c ] = new Pile ( r * 10 + c  + 1, this );
-            stack[r][c]->move( 8 + dist_x * c, 8 + dist_y * r + margin * ( r == 3 ));
-            if( r < 3 ) {
+    for ( int r = 0; r < 4; r++ ) {
+        for ( int c = 0; c < 8; c++ ) {
+            stack[r][c] = new Pile ( r * 10 + c  + 1, this );
+            stack[r][c]->move( 8 + dist_x * c,
+			       8 + dist_y * r + margin * ( r == 3 ));
+
+	    // The first 3 rows are the playing field, the fourth is the store.
+            if ( r < 3 ) {
                 stack[r][c]->setCheckIndex( 0 );
                 stack[r][c]->setTarget(true);
             } else {
@@ -63,7 +66,9 @@ Mod3::Mod3( KMainWindow* parent, const char* _name)
     setActions(Dealer::Hint | Dealer::Demo );
 }
 
+
 //-------------------------------------------------------------------------//
+
 
 bool Mod3::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
 {
@@ -97,12 +102,16 @@ bool Mod3::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
     } else return false;
 }
 
+
 bool Mod3::checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const
 {
-    return (checkIndex == 0 && c1->isEmpty() && c2.first()->rank() == (c1->index()+1));
+    return (checkIndex == 0 && c1->isEmpty() 
+	    && c2.first()->rank() == (c1->index()+1));
 }
 
+
 //-------------------------------------------------------------------------//
+
 
 void Mod3::restart()
 {
@@ -110,21 +119,23 @@ void Mod3::restart()
     deal();
 }
 
+
 //-------------------------------------------------------------------------//
+
 
 void Mod3::dealRow(int row)
 {
     if (deck->isEmpty())
         return;
 
-    for (int c = 0; c < 8; c++)
-    {
+    for (int c = 0; c < 8; c++) {
         Card *card;
 
         card = deck->nextCard();
         stack[row][c]->add (card, false, true);
     }
 }
+
 
 void Mod3::deckClicked(Card*)
 {
@@ -137,7 +148,9 @@ void Mod3::deckClicked(Card*)
     takeState();
 }
 
+
 //-------------------------------------------------------------------------//
+
 
 void Mod3::deal()
 {
@@ -180,7 +193,7 @@ bool Mod3::isGameLost() const
             return false;
     }
 
-    // Ok, so now empty stack below.
+    // Ok, so no empty stack below.
     // If there is neither an empty stack on the board (an ace counts
     // as this) nor a card placed in the correct row, all is lost.
     // Otherwise we have to do more tests.

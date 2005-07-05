@@ -6,15 +6,9 @@
 
 const int NumberOfCards = 52;
 
-Card* Deck::nextCard() {
-    CardList::Iterator c;
 
-    c = m_cards.fromLast();  // Dealing from bottom of deck ....
-    if ( c != m_cards.end() ) {
-        return *c;
-    } else
-        return 0;
-}
+Deck *Deck::my_deck = 0;
+
 
 Deck::Deck( Dealer* parent, int m, int s )
     : Pile( 0, parent ), mult( m )
@@ -36,7 +30,19 @@ Deck::Deck( Dealer* parent, int m, int s )
     setRemoveFlags(Pile::disallow);
 }
 
-Deck *Deck::my_deck = 0;
+
+Deck::~Deck()
+{
+    for (uint i=0; i < mult*NumberOfCards; i++) {
+        delete _deck[i];
+    }
+    m_cards.clear();
+    delete [] _deck;
+}
+
+
+// ----------------------------------------------------------------
+
 
 Deck *Deck::new_deck( Dealer *parent, int m, int s )
 {
@@ -44,7 +50,9 @@ Deck *Deck::new_deck( Dealer *parent, int m, int s )
     return my_deck;
 }
 
-void Deck::makedeck() {
+
+void Deck::makedeck()
+{
     int i=0;
 
     show();
@@ -64,33 +72,51 @@ void Deck::makedeck() {
     }
 }
 
-Deck::~Deck() {
-    for (uint i=0; i < mult*NumberOfCards; i++) {
-        delete _deck[i];
-    }
-    m_cards.clear();
-    delete [] _deck;
-}
 
-void Deck::collectAndShuffle() {
+void Deck::collectAndShuffle()
+{
     addToDeck();
     shuffle();
 }
 
+
+Card* Deck::nextCard()
+{
+    CardList::Iterator c;
+
+    c = m_cards.fromLast();  // Dealing from bottom of deck ....
+    if ( c != m_cards.end() ) {
+        return *c;
+    } else
+        return 0;
+}
+
+
+// ----------------------------------------------------------------
+
+
 static long pseudoRandomSeed = 0;
 
-static void pseudoRandom_srand(long seed) {
+static void pseudoRandom_srand(long seed)
+{
     pseudoRandomSeed=seed;
 }
 
-// documented as in http://support.microsoft.com/default.aspx?scid=kb;EN-US;Q28150
+
+// Documented as in
+// http://support.microsoft.com/default.aspx?scid=kb;EN-US;Q28150
+// 
+
 static long pseudoRandom_random() {
     pseudoRandomSeed = 214013*pseudoRandomSeed+2531011;
     return (pseudoRandomSeed >> 16) & 0x7fff;
 }
 
+
 // Shuffle deck, assuming all cards are in m_cards
-void Deck::shuffle() {
+
+void Deck::shuffle()
+{
 
     assert(m_cards.count() == uint(mult*NumberOfCards));
 
@@ -111,8 +137,12 @@ void Deck::shuffle() {
     }
 }
 
+
 // add cards in deck[] to Deck
-void Deck::addToDeck() {
+// FIXME: Rename to collectCards()
+
+void Deck::addToDeck()
+{
     clear();
 
     for (uint i = 0; i < mult*NumberOfCards; i++) {

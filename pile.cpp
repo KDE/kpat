@@ -50,6 +50,7 @@ void Pile::initSizes()
     setSpread( cardMap::CARDY() / 5 + 1 );
     setHSpread( cardMap::CARDX() / 9 + 1 );
     setDSpread( cardMap::CARDY() / 8 );
+
     setSize( cardMap::CARDX(), cardMap::CARDY() );
 }
 

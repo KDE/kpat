@@ -39,6 +39,7 @@ private:
     uint mult;
     uint suits;
     Card** _deck;
+
     static Deck *my_deck;
 };
 
