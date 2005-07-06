@@ -72,7 +72,7 @@ public:
     void remove(Card *c);
     void clear();
 
-    int index() const { return myIndex; }
+    int  index()   const { return myIndex; }
     bool isEmpty() const { return m_cards.count() == 0; }
 
     virtual void drawShape ( QPainter & p );
@@ -143,7 +143,9 @@ private:
     int _checkIndex;
     int myIndex;
     bool _target;
-    KPixmap cache, cache_selected;
+
+    KPixmap cache;
+    KPixmap cache_selected;
 };
 
 typedef Q3ValueList<Pile*> PileList;
