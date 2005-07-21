@@ -270,7 +270,7 @@ void Pile::add( Card *_card, int index)
     if (index == -1)
         m_cards.append(_card);
     else {
-        while (m_cards.count() <= uint(index))
+        while (m_cards.count() <= index)
             m_cards.append(0);
         assert(m_cards[index] == 0);
         m_cards[index] = _card;
