@@ -22,6 +22,8 @@
 #include <unistd.h>
 
 #include <qpainter.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 #include <kconfig.h>
 
@@ -121,7 +123,6 @@ bool cardMap::setCardDir( const QString &dir)
         p.setPen(QPen(QColor(0, 0, 0), 4));
         p.setBrush(Qt::NoBrush);
         p.drawRect(0, 0, greeting_width, 180);
-        p.flush();
     }
 
     setBackSide(back, true);
@@ -173,7 +174,6 @@ bool cardMap::setCardDir( const QString &dir)
             if( idx > 1 )
                 p.drawPixmap( 10 + ( idx - 1 ) * diff_x_between_cards, 45, back );
             p.drawPixmap( 10 + idx * diff_x_between_cards, 45, img[ rank ][ suit ].normal );
-            p.flush();
         }
     }
 
@@ -202,7 +202,7 @@ bool cardMap::setBackSide( const QPixmap &pm, bool scale )
     {
         kdDebug(11111) << "scaling back!!\n";
         // scale to fit size
-        QWMatrix wm;
+        QMatrix wm;
         wm.scale(((float)(card_width))/back.width(),
                  ((float)(card_height))/back.height());
         back = back.xForm(wm);

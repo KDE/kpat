@@ -23,6 +23,11 @@
 #include <qregexp.h>
 #include <qtimer.h>
 #include <qimage.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QTextStream>
+#include <Q3ValueList>
+#include <QShowEvent>
 
 #include <kapplication.h>
 #include <klocale.h>
@@ -84,16 +89,16 @@ pWidget::pWidget()
                               SLOT(newGameType()),
                               actionCollection(), "game_type");
     QStringList list;
-    QValueList<DealerInfo*>::ConstIterator it;
-    uint max_type = 0;
+    Q3ValueList<DealerInfo*>::ConstIterator it;
+    int max_type = 0;
 
     for (it = DealerInfoList::self()->games().begin();
          it != DealerInfoList::self()->games().end(); ++it)
     {
         // while we develop, it may happen that some lower
         // indices do not exist
-        uint index = (*it)->gameindex;
-        for (uint i = 0; i <= index; i++)
+        int index = (*it)->gameindex;
+        for (int i = 0; i <= index; i++)
             if (list.count() <= i)
                 list.append("unknown");
         list[index] = i18n((*it)->name);
@@ -160,7 +165,7 @@ pWidget::pWidget()
     bool autodrop = config->readBoolEntry("Autodrop", true);
     dropaction->setChecked(autodrop);
 
-    uint game = config->readNumEntry("DefaultGame", 0);
+    int game = config->readNumEntry("DefaultGame", 0);
     if (game > max_type)
         game = max_type;
     games->setCurrentItem(game);
@@ -234,6 +239,9 @@ void pWidget::changeBackside() {
 
 void pWidget::changeWallpaper()
 {
+    if (wallpapers->currentItem() < 0 || wallpapers->currentItem() >= wallpaperlist.count())
+	return;
+
     QString bgpath=locate("wallpaper", wallpaperlist[wallpapers->currentItem()]);
     if (bgpath.isEmpty())
         return;
@@ -328,7 +336,7 @@ void pWidget::setGameCaption()
     QString newname;
     QString gamenum;
     gamenum.setNum( dill->gameNumber() );
-    for (uint i = 0; i < name.length(); i++)
+    for (int i = 0; i < name.length(); i++)
         if (name.at(i) != QChar('&'))
             newname += name.at(i);
 
@@ -342,7 +350,7 @@ void pWidget::newGameType()
     slotSetMoves( 0 );
 
     uint id = games->currentItem();
-    for (QValueList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin(); it != DealerInfoList::self()->games().end(); ++it) {
+    for (Q3ValueList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin(); it != DealerInfoList::self()->games().end(); ++it) {
         if ((*it)->gameindex == id) {
             dill = (*it)->createGame(this);
             QString name = (*it)->name;
@@ -503,7 +511,7 @@ void pWidget::openGame(const KURL &url)
     if( KIO::NetAccess::download( url, tmpFile, this ) )
     {
         QFile of(tmpFile);
-        of.open(IO_ReadOnly);
+        of.open(QIODevice::ReadOnly);
         QDomDocument doc;
         QString error;
         if (!doc.setContent(&of, &error))

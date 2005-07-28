@@ -4,6 +4,8 @@
 
 #include "card.h"
 #include <kpixmap.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 
 class Dealer;
@@ -15,7 +17,7 @@ class Dealer;
 
 **************************************/
 
-class Pile : public QObject, public QCanvasRectangle
+class Pile : public QObject, public Q3CanvasRectangle
 {
     Q_OBJECT
 
@@ -146,6 +148,6 @@ private:
     KPixmap cache_selected;
 };
 
-typedef QValueList<Pile*> PileList;
+typedef Q3ValueList<Pile*> PileList;
 
 #endif

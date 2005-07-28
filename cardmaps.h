@@ -22,6 +22,8 @@
 #define P_HACK_CARDMAP
 
 #include "card.h"
+//Added by qt3to4:
+#include <QPixmap>
 
 class cardMap
 {

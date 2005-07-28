@@ -27,7 +27,10 @@
 #ifndef PATIENCE_CARD
 #define PATIENCE_CARD
 
-#include <qcanvas.h>
+#include <q3canvas.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <Q3ValueList>
 
 // The following classes are defined in other headers:
 class cardPos;
@@ -38,14 +41,14 @@ class Card;
 
 
 // A list of cards.  Used in many places.
-typedef QValueList<Card*>  CardList;
+typedef Q3ValueList<Card*> CardList;
 
 
 // In kpat, a Card is an object that has at least two purposes:
 //  - It has card properties (Suit, Rank, etc)
 //  - It is a graphic entity on a QCanvas that can be moved around.
 //
-class Card: public QObject, public QCanvasRectangle {
+class Card: public QObject, public Q3CanvasRectangle {
     Q_OBJECT
 
 public:
@@ -53,7 +56,7 @@ public:
     enum Rank { None = 0, Ace = 1, Two,  Three, Four, Five,  Six, Seven, 
 		          Eight,   Nine, Ten,   Jack, Queen, King };
 
-    Card( Rank r, Suit s,  QCanvas *parent=0);
+    Card( Rank r, Suit s,  Q3Canvas *parent=0);
     virtual ~Card();
 
     // Properties of the card.

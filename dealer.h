@@ -4,6 +4,13 @@
 #include "pile.h"
 #include "hint.h"
 #include <krandomsequence.h>
+//Added by qt3to4:
+#include <QWheelEvent>
+#include <QPixmap>
+#include <Q3PtrList>
+#include <Q3ValueList>
+#include <QResizeEvent>
+#include <QMouseEvent>
 
 class QDomDocument;
 class KMainWindow;
@@ -19,9 +26,9 @@ public:
     static DealerInfoList *self();
     void add(DealerInfo *);
 
-    const QValueList<DealerInfo*> games() const { return list; }
+    const Q3ValueList<DealerInfo*> games() const { return list; }
 private:
-    QValueList<DealerInfo*> list;
+    Q3ValueList<DealerInfo*> list;
     static DealerInfoList *_self;
 };
 
@@ -40,7 +47,7 @@ public:
 
 class CardState;
 
-typedef QValueList<CardState> CardStateList;
+typedef QList<CardState> CardStateList;
 
 struct State
 {
@@ -54,7 +61,7 @@ struct State
   Dealer -- abstract base class of all varieties of patience
 
 ***************************************************************/
-class Dealer: public QCanvasView
+class Dealer: public Q3CanvasView
 {
     Q_OBJECT
 
@@ -65,7 +72,7 @@ public:
 
     static const Dealer *instance();
 
-    void enlargeCanvas(QCanvasRectangle *c);
+    void enlargeCanvas(Q3CanvasRectangle *c);
     void setGameNumber(long gmn);
     long gameNumber() const;
 
@@ -191,16 +198,16 @@ protected:
 
     bool moved;
     CardList movingCards;
-    QCanvasItemList marked;
+    Q3CanvasItemList marked;
     QPoint moving_start;
     Dealer( Dealer& );  // don't allow copies or assignments
     void operator = ( Dealer& );  // don't allow copies or assignments
-    QCanvas myCanvas;
+    Q3Canvas myCanvas;
     QSize minsize;
     QSize viewsize;
-    QPtrList<State> undoList;
+    Q3PtrList<State> undoList;
     long gamenumber;
-    QValueList<MoveHint*> hints;
+    Q3ValueList<MoveHint*> hints;
     Card *towait;
     QTimer *demotimer;
     int myActions;

@@ -377,7 +377,7 @@ bool Klondike::isGameLost() const
         /* In the draw3 mode, not every card in the source pile is
          * accessible, but only every third one.
          */
-        for ( unsigned int i = 2; i < pile->cards().count(); i += 3 ) {
+        for ( int i = 2; i < pile->cards().count(); i += 3 ) {
 	    kdDebug( 11111 ) << "Found card "<< pile->cards()[i]->name()<< endl;
             srcPileCards += pile->cards()[ i ];
         }

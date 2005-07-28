@@ -24,13 +24,17 @@
 #define __PWIDGET__H__
 
 #include <kmainwindow.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QLabel>
+#include <QShowEvent>
 
 class Dealer;
 class KToggleAction;
 class KSelectAction;
 class KRecentFilesAction;
 class KAction;
-class QWidgetStack;
+class Q3WidgetStack;
 class QLabel;
 
 class pWidget: public KMainWindow {

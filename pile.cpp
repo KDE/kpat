@@ -22,7 +22,7 @@ const int Pile::wholeColumn   = 0x0400;
 
 
 Pile::Pile( int _index, Dealer* parent)
-    : QCanvasRectangle( parent->canvas() ),
+    : Q3CanvasRectangle( parent->canvas() ),
       m_dealer(parent),
       _atype(Custom),
       _rtype(Custom),
@@ -32,7 +32,7 @@ Pile::Pile( int _index, Dealer* parent)
     // Make the patience aware of this pile.
     dealer()->addPile(this);
 
-    QCanvasRectangle::setVisible(true); // default
+    Q3CanvasRectangle::setVisible(true); // default
     _checkIndex = -1;
     addFlags    = 0;
     removeFlags = 0;
@@ -199,7 +199,7 @@ bool Pile::legalRemove(const Card *c) const
 
 void Pile::setVisible(bool vis)
 {
-    QCanvasRectangle::setVisible(vis);
+    Q3CanvasRectangle::setVisible(vis);
     dealer()->enlargeCanvas(this);
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
@@ -211,7 +211,7 @@ void Pile::setVisible(bool vis)
 
 void Pile::moveBy(double dx, double dy)
 {
-    QCanvasRectangle::moveBy(dx, dy);
+    Q3CanvasRectangle::moveBy(dx, dy);
     dealer()->enlargeCanvas(this);
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
@@ -270,7 +270,7 @@ void Pile::add( Card *_card, int index)
     if (index == -1)
         m_cards.append(_card);
     else {
-        while (m_cards.count() <= uint(index))
+        while (m_cards.count() <= index)
             m_cards.append(0);
         assert(m_cards[index] == 0);
         m_cards[index] = _card;
