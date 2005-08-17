@@ -67,6 +67,7 @@ Dealer::Dealer( KMainWindow* _parent , const char* _name )
     _waiting(0),
     stop_demo_next(false),
     _autodrop(true),
+    _gameRecorded(false),
     moves(0)
 {
     setResizePolicy(QScrollView::Manual);
@@ -489,6 +490,18 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
                 best = it;
             }
         }
+
+        // Game total is incremented here to make sure the player actually 
+        // did something. DO NOT use "moves" because of automatic drops.
+        if ( !_gameRecorded ) {
+            KConfig *config = kapp->config();
+            KConfigGroupSaver kcs(config, scores_group);
+            unsigned int Total = config->readUnsignedNumEntry(QString("total%1").arg(_id),0);
+            ++Total;
+            config->writeEntry(QString("total%1").arg(_id),Total);
+            _gameRecorded = true;
+        }
+
         c->source()->moveCards(movingCards, (*best).source);
         ++moves;
         emit setMoves( moves );
@@ -615,6 +628,7 @@ void Dealer::startNew()
     minsize = QSize(0,0);
     _won = false;
     _waiting = 0;
+    _gameRecorded=false;
     kdDebug(11111) << "startNew stopDemo\n";
     stopDemo();
     kdDebug(11111) << "startNew unmarkAll\n";
@@ -642,14 +656,7 @@ void Dealer::startNew()
                 break;
         }
     }
-	 // count started game
-	 { // wrap in own scope to make KConfigGroupSave work
-    KConfig *config = kapp->config();
-    KConfigGroupSaver kcs(config, scores_group);
-	 unsigned int Total = config->readUnsignedNumEntry(QString("total%1").arg(_id),0);
-	 ++Total;
-	 config->writeEntry(QString("total%1").arg(_id),Total);
-	 }
+
     kdDebug(11111) << "startNew takeState\n";
     if (!towait)
         takeState();
@@ -1424,15 +1431,17 @@ void Dealer::wheelEvent( QWheelEvent *e )
 
 void Dealer::countLoss()
 {
-	 // update score
-    KConfig *config = kapp->config();
-    KConfigGroupSaver kcs(config, scores_group);
-	 unsigned int n = config->readUnsignedNumEntry(QString("loosestreak%1").arg(_id),0) + 1;
-	 config->writeEntry(QString("loosestreak%1").arg(_id),n);
-	 unsigned int m = config->readUnsignedNumEntry(QString("maxloosestreak%1").arg(_id),0);
-	 if (n>m)
-		 config->writeEntry(QString("maxloosestreak%1").arg(_id),n);
-	 config->writeEntry(QString("winstreak%1").arg(_id),0);
+    if ( _gameRecorded ) {
+        // update score
+        KConfig *config = kapp->config();
+        KConfigGroupSaver kcs(config, scores_group);
+        unsigned int n = config->readUnsignedNumEntry(QString("loosestreak%1").arg(_id),0) + 1;
+        config->writeEntry(QString("loosestreak%1").arg(_id),n);
+        unsigned int m = config->readUnsignedNumEntry(QString("maxloosestreak%1").arg(_id),0);
+        if (n>m)
+            config->writeEntry(QString("maxloosestreak%1").arg(_id),n);
+        config->writeEntry(QString("winstreak%1").arg(_id),0);
+    }
 }
 
 #include "dealer.moc"

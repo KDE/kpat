@@ -219,6 +219,7 @@ protected:
     QString ac;
     static Dealer *s_instance;
     bool _autodrop;
+    bool _gameRecorded;
     int moves;
 
 private:
