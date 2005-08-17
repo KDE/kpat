@@ -224,6 +224,7 @@ protected:
 
 private:
 	 void countLoss();
+	 void countGame();
 };
 
 #endif

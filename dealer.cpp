@@ -348,7 +348,7 @@ void Dealer::contentsMousePressEvent(QMouseEvent* e)
             Card *c = dynamic_cast<Card*>(list.first());
             assert(c);
             CardList mycards = c->source()->cardPressed(c);
-            for (CardList::Iterator it = mycards.begin(); it != mycards.end(); ++it)
+            for (CardList::Iterator it = mycards.begin(); it != mycards.end(); ++it) 
                 (*it)->setAnimated(false);
             movingCards = mycards;
             moving_start = e->pos();
@@ -394,7 +394,9 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
             Card *c = dynamic_cast<Card*>(*it);
             assert(c);
             if (!c->animated()) {
-                cardClicked(c);
+                if ( cardClicked(c) ) {
+                    countGame();
+                }
                 takeState();
                 canvas()->update();
             }
@@ -490,18 +492,7 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
                 best = it;
             }
         }
-
-        // Game total is incremented here to make sure the player actually 
-        // did something. DO NOT use "moves" because of automatic drops.
-        if ( !_gameRecorded ) {
-            KConfig *config = kapp->config();
-            KConfigGroupSaver kcs(config, scores_group);
-            unsigned int Total = config->readUnsignedNumEntry(QString("total%1").arg(_id),0);
-            ++Total;
-            config->writeEntry(QString("total%1").arg(_id),Total);
-            _gameRecorded = true;
-        }
-
+        countGame();
         c->source()->moveCards(movingCards, (*best).source);
         ++moves;
         emit setMoves( moves );
@@ -531,7 +522,9 @@ void Dealer::contentsMouseDoubleClickEvent( QMouseEvent*e )
     Card *c = dynamic_cast<Card*>(*it);
     assert(c);
     if (!c->animated()) {
-        cardDblClicked(c);
+        if ( cardDblClicked(c) ) {
+            countGame();
+        }
         takeState();
     }
 }
@@ -1428,6 +1421,18 @@ void Dealer::wheelEvent( QWheelEvent *e )
     }
 }
 
+void Dealer::countGame()
+{
+    if ( !_gameRecorded ) {
+        kdDebug(11111) << "counting game as played." << endl;
+        KConfig *config = kapp->config();
+        KConfigGroupSaver kcs(config, scores_group);
+        unsigned int Total = config->readUnsignedNumEntry(QString("total%1").arg(_id),0);
+        ++Total;
+        config->writeEntry(QString("total%1").arg(_id),Total);
+        _gameRecorded = true;
+    }
+}
 
 void Dealer::countLoss()
 {
