@@ -317,8 +317,6 @@ void pWidget::newGame()
 void pWidget::restart()
 {
     statusBar()->clear();
-    dill->resetMoves();
-    slotSetMoves( 0 );
     dill->startNew();
 }
 
@@ -339,7 +337,7 @@ void pWidget::newGameType()
 {
     delete dill;
     dill = 0;
-    slotSetMoves( 0 );
+    slotUpdateMoves();
 
     uint id = games->currentItem();
     for (QValueList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin(); it != DealerInfoList::self()->games().end(); ++it) {
@@ -352,8 +350,8 @@ void pWidget::newGameType()
             connect(dill, SIGNAL(saveGame()), SLOT(saveGame()));
             connect(dill, SIGNAL(gameInfo(const QString&)),
                     SLOT(slotGameInfo(const QString &)));
-            connect(dill, SIGNAL(setMoves(int)),
-                    SLOT(slotSetMoves(int)));
+            connect(dill, SIGNAL(updateMoves()),
+                    SLOT(slotUpdateMoves()));
             dill->setGameId(id);
             dill->setupActions();
             dill->setBackgroundPixmap(background, midcolor);
@@ -376,8 +374,6 @@ void pWidget::newGameType()
     // it's a bit tricky - we have to do this here as the
     // base class constructor runs before the derived class's
     dill->takeState();
-
-    dill->resetMoves();
 
     setGameCaption();
 
@@ -406,9 +402,11 @@ void pWidget::slotGameInfo(const QString &text)
     statusBar()->message(text, 3000);
 }
 
-void pWidget::slotSetMoves( int moves )
+void pWidget::slotUpdateMoves()
 {
-  statusBar()->changeItem( i18n("1 move", "%n moves", moves), 1 );
+    int moves = 0;
+    if ( dill ) moves = dill->getMoves();
+    statusBar()->changeItem( i18n("1 move", "%n moves", moves), 1 );
 }
 
 void pWidget::setBackSide(const QString &deck, const QString &cards)
