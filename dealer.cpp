@@ -523,6 +523,8 @@ void Dealer::contentsMouseDoubleClickEvent( QMouseEvent*e )
     assert(c);
     if (!c->animated()) {
         if ( cardDblClicked(c) ) {
+            ++moves;
+            emit setMoves( moves );
             countGame();
         }
         takeState();
@@ -1068,6 +1070,8 @@ bool Dealer::startAutoDrop()
             kdDebug(11111) << "autodrop " << t->name() << endl;
             t->moveTo(int(t->source()->x()), int(t->source()->y()), int(t->z()), STEPS_AUTODROP);
             connect(t, SIGNAL(stoped(Card*)), SLOT(waitForAutoDrop(Card*)));
+            ++moves;
+            emit setMoves( moves );
             return true;
         }
     }
