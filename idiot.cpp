@@ -94,8 +94,6 @@ bool Idiot::cardClicked(Card *c)
     // If the deck is clicked, deal 4 more cards.
     if (c->source() == m_deck) {
         deal();
-	++moves;
-	emit setMoves(moves);
         return true;
     }
 
@@ -121,12 +119,6 @@ bool Idiot::cardClicked(Card *c)
         m_play[3]->add(c, false, true);
     else
 	didMove = false;
-
-    // If a card was actually moved, increase the shown moves.
-    if (didMove) {
-	++moves;
-	emit setMoves(moves);
-    }
 
     return true; // may be a lie, but noone cares
 }

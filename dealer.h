@@ -120,9 +120,8 @@ public:
 
     void setAutoDropEnabled(bool a);
     bool autoDrop() const { return _autodrop; }
-    
-    int getMoves() const { return moves; }
-    void resetMoves() { moves = 0; }
+
+    int getMoves() const { return undoList.count(); }
 
 public slots:
 
@@ -140,7 +139,7 @@ signals:
     void gameLost();
     void saveGame(); // emergency
     void gameInfo(const QString &info);
-    void setMoves( int moves );
+    void updateMoves();
 
 public slots:
     virtual void demo();
@@ -226,10 +225,11 @@ protected:
     QString ac;
     static Dealer *s_instance;
     bool _autodrop;
-    int moves;
+    bool _gameRecorded;
 
 private:
 	 void countLoss();
+	 void countGame();
 };
 
 #endif

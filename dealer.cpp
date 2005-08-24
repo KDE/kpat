@@ -74,7 +74,7 @@ Dealer::Dealer( KMainWindow* _parent , const char* _name )
     _waiting(0),
     stop_demo_next(false),
     _autodrop(true),
-    moves(0)
+    _gameRecorded(false)
 {
     setResizePolicy(Q3ScrollView::Manual);
     setVScrollBarMode(AlwaysOff);
@@ -354,7 +354,7 @@ void Dealer::contentsMousePressEvent(QMouseEvent* e)
             Card *c = dynamic_cast<Card*>(list.first());
             assert(c);
             CardList mycards = c->source()->cardPressed(c);
-            for (CardList::Iterator it = mycards.begin(); it != mycards.end(); ++it)
+            for (CardList::Iterator it = mycards.begin(); it != mycards.end(); ++it) 
                 (*it)->setAnimated(false);
             movingCards = mycards;
             moving_start = e->pos();
@@ -400,7 +400,9 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
             Card *c = dynamic_cast<Card*>(*it);
             assert(c);
             if (!c->animated()) {
-                cardClicked(c);
+                if ( cardClicked(c) ) {
+                    countGame();
+                }
                 takeState();
                 canvas()->update();
             }
@@ -496,9 +498,8 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
                 best = it;
             }
         }
+        countGame();
         c->source()->moveCards(movingCards, (*best).source);
-        ++moves;
-        emit setMoves( moves );
         takeState();
     }
     movingCards.clear();
@@ -525,7 +526,9 @@ void Dealer::contentsMouseDoubleClickEvent( QMouseEvent*e )
     Card *c = dynamic_cast<Card*>(*it);
     assert(c);
     if (!c->animated()) {
-        cardDblClicked(c);
+        if ( cardDblClicked(c) ) {
+            countGame();
+        }
         takeState();
     }
 }
@@ -599,8 +602,6 @@ bool Dealer::cardDblClicked(Card *c)
             CardList empty;
             empty.append(c);
             c->source()->moveCards(empty, tgt);
-            ++moves;
-            emit setMoves( moves );
             canvas()->update();
             return true;
         }
@@ -622,6 +623,7 @@ void Dealer::startNew()
     minsize = QSize(0,0);
     _won = false;
     _waiting = 0;
+    _gameRecorded=false;
     kdDebug(11111) << "startNew stopDemo\n";
     stopDemo();
     kdDebug(11111) << "startNew unmarkAll\n";
@@ -638,6 +640,7 @@ void Dealer::startNew()
 
     undoList.clear();
     emit undoPossible(false);
+    emit updateMoves();
     kdDebug(11111) << "startNew restart\n";
     restart();
     takeState();
@@ -649,14 +652,7 @@ void Dealer::startNew()
                 break;
         }
     }
-	 // count started game
-	 { // wrap in own scope to make KConfigGroupSave work
-    KConfig *config = kapp->config();
-    KConfigGroupSaver kcs(config, scores_group);
-	 unsigned int Total = config->readUnsignedNumEntry(QString("total%1").arg(_id),0);
-	 ++Total;
-	 config->writeEntry(QString("total%1").arg(_id),Total);
-	 }
+
     kdDebug(11111) << "startNew takeState\n";
     if (!towait)
         takeState();
@@ -812,6 +808,7 @@ void Dealer::takeState()
     State *n = getState();
 
     if (!undoList.count()) {
+        emit updateMoves();
         undoList.append(n);
     } else {
         State *old = undoList.last();
@@ -820,6 +817,7 @@ void Dealer::takeState()
             delete n;
             n = 0;
         } else {
+            emit updateMoves();
             undoList.append(n);
         }
     }
@@ -855,7 +853,7 @@ void Dealer::saveGame(QDomDocument &doc) {
     QString data = getGameState();
     if (!data.isEmpty())
         dealer.setAttribute("data", data);
-    dealer.setAttribute("moves", QString::number(moves));
+    dealer.setAttribute("moves", QString::number(getMoves()));
 
     bool taken[1000];
     memset(taken, 0, sizeof(taken));
@@ -988,9 +986,8 @@ void Dealer::openGame(QDomDocument &doc)
         takeState(); // copying it again
         emit undoPossible(undoList.count() > 1);
     }
-    
-    emit setMoves( dealer.attribute("moves").toInt() );
-        
+
+    emit updateMoves();
     takeState();
 }
 
@@ -1001,8 +998,7 @@ void Dealer::undo()
     if (undoList.count() > 1) {
         undoList.removeLast(); // the current state
         setState(undoList.take(undoList.count() - 1));
-        --moves;
-        emit setMoves( moves );
+        emit updateMoves();
         takeState(); // copying it again
         emit undoPossible(undoList.count() > 1);
     }
@@ -1429,18 +1425,32 @@ void Dealer::wheelEvent( QWheelEvent *e )
     }
 }
 
+void Dealer::countGame()
+{
+    if ( !_gameRecorded ) {
+        kdDebug(11111) << "counting game as played." << endl;
+        KConfig *config = kapp->config();
+        KConfigGroupSaver kcs(config, scores_group);
+        unsigned int Total = config->readUnsignedNumEntry(QString("total%1").arg(_id),0);
+        ++Total;
+        config->writeEntry(QString("total%1").arg(_id),Total);
+        _gameRecorded = true;
+    }
+}
 
 void Dealer::countLoss()
 {
-	 // update score
-    KConfig *config = kapp->config();
-    KConfigGroupSaver kcs(config, scores_group);
-	 unsigned int n = config->readUnsignedNumEntry(QString("loosestreak%1").arg(_id),0) + 1;
-	 config->writeEntry(QString("loosestreak%1").arg(_id),n);
-	 unsigned int m = config->readUnsignedNumEntry(QString("maxloosestreak%1").arg(_id),0);
-	 if (n>m)
-		 config->writeEntry(QString("maxloosestreak%1").arg(_id),n);
-	 config->writeEntry(QString("winstreak%1").arg(_id),0);
+    if ( _gameRecorded ) {
+        // update score
+        KConfig *config = kapp->config();
+        KConfigGroupSaver kcs(config, scores_group);
+        unsigned int n = config->readUnsignedNumEntry(QString("loosestreak%1").arg(_id),0) + 1;
+        config->writeEntry(QString("loosestreak%1").arg(_id),n);
+        unsigned int m = config->readUnsignedNumEntry(QString("maxloosestreak%1").arg(_id),0);
+        if (n>m)
+            config->writeEntry(QString("maxloosestreak%1").arg(_id),n);
+        config->writeEntry(QString("winstreak%1").arg(_id),0);
+    }
 }
 
 #include "dealer.moc"
