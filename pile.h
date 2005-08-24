@@ -9,11 +9,11 @@
 class Dealer;
 
 
-/***************************************
-
-  Pile -- A pile on the board that can hold cards.
-
-**************************************/
+/**
+ *
+ * Pile -- A pile on the board that can hold cards.
+ *
+ */
 
 class Pile : public QObject, public QCanvasRectangle
 {
@@ -52,8 +52,8 @@ public:
     virtual void moveCards(CardList &c, Pile *to = 0);
     void moveCardsBack(CardList &c, bool anim = true);
 
-    void setRemoveFlags( int flag ) { removeFlags = flag; }
-    void setAddFlags( int flag ) { addFlags = flag; }
+    void setAddFlags( int flag )    { m_addFlags    = flag; }
+    void setRemoveFlags( int flag ) { m_removeFlags = flag; }
 
     void setCheckIndex( int index ) { _checkIndex = index; }
     virtual int checkIndex() const { return _checkIndex; }
@@ -94,11 +94,11 @@ public:
     void resetCache();
     virtual void initSizes();
 
-    void setType( PileType t);
-    void setAddType( PileType t);
-    void setRemoveType( PileType t);
-    PileType addType() const { return _atype; }
-    PileType removeType() const { return _rtype; }
+    void      setType( PileType t);
+    void      setAddType( PileType t);
+    void      setRemoveType( PileType t);
+    PileType  addType() const     { return m_atype; }
+    PileType  removeType() const  { return m_rtype; }
 
     // pile_algorithms
     bool add_klondikeTarget( const CardList& c2 ) const;
@@ -125,15 +125,17 @@ signals:
     void dblClicked(Card *c);
 
 protected:
-    int       removeFlags;
-    int       addFlags;
+    int       m_removeFlags;
+    int       m_addFlags;
     CardList  m_cards;
 
 private:
+    // Reference to the patience this pile is a part of.
     Dealer   *m_dealer;
 
-    PileType  _atype;
-    PileType  _rtype;
+    // Properties of the pile.
+    PileType  m_atype;		// Addtype
+    PileType  m_rtype;		// Removetype
     int       _spread;
     int       _hspread;
     int       _dspread;
@@ -142,6 +144,7 @@ private:
     int myIndex;
     bool _target;
 
+    // Graphics
     KPixmap cache;
     KPixmap cache_selected;
 };

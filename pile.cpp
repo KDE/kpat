@@ -21,11 +21,11 @@ const int Pile::wholeColumn   = 0x0400;
 
 
 
-Pile::Pile( int _index, Dealer* parent)
-    : QCanvasRectangle( parent->canvas() ),
-      m_dealer(parent),
-      _atype(Custom),
-      _rtype(Custom),
+Pile::Pile( int _index, Dealer* _dealer)
+    : QCanvasRectangle( _dealer->canvas() ),
+      m_dealer(_dealer),
+      m_atype(Custom),
+      m_rtype(Custom),
       myIndex(_index),
       _target(false)
 {
@@ -34,8 +34,8 @@ Pile::Pile( int _index, Dealer* parent)
 
     QCanvasRectangle::setVisible(true); // default
     _checkIndex = -1;
-    addFlags    = 0;
-    removeFlags = 0;
+    m_addFlags    = 0;
+    m_removeFlags = 0;
 
     setBrush(Qt::black);
     setPen(QPen(Qt::black));
@@ -60,10 +60,10 @@ void Pile::setType(PileType type)
     setRemoveType(type);
 }
 
-void Pile::setAddType(PileType type)
+void Pile::setAddType(PileType _type)
 {
-    _atype = type;
-    switch (type) {
+    m_atype = _type;
+    switch (_type) {
         case Custom:
         case FreeCell:
             break;
@@ -78,10 +78,10 @@ void Pile::setAddType(PileType type)
     }
 }
 
-void Pile::setRemoveType(PileType type)
+void Pile::setRemoveType(PileType _type)
 {
-    _rtype = type;
-    switch (type) {
+    m_rtype = _type;
+    switch (_type) {
         case Custom:
             break;
         case KlondikeTarget:
@@ -134,15 +134,11 @@ void Pile::drawShape ( QPainter & painter )
 
 bool Pile::legalAdd( const CardList& _cards ) const
 {
-    if( addFlags & disallow ) {
+    if ( m_addFlags & disallow )
         return false;
-    }
 
-    if( !( addFlags & several ) &&
-        _cards.count() > 1 )
-    {
+    if ( !( m_addFlags & several ) && _cards.count() > 1 )
         return false;
-    }
 
     // getHint removes cards without turning, so it could be it
     // checks later if cards can be added to a face down card
@@ -171,13 +167,11 @@ bool Pile::legalAdd( const CardList& _cards ) const
 
 bool Pile::legalRemove(const Card *c) const
 {
-    if( removeFlags & disallow ) {
+    if ( m_removeFlags & disallow ) {
         return false;
     }
-    if( !( removeFlags & several ) && top() != c)
-    {
-        return false;
-    }
+    if ( !( m_removeFlags & several ) && top() != c)
+	return false;
 
     switch (removeType()) {
         case Custom:
@@ -395,7 +389,7 @@ void Pile::moveCards(CardList &cl, Pile *to)
     for (CardList::Iterator it = cl.begin(); it != cl.end(); ++it)
         to->add(*it);
 
-    if (removeFlags & autoTurnTop && top()) {
+    if (m_removeFlags & autoTurnTop && top()) {
         Card *t = top();
         if (!t->isFaceUp()) {
             t->flipTo(int(t->x()), int(t->y()), 8);
@@ -424,7 +418,7 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
     {
         if (c == *it) {
             if (before) {
-                off = cardOffset(addFlags & Pile::addSpread, false, before);
+                off = cardOffset(m_addFlags & Pile::addSpread, false, before);
                 c->moveTo( before->realX() + off.width(),
 			   before->realY() + off.height(),
 			   before->realZ() + 1, steps);
@@ -442,7 +436,7 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
     CardList::Iterator it = cl.begin(); // == c
     ++it;
 
-    off = cardOffset(addFlags & Pile::addSpread, false, 0);
+    off = cardOffset(m_addFlags & Pile::addSpread, false, 0);
 
     for (; it != cl.end(); ++it)
     {
