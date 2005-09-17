@@ -40,6 +40,7 @@ public:
 {
     DealerInfoList::self()->add(this);
 }
+	virtual ~DealerInfo(){}
     const char *name;
     uint gameindex;
     virtual Dealer *createGame(KMainWindow *parent) = 0;
