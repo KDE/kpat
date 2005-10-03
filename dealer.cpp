@@ -15,6 +15,7 @@
 #include <Q3ValueList>
 #include <QResizeEvent>
 #include <QMouseEvent>
+#include <krandom.h>
 #include <kaction.h>
 #include <klocale.h>
 #include "cardmaps.h"
