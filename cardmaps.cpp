@@ -24,6 +24,7 @@
 #include <qpainter.h>
 //Added by qt3to4:
 #include <QPixmap>
+#include <QTime>
 
 #include <kconfig.h>
 
@@ -226,7 +227,7 @@ QPixmap cardMap::backSide() const
 
 QPixmap cardMap::image( Card::Rank _rank, Card::Suit _suit, bool inverted) const
 {
-    if( 1 <= _rank && _rank <= 13 
+    if( 1 <= _rank && _rank <= 13
 	&& 1 <= _suit && _suit <= 4 )
     {
         if (inverted)

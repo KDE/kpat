@@ -41,8 +41,9 @@
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
 #include <kstatusbar.h>
-#include <kaccelmanager.h>
+#include <kacceleratormanager.h>
 #include <kmenubar.h>
+#include <ktoolinvocation.h>
 
 #include "pwidget.h"
 #include "version.h"
@@ -194,7 +195,7 @@ void pWidget::helpGame()
 {
     if (!dill)
         return;
-    kapp->invokeHelp(dill->anchorName());
+    KToolInvocation::invokeHelp(dill->anchorName());
 }
 
 void pWidget::undoPossible(bool poss)

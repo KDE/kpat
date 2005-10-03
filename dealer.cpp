@@ -6,6 +6,7 @@
 #include "kmainwindow.h"
 #include <kapplication.h>
 #include <kpixmapeffect.h>
+#include <kxmlguifactory.h>
 #include <qtimer.h>
 //Added by qt3to4:
 #include <QWheelEvent>
@@ -67,7 +68,7 @@ Dealer::Dealer( KMainWindow* _parent , const char* _name )
     towait(0),
     myActions(0),
     ademo(0),
-    ahint(0), 
+    ahint(0),
     aredeal(0),
     takeTargets(false),
     _won(false),
@@ -80,7 +81,7 @@ Dealer::Dealer( KMainWindow* _parent , const char* _name )
     setVScrollBarMode(AlwaysOff);
     setHScrollBarMode(AlwaysOff);
 
-    setGameNumber(kapp->random());
+    setGameNumber(KRandom::random());
     myCanvas.setAdvancePeriod(30);
     // myCanvas.setBackgroundColor( darkGreen );
     setCanvas(&myCanvas);
@@ -354,7 +355,7 @@ void Dealer::contentsMousePressEvent(QMouseEvent* e)
             Card *c = dynamic_cast<Card*>(list.first());
             assert(c);
             CardList mycards = c->source()->cardPressed(c);
-            for (CardList::Iterator it = mycards.begin(); it != mycards.end(); ++it) 
+            for (CardList::Iterator it = mycards.begin(); it != mycards.end(); ++it)
                 (*it)->setAnimated(false);
             movingCards = mycards;
             moving_start = e->pos();
@@ -1191,8 +1192,8 @@ void Dealer::won()
         QRect p(0, 0, card.ptr->width(), card.ptr->height());
         int x, y;
         do {
-            x = 3*canvas()->width()/2 - kapp->random() % (canvas()->width() * 2);
-            y = 3*canvas()->height()/2 - (kapp->random() % (canvas()->height() * 2));
+            x = 3*canvas()->width()/2 - KRandom::random() % (canvas()->width() * 2);
+            y = 3*canvas()->height()/2 - (KRandom::random() % (canvas()->height() * 2));
             p.moveTopLeft(QPoint(x, y));
         } while (can.intersects(p));
 

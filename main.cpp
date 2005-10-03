@@ -58,7 +58,7 @@ int main( int argc, char **argv )
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
 
     KApplication a;
-    KGlobal::locale()->insertCatalogue("libkdegames");
+    KGlobal::locale()->insertCatalog("libkdegames");
 
     if (a.isRestored())
         RESTORE(pWidget)
