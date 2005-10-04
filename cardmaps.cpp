@@ -117,7 +117,7 @@ bool cardMap::setCardDir( const QString &dir)
         p.drawText(0, 150, greeting_width, 20, Qt::AlignCenter,
                    wait_message );
 
-        p.setFont(QFont("Times", 24));
+        p.setFont(QFont("serif", 24));
         p.drawText(0, 0, greeting_width, 40, Qt::AlignCenter,
                    greeting);
 

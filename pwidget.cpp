@@ -34,6 +34,7 @@
 #include <kaction.h>
 #include <kdebug.h>
 #include <kcarddialog.h>
+#include <krandom.h>
 #include <kinputdialog.h>
 #include <kstandarddirs.h>
 #include <kfiledialog.h>
@@ -159,6 +160,10 @@ pWidget::pWidget()
     if (bgpath.isEmpty())
         bgpath = locate("wallpaper", "No-Ones-Laughing-3.jpg");
     background = QPixmap(bgpath);
+    if ( background.isNull() ) {
+        background = QPixmap( locate("wallpaper", "No-Ones-Laughing-3.jpg") );
+        config->writePathEntry( "Background", QString::null );
+    }
 
     bool animate = config->readBoolEntry( "Animation", true);
     animation->setChecked( animate );
@@ -317,7 +322,7 @@ void pWidget::newGame()
                                      "careaboutstats" )  == KMessageBox::Cancel)
         return;
 
-    dill->setGameNumber(kapp->random());
+    dill->setGameNumber(KRandom::random());
     setGameCaption();
     restart();
 }
@@ -422,13 +427,14 @@ void pWidget::setBackSide(const QString &deck, const QString &cards)
 {
     KConfig *config = kapp->config();
     KConfigGroupSaver kcs(config, settings_group);
+    kdDebug() << "setBackSide " << deck << endl;
     QPixmap pm(deck);
     if(!pm.isNull()) {
         cardMap::self()->setBackSide(pm, false);
         config->writeEntry("Back", deck);
         bool ret = cardMap::self()->setCardDir(cards);
         if (!ret) {
-            config->writeEntry("Back", "");
+            config->writeEntry("Back", QString::null);
 
         }
         config->writeEntry("Cards", cards);
