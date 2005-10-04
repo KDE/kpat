@@ -19,6 +19,7 @@
 #include <kapplication.h>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
+#include <kglobal.h>
 #include <klocale.h>
 
 #include "version.h"
