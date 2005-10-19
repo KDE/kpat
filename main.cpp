@@ -21,6 +21,7 @@
 #include <kaboutdata.h>
 #include <kglobal.h>
 #include <klocale.h>
+#include <kurl.h>
 
 #include "version.h"
 #include "pwidget.h"
@@ -59,17 +60,16 @@ int main( int argc, char **argv )
     KCmdLineArgs::addCmdLineOptions (options);
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
 
-    KApplication a;
+    KApplication application;
     KGlobal::locale()->insertCatalog("libkdegames");
 
-    if (a.isRestored())
+    if (application.isSessionRestored())
         RESTORE(pWidget)
     else {
-        pWidget *w = new pWidget;
+        pWidget w;
         if (args->count())
-            w->openGame(args->url(0));
-        a.setMainWidget(w);
-        w->show();
+            w.openGame(args->url(0));
+        w.show();
     }
-    return a.exec();
+    return application.exec();
 }
