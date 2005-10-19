@@ -66,10 +66,10 @@ int main( int argc, char **argv )
     if (application.isSessionRestored())
         RESTORE(pWidget)
     else {
-        pWidget w;
+        pWidget *w = new pWidget;
         if (args->count())
-            w.openGame(args->url(0));
-        w.show();
+            w->openGame(args->url(0));
+        w->show();
     }
     return application.exec();
 }
