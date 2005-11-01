@@ -21,6 +21,7 @@
 #include "cardmaps.h"
 #include "speeds.h"
 #include <kconfig.h>
+#include <kglobal.h>
 #include "version.h"
 
 
@@ -1160,7 +1161,7 @@ void Dealer::won()
 
     // update score, 'win' in demo mode also counts (keep it that way?)
     { // wrap in own scope to make KConfigGroupSave work
-	KConfig *config = kapp->config();
+	KConfig *config = KGlobal::config();
 	KConfigGroupSaver kcs(config, scores_group);
 	unsigned int n = config->readUnsignedNumEntry(QString("won%1").arg(_id),0) + 1;
 	config->writeEntry(QString("won%1").arg(_id),n);
@@ -1431,7 +1432,7 @@ void Dealer::countGame()
 {
     if ( !_gameRecorded ) {
         kdDebug(11111) << "counting game as played." << endl;
-        KConfig *config = kapp->config();
+        KConfig *config = KGlobal::config();
         KConfigGroupSaver kcs(config, scores_group);
         unsigned int Total = config->readUnsignedNumEntry(QString("total%1").arg(_id),0);
         ++Total;
@@ -1444,7 +1445,7 @@ void Dealer::countLoss()
 {
     if ( _gameRecorded ) {
         // update score
-        KConfig *config = kapp->config();
+        KConfig *config = KGlobal::config();
         KConfigGroupSaver kcs(config, scores_group);
         unsigned int n = config->readUnsignedNumEntry(QString("loosestreak%1").arg(_id),0) + 1;
         config->writeEntry(QString("loosestreak%1").arg(_id),n);

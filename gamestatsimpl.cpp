@@ -10,6 +10,7 @@
 #include <kapplication.h>
 #include <kconfig.h>
 #include <klocale.h>
+#include <kglobal.h>
 
 GameStatsImpl::GameStatsImpl(QWidget* aParent, const char* aname)
 	: GameStats(aParent, aname)
@@ -42,7 +43,7 @@ void GameStatsImpl::setGameType(int id)
 {
 	// Trick to reset string to original value
 	languageChange();
-	KConfig *config = kapp->config();
+	KConfig *config = KGlobal::config();
 	KConfigGroupSaver kcs(config, scores_group);
 	unsigned int t = config->readUnsignedNumEntry(QString("total%1").arg(id),0);
 	Played->setText(Played->text().arg(t));

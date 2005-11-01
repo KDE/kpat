@@ -45,6 +45,7 @@
 #include <kacceleratormanager.h>
 #include <kmenubar.h>
 #include <ktoolinvocation.h>
+#include <kglobal.h>
 
 #include "pwidget.h"
 #include "version.h"
@@ -152,7 +153,7 @@ pWidget::pWidget()
                                    actionCollection(), "enable_autodrop");
     dropaction->setCheckedState(i18n("Disable Autodrop"));
 
-    KConfig *config = kapp->config();
+    KConfig *config = KGlobal::config();
     KConfigGroupSaver cs(config, settings_group );
 
     QString bgpath = config->readPathEntry("Background");
@@ -209,7 +210,7 @@ void pWidget::undoPossible(bool poss)
 }
 
 void pWidget::changeBackside() {
-    KConfig *config = kapp->config();
+    KConfig *config = KGlobal::config();
     KConfigGroupSaver kcs(config, settings_group);
 
     QString deck = config->readEntry("Back", KCardDialog::getDefaultDeck());
@@ -276,7 +277,7 @@ void pWidget::changeWallpaper()
     midcolor = QColor(r, b, g);
 
     if (dill) {
-        KConfig *config = kapp->config();
+        KConfig *config = KGlobal::config();
         KConfigGroupSaver kcs(config, settings_group);
 
         QString deck = config->readEntry("Back", KCardDialog::getDefaultDeck());
@@ -292,7 +293,7 @@ void pWidget::changeWallpaper()
 
 void pWidget::animationChanged() {
     bool anim = animation->isChecked();
-    KConfig *config = kapp->config();
+    KConfig *config = KGlobal::config();
     KConfigGroupSaver cs(config, settings_group );
     config->writeEntry( "Animation", anim);
 }
@@ -300,7 +301,7 @@ void pWidget::animationChanged() {
 void pWidget::enableAutoDrop()
 {
     bool drop = dropaction->isChecked();
-    KConfig *config = kapp->config();
+    KConfig *config = KGlobal::config();
     KConfigGroupSaver cs(config, settings_group );
     config->writeEntry( "Autodrop", drop);
     dill->setAutoDropEnabled(drop);
@@ -391,7 +392,7 @@ void pWidget::newGameType()
 
     setGameCaption();
 
-    KConfig *config = kapp->config();
+    KConfig *config = KGlobal::config();
     KConfigGroupSaver kcs(config, settings_group);
     config->writeEntry("DefaultGame", id);
 
@@ -425,7 +426,7 @@ void pWidget::slotUpdateMoves()
 
 void pWidget::setBackSide(const QString &deck, const QString &cards)
 {
-    KConfig *config = kapp->config();
+    KConfig *config = KGlobal::config();
     KConfigGroupSaver kcs(config, settings_group);
     kdDebug() << "setBackSide " << deck << endl;
     QPixmap pm(deck);

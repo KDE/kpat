@@ -43,6 +43,7 @@
 #include <kcarddialog.h>
 #include <kglobalsettings.h>
 #include <assert.h>
+#include <kglobal.h>
 
 cardMap *cardMap::_self = 0;
 static KStaticDeleter<cardMap> cms;
@@ -55,7 +56,7 @@ cardMap::cardMap(const QColor &dim) : dimcolor(dim)
     card_height = 0;
 
     kdDebug(11111) << "cardMap\n";
-    KConfig *config = kapp->config();
+    KConfig *config = KGlobal::config();
     KConfigGroupSaver cs(config, settings_group );
 
     QString bg = config->readEntry( "Back", KCardDialog::getDefaultDeck());
@@ -70,7 +71,7 @@ cardMap::cardMap(const QColor &dim) : dimcolor(dim)
 
 bool cardMap::setCardDir( const QString &dir)
 {
-    KConfig *config = kapp->config();
+    KConfig *config = KGlobal::config();
     KConfigGroupSaver cs(config, settings_group );
 
     // create an animation window while loading pixmaps (this
