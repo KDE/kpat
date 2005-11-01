@@ -1160,18 +1160,15 @@ void Dealer::won()
     _won = true;
 
     // update score, 'win' in demo mode also counts (keep it that way?)
-    { // wrap in own scope to make KConfigGroupSave work
-	KConfig *config = KGlobal::config();
-	KConfigGroupSaver kcs(config, scores_group);
-	unsigned int n = config->readUnsignedNumEntry(QString("won%1").arg(_id),0) + 1;
-	config->writeEntry(QString("won%1").arg(_id),n);
-	n = config->readUnsignedNumEntry(QString("winstreak%1").arg(_id),0) + 1;
-	config->writeEntry(QString("winstreak%1").arg(_id),n);
-	unsigned int m = config->readUnsignedNumEntry(QString("maxwinstreak%1").arg(_id),0);
-	if (n>m)
-	    config->writeEntry(QString("maxwinstreak%1").arg(_id),n);
-	config->writeEntry(QString("loosestreak%1").arg(_id),0);
-    }
+    KConfigGroup kc(KGlobal::config(), scores_group);
+    unsigned int n = kc.readUnsignedNumEntry(QString("won%1").arg(_id),0) + 1;
+    kc.writeEntry(QString("won%1").arg(_id),n);
+    n = kc.readUnsignedNumEntry(QString("winstreak%1").arg(_id),0) + 1;
+    kc.writeEntry(QString("winstreak%1").arg(_id),n);
+    unsigned int m = kc.readUnsignedNumEntry(QString("maxwinstreak%1").arg(_id),0);
+    if (n>m)
+        kc.writeEntry(QString("maxwinstreak%1").arg(_id),n);
+    kc.writeEntry(QString("loosestreak%1").arg(_id),0);
 
     // sort cards by increasing z
     Q3CanvasItemList list = canvas()->allItems();
@@ -1432,11 +1429,10 @@ void Dealer::countGame()
 {
     if ( !_gameRecorded ) {
         kdDebug(11111) << "counting game as played." << endl;
-        KConfig *config = KGlobal::config();
-        KConfigGroupSaver kcs(config, scores_group);
-        unsigned int Total = config->readUnsignedNumEntry(QString("total%1").arg(_id),0);
+        KConfigGroup kc(KGlobal::config(), scores_group);
+        unsigned int Total = kc.readUnsignedNumEntry(QString("total%1").arg(_id),0);
         ++Total;
-        config->writeEntry(QString("total%1").arg(_id),Total);
+        kc.writeEntry(QString("total%1").arg(_id),Total);
         _gameRecorded = true;
     }
 }
@@ -1445,14 +1441,13 @@ void Dealer::countLoss()
 {
     if ( _gameRecorded ) {
         // update score
-        KConfig *config = KGlobal::config();
-        KConfigGroupSaver kcs(config, scores_group);
-        unsigned int n = config->readUnsignedNumEntry(QString("loosestreak%1").arg(_id),0) + 1;
-        config->writeEntry(QString("loosestreak%1").arg(_id),n);
-        unsigned int m = config->readUnsignedNumEntry(QString("maxloosestreak%1").arg(_id),0);
+        KConfigGroup kc(KGlobal::config(), scores_group);
+        unsigned int n = kc.readUnsignedNumEntry(QString("loosestreak%1").arg(_id),0) + 1;
+        kc.writeEntry(QString("loosestreak%1").arg(_id),n);
+        unsigned int m = kc.readUnsignedNumEntry(QString("maxloosestreak%1").arg(_id),0);
         if (n>m)
-            config->writeEntry(QString("maxloosestreak%1").arg(_id),n);
-        config->writeEntry(QString("winstreak%1").arg(_id),0);
+            kc.writeEntry(QString("maxloosestreak%1").arg(_id),n);
+        kc.writeEntry(QString("winstreak%1").arg(_id),0);
     }
 }
 

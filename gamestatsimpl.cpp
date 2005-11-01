@@ -43,18 +43,17 @@ void GameStatsImpl::setGameType(int id)
 {
 	// Trick to reset string to original value
 	languageChange();
-	KConfig *config = KGlobal::config();
-	KConfigGroupSaver kcs(config, scores_group);
-	unsigned int t = config->readUnsignedNumEntry(QString("total%1").arg(id),0);
+	KConfigGroup cg(KGlobal::config(), scores_group);
+	unsigned int t = cg.readUnsignedNumEntry(QString("total%1").arg(id),0);
 	Played->setText(Played->text().arg(t));
-	unsigned int w = config->readUnsignedNumEntry(QString("won%1").arg(id),0);
+	unsigned int w = cg.readUnsignedNumEntry(QString("won%1").arg(id),0);
 	Won->setText(Won->text().arg(w));
 	if (t)
 		WonPerc->setText(WonPerc->text().arg(w*100/t));
 	else
 		WonPerc->setText(WonPerc->text().arg(0));
 	WinStreak->setText(
-		WinStreak->text().arg(config->readUnsignedNumEntry(QString("maxwinstreak%1").arg(id),0)));
+		WinStreak->text().arg(cg.readUnsignedNumEntry(QString("maxwinstreak%1").arg(id),0)));
 	LooseStreak->setText(
-		LooseStreak->text().arg(config->readUnsignedNumEntry(QString("maxloosestreak%1").arg(id),0)));
+		LooseStreak->text().arg(cg.readUnsignedNumEntry(QString("maxloosestreak%1").arg(id),0)));
 }

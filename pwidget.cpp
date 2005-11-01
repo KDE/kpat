@@ -153,26 +153,25 @@ pWidget::pWidget()
                                    actionCollection(), "enable_autodrop");
     dropaction->setCheckedState(i18n("Disable Autodrop"));
 
-    KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs(config, settings_group );
+    KConfigGroup cg(KGlobal::config(), settings_group );
 
-    QString bgpath = config->readPathEntry("Background");
+    QString bgpath = cg.readPathEntry("Background");
     kdDebug(11111) << "bgpath '" << bgpath << "'" << endl;
     if (bgpath.isEmpty())
         bgpath = locate("wallpaper", "No-Ones-Laughing-3.jpg");
     background = QPixmap(bgpath);
     if ( background.isNull() ) {
         background = QPixmap( locate("wallpaper", "No-Ones-Laughing-3.jpg") );
-        config->writePathEntry( "Background", QString::null );
+        cg.writePathEntry( "Background", QString::null );
     }
 
-    bool animate = config->readBoolEntry( "Animation", true);
+    bool animate = cg.readBoolEntry( "Animation", true);
     animation->setChecked( animate );
 
-    bool autodrop = config->readBoolEntry("Autodrop", true);
+    bool autodrop = cg.readBoolEntry("Autodrop", true);
     dropaction->setChecked(autodrop);
 
-    int game = config->readNumEntry("DefaultGame", 0);
+    int game = cg.readNumEntry("DefaultGame", 0);
     if (game > max_type)
         game = max_type;
     games->setCurrentItem(game);
@@ -210,11 +209,10 @@ void pWidget::undoPossible(bool poss)
 }
 
 void pWidget::changeBackside() {
-    KConfig *config = KGlobal::config();
-    KConfigGroupSaver kcs(config, settings_group);
+    KConfigGroup cg(KGlobal::config(), settings_group);
 
-    QString deck = config->readEntry("Back", KCardDialog::getDefaultDeck());
-    QString cards = config->readEntry("Cards", KCardDialog::getDefaultCardDir());
+    QString deck = cg.readEntry("Back", KCardDialog::getDefaultDeck());
+    QString cards = cg.readEntry("Cards", KCardDialog::getDefaultCardDir());
     if (KCardDialog::getCardDeck(deck, cards, this, KCardDialog::Both) == QDialog::Accepted)
     {
         QString imgname = KCardDialog::getCardPath(cards, 11);
@@ -277,14 +275,13 @@ void pWidget::changeWallpaper()
     midcolor = QColor(r, b, g);
 
     if (dill) {
-        KConfig *config = KGlobal::config();
-        KConfigGroupSaver kcs(config, settings_group);
+        KConfigGroup cg(KGlobal::config(), settings_group);
 
-        QString deck = config->readEntry("Back", KCardDialog::getDefaultDeck());
-        QString dummy = config->readEntry("Cards", KCardDialog::getDefaultCardDir());
+        QString deck = cg.readEntry("Back", KCardDialog::getDefaultDeck());
+        QString dummy = cg.readEntry("Cards", KCardDialog::getDefaultCardDir());
         setBackSide(deck, dummy);
 
-	config->writePathEntry("Background", bgpath);
+	cg.writePathEntry("Background", bgpath);
         dill->setBackgroundPixmap(background, midcolor);
         dill->canvas()->setAllChanged();
         dill->canvas()->update();
@@ -293,17 +290,15 @@ void pWidget::changeWallpaper()
 
 void pWidget::animationChanged() {
     bool anim = animation->isChecked();
-    KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs(config, settings_group );
-    config->writeEntry( "Animation", anim);
+    KConfigGroup cg(KGlobal::config(), settings_group );
+    cg.writeEntry( "Animation", anim);
 }
 
 void pWidget::enableAutoDrop()
 {
     bool drop = dropaction->isChecked();
-    KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs(config, settings_group );
-    config->writeEntry( "Autodrop", drop);
+    KConfigGroup cg(KGlobal::config(), settings_group );
+    cg.writeEntry( "Autodrop", drop);
     dill->setAutoDropEnabled(drop);
 }
 
@@ -392,9 +387,8 @@ void pWidget::newGameType()
 
     setGameCaption();
 
-    KConfig *config = KGlobal::config();
-    KConfigGroupSaver kcs(config, settings_group);
-    config->writeEntry("DefaultGame", id);
+    KConfigGroup cg(KGlobal::config(), settings_group);
+    cg.writeEntry("DefaultGame", id);
 
     QSize min(700,400);
     min = min.expandedTo(dill->minimumCardSize());
@@ -426,19 +420,18 @@ void pWidget::slotUpdateMoves()
 
 void pWidget::setBackSide(const QString &deck, const QString &cards)
 {
-    KConfig *config = KGlobal::config();
-    KConfigGroupSaver kcs(config, settings_group);
+    KConfigGroup cg(KGlobal::config(), settings_group);
     kdDebug() << "setBackSide " << deck << endl;
     QPixmap pm(deck);
     if(!pm.isNull()) {
         cardMap::self()->setBackSide(pm, false);
-        config->writeEntry("Back", deck);
+        cg.writeEntry("Back", deck);
         bool ret = cardMap::self()->setCardDir(cards);
         if (!ret) {
-            config->writeEntry("Back", QString::null);
+            cg.writeEntry("Back", QString::null);
 
         }
-        config->writeEntry("Cards", cards);
+        cg.writeEntry("Cards", cards);
         cardMap::self()->setBackSide(pm, true);
     } else
         KMessageBox::sorry(this,
@@ -481,15 +474,8 @@ void pWidget::gameLost()
 {
     QString   dontAskAgainName = "gameLostDontAskAgain";
 
-    // The following code is taken out of kmessagebox.cpp in kdeui.
-    // Is there a better way?
-    KConfig  *config = 0;
-    QString grpNotifMsgs = QString::fromLatin1("Notification Messages");
-
-    config = KGlobal::config();
-    KConfigGroupSaver saver(config,
-			    QString::fromLatin1("Notification Messages"));
-    QString dontAsk = config->readEntry(dontAskAgainName).lower();
+    KConfigGroup cg(KGlobal::config(), QLatin1String("Notification Messages"));
+    QString dontAsk = cg.readEntry(dontAskAgainName).lower();
 
     // If we are ordered never to ask again and to continue the game,
     // then do so.
