@@ -57,12 +57,12 @@ cardMap::cardMap(const QColor &dim) : dimcolor(dim)
 
     kdDebug(11111) << "cardMap\n";
     KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs(config, settings_group );
+    KConfigGroup cs(config, settings_group );
 
-    QString bg = config->readEntry( "Back", KCardDialog::getDefaultDeck());
+    QString bg = cs.readEntry( "Back", KCardDialog::getDefaultDeck());
     setBackSide( bg, false);
 
-    QString dir = config->readEntry("Cards",  KCardDialog::getDefaultCardDir());
+    QString dir = cs.readEntry("Cards",  KCardDialog::getDefaultCardDir());
     setCardDir( dir );
 
     cms.setObject(_self, this);
@@ -72,11 +72,11 @@ cardMap::cardMap(const QColor &dim) : dimcolor(dim)
 bool cardMap::setCardDir( const QString &dir)
 {
     KConfig *config = KGlobal::config();
-    KConfigGroupSaver cs(config, settings_group );
+    KConfigGroup cs(config, settings_group );
 
     // create an animation window while loading pixmaps (this
     // may take a while (approx. 3 seconds on my AMD K6PR200)
-    bool animate = config->readBoolEntry( "Animation", true);
+    bool animate = cs.readBoolEntry( "Animation", true);
 
     QWidget* w = 0;
     QPainter p;
