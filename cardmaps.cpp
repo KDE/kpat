@@ -207,7 +207,7 @@ bool cardMap::setBackSide( const QPixmap &pm, bool scale )
         QMatrix wm;
         wm.scale(((float)(card_width))/back.width(),
                  ((float)(card_height))/back.height());
-        back = back.xForm(wm);
+        back = back.transformed(wm);
     }
 
     return true;

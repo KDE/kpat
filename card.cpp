@@ -112,7 +112,7 @@ void Card::draw( QPainter &p )
     if (scaleX <= 0.98 || scaleY <= 0.98) {
         QMatrix  s;
         s.scale( scaleX, scaleY );
-        side = side.xForm( s );
+        side = side.transformed( s );
         int xoff = side.width() / 2;
         int yoff = side.height() / 2;
         p.drawPixmap( int(x() + cardMap::CARDX()/2 - xoff),
