@@ -118,7 +118,7 @@ void Dealer::setBackgroundPixmap(const QPixmap &background, const QColor &midcol
 
 void Dealer::setupActions() {
 
-    Q3PtrList<KAction> actionlist;
+    QList<KAction*> actionlist;
 
     kdDebug(11111) << "setupActions " << actions() << endl;
 
