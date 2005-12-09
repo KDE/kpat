@@ -30,7 +30,7 @@
 #include <q3canvas.h>
 //Added by qt3to4:
 #include <QPixmap>
-#include <Q3ValueList>
+#include <QList>
 
 // The following classes are defined in other headers:
 class cardPos;
@@ -41,7 +41,7 @@ class Card;
 
 
 // A list of cards.  Used in many places.
-typedef Q3ValueList<Card*> CardList;
+typedef QList<Card*> CardList;
 
 
 // In kpat, a Card is an object that has at least two purposes:

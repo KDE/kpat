@@ -28,7 +28,7 @@
 #include <stdlib.h>
 #include <qtimer.h>
 //Added by qt3to4:
-#include <Q3ValueList>
+#include <QList>
 #include "cardmaps.h"
 
 #include "freecell-solver/fcs_user.h"
@@ -620,7 +620,7 @@ void FreecellBase::moveCards(CardList &c, FreecellPile *from, Pile *to)
     if (fcs.count() == 0) {
         assert(fss.count());
         fcs.append(fss.last());
-        fss.remove(fss.fromLast());
+        fss.remove(fss.end()-1);
     }
     while (moves.count()) { delete moves.first(); moves.remove(moves.begin()); }
 
@@ -647,7 +647,7 @@ void FreecellBase::movePileToPile(CardList &c, Pile *to, PileList fss, PileList 
     }
     kdDebug(11111) << debug_level << " moveaway " << moveaway << endl;
 
-    Q3ValueList<MoveAway> moves_away;
+    QList<MoveAway> moves_away;
 
     if (count - moveaway < (fcs.count() + 1) && (count <= 2 * (fcs.count() + 1))) {
         moveaway = count - (fcs.count() + 1);
@@ -681,7 +681,7 @@ void FreecellBase::movePileToPile(CardList &c, Pile *to, PileList fss, PileList 
     while (moves_away.count())
     {
         MoveAway ma = moves_away.last();
-        moves_away.remove(moves_away.fromLast());
+        moves_away.remove(moves_away.end()-1);
         movePileToPile(c, to, fss, fcs, ma.start, ma.count, debug_level + 1);
         fss.append(ma.firstfree);
     }

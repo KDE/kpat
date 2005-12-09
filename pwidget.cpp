@@ -26,7 +26,7 @@
 //Added by qt3to4:
 #include <QPixmap>
 #include <QTextStream>
-#include <Q3ValueList>
+#include <QList>
 #include <QShowEvent>
 
 #include <kapplication.h>
@@ -92,7 +92,7 @@ pWidget::pWidget()
                               SLOT(newGameType()),
                               actionCollection(), "game_type");
     QStringList list;
-    Q3ValueList<DealerInfo*>::ConstIterator it;
+    QList<DealerInfo*>::ConstIterator it;
     int max_type = 0;
 
     for (it = DealerInfoList::self()->games().begin();
@@ -350,7 +350,7 @@ void pWidget::newGameType()
     slotUpdateMoves();
 
     uint id = games->currentItem();
-    for (Q3ValueList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin(); it != DealerInfoList::self()->games().end(); ++it) {
+    for (QList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin(); it != DealerInfoList::self()->games().end(); ++it) {
         if ((*it)->gameindex == id) {
             dill = (*it)->createGame(this);
             QString name = (*it)->name;

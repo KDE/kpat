@@ -5,7 +5,7 @@
 #include <qcombobox.h>
 #include <qlabel.h>
 //Added by qt3to4:
-#include <Q3ValueList>
+#include <QList>
 
 #include <kapplication.h>
 #include <kconfig.h>
@@ -16,7 +16,7 @@ GameStatsImpl::GameStatsImpl(QWidget* aParent, const char* aname)
 	: GameStats(aParent, aname)
 {
 	QStringList list;
-	Q3ValueList<DealerInfo*>::ConstIterator it;
+	QList<DealerInfo*>::ConstIterator it;
 	for (it = DealerInfoList::self()->games().begin();
 			it != DealerInfoList::self()->games().end(); ++it)
 	{

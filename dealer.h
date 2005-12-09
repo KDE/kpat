@@ -8,7 +8,7 @@
 #include <QWheelEvent>
 #include <QPixmap>
 #include <Q3PtrList>
-#include <Q3ValueList>
+#include <QList>
 #include <QResizeEvent>
 #include <QMouseEvent>
 
@@ -26,9 +26,9 @@ public:
     static DealerInfoList *self();
     void add(DealerInfo *);
 
-    const Q3ValueList<DealerInfo*> games() const { return list; }
+    const QList<DealerInfo*> games() const { return list; }
 private:
-    Q3ValueList<DealerInfo*> list;
+    QList<DealerInfo*> list;
     static DealerInfoList *_self;
 };
 
@@ -207,7 +207,7 @@ protected:
     QSize viewsize;
     Q3PtrList<State> undoList;
     long gamenumber;
-    Q3ValueList<MoveHint*> hints;
+    QList<MoveHint*> hints;
     Card *towait;
     QTimer *demotimer;
     int myActions;

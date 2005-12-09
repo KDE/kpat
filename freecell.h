@@ -24,7 +24,7 @@
 
 #include "dealer.h"
 //Added by qt3to4:
-#include <Q3ValueList>
+#include <QList>
 
 class FreecellPile : public Pile
 {
@@ -77,7 +77,7 @@ protected:
     virtual bool cardDblClicked(Card *c);
 
 protected:
-    Q3ValueList<FreecellPile*> store;
+    QList<FreecellPile*> store;
     PileList freecell;
     PileList target;
     Deck *deck;

@@ -84,7 +84,7 @@ Card* Deck::nextCard()
 {
     CardList::Iterator c;
 
-    c = m_cards.fromLast();  // Dealing from bottom of deck ....
+    c = m_cards.end()-1;  // Dealing from bottom of deck ....
     if ( c != m_cards.end() ) {
         return *c;
     } else

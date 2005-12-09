@@ -5,7 +5,7 @@
 #include "card.h"
 #include <kpixmap.h>
 //Added by qt3to4:
-#include <Q3ValueList>
+#include <QList>
 
 
 class Dealer;
@@ -148,6 +148,6 @@ private:
     KPixmap cache_selected;
 };
 
-typedef Q3ValueList<Pile*> PileList;
+typedef QList<Pile*> PileList;
 
 #endif

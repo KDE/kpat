@@ -12,7 +12,7 @@
 #include <QWheelEvent>
 #include <QPixmap>
 #include <Q3PtrList>
-#include <Q3ValueList>
+#include <QList>
 #include <QResizeEvent>
 #include <QMouseEvent>
 #include <krandom.h>
@@ -386,7 +386,7 @@ public:
     QRect intersect;
     bool top;
 };
-typedef Q3ValueList<Hit> HitList;
+typedef QList<Hit> HitList;
 
 void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
 {

@@ -231,7 +231,7 @@ Card *Pile::at(int index) const
 {
     if (index < 0 || index >= int(m_cards.count()))
         return 0;
-    return *m_cards.at(index);
+    return m_cards.at(index);
 }
 
 // Return the top card of this pile.
