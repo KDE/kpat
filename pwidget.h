@@ -34,7 +34,6 @@ class KToggleAction;
 class KSelectAction;
 class KRecentFilesAction;
 class KAction;
-class Q3WidgetStack;
 class QLabel;
 
 class pWidget: public KMainWindow {
