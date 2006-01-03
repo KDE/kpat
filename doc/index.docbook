@@ -103,7 +103,7 @@ the four suits:
 
 <informaltable pgwide="0" frame="none">
 <tgroup cols="2">
-<colspec colwidth="90"/>
+<colspec/>
 <colspec/>
 <tbody>
 
@@ -263,8 +263,8 @@ Use of the menu is too easy to be described now.
 </sect1>
 
 <sect1 id="klondike">
-<title>Klondike <anchor id="game_klondike"/></title>
-
+<title>Klondike</title>
+<anchor id="game_klondike" />
 
 <para><indexterm><primary>Klondike</primary></indexterm>
 Klondike is the most famous patience - most likely because an often used
@@ -303,8 +303,8 @@ shift doesn't help you in finding new solutions.
 </sect1>
 
 <sect1 id="grandfather">
-<title>Grandfather <anchor id="game_grandfather"/></title>
-
+<title>Grandfather</title>
+<anchor id="game_grandfather"/>
 
 <para><indexterm><primary>Grandfather</primary></indexterm>
 This game has been introduced to Paul by his grandfather, so it got this
@@ -346,7 +346,8 @@ hard to win, but is still a joy to play (or because of that).
 </sect1>
 
 <sect1 id="aces-up">
-<title>Aces Up <anchor id="game_aces_up"/></title>
+<title>Aces Up</title >
+<anchor id="game_aces_up"/>
 
 <para><indexterm><primary>Aces Up</primary></indexterm>
 This patience has very simple rules, but is still hard to win.  It is played
@@ -355,7 +356,7 @@ foundation. After that there should be an ace on every playing pile left.
 </para>
 
 <para>
-Each top card that is of the same color (&eg; spades) and has a lower
+Each top card that is of the same suit (&eg; spades) and has a lower
 value than another top card (&eg; six of spades and four of spades) can be
 put on the foundation by clicking on it.
 </para>
@@ -378,7 +379,8 @@ The auto drop feature is disabled for this patience.
 </sect1>
 
 <sect1 id="freecell">
-<title>Freecell <anchor id="game_freecell"/></title>
+<title>Freecell</title>
+<anchor id="game_freecell"/>
 
 <para><indexterm><primary>Freecell</primary></indexterm>
 Freecell is playing with one card deck. You have four free cells in the left top
@@ -426,8 +428,8 @@ build as long sequences as possible.
 </sect1>
 
 <sect1 id="napoleons-tomb">
-<title>Napoleon's Tomb<anchor id="game_napoleons_tomb"/></title>
-
+<title>Napoleon's Tomb</title>
+<anchor id="game_napoleons_tomb"/>
 <para><indexterm><primary>Napoleon's Tomb</primary></indexterm>
 Napoleon's Tomb is played with one deck. Goal is to put all cards on the
 foundations as ascending families without caring about the card colors or suits.
@@ -456,7 +458,8 @@ You can go through the talon only once.
 </sect1>
 
 <sect1 id="mod3">
-<title>Mod3<anchor id="game_mod3"/></title>
+<title>Mod3</title>
+<anchor id="game_mod3"/>
 
 <para><indexterm><primary>Mod3</primary></indexterm>
 Mod-3 is played with two card decks. Goal of the game is to put all
@@ -488,7 +491,8 @@ clicking on the talon.
 </sect1>
 
 <sect1 id="calculation">
-<title>Calculation<anchor id="game_calculation"/></title>
+<title>Calculation</title>
+<anchor id="game_calculation"/>
 
 <para><indexterm><primary>Calculation</primary></indexterm>
 Calculation is surely a patience you have to get used to. It is played with one
@@ -536,8 +540,8 @@ You should do this, so you can put following cards easier on the foundation.
 </sect1>
 
 <sect1 id="gypsy">
-<title>Gypsy<anchor id="game_gypsy"/></title>
-
+<title>Gypsy</title>
+<anchor id="game_gypsy"/>
 <para><indexterm><primary>Gypsy</primary></indexterm>
 Gypsy is played with two card decks. Goal of the game is to put all cards in
 real families ascending on the foundation.
@@ -563,7 +567,8 @@ clicked the talon.
 </sect1>
 
 <sect1 id="forty-and-eight">
-<title>Forty And Eight<anchor id="game_forty_and_eight"/></title>
+<title>Forty And Eight</title>
+<anchor id="game_forty_and_eight"/>
 
 <para><indexterm><primary>Forty And Eight</primary></indexterm>
 Forty and Eight is played with two card decks. Goal of the game is to put all
@@ -596,7 +601,8 @@ foundation.
 </sect1>
 
 <sect1 id="simple-simon">
-<title>Simple Simon<anchor id="game_simple_simon"/></title>
+<title>Simple Simon</title>
+<anchor id="game_simple_simon"/>
 
 <para><indexterm><primary>Simple Simon</primary></indexterm>
 Simple Simon is played with one card deck. Goal of the game is to put all cards
@@ -632,7 +638,8 @@ color, so they can be moved to the foundation.
 </sect1>
 
 <sect1 id="yukon">
-<title>Yukon<anchor id="game_yukon"/></title>
+<title>Yukon</title>
+<anchor id="game_yukon"/>
 
 <para><indexterm><primary>Yukon</primary></indexterm>
 Yukon is played with one card deck. Goal of the game is to put all cards as real
@@ -653,8 +660,9 @@ of it)
 </sect1>
 
 <sect1 id="grandfathers-clock">
-<title>Grandfather's Clock<anchor id="game_grandfathers_clock"/></title>
+<title>Grandfather's Clock</title>
 
+<anchor id="game_grandfathers_clock"/>
 <para><indexterm><primary>Grandfathers Clock</primary></indexterm>
 Grandfather's clock is a simple patience and after some experiments you should
 be able to solve most deals. It is played with one card deck and goal of the
@@ -678,7 +686,9 @@ cards. You can only move one single card at a time.
 </sect1>
 
 <sect1 id="kings">
-<title>Kings<anchor id="game_kings"/></title>
+<title>Kings</title>
+
+<anchor id="game_kings"/>
 
 <para><indexterm><primary>Kings</primary></indexterm>
 The patience Kings is played with two card decks. The cards are dealt in a way
@@ -706,8 +716,9 @@ temporarily. On a free playing pile you can put any card or sequence.
 </sect1>
 
 <sect1 id="spider">
-<title>Spider<anchor id="game_spider"/></title>
+<title>Spider</title>
 
+<anchor id="game_spider"/>
 <para><indexterm><primary>Spider</primary></indexterm>
 Spider is played with two card decks. The cards are dealt out into 10 playing
 piles, 4 of 6 cards and 6 of 5 cards each. This leaves 50 cards that can be
