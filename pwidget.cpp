@@ -475,7 +475,7 @@ void pWidget::gameLost()
     QString   dontAskAgainName = "gameLostDontAskAgain";
 
     KConfigGroup cg(KGlobal::config(), QLatin1String("Notification Messages"));
-    QString dontAsk = cg.readEntry(dontAskAgainName).lower();
+    QString dontAsk = cg.readEntry(dontAskAgainName,QString()).lower();
 
     // If we are ordered never to ask again and to continue the game,
     // then do so.
@@ -484,7 +484,7 @@ void pWidget::gameLost()
     // If it says yes, we ask anyway. Just starting a new game would
     // be incredibly annoying.
     if (dontAsk == "yes")
-	dontAskAgainName = QString::null;
+	dontAskAgainName.clear();
 
     if (KMessageBox::questionYesNo(this, i18n("You could not win this game, "
                                               "but there is always a second try.\nStart a new game?"),
