@@ -428,7 +428,7 @@ void pWidget::setBackSide(const QString &deck, const QString &cards)
         cg.writeEntry("Back", deck);
         bool ret = cardMap::self()->setCardDir(cards);
         if (!ret) {
-            cg.writeEntry("Back", QString::null);
+            cg.writeEntry("Back", QString());
 
         }
         cg.writeEntry("Cards", cards);
