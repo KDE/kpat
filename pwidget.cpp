@@ -165,10 +165,10 @@ pWidget::pWidget()
         cg.writePathEntry( "Background", QString::null );
     }
 
-    bool animate = cg.readBoolEntry( "Animation", true);
+    bool animate = cg.readEntry( "Animation", true);
     animation->setChecked( animate );
 
-    bool autodrop = cg.readBoolEntry("Autodrop", true);
+    bool autodrop = cg.readEntry("Autodrop", true);
     dropaction->setChecked(autodrop);
 
     int game = cg.readNumEntry("DefaultGame", 0);

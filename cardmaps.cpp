@@ -76,7 +76,7 @@ bool cardMap::setCardDir( const QString &dir)
 
     // create an animation window while loading pixmaps (this
     // may take a while (approx. 3 seconds on my AMD K6PR200)
-    bool animate = cs.readBoolEntry( "Animation", true);
+    bool animate = cs.readEntry( "Animation", true);
 
     QWidget* w = 0;
     QPainter p;
