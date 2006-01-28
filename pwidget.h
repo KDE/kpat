@@ -51,7 +51,7 @@ public slots:
     void restart();
 
     void openGame();
-    void openGame(const KURL &url);
+    void openGame(const KUrl &url);
     void saveGame();
 
     void newGame();

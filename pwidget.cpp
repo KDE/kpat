@@ -76,7 +76,7 @@ pWidget::pWidget()
                               actionCollection(), "new_game");
     (void)KStdAction::open(this, SLOT(openGame()),
                            actionCollection(), "open");
-    recent = KStdAction::openRecent(this, SLOT(openGame(const KURL&)),
+    recent = KStdAction::openRecent(this, SLOT(openGame(const KUrl&)),
                                     actionCollection(), "open_recent");
     recent->loadEntries(KGlobal::config());
     (void)KStdAction::saveAs(this, SLOT(saveGame()),
@@ -497,7 +497,7 @@ void pWidget::gameLost()
     }
 }
 
-void pWidget::openGame(const KURL &url)
+void pWidget::openGame(const KUrl &url)
 {
     QString tmpFile;
     if( KIO::NetAccess::download( url, tmpFile, this ) )
@@ -532,13 +532,13 @@ void pWidget::openGame(const KURL &url)
 
 void pWidget::openGame()
 {
-    KURL url = KFileDialog::getOpenURL();
+    KUrl url = KFileDialog::getOpenURL();
     openGame(url);
 }
 
 void pWidget::saveGame()
 {
-    KURL url = KFileDialog::getSaveURL();
+    KUrl url = KFileDialog::getSaveURL();
     KTempFile file;
     QDomDocument doc("kpat");
     dill->saveGame(doc);
