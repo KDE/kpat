@@ -1161,11 +1161,11 @@ void Dealer::won()
 
     // update score, 'win' in demo mode also counts (keep it that way?)
     KConfigGroup kc(KGlobal::config(), scores_group);
-    unsigned int n = kc.readUnsignedNumEntry(QString("won%1").arg(_id),0) + 1;
+    unsigned int n = kc.readEntry(QString("won%1").arg(_id),0) + 1;
     kc.writeEntry(QString("won%1").arg(_id),n);
-    n = kc.readUnsignedNumEntry(QString("winstreak%1").arg(_id),0) + 1;
+    n = kc.readEntry(QString("winstreak%1").arg(_id),0) + 1;
     kc.writeEntry(QString("winstreak%1").arg(_id),n);
-    unsigned int m = kc.readUnsignedNumEntry(QString("maxwinstreak%1").arg(_id),0);
+    unsigned int m = kc.readEntry(QString("maxwinstreak%1").arg(_id),0);
     if (n>m)
         kc.writeEntry(QString("maxwinstreak%1").arg(_id),n);
     kc.writeEntry(QString("loosestreak%1").arg(_id),0);
@@ -1430,7 +1430,7 @@ void Dealer::countGame()
     if ( !_gameRecorded ) {
         kdDebug(11111) << "counting game as played." << endl;
         KConfigGroup kc(KGlobal::config(), scores_group);
-        unsigned int Total = kc.readUnsignedNumEntry(QString("total%1").arg(_id),0);
+        unsigned int Total = kc.readEntry(QString("total%1").arg(_id),0);
         ++Total;
         kc.writeEntry(QString("total%1").arg(_id),Total);
         _gameRecorded = true;
@@ -1442,9 +1442,9 @@ void Dealer::countLoss()
     if ( _gameRecorded ) {
         // update score
         KConfigGroup kc(KGlobal::config(), scores_group);
-        unsigned int n = kc.readUnsignedNumEntry(QString("loosestreak%1").arg(_id),0) + 1;
+        unsigned int n = kc.readEntry(QString("loosestreak%1").arg(_id),0) + 1;
         kc.writeEntry(QString("loosestreak%1").arg(_id),n);
-        unsigned int m = kc.readUnsignedNumEntry(QString("maxloosestreak%1").arg(_id),0);
+        unsigned int m = kc.readEntry(QString("maxloosestreak%1").arg(_id),0);
         if (n>m)
             kc.writeEntry(QString("maxloosestreak%1").arg(_id),n);
         kc.writeEntry(QString("winstreak%1").arg(_id),0);

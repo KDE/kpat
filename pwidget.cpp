@@ -171,7 +171,7 @@ pWidget::pWidget()
     bool autodrop = cg.readEntry("Autodrop", true);
     dropaction->setChecked(autodrop);
 
-    int game = cg.readNumEntry("DefaultGame", 0);
+    int game = cg.readEntry("DefaultGame", 0);
     if (game > max_type)
         game = max_type;
     games->setCurrentItem(game);
