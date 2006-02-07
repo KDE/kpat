@@ -136,7 +136,7 @@ void Fortyeight::setGameState( const QString &s )
 
 bool Fortyeight::isGameLost() const
 {
-    kdDebug(11111) << "isGameLost ?" << endl;
+    kDebug(11111) << "isGameLost ?" << endl;
     if(!lastdeal)
 	return false;
     if(!deck->isEmpty())

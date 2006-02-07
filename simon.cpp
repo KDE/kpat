@@ -111,17 +111,17 @@ bool Simon::checkRemove(int checkIndex, const Pile *p, const Card *c) const
 
 bool Simon::isGameLost() const
 {
-	kdDebug(11111) <<"isGameLost" << endl;
+	kDebug(11111) <<"isGameLost" << endl;
     for (int i=0; i<10; i++) {
 		if(store[i]->isEmpty())
 			return false;
-	kdDebug(11111) <<"store["<<i<<"]" << endl;
+	kDebug(11111) <<"store["<<i<<"]" << endl;
 
 		Card *c;
 		Card *top=store[i]->top();
 		int indexi=store[i]->indexOf(top);
 		while(--indexi >=0){
-		kdDebug(11111) <<top->name() << endl;
+		kDebug(11111) <<top->name() << endl;
 			c=store[i]->at(indexi);
 			if(c->suit() == top->suit() &&
 				(top->rank()+1) == c->rank())
@@ -130,14 +130,14 @@ bool Simon::isGameLost() const
 				break;
 			}
 
-		kdDebug(11111) <<"selected: " << top->name() << endl;
+		kDebug(11111) <<"selected: " << top->name() << endl;
 		for(int j=1; j <10; j++){
 			int k=(i+j) % 10;
 
 			if(store[k]->isEmpty())
 				return false;
 
-			kdDebug(11111) <<"vs "<<store[k]->top()->name() << endl;
+			kDebug(11111) <<"vs "<<store[k]->top()->name() << endl;
 			if((top->rank() +1) == store[k]->top()->rank())
 				return false;
 			}

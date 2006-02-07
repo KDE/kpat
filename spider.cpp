@@ -131,7 +131,7 @@ bool Spider::checkRemove(int /*checkIndex*/, const Pile *p, const Card *c) const
 
 void Spider::getHints()
 {
-    kdDebug(11111) << "get hints" << endl;
+    kDebug(11111) << "get hints" << endl;
     // first, get runs from each stack
     CardList cl[10];
 
@@ -219,7 +219,7 @@ void Spider::getHints()
 
 MoveHint *Spider::chooseHint()
 {
-    kdDebug(11111) << "choose 1 of " << hints.count() << " hints" << endl;
+    kDebug(11111) << "choose 1 of " << hints.count() << " hints" << endl;
     if (hints.isEmpty())
         return 0;
 
@@ -308,7 +308,7 @@ CardList Spider::getRun(Card *c) const
 
 void Spider::checkPileDeck(Pile *check)
 {
-    kdDebug(11111) << "check for run" << endl;
+    kDebug(11111) << "check for run" << endl;
     if (check->isEmpty())
         return;
 
@@ -389,7 +389,7 @@ Card *Spider::demoNewCards()
 
 void Spider::deckClicked(Card*)
 {
-    kdDebug(11111) << "deck clicked " << m_redeal << endl;
+    kDebug(11111) << "deck clicked " << m_redeal << endl;
     if (m_redeal > 4)
         return;
 
@@ -400,7 +400,7 @@ void Spider::deckClicked(Card*)
 
 bool Spider::isGameLost() const
 {
-    kdDebug(11111) << "isGameLost ?"<< endl;
+    kDebug(11111) << "isGameLost ?"<< endl;
 
     // if there are still cards to deal out, you have not lost
     if (m_redeal < 5)

@@ -107,7 +107,7 @@ Pile::~Pile()
             int i = -13;
             if ((*it)->source())
                 i = (*it)->source()->index();
-            kdDebug(11111) << "pile doesn't match " << index() << " - " << i << endl;
+            kDebug(11111) << "pile doesn't match " << index() << " - " << i << endl;
         }
         (*it)->setSource(0);
     }

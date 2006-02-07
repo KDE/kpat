@@ -123,7 +123,7 @@ void Deck::shuffle()
     assert(dealer()->gameNumber() >= 0);
     pseudoRandom_srand(dealer()->gameNumber());
 
-    kdDebug(11111) << "first card " << m_cards[0]->name() << " " << dealer()->gameNumber() << endl;
+    kDebug(11111) << "first card " << m_cards[0]->name() << " " << dealer()->gameNumber() << endl;
 
     Card* t;
     long z;

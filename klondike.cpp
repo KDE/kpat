@@ -41,7 +41,7 @@ public:
         cardlist.append(c);
     }
     virtual QSize cardOffset( bool _spread, bool, const Card *c) const {
-        kdDebug(11111) << "cardOffset " << _spread << " " << (c? c->name() : "(null)") << endl;
+        kDebug(11111) << "cardOffset " << _spread << " " << (c? c->name() : "(null)") << endl;
         if (cardlist.contains(const_cast<Card * const>(c)))
             return QSize(+dspread(), 0);
         return QSize(0, 0);
@@ -157,7 +157,7 @@ bool Klondike::tryToDrop(Card *t)
     if (!t || !t->realFace() || t->takenDown())
         return false;
 
-//    kdDebug(11111) << "tryToDrop " << t->name() << endl;
+//    kDebug(11111) << "tryToDrop " << t->name() << endl;
 
     Pile *tgt = findTarget(t);
     if (tgt) {
@@ -240,7 +240,7 @@ Card *Klondike::demoNewCards() {
 }
 
 void Klondike::restart() {
-    kdDebug(11111) << "restart\n";
+    kDebug(11111) << "restart\n";
     deck->collectAndShuffle();
     redealt = false;
     deal();
@@ -273,7 +273,7 @@ void Klondike::deal3()
 
         Card *item = deck->nextCard();
         if (!item) {
-            kdDebug(11111) << "deck empty!!!\n";
+            kDebug(11111) << "deck empty!!!\n";
             return;
         }
         pile->add(item, true, true); // facedown, nospread
@@ -312,7 +312,7 @@ void Klondike::deal() {
 }
 
 bool Klondike::cardClicked(Card *c) {
-    kdDebug(11111) << "card clicked " << c->name() << endl;
+    kDebug(11111) << "card clicked " << c->name() << endl;
 
     if (Dealer::cardClicked(c))
         return true;
@@ -326,7 +326,7 @@ bool Klondike::cardClicked(Card *c) {
 }
 
 void Klondike::pileClicked(Pile *c) {
-    kdDebug(11111) << "pile clicked " << endl;
+    kDebug(11111) << "pile clicked " << endl;
     Dealer::pileClicked(c);
 
     if (c == deck) {
@@ -347,10 +347,10 @@ bool Klondike::startAutoDrop()
 
 bool Klondike::isGameLost() const
 {
-    kdDebug( 11111 ) << "Is the game lost?" << endl;
+    kDebug( 11111 ) << "Is the game lost?" << endl;
 
     if (!deck->isEmpty()) {
-        kdDebug( 11111 ) << "We should only check this when the deck is exhausted." << endl;
+        kDebug( 11111 ) << "We should only check this when the deck is exhausted." << endl;
         return false;
     }
 
@@ -362,7 +362,7 @@ bool Klondike::isGameLost() const
             }
             if ( pile->top()->suit() == target[ i ]->top()->suit() &&
                  pile->top()->rank() - 1 == target[ i ]->top()->rank() ) {
-                kdDebug( 11111 ) << "No, the source pile's top card could be added to target pile " << i << endl;
+                kDebug( 11111 ) << "No, the source pile's top card could be added to target pile " << i << endl;
                 return false;
             }
         }
@@ -378,11 +378,11 @@ bool Klondike::isGameLost() const
          * accessible, but only every third one.
          */
         for ( int i = 2; i < pile->cards().count(); i += 3 ) {
-	    kdDebug( 11111 ) << "Found card "<< pile->cards()[i]->name()<< endl;
+	    kDebug( 11111 ) << "Found card "<< pile->cards()[i]->name()<< endl;
             srcPileCards += pile->cards()[ i ];
         }
         if ( !pile->cards().isEmpty() && pile->cards().count() % 3 != 0 ) {
-	    kdDebug( 11111 ) << "Found last card "<< pile->cards()[pile->cards().count() - 1]->name()<< endl;
+	    kDebug( 11111 ) << "Found last card "<< pile->cards()[pile->cards().count() - 1]->name()<< endl;
             srcPileCards += pile->cards()[ pile->cards().count() - 1 ];
         }
     }
@@ -397,7 +397,7 @@ bool Klondike::isGameLost() const
             CardList::ConstIterator end = srcPileCards.end();
             for ( ; it != end; ++it ) {
                 if ( ( *it )->rank() == Card::King ) {
-                    kdDebug( 11111 ) << "No, the pile contains a king which we could move onto store " << i << endl;
+                    kDebug( 11111 ) << "No, the pile contains a king which we could move onto store " << i << endl;
                     return false;
                 }
             }
@@ -413,7 +413,7 @@ bool Klondike::isGameLost() const
                 CardList::ConstIterator end = cards.end();
                 for ( ; it != end; ++it ) {
                     if ( ( *it )->realFace() && ( *it )->rank() == Card::King ) {
-                        kdDebug( 11111 ) << "No, store " << j << " contains a visible king which we could move onto store " << i << endl;
+                        kDebug( 11111 ) << "No, store " << j << " contains a visible king which we could move onto store " << i << endl;
                         return false;
                     }
                 }
@@ -423,7 +423,7 @@ bool Klondike::isGameLost() const
 
             // ...check whether the top card is an Ace (we can start a target)
             if ( topCard->rank() == Card::Ace ) {
-                kdDebug( 11111 ) << "No, store " << i << " has an Ace, we could start a target pile." << endl;
+                kDebug( 11111 ) << "No, store " << i << " has an Ace, we could start a target pile." << endl;
                 return false;
             }
 
@@ -434,7 +434,7 @@ bool Klondike::isGameLost() const
                 }
                 if ( target[ targetIdx ]->top()->suit() == topCard->suit() &&
                      target[ targetIdx ]->top()->rank() == topCard->rank() - 1 ) {
-                    kdDebug( 11111 ) << "No, store " << i << "'s top card could be added to target pile " << targetIdx << endl;
+                    kDebug( 11111 ) << "No, store " << i << "'s top card could be added to target pile " << targetIdx << endl;
                     return false;
                 }
             }
@@ -446,7 +446,7 @@ bool Klondike::isGameLost() const
             for ( ; it != end; ++it ) {
                 if ( ( *it )->isRed() != topCard->isRed() &&
                      ( *it )->rank() == topCard->rank() - 1 ) {
-                    kdDebug( 11111 ) << "No, the pile contains a card which we could add to store " << i << endl;
+                    kDebug( 11111 ) << "No, the pile contains a card which we could add to store " << i << endl;
                     return false;
                 }
             }
@@ -465,14 +465,14 @@ bool Klondike::isGameLost() const
                     if ( ( *it )->realFace() &&
                          ( *it )->isRed() != topCard->isRed() &&
                          ( *it )->rank() == topCard->rank() - 1 ) {
-                        kdDebug( 11111 ) << "No, store " << j << " contains a card which we could add to store " << i << endl;
+                        kDebug( 11111 ) << "No, store " << j << " contains a card which we could add to store " << i << endl;
                         return false;
                     }
                 }
             }
         }
     }
-    kdDebug( 11111 ) << "Yep, all hope is lost." << endl;
+    kDebug( 11111 ) << "Yep, all hope is lost." << endl;
     return true;
 }
 

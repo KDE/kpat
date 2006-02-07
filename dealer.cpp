@@ -120,7 +120,7 @@ void Dealer::setupActions() {
 
     QList<KAction*> actionlist;
 
-    kdDebug(11111) << "setupActions " << actions() << endl;
+    kDebug(11111) << "setupActions " << actions() << endl;
 
     if (actions() & Dealer::Hint) {
 
@@ -195,7 +195,7 @@ void Dealer::getHints()
         Pile *store = *it;
         if (store->isEmpty())
             continue;
-//        kdDebug(11111) << "trying " << store->top()->name() << endl;
+//        kDebug(11111) << "trying " << store->top()->name() << endl;
 
         CardList cards = store->cards();
         while (cards.count() && !cards.first()->realFace()) cards.remove(cards.begin());
@@ -204,7 +204,7 @@ void Dealer::getHints()
         while (iti != cards.end())
         {
             if (store->legalRemove(*iti)) {
-//                kdDebug(11111) << "could remove " << (*iti)->name() << endl;
+//                kDebug(11111) << "could remove " << (*iti)->name() << endl;
                 for (PileList::Iterator pit = piles.begin(); pit != piles.end(); ++pit)
                 {
                     Pile *dest = *pit;
@@ -296,7 +296,7 @@ void Dealer::contentsMouseMoveEvent(QMouseEvent* e)
                 if (p->isEmpty() && !sources.contains(p))
                     sources.append(p);
             } else {
-                kdDebug(11111) << "unknown object " << *it << " " << (*it)->rtti() << endl;
+                kDebug(11111) << "unknown object " << *it << " " << (*it)->rtti() << endl;
             }
         }
     }
@@ -346,7 +346,7 @@ void Dealer::contentsMousePressEvent(QMouseEvent* e)
 
     Q3CanvasItemList list = canvas()->collisions(e->pos());
 
-    kdDebug(11111) << "mouse pressed " << list.count() << " " << canvas()->allItems().count() << endl;
+    kDebug(11111) << "mouse pressed " << list.count() << " " << canvas()->allItems().count() << endl;
     moved = false;
 
     if (!list.count())
@@ -474,7 +474,7 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
                     sources.append(t);
                 }
             } else {
-                kdDebug(11111) << "unknown object " << *it << " " << (*it)->rtti() << endl;
+                kDebug(11111) << "unknown object " << *it << " " << (*it)->rtti() << endl;
             }
         }
     }
@@ -627,11 +627,11 @@ void Dealer::startNew()
     _won = false;
     _waiting = 0;
     _gameRecorded=false;
-    kdDebug(11111) << "startNew stopDemo\n";
+    kDebug(11111) << "startNew stopDemo\n";
     stopDemo();
-    kdDebug(11111) << "startNew unmarkAll\n";
+    kDebug(11111) << "startNew unmarkAll\n";
     unmarkAll();
-    kdDebug(11111) << "startNew setAnimated(false)\n";
+    kDebug(11111) << "startNew setAnimated(false)\n";
     Q3CanvasItemList list = canvas()->allItems();
     for (Q3CanvasItemList::Iterator it = list.begin(); it != list.end(); ++it) {
         if ((*it)->rtti() == Card::RTTI)
@@ -644,7 +644,7 @@ void Dealer::startNew()
     undoList.clear();
     emit undoPossible(false);
     emit updateMoves();
-    kdDebug(11111) << "startNew restart\n";
+    kDebug(11111) << "startNew restart\n";
     restart();
     takeState();
     Card *towait = 0;
@@ -656,7 +656,7 @@ void Dealer::startNew()
         }
     }
 
-    kdDebug(11111) << "startNew takeState\n";
+    kDebug(11111) << "startNew takeState\n";
     if (!towait)
         takeState();
     else
@@ -745,7 +745,7 @@ State *Dealer::getState()
            s.it = c;
            s.source = c->source();
            if (!s.source) {
-               kdDebug(11111) << c->name() << " has no parent\n";
+               kDebug(11111) << c->name() << " has no parent\n";
                assert(false);
            }
            s.source_index = c->source()->indexOf(c);
@@ -806,7 +806,7 @@ void Dealer::setState(State *st)
 
 void Dealer::takeState()
 {
-    kdDebug(11111) << "takeState\n";
+    kDebug(11111) << "takeState\n";
 
     State *n = getState();
 
@@ -868,7 +868,7 @@ void Dealer::saveGame(QDomDocument &doc) {
             Pile *p = dynamic_cast<Pile*>(*it);
             assert(p);
             if (taken[p->index()]) {
-                kdDebug(11111) << "pile index " << p->index() << " taken twice\n";
+                kDebug(11111) << "pile index " << p->index() << " taken twice\n";
                 return;
             }
             taken[p->index()] = true;
@@ -918,7 +918,7 @@ void Dealer::saveGame(QDomDocument &doc) {
     }
     dealer.appendChild(eList);
     */
-    // kdDebug(11111) << doc.toString() << endl;
+    // kDebug(11111) << doc.toString() << endl;
 }
 
 void Dealer::openGame(QDomDocument &doc)
@@ -964,7 +964,7 @@ void Dealer::openGame(QDomDocument &doc)
                         {
                             if ((*it2)->suit() == s && (*it2)->rank() == v) {
                                 if (QString((*it2)->name()) == "Diamonds Eight") {
-                                    kdDebug(11111) << i << " " << j << endl;
+                                    kDebug(11111) << i << " " << j << endl;
                                 }
                                 p->add(*it2);
                                 (*it2)->setAnimated(false);
@@ -1031,7 +1031,7 @@ void Dealer::setWaiting(bool w)
     else
         _waiting--;
     emit undoPossible(!waiting());
-    kdDebug(11111) << "setWaiting " << w << " " << _waiting << endl;
+    kDebug(11111) << "setWaiting " << w << " " << _waiting << endl;
 }
 
 void Dealer::setAutoDropEnabled(bool a)
@@ -1053,7 +1053,7 @@ bool Dealer::startAutoDrop()
             return true;
         }
 
-    kdDebug(11111) << "startAutoDrop\n";
+    kDebug(11111) << "startAutoDrop\n";
 
     unmarkAll();
     clearHints();
@@ -1071,7 +1071,7 @@ bool Dealer::startAutoDrop()
             int y = int(t->y());
             t->source()->moveCards(cards, mh->pile());
             t->move(x, y);
-            kdDebug(11111) << "autodrop " << t->name() << endl;
+            kDebug(11111) << "autodrop " << t->name() << endl;
             t->moveTo(int(t->source()->x()), int(t->source()->y()), int(t->z()), STEPS_AUTODROP);
             connect(t, SIGNAL(stoped(Card*)), SLOT(waitForAutoDrop(Card*)));
             return true;
@@ -1082,7 +1082,7 @@ bool Dealer::startAutoDrop()
 }
 
 void Dealer::waitForAutoDrop(Card * c) {
-    kdDebug(11111) << "waitForAutoDrop " << c->name() << endl;
+    kDebug(11111) << "waitForAutoDrop " << c->name() << endl;
     setWaiting(false);
     c->disconnect();
     takeState();
@@ -1111,7 +1111,7 @@ void Dealer::removePile(Pile *p)
 
 void Dealer::stopDemo()
 {
-    kdDebug(11111) << "stopDemo " << waiting() << " " << stop_demo_next << endl;
+    kDebug(11111) << "stopDemo " << waiting() << " " << stop_demo_next << endl;
     if (waiting()) {
         stop_demo_next = true;
         return;
@@ -1404,7 +1404,7 @@ int Dealer::freeCells() const
 
 void Dealer::setAnchorName(const QString &name)
 {
-    kdDebug(11111) << "setAnchorname " << name << endl;
+    kDebug(11111) << "setAnchorname " << name << endl;
     ac = name;
 }
 
@@ -1428,7 +1428,7 @@ void Dealer::wheelEvent( QWheelEvent *e )
 void Dealer::countGame()
 {
     if ( !_gameRecorded ) {
-        kdDebug(11111) << "counting game as played." << endl;
+        kDebug(11111) << "counting game as played." << endl;
         KConfigGroup kc(KGlobal::config(), scores_group);
         unsigned int Total = kc.readEntry(QString("total%1").arg(_id),0);
         ++Total;

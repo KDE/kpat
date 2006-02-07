@@ -156,7 +156,7 @@ pWidget::pWidget()
     KConfigGroup cg(KGlobal::config(), settings_group );
 
     QString bgpath = cg.readPathEntry("Background");
-    kdDebug(11111) << "bgpath '" << bgpath << "'" << endl;
+    kDebug(11111) << "bgpath '" << bgpath << "'" << endl;
     if (bgpath.isEmpty())
         bgpath = locate("wallpaper", "No-Ones-Laughing-3.jpg");
     background = QPixmap(bgpath);
@@ -220,7 +220,7 @@ void pWidget::changeBackside() {
         QImage image;
         image.load(imgname);
         if( image.isNull()) {
-            kdDebug(11111) << "cannot load card pixmap \"" << imgname << "\" in " << cards << "\n";
+            kDebug(11111) << "cannot load card pixmap \"" << imgname << "\" in " << cards << "\n";
             return;
         }
 
@@ -371,7 +371,7 @@ void pWidget::newGameType()
     }
 
     if (!dill) {
-        kdError() << "unimplemented game type " << id << endl;
+        kError() << "unimplemented game type " << id << endl;
         dill = DealerInfoList::self()->games().first()->createGame(this);
     }
 
@@ -421,7 +421,7 @@ void pWidget::slotUpdateMoves()
 void pWidget::setBackSide(const QString &deck, const QString &cards)
 {
     KConfigGroup cg(KGlobal::config(), settings_group);
-    kdDebug() << "setBackSide " << deck << endl;
+    kDebug() << "setBackSide " << deck << endl;
     QPixmap pm(deck);
     if(!pm.isNull()) {
         cardMap::self()->setBackSide(pm, false);

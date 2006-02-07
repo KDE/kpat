@@ -55,7 +55,7 @@ cardMap::cardMap(const QColor &dim) : dimcolor(dim)
     card_width = 0;
     card_height = 0;
 
-    kdDebug(11111) << "cardMap\n";
+    kDebug(11111) << "cardMap\n";
     KConfig *config = KGlobal::config();
     KConfigGroup cs(config, settings_group );
 
@@ -66,7 +66,7 @@ cardMap::cardMap(const QColor &dim) : dimcolor(dim)
     setCardDir( dir );
 
     cms.setObject(_self, this);
-//    kdDebug(11111) << "card " << CARDX << " " << CARDY << endl;
+//    kDebug(11111) << "card " << CARDX << " " << CARDY << endl;
 }
 
 bool cardMap::setCardDir( const QString &dir)
@@ -87,7 +87,7 @@ bool cardMap::setCardDir( const QString &dir)
     QImage image;
     image.load(imgname);
     if( image.isNull()) {
-        kdDebug(11111) << "cannot load card pixmap \"" << imgname << "\" in " << dir << "\n";
+        kDebug(11111) << "cannot load card pixmap \"" << imgname << "\" in " << dir << "\n";
         p.end();
         delete w;
         return false;
@@ -157,7 +157,7 @@ bool cardMap::setCardDir( const QString &dir)
         image.load(imgname);
 
         if( image.isNull() || image.width() != card_width || image.height() != card_height ) {
-            kdDebug(11111) << "cannot load card pixmap \"" << imgname << "\" in (" << idx << ") " << dir << "\n";
+            kDebug(11111) << "cannot load card pixmap \"" << imgname << "\" in (" << idx << ") " << dir << "\n";
             p.end();
             delete w;
             card_width = old_card_width;
@@ -202,7 +202,7 @@ bool cardMap::setBackSide( const QPixmap &pm, bool scale )
     if(scale && (back.width() != card_width ||
                  back.height() != card_height))
     {
-        kdDebug(11111) << "scaling back!!\n";
+        kDebug(11111) << "scaling back!!\n";
         // scale to fit size
         QMatrix wm;
         wm.scale(((float)(card_width))/back.width(),
@@ -238,7 +238,7 @@ QPixmap cardMap::image( Card::Rank _rank, Card::Suit _suit, bool inverted) const
     }
     else
     {
-        kdError() << "access to invalid card " << int(_rank) << ", " << int(_suit) << endl;
+        kError() << "access to invalid card " << int(_rank) << ", " << int(_suit) << endl;
     }
     return 0;
 }

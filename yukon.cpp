@@ -59,7 +59,7 @@ bool Yukon::isGameLost() const {
    int i,j,k,l,indexi,freeStore=0;
    Card *c, *cNewTop;
 
- kdDebug(11111) <<"isGameLost" << endl;
+ kDebug(11111) <<"isGameLost" << endl;
 
    for(i=0; i < 7; i++){
       if( store[i]->isEmpty() ){

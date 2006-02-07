@@ -81,7 +81,7 @@ bool Kings::isGameLost() const {
 			ctarget=*it;
 			if(c->rank()-1 == ctarget->rank() &&
 				c->suit() == ctarget->suit()){
-				kdDebug(11111)<< "test 1" << endl;
+				kDebug(11111)<< "test 1" << endl;
 				return false;
 			}
 		}
