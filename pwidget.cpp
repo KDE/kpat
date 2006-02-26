@@ -176,7 +176,7 @@ pWidget::pWidget()
         game = max_type;
     games->setCurrentItem(game);
 
-    statusBar()->insertItem( "", 1, 0 );
+    statusBar()->insertPermanentItem( "", 1, 0 );
 
     createGUI(QString::null, false);
     KAcceleratorManager::manage(menuBar());
