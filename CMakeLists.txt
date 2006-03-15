@@ -63,7 +63,7 @@ kde4_add_ui3_files(kpat_SRCS gamestats.ui )
 
 kde4_add_executable(kpat ${kpat_SRCS})
 
-target_link_libraries(kpat  ${LIB_KDEUI}  )
+target_link_libraries(kpat  ${LIB_KIO} kdegames )
 
 install_targets(/bin kpat )
 
