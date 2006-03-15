@@ -5,6 +5,8 @@ add_subdirectory( freecell-solver )
 
 include_directories( ${CMAKE_SOURCE_DIR}/libkdegames ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
 
+ADD_DEFINITIONS(-DFCS_STATE_STORAGE=FCS_STATE_STORAGE_INTERNAL_HASH -DFCS_STACK_STORAGE=FCS_STACK_STORAGE_INTERNAL_HASH) 
+
 set(libfcs_SRCS
 	${CMAKE_SOURCE_DIR}/kpat/freecell-solver/alloc.c 
 	${CMAKE_SOURCE_DIR}/kpat/freecell-solver/app_str.c 
