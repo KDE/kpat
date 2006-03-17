@@ -1,4 +1,5 @@
 kde4_header()
+project(kpat)
 
 add_subdirectory( icons ) 
 add_subdirectory( freecell-solver ) 
