@@ -525,7 +525,7 @@ void pWidget::openGame(const KUrl &url)
         dill->openGame(doc);
         setGameCaption();
         KIO::NetAccess::removeTempFile( tmpFile );
-        recent->addURL(url);
+        recent->addUrl(url);
         recent->saveEntries(KGlobal::config());
     }
 }
@@ -546,7 +546,7 @@ void pWidget::saveGame()
     *stream << doc.toString();
     file.close();
     KIO::NetAccess::upload(file.name(), url, this);
-    recent->addURL(url);
+    recent->addUrl(url);
     recent->saveEntries(KGlobal::config());
 }
 
