@@ -281,14 +281,14 @@ void FreecellBase::resumeSolution()
     if (!solver_instance)
         return;
 
-    emit gameInfo(i18n("%1 tries - depth %2")
-                  .arg(freecell_solver_user_get_num_times(solver_instance))
-                  .arg(freecell_solver_user_get_current_depth(solver_instance)));
+    emit gameInfo(i18n("%1 tries - depth %2",
+                   freecell_solver_user_get_num_times(solver_instance),
+                   freecell_solver_user_get_current_depth(solver_instance)));
 
     if (solver_ret == FCS_STATE_WAS_SOLVED)
     {
-        emit gameInfo(i18n("solved after %1 tries").
-                      arg(freecell_solver_user_get_num_times(
+        emit gameInfo(i18n("solved after %1 tries", 
+                      freecell_solver_user_get_num_times(
                           solver_instance)));
         kDebug(11111) << "solved\n";
         Dealer::demo();
@@ -297,8 +297,8 @@ void FreecellBase::resumeSolution()
     if (solver_ret == FCS_STATE_IS_NOT_SOLVEABLE) {
 	int moves = freecell_solver_user_get_num_times(solver_instance);
         freeSolution();
-        emit gameInfo(i18n("unsolved after %1 moves")
-                      .arg(moves));
+        emit gameInfo(i18n("unsolved after %1 moves",
+                       moves));
         stopDemo();
         return;
     }
@@ -546,7 +546,7 @@ MoveHint *FreecellBase::chooseHint()
 {
     if (solver_instance && freecell_solver_user_get_moves_left(solver_instance)) {
 
-        emit gameInfo(i18n("%1 moves before finish").arg(freecell_solver_user_get_moves_left(solver_instance)));
+        emit gameInfo(i18n("%1 moves before finish", freecell_solver_user_get_moves_left(solver_instance)));
 
         fcs_move_t move;
         if (!freecell_solver_user_get_next_move(solver_instance, &move)) {

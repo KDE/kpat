@@ -252,7 +252,7 @@ void pWidget::changeWallpaper()
         return;
     background = QPixmap(bgpath);
     if (background.isNull()) {
-        KMessageBox::sorry(this, i18n("<qt>Couldn't load wallpaper<br/>%1</qt>").arg(bgpath));
+        KMessageBox::sorry(this, i18n("<qt>Couldn't load wallpaper<br/>%1</qt>", bgpath));
         return;
     }
 
@@ -415,7 +415,7 @@ void pWidget::slotUpdateMoves()
 {
     int moves = 0;
     if ( dill ) moves = dill->getMoves();
-    statusBar()->changeItem( i18n("1 move", "%n moves", moves), 1 );
+    statusBar()->changeItem( i18np("1 move", "%n moves", moves), 1 );
 }
 
 void pWidget::setBackSide(const QString &deck, const QString &cards)
