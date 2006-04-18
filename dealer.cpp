@@ -198,7 +198,7 @@ void Dealer::getHints()
 //        kDebug(11111) << "trying " << store->top()->name() << endl;
 
         CardList cards = store->cards();
-        while (cards.count() && !cards.first()->realFace()) cards.remove(cards.begin());
+        while (cards.count() && !cards.first()->realFace()) cards.erase(cards.begin());
 
         CardList::Iterator iti = cards.begin();
         while (iti != cards.end())
@@ -234,7 +234,7 @@ void Dealer::getHints()
                     }
                 }
             }
-            cards.remove(iti);
+            cards.erase(iti);
             iti = cards.begin();
         }
     }
@@ -259,7 +259,7 @@ void Dealer::newHint(MoveHint *mh)
 
 bool Dealer::isMoving(Card *c) const
 {
-    return movingCards.find(c) != movingCards.end();
+    return movingCards.indexOf(c) != -1;
 }
 
 void Dealer::contentsMouseMoveEvent(QMouseEvent* e)
@@ -287,7 +287,7 @@ void Dealer::contentsMouseMoveEvent(QMouseEvent* e)
                 continue;
             if (c->source() == movingCards.first()->source())
                 continue;
-            if (sources.findIndex(c->source()) != -1)
+            if (sources.indexOf(c->source()) != -1)
                 continue;
             sources.append(c->source());
         } else {
@@ -482,7 +482,7 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
     for (HitList::Iterator it = sources.begin(); it != sources.end(); )
     {
         if (!(*it).source->legalAdd(movingCards))
-            it = sources.remove(it);
+            it = sources.erase(it);
         else
             ++it;
     }
@@ -973,7 +973,7 @@ void Dealer::openGame(QDomDocument &doc)
                                 (*it2)->setY(card.attribute("y").toInt());
                                 (*it2)->setZ(card.attribute("z").toInt());
                                 (*it2)->setVisible(p->isVisible());
-                                cards.remove(it2);
+                                cards.erase(it2);
                                 break;
                             }
                         }
@@ -1064,7 +1064,7 @@ bool Dealer::startAutoDrop()
             setWaiting(true);
             Card *t = mh->card();
             CardList cards = mh->card()->source()->cards();
-            while (cards.count() && cards.first() != t) cards.remove(cards.begin());
+            while (cards.count() && cards.first() != t) cards.erase(cards.begin());
             t->setAnimated(false);
             t->turn(true);
             int x = int(t->x());
@@ -1106,7 +1106,7 @@ void Dealer::addPile(Pile *p)
 
 void Dealer::removePile(Pile *p)
 {
-    piles.remove(p);
+    piles.removeAll(p);
 }
 
 void Dealer::stopDemo()
@@ -1317,7 +1317,8 @@ void Dealer::waitForDemo(Card *t)
         return;
     t->disconnect();
     towait = 0;
-    demotimer->start(250, true);
+    demotimer->setSingleShot( true );
+    demotimer->start(250);
 }
 
 bool Dealer::isGameWon() const
@@ -1348,7 +1349,7 @@ void Dealer::drawPile(KPixmap &pixmap, Pile *pile, bool selected)
     QPixmap bg = myCanvas.backgroundPixmap();
     QRect bounding(int(pile->x()), int(pile->y()), cardMap::CARDX(), cardMap::CARDY());
 
-    pixmap.resize(bounding.width(), bounding.height());
+    pixmap = QPixmap(bounding.width(), bounding.height());
     pixmap.fill(Qt::white);
 
     if (!bg.isNull()) {

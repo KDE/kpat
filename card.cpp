@@ -47,7 +47,7 @@ Card::Card( Rank r, Suit s, Q3Canvas* _parent )
 {
     // Set the name of the card
     // FIXME: i18n()
-    m_name = QString("%1 %2").arg(suit_names[s-1]).arg(rank_names[r-1]).utf8();
+    m_name = QString("%1 %2").arg(suit_names[s-1]).arg(rank_names[r-1]).toUtf8();
 
     // Default for the card is face up, standard size.
     m_faceup = true;
@@ -164,7 +164,7 @@ int Card::realZ() const
 }
 
 
-// Return the "face up" status of the card.  
+// Return the "face up" status of the card.
 //
 // This is the destination of the animation if animated and animation
 // is more than half way, the original if animated and animation is
@@ -224,7 +224,7 @@ void Card::setZ(double z)
 
 
 // Start a move of the card using animation.
-// 
+//
 // 'steps' is the number of steps the animation should take.
 //
 void Card::moveTo(int x2, int y2, int z2, int steps)

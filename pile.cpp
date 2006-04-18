@@ -224,7 +224,7 @@ void Pile::moveBy(double dx, double dy)
 int Pile::indexOf(const Card *c) const
 {
     assert(c->source() == this);
-    return m_cards.findIndex(const_cast<Card*>(c)); // the list is of non-const cards
+    return m_cards.indexOf(const_cast<Card*>(c)); // the list is of non-const cards
 }
 
 Card *Pile::at(int index) const
@@ -279,9 +279,9 @@ void Pile::add( Card *_card, int index)
 
 
 // Return the number of pixels in x and y that the card should be
-// offset from the start position of the pile. 
+// offset from the start position of the pile.
 //
-// Note: Default is to only have vertical spread (Y direction). 
+// Note: Default is to only have vertical spread (Y direction).
 
 QSize Pile::cardOffset( bool _spread, bool _facedown, const Card *before) const
 {
@@ -345,13 +345,13 @@ void Pile::add( Card* _card, bool _facedown, bool _spread )
 void Pile::remove(Card *c)
 {
     assert(m_cards.contains(c));
-    m_cards.remove(c);
+    m_cards.removeAll(c);
 }
 
 void Pile::hideCards( const CardList & cards )
 {
     for (CardList::ConstIterator it = cards.begin(); it != cards.end(); ++it)
-        m_cards.remove(*it);
+        m_cards.removeAll(*it);
 }
 
 void Pile::unhideCards( const CardList & cards )

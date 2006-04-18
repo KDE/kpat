@@ -107,7 +107,7 @@ bool cardMap::setCardDir( const QString &dir)
 
     if( animate ) {
         t1 = QTime::currentTime();
-        w = new QWidget( 0, "", Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool );
+        w = new QWidget( 0, Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool );
         QRect dg = KGlobalSettings::splashScreenDesktopGeometry();
         w->setBackgroundColor( Qt::darkGreen );
         w->setGeometry( dg.left() + ( dg.width() - greeting_width ) / 2, dg.top() + ( dg.height() - 180 ) / 2, greeting_width, 180);

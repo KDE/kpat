@@ -272,7 +272,7 @@ void FreecellBase::findSolution()
     freecell_solver_user_limit_iterations(solver_instance, CHUNKSIZE);
 
     solver_ret = freecell_solver_user_solve_board(solver_instance,
-                                                  output.latin1());
+                                                  output.toLatin1());
     resumeSolution();
 }
 
@@ -287,7 +287,7 @@ void FreecellBase::resumeSolution()
 
     if (solver_ret == FCS_STATE_WAS_SOLVED)
     {
-        emit gameInfo(i18n("solved after %1 tries", 
+        emit gameInfo(i18n("solved after %1 tries",
                       freecell_solver_user_get_num_times(
                           solver_instance)));
         kDebug(11111) << "solved\n";
@@ -487,7 +487,7 @@ void FreecellBase::getHints()
 //        kDebug(11111) << "trying " << store->top()->name() << endl;
 
         CardList cards = store->cards();
-        while (cards.count() && !cards.first()->realFace()) cards.remove(cards.begin());
+        while (cards.count() && !cards.first()->realFace()) cards.erase(cards.begin());
 
         CardList::Iterator iti = cards.begin();
         while (iti != cards.end())
@@ -523,7 +523,7 @@ void FreecellBase::getHints()
                     }
                 }
             }
-            cards.remove(iti);
+            cards.erase(iti);
             iti = cards.begin();
         }
     }
@@ -620,9 +620,9 @@ void FreecellBase::moveCards(CardList &c, FreecellPile *from, Pile *to)
     if (fcs.count() == 0) {
         assert(fss.count());
         fcs.append(fss.last());
-        fss.remove(fss.end()-1);
+        fss.erase(fss.end()-1);
     }
-    while (moves.count()) { delete moves.first(); moves.remove(moves.begin()); }
+    while (moves.count()) { delete moves.first(); moves.erase(moves.begin()); }
 
     movePileToPile(c, to, fss, fcs, 0, c.count(), 0);
 
@@ -659,7 +659,7 @@ void FreecellBase::movePileToPile(CardList &c, Pile *to, PileList fss, PileList 
         ma.start = start;
         ma.count = moveaway;
         moves_away.append(ma);
-        fss.remove(fss.begin());
+        fss.erase(fss.begin());
         movePileToPile(c, ma.firstfree, fss, fcs, start, moveaway, debug_level + 1);
         start += moveaway;
         count -= moveaway;
@@ -681,7 +681,7 @@ void FreecellBase::movePileToPile(CardList &c, Pile *to, PileList fss, PileList 
     while (moves_away.count())
     {
         MoveAway ma = moves_away.last();
-        moves_away.remove(moves_away.end()-1);
+        moves_away.erase(moves_away.end()-1);
         movePileToPile(c, to, fss, fcs, ma.start, ma.count, debug_level + 1);
         fss.append(ma.firstfree);
     }
@@ -700,7 +700,7 @@ void FreecellBase::startMoving()
     }
 
     MoveHint *mh = moves.first();
-    moves.remove(moves.begin());
+    moves.erase(moves.begin());
     CardList empty;
     empty.append(mh->card());
     assert(mh->card() == mh->card()->source()->top());

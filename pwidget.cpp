@@ -122,9 +122,9 @@ pWidget::pWidget()
     QStringList list2;
     for (QStringList::ConstIterator it = list.begin(); it != list.end(); ++it) {
 	QString file = *it;
-	int rindex = file.findRev('.');
+	int rindex = file.lastIndexOf('.');
 	if (rindex != -1) {
-	  QString ext = file.mid(rindex + 1).lower();
+	  QString ext = file.mid(rindex + 1).toLower();
 	  if (ext == "jpeg" || ext == "png" || ext == "jpg") {
 	     list2.append(file.left(rindex));
              wallpaperlist.append( file );
@@ -133,7 +133,7 @@ pWidget::pWidget()
     }
 
     wallpapers->setItems(list2);
-    wallpapers->setCurrentItem(list2.findIndex("No-Ones-Laughing-3"));
+    wallpapers->setCurrentItem(list2.indexOf("No-Ones-Laughing-3"));
 
     changeWallpaper();
 
@@ -256,7 +256,7 @@ void pWidget::changeWallpaper()
         return;
     }
 
-    QImage bg = background.convertToImage().convertDepth(8, 0);
+    QImage bg = background.toImage().convertDepth(8, 0);
     if (bg.isNull() || !bg.numColors())
         return;
     long r = 0;
@@ -326,7 +326,7 @@ void pWidget::newGame()
 
 void pWidget::restart()
 {
-    statusBar()->clear();
+    statusBar()->clearMessage();
     dill->startNew();
 }
 
@@ -355,7 +355,7 @@ void pWidget::newGameType()
             dill = (*it)->createGame(this);
             QString name = (*it)->name;
             name = name.replace(QRegExp("[&']"), "");
-            name = name.replace(QRegExp("[ ]"), "_").lower();
+            name = name.replace(QRegExp("[ ]"), "_").toLower();
             dill->setAnchorName("game_" + name);
             connect(dill, SIGNAL(saveGame()), SLOT(saveGame()));
             connect(dill, SIGNAL(gameInfo(const QString&)),
@@ -408,7 +408,7 @@ void pWidget::showEvent(QShowEvent *e)
 
 void pWidget::slotGameInfo(const QString &text)
 {
-    statusBar()->message(text, 3000);
+    statusBar()->showMessage(text, 3000);
 }
 
 void pWidget::slotUpdateMoves()
@@ -475,7 +475,7 @@ void pWidget::gameLost()
     QString   dontAskAgainName = "gameLostDontAskAgain";
 
     KConfigGroup cg(KGlobal::config(), QLatin1String("Notification Messages"));
-    QString dontAsk = cg.readEntry(dontAskAgainName,QString()).lower();
+    QString dontAsk = cg.readEntry(dontAskAgainName,QString()).toLower();
 
     // If we are ordered never to ask again and to continue the game,
     // then do so.
