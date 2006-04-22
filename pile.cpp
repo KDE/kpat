@@ -115,8 +115,8 @@ Pile::~Pile()
 
 void Pile::resetCache()
 {
-    cache.resize(0, 0);
-    cache_selected.resize(0, 0);
+    cache = QPixmap(0, 0);
+    cache_selected = QPixmap(0, 0);
 }
 
 void Pile::drawShape ( QPainter & painter )

@@ -109,7 +109,9 @@ bool cardMap::setCardDir( const QString &dir)
         t1 = QTime::currentTime();
         w = new QWidget( 0, Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool );
         QRect dg = KGlobalSettings::splashScreenDesktopGeometry();
-        w->setBackgroundColor( Qt::darkGreen );
+        QPalette palette;
+        palette.setColor( w->backgroundRole(), Qt::darkGreen );
+        w->setPalette( palette );
         w->setGeometry( dg.left() + ( dg.width() - greeting_width ) / 2, dg.top() + ( dg.height() - 180 ) / 2, greeting_width, 180);
         w->show();
         qApp->processEvents();
@@ -167,9 +169,9 @@ bool cardMap::setCardDir( const QString &dir)
             return false;
         }
 
-        img[rank][suit].normal.convertFromImage(image);
+        img[rank][suit].normal = QPixmap::fromImage(image);
         KImageEffect::fade(image, 0.4, dimcolor);
-        img[rank][suit].inverted.convertFromImage(image);
+        img[rank][suit].inverted = QPixmap::fromImage(image);
 
         if( animate )
         {

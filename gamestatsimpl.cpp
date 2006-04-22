@@ -29,13 +29,13 @@ GameStatsImpl::GameStatsImpl(QWidget* aParent, const char* aname)
 		list[index] = i18n((*it)->name);
 		list[index].replace('&',"");
 	}
-	GameType->insertStringList(list);
+	GameType->addItems(list);
 	showGameType(0);
 }
 
 void GameStatsImpl::showGameType(int id)
 {
-	GameType->setCurrentItem(id);
+	GameType->setCurrentIndex(id);
 	setGameType(id);
 }
 

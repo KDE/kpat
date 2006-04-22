@@ -15,6 +15,7 @@
 #include <QList>
 #include <QResizeEvent>
 #include <QMouseEvent>
+#include <QPainter>
 #include <krandom.h>
 #include <kaction.h>
 #include <klocale.h>
@@ -1353,6 +1354,7 @@ void Dealer::drawPile(KPixmap &pixmap, Pile *pile, bool selected)
     pixmap.fill(Qt::white);
 
     if (!bg.isNull()) {
+        QPainter paint(&pixmap);
         for (int x=bounding.x()/bg.width();
              x<(bounding.x()+bounding.width()+bg.width()-1)/bg.width(); x++)
         {
@@ -1373,8 +1375,7 @@ void Dealer::drawPile(KPixmap &pixmap, Pile *pile, bool selected)
                     sy = -dy;
                     dy = 0;
                 }
-                bitBlt(&pixmap, dx, dy, &bg,
-                       sx, sy, w, h);
+                paint.drawPixmap(dx, dy, bg, sx, sy, w, h);
             }
         }
     }
