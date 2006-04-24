@@ -137,18 +137,19 @@ pWidget::pWidget()
     wallpapers->setCurrentItem(list2.indexOf("No-Ones-Laughing-3"));
 
     (void)new cardMap(midcolor);
+    changeWallpaper();
 
     backs = new KAction(i18n("&Switch Cards..."), actionCollection(), "backside");
     connect( backs, SIGNAL( triggered(bool ) ), SLOT( changeBackside() ) );
     stats = new KAction(i18n("&Statistics"), actionCollection(),"game_stats");
-    connect( stats, SIGNAL( triggerd( bool ) ), SLOT(showStats()) );
+    connect( stats, SIGNAL( triggered( bool ) ), SLOT(showStats()) );
 
     animation = new KToggleAction(i18n( "&Animation on Startup" ),
                                   actionCollection(), "animation");
-    connect( animation, SIGNAL( triggerd( bool ) ), SLOT(animationChanged()) );
+    connect( animation, SIGNAL( triggered( bool ) ), SLOT(animationChanged()) );
     dropaction = new KToggleAction(i18n("&Enable Autodrop"),
                                    actionCollection(), "enable_autodrop");
-    connect( dropaction, SIGNAL( triggerd( bool ) ), SLOT(enableAutoDrop()) );
+    connect( dropaction, SIGNAL( triggered( bool ) ), SLOT(enableAutoDrop()) );
     dropaction->setCheckedState(i18n("Disable Autodrop"));
 
     KConfigGroup cg(KGlobal::config(), settings_group );
@@ -163,7 +164,7 @@ pWidget::pWidget()
         cg.writePathEntry( "Background", QString::null );
     }
 
-    bool animate = cg.readEntry( "Animation", true);
+    bool animate = cg.readEntry( "Animation", false);
     animation->setChecked( animate );
 
     bool autodrop = cg.readEntry("Autodrop", true);
@@ -180,7 +181,6 @@ pWidget::pWidget()
     KAcceleratorManager::manage(menuBar());
 
     newGameType();
-    changeWallpaper();
     adjustSize();
     setAutoSaveSettings();
 }
@@ -272,15 +272,15 @@ void pWidget::changeWallpaper()
     g /= bg.numColors();
     midcolor = QColor(r, b, g);
 
+    KConfigGroup cg(KGlobal::config(), settings_group);
+
+    QString deck = cg.readEntry("Back", KCardDialog::getDefaultDeck());
+    QString dummy = cg.readEntry("Cards", KCardDialog::getDefaultCardDir());
+    setBackSide(deck, dummy);
+
+    cg.writePathEntry("Background", bgpath);
+
     if (dill) {
-        KConfigGroup cg(KGlobal::config(), settings_group);
-
-        QString deck = cg.readEntry("Back", KCardDialog::getDefaultDeck());
-        QString dummy = cg.readEntry("Cards", KCardDialog::getDefaultCardDir());
-        setBackSide(deck, dummy);
-
-        cg.writePathEntry("Background", bgpath);
-
         dill->setBackgroundPixmap(background, midcolor);
         dill->canvas()->setAllChanged();
         dill->canvas()->update();
@@ -423,8 +423,8 @@ void pWidget::slotUpdateMoves()
 
 void pWidget::setBackSide(const QString &deck, const QString &cards)
 {
+    kDebug() << "setBackSide " << deck << " " << cards << endl;
     KConfigGroup cg(KGlobal::config(), settings_group);
-    kDebug() << "setBackSide " << deck << endl;
     QPixmap pm(locate( "cards", deck) );
     if(!pm.isNull()) {
         cardMap::self()->setBackSide(pm, false);

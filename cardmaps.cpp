@@ -36,6 +36,7 @@
 #include <kdebug.h>
 #include <kapplication.h>
 #include <klocale.h>
+#include <kstandarddirs.h>
 #include "version.h"
 #include <kstaticdeleter.h>
 #include <qimage.h>
@@ -69,14 +70,15 @@ cardMap::cardMap(const QColor &dim) : dimcolor(dim)
 //    kDebug(11111) << "card " << CARDX << " " << CARDY << endl;
 }
 
-bool cardMap::setCardDir( const QString &dir)
+bool cardMap::setCardDir( const QString &dir )
 {
+    kDebug() << "setCardDir " << dir << endl;
     KConfig *config = KGlobal::config();
     KConfigGroup cs(config, settings_group );
 
     // create an animation window while loading pixmaps (this
     // may take a while (approx. 3 seconds on my AMD K6PR200)
-    bool animate = cs.readEntry( "Animation", true);
+    bool animate = cs.readEntry( "Animation", false );
 
     QWidget* w = 0;
     QPainter p;
@@ -85,7 +87,7 @@ bool cardMap::setCardDir( const QString &dir)
     QString imgname = KCardDialog::getCardPath(dir, 11);
 
     QImage image;
-    image.load(imgname);
+    image.load( imgname );
     if( image.isNull()) {
         kDebug(11111) << "cannot load card pixmap \"" << imgname << "\" in " << dir << "\n";
         p.end();
