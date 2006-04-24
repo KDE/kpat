@@ -125,25 +125,28 @@ void Dealer::setupActions() {
 
     if (actions() & Dealer::Hint) {
 
-        ahint = new KAction( i18n("&Hint"), QString::fromLatin1("wizard"), Qt::Key_H, this,
-                             SLOT(hint()),
+        ahint = new KAction( i18n("&Hint"),
                              parent()->actionCollection(), "game_hint");
+        ahint->setCustomShortcut( Qt::Key_H );
+        ahint->setIcon( KIcon( "wizard" ) );
+        connect( ahint, SIGNAL( triggered( bool ) ), SLOT(hint()) );
         actionlist.append(ahint);
     } else
         ahint = 0;
 
     if (actions() & Dealer::Demo) {
-        ademo = new KToggleAction( i18n("&Demo"), QString::fromLatin1("1rightarrow"), Qt::CTRL+Qt::Key_D, this,
-                                   SLOT(toggleDemo()),
-                                   parent()->actionCollection(), "game_demo");
+        ademo = new KToggleAction( i18n("&Demo"), parent()->actionCollection(), "game_demo");
+        ademo->setIcon( KIcon( "1rightarrow") );
+        ademo->setCustomShortcut( Qt::CTRL+Qt::Key_D );
+        connect( ademo, SIGNAL( triggered( bool ) ), SLOT( toggleDemo() ) );
         actionlist.append(ademo);
     } else
         ademo = 0;
 
     if (actions() & Dealer::Redeal) {
-        aredeal = new KAction (i18n("&Redeal"), QString::fromLatin1("queue"), 0, this,
-                               SLOT(redeal()),
-                               parent()->actionCollection(), "game_redeal");
+        aredeal = new KAction (i18n("&Redeal"), parent()->actionCollection(), "game_redeal");
+        aredeal->setIcon( KIcon( "queue") );
+        connect( aredeal, SIGNAL( triggered( bool ) ), SLOT( redeal() ) );
         actionlist.append(aredeal);
     } else
         aredeal = 0;
@@ -1415,7 +1418,7 @@ QString Dealer::anchorName() const { return ac; }
 void Dealer::wheelEvent( QWheelEvent *e )
 {
     QWheelEvent ce( viewport()->mapFromGlobal( e->globalPos() ),
-                    e->globalPos(), e->delta(), e->state());
+                    e->delta(), e->buttons(), e->modifiers() );
     viewportWheelEvent(&ce);
     if ( !ce.isAccepted() ) {
 	if ( e->orientation() == Qt::Horizontal && hScrollBarMode () == AlwaysOn )
