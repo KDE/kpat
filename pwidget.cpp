@@ -513,7 +513,7 @@ void pWidget::openGame(const KUrl &url)
         }
         uint id = doc.documentElement().attribute("id").toUInt();
 
-        if (id != (Q_UINT32)games->currentItem()) {
+        if (id != (quint32)games->currentItem()) {
             games->setCurrentItem(id);
             newGameType();
             if (!dill) {

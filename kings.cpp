@@ -52,7 +52,7 @@ void Kings::deal() {
 
 bool Kings::isGameLost() const {
 	int i,indexi;
-	Card *c,*cnext,*ctarget;
+	Card *c,*cnext = 0,*ctarget;
 	CardList targets,ctops;
 
 	for(i=0; i < 8; i++){
@@ -99,12 +99,12 @@ bool Kings::isGameLost() const {
 					if(indexi == 0)
 						return false;
 
-					if(cnext->rank() != ctarget->rank()
-					   || cnext->suit() != ctarget->suit())
+					if(cnext && (cnext->rank() != ctarget->rank()
+					   || cnext->suit() != ctarget->suit()))
 						return false;
 				}
 			}
-			if(cnext->rank() != c->rank()+1 && 
+			if(cnext && cnext->rank() != c->rank()+1 && 
 				cnext->isRed() != c->isRed())
 				break;
 		}

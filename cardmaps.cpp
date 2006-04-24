@@ -99,7 +99,7 @@ bool cardMap::setCardDir( const QString &dir)
     card_width = image.width();
     card_height = image.height();
 
-    const int diff_x_between_cards = QMAX(card_width / 9, 1);
+    const int diff_x_between_cards = qMax(card_width / 9, 1);
     QString wait_message = i18n("please wait, loading cards...");
     QString greeting = i18n("KPatience - a Solitaire game");
 

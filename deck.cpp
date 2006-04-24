@@ -4,7 +4,7 @@
 #include <time.h>
 #include <assert.h>
 
-const int NumberOfCards = 52;
+const unsigned int NumberOfCards = 52;
 
 
 Deck *Deck::my_deck = 0;
@@ -118,7 +118,7 @@ static long pseudoRandom_random() {
 void Deck::shuffle()
 {
 
-    assert(m_cards.count() == mult*NumberOfCards);
+    assert((uint)m_cards.count() == mult*NumberOfCards);
 
     assert(dealer()->gameNumber() >= 0);
     pseudoRandom_srand(dealer()->gameNumber());

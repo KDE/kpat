@@ -218,7 +218,7 @@ protected:
 
     KRandomSequence randseq;
     QColor _midcolor;
-    Q_UINT32 _id;
+    quint32 _id;
     bool takeTargets;
     bool _won;
     int _waiting;
