@@ -87,10 +87,9 @@ pWidget::pWidget()
                       this, SLOT(restart()),
                       actionCollection(), "restart_game");
     (void)KStdAction::help(this, SLOT(helpGame()), actionCollection(), "help_game");
+    games = new KSelectAction(i18n("&Game Type"), actionCollection(), "game_type");
+    connect( games, SIGNAL( triggered( int ) ), SLOT( newGameType() ) );
 
-    games = new KSelectAction(i18n("&Game Type"), 0, this,
-                              SLOT(newGameType()),
-                              actionCollection(), "game_type");
     QStringList list;
     QList<DealerInfo*>::ConstIterator it;
     int max_type = 0;
@@ -112,9 +111,9 @@ pWidget::pWidget()
 
     KGlobal::dirs()->addResourceType("wallpaper", KStandardDirs::kde_default("data") + "kpat/backgrounds/");
     KGlobal::dirs()->addResourceType("wallpaper", KStandardDirs::kde_default("data") + "ksnake/backgrounds/");
-    wallpapers = new KSelectAction(i18n("&Change Background"), 0, this,
-                              SLOT(changeWallpaper()),
-                              actionCollection(), "wallpaper");
+    wallpapers = new KSelectAction(i18n("&Change Background"), actionCollection(), "wallpaper");
+    connect( wallpapers, SIGNAL( triggered( int ) ), SLOT(changeWallpaper() ) );
+
     list.clear();
     wallpaperlist.clear();
     QStringList wallpaperlist2 = KGlobal::dirs()->findAllResources("wallpaper", QString::null,
@@ -135,15 +134,13 @@ pWidget::pWidget()
     wallpapers->setItems(list2);
     wallpapers->setCurrentItem(list2.indexOf("No-Ones-Laughing-3"));
 
-    changeWallpaper();
-
     (void)new cardMap(midcolor);
 
     backs = new KAction(i18n("&Switch Cards..."), 0, this,
                         SLOT(changeBackside()),
                         actionCollection(), "backside");
-	 stats = new KAction(i18n("&Statistics"), 0, this, SLOT(showStats()),
-			 actionCollection(),"game_stats");
+    stats = new KAction(i18n("&Statistics"), 0, this, SLOT(showStats()),
+                        actionCollection(),"game_stats");
 
     animation = new KToggleAction(i18n( "&Animation on Startup" ),
                                   0, this, SLOT(animationChanged()),
@@ -182,6 +179,7 @@ pWidget::pWidget()
     KAcceleratorManager::manage(menuBar());
 
     newGameType();
+    changeWallpaper();
     adjustSize();
     setAutoSaveSettings();
 }
@@ -208,7 +206,8 @@ void pWidget::undoPossible(bool poss)
     undo->setEnabled(poss);
 }
 
-void pWidget::changeBackside() {
+void pWidget::changeBackside()
+{
     KConfigGroup cg(KGlobal::config(), settings_group);
 
     QString deck = cg.readEntry("Back", KCardDialog::getDefaultDeck());
@@ -234,10 +233,8 @@ void pWidget::changeBackside() {
                 return;
         }
         setBackSide(deck, cards);
-        if (change) {
-
+        if (change)
             newGameType();
-        }
     }
 
 }
@@ -281,7 +278,8 @@ void pWidget::changeWallpaper()
         QString dummy = cg.readEntry("Cards", KCardDialog::getDefaultCardDir());
         setBackSide(deck, dummy);
 
-	cg.writePathEntry("Background", bgpath);
+        cg.writePathEntry("Background", bgpath);
+
         dill->setBackgroundPixmap(background, midcolor);
         dill->canvas()->setAllChanged();
         dill->canvas()->update();
@@ -349,8 +347,12 @@ void pWidget::newGameType()
     dill = 0;
     slotUpdateMoves();
 
-    uint id = games->currentItem();
-    for (QList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin(); it != DealerInfoList::self()->games().end(); ++it) {
+    int id = games->currentItem();
+    if ( id < 0 )
+        id = 0;
+    kDebug() << "newGameType " << id << endl;
+    for (QList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin();
+	it != DealerInfoList::self()->games().end(); ++it) {
         if ((*it)->gameindex == id) {
             dill = (*it)->createGame(this);
             QString name = (*it)->name;
@@ -422,15 +424,13 @@ void pWidget::setBackSide(const QString &deck, const QString &cards)
 {
     KConfigGroup cg(KGlobal::config(), settings_group);
     kDebug() << "setBackSide " << deck << endl;
-    QPixmap pm(deck);
+    QPixmap pm(locate( "cards", deck) );
     if(!pm.isNull()) {
         cardMap::self()->setBackSide(pm, false);
         cg.writeEntry("Back", deck);
         bool ret = cardMap::self()->setCardDir(cards);
-        if (!ret) {
+        if (!ret)
             cg.writeEntry("Back", QString());
-
-        }
         cg.writeEntry("Cards", cards);
         cardMap::self()->setBackSide(pm, true);
     } else
@@ -446,7 +446,9 @@ void pWidget::setBackSide(const QString &deck, const QString &cards)
 void pWidget::chooseGame()
 {
     bool ok;
-    long number = KInputDialog::getText(i18n("Game Number"), i18n("Enter a game number (FreeCell deals are the same as in the FreeCell FAQ):"), QString::number(dill->gameNumber()), 0, this).toLong(&ok);
+    long number = KInputDialog::getText(i18n("Game Number"),
+                                        i18n("Enter a game number (FreeCell deals are the same as in the FreeCell FAQ):"),
+                                        QString::number(dill->gameNumber()), 0, this).toLong(&ok);
     if (ok) {
         dill->setGameNumber(number);
         setGameCaption();
@@ -511,9 +513,9 @@ void pWidget::openGame(const KUrl &url)
             KMessageBox::sorry(this, error);
             return;
         }
-        uint id = doc.documentElement().attribute("id").toUInt();
+        int id = doc.documentElement().attribute("id").toInt();
 
-        if (id != (quint32)games->currentItem()) {
+        if (id != games->currentItem()) {
             games->setCurrentItem(id);
             newGameType();
             if (!dill) {

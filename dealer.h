@@ -4,7 +4,7 @@
 #include "pile.h"
 #include "hint.h"
 #include <krandomsequence.h>
-//Added by qt3to4:
+
 #include <QWheelEvent>
 #include <QPixmap>
 #include <Q3PtrList>
@@ -42,7 +42,7 @@ public:
 }
 	virtual ~DealerInfo(){}
     const char *name;
-    uint gameindex;
+    int gameindex;
     virtual Dealer *createGame(KMainWindow *parent) = 0;
 };
 
