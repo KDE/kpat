@@ -81,11 +81,13 @@ pWidget::pWidget()
     recent->loadEntries(KGlobal::config());
     (void)KStdAction::saveAs(this, SLOT(saveGame()),
                            actionCollection(), "save");
-    (void)new KAction(i18n("&Choose Game..."), 0, this, SLOT(chooseGame()),
-                      actionCollection(), "choose_game");
-    (void)new KAction(i18n("Restart &Game"), QString::fromLatin1("reload"), 0,
-                      this, SLOT(restart()),
-                      actionCollection(), "restart_game");
+    KAction *a = new KAction(i18n("&Choose Game..."), actionCollection(), "choose_game");
+    connect( a, SIGNAL( triggered( bool ) ), SLOT( chooseGame() ) );
+
+    a = new KAction(i18n("Restart &Game"), actionCollection(), "restart_game");
+    a->setIcon(KIcon("reload"));
+    connect( a, SIGNAL( triggered( bool ) ), SLOT( restart() ) );
+
     (void)KStdAction::help(this, SLOT(helpGame()), actionCollection(), "help_game");
     games = new KSelectAction(i18n("&Game Type"), actionCollection(), "game_type");
     connect( games, SIGNAL( triggered( int ) ), SLOT( newGameType() ) );
@@ -136,18 +138,17 @@ pWidget::pWidget()
 
     (void)new cardMap(midcolor);
 
-    backs = new KAction(i18n("&Switch Cards..."), 0, this,
-                        SLOT(changeBackside()),
-                        actionCollection(), "backside");
-    stats = new KAction(i18n("&Statistics"), 0, this, SLOT(showStats()),
-                        actionCollection(),"game_stats");
+    backs = new KAction(i18n("&Switch Cards..."), actionCollection(), "backside");
+    connect( backs, SIGNAL( triggered(bool ) ), SLOT( changeBackside() ) );
+    stats = new KAction(i18n("&Statistics"), actionCollection(),"game_stats");
+    connect( stats, SIGNAL( triggerd( bool ) ), SLOT(showStats()) );
 
     animation = new KToggleAction(i18n( "&Animation on Startup" ),
-                                  0, this, SLOT(animationChanged()),
                                   actionCollection(), "animation");
+    connect( animation, SIGNAL( triggerd( bool ) ), SLOT(animationChanged()) );
     dropaction = new KToggleAction(i18n("&Enable Autodrop"),
-                                   0, this, SLOT(enableAutoDrop()),
                                    actionCollection(), "enable_autodrop");
+    connect( dropaction, SIGNAL( triggerd( bool ) ), SLOT(enableAutoDrop()) );
     dropaction->setCheckedState(i18n("Disable Autodrop"));
 
     KConfigGroup cg(KGlobal::config(), settings_group );
