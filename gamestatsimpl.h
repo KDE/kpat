@@ -1,15 +1,16 @@
 #ifndef GAMESTATS_IMPL_H_
 #define GAMESTATS_IMPL_H_
 
-#include "gamestats.h"
+#include <qdialog.h>
+#include "ui_gamestats.h"
 
-class GameStatsImpl : public GameStats
+class GameStatsImpl : public QDialog, Ui::GameStats
 {
 	public:
-		GameStatsImpl(QWidget* aParent, const char* aname);
+		GameStatsImpl(QWidget* aParent);
 
-		virtual void setGameType(int i);
-		virtual void showGameType(int i);
+		void setGameType(int i);
+		void showGameType(int i);
 };
 
 #endif

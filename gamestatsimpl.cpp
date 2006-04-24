@@ -12,9 +12,10 @@
 #include <klocale.h>
 #include <kglobal.h>
 
-GameStatsImpl::GameStatsImpl(QWidget* aParent, const char* aname)
-	: GameStats(aParent, aname)
+GameStatsImpl::GameStatsImpl(QWidget* aParent)
+	: QDialog(aParent)
 {
+	setupUi(this);
 	QStringList list;
 	QList<DealerInfo*>::ConstIterator it;
 	for (it = DealerInfoList::self()->games().begin();
@@ -31,6 +32,7 @@ GameStatsImpl::GameStatsImpl(QWidget* aParent, const char* aname)
 	}
 	GameType->addItems(list);
 	showGameType(0);
+	connect(buttonOk, SIGNAL(clicked(bool)), SLOT(accept()));
 }
 
 void GameStatsImpl::showGameType(int id)
@@ -41,19 +43,17 @@ void GameStatsImpl::showGameType(int id)
 
 void GameStatsImpl::setGameType(int id)
 {
-	// Trick to reset string to original value
-	languageChange();
 	KConfigGroup cg(KGlobal::config(), scores_group);
 	unsigned int t = cg.readEntry(QString("total%1").arg(id),0);
 	Played->setText(Played->text().arg(t));
 	unsigned int w = cg.readEntry(QString("won%1").arg(id),0);
-	Won->setText(Won->text().arg(w));
+	Won->setText(i18n("%1 (%2%%)", w));
 	if (t)
-		WonPerc->setText(WonPerc->text().arg(w*100/t));
+		WonPerc->setText(i18n("%1 (%2%%)", w, w*100/t));
 	else
-		WonPerc->setText(WonPerc->text().arg(0));
+		WonPerc->setText(i18n("%1", w));
 	WinStreak->setText(
-		WinStreak->text().arg(cg.readEntry(QString("maxwinstreak%1").arg(id),0)));
+		i18n("%1", cg.readEntry(QString("maxwinstreak%1").arg(id), 0)));
 	LooseStreak->setText(
-		LooseStreak->text().arg(cg.readEntry(QString("maxloosestreak%1").arg(id),0)));
+		i18n("%1", cg.readEntry(QString("maxloosestreak%1").arg(id), 0)));
 }

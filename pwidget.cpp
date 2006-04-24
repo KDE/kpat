@@ -256,7 +256,7 @@ void pWidget::changeWallpaper()
         return;
     }
 
-    QImage bg = background.toImage().convertDepth(8, 0);
+    QImage bg = background.toImage().convertToFormat(QImage::Format_Indexed8);
     if (bg.isNull() || !bg.numColors())
         return;
     long r = 0;
@@ -552,7 +552,7 @@ void pWidget::saveGame()
 
 void pWidget::showStats()
 {
-	GameStatsImpl* dlg = new GameStatsImpl(this,"statistics dialog");
+	GameStatsImpl* dlg = new GameStatsImpl(this);
 	if (dill)
 		dlg->showGameType(dill->gameId());
 	dlg->exec();

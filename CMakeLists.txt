@@ -60,7 +60,7 @@ set(kpat_SRCS ${libfcs_SRCS}
 
 kde4_automoc(${kpat_SRCS})
 
-kde4_add_ui3_files(kpat_SRCS gamestats.ui )
+kde4_add_ui_files(kpat_SRCS gamestats.ui )
 
 kde4_add_executable(kpat ${kpat_SRCS})
 
