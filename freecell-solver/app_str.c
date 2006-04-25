@@ -9,8 +9,8 @@ struct freecell_solver_append_string_struct
 {
     char * buffer;
     char * end_of_buffer;
-    int max_size;
-    int size_of_margin;
+    size_t max_size;
+    size_t size_of_margin;
 };
 
 typedef struct freecell_solver_append_string_struct freecell_solver_append_string_t;

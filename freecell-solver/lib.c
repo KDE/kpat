@@ -67,7 +67,7 @@ struct fcs_user_struct
     freecell_solver_soft_thread_t * soft_thread;
 
 #ifdef INDIRECT_STACK_STATES
-    char indirect_stacks_buffer[MAX_NUM_STACKS << 7];
+    fcs_card_t indirect_stacks_buffer[MAX_NUM_STACKS << 7];
 #endif
     char * state_string_copy;
 
@@ -871,7 +871,7 @@ int freecell_solver_user_set_a_star_weight(
 
     user = (fcs_user_t *)user_instance;
 
-    if ((index < 0) || (index >= (sizeof(user->soft_thread->a_star_weights)/sizeof(user->soft_thread->a_star_weights[0]))))
+    if ((index < 0) || (index >= (int)(sizeof(user->soft_thread->a_star_weights)/sizeof(user->soft_thread->a_star_weights[0]))))
     {
         return 1;
     }
@@ -908,6 +908,7 @@ static void freecell_solver_user_iter_handler_wrapper(
         user->iter_handler_context
         );
 
+    (void)lp_instance;
     return;
 }
 

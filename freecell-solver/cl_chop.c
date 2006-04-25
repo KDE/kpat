@@ -39,7 +39,7 @@ void freecell_solver_args_man_free(args_man_t * manager)
         *(last_arg_ptr++) = (c);     \
         if (last_arg_ptr == last_arg_end) \
         {        \
-            new_last_arg = realloc(last_arg, last_arg_end-last_arg+1024);  \
+            new_last_arg = realloc(last_arg, (size_t)(last_arg_end-last_arg+1024));  \
             last_arg_ptr += new_last_arg - last_arg; \
             last_arg_end += new_last_arg - last_arg + 1024;  \
             last_arg = new_last_arg;   \
@@ -47,8 +47,8 @@ void freecell_solver_args_man_free(args_man_t * manager)
     }
 
 #define push_args_last_arg() {  \
-            new_arg = malloc(last_arg_ptr-last_arg+1); \
-            strncpy(new_arg, last_arg, last_arg_ptr-last_arg); \
+            new_arg = malloc((size_t)(last_arg_ptr-last_arg+1)); \
+            strncpy(new_arg, last_arg, (size_t)(last_arg_ptr-last_arg)); \
             new_arg[last_arg_ptr-last_arg] = '\0'; \
             manager->argv[manager->argc] = new_arg; \
             manager->argc++; \
