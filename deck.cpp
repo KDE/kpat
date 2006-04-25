@@ -82,13 +82,10 @@ void Deck::collectAndShuffle()
 
 Card* Deck::nextCard()
 {
-    CardList::Iterator c;
-
-    c = m_cards.end()-1;  // Dealing from bottom of deck ....
-    if ( c != m_cards.end() ) {
-        return *c;
-    } else
+    if (m_cards.isEmpty())
         return 0;
+
+    return m_cards.last();
 }
 
 

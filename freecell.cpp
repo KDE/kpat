@@ -620,7 +620,7 @@ void FreecellBase::moveCards(CardList &c, FreecellPile *from, Pile *to)
     if (fcs.count() == 0) {
         assert(fss.count());
         fcs.append(fss.last());
-        fss.erase(fss.end()-1);
+        fss.erase(--fss.end());
     }
     while (moves.count()) { delete moves.first(); moves.erase(moves.begin()); }
 
@@ -681,7 +681,7 @@ void FreecellBase::movePileToPile(CardList &c, Pile *to, PileList fss, PileList 
     while (moves_away.count())
     {
         MoveAway ma = moves_away.last();
-        moves_away.erase(moves_away.end()-1);
+        moves_away.erase(--moves_away.end());
         movePileToPile(c, to, fss, fcs, ma.start, ma.count, debug_level + 1);
         fss.append(ma.firstfree);
     }
