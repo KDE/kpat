@@ -14,7 +14,7 @@
 extern "C" {
 #endif
 
-#include "config.h"
+#include "fcs_config.h"
 #include "state.h"
 #include "move.h"
 #include "fcs_enums.h"

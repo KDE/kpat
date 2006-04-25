@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "config.h"
+#include "fcs_config.h"
 
 /* So FCS_STATE_STORAGE and friends would be defined */
 #if FCS_STATE_STORAGE==FCS_STATE_STORAGE_LIBREDBLACK_TREE

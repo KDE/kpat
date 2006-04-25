@@ -10,7 +10,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "config.h"
+#include "fcs_config.h"
 #include "state.h"
 #include "card.h"
 #include "fcs_enums.h"

@@ -19,7 +19,7 @@
 
 #define NUM_TIMES_STEP 50
 
-#include "config.h"
+#include "fcs_config.h"
 
 /* So the FCS_STATE_STORAGE macros would be defined */
 #if FCS_STATE_STORAGE==FCS_STATE_STORAGE_LIBREDBLACK_TREE

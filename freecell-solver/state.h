@@ -5,7 +5,7 @@
  *
  * This file is in the public domain (it's uncopyrighted).
  */
-#include "config.h"
+#include "fcs_config.h"
 
 #include "fcs_move.h"
 

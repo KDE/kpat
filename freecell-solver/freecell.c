@@ -13,7 +13,7 @@
 #include <limits.h>
 
 
-#include "config.h"
+#include "fcs_config.h"
 
 #if FCS_STATE_STORAGE==FCS_STATE_STORAGE_LIBREDBLACK_TREE
 #include <search.h>
