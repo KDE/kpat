@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "config.h"
+#include "fcs_config.h"
 
 #include "alloc.h"
 

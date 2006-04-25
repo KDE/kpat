@@ -116,6 +116,7 @@ int freecell_solver_sfs_simple_simon_move_sequence_to_founds(
                 }
 
 
+		fcs_move_init(temp_move);
                 fcs_move_set_type(temp_move, FCS_MOVE_TYPE_SEQ_TO_FOUNDATION);
                 fcs_move_set_src_stack(temp_move, stack);
                 fcs_move_set_foundation(temp_move,suit);

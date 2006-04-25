@@ -5,8 +5,8 @@
  *
  * This file is in the public domain (it's uncopyrighted).
  */
-#ifndef __FCS_USER_H
-#define __FCS_USER_H
+#ifndef FC_SOLVE__FCS_USER_H
+#define FC_SOLVE__FCS_USER_H
 
 #include "fcs_enums.h"
 #include "fcs_move.h"
@@ -272,4 +272,4 @@ extern int freecell_solver_user_reset(
 }
 #endif
 
-#endif /* __FCS_USER_H */
+#endif /* FC_SOLVE__FCS_USER_H */

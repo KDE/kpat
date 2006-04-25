@@ -8,8 +8,8 @@
  * This file is in the public domain (it's uncopyrighted).
  */
 
-#ifndef __FCS_MOVE_H
-#define __FCS_MOVE_H
+#ifndef FC_SOLVE__FCS_MOVE_H
+#define FC_SOLVE__FCS_MOVE_H
 
 /* #define FCS_DEBUG_MOVES */
 #define FCS_COMPACT_MOVES
@@ -100,6 +100,7 @@ struct fcs_move_struct
 #define fcs_move_get_type(move)                   ((move).c[FCS_MOVE_TYPE])
 #define fcs_move_get_num_cards_in_seq(move)       ((move).c[FCS_MOVE_NUM_CARDS_IN_SEQ])
 #define fcs_move_get_num_cards_flipped(move,value) ((move).c[FCS_MOVE_NUM_CARDS_FLIPPED])
+#define fcs_move_init(move)                       (memset((move).c, 0, 4))
 #endif
 
 typedef struct fcs_move_struct fcs_move_t;
@@ -118,4 +119,4 @@ typedef struct fcs_move_stack_struct fcs_move_stack_t;
 }
 #endif
 
-#endif  /* __FCS_MOVE_H */
+#endif  /* FC_SOLVE__FCS_MOVE_H */

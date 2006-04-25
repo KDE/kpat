@@ -7,8 +7,8 @@
  * This file is in the public domain (it's uncopyrighted).
  */
 
-#ifndef __CAAS_C
-#define __CAAS_C
+#ifndef FC_SOLVE__CAAS_C
+#define FC_SOLVE__CAAS_C
 
 #include <stdlib.h>
 #include <string.h>
@@ -285,7 +285,7 @@
 #endif
 
 #ifdef INDIRECT_STACK_STATES
-static void GCC_INLINE freecell_solver_cache_stacks(
+static GCC_INLINE void freecell_solver_cache_stacks(
         freecell_solver_hard_thread_t * hard_thread,
         fcs_state_with_locations_t * new_state
         )
@@ -295,7 +295,7 @@ static void GCC_INLINE freecell_solver_cache_stacks(
     SFO_hash_value_t hash_value_int;
 #endif
     void * cached_stack;
-    char * new_ptr;
+    fcs_card_t * new_ptr;
     freecell_solver_instance_t * instance = hard_thread->instance;
     int stacks_num = instance->stacks_num;
     
@@ -342,8 +342,8 @@ static void GCC_INLINE freecell_solver_cache_stacks(
         cached_stack = (void *)freecell_solver_hash_insert(
             instance->stacks_hash,
             new_state->s.stacks[a],
-            freecell_solver_lookup2_hash_function(
-                new_state->s.stacks[a],
+            (SFO_hash_value_t)freecell_solver_lookup2_hash_function(
+                (ub1 *)new_state->s.stacks[a],
                 (fcs_stack_len(new_state->s, a)+1),
                 24
                 ),
@@ -429,7 +429,7 @@ void freecell_solver_cache_talon(
     )
 {
     void * cached_talon;
-    int hash_value_int;
+    SFO_hash_value_t hash_value_int;
 
     new_state->s.talon = realloc(new_state->s.talon, fcs_klondike_talon_len(new_state->s)+1);
 #error Add Hash Code
@@ -626,4 +626,4 @@ int freecell_solver_check_and_add_state(freecell_solver_instance_t * instance, f
 
 #endif
 
-#endif /* #ifndef __CAAS_C */
+#endif /* #ifndef FC_SOLVE__CAAS_C */

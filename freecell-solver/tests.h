@@ -8,8 +8,8 @@
  * This file is in the public domain (it's uncopyrighted).
  */
 
-#ifndef __TESTS_H
-#define __TESTS_H
+#ifndef FC_SOLVE__TESTS_H
+#define FC_SOLVE__TESTS_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -304,4 +304,4 @@ extern int freecell_solver_sfs_simple_simon_move_sequence_to_parent_on_the_same_
 
 #define my_copy_stack(idx) fcs_copy_stack(new_state_with_locations, idx, indirect_stacks_buffer);
 
-#endif /* __TESTS_H */
+#endif /* FC_SOLVE__TESTS_H */

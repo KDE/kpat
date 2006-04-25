@@ -10,7 +10,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "config.h"
+#include "fcs_config.h"
 #include "state.h"
 #include "card.h"
 #include "fcs_enums.h"
@@ -354,7 +354,7 @@ static void fcs_state_init(
     fcs_state_with_locations_t * state, 
     int stacks_num
 #ifdef INDIRECT_STACK_STATES
-    ,char * indirect_stacks_buffer
+    ,fcs_card_t * indirect_stacks_buffer
 #endif
     )
 {
@@ -400,6 +400,7 @@ int freecell_solver_state_compare_with_context(
     fcs_compare_context_t context
     )
 {
+    (void)context;
     return memcmp(s1,s2,sizeof(fcs_state_t));
 }
 #else
@@ -423,8 +424,9 @@ static const char * const num_redeals_prefixes[] = { "Num-Redeals:", "Readels-Nu
 #define strncasecmp(a,b,c) (strnicmp((a),(b),(c)))
 #endif
 
-fcs_state_with_locations_t freecell_solver_initial_user_state_to_c(
+int freecell_solver_initial_user_state_to_c(
     const char * string,
+    fcs_state_with_locations_t * out_state,
     int freecells_num,
     int stacks_num,
     int decks_num
@@ -432,7 +434,7 @@ fcs_state_with_locations_t freecell_solver_initial_user_state_to_c(
     ,int talon_type
 #endif
 #ifdef INDIRECT_STACK_STATES
-    , char * indirect_stacks_buffer
+    , fcs_card_t * indirect_stacks_buffer
 #endif
     )
 {
@@ -460,6 +462,14 @@ fcs_state_with_locations_t freecell_solver_initial_user_state_to_c(
     first_line = 1;
 
 #define ret (ret_with_locations.s)
+/* Handle the end of string - shouldn't happen */
+#define handle_eos() \
+    { \
+        if ((*str) == '\0') \
+        {  \
+            return FCS_USER_STATE_TO_C__PREMATURE_END_OF_INPUT; \
+        } \
+    }
 
 #ifdef FCS_WITH_TALONS
     if (talon_type == FCS_TALON_KLONDIKE)
@@ -475,6 +485,7 @@ fcs_state_with_locations_t freecell_solver_initial_user_state_to_c(
         {
             while((*str) != '\n')
             {
+                handle_eos();
                 str++;
             }
             str++;
@@ -510,6 +521,7 @@ fcs_state_with_locations_t freecell_solver_initial_user_state_to_c(
                             ((*str) != '\r')
                          )
                     {
+                        handle_eos();
                         str++;
                     }
                     if ((*str == '\n') || (*str == '\r'))
@@ -538,8 +550,9 @@ fcs_state_with_locations_t freecell_solver_initial_user_state_to_c(
                 fcs_put_card_in_freecell(ret, c, card);
             }
 
-            while ((*str != '\n') && (*str != '\0'))
+            while (*str != '\n')
             {
+                handle_eos();
                 str++;
             }
             s--;
@@ -589,6 +602,7 @@ fcs_state_with_locations_t freecell_solver_initial_user_state_to_c(
                         (*str != '\r')
                       )
                 {
+                    handle_eos();
                     str++;
                 }
 
@@ -637,6 +651,7 @@ fcs_state_with_locations_t freecell_solver_initial_user_state_to_c(
                         ((*str) != '\r')
                     )
                     {
+                        handle_eos();
                         str++;
                     }
                     if ((*str == '\n') || (*str == '\r'))
@@ -691,6 +706,7 @@ fcs_state_with_locations_t freecell_solver_initial_user_state_to_c(
         {
             while ((*str < '0') && (*str > '9') && (*str != '\n'))
             {
+                handle_eos();
                 str++;
             }
             if (*str != '\n')
@@ -724,6 +740,7 @@ fcs_state_with_locations_t freecell_solver_initial_user_state_to_c(
                     ((*str) != '\r')
                 )
                 {
+                    handle_eos();
                     str++;
                 }
                 if ((*str == '\n') || (*str == '\r'))
@@ -746,10 +763,12 @@ fcs_state_with_locations_t freecell_solver_initial_user_state_to_c(
         }
     }
 
-    return ret_with_locations;
+    *out_state = ret_with_locations;
+    return FCS_USER_STATE_TO_C__SUCCESS;
 }
 
 #undef ret
+#undef handle_eos
 
 int freecell_solver_check_state_validity(
     fcs_state_with_locations_t * state_with_locations,
@@ -869,11 +888,9 @@ char * freecell_solver_state_as_string(
     int a, card_num_is_null, b;
     int max_num_cards, s, card_num, len;
 
-    /* char string[8000]; */
     char str2[128], str3[128], * str2_ptr, * str3_ptr;
 
     freecell_solver_append_string_t * app_str;
-    /* char * str; */
 
     int stack_locs[MAX_NUM_STACKS];
     int freecell_locs[MAX_NUM_FREECELLS];
@@ -916,7 +933,6 @@ char * freecell_solver_state_as_string(
             decks[a][0] = '0';
     }
 
-    /* str = string; */
     app_str = freecell_solver_append_string_alloc(512);
 
     if(!parseable_output)

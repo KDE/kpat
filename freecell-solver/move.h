@@ -7,12 +7,18 @@
  * This file is in the public domain (it's uncopyrighted).
  */
 
-#ifndef __MOVE_H
-#define __MOVE_H
+#ifndef FC_SOLVE__MOVE_H
+#define FC_SOLVE__MOVE_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+/*
+ * This include is done to prevent a warning in case stdlib.h defines
+ * max. (which is the case for the Microsoft C Compiler)
+ * */
+#include <stdlib.h>
 
 #include "state.h"
 #include "fcs_move.h"
@@ -163,4 +169,4 @@ extern void fcs_derived_states_list_add_state(
 }
 #endif
 
-#endif  /* __MOVE_H */
+#endif  /* FC_SOLVE__MOVE_H */

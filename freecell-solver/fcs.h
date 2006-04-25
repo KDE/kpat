@@ -7,14 +7,14 @@
  * This file is in the public domain (it's uncopyrighted).
  */
 
-#ifndef __FCS_H
-#define __FCS_H
+#ifndef FC_SOLVE__FCS_H
+#define FC_SOLVE__FCS_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "config.h"
+#include "fcs_config.h"
 #include "state.h"
 #include "move.h"
 #include "fcs_enums.h"
@@ -491,9 +491,9 @@ struct freecell_solver_hard_thread_struct
      * This is a buffer used to temporarily store the stacks of the duplicated
      * state.
      * */
-    char indirect_stacks_buffer[MAX_NUM_STACKS << 7];
+    fcs_card_t indirect_stacks_buffer[MAX_NUM_STACKS << 7];
 #else
-    char indirect_stacks_buffer[1];
+    fcs_card_t indirect_stacks_buffer[1];
 #endif
 
     char * prelude_as_string;
@@ -640,7 +640,7 @@ struct freecell_solver_soft_thread_struct
     /*
      * The initial seed of this random number generator
      * */
-    int rand_seed;
+    unsigned int rand_seed;
     
 
     /*
@@ -794,4 +794,4 @@ extern void freecell_solver_recycle_instance(
 }
 #endif
 
-#endif /* __FCS_H */
+#endif /* FC_SOLVE__FCS_H */

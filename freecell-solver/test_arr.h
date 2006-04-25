@@ -7,8 +7,8 @@
  * This file is in the public domain (it's uncopyrighted).
  * */
 
-#ifndef __TEST_ARR_H
-#define __TEST_ARR_H
+#ifndef FC_SOLVE__TEST_ARR_H
+#define FC_SOLVE__TEST_ARR_H
 
 #ifdef __cplusplus
 extern "C" {

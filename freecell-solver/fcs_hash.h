@@ -6,8 +6,8 @@
  * This file is in the public domain (it's uncopyrighted).
  */
 
-#ifndef __FCS_HASH_H
-#define __FCS_HASH_H
+#ifndef FC_SOLVE__FCS_HASH_H
+#define FC_SOLVE__FCS_HASH_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -95,7 +95,7 @@ void freecell_solver_hash_free_with_callback(
 }
 #endif
 
-#endif /* __FCS_HASH_H */
+#endif /* FC_SOLVE__FCS_HASH_H */
 
 
 

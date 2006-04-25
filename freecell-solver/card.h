@@ -7,14 +7,14 @@
  */
 
 
-#ifndef __CARD_H
-#define __CARD_H
+#ifndef FC_SOLVE__CARD_H
+#define FC_SOLVE__CARD_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#ifndef __STATE_H
+#ifndef FC_SOLVE__STATE_H
 #include "state.h"
 #endif
 
@@ -97,4 +97,4 @@ extern int freecell_solver_u2p_suit(const char * deck);
 }
 #endif
 
-#endif /* __CARD_H */
+#endif /* FC_SOLVE__CARD_H */

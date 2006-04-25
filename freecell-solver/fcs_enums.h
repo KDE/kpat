@@ -7,8 +7,8 @@
  * This file is in the public domain (it's uncopyrighted).
  */
 
-#ifndef __FCS_ENUMS_H
-#define __FCS_ENUMS_H
+#ifndef FC_SOLVE__FCS_ENUMS_H
+#define FC_SOLVE__FCS_ENUMS_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -74,4 +74,4 @@ enum fcs_presets_return_codes
 }
 #endif
 
-#endif /* __FCS_ENUMS_H */
+#endif /* FC_SOLVE__FCS_ENUMS_H */

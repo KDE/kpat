@@ -19,7 +19,7 @@
 
 #define NUM_TIMES_STEP 50
 
-#include "config.h"
+#include "fcs_config.h"
 
 /* So the FCS_STATE_STORAGE macros would be defined */
 #if FCS_STATE_STORAGE==FCS_STATE_STORAGE_LIBREDBLACK_TREE
@@ -136,6 +136,7 @@ static void soft_thread_clean_soft_dfs(
         return;
     }
 
+    (void)context;
     soft_dfs_info = soft_thread->soft_dfs_info;
     num_solution_states = soft_thread->num_solution_states;
     dfs_max_depth = soft_thread->dfs_max_depth;
@@ -180,7 +181,7 @@ static freecell_solver_soft_thread_t * alloc_soft_thread(
         )
 {
     freecell_solver_soft_thread_t * soft_thread;
-    int a;
+    unsigned int a;
 
     /* Make sure we are not exceeding the maximal number of soft threads
      * for an instance. */
@@ -410,6 +411,7 @@ static void free_bfs_queue(freecell_solver_soft_thread_t * soft_thread)
 
 static void free_instance_soft_thread_callback(freecell_solver_soft_thread_t * soft_thread, void * context)
 {
+    (void)context;
     free_bfs_queue(soft_thread);
     freecell_solver_rand_free(soft_thread->rand_gen);
 
@@ -492,7 +494,7 @@ static void normalize_a_star_weights(
 {
     /* Normalize the A* Weights, so the sum of all of them would be 1. */
     double sum;
-    int a;
+    unsigned int a;
     sum = 0;
     for(a=0;a<(sizeof(soft_thread->a_star_weights)/sizeof(soft_thread->a_star_weights[0]));a++)
     {
@@ -510,6 +512,7 @@ static void normalize_a_star_weights(
     {
         soft_thread->a_star_weights[a] /= sum;
     }
+    (void)context;
 }
 
 static void accumulate_tests_order(
@@ -703,6 +706,7 @@ static int fcs_stack_compare_for_comparison_with_context(
 
     )
 {
+    (void)context;
     return freecell_solver_stack_compare_for_comparison(v_s1, v_s2);
 }
 #endif
@@ -743,13 +747,13 @@ static gint freecell_solver_glib_hash_stack_compare (
 {
     return !(fcs_stack_compare_for_comparison(a,b));
 }
-#endif // (FCS_STACK_STORAGE == FCS_STACK_STORAGE_GLIB_HASH)
+#endif /* (FCS_STACK_STORAGE == FCS_STACK_STORAGE_GLIB_HASH) */
 
 
 
 
 
-#endif // defined(INDIRECT_STACK_STATES)
+#endif /* defined(INDIRECT_STACK_STATES) */
 
 
 
@@ -1447,6 +1451,7 @@ void freecell_solver_unresume_instance(
      * I don't need to do it here, too
      *
      * */
+    (void)instance;
 }
 
 
@@ -1522,6 +1527,7 @@ void freecell_solver_destroy_move_stack_of_state(
         void * context
         )
 {
+    (void)context;
     if (ptr_state_with_locations->moves_to_parent != NULL)
     {
         fcs_move_stack_destroy(ptr_state_with_locations->moves_to_parent);

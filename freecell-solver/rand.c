@@ -22,7 +22,7 @@ void freecell_solver_rand_free(fcs_rand_t * rand)
 }
 
 
-void freecell_solver_rand_srand(fcs_rand_t * rand, int seed)
+void freecell_solver_rand_srand(fcs_rand_t * rand, unsigned int seed)
 {
     rand->seed = seed;
 }

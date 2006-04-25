@@ -1,6 +1,6 @@
 
-#ifndef __FCS_CL_H
-#define __FCS_CL_H
+#ifndef FC_SOLVE__FCS_CL_H
+#define FC_SOLVE__FCS_CL_H
 
 #include "fcs_user.h"
 
@@ -59,7 +59,7 @@ extern int freecell_solver_user_cmd_line_parse_args_with_file_nesting_count(
 
 
 #ifdef __cplusplus
-}
+};
 #endif
 
-#endif /* #ifndef __FCS_CL_H */
+#endif /* #ifndef FC_SOLVE__FCS_CL_H */

@@ -5,12 +5,12 @@
  *
  * This file is in the public domain (it's uncopyrighted).
  */
-#include "config.h"
+#include "fcs_config.h"
 
 #include "fcs_move.h"
 
-#ifndef __STATE_H
-#define __STATE_H
+#ifndef FC_SOLVE__STATE_H
+#define FC_SOLVE__STATE_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -47,7 +47,7 @@ typedef struct fcs_struct_card_t fcs_card_t;
 
 struct fcs_struct_stack_t
 {
-    int num_cards;
+    unsigned int num_cards;
     fcs_card_t cards[MAX_NUM_CARDS_IN_A_STACK];
 };
 
@@ -252,7 +252,7 @@ typedef char fcs_locs_t;
     ( ((card) >> 4) & 0x03 )
 
 #define fcs_stack_len(state, s) \
-    ( (state).data[s*(MAX_NUM_CARDS_IN_A_STACK+1)] )
+    ( (size_t)(state).data[s*(MAX_NUM_CARDS_IN_A_STACK+1)] )
 
 #define fcs_stack_card(state, s, c) \
     ( (state).data[(s)*(MAX_NUM_CARDS_IN_A_STACK+1)+(c)+1] )
@@ -371,10 +371,10 @@ typedef struct fcs_struct_state_t fcs_state_t;
     ( (card) >> 6 )
 
 #define fcs_standalone_stack_len(stack) \
-    ( (int)(stack[0]) )
+    ( (size_t)(stack[0]) )
 
 #define fcs_stack_len(state, s) \
-    ( (int)(state).stacks[(s)][0] )
+    ( (unsigned int)(state).stacks[(s)][0] )
 
 #define fcs_stack_card(state, s, c) \
     ( (state).stacks[(s)][c+1] )
@@ -463,7 +463,7 @@ typedef struct fcs_struct_state_t fcs_state_t;
     {     \
         if (! ((state).stacks_copy_on_write_flags & (1 << idx)))        \
         {          \
-            int stack_len;      \
+            size_t stack_len;      \
             (state).stacks_copy_on_write_flags |= (1 << idx);       \
             stack_len = fcs_stack_len((state).s,idx);     \
             memcpy(&buffer[idx << 7], (state).s.stacks[idx], stack_len+1); \
@@ -592,8 +592,15 @@ extern int freecell_solver_state_compare_indirect_with_context(const void * s1, 
 extern int fcs_talon_compare_with_context(const void * s1, const void * s2, fcs_compare_context_t context);
 #endif
 
-extern fcs_state_with_locations_t freecell_solver_initial_user_state_to_c(
+enum FCS_USER_STATE_TO_C_RETURN_CODES
+{
+    FCS_USER_STATE_TO_C__SUCCESS = 0,
+    FCS_USER_STATE_TO_C__PREMATURE_END_OF_INPUT
+};
+
+int freecell_solver_initial_user_state_to_c(
     const char * string,
+    fcs_state_with_locations_t * out_state,
     int freecells_num,
     int stacks_num,
     int decks_num
@@ -601,7 +608,7 @@ extern fcs_state_with_locations_t freecell_solver_initial_user_state_to_c(
     ,int talon_type
 #endif
 #ifdef INDIRECT_STACK_STATES
-    , char * indirect_stacks_buffer
+    , fcs_card_t * indirect_stacks_buffer
 #endif
     );
 
@@ -615,6 +622,16 @@ extern char * freecell_solver_state_as_string(
     int canonized_order_output,
     int display_10_as_t
     );
+
+enum FCS_STATE_VALIDITY_CODES
+{
+    FCS_STATE_VALIDITY__OK = 0,
+    FCS_STATE_VALIDITY__EMPTY_SLOT = 3,
+    FCS_STATE_VALIDITY__EXTRA_CARD = 2,
+    FCS_STATE_VALIDITY__MISSING_CARD = 1,
+    FCS_STATE_VALIDITY__PREMATURE_END_OF_INPUT = 4
+};
+
 extern int freecell_solver_check_state_validity(
     fcs_state_with_locations_t * state,
     int freecells_num,
@@ -640,4 +657,4 @@ enum FCS_VISITED_T
 };
 
 
-#endif /* __STATE_H */
+#endif /* FC_SOLVE__STATE_H */
