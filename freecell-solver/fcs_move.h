@@ -100,6 +100,7 @@ struct fcs_move_struct
 #define fcs_move_get_type(move)                   ((move).c[FCS_MOVE_TYPE])
 #define fcs_move_get_num_cards_in_seq(move)       ((move).c[FCS_MOVE_NUM_CARDS_IN_SEQ])
 #define fcs_move_get_num_cards_flipped(move,value) ((move).c[FCS_MOVE_NUM_CARDS_FLIPPED])
+#define fcs_move_init(move)                       (memset((move).c, 0, 4))
 #endif
 
 typedef struct fcs_move_struct fcs_move_t;

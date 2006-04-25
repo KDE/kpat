@@ -763,7 +763,6 @@ int freecell_solver_initial_user_state_to_c(
         }
     }
 
-end_of_string:
     *out_state = ret_with_locations;
     return FCS_USER_STATE_TO_C__SUCCESS;
 }

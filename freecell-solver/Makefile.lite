@@ -1,6 +1,6 @@
 
 CC = gcc
-OFLAGS = -Wall -O3
+OFLAGS = -Wall -O3 -Werror
 OLFLAGS = -Wall
 DLFLAGS = 
 

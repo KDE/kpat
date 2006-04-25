@@ -875,7 +875,7 @@ int freecell_solver_user_cmd_line_parse_args_with_file_nesting_count(
             }
             {
                 int status;
-                args_man_t * preset_args;
+                args_man_t * preset_args = 0;
                 char * dir = NULL;
 
                 status = read_preset(argv[arg], &preset_args, &dir, NULL);

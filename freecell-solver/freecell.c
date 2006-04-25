@@ -104,7 +104,7 @@ int freecell_solver_sfs_move_top_stack_cards_to_founds(
                     fcs_increment_foundation(new_state, deck*4+fcs_card_suit(card));
 
 
-
+		    fcs_move_init(temp_move);
                     fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_FOUNDATION);
                     fcs_move_set_src_stack(temp_move,stack);
                     fcs_move_set_foundation(temp_move,deck*4+fcs_card_suit(card));
@@ -173,6 +173,7 @@ int freecell_solver_sfs_move_freecell_cards_to_founds(
 
                     fcs_increment_foundation(new_state, deck*4+fcs_card_suit(card));
 
+		    fcs_move_init(temp_move);
                     fcs_move_set_type(temp_move,FCS_MOVE_TYPE_FREECELL_TO_FOUNDATION);
                     fcs_move_set_src_freecell(temp_move,fc);
                     fcs_move_set_foundation(temp_move,deck*4+fcs_card_suit(card));
@@ -306,6 +307,7 @@ int freecell_solver_sfs_move_freecell_cards_on_top_of_stacks(
 
                                     fcs_put_card_in_freecell(new_state, b, temp_card);
 
+				    fcs_move_init(temp_move);
                                     fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_FREECELL);
                                     fcs_move_set_src_stack(temp_move,ds);
                                     fcs_move_set_dest_freecell(temp_move,b);
@@ -379,6 +381,7 @@ int freecell_solver_sfs_move_non_top_stack_cards_to_founds(
     int state_stacks_num;
 
     fcs_move_t temp_move;
+    fcs_move_init(temp_move);
 
     tests_define_accessors();
 
@@ -521,6 +524,7 @@ int freecell_solver_sfs_move_stack_cards_to_a_parent_on_the_same_stack(
     int sequences_are_built_by;
 
     fcs_move_t temp_move;
+    fcs_move_init(temp_move);
 
     tests_define_accessors();
 
@@ -816,6 +820,7 @@ int freecell_solver_sfs_move_stack_cards_to_different_stacks(
     int sequences_are_built_by;
 
     fcs_move_t temp_move;
+    fcs_move_init(temp_move);
 
     tests_define_accessors();
 
@@ -1033,6 +1038,7 @@ int freecell_solver_sfs_move_sequences_to_free_stacks(
     int sequences_are_built_by;
 
     fcs_move_t temp_move;
+    fcs_move_init(temp_move);
 
     tests_define_accessors();
 
@@ -1313,6 +1319,7 @@ int freecell_solver_sfs_move_freecell_cards_to_empty_stack(
                 fcs_push_card_into_stack(new_state, stack, card);
                 fcs_empty_freecell(new_state, fc);
 
+		fcs_move_init(temp_move);
                 fcs_move_set_type(temp_move,FCS_MOVE_TYPE_FREECELL_TO_STACK);
                 fcs_move_set_src_freecell(temp_move,fc);
                 fcs_move_set_dest_stack(temp_move,stack);
@@ -1358,6 +1365,8 @@ int freecell_solver_sfs_move_cards_to_a_different_parent(
     state_freecells_num = instance->freecells_num;
     state_stacks_num = instance->stacks_num;
     sequences_are_built_by = instance->sequences_are_built_by;
+
+    fcs_move_init(temp_move);
 
     /* This time try to move cards that are already on top of a parent to a different parent */
 
@@ -1609,6 +1618,7 @@ int freecell_solver_sfs_empty_stack_into_freecells(
 
                     fcs_put_card_in_freecell(new_state, b, temp_card);
 
+		    fcs_move_init(temp_move);
                     fcs_move_set_type(temp_move,FCS_MOVE_TYPE_STACK_TO_FREECELL);
                     fcs_move_set_src_stack(temp_move,stack);
                     fcs_move_set_dest_freecell(temp_move,b);
@@ -2196,6 +2206,7 @@ int freecell_solver_sfs_atomic_move_card_to_freecell(
                 
                 fcs_put_card_in_freecell(new_state, ds, card);
 
+		fcs_move_init(temp_move);
                 fcs_move_set_type(temp_move, FCS_MOVE_TYPE_STACK_TO_FREECELL);
                 fcs_move_set_src_stack(temp_move, stack);
                 fcs_move_set_dest_freecell(temp_move, ds);
