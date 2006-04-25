@@ -342,7 +342,7 @@ static GCC_INLINE void freecell_solver_cache_stacks(
         cached_stack = (void *)freecell_solver_hash_insert(
             instance->stacks_hash,
             new_state->s.stacks[a],
-            freecell_solver_lookup2_hash_function(
+            (SFO_hash_value_t)freecell_solver_lookup2_hash_function(
                 (ub1 *)new_state->s.stacks[a],
                 (fcs_stack_len(new_state->s, a)+1),
                 24
@@ -429,7 +429,7 @@ void freecell_solver_cache_talon(
     )
 {
     void * cached_talon;
-    int hash_value_int;
+    SFO_hash_value_t hash_value_int;
 
     new_state->s.talon = realloc(new_state->s.talon, fcs_klondike_talon_len(new_state->s)+1);
 #error Add Hash Code

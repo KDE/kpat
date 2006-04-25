@@ -374,7 +374,7 @@ typedef struct fcs_struct_state_t fcs_state_t;
     ( (size_t)(stack[0]) )
 
 #define fcs_stack_len(state, s) \
-    ( (int)(state).stacks[(s)][0] )
+    ( (unsigned int)(state).stacks[(s)][0] )
 
 #define fcs_stack_card(state, s, c) \
     ( (state).stacks[(s)][c+1] )

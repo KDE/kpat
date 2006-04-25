@@ -48,7 +48,7 @@ int freecell_solver_append_string_sprintf(
      * Check to see if we don't have enough space in which case we should
      * resize
      * */
-    if (app_str->buffer + app_str->max_size - app_str->end_of_buffer < app_str->size_of_margin)
+    if (app_str->buffer + app_str->max_size - app_str->end_of_buffer < (int)app_str->size_of_margin )
     {
         char * old_buffer = app_str->buffer;
         app_str->max_size += GROW_BY;

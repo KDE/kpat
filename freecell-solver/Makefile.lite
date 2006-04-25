@@ -1,6 +1,6 @@
 
 CC = gcc
-OFLAGS = -Wall -O3 -Werror
+OFLAGS = -Wall -O3 -Wno-long-long -Wundef -Wcast-align -Wconversion -Wchar-subscripts -W -Wpointer-arith -Wwrite-strings -Wformat-security -Wmissing-format-attribute -fno-common -g
 OLFLAGS = -Wall
 DLFLAGS = 
 
