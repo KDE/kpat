@@ -491,9 +491,9 @@ struct freecell_solver_hard_thread_struct
      * This is a buffer used to temporarily store the stacks of the duplicated
      * state.
      * */
-    char indirect_stacks_buffer[MAX_NUM_STACKS << 7];
+    fcs_card_t indirect_stacks_buffer[MAX_NUM_STACKS << 7];
 #else
-    char indirect_stacks_buffer[1];
+    fcs_card_t indirect_stacks_buffer[1];
 #endif
 
     char * prelude_as_string;
@@ -640,7 +640,7 @@ struct freecell_solver_soft_thread_struct
     /*
      * The initial seed of this random number generator
      * */
-    int rand_seed;
+    unsigned int rand_seed;
     
 
     /*

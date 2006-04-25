@@ -354,7 +354,7 @@ static void fcs_state_init(
     fcs_state_with_locations_t * state, 
     int stacks_num
 #ifdef INDIRECT_STACK_STATES
-    ,char * indirect_stacks_buffer
+    ,fcs_card_t * indirect_stacks_buffer
 #endif
     )
 {
@@ -400,6 +400,7 @@ int freecell_solver_state_compare_with_context(
     fcs_compare_context_t context
     )
 {
+    (void)context;
     return memcmp(s1,s2,sizeof(fcs_state_t));
 }
 #else
@@ -433,7 +434,7 @@ int freecell_solver_initial_user_state_to_c(
     ,int talon_type
 #endif
 #ifdef INDIRECT_STACK_STATES
-    , char * indirect_stacks_buffer
+    , fcs_card_t * indirect_stacks_buffer
 #endif
     )
 {

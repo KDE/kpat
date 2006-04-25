@@ -47,7 +47,7 @@ typedef struct fcs_struct_card_t fcs_card_t;
 
 struct fcs_struct_stack_t
 {
-    int num_cards;
+    unsigned int num_cards;
     fcs_card_t cards[MAX_NUM_CARDS_IN_A_STACK];
 };
 
@@ -252,7 +252,7 @@ typedef char fcs_locs_t;
     ( ((card) >> 4) & 0x03 )
 
 #define fcs_stack_len(state, s) \
-    ( (state).data[s*(MAX_NUM_CARDS_IN_A_STACK+1)] )
+    ( (size_t)(state).data[s*(MAX_NUM_CARDS_IN_A_STACK+1)] )
 
 #define fcs_stack_card(state, s, c) \
     ( (state).data[(s)*(MAX_NUM_CARDS_IN_A_STACK+1)+(c)+1] )
@@ -371,7 +371,7 @@ typedef struct fcs_struct_state_t fcs_state_t;
     ( (card) >> 6 )
 
 #define fcs_standalone_stack_len(stack) \
-    ( (int)(stack[0]) )
+    ( (size_t)(stack[0]) )
 
 #define fcs_stack_len(state, s) \
     ( (int)(state).stacks[(s)][0] )
@@ -463,7 +463,7 @@ typedef struct fcs_struct_state_t fcs_state_t;
     {     \
         if (! ((state).stacks_copy_on_write_flags & (1 << idx)))        \
         {          \
-            int stack_len;      \
+            size_t stack_len;      \
             (state).stacks_copy_on_write_flags |= (1 << idx);       \
             stack_len = fcs_stack_len((state).s,idx);     \
             memcpy(&buffer[idx << 7], (state).s.stacks[idx], stack_len+1); \
@@ -608,7 +608,7 @@ int freecell_solver_initial_user_state_to_c(
     ,int talon_type
 #endif
 #ifdef INDIRECT_STACK_STATES
-    , char * indirect_stacks_buffer
+    , fcs_card_t * indirect_stacks_buffer
 #endif
     );
 
