@@ -10,10 +10,10 @@
 #ifndef FC_SOLVE__INLINE_H
 #define FC_SOLVE__INLINE_H
 
-#if defined(__GNUC__) || defined(HAVE_C_INLINE)
-#define GCC_INLINE inline
+#if defined(__GNUC__)
+#define GCC_INLINE __inline__
 #else
-#define GCC_INLINE  __inline__
+#define GCC_INLINE 
 #endif
 
 
