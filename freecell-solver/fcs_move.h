@@ -8,8 +8,8 @@
  * This file is in the public domain (it's uncopyrighted).
  */
 
-#ifndef __FCS_MOVE_H
-#define __FCS_MOVE_H
+#ifndef FC_SOLVE__FCS_MOVE_H
+#define FC_SOLVE__FCS_MOVE_H
 
 /* #define FCS_DEBUG_MOVES */
 #define FCS_COMPACT_MOVES
@@ -118,4 +118,4 @@ typedef struct fcs_move_stack_struct fcs_move_stack_t;
 }
 #endif
 
-#endif  /* __FCS_MOVE_H */
+#endif  /* FC_SOLVE__FCS_MOVE_H */

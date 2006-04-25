@@ -6,8 +6,8 @@
  * This file is in the public domain (it's uncopyrighted).
  */
 
-#ifndef __PRESET_H
-#define __PRESET_H
+#ifndef FC_SOLVE__PRESET_H
+#define FC_SOLVE__PRESET_H
 
 #ifdef __cplusplus
 extern "C" {

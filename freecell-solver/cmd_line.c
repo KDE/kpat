@@ -763,6 +763,7 @@ int freecell_solver_user_cmd_line_parse_args_with_file_nesting_count(
                     num_to_skip = atoi(argv[arg]);
                     s++;
                 }
+
                 if (opened_files_dir)
                 {
                     char * complete_path;

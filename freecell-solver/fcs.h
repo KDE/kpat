@@ -7,8 +7,8 @@
  * This file is in the public domain (it's uncopyrighted).
  */
 
-#ifndef __FCS_H
-#define __FCS_H
+#ifndef FC_SOLVE__FCS_H
+#define FC_SOLVE__FCS_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -794,4 +794,4 @@ extern void freecell_solver_recycle_instance(
 }
 #endif
 
-#endif /* __FCS_H */
+#endif /* FC_SOLVE__FCS_H */

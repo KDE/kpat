@@ -4,138 +4,67 @@ INSTALL file for Freecell Solver
 Quick and Dirty Compilation
 ---------------------------
 
-Usually typing "make" will build "fc-solve" which is the Freecell
-Solver executable for you. If you don't have gcc installed you need to
-change the CC variable in the makefile to the name of your  compiler.
+Usually typing "./configure" followed by "make" and "make install" will 
+build and install "fc-solve" which is the Freecell Solver executable for you.
 
-It's also possible the makefile is causing you trouble. You can try typing 
-"make -f Makefile.lite" instead (in case you don't have GNU make
-installed).
-
+It will also build and install the board generation program, more 
+information about which can be found in the "board_gen" sub-directory of
+this distribution.
 
 Changing the Maximal number of Freecells or Stacks or Cards per Stack
 ---------------------------------------------------------------------
 
-Those parameters are hard-coded into the Freecell Solver programs. If you
-wish to change them, you will need to edit the file "config.h" in this
-directory. The comments and the macros' names there will tell you which 
-constants to edit.
+The following parameters to the "configure" script which accept an argument
+control the hard-coded parameters of the Freecell Solver executables:
+
+"--enable-max-num-freecells=$NUM" - The maximal number of freecells
+
+"--enable-max-num-stacks=$NUM"  - The maximal number of stacks
+
+"--enable-max-num-initial-cards-per-stack=$NUM" - The maximal number of initial
+cards per stack.
 
 Notice that it's very important to set the maximal number of initial cards
 per stack, or else it's possible that a stack will eventually overflow.
 
-If you wish to be able to effectively solve games of "Die Schlange" and
-"Der Katzenschwanz", you should also enable the indirect stack states
-feature. See the "Indirect Stack States" section below for more information
-on how to do that.
-
-For your convenience you can copy the file "config.h.dkds" in the
-distribution on top of "config.h" in order to compile Freecell Solver
-in a "Der Katzenschwanz"/"Die Schlange" compliant mode (which is
-slower for other games). The original "config.h" can also be found as
-the file "config.h.freecell".
-
-Building the Freecell Solver Library
-------------------------------------
-
-To build the library type "make libfcs.a", which will build a static library.
-The headers needed to use it are the files "fcs_user.h", "fcs_enums.h"
-and "fcs_move.h". See the files "test_lib.c" and "test_multi.c" for
-examples on how to use it.
-
-
-Using a Balanced Binary Tree Implementation
--------------------------------------------
-
-Freecell Solver has a compile-time option to use a balanced binary
-search tree for storing the states it checked. However, in order to do
-that, it requires external libraries to be installed. It used to make
-Freecell Solver about 33% faster, but ever since the internal hash with
-the MD5 hashing function was introduced, that's not already the case.
-
-Here is the list of the balanced tree implemntations that Freecell
-Solver can use:
-
-* glib's balanced tree
-
-* libredblack's Red-Black tree
-
-* The "avl" library AVL tree
-
-* The "avl" library Red-Black tree
-
-glib is an integral part of Gtk+ and GNOME so it's not unlikely that
-you have it installed. libredblack and avl are not part of most
-standard operating systems but they can be easily downloaded and
-installed.
-
-To do that, install one of the two and then go to the makefile, and
-uncomment one of the WHICH_STATE_ALLOCATION lines that corresponds to
-the library you installed.
-
-Benchmarks for the four implmentations for 1000 test boards were (1):
-
-Indirect state storage: 17:47 minutes
-Internal Hash: 12:01
-
-libredblack: 13:22
-avl's AVL tree: 12:20
-avl's Red-Black Tree: 12:27
-glib's tree: 13:49
-
-You can find the URL for the three libraries through Freshmeat. I did
-not include them in the distribution nor made them the default, because
-they are licensed under the LGPL and the GPL, while Freecell Solver is
-public domain software.
-
-
-1 - The benchmarks were made on a Pentium III 600 MHz with 64 MB of RAM
-running Linux.
-
-Indirect Stack States
+"Compact" States
 ---------------------
 
-The indirect stack states caches the stacks, and only stores pointers to 
-them inside the boards. Thus there is one copy of a particular stack present
-in memory, which enables FCS to conserve more memory. If you are low on
-memory you will probably want to enable this feature, but otherwise it will
-result in a performance lost.
+In Compact States, the contents of the card stacks are stored inside the 
+states, rather than in a central collection (where the states contain only
+pointers). Despite its name, it actually consume more memory than Indirect
+Stack States which is the default.
 
-Indirect stack states are especially useful for solving boards of 
-"Der Katzenschwanz" and "Die Schlange" where the stacks can be very long.
-
-To enable this feature uncomment the line defining the macro 
-INDIRECT_STACK_STATES while commenting out the line defining the macro
-DIRECT_STACK_STATES. The stacks cache can also use one of the balanced
-tree implementations described above, and you can use them instead of the
-default (which is the internal hash implementation) by modifying the
-makefile. Make sure you have one of them installed or else you will get a 
-compilation error.
+Compact states used to be faster than Indirect Stack States, but now it
+seems indirect stack states is at least slightly faster even for games
+whose stacks are not very long. If you still would wish to enable it,
+run ./configure with the "--enable-states-type=compact" flag.
 
 Installing under Win32
 ----------------------
 
 Freecell Solver is distributed with a makefile suitable for use with 
-Microsoft Visual C++. Therefore, you can just type "nmake /f Makefile.win32"
-to compile Freecell Solver.
+Microsoft Visual C++. To build it using it follow the following steps:
+
+1. Copy "config.h.win32" to "config.h" and "prefix.h.win32" to "prefix.h";
+In the directory Presets/ copy presetrc.win32 to presetrc.
+
+2. Optionally, edit it to set its preferences
+
+3. Type "nmake /f Makefile.win32".
 
 If you have an IDE of some sort you can take the following steps to compile
 Freecell Solver:
 
 1. Open a project for Freecell Solver.
 
-2. Add all the C files except "lib.c", "test_lib.c" and "test_multi.c"
-to the project.
+2. Add all the C files except "test_multi_parallel.c" to the project.
 
-3. Define the macro FCS_STATE_STORAGE as
-FCS_STATE_STORAGE_INTERNAL_HASH, either in config.h or in the
-parameters for the C compiler.
+3. Copy the file config.h.win32 to config.h and prefix.h.win32 to prefix.h.
 
 4. Build.
-
-If you would like to build fc-solve-debug, you will also need to define
-the macro DEBUG.
 
 If you are using gcc or some other command-line compiler, you should 
 write the makefile based on the files "Makefile" or "Makefile.lite", 
 and then compile according to it.
+

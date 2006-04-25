@@ -1,6 +1,6 @@
 
-#ifndef __ALLOC_H
-#define __ALLOC_H
+#ifndef FC_SOLVE__ALLOC_H
+#define FC_SOLVE__ALLOC_H
 
 #ifdef __cplusplus
 extern "C" 

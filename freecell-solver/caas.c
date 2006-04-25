@@ -7,8 +7,8 @@
  * This file is in the public domain (it's uncopyrighted).
  */
 
-#ifndef __CAAS_C
-#define __CAAS_C
+#ifndef FC_SOLVE__CAAS_C
+#define FC_SOLVE__CAAS_C
 
 #include <stdlib.h>
 #include <string.h>
@@ -343,7 +343,7 @@ static void GCC_INLINE freecell_solver_cache_stacks(
             instance->stacks_hash,
             new_state->s.stacks[a],
             freecell_solver_lookup2_hash_function(
-                new_state->s.stacks[a],
+                (ub1 *)new_state->s.stacks[a],
                 (fcs_stack_len(new_state->s, a)+1),
                 24
                 ),
@@ -626,4 +626,4 @@ int freecell_solver_check_and_add_state(freecell_solver_instance_t * instance, f
 
 #endif
 
-#endif /* #ifndef __CAAS_C */
+#endif /* #ifndef FC_SOLVE__CAAS_C */

@@ -1,13 +1,13 @@
 
 CC = gcc
-OFLAGS = -Wall -O3 -DFCS_STATE_STORAGE=FCS_STATE_STORAGE_INTERNAL_HASH -DFCS_STACK_STORAGE=FCS_STACK_STORAGE_INTERNAL_HASH
+OFLAGS = -Wall -O3
 OLFLAGS = -Wall
 DLFLAGS = 
 
 END_OLFLAGS = 
 END_DLFLAGS = 
 
-INCLUDES = card.h config.h fcs.h fcs_dm.h fcs_enums.h fcs_hash.h fcs_isa.h fcs_move.h fcs_user.h jhjtypes.h md5.h move.h pqueue.h preset.h state.h tests.h
+INCLUDES = alloc.h app_str.h caas.h card.h cl_chop.h config.h fcs_cl.h fcs.h fcs_dm.h fcs_enums.h fcs_hash.h fcs_isa.h fcs_move.h fcs_user.h inline.h jhjtypes.h lookup2.h move.h ms_ca.h prefix.h pqueue.h preset.h rand.h state.h test_arr.h tests.h
 
 TARGETS = fc-solve
 
@@ -18,10 +18,23 @@ board_gen: dummy
 
 dummy:
 
+#<<<OBJECTS.START
+alloc.o: alloc.c $(INCLUDES)
+	$(CC) -c $(OFLAGS) -o $@ $<
+
+app_str.o: app_str.c $(INCLUDES)
+	$(CC) -c $(OFLAGS) -o $@ $<
+
 caas.o: caas.c $(INCLUDES)
 	$(CC) -c $(OFLAGS) -o $@ $<
 
 card.o: card.c $(INCLUDES)
+	$(CC) -c $(OFLAGS) -o $@ $<
+
+cl_chop.o: cl_chop.c $(INCLUDES)
+	$(CC) -c $(OFLAGS) -o $@ $<
+
+cmd_line.o: cmd_line.c $(INCLUDES)
 	$(CC) -c $(OFLAGS) -o $@ $<
 
 fcs_dm.o: fcs_dm.c $(INCLUDES)
@@ -39,10 +52,10 @@ freecell.o: freecell.c $(INCLUDES)
 intrface.o: intrface.c $(INCLUDES)
 	$(CC) -c $(OFLAGS) -o $@ $<
 
-main.o: main.c $(INCLUDES)
+lib.o: lib.c $(INCLUDES)
 	$(CC) -c $(OFLAGS) -o $@ $<
 
-md5c.o: md5c.c $(INCLUDES)
+lookup2.o: lookup2.c $(INCLUDES)
 	$(CC) -c $(OFLAGS) -o $@ $<
 
 move.o: move.c $(INCLUDES)
@@ -54,15 +67,26 @@ pqueue.o: pqueue.c $(INCLUDES)
 preset.o: preset.c $(INCLUDES)
 	$(CC) -c $(OFLAGS) -o $@ $<
 
+rand.o: rand.c $(INCLUDES)
+	$(CC) -c $(OFLAGS) -o $@ $<
+
 scans.o: scans.c $(INCLUDES)
+	$(CC) -c $(OFLAGS) -o $@ $<
+
+simpsim.o: simpsim.c $(INCLUDES)
 	$(CC) -c $(OFLAGS) -o $@ $<
 
 state.o: state.c $(INCLUDES)
 	$(CC) -c $(OFLAGS) -o $@ $<
 
+main.o: main.c $(INCLUDES)
+	$(CC) -c $(OFLAGS) -o $@ $<
 
-fc-solve: caas.o card.o fcs_dm.o fcs_hash.o fcs_isa.o freecell.o intrface.o main.o md5c.o move.o pqueue.o preset.o state.o scans.o
-	$(CC) $(OLFLAGS) -o $@ caas.o card.o fcs_dm.o fcs_hash.o fcs_isa.o freecell.o intrface.o main.o md5c.o move.o pqueue.o preset.o state.o scans.o
+OBJECTS = alloc.o app_str.o caas.o card.o cl_chop.o cmd_line.o fcs_dm.o fcs_hash.o fcs_isa.o freecell.o intrface.o lib.o lookup2.o move.o pqueue.o preset.o rand.o scans.o simpsim.o state.o main.o
+#>>>OBJECTS.END
+
+fc-solve: $(OBJECTS)
+	$(CC) $(OLFLAGS) -o $@ $(OBJECTS) -lm
 
 clean:
 	rm -f *.o $(TARGETS) $(DTARGETS)
