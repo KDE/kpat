@@ -13,7 +13,7 @@
 #if defined(__GNUC__) || defined(HAVE_C_INLINE)
 #define GCC_INLINE inline
 #else
-#define GCC_INLINE
+#define GCC_INLINE  __inline__
 #endif
 
 

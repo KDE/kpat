@@ -10,7 +10,7 @@ extern "C" {
 
 struct fcs_rand_struct
 {
-    long seed;
+    unsigned long seed;
 };
 
 typedef struct fcs_rand_struct fcs_rand_t;
@@ -18,7 +18,7 @@ typedef struct fcs_rand_struct fcs_rand_t;
 extern fcs_rand_t * freecell_solver_rand_alloc(unsigned int seed);
 extern void freecell_solver_rand_free(fcs_rand_t * rand);
 
-extern void freecell_solver_rand_srand(fcs_rand_t * rand, int seed);
+extern void freecell_solver_rand_srand(fcs_rand_t * rand, unsigned int seed);
 
 static GCC_INLINE int freecell_solver_rand_rand15(fcs_rand_t * rand)
 {
