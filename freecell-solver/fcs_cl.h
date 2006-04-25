@@ -34,7 +34,7 @@ enum FCS_CMD_LINE_CALLBACK_RET_VALUES
 extern int freecell_solver_user_cmd_line_parse_args(
     void * instance,
     int argc,
-    const char * argv[],
+    char * argv[],
     int start_arg,
     char * * known_parameters,
     freecell_solver_user_cmd_line_known_commands_callback_t callback,
@@ -46,7 +46,7 @@ extern int freecell_solver_user_cmd_line_parse_args(
 extern int freecell_solver_user_cmd_line_parse_args_with_file_nesting_count(
     void * instance,
     int argc,
-    const char * argv[],
+    char * argv[],
     int start_arg,
     char * * known_parameters,
     freecell_solver_user_cmd_line_known_commands_callback_t callback,
