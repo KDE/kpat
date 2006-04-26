@@ -1395,7 +1395,12 @@ void Dealer::drawPile(KPixmap &pixmap, Pile *pile, bool selected)
         n = 0.4;
     }
 
+    //QImage img = pixmap.toImage().mirrored( false, true );
+    //pixmap = QPixmap::fromImage( img, Qt::AutoColor );
+    //kDebug() <<  pixmap.fromImage( img, QPixmap::Auto ) << endl;
+    //KPixmapEffect::gradient( pixmap, Qt::white, Qt::red, KPixmapEffect::VerticalGradient );
     KPixmapEffect::intensity(pixmap, selected ? s : n);
+    //KPixmapEffect::blend( pixmap, 0.3, Qt::red, KPixmapEffect::VerticalGradient );
 }
 
 int Dealer::freeCells() const

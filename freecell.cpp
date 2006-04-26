@@ -53,15 +53,16 @@ void FreecellPile::moveCards(CardList &c, Pile *to)
 FreecellBase::FreecellBase( int decks, int stores, int freecells, int fill, bool unlimit,
                             KMainWindow* parent, const char* name)
     : Dealer(parent,name),
-solver_instance(0), es_filling(fill), solver_ret(FCS_STATE_NOT_BEGAN_YET),
-unlimited_move(unlimit)
+      solver_instance(0), es_filling(fill), solver_ret(FCS_STATE_NOT_BEGAN_YET),
+      unlimited_move(unlimit)
 {
     deck = Deck::new_deck(this, decks);
     deck->hide();
 
     kDebug(11111) << "cards " << deck->cards().count() << endl;
     Pile *t;
-    for (int i = 0; i < stores; i++) {
+    for (int i = 0; i < stores; i++)
+    {
         FreecellPile *p = new FreecellPile(1 + i, this);
         store.append(p);
         p->setAddFlags(Pile::addSpread | Pile::several);
