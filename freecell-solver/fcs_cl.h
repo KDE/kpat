@@ -59,7 +59,7 @@ extern int freecell_solver_user_cmd_line_parse_args_with_file_nesting_count(
 
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif /* #ifndef FC_SOLVE__FCS_CL_H */
