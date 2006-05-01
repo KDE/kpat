@@ -22,8 +22,6 @@ xdg_apps_DATA = kpat.desktop
 rcdir = $(kde_datadir)/kpat
 rc_DATA = kpatui.rc
 
-messages: rc.cpp
-	$(XGETTEXT) *.cpp -o $(podir)/kpat.pot
 
 bgdir = $(kde_datadir)/kpat/backgrounds
 bg_DATA = green.png
