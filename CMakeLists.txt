@@ -8,26 +8,26 @@ include_directories( ${CMAKE_SOURCE_DIR}/libkdegames ${KDE4_INCLUDE_DIR} ${QT_IN
 ADD_DEFINITIONS(-DFCS_STATE_STORAGE=FCS_STATE_STORAGE_INTERNAL_HASH -DFCS_STACK_STORAGE=FCS_STACK_STORAGE_INTERNAL_HASH) 
 
 set(libfcs_SRCS
-	${CMAKE_SOURCE_DIR}/kpat/freecell-solver/alloc.c 
-	${CMAKE_SOURCE_DIR}/kpat/freecell-solver/app_str.c 
-	${CMAKE_SOURCE_DIR}/kpat/freecell-solver/caas.c 
-	${CMAKE_SOURCE_DIR}/kpat/freecell-solver/card.c 
-	${CMAKE_SOURCE_DIR}/kpat/freecell-solver/cl_chop.c 
-	${CMAKE_SOURCE_DIR}/kpat/freecell-solver/cmd_line.c 
-	${CMAKE_SOURCE_DIR}/kpat/freecell-solver/fcs_dm.c 
-	${CMAKE_SOURCE_DIR}/kpat/freecell-solver/fcs_hash.c 
-	${CMAKE_SOURCE_DIR}/kpat/freecell-solver/fcs_isa.c 
-	${CMAKE_SOURCE_DIR}/kpat/freecell-solver/freecell.c 
-	${CMAKE_SOURCE_DIR}/kpat/freecell-solver/intrface.c 
-	${CMAKE_SOURCE_DIR}/kpat/freecell-solver/lib.c 
-	${CMAKE_SOURCE_DIR}/kpat/freecell-solver/lookup2.c 
-	${CMAKE_SOURCE_DIR}/kpat/freecell-solver/move.c 
-	${CMAKE_SOURCE_DIR}/kpat/freecell-solver/pqueue.c 
-	${CMAKE_SOURCE_DIR}/kpat/freecell-solver/preset.c 
-	${CMAKE_SOURCE_DIR}/kpat/freecell-solver/rand.c 
-	${CMAKE_SOURCE_DIR}/kpat/freecell-solver/scans.c 
-	${CMAKE_SOURCE_DIR}/kpat/freecell-solver/simpsim.c 
-	${CMAKE_SOURCE_DIR}/kpat/freecell-solver/state.c
+	freecell-solver/alloc.c 
+	freecell-solver/app_str.c 
+	freecell-solver/caas.c 
+	freecell-solver/card.c 
+	freecell-solver/cl_chop.c 
+	freecell-solver/cmd_line.c 
+	freecell-solver/fcs_dm.c 
+	freecell-solver/fcs_hash.c 
+	freecell-solver/fcs_isa.c 
+	freecell-solver/freecell.c 
+	freecell-solver/intrface.c 
+	freecell-solver/lib.c 
+	freecell-solver/lookup2.c 
+	freecell-solver/move.c 
+	freecell-solver/pqueue.c 
+	freecell-solver/preset.c 
+	freecell-solver/rand.c 
+	freecell-solver/scans.c 
+	freecell-solver/simpsim.c 
+	freecell-solver/state.c
 )
 ########### next target ###############
 
