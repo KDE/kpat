@@ -47,14 +47,10 @@ void GameStatsImpl::setGameType(int id)
 	unsigned int t = cg.readEntry(QString("total%1").arg(id),0);
 	Played->setText(Played->text().arg(t));
 	unsigned int w = cg.readEntry(QString("won%1").arg(id),0);
-	#warning i18n: Missing argument for %2 to i18n call below.
-	Won->setText(i18n("%1 (%2%%)", w));
 	if (t)
-		WonPerc->setText(i18n("%1 (%2%%)", w, w*100/t));
+		Won->setText(i18n("%1 (%2%%)", w, w*100/t));
 	else
-		WonPerc->setText(i18n("%1", w));
-	WinStreak->setText(
-		i18n("%1", cg.readEntry(QString("maxwinstreak%1").arg(id), 0)));
-	LooseStreak->setText(
-		i18n("%1", cg.readEntry(QString("maxloosestreak%1").arg(id), 0)));
+		Won->setText( QString::number(w));
+	WinStreak->setText( QString::number( cg.readEntry(QString("maxwinstreak%1").arg(id), 0)));
+	LooseStreak->setText( QString::number( cg.readEntry(QString("maxloosestreak%1").arg(id), 0)));
 }
