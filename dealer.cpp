@@ -24,7 +24,7 @@
 #include <kconfig.h>
 #include <kglobal.h>
 #include "version.h"
-
+#include <ktoggleaction.h>
 
 // ================================================================
 //                         class MoveHint

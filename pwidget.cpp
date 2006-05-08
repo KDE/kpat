@@ -32,6 +32,8 @@
 #include <kapplication.h>
 #include <klocale.h>
 #include <kaction.h>
+#include <ktoggleaction.h>
+#include <kstdaction.h>
 #include <kdebug.h>
 #include <kcarddialog.h>
 #include <krandom.h>
@@ -177,7 +179,7 @@ pWidget::pWidget()
 
     statusBar()->insertPermanentItem( "", 1, 0 );
 
-    createGUI(QString::null, false);
+    createGUI(QString::null/*, false*/);
     KAcceleratorManager::manage(menuBar());
 
     newGameType();
