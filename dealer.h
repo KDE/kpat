@@ -11,7 +11,7 @@
 #include <QList>
 #include <QResizeEvent>
 #include <QMouseEvent>
-
+class QPixmap;
 class QDomDocument;
 class KMainWindow;
 class Dealer;
@@ -19,7 +19,6 @@ class DealerInfo;
 class KAction;
 class KSelectAction;
 class KToggleAction;
-class KPixmap;
 
 class DealerInfoList {
 public:
@@ -95,7 +94,7 @@ public:
 
     bool demoActive() const;
 
-    void drawPile(KPixmap &, Pile *p, bool selected);
+    void drawPile(QPixmap &, Pile *p, bool selected);
 
     QColor midColor() const { return _midcolor; }
     void setBackgroundPixmap(const QPixmap &background, const QColor &midcolor);

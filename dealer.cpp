@@ -1348,7 +1348,7 @@ bool Dealer::checkAdd( int, const Pile *, const CardList&) const {
     return true;
 }
 
-void Dealer::drawPile(KPixmap &pixmap, Pile *pile, bool selected)
+void Dealer::drawPile(QPixmap &pixmap, Pile *pile, bool selected)
 {
     QPixmap bg = myCanvas.backgroundPixmap();
     QRect bounding(int(pile->x()), int(pile->y()), cardMap::CARDX(), cardMap::CARDY());

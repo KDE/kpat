@@ -3,7 +3,7 @@
 
 
 #include "card.h"
-#include <kpixmap.h>
+#include <QPixmap>
 //Added by qt3to4:
 #include <QList>
 
@@ -144,8 +144,8 @@ private:
     int myIndex;
     bool _target;
 
-    KPixmap cache;
-    KPixmap cache_selected;
+    QPixmap cache;
+    QPixmap cache_selected;
 };
 
 typedef QList<Pile*> PileList;
