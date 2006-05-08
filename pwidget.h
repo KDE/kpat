@@ -28,7 +28,7 @@
 #include <QPixmap>
 #include <QLabel>
 #include <QShowEvent>
-
+#include <krecentfilesaction.h>
 class Dealer;
 class KToggleAction;
 class KSelectAction;
