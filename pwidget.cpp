@@ -20,7 +20,7 @@
 
 #include <stdio.h>
 
-#include <qregexp.h>
+#include <QRegExp>
 #include <qtimer.h>
 #include <qimage.h>
 //Added by qt3to4:
