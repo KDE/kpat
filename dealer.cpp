@@ -7,7 +7,7 @@
 #include <kapplication.h>
 #include <kpixmapeffect.h>
 #include <kxmlguifactory.h>
-#include <qtimer.h>
+#include <QTimer>
 //Added by qt3to4:
 #include <QWheelEvent>
 #include <QPixmap>

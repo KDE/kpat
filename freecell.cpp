@@ -26,7 +26,7 @@
 #include <kdebug.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <qtimer.h>
+#include <QTimer>
 //Added by qt3to4:
 #include <QList>
 #include "cardmaps.h"

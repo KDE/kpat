@@ -21,7 +21,7 @@
 #include <stdio.h>
 
 #include <QRegExp>
-#include <qtimer.h>
+#include <QTimer>
 #include <qimage.h>
 //Added by qt3to4:
 #include <QPixmap>
