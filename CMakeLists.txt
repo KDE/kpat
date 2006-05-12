@@ -1,4 +1,3 @@
-kde4_header()
 project(kpat)
 
 add_subdirectory( icons ) 
@@ -74,7 +73,6 @@ install_files( ${XDG_APPS_DIR} FILES kpat.desktop )
 install_files( ${DATA_INSTALL_DIR}/kpat/backgrounds FILES green.png )
 install_files( ${DATA_INSTALL_DIR}/kpat FILES kpatui.rc )
 
-kde4_footer()
 
 
 
