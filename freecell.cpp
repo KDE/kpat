@@ -379,7 +379,7 @@ QString FreecellBase::solverFormat() const
     for (int i = 0; i < target.count(); i++) {
         if (target[i]->isEmpty())
             continue;
-        tmp += suitToString(target[i]->top()->suit()) + "-" + rankToString(target[i]->top()->rank()) + " ";
+        tmp += suitToString(target[i]->top()->suit()) + '-' + rankToString(target[i]->top()->rank()) + ' ';
     }
     if (!tmp.isEmpty())
         output += QString::fromLatin1("Foundations: %1\n").arg(tmp);
@@ -389,7 +389,7 @@ QString FreecellBase::solverFormat() const
         if (freecell[i]->isEmpty())
             tmp += "- ";
         else
-            tmp += rankToString(freecell[i]->top()->rank()) + suitToString(freecell[i]->top()->suit()) + " ";
+            tmp += rankToString(freecell[i]->top()->rank()) + suitToString(freecell[i]->top()->suit()) + ' ';
     }
     if (!tmp.isEmpty())
         output += QString::fromLatin1("Freecells: %1\n").arg(tmp);
@@ -398,8 +398,8 @@ QString FreecellBase::solverFormat() const
     {
         CardList cards = store[i]->cards();
         for (CardList::ConstIterator it = cards.begin(); it != cards.end(); ++it)
-            output += rankToString((*it)->rank()) + suitToString((*it)->suit()) + " ";
-        output += "\n";
+            output += rankToString((*it)->rank()) + suitToString((*it)->suit()) + ' ';
+        output += '\n';
     }
     return output;
 }

@@ -120,7 +120,7 @@ bool Idiot::cardClicked(Card *c)
     else
 	didMove = false;
 
-    return true; // may be a lie, but noone cares
+    return true; // may be a lie, but no one cares
 }
 
 

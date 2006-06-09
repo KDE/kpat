@@ -252,7 +252,7 @@ void pWidget::changeWallpaper()
         return;
     background = QPixmap(bgpath);
     if (background.isNull()) {
-        KMessageBox::sorry(this, i18n("<qt>Couldn't load wallpaper<br/>%1</qt>", bgpath));
+        KMessageBox::sorry(this, i18n("<qt>Could not load wallpaper<br/>%1</qt>", bgpath));
         return;
     }
 

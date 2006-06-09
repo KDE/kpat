@@ -290,7 +290,7 @@ void Card::flipTo(int x2, int y2, int steps)
     m_animSteps = steps;
     setVelocity(dx/m_animSteps, dy/m_animSteps-flipLift);
 
-    setAnimated(TRUE);
+    setAnimated(true);
 }
 
 
@@ -338,7 +338,7 @@ void Card::setAnimated(bool anim)
 	// Reset all things that might have changed during the animation.
         scaleX = 1.0;
         scaleY = 1.0;
-        m_flipping = FALSE;
+        m_flipping = false;
         setVelocity(0, 0);
 
 	// Move the card to its destination immediately.
@@ -376,7 +376,7 @@ void Card::getUp(int steps)
     // Animation
     m_animSteps = steps;
     setVelocity(0, 0);
-    setAnimated(TRUE);
+    setAnimated(true);
 }
 
 #include "card.moc"

@@ -488,7 +488,7 @@ struct fcs_struct_state_with_locations_t
     fcs_move_stack_t * moves_to_parent;
     int depth;
     /*
-     * This field contains global, scan-independant flags, which are used
+     * This field contains global, scan-independent flags, which are used
      * from the FCS_VISITED_T enum below.
      *
      * FCS_VISITED_VISITED - deprecated
