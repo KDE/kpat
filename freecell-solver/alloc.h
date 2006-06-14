@@ -1,3 +1,12 @@
+/*
+ * alloc.h - a dynamic memory allocator. It allocates blocks of relatively
+ * small size, in a contiguous, compact manner. The most recent block can
+ * be released, but otherwise the blocks are kept for prosperity.
+ *
+ * Written by Shlomi Fish (shlomif@vipe.technion.ac.il), 2002
+ *
+ * This file is in the public domain (it's uncopyrighted).
+ */
 
 #ifndef FC_SOLVE__ALLOC_H
 #define FC_SOLVE__ALLOC_H

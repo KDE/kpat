@@ -2,7 +2,7 @@
 
   mod3.cpp  implements a patience card game
 
-     Copyright (C) 1997  Rodolfo Borges
+     Copyright 1997 Rodolfo Borges <barrett@labma.ufrj.br>
 
  * Permission to use, copy, modify, and distribute this software and its
  * documentation for any purpose and without fee is hereby granted,

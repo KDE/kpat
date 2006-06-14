@@ -1,3 +1,9 @@
+/*
+Note:
+    This code was ripped and modified by Shlomi Fish. The original can
+    be found at http://burtleburtle.net/bob/c/lookup2.c.
+    This file is in the Public Domain.
+*/
 #ifndef FC_SOLVE__LOOKUP2_H
 #define FC_SOLVE__LOOKUP2_H
 

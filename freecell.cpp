@@ -2,8 +2,8 @@
 
   freecell.cpp  implements a patience card game
 
-     Copyright (C) 1997  Rodolfo Borges
-               (C) 2000  Stephan Kulow
+     Copyright 1997 Rodolfo Borges <barrett@labma.ufrj.br>
+     Copyright 2000 Stephan Kulow <coolo@kde.org>
 
  * Permission to use, copy, modify, and distribute this software and its
  * documentation for any purpose and without fee is hereby granted,

@@ -1,3 +1,11 @@
+/*
+ * caas.h - the various possible implementations of the function
+ * freecell_solver_check_and_add_state().
+ *
+ * Written by Shlomi Fish (shlomif@vipe.technion.ac.il), 2000
+ *
+ * This file is in the public domain (it's uncopyrighted).
+ */
 
 #ifndef FC_SOLVE__CAAS_H
 #define FC_SOLVE__CAAS_H

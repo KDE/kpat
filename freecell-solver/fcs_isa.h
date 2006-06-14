@@ -1,3 +1,8 @@
+/* fcs_isa.h - Freecell Solver Indirect State Allocation Routines
+
+   Written by Shlomi Fish, 2000
+   This file is distributed under the public domain.
+*/
 #ifndef FC_SOLVE__FCS_ISA_H
 #define FC_SOLVE__FCS_ISA_H
 
