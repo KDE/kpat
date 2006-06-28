@@ -1021,6 +1021,13 @@ void Dealer::undo()
         emit updateMoves();
         takeState(); // copying it again
         emit undoPossible(undoList.count() > 1);
+        if ( toldAboutLostGame ) { // everything's possible again
+            if ( ahint )
+                ahint->setEnabled( true );
+            if ( ademo )
+                ademo->setEnabled( true );
+            toldAboutLostGame = false;
+        } 
     }
 }
 
