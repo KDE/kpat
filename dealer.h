@@ -24,7 +24,11 @@
 #include <QList>
 #include <QResizeEvent>
 #include <QMouseEvent>
+#include <QGraphicsScene>
+#include <QGraphicsView>
+
 class QPixmap;
+class QGraphicsRectItem;
 class QDomDocument;
 class KMainWindow;
 class Dealer;
@@ -74,18 +78,20 @@ struct State
   Dealer -- abstract base class of all varieties of patience
 
 ***************************************************************/
-class Dealer: public Q3CanvasView
+class Dealer: public QGraphicsView
 {
     Q_OBJECT
 
 public:
 
-    Dealer( KMainWindow* parent = 0, const char* name = 0 );
+    enum UserTypes { CardTypeId = 1, PileTypeId = 2 };
+
+    Dealer( KMainWindow* parent );
     virtual ~Dealer();
 
     static const Dealer *instance();
 
-    void enlargeCanvas(Q3CanvasRectangle *c);
+    void enlargeCanvas(QGraphicsRectItem *c);
     void setGameNumber(long gmn);
     long gameNumber() const;
 
@@ -210,11 +216,11 @@ protected:
 
     bool moved;
     CardList movingCards;
-    Q3CanvasItemList marked;
+    QList<QGraphicsItem *> marked;
     QPoint moving_start;
     Dealer( Dealer& );  // don't allow copies or assignments
     void operator = ( Dealer& );  // don't allow copies or assignments
-    Q3Canvas myCanvas;
+    QGraphicsScene  myCanvas;
     QSize minsize;
     QSize viewsize;
     Q3PtrList<State> undoList;

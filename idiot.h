@@ -32,7 +32,7 @@ class Idiot: public Dealer
 
 public:
 
-    Idiot( KMainWindow* parent = 0, const char* name = 0 );
+    Idiot( KMainWindow* parent = 0 );
 
     virtual bool  isGameWon() const;
 

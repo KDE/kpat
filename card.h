@@ -31,6 +31,8 @@
 //Added by qt3to4:
 #include <QPixmap>
 #include <QList>
+#include <QGraphicsScene>
+#include <QGraphicsRectItem>
 
 // The following classes are defined in other headers:
 class cardPos;
@@ -48,15 +50,15 @@ typedef QList<Card*> CardList;
 //  - It has card properties (Suit, Rank, etc)
 //  - It is a graphic entity on a QCanvas that can be moved around.
 //
-class Card: public QObject, public Q3CanvasRectangle {
+class Card: public QObject, public QGraphicsRectItem {
     Q_OBJECT
 
 public:
     enum Suit { Clubs = 1, Diamonds, Hearts, Spades };
-    enum Rank { None = 0, Ace = 1, Two,  Three, Four, Five,  Six, Seven, 
+    enum Rank { None = 0, Ace = 1, Two,  Three, Four, Five,  Six, Seven,
 		          Eight,   Nine, Ten,   Jack, Queen, King };
 
-    Card( Rank r, Suit s,  Q3Canvas *parent=0);
+    Card( Rank r, Suit s, QGraphicsScene *parent=0 );
     virtual ~Card();
 
     // Properties of the card.
@@ -72,15 +74,13 @@ public:
 
     void       turn(bool faceup = true);
 
-    static const int RTTI;
-
     Pile        *source() const     { return m_source; }
     void         setSource(Pile *p) { m_source = p; }
 
-    virtual int  rtti() const       { return RTTI; }
+    virtual int  type() const       { return UserType + my_type; }
 
     virtual void moveBy(double dx, double dy);
-    void         moveTo(int x2, int y2, int z, int steps);
+    void         moveTo( qreal x2, qreal y2, int z, int steps);
     void         flipTo(int x, int y, int steps);
     virtual void setAnimated(bool anim);
     void         setZ(double z);
@@ -93,6 +93,11 @@ public:
 
     void         setTakenDown(bool td);
     bool         takenDown() const;
+
+    bool         animated() const;
+    void         setVelocity( int x, int y );
+    void         setActive( bool b );
+    bool         isActive() const;
 
 signals:
     void         stoped(Card *c);
@@ -128,6 +133,8 @@ private:
 
     // The maximum Z ever used.
     static int  Hz;
+
+    static const int my_type;
 };
 
 

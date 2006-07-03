@@ -32,7 +32,7 @@ class Computation : public Dealer {
     Q_OBJECT
 
 public:
-    Computation( KMainWindow *parent = 0, const char *name=0 );
+    Computation( KMainWindow *parent = 0 );
 
     virtual void restart();
 

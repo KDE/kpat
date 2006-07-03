@@ -30,18 +30,18 @@
 #include "card.h"
 #include "pile.h"
 #include "cardmaps.h"
-
+#include "dealer.h"
 
 static const char  *suit_names[] = {"Clubs", "Diamonds", "Hearts", "Spades"};
 static const char  *rank_names[] = {"Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight",
                                      "Nine", "Ten", "Jack", "Queen", "King" };
 
 // Run time type id
-const int Card::RTTI = 1001;
+const int Card::my_type = Dealer::CardTypeId;
 
 
-Card::Card( Rank r, Suit s, Q3Canvas* _parent )
-    : Q3CanvasRectangle( _parent ),
+Card::Card( Rank r, Suit s, QGraphicsScene* _parent )
+    : QGraphicsRectItem( QRectF( 0, 0, cardMap::CARDX(), cardMap::CARDY() ), 0, _parent ),
       m_suit( s ), m_rank( r ),
       m_source(0), scaleX(1.0), scaleY(1.0), tookDown(false)
 {
@@ -51,7 +51,6 @@ Card::Card( Rank r, Suit s, Q3Canvas* _parent )
 
     // Default for the card is face up, standard size.
     m_faceup = true;
-    setSize( cardMap::CARDX(), cardMap::CARDY() );
 
     m_destX = 0;
     m_destY = 0;
@@ -124,7 +123,7 @@ void Card::draw( QPainter &p )
 
 void Card::moveBy(double dx, double dy)
 {
-    Q3CanvasRectangle::moveBy(dx, dy);
+    QGraphicsRectItem::moveBy(dx, dy);
 }
 
 
@@ -160,7 +159,7 @@ int Card::realZ() const
     if (animated())
         return m_destZ;
     else
-        return int(z());
+        return int(zValue());
 }
 
 
@@ -217,7 +216,7 @@ int  Card::Hz = 0;
 
 void Card::setZ(double z)
 {
-    Q3CanvasRectangle::setZ(z);
+    QGraphicsRectItem::setZValue(z);
     if (z > Hz)
         Hz = int(z);
 }
@@ -227,7 +226,7 @@ void Card::setZ(double z)
 //
 // 'steps' is the number of steps the animation should take.
 //
-void Card::moveTo(int x2, int y2, int z2, int steps)
+void Card::moveTo(qreal x2, qreal y2, int z2, int steps)
 {
     m_destX = x2;
     m_destY = y2;
@@ -282,7 +281,7 @@ void Card::flipTo(int x2, int y2, int steps)
     // Set the target of the animation
     m_destX = x2;
     m_destY = y2;
-    m_destZ = int(z());
+    m_destZ = int(zValue());
 
     // Let the card be above all others during the animation.
     setZ(Hz++);
@@ -316,7 +315,8 @@ void Card::advance(int stage)
 		    scaleX = 1-((double)m_animSteps/m_flipSteps)*2;
 		}
 		if ( m_animSteps == m_flipSteps / 2-1 ) {
-		    setYVelocity(yVelocity()+flipLift*2);
+#warning FIXME
+		    // setYVelocity(yVelocity()+flipLift*2);
 		    turn( !isFaceUp() );
 		}
 	    }
@@ -324,7 +324,8 @@ void Card::advance(int stage)
     }
 
     // Animate the translation of the card.
-    Q3CanvasRectangle::advance(stage);
+#warning FIXME
+// Q3CanvasRectangle::advance(stage);
 }
 
 
@@ -342,11 +343,11 @@ void Card::setAnimated(bool anim)
         setVelocity(0, 0);
 
 	// Move the card to its destination immediately.
-        move(m_destX, m_destY);
+        setPos(m_destX, m_destY);
         setZ(m_destZ);
     }
-
-    Q3CanvasRectangle::setAnimated(anim);
+#warning FIXME
+//    QGraphicsRectItem::setAnimated(anim);
 }
 
 
@@ -368,7 +369,7 @@ bool Card::takenDown() const
 
 void Card::getUp(int steps)
 {
-    m_destZ = int(z());
+    m_destZ = int(zValue());
     m_destX = int(x());
     m_destY = int(y());
     setZ(Hz+1);
@@ -378,5 +379,13 @@ void Card::getUp(int steps)
     setVelocity(0, 0);
     setAnimated(true);
 }
+
+bool         Card::animated() const { return false; }
+void         Card::setVelocity( int x, int y ) {
+}
+void         Card::setActive( bool b ) {
+
+}
+bool         Card::isActive() const { return false; }
 
 #include "card.moc"

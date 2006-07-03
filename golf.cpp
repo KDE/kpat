@@ -32,25 +32,25 @@ QSize HorRightPile::cardOffset( bool _spread, bool, const Card *) const
 
 //-------------------------------------------------------------------------//
 
-Golf::Golf( KMainWindow* parent, const char* _name)
-        : Dealer( parent, _name )
+Golf::Golf( KMainWindow* parent )
+        : Dealer( parent )
 {
     const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
     const int pile_dist = 10 + 3 * cardMap::CARDY();
 
     deck = Deck::new_deck( this);
-    deck->move(10, pile_dist);
+    deck->setPos(10, pile_dist);
     connect(deck, SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
 
     for( int r = 0; r < 7; r++ ) {
         stack[r]=new Pile(1+r, this);
-        stack[r]->move(10+r*dist_x,10);
+        stack[r]->setPos(10+r*dist_x,10);
         stack[r]->setAddFlags( Pile::addSpread | Pile::disallow);
         stack[r]->setCheckIndex( 1 );
     }
 
     waste=new HorRightPile(8,this);
-    waste->move(10 + cardMap::CARDX() * 5 / 4, pile_dist);
+    waste->setPos(10 + cardMap::CARDX() * 5 / 4, pile_dist);
     waste->setTarget(true);
     waste->setCheckIndex( 0 );
     waste->setAddFlags( Pile::addSpread);
@@ -100,7 +100,7 @@ void Golf::deckClicked(Card *)
     waste->add(c, true, true);
     int x = int(c->x());
     int y = int(c->y());
-    c->move(deck->x(), deck->y());
+    c->setPos(deck->x(), deck->y());
     c->flipTo(x, y, 8);
 }
 
@@ -140,7 +140,7 @@ bool Golf::cardClicked(Card *c)
         CardList empty;
         empty.append(c);
         c->source()->moveCards(empty, p);
-        canvas()->update();
+        scene()->update();
         return true;
     }
     return false;

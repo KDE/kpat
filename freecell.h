@@ -38,8 +38,8 @@ class FreecellBase : public Dealer
     Q_OBJECT
 
 public:
-    FreecellBase( int decks, int stores, int freecells, int es_filling, bool unlimited_move,
-                  KMainWindow* parent=0, const char* name=0);
+    FreecellBase( int decks, int stores, int freecells, int es_filling, 
+		  bool unlimited_move, KMainWindow* parent);
     void moveCards(CardList &c, FreecellPile *from, Pile *to);
     QString solverFormat() const;
     virtual ~FreecellBase();

@@ -17,21 +17,21 @@
 #include <assert.h>
 #include "cardmaps.h"
 
-Clock::Clock( KMainWindow* parent, const char *name )
-    : Dealer( parent, name )
+Clock::Clock( KMainWindow* parent )
+    : Dealer( parent )
 {
     const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
     const int dist_y = cardMap::CARDY() * 11 / 10 + 1;
 
     deck = Deck::new_deck(this);
-    deck->move(10, 10+dist_y*3);
+    deck->setPos(10, 10+dist_y*3);
     deck->hide();
 
     for (int i=0; i<12; i++) {
         target[i] = new Pile(i+1, this);
         const double ys[12] = {   0./96,  15./96,  52./96, 158./96, 264./96, 301./96, 316./96, 301./96, 264./96, 158./96,  52./96,  15./96};
         const double xs[12] = { 200./72, 280./72, 360./72, 400./72, 360./72, 280./72, 200./72, 120./72, 40./72, 0./72, 40./72, 120./72};
-        target[i]->move(15 + cardMap::CARDX() * 24 / 5 + xs[i] * cardMap::CARDX(), 10 + ys[i] * cardMap::CARDY());
+        target[i]->setPos(15 + cardMap::CARDX() * 24 / 5 + xs[i] * cardMap::CARDX(), 10 + ys[i] * cardMap::CARDY());
         target[i]->setCheckIndex(1);
         target[i]->setTarget(true);
         target[i]->setRemoveFlags(Pile::disallow);
@@ -39,7 +39,7 @@ Clock::Clock( KMainWindow* parent, const char *name )
 
     for (int i=0; i<8; i++) {
         store[i] = new Pile(14+i, this);
-        store[i]->move(15+dist_x*(i%4), 10 + cardMap::CARDY() * 5 / 2 * (i/4));
+        store[i]->setPos(15+dist_x*(i%4), 10 + cardMap::CARDY() * 5 / 2 * (i/4));
         store[i]->setAddFlags(Pile::addSpread);
         store[i]->setCheckIndex(0);
     }

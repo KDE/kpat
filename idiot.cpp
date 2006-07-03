@@ -25,12 +25,12 @@
 #include "cardmaps.h"
 
 
-Idiot::Idiot( KMainWindow* parent, const char* _name)
-  : Dealer( parent, _name )
+Idiot::Idiot( KMainWindow* parent )
+  : Dealer( parent )
 {
     // Create the deck to the left.
     m_deck = Deck::new_deck( this );
-    m_deck->move(10, 10);
+    m_deck->setPos(10, 10);
 
     const int distx = cardMap::CARDX() + cardMap::CARDX() / 10 + 1;
 
@@ -40,14 +40,14 @@ Idiot::Idiot( KMainWindow* parent, const char* _name)
 
         m_play[i]->setAddFlags( Pile::addSpread );
         m_play[i]->setRemoveFlags( Pile::disallow );
-        m_play[i]->move(10 + cardMap::CARDX() * 18 / 10 + distx * i, 10);
+        m_play[i]->setPos(10 + cardMap::CARDX() * 18 / 10 + distx * i, 10);
     }
 
     // Create the discard pile to the right
     m_away = new Pile( 5, this );
     m_away->setTarget(true);
     m_away->setRemoveFlags(Pile::disallow);
-    m_away->move(10 + cardMap::CARDX() * 5 / 2 + distx * 4, 10);
+    m_away->setPos(10 + cardMap::CARDX() * 5 / 2 + distx * 4, 10);
 
     setActions(Dealer::Hint | Dealer::Demo);
 }

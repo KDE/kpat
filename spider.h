@@ -36,7 +36,7 @@ class Spider : public Dealer
     Q_OBJECT
 
 public:
-    Spider(int suits, KMainWindow *parent=0, const char *name=0);
+    Spider(int suits, KMainWindow *parent=0);
     void deal();
     void dealRow();
     void checkPileDeck(Pile *to);

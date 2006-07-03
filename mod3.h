@@ -30,7 +30,7 @@ class Mod3 : public Dealer
     Q_OBJECT
 
 public:
-    Mod3( KMainWindow* parent=0, const char* name=0);
+    Mod3( KMainWindow* parent );
 
     void deal();
 

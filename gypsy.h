@@ -26,8 +26,8 @@ class Gypsy : public Dealer {
     Q_OBJECT
 
 public:
-    Gypsy( KMainWindow* parent=0, const char* name=0);
-	virtual bool isGameLost() const;
+    Gypsy( KMainWindow* parent=0 );
+    virtual bool isGameLost() const;
 
 public slots:
     void slotClicked(Card *) { dealRow(true); }

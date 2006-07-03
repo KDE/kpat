@@ -38,7 +38,7 @@ class Grandf : public Dealer {
     Q_OBJECT
 
 public:
-    Grandf( KMainWindow* parent=0, const char* name=0);
+    Grandf( KMainWindow* parent=0 );
 
 public slots:
     void redeal();

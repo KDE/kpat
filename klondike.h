@@ -35,7 +35,7 @@ class Klondike : public Dealer {
     Q_OBJECT
 
 public:
-    Klondike( bool easy, KMainWindow* parent=0, const char* name=0);
+    Klondike( bool easy, KMainWindow* parent );
 
 public:
     virtual void restart();

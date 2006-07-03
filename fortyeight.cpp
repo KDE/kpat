@@ -40,8 +40,8 @@ void HorLeftPile::initSizes()
 }
 
 
-Fortyeight::Fortyeight( KMainWindow* parent, const char* name)
-        : Dealer(parent,name)
+Fortyeight::Fortyeight( KMainWindow* parent )
+    : Dealer(parent)
 {
     deck = Deck::new_deck(this, 2);
 
@@ -49,21 +49,21 @@ Fortyeight::Fortyeight( KMainWindow* parent, const char* name)
     const int dist_y = cardMap::CARDY() * 11 / 10 + 1;
 
     connect(deck, SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
-    deck->move(10 + cardMap::CARDX() * 82 / 10, 10 + cardMap::CARDX() * 56 / 10);
-    deck->setZ(20);
+    deck->setPos(10 + cardMap::CARDX() * 82 / 10, 10 + cardMap::CARDX() * 56 / 10);
+    deck->setZValue(20);
 
     pile = new HorLeftPile(20, this);
     pile->setAddFlags(Pile::addSpread | Pile::disallow);
-    pile->move(10 + cardMap::CARDX() * 69 / 10, 10 + cardMap::CARDX() * 56 / 10 );
+    pile->setPos(10 + cardMap::CARDX() * 69 / 10, 10 + cardMap::CARDX() * 56 / 10 );
 
     for (int i = 0; i < 8; i++) {
 
         target[i] = new Pile(9 + i, this);
-        target[i]->move(8+dist_x*i, 10);
+        target[i]->setPos(8+dist_x*i, 10);
         target[i]->setType(Pile::KlondikeTarget);
 
         stack[i] = new Pile(1 + i, this);
-        stack[i]->move(8+dist_x*i, 10 + dist_y);
+        stack[i]->setPos(8+dist_x*i, 10 + dist_y);
         stack[i]->setAddFlags(Pile::addSpread);
         stack[i]->setRemoveFlags(Pile::autoTurnTop);
         stack[i]->setCheckIndex(1);
@@ -98,7 +98,7 @@ void Fortyeight::deckClicked(Card *)
     pile->add(c, true, true);
     int x = int(c->x());
     int y = int(c->y());
-    c->move(deck->x(), deck->y());
+    c->setPos(deck->x(), deck->y());
     c->flipTo(x, y, 8);
 }
 

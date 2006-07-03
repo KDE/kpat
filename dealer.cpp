@@ -80,8 +80,8 @@ void DealerInfoList::add(DealerInfo *dealer)
 Dealer *Dealer::s_instance = 0;
 
 
-Dealer::Dealer( KMainWindow* _parent , const char* _name )
-  : Q3CanvasView( 0, _parent, _name ),
+Dealer::Dealer( KMainWindow* _parent )
+  : QGraphicsView( _parent ),
     towait(0),
     myActions(0),
     ademo(0),
@@ -94,15 +94,16 @@ Dealer::Dealer( KMainWindow* _parent , const char* _name )
     _autodrop(true),
     _gameRecorded(false)
 {
-    setResizePolicy(Q3ScrollView::Manual);
-    setVScrollBarMode(AlwaysOff);
-    setHScrollBarMode(AlwaysOff);
+#warning FIXME
+//    setResizePolicy(Q3ScrollView::Manual);
+//    setVScrollBarMode(AlwaysOff);
+//    setHScrollBarMode(AlwaysOff);
 
     setGameNumber(KRandom::random());
-    myCanvas.setAdvancePeriod(30);
-    // myCanvas.setBackgroundColor( darkGreen );
-    setCanvas(&myCanvas);
-    myCanvas.setDoubleBuffering(true);
+//    myCanvas.setAdvancePeriod(30);
+// myCanvas.setBackgroundColor( darkGreen );
+    setScene(&myCanvas);
+// myCanvas.setDoubleBuffering(true);
 
     undoList.setAutoDelete(true);
 
@@ -124,7 +125,7 @@ const Dealer *Dealer::instance()
 void Dealer::setBackgroundPixmap(const QPixmap &background, const QColor &midcolor)
 {
     _midcolor = midcolor;
-    canvas()->setBackgroundPixmap(background);
+    scene()->setBackgroundBrush(QBrush( background) );
     for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it) {
         (*it)->resetCache();
         (*it)->initSizes();
@@ -170,8 +171,9 @@ void Dealer::setupActions() {
 
 Dealer::~Dealer()
 {
-	 if (!_won)
-		 countLoss();
+    if (!_won)
+        countLoss();
+
     clearHints();
     parent()->guiFactory()->unplugActionList( parent(), QString::fromLatin1("game_actions"));
 
@@ -184,7 +186,7 @@ Dealer::~Dealer()
 
 KMainWindow *Dealer::parent() const
 {
-    return dynamic_cast<KMainWindow*>(Q3CanvasView::parent());
+    return dynamic_cast<KMainWindow*>(QGraphicsView::parent());
 }
 
 
@@ -199,7 +201,7 @@ void Dealer::hint()
     for (HintList::ConstIterator it = hints.begin(); it != hints.end(); ++it)
         mark((*it)->card());
     clearHints();
-    canvas()->update();
+    scene()->update();
 }
 
 
@@ -282,6 +284,8 @@ bool Dealer::isMoving(Card *c) const
 
 void Dealer::contentsMouseMoveEvent(QMouseEvent* e)
 {
+#warning FIXME
+#if 0
     if (movingCards.isEmpty())
         return;
 
@@ -294,9 +298,9 @@ void Dealer::contentsMouseMoveEvent(QMouseEvent* e)
     }
 
     PileList sources;
-    Q3CanvasItemList list = canvas()->collisions(movingCards.first()->rect());
+    QList<QGraphicsItem *> list = scene()->collisions(movingCards.first()->rect());
 
-    for (Q3CanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
+    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
     {
         if ((*it)->rtti() == Card::RTTI) {
             Card *c = dynamic_cast<Card*>(*it);
@@ -336,7 +340,8 @@ void Dealer::contentsMouseMoveEvent(QMouseEvent* e)
     }
 
     moving_start = e->pos();
-    canvas()->update();
+    scene()->update();
+#endif
 }
 
 void Dealer::mark(Card *c)
@@ -348,7 +353,7 @@ void Dealer::mark(Card *c)
 
 void Dealer::unmarkAll()
 {
-    for (Q3CanvasItemList::Iterator it = marked.begin(); it != marked.end(); ++it)
+    for (QList<QGraphicsItem *>::Iterator it = marked.begin(); it != marked.end(); ++it)
     {
         (*it)->setSelected(false);
     }
@@ -362,16 +367,16 @@ void Dealer::contentsMousePressEvent(QMouseEvent* e)
     if (waiting())
         return;
 
-    Q3CanvasItemList list = canvas()->collisions(e->pos());
+    QList<QGraphicsItem *> list = scene()->items(e->pos());
 
-    kDebug(11111) << "mouse pressed " << list.count() << " " << canvas()->allItems().count() << endl;
+    kDebug(11111) << "mouse pressed " << list.count() << " " << scene()->items().count() << endl;
     moved = false;
 
     if (!list.count())
         return;
 
     if (e->button() == Qt::LeftButton) {
-        if (list.first()->rtti() == Card::RTTI) {
+        if (list.first()->type() == QGraphicsItem::UserType + Dealer::CardTypeId ) {
             Card *c = dynamic_cast<Card*>(list.first());
             assert(c);
             CardList mycards = c->source()->cardPressed(c);
@@ -384,7 +389,7 @@ void Dealer::contentsMousePressEvent(QMouseEvent* e)
     }
 
     if (e->button() == Qt::RightButton) {
-        if (list.first()->rtti() == Card::RTTI) {
+        if (list.first()->type() == QGraphicsItem::UserType + Dealer::CardTypeId ) {
             Card *preview = dynamic_cast<Card*>(list.first());
             assert(preview);
             if (!preview->animated() && !isMoving(preview))
@@ -401,7 +406,7 @@ void Dealer::contentsMousePressEvent(QMouseEvent* e)
 class Hit {
 public:
     Pile *source;
-    QRect intersect;
+    QRectF intersect;
     bool top;
 };
 typedef QList<Hit> HitList;
@@ -413,11 +418,11 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
             movingCards.first()->source()->moveCardsBack(movingCards);
             movingCards.clear();
         }
-        Q3CanvasItemList list = canvas()->collisions(e->pos());
+        QList<QGraphicsItem *> list = scene()->items(e->pos());
         if (list.isEmpty())
             return;
-        Q3CanvasItemList::Iterator it = list.begin();
-        if ((*it)->rtti() == Card::RTTI) {
+        QList<QGraphicsItem *>::Iterator it = list.begin();
+        if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId ) {
             Card *c = dynamic_cast<Card*>(*it);
             assert(c);
             if (!c->animated()) {
@@ -425,16 +430,16 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
                     countGame();
                 }
                 takeState();
-                canvas()->update();
+                scene()->update();
             }
             return;
         }
-        if ((*it)->rtti() == Pile::RTTI) {
+        if ((*it)->type() == QGraphicsItem::UserType + Dealer::PileTypeId ) {
             Pile *c = dynamic_cast<Pile*>(*it);
             assert(c);
             pileClicked(c);
             takeState();
-            canvas()->update();
+            scene()->update();
             return;
         }
     }
@@ -446,12 +451,12 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
 
     unmarkAll();
 
-    Q3CanvasItemList list = canvas()->collisions(movingCards.first()->rect());
+    QList<QGraphicsItem *> list = scene()->items(movingCards.first()->rect());
     HitList sources;
 
-    for (Q3CanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
+    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
     {
-        if ((*it)->rtti() == Card::RTTI) {
+        if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId ) {
             Card *c = dynamic_cast<Card*>(*it);
             assert(c);
             if (!c->isFaceUp())
@@ -481,7 +486,7 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
 
             sources.append(t);
         } else {
-            if ((*it)->rtti() == Pile::RTTI) {
+            if ((*it)->type() == QGraphicsItem::UserType + Dealer::PileTypeId ) {
                 Pile *p = static_cast<Pile*>(*it);
                 if (p->isEmpty())
                 {
@@ -492,7 +497,7 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
                     sources.append(t);
                 }
             } else {
-                kDebug(11111) << "unknown object " << *it << " " << (*it)->rtti() << endl;
+                kDebug(11111) << "unknown object " << *it << " " << (*it)->type() << endl;
             }
         }
     }
@@ -524,7 +529,7 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
         takeState();
     }
     movingCards.clear();
-    canvas()->update();
+    scene()->update();
 }
 
 void Dealer::contentsMouseDoubleClickEvent( QMouseEvent*e )
@@ -538,11 +543,11 @@ void Dealer::contentsMouseDoubleClickEvent( QMouseEvent*e )
         movingCards.first()->source()->moveCardsBack(movingCards);
         movingCards.clear();
     }
-    Q3CanvasItemList list = canvas()->collisions(e->pos());
+    QList<QGraphicsItem *> list = scene()->items(e->pos());
     if (list.isEmpty())
         return;
-    Q3CanvasItemList::Iterator it = list.begin();
-    if ((*it)->rtti() != Card::RTTI)
+    QList<QGraphicsItem *>::Iterator it = list.begin();
+    if ((*it)->type() != QGraphicsItem::UserType + Dealer::CardTypeId )
         return;
     Card *c = dynamic_cast<Card*>(*it);
     assert(c);
@@ -590,15 +595,20 @@ void Dealer::resizeEvent(QResizeEvent *e)
             showh = true;
         showv = true;
     }
-    canvas()->resize(dx, dy);
+
+#warning FIXME
+#if 0
+    scene()->resize(dx, dy);
     resizeContents(dx, dy);
+
     setVScrollBarMode(showv ? AlwaysOn : AlwaysOff);
     setHScrollBarMode(showh ? AlwaysOn : AlwaysOff);
 
     if (!e)
         updateScrollBars();
     else
-        Q3CanvasView::resizeEvent(e);
+        QGraphicsView::resizeEvent(e);
+#endif
 }
 
 bool Dealer::cardClicked(Card *c) {
@@ -623,7 +633,7 @@ bool Dealer::cardDblClicked(Card *c)
             CardList empty;
             empty.append(c);
             c->source()->moveCards(empty, tgt);
-            canvas()->update();
+            scene()->update();
             return true;
         }
     }
@@ -650,13 +660,15 @@ void Dealer::startNew()
     kDebug(11111) << "startNew unmarkAll\n";
     unmarkAll();
     kDebug(11111) << "startNew setAnimated(false)\n";
-    Q3CanvasItemList list = canvas()->allItems();
-    for (Q3CanvasItemList::Iterator it = list.begin(); it != list.end(); ++it) {
-        if ((*it)->rtti() == Card::RTTI)
-            static_cast<Card*>(*it)->disconnect();
-
-        (*it)->setAnimated(true);
-        (*it)->setAnimated(false);
+    QList<QGraphicsItem *> list = scene()->items();
+    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it) {
+        if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId )
+        {
+            Card *c = static_cast<Card*>(*it);
+            c->disconnect();
+            c->setAnimated(true);
+            c->setAnimated(false);
+        }
     }
 
     undoList.clear();
@@ -666,8 +678,8 @@ void Dealer::startNew()
     restart();
     takeState();
     Card *towait = 0;
-    for (Q3CanvasItemList::Iterator it = list.begin(); it != list.end(); ++it) {
-        if ((*it)->rtti() == Card::RTTI) {
+    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it) {
+        if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId ) {
             towait = static_cast<Card*>(*it);
             if (towait->animated())
                 break;
@@ -688,19 +700,20 @@ void Dealer::slotTakeState(Card *c) {
     takeState();
 }
 
-void Dealer::enlargeCanvas(Q3CanvasRectangle *c)
+void Dealer::enlargeCanvas(QGraphicsRectItem *c)
 {
-    if (!c->isVisible() || c->animated())
+#warning FIXME
+    if (!c->isVisible() /* || c->animated() */ )
         return;
 
     bool changed = false;
 
-    if (c->x() + c->width() + 10 > minsize.width()) {
-        minsize.setWidth(int(c->x()) + c->width() + 10);
+    if ( c->rect().right() + 10 > minsize.width() ) {
+        minsize.setWidth(c->rect().right() + 10);
         changed = true;
     }
-    if (c->y() + c->height() + 10 > minsize.height()) {
-        minsize.setHeight(int(c->y()) + c->height() + 10);
+    if (c->rect().bottom() + 10 > minsize.height()) {
+        minsize.setHeight(c->rect().bottom() + 10);
         changed = true;
     }
     if (changed)
@@ -751,12 +764,12 @@ bool operator==( const State & st1, const State & st2) {
 
 State *Dealer::getState()
 {
-    Q3CanvasItemList list = canvas()->allItems();
+    QList<QGraphicsItem *> list = scene()->items();
     State * st = new State;
 
-    for (Q3CanvasItemList::ConstIterator it = list.begin(); it != list.end(); ++it)
+    for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
     {
-       if ((*it)->rtti() == Card::RTTI) {
+       if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId ) {
            Card *c = dynamic_cast<Card*>(*it);
            assert(c);
            CardState s;
@@ -786,11 +799,11 @@ State *Dealer::getState()
 void Dealer::setState(State *st)
 {
     CardStateList * n = &st->cards;
-    Q3CanvasItemList list = canvas()->allItems();
+    QList<QGraphicsItem *> list = scene()->items();
 
-    for (Q3CanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
+    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
     {
-        if ((*it)->rtti() == Pile::RTTI) {
+        if ((*it)->type() == QGraphicsItem::UserType + Dealer::PileTypeId ) {
             Pile *p = dynamic_cast<Pile*>(*it);
             assert(p);
             CardList cards = p->cards();
@@ -808,9 +821,8 @@ void Dealer::setState(State *st)
         s.source->add(c, s.source_index);
         c->setVisible(s.source->isVisible());
         c->setAnimated(false);
-        c->setX(s.x);
-        c->setY(s.y);
-        c->setZ(int(s.z));
+        c->setPos(s.x, s.y);
+        c->setZValue(int(s.z));
         c->setTakenDown(s.tookdown || (target && !s.source->target()));
         c->turn(s.faceup);
     }
@@ -819,7 +831,7 @@ void Dealer::setState(State *st)
     setGameState( st->gameData );
 
     delete st;
-    canvas()->update();
+    scene()->update();
 }
 
 void Dealer::takeState()
@@ -879,10 +891,10 @@ void Dealer::saveGame(QDomDocument &doc) {
     bool taken[1000];
     memset(taken, 0, sizeof(taken));
 
-    Q3CanvasItemList list = canvas()->allItems();
-    for (Q3CanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
+    QList<QGraphicsItem *> list = scene()->items();
+    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
     {
-        if ((*it)->rtti() == Pile::RTTI) {
+        if ((*it)->type() == QGraphicsItem::UserType + Dealer::PileTypeId ) {
             Pile *p = dynamic_cast<Pile*>(*it);
             assert(p);
             if (taken[p->index()]) {
@@ -949,18 +961,18 @@ void Dealer::openGame(QDomDocument &doc)
 
     QDomNodeList piles = dealer.elementsByTagName("pile");
 
-    Q3CanvasItemList list = canvas()->allItems();
+    QList<QGraphicsItem *> list = scene()->items();
 
     CardList cards;
-    for (Q3CanvasItemList::ConstIterator it = list.begin(); it != list.end(); ++it)
-        if ((*it)->rtti() == Card::RTTI)
+    for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
+        if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId )
             cards.append(static_cast<Card*>(*it));
 
     Deck::deck()->collectAndShuffle();
 
-    for (Q3CanvasItemList::Iterator it = list.begin(); it != list.end(); ++it)
+    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
     {
-        if ((*it)->rtti() == Pile::RTTI)
+        if ((*it)->type() == QGraphicsItem::UserType + Dealer::PileTypeId )
         {
             Pile *p = dynamic_cast<Pile*>(*it);
             assert(p);
@@ -987,9 +999,9 @@ void Dealer::openGame(QDomDocument &doc)
                                 p->add(*it2);
                                 (*it2)->setAnimated(false);
                                 (*it2)->turn(card.attribute("faceup").toInt());
-                                (*it2)->setX(card.attribute("x").toInt());
-                                (*it2)->setY(card.attribute("y").toInt());
-                                (*it2)->setZ(card.attribute("z").toInt());
+                                (*it2)->setPos(card.attribute("x").toDouble(),
+                                               card.attribute("y").toDouble());
+                                (*it2)->setZValue(card.attribute("z").toInt());
                                 (*it2)->setVisible(p->isVisible());
                                 cards.erase(it2);
                                 break;
@@ -1028,7 +1040,7 @@ void Dealer::undo()
             if ( ademo )
                 ademo->setEnabled( true );
             toldAboutLostGame = false;
-        } 
+        }
     }
 }
 
@@ -1070,15 +1082,18 @@ bool Dealer::startAutoDrop()
     if (!autoDrop())
         return false;
 
-    Q3CanvasItemList list = canvas()->allItems();
+    QList<QGraphicsItem *> list = scene()->items();
 
-    for (Q3CanvasItemList::ConstIterator it = list.begin(); it != list.end(); ++it)
+    for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
+#warning FIXME
+#if 0
         if ((*it)->animated()) {
             QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
             return true;
         }
+#endif
 
-    kDebug(11111) << "startAutoDrop\n";
+    // kDebug(11111) << "startAutoDrop\n";
 
     unmarkAll();
     clearHints();
@@ -1095,9 +1110,9 @@ bool Dealer::startAutoDrop()
             int x = int(t->x());
             int y = int(t->y());
             t->source()->moveCards(cards, mh->pile());
-            t->move(x, y);
+            t->setPos(x, y);
             kDebug(11111) << "autodrop " << t->name() << endl;
-            t->moveTo(int(t->source()->x()), int(t->source()->y()), int(t->z()), STEPS_AUTODROP);
+            t->moveTo(int(t->source()->x()), int(t->source()->y()), int(t->zValue()), STEPS_AUTODROP);
             connect(t, SIGNAL(stoped(Card*)), SLOT(waitForAutoDrop(Card*)));
             return true;
         }
@@ -1175,7 +1190,7 @@ class CardPtr
 
 bool operator <(const CardPtr &p1, const CardPtr &p2)
 {
-    return ( p1.ptr->z() < p2.ptr->z() );
+    return ( p1.ptr->zValue() < p2.ptr->zValue() );
 }
 
 void Dealer::won()
@@ -1196,10 +1211,10 @@ void Dealer::won()
     kc.writeEntry(QString("loosestreak%1").arg(_id),0);
 
     // sort cards by increasing z
-    Q3CanvasItemList list = canvas()->allItems();
+    QList<QGraphicsItem *> list = scene()->items();
     QList<CardPtr> cards;
-    for (Q3CanvasItemList::ConstIterator it=list.begin(); it!=list.end(); ++it)
-        if ((*it)->rtti() == Card::RTTI) {
+    for (QList<QGraphicsItem *>::ConstIterator it=list.begin(); it!=list.end(); ++it)
+        if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId ) {
             CardPtr p;
             p.ptr = dynamic_cast<Card*>(*it);
             assert(p.ptr);
@@ -1208,17 +1223,18 @@ void Dealer::won()
     qSort(cards);
 
     // disperse the cards everywhere
-    QRect can(0, 0, canvas()->width(), canvas()->height());
+    QRectF can(0, 0, scene()->width(), scene()->height());
     QListIterator<CardPtr> it(cards);
     while (it.hasNext()) {
         CardPtr card = it.next();
         card.ptr->turn(true);
-        QRect p(0, 0, card.ptr->width(), card.ptr->height());
-        int x, y;
+        QRectF p = card.ptr->rect();
+        p.moveTo( 0, 0 );
+        qreal x, y;
         do {
-            x = 3*canvas()->width()/2 - KRandom::random() % (canvas()->width() * 2);
-            y = 3*canvas()->height()/2 - (KRandom::random() % (canvas()->height() * 2));
-            p.moveTopLeft(QPoint(x, y));
+            x = 3*scene()->width()/2 - KRandom::random() % int(scene()->width() * 2);
+            y = 3*scene()->height()/2 - (KRandom::random() % int(scene()->height() * 2));
+            p.moveTopLeft(QPointF(x, y));
         } while (can.intersects(p));
 
 	card.ptr->moveTo( x, y, 0, STEPS_WON);
@@ -1226,7 +1242,7 @@ void Dealer::won()
 
     bool demo = demoActive();
     stopDemo();
-    canvas()->update();
+    scene()->update();
     emit gameWon(demo);
 }
 
@@ -1245,6 +1261,12 @@ MoveHint *Dealer::chooseHint()
 }
 
 void Dealer::demo() {
+
+    for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
+    {
+        ( *it )->setVisible( true );
+    }
+
     if (waiting())
         return;
 
@@ -1300,8 +1322,8 @@ void Dealer::demo() {
             int y1 = oldcoords[i++];
             int x2 = int(t->realX());
             int y2 = int(t->realY());
-            t->move(x1, y1);
-            t->moveTo(x2, y2, int(t->z()), STEPS_DEMO);
+            t->setPos(x1, y1);
+            t->moveTo(x2, y2, int(t->zValue()), STEPS_DEMO);
         }
 
         delete [] oldcoords;
@@ -1313,7 +1335,7 @@ void Dealer::demo() {
         if (t) {
             newDemoMove(t);
         } else if (isGameWon()) {
-            canvas()->update();
+            scene()->update();
             emit gameWon(true);
             return;
         } else
@@ -1371,7 +1393,7 @@ bool Dealer::checkAdd( int, const Pile *, const CardList&) const {
 
 void Dealer::drawPile(QPixmap &pixmap, Pile *pile, bool selected)
 {
-    QPixmap bg = myCanvas.backgroundPixmap();
+    QPixmap bg = myCanvas.backgroundBrush().texture();
     QRect bounding(int(pile->x()), int(pile->y()), cardMap::CARDX(), cardMap::CARDY());
 
     pixmap = QPixmap(bounding.width(), bounding.height());
@@ -1402,8 +1424,9 @@ void Dealer::drawPile(QPixmap &pixmap, Pile *pile, bool selected)
                 paint.drawPixmap(dx, dy, bg, sx, sy, w, h);
             }
         }
+        paint.setPen( Qt::red );
+        paint.drawRect( 0, 0, 100, 100 );
     }
-
 
     float s = -0.4;
     float n = -0.3;
@@ -1443,6 +1466,8 @@ QString Dealer::anchorName() const { return ac; }
 
 void Dealer::wheelEvent( QWheelEvent *e )
 {
+#warning FIXME
+#if 0
     QWheelEvent ce( viewport()->mapFromGlobal( e->globalPos() ),
                     e->delta(), e->buttons(), e->modifiers() );
     viewportWheelEvent(&ce);
@@ -1454,6 +1479,7 @@ void Dealer::wheelEvent( QWheelEvent *e )
     } else {
 	e->accept();
     }
+#endif
 }
 
 void Dealer::countGame()

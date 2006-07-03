@@ -50,8 +50,8 @@ private:
     CardList cardlist;
 };
 
-Klondike::Klondike( bool easy, KMainWindow* parent, const char* _name )
-  : Dealer( parent, _name )
+Klondike::Klondike( bool easy, KMainWindow* parent )
+  : Dealer( parent )
 {
     // The units of the follwoing constants are pixels
     const int margin = 10; // between card piles and board edge
@@ -59,13 +59,13 @@ Klondike::Klondike( bool easy, KMainWindow* parent, const char* _name )
     const int vspacing = cardMap::CARDY() / 4; // vertical spacing between card piles
 
     deck = Deck::new_deck(this);
-    deck->move(margin, margin);
+    deck->setPos(margin, margin);
 
     EasyRules = easy;
 
     pile = new KlondikePile( 13, this);
 
-    pile->move(margin + cardMap::CARDX() + cardMap::CARDX() / 4, margin);
+    pile->setPos(margin + cardMap::CARDX() + cardMap::CARDX() / 4, margin);
     // Move the visual representation of the pile to the intended position
     // on the game board.
 
@@ -74,14 +74,14 @@ Klondike::Klondike( bool easy, KMainWindow* parent, const char* _name )
 
     for( int i = 0; i < 7; i++ ) {
         play[ i ] = new Pile( i + 5, this);
-        play[i]->move(margin + (cardMap::CARDX() + hspacing) * i, margin + cardMap::CARDY() + vspacing);
+        play[i]->setPos(margin + (cardMap::CARDX() + hspacing) * i, margin + cardMap::CARDY() + vspacing);
         play[i]->setAddType(Pile::KlondikeStore);
         play[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop | Pile::wholeColumn);
     }
 
     for( int i = 0; i < 4; i++ ) {
         target[ i ] = new Pile( i + 1, this );
-        target[i]->move(margin + (3 + i) * (cardMap::CARDX()+ hspacing), margin);
+        target[i]->setPos(margin + (3 + i) * (cardMap::CARDX()+ hspacing), margin);
         target[i]->setAddType(Pile::KlondikeTarget);
         if (EasyRules) // change default
             target[i]->setRemoveFlags(Pile::Default);
@@ -266,7 +266,7 @@ void Klondike::deal3()
 
     // move the cards back on the deck, so we can have three new
     for (int i = 0; i < pile->cardsLeft(); ++i) {
-        pile->at(i)->move(pile->x(), pile->y());
+        pile->at(i)->setPos(pile->x(), pile->y());
     }
 
     for (int flipped = 0; flipped < draw ; ++flipped) {
@@ -280,7 +280,7 @@ void Klondike::deal3()
         if (flipped < draw - 1)
             pile->addSpread(item);
         // move back to flip
-        item->move(deck->x(), deck->y());
+        item->setPos(deck->x(), deck->y());
 
         item->flipTo( int(pile->x()) + pile->dspread() * (flipped), int(pile->y()), 8 * (flipped + 1) );
     }

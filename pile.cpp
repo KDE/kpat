@@ -19,7 +19,7 @@
 #include <assert.h>
 #include "speeds.h"
 
-const int Pile::RTTI          = 1002;
+const int Pile::my_type       = Dealer::PileTypeId;
 
 const int Pile::Default       = 0x0000;
 const int Pile::disallow      = 0x0001;
@@ -35,7 +35,7 @@ const int Pile::wholeColumn   = 0x0400;
 
 
 Pile::Pile( int _index, Dealer* parent)
-    : Q3CanvasRectangle( parent->canvas() ),
+    : QGraphicsRectItem( 0, parent->scene() ),
       m_dealer(parent),
       _atype(Custom),
       _rtype(Custom),
@@ -45,7 +45,7 @@ Pile::Pile( int _index, Dealer* parent)
     // Make the patience aware of this pile.
     dealer()->addPile(this);
 
-    Q3CanvasRectangle::setVisible(true); // default
+    QGraphicsRectItem::setVisible(true); // default
     _checkIndex = -1;
     addFlags    = 0;
     removeFlags = 0;
@@ -53,7 +53,7 @@ Pile::Pile( int _index, Dealer* parent)
     setBrush(Qt::black);
     setPen(QPen(Qt::black));
 
-    setZ(0);
+    setZValue(0);
     initSizes();
 }
 
@@ -64,7 +64,10 @@ void Pile::initSizes()
     setHSpread( cardMap::CARDX() / 9 + 1 );
     setDSpread( cardMap::CARDY() / 8 );
 
-    setSize( cardMap::CARDX(), cardMap::CARDY() );
+    QRectF r = rect();
+    r.setWidth( cardMap::CARDX() );
+    r.setHeight( cardMap::CARDY() );
+    setRect( r );
 }
 
 void Pile::setType(PileType type)
@@ -212,7 +215,7 @@ bool Pile::legalRemove(const Card *c) const
 
 void Pile::setVisible(bool vis)
 {
-    Q3CanvasRectangle::setVisible(vis);
+    QGraphicsRectItem::setVisible(vis);
     dealer()->enlargeCanvas(this);
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
@@ -220,11 +223,17 @@ void Pile::setVisible(bool vis)
         (*it)->setVisible(vis);
         dealer()->enlargeCanvas(*it);
     }
+
+    if (cache.isNull())
+        dealer()->drawPile(cache, this, false);
+    QBrush br;
+    br.setTexture( cache );
+    setBrush( br );
 }
 
 void Pile::moveBy(double dx, double dy)
 {
-    Q3CanvasRectangle::moveBy(dx, dy);
+    QGraphicsRectItem::moveBy(dx, dy);
     dealer()->enlargeCanvas(this);
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
@@ -340,14 +349,14 @@ void Pile::add( Card* _card, bool _facedown, bool _spread )
     } else {
         x2 = int(x());
         y2 = int(y());
-        z2 = int(z() + 1);
+        z2 = int(zValue() + 1);
     }
 
     add(_card);
 
     if (_facedown || !isVisible()) {
-        _card->move( x2, y2 );
-        _card->setZ( z2 );
+        _card->setPos( x2, y2 );
+        _card->setZValue( z2 );
     } else {
         _card->moveTo(x2, y2, z2, STEPS_INITIALDEAL);
     }
@@ -392,7 +401,7 @@ CardList Pile::cardPressed(Card *c)
         }
         if (below >= 0) {
             (*it)->setAnimated(false);
-            (*it)->setZ(128 + below);
+            (*it)->setZValue(128 + below);
             below++;
             result.append(*it);
         }
@@ -412,7 +421,7 @@ void Pile::moveCards(CardList &cl, Pile *to)
         Card *t = top();
         if (!t->isFaceUp()) {
             t->flipTo(int(t->x()), int(t->y()), 8);
-            canvas()->update();
+            scene()->update();
         }
     }
 
@@ -444,7 +453,7 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
                 dealer()->enlargeCanvas(c);
             }
             else {
-                c->moveTo( int(x()), int(y()), int(z()) + 1, steps);
+                c->moveTo( int(x()), int(y()), int(zValue()) + 1, steps);
             }
             break;
         } else

@@ -20,7 +20,7 @@ class Simon : public Dealer {
     Q_OBJECT
 
 public:
-    Simon( KMainWindow* parent=0, const char* name=0);
+    Simon( KMainWindow* parent=0 );
 
 public slots:
     void deal();

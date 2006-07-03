@@ -19,7 +19,7 @@
 #include <QPixmap>
 //Added by qt3to4:
 #include <QList>
-
+#include <QGraphicsRectItem>
 
 class Dealer;
 
@@ -30,7 +30,7 @@ class Dealer;
 
 **************************************/
 
-class Pile : public QObject, public Q3CanvasRectangle
+class Pile : public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
 
@@ -89,9 +89,9 @@ public:
     bool isEmpty() const { return m_cards.count() == 0; }
 
     virtual void drawShape ( QPainter & p );
-    static const int RTTI;
+    static const int my_type;
 
-    virtual int rtti() const { return RTTI; }
+    virtual int  type() const       { return UserType + my_type; }
 
     virtual void setVisible(bool vis);
     virtual void moveBy(double dx, double dy);

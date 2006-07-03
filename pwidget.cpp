@@ -66,8 +66,9 @@ void saveGame(int) {
 }
 
 pWidget::pWidget()
-    : KMainWindow(0, "pwidget"), dill(0)
+    : KMainWindow(0), dill(0)
 {
+    setObjectName( "pwidget" );
     current_pwidget = this;
     // KCrash::setEmergencySaveFunction(::saveGame);
     KStdAction::quit(kapp, SLOT(quit()), actionCollection(), "game_exit");
@@ -285,8 +286,7 @@ void pWidget::changeWallpaper()
 
     if (dill) {
         dill->setBackgroundPixmap(background, midcolor);
-        dill->canvas()->setAllChanged();
-        dill->canvas()->update();
+        dill->scene()->update();
     }
 }
 
@@ -442,8 +442,7 @@ void pWidget::setBackSide(const QString &deck, const QString &cards)
                            i18n("Could not load background image!"));
 
     if (dill) {
-        dill->canvas()->setAllChanged();
-        dill->canvas()->update();
+        dill->scene()->update();
     }
 }
 

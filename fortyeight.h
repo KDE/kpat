@@ -31,7 +31,7 @@ class Fortyeight : public Dealer
     Q_OBJECT
 
 public:
-    Fortyeight( KMainWindow* parent=0, const char* name=0);
+    Fortyeight( KMainWindow* parent=0 );
     virtual bool isGameLost() const;
 
 public slots:

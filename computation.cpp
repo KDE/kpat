@@ -27,20 +27,20 @@
 #include <assert.h>
 #include "cardmaps.h"
 
-Computation::Computation( KMainWindow *parent, const char *name )
-    :Dealer( parent, name)
+Computation::Computation( KMainWindow *parent )
+    :Dealer( parent )
 {
     deck = Deck::new_deck(this);
     deck->hide();
 
     for (int i = 0; i < 4; i++) {
         play[i] = new Pile(1 + i, this);
-        play[i]->move(10 + (i+1) * cardMap::CARDX() * 14 / 10, 10 + cardMap::CARDY() * 15 / 10);
+        play[i]->setPos(10 + (i+1) * cardMap::CARDX() * 14 / 10, 10 + cardMap::CARDY() * 15 / 10);
         play[i]->setAddFlags(Pile::addSpread);
         play[i]->setCheckIndex(1);
 
         target[i] = new Pile(5 + i, this);
-        target[i]->move(10 + (i+1) * cardMap::CARDX() * 14 / 10, 10);
+        target[i]->setPos(10 + (i+1) * cardMap::CARDX() * 14 / 10, 10);
         target[i]->setRemoveFlags(Pile::disallow);
         target[i]->setCheckIndex(0);
         target[i]->setTarget(true);
@@ -49,7 +49,7 @@ Computation::Computation( KMainWindow *parent, const char *name )
     pile = new Pile(13, this);
     pile->setAddFlags(Pile::disallow);
     pile->setRemoveFlags(Pile::autoTurnTop);
-    pile->move(10, 10);
+    pile->setPos(10, 10);
 
     setActions(Dealer::Demo | Dealer::Hint);
 }

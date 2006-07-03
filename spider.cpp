@@ -48,8 +48,8 @@ void SpiderPile::moveCards(CardList &c, Pile *to)
 
 //-------------------------------------------------------------------------//
 
-Spider::Spider(int suits, KMainWindow* parent, const char* _name)
-        : Dealer(parent, _name)
+Spider::Spider(int suits, KMainWindow* parent)
+        : Dealer(parent)
 {
     const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
     const int dist_y = cardMap::CARDY() * 11 / 10 + 1;
@@ -63,8 +63,8 @@ Spider::Spider(int suits, KMainWindow* parent, const char* _name)
     // sets of 10 cards are left to be dealt out
     for( int column = 0; column < 5; column++ ) {
         redeals[column] = new Pile(column + 1, this);
-        redeals[column]->move(8 + dist_x / 3 * (23 + column), 8 + dist_y * 4.5);
-        redeals[column]->setZ(5-column);
+        redeals[column]->setPos(8 + dist_x / 3 * (23 + column), 8 + dist_y * 4.5);
+        redeals[column]->setZValue(5-column);
         redeals[column]->setCheckIndex(0);
         redeals[column]->setAddFlags(Pile::disallow);
         redeals[column]->setRemoveFlags(Pile::disallow);
@@ -74,8 +74,8 @@ Spider::Spider(int suits, KMainWindow* parent, const char* _name)
     // The 10 playing piles
     for( int column = 0; column < 10; column++ ) {
         stack[column] = new SpiderPile(column + 6, this);
-        stack[column]->move(8 + dist_x * column, 8);
-        stack[column]->setZ(20);
+        stack[column]->setPos(8 + dist_x * column, 8);
+        stack[column]->setZValue(20);
         stack[column]->setCheckIndex(1);
         stack[column]->setAddFlags(Pile::addSpread | Pile::several);
         stack[column]->setRemoveFlags(Pile::several |
@@ -86,8 +86,8 @@ Spider::Spider(int suits, KMainWindow* parent, const char* _name)
     // else the name Spider?
     for( int column = 0; column < 8; column++ ) {
         legs[column] = new Pile(column + 16, this);
-        legs[column]->move(8 + dist_x / 3 * column, 8 + dist_y * 4.5);
-        legs[column]->setZ(column+1);
+        legs[column]->setPos(8 + dist_x / 3 * column, 8 + dist_y * 4.5);
+        legs[column]->setZValue(column+1);
         legs[column]->setCheckIndex(0);
         legs[column]->setAddFlags(Pile::disallow);
         legs[column]->setRemoveFlags(Pile::disallow);

@@ -51,8 +51,8 @@ void FreecellPile::moveCards(CardList &c, Pile *to)
 //-------------------------------------------------------------------------//
 
 FreecellBase::FreecellBase( int decks, int stores, int freecells, int fill, bool unlimit,
-                            KMainWindow* parent, const char* name)
-    : Dealer(parent,name),
+                            KMainWindow* parent)
+    : Dealer(parent),
       solver_instance(0), es_filling(fill), solver_ret(FCS_STATE_NOT_BEGAN_YET),
       unlimited_move(unlimit)
 {
@@ -744,7 +744,7 @@ bool FreecellBase::cardDblClicked(Card *c)
                 CardList empty;
                 empty.append(c);
                 c->source()->moveCards(empty, freecell[i]);
-                canvas()->update();
+                scene()->update();
                 return true;
             }
     return false;
@@ -816,23 +816,23 @@ bool FreecellBase::checkRemove(int checkIndex, const Pile *p, const Card *c) con
 class Freecell : public FreecellBase
 {
 public:
-    Freecell( KMainWindow* parent=0, const char* name=0);
+    Freecell( KMainWindow* parent=0);
     virtual void deal();
 };
 
-Freecell::Freecell( KMainWindow* parent, const char* name)
-    : FreecellBase(1, 8, 4, FCS_ES_FILLED_BY_ANY_CARD, false, parent, name)
+Freecell::Freecell( KMainWindow* parent)
+    : FreecellBase(1, 8, 4, FCS_ES_FILLED_BY_ANY_CARD, false, parent)
 {
     for (int i = 0; i < 8; i++)
-        store[i]->move(8 + ( cardMap::CARDX() * 11 / 10 + 1 ) * i, 8 + cardMap::CARDY() * 11 / 10);
+        store[i]->setPos(8 + ( cardMap::CARDX() * 11 / 10 + 1 ) * i, 8 + cardMap::CARDY() * 11 / 10);
 
     const int right = 8 + ( cardMap::CARDX() * 11 / 10 + 1 ) * 7 + cardMap::CARDX();
 
     for (int i = 0; i < 4; i++)
-        freecell[i]->move(8 + ( cardMap::CARDX() * 13 / 12 ) * i, 8);
+        freecell[i]->setPos(8 + ( cardMap::CARDX() * 13 / 12 ) * i, 8);
 
     for (int i = 0; i < 4; i++)
-        target[i]->move(right - (3-i) * ( cardMap::CARDX() * 13 / 12 ) -cardMap::CARDX()  , 8);
+        target[i]->setPos(right - (3-i) * ( cardMap::CARDX() * 13 / 12 ) -cardMap::CARDX()  , 8);
 }
 
 void Freecell::deal()

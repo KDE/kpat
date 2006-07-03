@@ -26,8 +26,8 @@
 
 //-------------------------------------------------------------------------//
 
-Mod3::Mod3( KMainWindow* parent, const char* _name)
-        : Dealer( parent, _name )
+Mod3::Mod3( KMainWindow* parent )
+        : Dealer( parent )
 {
     const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
     const int dist_y = cardMap::CARDY() * 11 / 10 + 1;
@@ -35,12 +35,12 @@ Mod3::Mod3( KMainWindow* parent, const char* _name)
 
     // This patience uses 2 deck of cards.
     deck = Deck::new_deck( this, 2);
-    deck->move(8 + dist_x * 8 + 20, 8 + dist_y * 3 + margin);
+    deck->setPos(8 + dist_x * 8 + 20, 8 + dist_y * 3 + margin);
 
     connect(deck, SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
 
     aces = new Pile(50, this);
-    aces->move(16 + dist_x * 8, 8 + dist_y / 2);
+    aces->setPos(16 + dist_x * 8, 8 + dist_y / 2);
     aces->setTarget(true);
     aces->setCheckIndex(2);
     aces->setAddFlags(Pile::addSpread | Pile::several);
@@ -48,8 +48,8 @@ Mod3::Mod3( KMainWindow* parent, const char* _name)
     for ( int r = 0; r < 4; r++ ) {
         for ( int c = 0; c < 8; c++ ) {
             stack[r][c] = new Pile ( r * 10 + c  + 1, this );
-            stack[r][c]->move( 8 + dist_x * c,
-			       8 + dist_y * r + margin * ( r == 3 ));
+            stack[r][c]->setPos( 8 + dist_x * c,
+                                 8 + dist_y * r + margin * ( r == 3 ));
 
 	    // The first 3 rows are the playing field, the fourth is the store.
             if ( r < 3 ) {
@@ -105,7 +105,7 @@ bool Mod3::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
 
 bool Mod3::checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const
 {
-    return (checkIndex == 0 && c1->isEmpty() 
+    return (checkIndex == 0 && c1->isEmpty()
 	    && c2.first()->rank() == (c1->index()+1));
 }
 
@@ -228,7 +228,7 @@ bool Mod3::isGameLost() const
     Card  *card;
 
     // For all stacks on the board, check if:
-    // 
+    //
     for (n = 0; n < 24; n++){
         row = n / 8;
         col = n % 8;

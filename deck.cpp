@@ -77,8 +77,8 @@ void Deck::makedeck()
             {
                 _deck[i] = new Card(static_cast<Card::Rank>(r),
                                    static_cast<Card::Suit>(Card::Spades - (s % suits)),
-                                   dealer()->canvas());
-                _deck[i]->move(x(), y());
+                                   dealer()->scene());
+                _deck[i]->setPos(x(), y());
                 i++;
             }
         }
@@ -115,7 +115,7 @@ static void pseudoRandom_srand(long seed)
 
 // Documented as in
 // http://support.microsoft.com/default.aspx?scid=kb;EN-US;Q28150
-// 
+//
 
 static long pseudoRandom_random() {
     pseudoRandomSeed = 214013*pseudoRandomSeed+2531011;

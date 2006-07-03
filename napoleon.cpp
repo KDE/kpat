@@ -22,8 +22,8 @@
 #include "deck.h"
 #include "cardmaps.h"
 
-Napoleon::Napoleon( KMainWindow* parent, const char* _name )
-  : Dealer( parent, _name )
+Napoleon::Napoleon( KMainWindow* parent )
+  : Dealer( parent )
 {
     deck = Deck::new_deck( this );
     connect(deck, SIGNAL(clicked(Card *)), SLOT(deal1(Card*)));
@@ -46,23 +46,23 @@ Napoleon::Napoleon( KMainWindow* parent, const char* _name )
     const int centre_x = 10 + cardMap::CARDX() + dist_store;
     const int centre_y = 10 + cardMap::CARDY() + dist_store;
 
-    deck->move( centre_x + cardMap::CARDX() * 47 / 10, centre_y + cardMap::CARDY() + dist_store);
-    pile->move( centre_x + cardMap::CARDX() * 33 / 10, centre_y + cardMap::CARDY() + dist_store);
+    deck->setPos( centre_x + cardMap::CARDX() * 47 / 10, centre_y + cardMap::CARDY() + dist_store);
+    pile->setPos( centre_x + cardMap::CARDX() * 33 / 10, centre_y + cardMap::CARDY() + dist_store);
 
     centre = new Pile( 10, this );
     centre->setRemoveFlags( Pile::disallow );
     centre->setCheckIndex(1);
     centre->setTarget(true);
 
-    store[0]->move( centre_x, centre_y - cardMap::CARDY() - dist_store );
-    store[1]->move( centre_x + cardMap::CARDX() + dist_store, centre_y);
-    store[2]->move( centre_x, centre_y + cardMap::CARDY() + dist_store );
-    store[3]->move( centre_x - cardMap::CARDX() - dist_store, centre_y);
-    target[0]->move( centre_x - cardMap::CARDX() - dist_target, centre_y - cardMap::CARDY() - dist_target );
-    target[1]->move( centre_x + cardMap::CARDX() + dist_target, centre_y - cardMap::CARDY() - dist_target);
-    target[2]->move( centre_x + cardMap::CARDX() + dist_target, centre_y + cardMap::CARDY() + dist_target);
-    target[3]->move( centre_x - cardMap::CARDX() - dist_target, centre_y + cardMap::CARDY() + dist_target);
-    centre->move(centre_x, centre_y);
+    store[0]->setPos( centre_x, centre_y - cardMap::CARDY() - dist_store );
+    store[1]->setPos( centre_x + cardMap::CARDX() + dist_store, centre_y);
+    store[2]->setPos( centre_x, centre_y + cardMap::CARDY() + dist_store );
+    store[3]->setPos( centre_x - cardMap::CARDX() - dist_store, centre_y);
+    target[0]->setPos( centre_x - cardMap::CARDX() - dist_target, centre_y - cardMap::CARDY() - dist_target );
+    target[1]->setPos( centre_x + cardMap::CARDX() + dist_target, centre_y - cardMap::CARDY() - dist_target);
+    target[2]->setPos( centre_x + cardMap::CARDX() + dist_target, centre_y + cardMap::CARDY() + dist_target);
+    target[3]->setPos( centre_x - cardMap::CARDX() - dist_target, centre_y + cardMap::CARDY() + dist_target);
+    centre->setPos(centre_x, centre_y);
 
     setActions(Dealer::Hint | Dealer::Demo);
 }
@@ -120,7 +120,7 @@ void Napoleon::deal1(Card *) {
     if (!c)
         return;
     pile->add(c, true, false);
-    c->move(deck->x(), deck->y());
+    c->setPos(deck->x(), deck->y());
     c->flipTo(int(pile->x()), int(pile->y()), 8);
 }
 

@@ -19,16 +19,16 @@
 #include "freecell-solver/fcs_enums.h"
 #include "cardmaps.h"
 
-Kings::Kings( KMainWindow* parent, const char *name )
-    : FreecellBase( 2, 8, 8, FCS_ES_FILLED_BY_KINGS_ONLY, true, parent, name )
+Kings::Kings( KMainWindow* parent )
+    : FreecellBase( 2, 8, 8, FCS_ES_FILLED_BY_KINGS_ONLY, true, parent )
 {
     const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
 
     for (int i=0; i<8; i++) {
-        target[i]->move((8 + i/4) * dist_x + 10 + cardMap::CARDX() * 4 / 10, 10 + (i % 4) * cardMap::CARDY() * 14 / 10 );
-        store[i]->move(10+dist_x*i, 10 + cardMap::CARDY() * 5 / 4);
+        target[i]->setPos((8 + i/4) * dist_x + 10 + cardMap::CARDX() * 4 / 10, 10 + (i % 4) * cardMap::CARDY() * 14 / 10 );
+        store[i]->setPos(10+dist_x*i, 10 + cardMap::CARDY() * 5 / 4);
         store[i]->setSpread(13);
-        freecell[i]->move(10 + dist_x * i, 10);
+        freecell[i]->setPos(10 + dist_x * i, 10);
     }
 }
 
@@ -83,7 +83,7 @@ bool Kings::isGameLost() const {
 
 		if(!store[i]->isEmpty())
 			ctops.append(store[i]->top());
-		} 
+		}
 
 	for(i=0; i < 8; i++){
 		if(store[i]->isEmpty())
@@ -98,7 +98,7 @@ bool Kings::isGameLost() const {
 				return false;
 			}
 		}
-		
+
 		for(indexi=store[i]->indexOf(store[i]->top()); indexi>=0;indexi--){
 			c=store[i]->at(indexi);
 			if(indexi > 0)
@@ -117,7 +117,7 @@ bool Kings::isGameLost() const {
 						return false;
 				}
 			}
-			if(cnext && cnext->rank() != c->rank()+1 && 
+			if(cnext && cnext->rank() != c->rank()+1 &&
 				cnext->isRed() != c->isRed())
 				break;
 		}

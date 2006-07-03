@@ -25,8 +25,8 @@
 #include <assert.h>
 #include "cardmaps.h"
 
-Grandf::Grandf( KMainWindow* parent, const char *name )
-    : Dealer( parent, name )
+Grandf::Grandf( KMainWindow* parent )
+    : Dealer( parent )
 {
     deck = Deck::new_deck(this);
     deck->hide();
@@ -35,13 +35,13 @@ Grandf::Grandf( KMainWindow* parent, const char *name )
 
     for (int i=0; i<4; i++) {
         target[i] = new Pile(i+1, this);
-        target[i]->move(10+(i+1)*distx, 10);
+        target[i]->setPos(10+(i+1)*distx, 10);
         target[i]->setType(Pile::KlondikeTarget);
     }
 
     for (int i=0; i<7; i++) {
         store[i] = new Pile(5+i, this);
-        store[i]->move(10+distx*i, 10 + cardMap::CARDY() * 15 / 10);
+        store[i]->setPos(10+distx*i, 10 + cardMap::CARDY() * 15 / 10);
         store[i]->setAddFlags(Pile::addSpread | Pile::several);
         store[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
         store[i]->setCheckIndex(1);
@@ -116,7 +116,7 @@ void Grandf::deal() {
             c->turn(true);
     }
     aredeal->setEnabled(true);
-    canvas()->update();
+    scene()->update();
 }
 
 /*****************************

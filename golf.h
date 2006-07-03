@@ -30,7 +30,7 @@ class Golf : public Dealer
     Q_OBJECT
 
 public:
-    Golf( KMainWindow* parent=0, const char* name=0);
+    Golf( KMainWindow* parent=0 );
     void deal();
     virtual void restart();
     virtual bool isGameLost() const;
