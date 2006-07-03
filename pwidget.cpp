@@ -28,6 +28,7 @@
 #include <QTextStream>
 #include <QList>
 #include <QShowEvent>
+#include <QDomDocument>
 
 #include <kapplication.h>
 #include <klocale.h>

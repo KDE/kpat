@@ -29,6 +29,7 @@
 #include <QResizeEvent>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QDomElement>
 #include <krandom.h>
 #include <kaction.h>
 #include <klocale.h>
