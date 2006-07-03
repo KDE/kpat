@@ -46,7 +46,6 @@ Card::Card( Rank r, Suit s, QGraphicsScene* _parent )
       m_source(0), scaleX(1.0), scaleY(1.0), tookDown(false)
 {
     // Set the name of the card
-    // FIXME: i18n()
     m_name = QString("%1 %2").arg(suit_names[s-1]).arg(rank_names[r-1]).toUtf8();
 
     // Default for the card is face up, standard size.
@@ -59,6 +58,8 @@ Card::Card( Rank r, Suit s, QGraphicsScene* _parent )
     m_flipping  = false;
     m_animSteps = 0;
     m_flipSteps = 0;
+
+    setPen(QPen(Qt::NoPen));
 }
 
 
@@ -97,7 +98,7 @@ void Card::turn( bool _faceup )
 
 // Draw the card on the painter 'p'.
 //
-void Card::draw( QPainter &p )
+void Card::paint( QPainter *p, const QStyleOptionGraphicsItem * option, QWidget * widget )
 {
     QPixmap  side;
 
@@ -107,6 +108,7 @@ void Card::draw( QPainter &p )
     else
         side = cardMap::self()->backSide();
 
+/*
     // Rescale the image if necessary.
     if (scaleX <= 0.98 || scaleY <= 0.98) {
         QMatrix  s;
@@ -114,10 +116,11 @@ void Card::draw( QPainter &p )
         side = side.transformed( s );
         int xoff = side.width() / 2;
         int yoff = side.height() / 2;
-        p.drawPixmap( int(x() + cardMap::CARDX()/2 - xoff),
-		      int(y() + cardMap::CARDY()/2 - yoff), side );
+        p->drawPixmap( int(x() + cardMap::CARDX()/2 - xoff),
+                       int(y() + cardMap::CARDY()/2 - yoff), side );
     } else
-        p.drawPixmap( int(x()), int(y()), side );
+        */
+        p->drawPixmap( 0, 0, side );
 }
 
 
@@ -214,7 +217,7 @@ static const double flipLift = 1.2;
 int  Card::Hz = 0;
 
 
-void Card::setZ(double z)
+void Card::setZValue(double z)
 {
     QGraphicsRectItem::setZValue(z);
     if (z > Hz)
@@ -238,10 +241,10 @@ void Card::moveTo(qreal x2, qreal y2, int z2, int steps)
     double  dy = y2 - y1;
 
     if (!dx && !dy) {
-        setZ(z2);
+        setZValue(z2);
         return;
     }
-    setZ(Hz++);
+    setZValue(Hz++);
 
     if (steps) {
         // Ensure a good speed
@@ -284,7 +287,7 @@ void Card::flipTo(int x2, int y2, int steps)
     m_destZ = int(zValue());
 
     // Let the card be above all others during the animation.
-    setZ(Hz++);
+    setZValue(Hz++);
 
     m_animSteps = steps;
     setVelocity(dx/m_animSteps, dy/m_animSteps-flipLift);
@@ -344,7 +347,7 @@ void Card::setAnimated(bool anim)
 
 	// Move the card to its destination immediately.
         setPos(m_destX, m_destY);
-        setZ(m_destZ);
+        setZValue(m_destZ);
     }
 #warning FIXME
 //    QGraphicsRectItem::setAnimated(anim);
@@ -372,7 +375,7 @@ void Card::getUp(int steps)
     m_destZ = int(zValue());
     m_destX = int(x());
     m_destY = int(y());
-    setZ(Hz+1);
+    setZValue(Hz+1);
 
     // Animation
     m_animSteps = steps;

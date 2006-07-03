@@ -176,10 +176,10 @@ protected:
 
     virtual void restart() = 0;
 
-    virtual void contentsMousePressEvent(QMouseEvent* e);
-    virtual void contentsMouseMoveEvent( QMouseEvent* );
-    virtual void contentsMouseReleaseEvent( QMouseEvent* );
-    virtual void contentsMouseDoubleClickEvent( QMouseEvent* );
+    virtual void mousePressEvent(QMouseEvent* e);
+    virtual void mouseMoveEvent( QMouseEvent* );
+    virtual void mouseReleaseEvent( QMouseEvent* );
+    virtual void mouseDoubleClickEvent( QMouseEvent* );
     virtual void wheelEvent( QWheelEvent *e );
 
     void unmarkAll();

@@ -309,7 +309,7 @@ void Klondike::redeal() {
 void Klondike::deal() {
     for(int round=0; round < 7; round++)
         for (int i = round; i < 7; i++ )
-            play[i]->add(deck->nextCard(), i != round, true);
+            play[i]->add(deck->nextCard(), i != round && true, true);
 }
 
 bool Klondike::cardClicked(Card *c) {

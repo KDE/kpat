@@ -49,8 +49,7 @@ Pile::Pile( int _index, Dealer* parent)
     addFlags    = 0;
     removeFlags = 0;
 
-    setBrush(Qt::black);
-    setPen(QPen(Qt::black));
+    setPen(QPen(Qt::NoPen));
 
     setZValue(0);
     initSizes();
@@ -470,8 +469,8 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
     for (; it != cl.end(); ++it)
     {
         (*it)->moveTo( before->realX() + off.width(),
-                             before->realY() + off.height(),
-                             before->realZ() + 1, steps);
+                       before->realY() + off.height(),
+                       before->realZ() + 1, steps);
         dealer()->enlargeCanvas(*it);
         before = *it;
     }

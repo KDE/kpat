@@ -83,7 +83,7 @@ public:
     void         moveTo( qreal x2, qreal y2, int z, int steps);
     void         flipTo(int x, int y, int steps);
     virtual void setAnimated(bool anim);
-    void         setZ(double z);
+    void         setZValue(double z);
     void         getUp(int steps = 12);
 
     int          realX() const;
@@ -103,7 +103,7 @@ signals:
     void         stoped(Card *c);
 
 protected:
-    void         draw( QPainter &p );	// Redraw the card.
+    virtual void paint( QPainter *p, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );	// Redraw the card.
     void         advance(int stage);
 
 private:

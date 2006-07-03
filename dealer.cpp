@@ -105,6 +105,8 @@ Dealer::Dealer( KMainWindow* _parent )
     setScene(&myCanvas);
 // myCanvas.setDoubleBuffering(true);
 
+    setAlignment( Qt::AlignLeft | Qt::AlignTop );
+    myCanvas.setSceneRect ( QRectF( 0, 0, width(), height() ) );
     undoList.setAutoDelete(true);
 
     demotimer = new QTimer(this);
@@ -282,7 +284,7 @@ bool Dealer::isMoving(Card *c) const
     return movingCards.indexOf(c) != -1;
 }
 
-void Dealer::contentsMouseMoveEvent(QMouseEvent* e)
+void Dealer::mouseMoveEvent(QMouseEvent* e)
 {
 #warning FIXME
 #if 0
@@ -360,14 +362,14 @@ void Dealer::unmarkAll()
     marked.clear();
 }
 
-void Dealer::contentsMousePressEvent(QMouseEvent* e)
+void Dealer::mousePressEvent(QMouseEvent* e)
 {
     unmarkAll();
     stopDemo();
     if (waiting())
         return;
 
-    QList<QGraphicsItem *> list = scene()->items(e->pos());
+    QList<QGraphicsItem *> list = scene()->items( mapToScene( e->pos() ) );
 
     kDebug(11111) << "mouse pressed " << list.count() << " " << scene()->items().count() << endl;
     moved = false;
@@ -399,7 +401,7 @@ void Dealer::contentsMousePressEvent(QMouseEvent* e)
     }
 
     // if it's nothing else, we move the cards back
-    contentsMouseReleaseEvent(e);
+    mouseReleaseEvent(e);
 
 }
 
@@ -411,7 +413,7 @@ public:
 };
 typedef QList<Hit> HitList;
 
-void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
+void Dealer::mouseReleaseEvent( QMouseEvent *e)
 {
     if (!moved) {
         if (!movingCards.isEmpty()) {
@@ -532,7 +534,7 @@ void Dealer::contentsMouseReleaseEvent( QMouseEvent *e)
     scene()->update();
 }
 
-void Dealer::contentsMouseDoubleClickEvent( QMouseEvent*e )
+void Dealer::mouseDoubleClickEvent( QMouseEvent*e )
 {
     stopDemo();
     unmarkAll();
@@ -643,7 +645,7 @@ bool Dealer::cardDblClicked(Card *c)
 void Dealer::startNew()
 {
     if (!_won)
-		 countLoss();
+        countLoss();
     if ( ahint )
         ahint->setEnabled( true );
     if ( ademo )
@@ -1419,8 +1421,6 @@ void Dealer::drawPile(QPixmap &pixmap, Pile *pile, bool selected)
                 paint.drawPixmap(dx, dy, bg, sx, sy, w, h);
             }
         }
-        paint.setPen( Qt::red );
-        paint.drawRect( 0, 0, 100, 100 );
     }
 
     float s = -0.4;
