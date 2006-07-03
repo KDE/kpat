@@ -88,7 +88,7 @@ public:
     int  index()   const { return myIndex; }
     bool isEmpty() const { return m_cards.count() == 0; }
 
-    virtual void drawShape ( QPainter & p );
+    void updateBrush();
     static const int my_type;
 
     virtual int  type() const       { return UserType + my_type; }

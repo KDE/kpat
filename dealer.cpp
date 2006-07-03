@@ -1260,13 +1260,8 @@ MoveHint *Dealer::chooseHint()
     return hints[randseq.getLong(hints.count())];
 }
 
-void Dealer::demo() {
-
-    for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
-    {
-        ( *it )->setVisible( true );
-    }
-
+void Dealer::demo()
+{
     if (waiting())
         return;
 

@@ -33,7 +33,6 @@ const int Pile::autoTurnTop   = 0x0200;
 const int Pile::wholeColumn   = 0x0400;
 
 
-
 Pile::Pile( int _index, Dealer* parent)
     : QGraphicsRectItem( 0, parent->scene() ),
       m_dealer(parent),
@@ -57,7 +56,6 @@ Pile::Pile( int _index, Dealer* parent)
     initSizes();
 }
 
-
 void Pile::initSizes()
 {
     setSpread( cardMap::CARDY() / 5 + 1 );
@@ -68,6 +66,8 @@ void Pile::initSizes()
     r.setWidth( cardMap::CARDX() );
     r.setHeight( cardMap::CARDY() );
     setRect( r );
+
+    updateBrush();
 }
 
 void Pile::setType(PileType type)
@@ -133,18 +133,25 @@ void Pile::resetCache()
 {
     cache = QPixmap(0, 0);
     cache_selected = QPixmap(0, 0);
+
+    if (cache.isNull())
+        dealer()->drawPile(cache, this, false);
 }
 
-void Pile::drawShape ( QPainter & painter )
+void Pile::updateBrush()
 {
     if (isSelected()) {
         if (cache.isNull())
             dealer()->drawPile(cache, this, false);
-        painter.drawPixmap(int(x()), int(y()), cache);
+        QBrush br;
+        br.setTexture( cache );
+        setBrush( br );
     } else {
         if (cache_selected.isNull())
             dealer()->drawPile(cache_selected, this, true);
-        painter.drawPixmap(int(x()), int(y()), cache_selected);
+        QBrush br;
+        br.setTexture( cache_selected );
+        setBrush( br );
     }
 }
 
@@ -223,12 +230,6 @@ void Pile::setVisible(bool vis)
         (*it)->setVisible(vis);
         dealer()->enlargeCanvas(*it);
     }
-
-    if (cache.isNull())
-        dealer()->drawPile(cache, this, false);
-    QBrush br;
-    br.setTexture( cache );
-    setBrush( br );
 }
 
 void Pile::moveBy(double dx, double dy)
