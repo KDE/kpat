@@ -24,6 +24,8 @@
 #include <qpainter.h>
 //Added by qt3to4:
 #include <QPixmap>
+#include <QTimeLine>
+#include <QGraphicsItemAnimation>
 
 #include <kdebug.h>
 
@@ -231,6 +233,24 @@ void Card::setZValue(double z)
 //
 void Card::moveTo(qreal x2, qreal y2, int z2, int steps)
 {
+    kDebug() << "moveTo " << x2 << " " << y2 << " " << steps << " " << x() << " " << y() << endl;
+
+    QTimeLine *timeLine = new QTimeLine;
+
+    QGraphicsItemAnimation *headAnimation = new QGraphicsItemAnimation;
+    headAnimation->setItem(this);
+    headAnimation->setTimeLine(timeLine);
+    headAnimation->setRotationAt(0, 20);
+    headAnimation->setPosAt(1, QPointF( x2, y2 ));
+    headAnimation->setScaleAt(1, 1.1, 1.1);
+
+
+    timeLine->setUpdateInterval(1000 / 25);
+    timeLine->setCurveShape(QTimeLine::SineCurve);
+    timeLine->setLoopCount(0);
+    timeLine->setDuration(2000);
+    timeLine->start();
+
     m_destX = x2;
     m_destY = y2;
     m_destZ = z2;

@@ -115,6 +115,8 @@ Dealer::Dealer( KMainWindow* _parent )
 
     assert(!s_instance);
     s_instance = this;
+
+    setCacheMode( QGraphicsView::CacheBackground);
 }
 
 
