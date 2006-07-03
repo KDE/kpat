@@ -235,20 +235,18 @@ void Card::moveTo(qreal x2, qreal y2, int z2, int steps)
 {
     kDebug() << "moveTo " << x2 << " " << y2 << " " << steps << " " << x() << " " << y() << endl;
 
-    QTimeLine *timeLine = new QTimeLine;
+    QTimeLine *timeLine = new QTimeLine( 1000, this );
 
     QGraphicsItemAnimation *headAnimation = new QGraphicsItemAnimation;
     headAnimation->setItem(this);
     headAnimation->setTimeLine(timeLine);
-    headAnimation->setRotationAt(0, 20);
     headAnimation->setPosAt(1, QPointF( x2, y2 ));
-    headAnimation->setScaleAt(1, 1.1, 1.1);
-
+    headAnimation->setPosAt(0.5, QPointF( x2 / 2, y2 ));
 
     timeLine->setUpdateInterval(1000 / 25);
-    timeLine->setCurveShape(QTimeLine::SineCurve);
-    timeLine->setLoopCount(0);
-    timeLine->setDuration(2000);
+    timeLine->setFrameRange(0, 100);
+    timeLine->setCurveShape(QTimeLine::EaseInCurve);
+    timeLine->setLoopCount(1);
     timeLine->start();
 
     m_destX = x2;
