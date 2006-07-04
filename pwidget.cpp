@@ -161,10 +161,10 @@ pWidget::pWidget()
     QString bgpath = cg.readPathEntry("Background");
     kDebug(11111) << "bgpath '" << bgpath << "'" << endl;
     if (bgpath.isEmpty())
-        bgpath = locate("wallpaper", "No-Ones-Laughing-3.jpg");
+        bgpath = KStandardDirs::locate("wallpaper", "No-Ones-Laughing-3.jpg");
     background = QPixmap(bgpath);
     if ( background.isNull() ) {
-        background = QPixmap( locate("wallpaper", "No-Ones-Laughing-3.jpg") );
+        background = QPixmap( KStandardDirs::locate("wallpaper", "No-Ones-Laughing-3.jpg") );
         cg.writePathEntry( "Background", QString::null );
     }
 
