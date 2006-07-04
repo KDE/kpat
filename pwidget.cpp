@@ -249,7 +249,7 @@ void pWidget::changeWallpaper()
     if (wallpapers->currentItem() < 0 || wallpapers->currentItem() >= wallpaperlist.count())
 	return;
 
-    QString bgpath=locate("wallpaper", wallpaperlist[wallpapers->currentItem()]);
+    QString bgpath=KStandardDirs::locate("wallpaper", wallpaperlist[wallpapers->currentItem()]);
     if (bgpath.isEmpty())
         return;
     background = QPixmap(bgpath);
@@ -537,13 +537,13 @@ void pWidget::openGame(const KUrl &url)
 
 void pWidget::openGame()
 {
-    KUrl url = KFileDialog::getOpenURL();
+    KUrl url = KFileDialog::getOpenUrl();
     openGame(url);
 }
 
 void pWidget::saveGame()
 {
-    KUrl url = KFileDialog::getSaveURL();
+    KUrl url = KFileDialog::getSaveUrl();
     KTempFile file;
     QDomDocument doc("kpat");
     dill->saveGame(doc);
