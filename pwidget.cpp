@@ -428,7 +428,7 @@ void pWidget::setBackSide(const QString &deck, const QString &cards)
 {
     kDebug() << "setBackSide " << deck << " " << cards << endl;
     KConfigGroup cg(KGlobal::config(), settings_group);
-    QPixmap pm(locate( "cards", deck) );
+    QPixmap pm(KStandardDirs::locate( "cards", deck) );
     if(!pm.isNull()) {
         cardMap::self()->setBackSide(pm, false);
         cg.writeEntry("Back", deck);
