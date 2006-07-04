@@ -69,9 +69,9 @@ install_targets(/bin kpat )
 
 ########### install files ###############
 
-install_files( ${XDG_APPS_DIR} FILES kpat.desktop )
-install_files( ${DATA_INSTALL_DIR}/kpat/backgrounds FILES green.png )
-install_files( ${DATA_INSTALL_DIR}/kpat FILES kpatui.rc )
+install( FILES kpat.desktop  DESTINATION  ${XDG_APPS_DIR} )
+install( FILES green.png  DESTINATION  ${DATA_INSTALL_DIR}/kpat/backgrounds )
+install( FILES kpatui.rc  DESTINATION  ${DATA_INSTALL_DIR}/kpat )
 
 
 
