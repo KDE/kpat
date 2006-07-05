@@ -569,6 +569,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
 
 void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
 {
+    kDebug() << "mouseDoubleClickEvent " << waiting() << endl;;
     Dealer::instance()->stopDemo();
     unmarkAll();
     if (waiting())
@@ -579,6 +580,7 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
         movingCards.clear();
     }
     QList<QGraphicsItem *> list = items(e->scenePos());
+    kDebug() << "mouseDoubleClickEvent " << list << endl;
     if (list.isEmpty())
         return;
     QList<QGraphicsItem *>::Iterator it = list.begin();
@@ -587,6 +589,7 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
     Card *c = dynamic_cast<Card*>(*it);
     assert(c);
     c->stopAnimation();
+    kDebug() << "card " << c->name() << endl;
     if ( cardDblClicked(c) ) {
         Dealer::instance()->countGame();
     }
@@ -908,7 +911,7 @@ void Dealer::takeState()
         }
     }
     if (!demoActive() && !dscene()->waiting())
-            QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
+            QTimer::singleShot(TIME_BETWEEN_MOVES, dscene(), SLOT(startAutoDrop()));
 
     emit undoPossible(undoList.count() > 1 && !dscene()->waiting());
 }
@@ -1120,13 +1123,15 @@ bool DealerScene::startAutoDrop()
     QList<QGraphicsItem *> list = items();
 
     for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
-#warning FIXME
-#if 0
-        if ((*it)->animated()) {
-            QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
-            return true;
+    {
+        if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId ) {
+            Card *c = dynamic_cast<Card*>(*it);
+            if (c->animated()) {
+                QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
+                return true;
+            }
         }
-#endif
+    }
 
     // kDebug(11111) << "startAutoDrop\n";
 
@@ -1139,7 +1144,8 @@ bool DealerScene::startAutoDrop()
             setWaiting(true);
             Card *t = mh->card();
             CardList cards = mh->card()->source()->cards();
-            while (cards.count() && cards.first() != t) cards.erase(cards.begin());
+            while (cards.count() && cards.first() != t)
+                cards.erase(cards.begin());
             t->stopAnimation();
             t->turn(true);
             int x = int(t->x());
@@ -1156,11 +1162,11 @@ bool DealerScene::startAutoDrop()
     return false;
 }
 
-void Dealer::waitForAutoDrop(Card * c) {
+void DealerScene::waitForAutoDrop(Card * c) {
     kDebug(11111) << "waitForAutoDrop " << c->name() << endl;
-    dscene()->setWaiting(false);
+    setWaiting(false);
     c->disconnect();
-    takeState();
+    Dealer::instance()->takeState();
 }
 
 long DealerScene::gameNumber() const

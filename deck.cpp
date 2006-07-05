@@ -127,7 +127,6 @@ static long pseudoRandom_random() {
 
 void Deck::shuffle()
 {
-
     assert((uint)m_cards.count() == mult*NumberOfCards);
 
     assert(dealer()->gameNumber() >= 0);

@@ -109,15 +109,11 @@ public:
     void setGameNumber(long gmn);
     long gameNumber() const;
 
-    void hint();
-
     bool waiting() const { return _waiting != 0; }
     void setWaiting(bool w);
 
     QColor midColor() const { return _midcolor; }
     void setBackgroundPixmap(const QPixmap &background, const QColor &midcolor);
-
-    virtual bool startAutoDrop();
 
     void addPile(Pile *p);
     void removePile(Pile *p);
@@ -133,8 +129,15 @@ public:
 
     virtual void restart() = 0;
 
+public slots:
+    virtual bool startAutoDrop();
+    void hint();
+
 signals:
     void undoPossible(bool poss);
+
+private slots:
+    void waitForAutoDrop(Card *);
 
 private:
     QList<QGraphicsItem *> marked;
@@ -237,7 +240,6 @@ public slots:
     void waitForDemo(Card *);
     void toggleDemo();
     virtual void stopDemo();
-    void waitForAutoDrop(Card *);
 
 protected:
 

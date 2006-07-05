@@ -215,8 +215,6 @@ void Card::setZValue(double z)
 //
 void Card::moveTo(qreal x2, qreal y2, int z2, int steps)
 {
-    kDebug() << "moveTo " << x2 << " " << y2 << " " << steps << " " << x() << " " << y() << endl;
-
     stopAnimation();
 
     QTimeLine *timeLine = new QTimeLine( 1000, this );
@@ -230,7 +228,7 @@ void Card::moveTo(qreal x2, qreal y2, int z2, int steps)
     timeLine->setFrameRange(0, 100);
     timeLine->setCurveShape(QTimeLine::EaseInCurve);
     timeLine->setLoopCount(1);
-    timeLine->setDuration( 230 );
+    timeLine->setDuration( 530 );
     timeLine->start();
 
     connect( timeLine, SIGNAL( finished() ), SLOT( stopAnimation() ) );
@@ -321,11 +319,14 @@ void Card::stopAnimation()
 {
     if ( !animation )
         return;
-    animation->timeLine()->stop();
-    delete animation;
+    QGraphicsItemAnimation *old_animation = animation;
     animation = 0;
+    if ( old_animation->timeLine()->state() == QTimeLine::Running )
+        old_animation->timeLine()->setCurrentTime(3000);
+    old_animation->timeLine()->stop();
     setPos( m_destX, m_destY );
     setZValue( m_destZ );
+    emit stoped( this );
 }
 
 bool  Card::animated() const
