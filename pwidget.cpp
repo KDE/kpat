@@ -539,13 +539,13 @@ void pWidget::openGame(const KUrl &url)
 
 void pWidget::openGame()
 {
-    KUrl url = KFileDialog::getOpenURL();
+    KUrl url = KFileDialog::getOpenUrl();
     openGame(url);
 }
 
 void pWidget::saveGame()
 {
-    KUrl url = KFileDialog::getSaveURL();
+    KUrl url = KFileDialog::getSaveUrl();
     KTempFile file;
     QDomDocument doc("kpat");
     dill->saveGame(doc);
