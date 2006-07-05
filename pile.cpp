@@ -402,7 +402,7 @@ CardList Pile::cardPressed(Card *c)
             below = 0;
         }
         if (below >= 0) {
-            (*it)->setAnimated(false);
+            (*it)->stopAnimation();
             (*it)->setZValue(128 + below);
             below++;
             result.append(*it);

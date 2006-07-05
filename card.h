@@ -40,7 +40,7 @@ class Deck;
 class Dealer;
 class Pile;
 class Card;
-
+class QGraphicsItemAnimation;
 
 // A list of cards.  Used in many places.
 typedef QList<Card*> CardList;
@@ -82,12 +82,11 @@ public:
     virtual void moveBy(double dx, double dy);
     void         moveTo( qreal x2, qreal y2, int z, int steps);
     void         flipTo(int x, int y, int steps);
-    virtual void setAnimated(bool anim);
     void         setZValue(double z);
     void         getUp(int steps = 12);
 
-    int          realX() const;
-    int          realY() const;
+    qreal        realX() const;
+    qreal        realY() const;
     int          realZ() const;
     bool         realFace() const;
 
@@ -96,8 +95,6 @@ public:
 
     bool         animated() const;
     void         setVelocity( int x, int y );
-    void         setActive( bool b );
-    bool         isActive() const;
 
     virtual void hoverEnterEvent ( QGraphicsSceneHoverEvent * event );
     virtual void hoverLeaveEvent ( QGraphicsSceneHoverEvent * event );
@@ -112,12 +109,14 @@ public:
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
     virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event );
 
+
 signals:
     void         stoped(Card *c);
 
-protected:
-    virtual void paint( QPainter *p, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );	// Redraw the card.
-    void         advance(int stage);
+public slots:
+    void       flip();
+    void       flipAnimationChanged( qreal );
+    void       stopAnimation();
 
 private:
     // The card values.
@@ -129,25 +128,18 @@ private:
     bool        m_faceup;	// True if card lies with the face up.
     Pile       *m_source;
 
-    double      scaleX;
-    double      scaleY;
-
     bool        tookDown;
 
     // Used for animation
-    int         m_destX;	// Destination point.
-    int         m_destY;
-    int         m_destZ;
-    int         m_animSteps;	// Let the animation take this many steps.
-
-    // Used if flipping during an animated move.
-    bool        m_flipping;
-    int         m_flipSteps;
+    qreal         m_destX;	// Destination point.
+    qreal         m_destY;
+    qreal         m_destZ;
 
     // The maximum Z ever used.
     static int  Hz;
 
     static const int my_type;
+    QGraphicsItemAnimation *animation;
 };
 
 

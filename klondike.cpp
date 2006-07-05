@@ -299,7 +299,7 @@ void Klondike::redeal() {
     for (int count = pilecards.count() - 1; count; --count)
     {
         Card *card = pilecards[count];
-	card->setAnimated(false);
+	card->stopAnimation();
 	deck->add(card, true, false); // facedown, nospread
     }
 

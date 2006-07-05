@@ -45,7 +45,7 @@ const int Card::my_type = Dealer::CardTypeId;
 Card::Card( Rank r, Suit s, QGraphicsScene* _parent )
     : QGraphicsRectItem( QRectF( 0, 0, cardMap::CARDX(), cardMap::CARDY() ), 0, _parent ),
       m_suit( s ), m_rank( r ),
-      m_source(0), scaleX(1.0), scaleY(1.0), tookDown(false)
+      m_source(0), tookDown(false), animation( 0 )
 {
     // Set the name of the card
     m_name = QString("%1 %2").arg(suit_names[s-1]).arg(rank_names[r-1]).toUtf8();
@@ -56,10 +56,6 @@ Card::Card( Rank r, Suit s, QGraphicsScene* _parent )
     m_destX = 0;
     m_destY = 0;
     m_destZ = 0;
-
-    m_flipping  = false;
-    m_animSteps = 0;
-    m_flipSteps = 0;
 
     setPen(QPen(Qt::NoPen));
     setAcceptsHoverEvents( true );
@@ -94,37 +90,19 @@ void Card::turn( bool _faceup )
 {
     if (m_faceup != _faceup) {
         m_faceup = _faceup;
-        setActive(!isActive()); // abuse
+        QBrush b = brush();
+        if ( m_faceup )
+            b.setTexture( cardMap::self()->image( m_rank, m_suit, isSelected() ) );
+        else
+            b.setTexture( cardMap::self()->backSide() );
+        setBrush( b );
     }
 }
 
-// Draw the card on the painter 'p'.
-//
-void Card::paint( QPainter *p, const QStyleOptionGraphicsItem * option, QWidget * widget )
+void Card::flip()
 {
-    QPixmap  side;
-
-    // Get the image to draw (front / back)
-    if( isFaceUp() )
-        side = cardMap::self()->image( m_rank, m_suit, isSelected());
-    else
-        side = cardMap::self()->backSide();
-
-/*
-    // Rescale the image if necessary.
-    if (scaleX <= 0.98 || scaleY <= 0.98) {
-        QMatrix  s;
-        s.scale( scaleX, scaleY );
-        side = side.transformed( s );
-        int xoff = side.width() / 2;
-        int yoff = side.height() / 2;
-        p->drawPixmap( int(x() + cardMap::CARDX()/2 - xoff),
-                       int(y() + cardMap::CARDY()/2 - yoff), side );
-    } else
-        */
-        p->drawPixmap( 0, 0, side );
+    turn( !m_faceup );
 }
-
 
 void Card::moveBy(double dx, double dy)
 {
@@ -135,24 +113,24 @@ void Card::moveBy(double dx, double dy)
 // Return the X of the cards real position.  This is the destination
 // of the animation if animated, and the current X otherwise.
 //
-int Card::realX() const
+qreal Card::realX() const
 {
     if (animated())
         return m_destX;
     else
-        return int(x());
+        return x();
 }
 
 
 // Return the Y of the cards real position.  This is the destination
 // of the animation if animated, and the current Y otherwise.
 //
-int Card::realY() const
+qreal Card::realY() const
 {
     if (animated())
         return m_destY;
     else
-        return int(y());
+        return y();
 }
 
 
@@ -177,6 +155,9 @@ int Card::realZ() const
 
 bool Card::realFace() const
 {
+#warning FIXME - this needs some caching
+    return isFaceUp();
+#if 0
     if (animated() && m_flipping) {
         bool face = isFaceUp();
         if ( m_animSteps >= m_flipSteps / 2 - 1 )
@@ -185,6 +166,7 @@ bool Card::realFace() const
             return face;
     } else
         return isFaceUp();
+#endif
 }
 
 
@@ -235,12 +217,14 @@ void Card::moveTo(qreal x2, qreal y2, int z2, int steps)
 {
     kDebug() << "moveTo " << x2 << " " << y2 << " " << steps << " " << x() << " " << y() << endl;
 
+    stopAnimation();
+
     QTimeLine *timeLine = new QTimeLine( 1000, this );
 
-    QGraphicsItemAnimation *headAnimation = new QGraphicsItemAnimation;
-    headAnimation->setItem(this);
-    headAnimation->setTimeLine(timeLine);
-    headAnimation->setPosAt(1, QPointF( x2, y2 ));
+    animation = new QGraphicsItemAnimation;
+    animation->setItem(this);
+    animation->setTimeLine(timeLine);
+    animation->setPosAt(1, QPointF( x2, y2 ));
 
     timeLine->setUpdateInterval(1000 / 25);
     timeLine->setFrameRange(0, 100);
@@ -249,14 +233,15 @@ void Card::moveTo(qreal x2, qreal y2, int z2, int steps)
     timeLine->setDuration( 230 );
     timeLine->start();
 
+    connect( timeLine, SIGNAL( finished() ), SLOT( stopAnimation() ) );
+
     m_destX = x2;
     m_destY = y2;
     m_destZ = z2;
 
-    return;
-
     double  x1 = x();
     double  y1 = y();
+
     double  dx = x2 - x1;
     double  dy = y2 - y1;
 
@@ -265,41 +250,43 @@ void Card::moveTo(qreal x2, qreal y2, int z2, int steps)
         return;
     }
     setZValue(Hz++);
-
-    if (steps) {
-        // Ensure a good speed
-        while ( fabs(dx/steps)+fabs(dy/steps) < 5.0 && steps > 4 )
-            steps--;
-
-        setAnimated(true);
-        setVelocity(dx/steps, dy/steps);
-
-        m_animSteps = steps;
-
-    } else {
-        // _really_ fast
-        setAnimated(true);
-        setAnimated(false);
-        emit stoped(this);
-    }
 }
-
 
 // Animate a move to (x2, y2), and at the same time flip the card.
 //
 void Card::flipTo(int x2, int y2, int steps)
 {
-    // Check that we are not already animating.
-    assert(!animated());
+    stopAnimation();
 
-    int     x1 = (int)x();
-    int     y1 = (int)y();
-    double  dx = x2 - x1;
-    double  dy = y2 - y1;
+    qreal  x1 = x();
+    qreal  y1 = y();
+    qreal  dx = x2 - x1;
+    qreal  dy = y2 - y1;
 
-    // Mark this animation as a flip as well.
-    m_flipping  = true;
-    m_flipSteps = steps;
+    QTimeLine *timeLine = new QTimeLine( 1000, this );
+
+    animation = new QGraphicsItemAnimation( this );
+    animation->setItem(this);
+    animation->setTimeLine(timeLine);
+    animation->setScaleAt( 0, 1, 1.0 );
+    animation->setScaleAt( 0.5, 0.0, 1.0 );
+    animation->setScaleAt( 1, 1, 1.0 );
+    QPointF hp = pos();
+    if ( x1 != x2 )
+        hp.setX( ( x1 + x2 + boundingRect().width() ) / 2 );
+    if ( y1 != y2 )
+        hp.setY( ( y1 + y2 + boundingRect().height() ) / 2 );
+    animation->setPosAt(0.5, hp );
+    animation->setPosAt(1, QPointF( x2, y2 ));
+
+    timeLine->setUpdateInterval(1000 / 25);
+    timeLine->setFrameRange(0, 100);
+    timeLine->setLoopCount(1);
+    timeLine->setDuration( 400 );
+    timeLine->start();
+
+    connect( timeLine, SIGNAL( finished() ), SLOT( stopAnimation() ) );
+    connect( timeLine, SIGNAL( valueChanged( qreal ) ), SLOT( flipAnimationChanged( qreal ) ) );
 
     // Set the target of the animation
     m_destX = x2;
@@ -308,71 +295,15 @@ void Card::flipTo(int x2, int y2, int steps)
 
     // Let the card be above all others during the animation.
     setZValue(Hz++);
-
-    m_animSteps = steps;
-    setVelocity(dx/m_animSteps, dy/m_animSteps-flipLift);
-
-    setAnimated(true);
 }
 
 
-// Advance a card animation one step.  This function adds flipping of
-// the card to the translation animation that QCanvasRectangle offers.
-//
-void Card::advance(int stage)
+void Card::flipAnimationChanged( qreal r)
 {
-    if ( stage==1 ) {
-	// If the animation is finished, emit stoped. (FIXME: name)
-	if ( m_animSteps-- <= 0 ) {
-	    setAnimated(false);
-            emit stoped(this);
-        } else {
-	    // Animation is not finished. Check for flipping and add
-	    // that animation to the simple translation.
-	    if ( m_flipping ) {
-		if ( m_animSteps > m_flipSteps / 2 ) {
-		    // animSteps = flipSteps .. flipSteps/2 (flip up) -> 1..0
-		    scaleX = ((double)m_animSteps/m_flipSteps-0.5)*2;
-		} else {
-		    // animSteps = flipSteps/2 .. 0 (flip down) -> 0..1
-		    scaleX = 1-((double)m_animSteps/m_flipSteps)*2;
-		}
-		if ( m_animSteps == m_flipSteps / 2-1 ) {
-#warning FIXME
-		    // setYVelocity(yVelocity()+flipLift*2);
-		    turn( !isFaceUp() );
-		}
-	    }
-	}
+    if ( r > 0.5 && !isFaceUp() ) {
+        flip();
     }
-
-    // Animate the translation of the card.
-#warning FIXME
-// Q3CanvasRectangle::advance(stage);
 }
-
-
-// Set 'animated' status to a new value, and set secondary values as
-// well.
-//
-void Card::setAnimated(bool anim)
-{
-    // If no more animation, reset some other values as well.
-    if (animated() && !anim) {
-	// Reset all things that might have changed during the animation.
-        scaleX = 1.0;
-        scaleY = 1.0;
-        m_flipping = false;
-        setVelocity(0, 0);
-
-	// Move the card to its destination immediately.
-        setPos(m_destX, m_destY);
-        setZValue(m_destZ);
-    }
-#warning FIXME
-//    QGraphicsRectItem::setAnimated(anim);
-}
-
 
 void Card::setTakenDown(bool td)
 {
@@ -387,9 +318,52 @@ bool Card::takenDown() const
     return tookDown;
 }
 
+void Card::stopAnimation()
+{
+    if ( !animation )
+        return;
+    animation->timeLine()->stop();
+    delete animation;
+    animation = 0;
+    setPos( m_destX, m_destY );
+    setZValue( m_destZ );
+}
+
+bool  Card::animated() const
+{
+    return animation != 0;
+}
 
 void Card::hoverEnterEvent ( QGraphicsSceneHoverEvent * event )
 {
+    if ( animated() || !isFaceUp() )
+        return;
+
+    QTimeLine *timeLine = new QTimeLine( 1000, this );
+
+    animation = new QGraphicsItemAnimation( this );
+    animation->setItem(this);
+    animation->setTimeLine(timeLine);
+    animation->setScaleAt( 0, 1, 1.0 );
+    animation->setScaleAt( 0.5, 1.1, 1.1 );
+    qreal x2 = pos().x() + boundingRect().width() / 2 - boundingRect().width() * 1.1 / 2;
+    qreal y2 = pos().y() + boundingRect().height() / 2 - boundingRect().height() * 1.1 / 2;
+    animation->setPosAt( 0.5, QPointF( x2, y2 ) );
+    animation->setPosAt( 1, pos() );
+    animation->setScaleAt( 1, 1, 1 );
+
+    timeLine->setUpdateInterval(1000 / 25);
+    timeLine->setFrameRange(0, 100);
+    timeLine->setLoopCount(1);
+    timeLine->setDuration( 1000 );
+    timeLine->start();
+
+    connect( timeLine, SIGNAL( finished() ), SLOT( stopAnimation() ) );
+
+    m_destZ = zValue();
+    m_destX = x();
+    m_destY = y();
+
     //kDebug() << "hoverEnterEvent\n";
 }
 
@@ -439,18 +413,6 @@ void Card::getUp(int steps)
     m_destY = int(y());
     setZValue(Hz+1);
 
-    // Animation
-    m_animSteps = steps;
-    setVelocity(0, 0);
-    setAnimated(true);
 }
-
-bool         Card::animated() const { return false; }
-void         Card::setVelocity( int x, int y ) {
-}
-void         Card::setActive( bool b ) {
-
-}
-bool         Card::isActive() const { return false; }
 
 #include "card.moc"

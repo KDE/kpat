@@ -409,7 +409,7 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
             assert(c);
             CardList mycards = c->source()->cardPressed(c);
             for (CardList::Iterator it = mycards.begin(); it != mycards.end(); ++it)
-                (*it)->setAnimated(false);
+                (*it)->stopAnimation();
             movingCards = mycards;
             moving_start = e->scenePos();
         }
@@ -446,6 +446,8 @@ void DealerScene::startNew()
 
 void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
 {
+    QGraphicsScene::mouseReleaseEvent( e );
+
     if (!moved) {
         if (!movingCards.isEmpty()) {
             movingCards.first()->source()->moveCardsBack(movingCards);
@@ -699,8 +701,7 @@ void Dealer::startNew()
         {
             Card *c = static_cast<Card*>(*it);
             c->disconnect();
-            c->setAnimated(true);
-            c->setAnimated(false);
+            c->stopAnimation();
         }
     }
 
@@ -855,7 +856,7 @@ void Dealer::setState(State *st)
         bool target = c->takenDown(); // abused
         s.source->add(c, s.source_index);
         c->setVisible(s.source->isVisible());
-        c->setAnimated(false);
+        c->stopAnimation();
         c->setPos(s.x, s.y);
         c->setZValue(int(s.z));
         c->setTakenDown(s.tookdown || (target && !s.source->target()));
@@ -1032,7 +1033,7 @@ void Dealer::openGame(QDomDocument &doc)
                                     kDebug(11111) << i << " " << j << endl;
                                 }
                                 p->add(*it2);
-                                (*it2)->setAnimated(false);
+                                (*it2)->stopAnimation();
                                 (*it2)->turn(card.attribute("faceup").toInt());
                                 (*it2)->setPos(card.attribute("x").toDouble(),
                                                card.attribute("y").toDouble());
@@ -1140,7 +1141,7 @@ bool DealerScene::startAutoDrop()
             Card *t = mh->card();
             CardList cards = mh->card()->source()->cards();
             while (cards.count() && cards.first() != t) cards.erase(cards.begin());
-            t->setAnimated(false);
+            t->stopAnimation();
             t->turn(true);
             int x = int(t->x());
             int y = int(t->y());
@@ -1341,7 +1342,7 @@ void Dealer::demo()
         for (CardList::Iterator it = empty.begin(); it != empty.end(); ++it) {
             Card *t = *it;
             Q_ASSERT(!t->animated());
-            t->setAnimated(false);
+            t->stopAnimation();
             t->turn(true);
             oldcoords[i++] = int(t->realX());
             oldcoords[i++] = int(t->realY());
