@@ -272,8 +272,7 @@ void Card::flipTo(int x2, int y2, int steps)
     animation->setScaleAt( 0.5, 0.0, 1.0 );
     animation->setScaleAt( 1, 1, 1.0 );
     QPointF hp = pos();
-    if ( x1 != x2 )
-        hp.setX( ( x1 + x2 + boundingRect().width() ) / 2 );
+    hp.setX( ( x1 + x2 + boundingRect().width() ) / 2 );
     if ( y1 != y2 )
         hp.setY( ( y1 + y2 + boundingRect().height() ) / 2 );
     animation->setPosAt(0.5, hp );
