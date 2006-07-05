@@ -326,7 +326,7 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
     }
 
     PileList sources;
-    QList<QGraphicsItem *> list = items( movingCards.first()->rect() );
+    QList<QGraphicsItem *> list = items( movingCards.first()->sceneBoundingRect() );
 
     for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
     {
@@ -486,7 +486,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
 
     unmarkAll();
 
-    QList<QGraphicsItem *> list = items(movingCards.first()->rect());
+    QList<QGraphicsItem *> list = items(movingCards.first()->sceneBoundingRect());
     HitList sources;
 
     for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
@@ -500,7 +500,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
                 continue;
             Hit t;
             t.source = c->source();
-            t.intersect = c->rect().intersect(movingCards.first()->rect());
+            t.intersect = c->sceneBoundingRect().intersect(movingCards.first()->sceneBoundingRect());
             t.top = (c == c->source()->top());
 
             bool found = false;
@@ -527,7 +527,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
                 {
                     Hit t;
                     t.source = p;
-                    t.intersect = p->rect().intersect(movingCards.first()->rect());
+                    t.intersect = p->sceneBoundingRect().intersect(movingCards.first()->sceneBoundingRect());
                     t.top = true;
                     sources.append(t);
                 }
@@ -586,12 +586,11 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
         return;
     Card *c = dynamic_cast<Card*>(*it);
     assert(c);
-    if (!c->animated()) {
-        if ( cardDblClicked(c) ) {
-            Dealer::instance()->countGame();
-        }
-        Dealer::instance()->takeState();
+    c->stopAnimation();
+    if ( cardDblClicked(c) ) {
+        Dealer::instance()->countGame();
     }
+    Dealer::instance()->takeState();
 }
 
 QSize Dealer::minimumCardSize() const
@@ -743,12 +742,12 @@ void DealerScene::enlargeCanvas(QGraphicsRectItem *c)
     bool changed = false;
 
 #if 0
-    if ( c->rect().right() + 10 > minsize.width() ) {
-        minsize.setWidth(( int )c->rect().right() + 10);
+    if ( c->sceneBoundingRect().right() + 10 > minsize.width() ) {
+        minsize.setWidth(( int )c->sceneBoundingRect().right() + 10);
         changed = true;
     }
-    if (c->rect().bottom() + 10 > minsize.height()) {
-        minsize.setHeight(( int )c->rect().bottom() + 10);
+    if (c->sceneBoundingRect().bottom() + 10 > minsize.height()) {
+        minsize.setHeight(( int )c->sceneBoundingRect().bottom() + 10);
         changed = true;
     }
     if (changed)
@@ -1272,7 +1271,7 @@ void Dealer::won()
     while (it.hasNext()) {
         CardPtr card = it.next();
         card.ptr->turn(true);
-        QRectF p = card.ptr->rect();
+        QRectF p = card.ptr->sceneBoundingRect();
         p.moveTo( 0, 0 );
         qreal x, y;
         do {

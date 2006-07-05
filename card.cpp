@@ -408,11 +408,21 @@ void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ) {
 
 void Card::getUp(int steps)
 {
-    m_destZ = int(zValue());
-    m_destX = int(x());
-    m_destY = int(y());
-    setZValue(Hz+1);
+    QTimeLine *timeLine = new QTimeLine( 1000, this );
 
+    animation = new QGraphicsItemAnimation( this );
+    animation->setItem(this);
+    animation->setTimeLine(timeLine);
+
+    timeLine->setDuration( 1500 );
+    timeLine->start();
+
+    connect( timeLine, SIGNAL( finished() ), SLOT( stopAnimation() ) );
+
+    m_destZ = zValue();
+    m_destX = x();
+    m_destY = y();
+    setZValue(Hz+1);
 }
 
 #include "card.moc"
