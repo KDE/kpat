@@ -30,6 +30,7 @@
 #include <QShowEvent>
 #include <krecentfilesaction.h>
 class Dealer;
+class DealerScene;
 class KToggleAction;
 class KSelectAction;
 class KRecentFilesAction;
@@ -74,7 +75,7 @@ private:
 private:
     // Members
 
-    Dealer         *dill;	// The current patience
+    Dealer    *dill;	// The current patience
 
     KSelectAction  *games;
     KSelectAction  *wallpapers;

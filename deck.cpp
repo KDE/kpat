@@ -23,7 +23,7 @@ const unsigned int NumberOfCards = 52;
 Deck *Deck::my_deck = 0;
 
 
-Deck::Deck( Dealer* parent, int m, int s )
+Deck::Deck( DealerScene* parent, int m, int s )
     : Pile( 0, parent ), mult( m )
 {
     _deck = new Card * [mult*NumberOfCards];
@@ -57,7 +57,7 @@ Deck::~Deck()
 // ----------------------------------------------------------------
 
 
-Deck *Deck::new_deck( Dealer *parent, int m, int s )
+Deck *Deck::new_deck( DealerScene *parent, int m, int s )
 {
     my_deck = new Deck(parent, m, s);
     return my_deck;
@@ -77,7 +77,7 @@ void Deck::makedeck()
             {
                 _deck[i] = new Card(static_cast<Card::Rank>(r),
                                    static_cast<Card::Suit>(Card::Spades - (s % suits)),
-                                   dealer()->scene());
+                                   dealer());
                 _deck[i]->setPos(x(), y());
                 i++;
             }

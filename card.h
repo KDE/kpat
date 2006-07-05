@@ -99,6 +99,19 @@ public:
     void         setActive( bool b );
     bool         isActive() const;
 
+    virtual void hoverEnterEvent ( QGraphicsSceneHoverEvent * event );
+    virtual void hoverLeaveEvent ( QGraphicsSceneHoverEvent * event );
+    virtual void hoverMoveEvent ( QGraphicsSceneHoverEvent * event );
+
+    virtual void dragEnterEvent ( QGraphicsSceneDragDropEvent * event );
+    virtual void dragLeaveEvent ( QGraphicsSceneDragDropEvent * event );
+    virtual void dragMoveEvent ( QGraphicsSceneDragDropEvent * event );
+
+    virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * event );
+    virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
+    virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
+    virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event );
+
 signals:
     void         stoped(Card *c);
 

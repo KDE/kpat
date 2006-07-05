@@ -358,7 +358,8 @@ void pWidget::newGameType()
     for (QList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin();
 	it != DealerInfoList::self()->games().end(); ++it) {
         if ((*it)->gameindex == id) {
-            dill = (*it)->createGame(this);
+            dill = new Dealer( this );
+            dill->setScene( (*it)->createGame() );
             QString name = (*it)->name;
             name = name.replace(QRegExp("[&']"), "");
             name = name.replace(QRegExp("[ ]"), "_").toLower();
@@ -378,7 +379,8 @@ void pWidget::newGameType()
 
     if (!dill) {
         kError() << "unimplemented game type " << id << endl;
-        dill = DealerInfoList::self()->games().first()->createGame(this);
+        dill = new Dealer( this );
+        dill->setScene( DealerInfoList::self()->games().first()->createGame() );
     }
 
     connect(dill, SIGNAL(undoPossible(bool)), SLOT(undoPossible(bool)));
@@ -537,13 +539,13 @@ void pWidget::openGame(const KUrl &url)
 
 void pWidget::openGame()
 {
-    KUrl url = KFileDialog::getOpenUrl();
+    KUrl url = KFileDialog::getOpenURL();
     openGame(url);
 }
 
 void pWidget::saveGame()
 {
-    KUrl url = KFileDialog::getSaveUrl();
+    KUrl url = KFileDialog::getSaveURL();
     KTempFile file;
     QDomDocument doc("kpat");
     dill->saveGame(doc);

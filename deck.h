@@ -15,7 +15,6 @@
 #define _DECK_H_
 
 #include "pile.h"
-class dealer;
 
 /***************************************
 
@@ -26,11 +25,11 @@ class Deck: public Pile
 {
 
 private:
-    Deck( Dealer* parent = 0, int m = 1, int s = 4 );
+    Deck( DealerScene* parent = 0, int m = 1, int s = 4 );
     virtual ~Deck();
 
 public:
-    static Deck *new_deck( Dealer *parent = 0, int m = 1, int s = 4 );
+    static Deck *new_deck( DealerScene *parent = 0, int m = 1, int s = 4 );
     static Deck *deck() { return my_deck; }
 
     static const long n;

@@ -31,11 +31,11 @@
 
 class KlondikePile;
 
-class Klondike : public Dealer {
+class Klondike : public DealerScene {
     Q_OBJECT
 
 public:
-    Klondike( bool easy, KMainWindow* parent );
+    Klondike( bool easy );
 
 public:
     virtual void restart();

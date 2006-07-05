@@ -62,6 +62,7 @@ Card::Card( Rank r, Suit s, QGraphicsScene* _parent )
     m_flipSteps = 0;
 
     setPen(QPen(Qt::NoPen));
+    setAcceptsHoverEvents( true );
 }
 
 
@@ -73,7 +74,6 @@ Card::~Card()
 
     hide();
 }
-
 
 // ----------------------------------------------------------------
 //              Member functions regarding graphics
@@ -241,7 +241,7 @@ void Card::moveTo(qreal x2, qreal y2, int z2, int steps)
     headAnimation->setItem(this);
     headAnimation->setTimeLine(timeLine);
     headAnimation->setPosAt(1, QPointF( x2, y2 ));
-    headAnimation->setPosAt(0.5, QPointF( x2 / 2, y2 ));
+    // headAnimation->setPosAt(0.5, QPointF( x2 / 2, y2 ));
 
     timeLine->setUpdateInterval(1000 / 25);
     timeLine->setFrameRange(0, 100);
@@ -252,6 +252,8 @@ void Card::moveTo(qreal x2, qreal y2, int z2, int steps)
     m_destX = x2;
     m_destY = y2;
     m_destZ = z2;
+
+    return;
 
     double  x1 = x();
     double  y1 = y();
@@ -385,6 +387,48 @@ bool Card::takenDown() const
     return tookDown;
 }
 
+
+void Card::hoverEnterEvent ( QGraphicsSceneHoverEvent * event )
+{
+    //kDebug() << "hoverEnterEvent\n";
+}
+
+void Card::hoverLeaveEvent ( QGraphicsSceneHoverEvent * event )
+{
+    //kDebug() << "hoverLeaveEvent\n";
+}
+
+void Card::hoverMoveEvent ( QGraphicsSceneHoverEvent * event )
+{
+    //kDebug() << "hoverMoveEvent\n";
+}
+
+void Card::dragEnterEvent ( QGraphicsSceneDragDropEvent * event ) {
+    kDebug() << "dragEnterEvent\n";
+}
+void Card::dragLeaveEvent ( QGraphicsSceneDragDropEvent * event ) {
+    kDebug() << "dragLeaveEvent\n";
+
+}
+void Card::dragMoveEvent ( QGraphicsSceneDragDropEvent * event ) {
+    kDebug() << "dragMoveEvent\n";
+}
+
+void Card::mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * event ) {
+    kDebug() << "mouseDoubleClickEvent\n";
+
+}
+void Card::mouseMoveEvent ( QGraphicsSceneMouseEvent * event ) {
+        kDebug() << "mouseMoveEvent\n";
+}
+
+void Card::mousePressEvent ( QGraphicsSceneMouseEvent * event ) {
+        kDebug() << "mousePressEvent\n";
+
+}
+void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ) {
+    kDebug() << "mouseReleaseEvent\n";
+}
 
 // Get the card to the top.
 

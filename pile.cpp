@@ -33,8 +33,8 @@ const int Pile::autoTurnTop   = 0x0200;
 const int Pile::wholeColumn   = 0x0400;
 
 
-Pile::Pile( int _index, Dealer* parent)
-    : QGraphicsRectItem( 0, parent->scene() ),
+Pile::Pile( int _index, DealerScene* parent)
+    : QGraphicsRectItem( 0, parent ),
       m_dealer(parent),
       _atype(Custom),
       _rtype(Custom),
@@ -173,7 +173,7 @@ bool Pile::legalAdd( const CardList& _cards ) const
 
     switch (addType()) {
         case Custom:
-            return dealer()->checkAdd( checkIndex(), this, _cards );
+//TODO            return dealer()->checkAdd( checkIndex(), this, _cards );
             break;
         case KlondikeTarget:
             return add_klondikeTarget(_cards);
@@ -203,7 +203,7 @@ bool Pile::legalRemove(const Card *c) const
 
     switch (removeType()) {
         case Custom:
-            return dealer()->checkRemove( checkIndex(), this, c);
+//TODO            return dealer()->checkRemove( checkIndex(), this, c);
             break;
         case KlondikeTarget:
         case GypsyStore:
@@ -391,6 +391,8 @@ CardList Pile::cardPressed(Card *c)
 
     int below = -1;
 
+    kDebug() << "cardPressed " << c->name() << " " << c->isFaceUp() << endl;
+
     if (!c->isFaceUp())
         return result;
 
@@ -406,6 +408,7 @@ CardList Pile::cardPressed(Card *c)
             result.append(*it);
         }
     }
+    kDebug() << "result " << result << endl;
     return result;
 }
 

@@ -39,21 +39,7 @@ set(kpat_SRCS ${libfcs_SRCS}
    pile.cpp 
    deck.cpp 
    pile_algorithms.cpp 
-   kings.cpp 
-   freecell.cpp 
    klondike.cpp 
-   simon.cpp 
-   grandf.cpp 
-   mod3.cpp 
-   idiot.cpp 
-   napoleon.cpp 
-   computation.cpp 
-   gypsy.cpp 
-   fortyeight.cpp 
-   yukon.cpp 
-   clock.cpp 
-   golf.cpp 
-   spider.cpp 
    gamestatsimpl.cpp )
 
 kde4_automoc(${kpat_SRCS})

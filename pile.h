@@ -21,7 +21,7 @@
 #include <QList>
 #include <QGraphicsRectItem>
 
-class Dealer;
+class DealerScene;
 
 
 /***************************************
@@ -55,11 +55,11 @@ public:
     static const int autoTurnTop;
     static const int wholeColumn;
 
-    Pile( int _index, Dealer* parent = 0);
+    Pile( int _index, DealerScene* parent = 0);
     virtual ~Pile();
 
-    Dealer   *dealer() const { return m_dealer; }
-    CardList  cards()  const { return m_cards; }
+    DealerScene  *dealer() const { return m_dealer; }
+    CardList      cards()  const { return m_cards; }
 
     bool legalAdd(const CardList &c ) const;
     bool legalRemove(const Card *c) const;
@@ -145,7 +145,7 @@ protected:
     CardList  m_cards;
 
 private:
-    Dealer   *m_dealer;
+    DealerScene  *m_dealer;
 
     PileType  _atype;
     PileType  _rtype;

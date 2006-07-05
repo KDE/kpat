@@ -48,18 +48,19 @@ private:
     static DealerInfoList *_self;
 };
 
-class DealerInfo {
+class DealerInfo 
+{
 public:
     DealerInfo(const char *_name, int _index)
         : name(_name),
-          gameindex(_index)
-{
-    DealerInfoList::self()->add(this);
-}
+	gameindex(_index)
+	{
+	    DealerInfoList::self()->add(this);
+	}
 	virtual ~DealerInfo(){}
-    const char *name;
-    int gameindex;
-    virtual Dealer *createGame(KMainWindow *parent) = 0;
+	const char *name;
+	int gameindex;
+	virtual DealerScene *createGame() = 0;
 };
 
 class CardState;
@@ -72,6 +73,87 @@ struct State
     QString gameData;
 };
 
+class DealerScene : public QGraphicsScene
+{
+    Q_OBJECT
+
+public:
+    DealerScene();
+    ~DealerScene();
+    void unmarkAll();
+    void mark(Card *c);
+
+protected:
+    virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * mouseEvent );
+    virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent );
+    virtual void mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent );
+    virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent );
+
+public:
+    Pile *findTarget(Card *c);
+    virtual bool cardClicked(Card *);
+    virtual void pileClicked(Pile *);
+    virtual bool cardDblClicked(Card *);
+
+    bool isMoving(Card *c) const;
+
+    virtual void getHints();
+    void newHint(MoveHint *mh);
+    void clearHints();
+    // it's not const because it changes the random seed
+    virtual MoveHint *chooseHint();
+
+    void setAutoDropEnabled(bool a);
+    bool autoDrop() const { return _autodrop; }
+
+    void setGameNumber(long gmn);
+    long gameNumber() const;
+
+    void hint();
+
+    bool waiting() const { return _waiting != 0; }
+    void setWaiting(bool w);
+
+    QColor midColor() const { return _midcolor; }
+    void setBackgroundPixmap(const QPixmap &background, const QColor &midcolor);
+
+    virtual bool startAutoDrop();
+
+    void addPile(Pile *p);
+    void removePile(Pile *p);
+
+    virtual bool isGameWon() const;
+    int freeCells() const;
+
+    void startNew();
+
+    void drawPile(QPixmap &, Pile *p, bool selected);
+
+    void enlargeCanvas(QGraphicsRectItem *c);
+
+    virtual void restart() = 0;
+
+signals:
+    void undoPossible(bool poss);
+
+private:
+    QList<QGraphicsItem *> marked;
+
+    bool moved;
+    CardList movingCards;
+
+    QPointF moving_start;
+    bool _autodrop;
+    QList<MoveHint*> hints;
+
+    PileList piles;
+    int _waiting;
+    QColor _midcolor;
+
+    KRandomSequence randseq;
+    long gamenumber;
+};
+
 
 /***************************************************************
 
@@ -80,6 +162,8 @@ struct State
 ***************************************************************/
 class Dealer: public QGraphicsView
 {
+    friend class DealerScene;
+
     Q_OBJECT
 
 public:
@@ -89,19 +173,12 @@ public:
     Dealer( KMainWindow* parent );
     virtual ~Dealer();
 
-    static const Dealer *instance();
+    static Dealer *instance();
 
-    void enlargeCanvas(QGraphicsRectItem *c);
-    void setGameNumber(long gmn);
-    long gameNumber() const;
-
-    virtual bool isGameWon() const;
     virtual bool isGameLost() const;
+    virtual bool isGameWon() const;
 
     void setViewSize(const QSize &size);
-
-    void addPile(Pile *p);
-    void removePile(Pile *p);
 
     virtual bool checkRemove( int checkIndex, const Pile *c1, const Card *c) const;
     virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
@@ -113,34 +190,30 @@ public:
 
     bool demoActive() const;
 
-    void drawPile(QPixmap &, Pile *p, bool selected);
-
-    QColor midColor() const { return _midcolor; }
-    void setBackgroundPixmap(const QPixmap &background, const QColor &midcolor);
-
     void saveGame(QDomDocument &doc);
     void openGame(QDomDocument &doc);
 
     void setGameId(int id) { _id = id; }
-	 int gameId() const { return _id; }
+    int gameId() const { return _id; }
 
     void setTakeTargetForHints(bool e) { takeTargets = e; }
     bool takeTargetForHints() const { return takeTargets; }
 
-    bool isMoving(Card *c) const;
-
     virtual QSize minimumCardSize() const;
     virtual void resizeEvent(QResizeEvent *);
-
-    int freeCells() const;
 
     QString anchorName() const;
     void setAnchorName(const QString &name);
 
-    void setAutoDropEnabled(bool a);
-    bool autoDrop() const { return _autodrop; }
-
     int getMoves() const { return undoList.count(); }
+    void setBackgroundPixmap(const QPixmap &background, const QColor &midcolor);
+
+    void setAutoDropEnabled(bool a);
+
+    void setGameNumber(long gmn);
+    long gameNumber() const;
+
+    void setScene( QGraphicsScene *scene);
 
 public slots:
 
@@ -148,7 +221,6 @@ public slots:
     virtual void startNew();
     void undo();
     virtual void takeState();
-    virtual bool startAutoDrop();
     void hint();
     void slotTakeState(Card *c);
 
@@ -174,35 +246,13 @@ protected:
     void setActions(int actions) { myActions = actions; }
     int actions() const { return myActions; }
 
-    virtual void restart() = 0;
-
-    virtual void mousePressEvent(QMouseEvent* e);
-    virtual void mouseMoveEvent( QMouseEvent* );
-    virtual void mouseReleaseEvent( QMouseEvent* );
-    virtual void mouseDoubleClickEvent( QMouseEvent* );
     virtual void wheelEvent( QWheelEvent *e );
 
-    void unmarkAll();
-    void mark(Card *c);
-    Pile *findTarget(Card *c);
-    virtual bool cardClicked(Card *);
-    virtual void pileClicked(Pile *);
-    virtual bool cardDblClicked(Card *);
     void won();
 
-    virtual void getHints();
-    void newHint(MoveHint *mh);
-    void clearHints();
-    // it's not const because it changes the random seed
-    virtual MoveHint *chooseHint();
-
     KMainWindow *parent() const;
-
-    bool waiting() const { return _waiting != 0; }
-    void setWaiting(bool w);
-
+  
 protected:
-    PileList piles;
 
     State *getState();
     void setState(State *);
@@ -214,18 +264,13 @@ protected:
 
     virtual void newDemoMove(Card *m);
 
-    bool moved;
-    CardList movingCards;
-    QList<QGraphicsItem *> marked;
-    QPoint moving_start;
     Dealer( Dealer& );  // don't allow copies or assignments
     void operator = ( Dealer& );  // don't allow copies or assignments
-    QGraphicsScene  myCanvas;
+    DealerScene  *dscene() const;
+
     QSize minsize;
     QSize viewsize;
     Q3PtrList<State> undoList;
-    long gamenumber;
-    QList<MoveHint*> hints;
     Card *towait;
     QTimer *demotimer;
     int myActions;
@@ -234,21 +279,18 @@ protected:
     KToggleAction *ademo;
     KAction *ahint, *aredeal;
 
-    KRandomSequence randseq;
-    QColor _midcolor;
     quint32 _id;
     bool takeTargets;
     bool _won;
-    int _waiting;
     bool stop_demo_next;
     QString ac;
     static Dealer *s_instance;
-    bool _autodrop;
+
     bool _gameRecorded;
 
 private:
-	 void countLoss();
-	 void countGame();
+    void countLoss();
+    void countGame();
 };
 
 #endif

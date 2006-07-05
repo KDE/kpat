@@ -32,7 +32,7 @@
 class KlondikePile : public Pile
 {
 public:
-    KlondikePile( int _index, Dealer* parent)
+    KlondikePile( int _index, DealerScene* parent)
         : Pile(_index, parent) {}
 
     void clearSpread() { cardlist.clear(); }
@@ -50,8 +50,8 @@ private:
     CardList cardlist;
 };
 
-Klondike::Klondike( bool easy, KMainWindow* parent )
-  : Dealer( parent )
+Klondike::Klondike( bool easy )
+  : DealerScene( )
 {
     // The units of the follwoing constants are pixels
     const int margin = 10; // between card piles and board edge
@@ -89,7 +89,7 @@ Klondike::Klondike( bool easy, KMainWindow* parent )
             target[i]->setRemoveType(Pile::KlondikeTarget);
     }
 
-    setActions(Dealer::Hint | Dealer::Demo);
+    //FIXME setActions(Dealer::Hint | Dealer::Demo);
 
     redealt = false;
 }
@@ -315,7 +315,7 @@ void Klondike::deal() {
 bool Klondike::cardClicked(Card *c) {
     kDebug(11111) << "card clicked " << c->name() << endl;
 
-    if (Dealer::cardClicked(c))
+    if (DealerScene::cardClicked(c))
         return true;
 
     if (c->source() == deck) {
@@ -328,7 +328,7 @@ bool Klondike::cardClicked(Card *c) {
 
 void Klondike::pileClicked(Pile *c) {
     kDebug(11111) << "pile clicked " << endl;
-    Dealer::pileClicked(c);
+    DealerScene::pileClicked(c);
 
     if (c == deck) {
         deal3();
@@ -338,7 +338,7 @@ void Klondike::pileClicked(Pile *c) {
 bool Klondike::startAutoDrop()
 {
     bool pileempty = pile->isEmpty();
-    if (!Dealer::startAutoDrop())
+    if (!DealerScene::startAutoDrop())
         return false;
     if (pile->isEmpty() && !pileempty)
         deal3();
@@ -481,14 +481,14 @@ static class LocalDealerInfo0 : public DealerInfo
 {
 public:
     LocalDealerInfo0() : DealerInfo(I18N_NOOP("&Klondike"), 0) {}
-    virtual Dealer *createGame(KMainWindow *parent) { return new Klondike(true, parent); }
+    virtual DealerScene *createGame() { return new Klondike(true); }
 } ldi0;
 
 static class LocalDealerInfo14 : public DealerInfo
 {
 public:
     LocalDealerInfo14() : DealerInfo(I18N_NOOP("Klondike (&draw 3)"), 13) {}
-    virtual Dealer *createGame(KMainWindow *parent) { return new Klondike(false, parent); }
+    virtual DealerScene *createGame() { return new Klondike(false); }
 } ldi14;
 
 
