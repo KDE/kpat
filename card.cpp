@@ -241,12 +241,12 @@ void Card::moveTo(qreal x2, qreal y2, int z2, int steps)
     headAnimation->setItem(this);
     headAnimation->setTimeLine(timeLine);
     headAnimation->setPosAt(1, QPointF( x2, y2 ));
-    // headAnimation->setPosAt(0.5, QPointF( x2 / 2, y2 ));
 
     timeLine->setUpdateInterval(1000 / 25);
     timeLine->setFrameRange(0, 100);
     timeLine->setCurveShape(QTimeLine::EaseInCurve);
     timeLine->setLoopCount(1);
+    timeLine->setDuration( 230 );
     timeLine->start();
 
     m_destX = x2;

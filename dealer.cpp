@@ -314,8 +314,6 @@ bool DealerScene::isMoving(Card *c) const
 
 void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
 {
-    kDebug() << "movingCards " << movingCards << endl;
-
     if (movingCards.isEmpty())
         return;
 
@@ -323,10 +321,8 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
 
     for (CardList::Iterator it = movingCards.begin(); it != movingCards.end(); ++it)
     {
-        kDebug() << "moveBy " << e->pos().x() - moving_start.x() << " " <<
-            e->pos().y() - moving_start.y() << endl;
-        (*it)->moveBy(e->pos().x() - moving_start.x(),
-                      e->pos().y() - moving_start.y());
+        (*it)->moveBy(e->scenePos().x() - moving_start.x(),
+                      e->scenePos().y() - moving_start.y());
     }
 
     PileList sources;
@@ -371,8 +367,7 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
         }
     }
 
-    moving_start = e->pos();
-    update();
+    moving_start = e->scenePos();
 }
 
 void DealerScene::mark(Card *c)
@@ -398,13 +393,15 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
     if (waiting())
         return;
 
-    QList<QGraphicsItem *> list = items( e->pos() );
+    QList<QGraphicsItem *> list = items( e->scenePos() );
 
-    kDebug(11111) << "mouse pressed " << list.count() << " " << items().count() << endl;
+    kDebug(11111) << "mouse pressed " << list.count() << " " << items().count() << " " << e->scenePos().x() << " " << e->scenePos().y() << endl;
     moved = false;
 
     if (!list.count())
         return;
+
+    QGraphicsScene::mousePressEvent( e );
 
     if (e->button() == Qt::LeftButton) {
         if (list.first()->type() == QGraphicsItem::UserType + Dealer::CardTypeId ) {
@@ -414,7 +411,7 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
             for (CardList::Iterator it = mycards.begin(); it != mycards.end(); ++it)
                 (*it)->setAnimated(false);
             movingCards = mycards;
-            moving_start = e->pos();
+            moving_start = e->scenePos();
         }
         return;
     }
@@ -454,7 +451,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
             movingCards.first()->source()->moveCardsBack(movingCards);
             movingCards.clear();
         }
-        QList<QGraphicsItem *> list = items(e->pos());
+        QList<QGraphicsItem *> list = items(e->scenePos());
         if (list.isEmpty())
             return;
         QList<QGraphicsItem *>::Iterator it = list.begin();
@@ -579,7 +576,7 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
         movingCards.first()->source()->moveCardsBack(movingCards);
         movingCards.clear();
     }
-    QList<QGraphicsItem *> list = items(e->pos());
+    QList<QGraphicsItem *> list = items(e->scenePos());
     if (list.isEmpty())
         return;
     QList<QGraphicsItem *>::Iterator it = list.begin();
