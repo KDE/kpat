@@ -24,6 +24,7 @@
 //Added by qt3to4:
 #include <QWheelEvent>
 #include <QGraphicsSceneMouseEvent>
+#include <QGLWidget>
 #include <QPixmap>
 #include <Q3PtrList>
 #include <QList>
@@ -123,6 +124,9 @@ Dealer::Dealer( KMainWindow* _parent )
     s_instance = this;
 
     setCacheMode( QGraphicsView::CacheBackground);
+
+    //QGLWidget *wgl = new QGLWidget();
+    //setupViewport(wgl);
 }
 
 void Dealer::setScene( QGraphicsScene *scene )

@@ -24,6 +24,7 @@
 #include <qpainter.h>
 //Added by qt3to4:
 #include <QPixmap>
+#include <QBrush>
 #include <QTimeLine>
 #include <QGraphicsItemAnimation>
 
@@ -338,7 +339,7 @@ void Card::hoverEnterEvent ( QGraphicsSceneHoverEvent * event )
 {
     if ( animated() || !isFaceUp() )
         return;
-
+    
     QTimeLine *timeLine = new QTimeLine( 1000, this );
 
     animation = new QGraphicsItemAnimation( this );
@@ -423,6 +424,15 @@ void Card::getUp(int steps)
     m_destX = x();
     m_destY = y();
     setZValue(Hz+1);
+}
+
+void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
+                 QWidget *widget )
+{
+    if (scene()->mouseGrabberItem() == this) {
+        painter->setOpacity(.8);
+    }
+    QGraphicsRectItem::paint(painter, option, widget);
 }
 
 #include "card.moc"
