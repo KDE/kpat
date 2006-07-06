@@ -433,7 +433,6 @@ void Card::getUp(int steps)
 void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                  QWidget *widget )
 {
-    kDebug() << "paint " << ( option->state & QStyle::State_Selected ) << " " << name() << endl;
     if (scene()->mouseGrabberItem() == this) {
         painter->setOpacity(.8);
     }
