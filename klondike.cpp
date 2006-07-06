@@ -89,7 +89,7 @@ Klondike::Klondike( bool easy )
             target[i]->setRemoveType(Pile::KlondikeTarget);
     }
 
-    //FIXME setActions(Dealer::Hint | Dealer::Demo);
+    Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
 
     redealt = false;
 }

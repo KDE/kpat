@@ -27,6 +27,7 @@
 #include <QBrush>
 #include <QTimeLine>
 #include <QGraphicsItemAnimation>
+#include <QStyleOptionGraphicsItem>
 
 #include <kdebug.h>
 
@@ -60,6 +61,8 @@ Card::Card( Rank r, Suit s, QGraphicsScene* _parent )
 
     setPen(QPen(Qt::NoPen));
     setAcceptsHoverEvents( true );
+
+    setFlag( QGraphicsRectItem::ItemIsSelectable, true );
 }
 
 
@@ -327,6 +330,7 @@ void Card::stopAnimation()
     old_animation->timeLine()->stop();
     setPos( m_destX, m_destY );
     setZValue( m_destZ );
+    update();
     emit stoped( this );
 }
 
@@ -339,7 +343,7 @@ void Card::hoverEnterEvent ( QGraphicsSceneHoverEvent * event )
 {
     if ( animated() || !isFaceUp() )
         return;
-    
+
     QTimeLine *timeLine = new QTimeLine( 1000, this );
 
     animation = new QGraphicsItemAnimation( this );
@@ -429,10 +433,20 @@ void Card::getUp(int steps)
 void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                  QWidget *widget )
 {
+    kDebug() << "paint " << ( option->state & QStyle::State_Selected ) << " " << name() << endl;
     if (scene()->mouseGrabberItem() == this) {
         painter->setOpacity(.8);
     }
-    QGraphicsRectItem::paint(painter, option, widget);
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(brush());
+    painter->drawRect(rect());
+
+    if (option->state & QStyle::State_Selected) {
+        painter->setBrush(Qt::red);
+        painter->setOpacity(.9);
+        painter->drawRect(rect() );
+    }
+
 }
 
 #include "card.moc"

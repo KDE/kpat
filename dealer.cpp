@@ -215,6 +215,7 @@ KMainWindow *Dealer::parent() const
 
 void DealerScene::hint()
 {
+    kDebug() << "hint\n";
     unmarkAll();
     clearHints();
     getHints();
@@ -365,6 +366,7 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
             if ((*it)->isEmpty()) {
                 (*it)->setSelected(true);
                 marked.append(*it);
+                ( *it )->update();
             } else {
                 mark((*it)->top());
             }
@@ -376,9 +378,11 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
 
 void DealerScene::mark(Card *c)
 {
+    kDebug() << "mark " << c->name() << endl;
     c->setSelected(true);
     if (!marked.contains(c))
         marked.append(c);
+    update();
 }
 
 void DealerScene::unmarkAll()
@@ -386,6 +390,7 @@ void DealerScene::unmarkAll()
     for (QList<QGraphicsItem *>::Iterator it = marked.begin(); it != marked.end(); ++it)
     {
         (*it)->setSelected(false);
+        ( *it )->update();
     }
     marked.clear();
 }

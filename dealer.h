@@ -218,6 +218,11 @@ public:
 
     void setScene( QGraphicsScene *scene);
 
+    enum { None = 0, Hint = 1, Demo = 2, Redeal = 4 } Actions;
+
+    void setActions(int actions) { myActions = actions; }
+    int actions() const { return myActions; }
+
 public slots:
 
     // restart is pure virtual, so we need something else
@@ -242,11 +247,6 @@ public slots:
     virtual void stopDemo();
 
 protected:
-
-    enum { None = 0, Hint = 1, Demo = 2, Redeal = 4 } Actions;
-
-    void setActions(int actions) { myActions = actions; }
-    int actions() const { return myActions; }
 
     virtual void wheelEvent( QWheelEvent *e );
 
