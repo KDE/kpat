@@ -222,7 +222,6 @@ void DealerScene::hint()
     for (HintList::ConstIterator it = hints.begin(); it != hints.end(); ++it)
         mark((*it)->card());
     clearHints();
-    update();
 }
 
 void Dealer::hint()
@@ -382,7 +381,6 @@ void DealerScene::mark(Card *c)
     c->setSelected(true);
     if (!marked.contains(c))
         marked.append(c);
-    update();
 }
 
 void DealerScene::unmarkAll()
