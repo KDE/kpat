@@ -365,7 +365,7 @@ void pWidget::newGameType()
             name = name.replace(QRegExp("[ ]"), "_").toLower();
             dill->setAnchorName("game_" + name);
             connect(dill, SIGNAL(saveGame()), SLOT(saveGame()));
-            connect(dill, SIGNAL(gameInfo(const QString&)),
+            connect(dill->dscene(), SIGNAL(gameInfo(const QString&)),
                     SLOT(slotGameInfo(const QString &)));
             connect(dill, SIGNAL(updateMoves()),
                     SLOT(slotUpdateMoves()));

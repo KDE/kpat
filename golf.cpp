@@ -17,7 +17,7 @@
 #include <kdebug.h>
 #include "cardmaps.h"
 
-HorRightPile::HorRightPile( int _index, Dealer* parent)
+HorRightPile::HorRightPile( int _index, DealerScene* parent)
     : Pile(_index, parent)
 {
 }
@@ -32,8 +32,8 @@ QSize HorRightPile::cardOffset( bool _spread, bool, const Card *) const
 
 //-------------------------------------------------------------------------//
 
-Golf::Golf( KMainWindow* parent )
-        : Dealer( parent )
+Golf::Golf( )
+    : DealerScene( )
 {
     const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
     const int pile_dist = 10 + 3 * cardMap::CARDY();
@@ -55,7 +55,7 @@ Golf::Golf( KMainWindow* parent )
     waste->setCheckIndex( 0 );
     waste->setAddFlags( Pile::addSpread);
 
-    setActions(Dealer::Hint | Dealer::Demo);
+    Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
 }
 
 //-------------------------------------------------------------------------//
@@ -101,7 +101,7 @@ void Golf::deckClicked(Card *)
     int x = int(c->x());
     int y = int(c->y());
     c->setPos(deck->x(), deck->y());
-    c->flipTo(x, y, 8);
+    c->flipTo(x, y);
 }
 
 //-------------------------------------------------------------------------//
@@ -128,7 +128,7 @@ Card *Golf::demoNewCards()
 bool Golf::cardClicked(Card *c)
 {
     if (c->source()->checkIndex() !=1) {
-        return Dealer::cardClicked(c);
+        return DealerScene::cardClicked(c);
     }
 
     if (c != c->source()->top())
@@ -140,7 +140,6 @@ bool Golf::cardClicked(Card *c)
         CardList empty;
         empty.append(c);
         c->source()->moveCards(empty, p);
-        scene()->update();
         return true;
     }
     return false;
@@ -171,7 +170,7 @@ static class LocalDealerInfo13 : public DealerInfo
 {
 public:
     LocalDealerInfo13() : DealerInfo(I18N_NOOP("Go&lf"), 12) {}
-    virtual Dealer *createGame(KMainWindow *parent) { return new Golf(parent); }
+    virtual DealerScene *createGame() { return new Golf(); }
 } ldi13;
 
 //-------------------------------------------------------------------------//

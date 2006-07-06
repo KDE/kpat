@@ -141,12 +141,12 @@ qreal Card::realY() const
 // Return the > of the cards real position.  This is the destination
 // of the animation if animated, and the current Z otherwise.
 //
-int Card::realZ() const
+qreal Card::realZ() const
 {
     if (animated())
         return m_destZ;
     else
-        return int(zValue());
+        return zValue();
 }
 
 
@@ -217,7 +217,7 @@ void Card::setZValue(double z)
 //
 // 'steps' is the number of steps the animation should take.
 //
-void Card::moveTo(qreal x2, qreal y2, int z2, int steps)
+void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
 {
     stopAnimation();
 
@@ -232,7 +232,7 @@ void Card::moveTo(qreal x2, qreal y2, int z2, int steps)
     timeLine->setFrameRange(0, 100);
     timeLine->setCurveShape(QTimeLine::EaseInCurve);
     timeLine->setLoopCount(1);
-    timeLine->setDuration( 530 );
+    timeLine->setDuration( duration );
     timeLine->start();
 
     connect( timeLine, SIGNAL( finished() ), SLOT( stopAnimation() ) );
@@ -256,14 +256,12 @@ void Card::moveTo(qreal x2, qreal y2, int z2, int steps)
 
 // Animate a move to (x2, y2), and at the same time flip the card.
 //
-void Card::flipTo(int x2, int y2, int steps)
+void Card::flipTo(int x2, int y2)
 {
     stopAnimation();
 
     qreal  x1 = x();
     qreal  y1 = y();
-    qreal  dx = x2 - x1;
-    qreal  dy = y2 - y1;
 
     QTimeLine *timeLine = new QTimeLine( 1000, this );
 
@@ -411,7 +409,7 @@ void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ) {
 
 // Get the card to the top.
 
-void Card::getUp(int steps)
+void Card::getUp()
 {
     QTimeLine *timeLine = new QTimeLine( 1000, this );
 
@@ -431,7 +429,7 @@ void Card::getUp(int steps)
 }
 
 void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-                 QWidget *widget )
+                 QWidget * )
 {
     if (scene()->mouseGrabberItem() == this) {
         painter->setOpacity(.8);

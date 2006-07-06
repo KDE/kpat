@@ -29,17 +29,17 @@
 class FreecellPile : public Pile
 {
 public:
-    FreecellPile(int _index, Dealer* parent = 0) : Pile(_index, parent) {}
+    FreecellPile(int _index, DealerScene* parent = 0) : Pile(_index, parent) {}
     virtual void moveCards(CardList &c, Pile *to);
 };
 
-class FreecellBase : public Dealer
+class FreecellBase : public DealerScene
 {
     Q_OBJECT
 
 public:
     FreecellBase( int decks, int stores, int freecells, int es_filling, 
-		  bool unlimited_move, KMainWindow* parent);
+		  bool unlimited_move);
     void moveCards(CardList &c, FreecellPile *from, Pile *to);
     QString solverFormat() const;
     virtual ~FreecellBase();

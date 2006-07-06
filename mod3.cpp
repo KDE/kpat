@@ -26,8 +26,8 @@
 
 //-------------------------------------------------------------------------//
 
-Mod3::Mod3( KMainWindow* parent )
-        : Dealer( parent )
+Mod3::Mod3( )
+        : DealerScene( )
 {
     const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
     const int dist_y = cardMap::CARDY() * 11 / 10 + 1;
@@ -62,8 +62,8 @@ Mod3::Mod3( KMainWindow* parent )
         }
     }
 
-    setTakeTargetForHints(true);
-    setActions(Dealer::Hint | Dealer::Demo );
+    Dealer::instance()->setTakeTargetForHints(true);
+    Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo );
 }
 
 
@@ -145,7 +145,7 @@ void Mod3::deckClicked(Card*)
 
     unmarkAll();
     dealRow(3);
-    takeState();
+    Dealer::instance()->takeState();
 }
 
 
@@ -300,7 +300,7 @@ static class LocalDealerInfo5 : public DealerInfo
 {
 public:
     LocalDealerInfo5() : DealerInfo(I18N_NOOP("M&od3"), 5) {}
-    virtual Dealer *createGame(KMainWindow *parent) { return new Mod3(parent); }
+    virtual DealerScene *createGame() { return new Mod3(); }
 } ldi5;
 
 //-------------------------------------------------------------------------//

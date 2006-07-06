@@ -25,8 +25,8 @@
 #include "cardmaps.h"
 
 
-Idiot::Idiot( KMainWindow* parent )
-  : Dealer( parent )
+Idiot::Idiot( )
+  : DealerScene( )
 {
     // Create the deck to the left.
     m_deck = Deck::new_deck( this );
@@ -49,7 +49,7 @@ Idiot::Idiot( KMainWindow* parent )
     m_away->setRemoveFlags(Pile::disallow);
     m_away->setPos(10 + cardMap::CARDX() * 5 / 2 + distx * 4, 10);
 
-    setActions(Dealer::Hint | Dealer::Demo);
+    Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
 }
 
 
@@ -227,7 +227,7 @@ static class LocalDealerInfo2 : public DealerInfo
 {
 public:
     LocalDealerInfo2() : DealerInfo(I18N_NOOP("&Aces Up"), 2) {}
-    virtual Dealer *createGame(KMainWindow *parent) { return new Idiot(parent); }
+    virtual DealerScene *createGame() { return new Idiot(); }
 } ldi4;
 
 

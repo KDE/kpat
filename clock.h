@@ -16,11 +16,11 @@
 
 #include "dealer.h"
 
-class Clock : public Dealer {
+class Clock : public DealerScene {
     Q_OBJECT
 
 public:
-    Clock( KMainWindow* parent=0 );
+    Clock( );
     virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
     virtual bool startAutoDrop() { return false; }
 

@@ -25,8 +25,8 @@
 #include <assert.h>
 #include "cardmaps.h"
 
-Grandf::Grandf( KMainWindow* parent )
-    : Dealer( parent )
+Grandf::Grandf( )
+    : DealerScene(  )
 {
     deck = Deck::new_deck(this);
     deck->hide();
@@ -47,7 +47,7 @@ Grandf::Grandf( KMainWindow* parent )
         store[i]->setCheckIndex(1);
     }
 
-    setActions(Dealer::Hint | Dealer::Demo | Dealer::Redeal);
+    Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo | Dealer::Redeal);
 }
 
 void Grandf::restart() {
@@ -65,9 +65,9 @@ void Grandf::redeal() {
         numberOfDeals++;
     }
     if (numberOfDeals == 3) {
-        aredeal->setEnabled(false);
+        emit enableRedeal(false);
     }
-    takeState();
+    Dealer::instance()->takeState();
 }
 
 Card *Grandf::demoNewCards()
@@ -115,8 +115,7 @@ void Grandf::deal() {
         if (c)
             c->turn(true);
     }
-    aredeal->setEnabled(true);
-    scene()->update();
+    emit enableRedeal( true );
 }
 
 /*****************************
@@ -154,7 +153,7 @@ QString Grandf::getGameState() const
 void Grandf::setGameState( const QString &s)
 {
     numberOfDeals = s.toInt();
-    aredeal->setEnabled(numberOfDeals < 3);
+    emit enableRedeal(numberOfDeals < 3);
 }
 
 bool Grandf::isGameLost() const
@@ -221,7 +220,7 @@ static class LocalDealerInfo1 : public DealerInfo
 {
 public:
     LocalDealerInfo1() : DealerInfo(I18N_NOOP("&Grandfather"), 1) {}
-    virtual Dealer *createGame(KMainWindow *parent) { return new Grandf(parent); }
+    virtual DealerScene *createGame() { return new Grandf(); }
 } gfdi;
 
 #include "grandf.moc"

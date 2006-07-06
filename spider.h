@@ -26,17 +26,17 @@
 class SpiderPile : public Pile
 {
 public:
-    SpiderPile(int _index, Dealer* parent = 0) : Pile(_index, parent) {}
+    SpiderPile(int _index, DealerScene* parent = 0) : Pile(_index, parent) {}
     virtual void moveCards(CardList &c, Pile *to);
     CardList getRun();
 };
 
-class Spider : public Dealer
+class Spider : public DealerScene
 {
     Q_OBJECT
 
 public:
-    Spider(int suits, KMainWindow *parent=0);
+    Spider(int suits);
     void deal();
     void dealRow();
     void checkPileDeck(Pile *to);

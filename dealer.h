@@ -128,16 +128,36 @@ public:
     void enlargeCanvas(QGraphicsRectItem *c);
 
     virtual void restart() = 0;
+    bool demoActive() const;
+
+    virtual void stopDemo();
 
 public slots:
     virtual bool startAutoDrop();
     void hint();
 
+protected slots:
+    virtual void demo();
+    void waitForDemo(Card *);
+    void toggleDemo();
+
 signals:
     void undoPossible(bool poss);
+    void enableRedeal(bool enable);
+    void gameInfo(const QString &info);
+    void gameWon(bool withhelp);
 
 private slots:
     void waitForAutoDrop(Card *);
+
+protected:
+    PileList piles;
+    QList<MoveHint*> hints;
+    KRandomSequence randseq;
+    Card *towait;
+
+    virtual Card *demoNewCards();
+    virtual void newDemoMove(Card *m);
 
 private:
     QList<QGraphicsItem *> marked;
@@ -147,14 +167,12 @@ private:
 
     QPointF moving_start;
     bool _autodrop;
-    QList<MoveHint*> hints;
-
-    PileList piles;
     int _waiting;
     QColor _midcolor;
-
-    KRandomSequence randseq;
     long gamenumber;
+
+    QTimer *demotimer;
+    bool stop_demo_next;
 };
 
 
@@ -187,11 +205,7 @@ public:
     virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
     virtual bool checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const;
 
-    virtual Card *demoNewCards();
-
     virtual void setupActions();
-
-    bool demoActive() const;
 
     void saveGame(QDomDocument &doc);
     void openGame(QDomDocument &doc);
@@ -217,6 +231,7 @@ public:
     long gameNumber() const;
 
     void setScene( QGraphicsScene *scene);
+    DealerScene  *dscene() const;
 
     enum { None = 0, Hint = 1, Demo = 2, Redeal = 4 } Actions;
 
@@ -231,20 +246,16 @@ public slots:
     virtual void takeState();
     void hint();
     void slotTakeState(Card *c);
+    void slotEnableRedeal(bool);
 
 signals:
     void undoPossible(bool poss);
     void gameWon(bool withhelp);
     void gameLost();
     void saveGame(); // emergency
-    void gameInfo(const QString &info);
     void updateMoves();
 
 public slots:
-    virtual void demo();
-    void waitForDemo(Card *);
-    void toggleDemo();
-    virtual void stopDemo();
 
 protected:
 
@@ -264,17 +275,14 @@ protected:
     // reimplement this to use the game-specific information from the state structure
     virtual void setGameState( const QString & ) {}
 
-    virtual void newDemoMove(Card *m);
-
     Dealer( Dealer& );  // don't allow copies or assignments
     void operator = ( Dealer& );  // don't allow copies or assignments
-    DealerScene  *dscene() const;
+   
 
     QSize minsize;
     QSize viewsize;
     Q3PtrList<State> undoList;
-    Card *towait;
-    QTimer *demotimer;
+
     int myActions;
     bool toldAboutLostGame;
 
@@ -284,7 +292,6 @@ protected:
     quint32 _id;
     bool takeTargets;
     bool _won;
-    bool stop_demo_next;
     QString ac;
     static Dealer *s_instance;
 

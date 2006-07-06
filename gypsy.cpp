@@ -16,8 +16,8 @@
 #include "deck.h"
 #include "cardmaps.h"
 
-Gypsy::Gypsy( KMainWindow* parent )
-    : Dealer( parent )
+Gypsy::Gypsy( )
+    : DealerScene(  )
 {
     const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
     const int dist_y = cardMap::CARDY() * 11 / 10 + 1;
@@ -40,7 +40,7 @@ Gypsy::Gypsy( KMainWindow* parent )
         store[i]->setRemoveType(Pile::FreecellStore);
     }
 
-    setActions(Dealer::Hint | Dealer::Demo);
+    Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
 }
 
 void Gypsy::restart() {
@@ -57,7 +57,7 @@ void Gypsy::deal() {
     dealRow(false);
     dealRow(false);
     dealRow(true);
-    takeState();
+    Dealer::instance()->takeState();
 }
 
 Card *Gypsy::demoNewCards()
@@ -124,7 +124,7 @@ static class LocalDealerInfo7 : public DealerInfo
 {
 public:
     LocalDealerInfo7() : DealerInfo(I18N_NOOP("Gy&psy"), 7) {}
-    virtual Dealer *createGame(KMainWindow *parent) { return new Gypsy(parent); }
+    virtual DealerScene *createGame() { return new Gypsy(); }
 } gyfdi;
 
 #include "gypsy.moc"

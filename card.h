@@ -80,14 +80,14 @@ public:
     virtual int  type() const       { return UserType + my_type; }
 
     virtual void moveBy(double dx, double dy);
-    void         moveTo( qreal x2, qreal y2, int z, int steps);
-    void         flipTo(int x, int y, int steps);
+    void         moveTo( qreal x2, qreal y2, qreal z, int duration);
+    void         flipTo(int x, int y);
     void         setZValue(double z);
-    void         getUp(int steps = 12);
+    void         getUp();
 
     qreal        realX() const;
     qreal        realY() const;
-    int          realZ() const;
+    qreal        realZ() const;
     bool         realFace() const;
 
     void         setTakenDown(bool td);

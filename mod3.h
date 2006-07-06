@@ -25,12 +25,12 @@
 
 #include "dealer.h"
 
-class Mod3 : public Dealer
+class Mod3 : public DealerScene
 {
     Q_OBJECT
 
 public:
-    Mod3( KMainWindow* parent );
+    Mod3( );
 
     void deal();
 

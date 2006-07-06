@@ -358,7 +358,7 @@ void Pile::add( Card* _card, bool _facedown, bool _spread )
         _card->setPos( x2, y2 );
         _card->setZValue( z2 );
     } else {
-        _card->moveTo(x2, y2, z2, STEPS_INITIALDEAL);
+        _card->moveTo(x2, y2, z2, DURATION_INITIALDEAL);
     }
 
     dealer()->enlargeCanvas(_card);
@@ -423,7 +423,7 @@ void Pile::moveCards(CardList &cl, Pile *to)
     if (removeFlags & autoTurnTop && top()) {
         Card *t = top();
         if (!t->isFaceUp()) {
-            t->flipTo(int(t->x()), int(t->y()), 8);
+            t->flipTo(int(t->x()), int(t->y()));
         }
     }
 
@@ -440,7 +440,7 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
     Card *before = 0;
     QSize off;
 
-    int steps = STEPS_MOVEBACK;
+    int steps = DURATION_MOVEBACK;
     if (!anim)
         steps = 0;
 

@@ -24,10 +24,10 @@
 
 #include "dealer.h"
 
-class Napoleon : public Dealer {
+class Napoleon : public DealerScene {
     Q_OBJECT
 public:
-    Napoleon (KMainWindow* parent);
+    Napoleon ();
 
     virtual void restart();
     virtual void getHints();

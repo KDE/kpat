@@ -28,11 +28,11 @@
 
 #include "dealer.h"
 
-class Computation : public Dealer {
+class Computation : public DealerScene {
     Q_OBJECT
 
 public:
-    Computation( KMainWindow *parent = 0 );
+    Computation( );
 
     virtual void restart();
 

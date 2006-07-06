@@ -24,7 +24,7 @@ class Kings : public FreecellBase {
     Q_OBJECT
 
 public:
-    Kings( KMainWindow* parent=0 );
+    Kings( );
     virtual bool isGameLost() const;
 
 public slots:

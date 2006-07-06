@@ -82,10 +82,16 @@ void DealerInfoList::add(DealerInfo *dealer)
 Dealer *Dealer::s_instance = 0;
 
 DealerScene::DealerScene():
+    towait(0),
     _autodrop(true),
-    _waiting(0)
+    _waiting(0),
+    gamenumber( 0 ),
+    stop_demo_next(false)
 {
     kDebug() << "DealerScene\n";
+
+    demotimer = new QTimer(this);
+    connect(demotimer, SIGNAL(timeout()), SLOT(demo()));
 }
 
 DealerScene::~DealerScene()
@@ -96,14 +102,13 @@ DealerScene::~DealerScene()
 
 Dealer::Dealer( KMainWindow* _parent )
   : QGraphicsView( _parent ),
-    towait(0),
+
     myActions(0),
     ademo(0),
     ahint(0),
     aredeal(0),
     takeTargets(false),
     _won(false),
-    stop_demo_next(false),
     _gameRecorded(false)
 {
 #warning FIXME
@@ -115,10 +120,6 @@ Dealer::Dealer( KMainWindow* _parent )
         undoList.setAutoDelete(true);
 
     connect( dscene(), SIGNAL( undoPossible( bool ) ), SIGNAL( undoPossible( bool ) ) );
-
-    demotimer = new QTimer(this);
-
-    connect(demotimer, SIGNAL(timeout()), SLOT(demo()));
 
     assert(!s_instance);
     s_instance = this;
@@ -137,6 +138,8 @@ void Dealer::setScene( QGraphicsScene *scene )
 // dscene()->setBackgroundColor( darkGreen );
 // dscene()->setDoubleBuffering(true);
     dscene()->setSceneRect ( QRectF( 0, 0, width(), height() ) );
+
+    connect( scene, SIGNAL( gameWon( bool ) ), SIGNAL( gameWon( bool ) ) );
 }
 
 Dealer *Dealer::instance()
@@ -176,7 +179,7 @@ void Dealer::setupActions() {
         ademo = new KToggleAction( i18n("&Demo"), parent()->actionCollection(), "game_demo");
         ademo->setIcon( KIcon( "1rightarrow") );
         ademo->setCustomShortcut( Qt::CTRL+Qt::Key_D );
-        connect( ademo, SIGNAL( triggered( bool ) ), SLOT( toggleDemo() ) );
+        connect( ademo, SIGNAL( triggered( bool ) ), dscene(), SLOT( toggleDemo() ) );
         actionlist.append(ademo);
     } else
         ademo = 0;
@@ -394,7 +397,7 @@ void DealerScene::unmarkAll()
 void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 {
     unmarkAll();
-    Dealer::instance()->stopDemo();
+    stopDemo();
     if (waiting())
         return;
 
@@ -572,7 +575,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
 void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
 {
     kDebug() << "mouseDoubleClickEvent " << waiting() << endl;;
-    Dealer::instance()->stopDemo();
+    DealerScene::stopDemo();
     unmarkAll();
     if (waiting())
         return;
@@ -694,7 +697,7 @@ void Dealer::startNew()
     dscene()->startNew();
     _gameRecorded=false;
     kDebug(11111) << "startNew stopDemo\n";
-    stopDemo();
+    dscene()->stopDemo();
     kDebug(11111) << "startNew unmarkAll\n";
     dscene()->unmarkAll();
     kDebug(11111) << "startNew setAnimated(false)\n";
@@ -735,6 +738,12 @@ void Dealer::slotTakeState(Card *c) {
     if (c)
         c->disconnect();
     takeState();
+}
+
+void Dealer::slotEnableRedeal( bool en )
+{
+    if ( aredeal )
+        aredeal->setEnabled( en );
 }
 
 void DealerScene::enlargeCanvas(QGraphicsRectItem *c)
@@ -910,8 +919,8 @@ void Dealer::takeState()
             return;
         }
     }
-    if (!demoActive() && !dscene()->waiting())
-            QTimer::singleShot(TIME_BETWEEN_MOVES, dscene(), SLOT(startAutoDrop()));
+    if (!dscene()->demoActive() && !dscene()->waiting())
+        QTimer::singleShot(TIME_BETWEEN_MOVES, dscene(), SLOT(startAutoDrop()));
 
     emit undoPossible(undoList.count() > 1 && !dscene()->waiting());
 }
@@ -1065,7 +1074,7 @@ void Dealer::openGame(QDomDocument &doc)
 void Dealer::undo()
 {
     dscene()->unmarkAll();
-    stopDemo();
+    dscene()->stopDemo();
     if (undoList.count() > 1) {
         undoList.removeLast(); // the current state
         setState(undoList.take(undoList.count() - 1));
@@ -1133,7 +1142,7 @@ bool DealerScene::startAutoDrop()
         }
     }
 
-    // kDebug(11111) << "startAutoDrop\n";
+    kDebug(11111) << "startAutoDrop\n";
 
     unmarkAll();
     clearHints();
@@ -1148,12 +1157,12 @@ bool DealerScene::startAutoDrop()
                 cards.erase(cards.begin());
             t->stopAnimation();
             t->turn(true);
-            int x = int(t->x());
-            int y = int(t->y());
+            int x = t->x();
+            int y = t->y();
             t->source()->moveCards(cards, mh->pile());
             t->setPos(x, y);
             kDebug(11111) << "autodrop " << t->name() << endl;
-            t->moveTo(int(t->source()->x()), int(t->source()->y()), int(t->zValue()), STEPS_AUTODROP);
+            t->moveTo(t->source()->x(), t->source()->y(), t->zValue(), DURATION_AUTODROP);
             connect(t, SIGNAL(stoped(Card*)), SLOT(waitForAutoDrop(Card*)));
             return true;
         }
@@ -1198,8 +1207,10 @@ DealerScene *Dealer::dscene() const
 void Dealer::setGameNumber(long gmn) { dscene()->setGameNumber(gmn); }
 long Dealer::gameNumber() const { return dscene()->gameNumber(); }
 
-void Dealer::stopDemo()
+void DealerScene::stopDemo()
 {
+#warning FIXME stopDemo
+#if 0
     kDebug(11111) << "stopDemo " << dscene()->waiting() << " " << stop_demo_next << endl;
     if (dscene()->waiting()) {
         stop_demo_next = true;
@@ -1216,14 +1227,15 @@ void Dealer::stopDemo()
     demotimer->stop();
     if (ademo)
         ademo->setChecked(false);
+#endif
 }
 
-bool Dealer::demoActive() const
+bool DealerScene::demoActive() const
 {
     return (towait || demotimer->isActive());
 }
 
-void Dealer::toggleDemo()
+void DealerScene::toggleDemo()
 {
     if (demoActive()) {
         stopDemo();
@@ -1286,11 +1298,11 @@ void Dealer::won()
             p.moveTopLeft(QPointF(x, y));
         } while (can.intersects(p));
 
-	card.ptr->moveTo( x, y, 0, STEPS_WON);
+	card.ptr->moveTo( x, y, 0, DURATION_WON);
     }
 
-    bool demo = demoActive();
-    stopDemo();
+    bool demo = dscene()->demoActive();
+    dscene()->stopDemo();
     emit gameWon(demo);
 }
 
@@ -1308,9 +1320,9 @@ MoveHint *DealerScene::chooseHint()
     return hints[randseq.getLong(hints.count())];
 }
 
-void Dealer::demo()
+void DealerScene::demo()
 {
-    if (dscene()->waiting())
+    if ( waiting() )
         return;
 
     if (stop_demo_next) {
@@ -1318,13 +1330,13 @@ void Dealer::demo()
         return;
     }
     stop_demo_next = false;
-    dscene()->unmarkAll();
+    unmarkAll();
     towait = (Card*)-1;
-    dscene()->clearHints();
-    dscene()->getHints();
+    clearHints();
+    getHints();
     demotimer->stop();
 
-    MoveHint *mh = dscene()->chooseHint();
+    MoveHint *mh = chooseHint();
     if (mh) {
         // assert(mh->card()->source()->legalRemove(mh->card()));
 
@@ -1345,7 +1357,6 @@ void Dealer::demo()
 
         for (CardList::Iterator it = empty.begin(); it != empty.end(); ++it) {
             Card *t = *it;
-            Q_ASSERT(!t->animated());
             t->stopAnimation();
             t->turn(true);
             oldcoords[i++] = int(t->realX());
@@ -1366,7 +1377,7 @@ void Dealer::demo()
             int x2 = int(t->realX());
             int y2 = int(t->realY());
             t->setPos(x1, y1);
-            t->moveTo(x2, y2, int(t->zValue()), STEPS_DEMO);
+            t->moveTo(x2, y2, int(t->zValue()), DURATION_DEMO);
         }
 
         delete [] oldcoords;
@@ -1377,28 +1388,28 @@ void Dealer::demo()
         Card *t = demoNewCards();
         if (t) {
             newDemoMove(t);
-        } else if (dscene()->isGameWon()) {
+        } else if (isGameWon()) {
             emit gameWon(true);
             return;
         } else
             stopDemo();
     }
 
-    takeState();
+    Dealer::instance()->takeState();
 }
 
-Card *Dealer::demoNewCards()
+Card *DealerScene::demoNewCards()
 {
     return 0;
 }
 
-void Dealer::newDemoMove(Card *m)
+void DealerScene::newDemoMove(Card *m)
 {
     towait = m;
     connect(m, SIGNAL(stoped(Card*)), SLOT(waitForDemo(Card*)));
 }
 
-void Dealer::waitForDemo(Card *t)
+void DealerScene::waitForDemo(Card *t)
 {
     if (t == (Card*)-1)
         return;

@@ -27,8 +27,8 @@
 #include <assert.h>
 #include "cardmaps.h"
 
-Computation::Computation( KMainWindow *parent )
-    :Dealer( parent )
+Computation::Computation( )
+    :DealerScene( )
 {
     deck = Deck::new_deck(this);
     deck->hide();
@@ -51,7 +51,7 @@ Computation::Computation( KMainWindow *parent )
     pile->setRemoveFlags(Pile::autoTurnTop);
     pile->setPos(10, 10);
 
-    setActions(Dealer::Demo | Dealer::Hint);
+    Dealer::instance()->setActions(Dealer::Demo | Dealer::Hint);
 }
 
 void Computation::restart() {
@@ -114,7 +114,7 @@ static class LocalDealerInfo6 : public DealerInfo
 {
 public:
     LocalDealerInfo6() : DealerInfo(I18N_NOOP("&Calculation"), 6) {}
-    virtual Dealer *createGame(KMainWindow *parent) { return new Computation(parent); }
+    virtual DealerScene *createGame() { return new Computation(); }
 } ldi6;
 
 #include "computation.moc"

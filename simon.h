@@ -16,17 +16,16 @@
 
 #include "dealer.h"
 
-class Simon : public Dealer {
+class Simon : public DealerScene {
     Q_OBJECT
 
 public:
-    Simon( KMainWindow* parent=0 );
+    Simon( );
 
 public slots:
     void deal();
     virtual void restart();
-	virtual bool isGameLost() const;
-
+    virtual bool isGameLost() const;
 
 protected:
     virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;

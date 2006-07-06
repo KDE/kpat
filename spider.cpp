@@ -48,8 +48,8 @@ void SpiderPile::moveCards(CardList &c, Pile *to)
 
 //-------------------------------------------------------------------------//
 
-Spider::Spider(int suits, KMainWindow* parent)
-        : Dealer(parent)
+Spider::Spider(int suits)
+        : DealerScene()
 {
     const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
     const int dist_y = cardMap::CARDY() * 11 / 10 + 1;
@@ -98,7 +98,7 @@ Spider::Spider(int suits, KMainWindow* parent)
     // user should have no choice.  Also, it must be moved A first, ...
     // up to K so the King will be on top.
     setAutoDropEnabled(false);
-    setActions(Dealer::Hint | Dealer::Demo );
+    Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo );
 }
 
 //-------------------------------------------------------------------------//
@@ -395,7 +395,7 @@ void Spider::deckClicked(Card*)
 
     unmarkAll();
     dealRow();
-    takeState();
+    Dealer::instance()->takeState();
 }
 
 bool Spider::isGameLost() const
@@ -459,21 +459,21 @@ static class LocalDealerInfo15 : public DealerInfo
 {
 public:
     LocalDealerInfo15() : DealerInfo(I18N_NOOP("S&pider (Easy)"), 14) {}
-    virtual Dealer *createGame(KMainWindow *parent) { return new Spider(1, parent); }
+    virtual DealerScene *createGame() { return new Spider(1); }
 } ldi15;
 
 static class LocalDealerInfo16 : public DealerInfo
 {
 public:
     LocalDealerInfo16() : DealerInfo(I18N_NOOP("Spider (&Medium)"), 15) {}
-    virtual Dealer *createGame(KMainWindow *parent) { return new Spider(2, parent); }
+    virtual DealerScene *createGame() { return new Spider(2); }
 } ldi16;
 
 static class LocalDealerInfo17 : public DealerInfo
 {
 public:
     LocalDealerInfo17() : DealerInfo(I18N_NOOP("Spider (&Hard)"), 16) {}
-    virtual Dealer *createGame(KMainWindow *parent) { return new Spider(4, parent); }
+    virtual DealerScene *createGame() { return new Spider(4); }
 } ldi17;
 
 //-------------------------------------------------------------------------//

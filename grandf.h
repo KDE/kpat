@@ -34,11 +34,11 @@ class Pile;
 class Deck;
 class KMainWindow;
 
-class Grandf : public Dealer {
+class Grandf : public DealerScene {
     Q_OBJECT
 
 public:
-    Grandf( KMainWindow* parent=0 );
+    Grandf( );
 
 public slots:
     void redeal();

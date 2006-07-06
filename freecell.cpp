@@ -50,9 +50,8 @@ void FreecellPile::moveCards(CardList &c, Pile *to)
 
 //-------------------------------------------------------------------------//
 
-FreecellBase::FreecellBase( int decks, int stores, int freecells, int fill, bool unlimit,
-                            KMainWindow* parent)
-    : Dealer(parent),
+FreecellBase::FreecellBase( int decks, int stores, int freecells, int fill, bool unlimit )
+    : DealerScene(),
       solver_instance(0), es_filling(fill), solver_ret(FCS_STATE_NOT_BEGAN_YET),
       unlimited_move(unlimit)
 {
@@ -85,7 +84,7 @@ FreecellBase::FreecellBase( int decks, int stores, int freecells, int fill, bool
         // COOLO: I'm still not too sure about that t->setRemoveFlags(Pile::Default);
     }
 
-    setActions(Dealer::Demo | Dealer::Hint);
+    Dealer::instance()->setActions(Dealer::Demo | Dealer::Hint);
 }
 
 FreecellBase::~FreecellBase()
@@ -292,7 +291,7 @@ void FreecellBase::resumeSolution()
                       freecell_solver_user_get_num_times(
                           solver_instance)));
         kDebug(11111) << "solved\n";
-        Dealer::demo();
+        DealerScene::demo();
         return;
     }
     if (solver_ret == FCS_STATE_IS_NOT_SOLVEABLE) {
@@ -479,7 +478,7 @@ void FreecellBase::getHints()
 {
     for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
     {
-        if (!takeTargetForHints() && (*it)->target())
+        if (!Dealer::instance()->takeTargetForHints() && (*it)->target())
             continue;
 
         Pile *store = *it;
@@ -505,8 +504,8 @@ void FreecellBase::getHints()
                     if (!dest->legalAdd(cards))
                         continue;
 
-                    bool old_prefer = checkPrefering( dest->checkIndex(), dest, cards );
-                    if (!takeTargetForHints() && dest->target())
+                    bool old_prefer = Dealer::instance()->checkPrefering( dest->checkIndex(), dest, cards );
+                    if (!Dealer::instance()->takeTargetForHints() && dest->target())
                         newHint(new MoveHint(*iti, dest, noLongerNeeded(*(*iti))));
                     else {
                         store->hideCards(cards);
@@ -514,8 +513,8 @@ void FreecellBase::getHints()
                         if ((store->isEmpty() && !dest->isEmpty()) || !store->legalAdd(cards))
                             newHint(new MoveHint(*iti, dest));
                         else {
-                            if (old_prefer && !checkPrefering( store->checkIndex(),
-                                                               store, cards ))
+                            if (old_prefer && !Dealer::instance()->checkPrefering( store->checkIndex(),
+                                                                                   store, cards ))
                             { // if checkPrefers says so, we add it nonetheless
                                 newHint(new MoveHint(*iti, dest));
                             }
@@ -533,7 +532,7 @@ void FreecellBase::getHints()
 void FreecellBase::demo()
 {
     if (solver_instance && solver_ret == FCS_STATE_WAS_SOLVED) {
-        Dealer::demo();
+        DealerScene::demo();
         return;
     }
     towait = (Card*)-1;
@@ -557,7 +556,7 @@ MoveHint *FreecellBase::chooseHint()
         } else
             return 0;
     } else
-        return Dealer::chooseHint();
+        return DealerScene::chooseHint();
 }
 
 void FreecellBase::countFreeCells(int &free_cells, int &free_stores) const
@@ -586,7 +585,7 @@ void FreecellBase::freeSolution()
 
 void FreecellBase::stopDemo()
 {
-    Dealer::stopDemo();
+    DealerScene::stopDemo();
     freeSolution();
 }
 
@@ -692,11 +691,11 @@ void FreecellBase::startMoving()
 {
     kDebug(11111) << "startMoving\n";
     if (moves.isEmpty()) {
-        if (demoActive() && towait) {
-            waitForDemo(towait);
+        if (DealerScene::demoActive() && towait) {
+            DealerScene::waitForDemo(towait);
         }
         setWaiting(false);
-        takeState();
+        Dealer::instance()->takeState();
         return;
     }
 
@@ -716,7 +715,8 @@ void FreecellBase::startMoving()
 
 void FreecellBase::newDemoMove(Card *m)
 {
-    Dealer::newDemoMove(m);
+#warning FIXME newDemoMove
+    //newDemoMove(m);
     if (m != m->source()->top())
         m->disconnect();
 }
@@ -732,7 +732,7 @@ void FreecellBase::waitForMoving(Card *c)
 bool FreecellBase::cardDblClicked(Card *c)
 {
     // target move
-    if (Dealer::cardDblClicked(c))
+    if (DealerScene::cardDblClicked(c))
         return true;
 
     if (c->animated())
@@ -744,7 +744,6 @@ bool FreecellBase::cardDblClicked(Card *c)
                 CardList empty;
                 empty.append(c);
                 c->source()->moveCards(empty, freecell[i]);
-                scene()->update();
                 return true;
             }
     return false;
@@ -816,12 +815,12 @@ bool FreecellBase::checkRemove(int checkIndex, const Pile *p, const Card *c) con
 class Freecell : public FreecellBase
 {
 public:
-    Freecell( KMainWindow* parent=0);
+    Freecell( );
     virtual void deal();
 };
 
-Freecell::Freecell( KMainWindow* parent)
-    : FreecellBase(1, 8, 4, FCS_ES_FILLED_BY_ANY_CARD, false, parent)
+Freecell::Freecell()
+    : FreecellBase(1, 8, 4, FCS_ES_FILLED_BY_ANY_CARD, false)
 {
     for (int i = 0; i < 8; i++)
         store[i]->setPos(8 + ( cardMap::CARDX() * 11 / 10 + 1 ) * i, 8 + cardMap::CARDY() * 11 / 10);
@@ -849,7 +848,7 @@ static class LocalDealerInfo3 : public DealerInfo
 {
 public:
     LocalDealerInfo3() : DealerInfo(I18N_NOOP("&Freecell"), 3) {}
-    virtual Dealer *createGame(KMainWindow *parent) { return new Freecell(parent); }
+    virtual DealerScene *createGame() { return new Freecell(); }
 } ldi8;
 
 //-------------------------------------------------------------------------//

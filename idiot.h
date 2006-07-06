@@ -26,13 +26,13 @@
 #include "dealer.h"
 
 
-class Idiot: public Dealer
+class Idiot: public DealerScene
 {
     Q_OBJECT
 
 public:
 
-    Idiot( KMainWindow* parent = 0 );
+    Idiot( );
 
     virtual bool  isGameWon() const;
 

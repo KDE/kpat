@@ -22,8 +22,8 @@
 #include "deck.h"
 #include "cardmaps.h"
 
-Napoleon::Napoleon( KMainWindow* parent )
-  : Dealer( parent )
+Napoleon::Napoleon( )
+  : DealerScene( )
 {
     deck = Deck::new_deck( this );
     connect(deck, SIGNAL(clicked(Card *)), SLOT(deal1(Card*)));
@@ -64,7 +64,7 @@ Napoleon::Napoleon( KMainWindow* parent )
     target[3]->setPos( centre_x - cardMap::CARDX() - dist_target, centre_y + cardMap::CARDY() + dist_target);
     centre->setPos(centre_x, centre_y);
 
-    setActions(Dealer::Hint | Dealer::Demo);
+    Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
 }
 
 void Napoleon::restart() {
@@ -121,7 +121,7 @@ void Napoleon::deal1(Card *) {
         return;
     pile->add(c, true, false);
     c->setPos(deck->x(), deck->y());
-    c->flipTo(int(pile->x()), int(pile->y()), 8);
+    c->flipTo(int(pile->x()), int(pile->y()));
 }
 
 Card *Napoleon::demoNewCards()
@@ -198,7 +198,7 @@ static class LocalDealerInfo4 : public DealerInfo
 {
 public:
     LocalDealerInfo4() : DealerInfo(I18N_NOOP("&Napoleon's Tomb"), 4) {}
-    virtual Dealer *createGame(KMainWindow *parent) { return new Napoleon(parent); }
+    virtual DealerScene *createGame() { return new Napoleon(); }
 } ldi3;
 
 #include "napoleon.moc"

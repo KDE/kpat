@@ -18,7 +18,7 @@
 #include <assert.h>
 #include "cardmaps.h"
 
-HorLeftPile::HorLeftPile( int _index, Dealer* parent)
+HorLeftPile::HorLeftPile( int _index, DealerScene* parent)
     : Pile(_index, parent)
 {
     // TODO: create a pile that moves the cards together when filling space
@@ -40,8 +40,8 @@ void HorLeftPile::initSizes()
 }
 
 
-Fortyeight::Fortyeight( KMainWindow* parent )
-    : Dealer(parent)
+Fortyeight::Fortyeight( )
+    : DealerScene()
 {
     deck = Deck::new_deck(this, 2);
 
@@ -70,7 +70,7 @@ Fortyeight::Fortyeight( KMainWindow* parent )
         stack[i]->setSpread(stack[i]->spread() * 3 / 4);
     }
 
-    setActions(Dealer::Hint | Dealer::Demo);
+    Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
 }
 
 //-------------------------------------------------------------------------//
@@ -90,7 +90,7 @@ void Fortyeight::deckClicked(Card *)
         lastdeal = true;
         while (!pile->isEmpty()) {
             Card *c = pile->at(pile->cardsLeft()-1);
-            c->setAnimated(false);
+            c->stopAnimation();
             deck->add(c, true, false);
         }
     }
@@ -99,7 +99,7 @@ void Fortyeight::deckClicked(Card *)
     int x = int(c->x());
     int y = int(c->y());
     c->setPos(deck->x(), deck->y());
-    c->flipTo(x, y, 8);
+    c->flipTo(x, y);
 }
 
 Card *Fortyeight::demoNewCards()
@@ -207,7 +207,7 @@ static class LocalDealerInfo8 : public DealerInfo
 {
 public:
     LocalDealerInfo8() : DealerInfo(I18N_NOOP("Forty && &Eight"), 8) {}
-    virtual Dealer *createGame(KMainWindow *parent) { return new Fortyeight(parent); }
+    virtual DealerScene *createGame() { return new Fortyeight(); }
 } ldi9;
 
 //-------------------------------------------------------------------------//

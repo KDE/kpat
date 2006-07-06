@@ -19,8 +19,8 @@
 #include "freecell-solver/fcs_enums.h"
 #include "cardmaps.h"
 
-Kings::Kings( KMainWindow* parent )
-    : FreecellBase( 2, 8, 8, FCS_ES_FILLED_BY_KINGS_ONLY, true, parent )
+Kings::Kings( )
+    : FreecellBase( 2, 8, 8, FCS_ES_FILLED_BY_KINGS_ONLY, true )
 {
     const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
 
@@ -34,7 +34,7 @@ Kings::Kings( KMainWindow* parent )
 
 void Kings::demo()
 {
-    Dealer::demo();
+    DealerScene::demo();
 }
 
 void Kings::deal() {

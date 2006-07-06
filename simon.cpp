@@ -18,8 +18,8 @@
 #include <assert.h>
 #include "cardmaps.h"
 
-Simon::Simon( KMainWindow* parent )
-    : Dealer( parent )
+Simon::Simon( )
+    : DealerScene( )
 {
     deck = Deck::new_deck(this);
     deck->setPos(10, 10);
@@ -44,7 +44,7 @@ Simon::Simon( KMainWindow* parent )
         store[i]->setCheckIndex(1);
     }
 
-    setActions(Dealer::Hint | Dealer::Demo);
+    Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
 }
 
 void Simon::restart() {
@@ -163,7 +163,7 @@ static class LocalDealerInfo9 : public DealerInfo
 {
 public:
     LocalDealerInfo9() : DealerInfo(I18N_NOOP("&Simple Simon"), 9) {}
-    virtual Dealer *createGame(KMainWindow *parent) { return new Simon(parent); }
+    virtual DealerScene *createGame() { return new Simon(); }
 } gfi9;
 
 #include "simon.moc"

@@ -19,8 +19,8 @@
 #include <assert.h>
 #include "cardmaps.h"
 
-Yukon::Yukon( KMainWindow* parent )
-    : Dealer( parent )
+Yukon::Yukon( )
+    : DealerScene( )
 {
     const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
     const int dist_y = cardMap::CARDY() * 11 / 10 + 1;
@@ -42,7 +42,7 @@ Yukon::Yukon( KMainWindow* parent )
         store[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
     }
 
-    setActions(Dealer::Hint | Dealer::Demo);
+    Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
 }
 
 void Yukon::restart() {
@@ -138,7 +138,7 @@ static class LocalDealerInfo10 : public DealerInfo
 {
 public:
     LocalDealerInfo10() : DealerInfo(I18N_NOOP("&Yukon"), 10) {}
-    virtual Dealer *createGame(KMainWindow *parent) { return new Yukon(parent); }
+    virtual DealerScene *createGame() { return new Yukon(); }
 } gfi10;
 
 #include "yukon.moc"

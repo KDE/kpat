@@ -16,11 +16,11 @@
 
 #include "dealer.h"
 
-class Yukon : public Dealer {
+class Yukon : public DealerScene {
     Q_OBJECT
 
 public:
-    Yukon( KMainWindow* parent=0 );
+    Yukon( );
     virtual bool isGameLost() const;
 
 public slots:

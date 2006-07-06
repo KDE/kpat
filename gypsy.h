@@ -22,11 +22,11 @@ class Pile;
 class Deck;
 class KMainWindow;
 
-class Gypsy : public Dealer {
+class Gypsy : public DealerScene {
     Q_OBJECT
 
 public:
-    Gypsy( KMainWindow* parent=0 );
+    Gypsy( );
     virtual bool isGameLost() const;
 
 public slots:

@@ -21,16 +21,16 @@ class HorRightPile : public Pile
     Q_OBJECT
 
 public:
-    HorRightPile( int _index, Dealer* parent = 0);
+    HorRightPile( int _index, DealerScene* parent = 0);
     virtual QSize cardOffset( bool _spread, bool _facedown, const Card *before) const;
 };
 
-class Golf : public Dealer
+class Golf : public DealerScene
 {
     Q_OBJECT
 
 public:
-    Golf( KMainWindow* parent=0 );
+    Golf( );
     void deal();
     virtual void restart();
     virtual bool isGameLost() const;

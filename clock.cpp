@@ -17,8 +17,8 @@
 #include <assert.h>
 #include "cardmaps.h"
 
-Clock::Clock( KMainWindow* parent )
-    : Dealer( parent )
+Clock::Clock( )
+    : DealerScene( )
 {
     const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
     const int dist_y = cardMap::CARDY() * 11 / 10 + 1;
@@ -44,7 +44,7 @@ Clock::Clock( KMainWindow* parent )
         store[i]->setCheckIndex(0);
     }
 
-    setActions(Dealer::Hint | Dealer::Demo);
+    Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
 }
 
 void Clock::restart()
@@ -98,7 +98,7 @@ static class LocalDealerInfo11 : public DealerInfo
 {
 public:
     LocalDealerInfo11() : DealerInfo(I18N_NOOP("G&randfather's Clock"), 11) {}
-    virtual Dealer *createGame(KMainWindow *parent) { return new Clock(parent); }
+    virtual DealerScene *createGame() { return new Clock(); }
 } gfi11;
 
 #include "clock.moc"
