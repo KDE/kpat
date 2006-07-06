@@ -365,7 +365,6 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
             if ((*it)->isEmpty()) {
                 (*it)->setSelected(true);
                 marked.append(*it);
-                ( *it )->update();
             } else {
                 mark((*it)->top());
             }
@@ -388,7 +387,6 @@ void DealerScene::unmarkAll()
     for (QList<QGraphicsItem *>::Iterator it = marked.begin(); it != marked.end(); ++it)
     {
         (*it)->setSelected(false);
-        ( *it )->update();
     }
     marked.clear();
 }
@@ -472,7 +470,6 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
                     Dealer::instance()->countGame();
                 }
                 Dealer::instance()->takeState();
-                update();
             }
             return;
         }
@@ -481,7 +478,6 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
             assert(c);
             pileClicked(c);
             Dealer::instance()->takeState();
-            update();
             return;
         }
     }
@@ -571,7 +567,6 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
         Dealer::instance()->takeState();
     }
     movingCards.clear();
-    update();
 }
 
 void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
@@ -677,7 +672,6 @@ bool DealerScene::cardDblClicked(Card *c)
             CardList empty;
             empty.append(c);
             c->source()->moveCards(empty, tgt);
-            update();
             return true;
         }
     }
@@ -876,7 +870,6 @@ void Dealer::setState(State *st)
     setGameState( st->gameData );
 
     delete st;
-    scene()->update();
 }
 
 void Dealer::takeState()
@@ -1298,7 +1291,6 @@ void Dealer::won()
 
     bool demo = demoActive();
     stopDemo();
-    scene()->update();
     emit gameWon(demo);
 }
 
@@ -1386,7 +1378,6 @@ void Dealer::demo()
         if (t) {
             newDemoMove(t);
         } else if (dscene()->isGameWon()) {
-            scene()->update();
             emit gameWon(true);
             return;
         } else

@@ -442,8 +442,7 @@ void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->drawRect(rect());
 
     if (option->state & QStyle::State_Selected) {
-        painter->setBrush(Qt::red);
-        painter->setOpacity(.9);
+        painter->setBrush( QColor( 40, 40, 40, 127 ));
         painter->drawRect(rect() );
     }
 

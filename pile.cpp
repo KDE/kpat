@@ -424,7 +424,6 @@ void Pile::moveCards(CardList &cl, Pile *to)
         Card *t = top();
         if (!t->isFaceUp()) {
             t->flipTo(int(t->x()), int(t->y()), 8);
-            scene()->update();
         }
     }
 
