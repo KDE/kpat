@@ -294,9 +294,9 @@ protected:
     bool _won;
     QString ac;
     static Dealer *s_instance;
-    const QRectF defaultSceneRect;
 
     bool _gameRecorded;
+    qreal scaleFactor;
 
 private:
     void countLoss();

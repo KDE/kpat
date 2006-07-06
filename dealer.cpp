@@ -26,6 +26,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGLWidget>
 #include <QPixmap>
+#include <QDebug>
 #include <Q3PtrList>
 #include <QList>
 #include <QResizeEvent>
@@ -111,8 +112,7 @@ Dealer::Dealer( KMainWindow* _parent )
     aredeal(0),
     takeTargets(false),
     _won(false),
-    _gameRecorded(false), 
-    defaultSceneRect(0, 0, 700, 400)
+    _gameRecorded(false)
 {
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -138,7 +138,8 @@ void Dealer::setScene( QGraphicsScene *scene )
 //    dscene()->setAdvancePeriod(30);
 // dscene()->setBackgroundColor( darkGreen );
 // dscene()->setDoubleBuffering(true);
-    dscene()->setSceneRect ( defaultSceneRect );
+    dscene()->setSceneRect ( QRectF( 0,0,700,500 ) );
+    scaleFactor = 1;
 
     connect( scene, SIGNAL( gameWon( bool ) ), SIGNAL( gameWon( bool ) ) );
 }
@@ -701,24 +702,26 @@ void Dealer::slotEnableRedeal( bool en )
 
 void DealerScene::enlargeCanvas(QGraphicsRectItem *c)
 {
-#warning FIXME
-    if (!c->isVisible() /* || c->animated() */ )
+    if ( !c->isVisible() )
         return;
+
+    Card *cd = dynamic_cast<Card*>( c );
+    if ( cd && cd->animated() )
+        return;
+
+    Dealer::instance()->resizeEvent( 0 );
 
     bool changed = false;
 
-#if 0
-    if ( c->sceneBoundingRect().right() + 10 > minsize.width() ) {
-        minsize.setWidth(( int )c->sceneBoundingRect().right() + 10);
+    /*  if ( c->sceneBoundingRect().right() + 10 > minsize.width() ) {
+        //minsize.setWidth(( int )c->sceneBoundingRect().right() + 10);
         changed = true;
     }
     if (c->sceneBoundingRect().bottom() + 10 > minsize.height()) {
-        minsize.setHeight(( int )c->sceneBoundingRect().bottom() + 10);
+        //minsize.setHeight(( int )c->sceneBoundingRect().bottom() + 10);
         changed = true;
     }
-    if (changed)
-        update();
-#endif
+    kDebug() << "minsize " << minsize << endl; */
 }
 
 class CardState {
@@ -1110,8 +1113,8 @@ bool DealerScene::startAutoDrop()
                 cards.erase(cards.begin());
             t->stopAnimation();
             t->turn(true);
-            int x = t->x();
-            int y = t->y();
+            qreal x = t->x();
+            qreal y = t->y();
             t->source()->moveCards(cards, mh->pile());
             t->setPos(x, y);
             kDebug(11111) << "autodrop " << t->name() << endl;
@@ -1525,14 +1528,24 @@ void Dealer::countLoss()
 
 void Dealer::resizeEvent( QResizeEvent *e )
 {
-    QGraphicsView::resizeEvent(e);
-    QRectF newSize(0, 0, e->size().width(), e->size().height());
-    qreal scaleX = newSize.width() / defaultSceneRect.width();
-    qreal scaleY = newSize.height() / defaultSceneRect.height();
-    qreal scaleFactor = qMin(scaleX, scaleY);
+    if ( e )
+        QGraphicsView::resizeEvent(e);
+
+    if ( !dscene() )
+        return;
+
+    QRectF newSize(0, 0, size().width(), size().height());
+    QRectF defaultSceneRect = dscene()->itemsBoundingRect();
+    qreal scaleX = newSize.width() / ( defaultSceneRect.right() + 20 );
+    qreal scaleY = newSize.height() / ( defaultSceneRect.bottom() + 20 );
+    qreal n_scaleFactor = qMin(scaleX, scaleY);
+    if ( n_scaleFactor == scaleFactor )
+        return;
+
     QMatrix matrix;
-    matrix.scale(scaleFactor, scaleFactor);
+    matrix.scale(n_scaleFactor, n_scaleFactor);
     setMatrix(matrix, false);
+    scaleFactor = n_scaleFactor;
 }
 
 #include "dealer.moc"
