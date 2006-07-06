@@ -431,16 +431,18 @@ void Card::getUp()
 void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                  QWidget * )
 {
+    painter->setRenderHint(QPainter::Antialiasing);
+    painter->setRenderHint(QPainter::SmoothPixmapTransform);
     if (scene()->mouseGrabberItem() == this) {
         painter->setOpacity(.8);
     }
     painter->setPen(Qt::NoPen);
     painter->setBrush(brush());
-    painter->drawRect(rect());
+    painter->drawRect(boundingRect());
 
     if (option->state & QStyle::State_Selected) {
         painter->setBrush( QColor( 40, 40, 40, 127 ));
-        painter->drawRect(rect() );
+        painter->drawRect(boundingRect());
     }
 
 }

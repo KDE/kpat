@@ -42,6 +42,8 @@
 #include "version.h"
 #include <ktoggleaction.h>
 
+#include <math.h>
+
 // ================================================================
 //                         class MoveHint
 
@@ -109,12 +111,11 @@ Dealer::Dealer( KMainWindow* _parent )
     aredeal(0),
     takeTargets(false),
     _won(false),
-    _gameRecorded(false)
+    _gameRecorded(false), 
+    defaultSceneRect(0, 0, 700, 400)
 {
-#warning FIXME
-//    setResizePolicy(Q3ScrollView::Manual);
-//    setVScrollBarMode(AlwaysOff);
-//    setHScrollBarMode(AlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     setAlignment( Qt::AlignLeft | Qt::AlignTop );
         undoList.setAutoDelete(true);
@@ -137,7 +138,7 @@ void Dealer::setScene( QGraphicsScene *scene )
 //    dscene()->setAdvancePeriod(30);
 // dscene()->setBackgroundColor( darkGreen );
 // dscene()->setDoubleBuffering(true);
-    dscene()->setSceneRect ( QRectF( 0, 0, width(), height() ) );
+    dscene()->setSceneRect ( defaultSceneRect );
 
     connect( scene, SIGNAL( gameWon( bool ) ), SIGNAL( gameWon( bool ) ) );
 }
@@ -606,53 +607,6 @@ QSize Dealer::minimumCardSize() const
     return minsize;
 }
 
-void Dealer::resizeEvent(QResizeEvent *e)
-{
-    int x = width();
-    int y = height();
-    int hs = horizontalScrollBar()->sizeHint().height();
-    int vs = verticalScrollBar()->sizeHint().width();
-
-    int mx = minsize.width();
-    int my = minsize.height();
-
-    int dx = x;
-    int dy = y;
-    bool showh = false;
-    bool showv = false;
-
-    if (mx > x) {
-        dx = mx;
-        if (my + vs < y)
-            dy -= vs;
-        else {
-            showv = true;
-        }
-        showh = true;
-    } else if (my > y) {
-        dy = my;
-        if (mx + hs < x)
-            dx -= hs;
-        else
-            showh = true;
-        showv = true;
-    }
-
-#warning FIXME
-#if 0
-    scene()->resize(dx, dy);
-    resizeContents(dx, dy);
-
-    setVScrollBarMode(showv ? AlwaysOn : AlwaysOff);
-    setHScrollBarMode(showh ? AlwaysOn : AlwaysOff);
-
-    if (!e)
-        updateScrollBars();
-    else
-        QGraphicsView::resizeEvent(e);
-#endif
-}
-
 bool DealerScene::cardClicked(Card *c) {
     return c->source()->cardClicked(c);
 }
@@ -731,7 +685,6 @@ void Dealer::startNew()
         takeState();
     else
         connect(towait, SIGNAL(stoped(Card*)), SLOT(slotTakeState(Card *)));
-    resizeEvent(0);
 }
 
 void Dealer::slotTakeState(Card *c) {
@@ -764,7 +717,7 @@ void DealerScene::enlargeCanvas(QGraphicsRectItem *c)
         changed = true;
     }
     if (changed)
-        resizeEvent(0);
+        update();
 #endif
 }
 
@@ -1536,6 +1489,12 @@ void Dealer::wheelEvent( QWheelEvent *e )
 	e->accept();
     }
 #endif
+    qreal scaleFactor = pow((double)2, -e->delta() / (10*120.0));
+    qreal factor = matrix().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
+    if (factor < 0.1 || factor > 20)
+        return;
+
+    scale(scaleFactor, scaleFactor);
 }
 
 void Dealer::countGame()
@@ -1562,6 +1521,18 @@ void Dealer::countLoss()
             kc.writeEntry(QString("maxloosestreak%1").arg(_id),n);
         kc.writeEntry(QString("winstreak%1").arg(_id),0);
     }
+}
+
+void Dealer::resizeEvent( QResizeEvent *e )
+{
+    QGraphicsView::resizeEvent(e);
+    QRectF newSize(0, 0, e->size().width(), e->size().height());
+    qreal scaleX = newSize.width() / defaultSceneRect.width();
+    qreal scaleY = newSize.height() / defaultSceneRect.height();
+    qreal scaleFactor = qMin(scaleX, scaleY);
+    QMatrix matrix;
+    matrix.scale(scaleFactor, scaleFactor);
+    setMatrix(matrix, false);
 }
 
 #include "dealer.moc"

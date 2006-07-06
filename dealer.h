@@ -48,7 +48,7 @@ private:
     static DealerInfoList *_self;
 };
 
-class DealerInfo 
+class DealerInfo
 {
 public:
     DealerInfo(const char *_name, int _index)
@@ -217,7 +217,6 @@ public:
     bool takeTargetForHints() const { return takeTargets; }
 
     virtual QSize minimumCardSize() const;
-    virtual void resizeEvent(QResizeEvent *);
 
     QString anchorName() const;
     void setAnchorName(const QString &name);
@@ -260,11 +259,12 @@ public slots:
 protected:
 
     virtual void wheelEvent( QWheelEvent *e );
+    virtual void resizeEvent( QResizeEvent *e );
 
     void won();
 
     KMainWindow *parent() const;
-  
+
 protected:
 
     State *getState();
@@ -277,7 +277,7 @@ protected:
 
     Dealer( Dealer& );  // don't allow copies or assignments
     void operator = ( Dealer& );  // don't allow copies or assignments
-   
+
 
     QSize minsize;
     QSize viewsize;
@@ -294,6 +294,7 @@ protected:
     bool _won;
     QString ac;
     static Dealer *s_instance;
+    const QRectF defaultSceneRect;
 
     bool _gameRecorded;
 
