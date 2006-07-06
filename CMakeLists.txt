@@ -50,7 +50,7 @@ kde4_add_executable(kpat ${kpat_SRCS})
 
 target_link_libraries(kpat  ${KDE4_KIO_LIBS} kdegames )
 
-install_targets(/bin kpat )
+install(TARGETS kpat  DESTINATION ${BIN_INSTALL_DIR} )
 
 
 ########### install files ###############
