@@ -342,6 +342,8 @@ void Card::hoverEnterEvent ( QGraphicsSceneHoverEvent * event )
     if ( animated() || !isFaceUp() )
         return;
 
+    return;
+
     QTimeLine *timeLine = new QTimeLine( 1000, this );
 
     animation = new QGraphicsItemAnimation( this );
@@ -431,8 +433,8 @@ void Card::getUp()
 void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                  QWidget * )
 {
-    painter->setRenderHint(QPainter::Antialiasing);
-    painter->setRenderHint(QPainter::SmoothPixmapTransform);
+//    painter->setRenderHint(QPainter::Antialiasing);
+//    painter->setRenderHint(QPainter::SmoothPixmapTransform);
     if (scene()->mouseGrabberItem() == this) {
         painter->setOpacity(.8);
     }
@@ -444,7 +446,6 @@ void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->setBrush( QColor( 40, 40, 40, 127 ));
         painter->drawRect(boundingRect());
     }
-
 }
 
 #include "card.moc"
