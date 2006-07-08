@@ -24,7 +24,7 @@
 //Added by qt3to4:
 #include <QWheelEvent>
 #include <QGraphicsSceneMouseEvent>
-#include <QGLWidget>
+//#include <QGLWidget>
 #include <QPixmap>
 #include <QDebug>
 #include <Q3PtrList>
