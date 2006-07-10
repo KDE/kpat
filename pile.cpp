@@ -34,7 +34,7 @@ const int Pile::wholeColumn   = 0x0400;
 
 
 Pile::Pile( int _index, DealerScene* parent)
-    : QGraphicsRectItem( 0, parent ),
+    : QGraphicsPixmapItem( 0, parent ),
       m_dealer(parent),
       _atype(Custom),
       _rtype(Custom),
@@ -44,12 +44,10 @@ Pile::Pile( int _index, DealerScene* parent)
     // Make the patience aware of this pile.
     dealer()->addPile(this);
 
-    QGraphicsRectItem::setVisible(true); // default
+    QGraphicsItem::setVisible(true); // default
     _checkIndex = -1;
     addFlags    = 0;
     removeFlags = 0;
-
-    setPen(QPen(Qt::NoPen));
 
     setZValue(0);
     initSizes();
@@ -60,11 +58,6 @@ void Pile::initSizes()
     setSpread( cardMap::CARDY() / 5 + 1 );
     setHSpread( cardMap::CARDX() / 9 + 1 );
     setDSpread( cardMap::CARDY() / 8 );
-
-    QRectF r = rect();
-    r.setWidth( cardMap::CARDX() );
-    r.setHeight( cardMap::CARDY() );
-    setRect( r );
 
     updateBrush();
 }
@@ -142,15 +135,11 @@ void Pile::updateBrush()
     if (isSelected()) {
         if (cache.isNull())
             dealer()->drawPile(cache, this, false);
-        QBrush br;
-        br.setTexture( cache );
-        setBrush( br );
+        setPixmap(cache);
     } else {
         if (cache_selected.isNull())
             dealer()->drawPile(cache_selected, this, true);
-        QBrush br;
-        br.setTexture( cache_selected );
-        setBrush( br );
+        setPixmap(cache_selected);
     }
 }
 
@@ -221,7 +210,7 @@ bool Pile::legalRemove(const Card *c) const
 
 void Pile::setVisible(bool vis)
 {
-    QGraphicsRectItem::setVisible(vis);
+    QGraphicsItem::setVisible(vis);
     dealer()->enlargeCanvas(this);
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
@@ -233,7 +222,7 @@ void Pile::setVisible(bool vis)
 
 void Pile::moveBy(double dx, double dy)
 {
-    QGraphicsRectItem::moveBy(dx, dy);
+    QGraphicsItem::moveBy(dx, dy);
     dealer()->enlargeCanvas(this);
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)

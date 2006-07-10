@@ -27,12 +27,11 @@
 #ifndef PATIENCE_CARD
 #define PATIENCE_CARD
 
-#include <q3canvas.h>
-//Added by qt3to4:
 #include <QPixmap>
 #include <QList>
 #include <QGraphicsScene>
-#include <QGraphicsRectItem>
+#include <QGraphicsPixmapItem>
+#include <QTimer>
 
 // The following classes are defined in other headers:
 class cardPos;
@@ -50,7 +49,7 @@ typedef QList<Card*> CardList;
 //  - It has card properties (Suit, Rank, etc)
 //  - It is a graphic entity on a QCanvas that can be moved around.
 //
-class Card: public QObject, public QGraphicsRectItem {
+class Card: public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 
 public:
@@ -69,8 +68,6 @@ public:
     // Some basic tests.
     bool       isRed()    const  { return m_suit==Diamonds || m_suit==Hearts; }
     bool       isFaceUp() const  { return m_faceup; }
-
-    QPixmap    pixmap()   const;
 
     void       turn(bool faceup = true);
 
@@ -118,7 +115,12 @@ public slots:
     void       flip();
     void       flipAnimationChanged( qreal );
     void       stopAnimation();
-
+    void       zoomInAnimation();
+    void       zoomOutAnimation();
+    
+private:
+    void       zoomIn(qreal t);
+    void       zoomOut(qreal t);
 private:
     // The card values.
     Suit        m_suit;
@@ -141,6 +143,13 @@ private:
 
     static const int my_type;
     QGraphicsItemAnimation *animation;
+
+    QPointF   m_originalPosition;
+    QTimer   *m_hoverTimer;
+    bool      m_hovered;
+
+    QPixmap   m_normalPixmap;
+    QPixmap   m_movePixmap;
 };
 
 

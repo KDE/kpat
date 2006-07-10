@@ -19,7 +19,7 @@
 #include <QPixmap>
 //Added by qt3to4:
 #include <QList>
-#include <QGraphicsRectItem>
+#include <QGraphicsPixmapItem>
 
 class DealerScene;
 
@@ -30,7 +30,7 @@ class DealerScene;
 
 **************************************/
 
-class Pile : public QObject, public QGraphicsRectItem
+class Pile : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 

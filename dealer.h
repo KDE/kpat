@@ -28,7 +28,7 @@
 #include <QGraphicsView>
 
 class QPixmap;
-class QGraphicsRectItem;
+class QGraphicsItem;
 class QDomDocument;
 class KMainWindow;
 class Dealer;
@@ -125,7 +125,7 @@ public:
 
     void drawPile(QPixmap &, Pile *p, bool selected);
 
-    void enlargeCanvas(QGraphicsRectItem *c);
+    void enlargeCanvas(QGraphicsItem *c);
 
     virtual void restart() = 0;
     bool demoActive() const;

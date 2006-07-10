@@ -125,7 +125,7 @@ Dealer::Dealer( KMainWindow* _parent )
     assert(!s_instance);
     s_instance = this;
 
-    setCacheMode( QGraphicsView::CacheBackground);
+    setCacheMode(QGraphicsView::CacheBackground);
 
     //QGLWidget *wgl = new QGLWidget();
     //setupViewport(wgl);
@@ -140,7 +140,7 @@ void Dealer::setScene( QGraphicsScene *scene )
 // dscene()->setDoubleBuffering(true);
     dscene()->setSceneRect ( QRectF( 0,0,700,500 ) );
     scaleFactor = 1;
-
+    dscene()->setItemIndexMethod(QGraphicsScene::NoIndex);
     connect( scene, SIGNAL( gameWon( bool ) ), SIGNAL( gameWon( bool ) ) );
 }
 
@@ -700,7 +700,7 @@ void Dealer::slotEnableRedeal( bool en )
         aredeal->setEnabled( en );
 }
 
-void DealerScene::enlargeCanvas(QGraphicsRectItem *c)
+void DealerScene::enlargeCanvas(QGraphicsItem *c)
 {
     if ( !c->isVisible() )
         return;
@@ -1533,6 +1533,8 @@ void Dealer::resizeEvent( QResizeEvent *e )
 
     if ( !dscene() )
         return;
+
+    return;
 
     QRectF newSize(0, 0, size().width(), size().height());
     QRectF defaultSceneRect = dscene()->itemsBoundingRect();

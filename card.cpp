@@ -45,13 +45,14 @@ const int Card::my_type = Dealer::CardTypeId;
 
 
 Card::Card( Rank r, Suit s, QGraphicsScene* _parent )
-    : QGraphicsRectItem( QRectF( 0, 0, cardMap::CARDX(), cardMap::CARDY() ), 0, _parent ),
+    : QGraphicsPixmapItem( 0, _parent ),
       m_suit( s ), m_rank( r ),
       m_source(0), tookDown(false), animation( 0 )
 {
     // Set the name of the card
     m_name = QString("%1 %2").arg(suit_names[s-1]).arg(rank_names[r-1]).toUtf8();
-
+    m_hoverTimer = new QTimer(this);
+    m_hovered = false;
     // Default for the card is face up, standard size.
     m_faceup = true;
 
@@ -59,10 +60,15 @@ Card::Card( Rank r, Suit s, QGraphicsScene* _parent )
     m_destY = 0;
     m_destZ = 0;
 
-    setPen(QPen(Qt::NoPen));
     setAcceptsHoverEvents( true );
 
-    setFlag( QGraphicsRectItem::ItemIsSelectable, true );
+    setFlag( QGraphicsItem::ItemIsSelectable, true );
+    //m_hoverTimer->setSingleShot(true);
+    //m_hoverTimer->setInterval(50);
+    connect(m_hoverTimer, SIGNAL(timeout()),
+            this, SLOT(zoomInAnimation()));
+
+    setTransformationMode(Qt::SmoothTransformation);
 }
 
 
@@ -79,14 +85,6 @@ Card::~Card()
 //              Member functions regarding graphics
 
 
-// Return the pixmap of the card
-//
-QPixmap Card::pixmap() const
-{
-    return cardMap::self()->image( m_rank, m_suit );
-}
-
-
 // Turn the card if necessary.  If the face gets turned up, the card
 // is activated at the same time.
 //
@@ -94,12 +92,19 @@ void Card::turn( bool _faceup )
 {
     if (m_faceup != _faceup) {
         m_faceup = _faceup;
-        QBrush b = brush();
-        if ( m_faceup )
-            b.setTexture( cardMap::self()->image( m_rank, m_suit, isSelected() ) );
-        else
-            b.setTexture( cardMap::self()->backSide() );
-        setBrush( b );
+        //QBrush b = brush();
+        if ( m_faceup ) {
+            m_normalPixmap = cardMap::self()->image( m_rank, m_suit, isSelected() );
+            m_movePixmap = m_normalPixmap;
+            QPixmap trans( m_normalPixmap.width(), m_normalPixmap.height() );
+	    int gra = 210;
+            trans.fill( QColor(gra, gra, gra) );
+            m_movePixmap.setAlphaChannel(trans);
+            setPixmap(m_normalPixmap);
+        } else {
+            m_normalPixmap = cardMap::self()->backSide();
+            setPixmap( m_normalPixmap );
+        }
     }
 }
 
@@ -110,7 +115,7 @@ void Card::flip()
 
 void Card::moveBy(double dx, double dy)
 {
-    QGraphicsRectItem::moveBy(dx, dy);
+    QGraphicsPixmapItem::moveBy(dx, dy);
 }
 
 
@@ -207,7 +212,7 @@ int  Card::Hz = 0;
 
 void Card::setZValue(double z)
 {
-    QGraphicsRectItem::setZValue(z);
+    QGraphicsPixmapItem::setZValue(z);
     if (z > Hz)
         Hz = int(z);
 }
@@ -326,7 +331,7 @@ void Card::stopAnimation()
     if ( old_animation->timeLine()->state() == QTimeLine::Running )
         old_animation->timeLine()->setCurrentTime(3000);
     old_animation->timeLine()->stop();
-    setPos( m_destX, m_destY );
+    //setPos( m_destX, m_destY );
     setZValue( m_destZ );
     update();
     emit stoped( this );
@@ -341,40 +346,25 @@ void Card::hoverEnterEvent ( QGraphicsSceneHoverEvent * event )
 {
     if ( animated() || !isFaceUp() )
         return;
-
+    
     return;
 
-    QTimeLine *timeLine = new QTimeLine( 1000, this );
-
-    animation = new QGraphicsItemAnimation( this );
-    animation->setItem(this);
-    animation->setTimeLine(timeLine);
-    animation->setScaleAt( 0, 1, 1.0 );
-    animation->setScaleAt( 0.5, 1.1, 1.1 );
-    qreal x2 = pos().x() + boundingRect().width() / 2 - boundingRect().width() * 1.1 / 2;
-    qreal y2 = pos().y() + boundingRect().height() / 2 - boundingRect().height() * 1.1 / 2;
-    animation->setPosAt( 0.5, QPointF( x2, y2 ) );
-    animation->setPosAt( 1, pos() );
-    animation->setScaleAt( 1, 1, 1 );
-
-    timeLine->setUpdateInterval(1000 / 25);
-    timeLine->setFrameRange(0, 100);
-    timeLine->setLoopCount(1);
-    timeLine->setDuration( 1000 );
-    timeLine->start();
-
-    connect( timeLine, SIGNAL( finished() ), SLOT( stopAnimation() ) );
-
-    m_destZ = zValue();
-    m_destX = x();
-    m_destY = y();
-
+    m_hoverTimer->start(200);
+    //zoomIn(400);
     //kDebug() << "hoverEnterEvent\n";
 }
 
 void Card::hoverLeaveEvent ( QGraphicsSceneHoverEvent * event )
 {
-    //kDebug() << "hoverLeaveEvent\n";
+    m_hoverTimer->stop();
+    stopAnimation();
+
+    if ( !isFaceUp() || !m_hovered)
+        return;
+
+    m_hovered = false;
+
+    zoomOut(200);
 }
 
 void Card::hoverMoveEvent ( QGraphicsSceneHoverEvent * event )
@@ -398,15 +388,23 @@ void Card::mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * event ) {
 
 }
 void Card::mouseMoveEvent ( QGraphicsSceneMouseEvent * event ) {
-        kDebug() << "mouseMoveEvent\n";
+    kDebug() << "mouseMoveEvent\n";
 }
 
 void Card::mousePressEvent ( QGraphicsSceneMouseEvent * event ) {
-        kDebug() << "mousePressEvent\n";
-
+    kDebug() << "mousePressEvent\n";
+    if ( !isFaceUp() )
+        return;
+    m_hoverTimer->stop();
+    stopAnimation();
+    zoomOut(100);
+    m_hovered = false;
+    setPixmap(m_movePixmap);
 }
+
 void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ) {
     kDebug() << "mouseReleaseEvent\n";
+    setPixmap(m_normalPixmap);
 }
 
 // Get the card to the top.
@@ -431,21 +429,92 @@ void Card::getUp()
 }
 
 void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-                 QWidget * )
+                 QWidget *w)
 {
-//    painter->setRenderHint(QPainter::Antialiasing);
-//    painter->setRenderHint(QPainter::SmoothPixmapTransform);
+    painter->setRenderHint(QPainter::Antialiasing);
+    painter->setRenderHint(QPainter::SmoothPixmapTransform);
     if (scene()->mouseGrabberItem() == this) {
-        painter->setOpacity(.8);
+        //painter->setOpacity(.8);
     }
-    painter->setPen(Qt::NoPen);
-    painter->setBrush(brush());
-    painter->drawRect(boundingRect());
-
+    QGraphicsPixmapItem::paint(painter, option, w);
+    
     if (option->state & QStyle::State_Selected) {
         painter->setBrush( QColor( 40, 40, 40, 127 ));
         painter->drawRect(boundingRect());
     }
+
+}
+
+void Card::zoomIn(qreal t)
+{
+    m_hovered = true;
+    QTimeLine *timeLine = new QTimeLine( t, this );
+
+    m_originalPosition = pos();
+    animation = new QGraphicsItemAnimation( this );
+    animation->setItem( this );
+    animation->setTimeLine( timeLine );
+    QPointF dest =  QPointF( pos().x() - boundingRect().width() / 3,
+                             pos().y() - boundingRect().height() / 8 );
+    animation->setPosAt( 1, dest );
+    animation->setScaleAt( 1, 1.1, 1.1 );
+    animation->setRotationAt( 1, -20 );
+    //qreal x2 = pos().x() + boundingRect().width() / 2 - boundingRect().width() * 1.1 / 2;
+    //qreal y2 = pos().y() + boundingRect().height() / 2 - boundingRect().height() * 1.1 / 2;
+    //animation->setScaleAt( 1, 1, 1 );
+
+    timeLine->setUpdateInterval( 1000 / 25 );
+    timeLine->setFrameRange( 0, 100 );
+    timeLine->setLoopCount( 1 );
+    timeLine->setDuration( t );
+    timeLine->start();
+
+    connect( timeLine, SIGNAL( finished() ), SLOT( stopAnimation() ) );
+
+    m_destZ = zValue();
+    m_destX = x();
+    m_destY = y();
+}
+
+void Card::zoomOut(qreal t)
+{
+    QTimeLine *timeLine = new QTimeLine( t, this );
+
+    animation = new QGraphicsItemAnimation( this );
+    animation->setItem(this);
+    animation->setTimeLine(timeLine);
+    animation->setRotationAt( 0, -20 );
+    animation->setRotationAt( 0.5, -10 );
+    animation->setRotationAt( 1, 0 );
+    animation->setScaleAt( 0, 1.1, 1.1 );
+    animation->setScaleAt( 1, 1, 1 );
+    animation->setPosAt( 1, m_originalPosition );
+    //qreal x2 = pos().x() + boundingRect().width() / 2 - boundingRect().width() * 1.1 / 2;
+    //qreal y2 = pos().y() + boundingRect().height() / 2 - boundingRect().height() * 1.1 / 2;
+    //animation->setScaleAt( 1, 1, 1 );
+
+    timeLine->setUpdateInterval(1000 / 25);
+    timeLine->setFrameRange(0, 100);
+    timeLine->setLoopCount(1);
+    timeLine->setDuration( t );
+    timeLine->start();
+
+    connect( timeLine, SIGNAL( finished() ), SLOT( stopAnimation() ) );
+
+    m_destZ = zValue();
+    m_destX = x();
+    m_destX = y();
+}
+
+void Card::zoomInAnimation()
+{
+    m_hoverTimer->stop();
+    zoomIn(400);
+}
+
+void Card::zoomOutAnimation()
+{
+    zoomOut(100);
 }
 
 #include "card.moc"
