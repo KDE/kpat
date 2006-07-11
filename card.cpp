@@ -47,7 +47,7 @@ const int Card::my_type = Dealer::CardTypeId;
 Card::Card( Rank r, Suit s, QGraphicsScene* _parent )
     : QGraphicsPixmapItem( 0, _parent ),
       m_suit( s ), m_rank( r ),
-      m_source(0), tookDown(false), animation( 0 )
+      m_source(0), tookDown(false), animation( 0 ), m_highlighted( false )
 {
     // Set the name of the card
     m_name = QString("%1 %2").arg(suit_names[s-1]).arg(rank_names[r-1]).toUtf8();
@@ -62,7 +62,6 @@ Card::Card( Rank r, Suit s, QGraphicsScene* _parent )
 
     setAcceptsHoverEvents( true );
 
-    setFlag( QGraphicsItem::ItemIsSelectable, true );
     //m_hoverTimer->setSingleShot(true);
     //m_hoverTimer->setInterval(50);
     connect(m_hoverTimer, SIGNAL(timeout()),
@@ -94,7 +93,7 @@ void Card::turn( bool _faceup )
         m_faceup = _faceup;
         //QBrush b = brush();
         if ( m_faceup ) {
-            m_normalPixmap = cardMap::self()->image( m_rank, m_suit, isSelected() );
+            m_normalPixmap = cardMap::self()->image( m_rank, m_suit, isHighlighted() );
             m_movePixmap = m_normalPixmap;
             QPixmap trans( m_normalPixmap.width(), m_normalPixmap.height() );
 	    int gra = 210;
@@ -322,16 +321,22 @@ bool Card::takenDown() const
     return tookDown;
 }
 
+void Card::setHighlighted( bool flag ) {
+    m_highlighted = flag;
+    update();
+}
+
 void Card::stopAnimation()
 {
     if ( !animation )
         return;
+    kDebug() << "stopAnimation " << m_destX << " " << m_destY << endl;
     QGraphicsItemAnimation *old_animation = animation;
     animation = 0;
     if ( old_animation->timeLine()->state() == QTimeLine::Running )
         old_animation->timeLine()->setCurrentTime(3000);
     old_animation->timeLine()->stop();
-    //setPos( m_destX, m_destY );
+    setPos( m_destX, m_destY );
     setZValue( m_destZ );
     update();
     emit stoped( this );
@@ -346,7 +351,7 @@ void Card::hoverEnterEvent ( QGraphicsSceneHoverEvent * event )
 {
     if ( animated() || !isFaceUp() )
         return;
-    
+
     return;
 
     m_hoverTimer->start(200);
@@ -437,15 +442,16 @@ void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         //painter->setOpacity(.8);
     }
     QGraphicsPixmapItem::paint(painter, option, w);
-    
-    if (option->state & QStyle::State_Selected) {
+
+    if ( isHighlighted() ) {
         painter->setBrush( QColor( 40, 40, 40, 127 ));
+        painter->setPen( Qt::NoPen );
         painter->drawRect(boundingRect());
     }
 
 }
 
-void Card::zoomIn(qreal t)
+void Card::zoomIn(int t)
 {
     m_hovered = true;
     QTimeLine *timeLine = new QTimeLine( t, this );
@@ -466,7 +472,6 @@ void Card::zoomIn(qreal t)
     timeLine->setUpdateInterval( 1000 / 25 );
     timeLine->setFrameRange( 0, 100 );
     timeLine->setLoopCount( 1 );
-    timeLine->setDuration( t );
     timeLine->start();
 
     connect( timeLine, SIGNAL( finished() ), SLOT( stopAnimation() ) );
@@ -476,7 +481,7 @@ void Card::zoomIn(qreal t)
     m_destY = y();
 }
 
-void Card::zoomOut(qreal t)
+void Card::zoomOut(int t)
 {
     QTimeLine *timeLine = new QTimeLine( t, this );
 
@@ -496,14 +501,13 @@ void Card::zoomOut(qreal t)
     timeLine->setUpdateInterval(1000 / 25);
     timeLine->setFrameRange(0, 100);
     timeLine->setLoopCount(1);
-    timeLine->setDuration( t );
     timeLine->start();
 
     connect( timeLine, SIGNAL( finished() ), SLOT( stopAnimation() ) );
 
     m_destZ = zValue();
     m_destX = x();
-    m_destX = y();
+    m_destY = y();
 }
 
 void Card::zoomInAnimation()

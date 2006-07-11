@@ -76,6 +76,9 @@ public:
     void setTarget(bool t) { _target = t; }
     bool target() const { return _target; }
 
+    void setHighlighted( bool flag );
+    bool isHighlighted() const { return m_highlighted; }
+
     CardList cardPressed(Card *c);
 
     Card *top() const;
@@ -159,6 +162,8 @@ private:
 
     QPixmap cache;
     QPixmap cache_selected;
+    bool m_highlighted;
+
 };
 
 typedef QList<Pile*> PileList;

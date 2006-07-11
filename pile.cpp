@@ -39,7 +39,8 @@ Pile::Pile( int _index, DealerScene* parent)
       _atype(Custom),
       _rtype(Custom),
       myIndex(_index),
-      _target(false)
+      _target(false),
+      m_highlighted( false )
 {
     // Make the patience aware of this pile.
     dealer()->addPile(this);
@@ -132,7 +133,7 @@ void Pile::resetCache()
 
 void Pile::updateBrush()
 {
-    if (isSelected()) {
+    if (isHighlighted()) {
         if (cache.isNull())
             dealer()->drawPile(cache, this, false);
         setPixmap(cache);
@@ -369,6 +370,11 @@ void Pile::unhideCards( const CardList & cards )
 {
     for (CardList::ConstIterator it = cards.begin(); it != cards.end(); ++it)
         m_cards.append(*it);
+}
+
+void Pile::setHighlighted( bool flag ) {
+    m_highlighted = flag;
+    update();
 }
 
 CardList Pile::cardPressed(Card *c)

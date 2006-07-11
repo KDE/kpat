@@ -93,6 +93,9 @@ public:
     bool         animated() const;
     void         setVelocity( int x, int y );
 
+    void setHighlighted( bool flag );
+    bool isHighlighted() const { return m_highlighted; }
+
     virtual void hoverEnterEvent ( QGraphicsSceneHoverEvent * event );
     virtual void hoverLeaveEvent ( QGraphicsSceneHoverEvent * event );
     virtual void hoverMoveEvent ( QGraphicsSceneHoverEvent * event );
@@ -117,10 +120,10 @@ public slots:
     void       stopAnimation();
     void       zoomInAnimation();
     void       zoomOutAnimation();
-    
+
 private:
-    void       zoomIn(qreal t);
-    void       zoomOut(qreal t);
+    void       zoomIn(int t);
+    void       zoomOut(int t);
 private:
     // The card values.
     Suit        m_suit;
@@ -147,6 +150,7 @@ private:
     QPointF   m_originalPosition;
     QTimer   *m_hoverTimer;
     bool      m_hovered;
+    bool      m_highlighted;
 
     QPixmap   m_normalPixmap;
     QPixmap   m_movePixmap;

@@ -368,7 +368,7 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
         bool b = (*it)->legalAdd(movingCards);
         if (b) {
             if ((*it)->isEmpty()) {
-                (*it)->setSelected(true);
+                (*it)->setHighlighted(true);
                 marked.append(*it);
             } else {
                 mark((*it)->top());
@@ -382,7 +382,7 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
 void DealerScene::mark(Card *c)
 {
     kDebug() << "mark " << c->name() << endl;
-    c->setSelected(true);
+    c->setHighlighted(true);
     if (!marked.contains(c))
         marked.append(c);
 }
@@ -391,7 +391,12 @@ void DealerScene::unmarkAll()
 {
     for (QList<QGraphicsItem *>::Iterator it = marked.begin(); it != marked.end(); ++it)
     {
-        (*it)->setSelected(false);
+        Card *c = dynamic_cast<Card*>( *it );
+        if ( c )
+            c->setHighlighted(false);
+        Pile *p = dynamic_cast<Pile*>( *it );
+        if ( p )
+            p->setHighlighted(false);
     }
     marked.clear();
 }
