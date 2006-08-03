@@ -1,3 +1,6 @@
+/*
+ * This file is in the public domain (it's uncopyrighted).
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

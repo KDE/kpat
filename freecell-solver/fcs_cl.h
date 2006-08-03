@@ -1,3 +1,6 @@
+/*
+ * This file is in the public domain (it's uncopyrighted).
+ */
 
 #ifndef FC_SOLVE__FCS_CL_H
 #define FC_SOLVE__FCS_CL_H
