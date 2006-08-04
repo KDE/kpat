@@ -49,6 +49,7 @@
 #include <kmenubar.h>
 #include <ktoolinvocation.h>
 #include <kglobal.h>
+#include <kicon.h>
 
 #include "pwidget.h"
 #include "version.h"

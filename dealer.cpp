@@ -20,6 +20,7 @@
 #include <kapplication.h>
 #include <kpixmapeffect.h>
 #include <kxmlguifactory.h>
+#include <kicon.h>
 #include <QTimer>
 //Added by qt3to4:
 #include <QWheelEvent>
