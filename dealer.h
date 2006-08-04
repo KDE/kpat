@@ -20,7 +20,6 @@
 
 #include <QWheelEvent>
 #include <QPixmap>
-#include <Q3PtrList>
 #include <QList>
 #include <QResizeEvent>
 #include <QMouseEvent>
@@ -281,7 +280,7 @@ protected:
 
     QSize minsize;
     QSize viewsize;
-    Q3PtrList<State> undoList;
+    QList<State*> undoList;
 
     int myActions;
     bool toldAboutLostGame;

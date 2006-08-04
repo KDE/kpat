@@ -28,7 +28,6 @@
 //#include <QGLWidget>
 #include <QPixmap>
 #include <QDebug>
-#include <Q3PtrList>
 #include <QList>
 #include <QResizeEvent>
 #include <QMouseEvent>
@@ -119,7 +118,6 @@ Dealer::Dealer( KMainWindow* _parent )
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     setAlignment( Qt::AlignLeft | Qt::AlignTop );
-        undoList.setAutoDelete(true);
 
     connect( dscene(), SIGNAL( undoPossible( bool ) ), SIGNAL( undoPossible( bool ) ) );
 
@@ -672,6 +670,7 @@ void Dealer::startNew()
         }
     }
 
+    qDeleteAll(undoList);
     undoList.clear();
     emit undoPossible(false);
     emit updateMoves();
@@ -966,6 +965,7 @@ void Dealer::openGame(QDomDocument &doc)
     QDomElement dealer = doc.documentElement();
 
     dscene()->setGameNumber(dealer.attribute("number").toULong());
+    qDeleteAll(undoList);
     undoList.clear();
 
     QDomNodeList piles = dealer.elementsByTagName("pile");
@@ -1024,7 +1024,7 @@ void Dealer::openGame(QDomDocument &doc)
     setGameState( dealer.attribute("data") );
 
     if (undoList.count() > 1) {
-        setState(undoList.take(undoList.count() - 1));
+        setState(undoList.takeLast());
         takeState(); // copying it again
         emit undoPossible(undoList.count() > 1);
     }
@@ -1038,8 +1038,9 @@ void Dealer::undo()
     dscene()->unmarkAll();
     dscene()->stopDemo();
     if (undoList.count() > 1) {
+        delete undoList.last();
         undoList.removeLast(); // the current state
-        setState(undoList.take(undoList.count() - 1));
+        setState(undoList.takeLast());
         emit updateMoves();
         takeState(); // copying it again
         emit undoPossible(undoList.count() > 1);
