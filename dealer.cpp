@@ -1097,7 +1097,7 @@ bool DealerScene::startAutoDrop()
     for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
     {
         if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId ) {
-            Card *c = dynamic_cast<Card*>(*it);
+            Card *c = static_cast<Card*>(*it);
             if (c->animated()) {
                 QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
                 return true;
