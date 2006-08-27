@@ -491,7 +491,7 @@ int freecell_solver_apply_preset_by_ptr(
     const fcs_preset_t * preset_ptr
         )
 {
-    char * no_use;
+    char * no_use = 0;
 
 #define preset (*preset_ptr)
     if (preset.freecells_num > MAX_NUM_FREECELLS)
@@ -555,6 +555,8 @@ int freecell_solver_apply_preset_by_ptr(
                             &(soft_thread->tests_order),
                             preset.tests_order,
                             &no_use);
+                    if (no_use)
+                        free(no_use);
                 }
             }
         }
@@ -567,6 +569,8 @@ int freecell_solver_apply_preset_by_ptr(
             &(instance->instance_tests_order),
             preset.tests_order,
             &no_use);
+        if (no_use)
+            free(no_use);
     }
 #undef preset
     return FCS_PRESET_CODE_OK;
