@@ -52,14 +52,14 @@ extern "C" {
  * multiple of 4.
  * */
 
-#define MAX_NUM_FREECELLS 4
+#define MAX_NUM_FREECELLS 8
 
 /*
  * The maximal number of Stacks. For efficiency's sake it should be a
  * multiple of 4.
  * */
 
-#define MAX_NUM_STACKS 10
+#define MAX_NUM_STACKS 12
 /*
  * The maximal number of initial cards that can be found in a stack.
  * */

@@ -205,7 +205,7 @@ int freecell_solver_user_cmd_line_parse_args_with_file_nesting_count(
         }
         else if ((!strcmp(argv[arg], "-to")) || (!strcmp(argv[arg], "--tests-order")))
         {
-            char * fcs_user_errstr;
+            char * fcs_user_errstr = NULL;
             arg++;
             if (arg == argc)
             {
@@ -228,6 +228,8 @@ int freecell_solver_user_cmd_line_parse_args_with_file_nesting_count(
                 *last_arg = arg;
                 return FCS_CMD_LINE_ERROR_IN_ARG;
             }
+            if (fcs_user_errstr)
+                free(fcs_user_errstr);
         }
         else if ((!strcmp(argv[arg], "--freecells-num")))
         {
