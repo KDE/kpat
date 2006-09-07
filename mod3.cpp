@@ -187,9 +187,10 @@ bool Mod3::isGameLost() const
 
     bool nextTest=false;
 
-    // If there is an empty stack below, the game is not lost.
+    // If there is an empty stack or an ace below, the game is not lost.
     for (col=0; col < 8; col++){
-        if (stack[3][col]->isEmpty())
+        if (stack[3][col]->isEmpty()
+	    || stack[3][col]->at(0)->rank() == Card::Ace)
             return false;
     }
 

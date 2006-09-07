@@ -1,5 +1,11 @@
 2005-06-25 Inge Wallin <inge@lysator.liu.se>
 
+        Fix bug 131587: "cannot win this game" message just after
+                         start of mod3 game
+        - Check for ace at the store in addition to empty
+
+2005-06-25 Inge Wallin <inge@lysator.liu.se>
+
         Code cleaning
         - Rename Card::Value  --> Card::Rank
         - Rename Card::Suites --> Card::Suit
