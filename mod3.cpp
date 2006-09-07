@@ -73,6 +73,7 @@ Mod3::Mod3( )
 bool Mod3::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
 {
     // kDebug(11111) << "checkAdd " << checkIndex << " " << c1->top()->name() << " " << c1->index() << " " << c1->index() / 10 << endl;
+
     if (checkIndex == 0) {
         Card *c2 = cl.first();
 
@@ -95,11 +96,15 @@ bool Mod3::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
         kDebug(11111) << "+1\n";
 
         return true;
+
     } else if (checkIndex == 1) {
         return c1->isEmpty();
+
     } else if (checkIndex == 2) {
         return cl.first()->rank() == Card::Ace;
-    } else return false;
+
+    } else
+	return false;
 }
 
 
@@ -187,9 +192,10 @@ bool Mod3::isGameLost() const
 
     bool nextTest=false;
 
-    // If there is an empty stack below, the game is not lost.
+    // If there is an empty stack or an ace below, the game is not lost.
     for (col=0; col < 8; col++){
-        if (stack[3][col]->isEmpty())
+        if (stack[3][col]->isEmpty()
+	    || stack[3][col]->at(0)->rank() == Card::Ace)
             return false;
     }
 
