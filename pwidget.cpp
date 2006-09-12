@@ -155,7 +155,7 @@ pWidget::pWidget()
     dropaction = new KToggleAction(i18n("&Enable Autodrop"),
                                    actionCollection(), "enable_autodrop");
     connect( dropaction, SIGNAL( triggered( bool ) ), SLOT(enableAutoDrop()) );
-    dropaction->setCheckedState(i18n("Disable Autodrop"));
+    dropaction->setCheckedState(KGuiItem(i18n("Disable Autodrop")));
 
     KConfigGroup cg(KGlobal::config(), settings_group );
 
@@ -317,7 +317,7 @@ void pWidget::newGame()
                                           "the statistics file.\n"
                                           "What do you want to do?"),
                                      i18n("Abort Current Game?"),
-                                     i18n("Abort Old Game"),
+                                     KGuiItem(i18n("Abort Old Game")),
                                      "careaboutstats" )  == KMessageBox::Cancel)
         return;
 
@@ -497,7 +497,7 @@ void pWidget::gameLost()
     if (KMessageBox::questionYesNo(this, i18n("You could not win this game, "
                                               "but there is always a second try.\nStart a new game?"),
                                    i18n("Could Not Win!"),
-                                   i18n("New Game"),
+                                   KGuiItem(i18n("New Game")),
 				   KStdGuiItem::cont(),
 				   dontAskAgainName) == KMessageBox::Yes) {
 
