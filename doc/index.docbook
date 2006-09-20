@@ -27,7 +27,7 @@
 <othercredit role="reviewer">
 <firstname>Mike</firstname><surname>McBride</surname>
 <contrib>Reviewer</contrib>
-<affiliation><address><email>mpmcbride7@yahoo.com</email></address></affiliation>
+<affiliation><address>&Mike.McBride.mail;</address></affiliation>
 </othercredit>
 
 <othercredit role="developer">
@@ -41,17 +41,17 @@
 <surname>Kulow</surname>
 <contrib>Developer</contrib>
 </othercredit>
-</authorgroup>
 
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
+</authorgroup>
 
 <copyright>
 <year>2000</year>
-<holder>Paul Olav Tvete</holder>
+<holder>&Paul-Olav.Tvete;</holder>
 </copyright>
 <copyright>
 <year>2001</year><year>2004</year>
-<holder>Maren Pakura</holder>
+<holder>&Maren.Pakura;</holder>
 </copyright>
 
 <legalnotice>&FDLNotice;</legalnotice>
@@ -763,12 +763,12 @@ Golf is played with one card deck.  The goal of Golf is to move all the cards on
 <title>Credits and License</title>
 
 <para>
-&kpatience; Copyright 1995-2000 Paul Olav Tvete 
+&kpatience; Copyright 1995-2000 &Paul-Olav.Tvete;
 </para>
 
 <para>
-&kpatience; Copyright 2001 Stephan Kulow
-<email>coolo@kde.org</email>
+&kpatience; Copyright 2001 &Stephan.Kulow;
+&Stephan.Kulow.mail;
 </para>
 
 <para>
@@ -777,17 +777,17 @@ Freecell Solver by Shlomi Fish
 </para>
 
 <para>
-Documentation Copyright 2000 Paul Olav Tvete 
+Documentation Copyright 2000 &Paul-Olav.Tvete;
 </para>
 
 <para>
-Documentation updated for KDE 2.0 by Michael McBride
-<email>mpmcbride7@yahoo.com</email>
+Documentation updated for &kde; 2.0 by &Mike.McBride;
+&Mike.McBride.mail;
 </para>
 
 <para>
-Documentation rewritten for &kpatience; 2.0 (KDE 2.1) by Maren Pakura
-<email>maren@kde.org</email>
+Documentation rewritten for &kpatience; 2.0 (&kde; 2.1) by &Maren.Pakura;
+&Maren.Pakura.mail;
 </para>
 
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
