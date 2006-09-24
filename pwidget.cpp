@@ -553,6 +553,7 @@ void pWidget::saveGame()
     dill->saveGame(doc);
     QTextStream stream (&file);
     stream << doc.toString();
+    stream.flush();
     KIO::NetAccess::upload(file.fileName(), url, this);
     recent->addUrl(url);
     recent->saveEntries(KGlobal::config());
