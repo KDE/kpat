@@ -41,7 +41,7 @@
 #include <kinputdialog.h>
 #include <kstandarddirs.h>
 #include <kfiledialog.h>
-#include <ktempfile.h>
+#include <ktemporaryfile.h>
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
 #include <kstatusbar.h>
@@ -547,13 +547,13 @@ void pWidget::openGame()
 void pWidget::saveGame()
 {
     KUrl url = KFileDialog::getSaveUrl();
-    KTempFile file;
+    KTemporaryFile file;
+    file.open();
     QDomDocument doc("kpat");
     dill->saveGame(doc);
-    QTextStream *stream = file.textStream();
-    *stream << doc.toString();
-    file.close();
-    KIO::NetAccess::upload(file.name(), url, this);
+    QTextStream stream (&file);
+    stream << doc.toString();
+    KIO::NetAccess::upload(file.fileName(), url, this);
     recent->addUrl(url);
     recent->saveEntries(KGlobal::config());
 }
