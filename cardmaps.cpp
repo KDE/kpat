@@ -189,17 +189,23 @@ double cardMap::scaleFactor() const
 {
     if ( !_scale ) {
         QRectF be = cardMap::self()->renderer()->boundsOnElement( "back" );
-        _scale = wantedCardSize() / be.width();
+        _scale = wantedCardWidth() / be.width();
     }
     return _scale;
 }
 
-double cardMap::wantedCardSize() const
+double cardMap::wantedCardHeight() const
+{
+    QRectF be = cardMap::self()->renderer()->boundsOnElement( "back" );
+    return be.height() * _scale;
+}
+
+double cardMap::wantedCardWidth() const
 {
     return _wantedCardSize;
 }
 
-void cardMap::setWantedCardSize( double w )
+void cardMap::setWantedCardWidth( double w )
 {
     if ( w > 200 || w < 10 )
         return;

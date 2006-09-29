@@ -46,8 +46,9 @@ public:
     bool setBackSide( const QPixmap & _pix, bool scale = true);
     QSvgRenderer *renderer() { return _renderer; }
     double scaleFactor() const;
-    double wantedCardSize() const;
-    void setWantedCardSize( double w );
+    double wantedCardWidth() const;
+    double wantedCardHeight() const;
+    void setWantedCardWidth( double w );
 
 private:
 

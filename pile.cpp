@@ -16,8 +16,10 @@
 #include <kdebug.h>
 #include <qpainter.h>
 #include "cardmaps.h"
+#include <kstandarddirs.h>
 #include <assert.h>
 #include "speeds.h"
+#include <QSvgRenderer>
 
 const int Pile::my_type       = Dealer::PileTypeId;
 
@@ -34,7 +36,7 @@ const int Pile::wholeColumn   = 0x0400;
 
 
 Pile::Pile( int _index, DealerScene* parent)
-    : QGraphicsPixmapItem( 0, parent ),
+    : QGraphicsSvgItem( ),
       m_dealer(parent),
       _atype(Custom),
       _rtype(Custom),
@@ -42,6 +44,10 @@ Pile::Pile( int _index, DealerScene* parent)
       _target(false),
       m_highlighted( false )
 {
+    parent->addItem( this );
+    setSharedRenderer( Pile::pileRenderer() );
+    setElementId( "pile" );
+
     // Make the patience aware of this pile.
     dealer()->addPile(this);
 
@@ -52,6 +58,16 @@ Pile::Pile( int _index, DealerScene* parent)
 
     setZValue(0);
     initSizes();
+
+}
+
+QSvgRenderer *Pile::_renderer = 0;
+
+QSvgRenderer *Pile::pileRenderer()
+{
+    if ( !_renderer )
+        _renderer = new QSvgRenderer( KStandardDirs::locate( "data", "kpat/pile.svg" ) );
+    return _renderer;
 }
 
 void Pile::initSizes()
@@ -59,8 +75,6 @@ void Pile::initSizes()
     setSpread( cardMap::CARDY() / 5 + 1 );
     setHSpread( cardMap::CARDX() / 9 + 1 );
     setDSpread( cardMap::CARDY() / 8 );
-
-    updateBrush();
 }
 
 void Pile::setType(PileType type)
@@ -122,26 +136,11 @@ Pile::~Pile()
     }
 }
 
-void Pile::resetCache()
+void Pile::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget )
 {
-    cache = QPixmap(0, 0);
-    cache_selected = QPixmap(0, 0);
-
-    if (cache.isNull())
-        dealer()->drawPile(cache, this, false);
-}
-
-void Pile::updateBrush()
-{
-    if (isHighlighted()) {
-        if (cache.isNull())
-            dealer()->drawPile(cache, this, false);
-        setPixmap(cache);
-    } else {
-        if (cache_selected.isNull())
-            dealer()->drawPile(cache_selected, this, true);
-        setPixmap(cache_selected);
-    }
+    kDebug() << "paint " << boundingRect() << x() << " " << y() << endl;
+    pileRenderer()->render( painter, "pile", mapFromScene( QRectF( x(), y(), cardMap::self()->wantedCardWidth(),
+                                                                   cardMap::self()->wantedCardHeight()) ).boundingRect() );
 }
 
 bool Pile::legalAdd( const CardList& _cards ) const

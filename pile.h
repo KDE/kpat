@@ -19,7 +19,7 @@
 #include <QPixmap>
 //Added by qt3to4:
 #include <QList>
-#include <QGraphicsPixmapItem>
+#include <QGraphicsSvgItem>
 
 class DealerScene;
 
@@ -30,7 +30,7 @@ class DealerScene;
 
 **************************************/
 
-class Pile : public QObject, public QGraphicsPixmapItem
+class Pile : public QGraphicsSvgItem
 {
     Q_OBJECT
 
@@ -91,7 +91,6 @@ public:
     int  index()   const { return myIndex; }
     bool isEmpty() const { return m_cards.count() == 0; }
 
-    void updateBrush();
     static const int my_type;
 
     virtual int  type() const       { return UserType + my_type; }
@@ -109,7 +108,6 @@ public:
 
     virtual QSize cardOffset( bool _spread, bool _facedown, const Card *before) const;
 
-    void resetCache();
     virtual void initSizes();
 
     void setType( PileType t);
@@ -134,6 +132,8 @@ public:
     int  hspread() const   { return _hspread; }
     void setHSpread(int s) { _hspread = s; }
 
+    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget );
+
 public slots:
     virtual bool cardClicked(Card *c);
     virtual bool cardDblClicked(Card *c);
@@ -146,9 +146,11 @@ protected:
     int       removeFlags;
     int       addFlags;
     CardList  m_cards;
+    static QSvgRenderer *pileRenderer();
 
 private:
     DealerScene  *m_dealer;
+    static QSvgRenderer *_renderer;
 
     PileType  _atype;
     PileType  _rtype;

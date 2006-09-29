@@ -154,7 +154,6 @@ void DealerScene::setBackgroundPixmap(const QPixmap &background, const QColor &m
     _midcolor = midcolor;
     setBackgroundBrush(QBrush( background) );
     for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it) {
-        (*it)->resetCache();
         (*it)->initSizes();
     }
 }
@@ -1412,60 +1411,6 @@ bool Dealer::checkAdd( int, const Pile *, const CardList&) const {
     return true;
 }
 
-void DealerScene::drawPile(QPixmap &pixmap, Pile *pile, bool selected)
-{
-    QPixmap bg = backgroundBrush().texture();
-    QRect bounding(int(pile->x()), int(pile->y()), cardMap::CARDX(), cardMap::CARDY());
-
-    pixmap = QPixmap(bounding.width(), bounding.height());
-    pixmap.fill(Qt::white);
-
-    if (!bg.isNull()) {
-        QPainter paint(&pixmap);
-        for (int x=bounding.x()/bg.width();
-             x<(bounding.x()+bounding.width()+bg.width()-1)/bg.width(); x++)
-        {
-            for (int y=bounding.y()/bg.height();
-                 y<(bounding.y()+bounding.height()+bg.height()-1)/bg.height(); y++)
-            {
-                int sx = 0;
-                int sy = 0;
-                int dx = x*bg.width()-bounding.x();
-                int dy = y*bg.height()-bounding.y();
-                int w = bg.width();
-                int h = bg.height();
-                if (dx < 0) {
-                    sx = -dx;
-                dx = 0;
-                }
-                if (dy < 0) {
-                    sy = -dy;
-                    dy = 0;
-                }
-                paint.drawPixmap(dx, dy, bg, sx, sy, w, h);
-            }
-        }
-    }
-
-    float s = -0.4;
-    float n = -0.3;
-
-    int mid = qMax( qMax(midColor().red(), midColor().green()), midColor().blue());
-
-    // if it's too dark - light instead of dark
-    if (mid < 120) {
-        s *= -1;
-        n = 0.4;
-    }
-
-    //QImage img = pixmap.toImage().mirrored( false, true );
-    //pixmap = QPixmap::fromImage( img, Qt::AutoColor );
-    //kDebug() <<  pixmap.fromImage( img, QPixmap::Auto ) << endl;
-    //KPixmapEffect::gradient( pixmap, Qt::white, Qt::red, KPixmapEffect::VerticalGradient );
-    KPixmapEffect::intensity(pixmap, selected ? s : n);
-    //KPixmapEffect::blend( pixmap, 0.3, Qt::red, KPixmapEffect::VerticalGradient );
-}
-
 int DealerScene::freeCells() const
 {
     int n = 0;
@@ -1500,7 +1445,7 @@ void Dealer::wheelEvent( QWheelEvent *e )
     }
 #endif
     qreal scaleFactor = pow((double)2, -e->delta() / (10*120.0));
-    cardMap::self()->setWantedCardSize( cardMap::self()->wantedCardSize() / scaleFactor );
+    cardMap::self()->setWantedCardWidth( cardMap::self()->wantedCardWidth() / scaleFactor );
     Deck::deck()->update();
 }
 

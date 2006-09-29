@@ -122,8 +122,6 @@ public:
 
     void startNew();
 
-    void drawPile(QPixmap &, Pile *p, bool selected);
-
     void enlargeCanvas(QGraphicsItem *c);
 
     virtual void restart() = 0;
