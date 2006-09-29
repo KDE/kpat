@@ -30,7 +30,7 @@ class cardMap
 public:
 
     static cardMap *self();
-    cardMap(const QColor &dimcolor);
+    explicit cardMap(const QColor &dimcolor);
 
     static int CARDX();
     static int CARDY();

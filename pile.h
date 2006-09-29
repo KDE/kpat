@@ -55,7 +55,7 @@ public:
     static const int autoTurnTop;
     static const int wholeColumn;
 
-    Pile( int _index, DealerScene* parent = 0);
+    explicit Pile( int _index, DealerScene* parent = 0);
     virtual ~Pile();
 
     DealerScene  *dealer() const { return m_dealer; }

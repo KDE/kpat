@@ -115,7 +115,7 @@ QString suitToString(Card::Suit s) {
         case Card::Spades:
             return "S";
     }
-    return QString::null;
+    return QString();
 }
 
 QString rankToString(Card::Rank r)

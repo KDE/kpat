@@ -35,7 +35,7 @@ class Klondike : public DealerScene {
     Q_OBJECT
 
 public:
-    Klondike( bool easy );
+    explicit Klondike( bool easy );
 
 public:
     virtual void restart();

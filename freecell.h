@@ -29,7 +29,7 @@
 class FreecellPile : public Pile
 {
 public:
-    FreecellPile(int _index, DealerScene* parent = 0) : Pile(_index, parent) {}
+    explicit FreecellPile(int _index, DealerScene* parent = 0) : Pile(_index, parent) {}
     virtual void moveCards(CardList &c, Pile *to);
 };
 

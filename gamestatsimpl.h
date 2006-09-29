@@ -20,7 +20,7 @@
 class GameStatsImpl : public QDialog, Ui::GameStats
 {
 	public:
-		GameStatsImpl(QWidget* aParent);
+		explicit GameStatsImpl(QWidget* aParent);
 
 		void setGameType(int i);
 		void showGameType(int i);

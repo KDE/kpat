@@ -26,7 +26,7 @@
 class SpiderPile : public Pile
 {
 public:
-    SpiderPile(int _index, DealerScene* parent = 0) : Pile(_index, parent) {}
+    explicit SpiderPile(int _index, DealerScene* parent = 0) : Pile(_index, parent) {}
     virtual void moveCards(CardList &c, Pile *to);
     CardList getRun();
 };
