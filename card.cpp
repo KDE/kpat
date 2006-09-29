@@ -298,13 +298,14 @@ void Card::flipTo(int x2, int y2)
     hp.setX( ( x1 + x2 + boundingRect().width() ) / 2 );
     if ( y1 != y2 )
         hp.setY( ( y1 + y2 + boundingRect().height() ) / 2 );
+    kDebug() << "hp " << pos() << " " << hp << " " << QPointF( x2, y2 ) << endl;
     animation->setPosAt(0.5, hp );
     animation->setPosAt(1, QPointF( x2, y2 ));
 
     timeLine->setUpdateInterval(1000 / 25);
     timeLine->setFrameRange(0, 100);
     timeLine->setLoopCount(1);
-    timeLine->setDuration( 400 );
+    timeLine->setDuration( 700 );
     timeLine->start();
 
     connect( timeLine, SIGNAL( finished() ), SLOT( stopAnimation() ) );
@@ -358,6 +359,7 @@ void Card::stopAnimation()
     old_animation->timeLine()->stop();
     setPos( m_destX, m_destY );
     setZValue( m_destZ );
+    update();
     QGraphicsSvgItem::update();
     emit stoped( this );
 }
