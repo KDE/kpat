@@ -39,7 +39,7 @@
 #include "dealer.h"
 
 static const char  *suit_names[] = {"club", "diamond", "heart", "spade"};
-static const char  *rank_names[] = {"1", "10", "3", "4", "5", "6", "7", "8",
+static const char  *rank_names[] = {"1", "2", "3", "4", "5", "6", "7", "8",
                                      "9", "10", "jack", "queen", "king" };
 
 // Run time type id
@@ -64,6 +64,8 @@ Card::Card( Rank r, Suit s, QGraphicsScene *_parent )
     m_hovered = false;
     // Default for the card is face up, standard size.
     m_faceup = true;
+
+    setCachingEnabled( false );
 
     m_destX = 0;
     m_destY = 0;
@@ -103,6 +105,8 @@ void Card::update()
 //
 void Card::turn( bool _faceup )
 {
+    kDebug() << "turn " << _faceup << " " << m_faceup << endl;
+
     if (m_faceup != _faceup) {
         m_faceup = _faceup;
         //QBrush b = brush();
@@ -319,6 +323,7 @@ void Card::flipTo(int x2, int y2)
 void Card::flipAnimationChanged( qreal r)
 {
     if ( r > 0.5 && !isFaceUp() ) {
+        kDebug() << "flipAnimationChanged " << endl;
         flip();
     }
 }
@@ -338,7 +343,7 @@ bool Card::takenDown() const
 
 void Card::setHighlighted( bool flag ) {
     m_highlighted = flag;
-    update();
+    QGraphicsSvgItem::update();
 }
 
 void Card::stopAnimation()
@@ -353,7 +358,7 @@ void Card::stopAnimation()
     old_animation->timeLine()->stop();
     setPos( m_destX, m_destY );
     setZValue( m_destZ );
-    update();
+    QGraphicsSvgItem::update();
     emit stoped( this );
 }
 
