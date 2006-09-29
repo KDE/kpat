@@ -136,11 +136,35 @@ Pile::~Pile()
     }
 }
 
-void Pile::paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget )
+void Pile::setPilePos( double x,  double y )
 {
-    kDebug() << "paint " << boundingRect() << x() << " " << y() << endl;
-    pileRenderer()->render( painter, "pile", mapFromScene( QRectF( x(), y(), cardMap::self()->wantedCardWidth(),
+    kDebug() << "setPilePos " << x << " " << y << endl;
+    _pilePos = QPointF( x, y );
+    update();
+}
+
+void Pile::paint ( QPainter * painter, const QStyleOptionGraphicsItem * , QWidget *  )
+{
+    assert( !_pilePos.isNull() );
+
+    //kDebug() << "paint " << _pilePos << " " << _pilePos.x() * cardMap::self()->wantedCardWidth() / 10. << " " << _pilePos.y() * cardMap::self()->wantedCardHeight() / 10. << endl;
+
+    pileRenderer()->render( painter, "pile", mapFromScene( QRectF( x(),
+                                                                   y(),
+                                                                   cardMap::self()->wantedCardWidth(),
                                                                    cardMap::self()->wantedCardHeight()) ).boundingRect() );
+}
+
+void Pile::update()
+{
+    QPointF old_pos = pos();
+    setPos( _pilePos.x() * cardMap::self()->wantedCardWidth() / 10.,
+            _pilePos.y() * cardMap::self()->wantedCardHeight() / 10. );
+    for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
+    {
+        ( *it )->moveBy( pos().x() - old_pos.x(),
+                         pos().y() - old_pos.y() );
+    }
 }
 
 bool Pile::legalAdd( const CardList& _cards ) const

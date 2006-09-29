@@ -54,18 +54,18 @@ Klondike::Klondike( bool easy )
   : DealerScene( )
 {
     // The units of the follwoing constants are pixels
-    const int margin = 10; // between card piles and board edge
-    const int hspacing = cardMap::CARDX() / 6 + 1; // horizontal spacing between card piles
-    const int vspacing = cardMap::CARDY() / 4; // vertical spacing between card piles
+    const double margin = 2; // between card piles and board edge
+    const double hspacing = 10. / 6 + 0.2; // horizontal spacing between card piles
+    const double vspacing = 10. / 4; // vertical spacing between card piles
 
     Deck::create_deck(this);
-    Deck::deck()->setPos(margin, margin);
+    Deck::deck()->setPilePos(margin, margin );
 
     EasyRules = easy;
 
     pile = new KlondikePile( 13, this);
 
-    pile->setPos(margin + cardMap::CARDX() + cardMap::CARDX() / 4, margin);
+    pile->setPilePos(margin + 10 + 10. / 4, margin);
     // Move the visual representation of the pile to the intended position
     // on the game board.
 
@@ -74,14 +74,14 @@ Klondike::Klondike( bool easy )
 
     for( int i = 0; i < 7; i++ ) {
         play[ i ] = new Pile( i + 5, this);
-        play[i]->setPos(margin + (cardMap::CARDX() + hspacing) * i, margin + cardMap::CARDY() + vspacing);
+        play[i]->setPilePos(margin + (10. + hspacing) * i, margin + 10. + vspacing);
         play[i]->setAddType(Pile::KlondikeStore);
         play[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop | Pile::wholeColumn);
     }
 
     for( int i = 0; i < 4; i++ ) {
         target[ i ] = new Pile( i + 1, this );
-        target[i]->setPos(margin + (3 + i) * (cardMap::CARDX()+ hspacing), margin);
+        target[i]->setPilePos(margin + (3 + i) * (10 + hspacing), margin);
         target[i]->setAddType(Pile::KlondikeTarget);
         if (EasyRules) // change default
             target[i]->setRemoveFlags(Pile::Default);

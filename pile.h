@@ -133,6 +133,10 @@ public:
     void setHSpread(int s) { _hspread = s; }
 
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget );
+    void setPilePos( double x, double y);
+    QPointF pilePos() const;
+
+    void update();
 
 public slots:
     virtual bool cardClicked(Card *c);
@@ -165,6 +169,7 @@ private:
     QPixmap cache;
     QPixmap cache_selected;
     bool m_highlighted;
+    QPointF _pilePos;
 
 };
 

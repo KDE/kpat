@@ -1145,6 +1145,16 @@ long DealerScene::gameNumber() const
     return gamenumber;
 }
 
+void DealerScene::update()
+{
+    Deck::deck()->update();
+    for (PileList::ConstIterator it = piles.begin(); it != piles.end(); ++it)
+    {
+        ( *it )->update();
+    }
+
+}
+
 void DealerScene::setGameNumber(long gmn)
 {
     // Deal in the range of 1 to INT_MAX.
@@ -1446,7 +1456,7 @@ void Dealer::wheelEvent( QWheelEvent *e )
 #endif
     qreal scaleFactor = pow((double)2, -e->delta() / (10*120.0));
     cardMap::self()->setWantedCardWidth( cardMap::self()->wantedCardWidth() / scaleFactor );
-    Deck::deck()->update();
+    dscene()->update();
 }
 
 void Dealer::countGame()
