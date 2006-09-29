@@ -216,7 +216,6 @@ KMainWindow *Dealer::parent() const
 
 // ----------------------------------------------------------------
 
-
 void DealerScene::hint()
 {
     kDebug() << "hint\n";
@@ -978,6 +977,7 @@ void Dealer::openGame(QDomDocument &doc)
             cards.append(static_cast<Card*>(*it));
 
     Deck::deck()->collectAndShuffle();
+    Deck::deck()->update();
 
     for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
     {
@@ -1500,11 +1500,8 @@ void Dealer::wheelEvent( QWheelEvent *e )
     }
 #endif
     qreal scaleFactor = pow((double)2, -e->delta() / (10*120.0));
-    qreal factor = matrix().scale(scaleFactor, scaleFactor).mapRect(QRectF(0, 0, 1, 1)).width();
-    if (factor < 0.1 || factor > 20)
-        return;
-
-    scale(scaleFactor, scaleFactor);
+    cardMap::self()->setWantedCardSize( cardMap::self()->wantedCardSize() / scaleFactor );
+    Deck::deck()->update();
 }
 
 void Dealer::countGame()

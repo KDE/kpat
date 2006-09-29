@@ -45,16 +45,19 @@
 #include <kglobalsettings.h>
 #include <assert.h>
 #include <kglobal.h>
+#include <QSvgRenderer>
+#include <QPixmapCache>
 
 cardMap *cardMap::_self = 0;
 static KStaticDeleter<cardMap> cms;
 
-cardMap::cardMap(const QColor &dim) : dimcolor(dim)
+cardMap::cardMap(const QColor &dim) : dimcolor(dim), _renderer( 0 )
 {
     assert(!_self);
 
     card_width = 0;
     card_height = 0;
+    _wantedCardSize = 72;
 
     kDebug(11111) << "cardMap\n";
     KConfig *config = KGlobal::config();
@@ -72,13 +75,14 @@ cardMap::cardMap(const QColor &dim) : dimcolor(dim)
 
 bool cardMap::setCardDir( const QString &dir )
 {
+    delete _renderer;
+
+    _renderer = new QSvgRenderer( KStandardDirs::locate( "data", "carddecks/svg-ornamental/ornamental.svg" ) );
+    QPixmapCache::setCacheLimit(5 * 1024 * 1024);
+
     kDebug() << "setCardDir " << dir << endl;
     KConfig *config = KGlobal::config();
     KConfigGroup cs(config, settings_group );
-
-    // create an animation window while loading pixmaps (this
-    // may take a while (approx. 3 seconds on my AMD K6PR200)
-    bool animate = cs.readEntry( "Animation", false );
 
     QWidget* w = 0;
     QPainter p;
@@ -100,36 +104,6 @@ bool cardMap::setCardDir( const QString &dir )
 
     card_width = image.width();
     card_height = image.height();
-
-    const int diff_x_between_cards = qMax(card_width / 9, 1);
-    QString wait_message = i18n("please wait, loading cards...");
-    QString greeting = i18n("KPatience - a Solitaire game");
-
-    const int greeting_width = 20 + diff_x_between_cards * 52 + card_width;
-
-    if( animate ) {
-        t1 = QTime::currentTime();
-        w = new QWidget( 0, Qt::WStyle_Customize | Qt::WStyle_NoBorder | Qt::WStyle_Tool );
-        QRect dg = KGlobalSettings::splashScreenDesktopGeometry();
-        QPalette palette;
-        palette.setColor( w->backgroundRole(), Qt::darkGreen );
-        w->setPalette( palette );
-        w->setGeometry( dg.left() + ( dg.width() - greeting_width ) / 2, dg.top() + ( dg.height() - 180 ) / 2, greeting_width, 180);
-        w->show();
-        qApp->processEvents();
-
-        p.begin( w );
-        p.drawText(0, 150, greeting_width, 20, Qt::AlignCenter,
-                   wait_message );
-
-        p.setFont(QFont("serif", 24));
-        p.drawText(0, 0, greeting_width, 40, Qt::AlignCenter,
-                   greeting);
-
-        p.setPen(QPen(QColor(0, 0, 0), 4));
-        p.setBrush(Qt::NoBrush);
-        p.drawRect(0, 0, greeting_width, 180);
-    }
 
     setBackSide(back, true);
 
@@ -172,25 +146,6 @@ bool cardMap::setCardDir( const QString &dir )
         }
 
         img[rank][suit].normal = QPixmap::fromImage(image);
-        KImageEffect::fade(image, 0.4, dimcolor);
-        img[rank][suit].inverted = QPixmap::fromImage(image);
-
-        if( animate )
-        {
-            if( idx > 1 )
-                p.drawPixmap( 10 + ( idx - 1 ) * diff_x_between_cards, 45, back );
-            p.drawPixmap( 10 + idx * diff_x_between_cards, 45, img[ rank ][ suit ].normal );
-        }
-    }
-
-    if( animate )
-    {
-        const int time_to_see = 900;
-        p.end();
-        t2 = QTime::currentTime();
-        if(t1.msecsTo(t2) < time_to_see)
-          usleep((time_to_see-t1.msecsTo(t2))*1000);
-        delete w;
     }
 
     return true;
@@ -230,15 +185,35 @@ QPixmap cardMap::backSide() const
     return back;
 }
 
-QPixmap cardMap::image( Card::Rank _rank, Card::Suit _suit, bool inverted) const
+double cardMap::scaleFactor() const
+{
+    if ( !_scale ) {
+        QRectF be = cardMap::self()->renderer()->boundsOnElement( "back" );
+        _scale = wantedCardSize() / be.width();
+    }
+    return _scale;
+}
+
+double cardMap::wantedCardSize() const
+{
+    return _wantedCardSize;
+}
+
+void cardMap::setWantedCardSize( double w )
+{
+    if ( w > 200 || w < 10 )
+        return;
+
+    _wantedCardSize = w;
+    _scale = 0;
+}
+
+QPixmap cardMap::image( Card::Rank _rank, Card::Suit _suit) const
 {
     if( 1 <= _rank && _rank <= 13
 	&& 1 <= _suit && _suit <= 4 )
     {
-        if (inverted)
-            return img[ _rank - 1 ][ _suit - 1 ].inverted;
-        else
-            return img[ _rank - 1 ][ _suit - 1 ].normal;
+        return img[ _rank - 1 ][ _suit - 1 ].normal;
     }
     else
     {

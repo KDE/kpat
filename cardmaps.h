@@ -25,6 +25,8 @@
 //Added by qt3to4:
 #include <QPixmap>
 
+class QSvgRenderer;
+
 class cardMap
 {
 public:
@@ -38,10 +40,14 @@ public:
     static const int NumColors = 4;
     static const int CardsPerColor = 13;
 
-    QPixmap image( Card::Rank _rank, Card::Suit _suit, bool inverted = false) const;
+    QPixmap image( Card::Rank _rank, Card::Suit _suit) const;
     QPixmap backSide() const;
     bool setCardDir( const QString &dir);
     bool setBackSide( const QPixmap & _pix, bool scale = true);
+    QSvgRenderer *renderer() { return _renderer; }
+    double scaleFactor() const;
+    double wantedCardSize() const;
+    void setWantedCardSize( double w );
 
 private:
 
@@ -49,11 +55,13 @@ private:
     struct
     {
         QPixmap normal;
-        QPixmap inverted;
     } img[ CardsPerColor ][ NumColors ];
     QPixmap back;
     QColor dimcolor;
     int card_width, card_height;
+    QSvgRenderer *_renderer;
+    double _wantedCardSize;
+    mutable double _scale;
 
     static cardMap *_self;
 };

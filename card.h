@@ -30,8 +30,8 @@
 #include <QPixmap>
 #include <QList>
 #include <QGraphicsScene>
-#include <QGraphicsPixmapItem>
 #include <QTimer>
+#include <QGraphicsSvgItem>
 
 // The following classes are defined in other headers:
 class cardPos;
@@ -49,7 +49,7 @@ typedef QList<Card*> CardList;
 //  - It has card properties (Suit, Rank, etc)
 //  - It is a graphic entity on a QCanvas that can be moved around.
 //
-class Card: public QObject, public QGraphicsPixmapItem {
+class Card: public QGraphicsSvgItem {
     Q_OBJECT
 
 public:
@@ -98,14 +98,7 @@ public:
 
     virtual void hoverEnterEvent ( QGraphicsSceneHoverEvent * event );
     virtual void hoverLeaveEvent ( QGraphicsSceneHoverEvent * event );
-    virtual void hoverMoveEvent ( QGraphicsSceneHoverEvent * event );
 
-    virtual void dragEnterEvent ( QGraphicsSceneDragDropEvent * event );
-    virtual void dragLeaveEvent ( QGraphicsSceneDragDropEvent * event );
-    virtual void dragMoveEvent ( QGraphicsSceneDragDropEvent * event );
-
-    virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * event );
-    virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * event );
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
     virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event );
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
@@ -115,6 +108,7 @@ signals:
     void         stoped(Card *c);
 
 public slots:
+    void       update();
     void       flip();
     void       flipAnimationChanged( qreal );
     void       stopAnimation();

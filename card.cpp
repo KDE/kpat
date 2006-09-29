@@ -28,7 +28,9 @@
 #include <QTimeLine>
 #include <QGraphicsItemAnimation>
 #include <QStyleOptionGraphicsItem>
-
+#include <qgraphicssvgitem.h>
+#include <QSvgRenderer>
+#include <QPixmapCache>
 #include <kdebug.h>
 
 #include "card.h"
@@ -36,19 +38,26 @@
 #include "cardmaps.h"
 #include "dealer.h"
 
-static const char  *suit_names[] = {"Clubs", "Diamonds", "Hearts", "Spades"};
-static const char  *rank_names[] = {"Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight",
-                                     "Nine", "Ten", "Jack", "Queen", "King" };
+static const char  *suit_names[] = {"club", "diamond", "heart", "spade"};
+static const char  *rank_names[] = {"1", "10", "3", "4", "5", "6", "7", "8",
+                                     "9", "10", "jack", "queen", "king" };
 
 // Run time type id
 const int Card::my_type = Dealer::CardTypeId;
 
-
-Card::Card( Rank r, Suit s, QGraphicsScene* _parent )
-    : QGraphicsPixmapItem( 0, _parent ),
+Card::Card( Rank r, Suit s, QGraphicsScene *_parent )
+    : QGraphicsSvgItem( ),
       m_suit( s ), m_rank( r ),
       m_source(0), tookDown(false), animation( 0 ), m_highlighted( false )
 {
+    _parent->addItem( this );
+
+    setSharedRenderer( cardMap::self()->renderer() );
+    QString element = QString( "%1_%2" ).arg( rank_names[m_rank-1] ).arg( suit_names[m_suit-1] );
+    setElementId( element );
+
+    update();
+
     // Set the name of the card
     m_name = QString("%1 %2").arg(suit_names[s-1]).arg(rank_names[r-1]).toUtf8();
     m_hoverTimer = new QTimer(this);
@@ -66,10 +75,7 @@ Card::Card( Rank r, Suit s, QGraphicsScene* _parent )
     //m_hoverTimer->setInterval(50);
     connect(m_hoverTimer, SIGNAL(timeout()),
             this, SLOT(zoomInAnimation()));
-
-    setTransformationMode(Qt::SmoothTransformation);
 }
-
 
 Card::~Card()
 {
@@ -84,6 +90,14 @@ Card::~Card()
 //              Member functions regarding graphics
 
 
+void Card::update()
+{
+    QMatrix matrix;
+    double scale = cardMap::self()->scaleFactor();
+    matrix.scale( scale, scale );
+    setMatrix( matrix, false );
+}
+
 // Turn the card if necessary.  If the face gets turned up, the card
 // is activated at the same time.
 //
@@ -93,16 +107,16 @@ void Card::turn( bool _faceup )
         m_faceup = _faceup;
         //QBrush b = brush();
         if ( m_faceup ) {
-            m_normalPixmap = cardMap::self()->image( m_rank, m_suit, isHighlighted() );
+            m_normalPixmap = cardMap::self()->image( m_rank, m_suit );
             m_movePixmap = m_normalPixmap;
             QPixmap trans( m_normalPixmap.width(), m_normalPixmap.height() );
 	    int gra = 210;
             trans.fill( QColor(gra, gra, gra) );
             m_movePixmap.setAlphaChannel(trans);
-            setPixmap(m_normalPixmap);
+            setElementId( QString( "%1_%2" ).arg( rank_names[m_rank-1] ).arg( suit_names[m_suit-1] ) );
         } else {
+            setElementId( QLatin1String( "back" ) );
             m_normalPixmap = cardMap::self()->backSide();
-            setPixmap( m_normalPixmap );
         }
     }
 }
@@ -114,7 +128,7 @@ void Card::flip()
 
 void Card::moveBy(double dx, double dy)
 {
-    QGraphicsPixmapItem::moveBy(dx, dy);
+    QGraphicsSvgItem::moveBy(dx, dy);
 }
 
 
@@ -211,7 +225,7 @@ int  Card::Hz = 0;
 
 void Card::setZValue(double z)
 {
-    QGraphicsPixmapItem::setZValue(z);
+    QGraphicsSvgItem::setZValue(z);
     if (z > Hz)
         Hz = int(z);
 }
@@ -272,9 +286,10 @@ void Card::flipTo(int x2, int y2)
     animation = new QGraphicsItemAnimation( this );
     animation->setItem(this);
     animation->setTimeLine(timeLine);
-    animation->setScaleAt( 0, 1, 1.0 );
-    animation->setScaleAt( 0.5, 0.0, 1.0 );
-    animation->setScaleAt( 1, 1, 1.0 );
+    double scale = cardMap::self()->scaleFactor();
+    animation->setScaleAt( 0, scale, scale );
+    animation->setScaleAt( 0.5, 0.0, scale );
+    animation->setScaleAt( 1, scale, scale );
     QPointF hp = pos();
     hp.setX( ( x1 + x2 + boundingRect().width() ) / 2 );
     if ( y1 != y2 )
@@ -347,7 +362,7 @@ bool  Card::animated() const
     return animation != 0;
 }
 
-void Card::hoverEnterEvent ( QGraphicsSceneHoverEvent * event )
+void Card::hoverEnterEvent ( QGraphicsSceneHoverEvent *  )
 {
     if ( animated() || !isFaceUp() )
         return;
@@ -359,7 +374,7 @@ void Card::hoverEnterEvent ( QGraphicsSceneHoverEvent * event )
     //kDebug() << "hoverEnterEvent\n";
 }
 
-void Card::hoverLeaveEvent ( QGraphicsSceneHoverEvent * event )
+void Card::hoverLeaveEvent ( QGraphicsSceneHoverEvent * )
 {
     m_hoverTimer->stop();
     stopAnimation();
@@ -369,34 +384,10 @@ void Card::hoverLeaveEvent ( QGraphicsSceneHoverEvent * event )
 
     m_hovered = false;
 
-    zoomOut(200);
+    //zoomOut(200);
 }
 
-void Card::hoverMoveEvent ( QGraphicsSceneHoverEvent * event )
-{
-    //kDebug() << "hoverMoveEvent\n";
-}
-
-void Card::dragEnterEvent ( QGraphicsSceneDragDropEvent * event ) {
-    kDebug() << "dragEnterEvent\n";
-}
-void Card::dragLeaveEvent ( QGraphicsSceneDragDropEvent * event ) {
-    kDebug() << "dragLeaveEvent\n";
-
-}
-void Card::dragMoveEvent ( QGraphicsSceneDragDropEvent * event ) {
-    kDebug() << "dragMoveEvent\n";
-}
-
-void Card::mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * event ) {
-    kDebug() << "mouseDoubleClickEvent\n";
-
-}
-void Card::mouseMoveEvent ( QGraphicsSceneMouseEvent * event ) {
-    kDebug() << "mouseMoveEvent\n";
-}
-
-void Card::mousePressEvent ( QGraphicsSceneMouseEvent * event ) {
+void Card::mousePressEvent ( QGraphicsSceneMouseEvent * ) {
     kDebug() << "mousePressEvent\n";
     if ( !isFaceUp() )
         return;
@@ -404,12 +395,14 @@ void Card::mousePressEvent ( QGraphicsSceneMouseEvent * event ) {
     stopAnimation();
     zoomOut(100);
     m_hovered = false;
-    setPixmap(m_movePixmap);
+    //TODO
+    //setPixmap(m_movePixmap);
 }
 
-void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * event ) {
+void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ) {
     kDebug() << "mouseReleaseEvent\n";
-    setPixmap(m_normalPixmap);
+    //TODO
+    //setPixmap(m_normalPixmap);
 }
 
 // Get the card to the top.
@@ -436,12 +429,12 @@ void Card::getUp()
 void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                  QWidget *w)
 {
-    painter->setRenderHint(QPainter::Antialiasing);
-    painter->setRenderHint(QPainter::SmoothPixmapTransform);
+//    painter->setRenderHint(QPainter::Antialiasing);
+    //painter->setRenderHint(QPainter::SmoothPixmapTransform);
     if (scene()->mouseGrabberItem() == this) {
         //painter->setOpacity(.8);
     }
-    QGraphicsPixmapItem::paint(painter, option, w);
+    QGraphicsSvgItem::paint(painter, option, w);
 
     if ( isHighlighted() ) {
         painter->setBrush( QColor( 40, 40, 40, 127 ));
@@ -463,7 +456,8 @@ void Card::zoomIn(int t)
     QPointF dest =  QPointF( pos().x() - boundingRect().width() / 3,
                              pos().y() - boundingRect().height() / 8 );
     animation->setPosAt( 1, dest );
-    animation->setScaleAt( 1, 1.1, 1.1 );
+    double scale = cardMap::self()->scaleFactor();
+    animation->setScaleAt( 1, scale * 1.1, scale * 1.1 );
     animation->setRotationAt( 1, -20 );
     //qreal x2 = pos().x() + boundingRect().width() / 2 - boundingRect().width() * 1.1 / 2;
     //qreal y2 = pos().y() + boundingRect().height() / 2 - boundingRect().height() * 1.1 / 2;
@@ -491,9 +485,10 @@ void Card::zoomOut(int t)
     animation->setRotationAt( 0, -20 );
     animation->setRotationAt( 0.5, -10 );
     animation->setRotationAt( 1, 0 );
-    animation->setScaleAt( 0, 1.1, 1.1 );
-    animation->setScaleAt( 1, 1, 1 );
-    animation->setPosAt( 1, m_originalPosition );
+    double scale = cardMap::self()->scaleFactor();
+    animation->setScaleAt( 0, 1.1 * scale, 1.1 * scale );
+    animation->setScaleAt( 1, scale, scale );
+    //animation->setPosAt( 1, m_originalPosition );
     //qreal x2 = pos().x() + boundingRect().width() / 2 - boundingRect().width() * 1.1 / 2;
     //qreal y2 = pos().y() + boundingRect().height() / 2 - boundingRect().height() * 1.1 / 2;
     //animation->setScaleAt( 1, 1, 1 );

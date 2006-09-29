@@ -58,8 +58,8 @@ Klondike::Klondike( bool easy )
     const int hspacing = cardMap::CARDX() / 6 + 1; // horizontal spacing between card piles
     const int vspacing = cardMap::CARDY() / 4; // vertical spacing between card piles
 
-    deck = Deck::new_deck(this);
-    deck->setPos(margin, margin);
+    Deck::create_deck(this);
+    Deck::deck()->setPos(margin, margin);
 
     EasyRules = easy;
 
@@ -234,14 +234,14 @@ void Klondike::getHints() {
 
 Card *Klondike::demoNewCards() {
     deal3();
-    if (!deck->isEmpty() && pile->isEmpty())
+    if (!Deck::deck()->isEmpty() && pile->isEmpty())
         deal3(); // again
     return pile->top();
 }
 
 void Klondike::restart() {
     kDebug(11111) << "restart\n";
-    deck->collectAndShuffle();
+    Deck::deck()->collectAndShuffle();
     redealt = false;
     deal();
 }
@@ -258,7 +258,7 @@ void Klondike::deal3()
 
     pile->clearSpread();
 
-    if (deck->isEmpty())
+    if (Deck::deck()->isEmpty())
     {
         redeal();
         return;
@@ -271,7 +271,7 @@ void Klondike::deal3()
 
     for (int flipped = 0; flipped < draw ; ++flipped) {
 
-        Card *item = deck->nextCard();
+        Card *item = Deck::deck()->nextCard();
         if (!item) {
             kDebug(11111) << "deck empty!!!\n";
             return;
@@ -280,7 +280,7 @@ void Klondike::deal3()
         if (flipped < draw - 1)
             pile->addSpread(item);
         // move back to flip
-        item->setPos(deck->x(), deck->y());
+        item->setPos(Deck::deck()->x(), Deck::deck()->y());
 
 #warning FIXME give flipTo a duration argument 8 * ( flipped + 1 )
         item->flipTo( int(pile->x()) + pile->dspread() * (flipped), int(pile->y()) );
@@ -295,13 +295,13 @@ void Klondike::redeal() {
     if (EasyRules)
         // the remaining cards in deck should be on top
         // of the new deck
-        pilecards += deck->cards();
+        pilecards += Deck::deck()->cards();
 
     for (int count = pilecards.count() - 1; count; --count)
     {
         Card *card = pilecards[count];
 	card->stopAnimation();
-	deck->add(card, true, false); // facedown, nospread
+	Deck::deck()->add(card, true, false); // facedown, nospread
     }
 
     redealt = true;
@@ -310,7 +310,7 @@ void Klondike::redeal() {
 void Klondike::deal() {
     for(int round=0; round < 7; round++)
         for (int i = round; i < 7; i++ )
-            play[i]->add(deck->nextCard(), i != round && true, true);
+            play[i]->add(Deck::deck()->nextCard(), i != round && true, true);
 }
 
 bool Klondike::cardClicked(Card *c) {
@@ -319,8 +319,8 @@ bool Klondike::cardClicked(Card *c) {
     if (DealerScene::cardClicked(c))
         return true;
 
-    if (c->source() == deck) {
-        pileClicked(deck);
+    if (c->source() == Deck::deck()) {
+        pileClicked(Deck::deck());
         return true;
     }
 
@@ -331,7 +331,7 @@ void Klondike::pileClicked(Pile *c) {
     kDebug(11111) << "pile clicked " << endl;
     DealerScene::pileClicked(c);
 
-    if (c == deck) {
+    if (c == Deck::deck()) {
         deal3();
     }
 }
@@ -351,7 +351,7 @@ bool Klondike::isGameLost() const
 {
     kDebug( 11111 ) << "Is the game lost?" << endl;
 
-    if (!deck->isEmpty()) {
+    if (!Deck::deck()->isEmpty()) {
         kDebug( 11111 ) << "We should only check this when the deck is exhausted." << endl;
         return false;
     }

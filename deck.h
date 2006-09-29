@@ -29,7 +29,7 @@ private:
     virtual ~Deck();
 
 public:
-    static Deck *new_deck( DealerScene *parent = 0, int m = 1, int s = 4 );
+    static void  create_deck( DealerScene *parent = 0, int m = 1, int s = 4 );
     static Deck *deck() { return my_deck; }
 
     static const long n;
@@ -39,6 +39,7 @@ public:
     Card* nextCard();
 
     uint decksNum() const { return mult; }
+    void update();
 
 private: // functions
 

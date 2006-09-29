@@ -63,7 +63,6 @@ private:
     Pile* target[4];
 
     KlondikePile *pile;
-    Deck* deck;
     Card::Rank target_tops[4];
     bool noLongerNeeded(Card::Rank r, Card::Suit s );
 };

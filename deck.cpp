@@ -57,10 +57,9 @@ Deck::~Deck()
 // ----------------------------------------------------------------
 
 
-Deck *Deck::new_deck( DealerScene *parent, int m, int s )
+void Deck::create_deck( DealerScene *parent, int m, int s )
 {
     my_deck = new Deck(parent, m, s);
-    return my_deck;
 }
 
 
@@ -76,8 +75,7 @@ void Deck::makedeck()
             for ( int s = Card::Spades-1; s >=  Card::Clubs-1 ; s--)
             {
                 _deck[i] = new Card(static_cast<Card::Rank>(r),
-                                   static_cast<Card::Suit>(Card::Spades - (s % suits)),
-                                   dealer());
+                                    static_cast<Card::Suit>(Card::Spades - (s % suits)), dealer() );
                 _deck[i]->setPos(x(), y());
                 i++;
             }
@@ -85,6 +83,11 @@ void Deck::makedeck()
     }
 }
 
+void Deck::update()
+{
+    for ( int i = 0; i < mult*NumberOfCards; ++i )
+        _deck[i]->update();
+}
 
 void Deck::collectAndShuffle()
 {
