@@ -112,12 +112,12 @@ cardMap::cardMap() : QObject()
     d->m_thread = new cardMapThread(d);
 
     assert(!_self);
-
-    d->_wantedCardWidth = 20;
-
-    kDebug(11111) << "cardMap\n";
     KConfig *config = KGlobal::config();
     KConfigGroup cs(config, settings_group );
+
+    d->_wantedCardWidth = config->readEntry( "CardWith", 70 );
+
+    kDebug(11111) << "cardMap\n";
 
     QSvgRenderer *renderer = new QSvgRenderer( KStandardDirs::locate( "data", "carddecks/svg-ornamental/ornamental.svg" ) );
     d->m_thread->setRenderer( renderer );
@@ -178,13 +178,15 @@ cardMap *cardMap::self() {
 
 void cardMap::slotThreadFinished()
 {
-    kDebug() << "threadFinished\n";
+    KConfig *config = KGlobal::config();
+    KConfigGroup cs(config, settings_group );
+    config->writeEntry( "CardWith", d->_wantedCardWidth );
+    config->sync();
     Dealer::instance()->dscene()->rescale();
 }
 
 void cardMap::slotThreadEnded()
 {
-    kDebug() << "threadEnded\n";
     d->m_thread->start(QThread::IdlePriority);
     d->m_thread->disconnect();
     connect( d->m_thread, SIGNAL( finished() ), SLOT( slotThreadFinished() ) );

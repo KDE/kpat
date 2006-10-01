@@ -64,7 +64,8 @@
      id="layer1">
     <g
        id="pile"
-       inkscape:label="#g8327">
+       inkscape:label="#g8327"
+       transform="matrix(0.382069,0,0,0.382069,392.881,40.93767)">
       <rect
          inkscape:label="#backgr"
          ry="7.0866141"
@@ -74,7 +75,7 @@
          height="1048.5714"
          width="745.71429"
          id="backgr"
-         style="fill:#002cff;fill-opacity:0.08762883;fill-rule:evenodd;stroke:#4e0000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+         style="fill:#002cff;fill-opacity:0.08762883;fill-rule:evenodd;stroke:#4e0000;stroke-width:2.61733079;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <path
          inkscape:label="#path2180"
          transform="translate(-11.42856,-2.857139)"
@@ -84,7 +85,33 @@
          sodipodi:cy="539.50507"
          sodipodi:cx="392.85715"
          id="path21"
-         style="fill:#157743;fill-opacity:1;stroke:#181d18;stroke-width:7.08661413;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.64781494"
+         style="fill:#157743;fill-opacity:1;stroke:#181d18;stroke-width:18.54801369;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.64781494"
+         sodipodi:type="arc" />
+    </g>
+    <g
+       id="pile_selected"
+       inkscape:label="#g2190"
+       transform="matrix(0.422148,0,0,0.412172,39.36105,212.5459)">
+      <rect
+         inkscape:label="#backgr"
+         ry="7.0866141"
+         rx="7.0866141"
+         y="2.3622403"
+         x="4.2856617"
+         height="1048.5714"
+         width="745.71429"
+         id="rect1311"
+         style="fill:#3c3e3f;fill-opacity:0.32989687;fill-rule:evenodd;stroke:#2f0300;stroke-width:2.39733267;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.98711344" />
+      <path
+         inkscape:label="#path2180"
+         transform="translate(-9.999989,-7.142796)"
+         d="M 585.71429 539.50507 A 192.85715 192.85715 0 1 1  200,539.50507 A 192.85715 192.85715 0 1 1  585.71429 539.50507 z"
+         sodipodi:ry="192.85715"
+         sodipodi:rx="192.85715"
+         sodipodi:cy="539.50507"
+         sodipodi:cx="392.85715"
+         id="path1313"
+         style="fill:#157743;fill-opacity:1;stroke:#181d18;stroke-width:16.98897171;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.64781494"
          sodipodi:type="arc" />
     </g>
   </g>
