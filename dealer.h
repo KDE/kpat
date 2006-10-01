@@ -123,7 +123,7 @@ public:
     void startNew();
 
     void enlargeCanvas(QGraphicsItem *c);
-    void rescale();
+
 
     virtual void restart() = 0;
     bool demoActive() const;
@@ -133,6 +133,7 @@ public:
 public slots:
     virtual bool startAutoDrop();
     void hint();
+    void rescale();
 
 protected slots:
     virtual void demo();

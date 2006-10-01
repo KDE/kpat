@@ -28,8 +28,9 @@
 class QSvgRenderer;
 class cardMapPrivate;
 
-class cardMap
+class cardMap : public QObject
 {
+    Q_OBJECT
 public:
 
     static cardMap *self();
@@ -46,8 +47,11 @@ public:
 
     QPixmap renderCard( const QString &element );
 
-private:
+protected slots:
+    void slotThreadFinished();
+    void slotThreadEnded();
 
+private:
     cardMapPrivate *d;
 
     static cardMap *_self;

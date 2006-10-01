@@ -318,16 +318,16 @@ void Pile::add( Card *_card, int index)
 //
 // Note: Default is to only have vertical spread (Y direction).
 
-QSize Pile::cardOffset( bool _spread, bool _facedown, const Card *before) const
+QSizeF Pile::cardOffset( bool _spread, bool _facedown, const Card *before) const
 {
     if (_spread) {
         if (_facedown)
-            return QSize(0, dspread());
+            return QSizeF(0, dspread());
         else {
             if (before && !before->isFaceUp())
-                return QSize(0, dspread());
+                return QSizeF(0, dspread());
             else
-                return QSize(0, spread());
+                return QSizeF(0, spread());
         }
     }
 
@@ -351,7 +351,7 @@ void Pile::add( Card* _card, bool _facedown, bool _spread )
 
     _card->turn( !_facedown );
 
-    QSize offset = cardOffset(_spread, _facedown, t);
+    QSizeF offset = cardOffset(_spread, _facedown, t);
 
     int x2, y2, z2;
 
@@ -456,7 +456,7 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
     Card *c = cl.first();
 
     Card *before = 0;
-    QSize off;
+    QSizeF off;
 
     int steps = DURATION_MOVEBACK;
     if (!anim)

@@ -47,36 +47,81 @@
 #include <kglobal.h>
 #include <QSvgRenderer>
 #include <QPixmapCache>
+#include <QThread>
+#include <QMutex>
+#include "dealer.h"
 
 cardMap *cardMap::_self = 0;
 static KStaticDeleter<cardMap> cms;
 
 typedef QMap<QString, QImage> CardCache;
 
+class cardMapPrivate;
+
+class cardMapThread : public QThread
+{
+public:
+    QImage renderCard( const QString &element)
+    {
+        QImage img = QImage( ( int )cardMap::self()->wantedCardWidth(), ( int )cardMap::self()->wantedCardHeight(), QImage::Format_ARGB32 );
+        img.fill( qRgba( 0, 0, 255, 0 ) );
+        QPainter p( &img );
+        m_renderer_mutex.lock();
+        m_renderer->render( &p, element, QRectF( 0, 0, img.width(), img.height() ) );
+        m_renderer_mutex.unlock();
+        p.end();
+        return img;
+    }
+    virtual void run();
+
+    cardMapThread( cardMapPrivate *_cmp);
+
+    ~cardMapThread() {
+        delete m_renderer;
+    }
+    void setRenderer( QSvgRenderer *_renderer ) {
+        delete m_renderer;
+        m_renderer = _renderer;
+    }
+    void finish() {
+        m_shouldEnd = true;
+    }
+private:
+    QSvgRenderer *m_renderer;
+    QMutex m_renderer_mutex;
+    cardMapPrivate *d;
+    bool m_shouldEnd;
+};
+
 class cardMapPrivate
 {
 public:
-    QSvgRenderer *_renderer;
+
     double _wantedCardWidth;
-    mutable double m_aspectRatio;
     mutable double _scale;
+    cardMapThread *m_thread;
     CardCache m_cache;
+    QMutex m_cacheMutex;
+    QSizeF m_backSize;
 };
 
-cardMap::cardMap()
+cardMap::cardMap() : QObject()
 {
     d = new cardMapPrivate();
-    d->m_aspectRatio = 1;
+
+    d->m_thread = new cardMapThread(d);
 
     assert(!_self);
 
-    d->_wantedCardWidth = 80;
+    d->_wantedCardWidth = 20;
 
     kDebug(11111) << "cardMap\n";
     KConfig *config = KGlobal::config();
     KConfigGroup cs(config, settings_group );
 
-    d->_renderer = new QSvgRenderer( KStandardDirs::locate( "data", "carddecks/svg-ornamental/ornamental.svg" ) );
+    QSvgRenderer *renderer = new QSvgRenderer( KStandardDirs::locate( "data", "carddecks/svg-ornamental/ornamental.svg" ) );
+    d->m_thread->setRenderer( renderer );
+    d->m_backSize = renderer->boundsOnElement( "back" ).size();
     QPixmapCache::setCacheLimit(5 * 1024 * 1024);
 
     cms.setObject(_self, this);
@@ -85,23 +130,23 @@ cardMap::cardMap()
 
 cardMap::~cardMap()
 {
-    delete d->_renderer;
+    d->m_thread->finish();
+    d->m_thread->wait();
+    delete d->m_thread;
     delete d;
 }
 
 double cardMap::scaleFactor() const
 {
     if ( !d->_scale ) {
-        QRectF be = d->_renderer->boundsOnElement( "back" );
-        d->_scale = wantedCardWidth() / be.width();
-        d->m_aspectRatio = be.width() / be.height();
+        d->_scale = wantedCardWidth() / d->m_backSize.width();
     }
     return d->_scale;
 }
 
 double cardMap::wantedCardHeight() const
 {
-    return d->_wantedCardWidth / d->m_aspectRatio;
+    return d->_wantedCardWidth / d->m_backSize.width() * d->m_backSize.height();
 }
 
 double cardMap::wantedCardWidth() const
@@ -111,11 +156,19 @@ double cardMap::wantedCardWidth() const
 
 void cardMap::setWantedCardWidth( double w )
 {
+    kDebug() << "setWantedCardWidth " << w << endl;
     if ( w > 200 || w < 10 )
         return;
 
     d->_wantedCardWidth = w;
     d->_scale = 0;
+    if ( d->m_thread->isRunning() )
+    {
+        d->m_thread->disconnect();
+        d->m_thread->finish();
+        connect( d->m_thread, SIGNAL( finished() ), SLOT( slotThreadEnded() ) );
+    } else // start directly
+        slotThreadEnded();
 }
 
 cardMap *cardMap::self() {
@@ -123,19 +176,31 @@ cardMap *cardMap::self() {
     return _self;
 }
 
+void cardMap::slotThreadFinished()
+{
+    kDebug() << "threadFinished\n";
+    Dealer::instance()->dscene()->rescale();
+}
+
+void cardMap::slotThreadEnded()
+{
+    kDebug() << "threadEnded\n";
+    d->m_thread->start(QThread::IdlePriority);
+    d->m_thread->disconnect();
+    connect( d->m_thread, SIGNAL( finished() ), SLOT( slotThreadFinished() ) );
+}
+
 QPixmap cardMap::renderCard( const QString &element )
 {
     QImage img;
+    d->m_cacheMutex.lock();
     if ( !d->m_cache.contains( element ) )
     {
-        img = QImage( ( int )cardMap::self()->wantedCardWidth(), ( int )cardMap::self()->wantedCardHeight(), QImage::Format_ARGB32 );
-        img.fill( qRgba( 0, 0, 255, 0 ) );
-        QPainter p( &img );
-        d->_renderer->render( &p, element, QRectF( 0, 0, img.width(), img.height() ) );
-        p.end();
+        img = d->m_thread->renderCard( element );
         d->m_cache[element] = img;
     } else
         img = d->m_cache[element];
+    d->m_cacheMutex.unlock();
 
     QMatrix matrix;
     matrix.scale( cardMap::self()->wantedCardWidth() / img.width(),
@@ -143,3 +208,39 @@ QPixmap cardMap::renderCard( const QString &element )
 
     return QPixmap::fromImage( img ).transformed(matrix);
 }
+
+cardMapThread::cardMapThread( cardMapPrivate *_cmp )
+{
+    d = _cmp;
+    m_renderer = 0;
+}
+
+void cardMapThread::run()
+{
+    m_shouldEnd = false;
+    msleep( 150 );
+    if ( m_shouldEnd )
+    {
+        kDebug() << "exiting thread\n";
+        return;
+    }
+    d->m_cacheMutex.lock();
+    QStringList keys = d->m_cache.keys();
+    d->m_cacheMutex.unlock();
+
+    for ( QStringList::const_iterator it = keys.begin(); it != keys.end(); ++it )
+    {
+        if ( m_shouldEnd )
+        {
+            kDebug() << "exiting thread\n";
+            return;
+        }
+        QImage img = renderCard( *it );
+        d->m_cacheMutex.lock();
+        d->m_cache[*it] = img;
+        d->m_cacheMutex.unlock();
+    }
+    kDebug() << "returning from thread\n";
+}
+
+#include "cardmaps.moc"

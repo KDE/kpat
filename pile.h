@@ -106,7 +106,7 @@ public:
     void hideCards( const CardList & cards );
     void unhideCards( const CardList & cards );
 
-    virtual QSize cardOffset( bool _spread, bool _facedown, const Card *before) const;
+    virtual QSizeF cardOffset( bool _spread, bool _facedown, const Card *before) const;
 
     virtual void initSizes();
 
