@@ -125,18 +125,18 @@ public:
     bool remove_freecellStore( const Card *c) const;
 
     // The spread properties.
-    int  spread() const    { return _spread; }
-    void setSpread(int s)  { _spread = s; }
-    int  dspread() const   { return _dspread; }
-    void setDSpread(int s) { _dspread = s; }
-    int  hspread() const   { return _hspread; }
-    void setHSpread(int s) { _hspread = s; }
+    double spread() const    { return _spread; }
+    void setSpread(double s)  { _spread = s; }
+    double  dspread() const   { return _dspread; }
+    void setDSpread(double s) { _dspread = s; }
+    double  hspread() const   { return _hspread; }
+    void setHSpread(double s) { _hspread = s; }
 
     void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget );
     void setPilePos( double x, double y);
     QPointF pilePos() const;
 
-    void update();
+    void rescale();
 
 public slots:
     virtual bool cardClicked(Card *c);
@@ -158,9 +158,9 @@ private:
 
     PileType  _atype;
     PileType  _rtype;
-    int       _spread;
-    int       _hspread;
-    int       _dspread;
+    double    _spread;
+    double    _hspread;
+    double    _dspread;
 
     int _checkIndex;
     int myIndex;

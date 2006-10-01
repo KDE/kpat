@@ -51,158 +51,62 @@
 cardMap *cardMap::_self = 0;
 static KStaticDeleter<cardMap> cms;
 
-cardMap::cardMap(const QColor &dim) : dimcolor(dim), _renderer( 0 )
+typedef QMap<QString, QImage> CardCache;
+
+class cardMapPrivate
 {
+public:
+    QSvgRenderer *_renderer;
+    double _wantedCardWidth;
+    mutable double m_aspectRatio;
+    mutable double _scale;
+    CardCache m_cache;
+};
+
+cardMap::cardMap()
+{
+    d = new cardMapPrivate();
+    d->m_aspectRatio = 1;
+
     assert(!_self);
 
-    card_width = 0;
-    card_height = 0;
-    _wantedCardSize = 72;
+    d->_wantedCardWidth = 80;
 
     kDebug(11111) << "cardMap\n";
     KConfig *config = KGlobal::config();
     KConfigGroup cs(config, settings_group );
 
-    QString bg = cs.readEntry( "Back", KCardDialog::getDefaultDeck());
-    setBackSide( bg, false);
-
-    QString dir = cs.readEntry("Cards",  KCardDialog::getDefaultCardDir());
-    setCardDir( dir );
+    d->_renderer = new QSvgRenderer( KStandardDirs::locate( "data", "carddecks/svg-ornamental/ornamental.svg" ) );
+    QPixmapCache::setCacheLimit(5 * 1024 * 1024);
 
     cms.setObject(_self, this);
 //    kDebug(11111) << "card " << CARDX << " " << CARDY << endl;
 }
 
-bool cardMap::setCardDir( const QString &dir )
+cardMap::~cardMap()
 {
-    delete _renderer;
-
-    _renderer = new QSvgRenderer( KStandardDirs::locate( "data", "carddecks/svg-ornamental/ornamental.svg" ) );
-    QPixmapCache::setCacheLimit(5 * 1024 * 1024);
-
-    kDebug() << "setCardDir " << dir << endl;
-    KConfig *config = KGlobal::config();
-    KConfigGroup cs(config, settings_group );
-
-    QWidget* w = 0;
-    QPainter p;
-    QTime t1, t2;
-
-    QString imgname = KCardDialog::getCardPath(dir, 11);
-
-    QImage image;
-    image.load( imgname );
-    if( image.isNull()) {
-        kDebug(11111) << "cannot load card pixmap \"" << imgname << "\" in " << dir << "\n";
-        p.end();
-        delete w;
-        return false;
-    }
-
-    int old_card_width = card_width;
-    int old_card_height = card_height;
-
-    card_width = image.width();
-    card_height = image.height();
-
-    setBackSide(back, true);
-
-    for(int idx = 1; idx < 53; idx++)
-    {
-        // translate index to suit/rank
-        // this is necessary since kpoker uses another
-        // mapping in the pictures
-        int rank = (idx - 1) / 4;
-        if(rank != 0)
-            rank = 13 - rank;
-        int suit = 0;
-        switch((idx - 1) % 4) {
-            case 0:
-                suit = 0;
-                break;
-            case 1:
-                suit = 3;
-                break;
-            case 2:
-                suit = 2;
-                break;
-            case 3:
-                suit = 1;
-                break;
-        }
-
-        imgname = KCardDialog::getCardPath(dir, idx);
-        image.load(imgname);
-
-        if( image.isNull() || image.width() != card_width || image.height() != card_height ) {
-            kDebug(11111) << "cannot load card pixmap \"" << imgname << "\" in (" << idx << ") " << dir << "\n";
-            p.end();
-            delete w;
-            card_width = old_card_width;
-            card_height = old_card_height;
-
-            setBackSide(back, true);
-            return false;
-        }
-
-        img[rank][suit].normal = QPixmap::fromImage(image);
-    }
-
-    return true;
-}
-
-bool cardMap::setBackSide( const QPixmap &pm, bool scale )
-{
-    if (pm.isNull())
-        return false;
-
-    back = pm;
-
-    if(scale && (back.width() != card_width ||
-                 back.height() != card_height))
-    {
-        kDebug(11111) << "scaling back!!\n";
-        // scale to fit size
-        QMatrix wm;
-        wm.scale(((float)(card_width))/back.width(),
-                 ((float)(card_height))/back.height());
-        back = back.transformed(wm);
-    }
-
-    return true;
-}
-
-int cardMap::CARDX() {
-    return self()->card_width; // 72;
-}
-
-int cardMap::CARDY() {
-    return self()->card_height; // 96;
-}
-
-QPixmap cardMap::backSide() const
-{
-    return back;
+    delete d->_renderer;
+    delete d;
 }
 
 double cardMap::scaleFactor() const
 {
-    if ( !_scale ) {
-        QRectF be = cardMap::self()->renderer()->boundsOnElement( "back" );
-        _scale = wantedCardWidth() / be.width();
+    if ( !d->_scale ) {
+        QRectF be = d->_renderer->boundsOnElement( "back" );
+        d->_scale = wantedCardWidth() / be.width();
+        d->m_aspectRatio = be.width() / be.height();
     }
-    return _scale;
+    return d->_scale;
 }
 
 double cardMap::wantedCardHeight() const
 {
-    QRectF be = cardMap::self()->renderer()->boundsOnElement( "back" );
-    return be.height() * _scale;
+    return d->_wantedCardWidth / d->m_aspectRatio;
 }
 
 double cardMap::wantedCardWidth() const
 {
-    return _wantedCardSize;
+    return d->_wantedCardWidth;
 }
 
 void cardMap::setWantedCardWidth( double w )
@@ -210,22 +114,8 @@ void cardMap::setWantedCardWidth( double w )
     if ( w > 200 || w < 10 )
         return;
 
-    _wantedCardSize = w;
-    _scale = 0;
-}
-
-QPixmap cardMap::image( Card::Rank _rank, Card::Suit _suit) const
-{
-    if( 1 <= _rank && _rank <= 13
-	&& 1 <= _suit && _suit <= 4 )
-    {
-        return img[ _rank - 1 ][ _suit - 1 ].normal;
-    }
-    else
-    {
-        kError() << "access to invalid card " << int(_rank) << ", " << int(_suit) << endl;
-    }
-    return 0;
+    d->_wantedCardWidth = w;
+    d->_scale = 0;
 }
 
 cardMap *cardMap::self() {
@@ -233,3 +123,23 @@ cardMap *cardMap::self() {
     return _self;
 }
 
+QPixmap cardMap::renderCard( const QString &element )
+{
+    QImage img;
+    if ( !d->m_cache.contains( element ) )
+    {
+        img = QImage( ( int )cardMap::self()->wantedCardWidth(), ( int )cardMap::self()->wantedCardHeight(), QImage::Format_ARGB32 );
+        img.fill( qRgba( 0, 0, 255, 0 ) );
+        QPainter p( &img );
+        d->_renderer->render( &p, element, QRectF( 0, 0, img.width(), img.height() ) );
+        p.end();
+        d->m_cache[element] = img;
+    } else
+        img = d->m_cache[element];
+
+    QMatrix matrix;
+    matrix.scale( cardMap::self()->wantedCardWidth() / img.width(),
+                  cardMap::self()->wantedCardHeight() / img.height() );
+
+    return QPixmap::fromImage( img ).transformed(matrix);
+}

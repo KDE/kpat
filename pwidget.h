@@ -46,8 +46,6 @@ public:
 
 public slots:
     void undoMove();
-    void changeBackside();
-    void animationChanged();
     void newGameType();
     void restart();
 
@@ -69,7 +67,6 @@ public slots:
 
 private:
     void setGameCaption();
-    void setBackSide(const QString &deck, const QString &dir);
     virtual void showEvent(QShowEvent *e);
 
 private:
@@ -79,9 +76,7 @@ private:
 
     KSelectAction  *games;
     KSelectAction  *wallpapers;
-    KAction        *backs;
     KAction        *undo;
-    KToggleAction  *animation;
     KToggleAction  *dropaction;
     KAction        *stats;
 

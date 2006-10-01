@@ -123,7 +123,7 @@ public:
     void startNew();
 
     void enlargeCanvas(QGraphicsItem *c);
-    void update();
+    void rescale();
 
     virtual void restart() = 0;
     bool demoActive() const;

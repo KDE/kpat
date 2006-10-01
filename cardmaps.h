@@ -26,43 +26,29 @@
 #include <QPixmap>
 
 class QSvgRenderer;
+class cardMapPrivate;
 
 class cardMap
 {
 public:
 
     static cardMap *self();
-    explicit cardMap(const QColor &dimcolor);
-
-    static int CARDX();
-    static int CARDY();
+    cardMap();
+    ~cardMap();
 
     static const int NumColors = 4;
     static const int CardsPerColor = 13;
 
-    QPixmap image( Card::Rank _rank, Card::Suit _suit) const;
-    QPixmap backSide() const;
-    bool setCardDir( const QString &dir);
-    bool setBackSide( const QPixmap & _pix, bool scale = true);
-    QSvgRenderer *renderer() { return _renderer; }
     double scaleFactor() const;
     double wantedCardWidth() const;
     double wantedCardHeight() const;
     void setWantedCardWidth( double w );
 
+    QPixmap renderCard( const QString &element );
+
 private:
 
-    cardMap();
-    struct
-    {
-        QPixmap normal;
-    } img[ CardsPerColor ][ NumColors ];
-    QPixmap back;
-    QColor dimcolor;
-    int card_width, card_height;
-    QSvgRenderer *_renderer;
-    double _wantedCardSize;
-    mutable double _scale;
+    cardMapPrivate *d;
 
     static cardMap *_self;
 };

@@ -85,8 +85,8 @@ void Deck::makedeck()
 
 void Deck::update()
 {
-    for ( int i = 0; i < mult*NumberOfCards; ++i )
-        _deck[i]->update();
+    for ( uint i = 0; i < mult*NumberOfCards; ++i )
+        _deck[i]->rescale();
 }
 
 void Deck::collectAndShuffle()

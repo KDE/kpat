@@ -46,17 +46,16 @@ static const char  *rank_names[] = {"1", "2", "3", "4", "5", "6", "7", "8",
 const int Card::my_type = Dealer::CardTypeId;
 
 Card::Card( Rank r, Suit s, QGraphicsScene *_parent )
-    : QGraphicsSvgItem( ),
+    : QObject(), QGraphicsPixmapItem(),
       m_suit( s ), m_rank( r ),
-      m_source(0), tookDown(false), animation( 0 ), m_highlighted( false )
+      m_source(0), tookDown(false), animation( 0 ), m_highlighted( false ), m_moving( false )
 {
     _parent->addItem( this );
 
-    setSharedRenderer( cardMap::self()->renderer() );
     QString element = QString( "%1_%2" ).arg( rank_names[m_rank-1] ).arg( suit_names[m_suit-1] );
     setElementId( element );
 
-    update();
+    rescale();
 
     // Set the name of the card
     m_name = QString("%1 %2").arg(suit_names[s-1]).arg(rank_names[r-1]).toUtf8();
@@ -64,8 +63,6 @@ Card::Card( Rank r, Suit s, QGraphicsScene *_parent )
     m_hovered = false;
     // Default for the card is face up, standard size.
     m_faceup = true;
-
-    setCachingEnabled( false );
 
     m_destX = 0;
     m_destY = 0;
@@ -92,12 +89,9 @@ Card::~Card()
 //              Member functions regarding graphics
 
 
-void Card::update()
+void Card::rescale()
 {
-    QMatrix matrix;
-    double scale = cardMap::self()->scaleFactor();
-    matrix.scale( scale, scale );
-    setMatrix( matrix, false );
+    setPixmap( cardMap::self()->renderCard( m_elementId ) );
 }
 
 // Turn the card if necessary.  If the face gets turned up, the card
@@ -105,22 +99,12 @@ void Card::update()
 //
 void Card::turn( bool _faceup )
 {
-    kDebug() << "turn " << _faceup << " " << m_faceup << endl;
-
     if (m_faceup != _faceup) {
         m_faceup = _faceup;
-        //QBrush b = brush();
         if ( m_faceup ) {
-            m_normalPixmap = cardMap::self()->image( m_rank, m_suit );
-            m_movePixmap = m_normalPixmap;
-            QPixmap trans( m_normalPixmap.width(), m_normalPixmap.height() );
-	    int gra = 210;
-            trans.fill( QColor(gra, gra, gra) );
-            m_movePixmap.setAlphaChannel(trans);
             setElementId( QString( "%1_%2" ).arg( rank_names[m_rank-1] ).arg( suit_names[m_suit-1] ) );
         } else {
             setElementId( QLatin1String( "back" ) );
-            m_normalPixmap = cardMap::self()->backSide();
         }
     }
 }
@@ -129,12 +113,6 @@ void Card::flip()
 {
     turn( !m_faceup );
 }
-
-void Card::moveBy(double dx, double dy)
-{
-    QGraphicsSvgItem::moveBy(dx, dy);
-}
-
 
 // Return the X of the cards real position.  This is the destination
 // of the animation if animated, and the current X otherwise.
@@ -181,7 +159,7 @@ qreal Card::realZ() const
 
 bool Card::realFace() const
 {
-#warning FIXME - this needs some caching
+//#warning FIXME - this needs some caching
     return isFaceUp();
 #if 0
     if (animated() && m_flipping) {
@@ -229,7 +207,7 @@ int  Card::Hz = 0;
 
 void Card::setZValue(double z)
 {
-    QGraphicsSvgItem::setZValue(z);
+    QGraphicsPixmapItem::setZValue(z);
     if (z > Hz)
         Hz = int(z);
 }
@@ -290,10 +268,9 @@ void Card::flipTo(int x2, int y2)
     animation = new QGraphicsItemAnimation( this );
     animation->setItem(this);
     animation->setTimeLine(timeLine);
-    double scale = cardMap::self()->scaleFactor();
-    animation->setScaleAt( 0, scale, scale );
-    animation->setScaleAt( 0.5, 0.0, scale );
-    animation->setScaleAt( 1, scale, scale );
+    animation->setScaleAt( 0, 1, 1 );
+    animation->setScaleAt( 0.5, 0.0, 1 );
+    animation->setScaleAt( 1, 1, 1 );
     QPointF hp = pos();
     hp.setX( ( x1 + x2 + boundingRect().width() ) / 2 );
     if ( y1 != y2 )
@@ -344,7 +321,7 @@ bool Card::takenDown() const
 
 void Card::setHighlighted( bool flag ) {
     m_highlighted = flag;
-    QGraphicsSvgItem::update();
+    update();
 }
 
 void Card::stopAnimation()
@@ -359,8 +336,8 @@ void Card::stopAnimation()
     old_animation->timeLine()->stop();
     setPos( m_destX, m_destY );
     setZValue( m_destZ );
+    rescale();
     update();
-    QGraphicsSvgItem::update();
     emit stoped( this );
 }
 
@@ -402,14 +379,12 @@ void Card::mousePressEvent ( QGraphicsSceneMouseEvent * ) {
     stopAnimation();
     zoomOut(100);
     m_hovered = false;
-    //TODO
-    //setPixmap(m_movePixmap);
+    m_moving = true;
 }
 
 void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ) {
     kDebug() << "mouseReleaseEvent\n";
-    //TODO
-    //setPixmap(m_normalPixmap);
+    m_moving = false;
 }
 
 // Get the card to the top.
@@ -434,21 +409,25 @@ void Card::getUp()
 }
 
 void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-                 QWidget *w)
+                 QWidget *)
 {
 //    painter->setRenderHint(QPainter::Antialiasing);
     //painter->setRenderHint(QPainter::SmoothPixmapTransform);
     if (scene()->mouseGrabberItem() == this) {
         //painter->setOpacity(.8);
     }
-    QGraphicsSvgItem::paint(painter, option, w);
+    painter->setRenderHint( QPainter::SmoothPixmapTransform, false );
+    painter->setRenderHint( QPainter::Antialiasing, false );
+    QRectF exposed = option->exposedRect;
+    // exposed = exposed.adjusted(-3, -3, 3, 3);
+    Q_ASSERT( !pixmap().isNull() );
+    painter->drawPixmap(exposed, pixmap(), exposed );
 
     if ( isHighlighted() ) {
         painter->setBrush( QColor( 40, 40, 40, 127 ));
         painter->setPen( Qt::NoPen );
         painter->drawRect(boundingRect());
     }
-
 }
 
 void Card::zoomIn(int t)
@@ -463,8 +442,7 @@ void Card::zoomIn(int t)
     QPointF dest =  QPointF( pos().x() - boundingRect().width() / 3,
                              pos().y() - boundingRect().height() / 8 );
     animation->setPosAt( 1, dest );
-    double scale = cardMap::self()->scaleFactor();
-    animation->setScaleAt( 1, scale * 1.1, scale * 1.1 );
+    animation->setScaleAt( 1, 1.1, 1.1 );
     animation->setRotationAt( 1, -20 );
     //qreal x2 = pos().x() + boundingRect().width() / 2 - boundingRect().width() * 1.1 / 2;
     //qreal y2 = pos().y() + boundingRect().height() / 2 - boundingRect().height() * 1.1 / 2;
@@ -492,9 +470,8 @@ void Card::zoomOut(int t)
     animation->setRotationAt( 0, -20 );
     animation->setRotationAt( 0.5, -10 );
     animation->setRotationAt( 1, 0 );
-    double scale = cardMap::self()->scaleFactor();
-    animation->setScaleAt( 0, 1.1 * scale, 1.1 * scale );
-    animation->setScaleAt( 1, scale, scale );
+    animation->setScaleAt( 0, 1.1, 1.1 );
+    animation->setScaleAt( 1, 1.0, 1.0 );
     //animation->setPosAt( 1, m_originalPosition );
     //qreal x2 = pos().x() + boundingRect().width() / 2 - boundingRect().width() * 1.1 / 2;
     //qreal y2 = pos().y() + boundingRect().height() / 2 - boundingRect().height() * 1.1 / 2;
@@ -521,6 +498,12 @@ void Card::zoomInAnimation()
 void Card::zoomOutAnimation()
 {
     zoomOut(100);
+}
+
+void Card::setElementId( const QString & element )
+{
+    m_elementId = element;
+    rescale();
 }
 
 #include "card.moc"

@@ -72,9 +72,9 @@ QSvgRenderer *Pile::pileRenderer()
 
 void Pile::initSizes()
 {
-    setSpread( cardMap::CARDY() / 5 + 1 );
-    setHSpread( cardMap::CARDX() / 9 + 1 );
-    setDSpread( cardMap::CARDY() / 8 );
+    setSpread( 2.1 );
+    setHSpread( 1.2 );
+    setDSpread( 1.25 );
 }
 
 void Pile::setType(PileType type)
@@ -155,7 +155,7 @@ void Pile::paint ( QPainter * painter, const QStyleOptionGraphicsItem * , QWidge
                                                                    cardMap::self()->wantedCardHeight()) ).boundingRect() );
 }
 
-void Pile::update()
+void Pile::rescale()
 {
     QPointF old_pos = pos();
     setPos( _pilePos.x() * cardMap::self()->wantedCardWidth() / 10.,

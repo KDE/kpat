@@ -119,8 +119,6 @@ Dealer::Dealer( KMainWindow* _parent )
 
     setAlignment( Qt::AlignLeft | Qt::AlignTop );
 
-    connect( dscene(), SIGNAL( undoPossible( bool ) ), SIGNAL( undoPossible( bool ) ) );
-
     assert(!s_instance);
     s_instance = this;
 
@@ -141,6 +139,8 @@ void Dealer::setScene( QGraphicsScene *scene )
     scaleFactor = 1;
     dscene()->setItemIndexMethod(QGraphicsScene::NoIndex);
     connect( scene, SIGNAL( gameWon( bool ) ), SIGNAL( gameWon( bool ) ) );
+    connect( dscene(), SIGNAL( undoPossible( bool ) ), SIGNAL( undoPossible( bool ) ) );
+    dscene()->rescale();
 }
 
 Dealer *Dealer::instance()
@@ -714,9 +714,10 @@ void DealerScene::enlargeCanvas(QGraphicsItem *c)
 
     Dealer::instance()->resizeEvent( 0 );
 
+#if 0
     bool changed = false;
 
-    /*  if ( c->sceneBoundingRect().right() + 10 > minsize.width() ) {
+    if ( c->sceneBoundingRect().right() + 10 > minsize.width() ) {
         //minsize.setWidth(( int )c->sceneBoundingRect().right() + 10);
         changed = true;
     }
@@ -724,7 +725,8 @@ void DealerScene::enlargeCanvas(QGraphicsItem *c)
         //minsize.setHeight(( int )c->sceneBoundingRect().bottom() + 10);
         changed = true;
     }
-    kDebug() << "minsize " << minsize << endl; */
+    kDebug() << "minsize " << minsize << endl;
+#endif
 }
 
 class CardState {
@@ -976,7 +978,6 @@ void Dealer::openGame(QDomDocument &doc)
             cards.append(static_cast<Card*>(*it));
 
     Deck::deck()->collectAndShuffle();
-    Deck::deck()->update();
 
     for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
     {
@@ -1145,12 +1146,12 @@ long DealerScene::gameNumber() const
     return gamenumber;
 }
 
-void DealerScene::update()
+void DealerScene::rescale()
 {
     Deck::deck()->update();
     for (PileList::ConstIterator it = piles.begin(); it != piles.end(); ++it)
     {
-        ( *it )->update();
+        ( *it )->rescale();
     }
 
 }
@@ -1456,7 +1457,7 @@ void Dealer::wheelEvent( QWheelEvent *e )
 #endif
     qreal scaleFactor = pow((double)2, -e->delta() / (10*120.0));
     cardMap::self()->setWantedCardWidth( cardMap::self()->wantedCardWidth() / scaleFactor );
-    dscene()->update();
+    dscene()->rescale();
 }
 
 void Dealer::countGame()

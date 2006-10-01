@@ -28,6 +28,7 @@
 #define PATIENCE_CARD
 
 #include <QPixmap>
+#include <QImage>
 #include <QList>
 #include <QGraphicsScene>
 #include <QTimer>
@@ -44,12 +45,12 @@ class QGraphicsItemAnimation;
 // A list of cards.  Used in many places.
 typedef QList<Card*> CardList;
 
-
 // In kpat, a Card is an object that has at least two purposes:
 //  - It has card properties (Suit, Rank, etc)
 //  - It is a graphic entity on a QCanvas that can be moved around.
 //
-class Card: public QGraphicsSvgItem {
+
+class Card: public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 
 public:
@@ -76,7 +77,6 @@ public:
 
     virtual int  type() const       { return UserType + my_type; }
 
-    virtual void moveBy(double dx, double dy);
     void         moveTo( qreal x2, qreal y2, qreal z, int duration);
     void         flipTo(int x, int y);
     void         setZValue(double z);
@@ -104,16 +104,19 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                        QWidget *widget = 0);
 
+    void setElementId( const QString & element );
+
 signals:
     void         stoped(Card *c);
 
 public slots:
-    void       update();
+    void       rescale();
     void       flip();
     void       flipAnimationChanged( qreal );
     void       stopAnimation();
     void       zoomInAnimation();
     void       zoomOutAnimation();
+
 
 private:
     void       zoomIn(int t);
@@ -123,6 +126,7 @@ private:
     Suit        m_suit;
     Rank        m_rank;
     QString     m_name;
+    QString m_elementId;
 
     // Grapics properties.
     bool        m_faceup;	// True if card lies with the face up.
@@ -145,9 +149,7 @@ private:
     QTimer   *m_hoverTimer;
     bool      m_hovered;
     bool      m_highlighted;
-
-    QPixmap   m_normalPixmap;
-    QPixmap   m_movePixmap;
+    bool      m_moving;
 };
 
 
