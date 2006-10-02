@@ -50,6 +50,7 @@
 #include <QThread>
 #include <QMutex>
 #include "dealer.h"
+#include "ksvgrenderer.h"
 
 cardMap *cardMap::_self = 0;
 static KStaticDeleter<cardMap> cms;
@@ -119,7 +120,7 @@ cardMap::cardMap() : QObject()
 
     kDebug(11111) << "cardMap\n";
 
-    QSvgRenderer *renderer = new QSvgRenderer( KStandardDirs::locate( "data", "carddecks/svg-ornamental/ornamental.svg" ) );
+    QSvgRenderer *renderer = new KSvgRenderer( KStandardDirs::locate( "data", "carddecks/svg-ornamental/ornamental.svgz" ) );
     d->m_thread->setRenderer( renderer );
     d->m_backSize = renderer->boundsOnElement( "back" ).size();
     QPixmapCache::setCacheLimit(5 * 1024 * 1024);
