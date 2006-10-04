@@ -124,14 +124,14 @@ Dealer::Dealer( KMainWindow* _parent )
 
     setCacheMode(QGraphicsView::CacheBackground);
 
-    //QGLWidget *wgl = new QGLWidget();
-    //setupViewport(wgl);
+/*    QGLWidget *wgl = new QGLWidget();
+      setupViewport(wgl);*/
 }
 
 void Dealer::setScene( QGraphicsScene *scene )
 {
     QGraphicsView::setScene( scene );
-    dscene()->setGameNumber(KRandom::random());
+    dscene()->setGameNumber(/*KRandom::random()*/ 288630676);
 //    dscene()->setAdvancePeriod(30);
 // dscene()->setBackgroundColor( darkGreen );
 // dscene()->setDoubleBuffering(true);
@@ -153,9 +153,6 @@ void DealerScene::setBackgroundPixmap(const QPixmap &background, const QColor &m
 {
     _midcolor = midcolor;
     setBackgroundBrush(QBrush( background) );
-    for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it) {
-        (*it)->initSizes();
-    }
 }
 
 void Dealer::setupActions() {
@@ -271,7 +268,7 @@ void DealerScene::getHints()
                     if (!dest->legalAdd(cards))
                         continue;
 
-                    bool old_prefer = Dealer::instance()->checkPrefering( dest->checkIndex(), dest, cards );
+                    bool old_prefer = checkPrefering( dest->checkIndex(), dest, cards );
                     if (!Dealer::instance()->takeTargetForHints() && dest->target())
                         newHint(new MoveHint(*iti, dest));
                     else {
@@ -280,8 +277,8 @@ void DealerScene::getHints()
                         if ((store->isEmpty() && !dest->isEmpty()) || !store->legalAdd(cards))
                             newHint(new MoveHint(*iti, dest));
                         else {
-                            if (old_prefer && !Dealer::instance()->checkPrefering( store->checkIndex(),
-                                                                                   store, cards ))
+                            if (old_prefer && !checkPrefering( store->checkIndex(),
+                                                               store, cards ))
                             { // if checkPrefers says so, we add it nonetheless
                                 newHint(new MoveHint(*iti, dest));
                             }
@@ -296,7 +293,7 @@ void DealerScene::getHints()
     }
 }
 
-bool Dealer::checkPrefering( int /*checkIndex*/, const Pile *, const CardList& ) const
+bool DealerScene::checkPrefering( int /*checkIndex*/, const Pile *, const CardList& ) const
 {
     return false;
 }
@@ -1414,11 +1411,12 @@ bool Dealer::isGameLost() const
     return false;
 }
 
-bool Dealer::checkRemove( int, const Pile *, const Card *) const {
+bool DealerScene::checkRemove( int, const Pile *, const Card *) const {
     return true;
 }
 
-bool Dealer::checkAdd( int, const Pile *, const CardList&) const {
+bool DealerScene::checkAdd( int, const Pile *, const CardList&) const {
+    kDebug() << "checkAdd "  << endl;
     return true;
 }
 

@@ -40,12 +40,12 @@ set(kpat_SRCS ${libfcs_SRCS}
    deck.cpp 
    pile_algorithms.cpp 
    klondike.cpp 
+   mod3.cpp
    gamestatsimpl.cpp 
 #   kings.cpp
 #   freecell.cpp
 #   simon.cpp
 #   grandf.cpp
-#   mod3.cpp
 #   idiot.cpp
 #   napoleon.cpp
 #   computation.cpp
@@ -63,7 +63,7 @@ kde4_add_ui_files(kpat_SRCS gamestats.ui )
 
 kde4_add_executable(kpat ${kpat_SRCS})
 
-target_link_libraries(kpat  ${KDE4_KIO_LIBS} kdegames )
+target_link_libraries(kpat  ${KDE4_KIO_LIBS} kdegames QtOpenGL)
 
 install(TARGETS kpat  DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -75,6 +75,3 @@ install( FILES pile.svg   DESTINATION  ${DATA_INSTALL_DIR}/kpat )
 install( FILES green.png  DESTINATION  ${DATA_INSTALL_DIR}/kpat/backgrounds )
 install( FILES kpatui.rc  DESTINATION  ${DATA_INSTALL_DIR}/kpat )
 
-
-
-#

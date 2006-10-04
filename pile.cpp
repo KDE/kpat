@@ -185,7 +185,7 @@ bool Pile::legalAdd( const CardList& _cards ) const
 
     switch (addType()) {
         case Custom:
-//TODO            return dealer()->checkAdd( checkIndex(), this, _cards );
+            return dealer()->checkAdd( checkIndex(), this, _cards );
             break;
         case KlondikeTarget:
             return add_klondikeTarget(_cards);
@@ -319,6 +319,7 @@ void Pile::add( Card *_card, int index)
 
 QSizeF Pile::cardOffset( bool _spread, bool _facedown, const Card *before) const
 {
+    kDebug() << "cardOffset " << _spread << " " << _facedown << " " << _facedown << " " << dspread() << " " << spread() << endl;
     if (_spread) {
         if (_facedown)
             return QSizeF(0, dspread());

@@ -51,8 +51,6 @@ private: // functions
     void         dealRow(int row);
 
 private:
-    Deck  *deck;
-
     Pile  *stack[4][8];
     Pile  *aces;
 };
