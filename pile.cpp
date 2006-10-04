@@ -319,7 +319,6 @@ void Pile::add( Card *_card, int index)
 
 QSizeF Pile::cardOffset( bool _spread, bool _facedown, const Card *before) const
 {
-    kDebug() << "cardOffset " << _spread << " " << _facedown << " " << _facedown << " " << dspread() << " " << spread() << endl;
     if (_spread) {
         if (_facedown)
             return QSizeF(0, dspread());

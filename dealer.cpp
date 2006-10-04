@@ -131,7 +131,7 @@ Dealer::Dealer( KMainWindow* _parent )
 void Dealer::setScene( QGraphicsScene *scene )
 {
     QGraphicsView::setScene( scene );
-    dscene()->setGameNumber(/*KRandom::random()*/ 288630676);
+    dscene()->setGameNumber( KRandom::random() );
 //    dscene()->setAdvancePeriod(30);
 // dscene()->setBackgroundColor( darkGreen );
 // dscene()->setDoubleBuffering(true);

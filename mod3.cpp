@@ -74,12 +74,7 @@ Mod3::Mod3( )
 
 bool Mod3::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
 {
-    kDebug() << "lost " << checkIndex << endl;
-    kDebug() << "lost1 " << c1 << endl;
-    kDebug() << "lost2 " << c1->top() << endl;
-    kDebug() << "lost3 " << c1->index() << endl;
-
-    kDebug(11111) << "checkAdd " << checkIndex << " " << ( c1->top() ? c1->top()->name() : "none" ) << " " << c1->index() << " " << c1->index() / 10 << endl;
+    // kDebug(11111) << "checkAdd " << checkIndex << " " << ( c1->top() ? c1->top()->name() : "none" ) << " " << c1->index() << " " << c1->index() / 10 << endl;
 
     if (checkIndex == 0) {
         Card *c2 = cl.first();
