@@ -75,7 +75,7 @@ void Deck::makedeck()
             for ( int s = Card::Spades-1; s >=  Card::Clubs-1 ; s--)
             {
                 _deck[i] = new Card(static_cast<Card::Rank>(r),
-                                    static_cast<Card::Suit>(Card::Spades - (s % suits)), dealer() );
+                                    static_cast<Card::Suit>(Card::Spades - (s % suits)), dscene() );
                 _deck[i]->setPos(x(), y());
                 i++;
             }
@@ -132,10 +132,10 @@ void Deck::shuffle()
 {
     assert((uint)m_cards.count() == mult*NumberOfCards);
 
-    assert(dealer()->gameNumber() >= 0);
-    pseudoRandom_srand(dealer()->gameNumber());
+    assert(dscene()->gameNumber() >= 0);
+    pseudoRandom_srand(dscene()->gameNumber());
 
-    kDebug(11111) << "first card " << m_cards[0]->name() << " " << dealer()->gameNumber() << endl;
+    kDebug(11111) << "first card " << m_cards[0]->name() << " " << dscene()->gameNumber() << endl;
 
     Card* t;
     long z;

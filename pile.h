@@ -58,7 +58,7 @@ public:
     explicit Pile( int _index, DealerScene* parent = 0);
     virtual ~Pile();
 
-    DealerScene  *dealer() const { return m_dealer; }
+    DealerScene  *dscene() const { return m_dealer; }
     CardList      cards()  const { return m_cards; }
 
     bool legalAdd(const CardList &c ) const;

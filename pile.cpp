@@ -49,7 +49,7 @@ Pile::Pile( int _index, DealerScene* parent)
     setElementId( "pile" );
 
     // Make the patience aware of this pile.
-    dealer()->addPile(this);
+    dscene()->addPile(this);
 
     QGraphicsItem::setVisible(true); // default
     _checkIndex = -1;
@@ -122,7 +122,7 @@ void Pile::setRemoveType(PileType type)
 
 Pile::~Pile()
 {
-    dealer()->removePile(this);
+    dscene()->removePile(this);
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
@@ -185,7 +185,7 @@ bool Pile::legalAdd( const CardList& _cards ) const
 
     switch (addType()) {
         case Custom:
-            return dealer()->checkAdd( checkIndex(), this, _cards );
+            return dscene()->checkAdd( checkIndex(), this, _cards );
             break;
         case KlondikeTarget:
             return add_klondikeTarget(_cards);
@@ -215,7 +215,7 @@ bool Pile::legalRemove(const Card *c) const
 
     switch (removeType()) {
         case Custom:
-//TODO            return dealer()->checkRemove( checkIndex(), this, c);
+            return dscene()->checkRemove( checkIndex(), this, c);
             break;
         case KlondikeTarget:
         case GypsyStore:
@@ -234,24 +234,24 @@ bool Pile::legalRemove(const Card *c) const
 void Pile::setVisible(bool vis)
 {
     QGraphicsItem::setVisible(vis);
-    dealer()->enlargeCanvas(this);
+    dscene()->enlargeCanvas(this);
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
         (*it)->setVisible(vis);
-        dealer()->enlargeCanvas(*it);
+        dscene()->enlargeCanvas(*it);
     }
 }
 
 void Pile::moveBy(double dx, double dy)
 {
     QGraphicsItem::moveBy(dx, dy);
-    dealer()->enlargeCanvas(this);
+    dscene()->enlargeCanvas(this);
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
         (*it)->moveBy(dx, dy);
-        dealer()->enlargeCanvas(*it);
+        dscene()->enlargeCanvas(*it);
     }
 }
 
@@ -373,7 +373,7 @@ void Pile::add( Card* _card, bool _facedown, bool _spread )
         _card->moveTo(x2, y2, z2, DURATION_INITIALDEAL);
     }
 
-    dealer()->enlargeCanvas(_card);
+    dscene()->enlargeCanvas(_card);
 }
 
 void Pile::remove(Card *c)
@@ -469,7 +469,7 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
                 c->moveTo( before->realX() + off.width() / 10 * cardMap::self()->wantedCardWidth(),
 			   before->realY() + off.height()  / 10 * cardMap::self()->wantedCardHeight(),
 			   before->realZ() + 1, steps);
-                dealer()->enlargeCanvas(c);
+                dscene()->enlargeCanvas(c);
             }
             else {
                 c->moveTo( int(x()), int(y()), int(zValue()) + 1, steps);
@@ -490,7 +490,7 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
         (*it)->moveTo( before->realX() + off.width() / 10 * cardMap::self()->wantedCardWidth(),
                        before->realY() + off.height()  / 10 * cardMap::self()->wantedCardHeight(),
                        before->realZ() + 1, steps);
-        dealer()->enlargeCanvas(*it);
+        dscene()->enlargeCanvas(*it);
         before = *it;
     }
 }

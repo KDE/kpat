@@ -42,8 +42,7 @@ set(kpat_SRCS ${libfcs_SRCS}
    klondike.cpp 
    mod3.cpp
    gamestatsimpl.cpp 
-#   kings.cpp
-#   freecell.cpp
+   freecell.cpp
 #   simon.cpp
 #   grandf.cpp
 #   idiot.cpp

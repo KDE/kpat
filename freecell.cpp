@@ -42,7 +42,7 @@ void FreecellPile::moveCards(CardList &c, Pile *to)
         Pile::moveCards(c, to);
         return;
     }
-    FreecellBase *b = dynamic_cast<FreecellBase*>(dealer());
+    FreecellBase *b = dynamic_cast<FreecellBase*>(dscene());
     if (b) {
         b->moveCards(c, this, to);
     }
@@ -55,10 +55,10 @@ FreecellBase::FreecellBase( int decks, int stores, int freecells, int fill, bool
       solver_instance(0), es_filling(fill), solver_ret(FCS_STATE_NOT_BEGAN_YET),
       unlimited_move(unlimit)
 {
-    deck = Deck::new_deck(this, decks);
-    deck->hide();
+    Deck::create_deck(this, decks);
+    Deck::deck()->hide();
 
-    kDebug(11111) << "cards " << deck->cards().count() << endl;
+    kDebug(11111) << "cards " << Deck::deck()->cards().count() << endl;
     Pile *t;
     for (int i = 0; i < stores; i++)
     {
@@ -100,7 +100,7 @@ FreecellBase::~FreecellBase()
 void FreecellBase::restart()
 {
     freeSolution();
-    deck->collectAndShuffle();
+    Deck::deck()->collectAndShuffle();
     deal();
 }
 
@@ -254,7 +254,7 @@ void FreecellBase::findSolution()
     ret = freecell_solver_user_set_game(solver_instance,
                                             freecell.count(),
                                             store.count(),
-                                            deck->decksNum(),
+                                            Deck::deck()->decksNum(),
                                             FCS_SEQ_BUILT_BY_ALTERNATE_COLOR,
                                             unlimited_move,
                                             es_filling);
@@ -262,7 +262,7 @@ void FreecellBase::findSolution()
 #else
     freecell_solver_user_set_num_freecells(solver_instance,freecell.count());
     freecell_solver_user_set_num_stacks(solver_instance,store.count());
-    freecell_solver_user_set_num_decks(solver_instance,deck->decksNum());
+    freecell_solver_user_set_num_decks(solver_instance,Deck::deck()->decksNum());
     freecell_solver_user_set_sequences_are_built_by_type(solver_instance, FCS_SEQ_BUILT_BY_ALTERNATE_COLOR);
     freecell_solver_user_set_sequence_move(solver_instance, unlimited_move);
     freecell_solver_user_set_empty_stacks_filled_by(solver_instance, es_filling);
@@ -504,7 +504,7 @@ void FreecellBase::getHints()
                     if (!dest->legalAdd(cards))
                         continue;
 
-                    bool old_prefer = Dealer::instance()->checkPrefering( dest->checkIndex(), dest, cards );
+                    bool old_prefer = checkPrefering( dest->checkIndex(), dest, cards );
                     if (!Dealer::instance()->takeTargetForHints() && dest->target())
                         newHint(new MoveHint(*iti, dest, noLongerNeeded(*(*iti))));
                     else {
@@ -513,8 +513,8 @@ void FreecellBase::getHints()
                         if ((store->isEmpty() && !dest->isEmpty()) || !store->legalAdd(cards))
                             newHint(new MoveHint(*iti, dest));
                         else {
-                            if (old_prefer && !Dealer::instance()->checkPrefering( store->checkIndex(),
-                                                                                   store, cards ))
+                            if (old_prefer && !checkPrefering( store->checkIndex(),
+                                                               store, cards ))
                             { // if checkPrefers says so, we add it nonetheless
                                 newHint(new MoveHint(*iti, dest));
                             }
@@ -823,23 +823,21 @@ Freecell::Freecell()
     : FreecellBase(1, 8, 4, FCS_ES_FILLED_BY_ANY_CARD, false)
 {
     for (int i = 0; i < 8; i++)
-        store[i]->setPos(8 + ( cardMap::CARDX() * 11 / 10 + 1 ) * i, 8 + cardMap::CARDY() * 11 / 10);
-
-    const int right = 8 + ( cardMap::CARDX() * 11 / 10 + 1 ) * 7 + cardMap::CARDX();
+        store[i]->setPilePos(1 + 11.3 * i, 14 );
 
     for (int i = 0; i < 4; i++)
-        freecell[i]->setPos(8 + ( cardMap::CARDX() * 13 / 12 ) * i, 8);
+        freecell[i]->setPilePos(1 + 10.8 * i, 1);
 
     for (int i = 0; i < 4; i++)
-        target[i]->setPos(right - (3-i) * ( cardMap::CARDX() * 13 / 12 ) -cardMap::CARDX()  , 8);
+        target[i]->setPilePos(4 + 10.8 * ( 4 + i ), 1);
 }
 
 void Freecell::deal()
 {
     int column = 0;
-    while (!deck->isEmpty())
+    while (!Deck::deck()->isEmpty())
     {
-        store[column]->add (deck->nextCard(), false, true);
+        store[column]->add (Deck::deck()->nextCard(), false, true);
         column = (column + 1) % 8;
     }
 }

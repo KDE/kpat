@@ -80,7 +80,7 @@ protected:
     QList<FreecellPile*> store;
     PileList freecell;
     PileList target;
-    Deck *deck;
+
 private:
     HintList moves;
     HintList oldmoves;

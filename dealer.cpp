@@ -329,10 +329,12 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
     }
 
     PileList sources;
-    QList<QGraphicsItem *> list = items( movingCards.first()->sceneBoundingRect() );
+    QList<QGraphicsItem *> list = collidingItems( movingCards.first() );
 
+    kDebug() << "movingCards " << movingCards.first()->sceneBoundingRect() << endl;
     for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
     {
+        kDebug() << "it " << ( *it )->type() << " " << ( *it )->sceneBoundingRect() << endl;
         if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId) {
             Card *c = dynamic_cast<Card*>(*it);
             assert(c);
@@ -360,6 +362,7 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
     for (PileList::Iterator it = sources.begin(); it != sources.end(); ++it)
     {
         bool b = (*it)->legalAdd(movingCards);
+        kDebug() << "legalAdd " << b << " " << ( *it )->x() << endl;
         if (b) {
             if ((*it)->isEmpty()) {
                 (*it)->setHighlighted(true);
