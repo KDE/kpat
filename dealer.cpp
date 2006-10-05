@@ -496,7 +496,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
 
     unmarkAll();
 
-    QList<QGraphicsItem *> list = items(movingCards.first()->sceneBoundingRect());
+    QList<QGraphicsItem *> list = collidingItems( movingCards.first() );
     HitList sources;
 
     for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
