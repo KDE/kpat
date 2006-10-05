@@ -860,12 +860,14 @@ void Dealer::takeState()
         }
     }
 
+    kDebug() << "n " << n << endl;
+
     if (n) {
         if (dscene()->isGameWon()) {
             won();
             return;
         }
-        else if (isGameLost() && !toldAboutLostGame) {
+        else if ( dscene()->isGameLost() && !toldAboutLostGame) {
             if ( ahint )
                 ahint->setEnabled( false );
             if ( ademo )
@@ -1401,12 +1403,7 @@ bool DealerScene::isGameWon() const
     return true;
 }
 
-bool Dealer::isGameWon() const
-{
-    return dscene()->isGameWon();
-}
-
-bool Dealer::isGameLost() const
+bool DealerScene::isGameLost() const
 {
     return false;
 }

@@ -117,7 +117,9 @@ public:
     void addPile(Pile *p);
     void removePile(Pile *p);
 
+    virtual bool isGameLost() const;
     virtual bool isGameWon() const;
+
     int freeCells() const;
 
     void startNew();
@@ -198,9 +200,6 @@ public:
     virtual ~Dealer();
 
     static Dealer *instance();
-
-    virtual bool isGameLost() const;
-    virtual bool isGameWon() const;
 
     void setViewSize(const QSize &size);
 

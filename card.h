@@ -105,6 +105,7 @@ public:
                        QWidget *widget = 0);
 
     void setElementId( const QString & element );
+    virtual QRectF boundingRect () const;
 
 signals:
     void         stoped(Card *c);

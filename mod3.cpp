@@ -35,12 +35,12 @@ Mod3::Mod3( )
 
     // This patience uses 2 deck of cards.
     Deck::create_deck( this, 2);
-    Deck::deck()->setPilePos(3 + dist_x * 8 + 5, 3 + dist_y * 3 + margin);
+    Deck::deck()->setPilePos(3 + dist_x * 8 + 5, 2 + dist_y * 3 + margin);
 
     connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
 
     aces = new Pile(50, this);
-    aces->setPilePos(10 + dist_x * 8, 0.2 + dist_y / 2);
+    aces->setPilePos(10 + dist_x * 8, dist_y / 2);
     aces->setTarget(true);
     aces->setCheckIndex(2);
     aces->setAddFlags(Pile::addSpread | Pile::several);
@@ -82,20 +82,20 @@ bool Mod3::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
         if (c1->isEmpty())
             return (c2->rank() == ( ( c1->index() / 10 ) + 2 ) );
 
-        kDebug(11111) << "not empty\n";
+        //kDebug(11111) << "not empty\n";
 
         if (c1->top()->suit() != c2->suit())
             return false;
 
-        kDebug(11111) << "same suit\n";
+        //kDebug(11111) << "same suit\n";
         if (c2->rank() != (c1->top()->rank()+3))
             return false;
 
-        kDebug(11111) << "+3 " << c1->cardsLeft() << " " << c1->top()->rank() << " " << c1->index()+1 << endl;
+        //kDebug(11111) << "+3 " << c1->cardsLeft() << " " << c1->top()->rank() << " " << c1->index()+1 << endl;
         if (c1->cardsLeft() == 1)
             return (c1->top()->rank() == ((c1->index() / 10) + 2));
 
-        kDebug(11111) << "+1\n";
+        //kDebug(11111) << "+1\n";
 
         return true;
 
@@ -190,7 +190,7 @@ bool Mod3::startAutoDrop() {
 bool Mod3::isGameLost() const
 {
     int n,row,col;
-    kDebug(11111) << "isGameLost ?"<< endl;
+    //kDebug(11111) << "isGameLost ?"<< endl;
 
     bool nextTest=false;
 
@@ -263,7 +263,7 @@ bool Mod3::isGameLost() const
         else {
 	    // Non-empty stack.
             ctop = stack[row][col]->top();
-            kDebug(11111) << "considering ["<<row<<"]["<<col<<"] " << ctop->name() << flush;
+            //kDebug(11111) << "considering ["<<row<<"]["<<col<<"] " << ctop->name() << flush;
 
 	    // Card not in its final position?  Then we can't build on it.
             if (stack[row][col]->at(0)->rank() != Card::Two + row)
@@ -276,7 +276,7 @@ bool Mod3::isGameLost() const
 		    && card->rank() == ctop->rank() + 3)
                     return false;
             }
-            kDebug(11111) <<" Can't stack from bottom row" << flush;
+            //kDebug(11111) <<" Can't stack from bottom row" << flush;
 
 	    // Can we move a card from another stack here?
             for (int n_2 = 1; n_2 < 24; n_2++) {

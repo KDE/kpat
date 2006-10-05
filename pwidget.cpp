@@ -246,7 +246,7 @@ void pWidget::newGame()
 {
     // Check if the user is already running a game, and if she is,
     // then ask if she wants to abort it.
-    if (!dill->isGameWon() && !dill->isGameLost()
+    if (!dill->dscene()->isGameWon() && !dill->dscene()->isGameLost()
 	&& KMessageBox::warningContinueCancel(0,
                                      i18n("You are already running an unfinished game.  "
                                           "If you abort the old game to start a new one, "

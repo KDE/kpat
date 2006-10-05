@@ -419,7 +419,7 @@ void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->setRenderHint( QPainter::SmoothPixmapTransform, false );
     painter->setRenderHint( QPainter::Antialiasing, false );
     QRectF exposed = option->exposedRect;
-    // exposed = exposed.adjusted(-3, -3, 3, 3);
+//    exposed = exposed.adjusted(-1, -1, 2, 2);
     Q_ASSERT( !pixmap().isNull() );
     painter->drawPixmap(exposed, pixmap(), exposed );
 
@@ -506,4 +506,8 @@ void Card::setElementId( const QString & element )
     rescale();
 }
 
+QRectF Card::boundingRect() const
+{
+   return QRectF(QPointF(0,0), pixmap().size());
+}
 #include "card.moc"
