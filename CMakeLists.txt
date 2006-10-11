@@ -62,7 +62,7 @@ kde4_add_ui_files(kpat_SRCS gamestats.ui )
 
 kde4_add_executable(kpat ${kpat_SRCS})
 
-target_link_libraries(kpat  ${KDE4_KIO_LIBS} kdegames QtOpenGL)
+target_link_libraries(kpat  ${KDE4_KIO_LIBS} kdegames ${QT_QTOPENGL_LIBRARY})
 
 install(TARGETS kpat  DESTINATION ${BIN_INSTALL_DIR} )
 
