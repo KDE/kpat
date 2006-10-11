@@ -296,10 +296,11 @@ void Klondike::redeal() {
         // of the new deck
         pilecards += deck->cards();
 
-    for (CardList::Iterator it = pilecards.fromLast(); it != pilecards.end(); --it)
+    for (int count = pilecards.count() - 1; count >= 0; --count)
     {
-        (*it)->setAnimated(false);
-        deck->add(*it, true, false); // facedown, nospread
+        Card *card = pilecards[count];
+        card->setAnimated(false);
+        deck->add(card, true, false); // facedown, nospread
     }
 
     redealt = true;
