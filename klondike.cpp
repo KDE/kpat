@@ -297,7 +297,7 @@ void Klondike::redeal() {
         // of the new deck
         pilecards += Deck::deck()->cards();
 
-    for (int count = pilecards.count() - 1; count; --count)
+    for (int count = pilecards.count() - 1; count >= 0; --count)
     {
         Card *card = pilecards[count];
 	card->stopAnimation();
