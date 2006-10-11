@@ -407,7 +407,7 @@ bool Klondike::isGameLost() const
             // ...check whether any of the other stores contains a (visible)
             // king we could move here.
             for ( int j = 0; j < 7; ++j ) {
-                if ( j == i || play[ j ]->cardsLeft() < 2 ) {
+                if ( j == i || play[ j ]->isEmpty() ) {
                     continue;
                 }
                 const CardList cards = play[ j ]->cards();
