@@ -256,7 +256,7 @@ void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
 
 // Animate a move to (x2, y2), and at the same time flip the card.
 //
-void Card::flipTo(int x2, int y2)
+void Card::flipTo(qreal x2, qreal y2)
 {
     stopAnimation();
 
@@ -282,7 +282,7 @@ void Card::flipTo(int x2, int y2)
     timeLine->setUpdateInterval(1000 / 25);
     timeLine->setFrameRange(0, 100);
     timeLine->setLoopCount(1);
-    timeLine->setDuration( 700 );
+    timeLine->setDuration( 500 );
     timeLine->start();
 
     connect( timeLine, SIGNAL( finished() ), SLOT( stopAnimation() ) );

@@ -49,7 +49,6 @@ private:
     Pile *stack[8];
     Pile *target[8];
     HorLeftPile *pile;
-    Deck *deck;
     bool lastdeal;
 };
 

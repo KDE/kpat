@@ -157,8 +157,14 @@ void Pile::paint ( QPainter * painter, const QStyleOptionGraphicsItem * , QWidge
 void Pile::rescale()
 {
     QPointF old_pos = pos();
-    setPos( _pilePos.x() * cardMap::self()->wantedCardWidth() / 10.,
-            _pilePos.y() * cardMap::self()->wantedCardHeight() / 10. );
+    QPointF new_pos = QPointF( _pilePos.x() * cardMap::self()->wantedCardWidth() / 10.,
+                               _pilePos.y() * cardMap::self()->wantedCardHeight() / 10. );
+    if ( new_pos.x() < 0 )
+        new_pos.setX( Dealer::instance()->viewport()->width() - cardMap::self()->wantedCardWidth() + new_pos.x() );
+    if ( new_pos.y() < 0 )
+        new_pos.setY( Dealer::instance()->viewport()->height() - cardMap::self()->wantedCardHeight() + new_pos.y() );
+
+    setPos( new_pos );
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
         ( *it )->moveBy( pos().x() - old_pos.x(),
@@ -234,24 +240,20 @@ bool Pile::legalRemove(const Card *c) const
 void Pile::setVisible(bool vis)
 {
     QGraphicsItem::setVisible(vis);
-    dscene()->enlargeCanvas(this);
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
         (*it)->setVisible(vis);
-        dscene()->enlargeCanvas(*it);
     }
 }
 
 void Pile::moveBy(double dx, double dy)
 {
     QGraphicsItem::moveBy(dx, dy);
-    dscene()->enlargeCanvas(this);
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
         (*it)->moveBy(dx, dy);
-        dscene()->enlargeCanvas(*it);
     }
 }
 
@@ -373,7 +375,6 @@ void Pile::add( Card* _card, bool _facedown, bool _spread )
         _card->moveTo(x2, y2, z2, DURATION_INITIALDEAL);
     }
 
-    dscene()->enlargeCanvas(_card);
 }
 
 void Pile::remove(Card *c)
@@ -469,7 +470,6 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
                 c->moveTo( before->realX() + off.width() / 10 * cardMap::self()->wantedCardWidth(),
 			   before->realY() + off.height()  / 10 * cardMap::self()->wantedCardHeight(),
 			   before->realZ() + 1, steps);
-                dscene()->enlargeCanvas(c);
             }
             else {
                 c->moveTo( int(x()), int(y()), int(zValue()) + 1, steps);
@@ -490,7 +490,6 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
         (*it)->moveTo( before->realX() + off.width() / 10 * cardMap::self()->wantedCardWidth(),
                        before->realY() + off.height()  / 10 * cardMap::self()->wantedCardHeight(),
                        before->realZ() + 1, steps);
-        dscene()->enlargeCanvas(*it);
         before = *it;
     }
 }

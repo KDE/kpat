@@ -39,7 +39,7 @@ void SpiderPile::moveCards(CardList &c, Pile *to)
     if (c.last()->rank() == Card::Ace &&
         c.first()->suit() == to->top()->suit() &&
         to->cardsLeft() > 12) {
-            Spider *b = dynamic_cast<Spider*>(dealer());
+            Spider *b = dynamic_cast<Spider*>(dscene());
             if (b) {
                 b->checkPileDeck(to);
             }
@@ -51,19 +51,18 @@ void SpiderPile::moveCards(CardList &c, Pile *to)
 Spider::Spider(int suits)
         : DealerScene()
 {
-    const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
-    const int dist_y = cardMap::CARDY() * 11 / 10 + 1;
+    const qreal dist_x = 11.2;
 
-    deck = Deck::new_deck(this, 2, suits);
+    Deck::create_deck(this, 2, suits);
 
     // I deal the cards into 'redeal' piles, so hide the deck
-    deck->setVisible(false);
+    Deck::deck()->setVisible(false);
 
     // Dealing the cards out into 5 piles so the user can see how many
     // sets of 10 cards are left to be dealt out
     for( int column = 0; column < 5; column++ ) {
         redeals[column] = new Pile(column + 1, this);
-        redeals[column]->setPos(8 + dist_x / 3 * (23 + column), 8 + dist_y * 4.5);
+        redeals[column]->setPilePos( 0 - dist_x / 3 * ( 5 - column ), -2);
         redeals[column]->setZValue(5-column);
         redeals[column]->setCheckIndex(0);
         redeals[column]->setAddFlags(Pile::disallow);
@@ -74,19 +73,19 @@ Spider::Spider(int suits)
     // The 10 playing piles
     for( int column = 0; column < 10; column++ ) {
         stack[column] = new SpiderPile(column + 6, this);
-        stack[column]->setPos(8 + dist_x * column, 8);
+        stack[column]->setPilePos(1 + dist_x * column, 1);
         stack[column]->setZValue(20);
         stack[column]->setCheckIndex(1);
         stack[column]->setAddFlags(Pile::addSpread | Pile::several);
         stack[column]->setRemoveFlags(Pile::several |
-            Pile::autoTurnTop | Pile::wholeColumn);
+                                      Pile::autoTurnTop | Pile::wholeColumn);
     }
 
     // The 8 'legs' so named by me because spiders have 8 legs - why
     // else the name Spider?
     for( int column = 0; column < 8; column++ ) {
         legs[column] = new Pile(column + 16, this);
-        legs[column]->setPos(8 + dist_x / 3 * column, 8 + dist_y * 4.5);
+        legs[column]->setPilePos(1 + dist_x / 3 * column, -2);
         legs[column]->setZValue(column+1);
         legs[column]->setCheckIndex(0);
         legs[column]->setAddFlags(Pile::disallow);
@@ -275,7 +274,7 @@ void Spider::setGameState(const QString &stream)
 
 void Spider::restart()
 {
-    deck->collectAndShuffle();
+    Deck::deck()->collectAndShuffle();
     deal();
 }
 
@@ -358,18 +357,18 @@ void Spider::deal()
     int column = 0;
     // deal face down cards (5 to first 4 piles, 4 to last 6)
     for (int i = 0; i < 44; i++ ) {
-        stack[column]->add(deck->nextCard(), true, true);
+        stack[column]->add(Deck::deck()->nextCard(), true, true);
         column = (column + 1) % 10;
     }
     // deal face up cards, one to each pile
     for (int i = 0; i < 10; i++ ) {
-        stack[column]->add(deck->nextCard(), false, true);
+        stack[column]->add(Deck::deck()->nextCard(), false, true);
         column = (column + 1) % 10;
     }
     // deal the remaining cards into 5 'redeal' piles
     for (int column = 0; column < 5; column++ )
         for (int i = 0; i < 10; i++ )
-            redeals[column]->add(deck->nextCard(), true, false);
+            redeals[column]->add(Deck::deck()->nextCard(), true, false);
 
     // make the leg piles invisible
     for (int i = 0; i < 8; i++ )

@@ -31,7 +31,6 @@
 
 class KAction;
 class Pile;
-class Deck;
 class KMainWindow;
 
 class Grandf : public DealerScene {
@@ -57,7 +56,6 @@ protected:
 private:
     Pile* store[7];
     Pile* target[4];
-    Deck *deck;
     int numberOfDeals;
 
 };

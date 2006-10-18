@@ -703,32 +703,6 @@ void Dealer::slotEnableRedeal( bool en )
         aredeal->setEnabled( en );
 }
 
-void DealerScene::enlargeCanvas(QGraphicsItem *c)
-{
-    if ( !c->isVisible() )
-        return;
-
-    Card *cd = dynamic_cast<Card*>( c );
-    if ( cd && cd->animated() )
-        return;
-
-    Dealer::instance()->resizeEvent( 0 );
-
-#if 0
-    bool changed = false;
-
-    if ( c->sceneBoundingRect().right() + 10 > minsize.width() ) {
-        //minsize.setWidth(( int )c->sceneBoundingRect().right() + 10);
-        changed = true;
-    }
-    if (c->sceneBoundingRect().bottom() + 10 > minsize.height()) {
-        //minsize.setHeight(( int )c->sceneBoundingRect().bottom() + 10);
-        changed = true;
-    }
-    kDebug() << "minsize " << minsize << endl;
-#endif
-}
-
 class CardState {
 public:
     Card *it;
@@ -1492,6 +1466,8 @@ void Dealer::resizeEvent( QResizeEvent *e )
     if ( !dscene() )
         return;
 
+    kDebug() << e << endl;
+    dscene()->rescale();
     return;
 
     QRectF newSize(0, 0, size().width(), size().height());

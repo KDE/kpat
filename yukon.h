@@ -30,7 +30,6 @@ public slots:
 private:
     Pile* store[7];
     Pile* target[4];
-    Deck *deck;
 };
 
 #endif

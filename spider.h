@@ -63,7 +63,6 @@ private:
     int m_leg;
     Pile *redeals[5];
     int m_redeal;
-    Deck *deck;
 };
 
 #endif

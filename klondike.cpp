@@ -283,7 +283,7 @@ void Klondike::deal3()
         item->setPos(Deck::deck()->x(), Deck::deck()->y());
 
 #warning FIXME give flipTo a duration argument 8 * ( flipped + 1 )
-        item->flipTo( int(pile->x()) + pile->dspread() * (flipped), int(pile->y()) );
+        item->flipTo( pile->x() + pile->dspread() * flipped, pile->y() );
     }
 
 }

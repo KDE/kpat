@@ -50,7 +50,6 @@ private: // functions
 private:
     Pile* stack[7];
     HorRightPile* waste;
-    Deck* deck;
 };
 
 #endif

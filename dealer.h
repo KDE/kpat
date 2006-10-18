@@ -124,9 +124,6 @@ public:
 
     void startNew();
 
-    void enlargeCanvas(QGraphicsItem *c);
-
-
     virtual void restart() = 0;
     bool demoActive() const;
 

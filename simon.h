@@ -35,7 +35,6 @@ protected:
 private:
     Pile* store[10];
     Pile* target[4];
-    Deck *deck;
 };
 
 #endif

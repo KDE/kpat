@@ -19,7 +19,6 @@
 
 class KAction;
 class Pile;
-class Deck;
 class KMainWindow;
 
 class Gypsy : public DealerScene {
@@ -41,7 +40,6 @@ private: // functions
 private:
     Pile* store[8];
     Pile* target[8];
-    Deck *deck;
 };
 
 #endif

@@ -53,7 +53,7 @@ set(kpat_SRCS ${libfcs_SRCS}
 #   yukon.cpp
 #   clock.cpp
 #   golf.cpp
-#   spider.cpp
+    spider.cpp
 )
 
 kde4_automoc(kpat ${kpat_SRCS})

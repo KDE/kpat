@@ -53,7 +53,6 @@ private:
 
     Pile  *m_play[ 4 ];
     Pile  *m_away;
-    Deck  *m_deck;
 };
 
 #endif

@@ -50,7 +50,6 @@ private:
     Pile* target[4];
     Pile* centre;
     Pile* store[4];
-    Deck* deck;
 };
 
 #endif
