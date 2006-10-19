@@ -40,10 +40,14 @@
 #include "version.h"
 #include <kstaticdeleter.h>
 #include <qimage.h>
+#include <krandom.h>
 #include <kimageeffect.h>
 #include <kcarddialog.h>
 #include <kglobalsettings.h>
+#include <qfileinfo.h>
+#include <QDir>
 #include <assert.h>
+#include <ksimpleconfig.h>
 #include <kglobal.h>
 #include <QSvgRenderer>
 #include <QPixmapCache>
@@ -120,7 +124,23 @@ cardMap::cardMap() : QObject()
 
     kDebug(11111) << "cardMap\n";
 
-    QSvgRenderer *renderer = new KSvgRenderer( KStandardDirs::locate( "data", "carddecks/svg-ornamental/ornamental.svgz" ) );
+    QStringList list = KGlobal::dirs()->findAllResources("data", "carddecks/*/index.desktop");
+    QStringList svgs;
+    for (QStringList::ConstIterator it = list.begin(); it != list.end(); ++it)
+    {
+       KSimpleConfig fi(*it, true);
+       fi.setGroup("KDE Backdeck");
+       QString svg = fi.readEntry("SVG");
+       if (!svg.isNull()) {
+         svg = QFileInfo(*it).dir().absoluteFilePath(svg);
+         assert( QFile::exists(svg) );
+         svgs.append(svg);
+       }
+    }
+    assert(svgs.size());
+    int hit = KRandom::random() % svgs.size();
+    kDebug() << svgs << " " << hit << " " << svgs.size() << " " << svgs[hit] << endl;
+    QSvgRenderer *renderer = new KSvgRenderer( svgs[ hit ] );
     d->m_thread->setRenderer( renderer );
     d->m_backSize = renderer->boundsOnElement( "back" ).size();
     QPixmapCache::setCacheLimit(5 * 1024 * 1024);
