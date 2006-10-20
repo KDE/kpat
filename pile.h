@@ -19,7 +19,7 @@
 #include <QPixmap>
 //Added by qt3to4:
 #include <QList>
-#include <QGraphicsSvgItem>
+#include <QGraphicsPixmapItem>
 
 class DealerScene;
 
@@ -30,7 +30,7 @@ class DealerScene;
 
 **************************************/
 
-class Pile : public QGraphicsSvgItem
+class Pile : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 
@@ -132,7 +132,6 @@ public:
     double  hspread() const   { return _hspread; }
     void setHSpread(double s) { _hspread = s; }
 
-    void paint ( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget );
     void setPilePos( double x, double y);
     QPointF pilePos() const;
 

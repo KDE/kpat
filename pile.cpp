@@ -36,7 +36,7 @@ const int Pile::wholeColumn   = 0x0400;
 
 
 Pile::Pile( int _index, DealerScene* parent)
-    : QGraphicsSvgItem( ),
+    : QGraphicsPixmapItem( ),
       m_dealer(parent),
       _atype(Custom),
       _rtype(Custom),
@@ -45,8 +45,6 @@ Pile::Pile( int _index, DealerScene* parent)
       m_highlighted( false )
 {
     parent->addItem( this );
-    setSharedRenderer( Pile::pileRenderer() );
-    setElementId( "pile" );
 
     // Make the patience aware of this pile.
     dscene()->addPile(this);
@@ -143,15 +141,9 @@ void Pile::setPilePos( double x,  double y )
     update();
 }
 
-void Pile::paint ( QPainter * painter, const QStyleOptionGraphicsItem * , QWidget *  )
+QPointF Pile::pilePos() const
 {
-    assert( !_pilePos.isNull() );
-
-    pileRenderer()->render( painter, isHighlighted() ? "pile_selected" : "pile",
-                            mapFromScene( QRectF( x(),
-                                                  y(),
-                                                  cardMap::self()->wantedCardWidth(),
-                                                  cardMap::self()->wantedCardHeight()) ).boundingRect() );
+    return _pilePos;
 }
 
 void Pile::rescale()
@@ -170,6 +162,17 @@ void Pile::rescale()
         ( *it )->moveBy( pos().x() - old_pos.x(),
                          pos().y() - old_pos.y() );
     }
+    QImage pix( int( cardMap::self()->wantedCardWidth() + 1 ),
+                int( cardMap::self()->wantedCardHeight() + 1), QImage::Format_ARGB32 );
+    pix.fill( qRgba( 0, 0, 255, 0 ) );
+    QPainter p( &pix );
+
+    pileRenderer()->render( &p, isHighlighted() ? "pile_selected" : "pile",
+                            QRectF( 0, 0, cardMap::self()->wantedCardWidth(),
+                                    cardMap::self()->wantedCardHeight() ) );
+    p.end();
+    setPixmap( QPixmap::fromImage( pix ) );
+    kDebug() << "rescale " << endl;
 }
 
 bool Pile::legalAdd( const CardList& _cards ) const
@@ -397,7 +400,7 @@ void Pile::unhideCards( const CardList & cards )
 
 void Pile::setHighlighted( bool flag ) {
     m_highlighted = flag;
-    update();
+    rescale();
 }
 
 CardList Pile::cardPressed(Card *c)
