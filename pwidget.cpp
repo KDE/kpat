@@ -310,7 +310,7 @@ void pWidget::newGameType()
             dill->setGameId(id);
             dill->setupActions();
             dill->setBackgroundPixmap(background, midcolor);
-            dill->startNew();
+            QTimer::singleShot( 0, dill, SLOT( startNew() ) );
             break;
         }
     }

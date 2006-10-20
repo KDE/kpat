@@ -132,6 +132,7 @@ void Dealer::setScene( QGraphicsScene *scene )
 {
     QGraphicsView::setScene( scene );
     dscene()->setGameNumber( KRandom::random() );
+
 //    dscene()->setAdvancePeriod(30);
 // dscene()->setBackgroundColor( darkGreen );
 // dscene()->setDoubleBuffering(true);
@@ -640,6 +641,7 @@ bool DealerScene::cardDblClicked(Card *c)
 
 void Dealer::startNew()
 {
+    kDebug() << "startNew " << kBacktrace() << endl;
     if (!_won)
         countLoss();
     if ( ahint )
@@ -1458,6 +1460,18 @@ void Dealer::countLoss()
     }
 }
 
+QPointF DealerScene::maxPilePos() const
+{
+    QPointF maxp( 0, 0 );
+    for (PileList::ConstIterator it = piles.begin(); it != piles.end(); ++it)
+    {
+        maxp = QPointF( QMAX( ( *it )->pilePos().x(), maxp.x() ),
+                        QMAX( ( *it )->pilePos().y(), maxp.y() ) );
+    }
+
+    return maxp;
+}
+
 void Dealer::resizeEvent( QResizeEvent *e )
 {
     if ( e )
@@ -1466,22 +1480,20 @@ void Dealer::resizeEvent( QResizeEvent *e )
     if ( !dscene() )
         return;
 
-    kDebug() << e << endl;
-    dscene()->rescale();
-    return;
+    QPointF defaultSceneRect = dscene()->maxPilePos();
 
-    QRectF newSize(0, 0, size().width(), size().height());
-    QRectF defaultSceneRect = dscene()->itemsBoundingRect();
-    qreal scaleX = newSize.width() / ( defaultSceneRect.right() + 20 );
-    qreal scaleY = newSize.height() / ( defaultSceneRect.bottom() + 20 );
+    kDebug() << "rect " << defaultSceneRect << " " << size() << endl;
+    qreal scaleX = size().width() / ( defaultSceneRect.x() + 12 );
+    qreal scaleY = size().height() / ( defaultSceneRect.y() + 12 );
+    kDebug() << "scaleY " << scaleY << " " << scaleX << endl;
     qreal n_scaleFactor = qMin(scaleX, scaleY);
     if ( n_scaleFactor == scaleFactor )
         return;
 
-    QMatrix matrix;
-    matrix.scale(n_scaleFactor, n_scaleFactor);
-    setMatrix(matrix, false);
+    kDebug() << "scale " << n_scaleFactor << endl;
     scaleFactor = n_scaleFactor;
+    cardMap::self()->setWantedCardWidth( scaleFactor * 10 );
+    dscene()->rescale();
 }
 
 #include "dealer.moc"

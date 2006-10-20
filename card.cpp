@@ -328,7 +328,7 @@ void Card::stopAnimation()
 {
     if ( !animation )
         return;
-    kDebug() << "stopAnimation " << m_destX << " " << m_destY << endl;
+    // kDebug() << "stopAnimation " << m_destX << " " << m_destY << endl;
     QGraphicsItemAnimation *old_animation = animation;
     animation = 0;
     if ( old_animation->timeLine()->state() == QTimeLine::Running )
