@@ -75,7 +75,7 @@ pWidget::pWidget()
     KStdAction::quit(kapp, SLOT(quit()), actionCollection(), "game_exit");
 
     undo = KStdAction::undo(this, SLOT(undoMove()),
-                     actionCollection(), "undo_move");
+                            actionCollection(), "undo_move");
     undo->setEnabled(false);
     (void)KStdAction::openNew(this, SLOT(newGame()),
                               actionCollection(), "new_game");

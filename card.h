@@ -130,6 +130,7 @@ private:
 
     // Grapics properties.
     bool        m_faceup;	// True if card lies with the face up.
+    bool        m_destFace;
     Pile       *m_source;
 
     bool        tookDown;

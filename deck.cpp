@@ -26,6 +26,7 @@ Deck *Deck::my_deck = 0;
 Deck::Deck( DealerScene* parent, int m, int s )
     : Pile( 0, parent ), mult( m )
 {
+    setObjectName( "deck" );
     _deck = new Card * [mult*NumberOfCards];
     Q_CHECK_PTR (_deck);
 

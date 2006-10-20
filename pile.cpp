@@ -45,6 +45,7 @@ Pile::Pile( int _index, DealerScene* parent)
       _target(false),
       m_highlighted( false )
 {
+    setObjectName( "<unknown>" );
     parent->addItem( this );
 
     // Make the patience aware of this pile.
@@ -373,7 +374,10 @@ void Pile::add( Card* _card, bool _facedown, bool _spread )
 
     add(_card);
 
-    if (_facedown || !isVisible()) {
+    bool face = _facedown;
+    if ( source == Deck::deck() ) // ignore then
+        face = false;
+    if (face || !isVisible()) {
         _card->setPos( x2, y2 );
         _card->setZValue( z2 );
     } else {
@@ -382,7 +386,7 @@ void Pile::add( Card* _card, bool _facedown, bool _spread )
             _card->setPos(x2, -100 );
             _card->setZValue( z2 );
         }
-        _card->moveTo(x2, y2, z2, DURATION_INITIALDEAL + z2 * DURATION_INITIALDEAL / 30);
+        _card->moveTo(x2, y2, z2, int( DURATION_INITIALDEAL + z2 * DURATION_INITIALDEAL / 30 ));
     }
 
 }

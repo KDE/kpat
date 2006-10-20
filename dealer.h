@@ -133,12 +133,20 @@ public:
     virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
     virtual bool checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const;
 
+    // reimplement this to add game-specific information in the state structure
+    virtual QString getGameState() const { return QString(); }
+    // reimplement this to use the game-specific information from the state structure
+    virtual void setGameState( const QString & ) {}
+
     QPointF maxPilePos() const;
 
 public slots:
     virtual bool startAutoDrop();
     void hint();
     void rescale();
+
+    State *getState();
+    void setState(State *);
 
 protected slots:
     virtual void demo();
@@ -234,12 +242,13 @@ public:
     void setActions(int actions) { myActions = actions; }
     int actions() const { return myActions; }
 
+    virtual void takeState();
+
 public slots:
 
     // restart is pure virtual, so we need something else
     virtual void startNew();
     void undo();
-    virtual void takeState();
     void hint();
     void slotTakeState(Card *c);
     void slotEnableRedeal(bool);
@@ -263,14 +272,6 @@ protected:
     KMainWindow *parent() const;
 
 protected:
-
-    State *getState();
-    void setState(State *);
-
-    // reimplement this to add game-specific information in the state structure
-    virtual QString getGameState() const { return QString(); }
-    // reimplement this to use the game-specific information from the state structure
-    virtual void setGameState( const QString & ) {}
 
     Dealer( Dealer& );  // don't allow copies or assignments
     void operator = ( Dealer& );  // don't allow copies or assignments

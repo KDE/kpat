@@ -49,7 +49,7 @@ void SpiderPile::moveCards(CardList &c, Pile *to)
 //-------------------------------------------------------------------------//
 
 Spider::Spider(int suits)
-        : DealerScene()
+    : DealerScene()
 {
     const qreal dist_x = 11.2;
 
@@ -67,6 +67,7 @@ Spider::Spider(int suits)
         redeals[column]->setCheckIndex(0);
         redeals[column]->setAddFlags(Pile::disallow);
         redeals[column]->setRemoveFlags(Pile::disallow);
+        redeals[column]->setObjectName( QString( "redeals%1" ).arg( column ) );
         connect(redeals[column], SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
     }
 
@@ -79,6 +80,7 @@ Spider::Spider(int suits)
         stack[column]->setAddFlags(Pile::addSpread | Pile::several);
         stack[column]->setRemoveFlags(Pile::several |
                                       Pile::autoTurnTop | Pile::wholeColumn);
+        stack[column]->setObjectName( QString( "stack%1" ).arg( column ) );
     }
 
     // The 8 'legs' so named by me because spiders have 8 legs - why
@@ -91,6 +93,8 @@ Spider::Spider(int suits)
         legs[column]->setAddFlags(Pile::disallow);
         legs[column]->setRemoveFlags(Pile::disallow);
         legs[column]->setTarget(true);
+        legs[column]->setVisible( false );
+        legs[column]->setObjectName( QString( "legs%1" ).arg( column ) );
     }
 
     // Moving an A-K run to a leg is not really an autoDrop - the

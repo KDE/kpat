@@ -747,9 +747,9 @@ bool operator==( const State & st1, const State & st2) {
     return st1.cards == st2.cards && st1.gameData == st2.gameData;
 }
 
-State *Dealer::getState()
+State *DealerScene::getState()
 {
-    QList<QGraphicsItem *> list = scene()->items();
+    QList<QGraphicsItem *> list = items();
     State * st = new State;
 
     for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
@@ -781,14 +781,15 @@ State *Dealer::getState()
     return st;
 }
 
-void Dealer::setState(State *st)
+void DealerScene::setState(State *st)
 {
     CardStateList * n = &st->cards;
-    QList<QGraphicsItem *> list = scene()->items();
+    QList<QGraphicsItem *> list = items();
 
     for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
     {
-        if ((*it)->type() == QGraphicsItem::UserType + Dealer::PileTypeId ) {
+        if ((*it)->type() == QGraphicsItem::UserType + Dealer::PileTypeId )
+        {
             Pile *p = dynamic_cast<Pile*>(*it);
             assert(p);
             CardList cards = p->cards();
@@ -801,11 +802,12 @@ void Dealer::setState(State *st)
     for (CardStateList::ConstIterator it = n->begin(); it != n->end(); ++it)
     {
         Card *c = (*it).it;
+        c->stopAnimation();
         CardState s = *it;
+        kDebug() << "c " << c->name() << " " << s.source->objectName() << " " << s.faceup << endl;
         bool target = c->takenDown(); // abused
         s.source->add(c, s.source_index);
         c->setVisible(s.source->isVisible());
-        c->stopAnimation();
         c->setPos(s.x, s.y);
         c->setZValue(int(s.z));
         c->setTakenDown(s.tookdown || (target && !s.source->target()));
@@ -822,7 +824,7 @@ void Dealer::takeState()
 {
     kDebug(11111) << "takeState\n";
 
-    State *n = getState();
+    State *n = dscene()->getState();
 
     if (!undoList.count()) {
         emit updateMoves();
@@ -869,7 +871,7 @@ void Dealer::saveGame(QDomDocument &doc) {
     doc.appendChild(dealer);
     dealer.setAttribute("id", _id);
     dealer.setAttribute("number", QString::number(dscene()->gameNumber()));
-    QString data = getGameState();
+    QString data = dscene()->getGameState();
     if (!data.isEmpty())
         dealer.setAttribute("data", data);
     dealer.setAttribute("moves", QString::number(getMoves()));
@@ -999,10 +1001,10 @@ void Dealer::openGame(QDomDocument &doc)
             }
         }
     }
-    setGameState( dealer.attribute("data") );
+    dscene()->setGameState( dealer.attribute("data") );
 
     if (undoList.count() > 1) {
-        setState(undoList.takeLast());
+        dscene()->setState(undoList.takeLast());
         takeState(); // copying it again
         emit undoPossible(undoList.count() > 1);
     }
@@ -1015,10 +1017,11 @@ void Dealer::undo()
 {
     dscene()->unmarkAll();
     dscene()->stopDemo();
+    kDebug() << "::undo " << undoList.count() << endl;
     if (undoList.count() > 1) {
         delete undoList.last();
         undoList.removeLast(); // the current state
-        setState(undoList.takeLast());
+        dscene()->setState(undoList.takeLast());
         emit updateMoves();
         takeState(); // copying it again
         emit undoPossible(undoList.count() > 1);

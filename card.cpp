@@ -48,7 +48,8 @@ const int Card::my_type = Dealer::CardTypeId;
 Card::Card( Rank r, Suit s, QGraphicsScene *_parent )
     : QObject(), QGraphicsPixmapItem(),
       m_suit( s ), m_rank( r ),
-      m_source(0), tookDown(false), animation( 0 ), m_highlighted( false ), m_moving( false )
+      m_source(0), tookDown(false), animation( 0 ),
+      m_highlighted( false ), m_moving( false )
 {
     _parent->addItem( this );
 
@@ -63,6 +64,7 @@ Card::Card( Rank r, Suit s, QGraphicsScene *_parent )
     m_hovered = false;
     // Default for the card is face up, standard size.
     m_faceup = true;
+    m_destFace = true;
 
     m_destX = 0;
     m_destY = 0;
@@ -101,6 +103,7 @@ void Card::turn( bool _faceup )
 {
     if (m_faceup != _faceup) {
         m_faceup = _faceup;
+        m_destFace = _faceup;
         if ( m_faceup ) {
             setElementId( QString( "%1_%2" ).arg( rank_names[m_rank-1] ).arg( suit_names[m_suit-1] ) );
         } else {
@@ -159,18 +162,7 @@ qreal Card::realZ() const
 
 bool Card::realFace() const
 {
-//#warning FIXME - this needs some caching
-    return isFaceUp();
-#if 0
-    if (animated() && m_flipping) {
-        bool face = isFaceUp();
-        if ( m_animSteps >= m_flipSteps / 2 - 1 )
-            return !face;
-        else
-            return face;
-    } else
-        return isFaceUp();
-#endif
+    return m_destFace;
 }
 
 
@@ -296,6 +288,8 @@ void Card::flipTo(qreal x2, qreal y2)
 
     // Let the card be above all others during the animation.
     setZValue(Hz++);
+
+    m_destFace = !m_faceup;
 }
 
 
@@ -304,6 +298,7 @@ void Card::flipAnimationChanged( qreal r)
     if ( r > 0.5 && !isFaceUp() ) {
         kDebug() << "flipAnimationChanged " << endl;
         flip();
+        assert( m_destFace == m_faceup );
     }
 }
 
@@ -330,7 +325,7 @@ void Card::stopAnimation()
     if ( !animation )
         return;
 
-    kDebug() << "stopAnimation " << name() << " " << m_destX << " " << m_destY << " " << kBacktrace() << endl;
+    // kDebug() << "stopAnimation " << name() << " " << m_destX << " " << m_destY << " " << kBacktrace() << endl;
     QGraphicsItemAnimation *old_animation = animation;
     animation = 0;
     if ( old_animation->timeLine()->state() == QTimeLine::Running )
@@ -356,6 +351,7 @@ void Card::hoverEnterEvent ( QGraphicsSceneHoverEvent *  )
     return;
 
     m_hoverTimer->start(200);
+    m_hovered = true;
     //zoomIn(400);
     //kDebug() << "hoverEnterEvent\n";
 }
