@@ -139,7 +139,7 @@ pWidget::pWidget()
     }
 
     wallpapers->setItems(list2);
-    wallpapers->setCurrentItem(list2.indexOf("No-Ones-Laughing-3"));
+//    wallpapers->setCurrentItem(list2.indexOf("No-Ones-Laughing-3"));
 
     (void)new cardMap();
     changeWallpaper();
@@ -159,10 +159,10 @@ pWidget::pWidget()
     QString bgpath = cg.readPathEntry("Background");
     kDebug(11111) << "bgpath '" << bgpath << "'" << endl;
     if (bgpath.isEmpty())
-        bgpath = KStandardDirs::locate("wallpaper", "No-Ones-Laughing-3.jpg");
+        bgpath = KStandardDirs::locate("wallpaper", "green.png");
     background = QPixmap(bgpath);
     if ( background.isNull() ) {
-        background = QPixmap( KStandardDirs::locate("wallpaper", "No-Ones-Laughing-3.jpg") );
+        background = QPixmap( KStandardDirs::locate("wallpaper", "green.png") );
         cg.writePathEntry( "Background", QString::null );
     }
 

@@ -140,7 +140,9 @@ cardMap::cardMap() : QObject()
     assert(svgs.size());
     int hit = KRandom::random() % svgs.size();
     kDebug() << svgs << " " << hit << " " << svgs.size() << " " << svgs[hit] << endl;
-    QSvgRenderer *renderer = new KSvgRenderer( svgs[ hit ] );
+    QString svg = svgs[ hit ];
+    svg = KStandardDirs::locate("data", "carddecks/svg-nicu-white/white.svgz");
+    QSvgRenderer *renderer = new KSvgRenderer( svg );
     d->m_thread->setRenderer( renderer );
     d->m_backSize = renderer->boundsOnElement( "back" ).size();
     QPixmapCache::setCacheLimit(5 * 1024 * 1024);
