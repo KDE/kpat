@@ -219,6 +219,7 @@ void Card::setZValue(double z)
 //
 void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
 {
+    kDebug() << "moveTo " << name() << " " << x2 << " " << y2 << endl;
     stopAnimation();
 
     QTimeLine *timeLine = new QTimeLine( 1000, this );
@@ -328,7 +329,8 @@ void Card::stopAnimation()
 {
     if ( !animation )
         return;
-    // kDebug() << "stopAnimation " << m_destX << " " << m_destY << endl;
+
+    kDebug() << "stopAnimation " << name() << " " << m_destX << " " << m_destY << " " << kBacktrace() << endl;
     QGraphicsItemAnimation *old_animation = animation;
     animation = 0;
     if ( old_animation->timeLine()->state() == QTimeLine::Running )
@@ -360,6 +362,9 @@ void Card::hoverEnterEvent ( QGraphicsSceneHoverEvent *  )
 
 void Card::hoverLeaveEvent ( QGraphicsSceneHoverEvent * )
 {
+    if ( !m_hovered )
+        return;
+
     m_hoverTimer->stop();
     stopAnimation();
 

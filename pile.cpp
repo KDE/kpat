@@ -17,6 +17,7 @@
 #include <qpainter.h>
 #include "cardmaps.h"
 #include <kstandarddirs.h>
+#include <deck.h>
 #include <assert.h>
 #include "speeds.h"
 #include <QSvgRenderer>
@@ -172,7 +173,6 @@ void Pile::rescale()
                                     cardMap::self()->wantedCardHeight() ) );
     p.end();
     setPixmap( QPixmap::fromImage( pix ) );
-    kDebug() << "rescale " << endl;
 }
 
 bool Pile::legalAdd( const CardList& _cards ) const
@@ -369,13 +369,20 @@ void Pile::add( Card* _card, bool _facedown, bool _spread )
         z2 = zValue() + 1;
     }
 
+    Pile *source = _card->source();
+
     add(_card);
 
     if (_facedown || !isVisible()) {
         _card->setPos( x2, y2 );
         _card->setZValue( z2 );
     } else {
-        _card->moveTo(x2, y2, z2, DURATION_INITIALDEAL);
+        if ( source == Deck::deck() )
+        {
+            _card->setPos(x2, -100 );
+            _card->setZValue( z2 );
+        }
+        _card->moveTo(x2, y2, z2, DURATION_INITIALDEAL + z2 * DURATION_INITIALDEAL / 30);
     }
 
 }

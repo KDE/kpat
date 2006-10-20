@@ -132,6 +132,7 @@ void Dealer::setScene( QGraphicsScene *scene )
 {
     QGraphicsView::setScene( scene );
     dscene()->setGameNumber( KRandom::random() );
+    dscene()->setGameNumber( 1438470683 );
 
 //    dscene()->setAdvancePeriod(30);
 // dscene()->setBackgroundColor( darkGreen );
@@ -641,7 +642,6 @@ bool DealerScene::cardDblClicked(Card *c)
 
 void Dealer::startNew()
 {
-    kDebug() << "startNew " << kBacktrace() << endl;
     if (!_won)
         countLoss();
     if ( ahint )
@@ -1072,18 +1072,20 @@ bool DealerScene::startAutoDrop()
 
     QList<QGraphicsItem *> list = items();
 
+    kDebug( 11111 ) << "startAutoDrop\n";
     for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
     {
         if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId ) {
             Card *c = static_cast<Card*>(*it);
             if (c->animated()) {
                 QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
+                kDebug() << "animation still going on\n";
                 return true;
             }
         }
     }
 
-    kDebug(11111) << "startAutoDrop\n";
+    kDebug(11111) << "startAutoDrop2\n";
 
     unmarkAll();
     clearHints();
@@ -1101,6 +1103,7 @@ bool DealerScene::startAutoDrop()
             qreal x = t->x();
             qreal y = t->y();
             t->source()->moveCards(cards, mh->pile());
+            t->stopAnimation();
             t->setPos(x, y);
             kDebug(11111) << "autodrop " << t->name() << endl;
             t->moveTo(t->source()->x(), t->source()->y(), t->zValue(), DURATION_AUTODROP);

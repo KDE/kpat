@@ -76,7 +76,7 @@ void Deck::makedeck()
             {
                 _deck[i] = new Card(static_cast<Card::Rank>(r),
                                     static_cast<Card::Suit>(Card::Spades - (s % suits)), dscene() );
-                _deck[i]->setPos(x(), y());
+                _deck[i]->setPos(0, 0);
                 i++;
             }
         }
@@ -160,7 +160,6 @@ void Deck::addToDeck()
     for (uint i = 0; i < mult*NumberOfCards; i++) {
         _deck[i]->setTakenDown(false);
         add( _deck[i], true, false );
+        _deck[i]->setPos( 2000, 2000 );
     }
 }
-
-
