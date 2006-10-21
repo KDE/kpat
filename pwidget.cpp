@@ -95,7 +95,7 @@ pWidget::pWidget()
 
     (void)KStdAction::help(this, SLOT(helpGame()), actionCollection(), "help_game");
     games = new KSelectAction(i18n("&Game Type"), actionCollection(), "game_type");
-    connect( games, SIGNAL( triggered( int ) ), SLOT( newGameType() ) );
+    connect( games, SIGNAL( triggered( int ) ), SLOT( slotNewGameType() ) );
 
     QStringList list;
     QList<DealerInfo*>::ConstIterator it;
@@ -283,6 +283,12 @@ void pWidget::setGameCaption()
     setCaption( newname + " - " + gamenum );
 }
 
+void pWidget::slotNewGameType()
+{
+    newGameType();
+    restart();
+}
+
 void pWidget::newGameType()
 {
     delete dill;
@@ -310,7 +316,6 @@ void pWidget::newGameType()
             dill->setGameId(id);
             dill->setupActions();
             dill->setBackgroundPixmap(background, midcolor);
-            QTimer::singleShot( 0, dill, SLOT( startNew() ) );
             break;
         }
     }

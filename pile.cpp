@@ -58,7 +58,6 @@ Pile::Pile( int _index, DealerScene* parent)
 
     setZValue(0);
     initSizes();
-
 }
 
 QSvgRenderer *Pile::_renderer = 0;
@@ -122,6 +121,7 @@ void Pile::setRemoveType(PileType type)
 
 Pile::~Pile()
 {
+    kDebug() << "Pile::~Pile " << objectName() << endl;
     dscene()->removePile(this);
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
@@ -159,11 +159,8 @@ void Pile::rescale()
         new_pos.setY( Dealer::instance()->viewport()->height() - cardMap::self()->wantedCardHeight() + new_pos.y() );
 
     setPos( new_pos );
-    for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
-    {
-        ( *it )->moveBy( pos().x() - old_pos.x(),
-                         pos().y() - old_pos.y() );
-    }
+    relayoutCards();
+
     QImage pix( int( cardMap::self()->wantedCardWidth() + 1 ),
                 int( cardMap::self()->wantedCardHeight() + 1), QImage::Format_ARGB32 );
     pix.fill( qRgba( 0, 0, 255, 0 ) );
@@ -294,8 +291,21 @@ void Pile::clear()
     m_cards.clear();
 }
 
+void Pile::relayoutCards()
+{
+    QPointF mypos = pos();
+    for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
+    {
+        ( *it )->stopAnimation();
+        ( *it )->moveTo( mypos.x(), mypos.y(), ( *it )->zValue(), 120 );
+        mypos.rx() += ( *it )->spread().width() / 10 * cardMap::self()->wantedCardWidth();
+        mypos.ry() += ( *it )->spread().height() / 10 * cardMap::self()->wantedCardHeight();
+    }
+}
+
 void Pile::add( Card *_card, int index)
 {
+    kDebug() << ":add " << name() << " " << _card->name() << " " << index << " " << kBacktrace() << endl;
     if (_card->source() == this)
         return;
 
@@ -304,6 +314,9 @@ void Pile::add( Card *_card, int index)
         _card->setTakenDown(source->target() && !target());
         source->remove(_card);
     }
+
+    QSizeF offset = cardOffset( _card );
+    _card->setSpread( offset );
 
     _card->setSource(this);
 
@@ -323,24 +336,22 @@ void Pile::add( Card *_card, int index)
 //
 // Note: Default is to only have vertical spread (Y direction).
 
-QSizeF Pile::cardOffset( bool _spread, bool _facedown, const Card *before) const
+QSizeF Pile::cardOffset( const Card *card ) const
 {
-    if (_spread) {
-        if (_facedown)
+    kDebug() << "cardOffset " << addFlags << " " << objectName() << endl;
+    if ( addFlags & Pile::addSpread )
+    {
+        if (card->realFace())
+            return QSizeF(0, spread());
+        else
             return QSizeF(0, dspread());
-        else {
-            if (before && !before->isFaceUp())
-                return QSizeF(0, dspread());
-            else
-                return QSizeF(0, spread());
-        }
     }
 
     return QSize(0, 0);
 }
 
 /* override cardtype (for initial deal ) */
-void Pile::add( Card* _card, bool _facedown, bool _spread )
+void Pile::add( Card* _card, bool _facedown )
 {
     if (!_card)
         return;
@@ -356,13 +367,12 @@ void Pile::add( Card* _card, bool _facedown, bool _spread )
 
     _card->turn( !_facedown );
 
-    QSizeF offset = cardOffset(_spread, _facedown, t);
-
     double x2, y2, z2;
 
     if (t) {
-        x2 = t->realX() + offset.width()  / 10 * cardMap::self()->wantedCardWidth();
-        y2 = t->realY() + offset.height() / 10 * cardMap::self()->wantedCardHeight();
+        kDebug() << "::add" << t->pos() << " " << t->spread() << " " << _card->name() << " " << t->name() << " " << _card->spread() << endl;
+        x2 = t->realX() + t->spread().width()  / 10 * cardMap::self()->wantedCardWidth();
+        y2 = t->realY() + t->spread().height() / 10 * cardMap::self()->wantedCardHeight();
         z2 = t->realZ() + 1;
     } else {
         x2 = x();
@@ -384,11 +394,10 @@ void Pile::add( Card* _card, bool _facedown, bool _spread )
         if ( source == Deck::deck() )
         {
             _card->setPos(x2, -100 );
-            _card->setZValue( z2 );
         }
-        _card->moveTo(x2, y2, z2, int( DURATION_INITIALDEAL + z2 * DURATION_INITIALDEAL / 30 ));
+        _card->setZValue( z2 );
+        _card->moveTo(x2, y2, z2, int( DURATION_INITIALDEAL + y2 * DURATION_INITIALDEAL / 300 ));
     }
-
 }
 
 void Pile::remove(Card *c)
@@ -479,13 +488,16 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
         if (c == *it) {
+
             if (before) {
-                off = cardOffset(addFlags & Pile::addSpread, false, before);
+                kDebug() << "moveCardsBack " << ( *it )->name() << " " << before->name() << " " << before->spread() << endl;
+                off = before->spread();
                 c->moveTo( before->realX() + off.width() / 10 * cardMap::self()->wantedCardWidth(),
 			   before->realY() + off.height()  / 10 * cardMap::self()->wantedCardHeight(),
 			   before->realZ() + 1, steps);
             }
             else {
+                kDebug() << "moveCardsBack " << ( *it )->name() << " no before" << endl;
                 c->moveTo( int(x()), int(y()), int(zValue()) + 1, steps);
             }
             break;
@@ -497,10 +509,9 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
     CardList::Iterator it = cl.begin(); // == c
     ++it;
 
-    off = cardOffset(addFlags & Pile::addSpread, false, 0);
-
     for (; it != cl.end(); ++it)
     {
+        off = before->spread();
         (*it)->moveTo( before->realX() + off.width() / 10 * cardMap::self()->wantedCardWidth(),
                        before->realY() + off.height()  / 10 * cardMap::self()->wantedCardHeight(),
                        before->realZ() + 1, steps);

@@ -32,22 +32,13 @@
 class KlondikePile : public Pile
 {
 public:
-    KlondikePile( int _index, DealerScene* parent)
-        : Pile(_index, parent) {}
+    KlondikePile( int _index, int _draw, DealerScene* parent)
+        : Pile(_index, parent), m_draw( _draw ) {}
 
-    void clearSpread() { cardlist.clear(); }
+    int draw() const { return m_draw; }
 
-    void addSpread(Card *c) {
-        cardlist.append(c);
-    }
-    virtual QSizeF cardOffset( bool _spread, bool, const Card *c) const {
-        kDebug(11111) << "cardOffset " << _spread << " " << (c? c->name() : "(null)") << endl;
-        if (cardlist.contains(const_cast<Card * const>(c)))
-            return QSizeF(+dspread(), 0);
-        return QSizeF(0, 0);
-    }
 private:
-    CardList cardlist;
+    int m_draw;
 };
 
 Klondike::Klondike( bool easy )
@@ -60,10 +51,10 @@ Klondike::Klondike( bool easy )
 
     Deck::create_deck(this);
     Deck::deck()->setPilePos(margin, margin );
-
     EasyRules = easy;
 
-    pile = new KlondikePile( 13, this);
+    pile = new KlondikePile( 13, easy ? 1 : 3, this);
+    pile->setObjectName( "pile" );
 
     pile->setPilePos(margin + 10 + 10. / 4, margin);
     // Move the visual representation of the pile to the intended position
@@ -77,6 +68,7 @@ Klondike::Klondike( bool easy )
         play[i]->setPilePos(margin + (10. + hspacing) * i, margin + 10. + vspacing);
         play[i]->setAddType(Pile::KlondikeStore);
         play[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop | Pile::wholeColumn);
+        play[i]->setObjectName( QString( "play%1" ).arg( i ) );
     }
 
     for( int i = 0; i < 4; i++ ) {
@@ -87,6 +79,7 @@ Klondike::Klondike( bool easy )
             target[i]->setRemoveFlags(Pile::Default);
         else
             target[i]->setRemoveType(Pile::KlondikeTarget);
+        target[i]->setObjectName( QString( "target%1" ).arg( i ) );
     }
 
     Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
@@ -248,16 +241,6 @@ void Klondike::restart() {
 
 void Klondike::deal3()
 {
-    int draw;
-
-    if ( EasyRules ) {
-        draw = 1;
-    } else {
-        draw = 3;
-    }
-
-    pile->clearSpread();
-
     if (Deck::deck()->isEmpty())
     {
         redeal();
@@ -265,27 +248,26 @@ void Klondike::deal3()
     }
 
     // move the cards back on the deck, so we can have three new
-    for (int i = 0; i < pile->cardsLeft(); ++i) {
-        pile->at(i)->setPos(pile->x(), pile->y());
-    }
+    for (int i = 0; i < pile->cardsLeft(); ++i)
+        pile->at( i )->setSpread( QSizeF( 0, 0 ) );
+    pile->relayoutCards();
 
-    for (int flipped = 0; flipped < draw ; ++flipped) {
+    for (int flipped = 0; flipped < pile->draw() ; ++flipped) {
 
         Card *item = Deck::deck()->nextCard();
         if (!item) {
             kDebug(11111) << "deck empty!!!\n";
             return;
         }
-        pile->add(item, true, true); // facedown, nospread
-        if (flipped < draw - 1)
-            pile->addSpread(item);
+        pile->add(item, true); // facedown, nospread
+        if (flipped < pile->draw() - 1)
+            item->setSpread( QSizeF( pile->dspread(), 0 ) );
+        item->stopAnimation();
         // move back to flip
         item->setPos(Deck::deck()->x(), Deck::deck()->y());
 
-#warning FIXME give flipTo a duration argument 8 * ( flipped + 1 )
-        item->flipTo( pile->x() + pile->dspread() * flipped, pile->y() );
+        item->flipTo( pile->x() + 0.125 * flipped * cardMap::self()->wantedCardWidth(), pile->y(), 300 + 110 * ( flipped + 1 ) );
     }
-
 }
 
 //  Add cards from  pile to deck, in reverse direction
@@ -301,7 +283,7 @@ void Klondike::redeal() {
     {
         Card *card = pilecards[count];
 	card->stopAnimation();
-	Deck::deck()->add(card, true, false); // facedown, nospread
+	Deck::deck()->add(card, true); // facedown, nospread
     }
 
     redealt = true;
@@ -310,7 +292,7 @@ void Klondike::redeal() {
 void Klondike::deal() {
     for(int round=0; round < 7; round++)
         for (int i = round; i < 7; i++ )
-            play[i]->add(Deck::deck()->nextCard(), i != round && true, true);
+            play[i]->add(Deck::deck()->nextCard(), i != round && true);
 }
 
 bool Klondike::cardClicked(Card *c) {

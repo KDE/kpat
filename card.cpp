@@ -70,6 +70,8 @@ Card::Card( Rank r, Suit s, QGraphicsScene *_parent )
     m_destY = 0;
     m_destZ = 0;
 
+    m_spread = QSizeF( 0, 0 );
+
     setAcceptsHoverEvents( true );
 
     //m_hoverTimer->setSingleShot(true);
@@ -211,7 +213,7 @@ void Card::setZValue(double z)
 //
 void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
 {
-    kDebug() << "moveTo " << name() << " " << x2 << " " << y2 << endl;
+    // kDebug() << "moveTo " << name() << " " << x2 << " " << y2 << endl;
     stopAnimation();
 
     QTimeLine *timeLine = new QTimeLine( 1000, this );
@@ -249,7 +251,7 @@ void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
 
 // Animate a move to (x2, y2), and at the same time flip the card.
 //
-void Card::flipTo(qreal x2, qreal y2)
+void Card::flipTo(qreal x2, qreal y2, int duration)
 {
     stopAnimation();
 
@@ -266,8 +268,9 @@ void Card::flipTo(qreal x2, qreal y2)
     animation->setScaleAt( 1, 1, 1 );
     QPointF hp = pos();
     hp.setX( ( x1 + x2 + boundingRect().width() ) / 2 );
-    if ( y1 != y2 )
-        hp.setY( ( y1 + y2 + boundingRect().height() ) / 2 );
+    kDebug() << "flip " << name() << " " << x1 << " " << x2 << " " << y1 << " " << y2 << endl;
+    if ( fabs( y1 - y2) > 2 )
+        hp.setY( ( y1 + y2 + boundingRect().height() ) / 20 );
     kDebug() << "hp " << pos() << " " << hp << " " << QPointF( x2, y2 ) << endl;
     animation->setPosAt(0.5, hp );
     animation->setPosAt(1, QPointF( x2, y2 ));
@@ -275,7 +278,7 @@ void Card::flipTo(qreal x2, qreal y2)
     timeLine->setUpdateInterval(1000 / 25);
     timeLine->setFrameRange(0, 100);
     timeLine->setLoopCount(1);
-    timeLine->setDuration( 500 );
+    timeLine->setDuration( duration );
     timeLine->start();
 
     connect( timeLine, SIGNAL( finished() ), SLOT( stopAnimation() ) );
@@ -329,7 +332,7 @@ void Card::stopAnimation()
     QGraphicsItemAnimation *old_animation = animation;
     animation = 0;
     if ( old_animation->timeLine()->state() == QTimeLine::Running )
-        old_animation->timeLine()->setCurrentTime(3000);
+        old_animation->timeLine()->setCurrentTime(old_animation->timeLine()->duration() + 1);
     old_animation->timeLine()->stop();
     setPos( m_destX, m_destY );
     setZValue( m_destZ );
@@ -511,4 +514,16 @@ QRectF Card::boundingRect() const
 {
    return QRectF(QPointF(0,0), pixmap().size());
 }
+
+QSizeF Card::spread() const
+{
+    return m_spread;
+}
+
+void Card::setSpread(const QSizeF& spread)
+{
+    kDebug() << "setSpread " << name() << " " << spread << endl;
+    m_spread = spread;
+}
+
 #include "card.moc"

@@ -837,7 +837,7 @@ void Freecell::deal()
     int column = 0;
     while (!Deck::deck()->isEmpty())
     {
-        store[column]->add (Deck::deck()->nextCard(), false, true);
+        store[column]->add (Deck::deck()->nextCard(), false);
         column = (column + 1) % 8;
     }
 }

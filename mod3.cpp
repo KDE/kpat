@@ -139,7 +139,7 @@ void Mod3::dealRow(int row)
         Card *card;
 
         card = Deck::deck()->nextCard();
-        stack[row][c]->add (card, false, true);
+        stack[row][c]->add (card, false);
     }
 }
 

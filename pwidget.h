@@ -47,6 +47,7 @@ public:
 public slots:
     void undoMove();
     void newGameType();
+    void slotNewGameType();
     void restart();
 
     void openGame();

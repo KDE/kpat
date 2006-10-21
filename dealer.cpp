@@ -336,7 +336,7 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
     kDebug() << "movingCards " << movingCards.first()->sceneBoundingRect() << endl;
     for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
     {
-        kDebug() << "it " << ( *it )->type() << " " << ( *it )->sceneBoundingRect() << endl;
+        //kDebug() << "it " << ( *it )->type() << " " << ( *it )->sceneBoundingRect() << endl;
         if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId) {
             Card *c = dynamic_cast<Card*>(*it);
             assert(c);
@@ -676,6 +676,7 @@ void Dealer::startNew()
     emit updateMoves();
     kDebug(11111) << "startNew restart\n";
     dscene()->restart();
+    dscene()->rescale();
     takeState();
     Card *towait = 0;
     for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it) {
@@ -731,13 +732,9 @@ public:
     void fillNode(QDomElement &e) const {
         e.setAttribute("value", it->rank());
         e.setAttribute("suit", it->suit());
-        e.setAttribute("source", source->index());
-        e.setAttribute("x", x);
-        e.setAttribute("y", y);
         e.setAttribute("z", z);
         e.setAttribute("faceup", faceup);
         e.setAttribute("tookdown", tookdown);
-        e.setAttribute("source_index", source_index);
     }
 };
 
@@ -903,8 +900,8 @@ void Dealer::saveGame(QDomDocument &doc) {
                 card.setAttribute("suit", (*it)->suit());
                 card.setAttribute("value", (*it)->rank());
                 card.setAttribute("faceup", (*it)->isFaceUp());
-                card.setAttribute("x", (*it)->realX());
-                card.setAttribute("y", (*it)->realY());
+                card.setAttribute("dx", (*it)->spread().width());
+                card.setAttribute("dy", (*it)->spread().height());
                 card.setAttribute("z", (*it)->realZ());
                 card.setAttribute("name", (*it)->name());
                 pile.appendChild(card);
@@ -982,15 +979,13 @@ void Dealer::openGame(QDomDocument &doc)
                              it2 != cards.end(); ++it2)
                         {
                             if ((*it2)->suit() == s && (*it2)->rank() == v) {
-                                if (QString((*it2)->name()) == "Diamonds Eight") {
-                                    kDebug(11111) << i << " " << j << endl;
-                                }
-                                p->add(*it2);
+                                (*it2)->setVisible(p->isVisible());
+                                p->add(*it2, !card.attribute("faceup").toInt());
                                 (*it2)->stopAnimation();
-                                (*it2)->turn(card.attribute("faceup").toInt());
-                                (*it2)->setPos(card.attribute("x").toDouble(),
+//                                (*it2)->turn(card.attribute("faceup").toInt());
+                                /* (*it2)->setPos(card.attribute("x").toDouble(),
                                                card.attribute("y").toDouble());
-                                (*it2)->setZValue(card.attribute("z").toInt());
+                                (*it2)->setZValue(card.attribute("z").toInt()); */
                                 (*it2)->setVisible(p->isVisible());
                                 cards.erase(it2);
                                 break;
@@ -1008,6 +1003,8 @@ void Dealer::openGame(QDomDocument &doc)
         takeState(); // copying it again
         emit undoPossible(undoList.count() > 1);
     }
+
+    dscene()->rescale();
 
     emit updateMoves();
     takeState();

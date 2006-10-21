@@ -49,7 +49,7 @@ void SpiderPile::moveCards(CardList &c, Pile *to)
 //-------------------------------------------------------------------------//
 
 Spider::Spider(int suits)
-    : DealerScene()
+    : DealerScene(), m_leg(0), m_redeal(0)
 {
     const qreal dist_x = 11.2;
 
@@ -63,7 +63,7 @@ Spider::Spider(int suits)
     for( int column = 0; column < 5; column++ ) {
         redeals[column] = new Pile(column + 1, this);
         redeals[column]->setPilePos( 0 - dist_x / 3 * ( 5 - column ), -2);
-        redeals[column]->setZValue(5-column);
+        redeals[column]->setZValue(12 * ( 5-column ));
         redeals[column]->setCheckIndex(0);
         redeals[column]->setAddFlags(Pile::disallow);
         redeals[column]->setRemoveFlags(Pile::disallow);
@@ -321,12 +321,15 @@ void Spider::checkPileDeck(Pile *check)
         if (run.first()->rank() == Card::King) {
             legs[m_leg]->setVisible(true);
 
-            // remove this full deck from this pile
-            CardList cl;
-            for (int i = 0; i < 13; i++ ) {
-                cl.append(check->cards().last());
-                check->moveCards(cl, legs[m_leg]);
-                cl.clear();
+            CardList::iterator it = run.end();
+            qreal z = legs[m_leg]->zValue() + 1;
+            while (it != run.begin()) {
+                --it;
+                kDebug() << "moving " << ( *it )->name() << endl;
+                legs[m_leg]->add( *it );
+                // ( *it )->setSpread( QSize( 0, 0 ) );
+                ( *it )->moveTo( legs[m_leg]->x(), legs[m_leg]->y(), z, 300 + int( z ) * 30 );
+                z += 1;
             }
             m_leg++;
         }
@@ -339,7 +342,7 @@ void Spider::dealRow()
         return;
 
     for (int column = 0; column < 10; column++) {
-        stack[column]->add(redeals[m_redeal]->top(), false, true);
+        stack[column]->add(redeals[m_redeal]->top(), false);
 
         // I may put an Ace on a K->2 pile so it could need cleared.
         if (stack[column]->top()->rank() == Card::Ace)
@@ -361,18 +364,18 @@ void Spider::deal()
     int column = 0;
     // deal face down cards (5 to first 4 piles, 4 to last 6)
     for (int i = 0; i < 44; i++ ) {
-        stack[column]->add(Deck::deck()->nextCard(), true, true);
+        stack[column]->add(Deck::deck()->nextCard(), true);
         column = (column + 1) % 10;
     }
     // deal face up cards, one to each pile
     for (int i = 0; i < 10; i++ ) {
-        stack[column]->add(Deck::deck()->nextCard(), false, true);
+        stack[column]->add(Deck::deck()->nextCard(), false);
         column = (column + 1) % 10;
     }
     // deal the remaining cards into 5 'redeal' piles
     for (int column = 0; column < 5; column++ )
         for (int i = 0; i < 10; i++ )
-            redeals[column]->add(Deck::deck()->nextCard(), true, false);
+            redeals[column]->add(Deck::deck()->nextCard(), true);
 
     // make the leg piles invisible
     for (int i = 0; i < 8; i++ )

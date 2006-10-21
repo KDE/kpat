@@ -77,7 +77,7 @@ public:
     virtual int  type() const       { return UserType + my_type; }
 
     void         moveTo( qreal x2, qreal y2, qreal z, int duration);
-    void         flipTo( qreal x, qreal y);
+    void         flipTo( qreal x, qreal y, int duration = 300);
     void         setZValue(double z);
     void         getUp();
 
@@ -106,6 +106,9 @@ public:
     void setElementId( const QString & element );
     virtual QRectF boundingRect () const;
 
+    QSizeF spread() const;
+    void  setSpread(const QSizeF& spread);
+
 signals:
     void         stoped(Card *c);
 
@@ -126,7 +129,7 @@ private:
     Suit        m_suit;
     Rank        m_rank;
     QString     m_name;
-    QString m_elementId;
+    QString     m_elementId;
 
     // Grapics properties.
     bool        m_faceup;	// True if card lies with the face up.
@@ -139,6 +142,8 @@ private:
     qreal         m_destX;	// Destination point.
     qreal         m_destY;
     qreal         m_destZ;
+
+    QSizeF        m_spread;
 
     // The maximum Z ever used.
     static int  Hz;

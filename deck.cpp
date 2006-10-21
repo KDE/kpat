@@ -160,7 +160,7 @@ void Deck::addToDeck()
 
     for (uint i = 0; i < mult*NumberOfCards; i++) {
         _deck[i]->setTakenDown(false);
-        add( _deck[i], true, false );
+        add( _deck[i], true );
         _deck[i]->setPos( 2000, 2000 );
     }
 }

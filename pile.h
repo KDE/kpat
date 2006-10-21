@@ -83,7 +83,7 @@ public:
 
     Card *top() const;
 
-    void add( Card *c, bool facedown, bool spread); // for initial deal
+    void add( Card *c, bool facedown ); // for initial deal
     void add( Card *c, int index = -1);
     void remove(Card *c);
     void clear();
@@ -106,7 +106,7 @@ public:
     void hideCards( const CardList & cards );
     void unhideCards( const CardList & cards );
 
-    virtual QSizeF cardOffset( bool _spread, bool _facedown, const Card *before) const;
+    virtual QSizeF cardOffset( const Card *card ) const;
 
     virtual void initSizes();
 
@@ -136,6 +136,7 @@ public:
     QPointF pilePos() const;
 
     void rescale();
+    void relayoutCards();
 
 public slots:
     virtual bool cardClicked(Card *c);

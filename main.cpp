@@ -22,6 +22,7 @@
 #include <kglobal.h>
 #include <klocale.h>
 #include <kurl.h>
+#include <qtimer.h>
 
 #include "version.h"
 #include "pwidget.h"
@@ -69,6 +70,8 @@ int main( int argc, char **argv )
         pWidget *w = new pWidget;
         if (args->count())
             w->openGame(args->url(0));
+        else
+            QTimer::singleShot(0, w, SLOT(restart()));
         w->show();
     }
     return application.exec();
