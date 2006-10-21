@@ -70,7 +70,7 @@ Card::Card( Rank r, Suit s, QGraphicsScene *_parent )
     m_destY = 0;
     m_destZ = 0;
 
-    m_spread = QSizeF( 0, 0 );
+    m_origSpread = m_spread = QSizeF( 0, 0 );
 
     setAcceptsHoverEvents( true );
 
@@ -351,26 +351,24 @@ void Card::hoverEnterEvent ( QGraphicsSceneHoverEvent *  )
     if ( animated() || !isFaceUp() )
         return;
 
+    m_hovered = true;
+    source()->tryRelayoutCards();
     return;
 
     m_hoverTimer->start(200);
-    m_hovered = true;
     //zoomIn(400);
     //kDebug() << "hoverEnterEvent\n";
 }
 
 void Card::hoverLeaveEvent ( QGraphicsSceneHoverEvent * )
 {
-    if ( !m_hovered )
-        return;
-
-    m_hoverTimer->stop();
-    stopAnimation();
-
     if ( !isFaceUp() || !m_hovered)
         return;
 
     m_hovered = false;
+
+    source()->tryRelayoutCards();
+    m_hoverTimer->stop();
 
     //zoomOut(200);
 }
@@ -522,7 +520,6 @@ QSizeF Card::spread() const
 
 void Card::setSpread(const QSizeF& spread)
 {
-    kDebug() << "setSpread " << name() << " " << spread << endl;
     m_spread = spread;
 }
 

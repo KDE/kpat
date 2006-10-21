@@ -44,6 +44,7 @@ Mod3::Mod3( )
     aces->setTarget(true);
     aces->setCheckIndex(2);
     aces->setAddFlags(Pile::addSpread | Pile::several);
+    aces->setObjectName( "aces" );
 
     for ( int r = 0; r < 4; r++ ) {
         for ( int c = 0; c < 8; c++ ) {
@@ -57,9 +58,12 @@ Mod3::Mod3( )
                 stack[r][c]->setTarget(true);
                 stack[r][c]->setAddFlags( Pile::addSpread );
                 stack[r][c]->setSpread( 0.5 );
+                stack[r][c]->setReservedSpace( QSizeF( 10, 15 ) );
+                stack[r][c]->setObjectName( QString( "stack%1_%2" ).arg( r ).arg( c ) );
             } else {
                 stack[r][c]->setAddFlags( Pile::addSpread );
                 stack[r][c]->setCheckIndex( 1 );
+                stack[r][c]->setObjectName( QString( "stack3_%1" ).arg( c ) );
             }
         }
     }

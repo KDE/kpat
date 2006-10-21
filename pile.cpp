@@ -58,6 +58,9 @@ Pile::Pile( int _index, DealerScene* parent)
 
     setZValue(0);
     initSizes();
+    m_relayoutTimer = new QTimer( this );
+    m_relayoutTimer->setSingleShot( true );
+    connect( m_relayoutTimer, SIGNAL( timeout() ), SLOT( relayoutCards() ) );
 }
 
 QSvgRenderer *Pile::_renderer = 0;
@@ -74,6 +77,7 @@ void Pile::initSizes()
     setSpread( 2.1 );
     setHSpread( 1.2 );
     setDSpread( 1.25 );
+    setReservedSpace( QSizeF( 10, 10 ) );
 }
 
 void Pile::setType(PileType type)
@@ -159,10 +163,10 @@ void Pile::rescale()
         new_pos.setY( Dealer::instance()->viewport()->height() - cardMap::self()->wantedCardHeight() + new_pos.y() );
 
     setPos( new_pos );
-    relayoutCards();
+    m_relayoutTimer->start( 40 );
 
     QImage pix( int( cardMap::self()->wantedCardWidth() + 1 ),
-                int( cardMap::self()->wantedCardHeight() + 1), QImage::Format_ARGB32 );
+      int( cardMap::self()->wantedCardHeight() + 1), QImage::Format_ARGB32 );
     pix.fill( qRgba( 0, 0, 255, 0 ) );
     QPainter p( &pix );
 
@@ -293,21 +297,41 @@ void Pile::clear()
 
 void Pile::relayoutCards()
 {
+    if ( objectName() == "stack0" )
+        kDebug() << "relayoutCards\n";
+
     QPointF mypos = pos();
     qreal z = zValue() + 1;
+    QSizeF preferredSize = QSizeF( 0, 0 );
+
+    for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
+    {
+        if ( ( *it )->isHovered() )
+            preferredSize += ( *it )->spread() * 3;
+        else
+            preferredSize += ( *it )->spread();
+    }
+    qreal divy = 1;
+    qreal divx = 1;
+    if ( preferredSize.height() )
+        divy = qMin( ( maximalSpace().height() - cardMap::self()->wantedCardHeight() ) / preferredSize.height() * 10 / cardMap::self()->wantedCardHeight(), 1. );
+    if ( preferredSize.width() )
+        divx = qMin( ( maximalSpace().width() - cardMap::self()->wantedCardWidth() ) / preferredSize.width() * 10 / cardMap::self()->wantedCardWidth(), 1. );
+
+    // kDebug() << objectName() << " " <<  divx << " " << divy << " " << maximalSpace() << endl;
+
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
         ( *it )->stopAnimation();
         ( *it )->moveTo( mypos.x(), mypos.y(), z, 120 );
-        mypos.rx() += ( *it )->spread().width() / 10 * cardMap::self()->wantedCardWidth();
-        mypos.ry() += ( *it )->spread().height() / 10 * cardMap::self()->wantedCardHeight();
+        mypos.rx() += ( *it )->spread().width() * divx / 10 * cardMap::self()->wantedCardWidth();
+        mypos.ry() += ( *it )->spread().height() * divy / 10 * cardMap::self()->wantedCardHeight();
         z += 1;
     }
 }
 
 void Pile::add( Card *_card, int index)
 {
-    kDebug() << ":add " << name() << " " << _card->name() << " " << index << " " << kBacktrace() << endl;
     if (_card->source() == this)
         return;
 
@@ -330,6 +354,8 @@ void Pile::add( Card *_card, int index)
         assert(m_cards[index] == 0);
         m_cards[index] = _card;
     }
+
+    m_relayoutTimer->start( 40 );
 }
 
 
@@ -340,7 +366,6 @@ void Pile::add( Card *_card, int index)
 
 QSizeF Pile::cardOffset( const Card *card ) const
 {
-    kDebug() << "cardOffset " << addFlags << " " << objectName() << endl;
     if ( addFlags & Pile::addSpread )
     {
         if (card->realFace())
@@ -372,7 +397,7 @@ void Pile::add( Card* _card, bool _facedown )
     double x2, y2, z2;
 
     if (t) {
-        kDebug() << "::add" << t->pos() << " " << t->spread() << " " << _card->name() << " " << t->name() << " " << _card->spread() << endl;
+        // kDebug() << "::add" << t->pos() << " " << t->spread() << " " << _card->name() << " " << t->name() << " " << _card->spread() << endl;
         x2 = t->realX() + t->spread().width()  / 10 * cardMap::self()->wantedCardWidth();
         y2 = t->realY() + t->spread().height() / 10 * cardMap::self()->wantedCardHeight();
         z2 = t->realZ() + 1;
@@ -531,6 +556,11 @@ bool Pile::cardDblClicked(Card *c)
 {
     emit dblClicked(c);
     return false;
+}
+
+void Pile::tryRelayoutCards()
+{
+    m_relayoutTimer->start( 20 );
 }
 
 #include "pile.moc"

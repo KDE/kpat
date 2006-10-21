@@ -140,6 +140,8 @@ public:
 
     QPointF maxPilePos() const;
 
+    void setSceneSize( const QSize &s );
+
 public slots:
     virtual bool startAutoDrop();
     void hint();

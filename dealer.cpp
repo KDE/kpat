@@ -25,6 +25,7 @@
 //Added by qt3to4:
 #include <QWheelEvent>
 #include <QGraphicsSceneMouseEvent>
+#include <QSvgRenderer>
 //#include <QGLWidget>
 #include <QPixmap>
 #include <QDebug>
@@ -1465,11 +1466,100 @@ QPointF DealerScene::maxPilePos() const
     QPointF maxp( 0, 0 );
     for (PileList::ConstIterator it = piles.begin(); it != piles.end(); ++it)
     {
-        maxp = QPointF( QMAX( ( *it )->pilePos().x(), maxp.x() ),
-                        QMAX( ( *it )->pilePos().y(), maxp.y() ) );
+        kDebug() << "maxp " << ( *it )->objectName() << " " << ( *it )->pilePos() << " " << ( *it )->reservedSpace() << endl;
+        maxp = QPointF( QMAX( ( *it )->pilePos().x() + ( *it )->reservedSpace().width(), maxp.x() ),
+                        QMAX( ( *it )->pilePos().y() + ( *it )->reservedSpace().height(), maxp.y() ) );
     }
 
+    kDebug() << "max " << maxp << endl;
+
     return maxp;
+}
+
+void DealerScene::setSceneSize( const QSize &s )
+{
+    QPointF defaultSceneRect = maxPilePos();
+
+    kDebug() << "rect " << defaultSceneRect << " " << s << endl;
+    qreal scaleX = s.width() / ( defaultSceneRect.x() + 1 );
+    qreal scaleY = s.height() / ( defaultSceneRect.y() + 1 );
+    kDebug() << "scaleY " << scaleY << " " << scaleX << endl;
+    qreal n_scaleFactor = qMin(scaleX, scaleY);
+
+    kDebug() << "scale " << n_scaleFactor << endl;
+    cardMap::self()->setWantedCardWidth( n_scaleFactor * 10 );
+
+    for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
+    {
+        Pile *p = *it;
+        p->setMaximalSpace( QSizeF( cardMap::self()->wantedCardWidth(),
+                                    cardMap::self()->wantedCardHeight() ) );
+    }
+
+    rescale();
+
+    while ( true )
+    {
+        bool changed = false;
+
+        for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
+        {
+            Pile *p = *it;
+            if ( !p->isVisible() )
+                continue;
+
+            QRectF myRect = QRectF( p->x(), p->y(),
+                                    s.width() - p->x() - 1,
+                                    s.height() - p->y() - 1 );
+
+            for ( PileList::ConstIterator it2 = piles.begin(); it2 != piles.end(); ++it2 )
+            {
+                if ( *it2 == p || !( *it2 )->isVisible() )
+                    continue;
+
+                QRectF pilerect = QRectF( ( *it2 )->pos(), QSizeF( qreal( ( *it2 )->maximalSpace().width() ),
+                                                                   qreal( ( *it2 )->maximalSpace().height() ) ) );
+
+                // kDebug() << "compa " << p->objectName() << " " << myRect << " " << ( *it2 )->objectName() << " " << pilerect << " " << myRect.intersects( pilerect ) << endl;
+                if ( myRect.intersects( pilerect ) )
+                {
+                    qreal width = qMin( myRect.width(), ( *it2 )->x() - myRect.left() );
+                    qreal height = qMin( myRect.height(), ( *it2 )->y() - myRect.top() );
+                    if ( width < height && height > 0 )
+                    {
+                        // kDebug() << "set height " << p->objectName() << " " << height - 10 << endl;
+                        myRect.setHeight( height - 1  );
+                        if ( myRect.intersects( pilerect ) && width > 0) {
+                            // kDebug() << "set width " << p->objectName() << " " << width - 10 << endl;
+                            myRect.setWidth( width - 1 );
+                        }
+                    } else {
+                        if ( width > 0 ) {
+                            // kDebug() << "set width2 " << p->objectName() << " " << width - 10 << " " << myRect.width() << endl;
+                            myRect.setWidth( width - 1 );
+                        }
+                        if ( myRect.intersects( pilerect ) && height > 0 )
+                        {
+                            // kDebug() << "set height2 " << p->objectName() << " " << height - 10 << endl;
+                            myRect.setHeight( height - 1 );
+                        }
+                    }
+
+                }
+            }
+            if ( p->maximalSpace() != myRect.size() )
+            {
+                // if ( p->objectName() == "stack0" )
+                kDebug() << p->objectName() << " " << myRect.size() << endl;
+                p->setMaximalSpace( myRect.size() );
+                changed = true;
+            }
+        }
+        if ( !changed )
+            break;
+    }
+
+    rescale();
 }
 
 void Dealer::resizeEvent( QResizeEvent *e )
@@ -1480,20 +1570,8 @@ void Dealer::resizeEvent( QResizeEvent *e )
     if ( !dscene() )
         return;
 
-    QPointF defaultSceneRect = dscene()->maxPilePos();
+    dscene()->setSceneSize( size() );
 
-    kDebug() << "rect " << defaultSceneRect << " " << size() << endl;
-    qreal scaleX = size().width() / ( defaultSceneRect.x() + 12 );
-    qreal scaleY = size().height() / ( defaultSceneRect.y() + 12 );
-    kDebug() << "scaleY " << scaleY << " " << scaleX << endl;
-    qreal n_scaleFactor = qMin(scaleX, scaleY);
-    if ( n_scaleFactor == scaleFactor )
-        return;
-
-    kDebug() << "scale " << n_scaleFactor << endl;
-    scaleFactor = n_scaleFactor;
-    cardMap::self()->setWantedCardWidth( scaleFactor * 10 );
-    dscene()->rescale();
 }
 
 #include "dealer.moc"

@@ -124,6 +124,7 @@ public:
 
     bool remove_freecellStore( const Card *c) const;
 
+
     // The spread properties.
     double spread() const    { return _spread; }
     void setSpread(double s)  { _spread = s; }
@@ -136,11 +137,21 @@ public:
     QPointF pilePos() const;
 
     void rescale();
-    void relayoutCards();
+
+    static QSvgRenderer *pileRenderer();
+
+    void setReservedSpace( const QSizeF &p) { m_reserved = p; }
+    QSizeF reservedSpace() const { return m_reserved; }
+
+    void setMaximalSpace( const QSizeF &s) { m_space = s; }
+    QSizeF maximalSpace() const { return m_space; }
+
+    void tryRelayoutCards();
 
 public slots:
     virtual bool cardClicked(Card *c);
     virtual bool cardDblClicked(Card *c);
+    void relayoutCards();
 
 signals:
     void clicked(Card *c);
@@ -150,7 +161,6 @@ protected:
     int       removeFlags;
     int       addFlags;
     CardList  m_cards;
-    static QSvgRenderer *pileRenderer();
 
 private:
     DealerScene  *m_dealer;
@@ -170,6 +180,10 @@ private:
     QPixmap cache_selected;
     bool m_highlighted;
     QPointF _pilePos;
+    QSizeF m_reserved;
+    QSizeF m_space;
+
+    QTimer *m_relayoutTimer;
 
 };
 

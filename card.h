@@ -109,6 +109,8 @@ public:
     QSizeF spread() const;
     void  setSpread(const QSizeF& spread);
 
+    bool isHovered() const  { return m_hovered; }
+
 signals:
     void         stoped(Card *c);
 
@@ -144,6 +146,7 @@ private:
     qreal         m_destZ;
 
     QSizeF        m_spread;
+    QSizeF        m_origSpread;
 
     // The maximum Z ever used.
     static int  Hz;
