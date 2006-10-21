@@ -94,6 +94,7 @@ Spider::Spider(int suits)
         legs[column]->setRemoveFlags(Pile::disallow);
         legs[column]->setTarget(true);
         legs[column]->setVisible( false );
+        legs[column]->setZValue(14 * column);
         legs[column]->setObjectName( QString( "legs%1" ).arg( column ) );
     }
 
@@ -102,6 +103,15 @@ Spider::Spider(int suits)
     // up to K so the King will be on top.
     setAutoDropEnabled(false);
     Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo );
+}
+
+void Spider::cardStoped(Card *)
+{
+    for( int column = 0; column < 10; column++ ) {
+        Card *t = stack[column]->top();
+        if (t && !t->isFaceUp())
+           t->flipTo(t->x(), t->y());
+    }
 }
 
 //-------------------------------------------------------------------------//
@@ -331,6 +341,8 @@ void Spider::checkPileDeck(Pile *check)
                 ( *it )->moveTo( legs[m_leg]->x(), legs[m_leg]->y(), z, 300 + int( z ) * 30 );
                 z += 1;
             }
+            connect( run.first(), SIGNAL(stoped(Card*)), SLOT(cardStoped(Card*)));
+
             m_leg++;
         }
     }

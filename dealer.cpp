@@ -890,6 +890,7 @@ void Dealer::saveGame(QDomDocument &doc) {
 
             QDomElement pile = doc.createElement("pile");
             pile.setAttribute("index", p->index());
+            pile.setAttribute("z", p->zValue());
 
             CardList cards = p->cards();
             for (CardList::Iterator it = cards.begin();
@@ -982,10 +983,6 @@ void Dealer::openGame(QDomDocument &doc)
                                 (*it2)->setVisible(p->isVisible());
                                 p->add(*it2, !card.attribute("faceup").toInt());
                                 (*it2)->stopAnimation();
-//                                (*it2)->turn(card.attribute("faceup").toInt());
-                                /* (*it2)->setPos(card.attribute("x").toDouble(),
-                                               card.attribute("y").toDouble());
-                                (*it2)->setZValue(card.attribute("z").toInt()); */
                                 (*it2)->setVisible(p->isVisible());
                                 cards.erase(it2);
                                 break;

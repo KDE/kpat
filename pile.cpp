@@ -294,12 +294,14 @@ void Pile::clear()
 void Pile::relayoutCards()
 {
     QPointF mypos = pos();
+    qreal z = zValue() + 1;
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
         ( *it )->stopAnimation();
-        ( *it )->moveTo( mypos.x(), mypos.y(), ( *it )->zValue(), 120 );
+        ( *it )->moveTo( mypos.x(), mypos.y(), z, 120 );
         mypos.rx() += ( *it )->spread().width() / 10 * cardMap::self()->wantedCardWidth();
         mypos.ry() += ( *it )->spread().height() / 10 * cardMap::self()->wantedCardHeight();
+        z += 1;
     }
 }
 
@@ -464,7 +466,7 @@ void Pile::moveCards(CardList &cl, Pile *to)
     if (removeFlags & autoTurnTop && top()) {
         Card *t = top();
         if (!t->isFaceUp()) {
-            t->flipTo(int(t->x()), int(t->y()));
+            t->flipTo(t->x(), t->y());
         }
     }
 

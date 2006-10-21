@@ -45,6 +45,7 @@ public:
 
 public slots:
     void deckClicked(Card *c);
+    void cardStoped(Card *c);
 
 protected:
     virtual bool checkRemove(int /*checkIndex*/, const Pile *p, const Card *c) const;
