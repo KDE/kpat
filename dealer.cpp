@@ -1466,8 +1466,8 @@ QPointF DealerScene::maxPilePos() const
     QPointF maxp( 0, 0 );
     for (PileList::ConstIterator it = piles.begin(); it != piles.end(); ++it)
     {
-        maxp = QPointF( QMAX( ( *it )->pilePos().x() + ( *it )->reservedSpace().width(), maxp.x() ),
-                        QMAX( ( *it )->pilePos().y() + ( *it )->reservedSpace().height(), maxp.y() ) );
+        maxp = QPointF( qMax( ( *it )->pilePos().x() + ( *it )->reservedSpace().width(), maxp.x() ),
+                        qMax( ( *it )->pilePos().y() + ( *it )->reservedSpace().height(), maxp.y() ) );
     }
     return maxp;
 }
