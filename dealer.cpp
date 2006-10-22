@@ -1070,20 +1070,20 @@ bool DealerScene::startAutoDrop()
 
     QList<QGraphicsItem *> list = items();
 
-    kDebug( 11111 ) << "startAutoDrop\n";
+    // kDebug( 11111 ) << "startAutoDrop\n";
     for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
     {
         if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId ) {
             Card *c = static_cast<Card*>(*it);
             if (c->animated()) {
                 QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
-                kDebug() << "animation still going on\n";
+                // kDebug() << "animation still going on\n";
                 return true;
             }
         }
     }
 
-    kDebug(11111) << "startAutoDrop2\n";
+    // kDebug(11111) << "startAutoDrop2\n";
 
     unmarkAll();
     clearHints();
@@ -1466,13 +1466,9 @@ QPointF DealerScene::maxPilePos() const
     QPointF maxp( 0, 0 );
     for (PileList::ConstIterator it = piles.begin(); it != piles.end(); ++it)
     {
-        kDebug() << "maxp " << ( *it )->objectName() << " " << ( *it )->pilePos() << " " << ( *it )->reservedSpace() << endl;
         maxp = QPointF( QMAX( ( *it )->pilePos().x() + ( *it )->reservedSpace().width(), maxp.x() ),
                         QMAX( ( *it )->pilePos().y() + ( *it )->reservedSpace().height(), maxp.y() ) );
     }
-
-    kDebug() << "max " << maxp << endl;
-
     return maxp;
 }
 
@@ -1487,7 +1483,7 @@ void DealerScene::setSceneSize( const QSize &s )
     qreal n_scaleFactor = qMin(scaleX, scaleY);
 
     kDebug() << "scale " << n_scaleFactor << endl;
-    cardMap::self()->setWantedCardWidth( n_scaleFactor * 10 );
+    cardMap::self()->setWantedCardWidth( qRound( n_scaleFactor * 10 ) );
 
     for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
     {
@@ -1549,8 +1545,6 @@ void DealerScene::setSceneSize( const QSize &s )
             }
             if ( p->maximalSpace() != myRect.size() )
             {
-                // if ( p->objectName() == "stack0" )
-                kDebug() << p->objectName() << " " << myRect.size() << endl;
                 p->setMaximalSpace( myRect.size() );
                 changed = true;
             }

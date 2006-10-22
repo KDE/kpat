@@ -21,6 +21,7 @@
 #include <assert.h>
 #include "speeds.h"
 #include <QSvgRenderer>
+#include <math.h>
 
 const int Pile::my_type       = Dealer::PileTypeId;
 
@@ -142,7 +143,6 @@ Pile::~Pile()
 
 void Pile::setPilePos( double x,  double y )
 {
-    kDebug() << "setPilePos " << x << " " << y << endl;
     _pilePos = QPointF( x, y );
     update();
 }
@@ -297,19 +297,18 @@ void Pile::clear()
 
 void Pile::relayoutCards()
 {
-    if ( objectName() == "stack0" )
-        kDebug() << "relayoutCards\n";
-
     QPointF mypos = pos();
     qreal z = zValue() + 1;
     QSizeF preferredSize = QSizeF( 0, 0 );
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
-        if ( ( *it )->isHovered() )
-            preferredSize += ( *it )->spread() * 3;
-        else
-            preferredSize += ( *it )->spread();
+        preferredSize += ( *it )->spread();
+        if ( ( *it )->animated() ) {
+            // kDebug() << ( *it )->name() << " is animated - restarting timer\n";
+            m_relayoutTimer->start( 100 );
+            return;
+        }
     }
     qreal divy = 1;
     qreal divx = 1;
@@ -322,7 +321,7 @@ void Pile::relayoutCards()
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
-        ( *it )->stopAnimation();
+        // ( *it )->stopAnimation();
         ( *it )->moveTo( mypos.x(), mypos.y(), z, 120 );
         mypos.rx() += ( *it )->spread().width() * divx / 10 * cardMap::self()->wantedCardWidth();
         mypos.ry() += ( *it )->spread().height() * divy / 10 * cardMap::self()->wantedCardHeight();
@@ -420,10 +419,13 @@ void Pile::add( Card* _card, bool _facedown )
     } else {
         if ( source == Deck::deck() )
         {
-            _card->setPos(x2, -100 );
+            _card->setPos(x2, -cardMap::self()->wantedCardHeight() - 2);
         }
         _card->setZValue( z2 );
-        _card->moveTo(x2, y2, z2, int( DURATION_INITIALDEAL + y2 * DURATION_INITIALDEAL / 300 ));
+        qreal distx = ( x2 - _card->x() ) / cardMap::self()->wantedCardWidth() * 10;
+        qreal disty = ( y2 - _card->y() ) / cardMap::self()->wantedCardHeight() * 10;
+        qreal dist = sqrt( distx * distx + disty * disty );
+        _card->moveTo(x2, y2, z2, dist * 30);
     }
 }
 
@@ -454,7 +456,7 @@ CardList Pile::cardPressed(Card *c)
 {
     CardList result;
 
-    if (!legalRemove(c))
+    if ( !legalRemove(c) )
         return result;
 
     int below = -1;
@@ -476,7 +478,6 @@ CardList Pile::cardPressed(Card *c)
             result.append(*it);
         }
     }
-    kDebug() << "result " << result << endl;
     return result;
 }
 

@@ -70,7 +70,7 @@ Card::Card( Rank r, Suit s, QGraphicsScene *_parent )
     m_destY = 0;
     m_destZ = 0;
 
-    m_origSpread = m_spread = QSizeF( 0, 0 );
+    m_spread = QSizeF( 0, 0 );
 
     setAcceptsHoverEvents( true );
 
@@ -213,7 +213,12 @@ void Card::setZValue(double z)
 //
 void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
 {
-    // kDebug() << "moveTo " << name() << " " << x2 << " " << y2 << endl;
+//    kDebug() << "moveTo " << name() << " " << x2 << " " << y2 << " " << pos() << " " << duration << endl;
+    if ( fabs( x2 - x() ) < 2 && fabs( y2 - y() ) < 2 )
+    {
+        setPos( x2, y2 );
+        return;
+    }
     stopAnimation();
 
     QTimeLine *timeLine = new QTimeLine( 1000, this );
@@ -328,7 +333,9 @@ void Card::stopAnimation()
     if ( !animation )
         return;
 
-    // kDebug() << "stopAnimation " << name() << " " << m_destX << " " << m_destY << " " << kBacktrace() << endl;
+//    if ( !sender() || !sender()->isA( "QTimeLine" ) )
+    if ( name() == "diamond 70" )
+        kDebug() << "stopAnimation " << name() << " " << m_destX << " " << m_destY << " " << animation->timeLine()->duration() << " " << kBacktrace() << endl;
     QGraphicsItemAnimation *old_animation = animation;
     animation = 0;
     if ( old_animation->timeLine()->state() == QTimeLine::Running )
@@ -337,7 +344,7 @@ void Card::stopAnimation()
     setPos( m_destX, m_destY );
     setZValue( m_destZ );
     rescale();
-    update();
+    // update();
     emit stoped( this );
 }
 

@@ -146,7 +146,6 @@ private:
     qreal         m_destZ;
 
     QSizeF        m_spread;
-    QSizeF        m_origSpread;
 
     // The maximum Z ever used.
     static int  Hz;
