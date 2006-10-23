@@ -58,10 +58,10 @@ void GameStatsImpl::setGameType(int id)
 {
 	KConfigGroup cg(KGlobal::config(), scores_group);
 	unsigned int t = cg.readEntry(QString("total%1").arg(id),0);
-	Played->setText(Played->text().arg(t));
+	Played->setText(QString::number(t));
 	unsigned int w = cg.readEntry(QString("won%1").arg(id),0);
 	if (t)
-		Won->setText(i18n("%1 (%2%%)", w, w*100/t));
+		Won->setText(i18n("%1 (%2%)", w, w*100/t));
 	else
 		Won->setText( QString::number(w));
 	WinStreak->setText( QString::number( cg.readEntry(QString("maxwinstreak%1").arg(id), 0)));
