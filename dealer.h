@@ -111,7 +111,6 @@ public:
     bool waiting() const { return _waiting != 0; }
     void setWaiting(bool w);
 
-    QColor midColor() const { return _midcolor; }
     void setBackgroundPixmap(const QPixmap &background, const QColor &midcolor);
 
     void addPile(Pile *p);
@@ -184,7 +183,6 @@ private:
     QPointF moving_start;
     bool _autodrop;
     int _waiting;
-    QColor _midcolor;
     long gamenumber;
 
     QTimer *demotimer;
@@ -228,7 +226,6 @@ public:
     void setAnchorName(const QString &name);
 
     int getMoves() const { return undoList.count(); }
-    void setBackgroundPixmap(const QPixmap &background, const QColor &midcolor);
 
     void setAutoDropEnabled(bool a);
 

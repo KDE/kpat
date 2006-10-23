@@ -142,6 +142,8 @@ pWidget::pWidget()
 //    wallpapers->setCurrentItem(list2.indexOf("No-Ones-Laughing-3"));
 
     dill = new Dealer( this );
+
+
     setCentralWidget(dill);
 
     (void)new cardMap();
@@ -161,13 +163,15 @@ pWidget::pWidget()
 
     QString bgpath = cg.readPathEntry("Background");
     kDebug(11111) << "bgpath '" << bgpath << "'" << endl;
-    if (bgpath.isEmpty())
-        bgpath = KStandardDirs::locate("wallpaper", "green.png");
+    // if (bgpath.isEmpty())
+    bgpath = KStandardDirs::locate("wallpaper", "green.png");
     background = QPixmap(bgpath);
     if ( background.isNull() ) {
         background = QPixmap( KStandardDirs::locate("wallpaper", "green.png") );
         cg.writePathEntry( "Background", QString::null );
     }
+
+    dill->setBackgroundBrush(QBrush( background) );
 
     bool autodrop = cg.readEntry("Autodrop", true);
     dropaction->setChecked(autodrop);
@@ -229,7 +233,7 @@ void pWidget::changeWallpaper()
 
     cg.writePathEntry("Background", bgpath);
 
-    dill->setBackgroundPixmap(background, midcolor);
+    dill->setBackgroundBrush(QBrush( background) );
 }
 
 void pWidget::enableAutoDrop()
@@ -301,8 +305,6 @@ void pWidget::newGameType()
         if ((*it)->gameindex == id) {
             show();
             dill->setScene( (*it)->createGame() );
-#warning background should be a property of the view
-            dill->setBackgroundPixmap(background, midcolor);
             QString name = (*it)->name;
             name = name.replace(QRegExp("[&']"), "");
             name = name.replace(QRegExp("[ ]"), "_").toLower();

@@ -82,7 +82,6 @@ private:
     KAction        *stats;
 
     QPixmap         background;
-    QColor          midcolor;
     QStringList     wallpaperlist;
     KRecentFilesAction  *recent;
 };

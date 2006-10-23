@@ -140,9 +140,6 @@ void Dealer::setScene( QGraphicsScene *scene )
     dscene()->setGameNumber( KRandom::random() );
     dscene()->setGameNumber( 1438470683 );
 
-//    dscene()->setAdvancePeriod(30);
-// dscene()->setBackgroundColor( darkGreen );
-// dscene()->setDoubleBuffering(true);
     dscene()->setSceneRect( QRectF( 0,0,700,500 ) );
     scaleFactor = 1;
     dscene()->setItemIndexMethod(QGraphicsScene::NoIndex);
@@ -154,12 +151,6 @@ void Dealer::setScene( QGraphicsScene *scene )
 Dealer *Dealer::instance()
 {
     return s_instance;
-}
-
-void DealerScene::setBackgroundPixmap(const QPixmap &background, const QColor &midcolor)
-{
-    _midcolor = midcolor;
-    setBackgroundBrush(QBrush( background) );
 }
 
 void Dealer::setupActions() {
@@ -233,11 +224,6 @@ void DealerScene::hint()
 void Dealer::hint()
 {
     dscene()->hint();
-}
-
-void Dealer::setBackgroundPixmap(const QPixmap &background, const QColor &midcolor)
-{
-    dscene()->setBackgroundPixmap( background, midcolor );
 }
 
 void Dealer::setAutoDropEnabled(bool a)
@@ -1415,20 +1401,7 @@ QString Dealer::anchorName() const { return ac; }
 
 void Dealer::wheelEvent( QWheelEvent *e )
 {
-#warning FIXME
-#if 0
-    QWheelEvent ce( viewport()->mapFromGlobal( e->globalPos() ),
-                    e->delta(), e->buttons(), e->modifiers() );
-    viewportWheelEvent(&ce);
-    if ( !ce.isAccepted() ) {
-	if ( e->orientation() == Qt::Horizontal && hScrollBarMode () == AlwaysOn )
-	    QApplication::sendEvent( horizontalScrollBar(), e);
-	else  if (e->orientation() == Qt::Vertical && vScrollBarMode () == AlwaysOn )
-	    QApplication::sendEvent( verticalScrollBar(), e);
-    } else {
-	e->accept();
-    }
-#endif
+    return; // Maren hits the wheel mouse function of the touch pad way too often :)
     qreal scaleFactor = pow((double)2, -e->delta() / (10*120.0));
     cardMap::self()->setWantedCardWidth( cardMap::self()->wantedCardWidth() / scaleFactor );
 }
