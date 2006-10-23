@@ -341,6 +341,7 @@ void Pile::add( Card *_card, int index)
     if (source) {
         _card->setTakenDown(source->target() && !target());
         source->remove(_card);
+        source->tryRelayoutCards();
     }
 
     _card->setSource(this);
