@@ -160,7 +160,7 @@ cardMap::cardMap() : QObject()
     KConfig *config = KGlobal::config();
     KConfigGroup cs(config, settings_group );
 
-    d->_wantedCardWidth = config->readEntry( "CardWith", 0 );
+    d->_wantedCardWidth = config->readEntry( "CardWith", 100 );
 
     kDebug(11111) << "cardMap\n";
 
