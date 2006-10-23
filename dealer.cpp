@@ -26,7 +26,9 @@
 #include <QWheelEvent>
 #include <QGraphicsSceneMouseEvent>
 #include <QSvgRenderer>
-//#include <QGLWidget>
+#ifndef QT_NO_OPENGL
+#include <QGLWidget>
+#endif
 #include <QPixmap>
 #include <QDebug>
 #include <QList>
@@ -125,8 +127,10 @@ Dealer::Dealer( KMainWindow* _parent )
 
     setupActions();
 
-/*    QGLWidget *wgl = new QGLWidget();
-      setupViewport(wgl);*/
+#ifndef QT_NO_OPENGL
+    QGLWidget *wgl = new QGLWidget();
+    setupViewport(wgl);
+#endif
 }
 
 void Dealer::setScene( QGraphicsScene *scene )
