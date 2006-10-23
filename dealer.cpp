@@ -133,19 +133,23 @@ Dealer::Dealer( KMainWindow* _parent )
 #endif
 }
 
-void Dealer::setScene( QGraphicsScene *scene )
+void Dealer::setScene( QGraphicsScene *_scene )
 {
-    QGraphicsView::setScene( scene );
+    QGraphicsScene *oldscene = scene();
+    QGraphicsView::setScene( _scene );
+    delete oldscene;
     dscene()->rescale(true);
     dscene()->setGameNumber( KRandom::random() );
     dscene()->setGameNumber( 1438470683 );
 
-    dscene()->setSceneRect( QRectF( 0,0,700,500 ) );
+    // dscene()->setSceneRect( QRectF( 0,0,700,500 ) );
     scaleFactor = 1;
     dscene()->setItemIndexMethod(QGraphicsScene::NoIndex);
-    connect( scene, SIGNAL( gameWon( bool ) ), SIGNAL( gameWon( bool ) ) );
+    connect( _scene, SIGNAL( gameWon( bool ) ), SIGNAL( gameWon( bool ) ) );
     connect( dscene(), SIGNAL( undoPossible( bool ) ), SIGNAL( undoPossible( bool ) ) );
     connect( dscene(), SIGNAL( demoActive( bool ) ), ademo, SLOT( setEnabled( bool ) ) );
+    if ( oldscene )
+        dscene()->relayoutPiles();
 }
 
 Dealer *Dealer::instance()
