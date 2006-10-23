@@ -33,8 +33,6 @@
   <Action name="restart_game"/>
   <Action name="undo_move"/>
   <ActionList name="game_actions"/>
-  <Action name="help_game"/>
-  <Action name="game_exit"/>
 </ToolBar>
 <StatusBar/>
 </kpartgui>
