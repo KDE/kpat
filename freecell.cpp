@@ -713,8 +713,7 @@ void FreecellBase::startMoving()
 
 void FreecellBase::newDemoMove(Card *m)
 {
-#warning FIXME newDemoMove
-    //newDemoMove(m);
+    DealerScene::newDemoMove(m);
     if (m != m->source()->top())
         m->disconnect();
 }

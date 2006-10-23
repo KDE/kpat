@@ -161,6 +161,7 @@ signals:
     void enableRedeal(bool enable);
     void gameInfo(const QString &info);
     void gameWon(bool withhelp);
+    void demoActive(bool en);
 
 private slots:
     void waitForAutoDrop(Card *);

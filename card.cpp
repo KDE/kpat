@@ -212,12 +212,12 @@ void Card::setZValue(double z)
 //
 void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
 {
-//    kDebug() << "moveTo " << name() << " " << x2 << " " << y2 << " " << pos() << " " << duration << endl;
-    if ( fabs( x2 - x() ) < 2 && fabs( y2 - y() ) < 2 )
+    if ( fabs( x2 - x() ) < 2 && fabs( y2 - y() ) < 1 )
     {
         setPos( x2, y2 );
         return;
     }
+    // kDebug() << "moveTo " << name() << " " << x2 << " " << y2 << " " << pos() << " " << duration << " " << kBacktrace() << endl;
     stopAnimation();
 
     QTimeLine *timeLine = new QTimeLine( 1000, this );
@@ -315,6 +315,7 @@ void Card::setTakenDown(bool td)
         kDebug(11111) << "took down " << name() << endl;
     tookDown = td;
 }
+
 
 
 bool Card::takenDown() const

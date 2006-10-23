@@ -148,6 +148,7 @@ void Dealer::setScene( QGraphicsScene *scene )
     dscene()->setItemIndexMethod(QGraphicsScene::NoIndex);
     connect( scene, SIGNAL( gameWon( bool ) ), SIGNAL( gameWon( bool ) ) );
     connect( dscene(), SIGNAL( undoPossible( bool ) ), SIGNAL( undoPossible( bool ) ) );
+    connect( dscene(), SIGNAL( demoActive( bool ) ), ademo, SLOT( setEnabled( bool ) ) );
 }
 
 Dealer *Dealer::instance()
@@ -1162,10 +1163,9 @@ long Dealer::gameNumber() const { return dscene()->gameNumber(); }
 
 void DealerScene::stopDemo()
 {
-#warning FIXME stopDemo
-#if 0
-    kDebug(11111) << "stopDemo " << dscene()->waiting() << " " << stop_demo_next << endl;
-    if (dscene()->waiting()) {
+    kDebug(11111) << "stopDemo " << waiting() << " " << stop_demo_next << endl;
+
+    if (waiting()) {
         stop_demo_next = true;
         return;
     } else stop_demo_next = false;
@@ -1178,9 +1178,7 @@ void DealerScene::stopDemo()
         towait = 0;
     }
     demotimer->stop();
-    if (ademo)
-        ademo->setChecked(false);
-#endif
+    emit demoActive( false );
 }
 
 bool DealerScene::demoActive() const

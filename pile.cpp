@@ -395,7 +395,7 @@ void Pile::add( Card* _card, bool _facedown )
 
     _card->turn( !_facedown );
 
-    double x2, y2, z2;
+    qreal x2, y2, z2;
 
     if (t) {
         // kDebug() << "::add" << t->pos() << " " << t->spread() << " " << _card->name() << " " << t->name() << " " << _card->spread() << endl;
@@ -528,7 +528,7 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
             }
             else {
                 // kDebug() << "moveCardsBack " << ( *it )->name() << " no before" << endl;
-                c->moveTo( int(x()), int(y()), int(zValue()) + 1, steps);
+                c->moveTo( x(), y(), zValue() + 1, steps);
             }
             break;
         } else
