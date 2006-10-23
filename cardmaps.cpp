@@ -160,7 +160,7 @@ cardMap::cardMap() : QObject()
     KConfig *config = KGlobal::config();
     KConfigGroup cs(config, settings_group );
 
-    d->_wantedCardWidth = config->readEntry( "CardWith", 100 );
+    d->_wantedCardWidth = cs.readEntry( "CardWith", 100 );
 
     kDebug(11111) << "cardMap\n";
 
@@ -237,7 +237,7 @@ void cardMap::slotThreadFinished()
 {
     KConfig *config = KGlobal::config();
     KConfigGroup cs(config, settings_group );
-    config->writeEntry( "CardWith", d->_wantedCardWidth );
+    cs.writeEntry( "CardWith", d->_wantedCardWidth );
     config->sync();
     Dealer::instance()->dscene()->rescale(false);
 }

@@ -149,6 +149,7 @@ public slots:
 
     State *getState();
     void setState(State *);
+    void relayoutPiles();
 
 protected slots:
     virtual void demo();

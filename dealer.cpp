@@ -1465,6 +1465,12 @@ QPointF DealerScene::maxPilePos() const
     return maxp;
 }
 
+void DealerScene::relayoutPiles()
+{
+    kDebug() << "relayoutPiles\n";
+    setSceneSize( Dealer::instance()->size());
+}
+
 void DealerScene::setSceneSize( const QSize &s )
 {
 //    kDebug() << "setSceneSize " << kBacktrace() << endl;
@@ -1563,7 +1569,6 @@ void Dealer::resizeEvent( QResizeEvent *e )
         return;
 
     dscene()->setSceneSize( size() );
-
 }
 
 #include "dealer.moc"

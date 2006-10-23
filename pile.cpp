@@ -247,9 +247,9 @@ void Pile::setVisible(bool vis)
     QGraphicsItem::setVisible(vis);
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
-    {
         (*it)->setVisible(vis);
-    }
+ 
+    dscene()->relayoutPiles();
 }
 
 void Pile::moveBy(double dx, double dy)
