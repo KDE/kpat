@@ -217,7 +217,8 @@ void cardMap::setWantedCardWidth( double w )
 
     d->_wantedCardWidth = w;
     d->_scale = 0;
-    Dealer::instance()->dscene()->rescale(false);
+    if (Dealer::instance()->dscene())
+        Dealer::instance()->dscene()->rescale(false);
     if ( d->m_thread->isRunning() )
     {
         d->m_thread->disconnect();
