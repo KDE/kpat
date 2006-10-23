@@ -81,6 +81,7 @@ FreecellBase::FreecellBase( int decks, int stores, int freecells, int fill, bool
         t = new Pile(1 + stores + freecells +i, this);
         target.append(t);
         t->setType(Pile::KlondikeTarget);
+        t->setReservedSpace( QSizeF( 10, 40 ) );
         // COOLO: I'm still not too sure about that t->setRemoveFlags(Pile::Default);
     }
 

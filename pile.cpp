@@ -248,7 +248,7 @@ void Pile::setVisible(bool vis)
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
         (*it)->setVisible(vis);
- 
+
     dscene()->relayoutPiles();
 }
 
@@ -297,6 +297,8 @@ void Pile::clear()
 
 void Pile::relayoutCards()
 {
+    m_relayoutTimer->stop();
+
     QPointF mypos = pos();
     qreal z = zValue() + 1;
     QSizeF preferredSize = QSizeF( 0, 0 );
@@ -545,6 +547,8 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
                        before->realZ() + 1, steps);
         before = *it;
     }
+
+    relayoutCards();
 }
 
 bool Pile::cardClicked(Card *c)

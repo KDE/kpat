@@ -433,9 +433,17 @@ void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->drawPixmap(exposed, pixmap(), exposed );
 
     if ( isHighlighted() ) {
-        painter->setBrush( QColor( 40, 40, 40, 127 ));
-        painter->setPen( Qt::NoPen );
-        painter->drawRect(boundingRect());
+        QPixmap pix(pixmap().size());
+        pix.fill(Qt::black);
+
+        QPixmap shadow = pixmap();
+        QPainter px(&shadow);
+        px.setCompositionMode(QPainter::CompositionMode_SourceAtop);
+        px.drawPixmap(0, 0, pix);
+        px.end();
+        painter->setOpacity(.5);
+
+        painter->drawPixmap(exposed, shadow, exposed );
     }
 }
 
