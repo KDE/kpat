@@ -77,21 +77,6 @@ Mod3::Mod3( )
 void Mod3::getHints()
 {
     bool foundone = false;
-    for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
-    {
-        Pile *store = *it;
-        if ( store->isEmpty() || store == aces || store == Deck::deck() )
-            continue;
-
-        if ( store->top()->rank() == Card::Ace )
-        {
-            newHint(new MoveHint(store->top(), aces));
-            foundone = true;
-        }
-    }
-
-    if ( foundone )
-        return;
 
     for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
     {
@@ -100,6 +85,13 @@ void Mod3::getHints()
 
         if ( !top || store == aces || store == Deck::deck() )
             continue;
+
+        if ( store->top()->rank() == Card::Ace )
+        {
+            newHint(new MoveHint(store->top(), aces));
+            foundone = true;
+            continue;
+        }
 
         if ( store->cardsLeft() > 1 && store->target() )
             continue;
@@ -150,7 +142,16 @@ void Mod3::getHints()
         if ( store->cardsLeft() == 1 && !store->target() )
             continue;
 
-        // TODO moving cards that are already on the right target should not be moved away
+        if ( store->cardsLeft() == 1 )
+        {
+            // HACK: cards that are already on the right target should not be moved away
+            if (top->rank() == Card::Four && store->y() == stack[2][0]->y())
+                continue;
+            if (top->rank() == Card::Three && store->y() == stack[1][0]->y())
+                continue;
+            if (top->rank() == Card::Two && store->y() == stack[0][0]->y())
+                continue;
+        }
 
         if (store->legalRemove(top)) {
 //                kDebug(11111) << "could remove " << top->name() << endl;

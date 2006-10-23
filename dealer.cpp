@@ -380,7 +380,7 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
 
 void DealerScene::mark(Card *c)
 {
-    kDebug() << "mark " << c->name() << endl;
+//    kDebug() << "mark " << c->name() << endl;
     c->setHighlighted(true);
     if (!marked.contains(c))
         marked.append(c);
@@ -936,6 +936,9 @@ void Dealer::saveGame(QDomDocument &doc) {
 
 void Dealer::openGame(QDomDocument &doc)
 {
+    if (!dscene())
+        return;
+
     dscene()->unmarkAll();
     QDomElement dealer = doc.documentElement();
 

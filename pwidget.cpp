@@ -285,12 +285,12 @@ void pWidget::slotNewGameType()
 {
     newGameType();
     restart();
-    // show();
 }
 
 void pWidget::newGameType()
 {
     slotUpdateMoves();
+    kDebug() << "pWidget::newGameType\n";
 
     int id = games->currentItem();
     if ( id < 0 )
@@ -431,14 +431,12 @@ void pWidget::openGame(const KUrl &url)
         }
         int id = doc.documentElement().attribute("id").toInt();
 
-        if (id != games->currentItem()) {
-            games->setCurrentItem(id);
-            newGameType();
-            if (!dill) {
-                KMessageBox::error(this, i18n("The saved game is of unknown type!"));
-                games->setCurrentItem(0);
-                newGameType();
-            }
+        games->setCurrentItem(id);
+        newGameType();
+        if (!dill->dscene()) {
+           KMessageBox::error(this, i18n("The saved game is of unknown type!"));
+           games->setCurrentItem(0);
+           newGameType();
         }
         dill->openGame(doc);
         setGameCaption();
