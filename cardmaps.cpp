@@ -267,7 +267,7 @@ QPixmap cardMap::renderCard( const QString &element )
     if ( img.isNull() )
     {
         QString filename = KStandardDirs::locate( "data", "carddecks/svg-nicu-white/83/" + element + ".png");
-        if ( !filename.isNull() )
+        if ( !filename.isEmpty() )
             img = QImage( filename );
         if ( img.isNull() )
             img = d->m_thread->renderCard( element );
