@@ -148,7 +148,7 @@ private:
     QSizeF        m_spread;
 
     // The maximum Z ever used.
-    static int  Hz;
+    static qreal  Hz;
 
     static const int my_type;
     QGraphicsItemAnimation *animation;

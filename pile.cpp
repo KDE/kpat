@@ -325,6 +325,7 @@ void Pile::relayoutCards()
     {
         // ( *it )->stopAnimation();
         ( *it )->moveTo( mypos.x(), mypos.y(), z, 120 );
+        ( *it )->setZValue( z );
         mypos.rx() += ( *it )->spread().width() * divx / 10 * cardMap::self()->wantedCardWidth();
         mypos.ry() += ( *it )->spread().height() * divy / 10 * cardMap::self()->wantedCardHeight();
         z += 1;

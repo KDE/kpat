@@ -315,7 +315,6 @@ void pWidget::newGameType()
             connect(dill, SIGNAL(updateMoves()),
                     SLOT(slotUpdateMoves()));
             dill->setGameId(id);
-            dill->setupActions();
             break;
         }
     }
@@ -384,7 +383,7 @@ void pWidget::gameWon(bool withhelp)
 #if TEST_SOLVER == 0
     KMessageBox::information(this, congrats, i18n("Congratulations!"));
 #endif
-    QTimer::singleShot(0, this, SLOT(newGame()));
+    // QTimer::singleShot(0, this, SLOT(newGame()));
 #if TEST_SOLVER == 1
     dill->demo();
 #endif

@@ -195,14 +195,13 @@ static const double flipLift = 1.2;
 // The current maximum Z value.  This is used so that new cards always
 // get placed on top of the old ones and don't get placed in the
 // middle of a destination pile.
-int  Card::Hz = 0;
-
+qreal  Card::Hz = 0;
 
 void Card::setZValue(double z)
 {
     QGraphicsPixmapItem::setZValue(z);
     if (z > Hz)
-        Hz = int(z);
+        Hz = z;
 }
 
 
@@ -215,9 +214,11 @@ void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
     if ( fabs( x2 - x() ) < 2 && fabs( y2 - y() ) < 1 )
     {
         setPos( x2, y2 );
+        setZValue( z2 );
         return;
     }
-    // kDebug() << "moveTo " << name() << " " << x2 << " " << y2 << " " << pos() << " " << duration << " " << kBacktrace() << endl;
+    if ( name() == "diamond 1" )
+        kDebug() << "moveTo " << name() << " " << x2 << " " << y2 << " " << z2 << " " << pos() << " " << zValue() << " " << duration << " " << kBacktrace() << endl;
     stopAnimation();
 
     QTimeLine *timeLine = new QTimeLine( 1000, this );
@@ -240,17 +241,12 @@ void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
     m_destY = y2;
     m_destZ = z2;
 
-    double  x1 = x();
-    double  y1 = y();
-
-    double  dx = x2 - x1;
-    double  dy = y2 - y1;
-
-    if (!dx && !dy) {
+    if (fabs( x2 - x() ) < 1 && fabs( y2 - y() ) < 1) {
         setZValue(z2);
         return;
     }
-    setZValue(Hz++);
+    // if ( fabs( z2 - zValue() ) >= 1 )
+        setZValue(Hz++);
 }
 
 // Animate a move to (x2, y2), and at the same time flip the card.
@@ -272,10 +268,10 @@ void Card::flipTo(qreal x2, qreal y2, int duration)
     animation->setScaleAt( 1, 1, 1 );
     QPointF hp = pos();
     hp.setX( ( x1 + x2 + boundingRect().width() ) / 2 );
-    kDebug() << "flip " << name() << " " << x1 << " " << x2 << " " << y1 << " " << y2 << endl;
+    //kDebug() << "flip " << name() << " " << x1 << " " << x2 << " " << y1 << " " << y2 << endl;
     if ( fabs( y1 - y2) > 2 )
         hp.setY( ( y1 + y2 + boundingRect().height() ) / 20 );
-    kDebug() << "hp " << pos() << " " << hp << " " << QPointF( x2, y2 ) << endl;
+    //kDebug() << "hp " << pos() << " " << hp << " " << QPointF( x2, y2 ) << endl;
     animation->setPosAt(0.5, hp );
     animation->setPosAt(1, QPointF( x2, y2 ));
 
@@ -303,7 +299,6 @@ void Card::flipTo(qreal x2, qreal y2, int duration)
 void Card::flipAnimationChanged( qreal r)
 {
     if ( r > 0.5 && !isFaceUp() ) {
-        kDebug() << "flipAnimationChanged " << endl;
         flip();
         assert( m_destFace == m_faceup );
     }
@@ -311,8 +306,8 @@ void Card::flipAnimationChanged( qreal r)
 
 void Card::setTakenDown(bool td)
 {
-    if (td)
-        kDebug(11111) << "took down " << name() << endl;
+/*    if (td)
+      kDebug(11111) << "took down " << name() << endl;*/
     tookDown = td;
 }
 
@@ -333,9 +328,9 @@ void Card::stopAnimation()
     if ( !animation )
         return;
 
-//    if ( !sender() || !sender()->isA( "QTimeLine" ) )
-    if ( name() == "diamond 70" )
-        kDebug() << "stopAnimation " << name() << " " << m_destX << " " << m_destY << " " << animation->timeLine()->duration() << " " << kBacktrace() << endl;
+    if ( !sender() || !sender()->isA( "QTimeLine" ) )
+        if ( name() == "diamond 1" )
+            kDebug() << "stopAnimation " << name() << " " << m_destX << " " << m_destY << " " << animation->timeLine()->duration() << " " << kBacktrace() << endl;
     QGraphicsItemAnimation *old_animation = animation;
     animation = 0;
     if ( old_animation->timeLine()->state() == QTimeLine::Running )

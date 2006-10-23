@@ -331,10 +331,10 @@ bool Klondike::startAutoDrop()
 
 bool Klondike::isGameLost() const
 {
-    kDebug( 11111 ) << "Is the game lost?" << endl;
+    // kDebug( 11111 ) << "Is the game lost?" << endl;
 
     if (!Deck::deck()->isEmpty()) {
-        kDebug( 11111 ) << "We should only check this when the deck is exhausted." << endl;
+        // kDebug( 11111 ) << "We should only check this when the deck is exhausted." << endl;
         return false;
     }
 

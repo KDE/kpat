@@ -125,8 +125,6 @@ Dealer::Dealer( KMainWindow* _parent )
 
     setCacheMode(QGraphicsView::CacheBackground);
 
-    setupActions();
-
 #ifndef QT_NO_OPENGL
     QGLWidget *wgl = new QGLWidget();
     setupViewport(wgl);
@@ -135,6 +133,7 @@ Dealer::Dealer( KMainWindow* _parent )
 
 void Dealer::setScene( QGraphicsScene *_scene )
 {
+    parent()->guiFactory()->unplugActionList( parent(), QString::fromLatin1("game_actions"));
     QGraphicsScene *oldscene = scene();
     QGraphicsView::setScene( _scene );
     delete oldscene;
@@ -150,6 +149,8 @@ void Dealer::setScene( QGraphicsScene *_scene )
     connect( dscene(), SIGNAL( demoActive( bool ) ), ademo, SLOT( setEnabled( bool ) ) );
     if ( oldscene )
         dscene()->relayoutPiles();
+
+    setupActions();
 }
 
 Dealer *Dealer::instance()
@@ -200,7 +201,6 @@ Dealer::~Dealer()
         countLoss();
 
     dscene()->clearHints();
-    parent()->guiFactory()->unplugActionList( parent(), QString::fromLatin1("game_actions"));
 
     if (s_instance == this)
         s_instance = 0;
@@ -795,7 +795,7 @@ void DealerScene::setState(State *st)
         Card *c = (*it).it;
         c->stopAnimation();
         CardState s = *it;
-        kDebug() << "c " << c->name() << " " << s.source->objectName() << " " << s.faceup << endl;
+        // kDebug() << "c " << c->name() << " " << s.source->objectName() << " " << s.faceup << endl;
         bool target = c->takenDown(); // abused
         s.source->add(c, s.source_index);
         c->setVisible(s.source->isVisible());
@@ -1043,10 +1043,10 @@ void DealerScene::setWaiting(bool w)
 {
     if (w)
         _waiting++;
-    else
+    else if ( _waiting > 0 )
         _waiting--;
     emit undoPossible(!waiting());
-    kDebug(11111) << "setWaiting " << w << " " << _waiting << endl;
+    // kDebug(11111) << "setWaiting " << w << " " << _waiting << endl;
 }
 
 void DealerScene::setAutoDropEnabled(bool a)
@@ -1075,7 +1075,7 @@ bool DealerScene::startAutoDrop()
         }
     }
 
-    // kDebug(11111) << "startAutoDrop2\n";
+    kDebug(11111) << "startAutoDrop2\n";
 
     unmarkAll();
     clearHints();
@@ -1156,6 +1156,7 @@ void DealerScene::stopDemo()
     kDebug(11111) << "stopDemo " << waiting() << " " << stop_demo_next << endl;
 
     if (waiting()) {
+        _waiting = 0;
         stop_demo_next = true;
         return;
     } else stop_demo_next = false;
@@ -1164,6 +1165,7 @@ void DealerScene::stopDemo()
         towait = 0;
 
     if (towait) {
+        towait->stopAnimation();
         towait->disconnect();
         towait = 0;
     }
@@ -1317,6 +1319,7 @@ void DealerScene::demo()
             qreal y1 = oldcoords[i++];
             qreal x2 = t->realX();
             qreal y2 = t->realY();
+            t->stopAnimation();
             t->setPos(x1, y1);
             t->moveTo(x2, y2, t->zValue(), DURATION_DEMO);
         }
@@ -1346,20 +1349,26 @@ Card *DealerScene::demoNewCards()
 
 void DealerScene::newDemoMove(Card *m)
 {
+    setWaiting( true );
     towait = m;
     connect(m, SIGNAL(stoped(Card*)), SLOT(waitForDemo(Card*)));
 }
 
 void DealerScene::waitForDemo(Card *t)
 {
+    Q_ASSERT( towait );
     if (t == (Card*)-1)
         return;
     if (towait != t)
         return;
     t->disconnect();
     towait = 0;
-    demotimer->setSingleShot( true );
-    demotimer->start(250);
+    setWaiting( false );
+    if ( !waiting() )
+    {
+        demotimer->setSingleShot( true );
+        demotimer->start(250);
+    }
 }
 
 bool DealerScene::isGameWon() const
