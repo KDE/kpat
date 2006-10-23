@@ -62,7 +62,11 @@ kde4_add_ui_files(kpat_SRCS gamestats.ui )
 
 kde4_add_executable(kpat ${kpat_SRCS})
 
+IF (QT_QTOPENGL_FOUND)
 target_link_libraries(kpat  ${KDE4_KIO_LIBS} kdegames ${QT_QTOPENGL_LIBRARY})
+ELSE (QT_QTOPENGL_FOUND)
+target_link_libraries(kpat  ${KDE4_KIO_LIBS} kdegames)
+ENDIF (QT_QTOPENGL_FOUND)
 
 install(TARGETS kpat  DESTINATION ${BIN_INSTALL_DIR} )
 
