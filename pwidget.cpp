@@ -141,6 +141,9 @@ pWidget::pWidget()
     wallpapers->setItems(list2);
 //    wallpapers->setCurrentItem(list2.indexOf("No-Ones-Laughing-3"));
 
+    dill = new Dealer( this );
+    setCentralWidget(dill);
+
     (void)new cardMap();
     changeWallpaper();
 
@@ -175,12 +178,10 @@ pWidget::pWidget()
     games->setCurrentItem(game);
 
     statusBar()->insertPermanentItem( "", 1, 0 );
+    createGUI(); // QString::null/*, false*/);
+    //KAcceleratorManager::manage(menuBar());
 
-    createGUI(QString::null/*, false*/);
-    KAcceleratorManager::manage(menuBar());
-
-    newGameType();
-    adjustSize();
+    // QTimer::singleShot( 0, this, SLOT( newGameType() ) );
     setAutoSaveSettings();
 }
 
@@ -228,10 +229,7 @@ void pWidget::changeWallpaper()
 
     cg.writePathEntry("Background", bgpath);
 
-    if (dill) {
-        dill->setBackgroundPixmap(background, midcolor);
-        dill->scene()->update();
-    }
+    dill->setBackgroundPixmap(background, midcolor);
 }
 
 void pWidget::enableAutoDrop()
@@ -287,12 +285,11 @@ void pWidget::slotNewGameType()
 {
     newGameType();
     restart();
+    // show();
 }
 
 void pWidget::newGameType()
 {
-    delete dill;
-    dill = 0;
     slotUpdateMoves();
 
     int id = games->currentItem();
@@ -302,8 +299,10 @@ void pWidget::newGameType()
     for (QList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin();
 	it != DealerInfoList::self()->games().end(); ++it) {
         if ((*it)->gameindex == id) {
-            dill = new Dealer( this );
+            show();
             dill->setScene( (*it)->createGame() );
+#warning background should be a property of the view
+            dill->setBackgroundPixmap(background, midcolor);
             QString name = (*it)->name;
             name = name.replace(QRegExp("[&']"), "");
             name = name.replace(QRegExp("[ ]"), "_").toLower();
@@ -315,14 +314,12 @@ void pWidget::newGameType()
                     SLOT(slotUpdateMoves()));
             dill->setGameId(id);
             dill->setupActions();
-            dill->setBackgroundPixmap(background, midcolor);
             break;
         }
     }
 
     if (!dill) {
         kError() << "unimplemented game type " << id << endl;
-        dill = new Dealer( this );
         dill->setScene( DealerInfoList::self()->games().first()->createGame() );
     }
 
@@ -341,19 +338,12 @@ void pWidget::newGameType()
     KConfigGroup cg(KGlobal::config(), settings_group);
     cg.writeEntry("DefaultGame", id);
 
-    QSize min(700,400);
-    min = min.expandedTo(dill->minimumCardSize());
-    dill->setMinimumSize(min);
-    dill->resize(min);
-    updateGeometry();
-    setCentralWidget(dill);
-    dill->show();
+    // dill->show();
 }
 
 void pWidget::showEvent(QShowEvent *e)
 {
-    if (dill)
-        dill->setMinimumSize(QSize(0,0));
+    kDebug() << "showEvent "<< endl;
     KMainWindow::showEvent(e);
 }
 
@@ -456,6 +446,7 @@ void pWidget::openGame(const KUrl &url)
         recent->addUrl(url);
         recent->saveEntries(KGlobal::config());
     }
+    show();
 }
 
 void pWidget::openGame()
@@ -481,10 +472,10 @@ void pWidget::saveGame()
 
 void pWidget::showStats()
 {
-	GameStatsImpl* dlg = new GameStatsImpl(this);
-	if (dill)
-		dlg->showGameType(dill->gameId());
-	dlg->exec();
+    GameStatsImpl* dlg = new GameStatsImpl(this);
+    if (dill)
+        dlg->showGameType(dill->gameId());
+    dlg->exec();
 }
 
 #include "pwidget.moc"

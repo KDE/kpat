@@ -71,8 +71,7 @@ int main( int argc, char **argv )
         if (args->count())
             w->openGame(args->url(0));
         else
-            QTimer::singleShot(0, w, SLOT(restart()));
-        w->show();
+            QTimer::singleShot(0, w, SLOT(slotNewGameType()));
     }
     return application.exec();
 }

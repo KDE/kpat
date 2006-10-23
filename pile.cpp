@@ -340,10 +340,10 @@ void Pile::add( Card *_card, int index)
         source->remove(_card);
     }
 
+    _card->setSource(this);
+
     QSizeF offset = cardOffset( _card );
     _card->setSpread( offset );
-
-    _card->setSource(this);
 
     if (index == -1)
         m_cards.append(_card);
@@ -417,7 +417,7 @@ void Pile::add( Card* _card, bool _facedown )
         _card->setPos( x2, y2 );
         _card->setZValue( z2 );
     } else {
-        if ( source == Deck::deck() )
+        if ( source == Deck::deck() && source && !source->isVisible() )
         {
             _card->setPos(x2, -cardMap::self()->wantedCardHeight() - 2);
         }
@@ -425,7 +425,7 @@ void Pile::add( Card* _card, bool _facedown )
         qreal distx = ( x2 - _card->x() ) / cardMap::self()->wantedCardWidth() * 10;
         qreal disty = ( y2 - _card->y() ) / cardMap::self()->wantedCardHeight() * 10;
         qreal dist = sqrt( distx * distx + disty * disty );
-        _card->moveTo(x2, y2, z2, dist * 30);
+        _card->moveTo(x2, y2, z2, qRound( dist * 30) );
     }
 }
 
@@ -518,14 +518,14 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
         if (c == *it) {
 
             if (before) {
-                kDebug() << "moveCardsBack " << ( *it )->name() << " " << before->name() << " " << before->spread() << endl;
+                // kDebug() << "moveCardsBack " << ( *it )->name() << " " << before->name() << " " << before->spread() << endl;
                 off = before->spread();
                 c->moveTo( before->realX() + off.width() / 10 * cardMap::self()->wantedCardWidth(),
 			   before->realY() + off.height()  / 10 * cardMap::self()->wantedCardHeight(),
 			   before->realZ() + 1, steps);
             }
             else {
-                kDebug() << "moveCardsBack " << ( *it )->name() << " no before" << endl;
+                // kDebug() << "moveCardsBack " << ( *it )->name() << " no before" << endl;
                 c->moveTo( int(x()), int(y()), int(zValue()) + 1, steps);
             }
             break;

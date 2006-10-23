@@ -145,7 +145,7 @@ public:
 public slots:
     virtual bool startAutoDrop();
     void hint();
-    void rescale();
+    void rescale(bool onlypiles);
 
     State *getState();
     void setState(State *);
@@ -220,9 +220,6 @@ public:
     void setGameId(int id) { _id = id; }
     int gameId() const { return _id; }
 
-    void setTakeTargetForHints(bool e) { takeTargets = e; }
-    bool takeTargetForHints() const { return takeTargets; }
-
     virtual QSize minimumCardSize() const;
 
     QString anchorName() const;
@@ -290,7 +287,6 @@ protected:
     KAction *ahint, *aredeal;
 
     quint32 _id;
-    bool takeTargets;
     bool _won;
     QString ac;
     static Dealer *s_instance;

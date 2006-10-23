@@ -53,22 +53,19 @@ Card::Card( Rank r, Suit s, QGraphicsScene *_parent )
 {
     _parent->addItem( this );
 
-    QString element = QString( "%1_%2" ).arg( rank_names[m_rank-1] ).arg( suit_names[m_suit-1] );
-    setElementId( element );
-
-    rescale();
-
     // Set the name of the card
     m_name = QString("%1 %2").arg(suit_names[s-1]).arg(rank_names[r-1]).toUtf8();
     m_hoverTimer = new QTimer(this);
     m_hovered = false;
     // Default for the card is face up, standard size.
-    m_faceup = true;
+    m_faceup = false;
     m_destFace = true;
 
     m_destX = 0;
     m_destY = 0;
     m_destZ = 0;
+
+    cardMap::self()->registerCard( QString( "%1_%2" ).arg( rank_names[m_rank-1] ).arg( suit_names[m_suit-1] ) );
 
     m_spread = QSizeF( 0, 0 );
 
@@ -93,9 +90,11 @@ Card::~Card()
 //              Member functions regarding graphics
 
 
-void Card::rescale()
+void Card::setPixmap()
 {
-    setPixmap( cardMap::self()->renderCard( m_elementId ) );
+    if ( name() == "club 1" && false )
+        kDebug() << this << " Card::setPixmap " << m_elementId << " " << cardMap::self()->wantedCardWidth() << " " << kBacktrace() << endl;
+    QGraphicsPixmapItem::setPixmap( cardMap::self()->renderCard( m_elementId ) );
 }
 
 // Turn the card if necessary.  If the face gets turned up, the card
@@ -103,7 +102,7 @@ void Card::rescale()
 //
 void Card::turn( bool _faceup )
 {
-    if (m_faceup != _faceup) {
+    if (m_faceup != _faceup || m_elementId.isNull() ) {
         m_faceup = _faceup;
         m_destFace = _faceup;
         if ( m_faceup ) {
@@ -343,8 +342,9 @@ void Card::stopAnimation()
     old_animation->timeLine()->stop();
     setPos( m_destX, m_destY );
     setZValue( m_destZ );
-    rescale();
-    // update();
+    if ( source() )
+        setSpread( source()->cardOffset(this) );
+
     emit stoped( this );
 }
 
@@ -511,8 +511,10 @@ void Card::zoomOutAnimation()
 
 void Card::setElementId( const QString & element )
 {
+    if (element == m_elementId)
+        return;
     m_elementId = element;
-    rescale();
+    setPixmap();
 }
 
 QRectF Card::boundingRect() const
@@ -527,6 +529,8 @@ QSizeF Card::spread() const
 
 void Card::setSpread(const QSizeF& spread)
 {
+    if (m_spread != spread)
+        source()->tryRelayoutCards();
     m_spread = spread;
 }
 

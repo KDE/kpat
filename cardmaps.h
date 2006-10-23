@@ -46,6 +46,7 @@ public:
     void setWantedCardWidth( double w );
 
     QPixmap renderCard( const QString &element );
+    void registerCard( const QString &element );
     QString pickRandom();
 
 protected slots:

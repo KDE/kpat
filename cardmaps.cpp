@@ -75,6 +75,16 @@ public:
         renderer()->render( &p, element, QRectF( 0, 0, img.width(), img.height() ) );
         m_renderer_mutex.unlock();
         p.end();
+        QString filename = KStandardDirs::locateLocal( "data", "carddecks/svg-nicu-white/83/" + element + ".png");
+        QFile m( filename );
+        if ( m.open(  QIODevice::WriteOnly ) )
+        {
+            bool ret = img.save( &m, "PNG" );
+            m.close();
+            if ( !ret )
+               m.remove();
+        }
+
         return img;
     }
     virtual void run();
@@ -150,7 +160,7 @@ cardMap::cardMap() : QObject()
     KConfig *config = KGlobal::config();
     KConfigGroup cs(config, settings_group );
 
-    d->_wantedCardWidth = config->readEntry( "CardWith", 83 );
+    d->_wantedCardWidth = config->readEntry( "CardWith", 0 );
 
     kDebug(11111) << "cardMap\n";
 
@@ -159,11 +169,7 @@ cardMap::cardMap() : QObject()
 
     KSimpleConfig fi(d->m_cardDeck, true);
     fi.setGroup("KDE Backdeck");
-#if IS_MONDAY
-    d->m_backSize = fi.readEntry("BackSize", QSizeF( 0, 0 ));
-#else
-    d->m_backSize = fi.readEntry("BackSize", QSize( 0, 0 ));
-#endif
+    d->m_backSize = fi.readEntry("BackSize", QSizeF( ));
     if ( !d->m_backSize.isValid() )
         d->m_backSize = d->m_thread->renderer()->boundsOnElement( "back" ).size();
     kDebug() << "back " << d->m_backSize << endl;
@@ -172,6 +178,7 @@ cardMap::cardMap() : QObject()
     d->m_cacheDir = KGlobal::dirs()->findResourceDir( "data", "carddecks/svg-nicu-white/83/" );
     kDebug() << "cacheDir " << d->m_cacheDir << endl;
     cms.setObject(_self, this);
+
 //    kDebug(11111) << "card " << CARDX << " " << CARDY << endl;
 }
 
@@ -203,20 +210,22 @@ double cardMap::wantedCardWidth() const
 
 void cardMap::setWantedCardWidth( double w )
 {
+    kDebug() << "setWantedCardWidth " << w << " " << d->_wantedCardWidth << endl;
+
     if ( w > 200 || w < 10 || d->_wantedCardWidth == w )
         return;
 
-    kDebug() << "setWantedCardWidth " << w << endl;
-
     d->_wantedCardWidth = w;
     d->_scale = 0;
+    Dealer::instance()->dscene()->rescale(false);
     if ( d->m_thread->isRunning() )
     {
         d->m_thread->disconnect();
         d->m_thread->finish();
         connect( d->m_thread, SIGNAL( finished() ), SLOT( slotThreadEnded() ) );
-    } else // start directly
+    } else { // start directly
         slotThreadEnded();
+    }
 }
 
 cardMap *cardMap::self() {
@@ -230,7 +239,7 @@ void cardMap::slotThreadFinished()
     KConfigGroup cs(config, settings_group );
     config->writeEntry( "CardWith", d->_wantedCardWidth );
     config->sync();
-    Dealer::instance()->dscene()->rescale();
+    Dealer::instance()->dscene()->rescale(false);
 }
 
 void cardMap::slotThreadEnded()
@@ -240,33 +249,33 @@ void cardMap::slotThreadEnded()
     connect( d->m_thread, SIGNAL( finished() ), SLOT( slotThreadFinished() ) );
 }
 
+void cardMap::registerCard( const QString &element )
+{
+    d->m_cacheMutex.lock();
+    d->m_cache[element] = QImage();
+    d->m_cacheMutex.unlock();
+}
+
 QPixmap cardMap::renderCard( const QString &element )
 {
     QImage img;
     d->m_cacheMutex.lock();
-    if ( !d->m_cache.contains( element ) )
+    if ( d->m_cache.contains( element ) )
+        img = d->m_cache[element];
+    d->m_cacheMutex.unlock();
+
+    if ( img.isNull() )
     {
         QString filename = KStandardDirs::locate( "data", "carddecks/svg-nicu-white/83/" + element + ".png");
         if ( !filename.isNull() )
             img = QImage( filename );
-        if ( img.isNull() ) {
+        if ( img.isNull() )
             img = d->m_thread->renderCard( element );
-            filename = KStandardDirs::locateLocal( "data", "carddecks/svg-nicu-white/83/" + element + ".png");
-            QFile m( filename );
-            if ( m.open(  QIODevice::WriteOnly ) )
-            {
-                bool ret = img.save( &m, "PNG" );
-                kDebug() << "saved " << m.fileName() << " " << ret << endl;
-                m.close();
-                if ( !ret )
-                    m.remove();
-            }
-        }
 
+        d->m_cacheMutex.lock();
         d->m_cache[element] = img;
-    } else
-        img = d->m_cache[element];
-    d->m_cacheMutex.unlock();
+        d->m_cacheMutex.unlock();
+    }
 
     QMatrix matrix;
     matrix.scale( cardMap::self()->wantedCardWidth() / img.width(),
@@ -274,6 +283,7 @@ QPixmap cardMap::renderCard( const QString &element )
 
     return QPixmap::fromImage( img ).transformed(matrix);
 }
+
 
 cardMapThread::cardMapThread( cardMapPrivate *_cmp )
 {

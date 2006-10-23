@@ -58,9 +58,9 @@ Mod3::Mod3( )
                 stack[r][c]->setTarget(true);
                 stack[r][c]->setAddFlags( Pile::addSpread );
                 stack[r][c]->setSpread( 0.5 );
-                stack[r][c]->setReservedSpace( QSizeF( 10, 15 ) );
                 stack[r][c]->setObjectName( QString( "stack%1_%2" ).arg( r ).arg( c ) );
             } else {
+                stack[r][c]->setReservedSpace( QSizeF( 10, 15 ) );
                 stack[r][c]->setAddFlags( Pile::addSpread );
                 stack[r][c]->setCheckIndex( 1 );
                 stack[r][c]->setObjectName( QString( "stack3_%1" ).arg( c ) );
@@ -68,13 +68,107 @@ Mod3::Mod3( )
         }
     }
 
-    Dealer::instance()->setTakeTargetForHints(true);
     Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo );
 }
 
 
 //-------------------------------------------------------------------------//
 
+void Mod3::getHints()
+{
+    bool foundone = false;
+    for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
+    {
+        Pile *store = *it;
+        if ( store->isEmpty() || store == aces || store == Deck::deck() )
+            continue;
+
+        if ( store->top()->rank() == Card::Ace )
+        {
+            newHint(new MoveHint(store->top(), aces));
+            foundone = true;
+        }
+    }
+
+    if ( foundone )
+        return;
+
+    for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
+    {
+        Pile *store = *it;
+        Card *top = store->top();
+
+        if ( !top || store == aces || store == Deck::deck() )
+            continue;
+
+        if ( store->cardsLeft() > 1 && store->target() )
+            continue;
+
+        // kDebug(11111) << "trying " << top->name() << " " << store->legalRemove(top) << endl;
+
+        // Q_ASSERT( store->legalRemove(top) );
+        if (store->legalRemove(top)) {
+//                kDebug(11111) << "could remove " << top->name() << endl;
+            for (PileList::Iterator pit = piles.begin(); pit != piles.end(); ++pit)
+            {
+                Pile *dest = *pit;
+                if (dest == store)
+                    continue;
+                if (dest->isEmpty() && !dest->target()) // later
+                    continue;
+                CardList cards;
+                cards.append( top );
+                if (!dest->legalAdd(cards))
+                    continue;
+
+                // kDebug() << "could still be it " << dest->objectName() << " " << store->y() << " " << dest->y() << " " << store->objectName() << endl;
+                if ( store->y() == dest->y() )
+                {
+                    if ( top->rank() == Card::Two || top->rank() == Card::Three || top->rank() == Card::Four )
+                        continue;
+                }
+                newHint(new MoveHint(top, dest));
+                foundone = true;
+            }
+        }
+    }
+
+    if ( foundone )
+        return;
+
+    for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
+    {
+        Pile *store = *it;
+        Card *top = store->top();
+
+        if ( !top || store == aces || store == Deck::deck() )
+            continue;
+
+        if ( store->cardsLeft() > 1 && store->target() )
+            continue;
+
+        if ( store->cardsLeft() == 1 && !store->target() )
+            continue;
+
+        // TODO moving cards that are already on the right target should not be moved away
+
+        if (store->legalRemove(top)) {
+//                kDebug(11111) << "could remove " << top->name() << endl;
+            for (PileList::Iterator pit = piles.begin(); pit != piles.end(); ++pit)
+            {
+                Pile *dest = *pit;
+                if (dest == store || dest == Deck::deck() )
+                    continue;
+                if (dest->isEmpty() && !dest->target())
+                {
+                    newHint(new MoveHint(top, dest));
+                    continue;
+                }
+            }
+        }
+    }
+
+}
 
 bool Mod3::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
 {

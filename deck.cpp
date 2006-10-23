@@ -58,8 +58,11 @@ Deck::~Deck()
 // ----------------------------------------------------------------
 
 
-void Deck::create_deck( DealerScene *parent, int m, int s )
+void Deck::create_deck( DealerScene *parent, uint m, uint s )
 {
+    if ( my_deck && ( m == my_deck->mult && s == my_deck->suits ) )
+        return;
+    delete my_deck;
     my_deck = new Deck(parent, m, s);
 }
 
@@ -87,7 +90,7 @@ void Deck::makedeck()
 void Deck::update()
 {
     for ( uint i = 0; i < mult*NumberOfCards; ++i )
-        _deck[i]->rescale();
+        _deck[i]->setPixmap();
 }
 
 void Deck::collectAndShuffle()
@@ -161,6 +164,9 @@ void Deck::addToDeck()
     for (uint i = 0; i < mult*NumberOfCards; i++) {
         _deck[i]->setTakenDown(false);
         add( _deck[i], true );
-        _deck[i]->setPos( 2000, 2000 );
+        if ( isVisible() )
+            _deck[i]->setPos( x(), y() );
+        else
+            _deck[i]->setPos( 2000, 2000 );
     }
 }

@@ -478,9 +478,6 @@ void FreecellBase::getHints()
 {
     for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
     {
-        if (!Dealer::instance()->takeTargetForHints() && (*it)->target())
-            continue;
-
         Pile *store = *it;
         if (store->isEmpty())
             continue;
@@ -505,7 +502,7 @@ void FreecellBase::getHints()
                         continue;
 
                     bool old_prefer = checkPrefering( dest->checkIndex(), dest, cards );
-                    if (!Dealer::instance()->takeTargetForHints() && dest->target())
+                    if (dest->target())
                         newHint(new MoveHint(*iti, dest, noLongerNeeded(*(*iti))));
                     else {
                         store->hideCards(cards);

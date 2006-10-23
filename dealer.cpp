@@ -106,12 +106,10 @@ DealerScene::~DealerScene()
 
 Dealer::Dealer( KMainWindow* _parent )
   : QGraphicsView( _parent ),
-
     myActions(0),
     ademo(0),
     ahint(0),
     aredeal(0),
-    takeTargets(false),
     _won(false),
     _gameRecorded(false)
 {
@@ -125,6 +123,8 @@ Dealer::Dealer( KMainWindow* _parent )
 
     setCacheMode(QGraphicsView::CacheBackground);
 
+    setupActions();
+
 /*    QGLWidget *wgl = new QGLWidget();
       setupViewport(wgl);*/
 }
@@ -132,25 +132,24 @@ Dealer::Dealer( KMainWindow* _parent )
 void Dealer::setScene( QGraphicsScene *scene )
 {
     QGraphicsView::setScene( scene );
+    dscene()->rescale(true);
     dscene()->setGameNumber( KRandom::random() );
     dscene()->setGameNumber( 1438470683 );
 
 //    dscene()->setAdvancePeriod(30);
 // dscene()->setBackgroundColor( darkGreen );
 // dscene()->setDoubleBuffering(true);
-    dscene()->setSceneRect ( QRectF( 0,0,700,500 ) );
+    dscene()->setSceneRect( QRectF( 0,0,700,500 ) );
     scaleFactor = 1;
     dscene()->setItemIndexMethod(QGraphicsScene::NoIndex);
     connect( scene, SIGNAL( gameWon( bool ) ), SIGNAL( gameWon( bool ) ) );
     connect( dscene(), SIGNAL( undoPossible( bool ) ), SIGNAL( undoPossible( bool ) ) );
-    dscene()->rescale();
 }
 
 Dealer *Dealer::instance()
 {
     return s_instance;
 }
-
 
 void DealerScene::setBackgroundPixmap(const QPixmap &background, const QColor &midcolor)
 {
@@ -245,7 +244,7 @@ void DealerScene::getHints()
 {
     for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
     {
-        if (!Dealer::instance()->takeTargetForHints() && (*it)->target())
+        if ((*it)->target())
             continue;
 
         Pile *store = *it;
@@ -272,7 +271,7 @@ void DealerScene::getHints()
                         continue;
 
                     bool old_prefer = checkPrefering( dest->checkIndex(), dest, cards );
-                    if (!Dealer::instance()->takeTargetForHints() && dest->target())
+                    if (dest->target())
                         newHint(new MoveHint(*iti, dest));
                     else {
                         store->hideCards(cards);
@@ -677,7 +676,6 @@ void Dealer::startNew()
     emit updateMoves();
     kDebug(11111) << "startNew restart\n";
     dscene()->restart();
-    dscene()->rescale();
     takeState();
     Card *towait = 0;
     for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it) {
@@ -820,7 +818,7 @@ void DealerScene::setState(State *st)
 
 void Dealer::takeState()
 {
-    kDebug(11111) << "takeState\n";
+    // kDebug(11111) << "takeState\n";
 
     State *n = dscene()->getState();
 
@@ -838,8 +836,6 @@ void Dealer::takeState()
             undoList.append(n);
         }
     }
-
-    kDebug() << "n " << n << endl;
 
     if (n) {
         if (dscene()->isGameWon()) {
@@ -1002,8 +998,6 @@ void Dealer::openGame(QDomDocument &doc)
         emit undoPossible(undoList.count() > 1);
     }
 
-    dscene()->rescale();
-
     emit updateMoves();
     takeState();
 }
@@ -1125,14 +1119,14 @@ long DealerScene::gameNumber() const
     return gamenumber;
 }
 
-void DealerScene::rescale()
+void DealerScene::rescale(bool onlypiles)
 {
-    Deck::deck()->update();
+    if ( !onlypiles )
+        Deck::deck()->update();
     for (PileList::ConstIterator it = piles.begin(); it != piles.end(); ++it)
     {
         ( *it )->rescale();
     }
-
 }
 
 void DealerScene::setGameNumber(long gmn)
@@ -1304,15 +1298,15 @@ void DealerScene::demo()
 
         assert(!empty.isEmpty());
 
-        int *oldcoords = new int[2*empty.count()];
+        qreal *oldcoords = new qreal[2*empty.count()];
         int i = 0;
 
         for (CardList::Iterator it = empty.begin(); it != empty.end(); ++it) {
             Card *t = *it;
             t->stopAnimation();
             t->turn(true);
-            oldcoords[i++] = int(t->realX());
-            oldcoords[i++] = int(t->realY());
+            oldcoords[i++] = t->realX();
+            oldcoords[i++] = t->realY();
         }
 
         assert(mh->card()->source() != mh->pile());
@@ -1324,12 +1318,12 @@ void DealerScene::demo()
 
         for (CardList::Iterator it = empty.begin(); it != empty.end(); ++it) {
             Card *t = *it;
-            int x1 = oldcoords[i++];
-            int y1 = oldcoords[i++];
-            int x2 = int(t->realX());
-            int y2 = int(t->realY());
+            qreal x1 = oldcoords[i++];
+            qreal y1 = oldcoords[i++];
+            qreal x2 = t->realX();
+            qreal y2 = t->realY();
             t->setPos(x1, y1);
-            t->moveTo(x2, y2, int(t->zValue()), DURATION_DEMO);
+            t->moveTo(x2, y2, t->zValue(), DURATION_DEMO);
         }
 
         delete [] oldcoords;
@@ -1432,7 +1426,6 @@ void Dealer::wheelEvent( QWheelEvent *e )
 #endif
     qreal scaleFactor = pow((double)2, -e->delta() / (10*120.0));
     cardMap::self()->setWantedCardWidth( cardMap::self()->wantedCardWidth() / scaleFactor );
-    dscene()->rescale();
 }
 
 void Dealer::countGame()
@@ -1474,16 +1467,18 @@ QPointF DealerScene::maxPilePos() const
 
 void DealerScene::setSceneSize( const QSize &s )
 {
+//    kDebug() << "setSceneSize " << kBacktrace() << endl;
+
     QPointF defaultSceneRect = maxPilePos();
 
     kDebug() << "rect " << defaultSceneRect << " " << s << endl;
-    qreal scaleX = s.width() / ( defaultSceneRect.x() + 1 );
-    qreal scaleY = s.height() / ( defaultSceneRect.y() + 1 );
+    qreal scaleX = s.width() / cardMap::self()->wantedCardWidth() / ( defaultSceneRect.x() + 1 );
+    qreal scaleY = s.height() / cardMap::self()->wantedCardHeight() / ( defaultSceneRect.y() + 1 );
     kDebug() << "scaleY " << scaleY << " " << scaleX << endl;
     qreal n_scaleFactor = qMin(scaleX, scaleY);
 
     kDebug() << "scale " << n_scaleFactor << endl;
-    cardMap::self()->setWantedCardWidth( qRound( n_scaleFactor * 10 ) );
+    cardMap::self()->setWantedCardWidth( int( n_scaleFactor * 10 * cardMap::self()->wantedCardWidth() ) );
 
     for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
     {
@@ -1491,8 +1486,6 @@ void DealerScene::setSceneSize( const QSize &s )
         p->setMaximalSpace( QSizeF( cardMap::self()->wantedCardWidth(),
                                     cardMap::self()->wantedCardHeight() ) );
     }
-
-    rescale();
 
     while ( true )
     {
@@ -1552,14 +1545,19 @@ void DealerScene::setSceneSize( const QSize &s )
         if ( !changed )
             break;
     }
-
-    rescale();
 }
 
 void Dealer::resizeEvent( QResizeEvent *e )
 {
     if ( e )
         QGraphicsView::resizeEvent(e);
+
+#if 0
+    foreach (QWidget *widget, QApplication::allWidgets())
+        kDebug() << widget << " " << widget->objectName() << " " << widget->geometry() << endl;
+
+    kDebug() << "resizeEvent " << size() << " " << e << " " << dscene() << " " << parent()->isVisible() << /* " " << kBacktrace() << */ endl;
+#endif
 
     if ( !dscene() )
         return;

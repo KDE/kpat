@@ -115,7 +115,7 @@ signals:
     void         stoped(Card *c);
 
 public slots:
-    void       rescale();
+    void       setPixmap();
     void       flip();
     void       flipAnimationChanged( qreal );
     void       stopAnimation();
