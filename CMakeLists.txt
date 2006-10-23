@@ -56,7 +56,7 @@ set(kpat_SRCS ${libfcs_SRCS}
     spider.cpp
 )
 
-kde4_automoc(kpat ${kpat_SRCS})
+kde4_automoc(${kpat_SRCS})
 
 kde4_add_ui_files(kpat_SRCS gamestats.ui )
 
