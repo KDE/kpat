@@ -25,8 +25,8 @@
 Napoleon::Napoleon( )
   : DealerScene( )
 {
-    deck = Deck::new_deck( this );
-    connect(deck, SIGNAL(clicked(Card *)), SLOT(deal1(Card*)));
+    Deck::create_deck( this );
+    connect(Deck::deck(), SIGNAL(clicked(Card *)), SLOT(deal1(Card*)));
 
     pile = new Pile( 1, this );
     pile->setAddFlags( Pile::disallow );
@@ -41,34 +41,34 @@ Napoleon::Napoleon( )
         target[i]->setTarget(true);
     }
 
-    const int dist_store = cardMap::CARDX() * 55 / 100;
-    const int dist_target = dist_store / 2;
-    const int centre_x = 10 + cardMap::CARDX() + dist_store;
-    const int centre_y = 10 + cardMap::CARDY() + dist_store;
+    const qreal dist_store = 5.5;
+    const qreal dist_target = dist_store / 2;
+    const qreal centre_x = 1 + 10 + dist_store;
+    const qreal centre_y = 1 + 10 + dist_store;
 
-    deck->setPos( centre_x + cardMap::CARDX() * 47 / 10, centre_y + cardMap::CARDY() + dist_store);
-    pile->setPos( centre_x + cardMap::CARDX() * 33 / 10, centre_y + cardMap::CARDY() + dist_store);
+    Deck::deck()->setPilePos( centre_x + 10 * 47 / 10, centre_y + 10 + dist_store);
+    pile->setPilePos( centre_x + 10 * 33 / 10, centre_y + 10 + dist_store);
 
     centre = new Pile( 10, this );
     centre->setRemoveFlags( Pile::disallow );
     centre->setCheckIndex(1);
     centre->setTarget(true);
 
-    store[0]->setPos( centre_x, centre_y - cardMap::CARDY() - dist_store );
-    store[1]->setPos( centre_x + cardMap::CARDX() + dist_store, centre_y);
-    store[2]->setPos( centre_x, centre_y + cardMap::CARDY() + dist_store );
-    store[3]->setPos( centre_x - cardMap::CARDX() - dist_store, centre_y);
-    target[0]->setPos( centre_x - cardMap::CARDX() - dist_target, centre_y - cardMap::CARDY() - dist_target );
-    target[1]->setPos( centre_x + cardMap::CARDX() + dist_target, centre_y - cardMap::CARDY() - dist_target);
-    target[2]->setPos( centre_x + cardMap::CARDX() + dist_target, centre_y + cardMap::CARDY() + dist_target);
-    target[3]->setPos( centre_x - cardMap::CARDX() - dist_target, centre_y + cardMap::CARDY() + dist_target);
-    centre->setPos(centre_x, centre_y);
+    store[0]->setPilePos( centre_x, centre_y - 10 - dist_store );
+    store[1]->setPilePos( centre_x + 10 + dist_store, centre_y);
+    store[2]->setPilePos( centre_x, centre_y + 10 + dist_store );
+    store[3]->setPilePos( centre_x - 10 - dist_store, centre_y);
+    target[0]->setPilePos( centre_x - 10 - dist_target, centre_y - 10 - dist_target );
+    target[1]->setPilePos( centre_x + 10 + dist_target, centre_y - 10 - dist_target);
+    target[2]->setPilePos( centre_x + 10 + dist_target, centre_y + 10 + dist_target);
+    target[3]->setPilePos( centre_x - 10 - dist_target, centre_y + 10 + dist_target);
+    centre->setPilePos(centre_x, centre_y);
 
     Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
 }
 
 void Napoleon::restart() {
-    deck->collectAndShuffle();
+    Deck::deck()->collectAndShuffle();
     deal();
 }
 
@@ -108,25 +108,26 @@ bool Napoleon::checkAdd( int checkIndex, const Pile *c1, const CardList& c2) con
 }
 
 void Napoleon::deal() {
-    if (deck->isEmpty())
+    if (Deck::deck()->isEmpty())
         return;
 
     for (int i=0; i<4; i++)
-        store[i]->add(deck->nextCard(), false, false);
+        store[i]->add(Deck::deck()->nextCard(), false);
 }
 
 void Napoleon::deal1(Card *) {
-    Card *c = deck->nextCard();
+    Card *c = Deck::deck()->nextCard();
     if (!c)
         return;
-    pile->add(c, true, false);
-    c->setPos(deck->x(), deck->y());
-    c->flipTo(int(pile->x()), int(pile->y()));
+    pile->add(c, true);
+    c->stopAnimation();
+    c->setPos(Deck::deck()->x(), Deck::deck()->y());
+    c->flipTo(pile->x(), pile->y());
 }
 
 Card *Napoleon::demoNewCards()
 {
-    if (deck->isEmpty())
+    if (Deck::deck()->isEmpty())
         return 0;
     deal1(0);
     return pile->top();
@@ -189,7 +190,7 @@ bool Napoleon::isGameLost() const
             if(CanPutTarget(target[i],empty)) return false;
     }
 
-    return (deck->isEmpty());
+    return (Deck::deck()->isEmpty());
 }
 
 
