@@ -22,8 +22,7 @@ class HorLeftPile : public Pile
 
 public:
     explicit HorLeftPile( int _index, DealerScene* parent = 0);
-    virtual QSizeF cardOffset( bool _spread, bool _facedown, const Card *before) const;
-    virtual void initSizes();
+    virtual QSizeF cardOffset(const Card *before) const;
 };
 
 class Fortyeight : public DealerScene

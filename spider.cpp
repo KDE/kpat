@@ -62,7 +62,7 @@ Spider::Spider(int suits)
     // sets of 10 cards are left to be dealt out
     for( int column = 0; column < 5; column++ ) {
         redeals[column] = new Pile(column + 1, this);
-        redeals[column]->setPilePos( 0 - dist_x / 3 * ( 5 - column ), -2);
+        redeals[column]->setPilePos( 0 - dist_x / 3 * ( 5 - column ), -1);
         redeals[column]->setZValue(12 * ( 5-column ));
         redeals[column]->setCheckIndex(0);
         redeals[column]->setAddFlags(Pile::disallow);
@@ -70,6 +70,7 @@ Spider::Spider(int suits)
         redeals[column]->setObjectName( QString( "redeals%1" ).arg( column ) );
         connect(redeals[column], SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
     }
+    redeals[0]->setReservedSpace( QSizeF( -50, 10 ) );
 
     // The 10 playing piles
     for( int column = 0; column < 10; column++ ) {
@@ -81,13 +82,14 @@ Spider::Spider(int suits)
         stack[column]->setRemoveFlags(Pile::several |
                                       Pile::autoTurnTop | Pile::wholeColumn);
         stack[column]->setObjectName( QString( "stack%1" ).arg( column ) );
+        stack[column]->setReservedSpace( QSizeF( 10, 20 ) );
     }
 
     // The 8 'legs' so named by me because spiders have 8 legs - why
     // else the name Spider?
     for( int column = 0; column < 8; column++ ) {
         legs[column] = new Pile(column + 16, this);
-        legs[column]->setPilePos(1 + dist_x / 3 * column, -2);
+        legs[column]->setPilePos(1 + dist_x / 3 * column, -1);
         legs[column]->setZValue(column+1);
         legs[column]->setCheckIndex(0);
         legs[column]->setAddFlags(Pile::disallow);

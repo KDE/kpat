@@ -102,8 +102,11 @@ DealerScene::DealerScene():
 DealerScene::~DealerScene()
 {
     // don't delete the deck
-    Deck::deck()->setParent( 0 );
-    removeItem( Deck::deck() );
+    if ( Deck::deck()->scene() == this )
+    {
+        Deck::deck()->setParent( 0 );
+        removeItem( Deck::deck() );
+    }
     removePile( Deck::deck() );
     while (!piles.isEmpty()) {
         delete piles.first(); // removes itself
@@ -150,7 +153,8 @@ void Dealer::setScene( QGraphicsScene *_scene )
     dscene()->setItemIndexMethod(QGraphicsScene::NoIndex);
     connect( _scene, SIGNAL( gameWon( bool ) ), SIGNAL( gameWon( bool ) ) );
     connect( dscene(), SIGNAL( undoPossible( bool ) ), SIGNAL( undoPossible( bool ) ) );
-    connect( dscene(), SIGNAL( demoActive( bool ) ), ademo, SLOT( setEnabled( bool ) ) );
+    if ( ademo )
+        connect( dscene(), SIGNAL( demoActive( bool ) ), ademo, SLOT( setEnabled( bool ) ) );
     if ( oldscene )
         dscene()->relayoutPiles();
 
@@ -1455,15 +1459,16 @@ QPointF DealerScene::maxPilePos() const
     for (PileList::ConstIterator it = piles.begin(); it != piles.end(); ++it)
     {
         // kDebug() << ( *it )->objectName() << " " <<  ( *it )->pilePos() << " " << ( *it )->reservedSpace() << endl;
-        maxp = QPointF( qMax( ( *it )->pilePos().x() + ( *it )->reservedSpace().width(), maxp.x() ),
-                        qMax( ( *it )->pilePos().y() + ( *it )->reservedSpace().height(), maxp.y() ) );
+        // we call fabs here, because reserved space of -50 means for a pile at -1x-1 means it wants at least
+        // 49 all together. Even though the real logic should be more complex, it's enough for our current needs
+        maxp = QPointF( qMax( fabs( ( *it )->pilePos().x() + ( *it )->reservedSpace().width() ), maxp.x() ),
+                        qMax( fabs( ( *it )->pilePos().y() + ( *it )->reservedSpace().height() ), maxp.y() ) );
     }
     return maxp;
 }
 
 void DealerScene::relayoutPiles()
 {
-    kDebug() << "relayoutPiles\n";
     setSceneSize( Dealer::instance()->size());
 }
 
@@ -1486,67 +1491,111 @@ void DealerScene::setSceneSize( const QSize &s )
     for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
     {
         Pile *p = *it;
-        p->setMaximalSpace( QSizeF( cardMap::self()->wantedCardWidth(),
-                                    cardMap::self()->wantedCardHeight() ) );
+        if ( p->pilePos().x() < 0 || p->pilePos().y() < 0 )
+            p->rescale();
+        QSizeF ms( cardMap::self()->wantedCardWidth(),
+                   cardMap::self()->wantedCardHeight() );
+        kDebug() << p->objectName() <<  " " << p->reservedSpace() << endl;
+        if ( p->reservedSpace().width() > 10 )
+            ms.setWidth( s.width() - p->x() );
+        if ( p->reservedSpace().height() > 10 )
+            ms.setHeight( s.height() - p->y() );
+        if ( p->reservedSpace().width() < 0 )
+            ms.setWidth( p->x() );
+        Q_ASSERT( p->reservedSpace().height() > 0 ); // no such case yet
+
+        //kDebug() << "setMaximalSpace " << ms << endl;
+        kDebug() << ms << " " << cardMap::self()->wantedCardHeight() << endl;
+        Q_ASSERT( ms.width() >= cardMap::self()->wantedCardWidth() - 0.1 );
+        Q_ASSERT( ms.height() >= cardMap::self()->wantedCardHeight() - 0.1 );
+
+        p->setMaximalSpace( ms );
     }
 
-    while ( true )
+    for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
     {
-        bool changed = false;
+        Pile *p = *it;
+        if ( !p->isVisible() || ( p->reservedSpace().width() == 10 && p->reservedSpace().height() == 10 ) )
+            continue;
 
-        for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
+        QRectF myRect( p->pos(), p->maximalSpace() );
+        if ( p->reservedSpace().width() < 0 )
         {
-            Pile *p = *it;
-            if ( !p->isVisible() )
+            myRect.moveRight( p->x() + cardMap::self()->wantedCardWidth() );
+            myRect.moveLeft( p->x() - p->maximalSpace().width() );
+        }
+
+        // kDebug() << p->objectName() << " " << p->spread() << " " << myRect << endl;
+
+        for ( PileList::ConstIterator it2 = piles.begin(); it2 != piles.end(); ++it2 )
+        {
+            if ( *it2 == p || !( *it2 )->isVisible() )
                 continue;
 
-            QRectF myRect = QRectF( p->x(), p->y(),
-                                    s.width() - p->x() - 1,
-                                    s.height() - p->y() - 1 );
+            QRectF pileRect( (*it2)->pos(), (*it2)->maximalSpace() );
+            if ( (*it2)->reservedSpace().width() < 0 )
+                pileRect.moveRight( (*it2)->x() );
+            if ( (*it2)->reservedSpace().height() < 0 )
+                pileRect.moveBottom( (*it2)->y() );
 
-            for ( PileList::ConstIterator it2 = piles.begin(); it2 != piles.end(); ++it2 )
+
+            // kDebug() << "compa " << p->objectName() << " " << myRect << " " << ( *it2 )->objectName() << " " << pileRect << " " << myRect.intersects( pileRect ) << endl;
+            // if the growing pile intersects with another pile, we need to solve the conflict
+            if ( myRect.intersects( pileRect ) )
             {
-                if ( *it2 == p || !( *it2 )->isVisible() )
-                    continue;
+                kDebug() << "compa " << p->objectName() << " " << myRect << " " << ( *it2 )->objectName() << " " << pileRect << " " << myRect.intersects( pileRect ) << endl;
+                QSizeF pms = ( *it2 )->maximalSpace();
 
-                QRectF pilerect = QRectF( ( *it2 )->pos(), QSizeF( qreal( ( *it2 )->maximalSpace().width() ),
-                                                                   qreal( ( *it2 )->maximalSpace().height() ) ) );
-
-                // kDebug() << "compa " << p->objectName() << " " << myRect << " " << ( *it2 )->objectName() << " " << pilerect << " " << myRect.intersects( pilerect ) << endl;
-                if ( myRect.intersects( pilerect ) )
+                if ( p->reservedSpace().width() != 10 )
                 {
-                    qreal width = qMin( myRect.width(), ( *it2 )->x() - myRect.left() );
-                    qreal height = qMin( myRect.height(), ( *it2 )->y() - myRect.top() );
-                    if ( width < height && height > 0 )
+                    if ( ( *it2 )->reservedSpace().height() != 10 )
                     {
-                        // kDebug() << "set height " << p->objectName() << " " << height - 10 << endl;
-                        myRect.setHeight( height - 1  );
-                        if ( myRect.intersects( pilerect ) && width > 0) {
-                            // kDebug() << "set width " << p->objectName() << " " << width - 10 << endl;
-                            myRect.setWidth( width - 1 );
+                        Q_ASSERT( ( *it2 )->reservedSpace().height() > 0 );
+                        // if it's growing too, we win
+                        pms.setHeight( qMin( myRect.top() - ( *it2 )->y() - 1, pms.height() ) );
+                        kDebug() << "1. reduced height of " << ( *it2 )->objectName() << endl;
+                    } else // if it's fixed height, we loose
+                        if ( p->reservedSpace().width() < 0 ) {
+                            // this isn't made for two piles one from left and one from right both growing
+                            Q_ASSERT( ( *it2 )->reservedSpace().width() == 10 );
+                            myRect.setLeft( ( *it2 )->x() + cardMap::self()->wantedCardWidth() + 1);
+                            kDebug() << "2. reduced width of " << p->objectName() << endl;
+                        } else {
+                            myRect.setRight( ( *it2 )->x() - 1 );
+                            kDebug() << "3. reduced width of " << p->objectName() << endl;
                         }
-                    } else {
-                        if ( width > 0 ) {
-                            // kDebug() << "set width2 " << p->objectName() << " " << width - 10 << " " << myRect.width() << endl;
-                            myRect.setWidth( width - 1 );
-                        }
-                        if ( myRect.intersects( pilerect ) && height > 0 )
-                        {
-                            // kDebug() << "set height2 " << p->objectName() << " " << height - 10 << endl;
-                            myRect.setHeight( height - 1 );
-                        }
-                    }
-
                 }
-            }
-            if ( p->maximalSpace() != myRect.size() )
-            {
-                p->setMaximalSpace( myRect.size() );
-                changed = true;
+
+                if ( p->reservedSpace().height() != 10 )
+                {
+                    if ( ( *it2 )->reservedSpace().width() != 10 )
+                    {
+                        Q_ASSERT( ( *it2 )->reservedSpace().height() > 0 );
+                        // if it's growing too, we win
+                        Q_ASSERT( false ); // TODO
+                        kDebug() << "4. reduced width of " << ( *it2 )->objectName() << endl;
+                    } else // if it's fixed height, we loose
+                        if ( p->reservedSpace().height() < 0 ) {
+                            // this isn't made for two piles one from left and one from right both growing
+                            Q_ASSERT( ( *it2 )->reservedSpace().height() == 10 );
+                            Q_ASSERT( false ); // TODO
+                            myRect.setLeft( ( *it2 )->x() + cardMap::self()->wantedCardWidth() + 1);
+                            kDebug() << "5. reduced height of " << p->objectName() << endl;
+                        } else {
+                            myRect.setBottom( ( *it2 )->y() - 1 );
+                            kDebug() << "6. reduced height of " << p->objectName() << endl;
+                        }
+                }
+
+                Q_ASSERT( pms.width() >= cardMap::self()->wantedCardWidth() - 0.1 );
+                Q_ASSERT( pms.height() >= cardMap::self()->wantedCardHeight() - 0.1 );
+                ( *it2 )->setMaximalSpace( pms );
             }
         }
-        if ( !changed )
-            break;
+        Q_ASSERT( myRect.width() >= cardMap::self()->wantedCardWidth() - 0.1 );
+        Q_ASSERT( myRect.height() >= cardMap::self()->wantedCardHeight() - 0.1 );
+
+        p->setMaximalSpace( myRect.size() );
     }
 }
 

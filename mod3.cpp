@@ -59,6 +59,7 @@ Mod3::Mod3( )
                 stack[r][c]->setAddFlags( Pile::addSpread );
                 stack[r][c]->setSpread( 0.5 );
                 stack[r][c]->setObjectName( QString( "stack%1_%2" ).arg( r ).arg( c ) );
+                stack[r][c]->setReservedSpace( QSizeF( 10, 12.3 ) );
             } else {
                 stack[r][c]->setReservedSpace( QSizeF( 10, 15 ) );
                 stack[r][c]->setAddFlags( Pile::addSpread );

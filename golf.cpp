@@ -22,12 +22,9 @@ HorRightPile::HorRightPile( int _index, DealerScene* parent)
 {
 }
 
-QSize HorRightPile::cardOffset( bool _spread, bool, const Card *) const
+QSizeF HorRightPile::cardOffset( const Card *) const
 {
-    if (_spread)
-        return QSize(+hspread(), 0);
-
-    return QSize(0, 0);
+    return QSize(1.2, 0);
 }
 
 //-------------------------------------------------------------------------//

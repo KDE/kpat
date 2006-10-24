@@ -38,6 +38,7 @@ Gypsy::Gypsy( )
         store[i]->setPilePos(1+dist_x*i, 1);
         store[i]->setAddType(Pile::GypsyStore);
         store[i]->setRemoveType(Pile::FreecellStore);
+        store[i]->setReservedSpace( QSizeF( 10, 20 ) );
     }
 
     Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);

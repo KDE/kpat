@@ -56,7 +56,7 @@ Klondike::Klondike( bool easy )
     pile = new KlondikePile( 13, easy ? 1 : 3, this);
     pile->setObjectName( "pile" );
 
-    pile->setPilePos(margin + 10 + 10. / 4, margin);
+    pile->setPilePos(margin + 10 + hspacing, margin);
     // Move the visual representation of the pile to the intended position
     // on the game board.
 
@@ -69,6 +69,7 @@ Klondike::Klondike( bool easy )
         play[i]->setAddType(Pile::KlondikeStore);
         play[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop | Pile::wholeColumn);
         play[i]->setObjectName( QString( "play%1" ).arg( i ) );
+        play[i]->setReservedSpace( QSizeF( 10, 23 ) );
     }
 
     for( int i = 0; i < 4; i++ ) {
@@ -261,7 +262,7 @@ void Klondike::deal3()
         }
         pile->add(item, true); // facedown, nospread
         if (flipped < pile->draw() - 1)
-            item->setSpread( QSizeF( pile->dspread(), 0 ) );
+            item->setSpread( QSizeF( pile->spread() * 0.6, 0 ) );
         item->stopAnimation();
         // move back to flip
         item->setPos(Deck::deck()->x(), Deck::deck()->y());

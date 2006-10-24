@@ -21,24 +21,12 @@
 HorLeftPile::HorLeftPile( int _index, DealerScene* parent)
     : Pile(_index, parent)
 {
-    // TODO: create a pile that moves the cards together when filling space
-    setHSpread( 4 );
 }
 
-QSizeF HorLeftPile::cardOffset( bool _spread, bool, const Card *) const
+QSizeF HorLeftPile::cardOffset( const Card *) const
 {
-    if (_spread)
-        return QSizeF(-hspread(), 0);
-
-    return QSizeF(0, 0);
+    return QSizeF(-2.1, 0);
 }
-
-void HorLeftPile::initSizes()
-{
-    Pile::initSizes();
-    setHSpread( 4 );
-}
-
 
 Fortyeight::Fortyeight( )
     : DealerScene()
@@ -48,18 +36,21 @@ Fortyeight::Fortyeight( )
     const qreal dist_x = 11.1;
 
     connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
-    Deck::deck()->setPilePos( -2, -3);
+    Deck::deck()->setPilePos( -2, -1);
     Deck::deck()->setZValue(20);
 
     pile = new HorLeftPile(20, this);
     pile->setAddFlags(Pile::addSpread | Pile::disallow);
-    pile->setPilePos( -13.1, -3 );
+    pile->setPilePos( -13.1, -1 );
+    pile->setObjectName( "pile" );
+    pile->setReservedSpace( QSizeF( -50, 10 ) );
 
     for (int i = 0; i < 8; i++) {
 
         target[i] = new Pile(9 + i, this);
         target[i]->setPilePos(1 + dist_x*i, 1);
         target[i]->setType(Pile::KlondikeTarget);
+        target[i]->setObjectName( QString( "target%1" ).arg( i ) );
 
         stack[i] = new Pile(1 + i, this);
         stack[i]->setPilePos(1 + dist_x*i, 12 );
@@ -67,6 +58,8 @@ Fortyeight::Fortyeight( )
         stack[i]->setRemoveFlags(Pile::autoTurnTop);
         stack[i]->setCheckIndex(1);
         stack[i]->setSpread(stack[i]->spread() * 3 / 4);
+        stack[i]->setObjectName( QString( "stack%1" ).arg( i ) );
+        stack[i]->setReservedSpace( QSizeF( 10, 40 ) );
     }
 
     Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
@@ -95,9 +88,9 @@ void Fortyeight::deckClicked(Card *)
     }
     Card *c = Deck::deck()->nextCard();
     pile->add(c, true);
-    qreal x = c->x();
-    qreal y = c->y();
     c->stopAnimation();
+    qreal x = c->realX();
+    qreal y = c->realY();
     c->setPos(Deck::deck()->x(), Deck::deck()->y());
     c->flipTo(x, y);
 }

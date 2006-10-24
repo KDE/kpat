@@ -217,7 +217,7 @@ void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
         setZValue( z2 );
         return;
     }
-    if ( name() == "diamond 1" )
+    if ( name() == "diamond 01" )
         kDebug() << "moveTo " << name() << " " << x2 << " " << y2 << " " << z2 << " " << pos() << " " << zValue() << " " << duration << " " << kBacktrace() << endl;
     stopAnimation();
 
@@ -329,7 +329,7 @@ void Card::stopAnimation()
         return;
 
     if ( !sender() || !sender()->isA( "QTimeLine" ) )
-        if ( name() == "diamond 1" )
+        if ( name() == "diamond 01" )
             kDebug() << "stopAnimation " << name() << " " << m_destX << " " << m_destY << " " << animation->timeLine()->duration() << " " << kBacktrace() << endl;
     QGraphicsItemAnimation *old_animation = animation;
     animation = 0;

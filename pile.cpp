@@ -58,7 +58,9 @@ Pile::Pile( int _index, DealerScene* parent)
     removeFlags = 0;
 
     setZValue(0);
-    initSizes();
+    setSpread( 2.1 );
+    setReservedSpace( QSizeF( 10, 10 ) );
+    setMaximalSpace( QSizeF( 1, 1 ) ); // just to make it valid
     m_relayoutTimer = new QTimer( this );
     m_relayoutTimer->setSingleShot( true );
     connect( m_relayoutTimer, SIGNAL( timeout() ), SLOT( relayoutCards() ) );
@@ -71,14 +73,6 @@ QSvgRenderer *Pile::pileRenderer()
     if ( !_renderer )
         _renderer = new QSvgRenderer( KStandardDirs::locate( "data", "kpat/pile.svg" ) );
     return _renderer;
-}
-
-void Pile::initSizes()
-{
-    setSpread( 2.1 );
-    setHSpread( 1.2 );
-    setDSpread( 1.25 );
-    setReservedSpace( QSizeF( 10, 10 ) );
 }
 
 void Pile::setType(PileType type)
@@ -161,14 +155,20 @@ void Pile::rescale()
     if ( new_pos.y() < 0 )
         new_pos.setY( Dealer::instance()->viewport()->height() - cardMap::self()->wantedCardHeight() + new_pos.y() );
 
-    kDebug() << objectName() << " " << _pilePos << " " << new_pos << endl;
     setPos( new_pos );
     m_relayoutTimer->start( 40 );
 
+#if 0
+    QImage pix( ( int )maximalSpace().width(),
+                ( int )maximalSpace().height(),
+                QImage::Format_ARGB32 );
+    pix.fill( qRgba( 0, 0, 255, 255 ) );
+#else
     QImage pix( int( cardMap::self()->wantedCardWidth() + 1 ),
                 int( cardMap::self()->wantedCardHeight() + 1),
                 QImage::Format_ARGB32 );
     pix.fill( qRgba( 0, 0, 255, 0 ) );
+#endif
     QPainter p( &pix );
 
     pileRenderer()->render( &p, isHighlighted() ? "pile_selected" : "pile",
@@ -306,7 +306,9 @@ void Pile::relayoutCards()
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
-        preferredSize += ( *it )->spread();
+        // the spreads should hopefully have all one sign, or we get in trouble
+        preferredSize.rwidth() += fabs( ( *it )->spread().width() );
+        preferredSize.rheight() += fabs( ( *it )->spread().height() );
         if ( ( *it )->animated() ) {
             // kDebug() << ( *it )->name() << " is animated - restarting timer\n";
             m_relayoutTimer->start( 100 );
@@ -320,7 +322,7 @@ void Pile::relayoutCards()
     if ( preferredSize.width() )
         divx = qMin( ( maximalSpace().width() - cardMap::self()->wantedCardWidth() ) / preferredSize.width() * 10 / cardMap::self()->wantedCardWidth(), 1. );
 
-    // kDebug() << objectName() << " " <<  divx << " " << divy << " " << maximalSpace() << endl;
+    // kDebug() << "relayoutCards " << objectName() << " " <<  divx << " " << divy << " " << maximalSpace() << " " << preferredSize << endl;
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
@@ -376,7 +378,7 @@ QSizeF Pile::cardOffset( const Card *card ) const
         if (card->realFace())
             return QSizeF(0, spread());
         else
-            return QSizeF(0, dspread());
+            return QSizeF(0, spread() * 0.6 );
     }
 
     return QSize(0, 0);

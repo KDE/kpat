@@ -108,8 +108,6 @@ public:
 
     virtual QSizeF cardOffset( const Card *card ) const;
 
-    virtual void initSizes();
-
     void setType( PileType t);
     void setAddType( PileType t);
     void setRemoveType( PileType t);
@@ -128,10 +126,6 @@ public:
     // The spread properties.
     double spread() const    { return _spread; }
     void setSpread(double s)  { _spread = s; }
-    double  dspread() const   { return _dspread; }
-    void setDSpread(double s) { _dspread = s; }
-    double  hspread() const   { return _hspread; }
-    void setHSpread(double s) { _hspread = s; }
 
     void setPilePos( double x, double y);
     QPointF pilePos() const;
@@ -169,8 +163,6 @@ private:
     PileType  _atype;
     PileType  _rtype;
     double    _spread;
-    double    _hspread;
-    double    _dspread;
 
     int _checkIndex;
     int myIndex;
