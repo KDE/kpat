@@ -44,7 +44,7 @@ set(kpat_SRCS ${libfcs_SRCS}
    gamestatsimpl.cpp 
    freecell.cpp
    simon.cpp
-#   grandf.cpp
+   grandf.cpp
 #   idiot.cpp
 #   napoleon.cpp
 #   computation.cpp

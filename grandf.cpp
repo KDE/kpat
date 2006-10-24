@@ -20,6 +20,7 @@
 
 #include "grandf.h"
 #include <klocale.h>
+#include <kdebug.h>
 #include "deck.h"
 #include <kaction.h>
 #include <assert.h>
@@ -28,35 +29,40 @@
 Grandf::Grandf( )
     : DealerScene(  )
 {
-    deck = Deck::new_deck(this);
-    deck->hide();
+    Deck::create_deck(this);
+    Deck::deck()->hide();
 
-    const int distx = cardMap::CARDX() * 14 / 10;
+    const int distx = 14;
 
     for (int i=0; i<4; i++) {
         target[i] = new Pile(i+1, this);
-        target[i]->setPos(10+(i+1)*distx, 10);
+        target[i]->setPilePos(10+(i+1)*distx, 1);
         target[i]->setType(Pile::KlondikeTarget);
+        target[i]->setObjectName( QString( "target%1" ).arg( i ) ) ;
     }
 
     for (int i=0; i<7; i++) {
         store[i] = new Pile(5+i, this);
-        store[i]->setPos(10+distx*i, 10 + cardMap::CARDY() * 15 / 10);
+        store[i]->setPilePos(1+distx*i, 16 );
         store[i]->setAddFlags(Pile::addSpread | Pile::several);
         store[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
+        store[i]->setObjectName( QString( "store%1" ).arg( i ) ) ;
         store[i]->setCheckIndex(1);
+        store[i]->setReservedSpace( QSizeF( 10, 35 ) );
     }
 
     Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo | Dealer::Redeal);
 }
 
 void Grandf::restart() {
-    deck->collectAndShuffle();
+    Deck::deck()->collectAndShuffle();
     deal();
     numberOfDeals = 1;
 }
 
-void Grandf::redeal() {
+void Grandf::redeal()
+{
+    kDebug() << "redeal\n";
     unmarkAll();
 
     if (numberOfDeals < 3) {
@@ -89,9 +95,9 @@ void Grandf::deal() {
         int i = start;
         do
         {
-            Card *next = deck->nextCard();
+            Card *next = Deck::deck()->nextCard();
             if (next)
-                store[i]->add(next, i != start, true);
+                store[i]->add(next, i != start);
             i += dir;
         } while ( i != stop + dir);
         int t = start;
@@ -101,11 +107,11 @@ void Grandf::deal() {
     }
 
     int i = 0;
-    Card *next = deck->nextCard();
+    Card *next = Deck::deck()->nextCard();
     while (next)
     {
-        store[i+1]->add(next, false , true);
-        next = deck->nextCard();
+        store[i+1]->add(next, false);
+        next = Deck::deck()->nextCard();
         i = (i+1)%6;
     }
 
@@ -132,7 +138,7 @@ void Grandf::collect() {
     for (int pos = 6; pos >= 0; pos--) {
         CardList p = store[pos]->cards();
         for (CardList::ConstIterator it = p.begin(); it != p.end(); ++it)
-            deck->add(*it, true, false);
+            Deck::deck()->add(*it, true);
     }
 }
 

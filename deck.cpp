@@ -60,7 +60,15 @@ Deck::~Deck()
 void Deck::create_deck( DealerScene *parent, uint m, uint s )
 {
     if ( my_deck && ( m == my_deck->mult && s == my_deck->suits ) )
+    {
+        my_deck->setParent( parent );
+        for (uint i = 0; i < my_deck->mult*NumberOfCards; i++) {
+            my_deck->_deck[i]->setParent( parent );
+            parent->addItem( my_deck->_deck[i] );
+        }
+        my_deck->collectAndShuffle();
         return;
+    }
     delete my_deck;
     my_deck = new Deck(parent, m, s);
 }

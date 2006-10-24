@@ -102,6 +102,8 @@ DealerScene::DealerScene():
 DealerScene::~DealerScene()
 {
     // don't delete the deck
+    Deck::deck()->setParent( 0 );
+    removeItem( Deck::deck() );
     removePile( Deck::deck() );
     while (!piles.isEmpty()) {
         delete piles.first(); // removes itself
@@ -189,7 +191,7 @@ void Dealer::setupActions() {
     if (actions() & Dealer::Redeal) {
         aredeal = new KAction (i18n("&Redeal"), parent()->actionCollection(), "game_redeal");
         aredeal->setIcon( KIcon( "queue") );
-        connect( aredeal, SIGNAL( triggered( bool ) ), SLOT( redeal() ) );
+        connect( aredeal, SIGNAL( triggered( bool ) ), dscene(), SLOT( redeal() ) );
         actionlist.append(aredeal);
     } else
         aredeal = 0;
@@ -330,7 +332,7 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
     PileList sources;
     QList<QGraphicsItem *> list = collidingItems( movingCards.first() );
 
-    kDebug() << "movingCards " << movingCards.first()->sceneBoundingRect() << endl;
+    // kDebug() << "movingCards " << movingCards.first()->sceneBoundingRect() << endl;
     for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
     {
         //kDebug() << "it " << ( *it )->type() << " " << ( *it )->sceneBoundingRect() << endl;
@@ -361,7 +363,7 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
     for (PileList::Iterator it = sources.begin(); it != sources.end(); ++it)
     {
         bool b = (*it)->legalAdd(movingCards);
-        kDebug() << "legalAdd " << b << " " << ( *it )->x() << endl;
+        // kDebug() << "legalAdd " << b << " " << ( *it )->x() << endl;
         if (b) {
             if ((*it)->isEmpty()) {
                 (*it)->setHighlighted(true);
