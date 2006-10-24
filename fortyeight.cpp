@@ -22,48 +22,47 @@ HorLeftPile::HorLeftPile( int _index, DealerScene* parent)
     : Pile(_index, parent)
 {
     // TODO: create a pile that moves the cards together when filling space
-    setHSpread( cardMap::CARDX() / 11 + 1 );
+    setHSpread( 4 );
 }
 
-QSize HorLeftPile::cardOffset( bool _spread, bool, const Card *) const
+QSizeF HorLeftPile::cardOffset( bool _spread, bool, const Card *) const
 {
     if (_spread)
-        return QSize(-hspread(), 0);
+        return QSizeF(-hspread(), 0);
 
-    return QSize(0, 0);
+    return QSizeF(0, 0);
 }
 
 void HorLeftPile::initSizes()
 {
     Pile::initSizes();
-    setHSpread( cardMap::CARDX() / 11 + 1 );
+    setHSpread( 4 );
 }
 
 
 Fortyeight::Fortyeight( )
     : DealerScene()
 {
-    deck = Deck::new_deck(this, 2);
+    Deck::create_deck(this, 2);
 
-    const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
-    const int dist_y = cardMap::CARDY() * 11 / 10 + 1;
+    const qreal dist_x = 11.1;
 
-    connect(deck, SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
-    deck->setPos(10 + cardMap::CARDX() * 82 / 10, 10 + cardMap::CARDX() * 56 / 10);
-    deck->setZValue(20);
+    connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
+    Deck::deck()->setPilePos( -2, -3);
+    Deck::deck()->setZValue(20);
 
     pile = new HorLeftPile(20, this);
     pile->setAddFlags(Pile::addSpread | Pile::disallow);
-    pile->setPos(10 + cardMap::CARDX() * 69 / 10, 10 + cardMap::CARDX() * 56 / 10 );
+    pile->setPilePos( -13.1, -3 );
 
     for (int i = 0; i < 8; i++) {
 
         target[i] = new Pile(9 + i, this);
-        target[i]->setPos(8+dist_x*i, 10);
+        target[i]->setPilePos(1 + dist_x*i, 1);
         target[i]->setType(Pile::KlondikeTarget);
 
         stack[i] = new Pile(1 + i, this);
-        stack[i]->setPos(8+dist_x*i, 10 + dist_y);
+        stack[i]->setPilePos(1 + dist_x*i, 12 );
         stack[i]->setAddFlags(Pile::addSpread);
         stack[i]->setRemoveFlags(Pile::autoTurnTop);
         stack[i]->setCheckIndex(1);
@@ -78,33 +77,34 @@ Fortyeight::Fortyeight( )
 void Fortyeight::restart()
 {
     lastdeal = false;
-    deck->collectAndShuffle();
+    Deck::deck()->collectAndShuffle();
     deal();
 }
 
 void Fortyeight::deckClicked(Card *)
 {
-    if (deck->isEmpty()) {
+    if (Deck::deck()->isEmpty()) {
         if (lastdeal)
             return;
         lastdeal = true;
         while (!pile->isEmpty()) {
             Card *c = pile->at(pile->cardsLeft()-1);
             c->stopAnimation();
-            deck->add(c, true, false);
+            Deck::deck()->add(c, true);
         }
     }
-    Card *c = deck->nextCard();
-    pile->add(c, true, true);
-    int x = int(c->x());
-    int y = int(c->y());
-    c->setPos(deck->x(), deck->y());
+    Card *c = Deck::deck()->nextCard();
+    pile->add(c, true);
+    qreal x = c->x();
+    qreal y = c->y();
+    c->stopAnimation();
+    c->setPos(Deck::deck()->x(), Deck::deck()->y());
     c->flipTo(x, y);
 }
 
 Card *Fortyeight::demoNewCards()
 {
-    if (deck->isEmpty() && lastdeal)
+    if (Deck::deck()->isEmpty() && lastdeal)
         return 0;
     deckClicked(0);
     return pile->top();
@@ -127,14 +127,14 @@ void Fortyeight::deal()
         for (int column = 0; column < 8; column++)
         {
             if (false) { // doesn't look
-                stack[column]->add(deck->nextCard(), true, true);
+                stack[column]->add(Deck::deck()->nextCard(), true);
                 stack[column]->top()->turn(true);
             } else {
-                stack[column]->add(deck->nextCard(), false, true);
+                stack[column]->add(Deck::deck()->nextCard(), false);
             }
         }
     }
-    pile->add(deck->nextCard(), false, false);
+    pile->add(Deck::deck()->nextCard(), false);
 }
 
 QString Fortyeight::getGameState() const
@@ -152,7 +152,7 @@ bool Fortyeight::isGameLost() const
     kDebug(11111) << "isGameLost ?" << endl;
     if(!lastdeal)
 	return false;
-    if(!deck->isEmpty())
+    if(!Deck::deck()->isEmpty())
 	return false;
 
     Card *c;

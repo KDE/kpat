@@ -47,9 +47,9 @@ set(kpat_SRCS ${libfcs_SRCS}
    grandf.cpp
    idiot.cpp
    napoleon.cpp
-#   computation.cpp
-#   gypsy.cpp
-#   fortyeight.cpp
+   computation.cpp
+   gypsy.cpp
+   fortyeight.cpp
 #   yukon.cpp
 #   clock.cpp
 #   golf.cpp

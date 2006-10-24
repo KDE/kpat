@@ -31,7 +31,6 @@ Idiot::Idiot( )
     // Create the deck to the left.
     Deck::create_deck( this );
     Deck::deck()->setPilePos(1, 1);
-    Deck::deck()->setVisible( true );
 
     const int distx = 11;
 

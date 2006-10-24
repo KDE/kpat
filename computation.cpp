@@ -30,39 +30,43 @@
 Computation::Computation( )
     :DealerScene( )
 {
-    deck = Deck::new_deck(this);
-    deck->hide();
+    Deck::create_deck(this);
+    Deck::deck()->hide();
 
     for (int i = 0; i < 4; i++) {
         play[i] = new Pile(1 + i, this);
-        play[i]->setPos(10 + (i+1) * cardMap::CARDX() * 14 / 10, 10 + cardMap::CARDY() * 15 / 10);
+        play[i]->setPilePos(1 + (i+1) * 14, 14 );
         play[i]->setAddFlags(Pile::addSpread);
         play[i]->setCheckIndex(1);
+        play[i]->setObjectName( QString( "play%1" ).arg( i ) );
+        play[i]->setReservedSpace( QSizeF( 10, 24 ) );
 
         target[i] = new Pile(5 + i, this);
-        target[i]->setPos(10 + (i+1) * cardMap::CARDX() * 14 / 10, 10);
+        target[i]->setPilePos(1 + (i+1) * 14 , 1);
         target[i]->setRemoveFlags(Pile::disallow);
         target[i]->setCheckIndex(0);
         target[i]->setTarget(true);
+        target[i]->setObjectName( QString( "target%1" ).arg( i ) );
     }
 
     pile = new Pile(13, this);
     pile->setAddFlags(Pile::disallow);
     pile->setRemoveFlags(Pile::autoTurnTop);
-    pile->setPos(10, 10);
+    pile->setPilePos(1, 1);
+    pile->setObjectName( "pile" );
 
     Dealer::instance()->setActions(Dealer::Demo | Dealer::Hint);
 }
 
 void Computation::restart() {
-    deck->collectAndShuffle();
+    Deck::deck()->collectAndShuffle();
     deal();
 }
 
 void Computation::deal() {
-    while (!deck->isEmpty()) {
-        Card *c = deck->nextCard();
-        pile->add(c, true, false);
+    while (!Deck::deck()->isEmpty()) {
+        Card *c = Deck::deck()->nextCard();
+        pile->add(c, true);
     }
     // no animation
     pile->top()->turn(true);
