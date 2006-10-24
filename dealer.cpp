@@ -150,7 +150,7 @@ void Dealer::setScene( QGraphicsScene *_scene )
     delete oldscene;
     dscene()->rescale(true);
     dscene()->setGameNumber( KRandom::random() );
-    dscene()->setGameNumber( 1438470683 );
+//    dscene()->setGameNumber( 1438470683 );
 
     // dscene()->setSceneRect( QRectF( 0,0,700,500 ) );
     scaleFactor = 1;
