@@ -29,10 +29,11 @@ Idiot::Idiot( )
   : DealerScene( )
 {
     // Create the deck to the left.
-    m_deck = Deck::new_deck( this );
-    m_deck->setPos(10, 10);
+    Deck::create_deck( this );
+    Deck::deck()->setPilePos(1, 1);
+    Deck::deck()->setVisible( true );
 
-    const int distx = cardMap::CARDX() + cardMap::CARDX() / 10 + 1;
+    const int distx = 11;
 
     // Create 4 piles where the cards will be placed during the game.
     for( int i = 0; i < 4; i++ ) {
@@ -40,14 +41,16 @@ Idiot::Idiot( )
 
         m_play[i]->setAddFlags( Pile::addSpread );
         m_play[i]->setRemoveFlags( Pile::disallow );
-        m_play[i]->setPos(10 + cardMap::CARDX() * 18 / 10 + distx * i, 10);
+        m_play[i]->setPilePos( 16 + distx * i, 1);
+        m_play[i]->setObjectName( QString( "play%1" ).arg( i ) );
     }
 
     // Create the discard pile to the right
     m_away = new Pile( 5, this );
     m_away->setTarget(true);
     m_away->setRemoveFlags(Pile::disallow);
-    m_away->setPos(10 + cardMap::CARDX() * 5 / 2 + distx * 4, 10);
+    m_away->setPilePos( 20 + distx * 4, 1);
+    m_away->setObjectName( "away" );
 
     Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
 }
@@ -55,7 +58,7 @@ Idiot::Idiot( )
 
 void Idiot::restart()
 {
-    m_deck->collectAndShuffle();
+    Deck::deck()->collectAndShuffle();
     deal();
 }
 
@@ -92,7 +95,7 @@ bool Idiot::canMoveAway(Card *c)
 bool Idiot::cardClicked(Card *c)
 {
     // If the deck is clicked, deal 4 more cards.
-    if (c->source() == m_deck) {
+    if (c->source() == Deck::deck()) {
         deal();
         return true;
     }
@@ -104,19 +107,19 @@ bool Idiot::cardClicked(Card *c)
     bool  didMove = true;
     if ( canMoveAway(c) )
 	// Add to 'm_away', face up, no spread
-        m_away->add(c, false, false);
+        m_away->add(c, false );
     else if ( m_play[ 0 ]->isEmpty() )
 	// Add to pile 1, face up, spread.
-        m_play[0]->add(c, false, true);
+        m_play[0]->add(c, false );
     else if ( m_play[ 1 ]->isEmpty() )
 	// Add to pile 2, face up, spread.
-        m_play[1]->add(c, false, true);
+        m_play[1]->add(c, false );
     else if ( m_play[ 2 ]->isEmpty() )
 	// Add to pile 3, face up, spread.
-        m_play[2]->add( c, false, true);
+        m_play[2]->add( c, false );
     else if ( m_play[ 3 ]->isEmpty() )
 	// Add to pile 4, face up, spread.
-        m_play[3]->add(c, false, true);
+        m_play[3]->add(c, false );
     else
 	didMove = false;
 
@@ -132,7 +135,7 @@ bool Idiot::cardClicked(Card *c)
 bool Idiot::isGameWon() const
 {
     // Criterium 1.
-    if (!m_deck->isEmpty())
+    if (!Deck::deck()->isEmpty())
         return false;
 
     // Criterium 2.
@@ -159,12 +162,12 @@ bool Idiot::cardDblClicked(Card *)
 
 void Idiot::deal()
 {
-    if ( m_deck->isEmpty() )
+    if ( Deck::deck()->isEmpty() )
 	return;
 
     // Move the four top cards of the deck to the piles, faceup, spread out.
     for ( int i = 0; i < 4; i++ )
-	m_play[ i ]->add( m_deck->nextCard(), false, true );
+	m_play[ i ]->add( Deck::deck()->nextCard(), false );
 }
 
 
@@ -214,7 +217,7 @@ void Idiot::getHints()
 
 Card *Idiot::demoNewCards()
 {
-    if ( m_deck->isEmpty() )
+    if ( Deck::deck()->isEmpty() )
         return 0;
 
     deal();
