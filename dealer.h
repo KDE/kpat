@@ -87,6 +87,8 @@ protected:
     virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent );
+    void countLoss();
+    void countGame();
 
 public:
     Pile *findTarget(Card *c);
@@ -119,7 +121,8 @@ public:
     virtual bool isGameLost() const;
     virtual bool isGameWon() const;
 
-    int freeCells() const;
+    void setGameId(int id) { _id = id; }
+    int gameId() const { return _id; }
 
     void startNew();
 
@@ -141,6 +144,8 @@ public:
 
     void setSceneSize( const QSize &s );
 
+    void won();
+
 public slots:
     virtual bool startAutoDrop();
     void hint();
@@ -153,6 +158,7 @@ public slots:
 protected slots:
     virtual void demo();
     void waitForDemo(Card *);
+    void waitForWonAnim(Card *c);
     void toggleDemo();
 
 signals:
@@ -188,6 +194,10 @@ private:
     QTimer *demotimer;
     bool stop_demo_next;
     qreal m_autoDropFactor;
+
+    bool _won;
+    quint32 _id;
+    bool _gameRecorded;
 };
 
 
@@ -217,9 +227,6 @@ public:
 
     void saveGame(QDomDocument &doc);
     void openGame(QDomDocument &doc);
-
-    void setGameId(int id) { _id = id; }
-    int gameId() const { return _id; }
 
     virtual QSize minimumCardSize() const;
 
@@ -266,8 +273,6 @@ protected:
     virtual void wheelEvent( QWheelEvent *e );
     virtual void resizeEvent( QResizeEvent *e );
 
-    void won();
-
     KMainWindow *parent() const;
 
 protected:
@@ -286,17 +291,10 @@ protected:
     KToggleAction *ademo;
     KAction *ahint, *aredeal;
 
-    quint32 _id;
-    bool _won;
     QString ac;
     static Dealer *s_instance;
 
-    bool _gameRecorded;
     qreal scaleFactor;
-
-private:
-    void countLoss();
-    void countGame();
 };
 
 #endif

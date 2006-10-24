@@ -314,7 +314,7 @@ void pWidget::newGameType()
                     SLOT(slotGameInfo(const QString &)));
             connect(dill, SIGNAL(updateMoves()),
                     SLOT(slotUpdateMoves()));
-            dill->setGameId(id);
+            dill->dscene()->setGameId(id);
             break;
         }
     }
@@ -383,7 +383,6 @@ void pWidget::gameWon(bool withhelp)
 #if TEST_SOLVER == 0
     KMessageBox::information(this, congrats, i18n("Congratulations!"));
 #endif
-    // QTimer::singleShot(0, this, SLOT(newGame()));
 #if TEST_SOLVER == 1
     dill->demo();
 #endif
@@ -473,7 +472,7 @@ void pWidget::showStats()
 {
     GameStatsImpl* dlg = new GameStatsImpl(this);
     if (dill)
-        dlg->showGameType(dill->gameId());
+        dlg->showGameType(dill->dscene()->gameId());
     dlg->exec();
 }
 

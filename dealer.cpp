@@ -91,7 +91,9 @@ DealerScene::DealerScene():
     _autodrop(true),
     _waiting(0),
     gamenumber( 0 ),
-    stop_demo_next(false)
+    stop_demo_next(false),
+    _won(false),
+    _gameRecorded(false)
 {
     kDebug() << "DealerScene\n";
 
@@ -102,6 +104,9 @@ DealerScene::DealerScene():
 
 DealerScene::~DealerScene()
 {
+    if (!_won)
+        countLoss();
+
     // don't delete the deck
     if ( Deck::deck()->scene() == this )
     {
@@ -119,9 +124,7 @@ Dealer::Dealer( KMainWindow* _parent )
     myActions(0),
     ademo(0),
     ahint(0),
-    aredeal(0),
-    _won(false),
-    _gameRecorded(false)
+    aredeal(0)
 {
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -206,9 +209,6 @@ void Dealer::setupActions() {
 
 Dealer::~Dealer()
 {
-    if (!_won)
-        countLoss();
-
     dscene()->clearHints();
 
     if (s_instance == this)
@@ -459,7 +459,11 @@ typedef QList<Hit> HitList;
 
 void DealerScene::startNew()
 {
+    if (!_won)
+        countLoss();
+    _won = false;
     _waiting = 0;
+    _gameRecorded=false;
 }
 
 void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
@@ -480,7 +484,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
             assert(c);
             if (!c->animated()) {
                 if ( cardClicked(c) ) {
-                    Dealer::instance()->countGame();
+                    countGame();
                 }
                 Dealer::instance()->takeState();
             }
@@ -575,7 +579,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
                 best = it;
             }
         }
-        Dealer::instance()->countGame();
+        countGame();
         c->source()->moveCards(movingCards, (*best).source);
         Dealer::instance()->takeState();
     }
@@ -606,7 +610,7 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
     c->stopAnimation();
     kDebug() << "card " << c->name() << endl;
     if ( cardDblClicked(c) ) {
-        Dealer::instance()->countGame();
+        countGame();
     }
     Dealer::instance()->takeState();
 }
@@ -646,8 +650,6 @@ bool DealerScene::cardDblClicked(Card *c)
 
 void Dealer::startNew()
 {
-    if (!_won)
-        countLoss();
     if ( ahint )
         ahint->setEnabled( true );
     if ( ademo )
@@ -656,9 +658,8 @@ void Dealer::startNew()
         aredeal->setEnabled( true );
     toldAboutLostGame = false;
     minsize = QSize(0,0);
-    _won = false;
     dscene()->startNew();
-    _gameRecorded=false;
+
     kDebug(11111) << "startNew stopDemo\n";
     dscene()->stopDemo();
     kDebug(11111) << "startNew unmarkAll\n";
@@ -822,7 +823,7 @@ void DealerScene::setState(State *st)
 
 void Dealer::takeState()
 {
-    // kDebug(11111) << "takeState\n";
+    //kDebug(11111) << "takeState\n";
 
     State *n = dscene()->getState();
 
@@ -843,7 +844,7 @@ void Dealer::takeState()
 
     if (n) {
         if (dscene()->isGameWon()) {
-            won();
+            dscene()->won();
             return;
         }
         else if ( dscene()->isGameLost() && !toldAboutLostGame) {
@@ -867,7 +868,7 @@ void Dealer::takeState()
 void Dealer::saveGame(QDomDocument &doc) {
     QDomElement dealer = doc.createElement("dealer");
     doc.appendChild(dealer);
-    dealer.setAttribute("id", _id);
+    dealer.setAttribute("id", dscene()->gameId());
     dealer.setAttribute("number", QString::number(dscene()->gameNumber()));
     QString data = dscene()->getGameState();
     if (!data.isEmpty())
@@ -1055,7 +1056,7 @@ void DealerScene::setWaiting(bool w)
     else if ( _waiting > 0 )
         _waiting--;
     emit undoPossible(!waiting());
-    // kDebug(11111) << "setWaiting " << w << " " << _waiting << endl;
+    //kDebug(11111) << "setWaiting " << w << " " << _waiting << endl;
 }
 
 void DealerScene::setAutoDropEnabled(bool a)
@@ -1071,7 +1072,7 @@ bool DealerScene::startAutoDrop()
 
     QList<QGraphicsItem *> list = items();
 
-    kDebug( 11111 ) << "startAutoDrop\n";
+    //kDebug( 11111 ) << "startAutoDrop\n";
     for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
     {
         if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId ) {
@@ -1084,7 +1085,7 @@ bool DealerScene::startAutoDrop()
         }
     }
 
-    kDebug(11111) << "startAutoDrop2\n";
+    //kDebug(11111) << "startAutoDrop2\n";
 
     unmarkAll();
     clearHints();
@@ -1104,7 +1105,7 @@ bool DealerScene::startAutoDrop()
             t->source()->moveCards(cards, mh->pile());
             t->stopAnimation();
             t->setPos(x, y);
-            kDebug(11111) << "autodrop " << t->name() << endl;
+            //kDebug(11111) << "autodrop " << t->name() << endl;
             t->moveTo(t->source()->x(), t->source()->y(), t->zValue(), qRound( DURATION_AUTODROP * m_autoDropFactor ) );
             connect(t, SIGNAL(stoped(Card*)), SLOT(waitForAutoDrop(Card*)));
             m_autoDropFactor *= 0.8;
@@ -1117,10 +1118,22 @@ bool DealerScene::startAutoDrop()
 }
 
 void DealerScene::waitForAutoDrop(Card * c) {
-    kDebug(11111) << "waitForAutoDrop " << c->name() << endl;
+    //kDebug(11111) << "waitForAutoDrop " << c->name() << endl;
     setWaiting(false);
     c->disconnect();
+    c->stopAnimation(); // should be a no-op
     Dealer::instance()->takeState();
+}
+
+void DealerScene::waitForWonAnim(Card *c) {
+    setWaiting(false);
+
+    if ( !waiting() )
+    {
+        bool demo = demoActive();
+        stopDemo();
+        emit gameWon(demo);
+    }
 }
 
 long DealerScene::gameNumber() const
@@ -1208,11 +1221,16 @@ bool operator <(const CardPtr &p1, const CardPtr &p2)
     return ( p1.ptr->zValue() < p2.ptr->zValue() );
 }
 
-void Dealer::won()
+void DealerScene::won()
 {
     if (_won)
         return;
     _won = true;
+
+    for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
+    {
+        ( *it )->relayoutCards(); // stop the timer
+    }
 
     // update score, 'win' in demo mode also counts (keep it that way?)
     KConfigGroup kc(KGlobal::config(), scores_group);
@@ -1226,7 +1244,7 @@ void Dealer::won()
     kc.writeEntry(QString("loosestreak%1").arg(_id),0);
 
     // sort cards by increasing z
-    QList<QGraphicsItem *> list = scene()->items();
+    QList<QGraphicsItem *> list = items();
     QList<CardPtr> cards;
     for (QList<QGraphicsItem *>::ConstIterator it=list.begin(); it!=list.end(); ++it)
         if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId ) {
@@ -1238,7 +1256,7 @@ void Dealer::won()
     qSort(cards);
 
     // disperse the cards everywhere
-    QRectF can(0, 0, scene()->width(), scene()->height());
+    QRectF can(0, 0, width(), height());
     QListIterator<CardPtr> it(cards);
     while (it.hasNext()) {
         CardPtr card = it.next();
@@ -1247,17 +1265,15 @@ void Dealer::won()
         p.moveTo( 0, 0 );
         qreal x, y;
         do {
-            x = 3*scene()->width()/2 - KRandom::random() % int(scene()->width() * 2);
-            y = 3*scene()->height()/2 - (KRandom::random() % int(scene()->height() * 2));
+            x = 3*width()/2 - KRandom::random() % int(width() * 2);
+            y = 3*height()/2 - (KRandom::random() % int(height() * 2));
             p.moveTopLeft(QPointF(x, y));
         } while (can.intersects(p));
 
 	card.ptr->moveTo( x, y, 0, DURATION_WON);
+        connect(card.ptr, SIGNAL(stoped(Card*)), SLOT(waitForWonAnim(Card*)));
+        setWaiting(true);
     }
-
-    bool demo = dscene()->demoActive();
-    dscene()->stopDemo();
-    emit gameWon(demo);
 }
 
 MoveHint *DealerScene::chooseHint()
@@ -1360,6 +1376,7 @@ Card *DealerScene::demoNewCards()
 
 void DealerScene::newDemoMove(Card *m)
 {
+    kDebug() << "newDemoMove " << m->name() << endl;
     setWaiting( true );
     towait = m;
     connect(m, SIGNAL(stoped(Card*)), SLOT(waitForDemo(Card*)));
@@ -1406,15 +1423,6 @@ bool DealerScene::checkAdd( int, const Pile *, const CardList&) const {
     return true;
 }
 
-int DealerScene::freeCells() const
-{
-    int n = 0;
-    for (PileList::ConstIterator it = piles.begin(); it != piles.end(); ++it)
-        if ((*it)->isEmpty() && !(*it)->target())
-            n++;
-    return n;
-}
-
 void Dealer::setAnchorName(const QString &name)
 {
     kDebug(11111) << "setAnchorname " << name << endl;
@@ -1430,7 +1438,7 @@ void Dealer::wheelEvent( QWheelEvent *e )
     cardMap::self()->setWantedCardWidth( cardMap::self()->wantedCardWidth() / scaleFactor );
 }
 
-void Dealer::countGame()
+void DealerScene::countGame()
 {
     if ( !_gameRecorded ) {
         kDebug(11111) << "counting game as played." << endl;
@@ -1442,7 +1450,7 @@ void Dealer::countGame()
     }
 }
 
-void Dealer::countLoss()
+void DealerScene::countLoss()
 {
     if ( _gameRecorded ) {
         // update score
