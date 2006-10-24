@@ -22,7 +22,7 @@ class HorRightPile : public Pile
 
 public:
     explicit HorRightPile( int _index, DealerScene* parent = 0);
-    virtual QSizeF cardOffset( bool _spread, bool _facedown, const Card *before) const;
+    virtual QSizeF cardOffset( const Card *) const;
 };
 
 class Golf : public DealerScene

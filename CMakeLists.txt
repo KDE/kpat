@@ -50,10 +50,10 @@ set(kpat_SRCS ${libfcs_SRCS}
    computation.cpp
    gypsy.cpp
    fortyeight.cpp
-#   yukon.cpp
-#   clock.cpp
-#   golf.cpp
-    spider.cpp
+   yukon.cpp
+   clock.cpp
+   golf.cpp
+   spider.cpp
 )
 
 kde4_automoc(${kpat_SRCS})

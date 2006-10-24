@@ -1572,7 +1572,7 @@ void DealerScene::setSceneSize( const QSize &s )
                     {
                         Q_ASSERT( ( *it2 )->reservedSpace().height() > 0 );
                         // if it's growing too, we win
-                        Q_ASSERT( false ); // TODO
+                        pms.setWidth( qMin( myRect.right() - ( *it2 )->x() - 1, pms.width() ) );
                         kDebug() << "4. reduced width of " << ( *it2 )->objectName() << endl;
                     } else // if it's fixed height, we loose
                         if ( p->reservedSpace().height() < 0 ) {

@@ -22,31 +22,32 @@
 Yukon::Yukon( )
     : DealerScene( )
 {
-    const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
-    const int dist_y = cardMap::CARDY() * 11 / 10 + 1;
+    const qreal dist_x = 11.1;
+    const qreal dist_y = 11.1;
 
-    deck = Deck::new_deck(this);
-    deck->setPos(10, 10+dist_y*3);
-    deck->hide();
+    Deck::create_deck(this);
+    Deck::deck()->setPilePos(1, 10+dist_y*3);
+    Deck::deck()->hide();
 
     for (int i=0; i<4; i++) {
         target[i] = new Pile(i+1, this);
-        target[i]->setPos(20+7*dist_x, 10+dist_y *i);
+        target[i]->setPilePos(2+7*dist_x, 1+dist_y *i);
         target[i]->setType(Pile::KlondikeTarget);
     }
 
     for (int i=0; i<7; i++) {
         store[i] = new Pile(5+i, this);
-        store[i]->setPos(15+dist_x*i, 10);
+        store[i]->setPilePos(1.5+dist_x*i, 1);
         store[i]->setAddType(Pile::KlondikeStore);
         store[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
+        store[i]->setReservedSpace( QSizeF( 10, 20 ) );
     }
 
     Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
 }
 
 void Yukon::restart() {
-    deck->collectAndShuffle();
+    Deck::deck()->collectAndShuffle();
     deal();
 }
 
@@ -64,7 +65,7 @@ void Yukon::deal() {
                 doit = (round < j + 5);
             }
             if (doit)
-                store[j]->add(deck->nextCard(), round < j && j != 0, true);
+                store[j]->add(Deck::deck()->nextCard(), round < j && j != 0);
         }
     }
 }

@@ -24,7 +24,7 @@ HorRightPile::HorRightPile( int _index, DealerScene* parent)
 
 QSizeF HorRightPile::cardOffset( const Card *) const
 {
-    return QSize(1.2, 0);
+    return QSizeF(1.2, 0);
 }
 
 //-------------------------------------------------------------------------//
@@ -32,25 +32,29 @@ QSizeF HorRightPile::cardOffset( const Card *) const
 Golf::Golf( )
     : DealerScene( )
 {
-    const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
-    const int pile_dist = 10 + 3 * cardMap::CARDY();
+    const qreal dist_x = 11.1;
+    const qreal pile_dist = 31;
 
-    deck = Deck::new_deck( this);
-    deck->setPos(10, pile_dist);
-    connect(deck, SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
-
-    for( int r = 0; r < 7; r++ ) {
-        stack[r]=new Pile(1+r, this);
-        stack[r]->setPos(10+r*dist_x,10);
-        stack[r]->setAddFlags( Pile::addSpread | Pile::disallow);
-        stack[r]->setCheckIndex( 1 );
-    }
+    Deck::create_deck( this);
+    Deck::deck()->setPilePos(1, -1);
+    connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
 
     waste=new HorRightPile(8,this);
-    waste->setPos(10 + cardMap::CARDX() * 5 / 4, pile_dist);
+    waste->setPilePos(12, -1);
     waste->setTarget(true);
     waste->setCheckIndex( 0 );
     waste->setAddFlags( Pile::addSpread);
+    waste->setReservedSpace( QSizeF( 40, 10 ) );
+    waste->setObjectName( "waste" );
+
+    for( int r = 0; r < 7; r++ ) {
+        stack[r]=new Pile(1+r, this);
+        stack[r]->setPilePos(1+r*dist_x,1);
+        stack[r]->setAddFlags( Pile::addSpread | Pile::disallow);
+        stack[r]->setCheckIndex( 1 );
+        stack[r]->setReservedSpace( QSizeF( 10, 20 ) );
+        stack[r]->setObjectName( QString( "stack%1" ).arg( r ) );
+    }
 
     Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
 }
@@ -83,21 +87,22 @@ bool Golf::checkRemove( int checkIndex, const Pile *, const Card *c2) const
 
 void Golf::restart()
 {
-    deck->collectAndShuffle();
+    Deck::deck()->collectAndShuffle();
     deal();
 }
 
 void Golf::deckClicked(Card *)
 {
-    if (deck->isEmpty()) {
+    if (Deck::deck()->isEmpty()) {
          return;
 
     }
-    Card *c = deck->nextCard();
-    waste->add(c, true, true);
-    int x = int(c->x());
-    int y = int(c->y());
-    c->setPos(deck->x(), deck->y());
+    Card *c = Deck::deck()->nextCard();
+    waste->add(c, true );
+    c->stopAnimation();
+    qreal x = c->x();
+    qreal y = c->y();
+    c->setPos(Deck::deck()->x(), Deck::deck()->y());
     c->flipTo(x, y);
 }
 
@@ -109,10 +114,10 @@ void Golf::deal()
     {
         for(int i=0;i<5;i++)
         {
-            stack[r]->add(deck->nextCard(),false,true);
+            stack[r]->add(Deck::deck()->nextCard(),false);
         }
     }
-    waste->add(deck->nextCard(),false,false);
+    waste->add(Deck::deck()->nextCard(),false);
 
 }
 
@@ -144,7 +149,7 @@ bool Golf::cardClicked(Card *c)
 
 bool Golf::isGameLost() const
 {
-    if( !deck->isEmpty())
+    if( !Deck::deck()->isEmpty())
         return false;
 
     bool onecard = false;
