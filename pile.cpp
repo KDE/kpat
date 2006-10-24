@@ -144,7 +144,7 @@ Pile::~Pile()
 void Pile::setPilePos( double x,  double y )
 {
     _pilePos = QPointF( x, y );
-    update();
+    rescale();
 }
 
 QPointF Pile::pilePos() const
@@ -154,7 +154,6 @@ QPointF Pile::pilePos() const
 
 void Pile::rescale()
 {
-    QPointF old_pos = pos();
     QPointF new_pos = QPointF( _pilePos.x() * cardMap::self()->wantedCardWidth() / 10.,
                                _pilePos.y() * cardMap::self()->wantedCardHeight() / 10. );
     if ( new_pos.x() < 0 )
@@ -162,11 +161,13 @@ void Pile::rescale()
     if ( new_pos.y() < 0 )
         new_pos.setY( Dealer::instance()->viewport()->height() - cardMap::self()->wantedCardHeight() + new_pos.y() );
 
+    kDebug() << objectName() << " " << _pilePos << " " << new_pos << endl;
     setPos( new_pos );
     m_relayoutTimer->start( 40 );
 
     QImage pix( int( cardMap::self()->wantedCardWidth() + 1 ),
-      int( cardMap::self()->wantedCardHeight() + 1), QImage::Format_ARGB32 );
+                int( cardMap::self()->wantedCardHeight() + 1),
+                QImage::Format_ARGB32 );
     pix.fill( qRgba( 0, 0, 255, 0 ) );
     QPainter p( &pix );
 
@@ -342,6 +343,7 @@ void Pile::add( Card *_card, int index)
         _card->setTakenDown(source->target() && !target());
         source->remove(_card);
         source->tryRelayoutCards();
+        _card->setVisible( isVisible() );
     }
 
     _card->setSource(this);

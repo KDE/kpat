@@ -57,7 +57,6 @@ Deck::~Deck()
 
 // ----------------------------------------------------------------
 
-
 void Deck::create_deck( DealerScene *parent, uint m, uint s )
 {
     if ( my_deck && ( m == my_deck->mult && s == my_deck->suits ) )
@@ -65,7 +64,6 @@ void Deck::create_deck( DealerScene *parent, uint m, uint s )
     delete my_deck;
     my_deck = new Deck(parent, m, s);
 }
-
 
 void Deck::makedeck()
 {

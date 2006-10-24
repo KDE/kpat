@@ -51,7 +51,6 @@
 // ================================================================
 //                         class MoveHint
 
-
 MoveHint::MoveHint(Card *card, Pile *to, bool d)
 {
     m_card         = card;
@@ -102,8 +101,11 @@ DealerScene::DealerScene():
 
 DealerScene::~DealerScene()
 {
-    while (!piles.isEmpty())
+    // don't delete the deck
+    removePile( Deck::deck() );
+    while (!piles.isEmpty()) {
         delete piles.first(); // removes itself
+    }
 }
 
 Dealer::Dealer( KMainWindow* _parent )
@@ -1450,6 +1452,7 @@ QPointF DealerScene::maxPilePos() const
     QPointF maxp( 0, 0 );
     for (PileList::ConstIterator it = piles.begin(); it != piles.end(); ++it)
     {
+        // kDebug() << ( *it )->objectName() << " " <<  ( *it )->pilePos() << " " << ( *it )->reservedSpace() << endl;
         maxp = QPointF( qMax( ( *it )->pilePos().x() + ( *it )->reservedSpace().width(), maxp.x() ),
                         qMax( ( *it )->pilePos().y() + ( *it )->reservedSpace().height(), maxp.y() ) );
     }
@@ -1465,6 +1468,7 @@ void DealerScene::relayoutPiles()
 void DealerScene::setSceneSize( const QSize &s )
 {
 //    kDebug() << "setSceneSize " << kBacktrace() << endl;
+    setSceneRect( QRectF( 0, 0, s.width(), s.height() ) );
 
     QPointF defaultSceneRect = maxPilePos();
 

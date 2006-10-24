@@ -21,34 +21,37 @@
 Simon::Simon( )
     : DealerScene( )
 {
-    deck = Deck::new_deck(this);
-    deck->setPos(10, 10);
-    deck->hide();
+    Deck::create_deck(this);
+    Deck::deck()->setPilePos(1, 1);
+    Deck::deck()->hide();
 
-    const int dist_x = cardMap::CARDX() * 11 / 10 + 1;
+    const qreal dist_x = 11.1;
 
     for (int i=0; i<4; i++) {
         target[i] = new Pile(i+1, this);
-        target[i]->setPos(10+(i+3)*dist_x, 10);
+        target[i]->setPilePos(1+(i+3)*dist_x, 1);
         target[i]->setRemoveFlags(Pile::disallow);
         target[i]->setAddFlags(Pile::several);
         target[i]->setCheckIndex(0);
         target[i]->setTarget(true);
+        target[i]->setObjectName( QString( "target%1" ).arg( i ) );
     }
 
     for (int i=0; i<10; i++) {
         store[i] = new Pile(5+i, this);
-        store[i]->setPos(15+dist_x*i, 10 + cardMap::CARDY() * 73 / 50);
+        store[i]->setPilePos(1+dist_x*i, 13.7);
         store[i]->setAddFlags(Pile::addSpread | Pile::several);
         store[i]->setRemoveFlags(Pile::several);
+        store[i]->setReservedSpace( QSizeF( 10, 30 ) );
         store[i]->setCheckIndex(1);
+        store[i]->setObjectName( QString( "store%1" ).arg( i ) );
     }
 
     Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
 }
 
 void Simon::restart() {
-    deck->collectAndShuffle();
+    Deck::deck()->collectAndShuffle();
     deal();
 }
 
@@ -59,11 +62,12 @@ void Simon::deal() {
     {
         for (int j = 0; j < piles; j++)
         {
-            store[j]->add(deck->nextCard(), false, true);
+            Card *c = Deck::deck()->nextCard();
+            store[j]->add(c, false);
         }
         piles++;
     }
-    assert(deck->isEmpty());
+    assert(Deck::deck()->isEmpty());
 }
 
 bool Simon::checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const
