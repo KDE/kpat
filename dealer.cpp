@@ -97,6 +97,7 @@ DealerScene::DealerScene():
 
     demotimer = new QTimer(this);
     connect(demotimer, SIGNAL(timeout()), SLOT(demo()));
+    m_autoDropFactor = 1;
 }
 
 DealerScene::~DealerScene()
@@ -1070,13 +1071,13 @@ bool DealerScene::startAutoDrop()
 
     QList<QGraphicsItem *> list = items();
 
-    // kDebug( 11111 ) << "startAutoDrop\n";
+    kDebug( 11111 ) << "startAutoDrop\n";
     for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
     {
         if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId ) {
             Card *c = static_cast<Card*>(*it);
             if (c->animated()) {
-                QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
+                QTimer::singleShot(qRound( TIME_BETWEEN_MOVES * m_autoDropFactor ), this, SLOT(startAutoDrop()));
                 // kDebug() << "animation still going on\n";
                 return true;
             }
@@ -1104,12 +1105,14 @@ bool DealerScene::startAutoDrop()
             t->stopAnimation();
             t->setPos(x, y);
             kDebug(11111) << "autodrop " << t->name() << endl;
-            t->moveTo(t->source()->x(), t->source()->y(), t->zValue(), DURATION_AUTODROP);
+            t->moveTo(t->source()->x(), t->source()->y(), t->zValue(), qRound( DURATION_AUTODROP * m_autoDropFactor ) );
             connect(t, SIGNAL(stoped(Card*)), SLOT(waitForAutoDrop(Card*)));
+            m_autoDropFactor *= 0.8;
             return true;
         }
     }
     clearHints();
+    m_autoDropFactor = 1;
     return false;
 }
 

@@ -33,7 +33,6 @@ Golf::Golf( )
     : DealerScene( )
 {
     const qreal dist_x = 11.1;
-    const qreal pile_dist = 31;
 
     Deck::create_deck( this);
     Deck::deck()->setPilePos(1, -1);

@@ -187,6 +187,7 @@ private:
 
     QTimer *demotimer;
     bool stop_demo_next;
+    qreal m_autoDropFactor;
 };
 
 
