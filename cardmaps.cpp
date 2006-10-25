@@ -208,6 +208,18 @@ double cardMap::wantedCardWidth() const
     return d->_wantedCardWidth;
 }
 
+void cardMap::triggerRescale()
+{
+    if ( d->m_thread->isRunning() )
+    {
+        d->m_thread->disconnect();
+        d->m_thread->finish();
+        connect( d->m_thread, SIGNAL( finished() ), SLOT( slotThreadEnded() ) );
+    } else { // start directly
+        slotThreadEnded();
+    }
+}
+
 void cardMap::setWantedCardWidth( double w )
 {
     kDebug() << "setWantedCardWidth " << w << " " << d->_wantedCardWidth << endl;
@@ -219,14 +231,7 @@ void cardMap::setWantedCardWidth( double w )
     d->_scale = 0;
     if (Dealer::instance()->dscene())
         Dealer::instance()->dscene()->rescale(false);
-    if ( d->m_thread->isRunning() )
-    {
-        d->m_thread->disconnect();
-        d->m_thread->finish();
-        connect( d->m_thread, SIGNAL( finished() ), SLOT( slotThreadEnded() ) );
-    } else { // start directly
-        slotThreadEnded();
-    }
+
 }
 
 cardMap *cardMap::self() {
@@ -270,8 +275,10 @@ QPixmap cardMap::renderCard( const QString &element )
         QString filename = KStandardDirs::locate( "data", "carddecks/svg-nicu-white/83/" + element + ".png");
         if ( !filename.isEmpty() )
             img = QImage( filename );
-        if ( img.isNull() )
+        if ( img.isNull() ) {
             img = d->m_thread->renderCard( element );
+            triggerRescale();
+        }
 
         d->m_cacheMutex.lock();
         d->m_cache[element] = img;

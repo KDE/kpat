@@ -303,7 +303,6 @@ void pWidget::newGameType()
     for (QList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin();
 	it != DealerInfoList::self()->games().end(); ++it) {
         if ((*it)->gameindex == id) {
-            show();
             dill->setScene( (*it)->createGame() );
             QString name = (*it)->name;
             name = name.replace(QRegExp("[&']"), "");
@@ -332,19 +331,20 @@ void pWidget::newGameType()
 
     // it's a bit tricky - we have to do this here as the
     // base class constructor runs before the derived class's
-    dill->takeState();
+    // dill->takeState();
 
     setGameCaption();
 
     KConfigGroup cg(KGlobal::config(), settings_group);
     cg.writeEntry("DefaultGame", id);
 
-    // dill->show();
+    QTimer::singleShot( 0, this, SLOT( show() ) );
 }
 
 void pWidget::showEvent(QShowEvent *e)
 {
     kDebug() << "showEvent "<< endl;
+    dill->setWasShown( true );
     KMainWindow::showEvent(e);
 }
 
@@ -390,6 +390,8 @@ void pWidget::gameWon(bool withhelp)
 
 void pWidget::gameLost()
 {
+    kDebug() << kBacktrace() << endl;
+
     QString   dontAskAgainName = "gameLostDontAskAgain";
 
     KConfigGroup cg(KGlobal::config(), QLatin1String("Notification Messages"));

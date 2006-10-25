@@ -228,8 +228,6 @@ public:
     void saveGame(QDomDocument &doc);
     void openGame(QDomDocument &doc);
 
-    virtual QSize minimumCardSize() const;
-
     QString anchorName() const;
     void setAnchorName(const QString &name);
 
@@ -249,6 +247,9 @@ public:
     int actions() const { return myActions; }
 
     virtual void takeState();
+
+    bool wasShown() const { return m_shown; }
+    void setWasShown(bool b) { m_shown = b; }
 
 public slots:
 
@@ -295,6 +296,7 @@ protected:
     static Dealer *s_instance;
 
     qreal scaleFactor;
+    bool m_shown;
 };
 
 #endif

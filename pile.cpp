@@ -120,7 +120,6 @@ void Pile::setRemoveType(PileType type)
 
 Pile::~Pile()
 {
-    kDebug() << "Pile::~Pile " << objectName() << endl;
     dscene()->removePile(this);
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)

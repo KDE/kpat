@@ -52,6 +52,7 @@ public:
 protected slots:
     void slotThreadFinished();
     void slotThreadEnded();
+    void triggerRescale();
 
 private:
     cardMapPrivate *d;
