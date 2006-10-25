@@ -692,7 +692,6 @@ void FreecellBase::startMoving()
         if (DealerScene::demoActive() && towait) {
             DealerScene::waitForDemo(towait);
         }
-        setWaiting(false);
         Dealer::instance()->takeState();
         return;
     }
@@ -722,7 +721,8 @@ void FreecellBase::waitForMoving(Card *c)
 {
     if (waitfor != c)
         return;
-    c->disconnect();
+    setWaiting(false);
+    c->disconnect(this);
     startMoving();
 }
 
