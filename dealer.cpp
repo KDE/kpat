@@ -819,7 +819,7 @@ void DealerScene::setState(State *st)
 
 void Dealer::takeState()
 {
-    kDebug(11111) << "takeState " << kBacktrace() << endl;
+//    kDebug(11111) << "takeState " << endl;
 
     State *n = dscene()->getState();
 
@@ -850,8 +850,7 @@ void Dealer::takeState()
                 ademo->setEnabled( false );
             if ( aredeal )
                 aredeal->setEnabled( false );
-            emit gameLost();
-            // QTimer::singleShot(400, this, SIGNAL(gameLost()));
+            QTimer::singleShot(400, this, SIGNAL(gameLost()));
             toldAboutLostGame = true;
             return;
         }
@@ -1376,7 +1375,7 @@ Card *DealerScene::demoNewCards()
 
 void DealerScene::newDemoMove(Card *m)
 {
-    // kDebug() << "newDemoMove " << m->name() << endl;
+    kDebug() << "newDemoMove " << m->name() << endl;
     setWaiting( true );
     towait = m;
     connect(m, SIGNAL(stoped(Card*)), SLOT(waitForDemo(Card*)));

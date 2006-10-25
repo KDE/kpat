@@ -302,7 +302,7 @@ void Pile::relayoutCards()
     QPointF mypos = pos();
     qreal z = zValue() + 1;
     QSizeF preferredSize = QSizeF( 0, 0 );
-
+ 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
         // the spreads should hopefully have all one sign, or we get in trouble

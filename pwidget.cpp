@@ -390,8 +390,6 @@ void pWidget::gameWon(bool withhelp)
 
 void pWidget::gameLost()
 {
-    kDebug() << kBacktrace() << endl;
-
     QString   dontAskAgainName = "gameLostDontAskAgain";
 
     KConfigGroup cg(KGlobal::config(), QLatin1String("Notification Messages"));
