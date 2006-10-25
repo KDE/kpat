@@ -68,11 +68,11 @@ class cardMapThread : public QThread
 public:
     QImage renderCard( const QString &element)
     {
-        QImage img = QImage( ( int )cardMap::self()->wantedCardWidth(), ( int )cardMap::self()->wantedCardHeight(), QImage::Format_ARGB32 );
+        QImage img = QImage( ( int )cardMap::self()->wantedCardWidth(), ( int )(cardMap::self()->wantedCardHeight() + 1), QImage::Format_ARGB32 );
         img.fill( qRgba( 0, 0, 255, 0 ) );
         QPainter p( &img );
         m_renderer_mutex.lock();
-        renderer()->render( &p, element, QRectF( 0, 0, img.width(), img.height() ) );
+        renderer()->render( &p, element );
         m_renderer_mutex.unlock();
         p.end();
         QString filename = KStandardDirs::locateLocal( "data", "carddecks/svg-nicu-white/83/" + element + ".png");

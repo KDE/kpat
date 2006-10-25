@@ -137,8 +137,8 @@ Dealer::Dealer( KMainWindow* _parent )
     setCacheMode(QGraphicsView::CacheBackground);
 
 #ifndef QT_NO_OPENGL
-    QGLWidget *wgl = new QGLWidget();
-    setupViewport(wgl);
+    //QGLWidget *wgl = new QGLWidget();
+    //setupViewport(wgl);
 #endif
 }
 
