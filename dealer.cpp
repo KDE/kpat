@@ -475,28 +475,18 @@ void DealerScene::startNew()
 
 void DealerScene::slotShowGame()
 {
-    kDebug() << "slotShowGame\n";
     QGraphicsSvgItem *rect = new QGraphicsSvgItem( KStandardDirs::locate( "data", "kpat/won.svg" ) );
     addItem( rect );
-    QGraphicsRectItem *rect1 = new QGraphicsRectItem( QRectF( 0, 0, 100, 100 ) );
-    addItem( rect1 );
-
     rect->setElementId( "frame" );
 
     qreal scaleX, scaleY;
 
-    scaleX = width() * 0.7 / rect1->sceneBoundingRect().width();
-    scaleY = height() * 0.6 / rect1->sceneBoundingRect().height();
-    rect1->scale( scaleX , scaleY );
-    rect1->setVisible( false );
-
-    scaleX = width() / rect->sceneBoundingRect().width();
-    scaleY = height() * 0.8 / rect->sceneBoundingRect().height();
-    rect->scale( scaleX , scaleY );
     rect->setVisible( true );
+    scaleX = width() * 0.7 / rect->sceneBoundingRect().width();
+    scaleY = height() * 0.6 / rect->sceneBoundingRect().height();
+    rect->scale( scaleX , scaleY );
 
-    QGraphicsSimpleTextItem *text = new QGraphicsSimpleTextItem( rect, this );
-    text->scale( 1 / scaleX, 1 / scaleY );
+    QGraphicsSimpleTextItem *text = new QGraphicsSimpleTextItem( 0, this );
     text->setText( "Congratulation! You have won." );
     QFont font;
     font.setPointSize( 36 );
@@ -507,11 +497,8 @@ void DealerScene::slotShowGame()
     rect->setPos( QPointF( ( width() - rect->sceneBoundingRect().width() ) / 2,
                            ( height() - rect->sceneBoundingRect().height() ) / 2 ) );
 
-    rect1->setPos( QPointF( ( width() - rect1->sceneBoundingRect().width() ) / 2,
-                           ( height() - rect1->sceneBoundingRect().height() ) / 2 ) );
-
     int fontsize = 36;
-    while (  text->sceneBoundingRect().width() >  rect1->sceneBoundingRect().width() * 0.9 )
+    while (  text->sceneBoundingRect().width() >  rect->sceneBoundingRect().width() * 0.9 )
     {
         fontsize--;
         font.setPointSize( fontsize );
@@ -519,7 +506,6 @@ void DealerScene::slotShowGame()
     }
     text->setPos( QPointF( ( width() - text->sceneBoundingRect().width() ) / 2,
                            ( height() - text->sceneBoundingRect().height() ) / 2 ) );
-
 }
 
 void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )

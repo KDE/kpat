@@ -8,12 +8,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="209.76376pt"
-   height="114.4pt"
+   width="100px"
+   height="100px"
    id="svg2"
    sodipodi:version="0.32"
    inkscape:version="0.43"
-   sodipodi:docbase="/home/coolo/prod/KDE4/kdegames/kpat"
+   sodipodi:docbase="/space/prod/KDE4/kdegames/kpat"
    sodipodi:docname="won.svg"
    version="1.0">
   <defs
@@ -39,13 +39,13 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.0330289"
-     inkscape:cx="130.94143"
-     inkscape:cy="71.546642"
+     inkscape:zoom="4.1221295"
+     inkscape:cx="104.68861"
+     inkscape:cy="54.903366"
      inkscape:document-units="px"
-     inkscape:current-layer="pile_selected"
-     inkscape:window-width="1392"
-     inkscape:window-height="975"
+     inkscape:current-layer="layer1"
+     inkscape:window-width="1280"
+     inkscape:window-height="966"
      inkscape:window-x="0"
      inkscape:window-y="0" />
   <metadata
@@ -63,27 +63,15 @@
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1">
-    <g
-       id="pile_selected"
-       inkscape:label="#g2190"
-       transform="matrix(-1.69054e-18,-8.987018e-2,8.774642e-2,-1.65059e-18,90.5894,307.5843)">
-      <path
-         sodipodi:type="star"
-         style="opacity:1;fill:#c3b367;fill-opacity:0.74117649;fill-rule:nonzero;stroke:#2f0400;stroke-width:1.28579605;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.98711344"
-         id="frame"
-         sodipodi:sides="4"
-         sodipodi:cx="104.68861"
-         sodipodi:cy="45.096634"
-         sodipodi:r1="81.947433"
-         sodipodi:r2="40.973717"
-         sodipodi:arg1="-0.28693875"
-         sodipodi:arg2="0.49845941"
-         inkscape:flatsided="true"
-         inkscape:rounded="0.81"
-         inkscape:randomized="0"
-         d="M 183.2856,21.904079 C 209.85297,111.93795 217.91504,97.126254 127.88116,123.69363 C 37.847286,150.261 52.658987,158.32306 26.091614,68.289189 C -0.47575921,-21.744687 -8.5378243,-6.9329858 81.496051,-33.500359 C 171.52993,-60.067732 156.71823,-68.129797 183.2856,21.904079 z "
-         transform="matrix(-2.717191,17.27783,-9.184742,-5.111424,3326.127,-1118.413)"
-         inkscape:label="#path1312" />
-    </g>
+    <rect
+       style="fill:#d3a17d;fill-opacity:0.76862746;stroke:#000000;stroke-width:1pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       id="frame"
+       width="100.43353"
+       height="74.806"
+       x="0"
+       y="0.53684628"
+       rx="21"
+       ry="8.1000004"
+       inkscape:label="#rect1308" />
   </g>
 </svg>
