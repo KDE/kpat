@@ -13,6 +13,7 @@
 */
 #include "dealer.h"
 #include <kstaticdeleter.h>
+#include <kstandarddirs.h>
 #include <kdebug.h>
 #include "deck.h"
 #include <assert.h>
@@ -93,13 +94,15 @@ DealerScene::DealerScene():
     gamenumber( 0 ),
     stop_demo_next(false),
     _won(false),
-    _gameRecorded(false)
+    _gameRecorded(false),
+    wonItem( 0 )
 {
     kDebug() << "DealerScene\n";
 
     demotimer = new QTimer(this);
     connect(demotimer, SIGNAL(timeout()), SLOT(demo()));
     m_autoDropFactor = 1;
+    connect( this, SIGNAL( gameWon( bool ) ), SLOT( slotShowGame() ) );
 }
 
 DealerScene::~DealerScene()
@@ -156,8 +159,9 @@ void Dealer::setScene( QGraphicsScene *_scene )
     // dscene()->setSceneRect( QRectF( 0,0,700,500 ) );
     scaleFactor = 1;
     dscene()->setItemIndexMethod(QGraphicsScene::NoIndex);
-    connect( _scene, SIGNAL( gameWon( bool ) ), SIGNAL( gameWon( bool ) ) );
+    // connect( _scene, SIGNAL( gameWon( bool ) ), SIGNAL( gameWon( bool ) ) );
     connect( dscene(), SIGNAL( undoPossible( bool ) ), SIGNAL( undoPossible( bool ) ) );
+
     if ( ademo )
         connect( dscene(), SIGNAL( demoActive( bool ) ), ademo, SLOT( setEnabled( bool ) ) );
     if ( oldscene )
@@ -465,6 +469,57 @@ void DealerScene::startNew()
     _won = false;
     _waiting = 0;
     _gameRecorded=false;
+    delete wonItem;
+    wonItem = 0;
+}
+
+void DealerScene::slotShowGame()
+{
+    kDebug() << "slotShowGame\n";
+    QGraphicsSvgItem *rect = new QGraphicsSvgItem( KStandardDirs::locate( "data", "kpat/won.svg" ) );
+    addItem( rect );
+    QGraphicsRectItem *rect1 = new QGraphicsRectItem( QRectF( 0, 0, 100, 100 ) );
+    addItem( rect1 );
+
+    rect->setElementId( "frame" );
+
+    qreal scaleX, scaleY;
+
+    scaleX = width() * 0.7 / rect1->sceneBoundingRect().width();
+    scaleY = height() * 0.6 / rect1->sceneBoundingRect().height();
+    rect1->scale( scaleX , scaleY );
+    rect1->setVisible( false );
+
+    scaleX = width() / rect->sceneBoundingRect().width();
+    scaleY = height() * 0.8 / rect->sceneBoundingRect().height();
+    rect->scale( scaleX , scaleY );
+    rect->setVisible( true );
+
+    QGraphicsSimpleTextItem *text = new QGraphicsSimpleTextItem( rect, this );
+    text->scale( 1 / scaleX, 1 / scaleY );
+    text->setText( "Congratulation! You have won." );
+    QFont font;
+    font.setPointSize( 36 );
+    text->setFont( font );
+    rect->setZValue( 2000 );
+    text->setZValue( 2001 );
+    text->setVisible( true );
+    rect->setPos( QPointF( ( width() - rect->sceneBoundingRect().width() ) / 2,
+                           ( height() - rect->sceneBoundingRect().height() ) / 2 ) );
+
+    rect1->setPos( QPointF( ( width() - rect1->sceneBoundingRect().width() ) / 2,
+                           ( height() - rect1->sceneBoundingRect().height() ) / 2 ) );
+
+    int fontsize = 36;
+    while (  text->sceneBoundingRect().width() >  rect1->sceneBoundingRect().width() * 0.9 )
+    {
+        fontsize--;
+        font.setPointSize( fontsize );
+        text->setFont( font );
+    }
+    text->setPos( QPointF( ( width() - text->sceneBoundingRect().width() ) / 2,
+                           ( height() - text->sceneBoundingRect().height() ) / 2 ) );
+
 }
 
 void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
@@ -899,8 +954,6 @@ void Dealer::saveGame(QDomDocument &doc) {
                 card.setAttribute("suit", (*it)->suit());
                 card.setAttribute("value", (*it)->rank());
                 card.setAttribute("faceup", (*it)->isFaceUp());
-                card.setAttribute("dx", (*it)->spread().width());
-                card.setAttribute("dy", (*it)->spread().height());
                 card.setAttribute("z", (*it)->realZ());
                 card.setAttribute("name", (*it)->name());
                 pile.appendChild(card);
@@ -1121,9 +1174,11 @@ void DealerScene::waitForAutoDrop(Card * c) {
     Dealer::instance()->takeState();
 }
 
-void DealerScene::waitForWonAnim(Card *) {
+void DealerScene::waitForWonAnim(Card *c) {
     if ( !waiting() )
         return;
+
+    c->setVisible( false ); // hide it
 
     setWaiting(false);
 
@@ -1375,7 +1430,7 @@ Card *DealerScene::demoNewCards()
 
 void DealerScene::newDemoMove(Card *m)
 {
-    kDebug() << "newDemoMove " << m->name() << endl;
+    //kDebug() << "newDemoMove " << m->name() << endl;
     setWaiting( true );
     towait = m;
     connect(m, SIGNAL(stoped(Card*)), SLOT(waitForDemo(Card*)));
@@ -1383,11 +1438,12 @@ void DealerScene::newDemoMove(Card *m)
 
 void DealerScene::waitForDemo(Card *t)
 {
-    Q_ASSERT( towait );
+    // kDebug() << "waitForDemo " << t->name() << endl;
+    // Q_ASSERT( towait );
     if (t == (Card*)-1)
         return;
-    if (towait != t)
-        return;
+    /* if (towait != t)
+       return; */
     t->disconnect();
     towait = 0;
     setWaiting( false );

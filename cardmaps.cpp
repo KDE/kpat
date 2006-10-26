@@ -231,7 +231,7 @@ void cardMap::setWantedCardWidth( double w )
     d->_scale = 0;
     if (Dealer::instance()->dscene())
         Dealer::instance()->dscene()->rescale(false);
-
+    triggerRescale();
 }
 
 cardMap *cardMap::self() {

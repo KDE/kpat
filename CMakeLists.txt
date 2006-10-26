@@ -74,7 +74,7 @@ install(TARGETS kpat  DESTINATION ${BIN_INSTALL_DIR} )
 ########### install files ###############
 
 install( FILES kpat.desktop  DESTINATION  ${XDG_APPS_DIR} )
-install( FILES pile.svg   DESTINATION  ${DATA_INSTALL_DIR}/kpat )
+install( FILES pile.svg won.svg  DESTINATION  ${DATA_INSTALL_DIR}/kpat )
 install( FILES green.png  DESTINATION  ${DATA_INSTALL_DIR}/kpat/backgrounds )
 install( FILES kpatui.rc  DESTINATION  ${DATA_INSTALL_DIR}/kpat )
 

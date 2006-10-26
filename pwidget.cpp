@@ -142,8 +142,6 @@ pWidget::pWidget()
 //    wallpapers->setCurrentItem(list2.indexOf("No-Ones-Laughing-3"));
 
     dill = new Dealer( this );
-
-
     setCentralWidget(dill);
 
     (void)new cardMap();
@@ -324,7 +322,6 @@ void pWidget::newGameType()
     }
 
     connect(dill, SIGNAL(undoPossible(bool)), SLOT(undoPossible(bool)));
-    connect(dill, SIGNAL(gameWon(bool)), SLOT(gameWon(bool)));
     connect(dill, SIGNAL(gameLost()), SLOT(gameLost()));
 
     dill->setAutoDropEnabled(dropaction->isChecked());
@@ -371,21 +368,6 @@ void pWidget::chooseGame()
         setGameCaption();
         restart();
     }
-}
-
-void pWidget::gameWon(bool withhelp)
-{
-    QString congrats;
-    if (withhelp)
-        congrats = i18n("Congratulations! We have won!");
-    else
-        congrats = i18n("Congratulations! You have won!");
-#if TEST_SOLVER == 0
-    KMessageBox::information(this, congrats, i18n("Congratulations!"));
-#endif
-#if TEST_SOLVER == 1
-    dill->demo();
-#endif
 }
 
 void pWidget::gameLost()

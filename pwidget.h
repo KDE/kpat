@@ -57,14 +57,13 @@ public slots:
     void newGame();
     void chooseGame();
     void undoPossible(bool poss);
-    void gameWon(bool withhelp);
     void gameLost();
     void changeWallpaper();
     void slotGameInfo(const QString &);
     void slotUpdateMoves();
     void helpGame();
     void enableAutoDrop();
-	 void showStats();
+    void showStats();
 
 private:
     void setGameCaption();
@@ -73,7 +72,7 @@ private:
 private:
     // Members
 
-    Dealer    *dill;	// The current patience
+    Dealer         *dill;	// The current patience
 
     KSelectAction  *games;
     KSelectAction  *wallpapers;

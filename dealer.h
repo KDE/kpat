@@ -154,6 +154,7 @@ public slots:
     State *getState();
     void setState(State *);
     void relayoutPiles();
+    void slotShowGame();
 
 protected slots:
     virtual void demo();
@@ -198,6 +199,7 @@ private:
     bool _won;
     quint32 _id;
     bool _gameRecorded;
+    QGraphicsItem *wonItem;
 };
 
 
@@ -262,7 +264,6 @@ public slots:
 
 signals:
     void undoPossible(bool poss);
-    void gameWon(bool withhelp);
     void gameLost();
     void saveGame(); // emergency
     void updateMoves();
