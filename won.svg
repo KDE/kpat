@@ -13,7 +13,7 @@
    id="svg2"
    sodipodi:version="0.32"
    inkscape:version="0.43"
-   sodipodi:docbase="/space/prod/KDE4/kdegames/kpat"
+   sodipodi:docbase="/home/coolo/prod/KDE4/kdegames/kpat"
    sodipodi:docname="won.svg"
    version="1.0">
   <defs
@@ -64,14 +64,14 @@
      inkscape:groupmode="layer"
      id="layer1">
     <rect
-       style="fill:#d3a17d;fill-opacity:0.76862746;stroke:#000000;stroke-width:1pt;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:#d3a17d;fill-opacity:0.76862745;stroke:#000000;stroke-width:0.55;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
        id="frame"
-       width="100.43353"
-       height="74.806"
-       x="0"
-       y="0.53684628"
-       rx="21"
-       ry="8.1000004"
+       width="85.377144"
+       height="63.591534"
+       x="-0.093696371"
+       y="0.44315001"
+       rx="17.851807"
+       ry="6.8856969"
        inkscape:label="#rect1308" />
   </g>
 </svg>

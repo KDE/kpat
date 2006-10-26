@@ -33,6 +33,8 @@
 #include <QPixmap>
 #include <QDebug>
 #include <QList>
+#include <QTimeLine>
+#include <QGraphicsItemAnimation>
 #include <QResizeEvent>
 #include <QMouseEvent>
 #include <QPainter>
@@ -95,14 +97,13 @@ DealerScene::DealerScene():
     stop_demo_next(false),
     _won(false),
     _gameRecorded(false),
-    wonItem( 0 )
+    wonItem( 0 ),
+    gothelp(false)
 {
-    kDebug() << "DealerScene\n";
-
     demotimer = new QTimer(this);
     connect(demotimer, SIGNAL(timeout()), SLOT(demo()));
     m_autoDropFactor = 1;
-    connect( this, SIGNAL( gameWon( bool ) ), SLOT( slotShowGame() ) );
+    connect( this, SIGNAL( gameWon( bool ) ), SLOT( slotShowGame(bool) ) );
 }
 
 DealerScene::~DealerScene()
@@ -196,7 +197,7 @@ void Dealer::setupActions() {
         ademo = new KToggleAction( i18n("&Demo"), parent()->actionCollection(), "game_demo");
         ademo->setIcon( KIcon( "1rightarrow") );
         ademo->setCustomShortcut( Qt::CTRL+Qt::Key_D );
-        connect( ademo, SIGNAL( triggered( bool ) ), dscene(), SLOT( toggleDemo() ) );
+        connect( ademo, SIGNAL( triggered( bool ) ), dscene(), SLOT( toggleDemo(bool) ) );
         actionlist.append(ademo);
     } else
         ademo = 0;
@@ -471,41 +472,51 @@ void DealerScene::startNew()
     _gameRecorded=false;
     delete wonItem;
     wonItem = 0;
+    gothelp = false;
 }
 
-void DealerScene::slotShowGame()
+void DealerScene::slotShowGame(bool gothelp)
 {
-    QGraphicsSvgItem *rect = new QGraphicsSvgItem( KStandardDirs::locate( "data", "kpat/won.svg" ) );
-    addItem( rect );
-    rect->setElementId( "frame" );
+    int wx = qRound( width() * 0.7 );
+    int wy = qRound( height() * 0.6 );
 
-    qreal scaleX, scaleY;
+    QImage img = QImage( wx, wy, QImage::Format_ARGB32 );
+    img.fill( qRgba( 0, 0, 255, 0 ) );
+    QPainter p( &img );
 
-    rect->setVisible( true );
-    scaleX = width() * 0.7 / rect->sceneBoundingRect().width();
-    scaleY = height() * 0.6 / rect->sceneBoundingRect().height();
-    rect->scale( scaleX , scaleY );
+    QSvgRenderer *renderer = new QSvgRenderer( KStandardDirs::locate( "data", "kpat/won.svg" ) );
+    renderer->render( &p, "frame" );
 
-    QGraphicsSimpleTextItem *text = new QGraphicsSimpleTextItem( 0, this );
-    text->setText( "Congratulation! You have won." );
+    QString text = i18n( "Congratulation! You have won." );
+    if ( gothelp )
+        text = i18n( "Congratulation! We have won." );
     QFont font;
     font.setPointSize( 36 );
-    text->setFont( font );
-    rect->setZValue( 2000 );
-    text->setZValue( 2001 );
-    text->setVisible( true );
-    rect->setPos( QPointF( ( width() - rect->sceneBoundingRect().width() ) / 2,
-                           ( height() - rect->sceneBoundingRect().height() ) / 2 ) );
 
+    int twidth = QFontMetrics( font ).width( text );
     int fontsize = 36;
-    while (  text->sceneBoundingRect().width() >  rect->sceneBoundingRect().width() * 0.9 )
+    while ( twidth > wx * 0.9 )
     {
         fontsize--;
         font.setPointSize( fontsize );
-        text->setFont( font );
+        twidth = QFontMetrics( font ).width ( text );
     }
-    text->setPos( QPointF( ( width() - text->sceneBoundingRect().width() ) / 2,
-                           ( height() - text->sceneBoundingRect().height() ) / 2 ) );
+
+    p.setFont( font );
+    p.drawText( int( ( wx - twidth ) / 2 ),
+                int( ( wy - QFontMetrics( font ).descent() ) / 2 ),
+                text );
+    p.end();
+
+    QGraphicsPixmapItem *item = new QGraphicsPixmapItem( 0, this );
+    item->setPixmap( QPixmap::fromImage( img ) );
+    item->setZValue( 2000 );
+
+    wonItem = item;
+
+    wonItem->setPos( QPointF( ( width() - wonItem->sceneBoundingRect().width() ) / 2,
+                              ( height() - wonItem->sceneBoundingRect().height() ) / 2 ) );
+
 }
 
 void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
@@ -1170,9 +1181,8 @@ void DealerScene::waitForWonAnim(Card *c) {
 
     if ( !waiting() )
     {
-        bool demo = demoActive();
         stopDemo();
-        emit gameWon(demo);
+        emit gameWon(gothelp);
     }
 }
 
@@ -1239,15 +1249,15 @@ void DealerScene::stopDemo()
 
 bool DealerScene::demoActive() const
 {
-    return (towait || demotimer->isActive());
+    return demotimer->isActive();
 }
 
-void DealerScene::toggleDemo()
+void DealerScene::toggleDemo(bool flag)
 {
-    if (demoActive()) {
-        stopDemo();
-    } else
+    if ( flag )
         demo();
+    else
+        stopDemo();
 }
 
 class CardPtr
@@ -1339,7 +1349,9 @@ void DealerScene::demo()
         stopDemo();
         return;
     }
+    kDebug() << "demo\n";
     stop_demo_next = false;
+    gothelp = true;
     unmarkAll();
     towait = (Card*)-1;
     clearHints();
@@ -1651,6 +1663,11 @@ void DealerScene::setSceneSize( const QSize &s )
 
         p->setMaximalSpace( myRect.size() );
     }
+
+    if ( wonItem )
+        wonItem->setPos( QPointF( ( width() - wonItem->sceneBoundingRect().width() ) / 2,
+                                  ( height() - wonItem->sceneBoundingRect().height() ) / 2 ) );
+
 }
 
 void Dealer::resizeEvent( QResizeEvent *e )

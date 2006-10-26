@@ -67,7 +67,7 @@ FreecellBase::FreecellBase( int decks, int stores, int freecells, int fill, bool
         p->setAddFlags(Pile::addSpread | Pile::several);
         p->setRemoveFlags(Pile::several);
         p->setCheckIndex(0);
-        p->setReservedSpace( QSizeF( 10, 40 ) );
+        p->setReservedSpace( QSizeF( 10, 28 ) );
     }
 
     for (int i = 0; i < freecells; i++)

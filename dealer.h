@@ -127,8 +127,6 @@ public:
     void startNew();
 
     virtual void restart() = 0;
-    bool demoActive() const;
-
     virtual void stopDemo();
 
     virtual bool checkRemove( int checkIndex, const Pile *c1, const Card *c) const;
@@ -145,6 +143,7 @@ public:
     void setSceneSize( const QSize &s );
 
     void won();
+    bool demoActive() const;
 
 public slots:
     virtual bool startAutoDrop();
@@ -154,13 +153,13 @@ public slots:
     State *getState();
     void setState(State *);
     void relayoutPiles();
-    void slotShowGame();
+    void slotShowGame(bool);
 
 protected slots:
     virtual void demo();
     void waitForDemo(Card *);
     void waitForWonAnim(Card *c);
-    void toggleDemo();
+    void toggleDemo(bool);
 
 signals:
     void undoPossible(bool poss);
@@ -200,6 +199,7 @@ private:
     quint32 _id;
     bool _gameRecorded;
     QGraphicsItem *wonItem;
+    bool gothelp;
 };
 
 

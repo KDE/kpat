@@ -30,6 +30,8 @@ set(libfcs_SRCS
 )
 ########### next target ###############
 
+set(RELEASE "1")
+
 set(kpat_SRCS ${libfcs_SRCS}
    main.cpp 
    cardmaps.cpp 
@@ -38,11 +40,15 @@ set(kpat_SRCS ${libfcs_SRCS}
    pwidget.cpp 
    pile.cpp 
    deck.cpp 
-   pile_algorithms.cpp 
-   klondike.cpp 
-   mod3.cpp
-   gamestatsimpl.cpp 
+   pile_algorithms.cpp
+   gamestatsimpl.cpp
    freecell.cpp
+)
+
+if (RELEASE)
+set(kpat_SRCS ${kpat_SRCS}
+   klondike.cpp
+   mod3.cpp
    simon.cpp
    grandf.cpp
    idiot.cpp
@@ -55,6 +61,7 @@ set(kpat_SRCS ${libfcs_SRCS}
    golf.cpp
    spider.cpp
 )
+endif(RELEASE)
 
 kde4_automoc(${kpat_SRCS})
 
