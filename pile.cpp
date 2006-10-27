@@ -58,7 +58,7 @@ Pile::Pile( int _index, DealerScene* parent)
     removeFlags = 0;
 
     setZValue(0);
-    setSpread( 2.1 );
+    setSpread( 3.3 );
     setReservedSpace( QSizeF( 10, 10 ) );
     setMaximalSpace( QSizeF( 1, 1 ) ); // just to make it valid
     m_relayoutTimer = new QTimer( this );
@@ -377,7 +377,7 @@ QSizeF Pile::cardOffset( const Card *card ) const
         if (card->realFace())
             return QSizeF(0, spread());
         else
-            return QSizeF(0, spread() * 0.6 );
+            return QSizeF(0, qMin( spread() * 0.6, 1.3) );
     }
 
     return QSize(0, 0);
