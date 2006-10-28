@@ -84,44 +84,53 @@ void DealerInfoList::add(DealerInfo *dealer)
 
 
 // ================================================================
+//                          class CardState
+
+
+class CardState {
+public:
+    Card *it;
+    Pile *source;
+    qreal x;
+    qreal y;
+    qreal z;
+    bool faceup;
+    bool tookdown;
+    int source_index;
+    CardState() {}
+public:
+    // as every card is only once we can sort after the card.
+    // < is the same as <= in that context. == is different
+    bool operator<(const CardState &rhs) const { return it < rhs.it; }
+    bool operator<=(const CardState &rhs) const { return it <= rhs.it; }
+    bool operator>(const CardState &rhs) const { return it > rhs.it; }
+    bool operator>=(const CardState &rhs) const { return it > rhs.it; }
+    bool operator==(const CardState &rhs) const {
+        return (it == rhs.it && source == rhs.source && x == rhs.x &&
+                y == rhs.y && z == rhs.z && faceup == rhs.faceup
+                && source_index == rhs.source_index && tookdown == rhs.tookdown);
+    }
+    void fillNode(QDomElement &e) const {
+        e.setAttribute("value", it->rank());
+        e.setAttribute("suit", it->suit());
+        e.setAttribute("z", z);
+        e.setAttribute("faceup", faceup);
+        e.setAttribute("tookdown", tookdown);
+    }
+};
+
+typedef class QList<CardState> CardStateList;
+
+bool operator==( const State & st1, const State & st2) {
+    return st1.cards == st2.cards && st1.gameData == st2.gameData;
+}
+
+// ================================================================
 //                            class Dealer
 
 
 Dealer *Dealer::s_instance = 0;
 
-DealerScene::DealerScene():
-    towait(0),
-    _autodrop(true),
-    _waiting(0),
-    gamenumber( 0 ),
-    stop_demo_next(false),
-    _won(false),
-    _gameRecorded(false),
-    wonItem( 0 ),
-    gothelp(false)
-{
-    demotimer = new QTimer(this);
-    connect(demotimer, SIGNAL(timeout()), SLOT(demo()));
-    m_autoDropFactor = 1;
-    connect( this, SIGNAL( gameWon( bool ) ), SLOT( slotShowGame(bool) ) );
-}
-
-DealerScene::~DealerScene()
-{
-    if (!_won)
-        countLoss();
-
-    // don't delete the deck
-    if ( Deck::deck()->scene() == this )
-    {
-        Deck::deck()->setParent( 0 );
-        removeItem( Deck::deck() );
-    }
-    removePile( Deck::deck() );
-    while (!piles.isEmpty()) {
-        delete piles.first(); // removes itself
-    }
-}
 
 Dealer::Dealer( KMainWindow* _parent )
   : QGraphicsView( _parent ),
@@ -146,6 +155,20 @@ Dealer::Dealer( KMainWindow* _parent )
     //setupViewport(wgl);
 #endif
 }
+
+Dealer::~Dealer()
+{
+    dscene()->clearHints();
+
+    if (s_instance == this)
+        s_instance = 0;
+}
+
+KMainWindow *Dealer::parent() const
+{
+    return dynamic_cast<KMainWindow*>(QGraphicsView::parent());
+}
+
 
 void Dealer::setScene( QGraphicsScene *_scene )
 {
@@ -176,7 +199,8 @@ Dealer *Dealer::instance()
     return s_instance;
 }
 
-void Dealer::setupActions() {
+void Dealer::setupActions()
+{
 
     QList<KAction*> actionlist;
 
@@ -213,21 +237,382 @@ void Dealer::setupActions() {
     parent()->guiFactory()->plugActionList( parent(), QString::fromLatin1("game_actions"), actionlist);
 }
 
-Dealer::~Dealer()
-{
-    dscene()->clearHints();
 
-    if (s_instance == this)
-        s_instance = 0;
+
+void Dealer::hint()
+{
+    dscene()->hint();
 }
 
-KMainWindow *Dealer::parent() const
+void Dealer::setAutoDropEnabled(bool a)
 {
-    return dynamic_cast<KMainWindow*>(QGraphicsView::parent());
+    dscene()->setAutoDropEnabled( a );
+}
+
+void Dealer::startNew()
+{
+    kDebug() << "startnew\n";
+    if ( ahint )
+        ahint->setEnabled( true );
+    if ( ademo )
+        ademo->setEnabled( true );
+    if ( aredeal )
+        aredeal->setEnabled( true );
+    toldAboutLostGame = false;
+    dscene()->startNew();
+
+    kDebug(11111) << "startNew stopDemo\n";
+    dscene()->stopDemo();
+    kDebug(11111) << "startNew unmarkAll\n";
+    dscene()->unmarkAll();
+    kDebug(11111) << "startNew setAnimated(false)\n";
+    QList<QGraphicsItem *> list = scene()->items();
+    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it) {
+        if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId )
+        {
+            Card *c = static_cast<Card*>(*it);
+            c->disconnect();
+            c->stopAnimation();
+        }
+    }
+
+    qDeleteAll(undoList);
+    undoList.clear();
+    emit undoPossible(false);
+    emit updateMoves();
+    kDebug(11111) << "startNew restart\n";
+    dscene()->restart();
+    takeState();
+    Card *towait = 0;
+    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it) {
+        if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId ) {
+            towait = static_cast<Card*>(*it);
+            if (towait->animated())
+                break;
+        }
+    }
+
+    kDebug(11111) << "startNew takeState\n";
+    if (!towait)
+        takeState();
+    else
+        connect(towait, SIGNAL(stoped(Card*)), SLOT(slotTakeState(Card *)));
+}
+
+void Dealer::slotTakeState(Card *c) {
+    if (c)
+        c->disconnect();
+    takeState();
+}
+
+void Dealer::slotEnableRedeal( bool en )
+{
+    if ( aredeal )
+        aredeal->setEnabled( en );
+}
+
+
+void Dealer::takeState()
+{
+//    kDebug(11111) << "takeState " << endl;
+
+    State *n = dscene()->getState();
+
+    if (!undoList.count()) {
+        emit updateMoves();
+        undoList.append(n);
+    } else {
+        State *old = undoList.last();
+
+        if (*old == *n) {
+            delete n;
+            n = 0;
+        } else {
+            emit updateMoves();
+            undoList.append(n);
+        }
+    }
+
+    if (n) {
+        if (dscene()->isGameWon()) {
+            dscene()->won();
+            return;
+        }
+        else if ( dscene()->isGameLost() && !toldAboutLostGame) {
+            if ( ahint )
+                ahint->setEnabled( false );
+            if ( ademo )
+                ademo->setEnabled( false );
+            if ( aredeal )
+                aredeal->setEnabled( false );
+            QTimer::singleShot(400, this, SIGNAL(gameLost()));
+            toldAboutLostGame = true;
+            return;
+        }
+    }
+    if (!dscene()->demoActive() && !dscene()->waiting())
+        QTimer::singleShot(TIME_BETWEEN_MOVES, dscene(), SLOT(startAutoDrop()));
+
+    emit undoPossible(undoList.count() > 1 && !dscene()->waiting());
+}
+
+void Dealer::saveGame(QDomDocument &doc)
+{
+    QDomElement dealer = doc.createElement("dealer");
+    doc.appendChild(dealer);
+    dealer.setAttribute("id", dscene()->gameId());
+    dealer.setAttribute("number", QString::number(dscene()->gameNumber()));
+    QString data = dscene()->getGameState();
+    if (!data.isEmpty())
+        dealer.setAttribute("data", data);
+    dealer.setAttribute("moves", QString::number(getMoves()));
+
+    bool taken[1000];
+    memset(taken, 0, sizeof(taken));
+
+    QList<QGraphicsItem *> list = scene()->items();
+    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
+    {
+        if ((*it)->type() == QGraphicsItem::UserType + Dealer::PileTypeId ) {
+            Pile *p = dynamic_cast<Pile*>(*it);
+            assert(p);
+            if (taken[p->index()]) {
+                kDebug(11111) << "pile index " << p->index() << " taken twice\n";
+                return;
+            }
+            taken[p->index()] = true;
+
+            QDomElement pile = doc.createElement("pile");
+            pile.setAttribute("index", p->index());
+            pile.setAttribute("z", p->zValue());
+
+            CardList cards = p->cards();
+            for (CardList::Iterator it = cards.begin();
+                 it != cards.end();
+                 ++it)
+            {
+                QDomElement card = doc.createElement("card");
+                card.setAttribute("suit", (*it)->suit());
+                card.setAttribute("value", (*it)->rank());
+                card.setAttribute("faceup", (*it)->isFaceUp());
+                card.setAttribute("z", (*it)->realZ());
+                card.setAttribute("name", (*it)->name());
+                pile.appendChild(card);
+            }
+            dealer.appendChild(pile);
+        }
+    }
+
+    /*
+    QDomElement eList = doc.createElement("undo");
+
+    QPtrListIterator<State> it(undoList);
+    for (; it.current(); ++it)
+    {
+        State *n = it.current();
+        QDomElement state = doc.createElement("state");
+        if (!n->gameData.isEmpty())
+            state.setAttribute("data", n->gameData);
+        QDomElement cards = doc.createElement("cards");
+        for (QValueList<CardState>::ConstIterator it2 = n->cards.begin();
+             it2 != n->cards.end(); ++it2)
+        {
+            QDomElement item = doc.createElement("item");
+            (*it2).fillNode(item);
+            cards.appendChild(item);
+        }
+        state.appendChild(cards);
+        eList.appendChild(state);
+    }
+    dealer.appendChild(eList);
+    */
+    // kDebug(11111) << doc.toString() << endl;
+}
+
+void Dealer::openGame(QDomDocument &doc)
+{
+    if (!dscene())
+        return;
+
+    dscene()->unmarkAll();
+    QDomElement dealer = doc.documentElement();
+
+    dscene()->setGameNumber(dealer.attribute("number").toULong());
+    qDeleteAll(undoList);
+    undoList.clear();
+
+    QDomNodeList piles = dealer.elementsByTagName("pile");
+
+    QList<QGraphicsItem *> list = scene()->items();
+
+    CardList cards;
+    for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
+        if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId )
+            cards.append(static_cast<Card*>(*it));
+
+    Deck::deck()->collectAndShuffle();
+
+    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
+    {
+        if ((*it)->type() == QGraphicsItem::UserType + Dealer::PileTypeId )
+        {
+            Pile *p = dynamic_cast<Pile*>(*it);
+            assert(p);
+
+            for (int i = 0; i < piles.count(); ++i)
+            {
+                QDomElement pile = piles.item(i).toElement();
+                if (pile.attribute("index").toInt() == p->index())
+                {
+                    QDomNodeList pcards = pile.elementsByTagName("card");
+                    for (int j = 0; j < pcards.count(); ++j)
+                    {
+                        QDomElement card = pcards.item(j).toElement();
+                        Card::Suit s = static_cast<Card::Suit>(card.attribute("suit").toInt());
+                        Card::Rank v = static_cast<Card::Rank>(card.attribute("value").toInt());
+
+                        for (CardList::Iterator it2 = cards.begin();
+                             it2 != cards.end(); ++it2)
+                        {
+                            if ((*it2)->suit() == s && (*it2)->rank() == v) {
+                                (*it2)->setVisible(p->isVisible());
+                                p->add(*it2, !card.attribute("faceup").toInt());
+                                (*it2)->stopAnimation();
+                                (*it2)->setVisible(p->isVisible());
+                                cards.erase(it2);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    dscene()->setGameState( dealer.attribute("data") );
+
+    if (undoList.count() > 1) {
+        dscene()->setState(undoList.takeLast());
+        takeState(); // copying it again
+        emit undoPossible(undoList.count() > 1);
+    }
+
+    emit updateMoves();
+    takeState();
+}
+
+void Dealer::undo()
+{
+    dscene()->unmarkAll();
+    dscene()->stopDemo();
+    kDebug() << "::undo " << undoList.count() << endl;
+    if (undoList.count() > 1) {
+        delete undoList.last();
+        undoList.removeLast(); // the current state
+        dscene()->setState(undoList.takeLast());
+        emit updateMoves();
+        takeState(); // copying it again
+        emit undoPossible(undoList.count() > 1);
+        if ( toldAboutLostGame ) { // everything's possible again
+            if ( ahint )
+                ahint->setEnabled( true );
+            if ( ademo )
+                ademo->setEnabled( true );
+            toldAboutLostGame = false;
+        }
+    }
+}
+
+
+DealerScene *Dealer::dscene() const
+{
+    return dynamic_cast<DealerScene*>( scene() );
+}
+
+void Dealer::setGameNumber(long gmn) { dscene()->setGameNumber(gmn); }
+long Dealer::gameNumber() const { return dscene()->gameNumber(); }
+
+
+void Dealer::setAnchorName(const QString &name)
+{
+    kDebug(11111) << "setAnchorname " << name << endl;
+    ac = name;
+}
+
+QString Dealer::anchorName() const { return ac; }
+
+void Dealer::wheelEvent( QWheelEvent *e )
+{
+    return; // Maren hits the wheel mouse function of the touch pad way too often :)
+    qreal scaleFactor = pow((double)2, -e->delta() / (10*120.0));
+    cardMap::self()->setWantedCardWidth( cardMap::self()->wantedCardWidth() / scaleFactor );
+}
+
+
+void Dealer::resizeEvent( QResizeEvent *e )
+{
+    if ( e )
+        QGraphicsView::resizeEvent(e);
+
+    kDebug() << "resizeEvent " << wasShown() << endl;
+
+    if ( !wasShown() )
+        return;
+
+#if 0
+    foreach (QWidget *widget, QApplication::allWidgets())
+        kDebug() << widget << " " << widget->objectName() << " " << widget->geometry() << endl;
+
+    kDebug() << "resizeEvent " << size() << " " << e << " " << dscene() << " " << parent()->isVisible() << /* " " << kBacktrace() << */ endl;
+#endif
+
+    if ( !dscene() )
+        return;
+
+    dscene()->setSceneSize( size() );
+}
+
+
+// ================================================================
+//                         class DealerScene
+
+
+DealerScene::DealerScene():
+    towait(0),
+    _autodrop(true),
+    _waiting(0),
+    gamenumber( 0 ),
+    stop_demo_next(false),
+    _won(false),
+    _gameRecorded(false),
+    wonItem( 0 ),
+    gothelp(false)
+{
+    demotimer = new QTimer(this);
+    connect(demotimer, SIGNAL(timeout()), SLOT(demo()));
+    m_autoDropFactor = 1;
+    connect( this, SIGNAL( gameWon( bool ) ), SLOT( slotShowGame(bool) ) );
+}
+
+DealerScene::~DealerScene()
+{
+    if (!_won)
+        countLoss();
+
+    // don't delete the deck
+    if ( Deck::deck()->scene() == this )
+    {
+        Deck::deck()->setParent( 0 );
+        removeItem( Deck::deck() );
+    }
+    removePile( Deck::deck() );
+    while (!piles.isEmpty()) {
+        delete piles.first(); // removes itself
+    }
 }
 
 
 // ----------------------------------------------------------------
+
 
 void DealerScene::hint()
 {
@@ -238,16 +623,6 @@ void DealerScene::hint()
     for (HintList::ConstIterator it = hints.begin(); it != hints.end(); ++it)
         mark((*it)->card());
     clearHints();
-}
-
-void Dealer::hint()
-{
-    dscene()->hint();
-}
-
-void Dealer::setAutoDropEnabled(bool a)
-{
-    dscene()->setAutoDropEnabled( a );
 }
 
 void DealerScene::getHints()
@@ -695,105 +1070,6 @@ bool DealerScene::cardDblClicked(Card *c)
     return false;
 }
 
-void Dealer::startNew()
-{
-    kDebug() << "startnew\n";
-    if ( ahint )
-        ahint->setEnabled( true );
-    if ( ademo )
-        ademo->setEnabled( true );
-    if ( aredeal )
-        aredeal->setEnabled( true );
-    toldAboutLostGame = false;
-    dscene()->startNew();
-
-    kDebug(11111) << "startNew stopDemo\n";
-    dscene()->stopDemo();
-    kDebug(11111) << "startNew unmarkAll\n";
-    dscene()->unmarkAll();
-    kDebug(11111) << "startNew setAnimated(false)\n";
-    QList<QGraphicsItem *> list = scene()->items();
-    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it) {
-        if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId )
-        {
-            Card *c = static_cast<Card*>(*it);
-            c->disconnect();
-            c->stopAnimation();
-        }
-    }
-
-    qDeleteAll(undoList);
-    undoList.clear();
-    emit undoPossible(false);
-    emit updateMoves();
-    kDebug(11111) << "startNew restart\n";
-    dscene()->restart();
-    takeState();
-    Card *towait = 0;
-    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it) {
-        if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId ) {
-            towait = static_cast<Card*>(*it);
-            if (towait->animated())
-                break;
-        }
-    }
-
-    kDebug(11111) << "startNew takeState\n";
-    if (!towait)
-        takeState();
-    else
-        connect(towait, SIGNAL(stoped(Card*)), SLOT(slotTakeState(Card *)));
-}
-
-void Dealer::slotTakeState(Card *c) {
-    if (c)
-        c->disconnect();
-    takeState();
-}
-
-void Dealer::slotEnableRedeal( bool en )
-{
-    if ( aredeal )
-        aredeal->setEnabled( en );
-}
-
-class CardState {
-public:
-    Card *it;
-    Pile *source;
-    qreal x;
-    qreal y;
-    qreal z;
-    bool faceup;
-    bool tookdown;
-    int source_index;
-    CardState() {}
-public:
-    // as every card is only once we can sort after the card.
-    // < is the same as <= in that context. == is different
-    bool operator<(const CardState &rhs) const { return it < rhs.it; }
-    bool operator<=(const CardState &rhs) const { return it <= rhs.it; }
-    bool operator>(const CardState &rhs) const { return it > rhs.it; }
-    bool operator>=(const CardState &rhs) const { return it > rhs.it; }
-    bool operator==(const CardState &rhs) const {
-        return (it == rhs.it && source == rhs.source && x == rhs.x &&
-                y == rhs.y && z == rhs.z && faceup == rhs.faceup
-                && source_index == rhs.source_index && tookdown == rhs.tookdown);
-    }
-    void fillNode(QDomElement &e) const {
-        e.setAttribute("value", it->rank());
-        e.setAttribute("suit", it->suit());
-        e.setAttribute("z", z);
-        e.setAttribute("faceup", faceup);
-        e.setAttribute("tookdown", tookdown);
-    }
-};
-
-typedef class QList<CardState> CardStateList;
-
-bool operator==( const State & st1, const State & st2) {
-    return st1.cards == st2.cards && st1.gameData == st2.gameData;
-}
 
 State *DealerScene::getState()
 {
@@ -866,215 +1142,6 @@ void DealerScene::setState(State *st)
     setGameState( st->gameData );
 
     delete st;
-}
-
-void Dealer::takeState()
-{
-//    kDebug(11111) << "takeState " << endl;
-
-    State *n = dscene()->getState();
-
-    if (!undoList.count()) {
-        emit updateMoves();
-        undoList.append(n);
-    } else {
-        State *old = undoList.last();
-
-        if (*old == *n) {
-            delete n;
-            n = 0;
-        } else {
-            emit updateMoves();
-            undoList.append(n);
-        }
-    }
-
-    if (n) {
-        if (dscene()->isGameWon()) {
-            dscene()->won();
-            return;
-        }
-        else if ( dscene()->isGameLost() && !toldAboutLostGame) {
-            if ( ahint )
-                ahint->setEnabled( false );
-            if ( ademo )
-                ademo->setEnabled( false );
-            if ( aredeal )
-                aredeal->setEnabled( false );
-            QTimer::singleShot(400, this, SIGNAL(gameLost()));
-            toldAboutLostGame = true;
-            return;
-        }
-    }
-    if (!dscene()->demoActive() && !dscene()->waiting())
-        QTimer::singleShot(TIME_BETWEEN_MOVES, dscene(), SLOT(startAutoDrop()));
-
-    emit undoPossible(undoList.count() > 1 && !dscene()->waiting());
-}
-
-void Dealer::saveGame(QDomDocument &doc) {
-    QDomElement dealer = doc.createElement("dealer");
-    doc.appendChild(dealer);
-    dealer.setAttribute("id", dscene()->gameId());
-    dealer.setAttribute("number", QString::number(dscene()->gameNumber()));
-    QString data = dscene()->getGameState();
-    if (!data.isEmpty())
-        dealer.setAttribute("data", data);
-    dealer.setAttribute("moves", QString::number(getMoves()));
-
-    bool taken[1000];
-    memset(taken, 0, sizeof(taken));
-
-    QList<QGraphicsItem *> list = scene()->items();
-    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
-    {
-        if ((*it)->type() == QGraphicsItem::UserType + Dealer::PileTypeId ) {
-            Pile *p = dynamic_cast<Pile*>(*it);
-            assert(p);
-            if (taken[p->index()]) {
-                kDebug(11111) << "pile index " << p->index() << " taken twice\n";
-                return;
-            }
-            taken[p->index()] = true;
-
-            QDomElement pile = doc.createElement("pile");
-            pile.setAttribute("index", p->index());
-            pile.setAttribute("z", p->zValue());
-
-            CardList cards = p->cards();
-            for (CardList::Iterator it = cards.begin();
-                 it != cards.end();
-                 ++it)
-            {
-                QDomElement card = doc.createElement("card");
-                card.setAttribute("suit", (*it)->suit());
-                card.setAttribute("value", (*it)->rank());
-                card.setAttribute("faceup", (*it)->isFaceUp());
-                card.setAttribute("z", (*it)->realZ());
-                card.setAttribute("name", (*it)->name());
-                pile.appendChild(card);
-            }
-            dealer.appendChild(pile);
-        }
-    }
-
-    /*
-    QDomElement eList = doc.createElement("undo");
-
-    QPtrListIterator<State> it(undoList);
-    for (; it.current(); ++it)
-    {
-        State *n = it.current();
-        QDomElement state = doc.createElement("state");
-        if (!n->gameData.isEmpty())
-            state.setAttribute("data", n->gameData);
-        QDomElement cards = doc.createElement("cards");
-        for (QValueList<CardState>::ConstIterator it2 = n->cards.begin();
-             it2 != n->cards.end(); ++it2)
-        {
-            QDomElement item = doc.createElement("item");
-            (*it2).fillNode(item);
-            cards.appendChild(item);
-        }
-        state.appendChild(cards);
-        eList.appendChild(state);
-    }
-    dealer.appendChild(eList);
-    */
-    // kDebug(11111) << doc.toString() << endl;
-}
-
-void Dealer::openGame(QDomDocument &doc)
-{
-    if (!dscene())
-        return;
-
-    dscene()->unmarkAll();
-    QDomElement dealer = doc.documentElement();
-
-    dscene()->setGameNumber(dealer.attribute("number").toULong());
-    qDeleteAll(undoList);
-    undoList.clear();
-
-    QDomNodeList piles = dealer.elementsByTagName("pile");
-
-    QList<QGraphicsItem *> list = scene()->items();
-
-    CardList cards;
-    for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
-        if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId )
-            cards.append(static_cast<Card*>(*it));
-
-    Deck::deck()->collectAndShuffle();
-
-    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
-    {
-        if ((*it)->type() == QGraphicsItem::UserType + Dealer::PileTypeId )
-        {
-            Pile *p = dynamic_cast<Pile*>(*it);
-            assert(p);
-
-            for (int i = 0; i < piles.count(); ++i)
-            {
-                QDomElement pile = piles.item(i).toElement();
-                if (pile.attribute("index").toInt() == p->index())
-                {
-                    QDomNodeList pcards = pile.elementsByTagName("card");
-                    for (int j = 0; j < pcards.count(); ++j)
-                    {
-                        QDomElement card = pcards.item(j).toElement();
-                        Card::Suit s = static_cast<Card::Suit>(card.attribute("suit").toInt());
-                        Card::Rank v = static_cast<Card::Rank>(card.attribute("value").toInt());
-
-                        for (CardList::Iterator it2 = cards.begin();
-                             it2 != cards.end(); ++it2)
-                        {
-                            if ((*it2)->suit() == s && (*it2)->rank() == v) {
-                                (*it2)->setVisible(p->isVisible());
-                                p->add(*it2, !card.attribute("faceup").toInt());
-                                (*it2)->stopAnimation();
-                                (*it2)->setVisible(p->isVisible());
-                                cards.erase(it2);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    dscene()->setGameState( dealer.attribute("data") );
-
-    if (undoList.count() > 1) {
-        dscene()->setState(undoList.takeLast());
-        takeState(); // copying it again
-        emit undoPossible(undoList.count() > 1);
-    }
-
-    emit updateMoves();
-    takeState();
-}
-
-void Dealer::undo()
-{
-    dscene()->unmarkAll();
-    dscene()->stopDemo();
-    kDebug() << "::undo " << undoList.count() << endl;
-    if (undoList.count() > 1) {
-        delete undoList.last();
-        undoList.removeLast(); // the current state
-        dscene()->setState(undoList.takeLast());
-        emit updateMoves();
-        takeState(); // copying it again
-        emit undoPossible(undoList.count() > 1);
-        if ( toldAboutLostGame ) { // everything's possible again
-            if ( ahint )
-                ahint->setEnabled( true );
-            if ( ademo )
-                ademo->setEnabled( true );
-            toldAboutLostGame = false;
-        }
-    }
 }
 
 Pile *DealerScene::findTarget(Card *c)
@@ -1215,14 +1282,6 @@ void DealerScene::removePile(Pile *p)
 {
     piles.removeAll(p);
 }
-
-DealerScene *Dealer::dscene() const
-{
-    return dynamic_cast<DealerScene*>( scene() );
-}
-
-void Dealer::setGameNumber(long gmn) { dscene()->setGameNumber(gmn); }
-long Dealer::gameNumber() const { return dscene()->gameNumber(); }
 
 void DealerScene::stopDemo()
 {
@@ -1474,21 +1533,6 @@ bool DealerScene::checkAdd( int, const Pile *, const CardList&) const {
     return true;
 }
 
-void Dealer::setAnchorName(const QString &name)
-{
-    kDebug(11111) << "setAnchorname " << name << endl;
-    ac = name;
-}
-
-QString Dealer::anchorName() const { return ac; }
-
-void Dealer::wheelEvent( QWheelEvent *e )
-{
-    return; // Maren hits the wheel mouse function of the touch pad way too often :)
-    qreal scaleFactor = pow((double)2, -e->delta() / (10*120.0));
-    cardMap::self()->setWantedCardWidth( cardMap::self()->wantedCardWidth() / scaleFactor );
-}
-
 void DealerScene::countGame()
 {
     if ( !_gameRecorded ) {
@@ -1671,29 +1715,6 @@ void DealerScene::setSceneSize( const QSize &s )
     {
         ( *it )->relayoutCards();
     }
-}
-
-void Dealer::resizeEvent( QResizeEvent *e )
-{
-    if ( e )
-        QGraphicsView::resizeEvent(e);
-
-    kDebug() << "resizeEvent " << wasShown() << endl;
-
-    if ( !wasShown() )
-        return;
-
-#if 0
-    foreach (QWidget *widget, QApplication::allWidgets())
-        kDebug() << widget << " " << widget->objectName() << " " << widget->geometry() << endl;
-
-    kDebug() << "resizeEvent " << size() << " " << e << " " << dscene() << " " << parent()->isVisible() << /* " " << kBacktrace() << */ endl;
-#endif
-
-    if ( !dscene() )
-        return;
-
-    dscene()->setSceneSize( size() );
 }
 
 #include "dealer.moc"
