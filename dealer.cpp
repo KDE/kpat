@@ -186,12 +186,12 @@ void Dealer::setScene( QGraphicsScene *_scene )
     // connect( _scene, SIGNAL( gameWon( bool ) ), SIGNAL( gameWon( bool ) ) );
     connect( dscene(), SIGNAL( undoPossible( bool ) ), SIGNAL( undoPossible( bool ) ) );
 
-    if ( ademo )
-        connect( dscene(), SIGNAL( demoActive( bool ) ), ademo, SLOT( setEnabled( bool ) ) );
     if ( oldscene )
         dscene()->relayoutPiles();
 
     setupActions();
+    if ( ademo )
+        connect( dscene(), SIGNAL( demoActive( bool ) ), ademo, SLOT( setEnabled( bool ) ) );
 }
 
 Dealer *Dealer::instance()

@@ -45,6 +45,7 @@ Mod3::Mod3( )
     aces->setCheckIndex(2);
     aces->setAddFlags(Pile::addSpread | Pile::several);
     aces->setObjectName( "aces" );
+    aces->setReservedSpace( QSizeF( 10, 20 ));
 
     for ( int r = 0; r < 4; r++ ) {
         for ( int c = 0; c < 8; c++ ) {
