@@ -178,6 +178,4 @@ private:
 
 };
 
-typedef QList<Pile*> PileList;
-
 #endif

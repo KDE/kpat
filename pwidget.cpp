@@ -54,6 +54,7 @@
 #include "pwidget.h"
 #include "version.h"
 #include "dealer.h"
+#include "view.h"
 #include "cardmaps.h"
 #include "speeds.h"
 #include "gamestatsimpl.h"

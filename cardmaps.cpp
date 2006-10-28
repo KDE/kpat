@@ -53,6 +53,8 @@
 #include <QPixmapCache>
 #include <QThread>
 #include <QMutex>
+#warning cardmap shouldn't really require to know the instance!
+#include "view.h"
 #include "dealer.h"
 #include "ksvgrenderer.h"
 

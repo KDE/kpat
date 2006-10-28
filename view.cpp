@@ -11,6 +11,7 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
+#include "view.h"
 #include "dealer.h"
 #include <kstaticdeleter.h>
 #include <kstandarddirs.h>
@@ -259,3 +260,5 @@ void PatienceView::resizeEvent( QResizeEvent *e )
 
     dscene()->setSceneSize( size() );
 }
+
+#include "view.moc"

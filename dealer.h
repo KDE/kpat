@@ -14,27 +14,21 @@
 #ifndef _DEALER_H_
 #define _DEALER_H_
 
-#include "pile.h"
 #include "hint.h"
+#include "pile.h"
 #include <krandomsequence.h>
-
-#include <QWheelEvent>
-#include <QPixmap>
-#include <QList>
-#include <QResizeEvent>
-#include <QMouseEvent>
+#include <QString>
 #include <QGraphicsScene>
-#include <QGraphicsView>
 
+class Card;
 class QPixmap;
-class QGraphicsItem;
+class MoveHint;
 class QDomDocument;
-class KMainWindow;
-class Dealer;
 class DealerInfo;
-class KAction;
-class KSelectAction;
-class KToggleAction;
+class Pile;
+class DealerScene;
+
+typedef QList<Pile*> PileList;
 
 class DealerInfoList {
 public:
@@ -222,71 +216,6 @@ private:
     bool gothelp;
     bool toldAboutLostGame;
     int myActions;
-};
-
-
-class PatienceView: public QGraphicsView
-{
-    friend class DealerScene;
-
-    Q_OBJECT
-
-public:
-
-    PatienceView ( KMainWindow* parent );
-    virtual ~PatienceView();
-
-    static PatienceView *instance();
-
-    void setViewSize(const QSize &size);
-
-    virtual void setupActions();
-
-    QString anchorName() const;
-    void setAnchorName(const QString &name);
-
-    void setAutoDropEnabled(bool a);
-
-    void setGameNumber(long gmn);
-    long gameNumber() const;
-
-    void setScene( QGraphicsScene *scene);
-    DealerScene  *dscene() const;
-
-    bool wasShown() const { return m_shown; }
-    void setWasShown(bool b) { m_shown = b; }
-
-public slots:
-
-    // restart is pure virtual, so we need something else
-    virtual void startNew();
-    void hint();
-    void slotEnableRedeal(bool);
-
-signals:
-    void undoPossible(bool poss);
-    void gameLost();
-    void saveGame(); // emergency
-
-public slots:
-
-protected:
-
-    virtual void wheelEvent( QWheelEvent *e );
-    virtual void resizeEvent( QResizeEvent *e );
-
-    KMainWindow *parent() const;
-
-protected:
-
-    KToggleAction *ademo;
-    KAction *ahint, *aredeal;
-
-    QString ac;
-    static PatienceView *s_instance;
-
-    qreal scaleFactor;
-    bool m_shown;
 };
 
 #endif
