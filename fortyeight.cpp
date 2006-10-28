@@ -91,7 +91,7 @@ void Fortyeight::deckClicked(Card *)
     c->stopAnimation();
     qreal x = c->realX();
     qreal y = c->realY();
-    c->setPos(Deck::deck()->x(), Deck::deck()->y());
+    c->setPos( QPointF( Deck::deck()->x(), Deck::deck()->y() ) );
     c->flipTo(x, y);
 }
 
