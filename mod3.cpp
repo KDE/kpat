@@ -70,7 +70,7 @@ Mod3::Mod3( )
         }
     }
 
-    Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo );
+    setActions(DealerScene::Hint | DealerScene::Demo );
 }
 
 

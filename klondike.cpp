@@ -83,7 +83,7 @@ Klondike::Klondike( bool easy )
         target[i]->setObjectName( QString( "target%1" ).arg( i ) );
     }
 
-    Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
+    setActions(DealerScene::Hint | DealerScene::Demo);
 
     redealt = false;
 }

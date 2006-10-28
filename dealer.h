@@ -77,6 +77,9 @@ class DealerScene : public QGraphicsScene
     Q_OBJECT
 
 public:
+
+    enum UserTypes { CardTypeId = 1, PileTypeId = 2 };
+
     DealerScene();
     ~DealerScene();
     void unmarkAll();
@@ -149,6 +152,11 @@ public:
     bool demoActive() const;
     int getMoves() const { return undoList.count(); }
 
+    enum { None = 0, Hint = 1, Demo = 2, Redeal = 4 } Actions;
+
+    void setActions(int actions) { myActions = actions; }
+    int actions() const { return myActions; }
+
 public slots:
     virtual bool startAutoDrop();
     void hint();
@@ -213,15 +221,11 @@ private:
     QGraphicsItem *wonItem;
     bool gothelp;
     bool toldAboutLostGame;
+    int myActions;
 };
 
 
-/***************************************************************
-
-  Dealer -- abstract base class of all varieties of patience
-
-***************************************************************/
-class Dealer: public QGraphicsView
+class PatienceView: public QGraphicsView
 {
     friend class DealerScene;
 
@@ -229,12 +233,10 @@ class Dealer: public QGraphicsView
 
 public:
 
-    enum UserTypes { CardTypeId = 1, PileTypeId = 2 };
+    PatienceView ( KMainWindow* parent );
+    virtual ~PatienceView();
 
-    Dealer( KMainWindow* parent );
-    virtual ~Dealer();
-
-    static Dealer *instance();
+    static PatienceView *instance();
 
     void setViewSize(const QSize &size);
 
@@ -250,11 +252,6 @@ public:
 
     void setScene( QGraphicsScene *scene);
     DealerScene  *dscene() const;
-
-    enum { None = 0, Hint = 1, Demo = 2, Redeal = 4 } Actions;
-
-    void setActions(int actions) { myActions = actions; }
-    int actions() const { return myActions; }
 
     bool wasShown() const { return m_shown; }
     void setWasShown(bool b) { m_shown = b; }
@@ -282,19 +279,11 @@ protected:
 
 protected:
 
-    Dealer( Dealer& );  // don't allow copies or assignments
-    void operator = ( Dealer& );  // don't allow copies or assignments
-
-    QSize minsize;
-    QSize viewsize;
-
-    int myActions;
-
     KToggleAction *ademo;
     KAction *ahint, *aredeal;
 
     QString ac;
-    static Dealer *s_instance;
+    static PatienceView *s_instance;
 
     qreal scaleFactor;
     bool m_shown;

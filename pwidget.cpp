@@ -141,7 +141,7 @@ pWidget::pWidget()
     wallpapers->setItems(list2);
 //    wallpapers->setCurrentItem(list2.indexOf("No-Ones-Laughing-3"));
 
-    dill = new Dealer( this );
+    dill = new PatienceView( this );
     setCentralWidget(dill);
 
     (void)new cardMap();

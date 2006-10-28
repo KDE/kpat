@@ -51,7 +51,7 @@ Grandf::Grandf( )
         store[i]->setReservedSpace( QSizeF( 10, 25 ) );
     }
 
-    Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo | Dealer::Redeal);
+    setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Redeal);
 }
 
 void Grandf::restart() {

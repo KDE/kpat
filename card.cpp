@@ -43,7 +43,7 @@ static const char  *rank_names[] = {"1", "2", "3", "4", "5", "6", "7", "8",
                                      "9", "10", "jack", "queen", "king" };
 
 // Run time type id
-const int Card::my_type = Dealer::CardTypeId;
+const int Card::my_type = DealerScene::CardTypeId;
 
 Card::Card( Rank r, Suit s, QGraphicsScene *_parent )
     : QObject(), QGraphicsPixmapItem(),

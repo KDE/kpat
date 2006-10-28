@@ -29,8 +29,7 @@
 #include <QLabel>
 #include <QShowEvent>
 #include <krecentfilesaction.h>
-class Dealer;
-class DealerScene;
+class PatienceView;
 class KToggleAction;
 class KSelectAction;
 class KRecentFilesAction;
@@ -72,7 +71,7 @@ private:
 private:
     // Members
 
-    Dealer         *dill;	// The current patience
+    PatienceView   *dill;
 
     KSelectAction  *games;
     KSelectAction  *wallpapers;

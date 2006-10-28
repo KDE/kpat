@@ -41,7 +41,7 @@ Gypsy::Gypsy( )
         store[i]->setReservedSpace( QSizeF( 10, 20 ) );
     }
 
-    Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
+    setActions(DealerScene::Hint | DealerScene::Demo);
 }
 
 void Gypsy::restart() {

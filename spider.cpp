@@ -104,7 +104,7 @@ Spider::Spider(int suits)
     // user should have no choice.  Also, it must be moved A first, ...
     // up to K so the King will be on top.
     setAutoDropEnabled(false);
-    Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo );
+    setActions(DealerScene::Hint | DealerScene::Demo );
 }
 
 void Spider::cardStoped(Card * t)

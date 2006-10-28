@@ -85,7 +85,7 @@ FreecellBase::FreecellBase( int decks, int stores, int freecells, int fill, bool
         // COOLO: I'm still not too sure about that t->setRemoveFlags(Pile::Default);
     }
 
-    Dealer::instance()->setActions(Dealer::Demo | Dealer::Hint);
+    setActions(DealerScene::Demo | DealerScene::Hint);
 }
 
 FreecellBase::~FreecellBase()

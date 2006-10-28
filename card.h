@@ -36,11 +36,9 @@
 
 // The following classes are defined in other headers:
 class cardPos;
-class Dealer;
 class Pile;
 class Card;
 class QGraphicsItemAnimation;
-class QGraphicsRectItem;
 
 // A list of cards.  Used in many places.
 typedef QList<Card*> CardList;

@@ -46,7 +46,7 @@ Clock::Clock( )
         store[i]->setObjectName( QString( "store%1" ).arg( i ) );
     }
 
-    Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
+    setActions(DealerScene::Hint | DealerScene::Demo);
 }
 
 void Clock::restart()

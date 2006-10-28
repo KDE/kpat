@@ -55,7 +55,7 @@ Computation::Computation( )
     pile->setPilePos(1, 1);
     pile->setObjectName( "pile" );
 
-    Dealer::instance()->setActions(Dealer::Demo | Dealer::Hint);
+    setActions(DealerScene::Demo | DealerScene::Hint);
 }
 
 void Computation::restart() {

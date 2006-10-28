@@ -239,8 +239,8 @@ void cardMap::setWantedCardWidth( double w )
 
     d->_wantedCardWidth = w;
     d->_scale = 0;
-    if (Dealer::instance()->dscene())
-        Dealer::instance()->dscene()->rescale(false);
+    if (PatienceView::instance()->dscene())
+        PatienceView::instance()->dscene()->rescale(false);
     triggerRescale();
 }
 
@@ -255,7 +255,7 @@ void cardMap::slotThreadFinished()
     KConfigGroup cs(config, settings_group );
     cs.writeEntry( "CardWith", d->_wantedCardWidth );
     config->sync();
-    Dealer::instance()->dscene()->rescale(false);
+    PatienceView::instance()->dscene()->rescale(false);
 }
 
 void cardMap::slotThreadEnded()

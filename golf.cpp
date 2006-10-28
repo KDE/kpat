@@ -55,7 +55,7 @@ Golf::Golf( )
         stack[r]->setObjectName( QString( "stack%1" ).arg( r ) );
     }
 
-    Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
+    setActions(DealerScene::Hint | DealerScene::Demo);
 }
 
 //-------------------------------------------------------------------------//

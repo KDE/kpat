@@ -51,7 +51,7 @@ Idiot::Idiot( )
     m_away->setPilePos( 20 + distx * 4, 1);
     m_away->setObjectName( "away" );
 
-    Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
+    setActions(DealerScene::Hint | DealerScene::Demo);
 }
 
 

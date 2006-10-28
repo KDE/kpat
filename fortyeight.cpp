@@ -62,7 +62,7 @@ Fortyeight::Fortyeight( )
         stack[i]->setReservedSpace( QSizeF( 10, 40 ) );
     }
 
-    Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
+    setActions(DealerScene::Hint | DealerScene::Demo);
 }
 
 //-------------------------------------------------------------------------//

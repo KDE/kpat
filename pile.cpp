@@ -23,7 +23,7 @@
 #include <QSvgRenderer>
 #include <math.h>
 
-const int Pile::my_type       = Dealer::PileTypeId;
+const int Pile::my_type       = DealerScene::PileTypeId;
 
 const int Pile::Default       = 0x0000;
 const int Pile::disallow      = 0x0001;
@@ -425,7 +425,7 @@ void Pile::add( Card* _card, bool _facedown )
         qreal disty = y2 - _card->y();
         qreal dist = sqrt( distx * distx + disty * disty );
         qreal whole = sqrt( scene()->width() * scene()->width() + scene()->height() * scene()->height() );
-        _card->moveTo(x2, y2, z2, qRound( dist * 700 / whole ) );
+        _card->moveTo(x2, y2, z2, qRound( dist * 1000 / whole ) );
     }
 }
 

@@ -64,7 +64,7 @@ Napoleon::Napoleon( )
     target[3]->setPilePos( centre_x - 10 - dist_target, centre_y + 10 + dist_target);
     centre->setPilePos(centre_x, centre_y);
 
-    Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo);
+    setActions(DealerScene::Hint | DealerScene::Demo);
 }
 
 void Napoleon::restart() {
