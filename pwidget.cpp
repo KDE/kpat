@@ -193,8 +193,8 @@ pWidget::~pWidget()
 }
 
 void pWidget::undoMove() {
-    if( dill )
-        dill->undo();
+    if( dill && dill->dscene() )
+        dill->dscene()->undo();
 }
 
 void pWidget::helpGame()
@@ -309,7 +309,7 @@ void pWidget::newGameType()
             connect(dill, SIGNAL(saveGame()), SLOT(saveGame()));
             connect(dill->dscene(), SIGNAL(gameInfo(const QString&)),
                     SLOT(slotGameInfo(const QString &)));
-            connect(dill, SIGNAL(updateMoves()),
+            connect(dill->dscene(), SIGNAL(updateMoves()),
                     SLOT(slotUpdateMoves()));
             dill->dscene()->setGameId(id);
             break;
@@ -353,7 +353,7 @@ void pWidget::slotGameInfo(const QString &text)
 void pWidget::slotUpdateMoves()
 {
     int moves = 0;
-    if ( dill ) moves = dill->getMoves();
+    if ( dill && dill->dscene() ) moves = dill->dscene()->getMoves();
     statusBar()->changeItem( i18np("1 move", "%n moves", moves), 1 );
 }
 
@@ -420,7 +420,7 @@ void pWidget::openGame(const KUrl &url)
            games->setCurrentItem(0);
            newGameType();
         }
-        dill->openGame(doc);
+        dill->dscene()->openGame(doc);
         setGameCaption();
         KIO::NetAccess::removeTempFile( tmpFile );
         recent->addUrl(url);
@@ -441,7 +441,7 @@ void pWidget::saveGame()
     KTemporaryFile file;
     file.open();
     QDomDocument doc("kpat");
-    dill->saveGame(doc);
+    dill->dscene()->saveGame(doc);
     QTextStream stream (&file);
     stream << doc.toString();
     stream.flush();

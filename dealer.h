@@ -98,6 +98,9 @@ public:
 
     bool isMoving(Card *c) const;
 
+    void saveGame(QDomDocument &doc);
+    void openGame(QDomDocument &doc);
+
     virtual void getHints();
     void newHint(MoveHint *mh);
     void clearHints();
@@ -110,7 +113,7 @@ public:
     void setGameNumber(long gmn);
     long gameNumber() const;
 
-    bool waiting() const { return _waiting != 0; }
+    int waiting() const { return _waiting; }
     void setWaiting(bool w);
 
     void setBackgroundPixmap(const QPixmap &background, const QColor &midcolor);
@@ -144,6 +147,7 @@ public:
 
     void won();
     bool demoActive() const;
+    int getMoves() const { return undoList.count(); }
 
 public slots:
     virtual bool startAutoDrop();
@@ -154,6 +158,8 @@ public slots:
     void setState(State *);
     void relayoutPiles();
     void slotShowGame(bool);
+    void takeState();
+    void undo();
 
 protected slots:
     virtual void demo();
@@ -163,10 +169,15 @@ protected slots:
 
 signals:
     void undoPossible(bool poss);
+    void hintPossible(bool poss);
+    void demoPossible(bool poss);
+    void redealPossible(bool poss);
+
     void enableRedeal(bool enable);
     void gameInfo(const QString &info);
     void gameWon(bool withhelp);
     void demoActive(bool en);
+    void updateMoves();
 
 private slots:
     void waitForAutoDrop(Card *);
@@ -182,6 +193,7 @@ protected:
 
 private:
     QList<QGraphicsItem *> marked;
+    QList<State*> undoList;
 
     bool moved;
     CardList movingCards;
@@ -200,6 +212,7 @@ private:
     bool _gameRecorded;
     QGraphicsItem *wonItem;
     bool gothelp;
+    bool toldAboutLostGame;
 };
 
 
@@ -227,13 +240,8 @@ public:
 
     virtual void setupActions();
 
-    void saveGame(QDomDocument &doc);
-    void openGame(QDomDocument &doc);
-
     QString anchorName() const;
     void setAnchorName(const QString &name);
-
-    int getMoves() const { return undoList.count(); }
 
     void setAutoDropEnabled(bool a);
 
@@ -248,8 +256,6 @@ public:
     void setActions(int actions) { myActions = actions; }
     int actions() const { return myActions; }
 
-    virtual void takeState();
-
     bool wasShown() const { return m_shown; }
     void setWasShown(bool b) { m_shown = b; }
 
@@ -257,16 +263,13 @@ public slots:
 
     // restart is pure virtual, so we need something else
     virtual void startNew();
-    void undo();
     void hint();
-    void slotTakeState(Card *c);
     void slotEnableRedeal(bool);
 
 signals:
     void undoPossible(bool poss);
     void gameLost();
     void saveGame(); // emergency
-    void updateMoves();
 
 public slots:
 
@@ -282,13 +285,10 @@ protected:
     Dealer( Dealer& );  // don't allow copies or assignments
     void operator = ( Dealer& );  // don't allow copies or assignments
 
-
     QSize minsize;
     QSize viewsize;
-    QList<State*> undoList;
 
     int myActions;
-    bool toldAboutLostGame;
 
     KToggleAction *ademo;
     KAction *ahint, *aredeal;

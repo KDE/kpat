@@ -150,10 +150,11 @@ void Pile::rescale()
 {
     QPointF new_pos = QPointF( _pilePos.x() * cardMap::self()->wantedCardWidth() / 10.,
                                _pilePos.y() * cardMap::self()->wantedCardHeight() / 10. );
+    //kDebug() << scene()->sceneRect() << " " << new_pos << endl;
     if ( new_pos.x() < 0 )
-        new_pos.setX( Dealer::instance()->viewport()->width() - cardMap::self()->wantedCardWidth() + new_pos.x() );
+        new_pos.setX( scene()->width() - cardMap::self()->wantedCardWidth() + new_pos.x() );
     if ( new_pos.y() < 0 )
-        new_pos.setY( Dealer::instance()->viewport()->height() - cardMap::self()->wantedCardHeight() + new_pos.y() );
+        new_pos.setY( scene()->height() - cardMap::self()->wantedCardHeight() + new_pos.y() );
 
     setPos( new_pos );
     m_relayoutTimer->start( 40 );
@@ -420,10 +421,11 @@ void Pile::add( Card* _card, bool _facedown )
             _card->setPos(QPointF( x2, -cardMap::self()->wantedCardHeight() - 2) );
         }
         _card->setZValue( z2 );
-        qreal distx = ( x2 - _card->x() ) / cardMap::self()->wantedCardWidth() * 10;
-        qreal disty = ( y2 - _card->y() ) / cardMap::self()->wantedCardHeight() * 10;
+        qreal distx = x2 - _card->x();
+        qreal disty = y2 - _card->y();
         qreal dist = sqrt( distx * distx + disty * disty );
-        _card->moveTo(x2, y2, z2, qRound( dist * 30) );
+        qreal whole = sqrt( scene()->width() * scene()->width() + scene()->height() * scene()->height() );
+        _card->moveTo(x2, y2, z2, qRound( dist * 700 / whole ) );
     }
 }
 

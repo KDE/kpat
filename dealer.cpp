@@ -190,8 +190,12 @@ void Dealer::setScene( QGraphicsScene *_scene )
         dscene()->relayoutPiles();
 
     setupActions();
-    if ( ademo )
-        connect( dscene(), SIGNAL( demoActive( bool ) ), ademo, SLOT( setEnabled( bool ) ) );
+    if ( ademo ) {
+        connect( dscene(), SIGNAL( demoActive( bool ) ), ademo, SLOT( setChecked( bool ) ) );
+        connect( dscene(), SIGNAL( demoPossible( bool ) ), ademo, SLOT( setEnabled( bool ) ) );
+    }
+    if ( ahint )
+        connect( dscene(), SIGNAL( hintPossible( bool ) ), ahint, SLOT( setEnabled( bool ) ) );
 }
 
 Dealer *Dealer::instance()
@@ -258,51 +262,7 @@ void Dealer::startNew()
         ademo->setEnabled( true );
     if ( aredeal )
         aredeal->setEnabled( true );
-    toldAboutLostGame = false;
     dscene()->startNew();
-
-    kDebug(11111) << "startNew stopDemo\n";
-    dscene()->stopDemo();
-    kDebug(11111) << "startNew unmarkAll\n";
-    dscene()->unmarkAll();
-    kDebug(11111) << "startNew setAnimated(false)\n";
-    QList<QGraphicsItem *> list = scene()->items();
-    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it) {
-        if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId )
-        {
-            Card *c = static_cast<Card*>(*it);
-            c->disconnect();
-            c->stopAnimation();
-        }
-    }
-
-    qDeleteAll(undoList);
-    undoList.clear();
-    emit undoPossible(false);
-    emit updateMoves();
-    kDebug(11111) << "startNew restart\n";
-    dscene()->restart();
-    takeState();
-    Card *towait = 0;
-    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it) {
-        if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId ) {
-            towait = static_cast<Card*>(*it);
-            if (towait->animated())
-                break;
-        }
-    }
-
-    kDebug(11111) << "startNew takeState\n";
-    if (!towait)
-        takeState();
-    else
-        connect(towait, SIGNAL(stoped(Card*)), SLOT(slotTakeState(Card *)));
-}
-
-void Dealer::slotTakeState(Card *c) {
-    if (c)
-        c->disconnect();
-    takeState();
 }
 
 void Dealer::slotEnableRedeal( bool en )
@@ -312,11 +272,23 @@ void Dealer::slotEnableRedeal( bool en )
 }
 
 
-void Dealer::takeState()
+void DealerScene::takeState()
 {
-//    kDebug(11111) << "takeState " << endl;
+    // kDebug(11111) << "takeState " << waiting() << endl;
 
-    State *n = dscene()->getState();
+    QList<QGraphicsItem *> list = items();
+    for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
+    {
+        if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId ) {
+            Card *c = static_cast<Card*>(*it);
+            if (c->animated()) {
+                QTimer::singleShot(100, this, SLOT(takeState()));
+                return;
+            }
+        }
+    }
+
+    State *n = getState();
 
     if (!undoList.count()) {
         emit updateMoves();
@@ -334,35 +306,32 @@ void Dealer::takeState()
     }
 
     if (n) {
-        if (dscene()->isGameWon()) {
-            dscene()->won();
+        if (isGameWon()) {
+            won();
             return;
         }
-        else if ( dscene()->isGameLost() && !toldAboutLostGame) {
-            if ( ahint )
-                ahint->setEnabled( false );
-            if ( ademo )
-                ademo->setEnabled( false );
-            if ( aredeal )
-                aredeal->setEnabled( false );
+        else if ( isGameLost() && !toldAboutLostGame) {
+            emit hintPossible( false );
+            emit demoPossible( false );
+            emit redealPossible( false );
             QTimer::singleShot(400, this, SIGNAL(gameLost()));
             toldAboutLostGame = true;
             return;
         }
     }
-    if (!dscene()->demoActive() && !dscene()->waiting())
-        QTimer::singleShot(TIME_BETWEEN_MOVES, dscene(), SLOT(startAutoDrop()));
+    if (!demoActive() && !waiting())
+        QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
 
-    emit undoPossible(undoList.count() > 1 && !dscene()->waiting());
+    emit undoPossible(undoList.count() > 1 && !waiting());
 }
 
-void Dealer::saveGame(QDomDocument &doc)
+void DealerScene::saveGame(QDomDocument &doc)
 {
     QDomElement dealer = doc.createElement("dealer");
     doc.appendChild(dealer);
-    dealer.setAttribute("id", dscene()->gameId());
-    dealer.setAttribute("number", QString::number(dscene()->gameNumber()));
-    QString data = dscene()->getGameState();
+    dealer.setAttribute("id", gameId());
+    dealer.setAttribute("number", QString::number(gameNumber()));
+    QString data = getGameState();
     if (!data.isEmpty())
         dealer.setAttribute("data", data);
     dealer.setAttribute("moves", QString::number(getMoves()));
@@ -370,7 +339,7 @@ void Dealer::saveGame(QDomDocument &doc)
     bool taken[1000];
     memset(taken, 0, sizeof(taken));
 
-    QList<QGraphicsItem *> list = scene()->items();
+    QList<QGraphicsItem *> list = items();
     for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
     {
         if ((*it)->type() == QGraphicsItem::UserType + Dealer::PileTypeId ) {
@@ -429,21 +398,16 @@ void Dealer::saveGame(QDomDocument &doc)
     // kDebug(11111) << doc.toString() << endl;
 }
 
-void Dealer::openGame(QDomDocument &doc)
+void DealerScene::openGame(QDomDocument &doc)
 {
-    if (!dscene())
-        return;
-
-    dscene()->unmarkAll();
+    unmarkAll();
     QDomElement dealer = doc.documentElement();
 
-    dscene()->setGameNumber(dealer.attribute("number").toULong());
-    qDeleteAll(undoList);
-    undoList.clear();
+    setGameNumber(dealer.attribute("number").toULong());
 
     QDomNodeList piles = dealer.elementsByTagName("pile");
 
-    QList<QGraphicsItem *> list = scene()->items();
+    QList<QGraphicsItem *> list = items();
 
     CardList cards;
     for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
@@ -488,10 +452,10 @@ void Dealer::openGame(QDomDocument &doc)
             }
         }
     }
-    dscene()->setGameState( dealer.attribute("data") );
+    setGameState( dealer.attribute("data") );
 
     if (undoList.count() > 1) {
-        dscene()->setState(undoList.takeLast());
+        setState(undoList.takeLast());
         takeState(); // copying it again
         emit undoPossible(undoList.count() > 1);
     }
@@ -500,23 +464,21 @@ void Dealer::openGame(QDomDocument &doc)
     takeState();
 }
 
-void Dealer::undo()
+void DealerScene::undo()
 {
-    dscene()->unmarkAll();
-    dscene()->stopDemo();
+    unmarkAll();
+    stopDemo();
     kDebug() << "::undo " << undoList.count() << endl;
     if (undoList.count() > 1) {
         delete undoList.last();
         undoList.removeLast(); // the current state
-        dscene()->setState(undoList.takeLast());
+        setState(undoList.takeLast());
         emit updateMoves();
         takeState(); // copying it again
         emit undoPossible(undoList.count() > 1);
         if ( toldAboutLostGame ) { // everything's possible again
-            if ( ahint )
-                ahint->setEnabled( true );
-            if ( ademo )
-                ademo->setEnabled( true );
+            hintPossible( true );
+            demoPossible( true );
             toldAboutLostGame = false;
         }
     }
@@ -616,7 +578,6 @@ DealerScene::~DealerScene()
 
 void DealerScene::hint()
 {
-    kDebug() << "hint\n";
     unmarkAll();
     clearHints();
     getHints();
@@ -847,10 +808,35 @@ void DealerScene::startNew()
     delete wonItem;
     wonItem = 0;
     gothelp = false;
+    qDeleteAll(undoList);
+    undoList.clear();
+    toldAboutLostGame = false;
+    emit updateMoves();
+
+    kDebug(11111) << "startNew stopDemo\n";
+    stopDemo();
+    kDebug(11111) << "startNew unmarkAll\n";
+    unmarkAll();
+    kDebug(11111) << "startNew setAnimated(false)\n";
+    QList<QGraphicsItem *> list = items();
+    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it) {
+        if ((*it)->type() == QGraphicsItem::UserType + Dealer::CardTypeId )
+        {
+            Card *c = static_cast<Card*>(*it);
+            c->disconnect();
+            c->stopAnimation();
+        }
+    }
+    emit undoPossible(false);
+    kDebug(11111) << "startNew restart\n";
+    restart();
+    takeState();
 }
 
 void DealerScene::slotShowGame(bool gothelp)
 {
+    kDebug() << "slotShowGame " << waiting() << endl;
+
     int wx = qRound( width() * 0.7 );
     int wy = qRound( height() * 0.6 );
 
@@ -891,6 +877,9 @@ void DealerScene::slotShowGame(bool gothelp)
     wonItem->setPos( QPointF( ( width() - wonItem->sceneBoundingRect().width() ) / 2,
                               ( height() - wonItem->sceneBoundingRect().height() ) / 2 ) );
 
+    emit demoPossible( false );
+    emit hintPossible( false );
+    // emit undoPossible(false); // technically it's possible but cheating :)
 }
 
 void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
@@ -913,7 +902,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
                 if ( cardClicked(c) ) {
                     countGame();
                 }
-                Dealer::instance()->takeState();
+                takeState();
             }
             return;
         }
@@ -921,7 +910,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
             Pile *c = dynamic_cast<Pile*>(*it);
             assert(c);
             pileClicked(c);
-            Dealer::instance()->takeState();
+            takeState();
             return;
         }
     }
@@ -1008,7 +997,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
         }
         countGame();
         c->source()->moveCards(movingCards, (*best).source);
-        Dealer::instance()->takeState();
+        takeState();
     }
     movingCards.clear();
 }
@@ -1039,7 +1028,7 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
     if ( cardDblClicked(c) ) {
         countGame();
     }
-    Dealer::instance()->takeState();
+    takeState();
 }
 
 bool DealerScene::cardClicked(Card *c) {
@@ -1234,14 +1223,17 @@ void DealerScene::waitForAutoDrop(Card * c) {
     setWaiting(false);
     c->disconnect();
     c->stopAnimation(); // should be a no-op
-    Dealer::instance()->takeState();
+    takeState();
 }
 
-void DealerScene::waitForWonAnim(Card *c) {
+void DealerScene::waitForWonAnim(Card *c)
+{
+    //kDebug() << "waitForWonAnim " << c->name() << " " << waiting() << endl;
     if ( !waiting() )
         return;
 
     c->setVisible( false ); // hide it
+    c->disconnect( this, SLOT( waitForWonAnim( Card* ) ) );
 
     setWaiting(false);
 
@@ -1271,6 +1263,8 @@ void DealerScene::setGameNumber(long gmn)
 {
     // Deal in the range of 1 to INT_MAX.
     gamenumber = ((gmn < 1) ? 1 : ((gmn > 0x7FFFFFFF) ? 0x7FFFFFFF : gmn));
+    qDeleteAll(undoList);
+    undoList.clear();
 }
 
 void DealerScene::addPile(Pile *p)
@@ -1331,6 +1325,7 @@ bool operator <(const CardPtr &p1, const CardPtr &p2)
 
 void DealerScene::won()
 {
+    kDebug() << "won " << waiting() << endl;
     if (_won)
         return;
     _won = true;
@@ -1476,7 +1471,7 @@ void DealerScene::demo()
             stopDemo();
     }
 
-    Dealer::instance()->takeState();
+    takeState();
 }
 
 Card *DealerScene::demoNewCards()
@@ -1500,7 +1495,7 @@ void DealerScene::waitForDemo(Card *t)
         return;
     /* if (towait != t)
        return; */
-    t->disconnect();
+    t->disconnect(this, SLOT( waitForDemo( Card* ) ) );
     towait = 0;
     setWaiting( false );
     if ( !waiting() )
@@ -1512,6 +1507,7 @@ void DealerScene::waitForDemo(Card *t)
 
 bool DealerScene::isGameWon() const
 {
+    kDebug() << "isGameWon\n";
     for (PileList::ConstIterator it = piles.begin(); it != piles.end(); ++it)
     {
         if (!(*it)->target() && !(*it)->isEmpty())
@@ -1580,7 +1576,7 @@ void DealerScene::relayoutPiles()
 
 void DealerScene::setSceneSize( const QSize &s )
 {
-//    kDebug() << "setSceneSize " << kBacktrace() << endl;
+    //kDebug() << "setSceneSize " << kBacktrace() << endl;
     setSceneRect( QRectF( 0, 0, s.width(), s.height() ) );
 
     QPointF defaultSceneRect = maxPilePos();
@@ -1604,7 +1600,7 @@ void DealerScene::setSceneSize( const QSize &s )
             p->rescale();
         QSizeF ms( cardMap::self()->wantedCardWidth(),
                    cardMap::self()->wantedCardHeight() );
-        // kDebug() << p->objectName() <<  " " << p->reservedSpace() << endl;
+        //kDebug() << p->objectName() <<  " " << p->reservedSpace() << " " << p->pos() << endl;
         if ( p->reservedSpace().width() > 10 )
             ms.setWidth( s.width() - p->x() );
         if ( p->reservedSpace().height() > 10 )
@@ -1613,10 +1609,9 @@ void DealerScene::setSceneSize( const QSize &s )
             ms.setWidth( p->x() );
         Q_ASSERT( p->reservedSpace().height() > 0 ); // no such case yet
 
-        //kDebug() << "setMaximalSpace " << ms << endl;
-        // kDebug() << ms << " " << cardMap::self()->wantedCardHeight() << endl;
-        Q_ASSERT( ms.width() >= cardMap::self()->wantedCardWidth() - 0.1 );
-        Q_ASSERT( ms.height() >= cardMap::self()->wantedCardHeight() - 0.1 );
+        // kDebug() << "setMaximalSpace " << ms << " " << cardMap::self()->wantedCardHeight() << " " << cardMap::self()->wantedCardWidth() << endl;
+        Q_ASSERT( ms.width() >= cardMap::self()->wantedCardWidth() - 0.2 );
+        Q_ASSERT( ms.height() >= cardMap::self()->wantedCardHeight() - 0.2 );
 
         p->setMaximalSpace( ms );
     }
@@ -1701,6 +1696,7 @@ void DealerScene::setSceneSize( const QSize &s )
                 ( *it2 )->setMaximalSpace( pms );
             }
         }
+        //kDebug() << myRect << " " << cardMap::self()->wantedCardHeight() << endl;
         Q_ASSERT( myRect.width() >= cardMap::self()->wantedCardWidth() - 0.1 );
         Q_ASSERT( myRect.height() >= cardMap::self()->wantedCardHeight() - 0.1 );
 

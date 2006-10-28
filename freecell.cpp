@@ -692,7 +692,7 @@ void FreecellBase::startMoving()
         if (DealerScene::demoActive() && towait) {
             DealerScene::waitForDemo(towait);
         }
-        Dealer::instance()->takeState();
+        takeState();
         return;
     }
 

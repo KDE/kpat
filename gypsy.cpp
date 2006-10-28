@@ -58,7 +58,7 @@ void Gypsy::deal() {
     dealRow(false);
     dealRow(false);
     dealRow(true);
-    Dealer::instance()->takeState();
+    takeState();
 }
 
 Card *Gypsy::demoNewCards()

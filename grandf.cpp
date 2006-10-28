@@ -73,7 +73,7 @@ void Grandf::redeal()
     if (numberOfDeals == 3) {
         emit enableRedeal(false);
     }
-    Dealer::instance()->takeState();
+    takeState();
 }
 
 Card *Grandf::demoNewCards()

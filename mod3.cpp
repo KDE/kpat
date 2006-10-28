@@ -253,7 +253,7 @@ void Mod3::deckClicked(Card*)
 
     unmarkAll();
     dealRow(3);
-    Dealer::instance()->takeState();
+    takeState();
 }
 
 

@@ -107,13 +107,15 @@ Spider::Spider(int suits)
     Dealer::instance()->setActions(Dealer::Hint | Dealer::Demo );
 }
 
-void Spider::cardStoped(Card *)
+void Spider::cardStoped(Card * t)
 {
     for( int column = 0; column < 10; column++ ) {
         Card *t = stack[column]->top();
         if (t && !t->isFaceUp())
            t->flipTo(t->x(), t->y());
     }
+    t->disconnect(this, SLOT( cardStoped( Card* ) ) );
+    setWaiting( false );
 }
 
 //-------------------------------------------------------------------------//
@@ -334,16 +336,18 @@ void Spider::checkPileDeck(Pile *check)
             legs[m_leg]->setVisible(true);
 
             CardList::iterator it = run.end();
-            qreal z = legs[m_leg]->zValue() + 1;
+            qreal z = 1;
+            kDebug() << "z " << z << endl;
             while (it != run.begin()) {
                 --it;
                 kDebug() << "moving " << ( *it )->name() << endl;
                 legs[m_leg]->add( *it );
                 // ( *it )->setSpread( QSize( 0, 0 ) );
-                ( *it )->moveTo( legs[m_leg]->x(), legs[m_leg]->y(), z, 300 + int( z ) * 30 );
+                ( *it )->moveTo( legs[m_leg]->x(), legs[m_leg]->y(), legs[m_leg]->zValue() + z, 300 + int( z ) * 30 );
                 z += 1;
             }
             connect( run.first(), SIGNAL(stoped(Card*)), SLOT(cardStoped(Card*)));
+            setWaiting( true );
 
             m_leg++;
         }
@@ -415,7 +419,7 @@ void Spider::deckClicked(Card*)
 
     unmarkAll();
     dealRow();
-    Dealer::instance()->takeState();
+    takeState();
 }
 
 bool Spider::isGameLost() const
