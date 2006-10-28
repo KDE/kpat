@@ -69,7 +69,7 @@ Klondike::Klondike( bool easy )
         play[i]->setAddType(Pile::KlondikeStore);
         play[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop | Pile::wholeColumn);
         play[i]->setObjectName( QString( "play%1" ).arg( i ) );
-        play[i]->setReservedSpace( QSizeF( 10, 23 ) );
+        play[i]->setReservedSpace( QSizeF( 10, 10 + play[i]->spread() * 7 ) );
     }
 
     for( int i = 0; i < 4; i++ ) {
@@ -265,7 +265,7 @@ void Klondike::deal3()
             item->setSpread( QSizeF( pile->spread() * 0.6, 0 ) );
         item->stopAnimation();
         // move back to flip
-        item->setPos(Deck::deck()->x(), Deck::deck()->y());
+        item->setPos( Deck::deck()->pos() );
 
         item->flipTo( pile->x() + 0.125 * flipped * cardMap::self()->wantedCardWidth(), pile->y(), 300 + 110 * ( flipped + 1 ) );
     }

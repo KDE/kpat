@@ -96,7 +96,6 @@ public:
     virtual int  type() const       { return UserType + my_type; }
 
     virtual void setVisible(bool vis);
-    virtual void moveBy(double dx, double dy);
 
     int cardsLeft() const { return m_cards.count(); }
 

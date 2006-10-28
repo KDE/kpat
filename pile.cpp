@@ -60,6 +60,7 @@ Pile::Pile( int _index, DealerScene* parent)
     setZValue(0);
     setSpread( 3.3 );
     setReservedSpace( QSizeF( 10, 10 ) );
+    setShapeMode( QGraphicsPixmapItem::BoundingRectShape );
     setMaximalSpace( QSizeF( 1, 1 ) ); // just to make it valid
     m_relayoutTimer = new QTimer( this );
     m_relayoutTimer->setSingleShot( true );
@@ -252,16 +253,6 @@ void Pile::setVisible(bool vis)
     dscene()->relayoutPiles();
 }
 
-void Pile::moveBy(double dx, double dy)
-{
-    QGraphicsItem::moveBy(dx, dy);
-
-    for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
-    {
-        (*it)->moveBy(dx, dy);
-    }
-}
-
 int Pile::indexOf(const Card *c) const
 {
     assert(c->source() == this);
@@ -302,7 +293,7 @@ void Pile::relayoutCards()
     QPointF mypos = pos();
     qreal z = zValue() + 1;
     QSizeF preferredSize = QSizeF( 0, 0 );
- 
+
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
         // the spreads should hopefully have all one sign, or we get in trouble
@@ -421,12 +412,12 @@ void Pile::add( Card* _card, bool _facedown )
     if ( source == Deck::deck() ) // ignore then
         face = false;
     if (face || !isVisible()) {
-        _card->setPos( x2, y2 );
+        _card->setPos( QPointF( x2, y2 ) );
         _card->setZValue( z2 );
     } else {
         if ( source == Deck::deck() && source && !source->isVisible() )
         {
-            _card->setPos(x2, -cardMap::self()->wantedCardHeight() - 2);
+            _card->setPos(QPointF( x2, -cardMap::self()->wantedCardHeight() - 2) );
         }
         _card->setZValue( z2 );
         qreal distx = ( x2 - _card->x() ) / cardMap::self()->wantedCardWidth() * 10;

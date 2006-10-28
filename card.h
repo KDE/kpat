@@ -40,6 +40,7 @@ class Dealer;
 class Pile;
 class Card;
 class QGraphicsItemAnimation;
+class QGraphicsRectItem;
 
 // A list of cards.  Used in many places.
 typedef QList<Card*> CardList;
@@ -110,6 +111,8 @@ public:
     void  setSpread(const QSizeF& spread);
 
     bool isHovered() const  { return m_hovered; }
+    // overload to move shadow
+    void setPos(const QPointF &pos);
 
 signals:
     void         stoped(Card *c);
@@ -152,12 +155,17 @@ private:
 
     static const int my_type;
     QGraphicsItemAnimation *animation;
+    QGraphicsPixmapItem *m_shadow;
 
     QPointF   m_originalPosition;
     QTimer   *m_hoverTimer;
     bool      m_hovered;
     bool      m_highlighted;
     bool      m_moving;
+
+    // do not use
+    void setPos( qreal, qreal );
+    void moveBy( qreal, qreal );
 };
 
 

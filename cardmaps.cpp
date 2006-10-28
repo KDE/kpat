@@ -66,27 +66,7 @@ class cardMapPrivate;
 class cardMapThread : public QThread
 {
 public:
-    QImage renderCard( const QString &element)
-    {
-        QImage img = QImage( ( int )cardMap::self()->wantedCardWidth(), ( int )(cardMap::self()->wantedCardHeight() + 1), QImage::Format_ARGB32 );
-        img.fill( qRgba( 0, 0, 255, 0 ) );
-        QPainter p( &img );
-        m_renderer_mutex.lock();
-        renderer()->render( &p, element );
-        m_renderer_mutex.unlock();
-        p.end();
-        QString filename = KStandardDirs::locateLocal( "data", "carddecks/svg-nicu-white/83/" + element + ".png");
-        QFile m( filename );
-        if ( m.open(  QIODevice::WriteOnly ) )
-        {
-            bool ret = img.save( &m, "PNG" );
-            m.close();
-            if ( !ret )
-               m.remove();
-        }
-
-        return img;
-    }
+    QImage renderCard( const QString &element);
     virtual void run();
 
     cardMapThread( cardMapPrivate *_cmp);
@@ -120,11 +100,33 @@ public:
     QString m_cardDeck;
 };
 
+QImage cardMapThread::renderCard( const QString &element)
+{
+    QImage img = QImage( ( int )cardMap::self()->wantedCardWidth(), ( int )(cardMap::self()->wantedCardHeight() + 1), QImage::Format_ARGB32 );
+    img.fill( qRgba( 0, 0, 255, 0 ) );
+    QPainter p( &img );
+    m_renderer_mutex.lock();
+    renderer()->render( &p, element );
+    m_renderer_mutex.unlock();
+    p.end();
+    QString filename = KStandardDirs::locateLocal( "data", QString( "carddecks/%1/%2/" ).arg( d->m_cacheDir ).arg( ( int )cardMap::self()->wantedCardWidth() ) + element + ".png");
+    QFile m( filename );
+    if ( m.open(  QIODevice::WriteOnly ) )
+    {
+        bool ret = img.save( &m, "PNG" );
+        m.close();
+        if ( !ret )
+            m.remove();
+    }
+
+    return img;
+}
+
 QSvgRenderer *cardMapThread::renderer()
 {
     if ( m_renderer )
         return m_renderer;
-    kDebug() << "new renderer\n";
+    kDebug() << "new renderer " << kBacktrace() << endl;
     m_renderer = new KSvgRenderer( d->m_cardDeck );
     return m_renderer;
 }
@@ -165,21 +167,29 @@ cardMap::cardMap() : QObject()
     kDebug(11111) << "cardMap\n";
 
     d->m_cardDeck = KStandardDirs::locate("data", "carddecks/svg-nicu-white/index.desktop");
-    // d->m_cardDeck = pickRandom();
+    d->m_cardDeck = pickRandom();
 
     KSimpleConfig fi(d->m_cardDeck, true);
     fi.setGroup("KDE Backdeck");
-    d->m_backSize = fi.readEntry("BackSize", QSizeF( ));
-    if ( !d->m_backSize.isValid() )
-        d->m_backSize = d->m_thread->renderer()->boundsOnElement( "back" ).size();
-    kDebug() << "back " << d->m_backSize << endl;
-    d->m_cardDeck = QFileInfo(d->m_cardDeck).dir().absoluteFilePath(fi.readEntry( "SVG" ));
 
-    d->m_cacheDir = KGlobal::dirs()->findResourceDir( "data", "carddecks/svg-nicu-white/83/" );
-    kDebug() << "cacheDir " << d->m_cacheDir << endl;
+    QString cache = d->m_cardDeck;
+    cache = KStandardDirs::realFilePath( cache );
+    cache = cache.left( cache.length() - strlen( "/index.desktop" ) );
+    cache = cache.mid( cache.findRev( '/' ) + 1 );
+    d->m_cacheDir = cache;
+
+    d->_scale = 0;
+    d->m_cardDeck = QFileInfo(d->m_cardDeck).dir().absoluteFilePath(fi.readEntry( "SVG" ));
+    d->m_backSize = fi.readEntry("BackSize", QSizeF() );
+    if ( d->m_backSize.isNull() || !d->m_backSize.isValid() )
+    {
+        d->m_backSize = d->m_thread->renderer()->boundsOnElement( "back" ).size();
+        kDebug() << d->m_cardDeck << " " << d->m_backSize << endl;
+    }
+    Q_ASSERT( !d->m_backSize.isNull() );
+
     cms.setObject(_self, this);
 
-//    kDebug(11111) << "card " << CARDX << " " << CARDY << endl;
 }
 
 cardMap::~cardMap()
@@ -272,7 +282,7 @@ QPixmap cardMap::renderCard( const QString &element )
 
     if ( img.isNull() )
     {
-        QString filename = KStandardDirs::locate( "data", "carddecks/svg-nicu-white/83/" + element + ".png");
+        QString filename = KStandardDirs::locate( "data", QString( "carddecks/%1/%2/" ).arg( d->m_cacheDir ).arg( ( int )cardMap::self()->wantedCardWidth() ) + element + ".png");
         if ( !filename.isEmpty() )
             img = QImage( filename );
         if ( img.isNull() ) {

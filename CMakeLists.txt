@@ -42,12 +42,12 @@ set(kpat_SRCS ${libfcs_SRCS}
    deck.cpp 
    pile_algorithms.cpp
    gamestatsimpl.cpp
+   klondike.cpp
    freecell.cpp
 )
 
 if (RELEASE)
 set(kpat_SRCS ${kpat_SRCS}
-   klondike.cpp
    mod3.cpp
    simon.cpp
    grandf.cpp

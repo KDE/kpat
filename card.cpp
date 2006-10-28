@@ -75,6 +75,11 @@ Card::Card( Rank r, Suit s, QGraphicsScene *_parent )
     //m_hoverTimer->setInterval(50);
     connect(m_hoverTimer, SIGNAL(timeout()),
             this, SLOT(zoomInAnimation()));
+
+#if 0
+    m_shadow = new QGraphicsPixmapItem();
+    scene()->addItem( m_shadow );
+#endif
 }
 
 Card::~Card()
@@ -94,7 +99,22 @@ void Card::setPixmap()
 {
     if ( name() == "club 1" && false )
         kDebug() << this << " Card::setPixmap " << m_elementId << " " << cardMap::self()->wantedCardWidth() << " " << kBacktrace() << endl;
+
     QGraphicsPixmapItem::setPixmap( cardMap::self()->renderCard( m_elementId ) );
+    return;
+
+    QImage img = pixmap().toImage().mirrored( false, true );
+    QImage acha( img.size(), QImage::Format_RGB32 );
+    acha.fill( Qt::white );
+    QPainter p( &acha );
+    QLinearGradient linearGrad(QPointF(0, 0), QPointF(0, 200));
+    linearGrad.setColorAt(0.6, Qt::black);
+    linearGrad.setColorAt( 1, Qt::black);
+    linearGrad.setColorAt(0, Qt::white);
+    p.fillRect( QRect( QPoint( 0,0 ), img.size() ), linearGrad );
+    p.end();
+    img.setAlphaChannel( acha );
+    m_shadow->setPixmap( QPixmap::fromImage( img ) );
 }
 
 // Turn the card if necessary.  If the face gets turned up, the card
@@ -166,32 +186,6 @@ bool Card::realFace() const
     return m_destFace;
 }
 
-
-/// the following copyright is for the flipping code
-/**********************************************************************
-** Copyright (C) 2000 Trolltech AS.  All rights reserved.
-**
-** This file is part of Qt Palmtop Environment.
-**
-** This file may be distributed and/or modified under the terms of the
-** GNU General Public License version 2 as published by the Free Software
-** Foundation and appearing in the file LICENSE.GPL included in the
-** packaging of this file.
-**
-** This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE
-** WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-**
-** See http://www.trolltech.com/gpl/ for GPL licensing information.
-**
-** Contact info@trolltech.com if any conditions of this licensing are
-** not clear to you.
-**
-**********************************************************************/
-
-
-// Used to create an illusion of the card being lifted while flipped.
-static const double flipLift = 1.2;
-
 // The current maximum Z value.  This is used so that new cards always
 // get placed on top of the old ones and don't get placed in the
 // middle of a destination pile.
@@ -213,7 +207,7 @@ void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
 {
     if ( fabs( x2 - x() ) < 2 && fabs( y2 - y() ) < 1 )
     {
-        setPos( x2, y2 );
+        setPos( QPointF( x2, y2 ) );
         setZValue( z2 );
         return;
     }
@@ -336,7 +330,7 @@ void Card::stopAnimation()
     if ( old_animation->timeLine()->state() == QTimeLine::Running )
         old_animation->timeLine()->setCurrentTime(old_animation->timeLine()->duration() + 1);
     old_animation->timeLine()->stop();
-    setPos( m_destX, m_destY );
+    setPos( QPointF( m_destX, m_destY ) );
     setZValue( m_destZ );
     if ( source() )
         setSpread( source()->cardOffset(this) );
@@ -536,6 +530,17 @@ void Card::setSpread(const QSizeF& spread)
     if (m_spread != spread)
         source()->tryRelayoutCards();
     m_spread = spread;
+}
+
+void Card::setPos( const QPointF &pos )
+{
+    QGraphicsPixmapItem::setPos( pos );
+#if 0
+    m_shadow->setZValue( -1 );
+    m_shadow->setPos( pos + QPointF( 0, pixmap().height() ) );
+    if ( source() )
+        m_shadow->setVisible( ( source()->top() == this ) && realFace() );
+#endif
 }
 
 #include "card.moc"

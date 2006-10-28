@@ -160,8 +160,8 @@ void Dealer::setScene( QGraphicsScene *_scene )
     // dscene()->setSceneRect( QRectF( 0,0,700,500 ) );
     scaleFactor = 1;
     dscene()->setItemIndexMethod(QGraphicsScene::NoIndex);
-    // connect( _scene, SIGNAL( gameWon( bool ) ), SLOT( gameWon( bool ) ) );
-    connect( dscene(), SIGNAL( undoPossible( bool ) ), SLOT( undoPossible( bool ) ) );
+    // connect( _scene, SIGNAL( gameWon( bool ) ), SIGNAL( gameWon( bool ) ) );
+    connect( dscene(), SIGNAL( undoPossible( bool ) ), SIGNAL( undoPossible( bool ) ) );
 
     if ( ademo )
         connect( dscene(), SIGNAL( demoActive( bool ) ), ademo, SLOT( setEnabled( bool ) ) );
@@ -336,8 +336,7 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
 
     for (CardList::Iterator it = movingCards.begin(); it != movingCards.end(); ++it)
     {
-        (*it)->moveBy(e->scenePos().x() - moving_start.x(),
-                      e->scenePos().y() - moving_start.y());
+        (*it)->setPos( ( *it )->pos() + e->scenePos() - moving_start );
     }
 
     PileList sources;
@@ -762,9 +761,9 @@ class CardState {
 public:
     Card *it;
     Pile *source;
-    double x;
-    double y;
-    double z;
+    qreal x;
+    qreal y;
+    qreal z;
     bool faceup;
     bool tookdown;
     int source_index;
@@ -857,7 +856,7 @@ void DealerScene::setState(State *st)
         bool target = c->takenDown(); // abused
         s.source->add(c, s.source_index);
         c->setVisible(s.source->isVisible());
-        c->setPos(s.x, s.y);
+        c->setPos(QPointF( s.x, s.y) );
         c->setZValue(int(s.z));
         c->setTakenDown(s.tookdown || (target && !s.source->target()));
         c->turn(s.faceup);
@@ -1150,7 +1149,7 @@ bool DealerScene::startAutoDrop()
             qreal y = t->y();
             t->source()->moveCards(cards, mh->pile());
             t->stopAnimation();
-            t->setPos(x, y);
+            t->setPos(QPointF( x, y) );
             //kDebug(11111) << "autodrop " << t->name() << endl;
             t->moveTo(t->source()->x(), t->source()->y(), t->zValue(), qRound( DURATION_AUTODROP * m_autoDropFactor ) );
             connect(t, SIGNAL(stoped(Card*)), SLOT(waitForAutoDrop(Card*)));
@@ -1399,7 +1398,7 @@ void DealerScene::demo()
             qreal x2 = t->realX();
             qreal y2 = t->realY();
             t->stopAnimation();
-            t->setPos(x1, y1);
+            t->setPos(QPointF( x1, y1) );
             t->moveTo(x2, y2, t->zValue(), DURATION_DEMO);
         }
 
@@ -1668,6 +1667,10 @@ void DealerScene::setSceneSize( const QSize &s )
         wonItem->setPos( QPointF( ( width() - wonItem->sceneBoundingRect().width() ) / 2,
                                   ( height() - wonItem->sceneBoundingRect().height() ) / 2 ) );
 
+    for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
+    {
+        ( *it )->relayoutCards();
+    }
 }
 
 void Dealer::resizeEvent( QResizeEvent *e )

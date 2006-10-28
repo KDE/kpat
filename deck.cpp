@@ -89,7 +89,7 @@ void Deck::makedeck()
             {
                 _deck[i] = new Card(static_cast<Card::Rank>(r),
                                     static_cast<Card::Suit>(Card::Spades - (s % suits)), dscene() );
-                _deck[i]->setPos(0, 0);
+                _deck[i]->setPos(QPointF( 0, 0) );
                 i++;
             }
         }
@@ -174,8 +174,8 @@ void Deck::addToDeck()
         _deck[i]->setTakenDown(false);
         add( _deck[i], true );
         if ( isVisible() )
-            _deck[i]->setPos( x(), y() );
+            _deck[i]->setPos( QPointF( x(), y() ) );
         else
-            _deck[i]->setPos( 2000, 2000 );
+            _deck[i]->setPos( QPointF( 2000, 2000 ) );
     }
 }
