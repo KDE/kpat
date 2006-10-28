@@ -37,6 +37,7 @@ set(kpat_SRCS ${libfcs_SRCS}
    cardmaps.cpp 
    card.cpp 
    dealer.cpp 
+   view.cpp
    pwidget.cpp 
    pile.cpp 
    deck.cpp 
