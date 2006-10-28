@@ -121,7 +121,7 @@ void Napoleon::deal1(Card *) {
         return;
     pile->add(c, true);
     c->stopAnimation();
-    c->setPos( QPointF( Deck::deck()->x(), Deck::deck()->y() ) );
+    c->setPos( Deck::deck()->pos() );
     c->flipTo(pile->x(), pile->y());
 }
 

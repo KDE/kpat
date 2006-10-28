@@ -101,7 +101,7 @@ void Golf::deckClicked(Card *)
     c->stopAnimation();
     qreal x = c->x();
     qreal y = c->y();
-    c->setPos( QPointF( Deck::deck()->x(), Deck::deck()->y() ) );
+    c->setPos( Deck::deck()->pos() );
     c->flipTo(x, y);
 }
 
