@@ -160,8 +160,8 @@ void Dealer::setScene( QGraphicsScene *_scene )
     // dscene()->setSceneRect( QRectF( 0,0,700,500 ) );
     scaleFactor = 1;
     dscene()->setItemIndexMethod(QGraphicsScene::NoIndex);
-    // connect( _scene, SIGNAL( gameWon( bool ) ), SIGNAL( gameWon( bool ) ) );
-    connect( dscene(), SIGNAL( undoPossible( bool ) ), SIGNAL( undoPossible( bool ) ) );
+    // connect( _scene, SIGNAL( gameWon( bool ) ), SLOT( gameWon( bool ) ) );
+    connect( dscene(), SIGNAL( undoPossible( bool ) ), SLOT( undoPossible( bool ) ) );
 
     if ( ademo )
         connect( dscene(), SIGNAL( demoActive( bool ) ), ademo, SLOT( setEnabled( bool ) ) );
