@@ -180,6 +180,7 @@ signals:
     void gameWon(bool withhelp);
     void demoActive(bool en);
     void updateMoves();
+    void gameLost();
 
 private slots:
     void waitForAutoDrop(Card *);

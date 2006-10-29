@@ -325,7 +325,7 @@ void pWidget::newGameType()
     }
 
     connect(dill, SIGNAL(undoPossible(bool)), SLOT(undoPossible(bool)));
-    connect(dill, SIGNAL(gameLost()), SLOT(gameLost()));
+    connect(dill->dscene(), SIGNAL(gameLost()), SLOT(gameLost()));
 
     dill->setAutoDropEnabled(dropaction->isChecked());
 
