@@ -39,7 +39,6 @@ const int Pile::wholeColumn   = 0x0400;
 
 Pile::Pile( int _index, DealerScene* parent)
     : QGraphicsPixmapItem( ),
-      m_dealer(parent),
       _atype(Custom),
       _rtype(Custom),
       myIndex(_index),
@@ -74,6 +73,11 @@ QSvgRenderer *Pile::pileRenderer()
     if ( !_renderer )
         _renderer = new QSvgRenderer( KStandardDirs::locate( "data", "kpat/pile.svg" ) );
     return _renderer;
+}
+
+DealerScene *Pile::dscene() const
+{
+    return dynamic_cast<DealerScene*>( scene() );
 }
 
 void Pile::setType(PileType type)

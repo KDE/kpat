@@ -58,7 +58,7 @@ public:
     explicit Pile( int _index, DealerScene* parent = 0);
     virtual ~Pile();
 
-    DealerScene  *dscene() const { return m_dealer; }
+    DealerScene  *dscene() const;
     CardList      cards()  const { return m_cards; }
 
     bool legalAdd(const CardList &c ) const;
@@ -156,7 +156,6 @@ protected:
     CardList  m_cards;
 
 private:
-    DealerScene  *m_dealer;
     static QSvgRenderer *_renderer;
 
     PileType  _atype;
