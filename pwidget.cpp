@@ -29,6 +29,7 @@
 #include <QList>
 #include <QShowEvent>
 #include <QDomDocument>
+#include <QSvgRenderer>
 
 #include <kapplication.h>
 #include <klocale.h>
@@ -192,6 +193,7 @@ pWidget::~pWidget()
 {
     delete dill;
     delete m_cards;
+    delete Pile::pileRenderer();
 }
 
 void pWidget::undoMove() {

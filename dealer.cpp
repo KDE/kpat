@@ -631,8 +631,8 @@ void DealerScene::slotShowGame(bool gothelp)
     img.fill( qRgba( 0, 0, 255, 0 ) );
     QPainter p( &img );
 
-    QSvgRenderer *renderer = new QSvgRenderer( KStandardDirs::locate( "data", "kpat/won.svg" ) );
-    renderer->render( &p, "frame" );
+    QSvgRenderer renderer( KStandardDirs::locate( "data", "kpat/won.svg" ) );
+    renderer.render( &p, "frame" );
 
     QString text = i18n( "Congratulation! You have won." );
     if ( gothelp )

@@ -137,6 +137,7 @@ Pile::~Pile()
         }
         (*it)->setSource(0);
     }
+    delete m_relayoutTimer;
 }
 
 void Pile::setPilePos( double x,  double y )

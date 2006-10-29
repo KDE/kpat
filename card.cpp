@@ -217,7 +217,7 @@ void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
 
     QTimeLine *timeLine = new QTimeLine( 1000, this );
 
-    animation = new QGraphicsItemAnimation;
+    animation = new QGraphicsItemAnimation(this);
     animation->setItem(this);
     animation->setTimeLine(timeLine);
     animation->setPosAt(1, QPointF( x2, y2 ));
@@ -330,6 +330,7 @@ void Card::stopAnimation()
     if ( old_animation->timeLine()->state() == QTimeLine::Running )
         old_animation->timeLine()->setCurrentTime(old_animation->timeLine()->duration() + 1);
     old_animation->timeLine()->stop();
+    old_animation->deleteLater();
     setPos( QPointF( m_destX, m_destY ) );
     setZValue( m_destZ );
     if ( source() )
