@@ -113,9 +113,9 @@ KMainWindow *PatienceView::parent() const
 void PatienceView::setScene( QGraphicsScene *_scene )
 {
     parent()->guiFactory()->unplugActionList( parent(), QString::fromLatin1("game_actions"));
-    QGraphicsScene *oldscene = scene();
+    DealerScene *oldscene = dscene();
     QGraphicsView::setScene( _scene );
-    delete oldscene;
+    oldscene->deleteLater();
     dscene()->rescale(true);
     dscene()->setGameNumber( KRandom::random() );
 //    dscene()->setGameNumber( 1438470683 );

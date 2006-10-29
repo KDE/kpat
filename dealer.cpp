@@ -1359,7 +1359,8 @@ QPointF DealerScene::maxPilePos() const
 void DealerScene::relayoutPiles()
 {
     kDebug() << "relayoutPiles " << sceneRect() << " " << kBacktrace() << endl;
-    setSceneSize( views().first()->viewport()->size() );
+    if ( !views().isEmpty() )
+        setSceneSize( views().first()->viewport()->size() );
 }
 
 void DealerScene::setSceneSize( const QSize &s )

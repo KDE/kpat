@@ -145,7 +145,7 @@ pWidget::pWidget()
     dill = new PatienceView( this );
     setCentralWidget(dill);
 
-    (void)new cardMap();
+    m_cards = new cardMap();
     changeWallpaper();
 
 /*    backs = new KAction(i18n("&Switch Cards..."), actionCollection(), "backside");
@@ -191,6 +191,7 @@ pWidget::pWidget()
 pWidget::~pWidget()
 {
     delete dill;
+    delete m_cards;
 }
 
 void pWidget::undoMove() {

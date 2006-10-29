@@ -35,6 +35,7 @@ class KSelectAction;
 class KRecentFilesAction;
 class KAction;
 class QLabel;
+class cardMap;
 
 class pWidget: public KMainWindow {
     Q_OBJECT
@@ -82,6 +83,7 @@ private:
     QPixmap         background;
     QStringList     wallpaperlist;
     KRecentFilesAction  *recent;
+    cardMap        *m_cards; // possibly move to PatienceView
 };
 
 #endif

@@ -38,7 +38,6 @@
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include "version.h"
-#include <kstaticdeleter.h>
 #include <qimage.h>
 #include <krandom.h>
 #include <kimageeffect.h>
@@ -59,7 +58,6 @@
 #include "ksvgrenderer.h"
 
 cardMap *cardMap::_self = 0;
-static KStaticDeleter<cardMap> cms;
 
 typedef QMap<QString, QImage> CardCache;
 
@@ -189,9 +187,7 @@ cardMap::cardMap() : QObject()
         kDebug() << d->m_cardDeck << " " << d->m_backSize << endl;
     }
     Q_ASSERT( !d->m_backSize.isNull() );
-
-    cms.setObject(_self, this);
-
+    _self = this;
 }
 
 cardMap::~cardMap()
@@ -200,6 +196,8 @@ cardMap::~cardMap()
     d->m_thread->wait();
     delete d->m_thread;
     delete d;
+    if (_self == this)
+      _self = 0;
 }
 
 double cardMap::scaleFactor() const
