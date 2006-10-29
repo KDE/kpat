@@ -147,7 +147,6 @@ PatienceView *PatienceView::instance()
 
 void PatienceView::setupActions()
 {
-
     QList<KAction*> actionlist;
 
     kDebug(11111) << "setupActions " << actions() << endl;

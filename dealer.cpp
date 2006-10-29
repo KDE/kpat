@@ -36,6 +36,7 @@
 #include <QList>
 #include <QTimeLine>
 #include <QGraphicsItemAnimation>
+#include <QGraphicsView>
 #include <QResizeEvent>
 #include <QMouseEvent>
 #include <QPainter>
@@ -616,6 +617,7 @@ void DealerScene::startNew()
     kDebug(11111) << "startNew restart\n";
     restart();
     takeState();
+    update();
 }
 
 void DealerScene::slotShowGame(bool gothelp)
@@ -1356,7 +1358,8 @@ QPointF DealerScene::maxPilePos() const
 
 void DealerScene::relayoutPiles()
 {
-    setSceneSize( sceneRect().size().toSize() );
+    kDebug() << "relayoutPiles " << sceneRect() << " " << kBacktrace() << endl;
+    setSceneSize( views().first()->viewport()->size() );
 }
 
 void DealerScene::setSceneSize( const QSize &s )

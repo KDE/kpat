@@ -287,7 +287,8 @@ void pWidget::setGameCaption()
 void pWidget::slotNewGameType()
 {
     newGameType();
-    restart();
+
+    QTimer::singleShot( 50, this, SLOT( restart() ) );
 }
 
 void pWidget::newGameType()
