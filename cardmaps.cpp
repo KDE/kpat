@@ -126,7 +126,7 @@ QSvgRenderer *cardMapThread::renderer()
 {
     if ( m_renderer )
         return m_renderer;
-    kDebug() << "new renderer " << kBacktrace() << endl;
+//    kDebug() << "new renderer " << kBacktrace() << endl;
     m_renderer = new KSvgRenderer( d->m_cardDeck );
     return m_renderer;
 }

@@ -152,7 +152,6 @@ QPointF Pile::pilePos() const
 
 void Pile::rescale()
 {
-    kDebug() << "rescale " << scene() << " " << objectName() << endl;
     if (!scene())
         return;
 
@@ -469,7 +468,7 @@ CardList Pile::cardPressed(Card *c)
 
     int below = -1;
 
-    kDebug() << "cardPressed " << c->name() << " " << c->isFaceUp() << endl;
+    //kDebug() << "cardPressed " << c->name() << " " << c->isFaceUp() << endl;
 
     if (!c->isFaceUp())
         return result;

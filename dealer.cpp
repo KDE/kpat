@@ -343,6 +343,7 @@ DealerScene::DealerScene():
 
 DealerScene::~DealerScene()
 {
+    kDebug() << "~DealerScene " << endl;
     if (!_won)
         countLoss();
 
@@ -599,7 +600,6 @@ void DealerScene::startNew()
     toldAboutLostGame = false;
     emit updateMoves();
 
-    kDebug(11111) << "startNew stopDemo\n";
     stopDemo();
     kDebug(11111) << "startNew unmarkAll\n";
     unmarkAll();
@@ -791,7 +791,6 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
 
 void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
 {
-    kDebug() << "mouseDoubleClickEvent " << waiting() << endl;;
     DealerScene::stopDemo();
     unmarkAll();
     if (waiting())
@@ -1071,8 +1070,6 @@ void DealerScene::removePile(Pile *p)
 
 void DealerScene::stopDemo()
 {
-    kDebug(11111) << "stopDemo " << waiting() << " " << stop_demo_next << endl;
-
     if (waiting()) {
         _waiting = 0;
         stop_demo_next = true;
@@ -1194,7 +1191,6 @@ void DealerScene::demo()
         stopDemo();
         return;
     }
-    kDebug() << "demo\n";
     stop_demo_next = false;
     gothelp = true;
     unmarkAll();

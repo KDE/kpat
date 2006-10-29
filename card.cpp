@@ -371,7 +371,7 @@ void Card::hoverLeaveEvent ( QGraphicsSceneHoverEvent * )
 }
 
 void Card::mousePressEvent ( QGraphicsSceneMouseEvent * ) {
-    kDebug() << "mousePressEvent\n";
+    //kDebug() << "mousePressEvent\n";
     if ( !isFaceUp() )
         return;
     if ( this == source()->top() )
@@ -384,7 +384,7 @@ void Card::mousePressEvent ( QGraphicsSceneMouseEvent * ) {
 }
 
 void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ) {
-    kDebug() << "mouseReleaseEvent\n";
+    //kDebug() << "mouseReleaseEvent\n";
     m_moving = false;
 }
 
