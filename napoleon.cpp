@@ -30,15 +30,18 @@ Napoleon::Napoleon( )
 
     pile = new Pile( 1, this );
     pile->setAddFlags( Pile::disallow );
+    pile->setObjectName( "pile" );
 
     for (int i = 0; i < 4; i++)
     {
         store[i] = new Pile( 2 + i, this );
         store[i]->setCheckIndex( 0 );
+        store[i]->setObjectName( QString( "store%1" ).arg( i ) );
         target[i] = new Pile( 6 + i, this);
         target[i]->setRemoveFlags( Pile::disallow );
         target[i]->setCheckIndex(2);
         target[i]->setTarget(true);
+        target[i]->setObjectName( QString( "target%1" ).arg( i ) );
     }
 
     const qreal dist_store = 5.5;
@@ -53,6 +56,7 @@ Napoleon::Napoleon( )
     centre->setRemoveFlags( Pile::disallow );
     centre->setCheckIndex(1);
     centre->setTarget(true);
+    centre->setObjectName( "centre" );
 
     store[0]->setPilePos( centre_x, centre_y - 10 - dist_store );
     store[1]->setPilePos( centre_x + 10 + dist_store, centre_y);

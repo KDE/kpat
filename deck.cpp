@@ -70,6 +70,7 @@ void Deck::create_deck( DealerScene *parent, uint m, uint s )
         parent->addItem(my_deck);
         my_deck->collectAndShuffle();
         my_deck->setVisible(true); // default
+        parent->addPile( my_deck );
         return;
     }
     delete my_deck;

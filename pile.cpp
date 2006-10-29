@@ -152,6 +152,7 @@ QPointF Pile::pilePos() const
 
 void Pile::rescale()
 {
+    kDebug() << "rescale " << scene() << " " << objectName() << endl;
     if (!scene())
         return;
 

@@ -1056,6 +1056,11 @@ void DealerScene::setGameNumber(long gmn)
 
 void DealerScene::addPile(Pile *p)
 {
+    if ( p->scene() )
+    {
+        // might be this
+        p->dscene()->removePile( p );
+    }
     piles.append(p);
 }
 
@@ -1358,7 +1363,7 @@ QPointF DealerScene::maxPilePos() const
 
 void DealerScene::relayoutPiles()
 {
-    kDebug() << "relayoutPiles " << sceneRect() << " " << kBacktrace() << endl;
+    kDebug() << "relayoutPiles " << sceneRect() << " " << views().count() << endl;
     if ( !views().isEmpty() )
         setSceneSize( views().first()->viewport()->size() );
 }
