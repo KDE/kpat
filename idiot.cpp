@@ -83,7 +83,7 @@ inline bool higher( const Card* c1, const Card* c2)
 }
 
 
-bool Idiot::canMoveAway(Card *c)
+bool Idiot::canMoveAway(Card *c) const
 {
     return ( higher( c, m_play[ 0 ]->top() ) ||
              higher( c, m_play[ 1 ]->top() ) ||
@@ -124,6 +124,40 @@ bool Idiot::cardClicked(Card *c)
 	didMove = false;
 
     return true; // may be a lie, but no one cares
+}
+
+
+// The game is lost when:
+//  1. all cards are dealt.
+//  2. Any pile contains more than 1 card.
+//  3. No card can be moved away.
+//
+// Actually, the game can be lost much earlier, but we won't detect
+// that so that we don't take away the joy of playing from the user. :-)
+//
+
+bool Idiot::isGameLost() const
+{
+    int  i;
+
+    // Criterium 1.
+    if (!Deck::deck()->isEmpty())
+        return false;
+
+    // Criterium 2.
+    for (i = 0; i < 4; i++) {
+        if (m_play[i]->cardsLeft() > 1)
+            break;
+    }
+    if (i == 4)
+	return false;
+
+    for (i = 0; i < 4; i++) {
+	if (canMoveAway(m_play[ 0 ]->top()))
+            return false;
+    }
+
+    return true;
 }
 
 

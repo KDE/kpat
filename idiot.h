@@ -34,6 +34,7 @@ public:
 
     Idiot( );
 
+    virtual bool  isGameLost() const;
     virtual bool  isGameWon() const;
 
 protected:
@@ -49,7 +50,7 @@ public slots:
     void         deal();
 
 private:
-    bool canMoveAway(Card *c);
+    bool canMoveAway(Card *c) const;
 
     Pile  *m_play[ 4 ];
     Pile  *m_away;
