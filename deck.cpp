@@ -67,6 +67,7 @@ void Deck::create_deck( DealerScene *parent, uint m, uint s )
             my_deck->_deck[i]->setParent( parent );
             parent->addItem( my_deck->_deck[i] );
         }
+        my_deck->disconnect( my_deck->dscene() );
         parent->addItem(my_deck);
         my_deck->collectAndShuffle();
         my_deck->setVisible(true); // default
