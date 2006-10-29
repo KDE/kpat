@@ -148,6 +148,9 @@ QPointF Pile::pilePos() const
 
 void Pile::rescale()
 {
+    if (!scene())
+        return;
+
     QPointF new_pos = QPointF( _pilePos.x() * cardMap::self()->wantedCardWidth() / 10.,
                                _pilePos.y() * cardMap::self()->wantedCardHeight() / 10. );
     //kDebug() << scene()->sceneRect() << " " << new_pos << endl;
