@@ -957,6 +957,12 @@ bool DealerScene::startAutoDrop()
     if (!autoDrop())
         return false;
 
+    if (!movingCards.isEmpty()) {
+        QTimer::singleShot(qRound( TIME_BETWEEN_MOVES * m_autoDropFactor ), this, SLOT(startAutoDrop()));
+        return true;
+    }
+
+
     QList<QGraphicsItem *> list = items();
 
     //kDebug( 11111 ) << "startAutoDrop\n";
