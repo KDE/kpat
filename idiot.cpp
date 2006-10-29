@@ -42,6 +42,7 @@ Idiot::Idiot( )
         m_play[i]->setRemoveFlags( Pile::disallow );
         m_play[i]->setPilePos( 16 + distx * i, 1);
         m_play[i]->setObjectName( QString( "play%1" ).arg( i ) );
+        m_play[i]->setReservedSpace( QSizeF( 10.0, 30.0 ) );
     }
 
     // Create the discard pile to the right
