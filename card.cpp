@@ -374,6 +374,8 @@ void Card::mousePressEvent ( QGraphicsSceneMouseEvent * ) {
     kDebug() << "mousePressEvent\n";
     if ( !isFaceUp() )
         return;
+    if ( this == source()->top() )
+        return; // no way this is meaningful
     m_hoverTimer->stop();
     stopAnimation();
     zoomOut(100);
