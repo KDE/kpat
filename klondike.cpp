@@ -55,6 +55,7 @@ Klondike::Klondike( bool easy )
 
     pile = new KlondikePile( 13, easy ? 1 : 3, this);
     pile->setObjectName( "pile" );
+    pile->setReservedSpace( QSizeF( 19, 10 ) );
 
     pile->setPilePos(margin + 10 + hspacing, margin);
     // Move the visual representation of the pile to the intended position

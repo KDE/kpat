@@ -305,6 +305,7 @@ void Pile::relayoutCards()
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
+        //kDebug() << ( *it )->name() << " " << ( *it )->spread() << endl;
         // the spreads should hopefully have all one sign, or we get in trouble
         preferredSize.rwidth() += fabs( ( *it )->spread().width() );
         preferredSize.rheight() += fabs( ( *it )->spread().height() );
@@ -321,7 +322,7 @@ void Pile::relayoutCards()
     if ( preferredSize.width() )
         divx = qMin( ( maximalSpace().width() - cardMap::self()->wantedCardWidth() ) / preferredSize.width() * 10 / cardMap::self()->wantedCardWidth(), 1. );
 
-    // kDebug() << "relayoutCards " << objectName() << " " <<  divx << " " << divy << " " << maximalSpace() << " " << preferredSize << endl;
+    //kDebug() << "relayoutCards " << objectName() << " " <<  divx << " " << divy << " " << maximalSpace() << " " << preferredSize << " " << reservedSpace() << endl;
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {

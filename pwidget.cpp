@@ -425,13 +425,13 @@ void pWidget::openGame(const KUrl &url)
            games->setCurrentItem(0);
            newGameType();
         }
+        show();
         dill->dscene()->openGame(doc);
         setGameCaption();
         KIO::NetAccess::removeTempFile( tmpFile );
         recent->addUrl(url);
         recent->saveEntries(KGlobal::config());
     }
-    show();
 }
 
 void pWidget::openGame()

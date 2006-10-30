@@ -533,7 +533,6 @@ void FreecellBase::demo()
         DealerScene::demo();
         return;
     }
-    towait = (Card*)-1;
     unmarkAll();
     kDebug(11111) << "demo " << (solver_ret != FCS_STATE_IS_NOT_SOLVEABLE) << endl;
     if (solver_ret != FCS_STATE_IS_NOT_SOLVEABLE)
@@ -689,8 +688,9 @@ void FreecellBase::startMoving()
 {
     kDebug(11111) << "startMoving\n";
     if (moves.isEmpty()) {
-        if (DealerScene::demoActive() && towait) {
-            DealerScene::waitForDemo(towait);
+        if (DealerScene::demoActive()) {
+#warning check demo in freecell
+            //DealerScene::waitForDemo(towait);
         }
         takeState();
         return;

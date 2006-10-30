@@ -148,7 +148,6 @@ bool Spider::checkRemove(int /*checkIndex*/, const Pile *p, const Card *c) const
 
 void Spider::getHints()
 {
-    kDebug(11111) << "get hints" << endl;
     // first, get runs from each stack
     CardList cl[10];
 
@@ -348,6 +347,8 @@ void Spider::checkPileDeck(Pile *check)
             }
             connect( run.first(), SIGNAL(stoped(Card*)), SLOT(cardStoped(Card*)));
             setWaiting( true );
+            if ( demoActive() )
+                newDemoMove( run.first() );
 
             m_leg++;
         }

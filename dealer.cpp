@@ -153,6 +153,7 @@ void DealerScene::takeState()
             return;
         }
     }
+    kDebug() << "demoactive " << demoActive() << " " << waiting() << endl;
     if (!demoActive() && !waiting())
         QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
 
@@ -324,10 +325,10 @@ void DealerScene::undo()
 
 
 DealerScene::DealerScene():
-    towait(0),
     _autodrop(true),
     _waiting(0),
     gamenumber( 0 ),
+    demo_active( false ),
     stop_demo_next(false),
     _won(false),
     _gameRecorded(false),
@@ -943,7 +944,7 @@ void DealerScene::setWaiting(bool w)
     else if ( _waiting > 0 )
         _waiting--;
     emit undoPossible(!waiting());
-    //kDebug(11111) << "setWaiting " << w << " " << _waiting << endl;
+    kDebug(11111) << "setWaiting " << w << " " << _waiting << endl;
 }
 
 void DealerScene::setAutoDropEnabled(bool a)
@@ -1082,21 +1083,14 @@ void DealerScene::stopDemo()
         return;
     } else stop_demo_next = false;
 
-    if (towait == (Card*)-1)
-        towait = 0;
-
-    if (towait) {
-        towait->stopAnimation();
-        towait->disconnect();
-        towait = 0;
-    }
     demotimer->stop();
+    demo_active = false;
     emit demoActive( false );
 }
 
 bool DealerScene::demoActive() const
 {
-    return demotimer->isActive();
+    return demo_active;
 }
 
 void DealerScene::toggleDemo(bool flag)
@@ -1190,6 +1184,7 @@ MoveHint *DealerScene::chooseHint()
 
 void DealerScene::demo()
 {
+    kDebug() << "demo " << waiting() << endl;
     if ( waiting() )
         return;
 
@@ -1198,9 +1193,9 @@ void DealerScene::demo()
         return;
     }
     stop_demo_next = false;
+    demo_active = true;
     gothelp = true;
     unmarkAll();
-    towait = (Card*)-1;
     clearHints();
     getHints();
     demotimer->stop();
@@ -1275,22 +1270,15 @@ Card *DealerScene::demoNewCards()
 
 void DealerScene::newDemoMove(Card *m)
 {
-    //kDebug() << "newDemoMove " << m->name() << endl;
+    kDebug() << "newDemoMove " << m->name() << endl;
     setWaiting( true );
-    towait = m;
     connect(m, SIGNAL(stoped(Card*)), SLOT(waitForDemo(Card*)));
 }
 
 void DealerScene::waitForDemo(Card *t)
 {
-    // kDebug() << "waitForDemo " << t->name() << endl;
-    // Q_ASSERT( towait );
-    if (t == (Card*)-1)
-        return;
-    /* if (towait != t)
-       return; */
+    kDebug() << "waitForDemo " << t->name() << endl;
     t->disconnect(this, SLOT( waitForDemo( Card* ) ) );
-    towait = 0;
     setWaiting( false );
     if ( !waiting() )
     {
@@ -1365,7 +1353,6 @@ QPointF DealerScene::maxPilePos() const
 
 void DealerScene::relayoutPiles()
 {
-    kDebug() << "relayoutPiles " << sceneRect() << " " << views().count() << endl;
     if ( !views().isEmpty() )
         setSceneSize( views().first()->viewport()->size() );
 }

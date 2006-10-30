@@ -189,7 +189,6 @@ protected:
     PileList piles;
     QList<MoveHint*> hints;
     KRandomSequence randseq;
-    Card *towait;
 
     virtual Card *demoNewCards();
     virtual void newDemoMove(Card *m);
@@ -207,6 +206,7 @@ private:
     long gamenumber;
 
     QTimer *demotimer;
+    bool demo_active;
     bool stop_demo_next;
     qreal m_autoDropFactor;
 
