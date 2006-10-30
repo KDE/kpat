@@ -411,10 +411,10 @@ void pWidget::saveGame()
 
 void pWidget::showStats()
 {
-    GameStatsImpl* dlg = new GameStatsImpl(this);
+    GameStatsImpl dlg(this);
     if (dill)
-        dlg->showGameType(dill->dscene()->gameId());
-    dlg->exec();
+        dlg.showGameType(dill->dscene()->gameId());
+    dlg.exec();
 }
 
 #include "pwidget.moc"

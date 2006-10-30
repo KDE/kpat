@@ -19,11 +19,14 @@
 
 class GameStatsImpl : public QDialog, Ui::GameStats
 {
+    Q_OBJECT
+
 	public:
 		explicit GameStatsImpl(QWidget* aParent);
 
-		void setGameType(int i);
 		void showGameType(int i);
+        public slots:
+		void setGameType(int i);
 };
 
 #endif
