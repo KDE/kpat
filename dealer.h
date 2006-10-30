@@ -167,7 +167,7 @@ protected slots:
     virtual void demo();
     void waitForDemo(Card *);
     void waitForWonAnim(Card *c);
-    void toggleDemo(bool);
+    void toggleDemo();
 
 signals:
     void undoPossible(bool poss);

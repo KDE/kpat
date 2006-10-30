@@ -157,7 +157,7 @@ void DealerScene::takeState()
     if (!demoActive() && !waiting())
         QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
 
-    emit undoPossible(undoList.count() > 1 && !waiting());
+    emit undoPossible(undoList.count() > 1);
 }
 
 void DealerScene::saveGame(QDomDocument &doc)
@@ -792,7 +792,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
 
 void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
 {
-    DealerScene::stopDemo();
+    stopDemo();
     unmarkAll();
     if (waiting())
         return;
@@ -943,7 +943,6 @@ void DealerScene::setWaiting(bool w)
         _waiting++;
     else if ( _waiting > 0 )
         _waiting--;
-    emit undoPossible(!waiting());
     kDebug(11111) << "setWaiting " << w << " " << _waiting << endl;
 }
 
@@ -1083,6 +1082,15 @@ void DealerScene::stopDemo()
         return;
     } else stop_demo_next = false;
 
+    QList<QGraphicsItem *> list = items();
+    for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
+    {
+        if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
+            Card *c = static_cast<Card*>(*it);
+            c->stopAnimation();
+        }
+    }
+
     demotimer->stop();
     demo_active = false;
     emit demoActive( false );
@@ -1093,9 +1101,9 @@ bool DealerScene::demoActive() const
     return demo_active;
 }
 
-void DealerScene::toggleDemo(bool flag)
+void DealerScene::toggleDemo()
 {
-    if ( flag )
+    if ( !demoActive() )
         demo();
     else
         stopDemo();
@@ -1260,6 +1268,7 @@ void DealerScene::demo()
             stopDemo();
     }
 
+    emit demoActive( true );
     takeState();
 }
 

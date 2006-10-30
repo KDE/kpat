@@ -59,6 +59,7 @@ public slots:
     virtual void startNew();
     void hint();
     void slotEnableRedeal(bool);
+    void toggleDemo(bool);
 
 signals:
     void undoPossible(bool poss);
@@ -75,7 +76,7 @@ protected:
 
 protected:
 
-    KToggleAction *ademo;
+    KAction *ademo;
     KAction *ahint, *aredeal;
 
     QString ac;

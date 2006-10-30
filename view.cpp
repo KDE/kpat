@@ -131,7 +131,7 @@ void PatienceView::setScene( QGraphicsScene *_scene )
 
     setupActions();
     if ( ademo ) {
-        connect( dscene(), SIGNAL( demoActive( bool ) ), ademo, SLOT( setChecked( bool ) ) );
+        connect( dscene(), SIGNAL( demoActive( bool ) ), this, SLOT( toggleDemo( bool ) ) );
         connect( dscene(), SIGNAL( demoPossible( bool ) ), ademo, SLOT( setEnabled( bool ) ) );
     }
     if ( ahint )
@@ -163,10 +163,10 @@ void PatienceView::setupActions()
         ahint = 0;
 
     if (dscene()->actions() & DealerScene::Demo) {
-        ademo = new KToggleAction( i18n("&Demo"), parent()->actionCollection(), "game_demo");
-        ademo->setIcon( KIcon( "1rightarrow") );
+        ademo = new KAction( i18n("&Demo"), parent()->actionCollection(), "game_demo");
+        ademo->setIcon( KIcon( "player_play") );
         ademo->setCustomShortcut( Qt::CTRL+Qt::Key_D );
-        connect( ademo, SIGNAL( triggered( bool ) ), dscene(), SLOT( toggleDemo(bool) ) );
+        connect( ademo, SIGNAL( triggered( bool ) ), dscene(), SLOT( toggleDemo() ) );
         actionlist.append(ademo);
     } else
         ademo = 0;
@@ -183,6 +183,14 @@ void PatienceView::setupActions()
 }
 
 
+void PatienceView::toggleDemo( bool flag )
+{
+    kDebug() << "toggleDemo " << flag << endl;
+    if ( !flag )
+        ademo->setIcon( KIcon( "player_play") );
+    else
+        ademo->setIcon( KIcon( "player_pause") );
+}
 
 void PatienceView::hint()
 {
