@@ -120,34 +120,13 @@ pWidget::pWidget()
 
     KGlobal::dirs()->addResourceType("wallpaper", KStandardDirs::kde_default("data") + "kpat/backgrounds/");
     KGlobal::dirs()->addResourceType("wallpaper", KStandardDirs::kde_default("data") + "ksnake/backgrounds/");
-    wallpapers = new KSelectAction(i18n("&Change Background"), actionCollection(), "wallpaper");
-    connect( wallpapers, SIGNAL( triggered( int ) ), SLOT(changeWallpaper() ) );
 
     list.clear();
-    wallpaperlist.clear();
-    QStringList wallpaperlist2 = KGlobal::dirs()->findAllResources("wallpaper", QString::null,
-                                                                   false, true, list);
-    QStringList list2;
-    for (QStringList::ConstIterator it = list.begin(); it != list.end(); ++it) {
-	QString file = *it;
-	int rindex = file.lastIndexOf('.');
-	if (rindex != -1) {
-	  QString ext = file.mid(rindex + 1).toLower();
-	  if (ext == "jpeg" || ext == "png" || ext == "jpg") {
-	     list2.append(file.left(rindex));
-             wallpaperlist.append( file );
-          }
-	}
-    }
-
-    wallpapers->setItems(list2);
-//    wallpapers->setCurrentItem(list2.indexOf("No-Ones-Laughing-3"));
 
     dill = new PatienceView( this );
     setCentralWidget(dill);
 
     m_cards = new cardMap();
-    changeWallpaper();
 
 /*    backs = new KAction(i18n("&Switch Cards..."), actionCollection(), "backside");
       connect( backs, SIGNAL( triggered(bool ) ), SLOT( changeBackside() ) );*/
@@ -211,31 +190,6 @@ void pWidget::helpGame()
 void pWidget::undoPossible(bool poss)
 {
     undo->setEnabled(poss);
-}
-
-void pWidget::changeWallpaper()
-{
-    if (wallpapers->currentItem() < 0 || wallpapers->currentItem() >= wallpaperlist.count())
-	return;
-
-    QString bgpath=KStandardDirs::locate("wallpaper", wallpaperlist[wallpapers->currentItem()]);
-    if (bgpath.isEmpty())
-        return;
-    background = QPixmap(bgpath);
-    if (background.isNull()) {
-        KMessageBox::sorry(this, i18n("<qt>Could not load wallpaper<br/>%1</qt>", bgpath));
-        return;
-    }
-
-    QImage bg = background.toImage().convertToFormat(QImage::Format_Indexed8);
-    if (bg.isNull() || !bg.numColors())
-        return;
-
-    KConfigGroup cg(KGlobal::config(), settings_group);
-
-    cg.writePathEntry("Background", bgpath);
-
-    dill->setBackgroundBrush(QBrush( background) );
 }
 
 void pWidget::enableAutoDrop()

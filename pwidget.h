@@ -58,7 +58,6 @@ public slots:
     void chooseGame();
     void undoPossible(bool poss);
     void gameLost();
-    void changeWallpaper();
     void slotGameInfo(const QString &);
     void slotUpdateMoves();
     void helpGame();
@@ -75,13 +74,11 @@ private:
     PatienceView   *dill;
 
     KSelectAction  *games;
-    KSelectAction  *wallpapers;
     KAction        *undo;
     KToggleAction  *dropaction;
     KAction        *stats;
 
     QPixmap         background;
-    QStringList     wallpaperlist;
     KRecentFilesAction  *recent;
     cardMap        *m_cards; // possibly move to PatienceView
 };
