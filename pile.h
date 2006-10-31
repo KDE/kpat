@@ -144,7 +144,7 @@ public:
 public slots:
     virtual bool cardClicked(Card *c);
     virtual bool cardDblClicked(Card *c);
-    void relayoutCards();
+    virtual void relayoutCards();
 
 signals:
     void clicked(Card *c);
@@ -154,6 +154,7 @@ protected:
     int       removeFlags;
     int       addFlags;
     CardList  m_cards;
+    QTimer *m_relayoutTimer;
 
 private:
     static QSvgRenderer *_renderer;
@@ -172,8 +173,6 @@ private:
     QPointF _pilePos;
     QSizeF m_reserved;
     QSizeF m_space;
-
-    QTimer *m_relayoutTimer;
 
 };
 

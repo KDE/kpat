@@ -33,9 +33,32 @@ class KlondikePile : public Pile
 {
 public:
     KlondikePile( int _index, int _draw, DealerScene* parent)
-        : Pile(_index, parent), m_draw( _draw ) {}
+        : Pile(_index, parent), m_draw( _draw )
+    {
+    }
 
     int draw() const { return m_draw; }
+
+    virtual QSizeF cardOffset( const Card *card ) const { return QSizeF( 0, 0 ); }
+    virtual void relayoutCards()
+    {
+        m_relayoutTimer->stop();
+        int car = m_cards.count();
+        QPointF p = pos();
+        qreal z = zValue();
+        for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
+        {
+            //kDebug() << "car " << car << " " << p << endl;
+            ( *it )->setPos( p );
+            ( *it )->setZValue( z );
+            z = z+1;
+            if ( car > m_draw )
+            {
+                --car;
+            } else
+                p.rx() += + 0.125 * cardMap::self()->wantedCardWidth();
+        }
+    }
 
 private:
     int m_draw;
@@ -61,7 +84,7 @@ Klondike::Klondike( bool easy )
     // Move the visual representation of the pile to the intended position
     // on the game board.
 
-    pile->setAddFlags(Pile::disallow);
+    pile->setAddFlags( Pile::disallow );
     pile->setRemoveFlags(Pile::Default);
 
     for( int i = 0; i < 7; i++ ) {
