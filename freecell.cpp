@@ -31,9 +31,6 @@
 #include <QList>
 #include "cardmaps.h"
 
-#include "freecell-solver/fcs_user.h"
-#include "freecell-solver/fcs_cl.h"
-
 const int CHUNKSIZE = 100;
 
 void FreecellPile::moveCards(CardList &c, Pile *to)
@@ -50,9 +47,8 @@ void FreecellPile::moveCards(CardList &c, Pile *to)
 
 //-------------------------------------------------------------------------//
 
-FreecellBase::FreecellBase( int decks, int stores, int freecells, int fill, bool unlimit )
+FreecellBase::FreecellBase( int decks, int stores, int freecells, bool unlimit )
     : DealerScene(),
-      solver_instance(0), es_filling(fill), solver_ret(FCS_STATE_NOT_BEGAN_YET),
       unlimited_move(unlimit)
 {
     Deck::create_deck(this, decks);
@@ -90,11 +86,6 @@ FreecellBase::FreecellBase( int decks, int stores, int freecells, int fill, bool
 
 FreecellBase::~FreecellBase()
 {
-    if (solver_instance)
-    {
-        freecell_solver_user_free(solver_instance);
-        solver_instance = NULL;
-    }
 }
 //-------------------------------------------------------------------------//
 
@@ -103,6 +94,7 @@ void FreecellBase::restart()
     freeSolution();
     Deck::deck()->collectAndShuffle();
     deal();
+    findSolution();
 }
 
 QString suitToString(Card::Suit s) {
@@ -122,16 +114,18 @@ QString suitToString(Card::Suit s) {
 QString rankToString(Card::Rank r)
 {
     switch (r) {
-        case Card::King:
-            return "K";
-        case Card::Ace:
-            return "A";
-        case Card::Jack:
-            return "J";
-        case Card::Queen:
-            return "Q";
-        default:
-            return QString::number(r);
+    case Card::King:
+        return "K";
+    case Card::Ace:
+        return "A";
+    case Card::Jack:
+        return "J";
+    case Card::Queen:
+        return "Q";
+    case Card::Ten:
+        return "T";
+    default:
+        return QString::number(r);
     }
 }
 
@@ -150,65 +144,7 @@ int getDeck(Card::Suit suit)
     return 0;
 }
 
-static const char * freecell_solver_cmd_line_args[280] =
-{
-"--method", "soft-dfs", "-to", "0123456789", "-step",
-"500", "--st-name", "1", "-nst", "--method",
-"soft-dfs", "-to", "0123467", "-step", "500",
-"--st-name", "2", "-nst", "--method", "random-dfs",
-"-seed", "2", "-to", "0[01][23456789]", "-step",
-"500", "--st-name", "3", "-nst", "--method",
-"random-dfs", "-seed", "1", "-to", "0[0123456789]",
-"-step", "500", "--st-name", "4", "-nst", "--method",
-"random-dfs", "-seed", "3", "-to", "0[01][23467]",
-"-step", "500", "--st-name", "5", "-nst", "--method",
-"random-dfs", "-seed", "4", "-to", "0[0123467]",
-"-step", "500", "--st-name", "9", "-nst", "--method",
-"random-dfs", "-to", "[01][23456789]", "-seed", "8",
-"-step", "500", "--st-name", "10", "-nst",
-"--method", "random-dfs", "-to", "[01][23456789]",
-"-seed", "268", "-step", "500", "--st-name", "12",
-"-nst", "--method", "a-star", "-asw",
-"0.2,0.3,0.5,0,0", "-step", "500", "--st-name", "16",
-"-nst", "--method", "a-star", "-to", "0123467",
-"-asw", "0.5,0,0.3,0,0", "-step", "500", "--st-name",
-"18", "-nst", "--method", "soft-dfs", "-to",
-"0126394875", "-step", "500", "--st-name", "19",
-"--prelude",
-"350@2,350@5,350@9,350@12,350@2,350@10,350@3,350@9,350@5,350@18,350@2,350@5,350@4,350@10,350@4,350@12,1050@9,700@18,350@10,350@5,350@2,350@10,1050@16,350@2,700@4,350@10,1050@2,1400@3,350@18,1750@5,350@16,350@18,700@4,1050@12,2450@5,1400@18,1050@2,1400@10,6300@1,4900@12,8050@18",
-"-ni", "--method", "soft-dfs", "-to", "01ABCDE",
-"-step", "500", "--st-name", "0", "-nst", "--method",
-"random-dfs", "-to", "[01][ABCDE]", "-seed", "1",
-"-step", "500", "--st-name", "1", "-nst", "--method",
-"random-dfs", "-to", "[01][ABCDE]", "-seed", "2",
-"-step", "500", "--st-name", "2", "-nst", "--method",
-"random-dfs", "-to", "[01][ABCDE]", "-seed", "3",
-"-step", "500", "--st-name", "3", "-nst", "--method",
-"random-dfs", "-to", "01[ABCDE]", "-seed", "268",
-"-step", "500", "--st-name", "4", "-nst", "--method",
-"a-star", "-to", "01ABCDE", "-step", "500",
-"--st-name", "5", "-nst", "--method", "a-star",
-"-to", "01ABCDE", "-asw", "0.2,0.3,0.5,0,0", "-step",
-"500", "--st-name", "6", "-nst", "--method",
-"a-star", "-to", "01ABCDE", "-asw", "0.5,0,0.5,0,0",
-"-step", "500", "--st-name", "7", "-nst", "--method",
-"random-dfs", "-to", "[01][ABD][CE]", "-seed", "1900",
-"-step", "500", "--st-name", "8", "-nst", "--method",
-"random-dfs", "-to", "[01][ABCDE]", "-seed", "192",
-"-step", "500", "--st-name", "9", "-nst", "--method",
-"random-dfs", "-to", "[01ABCDE]", "-seed", "1977",
-"-step", "500", "--st-name", "10", "-nst",
-"--method", "random-dfs", "-to", "[01ABCDE]", "-seed",
-"24", "-step", "500", "--st-name", "11", "-nst",
-"--method", "soft-dfs", "-to", "01ABDCE", "-step",
-"500", "--st-name", "12", "-nst", "--method",
-"soft-dfs", "-to", "ABC01DE", "-step", "500",
-"--st-name", "13", "-nst", "--method", "soft-dfs",
-"-to", "01EABCD", "-step", "500", "--st-name", "14",
-"-nst", "--method", "soft-dfs", "-to", "01BDAEC",
-"-step", "500", "--st-name", "15", "--prelude",
-"1000@0,1000@3,1000@0,1000@9,1000@4,1000@9,1000@3,1000@4,2000@2,1000@0,2000@1,1000@14,2000@11,1000@14,1000@3,1000@11,1000@2,1000@0,2000@4,2000@10,1000@0,1000@2,2000@10,1000@0,2000@11,2000@1,1000@10,1000@2,1000@10,2000@0,1000@9,1000@1,1000@2,1000@14,3000@8,1000@2,1000@14,1000@1,1000@10,3000@6,2000@4,1000@2,2000@0,1000@2,1000@11,2000@6,1000@0,5000@1,1000@0,2000@1,1000@2,3000@3,1000@10,1000@14,2000@6,1000@0,1000@2,2000@11,6000@8,8000@9,3000@1,2000@10,2000@14,3000@15,4000@0,1000@8,1000@10,1000@14,7000@0,14000@2,6000@3,7000@4,1000@8,4000@9,2000@15,2000@6,4000@3,2000@4,3000@15,2000@0,6000@1,2000@4,4000@6,4000@9,4000@14,7000@8,3000@0,3000@1,5000@2,3000@3,4000@9,8000@10,9000@3,5000@8,7000@11,11000@12,12000@0,8000@3,11000@9,9000@15,7000@2,12000@8,16000@5,8000@13,18000@0,9000@15,12000@10,16000@0,14000@3,16000@9,26000@4,23000@3,42000@6,22000@8,27000@10,38000@7,41000@0,42000@3,84000@13,61000@15,159000@5,90000@9"
-};
+extern "C" int patsolve(const char *text);
 
 void FreecellBase::findSolution()
 {
@@ -216,183 +152,13 @@ void FreecellBase::findSolution()
 
     QString output = solverFormat();
     kDebug(11111) << output << endl;
-
-    int ret;
-
-    /* If solver_instance was not initialized yet - initialize it */
-    if (! solver_instance)
-    {
-        solver_instance = freecell_solver_user_alloc();
-
-        char * error_string;
-        int error_arg;
-        char * known_parameters[1] = {NULL};
-
-
-        ret = freecell_solver_user_cmd_line_parse_args(
-            solver_instance,
-            sizeof(freecell_solver_cmd_line_args)/sizeof(freecell_solver_cmd_line_args[0]),
-            freecell_solver_cmd_line_args,
-            0,
-            known_parameters,
-            NULL,
-            NULL,
-            &error_string,
-            &error_arg
-            );
-
-
-        assert(!ret);
-    }
-    /*
-     * I'm using the more standard interface instead of the depracated
-     * user_set_game one. I'd like that each function will have its
-     * own dedicated purpose.
-     *
-     *     Shlomi Fish
-     * */
-#if 0
-    ret = freecell_solver_user_set_game(solver_instance,
-                                            freecell.count(),
-                                            store.count(),
-                                            Deck::deck()->decksNum(),
-                                            FCS_SEQ_BUILT_BY_ALTERNATE_COLOR,
-                                            unlimited_move,
-                                            es_filling);
-    assert(!ret);
-#else
-    freecell_solver_user_set_num_freecells(solver_instance,freecell.count());
-    freecell_solver_user_set_num_stacks(solver_instance,store.count());
-    freecell_solver_user_set_num_decks(solver_instance,Deck::deck()->decksNum());
-    freecell_solver_user_set_sequences_are_built_by_type(solver_instance, FCS_SEQ_BUILT_BY_ALTERNATE_COLOR);
-    freecell_solver_user_set_sequence_move(solver_instance, unlimited_move);
-    freecell_solver_user_set_empty_stacks_filled_by(solver_instance, es_filling);
-
-#endif
-
-    freecell_solver_user_limit_iterations(solver_instance, CHUNKSIZE);
-
-    solver_ret = freecell_solver_user_solve_board(solver_instance,
-                                                  output.toLatin1());
-    resumeSolution();
-}
-
-void FreecellBase::resumeSolution()
-{
-    if (!solver_instance)
-        return;
-
-    emit gameInfo(i18n("%1 tries - depth %2",
-                   freecell_solver_user_get_num_times(solver_instance),
-                   freecell_solver_user_get_current_depth(solver_instance)));
-
-    if (solver_ret == FCS_STATE_WAS_SOLVED)
-    {
-        emit gameInfo(i18n("solved after %1 tries",
-                      freecell_solver_user_get_num_times(
-                          solver_instance)));
-        kDebug(11111) << "solved\n";
-        DealerScene::demo();
-        return;
-    }
-    if (solver_ret == FCS_STATE_IS_NOT_SOLVEABLE) {
-	int moves = freecell_solver_user_get_num_times(solver_instance);
-        freeSolution();
-        emit gameInfo(i18n("unsolved after %1 moves",
-                       moves));
-        stopDemo();
-        return;
-    }
-
-    unsigned int max_iters = freecell_solver_user_get_limit_iterations(
-        solver_instance) + CHUNKSIZE;
-    freecell_solver_user_limit_iterations(solver_instance,
-                                          max_iters);
-
-    if (max_iters > 120000) {
-        solver_ret = FCS_STATE_IS_NOT_SOLVEABLE;
-        resumeSolution();
-        return;
-    }
-
-    solver_ret = freecell_solver_user_resume_solution(solver_instance);
-    QTimer::singleShot(0, this, SLOT(resumeSolution()));
-
-}
-MoveHint *FreecellBase::translateMove(void *m) {
-    fcs_move_t move = *(static_cast<fcs_move_t *>(m));
-    int cards = fcs_move_get_num_cards_in_seq(move);
-    Pile *from = 0;
-    Pile *to = 0;
-
-    switch(fcs_move_get_type(move))
-    {
-        case FCS_MOVE_TYPE_STACK_TO_STACK:
-            from = store[fcs_move_get_src_stack(move)];
-            to = store[fcs_move_get_dest_stack(move)];
-            break;
-
-        case FCS_MOVE_TYPE_FREECELL_TO_STACK:
-            from = freecell[fcs_move_get_src_freecell(move)];
-            to = store[fcs_move_get_dest_stack(move)];
-            cards = 1;
-            break;
-
-        case FCS_MOVE_TYPE_FREECELL_TO_FREECELL:
-            from = freecell[fcs_move_get_src_freecell(move)];
-            to = freecell[fcs_move_get_dest_freecell(move)];
-            cards = 1;
-            break;
-
-        case FCS_MOVE_TYPE_STACK_TO_FREECELL:
-            from = store[fcs_move_get_src_stack(move)];
-            to = freecell[fcs_move_get_dest_freecell(move)];
-            cards = 1;
-            break;
-
-        case FCS_MOVE_TYPE_STACK_TO_FOUNDATION:
-            from = store[fcs_move_get_src_stack(move)];
-            cards = 1;
-            to = 0;
-            break;
-
-        case FCS_MOVE_TYPE_FREECELL_TO_FOUNDATION:
-            from = freecell[fcs_move_get_src_freecell(move)];
-            cards = 1;
-            to = 0;
-    }
-    assert(from);
-    assert(cards <= from->cards().count());
-    assert(to || cards == 1);
-    Card *c = from->cards()[from->cards().count() - cards];
-
-    if (!to)
-        to = findTarget(c);
-    assert(to);
-    return new MoveHint(c, to);
+    patsolve( output.latin1() );
 }
 
 QString FreecellBase::solverFormat() const
 {
     QString output;
     QString tmp;
-    for (int i = 0; i < target.count(); i++) {
-        if (target[i]->isEmpty())
-            continue;
-        tmp += suitToString(target[i]->top()->suit()) + '-' + rankToString(target[i]->top()->rank()) + ' ';
-    }
-    if (!tmp.isEmpty())
-        output += QString::fromLatin1("Foundations: %1\n").arg(tmp);
-
-    tmp.truncate(0);
-    for (int i = 0; i < freecell.count(); i++) {
-        if (freecell[i]->isEmpty())
-            tmp += "- ";
-        else
-            tmp += rankToString(freecell[i]->top()->rank()) + suitToString(freecell[i]->top()->suit()) + ' ';
-    }
-    if (!tmp.isEmpty())
-        output += QString::fromLatin1("Freecells: %1\n").arg(tmp);
 
     for (int i = 0; i < store.count(); i++)
     {
@@ -401,6 +167,22 @@ QString FreecellBase::solverFormat() const
             output += rankToString((*it)->rank()) + suitToString((*it)->suit()) + ' ';
         output += '\n';
     }
+
+    tmp.truncate(0);
+    for (int i = 0; i < freecell.count(); i++) {
+        if (!freecell[i]->isEmpty())
+            tmp += rankToString(freecell[i]->top()->rank()) + suitToString(freecell[i]->top()->suit()) + ' ';
+    }
+    output += tmp;
+
+    tmp.truncate( 0 );
+    for (int i = 0; i < target.count(); i++) {
+        if (target[i]->isEmpty())
+            continue;
+        tmp += suitToString(target[i]->top()->suit()) + '-' + rankToString(target[i]->top()->rank()) + ' ';
+    }
+    output += tmp;
+
     return output;
 }
 
@@ -529,31 +311,13 @@ void FreecellBase::getHints()
 
 void FreecellBase::demo()
 {
-    if (solver_instance && solver_ret == FCS_STATE_WAS_SOLVED) {
-        DealerScene::demo();
-        return;
-    }
     unmarkAll();
-    kDebug(11111) << "demo " << (solver_ret != FCS_STATE_IS_NOT_SOLVEABLE) << endl;
-    if (solver_ret != FCS_STATE_IS_NOT_SOLVEABLE)
-        findSolution();
+    findSolution();
 }
 
 MoveHint *FreecellBase::chooseHint()
 {
-    if (solver_instance && freecell_solver_user_get_moves_left(solver_instance)) {
-
-        emit gameInfo(i18n("%1 moves before finish", freecell_solver_user_get_moves_left(solver_instance)));
-
-        fcs_move_t move;
-        if (!freecell_solver_user_get_next_move(solver_instance, &move)) {
-            MoveHint *mh = translateMove(&move);
-            oldmoves.append(mh);
-            return mh;
-        } else
-            return 0;
-    } else
-        return DealerScene::chooseHint();
+    return DealerScene::chooseHint();
 }
 
 void FreecellBase::countFreeCells(int &free_cells, int &free_stores) const
@@ -563,9 +327,8 @@ void FreecellBase::countFreeCells(int &free_cells, int &free_stores) const
 
     for (int i = 0; i < freecell.count(); i++)
         if (freecell[i]->isEmpty()) free_cells++;
-    if (es_filling == FCS_ES_FILLED_BY_ANY_CARD)
-        for (int i = 0; i < store.count(); i++)
-            if (store[i]->isEmpty()) free_stores++;
+    for (int i = 0; i < store.count(); i++)
+        if (store[i]->isEmpty()) free_stores++;
 }
 
 void FreecellBase::freeSolution()
@@ -573,11 +336,6 @@ void FreecellBase::freeSolution()
     for (HintList::Iterator it = oldmoves.begin(); it != oldmoves.end(); ++it)
         delete *it;
     oldmoves.clear();
-
-    if (!solver_instance)
-        return;
-    freecell_solver_user_recycle(solver_instance);
-    solver_ret = FCS_STATE_NOT_BEGAN_YET;
 }
 
 void FreecellBase::stopDemo()
@@ -588,10 +346,6 @@ void FreecellBase::stopDemo()
 
 void FreecellBase::moveCards(CardList &c, FreecellPile *from, Pile *to)
 {
-    if (!demoActive() && solver_instance) {
-        freeSolution();
-    }
-
     assert(c.count() > 1);
     if (unlimited_move) {
         from->Pile::moveCards(c, to);
@@ -610,9 +364,8 @@ void FreecellBase::moveCards(CardList &c, FreecellPile *from, Pile *to)
 
     PileList fss;
 
-    if (es_filling == FCS_ES_FILLED_BY_ANY_CARD)
-        for (int i = 0; i < store.count(); i++)
-            if (store[i]->isEmpty() && to != store[i]) fss.append(store[i]);
+    for (int i = 0; i < store.count(); i++)
+        if (store[i]->isEmpty() && to != store[i]) fss.append(store[i]);
 
     if (fcs.count() == 0) {
         assert(fss.count());
@@ -817,7 +570,7 @@ public:
 };
 
 Freecell::Freecell()
-    : FreecellBase(1, 8, 4, FCS_ES_FILLED_BY_ANY_CARD, false)
+    : FreecellBase(1, 8, 4, false)
 {
     for (int i = 0; i < 8; i++)
         store[i]->setPilePos(1 + 11.3 * i, 14 );

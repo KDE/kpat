@@ -21,7 +21,7 @@ static BLOCK *new_block(void);
 
 int Pilebytes;
 
-static INLINE int CMP(u_char *a, u_char *b)
+static __inline__ int CMP(u_char *a, u_char *b)
 {
 	return memcmp(a, b, Pilebytes);
 }

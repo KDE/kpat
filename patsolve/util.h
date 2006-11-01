@@ -37,7 +37,6 @@ extern void free_blocks(void);
 /* Error messages. */
 
 extern char *Progname;
-extern void fatalerr(char *msg, ...);
 extern void msg(char *msg, ...);
 
 /* Files. */

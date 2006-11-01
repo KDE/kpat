@@ -2,7 +2,6 @@
 
 #include "util.h"
 #include <sys/types.h>
-#include "config.h"
 #include "tree.h"
 
 /* A card is represented as (suit << 4) + rank. */
@@ -145,7 +144,6 @@ extern double Yparam[];
 /* Prototypes. */
 
 extern void doit();
-extern void read_layout(FILE *);
 extern void printcard(card_t card, FILE *);
 extern void print_layout();
 extern void make_move(MOVE *);

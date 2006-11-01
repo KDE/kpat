@@ -10,6 +10,11 @@
 
 /* Default variation. */
 
+#define SAME_SUIT 1
+#define KING_ONLY 0
+#define NWPILES 10      /* number of W piles */
+#define NTPILES 4       /* number of T cells */
+
 int Same_suit = SAME_SUIT;
 int King_only = KING_ONLY;
 int Nwpiles = NWPILES;
@@ -53,11 +58,11 @@ extern int Pilebytes;
 static int get_possible_moves(int *, int *);
 static void mark_irreversible(int n);
 static void win(POSITION *pos);
-static INLINE int get_pilenum(int w);
+static __inline__ int get_pilenum(int w);
 
 /* Hash a pile. */
 
-static INLINE void hashpile(int w)
+static __inline__ void hashpile(int w)
 {
 	W[w][Wlen[w]] = 0;
 	Whash[w] = fnv_hash_str(W[w]);
@@ -335,7 +340,7 @@ MOVE *get_moves(POSITION *pos, int *nmoves)
 
 /* Automove logic.  Freecell games must avoid certain types of automoves. */
 
-static INLINE int good_automove(int o, int r)
+static __inline__ int good_automove(int o, int r)
 {
 	int i;
 
@@ -693,7 +698,7 @@ POSITION *new_position(POSITION *parent, MOVE *m)
 
 /* Comparison function for sorting the W piles. */
 
-static INLINE int wcmp(int a, int b)
+static __inline__ int wcmp(int a, int b)
 {
 	if (Xparam[9] < 0) {
 		return Wpilenum[b] - Wpilenum[a];       /* newer piles first */
@@ -703,7 +708,7 @@ static INLINE int wcmp(int a, int b)
 }
 
 #if 0
-static INLINE int wcmp(int a, int b)
+static inline int wcmp(int a, int b)
 {
 	if (Xparam[9] < 0) {
 		return Wlen[b] - Wlen[a];       /* longer piles first */
@@ -943,7 +948,7 @@ static void win(POSITION *pos)
 	if (!Quiet) {
 		printf("A winner.\n");
 		printf("%d moves.\n", nmoves);
-#if DEBUG
+#if defined(DEBUG)
 		printf("%d positions generated.\n", Total_generated);
 		printf("%d unique positions.\n", Total_positions);
 		printf("Mem_remain = %ld\n", Mem_remain);
@@ -974,7 +979,6 @@ void init_buckets(void)
 	requires a pointer.  On Intel for -f Treebytes winds up being
 	a multiple of 8 currently anyway so it doesn't matter. */
 
-//#define ALIGN_BITS 0x3
 #define ALIGN_BITS 0x7
 	if (Treebytes & ALIGN_BITS) {
 		Treebytes |= ALIGN_BITS;
@@ -993,7 +997,7 @@ piles appear in any given game.  We'll use the pile's hash to find
 a hash bucket that contains a short list of piles, along with their
 identifiers. */
 
-static INLINE int get_pilenum(int w)
+static __inline__ int get_pilenum(int w)
 {
 	int bucket, pilenum;
 	BUCKETLIST *l, *last;

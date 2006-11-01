@@ -5,7 +5,6 @@ http://www.isthe.com/chongo/tech/comp/fnv/index.html */
 #define FNV_H
 
 #include <sys/types.h>
-#include "config.h"
 
 #define FNV1_32_INIT 0x811C9DC5
 #define FNV_32_PRIME 0x01000193
@@ -14,7 +13,7 @@ http://www.isthe.com/chongo/tech/comp/fnv/index.html */
 
 /* Hash a buffer. */
 
-static INLINE u_int32_t fnv_hash_buf(u_char *s, int len)
+static __inline__ u_int32_t fnv_hash_buf(u_char *s, int len)
 {
 	int i;
 	u_int32_t h;
@@ -29,7 +28,7 @@ static INLINE u_int32_t fnv_hash_buf(u_char *s, int len)
 
 /* Hash a 0 terminated string. */
 
-static INLINE u_int32_t fnv_hash_str(u_char *s)
+static __inline__ u_int32_t fnv_hash_str(u_char *s)
 {
 	u_int32_t h;
 

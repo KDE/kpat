@@ -23,7 +23,7 @@ static void free_position(POSITION *pos, int);
 static void queue_position(POSITION *, int);
 static POSITION *dequeue_position();
 
-#if DEBUG
+#if defined(DEBUG)
 int Clusternum[0x10000];
 static int Inq[NQUEUES];
 
@@ -61,7 +61,7 @@ void doit()
 		Qhead[i] = NULL;
 	}
 	Maxq = 0;
-#if DEBUG
+#if defined(DEBUG)
 memset(Clusternum, 0, sizeof(Clusternum));
 memset(Inq, 0, sizeof(Inq));
 #endif
@@ -238,7 +238,7 @@ static void queue_position(POSITION *pos, int pri)
 			Qtail[pri] = pos;
 		}
 	}
-#if DEBUG
+#if defined(DEBUG)
 Inq[pri]++;
 Clusternum[pos->cluster]++;
 #endif
@@ -280,7 +280,7 @@ static POSITION *dequeue_position()
 
 	pos = Qhead[qpos];
 	Qhead[qpos] = pos->queue;
-#if DEBUG
+#if defined(DEBUG)
 	Inq[qpos]--;
 #endif
 
@@ -298,7 +298,7 @@ static POSITION *dequeue_position()
 
 	unpack_position(pos);
 
-#if DEBUG
+#if defined(DEBUG)
 Clusternum[pos->cluster]--;
 #endif
 	return pos;

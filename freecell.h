@@ -38,8 +38,7 @@ class FreecellBase : public DealerScene
     Q_OBJECT
 
 public:
-    FreecellBase( int decks, int stores, int freecells, int es_filling, 
-		  bool unlimited_move);
+    FreecellBase( int decks, int stores, int freecells, bool unlimited_move);
     void moveCards(CardList &c, FreecellPile *from, Pile *to);
     QString solverFormat() const;
     virtual ~FreecellBase();
@@ -49,7 +48,6 @@ public slots:
     virtual void restart();
     void waitForMoving(Card *c);
     void startMoving();
-    void resumeSolution();
     virtual void demo();
 
 protected:
@@ -85,9 +83,6 @@ private:
     HintList moves;
     HintList oldmoves;
     Card *waitfor;
-    void *solver_instance;
-    int es_filling;
-    int solver_ret;
     bool unlimited_move;
     bool noLongerNeeded(const Card &);
 };
