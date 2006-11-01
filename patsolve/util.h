@@ -21,7 +21,7 @@ extern "C" {
 /* A function and some macros for allocating memory. */
 
 extern void *new_(size_t s);
-extern long Mem_remain;
+extern size_t Mem_remain;
 
 #define new(type) (type *)new_(sizeof(type))
 #define free_ptr(ptr, type) free(ptr); Mem_remain += sizeof(type)

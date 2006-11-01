@@ -151,8 +151,8 @@ void FreecellBase::findSolution()
     kDebug(11111) << "findSolution\n";
 
     QString output = solverFormat();
-    kDebug(11111) << output << endl;
-    patsolve( output.latin1() );
+    int ret = patsolve( output.latin1() );
+    kDebug() << "return " << ret << endl;
 }
 
 QString FreecellBase::solverFormat() const
@@ -173,13 +173,13 @@ QString FreecellBase::solverFormat() const
         if (!freecell[i]->isEmpty())
             tmp += rankToString(freecell[i]->top()->rank()) + suitToString(freecell[i]->top()->suit()) + ' ';
     }
-    output += tmp;
+    output += tmp + "\n";
 
     tmp.truncate( 0 );
     for (int i = 0; i < target.count(); i++) {
         if (target[i]->isEmpty())
             continue;
-        tmp += suitToString(target[i]->top()->suit()) + '-' + rankToString(target[i]->top()->rank()) + ' ';
+        tmp += rankToString(target[i]->top()->rank()) + suitToString(target[i]->top()->suit()) + ' ';
     }
     output += tmp;
 

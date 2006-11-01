@@ -106,11 +106,8 @@ enum inscode { NEW, FOUND, FOUND_BETTER, ERR };
 /* Command line flags. */
 
 extern int Cutoff;
-extern int Interactive;
-extern int Noexit;
 extern int Numsol;
 extern int Stack;
-extern int Quiet;
 
 enum statuscode { FAIL = -1, WIN = 0, NOSOL = 1 };
 extern int Status;
@@ -136,7 +133,7 @@ typedef struct treelist {
 
 extern int Total_positions;
 extern int Total_generated;
-extern long Mem_remain;
+extern size_t Mem_remain;
 
 extern int Xparam[];
 extern double Yparam[];
@@ -145,7 +142,6 @@ extern double Yparam[];
 
 extern void doit();
 extern void printcard(card_t card, FILE *);
-extern void print_layout();
 extern void make_move(MOVE *);
 extern void undo_move(MOVE *);
 extern MOVE *get_moves(POSITION *, int *);

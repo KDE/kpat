@@ -153,7 +153,6 @@ void DealerScene::takeState()
             return;
         }
     }
-    kDebug() << "demoactive " << demoActive() << " " << waiting() << endl;
     if (!demoActive() && !waiting())
         QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
 
@@ -943,7 +942,7 @@ void DealerScene::setWaiting(bool w)
         _waiting++;
     else if ( _waiting > 0 )
         _waiting--;
-    kDebug(11111) << "setWaiting " << w << " " << _waiting << endl;
+//    kDebug(11111) << "setWaiting " << w << " " << _waiting << endl;
 }
 
 void DealerScene::setAutoDropEnabled(bool a)

@@ -247,7 +247,7 @@ static void prioritize(MOVE *mp0, int n)
 
 MOVE *get_moves(POSITION *pos, int *nmoves)
 {
-	int i, n, alln, o, a, numout;
+	int i, n, alln, o, a, numout = 0;
 	MOVE *mp, *mp0;
 
 	/* Fill in the Possible array. */
@@ -275,17 +275,7 @@ MOVE *get_moves(POSITION *pos, int *nmoves)
 			/* Report the win. */
 
 			win(pos);
-
-			if (Noexit) {
-				Numsol++;
-				return NULL;
-			}
 			Status = WIN;
-
-			if (Interactive) {
-				exit(0);
-			}
-
 			return NULL;
 		}
 
@@ -895,15 +885,23 @@ void unpack_position(POSITION *pos)
 		T[i] = *p++;
 	}
 }
+void printcard(card_t card, FILE *outfile)
+{
+       if (rank(card) == NONE) {
+               fprintf(outfile, "   ");
+       } else {
+               fprintf(outfile, "%c%c ", Rank[rank(card)], Suit[suit(card)]);
+       }
+}
 
 /* Win.  Print out the move stack. */
 
 static void win(POSITION *pos)
 {
 	int i, nmoves;
-	FILE *out;
 	POSITION *p;
 	MOVE *mp, **mpp, **mpp0;
+	int count = 10;
 
 	/* Go back up the chain of parents and store the moves
 	in reverse order. */
@@ -923,37 +921,31 @@ static void win(POSITION *pos)
 	}
 
 	/* Now print them out in the correct order. */
+	
 
-	out = fileopen("win", "w");
 	for (i = 0, mpp = mpp0; i < nmoves; i++, mpp++) {
+	    --count;
+	    if (count == 0)
+		break;
+
 		mp = *mpp;
-		printcard(mp->card, out);
+		printcard(mp->card, stderr);
 		if (mp->totype == T_TYPE) {
-			fprintf(out, "to temp\n");
+			fprintf(stderr, "to temp\n");
 		} else if (mp->totype == O_TYPE) {
-			fprintf(out, "out\n");
+			fprintf(stderr, "out\n");
 		} else {
-			fprintf(out, "to ");
+			fprintf(stderr, "to ");
 			if (mp->destcard == NONE) {
-				fprintf(out, "empty pile");
+				fprintf(stderr, "empty pile");
 			} else {
-				printcard(mp->destcard, out);
+				printcard(mp->destcard, stderr);
 			}
-			fputc('\n', out);
+			fputc('\n', stderr);
 		}
 	}
-	fclose(out);
 	free_array(mpp0, MOVE *, nmoves);
 
-	if (!Quiet) {
-		printf("A winner.\n");
-		printf("%d moves.\n", nmoves);
-#if defined(DEBUG)
-		printf("%d positions generated.\n", Total_generated);
-		printf("%d unique positions.\n", Total_positions);
-		printf("Mem_remain = %ld\n", Mem_remain);
-#endif
-	}
 }
 
 /* Initialize the hash buckets. */
@@ -1023,7 +1015,7 @@ static __inline__ int get_pilenum(int w)
 
 	if (l == NULL) {
 		if (Pilenum == NPILES) {
-			msg("Ran out of pile numbers!");
+		        fprintf(stderr, "Ran out of pile numbers!");
 			return -1;
 		}
 		l = new(BUCKETLIST);
