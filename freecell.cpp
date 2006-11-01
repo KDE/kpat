@@ -144,7 +144,7 @@ int getDeck(Card::Suit suit)
     return 0;
 }
 
-extern "C" int patsolve(const char *text);
+int patsolve(const char *text);
 
 void FreecellBase::findSolution()
 {
@@ -441,10 +441,6 @@ void FreecellBase::startMoving()
 {
     kDebug(11111) << "startMoving\n";
     if (moves.isEmpty()) {
-        if (DealerScene::demoActive()) {
-#warning check demo in freecell
-            //DealerScene::waitForDemo(towait);
-        }
         takeState();
         return;
     }

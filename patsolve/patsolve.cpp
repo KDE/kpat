@@ -462,7 +462,6 @@ static MOVE *get_moves(POSITION *pos, int *nmoves)
 		if (o == 4) {
 
 			/* Report the win. */
-
 			win(pos);
 			Status = WIN;
 			return NULL;
@@ -1111,7 +1110,7 @@ static void win(POSITION *pos)
 	}
 
 	/* Now print them out in the correct order. */
-	
+
 
 	for (i = 0, mpp = mpp0; i < nmoves; i++, mpp++) {
 	    --count;
@@ -1714,7 +1713,7 @@ it was new. */
 static int insert(int *cluster, int d, TREE **node)
 {
 	int i, k;
-	TREE *new;
+	TREE *newtree;
 	TREELIST *tl;
 
 	/* Get the cluster number from the Out cell contents. */
@@ -1734,16 +1733,16 @@ static int insert(int *cluster, int d, TREE **node)
 
 	/* Create a compact position representation. */
 
-	new = pack_position();
-	if (new == NULL) {
+	newtree = pack_position();
+	if (newtree == NULL) {
 		return ERR;
 	}
 	Total_generated++;
 
-	i = insert_node(new, d, &tl->tree, node);
+	i = insert_node(newtree, d, &tl->tree, node);
 
 	if (i != NEW) {
-		give_back_block((u_char *)new);
+		give_back_block((u_char *)newtree);
 	}
 
 	return i;

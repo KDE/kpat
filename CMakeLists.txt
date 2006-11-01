@@ -4,14 +4,11 @@ add_subdirectory( icons )
 
 include_directories( ${CMAKE_SOURCE_DIR}/libkdegames  )
 
-set(libfcs_SRCS
-patsolve/pat.c
-)
 ########### next target ###############
 
 set(RELEASE "0")
 
-set(kpat_SRCS ${libfcs_SRCS}
+set(kpat_SRCS
    main.cpp 
    cardmaps.cpp 
    card.cpp 
@@ -22,6 +19,7 @@ set(kpat_SRCS ${libfcs_SRCS}
    deck.cpp 
    pile_algorithms.cpp
    gamestatsimpl.cpp
+   patsolve/patsolve.cpp
    klondike.cpp
    freecell.cpp
 )
