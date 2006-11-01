@@ -48,26 +48,40 @@ typedef QList<Card*> CardList;
 //  - It is a graphic entity on a QCanvas that can be moved around.
 //
 
-class Card: public QObject, public QGraphicsPixmapItem {
+class AbstractCard
+{
+public:
+    enum Suit { Diamonds = 0x00, Clubs = 0x10, Hearts = 0x20, Spades = 0x30 };
+    enum Rank { None = 0, Ace = 1, Two,  Three, Four, Five,  Six, Seven,
+                Eight,   Nine, Ten,   Jack, Queen, King = 13};
+
+    AbstractCard( Rank r, Suit s );
+
+    // Properties of the card.
+    Suit       suit()  const  { return m_suit; }
+    Rank       rank()  const  { return m_rank; }
+
+    bool       isRed()    const  { return !( m_suit & 0x10 ); }
+    bool       isFaceUp() const  { return m_faceup; }
+
+protected:
+    // The card values.
+    Suit        m_suit;
+    Rank        m_rank;
+
+    bool        m_faceup;
+};
+
+class Card: public QObject, public AbstractCard, public QGraphicsPixmapItem {
     Q_OBJECT
 
 public:
-    enum Suit { Clubs = 1, Diamonds, Hearts, Spades };
-    enum Rank { None = 0, Ace = 1, Two,  Three, Four, Five,  Six, Seven,
-		          Eight,   Nine, Ten,   Jack, Queen, King };
-
     Card( Rank r, Suit s, QGraphicsScene *parent=0 );
     virtual ~Card();
 
-    // Properties of the card.
-    Suit          suit()  const  { return m_suit; }
-    Rank          rank()  const  { return m_rank; }
     const QString name()  const  { return m_name; }
 
     // Some basic tests.
-    bool       isRed()    const  { return m_suit==Diamonds || m_suit==Hearts; }
-    bool       isFaceUp() const  { return m_faceup; }
-
     void       turn(bool faceup = true);
 
     Pile        *source() const     { return m_source; }
@@ -127,15 +141,11 @@ public slots:
 private:
     void       zoomIn(int t);
     void       zoomOut(int t);
-private:
-    // The card values.
-    Suit        m_suit;
-    Rank        m_rank;
+
     QString     m_name;
     QString     m_elementId;
 
     // Grapics properties.
-    bool        m_faceup;	// True if card lies with the face up.
     bool        m_destFace;
     Pile       *m_source;
 

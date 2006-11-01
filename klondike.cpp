@@ -39,7 +39,7 @@ public:
 
     int draw() const { return m_draw; }
 
-    virtual QSizeF cardOffset( const Card *card ) const { return QSizeF( 0, 0 ); }
+    virtual QSizeF cardOffset( const Card * ) const { return QSizeF( 0, 0 ); }
     virtual void relayoutCards()
     {
         m_relayoutTimer->stop();

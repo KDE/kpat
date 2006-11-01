@@ -82,15 +82,17 @@ void Deck::makedeck()
 {
     int i=0;
 
+    Card::Suit mysuits[4] = { Card::Diamonds, Card::Clubs, Card::Hearts, Card::Spades };
     show();
     for ( uint m = 0; m < mult; m++)
     {
         for ( int r = Card::Ace; r <= Card::King; r++)
         {
-            for ( int s = Card::Spades-1; s >=  Card::Clubs-1 ; s--)
+            for ( int s = 3; s >=  0 ; s--)
             {
+                kDebug() << "suit " << 4 - (s % suits) << endl;
                 _deck[i] = new Card(static_cast<Card::Rank>(r),
-                                    static_cast<Card::Suit>(Card::Spades - (s % suits)), dscene() );
+                                    mysuits[3 - (s % suits)], dscene() );
                 _deck[i]->setPos(QPointF( 0, 0) );
                 i++;
             }

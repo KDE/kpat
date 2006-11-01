@@ -3,10 +3,210 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+#include <math.h>
 #include <sys/types.h>
-#include "pat.h"
-#include "fnv.h"
-#include "tree.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
+#include <string.h>
+#include <math.h>
+
+#ifndef TRUE
+#define TRUE 1
+#define FALSE 0
+#endif
+
+/* A function and some macros for allocating memory. */
+
+static void *allocate_memory(size_t s);
+
+#define allocate(type) (type *)allocate_memory(sizeof(type))
+#define free_ptr(ptr, type) free(ptr); Mem_remain += sizeof(type)
+
+#define new_array(type, size) (type *)allocate_memory((size) * sizeof(type))
+#define free_array(ptr, type, size) free(ptr); \
+				    Mem_remain += (size) * sizeof(type)
+
+static void free_buckets(void);
+static void free_clusters(void);
+static void free_blocks(void);
+
+static int Stack = TRUE;      /* -S means stack, not queue, the moves to be done */
+static int Cutoff = 1;         /* switch between depth- and breadth-first */
+static int Status;             /* win, lose, or fail */
+
+static size_t Mem_remain = 30 * 1000 * 1000;
+
+/* Statistics. */
+
+static int Total_positions;
+static int Total_generated;
+
+static int Xparam[] = { 4, 1, 8, -1, 7, 11, 4, 2, 2, 1, 2 };
+static double Yparam[] = { 0.0032, 0.32, -3.0 };
+
+/* Misc. */
+
+static int strecpy(unsigned char *dest, unsigned char *src);
+
+/* A card is represented as (suit << 4) + rank. */
+
+typedef u_char card_t;
+
+#define PS_DIAMOND 0x00         /* red */
+#define PS_CLUB    0x10         /* black */
+#define PS_HEART   0x20         /* red */
+#define PS_SPADE   0x30         /* black */
+#define PS_COLOR   0x10         /* black if set */
+#define PS_SUIT    0x30         /* mask both suit bits */
+
+#define NONE    0
+#define PS_ACE  1
+#define PS_KING 13
+
+#define rank(card) ((card) & 0xF)
+#define suit(card) ((card) >> 4)
+#define color(card) ((card) & PS_COLOR)
+
+/* Some macros used in get_possible_moves(). */
+
+/* The following macro implements
+	(Same_suit ? (suit(a) == suit(b)) : (color(a) != color(b)))
+*/
+#define suitable(a, b) ((((a) ^ (b)) & Suit_mask) == Suit_val)
+static card_t Suit_mask;
+static card_t Suit_val;
+
+#define king_only(card) (!King_only || rank(card) == PS_KING)
+
+/* Represent a move. */
+
+typedef struct {
+	card_t card;            /* the card we're moving */
+	u_char from;            /* from pile number */
+	u_char to;              /* to pile number */
+	u_char fromtype;        /* O, T, or W */
+	u_char totype;
+	card_t srccard;         /* card we're uncovering */
+	card_t destcard;        /* card we're moving to */
+	signed char pri;        /* move priority (low priority == low value) */
+} MOVE;
+
+/* A splay tree. */
+
+typedef struct tree_node TREE;
+
+struct tree_node {
+	TREE *left;
+	TREE *right;
+	short depth;
+};
+
+#define O_TYPE 1                /* pile types */
+#define T_TYPE 2
+#define W_TYPE 3
+
+#define MAXTPILES       8       /* max number of piles */
+#define MAXWPILES      13
+
+/* Position information.  We store a compact representation of the position;
+Temp cells are stored separately since they don't have to be compared.
+We also store the move that led to this position from the parent, as well
+as a pointers back to the parent, and the btree of all positions examined so
+far. */
+
+typedef struct pos {
+	struct pos *queue;      /* next position in the queue */
+	struct pos *parent;     /* point back up the move stack */
+	TREE *node;             /* compact position rep.'s tree node */
+	MOVE move;              /* move that got us here from the parent */
+	unsigned short cluster; /* the cluster this node is in */
+	short depth;            /* number of moves so far */
+	u_char ntemp;           /* number of cards in T */
+	u_char nchild;          /* number of child nodes left */
+} POSITION;
+
+/* Work arrays. */
+
+card_t T[MAXTPILES];     /* one card in each temp cell */
+card_t W[MAXWPILES][52]; /* the workspace */
+card_t *Wp[MAXWPILES];   /* point to the top card of each work pile */
+int Wlen[MAXWPILES];     /* the number of cards in each pile */
+int Widx[MAXWPILES];     /* used to keep the piles sorted */
+int Widxi[MAXWPILES];    /* inverse of the above */
+
+enum inscode { NEW, FOUND, FOUND_BETTER, ERR };
+
+/* Command line flags. */
+
+enum statuscode { FAIL = -1, WIN = 0, NOSOL = 1 };
+
+/* Memory. */
+
+typedef struct block {
+	u_char *block;
+	u_char *ptr;
+	size_t remain;
+	struct block *next;
+} BLOCK;
+
+#define BLOCKSIZE (32 * 4096)
+
+typedef struct treelist {
+	TREE *tree;
+	int cluster;
+	struct treelist *next;
+} TREELIST;
+
+static u_char *new_from_block(size_t);
+static void init_clusters(void);
+
+/* This is a 32 bit FNV hash.  For more information, see
+http://www.isthe.com/chongo/tech/comp/fnv/index.html */
+
+#include <sys/types.h>
+
+#define FNV1_32_INIT 0x811C9DC5
+#define FNV_32_PRIME 0x01000193
+
+#define fnv_hash(x, hash) (((hash) * FNV_32_PRIME) ^ (x))
+
+/* Hash a buffer. */
+
+static __inline__ u_int32_t fnv_hash_buf(u_char *s, int len)
+{
+	int i;
+	u_int32_t h;
+
+	h = FNV1_32_INIT;
+	for (i = 0; i < len; i++) {
+		h = fnv_hash(*s++, h);
+	}
+
+	return h;
+}
+
+/* Hash a 0 terminated string. */
+
+static __inline__ u_int32_t fnv_hash_str(u_char *s)
+{
+	u_int32_t h;
+
+	h = FNV1_32_INIT;
+	while (*s) {
+		h = fnv_hash(*s++, h);
+	}
+
+	return h;
+}
+
+
+#include <string.h>
+#include <sys/types.h>
+
+static int insert(int *cluster, int d, TREE **node);
 
 /* Default variation. */
 
@@ -15,45 +215,34 @@
 #define NWPILES 10      /* number of W piles */
 #define NTPILES 4       /* number of T cells */
 
-int Same_suit = SAME_SUIT;
-int King_only = KING_ONLY;
-int Nwpiles = NWPILES;
-int Ntpiles = NTPILES;
-
-card_t Suit_mask;
-card_t Suit_val;
+static int Same_suit = SAME_SUIT;
+static int King_only = KING_ONLY;
+static int Nwpiles = NWPILES; /* the numbers we're actually using */
+static int Ntpiles = NTPILES;
 
 /* Names of the cards.  The ordering is defined in pat.h. */
 
-char Rank[] = " A23456789TJQK";
-char Suit[] = "DCHS";
+static char Rank[] = " A23456789TJQK";
+static char Suit[] = "DCHS";
 
-card_t O[4];
-card_t Osuit[4] = { PS_DIAMOND, PS_CLUB, PS_HEART, PS_SPADE };
+static card_t O[4]; /* output piles store only the rank or NONE */
+static card_t Osuit[4] = { PS_DIAMOND, PS_CLUB, PS_HEART, PS_SPADE }; /* suits of the output piles */
 
 /* Position freelist. */
 
-POSITION *Freepos = NULL;
-
-/* Work arrays. */
-
-card_t T[MAXTPILES];
-card_t W[MAXWPILES][52];
-card_t *Wp[MAXWPILES];
-int Wlen[MAXWPILES];
-int Widx[MAXWPILES];
-int Widxi[MAXWPILES];
+static POSITION *Freepos = NULL;
 
 /* Every different pile has a hash and a unique id. */
 
-u_int32_t Whash[MAXWPILES];
-int Wpilenum[MAXWPILES];
+static u_int32_t Whash[MAXWPILES];
+static int Wpilenum[MAXWPILES];
 
 /* Temp storage for possible moves. */
 
-MOVE Possible[MAXMOVES];
+#define MAXMOVES 64             /* > max # moves from any position */
+static MOVE Possible[MAXMOVES];
 
-extern int Pilebytes;
+static int Pilebytes;
 
 static int get_possible_moves(int *, int *);
 static void mark_irreversible(int n);
@@ -74,7 +263,7 @@ static __inline__ void hashpile(int w)
 
 /* Hash the whole layout.  This is called once, at the start. */
 
-void hash_layout(void)
+static void hash_layout(void)
 {
 	int w;
 
@@ -85,7 +274,7 @@ void hash_layout(void)
 
 /* These two routines make and unmake moves. */
 
-void make_move(MOVE *m)
+static void make_move(MOVE *m)
 {
 	int from, to;
 	card_t card;
@@ -117,7 +306,7 @@ void make_move(MOVE *m)
 	}
 }
 
-void undo_move(MOVE *m)
+static void undo_move(MOVE *m)
 {
 	int from, to;
 	card_t card;
@@ -245,7 +434,7 @@ static void prioritize(MOVE *mp0, int n)
 
 /* Generate an array of the moves we can make from this position. */
 
-MOVE *get_moves(POSITION *pos, int *nmoves)
+static MOVE *get_moves(POSITION *pos, int *nmoves)
 {
 	int i, n, alln, o, a, numout = 0;
 	MOVE *mp, *mp0;
@@ -628,7 +817,7 @@ it, along with the pointer to its parent and the move we used to get here. */
 
 int Posbytes;
 
-POSITION *new_position(POSITION *parent, MOVE *m)
+static POSITION *new_position(POSITION *parent, MOVE *m)
 {
 	int i, t, depth, cluster;
 	u_char *p;
@@ -711,7 +900,7 @@ static inline int wcmp(int a, int b)
 /* Sort the piles, to remove the physical differences between logically
 equivalent layouts.  Assume it's already mostly sorted.  */
 
-void pilesort(void)
+static void pilesort(void)
 {
 	int w, i, j;
 
@@ -780,7 +969,7 @@ different trees.  */
 
 int Treebytes;
 
-TREE *pack_position(void)
+static TREE *pack_position(void)
 {
 	int j, k, w;
 	u_char *p;
@@ -827,7 +1016,7 @@ TREE *pack_position(void)
 /* Unpack a compact position rep.  T cells must be restored from the
 array following the POSITION struct. */
 
-void unpack_position(POSITION *pos)
+static void unpack_position(POSITION *pos)
 {
 	int i, k, w;
 	u_char c, *p;
@@ -885,7 +1074,8 @@ void unpack_position(POSITION *pos)
 		T[i] = *p++;
 	}
 }
-void printcard(card_t card, FILE *outfile)
+
+static void printcard(card_t card, FILE *outfile)
 {
        if (rank(card) == NONE) {
                fprintf(outfile, "   ");
@@ -950,7 +1140,7 @@ static void win(POSITION *pos)
 
 /* Initialize the hash buckets. */
 
-void init_buckets(void)
+static void init_buckets(void)
 {
 	int i;
 
@@ -1005,7 +1195,7 @@ static __inline__ int get_pilenum(int w)
 	last = NULL;
 	for (l = Bucketlist[bucket]; l; l = l->next) {
 		if (l->hash == Whash[w] &&
-		    strncmp(l->pile, W[w], Wlen[w]) == 0) {
+		    strncmp((char*)l->pile, (char*)W[w], Wlen[w]) == 0) {
 			break;
 		}
 		last = l;
@@ -1031,7 +1221,7 @@ static __inline__ int get_pilenum(int w)
 		/* Store the new pile along with its hash.  Maintain
 		a reverse mapping so we can unpack the piles swiftly. */
 
-		strncpy(l->pile, W[w], Wlen[w] + 1);
+		strncpy((char*)l->pile, (char*)W[w], Wlen[w] + 1);
 		l->hash = Whash[w];
 		l->pilenum = pilenum = Pilenum++;
 		l->next = NULL;
@@ -1055,9 +1245,697 @@ void free_buckets(void)
 		l = Bucketlist[i];
 		while (l) {
 			n = l->next;
-			j = strlen(l->pile);    /* @@@ use block? */
+			j = strlen((char*)l->pile);    /* @@@ use block? */
 			free_array(l->pile, u_char, j + 1);
 			free_ptr(l, BUCKETLIST);
+			l = n;
+		}
+	}
+}
+
+/* Solve patience games.  Prioritized breadth-first search.  Simple breadth-
+first uses exponential memory.  Here the work queue is kept sorted to give
+priority to positions with more cards out, so the solution found is not
+guaranteed to be the shortest, but it'll be better than with a depth-first
+search. */
+
+#define NQUEUES 100
+
+static POSITION *Qhead[NQUEUES]; /* separate queue for each priority */
+static POSITION *Qtail[NQUEUES]; /* positions are added here */
+static int Maxq;
+
+static int solve(POSITION *);
+static void free_position(POSITION *pos, int);
+static void queue_position(POSITION *, int);
+static POSITION *dequeue_position();
+
+static void doit()
+{
+	int i, q;
+	POSITION *pos;
+	MOVE m;
+
+	/* Init the queues. */
+
+	for (i = 0; i < NQUEUES; i++) {
+		Qhead[i] = NULL;
+	}
+	Maxq = 0;
+
+	/* Queue the initial position to get started. */
+
+	hash_layout();
+	pilesort();
+	m.card = NONE;
+	pos = new_position(NULL, &m);
+	if (pos == NULL) {
+		return;
+	}
+	queue_position(pos, 0);
+
+	/* Solve it. */
+
+	while ((pos = dequeue_position()) != NULL) {
+		q = solve(pos);
+		if (!q) {
+			free_position(pos, TRUE);
+		}
+	}
+}
+
+/* Generate all the successors to a position and either queue them or
+recursively solve them.  Return whether any of the child nodes, or their
+descendents, were queued or not (if not, the position can be freed). */
+
+static int solve(POSITION *parent)
+{
+	int i, nmoves, q, qq;
+	MOVE *mp, *mp0;
+	POSITION *pos;
+
+	/* If we've won already (or failed), we just go through the motions
+	but always return FALSE from any position.  This enables the cleanup
+	of the move stack and eventual destruction of the position store. */
+
+	if (Status != NOSOL) {
+		return FALSE;
+	}
+
+	/* If the position was found again in the tree by a shorter
+	path, prune this path. */
+
+	if (parent->node->depth < parent->depth) {
+		return FALSE;
+	}
+
+	/* Generate an array of all the moves we can make. */
+
+	if ((mp0 = get_moves(parent, &nmoves)) == NULL) {
+		return FALSE;
+	}
+	parent->nchild = nmoves;
+
+	/* Make each move and either solve or queue the result. */
+
+	q = FALSE;
+	for (i = 0, mp = mp0; i < nmoves; i++, mp++) {
+		make_move(mp);
+
+		/* Calculate indices for the new piles. */
+
+		pilesort();
+
+		/* See if this is a new position. */
+
+		if ((pos = new_position(parent, mp)) == NULL) {
+			undo_move(mp);
+			parent->nchild--;
+			continue;
+		}
+
+		/* If this position is in a new cluster, a card went out.
+		Don't queue it, just keep going.  A larger cutoff can also
+		force a recursive call, which can help speed things up (but
+		reduces the quality of solutions).  Otherwise, save it for
+		later. */
+
+		if (pos->cluster != parent->cluster || nmoves < Cutoff) {
+			qq = solve(pos);
+			undo_move(mp);
+			if (!qq) {
+				free_position(pos, FALSE);
+			}
+			q |= qq;
+		} else {
+			queue_position(pos, mp->pri);
+			undo_move(mp);
+			q = TRUE;
+		}
+	}
+	free_array(mp0, MOVE, nmoves);
+
+	/* Return true if this position needs to be kept around. */
+
+	return q;
+}
+
+/* We can't free the stored piles in the trees, but we can free some of the
+POSITION structs.  We have to be careful, though, because there are many
+threads running through the game tree starting from the queued positions.
+The nchild element keeps track of descendents, and when there are none left
+in the parent we can free it too after solve() returns and we get called
+recursively (rec == TRUE). */
+
+static void free_position(POSITION *pos, int rec)
+{
+	/* We don't really free anything here, we just push it onto a
+	freelist (using the queue member), so we can use it again later. */
+
+	if (!rec) {
+		pos->queue = Freepos;
+		Freepos = pos;
+		pos->parent->nchild--;
+	} else {
+		do {
+			pos->queue = Freepos;
+			Freepos = pos;
+			pos = pos->parent;
+			if (pos == NULL) {
+				return;
+			}
+			pos->nchild--;
+		} while (pos->nchild == 0);
+	}
+}
+
+/* Save positions for consideration later.  pri is the priority of the move
+that got us here.  The work queue is kept sorted by priority (simply by
+having separate queues). */
+
+static void queue_position(POSITION *pos, int pri)
+{
+	int nout;
+	double x;
+
+	/* In addition to the priority of a move, a position gets an
+	additional priority depending on the number of cards out.  We use a
+	"queue squashing function" to map nout to priority.  */
+
+	nout = O[0] + O[1] + O[2] + O[3];
+
+	/* Yparam[0] * nout^2 + Yparam[1] * nout + Yparam[2] */
+
+	x = (Yparam[0] * nout + Yparam[1]) * nout + Yparam[2];
+	pri += (int)floor(x + .5);
+
+	if (pri < 0) {
+		pri = 0;
+	} else if (pri >= NQUEUES) {
+		pri = NQUEUES - 1;
+	}
+	if (pri > Maxq) {
+		Maxq = pri;
+	}
+
+	/* We always dequeue from the head.  Here we either stick the move
+	at the head or tail of the queue, depending on whether we're
+	pretending it's a stack or a queue. */
+
+	pos->queue = NULL;
+	if (Qhead[pri] == NULL) {
+		Qhead[pri] = pos;
+		Qtail[pri] = pos;
+	} else {
+		if (Stack) {
+			pos->queue = Qhead[pri];
+			Qhead[pri] = pos;
+		} else {
+			Qtail[pri]->queue = pos;
+			Qtail[pri] = pos;
+		}
+	}
+}
+
+/* Return the position on the head of the queue, or NULL if there isn't one. */
+
+static POSITION *dequeue_position()
+{
+	int last;
+	POSITION *pos;
+	static int qpos = 0;
+	static int minpos = 0;
+
+	/* This is a kind of prioritized round robin.  We make sweeps
+	through the queues, starting at the highest priority and
+	working downwards; each time through the sweeps get longer.
+	That way the highest priority queues get serviced the most,
+	but we still get lots of low priority action (instead of
+	ignoring it completely). */
+
+	last = FALSE;
+	do {
+		qpos--;
+		if (qpos < minpos) {
+			if (last) {
+				return NULL;
+			}
+			qpos = Maxq;
+			minpos--;
+			if (minpos < 0) {
+				minpos = Maxq;
+			}
+			if (minpos == 0) {
+				last = TRUE;
+			}
+		}
+	} while (Qhead[qpos] == NULL);
+
+	pos = Qhead[qpos];
+	Qhead[qpos] = pos->queue;
+
+	/* Decrease Maxq if that queue emptied. */
+
+	while (Qhead[qpos] == NULL && qpos == Maxq && Maxq > 0) {
+		Maxq--;
+		qpos--;
+		if (qpos < minpos) {
+			minpos = qpos;
+		}
+	}
+
+	/* Unpack the position into the work arrays. */
+
+	unpack_position(pos);
+
+	return pos;
+}
+
+static void play(void)
+{
+	/* Initialize the hash tables. */
+
+	init_buckets();
+	init_clusters();
+
+	/* Reset stats. */
+
+	Total_positions = 0;
+	Total_generated = 0;
+	Status = NOSOL;
+
+	/* Go to it. */
+
+	doit();
+	free_buckets();
+	free_clusters();
+	free_blocks();
+	Freepos = NULL;
+}
+
+static void read_layout(const char *text);
+
+int patsolve(const char *text)
+{
+	Same_suit = FALSE;
+	King_only = FALSE;
+	Nwpiles = 8;
+	Ntpiles = 4;
+
+	/* Initialize the suitable() macro variables. */
+
+	Suit_mask = PS_COLOR;
+	Suit_val = PS_COLOR;
+	if (Same_suit) {
+		Suit_mask = PS_SUIT;
+		Suit_val = 0;
+	}
+
+	read_layout(text);
+	play();
+
+	return Status;
+}
+
+static const char * next_line( const char *text)
+{
+    if (!text)
+	return text;
+    if (!text[0])
+	return 0;
+    text = strchr(text, '\n');
+    if (text)
+	text++;
+    return text;
+}
+
+static int parse_pile(const char *s, card_t *w, int size)
+{
+	int i;
+	char c;
+	card_t rank, suit;
+
+	if (!s)
+	    return 0;
+
+	i = 0;
+	rank = suit = NONE;
+	while (i < size && *s && *s != '\n' && *s != '\r') {
+		while (*s == ' ') s++;
+		c = toupper(*s);
+		if (c == 'A') rank = 1;
+		else if (c >= '2' && c <= '9') rank = c - '0';
+		else if (c == 'T') rank = 10;
+		else if (c == 'J') rank = 11;
+		else if (c == 'Q') rank = 12;
+		else if (c == 'K') rank = 13;
+		s++;
+		c = toupper(*s);
+		if (c == 'C') suit = PS_CLUB;
+		else if (c == 'D') suit = PS_DIAMOND;
+		else if (c == 'H') suit = PS_HEART;
+		else if (c == 'S') suit = PS_SPADE;
+		s++;
+		*w++ = suit + rank;
+		i++;
+		while (*s == ' ') s++;
+	}
+	return i;
+}
+
+/* Read a layout file.  Format is one pile per line, bottom to top (visible
+card).  Temp cells and Out on the last two lines, if any. */
+
+static void read_layout(const char *text)
+{
+	int w, i, total;
+	card_t out[4];
+
+	/* Read the workspace. */
+
+	w = 0;
+	total = 0;
+	while (text) {
+		i = parse_pile(text, W[w], 52);
+		text = next_line(text);
+		Wp[w] = &W[w][i - 1];
+		Wlen[w] = i;
+		w++;
+		total += i;
+		if (w == Nwpiles) {
+			break;
+		}
+	}
+
+	/* Temp cells may have some cards too. */
+
+	for (i = 0; i < Ntpiles; i++) {
+		T[i] = NONE;
+	}
+	if (total != 52) {
+		total += parse_pile(text, T, Ntpiles);
+		text = next_line(text);
+	}
+
+	/* Output piles, if any. */
+
+	for (i = 0; i < 4; i++) {
+		O[i] = out[i] = NONE;
+	}
+	if (total != 52) {
+		parse_pile(text, out, 4);
+		text = next_line(text);
+		for (i = 0; i < 4; i++) {
+			if (out[i] != NONE) {
+				O[suit(out[i])] = rank(out[i]);
+				total += rank(out[i]);
+			}
+		}
+	}
+}
+
+
+/* Like strcpy() but return the length of the string. */
+
+int strecpy(unsigned char *d, unsigned char *s)
+{
+	int i;
+
+	i = 0;
+	while ((*d++ = *s++) != '\0') {
+		i++;
+	}
+
+	return i;
+}
+
+/* Allocate some space and return a pointer to it.  See new() in util.h. */
+
+void *allocate_memory(size_t s)
+{
+	void *x;
+
+	if (s > Mem_remain) {
+		Status = FAIL;
+		return NULL;
+	}
+
+	if ((x = (void *)malloc(s)) == NULL) {
+		Status = FAIL;
+		return NULL;
+	}
+
+	Mem_remain -= s;
+	return x;
+}
+
+
+/* Given a cluster number, return a tree.  There are 14^4 possible
+clusters, but we'll only use a few hundred of them at most.  Hash on
+the cluster number, then locate its tree, creating it if necessary. */
+
+#define TBUCKETS 499    /* a prime */
+
+TREELIST *Treelist[TBUCKETS];
+
+static int insert_node(TREE *n, int d, TREE **tree, TREE **node);
+static TREELIST *cluster_tree(int cluster);
+static void give_back_block(u_char *p);
+static BLOCK *new_block(void);
+
+static __inline__ int CMP(u_char *a, u_char *b)
+{
+	return memcmp(a, b, Pilebytes);
+}
+
+/* Insert key into the tree unless it's already there.  Return true if
+it was new. */
+
+static int insert(int *cluster, int d, TREE **node)
+{
+	int i, k;
+	TREE *new;
+	TREELIST *tl;
+
+	/* Get the cluster number from the Out cell contents. */
+
+	i = O[0] + (O[1] << 4);
+	k = i;
+	i = O[2] + (O[3] << 4);
+	k |= i << 8;
+	*cluster = k;
+
+	/* Get the tree for this cluster. */
+
+	tl = cluster_tree(k);
+	if (tl == NULL) {
+		return ERR;
+	}
+
+	/* Create a compact position representation. */
+
+	new = pack_position();
+	if (new == NULL) {
+		return ERR;
+	}
+	Total_generated++;
+
+	i = insert_node(new, d, &tl->tree, node);
+
+	if (i != NEW) {
+		give_back_block((u_char *)new);
+	}
+
+	return i;
+}
+
+/* Add it to the binary tree for this cluster.  The piles are stored
+following the TREE structure. */
+
+static int insert_node(TREE *n, int d, TREE **tree, TREE **node)
+{
+	int c;
+	u_char *key, *tkey;
+	TREE *t;
+
+	key = (u_char *)n + sizeof(TREE);
+	n->depth = d;
+	n->left = n->right = NULL;
+	*node = n;
+	t = *tree;
+	if (t == NULL) {
+		*tree = n;
+		return NEW;
+	}
+	while (1) {
+		tkey = (u_char *)t + sizeof(TREE);
+		c = CMP(key, tkey);
+		if (c == 0) {
+			break;
+		}
+		if (c < 0) {
+			if (t->left == NULL) {
+				t->left = n;
+				return NEW;
+			}
+			t = t->left;
+		} else {
+			if (t->right == NULL) {
+				t->right = n;
+				return NEW;
+			}
+			t = t->right;
+		}
+	}
+
+	/* We get here if it's already in the tree.  Don't add it again.
+	If the new path to this position was shorter, record the new depth
+	so we can prune the original path. */
+
+	c = FOUND;
+	if (d < t->depth && !Stack) {
+		t->depth = d;
+		c = FOUND_BETTER;
+		*node = t;
+	}
+	return c;
+}
+
+/* @@@ This goes somewhere else. */
+
+BLOCK *Block;
+
+/* Clusters are also stored in a hashed array. */
+
+void init_clusters(void)
+{
+	memset(Treelist, 0, sizeof(Treelist));
+	Block = new_block();                    /* @@@ */
+}
+
+static TREELIST *cluster_tree(int cluster)
+{
+	int bucket;
+	TREELIST *tl, *last;
+
+	/* Pick a bucket, any bucket. */
+
+	bucket = cluster % TBUCKETS;
+
+	/* Find the tree in this bucket with that cluster number. */
+
+	last = NULL;
+	for (tl = Treelist[bucket]; tl; tl = tl->next) {
+		if (tl->cluster == cluster) {
+			break;
+		}
+		last = tl;
+	}
+
+	/* If we didn't find it, make a new one and add it to the list. */
+
+	if (tl == NULL) {
+		tl = allocate(TREELIST);
+		if (tl == NULL) {
+			return NULL;
+		}
+		tl->tree = NULL;
+		tl->cluster = cluster;
+		tl->next = NULL;
+		if (last == NULL) {
+			Treelist[bucket] = tl;
+		} else {
+			last->next = tl;
+		}
+	}
+
+	return tl;
+}
+
+/* Block storage.  Reduces overhead, and can be freed quickly. */
+
+static BLOCK *new_block(void)
+{
+	BLOCK *b;
+
+	b = allocate(BLOCK);
+	if (b == NULL) {
+		return NULL;
+	}
+	b->block = new_array(u_char, BLOCKSIZE);
+	if (b->block == NULL) {
+		free_ptr(b, BLOCK);
+		return NULL;
+	}
+	b->ptr = b->block;
+	b->remain = BLOCKSIZE;
+	b->next = NULL;
+
+	return b;
+}
+
+/* Like new(), only from the current block.  Make a new block if necessary. */
+
+u_char *new_from_block(size_t s)
+{
+	u_char *p;
+	BLOCK *b;
+
+	b = Block;
+	if (s > b->remain) {
+		b = new_block();
+		if (b == NULL) {
+			return NULL;
+		}
+		b->next = Block;
+		Block = b;
+	}
+
+	p = b->ptr;
+	b->remain -= s;
+	b->ptr += s;
+
+	return p;
+}
+
+/* Return the previous result of new_from_block() to the block.  This
+can ONLY be called once, immediately after the call to new_from_block().
+That is, no other calls to new_from_block() are allowed. */
+
+static void give_back_block(u_char *p)
+{
+	size_t s;
+	BLOCK *b;
+
+	b = Block;
+	s = b->ptr - p;
+	b->ptr -= s;
+	b->remain += s;
+}
+
+void free_blocks(void)
+{
+	BLOCK *b, *next;
+
+	b = Block;
+	while (b) {
+		next = b->next;
+		free_array(b->block, u_char, BLOCKSIZE);
+		free_ptr(b, BLOCK);
+		b = next;
+	}
+}
+
+void free_clusters(void)
+{
+	int i;
+	TREELIST *l, *n;
+
+	for (i = 0; i < TBUCKETS; i++) {
+		l = Treelist[i];
+		while (l) {
+			n = l->next;
+			free_ptr(l, TREELIST);
 			l = n;
 		}
 	}

@@ -152,7 +152,7 @@ void FreecellBase::findSolution()
 
     QString output = solverFormat();
     int ret = patsolve( output.latin1() );
-    kDebug() << "return " << ret << endl;
+    kDebug() << "return " << ret << "\n" << output << endl;
 }
 
 QString FreecellBase::solverFormat() const

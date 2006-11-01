@@ -6,9 +6,6 @@ include_directories( ${CMAKE_SOURCE_DIR}/libkdegames  )
 
 set(libfcs_SRCS
 patsolve/pat.c
-patsolve/patsolve.c
-patsolve/tree.c
-patsolve/util.c
 )
 ########### next target ###############
 

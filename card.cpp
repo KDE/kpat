@@ -38,34 +38,39 @@
 #include "cardmaps.h"
 #include "dealer.h"
 
-static const char  *suit_names[] = {"club", "diamond", "heart", "spade"};
-static const char  *rank_names[] = {"1", "2", "3", "4", "5", "6", "7", "8",
+static const char  *suit_names[] = { "diamond", "club", "heart", "spade"};
+static const char  *rank_names[] = { "1", "2", "3", "4", "5", "6", "7", "8",
                                      "9", "10", "jack", "queen", "king" };
 
 // Run time type id
 const int Card::my_type = DealerScene::CardTypeId;
 
+AbstractCard::AbstractCard( Rank r, Suit s )
+    : m_suit( s ), m_rank( r ), m_faceup( false )
+{
+    // Default for the card is face up, standard size.
+    m_faceup = true;
+}
+
 Card::Card( Rank r, Suit s, QGraphicsScene *_parent )
-    : QObject(), QGraphicsPixmapItem(),
-      m_suit( s ), m_rank( r ),
+    : QObject(), AbstractCard( r, s ), QGraphicsPixmapItem(),
       m_source(0), tookDown(false), animation( 0 ),
       m_highlighted( false ), m_moving( false )
 {
     _parent->addItem( this );
 
     // Set the name of the card
-    m_name = QString("%1 %2").arg(suit_names[s-1]).arg(rank_names[r-1]).toUtf8();
+    int suit_index = s >> 4;
+    m_name = QString("%1 %2").arg(suit_names[suit_index]).arg(rank_names[r-1]).toUtf8();
     m_hoverTimer = new QTimer(this);
     m_hovered = false;
-    // Default for the card is face up, standard size.
-    m_faceup = false;
-    m_destFace = true;
+    m_destFace = isFaceUp();
 
     m_destX = 0;
     m_destY = 0;
     m_destZ = 0;
 
-    cardMap::self()->registerCard( QString( "%1_%2" ).arg( rank_names[m_rank-1] ).arg( suit_names[m_suit-1] ) );
+    cardMap::self()->registerCard( QString( "%1_%2" ).arg( rank_names[m_rank-1] ).arg( suit_names[ suit_index ] ) );
 
     m_spread = QSizeF( 0, 0 );
 
@@ -126,7 +131,8 @@ void Card::turn( bool _faceup )
         m_faceup = _faceup;
         m_destFace = _faceup;
         if ( m_faceup ) {
-            setElementId( QString( "%1_%2" ).arg( rank_names[m_rank-1] ).arg( suit_names[m_suit-1] ) );
+            int suit_index = m_suit >> 4;
+            setElementId( QString( "%1_%2" ).arg( rank_names[m_rank-1] ).arg( suit_names[suit_index] ) );
         } else {
             setElementId( QLatin1String( "back" ) );
         }
