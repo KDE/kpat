@@ -117,7 +117,7 @@ extern int Status;
 typedef struct block {
 	u_char *block;
 	u_char *ptr;
-	int remain;
+	size_t remain;
 	struct block *next;
 } BLOCK;
 
@@ -140,8 +140,6 @@ extern double Yparam[];
 
 /* Prototypes. */
 
-extern void doit();
-extern void printcard(card_t card, FILE *);
 extern void make_move(MOVE *);
 extern void undo_move(MOVE *);
 extern MOVE *get_moves(POSITION *, int *);

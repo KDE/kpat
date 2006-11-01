@@ -5,11 +5,9 @@
 
 /* Like strcpy() but return the length of the string. */
 
-int strecpy(char *dest, char *src)
+int strecpy(unsigned char *d, unsigned char *s)
 {
 	int i;
-	u_char *d = (u_char *)dest;
-	u_char *s = (u_char *)src;
 
 	i = 0;
 	while ((*d++ = *s++) != '\0') {
@@ -21,7 +19,7 @@ int strecpy(char *dest, char *src)
 
 /* Allocate some space and return a pointer to it.  See new() in util.h. */
 
-void *new_(size_t s)
+void *allocate_memory(size_t s)
 {
 	void *x;
 

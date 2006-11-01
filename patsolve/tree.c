@@ -153,7 +153,7 @@ static TREELIST *cluster_tree(int cluster)
 	/* If we didn't find it, make a new one and add it to the list. */
 
 	if (tl == NULL) {
-		tl = new(TREELIST);
+		tl = allocate(TREELIST);
 		if (tl == NULL) {
 			return NULL;
 		}
@@ -176,7 +176,7 @@ static BLOCK *new_block(void)
 {
 	BLOCK *b;
 
-	b = new(BLOCK);
+	b = allocate(BLOCK);
 	if (b == NULL) {
 		return NULL;
 	}

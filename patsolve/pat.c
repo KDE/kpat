@@ -1018,7 +1018,7 @@ static __inline__ int get_pilenum(int w)
 		        fprintf(stderr, "Ran out of pile numbers!");
 			return -1;
 		}
-		l = new(BUCKETLIST);
+		l = allocate(BUCKETLIST);
 		if (l == NULL) {
 			return -1;
 		}

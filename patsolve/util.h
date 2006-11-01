@@ -20,13 +20,13 @@ extern "C" {
 
 /* A function and some macros for allocating memory. */
 
-extern void *new_(size_t s);
+extern void *allocate_memory(size_t s);
 extern size_t Mem_remain;
 
-#define new(type) (type *)new_(sizeof(type))
+#define allocate(type) (type *)allocate_memory(sizeof(type))
 #define free_ptr(ptr, type) free(ptr); Mem_remain += sizeof(type)
 
-#define new_array(type, size) (type *)new_((size) * sizeof(type))
+#define new_array(type, size) (type *)allocate_memory((size) * sizeof(type))
 #define free_array(ptr, type, size) free(ptr); \
 				    Mem_remain += (size) * sizeof(type)
 
@@ -34,18 +34,9 @@ extern void free_buckets(void);
 extern void free_clusters(void);
 extern void free_blocks(void);
 
-/* Error messages. */
-
-extern char *Progname;
-extern void msg(char *msg, ...);
-
-/* Files. */
-
-extern FILE *fileopen(char *name, char *mode);
-
 /* Misc. */
 
-extern int strecpy(char *dest, char *src);
+extern int strecpy(unsigned char *dest, unsigned char *src);
 
 #ifdef  __cplusplus
 }

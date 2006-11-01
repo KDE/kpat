@@ -49,7 +49,7 @@ void print_queue(void)
 }
 #endif
 
-void doit()
+static void doit()
 {
 	int i, q;
 	POSITION *pos;
@@ -319,6 +319,28 @@ int Total_generated;
 int Xparam[] = { 3, 4, 7, -4, -2, 1, 0, -4, 4, -1, 1 };
 double Yparam[] = { -0.0008, 0.14, -1.0, };
 
+static void play(void)
+{
+	/* Initialize the hash tables. */
+
+	init_buckets();
+	init_clusters();
+
+	/* Reset stats. */
+
+	Total_positions = 0;
+	Total_generated = 0;
+	Status = NOSOL;
+
+	/* Go to it. */
+
+	doit();
+	free_buckets();
+	free_clusters();
+	free_blocks();
+	Freepos = NULL;
+}
+
 int patsolve(const char *text)
 {
 	void play(void);
@@ -344,28 +366,6 @@ int patsolve(const char *text)
 	return Status;
 }
 
-void play(void)
-{
-	/* Initialize the hash tables. */
-
-	init_buckets();
-	init_clusters();
-
-	/* Reset stats. */
-
-	Total_positions = 0;
-	Total_generated = 0;
-	Status = NOSOL;
-
-	/* Go to it. */
-
-	doit();
-	free_buckets();
-	free_clusters();
-	free_blocks();
-	Freepos = NULL;
-}
-
 static const char * next_line( const char *text)
 {
     if (!text)
@@ -378,6 +378,40 @@ static const char * next_line( const char *text)
     return text;
 }
 
+static int parse_pile(const char *s, card_t *w, int size)
+{
+	int i;
+	char c;
+	card_t rank, suit;
+
+	if (!s)
+	    return 0;
+
+	i = 0;
+	rank = suit = NONE;
+	while (i < size && *s && *s != '\n' && *s != '\r') {
+		while (*s == ' ') s++;
+		c = toupper(*s);
+		if (c == 'A') rank = 1;
+		else if (c >= '2' && c <= '9') rank = c - '0';
+		else if (c == 'T') rank = 10;
+		else if (c == 'J') rank = 11;
+		else if (c == 'Q') rank = 12;
+		else if (c == 'K') rank = 13;
+		s++;
+		c = toupper(*s);
+		if (c == 'C') suit = PS_CLUB;
+		else if (c == 'D') suit = PS_DIAMOND;
+		else if (c == 'H') suit = PS_HEART;
+		else if (c == 'S') suit = PS_SPADE;
+		s++;
+		*w++ = suit + rank;
+		i++;
+		while (*s == ' ') s++;
+	}
+	return i;
+}
+
 /* Read a layout file.  Format is one pile per line, bottom to top (visible
 card).  Temp cells and Out on the last two lines, if any. */
 
@@ -385,7 +419,6 @@ void read_layout(const char *text)
 {
 	int w, i, total;
 	card_t out[4];
-	int parse_pile(const char *s, card_t *w, int size);
 
 	/* Read the workspace. */
 
@@ -428,39 +461,5 @@ void read_layout(const char *text)
 			}
 		}
 	}
-}
-
-int parse_pile(const char *s, card_t *w, int size)
-{
-	int i;
-	char c;
-	card_t rank, suit;
-
-	if (!s)
-	    return 0;
-
-	i = 0;
-	rank = suit = NONE;
-	while (i < size && *s && *s != '\n' && *s != '\r') {
-		while (*s == ' ') s++;
-		c = toupper(*s);
-		if (c == 'A') rank = 1;
-		else if (c >= '2' && c <= '9') rank = c - '0';
-		else if (c == 'T') rank = 10;
-		else if (c == 'J') rank = 11;
-		else if (c == 'Q') rank = 12;
-		else if (c == 'K') rank = 13;
-		s++;
-		c = toupper(*s);
-		if (c == 'C') suit = PS_CLUB;
-		else if (c == 'D') suit = PS_DIAMOND;
-		else if (c == 'H') suit = PS_HEART;
-		else if (c == 'S') suit = PS_SPADE;
-		s++;
-		*w++ = suit + rank;
-		i++;
-		while (*s == ' ') s++;
-	}
-	return i;
 }
 
