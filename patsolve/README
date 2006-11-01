@@ -1,0 +1,86 @@
+Solve patience games -- by Dr. Tom <tomh@po.crl.go.jp>
+
+Patsolve is a hybrid DFS/BFS/prioritized-queue search in which moves are
+weighted using a set of parameters according to which game mode you choose.
+
+There are two basic modes, the default "best solution" and "speed mode".
+Speed mode (obtained with the -S flag) is fast but produces highly
+non-optimal solutions.  It is mostly useful for answering the question "is
+there a solution?".  In the default (non -S) mode, solutions are optimized
+to be as short as possible, moving single cards at a time (not stacks).
+
+This version does a kind of round-robin prioritized queue, so low priority
+positions still get some attention (they sometimes lead to better
+solutions).  Thus it is not guaranteed to find the optimal solution, but it
+will find much better solutions than the -S mode.
+
+In either mode, Patsolve can play Seahaven or Freecell, with different
+numbers of work and temp piles.  The default is Freecell with 8 work piles
+and 4 temp cells (the default can be changed, see the Makefile).
+
+The result is left in the file "win" if the game is solvable.
+
+Usage: patsolve [-s|f] [-k|a] [-w<n>] [-t<n>] [-E] [-S] [-q|v] [layout]
+-s Seahaven (same suit), -f Freecell (red/black)
+-k only Kings start a pile, -a any card starts a pile
+-w<n> number of work piles, -t<n> number of free cells
+-E don't exit after one solution; continue looking for better ones
+-S speed mode; find a solution quickly, rather than a good solution
+-q quiet, -v verbose
+-s implies -aw10 -t4, -f implies -aw8 -t4
+
+A layout file looks like this (the famous unsolvable Freecell game #11982):
+
+AH 3D KD JC 6C JD KC
+AS 3H 6H 5D 2C 7D 8D
+4H QS 5S 5C TH 8H 2S
+AC QC 4D 8C QH 9C 3S
+2D 8S 9H 9D 6D 2H
+6S 7H JH TD TC QD
+TS AD 9S KH 4S 4C
+JS KS 3C 7C 7S 5H
+
+The work piles go from left to right, bottom card to visible card.  Thus the
+AH is buried, and the KC is available for movement.
+
+If there is one more line in the layout file than the number of work piles,
+those cards are pre-loaded into the temp cells, so for example a Seahaven
+game with 10 piles looks like this:
+
+4d 5c 4s 6h tc
+td as ks 7h 8d
+qs 7c jc 4h kc
+jd 5s 8s 7d 9h
+6d ah qd 2h 2d
+8h ts th kd 4c
+ad 9d 6c qh js
+2c 3c jh 9s 8c
+ac 6s 7s 3h 5d
+kh 9c qc 3s 2s
+5h 3d
+
+The 5H and 3D are loaded into two of the four temp cells (either upper or
+lower case may be used).  A further line gets loaded into the home cells.
+
+Patches to Xpat2 1.04 and Patience-1.9 are included that dump hands
+in useful formats (you also need convert_layout for Patience-1.9).
+
+In -E mode the program will continue until it runs out of memory.
+
+Additional undocumented flags:
+-M<meg> controls the amount of memory used, default 50 meg.
+-X, -Y set weights for moves, see Parameters.
+-P pick a non-default parameter set, see Parameters and param.h.
+-c<n> another parameter, BFS/DFS cutoff
+-N<start> <end> range solving mode
+
+e.g., "patsolve -fS -M20 -N0 1000" plays the first 1000 games using the
+MS Freecell numbering in speed mode with a 20 meg limit.
+
+Dr. Tom
+July 4, 1998
+Tsukuba, Japan
+Updated November 23, 2000
+Kobe, Japan
+Updated February 27, 2002
+Kobe, Japan

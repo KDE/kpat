@@ -1,0 +1,30 @@
+COPYING                 GPL version 2
+Makefile
+Makefile.win32
+Parameters              some notes on weighting parameters
+README
+check_layout            sh script for error-checking layout files
+config.h
+convert_layout          tcl script that converts patience-1.9 files
+convert_tower           same but for a PalmOS version
+convert_vert            same for hands laid out vertically
+fnv.h
+ga/                     genetic algorithm code used to find parameter sets
+msdeal.c                shuffling code from MS Freecell
+msdeal.unsolve          list of unsolvable -f mode games
+msdealsub.c
+param.c
+param.dat               result of GA runs
+param.h
+param.py                creates param.[ch] from param.dat
+pat.c
+pat.h
+patience-1.9.patch      patch to make patience-1.9 dump hands
+patmain.c
+patsolve.c
+patsolve.exe            MS Windows PE 32-bit Intel 80386 console executable
+tree.c
+tree.h
+util.c
+util.h
+xpat2-1.04.patch        patch to make xpat2 dump hands
