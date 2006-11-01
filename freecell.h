@@ -33,18 +33,19 @@ public:
     virtual void moveCards(CardList &c, Pile *to);
 };
 
-class FreecellBase : public DealerScene
+class Freecell : public DealerScene
 {
+    friend class Solver;
+
     Q_OBJECT
 
 public:
-    FreecellBase( int decks, int stores, int freecells, bool unlimited_move);
+    Freecell();
     void moveCards(CardList &c, FreecellPile *from, Pile *to);
     QString solverFormat() const;
-    virtual ~FreecellBase();
+    virtual ~Freecell();
 
 public slots:
-    virtual void deal() = 0;
     virtual void restart();
     void waitForMoving(Card *c);
     void startMoving();
@@ -73,17 +74,17 @@ protected:
     virtual void stopDemo();
     virtual void newDemoMove(Card *m);
     virtual bool cardDblClicked(Card *c);
+    virtual void deal();
 
 protected:
-    QList<FreecellPile*> store;
-    PileList freecell;
-    PileList target;
+    FreecellPile* store[8];
+    Pile* freecell[4];
+    Pile* target[4];
 
 private:
     HintList moves;
     HintList oldmoves;
     Card *waitfor;
-    bool unlimited_move;
     bool noLongerNeeded(const Card &);
 };
 

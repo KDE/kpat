@@ -6,17 +6,11 @@
 #include <ctype.h>
 #include <math.h>
 #include <sys/types.h>
-
-#include <stdio.h>
-#include <stdlib.h>
 #include <stdarg.h>
-#include <string.h>
 #include <math.h>
-
-#ifndef TRUE
-#define TRUE 1
-#define FALSE 0
-#endif
+#include "patsolve.h"
+#include "../freecell.h"
+#include "../pile.h"
 
 /* A function and some macros for allocating memory. */
 
@@ -33,9 +27,10 @@ static void free_buckets(void);
 static void free_clusters(void);
 static void free_blocks(void);
 
-static int Stack = TRUE;      /* -S means stack, not queue, the moves to be done */
+static bool Stack = true;      /* -S means stack, not queue, the moves to be done */
 static int Cutoff = 1;         /* switch between depth- and breadth-first */
-static int Status;             /* win, lose, or fail */
+enum statuscode { FAIL = -1, WIN = 0, NOSOL = 1 };
+static statuscode Status;             /* win, lose, or fail */
 
 static size_t Mem_remain = 30 * 1000 * 1000;
 
@@ -51,10 +46,6 @@ static double Yparam[] = { 0.0032, 0.32, -3.0 };
 
 static int strecpy(unsigned char *dest, unsigned char *src);
 
-/* A card is represented as (suit << 4) + rank. */
-
-typedef u_char card_t;
-
 #define PS_DIAMOND 0x00         /* red */
 #define PS_CLUB    0x10         /* black */
 #define PS_HEART   0x20         /* red */
@@ -66,9 +57,9 @@ typedef u_char card_t;
 #define PS_ACE  1
 #define PS_KING 13
 
-#define rank(card) ((card) & 0xF)
-#define suit(card) ((card) >> 4)
-#define color(card) ((card) & PS_COLOR)
+#define RANK(card) ((card) & 0xF)
+#define SUIT(card) ((card) >> 4)
+#define COLOR(card) ((card) & PS_COLOR)
 
 /* Some macros used in get_possible_moves(). */
 
@@ -79,20 +70,7 @@ typedef u_char card_t;
 static card_t Suit_mask;
 static card_t Suit_val;
 
-#define king_only(card) (!King_only || rank(card) == PS_KING)
-
-/* Represent a move. */
-
-typedef struct {
-	card_t card;            /* the card we're moving */
-	u_char from;            /* from pile number */
-	u_char to;              /* to pile number */
-	u_char fromtype;        /* O, T, or W */
-	u_char totype;
-	card_t srccard;         /* card we're uncovering */
-	card_t destcard;        /* card we're moving to */
-	signed char pri;        /* move priority (low priority == low value) */
-} MOVE;
+#define king_only(card) (!King_only || RANK(card) == PS_KING)
 
 /* A splay tree. */
 
@@ -111,22 +89,6 @@ struct tree_node {
 #define MAXTPILES       8       /* max number of piles */
 #define MAXWPILES      13
 
-/* Position information.  We store a compact representation of the position;
-Temp cells are stored separately since they don't have to be compared.
-We also store the move that led to this position from the parent, as well
-as a pointers back to the parent, and the btree of all positions examined so
-far. */
-
-typedef struct pos {
-	struct pos *queue;      /* next position in the queue */
-	struct pos *parent;     /* point back up the move stack */
-	TREE *node;             /* compact position rep.'s tree node */
-	MOVE move;              /* move that got us here from the parent */
-	unsigned short cluster; /* the cluster this node is in */
-	short depth;            /* number of moves so far */
-	u_char ntemp;           /* number of cards in T */
-	u_char nchild;          /* number of child nodes left */
-} POSITION;
 
 /* Work arrays. */
 
@@ -140,8 +102,6 @@ int Widxi[MAXWPILES];    /* inverse of the above */
 enum inscode { NEW, FOUND, FOUND_BETTER, ERR };
 
 /* Command line flags. */
-
-enum statuscode { FAIL = -1, WIN = 0, NOSOL = 1 };
 
 /* Memory. */
 
@@ -378,7 +338,7 @@ static void prioritize(MOVE *mp0, int n)
 		j = Wlen[w];
 		for (i = 0; i < j; i++) {
 			card = W[w][i];
-			s = suit(card);
+			s = SUIT(card);
 
 			/* Save the locations of the piles containing
 			not only the card we need next, but the card
@@ -434,7 +394,7 @@ static void prioritize(MOVE *mp0, int n)
 
 /* Generate an array of the moves we can make from this position. */
 
-static MOVE *get_moves(POSITION *pos, int *nmoves)
+MOVE *Solver::get_moves(POSITION *pos, int *nmoves)
 {
 	int i, n, alln, o, a, numout = 0;
 	MOVE *mp, *mp0;
@@ -523,7 +483,7 @@ static __inline__ int good_automove(int o, int r)
 	int i;
 
 	if (Same_suit || r <= 2) {
-		return TRUE;
+		return true;
 	}
 
 	/* Check the Out piles of opposite color. */
@@ -541,21 +501,21 @@ static __inline__ int good_automove(int o, int r)
 
 			for (i = 1 - (o & 1); i < 4; i += 2) {
 				if (O[i] < r - 2) {
-					return FALSE;
+					return false;
 				}
 			}
 			if (O[(o + 2) & 3] < r - 3) {
-				return FALSE;
+				return false;
 			}
 
-			return TRUE;
+			return true;
 #else   /* Horne's Rule */
-			return FALSE;
+			return false;
 #endif
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 /* Get the possible moves from a position, and store them in Possible[]. */
@@ -573,10 +533,10 @@ static int get_possible_moves(int *a, int *numout)
 	for (w = 0; w < Nwpiles; w++) {
 		if (Wlen[w] > 0) {
 			card = *Wp[w];
-			o = suit(card);
+			o = SUIT(card);
 			empty = (O[o] == NONE);
-			if ((empty && (rank(card) == PS_ACE)) ||
-			    (!empty && (rank(card) == O[o] + 1))) {
+			if ((empty && (RANK(card) == PS_ACE)) ||
+			    (!empty && (RANK(card) == O[o] + 1))) {
 				mp->card = card;
 				mp->from = w;
 				mp->fromtype = W_TYPE;
@@ -593,8 +553,8 @@ static int get_possible_moves(int *a, int *numout)
 
 				/* If it's an automove, just do it. */
 
-				if (good_automove(o, rank(card))) {
-					*a = TRUE;
+				if (good_automove(o, RANK(card))) {
+					*a = true;
 					if (n != 1) {
 						Possible[0] = mp[-1];
 						return 1;
@@ -610,10 +570,10 @@ static int get_possible_moves(int *a, int *numout)
 	for (t = 0; t < Ntpiles; t++) {
 		if (T[t] != NONE) {
 			card = T[t];
-			o = suit(card);
+			o = SUIT(card);
 			empty = (O[o] == NONE);
-			if ((empty && (rank(card) == PS_ACE)) ||
-			    (!empty && (rank(card) == O[o] + 1))) {
+			if ((empty && (RANK(card) == PS_ACE)) ||
+			    (!empty && (RANK(card) == O[o] + 1))) {
 				mp->card = card;
 				mp->from = t;
 				mp->fromtype = T_TYPE;
@@ -627,8 +587,8 @@ static int get_possible_moves(int *a, int *numout)
 
 				/* If it's an automove, just do it. */
 
-				if (good_automove(o, rank(card))) {
-					*a = TRUE;
+				if (good_automove(o, RANK(card))) {
+					*a = true;
 					if (n != 1) {
 						Possible[0] = mp[-1];
 						return 1;
@@ -641,7 +601,7 @@ static int get_possible_moves(int *a, int *numout)
 
 	/* No more automoves, but remember if there were any moves out. */
 
-	*a = FALSE;
+	*a = false;
 	*numout = n;
 
 	/* Check for moves from non-singleton W cells to one of any
@@ -685,7 +645,7 @@ static int get_possible_moves(int *a, int *numout)
 					continue;
 				}
 				if (Wlen[w] > 0 &&
-				    (rank(card) == rank(*Wp[w]) - 1 &&
+				    (RANK(card) == RANK(*Wp[w]) - 1 &&
 				     suitable(card, *Wp[w]))) {
 					mp->card = card;
 					mp->from = i;
@@ -712,7 +672,7 @@ static int get_possible_moves(int *a, int *numout)
 		if (card != NONE) {
 			for (w = 0; w < Nwpiles; w++) {
 				if (Wlen[w] > 0 &&
-				    (rank(card) == rank(*Wp[w]) - 1 &&
+				    (RANK(card) == RANK(*Wp[w]) - 1 &&
 				     suitable(card, *Wp[w]))) {
 					mp->card = card;
 					mp->from = t;
@@ -790,19 +750,19 @@ static void mark_irreversible(int n)
 	MOVE *mp;
 
 	for (i = 0, mp = Possible; i < n; i++, mp++) {
-		irr = FALSE;
+		irr = false;
 		if (mp->totype == O_TYPE) {
-			irr = TRUE;
+			irr = true;
 		} else if (mp->fromtype == W_TYPE) {
 			srccard = mp->srccard;
 			if (srccard != NONE) {
 				card = mp->card;
-				if (rank(card) != rank(srccard) - 1 ||
+				if (RANK(card) != RANK(srccard) - 1 ||
 				    !suitable(card, srccard)) {
-					irr = TRUE;
+					irr = true;
 				}
 			} else if (King_only && mp->card != PS_KING) {
-				irr = TRUE;
+				irr = true;
 			}
 		}
 		if (irr) {
@@ -1076,10 +1036,10 @@ static void unpack_position(POSITION *pos)
 
 static void printcard(card_t card, FILE *outfile)
 {
-       if (rank(card) == NONE) {
+       if (RANK(card) == NONE) {
                fprintf(outfile, "   ");
        } else {
-               fprintf(outfile, "%c%c ", Rank[rank(card)], Suit[suit(card)]);
+               fprintf(outfile, "%c%c ", Rank[RANK(card)], Suit[SUIT(card)]);
        }
 }
 
@@ -1264,12 +1224,11 @@ static POSITION *Qhead[NQUEUES]; /* separate queue for each priority */
 static POSITION *Qtail[NQUEUES]; /* positions are added here */
 static int Maxq;
 
-static int solve(POSITION *);
 static void free_position(POSITION *pos, int);
 static void queue_position(POSITION *, int);
 static POSITION *dequeue_position();
 
-static void doit()
+void Solver::doit()
 {
 	int i, q;
 	POSITION *pos;
@@ -1298,7 +1257,7 @@ static void doit()
 	while ((pos = dequeue_position()) != NULL) {
 		q = solve(pos);
 		if (!q) {
-			free_position(pos, TRUE);
+			free_position(pos, true);
 		}
 	}
 }
@@ -1307,37 +1266,37 @@ static void doit()
 recursively solve them.  Return whether any of the child nodes, or their
 descendents, were queued or not (if not, the position can be freed). */
 
-static int solve(POSITION *parent)
+int Solver::solve(POSITION *parent)
 {
 	int i, nmoves, q, qq;
 	MOVE *mp, *mp0;
 	POSITION *pos;
 
 	/* If we've won already (or failed), we just go through the motions
-	but always return FALSE from any position.  This enables the cleanup
+	but always return false from any position.  This enables the cleanup
 	of the move stack and eventual destruction of the position store. */
 
 	if (Status != NOSOL) {
-		return FALSE;
+		return false;
 	}
 
 	/* If the position was found again in the tree by a shorter
 	path, prune this path. */
 
 	if (parent->node->depth < parent->depth) {
-		return FALSE;
+		return false;
 	}
 
 	/* Generate an array of all the moves we can make. */
 
 	if ((mp0 = get_moves(parent, &nmoves)) == NULL) {
-		return FALSE;
+		return false;
 	}
 	parent->nchild = nmoves;
 
 	/* Make each move and either solve or queue the result. */
 
-	q = FALSE;
+	q = false;
 	for (i = 0, mp = mp0; i < nmoves; i++, mp++) {
 		make_move(mp);
 
@@ -1363,13 +1322,13 @@ static int solve(POSITION *parent)
 			qq = solve(pos);
 			undo_move(mp);
 			if (!qq) {
-				free_position(pos, FALSE);
+				free_position(pos, false);
 			}
 			q |= qq;
 		} else {
 			queue_position(pos, mp->pri);
 			undo_move(mp);
-			q = TRUE;
+			q = true;
 		}
 	}
 	free_array(mp0, MOVE, nmoves);
@@ -1384,7 +1343,7 @@ POSITION structs.  We have to be careful, though, because there are many
 threads running through the game tree starting from the queued positions.
 The nchild element keeps track of descendents, and when there are none left
 in the parent we can free it too after solve() returns and we get called
-recursively (rec == TRUE). */
+recursively (rec == true). */
 
 static void free_position(POSITION *pos, int rec)
 {
@@ -1472,7 +1431,7 @@ static POSITION *dequeue_position()
 	but we still get lots of low priority action (instead of
 	ignoring it completely). */
 
-	last = FALSE;
+	last = false;
 	do {
 		qpos--;
 		if (qpos < minpos) {
@@ -1485,7 +1444,7 @@ static POSITION *dequeue_position()
 				minpos = Maxq;
 			}
 			if (minpos == 0) {
-				last = TRUE;
+				last = true;
 			}
 		}
 	} while (Qhead[qpos] == NULL);
@@ -1510,7 +1469,7 @@ static POSITION *dequeue_position()
 	return pos;
 }
 
-static void play(void)
+void Solver::play(void)
 {
 	/* Initialize the hash tables. */
 
@@ -1532,12 +1491,31 @@ static void play(void)
 	Freepos = NULL;
 }
 
-static void read_layout(const char *text);
-
-int patsolve(const char *text)
+void print_layout()
 {
-	Same_suit = FALSE;
-	King_only = FALSE;
+       int i, t, w, o;
+
+       fprintf(stderr, "print-layout-begin\n");
+       for (w = 0; w < Nwpiles; w++) {
+               for (i = 0; i < Wlen[w]; i++) {
+                       printcard(W[w][i], stderr);
+               }
+               fputc('\n', stderr);
+       }
+       for (t = 0; t < Ntpiles; t++) {
+               printcard(T[t], stderr);
+       }
+       fputc('\n', stderr);
+       for (o = 0; o < 4; o++) {
+               printcard(O[o] + Osuit[o], stderr);
+       }
+       fprintf(stderr, "\nprint-layout-end\n");
+}
+
+int Solver::patsolve(const Freecell *dealer)
+{
+	Same_suit = false;
+	King_only = false;
 	Nwpiles = 8;
 	Ntpiles = 4;
 
@@ -1550,23 +1528,13 @@ int patsolve(const char *text)
 		Suit_val = 0;
 	}
 
-	read_layout(text);
+	translate_layout(dealer);
+        print_layout();
 	play();
 
 	return Status;
 }
 
-static const char * next_line( const char *text)
-{
-    if (!text)
-	return text;
-    if (!text[0])
-	return 0;
-    text = strchr(text, '\n');
-    if (text)
-	text++;
-    return text;
-}
 
 static int parse_pile(const char *s, card_t *w, int size)
 {
@@ -1602,24 +1570,33 @@ static int parse_pile(const char *s, card_t *w, int size)
 	return i;
 }
 
+static int translate_pile(const Pile *pile, card_t *w, int size)
+{
+    Q_ASSERT( pile->cardsLeft() <= size );
+
+        card_t rank, suit;
+
+	rank = suit = NONE;
+        for ( int i = 0; i < pile->cardsLeft(); ++i )
+        {
+            *w = pile->at( i )->suit() + pile->at( i )->rank();
+            w++;
+	}
+	return pile->cardsLeft();
+}
+
 /* Read a layout file.  Format is one pile per line, bottom to top (visible
 card).  Temp cells and Out on the last two lines, if any. */
 
-static void read_layout(const char *text)
+void Solver::translate_layout(const Freecell *deal)
 {
-	int w, i, total;
-	card_t out[4];
-
 	/* Read the workspace. */
 
-	w = 0;
-	total = 0;
-	while (text) {
-		i = parse_pile(text, W[w], 52);
-		text = next_line(text);
+	int total = 0;
+	for ( int w = 0; w < 8; ++w ) {
+		int i = translate_pile(deal->store[w], W[w], 52);
 		Wp[w] = &W[w][i - 1];
 		Wlen[w] = i;
-		w++;
 		total += i;
 		if (w == Nwpiles) {
 			break;
@@ -1628,28 +1605,29 @@ static void read_layout(const char *text)
 
 	/* Temp cells may have some cards too. */
 
-	for (i = 0; i < Ntpiles; i++) {
+	for (int i = 0; i < Ntpiles; i++)
+        {
 		T[i] = NONE;
-	}
-	if (total != 52) {
-		total += parse_pile(text, T, Ntpiles);
-		text = next_line(text);
+                Card *c = deal->freecell[i]->top();
+                if ( c )
+                {
+                    T[i] = c->suit() + c->rank();
+                    total++;
+                }
 	}
 
 	/* Output piles, if any. */
-
-	for (i = 0; i < 4; i++) {
-		O[i] = out[i] = NONE;
+	for (int i = 0; i < 4; i++) {
+		O[i] = NONE;
 	}
 	if (total != 52) {
-		parse_pile(text, out, 4);
-		text = next_line(text);
-		for (i = 0; i < 4; i++) {
-			if (out[i] != NONE) {
-				O[suit(out[i])] = rank(out[i]);
-				total += rank(out[i]);
-			}
-		}
+            for (int i = 0; i < 4; i++) {
+                Card *c = deal->target[i]->top();
+                if (c) {
+                    O[c->suit() >> 4] = c->rank();
+                    total += c->rank();
+                }
+            }
 	}
 }
 

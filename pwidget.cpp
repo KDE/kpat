@@ -280,6 +280,7 @@ void pWidget::newGameType()
         dill->setScene( DealerInfoList::self()->games().first()->createGame() );
     }
 
+    kDebug() << "dill " << dill << " " << dill->dscene() << endl;
     connect(dill, SIGNAL(undoPossible(bool)), SLOT(undoPossible(bool)));
     connect(dill->dscene(), SIGNAL(gameLost()), SLOT(gameLost()));
 

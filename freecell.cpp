@@ -30,6 +30,7 @@
 //Added by qt3to4:
 #include <QList>
 #include "cardmaps.h"
+#include "patsolve/patsolve.h"
 
 const int CHUNKSIZE = 100;
 
@@ -39,7 +40,7 @@ void FreecellPile::moveCards(CardList &c, Pile *to)
         Pile::moveCards(c, to);
         return;
     }
-    FreecellBase *b = dynamic_cast<FreecellBase*>(dscene());
+    Freecell *b = dynamic_cast<Freecell*>(dscene());
     if (b) {
         b->moveCards(c, this, to);
     }
@@ -47,36 +48,38 @@ void FreecellPile::moveCards(CardList &c, Pile *to)
 
 //-------------------------------------------------------------------------//
 
-FreecellBase::FreecellBase( int decks, int stores, int freecells, bool unlimit )
-    : DealerScene(),
-      unlimited_move(unlimit)
+Freecell::Freecell()
+    : DealerScene()
 {
-    Deck::create_deck(this, decks);
+    Deck::create_deck(this, 1);
     Deck::deck()->hide();
 
     kDebug(11111) << "cards " << Deck::deck()->cards().count() << endl;
     Pile *t;
-    for (int i = 0; i < stores; i++)
+    for (int i = 0; i < 8; i++)
     {
         FreecellPile *p = new FreecellPile(1 + i, this);
-        store.append(p);
+        store[i] = p;
+        store[i]->setPilePos(1 + 11.3 * i, 14 );
         p->setAddFlags(Pile::addSpread | Pile::several);
         p->setRemoveFlags(Pile::several);
         p->setCheckIndex(0);
         p->setReservedSpace( QSizeF( 10, 28 ) );
     }
 
-    for (int i = 0; i < freecells; i++)
+    for (int i = 0; i < 4; i++)
     {
-        t = new Pile (1 + stores +i, this);
-        freecell.append(t);
+        t = new Pile (1 + 8 +i, this);
+        freecell[i] = t;
+        freecell[i]->setPilePos(1 + 10.8 * i, 1);
         t->setType(Pile::FreeCell);
     }
 
-    for (int i = 0; i < decks * 4; i++)
+    for (int i = 0; i < 4; i++)
     {
-        t = new Pile(1 + stores + freecells +i, this);
-        target.append(t);
+        t = new Pile(1 + 8 + 4 +i, this);
+        target[i] = t;
+        target[i]->setPilePos(4 + 10.8 * ( 4 + i ), 1);
         t->setType(Pile::KlondikeTarget);
         // COOLO: I'm still not too sure about that t->setRemoveFlags(Pile::Default);
     }
@@ -84,12 +87,12 @@ FreecellBase::FreecellBase( int decks, int stores, int freecells, bool unlimit )
     setActions(DealerScene::Demo | DealerScene::Hint);
 }
 
-FreecellBase::~FreecellBase()
+Freecell::~Freecell()
 {
 }
 //-------------------------------------------------------------------------//
 
-void FreecellBase::restart()
+void Freecell::restart()
 {
     freeSolution();
     Deck::deck()->collectAndShuffle();
@@ -144,23 +147,22 @@ int getDeck(Card::Suit suit)
     return 0;
 }
 
-int patsolve(const char *text);
-
-void FreecellBase::findSolution()
+void Freecell::findSolution()
 {
     kDebug(11111) << "findSolution\n";
 
     QString output = solverFormat();
-    int ret = patsolve( output.latin1() );
+    Solver s;
+    int ret = s.patsolve( this );
     kDebug() << "return " << ret << "\n" << output << endl;
 }
 
-QString FreecellBase::solverFormat() const
+QString Freecell::solverFormat() const
 {
     QString output;
     QString tmp;
 
-    for (int i = 0; i < store.count(); i++)
+    for (int i = 0; i < 8; i++)
     {
         CardList cards = store[i]->cards();
         for (CardList::ConstIterator it = cards.begin(); it != cards.end(); ++it)
@@ -169,14 +171,14 @@ QString FreecellBase::solverFormat() const
     }
 
     tmp.truncate(0);
-    for (int i = 0; i < freecell.count(); i++) {
+    for (int i = 0; i < 4; i++) {
         if (!freecell[i]->isEmpty())
             tmp += rankToString(freecell[i]->top()->rank()) + suitToString(freecell[i]->top()->suit()) + ' ';
     }
     output += tmp + "\n";
 
     tmp.truncate( 0 );
-    for (int i = 0; i < target.count(); i++) {
+    for (int i = 0; i < 4; i++) {
         if (target[i]->isEmpty())
             continue;
         tmp += rankToString(target[i]->top()->rank()) + suitToString(target[i]->top()->suit()) + ' ';
@@ -219,7 +221,7 @@ QString FreecellBase::solverFormat() const
 //  lowest unplayed black card is t.value()-1, OR if the lowest unplayed black
 //  card is t.value().  So, no recursion needed - we did it ahead of time.
 
-bool FreecellBase::noLongerNeeded(const Card & t)
+bool Freecell::noLongerNeeded(const Card & t)
 {
 
     if (t.rank() <= Card::Two) return true; //  Base case.
@@ -228,22 +230,22 @@ bool FreecellBase::noLongerNeeded(const Card & t)
 
     int numSame = 0, numDiff = 0;
     Card::Rank lowSame = Card::King, lowDiff = Card::King;
-    for (PileList::Iterator it = target.begin(); it != target.end(); ++it)
+    for (int i = 0; i < 4; ++i )
     {
-        if ((*it)->isEmpty())
+        if (target[i]->isEmpty())
             continue;
-        if ((*it)->top()->isRed() == cardIsRed) {
+        if (target[i]->top()->isRed() == cardIsRed) {
             numSame++;
-            if ((*it)->top()->rank() < lowSame)
-                lowSame = static_cast<Card::Rank>((*it)->top()->rank()+1);
+            if (target[i]->top()->rank() < lowSame)
+                lowSame = static_cast<Card::Rank>(target[i]->top()->rank()+1);
         } else {
             numDiff++;
-            if ((*it)->top()->rank() < lowDiff)
-                lowDiff = static_cast<Card::Rank>((*it)->top()->rank()+1);
+            if (target[i]->top()->rank() < lowDiff)
+                lowDiff = static_cast<Card::Rank>(target[i]->top()->rank()+1);
         }
     }
-    if (numSame < target.count()/2) lowSame = Card::Ace;
-    if (numDiff < target.count()/2) lowDiff = Card::Ace;
+    if (numSame < 2) lowSame = Card::Ace;
+    if (numDiff < 2) lowDiff = Card::Ace;
 
     return (lowDiff >= t.rank() ||
         (lowDiff >= t.rank()-1 && lowSame >= t.rank()-2));
@@ -257,7 +259,7 @@ bool FreecellBase::noLongerNeeded(const Card & t)
 //  to the base class (Dealer) that just returns true, and then calling
 //  it like is done here.  That would preserve current functionality
 //  but eliminate this code duplication
-void FreecellBase::getHints()
+void Freecell::getHints()
 {
     for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
     {
@@ -309,48 +311,44 @@ void FreecellBase::getHints()
     }
 }
 
-void FreecellBase::demo()
+void Freecell::demo()
 {
     unmarkAll();
     findSolution();
 }
 
-MoveHint *FreecellBase::chooseHint()
+MoveHint *Freecell::chooseHint()
 {
     return DealerScene::chooseHint();
 }
 
-void FreecellBase::countFreeCells(int &free_cells, int &free_stores) const
+void Freecell::countFreeCells(int &free_cells, int &free_stores) const
 {
     free_cells = 0;
     free_stores = 0;
 
-    for (int i = 0; i < freecell.count(); i++)
+    for (int i = 0; i < 4; i++)
         if (freecell[i]->isEmpty()) free_cells++;
-    for (int i = 0; i < store.count(); i++)
+    for (int i = 0; i < 8; i++)
         if (store[i]->isEmpty()) free_stores++;
 }
 
-void FreecellBase::freeSolution()
+void Freecell::freeSolution()
 {
     for (HintList::Iterator it = oldmoves.begin(); it != oldmoves.end(); ++it)
         delete *it;
     oldmoves.clear();
 }
 
-void FreecellBase::stopDemo()
+void Freecell::stopDemo()
 {
     DealerScene::stopDemo();
     freeSolution();
 }
 
-void FreecellBase::moveCards(CardList &c, FreecellPile *from, Pile *to)
+void Freecell::moveCards(CardList &c, FreecellPile *from, Pile *to)
 {
     assert(c.count() > 1);
-    if (unlimited_move) {
-        from->Pile::moveCards(c, to);
-        return;
-    }
     setWaiting(true);
 
     from->moveCardsBack(c);
@@ -359,12 +357,12 @@ void FreecellBase::moveCards(CardList &c, FreecellPile *from, Pile *to)
 
     PileList fcs;
 
-    for (int i = 0; i < freecell.count(); i++)
+    for (int i = 0; i < 4; i++)
         if (freecell[i]->isEmpty()) fcs.append(freecell[i]);
 
     PileList fss;
 
-    for (int i = 0; i < store.count(); i++)
+    for (int i = 0; i < 8; i++)
         if (store[i]->isEmpty() && to != store[i]) fss.append(store[i]);
 
     if (fcs.count() == 0) {
@@ -386,7 +384,7 @@ struct MoveAway {
     int count;
 };
 
-void FreecellBase::movePileToPile(CardList &c, Pile *to, PileList fss, PileList &fcs, int start, int count, int debug_level)
+void Freecell::movePileToPile(CardList &c, Pile *to, PileList fss, PileList &fcs, int start, int count, int debug_level)
 {
     kDebug(11111) << debug_level << " movePileToPile" << c.count() << " " << start  << " " << count << endl;
     int moveaway = 0;
@@ -437,7 +435,7 @@ void FreecellBase::movePileToPile(CardList &c, Pile *to, PileList fss, PileList 
     }
 }
 
-void FreecellBase::startMoving()
+void Freecell::startMoving()
 {
     kDebug(11111) << "startMoving\n";
     if (moves.isEmpty()) {
@@ -459,14 +457,14 @@ void FreecellBase::startMoving()
     delete mh;
 }
 
-void FreecellBase::newDemoMove(Card *m)
+void Freecell::newDemoMove(Card *m)
 {
     DealerScene::newDemoMove(m);
     if (m != m->source()->top())
         m->disconnect();
 }
 
-void FreecellBase::waitForMoving(Card *c)
+void Freecell::waitForMoving(Card *c)
 {
     if (waitfor != c)
         return;
@@ -475,7 +473,7 @@ void FreecellBase::waitForMoving(Card *c)
     startMoving();
 }
 
-bool FreecellBase::cardDblClicked(Card *c)
+bool Freecell::cardDblClicked(Card *c)
 {
     // target move
     if (DealerScene::cardDblClicked(c))
@@ -485,7 +483,7 @@ bool FreecellBase::cardDblClicked(Card *c)
         return false;
 
     if (c == c->source()->top() && c->realFace())
-        for (int i = 0; i < freecell.count(); i++)
+        for (int i = 0; i < 4; i++)
             if (freecell[i]->isEmpty()) {
                 CardList empty;
                 empty.append(c);
@@ -495,7 +493,7 @@ bool FreecellBase::cardDblClicked(Card *c)
     return false;
 }
 
-bool FreecellBase::CanPutStore(const Pile *c1, const CardList &c2) const
+bool Freecell::CanPutStore(const Pile *c1, const CardList &c2) const
 {
     int fcs, fss;
     countFreeCells(fcs, fss);
@@ -503,7 +501,7 @@ bool FreecellBase::CanPutStore(const Pile *c1, const CardList &c2) const
     if (c1->isEmpty()) // destination is empty
         fss--;
 
-    if (!unlimited_move && int(c2.count()) > ((fcs)+1)<<fss)
+    if (int(c2.count()) > ((fcs)+1)<<fss)
         return false;
 
     // ok if the target is empty
@@ -517,14 +515,14 @@ bool FreecellBase::CanPutStore(const Pile *c1, const CardList &c2) const
             && (c1->top()->isRed() != c->isRed()));
 }
 
-bool FreecellBase::checkAdd(int, const Pile *c1, const CardList &c2) const
+bool Freecell::checkAdd(int, const Pile *c1, const CardList &c2) const
 {
     return CanPutStore(c1, c2);
 }
 
 //-------------------------------------------------------------------------//
 
-bool FreecellBase::checkRemove(int checkIndex, const Pile *p, const Card *c) const
+bool Freecell::checkRemove(int checkIndex, const Pile *p, const Card *c) const
 {
     if (checkIndex != 0)
         return false;
@@ -557,26 +555,6 @@ bool FreecellBase::checkRemove(int checkIndex, const Pile *p, const Card *c) con
 }
 
 //-------------------------------------------------------------------------//
-
-class Freecell : public FreecellBase
-{
-public:
-    Freecell( );
-    virtual void deal();
-};
-
-Freecell::Freecell()
-    : FreecellBase(1, 8, 4, false)
-{
-    for (int i = 0; i < 8; i++)
-        store[i]->setPilePos(1 + 11.3 * i, 14 );
-
-    for (int i = 0; i < 4; i++)
-        freecell[i]->setPilePos(1 + 10.8 * i, 1);
-
-    for (int i = 0; i < 4; i++)
-        target[i]->setPilePos(4 + 10.8 * ( 4 + i ), 1);
-}
 
 void Freecell::deal()
 {
