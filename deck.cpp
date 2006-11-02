@@ -90,7 +90,6 @@ void Deck::makedeck()
         {
             for ( int s = 3; s >=  0 ; s--)
             {
-                kDebug() << "suit " << 4 - (s % suits) << endl;
                 _deck[i] = new Card(static_cast<Card::Rank>(r),
                                     mysuits[3 - (s % suits)], dscene() );
                 _deck[i]->setPos(QPointF( 0, 0) );
@@ -152,7 +151,7 @@ void Deck::shuffle()
     assert(dscene()->gameNumber() >= 0);
     pseudoRandom_srand(dscene()->gameNumber());
 
-    kDebug(11111) << "first card " << m_cards[0]->name() << " " << dscene()->gameNumber() << endl;
+    //kDebug(11111) << "first card " << m_cards[0]->name() << " " << dscene()->gameNumber() << endl;
 
     Card* t;
     long z;
@@ -176,6 +175,7 @@ void Deck::addToDeck()
 
     for (uint i = 0; i < mult*NumberOfCards; i++) {
         _deck[i]->setTakenDown(false);
+
         add( _deck[i], true );
         if ( isVisible() )
             _deck[i]->setPos( QPointF( x(), y() ) );

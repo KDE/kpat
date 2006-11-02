@@ -42,8 +42,8 @@ class Freecell : public DealerScene
 public:
     Freecell();
     void moveCards(CardList &c, FreecellPile *from, Pile *to);
-    QString solverFormat() const;
     virtual ~Freecell();
+    void findSolution();
 
 public slots:
     virtual void restart();
@@ -65,7 +65,6 @@ protected:
                         int start, int count, int debug_level);
 
     Pile *pileForName(QString line) const;
-    void findSolution();
 
     virtual MoveHint *chooseHint();
     MoveHint *translateMove(void *m);

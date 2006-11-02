@@ -108,7 +108,7 @@ bool operator==( const State & st1, const State & st2) {
 
 void DealerScene::takeState()
 {
-    // kDebug(11111) << "takeState " << waiting() << endl;
+    kDebug(11111) << "takeState " << waiting() << endl;
 
     QList<QGraphicsItem *> list = items();
     for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)

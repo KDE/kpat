@@ -23,9 +23,13 @@
 #include <klocale.h>
 #include <kurl.h>
 #include <qtimer.h>
+#include <stdio.h>
+
 
 #include "version.h"
 #include "pwidget.h"
+#include "freecell.h"
+#include "cardmaps.h"
 
 static const char description[] = I18N_NOOP("KDE Patience Game");
 
@@ -63,6 +67,18 @@ int main( int argc, char **argv )
 
     KApplication application;
     KGlobal::locale()->insertCatalog("libkdegames");
+#if 0
+    cardMap c;
+    Freecell *f = new Freecell();
+
+    for ( int i = 0; i < 1000; i++ )
+    {
+        f->setGameNumber( i );
+        f->restart();
+        f->findSolution();
+    }
+    return 0;
+#endif
 
     if (application.isSessionRestored())
         RESTORE(pWidget)

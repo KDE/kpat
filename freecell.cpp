@@ -24,7 +24,6 @@
 #include "deck.h"
 #include <assert.h>
 #include <kdebug.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <QTimer>
 //Added by qt3to4:
@@ -97,7 +96,6 @@ void Freecell::restart()
     freeSolution();
     Deck::deck()->collectAndShuffle();
     deal();
-    findSolution();
 }
 
 QString suitToString(Card::Suit s) {
@@ -149,43 +147,9 @@ int getDeck(Card::Suit suit)
 
 void Freecell::findSolution()
 {
-    kDebug(11111) << "findSolution\n";
-
-    QString output = solverFormat();
     Solver s;
     int ret = s.patsolve( this );
-    kDebug() << "return " << ret << "\n" << output << endl;
-}
-
-QString Freecell::solverFormat() const
-{
-    QString output;
-    QString tmp;
-
-    for (int i = 0; i < 8; i++)
-    {
-        CardList cards = store[i]->cards();
-        for (CardList::ConstIterator it = cards.begin(); it != cards.end(); ++it)
-            output += rankToString((*it)->rank()) + suitToString((*it)->suit()) + ' ';
-        output += '\n';
-    }
-
-    tmp.truncate(0);
-    for (int i = 0; i < 4; i++) {
-        if (!freecell[i]->isEmpty())
-            tmp += rankToString(freecell[i]->top()->rank()) + suitToString(freecell[i]->top()->suit()) + ' ';
-    }
-    output += tmp + "\n";
-
-    tmp.truncate( 0 );
-    for (int i = 0; i < 4; i++) {
-        if (target[i]->isEmpty())
-            continue;
-        tmp += rankToString(target[i]->top()->rank()) + suitToString(target[i]->top()->suit()) + ' ';
-    }
-    output += tmp;
-
-    return output;
+    // kDebug() << "return " << ret << endl;
 }
 
 //  Idea stolen from klondike.cpp
@@ -561,7 +525,8 @@ void Freecell::deal()
     int column = 0;
     while (!Deck::deck()->isEmpty())
     {
-        store[column]->add (Deck::deck()->nextCard(), false);
+        Card *c = Deck::deck()->nextCard();
+        store[column]->add (c, false);
         column = (column + 1) % 8;
     }
 }
