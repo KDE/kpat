@@ -60,7 +60,7 @@ Card::Card( Rank r, Suit s, QGraphicsScene *_parent )
     _parent->addItem( this );
 
     // Set the name of the card
-    int suit_index = s >> 4;
+    int suit_index = s;
     m_name = QString("%1 %2").arg(suit_names[suit_index]).arg(rank_names[r-1]).toUtf8();
     m_hoverTimer = new QTimer(this);
     m_hovered = false;
@@ -131,7 +131,7 @@ void Card::turn( bool _faceup )
         m_faceup = _faceup;
         m_destFace = _faceup;
         if ( m_faceup ) {
-            int suit_index = m_suit >> 4;
+            int suit_index = m_suit;
             setElementId( QString( "%1_%2" ).arg( rank_names[m_rank-1] ).arg( suit_names[suit_index] ) );
         } else {
             setElementId( QLatin1String( "back" ) );

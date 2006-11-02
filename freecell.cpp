@@ -149,7 +149,7 @@ void Freecell::findSolution()
 {
     Solver s;
     int ret = s.patsolve( this );
-    // kDebug() << "return " << ret << endl;
+    kDebug() << "return " << ret << endl;
 }
 
 //  Idea stolen from klondike.cpp

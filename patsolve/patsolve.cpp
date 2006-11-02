@@ -39,8 +39,8 @@ static size_t Mem_remain = 30 * 1000 * 1000;
 static int Total_positions;
 static int Total_generated;
 
-static int Xparam[] = { 4, 1, 8, -1, 7, 11, 4, 2, 2, 1, 2 };
-static double Yparam[] = { 0.0032, 0.32, -3.0 };
+int Solver::Xparam[] = { 4, 1, 8, -1, 7, 11, 4, 2, 2, 1, 2 };
+double Solver::Yparam[] = { 0.0032, 0.32, -3.0 };
 
 /* Misc. */
 
@@ -204,9 +204,6 @@ static MOVE Possible[MAXMOVES];
 
 static int Pilebytes;
 
-static int get_possible_moves(int *, int *);
-static void mark_irreversible(int n);
-static void win(POSITION *pos);
 static __inline__ int get_pilenum(int w);
 
 /* Hash a pile. */
@@ -306,7 +303,7 @@ positions when they are added to the queue. */
 
 #define NNEED 8
 
-static void prioritize(MOVE *mp0, int n)
+void Solver::prioritize(MOVE *mp0, int n)
 {
 	int i, j, s, w, pile[NNEED], npile;
 	card_t card, need[4];
@@ -394,7 +391,7 @@ static void prioritize(MOVE *mp0, int n)
 
 /* Generate an array of the moves we can make from this position. */
 
-MOVE *Solver::get_moves(POSITION *pos, int *nmoves)
+MOVE *Solver::get_moves(int *nmoves)
 {
 	int i, n, alln, o, a, numout = 0;
 	MOVE *mp, *mp0;
@@ -404,9 +401,7 @@ MOVE *Solver::get_moves(POSITION *pos, int *nmoves)
 	alln = n = get_possible_moves(&a, &numout);
 
 	if (!a) {
-
 		/* Mark any irreversible moves. */
-
 		mark_irreversible(n);
 	}
 
@@ -420,9 +415,7 @@ MOVE *Solver::get_moves(POSITION *pos, int *nmoves)
 		}
 
 		if (o == 4) {
-
 			/* Report the win. */
-			win(pos);
 			Status = WIN;
 			return NULL;
 		}
@@ -520,7 +513,7 @@ static __inline__ int good_automove(int o, int r)
 
 /* Get the possible moves from a position, and store them in Possible[]. */
 
-static int get_possible_moves(int *a, int *numout)
+int Solver::get_possible_moves(int *a, int *numout)
 {
 	int i, n, t, w, o, empty, emptyw;
 	card_t card;
@@ -743,7 +736,7 @@ static int get_possible_moves(int *a, int *numout)
 /* Moves that can't be undone get slightly higher priority, since it means
 we are moving a card for the first time. */
 
-static void mark_irreversible(int n)
+void Solver::mark_irreversible(int n)
 {
 	int i, irr;
 	card_t card, srccard;
@@ -836,7 +829,7 @@ static POSITION *new_position(POSITION *parent, MOVE *m)
 
 /* Comparison function for sorting the W piles. */
 
-static __inline__ int wcmp(int a, int b)
+int Solver::wcmp(int a, int b)
 {
 	if (Xparam[9] < 0) {
 		return Wpilenum[b] - Wpilenum[a];       /* newer piles first */
@@ -845,21 +838,10 @@ static __inline__ int wcmp(int a, int b)
 	}
 }
 
-#if 0
-static inline int wcmp(int a, int b)
-{
-	if (Xparam[9] < 0) {
-		return Wlen[b] - Wlen[a];       /* longer piles first */
-	} else {
-		return Wlen[a] - Wlen[b];       /* shorter piles first */
-	}
-}
-#endif
-
 /* Sort the piles, to remove the physical differences between logically
 equivalent layouts.  Assume it's already mostly sorted.  */
 
-static void pilesort(void)
+void Solver::pilesort(void)
 {
 	int w, i, j;
 
@@ -1045,12 +1027,12 @@ static void printcard(card_t card, FILE *outfile)
 
 /* Win.  Print out the move stack. */
 
-static void win(POSITION *pos)
+void Solver::win(POSITION *pos)
 {
 	int i, nmoves;
 	POSITION *p;
 	MOVE *mp, **mpp, **mpp0;
-	int count = 10;
+	int count = 3;
 
 	/* Go back up the chain of parents and store the moves
 	in reverse order. */
@@ -1224,10 +1206,6 @@ static POSITION *Qhead[NQUEUES]; /* separate queue for each priority */
 static POSITION *Qtail[NQUEUES]; /* positions are added here */
 static int Maxq;
 
-static void free_position(POSITION *pos, int);
-static void queue_position(POSITION *, int);
-static POSITION *dequeue_position();
-
 void Solver::doit()
 {
 	int i, q;
@@ -1254,10 +1232,10 @@ void Solver::doit()
 
 	/* Solve it. */
 
-	while ((pos = dequeue_position()) != NULL) {
+        while ((pos = dequeue_position()) != NULL) {
 		q = solve(pos);
 		if (!q) {
-			free_position(pos, true);
+                    free_position(pos, true);
 		}
 	}
 }
@@ -1289,8 +1267,10 @@ int Solver::solve(POSITION *parent)
 
 	/* Generate an array of all the moves we can make. */
 
-	if ((mp0 = get_moves(parent, &nmoves)) == NULL) {
-		return false;
+	if ((mp0 = get_moves(&nmoves)) == NULL) {
+            if ( Status == WIN )
+                win( parent );
+            return false;
 	}
 	parent->nchild = nmoves;
 
@@ -1345,7 +1325,7 @@ The nchild element keeps track of descendents, and when there are none left
 in the parent we can free it too after solve() returns and we get called
 recursively (rec == true). */
 
-static void free_position(POSITION *pos, int rec)
+void Solver::free_position(POSITION *pos, int rec)
 {
 	/* We don't really free anything here, we just push it onto a
 	freelist (using the queue member), so we can use it again later. */
@@ -1371,7 +1351,7 @@ static void free_position(POSITION *pos, int rec)
 that got us here.  The work queue is kept sorted by priority (simply by
 having separate queues). */
 
-static void queue_position(POSITION *pos, int pri)
+void Solver::queue_position(POSITION *pos, int pri)
 {
 	int nout;
 	double x;
@@ -1417,7 +1397,7 @@ static void queue_position(POSITION *pos, int pri)
 
 /* Return the position on the head of the queue, or NULL if there isn't one. */
 
-static POSITION *dequeue_position()
+POSITION *Solver::dequeue_position()
 {
 	int last;
 	POSITION *pos;
@@ -1531,6 +1511,7 @@ int Solver::patsolve(const Freecell *dealer)
 	translate_layout(dealer);
         print_layout();
 	play();
+        fprintf( stderr, "status %d\n", Status );
 
 	return Status;
 }
@@ -1544,7 +1525,7 @@ static int translate_pile(const Pile *pile, card_t *w, int size)
 	rank = suit = NONE;
         for ( int i = 0; i < pile->cardsLeft(); ++i )
         {
-            *w = pile->at( i )->suit() + pile->at( i )->rank();
+            *w = pile->at( i )->suit() * 0x10 + pile->at( i )->rank();
             w++;
 	}
 	return pile->cardsLeft();
@@ -1576,7 +1557,7 @@ void Solver::translate_layout(const Freecell *deal)
                 Card *c = deal->freecell[i]->top();
                 if ( c )
                 {
-                    T[i] = c->suit() + c->rank();
+                    T[i] = c->suit() * 0x10 + c->rank();
                     total++;
                 }
 	}
@@ -1589,7 +1570,7 @@ void Solver::translate_layout(const Freecell *deal)
             for (int i = 0; i < 4; i++) {
                 Card *c = deal->target[i]->top();
                 if (c) {
-                    O[c->suit() >> 4] = c->rank();
+                    O[c->suit()] = c->rank();
                     total += c->rank();
                 }
             }

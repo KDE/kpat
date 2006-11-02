@@ -145,13 +145,9 @@ bool Klondike::noLongerNeeded(Card::Rank r, Card::Suit s) {
 
     if (r <= Card::Two) return true; //  Base case.
 
-    //  Find the 2 suits of opposite color. "- 1" is used here because the
-    //  siuts are ranged 1 .. 4 but target_tops is indexed 0 .. 3. (Of course
-    //  the subtraction of 1 does not affect performance because it is a
-    //  constant expression that is calculated at compile time).
-    unsigned char a = Card::Clubs - 1, b = Card::Spades - 1;
+    unsigned char a = Card::Clubs, b = Card::Spades;
     if (s == Card::Clubs || s == Card::Spades)
-        a = Card::Diamonds - 1, b = Card::Hearts - 1;
+        a = Card::Diamonds, b = Card::Hearts;
 
     const Card::Rank depending_rank = static_cast<Card::Rank>(r - 1);
     return
@@ -189,13 +185,13 @@ bool Klondike::tryToDrop(Card *t)
 void Klondike::getHints() {
 
     target_tops[0] = target_tops[1] = target_tops[2] = target_tops[3]
-        = Card::None;
+                   = Card::None;
 
     for( int i = 0; i < 4; i++ )
     {
         Card *c = target[i]->top();
         if (!c) continue;
-        target_tops[c->suit() - 1] = c->rank();
+        target_tops[c->suit()] = c->rank();
     }
 
 
