@@ -45,7 +45,7 @@ public:
         m_relayoutTimer->stop();
         int car = m_cards.count();
         QPointF p = pos();
-        qreal z = zValue();
+        qreal z = zValue() + 1;
         for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
         {
             //kDebug() << "car " << car << " " << p << endl;
