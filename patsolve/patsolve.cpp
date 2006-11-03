@@ -11,39 +11,20 @@
 #include "patsolve.h"
 #include "../freecell.h"
 #include "../pile.h"
+#include "memory.h"
 
 /* A function and some macros for allocating memory. */
 
-static void *allocate_memory(size_t s);
-
-#define allocate(type) (type *)allocate_memory(sizeof(type))
-#define free_ptr(ptr, type) free(ptr); Mem_remain += sizeof(type)
-
-#define new_array(type, size) (type *)allocate_memory((size) * sizeof(type))
-#define free_array(ptr, type, size) free(ptr); \
-				    Mem_remain += (size) * sizeof(type)
-
-static void free_buckets(void);
-static void free_clusters(void);
-static void free_blocks(void);
-
-static bool Stack = true;      /* -S means stack, not queue, the moves to be done */
+bool Stack = true;      /* -S means stack, not queue, the moves to be done */
 static int Cutoff = 1;         /* switch between depth- and breadth-first */
-static statuscode Status;             /* win, lose, or fail */
 
-static size_t Mem_remain = 30 * 1000 * 1000;
 
 /* Statistics. */
-
-static int Total_positions;
-static int Total_generated;
 
 int Solver::Xparam[] = { 4, 1, 8, -1, 7, 11, 4, 2, 2, 1, 2 };
 double Solver::Yparam[] = { 0.0032, 0.32, -3.0 };
 
 /* Misc. */
-
-static int strecpy(unsigned char *dest, unsigned char *src);
 
 #define PS_DIAMOND 0x00         /* red */
 #define PS_CLUB    0x10         /* black */
@@ -73,37 +54,8 @@ static card_t Suit_val;
 
 /* A splay tree. */
 
-typedef struct tree_node TREE;
-
-struct tree_node {
-	TREE *left;
-	TREE *right;
-	short depth;
-};
-
-enum inscode { NEW, FOUND, FOUND_BETTER, ERR };
-
 /* Command line flags. */
 
-/* Memory. */
-
-typedef struct block {
-	u_char *block;
-	u_char *ptr;
-	size_t remain;
-	struct block *next;
-} BLOCK;
-
-#define BLOCKSIZE (32 * 4096)
-
-typedef struct treelist {
-	TREE *tree;
-	int cluster;
-	struct treelist *next;
-} TREELIST;
-
-static u_char *new_from_block(size_t);
-static void init_clusters(void);
 
 /* This is a 32 bit FNV hash.  For more information, see
 http://www.isthe.com/chongo/tech/comp/fnv/index.html */
@@ -172,7 +124,7 @@ static POSITION *Freepos = NULL;
 
 /* Temp storage for possible moves. */
 
-static int Pilebytes;
+
 
 /* Hash a pile. */
 
@@ -737,64 +689,6 @@ it, along with the pointer to its parent and the move we used to get here. */
 
 int Posbytes;
 
-POSITION *Solver::new_position(POSITION *parent, MOVE *m)
-{
-	int i, t, depth, cluster;
-	u_char *p;
-	POSITION *pos;
-	TREE *node;
-
-	/* Search the list of stored positions.  If this position is found,
-	then ignore it and return (unless this position is better). */
-
-	if (parent == NULL) {
-		depth = 0;
-	} else {
-		depth = parent->depth + 1;
-	}
-	i = insert(&cluster, depth, &node);
-	if (i == NEW) {
-		Total_positions++;
-	} else if (i != FOUND_BETTER) {
-		return NULL;
-	}
-
-	/* A new or better position.  insert() already stashed it in the
-	tree, we just have to wrap a POSITION struct around it, and link it
-	into the move stack.  Store the temp cells after the POSITION. */
-
-	if (Freepos) {
-		p = (u_char *)Freepos;
-		Freepos = Freepos->queue;
-	} else {
-		p = new_from_block(Posbytes);
-		if (p == NULL) {
-			return NULL;
-		}
-	}
-
-	pos = (POSITION *)p;
-	pos->queue = NULL;
-	pos->parent = parent;
-	pos->node = node;
-	pos->move = *m;                 /* struct copy */
-	pos->cluster = cluster;
-	pos->depth = depth;
-	pos->nchild = 0;
-
-	p += sizeof(POSITION);
-	i = 0;
-	for (t = 0; t < Ntpiles; t++) {
-		*p++ = T[t];
-		if (T[t] != NONE) {
-			i++;
-		}
-	}
-	pos->ntemp = i;
-
-	return pos;
-}
-
 /* Comparison function for sorting the W piles. */
 
 int Solver::wcmp(int a, int b)
@@ -856,8 +750,9 @@ TREE *Solver::pack_position(void)
 	/* Allocate space and store the pile numbers.  The tree node
 	will get filled in later, by insert_node(). */
 
-	p = new_from_block(Treebytes);
+	p = mm->new_from_block(Treebytes);
 	if (p == NULL) {
+                Status = FAIL;
 		return NULL;
 	}
 	node = (TREE *)p;
@@ -889,6 +784,20 @@ TREE *Solver::pack_position(void)
 	}
 
 	return node;
+}
+
+/* Like strcpy() but return the length of the string. */
+
+static inline int strecpy(unsigned char *d, unsigned char *s)
+{
+	int i;
+
+	i = 0;
+	while ((*d++ = *s++) != '\0') {
+		i++;
+	}
+
+	return i;
 }
 
 /* Unpack a compact position rep.  T cells must be restored from the
@@ -983,6 +892,7 @@ void Solver::win(POSITION *pos)
 	nmoves = i;
 	mpp0 = new_array(MOVE *, nmoves);
 	if (mpp0 == NULL) {
+                Status = FAIL;
 		return; /* how sad, so close... */
 	}
 	mpp = mpp0 + nmoves - 1;
@@ -1059,7 +969,7 @@ void Solver::win(POSITION *pos)
 		}
 	}
 #endif
-	free_array(mpp0, MOVE *, nmoves);
+        MemoryManager::free_array(mpp0, nmoves);
 
 }
 
@@ -1074,11 +984,12 @@ void Solver::init_buckets(void)
 	i = Nwpiles * 3;
 	i >>= 1;
 	i += Nwpiles & 0x1;
-	Pilebytes = i;
+
+        mm->Pilebytes = i;
 
 	memset(Bucketlist, 0, sizeof(Bucketlist));
 	Pilenum = 0;
-	Treebytes = sizeof(TREE) + Pilebytes;
+	Treebytes = sizeof(TREE) + mm->Pilebytes;
 
 	/* In order to keep the TREE structure aligned, we need to add
 	up to 7 bytes on Alpha or 3 bytes on Intel -- but this is still
@@ -1097,6 +1008,7 @@ void Solver::init_buckets(void)
 		Posbytes++;
 	}
 }
+
 
 /* For each pile, return a unique identifier.  Although there are a
 large number of possible piles, generally fewer than 1000 different
@@ -1135,12 +1047,14 @@ int Solver::get_pilenum(int w)
 		}
 		l = allocate(BUCKETLIST);
 		if (l == NULL) {
+                        Status = FAIL;
 			return -1;
 		}
 		l->pile = new_array(u_char, Wlen[w] + 1);
 		if (l->pile == NULL) {
-			free_ptr(l, BUCKETLIST);
-			return -1;
+                    Status = FAIL;
+                    MemoryManager::free_ptr(l);
+                    return -1;
 		}
 
 		/* Store the new pile along with its hash.  Maintain
@@ -1161,7 +1075,7 @@ int Solver::get_pilenum(int w)
 	return l->pilenum;
 }
 
-void free_buckets(void)
+void Solver::free_buckets(void)
 {
 	int i, j;
 	BUCKETLIST *l, *n;
@@ -1171,8 +1085,8 @@ void free_buckets(void)
 		while (l) {
 			n = l->next;
 			j = strlen((char*)l->pile);    /* @@@ use block? */
-			free_array(l->pile, u_char, j + 1);
-			free_ptr(l, BUCKETLIST);
+                        MemoryManager::free_array(l->pile, j + 1);
+                        MemoryManager::free_ptr(l);
 			l = n;
 		}
 	}
@@ -1195,6 +1109,7 @@ void Solver::doit()
 	int i, q;
 	POSITION *pos;
 	MOVE m;
+        memset( &m, 0, sizeof( MOVE ) );
 
 	/* Init the queues. */
 
@@ -1210,6 +1125,7 @@ void Solver::doit()
 	m.card = NONE;
 	pos = new_position(NULL, &m);
 	if (pos == NULL) {
+                Status = FAIL;
 		return;
 	}
 	queue_position(pos, 0);
@@ -1296,7 +1212,7 @@ bool Solver::solve(POSITION *parent)
 			q = true;
 		}
 	}
-	free_array(mp0, MOVE, nmoves);
+        MemoryManager::free_array(mp0, nmoves);
 
 	/* Return true if this position needs to be kept around. */
 
@@ -1434,25 +1350,33 @@ POSITION *Solver::dequeue_position()
 	return pos;
 }
 
+Solver::Solver()
+{
+    mm = new MemoryManager();
+}
+
+Solver::~Solver()
+{
+    delete mm;
+}
+
 void Solver::play(void)
 {
 	/* Initialize the hash tables. */
 
 	init_buckets();
-	init_clusters();
+	mm->init_clusters();
 
 	/* Reset stats. */
 
-	Total_positions = 0;
-	Total_generated = 0;
 	Status = NOSOL;
 
 	/* Go to it. */
 
 	doit();
 	free_buckets();
-	free_clusters();
-	free_blocks();
+	mm->free_clusters();
+	mm->free_blocks();
 	Freepos = NULL;
 }
 
@@ -1544,68 +1468,12 @@ void Solver::translate_layout(const Freecell *deal)
 	}
 }
 
-
-/* Like strcpy() but return the length of the string. */
-
-int strecpy(unsigned char *d, unsigned char *s)
-{
-	int i;
-
-	i = 0;
-	while ((*d++ = *s++) != '\0') {
-		i++;
-	}
-
-	return i;
-}
-
-/* Allocate some space and return a pointer to it.  See new() in util.h. */
-
-void *allocate_memory(size_t s)
-{
-	void *x;
-
-	if (s > Mem_remain) {
-		Status = FAIL;
-		return NULL;
-	}
-
-	if ((x = (void *)malloc(s)) == NULL) {
-		Status = FAIL;
-		return NULL;
-	}
-
-	Mem_remain -= s;
-	return x;
-}
-
-
-/* Given a cluster number, return a tree.  There are 14^4 possible
-clusters, but we'll only use a few hundred of them at most.  Hash on
-the cluster number, then locate its tree, creating it if necessary. */
-
-#define TBUCKETS 499    /* a prime */
-
-TREELIST *Treelist[TBUCKETS];
-
-static int insert_node(TREE *n, int d, TREE **tree, TREE **node);
-static TREELIST *cluster_tree(int cluster);
-static void give_back_block(u_char *p);
-static BLOCK *new_block(void);
-
-static __inline__ int CMP(u_char *a, u_char *b)
-{
-	return memcmp(a, b, Pilebytes);
-}
-
 /* Insert key into the tree unless it's already there.  Return true if
 it was new. */
 
-int Solver::insert(int *cluster, int d, TREE **node)
+MemoryManager::inscode Solver::insert(int *cluster, int d, TREE **node)
 {
 	int i, k;
-	TREE *newtree;
-	TREELIST *tl;
 
 	/* Get the cluster number from the Out cell contents. */
 
@@ -1613,222 +1481,30 @@ int Solver::insert(int *cluster, int d, TREE **node)
 	k = i;
 	i = O[2] + (O[3] << 4);
 	k |= i << 8;
-	*cluster = k;
 
-	/* Get the tree for this cluster. */
+        *cluster = k;
 
-	tl = cluster_tree(k);
+        /* Get the tree for this cluster. */
+
+	TREELIST *tl = mm->cluster_tree(k);
 	if (tl == NULL) {
-		return ERR;
+		return MemoryManager::ERR;
 	}
 
 	/* Create a compact position representation. */
 
-	newtree = pack_position();
+	TREE *newtree = pack_position();
 	if (newtree == NULL) {
-		return ERR;
-	}
-	Total_generated++;
-
-	i = insert_node(newtree, d, &tl->tree, node);
-
-	if (i != NEW) {
-		give_back_block((u_char *)newtree);
+		return MemoryManager::ERR;
 	}
 
-	return i;
-}
+        MemoryManager::inscode i2 = mm->insert_node(newtree, d, &tl->tree, node);
 
-/* Add it to the binary tree for this cluster.  The piles are stored
-following the TREE structure. */
-
-static int insert_node(TREE *n, int d, TREE **tree, TREE **node)
-{
-	int c;
-	u_char *key, *tkey;
-	TREE *t;
-
-	key = (u_char *)n + sizeof(TREE);
-	n->depth = d;
-	n->left = n->right = NULL;
-	*node = n;
-	t = *tree;
-	if (t == NULL) {
-		*tree = n;
-		return NEW;
-	}
-	while (1) {
-		tkey = (u_char *)t + sizeof(TREE);
-		c = CMP(key, tkey);
-		if (c == 0) {
-			break;
-		}
-		if (c < 0) {
-			if (t->left == NULL) {
-				t->left = n;
-				return NEW;
-			}
-			t = t->left;
-		} else {
-			if (t->right == NULL) {
-				t->right = n;
-				return NEW;
-			}
-			t = t->right;
-		}
+	if (i2 != MemoryManager::NEW) {
+		mm->give_back_block((u_char *)newtree);
 	}
 
-	/* We get here if it's already in the tree.  Don't add it again.
-	If the new path to this position was shorter, record the new depth
-	so we can prune the original path. */
-
-	c = FOUND;
-	if (d < t->depth && !Stack) {
-		t->depth = d;
-		c = FOUND_BETTER;
-		*node = t;
-	}
-	return c;
-}
-
-/* @@@ This goes somewhere else. */
-
-BLOCK *Block;
-
-/* Clusters are also stored in a hashed array. */
-
-void init_clusters(void)
-{
-	memset(Treelist, 0, sizeof(Treelist));
-	Block = new_block();                    /* @@@ */
-}
-
-static TREELIST *cluster_tree(int cluster)
-{
-	int bucket;
-	TREELIST *tl, *last;
-
-	/* Pick a bucket, any bucket. */
-
-	bucket = cluster % TBUCKETS;
-
-	/* Find the tree in this bucket with that cluster number. */
-
-	last = NULL;
-	for (tl = Treelist[bucket]; tl; tl = tl->next) {
-		if (tl->cluster == cluster) {
-			break;
-		}
-		last = tl;
-	}
-
-	/* If we didn't find it, make a new one and add it to the list. */
-
-	if (tl == NULL) {
-		tl = allocate(TREELIST);
-		if (tl == NULL) {
-			return NULL;
-		}
-		tl->tree = NULL;
-		tl->cluster = cluster;
-		tl->next = NULL;
-		if (last == NULL) {
-			Treelist[bucket] = tl;
-		} else {
-			last->next = tl;
-		}
-	}
-
-	return tl;
-}
-
-/* Block storage.  Reduces overhead, and can be freed quickly. */
-
-static BLOCK *new_block(void)
-{
-	BLOCK *b;
-
-	b = allocate(BLOCK);
-	if (b == NULL) {
-		return NULL;
-	}
-	b->block = new_array(u_char, BLOCKSIZE);
-	if (b->block == NULL) {
-		free_ptr(b, BLOCK);
-		return NULL;
-	}
-	b->ptr = b->block;
-	b->remain = BLOCKSIZE;
-	b->next = NULL;
-
-	return b;
-}
-
-/* Like new(), only from the current block.  Make a new block if necessary. */
-
-u_char *new_from_block(size_t s)
-{
-	u_char *p;
-	BLOCK *b;
-
-	b = Block;
-	if (s > b->remain) {
-		b = new_block();
-		if (b == NULL) {
-			return NULL;
-		}
-		b->next = Block;
-		Block = b;
-	}
-
-	p = b->ptr;
-	b->remain -= s;
-	b->ptr += s;
-
-	return p;
-}
-
-/* Return the previous result of new_from_block() to the block.  This
-can ONLY be called once, immediately after the call to new_from_block().
-That is, no other calls to new_from_block() are allowed. */
-
-static void give_back_block(u_char *p)
-{
-	size_t s;
-	BLOCK *b;
-
-	b = Block;
-	s = b->ptr - p;
-	b->ptr -= s;
-	b->remain += s;
-}
-
-void free_blocks(void)
-{
-	BLOCK *b, *next;
-
-	b = Block;
-	while (b) {
-		next = b->next;
-		free_array(b->block, u_char, BLOCKSIZE);
-		free_ptr(b, BLOCK);
-		b = next;
-	}
-}
-
-void free_clusters(void)
-{
-	int i;
-	TREELIST *l, *n;
-
-	for (i = 0; i < TBUCKETS; i++) {
-		l = Treelist[i];
-		while (l) {
-			n = l->next;
-			free_ptr(l, TREELIST);
-			l = n;
-		}
-	}
+	return i2;
 }
 
 void Solver::print_layout()
@@ -1850,5 +1526,63 @@ void Solver::print_layout()
                printcard(O[o] + Osuit[o], stderr);
        }
        fprintf(stderr, "\nprint-layout-end\n");
+}
+
+
+POSITION *Solver::new_position(POSITION *parent, MOVE *m)
+{
+	int t, depth, cluster;
+	u_char *p;
+	POSITION *pos;
+	TREE *node;
+
+	/* Search the list of stored positions.  If this position is found,
+	then ignore it and return (unless this position is better). */
+
+	if (parent == NULL) {
+		depth = 0;
+	} else {
+		depth = parent->depth + 1;
+	}
+        MemoryManager::inscode i = insert(&cluster, depth, &node);
+	if (i != MemoryManager::NEW && i != MemoryManager::FOUND_BETTER) {
+		return NULL;
+	}
+
+	/* A new or better position.  insert() already stashed it in the
+	tree, we just have to wrap a POSITION struct around it, and link it
+	into the move stack.  Store the temp cells after the POSITION. */
+
+	if (Freepos) {
+		p = (u_char *)Freepos;
+		Freepos = Freepos->queue;
+	} else {
+		p = mm->new_from_block(Posbytes);
+		if (p == NULL) {
+                        Status = FAIL;
+			return NULL;
+		}
+	}
+
+	pos = (POSITION *)p;
+	pos->queue = NULL;
+	pos->parent = parent;
+	pos->node = node;
+	pos->move = *m;                 /* struct copy */
+	pos->cluster = cluster;
+	pos->depth = depth;
+	pos->nchild = 0;
+
+	p += sizeof(POSITION);
+	int j = 0;
+	for (t = 0; t < Ntpiles; t++) {
+		*p++ = T[t];
+		if (T[t] != NONE) {
+			j++;
+		}
+	}
+	pos->ntemp = j;
+
+	return pos;
 }
 

@@ -20,6 +20,7 @@ set(kpat_SRCS
    pile_algorithms.cpp
    gamestatsimpl.cpp
    patsolve/patsolve.cpp
+   patsolve/memory.cpp
    klondike.cpp
    freecell.cpp
 )
