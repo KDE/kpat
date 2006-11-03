@@ -346,6 +346,7 @@ DealerScene::~DealerScene()
     kDebug() << "~DealerScene " << endl;
     if (!_won)
         countLoss();
+    unmarkAll();
 
     // don't delete the deck
     if ( Deck::deck()->scene() == this )

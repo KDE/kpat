@@ -54,12 +54,12 @@ Freecell::Freecell()
     Deck::deck()->hide();
 
     kDebug(11111) << "cards " << Deck::deck()->cards().count() << endl;
-    Pile *t;
     for (int i = 0; i < 8; i++)
     {
         FreecellPile *p = new FreecellPile(1 + i, this);
         store[i] = p;
         store[i]->setPilePos(1 + 11.3 * i, 14 );
+        store[i]->setObjectName( QString( "store%1" ).arg( i ) );
         p->setAddFlags(Pile::addSpread | Pile::several);
         p->setRemoveFlags(Pile::several);
         p->setCheckIndex(0);
@@ -68,18 +68,18 @@ Freecell::Freecell()
 
     for (int i = 0; i < 4; i++)
     {
-        t = new Pile (1 + 8 +i, this);
-        freecell[i] = t;
+        freecell[i] = new Pile (1 + 8 +i, this);
         freecell[i]->setPilePos(1 + 10.8 * i, 1);
-        t->setType(Pile::FreeCell);
+        freecell[i]->setObjectName( QString( "freecell%1" ).arg( i ) );
+        freecell[i]->setType(Pile::FreeCell);
     }
 
     for (int i = 0; i < 4; i++)
     {
-        t = new Pile(1 + 8 + 4 +i, this);
-        target[i] = t;
+        target[i] = new Pile(1 + 8 + 4 +i, this);
+        target[i]->setObjectName( QString( "target%1" ).arg( i ) );
         target[i]->setPilePos(4 + 10.8 * ( 4 + i ), 1);
-        t->setType(Pile::KlondikeTarget);
+        target[i]->setType(Pile::KlondikeTarget);
         // COOLO: I'm still not too sure about that t->setRemoveFlags(Pile::Default);
     }
 

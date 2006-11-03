@@ -1032,7 +1032,7 @@ void Solver::win(POSITION *pos)
 	int i, nmoves;
 	POSITION *p;
 	MOVE *mp, **mpp, **mpp0;
-	int count = 3;
+	int count = 2;
 
 	/* Go back up the chain of parents and store the moves
 	in reverse order. */
@@ -1051,8 +1051,29 @@ void Solver::win(POSITION *pos)
 		*mpp-- = &p->move;
 	}
 
-	/* Now print them out in the correct order. */
+        mp = *mpp0;
+        Card *c = 0;
+        if ( mp->fromtype == T_TYPE)
+            c = deal->freecell[mp->from]->top();
+        else if ( mp->fromtype == W_TYPE )
+            c = deal->store[mp->from]->top();
 
+        Pile *pile = 0;
+        if (mp->totype == T_TYPE) {
+            pile = deal->freecell[mp->to];
+        } else if (mp->totype == O_TYPE) {
+            pile = deal->target[mp->to];
+        } else {
+            pile = deal->store[mp->to];
+        }
+
+        fprintf( stderr, "move card %p to pile %p\n", c, p );
+        fprintf( stderr, "move card %s to pile %s\n", c->name().latin1(), pile->objectName().latin1() );
+        delete first;
+        first = new MoveHint( c, pile );
+        return;
+
+	/* Now print them out in the correct order. */
 
 	for (i = 0, mpp = mpp0; i < nmoves; i++, mpp++) {
 	    --count;
@@ -1062,15 +1083,16 @@ void Solver::win(POSITION *pos)
 		mp = *mpp;
 		printcard(mp->card, stderr);
 		if (mp->totype == T_TYPE) {
-			fprintf(stderr, "to temp\n");
+			fprintf(stderr, "to temp %d\n",  mp->to);
 		} else if (mp->totype == O_TYPE) {
 			fprintf(stderr, "out\n");
 		} else {
 			fprintf(stderr, "to ");
 			if (mp->destcard == NONE) {
-				fprintf(stderr, "empty pile");
+				fprintf(stderr, "empty pile %d", mp->to);
 			} else {
 				printcard(mp->destcard, stderr);
+                                fprintf( stderr, " %d", mp->to );
 			}
 			fputc('\n', stderr);
 		}
@@ -1494,6 +1516,8 @@ void print_layout()
 
 int Solver::patsolve(const Freecell *dealer)
 {
+    first = 0;
+    deal = dealer;
 	Same_suit = false;
 	King_only = false;
 	Nwpiles = 8;
