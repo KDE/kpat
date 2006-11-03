@@ -53,7 +53,7 @@ class AbstractCard
 public:
     enum Suit { Diamonds = 0, Clubs = 1, Hearts = 2, Spades = 3 };
     enum Rank { None = 0, Ace = 1, Two,  Three, Four, Five,  Six, Seven,
-                Eight,   Nine, Ten,   Jack, Queen, King = 13};
+                Eight,   Nine,  Ten, Jack, Queen, King = 13};
 
     AbstractCard( Rank r, Suit s );
 

@@ -67,7 +67,7 @@ int main( int argc, char **argv )
 
     KApplication application;
     KGlobal::locale()->insertCatalog("libkdegames");
-#if 0
+#if 1
     cardMap c;
     Freecell *f = new Freecell();
 

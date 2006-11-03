@@ -29,7 +29,6 @@ static void free_blocks(void);
 
 static bool Stack = true;      /* -S means stack, not queue, the moves to be done */
 static int Cutoff = 1;         /* switch between depth- and breadth-first */
-enum statuscode { FAIL = -1, WIN = 0, NOSOL = 1 };
 static statuscode Status;             /* win, lose, or fail */
 
 static size_t Mem_remain = 30 * 1000 * 1000;
@@ -81,23 +80,6 @@ struct tree_node {
 	TREE *right;
 	short depth;
 };
-
-#define O_TYPE 1                /* pile types */
-#define T_TYPE 2
-#define W_TYPE 3
-
-#define MAXTPILES       8       /* max number of piles */
-#define MAXWPILES      13
-
-
-/* Work arrays. */
-
-card_t T[MAXTPILES];     /* one card in each temp cell */
-card_t W[MAXWPILES][52]; /* the workspace */
-card_t *Wp[MAXWPILES];   /* point to the top card of each work pile */
-int Wlen[MAXWPILES];     /* the number of cards in each pile */
-int Widx[MAXWPILES];     /* used to keep the piles sorted */
-int Widxi[MAXWPILES];    /* inverse of the above */
 
 enum inscode { NEW, FOUND, FOUND_BETTER, ERR };
 
@@ -166,8 +148,6 @@ static __inline__ u_int32_t fnv_hash_str(u_char *s)
 #include <string.h>
 #include <sys/types.h>
 
-static int insert(int *cluster, int d, TREE **node);
-
 /* Default variation. */
 
 #define SAME_SUIT 1
@@ -182,9 +162,6 @@ static int Ntpiles = NTPILES;
 
 /* Names of the cards.  The ordering is defined in pat.h. */
 
-static char Rank[] = " A23456789TJQK";
-static char Suit[] = "DCHS";
-
 static card_t O[4]; /* output piles store only the rank or NONE */
 static card_t Osuit[4] = { PS_DIAMOND, PS_CLUB, PS_HEART, PS_SPADE }; /* suits of the output piles */
 
@@ -192,23 +169,14 @@ static card_t Osuit[4] = { PS_DIAMOND, PS_CLUB, PS_HEART, PS_SPADE }; /* suits o
 
 static POSITION *Freepos = NULL;
 
-/* Every different pile has a hash and a unique id. */
-
-static u_int32_t Whash[MAXWPILES];
-static int Wpilenum[MAXWPILES];
 
 /* Temp storage for possible moves. */
 
-#define MAXMOVES 64             /* > max # moves from any position */
-static MOVE Possible[MAXMOVES];
-
 static int Pilebytes;
-
-static __inline__ int get_pilenum(int w);
 
 /* Hash a pile. */
 
-static __inline__ void hashpile(int w)
+void Solver::hashpile(int w)
 {
 	W[w][Wlen[w]] = 0;
 	Whash[w] = fnv_hash_str(W[w]);
@@ -220,7 +188,7 @@ static __inline__ void hashpile(int w)
 
 /* Hash the whole layout.  This is called once, at the start. */
 
-static void hash_layout(void)
+void Solver::hash_layout(void)
 {
 	int w;
 
@@ -231,7 +199,7 @@ static void hash_layout(void)
 
 /* These two routines make and unmake moves. */
 
-static void make_move(MOVE *m)
+void Solver::make_move(MOVE *m)
 {
 	int from, to;
 	card_t card;
@@ -241,7 +209,7 @@ static void make_move(MOVE *m)
 
 	/* Remove from pile. */
 
-	if (m->fromtype == T_TYPE) {
+	if (m->fromtype == T_Type) {
 		card = T[from];
 		T[from] = NONE;
 	} else {
@@ -252,9 +220,9 @@ static void make_move(MOVE *m)
 
 	/* Add to pile. */
 
-	if (m->totype == T_TYPE) {
+	if (m->totype == T_Type) {
 		T[to] = card;
-	} else if (m->totype == W_TYPE) {
+	} else if (m->totype == W_Type) {
 		*++Wp[to] = card;
 		Wlen[to]++;
 		hashpile(to);
@@ -263,7 +231,7 @@ static void make_move(MOVE *m)
 	}
 }
 
-static void undo_move(MOVE *m)
+void Solver::undo_move(MOVE *m)
 {
 	int from, to;
 	card_t card;
@@ -273,10 +241,10 @@ static void undo_move(MOVE *m)
 
 	/* Remove from 'to' pile. */
 
-	if (m->totype == T_TYPE) {
+	if (m->totype == T_Type) {
 		card = T[to];
 		T[to] = NONE;
-	} else if (m->totype == W_TYPE) {
+	} else if (m->totype == W_Type) {
 		card = *Wp[to]--;
 		Wlen[to]--;
 		hashpile(to);
@@ -287,7 +255,7 @@ static void undo_move(MOVE *m)
 
 	/* Add to 'from' pile. */
 
-	if (m->fromtype == T_TYPE) {
+	if (m->fromtype == T_Type) {
 		T[from] = card;
 	} else {
 		*++Wp[from] = card;
@@ -361,7 +329,7 @@ void Solver::prioritize(MOVE *mp0, int n)
 
 	for (i = 0, mp = mp0; i < n; i++, mp++) {
 		if (mp->card != NONE) {
-			if (mp->fromtype == W_TYPE) {
+			if (mp->fromtype == W_Type) {
 				w = mp->from;
 				for (j = 0; j < npile; j++) {
 					if (w == pile[j]) {
@@ -378,7 +346,7 @@ void Solver::prioritize(MOVE *mp0, int n)
 					}
 				}
 			}
-			if (mp->totype == W_TYPE) {
+			if (mp->totype == W_Type) {
 				for (j = 0; j < npile; j++) {
 					if (mp->to == pile[j]) {
 						mp->pri -= Xparam[2];
@@ -532,9 +500,9 @@ int Solver::get_possible_moves(int *a, int *numout)
 			    (!empty && (RANK(card) == O[o] + 1))) {
 				mp->card = card;
 				mp->from = w;
-				mp->fromtype = W_TYPE;
+				mp->fromtype = W_Type;
 				mp->to = o;
-				mp->totype = O_TYPE;
+				mp->totype = O_Type;
 				mp->srccard = NONE;
 				if (Wlen[w] > 1) {
 					mp->srccard = Wp[w][-1];
@@ -569,9 +537,9 @@ int Solver::get_possible_moves(int *a, int *numout)
 			    (!empty && (RANK(card) == O[o] + 1))) {
 				mp->card = card;
 				mp->from = t;
-				mp->fromtype = T_TYPE;
+				mp->fromtype = T_Type;
 				mp->to = o;
-				mp->totype = O_TYPE;
+				mp->totype = O_Type;
 				mp->srccard = NONE;
 				mp->destcard = NONE;
 				mp->pri = 0;    /* unused */
@@ -616,9 +584,9 @@ int Solver::get_possible_moves(int *a, int *numout)
 				card = *Wp[i];
 				mp->card = card;
 				mp->from = i;
-				mp->fromtype = W_TYPE;
+				mp->fromtype = W_Type;
 				mp->to = emptyw;
-				mp->totype = W_TYPE;
+				mp->totype = W_Type;
 				mp->srccard = Wp[i][-1];
 				mp->destcard = NONE;
 				mp->pri = Xparam[3];
@@ -642,9 +610,9 @@ int Solver::get_possible_moves(int *a, int *numout)
 				     suitable(card, *Wp[w]))) {
 					mp->card = card;
 					mp->from = i;
-					mp->fromtype = W_TYPE;
+					mp->fromtype = W_Type;
 					mp->to = w;
-					mp->totype = W_TYPE;
+					mp->totype = W_Type;
 					mp->srccard = NONE;
 					if (Wlen[i] > 1) {
 						mp->srccard = Wp[i][-1];
@@ -669,9 +637,9 @@ int Solver::get_possible_moves(int *a, int *numout)
 				     suitable(card, *Wp[w]))) {
 					mp->card = card;
 					mp->from = t;
-					mp->fromtype = T_TYPE;
+					mp->fromtype = T_Type;
 					mp->to = w;
-					mp->totype = W_TYPE;
+					mp->totype = W_Type;
 					mp->srccard = NONE;
 					mp->destcard = *Wp[w];
 					mp->pri = Xparam[5];
@@ -690,9 +658,9 @@ int Solver::get_possible_moves(int *a, int *numout)
 			if (card != NONE && king_only(card)) {
 				mp->card = card;
 				mp->from = t;
-				mp->fromtype = T_TYPE;
+				mp->fromtype = T_Type;
 				mp->to = emptyw;
-				mp->totype = W_TYPE;
+				mp->totype = W_Type;
 				mp->srccard = NONE;
 				mp->destcard = NONE;
 				mp->pri = Xparam[6];
@@ -715,9 +683,9 @@ int Solver::get_possible_moves(int *a, int *numout)
 				card = *Wp[w];
 				mp->card = card;
 				mp->from = w;
-				mp->fromtype = W_TYPE;
+				mp->fromtype = W_Type;
 				mp->to = t;
-				mp->totype = T_TYPE;
+				mp->totype = T_Type;
 				mp->srccard = NONE;
 				if (Wlen[w] > 1) {
 					mp->srccard = Wp[w][-1];
@@ -744,9 +712,9 @@ void Solver::mark_irreversible(int n)
 
 	for (i = 0, mp = Possible; i < n; i++, mp++) {
 		irr = false;
-		if (mp->totype == O_TYPE) {
+		if (mp->totype == O_Type) {
 			irr = true;
-		} else if (mp->fromtype == W_TYPE) {
+		} else if (mp->fromtype == W_Type) {
 			srccard = mp->srccard;
 			if (srccard != NONE) {
 				card = mp->card;
@@ -769,7 +737,7 @@ it, along with the pointer to its parent and the move we used to get here. */
 
 int Posbytes;
 
-static POSITION *new_position(POSITION *parent, MOVE *m)
+POSITION *Solver::new_position(POSITION *parent, MOVE *m)
 {
 	int i, t, depth, cluster;
 	u_char *p;
@@ -838,48 +806,17 @@ int Solver::wcmp(int a, int b)
 	}
 }
 
-/* Sort the piles, to remove the physical differences between logically
-equivalent layouts.  Assume it's already mostly sorted.  */
-
 void Solver::pilesort(void)
 {
-	int w, i, j;
-
 	/* Make sure all the piles have id numbers. */
 
-	for (w = 0; w < Nwpiles; w++) {
+	for (int w = 0; w < Nwpiles; w++) {
 		if (Wpilenum[w] < 0) {
 			Wpilenum[w] = get_pilenum(w);
 			if (Wpilenum[w] < 0) {
 				return;
 			}
 		}
-	}
-
-	/* Sort them. */
-
-	Widx[0] = 0;
-	w = 0;
-	for (i = 1; i < Nwpiles; i++) {
-		if (wcmp(Widx[w], i) < 0) {
-			w++;
-			Widx[w] = i;
-		} else {
-			for (j = w; j >= 0; --j) {
-				Widx[j + 1] = Widx[j];
-				if (j == 0 || wcmp(Widx[j - 1], i) < 0) {
-					Widx[j] = i;
-					break;
-				}
-			}
-			w++;
-		}
-	}
-
-	/* Compute the inverse. */
-
-	for (i = 0; i < Nwpiles; i++) {
-		Widxi[Widx[i]] = i;
 	}
 }
 
@@ -910,7 +847,7 @@ different trees.  */
 
 int Treebytes;
 
-static TREE *pack_position(void)
+TREE *Solver::pack_position(void)
 {
 	int j, k, w;
 	u_char *p;
@@ -936,7 +873,7 @@ static TREE *pack_position(void)
 
 	k = 0;
 	for (w = 0; w < Nwpiles; w++) {
-		j = Wpilenum[Widx[w]];
+		j = Wpilenum[w];
 		switch (k) {
 		case 0:
 			*p++ = j >> 4;
@@ -957,7 +894,7 @@ static TREE *pack_position(void)
 /* Unpack a compact position rep.  T cells must be restored from the
 array following the POSITION struct. */
 
-static void unpack_position(POSITION *pos)
+void Solver::unpack_position(POSITION *pos)
 {
 	int i, k, w;
 	u_char c, *p;
@@ -1018,11 +955,14 @@ static void unpack_position(POSITION *pos)
 
 static void printcard(card_t card, FILE *outfile)
 {
-       if (RANK(card) == NONE) {
-               fprintf(outfile, "   ");
-       } else {
-               fprintf(outfile, "%c%c ", Rank[RANK(card)], Suit[SUIT(card)]);
-       }
+    static char Rank[] = " A23456789TJQK";
+    static char Suit[] = "DCHS";
+
+    if (RANK(card) == NONE) {
+        fprintf(outfile, "   ");
+    } else {
+        fprintf(outfile, "%c%c ", Rank[RANK(card)], Suit[SUIT(card)]);
+    }
 }
 
 /* Win.  Print out the move stack. */
@@ -1032,7 +972,6 @@ void Solver::win(POSITION *pos)
 	int i, nmoves;
 	POSITION *p;
 	MOVE *mp, **mpp, **mpp0;
-	int count = 2;
 
 	/* Go back up the chain of parents and store the moves
 	in reverse order. */
@@ -1053,27 +992,49 @@ void Solver::win(POSITION *pos)
 
         mp = *mpp0;
         Card *c = 0;
-        if ( mp->fromtype == T_TYPE)
+        if ( mp->fromtype == T_Type)
             c = deal->freecell[mp->from]->top();
-        else if ( mp->fromtype == W_TYPE )
+        else if ( mp->fromtype == W_Type )
             c = deal->store[mp->from]->top();
 
+        if ( !c )
+            abort();
+
+        //printcard(mp->card, stderr);
+        //fprintf( stderr, "%d %d %d %d %02x\n", mp->fromtype, mp->totype, mp->from, mp->to, mp->card );
         Pile *pile = 0;
-        if (mp->totype == T_TYPE) {
+        if (mp->totype == T_Type) {
             pile = deal->freecell[mp->to];
-        } else if (mp->totype == O_TYPE) {
-            pile = deal->target[mp->to];
+        } else if (mp->totype == O_Type) {
+            for ( int i = 0; i < 4; ++i )
+                if ( c->rank() == Card::Ace && deal->target[i]->isEmpty() )
+                {
+                    pile = deal->target[i];
+                    break;
+                }
+                else if ( !deal->target[i]->isEmpty() )
+                {
+                    Card *t = deal->target[i]->top();
+                    if ( t->rank() == c->rank() - 1 && t->suit() == c->suit() )
+                    {
+                        pile = deal->target[i];
+                        break;
+                    }
+                }
         } else {
             pile = deal->store[mp->to];
         }
 
-        fprintf( stderr, "move card %p to pile %p\n", c, p );
-        fprintf( stderr, "move card %s to pile %s\n", c->name().latin1(), pile->objectName().latin1() );
+        if ( !pile )
+            abort();
+
         delete first;
         first = new MoveHint( c, pile );
         return;
 
+#if 0
 	/* Now print them out in the correct order. */
+        int count = 2;
 
 	for (i = 0, mpp = mpp0; i < nmoves; i++, mpp++) {
 	    --count;
@@ -1082,9 +1043,9 @@ void Solver::win(POSITION *pos)
 
 		mp = *mpp;
 		printcard(mp->card, stderr);
-		if (mp->totype == T_TYPE) {
+		if (mp->totype == T_Type) {
 			fprintf(stderr, "to temp %d\n",  mp->to);
-		} else if (mp->totype == O_TYPE) {
+		} else if (mp->totype == O_Type) {
 			fprintf(stderr, "out\n");
 		} else {
 			fprintf(stderr, "to ");
@@ -1097,13 +1058,14 @@ void Solver::win(POSITION *pos)
 			fputc('\n', stderr);
 		}
 	}
+#endif
 	free_array(mpp0, MOVE *, nmoves);
 
 }
 
 /* Initialize the hash buckets. */
 
-static void init_buckets(void)
+void Solver::init_buckets(void)
 {
 	int i;
 
@@ -1142,7 +1104,7 @@ piles appear in any given game.  We'll use the pile's hash to find
 a hash bucket that contains a short list of piles, along with their
 identifiers. */
 
-static __inline__ int get_pilenum(int w)
+int Solver::get_pilenum(int w)
 {
 	int bucket, pilenum;
 	BUCKETLIST *l, *last;
@@ -1266,12 +1228,13 @@ void Solver::doit()
 recursively solve them.  Return whether any of the child nodes, or their
 descendents, were queued or not (if not, the position can be freed). */
 
-int Solver::solve(POSITION *parent)
+bool Solver::solve(POSITION *parent)
 {
-	int i, nmoves, q, qq;
+	int i, nmoves, qq;
 	MOVE *mp, *mp0;
 	POSITION *pos;
 
+        bool q;
 	/* If we've won already (or failed), we just go through the motions
 	but always return false from any position.  This enables the cleanup
 	of the move stack and eventual destruction of the position store. */
@@ -1493,51 +1456,31 @@ void Solver::play(void)
 	Freepos = NULL;
 }
 
-void print_layout()
-{
-       int i, t, w, o;
-
-       fprintf(stderr, "print-layout-begin\n");
-       for (w = 0; w < Nwpiles; w++) {
-               for (i = 0; i < Wlen[w]; i++) {
-                       printcard(W[w][i], stderr);
-               }
-               fputc('\n', stderr);
-       }
-       for (t = 0; t < Ntpiles; t++) {
-               printcard(T[t], stderr);
-       }
-       fputc('\n', stderr);
-       for (o = 0; o < 4; o++) {
-               printcard(O[o] + Osuit[o], stderr);
-       }
-       fprintf(stderr, "\nprint-layout-end\n");
-}
-
-int Solver::patsolve(const Freecell *dealer)
+statuscode Solver::patsolve(const Freecell *dealer)
 {
     first = 0;
     deal = dealer;
-	Same_suit = false;
-	King_only = false;
-	Nwpiles = 8;
-	Ntpiles = 4;
+    Same_suit = false;
+    King_only = false;
+    Nwpiles = 8;
+    Ntpiles = 4;
 
-	/* Initialize the suitable() macro variables. */
+    memset( T, 0, sizeof( T ) );
+    memset( W, 0, sizeof( W ) );
+    /* Initialize the suitable() macro variables. */
 
-	Suit_mask = PS_COLOR;
-	Suit_val = PS_COLOR;
-	if (Same_suit) {
-		Suit_mask = PS_SUIT;
-		Suit_val = 0;
-	}
+    Suit_mask = PS_COLOR;
+    Suit_val = PS_COLOR;
+    if (Same_suit) {
+        Suit_mask = PS_SUIT;
+        Suit_val = 0;
+    }
 
-	translate_layout(dealer);
-        print_layout();
-	play();
-        fprintf( stderr, "status %d\n", Status );
+    translate_layout(dealer);
+    //print_layout();
+    play();
 
-	return Status;
+    return Status;
 }
 
 static int translate_pile(const Pile *pile, card_t *w, int size)
@@ -1658,7 +1601,7 @@ static __inline__ int CMP(u_char *a, u_char *b)
 /* Insert key into the tree unless it's already there.  Return true if
 it was new. */
 
-static int insert(int *cluster, int d, TREE **node)
+int Solver::insert(int *cluster, int d, TREE **node)
 {
 	int i, k;
 	TREE *newtree;
@@ -1887,3 +1830,25 @@ void free_clusters(void)
 		}
 	}
 }
+
+void Solver::print_layout()
+{
+       int i, t, w, o;
+
+       fprintf(stderr, "print-layout-begin\n");
+       for (w = 0; w < Nwpiles; w++) {
+               for (i = 0; i < Wlen[w]; i++) {
+                       printcard(W[w][i], stderr);
+               }
+               fputc('\n', stderr);
+       }
+       for (t = 0; t < Ntpiles; t++) {
+               printcard(T[t], stderr);
+       }
+       fputc('\n', stderr);
+       for (o = 0; o < 4; o++) {
+               printcard(O[o] + Osuit[o], stderr);
+       }
+       fprintf(stderr, "\nprint-layout-end\n");
+}
+

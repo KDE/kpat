@@ -63,11 +63,6 @@
 
 static pWidget *current_pwidget = 0;
 
-
-void saveGame(int) {
-    current_pwidget->saveGame();
-}
-
 pWidget::pWidget()
     : KMainWindow(0), dill(0)
 {

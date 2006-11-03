@@ -26,8 +26,10 @@
 #include <kdebug.h>
 #include <stdlib.h>
 #include <QTimer>
-//Added by qt3to4:
 #include <QList>
+#include <QDomDocument>
+#include <QTextStream>
+#include <QFile>
 #include "cardmaps.h"
 #include "patsolve/patsolve.h"
 
@@ -98,58 +100,26 @@ void Freecell::restart()
     deal();
 }
 
-QString suitToString(Card::Suit s) {
-    switch (s) {
-        case Card::Clubs:
-            return "C";
-        case Card::Hearts:
-            return "H";
-        case Card::Diamonds:
-            return "D";
-        case Card::Spades:
-            return "S";
-    }
-    return QString();
-}
-
-QString rankToString(Card::Rank r)
-{
-    switch (r) {
-    case Card::King:
-        return "K";
-    case Card::Ace:
-        return "A";
-    case Card::Jack:
-        return "J";
-    case Card::Queen:
-        return "Q";
-    case Card::Ten:
-        return "T";
-    default:
-        return QString::number(r);
-    }
-}
-
-int getDeck(Card::Suit suit)
-{
-    switch (suit) {
-        case Card::Hearts:
-            return 0;
-        case Card::Spades:
-            return 1;
-        case Card::Diamonds:
-            return 2;
-        case Card::Clubs:
-            return 3;
-    }
-    return 0;
-}
-
 void Freecell::findSolution()
 {
     Solver s;
     int ret = s.patsolve( this );
-    kDebug() << "return " << ret << endl;
+
+    QFile file( "lastgame" );
+    file.open( QIODevice::WriteOnly );
+    QDomDocument doc("kpat");
+    saveGame(doc);
+    QTextStream stream (&file);
+    stream << doc.toString();
+    stream.flush();
+
+    kDebug() << gameNumber() << " return " << ret << endl;
+    if ( ret == WIN )
+    {
+        Q_ASSERT( s.first );
+        //kDebug() << "move card " << s.first->card()->name() << " to pile " << s.first->pile()->objectName() << endl;
+        newHint( new MoveHint( *s.first ) );
+    }
 }
 
 //  Idea stolen from klondike.cpp
@@ -187,7 +157,6 @@ void Freecell::findSolution()
 
 bool Freecell::noLongerNeeded(const Card & t)
 {
-
     if (t.rank() <= Card::Two) return true; //  Base case.
 
     bool cardIsRed = t.isRed();
@@ -225,6 +194,12 @@ bool Freecell::noLongerNeeded(const Card & t)
 //  but eliminate this code duplication
 void Freecell::getHints()
 {
+    if ( demoActive() )
+    {
+        findSolution();
+        return;
+    }
+
     for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
     {
         Pile *store = *it;
@@ -278,7 +253,8 @@ void Freecell::getHints()
 void Freecell::demo()
 {
     unmarkAll();
-    findSolution();
+    //findSolution();
+    DealerScene::demo();
 }
 
 MoveHint *Freecell::chooseHint()
