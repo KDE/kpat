@@ -5,6 +5,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
+#include <kdebug.h>
 #include <sys/types.h>
 #include <stdarg.h>
 #include <math.h>
@@ -82,22 +83,26 @@ MOVE *Solver::get_moves(int *nmoves)
 
 	/* Fill in the Possible array. */
 
+        //print_layout();
 	alln = n = get_possible_moves(&a, &numout);
 #if 0
         fprintf( stderr, "moves %d\n", n );
 	for (int j = 0; j < n; j++) {
+            fprintf( stderr,  "  " );
             printcard( Possible[j].card, stderr );
-            fprintf( stderr, "move %d %d\n", Possible[j].from, Possible[j].to );
+            if ( Possible[j].totype == O_Type )
+                fprintf( stderr, "move from %d out\n", Possible[j].from );
+            else
+                fprintf( stderr, "move from %d to %d (%d)\n", Possible[j].from, Possible[j].to, Possible[j].turn );
         }
-        fprintf( stderr, "done\n" );
+        return NULL;
 #endif
 
 	/* No moves?  Maybe we won. */
 
 	if (n == 0) {
-
-		/* We lost. */
-
+		/* No more moves - won or lost */
+            print_layout();
 		return NULL;
 	}
 
@@ -176,8 +181,8 @@ void Solver::pilesort(void)
 	}
 }
 
-#define NBUCKETS 4093           /* the largest 12 bit prime */
-#define NPILES  4096            /* a 12 bit code */
+#define NBUCKETS 16381           /* the largest 14 bit prime */
+#define NPILES  16384            /* a 14 bit code */
 
 typedef struct bucketlist {
 	u_char *pile;           /* 0 terminated copy of the pile */
@@ -315,7 +320,10 @@ void Solver::printcard(card_t card, FILE *outfile)
     if (RANK(card) == NONE) {
         fprintf(outfile, "   ");
     } else {
-        fprintf(outfile, "%c%c ", Rank[RANK(card)], Suit[SUIT(card)]);
+        if ( DOWN(card ) )
+            fprintf(outfile, "|%c%c ", Rank[RANK(card)], Suit[SUIT(card)]);
+        else
+            fprintf(outfile, "%c%c ", Rank[RANK(card)], Suit[SUIT(card)]);
     }
 }
 
@@ -348,7 +356,7 @@ void Solver::win(POSITION *pos)
         mp = *mpp0;
 
 	/* Now print them out in the correct order. */
-        int count = 0;
+        int count = -1;
 
 	for (i = 0, mpp = mpp0; i < nmoves; i++, mpp++) {
 	    if (count-- == 0)
@@ -435,6 +443,7 @@ int Solver::get_pilenum(int w)
 	if (l == NULL) {
 		if (Pilenum == NPILES) {
 		        fprintf(stderr, "Ran out of pile numbers!");
+                        exit( 1 );
 			return -1;
 		}
 		l = allocate(BUCKETLIST);
@@ -568,7 +577,15 @@ bool Solver::solve(POSITION *parent)
 
 	q = false;
 	for (i = 0, mp = mp0; i < nmoves; i++, mp++) {
+            fprintf( stderr, "before\n" );
+            if ( !print_layout() )
+            {
+                win( parent );
+                exit( 1 );
+            }
 		make_move(mp);
+                fprintf( stderr, "after\n" );
+                print_layout();
 
 		/* Calculate indices for the new piles. */
 
@@ -781,6 +798,11 @@ statuscode Solver::patsolve()
     return Status;
 }
 
+bool Solver::print_layout()
+{
+    return true;
+}
+
 void Solver::setNumberPiles( int p )
 {
     m_number_piles = p;
@@ -809,7 +831,10 @@ int Solver::translate_pile(const Pile *pile, card_t *w, int size)
 	rank = suit = NONE;
         for ( int i = 0; i < pile->cardsLeft(); ++i )
         {
-            *w = pile->at( i )->suit() * 0x10 + pile->at( i )->rank();
+            Card *c = pile->at( i );
+            *w =  + c->suit() * 0x10 + c->rank();
+            if ( !c->realFace() )
+                *w += 1 << 7;
             w++;
 	}
 	return pile->cardsLeft();
@@ -901,3 +926,13 @@ POSITION *Solver::new_position(POSITION *parent, MOVE *m)
 	return pos;
 }
 
+/* Hash the whole layout.  This is called once, at the start. */
+
+void Solver::hash_layout(void)
+{
+	int w;
+
+	for (w = 0; w < m_number_piles; w++) {
+		hashpile(w);
+	}
+}

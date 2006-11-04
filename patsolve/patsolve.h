@@ -3,10 +3,11 @@
 
 #include "../hint.h"
 #include "memory.h"
+#include <stdio.h>
 
 class DealerScene;
 
-/* A card is represented as (suit << 4) + rank. */
+/* A card is represented as ( down << 6 ) + (suit << 4) + rank. */
 
 typedef u_char card_t;
 
@@ -20,6 +21,7 @@ typedef struct {
     u_char to;              /* to pile number */
     PileType totype;
     signed char pri;        /* move priority (low priority == low value) */
+    bool turn;              /* turn the card */
 } MOVE;
 
 struct POSITION;
@@ -68,9 +70,10 @@ protected:
     void free_buckets(void);
     void printcard(card_t card, FILE *outfile);
     int translate_pile(const Pile *pile, card_t *w, int size);
+    virtual bool print_layout();
 
     void pilesort(void);
-    virtual void hash_layout(void) = 0;
+    void hash_layout( void );
     virtual void make_move(MOVE *m) = 0;
     virtual void undo_move(MOVE *m) = 0;
     virtual void prioritize(MOVE *mp0, int n) = 0;
@@ -125,7 +128,8 @@ protected:
 #define PS_KING 13
 
 #define RANK(card) ((card) & 0xF)
-#define SUIT(card) ((card) >> 4)
+#define SUIT(card) (( (card) >> 4 ) & 3)
 #define COLOR(card) ((card) & PS_COLOR)
+#define DOWN(card) ((card) & ( 1 << 7 ) )
 
 #endif

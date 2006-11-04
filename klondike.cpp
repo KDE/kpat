@@ -28,41 +28,32 @@
 #include <kdebug.h>
 #include <assert.h>
 #include "cardmaps.h"
+#include "patsolve/klondike.h"
 
-class KlondikePile : public Pile
+KlondikePile::KlondikePile( int _index, int _draw, DealerScene* parent)
+    : Pile(_index, parent), m_draw( _draw )
 {
-public:
-    KlondikePile( int _index, int _draw, DealerScene* parent)
-        : Pile(_index, parent), m_draw( _draw )
-    {
-    }
+}
 
-    int draw() const { return m_draw; }
-
-    virtual QSizeF cardOffset( const Card * ) const { return QSizeF( 0, 0 ); }
-    virtual void relayoutCards()
+void KlondikePile::relayoutCards()
+{
+    m_relayoutTimer->stop();
+    int car = m_cards.count();
+    QPointF p = pos();
+    qreal z = zValue() + 1;
+    for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
-        m_relayoutTimer->stop();
-        int car = m_cards.count();
-        QPointF p = pos();
-        qreal z = zValue() + 1;
-        for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
+        //kDebug() << "car " << car << " " << p << endl;
+        ( *it )->setPos( p );
+        ( *it )->setZValue( z );
+        z = z+1;
+        if ( car > m_draw )
         {
-            //kDebug() << "car " << car << " " << p << endl;
-            ( *it )->setPos( p );
-            ( *it )->setZValue( z );
-            z = z+1;
-            if ( car > m_draw )
-            {
-                --car;
-            } else
-                p.rx() += + 0.125 * cardMap::self()->wantedCardWidth();
-        }
+            --car;
+        } else
+            p.rx() += + 0.125 * cardMap::self()->wantedCardWidth();
     }
-
-private:
-    int m_draw;
-};
+}
 
 Klondike::Klondike( bool easy )
   : DealerScene( )
@@ -183,6 +174,8 @@ bool Klondike::tryToDrop(Card *t)
 }
 
 void Klondike::getHints() {
+
+    //findSolution();
 
     target_tops[0] = target_tops[1] = target_tops[2] = target_tops[3]
                    = Card::None;
@@ -349,6 +342,22 @@ bool Klondike::startAutoDrop()
     return true;
 }
 
+void Klondike::findSolution()
+{
+    KlondikeSolver s( this );
+    int ret = s.patsolve();
+
+    /*
+    QFile file( "lastgame" );
+    file.open( QIODevice::WriteOnly );
+    QDomDocument doc("kpat");
+    saveGame(doc);
+    QTextStream stream (&file);
+    stream << doc.toString();
+    stream.flush();
+    */
+    kDebug() << gameNumber() << " return " << ret << endl;
+}
 
 bool Klondike::isGameLost() const
 {

@@ -28,17 +28,6 @@ static card_t Suit_val;
 
 int FreecellSolver::Xparam[] = { 4, 1, 8, -1, 7, 11, 4, 2, 2, 1, 2 };
 
-/* Hash the whole layout.  This is called once, at the start. */
-
-void FreecellSolver::hash_layout(void)
-{
-	int w;
-
-	for (w = 0; w < Nwpiles+Ntpiles; w++) {
-		hashpile(w);
-	}
-}
-
 /* These two routines make and unmake moves. */
 
 void FreecellSolver::make_move(MOVE *m)
@@ -459,7 +448,7 @@ int FreecellSolver::getClusterNumber()
     return k;
 }
 
-void FreecellSolver::print_layout()
+bool FreecellSolver::print_layout()
 {
        int i, t, w, o;
 
@@ -478,4 +467,5 @@ void FreecellSolver::print_layout()
                printcard(O[o] + Osuit[o], stderr);
        }
        fprintf(stderr, "\nprint-layout-end\n");
+       return true;
 }

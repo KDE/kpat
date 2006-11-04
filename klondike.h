@@ -32,10 +32,13 @@
 class KlondikePile;
 
 class Klondike : public DealerScene {
+    friend class KlondikeSolver;
+
     Q_OBJECT
 
 public:
     explicit Klondike( bool easy );
+    void findSolution();
 
 public:
     virtual void restart();
@@ -65,6 +68,18 @@ private:
     KlondikePile *pile;
     Card::Rank target_tops[4];
     bool noLongerNeeded(Card::Rank r, Card::Suit s );
+};
+
+class KlondikePile : public Pile
+{
+public:
+    KlondikePile( int _index, int _draw, DealerScene* parent);
+    int draw() const { return m_draw; }
+    virtual QSizeF cardOffset( const Card * ) const { return QSizeF( 0, 0 ); }
+    virtual void relayoutCards();
+
+private:
+    int m_draw;
 };
 
 #endif

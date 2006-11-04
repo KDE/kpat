@@ -22,6 +22,7 @@ set(kpat_SRCS
    patsolve/patsolve.cpp
    patsolve/memory.cpp
    patsolve/freecell.cpp
+   patsolve/klondike.cpp
    klondike.cpp
    freecell.cpp
 )

@@ -28,7 +28,7 @@
 
 #include "version.h"
 #include "pwidget.h"
-#include "freecell.h"
+#include "klondike.h"
 #include "cardmaps.h"
 
 static const char description[] = I18N_NOOP("KDE Patience Game");
@@ -67,11 +67,11 @@ int main( int argc, char **argv )
 
     KApplication application;
     KGlobal::locale()->insertCatalog("libkdegames");
-#if 1
+#if 0
     cardMap c;
-    Freecell *f = new Freecell();
+    Klondike *f = new Klondike( true );
 
-    for ( int i = 0; i < 1000; i++ )
+    for ( int i = 0; i < 1; i++ )
     {
         f->setGameNumber( i );
         f->restart();
