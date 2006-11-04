@@ -13,12 +13,6 @@
 #include "../pile.h"
 #include "memory.h"
 
-/* A function and some macros for allocating memory. */
-
-bool Stack = true;      /* -S means stack, not queue, the moves to be done */
-static int Cutoff = 1;         /* switch between depth- and breadth-first */
-
-
 /* Statistics. */
 
 int Solver::Xparam[] = { 4, 1, 8, -1, 7, 11, 4, 2, 2, 1, 2 };
@@ -69,7 +63,7 @@ http://www.isthe.com/chongo/tech/comp/fnv/index.html */
 
 /* Hash a buffer. */
 
-static __inline__ u_int32_t fnv_hash_buf(u_char *s, int len)
+static inline u_int32_t fnv_hash_buf(u_char *s, int len)
 {
 	int i;
 	u_int32_t h;
@@ -84,7 +78,7 @@ static __inline__ u_int32_t fnv_hash_buf(u_char *s, int len)
 
 /* Hash a 0 terminated string. */
 
-static __inline__ u_int32_t fnv_hash_str(u_char *s)
+static inline u_int32_t fnv_hash_str(u_char *s)
 {
 	u_int32_t h;
 
@@ -109,22 +103,8 @@ static __inline__ u_int32_t fnv_hash_str(u_char *s)
 
 static int Same_suit = SAME_SUIT;
 static int King_only = KING_ONLY;
-static int Nwpiles = NWPILES; /* the numbers we're actually using */
-static int Ntpiles = NTPILES;
-
-/* Names of the cards.  The ordering is defined in pat.h. */
-
-static card_t O[4]; /* output piles store only the rank or NONE */
-static card_t Osuit[4] = { PS_DIAMOND, PS_CLUB, PS_HEART, PS_SPADE }; /* suits of the output piles */
-
-/* Position freelist. */
-
-static POSITION *Freepos = NULL;
-
 
 /* Temp storage for possible moves. */
-
-
 
 /* Hash a pile. */
 
@@ -391,7 +371,7 @@ MOVE *Solver::get_moves(int *nmoves)
 
 /* Automove logic.  Freecell games must avoid certain types of automoves. */
 
-static __inline__ int good_automove(int o, int r)
+int Solver::good_automove(int o, int r)
 {
 	int i;
 
@@ -1098,12 +1078,6 @@ priority to positions with more cards out, so the solution found is not
 guaranteed to be the shortest, but it'll be better than with a depth-first
 search. */
 
-#define NQUEUES 100
-
-static POSITION *Qhead[NQUEUES]; /* separate queue for each priority */
-static POSITION *Qtail[NQUEUES]; /* positions are added here */
-static int Maxq;
-
 void Solver::doit()
 {
 	int i, q;
@@ -1199,7 +1173,7 @@ bool Solver::solve(POSITION *parent)
 		reduces the quality of solutions).  Otherwise, save it for
 		later. */
 
-		if (pos->cluster != parent->cluster || nmoves < Cutoff) {
+		if (pos->cluster != parent->cluster || !nmoves) {
 			qq = solve(pos);
 			undo_move(mp);
 			if (!qq) {
@@ -1284,15 +1258,9 @@ void Solver::queue_position(POSITION *pos, int pri)
 	pos->queue = NULL;
 	if (Qhead[pri] == NULL) {
 		Qhead[pri] = pos;
-		Qtail[pri] = pos;
 	} else {
-		if (Stack) {
-			pos->queue = Qhead[pri];
-			Qhead[pri] = pos;
-		} else {
-			Qtail[pri]->queue = pos;
-			Qtail[pri] = pos;
-		}
+            pos->queue = Qhead[pri];
+            Qhead[pri] = pos;
 	}
 }
 
@@ -1353,6 +1321,11 @@ POSITION *Solver::dequeue_position()
 Solver::Solver()
 {
     mm = new MemoryManager();
+    Freepos = NULL;
+    Osuit[0] = PS_DIAMOND;
+    Osuit[1] = PS_CLUB;
+    Osuit[2] = PS_HEART;
+    Osuit[3] = PS_SPADE;
 }
 
 Solver::~Solver()

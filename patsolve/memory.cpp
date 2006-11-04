@@ -8,8 +8,6 @@
 /* Add it to the binary tree for this cluster.  The piles are stored
 following the TREE structure. */
 
-extern bool Stack;
-
 size_t MemoryManager::Mem_remain = 30 * 1000 * 1000;
 
 MemoryManager::inscode MemoryManager::insert_node(TREE *n, int d, TREE **tree, TREE **node)
@@ -52,13 +50,7 @@ MemoryManager::inscode MemoryManager::insert_node(TREE *n, int d, TREE **tree, T
 	If the new path to this position was shorter, record the new depth
 	so we can prune the original path. */
 
-        MemoryManager::inscode c2 = FOUND;
-	if (d < t->depth && !Stack) {
-		t->depth = d;
-		c2 = FOUND_BETTER;
-		*node = t;
-	}
-	return c2;
+        return FOUND;
 }
 
 /* Given a cluster number, return a tree.  There are 14^4 possible

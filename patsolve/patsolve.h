@@ -77,6 +77,7 @@ protected:
     MemoryManager::inscode insert(int *cluster, int d, TREE **node);
     void print_layout();
     void free_buckets(void);
+    int good_automove(int o, int r);
 
     void pilesort(void);
     static int Xparam[];
@@ -98,11 +99,29 @@ protected:
     u_int32_t Whash[MAXWPILES];
     int Wpilenum[MAXWPILES];
 
+    /* Position freelist. */
+
+    POSITION *Freepos;
+
 #define MAXMOVES 64             /* > max # moves from any position */
     MOVE Possible[MAXMOVES];
 
     MemoryManager *mm;
     statuscode Status;             /* win, lose, or fail */
+
+#define NQUEUES 100
+
+    POSITION *Qhead[NQUEUES]; /* separate queue for each priority */
+    int Maxq;
+
+    int Nwpiles; /* the numbers we're actually using */
+    int Ntpiles;
+
+/* Names of the cards.  The ordering is defined in pat.h. */
+
+    card_t O[4]; /* output piles store only the rank or NONE */
+    card_t Osuit[4];
+
 };
 
 #endif
