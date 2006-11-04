@@ -245,20 +245,18 @@ void FreecellSolver::prioritize(MOVE *mp0, int n)
 
 	for (i = 0, mp = mp0; i < n; i++, mp++) {
 		if (mp->card != NONE) {
-			if (mp->fromtype == W_Type) {
-				w = mp->from;
-				for (j = 0; j < npile; j++) {
-					if (w == pile[j]) {
-						mp->pri += Xparam[0];
-					}
+			w = mp->from;
+			for (j = 0; j < npile; j++) {
+				if (w == pile[j]) {
+					mp->pri += Xparam[0];
 				}
-				if (Wlen[w] > 1) {
-					card = W[w][Wlen[w] - 2];
-					for (s = 0; s < 4; s++) {
-						if (card == need[s]) {
-							mp->pri += Xparam[1];
-							break;
-						}
+			}
+			if (Wlen[w] > 1) {
+				card = W[w][Wlen[w] - 2];
+				for (s = 0; s < 4; s++) {
+					if (card == need[s]) {
+						mp->pri += Xparam[1];
+						break;
 					}
 				}
 			}
@@ -291,11 +289,6 @@ MOVE *Solver::get_moves(int *nmoves)
         }
         fprintf( stderr, "done\n" );
 #endif
-
-	if (!a) {
-		/* Mark any irreversible moves. */
-		mark_irreversible(n);
-	}
 
 	/* No moves?  Maybe we won. */
 
@@ -413,14 +406,8 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
 			    (!empty && (RANK(card) == O[o] + 1))) {
 				mp->card = card;
 				mp->from = w;
-				mp->fromtype = W_Type;
 				mp->to = o;
 				mp->totype = O_Type;
-				mp->srccard = NONE;
-				if (Wlen[w] > 1) {
-					mp->srccard = Wp[w][-1];
-				}
-				mp->destcard = NONE;
 				mp->pri = 0;    /* unused */
 				n++;
 				mp++;
@@ -468,11 +455,8 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
 				card = *Wp[i];
 				mp->card = card;
 				mp->from = i;
-				mp->fromtype = W_Type;
 				mp->to = emptyw;
 				mp->totype = W_Type;
-				mp->srccard = Wp[i][-1];
-				mp->destcard = NONE;
                                 if ( i >= Nwpiles )
                                     mp->pri = Xparam[6];
                                 else
@@ -497,14 +481,8 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
 				     suitable(card, *Wp[w]))) {
 					mp->card = card;
 					mp->from = i;
-					mp->fromtype = W_Type;
 					mp->to = w;
 					mp->totype = W_Type;
-					mp->srccard = NONE;
-					if (Wlen[i] > 1) {
-						mp->srccard = Wp[i][-1];
-					}
-					mp->destcard = *Wp[w];
                                         if ( i >= Nwpiles )
                                             mp->pri = Xparam[5];
                                         else
@@ -530,14 +508,8 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
                                card = *Wp[w];
                                mp->card = card;
                                mp->from = w;
-                               mp->fromtype = W_Type;
                                mp->to = t+Nwpiles;
                                mp->totype = W_Type;
-                               mp->srccard = NONE;
-                               if (Wlen[w] > 1) {
-                                       mp->srccard = Wp[w][-1];
-                               }
-                               mp->destcard = NONE;
                                mp->pri = Xparam[7];
                                n++;
                                mp++;
@@ -547,37 +519,6 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
 
 
 	return n;
-}
-
-/* Moves that can't be undone get slightly higher priority, since it means
-we are moving a card for the first time. */
-
-void FreecellSolver::mark_irreversible(int n)
-{
-	int i, irr;
-	card_t card, srccard;
-	MOVE *mp;
-
-	for (i = 0, mp = Possible; i < n; i++, mp++) {
-		irr = false;
-		if (mp->totype == O_Type) {
-			irr = true;
-		} else if (mp->fromtype == W_Type) {
-			srccard = mp->srccard;
-			if (srccard != NONE) {
-				card = mp->card;
-				if (RANK(card) != RANK(srccard) - 1 ||
-				    !suitable(card, srccard)) {
-					irr = true;
-				}
-			} else if (King_only && mp->card != PS_KING) {
-				irr = true;
-			}
-		}
-		if (irr) {
-			mp->pri += Xparam[8];
-		}
-	}
 }
 
 /* Test the current position to see if it's new (or better).  If it is, save
@@ -805,18 +746,10 @@ void Solver::win(POSITION *pos)
                 if (mp->totype == O_Type) {
 			fprintf(stderr, "out\n");
 		} else {
-			fprintf(stderr, "to ");
-			if (mp->destcard == NONE) {
-				fprintf(stderr, "empty pile %d", mp->to);
-			} else {
-				printcard(mp->destcard, stderr);
-                                fprintf( stderr, " %d", mp->to );
-			}
-			fputc('\n', stderr);
+			fprintf(stderr, "to %d\n", mp->to);
 		}
 	}
         MemoryManager::free_array(mpp0, nmoves);
-
 }
 
 /* Initialize the hash buckets. */

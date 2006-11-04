@@ -15,14 +15,11 @@ typedef u_char card_t;
 enum PileType { O_Type = 1, W_Type };
 
 typedef struct {
-	card_t card;            /* the card we're moving */
-	u_char from;            /* from pile number */
-	u_char to;              /* to pile number */
-        PileType fromtype;        /* O, T, or W */
-	PileType totype;
-	card_t srccard;         /* card we're uncovering */
-	card_t destcard;        /* card we're moving to */
-	signed char pri;        /* move priority (low priority == low value) */
+    card_t card;            /* the card we're moving */
+    u_char from;            /* from pile number */
+    u_char to;              /* to pile number */
+    PileType totype;
+    signed char pri;        /* move priority (low priority == low value) */
 } MOVE;
 
 struct POSITION;
@@ -56,7 +53,6 @@ protected:
     void play(void);
     void win(POSITION *pos);
     virtual int get_possible_moves(int *a, int *numout) = 0;
-    virtual void mark_irreversible(int n) = 0;
 
     int wcmp(int a, int b);
     void queue_position(POSITION *pos, int pri);
@@ -131,7 +127,6 @@ public:
     virtual int getClusterNumber();
     virtual void translate_layout();
     virtual void unpack_cluster( int k );
-    virtual void mark_irreversible(int n);
 
     void print_layout();
 
