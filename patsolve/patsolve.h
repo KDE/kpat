@@ -12,7 +12,7 @@ typedef u_char card_t;
 
 /* Represent a move. */
 
-enum PileType { O_Type = 1, T_Type, W_Type };
+enum PileType { O_Type = 1, W_Type };
 
 typedef struct {
 	card_t card;            /* the card we're moving */
@@ -78,6 +78,7 @@ protected:
     void print_layout();
     void free_buckets(void);
     int good_automove(int o, int r);
+    void printcard(card_t card, FILE *outfile);
 
     void pilesort(void);
     static int Xparam[];
@@ -85,12 +86,10 @@ protected:
 
     const Freecell *deal;
 
-#define MAXTPILES       4       /* max number of piles */
-#define MAXWPILES       8
+#define MAXWPILES       12
 
     /* Work arrays. */
 
-    card_t T[MAXTPILES];     /* one card in each temp cell */
     card_t W[MAXWPILES][52]; /* the workspace */
     card_t *Wp[MAXWPILES];   /* point to the top card of each work pile */
     int Wlen[MAXWPILES];     /* the number of cards in each pile */

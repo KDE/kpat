@@ -124,7 +124,7 @@ void Solver::hash_layout(void)
 {
 	int w;
 
-	for (w = 0; w < Nwpiles; w++) {
+	for (w = 0; w < Nwpiles+Ntpiles; w++) {
 		hashpile(w);
 	}
 }
@@ -141,25 +141,18 @@ void Solver::make_move(MOVE *m)
 
 	/* Remove from pile. */
 
-	if (m->fromtype == T_Type) {
-		card = T[from];
-		T[from] = NONE;
-	} else {
-		card = *Wp[from]--;
-		Wlen[from]--;
-		hashpile(from);
-	}
+        card = *Wp[from]--;
+        Wlen[from]--;
+        hashpile(from);
 
 	/* Add to pile. */
 
-	if (m->totype == T_Type) {
-		T[to] = card;
-	} else if (m->totype == W_Type) {
-		*++Wp[to] = card;
-		Wlen[to]++;
-		hashpile(to);
-	} else {
-		O[to]++;
+	if (m->totype == O_Type) {
+            O[to]++;
+        } else {
+            *++Wp[to] = card;
+            Wlen[to]++;
+            hashpile(to);
 	}
 }
 
@@ -173,27 +166,19 @@ void Solver::undo_move(MOVE *m)
 
 	/* Remove from 'to' pile. */
 
-	if (m->totype == T_Type) {
-		card = T[to];
-		T[to] = NONE;
-	} else if (m->totype == W_Type) {
-		card = *Wp[to]--;
-		Wlen[to]--;
-		hashpile(to);
-	} else {
-		card = O[to] + Osuit[to];
-		O[to]--;
+	if (m->totype == O_Type) {
+            card = O[to] + Osuit[to];
+            O[to]--;
+        } else {
+            card = *Wp[to]--;
+            Wlen[to]--;
+            hashpile(to);
 	}
 
 	/* Add to 'from' pile. */
-
-	if (m->fromtype == T_Type) {
-		T[from] = card;
-	} else {
-		*++Wp[from] = card;
-		Wlen[from]++;
-		hashpile(from);
-	}
+        *++Wp[from] = card;
+        Wlen[from]++;
+        hashpile(from);
 }
 
 /* Move prioritization.  Given legal, pruned moves, there are still some
@@ -299,6 +284,14 @@ MOVE *Solver::get_moves(int *nmoves)
 	/* Fill in the Possible array. */
 
 	alln = n = get_possible_moves(&a, &numout);
+#if 0
+        fprintf( stderr, "moves %d\n", n );
+	for (int j = 0; j < n; j++) {
+            printcard( Possible[j].card, stderr );
+            fprintf( stderr, "move %d %d\n", Possible[j].from, Possible[j].to );
+        }
+        fprintf( stderr, "done\n" );
+#endif
 
 	if (!a) {
 		/* Mark any irreversible moves. */
@@ -423,7 +416,7 @@ int Solver::get_possible_moves(int *a, int *numout)
 
 	n = 0;
 	mp = Possible;
-	for (w = 0; w < Nwpiles; w++) {
+	for (w = 0; w < Nwpiles + Ntpiles; w++) {
 		if (Wlen[w] > 0) {
 			card = *Wp[w];
 			o = SUIT(card);
@@ -439,40 +432,6 @@ int Solver::get_possible_moves(int *a, int *numout)
 				if (Wlen[w] > 1) {
 					mp->srccard = Wp[w][-1];
 				}
-				mp->destcard = NONE;
-				mp->pri = 0;    /* unused */
-				n++;
-				mp++;
-
-				/* If it's an automove, just do it. */
-
-				if (good_automove(o, RANK(card))) {
-					*a = true;
-					if (n != 1) {
-						Possible[0] = mp[-1];
-						return 1;
-					}
-					return n;
-				}
-			}
-		}
-	}
-
-	/* Check for moves from T to O. */
-
-	for (t = 0; t < Ntpiles; t++) {
-		if (T[t] != NONE) {
-			card = T[t];
-			o = SUIT(card);
-			empty = (O[o] == NONE);
-			if ((empty && (RANK(card) == PS_ACE)) ||
-			    (!empty && (RANK(card) == O[o] + 1))) {
-				mp->card = card;
-				mp->from = t;
-				mp->fromtype = T_Type;
-				mp->to = o;
-				mp->totype = O_Type;
-				mp->srccard = NONE;
 				mp->destcard = NONE;
 				mp->pri = 0;    /* unused */
 				n++;
@@ -508,11 +467,16 @@ int Solver::get_possible_moves(int *a, int *numout)
 		}
 	}
 	if (emptyw >= 0) {
-		for (i = 0; i < Nwpiles; i++) {
-			if (i == emptyw) {
+		for (i = 0; i < Nwpiles + Ntpiles; i++) {
+			if (i == emptyw || Wlen[i] == 0) {
 				continue;
 			}
-			if (Wlen[i] > 1 && king_only(*Wp[i])) {
+                        bool allowed = false;
+                        if ( i < Nwpiles && king_only(*Wp[i]) )
+                            allowed = true;
+                        if ( i >= Nwpiles )
+                            allowed = true;
+                        if ( allowed ) {
 				card = *Wp[i];
 				mp->card = card;
 				mp->from = i;
@@ -521,7 +485,10 @@ int Solver::get_possible_moves(int *a, int *numout)
 				mp->totype = W_Type;
 				mp->srccard = Wp[i][-1];
 				mp->destcard = NONE;
-				mp->pri = Xparam[3];
+                                if ( i >= Nwpiles )
+                                    mp->pri = Xparam[6];
+                                else
+                                    mp->pri = Xparam[3];
 				n++;
 				mp++;
 			}
@@ -530,7 +497,7 @@ int Solver::get_possible_moves(int *a, int *numout)
 
 	/* Check for moves from W to non-empty W cells. */
 
-	for (i = 0; i < Nwpiles; i++) {
+	for (i = 0; i < Nwpiles + Ntpiles; i++) {
 		if (Wlen[i] > 0) {
 			card = *Wp[i];
 			for (w = 0; w < Nwpiles; w++) {
@@ -550,7 +517,10 @@ int Solver::get_possible_moves(int *a, int *numout)
 						mp->srccard = Wp[i][-1];
 					}
 					mp->destcard = *Wp[w];
-					mp->pri = Xparam[4];
+                                        if ( i >= Nwpiles )
+                                            mp->pri = Xparam[5];
+                                        else
+                                            mp->pri = Xparam[4];
 					n++;
 					mp++;
 				}
@@ -558,77 +528,35 @@ int Solver::get_possible_moves(int *a, int *numout)
 		}
 	}
 
-	/* Check for moves from T to non-empty W cells. */
+        /* Check for moves from W to one of any empty T cells. */
 
-	for (t = 0; t < Ntpiles; t++) {
-		card = T[t];
-		if (card != NONE) {
-			for (w = 0; w < Nwpiles; w++) {
-				if (Wlen[w] > 0 &&
-				    (RANK(card) == RANK(*Wp[w]) - 1 &&
-				     suitable(card, *Wp[w]))) {
-					mp->card = card;
-					mp->from = t;
-					mp->fromtype = T_Type;
-					mp->to = w;
-					mp->totype = W_Type;
-					mp->srccard = NONE;
-					mp->destcard = *Wp[w];
-					mp->pri = Xparam[5];
-					n++;
-					mp++;
-				}
-			}
-		}
-	}
+        for (t = 0; t < Ntpiles; t++) {
+               if (!Wlen[t+Nwpiles]) {
+                       break;
+               }
+        }
 
-	/* Check for moves from T to one of any empty W cells. */
+        if (t < Ntpiles) {
+               for (w = 0; w < Nwpiles; w++) {
+                       if (Wlen[w] > 0) {
+                               card = *Wp[w];
+                               mp->card = card;
+                               mp->from = w;
+                               mp->fromtype = W_Type;
+                               mp->to = t+Nwpiles;
+                               mp->totype = W_Type;
+                               mp->srccard = NONE;
+                               if (Wlen[w] > 1) {
+                                       mp->srccard = Wp[w][-1];
+                               }
+                               mp->destcard = NONE;
+                               mp->pri = Xparam[7];
+                               n++;
+                               mp++;
+                       }
+               }
+       }
 
-	if (emptyw >= 0) {
-		for (t = 0; t < Ntpiles; t++) {
-			card = T[t];
-			if (card != NONE && king_only(card)) {
-				mp->card = card;
-				mp->from = t;
-				mp->fromtype = T_Type;
-				mp->to = emptyw;
-				mp->totype = W_Type;
-				mp->srccard = NONE;
-				mp->destcard = NONE;
-				mp->pri = Xparam[6];
-				n++;
-				mp++;
-			}
-		}
-	}
-
-	/* Check for moves from W to one of any empty T cells. */
-
-	for (t = 0; t < Ntpiles; t++) {
-		if (T[t] == NONE) {
-			break;
-		}
-	}
-	if (t < Ntpiles) {
-		for (w = 0; w < Nwpiles; w++) {
-			if (Wlen[w] > 0) {
-				card = *Wp[w];
-				mp->card = card;
-				mp->from = w;
-				mp->fromtype = W_Type;
-				mp->to = t;
-				mp->totype = T_Type;
-				mp->srccard = NONE;
-				if (Wlen[w] > 1) {
-					mp->srccard = Wp[w][-1];
-				}
-				mp->destcard = NONE;
-				mp->pri = Xparam[7];
-				n++;
-				mp++;
-			}
-		}
-	}
 
 	return n;
 }
@@ -684,7 +612,7 @@ void Solver::pilesort(void)
 {
 	/* Make sure all the piles have id numbers. */
 
-	for (int w = 0; w < Nwpiles; w++) {
+	for (int w = 0; w < Nwpiles+Ntpiles; w++) {
 		if (Wpilenum[w] < 0) {
 			Wpilenum[w] = get_pilenum(w);
 			if (Wpilenum[w] < 0) {
@@ -747,7 +675,7 @@ TREE *Solver::pack_position(void)
 	*/
 
 	k = 0;
-	for (w = 0; w < Nwpiles; w++) {
+	for (w = 0; w < Nwpiles+Ntpiles; w++) {
 		j = Wpilenum[w];
 		switch (k) {
 		case 0:
@@ -810,7 +738,7 @@ void Solver::unpack_position(POSITION *pos)
 
 	k = w = i = c = 0;
 	p = (u_char *)(pos->node) + sizeof(TREE);
-	while (w < Nwpiles) {
+	while (w < Nwpiles+Ntpiles) {
 		switch (k) {
 		case 0:
 			i = *p++ << 4;
@@ -832,17 +760,9 @@ void Solver::unpack_position(POSITION *pos)
 		Whash[w] = l->hash;
 		w++;
 	}
-
-	/* T cells. */
-
-	p = (u_char *)pos;
-	p += sizeof(POSITION);
-	for (i = 0; i < Ntpiles; i++) {
-		T[i] = *p++;
-	}
 }
 
-static void printcard(card_t card, FILE *outfile)
+void Solver::printcard(card_t card, FILE *outfile)
 {
     static char Rank[] = " A23456789TJQK";
     static char Suit[] = "DCHS";
@@ -882,8 +802,8 @@ void Solver::win(POSITION *pos)
 
         mp = *mpp0;
         Card *c = 0;
-        if ( mp->fromtype == T_Type)
-            c = deal->freecell[mp->from]->top();
+        if ( mp->from >= Nwpiles)
+            c = deal->freecell[mp->from - Nwpiles]->top();
         else if ( mp->fromtype == W_Type )
             c = deal->store[mp->from]->top();
 
@@ -893,8 +813,8 @@ void Solver::win(POSITION *pos)
         //printcard(mp->card, stderr);
         //fprintf( stderr, "%d %d %d %d %02x\n", mp->fromtype, mp->totype, mp->from, mp->to, mp->card );
         Pile *pile = 0;
-        if (mp->totype == T_Type) {
-            pile = deal->freecell[mp->to];
+        if (mp->to >= Nwpiles) {
+            pile = deal->freecell[mp->to - Nwpiles];
         } else if (mp->totype == O_Type) {
             for ( int i = 0; i < 4; ++i )
                 if ( c->rank() == Card::Ace && deal->target[i]->isEmpty() )
@@ -961,9 +881,9 @@ void Solver::init_buckets(void)
 
 	/* Packed positions need 3 bytes for every 2 piles. */
 
-	i = Nwpiles * 3;
+	i = ( Nwpiles + Ntpiles ) * 3;
 	i >>= 1;
-	i += Nwpiles & 0x1;
+	i += ( Nwpiles + Ntpiles ) & 0x1;
 
         mm->Pilebytes = i;
 
@@ -1052,6 +972,7 @@ int Solver::get_pilenum(int w)
 		Pilebucket[pilenum] = l;
 	}
 
+        //fprintf( stderr, "get_pile_num %d %d\n", w, l->pilenum );
 	return l->pilenum;
 }
 
@@ -1362,7 +1283,6 @@ statuscode Solver::patsolve(const Freecell *dealer)
     Nwpiles = 8;
     Ntpiles = 4;
 
-    memset( T, 0, sizeof( T ) );
     memset( W, 0, sizeof( W ) );
     /* Initialize the suitable() macro variables. */
 
@@ -1415,15 +1335,12 @@ void Solver::translate_layout(const Freecell *deal)
 
 	/* Temp cells may have some cards too. */
 
-	for (int i = 0; i < Ntpiles; i++)
+	for (int w = 0; w < Ntpiles; w++)
         {
-		T[i] = NONE;
-                Card *c = deal->freecell[i]->top();
-                if ( c )
-                {
-                    T[i] = c->suit() * 0x10 + c->rank();
-                    total++;
-                }
+            int i = translate_pile( deal->freecell[w], W[w+Nwpiles], 52 );
+            Wp[w+Nwpiles] = &W[w+Nwpiles][i-1];
+            Wlen[w+Nwpiles] = i;
+            total += i;
 	}
 
 	/* Output piles, if any. */
@@ -1492,9 +1409,9 @@ void Solver::print_layout()
                fputc('\n', stderr);
        }
        for (t = 0; t < Ntpiles; t++) {
-               printcard(T[t], stderr);
+           printcard(W[t+Nwpiles][Wlen[t+Nwpiles]], stderr);
        }
-       fputc('\n', stderr);
+       fprintf( stderr, "\n" );
        for (o = 0; o < 4; o++) {
                printcard(O[o] + Osuit[o], stderr);
        }
@@ -1504,7 +1421,7 @@ void Solver::print_layout()
 
 POSITION *Solver::new_position(POSITION *parent, MOVE *m)
 {
-	int t, depth, cluster;
+	int depth, cluster;
 	u_char *p;
 	POSITION *pos;
 	TREE *node;
@@ -1547,15 +1464,10 @@ POSITION *Solver::new_position(POSITION *parent, MOVE *m)
 	pos->nchild = 0;
 
 	p += sizeof(POSITION);
-	int j = 0;
-	for (t = 0; t < Ntpiles; t++) {
+/*	for (int t = 0; t < Ntpiles; t++) {
 		*p++ = T[t];
-		if (T[t] != NONE) {
-			j++;
-		}
 	}
-	pos->ntemp = j;
-
+*/
 	return pos;
 }
 
