@@ -35,7 +35,7 @@ public:
 
 class Freecell : public DealerScene
 {
-    friend class Solver;
+    friend class FreecellSolver;
 
     Q_OBJECT
 

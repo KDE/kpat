@@ -4,7 +4,7 @@
 #include "../hint.h"
 #include "memory.h"
 
-class Freecell;
+class DealerScene;
 
 /* A card is represented as (suit << 4) + rank. */
 
@@ -47,56 +47,54 @@ class Solver
 public:
     Solver();
     virtual ~Solver();
-    statuscode patsolve(const Freecell *text);
-    MoveHint *first;
+    statuscode patsolve();
 
 protected:
     MOVE *get_moves(int *nmoves);
     bool solve(POSITION *parent);
     void doit();
     void play(void);
-    void translate_layout(const Freecell *deal);
     void win(POSITION *pos);
-    void prioritize(MOVE *mp0, int n);
-    int get_possible_moves(int *a, int *numout);
-    void mark_irreversible(int n);
+    virtual int get_possible_moves(int *a, int *numout) = 0;
+    virtual void mark_irreversible(int n) = 0;
 
     int wcmp(int a, int b);
     void queue_position(POSITION *pos, int pri);
     void free_position(POSITION *pos, int);
     POSITION *dequeue_position();
     void hashpile(int w);
-    void hash_layout(void);
-    void make_move(MOVE *m);
-    void undo_move(MOVE *m);
     POSITION *new_position(POSITION *parent, MOVE *m);
     TREE *pack_position(void);
     void unpack_position(POSITION *pos);
     void init_buckets(void);
     int get_pilenum(int w);
     MemoryManager::inscode insert(int *cluster, int d, TREE **node);
-    void print_layout();
     void free_buckets(void);
-    int good_automove(int o, int r);
     void printcard(card_t card, FILE *outfile);
 
     void pilesort(void);
-    static int Xparam[];
-    static double Yparam[];
+    virtual void hash_layout(void) = 0;
+    virtual void make_move(MOVE *m) = 0;
+    virtual void undo_move(MOVE *m) = 0;
+    virtual void prioritize(MOVE *mp0, int n) = 0;
+    virtual bool isWon() = 0;
+    virtual int getOuts() = 0;
+    virtual int getClusterNumber() = 0;
+    virtual void translate_layout() = 0;
+    virtual void unpack_cluster( int k ) = 0;
 
-    const Freecell *deal;
-
-#define MAXWPILES       12
+    void setNumberPiles( int i );
+    int m_number_piles;
 
     /* Work arrays. */
 
-    card_t W[MAXWPILES][52]; /* the workspace */
-    card_t *Wp[MAXWPILES];   /* point to the top card of each work pile */
-    int Wlen[MAXWPILES];     /* the number of cards in each pile */
+    card_t **W; /* the workspace */
+    card_t **Wp;   /* point to the top card of each work pile */
+    int *Wlen;     /* the number of cards in each pile */
 
     /* Every different pile has a hash and a unique id. */
-    u_int32_t Whash[MAXWPILES];
-    int Wpilenum[MAXWPILES];
+    u_int32_t *Whash;
+    int *Wpilenum;
 
     /* Position freelist. */
 
@@ -113,6 +111,30 @@ protected:
     POSITION *Qhead[NQUEUES]; /* separate queue for each priority */
     int Maxq;
 
+    bool m_newer_piles_first;
+};
+
+class Freecell;
+
+class FreecellSolver : public Solver
+{
+public:
+    FreecellSolver(const Freecell *dealer);
+    int good_automove(int o, int r);
+    virtual int get_possible_moves(int *a, int *numout);
+    virtual bool isWon();
+    virtual void hash_layout(void);
+    virtual void make_move(MOVE *m);
+    virtual void undo_move(MOVE *m);
+    virtual void prioritize(MOVE *mp0, int n);
+    virtual int getOuts();
+    virtual int getClusterNumber();
+    virtual void translate_layout();
+    virtual void unpack_cluster( int k );
+    virtual void mark_irreversible(int n);
+
+    void print_layout();
+
     int Nwpiles; /* the numbers we're actually using */
     int Ntpiles;
 
@@ -120,6 +142,10 @@ protected:
 
     card_t O[4]; /* output piles store only the rank or NONE */
     card_t Osuit[4];
+
+    const Freecell *deal;
+
+    static int Xparam[];
 
 };
 

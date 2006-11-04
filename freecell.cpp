@@ -102,8 +102,8 @@ void Freecell::restart()
 
 void Freecell::findSolution()
 {
-    Solver s;
-    int ret = s.patsolve( this );
+    FreecellSolver s( this );
+    int ret = s.patsolve();
 
     QFile file( "lastgame" );
     file.open( QIODevice::WriteOnly );
@@ -114,11 +114,52 @@ void Freecell::findSolution()
     stream.flush();
 
     kDebug() << gameNumber() << " return " << ret << endl;
-    if ( ret == WIN )
+    if ( false && ret == WIN )
     {
+#if 0
+        Card *c = 0;
+        if ( mp->from >= Nwpiles)
+            c = deal->freecell[mp->from - Nwpiles]->top();
+        else if ( mp->fromtype == W_Type )
+            c = deal->store[mp->from]->top();
+
+        if ( !c )
+            abort();
+
+        //printcard(mp->card, stderr);
+        //fprintf( stderr, "%d %d %d %d %02x\n", mp->fromtype, mp->totype, mp->from, mp->to, mp->card );
+        Pile *pile = 0;
+        if (mp->to >= Nwpiles) {
+            pile = deal->freecell[mp->to - Nwpiles];
+        } else if (mp->totype == O_Type) {
+            for ( int i = 0; i < 4; ++i )
+                if ( c->rank() == Card::Ace && deal->target[i]->isEmpty() )
+                {
+                    pile = deal->target[i];
+                    break;
+                }
+                else if ( !deal->target[i]->isEmpty() )
+                {
+                    Card *t = deal->target[i]->top();
+                    if ( t->rank() == c->rank() - 1 && t->suit() == c->suit() )
+                    {
+                        pile = deal->target[i];
+                        break;
+                    }
+                }
+        } else {
+            pile = deal->store[mp->to];
+        }
+
+        if ( !pile )
+            abort();
+
+        delete first;
+        first = new MoveHint( c, pile );
+
         Q_ASSERT( s.first );
-        //kDebug() << "move card " << s.first->card()->name() << " to pile " << s.first->pile()->objectName() << endl;
         newHint( new MoveHint( *s.first ) );
+#endif
     }
 }
 

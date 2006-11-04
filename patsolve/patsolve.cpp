@@ -15,8 +15,7 @@
 
 /* Statistics. */
 
-int Solver::Xparam[] = { 4, 1, 8, -1, 7, 11, 4, 2, 2, 1, 2 };
-double Solver::Yparam[] = { 0.0032, 0.32, -3.0 };
+int FreecellSolver::Xparam[] = { 4, 1, 8, -1, 7, 11, 4, 2, 2, 1, 2 };
 
 /* Misc. */
 
@@ -120,7 +119,7 @@ void Solver::hashpile(int w)
 
 /* Hash the whole layout.  This is called once, at the start. */
 
-void Solver::hash_layout(void)
+void FreecellSolver::hash_layout(void)
 {
 	int w;
 
@@ -131,7 +130,7 @@ void Solver::hash_layout(void)
 
 /* These two routines make and unmake moves. */
 
-void Solver::make_move(MOVE *m)
+void FreecellSolver::make_move(MOVE *m)
 {
 	int from, to;
 	card_t card;
@@ -156,7 +155,7 @@ void Solver::make_move(MOVE *m)
 	}
 }
 
-void Solver::undo_move(MOVE *m)
+void FreecellSolver::undo_move(MOVE *m)
 {
 	int from, to;
 	card_t card;
@@ -188,7 +187,7 @@ positions when they are added to the queue. */
 
 #define NNEED 8
 
-void Solver::prioritize(MOVE *mp0, int n)
+void FreecellSolver::prioritize(MOVE *mp0, int n)
 {
 	int i, j, s, w, pile[NNEED], npile;
 	card_t card, need[4];
@@ -278,7 +277,7 @@ void Solver::prioritize(MOVE *mp0, int n)
 
 MOVE *Solver::get_moves(int *nmoves)
 {
-	int i, n, alln, o, a, numout = 0;
+	int i, n, alln, a, numout = 0;
 	MOVE *mp, *mp0;
 
 	/* Fill in the Possible array. */
@@ -301,17 +300,6 @@ MOVE *Solver::get_moves(int *nmoves)
 	/* No moves?  Maybe we won. */
 
 	if (n == 0) {
-		for (o = 0; o < 4; o++) {
-			if (O[o] != PS_KING) {
-				break;
-			}
-		}
-
-		if (o == 4) {
-			/* Report the win. */
-			Status = WIN;
-			return NULL;
-		}
 
 		/* We lost. */
 
@@ -364,7 +352,7 @@ MOVE *Solver::get_moves(int *nmoves)
 
 /* Automove logic.  Freecell games must avoid certain types of automoves. */
 
-int Solver::good_automove(int o, int r)
+int FreecellSolver::good_automove(int o, int r)
 {
 	int i;
 
@@ -406,7 +394,7 @@ int Solver::good_automove(int o, int r)
 
 /* Get the possible moves from a position, and store them in Possible[]. */
 
-int Solver::get_possible_moves(int *a, int *numout)
+int FreecellSolver::get_possible_moves(int *a, int *numout)
 {
 	int i, n, t, w, o, empty, emptyw;
 	card_t card;
@@ -564,7 +552,7 @@ int Solver::get_possible_moves(int *a, int *numout)
 /* Moves that can't be undone get slightly higher priority, since it means
 we are moving a card for the first time. */
 
-void Solver::mark_irreversible(int n)
+void FreecellSolver::mark_irreversible(int n)
 {
 	int i, irr;
 	card_t card, srccard;
@@ -601,7 +589,7 @@ int Posbytes;
 
 int Solver::wcmp(int a, int b)
 {
-	if (Xparam[9] < 0) {
+	if (m_newer_piles_first) {
 		return Wpilenum[b] - Wpilenum[a];       /* newer piles first */
 	} else {
 		return Wpilenum[a] - Wpilenum[b];       /* older piles first */
@@ -612,7 +600,7 @@ void Solver::pilesort(void)
 {
 	/* Make sure all the piles have id numbers. */
 
-	for (int w = 0; w < Nwpiles+Ntpiles; w++) {
+	for (int w = 0; w < m_number_piles; w++) {
 		if (Wpilenum[w] < 0) {
 			Wpilenum[w] = get_pilenum(w);
 			if (Wpilenum[w] < 0) {
@@ -675,7 +663,7 @@ TREE *Solver::pack_position(void)
 	*/
 
 	k = 0;
-	for (w = 0; w < Nwpiles+Ntpiles; w++) {
+	for (w = 0; w < m_number_piles; w++) {
 		j = Wpilenum[w];
 		switch (k) {
 		case 0:
@@ -708,6 +696,18 @@ static inline int strecpy(unsigned char *d, unsigned char *s)
 	return i;
 }
 
+void FreecellSolver::unpack_cluster( int k )
+{
+    /* Get the Out cells from the cluster number. */
+    O[0] = k & 0xF;
+    k >>= 4;
+    O[1] = k & 0xF;
+    k >>= 4;
+    O[2] = k & 0xF;
+    k >>= 4;
+    O[3] = k & 0xF;
+}
+
 /* Unpack a compact position rep.  T cells must be restored from the
 array following the POSITION struct. */
 
@@ -717,16 +717,7 @@ void Solver::unpack_position(POSITION *pos)
 	u_char c, *p;
 	BUCKETLIST *l;
 
-	/* Get the Out cells from the cluster number. */
-
-	k = pos->cluster;
-	O[0] = k & 0xF;
-	k >>= 4;
-	O[1] = k & 0xF;
-	k >>= 4;
-	O[2] = k & 0xF;
-	k >>= 4;
-	O[3] = k & 0xF;
+        unpack_cluster(pos->cluster);
 
 	/* Unpack bytes p into pile numbers j.
 		    p         p         p
@@ -738,7 +729,7 @@ void Solver::unpack_position(POSITION *pos)
 
 	k = w = i = c = 0;
 	p = (u_char *)(pos->node) + sizeof(TREE);
-	while (w < Nwpiles+Ntpiles) {
+	while (w < m_number_piles) {
 		switch (k) {
 		case 0:
 			i = *p++ << 4;
@@ -801,61 +792,17 @@ void Solver::win(POSITION *pos)
 	}
 
         mp = *mpp0;
-        Card *c = 0;
-        if ( mp->from >= Nwpiles)
-            c = deal->freecell[mp->from - Nwpiles]->top();
-        else if ( mp->fromtype == W_Type )
-            c = deal->store[mp->from]->top();
 
-        if ( !c )
-            abort();
-
-        //printcard(mp->card, stderr);
-        //fprintf( stderr, "%d %d %d %d %02x\n", mp->fromtype, mp->totype, mp->from, mp->to, mp->card );
-        Pile *pile = 0;
-        if (mp->to >= Nwpiles) {
-            pile = deal->freecell[mp->to - Nwpiles];
-        } else if (mp->totype == O_Type) {
-            for ( int i = 0; i < 4; ++i )
-                if ( c->rank() == Card::Ace && deal->target[i]->isEmpty() )
-                {
-                    pile = deal->target[i];
-                    break;
-                }
-                else if ( !deal->target[i]->isEmpty() )
-                {
-                    Card *t = deal->target[i]->top();
-                    if ( t->rank() == c->rank() - 1 && t->suit() == c->suit() )
-                    {
-                        pile = deal->target[i];
-                        break;
-                    }
-                }
-        } else {
-            pile = deal->store[mp->to];
-        }
-
-        if ( !pile )
-            abort();
-
-        delete first;
-        first = new MoveHint( c, pile );
-        return;
-
-#if 0
 	/* Now print them out in the correct order. */
-        int count = 2;
+        int count = 0;
 
 	for (i = 0, mpp = mpp0; i < nmoves; i++, mpp++) {
-	    --count;
-	    if (count == 0)
+	    if (count-- == 0)
 		break;
 
 		mp = *mpp;
 		printcard(mp->card, stderr);
-		if (mp->totype == T_Type) {
-			fprintf(stderr, "to temp %d\n",  mp->to);
-		} else if (mp->totype == O_Type) {
+                if (mp->totype == O_Type) {
 			fprintf(stderr, "out\n");
 		} else {
 			fprintf(stderr, "to ");
@@ -868,7 +815,6 @@ void Solver::win(POSITION *pos)
 			fputc('\n', stderr);
 		}
 	}
-#endif
         MemoryManager::free_array(mpp0, nmoves);
 
 }
@@ -881,9 +827,9 @@ void Solver::init_buckets(void)
 
 	/* Packed positions need 3 bytes for every 2 piles. */
 
-	i = ( Nwpiles + Ntpiles ) * 3;
+	i = ( m_number_piles ) * 3;
 	i >>= 1;
-	i += ( Nwpiles + Ntpiles ) & 0x1;
+	i += ( m_number_piles ) & 0x1;
 
         mm->Pilebytes = i;
 
@@ -902,7 +848,7 @@ void Solver::init_buckets(void)
 		Treebytes |= ALIGN_BITS;
 		Treebytes++;
 	}
-	Posbytes = sizeof(POSITION) + Ntpiles;
+	Posbytes = sizeof(POSITION);
 	if (Posbytes & ALIGN_BITS) {
 		Posbytes |= ALIGN_BITS;
 		Posbytes++;
@@ -1035,6 +981,18 @@ void Solver::doit()
 	}
 }
 
+bool FreecellSolver::isWon()
+{
+    // maybe won?
+    for (int o = 0; o < 4; o++) {
+        if (O[o] != PS_KING) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 /* Generate all the successors to a position and either queue them or
 recursively solve them.  Return whether any of the child nodes, or their
 descendents, were queued or not (if not, the position can be freed). */
@@ -1064,8 +1022,10 @@ bool Solver::solve(POSITION *parent)
 	/* Generate an array of all the moves we can make. */
 
 	if ((mp0 = get_moves(&nmoves)) == NULL) {
-            if ( Status == WIN )
+            if ( isWon() ) {
+                Status = WIN;
                 win( parent );
+            }
             return false;
 	}
 	parent->nchild = nmoves;
@@ -1147,20 +1107,21 @@ void Solver::free_position(POSITION *pos, int rec)
 that got us here.  The work queue is kept sorted by priority (simply by
 having separate queues). */
 
+int FreecellSolver::getOuts()
+{
+    return O[0] + O[1] + O[2] + O[3];
+}
+
 void Solver::queue_position(POSITION *pos, int pri)
 {
-	int nout;
-	double x;
-
 	/* In addition to the priority of a move, a position gets an
 	additional priority depending on the number of cards out.  We use a
 	"queue squashing function" to map nout to priority.  */
 
-	nout = O[0] + O[1] + O[2] + O[3];
+        int nout = getOuts();
 
-	/* Yparam[0] * nout^2 + Yparam[1] * nout + Yparam[2] */
-
-	x = (Yparam[0] * nout + Yparam[1]) * nout + Yparam[2];
+        static double Yparam[] = { 0.0032, 0.32, -3.0 };
+	double x = (Yparam[0] * nout + Yparam[1]) * nout + Yparam[2];
 	pri += (int)floor(x + .5);
 
 	if (pri < 0) {
@@ -1239,14 +1200,42 @@ POSITION *Solver::dequeue_position()
 	return pos;
 }
 
-Solver::Solver()
+FreecellSolver::FreecellSolver(const Freecell *dealer)
+    : Solver()
 {
-    mm = new MemoryManager();
-    Freepos = NULL;
     Osuit[0] = PS_DIAMOND;
     Osuit[1] = PS_CLUB;
     Osuit[2] = PS_HEART;
     Osuit[3] = PS_SPADE;
+
+    Same_suit = false;
+    King_only = false;
+    Nwpiles = 8;
+    Ntpiles = 4;
+
+    setNumberPiles( Nwpiles + Ntpiles );
+
+    Suit_mask = PS_COLOR;
+    Suit_val = PS_COLOR;
+    deal = dealer;
+
+
+}
+
+Solver::Solver()
+{
+    mm = new MemoryManager();
+    Freepos = NULL;
+    m_newer_piles_first = true;
+    /* Work arrays. */
+    W = 0;
+    Wp = 0;
+
+    Wlen = 0;
+
+    Whash = 0;
+    Wpilenum = 0;
+
 }
 
 Solver::~Solver()
@@ -1274,35 +1263,39 @@ void Solver::play(void)
 	Freepos = NULL;
 }
 
-statuscode Solver::patsolve(const Freecell *dealer)
+statuscode Solver::patsolve()
 {
-    first = 0;
-    deal = dealer;
-    Same_suit = false;
-    King_only = false;
-    Nwpiles = 8;
-    Ntpiles = 4;
-
-    memset( W, 0, sizeof( W ) );
     /* Initialize the suitable() macro variables. */
 
-    Suit_mask = PS_COLOR;
-    Suit_val = PS_COLOR;
-    if (Same_suit) {
-        Suit_mask = PS_SUIT;
-        Suit_val = 0;
-    }
-
-    translate_layout(dealer);
+    translate_layout();
     //print_layout();
     play();
 
     return Status;
 }
 
+void Solver::setNumberPiles( int p )
+{
+    m_number_piles = p;
+
+    /* Work arrays. */
+    W = new card_t*[m_number_piles];
+    for ( int i = 0; i < m_number_piles; i++ )
+    {
+        W[i] = new card_t[52];
+        memset( W[i], 0, sizeof( card_t ) * 52 );
+    }
+    Wp = new card_t*[m_number_piles];
+
+    Wlen = new int[m_number_piles];
+
+    Whash = new u_int32_t[m_number_piles];
+    Wpilenum = new int[m_number_piles];
+}
+
 static int translate_pile(const Pile *pile, card_t *w, int size)
 {
-    Q_ASSERT( pile->cardsLeft() <= size );
+        Q_ASSERT( pile->cardsLeft() <= size );
 
         card_t rank, suit;
 
@@ -1318,7 +1311,7 @@ static int translate_pile(const Pile *pile, card_t *w, int size)
 /* Read a layout file.  Format is one pile per line, bottom to top (visible
 card).  Temp cells and Out on the last two lines, if any. */
 
-void Solver::translate_layout(const Freecell *deal)
+void FreecellSolver::translate_layout()
 {
 	/* Read the workspace. */
 
@@ -1358,20 +1351,23 @@ void Solver::translate_layout(const Freecell *deal)
 	}
 }
 
+int FreecellSolver::getClusterNumber()
+{
+    int i = O[0] + (O[1] << 4);
+    int k = i;
+    i = O[2] + (O[3] << 4);
+    k |= i << 8;
+    return k;
+}
+
 /* Insert key into the tree unless it's already there.  Return true if
 it was new. */
 
 MemoryManager::inscode Solver::insert(int *cluster, int d, TREE **node)
 {
-	int i, k;
-
 	/* Get the cluster number from the Out cell contents. */
 
-	i = O[0] + (O[1] << 4);
-	k = i;
-	i = O[2] + (O[3] << 4);
-	k |= i << 8;
-
+        int k = getClusterNumber();
         *cluster = k;
 
         /* Get the tree for this cluster. */
@@ -1397,7 +1393,7 @@ MemoryManager::inscode Solver::insert(int *cluster, int d, TREE **node)
 	return i2;
 }
 
-void Solver::print_layout()
+void FreecellSolver::print_layout()
 {
        int i, t, w, o;
 
