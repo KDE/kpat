@@ -67,6 +67,7 @@ protected:
     MemoryManager::inscode insert(int *cluster, int d, TREE **node);
     void free_buckets(void);
     void printcard(card_t card, FILE *outfile);
+    int translate_pile(const Pile *pile, card_t *w, int size);
 
     void pilesort(void);
     virtual void hash_layout(void) = 0;
@@ -110,38 +111,21 @@ protected:
     bool m_newer_piles_first;
 };
 
-class Freecell;
+/* Misc. */
 
-class FreecellSolver : public Solver
-{
-public:
-    FreecellSolver(const Freecell *dealer);
-    int good_automove(int o, int r);
-    virtual int get_possible_moves(int *a, int *numout);
-    virtual bool isWon();
-    virtual void hash_layout(void);
-    virtual void make_move(MOVE *m);
-    virtual void undo_move(MOVE *m);
-    virtual void prioritize(MOVE *mp0, int n);
-    virtual int getOuts();
-    virtual int getClusterNumber();
-    virtual void translate_layout();
-    virtual void unpack_cluster( int k );
+#define PS_DIAMOND 0x00         /* red */
+#define PS_CLUB    0x10         /* black */
+#define PS_HEART   0x20         /* red */
+#define PS_SPADE   0x30         /* black */
+#define PS_COLOR   0x10         /* black if set */
+#define PS_SUIT    0x30         /* mask both suit bits */
 
-    void print_layout();
+#define NONE    0
+#define PS_ACE  1
+#define PS_KING 13
 
-    int Nwpiles; /* the numbers we're actually using */
-    int Ntpiles;
-
-/* Names of the cards.  The ordering is defined in pat.h. */
-
-    card_t O[4]; /* output piles store only the rank or NONE */
-    card_t Osuit[4];
-
-    const Freecell *deal;
-
-    static int Xparam[];
-
-};
+#define RANK(card) ((card) & 0xF)
+#define SUIT(card) ((card) >> 4)
+#define COLOR(card) ((card) & PS_COLOR)
 
 #endif
