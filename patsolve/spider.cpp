@@ -18,16 +18,16 @@
 /* These two routines make and unmake moves. */
 
 #define PRINT 0
-#define PRINT2
+#define PRINT2 0
 
 void SpiderSolver::make_move(MOVE *m)
 {
 #if PRINT
     kDebug() << "\n\nmake_move\n";
     if ( m->totype == O_Type )
-        fprintf( stderr, "move %d from %d out (at %d)\n\n", m->card_index, m->from, m->turn_index );
+        fprintf( stderr, "move %d from %d out (at %d) Prio: %d\n\n", m->card_index, m->from, m->turn_index, m->pri );
     else
-        fprintf( stderr, "move %d from %d to %d (%d)\n\n", m->card_index, m->from, m->to, m->turn_index );
+        fprintf( stderr, "move %d from %d to %d (%d) Prio: %d\n\n", m->card_index, m->from, m->to, m->turn_index, m->pri );
     print_layout();
 #else
     //print_layout();
@@ -268,11 +268,27 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
         mp->from = 10+i;
         mp->to = 0; // unused
         mp->totype = W_Type;
-        mp->pri = 2;
+        mp->pri = 0;
         mp->turn_index = -1;
         n++;
         mp++;
         break; // one is enough
+    }
+
+    int conti[10];
+    for ( int j = 0; j < 10; j++ )
+    {
+        conti[j] = 0;
+        for ( ; conti[j] < Wlen[j]-1; ++conti[j] )
+        {
+            if ( SUIT( *Wp[j] ) != SUIT( W[j][Wlen[j]-conti[j]-1] ) ||
+                 DOWN( W[j][Wlen[j]-conti[j]-2] ))
+                break;
+            if ( RANK( W[j][Wlen[j]-conti[j]-1] ) !=
+                 RANK( W[j][Wlen[j]-conti[j]-2] ) - 1)
+                break;
+        }
+        conti[j]++;
     }
 
     for(int i=0; i<10; i++)
@@ -320,7 +336,8 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
                          !DOWN( card_below ) &&
                          RANK( card_below ) == RANK( card ) + 1 )
                     {
-                        continue; // TODO: check for winning move
+                        if ( conti[i]>conti[j]+l )
+                            continue;
                     }
                 }
 
@@ -332,10 +349,18 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
                     mp->turn_index = -1;
                     if ( Wlen[i] > l+1 && DOWN( W[i][Wlen[i]-l-2] ) )
                         mp->turn_index = 1;
-                    if ( mp->turn_index > 0 || Wlen[i] == l+1)
-                        mp->pri = 28 + Wlen[j] * 5 + l;
+                    int cont = conti[j];
+                    if ( Wlen[j] )
+                        cont++;
+                    if ( cont )
+                        cont += l;
+                    mp->pri = 8 * cont + qMax( 0, 10 - Wlen[i] );
+                    if ( mp->turn_index > 0)
+                        mp->pri += 7;
+                    else  if ( Wlen[i] == l+1 )
+                        mp->pri += 4;
                     else
-                        mp->pri = 7;
+                        mp->pri += 2;
                     n++;
                     mp++;
                 }
@@ -375,7 +400,7 @@ int SpiderSolver::getOuts()
         if (O[o])
             k += 13;
 
-    return k;
+    return k / 2;
 }
 
 SpiderSolver::SpiderSolver(const Spider *dealer)

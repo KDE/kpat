@@ -110,7 +110,7 @@ protected:
     MemoryManager *mm;
     statuscode Status;             /* win, lose, or fail */
 
-#define NQUEUES 100
+#define NQUEUES 127
 
     POSITION *Qhead[NQUEUES]; /* separate queue for each priority */
     int Maxq;

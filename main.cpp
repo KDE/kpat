@@ -68,11 +68,11 @@ int main( int argc, char **argv )
 
     KApplication application;
     KGlobal::locale()->insertCatalog("libkdegames");
-#if 1
+#if 0
     cardMap c;
     DealerScene *f = new Spider( 1 );
 
-    for ( int i = 3; i <= 3; i++ )
+    for ( int i = 2; i <= 2; i++ )
     {
         f->setGameNumber( i );
         f->restart();

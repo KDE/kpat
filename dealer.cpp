@@ -1213,6 +1213,10 @@ void DealerScene::demo()
     getHints();
     demotimer->stop();
 
+    if ( solver() )
+        kDebug() << "return " << solver()->patsolve() << endl;
+    return;
+
     MoveHint *mh = chooseHint();
     if (mh) {
         // assert(mh->card()->source()->legalRemove(mh->card()));
