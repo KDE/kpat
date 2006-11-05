@@ -479,6 +479,8 @@ bool Spider::isGameLost() const
            return false;
     }
 
+    kDebug() << "I think the game is lost! " << solver()->patsolve() << endl;
+    return false;
     return true;
 }
 

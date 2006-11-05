@@ -251,7 +251,8 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
             mp++;
 
             /* If it's an automove, just do it. */
-            return 1;
+            if ( mp->turn_index != -1 )
+                return 1;
         }
     }
 
@@ -260,28 +261,13 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
     *a = false;
     *numout = n;
 
-    /* check for redeal */
-    for ( int i = 0; i < 5; ++i ) {
-        if ( !Wlen[10+i] )
-            continue;
-        mp->card_index = 0;
-        mp->from = 10+i;
-        mp->to = 0; // unused
-        mp->totype = W_Type;
-        mp->pri = 0;
-        mp->turn_index = -1;
-        n++;
-        mp++;
-        break; // one is enough
-    }
-
     int conti[10];
     for ( int j = 0; j < 10; j++ )
     {
         conti[j] = 0;
         for ( ; conti[j] < Wlen[j]-1; ++conti[j] )
         {
-            if ( SUIT( *Wp[j] ) != SUIT( W[j][Wlen[j]-conti[j]-1] ) ||
+            if ( SUIT( *Wp[j] ) != SUIT( W[j][Wlen[j]-conti[j]-2] ) ||
                  DOWN( W[j][Wlen[j]-conti[j]-2] ))
                 break;
             if ( RANK( W[j][Wlen[j]-conti[j]-1] ) !=
@@ -290,6 +276,8 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
         }
         conti[j]++;
     }
+
+    bool foundgood = false;
 
     for(int i=0; i<10; i++)
     {
@@ -320,6 +308,8 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
                      RANK(card) == RANK(*Wp[j]) - 1 )
                 {
                     allowed = true;
+                    if ( ( SUIT( card ) != SUIT( *Wp[j] ) ) && foundgood )
+                        allowed = false; // make the tree simpler
                 }
                 if ( Wlen[j] == 0 && !wasempty )
                 {
@@ -336,8 +326,15 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
                          !DOWN( card_below ) &&
                          RANK( card_below ) == RANK( card ) + 1 )
                     {
-                        if ( conti[i]>conti[j]+l )
+#if 0
+                        printcard( card_below, stderr );
+                        printcard( card, stderr );
+                        fprintf( stderr, "%d %d %d %d %d\n", i, j, conti[i], conti[j],l );
+#endif
+                        if ( conti[j]+l != 13 || conti[i]>conti[j]+l || SUIT( card ) != SUIT( *Wp[j] ) ) {
+                            // fprintf( stderr, "continue\n" );
                             continue;
+                        }
                     }
                 }
 
@@ -355,6 +352,10 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
                     if ( cont )
                         cont += l;
                     mp->pri = 8 * cont + qMax( 0, 10 - Wlen[i] );
+                    if ( SUIT( card ) != SUIT( *Wp[j] ) )
+                        mp->pri = 1;
+                    else
+                        foundgood = true;
                     if ( mp->turn_index > 0)
                         mp->pri += 7;
                     else  if ( Wlen[i] == l+1 )
@@ -366,6 +367,21 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
                 }
             }
         }
+    }
+
+    /* check for redeal */
+    for ( int i = 0; i < 5; ++i ) {
+        if ( !Wlen[10+i] || foundgood )
+            continue;
+        mp->card_index = 0;
+        mp->from = 10+i;
+        mp->to = 0; // unused
+        mp->totype = W_Type;
+        mp->pri = 0;
+        mp->turn_index = -1;
+        n++;
+        mp++;
+        break; // one is enough
     }
 
     return n;
