@@ -99,7 +99,7 @@ Klondike::Klondike( bool easy )
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo);
-
+    setSolver( new KlondikeSolver( this ) );
     redealt = false;
 }
 
@@ -173,10 +173,9 @@ bool Klondike::tryToDrop(Card *t)
     return false;
 }
 
-void Klondike::getHints() {
-
-    findSolution();
-
+void Klondike::getHints()
+{
+    solver()->showCurrentMoves();
     target_tops[0] = target_tops[1] = target_tops[2] = target_tops[3]
                    = Card::None;
 
@@ -247,7 +246,6 @@ Card *Klondike::demoNewCards() {
 }
 
 void Klondike::restart() {
-    kDebug(11111) << "restart\n";
     Deck::deck()->collectAndShuffle();
     redealt = false;
     deal();
@@ -344,18 +342,7 @@ bool Klondike::startAutoDrop()
 
 void Klondike::findSolution()
 {
-    KlondikeSolver s( this );
-    int ret = s.patsolve();
-
-    /*
-    QFile file( "lastgame" );
-    file.open( QIODevice::WriteOnly );
-    QDomDocument doc("kpat");
-    saveGame(doc);
-    QTextStream stream (&file);
-    stream << doc.toString();
-    stream.flush();
-    */
+    int ret = solver()->patsolve();
     kDebug() << gameNumber() << " return " << ret << endl;
 }
 

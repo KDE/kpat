@@ -71,7 +71,7 @@ int main( int argc, char **argv )
     cardMap c;
     Klondike *f = new Klondike( true );
 
-    for ( int i = 0; i < 1000; i++ )
+    for ( int i = 999; i <= 1000; i++ )
     {
         f->setGameNumber( i );
         f->restart();

@@ -27,6 +27,7 @@ class QDomDocument;
 class DealerInfo;
 class Pile;
 class DealerScene;
+class Solver;
 
 typedef QList<Pile*> PileList;
 
@@ -151,6 +152,9 @@ public:
     void setActions(int actions) { myActions = actions; }
     int actions() const { return myActions; }
 
+    void setSolver( Solver *s) { m_solver = s; }
+    Solver *solver() const { return m_solver; }
+
 public slots:
     virtual bool startAutoDrop();
     void hint();
@@ -217,6 +221,7 @@ private:
     bool gothelp;
     bool toldAboutLostGame;
     int myActions;
+    Solver *m_solver;
 };
 
 #endif

@@ -13,11 +13,6 @@
 #include "../pile.h"
 #include "memory.h"
 
-/* A splay tree. */
-
-/* Command line flags. */
-
-
 /* This is a 32 bit FNV hash.  For more information, see
 http://www.isthe.com/chongo/tech/comp/fnv/index.html */
 
@@ -101,7 +96,6 @@ MOVE *Solver::get_moves(int *nmoves)
 
 	if (n == 0) {
             /* No more moves - won or lost */
-            //fprintf( stderr, "no moves\n" );
             //print_layout();
             return NULL;
 	}
@@ -547,12 +541,6 @@ bool Solver::solve(POSITION *parent)
 		return false;
 	}
 
-        if ( parent->depth > 230 )
-        {
-            fprintf( stderr, "too deep!\n" );
-            //print_layout();
-            return false;
-        }
 	/* Generate an array of all the moves we can make. */
 
 	if ((mp0 = get_moves(&nmoves)) == NULL) {
@@ -750,24 +738,24 @@ Solver::~Solver()
     delete mm;
 }
 
-void Solver::play(void)
+void Solver::init()
 {
-	/* Initialize the hash tables. */
+    init_buckets();
+    mm->init_clusters();
 
-	init_buckets();
-	mm->init_clusters();
+    /* Reset stats. */
 
-	/* Reset stats. */
+    Status = NOSOL;
 
-	Status = NOSOL;
+}
 
-	/* Go to it. */
+void Solver::free()
+{
+    free_buckets();
+    mm->free_clusters();
+    mm->free_blocks();
+    Freepos = NULL;
 
-	doit();
-	free_buckets();
-	mm->free_clusters();
-	mm->free_blocks();
-	Freepos = NULL;
 }
 
 statuscode Solver::patsolve()
@@ -775,10 +763,47 @@ statuscode Solver::patsolve()
     /* Initialize the suitable() macro variables. */
 
     translate_layout();
-    //print_layout();
-    play();
+    init();
 
+    /* Go to it. */
+    doit();
+
+    free();
     return Status;
+}
+
+void Solver::showCurrentMoves()
+{
+    translate_layout();
+    init();
+
+    int alln, a, numout = 0;
+
+    /* Fill in the Possible array. */
+
+    alln = get_possible_moves(&a, &numout);
+    print_layout();
+
+    /* No moves?  Maybe we won. */
+
+    if (alln != 0 )
+    {
+	if (!a)
+            prioritize(Possible, alln);
+        fprintf( stderr, "moves %d\n", alln );
+        for (int j = 0; j < alln; j++) {
+            fprintf( stderr,  "  " );
+            if ( Possible[j].totype == O_Type )
+                fprintf( stderr, "move %d from %d out (at %d) Prio:%d\n", Possible[j].card_index + 1,
+                         Possible[j].from, Possible[j].turn_index, Possible[j].pri );
+            else
+                fprintf( stderr, "move %d from %d to %d (%d) Prio: %d\n", Possible[j].card_index + 1,
+                         Possible[j].from, Possible[j].to,
+                         Possible[j].turn_index, Possible[j].pri);
+        }
+    }
+
+    free();
 }
 
 bool Solver::print_layout()
@@ -918,4 +943,8 @@ void Solver::hash_layout(void)
 	for (w = 0; w < m_number_piles; w++) {
 		hashpile(w);
 	}
+}
+
+void Solver::prioritize(MOVE *, int )
+{
 }

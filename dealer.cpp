@@ -50,7 +50,7 @@
 #include <kglobal.h>
 #include "version.h"
 #include <ktoggleaction.h>
-
+#include "patsolve/patsolve.h"
 #include <math.h>
 
 // ================================================================
@@ -333,7 +333,8 @@ DealerScene::DealerScene():
     _gameRecorded(false),
     wonItem( 0 ),
     gothelp(false),
-    myActions(0)
+    myActions(0),
+    m_solver(0)
 {
     demotimer = new QTimer(this);
     connect(demotimer, SIGNAL(timeout()), SLOT(demo()));
@@ -358,6 +359,7 @@ DealerScene::~DealerScene()
     while (!piles.isEmpty()) {
         delete piles.first(); // removes itself
     }
+    delete m_solver;
 }
 
 

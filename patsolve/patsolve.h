@@ -47,12 +47,12 @@ public:
     Solver();
     virtual ~Solver();
     statuscode patsolve();
+    void showCurrentMoves();
 
 protected:
     MOVE *get_moves(int *nmoves);
     bool solve(POSITION *parent);
     void doit();
-    void play(void);
     void win(POSITION *pos);
     virtual int get_possible_moves(int *a, int *numout) = 0;
 
@@ -76,7 +76,7 @@ protected:
     void hash_layout( void );
     virtual void make_move(MOVE *m) = 0;
     virtual void undo_move(MOVE *m) = 0;
-    virtual void prioritize(MOVE *mp0, int n) = 0;
+    virtual void prioritize(MOVE *mp0, int n);
     virtual bool isWon() = 0;
     virtual int getOuts() = 0;
     virtual int getClusterNumber() = 0;
@@ -85,6 +85,9 @@ protected:
 
     void setNumberPiles( int i );
     int m_number_piles;
+
+    void init();
+    void free();
 
     /* Work arrays. */
 

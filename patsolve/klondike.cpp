@@ -57,6 +57,7 @@ void KlondikeSolver::make_move(MOVE *m)
 	/* Remove from pile. */
         if ( from == 7 && to == 8 )
         {
+            deck_flip_counter++;
             while ( Wlen[7] )
             {
                 card = W[7][Wlen[7]-1] + ( 1 << 7 );
@@ -199,97 +200,6 @@ void KlondikeSolver::undo_move(MOVE *m)
 #endif
 }
 
-/* Move prioritization.  Given legal, pruned moves, there are still some
-that are a waste of time, especially in the endgame where there are lots of
-possible moves, but few productive ones.  Note that we also prioritize
-positions when they are added to the queue. */
-
-#define NNEED 8
-
-void KlondikeSolver::prioritize(MOVE *mp0, int n)
-{
-	int i, j, s, w, pile[NNEED], npile;
-	card_t card, need[4];
-	MOVE *mp;
-
-	/* There are 4 cards that we "need": the next cards to go out.  We
-	give higher priority to the moves that remove cards from the piles
-	containing these cards. */
-
-	for (i = 0; i < NNEED; i++) {
-		pile[i] = -1;
-	}
-	npile = 0;
-
-	for (s = 0; s < 4; s++) {
-		need[s] = NONE;
-		if (O[s] == NONE) {
-			need[s] = Osuit[s] + PS_ACE;
-		} else if (O[s] != PS_KING) {
-			need[s] = Osuit[s] + O[s] + 1;
-		}
-	}
-
-	/* Locate the needed cards.  There's room for optimization here,
-	like maybe an array that keeps track of every card; if maintaining
-	such an array is not too expensive. */
-
-	for (w = 0; w < 7; w++) {
-		j = Wlen[w];
-		for (i = 0; i < j; i++) {
-			card = W[w][i];
-			s = SUIT(card);
-
-			/* Save the locations of the piles containing
-			not only the card we need next, but the card
-			after that as well. */
-
-			if (need[s] != NONE &&
-			    (card == need[s] || card == need[s] + 1)) {
-				pile[npile++] = w;
-				if (npile == NNEED) {
-					break;
-				}
-			}
-		}
-		if (npile == NNEED) {
-			break;
-		}
-	}
-
-	/* Now if any of the moves remove a card from any of the piles
-	listed in pile[], bump their priority.  Likewise, if a move
-	covers a card we need, decrease its priority.  These priority
-	increments and decrements were determined empirically. */
-
-	for (i = 0, mp = mp0; i < n; i++, mp++) {
-		if (mp->card_index != -1) {
-			w = mp->from;
-			for (j = 0; j < npile; j++) {
-				if (w == pile[j]) {
-					mp->pri += Xparam[0];
-				}
-			}
-			if (Wlen[w] > 1) {
-				card = W[w][Wlen[w] - 2];
-				for (s = 0; s < 4; s++) {
-					if (card == need[s]) {
-						mp->pri += Xparam[1];
-						break;
-					}
-				}
-			}
-			if (mp->totype == W_Type) {
-				for (j = 0; j < npile; j++) {
-					if (mp->to == pile[j]) {
-						mp->pri -= Xparam[2];
-					}
-				}
-			}
-		}
-	}
-}
-
 /* Automove logic.  Klondike games must avoid certain types of automoves. */
 
 int KlondikeSolver::good_automove(int o, int r)
@@ -355,7 +265,7 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
                 mp->from = w;
                 mp->to = o;
                 mp->totype = O_Type;
-                mp->pri = 20;    /* unused */
+                mp->pri = 3;    /* unused */
                 mp->turn_index = -1;
                 if ( Wlen[w] > 1 && DOWN( W[w][Wlen[w]-2] ) )
                     mp->turn_index = 1;
@@ -380,6 +290,10 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
 
     *a = false;
     *numout = n;
+
+    if ( deck_flip_counter > 3000 ) // really huge number!
+        return 0;
+
 
     /* check for deck->pile */
     if ( Wlen[8] ) {
@@ -416,10 +330,11 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
                      RANK(card) == RANK(*Wp[j]) - 1 &&
                      suitable( card, *Wp[j] ) )
                     allowed = true;
-                if ( Wlen[j] == 0 &&
-                     RANK(card) ==  PS_KING
-                     && l != Wlen[i]-1 )
-                    allowed = true;
+                if ( RANK( card ) == PS_KING && Wlen[j] == 0 )
+                {
+                    if ( l != Wlen[i]-1 || i == 7 )
+                        allowed = true;
+                }
                 if ( allowed ) {
                     mp->card_index = l;
                     mp->from = i;
@@ -431,7 +346,7 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
                     if ( i == 7 )
                         mp->pri = 40;
                     else {
-                        if ( mp->turn_index > 0 )
+                        if ( mp->turn_index > 0 || Wlen[i] == l+1)
                             mp->pri = 30;
                         else
                             mp->pri = 1;
@@ -450,7 +365,7 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
         mp->to = 8;
         mp->totype = W_Type;
         mp->turn_index = 0;
-        mp->pri = 0;
+        mp->pri = 2;
         n++;
         mp++;
     }
@@ -506,39 +421,40 @@ card).  Temp cells and Out on the last two lines, if any. */
 
 void KlondikeSolver::translate_layout()
 {
-	/* Read the workspace. */
+    /* Read the workspace. */
+    deck_flip_counter = 0;
 
     int total = 0;
-	for ( int w = 0; w < 7; ++w ) {
-		int i = translate_pile(deal->play[w], W[w], 52);
-		Wp[w] = &W[w][i - 1];
-		Wlen[w] = i;
-		total += i;
-	}
-
-        int i = translate_pile( deal->pile, W[7], 52 );
-        Wp[7] = &W[7][i-1];
-        Wlen[7] = i;
+    for ( int w = 0; w < 7; ++w ) {
+        int i = translate_pile(deal->play[w], W[w], 52);
+        Wp[w] = &W[w][i - 1];
+        Wlen[w] = i;
         total += i;
+    }
 
-        i = translate_pile( Deck::deck(), W[8], 52 );
-        Wp[8] = &W[8][i-1];
-        Wlen[8] = i;
-        total += i;
+    int i = translate_pile( deal->pile, W[7], 52 );
+    Wp[7] = &W[7][i-1];
+    Wlen[7] = i;
+    total += i;
 
-        /* Output piles, if any. */
-	for (int i = 0; i < 4; i++) {
-		O[i] = NONE;
-	}
-	if (total != 52) {
-            for (int i = 0; i < 4; i++) {
-                Card *c = deal->target[i]->top();
-                if (c) {
-                    O[c->suit()] = c->rank();
-                    total += c->rank();
-                }
+    i = translate_pile( Deck::deck(), W[8], 52 );
+    Wp[8] = &W[8][i-1];
+    Wlen[8] = i;
+    total += i;
+
+    /* Output piles, if any. */
+    for (int i = 0; i < 4; i++) {
+        O[i] = NONE;
+    }
+    if (total != 52) {
+        for (int i = 0; i < 4; i++) {
+            Card *c = deal->target[i]->top();
+            if (c) {
+                O[c->suit()] = c->rank();
+                total += c->rank();
             }
-	}
+        }
+    }
 }
 
 int KlondikeSolver::getClusterNumber()

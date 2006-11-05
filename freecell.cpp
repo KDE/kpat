@@ -86,6 +86,7 @@ Freecell::Freecell()
     }
 
     setActions(DealerScene::Demo | DealerScene::Hint);
+    setSolver( new FreecellSolver( this ) );
 }
 
 Freecell::~Freecell()
@@ -102,17 +103,7 @@ void Freecell::restart()
 
 void Freecell::findSolution()
 {
-    FreecellSolver s( this );
-    int ret = s.patsolve();
-
-    QFile file( "lastgame" );
-    file.open( QIODevice::WriteOnly );
-    QDomDocument doc("kpat");
-    saveGame(doc);
-    QTextStream stream (&file);
-    stream << doc.toString();
-    stream.flush();
-
+    int ret = solver()->patsolve();
     kDebug() << gameNumber() << " return " << ret << endl;
     if ( false && ret == WIN )
     {

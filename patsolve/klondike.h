@@ -11,7 +11,6 @@ public:
     virtual bool isWon();
     virtual void make_move(MOVE *m);
     virtual void undo_move(MOVE *m);
-    virtual void prioritize(MOVE *mp0, int n);
     virtual int getOuts();
     virtual int getClusterNumber();
     virtual void translate_layout();
@@ -25,6 +24,7 @@ public:
     card_t Osuit[4];
 
     const Klondike *deal;
+    unsigned int deck_flip_counter;
 
     static int Xparam[];
 
