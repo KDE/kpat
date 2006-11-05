@@ -55,6 +55,7 @@ protected:
     void doit();
     void win(POSITION *pos);
     virtual int get_possible_moves(int *a, int *numout) = 0;
+    int translateSuit( int s );
 
     int wcmp(int a, int b);
     void queue_position(POSITION *pos, int pri);

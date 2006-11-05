@@ -49,7 +49,7 @@ void KlondikeSolver::make_move(MOVE *m)
 #endif
 
 	int from, to;
-	card_t card;
+	card_t card = NONE;
 
 	from = m->from;
 	to = m->to;
@@ -450,7 +450,7 @@ void KlondikeSolver::translate_layout()
         for (int i = 0; i < 4; i++) {
             Card *c = deal->target[i]->top();
             if (c) {
-                O[c->suit()] = c->rank();
+                O[translateSuit( c->suit() )] = c->rank();
                 total += c->rank();
             }
         }

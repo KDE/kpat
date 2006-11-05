@@ -830,6 +830,16 @@ void Solver::setNumberPiles( int p )
     Wpilenum = new int[m_number_piles];
 }
 
+int Solver::translateSuit( int s )
+{
+    int suit = s * 0x10;
+    if ( suit == PS_DIAMOND )
+        return PS_CLUB;
+    else if ( suit == PS_CLUB )
+        return PS_DIAMOND;
+    return suit;
+}
+
 int Solver::translate_pile(const Pile *pile, card_t *w, int size)
 {
         Q_ASSERT( pile->cardsLeft() <= size );
@@ -840,7 +850,7 @@ int Solver::translate_pile(const Pile *pile, card_t *w, int size)
         for ( int i = 0; i < pile->cardsLeft(); ++i )
         {
             Card *c = pile->at( i );
-            *w =  + c->suit() * 0x10 + c->rank();
+            *w =  + translateSuit( c->suit() ) + c->rank();
             if ( !c->realFace() )
                 *w += 1 << 7;
             w++;

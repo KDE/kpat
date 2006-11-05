@@ -51,7 +51,7 @@ typedef QList<Card*> CardList;
 class AbstractCard
 {
 public:
-    enum Suit { Diamonds = 0, Clubs = 1, Hearts = 2, Spades = 3 };
+    enum Suit { Clubs = 0, Diamonds = 1, Hearts = 2, Spades = 3 };
     enum Rank { None = 0, Ace = 1, Two,  Three, Four, Five,  Six, Seven,
                 Eight,   Nine,  Ten, Jack, Queen, King = 13};
 
@@ -61,7 +61,7 @@ public:
     Suit       suit()  const  { return m_suit; }
     Rank       rank()  const  { return m_rank; }
 
-    bool       isRed()    const  { return !( m_suit & 0x1 ); }
+    bool       isRed()    const  { return m_suit == Diamonds || m_suit == Hearts; }
     bool       isFaceUp() const  { return m_faceup; }
 
 protected:
