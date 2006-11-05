@@ -21,14 +21,6 @@
 	(Same_suit ? (suit(a) == suit(b)) : (color(a) != color(b)))
 */
 #define suitable(a, b) (COLOR( a ) != COLOR( b ) )
-static card_t Suit_mask;
-static card_t Suit_val;
-
-#define king_only(card) (RANK(card) == PS_KING)
-
-/* Statistics. */
-
-int KlondikeSolver::Xparam[] = { 40, 1, 8, -1, 7, 11, 4, 2, 2, 1, 2 };
 
 /* These two routines make and unmake moves. */
 
@@ -297,8 +289,7 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
 
     /* check for deck->pile */
     if ( Wlen[8] ) {
-        card = *Wp[8];
-        mp->card_index = 0;
+         mp->card_index = 0;
         mp->from = 8;
         mp->to = 7;
         mp->totype = W_Type;
@@ -317,7 +308,7 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
         {
             card_t card = W[i][Wlen[i]-1-l];
             if ( DOWN( card ) )
-                continue;
+                break;
 
             for (int j = 0; j < 7; j++)
             {
@@ -410,9 +401,6 @@ KlondikeSolver::KlondikeSolver(const Klondike *dealer)
     Osuit[3] = PS_SPADE;
 
     setNumberPiles( 9 );
-
-    Suit_mask = PS_COLOR;
-    Suit_val = PS_COLOR;
     deal = dealer;
 }
 

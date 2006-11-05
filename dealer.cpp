@@ -956,6 +956,9 @@ void DealerScene::setAutoDropEnabled(bool a)
 
 bool DealerScene::startAutoDrop()
 {
+    if ( solver() )
+        solver()->showCurrentMoves();
+
     if (!autoDrop())
         return false;
 

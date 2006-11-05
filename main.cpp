@@ -24,11 +24,12 @@
 #include <kurl.h>
 #include <qtimer.h>
 #include <stdio.h>
-
+#include <kdebug.h>
 
 #include "version.h"
 #include "pwidget.h"
-#include "klondike.h"
+#include "spider.h"
+#include "patsolve/patsolve.h"
 #include "cardmaps.h"
 
 static const char description[] = I18N_NOOP("KDE Patience Game");
@@ -67,15 +68,15 @@ int main( int argc, char **argv )
 
     KApplication application;
     KGlobal::locale()->insertCatalog("libkdegames");
-#if 0
+#if 1
     cardMap c;
-    Klondike *f = new Klondike( true );
+    DealerScene *f = new Spider( 1 );
 
-    for ( int i = 0; i <= 1000; i++ )
+    for ( int i = 3; i <= 3; i++ )
     {
         f->setGameNumber( i );
         f->restart();
-        f->findSolution();
+        kDebug() << i << " returns " << f->solver()->patsolve() << endl;
     }
     return 0;
 #endif

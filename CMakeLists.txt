@@ -25,6 +25,8 @@ set(kpat_SRCS
    patsolve/klondike.cpp
    klondike.cpp
    freecell.cpp
+   spider.cpp
+   patsolve/spider.cpp
 )
 
 if (RELEASE)
@@ -40,7 +42,6 @@ set(kpat_SRCS ${kpat_SRCS}
    yukon.cpp
    clock.cpp
    golf.cpp
-   spider.cpp
 )
 endif(RELEASE)
 

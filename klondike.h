@@ -38,7 +38,6 @@ class Klondike : public DealerScene {
 
 public:
     explicit Klondike( bool easy );
-    void findSolution();
 
 public:
     virtual void restart();

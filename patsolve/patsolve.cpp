@@ -85,11 +85,12 @@ MOVE *Solver::get_moves(int *nmoves)
 	for (int j = 0; j < n; j++) {
             fprintf( stderr,  "  " );
             if ( Possible[j].totype == O_Type )
-                fprintf( stderr, "move from %d out (at %d)\n", Possible[j].from, Possible[j].turn_index );
+                fprintf( stderr, "move from %d out (at %d) Prio: %d\n", Possible[j].from,
+                         Possible[j].turn_index, Possible[j].pri );
             else
-                fprintf( stderr, "move from %d to %d (%d)\n", Possible[j].from, Possible[j].to, Possible[j].turn_index );
+                fprintf( stderr, "move from %d to %d (%d) Prio: %d\n", Possible[j].from, Possible[j].to,
+                         Possible[j].turn_index, Possible[j].pri );
         }
-        return NULL;
 #endif
 
 	/* No moves?  Maybe we won. */
@@ -755,7 +756,6 @@ void Solver::free()
     mm->free_clusters();
     mm->free_blocks();
     Freepos = NULL;
-
 }
 
 statuscode Solver::patsolve()

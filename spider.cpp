@@ -23,6 +23,7 @@
 #include <klocale.h>
 #include "deck.h"
 #include <kdebug.h>
+#include "patsolve/spider.h"
 
 void SpiderPile::moveCards(CardList &c, Pile *to)
 {
@@ -105,6 +106,7 @@ Spider::Spider(int suits)
     // up to K so the King will be on top.
     setAutoDropEnabled(false);
     setActions(DealerScene::Hint | DealerScene::Demo );
+    setSolver( new SpiderSolver( this ) );
 }
 
 void Spider::cardStoped(Card * t)

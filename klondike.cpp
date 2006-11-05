@@ -175,7 +175,6 @@ bool Klondike::tryToDrop(Card *t)
 
 void Klondike::getHints()
 {
-    solver()->showCurrentMoves();
     target_tops[0] = target_tops[1] = target_tops[2] = target_tops[3]
                    = Card::None;
 
@@ -338,12 +337,6 @@ bool Klondike::startAutoDrop()
     if (pile->isEmpty() && !pileempty)
         deal3();
     return true;
-}
-
-void Klondike::findSolution()
-{
-    int ret = solver()->patsolve();
-    kDebug() << gameNumber() << " return " << ret << endl;
 }
 
 bool Klondike::isGameLost() const
