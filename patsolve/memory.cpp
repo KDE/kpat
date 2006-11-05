@@ -211,6 +211,7 @@ void *MemoryManager::allocate_memory(size_t s)
 		return NULL;
 	}
 
+        memset( x, 0, s );
 	Mem_remain -= s;
 	return x;
 }

@@ -518,11 +518,12 @@ void Card::zoomOutAnimation()
 
 void Card::setElementId( const QString & element )
 {
+    if ( !scene() || !scene()->views().count() )
+        return;
     if (element == m_elementId)
         return;
     m_elementId = element;
-    //if ( scene() && scene()->views().count() )
-        setPixmap();
+    setPixmap();
 }
 
 QRectF Card::boundingRect() const

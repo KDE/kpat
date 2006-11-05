@@ -16,12 +16,12 @@ typedef u_char card_t;
 enum PileType { O_Type = 1, W_Type };
 
 typedef struct {
-    card_t card;            /* the card we're moving */
+    int card_index;         /* the card we're moving (0 is the top)*/
     u_char from;            /* from pile number */
     u_char to;              /* to pile number */
     PileType totype;
     signed char pri;        /* move priority (low priority == low value) */
-    bool turn;              /* turn the card */
+    int turn_index;         /* turn the card index */
 } MOVE;
 
 struct POSITION;

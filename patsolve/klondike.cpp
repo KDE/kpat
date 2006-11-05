@@ -28,12 +28,26 @@ static card_t Suit_val;
 
 /* Statistics. */
 
-int KlondikeSolver::Xparam[] = { 4, 1, 8, -1, 7, 11, 4, 2, 2, 1, 2 };
+int KlondikeSolver::Xparam[] = { 40, 1, 8, -1, 7, 11, 4, 2, 2, 1, 2 };
 
 /* These two routines make and unmake moves. */
 
+#define PRINT 0
+#define PRINT2 0
+
 void KlondikeSolver::make_move(MOVE *m)
 {
+#if PRINT2
+    kDebug() << "\n\nmake_move\n";
+    if ( m->totype == O_Type )
+        fprintf( stderr, "move %d from %d out (at %d)\n\n", m->card_index, m->from, m->turn_index );
+    else
+        fprintf( stderr, "move %d from %d to %d (%d)\n\n", m->card_index, m->from, m->to, m->turn_index );
+    print_layout();
+#else
+    //print_layout();
+#endif
+
 	int from, to;
 	card_t card;
 
@@ -54,32 +68,65 @@ void KlondikeSolver::make_move(MOVE *m)
             Wp[8] = &W[8][Wlen[8]-1];
             hashpile( 7 );
             hashpile( 8 );
+#if PRINT
+            print_layout();
+#endif
             return;
         }
 
-        card = *Wp[from]--;
-        Wlen[from]--;
-        hashpile(from);
+        for ( int l = m->card_index; l >= 0; l-- )
+        {
+            card = W[from][Wlen[from]-l-1];
+            Wp[from]--;
+            if ( m->totype != O_Type )
+            {
+                Wp[to]++;
+                *Wp[to] = card;
+                Wlen[to]++;
+            }
+        }
+        Wlen[from] -= m->card_index + 1;
 
+        if ( m->turn_index == 0 )
+        {
+            if ( DOWN( card ) )
+                card = ( SUIT( card ) << 4 ) + RANK( card );
+            else
+                card += ( 1 << 7 );
+            W[to][Wlen[to]-m->card_index-1] = card;
+        } else if ( m->turn_index != -1 )
+        {
+            card_t card2 = *Wp[from];
+            if ( DOWN( card2 ) )
+                card2 = ( SUIT( card2 ) << 4 ) + RANK( card2 );
+            *Wp[from] = card2;
+        }
+
+        hashpile(from);
 	/* Add to pile. */
 
 	if (m->totype == O_Type) {
             O[to]++;
+            Q_ASSERT( m->card_index == 0 );
         } else {
-            Wp[to]++;
-            if ( m->turn )
-                if ( DOWN( card ) )
-                    card = ( SUIT( card ) << 4 ) + RANK( card );
-                else
-                    card += ( 1 << 7 );
-            *Wp[to] = card;
-            Wlen[to]++;
             hashpile(to);
 	}
+#if PRINT
+        print_layout();
+#endif
 }
 
 void KlondikeSolver::undo_move(MOVE *m)
 {
+#if PRINT
+    kDebug() << "\n\nundo_move\n";
+    if ( m->totype == O_Type )
+        fprintf( stderr, "move %d from %d out (at %d)\n\n", m->card_index, m->from, m->turn_index );
+    else
+        fprintf( stderr, "move %d from %d to %d (%d)\n\n", m->card_index, m->from, m->to, m->turn_index );
+    print_layout();
+
+#endif
 	int from, to;
 	card_t card;
 
@@ -102,28 +149,54 @@ void KlondikeSolver::undo_move(MOVE *m)
             Wp[7] = &W[7][Wlen[7]-1];
             hashpile( 7 );
             hashpile( 8 );
+#if PRINT
+            print_layout();
+#endif
             return;
+        }
+
+        /* Add to 'from' pile. */
+        if ( m->turn_index > 0 )
+        {
+            card_t card2 = *Wp[from];
+            if ( !DOWN( card2 ) )
+                card2 = ( SUIT( card2 ) << 4 ) + RANK( card2 ) + ( 1 << 7 );
+            *Wp[from] = card2;
         }
 
 	if (m->totype == O_Type) {
             card = O[to] + Osuit[to];
             O[to]--;
+            Wp[from]++;
+            *Wp[from] = card;
+            Wlen[from]++;
         } else {
-            card = *Wp[to]--;
-            Wlen[to]--;
+            for ( int l = m->card_index; l >= 0; l-- )
+            {
+                card = W[to][Wlen[to]-l-1];
+                Wp[from]++;
+                *Wp[from] = card;
+                Wlen[from]++;
+                *Wp[to]--;
+            }
+            Wlen[to] -= m->card_index + 1;
             hashpile(to);
 	}
 
-	/* Add to 'from' pile. */
-        Wp[from]++;
-        if ( m->turn )
+        if ( m->turn_index == 0 )
+        {
+            card_t card = *Wp[from];
             if ( DOWN( card ) )
                 card = ( SUIT( card ) << 4 ) + RANK( card );
             else
                 card += ( 1 << 7 );
-        *Wp[from] = card;
-        Wlen[from]++;
+            *Wp[from] = card;
+        }
+
         hashpile(from);
+#if PRINT
+        print_layout();
+#endif
 }
 
 /* Move prioritization.  Given legal, pruned moves, there are still some
@@ -135,7 +208,6 @@ positions when they are added to the queue. */
 
 void KlondikeSolver::prioritize(MOVE *mp0, int n)
 {
-#if 0
 	int i, j, s, w, pile[NNEED], npile;
 	card_t card, need[4];
 	MOVE *mp;
@@ -162,7 +234,7 @@ void KlondikeSolver::prioritize(MOVE *mp0, int n)
 	like maybe an array that keeps track of every card; if maintaining
 	such an array is not too expensive. */
 
-	for (w = 0; w < Nwpiles; w++) {
+	for (w = 0; w < 7; w++) {
 		j = Wlen[w];
 		for (i = 0; i < j; i++) {
 			card = W[w][i];
@@ -191,7 +263,7 @@ void KlondikeSolver::prioritize(MOVE *mp0, int n)
 	increments and decrements were determined empirically. */
 
 	for (i = 0, mp = mp0; i < n; i++, mp++) {
-		if (mp->card != NONE) {
+		if (mp->card_index != -1) {
 			w = mp->from;
 			for (j = 0; j < npile; j++) {
 				if (w == pile[j]) {
@@ -216,7 +288,6 @@ void KlondikeSolver::prioritize(MOVE *mp0, int n)
 			}
 		}
 	}
-#endif
 }
 
 /* Automove logic.  Klondike games must avoid certain types of automoves. */
@@ -280,12 +351,14 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
             empty = (O[o] == NONE);
             if ((empty && (RANK(card) == PS_ACE)) ||
                 (!empty && (RANK(card) == O[o] + 1))) {
-                mp->card = card;
+                mp->card_index = 0;
                 mp->from = w;
                 mp->to = o;
                 mp->totype = O_Type;
-                mp->pri = 0;    /* unused */
-                mp->turn = false;
+                mp->pri = 20;    /* unused */
+                mp->turn_index = -1;
+                if ( Wlen[w] > 1 && DOWN( W[w][Wlen[w]-2] ) )
+                    mp->turn_index = 1;
                 n++;
                 mp++;
 
@@ -311,25 +384,24 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
     /* check for deck->pile */
     if ( Wlen[8] ) {
         card = *Wp[8];
-        mp->card = *Wp[8];
+        mp->card_index = 0;
         mp->from = 8;
         mp->to = 7;
         mp->totype = W_Type;
-        mp->pri = 0;
-        mp->turn = true;
+        mp->pri = 5;
+        mp->turn_index = 0;
         n++;
         mp++;
     }
-
 
     for(int i=0; i<8; i++)
     {
         int len = Wlen[i];
         if ( i == 7 && Wlen[i] > 0)
             len = 1;
-        for (int l=Wlen[i]-len; l < Wlen[i]; ++l )
+        for (int l=0; l < len; ++l )
         {
-            card_t card = W[i][l];
+            card_t card = W[i][Wlen[i]-1-l];
             if ( DOWN( card ) )
                 continue;
 
@@ -345,40 +417,40 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
                      suitable( card, *Wp[j] ) )
                     allowed = true;
                 if ( Wlen[j] == 0 &&
-                     RANK(card) ==  PS_KING )
+                     RANK(card) ==  PS_KING
+                     && l != Wlen[i]-1 )
                     allowed = true;
-#if 0
-                printcard( card, stderr );
-                printcard( *Wp[j], stderr );
-                kDebug() << " tried " << i << " " << j << " " << allowed << " " << suitable( card, *Wp[j] ) << endl;
-#endif
                 if ( allowed ) {
-                    mp->card = card;
+                    mp->card_index = l;
                     mp->from = i;
                     mp->to = j;
                     mp->totype = W_Type;
-                    mp->turn = false;
-                    if ( i == 8 )
-                        mp->pri = 1;
-                    else
-                        mp->pri = 7;
+                    mp->turn_index = -1;
+                    if ( Wlen[i] > l+1 && DOWN( W[i][Wlen[i]-l-2] ) )
+                        mp->turn_index = 1;
+                    if ( i == 7 )
+                        mp->pri = 40;
+                    else {
+                        if ( mp->turn_index > 0 )
+                            mp->pri = 30;
+                        else
+                            mp->pri = 1;
+                    }
                     n++;
                     mp++;
                 }
             }
-            break; // the first face up
         }
     }
 
     if ( !Wlen[8] && Wlen[7] )
     {
-        card_t card = W[7][0];
-        mp->card = card;
+        mp->card_index = 0;
         mp->from = 7;
         mp->to = 8;
         mp->totype = W_Type;
-        mp->turn = true;
-        mp->pri = -1;
+        mp->turn_index = 0;
+        mp->pri = 0;
         n++;
         mp++;
     }
@@ -481,38 +553,96 @@ int KlondikeSolver::getClusterNumber()
 bool KlondikeSolver::print_layout()
 {
     int count = 0;
+    int total = O[0] + O[1] + O[2] + O[3];
     for (int w = 0; w < 9; w++)
+    {
         for (int i = 0; i < Wlen[w]; i++)
             if ( SUIT( W[w][i] ) == 2 && RANK( W[w][i] ) == 4  )
                 count++;
+        total += Wlen[w];
+    }
     if ( O[2] >= 4 )
         count++;
 
-    kDebug() << "count " << count << endl;
-    if ( count == 1 ) {
-        return true;
+    bool broke = false;
+    for ( int w = 0; w < 7; w++ )
+    {
+        if ( Wp[w] != &W[w][Wlen[w] - 1] )
+        {
+            kDebug() << w << " " << Wp[w] << " " << &W[w][Wlen[w] - 1] << " " << Wlen[w] << " " << Wp[w] - W[w] << endl;
+            broke = true;
+        }
+        int top = Wlen[w] - 1;
+        bool showsup = true;
+        while ( top > 0 )
+        {
+            if ( showsup && DOWN( W[w][top-1] ) )
+                showsup = false;
+            if ( ( !DOWN( W[w][top] ) && !DOWN( W[w][top-1] ) && ( RANK( W[w][top] ) != RANK( W[w][top-1] ) - 1 )
+                   || ( DOWN( W[w][top] && !DOWN( W[w][top-1] ) ) ) ) )
+            {
+                printcard( W[w][top-1] ,  stderr);
+                printcard( W[w][top] ,  stderr);
+                fprintf( stderr, "\n" );
 
+                fprintf( stderr, "Play%d: ", w );
+                for (int i = 0; i < Wlen[w]; i++) {
+                    printcard(W[w][i], stderr);
+                }
+                fprintf( stderr, "\n" );
+                broke = true;
+                // kDebug() << "w " << RANK( W[w][top] ) << " " << RANK( W[w][top-1] ) << endl;
+            }
+            if ( DOWN( W[w][top] ) && !DOWN( W[w][top-1] ) )
+            {
+                broke = true;
+                fprintf( stderr, "down incon %d\n", w );
+            }
+            top--;
+        }
     }
 
-       int i, w, o;
+    for ( int l = 0; l < Wlen[7]; l++ )
+    {
+        if ( DOWN( W[7][l] ) ) {
+            broke = true;
+            fprintf( stderr, "pile broken\n" );
+        }
+    }
+    for ( int l = 0; l < Wlen[8]; l++ )
+    {
+        if ( !DOWN( W[8][l] ) ) {
+            broke = true;
+            fprintf( stderr, "deck broken\n" );
+        }
+    }
+    //kDebug() << "count " << count << " " << total << endl;
+    if ( count == 1 && total == 52 && !broke ) {
+        broke = false;
+        //return true;
+    } else
+        broke = true;
+    int i, w, o;
 
-       fprintf(stderr, "print-layout-begin\n");
-       for (w = 0; w < 9; w++) {
-           if ( w == 8 )
-               fprintf( stderr, "Deck: " );
-           else if ( w == 7 )
-               fprintf( stderr, "Pile: " );
-           else
-               fprintf( stderr, "Play%d: ", w );
-           for (i = 0; i < Wlen[w]; i++) {
-               printcard(W[w][i], stderr);
-           }
-           fputc('\n', stderr);
-       }
-       fprintf( stderr, "Off: " );
-       for (o = 0; o < 4; o++) {
-               printcard(O[o] + Osuit[o], stderr);
-       }
-       fprintf(stderr, "\nprint-layout-end\n");
-       return false;
+    fprintf(stderr, "print-layout-begin\n");
+    for (w = 0; w < 9; w++) {
+        if ( w == 8 )
+            fprintf( stderr, "Deck: " );
+        else if ( w == 7 )
+            fprintf( stderr, "Pile: " );
+        else
+            fprintf( stderr, "Play%d: ", w );
+        for (i = 0; i < Wlen[w]; i++) {
+            printcard(W[w][i], stderr);
+        }
+        fputc('\n', stderr);
+    }
+    fprintf( stderr, "Off: " );
+    for (o = 0; o < 4; o++) {
+        printcard(O[o] + Osuit[o], stderr);
+    }
+    fprintf(stderr, "\nprint-layout-end\n");
+    if ( broke )
+        exit( 1 );
+    return broke;
 }

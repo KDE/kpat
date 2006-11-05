@@ -175,7 +175,7 @@ bool Klondike::tryToDrop(Card *t)
 
 void Klondike::getHints() {
 
-    //findSolution();
+    findSolution();
 
     target_tops[0] = target_tops[1] = target_tops[2] = target_tops[3]
                    = Card::None;

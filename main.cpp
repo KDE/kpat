@@ -67,11 +67,11 @@ int main( int argc, char **argv )
 
     KApplication application;
     KGlobal::locale()->insertCatalog("libkdegames");
-#if 0
+#if 1
     cardMap c;
     Klondike *f = new Klondike( true );
 
-    for ( int i = 0; i < 1; i++ )
+    for ( int i = 0; i < 1000; i++ )
     {
         f->setGameNumber( i );
         f->restart();

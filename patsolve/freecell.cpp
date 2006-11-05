@@ -144,7 +144,7 @@ void FreecellSolver::prioritize(MOVE *mp0, int n)
 	increments and decrements were determined empirically. */
 
 	for (i = 0, mp = mp0; i < n; i++, mp++) {
-		if (mp->card != NONE) {
+		if (mp->card_index != -1) {
 			w = mp->from;
 			for (j = 0; j < npile; j++) {
 				if (w == pile[j]) {
@@ -232,7 +232,7 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
 			empty = (O[o] == NONE);
 			if ((empty && (RANK(card) == PS_ACE)) ||
 			    (!empty && (RANK(card) == O[o] + 1))) {
-				mp->card = card;
+				mp->card_index = 0;
 				mp->from = w;
 				mp->to = o;
 				mp->totype = O_Type;
@@ -281,7 +281,7 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
                             allowed = true;
                         if ( allowed ) {
 				card = *Wp[i];
-				mp->card = card;
+				mp->card_index = 0;
 				mp->from = i;
 				mp->to = emptyw;
 				mp->totype = W_Type;
@@ -307,7 +307,7 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
 				if (Wlen[w] > 0 &&
 				    (RANK(card) == RANK(*Wp[w]) - 1 &&
 				     suitable(card, *Wp[w]))) {
-					mp->card = card;
+					mp->card_index = 0;
 					mp->from = i;
 					mp->to = w;
 					mp->totype = W_Type;
@@ -334,7 +334,7 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
                for (w = 0; w < Nwpiles; w++) {
                        if (Wlen[w] > 0) {
                                card = *Wp[w];
-                               mp->card = card;
+                               mp->card_index = 0;
                                mp->from = w;
                                mp->to = t+Nwpiles;
                                mp->totype = W_Type;

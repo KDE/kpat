@@ -83,17 +83,16 @@ MOVE *Solver::get_moves(int *nmoves)
 
 	/* Fill in the Possible array. */
 
-        //print_layout();
-	alln = n = get_possible_moves(&a, &numout);
+        alln = n = get_possible_moves(&a, &numout);
 #if 0
+        print_layout();
         fprintf( stderr, "moves %d\n", n );
 	for (int j = 0; j < n; j++) {
             fprintf( stderr,  "  " );
-            printcard( Possible[j].card, stderr );
             if ( Possible[j].totype == O_Type )
-                fprintf( stderr, "move from %d out\n", Possible[j].from );
+                fprintf( stderr, "move from %d out (at %d)\n", Possible[j].from, Possible[j].turn_index );
             else
-                fprintf( stderr, "move from %d to %d (%d)\n", Possible[j].from, Possible[j].to, Possible[j].turn );
+                fprintf( stderr, "move from %d to %d (%d)\n", Possible[j].from, Possible[j].to, Possible[j].turn_index );
         }
         return NULL;
 #endif
@@ -101,9 +100,10 @@ MOVE *Solver::get_moves(int *nmoves)
 	/* No moves?  Maybe we won. */
 
 	if (n == 0) {
-		/* No more moves - won or lost */
-            print_layout();
-		return NULL;
+            /* No more moves - won or lost */
+            //fprintf( stderr, "no moves\n" );
+            //print_layout();
+            return NULL;
 	}
 
 	/* Prioritize these moves.  Automoves don't get queued, so they
@@ -127,20 +127,20 @@ MOVE *Solver::get_moves(int *nmoves)
 	i = 0;
 	if (a || numout == 0) {
 		for (i = 0; i < alln; i++) {
-			if (Possible[i].card != NONE) {
+			if (Possible[i].card_index != -1) {
 				*mp = Possible[i];      /* struct copy */
 				mp++;
 			}
 		}
 	} else {
 		for (i = numout; i < alln; i++) {
-			if (Possible[i].card != NONE) {
+			if (Possible[i].card_index != -1) {
 				*mp = Possible[i];      /* struct copy */
 				mp++;
 			}
 		}
 		for (i = 0; i < numout; i++) {
-			if (Possible[i].card != NONE) {
+			if (Possible[i].card_index != -1) {
 				*mp = Possible[i];      /* struct copy */
 				mp++;
 			}
@@ -169,7 +169,7 @@ int Solver::wcmp(int a, int b)
 
 void Solver::pilesort(void)
 {
-	/* Make sure all the piles have id numbers. */
+    	/* Make sure all the piles have id numbers. */
 
 	for (int w = 0; w < m_number_piles; w++) {
 		if (Wpilenum[w] < 0) {
@@ -178,7 +178,9 @@ void Solver::pilesort(void)
 				return;
 			}
 		}
+                //fprintf( stderr, "%d ", Wpilenum[w] );
 	}
+        //fprintf( stderr, "\n" );
 }
 
 #define NBUCKETS 16381           /* the largest 14 bit prime */
@@ -234,20 +236,10 @@ TREE *Solver::pack_position(void)
 	*/
 
 	k = 0;
+        u_int16_t *p2 = ( u_int16_t* ) p;
 	for (w = 0; w < m_number_piles; w++) {
 		j = Wpilenum[w];
-		switch (k) {
-		case 0:
-			*p++ = j >> 4;
-			*p = (j & 0xF) << 4;
-			k = 1;
-			break;
-		case 1:
-			*p++ |= j >> 8;         /* j is positive */
-			*p++ = j & 0xFF;
-			k = 0;
-			break;
-		}
+                *p2++ = j;
 	}
 
 	return node;
@@ -273,7 +265,7 @@ array following the POSITION struct. */
 void Solver::unpack_position(POSITION *pos)
 {
 	int i, k, w;
-	u_char c, *p;
+	u_char c;
 	BUCKETLIST *l;
 
         unpack_cluster(pos->cluster);
@@ -287,21 +279,9 @@ void Solver::unpack_position(POSITION *pos)
 	*/
 
 	k = w = i = c = 0;
-	p = (u_char *)(pos->node) + sizeof(TREE);
+	u_int16_t *p2 = ( u_int16_t* )( (u_char *)(pos->node) + sizeof(TREE) );
 	while (w < m_number_piles) {
-		switch (k) {
-		case 0:
-			i = *p++ << 4;
-			c = *p++;
-			i |= (c >> 4) & 0xF;
-			k = 1;
-			break;
-		case 1:
-			i = (c & 0xF) << 8;
-			i |= *p++;
-			k = 0;
-			break;
-		}
+                i = *p2++;
 		Wpilenum[w] = i;
 		l = Pilebucket[i];
 		i = strecpy(W[w], l->pile);
@@ -331,6 +311,7 @@ void Solver::printcard(card_t card, FILE *outfile)
 
 void Solver::win(POSITION *pos)
 {
+    return;
 	int i, nmoves;
 	POSITION *p;
 	MOVE *mp, **mpp, **mpp0;
@@ -363,11 +344,10 @@ void Solver::win(POSITION *pos)
 		break;
 
 		mp = *mpp;
-		printcard(mp->card, stderr);
                 if (mp->totype == O_Type) {
-			fprintf(stderr, "out\n");
+			fprintf(stderr, "%d@%d out\n", mp->card_index, mp->from);
 		} else {
-			fprintf(stderr, "to %d\n", mp->to);
+			fprintf(stderr, "%d@%d to %d\n", mp->card_index, mp->from, mp->to);
 		}
 	}
         MemoryManager::free_array(mpp0, nmoves);
@@ -381,8 +361,7 @@ void Solver::init_buckets(void)
 
 	/* Packed positions need 3 bytes for every 2 piles. */
 
-	i = ( m_number_piles ) * 3;
-	i >>= 1;
+	i = ( m_number_piles ) * sizeof( u_int16_t );
 	i += ( m_number_piles ) & 0x1;
 
         mm->Pilebytes = i;
@@ -473,7 +452,12 @@ int Solver::get_pilenum(int w)
 		Pilebucket[pilenum] = l;
 	}
 
-        //fprintf( stderr, "get_pile_num %d %d\n", w, l->pilenum );
+/*        fprintf( stderr, "get_pile_num %d ", l->pilenum );
+        for (int i = 0; i < Wlen[w]; i++) {
+            printcard(W[w][i], stderr);
+        }
+        fprintf( stderr, "\n" );
+*/
 	return l->pilenum;
 }
 
@@ -518,7 +502,8 @@ void Solver::doit()
 
 	hash_layout();
 	pilesort();
-	m.card = NONE;
+	m.card_index = -1;
+        m.turn_index = -1;
 	pos = new_position(NULL, &m);
 	if (pos == NULL) {
                 Status = FAIL;
@@ -562,6 +547,12 @@ bool Solver::solve(POSITION *parent)
 		return false;
 	}
 
+        if ( parent->depth > 230 )
+        {
+            fprintf( stderr, "too deep!\n" );
+            //print_layout();
+            return false;
+        }
 	/* Generate an array of all the moves we can make. */
 
 	if ((mp0 = get_moves(&nmoves)) == NULL) {
@@ -577,15 +568,7 @@ bool Solver::solve(POSITION *parent)
 
 	q = false;
 	for (i = 0, mp = mp0; i < nmoves; i++, mp++) {
-            fprintf( stderr, "before\n" );
-            if ( !print_layout() )
-            {
-                win( parent );
-                exit( 1 );
-            }
 		make_move(mp);
-                fprintf( stderr, "after\n" );
-                print_layout();
 
 		/* Calculate indices for the new piles. */
 
