@@ -275,7 +275,7 @@ void pWidget::newGameType()
         }
     }
 
-    if (!dill) {
+    if (!dill->dscene()) {
         kError() << "unimplemented game type " << id << endl;
         dill->setScene( DealerInfoList::self()->games().first()->createGame() );
     }
