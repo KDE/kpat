@@ -50,7 +50,7 @@
 #include <kglobal.h>
 #include "version.h"
 #include <ktoggleaction.h>
-
+#include "patsolve/patsolve.h"
 #include <math.h>
 
 // ================================================================
@@ -153,7 +153,6 @@ void DealerScene::takeState()
             return;
         }
     }
-    kDebug() << "demoactive " << demoActive() << " " << waiting() << endl;
     if (!demoActive() && !waiting())
         QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
 
@@ -334,7 +333,8 @@ DealerScene::DealerScene():
     _gameRecorded(false),
     wonItem( 0 ),
     gothelp(false),
-    myActions(0)
+    myActions(0),
+    m_solver(0)
 {
     demotimer = new QTimer(this);
     connect(demotimer, SIGNAL(timeout()), SLOT(demo()));
@@ -347,6 +347,7 @@ DealerScene::~DealerScene()
     kDebug() << "~DealerScene " << endl;
     if (!_won)
         countLoss();
+    unmarkAll();
 
     // don't delete the deck
     if ( Deck::deck()->scene() == this )
@@ -358,6 +359,7 @@ DealerScene::~DealerScene()
     while (!piles.isEmpty()) {
         delete piles.first(); // removes itself
     }
+    delete m_solver;
 }
 
 
@@ -943,7 +945,7 @@ void DealerScene::setWaiting(bool w)
         _waiting++;
     else if ( _waiting > 0 )
         _waiting--;
-    kDebug(11111) << "setWaiting " << w << " " << _waiting << endl;
+//    kDebug(11111) << "setWaiting " << w << " " << _waiting << endl;
 }
 
 void DealerScene::setAutoDropEnabled(bool a)
@@ -954,6 +956,9 @@ void DealerScene::setAutoDropEnabled(bool a)
 
 bool DealerScene::startAutoDrop()
 {
+    if ( solver() )
+        solver()->showCurrentMoves();
+
     if (!autoDrop())
         return false;
 
@@ -1208,6 +1213,10 @@ void DealerScene::demo()
     getHints();
     demotimer->stop();
 
+    if ( solver() )
+        kDebug() << "return " << solver()->patsolve() << endl;
+    return;
+
     MoveHint *mh = chooseHint();
     if (mh) {
         // assert(mh->card()->source()->legalRemove(mh->card()));
@@ -1298,7 +1307,6 @@ void DealerScene::waitForDemo(Card *t)
 
 bool DealerScene::isGameWon() const
 {
-    kDebug() << "isGameWon\n";
     for (PileList::ConstIterator it = piles.begin(); it != piles.end(); ++it)
     {
         if (!(*it)->target() && !(*it)->isEmpty())

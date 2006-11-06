@@ -33,6 +33,8 @@ public:
 
 class Spider : public DealerScene
 {
+    friend class SpiderSolver;
+
     Q_OBJECT
 
 public:

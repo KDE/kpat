@@ -28,41 +28,32 @@
 #include <kdebug.h>
 #include <assert.h>
 #include "cardmaps.h"
+#include "patsolve/klondike.h"
 
-class KlondikePile : public Pile
+KlondikePile::KlondikePile( int _index, int _draw, DealerScene* parent)
+    : Pile(_index, parent), m_draw( _draw )
 {
-public:
-    KlondikePile( int _index, int _draw, DealerScene* parent)
-        : Pile(_index, parent), m_draw( _draw )
-    {
-    }
+}
 
-    int draw() const { return m_draw; }
-
-    virtual QSizeF cardOffset( const Card *card ) const { return QSizeF( 0, 0 ); }
-    virtual void relayoutCards()
+void KlondikePile::relayoutCards()
+{
+    m_relayoutTimer->stop();
+    int car = m_cards.count();
+    QPointF p = pos();
+    qreal z = zValue() + 1;
+    for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
-        m_relayoutTimer->stop();
-        int car = m_cards.count();
-        QPointF p = pos();
-        qreal z = zValue();
-        for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
+        //kDebug() << "car " << car << " " << p << endl;
+        ( *it )->setPos( p );
+        ( *it )->setZValue( z );
+        z = z+1;
+        if ( car > m_draw )
         {
-            //kDebug() << "car " << car << " " << p << endl;
-            ( *it )->setPos( p );
-            ( *it )->setZValue( z );
-            z = z+1;
-            if ( car > m_draw )
-            {
-                --car;
-            } else
-                p.rx() += + 0.125 * cardMap::self()->wantedCardWidth();
-        }
+            --car;
+        } else
+            p.rx() += + 0.125 * cardMap::self()->wantedCardWidth();
     }
-
-private:
-    int m_draw;
-};
+}
 
 Klondike::Klondike( bool easy )
   : DealerScene( )
@@ -108,7 +99,7 @@ Klondike::Klondike( bool easy )
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo);
-
+    setSolver( new KlondikeSolver( this ) );
     redealt = false;
 }
 
@@ -145,13 +136,9 @@ bool Klondike::noLongerNeeded(Card::Rank r, Card::Suit s) {
 
     if (r <= Card::Two) return true; //  Base case.
 
-    //  Find the 2 suits of opposite color. "- 1" is used here because the
-    //  siuts are ranged 1 .. 4 but target_tops is indexed 0 .. 3. (Of course
-    //  the subtraction of 1 does not affect performance because it is a
-    //  constant expression that is calculated at compile time).
-    unsigned char a = Card::Clubs - 1, b = Card::Spades - 1;
+    unsigned char a = Card::Clubs, b = Card::Spades;
     if (s == Card::Clubs || s == Card::Spades)
-        a = Card::Diamonds - 1, b = Card::Hearts - 1;
+        a = Card::Diamonds, b = Card::Hearts;
 
     const Card::Rank depending_rank = static_cast<Card::Rank>(r - 1);
     return
@@ -186,16 +173,16 @@ bool Klondike::tryToDrop(Card *t)
     return false;
 }
 
-void Klondike::getHints() {
-
+void Klondike::getHints()
+{
     target_tops[0] = target_tops[1] = target_tops[2] = target_tops[3]
-        = Card::None;
+                   = Card::None;
 
     for( int i = 0; i < 4; i++ )
     {
         Card *c = target[i]->top();
         if (!c) continue;
-        target_tops[c->suit() - 1] = c->rank();
+        target_tops[c->suit()] = c->rank();
     }
 
 
@@ -258,7 +245,6 @@ Card *Klondike::demoNewCards() {
 }
 
 void Klondike::restart() {
-    kDebug(11111) << "restart\n";
     Deck::deck()->collectAndShuffle();
     redealt = false;
     deal();
@@ -352,7 +338,6 @@ bool Klondike::startAutoDrop()
         deal3();
     return true;
 }
-
 
 bool Klondike::isGameLost() const
 {

@@ -63,11 +63,6 @@
 
 static pWidget *current_pwidget = 0;
 
-
-void saveGame(int) {
-    current_pwidget->saveGame();
-}
-
 pWidget::pWidget()
     : KMainWindow(0), dill(0)
 {
@@ -280,6 +275,7 @@ void pWidget::newGameType()
         dill->setScene( DealerInfoList::self()->games().first()->createGame() );
     }
 
+    kDebug() << "dill " << dill << " " << dill->dscene() << endl;
     connect(dill, SIGNAL(undoPossible(bool)), SLOT(undoPossible(bool)));
     connect(dill->dscene(), SIGNAL(gameLost()), SLOT(gameLost()));
 

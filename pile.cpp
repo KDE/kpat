@@ -165,7 +165,7 @@ void Pile::rescale()
         new_pos.setY( scene()->height() - cardMap::self()->wantedCardHeight() + new_pos.y() );
 
     setPos( new_pos );
-    m_relayoutTimer->start( 40 );
+    tryRelayoutCards();
 
 #if 0
     QImage pix( ( int )maximalSpace().width(),
@@ -311,7 +311,7 @@ void Pile::relayoutCards()
         preferredSize.rheight() += fabs( ( *it )->spread().height() );
         if ( ( *it )->animated() ) {
             // kDebug() << ( *it )->name() << " is animated - restarting timer\n";
-            m_relayoutTimer->start( 100 );
+            tryRelayoutCards();
             return;
         }
     }
@@ -334,6 +334,9 @@ void Pile::relayoutCards()
         z += 1;
     }
 }
+
+#include <sys/time.h>
+#include <stdio.h>
 
 void Pile::add( Card *_card, int index)
 {
@@ -362,7 +365,7 @@ void Pile::add( Card *_card, int index)
         m_cards[index] = _card;
     }
 
-    m_relayoutTimer->start( 40 );
+    tryRelayoutCards();
 }
 
 
@@ -572,7 +575,7 @@ bool Pile::cardDblClicked(Card *c)
 
 void Pile::tryRelayoutCards()
 {
-    m_relayoutTimer->start( 20 );
+    m_relayoutTimer->start( 40 );
 }
 
 #include "pile.moc"

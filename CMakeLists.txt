@@ -4,35 +4,11 @@ add_subdirectory( icons )
 
 include_directories( ${CMAKE_SOURCE_DIR}/libkdegames  )
 
-ADD_DEFINITIONS(-DFCS_STATE_STORAGE=FCS_STATE_STORAGE_INTERNAL_HASH -DFCS_STACK_STORAGE=FCS_STACK_STORAGE_INTERNAL_HASH) 
-
-set(libfcs_SRCS
-	freecell-solver/alloc.c 
-	freecell-solver/app_str.c 
-	freecell-solver/caas.c 
-	freecell-solver/card.c 
-	freecell-solver/cl_chop.c 
-	freecell-solver/cmd_line.c 
-	freecell-solver/fcs_dm.c 
-	freecell-solver/fcs_hash.c 
-	freecell-solver/fcs_isa.c 
-	freecell-solver/freecell.c 
-	freecell-solver/intrface.c 
-	freecell-solver/lib.c 
-	freecell-solver/lookup2.c 
-	freecell-solver/move.c 
-	freecell-solver/pqueue.c 
-	freecell-solver/preset.c 
-	freecell-solver/rand.c 
-	freecell-solver/scans.c 
-	freecell-solver/simpsim.c 
-	freecell-solver/state.c
-)
 ########### next target ###############
 
 set(RELEASE "1")
 
-set(kpat_SRCS ${libfcs_SRCS}
+set(kpat_SRCS
    main.cpp 
    cardmaps.cpp 
    card.cpp 
@@ -43,8 +19,14 @@ set(kpat_SRCS ${libfcs_SRCS}
    deck.cpp 
    pile_algorithms.cpp
    gamestatsimpl.cpp
+   patsolve/patsolve.cpp
+   patsolve/memory.cpp
+   patsolve/freecell.cpp
+   patsolve/klondike.cpp
    klondike.cpp
    freecell.cpp
+   spider.cpp
+   patsolve/spider.cpp
 )
 
 if (RELEASE)
@@ -60,7 +42,6 @@ set(kpat_SRCS ${kpat_SRCS}
    yukon.cpp
    clock.cpp
    golf.cpp
-   spider.cpp
 )
 endif(RELEASE)
 

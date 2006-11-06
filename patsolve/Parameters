@@ -1,0 +1,51 @@
+Special Freecell Automove rule:
+
+Sometimes, we don't want to take a card out, even though we can.  For
+example, if this is the 3S, and either the 2D or 2H are still around, then
+the 3S could be considered active.  There are two rules that have been
+proposed, Horne's and Raymond's.  We use the latter, since it has better
+average performance.
+
+Horne: All 'A's play home immediately, all '2's play home if the same-suit
+'A' is already there, an 'N' plays home if the same-suit 'N-1' and both
+'N-1's of the opposite color are already home.
+
+Raymond:
+N plays home if:
+same-suit N-1 is already home
+AND
+{both opposite-color (N-1)s are already home
+ OR
+ {both opposite-color (N-2)s are already home
+  AND
+  same-color other-suit (N-3) is already home}
+}
+
+Horne's rule:
+	if (!Same_suit) {
+		for (i = 1 - (o & 1); i < 4; i += 2) {
+			if (O[i] < rank(card) - 1) {
+				w_can_out[w] = 0;
+				break;
+			}
+		}
+	}
+
+Xparam[]
+0       removing a card from a pile containing a needed card
+1       additional priority if the needed card is being uncovered
+2       penalty for covering a needed card
+3       W -> empty W
+4       W -> non-empty W
+5       T -> non-empty W
+6       T -> empty W
+7       W -> T
+8       irreducible move
+9       boolean; negative => newer piles first
+
+Some possible additional parameters (from Atkinson and Holstege's paper):
+king from either T or W -> empty W (in both -k and -a variants)
+	(while W -> empty W might have a negative weight, this could
+	be positive; it might help in some cases)
+king -> non-empty W
+removing a card from a column with one card in it

@@ -23,9 +23,14 @@
 #include <klocale.h>
 #include <kurl.h>
 #include <qtimer.h>
+#include <stdio.h>
+#include <kdebug.h>
 
 #include "version.h"
 #include "pwidget.h"
+#include "spider.h"
+#include "patsolve/patsolve.h"
+#include "cardmaps.h"
 
 static const char description[] = I18N_NOOP("KDE Patience Game");
 
@@ -49,7 +54,7 @@ int main( int argc, char **argv )
     aboutData.addAuthor("Michael Koch", I18N_NOOP("Bug fixes"), "koch@kde.org");
     aboutData.addAuthor("Marcus Meissner", I18N_NOOP("Shuffle algorithm for game numbers"),
                         "mm@caldera.de");
-    aboutData.addAuthor("Shlomi Fish", I18N_NOOP("Freecell Solver"), "shlomif@vipe.technion.ac.il");
+    aboutData.addAuthor("Dr. Tom", I18N_NOOP("Patience Solver"), "http://members.tripod.com/professor_tom/");
     aboutData.addAuthor("Stephan Kulow", I18N_NOOP("Rewrite and current maintainer"),
                         "coolo@kde.org");
     aboutData.addAuthor("Erik Sigra", I18N_NOOP("Improved Klondike"), "sigra@home.se");
@@ -63,6 +68,18 @@ int main( int argc, char **argv )
 
     KApplication application;
     KGlobal::locale()->insertCatalog("libkdegames");
+#if 0
+    cardMap c;
+    DealerScene *f = new Spider( 4 );
+
+    for ( int i = 0; i <= 1000; i++ )
+    {
+        f->setGameNumber( i );
+        f->restart();
+        kDebug() << i << " returns " << f->solver()->patsolve() << endl;
+    }
+    return 0;
+#endif
 
     if (application.isSessionRestored())
         RESTORE(pWidget)
