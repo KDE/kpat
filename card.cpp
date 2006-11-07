@@ -38,7 +38,7 @@
 #include "cardmaps.h"
 #include "dealer.h"
 
-static const char  *suit_names[] = { "diamond", "club", "heart", "spade"};
+static const char  *suit_names[] = { "club", "diamond", "heart", "spade"};
 static const char  *rank_names[] = { "1", "2", "3", "4", "5", "6", "7", "8",
                                      "9", "10", "jack", "queen", "king" };
 

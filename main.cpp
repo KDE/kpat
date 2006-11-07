@@ -70,7 +70,7 @@ int main( int argc, char **argv )
     KGlobal::locale()->insertCatalog("libkdegames");
 #if 0
     cardMap c;
-    DealerScene *f = new Spider( 4 );
+    DealerScene *f = new Spider( 2 );
 
     for ( int i = 0; i <= 1000; i++ )
     {

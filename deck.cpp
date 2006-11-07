@@ -82,7 +82,7 @@ void Deck::makedeck()
 {
     int i=0;
 
-    Card::Suit mysuits[4] = { Card::Diamonds, Card::Clubs, Card::Hearts, Card::Spades };
+    Card::Suit mysuits[4] = { Card::Clubs, Card::Diamonds, Card::Hearts, Card::Spades };
     show();
     for ( uint m = 0; m < mult; m++)
     {
