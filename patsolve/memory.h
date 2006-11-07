@@ -9,8 +9,8 @@ struct TREE;
 
 struct BLOCK;
 struct BLOCK {
-	u_char *block;
-	u_char *ptr;
+	unsigned char *block;
+	unsigned char *ptr;
 	size_t remain;
         BLOCK *next;
 };
@@ -38,13 +38,13 @@ class MemoryManager
 public:
     enum inscode { NEW, FOUND, FOUND_BETTER, ERR };
 
-    u_char *new_from_block(size_t s);
+    unsigned char *new_from_block(size_t s);
     void init_clusters(void);
     void free_blocks(void);
     void free_clusters(void);
     TREELIST *cluster_tree(int cluster);
     inscode insert_node(TREE *n, int d, TREE **tree, TREE **node);
-    void give_back_block(u_char *p);
+    void give_back_block(unsigned char *p);
     void init_buckets( int i );
     BLOCK *new_block(void);
 
