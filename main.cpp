@@ -28,7 +28,7 @@
 
 #include "version.h"
 #include "pwidget.h"
-#include "spider.h"
+#include "klondike.h"
 #include "patsolve/patsolve.h"
 #include "cardmaps.h"
 
@@ -70,9 +70,9 @@ int main( int argc, char **argv )
     KGlobal::locale()->insertCatalog("libkdegames");
 #if 0
     cardMap c;
-    DealerScene *f = new Spider( 2 );
+    DealerScene *f = new Klondike( true );
 
-    for ( int i = 0; i <= 1000; i++ )
+    for ( int i = 6; i <= 6; i++ )
     {
         f->setGameNumber( i );
         f->restart();

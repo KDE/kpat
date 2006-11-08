@@ -2,6 +2,7 @@
 #include <sys/types.h>
 #include <stdlib.h>
 #include <string.h>
+#include <kdebug.h>
 
 #define BLOCKSIZE (32 * 4096)
 

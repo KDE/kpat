@@ -116,6 +116,7 @@ protected:
     int Maxq;
 
     bool m_newer_piles_first;
+    unsigned long Total_generated, Total_positions;
 };
 
 /* Misc. */

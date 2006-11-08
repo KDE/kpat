@@ -63,9 +63,10 @@ public:
 
     // ugly hack
     int Pilebytes;
+    static size_t Mem_remain;
 private:
     BLOCK *Block;
-    static size_t Mem_remain;
+
 };
 
 #define new_array( type, size ) ( type* )MemoryManager::allocate_memory( ( size )*sizeof( type ) );

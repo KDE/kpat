@@ -236,6 +236,7 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
 				mp->from = w;
 				mp->to = o;
 				mp->totype = O_Type;
+                                mp->turn_index = -1;
 				mp->pri = 0;    /* unused */
 				n++;
 				mp++;
@@ -285,6 +286,7 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
 				mp->from = i;
 				mp->to = emptyw;
 				mp->totype = W_Type;
+                                mp->turn_index = -1;
                                 if ( i >= Nwpiles )
                                     mp->pri = Xparam[6];
                                 else
@@ -311,6 +313,7 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
 					mp->from = i;
 					mp->to = w;
 					mp->totype = W_Type;
+                                        mp->turn_index = -1;
                                         if ( i >= Nwpiles )
                                             mp->pri = Xparam[5];
                                         else
@@ -336,6 +339,7 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
                                card = *Wp[w];
                                mp->card_index = 0;
                                mp->from = w;
+                               mp->turn_index = -1;
                                mp->to = t+Nwpiles;
                                mp->totype = W_Type;
                                mp->pri = Xparam[7];

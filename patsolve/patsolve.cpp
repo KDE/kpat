@@ -306,19 +306,23 @@ void Solver::printcard(card_t card, FILE *outfile)
 
 void Solver::win(POSITION *pos)
 {
-    return;
-	int i, nmoves;
-	POSITION *p;
-	MOVE *mp, **mpp, **mpp0;
+    int i, nmoves;
+    POSITION *p;
+    MOVE *mp, **mpp, **mpp0;
 
-	/* Go back up the chain of parents and store the moves
-	in reverse order. */
+    /* Go back up the chain of parents and store the moves
+       in reverse order. */
 
-	i = 0;
-	for (p = pos; p->parent; p = p->parent) {
-		i++;
-	}
-	nmoves = i;
+    i = 0;
+    for (p = pos; p->parent; p = p->parent) {
+        i++;
+    }
+    nmoves = i;
+
+     printf("A winner.\n");
+     printf("%d moves.\n", nmoves);
+
+     return;
 	mpp0 = new_array(MOVE *, nmoves);
 	if (mpp0 == NULL) {
                 Status = FAIL;
@@ -747,7 +751,8 @@ void Solver::init()
     /* Reset stats. */
 
     Status = NOSOL;
-
+    Total_positions = 0;
+    Total_generated = 0;
 }
 
 void Solver::free()
@@ -767,6 +772,10 @@ statuscode Solver::patsolve()
 
     /* Go to it. */
     doit();
+
+    printf("%ld positions generated.\n", Total_generated);
+    printf("%ld unique positions.\n", Total_positions);
+    printf("Mem_remain = %ld\n", ( long int )mm->Mem_remain);
 
     free();
     return Status;
@@ -881,6 +890,7 @@ MemoryManager::inscode Solver::insert(int *cluster, int d, TREE **node)
 	if (newtree == NULL) {
 		return MemoryManager::ERR;
 	}
+        Total_generated++;
 
         MemoryManager::inscode i2 = mm->insert_node(newtree, d, &tl->tree, node);
 
@@ -908,9 +918,11 @@ POSITION *Solver::new_position(POSITION *parent, MOVE *m)
 		depth = parent->depth + 1;
 	}
         MemoryManager::inscode i = insert(&cluster, depth, &node);
-	if (i != MemoryManager::NEW && i != MemoryManager::FOUND_BETTER) {
-		return NULL;
-	}
+        if (i == MemoryManager::NEW) {
+                Total_positions++;
+        } else if (i != MemoryManager::FOUND_BETTER) {
+                return NULL;
+        }
 
 	/* A new or better position.  insert() already stashed it in the
 	tree, we just have to wrap a POSITION struct around it, and link it
@@ -935,12 +947,18 @@ POSITION *Solver::new_position(POSITION *parent, MOVE *m)
 	pos->cluster = cluster;
 	pos->depth = depth;
 	pos->nchild = 0;
+        QString dummy;
+        u_int16_t *t = ( u_int16_t* )( ( char* )node + sizeof( TREE ) );
+        for ( int i = 0; i < m_number_piles; i++ )
+        {
+            QString s = "      " + QString( "%1" ).arg( ( int )t[i] );
+            dummy += s.right( 5 );
+        }
+        if ( Total_positions % 1000 == 0 )
+            print_layout();
+        // kDebug() << "new " << dummy << endl;
 
 	p += sizeof(POSITION);
-/*	for (int t = 0; t < Ntpiles; t++) {
-		*p++ = T[t];
-	}
-*/
 	return pos;
 }
 

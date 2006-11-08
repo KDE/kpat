@@ -102,9 +102,6 @@ Card::~Card()
 
 void Card::setPixmap()
 {
-    if ( name() == "club 1" && false )
-        kDebug() << this << " Card::setPixmap " << m_elementId << " " << cardMap::self()->wantedCardWidth() << " " << kBacktrace() << endl;
-
     QGraphicsPixmapItem::setPixmap( cardMap::self()->renderCard( m_elementId ) );
     return;
 
@@ -518,8 +515,6 @@ void Card::zoomOutAnimation()
 
 void Card::setElementId( const QString & element )
 {
-    if ( !scene() || !scene()->views().count() )
-        return;
     if (element == m_elementId)
         return;
     m_elementId = element;

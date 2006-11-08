@@ -359,7 +359,9 @@ DealerScene::~DealerScene()
     while (!piles.isEmpty()) {
         delete piles.first(); // removes itself
     }
+    disconnect();
     delete m_solver;
+    m_solver = 0;
 }
 
 
