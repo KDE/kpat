@@ -52,7 +52,9 @@
 #include <QPixmapCache>
 #include <QThread>
 #include <QMutex>
+#ifdef __GNUC__
 #warning cardmap should not really require to know the instance!
+#endif
 #include "view.h"
 #include "dealer.h"
 #include "ksvgrenderer.h"

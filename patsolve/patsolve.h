@@ -1,6 +1,7 @@
 #ifndef PATSOLVE_H
 #define PATSOLVE_H
 
+#include <qglobal.h>
 #include "../hint.h"
 #include "memory.h"
 #include <stdio.h>
@@ -9,7 +10,7 @@ class DealerScene;
 
 /* A card is represented as ( down << 6 ) + (suit << 4) + rank. */
 
-typedef u_char card_t;
+typedef quint8 card_t;
 
 /* Represent a move. */
 
@@ -17,8 +18,8 @@ enum PileType { O_Type = 1, W_Type };
 
 typedef struct {
     int card_index;         /* the card we're moving (0 is the top)*/
-    u_char from;            /* from pile number */
-    u_char to;              /* to pile number */
+    quint8 from;            /* from pile number */
+    quint8 to;              /* to pile number */
     PileType totype;
     signed char pri;        /* move priority (low priority == low value) */
     int turn_index;         /* turn the card index */
@@ -33,8 +34,8 @@ struct POSITION {
 	MOVE move;              /* move that got us here from the parent */
 	unsigned short cluster; /* the cluster this node is in */
 	short depth;            /* number of moves so far */
-	u_char ntemp;           /* number of cards in T */
-	u_char nchild;          /* number of child nodes left */
+	quint8 ntemp;           /* number of cards in T */
+	quint8 nchild;          /* number of child nodes left */
 };
 
 enum statuscode { FAIL = -1, WIN = 0, NOSOL = 1 };
@@ -97,7 +98,7 @@ protected:
     int *Wlen;     /* the number of cards in each pile */
 
     /* Every different pile has a hash and a unique id. */
-    u_int32_t *Whash;
+    quint32 *Whash;
     int *Wpilenum;
 
     /* Position freelist. */

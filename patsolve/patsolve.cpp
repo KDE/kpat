@@ -25,10 +25,10 @@ http://www.isthe.com/chongo/tech/comp/fnv/index.html */
 
 /* Hash a buffer. */
 
-static inline u_int32_t fnv_hash_buf(u_char *s, int len)
+static inline quint32 fnv_hash_buf(quint8 *s, int len)
 {
 	int i;
-	u_int32_t h;
+	quint32 h;
 
 	h = FNV1_32_INIT;
 	for (i = 0; i < len; i++) {
@@ -40,9 +40,9 @@ static inline u_int32_t fnv_hash_buf(u_char *s, int len)
 
 /* Hash a 0 terminated string. */
 
-static inline u_int32_t fnv_hash_str(u_char *s)
+static inline quint32 fnv_hash_str(quint8 *s)
 {
-	u_int32_t h;
+	quint32 h;
 
 	h = FNV1_32_INIT;
 	while (*s) {
@@ -182,8 +182,8 @@ void Solver::pilesort(void)
 #define NPILES  16384            /* a 14 bit code */
 
 typedef struct bucketlist {
-	u_char *pile;           /* 0 terminated copy of the pile */
-	u_int32_t hash;         /* the pile's hash code */
+	quint8 *pile;           /* 0 terminated copy of the pile */
+	quint32 hash;         /* the pile's hash code */
 	int pilenum;            /* the unique id for this pile */
 	struct bucketlist *next;
 } BUCKETLIST;
@@ -208,7 +208,7 @@ int Treebytes;
 TREE *Solver::pack_position(void)
 {
 	int j, k, w;
-	u_char *p;
+	quint8 *p;
 	TREE *node;
 
 	/* Allocate space and store the pile numbers.  The tree node
@@ -231,7 +231,7 @@ TREE *Solver::pack_position(void)
 	*/
 
 	k = 0;
-        u_int16_t *p2 = ( u_int16_t* ) p;
+        quint16 *p2 = ( quint16* ) p;
 	for (w = 0; w < m_number_piles; w++) {
 		j = Wpilenum[w];
                 *p2++ = j;
@@ -260,7 +260,7 @@ array following the POSITION struct. */
 void Solver::unpack_position(POSITION *pos)
 {
 	int i, k, w;
-	u_char c;
+	quint8 c;
 	BUCKETLIST *l;
 
         unpack_cluster(pos->cluster);
@@ -274,7 +274,7 @@ void Solver::unpack_position(POSITION *pos)
 	*/
 
 	k = w = i = c = 0;
-	u_int16_t *p2 = ( u_int16_t* )( (u_char *)(pos->node) + sizeof(TREE) );
+	quint16 *p2 = ( quint16* )( (quint8 *)(pos->node) + sizeof(TREE) );
 	while (w < m_number_piles) {
                 i = *p2++;
 		Wpilenum[w] = i;
@@ -360,7 +360,7 @@ void Solver::init_buckets(void)
 
 	/* Packed positions need 3 bytes for every 2 piles. */
 
-	i = ( m_number_piles ) * sizeof( u_int16_t );
+	i = ( m_number_piles ) * sizeof( quint16 );
 	i += ( m_number_piles ) & 0x1;
 
         mm->Pilebytes = i;
@@ -429,7 +429,7 @@ int Solver::get_pilenum(int w)
                         Status = FAIL;
 			return -1;
 		}
-		l->pile = new_array(u_char, Wlen[w] + 1);
+		l->pile = new_array(quint8, Wlen[w] + 1);
 		if (l->pile == NULL) {
                     Status = FAIL;
                     MemoryManager::free_ptr(l);
@@ -587,7 +587,7 @@ bool Solver::solve(POSITION *parent)
 			if (!qq) {
 				free_position(pos, false);
 			}
-			q |= qq;
+			q |= (bool)qq;
 		} else {
 			queue_position(pos, mp->pri);
 			undo_move(mp);
@@ -835,7 +835,7 @@ void Solver::setNumberPiles( int p )
 
     Wlen = new int[m_number_piles];
 
-    Whash = new u_int32_t[m_number_piles];
+    Whash = new quint32[m_number_piles];
     Wpilenum = new int[m_number_piles];
 }
 
@@ -895,7 +895,7 @@ MemoryManager::inscode Solver::insert(int *cluster, int d, TREE **node)
         MemoryManager::inscode i2 = mm->insert_node(newtree, d, &tl->tree, node);
 
 	if (i2 != MemoryManager::NEW) {
-		mm->give_back_block((u_char *)newtree);
+		mm->give_back_block((quint8 *)newtree);
 	}
 
 	return i2;
@@ -905,7 +905,7 @@ MemoryManager::inscode Solver::insert(int *cluster, int d, TREE **node)
 POSITION *Solver::new_position(POSITION *parent, MOVE *m)
 {
 	int depth, cluster;
-	u_char *p;
+	quint8 *p;
 	POSITION *pos;
 	TREE *node;
 
@@ -929,7 +929,7 @@ POSITION *Solver::new_position(POSITION *parent, MOVE *m)
 	into the move stack.  Store the temp cells after the POSITION. */
 
 	if (Freepos) {
-		p = (u_char *)Freepos;
+		p = (quint8 *)Freepos;
 		Freepos = Freepos->queue;
 	} else {
 		p = mm->new_from_block(Posbytes);

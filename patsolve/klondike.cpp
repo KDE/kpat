@@ -483,7 +483,7 @@ bool KlondikeSolver::print_layout()
             if ( showsup && DOWN( W[w][top-1] ) )
                 showsup = false;
             if ( ( !DOWN( W[w][top] ) && !DOWN( W[w][top-1] ) && ( RANK( W[w][top] ) != RANK( W[w][top-1] ) - 1 )
-                   || ( DOWN( W[w][top] && !DOWN( W[w][top-1] ) ) ) ) )
+                   || ( DOWN( W[w][top]) && !DOWN( W[w][top-1] ) ) ) ) 
             {
                 printcard( W[w][top-1] ,  stderr);
                 printcard( W[w][top] ,  stderr);

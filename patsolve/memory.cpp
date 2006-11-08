@@ -1,3 +1,4 @@
+#include <qglobal.h>
 #include "memory.h"
 #include <sys/types.h>
 #include <stdlib.h>
@@ -14,10 +15,10 @@ size_t MemoryManager::Mem_remain = 30 * 1000 * 1000;
 MemoryManager::inscode MemoryManager::insert_node(TREE *n, int d, TREE **tree, TREE **node)
 {
         int c;
-	u_char *key, *tkey;
+	quint8 *key, *tkey;
 	TREE *t;
 
-	key = (u_char *)n + sizeof(TREE);
+	key = (quint8 *)n + sizeof(TREE);
 	n->depth = d;
 	n->left = n->right = NULL;
 	*node = n;
@@ -27,7 +28,7 @@ MemoryManager::inscode MemoryManager::insert_node(TREE *n, int d, TREE **tree, T
 		return NEW;
 	}
 	while (1) {
-		tkey = (u_char *)t + sizeof(TREE);
+		tkey = (quint8 *)t + sizeof(TREE);
 		c = memcmp(key, tkey, Pilebytes);
 		if (c == 0) {
 			break;
@@ -119,7 +120,7 @@ BLOCK *MemoryManager::new_block(void)
 	if (b == NULL) {
 		return NULL;
 	}
-	b->block = new_array(u_char, BLOCKSIZE);
+	b->block = new_array(quint8, BLOCKSIZE);
 	if (b->block == NULL) {
                 MemoryManager::free_ptr(b);
 		return NULL;
@@ -133,9 +134,9 @@ BLOCK *MemoryManager::new_block(void)
 
 /* Like new(), only from the current block.  Make a new block if necessary. */
 
-u_char *MemoryManager::new_from_block(size_t s)
+quint8 *MemoryManager::new_from_block(size_t s)
 {
-	u_char *p;
+	quint8 *p;
 	BLOCK *b;
 
 	b = Block;
@@ -159,7 +160,7 @@ u_char *MemoryManager::new_from_block(size_t s)
 can ONLY be called once, immediately after the call to new_from_block().
 That is, no other calls to new_from_block() are allowed. */
 
-void MemoryManager::give_back_block(u_char *p)
+void MemoryManager::give_back_block(quint8 *p)
 {
 	size_t s;
 	BLOCK *b;

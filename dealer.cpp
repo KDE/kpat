@@ -1164,9 +1164,9 @@ void DealerScene::won()
 
     // disperse the cards everywhere
     QRectF can(0, 0, width(), height());
-    QListIterator<CardPtr> it(cards);
-    while (it.hasNext()) {
-        CardPtr card = it.next();
+    QListIterator<CardPtr> cit(cards);
+    while (cit.hasNext()) {
+        CardPtr card = cit.next();
         card.ptr->turn(true);
         QRectF p = card.ptr->sceneBoundingRect();
         p.moveTo( 0, 0 );
