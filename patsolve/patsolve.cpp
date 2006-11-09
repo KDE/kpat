@@ -948,7 +948,7 @@ POSITION *Solver::new_position(POSITION *parent, MOVE *m)
 	pos->depth = depth;
 	pos->nchild = 0;
         QString dummy;
-        u_int16_t *t = ( u_int16_t* )( ( char* )node + sizeof( TREE ) );
+        quint16 *t = ( quint16* )( ( char* )node + sizeof( TREE ) );
         for ( int i = 0; i < m_number_piles; i++ )
         {
             QString s = "      " + QString( "%1" ).arg( ( int )t[i] );
