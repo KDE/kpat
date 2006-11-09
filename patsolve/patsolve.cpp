@@ -763,7 +763,7 @@ void Solver::free()
     Freepos = NULL;
 }
 
-statuscode Solver::patsolve()
+Solver::statuscode Solver::patsolve()
 {
     /* Initialize the suitable() macro variables. */
 
@@ -954,7 +954,7 @@ POSITION *Solver::new_position(POSITION *parent, MOVE *m)
             QString s = "      " + QString( "%1" ).arg( ( int )t[i] );
             dummy += s.right( 5 );
         }
-        if ( Total_positions % 1000 == 0 )
+        if ( Total_positions % 1000 == 1000 ) // impossible - just for debugging ;/
             print_layout();
         // kDebug() << "new " << dummy << endl;
 

@@ -105,7 +105,7 @@ void Freecell::findSolution()
 {
     int ret = solver()->patsolve();
     kDebug() << gameNumber() << " return " << ret << endl;
-    if ( false && ret == WIN )
+    if ( false && ret == Solver::WIN )
     {
 #if 0
         Card *c = 0;

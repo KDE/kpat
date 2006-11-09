@@ -25,10 +25,11 @@
 #include <qtimer.h>
 #include <stdio.h>
 #include <kdebug.h>
+#include <limits.h>
 
 #include "version.h"
 #include "pwidget.h"
-#include "klondike.h"
+#include "dealer.h"
 #include "patsolve/patsolve.h"
 #include "cardmaps.h"
 
@@ -36,6 +37,9 @@ static const char description[] = I18N_NOOP("KDE Patience Game");
 
 static KCmdLineOptions options[] =
 {
+    { "solve <num>",    I18N_NOOP("Dealer to solve (debug)" ), 0 },
+    { "start <num>",    I18N_NOOP("Game range start (default 0:INT_MAX)" ), 0 },
+    { "end <num>",      I18N_NOOP("Game range end (default start:start if start given)" ), 0 },
     { "+file",          I18N_NOOP("File to load"), 0 },
     KCmdLineLastOption
 };
@@ -68,18 +72,72 @@ int main( int argc, char **argv )
 
     KApplication application;
     KGlobal::locale()->insertCatalog("libkdegames");
-#if 0
-    cardMap c;
-    DealerScene *f = new Klondike( true );
 
-    for ( int i = 6; i <= 6; i++ )
+    bool ok = false;
+    int wanted_game = -1;
+    if ( args->isSet( "solve" ) )
+        wanted_game = args->getOption("solve").toInt( &ok );
+    if ( ok )
     {
-        f->setGameNumber( i );
-        f->restart();
-        kDebug() << i << " returns " << f->solver()->patsolve() << endl;
+        DealerInfo *di = 0;
+        for (QList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin();
+             it != DealerInfoList::self()->games().end(); ++it)
+        {
+            if ( (*it)->gameindex == wanted_game ) {
+                di = *it;
+                break;
+            }
+        }
+
+        ok = false;
+        int end_index = -1;
+        if ( args->isSet( "end" ) )
+            end_index = args->getOption("end").toInt( &ok );
+        if ( !ok )
+            end_index = -1;
+        ok = false;
+        int start_index = -1;
+        if ( args->isSet( "start" ) )
+            start_index = args->getOption("start").toInt( &ok );
+        kDebug() << start_index << " " << ok << " '" << args->getOption("start") << "'" << endl;
+        if ( !ok ) {
+            start_index = 0;
+            end_index = INT_MAX;
+        } else {
+            if ( end_index == -1 )
+                end_index = start_index;
+        }
+
+        kDebug() << "solve " << start_index << " " << end_index << endl;
+
+        if ( !di ) {
+            kError() << "There is no game with index " << wanted_game << endl;
+            return -1;
+        }
+
+        cardMap c;
+        DealerScene *f = di->createGame();
+        if ( !f->solver() ) {
+            kError() << "There is no solver for " << di->name << endl;
+            return -1;
+        }
+
+        fprintf( stdout, "Testing %s\n", di->name );
+
+        for ( int i = start_index; i <= end_index; i++ )
+        {
+            f->setGameNumber( i );
+            f->restart();
+            int ret = f->solver()->patsolve();
+            if ( ret == Solver::WIN )
+                fprintf( stderr, "%d won\n", i );
+            else if ( ret == Solver::FAIL )
+                fprintf( stdout, "%d lost\n", i );
+            else
+                fprintf( stdout, "%d unknown\n", i );
+        }
+        return 0;
     }
-    return 0;
-#endif
 
     if (application.isSessionRestored())
         RESTORE(pWidget)

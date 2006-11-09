@@ -38,13 +38,12 @@ struct POSITION {
 	quint8 nchild;          /* number of child nodes left */
 };
 
-enum statuscode { FAIL = -1, WIN = 0, NOSOL = 1 };
-
 class MemoryManager;
 
 class Solver
 {
 public:
+    enum statuscode { FAIL = -1, WIN = 0, NOSOL = 1 };
     Solver();
     virtual ~Solver();
     statuscode patsolve();
