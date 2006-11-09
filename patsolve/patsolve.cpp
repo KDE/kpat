@@ -319,8 +319,7 @@ void Solver::win(POSITION *pos)
     }
     nmoves = i;
 
-     printf("A winner.\n");
-     printf("%d moves.\n", nmoves);
+     printf("Winning in %d moves.\n", nmoves);
 
      return;
 	mpp0 = new_array(MOVE *, nmoves);
@@ -543,6 +542,7 @@ bool Solver::solve(POSITION *parent)
 	path, prune this path. */
 
 	if (parent->node->depth < parent->depth) {
+            Q_ASSERT( false ); // we don't do that
 		return false;
 	}
 
@@ -753,6 +753,7 @@ void Solver::init()
     Status = NOSOL;
     Total_positions = 0;
     Total_generated = 0;
+    depth_sum = 0;
 }
 
 void Solver::free()
@@ -773,7 +774,7 @@ Solver::statuscode Solver::patsolve()
     /* Go to it. */
     doit();
 
-    printf("%ld positions generated.\n", Total_generated);
+    printf("%ld positions generated (%f).\n", Total_generated, depth_sum / Total_positions);
     printf("%ld unique positions.\n", Total_positions);
     printf("Mem_remain = %ld\n", ( long int )mm->Mem_remain);
 
@@ -920,6 +921,7 @@ POSITION *Solver::new_position(POSITION *parent, MOVE *m)
         MemoryManager::inscode i = insert(&cluster, depth, &node);
         if (i == MemoryManager::NEW) {
                 Total_positions++;
+                depth_sum += depth;
         } else if (i != MemoryManager::FOUND_BETTER) {
                 return NULL;
         }
@@ -947,6 +949,7 @@ POSITION *Solver::new_position(POSITION *parent, MOVE *m)
 	pos->cluster = cluster;
 	pos->depth = depth;
 	pos->nchild = 0;
+#if 0
         QString dummy;
         quint16 *t = ( quint16* )( ( char* )node + sizeof( TREE ) );
         for ( int i = 0; i < m_number_piles; i++ )
@@ -954,10 +957,10 @@ POSITION *Solver::new_position(POSITION *parent, MOVE *m)
             QString s = "      " + QString( "%1" ).arg( ( int )t[i] );
             dummy += s.right( 5 );
         }
-        if ( Total_positions % 1000 == 1000 ) // impossible - just for debugging ;/
+        if ( Total_positions % 1000 == 0 )
             print_layout();
         // kDebug() << "new " << dummy << endl;
-
+#endif
 	p += sizeof(POSITION);
 	return pos;
 }

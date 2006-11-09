@@ -117,6 +117,7 @@ protected:
 
     bool m_newer_piles_first;
     unsigned long Total_generated, Total_positions;
+    double depth_sum;
 };
 
 /* Misc. */

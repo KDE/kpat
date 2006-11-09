@@ -99,7 +99,6 @@ int main( int argc, char **argv )
         int start_index = -1;
         if ( args->isSet( "start" ) )
             start_index = args->getOption("start").toInt( &ok );
-        kDebug() << start_index << " " << ok << " '" << args->getOption("start") << "'" << endl;
         if ( !ok ) {
             start_index = 0;
             end_index = INT_MAX;
@@ -107,9 +106,6 @@ int main( int argc, char **argv )
             if ( end_index == -1 )
                 end_index = start_index;
         }
-
-        kDebug() << "solve " << start_index << " " << end_index << endl;
-
         if ( !di ) {
             kError() << "There is no game with index " << wanted_game << endl;
             return -1;
@@ -131,7 +127,7 @@ int main( int argc, char **argv )
             int ret = f->solver()->patsolve();
             if ( ret == Solver::WIN )
                 fprintf( stderr, "%d won\n", i );
-            else if ( ret == Solver::FAIL )
+            else if ( ret == Solver::NOSOL )
                 fprintf( stdout, "%d lost\n", i );
             else
                 fprintf( stdout, "%d unknown\n", i );
