@@ -80,6 +80,7 @@ bool Solver::recursive(POSITION *parent)
         recu_pos.clear();
         delete Stack;
         Stack = new POSITION[MAXDEPTH];
+        memset( Stack, 0, sizeof( POSITION ) * MAXDEPTH );
     }
 
     /* Fill in the Possible array. */
@@ -88,6 +89,7 @@ bool Solver::recursive(POSITION *parent)
     if (alln == 0) {
         if ( isWon() ) {
             Status = WIN;
+            win(parent);
             return true;
         }
         return false;
@@ -440,9 +442,9 @@ void Solver::win(POSITION *pos)
     }
     nmoves = i;
 
-     printf("Winning in %d moves.\n", nmoves);
+    printf("Winning in %d moves.\n", nmoves);
+    return;
 
-     return;
 	mpp0 = new_array(MOVE *, nmoves);
 	if (mpp0 == NULL) {
                 Status = FAIL;
@@ -505,8 +507,6 @@ void Solver::init_buckets(void)
 		Posbytes |= ALIGN_BITS;
 		Posbytes++;
 	}
-
-        memset( Stack, 0, sizeof( Stack ) );
 }
 
 
@@ -573,12 +573,15 @@ int Solver::get_pilenum(int w)
 		Pilebucket[pilenum] = l;
 	}
 
-/*        fprintf( stderr, "get_pile_num %d ", l->pilenum );
+#if 0
+if (w == 0) {
+        fprintf( stderr, "get_pile_num %d ", l->pilenum );
         for (int i = 0; i < Wlen[w]; i++) {
             printcard(W[w][i], stderr);
         }
         fprintf( stderr, "\n" );
-*/
+}
+#endif
 	return l->pilenum;
 }
 
@@ -1081,9 +1084,9 @@ POSITION *Solver::new_position(POSITION *parent, MOVE *m)
             QString s = "      " + QString( "%1" ).arg( ( int )t[i] );
             dummy += s.right( 5 );
         }
-        if ( Total_positions % 1000 == 0 )
+        if ( Total_positions % 1000 == 1000 )
             print_layout();
-        // kDebug() << "new " << dummy << endl;
+        kDebug() << "new " << dummy << endl;
 #endif
 	p += sizeof(POSITION);
 	return pos;

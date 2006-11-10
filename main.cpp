@@ -124,7 +124,7 @@ int main( int argc, char **argv )
         {
             f->setGameNumber( i );
             f->restart();
-            int ret = f->solver()->recursive();
+            int ret = f->solver()->patsolve();
             if ( ret == Solver::WIN )
                 fprintf( stderr, "%d won\n", i );
             else if ( ret == Solver::NOSOL )

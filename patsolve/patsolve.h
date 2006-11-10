@@ -44,7 +44,7 @@ class MemoryManager;
 class Solver
 {
 public:
-    enum statuscode { FAIL = -1, WIN = 0, NOSOL = 1 };
+    enum statuscode { FAIL = -1, NOSOL = 0, WIN = 1 };
     Solver();
     virtual ~Solver();
     statuscode patsolve();
