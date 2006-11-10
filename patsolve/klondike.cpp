@@ -29,12 +29,11 @@
 
 void KlondikeSolver::make_move(MOVE *m)
 {
-#if PRINT2
-    kDebug() << "\n\nmake_move\n";
+#if PRINT
     if ( m->totype == O_Type )
-        fprintf( stderr, "move %d from %d out (at %d)\n\n", m->card_index, m->from, m->turn_index );
+        fprintf( stderr, "\nmake move %d from %d out (at %d)\n\n", m->card_index, m->from, m->turn_index );
     else
-        fprintf( stderr, "move %d from %d to %d (%d)\n\n", m->card_index, m->from, m->to, m->turn_index );
+        fprintf( stderr, "\nmake move %d from %d to %d (%d)\n\n", m->card_index, m->from, m->to, m->turn_index );
     print_layout();
 #else
     //print_layout();
@@ -112,11 +111,10 @@ void KlondikeSolver::make_move(MOVE *m)
 void KlondikeSolver::undo_move(MOVE *m)
 {
 #if PRINT
-    kDebug() << "\n\nundo_move\n";
     if ( m->totype == O_Type )
-        fprintf( stderr, "move %d from %d out (at %d)\n\n", m->card_index, m->from, m->turn_index );
+        fprintf( stderr, "\nundo move %d from %d out (at %d)\n\n", m->card_index, m->from, m->turn_index );
     else
-        fprintf( stderr, "move %d from %d to %d (%d)\n\n", m->card_index, m->from, m->to, m->turn_index );
+        fprintf( stderr, "\nundo move %d from %d to %d (%d)\n\n", m->card_index, m->from, m->to, m->turn_index );
     print_layout();
 
 #endif
@@ -282,10 +280,6 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
 
     *a = false;
     *numout = n;
-
-    if ( deck_flip_counter > 3000 ) // really huge number!
-        return 0;
-
 
     /* check for deck->pile */
     if ( Wlen[8] ) {
@@ -483,7 +477,7 @@ bool KlondikeSolver::print_layout()
             if ( showsup && DOWN( W[w][top-1] ) )
                 showsup = false;
             if ( ( !DOWN( W[w][top] ) && !DOWN( W[w][top-1] ) && ( RANK( W[w][top] ) != RANK( W[w][top-1] ) - 1 )
-                   || ( DOWN( W[w][top]) && !DOWN( W[w][top-1] ) ) ) ) 
+                   || ( DOWN( W[w][top]) && !DOWN( W[w][top-1] ) ) ) )
             {
                 printcard( W[w][top-1] ,  stderr);
                 printcard( W[w][top] ,  stderr);

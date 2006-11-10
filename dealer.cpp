@@ -117,6 +117,7 @@ public:
 
     void finish() {
         m_solver->m_shouldEnd = true;
+        wait();
     }
     Solver::statuscode result() const { return ret; }
 
@@ -397,10 +398,11 @@ DealerScene::~DealerScene()
         delete piles.first(); // removes itself
     }
     disconnect();
-    delete m_solver;
-    m_solver = 0;
+    m_solver_thread->finish();
     delete m_solver_thread;
     m_solver_thread = 0;
+    delete m_solver;
+    m_solver = 0;
 }
 
 
@@ -417,7 +419,6 @@ void DealerScene::hint()
     clearHints();
     if ( solver() ) {
         m_solver_thread->finish();
-        m_solver_thread->wait();
         solver()->translate_layout();
         solver()->showCurrentMoves();
     }
@@ -1039,16 +1040,33 @@ bool DealerScene::startAutoDrop()
             CardList cards = mh->card()->source()->cards();
             while (cards.count() && cards.first() != t)
                 cards.erase(cards.begin());
-            t->stopAnimation();
-            t->turn(true);
-            qreal x = t->x();
-            qreal y = t->y();
+            QList<double> xs, ys;
+            for ( CardList::Iterator it2 = cards.begin(); it2 != cards.end(); ++it2 )
+            {
+                QPointF p = ( *it2 )->pos();
+                xs.append( p.x() );
+                ys.append( p.y() );
+            }
+
+            double z = mh->pile()->zValue() + 1;
+            if ( mh->pile()->top() )
+                z = mh->pile()->top()->zValue() + 1;
             t->source()->moveCards(cards, mh->pile());
-            t->stopAnimation();
-            t->setPos(QPointF( x, y) );
-            //kDebug(11111) << "autodrop " << t->name() << endl;
-            t->moveTo(t->source()->x(), t->source()->y(), t->zValue(), qRound( DURATION_AUTODROP * m_autoDropFactor ) );
-            connect(t, SIGNAL(stoped(Card*)), SLOT(waitForAutoDrop(Card*)));
+            int count = 0;
+
+            for ( CardList::Iterator it2 = cards.begin(); it2 != cards.end(); ++it2 )
+            {
+                Card *t = *it2;
+                t->stopAnimation();
+                t->turn(true);
+                t->setPos(QPointF( xs.first(), ys.first()) );
+                t->setZValue( z );
+                z = z + 1;
+                xs.removeFirst();
+                ys.removeFirst();
+                t->moveTo(t->source()->x(), t->source()->y(), t->zValue(), qRound( ( DURATION_AUTODROP + count++ * DURATION_AUTODROP / 10 ) * m_autoDropFactor ) );
+                connect(t, SIGNAL(stoped(Card*)), SLOT(waitForAutoDrop(Card*)));
+            }
             m_autoDropFactor *= 0.8;
             return true;
         }

@@ -68,14 +68,13 @@ void Solver::hashpile(int w)
 	Wpilenum[w] = -1;
 }
 
-#define MAXDEPTH 300
+#define MAXDEPTH 400
 
 bool Solver::recursive(POSITION *parent)
 {
     int i, alln, a, numout = 0;
 
     if ( parent == NULL ) {
-        translate_layout();
         init();
         recu_pos.clear();
         delete Stack;
@@ -160,10 +159,15 @@ bool Solver::recursive(POSITION *parent)
             quint8 *tkey = (quint8 *)Stack[i].node + sizeof(TREE);
             if ( !memcmp( key, tkey, mm->Pilebytes ) )
             {
-                undo_move( mp );
-                mm->give_back_block( (quint8 *)pos->node );
-                continue;
+                key = 0;
+                break;
             }
+        }
+        if ( !key )
+        {
+            undo_move( mp );
+            mm->give_back_block( (quint8 *)pos->node );
+            continue;
         }
 #endif
         Total_positions++;
@@ -188,7 +192,7 @@ bool Solver::recursive(POSITION *parent)
 
     if ( parent == NULL ) {
         printf( "Total %ld\n", Total_generated );
-        delete Stack;
+        delete [] Stack;
         Stack = 0;
     }
     return fit;
@@ -444,8 +448,8 @@ void Solver::win(POSITION *pos)
     }
     nmoves = i;
 
-    printf("Winning in %d moves.\n", nmoves);
-    //return;
+    //printf("Winning in %d moves.\n", nmoves);
+    return;
 
 	mpp0 = new_array(MOVE *, nmoves);
 	if (mpp0 == NULL) {
@@ -906,11 +910,11 @@ Solver::statuscode Solver::patsolve()
 
     /* Go to it. */
     doit();
-
+#if 0
     printf("%ld positions generated (%f).\n", Total_generated, depth_sum / Total_positions);
     printf("%ld unique positions.\n", Total_positions);
     printf("Mem_remain = %ld\n", ( long int )mm->Mem_remain);
-
+#endif
     free();
     return Status;
 }
