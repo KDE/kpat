@@ -28,6 +28,7 @@ class DealerInfo;
 class Pile;
 class DealerScene;
 class Solver;
+class SolverThread;
 
 typedef QList<Pile*> PileList;
 
@@ -152,7 +153,7 @@ public:
     void setActions(int actions) { myActions = actions; }
     int actions() const { return myActions; }
 
-    void setSolver( Solver *s) { m_solver = s; }
+    void setSolver( Solver *s);
     Solver *solver() const { return m_solver; }
 
 public slots:
@@ -166,6 +167,8 @@ public slots:
     void slotShowGame(bool);
     void takeState();
     void undo();
+    void slotSolverEnded();
+    void slotSolverFinished();
 
 protected slots:
     virtual void demo();
@@ -222,6 +225,7 @@ private:
     bool toldAboutLostGame;
     int myActions;
     Solver *m_solver;
+    SolverThread *m_solver_thread;
 };
 
 #endif

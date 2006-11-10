@@ -44,12 +44,14 @@ class MemoryManager;
 class Solver
 {
 public:
-    enum statuscode { FAIL = -1, NOSOL = 0, WIN = 1 };
+    enum statuscode { QUIT = -2, FAIL = -1, NOSOL = 0, WIN = 1 };
     Solver();
     virtual ~Solver();
     statuscode patsolve();
     void showCurrentMoves();
     bool recursive(POSITION *pos = 0);
+    virtual void translate_layout() = 0;
+    bool m_shouldEnd;
 
 protected:
     MOVE *get_moves(int *nmoves);
@@ -83,7 +85,6 @@ protected:
     virtual bool isWon() = 0;
     virtual int getOuts() = 0;
     virtual int getClusterNumber() = 0;
-    virtual void translate_layout() = 0;
     virtual void unpack_cluster( int k ) = 0;
 
     void setNumberPiles( int i );

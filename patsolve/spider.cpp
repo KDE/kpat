@@ -159,10 +159,10 @@ void SpiderSolver::undo_move(MOVE *m)
             for ( int j = PS_KING; j >= PS_ACE; j-- )
             {
                 Wp[from]++;
-                *Wp[from] = ( O[to] << 4 ) + j;
+                *Wp[from] = O[to] + j;
                 Wlen[from]++;
             }
-            O[to] = 0;
+            O[to] = -1;
             hashpile( from );
 #if PRINT
             print_layout();
@@ -237,7 +237,7 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
             mp->card_index = 0;
             mp->from = w;
             int o = 0;
-            while ( O[o] )
+            while ( O[o] != -1 )
                 o++; // TODO I need a way to tell spades off from heart off
             mp->to = o;
             mp->totype = O_Type;
@@ -350,16 +350,41 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
                     if ( cont )
                         cont += l;
                     mp->pri = 8 * cont + qMax( 0, 10 - Wlen[i] );
-                    if ( Wlen[j] && SUIT( card ) != SUIT( *Wp[j] ) )
-                        mp->pri = 1;
+                    if ( Wlen[j] )
+                        if ( SUIT( card ) != SUIT( *Wp[j] ) )
+                            mp->pri /= 2;
+                        else
+                            foundgood = true;
                     else
-                        foundgood = true;
+                        mp->pri = 2; // TODO: it should depend on the actual stack's order
                     if ( mp->turn_index > 0)
-                        mp->pri += 7;
+                        mp->pri = qMin( 127, mp->pri + 7 );
                     else  if ( Wlen[i] == l+1 )
-                        mp->pri += 4;
+                        mp->pri = qMin( 127, mp->pri + 4 );
                     else
-                        mp->pri += 2;
+                        mp->pri = qMin( 127, mp->pri + 2 );
+
+                    /* and now check what sequence we open */
+                    int conti_pos = l+1;
+                    for ( ; conti_pos < Wlen[i]-1; conti_pos++ )
+                    {
+                        card_t top = W[i][Wlen[i]-l-2];
+                        card_t theone = W[i][Wlen[i]-conti_pos-1];
+                        card_t below = W[i][Wlen[i]-conti_pos-2];
+#if 0
+                        printcard( top, stderr );
+                        printcard( theone, stderr );
+                        printcard( below, stderr );
+                        fputc( '\n', stderr );
+#endif
+                        if ( SUIT( top ) != SUIT( below ) || DOWN( below ) )
+                            break;
+                        if ( RANK( theone ) !=
+                             RANK( below ) - 1)
+                            break;
+                    }
+                    mp->pri = qMin( 127, mp->pri + 5 * ( conti_pos - l - 1 ) );
+
                     n++;
                     mp++;
                 }
@@ -393,7 +418,7 @@ void SpiderSolver::unpack_cluster( int k )
         if ( i < k )
             O[i] = PS_SPADE;
         else
-            O[i] = 0;
+            O[i] = -1;
     }
 }
 
@@ -401,8 +426,10 @@ bool SpiderSolver::isWon()
 {
     // maybe won?
     for (int o = 0; o < 8; o++)
-        if (!O[o])
+    {
+        if (O[o] == -1)
             return false;
+    }
 
     return true;
 }
@@ -411,7 +438,7 @@ int SpiderSolver::getOuts()
 {
     int k = 0;
     for (int o = 0; o < 8; o++)
-        if (O[o])
+        if ( O[o] != -1 )
             k += 13;
 
     return k / 2;
@@ -448,7 +475,7 @@ void SpiderSolver::translate_layout()
     }
 
     for (int i = 0; i < 8; i++) {
-        O[i] = 0;
+        O[i] = -1;
         Card *c = deal->legs[i]->top();
         if (c) {
             total += 13;
@@ -461,7 +488,7 @@ int SpiderSolver::getClusterNumber()
 {
     int k = 0;
     for ( int i = 0; i < 8; ++i )
-        if ( O[i] )
+        if ( O[i] != -1 )
             k++;
     return k;
 }
@@ -484,8 +511,8 @@ bool SpiderSolver::print_layout()
     }
     fprintf( stderr, "Off: " );
     for (o = 0; o < 8; o++) {
-        if ( O[o] )
-            printcard(( O[o] << 4 ) + PS_KING, stderr);
+        if ( O[o] != -1 )
+            printcard( O[o] + PS_KING, stderr);
     }
     fprintf(stderr, "\nprint-layout-end\n");
     bool broke = false;

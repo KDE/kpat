@@ -445,7 +445,7 @@ void Solver::win(POSITION *pos)
     nmoves = i;
 
     printf("Winning in %d moves.\n", nmoves);
-    return;
+    //return;
 
 	mpp0 = new_array(MOVE *, nmoves);
 	if (mpp0 == NULL) {
@@ -666,6 +666,11 @@ bool Solver::solve(POSITION *parent)
 		return false;
 	}
 
+        if ( m_shouldEnd ) {
+            Status = QUIT;
+            return false;
+        }
+
 	/* If the position was found again in the tree by a shorter
 	path, prune this path. */
 
@@ -882,6 +887,7 @@ void Solver::init()
     Total_positions = 0;
     Total_generated = 0;
     depth_sum = 0;
+    m_shouldEnd = false;
 }
 
 void Solver::free()
@@ -892,11 +898,10 @@ void Solver::free()
     Freepos = NULL;
 }
 
+
 Solver::statuscode Solver::patsolve()
 {
     /* Initialize the suitable() macro variables. */
-
-    translate_layout();
     init();
 
     /* Go to it. */

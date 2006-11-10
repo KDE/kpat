@@ -52,6 +52,7 @@
 #include <ktoggleaction.h>
 #include "patsolve/patsolve.h"
 #include <math.h>
+#include <qthread.h>
 
 // ================================================================
 //                         class MoveHint
@@ -66,7 +67,6 @@ MoveHint::MoveHint(Card *card, Pile *to, bool d)
 
 // ================================================================
 //                          class CardState
-
 
 class CardState {
 public:
@@ -104,6 +104,42 @@ typedef class QList<CardState> CardStateList;
 
 bool operator==( const State & st1, const State & st2) {
     return st1.cards == st2.cards && st1.gameData == st2.gameData;
+}
+
+class SolverThread : public QThread
+{
+public:
+    virtual void run();
+    SolverThread( Solver *solver) {
+        m_solver = solver;
+        ret = Solver::FAIL;
+    }
+
+    void finish() {
+        m_solver->m_shouldEnd = true;
+    }
+    Solver::statuscode result() const { return ret; }
+
+private:
+    Solver *m_solver;
+    Solver::statuscode ret;
+};
+
+void SolverThread::run()
+{
+    ret = Solver::FAIL;
+    ret = m_solver->patsolve();
+    if ( ret == Solver::WIN )
+    {
+        kDebug() << "won\n";
+    } else if ( ret == Solver::NOSOL )
+    {
+        kDebug() << "lost\n";
+    } else if ( ret == Solver::QUIT )
+    {
+        kDebug() << "quit\n";
+    } else
+        kDebug() << "unknown\n";
 }
 
 void DealerScene::takeState()
@@ -334,7 +370,8 @@ DealerScene::DealerScene():
     wonItem( 0 ),
     gothelp(false),
     myActions(0),
-    m_solver(0)
+    m_solver(0),
+    m_solver_thread( 0 )
 {
     demotimer = new QTimer(this);
     connect(demotimer, SIGNAL(timeout()), SLOT(demo()));
@@ -362,6 +399,8 @@ DealerScene::~DealerScene()
     disconnect();
     delete m_solver;
     m_solver = 0;
+    delete m_solver_thread;
+    m_solver_thread = 0;
 }
 
 
@@ -376,6 +415,12 @@ void DealerScene::hint()
     for (HintList::ConstIterator it = hints.begin(); it != hints.end(); ++it)
         mark((*it)->card());
     clearHints();
+    if ( solver() ) {
+        m_solver_thread->finish();
+        m_solver_thread->wait();
+        solver()->translate_layout();
+        solver()->showCurrentMoves();
+    }
 }
 
 void DealerScene::getHints()
@@ -958,9 +1003,6 @@ void DealerScene::setAutoDropEnabled(bool a)
 
 bool DealerScene::startAutoDrop()
 {
-    if ( solver() )
-        solver()->showCurrentMoves();
-
     if (!autoDrop())
         return false;
 
@@ -968,7 +1010,6 @@ bool DealerScene::startAutoDrop()
         QTimer::singleShot(qRound( TIME_BETWEEN_MOVES * m_autoDropFactor ), this, SLOT(startAutoDrop()));
         return true;
     }
-
 
     QList<QGraphicsItem *> list = items();
 
@@ -1014,7 +1055,34 @@ bool DealerScene::startAutoDrop()
     }
     clearHints();
     m_autoDropFactor = 1;
+
+    if ( m_solver )
+    {
+        if ( m_solver_thread->isRunning() )
+        {
+            m_solver_thread->disconnect();
+            m_solver_thread->finish();
+            connect( m_solver_thread, SIGNAL( finished() ), SLOT( slotSolverEnded() ) );
+        } else { // start directly
+            slotSolverEnded();
+        }
+    }
+
     return false;
+}
+
+void DealerScene::slotSolverEnded()
+{
+    kDebug() << "slotSolverEnded\n";
+    m_solver->translate_layout();
+    m_solver_thread->disconnect();
+    connect( m_solver_thread, SIGNAL( finished() ), this, SLOT( slotSolverFinished() ) );
+    m_solver_thread->start(QThread::IdlePriority);
+}
+
+void DealerScene::slotSolverFinished()
+{
+    kDebug() << "slotSolverFinished\n"; // << m_solver_thread->result() << endl;
 }
 
 void DealerScene::waitForAutoDrop(Card * c) {
@@ -1301,6 +1369,13 @@ void DealerScene::waitForDemo(Card *t)
         demotimer->setSingleShot( true );
         demotimer->start(250);
     }
+}
+
+void DealerScene::setSolver( Solver *s) {
+    delete m_solver;
+    delete m_solver_thread;
+    m_solver = s;
+    m_solver_thread = new SolverThread( m_solver );
 }
 
 bool DealerScene::isGameWon() const

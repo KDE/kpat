@@ -124,6 +124,7 @@ int main( int argc, char **argv )
         {
             f->setGameNumber( i );
             f->restart();
+            f->solver()->translate_layout();
             int ret = f->solver()->patsolve();
             if ( ret == Solver::WIN )
                 fprintf( stderr, "%d won\n", i );
