@@ -145,7 +145,7 @@ bool Solver::recursive(POSITION *parent)
         pos->parent = parent;
         pos->node = pack_position();
         quint8 *key = (quint8 *)pos->node + sizeof(TREE);
-#if 1
+#if 0
         qint32 hash = fnv_hash_buf(key, mm->Pilebytes);
         if ( recu_pos.contains( hash ) )
         {
@@ -154,8 +154,6 @@ bool Solver::recursive(POSITION *parent)
             continue;
         }
         recu_pos[hash] = true;
-        if ( recu_pos.count() % 10000 == 0 )
-            kDebug() << "positions " << recu_pos.count() << endl;
 #else
         for ( int i = 0; i < depth; ++i )
         {
@@ -168,6 +166,10 @@ bool Solver::recursive(POSITION *parent)
             }
         }
 #endif
+        Total_positions++;
+        if ( Total_positions % 10000 == 0 )
+            kDebug() << "positions " << Total_positions << endl;
+
         pos->move = *mp;                 /* struct copy */
         pos->cluster = 0;
         pos->depth = depth;

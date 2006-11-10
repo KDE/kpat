@@ -17,11 +17,12 @@
 #include "deck.h"
 #include <assert.h>
 #include "cardmaps.h"
+#include "patsolve/simon.h"
 
 Simon::Simon( )
     : DealerScene( )
 {
-    Deck::create_deck(this);
+    Deck::create_deck(this, 1, 2);
     Deck::deck()->setPilePos(1, 1);
     Deck::deck()->hide();
 
@@ -48,6 +49,7 @@ Simon::Simon( )
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo);
+    setSolver( new SimonSolver( this ) );
 }
 
 void Simon::restart() {

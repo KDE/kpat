@@ -21,18 +21,19 @@ set(kpat_SRCS
    gamestatsimpl.cpp
    patsolve/patsolve.cpp
    patsolve/memory.cpp
-   patsolve/freecell.cpp
    patsolve/klondike.cpp
+   patsolve/simon.cpp
    klondike.cpp
-   freecell.cpp
-   spider.cpp
-   patsolve/spider.cpp
+   simon.cpp
 )
 
 if (RELEASE)
 set(kpat_SRCS ${kpat_SRCS}
+   patsolve/spider.cpp
+   spider.cpp
+   patsolve/freecell.cpp
+   freecell.cpp 
    mod3.cpp
-   simon.cpp
    grandf.cpp
    idiot.cpp
    napoleon.cpp

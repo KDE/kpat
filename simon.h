@@ -19,6 +19,8 @@
 class Simon : public DealerScene {
     Q_OBJECT
 
+    friend class SimonSolver;
+
 public:
     Simon( );
 
