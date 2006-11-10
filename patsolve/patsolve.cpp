@@ -68,6 +68,128 @@ void Solver::hashpile(int w)
 	Wpilenum[w] = -1;
 }
 
+#define MAXDEPTH 300
+
+bool Solver::recursive(POSITION *parent)
+{
+    int i, alln, a, numout = 0;
+
+    if ( parent == NULL ) {
+        translate_layout();
+        init();
+        recu_pos.clear();
+        delete Stack;
+        Stack = new POSITION[MAXDEPTH];
+    }
+
+    /* Fill in the Possible array. */
+
+    alln = get_possible_moves(&a, &numout);
+    if (alln == 0) {
+        if ( isWon() ) {
+            Status = WIN;
+            return true;
+        }
+        return false;
+    }
+
+    /* Prioritize these moves.  Automoves don't get queued, so they
+       don't need a priority. */
+
+    if (!a) {
+        prioritize(Possible, alln);
+    }
+
+    /* Now copy to safe storage and return.  Non-auto moves out get put
+       at the end.  Queueing them isn't a good idea because they are still
+       good moves, even if they didn't pass the automove test.  So we still
+       do the recursive solve() on them, but only after queueing the other
+       moves. */
+
+    if ( parent && parent->depth >= MAXDEPTH - 2 )
+        return false;
+
+    MOVE *mp0 = new_array(MOVE, alln+1);
+    if (mp0 == NULL) {
+        return false;
+    }
+    MOVE *mp = mp0;
+    for (i = 0; i < alln; i++) {
+        if (Possible[i].card_index != -1) {
+            *mp = Possible[i];      /* struct copy */
+            mp++;
+        }
+    }
+    mp->card_index = -1;
+    ++alln;
+
+    bool fit = false;
+    for (mp = mp0; mp->card_index != -1; mp++) {
+
+        int depth = 0;
+        if (parent != NULL)
+            depth = parent->depth + 1;
+
+        make_move(mp);
+
+        /* Calculate indices for the new piles. */
+        pilesort();
+
+        /* See if this is a new position. */
+
+        Total_generated++;
+        POSITION *pos = &Stack[depth];
+        pos->queue = NULL;
+        pos->parent = parent;
+        pos->node = pack_position();
+        quint8 *key = (quint8 *)pos->node + sizeof(TREE);
+#if 1
+        qint32 hash = fnv_hash_buf(key, mm->Pilebytes);
+        if ( recu_pos.contains( hash ) )
+        {
+            undo_move( mp );
+            mm->give_back_block( (quint8 *)pos->node );
+            continue;
+        }
+        recu_pos[hash] = true;
+        if ( recu_pos.count() % 10000 == 0 )
+            kDebug() << "positions " << recu_pos.count() << endl;
+#else
+        for ( int i = 0; i < depth; ++i )
+        {
+            quint8 *tkey = (quint8 *)Stack[i].node + sizeof(TREE);
+            if ( !memcmp( key, tkey, mm->Pilebytes ) )
+            {
+                undo_move( mp );
+                mm->give_back_block( (quint8 *)pos->node );
+                continue;
+            }
+        }
+#endif
+        pos->move = *mp;                 /* struct copy */
+        pos->cluster = 0;
+        pos->depth = depth;
+        pos->nchild = 0;
+
+        bool ret = recursive(pos);
+        fit |= ret;
+        //kDebug() << "ret " << ret << " " << depth << endl;
+        undo_move(mp);
+        mm->give_back_block( (quint8 *)pos->node );
+        if ( ret )
+            break;
+    }
+
+    MemoryManager::free_array(mp0, alln);
+
+    if ( parent == NULL ) {
+        printf( "Total %ld\n", Total_generated );
+        delete Stack;
+        Stack = 0;
+    }
+    return fit;
+}
+
 
 /* Generate an array of the moves we can make from this position. */
 
@@ -144,7 +266,6 @@ MOVE *Solver::get_moves(int *nmoves)
 
 	return mp0;
 }
-
 
 /* Test the current position to see if it's new (or better).  If it is, save
 it, along with the pointer to its parent and the move we used to get here. */
@@ -384,6 +505,8 @@ void Solver::init_buckets(void)
 		Posbytes |= ALIGN_BITS;
 		Posbytes++;
 	}
+
+        memset( Stack, 0, sizeof( Stack ) );
 }
 
 
@@ -610,24 +733,24 @@ recursively (rec == true). */
 
 void Solver::free_position(POSITION *pos, int rec)
 {
-	/* We don't really free anything here, we just push it onto a
-	freelist (using the queue member), so we can use it again later. */
+    /* We don't really free anything here, we just push it onto a
+       freelist (using the queue member), so we can use it again later. */
 
-	if (!rec) {
-		pos->queue = Freepos;
-		Freepos = pos;
-		pos->parent->nchild--;
-	} else {
-		do {
-			pos->queue = Freepos;
-			Freepos = pos;
-			pos = pos->parent;
-			if (pos == NULL) {
-				return;
-			}
-			pos->nchild--;
-		} while (pos->nchild == 0);
-	}
+    if (!rec) {
+        pos->queue = Freepos;
+        Freepos = pos;
+        pos->parent->nchild--;
+    } else {
+        do {
+            pos->queue = Freepos;
+            Freepos = pos;
+            pos = pos->parent;
+            if (pos == NULL) {
+                return;
+            }
+            pos->nchild--;
+        } while (pos->nchild == 0);
+    }
 }
 
 /* Save positions for consideration later.  pri is the priority of the move
@@ -735,7 +858,7 @@ Solver::Solver()
 
     Whash = 0;
     Wpilenum = 0;
-
+    Stack = 0;
 }
 
 Solver::~Solver()
@@ -838,6 +961,7 @@ void Solver::setNumberPiles( int p )
 
     Whash = new quint32[m_number_piles];
     Wpilenum = new int[m_number_piles];
+    memset( Wpilenum, 0, sizeof( int ) * m_number_piles );
 }
 
 int Solver::translateSuit( int s )

@@ -45,7 +45,6 @@ void SpiderSolver::make_move(MOVE *m)
             for ( int i = 0; i < 10; ++i )
             {
                 card_t card = *Wp[from];
-                Q_ASSERT( DOWN( card ) );
                 card = ( SUIT( card ) << 4 ) + RANK( card );
                 ++Wp[i];
                 *Wp[i] = card;
@@ -68,7 +67,6 @@ void SpiderSolver::make_move(MOVE *m)
             if ( Wlen[from] && DOWN( *Wp[from] ) )
             {
                 *Wp[from] = ( SUIT( *Wp[from] ) << 4 ) + RANK( *Wp[from] );
-                Q_ASSERT( m->turn_index >= 0 );
             }
 #if PRINT
             print_layout();
@@ -352,7 +350,7 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
                     if ( cont )
                         cont += l;
                     mp->pri = 8 * cont + qMax( 0, 10 - Wlen[i] );
-                    if ( SUIT( card ) != SUIT( *Wp[j] ) )
+                    if ( Wlen[j] && SUIT( card ) != SUIT( *Wp[j] ) )
                         mp->pri = 1;
                     else
                         foundgood = true;

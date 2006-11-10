@@ -5,6 +5,7 @@
 #include "../hint.h"
 #include "memory.h"
 #include <stdio.h>
+#include <qmap.h>
 
 class DealerScene;
 
@@ -48,6 +49,7 @@ public:
     virtual ~Solver();
     statuscode patsolve();
     void showCurrentMoves();
+    bool recursive(POSITION *pos = 0);
 
 protected:
     MOVE *get_moves(int *nmoves);
@@ -118,6 +120,9 @@ protected:
     bool m_newer_piles_first;
     unsigned long Total_generated, Total_positions;
     double depth_sum;
+
+    POSITION *Stack;
+    QMap<qint32,bool> recu_pos;
 };
 
 /* Misc. */
