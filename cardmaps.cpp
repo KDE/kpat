@@ -135,7 +135,7 @@ QSvgRenderer *cardMapThread::renderer()
 
 QString cardMap::pickRandom()
 {
-    QStringList list = KGlobal::dirs()->findAllResources("data", "carddecks/*/index.desktop");
+    QStringList list = KGlobal::dirs()->findAllResources("data", "carddecks/svg-nicu-ornamental/index.desktop");
     QStringList svgs;
     for (QStringList::ConstIterator it = list.begin(); it != list.end(); ++it)
     {

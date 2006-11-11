@@ -281,6 +281,9 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
     *a = false;
     *numout = n;
 
+    if ( deck_flip_counter > 3000 )
+        return n;
+
     /* check for deck->pile */
     if ( Wlen[8] ) {
          mp->card_index = 0;
