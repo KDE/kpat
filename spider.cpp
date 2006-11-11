@@ -326,7 +326,7 @@ CardList Spider::getRun(Card *c) const
 
 void Spider::checkPileDeck(Pile *check)
 {
-    kDebug(11111) << "check for run" << endl;
+    //kDebug(11111) << "check for run" << endl;
     if (check->isEmpty())
         return;
 
@@ -338,10 +338,8 @@ void Spider::checkPileDeck(Pile *check)
 
             CardList::iterator it = run.end();
             qreal z = 1;
-            kDebug() << "z " << z << endl;
             while (it != run.begin()) {
                 --it;
-                kDebug() << "moving " << ( *it )->name() << endl;
                 legs[m_leg]->add( *it );
                 // ( *it )->setSpread( QSize( 0, 0 ) );
                 ( *it )->moveTo( legs[m_leg]->x(), legs[m_leg]->y(), legs[m_leg]->zValue() + z, 300 + int( z ) * 30 );
@@ -416,7 +414,7 @@ Card *Spider::demoNewCards()
 
 void Spider::deckClicked(Card*)
 {
-    kDebug(11111) << "deck clicked " << m_redeal << endl;
+    //kDebug(11111) << "deck clicked " << m_redeal << endl;
     if (m_redeal > 4)
         return;
 
@@ -427,7 +425,7 @@ void Spider::deckClicked(Card*)
 
 bool Spider::isGameLost() const
 {
-    kDebug(11111) << "isGameLost ?"<< endl;
+    //kDebug(11111) << "isGameLost ?"<< endl;
 
     // if there are still cards to deal out, you have not lost
     if (m_redeal < 5)
@@ -479,8 +477,6 @@ bool Spider::isGameLost() const
            return false;
     }
 
-    kDebug() << "I think the game is lost! " << solver()->patsolve() << endl;
-    return false;
     return true;
 }
 

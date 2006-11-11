@@ -1093,8 +1093,11 @@ void DealerScene::slotSolverEnded()
     kDebug() << "slotSolverEnded\n";
     m_solver->translate_layout();
     m_solver_thread->disconnect();
-#warning if I use auto connections the slot is never called
+#if Q_OS_WIN
     connect( m_solver_thread, SIGNAL( finished() ), this, SLOT( slotSolverFinished() ), Qt::DirectConnection );
+#else
+    connect( m_solver_thread, SIGNAL( finished() ), this, SLOT( slotSolverFinished() ));
+#endif
     m_solver_thread->start(QThread::IdlePriority);
 }
 
