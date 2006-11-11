@@ -398,7 +398,8 @@ DealerScene::~DealerScene()
         delete piles.first(); // removes itself
     }
     disconnect();
-    m_solver_thread->finish();
+    if ( m_solver_thread )
+        m_solver_thread->finish();
     delete m_solver_thread;
     m_solver_thread = 0;
     delete m_solver;

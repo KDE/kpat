@@ -436,7 +436,7 @@ void FreecellSolver::translate_layout()
             for (int i = 0; i < 4; i++) {
                 Card *c = deal->target[i]->top();
                 if (c) {
-                    O[translateSuit( c->suit() )] = c->rank();
+                    O[translateSuit( c->suit() ) >> 4] = c->rank();
                     total += c->rank();
                 }
             }
