@@ -195,6 +195,7 @@ signals:
 
 private slots:
     void waitForAutoDrop(Card *);
+    void stopAndRestartSolver();
 
 protected:
     PileList piles;

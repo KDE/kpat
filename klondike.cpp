@@ -43,6 +43,8 @@ void KlondikePile::relayoutCards()
     qreal z = zValue() + 1;
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
+        if ( ( *it )->animated() )
+            continue;
         //kDebug() << "car " << car << " " << p << endl;
         ( *it )->setPos( p );
         ( *it )->setZValue( z );

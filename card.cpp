@@ -208,6 +208,7 @@ void Card::setZValue(double z)
 //
 void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
 {
+    //kDebug() << "Card::moveTo " << x2 << " " << y2 << " " << duration << " " << kBacktrace() << endl;
     if ( fabs( x2 - x() ) < 2 && fabs( y2 - y() ) < 1 )
     {
         setPos( QPointF( x2, y2 ) );
@@ -223,11 +224,12 @@ void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
     animation = new QGraphicsItemAnimation(this);
     animation->setItem(this);
     animation->setTimeLine(timeLine);
+    animation->setPosAt(0, pos() );
     animation->setPosAt(1, QPointF( x2, y2 ));
 
     timeLine->setUpdateInterval(1000 / 25);
     timeLine->setFrameRange(0, 100);
-    timeLine->setCurveShape(QTimeLine::EaseInCurve);
+    timeLine->setCurveShape(QTimeLine::LinearCurve);
     timeLine->setLoopCount(1);
     timeLine->setDuration( duration );
     timeLine->start();
@@ -284,7 +286,7 @@ void Card::flipTo(qreal x2, qreal y2, int duration)
     // Set the target of the animation
     m_destX = x2;
     m_destY = y2;
-    m_destZ = int(zValue());
+    m_destZ = zValue();
 
     // Let the card be above all others during the animation.
     setZValue(Hz++);

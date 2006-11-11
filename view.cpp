@@ -183,7 +183,6 @@ void PatienceView::setupActions()
 
 void PatienceView::toggleDemo( bool flag )
 {
-    kDebug() << "toggleDemo " << flag << endl;
     if ( !flag )
         ademo->setIcon( KIcon( "player_play") );
     else

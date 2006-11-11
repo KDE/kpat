@@ -72,8 +72,6 @@ class CardState {
 public:
     Card *it;
     Pile *source;
-    qreal x;
-    qreal y;
     qreal z;
     bool faceup;
     bool tookdown;
@@ -87,9 +85,9 @@ public:
     bool operator>(const CardState &rhs) const { return it > rhs.it; }
     bool operator>=(const CardState &rhs) const { return it > rhs.it; }
     bool operator==(const CardState &rhs) const {
-        return (it == rhs.it && source == rhs.source && x == rhs.x &&
-                y == rhs.y && z == rhs.z && faceup == rhs.faceup
-                && source_index == rhs.source_index && tookdown == rhs.tookdown);
+        return (it == rhs.it && source == rhs.source &&
+                z == rhs.z && faceup == rhs.faceup &&
+                source_index == rhs.source_index && tookdown == rhs.tookdown);
     }
     void fillNode(QDomElement &e) const {
         e.setAttribute("value", it->rank());
@@ -130,6 +128,7 @@ void SolverThread::run()
 {
     ret = Solver::FAIL;
     ret = m_solver->patsolve();
+#if 0
     if ( ret == Solver::WIN )
     {
         kDebug() << "won\n";
@@ -141,6 +140,7 @@ void SolverThread::run()
         kDebug() << "quit\n";
     } else
         kDebug() << "unknown\n";
+#endif
 }
 
 void DealerScene::takeState()
@@ -916,8 +916,6 @@ State *DealerScene::getState()
                assert(false);
            }
            s.source_index = c->source()->indexOf(c);
-           s.x = c->realX();
-           s.y = c->realY();
            s.z = c->realZ();
            s.faceup = c->realFace();
            s.tookdown = c->takenDown();
@@ -957,12 +955,13 @@ void DealerScene::setState(State *st)
         CardState s = *it;
         // kDebug() << "c " << c->name() << " " << s.source->objectName() << " " << s.faceup << endl;
         bool target = c->takenDown(); // abused
+        if ( c->realFace() != s.faceup )
+            s.source->tryRelayoutCards();
+        c->turn(s.faceup);
         s.source->add(c, s.source_index);
         c->setVisible(s.source->isVisible());
-        c->setPos(QPointF( s.x, s.y) );
         c->setZValue(int(s.z));
         c->setTakenDown(s.tookdown || (target && !s.source->target()));
-        c->turn(s.faceup);
     }
 
     // restore game-specific information
@@ -1022,7 +1021,7 @@ bool DealerScene::startAutoDrop()
             Card *c = static_cast<Card*>(*it);
             if (c->animated()) {
                 QTimer::singleShot(qRound( TIME_BETWEEN_MOVES * m_autoDropFactor ), this, SLOT(startAutoDrop()));
-                // kDebug() << "animation still going on\n";
+                kDebug() << "animation still going on\n";
                 return true;
             }
         }
@@ -1076,34 +1075,50 @@ bool DealerScene::startAutoDrop()
     m_autoDropFactor = 1;
 
     if ( m_solver )
-    {
-        if ( m_solver_thread->isRunning() )
-        {
-            m_solver_thread->disconnect();
-            m_solver_thread->finish();
-        }
-        slotSolverEnded();
-    }
+        stopAndRestartSolver();
 
     return false;
 }
 
+void DealerScene::stopAndRestartSolver()
+{
+    if ( m_solver_thread->isRunning() )
+    {
+        m_solver_thread->disconnect();
+        m_solver_thread->finish();
+    }
+
+    QList<QGraphicsItem *> list = items();
+    for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
+    {
+        if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
+            Card *c = static_cast<Card*>(*it);
+            if (c->animated()) {
+                QTimer::singleShot(50, this, SLOT(stopAndRestartSolver()));
+                kDebug() << "animation still going on\n";
+                return;
+            }
+        }
+    }
+    slotSolverEnded();
+}
+
 void DealerScene::slotSolverEnded()
 {
-    kDebug() << "slotSolverEnded\n";
     m_solver->translate_layout();
     m_solver_thread->disconnect();
-#if Q_OS_WIN
+#ifdef Q_OS_WIN
     connect( m_solver_thread, SIGNAL( finished() ), this, SLOT( slotSolverFinished() ), Qt::DirectConnection );
 #else
     connect( m_solver_thread, SIGNAL( finished() ), this, SLOT( slotSolverFinished() ));
 #endif
+    kDebug() << "start thread\n";
     m_solver_thread->start(QThread::IdlePriority);
 }
 
 void DealerScene::slotSolverFinished()
 {
-    kDebug() << "slotSolverFinished\n";
+    kDebug() << "stop thread\n";
     switch ( m_solver_thread->result() )
     {
     case Solver::WIN:
@@ -1116,7 +1131,7 @@ void DealerScene::slotSolverFinished()
         emit gameSolverUnknown();
         break;
     case Solver::QUIT:
-        QTimer::singleShot( 0, this, SLOT( slotSolverEnded() ) ); // restart
+        stopAndRestartSolver();
         break;
     }
 }
@@ -1281,7 +1296,7 @@ void DealerScene::won()
             p.moveTopLeft(QPointF(x, y));
         } while (can.intersects(p));
 
-	card.ptr->moveTo( x, y, 0, DURATION_WON);
+	card.ptr->moveTo( x, y, 0, 1200);
         connect(card.ptr, SIGNAL(stoped(Card*)), SLOT(waitForWonAnim(Card*)));
         setWaiting(true);
     }
