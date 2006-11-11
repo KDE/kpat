@@ -593,7 +593,7 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 
     QList<QGraphicsItem *> list = items( e->scenePos() );
 
-    kDebug(11111) << "mouse pressed " << list.count() << " " << items().count() << " " << e->scenePos().x() << " " << e->scenePos().y() << endl;
+    kDebug(11111) << gettime() << " mouse pressed " << list.count() << " " << items().count() << " " << e->scenePos().x() << " " << e->scenePos().y() << endl;
     moved = false;
 
     if (!list.count())
@@ -933,6 +933,7 @@ State *DealerScene::getState()
 
 void DealerScene::setState(State *st)
 {
+    kDebug() << gettime() << " setState\n";
     CardStateList * n = &st->cards;
     QList<QGraphicsItem *> list = items();
 
@@ -952,17 +953,26 @@ void DealerScene::setState(State *st)
     for (CardStateList::ConstIterator it = n->begin(); it != n->end(); ++it)
     {
         Card *c = (*it).it;
-        c->stopAnimation();
+        //c->stopAnimation();
         CardState s = *it;
         // kDebug() << "c " << c->name() << " " << s.source->objectName() << " " << s.faceup << endl;
         bool target = c->takenDown(); // abused
-        if ( c->realFace() != s.faceup )
-            s.source->tryRelayoutCards();
         c->turn(s.faceup);
         s.source->add(c, s.source_index);
         c->setVisible(s.source->isVisible());
-        c->setZValue(int(s.z));
+        c->setZValue(s.z);
         c->setTakenDown(s.tookdown || (target && !s.source->target()));
+    }
+
+    for (PileList::ConstIterator it = piles.begin(); it != piles.end(); ++it)
+    {
+        ( *it )->relayoutCards();
+    }
+
+    for (CardStateList::ConstIterator it = n->begin(); it != n->end(); ++it)
+    {
+        Card *c = (*it).it;
+        c->stopAnimation();
     }
 
     // restore game-specific information
@@ -1101,7 +1111,7 @@ void DealerScene::stopAndRestartSolver()
             }
         }
     }
-    slotSolverEnded();
+    QTimer::singleShot( 150, this, SLOT( slotSolverEnded() ) );
 }
 
 void DealerScene::slotSolverEnded()
@@ -1510,8 +1520,8 @@ void DealerScene::setSceneSize( const QSize &s )
     Q_ASSERT( cardMap::self()->wantedCardWidth() > 0 );
     Q_ASSERT( cardMap::self()->wantedCardHeight() > 0 );
 
-    qreal scaleX = s.width() / cardMap::self()->wantedCardWidth() / ( defaultSceneRect.x() + 1 );
-    qreal scaleY = s.height() / cardMap::self()->wantedCardHeight() / ( defaultSceneRect.y() + 1 );
+    qreal scaleX = s.width() / cardMap::self()->wantedCardWidth() / ( defaultSceneRect.x() + 2 );
+    qreal scaleY = s.height() / cardMap::self()->wantedCardHeight() / ( defaultSceneRect.y() + 2 );
     kDebug() << "scaleY " << scaleY << " " << scaleX << endl;
     qreal n_scaleFactor = qMin(scaleX, scaleY);
 
@@ -1616,6 +1626,7 @@ void DealerScene::setSceneSize( const QSize &s )
                         }
                 }
 
+                kDebug() << pms << " " << cardMap::self()->wantedCardWidth() << " " << cardMap::self()->wantedCardHeight() << endl;
                 Q_ASSERT( pms.width() >= cardMap::self()->wantedCardWidth() - 0.1 );
                 Q_ASSERT( pms.height() >= cardMap::self()->wantedCardHeight() - 0.1 );
                 ( *it2 )->setMaximalSpace( pms );

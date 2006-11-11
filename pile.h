@@ -148,6 +148,7 @@ public slots:
 
 signals:
     void clicked(Card *c);
+    void pressed(Card *c);
     void dblClicked(Card *c);
 
 protected:

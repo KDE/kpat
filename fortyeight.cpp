@@ -35,6 +35,7 @@ Fortyeight::Fortyeight( )
 
     const qreal dist_x = 11.1;
 
+    connect(Deck::deck(), SIGNAL(pressed(Card*)), SLOT(deckPressed(Card*)));
     connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
     Deck::deck()->setPilePos( -2, -1);
     Deck::deck()->setZValue(20);
@@ -74,8 +75,15 @@ void Fortyeight::restart()
     deal();
 }
 
-void Fortyeight::deckClicked(Card *)
+void Fortyeight::deckClicked( Card *c )
 {
+    if ( !c )
+        deckPressed( 0 );
+}
+
+void Fortyeight::deckPressed(Card *)
+{
+    kDebug() << gettime() << " deckClicked" << endl;
     if (Deck::deck()->isEmpty()) {
         if (lastdeal)
             return;
@@ -99,7 +107,7 @@ Card *Fortyeight::demoNewCards()
 {
     if (Deck::deck()->isEmpty() && lastdeal)
         return 0;
-    deckClicked(0);
+    deckPressed(0);
     return pile->top();
 }
 
@@ -142,7 +150,7 @@ void Fortyeight::setGameState( const QString &s )
 
 bool Fortyeight::isGameLost() const
 {
-    kDebug(11111) << "isGameLost ?" << endl;
+    kDebug(11111) << gettime() << " isGameLost ?" << endl;
     if(!lastdeal)
 	return false;
     if(!Deck::deck()->isEmpty())

@@ -90,7 +90,7 @@ public:
     virtual int  type() const       { return UserType + my_type; }
 
     void         moveTo( qreal x2, qreal y2, qreal z, int duration);
-    void         flipTo( qreal x, qreal y, int duration = 300);
+    void         flipTo( qreal x, qreal y, int duration = 180);
     void         setZValue(double z);
     void         getUp();
 
@@ -176,5 +176,17 @@ private:
     void moveBy( qreal, qreal );
 };
 
+#include <sys/time.h>
+
+extern time_t start_time;
+
+static inline QString gettime()
+{
+    struct timeval tv;
+    gettimeofday( &tv, 0 );
+    if ( start_time == -1 )
+        start_time = tv.tv_sec;
+    return QString::number( ( tv.tv_sec - start_time ) * 1000 + ( tv.tv_usec / 1000 ) );
+}
 
 #endif

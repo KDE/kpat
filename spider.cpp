@@ -83,7 +83,7 @@ Spider::Spider(int suits)
         stack[column]->setRemoveFlags(Pile::several |
                                       Pile::autoTurnTop | Pile::wholeColumn);
         stack[column]->setObjectName( QString( "stack%1" ).arg( column ) );
-        stack[column]->setReservedSpace( QSizeF( 10, 20 ) );
+        stack[column]->setReservedSpace( QSizeF( 10, 35 ) );
     }
 
     // The 8 'legs' so named by me because spiders have 8 legs - why

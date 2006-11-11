@@ -36,6 +36,7 @@ public:
 public slots:
     void deal();
     virtual void restart();
+    void deckPressed(Card *c);
     void deckClicked(Card *c);
 
 protected:
