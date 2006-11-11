@@ -62,7 +62,6 @@ public slots:
     void toggleDemo(bool);
 
 signals:
-    void undoPossible(bool poss);
     void saveGame(); // emergency
 
 public slots:

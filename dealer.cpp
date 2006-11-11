@@ -674,6 +674,7 @@ void DealerScene::startNew()
 void DealerScene::slotShowGame(bool gothelp)
 {
     kDebug() << "slotShowGame " << waiting() << endl;
+    emit undoPossible( false );
 
     int wx = qRound( width() * 0.7 );
     int wy = qRound( height() * 0.6 );
@@ -1080,10 +1081,8 @@ bool DealerScene::startAutoDrop()
         {
             m_solver_thread->disconnect();
             m_solver_thread->finish();
-            connect( m_solver_thread, SIGNAL( finished() ), SLOT( slotSolverEnded() ) );
-        } else { // start directly
-            slotSolverEnded();
         }
+        slotSolverEnded();
     }
 
     return false;
@@ -1094,13 +1093,29 @@ void DealerScene::slotSolverEnded()
     kDebug() << "slotSolverEnded\n";
     m_solver->translate_layout();
     m_solver_thread->disconnect();
-    connect( m_solver_thread, SIGNAL( finished() ), this, SLOT( slotSolverFinished() ) );
+#warning if I use auto connections the slot is never called
+    connect( m_solver_thread, SIGNAL( finished() ), this, SLOT( slotSolverFinished() ), Qt::DirectConnection );
     m_solver_thread->start(QThread::IdlePriority);
 }
 
 void DealerScene::slotSolverFinished()
 {
-    kDebug() << "slotSolverFinished\n"; // << m_solver_thread->result() << endl;
+    kDebug() << "slotSolverFinished\n";
+    switch ( m_solver_thread->result() )
+    {
+    case Solver::WIN:
+        emit gameSolverWon();
+        break;
+    case Solver::NOSOL:
+        emit gameSolverLost();
+        break;
+    case Solver::FAIL:
+        emit gameSolverUnknown();
+        break;
+    case Solver::QUIT:
+        QTimer::singleShot( 0, this, SLOT( slotSolverEnded() ) ); // restart
+        break;
+    }
 }
 
 void DealerScene::waitForAutoDrop(Card * c) {

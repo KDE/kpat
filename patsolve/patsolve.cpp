@@ -449,7 +449,6 @@ void Solver::win(POSITION *pos)
     nmoves = i;
 
     //printf("Winning in %d moves.\n", nmoves);
-    return;
 
 	mpp0 = new_array(MOVE *, nmoves);
 	if (mpp0 == NULL) {
@@ -464,7 +463,7 @@ void Solver::win(POSITION *pos)
         mp = *mpp0;
 
 	/* Now print them out in the correct order. */
-        int count = -1;
+        int count = 2;
 
 	for (i = 0, mpp = mpp0; i < nmoves; i++, mpp++) {
 	    if (count-- == 0)

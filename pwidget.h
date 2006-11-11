@@ -64,6 +64,10 @@ public slots:
     void enableAutoDrop();
     void showStats();
 
+    void slotGameSolverWon();
+    void slotGameSolverLost();
+    void slotGameSolverUnknown();
+
 private:
     void setGameCaption();
     virtual void showEvent(QShowEvent *e);

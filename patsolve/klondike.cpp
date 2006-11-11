@@ -48,7 +48,6 @@ void KlondikeSolver::make_move(MOVE *m)
 	/* Remove from pile. */
         if ( from == 7 && to == 8 )
         {
-            deck_flip_counter++;
             while ( Wlen[7] )
             {
                 card = W[7][Wlen[7]-1] + ( 1 << 7 );
@@ -281,9 +280,6 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
     *a = false;
     *numout = n;
 
-    if ( deck_flip_counter > 3000 )
-        return n;
-
     /* check for deck->pile */
     if ( Wlen[8] ) {
          mp->card_index = 0;
@@ -407,7 +403,6 @@ card).  Temp cells and Out on the last two lines, if any. */
 void KlondikeSolver::translate_layout()
 {
     /* Read the workspace. */
-    deck_flip_counter = 0;
 
     int total = 0;
     for ( int w = 0; w < 7; ++w ) {

@@ -119,6 +119,7 @@ pWidget::pWidget()
     list.clear();
 
     dill = new PatienceView( this );
+    connect(dill, SIGNAL(saveGame()), SLOT(saveGame()));
     setCentralWidget(dill);
 
     m_cards = new cardMap();
@@ -260,11 +261,6 @@ void pWidget::newGameType()
             name = name.replace(QRegExp("[&']"), "");
             name = name.replace(QRegExp("[ ]"), "_").toLower();
             dill->setAnchorName("game_" + name);
-            connect(dill, SIGNAL(saveGame()), SLOT(saveGame()));
-            connect(dill->dscene(), SIGNAL(gameInfo(const QString&)),
-                    SLOT(slotGameInfo(const QString &)));
-            connect(dill->dscene(), SIGNAL(updateMoves()),
-                    SLOT(slotUpdateMoves()));
             dill->dscene()->setGameId(id);
             break;
         }
@@ -275,9 +271,16 @@ void pWidget::newGameType()
         dill->setScene( DealerInfoList::self()->games().first()->createGame() );
     }
 
+
     kDebug() << "dill " << dill << " " << dill->dscene() << endl;
-    connect(dill, SIGNAL(undoPossible(bool)), SLOT(undoPossible(bool)));
+    connect(dill->dscene(), SIGNAL(undoPossible(bool)), SLOT(undoPossible(bool)));
     connect(dill->dscene(), SIGNAL(gameLost()), SLOT(gameLost()));
+    connect(dill->dscene(), SIGNAL(gameInfo(const QString&)),
+            SLOT(slotGameInfo(const QString &)));
+    connect(dill->dscene(), SIGNAL(updateMoves()), SLOT(slotUpdateMoves()));
+    connect(dill->dscene(), SIGNAL(gameSolverWon()), SLOT(slotGameSolverWon()));
+    connect(dill->dscene(), SIGNAL(gameSolverLost()), SLOT(slotGameSolverLost()));
+    connect(dill->dscene(), SIGNAL(gameSolverUnknown()), SLOT(slotGameSolverUnknown()));
 
     dill->setAutoDropEnabled(dropaction->isChecked());
 
@@ -411,6 +414,21 @@ void pWidget::showStats()
     if (dill)
         dlg.showGameType(dill->dscene()->gameId());
     dlg.exec();
+}
+
+void pWidget::slotGameSolverWon()
+{
+    statusBar()->showMessage(i18n( "I just won the game! Good luck to you." ), 0);
+}
+
+void pWidget::slotGameSolverLost()
+{
+    statusBar()->showMessage(i18n( "Nope, this game can't be won anymore." ), 0);
+}
+
+void pWidget::slotGameSolverUnknown()
+{
+    statusBar()->clearMessage();
 }
 
 #include "pwidget.moc"

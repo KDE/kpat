@@ -24,5 +24,4 @@ public:
     card_t Osuit[4];
 
     const Klondike *deal;
-    unsigned int deck_flip_counter;
 };

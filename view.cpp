@@ -123,7 +123,6 @@ void PatienceView::setScene( QGraphicsScene *_scene )
     scaleFactor = 1;
     dscene()->setItemIndexMethod(QGraphicsScene::NoIndex);
     // connect( _scene, SIGNAL( gameWon( bool ) ), SIGNAL( gameWon( bool ) ) );
-    connect( dscene(), SIGNAL( undoPossible( bool ) ), SIGNAL( undoPossible( bool ) ) );
 
     if ( oldscene )
         dscene()->relayoutPiles();

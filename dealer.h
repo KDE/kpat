@@ -189,6 +189,10 @@ signals:
     void updateMoves();
     void gameLost();
 
+    void gameSolverWon();
+    void gameSolverLost();
+    void gameSolverUnknown();
+
 private slots:
     void waitForAutoDrop(Card *);
 
