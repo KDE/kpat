@@ -10,5 +10,5 @@ DocPath=kpat/index.html
 GenericName=Patience Card Game
 GenericName[fr]=Jeux de réussite
 GenericName[x-test]=xxPatience Card Gamexx
-X-DCOP-ServiceType=Multi
+X-DBUS-StartupType=Multi
 Categories=Qt;KDE;Game;CardGame;
