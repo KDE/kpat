@@ -327,7 +327,7 @@ void Card::stopAnimation()
     if ( !animation )
         return;
 
-    kDebug() << gettime() << " stopAnimation " << name() << endl;
+    //kDebug() << gettime() << " stopAnimation " << name() << endl;
     if ( !sender() || !sender()->isA( "QTimeLine" ) )
         if ( name() == "diamond 01" )
             kDebug() << "stopAnimation " << name() << " " << m_destX << " " << m_destY << " " << animation->timeLine()->duration() << " " << kBacktrace() << endl;

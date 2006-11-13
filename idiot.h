@@ -28,19 +28,18 @@
 
 class Idiot: public DealerScene
 {
+    friend class IdiotSolver;
+
     Q_OBJECT
 
 public:
 
     Idiot( );
-
-    virtual bool  isGameLost() const;
     virtual bool  isGameWon() const;
 
 protected:
     virtual bool  cardClicked(Card *);
     virtual bool  cardDblClicked(Card *);
-    virtual void  getHints();
     virtual Card *demoNewCards();
     virtual bool  startAutoDrop()  { return false; }
 

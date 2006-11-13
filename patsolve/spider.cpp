@@ -520,3 +520,22 @@ bool SpiderSolver::print_layout()
         exit( 1 );
     return broke;
 }
+
+MoveHint *SpiderSolver::translateMove( const MOVE &m )
+{
+    if ( m.from >= 10 )
+        return 0;
+
+    if ( m.totype == O_Type )
+    {
+        return 0; // for now
+    }
+
+    Q_ASSERT( m.from < 10 && m.to < 10 );
+
+    Pile *frompile = deal->stack[m.from];
+    Card *card = frompile->at( frompile->cardsLeft() - m.card_index - 1);
+
+    Q_ASSERT( m.to < 10 );
+    return new MoveHint( card, deal->stack[m.to], m.pri );
+}

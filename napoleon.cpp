@@ -151,12 +151,12 @@ void Napoleon::getHints() {
         CardList empty;
         empty.append(*it);
         if (CanPutCentre(centre, empty)) {
-            newHint(new MoveHint(*it, centre));
+            newHint(new MoveHint(*it, centre, 0));
             continue;
         }
         for (int i = 0; i < 4; i++) {
             if (CanPutTarget(target[i], empty)) {
-                newHint(new MoveHint(*it, target[i]));
+                newHint(new MoveHint(*it, target[i], 10));
                 break;
             }
         }
@@ -166,7 +166,7 @@ void Napoleon::getHints() {
 
     for (int i = 0; i < 4; i++) {
         if (store[i]->isEmpty()) {
-            newHint(new MoveHint(pile->top(), store[i]));
+            newHint(new MoveHint(pile->top(), store[i], 0));
             return;
         }
     }

@@ -297,7 +297,7 @@ void Pile::clear()
 
 void Pile::relayoutCards()
 {
-    kDebug() << gettime() <<  " relayoutCards" << endl;
+    //kDebug() << gettime() <<  " relayoutCards" << endl;
     m_relayoutTimer->stop();
 
     QPointF mypos = pos();
@@ -469,15 +469,13 @@ CardList Pile::cardPressed(Card *c)
 {
     CardList result;
 
-    kDebug() << gettime() << " cardPressed " << c->name() << " " << c->isFaceUp() << endl;
+    //kDebug() << gettime() << " cardPressed " << c->name() << " " << c->isFaceUp() << endl;
     emit pressed( c );
 
     if ( !legalRemove(c) )
         return result;
 
     int below = -1;
-
-    kDebug() << gettime() << " cardPressed " << c->name() << " " << c->isFaceUp() << endl;
 
     if (!c->isFaceUp())
         return result;

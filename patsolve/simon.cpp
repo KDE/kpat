@@ -159,7 +159,7 @@ int SimonSolver::get_possible_moves(int *a, int *numout)
             if ( !stroke )
                 continue;
 
-            mp->card_index = 0;
+            mp->card_index = 12;
             mp->from = w;
             int o = 0;
             while ( O[o] != -1)
@@ -410,4 +410,25 @@ bool SimonSolver::print_layout()
     if ( broke )
         exit( 1 );
     return broke;
+}
+
+MoveHint *SimonSolver::translateMove( const MOVE &m )
+{
+
+
+    Q_ASSERT( m.from < 10 && m.to < 10 );
+
+    Pile *frompile = deal->store[m.from];
+    Card *card = frompile->at( frompile->cardsLeft() - m.card_index - 1);
+
+    kDebug() << "card " << card->name() << endl;
+    if ( m.totype == O_Type )
+    {
+        for ( int i = 0; i < 4; i++ )
+            if ( deal->target[i]->isEmpty() )
+                return new MoveHint( card, deal->target[i], 127 );
+    }
+
+    Q_ASSERT( m.to < 10 );
+    return new MoveHint( card, deal->store[m.to], m.pri );
 }

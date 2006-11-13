@@ -27,7 +27,6 @@ public:
 public slots:
     void deal();
     virtual void restart();
-    virtual bool isGameLost() const;
 
 protected:
     virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;

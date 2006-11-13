@@ -49,13 +49,8 @@ public:
 
     virtual bool cardClicked(Card *);
     virtual void pileClicked(Pile *c);
-    virtual void getHints();
 
     virtual Card *demoNewCards();
-
-    bool tryToDrop(Card *t);
-
-    virtual bool isGameLost() const;
 
 private:
     bool EasyRules;

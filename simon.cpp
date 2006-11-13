@@ -50,6 +50,7 @@ Simon::Simon( )
 
     setActions(DealerScene::Hint | DealerScene::Demo);
     setSolver( new SimonSolver( this ) );
+    setNeededFutureMoves( 6 ); // could be some nonsense moves
 }
 
 void Simon::restart() {
@@ -128,45 +129,6 @@ bool Simon::checkRemove(int checkIndex, const Pile *p, const Card *c) const
         before = c;
     }
 
-    return true;
-}
-
-bool Simon::isGameLost() const
-{
-    //kDebug(11111) <<"isGameLost" << endl;
-    for (int i=0; i<10; i++) {
-        if(store[i]->isEmpty())
-            return false;
-        //kDebug(11111) <<"store["<<i<<"]" << endl;
-
-        Card *c;
-        Card *top=store[i]->top();
-        int indexi=store[i]->indexOf(top);
-        while(--indexi >=0){
-            //kDebug(11111) <<top->name() << endl;
-            c=store[i]->at(indexi);
-            if(c->suit() == top->suit() &&
-               (top->rank()+1) == c->rank())
-                top=c;
-            else
-                break;
-			}
-
-        //kDebug(11111) <<"selected: " << top->name() << endl;
-        for(int j=1; j <10; j++){
-            int k=(i+j) % 10;
-
-            if(store[k]->isEmpty())
-                return false;
-
-            //kDebug(11111) <<"vs "<<store[k]->top()->name() << endl;
-            if((top->rank() +1) == store[k]->top()->rank())
-                return false;
-        }
-    }
-
-    kDebug() << "would claim it's  lost\n";
-    return false;
     return true;
 }
 

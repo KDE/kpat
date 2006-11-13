@@ -85,6 +85,7 @@ bool Solver::recursive(POSITION *parent)
     /* Fill in the Possible array. */
 
     alln = get_possible_moves(&a, &numout);
+
     if (alln == 0) {
         if ( isWon() ) {
             Status = WIN;
@@ -310,6 +311,9 @@ void Solver::pilesort(void)
 #define NBUCKETS 16381           /* the largest 14 bit prime */
 #define NPILES  16384            /* a 14 bit code */
 
+//#define NBUCKETS 65521          /* the largest 16 bit prime */
+//#define NPILES   65536           /* a 16 bit code */
+
 typedef struct bucketlist {
 	quint8 *pile;           /* 0 terminated copy of the pile */
 	quint32 hash;         /* the pile's hash code */
@@ -363,6 +367,11 @@ TREE *Solver::pack_position(void)
         quint16 *p2 = ( quint16* ) p;
 	for (w = 0; w < m_number_piles; w++) {
 		j = Wpilenum[w];
+                if ( j < 0 )
+                {
+                    mm->give_back_block( p );
+                    return NULL;
+                }
                 *p2++ = j;
 	}
 
@@ -437,7 +446,7 @@ void Solver::win(POSITION *pos)
 {
     int i, nmoves;
     POSITION *p;
-    MOVE *mp, **mpp, **mpp0;
+    MOVE **mpp, **mpp0;
 
     /* Go back up the chain of parents and store the moves
        in reverse order. */
@@ -450,33 +459,20 @@ void Solver::win(POSITION *pos)
 
     //printf("Winning in %d moves.\n", nmoves);
 
-	mpp0 = new_array(MOVE *, nmoves);
-	if (mpp0 == NULL) {
-                Status = FAIL;
-		return; /* how sad, so close... */
-	}
-	mpp = mpp0 + nmoves - 1;
-	for (p = pos; p->parent; p = p->parent) {
-		*mpp-- = &p->move;
-	}
+    mpp0 = new_array(MOVE *, nmoves);
+    if (mpp0 == NULL) {
+        Status = FAIL;
+        return; /* how sad, so close... */
+    }
+    mpp = mpp0 + nmoves - 1;
+    for (p = pos; p->parent; p = p->parent) {
+        *mpp-- = &p->move;
+    }
 
-        mp = *mpp0;
+    for (i = 0, mpp = mpp0; i < nmoves; i++, mpp++)
+        winMoves.append( **mpp );
 
-	/* Now print them out in the correct order. */
-        int count = 2;
-
-	for (i = 0, mpp = mpp0; i < nmoves; i++, mpp++) {
-	    if (count-- == 0)
-		break;
-
-		mp = *mpp;
-                if (mp->totype == O_Type) {
-			fprintf(stderr, "%d@%d out\n", mp->card_index, mp->from);
-		} else {
-			fprintf(stderr, "%d@%d to %d\n", mp->card_index, mp->from, mp->to);
-		}
-	}
-        MemoryManager::free_array(mpp0, nmoves);
+    MemoryManager::free_array(mpp0, nmoves);
 }
 
 /* Initialize the hash buckets. */
@@ -546,9 +542,8 @@ int Solver::get_pilenum(int w)
 	/* If we didn't find it, make a new one and add it to the list. */
 
 	if (l == NULL) {
-		if (Pilenum == NPILES) {
-		        fprintf(stderr, "Ran out of pile numbers!");
-                        exit( 1 );
+		if (Pilenum >= NPILES ) {
+                        Status = FAIL;
 			return -1;
 		}
 		l = allocate(BUCKETLIST);
@@ -579,7 +574,7 @@ int Solver::get_pilenum(int w)
 	}
 
 #if 0
-if (w == 0) {
+if (w < 4) {
         fprintf( stderr, "get_pile_num %d ", l->pilenum );
         for (int i = 0; i < Wlen[w]; i++) {
             printcard(W[w][i], stderr);
@@ -634,10 +629,11 @@ void Solver::doit()
 	m.card_index = -1;
         m.turn_index = -1;
 	pos = new_position(NULL, &m);
-	if (pos == NULL) {
-                Status = FAIL;
-		return;
-	}
+	if ( pos == NULL )
+        {
+            Status = FAIL;
+            return;
+        }
 	queue_position(pos, 0);
 
 	/* Solve it. */
@@ -669,18 +665,18 @@ bool Solver::solve(POSITION *parent)
 		return false;
 	}
 
-        if ( m_shouldEnd ) {
+        if ( m_shouldEnd )
+        {
             Status = QUIT;
             return false;
         }
 
-	/* If the position was found again in the tree by a shorter
-	path, prune this path. */
+        if ( max_positions != -1 && Total_positions > ( unsigned long )max_positions )
+        {
+            Status = MLIMIT;
+            return false;
+        }
 
-	if (parent->node->depth < parent->depth) {
-            Q_ASSERT( false ); // we don't do that
-		return false;
-	}
 
 	/* Generate an array of all the moves we can make. */
 
@@ -691,6 +687,14 @@ bool Solver::solve(POSITION *parent)
             }
             return false;
 	}
+
+        if ( parent->depth == 0 )
+        {
+            Q_ASSERT( firstMoves.count() == 0 );
+            for (int j = 0; j < nmoves; j++)
+                firstMoves.append( Possible[j] );
+        }
+
 	parent->nchild = nmoves;
 
 	/* Make each move and either solve or queue the result. */
@@ -733,7 +737,6 @@ bool Solver::solve(POSITION *parent)
         MemoryManager::free_array(mp0, nmoves);
 
 	/* Return true if this position needs to be kept around. */
-
 	return q;
 }
 
@@ -884,6 +887,9 @@ void Solver::init()
     init_buckets();
     mm->init_clusters();
 
+    winMoves.clear();
+    firstMoves.clear();
+
     /* Reset stats. */
 
     Status = NOSOL;
@@ -902,13 +908,21 @@ void Solver::free()
 }
 
 
-Solver::statuscode Solver::patsolve()
+Solver::statuscode Solver::patsolve( int _max_positions )
 {
+    max_positions = _max_positions;
+
     /* Initialize the suitable() macro variables. */
     init();
 
     /* Go to it. */
     doit();
+
+    if ( Status == QUIT ) // thread quit
+    {
+        firstMoves.clear();
+        winMoves.clear();
+    }
 #if 0
     printf("%ld positions generated (%f).\n", Total_generated, depth_sum / Total_positions);
     printf("%ld unique positions.\n", Total_positions);
@@ -916,40 +930,6 @@ Solver::statuscode Solver::patsolve()
 #endif
     free();
     return Status;
-}
-
-void Solver::showCurrentMoves()
-{
-    translate_layout();
-    init();
-
-    int alln, a, numout = 0;
-
-    /* Fill in the Possible array. */
-
-    alln = get_possible_moves(&a, &numout);
-    print_layout();
-
-    /* No moves?  Maybe we won. */
-
-    if (alln != 0 )
-    {
-	if (!a)
-            prioritize(Possible, alln);
-        fprintf( stderr, "moves %d\n", alln );
-        for (int j = 0; j < alln; j++) {
-            fprintf( stderr,  "  " );
-            if ( Possible[j].totype == O_Type )
-                fprintf( stderr, "move %d from %d out (at %d) Prio:%d\n", Possible[j].card_index + 1,
-                         Possible[j].from, Possible[j].turn_index, Possible[j].pri );
-            else
-                fprintf( stderr, "move %d from %d to %d (%d) Prio: %d\n", Possible[j].card_index + 1,
-                         Possible[j].from, Possible[j].to,
-                         Possible[j].turn_index, Possible[j].pri);
-        }
-    }
-
-    free();
 }
 
 bool Solver::print_layout()
@@ -1059,9 +1039,9 @@ POSITION *Solver::new_position(POSITION *parent, MOVE *m)
         if (i == MemoryManager::NEW) {
                 Total_positions++;
                 depth_sum += depth;
-        } else if (i != MemoryManager::FOUND_BETTER) {
-                return NULL;
-        }
+        } else
+            return NULL;
+
 
 	/* A new or better position.  insert() already stashed it in the
 	tree, we just have to wrap a POSITION struct around it, and link it

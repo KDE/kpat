@@ -18,6 +18,7 @@
 #include "deck.h"
 #include <assert.h>
 #include "cardmaps.h"
+#include "patsolve/yukon.h"
 
 Yukon::Yukon( )
     : DealerScene( )
@@ -44,6 +45,8 @@ Yukon::Yukon( )
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo);
+    setSolver( new YukonSolver( this ) );
+    setNeededFutureMoves( 10 ); // it's a bit hard to judge as there are so many nonsense moves
 }
 
 void Yukon::restart() {
@@ -68,71 +71,6 @@ void Yukon::deal() {
                 store[j]->add(Deck::deck()->nextCard(), round < j && j != 0);
         }
     }
-}
-
-bool Yukon::isGameLost() const {
-   int i,j,k,l,indexi,freeStore=0;
-   Card *c, *cNewTop;
-
- kDebug(11111) <<"isGameLost" << endl;
-
-   for(i=0; i < 7; i++){
-      if( store[i]->isEmpty() ){
-         freeStore++;
-         continue;
-         }
-
-      if(store[i]->top()->rank() == Card::Ace ||
-         ! store[i]->top()->isFaceUp())
-         return false;
-
-      for(indexi=store[i]->indexOf(store[i]->top()); indexi >=0; indexi--){
-
-         c=store[i]->at(indexi);
-         if( !c->isFaceUp() )
-            break;
-
-         if(freeStore > 0 && indexi > 0 && c->rank() == Card::King)
-            return false;
-
-         for(j=0; j < 4;j++){
-            if(!target[j]->isEmpty() &&
-               c->rank()-1 == target[j]->top()->rank() &&
-               c->suit() == target[j]->top()->suit())
-               return false;
-         }
-
-         for(j=1; j < 7; j++){
-            k=(i+j) % 7;
-            if( !store[k]->isEmpty() ) {
-               if(c->rank()+1 == store[k]->top()->rank() &&
-                  (c->isRed() != store[k]->top()->isRed())){
-
-                  if(indexi ==  0)
-                     return false;
-                  else{
-                     cNewTop=store[i]->at(indexi-1);
-                     if(!cNewTop->isFaceUp())
-                        return false;
-                     if(cNewTop->rank() == Card::Ace)
-                        return false;
-                     if(cNewTop->rank() != store[k]->top()->rank() ||
-                        cNewTop->isRed() != store[k]->top()->isRed())
-                        return false;
-
-                     for(l=0; l < 4;l++){
-                        if(!target[l]->isEmpty() &&
-                           cNewTop->rank()-1 == target[l]->top()->rank() &&
-                           cNewTop->suit() == target[l]->top()->suit())
-                           return false;
-                     }
-                  }
-               }
-            }
-         }
-      }
-   }
-   return (freeStore!=7);
 }
 
 static class LocalDealerInfo10 : public DealerInfo

@@ -1,11 +1,12 @@
 #include "patsolve.h"
 
-class Spider;
+class Yukon;
 
-class SpiderSolver : public Solver
+class YukonSolver : public Solver
 {
 public:
-    SpiderSolver(const Spider *dealer);
+    YukonSolver(const Yukon *dealer);
+    int good_automove(int o, int r);
     virtual int get_possible_moves(int *a, int *numout);
     virtual bool isWon();
     virtual void make_move(MOVE *m);
@@ -20,6 +21,8 @@ public:
 
 /* Names of the cards.  The ordering is defined in pat.h. */
 
-    int O[8];
-    const Spider *deal;
+    card_t O[4]; /* output piles store only the rank or NONE */
+    card_t Osuit[4];
+
+    const Yukon *deal;
 };

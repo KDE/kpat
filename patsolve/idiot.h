@@ -1,11 +1,11 @@
 #include "patsolve.h"
 
-class Spider;
+class Idiot;
 
-class SpiderSolver : public Solver
+class IdiotSolver : public Solver
 {
 public:
-    SpiderSolver(const Spider *dealer);
+    IdiotSolver(const Idiot *dealer);
     virtual int get_possible_moves(int *a, int *numout);
     virtual bool isWon();
     virtual void make_move(MOVE *m);
@@ -18,8 +18,7 @@ public:
 
     virtual bool print_layout();
 
-/* Names of the cards.  The ordering is defined in pat.h. */
+    bool canMoveAway( int pile ) const;
 
-    int O[8];
-    const Spider *deal;
+    const Idiot *deal;
 };

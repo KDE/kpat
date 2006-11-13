@@ -90,7 +90,7 @@ void Mod3::getHints()
 
         if ( store->top()->rank() == Card::Ace )
         {
-            newHint(new MoveHint(store->top(), aces));
+            newHint(new MoveHint(store->top(), aces, 127));
             foundone = true;
             continue;
         }
@@ -121,7 +121,7 @@ void Mod3::getHints()
                     if ( top->rank() == Card::Two || top->rank() == Card::Three || top->rank() == Card::Four )
                         continue;
                 }
-                newHint(new MoveHint(top, dest));
+                newHint(new MoveHint(top, dest, 50));
                 foundone = true;
             }
         }
@@ -164,7 +164,7 @@ void Mod3::getHints()
                     continue;
                 if (dest->isEmpty() && !dest->target())
                 {
-                    newHint(new MoveHint(top, dest));
+                    newHint(new MoveHint(top, dest, 0));
                     continue;
                 }
             }

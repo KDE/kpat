@@ -9,8 +9,8 @@
 #include <sys/types.h>
 #include <stdarg.h>
 #include <math.h>
-#include "klondike.h"
-#include "../klondike.h"
+#include "yukon.h"
+#include "../yukon.h"
 #include "../pile.h"
 #include "../deck.h"
 #include "memory.h"
@@ -27,7 +27,7 @@
 #define PRINT 0
 #define PRINT2 0
 
-void KlondikeSolver::make_move(MOVE *m)
+void YukonSolver::make_move(MOVE *m)
 {
 #if PRINT
     if ( m->totype == O_Type )
@@ -44,50 +44,6 @@ void KlondikeSolver::make_move(MOVE *m)
 
 	from = m->from;
 	to = m->to;
-
-	/* Remove from pile. */
-        if ( from == 7 && to == 8 )
-        {
-            while ( Wlen[7] )
-            {
-                card = W[7][Wlen[7]-1] + ( 1 << 7 );
-                Wlen[8]++;
-                W[8][Wlen[8]-1] = card;
-                Wlen[7]--;
-            }
-            Wp[7] = &W[7][0];
-            Wp[8] = &W[8][Wlen[8]-1];
-            hashpile( 7 );
-            hashpile( 8 );
-#if PRINT
-            print_layout();
-#endif
-            return;
-        }
-
-        // move to pile
-        if ( from == 8 && to == 7 )
-        {
-            for ( int i = 0; i < m->card_index; ++i )
-            {
-                if ( !Wlen[8] )
-                    continue;
-
-                card = *Wp[8];
-                Wp[8]--;
-                Wlen[8]--;
-                card = ( SUIT( card ) << 4 ) + RANK( card );
-                Wp[7]++;
-                *Wp[7] = card;
-                Wlen[7]++;
-            }
-            hashpile( 7 );
-            hashpile( 8 );
-#if PRINT
-            print_layout();
-#endif
-            return;
-        }
 
         for ( int l = m->card_index; l >= 0; l-- )
         {
@@ -131,7 +87,7 @@ void KlondikeSolver::make_move(MOVE *m)
 #endif
 }
 
-void KlondikeSolver::undo_move(MOVE *m)
+void YukonSolver::undo_move(MOVE *m)
 {
 #if PRINT
     if ( m->totype == O_Type )
@@ -146,50 +102,6 @@ void KlondikeSolver::undo_move(MOVE *m)
 
 	from = m->from;
 	to = m->to;
-
-	/* Remove from 'to' pile. */
-
-        if ( from == 7 && to == 8 )
-        {
-            while ( Wlen[8] )
-            {
-                card = W[8][Wlen[8]-1];
-                card = ( SUIT( card ) << 4 ) + RANK( card );
-                Wlen[7]++;
-                W[7][Wlen[7]-1] = card;
-                Wlen[8]--;
-            }
-            Wp[8] = &W[8][0];
-            Wp[7] = &W[7][Wlen[7]-1];
-            hashpile( 7 );
-            hashpile( 8 );
-#if PRINT
-            print_layout();
-#endif
-            return;
-        }
-
-        // move back to deck
-        if ( from == 8 && to == 7 )
-        {
-            for ( int i = 0; i < m->card_index; ++i )
-            {
-                card = *Wp[7];
-                Wp[7]--;
-                Wlen[7]--;
-                card = ( SUIT( card ) << 4 ) + RANK( card ) + ( 1 << 7 );
-                Wp[8]++;
-                *Wp[8] = card;
-                Wlen[8]++;
-            }
-            hashpile( 7 );
-            hashpile( 8 );
-#if PRINT
-            print_layout();
-#endif
-            return;
-        }
-
 
         /* Add to 'from' pile. */
         if ( m->turn_index > 0 )
@@ -235,9 +147,9 @@ void KlondikeSolver::undo_move(MOVE *m)
 #endif
 }
 
-/* Automove logic.  Klondike games must avoid certain types of automoves. */
+/* Automove logic.  Yukon games must avoid certain types of automoves. */
 
-int KlondikeSolver::good_automove(int o, int r)
+int YukonSolver::good_automove(int o, int r)
 {
 	int i;
 
@@ -279,7 +191,7 @@ int KlondikeSolver::good_automove(int o, int r)
 
 /* Get the possible moves from a position, and store them in Possible[]. */
 
-int KlondikeSolver::get_possible_moves(int *a, int *numout)
+int YukonSolver::get_possible_moves(int *a, int *numout)
 {
     int w, o, empty;
     card_t card;
@@ -289,7 +201,7 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
 
     int n = 0;
     mp = Possible;
-    for (w = 0; w < 8; w++) {
+    for (w = 0; w < 7; w++) {
         if (Wlen[w] > 0) {
             card = *Wp[w];
             o = SUIT(card);
@@ -327,23 +239,9 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
     *a = false;
     *numout = n;
 
-    /* check for deck->pile */
-    if ( Wlen[8] ) {
-        mp->card_index = qMin( m_draw, Wlen[8] );
-        mp->from = 8;
-        mp->to = 7;
-        mp->totype = W_Type;
-        mp->pri = 5;
-        mp->turn_index = 0;
-        n++;
-        mp++;
-    }
-
-    for(int i=0; i<8; i++)
+    for(int i=0; i<7; i++)
     {
         int len = Wlen[i];
-        if ( i == 7 && Wlen[i] > 0)
-            len = 1;
         for (int l=0; l < len; ++l )
         {
             card_t card = W[i][Wlen[i]-1-l];
@@ -374,21 +272,14 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
                     if ( l != Wlen[i]-1 || i == 7 )
                         allowed = 4;
                 }
-                if ( allowed && i == 7 )
-                    allowed = 5;
-
-                if ( allowed == 1 )
-                {
-                    card_t below = W[i][Wlen[i]-2-l];
-                    int o = SUIT(below);
-                    bool empty = (O[o] == NONE);
-                    //fprintf( stderr, "%d %d\n", i, l );
-                    //printcard( below, stderr );
-                    //fprintf( stderr, " allowed %d %d %d %d\n",allowed, empty, RANK( below ), PS_ACE);
-                    if ( ( empty && RANK( below ) != PS_ACE ) ||
-                         ( !empty && RANK( below ) != O[o] + 1 ) )
-                        allowed = 0;
-                }
+                // TODO: there is no point in moving if we're not opening anything
+                // e.g. if both i and j have perfect runs below the cards
+#if 0
+                fprintf( stderr, "%d %d %d\n", i, l, j );
+                printcard( card, stderr );
+                printcard( *Wp[j], stderr );
+                fprintf( stderr, " allowed %d\n",allowed );
+#endif
                 if ( allowed ) {
                     mp->card_index = l;
                     mp->from = i;
@@ -412,21 +303,10 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
         }
     }
 
-    if ( !Wlen[8] && Wlen[7] )
-    {
-        mp->card_index = 0;
-        mp->from = 7;
-        mp->to = 8;
-        mp->totype = W_Type;
-        mp->turn_index = 0;
-        mp->pri = 2;
-        n++;
-        mp++;
-    }
     return n;
 }
 
-void KlondikeSolver::unpack_cluster( int k )
+void YukonSolver::unpack_cluster( int k )
 {
     /* Get the Out cells from the cluster number. */
     O[0] = k & 0xF;
@@ -438,7 +318,7 @@ void KlondikeSolver::unpack_cluster( int k )
     O[3] = k & 0xF;
 }
 
-bool KlondikeSolver::isWon()
+bool YukonSolver::isWon()
 {
     // maybe won?
     for (int o = 0; o < 4; o++) {
@@ -450,47 +330,37 @@ bool KlondikeSolver::isWon()
     return true;
 }
 
-int KlondikeSolver::getOuts()
+int YukonSolver::getOuts()
 {
     return O[0] + O[1] + O[2] + O[3];
 }
 
-KlondikeSolver::KlondikeSolver(const Klondike *dealer, int draw)
-    : Solver(), m_draw( draw )
+YukonSolver::YukonSolver(const Yukon *dealer)
+    : Solver()
 {
     Osuit[0] = PS_DIAMOND;
     Osuit[1] = PS_CLUB;
     Osuit[2] = PS_HEART;
     Osuit[3] = PS_SPADE;
 
-    setNumberPiles( 9 );
+    setNumberPiles( 7 );
     deal = dealer;
 }
 
 /* Read a layout file.  Format is one pile per line, bottom to top (visible
 card).  Temp cells and Out on the last two lines, if any. */
 
-void KlondikeSolver::translate_layout()
+void YukonSolver::translate_layout()
 {
     /* Read the workspace. */
 
     int total = 0;
     for ( int w = 0; w < 7; ++w ) {
-        int i = translate_pile(deal->play[w], W[w], 52);
+        int i = translate_pile(deal->store[w], W[w], 52);
         Wp[w] = &W[w][i - 1];
         Wlen[w] = i;
         total += i;
     }
-
-    int i = translate_pile( deal->pile, W[7], 52 );
-    Wp[7] = &W[7][i-1];
-    Wlen[7] = i;
-    total += i;
-
-    i = translate_pile( Deck::deck(), W[8], 52 );
-    Wp[8] = &W[8][i-1];
-    Wlen[8] = i;
-    total += i;
 
     /* Output piles, if any. */
     for (int i = 0; i < 4; i++) {
@@ -505,10 +375,10 @@ void KlondikeSolver::translate_layout()
             }
         }
     }
-
+    Q_ASSERT( total == 52 );
 }
 
-int KlondikeSolver::getClusterNumber()
+int YukonSolver::getClusterNumber()
 {
     int i = O[0] + (O[1] << 4);
     int k = i;
@@ -517,16 +387,10 @@ int KlondikeSolver::getClusterNumber()
     return k;
 }
 
-MoveHint *KlondikeSolver::translateMove( const MOVE &m )
+MoveHint *YukonSolver::translateMove( const MOVE &m )
 {
     Pile *frompile = 0;
-    if ( m.from == 8 && m.to == 7 )
-        return 0;
-    Q_ASSERT( m.from != 8 );
-    if ( m.from == 7 )
-        frompile = deal->pile;
-    else
-        frompile = deal->play[m.from];
+    frompile = deal->store[m.from];
 
     Card *card = frompile->at( frompile->cardsLeft() - m.card_index - 1);
 
@@ -549,28 +413,17 @@ MoveHint *KlondikeSolver::translateMove( const MOVE &m )
             target = empty;
         return new MoveHint( card, target, m.pri );
     } else {
-        if ( m.to == 7 )
-        {
-            return new MoveHint( card, deal->pile, m.pri );
-        } else if ( m.to == 8 )
-            return 0;
-        else
-            return new MoveHint( card, deal->play[m.to], m.pri );
+        return new MoveHint( card, deal->store[m.to], m.pri );
     }
 }
 
-bool KlondikeSolver::print_layout()
+bool YukonSolver::print_layout()
 {
     int i, w, o;
 
     fprintf(stderr, "print-layout-begin\n");
-    for (w = 0; w < 9; w++) {
-        if ( w == 8 )
-            fprintf( stderr, "Deck: " );
-        else if ( w == 7 )
-            fprintf( stderr, "Pile: " );
-        else
-            fprintf( stderr, "Play%d: ", w );
+    for (w = 0; w < 7; w++) {
+        fprintf( stderr, "Play%d: ", w );
         for (i = 0; i < Wlen[w]; i++) {
             printcard(W[w][i], stderr);
         }

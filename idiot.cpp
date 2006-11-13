@@ -23,7 +23,7 @@
 #include <klocale.h>
 #include "deck.h"
 #include "cardmaps.h"
-
+#include "patsolve/idiot.h"
 
 Idiot::Idiot( )
   : DealerScene( )
@@ -53,6 +53,7 @@ Idiot::Idiot( )
     m_away->setObjectName( "away" );
 
     setActions(DealerScene::Hint | DealerScene::Demo);
+    setSolver( new IdiotSolver(this ) );
 }
 
 
@@ -61,36 +62,6 @@ void Idiot::restart()
     Deck::deck()->collectAndShuffle();
     deal();
 }
-
-
-inline bool higher( const Card* c1, const Card* c2)
-{
-    // Sanity check.
-    if (!c1 || !c2 || c1 == c2)
-        return false;
-
-    // Must be same suit.
-    if (c1->suit() != c2->suit())
-        return false;
-
-    // Aces form a special case.
-    if (c2->rank() == Card::Ace)
-        return true;
-    if (c1->rank() == Card::Ace)
-        return false;
-
-    return (c1->rank() < c2->rank());
-}
-
-
-bool Idiot::canMoveAway(Card *c) const
-{
-    return ( higher( c, m_play[ 0 ]->top() ) ||
-             higher( c, m_play[ 1 ]->top() ) ||
-             higher( c, m_play[ 2 ]->top() ) ||
-             higher( c, m_play[ 3 ]->top() ) );
-}
-
 
 bool Idiot::cardClicked(Card *c)
 {
@@ -105,7 +76,17 @@ bool Idiot::cardClicked(Card *c)
         return false;
 
     bool  didMove = true;
-    if ( canMoveAway(c) )
+    finishSolver();
+    solver()->translate_layout();
+    int index = -1;
+    for ( int i = 0; i < 4; i++ )
+        if ( m_play[i] == c->source() )
+        {
+            index = i;
+            break;
+        }
+
+    if ( index != -1 && static_cast<IdiotSolver*>( solver() )->canMoveAway(index) )
 	// Add to 'm_away', face up, no spread
         m_away->add(c, false );
     else if ( m_play[ 0 ]->isEmpty() )
@@ -125,41 +106,6 @@ bool Idiot::cardClicked(Card *c)
 
     return true; // may be a lie, but no one cares
 }
-
-
-// The game is lost when:
-//  1. all cards are dealt.
-//  2. Any pile contains more than 1 card.
-//  3. No card can be moved away.
-//
-// Actually, the game can be lost much earlier, but we won't detect
-// that so that we don't take away the joy of playing from the user. :-)
-//
-
-bool Idiot::isGameLost() const
-{
-    int  i;
-
-    // Criterium 1.
-    if (!Deck::deck()->isEmpty())
-        return false;
-
-    // Criterium 2.
-    for (i = 0; i < 4; i++) {
-        if (m_play[i]->cardsLeft() > 1)
-            break;
-    }
-    if (i == 4)
-	return false;
-
-    for (i = 0; i < 4; i++) {
-	if (canMoveAway(m_play[ 0 ]->top()))
-            return false;
-    }
-
-    return true;
-}
-
 
 // The game is won when:
 //  1. all cards are dealt.
@@ -203,51 +149,6 @@ void Idiot::deal()
     for ( int i = 0; i < 4; i++ )
 	m_play[ i ]->add( Deck::deck()->nextCard(), false );
 }
-
-
-void Idiot::getHints()
-{
-    bool cardMoved = false;
-    for ( int i = 0; i < 4; i++ )
-        if ( canMoveAway( m_play[i]->top() ) ) {
-            cardMoved = true;
-            newHint(new MoveHint(m_play[i]->top(), m_away));
-        }
-
-    if (cardMoved)
-        return;
-
-    // now let's try to be a bit clever with the empty piles
-    for( int i = 0; i < 4; i++ ) {
-        if (m_play[i]->isEmpty()) {
-            // Find a card to move there
-            int biggestPile = -1;
-            int sizeBiggestPile = -1;
-            for( int j = 0; j < 4; j++ ) {
-                if ( i != j && m_play[j]->cardsLeft()>1 ) {
-
-                    // Ace on top of the pile? -> move it
-                    if ( m_play[j]->top()->rank() == Card::Ace ) {
-                        biggestPile = j;
-                        break;
-                    }
-
-                    // Otherwise choose the biggest pile
-                    if ( m_play[j]->cardsLeft() > sizeBiggestPile ) {
-                        sizeBiggestPile = m_play[j]->cardsLeft();
-                        biggestPile = j;
-                    }
-                }
-            }
-
-            if ( biggestPile != -1 ) {
-                newHint(new MoveHint(m_play[biggestPile]->top(), m_play[i]));
-                return;
-            }
-        }
-    }
-}
-
 
 Card *Idiot::demoNewCards()
 {

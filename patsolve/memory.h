@@ -36,7 +36,7 @@ struct TREE {
 class MemoryManager
 {
 public:
-    enum inscode { NEW, FOUND, FOUND_BETTER, ERR };
+    enum inscode { NEW, FOUND, ERR };
 
     unsigned char *new_from_block(size_t s);
     void init_clusters(void);

@@ -17,14 +17,20 @@ typedef quint8 card_t;
 
 enum PileType { O_Type = 1, W_Type };
 
-typedef struct {
+class MOVE {
+public:
     int card_index;         /* the card we're moving (0 is the top)*/
     quint8 from;            /* from pile number */
     quint8 to;              /* to pile number */
     PileType totype;
     signed char pri;        /* move priority (low priority == low value) */
     int turn_index;         /* turn the card index */
-} MOVE;
+
+    bool operator<( const MOVE &m) const
+    {
+	return pri < m.pri;
+    }
+};
 
 struct POSITION;
 
@@ -44,14 +50,16 @@ class MemoryManager;
 class Solver
 {
 public:
-    enum statuscode { QUIT = -2, FAIL = -1, NOSOL = 0, WIN = 1 };
+    enum statuscode { MLIMIT = -3, QUIT = -2, FAIL = -1, NOSOL = 0, WIN = 1 };
     Solver();
     virtual ~Solver();
-    statuscode patsolve();
-    void showCurrentMoves();
+    statuscode patsolve( int max_positions = -1);
     bool recursive(POSITION *pos = 0);
     virtual void translate_layout() = 0;
     bool m_shouldEnd;
+    virtual MoveHint *translateMove( const MOVE &m) = 0;
+    QList<MOVE> firstMoves;
+    QList<MOVE> winMoves;
 
 protected:
     MOVE *get_moves(int *nmoves);
@@ -124,6 +132,7 @@ protected:
 
     POSITION *Stack;
     QMap<qint32,bool> recu_pos;
+    int max_positions;
 };
 
 /* Misc. */

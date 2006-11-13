@@ -43,7 +43,6 @@ public:
     void dealRow();
     void checkPileDeck(Pile *to);
     virtual void restart();
-    virtual bool isGameLost() const;
 
 public slots:
     void deckClicked(Card *c);
@@ -54,8 +53,6 @@ protected:
     virtual bool checkAdd(int /*checkIndex*/, const Pile *c1, const CardList &c2) const;
     virtual QString getGameState() const;
     virtual void setGameState(const QString &stream);
-    virtual void getHints();
-    virtual MoveHint *chooseHint();
     virtual Card *demoNewCards();
 
 private:

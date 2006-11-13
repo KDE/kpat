@@ -87,6 +87,7 @@ Freecell::Freecell()
 
     setActions(DealerScene::Demo | DealerScene::Hint);
     setSolver( new FreecellSolver( this ) );
+    setNeededFutureMoves( 4 ); // reserve some
 }
 
 Freecell::~Freecell()
@@ -96,202 +97,8 @@ Freecell::~Freecell()
 
 void Freecell::restart()
 {
-    freeSolution();
     Deck::deck()->collectAndShuffle();
     deal();
-}
-
-void Freecell::findSolution()
-{
-    int ret = solver()->patsolve();
-    kDebug() << gameNumber() << " return " << ret << endl;
-    if ( false && ret == Solver::WIN )
-    {
-#if 0
-        Card *c = 0;
-        if ( mp->from >= Nwpiles)
-            c = deal->freecell[mp->from - Nwpiles]->top();
-        else if ( mp->fromtype == W_Type )
-            c = deal->store[mp->from]->top();
-
-        if ( !c )
-            abort();
-
-        //printcard(mp->card, stderr);
-        //fprintf( stderr, "%d %d %d %d %02x\n", mp->fromtype, mp->totype, mp->from, mp->to, mp->card );
-        Pile *pile = 0;
-        if (mp->to >= Nwpiles) {
-            pile = deal->freecell[mp->to - Nwpiles];
-        } else if (mp->totype == O_Type) {
-            for ( int i = 0; i < 4; ++i )
-                if ( c->rank() == Card::Ace && deal->target[i]->isEmpty() )
-                {
-                    pile = deal->target[i];
-                    break;
-                }
-                else if ( !deal->target[i]->isEmpty() )
-                {
-                    Card *t = deal->target[i]->top();
-                    if ( t->rank() == c->rank() - 1 && t->suit() == c->suit() )
-                    {
-                        pile = deal->target[i];
-                        break;
-                    }
-                }
-        } else {
-            pile = deal->store[mp->to];
-        }
-
-        if ( !pile )
-            abort();
-
-        delete first;
-        first = new MoveHint( c, pile );
-
-        Q_ASSERT( s.first );
-        newHint( new MoveHint( *s.first ) );
-#endif
-    }
-}
-
-//  Idea stolen from klondike.cpp
-//
-//  This function returns true when it is certain that the card t is no longer
-//  needed on any of the play piles.
-//
-//  To determine wether a card is no longer needed on any of the play piles we
-//  obviously must know what a card can be used for there. According to the
-//  rules a card can be used to store another card with 1 less unit of value
-//  and opposite color. This is the only thing that a card can be used for
-//  there. Therefore the cards with lowest value (1) are useless there (base
-//  case). The other cards each have 2 cards that can be stored on them, let us
-//  call those 2 cards *depending cards*.
-//
-//  The object of the game is to put all cards on the target piles. Therefore
-//  cards that are no longer needed on any of the play piles should be put on
-//  the target piles if possible. Cards on the target piles can not be moved
-//  and they can not store any of its depending cards. Let us call this that
-//  the cards on the target piles are *out of play*.
-//
-//  The simple and obvious rule is:
-//    A card is no longer needed when both of its depending cards are out of
-//    play.
-//
-//  More complex:
-//    Assume card t is red.  Now, if the lowest unplayed black card is
-//    t.value()-2, then t may be needed to hold that black t.value()-1 card.
-//    If the lowest unplayed black card is t.value()-1, it will be playable
-//    to the target, unless it is needed for a red card of value t.value()-2.
-//
-//  So, t is not needed if the lowest unplayed red card is t.value()-2 and the
-//  lowest unplayed black card is t.value()-1, OR if the lowest unplayed black
-//  card is t.value().  So, no recursion needed - we did it ahead of time.
-
-bool Freecell::noLongerNeeded(const Card & t)
-{
-    if (t.rank() <= Card::Two) return true; //  Base case.
-
-    bool cardIsRed = t.isRed();
-
-    int numSame = 0, numDiff = 0;
-    Card::Rank lowSame = Card::King, lowDiff = Card::King;
-    for (int i = 0; i < 4; ++i )
-    {
-        if (target[i]->isEmpty())
-            continue;
-        if (target[i]->top()->isRed() == cardIsRed) {
-            numSame++;
-            if (target[i]->top()->rank() < lowSame)
-                lowSame = static_cast<Card::Rank>(target[i]->top()->rank()+1);
-        } else {
-            numDiff++;
-            if (target[i]->top()->rank() < lowDiff)
-                lowDiff = static_cast<Card::Rank>(target[i]->top()->rank()+1);
-        }
-    }
-    if (numSame < 2) lowSame = Card::Ace;
-    if (numDiff < 2) lowDiff = Card::Ace;
-
-    return (lowDiff >= t.rank() ||
-        (lowDiff >= t.rank()-1 && lowSame >= t.rank()-2));
-}
-
-//  This is the getHints() from dealer.cpp with one line changed
-//  to use noLongerNeeded() to decide if the card should be
-//  dropped or not.
-//
-//  I would recommend adding a virtual bool noLongerNeeded(const Card &t)
-//  to the base class (Dealer) that just returns true, and then calling
-//  it like is done here.  That would preserve current functionality
-//  but eliminate this code duplication
-void Freecell::getHints()
-{
-    if ( demoActive() )
-    {
-        findSolution();
-        return;
-    }
-
-    for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
-    {
-        Pile *store = *it;
-        if (store->isEmpty())
-            continue;
-//        kDebug(11111) << "trying " << store->top()->name() << endl;
-
-        CardList cards = store->cards();
-        while (cards.count() && !cards.first()->realFace()) cards.erase(cards.begin());
-
-        CardList::Iterator iti = cards.begin();
-        while (iti != cards.end())
-        {
-            if (store->legalRemove(*iti)) {
-//                kDebug(11111) << "could remove " << (*iti)->name() << endl;
-                for (PileList::Iterator pit = piles.begin(); pit != piles.end(); ++pit)
-                {
-                    Pile *dest = *pit;
-                    if (dest == store)
-                        continue;
-                    if (store->indexOf(*iti) == 0 && dest->isEmpty() && !dest->target())
-                        continue;
-                    if (!dest->legalAdd(cards))
-                        continue;
-
-                    bool old_prefer = checkPrefering( dest->checkIndex(), dest, cards );
-                    if (dest->target())
-                        newHint(new MoveHint(*iti, dest, noLongerNeeded(*(*iti))));
-                    else {
-                        store->hideCards(cards);
-                        // if it could be here as well, then it's no use
-                        if ((store->isEmpty() && !dest->isEmpty()) || !store->legalAdd(cards))
-                            newHint(new MoveHint(*iti, dest));
-                        else {
-                            if (old_prefer && !checkPrefering( store->checkIndex(),
-                                                               store, cards ))
-                            { // if checkPrefers says so, we add it nonetheless
-                                newHint(new MoveHint(*iti, dest));
-                            }
-                        }
-                        store->unhideCards(cards);
-                    }
-                }
-            }
-            cards.erase(iti);
-            iti = cards.begin();
-        }
-    }
-}
-
-void Freecell::demo()
-{
-    unmarkAll();
-    //findSolution();
-    DealerScene::demo();
-}
-
-MoveHint *Freecell::chooseHint()
-{
-    return DealerScene::chooseHint();
 }
 
 void Freecell::countFreeCells(int &free_cells, int &free_stores) const
@@ -303,19 +110,6 @@ void Freecell::countFreeCells(int &free_cells, int &free_stores) const
         if (freecell[i]->isEmpty()) free_cells++;
     for (int i = 0; i < 8; i++)
         if (store[i]->isEmpty()) free_stores++;
-}
-
-void Freecell::freeSolution()
-{
-    for (HintList::Iterator it = oldmoves.begin(); it != oldmoves.end(); ++it)
-        delete *it;
-    oldmoves.clear();
-}
-
-void Freecell::stopDemo()
-{
-    DealerScene::stopDemo();
-    freeSolution();
 }
 
 void Freecell::moveCards(CardList &c, FreecellPile *from, Pile *to)
@@ -391,12 +185,12 @@ void Freecell::movePileToPile(CardList &c, Pile *to, PileList fss, PileList &fcs
     assert(moving);
 
     for (int i = 0; i < moving - 1; i++) {
-        moves.append(new MoveHint(c[c.count() - i - 1 - start], fcs[i]));
+        moves.append(new MoveHint(c[c.count() - i - 1 - start], fcs[i], 0));
     }
-    moves.append(new MoveHint(c[c.count() - start - 1 - (moving - 1)], to));
+    moves.append(new MoveHint(c[c.count() - start - 1 - (moving - 1)], to, 0));
 
     for (int i = moving - 2; i >= 0; --i)
-        moves.append(new MoveHint(c[c.count() - i - 1 - start], to));
+        moves.append(new MoveHint(c[c.count() - i - 1 - start], to, 0));
 
     while (moves_away.count())
     {
@@ -524,6 +318,61 @@ bool Freecell::checkRemove(int checkIndex, const Pile *p, const Card *c) const
     }
 
     return true;
+}
+
+void Freecell::getHints()
+{
+    getSolverHints();
+
+    if ( demoActive() )
+        return;
+
+    for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
+    {
+        Pile *store = *it;
+        if (store->isEmpty())
+            continue;
+//        kDebug(11111) << "trying " << store->top()->name() << endl;
+
+        CardList cards = store->cards();
+        while (cards.count() && !cards.first()->realFace()) cards.erase(cards.begin());
+
+        CardList::Iterator iti = cards.begin();
+        while (iti != cards.end())
+        {
+            if (store->legalRemove(*iti)) {
+//                kDebug(11111) << "could remove " << (*iti)->name() << endl;
+                for (PileList::Iterator pit = piles.begin(); pit != piles.end(); ++pit)
+                {
+                    Pile *dest = *pit;
+                    if (dest == store)
+                        continue;
+                    if (store->indexOf(*iti) == 0 && dest->isEmpty() && !dest->target())
+                        continue;
+                    if (!dest->legalAdd(cards))
+                        continue;
+                    if ( dest->target() ) // taken care by solver
+                        continue;
+
+                    bool old_prefer = checkPrefering( dest->checkIndex(), dest, cards );
+                    store->hideCards(cards);
+                    // if it could be here as well, then it's no use
+                    if ((store->isEmpty() && !dest->isEmpty()) || !store->legalAdd(cards))
+                        newHint(new MoveHint(*iti, dest, 0));
+                    else {
+                        if (old_prefer && !checkPrefering( store->checkIndex(),
+                                                           store, cards ))
+                        { // if checkPrefers says so, we add it nonetheless
+                            newHint(new MoveHint(*iti, dest, 0));
+                        }
+                    }
+                    store->unhideCards(cards);
+                }
+            }
+            cards.erase(iti);
+            iti = cards.begin();
+        }
+    }
 }
 
 //-------------------------------------------------------------------------//

@@ -127,7 +127,7 @@ int main( int argc, char **argv )
             f->solver()->translate_layout();
             int ret = f->solver()->patsolve();
             if ( ret == Solver::WIN )
-                fprintf( stderr, "%d won\n", i );
+                fprintf( stdout, "%d won\n", i );
             else if ( ret == Solver::NOSOL )
                 fprintf( stdout, "%d lost\n", i );
             else

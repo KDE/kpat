@@ -14,6 +14,7 @@ public:
     virtual int getClusterNumber();
     virtual void translate_layout();
     virtual void unpack_cluster( int k );
+    virtual MoveHint *translateMove( const MOVE &m);
 
     virtual bool print_layout();
 

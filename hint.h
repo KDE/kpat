@@ -24,16 +24,16 @@ class Pile;
 class MoveHint
 {
 public:
-    MoveHint(Card *card, Pile *to, bool d=true);
+    MoveHint(Card *card, Pile *to, qint8 prio);
 
-    bool   dropIfTarget() const { return m_dropiftarget; }
     Card  *card() const         { return m_card;         }
     Pile  *pile() const         { return m_to;           }
+    qint8 priority() const      { return m_prio; }
 
 private:
     Card  *m_card;
     Pile  *m_to;
-    bool   m_dropiftarget;
+    qint8 m_prio;
 };
 
 

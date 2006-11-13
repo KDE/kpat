@@ -57,11 +57,11 @@
 // ================================================================
 //                         class MoveHint
 
-MoveHint::MoveHint(Card *card, Pile *to, bool d)
+MoveHint::MoveHint(Card *card, Pile *to, qint8 prio)
 {
     m_card         = card;
     m_to           = to;
-    m_dropiftarget = d;
+    m_prio         = prio;
 }
 
 
@@ -135,13 +135,31 @@ void SolverThread::run()
     } else if ( ret == Solver::NOSOL )
     {
         kDebug() << "lost\n";
-    } else if ( ret == Solver::QUIT )
+    } else if ( ret == Solver::QUIT  || ret == Solver::MLIMIT )
     {
         kDebug() << "quit\n";
     } else
         kDebug() << "unknown\n";
 #endif
 }
+
+class DealerScene::DealerScenePrivate
+{
+public:
+    bool _won;
+    quint32 _id;
+    bool _gameRecorded;
+    QGraphicsItem *wonItem;
+    bool gothelp;
+    bool toldAboutLostGame;
+    int myActions;
+    Solver *m_solver;
+    SolverThread *m_solver_thread;
+    mutable QMutex solverMutex;
+    QList<MOVE> winMoves;
+    int neededFutureMoves;
+
+};
 
 void DealerScene::takeState()
 {
@@ -177,18 +195,23 @@ void DealerScene::takeState()
     }
 
     if (n) {
+        d->winMoves.clear();
         if (isGameWon()) {
             won();
             return;
         }
-        else if ( isGameLost() && !toldAboutLostGame) {
+        else if ( !d->toldAboutLostGame && isGameLost() ) {
             emit hintPossible( false );
             emit demoPossible( false );
             emit redealPossible( false );
             QTimer::singleShot(400, this, SIGNAL(gameLost()));
-            toldAboutLostGame = true;
+            d->toldAboutLostGame = true;
             return;
         }
+
+        if ( d->m_solver && !demoActive() && !waiting() )
+            stopAndRestartSolver();
+
     }
     if (!demoActive() && !waiting())
         QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
@@ -347,12 +370,13 @@ void DealerScene::undo()
         emit updateMoves();
         takeState(); // copying it again
         emit undoPossible(undoList.count() > 1);
-        if ( toldAboutLostGame ) { // everything's possible again
+        if ( d->toldAboutLostGame ) { // everything's possible again
             hintPossible( true );
             demoPossible( true );
-            toldAboutLostGame = false;
+            d->toldAboutLostGame = false;
         }
     }
+    emit gameSolverUnknown();
 }
 
 
@@ -365,15 +389,19 @@ DealerScene::DealerScene():
     _waiting(0),
     gamenumber( 0 ),
     demo_active( false ),
-    stop_demo_next(false),
-    _won(false),
-    _gameRecorded(false),
-    wonItem( 0 ),
-    gothelp(false),
-    myActions(0),
-    m_solver(0),
-    m_solver_thread( 0 )
+    stop_demo_next(false)
 {
+    d = new DealerScenePrivate();
+    d->_won = false;
+    d->_gameRecorded = false;
+    d->wonItem = 0;
+    d->gothelp = false;
+    d->myActions = 0;
+    d->m_solver = 0;
+    d->m_solver_thread = 0;
+    d->neededFutureMoves = 1;
+    d->toldAboutLostGame = false;
+
     demotimer = new QTimer(this);
     connect(demotimer, SIGNAL(timeout()), SLOT(demo()));
     m_autoDropFactor = 1;
@@ -383,7 +411,7 @@ DealerScene::DealerScene():
 DealerScene::~DealerScene()
 {
     kDebug() << "~DealerScene " << endl;
-    if (!_won)
+    if (!d->_won)
         countLoss();
     unmarkAll();
 
@@ -398,12 +426,12 @@ DealerScene::~DealerScene()
         delete piles.first(); // removes itself
     }
     disconnect();
-    if ( m_solver_thread )
-        m_solver_thread->finish();
-    delete m_solver_thread;
-    m_solver_thread = 0;
-    delete m_solver;
-    m_solver = 0;
+    if ( d->m_solver_thread )
+        d->m_solver_thread->finish();
+    delete d->m_solver_thread;
+    d->m_solver_thread = 0;
+    delete d->m_solver;
+    d->m_solver = 0;
 }
 
 
@@ -414,19 +442,65 @@ void DealerScene::hint()
 {
     unmarkAll();
     clearHints();
-    getHints();
+    kDebug() << "hint " << d->winMoves.count() << endl;
+    if ( d->winMoves.count() )
+    {
+        MOVE m = d->winMoves.first();
+        MoveHint *mh = solver()->translateMove( m );
+        if ( mh )
+            newHint( mh );
+        else {
+            if ( m.totype == O_Type )
+                fprintf( stderr, "move from %d out (at %d) Prio: %d\n", m.from,
+                         m.turn_index, m.pri );
+            else
+                fprintf( stderr, "move from %d to %d (%d) Prio: %d\n", m.from, m.to,
+                         m.turn_index, m.pri );
+
+            getHints();
+        }
+    } else
+        getHints();
+
     for (HintList::ConstIterator it = hints.begin(); it != hints.end(); ++it)
         mark((*it)->card());
     clearHints();
-    if ( solver() ) {
-        m_solver_thread->finish();
-        solver()->translate_layout();
-        solver()->showCurrentMoves();
+}
+
+void DealerScene::getSolverHints()
+{
+    if ( !d->solverMutex.tryLock() )
+    {
+        d->m_solver_thread->finish();
+        // already locked
+    }
+
+    solver()->translate_layout();
+    solver()->patsolve( 1 );
+
+    d->winMoves.clear();
+    QList<MOVE> moves = solver()->firstMoves;
+    d->solverMutex.unlock();
+
+    QListIterator<MOVE> mit( moves );
+
+    while ( mit.hasNext() )
+    {
+        MOVE m = mit.next();
+        MoveHint *mh = solver()->translateMove( m );
+        if ( mh )
+            newHint( mh );
     }
 }
 
 void DealerScene::getHints()
 {
+    if ( solver() )
+    {
+        getSolverHints();
+        return;
+    }
+
     for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
     {
         if ((*it)->target())
@@ -457,17 +531,17 @@ void DealerScene::getHints()
 
                     bool old_prefer = checkPrefering( dest->checkIndex(), dest, cards );
                     if (dest->target())
-                        newHint(new MoveHint(*iti, dest));
+                        newHint(new MoveHint(*iti, dest, 127));
                     else {
                         store->hideCards(cards);
                         // if it could be here as well, then it's no use
                         if ((store->isEmpty() && !dest->isEmpty()) || !store->legalAdd(cards))
-                            newHint(new MoveHint(*iti, dest));
+                            newHint(new MoveHint(*iti, dest, 0));
                         else {
                             if (old_prefer && !checkPrefering( store->checkIndex(),
                                                                store, cards ))
                             { // if checkPrefers says so, we add it nonetheless
-                                newHint(new MoveHint(*iti, dest));
+                                newHint(new MoveHint(*iti, dest, 10));
                             }
                         }
                         store->unhideCards(cards);
@@ -494,6 +568,7 @@ void DealerScene::clearHints()
 
 void DealerScene::newHint(MoveHint *mh)
 {
+    //kDebug() << "newHint " << mh->pile()->objectName() << " " << mh->card()->name() << " " << mh->priority() << endl;
     hints.append(mh);
 }
 
@@ -593,7 +668,7 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 
     QList<QGraphicsItem *> list = items( e->scenePos() );
 
-    kDebug(11111) << gettime() << " mouse pressed " << list.count() << " " << items().count() << " " << e->scenePos().x() << " " << e->scenePos().y() << endl;
+    //kDebug(11111) << gettime() << " mouse pressed " << list.count() << " " << items().count() << " " << e->scenePos().x() << " " << e->scenePos().y() << endl;
     moved = false;
 
     if (!list.count())
@@ -639,17 +714,17 @@ typedef QList<Hit> HitList;
 
 void DealerScene::startNew()
 {
-    if (!_won)
+    if (!d->_won)
         countLoss();
-    _won = false;
+    d->_won = false;
     _waiting = 0;
-    _gameRecorded=false;
-    delete wonItem;
-    wonItem = 0;
-    gothelp = false;
+    d->_gameRecorded=false;
+    delete d->wonItem;
+    d->wonItem = 0;
+    d->gothelp = false;
     qDeleteAll(undoList);
     undoList.clear();
-    toldAboutLostGame = false;
+    d->toldAboutLostGame = false;
     emit updateMoves();
 
     stopDemo();
@@ -712,10 +787,10 @@ void DealerScene::slotShowGame(bool gothelp)
     item->setPixmap( QPixmap::fromImage( img ) );
     item->setZValue( 2000 );
 
-    wonItem = item;
+    d->wonItem = item;
 
-    wonItem->setPos( QPointF( ( width() - wonItem->sceneBoundingRect().width() ) / 2,
-                              ( height() - wonItem->sceneBoundingRect().height() ) / 2 ) );
+    d->wonItem->setPos( QPointF( ( width() - d->wonItem->sceneBoundingRect().width() ) / 2,
+                              ( height() - d->wonItem->sceneBoundingRect().height() ) / 2 ) );
 
     emit demoPossible( false );
     emit hintPossible( false );
@@ -1045,7 +1120,7 @@ bool DealerScene::startAutoDrop()
     getHints();
     for (HintList::ConstIterator it = hints.begin(); it != hints.end(); ++it) {
         MoveHint *mh = *it;
-        if (mh->pile()->target() && mh->dropIfTarget() && !mh->card()->takenDown()) {
+        if (mh->pile()->target() && mh->priority() > 120 && !mh->card()->takenDown()) {
             setWaiting(true);
             Card *t = mh->card();
             CardList cards = mh->card()->source()->cards();
@@ -1085,18 +1160,16 @@ bool DealerScene::startAutoDrop()
     clearHints();
     m_autoDropFactor = 1;
 
-    if ( m_solver )
-        stopAndRestartSolver();
-
     return false;
 }
 
 void DealerScene::stopAndRestartSolver()
 {
-    if ( m_solver_thread->isRunning() )
+    kDebug() << "stopAndRestartSolver\n";
+    if ( d->m_solver_thread->isRunning() )
     {
-        m_solver_thread->disconnect();
-        m_solver_thread->finish();
+        d->m_solver_thread->finish();
+        d->solverMutex.unlock();
     }
 
     QList<QGraphicsItem *> list = items();
@@ -1116,33 +1189,49 @@ void DealerScene::stopAndRestartSolver()
 
 void DealerScene::slotSolverEnded()
 {
-    m_solver->translate_layout();
-    m_solver_thread->disconnect();
-#ifdef Q_OS_WIN
-    connect( m_solver_thread, SIGNAL( finished() ), this, SLOT( slotSolverFinished() ), Qt::DirectConnection );
-#else
-    connect( m_solver_thread, SIGNAL( finished() ), this, SLOT( slotSolverFinished() ));
-#endif
+    if ( d->m_solver_thread->isRunning() )
+        return;
+    if ( !d->solverMutex.tryLock() )
+        return;
+    d->m_solver->translate_layout();
     kDebug() << "start thread\n";
-    m_solver_thread->start(QThread::IdlePriority);
+    d->winMoves.clear();
+    d->m_solver_thread->start(QThread::IdlePriority);
 }
 
 void DealerScene::slotSolverFinished()
 {
-    kDebug() << "stop thread\n";
-    switch ( m_solver_thread->result() )
+    Solver::statuscode ret = d->m_solver_thread->result();
+    if ( d->solverMutex.tryLock() )
+    {
+        // if we can lock, then this finish signal is abnormal
+        d->solverMutex.unlock();
+        stopAndRestartSolver();
+        return;
+    }
+
+    kDebug() << "stop thread " << ret << endl;
+    switch (  ret )
     {
     case Solver::WIN:
+        d->winMoves = d->m_solver->winMoves;
+        d->solverMutex.unlock();
         emit gameSolverWon();
         break;
     case Solver::NOSOL:
+        d->solverMutex.unlock();
         emit gameSolverLost();
         break;
     case Solver::FAIL:
+        d->solverMutex.unlock();
         emit gameSolverUnknown();
         break;
     case Solver::QUIT:
+        d->solverMutex.unlock();
         stopAndRestartSolver();
+        break;
+    case Solver::MLIMIT:
+        d->solverMutex.unlock();
         break;
     }
 }
@@ -1169,7 +1258,7 @@ void DealerScene::waitForWonAnim(Card *c)
     if ( !waiting() )
     {
         stopDemo();
-        emit gameWon(gothelp);
+        emit gameWon(d->gothelp);
     }
 }
 
@@ -1260,9 +1349,9 @@ bool operator <(const CardPtr &p1, const CardPtr &p2)
 void DealerScene::won()
 {
     kDebug() << "won " << waiting() << endl;
-    if (_won)
+    if (d->_won)
         return;
-    _won = true;
+    d->_won = true;
 
     for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
     {
@@ -1271,14 +1360,14 @@ void DealerScene::won()
 
     // update score, 'win' in demo mode also counts (keep it that way?)
     KConfigGroup kc(KGlobal::config(), scores_group);
-    unsigned int n = kc.readEntry(QString("won%1").arg(_id),0) + 1;
-    kc.writeEntry(QString("won%1").arg(_id),n);
-    n = kc.readEntry(QString("winstreak%1").arg(_id),0) + 1;
-    kc.writeEntry(QString("winstreak%1").arg(_id),n);
-    unsigned int m = kc.readEntry(QString("maxwinstreak%1").arg(_id),0);
+    unsigned int n = kc.readEntry(QString("won%1").arg(d->_id),0) + 1;
+    kc.writeEntry(QString("won%1").arg(d->_id),n);
+    n = kc.readEntry(QString("winstreak%1").arg(d->_id),0) + 1;
+    kc.writeEntry(QString("winstreak%1").arg(d->_id),n);
+    unsigned int m = kc.readEntry(QString("maxwinstreak%1").arg(d->_id),0);
     if (n>m)
-        kc.writeEntry(QString("maxwinstreak%1").arg(_id),n);
-    kc.writeEntry(QString("loosestreak%1").arg(_id),0);
+        kc.writeEntry(QString("maxwinstreak%1").arg(d->_id),n);
+    kc.writeEntry(QString("loosestreak%1").arg(d->_id),0);
 
     // sort cards by increasing z
     QList<QGraphicsItem *> list = items();
@@ -1318,13 +1407,8 @@ MoveHint *DealerScene::chooseHint()
     if (hints.isEmpty())
         return 0;
 
-    for (HintList::ConstIterator it = hints.begin(); it != hints.end(); ++it)
-    {
-        if ((*it)->pile()->target() && (*it)->dropIfTarget())
-            return *it;
-    }
-
-    return hints[randseq.getLong(hints.count())];
+    qSort( hints.begin(), hints.end() );
+    return hints[0];
 }
 
 void DealerScene::demo()
@@ -1339,7 +1423,7 @@ void DealerScene::demo()
     }
     stop_demo_next = false;
     demo_active = true;
-    gothelp = true;
+    d->gothelp = true;
     unmarkAll();
     clearHints();
     getHints();
@@ -1434,10 +1518,11 @@ void DealerScene::waitForDemo(Card *t)
 }
 
 void DealerScene::setSolver( Solver *s) {
-    delete m_solver;
-    delete m_solver_thread;
-    m_solver = s;
-    m_solver_thread = new SolverThread( m_solver );
+    delete d->m_solver;
+    delete d->m_solver_thread;
+    d->m_solver = s;
+    d->m_solver_thread = new SolverThread( d->m_solver );
+    connect( d->m_solver_thread, SIGNAL( finished() ), this, SLOT( slotSolverFinished() ));
 }
 
 bool DealerScene::isGameWon() const
@@ -1450,8 +1535,33 @@ bool DealerScene::isGameWon() const
     return true;
 }
 
+void DealerScene::unlockSolver() const
+{
+    d->solverMutex.unlock();
+}
+
+void DealerScene::finishSolver() const
+{
+    if ( !d->solverMutex.tryLock() )
+    {
+        d->m_solver_thread->finish();
+        unlockSolver();
+    } else
+        d->solverMutex.unlock(); // have to unlock again
+}
+
 bool DealerScene::isGameLost() const
 {
+    if ( solver() )
+    {
+        finishSolver();
+        QMutexLocker ml( &d->solverMutex );
+        solver()->translate_layout();
+        Solver::statuscode ret = solver()->patsolve( neededFutureMoves() );
+        if ( ret == Solver::NOSOL )
+            return true;
+        return false;
+    }
     return false;
 }
 
@@ -1465,27 +1575,27 @@ bool DealerScene::checkAdd( int, const Pile *, const CardList&) const {
 
 void DealerScene::countGame()
 {
-    if ( !_gameRecorded ) {
+    if ( !d->_gameRecorded ) {
         kDebug(11111) << "counting game as played." << endl;
         KConfigGroup kc(KGlobal::config(), scores_group);
-        unsigned int Total = kc.readEntry(QString("total%1").arg(_id),0);
+        unsigned int Total = kc.readEntry(QString("total%1").arg(d->_id),0);
         ++Total;
-        kc.writeEntry(QString("total%1").arg(_id),Total);
-        _gameRecorded = true;
+        kc.writeEntry(QString("total%1").arg(d->_id),Total);
+        d->_gameRecorded = true;
     }
 }
 
 void DealerScene::countLoss()
 {
-    if ( _gameRecorded ) {
+    if ( d->_gameRecorded ) {
         // update score
         KConfigGroup kc(KGlobal::config(), scores_group);
-        unsigned int n = kc.readEntry(QString("loosestreak%1").arg(_id),0) + 1;
-        kc.writeEntry(QString("loosestreak%1").arg(_id),n);
-        unsigned int m = kc.readEntry(QString("maxloosestreak%1").arg(_id),0);
+        unsigned int n = kc.readEntry(QString("loosestreak%1").arg(d->_id),0) + 1;
+        kc.writeEntry(QString("loosestreak%1").arg(d->_id),n);
+        unsigned int m = kc.readEntry(QString("maxloosestreak%1").arg(d->_id),0);
         if (n>m)
-            kc.writeEntry(QString("maxloosestreak%1").arg(_id),n);
-        kc.writeEntry(QString("winstreak%1").arg(_id),0);
+            kc.writeEntry(QString("maxloosestreak%1").arg(d->_id),n);
+        kc.writeEntry(QString("winstreak%1").arg(d->_id),0);
     }
 }
 
@@ -1639,14 +1749,25 @@ void DealerScene::setSceneSize( const QSize &s )
         p->setMaximalSpace( myRect.size() );
     }
 
-    if ( wonItem )
-        wonItem->setPos( QPointF( ( width() - wonItem->sceneBoundingRect().width() ) / 2,
-                                  ( height() - wonItem->sceneBoundingRect().height() ) / 2 ) );
+    if ( d->wonItem )
+        d->wonItem->setPos( QPointF( ( width() - d->wonItem->sceneBoundingRect().width() ) / 2,
+                                     ( height() - d->wonItem->sceneBoundingRect().height() ) / 2 ) );
 
     for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
     {
         ( *it )->relayoutCards();
     }
 }
+
+void DealerScene::setGameId(int id) { d->_id = id; }
+int DealerScene::gameId() const { return d->_id; }
+
+void DealerScene::setActions(int actions) { d->myActions = actions; }
+int DealerScene::actions() const { return d->myActions; }
+
+Solver *DealerScene::solver() const { return d->m_solver; }
+
+int DealerScene::neededFutureMoves() const { return d->neededFutureMoves; }
+void DealerScene::setNeededFutureMoves( int i ) { d->neededFutureMoves = i; }
 
 #include "dealer.moc"

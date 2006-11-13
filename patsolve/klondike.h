@@ -5,7 +5,7 @@ class Klondike;
 class KlondikeSolver : public Solver
 {
 public:
-    KlondikeSolver(const Klondike *dealer);
+    KlondikeSolver(const Klondike *dealer, int draw);
     int good_automove(int o, int r);
     virtual int get_possible_moves(int *a, int *numout);
     virtual bool isWon();
@@ -15,6 +15,7 @@ public:
     virtual int getClusterNumber();
     virtual void translate_layout();
     virtual void unpack_cluster( int k );
+    virtual MoveHint *translateMove( const MOVE &m);
 
     virtual bool print_layout();
 
@@ -24,4 +25,5 @@ public:
     card_t Osuit[4];
 
     const Klondike *deal;
+    int m_draw;
 };

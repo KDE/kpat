@@ -17,11 +17,12 @@
 #include "dealer.h"
 
 class Yukon : public DealerScene {
+    friend class YukonSolver;
+
     Q_OBJECT
 
 public:
     Yukon( );
-    virtual bool isGameLost() const;
 
 public slots:
     void deal();

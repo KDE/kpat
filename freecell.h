@@ -43,13 +43,11 @@ public:
     Freecell();
     void moveCards(CardList &c, FreecellPile *from, Pile *to);
     virtual ~Freecell();
-    void findSolution();
 
 public slots:
     virtual void restart();
     void waitForMoving(Card *c);
     void startMoving();
-    virtual void demo();
 
 protected:
     virtual bool checkRemove( int checkIndex, const Pile *c1, const Card *c) const;
@@ -60,20 +58,17 @@ protected:
 
     void countFreeCells(int &free_cells, int &free_stores) const;
 
-    virtual void getHints();
     void movePileToPile(CardList &c, Pile *to, PileList fss, PileList &fcs,
                         int start, int count, int debug_level);
 
     Pile *pileForName(QString line) const;
 
-    virtual MoveHint *chooseHint();
     MoveHint *translateMove(void *m);
-    void freeSolution();
 
-    virtual void stopDemo();
     virtual void newDemoMove(Card *m);
     virtual bool cardDblClicked(Card *c);
     virtual void deal();
+    virtual void getHints();
 
 protected:
     FreecellPile* store[8];
@@ -82,7 +77,6 @@ protected:
 
 private:
     HintList moves;
-    HintList oldmoves;
     Card *waitfor;
     bool noLongerNeeded(const Card &);
 };

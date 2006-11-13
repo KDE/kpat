@@ -245,6 +245,7 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
 
 				if (good_automove(o, RANK(card))) {
 					*a = true;
+                                        mp[-1].pri = 127;
 					if (n != 1) {
 						Possible[0] = mp[-1];
 						return 1;
@@ -441,6 +442,46 @@ void FreecellSolver::translate_layout()
                 }
             }
 	}
+}
+
+MoveHint *FreecellSolver::translateMove( const MOVE &m )
+{
+    // this is tricky as we need to want to build the "meta moves"
+
+    Pile *frompile = 0;
+    if ( m.from < 8 )
+        frompile = deal->store[m.from];
+    else
+        frompile = deal->freecell[m.from-8];
+    Card *card = frompile->at( frompile->cardsLeft() - m.card_index - 1);
+
+    if ( m.totype == O_Type )
+    {
+        Pile *target = 0;
+        Pile *empty = 0;
+        for (int i = 0; i < 4; i++) {
+            Card *c = deal->target[i]->top();
+            if (c) {
+                if ( c->suit() == card->suit() )
+                {
+                    target = deal->target[i];
+                    break;
+                }
+            } else if ( !empty )
+                empty = deal->target[i];
+        }
+        if ( !target )
+            target = empty;
+        return new MoveHint( card, target, m.pri );
+    } else {
+        Pile *target = 0;
+        if ( m.to < 8 )
+            target = deal->store[m.to];
+        else
+            target = deal->freecell[m.to-8];
+
+        return new MoveHint( card, target, m.pri );
+    }
 }
 
 int FreecellSolver::getClusterNumber()

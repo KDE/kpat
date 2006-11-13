@@ -19,6 +19,7 @@
 #include <krandomsequence.h>
 #include <QString>
 #include <QGraphicsScene>
+#include <QMutex>
 
 class Card;
 class QPixmap;
@@ -101,6 +102,7 @@ public:
     void openGame(QDomDocument &doc);
 
     virtual void getHints();
+    void getSolverHints();
     void newHint(MoveHint *mh);
     void clearHints();
     // it's not const because it changes the random seed
@@ -123,8 +125,8 @@ public:
     virtual bool isGameLost() const;
     virtual bool isGameWon() const;
 
-    void setGameId(int id) { _id = id; }
-    int gameId() const { return _id; }
+    void setGameId(int id);
+    int gameId() const;
 
     void startNew();
 
@@ -150,11 +152,17 @@ public:
 
     enum { None = 0, Hint = 1, Demo = 2, Redeal = 4 } Actions;
 
-    void setActions(int actions) { myActions = actions; }
-    int actions() const { return myActions; }
+    void setActions(int actions);
+    int actions() const;
 
     void setSolver( Solver *s);
-    Solver *solver() const { return m_solver; }
+    Solver *solver() const;
+
+    void unlockSolver() const;
+    void finishSolver() const;
+
+    void setNeededFutureMoves(int);
+    int neededFutureMoves() const;
 
 public slots:
     virtual bool startAutoDrop();
@@ -221,16 +229,9 @@ private:
     bool demo_active;
     bool stop_demo_next;
     qreal m_autoDropFactor;
-
-    bool _won;
-    quint32 _id;
-    bool _gameRecorded;
-    QGraphicsItem *wonItem;
-    bool gothelp;
-    bool toldAboutLostGame;
-    int myActions;
-    Solver *m_solver;
-    SolverThread *m_solver_thread;
+    
+    class DealerScenePrivate;
+    DealerScenePrivate *d;
 };
 
 #endif
