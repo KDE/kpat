@@ -116,6 +116,7 @@ public:
     void finish() {
         m_solver->m_shouldEnd = true;
         wait();
+        ret = Solver::QUIT; // perhaps he managed to finish, but we won't listen
     }
     Solver::statuscode result() const { return ret; }
 
@@ -158,7 +159,17 @@ public:
     mutable QMutex solverMutex;
     QList<MOVE> winMoves;
     int neededFutureMoves;
+    QTimer *updateSolver;
+    bool hasScreenRect;
 
+    QTimer *demotimer;
+    bool demo_active;
+    bool stop_demo_next;
+    qreal m_autoDropFactor;
+
+    static QSvgRenderer *backren;
+    QPixmap tildePix;
+    bool initialDeal;
 };
 
 void DealerScene::takeState()
@@ -195,6 +206,7 @@ void DealerScene::takeState()
     }
 
     if (n) {
+        d->initialDeal = false;
         d->winMoves.clear();
         if (isGameWon()) {
             won();
@@ -206,18 +218,22 @@ void DealerScene::takeState()
             emit redealPossible( false );
             QTimer::singleShot(400, this, SIGNAL(gameLost()));
             d->toldAboutLostGame = true;
+            stopDemo();
             return;
         }
 
         if ( d->m_solver && !demoActive() && !waiting() )
-            stopAndRestartSolver();
+            d->updateSolver->start();
 
     }
     if (!demoActive() && !waiting())
-        QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
+        QTimer::singleShot( int( TIME_BETWEEN_MOVES * d->m_autoDropFactor ), this, SLOT(startAutoDrop()));
 
     emit undoPossible(undoList.count() > 1);
 }
+
+bool DealerScene::isInitialDeal() const { return d->initialDeal; }
+qreal DealerScene::autoDropFactor() const { return d->m_autoDropFactor;}
 
 void DealerScene::saveGame(QDomDocument &doc)
 {
@@ -387,11 +403,11 @@ void DealerScene::undo()
 DealerScene::DealerScene():
     _autodrop(true),
     _waiting(0),
-    gamenumber( 0 ),
-    demo_active( false ),
-    stop_demo_next(false)
+    gamenumber( 0 )
 {
     d = new DealerScenePrivate();
+    d->demo_active = false;
+    d->stop_demo_next = false;
     d->_won = false;
     d->_gameRecorded = false;
     d->wonItem = 0;
@@ -401,11 +417,18 @@ DealerScene::DealerScene():
     d->m_solver_thread = 0;
     d->neededFutureMoves = 1;
     d->toldAboutLostGame = false;
+    d->hasScreenRect = false;
+    d->updateSolver = new QTimer(this);
+    d->updateSolver->setInterval( 250 );
+    d->updateSolver->setSingleShot( true );
+    connect( d->updateSolver, SIGNAL( timeout() ), SLOT( stopAndRestartSolver() ) );
 
-    demotimer = new QTimer(this);
-    connect(demotimer, SIGNAL(timeout()), SLOT(demo()));
-    m_autoDropFactor = 1;
+    d->demotimer = new QTimer(this);
+    connect(d->demotimer, SIGNAL(timeout()), SLOT(demo()));
+    d->m_autoDropFactor = 1;
     connect( this, SIGNAL( gameWon( bool ) ), SLOT( slotShowGame(bool) ) );
+
+    d->tildePix.load( KStandardDirs::locateLocal( "data", "kpat/tilde.png" ) );
 }
 
 DealerScene::~DealerScene()
@@ -446,19 +469,17 @@ void DealerScene::hint()
     if ( d->winMoves.count() )
     {
         MOVE m = d->winMoves.first();
+        if ( m.totype == O_Type )
+            fprintf( stderr, "move from %d out (at %d) Prio: %d\n", m.from,
+                     m.turn_index, m.pri );
+        else
+            fprintf( stderr, "move from %d to %d (%d) Prio: %d\n", m.from, m.to,
+                     m.turn_index, m.pri );
+
         MoveHint *mh = solver()->translateMove( m );
         if ( mh )
             newHint( mh );
-        else {
-            if ( m.totype == O_Type )
-                fprintf( stderr, "move from %d out (at %d) Prio: %d\n", m.from,
-                         m.turn_index, m.pri );
-            else
-                fprintf( stderr, "move from %d to %d (%d) Prio: %d\n", m.from, m.to,
-                         m.turn_index, m.pri );
-
-            getHints();
-        }
+        getHints();
     } else
         getHints();
 
@@ -728,7 +749,7 @@ void DealerScene::startNew()
     emit updateMoves();
 
     stopDemo();
-    kDebug(11111) << "startNew unmarkAll\n";
+    kDebug(11111) << gettime() << " startNew unmarkAll\n";
     unmarkAll();
     kDebug(11111) << "startNew setAnimated(false)\n";
     QList<QGraphicsItem *> list = items();
@@ -741,6 +762,7 @@ void DealerScene::startNew()
         }
     }
     emit undoPossible(false);
+    d->initialDeal = true;
     kDebug(11111) << "startNew restart\n";
     restart();
     takeState();
@@ -1094,7 +1116,7 @@ bool DealerScene::startAutoDrop()
         return false;
 
     if (!movingCards.isEmpty()) {
-        QTimer::singleShot(qRound( TIME_BETWEEN_MOVES * m_autoDropFactor ), this, SLOT(startAutoDrop()));
+        QTimer::singleShot(qRound( TIME_BETWEEN_MOVES * d->m_autoDropFactor ), this, SLOT(startAutoDrop()));
         return true;
     }
 
@@ -1106,14 +1128,14 @@ bool DealerScene::startAutoDrop()
         if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
             Card *c = static_cast<Card*>(*it);
             if (c->animated()) {
-                QTimer::singleShot(qRound( TIME_BETWEEN_MOVES * m_autoDropFactor ), this, SLOT(startAutoDrop()));
+                QTimer::singleShot(qRound( TIME_BETWEEN_MOVES * d->m_autoDropFactor ), this, SLOT(startAutoDrop()));
                 kDebug() << "animation still going on\n";
                 return true;
             }
         }
     }
 
-    //kDebug(11111) << "startAutoDrop2\n";
+    kDebug() << gettime() << " startAutoDrop \n";
 
     unmarkAll();
     clearHints();
@@ -1150,23 +1172,26 @@ bool DealerScene::startAutoDrop()
                 z = z + 1;
                 xs.removeFirst();
                 ys.removeFirst();
-                t->moveTo(t->source()->x(), t->source()->y(), t->zValue(), qRound( ( DURATION_AUTODROP + count++ * DURATION_AUTODROP / 10 ) * m_autoDropFactor ) );
+                t->moveTo(t->source()->x(), t->source()->y(), t->zValue(), qRound( ( DURATION_AUTODROP + count++ * DURATION_AUTODROP / 10 ) * d->m_autoDropFactor ) );
                 connect(t, SIGNAL(stoped(Card*)), SLOT(waitForAutoDrop(Card*)));
             }
-            m_autoDropFactor *= 0.8;
+            d->m_autoDropFactor *= 0.8;
             return true;
         }
     }
     clearHints();
-    m_autoDropFactor = 1;
+    d->m_autoDropFactor = 1;
 
     return false;
 }
 
 void DealerScene::stopAndRestartSolver()
 {
+    if ( d->toldAboutLostGame ) // who cares?
+        return;
+
     kDebug() << "stopAndRestartSolver\n";
-    if ( d->m_solver_thread->isRunning() )
+    if ( d->m_solver_thread && d->m_solver_thread->isRunning() )
     {
         d->m_solver_thread->finish();
         d->solverMutex.unlock();
@@ -1178,24 +1203,28 @@ void DealerScene::stopAndRestartSolver()
         if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
             Card *c = static_cast<Card*>(*it);
             if (c->animated()) {
-                QTimer::singleShot(50, this, SLOT(stopAndRestartSolver()));
+                d->updateSolver->start();
                 kDebug() << "animation still going on\n";
                 return;
             }
         }
     }
-    QTimer::singleShot( 150, this, SLOT( slotSolverEnded() ) );
+    slotSolverEnded();
 }
 
 void DealerScene::slotSolverEnded()
 {
-    if ( d->m_solver_thread->isRunning() )
+    if ( d->m_solver_thread && d->m_solver_thread->isRunning() )
         return;
     if ( !d->solverMutex.tryLock() )
         return;
     d->m_solver->translate_layout();
-    kDebug() << "start thread\n";
+    kDebug() << gettime() << " start thread\n";
     d->winMoves.clear();
+    if ( !d->m_solver_thread ) {
+        d->m_solver_thread = new SolverThread( d->m_solver );
+        connect( d->m_solver_thread, SIGNAL( finished() ), this, SLOT( slotSolverFinished() ));
+    }
     d->m_solver_thread->start(QThread::IdlePriority);
 }
 
@@ -1206,11 +1235,11 @@ void DealerScene::slotSolverFinished()
     {
         // if we can lock, then this finish signal is abnormal
         d->solverMutex.unlock();
-        stopAndRestartSolver();
+        d->updateSolver->start();
         return;
     }
 
-    kDebug() << "stop thread " << ret << endl;
+    kDebug() << gettime() << " stop thread " << ret << endl;
     switch (  ret )
     {
     case Solver::WIN:
@@ -1228,7 +1257,7 @@ void DealerScene::slotSolverFinished()
         break;
     case Solver::QUIT:
         d->solverMutex.unlock();
-        stopAndRestartSolver();
+        d->updateSolver->start();
         break;
     case Solver::MLIMIT:
         d->solverMutex.unlock();
@@ -1302,11 +1331,13 @@ void DealerScene::removePile(Pile *p)
 
 void DealerScene::stopDemo()
 {
+    kDebug() << gettime() << " stopDemo " << waiting() << endl;
+
     if (waiting()) {
         _waiting = 0;
-        stop_demo_next = true;
+        d->stop_demo_next = true;
         return;
-    } else stop_demo_next = false;
+    } else d->stop_demo_next = false;
 
     QList<QGraphicsItem *> list = items();
     for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
@@ -1317,14 +1348,14 @@ void DealerScene::stopDemo()
         }
     }
 
-    demotimer->stop();
-    demo_active = false;
+    d->demotimer->stop();
+    d->demo_active = false;
     emit demoActive( false );
 }
 
 bool DealerScene::demoActive() const
 {
-    return demo_active;
+    return d->demo_active;
 }
 
 void DealerScene::toggleDemo()
@@ -1417,17 +1448,17 @@ void DealerScene::demo()
     if ( waiting() )
         return;
 
-    if (stop_demo_next) {
+    if (d->stop_demo_next) {
         stopDemo();
         return;
     }
-    stop_demo_next = false;
-    demo_active = true;
+    d->stop_demo_next = false;
+    d->demo_active = true;
     d->gothelp = true;
     unmarkAll();
     clearHints();
     getHints();
-    demotimer->stop();
+    d->demotimer->stop();
 
     MoveHint *mh = chooseHint();
     if (mh) {
@@ -1512,8 +1543,8 @@ void DealerScene::waitForDemo(Card *t)
     setWaiting( false );
     if ( !waiting() )
     {
-        demotimer->setSingleShot( true );
-        demotimer->start(250);
+        d->demotimer->setSingleShot( true );
+        d->demotimer->start(250);
     }
 }
 
@@ -1521,8 +1552,7 @@ void DealerScene::setSolver( Solver *s) {
     delete d->m_solver;
     delete d->m_solver_thread;
     d->m_solver = s;
-    d->m_solver_thread = new SolverThread( d->m_solver );
-    connect( d->m_solver_thread, SIGNAL( finished() ), this, SLOT( slotSolverFinished() ));
+    d->m_solver_thread = 0;
 }
 
 bool DealerScene::isGameWon() const
@@ -1621,21 +1651,21 @@ void DealerScene::relayoutPiles()
 
 void DealerScene::setSceneSize( const QSize &s )
 {
-    //kDebug() << "setSceneSize " << kBacktrace() << endl;
+    kDebug() << "setSceneSize " << sceneRect() << endl;
     setSceneRect( QRectF( 0, 0, s.width(), s.height() ) );
+    d->hasScreenRect = true;
 
     QPointF defaultSceneRect = maxPilePos();
 
-    kDebug() << "setSceneSize " << defaultSceneRect << " " << s << endl;
+    kDebug() << gettime() << " setSceneSize " << defaultSceneRect << " " << s << endl;
     Q_ASSERT( cardMap::self()->wantedCardWidth() > 0 );
     Q_ASSERT( cardMap::self()->wantedCardHeight() > 0 );
 
     qreal scaleX = s.width() / cardMap::self()->wantedCardWidth() / ( defaultSceneRect.x() + 2 );
     qreal scaleY = s.height() / cardMap::self()->wantedCardHeight() / ( defaultSceneRect.y() + 2 );
-    kDebug() << "scaleY " << scaleY << " " << scaleX << endl;
+    //kDebug() << "scaleY " << scaleY << " " << scaleX << endl;
     qreal n_scaleFactor = qMin(scaleX, scaleY);
 
-    kDebug() << "scale " << n_scaleFactor << endl;
     cardMap::self()->setWantedCardWidth( int( n_scaleFactor * 10 * cardMap::self()->wantedCardWidth() ) );
 
     for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
@@ -1654,7 +1684,7 @@ void DealerScene::setSceneSize( const QSize &s )
             ms.setWidth( p->x() );
         Q_ASSERT( p->reservedSpace().height() > 0 ); // no such case yet
 
-        // kDebug() << "setMaximalSpace " << ms << " " << cardMap::self()->wantedCardHeight() << " " << cardMap::self()->wantedCardWidth() << endl;
+        //kDebug() << "setMaximalSpace " << ms << " " << cardMap::self()->wantedCardHeight() << " " << cardMap::self()->wantedCardWidth() << endl;
         Q_ASSERT( ms.width() >= cardMap::self()->wantedCardWidth() - 0.2 );
         Q_ASSERT( ms.height() >= cardMap::self()->wantedCardHeight() - 0.2 );
 
@@ -1674,7 +1704,7 @@ void DealerScene::setSceneSize( const QSize &s )
             myRect.moveLeft( p->x() - p->maximalSpace().width() );
         }
 
-        // kDebug() << p->objectName() << " " << p->spread() << " " << myRect << endl;
+        //kDebug() << p->objectName() << " " << p->spread() << " " << myRect << endl;
 
         for ( PileList::ConstIterator it2 = piles.begin(); it2 != piles.end(); ++it2 )
         {
@@ -1688,11 +1718,11 @@ void DealerScene::setSceneSize( const QSize &s )
                 pileRect.moveBottom( (*it2)->y() );
 
 
-            // kDebug() << "compa " << p->objectName() << " " << myRect << " " << ( *it2 )->objectName() << " " << pileRect << " " << myRect.intersects( pileRect ) << endl;
+            //kDebug() << "compa " << p->objectName() << " " << myRect << " " << ( *it2 )->objectName() << " " << pileRect << " " << myRect.intersects( pileRect ) << endl;
             // if the growing pile intersects with another pile, we need to solve the conflict
             if ( myRect.intersects( pileRect ) )
             {
-                // kDebug() << "compa " << p->objectName() << " " << myRect << " " << ( *it2 )->objectName() << " " << pileRect << " " << myRect.intersects( pileRect ) << endl;
+                //kDebug() << "compa " << p->objectName() << " " << myRect << " " << ( *it2 )->objectName() << " " << pileRect << " " << myRect.intersects( pileRect ) << endl;
                 QSizeF pms = ( *it2 )->maximalSpace();
 
                 if ( p->reservedSpace().width() != 10 )
@@ -1702,16 +1732,16 @@ void DealerScene::setSceneSize( const QSize &s )
                         Q_ASSERT( ( *it2 )->reservedSpace().height() > 0 );
                         // if it's growing too, we win
                         pms.setHeight( qMin( myRect.top() - ( *it2 )->y() - 1, pms.height() ) );
-                        // kDebug() << "1. reduced height of " << ( *it2 )->objectName() << endl;
+                        //kDebug() << "1. reduced height of " << ( *it2 )->objectName() << endl;
                     } else // if it's fixed height, we loose
                         if ( p->reservedSpace().width() < 0 ) {
                             // this isn't made for two piles one from left and one from right both growing
                             Q_ASSERT( ( *it2 )->reservedSpace().width() == 10 );
                             myRect.setLeft( ( *it2 )->x() + cardMap::self()->wantedCardWidth() + 1);
-                            // kDebug() << "2. reduced width of " << p->objectName() << endl;
+                            //kDebug() << "2. reduced width of " << p->objectName() << endl;
                         } else {
                             myRect.setRight( ( *it2 )->x() - 1 );
-                            // kDebug() << "3. reduced width of " << p->objectName() << endl;
+                            //kDebug() << "3. reduced width of " << p->objectName() << endl;
                         }
                 }
 
@@ -1722,21 +1752,21 @@ void DealerScene::setSceneSize( const QSize &s )
                         Q_ASSERT( ( *it2 )->reservedSpace().height() > 0 );
                         // if it's growing too, we win
                         pms.setWidth( qMin( myRect.right() - ( *it2 )->x() - 1, pms.width() ) );
-                        kDebug() << "4. reduced width of " << ( *it2 )->objectName() << endl;
+                        //kDebug() << "4. reduced width of " << ( *it2 )->objectName() << endl;
                     } else // if it's fixed height, we loose
                         if ( p->reservedSpace().height() < 0 ) {
                             // this isn't made for two piles one from left and one from right both growing
                             Q_ASSERT( ( *it2 )->reservedSpace().height() == 10 );
                             Q_ASSERT( false ); // TODO
                             myRect.setLeft( ( *it2 )->x() + cardMap::self()->wantedCardWidth() + 1);
-                            kDebug() << "5. reduced height of " << p->objectName() << endl;
+                            //kDebug() << "5. reduced height of " << p->objectName() << endl;
                         } else {
                             myRect.setBottom( ( *it2 )->y() - 1 );
-                            // kDebug() << "6. reduced height of " << p->objectName() << endl;
+                            //kDebug() << "6. reduced height of " << p->objectName() << endl;
                         }
                 }
 
-                kDebug() << pms << " " << cardMap::self()->wantedCardWidth() << " " << cardMap::self()->wantedCardHeight() << endl;
+                //kDebug() << pms << " " << cardMap::self()->wantedCardWidth() << " " << cardMap::self()->wantedCardHeight() << endl;
                 Q_ASSERT( pms.width() >= cardMap::self()->wantedCardWidth() - 0.1 );
                 Q_ASSERT( pms.height() >= cardMap::self()->wantedCardHeight() - 0.1 );
                 ( *it2 )->setMaximalSpace( pms );
@@ -1769,5 +1799,42 @@ Solver *DealerScene::solver() const { return d->m_solver; }
 
 int DealerScene::neededFutureMoves() const { return d->neededFutureMoves; }
 void DealerScene::setNeededFutureMoves( int i ) { d->neededFutureMoves = i; }
+
+QSvgRenderer *DealerScene::DealerScenePrivate::backren = 0;
+
+void DealerScene::drawBackground ( QPainter * painter, const QRectF & rect )
+{
+    if ( !d->hasScreenRect )
+        return;
+
+    QPixmap strip( 1, ( int )( height() + 0.9 ));
+    QPainter p( &strip );
+    QLinearGradient str(0, 0, 0, strip.height());
+    str.setColorAt(0, QColor(0, 113, 188));
+    str.setColorAt(1, QColor(0, 147, 212));
+    p.fillRect( QRect( 0, 0, 1, strip.height() ), str );
+    p.end();
+
+    painter->drawTiledPixmap ( rect, strip );
+
+    if ( d->tildePix.width() != width() )
+    {
+        if ( !d->backren )
+            d->backren = new QSvgRenderer( KStandardDirs::locate( "data", "kpat/backgrounds/background.svg" ) );
+
+        QRectF bound = d->backren->boundsOnElement( "tilde" );
+        int _width = ( int )( width() + 0.9 );
+        d->tildePix = QPixmap( _width, ( int )( bound.height() / bound.width() * _width + 0.5 ));
+        QImage img( d->tildePix.width(), d->tildePix.height(), QImage::Format_ARGB32);
+        img.fill( qRgba( 0, 0, 255, 0 ) );
+        QPainter p2( &img );
+        d->backren->render( &p2, "tilde" );
+        p2.end();
+        d->tildePix = QPixmap::fromImage( img );
+        d->tildePix.save( KStandardDirs::locateLocal( "data", "kpat/tilde.png" ), "PNG" );
+    }
+
+    painter->drawPixmap( 0, ( int )( height() - d->tildePix.height() ) * 2 / 3, d->tildePix );
+}
 
 #include "dealer.moc"

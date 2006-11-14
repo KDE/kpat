@@ -88,8 +88,6 @@ PatienceView::PatienceView( KMainWindow* _parent )
     assert(!s_instance);
     s_instance = this;
 
-    setCacheMode(QGraphicsView::CacheBackground);
-
 #ifndef QT_NO_OPENGL
     //QGLWidget *wgl = new QGLWidget();
     //setupViewport(wgl);
@@ -258,6 +256,8 @@ void PatienceView::resizeEvent( QResizeEvent *e )
 
     kDebug() << "resizeEvent " << size() << " " << e << " " << dscene() << " " << parent()->isVisible() << /* " " << kBacktrace() << */ endl;
 #endif
+
+    setCacheMode(QGraphicsView::CacheBackground);
 
     if ( !dscene() )
         return;

@@ -21,8 +21,8 @@ set(kpat_SRCS
    gamestatsimpl.cpp
    patsolve/patsolve.cpp
    patsolve/memory.cpp
-   yukon.cpp
-   patsolve/yukon.cpp
+   patsolve/klondike.cpp
+   klondike.cpp
 )
 
 if (RELEASE)
@@ -31,12 +31,12 @@ set(kpat_SRCS ${kpat_SRCS}
    spider.cpp
    patsolve/freecell.cpp
    freecell.cpp 
-   patsolve/klondike.cpp
-   klondike.cpp
    patsolve/simon.cpp
    simon.cpp
    idiot.cpp
    patsolve/idiot.cpp
+   yukon.cpp
+   patsolve/yukon.cpp
    mod3.cpp
    grandf.cpp
    napoleon.cpp
@@ -67,6 +67,6 @@ install(TARGETS kpat  DESTINATION ${BIN_INSTALL_DIR} )
 
 install( FILES kpat.desktop  DESTINATION  ${XDG_APPS_DIR} )
 install( FILES pile.svg won.svg  DESTINATION  ${DATA_INSTALL_DIR}/kpat )
-install( FILES green.png  DESTINATION  ${DATA_INSTALL_DIR}/kpat/backgrounds )
+install( FILES background.svg DESTINATION  ${DATA_INSTALL_DIR}/kpat/backgrounds )
 install( FILES kpatui.rc  DESTINATION  ${DATA_INSTALL_DIR}/kpat )
 

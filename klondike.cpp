@@ -149,7 +149,7 @@ void Klondike::deal3()
     }
 
     // we need to look that many steps in the future to see if we can loose
-    setNeededFutureMoves( Deck::deck()->cardsLeft() + pile->cardsLeft() + 1 );
+    setNeededFutureMoves( Deck::deck()->cardsLeft() + pile->cardsLeft() );
 }
 
 //  Add cards from  pile to deck, in reverse direction

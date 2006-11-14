@@ -89,6 +89,7 @@ protected:
     virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     void countLoss();
     void countGame();
+    void drawBackground ( QPainter * painter, const QRectF & rect );
 
 public:
     Pile *findTarget(Card *c);
@@ -116,8 +117,6 @@ public:
 
     int waiting() const { return _waiting; }
     void setWaiting(bool w);
-
-    void setBackgroundPixmap(const QPixmap &background, const QColor &midcolor);
 
     void addPile(Pile *p);
     void removePile(Pile *p);
@@ -163,6 +162,9 @@ public:
 
     void setNeededFutureMoves(int);
     int neededFutureMoves() const;
+
+    bool isInitialDeal() const;
+    qreal autoDropFactor() const;
 
 public slots:
     virtual bool startAutoDrop();
@@ -225,11 +227,6 @@ private:
     int _waiting;
     long gamenumber;
 
-    QTimer *demotimer;
-    bool demo_active;
-    bool stop_demo_next;
-    qreal m_autoDropFactor;
-    
     class DealerScenePrivate;
     DealerScenePrivate *d;
 };

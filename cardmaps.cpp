@@ -234,11 +234,10 @@ void cardMap::triggerRescale()
 
 void cardMap::setWantedCardWidth( double w )
 {
-    kDebug() << "setWantedCardWidth " << w << " " << d->_wantedCardWidth << endl;
-
     if ( w > 200 || w < 10 || d->_wantedCardWidth == w )
         return;
 
+    kDebug() << "setWantedCardWidth " << w << " " << d->_wantedCardWidth << endl;
     d->_wantedCardWidth = w;
     d->_scale = 0;
     if (PatienceView::instance()->dscene())

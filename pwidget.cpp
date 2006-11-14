@@ -114,9 +114,6 @@ pWidget::pWidget()
     games->setItems(list);
 
     KGlobal::dirs()->addResourceType("wallpaper", KStandardDirs::kde_default("data") + "kpat/backgrounds/");
-    KGlobal::dirs()->addResourceType("wallpaper", KStandardDirs::kde_default("data") + "ksnake/backgrounds/");
-
-    list.clear();
 
     dill = new PatienceView( this );
     connect(dill, SIGNAL(saveGame()), SLOT(saveGame()));
@@ -124,8 +121,6 @@ pWidget::pWidget()
 
     m_cards = new cardMap();
 
-/*    backs = new KAction(i18n("&Switch Cards..."), actionCollection(), "backside");
-      connect( backs, SIGNAL( triggered(bool ) ), SLOT( changeBackside() ) );*/
     stats = new KAction(i18n("&Statistics"), actionCollection(),"game_stats");
     connect( stats, SIGNAL( triggered( bool ) ), SLOT(showStats()) );
 
@@ -146,7 +141,7 @@ pWidget::pWidget()
         cg.writePathEntry( "Background", QString::null );
     }
 
-    dill->setBackgroundBrush(QBrush( background) );
+    //dill->setBackgroundBrush(QBrush( background) );
 
     bool autodrop = cg.readEntry("Autodrop", true);
     dropaction->setChecked(autodrop);
@@ -240,14 +235,13 @@ void pWidget::setGameCaption()
 void pWidget::slotNewGameType()
 {
     newGameType();
-
-    QTimer::singleShot( 50, this, SLOT( restart() ) );
+    QTimer::singleShot(0 , this, SLOT( restart() ) );
 }
 
 void pWidget::newGameType()
 {
     slotUpdateMoves();
-    kDebug() << "pWidget::newGameType\n";
+    kDebug() << gettime() << " pWidget::newGameType\n";
 
     int id = games->currentItem();
     if ( id < 0 )
@@ -330,29 +324,7 @@ void pWidget::chooseGame()
 
 void pWidget::gameLost()
 {
-    QString   dontAskAgainName = "gameLostDontAskAgain";
-
-    KConfigGroup cg(KGlobal::config(), QLatin1String("Notification Messages"));
-    QString dontAsk = cg.readEntry(dontAskAgainName,QString()).toLower();
-
-    // If we are ordered never to ask again and to continue the game,
-    // then do so.
-    if (dontAsk == "no")
-	return;
-    // If it says yes, we ask anyway. Just starting a new game would
-    // be incredibly annoying.
-    if (dontAsk == "yes")
-	dontAskAgainName.clear();
-
-    if (KMessageBox::questionYesNo(this, i18n("You could not win this game, "
-                                              "but there is always a second try.\nStart a new game?"),
-                                   i18n("Could Not Win!"),
-                                   KGuiItem(i18n("New Game")),
-				   KStdGuiItem::cont(),
-				   dontAskAgainName) == KMessageBox::Yes) {
-
-        QTimer::singleShot(0, this, SLOT(newGame()));
-    }
+    statusBar()->showMessage( i18n( "This game is lost." ) );
 }
 
 void pWidget::openGame(const KUrl &url)
@@ -418,12 +390,12 @@ void pWidget::showStats()
 
 void pWidget::slotGameSolverWon()
 {
-    statusBar()->showMessage(i18n( "I just won the game! Good luck to you." ), 0);
+    statusBar()->showMessage(i18n( "I just won the game! Good luck to you." ), 3000);
 }
 
 void pWidget::slotGameSolverLost()
 {
-    statusBar()->showMessage(i18n( "Nope, this game can't be won anymore." ), 0);
+    statusBar()->showMessage(i18n( "Nope, this game can't be won anymore." ), 3000);
 }
 
 void pWidget::slotGameSolverUnknown()

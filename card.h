@@ -178,15 +178,7 @@ private:
 
 #include <sys/time.h>
 
-extern time_t start_time;
+extern QString gettime();
 
-static inline QString gettime()
-{
-    struct timeval tv;
-    gettimeofday( &tv, 0 );
-    if ( start_time == -1 )
-        start_time = tv.tv_sec;
-    return QString::number( ( tv.tv_sec - start_time ) * 1000 + ( tv.tv_usec / 1000 ) );
-}
 
 #endif

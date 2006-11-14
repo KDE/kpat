@@ -168,8 +168,8 @@ private:
     int myIndex;
     bool _target;
 
-    QPixmap cache;
-    QPixmap cache_selected;
+    static QPixmap *cache;
+    static QPixmap *cache_selected;
     bool m_highlighted;
     QPointF _pilePos;
     QSizeF m_reserved;

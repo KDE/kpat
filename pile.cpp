@@ -36,6 +36,8 @@ const int Pile::addSpread     = 0x0100;
 const int Pile::autoTurnTop   = 0x0200;
 const int Pile::wholeColumn   = 0x0400;
 
+QPixmap *Pile::cache = 0;
+QPixmap *Pile::cache_selected = 0;
 
 Pile::Pile( int _index, DealerScene* parent)
     : QGraphicsPixmapItem( ),
@@ -64,6 +66,11 @@ Pile::Pile( int _index, DealerScene* parent)
     m_relayoutTimer = new QTimer( this );
     m_relayoutTimer->setSingleShot( true );
     connect( m_relayoutTimer, SIGNAL( timeout() ), SLOT( relayoutCards() ) );
+
+    if ( !cache )
+        cache = new QPixmap( KStandardDirs::locateLocal( "data", "kpat/pile.png" ) );
+    if ( !cache_selected )
+        cache_selected = new QPixmap( KStandardDirs::locateLocal( "data", "kpat/pile_selected.png" ) );
 }
 
 QSvgRenderer *Pile::_renderer = 0;
@@ -156,6 +163,11 @@ void Pile::rescale()
     if (!scene())
         return;
 
+    int wantedwidth = int( cardMap::self()->wantedCardWidth() + 1 );
+    QPixmap *mycache = cache;
+    if ( isHighlighted() )
+        mycache = cache_selected;
+
     QPointF new_pos = QPointF( _pilePos.x() * cardMap::self()->wantedCardWidth() / 10.,
                                _pilePos.y() * cardMap::self()->wantedCardHeight() / 10. );
     //kDebug() << scene()->sceneRect() << " " << new_pos << endl;
@@ -164,8 +176,18 @@ void Pile::rescale()
     if ( new_pos.y() < 0 )
         new_pos.setY( scene()->height() - cardMap::self()->wantedCardHeight() + new_pos.y() );
 
-    setPos( new_pos );
-    tryRelayoutCards();
+    if ( new_pos != pos() )
+    {
+        setPos( new_pos );
+        tryRelayoutCards();
+    }
+
+    if ( mycache->width() == wantedwidth )
+    {
+        setPixmap( *mycache );
+        return;
+    }
+    kDebug() << gettime() << "rescale start\n";
 
 #if 0
     QImage pix( ( int )maximalSpace().width(),
@@ -184,7 +206,13 @@ void Pile::rescale()
                             QRectF( 0, 0, cardMap::self()->wantedCardWidth(),
                                     cardMap::self()->wantedCardHeight() ) );
     p.end();
-    setPixmap( QPixmap::fromImage( pix ) );
+    *mycache = QPixmap::fromImage( pix );
+    if ( isHighlighted() )
+        pix.save( KStandardDirs::locateLocal( "data", "kpat/pile_selected.png" ), "PNG" );
+    else
+        pix.save( KStandardDirs::locateLocal( "data", "kpat/pile.png" ), "PNG" );
+    setPixmap( *mycache );
+    kDebug() << gettime() << "rescale end\n";
 }
 
 bool Pile::legalAdd( const CardList& _cards ) const
@@ -328,7 +356,7 @@ void Pile::relayoutCards()
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
         // ( *it )->stopAnimation();
-        ( *it )->moveTo( mypos.x(), mypos.y(), z, 120 );
+        ( *it )->moveTo( mypos.x(), mypos.y(), z, int( 120 * dscene()->autoDropFactor() ) );
         ( *it )->setZValue( z );
         mypos.rx() += ( *it )->spread().width() * divx / 10 * cardMap::self()->wantedCardWidth();
         mypos.ry() += ( *it )->spread().height() * divy / 10 * cardMap::self()->wantedCardHeight();
@@ -423,15 +451,18 @@ void Pile::add( Card* _card, bool _facedown )
     add(_card);
 
     bool face = _facedown;
+
+#if 0
     if ( source == Deck::deck() ) // ignore then
         face = false;
+#endif
     if (face || !isVisible()) {
         _card->setPos( QPointF( x2, y2 ) );
         _card->setZValue( z2 );
     } else {
-        if ( source == Deck::deck() && source && !source->isVisible() )
+        if ( source == Deck::deck() && dscene()->isInitialDeal() )
         {
-            _card->setPos(QPointF( x2, -cardMap::self()->wantedCardHeight() - 2) );
+            _card->setPos(QPointF( x2, 0 - 3 * cardMap::self()->wantedCardHeight() ) );
         }
         _card->setZValue( z2 );
         qreal distx = x2 - _card->x();
@@ -577,7 +608,7 @@ bool Pile::cardDblClicked(Card *c)
 
 void Pile::tryRelayoutCards()
 {
-    m_relayoutTimer->start( 40 );
+    m_relayoutTimer->start( int( 40 * dscene()->autoDropFactor() ) );
 }
 
 #include "pile.moc"
