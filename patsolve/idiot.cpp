@@ -91,7 +91,7 @@ void IdiotSolver::undo_move(MOVE *m)
 
     if ( from == 4 )
     {
-        for ( int i = 0; i < 4; ++i )
+        for ( int i = 3; i >= 0; --i )
         {
             card = *Wp[i];
             Wp[i]--;
