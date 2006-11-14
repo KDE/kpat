@@ -477,8 +477,10 @@ void DealerScene::hint()
                      m.turn_index, m.pri );
 
         MoveHint *mh = solver()->translateMove( m );
-        if ( mh )
+        if ( mh ) {
             newHint( mh );
+            kDebug() << "win move " << mh->pile()->objectName() << " " << mh->card()->name() << " " << mh->priority() << endl;
+        }
         getHints();
     } else
         getHints();
