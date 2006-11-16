@@ -493,7 +493,7 @@ int SpiderSolver::getClusterNumber()
     return k;
 }
 
-bool SpiderSolver::print_layout()
+void SpiderSolver::print_layout()
 {
     int i, w, o;
 
@@ -515,10 +515,7 @@ bool SpiderSolver::print_layout()
             printcard( O[o] + PS_KING, stderr);
     }
     fprintf(stderr, "\nprint-layout-end\n");
-    bool broke = false;
-    if ( broke )
-        exit( 1 );
-    return broke;
+    return;
 }
 
 MoveHint *SpiderSolver::translateMove( const MOVE &m )

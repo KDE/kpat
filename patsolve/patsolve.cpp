@@ -89,6 +89,7 @@ bool Solver::recursive(POSITION *parent)
     if (alln == 0) {
         if ( isWon() ) {
             Status = WIN;
+            Q_ASSERT(parent); // it just is never called with a won game
             win(parent);
             return true;
         }
@@ -932,9 +933,8 @@ Solver::statuscode Solver::patsolve( int _max_positions )
     return Status;
 }
 
-bool Solver::print_layout()
+void Solver::print_layout()
 {
-    return true;
 }
 
 void Solver::setNumberPiles( int p )

@@ -288,14 +288,10 @@ int YukonSolver::get_possible_moves(int *a, int *numout)
                     mp->turn_index = -1;
                     if ( Wlen[i] > l+1 && DOWN( W[i][Wlen[i]-l-2] ) )
                         mp->turn_index = 1;
-                    if ( i == 7 )
-                        mp->pri = 40;
-                    else {
-                        if ( mp->turn_index > 0 || Wlen[i] == l+1)
-                            mp->pri = 30;
-                        else
-                            mp->pri = 1;
-                    }
+                    if ( mp->turn_index > 0 || Wlen[i] == l+1)
+                         mp->pri = 30;
+                    else
+                         mp->pri = 1;
                     n++;
                     mp++;
                 }
@@ -417,7 +413,7 @@ MoveHint *YukonSolver::translateMove( const MOVE &m )
     }
 }
 
-bool YukonSolver::print_layout()
+void YukonSolver::print_layout()
 {
     int i, w, o;
 
@@ -434,5 +430,4 @@ bool YukonSolver::print_layout()
         printcard(O[o] + Osuit[o], stderr);
     }
     fprintf(stderr, "\nprint-layout-end\n");
-    return true;
 }

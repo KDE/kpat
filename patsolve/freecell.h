@@ -18,7 +18,7 @@ public:
     virtual void unpack_cluster( int k );
     virtual MoveHint *translateMove( const MOVE &m);
 
-    virtual bool print_layout();
+    virtual void print_layout();
 
     int Nwpiles; /* the numbers we're actually using */
     int Ntpiles;

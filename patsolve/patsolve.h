@@ -83,7 +83,7 @@ protected:
     void free_buckets(void);
     void printcard(card_t card, FILE *outfile);
     int translate_pile(const Pile *pile, card_t *w, int size);
-    virtual bool print_layout();
+    virtual void print_layout();
 
     void pilesort(void);
     void hash_layout( void );

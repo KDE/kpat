@@ -387,7 +387,7 @@ int SimonSolver::getClusterNumber()
     return k;
 }
 
-bool SimonSolver::print_layout()
+void SimonSolver::print_layout()
 {
     int i, w, o;
 
@@ -406,10 +406,6 @@ bool SimonSolver::print_layout()
             printcard( O[o] + PS_KING, stderr);
     }
     fprintf(stderr, "\nprint-layout-end\n");
-    bool broke = false;
-    if ( broke )
-        exit( 1 );
-    return broke;
 }
 
 MoveHint *SimonSolver::translateMove( const MOVE &m )

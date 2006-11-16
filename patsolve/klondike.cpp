@@ -559,7 +559,7 @@ MoveHint *KlondikeSolver::translateMove( const MOVE &m )
     }
 }
 
-bool KlondikeSolver::print_layout()
+void KlondikeSolver::print_layout()
 {
     int i, w, o;
 
@@ -581,5 +581,4 @@ bool KlondikeSolver::print_layout()
         printcard(O[o] + Osuit[o], stderr);
     }
     fprintf(stderr, "\nprint-layout-end\n");
-    return true;
 }

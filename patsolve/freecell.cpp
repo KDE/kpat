@@ -493,7 +493,7 @@ int FreecellSolver::getClusterNumber()
     return k;
 }
 
-bool FreecellSolver::print_layout()
+void FreecellSolver::print_layout()
 {
        int i, t, w, o;
 
@@ -512,5 +512,4 @@ bool FreecellSolver::print_layout()
                printcard(O[o] + Osuit[o], stderr);
        }
        fprintf(stderr, "\nprint-layout-end\n");
-       return true;
 }

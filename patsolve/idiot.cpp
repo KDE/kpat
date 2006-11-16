@@ -257,7 +257,7 @@ MoveHint *IdiotSolver::translateMove( const MOVE &m )
     return new MoveHint( card, target, m.pri );
 }
 
-bool IdiotSolver::print_layout()
+void IdiotSolver::print_layout()
 {
     int i, w;
 
@@ -275,7 +275,6 @@ bool IdiotSolver::print_layout()
         fputc('\n', stderr);
     }
     fprintf(stderr, "\nprint-layout-end\n");
-    return true;
 }
 
 inline bool higher( const card_t &c1, const card_t &c2)
