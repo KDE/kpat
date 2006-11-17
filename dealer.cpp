@@ -1647,8 +1647,11 @@ QPointF DealerScene::maxPilePos() const
 
 void DealerScene::relayoutPiles()
 {
-    if ( !views().isEmpty() )
-        setSceneSize( views().first()->viewport()->size() );
+     if ( !views().isEmpty() ) {
+        QGraphicsView *view = views().first();
+        setSceneSize( view->viewport()->size() );
+        view->resetCachedContent();
+     }
 }
 
 void DealerScene::setSceneSize( const QSize &s )
@@ -1806,6 +1809,7 @@ QSvgRenderer *DealerScene::DealerScenePrivate::backren = 0;
 
 void DealerScene::drawBackground ( QPainter * painter, const QRectF & rect )
 {
+    kDebug() << "drawBackground " << rect << " " << d->hasScreenRect << endl;
     if ( !d->hasScreenRect )
         return;
 

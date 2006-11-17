@@ -259,6 +259,7 @@ void PatienceView::resizeEvent( QResizeEvent *e )
 #endif
 
     setCacheMode(QGraphicsView::CacheBackground);
+    resetCachedContent();
 
     if ( !dscene() )
         return;
