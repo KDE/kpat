@@ -542,7 +542,7 @@ int freecell_solver_user_cmd_line_parse_args_with_file_nesting_count(
                     freecell_solver_user_set_a_star_weight(
                         instance,
                         a,
-                        atof(start_num)
+                        atof(num_copy)
                         );
                     free(num_copy);
                     start_num=end_num+1;
