@@ -125,6 +125,11 @@ public:
     bool isHovered() const  { return m_hovered; }
     // overload to move shadow
     void setPos(const QPointF &pos);
+    virtual bool collidesWithItem ( const QGraphicsItem * other,
+                                    Qt::ItemSelectionMode mode ) const;
+
+    enum VisibleState { CardVisible, CardHidden, Unknown };
+    void setIsSeen( VisibleState is );
 
 signals:
     void         stoped(Card *c);
@@ -137,10 +142,10 @@ public slots:
     void       zoomInAnimation();
     void       zoomOutAnimation();
 
-
 private:
     void       zoomIn(int t);
     void       zoomOut(int t);
+    void       testVisibility();
 
     QString     m_name;
     QString     m_elementId;
@@ -165,15 +170,18 @@ private:
     QGraphicsItemAnimation *animation;
     QGraphicsPixmapItem *m_shadow;
 
+    QRectF    m_boundingRect;
     QPointF   m_originalPosition;
     QTimer   *m_hoverTimer;
     bool      m_hovered;
     bool      m_highlighted;
     bool      m_moving;
+    VisibleState  m_isSeen;
 
     // do not use
     void setPos( qreal, qreal );
     void moveBy( qreal, qreal );
+    QList<Card*> m_hiddenCards;
 };
 
 #include <sys/time.h>

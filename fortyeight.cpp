@@ -28,6 +28,18 @@ QSizeF HorLeftPile::cardOffset( const Card *) const
     return QSizeF(-2.1, 0);
 }
 
+void HorLeftPile::relayoutCards()
+{
+    // this is just too heavy to animate, so we stop it
+    Pile::relayoutCards();
+    for ( CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it )
+    {
+        if ( *it != top() )
+            ( *it )->stopAnimation();
+    }
+}
+
+
 Fortyeight::Fortyeight( )
     : DealerScene()
 {

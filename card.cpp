@@ -55,8 +55,9 @@ AbstractCard::AbstractCard( Rank r, Suit s )
 Card::Card( Rank r, Suit s, QGraphicsScene *_parent )
     : QObject(), AbstractCard( r, s ), QGraphicsPixmapItem(),
       m_source(0), tookDown(false), animation( 0 ),
-      m_highlighted( false ), m_moving( false )
+      m_highlighted( false ), m_moving( false ), m_isSeen( Unknown )
 {
+    setShapeMode( QGraphicsPixmapItem::BoundingRectShape );
     _parent->addItem( this );
 
     // Set the name of the card
@@ -103,6 +104,8 @@ Card::~Card()
 void Card::setPixmap()
 {
     QGraphicsPixmapItem::setPixmap( cardMap::self()->renderCard( m_elementId ) );
+    m_boundingRect = QRectF(QPointF(0,0), pixmap().size());
+    m_isSeen = Unknown;
     return;
 
     QImage img = pixmap().toImage().mirrored( false, true );
@@ -208,16 +211,19 @@ void Card::setZValue(double z)
 //
 void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
 {
+
     //kDebug() << "Card::moveTo " << x2 << " " << y2 << " " << duration << " " << kBacktrace() << endl;
     if ( fabs( x2 - x() ) < 2 && fabs( y2 - y() ) < 1 )
     {
         setPos( QPointF( x2, y2 ) );
         setZValue( z2 );
+        m_isSeen = Unknown;
         return;
     }
     if ( name() == "diamond 01" )
         kDebug() << "moveTo " << name() << " " << x2 << " " << y2 << " " << z2 << " " << pos() << " " << zValue() << " " << duration << " " << kBacktrace() << endl;
     stopAnimation();
+    m_isSeen = CardVisible; // avoid suprises
 
     QTimeLine *timeLine = new QTimeLine( 1000, this );
 
@@ -310,7 +316,28 @@ void Card::setTakenDown(bool td)
     tookDown = td;
 }
 
+void Card::testVisibility()
+{
+    // check if we can prove we're not visible
+    QList<QGraphicsItem *> list = scene()->items( mapToScene( m_boundingRect ), Qt::ContainsItemBoundingRect );
+    for ( QList<QGraphicsItem*>::Iterator it = list.begin(); it != list.end(); ++it )
+    {
+        Card *c = dynamic_cast<Card*>( *it );
+        if ( !c )
+            continue;
+        if ( c == this )
+        {
+            m_isSeen = CardVisible;
+            return;
+        }
 
+        //kDebug() << c->name() << " covers " << name() << " " << c->mapToScene( c->boundingRect() ).boundingRect() << " " << mapToScene( boundingRect() ).boundingRect() << " " << zValue() << " " << c->zValue() << endl;
+        c->m_hiddenCards.append( this );
+        m_isSeen = CardHidden;
+        return;
+    }
+    m_isSeen = CardVisible;
+}
 
 bool Card::takenDown() const
 {
@@ -342,6 +369,7 @@ void Card::stopAnimation()
     if ( source() )
         setSpread( source()->cardOffset(this) );
 
+    m_isSeen = Unknown;
     emit stoped( this );
 }
 
@@ -388,6 +416,7 @@ void Card::mousePressEvent ( QGraphicsSceneMouseEvent * ) {
     zoomOut(100);
     m_hovered = false;
     m_moving = true;
+    m_isSeen = CardVisible;
 }
 
 void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ) {
@@ -419,6 +448,12 @@ void Card::getUp()
 void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                  QWidget *)
 {
+
+    if ( m_isSeen == Unknown )
+        testVisibility();
+    if ( m_isSeen == CardHidden )
+        return;
+
 //    painter->setRenderHint(QPainter::Antialiasing);
     //painter->setRenderHint(QPainter::SmoothPixmapTransform);
     if (scene()->mouseGrabberItem() == this) {
@@ -526,7 +561,7 @@ void Card::setElementId( const QString & element )
 
 QRectF Card::boundingRect() const
 {
-   return QRectF(QPointF(0,0), pixmap().size());
+    return m_boundingRect;
 }
 
 QSizeF Card::spread() const
@@ -544,12 +579,31 @@ void Card::setSpread(const QSizeF& spread)
 void Card::setPos( const QPointF &pos )
 {
     QGraphicsPixmapItem::setPos( pos );
+    m_isSeen = Unknown;
+    for ( QList<Card*>::Iterator it = m_hiddenCards.begin();
+          it != m_hiddenCards.end(); ++it )
+    {
+        ( *it )->m_isSeen = Unknown;
+    }
+    m_hiddenCards.clear();
 #if 0
     m_shadow->setZValue( -1 );
     m_shadow->setPos( pos + QPointF( 0, pixmap().height() ) );
     if ( source() )
         m_shadow->setVisible( ( source()->top() == this ) && realFace() );
 #endif
+}
+
+bool Card::collidesWithItem ( const QGraphicsItem * other,
+                              Qt::ItemSelectionMode mode ) const
+{
+    if ( this == other )
+        return true;
+    const Card *othercard = dynamic_cast<const Card*>( other );
+    if ( !othercard )
+        return QGraphicsPixmapItem::collidesWithItem( other, mode );
+    bool col = sceneBoundingRect().intersects( othercard->sceneBoundingRect() );
+    return col;
 }
 
 QString gettime()
