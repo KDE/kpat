@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <kdebug.h>
 #include <limits.h>
+#include <QTime>
 
 #include "version.h"
 #include "pwidget.h"
@@ -120,18 +121,20 @@ int main( int argc, char **argv )
 
         fprintf( stdout, "Testing %s\n", di->name );
 
+        QTime mytime;
         for ( int i = start_index; i <= end_index; i++ )
         {
+            mytime.start();
             f->setGameNumber( i );
             f->restart();
             f->solver()->translate_layout();
             int ret = f->solver()->patsolve();
             if ( ret == Solver::WIN )
-                fprintf( stdout, "%d won\n", i );
+                fprintf( stdout, "%d won (%d ms)\n", i, mytime.elapsed() );
             else if ( ret == Solver::NOSOL )
-                fprintf( stdout, "%d lost\n", i );
+                fprintf( stdout, "%d lost (%d ms)\n", i, mytime.elapsed()  );
             else
-                fprintf( stdout, "%d unknown\n", i );
+                fprintf( stdout, "%d unknown (%d ms)\n", i, mytime.elapsed() );
         }
         return 0;
     }
