@@ -1144,7 +1144,7 @@ bool DealerScene::startAutoDrop()
     getHints();
     for (HintList::ConstIterator it = hints.begin(); it != hints.end(); ++it) {
         MoveHint *mh = *it;
-        if (mh->pile()->target() && mh->priority() > 120 && !mh->card()->takenDown()) {
+        if (mh->pile() && mh->pile()->target() && mh->priority() > 120 && !mh->card()->takenDown()) {
             setWaiting(true);
             Card *t = mh->card();
             CardList cards = mh->card()->source()->cards();

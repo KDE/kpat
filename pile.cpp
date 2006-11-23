@@ -338,7 +338,7 @@ void Pile::relayoutCards()
         // the spreads should hopefully have all one sign, or we get in trouble
         preferredSize.rwidth() += fabs( ( *it )->spread().width() );
         preferredSize.rheight() += fabs( ( *it )->spread().height() );
-        if ( ( *it )->animated() ) {
+        if ( ( *it )->animated() || dscene()->isMoving( *it ) ) {
             // kDebug() << ( *it )->name() << " is animated - restarting timer\n";
             tryRelayoutCards();
             return;

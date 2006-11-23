@@ -100,6 +100,7 @@ public:
     QSizeF m_backSize;
     QString m_cacheDir;
     QString m_cardDeck;
+    QSizeF m_corner;
 };
 
 QImage cardMapThread::renderCard( const QString &element)
@@ -111,7 +112,10 @@ QImage cardMapThread::renderCard( const QString &element)
     renderer()->render( &p, element );
     m_renderer_mutex.unlock();
     p.end();
-    QString filename = KStandardDirs::locateLocal( "data", QString( "carddecks/%1/%2/" ).arg( d->m_cacheDir ).arg( ( int )cardMap::self()->wantedCardWidth() ) + element + ".png");
+    QString filename = KStandardDirs::locateLocal( "data", QString( "carddecks/%1/%2/" ).
+                                                   arg( d->m_cacheDir ).
+                                                   arg( ( int )cardMap::self()->wantedCardWidth() ) +
+                                                   element + ".png");
     QFile m( filename );
     if ( m.open(  QIODevice::WriteOnly ) )
     {
@@ -183,6 +187,7 @@ cardMap::cardMap() : QObject()
     d->_scale = 0;
     d->m_cardDeck = QFileInfo(d->m_cardDeck).dir().absoluteFilePath(fi.readEntry( "SVG" ));
     d->m_backSize = fi.readEntry("BackSize", QSizeF() );
+    registerCard( "back" );
     if ( d->m_backSize.isNull() || !d->m_backSize.isValid() )
     {
         d->m_backSize = d->m_thread->renderer()->boundsOnElement( "back" ).size();
@@ -273,6 +278,8 @@ void cardMap::registerCard( const QString &element )
     d->m_cacheMutex.unlock();
 }
 
+QSizeF cardMap::cornerSize() const { return d->m_corner; }
+
 QPixmap cardMap::renderCard( const QString &element )
 {
     QImage img;
@@ -295,6 +302,19 @@ QPixmap cardMap::renderCard( const QString &element )
         d->m_cache[element] = img;
         d->m_cacheMutex.unlock();
     }
+
+    if ( element == "back" && img.width() == cardMap::self()->wantedCardWidth()  )
+    {
+        QImage mask = img.createHeuristicMask().convertToFormat( QImage::Format_Mono );
+        int height = 0;
+        while ( height < mask.height() && mask.pixel( 0, height ) != 0 )
+            height++;
+        int width = 0;
+        while ( width < mask.width() && mask.pixel( width, 0 ) != 0 )
+            width++;
+        d->m_corner = QSizeF( width, height );
+    } else if ( element == "back" )
+        d->m_corner = QSizeF();
 
     QMatrix matrix;
     matrix.scale( cardMap::self()->wantedCardWidth() / img.width(),

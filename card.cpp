@@ -448,7 +448,6 @@ void Card::getUp()
 void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                  QWidget *)
 {
-
     if ( m_isSeen == Unknown )
         testVisibility();
     if ( m_isSeen == CardHidden )
@@ -464,9 +463,39 @@ void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     QRectF exposed = option->exposedRect;
 //    exposed = exposed.adjusted(-1, -1, 2, 2);
     Q_ASSERT( !pixmap().isNull() );
-    painter->drawPixmap(exposed, pixmap(), exposed );
+
+    //painter->drawPixmap(exposed, pixmap(), exposed );
+    //kDebug() << "exposed " << exposed << endl;
+
+    QSizeF corner = cardMap::self()->cornerSize();
+    if ( corner.isValid() )
+    {
+        painter->setCompositionMode(QPainter::CompositionMode_Source);
+        QRectF body( QPointF( corner.width(), corner.height() ),
+                     QSizeF( pixmap().width() - corner.width() * 2,
+                             pixmap().height() - corner.height() * 2 ) );
+        body = body.intersected( exposed ).adjusted(-1, -1, 2, 2);
+        painter->drawPixmap( body.topLeft(), pixmap(), body );
+        painter->setCompositionMode(QPainter::CompositionMode_SourceOver );
+        QRectF hori( QPointF( 0, 0 ), QSizeF( pixmap().width(), corner.height() ) );
+        if ( exposed.intersects( hori ) )
+            painter->drawPixmap( hori.topLeft(), pixmap(), hori );
+        hori.setTop( pixmap().height() - corner.height() );
+        if ( exposed.intersects( hori ) )
+            painter->drawPixmap( hori.topLeft(), pixmap(), hori );
+        QRectF vert( QPointF( 0, corner.height() ),
+                     QSizeF( corner.width(), pixmap().height() - 2 * corner.height() ) );
+        if ( exposed.intersects( vert ) )
+            painter->drawPixmap( vert.topLeft(), pixmap(), vert );
+        vert.setLeft( pixmap().width() - corner.width() );
+        if ( exposed.intersects( vert ) )
+            painter->drawPixmap( vert.topLeft(), pixmap(), vert );
+    } else
+        painter->drawPixmap( exposed, pixmap(), exposed );
+
 
     if ( isHighlighted() ) {
+        painter->setCompositionMode(QPainter::CompositionMode_SourceOver );
         QPixmap pix(pixmap().size());
         pix.fill(Qt::black);
 
