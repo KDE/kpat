@@ -301,20 +301,24 @@ QPixmap cardMap::renderCard( const QString &element )
         d->m_cacheMutex.lock();
         d->m_cache[element] = img;
         d->m_cacheMutex.unlock();
-    }
 
-    if ( element == "back" && img.width() == cardMap::self()->wantedCardWidth()  )
-    {
-        QImage mask = img.createHeuristicMask().convertToFormat( QImage::Format_Mono );
-        int height = 0;
-        while ( height < mask.height() && mask.pixel( 0, height ) != 0 )
-            height++;
-        int width = 0;
-        while ( width < mask.width() && mask.pixel( width, 0 ) != 0 )
-            width++;
-        d->m_corner = QSizeF( width, height );
-    } else if ( element == "back" )
-        d->m_corner = QSizeF();
+        if ( element == "back" && img.width() == cardMap::self()->wantedCardWidth()  )
+        {
+            int height = 0;
+            while ( height < img.height() && qAlpha( img.pixel( 0, height ) ) != 255 )
+                height++;
+            while ( height < img.height() && qAlpha( img.pixel( 0, img.height() - height - 1 ) ) != 255 )
+                height++;
+            int width = 0;
+            while ( width < img.width() && qAlpha( img.pixel( width, 0 ) ) != 255 )
+                width++;
+            while ( width < img.width() && qAlpha( img.pixel( img.width() - width - 1, 0 ) ) != 255 )
+                width++;
+            d->m_corner = QSizeF( width, height );
+            kDebug() << "corner " << d->m_corner << endl;
+        } else if ( element == "back" )
+            d->m_corner = QSizeF();
+    }
 
     QMatrix matrix;
     matrix.scale( cardMap::self()->wantedCardWidth() / img.width(),
