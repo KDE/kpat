@@ -45,6 +45,7 @@ set(kpat_SRCS ${kpat_SRCS}
    fortyeight.cpp
    clock.cpp
    golf.cpp
+   patsolve/golf.cpp
 )
 endif(RELEASE)
 

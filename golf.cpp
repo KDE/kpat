@@ -15,6 +15,7 @@
 #include <klocale.h>
 #include "deck.h"
 #include <kdebug.h>
+#include <patsolve/golf.h>
 #include "cardmaps.h"
 
 HorRightPile::HorRightPile( int _index, DealerScene* parent)
@@ -56,6 +57,7 @@ Golf::Golf( )
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo);
+    setSolver( new GolfSolver( this ) );
 }
 
 //-------------------------------------------------------------------------//
@@ -109,9 +111,9 @@ void Golf::deckClicked(Card *)
 
 void Golf::deal()
 {
-    for(int r=0;r<7;r++)
+    for(int i=0;i<5;i++)
     {
-        for(int i=0;i<5;i++)
+        for(int r=0;r<7;r++)
         {
             stack[r]->add(Deck::deck()->nextCard(),false);
         }
@@ -145,27 +147,6 @@ bool Golf::cardClicked(Card *c)
     }
     return false;
 }
-
-bool Golf::isGameLost() const
-{
-    if( !Deck::deck()->isEmpty())
-        return false;
-
-    bool onecard = false;
-
-    for( int r = 0; r < 7; r++ ) {
-        if( !stack[r]->isEmpty()){
-            onecard = true;
-            CardList stackTops;
-            stackTops.append(stack[r]->top());
-            if(this->checkAdd(0,waste,stackTops))
-                return false;
-        }
-    }
-
-    return onecard;
-}
-
 
 static class LocalDealerInfo13 : public DealerInfo
 {

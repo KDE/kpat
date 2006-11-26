@@ -27,13 +27,14 @@ public:
 
 class Golf : public DealerScene
 {
+    friend class GolfSolver;
+
     Q_OBJECT
 
 public:
     Golf( );
     void deal();
     virtual void restart();
-    virtual bool isGameLost() const;
 
 protected slots:
     void deckClicked(Card *);
