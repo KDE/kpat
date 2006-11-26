@@ -459,8 +459,6 @@ void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     if (scene()->mouseGrabberItem() == this) {
         //painter->setOpacity(.8);
     }
-    painter->setRenderHint( QPainter::SmoothPixmapTransform, false );
-    painter->setRenderHint( QPainter::Antialiasing, false );
     QRectF exposed = option->exposedRect;
 //    exposed = exposed.adjusted(-1, -1, 2, 2);
     Q_ASSERT( !pixmap().isNull() );
@@ -474,7 +472,9 @@ void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                qFuzzyCompare( m.m22(), 1 ) &&
                qFuzzyCompare( m.m12(), 0 ) &&
                qFuzzyCompare( m.m21(), 0 );
-
+    painter->setRenderHint( QPainter::SmoothPixmapTransform, !isi );
+    painter->setRenderHint( QPainter::Antialiasing, !isi );
+    
     if ( body.isValid() && isi )
     {
         painter->setCompositionMode(QPainter::CompositionMode_Source);
