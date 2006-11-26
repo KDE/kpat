@@ -468,37 +468,37 @@ void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     //painter->drawPixmap(exposed, pixmap(), exposed );
     //kDebug() << "exposed " << exposed << endl;
 
-    QSizeF corner = cardMap::self()->cornerSize();
+    QRect body = cardMap::self()->opaqueRect();
     QMatrix m = painter->combinedMatrix();
     bool isi = qFuzzyCompare( m.m11(), 1 ) &&
                qFuzzyCompare( m.m22(), 1 ) &&
                qFuzzyCompare( m.m12(), 0 ) &&
                qFuzzyCompare( m.m21(), 0 );
 
-    if ( corner.isValid() && isi )
+    if ( body.isValid() && isi )
     {
         painter->setCompositionMode(QPainter::CompositionMode_Source);
-        QRectF body( QPointF( corner.width(), corner.height() ),
-                     QSizeF( pixmap().width() - corner.width() * 2,
-                             pixmap().height() - corner.height() * 2 ) );
+
         //body = exposed.intersected( body );//.adjusted(-1, -1, 2, 2);
         painter->drawPixmap( body.topLeft(), pixmap(), body );
         painter->setCompositionMode(QPainter::CompositionMode_SourceOver );
-        QRectF hori( QPointF( 0, 0 ), QSizeF( pixmap().width(), corner.height() ) );
+        QRectF hori( QPointF( 0, 0 ), QSizeF( pixmap().width(), body.top() ) );
         if ( exposed.intersects( hori ) )
             painter->drawPixmap( hori.topLeft(), pixmap(), hori );
-        hori.moveTop( pixmap().height() - corner.height() );
+        hori.moveTop( body.bottom() );
+        hori.setHeight( pixmap().height() - body.bottom() );
         if ( exposed.intersects( hori ) )
             painter->drawPixmap( hori.topLeft(), pixmap(), hori );
-        QRectF vert( QPointF( 0, corner.height() ),
-                     QSizeF( corner.width(), pixmap().height() - 2 * corner.height() ) );
-        if ( exposed.intersects( vert ) )
+        QRectF vert( QPointF( 0, body.top() ),
+                     QSizeF( body.left(),  body.height() ) );
+        if ( vert.width() != 0 && exposed.intersects( vert ) )
             painter->drawPixmap( vert.topLeft(), pixmap(), vert );
-        vert.moveLeft( pixmap().width() - corner.width() );
-        if ( exposed.intersects( vert ) )
+        vert.moveLeft( body.right() );
+        vert.setWidth( pixmap().width() - body.right() );
+        if ( vert.width() != 0 && exposed.intersects( vert ) )
             painter->drawPixmap( vert.topLeft(), pixmap(), vert );
     } else
-        painter->drawPixmap( QPointF( 0, 0 ), pixmap() );
+         painter->drawPixmap( QPointF( 0, 0 ), pixmap() );
 
     if ( isHighlighted() ) {
         painter->setCompositionMode(QPainter::CompositionMode_SourceOver );

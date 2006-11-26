@@ -100,7 +100,7 @@ public:
     QSizeF m_backSize;
     QString m_cacheDir;
     QString m_cardDeck;
-    QSizeF m_corner;
+    QRect m_body;
 };
 
 QImage cardMapThread::renderCard( const QString &element)
@@ -242,6 +242,7 @@ void cardMap::setWantedCardWidth( double w )
     if ( w > 200 || w < 10 || d->_wantedCardWidth == w )
         return;
 
+    d->m_body = QRect();
     kDebug() << "setWantedCardWidth " << w << " " << d->_wantedCardWidth << endl;
     d->_wantedCardWidth = w;
     d->_scale = 0;
@@ -278,7 +279,7 @@ void cardMap::registerCard( const QString &element )
     d->m_cacheMutex.unlock();
 }
 
-QSizeF cardMap::cornerSize() const { return d->m_corner; }
+QRect cardMap::opaqueRect() const { return d->m_body; }
 
 QPixmap cardMap::renderCard( const QString &element )
 {
@@ -304,20 +305,20 @@ QPixmap cardMap::renderCard( const QString &element )
 
         if ( element == "back" && img.width() == cardMap::self()->wantedCardWidth()  )
         {
-            int height = 0;
-            while ( height < img.height() && qAlpha( img.pixel( 0, height ) ) != 255 )
-                height++;
-            while ( height < img.height() && qAlpha( img.pixel( 0, img.height() - height - 1 ) ) != 255 )
-                height++;
-            int width = 0;
-            while ( width < img.width() && qAlpha( img.pixel( width, 0 ) ) != 255 )
-                width++;
-            while ( width < img.width() && qAlpha( img.pixel( img.width() - width - 1, 0 ) ) != 255 )
-                width++;
-            d->m_corner = QSizeF( width, height );
-            kDebug() << "corner " << d->m_corner << endl;
+            d->m_body = QRect( QPoint( 0, 0 ), img.size() );
+            while ( d->m_body.height() > 0 && qAlpha( img.pixel( d->m_body.left(), d->m_body.top() ) ) != 255 )
+                d->m_body.rTop() += 1;
+            while ( d->m_body.height() > 0 && qAlpha( img.pixel( d->m_body.left(), d->m_body.bottom() - 1 ) ) != 255 )
+                d->m_body.rBottom() -= 1;
+
+            int left = 0;
+            while ( left < img.width() && qAlpha( img.pixel( left, d->m_body.top() ) ) != 255 )
+                left++;
+            int right = 0;
+            while ( right < img.width() && qAlpha( img.pixel( img.width() - right - 1, d->m_body.top() ) ) != 255 )
+                right++;
         } else if ( element == "back" )
-            d->m_corner = QSizeF();
+            d->m_body = QRect();
     }
 
     QMatrix matrix;
