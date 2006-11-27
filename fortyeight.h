@@ -28,11 +28,12 @@ public:
 
 class Fortyeight : public DealerScene
 {
+    friend class FortyeightSolver;
+
     Q_OBJECT
 
 public:
     Fortyeight( );
-    virtual bool isGameLost() const;
 
 public slots:
     void deal();

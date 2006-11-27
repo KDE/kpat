@@ -23,6 +23,8 @@ set(kpat_SRCS
    patsolve/memory.cpp
    patsolve/klondike.cpp
    klondike.cpp
+   fortyeight.cpp
+   patsolve/fortyeight.cpp
 )
 
 if (RELEASE)
@@ -37,15 +39,16 @@ set(kpat_SRCS ${kpat_SRCS}
    patsolve/idiot.cpp
    yukon.cpp
    patsolve/yukon.cpp
+   fortyeight.cpp
+   patsolve/fortyeight.cpp
+   golf.cpp
+   patsolve/golf.cpp
    mod3.cpp
    grandf.cpp
    napoleon.cpp
    computation.cpp
    gypsy.cpp
-   fortyeight.cpp
    clock.cpp
-   golf.cpp
-   patsolve/golf.cpp
 )
 endif(RELEASE)
 

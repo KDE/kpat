@@ -945,8 +945,8 @@ void Solver::setNumberPiles( int p )
     W = new card_t*[m_number_piles];
     for ( int i = 0; i < m_number_piles; i++ )
     {
-        W[i] = new card_t[52];
-        memset( W[i], 0, sizeof( card_t ) * 52 );
+        W[i] = new card_t[80];
+        memset( W[i], 0, sizeof( card_t ) * 80 );
     }
     Wp = new card_t*[m_number_piles];
 

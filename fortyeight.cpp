@@ -17,6 +17,7 @@
 #include "deck.h"
 #include <assert.h>
 #include "cardmaps.h"
+#include <patsolve/fortyeight.h>
 
 HorLeftPile::HorLeftPile( int _index, DealerScene* parent)
     : Pile(_index, parent)
@@ -76,6 +77,7 @@ Fortyeight::Fortyeight( )
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo);
+    setSolver( new FortyeightSolver( this ) );
 }
 
 //-------------------------------------------------------------------------//
@@ -89,13 +91,16 @@ void Fortyeight::restart()
 
 void Fortyeight::deckClicked( Card *c )
 {
-    if ( !c )
+    //kDebug() << "deckClicked " << c->name() << " " << pile->top()->name() << " " << pile->top()->animated() << endl;
+    if ( pile->top() && pile->top()->animated() )
+        return;
+    if ( Deck::deck()->isEmpty())
         deckPressed( 0 );
 }
 
-void Fortyeight::deckPressed(Card *)
+void Fortyeight::deckPressed(Card *c2)
 {
-    kDebug() << gettime() << " deckClicked" << endl;
+    kDebug() << gettime() << " deckPressed " << ( c2? c2->name() : "(nil)" ) << endl;
     if (Deck::deck()->isEmpty()) {
         if (lastdeal)
             return;
@@ -113,6 +118,7 @@ void Fortyeight::deckPressed(Card *)
     qreal y = c->realY();
     c->setPos( Deck::deck()->pos() );
     c->flipTo(x, y);
+    takeState();
 }
 
 Card *Fortyeight::demoNewCards()
@@ -158,62 +164,6 @@ QString Fortyeight::getGameState() const
 void Fortyeight::setGameState( const QString &s )
 {
     lastdeal = s.toInt();
-}
-
-bool Fortyeight::isGameLost() const
-{
-    kDebug(11111) << gettime() << " isGameLost ?" << endl;
-    if(!lastdeal)
-	return false;
-    if(!Deck::deck()->isEmpty())
-	return false;
-
-    Card *c;
-    for(int i=0; i < 8; i++)
-    {
-        if(stack[i]->isEmpty())
-            return false;
-
-        c=stack[i]->top();
-
-        if(c->rank() == Card::Ace)
-            return false;
-
-        if(!pile->isEmpty()) {
-            if(pile->top()->suit() == c->suit() &&
-               pile->top()->rank()+1 == c->rank())
-                return false;
-
-            if ( !target[i]->isEmpty() &&
-                 pile->top()->suit() == target[i]->top()->suit() &&
-                 pile->top()->rank() == target[i]->top()->rank()+1)
-                return false;
-        }
-        for(int j=0; j <8;j++){
-            if(target[j]->isEmpty())
-                continue;
-            if(c->suit() == target[j]->top()->suit() &&
-               c->rank()-1 ==target[j]->top()->rank())
-                return false;
-        }
-        for(int j=1; j < 8; j++) {
-            int k=(i+j) % 8;
-            if (stack[k]->isEmpty())
-                continue;
-            if(c->suit() == stack[k]->top()->suit() &&
-               c->rank()+1 ==stack[k]->top()->rank()){
-                int indexi=stack[i]->indexOf(c);
-                if(indexi==0)
-                    return false;
-                Card *c2=stack[i]->at(indexi-1);
-                if(c2->rank()!=stack[k]->top()->rank() ||
-                   c2->suit()!=stack[k]->top()->suit())
-                    return false;
-            }
-        }
-    }
-
-    return true;
 }
 
 static class LocalDealerInfo8 : public DealerInfo

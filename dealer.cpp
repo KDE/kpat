@@ -510,6 +510,13 @@ void DealerScene::getSolverHints()
     while ( mit.hasNext() )
     {
         MOVE m = mit.next();
+        if ( m.totype == O_Type )
+            fprintf( stderr, "   move from %d out (at %d) Prio: %d\n", m.from,
+                     m.turn_index, m.pri );
+        else
+            fprintf( stderr, "   move from %d to %d (%d) Prio: %d\n", m.from, m.to,
+                     m.turn_index, m.pri );
+
         MoveHint *mh = solver()->translateMove( m );
         if ( mh )
             newHint( mh );
@@ -591,7 +598,7 @@ void DealerScene::clearHints()
 
 void DealerScene::newHint(MoveHint *mh)
 {
-    //kDebug() << "newHint " << mh->pile()->objectName() << " " << mh->card()->name() << " " << mh->priority() << endl;
+    kDebug() << "newHint " << mh->pile()->objectName() << " " << mh->card()->name() << " " << mh->priority() << endl;
     hints.append(mh);
 }
 
