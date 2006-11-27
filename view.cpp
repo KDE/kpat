@@ -152,7 +152,7 @@ void PatienceView::setupActions()
 
         ahint = new KAction( i18n("&Hint"),
                              parent()->actionCollection(), "game_hint");
-        ahint->setCustomShortcut( Qt::Key_H );
+        ahint->setShortcut( Qt::Key_H );
         ahint->setIcon( KIcon( "wizard" ) );
         connect( ahint, SIGNAL( triggered( bool ) ), SLOT(hint()) );
         actionlist.append(ahint);
@@ -162,7 +162,7 @@ void PatienceView::setupActions()
     if (dscene()->actions() & DealerScene::Demo) {
         ademo = new KAction( i18n("&Demo"), parent()->actionCollection(), "game_demo");
         ademo->setIcon( KIcon( "player_play") );
-        ademo->setCustomShortcut( Qt::CTRL+Qt::Key_D );
+        ademo->setShortcut( Qt::CTRL+Qt::Key_D );
         connect( ademo, SIGNAL( triggered( bool ) ), dscene(), SLOT( toggleDemo() ) );
         actionlist.append(ademo);
     } else
