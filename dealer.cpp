@@ -598,7 +598,7 @@ void DealerScene::clearHints()
 
 void DealerScene::newHint(MoveHint *mh)
 {
-    kDebug() << "newHint " << mh->pile()->objectName() << " " << mh->card()->name() << " " << mh->priority() << endl;
+    //kDebug() << "newHint " << mh->pile()->objectName() << " " << mh->card()->name() << " " << mh->priority() << endl;
     hints.append(mh);
 }
 

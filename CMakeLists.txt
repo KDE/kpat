@@ -39,8 +39,6 @@ set(kpat_SRCS ${kpat_SRCS}
    patsolve/idiot.cpp
    yukon.cpp
    patsolve/yukon.cpp
-   #fortyeight.cpp
-   #patsolve/fortyeight.cpp
    golf.cpp
    patsolve/golf.cpp
    mod3.cpp

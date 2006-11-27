@@ -36,7 +36,6 @@ public:
 
     virtual void restart();
     virtual bool isGameLost() const;
-    virtual bool startAutoDrop();
 
 public slots:
     void deckClicked(Card *c);

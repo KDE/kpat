@@ -26,6 +26,21 @@
 
 //-------------------------------------------------------------------------//
 
+class Mod3Pile : public Pile
+{
+public:
+    Mod3Pile( int _index, DealerScene* parent = 0)
+        : Pile( _index, parent ) {}
+    virtual void relayoutCards() {
+        Pile::relayoutCards();
+        if ( isEmpty() && objectName().startsWith( "stack3" ) )
+        {
+            add( Deck::deck()->nextCard(), false );
+        }
+    }
+};
+
+
 Mod3::Mod3( )
     : DealerScene( )
 {
@@ -49,7 +64,7 @@ Mod3::Mod3( )
 
     for ( int r = 0; r < 4; r++ ) {
         for ( int c = 0; c < 8; c++ ) {
-            stack[r][c] = new Pile ( r * 10 + c  + 1, this );
+            stack[r][c] = new Mod3Pile ( r * 10 + c  + 1, this );
             stack[r][c]->setPilePos( 2 + dist_x * c,
                                      2 + dist_y * r + margin * ( r == 3 ));
 
@@ -68,7 +83,7 @@ Mod3::Mod3( )
                 stack[r][c]->setObjectName( QString( "stack3_%1" ).arg( c ) );
             }
         }
-    }
+     }
 
     setActions(DealerScene::Hint | DealerScene::Demo );
 }
@@ -282,10 +297,6 @@ Card *Mod3::demoNewCards()
        return 0;
    deckClicked(0);
    return stack[3][0]->top();
-}
-
-bool Mod3::startAutoDrop() {
-    return false;
 }
 
 bool Mod3::isGameLost() const
