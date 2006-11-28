@@ -1,18 +1,7 @@
-Cleaning:
-  type Dealer       -->  Patience
-  type Card::Value  -->  Card::Rank
-
-
 TODO: 
-      - more options (wholeColumn, etc.)
-         kpat already supports a lot, but they aren't accessible via GUI yet
-      - implement support for nice (configurable) backgrounds, like
-        color gradients, background pixmaps (tiled, wallpaper, etc. ).
-      - give feedback in the statusbar if there is no move except draw
-	possible. Open a messagebox when no more moves are possible at all.
-	(ie. Game Over).
-      - separate the dealer and related classed into a library, so
-	that other card games can use it.
+      - readd set selection
+      - scale pixmap sets
+      - animation speed factor
 
 DONE:
       - preview on cards that are hidden but faceup (RMB)
