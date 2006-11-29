@@ -474,7 +474,7 @@ void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                qFuzzyCompare( m.m21(), 0 );
     painter->setRenderHint( QPainter::SmoothPixmapTransform, !isi );
     painter->setRenderHint( QPainter::Antialiasing, !isi );
-    
+
     if ( body.isValid() && isi )
     {
         painter->setCompositionMode(QPainter::CompositionMode_Source);
@@ -501,6 +501,9 @@ void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
          painter->drawPixmap( QPointF( 0, 0 ), pixmap() );
 
     if ( isHighlighted() ) {
+        painter->setRenderHint( QPainter::SmoothPixmapTransform, true );
+        painter->setRenderHint( QPainter::Antialiasing, true );
+
         painter->setCompositionMode(QPainter::CompositionMode_SourceOver );
         QPixmap pix(pixmap().size());
         pix.fill(Qt::black);
