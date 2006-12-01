@@ -1,3 +1,7 @@
+
+#ifndef _SPIDERSOLVER_H
+#define _SPIDERSOLVER_H
+
 #include "patsolve.h"
 
 class Spider;
@@ -23,3 +27,5 @@ public:
     int O[8];
     const Spider *deal;
 };
+#endif
+

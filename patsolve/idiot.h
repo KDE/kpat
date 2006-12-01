@@ -1,3 +1,7 @@
+
+#ifndef _IDIOTSOLVER_H
+#define _IDIOTSOLVER_H
+
 #include "patsolve.h"
 
 class Idiot;
@@ -22,3 +26,6 @@ public:
 
     const Idiot *deal;
 };
+
+#endif
+

@@ -1,3 +1,6 @@
+#ifndef _SIMONSOLVER_H
+#define _SIMONSOLVER_H
+
 #include "patsolve.h"
 
 class Simon;
@@ -23,3 +26,4 @@ public:
     int O[4];
     const Simon *deal;
 };
+#endif

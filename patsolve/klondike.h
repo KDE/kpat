@@ -1,3 +1,7 @@
+
+#ifndef _KLONDIKESOLVER_H
+#define _KLONDIKESOLVER_H
+
 #include "patsolve.h"
 
 class Klondike;
@@ -27,3 +31,5 @@ public:
     const Klondike *deal;
     int m_draw;
 };
+#endif
+

@@ -1,3 +1,7 @@
+
+#ifndef _GOLFSOLVER_H
+#define _GOLFSOLVER_H
+
 #include "patsolve.h"
 
 class Golf;
@@ -21,3 +25,4 @@ public:
 
     const Golf *deal;
 };
+#endif

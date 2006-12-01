@@ -1,3 +1,7 @@
+#ifndef _FREECELLSOLVER_H
+#define _FREECELLSOLVER_H
+
+
 #include "patsolve.h"
 
 class Freecell;
@@ -33,3 +37,5 @@ public:
     static int Xparam[];
 
 };
+#endif
+

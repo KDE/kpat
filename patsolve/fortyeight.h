@@ -1,3 +1,8 @@
+
+#ifndef _FORTYEIGHT_H
+#define _FORTYEIGHT_H
+
+
 #include "patsolve.h"
 
 class Fortyeight;
@@ -23,3 +28,5 @@ public:
     const Fortyeight *deal;
     bool lastdeal;
 };
+#endif
+
