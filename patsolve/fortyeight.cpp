@@ -275,6 +275,8 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
             {
                 if ( !Wlen[j] )
                 {
+                    if (Wlen[w] == 1)
+			continue; // ignore it 
                     if ( foundempty ) // one is enough
                         continue;
                     foundempty = true;
