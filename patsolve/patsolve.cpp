@@ -885,6 +885,7 @@ Solver::~Solver()
 
 void Solver::init()
 {
+    m_shouldEnd = false;
     init_buckets();
     mm->init_clusters();
 
@@ -897,7 +898,6 @@ void Solver::init()
     Total_positions = 0;
     Total_generated = 0;
     depth_sum = 0;
-    m_shouldEnd = false;
 }
 
 void Solver::free()
