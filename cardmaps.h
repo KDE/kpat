@@ -27,6 +27,7 @@
 
 class QSvgRenderer;
 class cardMapPrivate;
+class KConfigGroup;
 
 class cardMap : public QObject
 {
@@ -50,9 +51,13 @@ public:
     QString pickRandom();
     QRect opaqueRect() const;
 
+    void updateTheme(const KConfigGroup &cg);
+
 protected slots:
     void slotThreadFinished();
     void slotThreadEnded();
+
+public slots:
     void triggerRescale();
 
 private:

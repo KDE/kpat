@@ -77,10 +77,16 @@ public:
         delete m_renderer;
     }
     QSvgRenderer *renderer();
+    void reset() {
+        delete m_renderer;
+        m_renderer = 0;
+    }
 
     void finish() {
         m_shouldEnd = true;
     }
+    QImage renderRaster( const QString &element );
+
 private:
     QSvgRenderer *m_renderer;
     QMutex m_renderer_mutex;
@@ -100,18 +106,94 @@ public:
     QSizeF m_backSize;
     QString m_cacheDir;
     QString m_cardDeck;
+    QString m_svg;
     QRect m_body;
 };
 
+QImage cardMapThread::renderRaster( const QString &element )
+{
+    const char *oldnames[] = { "back",
+                               "1_club",
+                               "1_spade",
+                               "1_heart",
+                               "1_diamond",
+                               "king_club",
+                               "king_spade",
+                               "king_heart",
+                               "king_diamond",
+                               "queen_club",
+                               "queen_spade",
+                               "queen_heart",
+                               "queen_diamond",
+                               "jack_club",
+                               "jack_spade",
+                               "jack_heart",
+                               "jack_diamond",
+                               "10_club",
+                               "10_spade",
+                               "10_heart",
+                               "10_diamond",
+                               "9_club",
+                               "9_spade",
+                               "9_heart",
+                               "9_diamond",
+                               "8_club",
+                               "8_spade",
+                               "8_heart",
+                               "8_diamond",
+                               "7_club",
+                               "7_spade",
+                               "7_heart",
+                               "7_diamond",
+                               "6_club",
+                               "6_spade",
+                               "6_heart",
+                               "6_diamond",
+                               "5_club",
+                               "5_spade",
+                               "5_heart",
+                               "5_diamond",
+                               "4_club",
+                               "4_spade",
+                               "4_heart",
+                               "4_diamond",
+                               "3_club",
+                               "3_spade",
+                               "3_heart",
+                               "3_diamond",
+                               "2_club",
+                               "2_spade",
+                               "2_heart",
+                               "2_diamond",
+                               0 };
+
+    int index = 0;
+    while ( oldnames[index] && element != QString::fromLatin1( oldnames[index] ) )
+        index++;
+    Q_ASSERT( oldnames[index] );
+    QString filename = KStandardDirs::locate( "data", QString( "carddecks/%1/%2.png" ).arg( d->m_cacheDir ).arg( index ) );
+    if ( index == 0 )
+        filename = KStandardDirs::locate( "data", "carddecks/decks/deck0.png" );
+    QImage img;
+    bool ret = img.load( filename, "PNG" );
+    return img;
+}
+
 QImage cardMapThread::renderCard( const QString &element)
 {
-    QImage img = QImage( ( int )cardMap::self()->wantedCardWidth(), ( int )(cardMap::self()->wantedCardHeight() + 1), QImage::Format_ARGB32 );
-    img.fill( qRgba( 0, 0, 255, 0 ) );
-    QPainter p( &img );
-    m_renderer_mutex.lock();
-    renderer()->render( &p, element );
-    m_renderer_mutex.unlock();
-    p.end();
+    QImage img;
+    if ( d->m_svg.isEmpty() )
+        img = renderRaster( element );
+    else {
+        img = QImage( ( int )cardMap::self()->wantedCardWidth(), ( int )(cardMap::self()->wantedCardHeight() + 1), QImage::Format_ARGB32 );
+        img.fill( qRgba( 0, 0, 255, 0 ) );
+        QPainter p( &img );
+        m_renderer_mutex.lock();
+        renderer()->render( &p, element );
+        m_renderer_mutex.unlock();
+        p.end();
+    }
+
     QString filename = KStandardDirs::locateLocal( "data", QString( "carddecks/%1/%2/" ).
                                                    arg( d->m_cacheDir ).
                                                    arg( ( int )cardMap::self()->wantedCardWidth() ) +
@@ -132,30 +214,11 @@ QSvgRenderer *cardMapThread::renderer()
 {
     if ( m_renderer )
         return m_renderer;
-//    kDebug() << "new renderer " << kBacktrace() << endl;
-    m_renderer = new KSvgRenderer( d->m_cardDeck );
-    return m_renderer;
-}
+    //kDebug() << "new renderer " << kBacktrace() << endl;
+    Q_ASSERT( !d->m_svg.isEmpty() );
 
-QString cardMap::pickRandom()
-{
-    QStringList list = KGlobal::dirs()->findAllResources("data", "carddecks/svg-nicu-ornamental/index.desktop");
-    QStringList svgs;
-    for (QStringList::ConstIterator it = list.begin(); it != list.end(); ++it)
-    {
-       KSimpleConfig fi(*it, true);
-       fi.setGroup("KDE Backdeck");
-       QString svg = fi.readEntry("SVG");
-       if (!svg.isNull()) {
-         svg = QFileInfo(*it).dir().absoluteFilePath(svg);
-         assert( QFile::exists(svg) );
-         svgs.append(*it);
-       }
-    }
-    assert(svgs.size());
-    int hit = KRandom::random() % svgs.size();
-    kDebug() << svgs << " " << hit << " " << svgs.size() << " " << svgs[hit] << endl;
-    return svgs[ hit ];
+    m_renderer = new KSvgRenderer( d->m_svg );
+    return m_renderer;
 }
 
 cardMap::cardMap() : QObject()
@@ -165,15 +228,23 @@ cardMap::cardMap() : QObject()
     d->m_thread = new cardMapThread(d);
 
     assert(!_self);
+    kDebug(11111) << "cardMap\n";
     KConfig *config = KGlobal::config();
     KConfigGroup cs(config, settings_group );
 
     d->_wantedCardWidth = cs.readEntry( "CardWith", 100 );
+    updateTheme(cs);
+    _self = this;
+}
 
-    kDebug(11111) << "cardMap\n";
+void cardMap::updateTheme(const KConfigGroup &cs)
+{
+    d->m_thread->disconnect();
+    d->m_thread->finish();
+    d->m_thread->reset();
 
-    d->m_cardDeck = KStandardDirs::locate("data", "carddecks/svg-nicu-white/index.desktop");
-    d->m_cardDeck = pickRandom();
+    QString theme = cs.readEntry( "Theme", "svg-nicu-ornamental" );
+    d->m_cardDeck = KStandardDirs::locate("data", QString( "carddecks/%1/index.desktop" ).arg( theme ) );
 
     KSimpleConfig fi(d->m_cardDeck, true);
     fi.setGroup("KDE Backdeck");
@@ -185,16 +256,32 @@ cardMap::cardMap() : QObject()
     d->m_cacheDir = cache;
 
     d->_scale = 0;
-    d->m_cardDeck = QFileInfo(d->m_cardDeck).dir().absoluteFilePath(fi.readEntry( "SVG" ));
+    d->m_body = QRect();
+
+    d->m_svg = fi.readEntry( "SVG" );
+    if ( !d->m_svg.isEmpty() )
+        d->m_svg = QFileInfo(d->m_cardDeck).dir().absoluteFilePath(d->m_svg);
+
     d->m_backSize = fi.readEntry("BackSize", QSizeF() );
     registerCard( "back" );
     if ( d->m_backSize.isNull() || !d->m_backSize.isValid() )
     {
-        d->m_backSize = d->m_thread->renderer()->boundsOnElement( "back" ).size();
+        if ( !d->m_svg.isEmpty() )
+        {
+            d->m_backSize = d->m_thread->renderer()->boundsOnElement( "back" ).size();
+        }
         kDebug() << d->m_cardDeck << " " << d->m_backSize << endl;
     }
+
     Q_ASSERT( !d->m_backSize.isNull() );
-    _self = this;
+    if ( d->m_svg.isEmpty() )
+        setWantedCardWidth( d->m_backSize.width() );
+
+    if (PatienceView::instance()->dscene()) {
+        PatienceView::instance()->dscene()->rescale(false);
+        if ( !d->m_svg.isEmpty() )
+            PatienceView::instance()->dscene()->relayoutPiles();
+    }
 }
 
 cardMap::~cardMap()
@@ -242,6 +329,9 @@ void cardMap::setWantedCardWidth( double w )
     if ( w > 200 || w < 10 || d->_wantedCardWidth == w )
         return;
 
+    if ( d->m_svg.isEmpty() && w != d->m_backSize.width() )
+        return;
+
     d->m_body = QRect();
     kDebug() << "setWantedCardWidth " << w << " " << d->_wantedCardWidth << endl;
     d->_wantedCardWidth = w;
@@ -262,7 +352,8 @@ void cardMap::slotThreadFinished()
     KConfigGroup cs(config, settings_group );
     cs.writeEntry( "CardWith", d->_wantedCardWidth );
     config->sync();
-    PatienceView::instance()->dscene()->rescale(false);
+    if (  PatienceView::instance()->dscene() )
+         PatienceView::instance()->dscene()->rescale(false);
 }
 
 void cardMap::slotThreadEnded()
@@ -294,9 +385,11 @@ QPixmap cardMap::renderCard( const QString &element )
         QString filename = KStandardDirs::locate( "data", QString( "carddecks/%1/%2/" ).arg( d->m_cacheDir ).arg( ( int )cardMap::self()->wantedCardWidth() ) + element + ".png");
         if ( !filename.isEmpty() )
             img = QImage( filename );
+
         if ( img.isNull() ) {
             img = d->m_thread->renderCard( element );
-            triggerRescale();
+            Q_ASSERT( !img.isNull() );
+            //triggerRescale();
         }
 
         d->m_cacheMutex.lock();

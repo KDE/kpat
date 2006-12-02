@@ -89,7 +89,7 @@ void Fortyeight::restart()
     deal();
 }
 
-void Fortyeight::deckClicked( Card *c )
+void Fortyeight::deckClicked( Card * )
 {
     //kDebug() << "deckClicked " << c->name() << " " << pile->top()->name() << " " << pile->top()->animated() << endl;
     if ( pile->top() && pile->top()->animated() )

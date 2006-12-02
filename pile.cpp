@@ -163,7 +163,7 @@ void Pile::rescale()
     if (!scene())
         return;
 
-    int wantedwidth = int( cardMap::self()->wantedCardWidth() + 1 );
+    int wantedheight = int( cardMap::self()->wantedCardHeight() + 1 );
     QPixmap *mycache = cache;
     if ( isHighlighted() )
         mycache = cache_selected;
@@ -182,7 +182,7 @@ void Pile::rescale()
         tryRelayoutCards();
     }
 
-    if ( mycache->width() == wantedwidth )
+    if ( mycache->height() == wantedheight )
     {
         setPixmap( *mycache );
         return;

@@ -119,9 +119,13 @@ pWidget::pWidget()
     connect(dill, SIGNAL(saveGame()), SLOT(saveGame()));
     setCentralWidget(dill);
 
+    a = new KAction( i18n( "Random Cards" ), actionCollection(), "random_set" );
+    connect( a, SIGNAL( triggered( bool ) ), SLOT( slotPickRandom() ) );
+    a->setShortcut( KShortcut( Qt::Key_F9 ) );
+
     m_cards = new cardMap();
 
-    stats = new KAction(i18n("&Statistics"), actionCollection(),"game_stats");
+    stats = new KAction(i18n("Statistics"), actionCollection(),"game_stats");
     connect( stats, SIGNAL( triggered( bool ) ), SLOT(showStats()) );
 
     dropaction = new KToggleAction(i18n("&Enable Autodrop"),
@@ -130,18 +134,6 @@ pWidget::pWidget()
     dropaction->setCheckedState(KGuiItem(i18n("Disable Autodrop")));
 
     KConfigGroup cg(KGlobal::config(), settings_group );
-
-    QString bgpath = cg.readPathEntry("Background");
-    kDebug(11111) << "bgpath '" << bgpath << "'" << endl;
-    // if (bgpath.isEmpty())
-    bgpath = KStandardDirs::locate("wallpaper", "green.png");
-    background = QPixmap(bgpath);
-    if ( background.isNull() ) {
-        background = QPixmap( KStandardDirs::locate("wallpaper", "green.png") );
-        cg.writePathEntry( "Background", QString::null );
-    }
-
-    //dill->setBackgroundBrush(QBrush( background) );
 
     bool autodrop = cg.readEntry("Autodrop", true);
     dropaction->setChecked(autodrop);
@@ -217,6 +209,23 @@ void pWidget::restart()
 {
     statusBar()->clearMessage();
     dill->startNew();
+}
+
+void pWidget::slotPickRandom()
+{
+    QStringList list = KGlobal::dirs()->findAllResources("data", "carddecks/*/index.desktop");
+    int hit = KRandom::random() % list.size();
+    //kDebug() << list << " " << hit << " " << list.size() << " " << list[hit] << endl;
+    QString theme = list[ hit ];
+    theme = theme.left( theme.length() - strlen( "/index.desktop" ) );
+    theme = theme.mid( theme.findRev( '/' ) + 1);
+
+    KConfig *config = KGlobal::config();
+    KConfigGroup cs(config, settings_group );
+    cs.writeEntry( "Theme", theme );
+
+    cardMap::self()->updateTheme(cs);
+    cardMap::self()->triggerRescale();
 }
 
 void pWidget::setGameCaption()
