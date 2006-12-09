@@ -72,13 +72,16 @@ void FortyeightSolver::make_move(MOVE *m)
         return;
     }
 
-    card_t card = *Wp[from];
-    Wp[from]--;
-    Wlen[from]--;
+    for ( int i = m->card_index + 1; i > 0; --i )
+    {
+        card_t card = W[from][Wlen[from]-i];
+        Wp[from]--;
 
-    Wp[to]++;
-    *Wp[to] = card;
-    Wlen[to]++;
+        Wp[to]++;
+        *Wp[to] = card;
+        Wlen[to]++;
+    }
+    Wlen[from] -= m->card_index+1;
 
     hashpile(from);
     hashpile(to);
@@ -139,13 +142,16 @@ void FortyeightSolver::undo_move(MOVE *m)
         return;
     }
 
-    card_t card = *Wp[to];
-    Wp[to]--;
-    Wlen[to]--;
+    for ( int i = m->card_index + 1; i > 0; --i )
+    {
+        card_t card = W[to][Wlen[to]-i];
+        Wp[to]--;
 
-    Wp[from]++;
-    *Wp[from] = card;
-    Wlen[from]++;
+        Wp[from]++;
+        *Wp[from] = card;
+        Wlen[from]++;
+    }
+    Wlen[to] -= m->card_index+1;
 
     hashpile(from);
     hashpile(to);
@@ -187,6 +193,17 @@ bool FortyeightSolver::checkMove( int from, int to, MOVE *mp )
     }
     if ( !allowed )
         return false;
+
+    // meta moves we check extra
+    if ( Wlen[from] > 1 && to < 8 && from < 8 )
+    {
+        card_t card1 = *Wp[from];
+        card_t card2 = W[from][Wlen[from]-2];
+        if ( SUIT( card1 ) == SUIT( card2 ) &&
+             RANK( card1 ) == RANK( card2 ) - 1 )
+            return false;
+    }
+
     mp->card_index = 0;
     mp->from = from;
     mp->to = to;
@@ -200,6 +217,7 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
 {
     int n = 0;
     MOVE *mp = Possible;
+    freestores = 0;
 
     *a = false;
 
@@ -216,6 +234,7 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
             }
     }
     for ( int i = 0; i < 8; i++ )
+    {
         if ( checkMove( 16, i+8, mp ) )
         {
             n++;
@@ -223,13 +242,16 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
             mp++;
             break;
         }
+        if ( !Wlen[i] )
+            freestores++;
+    }
 
     // if a specific target got two possible drops, we don't make it auto drop
     int dropped[8] = { 0, 0, 0, 0, 0, 0, 0, 0};
 
     for ( int i = 0; i < n; i++ )
     {
-        if ( Possible[i].to >= 8 && Possible[i].to < 16 )
+        if ( Possible[i].to >= 8 && Possible[i].to < 16 && RANK(*Wp[Possible[i].from]) != PS_ACE )
             dropped[Possible[i].to-8]++;
     }
 
@@ -239,7 +261,7 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
         {
             for ( int j = 0; j < n; j++ )
                 if ( Possible[j].to == i + 8 )
-                    Possible[j].pri = qMax( 119, 100 + Wlen[Possible[j].from] );
+                    Possible[j].pri = qMin( 119, 100 + Wlen[Possible[j].from] );
         }
         if ( dropped[i] == 1 )
         {
@@ -276,11 +298,14 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
                 if ( !Wlen[j] )
                 {
                     if (Wlen[w] == 1)
-			continue; // ignore it 
+			continue; // ignore it
                     if ( foundempty ) // one is enough
                         continue;
                     foundempty = true;
-                }
+                    mp->pri = 20;
+                } else
+                    mp->pri = 20 + RANK( *Wp[j] );
+
                 n++;
                 mp++;
             }
@@ -296,15 +321,88 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
             n++;
             mp++;
         }
-    }
+        if ( Wlen[w] > 1 && freestores )
+        {
+            if ( SUIT( *Wp[w] ) == SUIT( W[w][Wlen[w]-2] ) )
+            {
+                //print_layout();
 
+                for ( int to = 0; to < 8; to++ )
+                {
+                    if ( to == w )
+                        continue;
+                    if ( Wlen[to] && SUIT( *Wp[to] ) != SUIT( *Wp[w] ) )
+                        continue;
+                    if ( !Wlen[to] && foundempty )
+                        continue;
+                    int moves = 1 << freestores;
+                    if ( !Wlen[to] )
+                        moves = 1 << ( freestores - 1 );
+
+                    if ( moves >= Wlen[w] )
+                        moves = Wlen[w];
+
+                    bool switched = false;
+                    for ( int i = 2; i < moves; ++i )
+                    {
+                        /*      printcard( W[w][Wlen[w]-i-1], stderr );
+                        printcard( *Wp[w], stderr );
+                        fprintf( stderr, " switch? %d\n", i ); */
+                        if ( SUIT( W[w][Wlen[w]-i-1] ) != SUIT( *Wp[w] ) ) {
+                            switched = true;
+                            moves = i;
+                            break;
+                        }
+                    }
+                    if ( !Wlen[to] )
+                    {
+                        if ( moves < 2 || moves == Wlen[w] || !switched)
+                            continue;
+                        //print_layout();
+                        //kDebug() << "EMPTY move to empty " << w << " " << to << " " << moves << " " << switched << endl;
+                        mp->card_index = moves-1;
+                        mp->from = w;
+                        mp->to = to;
+                        mp->totype = W_Type;
+                        mp->pri = 60;
+                        mp->turn_index = -1;
+                        n++;
+                        mp++;
+                        foundempty = true;
+                        continue;
+                    }
+                    card_t top = *Wp[to];
+                    for ( int i = 2; i <= moves && i <= Wlen[w]; i++ )
+                    {
+                        card_t cur = W[w][Wlen[w]-i];
+                        /* printcard( top, stderr );
+                        printcard( cur, stderr );
+                        fprintf( stderr, " %d\n", i ); */
+                        Q_ASSERT( SUIT( top ) == SUIT( cur ) );
+                        if ( RANK( top ) == RANK( cur ) + 1 )
+                        {
+                            //kDebug() << "MOVEEEEE move to non-empty " << w << " " << to << " " << moves << " " << switched << endl;
+                            mp->card_index = i-1;
+                            mp->from = w;
+                            mp->to = to;
+                            mp->totype = W_Type;
+                            mp->pri = 80;
+                            mp->turn_index = -1;
+                            n++;
+                            mp++;
+                        }
+                    }
+                }
+            }
+        }
+    }
     /* check for deck->pile */
     if ( Wlen[17] ) {
         mp->card_index = 1;
         mp->from = 17;
         mp->to = 16;
         mp->totype = W_Type;
-        mp->pri = 5;
+        mp->pri = 9;
         mp->turn_index = 0;
         n++;
         mp++;
@@ -314,7 +412,7 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
         mp->from = 16;
         mp->to = 17;
         mp->totype = W_Type;
-        mp->pri = 5;
+        mp->pri = 50;
         mp->turn_index = 0;
         n++;
         mp++;

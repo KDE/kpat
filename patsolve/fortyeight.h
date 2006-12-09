@@ -27,6 +27,7 @@ public:
 
     const Fortyeight *deal;
     bool lastdeal;
+    int freestores;
 };
 #endif
 
