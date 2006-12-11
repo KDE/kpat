@@ -277,7 +277,7 @@ void cardMap::updateTheme(const KConfigGroup &cs)
     if ( d->m_svg.isEmpty() )
         setWantedCardWidth( d->m_backSize.width() );
 
-    if (PatienceView::instance()->dscene()) {
+    if (PatienceView::instance() && PatienceView::instance()->dscene()) {
         PatienceView::instance()->dscene()->rescale(false);
         if ( !d->m_svg.isEmpty() )
             PatienceView::instance()->dscene()->relayoutPiles();
