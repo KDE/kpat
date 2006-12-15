@@ -793,9 +793,9 @@ void DealerScene::slotShowGame(bool gothelp)
     QSvgRenderer renderer( KStandardDirs::locate( "data", "kpat/won.svg" ) );
     renderer.render( &p, "frame" );
 
-    QString text = i18n( "Congratulation! You have won." );
+    QString text = i18n( "Congratulations! You have won." );
     if ( gothelp )
-        text = i18n( "Congratulation! We have won." );
+        text = i18n( "Congratulations! We have won." );
     QFont font;
     font.setPointSize( 36 );
 
