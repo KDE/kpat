@@ -35,7 +35,7 @@
 #include <klocale.h>
 #include <kaction.h>
 #include <ktoggleaction.h>
-#include <kstdaction.h>
+#include <kstandardaction.h>
 #include <kdebug.h>
 #include <kcarddialog.h>
 #include <krandom.h>
@@ -69,19 +69,19 @@ pWidget::pWidget()
     setObjectName( "pwidget" );
     current_pwidget = this;
     // KCrash::setEmergencySaveFunction(::saveGame);
-    KStdAction::quit(kapp, SLOT(quit()), actionCollection(), "game_exit");
+    KStandardAction::quit(kapp, SLOT(quit()), actionCollection(), "game_exit");
 
-    undo = KStdAction::undo(this, SLOT(undoMove()),
+    undo = KStandardAction::undo(this, SLOT(undoMove()),
                             actionCollection(), "undo_move");
     undo->setEnabled(false);
-    (void)KStdAction::openNew(this, SLOT(newGame()),
+    (void)KStandardAction::openNew(this, SLOT(newGame()),
                               actionCollection(), "new_game");
-    (void)KStdAction::open(this, SLOT(openGame()),
+    (void)KStandardAction::open(this, SLOT(openGame()),
                            actionCollection(), "open");
-    recent = KStdAction::openRecent(this, SLOT(openGame(const KUrl&)),
+    recent = KStandardAction::openRecent(this, SLOT(openGame(const KUrl&)),
                                     actionCollection(), "open_recent");
     recent->loadEntries(KGlobal::config());
-    (void)KStdAction::saveAs(this, SLOT(saveGame()),
+    (void)KStandardAction::saveAs(this, SLOT(saveGame()),
                            actionCollection(), "save");
     KAction *a = new KAction(i18n("&Choose Game..."), actionCollection(), "choose_game");
     connect( a, SIGNAL( triggered( bool ) ), SLOT( chooseGame() ) );
@@ -90,7 +90,7 @@ pWidget::pWidget()
     a->setIcon(KIcon("reload"));
     connect( a, SIGNAL( triggered( bool ) ), SLOT( restart() ) );
 
-    (void)KStdAction::help(this, SLOT(helpGame()), actionCollection(), "help_game");
+    (void)KStandardAction::help(this, SLOT(helpGame()), actionCollection(), "help_game");
     games = new KSelectAction(i18n("&Game Type"), actionCollection(), "game_type");
     connect( games, SIGNAL( triggered( int ) ), SLOT( slotNewGameType() ) );
 
