@@ -34,6 +34,7 @@
 #include <kapplication.h>
 #include <klocale.h>
 #include <kaction.h>
+#include <kactioncollection.h>
 #include <ktoggleaction.h>
 #include <kstandardaction.h>
 #include <kdebug.h>
@@ -69,29 +70,34 @@ pWidget::pWidget()
     setObjectName( "pwidget" );
     current_pwidget = this;
     // KCrash::setEmergencySaveFunction(::saveGame);
-    KStandardAction::quit(kapp, SLOT(quit()), actionCollection(), "game_exit");
+    actionCollection()->addAction( KStandardAction::Quit, "game_exit",
+                                   kapp, SLOT(quit()) );
 
-    undo = KStandardAction::undo(this, SLOT(undoMove()),
-                            actionCollection(), "undo_move");
+    undo = actionCollection()->addAction( KStandardAction::Undo, "undo_move",
+                                          this, SLOT(undoMove()) );
     undo->setEnabled(false);
-    (void)KStandardAction::openNew(this, SLOT(newGame()),
-                              actionCollection(), "new_game");
-    (void)KStandardAction::open(this, SLOT(openGame()),
-                           actionCollection(), "open");
-    recent = KStandardAction::openRecent(this, SLOT(openGame(const KUrl&)),
-                                    actionCollection(), "open_recent");
+    actionCollection()->addAction( KStandardAction::New, "new_game",
+                                   this, SLOT(newGame()) );
+    actionCollection()->addAction( KStandardAction::Open, "open",
+                                   this, SLOT(openGame()) );
+    recent = KStandardAction::openRecent(this, SLOT(openGame(const KUrl&)), this);
+    actionCollection()->addAction("open_recent", recent);
     recent->loadEntries(KGlobal::config());
-    (void)KStandardAction::saveAs(this, SLOT(saveGame()),
-                           actionCollection(), "save");
-    KAction *a = new KAction(i18n("&Choose Game..."), actionCollection(), "choose_game");
+    actionCollection()->addAction(KStandardAction::SaveAs, "save",
+                                  this, SLOT(saveGame()));
+    QAction *a = actionCollection()->addAction("choose_game");
+    a->setText(i18n("&Choose Game..."));
     connect( a, SIGNAL( triggered( bool ) ), SLOT( chooseGame() ) );
 
-    a = new KAction(i18n("Restart &Game"), actionCollection(), "restart_game");
+    a = actionCollection()->addAction("restart_game");
+    a->setText(i18n("Restart &Game"));
     a->setIcon(KIcon("reload"));
     connect( a, SIGNAL( triggered( bool ) ), SLOT( restart() ) );
 
-    (void)KStandardAction::help(this, SLOT(helpGame()), actionCollection(), "help_game");
-    games = new KSelectAction(i18n("&Game Type"), actionCollection(), "game_type");
+    actionCollection()->addAction(KStandardAction::Help, "help_game",
+                                  this, SLOT(helpGame()));
+    games = new KSelectAction(i18n("&Game Type"), this);
+    actionCollection()->addAction("game_type", games);
     connect( games, SIGNAL( triggered( int ) ), SLOT( slotNewGameType() ) );
 
     QStringList list;
@@ -119,17 +125,19 @@ pWidget::pWidget()
     connect(dill, SIGNAL(saveGame()), SLOT(saveGame()));
     setCentralWidget(dill);
 
-    a = new KAction( i18n( "Random Cards" ), actionCollection(), "random_set" );
+    a = actionCollection()->addAction("random_set");
+    a->setText(i18n("Random Cards"));
     connect( a, SIGNAL( triggered( bool ) ), SLOT( slotPickRandom() ) );
-    a->setShortcut( KShortcut( Qt::Key_F9 ) );
+    a->setShortcuts( KShortcut( Qt::Key_F9 ) );
 
     m_cards = new cardMap();
 
-    stats = new KAction(i18n("Statistics"), actionCollection(),"game_stats");
+    stats = actionCollection()->addAction("game_stats");
+    a->setText(i18n("Statistics"));
     connect( stats, SIGNAL( triggered( bool ) ), SLOT(showStats()) );
 
-    dropaction = new KToggleAction(i18n("&Enable Autodrop"),
-                                   actionCollection(), "enable_autodrop");
+    dropaction = new KToggleAction(i18n("&Enable Autodrop"), this);
+    actionCollection()->addAction("enable_autodrop", dropaction);
     connect( dropaction, SIGNAL( triggered( bool ) ), SLOT(enableAutoDrop()) );
     dropaction->setCheckedState(KGuiItem(i18n("Disable Autodrop")));
 
