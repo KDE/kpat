@@ -558,24 +558,24 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
     if (!anim)
         steps = 0;
 
-    for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
+    for (CardList::Iterator iti = m_cards.begin(); iti != m_cards.end(); ++iti)
     {
-        if (c == *it) {
+        if (c == *iti) {
 
             if (before) {
-                // kDebug() << "moveCardsBack " << ( *it )->name() << " " << before->name() << " " << before->spread() << endl;
+                // kDebug() << "moveCardsBack " << ( *iti )->name() << " " << before->name() << " " << before->spread() << endl;
                 off = before->spread();
                 c->moveTo( before->realX() + off.width() / 10 * cardMap::self()->wantedCardWidth(),
 			   before->realY() + off.height()  / 10 * cardMap::self()->wantedCardHeight(),
 			   before->realZ() + 1, steps);
             }
             else {
-                // kDebug() << "moveCardsBack " << ( *it )->name() << " no before" << endl;
+                // kDebug() << "moveCardsBack " << ( *iti )->name() << " no before" << endl;
                 c->moveTo( x(), y(), zValue() + 1, steps);
             }
             break;
         } else
-            before = *it;
+            before = *iti;
     }
 
     before = c;
