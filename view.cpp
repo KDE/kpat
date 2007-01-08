@@ -42,6 +42,7 @@
 #include <QDomElement>
 #include <krandom.h>
 #include <kaction.h>
+#include <kactioncollection.h>
 #include <klocale.h>
 #include "cardmaps.h"
 #include "speeds.h"
@@ -150,8 +151,8 @@ void PatienceView::setupActions()
 
     if (dscene()->actions() & DealerScene::Hint) {
 
-        ahint = new KAction( i18n("&Hint"),
-                             parent()->actionCollection(), "game_hint");
+        ahint = parent()->actionCollection()->addAction( "game_hint" );
+        ahint->setText( i18n("&Hint") );
         ahint->setShortcut( Qt::Key_H );
         ahint->setIcon( KIcon( "wizard" ) );
         connect( ahint, SIGNAL( triggered( bool ) ), SLOT(hint()) );
@@ -160,7 +161,8 @@ void PatienceView::setupActions()
         ahint = 0;
 
     if (dscene()->actions() & DealerScene::Demo) {
-        ademo = new KAction( i18n("&Demo"), parent()->actionCollection(), "game_demo");
+        ademo = parent()->actionCollection()->addAction( "game_demo" );
+        ademo->setText( i18n("&Demo") );
         ademo->setIcon( KIcon( "player_play") );
         ademo->setShortcut( Qt::CTRL+Qt::Key_D );
         connect( ademo, SIGNAL( triggered( bool ) ), dscene(), SLOT( toggleDemo() ) );
@@ -169,7 +171,8 @@ void PatienceView::setupActions()
         ademo = 0;
 
     if (dscene()->actions() & DealerScene::Redeal) {
-        aredeal = new KAction (i18n("&Redeal"), parent()->actionCollection(), "game_redeal");
+        aredeal = parent()->actionCollection()->addAction( "game_redeal" );
+        aredeal->setText( i18n("&Redeal") );
         aredeal->setIcon( KIcon( "queue") );
         connect( aredeal, SIGNAL( triggered( bool ) ), dscene(), SLOT( redeal() ) );
         actionlist.append(aredeal);

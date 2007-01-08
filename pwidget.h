@@ -33,7 +33,7 @@ class PatienceView;
 class KToggleAction;
 class KSelectAction;
 class KRecentFilesAction;
-class KAction;
+class QAction;
 class QLabel;
 class cardMap;
 
@@ -79,9 +79,9 @@ private:
     PatienceView   *dill;
 
     KSelectAction  *games;
-    KAction        *undo;
+    QAction        *undo;
     KToggleAction  *dropaction;
-    KAction        *stats;
+    QAction        *stats;
 
     QPixmap         background;
     KRecentFilesAction  *recent;

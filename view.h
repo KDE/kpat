@@ -19,7 +19,7 @@
 class DealerScene;
 class QWheelEvent;
 class KMainWindow;
-class KAction;
+class QAction;
 class KToggleAction;
 
 class PatienceView: public QGraphicsView
@@ -75,8 +75,8 @@ protected:
 
 protected:
 
-    KAction *ademo;
-    KAction *ahint, *aredeal;
+    QAction *ademo;
+    QAction *ahint, *aredeal;
 
     QString ac;
     static PatienceView *s_instance;
