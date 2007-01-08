@@ -195,7 +195,7 @@ void pWidget::newGame()
                                           "the statistics file.\n"
                                           "What do you want to do?"),
                                      i18n("Abort Current Game?"),
-                                     KGuiItem(i18n("Abort Old Game")),
+                                     KGuiItem(i18n("Abort Current Game")),
                                      "careaboutstats" )  == KMessageBox::Cancel)
         return;
 
