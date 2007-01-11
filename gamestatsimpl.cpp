@@ -20,7 +20,6 @@
 //Added by qt3to4:
 #include <QList>
 
-#include <kapplication.h>
 #include <kconfig.h>
 #include <klocale.h>
 #include <kglobal.h>

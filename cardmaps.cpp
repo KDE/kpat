@@ -34,7 +34,6 @@
 
 #include <config.h>
 #include <kdebug.h>
-#include <kapplication.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include "version.h"
