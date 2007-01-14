@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Name=Patience
 Name[fr]=Réussite
+Name[ja]=ソリティア
 Name[x-test]=xxPatiencexx
 Exec=kpat -caption "%c"
 Type=Application
@@ -9,6 +10,7 @@ Icon=kpat
 DocPath=kpat/index.html
 GenericName=Patience Card Game
 GenericName[fr]=Jeux de réussite
+GenericName[ja]=Patience カードゲーム
 GenericName[x-test]=xxPatience Card Gamexx
 X-DBUS-StartupType=Multi
 Categories=Qt;KDE;Game;CardGame;
