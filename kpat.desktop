@@ -1,6 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Patience
+Name[el]=Πασιέντζα
 Name[fr]=Réussite
 Name[ja]=ソリティア
 Name[x-test]=xxPatiencexx
@@ -9,6 +10,7 @@ Type=Application
 Icon=kpat
 DocPath=kpat/index.html
 GenericName=Patience Card Game
+GenericName[el]=Παιχνίδι καρτών patience
 GenericName[fr]=Jeux de réussite
 GenericName[ja]=Patience カードゲーム
 GenericName[x-test]=xxPatience Card Gamexx
