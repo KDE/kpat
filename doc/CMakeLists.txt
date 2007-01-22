@@ -1,17 +1,6 @@
-
-
-
-
 ########### install files ###############
-
-
-
-
-
-#original Makefile.am contents follow:
-
 #
-#KDE_DOCS = AUTO
-#KDE_LANG = en
 #
 #KDE_MANS = AUTO
+kde4_create_handbook(index.docbook)
+kde4_install_handbook()
