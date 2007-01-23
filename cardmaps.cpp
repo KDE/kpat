@@ -28,11 +28,9 @@
 
 #include <kconfig.h>
 
-#include <config.h>
 #include "cardmaps.h"
 #include <stdlib.h>
 
-#include <config.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
