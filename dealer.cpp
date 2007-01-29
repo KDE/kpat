@@ -52,6 +52,7 @@
 #include "patsolve/patsolve.h"
 #include <math.h>
 #include <qthread.h>
+#include <kconfiggroup.h>
 
 // ================================================================
 //                         class MoveHint

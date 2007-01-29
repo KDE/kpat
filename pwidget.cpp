@@ -52,6 +52,7 @@
 #include <ktoolinvocation.h>
 #include <kglobal.h>
 #include <kicon.h>
+#include <kconfiggroup.h>
 
 #include "pwidget.h"
 #include "version.h"
@@ -82,7 +83,7 @@ pWidget::pWidget()
                                    this, SLOT(openGame()) );
     recent = KStandardAction::openRecent(this, SLOT(openGame(const KUrl&)), this);
     actionCollection()->addAction("open_recent", recent);
-    recent->loadEntries(KGlobal::config());
+    recent->loadEntries(KGlobal::config().data());
     actionCollection()->addAction(KStandardAction::SaveAs, "save",
                                   this, SLOT(saveGame()));
     QAction *a = actionCollection()->addAction("choose_game");
@@ -228,7 +229,7 @@ void pWidget::slotPickRandom()
     theme = theme.left( theme.length() - strlen( "/index.desktop" ) );
     theme = theme.mid( theme.findRev( '/' ) + 1);
 
-    KConfig *config = KGlobal::config();
+    KSharedConfig::Ptr config = KGlobal::config();
     KConfigGroup cs(config, settings_group );
     cs.writeEntry( "Theme", theme );
 
@@ -372,7 +373,7 @@ void pWidget::openGame(const KUrl &url)
         setGameCaption();
         KIO::NetAccess::removeTempFile( tmpFile );
         recent->addUrl(url);
-        recent->saveEntries(KGlobal::config());
+        recent->saveEntries(KGlobal::config().data());
     }
 }
 
@@ -394,7 +395,7 @@ void pWidget::saveGame()
     stream.flush();
     KIO::NetAccess::upload(file.fileName(), url, this);
     recent->addUrl(url);
-    recent->saveEntries(KGlobal::config());
+    recent->saveEntries(KGlobal::config().data());
 }
 
 void pWidget::showStats()

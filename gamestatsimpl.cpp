@@ -23,6 +23,7 @@
 #include <kconfig.h>
 #include <klocale.h>
 #include <kglobal.h>
+#include <kconfiggroup.h>
 
 GameStatsImpl::GameStatsImpl(QWidget* aParent)
 	: QDialog(aParent)

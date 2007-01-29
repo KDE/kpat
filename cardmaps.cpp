@@ -49,6 +49,7 @@
 #include <QPixmapCache>
 #include <QThread>
 #include <QMutex>
+#include <kconfiggroup.h>
 #ifdef __GNUC__
 #warning cardmap should not really require to know the instance!
 #endif
@@ -226,7 +227,7 @@ cardMap::cardMap() : QObject()
 
     assert(!_self);
     kDebug(11111) << "cardMap\n";
-    KConfig *config = KGlobal::config();
+    KSharedConfig::Ptr config = KGlobal::config();
     KConfigGroup cs(config, settings_group );
 
     d->_wantedCardWidth = cs.readEntry( "CardWith", 100 );
@@ -345,7 +346,7 @@ cardMap *cardMap::self() {
 
 void cardMap::slotThreadFinished()
 {
-    KConfig *config = KGlobal::config();
+    KSharedConfig::Ptr config = KGlobal::config();
     KConfigGroup cs(config, settings_group );
     cs.writeEntry( "CardWith", d->_wantedCardWidth );
     config->sync();
