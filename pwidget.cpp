@@ -134,7 +134,7 @@ pWidget::pWidget()
     m_cards = new cardMap();
 
     stats = actionCollection()->addAction("game_stats");
-    a->setText(i18n("Statistics"));
+    stats->setText(i18n("Statistics"));
     connect( stats, SIGNAL( triggered( bool ) ), SLOT(showStats()) );
 
     dropaction = new KToggleAction(i18n("&Enable Autodrop"), this);
