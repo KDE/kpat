@@ -195,8 +195,8 @@ void Pile::rescale()
                 QImage::Format_ARGB32 );
     pix.fill( qRgba( 0, 0, 255, 255 ) );
 #else
-    QImage pix( int( cardMap::self()->wantedCardWidth() + 1 ),
-                int( cardMap::self()->wantedCardHeight() + 1),
+    QImage pix( static_cast<int>( cardMap::self()->wantedCardWidth() + 1 ),
+                static_cast<int>( cardMap::self()->wantedCardHeight() + 1),
                 QImage::Format_ARGB32 );
     pix.fill( qRgba( 0, 0, 255, 0 ) );
 #endif
