@@ -4,6 +4,8 @@ add_subdirectory( icons )
 
 include_directories( ${CMAKE_SOURCE_DIR}/libkdegames  )
 
+add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
+
 ########### next target ###############
 
 set(RELEASE "1")
