@@ -250,7 +250,7 @@ void cardMap::updateTheme(const KConfigGroup &cs)
     QString cache = d->m_cardDeck;
     cache = KStandardDirs::realFilePath( cache );
     cache = cache.left( cache.length() - strlen( "/index.desktop" ) );
-    cache = cache.mid( cache.findRev( '/' ) + 1 );
+    cache = cache.mid( cache.lastIndexOf( '/' ) + 1 );
     d->m_cacheDir = cache;
 
     d->_scale = 0;
@@ -398,9 +398,9 @@ QPixmap cardMap::renderCard( const QString &element )
         {
             d->m_body = QRect( QPoint( 0, 0 ), img.size() );
             while ( d->m_body.height() > 0 && qAlpha( img.pixel( d->m_body.left(), d->m_body.top() ) ) != 255 )
-                d->m_body.rTop() += 1;
+                d->m_body.setTop( d->m_body.top() + 1 );
             while ( d->m_body.height() > 0 && qAlpha( img.pixel( d->m_body.left(), d->m_body.bottom() - 1 ) ) != 255 )
-                d->m_body.rBottom() -= 1;
+                d->m_body.setBottom( d->m_body.bottom() - 1 );
 
             int left = 0;
             while ( left < img.width() && qAlpha( img.pixel( left, d->m_body.top() ) ) != 255 )

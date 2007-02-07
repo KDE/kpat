@@ -227,7 +227,7 @@ void pWidget::slotPickRandom()
     //kDebug() << list << " " << hit << " " << list.size() << " " << list[hit] << endl;
     QString theme = list[ hit ];
     theme = theme.left( theme.length() - strlen( "/index.desktop" ) );
-    theme = theme.mid( theme.findRev( '/' ) + 1);
+    theme = theme.mid( theme.lastIndexOf( '/' ) + 1);
 
     KSharedConfig::Ptr config = KGlobal::config();
     KConfigGroup cs(config, settings_group );
