@@ -355,7 +355,7 @@ void Card::stopAnimation()
         return;
 
     //kDebug() << gettime() << " stopAnimation " << name() << endl;
-    if ( !sender() || sender()->metaObject()->className() != "QTimeLine" )
+    if ( !sender() || strcmp(sender()->metaObject()->className(), "QTimeLine") )
         if ( name() == "diamond 01" )
             kDebug() << "stopAnimation " << name() << " " << m_destX << " " << m_destY << " " << animation->timeLine()->duration() << " " << kBacktrace() << endl;
     QGraphicsItemAnimation *old_animation = animation;
