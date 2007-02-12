@@ -324,7 +324,7 @@ void pWidget::slotUpdateMoves()
 {
     int moves = 0;
     if ( dill && dill->dscene() ) moves = dill->dscene()->getMoves();
-    statusBar()->changeItem( i18np("1 move", "%n moves", moves), 1 );
+    statusBar()->changeItem( i18np("1 move", "%1 moves", moves), 1 );
 }
 
 void pWidget::chooseGame()

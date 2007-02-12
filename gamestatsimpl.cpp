@@ -69,9 +69,9 @@ void GameStatsImpl::setGameType(int id)
 	LooseStreak->setText( QString::number( cg.readEntry(QString("maxloosestreak%1").arg(id), 0)));
 	unsigned int l = cg.readEntry(QString("loosestreak%1").arg(id),0);
 	if (l)
-		CurrentStreak->setText( i18np("1 loss", "%n losses", l) );
+		CurrentStreak->setText( i18np("1 loss", "%1 losses", l) );
 	else
-		CurrentStreak->setText( i18np("1 win", "%n wins",
+		CurrentStreak->setText( i18np("1 win", "%1 wins",
 			cg.readEntry(QString("winstreak%1").arg(id),0)) );
 }
 
