@@ -83,7 +83,7 @@ pWidget::pWidget()
                                    this, SLOT(openGame()) );
     recent = KStandardAction::openRecent(this, SLOT(openGame(const KUrl&)), this);
     actionCollection()->addAction("open_recent", recent);
-    recent->loadEntries(KGlobal::config().data());
+    recent->loadEntries( KGlobal::config()->group( QString() )) ;
     actionCollection()->addAction(KStandardAction::SaveAs, "save",
                                   this, SLOT(saveGame()));
     QAction *a = actionCollection()->addAction("choose_game");
@@ -373,7 +373,7 @@ void pWidget::openGame(const KUrl &url)
         setGameCaption();
         KIO::NetAccess::removeTempFile( tmpFile );
         recent->addUrl(url);
-        recent->saveEntries(KGlobal::config().data());
+        recent->saveEntries(KGlobal::config()->group( QString() ));
     }
 }
 
@@ -395,7 +395,7 @@ void pWidget::saveGame()
     stream.flush();
     KIO::NetAccess::upload(file.fileName(), url, this);
     recent->addUrl(url);
-    recent->saveEntries(KGlobal::config().data());
+    recent->saveEntries( KGlobal::config()->group( QString() ) );
 }
 
 void pWidget::showStats()
