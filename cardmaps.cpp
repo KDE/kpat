@@ -43,7 +43,6 @@
 #include <qfileinfo.h>
 #include <QDir>
 #include <assert.h>
-#include <ksimpleconfig.h>
 #include <kglobal.h>
 #include <QSvgRenderer>
 #include <QPixmapCache>
