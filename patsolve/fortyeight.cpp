@@ -8,7 +8,6 @@
 #include <kdebug.h>
 #include <sys/types.h>
 #include <stdarg.h>
-#include <math.h>
 #include "fortyeight.h"
 #include "../fortyeight.h"
 #include "../pile.h"

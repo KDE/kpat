@@ -8,7 +8,6 @@
 #include <kdebug.h>
 #include <sys/types.h>
 #include <stdarg.h>
-#include <math.h>
 #include "spider.h"
 #include "../spider.h"
 #include "../pile.h"

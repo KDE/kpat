@@ -8,7 +8,6 @@
 #include <kdebug.h>
 #include <sys/types.h>
 #include <stdarg.h>
-#include <math.h>
 #include "golf.h"
 #include "../golf.h"
 #include "../pile.h"

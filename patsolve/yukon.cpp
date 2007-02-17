@@ -8,7 +8,6 @@
 #include <kdebug.h>
 #include <sys/types.h>
 #include <stdarg.h>
-#include <math.h>
 #include "yukon.h"
 #include "../yukon.h"
 #include "../pile.h"

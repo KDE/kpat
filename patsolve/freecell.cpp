@@ -7,7 +7,6 @@
 #include <math.h>
 #include <sys/types.h>
 #include <stdarg.h>
-#include <math.h>
 #include "freecell.h"
 #include "../freecell.h"
 #include "../pile.h"

@@ -8,7 +8,6 @@
 #include <kdebug.h>
 #include <sys/types.h>
 #include <stdarg.h>
-#include <math.h>
 #include "patsolve.h"
 #include "../pile.h"
 #include "memory.h"
