@@ -541,7 +541,7 @@ void Pile::moveCards(CardList &cl, Pile *to)
         }
     }
 
-    to->moveCardsBack(cl, false);
+    to->moveCardsBack(cl, true);
 }
 
 void Pile::moveCardsBack(CardList &cl, bool anim)

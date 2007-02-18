@@ -176,6 +176,7 @@ private:
     bool      m_hovered;
     bool      m_highlighted;
     bool      m_moving;
+    bool      m_isZoomed;
     VisibleState  m_isSeen;
 
     // do not use

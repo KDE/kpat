@@ -27,6 +27,7 @@
 #include <QBrush>
 #include <QTimeLine>
 #include <QGraphicsItemAnimation>
+#include <QGraphicsSceneMouseEvent>
 #include <QStyleOptionGraphicsItem>
 #include <qgraphicssvgitem.h>
 #include <QSvgRenderer>
@@ -55,7 +56,7 @@ AbstractCard::AbstractCard( Rank r, Suit s )
 Card::Card( Rank r, Suit s, QGraphicsScene *_parent )
     : QObject(), AbstractCard( r, s ), QGraphicsPixmapItem(),
       m_source(0), tookDown(false), animation( 0 ),
-      m_highlighted( false ), m_moving( false ), m_isSeen( Unknown )
+      m_highlighted( false ), m_moving( false ), m_isZoomed( false ), m_isSeen( Unknown )
 {
     setShapeMode( QGraphicsPixmapItem::BoundingRectShape );
     _parent->addItem( this );
@@ -405,23 +406,43 @@ void Card::hoverLeaveEvent ( QGraphicsSceneHoverEvent * )
     //zoomOut(200);
 }
 
-void Card::mousePressEvent ( QGraphicsSceneMouseEvent * ) {
+void Card::mousePressEvent ( QGraphicsSceneMouseEvent *ev ) {
     //kDebug() << "mousePressEvent\n";
     if ( !isFaceUp() )
         return;
     if ( this == source()->top() )
         return; // no way this is meaningful
-    m_hoverTimer->stop();
-    stopAnimation();
-    zoomOut(100);
-    m_hovered = false;
-    m_moving = true;
-    m_isSeen = CardVisible;
+
+    if (ev->buttons() & Qt::RightButton)
+    {
+    
+        m_hoverTimer->stop();
+        stopAnimation();
+        zoomIn(400);
+        m_hovered = false;
+        m_moving = true;
+        m_isSeen = CardVisible;
+    }
 }
 
 void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ) {
     //kDebug() << "mouseReleaseEvent\n";
     m_moving = false;
+
+    if ( !isFaceUp() )
+        return;
+    if ( this == source()->top() )
+        return; // no way this is meaningful
+
+    if (m_isZoomed)
+    {
+        m_hoverTimer->stop();
+        stopAnimation();
+        zoomOut(400);
+        m_hovered = false;
+        m_moving = true;
+        m_isSeen = CardVisible;
+    }
 }
 
 // Get the card to the top.
@@ -523,17 +544,17 @@ void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 void Card::zoomIn(int t)
 {
     m_hovered = true;
-    QTimeLine *timeLine = new QTimeLine( t, this );
 
+    QTimeLine *timeLine = new QTimeLine( t, this );
     m_originalPosition = pos();
     animation = new QGraphicsItemAnimation( this );
     animation->setItem( this );
     animation->setTimeLine( timeLine );
-    QPointF dest =  QPointF( pos().x() - boundingRect().width() / 3,
-                             pos().y() - boundingRect().height() / 8 );
+    QPointF dest =  QPointF( pos().x() + boundingRect().width() / 3,
+                             pos().y() - boundingRect().height() / 4 );
     animation->setPosAt( 1, dest );
     animation->setScaleAt( 1, 1.1, 1.1 );
-    animation->setRotationAt( 1, -20 );
+    animation->setRotationAt( 1, 20 );
     //qreal x2 = pos().x() + boundingRect().width() / 2 - boundingRect().width() * 1.1 / 2;
     //qreal y2 = pos().y() + boundingRect().height() / 2 - boundingRect().height() * 1.1 / 2;
     //animation->setScaleAt( 1, 1, 1 );
@@ -543,11 +564,13 @@ void Card::zoomIn(int t)
     timeLine->setLoopCount( 1 );
     timeLine->start();
 
+    m_isZoomed = true;
+
     connect( timeLine, SIGNAL( finished() ), SLOT( stopAnimation() ) );
 
     m_destZ = zValue();
-    m_destX = x();
-    m_destY = y();
+    m_destX = dest.x();
+    m_destY = dest.y();
 }
 
 void Card::zoomOut(int t)
@@ -557,12 +580,12 @@ void Card::zoomOut(int t)
     animation = new QGraphicsItemAnimation( this );
     animation->setItem(this);
     animation->setTimeLine(timeLine);
-    animation->setRotationAt( 0, -20 );
-    animation->setRotationAt( 0.5, -10 );
+    animation->setRotationAt( 0, 20 );
+    animation->setRotationAt( 0.5, 10 );
     animation->setRotationAt( 1, 0 );
     animation->setScaleAt( 0, 1.1, 1.1 );
     animation->setScaleAt( 1, 1.0, 1.0 );
-    //animation->setPosAt( 1, m_originalPosition );
+    animation->setPosAt( 1, m_originalPosition );
     //qreal x2 = pos().x() + boundingRect().width() / 2 - boundingRect().width() * 1.1 / 2;
     //qreal y2 = pos().y() + boundingRect().height() / 2 - boundingRect().height() * 1.1 / 2;
     //animation->setScaleAt( 1, 1, 1 );
@@ -572,11 +595,13 @@ void Card::zoomOut(int t)
     timeLine->setLoopCount(1);
     timeLine->start();
 
+    m_isZoomed = false;
+
     connect( timeLine, SIGNAL( finished() ), SLOT( stopAnimation() ) );
 
     m_destZ = zValue();
-    m_destX = x();
-    m_destY = y();
+    m_destX = m_originalPosition.x();
+    m_destY = m_originalPosition.y();
 }
 
 void Card::zoomInAnimation()
