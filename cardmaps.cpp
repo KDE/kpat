@@ -43,7 +43,6 @@
 #include <qfileinfo.h>
 #include <QDir>
 #include <assert.h>
-#include <ksimpleconfig.h>
 #include <kglobal.h>
 #include <QSvgRenderer>
 #include <QPixmapCache>
@@ -244,7 +243,7 @@ void cardMap::updateTheme(const KConfigGroup &cs)
     QString theme = cs.readEntry( "Theme", "svg-nicu-ornamental" );
     d->m_cardDeck = KStandardDirs::locate("data", QString( "carddecks/%1/index.desktop" ).arg( theme ) );
 
-    KSimpleConfig fi(d->m_cardDeck, true);
+    KConfig fi( d->m_cardDeck, KConfig::OnlyLocal);
     fi.setGroup("KDE Backdeck");
 
     QString cache = d->m_cardDeck;
