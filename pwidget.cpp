@@ -92,7 +92,7 @@ pWidget::pWidget()
 
     a = actionCollection()->addAction("restart_game");
     a->setText(i18n("Restart &Game"));
-    a->setIcon(KIcon("reload"));
+    a->setIcon(KIcon("view-refresh"));
     connect( a, SIGNAL( triggered( bool ) ), SLOT( restart() ) );
 
     actionCollection()->addAction(KStandardAction::Help, "help_game",

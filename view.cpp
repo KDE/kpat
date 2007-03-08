@@ -162,7 +162,7 @@ void PatienceView::setupActions()
     if (dscene()->actions() & DealerScene::Demo) {
         ademo = parent()->actionCollection()->addAction( "game_demo" );
         ademo->setText( i18n("&Demo") );
-        ademo->setIcon( KIcon( "player_play") );
+        ademo->setIcon( KIcon( "media-playback-start") );
         ademo->setShortcut( Qt::CTRL+Qt::Key_D );
         connect( ademo, SIGNAL( triggered( bool ) ), dscene(), SLOT( toggleDemo() ) );
         actionlist.append(ademo);
@@ -185,9 +185,9 @@ void PatienceView::setupActions()
 void PatienceView::toggleDemo( bool flag )
 {
     if ( !flag )
-        ademo->setIcon( KIcon( "player_play") );
+        ademo->setIcon( KIcon( "media-playback-start") );
     else
-        ademo->setIcon( KIcon( "player_pause") );
+        ademo->setIcon( KIcon( "media-playback-pause") );
 }
 
 void PatienceView::hint()
