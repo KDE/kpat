@@ -12,7 +12,6 @@
 #include "../klondike.h"
 #include "../pile.h"
 #include "../deck.h"
-#include "memory.h"
 
 /* Some macros used in get_possible_moves(). */
 

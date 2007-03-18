@@ -30,7 +30,6 @@
 #include <QDomDocument>
 #include <QTextStream>
 #include <QFile>
-#include "cardmaps.h"
 #include "patsolve/freecell.h"
 
 const int CHUNKSIZE = 100;

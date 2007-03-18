@@ -22,7 +22,6 @@
 #include "idiot.h"
 #include <klocale.h>
 #include "deck.h"
-#include "cardmaps.h"
 #include "patsolve/idiot.h"
 
 Idiot::Idiot( )

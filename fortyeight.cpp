@@ -16,7 +16,6 @@
 #include <kdebug.h>
 #include "deck.h"
 #include <assert.h>
-#include "cardmaps.h"
 #include <patsolve/fortyeight.h>
 
 HorLeftPile::HorLeftPile( int _index, DealerScene* parent)

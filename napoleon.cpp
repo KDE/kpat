@@ -20,7 +20,6 @@
 #include "napoleon.h"
 #include <klocale.h>
 #include "deck.h"
-#include "cardmaps.h"
 
 Napoleon::Napoleon( )
   : DealerScene( )

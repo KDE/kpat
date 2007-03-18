@@ -12,7 +12,6 @@
 #include "../spider.h"
 #include "../pile.h"
 #include "../deck.h"
-#include "memory.h"
 
 /* These two routines make and unmake moves. */
 

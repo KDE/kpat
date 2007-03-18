@@ -12,7 +12,6 @@
 #include "../golf.h"
 #include "../pile.h"
 #include "../deck.h"
-#include "memory.h"
 
 #define PRINT 0
 #define PRINT2 0

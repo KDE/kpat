@@ -15,7 +15,6 @@
 #include <klocale.h>
 #include "deck.h"
 #include <assert.h>
-#include "cardmaps.h"
 
 Clock::Clock( )
     : DealerScene( )

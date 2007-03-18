@@ -16,7 +16,6 @@
 #include <kdebug.h>
 #include "deck.h"
 #include <assert.h>
-#include "cardmaps.h"
 #include "patsolve/simon.h"
 
 Simon::Simon( )

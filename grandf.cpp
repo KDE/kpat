@@ -24,7 +24,6 @@
 #include "deck.h"
 #include <kaction.h>
 #include <assert.h>
-#include "cardmaps.h"
 
 Grandf::Grandf( )
     : DealerScene(  )

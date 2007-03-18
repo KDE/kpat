@@ -59,7 +59,6 @@
 #include "dealer.h"
 #include "view.h"
 #include "cardmaps.h"
-#include "speeds.h"
 #include "gamestatsimpl.h"
 
 

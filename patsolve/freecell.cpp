@@ -10,7 +10,6 @@
 #include "freecell.h"
 #include "../freecell.h"
 #include "../pile.h"
-#include "memory.h"
 
 /* Some macros used in get_possible_moves(). */
 

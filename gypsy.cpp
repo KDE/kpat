@@ -14,7 +14,6 @@
 #include "gypsy.h"
 #include <klocale.h>
 #include "deck.h"
-#include "cardmaps.h"
 
 Gypsy::Gypsy( )
     : DealerScene(  )

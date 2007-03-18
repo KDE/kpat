@@ -44,7 +44,6 @@
 #include <kactioncollection.h>
 #include <klocale.h>
 #include "cardmaps.h"
-#include "speeds.h"
 #include <kconfig.h>
 #include <kglobal.h>
 #include "version.h"

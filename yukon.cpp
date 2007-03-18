@@ -17,7 +17,6 @@
 #include <kdebug.h>
 #include "deck.h"
 #include <assert.h>
-#include "cardmaps.h"
 #include "patsolve/yukon.h"
 
 Yukon::Yukon( )

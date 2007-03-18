@@ -19,7 +19,6 @@
 ---------------------------------------------------------------------------*/
 
 #include "spider.h"
-#include "cardmaps.h"
 #include <klocale.h>
 #include "deck.h"
 #include <kdebug.h>

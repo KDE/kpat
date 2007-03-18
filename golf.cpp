@@ -16,7 +16,6 @@
 #include "deck.h"
 #include <kdebug.h>
 #include <patsolve/golf.h>
-#include "cardmaps.h"
 
 HorRightPile::HorRightPile( int _index, DealerScene* parent)
     : Pile(_index, parent)

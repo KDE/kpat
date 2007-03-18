@@ -6,7 +6,6 @@
 #include <ctype.h>
 #include <math.h>
 #include <kdebug.h>
-#include <sys/types.h>
 #include <stdarg.h>
 #include "patsolve.h"
 #include "../pile.h"
