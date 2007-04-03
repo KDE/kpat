@@ -24,6 +24,24 @@
 <surname>Kulow</surname>
 </author>
 
+<othercredit role="reviewer">
+<firstname>Mike</firstname><surname>McBride</surname>
+<contrib>Reviewer</contrib>
+<affiliation><address>&Mike.McBride.mail;</address></affiliation>
+</othercredit>
+
+<othercredit role="developer">
+<firstname>Paul Olav</firstname>
+<surname>Tvete</surname>
+<contrib>Developer</contrib>
+</othercredit>
+
+<othercredit role="developer">
+<firstname>Stephan</firstname>
+<surname>Kulow</surname>
+<contrib>Developer</contrib>
+</othercredit>
+
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 </authorgroup>
 
@@ -44,7 +62,7 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2007-03-15</date>
+<date>2007-04-03</date>
 <releaseinfo>2.2.2</releaseinfo>
 <abstract>
 
@@ -743,8 +761,8 @@ Documentation rewritten for &kpatience; 2.0 (&kde; 2.1) by &Maren.Pakura;
 </para>
 
 <para>
-Documentation proofread and update for &kpatience; 2.2.2 by Richard Hawthorne
-<email>techno_plume-coding@yahoo.com</email>
+Documentation proofread and update for &kpatience 2.2.2 by &Richard.Hawthorne;
+<email>&Richard.Hawthorne.mail;</email>
 </para>
 
 
