@@ -244,7 +244,7 @@ void cardMap::updateTheme(const KConfigGroup &cs)
     d->m_cardDeck = KStandardDirs::locate("data", QString( "carddecks/%1/index.desktop" ).arg( theme ) );
 
     KConfig fi( d->m_cardDeck, KConfig::OnlyLocal);
-    fi.setGroup("KDE Backdeck");
+    KConfigGroup ficg(&fi, "KDE Backdeck");
 
     QString cache = d->m_cardDeck;
     cache = KStandardDirs::realFilePath( cache );
@@ -255,11 +255,11 @@ void cardMap::updateTheme(const KConfigGroup &cs)
     d->_scale = 0;
     d->m_body = QRect();
 
-    d->m_svg = fi.readEntry( "SVG" );
+    d->m_svg = ficg.readEntry( "SVG" );
     if ( !d->m_svg.isEmpty() )
         d->m_svg = QFileInfo(d->m_cardDeck).dir().absoluteFilePath(d->m_svg);
 
-    d->m_backSize = fi.readEntry("BackSize", QSizeF() );
+    d->m_backSize = ficg.readEntry("BackSize", QSizeF() );
     registerCard( "back" );
     if ( d->m_backSize.isNull() || !d->m_backSize.isValid() )
     {
