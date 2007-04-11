@@ -413,7 +413,7 @@ void pWidget::slotGameSolverWon()
 
 void pWidget::slotGameSolverLost()
 {
-    statusBar()->showMessage(i18n( "Nope, this game can't be won anymore." ), 3000);
+    statusBar()->showMessage(i18n( "Nope, this game cannot be won anymore." ), 3000);
 }
 
 void pWidget::slotGameSolverUnknown()
