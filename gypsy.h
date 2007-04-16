@@ -19,7 +19,7 @@
 
 class KAction;
 class Pile;
-class KMainWindow;
+class KXmlGuiWindow;
 
 class Gypsy : public DealerScene {
     Q_OBJECT

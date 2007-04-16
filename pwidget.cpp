@@ -65,7 +65,7 @@
 static pWidget *current_pwidget = 0;
 
 pWidget::pWidget()
-    : KMainWindow(0), dill(0)
+    : KXmlGuiWindow(0), dill(0)
 {
     setObjectName( "pwidget" );
     current_pwidget = this;
@@ -312,7 +312,7 @@ void pWidget::showEvent(QShowEvent *e)
 {
     kDebug() << "showEvent "<< endl;
     dill->setWasShown( true );
-    KMainWindow::showEvent(e);
+    KXmlGuiWindow::showEvent(e);
 }
 
 void pWidget::slotGameInfo(const QString &text)

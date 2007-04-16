@@ -18,7 +18,7 @@
 #include <kdebug.h>
 #include "deck.h"
 #include <assert.h>
-#include "kmainwindow.h"
+#include "kxmlguiwindow.h"
 #include <kpixmapeffect.h>
 #include <kxmlguifactory.h>
 #include <kicon.h>

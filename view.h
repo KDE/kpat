@@ -18,7 +18,7 @@
 
 class DealerScene;
 class QWheelEvent;
-class KMainWindow;
+class KXmlGuiWindow;
 class QAction;
 class KToggleAction;
 
@@ -30,7 +30,7 @@ class PatienceView: public QGraphicsView
 
 public:
 
-    PatienceView ( KMainWindow* parent );
+    PatienceView ( KXmlGuiWindow* parent );
     virtual ~PatienceView();
 
     static PatienceView *instance();
@@ -71,7 +71,7 @@ protected:
     virtual void wheelEvent( QWheelEvent *e );
     virtual void resizeEvent( QResizeEvent *e );
 
-    KMainWindow *parent() const;
+    KXmlGuiWindow *parent() const;
 
 protected:
 
