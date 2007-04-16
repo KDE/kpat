@@ -23,7 +23,7 @@
 #ifndef __PWIDGET__H__
 #define __PWIDGET__H__
 
-#include <kmainwindow.h>
+#include <kxmlguiwindow.h>
 //Added by qt3to4:
 #include <QPixmap>
 #include <QLabel>
@@ -37,7 +37,7 @@ class QAction;
 class QLabel;
 class cardMap;
 
-class pWidget: public KMainWindow {
+class pWidget: public KXmlGuiWindow {
     Q_OBJECT
 
 public:

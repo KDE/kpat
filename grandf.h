@@ -31,7 +31,7 @@
 
 class KAction;
 class Pile;
-class KMainWindow;
+class KXmlGuiWindow;
 
 class Grandf : public DealerScene {
     Q_OBJECT

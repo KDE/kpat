@@ -18,7 +18,7 @@
 #include <kdebug.h>
 #include "deck.h"
 #include <assert.h>
-#include "kmainwindow.h"
+#include "kxmlguiwindow.h"
 #include <kpixmapeffect.h>
 #include <kxmlguifactory.h>
 #include <kicon.h>
@@ -72,7 +72,7 @@ void DealerInfoList::add(DealerInfo *dealer)
 
 PatienceView *PatienceView::s_instance = 0;
 
-PatienceView::PatienceView( KMainWindow* _parent )
+PatienceView::PatienceView( KXmlGuiWindow* _parent )
   : QGraphicsView( _parent ),
     ademo(0),
     ahint(0),
@@ -101,9 +101,9 @@ PatienceView::~PatienceView()
         s_instance = 0;
 }
 
-KMainWindow *PatienceView::parent() const
+KXmlGuiWindow *PatienceView::parent() const
 {
-    return dynamic_cast<KMainWindow*>(QGraphicsView::parent());
+    return dynamic_cast<KXmlGuiWindow*>(QGraphicsView::parent());
 }
 
 
