@@ -17,7 +17,7 @@
 #include "hint.h"
 #include "pile.h"
 #include <krandomsequence.h>
-#include <QString>
+
 #include <QGraphicsScene>
 #include <QMutex>
 
