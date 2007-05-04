@@ -17,9 +17,11 @@
 
  */
 
-#include "napoleon.h"
-#include <klocale.h>
 #include "deck.h"
+#include "hint.h"
+#include "napoleon.h"
+
+#include <klocale.h>
 
 Napoleon::Napoleon( )
   : DealerScene( )

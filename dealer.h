@@ -14,22 +14,17 @@
 #ifndef _DEALER_H_
 #define _DEALER_H_
 
-#include "hint.h"
 #include "pile.h"
+#include "card.h"
+
 #include <krandomsequence.h>
-
 #include <QGraphicsScene>
-#include <QMutex>
 
-class Card;
-class QPixmap;
 class MoveHint;
 class QDomDocument;
 class DealerInfo;
-class Pile;
 class DealerScene;
 class Solver;
-class SolverThread;
 
 typedef QList<Pile*> PileList;
 
@@ -42,6 +37,7 @@ public:
 private:
     QList<DealerInfo*> list;
     static DealerInfoList *_self;
+    static void cleanupDealerInfoList();
 };
 
 class DealerInfo

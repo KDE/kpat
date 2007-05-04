@@ -13,46 +13,31 @@
 */
 
 #include "dealer.h"
-#include <kstaticdeleter.h>
-#include <kstandarddirs.h>
-#include <kdebug.h>
 #include "deck.h"
-#include <assert.h>
-#include "kxmlguiwindow.h"
-#include <kpixmapeffect.h>
-#include <kxmlguifactory.h>
-#include <kicon.h>
-#include <QTimer>
-//Added by qt3to4:
-#include <QWheelEvent>
-#include <QGraphicsSceneMouseEvent>
-#include <QSvgRenderer>
-#ifndef QT_NO_OPENGL
-#include <QGLWidget>
-#endif
-#include <QPixmap>
-#include <QDebug>
-#include <QList>
-#include <QTimeLine>
-#include <QGraphicsItemAnimation>
-#include <QGraphicsView>
-#include <QResizeEvent>
-#include <QMouseEvent>
-#include <QPainter>
-#include <QDomElement>
-#include <krandom.h>
-#include <kaction.h>
-#include <klocale.h>
 #include "cardmaps.h"
 #include "speeds.h"
-#include <kconfig.h>
-#include <kglobal.h>
 #include "version.h"
-#include <ktoggleaction.h>
 #include "patsolve/patsolve.h"
-#include <math.h>
-#include <qthread.h>
+
 #include <kconfiggroup.h>
+#include <kdebug.h>
+#include <klocalizedstring.h>
+#include <krandom.h>
+#include <kstandarddirs.h>
+#include <ksharedconfig.h>
+
+#include <QtCore/QMutex>
+#include <QtCore/QString>
+#include <QtCore/QThread>
+#include <QtGui/QGraphicsSceneMouseEvent>
+#include <QtGui/QGraphicsView>
+#include <QtGui/QImage>
+#include <QtGui/QPainter>
+#include <QtSvg/QSvgRenderer>
+#include <QtXml/QDomDocument>
+
+#include <assert.h>
+#include <math.h>
 
 // ================================================================
 //                         class MoveHint

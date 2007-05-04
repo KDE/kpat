@@ -23,8 +23,7 @@
 #define _FREECELL_H_
 
 #include "dealer.h"
-//Added by qt3to4:
-#include <QList>
+#include "hint.h"
 
 class FreecellPile : public Pile
 {

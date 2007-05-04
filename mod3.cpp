@@ -18,9 +18,11 @@
 
 ---------------------------------------------------------------------------*/
 
-#include "mod3.h"
-#include <klocale.h>
 #include "deck.h"
+#include "hint.h"
+#include "mod3.h"
+
+#include <klocale.h>
 #include <kdebug.h>
 
 //-------------------------------------------------------------------------//

@@ -21,17 +21,19 @@
 #include <kaboutdata.h>
 #include <kglobal.h>
 #include <klocale.h>
-#include <kurl.h>
-#include <qtimer.h>
-#include <stdio.h>
 #include <kdebug.h>
+
+#include <QtCore/QTime>
+#include <QtCore/QTimer>
+
+#include <stdio.h>
 #include <limits.h>
-#include <QTime>
 
 #include "version.h"
 #include "pwidget.h"
 #include "dealer.h"
 #include "patsolve/patsolve.h"
+#include "cardmaps.h"
 #include "cardmaps.h"
 
 static const char description[] = I18N_NOOP("KDE Patience Game");

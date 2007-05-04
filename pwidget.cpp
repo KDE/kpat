@@ -54,6 +54,7 @@
 #include <kicon.h>
 #include <kconfiggroup.h>
 
+#include "pile.h"
 #include "pwidget.h"
 #include "version.h"
 #include "dealer.h"

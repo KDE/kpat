@@ -11,12 +11,11 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
-//Added by qt3to4:
-#include <QList>
 #ifndef HINT_H
 #define HINT_H
 
 
+#include <QList>
 class Card;
 class Pile;
 

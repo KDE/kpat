@@ -13,51 +13,44 @@
 */
 #include "view.h"
 #include "dealer.h"
-#include <kstaticdeleter.h>
-#include <kstandarddirs.h>
-#include <kdebug.h>
 #include "deck.h"
-#include <assert.h>
-#include "kxmlguiwindow.h"
-#include <kpixmapeffect.h>
-#include <kxmlguifactory.h>
-#include <kicon.h>
-#include <QTimer>
-//Added by qt3to4:
-#include <QWheelEvent>
-#include <QGraphicsSceneMouseEvent>
-#include <QSvgRenderer>
-#ifndef QT_NO_OPENGL
-#include <QGLWidget>
-#endif
-#include <QPixmap>
-#include <QDebug>
-#include <QList>
-#include <QTimeLine>
-#include <QGraphicsItemAnimation>
-#include <QResizeEvent>
-#include <QMouseEvent>
-#include <QPainter>
-#include <QDomElement>
-#include <krandom.h>
-#include <kaction.h>
-#include <kactioncollection.h>
-#include <klocale.h>
 #include "cardmaps.h"
-#include <kconfig.h>
-#include <kglobal.h>
 #include "version.h"
-#include <ktoggleaction.h>
 
+#include <kactioncollection.h>
+#include <kdebug.h>
+#include <kicon.h>
+#include <klocalizedstring.h>
+#include <krandom.h>
+#include <kxmlguifactory.h>
+#include <kxmlguiwindow.h>
+
+#include <QtCore/QCoreApplication>
+#include <QtCore/QList>
+#include <QtGui/QAction>
+#include <QtGui/QResizeEvent>
+#include <QtGui/QWheelEvent>
+
+#ifndef QT_NO_OPENGL
+#include <QtOpenGL/QGLWidget>
+#endif
+
+#include <assert.h>
 #include <math.h>
 
 DealerInfoList *DealerInfoList::_self = 0;
-static KStaticDeleter<DealerInfoList> dl;
+
+void DealerInfoList::cleanupDealerInfoList()
+{
+    delete DealerInfoList::_self;
+}
 
 DealerInfoList *DealerInfoList::self()
 {
-    if (!_self)
-        _self = dl.setObject(_self, new DealerInfoList());
+    if (!_self) {
+        _self = new DealerInfoList();
+        qAddPostRoutine(DealerInfoList::cleanupDealerInfoList);
+    }
     return _self;
 }
 
