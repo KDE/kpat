@@ -1,5 +1,6 @@
 /* Common routines & arrays. */
 
+#include "klondike.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,7 +9,6 @@
 #include <kdebug.h>
 #include <sys/types.h>
 #include <stdarg.h>
-#include "klondike.h"
 #include "../klondike.h"
 #include "../pile.h"
 #include "../deck.h"

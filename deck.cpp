@@ -11,8 +11,8 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
-#include <kdebug.h>
 #include "deck.h"
+#include <kdebug.h>
 #include "dealer.h"
 #include <time.h>
 #include <assert.h>

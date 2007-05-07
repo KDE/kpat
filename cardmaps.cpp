@@ -18,6 +18,8 @@
 
 ****************************************/
 
+#include "cardmaps.h"
+
 #include <stdio.h>
 #include <unistd.h>
 
@@ -28,7 +30,6 @@
 
 #include <kconfig.h>
 
-#include "cardmaps.h"
 #include <stdlib.h>
 
 #include <kdebug.h>

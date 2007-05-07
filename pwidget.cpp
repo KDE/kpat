@@ -18,6 +18,8 @@
    Heavily modified by Mario Weilguni <mweilguni@sime.com>
 */
 
+#include "pwidget.h"
+
 #include <stdio.h>
 
 #include <QRegExp>
@@ -55,7 +57,6 @@
 #include <kconfiggroup.h>
 
 #include "pile.h"
-#include "pwidget.h"
 #include "version.h"
 #include "dealer.h"
 #include "view.h"

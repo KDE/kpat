@@ -17,9 +17,9 @@
 
  */
 
+#include "napoleon.h"
 #include "deck.h"
 #include "hint.h"
-#include "napoleon.h"
 
 #include <klocale.h>
 

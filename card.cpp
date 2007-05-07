@@ -18,6 +18,8 @@
 
 *******************************************************/
 
+#include "card.h"
+
 #include <math.h>
 #include <assert.h>
 
@@ -34,7 +36,6 @@
 #include <QPixmapCache>
 #include <kdebug.h>
 
-#include "card.h"
 #include "pile.h"
 #include "cardmaps.h"
 #include "dealer.h"
