@@ -8,13 +8,12 @@
 #include <math.h>
 #include <kdebug.h>
 #include <stdarg.h>
+#include <sys/types.h>
 #include "../pile.h"
 #include "memory.h"
 
 /* This is a 32 bit FNV hash.  For more information, see
 http://www.isthe.com/chongo/tech/comp/fnv/index.html */
-
-#include <sys/types.h>
 
 #define FNV1_32_INIT 0x811C9DC5
 #define FNV_32_PRIME 0x01000193
@@ -50,9 +49,6 @@ static inline quint32 fnv_hash_str(quint8 *s)
 	return h;
 }
 
-
-#include <string.h>
-#include <sys/types.h>
 
 /* Hash a pile. */
 

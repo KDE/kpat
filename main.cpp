@@ -34,7 +34,6 @@
 #include "dealer.h"
 #include "patsolve/patsolve.h"
 #include "cardmaps.h"
-#include "cardmaps.h"
 
 static const char description[] = I18N_NOOP("KDE Patience Game");
 
