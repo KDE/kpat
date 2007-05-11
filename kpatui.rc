@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <!DOCTYPE kpartgui>
-<kpartgui name="standard_containers" version="12">
+<kpartgui name="standard_containers" version="13">
 <MenuBar>
   <Menu name="game" noMerge="1"><text>&amp;Game</text>
     <Action name="new_game"/>
@@ -17,7 +17,7 @@
     <Separator/>
     <Action name="game_exit"/>
   </Menu>
-  <Menu name="edit" noMerge="1"><text>&amp;Edit</text>
+  <Menu name="move" noMerge="1"><text>&amp;Move</text>
     <Action name="undo_move"/>
   </Menu>
   <Menu name="settings" noMerge="1"><text>&amp;Settings</text>
