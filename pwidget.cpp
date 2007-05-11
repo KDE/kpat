@@ -39,6 +39,7 @@
 #include <kactioncollection.h>
 #include <ktoggleaction.h>
 #include <kstandardaction.h>
+#include <kstandardgameaction.h>
 #include <kdebug.h>
 #include <kcarddialog.h>
 #include <krandom.h>
@@ -72,14 +73,18 @@ pWidget::pWidget()
     setObjectName( "pwidget" );
     current_pwidget = this;
     // KCrash::setEmergencySaveFunction(::saveGame);
-    actionCollection()->addAction( KStandardAction::Quit, "game_exit",
-                                   kapp, SLOT(quit()) );
-
-    undo = actionCollection()->addAction( KStandardAction::Undo, "undo_move",
-                                          this, SLOT(undoMove()) );
+    
+    
+    QAction *temp = KStandardGameAction::quit(this, SLOT(close()), this);
+    actionCollection()->addAction(temp->objectName(), temp);
+    
+    temp = KStandardGameAction::gameNew(this, SLOT(newGame()), this);
+    actionCollection()->addAction(temp->objectName(), temp);
+    
+    undo = KStandardGameAction::undo(this, SLOT(undoMove()), this);
+    actionCollection()->addAction(undo->objectName(), undo);
     undo->setEnabled(false);
-    actionCollection()->addAction( KStandardAction::New, "new_game",
-                                   this, SLOT(newGame()) );
+    
     actionCollection()->addAction( KStandardAction::Open, "open",
                                    this, SLOT(openGame()) );
     recent = KStandardAction::openRecent(this, SLOT(openGame(const KUrl&)), this);

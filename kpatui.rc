@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <!DOCTYPE kpartgui>
-<kpartgui name="standard_containers" version="13">
+<kpartgui name="standard_containers" version="14">
 <MenuBar>
-  <Menu name="game" noMerge="1"><text>&amp;Game</text>
-    <Action name="new_game"/>
+  <Menu name="game">
     <Action name="open"/>
     <Action name="open_recent"/>
     <Separator/>
@@ -15,10 +14,6 @@
     <Separator/>
     <ActionList name="game_actions"/>
     <Separator/>
-    <Action name="game_exit"/>
-  </Menu>
-  <Menu name="move" noMerge="1"><text>&amp;Move</text>
-    <Action name="undo_move"/>
   </Menu>
   <Menu name="settings" noMerge="1"><text>&amp;Settings</text>
     <Action name="game_type"/>
