@@ -52,7 +52,7 @@ int main( int argc, char **argv )
                           KPAT_VERSION, description, KAboutData::License_GPL,
                           "(c) 1995, Paul Olav Tvete\n"
                           "(c) 2000 Stephan Kulow");
-    aboutData.addAuthor("Paul Olav Tvete");
+    aboutData.addAuthor("Paul Olav Tvete",0,"paul@troll.no");
     aboutData.addAuthor("Mario Weilguni",0,"mweilguni@kde.org");
     aboutData.addAuthor("Matthias Ettrich",0,"ettrich@kde.org");
     aboutData.addAuthor("Rodolfo Borges",I18N_NOOP("Some Game Types"),"barrett@9hells.org");
@@ -67,6 +67,7 @@ int main( int argc, char **argv )
     aboutData.addAuthor("Josh Metzler", I18N_NOOP("Spider Implementation"), "joshdeb@metzlers.org");
     aboutData.addAuthor("Maren Pakura", I18N_NOOP("Documentation"), "maren@kde.org");
     aboutData.addAuthor("Inge Wallin", I18N_NOOP("Bug fixes"), "inge@lysator.liu.se");
+    aboutData.addAuthor("Simon Hürlimann", I118N_NOOP("Menu and Toolbar work"), "simon.huerlimann@huerlisi.ch");
 
     KCmdLineArgs::init( argc, argv, &aboutData );
     KCmdLineArgs::addCmdLineOptions (options);
