@@ -67,7 +67,7 @@ int main( int argc, char **argv )
     aboutData.addAuthor("Josh Metzler", I18N_NOOP("Spider Implementation"), "joshdeb@metzlers.org");
     aboutData.addAuthor("Maren Pakura", I18N_NOOP("Documentation"), "maren@kde.org");
     aboutData.addAuthor("Inge Wallin", I18N_NOOP("Bug fixes"), "inge@lysator.liu.se");
-    aboutData.addAuthor("Simon Hürlimann", I118N_NOOP("Menu and Toolbar work"), "simon.huerlimann@huerlisi.ch");
+    aboutData.addAuthor("Simon Hürlimann", I18N_NOOP("Menu and Toolbar work"), "simon.huerlimann@huerlisi.ch");
 
     KCmdLineArgs::init( argc, argv, &aboutData );
     KCmdLineArgs::addCmdLineOptions (options);
