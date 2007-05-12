@@ -1,6 +1,6 @@
 /*
    patience -- main program
-     Copyright (C) 1995  Paul Olav Tvete
+   Copyright (C) 1995  Paul Olav Tvete <paul@troll.no>
 
    Permission to use, copy, modify, and distribute this software and its
    documentation for any purpose and without fee is hereby granted,
@@ -75,35 +75,25 @@ pWidget::pWidget()
     // KCrash::setEmergencySaveFunction(::saveGame);
     
     
-    QAction *temp = KStandardGameAction::quit(this, SLOT(close()), this);
-    actionCollection()->addAction(temp->objectName(), temp);
+    // Game
+    KStandardGameAction::gameNew(this, SLOT(newGame()), actionCollection());
+    KStandardGameAction::restart(this, SLOT(restart()), actionCollection());
+    KStandardGameAction::load(this, SLOT(openGame()), actionCollection());
+    KStandardGameAction::loadRecent(this, SLOT(openGame(const KUrl&)), actionCollection())->loadEntries( KGlobal::config()->group( QString() ));
+    KStandardGameAction::save(this, SLOT(saveGame()), actionCollection());
+    KStandardGameAction::quit(this, SLOT(close()), actionCollection());
     
-    temp = KStandardGameAction::gameNew(this, SLOT(newGame()), this);
-    actionCollection()->addAction(temp->objectName(), temp);
-    
-    undo = KStandardGameAction::undo(this, SLOT(undoMove()), this);
-    actionCollection()->addAction(undo->objectName(), undo);
+    // Move
+    undo = KStandardGameAction::undo(this, SLOT(undoMove()), actionCollection());
     undo->setEnabled(false);
     
-    actionCollection()->addAction( KStandardAction::Open, "open",
-                                   this, SLOT(openGame()) );
-    recent = KStandardAction::openRecent(this, SLOT(openGame(const KUrl&)), this);
-    actionCollection()->addAction("open_recent", recent);
-    recent->loadEntries( KGlobal::config()->group( QString() )) ;
-    actionCollection()->addAction(KStandardAction::SaveAs, "save",
-                                  this, SLOT(saveGame()));
     QAction *a = actionCollection()->addAction("choose_game");
     a->setText(i18n("&Choose Game..."));
     connect( a, SIGNAL( triggered( bool ) ), SLOT( chooseGame() ) );
 
-    a = actionCollection()->addAction("restart_game");
-    a->setText(i18n("Restart &Game"));
-    a->setIcon(KIcon("view-refresh"));
-    connect( a, SIGNAL( triggered( bool ) ), SLOT( restart() ) );
-
     actionCollection()->addAction(KStandardAction::Help, "help_game",
                                   this, SLOT(helpGame()));
-    games = new KSelectAction(i18n("&Game Type"), this);
+    games = new KSelectAction(i18n("&Game Type"), actionCollection());
     actionCollection()->addAction("game_type", games);
     connect( games, SIGNAL( triggered( int ) ), SLOT( slotNewGameType() ) );
 

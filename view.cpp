@@ -1,22 +1,33 @@
 /*
- * Permission to use, copy, modify, and distribute this software and its
- * documentation for any purpose and without fee is hereby granted,
- * provided that the above copyright notice appear in all copies and that
- * both that copyright notice and this permission notice appear in
- * supporting documentation.
- *
- * This file is provided AS IS with no warranties of any kind.  The author
- * shall have no liability with respect to the infringement of copyrights,
- * trade secrets or any patents by this file or any part thereof.  In no
- * event will the author be liable for any lost revenue or profits or
- * other special, indirect and consequential damages.
-*/
+    patience -- main program
+
+    Copyright (C) 1995  Paul Olav Tvete <paul@troll.no>
+    Copyright (C) 2007 Simon Hürlimann <simon.huerlimann@huerlisi.ch>
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ */
+
 #include "view.h"
 #include "dealer.h"
 #include "deck.h"
 #include "cardmaps.h"
 #include "version.h"
 
+#include <kaction.h>
+#include <ktoggleaction.h>
+#include <kstandardgameaction.h>
 #include <kactioncollection.h>
 #include <kdebug.h>
 #include <kicon.h>
@@ -141,22 +152,13 @@ void PatienceView::setupActions()
     kDebug(11111) << "setupActions " << actions() << endl;
 
     if (dscene()->actions() & DealerScene::Hint) {
-
-        ahint = parent()->actionCollection()->addAction( "game_hint" );
-        ahint->setText( i18n("&Hint") );
-        ahint->setShortcut( Qt::Key_H );
-        ahint->setIcon( KIcon( "wizard" ) );
-        connect( ahint, SIGNAL( triggered( bool ) ), SLOT(hint()) );
+        ahint = KStandardGameAction::hint(this, SLOT(hint()), parent()->actionCollection());
         actionlist.append(ahint);
     } else
         ahint = 0;
 
     if (dscene()->actions() & DealerScene::Demo) {
-        ademo = parent()->actionCollection()->addAction( "game_demo" );
-        ademo->setText( i18n("&Demo") );
-        ademo->setIcon( KIcon( "media-playback-start") );
-        ademo->setShortcut( Qt::CTRL+Qt::Key_D );
-        connect( ademo, SIGNAL( triggered( bool ) ), dscene(), SLOT( toggleDemo() ) );
+        ademo = KStandardGameAction::demo(dscene(), SLOT(toggleDemo()), parent()->actionCollection());
         actionlist.append(ademo);
     } else
         ademo = 0;
