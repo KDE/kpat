@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?> 
-<!DOCTYPE kpartgui>
-<kpartgui name="standard_containers" version="14">
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
+<gui name="kpat" version="15">
 <MenuBar>
   <Menu name="game">
     <Action name="choose_game"/>
@@ -25,4 +25,4 @@
   <ActionList name="game_actions"/>
 </ToolBar>
 <StatusBar/>
-</kpartgui>
+</gui>
