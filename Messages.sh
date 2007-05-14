@@ -1,2 +1,3 @@
-#! /bin/sh
+#! /usr/bin/env bash
+$EXTRACTRC *.rc *.ui *.kcfg > rc.cpp
 $XGETTEXT *.cpp -o $podir/kpat.pot
