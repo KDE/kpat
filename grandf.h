@@ -29,9 +29,7 @@
 
 #include "dealer.h"
 
-class KAction;
 class Pile;
-class KXmlGuiWindow;
 
 class Grandf : public DealerScene {
     Q_OBJECT

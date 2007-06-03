@@ -35,7 +35,6 @@
 #include <QGraphicsSvgItem>
 
 // The following classes are defined in other headers:
-class cardPos;
 class Pile;
 class Card;
 class QGraphicsItemAnimation;

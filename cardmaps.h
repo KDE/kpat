@@ -25,7 +25,6 @@
 //Added by qt3to4:
 #include <QPixmap>
 
-class QSvgRenderer;
 class cardMapPrivate;
 class KConfigGroup;
 

@@ -7,7 +7,6 @@
 #include <stdio.h>
 #include <qmap.h>
 
-class DealerScene;
 
 /* A card is represented as ( down << 6 ) + (suit << 4) + rank. */
 

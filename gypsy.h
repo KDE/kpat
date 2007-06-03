@@ -17,9 +17,7 @@
 
 #include "dealer.h"
 
-class KAction;
 class Pile;
-class KXmlGuiWindow;
 
 class Gypsy : public DealerScene {
     Q_OBJECT
