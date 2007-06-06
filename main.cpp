@@ -150,5 +150,6 @@ int main( int argc, char **argv )
         else
             QTimer::singleShot(0, w, SLOT(slotNewGameType()));
     }
+    args->clear();
     return application.exec();
 }
