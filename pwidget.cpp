@@ -116,7 +116,7 @@ pWidget::pWidget()
     }
     games->setItems(list);
 
-    KGlobal::dirs()->addResourceType("wallpaper", KStandardDirs::kde_default("data") + "kpat/backgrounds/");
+    KGlobal::dirs()->addResourceType("wallpaper", "data", "kpat/backgrounds/");
 
     dill = new PatienceView( this );
     connect(dill, SIGNAL(saveGame()), SLOT(saveGame()));
