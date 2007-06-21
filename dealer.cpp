@@ -776,7 +776,7 @@ void DealerScene::slotShowGame(bool gothelp)
     QPainter p( &img );
 
     QSvgRenderer renderer( KStandardDirs::locate( "data", "kpat/won.svg" ) );
-    renderer.render( &p, "frame" );
+    renderer.render( &p, "frame", QRect( 5, 5, wx-10, wy-10 ) );
 
     QString text = i18n( "Congratulations! You have won." );
     if ( gothelp )
