@@ -37,39 +37,36 @@
 
 static const char description[] = I18N_NOOP("KDE Patience Game");
 
-static KCmdLineOptions options[] =
-{
-    { "solve <num>",    I18N_NOOP("Dealer to solve (debug)" ), 0 },
-    { "start <num>",    I18N_NOOP("Game range start (default 0:INT_MAX)" ), 0 },
-    { "end <num>",      I18N_NOOP("Game range end (default start:start if start given)" ), 0 },
-    { "+file",          I18N_NOOP("File to load"), 0 },
-    KCmdLineLastOption
-};
-
 int main( int argc, char **argv )
 {
-    KAboutData aboutData( "kpat", I18N_NOOP("KPatience"),
-                          KPAT_VERSION, description, KAboutData::License_GPL,
-                          "(c) 1995, Paul Olav Tvete\n"
-                          "(c) 2000 Stephan Kulow");
-    aboutData.addAuthor("Paul Olav Tvete",0,"paul@troll.no");
-    aboutData.addAuthor("Mario Weilguni",0,"mweilguni@kde.org");
-    aboutData.addAuthor("Matthias Ettrich",0,"ettrich@kde.org");
-    aboutData.addAuthor("Rodolfo Borges",I18N_NOOP("Some Game Types"),"barrett@9hells.org");
-    aboutData.addAuthor("Peter H. Ruegg",0,"kpat@incense.org");
-    aboutData.addAuthor("Michael Koch", I18N_NOOP("Bug fixes"), "koch@kde.org");
-    aboutData.addAuthor("Marcus Meissner", I18N_NOOP("Shuffle algorithm for game numbers"),
+    KAboutData aboutData( "kpat", 0, ki18n("KPatience"),
+                          KPAT_VERSION, ki18n(description), KAboutData::License_GPL,
+                          ki18n("(c) 1995, Paul Olav Tvete\n"
+                          "(c) 2000 Stephan Kulow"));
+    aboutData.addAuthor(ki18n("Paul Olav Tvete"),KLocalizedString(),"paul@troll.no");
+    aboutData.addAuthor(ki18n("Mario Weilguni"),KLocalizedString(),"mweilguni@kde.org");
+    aboutData.addAuthor(ki18n("Matthias Ettrich"),KLocalizedString(),"ettrich@kde.org");
+    aboutData.addAuthor(ki18n("Rodolfo Borges"),ki18n("Some Game Types"),"barrett@9hells.org");
+    aboutData.addAuthor(ki18n("Peter H. Ruegg"),KLocalizedString(),"kpat@incense.org");
+    aboutData.addAuthor(ki18n("Michael Koch"), ki18n("Bug fixes"), "koch@kde.org");
+    aboutData.addAuthor(ki18n("Marcus Meissner"), ki18n("Shuffle algorithm for game numbers"),
                         "mm@caldera.de");
-    aboutData.addAuthor("Dr. Tom", I18N_NOOP("Patience Solver"), "http://members.tripod.com/professor_tom/");
-    aboutData.addAuthor("Stephan Kulow", I18N_NOOP("Rewrite and current maintainer"),
+    aboutData.addAuthor(ki18n("Dr. Tom"), ki18n("Patience Solver"), "http://members.tripod.com/professor_tom/");
+    aboutData.addAuthor(ki18n("Stephan Kulow"), ki18n("Rewrite and current maintainer"),
                         "coolo@kde.org");
-    aboutData.addAuthor("Erik Sigra", I18N_NOOP("Improved Klondike"), "sigra@home.se");
-    aboutData.addAuthor("Josh Metzler", I18N_NOOP("Spider Implementation"), "joshdeb@metzlers.org");
-    aboutData.addAuthor("Maren Pakura", I18N_NOOP("Documentation"), "maren@kde.org");
-    aboutData.addAuthor("Inge Wallin", I18N_NOOP("Bug fixes"), "inge@lysator.liu.se");
-    aboutData.addAuthor("Simon Hürlimann", I18N_NOOP("Menu and Toolbar work"), "simon.huerlimann@huerlisi.ch");
+    aboutData.addAuthor(ki18n("Erik Sigra"), ki18n("Improved Klondike"), "sigra@home.se");
+    aboutData.addAuthor(ki18n("Josh Metzler"), ki18n("Spider Implementation"), "joshdeb@metzlers.org");
+    aboutData.addAuthor(ki18n("Maren Pakura"), ki18n("Documentation"), "maren@kde.org");
+    aboutData.addAuthor(ki18n("Inge Wallin"), ki18n("Bug fixes"), "inge@lysator.liu.se");
+    aboutData.addAuthor(ki18n("Simon Hürlimann"), ki18n("Menu and Toolbar work"), "simon.huerlimann@huerlisi.ch");
 
     KCmdLineArgs::init( argc, argv, &aboutData );
+
+    KCmdLineOptions options;
+    options.add("solve <num>", ki18n("Dealer to solve (debug)" ));
+    options.add("start <num>", ki18n("Game range start (default 0:INT_MAX)" ));
+    options.add("end <num>", ki18n("Game range end (default start:start if start given)" ));
+    options.add("+file", ki18n("File to load"));
     KCmdLineArgs::addCmdLineOptions (options);
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
 
