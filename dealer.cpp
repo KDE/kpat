@@ -1805,16 +1805,6 @@ void DealerScene::drawBackground ( QPainter * painter, const QRectF & rect )
     if ( !d->hasScreenRect )
         return;
 
-    QPixmap strip( 1, ( int )( height() + 0.9 ));
-    QPainter p( &strip );
-    QLinearGradient str(0, 0, 0, strip.height());
-    str.setColorAt(0, QColor(0, 113, 188));
-    str.setColorAt(1, QColor(0, 147, 212));
-    p.fillRect( QRect( 0, 0, 1, strip.height() ), str );
-    p.end();
-
-    painter->drawTiledPixmap ( rect, strip );
-
     if ( d->tildePix.width() != width() )
     {
         if ( !d->backren )
