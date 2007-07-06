@@ -241,7 +241,7 @@ void cardMap::updateTheme(const KConfigGroup &cs)
     d->m_thread->finish();
     d->m_thread->reset();
 
-    QString theme = cs.readEntry( "Theme", "svg-nicu-ornamental" );
+    QString theme = cs.readEntry( "Theme", "svg-oxygen" );
     d->m_cardDeck = KStandardDirs::locate("data", QString( "carddecks/%1/index.desktop" ).arg( theme ) );
 
     KConfig fi( d->m_cardDeck, KConfig::OnlyLocal);
