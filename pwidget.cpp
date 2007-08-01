@@ -307,7 +307,7 @@ void pWidget::newGameType()
 
 void pWidget::showEvent(QShowEvent *e)
 {
-    kDebug() << "showEvent "<< endl;
+    kDebug() << "showEvent ";
     dill->setWasShown( true );
     KXmlGuiWindow::showEvent(e);
 }

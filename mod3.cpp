@@ -303,7 +303,7 @@ Card *Mod3::demoNewCards()
 bool Mod3::isGameLost() const
 {
     int n,row,col;
-    //kDebug(11111) << "isGameLost ?"<< endl;
+    //kDebug(11111) << "isGameLost ?";
 
     bool nextTest=false;
 
