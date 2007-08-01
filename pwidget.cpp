@@ -221,7 +221,7 @@ void pWidget::slotPickRandom()
 {
     QStringList list = KGlobal::dirs()->findAllResources("data", "carddecks/*/index.desktop");
     int hit = KRandom::random() % list.size();
-    //kDebug() << list << " " << hit << " " << list.size() << " " << list[hit] << endl;
+    //kDebug() << list << " " << hit << " " << list.size() << " " << list[hit];
     QString theme = list[ hit ];
     theme = theme.left( theme.length() - strlen( "/index.desktop" ) );
     theme = theme.mid( theme.lastIndexOf( '/' ) + 1);
@@ -256,12 +256,12 @@ void pWidget::slotNewGameType()
 void pWidget::newGameType()
 {
     slotUpdateMoves();
-    kDebug() << gettime() << " pWidget::newGameType\n";
+    kDebug() << gettime() << "pWidget::newGameType\n";
 
     int id = games->currentItem();
     if ( id < 0 )
         id = 0;
-    kDebug() << "newGameType " << id << endl;
+    kDebug() << "newGameType" << id;
     for (QList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin();
 	it != DealerInfoList::self()->games().end(); ++it) {
         if ((*it)->gameindex == id) {
@@ -276,12 +276,12 @@ void pWidget::newGameType()
     }
 
     if (!dill->dscene()) {
-        kError() << "unimplemented game type " << id << endl;
+        kError() << "unimplemented game type" << id;
         dill->setScene( DealerInfoList::self()->games().first()->createGame() );
     }
 
 
-    kDebug() << "dill " << dill << " " << dill->dscene() << endl;
+    kDebug() << "dill" << dill << " " << dill->dscene();
     connect(dill->dscene(), SIGNAL(undoPossible(bool)), SLOT(undoPossible(bool)));
     connect(dill->dscene(), SIGNAL(gameLost()), SLOT(gameLost()));
     connect(dill->dscene(), SIGNAL(gameInfo(const QString&)),

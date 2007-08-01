@@ -45,7 +45,7 @@ void KlondikePile::relayoutCards()
     {
         if ( ( *it )->animated() )
             continue;
-        //kDebug() << "car " << car << " " << p << endl;
+        //kDebug() << "car" << car << " " << p;
         ( *it )->setPos( p );
         ( *it )->setZValue( z );
         z = z+1;
@@ -178,7 +178,7 @@ void Klondike::deal() {
 }
 
 bool Klondike::cardClicked(Card *c) {
-    kDebug(11111) << "card clicked " << c->name() << endl;
+    kDebug(11111) << "card clicked" << c->name();
 
     if (DealerScene::cardClicked(c))
         return true;
@@ -192,7 +192,7 @@ bool Klondike::cardClicked(Card *c) {
 }
 
 void Klondike::pileClicked(Pile *c) {
-    kDebug(11111) << "pile clicked " << endl;
+    kDebug(11111) << "pile clicked";
     DealerScene::pileClicked(c);
 
     if (c == Deck::deck()) {

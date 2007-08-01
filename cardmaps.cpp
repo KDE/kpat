@@ -212,7 +212,7 @@ QSvgRenderer *cardMapThread::renderer()
 {
     if ( m_renderer )
         return m_renderer;
-    //kDebug() << "new renderer " << kBacktrace() << endl;
+    //kDebug() << "new renderer" << kBacktrace();
     Q_ASSERT( !d->m_svg.isEmpty() );
 
     m_renderer = new KSvgRenderer( d->m_svg );
@@ -268,7 +268,7 @@ void cardMap::updateTheme(const KConfigGroup &cs)
         {
             d->m_backSize = d->m_thread->renderer()->boundsOnElement( "back" ).size();
         }
-        kDebug() << d->m_cardDeck << " " << d->m_backSize << endl;
+        kDebug() << d->m_cardDeck << " " << d->m_backSize;
     }
 
     Q_ASSERT( !d->m_backSize.isNull() );
@@ -331,7 +331,7 @@ void cardMap::setWantedCardWidth( double w )
         return;
 
     d->m_body = QRect();
-    kDebug() << "setWantedCardWidth " << w << " " << d->_wantedCardWidth << endl;
+    kDebug() << "setWantedCardWidth" << w << " " << d->_wantedCardWidth;
     d->_wantedCardWidth = w;
     d->_scale = 0;
     if (PatienceView::instance()->dscene())

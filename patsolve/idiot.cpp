@@ -188,7 +188,7 @@ void IdiotSolver::unpack_cluster( int )
 bool IdiotSolver::isWon()
 {
     // maybe won?
-    //kDebug() << "isWon " << Wlen[5] << endl;
+    //kDebug() << "isWon" << Wlen[5];
     return Wlen[5] == 48;
 }
 

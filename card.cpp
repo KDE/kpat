@@ -214,7 +214,7 @@ void Card::setZValue(double z)
 void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
 {
 
-    //kDebug() << "Card::moveTo " << x2 << " " << y2 << " " << duration << " " << kBacktrace() << endl;
+    //kDebug() << "Card::moveTo" << x2 << " " << y2 << " " << duration << " " << kBacktrace();
     if ( fabs( x2 - x() ) < 2 && fabs( y2 - y() ) < 1 )
     {
         setPos( QPointF( x2, y2 ) );
@@ -223,7 +223,7 @@ void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
         return;
     }
     if ( name() == "diamond 01" )
-        kDebug() << "moveTo " << name() << " " << x2 << " " << y2 << " " << z2 << " " << pos() << " " << zValue() << " " << duration << " " << kBacktrace() << endl;
+        kDebug() << "moveTo" << name() << " " << x2 << " " << y2 << " " << z2 << " " << pos() << " " << zValue() << " " << duration << " " << kBacktrace();
     stopAnimation();
     m_isSeen = CardVisible; // avoid suprises
 
@@ -275,10 +275,10 @@ void Card::flipTo(qreal x2, qreal y2, int duration)
     animation->setScaleAt( 1, 1, 1 );
     QPointF hp = pos();
     hp.setX( ( x1 + x2 + boundingRect().width() ) / 2 );
-    //kDebug() << "flip " << name() << " " << x1 << " " << x2 << " " << y1 << " " << y2 << endl;
+    //kDebug() << "flip" << name() << " " << x1 << " " << x2 << " " << y1 << " " << y2;
     if ( fabs( y1 - y2) > 2 )
         hp.setY( ( y1 + y2 + boundingRect().height() ) / 20 );
-    //kDebug() << "hp " << pos() << " " << hp << " " << QPointF( x2, y2 ) << endl;
+    //kDebug() << "hp" << pos() << " " << hp << " " << QPointF( x2, y2 );
     animation->setPosAt(0.5, hp );
     animation->setPosAt(1, QPointF( x2, y2 ));
 
@@ -314,7 +314,7 @@ void Card::flipAnimationChanged( qreal r)
 void Card::setTakenDown(bool td)
 {
 /*    if (td)
-      kDebug(11111) << "took down " << name() << endl;*/
+      kDebug(11111) << "took down" << name();*/
     tookDown = td;
 }
 
@@ -333,7 +333,7 @@ void Card::testVisibility()
             return;
         }
 
-        //kDebug() << c->name() << " covers " << name() << " " << c->mapToScene( c->boundingRect() ).boundingRect() << " " << mapToScene( boundingRect() ).boundingRect() << " " << zValue() << " " << c->zValue() << endl;
+        //kDebug() << c->name() << "covers" << name() << " " << c->mapToScene( c->boundingRect() ).boundingRect() << " " << mapToScene( boundingRect() ).boundingRect() << " " << zValue() << " " << c->zValue();
         c->m_hiddenCards.append( this );
         m_isSeen = CardHidden;
         return;
@@ -356,10 +356,10 @@ void Card::stopAnimation()
     if ( !animation )
         return;
 
-    //kDebug() << gettime() << " stopAnimation " << name() << endl;
+    //kDebug() << gettime() << "stopAnimation" << name();
     if ( !sender() || strcmp(sender()->metaObject()->className(), "QTimeLine") )
         if ( name() == "diamond 01" )
-            kDebug() << "stopAnimation " << name() << " " << m_destX << " " << m_destY << " " << animation->timeLine()->duration() << " " << kBacktrace() << endl;
+            kDebug() << "stopAnimation" << name() << " " << m_destX << " " << m_destY << " " << animation->timeLine()->duration() << " " << kBacktrace();
     QGraphicsItemAnimation *old_animation = animation;
     animation = 0;
     if ( old_animation->timeLine()->state() == QTimeLine::Running )
@@ -486,7 +486,7 @@ void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     Q_ASSERT( !pixmap().isNull() );
 
     //painter->drawPixmap(exposed, pixmap(), exposed );
-    //kDebug() << "exposed " << exposed << endl;
+    //kDebug() << "exposed" << exposed;
 
     QRect body = cardMap::self()->opaqueRect();
     QMatrix m = painter->combinedMatrix();

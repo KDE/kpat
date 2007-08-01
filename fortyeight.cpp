@@ -90,7 +90,7 @@ void Fortyeight::restart()
 
 void Fortyeight::deckClicked( Card * )
 {
-    //kDebug() << "deckClicked " << c->name() << " " << pile->top()->name() << " " << pile->top()->animated() << endl;
+    //kDebug() << "deckClicked" << c->name() << " " << pile->top()->name() << " " << pile->top()->animated();
     if ( pile->top() && pile->top()->animated() )
         return;
     if ( Deck::deck()->isEmpty())
@@ -99,7 +99,7 @@ void Fortyeight::deckClicked( Card * )
 
 void Fortyeight::deckPressed(Card *c2)
 {
-    kDebug() << gettime() << " deckPressed " << ( c2? c2->name() : "(nil)" ) << endl;
+    kDebug() << gettime() << "deckPressed" << ( c2? c2->name() : "(nil)" );
     if (Deck::deck()->isEmpty()) {
         if (lastdeal)
             return;

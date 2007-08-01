@@ -69,7 +69,7 @@ bool Pile::remove_freecellStore( const Card *c) const
         if (!((c->rank() == (before->rank()-1))
               && (c->isRed() != before->isRed())))
         {
-            kDebug(11111) << c->name() << " - " << before->name() << endl;
+            kDebug(11111) << c->name() << " - " << before->name();
             return false;
         }
         if (c == top())

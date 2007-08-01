@@ -114,11 +114,11 @@ void Mod3::getHints()
         if ( store->cardsLeft() > 1 && store->target() )
             continue;
 
-        // kDebug(11111) << "trying " << top->name() << " " << store->legalRemove(top) << endl;
+        // kDebug(11111) << "trying" << top->name() << " " << store->legalRemove(top);
 
         // Q_ASSERT( store->legalRemove(top) );
         if (store->legalRemove(top)) {
-//                kDebug(11111) << "could remove " << top->name() << endl;
+//                kDebug(11111) << "could remove" << top->name();
             for (PileList::Iterator pit = piles.begin(); pit != piles.end(); ++pit)
             {
                 Pile *dest = *pit;
@@ -131,7 +131,7 @@ void Mod3::getHints()
                 if (!dest->legalAdd(cards))
                     continue;
 
-                // kDebug() << "could still be it " << dest->objectName() << " " << store->y() << " " << dest->y() << " " << store->objectName() << endl;
+                // kDebug() << "could still be it" << dest->objectName() << " " << store->y() << " " << dest->y() << " " << store->objectName();
                 if ( store->y() == dest->y() )
                 {
                     if ( top->rank() == Card::Two || top->rank() == Card::Three || top->rank() == Card::Four )
@@ -172,7 +172,7 @@ void Mod3::getHints()
         }
 
         if (store->legalRemove(top)) {
-//                kDebug(11111) << "could remove " << top->name() << endl;
+//                kDebug(11111) << "could remove" << top->name();
             for (PileList::Iterator pit = piles.begin(); pit != piles.end(); ++pit)
             {
                 Pile *dest = *pit;
@@ -191,7 +191,7 @@ void Mod3::getHints()
 
 bool Mod3::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
 {
-    // kDebug(11111) << "checkAdd " << checkIndex << " " << ( c1->top() ? c1->top()->name() : "none" ) << " " << c1->index() << " " << c1->index() / 10 << endl;
+    // kDebug(11111) << "checkAdd" << checkIndex << " " << ( c1->top() ? c1->top()->name() : "none" ) << " " << c1->index() << " " << c1->index() / 10;
 
     if (checkIndex == 0) {
         Card *c2 = cl.first();
@@ -208,7 +208,7 @@ bool Mod3::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
         if (c2->rank() != (c1->top()->rank()+3))
             return false;
 
-        //kDebug(11111) << "+3 " << c1->cardsLeft() << " " << c1->top()->rank() << " " << c1->index()+1 << endl;
+        //kDebug(11111) << "+3" << c1->cardsLeft() << " " << c1->top()->rank() << " " << c1->index()+1;
         if (c1->cardsLeft() == 1)
             return (c1->top()->rank() == ((c1->index() / 10) + 2));
 
@@ -263,7 +263,7 @@ void Mod3::dealRow(int row)
 
 void Mod3::deckClicked(Card*)
 {
-    kDebug(11111) << "deck clicked " << Deck::deck()->cardsLeft() << endl;
+    kDebug(11111) << "deck clicked" << Deck::deck()->cardsLeft();
     if (Deck::deck()->isEmpty())
         return;
 
@@ -286,7 +286,7 @@ void Mod3::deal()
             (*it)->hide();
         }
 */
-    kDebug(11111) << "init " << aces->cardsLeft() << " " << Deck::deck()->cardsLeft() << endl;
+    kDebug(11111) << "init" << aces->cardsLeft() << " " << Deck::deck()->cardsLeft();
 
     for (int r = 0; r < 4; r++)
         dealRow(r);

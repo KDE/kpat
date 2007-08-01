@@ -151,7 +151,7 @@ void Deck::shuffle()
     assert(dscene()->gameNumber() >= 0);
     pseudoRandom_srand(dscene()->gameNumber());
 
-    //kDebug(11111) << "first card " << m_cards[0]->name() << " " << dscene()->gameNumber() << endl;
+    //kDebug(11111) << "first card" << m_cards[0]->name() << " " << dscene()->gameNumber();
 
     Card* t;
     long z;

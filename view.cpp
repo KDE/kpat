@@ -149,7 +149,7 @@ void PatienceView::setupActions()
 {
     QList<QAction*> actionlist;
 
-    kDebug(11111) << "setupActions " << actions() << endl;
+    kDebug(11111) << "setupActions" << actions();
 
     if (dscene()->actions() & DealerScene::Hint) {
         ahint = KStandardGameAction::hint(this, SLOT(hint()), parent()->actionCollection());
@@ -223,7 +223,7 @@ long PatienceView::gameNumber() const { return dscene()->gameNumber(); }
 
 void PatienceView::setAnchorName(const QString &name)
 {
-    kDebug(11111) << "setAnchorname " << name << endl;
+    kDebug(11111) << "setAnchorname" << name;
     ac = name;
 }
 
@@ -242,16 +242,16 @@ void PatienceView::resizeEvent( QResizeEvent *e )
     if ( e )
         QGraphicsView::resizeEvent(e);
 
-    kDebug() << "resizeEvent " << wasShown() << endl;
+    kDebug() << "resizeEvent" << wasShown();
 
     if ( !wasShown() )
         return;
 
 #if 0
     foreach (QWidget *widget, QApplication::allWidgets())
-        kDebug() << widget << " " << widget->objectName() << " " << widget->geometry() << endl;
+        kDebug() << widget << " " << widget->objectName() << " " << widget->geometry();
 
-    kDebug() << "resizeEvent " << size() << " " << e << " " << dscene() << " " << parent()->isVisible() << /* " " << kBacktrace() << */ endl;
+    kDebug() << "resizeEvent" << size() << " " << e << " " << dscene() << " " << parent()->isVisible(); /*<< " " << kBacktrace()*/
 #endif
 
     setCacheMode(QGraphicsView::CacheBackground);

@@ -212,7 +212,7 @@ CardList Spider::getRun(Card *c) const
 
 void Spider::checkPileDeck(Pile *check)
 {
-    //kDebug(11111) << "check for run" << endl;
+    //kDebug(11111) << "check for run";
     if (check->isEmpty())
         return;
 
@@ -300,7 +300,7 @@ Card *Spider::demoNewCards()
 
 void Spider::deckClicked(Card*)
 {
-    //kDebug(11111) << "deck clicked " << m_redeal << endl;
+    //kDebug(11111) << "deck clicked" << m_redeal;
     if (m_redeal > 4)
         return;
 

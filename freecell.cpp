@@ -54,7 +54,7 @@ Freecell::Freecell()
     Deck::create_deck(this, 1);
     Deck::deck()->hide();
 
-    kDebug(11111) << "cards " << Deck::deck()->cards().count() << endl;
+    kDebug(11111) << "cards" << Deck::deck()->cards().count();
     for (int i = 0; i < 8; i++)
     {
         FreecellPile *p = new FreecellPile(1 + i, this);
@@ -151,14 +151,14 @@ struct MoveAway {
 
 void Freecell::movePileToPile(CardList &c, Pile *to, PileList fss, PileList &fcs, int start, int count, int debug_level)
 {
-    kDebug(11111) << debug_level << " movePileToPile" << c.count() << " " << start  << " " << count << endl;
+    kDebug(11111) << debug_level << "movePileToPile" << c.count() << " " << start  << " " << count;
     int moveaway = 0;
     if (count > fcs.count() + 1) {
         moveaway = (fcs.count() + 1);
         while (moveaway * 2 < count)
             moveaway <<= 1;
     }
-    kDebug(11111) << debug_level << " moveaway " << moveaway << endl;
+    kDebug(11111) << debug_level << "moveaway" << moveaway;
 
     QList<MoveAway> moves_away;
 
@@ -217,7 +217,7 @@ void Freecell::startMoving()
     mh->pile()->add(mh->card());
     mh->pile()->moveCardsBack(empty, true);
     waitfor = mh->card();
-    kDebug(11111) << "wait for moving end " << mh->card()->name() << endl;
+    kDebug(11111) << "wait for moving end" << mh->card()->name();
     connect(mh->card(), SIGNAL(stoped(Card*)), SLOT(waitForMoving(Card*)));
     delete mh;
 }
@@ -331,7 +331,7 @@ void Freecell::getHints()
         Pile *store = *it;
         if (store->isEmpty())
             continue;
-//        kDebug(11111) << "trying " << store->top()->name() << endl;
+//        kDebug(11111) << "trying" << store->top()->name();
 
         CardList cards = store->cards();
         while (cards.count() && !cards.first()->realFace()) cards.erase(cards.begin());
@@ -340,7 +340,7 @@ void Freecell::getHints()
         while (iti != cards.end())
         {
             if (store->legalRemove(*iti)) {
-//                kDebug(11111) << "could remove " << (*iti)->name() << endl;
+//                kDebug(11111) << "could remove" << (*iti)->name();
                 for (PileList::Iterator pit = piles.begin(); pit != piles.end(); ++pit)
                 {
                     Pile *dest = *pit;

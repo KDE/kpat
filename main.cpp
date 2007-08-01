@@ -107,14 +107,14 @@ int main( int argc, char **argv )
                 end_index = start_index;
         }
         if ( !di ) {
-            kError() << "There is no game with index " << wanted_game << endl;
+            kError() << "There is no game with index" << wanted_game;
             return -1;
         }
 
         cardMap c;
         DealerScene *f = di->createGame();
         if ( !f->solver() ) {
-            kError() << "There is no solver for " << di->name << endl;
+            kError() << "There is no solver for" << di->name;
             return -1;
         }
 

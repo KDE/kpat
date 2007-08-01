@@ -159,7 +159,7 @@ public:
 
 void DealerScene::takeState()
 {
-    // kDebug(11111) << "takeState " << waiting() << endl;
+    // kDebug(11111) << "takeState" << waiting();
 
     QList<QGraphicsItem *> list = items();
     for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
@@ -241,7 +241,7 @@ void DealerScene::saveGame(QDomDocument &doc)
             Pile *p = dynamic_cast<Pile*>(*it);
             assert(p);
             if (taken[p->index()]) {
-                kDebug(11111) << "pile index " << p->index() << " taken twice\n";
+                kDebug(11111) << "pile index" << p->index() << "taken twice\n";
                 return;
             }
             taken[p->index()] = true;
@@ -290,7 +290,7 @@ void DealerScene::saveGame(QDomDocument &doc)
     }
     dealer.appendChild(eList);
     */
-    // kDebug(11111) << doc.toString() << endl;
+    // kDebug(11111) << doc.toString();
 }
 
 void DealerScene::openGame(QDomDocument &doc)
@@ -363,7 +363,7 @@ void DealerScene::undo()
 {
     unmarkAll();
     stopDemo();
-    kDebug() << "::undo " << undoList.count() << endl;
+    kDebug() << "::undo" << undoList.count();
     if (undoList.count() > 1) {
         delete undoList.last();
         undoList.removeLast(); // the current state
@@ -418,7 +418,7 @@ DealerScene::DealerScene():
 
 DealerScene::~DealerScene()
 {
-    kDebug() << "~DealerScene " << endl;
+    kDebug() << "~DealerScene";
     if (!d->_won)
         countLoss();
     unmarkAll();
@@ -450,7 +450,7 @@ void DealerScene::hint()
 {
     unmarkAll();
     clearHints();
-    kDebug() << "hint " << d->winMoves.count() << endl;
+    kDebug() << "hint" << d->winMoves.count();
     if ( d->winMoves.count() )
     {
         MOVE m = d->winMoves.first();
@@ -464,7 +464,7 @@ void DealerScene::hint()
         MoveHint *mh = solver()->translateMove( m );
         if ( mh ) {
             newHint( mh );
-            kDebug() << "win move " << mh->pile()->objectName() << " " << mh->card()->name() << " " << mh->priority() << endl;
+            kDebug() << "win move" << mh->pile()->objectName() << " " << mh->card()->name() << " " << mh->priority();
         }
         getHints();
     } else
@@ -524,7 +524,7 @@ void DealerScene::getHints()
         Pile *store = *it;
         if (store->isEmpty())
             continue;
-//        kDebug(11111) << "trying " << store->top()->name() << endl;
+//        kDebug(11111) << "trying" << store->top()->name();
 
         CardList cards = store->cards();
         while (cards.count() && !cards.first()->realFace()) cards.erase(cards.begin());
@@ -533,7 +533,7 @@ void DealerScene::getHints()
         while (iti != cards.end())
         {
             if (store->legalRemove(*iti)) {
-//                kDebug(11111) << "could remove " << (*iti)->name() << endl;
+//                kDebug(11111) << "could remove" << (*iti)->name();
                 for (PileList::Iterator pit = piles.begin(); pit != piles.end(); ++pit)
                 {
                     Pile *dest = *pit;
@@ -583,7 +583,7 @@ void DealerScene::clearHints()
 
 void DealerScene::newHint(MoveHint *mh)
 {
-    //kDebug() << "newHint " << mh->pile()->objectName() << " " << mh->card()->name() << " " << mh->priority() << endl;
+    //kDebug() << "newHint" << mh->pile()->objectName() << " " << mh->card()->name() << " " << mh->priority();
     hints.append(mh);
 }
 
@@ -607,10 +607,10 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
     PileList sources;
     QList<QGraphicsItem *> list = collidingItems( movingCards.first() );
 
-    // kDebug() << "movingCards " << movingCards.first()->sceneBoundingRect() << endl;
+    // kDebug() << "movingCards" << movingCards.first()->sceneBoundingRect();
     for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
     {
-        //kDebug() << "it " << ( *it )->type() << " " << ( *it )->sceneBoundingRect() << endl;
+        //kDebug() << "it" << ( *it )->type() << " " << ( *it )->sceneBoundingRect();
         if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId) {
             Card *c = dynamic_cast<Card*>(*it);
             assert(c);
@@ -627,7 +627,7 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
                 if (p->isEmpty() && !sources.contains(p))
                     sources.append(p);
             } else {
-                kDebug(11111) << "unknown object " << *it << " " << (*it)->type() << endl;
+                kDebug(11111) << "unknown object" << *it << " " << (*it)->type();
             }
         }
     }
@@ -638,7 +638,7 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
     for (PileList::Iterator it = sources.begin(); it != sources.end(); ++it)
     {
         bool b = (*it)->legalAdd(movingCards);
-        // kDebug() << "legalAdd " << b << " " << ( *it )->x() << endl;
+        // kDebug() << "legalAdd" << b << " " << ( *it )->x();
         if (b) {
             if ((*it)->isEmpty()) {
                 (*it)->setHighlighted(true);
@@ -654,7 +654,7 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
 
 void DealerScene::mark(Card *c)
 {
-//    kDebug() << "mark " << c->name() << endl;
+//    kDebug() << "mark" << c->name();
     c->setHighlighted(true);
     if (!marked.contains(c))
         marked.append(c);
@@ -683,7 +683,7 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 
     QList<QGraphicsItem *> list = items( e->scenePos() );
 
-    //kDebug(11111) << gettime() << " mouse pressed " << list.count() << " " << items().count() << " " << e->scenePos().x() << " " << e->scenePos().y() << endl;
+    //kDebug(11111) << gettime() << "mouse pressed" << list.count() << " " << items().count() << " " << e->scenePos().x() << " " << e->scenePos().y();
     moved = false;
 
     if (!list.count())
@@ -743,7 +743,7 @@ void DealerScene::startNew()
     emit updateMoves();
 
     stopDemo();
-    kDebug(11111) << gettime() << " startNew unmarkAll\n";
+    kDebug(11111) << gettime() << "startNew unmarkAll\n";
     unmarkAll();
     kDebug(11111) << "startNew setAnimated(false)\n";
     QList<QGraphicsItem *> list = items();
@@ -765,7 +765,7 @@ void DealerScene::startNew()
 
 void DealerScene::slotShowGame(bool gothelp)
 {
-    kDebug() << "slotShowGame " << waiting() << endl;
+    kDebug() << "slotShowGame" << waiting();
     emit undoPossible( false );
 
     int wx = qRound( width() * 0.7 );
@@ -899,7 +899,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
                     sources.append(t);
                 }
             } else {
-                kDebug(11111) << "unknown object " << *it << " " << (*it)->type() << endl;
+                kDebug(11111) << "unknown object" << *it << " " << (*it)->type();
             }
         }
     }
@@ -945,7 +945,7 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
         movingCards.clear();
     }
     QList<QGraphicsItem *> list = items(e->scenePos());
-    kDebug() << "mouseDoubleClickEvent " << list << endl;
+    kDebug() << "mouseDoubleClickEvent" << list;
     if (list.isEmpty())
         return;
     QList<QGraphicsItem *>::Iterator it = list.begin();
@@ -954,7 +954,7 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
     Card *c = dynamic_cast<Card*>(*it);
     assert(c);
     c->stopAnimation();
-    kDebug() << "card " << c->name() << endl;
+    kDebug() << "card" << c->name();
     if ( cardDblClicked(c) ) {
         countGame();
     }
@@ -1004,7 +1004,7 @@ State *DealerScene::getState()
            s.it = c;
            s.source = c->source();
            if (!s.source) {
-               kDebug(11111) << c->name() << " has no parent\n";
+               kDebug(11111) << c->name() << "has no parent\n";
                assert(false);
            }
            s.source_index = c->source()->indexOf(c);
@@ -1024,7 +1024,7 @@ State *DealerScene::getState()
 
 void DealerScene::setState(State *st)
 {
-    kDebug() << gettime() << " setState\n";
+    kDebug() << gettime() << "setState\n";
     CardStateList * n = &st->cards;
     QList<QGraphicsItem *> list = items();
 
@@ -1046,7 +1046,7 @@ void DealerScene::setState(State *st)
         Card *c = (*it).it;
         //c->stopAnimation();
         CardState s = *it;
-        // kDebug() << "c " << c->name() << " " << s.source->objectName() << " " << s.faceup << endl;
+        // kDebug() << "c" << c->name() << " " << s.source->objectName() << " " << s.faceup;
         bool target = c->takenDown(); // abused
         c->turn(s.faceup);
         s.source->add(c, s.source_index);
@@ -1095,7 +1095,7 @@ void DealerScene::setWaiting(bool w)
         _waiting++;
     else if ( _waiting > 0 )
         _waiting--;
-//    kDebug(11111) << "setWaiting " << w << " " << _waiting << endl;
+//    kDebug(11111) << "setWaiting" << w << " " << _waiting;
 }
 
 void DealerScene::setAutoDropEnabled(bool a)
@@ -1129,7 +1129,7 @@ bool DealerScene::startAutoDrop()
         }
     }
 
-    kDebug() << gettime() << " startAutoDrop \n";
+    kDebug() << gettime() << "startAutoDrop \n";
 
     unmarkAll();
     clearHints();
@@ -1213,7 +1213,7 @@ void DealerScene::slotSolverEnded()
     if ( !d->solverMutex.tryLock() )
         return;
     d->m_solver->translate_layout();
-    kDebug() << gettime() << " start thread\n";
+    kDebug() << gettime() << "start thread\n";
     d->winMoves.clear();
     if ( !d->m_solver_thread ) {
         d->m_solver_thread = new SolverThread( d->m_solver );
@@ -1233,7 +1233,7 @@ void DealerScene::slotSolverFinished()
         return;
     }
 
-    kDebug() << gettime() << " stop thread " << ret << endl;
+    kDebug() << gettime() << "stop thread" << ret;
     switch (  ret )
     {
     case Solver::WIN:
@@ -1260,7 +1260,7 @@ void DealerScene::slotSolverFinished()
 }
 
 void DealerScene::waitForAutoDrop(Card * c) {
-    //kDebug(11111) << "waitForAutoDrop " << c->name() << endl;
+    //kDebug(11111) << "waitForAutoDrop" << c->name();
     setWaiting(false);
     c->disconnect();
     c->stopAnimation(); // should be a no-op
@@ -1269,7 +1269,7 @@ void DealerScene::waitForAutoDrop(Card * c) {
 
 void DealerScene::waitForWonAnim(Card *c)
 {
-    //kDebug() << "waitForWonAnim " << c->name() << " " << waiting() << endl;
+    //kDebug() << "waitForWonAnim" << c->name() << " " << waiting();
     if ( !waiting() )
         return;
 
@@ -1325,7 +1325,7 @@ void DealerScene::removePile(Pile *p)
 
 void DealerScene::stopDemo()
 {
-    kDebug() << gettime() << " stopDemo " << waiting() << endl;
+    kDebug() << gettime() << "stopDemo" << waiting();
 
     if (waiting()) {
         _waiting = 0;
@@ -1373,7 +1373,7 @@ bool operator <(const CardPtr &p1, const CardPtr &p2)
 
 void DealerScene::won()
 {
-    kDebug() << "won " << waiting() << endl;
+    kDebug() << "won" << waiting();
     if (d->_won)
         return;
     d->_won = true;
@@ -1438,7 +1438,7 @@ MoveHint *DealerScene::chooseHint()
 
 void DealerScene::demo()
 {
-    kDebug() << "demo " << waiting() << endl;
+    kDebug() << "demo" << waiting();
     if ( waiting() )
         return;
 
@@ -1525,14 +1525,14 @@ Card *DealerScene::demoNewCards()
 
 void DealerScene::newDemoMove(Card *m)
 {
-    kDebug() << "newDemoMove " << m->name() << endl;
+    kDebug() << "newDemoMove" << m->name();
     setWaiting( true );
     connect(m, SIGNAL(stoped(Card*)), SLOT(waitForDemo(Card*)));
 }
 
 void DealerScene::waitForDemo(Card *t)
 {
-    kDebug() << "waitForDemo " << t->name() << endl;
+    kDebug() << "waitForDemo" << t->name();
     t->disconnect(this, SLOT( waitForDemo( Card* ) ) );
     setWaiting( false );
     if ( !waiting() )
@@ -1600,7 +1600,7 @@ bool DealerScene::checkAdd( int, const Pile *, const CardList&) const {
 void DealerScene::countGame()
 {
     if ( !d->_gameRecorded ) {
-        kDebug(11111) << "counting game as played." << endl;
+        kDebug(11111) << "counting game as played.";
         KConfigGroup kc(KGlobal::config(), scores_group);
         unsigned int Total = kc.readEntry(QString("total%1").arg(d->_id),0);
         ++Total;
@@ -1628,7 +1628,7 @@ QPointF DealerScene::maxPilePos() const
     QPointF maxp( 0, 0 );
     for (PileList::ConstIterator it = piles.begin(); it != piles.end(); ++it)
     {
-        // kDebug() << ( *it )->objectName() << " " <<  ( *it )->pilePos() << " " << ( *it )->reservedSpace() << endl;
+        // kDebug() << ( *it )->objectName() << " " <<  ( *it )->pilePos() << " " << ( *it )->reservedSpace();
         // we call fabs here, because reserved space of -50 means for a pile at -1x-1 means it wants at least
         // 49 all together. Even though the real logic should be more complex, it's enough for our current needs
         maxp = QPointF( qMax( fabs( ( *it )->pilePos().x() + ( *it )->reservedSpace().width() ), maxp.x() ),
@@ -1648,19 +1648,19 @@ void DealerScene::relayoutPiles()
 
 void DealerScene::setSceneSize( const QSize &s )
 {
-    kDebug() << "setSceneSize " << sceneRect() << endl;
+    kDebug() << "setSceneSize" << sceneRect();
     setSceneRect( QRectF( 0, 0, s.width(), s.height() ) );
     d->hasScreenRect = true;
 
     QPointF defaultSceneRect = maxPilePos();
 
-    kDebug() << gettime() << " setSceneSize " << defaultSceneRect << " " << s << endl;
+    kDebug() << gettime() << "setSceneSize" << defaultSceneRect << " " << s;
     Q_ASSERT( cardMap::self()->wantedCardWidth() > 0 );
     Q_ASSERT( cardMap::self()->wantedCardHeight() > 0 );
 
     qreal scaleX = s.width() / cardMap::self()->wantedCardWidth() / ( defaultSceneRect.x() + 2 );
     qreal scaleY = s.height() / cardMap::self()->wantedCardHeight() / ( defaultSceneRect.y() + 2 );
-    //kDebug() << "scaleY " << scaleY << " " << scaleX << endl;
+    //kDebug() << "scaleY" << scaleY << " " << scaleX;
     qreal n_scaleFactor = qMin(scaleX, scaleY);
 
     cardMap::self()->setWantedCardWidth( int( n_scaleFactor * 10 * cardMap::self()->wantedCardWidth() ) );
@@ -1672,7 +1672,7 @@ void DealerScene::setSceneSize( const QSize &s )
             p->rescale();
         QSizeF ms( cardMap::self()->wantedCardWidth(),
                    cardMap::self()->wantedCardHeight() );
-        //kDebug() << p->objectName() <<  " " << p->reservedSpace() << " " << p->pos() << endl;
+        //kDebug() << p->objectName() <<  " " << p->reservedSpace() << " " << p->pos();
         if ( p->reservedSpace().width() > 10 )
             ms.setWidth( s.width() - p->x() );
         if ( p->reservedSpace().height() > 10 )
@@ -1681,7 +1681,7 @@ void DealerScene::setSceneSize( const QSize &s )
             ms.setWidth( p->x() );
         Q_ASSERT( p->reservedSpace().height() > 0 ); // no such case yet
 
-        //kDebug() << "setMaximalSpace " << ms << " " << cardMap::self()->wantedCardHeight() << " " << cardMap::self()->wantedCardWidth() << endl;
+        //kDebug() << "setMaximalSpace" << ms << " " << cardMap::self()->wantedCardHeight() << " " << cardMap::self()->wantedCardWidth();
         Q_ASSERT( ms.width() >= cardMap::self()->wantedCardWidth() - 0.2 );
         Q_ASSERT( ms.height() >= cardMap::self()->wantedCardHeight() - 0.2 );
 
@@ -1701,7 +1701,7 @@ void DealerScene::setSceneSize( const QSize &s )
             myRect.moveLeft( p->x() - p->maximalSpace().width() );
         }
 
-        //kDebug() << p->objectName() << " " << p->spread() << " " << myRect << endl;
+        //kDebug() << p->objectName() << " " << p->spread() << " " << myRect;
 
         for ( PileList::ConstIterator it2 = piles.begin(); it2 != piles.end(); ++it2 )
         {
@@ -1715,11 +1715,11 @@ void DealerScene::setSceneSize( const QSize &s )
                 pileRect.moveBottom( (*it2)->y() );
 
 
-            //kDebug() << "compa " << p->objectName() << " " << myRect << " " << ( *it2 )->objectName() << " " << pileRect << " " << myRect.intersects( pileRect ) << endl;
+            //kDebug() << "compa" << p->objectName() << " " << myRect << " " << ( *it2 )->objectName() << " " << pileRect << " " << myRect.intersects( pileRect );
             // if the growing pile intersects with another pile, we need to solve the conflict
             if ( myRect.intersects( pileRect ) )
             {
-                //kDebug() << "compa " << p->objectName() << " " << myRect << " " << ( *it2 )->objectName() << " " << pileRect << " " << myRect.intersects( pileRect ) << endl;
+                //kDebug() << "compa" << p->objectName() << " " << myRect << " " << ( *it2 )->objectName() << " " << pileRect << " " << myRect.intersects( pileRect );
                 QSizeF pms = ( *it2 )->maximalSpace();
 
                 if ( p->reservedSpace().width() != 10 )
@@ -1729,16 +1729,16 @@ void DealerScene::setSceneSize( const QSize &s )
                         Q_ASSERT( ( *it2 )->reservedSpace().height() > 0 );
                         // if it's growing too, we win
                         pms.setHeight( qMin( myRect.top() - ( *it2 )->y() - 1, pms.height() ) );
-                        //kDebug() << "1. reduced height of " << ( *it2 )->objectName() << endl;
+                        //kDebug() << "1. reduced height of" << ( *it2 )->objectName();
                     } else // if it's fixed height, we loose
                         if ( p->reservedSpace().width() < 0 ) {
                             // this isn't made for two piles one from left and one from right both growing
                             Q_ASSERT( ( *it2 )->reservedSpace().width() == 10 );
                             myRect.setLeft( ( *it2 )->x() + cardMap::self()->wantedCardWidth() + 1);
-                            //kDebug() << "2. reduced width of " << p->objectName() << endl;
+                            //kDebug() << "2. reduced width of" << p->objectName();
                         } else {
                             myRect.setRight( ( *it2 )->x() - 1 );
-                            //kDebug() << "3. reduced width of " << p->objectName() << endl;
+                            //kDebug() << "3. reduced width of" << p->objectName();
                         }
                 }
 
@@ -1749,27 +1749,27 @@ void DealerScene::setSceneSize( const QSize &s )
                         Q_ASSERT( ( *it2 )->reservedSpace().height() > 0 );
                         // if it's growing too, we win
                         pms.setWidth( qMin( myRect.right() - ( *it2 )->x() - 1, pms.width() ) );
-                        //kDebug() << "4. reduced width of " << ( *it2 )->objectName() << endl;
+                        //kDebug() << "4. reduced width of" << ( *it2 )->objectName();
                     } else // if it's fixed height, we loose
                         if ( p->reservedSpace().height() < 0 ) {
                             // this isn't made for two piles one from left and one from right both growing
                             Q_ASSERT( ( *it2 )->reservedSpace().height() == 10 );
                             Q_ASSERT( false ); // TODO
                             myRect.setLeft( ( *it2 )->x() + cardMap::self()->wantedCardWidth() + 1);
-                            //kDebug() << "5. reduced height of " << p->objectName() << endl;
+                            //kDebug() << "5. reduced height of" << p->objectName();
                         } else {
                             myRect.setBottom( ( *it2 )->y() - 1 );
-                            //kDebug() << "6. reduced height of " << p->objectName() << endl;
+                            //kDebug() << "6. reduced height of" << p->objectName();
                         }
                 }
 
-                //kDebug() << pms << " " << cardMap::self()->wantedCardWidth() << " " << cardMap::self()->wantedCardHeight() << endl;
+                //kDebug() << pms << " " << cardMap::self()->wantedCardWidth() << " " << cardMap::self()->wantedCardHeight();
                 Q_ASSERT( pms.width() >= cardMap::self()->wantedCardWidth() - 0.1 );
                 Q_ASSERT( pms.height() >= cardMap::self()->wantedCardHeight() - 0.1 );
                 ( *it2 )->setMaximalSpace( pms );
             }
         }
-        //kDebug() << myRect << " " << cardMap::self()->wantedCardHeight() << endl;
+        //kDebug() << myRect << " " << cardMap::self()->wantedCardHeight();
         Q_ASSERT( myRect.width() >= cardMap::self()->wantedCardWidth() - 0.1 );
         Q_ASSERT( myRect.height() >= cardMap::self()->wantedCardHeight() - 0.1 );
 
@@ -1801,7 +1801,7 @@ QSvgRenderer *DealerScene::DealerScenePrivate::backren = 0;
 
 void DealerScene::drawBackground ( QPainter * painter, const QRectF & rect )
 {
-    kDebug() << "drawBackground " << rect << " " << d->hasScreenRect << endl;
+    kDebug() << "drawBackground" << rect << " " << d->hasScreenRect;
     if ( !d->hasScreenRect )
         return;
 
