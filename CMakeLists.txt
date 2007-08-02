@@ -2,8 +2,6 @@ project(kpat)
 
 add_subdirectory( icons ) 
 
-include_directories( ${CMAKE_SOURCE_DIR}/libkdegames  )
-
 ########### next target ###############
 
 set(RELEASE "1")
