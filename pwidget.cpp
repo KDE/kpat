@@ -149,7 +149,7 @@ pWidget::pWidget()
     games->setCurrentItem(game);
 
     statusBar()->insertPermanentItem( "", 1, 0 );
-    createGUI(); // QString::null/*, false*/);
+    createGUI(); // QString()/*, false*/);
     //KAcceleratorManager::manage(menuBar());
 
     // QTimer::singleShot( 0, this, SLOT( newGameType() ) );
