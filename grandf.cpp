@@ -61,7 +61,7 @@ void Grandf::restart() {
 
 void Grandf::redeal()
 {
-    kDebug() << "redeal\n";
+    kDebug(11111) << "redeal\n";
     unmarkAll();
 
     if (numberOfDeals < 3) {

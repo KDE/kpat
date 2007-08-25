@@ -196,7 +196,7 @@ void PatienceView::setAutoDropEnabled(bool a)
 
 void PatienceView::startNew()
 {
-    kDebug() << "startnew\n";
+    kDebug(11111) << "startnew\n";
     if ( ahint )
         ahint->setEnabled( true );
     if ( ademo )
@@ -242,7 +242,7 @@ void PatienceView::resizeEvent( QResizeEvent *e )
     if ( e )
         QGraphicsView::resizeEvent(e);
 
-    kDebug() << "resizeEvent" << wasShown();
+    kDebug(11111) << "resizeEvent" << wasShown();
 
     if ( !wasShown() )
         return;

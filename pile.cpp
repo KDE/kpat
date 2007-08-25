@@ -187,7 +187,7 @@ void Pile::rescale()
         setPixmap( *mycache );
         return;
     }
-    kDebug() << gettime() << "rescale start\n";
+    kDebug(11111) << gettime() << "rescale start\n";
 
 #if 0
     QImage pix( ( int )maximalSpace().width(),
@@ -212,7 +212,7 @@ void Pile::rescale()
     else
         pix.save( KStandardDirs::locateLocal( "data", "kpat/pile.png" ), "PNG" );
     setPixmap( *mycache );
-    kDebug() << gettime() << "rescale end\n";
+    kDebug(11111) << gettime() << "rescale end\n";
 }
 
 bool Pile::legalAdd( const CardList& _cards ) const

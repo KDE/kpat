@@ -99,7 +99,7 @@ void Fortyeight::deckClicked( Card * )
 
 void Fortyeight::deckPressed(Card *c2)
 {
-    kDebug() << gettime() << "deckPressed" << ( c2? c2->name() : "(nil)" );
+    kDebug(11111) << gettime() << "deckPressed" << ( c2? c2->name() : "(nil)" );
     if (Deck::deck()->isEmpty()) {
         if (lastdeal)
             return;

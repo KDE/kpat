@@ -256,12 +256,12 @@ void pWidget::slotNewGameType()
 void pWidget::newGameType()
 {
     slotUpdateMoves();
-    kDebug() << gettime() << "pWidget::newGameType\n";
+    kDebug(11111) << gettime() << "pWidget::newGameType\n";
 
     int id = games->currentItem();
     if ( id < 0 )
         id = 0;
-    kDebug() << "newGameType" << id;
+    kDebug(11111) << "newGameType" << id;
     for (QList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin();
 	it != DealerInfoList::self()->games().end(); ++it) {
         if ((*it)->gameindex == id) {
@@ -281,7 +281,7 @@ void pWidget::newGameType()
     }
 
 
-    kDebug() << "dill" << dill << " " << dill->dscene();
+    kDebug(11111) << "dill" << dill << " " << dill->dscene();
     connect(dill->dscene(), SIGNAL(undoPossible(bool)), SLOT(undoPossible(bool)));
     connect(dill->dscene(), SIGNAL(gameLost()), SLOT(gameLost()));
     connect(dill->dscene(), SIGNAL(gameInfo(const QString&)),
@@ -307,7 +307,7 @@ void pWidget::newGameType()
 
 void pWidget::showEvent(QShowEvent *e)
 {
-    kDebug() << "showEvent ";
+    kDebug(11111) << "showEvent ";
     dill->setWasShown( true );
     KXmlGuiWindow::showEvent(e);
 }

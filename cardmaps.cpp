@@ -268,7 +268,7 @@ void cardMap::updateTheme(const KConfigGroup &cs)
         {
             d->m_backSize = d->m_thread->renderer()->boundsOnElement( "back" ).size();
         }
-        kDebug() << d->m_cardDeck << " " << d->m_backSize;
+        kDebug(11111) << d->m_cardDeck << " " << d->m_backSize;
     }
 
     Q_ASSERT( !d->m_backSize.isNull() );
@@ -331,7 +331,7 @@ void cardMap::setWantedCardWidth( double w )
         return;
 
     d->m_body = QRect();
-    kDebug() << "setWantedCardWidth" << w << " " << d->_wantedCardWidth;
+    kDebug(11111) << "setWantedCardWidth" << w << " " << d->_wantedCardWidth;
     d->_wantedCardWidth = w;
     d->_scale = 0;
     if (PatienceView::instance()->dscene())
@@ -432,7 +432,7 @@ void cardMapThread::run()
     msleep( 150 );
     if ( m_shouldEnd )
     {
-        kDebug() << "exiting thread\n";
+        kDebug(11111) << "exiting thread\n";
         return;
     }
     d->m_cacheMutex.lock();
@@ -443,7 +443,7 @@ void cardMapThread::run()
     {
         if ( m_shouldEnd )
         {
-            kDebug() << "exiting thread\n";
+            kDebug(11111) << "exiting thread\n";
             return;
         }
         QImage img = renderCard( *it );
@@ -451,7 +451,7 @@ void cardMapThread::run()
         d->m_cache[*it] = img;
         d->m_cacheMutex.unlock();
     }
-    kDebug() << "returning from thread\n";
+    kDebug(11111) << "returning from thread\n";
 }
 
 #include "cardmaps.moc"

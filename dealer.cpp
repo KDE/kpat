@@ -363,7 +363,7 @@ void DealerScene::undo()
 {
     unmarkAll();
     stopDemo();
-    kDebug() << "::undo" << undoList.count();
+    kDebug(11111) << "::undo" << undoList.count();
     if (undoList.count() > 1) {
         delete undoList.last();
         undoList.removeLast(); // the current state
@@ -418,7 +418,7 @@ DealerScene::DealerScene():
 
 DealerScene::~DealerScene()
 {
-    kDebug() << "~DealerScene";
+    kDebug(11111) << "~DealerScene";
     if (!d->_won)
         countLoss();
     unmarkAll();
@@ -450,7 +450,7 @@ void DealerScene::hint()
 {
     unmarkAll();
     clearHints();
-    kDebug() << "hint" << d->winMoves.count();
+    kDebug(11111) << "hint" << d->winMoves.count();
     if ( d->winMoves.count() )
     {
         MOVE m = d->winMoves.first();
@@ -464,7 +464,7 @@ void DealerScene::hint()
         MoveHint *mh = solver()->translateMove( m );
         if ( mh ) {
             newHint( mh );
-            kDebug() << "win move" << mh->pile()->objectName() << " " << mh->card()->name() << " " << mh->priority();
+            kDebug(11111) << "win move" << mh->pile()->objectName() << " " << mh->card()->name() << " " << mh->priority();
         }
         getHints();
     } else
@@ -765,7 +765,7 @@ void DealerScene::startNew()
 
 void DealerScene::slotShowGame(bool gothelp)
 {
-    kDebug() << "slotShowGame" << waiting();
+    kDebug(11111) << "slotShowGame" << waiting();
     emit undoPossible( false );
 
     int wx = qRound( width() * 0.7 );
@@ -945,7 +945,7 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
         movingCards.clear();
     }
     QList<QGraphicsItem *> list = items(e->scenePos());
-    kDebug() << "mouseDoubleClickEvent" << list;
+    kDebug(11111) << "mouseDoubleClickEvent" << list;
     if (list.isEmpty())
         return;
     QList<QGraphicsItem *>::Iterator it = list.begin();
@@ -954,7 +954,7 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
     Card *c = dynamic_cast<Card*>(*it);
     assert(c);
     c->stopAnimation();
-    kDebug() << "card" << c->name();
+    kDebug(11111) << "card" << c->name();
     if ( cardDblClicked(c) ) {
         countGame();
     }
@@ -1024,7 +1024,7 @@ State *DealerScene::getState()
 
 void DealerScene::setState(State *st)
 {
-    kDebug() << gettime() << "setState\n";
+    kDebug(11111) << gettime() << "setState\n";
     CardStateList * n = &st->cards;
     QList<QGraphicsItem *> list = items();
 
@@ -1123,13 +1123,13 @@ bool DealerScene::startAutoDrop()
             Card *c = static_cast<Card*>(*it);
             if (c->animated()) {
                 QTimer::singleShot(qRound( TIME_BETWEEN_MOVES * d->m_autoDropFactor ), this, SLOT(startAutoDrop()));
-                kDebug() << "animation still going on\n";
+                kDebug(11111) << "animation still going on\n";
                 return true;
             }
         }
     }
 
-    kDebug() << gettime() << "startAutoDrop \n";
+    kDebug(11111) << gettime() << "startAutoDrop \n";
 
     unmarkAll();
     clearHints();
@@ -1184,7 +1184,7 @@ void DealerScene::stopAndRestartSolver()
     if ( d->toldAboutLostGame ) // who cares?
         return;
 
-    kDebug() << "stopAndRestartSolver\n";
+    kDebug(11111) << "stopAndRestartSolver\n";
     if ( d->m_solver_thread && d->m_solver_thread->isRunning() )
     {
         d->m_solver_thread->finish();
@@ -1198,7 +1198,7 @@ void DealerScene::stopAndRestartSolver()
             Card *c = static_cast<Card*>(*it);
             if (c->animated()) {
                 d->updateSolver->start();
-                kDebug() << "animation still going on\n";
+                kDebug(11111) << "animation still going on\n";
                 return;
             }
         }
@@ -1213,7 +1213,7 @@ void DealerScene::slotSolverEnded()
     if ( !d->solverMutex.tryLock() )
         return;
     d->m_solver->translate_layout();
-    kDebug() << gettime() << "start thread\n";
+    kDebug(11111) << gettime() << "start thread\n";
     d->winMoves.clear();
     if ( !d->m_solver_thread ) {
         d->m_solver_thread = new SolverThread( d->m_solver );
@@ -1233,7 +1233,7 @@ void DealerScene::slotSolverFinished()
         return;
     }
 
-    kDebug() << gettime() << "stop thread" << ret;
+    kDebug(11111) << gettime() << "stop thread" << ret;
     switch (  ret )
     {
     case Solver::WIN:
@@ -1325,7 +1325,7 @@ void DealerScene::removePile(Pile *p)
 
 void DealerScene::stopDemo()
 {
-    kDebug() << gettime() << "stopDemo" << waiting();
+    kDebug(11111) << gettime() << "stopDemo" << waiting();
 
     if (waiting()) {
         _waiting = 0;
@@ -1373,7 +1373,7 @@ bool operator <(const CardPtr &p1, const CardPtr &p2)
 
 void DealerScene::won()
 {
-    kDebug() << "won" << waiting();
+    kDebug(11111) << "won" << waiting();
     if (d->_won)
         return;
     d->_won = true;
@@ -1438,7 +1438,7 @@ MoveHint *DealerScene::chooseHint()
 
 void DealerScene::demo()
 {
-    kDebug() << "demo" << waiting();
+    kDebug(11111) << "demo" << waiting();
     if ( waiting() )
         return;
 
@@ -1525,14 +1525,14 @@ Card *DealerScene::demoNewCards()
 
 void DealerScene::newDemoMove(Card *m)
 {
-    kDebug() << "newDemoMove" << m->name();
+    kDebug(11111) << "newDemoMove" << m->name();
     setWaiting( true );
     connect(m, SIGNAL(stoped(Card*)), SLOT(waitForDemo(Card*)));
 }
 
 void DealerScene::waitForDemo(Card *t)
 {
-    kDebug() << "waitForDemo" << t->name();
+    kDebug(11111) << "waitForDemo" << t->name();
     t->disconnect(this, SLOT( waitForDemo( Card* ) ) );
     setWaiting( false );
     if ( !waiting() )
@@ -1648,13 +1648,13 @@ void DealerScene::relayoutPiles()
 
 void DealerScene::setSceneSize( const QSize &s )
 {
-    kDebug() << "setSceneSize" << sceneRect();
+    kDebug(11111) << "setSceneSize" << sceneRect();
     setSceneRect( QRectF( 0, 0, s.width(), s.height() ) );
     d->hasScreenRect = true;
 
     QPointF defaultSceneRect = maxPilePos();
 
-    kDebug() << gettime() << "setSceneSize" << defaultSceneRect << " " << s;
+    kDebug(11111) << gettime() << "setSceneSize" << defaultSceneRect << " " << s;
     Q_ASSERT( cardMap::self()->wantedCardWidth() > 0 );
     Q_ASSERT( cardMap::self()->wantedCardHeight() > 0 );
 
@@ -1801,7 +1801,7 @@ QSvgRenderer *DealerScene::DealerScenePrivate::backren = 0;
 
 void DealerScene::drawBackground ( QPainter * painter, const QRectF & rect )
 {
-    kDebug() << "drawBackground" << rect << " " << d->hasScreenRect;
+    kDebug(11111) << "drawBackground" << rect << " " << d->hasScreenRect;
     if ( !d->hasScreenRect )
         return;
 

@@ -223,7 +223,7 @@ void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
         return;
     }
     if ( name() == "diamond 01" )
-        kDebug() << "moveTo" << name() << " " << x2 << " " << y2 << " " << z2 << " " << pos() << " " << zValue() << " " << duration << " " << kBacktrace();
+        kDebug(11111) << "moveTo" << name() << " " << x2 << " " << y2 << " " << z2 << " " << pos() << " " << zValue() << " " << duration << " " << kBacktrace();
     stopAnimation();
     m_isSeen = CardVisible; // avoid suprises
 
@@ -359,7 +359,7 @@ void Card::stopAnimation()
     //kDebug() << gettime() << "stopAnimation" << name();
     if ( !sender() || strcmp(sender()->metaObject()->className(), "QTimeLine") )
         if ( name() == "diamond 01" )
-            kDebug() << "stopAnimation" << name() << " " << m_destX << " " << m_destY << " " << animation->timeLine()->duration() << " " << kBacktrace();
+            kDebug(11111) << "stopAnimation" << name() << " " << m_destX << " " << m_destY << " " << animation->timeLine()->duration() << " " << kBacktrace();
     QGraphicsItemAnimation *old_animation = animation;
     animation = 0;
     if ( old_animation->timeLine()->state() == QTimeLine::Running )
