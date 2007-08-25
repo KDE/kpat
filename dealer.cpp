@@ -39,6 +39,8 @@
 #include <assert.h>
 #include <math.h>
 
+// #define DBEUG_HINTS
+
 // ================================================================
 //                         class MoveHint
 
@@ -454,12 +456,14 @@ void DealerScene::hint()
     if ( d->winMoves.count() )
     {
         MOVE m = d->winMoves.first();
+#ifdef DEBUG_HINTS
         if ( m.totype == O_Type )
             fprintf( stderr, "move from %d out (at %d) Prio: %d\n", m.from,
                      m.turn_index, m.pri );
         else
             fprintf( stderr, "move from %d to %d (%d) Prio: %d\n", m.from, m.to,
                      m.turn_index, m.pri );
+#endif
 
         MoveHint *mh = solver()->translateMove( m );
         if ( mh ) {
@@ -495,12 +499,14 @@ void DealerScene::getSolverHints()
     while ( mit.hasNext() )
     {
         MOVE m = mit.next();
+#ifdef DEBUG_HINTS
         if ( m.totype == O_Type )
             fprintf( stderr, "   move from %d out (at %d) Prio: %d\n", m.from,
                      m.turn_index, m.pri );
         else
             fprintf( stderr, "   move from %d to %d (%d) Prio: %d\n", m.from, m.to,
                      m.turn_index, m.pri );
+#endif
 
         MoveHint *mh = solver()->translateMove( m );
         if ( mh )
