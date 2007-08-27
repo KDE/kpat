@@ -18,8 +18,8 @@
 
 ****************************************/
 
-#ifndef P_HACK_CARDMAP
-#define P_HACK_CARDMAP
+#ifndef KPAT_CARDMAPS_H
+#define KPAT_CARDMAPS_H
 
 #include "card.h"
 //Added by qt3to4:
@@ -65,4 +65,4 @@ private:
     static cardMap *_self;
 };
 
-#endif
+#endif // KPAT_CARDMAPS_H
