@@ -405,7 +405,7 @@ void pWidget::showStats()
 
 void pWidget::slotGameSolverWon()
 {
-    statusBar()->showMessage(i18n( "I just won the game! Good luck to you." ), 3000);
+    statusBar()->showMessage(i18n( "This game can still be won! Good luck to you." ), 3000);
 }
 
 void pWidget::slotGameSolverLost()
