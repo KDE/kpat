@@ -38,7 +38,6 @@
 #include "version.h"
 #include <qimage.h>
 #include <krandom.h>
-#include <kimageeffect.h>
 #include <kcarddialog.h>
 #include <kglobalsettings.h>
 #include <qfileinfo.h>
