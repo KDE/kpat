@@ -32,6 +32,7 @@
 #include <QShowEvent>
 #include <QDomDocument>
 #include <QSvgRenderer>
+#include <QDesktopWidget>
 
 #include <kapplication.h>
 #include <klocale.h>
@@ -149,7 +150,7 @@ pWidget::pWidget()
     games->setCurrentItem(game);
 
     statusBar()->insertPermanentItem( "", 1, 0 );
-    createGUI(); // QString()/*, false*/);
+    setupGUI(qApp->desktop()->availableGeometry().size()*0.7); // QString()/*, false*/);
     //KAcceleratorManager::manage(menuBar());
 
     // QTimer::singleShot( 0, this, SLOT( newGameType() ) );
