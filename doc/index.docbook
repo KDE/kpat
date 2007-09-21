@@ -66,7 +66,7 @@
 <releaseinfo>2.2.2</releaseinfo>
 <abstract>
 
-<para>&kpatience; is a highly addictive card game for &kde;.</para>
+<para>&kpatience; is a highly addictive solitaire card game collection for &kde;.</para>
 
 </abstract>
 
@@ -292,7 +292,7 @@ king.
 </para>
 
 <para>
-When you click on the talon, one card from will be moved to the waste pile.
+When you click on the talon, one card from it will be moved to the waste pile.
 You can move it to the playing piles or the foundation from there.
 If the talon is empty, you can move the complete waste pile to the talon
 by clicking on the empty talon.
@@ -346,7 +346,7 @@ hard to win. Despite this, or because of it, this game remains a joy to play.
 </sect1>
 
 <sect1 id="aces-up">
-<title>Aces Up</title >
+<title>Aces Up</title>
 <anchor id="game_aces_up"/>
 
 <para><indexterm><primary>Aces Up</primary></indexterm>
