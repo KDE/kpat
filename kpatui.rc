@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kpat" version="15">
+<gui name="kpat" version="16">
 <MenuBar>
   <Menu name="game">
     <Action name="choose_game"/>
@@ -16,6 +16,7 @@
     <Action name="animation"/> 
     <Action name="enable_autodrop"/>
     <Action name="random_set"/>
+    <Action name="select_deck"/>
   </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar"><text>Main Toolbar</text>

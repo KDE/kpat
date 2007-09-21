@@ -128,6 +128,11 @@ pWidget::pWidget()
     connect( a, SIGNAL( triggered( bool ) ), SLOT( slotPickRandom() ) );
     a->setShortcuts( KShortcut( Qt::Key_F9 ) );
 
+    a = actionCollection()->addAction("select_deck");
+    a->setText(i18n("Select Deck..."));
+    connect( a, SIGNAL( triggered( bool ) ), SLOT( slotSelectDeck() ) );
+    a->setShortcuts( KShortcut( Qt::Key_F10 ) );
+
     m_cards = new cardMap();
 
     stats = actionCollection()->addAction("game_stats");
@@ -233,6 +238,30 @@ void pWidget::slotPickRandom()
 
     cardMap::self()->updateTheme(cs);
     cardMap::self()->triggerRescale();
+}
+
+void pWidget::slotSelectDeck()
+{
+    KCardDialog::CardFlags flags = KCardDialog::CardFlags(
+	    KCardDialog::NoDeck | KCardDialog::SVGCards);
+
+    KSharedConfig::Ptr config = KGlobal::config();
+    KConfigGroup cs(config, settings_group);
+    QString deckName, oldDeckName, dummy;
+    deckName = oldDeckName = cs.readEntry("Theme");
+
+    int result = KCardDialog::getCardDeck(dummy, deckName, this, flags);
+    if (result == QDialog::Accepted) {
+	if (deckName.endsWith('/')) 
+	    deckName.chop(1);
+	deckName = deckName.mid(deckName.lastIndexOf('/') + 1);
+	if (deckName != oldDeckName) {
+	    cs.writeEntry("Theme", deckName);
+
+	    cardMap::self()->updateTheme(cs);
+	    cardMap::self()->triggerRescale();
+	}
+    }
 }
 
 void pWidget::setGameCaption()

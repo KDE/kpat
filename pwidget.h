@@ -68,6 +68,7 @@ public slots:
     void slotGameSolverLost();
     void slotGameSolverUnknown();
     void slotPickRandom();
+    void slotSelectDeck();
 
 private:
     void setGameCaption();
