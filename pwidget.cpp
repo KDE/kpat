@@ -80,7 +80,8 @@ pWidget::pWidget()
     KStandardGameAction::gameNew(this, SLOT(newGame()), actionCollection());
     KStandardGameAction::restart(this, SLOT(restart()), actionCollection());
     KStandardGameAction::load(this, SLOT(openGame()), actionCollection());
-    KStandardGameAction::loadRecent(this, SLOT(openGame(const KUrl&)), actionCollection())->loadEntries( KGlobal::config()->group( QString() ));
+    recent = KStandardGameAction::loadRecent(this, SLOT(openGame(const KUrl&)), actionCollection());
+    recent->loadEntries( KGlobal::config()->group( QString() ));
     KStandardGameAction::save(this, SLOT(saveGame()), actionCollection());
     KStandardGameAction::quit(this, SLOT(close()), actionCollection());
     
