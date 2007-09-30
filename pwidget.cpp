@@ -243,16 +243,15 @@ void pWidget::slotPickRandom()
 
 void pWidget::slotSelectDeck()
 {
-    KCardDialog::CardFlags flags = KCardDialog::CardFlags(
-	    KCardDialog::NoDeck | KCardDialog::SVGCards);
-
     KSharedConfig::Ptr config = KGlobal::config();
     KConfigGroup cs(config, settings_group);
     QString deckName, oldDeckName, dummy;
     deckName = oldDeckName = cs.readEntry("Theme");
 
-    int result = KCardDialog::getCardDeck(dummy, deckName, this, flags);
-    if (result == QDialog::Accepted) {
+    int result = KCardDialog::getCardDeck(deckName, dummy, this,  true, false);
+    if (result == QDialog::Accepted) 
+    {
+        deckName = KCardDialog::cardDir(deckName);
 	if (deckName.endsWith('/')) 
 	    deckName.chop(1);
 	deckName = deckName.mid(deckName.lastIndexOf('/') + 1);
