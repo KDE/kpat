@@ -22,6 +22,7 @@
 #include <kglobal.h>
 #include <klocale.h>
 #include <kdebug.h>
+#include <kurl.h>
 
 #include <QtCore/QTime>
 #include <QtCore/QTimer>
