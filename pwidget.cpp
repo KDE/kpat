@@ -143,7 +143,6 @@ pWidget::pWidget()
     dropaction = new KToggleAction(i18n("&Enable Autodrop"), this);
     actionCollection()->addAction("enable_autodrop", dropaction);
     connect( dropaction, SIGNAL( triggered( bool ) ), SLOT(enableAutoDrop()) );
-    dropaction->setCheckedState(KGuiItem(i18n("Disable Autodrop")));
 
     KConfigGroup cg(KGlobal::config(), settings_group );
 
