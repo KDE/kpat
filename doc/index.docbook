@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+﻿<?xml version="1.0" ?>
 <!--IMPORTANT: please note that'do not change this!' notice does not apply to translators -->
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
   <!ENTITY kappname "&kpatience;">
@@ -656,7 +656,6 @@ win at Easy level, and very difficult to win at Hard level.
 
 </chapter>
 
-
 <chapter id="interface"><title>Interface Overview</title> <!-- do not change this! -->
 <!-- This section has to do with menubar. Describe every single entry in order. Use <variablelist> and <varlistentry>. Split the chapter into sections using <sect1(2,3)> for better viewing.-->
 <sect1 id="game-menu">
@@ -932,18 +931,17 @@ win at Easy level, and very difficult to win at Hard level.
 </sect1>
 </chapter>
 
-
 <chapter id="faq"><title>Frequently asked questions</title> <!-- do not change this! -->
 <!--This chapter is for frequently asked questions. Please use <qandaset> <qandaentry> only!-->
 <qandaset>
 <!--Following is a standard list of FAQ questions.-->
 <qandaentry>
 <question><para>Who made this game?</para></question>
- <answer><para>The kdegames team. You can find their website here.</para></answer>
+ <answer><para>The kdegames team. You can find their website <ulink url="http://games.kde.org">here</ulink>.</para></answer>
 </qandaentry>
 <qandaentry>
  <question><para>Where can I get cheatcodes? </para></question>
- <answer><para>You can't get cheatcodes for KDE games.</para></answer>
+ <answer><para>You cannot get cheatcodes for &kde; games.</para></answer>
 </qandaentry>
 <qandaentry>
  <question><para>How do I start a new game? </para></question>
@@ -971,7 +969,7 @@ win at Easy level, and very difficult to win at Hard level.
 					<shortcut><keycap>F10</keycap></shortcut>
 					<guimenu>Settings</guimenu>
 					<guimenuitem>Select Deck...</guimenuitem>
-				</menuchoice> on the menubar. See <link linkend="configuration">Game Configuration</link> section for details.</para></answer>
+				</menuchoice> on the menubar.</para></answer>
 </qandaentry>
 <qandaentry>
  <question><para>I have made a mistake. Can I undo? </para></question>
@@ -1006,8 +1004,8 @@ win at Easy level, and very difficult to win at Hard level.
 				</menuchoice> on the menubar.</para></answer>
 </qandaentry>
 <qandaentry>
- <question><para>Where are the highscores?</para></question>
- <answer><para>&kappname; has no highscore board. However you can view your win vs loose statistics. To do so use <menuchoice>
+ <question><para>Where are the high scores?</para></question>
+ <answer><para>&kappname; has no high score board. However you can view your win vs loose statistics. To do so use <menuchoice>
 					<guimenu>Game</guimenu>
 					<guimenuitem>Statistics</guimenuitem>
 				</menuchoice> on the menubar.</para></answer>
@@ -1017,22 +1015,6 @@ win at Easy level, and very difficult to win at Hard level.
  <answer><para>&kappname; requires no configuration.</para></answer><!--IMPORTANT!: this link has to send user to 'Interface Overview' section. So please setup the link structure accordingly.-->
 </qandaentry>
 </qandaset>
-</chapter>
-
-<chapter id="configuration"><title>Game Configuration</title> <!-- do not change this! -->
-<!--This section describes configuration GUI. If your game is configured using menubar exclusively, please remove this section.-->
-<para>This section describes the carddeck selection dialog.</para>
-<screenshot>
-<screeninfo>Carddeck Selection Dialog</screeninfo>
-	<mediaobject>
-	  <imageobject>
-	    <imagedata fileref="card_select.png" format="PNG"/>
-	  </imageobject>
-	  <textobject>
-	    <phrase>Carddeck Selection Dialog</phrase>
-	  </textobject>
-	</mediaobject>
-</screenshot>
 </chapter>
 
 <chapter id="credits"><title>Credits and License</title> <!-- do not change this! -->
@@ -1071,7 +1053,7 @@ Documentation rewritten for &kpatience; 2.0 (&kde; 2.1) by &Maren.Pakura;
 </para>
 
 <para>
-Documentation proofread and update for &kpatience; 2.2.2 by Richard Hawthorne
+Documentation proofread and update for &kpatience; &docversion; by Richard Hawthorne
 <email>techno_plume-coding@yahoo.com</email>
 </para><!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 
@@ -1081,7 +1063,6 @@ Documentation proofread and update for &kpatience; 2.2.2 by Richard Hawthorne
 &underGPL;
 
 </chapter>
-
 
 <appendix id="installation">
 <title>Installation</title>
