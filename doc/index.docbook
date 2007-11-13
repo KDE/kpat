@@ -1,15 +1,20 @@
 <?xml version="1.0" ?>
+<!--IMPORTANT: please note that'do not change this!' notice does not apply to translators -->
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
   <!ENTITY kappname "&kpatience;">
-  <!ENTITY package "kdegames">
-  <!ENTITY % addindex "IGNORE">
+  <!ENTITY kappversion "3.0"><!--Applicaion version. Use this variable everywhere it's needed.-->
+  <!ENTITY docversion "2.2.2"><!--Document version. Use this variable everywhere it's needed.-->
+  <!ENTITY docupdate "2007-11-06"><!--Document version. Use this variable everywhere it's needed.-->
+  <!ENTITY package "kdegames">  <!-- do not change this! -->
   <!ENTITY % English "INCLUDE" > <!-- change language only here -->
+  <!ENTITY % addindex "IGNORE"> <!-- do not change this! -->
 ]>
- 
-<book lang="&language;">
-<bookinfo>
-<title>The &kpatience; Handbook</title>
 
+<book lang="&language;"> <!-- do not change this! -->
+<bookinfo>
+	<title>The &kappname; Handbook</title> <!-- This is the title of the docbook. Live as is unless change is necessary.-->
+<!-- List of immidiate authors begins here. -->
+<!--INPORTANT! - All other contributors: [to be determined] -->
 <authorgroup>
 <author>
 <firstname>Paul Olav</firstname>
@@ -62,25 +67,37 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2007-04-03</date>
-<releaseinfo>2.2.2</releaseinfo>
+<date>&docupdate;</date><!-- Date of (re)writing, ro update. Use the variable definitions within header to change this value.-->
+<releaseinfo>&docversion;</releaseinfo><!-- Application version number. Use the variable definitions within header to change this value.-->
+
+<!--Short description of this document. Do not change unless necessary!-->
 <abstract>
-
-<para>&kpatience; is a highly addictive solitaire card game collection for &kde;.</para>
-
+	<para>This documentation describes the game of &kappname; version &kappversion;</para>
 </abstract>
 
+<!--List of relevan keywords-->
 <keywordset>
-<keyword>KDE</keyword>
-<keyword>game</keyword>
-<keyword>games</keyword>
-<keyword>patience</keyword>
-<keyword>solitaire</keyword>
+	<keyword>KDE</keyword> <!-- do not change this! -->
+	<keyword>kdegames</keyword> <!-- do not change this! -->
+	<keyword>game</keyword> <!-- do not change this! -->
+	<keyword>KPatience</keyword><!--Application name goes here-->
+<!-- Game genre. use as many as necessary.Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<keyword>card</keyword>
+	<keyword>card game</keyword>
+	<keyword>playing cards</keyword>
+<!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+	<keyword>one player</keyword>
+<!--All other relevant keywords-->
+	<keyword>patience</keyword>
+	<keyword>solitaire</keyword>
 </keywordset>
 </bookinfo>
+<!--Content begins here: -->
+<chapter id="introduction"><title>Introduction</title> <!-- do not change this! -->
+	<note><title>Gametype:</title><para>Card</para></note><!-- Game genre. use as many as necessary.Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<note><title>Number of possible players:</title><para>One</para></note><!--Number of possible players. It can be: One, Two,..., Multiplayer-->
 
-<chapter id="introduction">
-<title>Introduction</title>
+<!--Short game description starts here. 3-4 sentences (paragraphs)-->
 
 <para>
 To play patience you need, as the name suggests, patience.  For simple games,
@@ -97,175 +114,83 @@ ahead in order to win.
 A theme common to all the games is the player must put the cards in a special order &mdash; 
 moving, turning and reordering them.
 </para>
-
 </chapter>
 
-<chapter id="rules-general">
-<title>General Rules</title>
-
-<para><indexterm><primary>suits</primary></indexterm>
-A card game contains one or more card decks of 52 cards each. Each deck contains
-the four suits:
-</para>
-
-<informaltable pgwide="0" frame="none">
-<tgroup cols="2">
-<colspec/>
-<colspec/>
-<tbody>
-
-<row valign="middle">
-<entry>
-<inlinemediaobject>
-<imageobject>
-<imagedata fileref="clubs.png"/>
-</imageobject>
-</inlinemediaobject>
-</entry>
-<entry>
-Clubs
-</entry>
-</row>
-
-<row valign="middle">
-<entry>
-<inlinemediaobject>
-<imageobject>
-<imagedata fileref="spades.png"/>
-</imageobject>
-</inlinemediaobject>
-</entry>
-<entry>
-Spades
-</entry>
-</row>
-
-<row valign="middle">
-<entry>
-<inlinemediaobject>
-<imageobject>
-<imagedata fileref="hearts.png"/>
-</imageobject>
-</inlinemediaobject>
-</entry>
-<entry>
-Hearts
-</entry>
-</row>
-
-<row valign="middle">
-<entry>
-<inlinemediaobject>
-<imageobject>
-<imagedata fileref="diamonds.png"/>
-</imageobject>
-</inlinemediaobject>
-</entry>
-<entry>
-Diamonds
-</entry>
-</row>
-
-</tbody>
-</tgroup>
-</informaltable>
-
+<chapter id="howto"><title>How to Play</title> <!-- do not change this! -->
+<!--IMPORTANT: If the game has no defined objective, please remove the below line.-->
+	<note><title>Objective:</title><para>Rearrange the cards by suite within shortest time possible.</para></note><!--Describe the objective of the game.-->
+<!--How to play description. Don't be to specific on rules as they have a separate section in this document-->
+	<para>
+	As &kappname; offers you a multiplicity of different solitaire games, there is no straightforward how-to which could feet all of them. Therefore, it is essential that you read each individual subsection of Game Rules, Strategies and Tips section before you start playing a version you are not familiar with.</para>
 <para>
-Each of these suits contains the following card types: ace, two, three,
-four, five, six, seven, eight, nine, ten, jack, queen, and king.
-</para>
-
-<para><indexterm><primary>family</primary></indexterm>
-This complete order of cards is called a family. There are real families and
-alternating ones. The real families are all of one suit (&eg; Hearts). In the
-alternating families the card color changes from one to another, between a black
-color (Clubs and Spades) and a red color (Hearts and Diamonds).
-</para>
-
+Essentially there are two types of solitaire games – the ones that let you arrange the cards by same color and the ones that let you arrange the cards by alternating color. You can easily determine which game you are trying out using trial-and-error method. Once you know which one you are dealing with, rest is easy; keep arranging and rearranging the cards, collecting the matching ones.</para>
 <para>
-If the family is not complete it is called a sequence.
-</para>
-
-<mediaobject>
-<imageobject><imagedata fileref="playfield.png" format="PNG"/></imageobject>
-<textobject>
-<phrase>The game field of &kpatience;</phrase>
-</textobject>
-</mediaobject>
-
+From the beginning, however, pay attention to your card stacks. Do not rush to move individual cards around, see if it might be more useful elsewhere.</para>
 <para>
-There are a number of features found in typical patience games. These are described below.
+For additional help you can also take quick picks onto the statusbar. For the most of the games there is a built in solver which informs you whether the game you are currently playing can be complete or not. If you see that solver could not complete the current game, chances are you will not be able to do so as well. At this point you can either restart the current game, or start a completely new game.
 </para>
-
-<variablelist>
-<varlistentry><term>1. Talon</term>
-<listitem>
-<para><indexterm><primary>talon</primary></indexterm>
-At the beginning of each game all cards are mixed in the deck. In some games not all cards are dealt out. 
-The remaining cards are put down on the so-called talon. You can find this quite easily, since in most
-games it is the only pile showing the reverse.
-</para>
-
-<para>
-If no card shows the reverse side, all cards are dealt out and there is no
-talon. These card games are the hardest as there is no randomness involved after
-the start of the game, so there is nothing to blame.
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term>2. Waste Pile</term>
-<listitem>
-<para><indexterm><primary>waste pile</primary></indexterm>
-Many games put cards from the talon on a waste pile, after you click on the
-reverse of the topmost card on the talon.
-</para>
-
-<para>
-From there you can take the card (which is then face up) and put
-it into the game. 
-</para>
-
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term>3. Foundation</term>
-<listitem>
-<para><indexterm><primary>foundation</primary></indexterm>
-The foundation pile is where you want to have your cards in the end.  If all
-cards end up there in the right order, you've won. 
-Some games use more than one foundation pile.
-</para>
-
-<para>
-In most card games these piles are empty in the beginning. &kpatience; drops
-cards there for you when it sees they fit.
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term>4. Playing Piles</term>
-<listitem>
-<para><indexterm><primary>playing piles</primary></indexterm>
-These piles are those where the actual reordering happens. The rules for
-these piles vary a lot between games. Some show all cards on them, some
-do not. Some allow only one card to be removed, some allow every card to be removed,
-&etc;.
-</para>
-</listitem>
-</varlistentry>
-</variablelist>
-
+<note><title>Note:</title><para>Playing solitaire games helps you to greatly improve your attention span and enhance the ability to concentrate.</para></note>
 </chapter>
 
+<chapter id="rules_and_tips"><title>Game Rules, Strategies and Tips</title> <!-- do not change this! -->
 
-<chapter id="rules-specific">
-<title>Rules for Individual Games</title>
+<sect1 id="rules-general">
+	<title>General Rules</title>
+	<para><indexterm><primary>suits</primary></indexterm>A card game contains one or more card decks of 52 cards each. Each deck contains the four suits:</para>
+	<informaltable pgwide="0" frame="none">
+		<tgroup cols="2"><colspec/><colspec/>
+	<tbody>
+		<row valign="middle">
+			<entry><inlinemediaobject><imageobject><imagedata fileref="clubs.png"/></imageobject></inlinemediaobject></entry>
+			<entry>Clubs</entry>
+		</row>
+		<row valign="middle">
+			<entry><inlinemediaobject><imageobject><imagedata fileref="spades.png"/></imageobject></inlinemediaobject></entry>
+			<entry>Spades</entry>
+		</row>
+		<row valign="middle">
+			<entry><inlinemediaobject><imageobject><imagedata fileref="hearts.png"/></imageobject></inlinemediaobject></entry>
+			<entry>Hearts</entry>
+		</row>
+			<row valign="middle"><entry><inlinemediaobject><imageobject><imagedata fileref="diamonds.png"/></imageobject></inlinemediaobject></entry>
+			<entry>Diamonds</entry>
+		</row>
+	</tbody></tgroup>
+	</informaltable>
+	<para>Each of these suits contains the following card types: ace, two, three, four, five, six, seven, eight, nine, ten, jack, queen, and king.</para>
+	<para><indexterm><primary>family</primary></indexterm> This complete order of cards is called a family. There are real families and alternating ones. The real families are all of one suit (&eg; Hearts). In the alternating families the card color changes from one to another, between a black color (Clubs and Spades) and a red color (Hearts and Diamonds).</para>
+	<para>If the family is not complete it is called a sequence.</para>
+	<mediaobject>
+		<imageobject><imagedata fileref="playfield.png" format="PNG"/></imageobject>
+		<textobject><phrase>The game field of &kpatience;</phrase></textobject>
+	</mediaobject>
+	<para>There are a number of features found in typical patience games. These are described below.</para>
+	<variablelist>
+		<varlistentry><term>1. Talon</term>
+			<listitem><para><indexterm><primary>talon</primary></indexterm>At the beginning of each game all cards are mixed in the deck. In some games not all cards are dealt out. The remaining cards are put down on the so-called talon. You can find this quite easily, since in most games it is the only pile showing the reverse. </para>
+			<para>If no card shows the reverse side, all cards are dealt out and there is no talon. These card games are the hardest as there is no randomness involved after the start of the game, so there is nothing to blame. </para>
+			</listitem>
+		</varlistentry>
+		<varlistentry><term>2. Waste Pile</term>
+			<listitem><para><indexterm><primary>waste pile</primary></indexterm>Many games put cards from the talon on a waste pile, after you click on the reverse of the topmost card on the talon.</para>
+			<para>From there you can take the card (which is then face up) and put it into the game.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry><term>3. Foundation</term>
+			<listitem><para><indexterm><primary>foundation</primary></indexterm>The foundation pile is where you want to have your cards in the end.  If allcards end up there in the right order, you've won. Some games use more than one foundation pile.</para>
+			<para>In most card games these piles are empty in the beginning. &kpatience; drops cards there for you when it sees they fit. </para>
+			</listitem>
+		</varlistentry>
+		<varlistentry><term>4. Playing Piles</term>
+			<listitem><para><indexterm><primary>playing piles</primary></indexterm>These piles are those where the actual reordering happens. The rules for these piles vary a lot between games. Some show all cards on them, some do not. Some allow only one card to be removed, some allow every card to be removed, &etc;. </para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
 
-<sect1 id="klondike">
+<sect1 id="rules-specific"><title>Rules for Individual Games</title>
+
+<sect2 id="klondike">
 <title>Klondike</title>
 <anchor id="game_klondike" />
 
@@ -301,9 +226,9 @@ by clicking on the empty talon.
 <para>
 You can look through the cards on the talon as much as you like.
 </para>
-</sect1>
+</sect2>
 
-<sect1 id="grandfather">
+<sect2 id="grandfather">
 <title>Grandfather</title>
 <anchor id="game_grandfather"/>
 
@@ -343,9 +268,9 @@ to give you a new chance to find a solution.
 Even though the rules are simple and allow many moves, the game is still
 hard to win. Despite this, or because of it, this game remains a joy to play.
 </para>
-</sect1>
+</sect2>
 
-<sect1 id="aces-up">
+<sect2 id="aces-up">
 <title>Aces Up</title>
 <anchor id="game_aces_up"/>
 
@@ -375,9 +300,9 @@ moves to free piles. That way, new cards can be moved to the foundation.
 The auto drop feature is disabled in this patience game.
 </para>
 
-</sect1>
+</sect2>
 
-<sect1 id="freecell">
+<sect2 id="freecell">
 <title>Freecell</title>
 <anchor id="game_freecell"/>
 
@@ -423,9 +348,9 @@ You should try to keep as many free cells and/or playing piles empty, so you can
 build sequences as long as possible.
 </para>
 
-</sect1>
+</sect2>
 
-<sect1 id="napoleons-tomb">
+<sect2 id="napoleons-tomb">
 <title>Napoleon's Tomb</title>
 <anchor id="game_napoleons_tomb"/>
 <para><indexterm><primary>Napoleon's Tomb</primary></indexterm>
@@ -452,9 +377,9 @@ You can go through the talon only once.
 <para>
 The auto drop feature is disabled in this patience game.
 </para>
-</sect1>
+</sect2>
 
-<sect1 id="mod3">
+<sect2 id="mod3">
 <title>Mod3</title>
 <anchor id="game_mod3"/>
 
@@ -485,9 +410,9 @@ clicking on the talon.
 <para>
 The auto drop feature is disabled in this patience game.
 </para>
-</sect1>
+</sect2>
 
-<sect1 id="calculation">
+<sect2 id="calculation">
 <title>Calculation</title>
 <anchor id="game_calculation"/>
 
@@ -534,9 +459,9 @@ For the foundation you have to follow these orders:
 The card on top of the talon can be put on any of the four playing piles.
 You should do this so you can put later cards on the foundation more easily.
 </para>
-</sect1>
+</sect2>
 
-<sect1 id="gypsy">
+<sect2 id="gypsy">
 <title>Gypsy</title>
 <anchor id="game_gypsy"/>
 <para><indexterm><primary>Gypsy</primary></indexterm>
@@ -560,9 +485,9 @@ many decisions and some of them might turn out to be wrong after you
 clicked the talon.
 </para>
 
-</sect1>
+</sect2>
 
-<sect1 id="forty-and-eight">
+<sect2 id="forty-and-eight">
 <title>Forty &amp; Eight</title>
 <anchor id="game_forty_and_eight"/>
 
@@ -593,9 +518,9 @@ solve many of the deals, especially if you use the <guibutton>Undo</guibutton> f
 correct your decisions, and the decisions &kpatience; makes in putting cards on the
 foundation.
 </para>
-</sect1>
+</sect2>
 
-<sect1 id="simple-simon">
+<sect2 id="simple-simon">
 <title>Simple Simon</title>
 <anchor id="game_simple_simon"/>
 
@@ -630,9 +555,9 @@ color. If you have all cards in such families you can sort them by color, so the
 </para>
 </tip>
 
-</sect1>
+</sect2>
 
-<sect1 id="yukon">
+<sect2 id="yukon">
 <title>Yukon</title>
 <anchor id="game_yukon"/>
 
@@ -651,9 +576,9 @@ of it. So you can put a five of hearts on a six of spades if that one is on top 
 In a free slot you can put a king of any color (again, no matter how many cards are on top
 of it)
 </para>
-</sect1>
+</sect2>
 
-<sect1 id="grandfathers-clock">
+<sect2 id="grandfathers-clock">
 <title>Grandfather's Clock</title>
 
 <anchor id="game_grandfathers_clock"/>
@@ -677,9 +602,9 @@ You can only move one card at a time.
 
 <para>The auto drop feature is disabled in this patience game.</para>
 
-</sect1>
+</sect2>
 
-<sect1 id="golf">
+<sect2 id="golf">
 <title>Golf</title>
 
 <para><indexterm><primary>Golf</primary></indexterm> 
@@ -695,9 +620,9 @@ Available cards are built upon the top foundation card in ascending or descendin
 If there are no moves available a card may be dealt from the talon to the foundation. 
 The game is over when all the cards in the talon have been dealt and there are no more possible moves.</para>
 
-</sect1>
+</sect2>
 
-<sect1 id="spider">
+<sect2 id="spider">
 <title>Spider</title>
 
 <anchor id="game_spider"/>
@@ -725,13 +650,398 @@ Medium uses 2 suits, and Hard uses all 4 suits.  The game is fairly easy to
 win at Easy level, and very difficult to win at Hard level.
 </para>
 
+</sect2>
+
 </sect1>
 
 </chapter>
 
-<chapter id="credits">
-<title>Credits and License</title>
 
+<chapter id="interface"><title>Interface Overview</title> <!-- do not change this! -->
+<!-- This section has to do with menubar. Describe every single entry in order. Use <variablelist> and <varlistentry>. Split the chapter into sections using <sect1(2,3)> for better viewing.-->
+<sect1 id="game-menu">
+	<title>The <guimenu>Game</guimenu> Menu</title>
+		<variablelist>
+			<varlistentry id="game-menu-new">
+				<term><menuchoice>
+					<shortcut><keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo></shortcut>
+					<guimenu>Game</guimenu>
+					<guimenuitem>New</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Starts a new game.</action></para></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load">
+				<term><menuchoice>
+					<shortcut><keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo></shortcut>
+					<guimenu>Game</guimenu>
+					<guimenuitem>Load...</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Loads a saved game.</action></para></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load-recent">
+				<term><menuchoice>
+					<guimenu>Game</guimenu>
+					<guisubmenu>Load Recent</guisubmenu>
+					<guimenuitem>List of recently accessed files.</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>List</action> all recently accessed save files.</para></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-restart">
+				<term><menuchoice>
+					<shortcut><keycap>F5</keycap></shortcut>
+					<guimenu>Game</guimenu>
+					<guimenuitem>Restart Game</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Restart</action> the current game.</para></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-save">
+				<term><menuchoice>
+					<shortcut><keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo></shortcut>
+					<guimenu>Game</guimenu>
+					<guimenuitem>Save</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Save</action> the current game as a default save file.</para></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-chose-game">
+				<term><menuchoice>
+					<guimenu>Game</guimenu>
+					<guimenuitem>Choose Game...</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Opens</action> the game selection dialog.</para></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-statistics">
+				<term><menuchoice>
+					<guimenu>Game</guimenu>
+					<guimenuitem>Statistics</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Opens</action> the game win/loose statistics dialog.</para></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-hint">
+				<term><menuchoice>
+					<shortcut><keycap>H</keycap></shortcut>
+					<guimenu>Game</guimenu>
+					<guimenuitem>Hint</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Show a hint.</action></para></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-demo">
+				<term><menuchoice>
+					<shortcut><keycap>D</keycap></shortcut>
+					<guimenu>Game</guimenu>
+					<guimenuitem>Demo</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Switch on/off</action> the demo mode.</para></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-quit">
+				<term><menuchoice>
+					<shortcut><keycombo action="simul">&Ctrl;<keycap>Q</keycap></keycombo></shortcut>
+					<guimenu>Game</guimenu>
+					<guimenuitem>Quit</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Quit</action> &kappname;.</para></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="move-menu">
+	<title><guimenu>Move</guimenu> Menu</title>
+		<variablelist>
+			<varlistentry id="move-menu-undo">
+				<term><menuchoice>
+					<shortcut><keycombo action="simul">&Ctrl;<keycap>Z</keycap></keycombo></shortcut>
+					<guimenu>Move</guimenu>
+					<guimenuitem>Undo</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Undo</action> your last move.</para></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="settings-menu">
+	<title><guimenu>Settings</guimenu> Menu</title>
+		<variablelist>
+			<varlistentry>
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guisubmenu>Game Type</guisubmenu>
+					<guimenuitem>Klondike</guimenuitem>
+				</menuchoice></term>
+				<listitem><para>Switch to Klondike game mode.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guisubmenu>Game Type</guisubmenu>
+					<guimenuitem>Grandfather</guimenuitem>
+				</menuchoice></term>
+				<listitem><para>Switch to Grandfather game mode.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guisubmenu>Game Type</guisubmenu>
+					<guimenuitem>Aces Up</guimenuitem>
+				</menuchoice></term>
+				<listitem><para>Switch to Aces Up game mode.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guisubmenu>Game Type</guisubmenu>
+					<guimenuitem>Freecell</guimenuitem>
+				</menuchoice></term>
+				<listitem><para>Switch to Freecell game mode.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guisubmenu>Game Type</guisubmenu>
+					<guimenuitem>Napoleon's Tomb</guimenuitem>
+				</menuchoice></term>
+				<listitem><para>Switch to Napoleon's Tomb game mode.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guisubmenu>Game Type</guisubmenu>
+					<guimenuitem>Mod3</guimenuitem>
+				</menuchoice></term>
+				<listitem><para>Switch to Mod3 game mode.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guisubmenu>Game Type</guisubmenu>
+					<guimenuitem>Calculation</guimenuitem>
+				</menuchoice></term>
+				<listitem><para>Switch to Calculation game mode.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guisubmenu>Game Type</guisubmenu>
+					<guimenuitem>Gypsy</guimenuitem>
+				</menuchoice></term>
+				<listitem><para>Switch to Gypsy game mode.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guisubmenu>Game Type</guisubmenu>
+					<guimenuitem>Forty and Eight</guimenuitem>
+				</menuchoice></term>
+				<listitem><para>Switch to Forty and Eight game mode.</para> </listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guisubmenu>Game Type</guisubmenu>
+					<guimenuitem>Simple Simon</guimenuitem>
+				</menuchoice></term>
+				<listitem><para>Switch to Simple Simon game mode.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guisubmenu>Game Type</guisubmenu>
+					<guimenuitem>Yukon</guimenuitem>
+				</menuchoice></term>
+				<listitem><para>Switch to Yukon game mode.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guisubmenu>Game Type</guisubmenu>
+					<guimenuitem>Grandfather's Clock</guimenuitem>
+				</menuchoice></term>
+				<listitem><para>Switch to Grandfather's Clock game mode.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guisubmenu>Game Type</guisubmenu>
+					<guimenuitem>Golf</guimenuitem>
+				</menuchoice></term>
+				<listitem><para>Switch to Golf game mode.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guisubmenu>Game Type</guisubmenu>
+					<guimenuitem>Klondike (draw 3)</guimenuitem>
+				</menuchoice></term>
+				<listitem><para>Switch to Klondike (draw 3) game mode.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guisubmenu>Game Type</guisubmenu>
+					<guimenuitem>Spider (Easy)</guimenuitem>
+				</menuchoice></term>
+				<listitem><para>Switch to Spider (Easy) game mode.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guisubmenu>Game Type</guisubmenu>
+					<guimenuitem>Spider (Medium)</guimenuitem>
+				</menuchoice></term>
+				<listitem><para>Switch to Spider (Medium) game mode.</para></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guisubmenu>Game Type</guisubmenu>
+					<guimenuitem>Spider (Hard)</guimenuitem>
+				</menuchoice></term>
+				<listitem><para>Switch to Spider (Hard) game mode.</para></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-autodrop">
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guimenuitem>Disable Autodrop</guimenuitem>
+				</menuchoice></term>
+				<listitem><para>Enable/Disable automatically moving matching cards.</para></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-random">
+				<term><menuchoice>
+					<shortcut><keycap>F9</keycap></shortcut>
+					<guimenu>Settings</guimenu>
+					<guimenuitem>Random Cards</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Randomly pick</action> card faces and backs.</para></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-deck">
+				<term><menuchoice>
+					<shortcut><keycap>F10</keycap></shortcut>
+					<guimenu>Settings</guimenu>
+					<guimenuitem>Select Deck...</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Open</action> the carddeck selection dialog.</para></listitem>
+			</varlistentry>			
+			<varlistentry id="settings-menu-toolbar">
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guimenuitem>Show Toolbar</guimenuitem>
+				</menuchoice></term>
+				<listitem><para>Shows or hides the Toolbar.</para></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="help"><!--This is a standard Help menubar entry. Only change if needed.-->
+<title>The <guimenuitem>Help</guimenuitem> Menu</title>
+&help.menu.documentation;
+</sect1>
+</chapter>
+
+
+<chapter id="faq"><title>Frequently asked questions</title> <!-- do not change this! -->
+<!--This chapter is for frequently asked questions. Please use <qandaset> <qandaentry> only!-->
+<qandaset>
+<!--Following is a standard list of FAQ questions.-->
+<qandaentry>
+<question><para>Who made this game?</para></question>
+ <answer><para>The kdegames team. You can find their website here.</para></answer>
+</qandaentry>
+<qandaentry>
+ <question><para>Where can I get cheatcodes? </para></question>
+ <answer><para>You can't get cheatcodes for KDE games.</para></answer>
+</qandaentry>
+<qandaentry>
+ <question><para>How do I start a new game? </para></question>
+ <answer><para>To start a new game use <menuchoice>
+					<shortcut><keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo></shortcut>
+					<guimenu>Game</guimenu>
+					<guimenuitem>New</guimenuitem>
+				</menuchoice> on the menubar.</para></answer>
+</qandaentry>
+<qandaentry>
+ <question><para>How do I restart a my current game? </para></question>
+ <answer><para>To restart a current game use <menuchoice>
+					<shortcut><keycap>F5</keycap></shortcut>
+					<guimenu>Game</guimenu>
+					<guimenuitem>Restart Game</guimenuitem>
+				</menuchoice> on the menubar.</para></answer>
+</qandaentry>
+<qandaentry>
+ <question><para>How do I pause the game? </para></question>
+ <answer><para>&kappname; features no 'Pause' function at the moment.</para></answer>
+</qandaentry>
+<qandaentry>
+ <question><para>I want to change the way this game looks. Can I? </para></question>
+ <answer><para>You can change the faces and backs of the playing cards. To do so please use <menuchoice>
+					<shortcut><keycap>F10</keycap></shortcut>
+					<guimenu>Settings</guimenu>
+					<guimenuitem>Select Deck...</guimenuitem>
+				</menuchoice> on the menubar. See <link linkend="configuration">Game Configuration</link> section for details.</para></answer>
+</qandaentry>
+<qandaentry>
+ <question><para>I have made a mistake. Can I undo? </para></question>
+ <answer><para>Yes. To undo a wrong move you can use <menuchoice>
+					<shortcut><keycombo action="simul">&Ctrl;<keycap>Z</keycap></keycombo></shortcut>
+					<guimenu>Move</guimenu>
+					<guimenuitem>Undo</guimenuitem>
+				</menuchoice> on the menubar.</para></answer>
+</qandaentry>
+<qandaentry>
+ <question><para>Can I use keyboard?</para></question>
+ <answer><para>No. &kappname; features no possible keyboard play.</para></answer>
+</qandaentry>
+<qandaentry>
+ <question><para>I can't figure out what to do here! Are there hints? </para></question>
+ <answer><para>Yes. To take advantage of the 'Hint' feature use <menuchoice>
+					<shortcut><keycap>H</keycap></shortcut>
+					<guimenu>Game</guimenu>
+					<guimenuitem>Hint</guimenuitem>
+				</menuchoice> on the menubar.</para></answer>
+</qandaentry>
+<qandaentry>
+ <question><para>Even with hints I still have no clue how to play. Help!</para></question>
+ <answer><para>Besides the 'Hint' feature there also is a useful 'Demo' mode, where the built in artificial intelligence will play the game for you. You can try to watch and learn. However, if you have any questions it is better to read <link linkend="howto">How to Play</link> and <link linkend="rules_and_tips">Game Rules, and Strategies and Tips</link> sections of this docbook.</para></answer><!--IMPORTANT!: this link has to send user to 'Interface Overview' section. So please setup the link structure accordingly.-->
+</qandaentry>
+<qandaentry>
+ <question><para>I have to quit the game now, but I'm not finished yet. Can I save my progress?</para></question>
+  <answer><para>Yes. To save your progress you can use <menuchoice>
+					<shortcut><keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo></shortcut>
+					<guimenu>Game</guimenu>
+					<guimenuitem>Save</guimenuitem>
+				</menuchoice> on the menubar.</para></answer>
+</qandaentry>
+<qandaentry>
+ <question><para>Where are the highscores?</para></question>
+ <answer><para>&kappname; has no highscore board. However you can view your win vs loose statistics. To do so use <menuchoice>
+					<guimenu>Game</guimenu>
+					<guimenuitem>Statistics</guimenuitem>
+				</menuchoice> on the menubar.</para></answer>
+</qandaentry>
+<qandaentry>
+ <question><para>I want to change the game configuration. Where do I go? </para></question>
+ <answer><para>&kappname; requires no configuration.</para></answer><!--IMPORTANT!: this link has to send user to 'Interface Overview' section. So please setup the link structure accordingly.-->
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="configuration"><title>Game Configuration</title> <!-- do not change this! -->
+<!--This section describes configuration GUI. If your game is configured using menubar exclusively, please remove this section.-->
+<para>This section describes the carddeck selection dialog.</para>
+<screenshot>
+<screeninfo>Carddeck Selection Dialog</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="card_select.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>Carddeck Selection Dialog</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</chapter>
+
+<chapter id="credits"><title>Credits and License</title> <!-- do not change this! -->
+<!--This chapter is for credits and licenses.-->
+
+<para>
+&kappname;  <!-- do not change this! -->
+</para>
+<!--List all the copyright holders here-->
 <para>
 &kpatience; Copyright &copy; 1995-2000 &Paul-Olav.Tvete;
 </para>
@@ -763,33 +1073,46 @@ Documentation rewritten for &kpatience; 2.0 (&kde; 2.1) by &Maren.Pakura;
 <para>
 Documentation proofread and update for &kpatience; 2.2.2 by Richard Hawthorne
 <email>techno_plume-coding@yahoo.com</email>
-</para>
+</para><!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 
 
-<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
-
+<!-- !!!do not change ANYTHING after this line!!!! -->
 &underFDL;
-&underX11License;
+&underGPL;
 
 </chapter>
 
-&documentation.index;
 
+<appendix id="installation">
+<title>Installation</title>
+
+&install.intro.documentation;
+
+
+<sect1 id="Compilation">
+<title>Compilation and Installation</title>
+
+&install.compile.documentation;
+
+</sect1>
+</appendix>
+
+&documentation.index; 
 </book>
-
 <!--
 Local Variables:
-mode: xml
-sgml-namecase-general: t
-sgml-namecase-entity: nil
-sgml-omittag: nil
+mode: sgml
 sgml-minimize-attributes:nil
 sgml-general-insert-case:lower
+sgml-omittag:t
+sgml-shorttag:t
+sgml-namecase-general:t
+sgml-always-quote-attributes:t
 sgml-indent-step:0
 sgml-indent-data:nil
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
 End:
-
-vim:tabstop=2:shiftwidth=2:expandtab
-kate: space-indent on; indent-width 2; tab-width 2; indent-mode none;
 -->
-
