@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" ?>
+<?xml version="1.0" ?>
 <!--IMPORTANT: please note that'do not change this!' notice does not apply to translators -->
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
   <!ENTITY kappname "&kpatience;">
@@ -742,7 +742,7 @@ win at Easy level, and very difficult to win at Hard level.
 		</variablelist>
 </sect1>
 <sect1 id="move-menu">
-	<title><guimenu>Move</guimenu> Menu</title>
+	<title>The <guimenu>Move</guimenu> Menu</title>
 		<variablelist>
 			<varlistentry id="move-menu-undo">
 				<term><menuchoice>
@@ -755,7 +755,7 @@ win at Easy level, and very difficult to win at Hard level.
 		</variablelist>
 </sect1>
 <sect1 id="settings-menu">
-	<title><guimenu>Settings</guimenu> Menu</title>
+	<title>The <guimenu>Settings</guimenu> Menu</title>
 		<variablelist>
 			<varlistentry>
 				<term><menuchoice>
