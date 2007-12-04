@@ -225,13 +225,8 @@ void pWidget::restart()
 
 void pWidget::slotPickRandom()
 {
-    QStringList list = KGlobal::dirs()->findAllResources("data", "carddecks/*/index.desktop");
-    int hit = KRandom::random() % list.size();
-    //kDebug() << list << " " << hit << " " << list.size() << " " << list[hit];
-    QString theme = list[ hit ];
-    theme = theme.left( theme.length() - strlen( "/index.desktop" ) );
-    theme = theme.mid( theme.lastIndexOf( '/' ) + 1);
-
+    QString theme = KCardDialog::randomCardName();
+    
     KSharedConfig::Ptr config = KGlobal::config();
     KConfigGroup cs(config, settings_group );
     cs.writeEntry( "Theme", theme );
@@ -250,16 +245,13 @@ void pWidget::slotSelectDeck()
     int result = KCardDialog::getCardDeck(deckName, dummy, this,  true, false);
     if (result == QDialog::Accepted) 
     {
-        deckName = KCardDialog::cardDir(deckName);
-	if (deckName.endsWith('/')) 
-	    deckName.chop(1);
-	deckName = deckName.mid(deckName.lastIndexOf('/') + 1);
-	if (deckName != oldDeckName) {
-	    cs.writeEntry("Theme", deckName);
 
-	    cardMap::self()->updateTheme(cs);
-	    cardMap::self()->triggerRescale();
-	}
+        if (deckName != oldDeckName) {
+            cs.writeEntry("Theme", deckName);
+
+            cardMap::self()->updateTheme(cs);
+            cardMap::self()->triggerRescale();
+        }
     }
 }
 

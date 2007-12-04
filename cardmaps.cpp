@@ -240,8 +240,13 @@ void cardMap::updateTheme(const KConfigGroup &cs)
     d->m_thread->finish();
     d->m_thread->reset();
 
-    QString theme = cs.readEntry( "Theme", "svg-oxygen" );
-    d->m_cardDeck = KStandardDirs::locate("data", QString( "carddecks/%1/index.desktop" ).arg( theme ) );
+    QString theme = cs.readEntry( "Theme", "Oxygen (SVG)" );
+    d->m_cardDeck = KCardDialog::cardDir(theme);
+    
+    if( d->m_cardDeck.isEmpty() )
+        KCardDialog::cardDir("Oxygen (SVG)");
+    
+    d->m_cardDeck += "index.desktop";
 
     KConfig fi( d->m_cardDeck, KConfig::SimpleConfig);
     KConfigGroup ficg(&fi, "KDE Backdeck");
