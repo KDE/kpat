@@ -1637,8 +1637,8 @@ QPointF DealerScene::maxPilePos() const
         // kDebug() << ( *it )->objectName() << " " <<  ( *it )->pilePos() << " " << ( *it )->reservedSpace();
         // we call fabs here, because reserved space of -50 means for a pile at -1x-1 means it wants at least
         // 49 all together. Even though the real logic should be more complex, it's enough for our current needs
-        maxp = QPointF( qMax( fabs( ( *it )->pilePos().x() + ( *it )->reservedSpace().width() ), maxp.x() ),
-                        qMax( fabs( ( *it )->pilePos().y() + ( *it )->reservedSpace().height() ), maxp.y() ) );
+        maxp = QPointF( qMax( qAbs( ( *it )->pilePos().x() + ( *it )->reservedSpace().width() ), maxp.x() ),
+                        qMax( qAbs( ( *it )->pilePos().y() + ( *it )->reservedSpace().height() ), maxp.y() ) );
     }
     return maxp;
 }
