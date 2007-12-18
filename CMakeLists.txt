@@ -51,11 +51,11 @@ endif(RELEASE)
 kde4_add_ui_files(kpat_SRCS gamestats.ui )
 
 set(kpat_icons
-	icons/hi16-app-kpat.png
-	icons/hi32-app-kpat.png
-	icons/hi48-app-kpat.png
-	icons/hi64-app-kpat.png
-	icons/hi128-app-kpat.png
+	${CMAKE_CURRENT_SOURCE_DIR}/icons/hi16-app-kpat.png
+	${CMAKE_CURRENT_SOURCE_DIR}/icons/hi32-app-kpat.png
+	${CMAKE_CURRENT_SOURCE_DIR}/icons/hi48-app-kpat.png
+	${CMAKE_CURRENT_SOURCE_DIR}/icons/hi64-app-kpat.png
+	${CMAKE_CURRENT_SOURCE_DIR}/icons/hi128-app-kpat.png
 )
 kde4_add_win32_app_icon(kpat_SRCS ${kpat_icons})
 kde4_add_executable(kpat ${kpat_SRCS})
