@@ -240,11 +240,11 @@ void cardMap::updateTheme(const KConfigGroup &cs)
     d->m_thread->finish();
     d->m_thread->reset();
 
-    QString theme = cs.readEntry( "Theme", "Oxygen (SVG)" );
+    QString theme = cs.readEntry( "Theme", "Oxygen-white (SVG)" );
     d->m_cardDeck = KCardDialog::cardDir(theme);
     
     if( d->m_cardDeck.isEmpty() )
-        KCardDialog::cardDir("Oxygen (SVG)");
+        KCardDialog::cardDir("Oxygen-white (SVG)");
     
     d->m_cardDeck += "index.desktop";
 
