@@ -27,8 +27,6 @@
 #ifndef PATIENCE_CARD
 #define PATIENCE_CARD
 
-#include <QPixmap>
-#include <QImage>
 #include <QList>
 #include <QGraphicsScene>
 #include <QTimer>

@@ -32,7 +32,6 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QStyleOptionGraphicsItem>
 #include <qgraphicssvgitem.h>
-#include <QSvgRenderer>
 #include <QPixmapCache>
 #include <kdebug.h>
 

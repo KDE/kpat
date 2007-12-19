@@ -18,7 +18,6 @@
 #include "card.h"
 #include <QPixmap>
 //Added by qt3to4:
-#include <QList>
 #include <QGraphicsPixmapItem>
 
 class DealerScene;

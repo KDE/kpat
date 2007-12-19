@@ -26,7 +26,7 @@
 #include <qpainter.h>
 //Added by qt3to4:
 #include <QPixmap>
-#include <QTime>
+#include <QDir>
 
 #include <kconfig.h>
 
@@ -41,7 +41,6 @@
 #include <kcarddialog.h>
 #include <kglobalsettings.h>
 #include <qfileinfo.h>
-#include <QDir>
 #include <assert.h>
 #include <kglobal.h>
 #include <QSvgRenderer>

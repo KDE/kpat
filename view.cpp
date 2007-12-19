@@ -43,7 +43,6 @@
 #include <QtGui/QWheelEvent>
 
 #ifndef QT_NO_OPENGL
-#include <QtOpenGL/QGLWidget>
 #endif
 
 #include <assert.h>

@@ -27,9 +27,6 @@
 #include <stdlib.h>
 #include <QTimer>
 #include <QList>
-#include <QDomDocument>
-#include <QTextStream>
-#include <QFile>
 #include "patsolve/freecell.h"
 
 const int CHUNKSIZE = 100;

@@ -15,8 +15,6 @@
 #include "dealer.h"
 #include "version.h"
 
-#include <QComboBox>
-#include <QLabel>
 //Added by qt3to4:
 #include <QList>
 
