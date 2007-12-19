@@ -1,6 +1,7 @@
 [Desktop Entry]
 Name=Patience
 Name[be]=Пасьянс
+Name[bn]=পেশেন্স
 Name[br]=Habaskter
 Name[ca]=Paciència
 Name[cs]=Passiáns
@@ -50,6 +51,7 @@ X-DocPath=kpat/index.html
 GenericName=Patience Card Game
 GenericName[af]=Patience Kaart Speletjie
 GenericName[be]=Картачны пасьянс
+GenericName[bn]=পেশেন্স নামের তাস খেলা
 GenericName[br]=C'hoari a habaskter
 GenericName[ca]=Partida de cartes paciència
 GenericName[cs]=Karetní hra passiáns
@@ -87,6 +89,7 @@ GenericName[pt_BR]=Jogo de Cartas Paciência
 GenericName[ro]=Joc de pasenţe
 GenericName[ru]=Карточный пасьянс
 GenericName[se]=Kabálaspeallu
+GenericName[sk]=Kartová hra Patience
 GenericName[sl]=Igra s kartami Patience
 GenericName[sr]=Игра са картама Patience
 GenericName[sr@latin]=Igra sa kartama Patience
