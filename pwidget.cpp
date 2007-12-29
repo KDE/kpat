@@ -263,6 +263,8 @@ void pWidget::slotSelectDeck()
         dlg.saveSettings(cs);
         cs.sync();
 
+	deckName = dlg.cardName();
+
         if (deckName != oldDeckName) {
             cardMap::self()->updateTheme(cs);
             cardMap::self()->triggerRescale();
