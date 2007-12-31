@@ -50,14 +50,7 @@ endif(RELEASE)
 
 kde4_add_ui_files(kpat_SRCS gamestats.ui )
 
-set(kpat_icons
-	${CMAKE_CURRENT_SOURCE_DIR}/icons/hi16-app-kpat.png
-	${CMAKE_CURRENT_SOURCE_DIR}/icons/hi32-app-kpat.png
-	${CMAKE_CURRENT_SOURCE_DIR}/icons/hi48-app-kpat.png
-	${CMAKE_CURRENT_SOURCE_DIR}/icons/hi64-app-kpat.png
-	${CMAKE_CURRENT_SOURCE_DIR}/icons/hi128-app-kpat.png
-)
-kde4_add_win32_app_icon(kpat_SRCS ${kpat_icons})
+kde4_add_app_icon(kpat_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-app-kpat.png")
 kde4_add_executable(kpat ${kpat_SRCS})
 
 IF (QT_QTOPENGL_FOUND)
@@ -75,4 +68,5 @@ install( FILES kpat.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
 install( FILES pile.svg won.svg  DESTINATION  ${DATA_INSTALL_DIR}/kpat )
 install( FILES background.svg DESTINATION  ${DATA_INSTALL_DIR}/kpat/backgrounds )
 install( FILES kpatui.rc  DESTINATION  ${DATA_INSTALL_DIR}/kpat )
+
 
