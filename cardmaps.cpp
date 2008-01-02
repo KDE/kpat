@@ -389,8 +389,27 @@ QPixmap cardMap::renderCard( const QString &element )
 
         if ( img.isNull() ) {
             img = d->m_thread->renderCard( element );
-            Q_ASSERT( !img.isNull() );
-            //triggerRescale();
+            //Q_ASSERT( !img.isNull() );
+            //Handle this case instead of quitting/crashing
+            if ( img.isNull() ) {
+              //Could not locate filename or render image, create one
+              img = QImage(QSize(60,80), QImage::Format_ARGB32);
+              img.fill(0);
+              //Draw a red X on it
+              QPainter painter(&img);
+              painter.setRenderHints(QPainter::Antialiasing);
+              QPen mypen(QColor(255,0,0));
+              mypen.setWidth(3);
+              painter.setPen(mypen);
+              painter.drawRoundRect(QRectF (5.0, 5.0, 50.0, 70.0));
+              painter.drawLine(QPoint(10,10), QPoint(50,70));
+              painter.drawLine(QPoint(10,70), QPoint(50,10));
+              painter.end();
+              //TODO: things will work again if the user selects a new deck, as this codepath is triggered  when the environment settings does not locate the cards for the locale used with KDE_LANG (KDE4 app user in KDE3 desktop for example)
+              //We should warn the user here, but unfortunately can not do this for 4.0 due to the string freeze
+              //Uncomment line below for 4.0.1 (piacentini)
+              //KMessageBox::error(this, i18n("The configured carddeck could not be found. Please check your installation or select a new carddeck from the Configuration menu."));
+	    }
         }
 
         d->m_cacheMutex.lock();
