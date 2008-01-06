@@ -228,7 +228,7 @@ cardMap::cardMap() : QObject()
     KSharedConfig::Ptr config = KGlobal::config();
     KConfigGroup cs(config, settings_group );
 
-    d->_wantedCardWidth = cs.readEntry( "CardWith", 100 );
+    d->_wantedCardWidth = cs.readEntry( "CardWidth", 100 );
     updateTheme(cs);
     _self = this;
 }
@@ -351,7 +351,7 @@ void cardMap::slotThreadFinished()
 {
     KSharedConfig::Ptr config = KGlobal::config();
     KConfigGroup cs(config, settings_group );
-    cs.writeEntry( "CardWith", d->_wantedCardWidth );
+    cs.writeEntry( "CardWidth", d->_wantedCardWidth );
     config->sync();
     if (  PatienceView::instance()->dscene() )
          PatienceView::instance()->dscene()->rescale(false);

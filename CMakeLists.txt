@@ -69,4 +69,4 @@ install( FILES pile.svg won.svg  DESTINATION  ${DATA_INSTALL_DIR}/kpat )
 install( FILES background.svg DESTINATION  ${DATA_INSTALL_DIR}/kpat/backgrounds )
 install( FILES kpatui.rc  DESTINATION  ${DATA_INSTALL_DIR}/kpat )
 
-
+install( FILES kpat_update_cardwidth.upd DESTINATION ${KCONF_UPDATE_INSTALL_DIR} )
