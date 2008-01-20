@@ -241,10 +241,10 @@ void cardMap::updateTheme(const KConfigGroup &cs)
 
     QString theme = cs.readEntry( "Cardname", "Oxygen-white (SVG)" );
     d->m_cardDeck = KCardDialog::cardDir(theme);
-    
+
     if( d->m_cardDeck.isEmpty() )
         KCardDialog::cardDir("Oxygen-white (SVG)");
-    
+
     d->m_cardDeck += "index.desktop";
 
     KConfig fi( d->m_cardDeck, KConfig::SimpleConfig);
@@ -425,11 +425,13 @@ QPixmap cardMap::renderCard( const QString &element )
                 d->m_body.setBottom( d->m_body.bottom() - 1 );
 
             int left = 0;
-            while ( left < img.width() && qAlpha( img.pixel( left, d->m_body.top() ) ) != 255 )
+            while ( left < img.width() && d->m_body.top() < img.height() && qAlpha( img.pixel( left, d->m_body.top() ) ) != 255 )
                 left++;
             int right = 0;
-            while ( right < img.width() && qAlpha( img.pixel( img.width() - right - 1, d->m_body.top() ) ) != 255 )
+            while ( right < img.width() && d->m_body.top() < img.height() &&
+                    qAlpha( img.pixel( img.width() - right - 1, d->m_body.top() ) ) != 255 )
                 right++;
+
         } else if ( element == "back" )
             d->m_body = QRect();
     }

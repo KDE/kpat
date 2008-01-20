@@ -61,7 +61,7 @@ Freecell::Freecell()
         p->setAddFlags(Pile::addSpread | Pile::several);
         p->setRemoveFlags(Pile::several);
         p->setCheckIndex(0);
-        p->setReservedSpace( QSizeF( 10, 28 ) );
+        p->setReservedSpace( QSizeF( 10, 35 ) );
     }
 
     for (int i = 0; i < 4; i++)
