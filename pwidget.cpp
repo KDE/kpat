@@ -74,8 +74,8 @@ pWidget::pWidget()
     setObjectName( "pwidget" );
     current_pwidget = this;
     // KCrash::setEmergencySaveFunction(::saveGame);
-    
-    
+
+
     // Game
     KStandardGameAction::gameNew(this, SLOT(newGame()), actionCollection());
     KStandardGameAction::restart(this, SLOT(restart()), actionCollection());
@@ -84,11 +84,11 @@ pWidget::pWidget()
     recent->loadEntries( KGlobal::config()->group( QString() ));
     KStandardGameAction::save(this, SLOT(saveGame()), actionCollection());
     KStandardGameAction::quit(this, SLOT(close()), actionCollection());
-    
+
     // Move
     undo = KStandardGameAction::undo(this, SLOT(undoMove()), actionCollection());
     undo->setEnabled(false);
-    
+
     QAction *a = actionCollection()->addAction("choose_game");
     a->setText(i18n("&Choose Game..."));
     connect( a, SIGNAL( triggered( bool ) ), SLOT( chooseGame() ) );
@@ -226,7 +226,7 @@ void pWidget::restart()
 void pWidget::slotPickRandom()
 {
     QString theme = KCardDialog::randomCardName();
-    
+
     KSharedConfig::Ptr config = KGlobal::config();
     KConfigGroup cs(config, settings_group );
     cs.writeEntry( "Theme", theme );
@@ -245,7 +245,7 @@ void pWidget::slotSelectDeck()
     // This makes sure that the dialog doesn't allow to change to non-svg themes
     // or change the back. The latter is unsupported in kpat in KDE 4.0 and the
     // former seems to be not wanted by the author.
-    // This should be removed for KDE4.1, when kpat starts to support changing 
+    // This should be removed for KDE4.1, when kpat starts to support changing
     // the backside and the dialog gets a bit more API
     // apaku@gmx.de
     cs.writeEntry("AllowFixed", false);
@@ -253,12 +253,12 @@ void pWidget::slotSelectDeck()
     cs.writeEntry("ShowFixedOnly", false);
     cs.writeEntry("ShowScaledOnly", true);
     cs.writeEntry("Locking", true);
-    
+
     KCardDialog dlg(cs);
     int result = dlg.exec();
-    if (result == QDialog::Accepted) 
+    if (result == QDialog::Accepted)
     {
-        // Always store the settings, as other things than only the deck may 
+        // Always store the settings, as other things than only the deck may
         // have changed
         dlg.saveSettings(cs);
         cs.sync();
@@ -325,6 +325,7 @@ void pWidget::newGameType()
     connect(dill->dscene(), SIGNAL(gameInfo(const QString&)),
             SLOT(slotGameInfo(const QString &)));
     connect(dill->dscene(), SIGNAL(updateMoves()), SLOT(slotUpdateMoves()));
+    connect(dill->dscene(), SIGNAL(gameSolverStart()), SLOT(slotGameSolverStart()));
     connect(dill->dscene(), SIGNAL(gameSolverWon()), SLOT(slotGameSolverWon()));
     connect(dill->dscene(), SIGNAL(gameSolverLost()), SLOT(slotGameSolverLost()));
     connect(dill->dscene(), SIGNAL(gameSolverUnknown()), SLOT(slotGameSolverUnknown()));
@@ -443,7 +444,12 @@ void pWidget::showStats()
 
 void pWidget::slotGameSolverWon()
 {
-    statusBar()->showMessage(i18n( "This game can still be won! Good luck to you." ), 3000);
+    statusBar()->showMessage(i18n( "This game can still be won! Good luck to you." ));
+}
+
+void pWidget::slotGameSolverStart()
+{
+    statusBar()->showMessage(i18n( "Calculating..." ) );
 }
 
 void pWidget::slotGameSolverLost()
@@ -453,7 +459,7 @@ void pWidget::slotGameSolverLost()
 
 void pWidget::slotGameSolverUnknown()
 {
-    statusBar()->clearMessage();
+    statusBar()->showMessage( i18n( "Timeout while playing - unknown if it can be won" ) );
 }
 
 #include "pwidget.moc"

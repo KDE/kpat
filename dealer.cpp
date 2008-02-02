@@ -39,7 +39,7 @@
 #include <assert.h>
 #include <math.h>
 
-// #define DBEUG_HINTS
+// #define DEBUG_HINTS
 
 // ================================================================
 //                         class MoveHint
@@ -1221,6 +1221,7 @@ void DealerScene::slotSolverEnded()
     d->m_solver->translate_layout();
     kDebug(11111) << gettime() << "start thread\n";
     d->winMoves.clear();
+    emit gameSolverStart();
     if ( !d->m_solver_thread ) {
         d->m_solver_thread = new SolverThread( d->m_solver );
         connect( d->m_solver_thread, SIGNAL( finished() ), this, SLOT( slotSolverFinished() ));

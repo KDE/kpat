@@ -195,6 +195,7 @@ signals:
     void updateMoves();
     void gameLost();
 
+    void gameSolverStart();
     void gameSolverWon();
     void gameSolverLost();
     void gameSolverUnknown();

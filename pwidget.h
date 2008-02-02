@@ -64,6 +64,7 @@ public slots:
     void enableAutoDrop();
     void showStats();
 
+    void slotGameSolverStart();
     void slotGameSolverWon();
     void slotGameSolverLost();
     void slotGameSolverUnknown();
