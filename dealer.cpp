@@ -1129,7 +1129,7 @@ bool DealerScene::startAutoDrop()
             Card *c = static_cast<Card*>(*it);
             if (c->animated()) {
                 QTimer::singleShot(qRound( TIME_BETWEEN_MOVES * d->m_autoDropFactor ), this, SLOT(startAutoDrop()));
-                kDebug(11111) << "animation still going on\n";
+                //kDebug(11111) << "animation still going on\n";
                 return true;
             }
         }
@@ -1172,7 +1172,8 @@ bool DealerScene::startAutoDrop()
                 z = z + 1;
                 xs.removeFirst();
                 ys.removeFirst();
-                t->moveTo(t->source()->x(), t->source()->y(), t->zValue(), qRound( ( DURATION_AUTODROP + count++ * DURATION_AUTODROP / 10 ) * d->m_autoDropFactor ) );
+                t->moveTo(t->source()->x(), t->source()->y(), t->zValue(),
+                          qMax( 1, qRound( ( DURATION_AUTODROP + count++ * DURATION_AUTODROP / 10 ) * d->m_autoDropFactor ) ) );
                 connect(t, SIGNAL(stoped(Card*)), SLOT(waitForAutoDrop(Card*)));
             }
             d->m_autoDropFactor *= 0.8;
@@ -1204,7 +1205,7 @@ void DealerScene::stopAndRestartSolver()
             Card *c = static_cast<Card*>(*it);
             if (c->animated()) {
                 d->updateSolver->start();
-                kDebug(11111) << "animation still going on\n";
+                //kDebug(11111) << "animation still going on\n";
                 return;
             }
         }

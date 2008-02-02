@@ -70,6 +70,7 @@ public:
     cardMapThread( cardMapPrivate *_cmp);
 
     ~cardMapThread() {
+        kDebug() << "~cardMapThread";
         delete m_renderer;
     }
     QSvgRenderer *renderer();
@@ -237,6 +238,7 @@ void cardMap::updateTheme(const KConfigGroup &cs)
 {
     d->m_thread->disconnect();
     d->m_thread->finish();
+    d->m_thread->wait();
     d->m_thread->reset();
 
     QString theme = cs.readEntry( "Cardname", "Oxygen-white (SVG)" );

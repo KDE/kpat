@@ -226,10 +226,11 @@ void pWidget::restart()
 void pWidget::slotPickRandom()
 {
     QString theme = KCardDialog::randomCardName();
+    kDebug() << "theme" << theme;
 
     KSharedConfig::Ptr config = KGlobal::config();
     KConfigGroup cs(config, settings_group );
-    cs.writeEntry( "Theme", theme );
+    cs.writeEntry( "Cardname", theme );
 
     cardMap::self()->updateTheme(cs);
     cardMap::self()->triggerRescale();
@@ -248,10 +249,10 @@ void pWidget::slotSelectDeck()
     // This should be removed for KDE4.1, when kpat starts to support changing
     // the backside and the dialog gets a bit more API
     // apaku@gmx.de
-    cs.writeEntry("AllowFixed", false);
+    cs.writeEntry("AllowFixed", true);
     cs.writeEntry("AllowScaled", true);
     cs.writeEntry("ShowFixedOnly", false);
-    cs.writeEntry("ShowScaledOnly", true);
+    cs.writeEntry("ShowScaledOnly", false);
     cs.writeEntry("Locking", true);
 
     KCardDialog dlg(cs);
