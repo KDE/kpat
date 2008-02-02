@@ -257,10 +257,14 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
     *a = false;
     *numout = n;
 
+    // find out how many contious cards are on top of each pile
     int conti[10];
     for ( int j = 0; j < 10; j++ )
     {
         conti[j] = 0;
+        if ( !Wlen[j] )
+            continue;
+
         for ( ; conti[j] < Wlen[j]-1; ++conti[j] )
         {
             if ( SUIT( *Wp[j] ) != SUIT( W[j][Wlen[j]-conti[j]-2] ) ||
@@ -327,8 +331,8 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
                         printcard( card, stderr );
                         fprintf( stderr, "%d %d %d %d %d\n", i, j, conti[i], conti[j],l );
 #endif
-                        if ( conti[j]+l != 13 || conti[i]>conti[j]+l || SUIT( card ) != SUIT( *Wp[j] ) ) {
-                            // fprintf( stderr, "continue\n" );
+                        if ( conti[j]+l+1 != 13 || conti[i]>conti[j]+l || SUIT( card ) != SUIT( *Wp[j] ) ) {
+                            //fprintf( stderr, "continue %d %d %d %d\n",conti[j]+l, conti[i],conti[j]+l, SUIT( card ) != SUIT( *Wp[j] ) );
                             continue;
                         }
                     }
