@@ -988,6 +988,9 @@ bool DealerScene::cardDblClicked(Card *c)
     if (c->animated())
         return false;
 
+    if ( !c->source()->legalRemove( c ) )
+        return false;
+
     if (c == c->source()->top() && c->realFace()) {
         Pile *tgt = findTarget(c);
         if (tgt) {
