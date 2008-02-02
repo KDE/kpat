@@ -27,6 +27,7 @@ class GameStatsImpl : public QDialog, Ui::GameStats
 		void showGameType(int i);
         public slots:
 		void setGameType(int i);
+		void resetStats();
 };
 
 #endif

@@ -45,6 +45,7 @@ GameStatsImpl::GameStatsImpl(QWidget* aParent)
 	showGameType(0);
 	connect(buttonOk, SIGNAL(clicked(bool)), SLOT(accept()));
         connect(GameType, SIGNAL(activated(int)), SLOT(setGameType(int)));
+	connect(buttonReset, SIGNAL(clicked(bool)), SLOT(resetStats()));
 }
 
 void GameStatsImpl::showGameType(int id)
@@ -71,6 +72,20 @@ void GameStatsImpl::setGameType(int id)
 	else
 		CurrentStreak->setText( i18np("1 win", "%1 wins",
 			cg.readEntry(QString("winstreak%1").arg(id),0)) );
+}
+
+void GameStatsImpl::resetStats()
+{
+	int id = GameType->currentIndex();
+	KConfigGroup cg(KGlobal::config(), scores_group);
+	cg.writeEntry(QString("total%1").arg(id),0);
+	cg.writeEntry(QString("won%1").arg(id),0);
+	cg.writeEntry(QString("maxwinstreak%1").arg(id),0);
+	cg.writeEntry(QString("maxloosestreak%1").arg(id),0);
+	cg.writeEntry(QString("loosestreak%1").arg(id),0);
+	cg.writeEntry(QString("winstreak%1").arg(id),0);
+	
+	setGameType(id);
 }
 
 #include "gamestatsimpl.moc"
