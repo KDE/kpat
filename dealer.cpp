@@ -715,7 +715,12 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
             Card *preview = dynamic_cast<Card*>(list.first());
             assert(preview);
             if (!preview->animated() && !isMoving(preview))
-                preview->getUp();
+            {
+                if ( preview == preview->source()->top() )
+                    mouseDoubleClickEvent( e ); // see bug #151921
+                else
+                    preview->getUp();
+            }
         }
         return;
     }
