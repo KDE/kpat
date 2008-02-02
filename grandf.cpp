@@ -47,7 +47,7 @@ Grandf::Grandf( )
         store[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
         store[i]->setObjectName( QString( "store%1" ).arg( i ) ) ;
         store[i]->setCheckIndex(1);
-        store[i]->setReservedSpace( QSizeF( 10, 25 ) );
+        store[i]->setReservedSpace( QSizeF( 10, 45 ) );
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Redeal);
