@@ -26,6 +26,9 @@
 
 #include <QtCore/QTime>
 #include <QtCore/QTimer>
+#include <QtCore/QFile>
+
+#include <QDomDocument>
 
 #include <stdio.h>
 #include <limits.h>
@@ -37,6 +40,27 @@
 #include "cardmaps.h"
 
 static const char description[] = I18N_NOOP("KDE Patience Game");
+
+static DealerScene *getDealer( int wanted_game )
+{
+    DealerInfo *di = 0;
+    for (QList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin();
+         it != DealerInfoList::self()->games().end(); ++it)
+    {
+        if ( (*it)->gameindex == wanted_game ) {
+            di = *it;
+            DealerScene *f = di->createGame();
+            if ( !f || !f->solver() ) {
+                kError() << "There is no solver for" << di->name;
+                return 0;
+            }
+
+            fprintf( stdout, "Testing %s\n", di->name );
+            return f;
+        }
+    }
+    return 0;
+}
 
 int main( int argc, char **argv )
 {
@@ -64,6 +88,7 @@ int main( int argc, char **argv )
     KCmdLineArgs::init( argc, argv, &aboutData );
 
     KCmdLineOptions options;
+    options.add("solvegame <file>", ki18n( "Try to find a solution to the given savegame" ) );
     options.add("solve <num>", ki18n("Dealer to solve (debug)" ));
     options.add("start <num>", ki18n("Game range start (default 0:INT_MAX)" ));
     options.add("end <num>", ki18n("Game range end (default start:start if start given)" ));
@@ -74,22 +99,37 @@ int main( int argc, char **argv )
     KApplication application;
     KGlobal::locale()->insertCatalog("libkdegames");
 
+    QString savegame = args->getOption( "solvegame" );
+    if ( !savegame.isEmpty() )
+    {
+        QFile of(savegame);
+        of.open(QIODevice::ReadOnly);
+        QDomDocument doc;
+        doc.setContent(&of);
+
+        cardMap c;
+        DealerScene *f = getDealer( doc.documentElement().attribute("id").toInt() );
+
+        f->restart();
+        f->openGame( doc );
+        f->solver()->translate_layout();
+        int ret = f->solver()->patsolve();
+        if ( ret == Solver::WIN )
+            fprintf( stdout, "won\n");
+        else if ( ret == Solver::NOSOL )
+            fprintf( stdout, "lost\n" );
+        else
+            fprintf( stdout, "unknown\n");
+
+        return 0;
+    }
+
     bool ok = false;
     int wanted_game = -1;
     if ( args->isSet( "solve" ) )
         wanted_game = args->getOption("solve").toInt( &ok );
     if ( ok )
     {
-        DealerInfo *di = 0;
-        for (QList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin();
-             it != DealerInfoList::self()->games().end(); ++it)
-        {
-            if ( (*it)->gameindex == wanted_game ) {
-                di = *it;
-                break;
-            }
-        }
-
         ok = false;
         int end_index = -1;
         if ( args->isSet( "end" ) )
@@ -107,19 +147,8 @@ int main( int argc, char **argv )
             if ( end_index == -1 )
                 end_index = start_index;
         }
-        if ( !di ) {
-            kError() << "There is no game with index" << wanted_game;
-            return -1;
-        }
-
         cardMap c;
-        DealerScene *f = di->createGame();
-        if ( !f->solver() ) {
-            kError() << "There is no solver for" << di->name;
-            return -1;
-        }
-
-        fprintf( stdout, "Testing %s\n", di->name );
+        DealerScene *f = getDealer( wanted_game );
 
         QTime mytime;
         for ( int i = start_index; i <= end_index; i++ )
