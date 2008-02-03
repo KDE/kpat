@@ -110,7 +110,6 @@ int main( int argc, char **argv )
         cardMap c;
         DealerScene *f = getDealer( doc.documentElement().attribute("id").toInt() );
 
-        f->restart();
         f->openGame( doc );
         f->solver()->translate_layout();
         int ret = f->solver()->patsolve();

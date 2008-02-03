@@ -303,11 +303,8 @@ void Solver::pilesort(void)
         //fprintf( stderr, "\n" );
 }
 
-#define NBUCKETS 16381           /* the largest 14 bit prime */
-#define NPILES  16384            /* a 14 bit code */
-
-//#define NBUCKETS 65521          /* the largest 16 bit prime */
-//#define NPILES   65536           /* a 16 bit code */
+#define NBUCKETS 65521          /* the largest 16 bit prime */
+#define NPILES   65536           /* a 16 bit code */
 
 typedef struct bucketlist {
 	quint8 *pile;           /* 0 terminated copy of the pile */
@@ -325,7 +322,7 @@ BUCKETLIST *Pilebucket[NPILES]; /* reverse lookup for unpack to get the bucket
 /* Compact position representation.  The position is stored as an
 array with the following format:
 	pile0# pile1# ... pileN# (N = Nwpiles)
-where each pile number is packed into 12 bits (so 2 piles take 3 bytes).
+where each pile number is packed into 16 bits (so a pile take 2 bytes).
 Positions in this format are unique can be compared with memcmp().  The O
 cells are encoded as a cluster number: no two positions with different
 cluster numbers can ever be the same, so we store different clusters in

@@ -337,6 +337,16 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
         mp++;
     }
 
+    // we first check where to put a king, so we don't
+    // try each king on each empty pile
+    int first_empty_pile = -1;
+    for(int i=0; i<8; i++)
+        if ( !Wlen[i] )
+        {
+            first_empty_pile = i;
+            break;
+        }
+
     for(int i=0; i<8; i++)
     {
         int len = Wlen[i];
@@ -367,7 +377,7 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
                             allowed = 3;
                     }
                 }
-                if ( RANK( card ) == PS_KING && Wlen[j] == 0 )
+                if ( RANK( card ) == PS_KING && j == first_empty_pile )
                 {
                     if ( l != Wlen[i]-1 || i == 7 )
                         allowed = 4;
@@ -377,15 +387,17 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
 
                 if ( allowed == 1 )
                 {
-                    card_t below = W[i][Wlen[i]-2-l];
+                    //print_layout();
+                    card_t below = W[i][Wlen[i]-1-l];
                     int o = SUIT(below);
                     bool empty = (O[o] == NONE);
                     //fprintf( stderr, "%d %d\n", i, l );
                     //printcard( below, stderr );
-                    //fprintf( stderr, " allowed %d %d %d %d\n",allowed, empty, RANK( below ), PS_ACE);
+
                     if ( ( empty && RANK( below ) != PS_ACE ) ||
                          ( !empty && RANK( below ) != O[o] + 1 ) )
                         allowed = 0;
+                    //fprintf( stderr, " allowed %d %d %d %d\n",allowed, empty, RANK( below ), PS_ACE);
                 }
                 if ( allowed ) {
                     mp->card_index = l;
