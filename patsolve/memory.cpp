@@ -10,7 +10,7 @@
 /* Add it to the binary tree for this cluster.  The piles are stored
 following the TREE structure. */
 
-size_t MemoryManager::Mem_remain = 20 * 1000 * 1000;
+size_t MemoryManager::Mem_remain = 30 * 1000 * 1000;
 
 MemoryManager::inscode MemoryManager::insert_node(TREE *n, int d, TREE **tree, TREE **node)
 {

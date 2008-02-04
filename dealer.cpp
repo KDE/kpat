@@ -39,7 +39,7 @@
 #include <assert.h>
 #include <math.h>
 
-// #define DEBUG_HINTS
+#define DEBUG_HINTS 1
 
 // ================================================================
 //                         class MoveHint
@@ -194,7 +194,11 @@ void DealerScene::takeState()
 
     if (n) {
         d->initialDeal = false;
-        d->winMoves.clear();
+        if ( !demoActive() )
+        {
+            kDebug() << "clear in takeState";
+            d->winMoves.clear();
+        }
         if (isGameWon()) {
             won();
             return;
@@ -456,7 +460,7 @@ void DealerScene::hint()
     if ( d->winMoves.count() )
     {
         MOVE m = d->winMoves.first();
-#ifdef DEBUG_HINTS
+#if DEBUG_HINTS
         if ( m.totype == O_Type )
             fprintf( stderr, "move from %d out (at %d) Prio: %d\n", m.from,
                      m.turn_index, m.pri );
@@ -490,7 +494,7 @@ void DealerScene::getSolverHints()
     solver()->translate_layout();
     solver()->patsolve( 1 );
 
-    d->winMoves.clear();
+    kDebug() << "getSolverHints";
     QList<MOVE> moves = solver()->firstMoves;
     d->solverMutex.unlock();
 
@@ -499,7 +503,7 @@ void DealerScene::getSolverHints()
     while ( mit.hasNext() )
     {
         MOVE m = mit.next();
-#ifdef DEBUG_HINTS
+#if DEBUG_HINTS
         if ( m.totype == O_Type )
             fprintf( stderr, "   move from %d out (at %d) Prio: %d\n", m.from,
                      m.turn_index, m.pri );
@@ -1445,6 +1449,23 @@ void DealerScene::won()
 
 MoveHint *DealerScene::chooseHint()
 {
+    kDebug() << "chooseHint " << d->winMoves.count();
+    if ( d->winMoves.count() )
+    {
+        MOVE m = d->winMoves.takeFirst();
+        if ( m.totype == O_Type )
+            fprintf( stderr, "move from %d out (at %d) Prio: %d\n", m.from,
+                     m.turn_index, m.pri );
+        else
+            fprintf( stderr, "move from %d to %d (%d) Prio: %d\n", m.from, m.to,
+                     m.turn_index, m.pri );
+        MoveHint *mh = solver()->translateMove( m );
+
+        if ( mh )
+            hints.append( mh );
+        return mh;
+    }
+
     if (hints.isEmpty())
         return 0;
 
@@ -1472,7 +1493,9 @@ void DealerScene::demo()
 
     MoveHint *mh = chooseHint();
     if (mh) {
-        // assert(mh->card()->source()->legalRemove(mh->card()));
+        kDebug() << "moveFrom" << mh->card()->source()->objectName();
+        assert(mh->card()->source() == Deck::deck() || 
+               mh->card()->source()->legalRemove(mh->card(), true));
 
         CardList empty;
         CardList cards = mh->card()->source()->cards();
@@ -1497,8 +1520,12 @@ void DealerScene::demo()
             oldcoords[i++] = t->realY();
         }
 
+        assert(mh->card());
+        assert(mh->card()->source());
+        assert(mh->pile());
         assert(mh->card()->source() != mh->pile());
-        // assert(mh->pile()->legalAdd(empty));
+        kDebug() << "moveTo" << mh->pile()->objectName();
+        assert(mh->pile()->target() || mh->pile()->legalAdd(empty));
 
         mh->card()->source()->moveCards(empty, mh->pile());
 
@@ -1520,14 +1547,18 @@ void DealerScene::demo()
         newDemoMove(mh->card());
 
     } else {
+        kDebug() << "demoNewCards";
         Card *t = demoNewCards();
         if (t) {
             newDemoMove(t);
         } else if (isGameWon()) {
             emit gameWon(true);
             return;
-        } else
+        } else {
             stopDemo();
+            slotSolverEnded();
+            return;
+        }
     }
 
     emit demoActive( true );
@@ -1543,13 +1574,19 @@ void DealerScene::newDemoMove(Card *m)
 {
     kDebug(11111) << "newDemoMove" << m->name();
     setWaiting( true );
-    connect(m, SIGNAL(stoped(Card*)), SLOT(waitForDemo(Card*)));
+    if ( m->animated() )
+        connect(m, SIGNAL(stoped(Card*)), SLOT(waitForDemo(Card*)));
+    else
+        waitForDemo( 0 );
 }
 
 void DealerScene::waitForDemo(Card *t)
 {
-    kDebug(11111) << "waitForDemo" << t->name();
-    t->disconnect(this, SLOT( waitForDemo( Card* ) ) );
+    if ( t )
+    {
+        kDebug(11111) << "waitForDemo" << t->name();
+        t->disconnect(this, SLOT( waitForDemo( Card* ) ) );
+    }
     setWaiting( false );
     if ( !waiting() )
     {

@@ -41,7 +41,7 @@ public:
     Spider(int suits);
     void deal();
     void dealRow();
-    void checkPileDeck(Pile *to);
+    bool checkPileDeck(Pile *to, bool checkForDemo = true);
     virtual void restart();
 
 public slots:

@@ -107,9 +107,10 @@ Klondike::Klondike( bool easy )
 
 Card *Klondike::demoNewCards() {
     deal3();
-    if (!Deck::deck()->isEmpty() && pile->isEmpty())
-        deal3(); // again
-    return pile->top();
+    if ( Deck::deck()->isEmpty() )
+        return pile->top();
+    else
+        return Deck::deck()->top();
 }
 
 void Klondike::restart() {

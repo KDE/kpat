@@ -38,7 +38,7 @@ Idiot::Idiot( )
         m_play[i] = new Pile( i + 1, this);
 
         m_play[i]->setAddFlags( Pile::addSpread );
-        m_play[i]->setRemoveFlags( Pile::disallow );
+        m_play[i]->setRemoveFlags( Pile::disallow | Pile::demoOK );
         m_play[i]->setPilePos( 16 + distx * i, 1);
         m_play[i]->setObjectName( QString( "play%1" ).arg( i ) );
         m_play[i]->setReservedSpace( QSizeF( 10.0, 30.0 ) );

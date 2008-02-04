@@ -35,6 +35,7 @@ const int Pile::addSpread     = 0x0100;
 // Remove-flags
 const int Pile::autoTurnTop   = 0x0200;
 const int Pile::wholeColumn   = 0x0400;
+const int Pile::demoOK        = 0x0800;
 
 QPixmap *Pile::cache = 0;
 QPixmap *Pile::cache_selected = 0;
@@ -215,7 +216,7 @@ void Pile::rescale()
     kDebug(11111) << gettime() << "rescale end\n";
 }
 
-bool Pile::legalAdd( const CardList& _cards ) const
+bool Pile::legalAdd( const CardList& _cards, bool demo ) const
 {
     if( addFlags & disallow ) {
         return false;
@@ -252,8 +253,11 @@ bool Pile::legalAdd( const CardList& _cards ) const
     return false;
 }
 
-bool Pile::legalRemove(const Card *c) const
+bool Pile::legalRemove(const Card *c, bool demo) const
 {
+    if ( demo && removeFlags & demoOK )
+        return true;
+
     if( removeFlags & disallow ) {
         return false;
     }

@@ -388,7 +388,7 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
                 if ( allowed == 1 )
                 {
                     //print_layout();
-                    card_t below = W[i][Wlen[i]-1-l];
+                    card_t below = W[i][Wlen[i]-2-l];
                     int o = SUIT(below);
                     bool empty = (O[o] == NONE);
                     //fprintf( stderr, "%d %d\n", i, l );

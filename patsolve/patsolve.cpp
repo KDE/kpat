@@ -199,7 +199,7 @@ bool Solver::recursive(POSITION *parent)
 
 MOVE *Solver::get_moves(int *nmoves)
 {
-	int i, n, alln, a, numout = 0;
+	int i, n, alln, a = 0, numout = 0;
 	MOVE *mp, *mp0;
 
 	/* Fill in the Possible array. */

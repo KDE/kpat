@@ -173,6 +173,7 @@ void Spider::setGameState(const QString &stream)
     } else
         for (; m_redeal < i%10; m_redeal++)
             redeals[m_redeal]->setVisible(false);
+    kDebug() << m_leg << m_redeal;
 }
 
 //-------------------------------------------------------------------------//
@@ -210,11 +211,14 @@ CardList Spider::getRun(Card *c) const
     return result;
 }
 
-void Spider::checkPileDeck(Pile *check)
+bool Spider::checkPileDeck(Pile *check, bool checkForDemo)
 {
+    if ( checkForDemo && demoActive() )
+        return false;
+
     //kDebug(11111) << "check for run";
     if (check->isEmpty())
-        return;
+        return false;
 
     if (check->top()->rank() == Card::Ace) {
         // just using the CardList to see if this goes to King
@@ -233,12 +237,14 @@ void Spider::checkPileDeck(Pile *check)
             }
             connect( run.first(), SIGNAL(stoped(Card*)), SLOT(cardStoped(Card*)));
             setWaiting( true );
-            if ( demoActive() )
-                newDemoMove( run.first() );
-
+            /*if ( demoActive() )
+              newDemoMove( run.first() );*/
             m_leg++;
+
+            return true;
         }
     }
+    return false;
 }
 
 void Spider::dealRow()
@@ -292,10 +298,16 @@ void Spider::deal()
 
 Card *Spider::demoNewCards()
 {
-   if (m_leg > 4)
-       return 0;
-   deckClicked(0);
-   return stack[0]->top();
+    for ( int i = 0; i < 10; i++ )
+    {
+        if ( checkPileDeck( stack[i], false ) )
+            return legs[m_leg-1]->top();
+    }
+    kDebug() << m_leg;
+    if (m_redeal > 4)
+        return 0;
+    deckClicked(0);
+    return stack[0]->top();
 }
 
 void Spider::deckClicked(Card*)

@@ -239,7 +239,7 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
                 o++; // TODO I need a way to tell spades off from heart off
             mp->to = o;
             mp->totype = O_Type;
-            mp->pri = 0;    /* unused */
+            mp->pri = 128;
             mp->turn_index = -1;
             if ( Wlen[w] > 13 && DOWN( W[w][Wlen[w]-13-1] ) )
                 mp->turn_index = 1;
@@ -247,8 +247,7 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
             mp++;
 
             /* If it's an automove, just do it. */
-            if ( mp->turn_index != -1 )
-                return 1;
+            return 1;
         }
     }
 
@@ -525,14 +524,16 @@ MoveHint *SpiderSolver::translateMove( const MOVE &m )
     if ( m.from >= 10 )
         return 0;
 
+    Pile *frompile = deal->stack[m.from];
+
     if ( m.totype == O_Type )
     {
-        return 0; // for now
+        return 0; // the move to the legs is fully automated
+        return new MoveHint( frompile->top(), deal->legs[0], m.pri ); // for now
     }
 
     Q_ASSERT( m.from < 10 && m.to < 10 );
 
-    Pile *frompile = deal->stack[m.from];
     Card *card = frompile->at( frompile->cardsLeft() - m.card_index - 1);
 
     Q_ASSERT( m.to < 10 );

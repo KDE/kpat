@@ -53,6 +53,7 @@ public:
     // Remove-flags
     static const int autoTurnTop;
     static const int wholeColumn;
+    static const int demoOK;
 
     explicit Pile( int _index, DealerScene* parent = 0);
     virtual ~Pile();
@@ -60,8 +61,8 @@ public:
     DealerScene  *dscene() const;
     CardList      cards()  const { return m_cards; }
 
-    bool legalAdd(const CardList &c ) const;
-    bool legalRemove(const Card *c) const;
+    bool legalAdd(const CardList &c, bool demo = false ) const;
+    bool legalRemove(const Card *c, bool demo = false) const;
 
     virtual void moveCards(CardList &c, Pile *to = 0);
     void moveCardsBack(CardList &c, bool anim = true);
