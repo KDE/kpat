@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=KPatience
+Name[uk]=Пасьянс
 Name[zh_TW]=KPatience 單人紙牌遊戲
 Exec=kpat -caption "%c"
 Type=Application
