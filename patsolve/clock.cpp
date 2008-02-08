@@ -1,0 +1,302 @@
+/* Common routines & arrays. */
+
+#include "clock.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <math.h>
+#include <kdebug.h>
+#include <sys/types.h>
+#include <stdarg.h>
+#include "../clock.h"
+#include "../pile.h"
+#include "../deck.h"
+
+/* These two routines make and unmake moves. */
+
+#define PRINT 0
+#define PRINT2 0
+
+void ClockSolver::make_move(MOVE *m)
+{
+#if PRINT
+    if ( m->totype == O_Type )
+        fprintf( stderr, "\nmake move %d from %d out %d (at %d)\n\n", m->card_index, m->from, m->to, m->turn_index );
+    else
+        fprintf( stderr, "\nmake move %d from %d to %d (%d)\n\n", m->card_index, m->from, m->to, m->turn_index );
+    print_layout();
+#else
+    //print_layout();
+#endif
+
+    int from, to;
+    from = m->from;
+    to = m->to;
+
+    card_t card = *Wp[from];
+    Wlen[from]--;
+    Wp[from]--;
+
+    hashpile(from);
+    /* Add to pile. */
+
+    if (m->totype == O_Type) {
+        if ( RANK( W[8][to] ) == PS_KING )
+            W[8][to] = W[8][to] - PS_KING + PS_ACE;
+        else
+            W[8][to]++;
+        Q_ASSERT( m->card_index == 0 );
+        hashpile( 8 );
+    } else {
+        Wp[to]++;
+        *Wp[to] = card;
+        Wlen[to]++;
+        hashpile( to );
+    }
+
+#if PRINT
+    print_layout();
+#endif
+}
+
+void ClockSolver::undo_move(MOVE *m)
+{
+#if PRINT2
+    if ( m->totype == O_Type )
+        fprintf( stderr, "\nundo move %d from %d out (at %d)\n\n", m->card_index, m->from, m->turn_index );
+    else
+        fprintf( stderr, "\nundo move %d from %d to %d (%d)\n\n", m->card_index, m->from, m->to, m->turn_index );
+    print_layout();
+
+#endif
+    int from, to;
+    card_t card;
+
+    from = m->from;
+    to = m->to;
+
+    if (m->totype == O_Type) {
+        card = W[8][to];
+        if ( RANK( card ) == PS_ACE )
+            W[8][to] = W[8][to] - PS_ACE + PS_KING;
+        else
+            W[8][to]--;
+        Wp[from]++;
+        *Wp[from] = card;
+        Wlen[from]++;
+        hashpile( 8 );
+        hashpile( from );
+    } else {
+        card = *Wp[to];
+        Wp[from]++;
+        *Wp[from] = card;
+        Wlen[from]++;
+        *Wp[to]--;
+        Wlen[to]--;
+        hashpile(to);
+        hashpile( from );
+    }
+
+#if PRINT2
+    print_layout();
+#endif
+}
+
+/* Get the possible moves from a position, and store them in Possible[]. */
+
+int ClockSolver::get_possible_moves(int *a, int *numout)
+{
+    int w, o;
+    card_t card;
+    MOVE *mp;
+
+    /* Check for moves from W to O. */
+
+    int first_empty = -1;
+
+    int left_in_play = 0;
+    int n = 0;
+    mp = Possible;
+    for (w = 0; w < 8; w++)
+    {
+        left_in_play += Wlen[w];
+
+        if (Wlen[w] > 0)
+        {
+            card = *Wp[w];
+            o = SUIT(card);
+            for ( int i = 0; i < 12; i++ )
+            {
+                if ( o != SUIT( W[8][i] ) )
+                    continue;
+
+                if ( RANK( card ) == PS_ACE )
+                {
+                    if ( RANK( W[8][i] ) != PS_KING )
+                        continue;
+                } else {
+                    if ( RANK( W[8][i] ) != RANK( card ) - 1 )
+                        continue;
+                }
+                mp->card_index = 0;
+                mp->from = w;
+                mp->to = i;
+                mp->totype = O_Type;
+                mp->pri = 50;
+                mp->turn_index = -1;
+                n++;
+                mp++;
+                //*a = true;
+                //return n;
+            }
+        } else if ( first_empty < 0 )
+            first_empty = w;
+    }
+
+    // no need to move to empty if there are so few cards
+    if ( left_in_play < 8 )
+        first_empty = -1;
+
+    /* No more automoves, but remember if there were any moves out. */
+
+    *a = false;
+    *numout = n;
+
+    for(int i=0; i<8; i++)
+    {
+        if ( !Wlen[i] )
+            continue;
+
+        for (int j=0; j < 8; ++j )
+        {
+            if ( i == j )
+                continue;
+
+            card_t card = *Wp[i];
+
+            bool allowed = false;
+
+            if ( Wlen[j] == 0 )
+            {
+                if ( Wlen[i] > 1 && first_empty == j )
+                    allowed = 1;
+            } else
+            {
+                card_t below = *Wp[j];
+
+                if ( RANK(card) == RANK( below ) - 1 )
+                {
+                    allowed = 1;
+                }
+            }
+
+            if ( allowed )
+            {
+                    mp->card_index = 0;
+                    mp->from = i;
+                    mp->to = j;
+                    mp->totype = W_Type;
+                    mp->turn_index = -1;
+                    mp->pri = 1;
+                    n++;
+                    mp++;
+            }
+        }
+    }
+
+    return n;
+}
+
+void ClockSolver::unpack_cluster( int  )
+{
+}
+
+bool ClockSolver::isWon()
+{
+    // maybe won?
+    for ( int i = 0; i < 8; i++ )
+        if ( Wlen[i] )
+            return false;
+    return true;
+}
+
+int ClockSolver::getOuts()
+{
+    int ret = 52;
+    for ( int i = 0; i < 8; i++ )
+        ret -= Wlen[i];
+    return ret;
+}
+
+ClockSolver::ClockSolver(const Clock *dealer)
+    : Solver()
+{
+    setNumberPiles( 9 );
+    deal = dealer;
+}
+
+/* Read a layout file.  Format is one pile per line, bottom to top (visible
+card).  Temp cells and Out on the last two lines, if any. */
+
+void ClockSolver::translate_layout()
+{
+    /* Read the workspace. */
+
+    int total = 0;
+    for ( int w = 0; w < 8; ++w )
+    {
+        int i = translate_pile(deal->store[w], W[w], 52);
+        Wp[w] = &W[w][i - 1];
+        Wlen[w] = i;
+        total += i;
+    }
+
+    /* Output piles, if any. */
+    for (int i = 0; i < 12; i++)
+    {
+        Card *c = deal->target[i]->top();
+        Q_ASSERT( c );
+
+        W[8][i] = translateSuit( c->suit() ) + c->rank();
+    }
+    Wp[8] = &W[8][11];
+    Wlen[8] = 12;
+}
+
+int ClockSolver::getClusterNumber()
+{
+    return 0;
+}
+
+MoveHint *ClockSolver::translateMove( const MOVE &m )
+{
+    Pile *frompile = deal->store[m.from];
+    Card *card = frompile->top();
+
+    if ( m.totype == O_Type )
+    {
+        return new MoveHint( card, deal->target[m.to], m.pri );
+    } else {
+        return new MoveHint( card, deal->store[m.to], m.pri );
+    }
+}
+
+void ClockSolver::print_layout()
+{
+    int i, w, o;
+
+    fprintf(stderr, "print-layout-begin\n");
+    for (w = 0; w < 8; w++) {
+        fprintf( stderr, "Play%d: ", w );
+        for (i = 0; i < Wlen[w]; i++) {
+            printcard(W[w][i], stderr);
+        }
+        fputc('\n', stderr);
+    }
+    fprintf( stderr, "Off: " );
+    for (o = 0; o < 12; o++) {
+        printcard(W[8][o], stderr);
+    }
+    fprintf(stderr, "\nprint-layout-end\n");
+}

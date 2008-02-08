@@ -14,6 +14,7 @@
 #include "clock.h"
 #include <klocale.h>
 #include "deck.h"
+#include "patsolve/clock.h"
 #include <assert.h>
 
 Clock::Clock( )
@@ -34,6 +35,7 @@ Clock::Clock( )
         target[i]->setCheckIndex(1);
         target[i]->setTarget(true);
         target[i]->setRemoveFlags(Pile::disallow);
+        target[i]->setObjectName( QString( "target%1" ).arg( i ) );
     }
 
     for (int i=0; i<8; i++) {
@@ -46,6 +48,7 @@ Clock::Clock( )
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo);
+    setSolver( new ClockSolver( this ) );
 }
 
 void Clock::restart()

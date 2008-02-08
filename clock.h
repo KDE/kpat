@@ -16,7 +16,9 @@
 
 #include "dealer.h"
 
-class Clock : public DealerScene {
+class Clock : public DealerScene
+{
+    friend class ClockSolver;
     Q_OBJECT
 
 public:

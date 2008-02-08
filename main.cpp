@@ -148,6 +148,8 @@ int main( int argc, char **argv )
         }
         cardMap c;
         DealerScene *f = getDealer( wanted_game );
+        if ( !f )
+            return 1;
 
         QTime mytime;
         for ( int i = start_index; i <= end_index; i++ )

@@ -44,6 +44,7 @@ set(kpat_SRCS ${kpat_SRCS}
    napoleon.cpp
    computation.cpp
    gypsy.cpp
+   patsolve/clock.cpp
    clock.cpp
 )
 endif(RELEASE)
