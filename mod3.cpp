@@ -25,6 +25,8 @@
 #include <klocale.h>
 #include <kdebug.h>
 
+#include "patsolve/mod3.h"
+
 //-------------------------------------------------------------------------//
 
 class Mod3Pile : public Pile
@@ -87,6 +89,7 @@ Mod3::Mod3( )
      }
 
     setActions(DealerScene::Hint | DealerScene::Demo );
+    setSolver( new Mod3Solver( this ) );
 }
 
 
@@ -286,7 +289,7 @@ void Mod3::deal()
             (*it)->hide();
         }
 */
-    kDebug(11111) << "init" << aces->cardsLeft() << " " << Deck::deck()->cardsLeft();
+    //kDebug(11111) << "init" << aces->cardsLeft() << " " << Deck::deck()->cardsLeft();
 
     for (int r = 0; r < 4; r++)
         dealRow(r);

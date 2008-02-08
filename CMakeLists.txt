@@ -33,19 +33,20 @@ set(kpat_SRCS ${kpat_SRCS}
    freecell.cpp 
    patsolve/simon.cpp
    simon.cpp
-   idiot.cpp
    patsolve/idiot.cpp
-   yukon.cpp
+   idiot.cpp
    patsolve/yukon.cpp
-   golf.cpp
+   yukon.cpp
    patsolve/golf.cpp
+   golf.cpp
+   patsolve/clock.cpp
+   clock.cpp
+   patsolve/mod3.cpp
    mod3.cpp
    grandf.cpp
    napoleon.cpp
    computation.cpp
    gypsy.cpp
-   patsolve/clock.cpp
-   clock.cpp
 )
 endif(RELEASE)
 

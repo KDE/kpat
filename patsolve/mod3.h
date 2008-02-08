@@ -4,12 +4,12 @@
 
 #include "patsolve.h"
 
-class Clock;
+class Mod3;
 
-class ClockSolver : public Solver
+class Mod3Solver : public Solver
 {
 public:
-    ClockSolver(const Clock *dealer);
+    Mod3Solver(const Mod3 *dealer);
     virtual int get_possible_moves(int *a, int *numout);
     virtual bool isWon();
     virtual void make_move(MOVE *m);
@@ -22,7 +22,9 @@ public:
 
     virtual void print_layout();
 
-    const Clock *deal;
+    const Mod3 *deal;
+    int aces;
+    int deck;
 };
 #endif
 
