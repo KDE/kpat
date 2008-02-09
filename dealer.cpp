@@ -324,6 +324,8 @@ void DealerScene::openGame(QDomDocument &doc)
             Pile *p = dynamic_cast<Pile*>(*it);
             assert(p);
 
+            p->clear();
+
             for (int i = 0; i < piles.count(); ++i)
             {
                 QDomElement pile = piles.item(i).toElement();
@@ -339,7 +341,9 @@ void DealerScene::openGame(QDomDocument &doc)
                         for (CardList::Iterator it2 = cards.begin();
                              it2 != cards.end(); ++it2)
                         {
-                            if ((*it2)->suit() == s && (*it2)->rank() == v) {
+
+                            if ((*it2)->suit() == s && (*it2)->rank() == v)
+                            {
                                 (*it2)->setVisible(p->isVisible());
                                 p->add(*it2, !card.attribute("faceup").toInt());
                                 (*it2)->stopAnimation();
@@ -1494,7 +1498,7 @@ void DealerScene::demo()
     MoveHint *mh = chooseHint();
     if (mh) {
         kDebug() << "moveFrom" << mh->card()->source()->objectName();
-        assert(mh->card()->source() == Deck::deck() || 
+        assert(mh->card()->source() == Deck::deck() ||
                mh->card()->source()->legalRemove(mh->card(), true));
 
         CardList empty;
