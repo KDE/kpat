@@ -135,8 +135,9 @@ void PatienceView::setScene( QGraphicsScene *_scene )
     }
     if ( ahint )
         connect( dscene(), SIGNAL( hintPossible( bool ) ), ahint, SLOT( setEnabled( bool ) ) );
-    if ( aredeal )
+    if ( aredeal ) {
         connect( dscene(), SIGNAL( redealPossible( bool ) ), aredeal, SLOT( setEnabled( bool ) ) );
+    }
 }
 
 PatienceView *PatienceView::instance()

@@ -72,7 +72,7 @@ void Grandf::redeal()
         numberOfDeals++;
     }
     if (numberOfDeals == 3) {
-        emit enableRedeal(false);
+        emit redealPossible(false);
     }
     takeState();
 }
@@ -122,7 +122,7 @@ void Grandf::deal() {
         if (c)
             c->turn(true);
     }
-    emit enableRedeal( true );
+    emit redealPossible( true );
 }
 
 /*****************************
@@ -160,7 +160,7 @@ QString Grandf::getGameState() const
 void Grandf::setGameState( const QString &s)
 {
     numberOfDeals = s.toInt();
-    emit enableRedeal(numberOfDeals < 3);
+    emit redealPossible(numberOfDeals < 3);
 }
 
 static class LocalDealerInfo1 : public DealerInfo

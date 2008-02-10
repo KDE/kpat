@@ -188,7 +188,6 @@ signals:
     void demoPossible(bool poss);
     void redealPossible(bool poss);
 
-    void enableRedeal(bool enable);
     void gameInfo(const QString &info);
     void gameWon(bool withhelp);
     void demoActive(bool en);
