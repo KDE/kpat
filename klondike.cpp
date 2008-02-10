@@ -146,7 +146,7 @@ void Klondike::deal3()
         // move back to flip
         item->setPos( Deck::deck()->pos() );
 
-        item->flipTo( pile->x() + 0.125 * flipped * cardMap::self()->wantedCardWidth(), pile->y(), 300 + 110 * ( flipped + 1 ) );
+        item->flipTo( pile->x() + 0.125 * flipped * cardMap::self()->wantedCardWidth(), pile->y(), 200 + 80 * ( flipped + 1 ) );
     }
 
     // we need to look that many steps in the future to see if we can loose
