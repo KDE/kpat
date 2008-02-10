@@ -218,13 +218,12 @@ void DealerScene::takeState()
 
     }
     if (!demoActive() && !waiting())
-        QTimer::singleShot( int( TIME_BETWEEN_MOVES * d->m_autoDropFactor ), this, SLOT(startAutoDrop()));
+        QTimer::singleShot( speedUpTime( TIME_BETWEEN_MOVES ), this, SLOT(startAutoDrop()));
 
     emit undoPossible(undoList.count() > 1);
 }
 
 bool DealerScene::isInitialDeal() const { return d->initialDeal; }
-qreal DealerScene::autoDropFactor() const { return d->m_autoDropFactor;}
 
 void DealerScene::saveGame(QDomDocument &doc)
 {
@@ -1132,7 +1131,7 @@ bool DealerScene::startAutoDrop()
         return false;
 
     if (!movingCards.isEmpty()) {
-        QTimer::singleShot(qRound( TIME_BETWEEN_MOVES * d->m_autoDropFactor ), this, SLOT(startAutoDrop()));
+        QTimer::singleShot( speedUpTime( TIME_BETWEEN_MOVES ), this, SLOT(startAutoDrop()));
         return true;
     }
 
@@ -1144,7 +1143,7 @@ bool DealerScene::startAutoDrop()
         if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
             Card *c = static_cast<Card*>(*it);
             if (c->animated()) {
-                QTimer::singleShot(qRound( TIME_BETWEEN_MOVES * d->m_autoDropFactor ), this, SLOT(startAutoDrop()));
+                QTimer::singleShot( speedUpTime( TIME_BETWEEN_MOVES ), this, SLOT(startAutoDrop()));
                 //kDebug(11111) << "animation still going on\n";
                 return true;
             }
@@ -1189,7 +1188,7 @@ bool DealerScene::startAutoDrop()
                 xs.removeFirst();
                 ys.removeFirst();
                 t->moveTo(t->source()->x(), t->source()->y(), t->zValue(),
-                          qMax( 1, qRound( ( DURATION_AUTODROP + count++ * DURATION_AUTODROP / 10 ) * d->m_autoDropFactor ) ) );
+                          speedUpTime( DURATION_AUTODROP + count++ * DURATION_AUTODROP / 10 ) );
                 connect(t, SIGNAL(stoped(Card*)), SLOT(waitForAutoDrop(Card*)));
             }
             d->m_autoDropFactor *= 0.8;
@@ -1200,6 +1199,11 @@ bool DealerScene::startAutoDrop()
     d->m_autoDropFactor = 1;
 
     return false;
+}
+
+int DealerScene::speedUpTime( int delay ) const
+{
+    return qMax( 1, qRound( delay * d->m_autoDropFactor ) );
 }
 
 void DealerScene::stopAndRestartSolver()

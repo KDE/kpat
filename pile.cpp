@@ -216,7 +216,7 @@ void Pile::rescale()
     kDebug(11111) << gettime() << "rescale end\n";
 }
 
-bool Pile::legalAdd( const CardList& _cards, bool demo ) const
+bool Pile::legalAdd( const CardList& _cards, bool ) const
 {
     if( addFlags & disallow ) {
         return false;
@@ -329,7 +329,6 @@ void Pile::clear()
 
 void Pile::relayoutCards()
 {
-    //kDebug() << gettime() <<  "relayoutCards";
     m_relayoutTimer->stop();
 
     QPointF mypos = pos();
@@ -360,7 +359,7 @@ void Pile::relayoutCards()
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
         // ( *it )->stopAnimation();
-        ( *it )->moveTo( mypos.x(), mypos.y(), z, int( 120 * dscene()->autoDropFactor() ) );
+        ( *it )->moveTo( mypos.x(), mypos.y(), z, dscene()->speedUpTime(  120 ) );
         ( *it )->setZValue( z );
         mypos.rx() += ( *it )->spread().width() * divx / 10 * cardMap::self()->wantedCardWidth();
         mypos.ry() += ( *it )->spread().height() * divy / 10 * cardMap::self()->wantedCardHeight();
@@ -612,7 +611,11 @@ bool Pile::cardDblClicked(Card *c)
 
 void Pile::tryRelayoutCards()
 {
-    m_relayoutTimer->start( int( 40 * dscene()->autoDropFactor() ) );
+    int delay = dscene()->speedUpTime( 40 );
+    if ( delay < 30 )
+        m_relayoutTimer->start( 400 );
+    else
+        m_relayoutTimer->start( 40 );
 }
 
 #include "pile.moc"

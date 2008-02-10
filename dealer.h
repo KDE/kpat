@@ -108,6 +108,9 @@ public:
     void setAutoDropEnabled(bool a);
     bool autoDrop() const { return _autodrop; }
 
+    // use this for autodrop times
+    int speedUpTime( int delay ) const;
+
     void setGameNumber(long gmn);
     long gameNumber() const;
 
@@ -160,7 +163,8 @@ public:
     int neededFutureMoves() const;
 
     bool isInitialDeal() const;
-    qreal autoDropFactor() const;
+
+    bool cardsAreMoving() const { return !movingCards.empty(); }
 
 public slots:
     virtual bool startAutoDrop();
