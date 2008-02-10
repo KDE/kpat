@@ -31,7 +31,9 @@
 
 class Pile;
 
-class Grandf : public DealerScene {
+class Grandf : public DealerScene
+{
+    friend class GrandfSolver;
     Q_OBJECT
 
 public:
@@ -41,8 +43,6 @@ public slots:
     void redeal();
     void deal();
     virtual void restart();
-    virtual bool isGameLost() const;
-
 
 protected:
     void collect();

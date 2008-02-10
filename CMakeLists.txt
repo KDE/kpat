@@ -43,6 +43,7 @@ set(kpat_SRCS ${kpat_SRCS}
    clock.cpp
    patsolve/mod3.cpp
    mod3.cpp
+   patsolve/grandf.cpp
    grandf.cpp
    napoleon.cpp
    computation.cpp
