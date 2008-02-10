@@ -324,21 +324,21 @@ void Spider::deckClicked(Card*)
 static class LocalDealerInfo15 : public DealerInfo
 {
 public:
-    LocalDealerInfo15() : DealerInfo(I18N_NOOP("S&pider (Easy)"), 14) {}
+    LocalDealerInfo15() : DealerInfo(I18N_NOOP("S&pider (Easy)"), 12) {}
     virtual DealerScene *createGame() { return new Spider(1); }
 } ldi15;
 
 static class LocalDealerInfo16 : public DealerInfo
 {
 public:
-    LocalDealerInfo16() : DealerInfo(I18N_NOOP("Spider (&Medium)"), 15) {}
+    LocalDealerInfo16() : DealerInfo(I18N_NOOP("Spider (&Medium)"), 13) {}
     virtual DealerScene *createGame() { return new Spider(2); }
 } ldi16;
 
 static class LocalDealerInfo17 : public DealerInfo
 {
 public:
-    LocalDealerInfo17() : DealerInfo(I18N_NOOP("Spider (&Hard)"), 16) {}
+    LocalDealerInfo17() : DealerInfo(I18N_NOOP("Spider (&Hard)"), 14) {}
     virtual DealerScene *createGame() { return new Spider(4); }
 } ldi17;
 

@@ -350,35 +350,6 @@ build sequences as long as possible.
 
 </sect2>
 
-<sect2 id="napoleons-tomb">
-<title>Napoleon's Tomb</title>
-<anchor id="game_napoleons_tomb"/>
-<para><indexterm><primary>Napoleon's Tomb</primary></indexterm>
-Napoleon's Tomb is played with one deck. The goal is to put all cards on the
-foundations as ascending families. The card colors and suits do not matter.
-</para>
-
-<para>
-The foundation is made out of five piles. These are visible as an X. On the four
-corners of this X you have to build sequences starting with seven and ending
-with a king.
-</para>
-
-<para>
-The pile in the middle takes four times the sequence, from six down to ace. The
-color does not matter on any of the piles.
-</para>
-
-<para>
-The four piles surrounding the middle pile can each take one card temporarily.
-You can go through the talon only once.
-</para>
-
-<para>
-The auto drop feature is disabled in this patience game.
-</para>
-</sect2>
-
 <sect2 id="mod3">
 <title>Mod3</title>
 <anchor id="game_mod3"/>
@@ -409,55 +380,6 @@ clicking on the talon.
 
 <para>
 The auto drop feature is disabled in this patience game.
-</para>
-</sect2>
-
-<sect2 id="calculation">
-<title>Calculation</title>
-<anchor id="game_calculation"/>
-
-<para><indexterm><primary>Calculation</primary></indexterm>
-Calculation takes some time to get used to! It is played with one
-card deck. The goal is to put all cards in the four foundation
-piles as ascending families. The color of the cards does not matter.
-</para>
-
-<para>
-For the foundation you have to follow these orders:
-</para>
-
-<blockquote>
-<informaltable pgwide="0">
-<tgroup cols="2">
-<tbody>
-
-<row>
-<entry>1st pile</entry>
-<entry>A-2-3-4-5-6-7-8-9-10-J-Q-K</entry>
-</row>
-
-<row>
-<entry>2nd pile</entry>
-<entry>2-4-6-8-10-Q-A-3-5-7-9-J-K</entry>
-</row>
-
-<row>
-<entry>3rd pile</entry>
-<entry>3-6-9-Q-2-5-8-J-A-4-7-10-K</entry>
-</row>
-
-<row>
-<entry>4th pile</entry>
-<entry>4-8-Q-3-7-J-2-6-10-A-5-9-K</entry>
-</row>
-</tbody>
-</tgroup>
-</informaltable>
-</blockquote>
-
-<para>
-The card on top of the talon can be put on any of the four playing piles.
-You should do this so you can put later cards on the foundation more easily.
 </para>
 </sect2>
 

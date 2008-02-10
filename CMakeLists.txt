@@ -45,8 +45,6 @@ set(kpat_SRCS ${kpat_SRCS}
    mod3.cpp
    patsolve/grandf.cpp
    grandf.cpp
-   napoleon.cpp
-   computation.cpp
    gypsy.cpp
 )
 endif(RELEASE)

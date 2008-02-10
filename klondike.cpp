@@ -221,7 +221,7 @@ public:
 static class LocalDealerInfo14 : public DealerInfo
 {
 public:
-    LocalDealerInfo14() : DealerInfo(I18N_NOOP("Klondike (&draw 3)"), 13) {}
+    LocalDealerInfo14() : DealerInfo(I18N_NOOP("Klondike (&draw 3)"), 4) {}
     virtual DealerScene *createGame() { return new Klondike(false); }
 } ldi14;
 

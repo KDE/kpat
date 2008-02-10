@@ -150,7 +150,7 @@ bool Golf::cardClicked(Card *c)
 static class LocalDealerInfo13 : public DealerInfo
 {
 public:
-    LocalDealerInfo13() : DealerInfo(I18N_NOOP("Go&lf"), 12) {}
+    LocalDealerInfo13() : DealerInfo(I18N_NOOP("Go&lf"), 6) {}
     virtual DealerScene *createGame() { return new Golf(); }
 } ldi13;
 
