@@ -54,7 +54,7 @@ static inline quint32 fnv_hash_str(quint8 *s)
 
 void Solver::hashpile(int w)
 {
-	W[w][Wlen[w]] = 0;
+   	W[w][Wlen[w]] = 0;
 	Whash[w] = fnv_hash_str(W[w]);
 
 	/* Invalidate this pile's id.  We'll calculate it later. */
@@ -936,8 +936,8 @@ void Solver::setNumberPiles( int p )
     W = new card_t*[m_number_piles];
     for ( int i = 0; i < m_number_piles; i++ )
     {
-        W[i] = new card_t[80];
-        memset( W[i], 0, sizeof( card_t ) * 80 );
+        W[i] = new card_t[84];
+        memset( W[i], 0, sizeof( card_t ) * 84 );
     }
     Wp = new card_t*[m_number_piles];
 

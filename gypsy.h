@@ -19,12 +19,13 @@
 
 class Pile;
 
-class Gypsy : public DealerScene {
+class Gypsy : public DealerScene
+{
+    friend class GypsySolver;
     Q_OBJECT
 
 public:
     Gypsy( );
-    virtual bool isGameLost() const;
 
 public slots:
     void slotClicked(Card *) { dealRow(true); }

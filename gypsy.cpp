@@ -14,6 +14,7 @@
 #include "gypsy.h"
 #include <klocale.h>
 #include "deck.h"
+#include "patsolve/gypsy.h"
 
 Gypsy::Gypsy( )
     : DealerScene(  )
@@ -41,6 +42,7 @@ Gypsy::Gypsy( )
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo);
+    setSolver( new GypsySolver( this ) );
 }
 
 void Gypsy::restart() {
@@ -66,58 +68,6 @@ Card *Gypsy::demoNewCards()
         return 0;
     dealRow(true);
     return store[0]->top();
-}
-
-bool Gypsy::isGameLost() const {
-	if(!Deck::deck()->isEmpty())
-		return false;
-
-	for(int i=0; i < 8; i++){
-		if(store[i]->isEmpty())
-			return false;
-
-		if(store[i]->top()->rank() == Card::Ace)
-			return false;
-
-		for(int j=0; j <8; j++){
-			if(!target[j]->isEmpty() &&
-				(store[i]->top()->suit()==target[j]->top()->suit()) &&
-				(store[i]->top()->rank()==(target[j]->top()->rank()+1)))
-				return false;
-		}
-	}
-
-	for(int i=0; i < 8; i++) {
-            Card *cnext=store[i]->top();
-            int indexi=store[i]->indexOf(cnext);
-
-            Card *cardi= 0;
-            do{
-                cardi=cnext;
-                if (indexi>0)
-                    cnext=store[i]->at( --indexi );
-
-                for(int k=0; k <8; k++) {
-                    if (i == k)
-                        continue;
-
-                    if((cardi->rank()+1 == store[k]->top()->rank()) &&
-                       cardi->isRed() != store[k]->top()->isRed()){
-
-                        // this test doesn't apply if indexi==0, but fails gracefully.
-                        if(cnext->rank() == store[k]->top()->rank() &&
-                           cnext->suit() == store[k]->top()->suit())
-                            break; //nothing gained; keep looking.
-
-                        return false;// TODO: look deeper, move may not be helpful.
-                    }
-                }
-
-            } while((indexi>=0) && (cardi->rank()+1 == cnext->rank()) &&
-                    (cardi->isRed() != cnext->isRed()));
-	}
-
-	return true;
 }
 
 static class LocalDealerInfo7 : public DealerInfo

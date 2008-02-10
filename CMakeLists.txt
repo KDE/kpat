@@ -45,6 +45,7 @@ set(kpat_SRCS ${kpat_SRCS}
    mod3.cpp
    patsolve/grandf.cpp
    grandf.cpp
+   patsolve/gypsy.cpp
    gypsy.cpp
 )
 endif(RELEASE)
