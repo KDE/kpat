@@ -915,7 +915,7 @@ win at Easy level, and very difficult to win at Hard level.
 </qandaentry>
 <qandaentry>
  <question><para>Even with hints I still have no clue how to play. Help!</para></question>
- <answer><para>Besides the 'Hint' feature there also is a useful 'Demo' mode, where the built in artificial intelligence will play the game for you. You can try to watch and learn. However, if you have any questions it is better to read <link linkend="howto">How to Play</link> and <link linkend="rules_and_tips">Game Rules, and Strategies and Tips</link> sections of this docbook.</para></answer><!--IMPORTANT!: this link has to send user to 'Interface Overview' section. So please setup the link structure accordingly.-->
+ <answer><para>Besides the 'Hint' feature there also is a useful 'Demo' mode, where the built in artificial intelligence will play the game for you. You can try to watch and learn. However, if you have any questions it is better to read <link linkend="howto">How to Play</link> and <link linkend="rules_and_tips">Game Rules, and Strategies and Tips</link> sections of this handbook.</para></answer><!--IMPORTANT!: this link has to send user to 'Interface Overview' section. So please setup the link structure accordingly.-->
 </qandaentry>
 <qandaentry>
  <question><para>I have to quit the game now, but I'm not finished yet. Can I save my progress?</para></question>
