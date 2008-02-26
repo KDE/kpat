@@ -169,15 +169,11 @@ int main( int argc, char **argv )
         return 0;
     }
 
-    if (application.isSessionRestored())
-        RESTORE(pWidget)
-    else {
-        pWidget *w = new pWidget;
-        if (args->count())
-            w->openGame(args->url(0));
-        else
-            QTimer::singleShot(100, w, SLOT(slotNewGameType()));
-    }
+    pWidget *w = new pWidget;
+    if (args->count())
+        w->openGame(args->url(0));
+    else
+        QTimer::singleShot(100, w, SLOT(slotNewGameType()));
     args->clear();
     return application.exec();
 }
