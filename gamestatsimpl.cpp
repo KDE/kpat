@@ -77,6 +77,7 @@ void GameStatsImpl::setGameType(int id)
 void GameStatsImpl::resetStats()
 {
 	int id = GameType->currentIndex();
+        Q_ASSERT(id >= 0);
 	KConfigGroup cg(KGlobal::config(), scores_group);
 	cg.writeEntry(QString("total%1").arg(id),0);
 	cg.writeEntry(QString("won%1").arg(id),0);
