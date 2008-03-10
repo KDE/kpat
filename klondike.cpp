@@ -179,7 +179,7 @@ void Klondike::deal() {
 }
 
 bool Klondike::cardClicked(Card *c) {
-    kDebug(11111) << "card clicked" << c->name();
+    kDebug(11111) << "card clicked" << c->rank() << " " << c->suit();
 
     if (DealerScene::cardClicked(c))
         return true;

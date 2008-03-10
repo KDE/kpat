@@ -76,8 +76,6 @@ public:
     Card( Rank r, Suit s, QGraphicsScene *parent=0 );
     virtual ~Card();
 
-    const QString name()  const  { return m_name; }
-
     // Some basic tests.
     void       turn(bool faceup = true);
 
@@ -113,7 +111,6 @@ public:
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                        QWidget *widget = 0);
 
-    void setElementId( const QString & element );
     virtual QRectF boundingRect () const;
 
     QSizeF spread() const;
@@ -143,9 +140,6 @@ private:
     void       zoomIn(int t);
     void       zoomOut(int t);
     void       testVisibility();
-
-    QString     m_name;
-    QString     m_elementId;
 
     // Grapics properties.
     bool        m_destFace;

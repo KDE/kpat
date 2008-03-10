@@ -39,9 +39,6 @@
 #include "cardmaps.h"
 #include "dealer.h"
 
-static const char  *suit_names[] = { "club", "diamond", "heart", "spade"};
-static const char  *rank_names[] = { "1", "2", "3", "4", "5", "6", "7", "8",
-                                     "9", "10", "jack", "queen", "king" };
 
 // Run time type id
 const int Card::my_type = DealerScene::CardTypeId;
@@ -62,8 +59,6 @@ Card::Card( Rank r, Suit s, QGraphicsScene *_parent )
     _parent->addItem( this );
 
     // Set the name of the card
-    int suit_index = s;
-    m_name = QString("%1 %2").arg(suit_names[suit_index]).arg(rank_names[r-1]).toUtf8();
     m_hoverTimer = new QTimer(this);
     m_hovered = false;
     m_destFace = isFaceUp();
@@ -71,8 +66,6 @@ Card::Card( Rank r, Suit s, QGraphicsScene *_parent )
     m_destX = 0;
     m_destY = 0;
     m_destZ = 0;
-
-    cardMap::self()->registerCard( QString( "%1_%2" ).arg( rank_names[m_rank-1] ).arg( suit_names[ suit_index ] ) );
 
     m_spread = QSizeF( 0, 0 );
 
@@ -104,7 +97,10 @@ Card::~Card()
 
 void Card::setPixmap()
 {
-    QGraphicsPixmapItem::setPixmap( cardMap::self()->renderCard( m_elementId ) );
+    if( m_faceup )
+        QGraphicsPixmapItem::setPixmap( cardMap::self()->renderFrontside( m_rank, m_suit ) );
+    else
+        QGraphicsPixmapItem::setPixmap( cardMap::self()->renderBackside() );
     m_boundingRect = QRectF(QPointF(0,0), pixmap().size());
     m_isSeen = Unknown;
     return;
@@ -128,15 +124,10 @@ void Card::setPixmap()
 //
 void Card::turn( bool _faceup )
 {
-    if (m_faceup != _faceup || m_elementId.isNull() ) {
+    if (m_faceup != _faceup ) {
         m_faceup = _faceup;
         m_destFace = _faceup;
-        if ( m_faceup ) {
-            int suit_index = m_suit;
-            setElementId( QString( "%1_%2" ).arg( rank_names[m_rank-1] ).arg( suit_names[suit_index] ) );
-        } else {
-            setElementId( QLatin1String( "back" ) );
-        }
+        setPixmap();
     }
 }
 
@@ -221,8 +212,6 @@ void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
         m_isSeen = Unknown;
         return;
     }
-    if ( name() == "diamond 01" )
-        kDebug(11111) << "moveTo" << name() << " " << x2 << " " << y2 << " " << z2 << " " << pos() << " " << zValue() << " " << duration << " " << kBacktrace();
     stopAnimation();
     m_isSeen = CardVisible; // avoid suprises
 
@@ -356,9 +345,6 @@ void Card::stopAnimation()
         return;
 
     //kDebug() << gettime() << "stopAnimation" << name();
-    if ( !sender() || strcmp(sender()->metaObject()->className(), "QTimeLine") )
-        if ( name() == "diamond 01" )
-            kDebug(11111) << "stopAnimation" << name() << " " << m_destX << " " << m_destY << " " << animation->timeLine()->duration() << " " << kBacktrace();
     QGraphicsItemAnimation *old_animation = animation;
     animation = 0;
     if ( old_animation->timeLine()->state() == QTimeLine::Running )
@@ -613,14 +599,6 @@ void Card::zoomInAnimation()
 void Card::zoomOutAnimation()
 {
     zoomOut(100);
-}
-
-void Card::setElementId( const QString & element )
-{
-    if (element == m_elementId)
-        return;
-    m_elementId = element;
-    setPixmap();
 }
 
 QRectF Card::boundingRect() const

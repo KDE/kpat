@@ -214,7 +214,7 @@ void Freecell::startMoving()
     mh->pile()->add(mh->card());
     mh->pile()->moveCardsBack(empty, true);
     waitfor = mh->card();
-    kDebug(11111) << "wait for moving end" << mh->card()->name();
+    kDebug(11111) << "wait for moving end" << mh->card()->rank() << " " << mh->card()->suit();
     connect(mh->card(), SIGNAL(stoped(Card*)), SLOT(waitForMoving(Card*)));
     delete mh;
 }

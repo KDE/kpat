@@ -24,6 +24,7 @@
 #include "card.h"
 //Added by qt3to4:
 #include <QPixmap>
+#include "cardcache.h"
 
 class cardMapPrivate;
 class KConfigGroup;
@@ -37,24 +38,15 @@ public:
     cardMap();
     ~cardMap();
 
-    static const int NumColors = 4;
-    static const int CardsPerColor = 13;
-
-    double scaleFactor() const;
     double wantedCardWidth() const;
     double wantedCardHeight() const;
     void setWantedCardWidth( double w );
 
-    QPixmap renderCard( const QString &element );
-    void registerCard( const QString &element );
-    QString pickRandom();
+    QPixmap renderBackside( int variant = -1 );
+    QPixmap renderFrontside( Card::Rank, Card::Suit );
     QRect opaqueRect() const;
 
     void updateTheme(const KConfigGroup &cg);
-
-protected slots:
-    void slotThreadFinished();
-    void slotThreadEnded();
 
 public slots:
     void triggerRescale();

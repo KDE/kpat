@@ -415,7 +415,7 @@ MoveHint *SimonSolver::translateMove( const MOVE &m )
     Pile *frompile = deal->store[m.from];
     Card *card = frompile->at( frompile->cardsLeft() - m.card_index - 1);
 
-    kDebug() << "card" << card->name();
+    kDebug() << "card" << card->rank() << " " << card->suit();
     if ( m.totype == O_Type )
     {
         for ( int i = 0; i < 4; i++ )

@@ -265,7 +265,6 @@ void DealerScene::saveGame(QDomDocument &doc)
                 card.setAttribute("value", (*it)->rank());
                 card.setAttribute("faceup", (*it)->isFaceUp());
                 card.setAttribute("z", (*it)->realZ());
-                card.setAttribute("name", (*it)->name());
                 pile.appendChild(card);
             }
             dealer.appendChild(pile);
@@ -475,7 +474,7 @@ void DealerScene::hint()
         MoveHint *mh = solver()->translateMove( m );
         if ( mh ) {
             newHint( mh );
-            kDebug(11111) << "win move" << mh->pile()->objectName() << " " << mh->card()->name() << " " << mh->priority();
+            kDebug(11111) << "win move" << mh->pile()->objectName() << " " << mh->card()->rank() << " " << mh->card()->suit() << " " << mh->priority();
         }
         getHints();
     } else
@@ -972,7 +971,7 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
     Card *c = dynamic_cast<Card*>(*it);
     assert(c);
     c->stopAnimation();
-    kDebug(11111) << "card" << c->name();
+    kDebug(11111) << "card" << c->rank() << " " << c->suit();
     if ( cardDblClicked(c) ) {
         countGame();
     }
@@ -1025,7 +1024,7 @@ State *DealerScene::getState()
            s.it = c;
            s.source = c->source();
            if (!s.source) {
-               kDebug(11111) << c->name() << "has no parent\n";
+               kDebug(11111) << c->rank() << " " << c->suit() << "has no parent\n";
                assert(false);
            }
            s.source_index = c->source()->indexOf(c);
@@ -1580,7 +1579,7 @@ Card *DealerScene::demoNewCards()
 
 void DealerScene::newDemoMove(Card *m)
 {
-    kDebug(11111) << "newDemoMove" << m->name();
+    kDebug(11111) << "newDemoMove" << m->rank() << " " << m->suit();
     setWaiting( true );
     if ( m->animated() )
         connect(m, SIGNAL(stoped(Card*)), SLOT(waitForDemo(Card*)));
@@ -1592,7 +1591,7 @@ void DealerScene::waitForDemo(Card *t)
 {
     if ( t )
     {
-        kDebug(11111) << "waitForDemo" << t->name();
+        kDebug(11111) << "waitForDemo" << t->rank() << " " << t->suit();
         t->disconnect(this, SLOT( waitForDemo( Card* ) ) );
     }
     setWaiting( false );

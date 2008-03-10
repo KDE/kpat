@@ -240,20 +240,10 @@ void pWidget::slotSelectDeck()
 {
     KSharedConfig::Ptr config = KGlobal::config();
     KConfigGroup cs(config, settings_group);
-    QString deckName, oldDeckName, dummy;
-    deckName = oldDeckName = cs.readEntry("Cardname");
-
-    // This makes sure that the dialog doesn't allow to change to non-svg themes
-    // or change the back. The latter is unsupported in kpat in KDE 4.0 and the
-    // former seems to be not wanted by the author.
-    // This should be removed for KDE4.1, when kpat starts to support changing
-    // the backside and the dialog gets a bit more API
-    // apaku@gmx.de
-    cs.writeEntry("AllowFixed", true);
-    cs.writeEntry("AllowScaled", true);
-    cs.writeEntry("ShowFixedOnly", false);
-    cs.writeEntry("ShowScaledOnly", false);
-    cs.writeEntry("Locking", true);
+    QString deckName, oldDeckName;
+    QString cardName, oldCardName;
+    cardName = oldCardName = cs.readEntry("Cardname");
+    deckName = oldDeckName = cs.readEntry("Deckname");
 
     KCardDialog dlg(cs);
     int result = dlg.exec();
@@ -264,9 +254,10 @@ void pWidget::slotSelectDeck()
         dlg.saveSettings(cs);
         cs.sync();
 
-	deckName = dlg.cardName();
+        deckName = dlg.deckName();
+        cardName = dlg.cardName();
 
-        if (deckName != oldDeckName) {
+        if (deckName != oldDeckName || cardName != oldCardName) {
             cardMap::self()->updateTheme(cs);
             cardMap::self()->triggerRescale();
         }
