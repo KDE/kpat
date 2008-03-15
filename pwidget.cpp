@@ -42,6 +42,7 @@
 #include <kstandardaction.h>
 #include <kstandardgameaction.h>
 #include <kdebug.h>
+#include <carddeckinfo.h>
 #include <kcarddialog.h>
 #include <krandom.h>
 #include <kinputdialog.h>
@@ -225,7 +226,7 @@ void pWidget::restart()
 
 void pWidget::slotPickRandom()
 {
-    QString theme = KCardDialog::randomCardName();
+    QString theme = CardDeckInfo::randomFrontName();
     kDebug() << "theme" << theme;
 
     KSharedConfig::Ptr config = KGlobal::config();
@@ -254,8 +255,8 @@ void pWidget::slotSelectDeck()
         dlg.saveSettings(cs);
         cs.sync();
 
-        deckName = dlg.deckName();
-        cardName = dlg.cardName();
+        deckName = dlg.backName();
+        cardName = dlg.frontName();
 
         if (deckName != oldDeckName || cardName != oldCardName) {
             cardMap::self()->updateTheme(cs);

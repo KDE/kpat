@@ -38,7 +38,7 @@
 #include "version.h"
 #include <qimage.h>
 #include <krandom.h>
-#include <kcarddialog.h>
+#include <carddeckinfo.h>
 #include <kglobalsettings.h>
 #include <qfileinfo.h>
 #include <assert.h>
@@ -116,8 +116,8 @@ void cardMap::updateTheme(const KConfigGroup &cs)
     
     d->m_body = QRect();
 
-    d->m_backsvg = KCardDialog::isSVGDeck( fronttheme );
-    d->m_frontsvg = KCardDialog::isSVGDeck( backtheme );
+    d->m_backsvg = CardDeckInfo::isSVGFront( fronttheme );
+    d->m_frontsvg = CardDeckInfo::isSVGBack( backtheme );
 
     d->m_backSize = d->m_cache.defaultBackSize();
 
