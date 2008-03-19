@@ -307,7 +307,7 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
                      RANK(card) == RANK(*Wp[j]) - 1 )
                 {
                     allowed = true;
-                    if ( ( SUIT( card ) != SUIT( *Wp[j] ) ) && ( foundgood && Wlen[i] > l + 1 )) {
+                    if ( ( SUIT( card ) != SUIT( *Wp[j] ) ) && ( foundgood && Wlen[i] > l + 1 && l > 0 )) {
                         allowed = false; // make the tree simpler
                     }
                 }
