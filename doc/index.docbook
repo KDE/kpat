@@ -127,7 +127,12 @@ Essentially there are two types of solitaire games – the ones that let you arr
 <para>
 From the beginning, however, pay attention to your card stacks. Do not rush to move individual cards around, see if it might be more useful elsewhere.</para>
 <para>
-For additional help you can also take quick picks onto the statusbar. For the most of the games there is a built in solver which informs you whether the game you are currently playing can be complete or not. If you see that solver could not complete the current game, chances are you will not be able to do so as well. At this point you can either restart the current game, or start a completely new game.
+For additional help you can also take quick peeks onto the statusbar. For the
+most of the games there is a built in solver which informs you whether the game
+you are currently playing can be completed or not. If you see that solver could
+not complete the current game, chances are you will not be able to do so as
+well. At this point you can either restart the current game, or start a
+completely new game.
 </para>
 <note><title>Note:</title><para>Playing solitaire games helps you to greatly improve your attention span and enhance the ability to concentrate.</para></note>
 </chapter>
