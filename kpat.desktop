@@ -4,6 +4,7 @@ Name[el]=Πασιέντζα
 Name[pt_BR]=KPaciência
 Name[sv]=Patiens
 Name[uk]=Пасьянс
+Name[x-test]=xxKPatiencexx
 Name[zh_TW]=KPatience 單人紙牌遊戲
 Exec=kpat -caption "%c"
 Type=Application
