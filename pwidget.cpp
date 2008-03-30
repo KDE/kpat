@@ -241,22 +241,23 @@ void pWidget::slotSelectDeck()
 {
     KSharedConfig::Ptr config = KGlobal::config();
     KConfigGroup cs(config, settings_group);
+    KCardWidget* cardwidget = new KCardWidget();
+    cardwidget->readSettings(cs);
     QString deckName, oldDeckName;
     QString cardName, oldCardName;
-    cardName = oldCardName = cs.readEntry("Cardname");
-    deckName = oldDeckName = cs.readEntry("Deckname");
+    cardName = oldCardName = cardwidget->backName();
+    deckName = oldDeckName = cardwidget->frontName();
 
-    KCardDialog dlg(cs);
-    int result = dlg.exec();
-    if (result == QDialog::Accepted)
+    KCardDialog dlg(cardwidget);
+    if (dlg.exec() == QDialog::Accepted)
     {
         // Always store the settings, as other things than only the deck may
         // have changed
-        dlg.saveSettings(cs);
+        cardwidget->saveSettings(cs);
         cs.sync();
 
-        deckName = dlg.backName();
-        cardName = dlg.frontName();
+        deckName = cardwidget->backName();
+        cardName = cardwidget->frontName();
 
         if (deckName != oldDeckName || cardName != oldCardName) {
             cardMap::self()->updateTheme(cs);
