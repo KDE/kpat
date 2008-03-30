@@ -109,8 +109,8 @@ cardMap::cardMap() : QObject()
 
 void cardMap::updateTheme(const KConfigGroup &cs)
 {
-    QString fronttheme = cs.readEntry( "Cardname", "Oxygen-white (SVG)" );
-    QString backtheme = cs.readEntry( "Deckname", "Oxygen (SVG)" );
+    QString fronttheme = CardDeckInfo::frontTheme( cs );
+    QString backtheme = CardDeckInfo::backTheme( cs );
     d->m_cache.setFrontTheme( fronttheme );
     d->m_cache.setBackTheme( backtheme );
     

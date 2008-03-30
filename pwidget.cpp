@@ -231,7 +231,7 @@ void pWidget::slotPickRandom()
 
     KSharedConfig::Ptr config = KGlobal::config();
     KConfigGroup cs(config, settings_group );
-    cs.writeEntry( "Cardname", theme );
+    CardDeckInfo::writeFrontTheme( cs, theme );
 
     cardMap::self()->updateTheme(cs);
     cardMap::self()->triggerRescale();
