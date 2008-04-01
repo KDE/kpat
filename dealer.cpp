@@ -155,7 +155,7 @@ public:
     qreal m_autoDropFactor;
 
     static QSvgRenderer *backren;
-    QPixmap tildePix;
+    QPixmap backPix;
     bool initialDeal;
 };
 
@@ -415,7 +415,7 @@ DealerScene::DealerScene():
     d->m_autoDropFactor = 1;
     connect( this, SIGNAL( gameWon( bool ) ), SLOT( slotShowGame(bool) ) );
 
-    d->tildePix.load( KStandardDirs::locateLocal( "data", "kpat/tilde.png" ) );
+    d->backPix.load( KStandardDirs::locateLocal( "data", "kpat/back.png" ) );
 }
 
 DealerScene::~DealerScene()
@@ -1811,24 +1811,20 @@ void DealerScene::drawBackground ( QPainter * painter, const QRectF & rect )
     if ( !d->hasScreenRect )
         return;
 
-    if ( d->tildePix.width() != width() )
+    if ( ( d->backPix.width() != width() ) || ( d->backPix.height() != height() ) )
     {
         if ( !d->backren )
             d->backren = new QSvgRenderer( KStandardDirs::locate( "data", "kpat/backgrounds/background.svg" ) );
 
-        QRectF bound = d->backren->boundsOnElement( "tilde" );
-        int _width = ( int )( width() + 0.9 );
-        d->tildePix = QPixmap( _width, ( int )( bound.height() / bound.width() * _width + 0.5 ));
-        QImage img( d->tildePix.width(), d->tildePix.height(), QImage::Format_ARGB32);
-        img.fill( qRgba( 0, 0, 255, 0 ) );
+        QImage img( width(), height(), QImage::Format_ARGB32);
         QPainter p2( &img );
-        d->backren->render( &p2, "tilde" );
+        d->backren->render( &p2 );
         p2.end();
-        d->tildePix = QPixmap::fromImage( img );
-        d->tildePix.save( KStandardDirs::locateLocal( "data", "kpat/tilde.png" ), "PNG" );
+        d->backPix = QPixmap::fromImage( img );
+        d->backPix.save( KStandardDirs::locateLocal( "data", "kpat/back.png" ), "PNG" );
     }
 
-    painter->drawPixmap( 0, ( int )( height() - d->tildePix.height() ) * 2 / 3, d->tildePix );
+    painter->drawPixmap( 0, 0, d->backPix );
 }
 
 #include "dealer.moc"
