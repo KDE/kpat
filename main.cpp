@@ -67,7 +67,7 @@ int main( int argc, char **argv )
     KAboutData aboutData( "kpat", 0, ki18n("KPatience"),
                           KPAT_VERSION, ki18n(description), KAboutData::License_GPL,
                           ki18n("(c) 1995, Paul Olav Tvete\n"
-                          "(c) 2000 Stephan Kulow"));
+                          "(c) 2000 Stephan Kulow"), KLocalizedString(), "http://games.kde.org/kpat" );
     aboutData.addAuthor(ki18n("Paul Olav Tvete"),KLocalizedString(),"paul@troll.no");
     aboutData.addAuthor(ki18n("Mario Weilguni"),KLocalizedString(),"mweilguni@kde.org");
     aboutData.addAuthor(ki18n("Matthias Ettrich"),KLocalizedString(),"ettrich@kde.org");
