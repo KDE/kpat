@@ -12,7 +12,7 @@
 
 <book lang="&language;"> <!-- do not change this! -->
 <bookinfo>
-	<title>The &kappname; Handbook</title> <!-- This is the title of the docbook. Live as is unless change is necessary.-->
+	<title>The ""&kappname;"" Handbook</title> <!-- This is the title of the docbook. Live as is unless change is necessary.-->
 <!-- List of immidiate authors begins here. -->
 <!--INPORTANT! - All other contributors: [to be determined] -->
 <authorgroup>
@@ -72,7 +72,7 @@
 
 <!--Short description of this document. Do not change unless necessary!-->
 <abstract>
-	<para>This documentation describes the game of &kappname; version &kappversion;</para>
+	<para>This documentation describes the game of "&kappname;" version &kappversion;</para>
 </abstract>
 
 <!--List of relevan keywords-->
@@ -121,7 +121,7 @@ moving, turning and reordering them.
 	<note><title>Objective:</title><para>Rearrange the cards by suite within shortest time possible.</para></note><!--Describe the objective of the game.-->
 <!--How to play description. Don't be to specific on rules as they have a separate section in this document-->
 	<para>
-	As &kappname; offers you a multiplicity of different solitaire games, there is no straightforward how-to which could feet all of them. Therefore, it is essential that you read each individual subsection of Game Rules, Strategies and Tips section before you start playing a version you are not familiar with.</para>
+	As "&kappname;" offers you a multiplicity of different solitaire games, there is no straightforward how-to which could feet all of them. Therefore, it is essential that you read each individual subsection of Game Rules, Strategies and Tips section before you start playing a version you are not familiar with.</para>
 <para>
 Essentially there are two types of solitaire games – the ones that let you arrange the cards by same color and the ones that let you arrange the cards by alternating color. You can easily determine which game you are trying out using trial-and-error method. Once you know which one you are dealing with, rest is easy; keep arranging and rearranging the cards, collecting the matching ones.</para>
 <para>
@@ -664,7 +664,7 @@ win at Easy level, and very difficult to win at Hard level.
 					<guimenu>Game</guimenu>
 					<guimenuitem>Quit</guimenuitem>
 				</menuchoice></term>
-				<listitem><para><action>Quit</action> &kappname;.</para></listitem>
+				<listitem><para><action>Quit</action> "&kappname;".</para></listitem>
 			</varlistentry>
 		</variablelist>
 </sect1>
@@ -888,7 +888,7 @@ win at Easy level, and very difficult to win at Hard level.
 </qandaentry>
 <qandaentry>
  <question><para>How do I pause the game? </para></question>
- <answer><para>&kappname; features no 'Pause' function at the moment.</para></answer>
+ <answer><para>"&kappname;" features no 'Pause' function at the moment.</para></answer>
 </qandaentry>
 <qandaentry>
  <question><para>I want to change the way this game looks. Can I? </para></question>
@@ -908,10 +908,10 @@ win at Easy level, and very difficult to win at Hard level.
 </qandaentry>
 <qandaentry>
  <question><para>Can I use keyboard?</para></question>
- <answer><para>No. &kappname; features no possible keyboard play.</para></answer>
+ <answer><para>No. "&kappname;" features no possible keyboard play.</para></answer>
 </qandaentry>
 <qandaentry>
- <question><para>I can't figure out what to do here! Are there hints? </para></question>
+ <question><para>I cannot figure out what to do here! Are there hints? </para></question>
  <answer><para>Yes. To take advantage of the 'Hint' feature use <menuchoice>
 					<shortcut><keycap>H</keycap></shortcut>
 					<guimenu>Game</guimenu>
@@ -923,7 +923,7 @@ win at Easy level, and very difficult to win at Hard level.
  <answer><para>Besides the 'Hint' feature there also is a useful 'Demo' mode, where the built in artificial intelligence will play the game for you. You can try to watch and learn. However, if you have any questions it is better to read <link linkend="howto">How to Play</link> and <link linkend="rules_and_tips">Game Rules, and Strategies and Tips</link> sections of this handbook.</para></answer><!--IMPORTANT!: this link has to send user to 'Interface Overview' section. So please setup the link structure accordingly.-->
 </qandaentry>
 <qandaentry>
- <question><para>I have to quit the game now, but I'm not finished yet. Can I save my progress?</para></question>
+ <question><para>I have to quit the game now, but I am not finished yet. Can I save my progress?</para></question>
   <answer><para>Yes. To save your progress you can use <menuchoice>
 					<shortcut><keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo></shortcut>
 					<guimenu>Game</guimenu>
@@ -932,14 +932,14 @@ win at Easy level, and very difficult to win at Hard level.
 </qandaentry>
 <qandaentry>
  <question><para>Where are the high scores?</para></question>
- <answer><para>&kappname; has no high score board. However you can view your win vs loose statistics. To do so use <menuchoice>
+ <answer><para>"&kappname;" has no high score board. However you can view your win vs loose statistics. To do so use <menuchoice>
 					<guimenu>Game</guimenu>
 					<guimenuitem>Statistics</guimenuitem>
 				</menuchoice> on the menubar.</para></answer>
 </qandaentry>
 <qandaentry>
  <question><para>I want to change the game configuration. Where do I go? </para></question>
- <answer><para>&kappname; requires no configuration.</para></answer><!--IMPORTANT!: this link has to send user to 'Interface Overview' section. So please setup the link structure accordingly.-->
+ <answer><para>"&kappname;" requires no configuration.</para></answer><!--IMPORTANT!: this link has to send user to 'Interface Overview' section. So please setup the link structure accordingly.-->
 </qandaentry>
 </qandaset>
 </chapter>
@@ -948,7 +948,7 @@ win at Easy level, and very difficult to win at Hard level.
 <!--This chapter is for credits and licenses.-->
 
 <para>
-&kappname;  <!-- do not change this! -->
+"&kappname;"  <!-- do not change this! -->
 </para>
 <!--List all the copyright holders here-->
 <para>
@@ -982,12 +982,13 @@ Documentation rewritten for &kpatience; 2.0 (&kde; 2.1) by &Maren.Pakura;
 <para>
 Documentation proofread and update for &kpatience; &docversion; by Richard Hawthorne
 <email>techno_plume-coding@yahoo.com</email>
-</para><!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+</para>
 
-
-<!-- !!!do not change ANYTHING after this line!!!! -->
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 &underFDL;
 &underGPL;
+
+<!-- !!!do not change ANYTHING after this line!!!! -->
 
 </chapter>
 
