@@ -39,7 +39,7 @@
 #include <assert.h>
 #include <math.h>
 
-#define DEBUG_HINTS 1
+#define DEBUG_HINTS 0
 
 // ================================================================
 //                         class MoveHint
