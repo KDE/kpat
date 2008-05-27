@@ -61,7 +61,7 @@ ELSE (QT_QTOPENGL_FOUND)
 target_link_libraries(kpat  ${KDE4_KIO_LIBS} kdegames)
 ENDIF (QT_QTOPENGL_FOUND)
 
-install(TARGETS kpat  DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS kpat  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 
 ########### install files ###############
