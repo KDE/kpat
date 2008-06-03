@@ -1,6 +1,6 @@
 
-#ifndef _CLOCKSOLVER_H
-#define _CLOCKSOLVER_H
+#ifndef _MOD3SOLVER_H
+#define _MOD3SOLVER_H
 
 #include "patsolve.h"
 

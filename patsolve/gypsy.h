@@ -1,6 +1,6 @@
 
-#ifndef _SPIDERSOLVER_H
-#define _SPIDERSOLVER_H
+#ifndef _GYPSYSOLVER_H
+#define _GYPSYSOLVER_H
 
 #include "patsolve.h"
 

@@ -1,6 +1,6 @@
 
-#ifndef _KLONDIKESOLVER_H
-#define _KLONDIKESOLVER_H
+#ifndef _GRANDFSOLVER_H
+#define _GRANDFSOLVER_H
 
 #include "patsolve.h"
 
