@@ -196,7 +196,7 @@ void DealerScene::takeState()
         d->initialDeal = false;
         if ( !demoActive() )
         {
-            kDebug() << "clear in takeState";
+            kDebug(11111) << "clear in takeState";
             d->winMoves.clear();
         }
         if (isGameWon()) {
@@ -496,7 +496,7 @@ void DealerScene::getSolverHints()
     solver()->translate_layout();
     solver()->patsolve( 1 );
 
-    kDebug() << "getSolverHints";
+    kDebug(11111) << "getSolverHints";
     QList<MOVE> moves = solver()->firstMoves;
     d->solverMutex.unlock();
 
@@ -1456,7 +1456,7 @@ void DealerScene::won()
 
 MoveHint *DealerScene::chooseHint()
 {
-    kDebug() << "chooseHint " << d->winMoves.count();
+    kDebug(11111) << "chooseHint " << d->winMoves.count();
     if ( d->winMoves.count() )
     {
         MOVE m = d->winMoves.takeFirst();
@@ -1500,7 +1500,7 @@ void DealerScene::demo()
 
     MoveHint *mh = chooseHint();
     if (mh) {
-        kDebug() << "moveFrom" << mh->card()->source()->objectName();
+        kDebug(11111) << "moveFrom" << mh->card()->source()->objectName();
         assert(mh->card()->source() == Deck::deck() ||
                mh->card()->source()->legalRemove(mh->card(), true));
 
@@ -1531,7 +1531,7 @@ void DealerScene::demo()
         assert(mh->card()->source());
         assert(mh->pile());
         assert(mh->card()->source() != mh->pile());
-        kDebug() << "moveTo" << mh->pile()->objectName();
+        kDebug(11111) << "moveTo" << mh->pile()->objectName();
         assert(mh->pile()->target() || mh->pile()->legalAdd(empty));
 
         mh->card()->source()->moveCards(empty, mh->pile());
@@ -1554,7 +1554,7 @@ void DealerScene::demo()
         newDemoMove(mh->card());
 
     } else {
-        kDebug() << "demoNewCards";
+        kDebug(11111) << "demoNewCards";
         Card *t = demoNewCards();
         if (t) {
             newDemoMove(t);

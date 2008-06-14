@@ -227,7 +227,7 @@ void pWidget::restart()
 void pWidget::slotPickRandom()
 {
     QString theme = CardDeckInfo::randomFrontName();
-    kDebug() << "theme" << theme;
+    kDebug(11111) << "theme" << theme;
 
     KSharedConfig::Ptr config = KGlobal::config();
     KConfigGroup cs(config, settings_group );

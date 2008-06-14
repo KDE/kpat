@@ -178,7 +178,7 @@ void PatienceView::setupActions()
 
 void PatienceView::toggleDemo( bool flag )
 {
-    kDebug() << flag;
+    kDebug(11111) << flag;
     ademo->setChecked( flag );
     if ( !flag )
         ademo->setIcon( KIcon( "media-playback-start") );

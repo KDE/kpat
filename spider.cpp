@@ -173,7 +173,7 @@ void Spider::setGameState(const QString &stream)
     } else
         for (; m_redeal < i%10; m_redeal++)
             redeals[m_redeal]->setVisible(false);
-    kDebug() << m_leg << m_redeal;
+    kDebug(11111) << m_leg << m_redeal;
 }
 
 //-------------------------------------------------------------------------//
@@ -303,7 +303,7 @@ Card *Spider::demoNewCards()
         if ( checkPileDeck( stack[i], false ) )
             return legs[m_leg-1]->top();
     }
-    kDebug() << m_leg;
+    kDebug(11111) << m_leg;
     if (m_redeal > 4)
         return 0;
     deckClicked(0);
