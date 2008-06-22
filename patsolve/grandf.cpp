@@ -91,15 +91,15 @@ void GrandfSolver::make_move(MOVE *m)
             dir = -dir;
         }
 
-        int i = 0;
+        int j = 0;
         while (len > 0)
         {
             card_t card = deck[--len];
-            int currentpile = m_redeal * 7 + ( i + 1 );
+            int currentpile = m_redeal * 7 + ( j + 1 );
             Wp[currentpile]++;
             *Wp[currentpile] = card;
             Wlen[currentpile]++;
-            i = (i+1)%6;
+            j = (j+1)%6;
         }
 
         for (int round=0; round < 7; round++)
