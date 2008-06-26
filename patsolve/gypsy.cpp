@@ -93,7 +93,7 @@ void GypsySolver::make_move(MOVE *m)
 
     if (m->totype == O_Type) {
         if ( Wlen[to] )
-            *Wp[to]++;
+            *Wp[to] = card;
         else {
             Wp[to]++;
             Wlen[to]++;
@@ -160,8 +160,12 @@ void GypsySolver::undo_move(MOVE *m)
 
     if (m->totype == O_Type) {
         card = *Wp[to];
-        Wp[to]--;
-        Wlen[to]--;
+        if ( RANK( card ) == PS_ACE )
+        {
+            Wlen[to] = 0;
+        } else {
+            *Wp[to] = card - 1; // SUIT( card ) << 4 + RANK( card ) - 1;
+        }
         Wp[from]++;
         *Wp[from] = card;
         Wlen[from]++;
@@ -318,7 +322,7 @@ bool GypsySolver::isWon()
     // maybe won?
     for (int o = 0; o < 8; o++)
     {
-        if (Wlen[outs + o] == 0 || RANK( *Wp[outs + o] ) != PS_ACE )
+        if ( ( Wlen[outs + o] == 0 ) || ( RANK( *Wp[outs + o] ) != PS_KING ) )
             return false;
     }
 
