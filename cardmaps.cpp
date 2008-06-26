@@ -172,9 +172,12 @@ void cardMap::setWantedCardWidth( double w )
     d->_wantedCardWidth = w;
     d->_scale = 0;
     d->m_cache.setSize( QSize( wantedCardWidth(), wantedCardHeight() ) );
-    if (PatienceView::instance()->dscene())
-        PatienceView::instance()->dscene()->rescale(false);
-    triggerRescale();
+    if (PatienceView::instance())
+    {
+       if (PatienceView::instance()->dscene())
+          PatienceView::instance()->dscene()->rescale(false);
+       triggerRescale();
+    }
 }
 
 cardMap *cardMap::self() {
