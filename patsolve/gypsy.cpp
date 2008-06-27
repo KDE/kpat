@@ -280,18 +280,24 @@ int GypsySolver::get_possible_moves(int *a, int *numout)
                     }
                 }
 
-                if ( allowed ) {
-                    mp->card_index = l;
-                    mp->from = i;
-                    mp->to = j;
-                    mp->totype = W_Type;
-                    mp->turn_index = -1;
-                    if ( Wlen[i] > l+1 && DOWN( W[i][Wlen[i]-l-2] ) )
-                        mp->turn_index = 1;
-                    mp->pri = 8;
-                    n++;
-                    mp++;
-                }
+                if ( !allowed )
+                    continue;
+
+                mp->card_index = l;
+                mp->from = i;
+                mp->to = j;
+                mp->totype = W_Type;
+                mp->turn_index = -1;
+                if ( Wlen[i] > l+1 && DOWN( W[i][Wlen[i]-l-2] ) )
+                    mp->turn_index = 1;
+                if ( mp->turn_index > 0 )
+                    mp->pri = 126;
+                else
+                    mp->pri = 20;
+                if ( Wlen[i] > l && RANK( card ) == RANK( W[i][Wlen[i]-2-l] ) - 1 )
+                    mp->pri = 0; // continue;
+                n++;
+                mp++;
             }
         }
     }
@@ -303,7 +309,7 @@ int GypsySolver::get_possible_moves(int *a, int *numout)
         mp->from = deck;
         mp->to = 0; // unused
         mp->totype = W_Type;
-        mp->pri = 0;
+        mp->pri = 1;
         mp->turn_index = -1;
         n++;
         mp++;
