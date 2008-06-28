@@ -12,6 +12,8 @@
 #include "../pile.h"
 #include "memory.h"
 
+long all_moves = 0;
+
 /* This is a 32 bit FNV hash.  For more information, see
 http://www.isthe.com/chongo/tech/comp/fnv/index.html */
 
@@ -214,7 +216,8 @@ MOVE *Solver::get_moves(int *nmoves)
                 fprintf( stderr, "move from %d out (at %d) Prio: %d\n", Possible[j].from,
                          Possible[j].turn_index, Possible[j].pri );
             else
-                fprintf( stderr, "move from %d to %d (%d) Prio: %d\n", Possible[j].from, Possible[j].to,
+                fprintf( stderr, "move %d from %d to %d (%d) Prio: %d\n", Possible[j].card_index,
+                         Possible[j].from, Possible[j].to,
                          Possible[j].turn_index, Possible[j].pri );
         }
 #endif
@@ -649,6 +652,8 @@ bool Solver::solve(POSITION *parent)
 	POSITION *pos;
 
         bool q;
+        all_moves++;
+
 	/* If we've won already (or failed), we just go through the motions
 	but always return false from any position.  This enables the cleanup
 	of the move stack and eventual destruction of the position store. */

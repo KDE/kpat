@@ -166,6 +166,7 @@ int main( int argc, char **argv )
             else
                 fprintf( stdout, "%d unknown (%d ms)\n", i, mytime.elapsed() );
         }
+        fprintf( stdout, "all_moves %ld\n", all_moves );
         return 0;
     }
 

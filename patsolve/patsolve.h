@@ -140,6 +140,7 @@ protected:
 #define PS_CLUB    0x10         /* black */
 #define PS_HEART   0x20         /* red */
 #define PS_SPADE   0x30         /* black */
+#define PS_BLACK   0x10
 #define PS_COLOR   0x10         /* black if set */
 #define PS_SUIT    0x30         /* mask both suit bits */
 
@@ -151,5 +152,7 @@ protected:
 #define SUIT(card) (( (card) >> 4 ) & 3)
 #define COLOR(card) ((card) & PS_COLOR)
 #define DOWN(card) ((card) & ( 1 << 7 ) )
+
+extern long all_moves;
 
 #endif

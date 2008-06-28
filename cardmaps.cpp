@@ -67,6 +67,13 @@ class cardMapPrivate
 {
 public:
 
+    cardMapPrivate()
+    {
+        _wantedCardWidth = 0;
+        m_frontsvg = false;
+        m_backsvg = false;
+        _scale = 1;
+    }
     double _wantedCardWidth;
     mutable double _scale;
     KCardCache m_cache;
@@ -113,7 +120,7 @@ void cardMap::updateTheme(const KConfigGroup &cs)
     QString backtheme = CardDeckInfo::backTheme( cs );
     d->m_cache.setFrontTheme( fronttheme );
     d->m_cache.setBackTheme( backtheme );
-    
+
     d->m_body = QRect();
 
     d->m_backsvg = CardDeckInfo::isSVGFront( fronttheme );
@@ -168,7 +175,7 @@ void cardMap::setWantedCardWidth( double w )
         return;
 
     d->m_body = QRect();
-    kDebug(11111) << "setWantedCardWidth" << w << " " << d->_wantedCardWidth;
+    kDebug(11111) << "setWantedCardWidth" << w << d->_wantedCardWidth;
     d->_wantedCardWidth = w;
     d->_scale = 0;
     d->m_cache.setSize( QSize( wantedCardWidth(), wantedCardHeight() ) );

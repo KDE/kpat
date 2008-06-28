@@ -10,6 +10,7 @@ class GypsySolver : public Solver
 {
 public:
     GypsySolver(const Gypsy *dealer);
+    int good_automove(int o, int r);
     virtual int get_possible_moves(int *a, int *numout);
     virtual bool isWon();
     virtual void make_move(MOVE *m);
@@ -27,6 +28,7 @@ public:
     const Gypsy *deal;
 
     int deck, outs;
+    int params[5];
 };
 #endif
 

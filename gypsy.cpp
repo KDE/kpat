@@ -31,6 +31,7 @@ Gypsy::Gypsy( )
         target[i] = new Pile(i+1, this);
         target[i]->setPilePos(1 +dist_x*(8+(i/4)), 1 + (i%4)*dist_y);
         target[i]->setAddType(Pile::KlondikeTarget);
+        target[i]->setObjectName( QString( "target%1" ).arg( i ) );
     }
 
     for (int i=0; i<8; i++) {
@@ -39,6 +40,7 @@ Gypsy::Gypsy( )
         store[i]->setAddType(Pile::GypsyStore);
         store[i]->setRemoveType(Pile::FreecellStore);
         store[i]->setReservedSpace( QSizeF( 10, 20 ) );
+        store[i]->setObjectName( QString( "store%1" ).arg( i ) );
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo);
