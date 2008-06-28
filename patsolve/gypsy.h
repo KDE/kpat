@@ -28,7 +28,7 @@ public:
     const Gypsy *deal;
 
     int deck, outs;
-    int params[5];
+    int params[6];
 };
 #endif
 

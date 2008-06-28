@@ -9,6 +9,7 @@
 #include <kdebug.h>
 #include <sys/types.h>
 #include <stdarg.h>
+#include <algorithm>
 #include "../gypsy.h"
 #include "../pile.h"
 #include "../deck.h"
@@ -377,7 +378,7 @@ int GypsySolver::get_possible_moves(int *a, int *numout)
                     }
                     if ( o > -1 )
                         continue;
-                    mp->pri = params[1];
+                    mp->pri = ( int )std::min( 127., params[1] + double( l ) * params[5] / 10 );
                 }
                 n++;
                 mp++;
@@ -437,10 +438,11 @@ GypsySolver::GypsySolver(const Gypsy *dealer)
     char buffer[10];
     params[0] = 3;
     params[1] = 3;
-    params[2] = 41;
-    params[3] = 20;
-    params[4] = 0;
-    for ( int i = 1; i <= 5; i++ )
+    params[2] = 44;
+    params[3] = 19;
+    params[4] = 5;
+    params[5] = 10;
+    for ( int i = 1; i <= 6; i++ )
     {
         sprintf( buffer, "DECK%d", i );
         char *env = getenv( buffer );
