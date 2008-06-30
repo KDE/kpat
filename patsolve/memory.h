@@ -70,6 +70,6 @@ private:
 };
 
 #define new_array( type, size ) ( type* )MemoryManager::allocate_memory( ( size )*sizeof( type ) );
-#define allocate( type ) ( type* )MemoryManager::allocate_memory( sizeof( type ) );
+#define mm_allocate( type ) ( type* )MemoryManager::allocate_memory( sizeof( type ) );
 
 #endif

@@ -541,7 +541,7 @@ int Solver::get_pilenum(int w)
                         Status = FAIL;
 			return -1;
 		}
-		l = allocate(BUCKETLIST);
+		l = mm_allocate(BUCKETLIST);
 		if (l == NULL) {
                         Status = FAIL;
 			return -1;

@@ -93,7 +93,7 @@ TREELIST *MemoryManager::cluster_tree(int cluster)
 	/* If we didn't find it, make a new one and add it to the list. */
 
 	if (tl == NULL) {
-		tl = allocate(TREELIST);
+		tl = mm_allocate(TREELIST);
 		if (tl == NULL) {
 			return NULL;
 		}
@@ -116,7 +116,7 @@ BLOCK *MemoryManager::new_block(void)
 {
 	BLOCK *b;
 
-	b = allocate(BLOCK);
+	b = mm_allocate(BLOCK);
 	if (b == NULL) {
 		return NULL;
 	}
