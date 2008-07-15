@@ -1493,6 +1493,7 @@ void DealerScene::demo()
     d->stop_demo_next = false;
     d->demo_active = true;
     d->gothelp = true;
+    countGame();
     unmarkAll();
     clearHints();
     getHints();
