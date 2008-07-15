@@ -9,6 +9,7 @@
 #include <kdebug.h>
 #include <sys/types.h>
 #include <stdarg.h>
+#include "idiot.h"
 #include "../idiot.h"
 #include "../pile.h"
 #include "../deck.h"
