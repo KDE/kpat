@@ -811,6 +811,7 @@ void DealerScene::slotShowGame(bool gothelp)
     }
 
     p.setFont( font );
+    p.setPen( Qt::white );
     p.drawText( int( ( wx - twidth ) / 2 ),
                 int( ( wy - QFontMetrics( font ).descent() ) / 2 ),
                 text );
