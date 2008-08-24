@@ -688,10 +688,12 @@ void DealerScene::unmarkAll()
 
 void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 {
+    // don't allow manual moves while automoves are going on
+    if ( waiting() )
+        return;
+
     unmarkAll();
     stopDemo();
-    if (waiting())
-        return;
 
     QList<QGraphicsItem *> list = items( e->scenePos() );
 
@@ -1112,11 +1114,13 @@ Pile *DealerScene::findTarget(Card *c)
 
 void DealerScene::setWaiting(bool w)
 {
+    assert( _waiting > 0 || w );
+
     if (w)
         _waiting++;
     else if ( _waiting > 0 )
         _waiting--;
-//    kDebug(11111) << "setWaiting" << w << " " << _waiting;
+    // kDebug(11111) << "setWaiting" << w << " " << _waiting;
 }
 
 void DealerScene::setAutoDropEnabled(bool a)

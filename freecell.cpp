@@ -205,6 +205,7 @@ void Freecell::startMoving()
         return;
     }
 
+    setWaiting(true);
     MoveHint *mh = moves.first();
     moves.erase(moves.begin());
     CardList empty;
@@ -230,9 +231,9 @@ void Freecell::waitForMoving(Card *c)
 {
     if (waitfor != c)
         return;
-    setWaiting(false);
     c->disconnect(this);
     startMoving();
+    setWaiting(false);
 }
 
 bool Freecell::cardDblClicked(Card *c)
