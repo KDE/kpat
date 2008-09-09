@@ -830,6 +830,7 @@ void DealerScene::slotShowGame(bool gothelp)
 
     emit demoPossible( false );
     emit hintPossible( false );
+    emit redealPossible( false );
     // emit undoPossible(false); // technically it's possible but cheating :)
 }
 
