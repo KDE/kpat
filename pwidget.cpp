@@ -102,21 +102,19 @@ pWidget::pWidget()
 
     QStringList list;
     QList<DealerInfo*>::ConstIterator it;
-    int max_type = 0;
 
     for (it = DealerInfoList::self()->games().begin();
          it != DealerInfoList::self()->games().end(); ++it)
     {
-        // while we develop, it may happen that some lower
-        // indices do not exist
-        int index = (*it)->gameindex;
-        for (int i = 0; i <= index; i++)
-            if (list.count() <= i)
-                list.append("unknown");
-        list[index] = i18n((*it)->name);
-        if (max_type < index)
-            max_type = index;
+        list.append( i18n((*it)->name) );
     }
+    list.sort();
+    for (it = DealerInfoList::self()->games().begin();
+         it != DealerInfoList::self()->games().end(); ++it)
+    {
+        m_dealer_map[(*it )->gameindex] = list.indexOf( i18n((*it)->name) );
+    }
+
     games->setItems(list);
 
     KGlobal::dirs()->addResourceType("wallpaper", "data", "kpat/backgrounds/");
@@ -151,9 +149,7 @@ pWidget::pWidget()
     dropaction->setChecked(autodrop);
 
     int game = cg.readEntry("DefaultGame", 0);
-    if (game > max_type)
-        game = max_type;
-    games->setCurrentItem(game);
+    games->setCurrentItem( m_dealer_map[game] );
 
     statusBar()->insertPermanentItem( "", 1, 0 );
     setupGUI(qApp->desktop()->availableGeometry().size()*0.7); // QString()/*, false*/);
@@ -290,23 +286,26 @@ void pWidget::newGameType()
     slotUpdateMoves();
     kDebug(11111) << gettime() << "pWidget::newGameType\n";
 
-    int id = games->currentItem();
-    if ( id < 0 )
-        id = 0;
+    int item = games->currentItem();
+    int id = -1;
+
     kDebug(11111) << "newGameType" << id;
     for (QList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin();
 	it != DealerInfoList::self()->games().end(); ++it) {
-        if ((*it)->gameindex == id) {
+
+        if ( m_dealer_map[(*it)->gameindex] == item) {
             dill->setScene( (*it)->createGame() );
             QString name = (*it)->name;
             name = name.replace(QRegExp("[&']"), "");
             name = name.replace(QRegExp("[ ]"), "_").toLower();
             dill->setAnchorName("game_" + name);
-            dill->dscene()->setGameId(id);
+            id = (*it)->gameindex;
+            dill->dscene()->setGameId( id );
             break;
         }
     }
 
+    Q_ASSERT( id != -1 );
     if (!dill->dscene()) {
         kError() << "unimplemented game type" << id;
         dill->setScene( DealerInfoList::self()->games().first()->createGame() );
@@ -391,7 +390,7 @@ void pWidget::openGame(const KUrl &url)
         }
         int id = doc.documentElement().attribute("id").toInt();
 
-        games->setCurrentItem(id);
+        games->setCurrentItem(m_dealer_map[id]);
         newGameType();
         if (!dill->dscene()) {
            KMessageBox::error(this, i18n("The saved game is of unknown type!"));

@@ -88,6 +88,7 @@ private:
     QPixmap         background;
     KRecentFilesAction  *recent;
     cardMap        *m_cards; // possibly move to PatienceView
+    QMap<int, int>  m_dealer_map;
 };
 
 #endif
