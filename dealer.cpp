@@ -1748,7 +1748,7 @@ void DealerScene::setSceneSize( const QSize &s )
             ms.setWidth( p->x() );
         Q_ASSERT( p->reservedSpace().height() > 0 ); // no such case yet
 
-        //kDebug() << "setMaximalSpace" << ms << " " << cardMap::self()->wantedCardHeight() << " " << cardMap::self()->wantedCardWidth();
+        kDebug() << "setMaximalSpace" << ms << cardMap::self()->wantedCardHeight() << cardMap::self()->wantedCardWidth();
         Q_ASSERT( ms.width() >= cardMap::self()->wantedCardWidth() - 0.2 );
         Q_ASSERT( ms.height() >= cardMap::self()->wantedCardHeight() - 0.2 );
 
