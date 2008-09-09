@@ -1114,13 +1114,14 @@ Pile *DealerScene::findTarget(Card *c)
 
 void DealerScene::setWaiting(bool w)
 {
+    kDebug(11111) << "setWaiting" << w << " " << _waiting;
     assert( _waiting > 0 || w );
 
     if (w)
         _waiting++;
     else if ( _waiting > 0 )
         _waiting--;
-    // kDebug(11111) << "setWaiting" << w << " " << _waiting;
+    //kDebug(11111) << "setWaiting" << w << " " << _waiting;
 }
 
 void DealerScene::setAutoDropEnabled(bool a)
@@ -1360,7 +1361,6 @@ void DealerScene::stopDemo()
     kDebug(11111) << gettime() << "stopDemo" << waiting();
 
     if (waiting()) {
-        _waiting = 0;
         d->stop_demo_next = true;
         return;
     } else d->stop_demo_next = false;
