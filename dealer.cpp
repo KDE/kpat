@@ -1715,7 +1715,7 @@ void DealerScene::relayoutPiles()
 
 void DealerScene::setSceneSize( const QSize &s )
 {
-    kDebug(11111) << "setSceneSize" << sceneRect();
+    kDebug(11111) << "setSceneSize" << sceneRect() << s;
     setSceneRect( QRectF( 0, 0, s.width(), s.height() ) );
     d->hasScreenRect = true;
 
@@ -1739,18 +1739,20 @@ void DealerScene::setSceneSize( const QSize &s )
             p->rescale();
         QSizeF ms( cardMap::self()->wantedCardWidth(),
                    cardMap::self()->wantedCardHeight() );
-        //kDebug() << p->objectName() <<  " " << p->reservedSpace() << " " << p->pos();
+        //kDebug() << p->objectName() << p->reservedSpace() << p->pos() << ms;
         if ( p->reservedSpace().width() > 10 )
             ms.setWidth( s.width() - p->x() );
-        if ( p->reservedSpace().height() > 10 )
+        if ( p->reservedSpace().height() > 10 && s.height() > p->y() )
             ms.setHeight( s.height() - p->y() );
-        if ( p->reservedSpace().width() < 0 )
+        if ( p->reservedSpace().width() < 0 && p->x() > 0 )
             ms.setWidth( p->x() );
         Q_ASSERT( p->reservedSpace().height() > 0 ); // no such case yet
 
-        kDebug() << "setMaximalSpace" << ms << cardMap::self()->wantedCardHeight() << cardMap::self()->wantedCardWidth();
-        Q_ASSERT( ms.width() >= cardMap::self()->wantedCardWidth() - 0.2 );
-        Q_ASSERT( ms.height() >= cardMap::self()->wantedCardHeight() - 0.2 );
+        //kDebug() << "setMaximalSpace" << ms << cardMap::self()->wantedCardHeight() << cardMap::self()->wantedCardWidth();
+        if ( ms.width() < cardMap::self()->wantedCardWidth() - 0.2 )
+            return;
+        if ( ms.height() < cardMap::self()->wantedCardHeight() - 0.2 )
+            return;
 
         p->setMaximalSpace( ms );
     }
