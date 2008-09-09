@@ -49,7 +49,7 @@ Simon::Simon( )
 
     setActions(DealerScene::Hint | DealerScene::Demo);
     setSolver( new SimonSolver( this ) );
-    setNeededFutureMoves( 6 ); // could be some nonsense moves
+    //setNeededFutureMoves( 1 ); // could be some nonsense moves
 }
 
 void Simon::restart() {
