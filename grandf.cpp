@@ -166,7 +166,7 @@ void Grandf::setGameState( const QString &s)
 static class LocalDealerInfo1 : public DealerInfo
 {
 public:
-    LocalDealerInfo1() : DealerInfo(I18N_NOOP("&Grandfather"), 1) {}
+    LocalDealerInfo1() : DealerInfo(I18N_NOOP("Grandfather"), 1) {}
     virtual DealerScene *createGame() { return new Grandf(); }
 } gfdi;
 

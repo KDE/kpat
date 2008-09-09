@@ -206,7 +206,7 @@ Card *Mod3::demoNewCards()
 static class LocalDealerInfo5 : public DealerInfo
 {
 public:
-    LocalDealerInfo5() : DealerInfo(I18N_NOOP("M&od3"), 5) {}
+    LocalDealerInfo5() : DealerInfo(I18N_NOOP("Mod3"), 5) {}
     virtual DealerScene *createGame() { return new Mod3(); }
 } ldi5;
 

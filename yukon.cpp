@@ -75,7 +75,7 @@ void Yukon::deal() {
 static class LocalDealerInfo10 : public DealerInfo
 {
 public:
-    LocalDealerInfo10() : DealerInfo(I18N_NOOP("&Yukon"), 10) {}
+    LocalDealerInfo10() : DealerInfo(I18N_NOOP("Yukon"), 10) {}
     virtual DealerScene *createGame() { return new Yukon(); }
 } gfi10;
 

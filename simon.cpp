@@ -134,7 +134,7 @@ bool Simon::checkRemove(int checkIndex, const Pile *p, const Card *c) const
 static class LocalDealerInfo9 : public DealerInfo
 {
 public:
-    LocalDealerInfo9() : DealerInfo(I18N_NOOP("&Simple Simon"), 9) {}
+    LocalDealerInfo9() : DealerInfo(I18N_NOOP("Simple Simon"), 9) {}
     virtual DealerScene *createGame() { return new Simon(); }
 } gfi9;
 

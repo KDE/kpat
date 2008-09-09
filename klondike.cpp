@@ -214,14 +214,14 @@ bool Klondike::startAutoDrop()
 static class LocalDealerInfo0 : public DealerInfo
 {
 public:
-    LocalDealerInfo0() : DealerInfo(I18N_NOOP("&Klondike"), 0) {}
+    LocalDealerInfo0() : DealerInfo(I18N_NOOP("Klondike"), 0) {}
     virtual DealerScene *createGame() { return new Klondike(true); }
 } ldi0;
 
 static class LocalDealerInfo14 : public DealerInfo
 {
 public:
-    LocalDealerInfo14() : DealerInfo(I18N_NOOP("Klondike (&draw 3)"), 13) {}
+    LocalDealerInfo14() : DealerInfo(I18N_NOOP("Klondike (draw 3)"), 13) {}
     virtual DealerScene *createGame() { return new Klondike(false); }
 } ldi14;
 
