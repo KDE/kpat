@@ -1,6 +1,5 @@
  /* Common routines & arrays. */
 
-#include "gypsy.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,6 +9,7 @@
 #include <sys/types.h>
 #include <stdarg.h>
 #include <algorithm>
+#include "gypsy.h"
 #include "../gypsy.h"
 #include "../pile.h"
 #include "../deck.h"

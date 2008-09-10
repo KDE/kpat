@@ -264,7 +264,7 @@ int Mod3Solver::get_possible_moves(int *a, int *numout)
                 if ( current_row == 3 && Wlen[i] == 1 )
                     continue;
 
-                if ( RANK( card ) == current_row + 2 )
+                if ( RANK( card ) == current_row + 2 && current_row != 3 )
                     continue;
 
                 if ( first_empty_pile != -1 && first_empty_pile != j )

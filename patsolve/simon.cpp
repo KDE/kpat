@@ -9,6 +9,7 @@
 #include <kdebug.h>
 #include <sys/types.h>
 #include <stdarg.h>
+#include "simon.h"
 #include "../simon.h"
 #include "../pile.h"
 #include "../deck.h"
@@ -225,8 +226,10 @@ int SimonSolver::get_possible_moves(int *a, int *numout)
                      RANK(card) == RANK(*Wp[j]) - 1 )
                 {
                     allowed = true;
+#if 0
                     if ( ( SUIT( card ) != SUIT( *Wp[j] ) ) && foundgood )
                         allowed = false; // make the tree simpler
+#endif
                 }
                 if ( Wlen[j] == 0 && !wasempty )
                 {
