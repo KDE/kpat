@@ -69,7 +69,7 @@ class KlondikePile : public Pile
 public:
     KlondikePile( int _index, int _draw, DealerScene* parent);
     int draw() const { return m_draw; }
-    virtual QSizeF cardOffset( const Card * ) const { return QSizeF( 0, 0 ); }
+    virtual QSizeF cardOffset( const Card * ) const;
     virtual void relayoutCards();
 
 private:

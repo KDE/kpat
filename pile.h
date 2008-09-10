@@ -145,6 +145,7 @@ public slots:
     virtual bool cardClicked(Card *c);
     virtual bool cardDblClicked(Card *c);
     virtual void relayoutCards();
+    virtual void waitForMoving(Card*);
 
 signals:
     void clicked(Card *c);

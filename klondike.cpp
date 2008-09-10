@@ -35,25 +35,35 @@ KlondikePile::KlondikePile( int _index, int _draw, DealerScene* parent)
 {
 }
 
+QSizeF KlondikePile::cardOffset( const Card *c ) const
+{
+    if ( indexOf( c ) > cardsLeft() - m_draw )
+        return QSizeF( 1.25, 0 );
+    return QSizeF( 0, 0 );
+}
+
 void KlondikePile::relayoutCards()
 {
     m_relayoutTimer->stop();
     int car = m_cards.count();
-    QPointF p = pos();
+    qreal x = pos().x();
+    qreal y = pos().y();
+    qreal diff = 0;
     qreal z = zValue() + 1;
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
         if ( ( *it )->animated() )
             continue;
         //kDebug() << "car" << car << " " << p;
-        ( *it )->setPos( p );
+        ( *it )->setPos( QPointF( x + diff * cardMap::self()->wantedCardWidth(), y ) );
+        ( *it )->setSpread( QSizeF( diff * 10, 0 ) );
         ( *it )->setZValue( z );
         z = z+1;
         if ( car > m_draw )
         {
             --car;
         } else
-            p.rx() += + 0.125 * cardMap::self()->wantedCardWidth();
+            diff += 0.125;
     }
 }
 

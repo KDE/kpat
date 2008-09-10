@@ -166,7 +166,7 @@ void PatienceView::setupActions()
     if (dscene()->actions() & DealerScene::Redeal) {
         aredeal = parent()->actionCollection()->addAction( "game_redeal" );
         aredeal->setText( i18n("&Redeal") );
-        aredeal->setIcon( KIcon( "queue") );
+        aredeal->setIcon( KIcon( "roll") );
         connect( aredeal, SIGNAL( triggered( bool ) ), dscene(), SLOT( redeal() ) );
         actionlist.append(aredeal);
     } else

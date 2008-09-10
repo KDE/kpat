@@ -63,6 +63,9 @@ void Grandf::restart() {
 
 void Grandf::redeal()
 {
+    if ( waiting() || demoActive()  )
+        return;
+
     kDebug(11111) << "redeal\n";
     unmarkAll();
 

@@ -140,6 +140,9 @@ public:
     QGraphicsItem *wonItem;
     bool gothelp;
     bool toldAboutLostGame;
+    // we need a flag to avoid telling someone the game is lost
+    // just because the winning animation moved the cards away
+    bool toldAboutWonGame;
     int myActions;
     Solver *m_solver;
     SolverThread *m_solver_thread;
@@ -201,9 +204,10 @@ void DealerScene::takeState()
         }
         if (isGameWon()) {
             won();
+            d->toldAboutWonGame = true;
             return;
         }
-        else if ( !d->toldAboutLostGame && isGameLost() ) {
+        else if ( !d->toldAboutWonGame && !d->toldAboutLostGame && isGameLost() ) {
             emit hintPossible( false );
             emit demoPossible( false );
             emit redealPossible( false );
@@ -383,6 +387,7 @@ void DealerScene::undo()
             hintPossible( true );
             demoPossible( true );
             d->toldAboutLostGame = false;
+            d->toldAboutWonGame = false;
         }
     }
     emit gameSolverUnknown();
@@ -410,6 +415,7 @@ DealerScene::DealerScene():
     d->m_solver_thread = 0;
     d->neededFutureMoves = 1;
     d->toldAboutLostGame = false;
+    d->toldAboutWonGame = false;
     d->hasScreenRect = false;
     d->updateSolver = new QTimer(this);
     d->updateSolver->setInterval( 250 );
@@ -688,10 +694,12 @@ void DealerScene::unmarkAll()
 
 void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 {
+    // don't allow manual moves while automoves are going on
+    if ( waiting() )
+        return;
+
     unmarkAll();
     stopDemo();
-    if (waiting())
-        return;
 
     QList<QGraphicsItem *> list = items( e->scenePos() );
 
@@ -746,6 +754,12 @@ typedef QList<Hit> HitList;
 
 void DealerScene::startNew()
 {
+    if ( waiting() )
+    {
+        QTimer::singleShot( 100, this, SLOT( startNew() ) );
+        return;
+    }
+
     if (!d->_won)
         countLoss();
     d->_won = false;
@@ -757,6 +771,7 @@ void DealerScene::startNew()
     qDeleteAll(undoList);
     undoList.clear();
     d->toldAboutLostGame = false;
+    d->toldAboutWonGame = false;
     emit updateMoves();
 
     stopDemo();
@@ -764,7 +779,8 @@ void DealerScene::startNew()
     unmarkAll();
     kDebug(11111) << "startNew setAnimated(false)\n";
     QList<QGraphicsItem *> list = items();
-    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it) {
+    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
+    {
         if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId )
         {
             Card *c = static_cast<Card*>(*it);
@@ -811,6 +827,7 @@ void DealerScene::slotShowGame(bool gothelp)
     }
 
     p.setFont( font );
+    p.setPen( Qt::white );
     p.drawText( int( ( wx - twidth ) / 2 ),
                 int( ( wy - QFontMetrics( font ).descent() ) / 2 ),
                 text );
@@ -827,6 +844,7 @@ void DealerScene::slotShowGame(bool gothelp)
 
     emit demoPossible( false );
     emit hintPossible( false );
+    emit redealPossible( false );
     // emit undoPossible(false); // technically it's possible but cheating :)
 }
 
@@ -1111,11 +1129,14 @@ Pile *DealerScene::findTarget(Card *c)
 
 void DealerScene::setWaiting(bool w)
 {
+    kDebug(11111) << "setWaiting" << w << " " << _waiting;
+    assert( _waiting > 0 || w );
+
     if (w)
         _waiting++;
     else if ( _waiting > 0 )
         _waiting--;
-//    kDebug(11111) << "setWaiting" << w << " " << _waiting;
+    //kDebug(11111) << "setWaiting" << w << " " << _waiting;
 }
 
 void DealerScene::setAutoDropEnabled(bool a)
@@ -1157,7 +1178,7 @@ bool DealerScene::startAutoDrop()
     for (HintList::ConstIterator it = hints.begin(); it != hints.end(); ++it) {
         MoveHint *mh = *it;
         if (mh->pile() && mh->pile()->target() && mh->priority() > 120 && !mh->card()->takenDown()) {
-            setWaiting(true);
+            //setWaiting(true);
             Card *t = mh->card();
             CardList cards = mh->card()->source()->cards();
             while (cards.count() && cards.first() != t)
@@ -1188,7 +1209,11 @@ bool DealerScene::startAutoDrop()
                 ys.removeFirst();
                 t->moveTo(t->source()->x(), t->source()->y(), t->zValue(),
                           speedUpTime( DURATION_AUTODROP + count++ * DURATION_AUTODROP / 10 ) );
-                connect(t, SIGNAL(stoped(Card*)), SLOT(waitForAutoDrop(Card*)));
+                if ( t->animated() )
+                {
+                    setWaiting( true );
+                    connect(t, SIGNAL(stoped(Card*)), SLOT(waitForAutoDrop(Card*)));
+                }
             }
             d->m_autoDropFactor *= 0.8;
             return true;
@@ -1207,7 +1232,7 @@ int DealerScene::speedUpTime( int delay ) const
 
 void DealerScene::stopAndRestartSolver()
 {
-    if ( d->toldAboutLostGame ) // who cares?
+    if ( d->toldAboutLostGame || d->toldAboutWonGame ) // who cares?
         return;
 
     kDebug(11111) << "stopAndRestartSolver\n";
@@ -1355,7 +1380,6 @@ void DealerScene::stopDemo()
     kDebug(11111) << gettime() << "stopDemo" << waiting();
 
     if (waiting()) {
-        _waiting = 0;
         d->stop_demo_next = true;
         return;
     } else d->stop_demo_next = false;
@@ -1493,6 +1517,7 @@ void DealerScene::demo()
     d->stop_demo_next = false;
     d->demo_active = true;
     d->gothelp = true;
+    countGame();
     unmarkAll();
     clearHints();
     getHints();
@@ -1708,7 +1733,7 @@ void DealerScene::relayoutPiles()
 
 void DealerScene::setSceneSize( const QSize &s )
 {
-    kDebug(11111) << "setSceneSize" << sceneRect();
+    kDebug(11111) << "setSceneSize" << sceneRect() << s;
     setSceneRect( QRectF( 0, 0, s.width(), s.height() ) );
     d->hasScreenRect = true;
 
@@ -1732,18 +1757,20 @@ void DealerScene::setSceneSize( const QSize &s )
             p->rescale();
         QSizeF ms( cardMap::self()->wantedCardWidth(),
                    cardMap::self()->wantedCardHeight() );
-        //kDebug() << p->objectName() <<  " " << p->reservedSpace() << " " << p->pos();
+        //kDebug() << p->objectName() << p->reservedSpace() << p->pos() << ms;
         if ( p->reservedSpace().width() > 10 )
             ms.setWidth( s.width() - p->x() );
-        if ( p->reservedSpace().height() > 10 )
+        if ( p->reservedSpace().height() > 10 && s.height() > p->y() )
             ms.setHeight( s.height() - p->y() );
-        if ( p->reservedSpace().width() < 0 )
+        if ( p->reservedSpace().width() < 0 && p->x() > 0 )
             ms.setWidth( p->x() );
         Q_ASSERT( p->reservedSpace().height() > 0 ); // no such case yet
 
-        //kDebug() << "setMaximalSpace" << ms << " " << cardMap::self()->wantedCardHeight() << " " << cardMap::self()->wantedCardWidth();
-        Q_ASSERT( ms.width() >= cardMap::self()->wantedCardWidth() - 0.2 );
-        Q_ASSERT( ms.height() >= cardMap::self()->wantedCardHeight() - 0.2 );
+        //kDebug() << "setMaximalSpace" << ms << cardMap::self()->wantedCardHeight() << cardMap::self()->wantedCardWidth();
+        if ( ms.width() < cardMap::self()->wantedCardWidth() - 0.2 )
+            return;
+        if ( ms.height() < cardMap::self()->wantedCardHeight() - 0.2 )
+            return;
 
         p->setMaximalSpace( ms );
     }

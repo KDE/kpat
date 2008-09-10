@@ -126,8 +126,6 @@ public:
     void setGameId(int id);
     int gameId() const;
 
-    void startNew();
-
     virtual void restart() = 0;
     virtual void stopDemo();
 
@@ -179,6 +177,8 @@ public slots:
     void undo();
     void slotSolverEnded();
     void slotSolverFinished();
+
+    void startNew();
 
 protected slots:
     virtual void demo();
