@@ -399,9 +399,8 @@ void Card::mousePressEvent ( QGraphicsSceneMouseEvent *ev ) {
     if ( this == source()->top() )
         return; // no way this is meaningful
 
-    if (ev->buttons() & Qt::RightButton)
+    if (ev->buttons() & Qt::RightButton && !animated() && !source()->dscene()->isMoving( this ) )
     {
-    
         m_hoverTimer->stop();
         stopAnimation();
         zoomIn(400);
