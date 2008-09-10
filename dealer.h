@@ -139,6 +139,8 @@ public:
     virtual void setGameState( const QString & ) {}
 
     QPointF maxPilePos() const;
+    qreal offsetX() const;
+    qreal offsetY() const;
 
     void setSceneSize( const QSize &s );
 

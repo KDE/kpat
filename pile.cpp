@@ -171,9 +171,11 @@ void Pile::rescale()
 
     QPointF new_pos = QPointF( _pilePos.x() * cardMap::self()->wantedCardWidth() / 10.,
                                _pilePos.y() * cardMap::self()->wantedCardHeight() / 10. );
-    //kDebug() << scene()->sceneRect() << " " << new_pos;
+    //kDebug() << scene()->sceneRect() << pos() << new_pos << dscene()->offsetX();
     if ( new_pos.x() < 0 )
         new_pos.setX( scene()->width() - cardMap::self()->wantedCardWidth() + new_pos.x() );
+    else
+        new_pos.rx() += dscene()->offsetX();
     if ( new_pos.y() < 0 )
         new_pos.setY( scene()->height() - cardMap::self()->wantedCardHeight() + new_pos.y() );
 
@@ -188,7 +190,7 @@ void Pile::rescale()
         setPixmap( *mycache );
         return;
     }
-    kDebug(11111) << gettime() << "rescale start\n";
+    //kDebug(11111) << gettime() << "rescale start\n";
 
 #if 0
     QImage pix( ( int )maximalSpace().width(),
@@ -213,7 +215,7 @@ void Pile::rescale()
     else
         pix.save( KStandardDirs::locateLocal( "data", "kpat/pile.png" ), "PNG" );
     setPixmap( *mycache );
-    kDebug(11111) << gettime() << "rescale end\n";
+    //kDebug(11111) << gettime() << "rescale end\n";
 }
 
 bool Pile::legalAdd( const CardList& _cards, bool ) const

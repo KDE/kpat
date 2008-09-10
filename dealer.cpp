@@ -160,6 +160,8 @@ public:
     static QSvgRenderer *backren;
     QPixmap backPix;
     bool initialDeal;
+    qreal offx;
+    qreal offy;
 };
 
 void DealerScene::takeState()
@@ -413,6 +415,7 @@ DealerScene::DealerScene():
     d->myActions = 0;
     d->m_solver = 0;
     d->m_solver_thread = 0;
+    d->offx = d->offy = 0;
     d->neededFutureMoves = 1;
     d->toldAboutLostGame = false;
     d->toldAboutWonGame = false;
@@ -1129,7 +1132,7 @@ Pile *DealerScene::findTarget(Card *c)
 
 void DealerScene::setWaiting(bool w)
 {
-    kDebug(11111) << "setWaiting" << w << " " << _waiting;
+    //kDebug(11111) << "setWaiting" << w << " " << _waiting;
     assert( _waiting > 0 || w );
 
     if (w)
@@ -1745,15 +1748,22 @@ void DealerScene::setSceneSize( const QSize &s )
 
     qreal scaleX = s.width() / cardMap::self()->wantedCardWidth() / ( defaultSceneRect.x() + 2 );
     qreal scaleY = s.height() / cardMap::self()->wantedCardHeight() / ( defaultSceneRect.y() + 2 );
-    //kDebug() << "scaleY" << scaleY << " " << scaleX;
+    //kDebug() << "scales" << scaleY << scaleX;
     qreal n_scaleFactor = qMin(scaleX, scaleY);
+
+    d->offx = 0;
+    d->offy = 0; // just for completness
+    if ( n_scaleFactor < scaleX )
+    {
+        d->offx = ( s.width() - ( ( defaultSceneRect.x() + 2 ) * n_scaleFactor ) * cardMap::self()->wantedCardWidth() ) / 2;
+    }
 
     cardMap::self()->setWantedCardWidth( int( n_scaleFactor * 10 * cardMap::self()->wantedCardWidth() ) );
 
     for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
     {
         Pile *p = *it;
-        if ( p->pilePos().x() < 0 || p->pilePos().y() < 0 )
+        if ( p->pilePos().x() < 0 || p->pilePos().y() < 0 || d->offx > 0 )
             p->rescale();
         QSizeF ms( cardMap::self()->wantedCardWidth(),
                    cardMap::self()->wantedCardHeight() );
@@ -1802,11 +1812,11 @@ void DealerScene::setSceneSize( const QSize &s )
                 pileRect.moveBottom( (*it2)->y() );
 
 
-            //kDebug() << "compa" << p->objectName() << " " << myRect << " " << ( *it2 )->objectName() << " " << pileRect << " " << myRect.intersects( pileRect );
+            //kDebug() << "compa" << p->objectName() << myRect << ( *it2 )->objectName() << pileRect << myRect.intersects( pileRect );
             // if the growing pile intersects with another pile, we need to solve the conflict
             if ( myRect.intersects( pileRect ) )
             {
-                //kDebug() << "compa" << p->objectName() << " " << myRect << " " << ( *it2 )->objectName() << " " << pileRect << " " << myRect.intersects( pileRect );
+                //kDebug() << "compa" << p->objectName() << myRect << ( *it2 )->objectName() << pileRect << myRect.intersects( pileRect );
                 QSizeF pms = ( *it2 )->maximalSpace();
 
                 if ( p->reservedSpace().width() != 10 )
@@ -1850,13 +1860,13 @@ void DealerScene::setSceneSize( const QSize &s )
                         }
                 }
 
-                //kDebug() << pms << " " << cardMap::self()->wantedCardWidth() << " " << cardMap::self()->wantedCardHeight();
+                kDebug() << pms  << cardMap::self()->wantedCardWidth()  << cardMap::self()->wantedCardHeight();
                 Q_ASSERT( pms.width() >= cardMap::self()->wantedCardWidth() - 0.1 );
                 Q_ASSERT( pms.height() >= cardMap::self()->wantedCardHeight() - 0.1 );
                 ( *it2 )->setMaximalSpace( pms );
             }
         }
-        //kDebug() << myRect << " " << cardMap::self()->wantedCardHeight();
+        //kDebug() << myRect << cardMap::self()->wantedCardHeight();
         Q_ASSERT( myRect.width() >= cardMap::self()->wantedCardWidth() - 0.1 );
         Q_ASSERT( myRect.height() >= cardMap::self()->wantedCardHeight() - 0.1 );
 
@@ -1884,11 +1894,14 @@ Solver *DealerScene::solver() const { return d->m_solver; }
 int DealerScene::neededFutureMoves() const { return d->neededFutureMoves; }
 void DealerScene::setNeededFutureMoves( int i ) { d->neededFutureMoves = i; }
 
+qreal DealerScene::offsetX() const { return d->offx; }
+qreal DealerScene::offsetY() const { return d->offy; }
+
 QSvgRenderer *DealerScene::DealerScenePrivate::backren = 0;
 
 void DealerScene::drawBackground ( QPainter * painter, const QRectF & rect )
 {
-    kDebug(11111) << "drawBackground" << rect << " " << d->hasScreenRect;
+    kDebug(11111) << "drawBackground" << rect << d->hasScreenRect;
     if ( !d->hasScreenRect )
         return;
 
