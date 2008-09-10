@@ -140,6 +140,9 @@ public:
     QGraphicsItem *wonItem;
     bool gothelp;
     bool toldAboutLostGame;
+    // we need a flag to avoid telling someone the game is lost
+    // just because the winning animation moved the cards away
+    bool toldAboutWonGame;
     int myActions;
     Solver *m_solver;
     SolverThread *m_solver_thread;
@@ -201,9 +204,10 @@ void DealerScene::takeState()
         }
         if (isGameWon()) {
             won();
+            d->toldAboutWonGame = true;
             return;
         }
-        else if ( !d->toldAboutLostGame && isGameLost() ) {
+        else if ( !d->toldAboutWonGame && !d->toldAboutLostGame && isGameLost() ) {
             emit hintPossible( false );
             emit demoPossible( false );
             emit redealPossible( false );
@@ -383,6 +387,7 @@ void DealerScene::undo()
             hintPossible( true );
             demoPossible( true );
             d->toldAboutLostGame = false;
+            d->toldAboutWonGame = false;
         }
     }
     emit gameSolverUnknown();
@@ -410,6 +415,7 @@ DealerScene::DealerScene():
     d->m_solver_thread = 0;
     d->neededFutureMoves = 1;
     d->toldAboutLostGame = false;
+    d->toldAboutWonGame = false;
     d->hasScreenRect = false;
     d->updateSolver = new QTimer(this);
     d->updateSolver->setInterval( 250 );
@@ -765,6 +771,7 @@ void DealerScene::startNew()
     qDeleteAll(undoList);
     undoList.clear();
     d->toldAboutLostGame = false;
+    d->toldAboutWonGame = false;
     emit updateMoves();
 
     stopDemo();
@@ -1225,7 +1232,7 @@ int DealerScene::speedUpTime( int delay ) const
 
 void DealerScene::stopAndRestartSolver()
 {
-    if ( d->toldAboutLostGame ) // who cares?
+    if ( d->toldAboutLostGame || d->toldAboutWonGame ) // who cares?
         return;
 
     kDebug(11111) << "stopAndRestartSolver\n";
