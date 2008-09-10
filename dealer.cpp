@@ -1171,7 +1171,7 @@ bool DealerScene::startAutoDrop()
     for (HintList::ConstIterator it = hints.begin(); it != hints.end(); ++it) {
         MoveHint *mh = *it;
         if (mh->pile() && mh->pile()->target() && mh->priority() > 120 && !mh->card()->takenDown()) {
-            setWaiting(true);
+            //setWaiting(true);
             Card *t = mh->card();
             CardList cards = mh->card()->source()->cards();
             while (cards.count() && cards.first() != t)
@@ -1202,7 +1202,11 @@ bool DealerScene::startAutoDrop()
                 ys.removeFirst();
                 t->moveTo(t->source()->x(), t->source()->y(), t->zValue(),
                           speedUpTime( DURATION_AUTODROP + count++ * DURATION_AUTODROP / 10 ) );
-                connect(t, SIGNAL(stoped(Card*)), SLOT(waitForAutoDrop(Card*)));
+                if ( t->animated() )
+                {
+                    setWaiting( true );
+                    connect(t, SIGNAL(stoped(Card*)), SLOT(waitForAutoDrop(Card*)));
+                }
             }
             d->m_autoDropFactor *= 0.8;
             return true;
