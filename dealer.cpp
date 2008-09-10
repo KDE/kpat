@@ -748,6 +748,12 @@ typedef QList<Hit> HitList;
 
 void DealerScene::startNew()
 {
+    if ( waiting() )
+    {
+        QTimer::singleShot( 100, this, SLOT( startNew() ) );
+        return;
+    }
+
     if (!d->_won)
         countLoss();
     d->_won = false;
@@ -766,7 +772,8 @@ void DealerScene::startNew()
     unmarkAll();
     kDebug(11111) << "startNew setAnimated(false)\n";
     QList<QGraphicsItem *> list = items();
-    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it) {
+    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
+    {
         if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId )
         {
             Card *c = static_cast<Card*>(*it);
