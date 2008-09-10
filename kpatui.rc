@@ -21,7 +21,6 @@
 </MenuBar>
 <ToolBar name="mainToolBar"><text>Main Toolbar</text>
   <Action name="game_new"/>
-  <Action name="game_restart"/>
   <Action name="move_undo"/>
   <ActionList name="game_actions"/>
 </ToolBar>
