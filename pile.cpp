@@ -473,7 +473,19 @@ void Pile::add( Card* _card, bool _facedown )
         qreal dist = sqrt( distx * distx + disty * disty );
         qreal whole = sqrt( scene()->width() * scene()->width() + scene()->height() * scene()->height() );
         _card->moveTo(x2, y2, z2, qRound( dist * 1000 / whole ) );
+
+        if ( _card->animated() )
+        {
+            dscene()->setWaiting( true );
+            connect(_card, SIGNAL(stoped(Card*)), SLOT(waitForMoving(Card*)));
+        }
     }
+}
+
+void Pile::waitForMoving( Card*c )
+{
+    c->disconnect(this);
+    dscene()->setWaiting( false );
 }
 
 void Pile::remove(Card *c)
