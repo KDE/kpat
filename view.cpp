@@ -191,6 +191,11 @@ void PatienceView::hint()
     dscene()->hint();
 }
 
+void PatienceView::setSolverEnabled(bool a)
+{
+    dscene()->setSolverEnabled( a );
+}
+
 void PatienceView::setAutoDropEnabled(bool a)
 {
     dscene()->setAutoDropEnabled( a );

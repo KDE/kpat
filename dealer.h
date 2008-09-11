@@ -105,6 +105,7 @@ public:
     // it's not const because it changes the random seed
     virtual MoveHint *chooseHint();
 
+    void setSolverEnabled(bool a);
     void setAutoDropEnabled(bool a);
     bool autoDrop() const { return _autodrop; }
 
@@ -156,6 +157,7 @@ public:
     void setSolver( Solver *s);
     Solver *solver() const;
 
+    void startSolver() const;
     void unlockSolver() const;
     void finishSolver() const;
 
@@ -226,6 +228,7 @@ private:
 
     QPointF moving_start;
     bool _autodrop;
+    bool _usesolver;
     int _waiting;
     long gamenumber;
 

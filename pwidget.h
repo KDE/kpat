@@ -62,6 +62,7 @@ public slots:
     void slotUpdateMoves();
     void helpGame();
     void enableAutoDrop();
+    void enableSolver();
     void showStats();
 
     void slotGameSolverStart();
@@ -83,6 +84,7 @@ private:
     KSelectAction  *games;
     QAction        *undo;
     KToggleAction  *dropaction;
+    KToggleAction  *solveraction;
     QAction        *stats;
 
     QPixmap         background;

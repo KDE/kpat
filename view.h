@@ -46,6 +46,7 @@ public:
     QString anchorName() const;
     void setAnchorName(const QString &name);
 
+    void setSolverEnabled(bool a);
     void setAutoDropEnabled(bool a);
 
     void setGameNumber(long gmn);

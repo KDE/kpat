@@ -142,12 +142,19 @@ pWidget::pWidget()
     dropaction = new KToggleAction(i18n("&Enable Autodrop"), this);
     actionCollection()->addAction("enable_autodrop", dropaction);
     connect( dropaction, SIGNAL( triggered( bool ) ), SLOT(enableAutoDrop()) );
+    
+    solveraction = new KToggleAction(i18n("E&nable Solver"), this);
+    actionCollection()->addAction("enable_solver", solveraction);
+    connect( solveraction, SIGNAL( triggered( bool ) ), SLOT( enableSolver() ) );
 
     KConfigGroup cg(KGlobal::config(), settings_group );
 
     bool autodrop = cg.readEntry("Autodrop", true);
     dropaction->setChecked(autodrop);
 
+    bool solver = cg.readEntry("Solver", false);
+    solveraction->setChecked(solver);
+    
     int game = cg.readEntry("DefaultGame", 0);
     games->setCurrentItem( m_dealer_map[game] );
 
@@ -189,6 +196,14 @@ void pWidget::enableAutoDrop()
     KConfigGroup cg(KGlobal::config(), settings_group );
     cg.writeEntry( "Autodrop", drop);
     dill->setAutoDropEnabled(drop);
+}
+
+void pWidget::enableSolver()
+{
+    bool solver = solveraction->isChecked();
+    KConfigGroup cg(KGlobal::config(), settings_group );
+    cg.writeEntry( "Solver", solver );
+    dill->setSolverEnabled(solver);
 }
 
 void pWidget::newGame()

@@ -220,7 +220,7 @@ void DealerScene::takeState()
         }
 
         if ( d->m_solver && !demoActive() && !waiting() )
-            d->updateSolver->start();
+            startSolver();
 
     }
     if (!demoActive() && !waiting())
@@ -1132,7 +1132,7 @@ Pile *DealerScene::findTarget(Card *c)
 
 void DealerScene::setWaiting(bool w)
 {
-    //kDebug(11111) << "setWaiting" << w << " " << _waiting;
+    kDebug(11111) << "setWaiting" << w << " " << _waiting;
     assert( _waiting > 0 || w );
 
     if (w)
@@ -1146,6 +1146,13 @@ void DealerScene::setAutoDropEnabled(bool a)
 {
     _autodrop = a;
     QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
+}
+
+void DealerScene::setSolverEnabled(bool a)
+{
+    _usesolver = a;
+    if(_usesolver)
+        startSolver();
 }
 
 bool DealerScene::startAutoDrop()
@@ -1251,7 +1258,7 @@ void DealerScene::stopAndRestartSolver()
         if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
             Card *c = static_cast<Card*>(*it);
             if (c->animated()) {
-                d->updateSolver->start();
+                startSolver();
                 //kDebug(11111) << "animation still going on\n";
                 return;
             }
@@ -1274,7 +1281,7 @@ void DealerScene::slotSolverEnded()
         d->m_solver_thread = new SolverThread( d->m_solver );
         connect( d->m_solver_thread, SIGNAL( finished() ), this, SLOT( slotSolverFinished() ));
     }
-    d->m_solver_thread->start(QThread::IdlePriority);
+    d->m_solver_thread->start(_usesolver ? QThread::IdlePriority : QThread::NormalPriority );
 }
 
 void DealerScene::slotSolverFinished()
@@ -1284,7 +1291,7 @@ void DealerScene::slotSolverFinished()
     {
         // if we can lock, then this finish signal is abnormal
         d->solverMutex.unlock();
-        d->updateSolver->start();
+        startSolver();
         return;
     }
 
@@ -1306,7 +1313,7 @@ void DealerScene::slotSolverFinished()
         break;
     case Solver::QUIT:
         d->solverMutex.unlock();
-        d->updateSolver->start();
+        startSolver();
         break;
     case Solver::MLIMIT:
         d->solverMutex.unlock();
@@ -1608,10 +1615,11 @@ Card *DealerScene::demoNewCards()
 void DealerScene::newDemoMove(Card *m)
 {
     kDebug(11111) << "newDemoMove" << m->rank() << " " << m->suit();
-    setWaiting( true );
     if ( m->animated() )
+    {
         connect(m, SIGNAL(stoped(Card*)), SLOT(waitForDemo(Card*)));
-    else
+        setWaiting( true );
+    } else
         waitForDemo( 0 );
 }
 
@@ -1621,13 +1629,9 @@ void DealerScene::waitForDemo(Card *t)
     {
         kDebug(11111) << "waitForDemo" << t->rank() << " " << t->suit();
         t->disconnect(this, SLOT( waitForDemo( Card* ) ) );
+        setWaiting( false );
     }
-    setWaiting( false );
-    if ( !waiting() )
-    {
-        d->demotimer->setSingleShot( true );
-        d->demotimer->start(250);
-    }
+    d->demotimer->start(250);
 }
 
 void DealerScene::setSolver( Solver *s) {
@@ -1645,6 +1649,12 @@ bool DealerScene::isGameWon() const
             return false;
     }
     return true;
+}
+
+void DealerScene::startSolver() const
+{
+    if(_usesolver)
+        d->updateSolver->start();
 }
 
 void DealerScene::unlockSolver() const
