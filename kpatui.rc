@@ -12,7 +12,6 @@
   <Menu name="settings" noMerge="1"><text>&amp;Settings</text>
     <Action name="game_type"/>
     <Action name="backside"/>
-    <Action name="wallpaper"/>
     <Action name="animation"/> 
     <Action name="enable_autodrop"/>
     <Action name="enable_solver"/>

@@ -29,6 +29,7 @@
 #include <QLabel>
 #include <QShowEvent>
 #include <krecentfilesaction.h>
+class DemoBubbles;
 class PatienceView;
 class KToggleAction;
 class KSelectAction;
@@ -72,6 +73,11 @@ public slots:
     void slotPickRandom();
     void slotSelectDeck();
 
+    void slotSnapshot();
+
+private slots:
+    void slotSnapshot2();
+
 private:
     void setGameCaption();
     virtual void showEvent(QShowEvent *e);
@@ -91,6 +97,9 @@ private:
     KRecentFilesAction  *recent;
     cardMap        *m_cards; // possibly move to PatienceView
     QMap<int, int>  m_dealer_map;
+    QMap<int, int>::const_iterator  m_dealer_it;
+
+    DemoBubbles    *m_bubbles;
 };
 
 #endif

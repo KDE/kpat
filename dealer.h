@@ -168,6 +168,8 @@ public:
 
     bool cardsAreMoving() const { return !movingCards.empty(); }
 
+    void createDump( QPaintDevice * );
+
 public slots:
     virtual bool startAutoDrop();
     void hint();
