@@ -168,6 +168,7 @@ pWidget::pWidget()
 
     m_bubbles = new DemoBubbles( this );
     setCentralWidget( m_bubbles );
+    connect( m_bubbles, SIGNAL( gameSelected( int ) ), SLOT( slotGameSelected( int ) ) );
 }
 
 pWidget::~pWidget()
@@ -292,6 +293,12 @@ void pWidget::setGameCaption()
             newname += name.at(i);
 
     setCaption( newname + " - " + gamenum );
+}
+
+void pWidget::slotGameSelected( int i )
+{
+    games->setCurrentItem( m_dealer_map[i] );
+    slotNewGameType();
 }
 
 void pWidget::slotNewGameType()

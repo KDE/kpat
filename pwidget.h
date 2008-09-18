@@ -75,6 +75,8 @@ public slots:
 
     void slotSnapshot();
 
+    void slotGameSelected( int i );
+
 private slots:
     void slotSnapshot2();
 
