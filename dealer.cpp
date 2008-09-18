@@ -1950,13 +1950,22 @@ void DealerScene::createDump( QPaintDevice *device )
             QGraphicsItem *item = list.at(i);
             if ( !item->isVisible() || item->zValue() != z )
                 continue;
-            kDebug() << item->pos() << " " << item->zValue() << " " << item->type();
+
             if (item->type() == QGraphicsItem::UserType + DealerScene::CardTypeId )
             {
 
             }
             else if (item->type() == QGraphicsItem::UserType + DealerScene::PileTypeId )
             {
+                kDebug() << item->pos() << " " << item->zValue() << " " << item->type();
+                QGraphicsPixmapItem *pitem = dynamic_cast<QGraphicsPixmapItem*>( item );
+                assert( pitem );
+                p.save();
+                p.setTransform(item->deviceTransform(p.worldTransform()), false);
+                //item->paint( &p, &options );
+                p.drawPixmap( 0, 0, pitem->pixmap() );
+                p.restore();
+                continue;
             } else
                 assert( false );
 
