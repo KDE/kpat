@@ -76,10 +76,12 @@ pWidget::pWidget()
     current_pwidget = this;
     // KCrash::setEmergencySaveFunction(::saveGame);
 
-
+    QAction *a;
     // Game
-    KStandardGameAction::gameNew(this, SLOT(newGame()), actionCollection());
-    KStandardGameAction::restart(this, SLOT(restart()), actionCollection());
+    a = KStandardGameAction::gameNew(this, SLOT(newGame()), actionCollection());
+    a->setEnabled( false );
+    a = KStandardGameAction::restart(this, SLOT(restart()), actionCollection());
+    a->setEnabled( false );
     KStandardGameAction::load(this, SLOT(openGame()), actionCollection());
     recent = KStandardGameAction::loadRecent(this, SLOT(openGame(const KUrl&)), actionCollection());
     recent->loadEntries( KGlobal::config()->group( QString() ));
@@ -90,9 +92,10 @@ pWidget::pWidget()
     undo = KStandardGameAction::undo(this, SLOT(undoMove()), actionCollection());
     undo->setEnabled(false);
 
-    QAction *a = actionCollection()->addAction("choose_game");
+    a = actionCollection()->addAction("choose_game");
     a->setText(i18n("&Choose Game..."));
     connect( a, SIGNAL( triggered( bool ) ), SLOT( chooseGame() ) );
+    a->setEnabled( false );
 
     actionCollection()->addAction(KStandardAction::Help, "help_game",
                                   this, SLOT(helpGame()));
@@ -121,16 +124,17 @@ pWidget::pWidget()
     a->setText(i18n("Random Cards"));
     connect( a, SIGNAL( triggered( bool ) ), SLOT( slotPickRandom() ) );
     a->setShortcuts( KShortcut( Qt::Key_F9 ) );
+    a->setEnabled( false );
 
     a = actionCollection()->addAction("snapshot");
-    //a->setText(i18n("");
     connect( a, SIGNAL( triggered( bool ) ), SLOT( slotSnapshot() ) );
-    a->setShortcuts( KShortcut( Qt::Key_F8 ) );
+    //a->setShortcuts( KShortcut( Qt::Key_F8 ) );
 
     a = actionCollection()->addAction("select_deck");
     a->setText(i18n("Select Deck..."));
     connect( a, SIGNAL( triggered( bool ) ), SLOT( slotSelectDeck() ) );
     a->setShortcuts( KShortcut( Qt::Key_F10 ) );
+    a->setEnabled( false );
 
     m_cards = new cardMap();
 
@@ -141,10 +145,12 @@ pWidget::pWidget()
     dropaction = new KToggleAction(i18n("&Enable Autodrop"), this);
     actionCollection()->addAction("enable_autodrop", dropaction);
     connect( dropaction, SIGNAL( triggered( bool ) ), SLOT(enableAutoDrop()) );
+    a->setEnabled( false );
 
     solveraction = new KToggleAction(i18n("E&nable Solver"), this);
     actionCollection()->addAction("enable_solver", solveraction);
     connect( solveraction, SIGNAL( triggered( bool ) ), SLOT( enableSolver() ) );
+    a->setEnabled( false );
 
     KConfigGroup cg(KGlobal::config(), settings_group );
 
@@ -155,7 +161,7 @@ pWidget::pWidget()
     solveraction->setChecked(solver);
 
     int game = cg.readEntry("DefaultGame", 0);
-    games->setCurrentItem( m_dealer_map[game] );
+    //games->setCurrentItem( m_dealer_map[game] );
 
     statusBar()->insertPermanentItem( "", 1, 0 );
     setupGUI(qApp->desktop()->availableGeometry().size()*0.7); // QString()/*, false*/);
@@ -327,6 +333,14 @@ void pWidget::newGameType()
         connect(dill, SIGNAL(saveGame()), SLOT(saveGame()));
         setCentralWidget(dill);
     }
+
+    actionCollection()->action( "random_set" )->setEnabled( true );
+    actionCollection()->action( "choose_game" )->setEnabled( true );
+    actionCollection()->action( "enable_autodrop" )->setEnabled( true );
+    actionCollection()->action( "enable_solver" )->setEnabled( true );
+    actionCollection()->action( "game_new" )->setEnabled( true );
+    actionCollection()->action( "game_restart" )->setEnabled( true );
+    actionCollection()->action( "select_deck" )->setEnabled( true );
 
     kDebug(11111) << "newGameType" << item;
     for (QList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin();
