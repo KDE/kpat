@@ -28,6 +28,7 @@
 #include <QTimer>
 #include <QList>
 #include "patsolve/freecell.h"
+#include "speeds.h"
 
 const int CHUNKSIZE = 100;
 
@@ -78,7 +79,6 @@ Freecell::Freecell()
         target[i]->setObjectName( QString( "target%1" ).arg( i ) );
         target[i]->setPilePos(4 + 10.8 * ( 4 + i ), 1);
         target[i]->setType(Pile::KlondikeTarget);
-        // COOLO: I'm still not too sure about that t->setRemoveFlags(Pile::Default);
     }
 
     setActions(DealerScene::Demo | DealerScene::Hint);
@@ -134,6 +134,8 @@ void Freecell::moveCards(CardList &c, FreecellPile *from, Pile *to)
     }
     while (moves.count()) { delete moves.first(); moves.erase(moves.begin()); }
 
+    sum_moves = 0;
+    current_weight = 1000;
     movePileToPile(c, to, fss, fcs, 0, c.count(), 0);
 
     if (!waitfor->animated())
@@ -181,12 +183,19 @@ void Freecell::movePileToPile(CardList &c, Pile *to, PileList fss, PileList &fcs
     assert(moving);
 
     for (int i = 0; i < moving - 1; i++) {
-        moves.append(new MoveHint(c[c.count() - i - 1 - start], fcs[i], 0));
+        moves.append(new MoveHint(c[c.count() - i - 1 - start], fcs[i], current_weight));
+        sum_moves += current_weight;
+        current_weight *= 0.9;
     }
-    moves.append(new MoveHint(c[c.count() - start - 1 - (moving - 1)], to, 0));
+    moves.append(new MoveHint(c[c.count() - start - 1 - (moving - 1)], to, current_weight));
+    sum_moves += current_weight;
+    current_weight *= 0.9;
 
-    for (int i = moving - 2; i >= 0; --i)
-        moves.append(new MoveHint(c[c.count() - i - 1 - start], to, 0));
+    for (int i = moving - 2; i >= 0; --i) {
+        moves.append(new MoveHint(c[c.count() - i - 1 - start], to, current_weight));
+        sum_moves += current_weight;
+        current_weight *= 0.9;
+    }
 
     while (moves_away.count())
     {
@@ -213,9 +222,11 @@ void Freecell::startMoving()
     assert(mh->card() == mh->card()->source()->top());
     assert(mh->pile()->legalAdd(empty));
     mh->pile()->add(mh->card());
-    mh->pile()->moveCardsBack(empty, true);
+
+    int duration = qMax( DURATION_MOVEBACK * mh->priority() / 1000, 1 );
+    mh->pile()->moveCardsBack(empty, duration );
     waitfor = mh->card();
-    kDebug(11111) << "wait for moving end" << mh->card()->rank() << " " << mh->card()->suit();
+    kDebug(11111) << "wait for moving end" << mh->card()->rank() << " " << mh->card()->suit() << mh->priority();
     connect(mh->card(), SIGNAL(stoped(Card*)), SLOT(waitForMoving(Card*)));
     delete mh;
 }

@@ -23,16 +23,16 @@ class Pile;
 class MoveHint
 {
 public:
-    MoveHint(Card *card, Pile *to, qint8 prio);
+    MoveHint(Card *card, Pile *to, int prio);
 
     Card  *card() const         { return m_card;         }
     Pile  *pile() const         { return m_to;           }
-    qint8 priority() const      { return m_prio; }
+    int priority() const      { return m_prio; }
 
 private:
     Card  *m_card;
     Pile  *m_to;
-    qint8 m_prio;
+    int m_prio;
 };
 
 

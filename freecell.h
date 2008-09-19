@@ -76,6 +76,8 @@ protected:
 
 private:
     HintList moves;
+    int sum_moves;
+    int current_weight;
     Card *waitfor;
     bool noLongerNeeded(const Card &);
 };

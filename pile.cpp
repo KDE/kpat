@@ -558,10 +558,10 @@ void Pile::moveCards(CardList &cl, Pile *to)
         }
     }
 
-    to->moveCardsBack(cl, true);
+    to->moveCardsBack(cl);
 }
 
-void Pile::moveCardsBack(CardList &cl, bool anim)
+void Pile::moveCardsBack(CardList &cl, int steps )
 {
     if (!cl.count())
         return;
@@ -571,9 +571,8 @@ void Pile::moveCardsBack(CardList &cl, bool anim)
     Card *before = 0;
     QSizeF off;
 
-    int steps = DURATION_MOVEBACK;
-    if (!anim)
-        steps = 0;
+    if ( steps == -1 )
+        steps = DURATION_MOVEBACK;
 
     for (CardList::Iterator iti = m_cards.begin(); iti != m_cards.end(); ++iti)
     {

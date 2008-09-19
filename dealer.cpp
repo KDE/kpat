@@ -45,7 +45,7 @@
 // ================================================================
 //                         class MoveHint
 
-MoveHint::MoveHint(Card *card, Pile *to, qint8 prio)
+MoveHint::MoveHint(Card *card, Pile *to, int prio)
 {
     m_card         = card;
     m_to           = to;
