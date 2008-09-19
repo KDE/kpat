@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kpat" version="17">
+<gui name="kpat" version="18">
 <MenuBar>
   <Menu name="game">
     <Action name="choose_game"/>
@@ -12,8 +12,8 @@
   <Menu name="settings" noMerge="1"><text>&amp;Settings</text>
     <Action name="game_type"/>
     <Action name="backside"/>
-    <Action name="wallpaper"/>
     <Action name="animation"/> 
+    <ActionList name="dealer_options"/>
     <Action name="enable_autodrop"/>
     <Action name="enable_solver"/>
     <Action name="random_set"/>

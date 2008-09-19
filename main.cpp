@@ -174,7 +174,8 @@ int main( int argc, char **argv )
     if (args->count())
         w->openGame(args->url(0));
     else
-        QTimer::singleShot(100, w, SLOT(slotNewGameType()));
+        w->show();
+    //QTimer::singleShot(100, w, SLOT(slotNewGameType()));
     args->clear();
     return application.exec();
 }

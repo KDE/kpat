@@ -23,6 +23,8 @@
 
 #include "dealer.h"
 
+class KSelectAction;
+
 class SpiderPile : public Pile
 {
 public:
@@ -38,7 +40,7 @@ class Spider : public DealerScene
     Q_OBJECT
 
 public:
-    Spider(int suits);
+    Spider();
     void deal();
     void dealRow();
     bool checkPileDeck(Pile *to, bool checkForDemo = true);
@@ -47,6 +49,7 @@ public:
 public slots:
     void deckClicked(Card *c);
     void cardStoped(Card *c);
+    void gameTypeChanged();
 
 protected:
     virtual bool checkRemove(int /*checkIndex*/, const Pile *p, const Card *c) const;
@@ -63,6 +66,8 @@ private:
     int m_leg;
     Pile *redeals[5];
     int m_redeal;
+
+    KSelectAction *options;
 };
 
 #endif

@@ -65,7 +65,7 @@
 #include "view.h"
 #include "cardmaps.h"
 #include "gamestatsimpl.h"
-
+#include "demo.h"
 
 static pWidget *current_pwidget = 0;
 
@@ -117,16 +117,15 @@ pWidget::pWidget()
 
     games->setItems(list);
 
-    KGlobal::dirs()->addResourceType("wallpaper", "data", "kpat/backgrounds/");
-
-    dill = new PatienceView( this );
-    connect(dill, SIGNAL(saveGame()), SLOT(saveGame()));
-    setCentralWidget(dill);
-
     a = actionCollection()->addAction("random_set");
     a->setText(i18n("Random Cards"));
     connect( a, SIGNAL( triggered( bool ) ), SLOT( slotPickRandom() ) );
     a->setShortcuts( KShortcut( Qt::Key_F9 ) );
+
+    a = actionCollection()->addAction("snapshot");
+    //a->setText(i18n("");
+    connect( a, SIGNAL( triggered( bool ) ), SLOT( slotSnapshot() ) );
+    a->setShortcuts( KShortcut( Qt::Key_F8 ) );
 
     a = actionCollection()->addAction("select_deck");
     a->setText(i18n("Select Deck..."));
@@ -142,7 +141,7 @@ pWidget::pWidget()
     dropaction = new KToggleAction(i18n("&Enable Autodrop"), this);
     actionCollection()->addAction("enable_autodrop", dropaction);
     connect( dropaction, SIGNAL( triggered( bool ) ), SLOT(enableAutoDrop()) );
-    
+
     solveraction = new KToggleAction(i18n("E&nable Solver"), this);
     actionCollection()->addAction("enable_solver", solveraction);
     connect( solveraction, SIGNAL( triggered( bool ) ), SLOT( enableSolver() ) );
@@ -154,7 +153,7 @@ pWidget::pWidget()
 
     bool solver = cg.readEntry("Solver", false);
     solveraction->setChecked(solver);
-    
+
     int game = cg.readEntry("DefaultGame", 0);
     games->setCurrentItem( m_dealer_map[game] );
 
@@ -164,6 +163,14 @@ pWidget::pWidget()
 
     // QTimer::singleShot( 0, this, SLOT( newGameType() ) );
     setAutoSaveSettings();
+
+    m_dealer_it = m_dealer_map.end();
+
+    dill = 0;
+
+    m_bubbles = new DemoBubbles( this );
+    setCentralWidget( m_bubbles );
+    connect( m_bubbles, SIGNAL( gameSelected( int ) ), SLOT( slotGameSelected( int ) ) );
 }
 
 pWidget::~pWidget()
@@ -195,7 +202,8 @@ void pWidget::enableAutoDrop()
     bool drop = dropaction->isChecked();
     KConfigGroup cg(KGlobal::config(), settings_group );
     cg.writeEntry( "Autodrop", drop);
-    dill->setAutoDropEnabled(drop);
+    if ( dill )
+        dill->setAutoDropEnabled(drop);
 }
 
 void pWidget::enableSolver()
@@ -203,7 +211,8 @@ void pWidget::enableSolver()
     bool solver = solveraction->isChecked();
     KConfigGroup cg(KGlobal::config(), settings_group );
     cg.writeEntry( "Solver", solver );
-    dill->setSolverEnabled(solver);
+    if ( dill )
+        dill->setSolverEnabled(solver);
 }
 
 void pWidget::newGame()
@@ -290,6 +299,12 @@ void pWidget::setGameCaption()
     setCaption( newname + " - " + gamenum );
 }
 
+void pWidget::slotGameSelected( int i )
+{
+    games->setCurrentItem( m_dealer_map[i] );
+    slotNewGameType();
+}
+
 void pWidget::slotNewGameType()
 {
     newGameType();
@@ -304,7 +319,16 @@ void pWidget::newGameType()
     int item = games->currentItem();
     int id = -1;
 
-    kDebug(11111) << "newGameType" << id;
+    if ( !dill )
+    {
+        m_bubbles->deleteLater();
+        m_bubbles = 0;
+        dill = new PatienceView( this );
+        connect(dill, SIGNAL(saveGame()), SLOT(saveGame()));
+        setCentralWidget(dill);
+    }
+
+    kDebug(11111) << "newGameType" << item;
     for (QList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin();
 	it != DealerInfoList::self()->games().end(); ++it) {
 
@@ -326,6 +350,8 @@ void pWidget::newGameType()
         dill->setScene( DealerInfoList::self()->games().first()->createGame() );
     }
 
+    enableAutoDrop();
+    enableSolver();
 
     kDebug(11111) << "dill" << dill << " " << dill->dscene();
     connect(dill->dscene(), SIGNAL(undoPossible(bool)), SLOT(undoPossible(bool)));
@@ -355,7 +381,8 @@ void pWidget::newGameType()
 void pWidget::showEvent(QShowEvent *e)
 {
     kDebug(11111) << "showEvent ";
-    dill->setWasShown( true );
+    if ( dill )
+        dill->setWasShown( true );
     KXmlGuiWindow::showEvent(e);
 }
 
@@ -468,6 +495,36 @@ void pWidget::slotGameSolverLost()
 void pWidget::slotGameSolverUnknown()
 {
     statusBar()->showMessage( i18n( "Timeout while playing - unknown if it can be won" ) );
+}
+
+void pWidget::slotSnapshot()
+{
+    if ( m_dealer_it == m_dealer_map.end() )
+    {
+        // first call
+        m_dealer_it = m_dealer_map.begin();
+    }
+
+    games->setCurrentItem(m_dealer_it.value());
+    newGameType();
+    restart();
+    m_dealer_it++;
+    QTimer::singleShot( 200, this, SLOT( slotSnapshot2() ) );
+}
+
+void pWidget::slotSnapshot2()
+{
+    if ( dill->dscene()->waiting() ) {
+            QTimer::singleShot( 100, this, SLOT( slotSnapshot2() ) );
+            return;
+    }
+    QImage img = QImage( dill->size(), QImage::Format_ARGB32 );
+    img.fill( qRgba( 0, 0, 255, 0 ) );
+    dill->dscene()->createDump( &img );
+    img = img.scaled( 300, 300, Qt::KeepAspectRatio );
+    img.save( QString( "out_%1.png" ).arg( dill->dscene()->gameId() ) );
+    if ( m_dealer_it != m_dealer_map.end() )
+        QTimer::singleShot( 200, this, SLOT( slotSnapshot() ) );
 }
 
 #include "pwidget.moc"

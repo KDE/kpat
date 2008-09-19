@@ -17,12 +17,20 @@
  * other special, indirect and consequential damages.
 
 ---------------------------------------------------------------------------*/
-
+#include "version.h"
 #include "spider.h"
+#include "view.h"
 #include <klocale.h>
 #include "deck.h"
 #include <kdebug.h>
 #include "patsolve/spider.h"
+
+#include <KSelectAction>
+#include <QApplication>
+#include <KXmlGuiWindow>
+#include <KActionCollection>
+#include <KXMLGUIFactory>
+#include <KConfigGroup>
 
 void SpiderPile::moveCards(CardList &c, Pile *to)
 {
@@ -48,10 +56,13 @@ void SpiderPile::moveCards(CardList &c, Pile *to)
 
 //-------------------------------------------------------------------------//
 
-Spider::Spider(int suits)
+Spider::Spider()
     : DealerScene(), m_leg(0), m_redeal(0)
 {
     const qreal dist_x = 11.2;
+
+    KConfigGroup cg(KGlobal::config(), settings_group );
+    int suits = cg.readEntry( "SpiderSuits", 2);
 
     Deck::create_deck(this, 2, suits);
 
@@ -106,6 +117,40 @@ Spider::Spider(int suits)
     setAutoDropEnabled(false);
     setActions(DealerScene::Hint | DealerScene::Demo );
     setSolver( new SpiderSolver( this ) );
+
+    options = new KSelectAction(i18n("Options"), this );
+
+    KXmlGuiWindow *xmlgui = PatienceView::instance()->parent();
+
+    xmlgui->actionCollection()->addAction("dealer_options", options);
+    options->addAction( "1 Suit (Easy)" );
+    options->addAction( "2 Suits (Medium)" );
+    options->addAction( "4 Suits (Hard)" );
+
+    if ( suits == 1 )
+        options->setCurrentItem( 0 );
+    else if ( suits == 2 )
+        options->setCurrentItem( 1 );
+    else
+        options->setCurrentItem( 2 );
+
+    QList<QAction*> actionlist;
+    actionlist.append( options );
+
+    xmlgui->guiFactory()->plugActionList( xmlgui, QString::fromLatin1("dealer_options"), actionlist);
+    connect( options, SIGNAL( triggered( int ) ), SLOT( gameTypeChanged() ) );
+}
+
+void Spider::gameTypeChanged()
+{
+    int suits = 4;
+    if ( options->currentItem() == 0 )
+        suits = 1;
+    if ( options->currentItem() == 1 )
+        suits = 2;
+
+    Deck::create_deck(this, 2, suits);
+    restart();
 }
 
 void Spider::cardStoped(Card * t)
@@ -324,23 +369,9 @@ void Spider::deckClicked(Card*)
 static class LocalDealerInfo15 : public DealerInfo
 {
 public:
-    LocalDealerInfo15() : DealerInfo(I18N_NOOP("Spider (Easy)"), 14) {}
-    virtual DealerScene *createGame() { return new Spider(1); }
+    LocalDealerInfo15() : DealerInfo(I18N_NOOP("Spider"), 15) {}
+    virtual DealerScene *createGame() { return new Spider(); }
 } ldi15;
-
-static class LocalDealerInfo16 : public DealerInfo
-{
-public:
-    LocalDealerInfo16() : DealerInfo(I18N_NOOP("Spider (Medium)"), 15) {}
-    virtual DealerScene *createGame() { return new Spider(2); }
-} ldi16;
-
-static class LocalDealerInfo17 : public DealerInfo
-{
-public:
-    LocalDealerInfo17() : DealerInfo(I18N_NOOP("Spider (Hard)"), 16) {}
-    virtual DealerScene *createGame() { return new Spider(4); }
-} ldi17;
 
 //-------------------------------------------------------------------------//
 

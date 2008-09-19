@@ -80,7 +80,7 @@ PatienceView::PatienceView( KXmlGuiWindow* _parent )
     ademo(0),
     ahint(0),
     aredeal(0),
-    m_shown( false )
+    m_shown( true )
 {
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

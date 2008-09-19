@@ -58,6 +58,8 @@ public:
     bool wasShown() const { return m_shown; }
     void setWasShown(bool b) { m_shown = b; }
 
+    KXmlGuiWindow *parent() const;
+
 public slots:
 
     // restart is pure virtual, so we need something else
@@ -75,8 +77,6 @@ protected:
 
     virtual void wheelEvent( QWheelEvent *e );
     virtual void resizeEvent( QResizeEvent *e );
-
-    KXmlGuiWindow *parent() const;
 
 protected:
 

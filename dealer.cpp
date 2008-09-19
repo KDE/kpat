@@ -26,6 +26,7 @@
 #include <kstandarddirs.h>
 #include <ksharedconfig.h>
 
+#include <QStyleOptionGraphicsItem>
 #include <QtCore/QMutex>
 #include <QtCore/QString>
 #include <QtCore/QThread>
@@ -1132,7 +1133,7 @@ Pile *DealerScene::findTarget(Card *c)
 
 void DealerScene::setWaiting(bool w)
 {
-    kDebug(11111) << "setWaiting" << w << " " << _waiting;
+    //kDebug(11111) << "setWaiting" << w << " " << _waiting;
     assert( _waiting > 0 || w );
 
     if (w)
@@ -1918,7 +1919,7 @@ void DealerScene::drawBackground ( QPainter * painter, const QRectF & rect )
     if ( ( d->backPix.width() != width() ) || ( d->backPix.height() != height() ) )
     {
         if ( !d->backren )
-            d->backren = new QSvgRenderer( KStandardDirs::locate( "data", "kpat/backgrounds/background.svg" ) );
+            d->backren = new QSvgRenderer( KStandardDirs::locate( "data", "kpat/background.svg" ) );
 
         QImage img( width(), height(), QImage::Format_ARGB32);
         QPainter p2( &img );
@@ -1929,6 +1930,50 @@ void DealerScene::drawBackground ( QPainter * painter, const QRectF & rect )
     }
 
     painter->drawPixmap( 0, 0, d->backPix );
+}
+
+void DealerScene::createDump( QPaintDevice *device )
+{
+    int maxz = 0;
+    QList<QGraphicsItem *> list = items();
+    for (int i = 0; i < list.size(); ++i) {
+        QGraphicsItem *item = list.at(i);
+        assert( item->zValue() >= 0 );
+        maxz = qMax( maxz, int( item->zValue() ) );
+    }
+    QStyleOptionGraphicsItem options;
+    QPainter p( device );
+
+    for ( int z = 0; z <= maxz; ++z )
+        for (int i = 0; i < list.size(); ++i)
+        {
+            QGraphicsItem *item = list.at(i);
+            if ( !item->isVisible() || item->zValue() != z )
+                continue;
+
+            if (item->type() == QGraphicsItem::UserType + DealerScene::CardTypeId )
+            {
+
+            }
+            else if (item->type() == QGraphicsItem::UserType + DealerScene::PileTypeId )
+            {
+                kDebug() << item->pos() << " " << item->zValue() << " " << item->type();
+                QGraphicsPixmapItem *pitem = dynamic_cast<QGraphicsPixmapItem*>( item );
+                assert( pitem );
+                p.save();
+                p.setTransform(item->deviceTransform(p.worldTransform()), false);
+                //item->paint( &p, &options );
+                p.drawPixmap( 0, 0, pitem->pixmap() );
+                p.restore();
+                continue;
+            } else
+                assert( false );
+
+            p.save();
+            p.setTransform(item->deviceTransform(p.worldTransform()), false);
+            item->paint( &p, &options );
+            p.restore();
+        }
 }
 
 #include "dealer.moc"
