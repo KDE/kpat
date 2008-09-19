@@ -209,7 +209,8 @@ void DemoBubbles::paintEvent ( QPaintEvent * )
         QImage p = m_bubbles[index].pix.scaled( bubble_width - inner_margin * 2,
                                                 bubble_height - inner_margin * 2 - bubble_text_height,
                                                 Qt::KeepAspectRatio );
-        painter.drawImage( m_bubbles[index].x + inner_margin,
+        int off = ( m_bubbles[index].width - p.width() ) / 2;
+        painter.drawImage( m_bubbles[index].x + off,
                            m_bubbles[index].y + inner_margin + bubble_text_height, p );
 
         if ( m_bubbles[index].active )

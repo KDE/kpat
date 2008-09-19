@@ -30,6 +30,7 @@
 #include "dealer.h"
 
 class KlondikePile;
+class KSelectAction;
 
 class Klondike : public DealerScene {
     friend class KlondikeSolver;
@@ -37,7 +38,7 @@ class Klondike : public DealerScene {
     Q_OBJECT
 
 public:
-    explicit Klondike( bool easy );
+    explicit Klondike();
 
 public:
     virtual void restart();
@@ -56,12 +57,19 @@ private:
     bool EasyRules;
     bool redealt;
 
+    KSelectAction *options;
+
     Pile* play[7];
     Pile* target[4];
 
     KlondikePile *pile;
     Card::Rank target_tops[4];
     bool noLongerNeeded(Card::Rank r, Card::Suit s );
+
+private slots:
+    void gameTypeChanged();
+
+
 };
 
 class KlondikePile : public Pile
@@ -71,6 +79,7 @@ public:
     int draw() const { return m_draw; }
     virtual QSizeF cardOffset( const Card * ) const;
     virtual void relayoutCards();
+    void setDraws( int _draw );
 
 private:
     int m_draw;

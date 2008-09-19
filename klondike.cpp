@@ -22,6 +22,7 @@
 
 ****************************************/
 
+#include "version.h"
 #include "klondike.h"
 #include <klocale.h>
 #include "deck.h"
@@ -29,10 +30,22 @@
 #include <assert.h>
 #include "cardmaps.h"
 #include "patsolve/klondike.h"
+#include "view.h"
+#include <KSelectAction>
+#include <QApplication>
+#include <KXmlGuiWindow>
+#include <KActionCollection>
+#include <KXMLGUIFactory>
+#include <KConfigGroup>
 
 KlondikePile::KlondikePile( int _index, int _draw, DealerScene* parent)
     : Pile(_index, parent), m_draw( _draw )
 {
+}
+
+void KlondikePile::setDraws( int _draw )
+{
+    m_draw = _draw;
 }
 
 QSizeF KlondikePile::cardOffset( const Card *c ) const
@@ -67,7 +80,7 @@ void KlondikePile::relayoutCards()
     }
 }
 
-Klondike::Klondike( bool easy )
+Klondike::Klondike()
   : DealerScene( )
 {
     // The units of the follwoing constants are pixels
@@ -77,9 +90,10 @@ Klondike::Klondike( bool easy )
 
     Deck::create_deck(this);
     Deck::deck()->setPilePos(margin, margin );
-    EasyRules = easy;
+    KConfigGroup cg(KGlobal::config(), settings_group );
+    EasyRules = cg.readEntry( "KlondikeEasy", true);
 
-    pile = new KlondikePile( 13, easy ? 1 : 3, this);
+    pile = new KlondikePile( 13, EasyRules ? 1 : 3, this);
     pile->setObjectName( "pile" );
     pile->setReservedSpace( QSizeF( 19, 10 ) );
 
@@ -113,6 +127,22 @@ Klondike::Klondike( bool easy )
     setActions(DealerScene::Hint | DealerScene::Demo);
     setSolver( new KlondikeSolver( this, pile->draw() ) );
     redealt = false;
+
+    options = new KSelectAction(i18n("Options"), this );
+
+    KXmlGuiWindow *xmlgui = PatienceView::instance()->parent();
+
+    xmlgui->actionCollection()->addAction("dealer_options", options);
+    options->addAction( "Draw 1" );
+    options->addAction( "Draw 3" );
+
+    options->setCurrentItem( EasyRules ? 0 : 1 );
+
+    QList<QAction*> actionlist;
+    actionlist.append( options );
+
+    xmlgui->guiFactory()->plugActionList( xmlgui, QString::fromLatin1("dealer_options"), actionlist);
+    connect( options, SIGNAL( triggered( int ) ), SLOT( gameTypeChanged() ) );
 }
 
 Card *Klondike::demoNewCards() {
@@ -127,6 +157,23 @@ void Klondike::restart() {
     Deck::deck()->collectAndShuffle();
     redealt = false;
     deal();
+}
+
+void Klondike::gameTypeChanged()
+{
+    EasyRules = ( options->currentItem() == 0 );
+    pile->setDraws( EasyRules ? 1 : 3 );
+
+    for( int i = 0; i < 4; i++ ) {
+        if (EasyRules) // change default
+            target[i]->setRemoveFlags(Pile::Default);
+        else
+            target[i]->setRemoveType(Pile::KlondikeTarget);
+    }
+    KConfigGroup cg(KGlobal::config(), settings_group );
+    cg.writeEntry( "KlondikeEasy", EasyRules);
+
+    redeal();
 }
 
 void Klondike::deal3()
@@ -225,15 +272,7 @@ static class LocalDealerInfo0 : public DealerInfo
 {
 public:
     LocalDealerInfo0() : DealerInfo(I18N_NOOP("Klondike"), 0) {}
-    virtual DealerScene *createGame() { return new Klondike(true); }
+    virtual DealerScene *createGame() { return new Klondike(); }
 } ldi0;
-
-static class LocalDealerInfo14 : public DealerInfo
-{
-public:
-    LocalDealerInfo14() : DealerInfo(I18N_NOOP("Klondike (draw 3)"), 13) {}
-    virtual DealerScene *createGame() { return new Klondike(false); }
-} ldi14;
-
 
 #include "klondike.moc"
