@@ -25,6 +25,8 @@ public:
 };
 
 
+static const int inner_margin = 7;
+
 DemoBubbles::DemoBubbles( QWidget *parent)
     : QWidget( parent )
 {
@@ -52,12 +54,30 @@ DemoBubbles::~DemoBubbles()
 void DemoBubbles::resizeEvent ( QResizeEvent * )
 {
     const int margin = 30;
-    bubble_width = ( width() - ( margin * 5 ) ) / 4;
 
-    QRectF rect = bubblerenderer->boundsOnElement( "bubble" );
-    QRectF text = bubblerenderer->boundsOnElement( "text" );
-    bubble_height = int( bubble_width / rect.width() * rect.height() + 1 );
-    bubble_text_height = int( bubble_width / text.width() * text.height() + 1 );
+    int mywidth = width();
+
+    int rows = ( games + 1 ) / 4;
+
+    while ( true )
+    {
+
+        bubble_width = ( mywidth - ( margin * 5 ) ) / 4;
+
+        QRectF rect = bubblerenderer->boundsOnElement( "bubble" );
+        QRectF text = bubblerenderer->boundsOnElement( "text" );
+        bubble_height = int( bubble_width / rect.width() * rect.height() + 1 );
+        bubble_text_height = int( bubble_width / text.width() * text.height() + 1 );
+
+        kDebug() << mywidth << bubble_width << bubble_height << games << height();
+
+        if ( ( bubble_height * rows + margin * ( rows + 1 ) ) > height() && bubble_text_height > inner_margin )
+        {
+            mywidth *= 0.9;
+        } else
+            break;
+
+    }
 
     QStringList list;
     QList<DealerInfo*>::ConstIterator it;
@@ -93,7 +113,6 @@ void DemoBubbles::resizeEvent ( QResizeEvent * )
             ++index;
         }
     }
-
 }
 
 void DemoBubbles::mouseMoveEvent ( QMouseEvent *event )
@@ -157,13 +176,12 @@ void DemoBubbles::paintEvent ( QPaintEvent * )
     if ( bubblePix.width() != bubble_width )
     {
         QImage img( bubble_width, bubble_height, QImage::Format_ARGB32);
+        img.fill( qRgba( 0, 0, 255, 0 ) );
         QPainter p2( &img );
         bubblerenderer->render( &p2, "bubble" );
         p2.end();
         bubblePix = QPixmap::fromImage( img );
     }
-
-    const int inner_margin = 7;
 
     QPainter painter( this );
     painter.drawPixmap( 0, 0, backPix );

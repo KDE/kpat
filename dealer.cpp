@@ -1133,7 +1133,7 @@ Pile *DealerScene::findTarget(Card *c)
 
 void DealerScene::setWaiting(bool w)
 {
-    kDebug(11111) << "setWaiting" << w << " " << _waiting;
+    //kDebug(11111) << "setWaiting" << w << " " << _waiting;
     assert( _waiting > 0 || w );
 
     if (w)

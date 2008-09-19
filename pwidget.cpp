@@ -507,9 +507,7 @@ void pWidget::slotSnapshot()
 
     games->setCurrentItem(m_dealer_it.value());
     newGameType();
-    hide();
     restart();
-    showMaximized();
     m_dealer_it++;
     QTimer::singleShot( 200, this, SLOT( slotSnapshot2() ) );
 }
