@@ -166,6 +166,8 @@ pWidget::pWidget()
 
     m_dealer_it = m_dealer_map.end();
 
+    dill = 0;
+
     m_bubbles = new DemoBubbles( this );
     setCentralWidget( m_bubbles );
     connect( m_bubbles, SIGNAL( gameSelected( int ) ), SLOT( slotGameSelected( int ) ) );
@@ -200,7 +202,8 @@ void pWidget::enableAutoDrop()
     bool drop = dropaction->isChecked();
     KConfigGroup cg(KGlobal::config(), settings_group );
     cg.writeEntry( "Autodrop", drop);
-    dill->setAutoDropEnabled(drop);
+    if ( dill )
+        dill->setAutoDropEnabled(drop);
 }
 
 void pWidget::enableSolver()
@@ -208,7 +211,8 @@ void pWidget::enableSolver()
     bool solver = solveraction->isChecked();
     KConfigGroup cg(KGlobal::config(), settings_group );
     cg.writeEntry( "Solver", solver );
-    dill->setSolverEnabled(solver);
+    if ( dill )
+        dill->setSolverEnabled(solver);
 }
 
 void pWidget::newGame()
@@ -317,7 +321,7 @@ void pWidget::newGameType()
 
     if ( !dill )
     {
-        delete m_bubbles;
+        m_bubbles->deleteLater();
         m_bubbles = 0;
         dill = new PatienceView( this );
         connect(dill, SIGNAL(saveGame()), SLOT(saveGame()));
@@ -346,6 +350,8 @@ void pWidget::newGameType()
         dill->setScene( DealerInfoList::self()->games().first()->createGame() );
     }
 
+    enableAutoDrop();
+    enableSolver();
 
     kDebug(11111) << "dill" << dill << " " << dill->dscene();
     connect(dill->dscene(), SIGNAL(undoPossible(bool)), SLOT(undoPossible(bool)));
@@ -517,6 +523,7 @@ void pWidget::slotSnapshot2()
     QImage img = QImage( dill->size(), QImage::Format_ARGB32 );
     img.fill( qRgba( 0, 0, 255, 0 ) );
     dill->dscene()->createDump( &img );
+    img = img.scaled( 300, 300, Qt::KeepAspectRatio );
     img.save( QString( "out_%1.png" ).arg( dill->dscene()->gameId() ) );
     if ( m_dealer_it != m_dealer_map.end() )
         QTimer::singleShot( 200, this, SLOT( slotSnapshot() ) );
