@@ -47,6 +47,7 @@ public:
 
 public slots:
     void undoMove();
+    void redoMove();
     void newGameType();
     void slotNewGameType();
     void restart();
@@ -58,6 +59,7 @@ public slots:
     void newGame();
     void chooseGame();
     void undoPossible(bool poss);
+    void redoPossible(bool poss);
     void gameLost();
     void slotGameInfo(const QString &);
     void slotUpdateMoves();
@@ -90,7 +92,7 @@ private:
     PatienceView   *dill;
 
     KSelectAction  *games;
-    QAction        *undo;
+    QAction        *undo, *redo;
     KToggleAction  *dropaction;
     KToggleAction  *solveraction;
     QAction        *stats;

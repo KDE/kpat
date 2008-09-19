@@ -147,7 +147,7 @@ public:
 
     void won();
     bool demoActive() const;
-    int getMoves() const { return undoList.count(); }
+    int getMoves() const;
 
     enum { None = 0, Hint = 1, Demo = 2, Redeal = 4 } Actions;
 
@@ -180,7 +180,9 @@ public slots:
     void relayoutPiles();
     void slotShowGame(bool);
     void takeState();
+    void eraseRedo();
     void undo();
+    void redo();
     void slotSolverEnded();
     void slotSolverFinished();
     void slotAutoDrop();
@@ -195,6 +197,7 @@ protected slots:
 
 signals:
     void undoPossible(bool poss);
+    void redoPossible(bool poss);
     void hintPossible(bool poss);
     void demoPossible(bool poss);
     void redealPossible(bool poss);
@@ -224,7 +227,6 @@ protected:
 
 private:
     QList<QGraphicsItem *> marked;
-    QList<State*> undoList;
 
     bool moved;
     CardList movingCards;

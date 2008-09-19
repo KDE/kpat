@@ -92,6 +92,10 @@ pWidget::pWidget()
     undo = KStandardGameAction::undo(this, SLOT(undoMove()), actionCollection());
     undo->setEnabled(false);
 
+    // Move
+    redo = KStandardGameAction::redo(this, SLOT(redoMove()), actionCollection());
+    redo->setEnabled(false);
+
     a = actionCollection()->addAction("choose_game");
     a->setText(i18n("&Choose Game..."));
     connect( a, SIGNAL( triggered( bool ) ), SLOT( chooseGame() ) );
@@ -191,6 +195,11 @@ void pWidget::undoMove() {
         dill->dscene()->undo();
 }
 
+void pWidget::redoMove() {
+    if( dill && dill->dscene() )
+        dill->dscene()->redo();
+}
+
 void pWidget::helpGame()
 {
     if (!dill)
@@ -201,6 +210,11 @@ void pWidget::helpGame()
 void pWidget::undoPossible(bool poss)
 {
     undo->setEnabled(poss);
+}
+
+void pWidget::redoPossible(bool poss)
+{
+    redo->setEnabled(poss);
 }
 
 void pWidget::enableAutoDrop()
@@ -369,6 +383,7 @@ void pWidget::newGameType()
 
     kDebug(11111) << "dill" << dill << " " << dill->dscene();
     connect(dill->dscene(), SIGNAL(undoPossible(bool)), SLOT(undoPossible(bool)));
+    connect(dill->dscene(), SIGNAL(redoPossible(bool)), SLOT(redoPossible(bool)));
     connect(dill->dscene(), SIGNAL(gameLost()), SLOT(gameLost()));
     connect(dill->dscene(), SIGNAL(gameInfo(const QString&)),
             SLOT(slotGameInfo(const QString &)));

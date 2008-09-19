@@ -164,7 +164,14 @@ public:
     qreal offx;
     qreal offy;
     bool m_autoDropOnce;
+    QList<State*> redoList;
+    QList<State*> undoList;
 };
+
+int DealerScene::getMoves() const
+{
+    return d->undoList.count();
+}
 
 void DealerScene::takeState()
 {
@@ -184,18 +191,18 @@ void DealerScene::takeState()
 
     State *n = getState();
 
-    if (!undoList.count()) {
+    if (!d->undoList.count()) {
         emit updateMoves();
-        undoList.append(n);
+        d->undoList.append(n);
     } else {
-        State *old = undoList.last();
+        State *old = d->undoList.last();
 
         if (*old == *n) {
             delete n;
             n = 0;
         } else {
             emit updateMoves();
-            undoList.append(n);
+            d->undoList.append(n);
         }
     }
 
@@ -228,7 +235,8 @@ void DealerScene::takeState()
     if (!demoActive() && !waiting())
         QTimer::singleShot( speedUpTime( TIME_BETWEEN_MOVES ), this, SLOT(startAutoDrop()));
 
-    emit undoPossible(undoList.count() > 1);
+    emit undoPossible(d->undoList.count() > 1);
+    emit redoPossible(d->redoList.count() > 1);
 }
 
 bool DealerScene::isInitialDeal() const { return d->initialDeal; }
@@ -365,10 +373,11 @@ void DealerScene::openGame(QDomDocument &doc)
     }
     setGameState( dealer.attribute("data") );
 
-    if (undoList.count() > 1) {
-        setState(undoList.takeLast());
+    if (d->undoList.count() > 1) {
+        setState(d->undoList.takeLast());
         takeState(); // copying it again
-        emit undoPossible(undoList.count() > 1);
+        eraseRedo();
+        emit undoPossible(d->undoList.count() > 1);
     }
 
     emit updateMoves();
@@ -379,14 +388,14 @@ void DealerScene::undo()
 {
     unmarkAll();
     stopDemo();
-    kDebug(11111) << "::undo" << undoList.count();
-    if (undoList.count() > 1) {
-        delete undoList.last();
-        undoList.removeLast(); // the current state
-        setState(undoList.takeLast());
+    kDebug(11111) << "::undo" << d->undoList.count();
+    if (d->undoList.count() > 1) {
+        d->redoList.append( d->undoList.takeLast() );
+        setState(d->undoList.takeLast());
         emit updateMoves();
         takeState(); // copying it again
-        emit undoPossible(undoList.count() > 1);
+        emit undoPossible(d->undoList.count() > 1);
+        emit redoPossible(d->redoList.count() > 0);
         if ( d->toldAboutLostGame ) { // everything's possible again
             hintPossible( true );
             demoPossible( true );
@@ -397,6 +406,33 @@ void DealerScene::undo()
     emit gameSolverUnknown();
 }
 
+void DealerScene::redo()
+{
+    unmarkAll();
+    stopDemo();
+    kDebug(11111) << "::redo" << d->redoList.count();
+    if (d->redoList.count() > 0) {
+        setState(d->redoList.takeLast());
+        emit updateMoves();
+        takeState(); // copying it again
+        emit undoPossible(d->undoList.count() > 1);
+        emit redoPossible(d->redoList.count() > 0);
+        if ( d->toldAboutLostGame ) { // everything's possible again
+            hintPossible( true );
+            demoPossible( true );
+            d->toldAboutLostGame = false;
+            d->toldAboutWonGame = false;
+        }
+    }
+    emit gameSolverUnknown();
+}
+
+void DealerScene::eraseRedo()
+{
+    qDeleteAll(d->redoList);
+    d->redoList.clear();
+    emit redoPossible( false );
+}
 
 // ================================================================
 //                         class DealerScene
@@ -774,8 +810,10 @@ void DealerScene::startNew()
     delete d->wonItem;
     d->wonItem = 0;
     d->gothelp = false;
-    qDeleteAll(undoList);
-    undoList.clear();
+    qDeleteAll(d->undoList);
+    d->undoList.clear();
+    qDeleteAll(d->redoList);
+    d->redoList.clear();
     d->toldAboutLostGame = false;
     d->toldAboutWonGame = false;
     emit updateMoves();
@@ -875,6 +913,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
                     countGame();
                 }
                 takeState();
+                eraseRedo();
             }
             return;
         }
@@ -883,6 +922,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
             assert(c);
             pileClicked(c);
             takeState();
+            eraseRedo();
             return;
         }
     }
@@ -970,6 +1010,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
         countGame();
         c->source()->moveCards(movingCards, (*best).source);
         takeState();
+        eraseRedo();
     }
     movingCards.clear();
 }
@@ -1000,6 +1041,7 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
         countGame();
     }
     takeState();
+    eraseRedo();
 }
 
 bool DealerScene::cardClicked(Card *c) {
@@ -1337,6 +1379,7 @@ void DealerScene::waitForAutoDrop(Card * c) {
     c->disconnect();
     c->stopAnimation(); // should be a no-op
     takeState();
+    eraseRedo();
 }
 
 void DealerScene::waitForWonAnim(Card *c)
@@ -1376,8 +1419,10 @@ void DealerScene::setGameNumber(long gmn)
 {
     // Deal in the range of 1 to INT_MAX.
     gamenumber = ((gmn < 1) ? 1 : ((gmn > 0x7FFFFFFF) ? 0x7FFFFFFF : gmn));
-    qDeleteAll(undoList);
-    undoList.clear();
+    qDeleteAll(d->undoList);
+    d->undoList.clear();
+    qDeleteAll(d->redoList);
+    d->redoList.clear();
 }
 
 void DealerScene::addPile(Pile *p)
@@ -1615,6 +1660,7 @@ void DealerScene::demo()
 
     emit demoActive( true );
     takeState();
+    eraseRedo();
 }
 
 Card *DealerScene::demoNewCards()
