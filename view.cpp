@@ -80,6 +80,7 @@ PatienceView::PatienceView( KXmlGuiWindow* _parent )
     ademo(0),
     ahint(0),
     aredeal(0),
+    adrop(0),
     m_shown( true )
 {
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -112,7 +113,6 @@ KXmlGuiWindow *PatienceView::parent() const
 
 void PatienceView::setScene( QGraphicsScene *_scene )
 {
-    parent()->guiFactory()->unplugActionList( parent(), QString::fromLatin1("game_actions"));
     DealerScene *oldscene = dscene();
     QGraphicsView::setScene( _scene );
     resetCachedContent();
@@ -149,6 +149,8 @@ void PatienceView::setupActions()
 {
     QList<QAction*> actionlist;
 
+    parent()->guiFactory()->unplugActionList( parent(), QString::fromLatin1("game_actions"));
+
     kDebug(11111) << "setupActions" << actions();
 
     if (dscene()->actions() & DealerScene::Hint) {
@@ -171,6 +173,16 @@ void PatienceView::setupActions()
         actionlist.append(aredeal);
     } else
         aredeal = 0;
+
+    delete adrop;
+    if ( !dscene()->autoDrop() ) {
+        adrop = parent()->actionCollection()->addAction( "autodrop" );
+        adrop->setText( i18n("Drop!") );
+        adrop->setIcon( KIcon( "legalmoves") );
+        connect( adrop, SIGNAL( triggered( bool ) ), dscene(), SLOT( slotAutoDrop() ) );
+        actionlist.append(adrop);
+    } else
+        adrop = 0;
 
     parent()->guiFactory()->plugActionList( parent(), QString::fromLatin1("game_actions"), actionlist);
 }
@@ -199,6 +211,7 @@ void PatienceView::setSolverEnabled(bool a)
 void PatienceView::setAutoDropEnabled(bool a)
 {
     dscene()->setAutoDropEnabled( a );
+    setupActions();
 }
 
 void PatienceView::startNew()

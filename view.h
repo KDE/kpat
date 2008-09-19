@@ -71,8 +71,6 @@ public slots:
 signals:
     void saveGame(); // emergency
 
-public slots:
-
 protected:
 
     virtual void wheelEvent( QWheelEvent *e );
@@ -81,7 +79,7 @@ protected:
 protected:
 
     QAction *ademo;
-    QAction *ahint, *aredeal;
+    QAction *ahint, *aredeal, *adrop;
 
     QString ac;
     static PatienceView *s_instance;

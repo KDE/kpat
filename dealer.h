@@ -183,6 +183,7 @@ public slots:
     void undo();
     void slotSolverEnded();
     void slotSolverFinished();
+    void slotAutoDrop();
 
     void startNew();
 

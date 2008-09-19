@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<gui name="kpat" version="18">
+<gui name="kpat" version="19">
 <MenuBar>
   <Menu name="game">
     <Action name="choose_game"/>
     <Action name="game_stats"/>
     <Separator/>
     <ActionList name="game_actions"/>
+    <Action name="autodrop"/>
     <Separator/>
   </Menu>
   <Menu name="settings" noMerge="1"><text>&amp;Settings</text>
@@ -24,6 +25,7 @@
   <Action name="game_new"/>
   <Action name="move_undo"/>
   <ActionList name="game_actions"/>
+  <Action name="autodrop"/>
 </ToolBar>
 <StatusBar/>
 </gui>

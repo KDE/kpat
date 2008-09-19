@@ -163,6 +163,7 @@ public:
     bool initialDeal;
     qreal offx;
     qreal offy;
+    bool m_autoDropOnce;
 };
 
 void DealerScene::takeState()
@@ -429,6 +430,7 @@ DealerScene::DealerScene():
     d->demotimer = new QTimer(this);
     connect(d->demotimer, SIGNAL(timeout()), SLOT(demo()));
     d->m_autoDropFactor = 1;
+    d->m_autoDropOnce = false;
     connect( this, SIGNAL( gameWon( bool ) ), SLOT( slotShowGame(bool) ) );
 
     d->backPix.load( KStandardDirs::locateLocal( "data", "kpat/back.png" ) );
@@ -1149,6 +1151,12 @@ void DealerScene::setAutoDropEnabled(bool a)
     QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
 }
 
+void DealerScene::slotAutoDrop()
+{
+    d->m_autoDropOnce = true;
+    QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
+}
+
 void DealerScene::setSolverEnabled(bool a)
 {
     _usesolver = a;
@@ -1158,7 +1166,7 @@ void DealerScene::setSolverEnabled(bool a)
 
 bool DealerScene::startAutoDrop()
 {
-    if (!autoDrop())
+    if (!autoDrop() && !d->m_autoDropOnce)
         return false;
 
     if (!movingCards.isEmpty()) {
@@ -1232,6 +1240,7 @@ bool DealerScene::startAutoDrop()
     }
     clearHints();
     d->m_autoDropFactor = 1;
+    d->m_autoDropOnce = false;
 
     return false;
 }

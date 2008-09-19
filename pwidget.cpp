@@ -160,7 +160,7 @@ pWidget::pWidget()
     bool solver = cg.readEntry("Solver", false);
     solveraction->setChecked(solver);
 
-    int game = cg.readEntry("DefaultGame", 0);
+    //int game = cg.readEntry("DefaultGame", 0);
     //games->setCurrentItem( m_dealer_map[game] );
 
     statusBar()->insertPermanentItem( "", 1, 0 );
