@@ -3,8 +3,8 @@
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
   <!ENTITY kappname "&kpatience;">
   <!ENTITY kappversion "3.0"><!--Applicaion version. Use this variable everywhere it's needed.-->
-  <!ENTITY docversion "2.2.2"><!--Document version. Use this variable everywhere it's needed.-->
-  <!ENTITY docupdate "2007-11-06"><!--Document version. Use this variable everywhere it's needed.-->
+  <!ENTITY docversion "2.2.3"><!--Document version. Use this variable everywhere it's needed.-->
+  <!ENTITY docupdate "2008-09-25"><!--Document version. Use this variable everywhere it's needed.-->
   <!ENTITY package "kdegames">  <!-- do not change this! -->
   <!ENTITY % English "INCLUDE" > <!-- change language only here -->
   <!ENTITY % addindex "IGNORE"> <!-- do not change this! -->
@@ -121,7 +121,7 @@ moving, turning and reordering them.
 	<note><title>Objective:</title><para>Rearrange the cards by suite within shortest time possible.</para></note><!--Describe the objective of the game.-->
 <!--How to play description. Don't be to specific on rules as they have a separate section in this document-->
 	<para>
-	As &kappname; offers you a multiplicity of different solitaire games, there is no straightforward how-to which could feet all of them. Therefore, it is essential that you read each individual subsection of Game Rules, Strategies and Tips section before you start playing a version you are not familiar with.</para>
+	As &kappname; offers you a multiplicity of different solitaire games, there is no straightforward how-to which could fit all of them. Therefore, it is essential that you read each individual subsection of Game Rules, Strategies and Tips section before you start playing a version you are not familiar with.</para>
 <para>
 Essentially there are two types of solitaire games – the ones that let you arrange the cards by same color and the ones that let you arrange the cards by alternating color. You can easily determine which game you are trying out using trial-and-error method. Once you know which one you are dealing with, rest is easy; keep arranging and rearranging the cards, collecting the matching ones.</para>
 <para>
@@ -182,7 +182,7 @@ completely new game.
 			</listitem>
 		</varlistentry>
 		<varlistentry><term>3. Foundation</term>
-			<listitem><para><indexterm><primary>foundation</primary></indexterm>The foundation pile is where you want to have your cards in the end.  If allcards end up there in the right order, you've won. Some games use more than one foundation pile.</para>
+			<listitem><para><indexterm><primary>foundation</primary></indexterm>The foundation pile is where you want to have your cards in the end.  If all cards end up there in the right order, you've won. Some games use more than one foundation pile.</para>
 			<para>In most card games these piles are empty in the beginning. &kpatience; drops cards there for you when it sees they fit. </para>
 			</listitem>
 		</varlistentry>
@@ -501,7 +501,7 @@ of it. So you can put a five of hearts on a six of spades if that one is on top 
 
 <para>
 In a free slot you can put a king of any color (again, no matter how many cards are on top
-of it)
+of it).
 </para>
 </sect2>
 
@@ -640,7 +640,7 @@ win at Easy level, and very difficult to win at Hard level.
 					<guimenu>Game</guimenu>
 					<guimenuitem>Statistics</guimenuitem>
 				</menuchoice></term>
-				<listitem><para><action>Opens</action> the game win/loose statistics dialog.</para></listitem>
+				<listitem><para><action>Opens</action> the game win/lose statistics dialog.</para></listitem>
 			</varlistentry>
 			<varlistentry id="game-menu-hint">
 				<term><menuchoice>
@@ -720,25 +720,9 @@ win at Easy level, and very difficult to win at Hard level.
 				<term><menuchoice>
 					<guimenu>Settings</guimenu>
 					<guisubmenu>Game Type</guisubmenu>
-					<guimenuitem>Napoleon's Tomb</guimenuitem>
-				</menuchoice></term>
-				<listitem><para>Switch to Napoleon's Tomb game mode.</para></listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guisubmenu>Game Type</guisubmenu>
 					<guimenuitem>Mod3</guimenuitem>
 				</menuchoice></term>
 				<listitem><para>Switch to Mod3 game mode.</para></listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guisubmenu>Game Type</guisubmenu>
-					<guimenuitem>Calculation</guimenuitem>
-				</menuchoice></term>
-				<listitem><para>Switch to Calculation game mode.</para></listitem>
 			</varlistentry>
 			<varlistentry>
 				<term><menuchoice>
@@ -841,7 +825,7 @@ win at Easy level, and very difficult to win at Hard level.
 					<guimenu>Settings</guimenu>
 					<guimenuitem>Select Deck...</guimenuitem>
 				</menuchoice></term>
-				<listitem><para><action>Open</action> the carddeck selection dialog.</para></listitem>
+				<listitem><para><action>Open</action> the card deck selection dialog.</para></listitem>
 			</varlistentry>			
 			<varlistentry id="settings-menu-toolbar">
 				<term><menuchoice>
@@ -932,7 +916,7 @@ win at Easy level, and very difficult to win at Hard level.
 </qandaentry>
 <qandaentry>
  <question><para>Where are the high scores?</para></question>
- <answer><para>&kappname; has no high score board. However you can view your win vs loose statistics. To do so use <menuchoice>
+ <answer><para>&kappname; has no high score board. However you can view your win vs lose statistics. To do so use <menuchoice>
 					<guimenu>Game</guimenu>
 					<guimenuitem>Statistics</guimenuitem>
 				</menuchoice> on the menubar.</para></answer>
@@ -980,8 +964,8 @@ Documentation rewritten for &kpatience; 2.0 (&kde; 2.1) by &Maren.Pakura;
 </para>
 
 <para>
-Documentation proofread and update for &kpatience; &docversion; by Richard Hawthorne
-<email>techno_plume-coding@yahoo.com</email>
+Documentation proofread and update for &kpatience; &docversion; by &Richard.Hawthorne;
+&Richard.Hawthorne.mail;
 </para>
 
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
