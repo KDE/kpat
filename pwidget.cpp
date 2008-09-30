@@ -132,7 +132,8 @@ pWidget::pWidget()
 
     a = actionCollection()->addAction("snapshot");
     connect( a, SIGNAL( triggered( bool ) ), SLOT( slotSnapshot() ) );
-    //a->setShortcuts( KShortcut( Qt::Key_F8 ) );
+    if (getenv("KDE_DEBUG")) // developer shortcut
+       a->setShortcuts( KShortcut( Qt::Key_F8 ) );
 
     a = actionCollection()->addAction("select_deck");
     a->setText(i18n("Select Deck..."));
@@ -550,7 +551,7 @@ void pWidget::slotSnapshot2()
     QImage img = QImage( dill->size(), QImage::Format_ARGB32 );
     img.fill( qRgba( 0, 0, 255, 0 ) );
     dill->dscene()->createDump( &img );
-    img = img.scaled( 300, 300, Qt::KeepAspectRatio );
+    img = img.scaled( 320, 320, Qt::KeepAspectRatio, Qt::SmoothTransformation );
     img.save( QString( "out_%1.png" ).arg( dill->dscene()->gameId() ) );
     if ( m_dealer_it != m_dealer_map.end() )
         QTimer::singleShot( 200, this, SLOT( slotSnapshot() ) );
