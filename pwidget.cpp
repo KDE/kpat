@@ -76,7 +76,7 @@ pWidget::pWidget()
     current_pwidget = this;
     // KCrash::setEmergencySaveFunction(::saveGame);
 
-    QAction *a;
+    KAction *a;
     // Game
     a = KStandardGameAction::gameNew(this, SLOT(newGame()), actionCollection());
     a->setEnabled( false );
