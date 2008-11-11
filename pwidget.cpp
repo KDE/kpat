@@ -175,7 +175,7 @@ pWidget::pWidget()
     // QTimer::singleShot( 0, this, SLOT( newGameType() ) );
     setAutoSaveSettings();
 
-    m_dealer_it = m_dealer_map.end();
+    m_dealer_it = m_dealer_map.constEnd();
 
     dill = 0;
 
@@ -529,10 +529,10 @@ void pWidget::slotGameSolverUnknown()
 
 void pWidget::slotSnapshot()
 {
-    if ( m_dealer_it == m_dealer_map.end() )
+    if ( m_dealer_it == m_dealer_map.constEnd() )
     {
         // first call
-        m_dealer_it = m_dealer_map.begin();
+        m_dealer_it = m_dealer_map.constBegin();
     }
 
     games->setCurrentItem(m_dealer_it.value());
@@ -553,7 +553,7 @@ void pWidget::slotSnapshot2()
     dill->dscene()->createDump( &img );
     img = img.scaled( 320, 320, Qt::KeepAspectRatio, Qt::SmoothTransformation );
     img.save( QString( "out_%1.png" ).arg( dill->dscene()->gameId() ) );
-    if ( m_dealer_it != m_dealer_map.end() )
+    if ( m_dealer_it != m_dealer_map.constEnd() )
         QTimer::singleShot( 200, this, SLOT( slotSnapshot() ) );
 }
 

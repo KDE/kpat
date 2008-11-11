@@ -178,7 +178,7 @@ void DealerScene::takeState()
     // kDebug(11111) << "takeState" << waiting();
 
     QList<QGraphicsItem *> list = items();
-    for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
+    for (QList<QGraphicsItem *>::ConstIterator it = list.constBegin(); it != list.constEnd(); ++it)
     {
         if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
             Card *c = static_cast<Card*>(*it);
@@ -298,8 +298,8 @@ void DealerScene::saveGame(QDomDocument &doc)
         if (!n->gameData.isEmpty())
             state.setAttribute("data", n->gameData);
         QDomElement cards = doc.createElement("cards");
-        for (QValueList<CardState>::ConstIterator it2 = n->cards.begin();
-             it2 != n->cards.end(); ++it2)
+        for (QValueList<CardState>::ConstIterator it2 = n->cards.constBegin();
+             it2 != n->cards.constEnd(); ++it2)
         {
             QDomElement item = doc.createElement("item");
             (*it2).fillNode(item);
@@ -325,7 +325,7 @@ void DealerScene::openGame(QDomDocument &doc)
     QList<QGraphicsItem *> list = items();
 
     CardList cards;
-    for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
+    for (QList<QGraphicsItem *>::ConstIterator it = list.constBegin(); it != list.constEnd(); ++it)
         if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId )
             cards.append(static_cast<Card*>(*it));
 
@@ -528,7 +528,7 @@ void DealerScene::hint()
     } else
         getHints();
 
-    for (HintList::ConstIterator it = hints.begin(); it != hints.end(); ++it)
+    for (HintList::ConstIterator it = hints.constBegin(); it != hints.constEnd(); ++it)
         mark((*it)->card());
     clearHints();
 }
@@ -1081,7 +1081,7 @@ State *DealerScene::getState()
     QList<QGraphicsItem *> list = items();
     State * st = new State;
 
-    for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
+    for (QList<QGraphicsItem *>::ConstIterator it = list.constBegin(); it != list.constEnd(); ++it)
     {
        if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
            Card *c = dynamic_cast<Card*>(*it);
@@ -1127,7 +1127,7 @@ void DealerScene::setState(State *st)
         }
     }
 
-    for (CardStateList::ConstIterator it = n->begin(); it != n->end(); ++it)
+    for (CardStateList::ConstIterator it = n->constBegin(); it != n->constEnd(); ++it)
     {
         Card *c = (*it).it;
         //c->stopAnimation();
@@ -1141,12 +1141,12 @@ void DealerScene::setState(State *st)
         c->setTakenDown(s.tookdown || (target && !s.source->target()));
     }
 
-    for (PileList::ConstIterator it = piles.begin(); it != piles.end(); ++it)
+    for (PileList::ConstIterator it = piles.constBegin(); it != piles.constEnd(); ++it)
     {
         ( *it )->relayoutCards();
     }
 
-    for (CardStateList::ConstIterator it = n->begin(); it != n->end(); ++it)
+    for (CardStateList::ConstIterator it = n->constBegin(); it != n->constEnd(); ++it)
     {
         Card *c = (*it).it;
         c->stopAnimation();
@@ -1165,7 +1165,7 @@ Pile *DealerScene::findTarget(Card *c)
 
     CardList empty;
     empty.append(c);
-    for (PileList::ConstIterator it = piles.begin(); it != piles.end(); ++it)
+    for (PileList::ConstIterator it = piles.constBegin(); it != piles.constEnd(); ++it)
     {
         if (!(*it)->target())
             continue;
@@ -1219,7 +1219,7 @@ bool DealerScene::startAutoDrop()
     QList<QGraphicsItem *> list = items();
 
     //kDebug( 11111 ) << "startAutoDrop\n";
-    for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
+    for (QList<QGraphicsItem *>::ConstIterator it = list.constBegin(); it != list.constEnd(); ++it)
     {
         if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
             Card *c = static_cast<Card*>(*it);
@@ -1236,7 +1236,7 @@ bool DealerScene::startAutoDrop()
     unmarkAll();
     clearHints();
     getHints();
-    for (HintList::ConstIterator it = hints.begin(); it != hints.end(); ++it) {
+    for (HintList::ConstIterator it = hints.constBegin(); it != hints.constEnd(); ++it) {
         MoveHint *mh = *it;
         if (mh->pile() && mh->pile()->target() && mh->priority() > 120 && !mh->card()->takenDown()) {
             //setWaiting(true);
@@ -1305,7 +1305,7 @@ void DealerScene::stopAndRestartSolver()
     }
 
     QList<QGraphicsItem *> list = items();
-    for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
+    for (QList<QGraphicsItem *>::ConstIterator it = list.constBegin(); it != list.constEnd(); ++it)
     {
         if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
             Card *c = static_cast<Card*>(*it);
@@ -1409,7 +1409,7 @@ void DealerScene::rescale(bool onlypiles)
 {
     if ( !onlypiles )
         Deck::deck()->update();
-    for (PileList::ConstIterator it = piles.begin(); it != piles.end(); ++it)
+    for (PileList::ConstIterator it = piles.constBegin(); it != piles.constEnd(); ++it)
     {
         ( *it )->rescale();
     }
@@ -1450,7 +1450,7 @@ void DealerScene::stopDemo()
     } else d->stop_demo_next = false;
 
     QList<QGraphicsItem *> list = items();
-    for (QList<QGraphicsItem *>::ConstIterator it = list.begin(); it != list.end(); ++it)
+    for (QList<QGraphicsItem *>::ConstIterator it = list.constBegin(); it != list.constEnd(); ++it)
     {
         if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
             Card *c = static_cast<Card*>(*it);
@@ -1513,7 +1513,7 @@ void DealerScene::won()
     // sort cards by increasing z
     QList<QGraphicsItem *> list = items();
     QList<CardPtr> cards;
-    for (QList<QGraphicsItem *>::ConstIterator it=list.begin(); it!=list.end(); ++it)
+    for (QList<QGraphicsItem *>::ConstIterator it=list.constBegin(); it!=list.constEnd(); ++it)
         if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
             CardPtr p;
             p.ptr = dynamic_cast<Card*>(*it);
@@ -1699,7 +1699,7 @@ void DealerScene::setSolver( Solver *s) {
 
 bool DealerScene::isGameWon() const
 {
-    for (PileList::ConstIterator it = piles.begin(); it != piles.end(); ++it)
+    for (PileList::ConstIterator it = piles.constBegin(); it != piles.constEnd(); ++it)
     {
         if (!(*it)->target() && !(*it)->isEmpty())
             return false;
@@ -1780,7 +1780,7 @@ void DealerScene::countLoss()
 QPointF DealerScene::maxPilePos() const
 {
     QPointF maxp( 0, 0 );
-    for (PileList::ConstIterator it = piles.begin(); it != piles.end(); ++it)
+    for (PileList::ConstIterator it = piles.constBegin(); it != piles.constEnd(); ++it)
     {
         // kDebug() << ( *it )->objectName() << " " <<  ( *it )->pilePos() << " " << ( *it )->reservedSpace();
         // we call fabs here, because reserved space of -50 means for a pile at -1x-1 means it wants at least
@@ -1866,7 +1866,7 @@ void DealerScene::setSceneSize( const QSize &s )
 
         //kDebug() << p->objectName() << " " << p->spread() << " " << myRect;
 
-        for ( PileList::ConstIterator it2 = piles.begin(); it2 != piles.end(); ++it2 )
+        for ( PileList::ConstIterator it2 = piles.constBegin(); it2 != piles.constEnd(); ++it2 )
         {
             if ( *it2 == p || !( *it2 )->isVisible() )
                 continue;

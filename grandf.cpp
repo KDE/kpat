@@ -141,7 +141,7 @@ void Grandf::collect() {
 
     for (int pos = 6; pos >= 0; pos--) {
         CardList p = store[pos]->cards();
-        for (CardList::ConstIterator it = p.begin(); it != p.end(); ++it)
+        for (CardList::ConstIterator it = p.constBegin(); it != p.constEnd(); ++it)
             Deck::deck()->add(*it, true);
     }
 }
