@@ -59,7 +59,7 @@ void DemoBubbles::resizeEvent ( QResizeEvent * )
 
     int rows = ( games + 1 ) / 4;
 
-    int outer_margin, inner_margin;
+    int my_height, outer_margin, inner_margin;
 
     while ( true )
     {
@@ -74,13 +74,18 @@ void DemoBubbles::resizeEvent ( QResizeEvent * )
 
         kDebug() << mywidth << bubble_width << bubble_height << games << height();
 
-        if ( ( bubble_height * rows + outer_margin * ( rows + 1 ) ) > height() && bubble_text_height > inner_margin )
+        my_height = bubble_height * rows + outer_margin * ( rows + 1 );
+
+        if ( my_height > height() && bubble_text_height > inner_margin )
         {
             mywidth *= 0.9;
         } else
             break;
 
     }
+
+    int x_offset = ( width() - mywidth ) / 2;
+    int y_offset = ( height() - my_height ) / 2;
 
     QStringList list;
     QList<DealerInfo*>::ConstIterator it;
@@ -103,8 +108,8 @@ void DemoBubbles::resizeEvent ( QResizeEvent * )
             it = DealerInfoList::self()->games().begin();
             while ( index != list.indexOf( i18n((*it)->name ) ) )
                 ++it;
-            m_bubbles[index].x = x * ( bubble_width + outer_margin ) + outer_margin;
-            m_bubbles[index].y = y * ( bubble_height + outer_margin ) + outer_margin;
+            m_bubbles[index].x = x_offset + x * ( bubble_width + outer_margin ) + outer_margin;
+            m_bubbles[index].y = y_offset + y * ( bubble_height + outer_margin ) + outer_margin;
             m_bubbles[index].width = bubble_width;
             m_bubbles[index].height = bubble_height;
             m_bubbles[index].gameindex = ( *it )->gameindex;
