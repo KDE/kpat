@@ -223,7 +223,7 @@ void DemoBubbles::paintEvent ( QPaintEvent * )
                 painter.setPen( Qt::black );
             painter.drawText( QRect( m_bubbles[index].x,
                                     m_bubbles[index].y,
-                                    bubble_width - inner_margin * 2,
+                                    bubble_width,
                                     bubble_text_height ),
                             Qt::AlignCenter, m_bubbles[index].text );
         }
