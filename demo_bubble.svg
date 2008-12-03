@@ -80,7 +80,8 @@
        y1="167.27676"
        x2="312.59375"
        y2="172.63239"
-       gradientUnits="userSpaceOnUse" />
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,1.1111111,0,-15.181863)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -97,7 +98,7 @@
      inkscape:cy="174.42872"
      inkscape:document-units="px"
      inkscape:current-layer="bubble"
-     inkscape:window-width="1280"
+     inkscape:window-width="1144"
      inkscape:window-height="738"
      inkscape:window-x="0"
      inkscape:window-y="0"
@@ -140,8 +141,8 @@
          id="background"
          style="fill:#000000;fill-opacity:0.29545453;fill-rule:nonzero;stroke:none;stroke-width:0.55000000999999998;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
       <path
-         style="fill:url(#linearGradient3166);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.55000000999999998;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-         d="M 142.95231,136.63239 C 138.53555,136.63239 134.98808,140.22277 134.98808,144.66364 L 134.98808,172.63239 L 490.19942,172.63239 L 490.19942,144.66364 C 490.19942,140.22276 486.65195,136.63239 482.23519,136.63239 L 142.95231,136.63239 z"
+         style="fill:url(#linearGradient3166);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.55000001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         d="M 142.95231,136.6319 C 138.53555,136.6319 134.98808,140.62121 134.98808,145.55551 L 134.98808,176.6319 L 490.19942,176.6319 L 490.19942,145.55551 C 490.19942,140.6212 486.65195,136.6319 482.23519,136.6319 L 142.95231,136.6319 z"
          id="text" />
       <rect
          ry="7.9338951"

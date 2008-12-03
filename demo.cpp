@@ -25,8 +25,9 @@ public:
 };
 
 
-static const int inner_margin = 7;
-static const int minimum_font_size = 5;
+static const qreal inner_margin_ratio = 0.035;
+static const qreal spacing_ratio = 0.10;
+static const int minimum_font_size = 8;
 
 DemoBubbles::DemoBubbles( QWidget *parent)
     : QWidget( parent )
@@ -54,16 +55,17 @@ DemoBubbles::~DemoBubbles()
 
 void DemoBubbles::resizeEvent ( QResizeEvent * )
 {
-    const int margin = 30;
-
     int mywidth = width();
 
     int rows = ( games + 1 ) / 4;
 
+    int outer_margin, inner_margin;
+
     while ( true )
     {
-
-        bubble_width = ( mywidth - ( margin * 5 ) ) / 4;
+        bubble_width = qRound( mywidth / ( 4 + 5 * spacing_ratio ) );
+        outer_margin = qRound( spacing_ratio * bubble_width );
+        inner_margin = qRound( inner_margin_ratio * bubble_width );
 
         QRectF rect = bubblerenderer->boundsOnElement( "bubble" );
         QRectF text = bubblerenderer->boundsOnElement( "text" );
@@ -72,7 +74,7 @@ void DemoBubbles::resizeEvent ( QResizeEvent * )
 
         kDebug() << mywidth << bubble_width << bubble_height << games << height();
 
-        if ( ( bubble_height * rows + margin * ( rows + 1 ) ) > height() && bubble_text_height > inner_margin )
+        if ( ( bubble_height * rows + outer_margin * ( rows + 1 ) ) > height() && bubble_text_height > inner_margin )
         {
             mywidth *= 0.9;
         } else
@@ -101,8 +103,8 @@ void DemoBubbles::resizeEvent ( QResizeEvent * )
             it = DealerInfoList::self()->games().begin();
             while ( index != list.indexOf( i18n((*it)->name ) ) )
                 ++it;
-            m_bubbles[index].x = x * ( bubble_width + margin ) + margin;
-            m_bubbles[index].y = y * ( bubble_height + margin ) + margin;
+            m_bubbles[index].x = x * ( bubble_width + outer_margin ) + outer_margin;
+            m_bubbles[index].y = y * ( bubble_height + outer_margin ) + outer_margin;
             m_bubbles[index].width = bubble_width;
             m_bubbles[index].height = bubble_height;
             m_bubbles[index].gameindex = ( *it )->gameindex;
@@ -187,8 +189,9 @@ void DemoBubbles::paintEvent ( QPaintEvent * )
     QPainter painter( this );
     painter.drawPixmap( 0, 0, backPix );
 
-    QFont f( font() );
+    int inner_margin = qRound( inner_margin_ratio * bubble_width );
     int pixels = bubble_text_height - inner_margin;
+    QFont f( font() );
     f.setPixelSize( pixels );
     painter.setFont( f );
 
