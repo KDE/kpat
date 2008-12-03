@@ -26,6 +26,7 @@ public:
 
 
 static const int inner_margin = 7;
+static const int minimum_font_size = 5;
 
 DemoBubbles::DemoBubbles( QWidget *parent)
     : QWidget( parent )
@@ -193,7 +194,8 @@ void DemoBubbles::paintEvent ( QPaintEvent * )
 
     for ( int i = 0; i < games; ++i )
     {
-        while ( painter.boundingRect( QRectF( 0, 0, width(), height() ), m_bubbles[i].text ).width() > bubble_width * 0.9 )
+        while ( pixels > minimum_font_size &&
+                painter.boundingRect( QRectF( 0, 0, width(), height() ), m_bubbles[i].text ).width() > bubble_width * 0.9 )
         {
             pixels--;
             f.setPixelSize( pixels );
@@ -213,15 +215,18 @@ void DemoBubbles::paintEvent ( QPaintEvent * )
         painter.drawImage( m_bubbles[index].x + off,
                            m_bubbles[index].y + inner_margin + bubble_text_height, p );
 
-        if ( m_bubbles[index].active )
-            painter.setPen( Qt::white );
-        else
-            painter.setPen( Qt::black );
-        painter.drawText( QRect( m_bubbles[index].x,
-                                 m_bubbles[index].y,
-                                 bubble_width - inner_margin * 2,
-                                 bubble_text_height ),
-                          Qt::AlignCenter, m_bubbles[index].text );
+        if ( pixels >= minimum_font_size )
+        {
+            if ( m_bubbles[index].active )
+                painter.setPen( Qt::white );
+            else
+                painter.setPen( Qt::black );
+            painter.drawText( QRect( m_bubbles[index].x,
+                                    m_bubbles[index].y,
+                                    bubble_width - inner_margin * 2,
+                                    bubble_text_height ),
+                            Qt::AlignCenter, m_bubbles[index].text );
+        }
 
     }
 }
