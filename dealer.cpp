@@ -845,40 +845,54 @@ void DealerScene::slotShowGame(bool gothelp)
     kDebug(11111) << "slotShowGame" << waiting();
     emit undoPossible( false );
 
-    int wx = qRound( width() * 0.7 );
-    int wy = qRound( height() * 0.6 );
-
-    QImage img = QImage( wx, wy, QImage::Format_ARGB32 );
-    img.fill( qRgba( 0, 0, 255, 0 ) );
-    QPainter p( &img );
-
     QSvgRenderer renderer( KStandardDirs::locate( "data", "kpat/won.svg" ) );
-    renderer.render( &p, "frame", QRect( 5, 5, wx-10, wy-10 ) );
+
+    const QSizeF size = renderer.boundsOnElement("frame").size();
+    const qreal aspectRatio = size.width() / size.height();
+    int boxWidth;
+    int boxHeight;
+    if (width() < aspectRatio * height())
+    {
+        boxWidth = width() * 0.6;
+        boxHeight = boxWidth / aspectRatio;
+    }
+    else
+    {
+        boxHeight = height() * 0.6;
+        boxWidth = boxHeight * aspectRatio;
+    }
+
+    QRect contentsRect = QRect( 0, 0, boxWidth, boxHeight );
+
+    QPixmap pix( contentsRect.size() );
+    pix.fill( Qt::transparent );
+    QPainter p( &pix );
+    renderer.render( &p, "frame", contentsRect );
 
     QString text = i18n( "Congratulations! You have won." );
     if ( gothelp )
         text = i18n( "Congratulations! We have won." );
+
     QFont font;
     font.setPointSize( 36 );
 
     int twidth = QFontMetrics( font ).width( text );
     int fontsize = 36;
-    while ( twidth > wx * 0.9 )
+    while ( twidth > boxWidth * 0.9 && fontsize > 5 )
     {
         fontsize--;
+        kDebug() << "Trying" << fontsize << "pt";
         font.setPointSize( fontsize );
         twidth = QFontMetrics( font ).width ( text );
     }
 
     p.setFont( font );
     p.setPen( Qt::white );
-    p.drawText( int( ( wx - twidth ) / 2 ),
-                int( ( wy - QFontMetrics( font ).descent() ) / 2 ),
-                text );
+    p.drawText( contentsRect, Qt::AlignCenter, text );
     p.end();
 
     QGraphicsPixmapItem *item = new QGraphicsPixmapItem( 0, this );
-    item->setPixmap( QPixmap::fromImage( img ) );
+    item->setPixmap( pix );
     item->setZValue( 2000 );
 
     d->wonItem = item;
