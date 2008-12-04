@@ -138,7 +138,7 @@ public:
     bool _won;
     quint32 _id;
     bool _gameRecorded;
-    QGraphicsItem *wonItem;
+    QGraphicsPixmapItem *wonItem;
     bool gothelp;
     bool toldAboutLostGame;
     // we need a flag to avoid telling someone the game is lost
@@ -467,7 +467,7 @@ DealerScene::DealerScene():
     connect(d->demotimer, SIGNAL(timeout()), SLOT(demo()));
     d->m_autoDropFactor = 1;
     d->m_autoDropOnce = false;
-    connect( this, SIGNAL( gameWon( bool ) ), SLOT( slotShowGame(bool) ) );
+    connect( this, SIGNAL( gameWon( bool ) ), SLOT( showWonMessage() ) );
 
     d->backPix.load( KStandardDirs::locateLocal( "data", "kpat/back.png" ) );
 }
@@ -840,11 +840,21 @@ void DealerScene::startNew()
     update();
 }
 
-void DealerScene::slotShowGame(bool gothelp)
+void DealerScene::showWonMessage()
 {
-    kDebug(11111) << "slotShowGame" << waiting();
+    kDebug(11111) << "showWonMessage" << waiting();
     emit undoPossible( false );
 
+    updateWonItem();
+
+    emit demoPossible( false );
+    emit hintPossible( false );
+    emit redealPossible( false );
+    // emit undoPossible(false); // technically it's possible but cheating :)
+}
+
+void DealerScene::updateWonItem()
+{
     QSvgRenderer renderer( KStandardDirs::locate( "data", "kpat/won.svg" ) );
 
     const QSizeF size = renderer.boundsOnElement("frame").size();
@@ -853,57 +863,56 @@ void DealerScene::slotShowGame(bool gothelp)
     int boxHeight;
     if (width() < aspectRatio * height())
     {
-        boxWidth = width() * 0.6;
+        boxWidth = width() * 0.7;
         boxHeight = boxWidth / aspectRatio;
     }
     else
     {
-        boxHeight = height() * 0.6;
+        boxHeight = height() * 0.7;
         boxWidth = boxHeight * aspectRatio;
     }
 
-    QRect contentsRect = QRect( 0, 0, boxWidth, boxHeight );
-
-    QPixmap pix( contentsRect.size() );
-    pix.fill( Qt::transparent );
-    QPainter p( &pix );
-    renderer.render( &p, "frame", contentsRect );
-
-    QString text = i18n( "Congratulations! You have won." );
-    if ( gothelp )
-        text = i18n( "Congratulations! We have won." );
-
-    QFont font;
-    font.setPointSize( 36 );
-
-    int twidth = QFontMetrics( font ).width( text );
-    int fontsize = 36;
-    while ( twidth > boxWidth * 0.9 && fontsize > 5 )
+    // Only regenerate the pixmap if it doesn't already exist or the new one is a significantly different size.
+    if ( !d->wonItem || abs( d->wonItem->boundingRect().width() - boxWidth ) > 20 )
     {
-        fontsize--;
-        kDebug() << "Trying" << fontsize << "pt";
+        if ( !d->wonItem )
+        {
+            d->wonItem  = new QGraphicsPixmapItem( 0, this );
+            d->wonItem->setZValue( 2000 );
+        }
+
+        QRect contentsRect = QRect( 0, 0, boxWidth, boxHeight );
+        QPixmap pix( contentsRect.size() );
+        pix.fill( Qt::transparent );
+        QPainter p( &pix );
+        renderer.render( &p, "frame", contentsRect );
+
+        QString text = i18n( "Congratulations! You have won." );
+        if ( d->gothelp )
+            text = i18n( "Congratulations! We have won." );
+
+        QFont font;
+
+        int fontsize = 36;
         font.setPointSize( fontsize );
-        twidth = QFontMetrics( font ).width ( text );
+        int twidth = QFontMetrics( font ).width( text );
+        while ( twidth > boxWidth * 0.9 && fontsize > 5 )
+        {
+            fontsize--;
+            font.setPointSize( fontsize );
+            twidth = QFontMetrics( font ).width ( text );
+        }
+
+        p.setFont( font );
+        p.setPen( Qt::white );
+        p.drawText( contentsRect, Qt::AlignCenter, text );
+        p.end();
+
+        d->wonItem->setPixmap( pix );
     }
 
-    p.setFont( font );
-    p.setPen( Qt::white );
-    p.drawText( contentsRect, Qt::AlignCenter, text );
-    p.end();
-
-    QGraphicsPixmapItem *item = new QGraphicsPixmapItem( 0, this );
-    item->setPixmap( pix );
-    item->setZValue( 2000 );
-
-    d->wonItem = item;
-
     d->wonItem->setPos( QPointF( ( width() - d->wonItem->sceneBoundingRect().width() ) / 2,
-                              ( height() - d->wonItem->sceneBoundingRect().height() ) / 2 ) );
-
-    emit demoPossible( false );
-    emit hintPossible( false );
-    emit redealPossible( false );
-    // emit undoPossible(false); // technically it's possible but cheating :)
+                                 ( height() - d->wonItem->sceneBoundingRect().height() ) / 2 ) );
 }
 
 void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
@@ -1954,8 +1963,7 @@ void DealerScene::setSceneSize( const QSize &s )
     }
 
     if ( d->wonItem )
-        d->wonItem->setPos( QPointF( ( width() - d->wonItem->sceneBoundingRect().width() ) / 2,
-                                     ( height() - d->wonItem->sceneBoundingRect().height() ) / 2 ) );
+        updateWonItem();
 
     for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
     {

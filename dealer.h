@@ -170,6 +170,8 @@ public:
 
     void createDump( QPaintDevice * );
 
+    void updateWonItem();
+
 public slots:
     virtual bool startAutoDrop();
     void hint();
@@ -178,7 +180,7 @@ public slots:
     State *getState();
     void setState(State *);
     void relayoutPiles();
-    void slotShowGame(bool);
+    void showWonMessage();
     void takeState();
     void eraseRedo();
     void undo();
