@@ -1,5 +1,7 @@
 #include "demo.h"
 
+#include <cmath>
+
 #include <kdebug.h>
 #include <QSvgRenderer>
 #include <KStandardDirs>
@@ -34,13 +36,8 @@ DemoBubbles::DemoBubbles( QWidget *parent)
 {
     backPix.load( KStandardDirs::locateLocal( "data", "kpat/back.png" ) );
 
-    games = 0;
-    for (QList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin();
-	it != DealerInfoList::self()->games().end(); ++it) {
+    games = DealerInfoList::self()->games().size();
 
-        games++;
-
-    }
     m_bubbles = new GameBubble[games];
     bubblerenderer = new QSvgRenderer( KStandardDirs::locate( "data", "kpat/demo_bubble.svg" ) );
 
@@ -55,36 +52,53 @@ DemoBubbles::~DemoBubbles()
 
 void DemoBubbles::resizeEvent ( QResizeEvent * )
 {
-    int mywidth = width();
+    QRectF bubble_rect = bubblerenderer->boundsOnElement( "bubble" );
+    QRectF text_rect = bubblerenderer->boundsOnElement( "text" );
 
-    int rows = ( games + 1 ) / 4;
+    qreal bubble_aspect = bubble_rect.width() / bubble_rect.height();
+    qreal my_aspect = qreal(width()) / height();
+
+    int rows, cols, best_rows;
+    qreal lowest_error = 1000000.0;
+    for ( rows = 1; rows <= games; ++rows )
+    {
+        cols = ceil( qreal( games ) / rows );
+
+        // Skip combinations that would lead an empty last row
+        if ( cols * rows - games >= cols )
+            continue;
+
+        qreal grid_aspect = bubble_aspect * cols / rows;
+        qreal error = grid_aspect > my_aspect ? grid_aspect / my_aspect :  my_aspect / grid_aspect;
+        if ( error < lowest_error )
+        {
+            lowest_error = error;
+            best_rows = rows;
+        }
+    }
+    rows = best_rows;
+    cols = ceil( qreal( games ) / best_rows );
 
     int my_height, outer_margin, inner_margin;
-
+    int my_width = ( width() / 10 ) * 10;
     while ( true )
     {
-        bubble_width = qRound( mywidth / ( 4 + 5 * spacing_ratio ) );
+        bubble_width = qRound( my_width / ( cols + ( cols + 1 ) * spacing_ratio ) );
         outer_margin = qRound( spacing_ratio * bubble_width );
         inner_margin = qRound( inner_margin_ratio * bubble_width );
 
-        QRectF rect = bubblerenderer->boundsOnElement( "bubble" );
-        QRectF text = bubblerenderer->boundsOnElement( "text" );
-        bubble_height = int( bubble_width / rect.width() * rect.height() + 1 );
-        bubble_text_height = int( bubble_width / text.width() * text.height() + 1 );
-
-        kDebug() << mywidth << bubble_width << bubble_height << games << height();
+        bubble_height = int( bubble_width / bubble_rect.width() * bubble_rect.height() + 1 );
+        bubble_text_height = int( bubble_width / text_rect.width() * text_rect.height() + 1 );
 
         my_height = bubble_height * rows + outer_margin * ( rows + 1 );
 
         if ( my_height > height() && bubble_text_height > inner_margin )
-        {
-            mywidth *= 0.9;
-        } else
+            my_width -= 10;
+        else
             break;
-
     }
 
-    int x_offset = ( width() - mywidth ) / 2;
+    int x_offset = ( width() - my_width ) / 2;
     int y_offset = ( height() - my_height ) / 2;
 
     QStringList list;
@@ -99,9 +113,9 @@ void DemoBubbles::resizeEvent ( QResizeEvent * )
 
     int index = 0;
     // reset
-    for ( int y = 0; y < games / 4 + 1; ++y )
+    for ( int y = 0; y < rows; ++y )
     {
-        for ( int x = 0; x < 4; ++x )
+        for ( int x = 0; x < cols; ++x )
         {
             if ( index == games )
                 break;
@@ -115,7 +129,6 @@ void DemoBubbles::resizeEvent ( QResizeEvent * )
             m_bubbles[index].gameindex = ( *it )->gameindex;
             m_bubbles[index].active = false;
             m_bubbles[index].text = i18n( ( *it )->name ).replace( "&&", "&" );
-            kDebug() << index <<  m_bubbles[index].text;
             if ( m_bubbles[index].pix.isNull() )
                 m_bubbles[index].pix.load( KStandardDirs::locate( "data", QString( "kpat/demos/demo_%1.png" ).arg( ( *it )->gameindex ) ) );
             ++index;
