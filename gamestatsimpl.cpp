@@ -19,29 +19,42 @@
 #include <QList>
 
 #include <kconfig.h>
+#include <kdebug.h>
 #include <klocale.h>
 #include <kglobal.h>
 #include <kconfiggroup.h>
 
 GameStatsImpl::GameStatsImpl(QWidget* aParent)
-	: QDialog(aParent),
+	: KDialog(aParent),
 	  indexMap()
 {
-	setupUi(this);
+	QWidget* widget = new QWidget(this);
+	ui = new Ui::GameStats();
+	ui->setupUi(widget);
 
-	foreach (DealerInfo * game, DealerInfoList::self()->games())
+	setWindowTitle(i18n("Statistics"));
+	setMainWidget(widget);
+	setButtons(KDialog::Reset | KDialog::Close);
+	setDefaultButton(KDialog::Close);
+	ui->GameType->setFocus();
+
+	QMap<QString,int> nameToIndex;
+	foreach (DealerInfo* game, DealerInfoList::self()->games())
+	{
+		QString name = KGlobal::locale()->removeAcceleratorMarker(game->name);
+		nameToIndex[name] = game->gameindex;
+	}
+	foreach (const QString& name, nameToIndex.keys())
 	{
 		// Map combobox indices to game indices
-		indexMap[GameType->count()] = game->gameindex;
-
-		QString name = KGlobal::locale()->removeAcceleratorMarker(game->name);
-		GameType->addItem(name);
+		indexMap[ui->GameType->count()] = nameToIndex[name];
+		ui->GameType->addItem(name);
 	}
 
-	showGameType(0);
-	connect(buttonOk, SIGNAL(clicked(bool)), SLOT(accept()));
-	connect(GameType, SIGNAL(activated(int)), SLOT(selectionChanged(int)));
-	connect(buttonReset, SIGNAL(clicked(bool)), SLOT(resetStats()));
+	showGameType(indexMap[0]);
+
+	connect(ui->GameType, SIGNAL(activated(int)), SLOT(selectionChanged(int)));
+	connect(this, SIGNAL(resetClicked()), SLOT(resetStats()));
 }
 
 void GameStatsImpl::selectionChanged(int comboIndex)
@@ -53,7 +66,7 @@ void GameStatsImpl::selectionChanged(int comboIndex)
 void GameStatsImpl::showGameType(int gameIndex)
 {
 	int comboIndex = indexMap.key(gameIndex);
-	GameType->setCurrentIndex(comboIndex);
+	ui->GameType->setCurrentIndex(comboIndex);
 	setGameType(gameIndex);
 }
 
@@ -61,35 +74,35 @@ void GameStatsImpl::setGameType(int gameIndex)
 {
 	KConfigGroup cg(KGlobal::config(), scores_group);
 	unsigned int t = cg.readEntry(QString("total%1").arg(gameIndex),0);
-	Played->setText(QString::number(t));
+	ui->Played->setText(QString::number(t));
 	unsigned int w = cg.readEntry(QString("won%1").arg(gameIndex),0);
 	if (t)
-		Won->setText(i18n("%1 (%2%)", w, w*100/t));
+		ui->Won->setText(i18n("%1 (%2%)", w, w*100/t));
 	else
-		Won->setText( QString::number(w));
-	WinStreak->setText( QString::number( cg.readEntry(QString("maxwinstreak%1").arg(gameIndex), 0)));
-	LooseStreak->setText( QString::number( cg.readEntry(QString("maxloosestreak%1").arg(gameIndex), 0)));
+		ui->Won->setText( QString::number(w));
+	ui->WinStreak->setText( QString::number( cg.readEntry(QString("maxwinstreak%1").arg(gameIndex), 0)));
+	ui->LooseStreak->setText( QString::number( cg.readEntry(QString("maxloosestreak%1").arg(gameIndex), 0)));
 	unsigned int l = cg.readEntry(QString("loosestreak%1").arg(gameIndex),0);
 	if (l)
-		CurrentStreak->setText( i18np("1 loss", "%1 losses", l) );
+		ui->CurrentStreak->setText( i18np("1 loss", "%1 losses", l) );
 	else
-		CurrentStreak->setText( i18np("1 win", "%1 wins",
+		ui->CurrentStreak->setText( i18np("1 win", "%1 wins",
 			cg.readEntry(QString("winstreak%1").arg(gameIndex),0)) );
 }
 
 void GameStatsImpl::resetStats()
 {
-	int id = GameType->currentIndex();
-	Q_ASSERT(id >= 0);
+	int gameIndex = indexMap[ui->GameType->currentIndex()];
+	Q_ASSERT(gameIndex >= 0);
 	KConfigGroup cg(KGlobal::config(), scores_group);
-	cg.writeEntry(QString("total%1").arg(id),0);
-	cg.writeEntry(QString("won%1").arg(id),0);
-	cg.writeEntry(QString("maxwinstreak%1").arg(id),0);
-	cg.writeEntry(QString("maxloosestreak%1").arg(id),0);
-	cg.writeEntry(QString("loosestreak%1").arg(id),0);
-	cg.writeEntry(QString("winstreak%1").arg(id),0);
+	cg.writeEntry(QString("total%1").arg(gameIndex),0);
+	cg.writeEntry(QString("won%1").arg(gameIndex),0);
+	cg.writeEntry(QString("maxwinstreak%1").arg(gameIndex),0);
+	cg.writeEntry(QString("maxloosestreak%1").arg(gameIndex),0);
+	cg.writeEntry(QString("loosestreak%1").arg(gameIndex),0);
+	cg.writeEntry(QString("winstreak%1").arg(gameIndex),0);
 
-	setGameType(id);
+	setGameType(gameIndex);
 }
 
 #include "gamestatsimpl.moc"

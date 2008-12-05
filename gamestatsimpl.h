@@ -14,11 +14,11 @@
 #ifndef GAMESTATS_IMPL_H_
 #define GAMESTATS_IMPL_H_
 
-#include <qdialog.h>
+#include <kdialog.h>
 #include <qmap.h>
 #include "ui_gamestats.h"
 
-class GameStatsImpl : public QDialog, Ui::GameStats
+class GameStatsImpl : public KDialog
 {
 	Q_OBJECT
 
@@ -34,6 +34,7 @@ class GameStatsImpl : public QDialog, Ui::GameStats
 		void selectionChanged(int comboIndex);
 
 	private:
+		Ui::GameStats * ui;
 		QMap<int,int> indexMap;
 };
 
