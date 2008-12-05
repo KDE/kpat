@@ -15,19 +15,26 @@
 #define GAMESTATS_IMPL_H_
 
 #include <qdialog.h>
+#include <qmap.h>
 #include "ui_gamestats.h"
 
 class GameStatsImpl : public QDialog, Ui::GameStats
 {
-    Q_OBJECT
+	Q_OBJECT
 
 	public:
 		explicit GameStatsImpl(QWidget* aParent);
 
-		void showGameType(int i);
-        public slots:
-		void setGameType(int i);
+		void showGameType(int gameIndex);
+	public slots:
+		void setGameType(int gameIndex);
 		void resetStats();
+
+	private slots:
+		void selectionChanged(int comboIndex);
+
+	private:
+		QMap<int,int> indexMap;
 };
 
 #endif

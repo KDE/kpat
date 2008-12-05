@@ -24,60 +24,63 @@
 #include <kconfiggroup.h>
 
 GameStatsImpl::GameStatsImpl(QWidget* aParent)
-	: QDialog(aParent)
+	: QDialog(aParent),
+	  indexMap()
 {
 	setupUi(this);
-	QStringList list;
-	QList<DealerInfo*>::ConstIterator it;
-	for (it = DealerInfoList::self()->games().begin();
-			it != DealerInfoList::self()->games().end(); ++it)
+
+	foreach (DealerInfo * game, DealerInfoList::self()->games())
 	{
-		// while we develop, it may happen that some lower
-		// indices do not exist
-		int index = (*it)->gameindex;
-		for (int i = 0; i <= index; i++)
-			if (list.count() <= i)
-				list.append("unknown");
-		list[index] = i18n((*it)->name);
-		list[index].replace('&',"");
+		// Map combobox indices to game indices
+		indexMap[GameType->count()] = game->gameindex;
+
+		QString name = KGlobal::locale()->removeAcceleratorMarker(game->name);
+		GameType->addItem(name);
 	}
-	GameType->addItems(list);
+
 	showGameType(0);
 	connect(buttonOk, SIGNAL(clicked(bool)), SLOT(accept()));
-        connect(GameType, SIGNAL(activated(int)), SLOT(setGameType(int)));
+	connect(GameType, SIGNAL(activated(int)), SLOT(selectionChanged(int)));
 	connect(buttonReset, SIGNAL(clicked(bool)), SLOT(resetStats()));
 }
 
-void GameStatsImpl::showGameType(int id)
+void GameStatsImpl::selectionChanged(int comboIndex)
 {
-	GameType->setCurrentIndex(id);
-	setGameType(id);
+	int gameIndex = indexMap[comboIndex];
+	setGameType(gameIndex);
 }
 
-void GameStatsImpl::setGameType(int id)
+void GameStatsImpl::showGameType(int gameIndex)
+{
+	int comboIndex = indexMap.key(gameIndex);
+	GameType->setCurrentIndex(comboIndex);
+	setGameType(gameIndex);
+}
+
+void GameStatsImpl::setGameType(int gameIndex)
 {
 	KConfigGroup cg(KGlobal::config(), scores_group);
-	unsigned int t = cg.readEntry(QString("total%1").arg(id),0);
+	unsigned int t = cg.readEntry(QString("total%1").arg(gameIndex),0);
 	Played->setText(QString::number(t));
-	unsigned int w = cg.readEntry(QString("won%1").arg(id),0);
+	unsigned int w = cg.readEntry(QString("won%1").arg(gameIndex),0);
 	if (t)
 		Won->setText(i18n("%1 (%2%)", w, w*100/t));
 	else
 		Won->setText( QString::number(w));
-	WinStreak->setText( QString::number( cg.readEntry(QString("maxwinstreak%1").arg(id), 0)));
-	LooseStreak->setText( QString::number( cg.readEntry(QString("maxloosestreak%1").arg(id), 0)));
-	unsigned int l = cg.readEntry(QString("loosestreak%1").arg(id),0);
+	WinStreak->setText( QString::number( cg.readEntry(QString("maxwinstreak%1").arg(gameIndex), 0)));
+	LooseStreak->setText( QString::number( cg.readEntry(QString("maxloosestreak%1").arg(gameIndex), 0)));
+	unsigned int l = cg.readEntry(QString("loosestreak%1").arg(gameIndex),0);
 	if (l)
 		CurrentStreak->setText( i18np("1 loss", "%1 losses", l) );
 	else
 		CurrentStreak->setText( i18np("1 win", "%1 wins",
-			cg.readEntry(QString("winstreak%1").arg(id),0)) );
+			cg.readEntry(QString("winstreak%1").arg(gameIndex),0)) );
 }
 
 void GameStatsImpl::resetStats()
 {
 	int id = GameType->currentIndex();
-        Q_ASSERT(id >= 0);
+	Q_ASSERT(id >= 0);
 	KConfigGroup cg(KGlobal::config(), scores_group);
 	cg.writeEntry(QString("total%1").arg(id),0);
 	cg.writeEntry(QString("won%1").arg(id),0);
@@ -85,7 +88,7 @@ void GameStatsImpl::resetStats()
 	cg.writeEntry(QString("maxloosestreak%1").arg(id),0);
 	cg.writeEntry(QString("loosestreak%1").arg(id),0);
 	cg.writeEntry(QString("winstreak%1").arg(id),0);
-	
+
 	setGameType(id);
 }
 
