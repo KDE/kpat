@@ -37,6 +37,7 @@ GameStatsImpl::GameStatsImpl(QWidget* aParent)
 	setButtons(KDialog::Reset | KDialog::Close);
 	setDefaultButton(KDialog::Close);
 	ui->GameType->setFocus();
+	ui->GameType->setMaxVisibleItems(12);
 
 	QMap<QString,int> nameToIndex;
 	foreach (DealerInfo* game, DealerInfoList::self()->games())
