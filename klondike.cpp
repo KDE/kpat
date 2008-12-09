@@ -22,17 +22,20 @@
 
 ****************************************/
 
-#include "version.h"
 #include "klondike.h"
-#include <klocale.h>
+#include "version.h"
 #include "deck.h"
-#include <kdebug.h>
-#include <assert.h>
 #include "cardmaps.h"
 #include "patsolve/klondike.h"
 #include "view.h"
-#include <KSelectAction>
+
+#include <assert.h>
+
 #include <QApplication>
+
+#include <kdebug.h>
+#include <klocale.h>
+#include <KSelectAction>
 #include <KXmlGuiWindow>
 #include <KActionCollection>
 #include <KXMLGUIFactory>

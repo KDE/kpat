@@ -1,18 +1,19 @@
 /* Common routines & arrays. */
 
 #include "idiot.h"
+#include "../idiot.h"
+#include "../pile.h"
+#include "../deck.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
-#include <kdebug.h>
 #include <sys/types.h>
 #include <stdarg.h>
-#include "idiot.h"
-#include "../idiot.h"
-#include "../pile.h"
-#include "../deck.h"
+
+#include <kdebug.h>
 
 /* Some macros used in get_possible_moves(). */
 

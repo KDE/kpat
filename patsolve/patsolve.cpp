@@ -1,16 +1,18 @@
 /* Common routines & arrays. */
 
 #include "patsolve.h"
+#include "../pile.h"
+#include "memory.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
-#include <kdebug.h>
 #include <stdarg.h>
 #include <sys/types.h>
-#include "../pile.h"
-#include "memory.h"
+
+#include <kdebug.h>
 
 long all_moves = 0;
 

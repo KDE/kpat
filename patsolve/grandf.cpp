@@ -1,17 +1,19 @@
 /* Common routines & arrays. */
 
 #include "grandf.h"
+#include "../grandf.h"
+#include "../pile.h"
+#include "../deck.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
-#include <kdebug.h>
 #include <sys/types.h>
 #include <stdarg.h>
-#include "../grandf.h"
-#include "../pile.h"
-#include "../deck.h"
+
+#include <kdebug.h>
 
 /* These two routines make and unmake moves. */
 

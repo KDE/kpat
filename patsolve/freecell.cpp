@@ -1,5 +1,9 @@
 /* Common routines & arrays. */
 
+#include "freecell.h"
+#include "../freecell.h"
+#include "../pile.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,9 +11,6 @@
 #include <math.h>
 #include <sys/types.h>
 #include <stdarg.h>
-#include "freecell.h"
-#include "../freecell.h"
-#include "../pile.h"
 
 /* Some macros used in get_possible_moves(). */
 

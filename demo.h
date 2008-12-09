@@ -1,5 +1,7 @@
-#include <QWidget>
+#ifndef DEMO_H
+#define DEMO_H
 
+#include <QWidget>
 #include <QPixmap>
 
 class GameBubble;
@@ -30,3 +32,5 @@ private:
     QSvgRenderer *bubblerenderer;
 
 };
+
+#endif // DEMO_H

@@ -1,17 +1,19 @@
 /* Common routines & arrays. */
 
 #include "fortyeight.h"
+#include "../fortyeight.h"
+#include "../pile.h"
+#include "../deck.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
-#include <kdebug.h>
 #include <sys/types.h>
 #include <stdarg.h>
-#include "../fortyeight.h"
-#include "../pile.h"
-#include "../deck.h"
+
+#include <kdebug.h>
 
 #define PRINT 0
 #define PRINT2 0

@@ -17,16 +17,18 @@
  * other special, indirect and consequential damages.
 
 ---------------------------------------------------------------------------*/
-#include "version.h"
+
 #include "spider.h"
+#include "version.h"
 #include "view.h"
-#include <klocale.h>
 #include "deck.h"
-#include <kdebug.h>
 #include "patsolve/spider.h"
 
-#include <KSelectAction>
 #include <QApplication>
+
+#include <kdebug.h>
+#include <klocale.h>
+#include <KSelectAction>
 #include <KXmlGuiWindow>
 #include <KActionCollection>
 #include <KXMLGUIFactory>
