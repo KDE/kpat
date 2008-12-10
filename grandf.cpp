@@ -19,12 +19,14 @@
 ****************************************/
 
 #include "grandf.h"
+#include "deck.h"
+#include "patsolve/grandf.h"
+
+#include <cassert>
+
 #include <klocale.h>
 #include <kdebug.h>
-#include "deck.h"
 #include <kaction.h>
-#include "patsolve/grandf.h"
-#include <assert.h>
 
 Grandf::Grandf( )
     : DealerScene(  )

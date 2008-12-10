@@ -20,9 +20,10 @@
 
 
 #include "idiot.h"
-#include <klocale.h>
 #include "deck.h"
 #include "patsolve/idiot.h"
+
+#include <klocale.h>
 
 Idiot::Idiot( )
   : DealerScene( )

@@ -11,14 +11,15 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
-#ifndef _DEALER_H_
-#define _DEALER_H_
+#ifndef DEALER_H
+#define DEALER_H
 
 #include "pile.h"
 #include "card.h"
 
-#include <krandomsequence.h>
 #include <QGraphicsScene>
+
+#include <krandomsequence.h>
 
 class MoveHint;
 class QDomDocument;

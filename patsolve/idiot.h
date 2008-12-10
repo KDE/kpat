@@ -1,6 +1,5 @@
-
-#ifndef _IDIOTSOLVER_H
-#define _IDIOTSOLVER_H
+#ifndef IDIOTSOLVER_H
+#define IDIOTSOLVER_H
 
 #include "patsolve.h"
 
@@ -27,5 +26,4 @@ public:
     const Idiot *deal;
 };
 
-#endif
-
+#endif // IDIOTSOLVER_H

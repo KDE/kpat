@@ -11,8 +11,8 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
-#ifndef _FORTY_EIGHT_H
-#define _FORTY_EIGHT_H
+#ifndef FORTYEIGHT_H
+#define FORTYEIGHT_H
 
 #include "dealer.h"
 

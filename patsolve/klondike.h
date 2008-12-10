@@ -1,6 +1,5 @@
-
-#ifndef _KLONDIKESOLVER_H
-#define _KLONDIKESOLVER_H
+#ifndef KLONDIKESOLVER_H
+#define KLONDIKESOLVER_H
 
 #include "patsolve.h"
 
@@ -31,5 +30,5 @@ public:
     const Klondike *deal;
     int m_draw;
 };
-#endif
 
+#endif // KLONDIKESOLVER_H

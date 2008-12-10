@@ -24,8 +24,8 @@
 
 ****************************************/
 
-#ifndef P_KLONDIKE
-#define P_KLONDIKE
+#ifndef KLONDIKE_H
+#define KLONDIKE_H
 
 #include "dealer.h"
 

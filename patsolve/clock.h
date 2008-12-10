@@ -1,6 +1,5 @@
-
-#ifndef _CLOCKSOLVER_H
-#define _CLOCKSOLVER_H
+#ifndef CLOCKSOLVER_H
+#define CLOCKSOLVER_H
 
 #include "patsolve.h"
 
@@ -24,5 +23,5 @@ public:
 
     const Clock *deal;
 };
-#endif
 
+#endif // CLOCKSOLVER_H

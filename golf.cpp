@@ -12,10 +12,11 @@
  * other special, indirect and consequential damages.
 */
 #include "golf.h"
-#include <klocale.h>
 #include "deck.h"
+#include "patsolve/golf.h"
+
+#include <klocale.h>
 #include <kdebug.h>
-#include <patsolve/golf.h>
 
 HorRightPile::HorRightPile( int _index, DealerScene* parent)
     : Pile(_index, parent)

@@ -14,8 +14,8 @@
 #ifndef HINT_H
 #define HINT_H
 
-
 #include <QList>
+
 class Card;
 class Pile;
 

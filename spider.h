@@ -18,8 +18,8 @@
 
 ---------------------------------------------------------------------------*/
 
-#ifndef _SPIDER_H_
-#define _SPIDER_H_
+#ifndef SPIDER_H
+#define SPIDER_H
 
 #include "dealer.h"
 

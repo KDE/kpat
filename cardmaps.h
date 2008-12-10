@@ -18,13 +18,14 @@
 
 ****************************************/
 
-#ifndef KPAT_CARDMAPS_H
-#define KPAT_CARDMAPS_H
+#ifndef CARDMAPS_H
+#define CARDMAPS_H
 
 #include "card.h"
+#include "cardcache.h"
+
 //Added by qt3to4:
 #include <QPixmap>
-#include "cardcache.h"
 
 class cardMapPrivate;
 class KConfigGroup;

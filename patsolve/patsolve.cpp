@@ -4,12 +4,12 @@
 #include "../pile.h"
 #include "memory.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include <math.h>
-#include <stdarg.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cctype>
+#include <cmath>
+#include <cstdarg>
 #include <sys/types.h>
 
 #include <kdebug.h>

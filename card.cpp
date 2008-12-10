@@ -19,11 +19,14 @@
 *******************************************************/
 
 #include "card.h"
+#include "pile.h"
+#include "cardmaps.h"
+#include "dealer.h"
 
-#include <math.h>
-#include <assert.h>
+#include <cmath>
+#include <cassert>
 
-#include <qpainter.h>
+#include <QPainter>
 //Added by qt3to4:
 #include <QPixmap>
 #include <QBrush>
@@ -31,13 +34,10 @@
 #include <QGraphicsItemAnimation>
 #include <QGraphicsSceneMouseEvent>
 #include <QStyleOptionGraphicsItem>
-#include <qgraphicssvgitem.h>
+#include <QGraphicsSvgItem>
 #include <QPixmapCache>
-#include <kdebug.h>
 
-#include "pile.h"
-#include "cardmaps.h"
-#include "dealer.h"
+#include <kdebug.h>
 
 
 // Run time type id

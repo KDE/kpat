@@ -20,8 +20,8 @@
 
 ---------------------------------------------------------------------------*/
 
-#ifndef _MOD3_H_
-#define _MOD3_H_
+#ifndef MOD3_H
+#define MOD3_H
 
 #include "dealer.h"
 

@@ -24,8 +24,8 @@
 ****************************************/
 
 
-#ifndef P_GRANDF_7
-#define P_GRANDF_7
+#ifndef GRANDF_H
+#define GRANDF_H
 
 #include "dealer.h"
 

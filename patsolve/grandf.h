@@ -1,6 +1,5 @@
-
-#ifndef _GRANDFSOLVER_H
-#define _GRANDFSOLVER_H
+#ifndef GRANDFSOLVER_H
+#define GRANDFSOLVER_H
 
 #include "patsolve.h"
 
@@ -29,5 +28,5 @@ public:
     int m_redeal;
     int offs;
 };
-#endif
 
+#endif // GRANDFSOLVER_H

@@ -12,11 +12,13 @@
  * other special, indirect and consequential damages.
 */
 #include "simon.h"
+#include "deck.h"
+#include "patsolve/simon.h"
+
+#include <cassert>
+
 #include <klocale.h>
 #include <kdebug.h>
-#include "deck.h"
-#include <assert.h>
-#include "patsolve/simon.h"
 
 Simon::Simon( )
     : DealerScene( )

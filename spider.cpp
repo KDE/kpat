@@ -28,11 +28,11 @@
 
 #include <kdebug.h>
 #include <klocale.h>
-#include <KSelectAction>
-#include <KXmlGuiWindow>
-#include <KActionCollection>
-#include <KXMLGUIFactory>
-#include <KConfigGroup>
+#include <kselectaction.h>
+#include <kxmlguiwindow.h>
+#include <kactioncollection.h>
+#include <kxmlguifactory.h>
+#include <kconfiggroup.h>
 
 void SpiderPile::moveCards(CardList &c, Pile *to)
 {

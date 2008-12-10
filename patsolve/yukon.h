@@ -1,6 +1,5 @@
-
-#ifndef _YUKONSOLVER_H
-#define _YUKONSOLVER_H
+#ifndef YUKONSOLVER_H
+#define YUKONSOLVER_H
 
 #include "patsolve.h"
 
@@ -30,5 +29,5 @@ public:
 
     const Yukon *deal;
 };
-#endif
 
+#endif // YUKONSOLVER_H

@@ -11,11 +11,11 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
-#ifndef _PILE_H
-#define _PILE_H
-
+#ifndef PILE_H
+#define PILE_H
 
 #include "card.h"
+
 #include <QPixmap>
 //Added by qt3to4:
 #include <QGraphicsPixmapItem>

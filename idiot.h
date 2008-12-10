@@ -19,8 +19,8 @@
 ****************************************/
 
 
-#ifndef P_IDIOT
-#define P_IDIOT
+#ifndef IDIOT_H
+#define IDIOT_H
 
 
 #include "dealer.h"

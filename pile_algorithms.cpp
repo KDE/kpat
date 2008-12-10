@@ -12,6 +12,7 @@
  * other special, indirect and consequential damages.
 */
 #include "pile.h"
+
 #include <kdebug.h>
 
 bool Pile::add_klondikeTarget( const CardList& c2 ) const

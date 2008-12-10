@@ -1,6 +1,5 @@
-
-#ifndef _FORTYEIGHT_H
-#define _FORTYEIGHT_H
+#ifndef FORTYEIGHTSOLVER_H
+#define FORTYEIGHTSOLVER_H
 
 
 #include "patsolve.h"
@@ -29,5 +28,5 @@ public:
     bool lastdeal;
     int freestores;
 };
-#endif
 
+#endif // FORTYEIGHTSOLVER_H

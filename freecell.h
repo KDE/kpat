@@ -19,8 +19,8 @@
 
 ---------------------------------------------------------------------------*/
 
-#ifndef _FREECELL_H_
-#define _FREECELL_H_
+#ifndef FREECELL_H
+#define FREECELL_H
 
 #include "dealer.h"
 #include "hint.h"

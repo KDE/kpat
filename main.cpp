@@ -16,6 +16,20 @@
 
  */
 
+#include "version.h"
+#include "pwidget.h"
+#include "dealer.h"
+#include "patsolve/patsolve.h"
+#include "cardmaps.h"
+
+#include <cstdio>
+#include <climits>
+
+#include <QtCore/QTime>
+#include <QtCore/QTimer>
+#include <QtCore/QFile>
+#include <QDomDocument>
+
 #include <kapplication.h>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
@@ -24,20 +38,6 @@
 #include <kdebug.h>
 #include <kurl.h>
 
-#include <QtCore/QTime>
-#include <QtCore/QTimer>
-#include <QtCore/QFile>
-
-#include <QDomDocument>
-
-#include <stdio.h>
-#include <limits.h>
-
-#include "version.h"
-#include "pwidget.h"
-#include "dealer.h"
-#include "patsolve/patsolve.h"
-#include "cardmaps.h"
 
 static const char description[] = I18N_NOOP("KDE Patience Game");
 

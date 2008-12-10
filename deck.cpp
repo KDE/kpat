@@ -12,10 +12,12 @@
  * other special, indirect and consequential damages.
 */
 #include "deck.h"
-#include <kdebug.h>
 #include "dealer.h"
-#include <time.h>
-#include <assert.h>
+
+#include <ctime>
+#include <cassert>
+
+#include <kdebug.h>
 
 const unsigned int NumberOfCards = 52;
 

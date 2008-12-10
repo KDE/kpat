@@ -29,17 +29,17 @@
 #include "patsolve/klondike.h"
 #include "view.h"
 
-#include <assert.h>
+#include <cassert>
 
 #include <QApplication>
 
 #include <kdebug.h>
 #include <klocale.h>
-#include <KSelectAction>
-#include <KXmlGuiWindow>
-#include <KActionCollection>
-#include <KXMLGUIFactory>
-#include <KConfigGroup>
+#include <kselectaction.h>
+#include <kxmlguiwindow.h>
+#include <kactioncollection.h>
+#include <kxmlguifactory.h>
+#include <kconfiggroup.h>
 
 KlondikePile::KlondikePile( int _index, int _draw, DealerScene* parent)
     : Pile(_index, parent), m_draw( _draw )

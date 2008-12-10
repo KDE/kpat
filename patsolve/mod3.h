@@ -1,6 +1,5 @@
-
-#ifndef _MOD3SOLVER_H
-#define _MOD3SOLVER_H
+#ifndef MOD3SOLVER_H
+#define MOD3SOLVER_H
 
 #include "patsolve.h"
 
@@ -26,5 +25,5 @@ public:
     int aces;
     int deck;
 };
-#endif
 
+#endif // MOD3SOLVER_H

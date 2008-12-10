@@ -19,12 +19,20 @@
 */
 
 #include "pwidget.h"
+#include "pile.h"
+#include "version.h"
+#include "dealer.h"
+#include "view.h"
+#include "cardmaps.h"
+#include "gamestatsimpl.h"
+#include "demo.h"
+#include <carddeckinfo.h>
 
-#include <stdio.h>
+#include <cstdio>
 
 #include <QRegExp>
 #include <QTimer>
-#include <qimage.h>
+#include <QImage>
 //Added by qt3to4:
 #include <QPixmap>
 #include <QTextStream>
@@ -42,7 +50,6 @@
 #include <kstandardaction.h>
 #include <kstandardgameaction.h>
 #include <kdebug.h>
-#include <carddeckinfo.h>
 #include <kcarddialog.h>
 #include <krandom.h>
 #include <kinputdialog.h>
@@ -59,13 +66,6 @@
 #include <kicon.h>
 #include <kconfiggroup.h>
 
-#include "pile.h"
-#include "version.h"
-#include "dealer.h"
-#include "view.h"
-#include "cardmaps.h"
-#include "gamestatsimpl.h"
-#include "demo.h"
 
 static pWidget *current_pwidget = 0;
 

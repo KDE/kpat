@@ -11,8 +11,8 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
-#ifndef _GOLF_H_
-#define _GOLF_H_
+#ifndef GOLF_H
+#define GOLF_H
 
 #include "dealer.h"
 

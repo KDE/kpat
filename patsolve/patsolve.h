@@ -1,11 +1,12 @@
 #ifndef PATSOLVE_H
 #define PATSOLVE_H
 
-#include <qglobal.h>
 #include "../hint.h"
 #include "memory.h"
-#include <stdio.h>
-#include <qmap.h>
+
+#include <cstdio>
+
+#include <QMap>
 
 
 /* A card is represented as ( down << 6 ) + (suit << 4) + rank. */
@@ -155,4 +156,4 @@ protected:
 
 extern long all_moves;
 
-#endif
+#endif // PATSOLVE_H

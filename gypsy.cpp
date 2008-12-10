@@ -12,9 +12,10 @@
  * other special, indirect and consequential damages.
 */
 #include "gypsy.h"
-#include <klocale.h>
 #include "deck.h"
 #include "patsolve/gypsy.h"
+
+#include <klocale.h>
 
 Gypsy::Gypsy( )
     : DealerScene(  )

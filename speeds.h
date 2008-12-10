@@ -11,8 +11,8 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
-#ifndef __SPEEDS_H_
-#define __SPEEDS_H_
+#ifndef SPEEDS_H
+#define SPEEDS_H
 
 #define TEST_SOLVER 0
 
@@ -36,6 +36,6 @@
 #define TIME_BETWEEN_MOVES 200
 
 
-#endif
+#endif // TEST_SOLVER
 
-#endif
+#endif // SPEEDS_H

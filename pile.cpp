@@ -13,15 +13,18 @@
 */
 #include "pile.h"
 #include "dealer.h"
-#include <kdebug.h>
-#include <qpainter.h>
 #include "cardmaps.h"
-#include <kstandarddirs.h>
-#include <deck.h>
-#include <assert.h>
 #include "speeds.h"
+#include "deck.h"
+
+#include <cassert>
+#include <cmath>
+
 #include <QSvgRenderer>
-#include <math.h>
+#include <QPainter>
+
+#include <kstandarddirs.h>
+#include <kdebug.h>
 
 const int Pile::my_type       = DealerScene::PileTypeId;
 

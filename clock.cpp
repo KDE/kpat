@@ -12,10 +12,12 @@
  * other special, indirect and consequential damages.
 */
 #include "clock.h"
-#include <klocale.h>
 #include "deck.h"
 #include "patsolve/clock.h"
-#include <assert.h>
+
+#include <cassert>
+
+#include <klocale.h>
 
 Clock::Clock( )
     : DealerScene( )

@@ -1,15 +1,15 @@
 #include "demo.h"
+#include "dealer.h"
 
 #include <cmath>
 
-#include <kdebug.h>
 #include <QSvgRenderer>
-#include <KStandardDirs>
 #include <QPainter>
-#include <KLocale>
 #include <QMouseEvent>
 
-#include "dealer.h"
+#include <kdebug.h>
+#include <klocale.h>
+#include <kstandarddirs.h>
 
 class GameBubble
 {

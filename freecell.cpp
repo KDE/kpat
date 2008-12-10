@@ -20,15 +20,18 @@
 ---------------------------------------------------------------------------*/
 
 #include "freecell.h"
-#include <klocale.h>
 #include "deck.h"
-#include <assert.h>
-#include <kdebug.h>
-#include <stdlib.h>
-#include <QTimer>
-#include <QList>
 #include "patsolve/freecell.h"
 #include "speeds.h"
+
+#include <cstdlib>
+#include <cassert>
+
+#include <QTimer>
+#include <QList>
+
+#include <klocale.h>
+#include <kdebug.h>
 
 const int CHUNKSIZE = 100;
 

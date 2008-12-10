@@ -25,16 +25,8 @@
 #include "cardmaps.h"
 #include "version.h"
 
-#include <kaction.h>
-#include <ktoggleaction.h>
-#include <kstandardgameaction.h>
-#include <kactioncollection.h>
-#include <kdebug.h>
-#include <kicon.h>
-#include <klocalizedstring.h>
-#include <krandom.h>
-#include <kxmlguifactory.h>
-#include <kxmlguiwindow.h>
+#include <cassert>
+#include <cmath>
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QList>
@@ -45,8 +37,16 @@
 #ifndef QT_NO_OPENGL
 #endif
 
-#include <assert.h>
-#include <math.h>
+#include <kaction.h>
+#include <ktoggleaction.h>
+#include <kstandardgameaction.h>
+#include <kactioncollection.h>
+#include <kdebug.h>
+#include <kicon.h>
+#include <klocalizedstring.h>
+#include <krandom.h>
+#include <kxmlguifactory.h>
+#include <kxmlguiwindow.h>
 
 DealerInfoList *DealerInfoList::_self = 0;
 

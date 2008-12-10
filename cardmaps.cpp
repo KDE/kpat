@@ -19,44 +19,41 @@
 ****************************************/
 
 #include "cardmaps.h"
+#include "version.h"
+#include "view.h"
+#include "dealer.h"
+#include "ksvgrenderer.h"
+#include "card.h"
+#include "cardcache.h"
+#ifdef __GNUC__
+#warning cardmap should not really require to know the instance!
+#endif
 
-#include <stdio.h>
+#include <cstdlib>
+#include <cstdio>
 #include <unistd.h>
+#include <cassert>
 
-#include <qpainter.h>
+#include <QPainter>
+#include <QImage>
+#include <QFileInfo>
+#include <QSvgRenderer>
+#include <QPixmapCache>
+#include <QThread>
+#include <QMutex>
 //Added by qt3to4:
 #include <QPixmap>
 #include <QDir>
 
 #include <kconfig.h>
-
-#include <stdlib.h>
-
 #include <kdebug.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
-#include "version.h"
-#include <qimage.h>
 #include <krandom.h>
 #include <carddeckinfo.h>
 #include <kglobalsettings.h>
-#include <qfileinfo.h>
-#include <assert.h>
 #include <kglobal.h>
-#include <QSvgRenderer>
-#include <QPixmapCache>
-#include <QThread>
-#include <QMutex>
 #include <kconfiggroup.h>
-#ifdef __GNUC__
-#warning cardmap should not really require to know the instance!
-#endif
-#include "view.h"
-#include "dealer.h"
-#include "ksvgrenderer.h"
-#include "card.h"
-
-#include "cardcache.h"
 
 cardMap *cardMap::_self = 0;
 

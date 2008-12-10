@@ -1,6 +1,5 @@
-
-#ifndef _GYPSYSOLVER_H
-#define _GYPSYSOLVER_H
+#ifndef GYPSYSOLVER_H
+#define GYPSYSOLVER_H
 
 #include "patsolve.h"
 
@@ -30,5 +29,5 @@ public:
     int deck, outs;
     int params[6];
 };
-#endif
 
+#endif // GYPSYSOLVER_H

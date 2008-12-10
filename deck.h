@@ -11,8 +11,8 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
-#ifndef _DECK_H_
-#define _DECK_H_
+#ifndef DECK_H
+#define DECK_H
 
 #include "pile.h"
 

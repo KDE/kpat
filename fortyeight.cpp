@@ -12,11 +12,13 @@
  * other special, indirect and consequential damages.
 */
 #include "fortyeight.h"
+#include "deck.h"
+#include "patsolve/fortyeight.h"
+
+#include <cassert>
+
 #include <klocale.h>
 #include <kdebug.h>
-#include "deck.h"
-#include <assert.h>
-#include <patsolve/fortyeight.h>
 
 HorLeftPile::HorLeftPile( int _index, DealerScene* parent)
     : Pile(_index, parent)

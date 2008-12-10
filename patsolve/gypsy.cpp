@@ -5,13 +5,13 @@
 #include "../pile.h"
 #include "../deck.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include <math.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cctype>
+#include <cmath>
 #include <sys/types.h>
-#include <stdarg.h>
+#include <cstdarg>
 #include <algorithm>
 
 #include <kdebug.h>

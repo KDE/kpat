@@ -19,12 +19,8 @@
 #include "version.h"
 #include "patsolve/patsolve.h"
 
-#include <kconfiggroup.h>
-#include <kdebug.h>
-#include <klocalizedstring.h>
-#include <krandom.h>
-#include <kstandarddirs.h>
-#include <ksharedconfig.h>
+#include <cassert>
+#include <cmath>
 
 #include <QStyleOptionGraphicsItem>
 #include <QtCore/QMutex>
@@ -37,8 +33,12 @@
 #include <QtSvg/QSvgRenderer>
 #include <QtXml/QDomDocument>
 
-#include <assert.h>
-#include <math.h>
+#include <kconfiggroup.h>
+#include <kdebug.h>
+#include <klocalizedstring.h>
+#include <krandom.h>
+#include <kstandarddirs.h>
+#include <ksharedconfig.h>
 
 #define DEBUG_HINTS 0
 

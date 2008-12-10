@@ -20,15 +20,17 @@
  *
  */
 
-#ifndef __PWIDGET__H__
-#define __PWIDGET__H__
+#ifndef PWIDGET_H
+#define PWIDGET_H
 
-#include <kxmlguiwindow.h>
 //Added by qt3to4:
 #include <QPixmap>
 #include <QLabel>
 #include <QShowEvent>
+
+#include <kxmlguiwindow.h>
 #include <krecentfilesaction.h>
+
 class DemoBubbles;
 class PatienceView;
 class KToggleAction;
