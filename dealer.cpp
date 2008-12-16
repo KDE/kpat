@@ -1943,9 +1943,9 @@ void DealerScene::setSceneSize( const QSize &s )
                             Q_ASSERT( false ); // TODO
                             myRect.setLeft( ( *it2 )->x() + cardMap::self()->wantedCardWidth() + 1);
                             //kDebug() << "5. reduced height of" << p->objectName();
-                        } else {
+                        } else if ( ( *it2 )->y() >= 1  ) {
                             myRect.setBottom( ( *it2 )->y() - 1 );
-                            //kDebug() << "6. reduced height of" << p->objectName();
+                            //kDebug() << "6. reduced height of" << p->objectName() << (*it2)->y() - 1 << myRect;
                         }
                 }
 
