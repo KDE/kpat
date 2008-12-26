@@ -152,7 +152,7 @@ void Spider::gameTypeChanged()
         suits = 2;
 
     Deck::create_deck(this, 2, suits);
-    restart();
+    startNew();
 }
 
 void Spider::cardStoped(Card * t)
