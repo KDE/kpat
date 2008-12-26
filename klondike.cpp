@@ -175,6 +175,7 @@ void Klondike::gameTypeChanged()
     }
     KConfigGroup cg(KGlobal::config(), settings_group );
     cg.writeEntry( "KlondikeEasy", EasyRules);
+    cg.sync();
 
     startNew();
 }

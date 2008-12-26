@@ -154,6 +154,7 @@ void Spider::gameTypeChanged()
     Deck::create_deck(this, 2, suits);
     KConfigGroup cg(KGlobal::config(), settings_group );
     cg.writeEntry( "SpiderSuits", suits);
+    cg.sync();
 
     startNew();
 }

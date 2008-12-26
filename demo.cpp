@@ -58,7 +58,7 @@ void DemoBubbles::resizeEvent ( QResizeEvent * )
     qreal bubble_aspect = bubble_rect.width() / bubble_rect.height();
     qreal my_aspect = qreal(width()) / height();
 
-    int rows, cols, best_rows;
+    int rows, cols, best_rows = 1;
     qreal lowest_error = 1000000.0;
     for ( rows = 1; rows <= games; ++rows )
     {
