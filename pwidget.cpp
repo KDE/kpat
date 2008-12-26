@@ -162,7 +162,7 @@ pWidget::pWidget()
     bool autodrop = cg.readEntry("Autodrop", true);
     dropaction->setChecked(autodrop);
 
-    bool solver = cg.readEntry("Solver", false);
+    bool solver = cg.readEntry("Solver", true);
     solveraction->setChecked(solver);
 
     //int game = cg.readEntry("DefaultGame", 0);
