@@ -115,6 +115,9 @@ void cardMap::updateTheme(const KConfigGroup &cs)
 {
     QString fronttheme = CardDeckInfo::frontTheme( cs );
     QString backtheme = CardDeckInfo::backTheme( cs );
+    Q_ASSERT ( !backtheme.isEmpty() );
+    Q_ASSERT ( !fronttheme.isEmpty() );
+
     d->m_cache.setFrontTheme( fronttheme );
     d->m_cache.setBackTheme( backtheme );
 
