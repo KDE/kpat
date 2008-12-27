@@ -950,6 +950,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
         takeState();
         eraseRedo();
     }
+    movingCards.first()->source()->moveCardsBack(movingCards);
     movingCards.clear();
 }
 
