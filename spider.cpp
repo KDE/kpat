@@ -157,6 +157,9 @@ void Spider::gameTypeChanged()
         return;
     }
 
+    if ( demoActive() || isGameWon()  )
+        return;
+
     int suits = 4;
     if ( options->currentItem() == 0 )
         suits = 1;

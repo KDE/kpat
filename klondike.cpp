@@ -166,6 +166,9 @@ void Klondike::restart() {
 
 void Klondike::gameTypeChanged()
 {
+    if ( demoActive() || isGameWon()  )
+       return;
+
     setEasy( options->currentItem() == 0 );
 }
 
