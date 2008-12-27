@@ -177,11 +177,11 @@ int DealerScene::getMoves() const
 
 void DealerScene::takeState()
 {
-    kDebug(11111) << "takeState" << waiting();
+    //kDebug(11111) << "takeState" << waiting();
 
     if ( !demoActive() )
     {
-        kDebug(11111) << "clear in takeState";
+        //kDebug(11111) << "clear in takeState";
         d->winMoves.clear();
         clearHints();
     }
@@ -223,7 +223,6 @@ void DealerScene::takeState()
         }
     }
 
-    kDebug() << "n" << n;
     if (n) {
         d->initialDeal = false;
         if (isGameWon()) {
@@ -564,10 +563,8 @@ void DealerScene::hint()
     } else
         getHints();
 
-    kDebug() << "mark begin";
     for (HintList::ConstIterator it = hints.constBegin(); it != hints.constEnd(); ++it)
         mark((*it)->card());
-    kDebug() << "mark end";
     clearHints();
 
     setWaiting( false );
@@ -676,15 +673,14 @@ bool DealerScene::checkPrefering( int /*checkIndex*/, const Pile *, const CardLi
 
 void DealerScene::clearHints()
 {
-    kDebug() << "clearHints" << hints.count();
     qDeleteAll( hints );
     hints.clear();
 }
 
 void DealerScene::newHint(MoveHint *mh)
 {
-    kDebug() << "newHint" << ( void* )mh << mh->pile()->objectName() <<
-        mh->card()->rank() << mh->card()->suit() << mh->priority();
+    //kDebug() << ( void* )mh << mh->pile()->objectName() <<
+    //mh->card()->rank() << mh->card()->suit() << mh->priority();
     hints.append(mh);
 }
 
@@ -722,7 +718,6 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
 
 void DealerScene::mark(Card *c)
 {
-//    kDebug() << "mark" << c->name();
     c->setHighlighted(true);
     if (!marked.contains(c))
         marked.append(c);
@@ -730,7 +725,6 @@ void DealerScene::mark(Card *c)
 
 void DealerScene::unmarkAll()
 {
-    kDebug() << marked.count();
     for (QList<QGraphicsItem *>::Iterator it = marked.begin(); it != marked.end(); ++it)
     {
         Card *c = dynamic_cast<Card*>( *it );
@@ -2058,7 +2052,6 @@ void DealerScene::createDump( QPaintDevice *device )
             }
             else if (item->type() == QGraphicsItem::UserType + DealerScene::PileTypeId )
             {
-                kDebug() << item->pos() << " " << item->zValue() << " " << item->type();
                 QGraphicsPixmapItem *pitem = dynamic_cast<QGraphicsPixmapItem*>( item );
                 assert( pitem );
                 p.save();
