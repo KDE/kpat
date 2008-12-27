@@ -65,7 +65,7 @@ void Grandf::restart() {
 
 void Grandf::redeal()
 {
-    if ( waiting() || demoActive()  )
+    if ( waiting() || demoActive() || isGameWon()  )
         return;
 
     kDebug(11111) << "redeal\n";
@@ -76,19 +76,32 @@ void Grandf::redeal()
         deal();
         numberOfDeals++;
     }
-    if (numberOfDeals == 3) {
+    if (numberOfDeals == 3)
         emit redealPossible(false);
-    }
+
     takeState();
 }
 
 Card *Grandf::demoNewCards()
 {
-    if (numberOfDeals < 3) {
-        redeal();
-        return store[3]->top();
-    } else
-        return 0;
+  if (numberOfDeals < 3) {
+        if (numberOfDeals < 3) {
+            collect();
+            deal();
+            numberOfDeals++;
+        }
+        if (numberOfDeals == 3)
+            emit redealPossible(false);
+
+        Card *t = store[3]->top();
+        Q_ASSERT(t);
+        if (t) {
+           t->turn(false);
+           t->flipTo( t->pos().x(), t->pos().y() );
+        }
+        return t;
+  }
+  return 0;
 }
 
 void Grandf::deal() {
@@ -149,6 +162,7 @@ void Grandf::collect() {
 }
 
 bool Grandf::checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const {
+    kDebug() << checkIndex << c1->isEmpty();
     assert (checkIndex == 1);
     if (c1->isEmpty())
         return c2.first()->rank() == Card::King;

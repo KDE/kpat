@@ -74,15 +74,12 @@ void GrandfSolver::make_move(MOVE *m)
             do
             {
                 card_t card = NONE;
-                if (len >= 0)
+                if (len > 0)
                 {
                     card = deck[--len];
                     int currentpile = m_redeal * 7 + i;
                     Wp[currentpile]++;
-                    if ( i != start )
-                        *Wp[currentpile] = card + ( 1 << 7 );
-                    else
-                        *Wp[currentpile] = card;
+                    *Wp[currentpile] = card + ( 1 << 7 );
                     Wlen[currentpile]++;
                 }
                 i += dir;
@@ -327,7 +324,8 @@ int GrandfSolver::get_possible_moves(int *a, int *numout)
                 printcard( *Wp[j], stderr );
                 fprintf( stderr, " allowed %d\n",allowed );
 #endif
-                if ( allowed ) {
+                if ( allowed ) 
+		{
                     mp->card_index = l;
                     mp->from = i;
                     mp->to = j;
@@ -339,6 +337,8 @@ int GrandfSolver::get_possible_moves(int *a, int *numout)
                          mp->pri = 30;
                     else
                          mp->pri = 1;
+		    /*if (mp->pri == 30 && mp->from == 9 && mp->to == 10)
+		      abort();*/
                     n++;
                     mp++;
                 }
@@ -353,7 +353,7 @@ int GrandfSolver::get_possible_moves(int *a, int *numout)
         mp->to = 0; // unused
         mp->totype = W_Type;
         mp->turn_index = -1;
-        mp->pri = 0;
+        mp->pri = -1;
         n++;
         mp++;
     }
