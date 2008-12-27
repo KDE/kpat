@@ -279,6 +279,7 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
     }
 
     bool foundgood = false;
+    int toomuch = 0;
 
     for(int i=0; i<10; i++)
     {
@@ -309,9 +310,11 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
                      RANK(card) == RANK(*Wp[j]) - 1 )
                 {
                     allowed = true;
-                    if ( ( SUIT( card ) != SUIT( *Wp[j] ) ) && ( foundgood && Wlen[i] > l + 1 && l > 0 )) {
+#if 1
+                    // too bad: see bug 175945
+                    if ( ( SUIT( card ) != SUIT( *Wp[j] ) ) && ( foundgood && Wlen[i] > l + 1 && l > 0 ))
                         allowed = false; // make the tree simpler
-                    }
+#endif
                 }
                 if ( Wlen[j] == 0 && !wasempty )
                 {
@@ -333,10 +336,20 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
                         printcard( card, stderr );
                         fprintf( stderr, "%d %d %d %d %d\n", i, j, conti[i], conti[j],l );
 #endif
-                        if ( conti[j]+l+1 != 13 || conti[i]>conti[j]+l || SUIT( card ) != SUIT( *Wp[j] ) ) {
+                        if ( SUIT( card ) != SUIT( *Wp[j] ) )
+                        {
                             //fprintf( stderr, "continue %d %d %d %d\n",conti[j]+l, conti[i],conti[j]+l, SUIT( card ) != SUIT( *Wp[j] ) );
                             continue;
                         }
+
+#if 1
+                        // too bad: see bug 175945
+                        if ( conti[j]+l+1 != 13 || conti[i]>conti[j]+l )
+                        {
+                            //fprintf( stderr, "continue %d %d %d %d\n",conti[j]+l, conti[i],conti[j]+l, SUIT( card ) != SUIT( *Wp[j] ) );
+                            //continue;
+                        }
+#endif
                     }
                 }
 
@@ -355,15 +368,28 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
                         cont += l;
                     mp->pri = 8 * cont + qMax( 0, 10 - Wlen[i] );
                     if ( Wlen[j] )
+                    {
                         if ( SUIT( card ) != SUIT( *Wp[j] ) )
                             mp->pri /= 2;
-                        else
-                            foundgood = true;
-                    else
+                        else {
+                            if ( conti[j]+l+1 != 13 || conti[i]>conti[j]+l )
+                            {
+                                card_t card_below = W[i][Wlen[i]-l-2];
+                                if ( SUIT( card_below ) != SUIT( card ) )
+                                {
+                                    foundgood = true;
+                                } else {
+                                    toomuch++;
+                                    mp->pri = -40;
+                                }
+                            } else
+                                foundgood = true;
+                        }
+                    } else
                         mp->pri = 2; // TODO: it should depend on the actual stack's order
                     if ( mp->turn_index > 0)
                         mp->pri = qMin( 127, mp->pri + 7 );
-                    else  if ( Wlen[i] == l+1 )
+                    else if ( Wlen[i] == l+1 )
                         mp->pri = qMin( 127, mp->pri + 4 );
                     else
                         mp->pri = qMin( 127, mp->pri + 2 );
@@ -409,6 +435,38 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
         n++;
         mp++;
         break; // one is enough
+    }
+
+    //kDebug() << "n" << n << toomuch << foundgood;
+    if ( n > toomuch && foundgood )
+    {
+        mp = Possible;
+        int i = 0;
+        while ( i < n )
+        {
+            //kDebug() << "i" << i << Possible[i].pri;
+            if ( Possible[i].pri < 0 )
+            {
+                // kill it
+                Possible[i] = Possible[n-1];
+                n--;
+            } else
+                i++;
+        }
+
+        i = 0;
+        while ( i < n )
+        {
+            //kDebug() << "i2" << i << Possible[i].pri;
+            if ( Possible[i].pri < 0 )
+            {
+                // kill it
+                Possible[i] = Possible[n-1];
+                n--;
+            } else
+                i++;
+        }
+
     }
 
     return n;
