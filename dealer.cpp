@@ -664,51 +664,18 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
         (*it)->setPos( ( *it )->pos() + e->scenePos() - moving_start );
     }
 
-    PileList sources;
-    QList<QGraphicsItem *> list = collidingItems( movingCards.first() );
-
-    // kDebug() << "movingCards" << movingCards.first()->sceneBoundingRect();
-    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
-    {
-        //kDebug() << "it" << ( *it )->type() << " " << ( *it )->sceneBoundingRect();
-        if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId) {
-            Card *c = dynamic_cast<Card*>(*it);
-            assert(c);
-            if (!c->isFaceUp())
-                continue;
-            if (c->source() == movingCards.first()->source())
-                continue;
-            if (sources.indexOf(c->source()) != -1)
-                continue;
-            sources.append(c->source());
-        } else {
-            if ((*it)->type() == QGraphicsItem::UserType + DealerScene::PileTypeId ) {
-                Pile *p = static_cast<Pile*>(*it);
-                if (p->isEmpty() && !sources.contains(p))
-                    sources.append(p);
-            } else {
-                kDebug(11111) << "unknown object" << *it << " " << (*it)->type();
-            }
-        }
-    }
-
     // TODO some caching of the results
     unmarkAll();
 
-    for (PileList::Iterator it = sources.begin(); it != sources.end(); ++it)
-    {
-        bool b = (*it)->legalAdd(movingCards);
-        // kDebug() << "legalAdd" << b << " " << ( *it )->x();
-        if (b) {
-            if ((*it)->isEmpty()) {
-                (*it)->setHighlighted(true);
-                marked.append(*it);
-            } else {
-                mark((*it)->top());
-            }
+    Pile * dropPile = targetPile();
+    if (dropPile) {
+        if (dropPile->isEmpty()) {
+            dropPile->setHighlighted(true);
+            marked.append(dropPile);
+        } else {
+            mark(dropPile->top());
         }
     }
-
     moving_start = e->scenePos();
 }
 
@@ -950,13 +917,25 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
         }
     }
 
-    if (!movingCards.count())
+    if (movingCards.isEmpty())
         return;
-    Card *c = static_cast<Card*>(movingCards.first());
-    assert(c);
 
     unmarkAll();
 
+    Pile * destination = targetPile();
+    if (destination) {
+        Card *c = static_cast<Card*>(movingCards.first());
+        assert(c);
+        countGame();
+        c->source()->moveCards(movingCards, destination);
+        takeState();
+        eraseRedo();
+    }
+    movingCards.clear();
+}
+
+Pile * DealerScene::targetPile()
+{
     QList<QGraphicsItem *> list = collidingItems( movingCards.first() );
     HitList sources;
 
@@ -1016,9 +995,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
             ++it;
     }
 
-    if (sources.isEmpty()) {
-        c->source()->moveCardsBack(movingCards);
-    } else {
+    if (!sources.isEmpty()) {
         HitList::Iterator best = sources.begin();
         HitList::Iterator it = best;
         for (++it; it != sources.end(); ++it )
@@ -1030,12 +1007,10 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
                 best = it;
             }
         }
-        countGame();
-        c->source()->moveCards(movingCards, (*best).source);
-        takeState();
-        eraseRedo();
+        return (*best).source;
+    } else {
+        return 0;
     }
-    movingCards.clear();
 }
 
 void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )

@@ -78,8 +78,10 @@ public:
 
     DealerScene();
     ~DealerScene();
+
     void unmarkAll();
     void mark(Card *c);
+    Pile * targetPile();
 
 protected:
     virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * mouseEvent );
