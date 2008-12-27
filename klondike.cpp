@@ -84,7 +84,7 @@ void KlondikePile::relayoutCards()
 }
 
 Klondike::Klondike()
-  : DealerScene( )
+    : DealerScene( )
 {
     // The units of the follwoing constants are pixels
     const double margin = 2; // between card piles and board edge
@@ -107,7 +107,8 @@ Klondike::Klondike()
     pile->setAddFlags( Pile::disallow );
     pile->setRemoveFlags(Pile::Default);
 
-    for( int i = 0; i < 7; i++ ) {
+    for( int i = 0; i < 7; i++ )
+    {
         play[ i ] = new Pile( i + 5, this);
         play[i]->setPilePos(margin + (10. + hspacing) * i, margin + 10. + vspacing);
         play[i]->setAddType(Pile::KlondikeStore);
@@ -116,7 +117,8 @@ Klondike::Klondike()
         play[i]->setReservedSpace( QSizeF( 10, 10 + play[i]->spread() * 7 ) );
     }
 
-    for( int i = 0; i < 4; i++ ) {
+    for( int i = 0; i < 4; i++ )
+    {
         target[ i ] = new Pile( i + 1, this );
         target[i]->setPilePos(margin + (3 + i) * (10 + hspacing), margin);
         target[i]->setAddType(Pile::KlondikeTarget);
@@ -164,8 +166,14 @@ void Klondike::restart() {
 
 void Klondike::gameTypeChanged()
 {
-    EasyRules = ( options->currentItem() == 0 );
+    setEasy( options->currentItem() == 0 );
+}
+
+void Klondike::setEasy( bool _EasyRules )
+{
+    EasyRules = _EasyRules;
     pile->setDraws( EasyRules ? 1 : 3 );
+    options->setCurrentItem( EasyRules ? 0 : 1 );
 
     for( int i = 0; i < 4; i++ ) {
         if (EasyRules) // change default
@@ -275,8 +283,18 @@ bool Klondike::startAutoDrop()
 static class LocalDealerInfo0 : public DealerInfo
 {
 public:
-    LocalDealerInfo0() : DealerInfo(I18N_NOOP("Klondike"), 0) {}
+    LocalDealerInfo0() : DealerInfo(I18N_NOOP("Klondike"), 18) { addOldId(0); addOldId(13); }
     virtual DealerScene *createGame() { return new Klondike(); }
 } ldi0;
+
+void Klondike::mapOldId(int id)
+{
+   switch (id) {
+   case 13: // draw 3
+       setEasy( false );
+   case 0: // draw 1
+       setEasy( true );
+   }
+}
 
 #include "klondike.moc"

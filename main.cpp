@@ -47,7 +47,7 @@ static DealerScene *getDealer( int wanted_game )
     for (QList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin();
          it != DealerInfoList::self()->games().end(); ++it)
     {
-        if ( (*it)->gameindex == wanted_game ) {
+        if ( (*it)->hasId(wanted_game) ) {
             di = *it;
             DealerScene *f = di->createGame();
             if ( !f || !f->solver() ) {

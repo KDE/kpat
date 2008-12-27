@@ -1,5 +1,5 @@
 #ifndef KPAT_VERSION
-#define KPAT_VERSION "3.0"
+#define KPAT_VERSION "3.1"
 #endif
 
 #define settings_group "General Settings"

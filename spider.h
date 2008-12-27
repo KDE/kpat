@@ -45,6 +45,7 @@ public:
     void dealRow();
     bool checkPileDeck(Pile *to, bool checkForDemo = true);
     virtual void restart();
+    virtual void mapOldId(int id);
 
 public slots:
     void deckClicked(Card *c);
@@ -57,6 +58,7 @@ protected:
     virtual QString getGameState() const;
     virtual void setGameState(const QString &stream);
     virtual Card *demoNewCards();
+    void setSuits(int s);
 
 private:
     CardList getRun(Card *c) const;

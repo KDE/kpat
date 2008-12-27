@@ -157,13 +157,31 @@ void Spider::gameTypeChanged()
     if ( options->currentItem() == 1 )
         suits = 2;
 
+    setSuits( suits );
+}
+
+void Spider::setSuits(int suits)
+{
     stopDemo();
     unmarkAll();
+    Deck::destroy_deck();
     Deck::create_deck(this, 2, suits);
     KConfigGroup cg(KGlobal::config(), settings_group );
     cg.writeEntry( "SpiderSuits", suits);
     cg.sync();
 
+    switch ( suits )
+    {
+    case 1:
+        options->setCurrentItem( 0 );
+        break;
+    case 2:
+        options->setCurrentItem( 1 );
+        break;
+    case 3:
+        options->setCurrentItem( 2 );
+        break;
+    }
     startNew();
 }
 
@@ -380,12 +398,27 @@ void Spider::deckClicked(Card*)
     takeState();
 }
 
-static class LocalDealerInfo15 : public DealerInfo
+static class LocalDealerInfo17 : public DealerInfo
 {
 public:
-    LocalDealerInfo15() : DealerInfo(I18N_NOOP("Spider"), 15) {}
+    LocalDealerInfo17() : DealerInfo(I18N_NOOP("Spider"), 17) { addOldId(14); addOldId(15); addOldId(16); }
     virtual DealerScene *createGame() { return new Spider(); }
-} ldi15;
+} ldi17;
+
+void Spider::mapOldId(int id)
+{
+   switch (id) {
+   case 14:
+       setSuits(1);
+       break;
+   case 15:
+       setSuits(2);
+       break;
+   case 16:
+       setSuits(4);
+       break;
+   }
+}
 
 //-------------------------------------------------------------------------//
 

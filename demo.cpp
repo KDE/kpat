@@ -126,11 +126,13 @@ void DemoBubbles::resizeEvent ( QResizeEvent * )
             m_bubbles[index].y = y_offset + y * ( bubble_height + outer_margin ) + outer_margin;
             m_bubbles[index].width = bubble_width;
             m_bubbles[index].height = bubble_height;
-            m_bubbles[index].gameindex = ( *it )->gameindex;
+            m_bubbles[index].gameindex = ( *it )->ids.first();
             m_bubbles[index].active = false;
             m_bubbles[index].text = i18n( ( *it )->name ).replace( "&&", "&" );
             if ( m_bubbles[index].pix.isNull() )
-                m_bubbles[index].pix.load( KStandardDirs::locate( "data", QString( "kpat/demos/demo_%1.png" ).arg( ( *it )->gameindex ) ) );
+                m_bubbles[index].pix.load( KStandardDirs::locate( "data",
+                                                                  QString( "kpat/demos/demo_%1.png" ).
+                                                                  arg( ( *it )->ids.first() ) ) );
             ++index;
         }
     }

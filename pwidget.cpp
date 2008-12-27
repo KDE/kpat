@@ -119,7 +119,8 @@ pWidget::pWidget()
     for (it = DealerInfoList::self()->games().begin();
          it != DealerInfoList::self()->games().end(); ++it)
     {
-        m_dealer_map[(*it )->gameindex] = list.indexOf( i18n((*it)->name) );
+        for ( QList<int>::const_iterator it2 = (*it )->ids.begin(); it2 != (*it )->ids.end(); ++it2)
+            m_dealer_map[*it2] = list.indexOf( i18n((*it)->name) );
     }
 
     games->setItems(list);
@@ -359,17 +360,22 @@ void pWidget::newGameType()
 
     kDebug(11111) << "newGameType" << item;
     for (QList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin();
-	it != DealerInfoList::self()->games().end(); ++it) {
-
-        if ( m_dealer_map[(*it)->gameindex] == item) {
-            dill->setScene( (*it)->createGame() );
-            QString name = (*it)->name;
-            name = name.replace(QRegExp("[&']"), "");
-            name = name.replace(QRegExp("[ ]"), "_").toLower();
-            dill->setAnchorName("game_" + name);
-            id = (*it)->gameindex;
-            dill->dscene()->setGameId( id );
-            break;
+	it != DealerInfoList::self()->games().end(); ++it)
+    {
+        for (QList<int>::const_iterator it2 = (*it )->ids.begin();
+	     it2 != (*it )->ids.end(); ++it2)
+        {
+            if ( m_dealer_map[*it2] == item)
+            {
+                dill->setScene( (*it)->createGame() );
+                QString name = (*it)->name;
+                name = name.replace(QRegExp("[&']"), "");
+                name = name.replace(QRegExp("[ ]"), "_").toLower();
+                dill->setAnchorName("game_" + name);
+                id = *it2;
+                dill->dscene()->setGameId( id );
+                break;
+            }
         }
     }
 
@@ -464,11 +470,15 @@ void pWidget::openGame(const KUrl &url)
 
         games->setCurrentItem(m_dealer_map[id]);
         newGameType();
+
         if (!dill->dscene()) {
            KMessageBox::error(this, i18n("The saved game is of unknown type!"));
            games->setCurrentItem(0);
            newGameType();
         }
+        // for old spider and klondike
+        dill->dscene()->mapOldId( id );
+
         show();
         dill->dscene()->openGame(doc);
         setGameCaption();

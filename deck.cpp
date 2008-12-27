@@ -56,6 +56,12 @@ Deck::~Deck()
     delete [] _deck;
 }
 
+void Deck::destroy_deck()
+{
+    Q_ASSERT( my_deck );
+    delete my_deck;
+    my_deck = 0;
+}
 
 // ----------------------------------------------------------------
 

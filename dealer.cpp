@@ -1958,7 +1958,7 @@ void DealerScene::setSceneSize( const QSize &s )
                 ( *it2 )->setMaximalSpace( pms );
             }
         }
-        //kDebug() << myRect << cardMap::self()->wantedCardHeight();
+        kDebug() << myRect << cardMap::self()->wantedCardHeight();
         Q_ASSERT( myRect.width() >= cardMap::self()->wantedCardWidth() - 0.1 );
         Q_ASSERT( myRect.height() >= cardMap::self()->wantedCardHeight() - 0.1 );
 
@@ -2055,5 +2055,7 @@ void DealerScene::createDump( QPaintDevice *device )
             p.restore();
         }
 }
+
+void DealerScene::mapOldId(int) {}
 
 #include "dealer.moc"

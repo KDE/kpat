@@ -1,9 +1,9 @@
 set(kpat_demos
-demo_0.png
 demo_10.png
 demo_11.png
 demo_12.png
-demo_15.png
+demo_17.png
+demo_18.png
 demo_1.png
 demo_2.png
 demo_3.png

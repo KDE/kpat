@@ -45,15 +45,17 @@ class DealerInfo
 {
 public:
     DealerInfo(const char *_name, int _index)
-        : name(_name),
-	gameindex(_index)
+        : name(_name)
 	{
 	    DealerInfoList::self()->add(this);
+            addOldId(_index);
 	}
-	virtual ~DealerInfo(){}
-	const char *name;
-	int gameindex;
-	virtual DealerScene *createGame() = 0;
+    virtual ~DealerInfo(){}
+    const char *name;
+    QList<int> ids;
+    virtual DealerScene *createGame() = 0;
+    void addOldId(int id) { ids.push_back(id); }
+    bool hasId(int id) { return ids.contains(id); }
 };
 
 class CardState;
@@ -98,6 +100,7 @@ public:
 
     void saveGame(QDomDocument &doc);
     void openGame(QDomDocument &doc);
+    virtual void mapOldId(int id);
 
     virtual void getHints();
     void getSolverHints();

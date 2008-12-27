@@ -41,6 +41,7 @@ public:
     explicit Klondike();
 
 public:
+    virtual void mapOldId(int id);
     virtual void restart();
     virtual bool startAutoDrop();
 
@@ -52,6 +53,7 @@ public:
     virtual void pileClicked(Pile *c);
 
     virtual Card *demoNewCards();
+    void setEasy( bool easy );
 
 private:
     bool EasyRules;
