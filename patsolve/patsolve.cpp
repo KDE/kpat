@@ -882,7 +882,7 @@ Solver::~Solver()
 
     for ( int i = 0; i < m_number_piles; i++ )
     {
-        delete W[i];
+        delete [] W[i];
     }
 
     delete [] W;
