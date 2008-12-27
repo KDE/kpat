@@ -155,6 +155,7 @@ public:
 
     QTimer *demotimer;
     QTimer *stateTimer;
+    QTimer *autoDropTimer;
     bool demo_active;
     bool stop_demo_next;
     qreal m_autoDropFactor;
@@ -177,6 +178,13 @@ int DealerScene::getMoves() const
 void DealerScene::takeState()
 {
     kDebug(11111) << "takeState" << waiting();
+
+    if ( !demoActive() )
+    {
+        kDebug(11111) << "clear in takeState";
+        d->winMoves.clear();
+        clearHints();
+    }
     if ( waiting() )
     {
         d->stateTimer->start();
@@ -206,7 +214,6 @@ void DealerScene::takeState()
     } else {
         State *old = d->undoList.last();
 
-        kDebug() << "old vs. n" << ( *old == *n );
         if (*old == *n) {
             delete n;
             n = 0;
@@ -216,13 +223,9 @@ void DealerScene::takeState()
         }
     }
 
+    kDebug() << "n" << n;
     if (n) {
         d->initialDeal = false;
-        if ( !demoActive() )
-        {
-            kDebug(11111) << "clear in takeState";
-            d->winMoves.clear();
-        }
         if (isGameWon()) {
             won();
             d->toldAboutWonGame = true;
@@ -241,12 +244,12 @@ void DealerScene::takeState()
         if ( d->m_solver && !demoActive() && !waiting() )
             startSolver();
 
-    }
-    if (!demoActive() && !waiting())
-        QTimer::singleShot( speedUpTime( TIME_BETWEEN_MOVES ), this, SLOT(startAutoDrop()));
+        if (!demoActive() && !waiting())
+            d->autoDropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
 
-    emit undoPossible(d->undoList.count() > 1);
-    emit redoPossible(d->redoList.count() > 1);
+        emit undoPossible(d->undoList.count() > 1);
+        emit redoPossible(d->redoList.count() > 1);
+    }
 }
 
 bool DealerScene::isInitialDeal() const { return d->initialDeal; }
@@ -485,6 +488,10 @@ DealerScene::DealerScene():
     connect( d->stateTimer, SIGNAL( timeout() ), this, SLOT( takeState() ) );
     d->stateTimer->setInterval( 100 );
     d->stateTimer->setSingleShot( true );
+
+    d->autoDropTimer = new QTimer( this );
+    connect( d->autoDropTimer, SIGNAL( timeout() ), this, SLOT( startAutoDrop() ) );
+    d->autoDropTimer->setSingleShot( true );
 }
 
 DealerScene::~DealerScene()
@@ -523,6 +530,16 @@ DealerScene::~DealerScene()
 
 void DealerScene::hint()
 {
+    kDebug() << waiting() << d->stateTimer->isActive();
+    if ( waiting() && d->stateTimer->isActive() ) {
+        QTimer::singleShot( 150, this, SLOT( hint() ) );
+        return;
+    }
+
+    d->autoDropTimer->stop();
+
+    setWaiting( true );
+
     unmarkAll();
     clearHints();
     kDebug(11111) << "hint" << d->winMoves.count();
@@ -547,9 +564,13 @@ void DealerScene::hint()
     } else
         getHints();
 
+    kDebug() << "mark begin";
     for (HintList::ConstIterator it = hints.constBegin(); it != hints.constEnd(); ++it)
         mark((*it)->card());
+    kDebug() << "mark end";
     clearHints();
+
+    setWaiting( false );
 }
 
 void DealerScene::getSolverHints()
@@ -655,14 +676,15 @@ bool DealerScene::checkPrefering( int /*checkIndex*/, const Pile *, const CardLi
 
 void DealerScene::clearHints()
 {
-    for (HintList::Iterator it = hints.begin(); it != hints.end(); ++it)
-        delete *it;
+    kDebug() << "clearHints" << hints.count();
+    qDeleteAll( hints );
     hints.clear();
 }
 
 void DealerScene::newHint(MoveHint *mh)
 {
-    //kDebug() << "newHint" << mh->pile()->objectName() << " " << mh->card()->name() << " " << mh->priority();
+    kDebug() << "newHint" << ( void* )mh << mh->pile()->objectName() <<
+        mh->card()->rank() << mh->card()->suit() << mh->priority();
     hints.append(mh);
 }
 
@@ -708,6 +730,7 @@ void DealerScene::mark(Card *c)
 
 void DealerScene::unmarkAll()
 {
+    kDebug() << marked.count();
     for (QList<QGraphicsItem *>::Iterator it = marked.begin(); it != marked.end(); ++it)
     {
         Card *c = dynamic_cast<Card*>( *it );
@@ -1208,13 +1231,13 @@ void DealerScene::setWaiting(bool w)
 void DealerScene::setAutoDropEnabled(bool a)
 {
     _autodrop = a;
-    QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
+    d->autoDropTimer->start( TIME_BETWEEN_MOVES );
 }
 
 void DealerScene::slotAutoDrop()
 {
     d->m_autoDropOnce = true;
-    QTimer::singleShot(TIME_BETWEEN_MOVES, this, SLOT(startAutoDrop()));
+    d->autoDropTimer->start( TIME_BETWEEN_MOVES );
 }
 
 void DealerScene::setSolverEnabled(bool a)
@@ -1229,8 +1252,8 @@ bool DealerScene::startAutoDrop()
     if (!autoDrop() && !d->m_autoDropOnce)
         return false;
 
-    if (!movingCards.isEmpty()) {
-        QTimer::singleShot( speedUpTime( TIME_BETWEEN_MOVES ), this, SLOT(startAutoDrop()));
+    if (!movingCards.isEmpty() || waiting() ) {
+        d->autoDropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
         return true;
     }
 
@@ -1242,7 +1265,7 @@ bool DealerScene::startAutoDrop()
         if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
             Card *c = static_cast<Card*>(*it);
             if (c->animated()) {
-                QTimer::singleShot( speedUpTime( TIME_BETWEEN_MOVES ), this, SLOT(startAutoDrop()));
+                d->autoDropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
                 //kDebug(11111) << "animation still going on\n";
                 return true;
             }
@@ -1251,7 +1274,6 @@ bool DealerScene::startAutoDrop()
 
     kDebug(11111) << gettime() << "startAutoDrop \n";
 
-    unmarkAll();
     clearHints();
     getHints();
     for (HintList::ConstIterator it = hints.constBegin(); it != hints.constEnd(); ++it) {
@@ -1275,6 +1297,9 @@ bool DealerScene::startAutoDrop()
                 z = mh->pile()->top()->zValue() + 1;
             t->source()->moveCards(cards, mh->pile());
             int count = 0;
+
+            if ( !cards.isEmpty() )
+                unmarkAll();
 
             for ( CardList::Iterator it2 = cards.begin(); it2 != cards.end(); ++it2 )
             {
