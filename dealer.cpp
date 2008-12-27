@@ -154,6 +154,7 @@ public:
     bool hasScreenRect;
 
     QTimer *demotimer;
+    QTimer *stateTimer;
     bool demo_active;
     bool stop_demo_next;
     qreal m_autoDropFactor;
@@ -175,19 +176,27 @@ int DealerScene::getMoves() const
 
 void DealerScene::takeState()
 {
-    // kDebug(11111) << "takeState" << waiting();
+    kDebug(11111) << "takeState" << waiting();
+    if ( waiting() )
+    {
+        d->stateTimer->start();
+        return;
+    }
 
     QList<QGraphicsItem *> list = items();
     for (QList<QGraphicsItem *>::ConstIterator it = list.constBegin(); it != list.constEnd(); ++it)
     {
         if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
             Card *c = static_cast<Card*>(*it);
-            if (c->animated()) {
-                QTimer::singleShot(100, this, SLOT(takeState()));
+            if (c->animated())
+            {
+                d->stateTimer->start();
                 return;
             }
         }
     }
+
+    d->stateTimer->stop();
 
     State *n = getState();
 
@@ -197,6 +206,7 @@ void DealerScene::takeState()
     } else {
         State *old = d->undoList.last();
 
+        kDebug() << "old vs. n" << ( *old == *n );
         if (*old == *n) {
             delete n;
             n = 0;
@@ -470,6 +480,11 @@ DealerScene::DealerScene():
     connect( this, SIGNAL( gameWon( bool ) ), SLOT( showWonMessage() ) );
 
     d->backPix.load( KStandardDirs::locateLocal( "data", "kpat/back.png" ) );
+
+    d->stateTimer = new QTimer( this );
+    connect( d->stateTimer, SIGNAL( timeout() ), this, SLOT( takeState() ) );
+    d->stateTimer->setInterval( 100 );
+    d->stateTimer->setSingleShot( true );
 }
 
 DealerScene::~DealerScene()
@@ -1570,8 +1585,8 @@ MoveHint *DealerScene::chooseHint()
 
 void DealerScene::demo()
 {
-    kDebug(11111) << "demo" << waiting();
-    if ( waiting() )
+    kDebug(11111) << "demo" << waiting() << d->stateTimer->isActive();
+    if ( waiting() || d->stateTimer->isActive() )
         return;
 
     if (d->stop_demo_next) {
@@ -1685,6 +1700,7 @@ void DealerScene::waitForDemo(Card *t)
         kDebug(11111) << "waitForDemo" << t->rank() << " " << t->suit();
         t->disconnect(this, SLOT( waitForDemo( Card* ) ) );
         setWaiting( false );
+        takeState();
     }
     d->demotimer->start(250);
 }

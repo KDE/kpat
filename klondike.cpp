@@ -150,7 +150,8 @@ Klondike::Klondike()
     connect( options, SIGNAL( triggered( int ) ), SLOT( gameTypeChanged() ) );
 }
 
-Card *Klondike::demoNewCards() {
+Card *Klondike::demoNewCards()
+{
     deal3();
     if ( Deck::deck()->isEmpty() )
         return pile->top();
@@ -158,7 +159,8 @@ Card *Klondike::demoNewCards() {
         return Deck::deck()->top();
 }
 
-void Klondike::restart() {
+void Klondike::restart()
+{
     Deck::deck()->collectAndShuffle();
     redealt = false;
     deal();
