@@ -879,6 +879,17 @@ Solver::Solver()
 Solver::~Solver()
 {
     delete mm;
+
+    for ( int i = 0; i < m_number_piles; i++ )
+    {
+        delete W[i];
+    }
+
+    delete [] W;
+    delete [] Wp;
+    delete [] Wlen;
+    delete [] Whash;
+    delete [] Wpilenum;
 }
 
 void Solver::init()

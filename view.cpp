@@ -103,6 +103,8 @@ PatienceView::~PatienceView()
 
     if (s_instance == this)
         s_instance = 0;
+
+    delete dscene();
 }
 
 KXmlGuiWindow *PatienceView::parent() const

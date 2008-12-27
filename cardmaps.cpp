@@ -187,7 +187,8 @@ void cardMap::setWantedCardWidth( double w )
     }
 }
 
-cardMap *cardMap::self() {
+cardMap *cardMap::self() 
+{
     assert(_self);
     return _self;
 }

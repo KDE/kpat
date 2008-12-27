@@ -511,6 +511,10 @@ DealerScene::~DealerScene()
     d->m_solver_thread = 0;
     delete d->m_solver;
     d->m_solver = 0;
+    qDeleteAll( d->undoList );
+    qDeleteAll( d->redoList );
+
+    delete d;
 }
 
 
