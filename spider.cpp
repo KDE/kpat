@@ -121,10 +121,15 @@ Spider::Spider()
     setSolver( new SpiderSolver( this ) );
 
     options = new KSelectAction(i18n("Options"), this );
+    KXmlGuiWindow *xmlgui = 0;
 
-    KXmlGuiWindow *xmlgui = PatienceView::instance()->parent();
+    if ( PatienceView::instance() )
+    {
+        xmlgui = PatienceView::instance()->parent();
 
-    xmlgui->actionCollection()->addAction("dealer_options", options);
+        xmlgui->actionCollection()->addAction("dealer_options", options);
+    }
+
     options->addAction( "1 Suit (Easy)" );
     options->addAction( "2 Suits (Medium)" );
     options->addAction( "4 Suits (Hard)" );
@@ -139,7 +144,8 @@ Spider::Spider()
     QList<QAction*> actionlist;
     actionlist.append( options );
 
-    xmlgui->guiFactory()->plugActionList( xmlgui, QString::fromLatin1("dealer_options"), actionlist);
+    if ( xmlgui )
+        xmlgui->guiFactory()->plugActionList( xmlgui, QString::fromLatin1("dealer_options"), actionlist);
     connect( options, SIGNAL( triggered( int ) ), SLOT( gameTypeChanged() ) );
 }
 
