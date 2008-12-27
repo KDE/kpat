@@ -145,12 +145,20 @@ Spider::Spider()
 
 void Spider::gameTypeChanged()
 {
+    if ( waiting() )
+    {
+        QTimer::singleShot( 100, this, SLOT( gameTypeChanged() ) );
+        return;
+    }
+
     int suits = 4;
     if ( options->currentItem() == 0 )
         suits = 1;
     if ( options->currentItem() == 1 )
         suits = 2;
 
+    stopDemo();
+    unmarkAll();
     Deck::create_deck(this, 2, suits);
     KConfigGroup cg(KGlobal::config(), settings_group );
     cg.writeEntry( "SpiderSuits", suits);
