@@ -1532,6 +1532,7 @@ void DealerScene::won()
     if (n>m)
         kc.writeEntry(QString("maxwinstreak%1").arg(d->_id),n);
     kc.writeEntry(QString("loosestreak%1").arg(d->_id),0);
+    kc.sync();
 
     // sort cards by increasing z
     QList<QGraphicsItem *> list = items();
@@ -1783,6 +1784,7 @@ void DealerScene::countGame()
         ++Total;
         kc.writeEntry(QString("total%1").arg(d->_id),Total);
         d->_gameRecorded = true;
+	kc.sync();
     }
 }
 
@@ -1797,6 +1799,7 @@ void DealerScene::countLoss()
         if (n>m)
             kc.writeEntry(QString("maxloosestreak%1").arg(d->_id),n);
         kc.writeEntry(QString("winstreak%1").arg(d->_id),0);
+        kc.sync();
     }
 }
 

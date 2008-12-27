@@ -88,7 +88,7 @@ void GameStatsImpl::setGameType(int gameIndex)
 		ui->CurrentStreak->setText( i18np("1 loss", "%1 losses", l) );
 	else
 		ui->CurrentStreak->setText( i18np("1 win", "%1 wins",
-			cg.readEntry(QString("winstreak%1").arg(gameIndex),0)) );
+	cg.readEntry(QString("winstreak%1").arg(gameIndex),0)) );
 }
 
 void GameStatsImpl::resetStats()
@@ -102,6 +102,7 @@ void GameStatsImpl::resetStats()
 	cg.writeEntry(QString("maxloosestreak%1").arg(gameIndex),0);
 	cg.writeEntry(QString("loosestreak%1").arg(gameIndex),0);
 	cg.writeEntry(QString("winstreak%1").arg(gameIndex),0);
+	cg.sync();
 
 	setGameType(gameIndex);
 }
