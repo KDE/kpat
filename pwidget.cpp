@@ -119,7 +119,7 @@ pWidget::pWidget()
     for (it = DealerInfoList::self()->games().begin();
          it != DealerInfoList::self()->games().end(); ++it)
     {
-        for ( QList<int>::const_iterator it2 = (*it )->ids.begin(); it2 != (*it )->ids.end(); ++it2)
+        for ( QList<int>::const_iterator it2 = (*it )->ids.constBegin(); it2 != (*it )->ids.constEnd(); ++it2)
             m_dealer_map[*it2] = list.indexOf( i18n((*it)->name) );
     }
 
@@ -362,8 +362,8 @@ void pWidget::newGameType()
     for (QList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin();
 	it != DealerInfoList::self()->games().end(); ++it)
     {
-        for (QList<int>::const_iterator it2 = (*it )->ids.begin();
-	     it2 != (*it )->ids.end(); ++it2)
+        for (QList<int>::const_iterator it2 = (*it )->ids.constBegin();
+	     it2 != (*it )->ids.constEnd(); ++it2)
         {
             if ( m_dealer_map[*it2] == item)
             {
