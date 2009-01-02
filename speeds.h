@@ -14,19 +14,6 @@
 #ifndef SPEEDS_H
 #define SPEEDS_H
 
-#define TEST_SOLVER 0
-
-#if TEST_SOLVER
-#define STEPS_AUTODROP 1
-#define STEPS_WON 20
-#define STEPS_DEMO 1
-#define STEPS_MOVEBACK 1
-#define STEPS_INITIALDEAL 1
-
-#define TIME_BETWEEN_MOVES 2
-
-#else
-
 #define DURATION_AUTODROP 500
 #define DURATION_WON 900
 #define DURATION_DEMO 300
@@ -34,8 +21,5 @@
 #define DURATION_INITIALDEAL 500
 
 #define TIME_BETWEEN_MOVES 200
-
-
-#endif // TEST_SOLVER
 
 #endif // SPEEDS_H
