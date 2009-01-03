@@ -20,6 +20,7 @@
 
 #include "grandf.h"
 #include "deck.h"
+#include "speeds.h"
 #include "patsolve/grandf.h"
 
 #include <cassert>
@@ -97,7 +98,7 @@ Card *Grandf::demoNewCards()
         Q_ASSERT(t);
         if (t) {
            t->turn(false);
-           t->flipTo( t->pos().x(), t->pos().y() );
+           t->flipTo( t->pos().x(), t->pos().y(), DURATION_FLIP );
         }
         return t;
   }

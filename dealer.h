@@ -81,6 +81,7 @@ public:
 
     void unmarkAll();
     void mark(Card *c);
+    QString save_it();
     Pile * targetPile();
 
 protected:

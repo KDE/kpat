@@ -496,15 +496,10 @@ void pWidget::openGame()
 
 void pWidget::saveGame()
 {
+    if (!dill)
+       return;
     KUrl url = KFileDialog::getSaveUrl();
-    KTemporaryFile file;
-    file.open();
-    QDomDocument doc("kpat");
-    dill->dscene()->saveGame(doc);
-    QTextStream stream (&file);
-    stream << doc.toString();
-    stream.flush();
-    KIO::NetAccess::upload(file.fileName(), url, this);
+    KIO::NetAccess::upload(dill->dscene()->save_it(), url, this);
     recent->addUrl(url);
     recent->saveEntries( KGlobal::config()->group( QString() ) );
 }

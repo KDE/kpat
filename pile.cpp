@@ -557,7 +557,7 @@ void Pile::moveCards(CardList &cl, Pile *to)
     if (removeFlags & autoTurnTop && top()) {
         Card *t = top();
         if (!t->isFaceUp()) {
-            t->flipTo(t->x(), t->y());
+            t->flipTo(t->x(), t->y(), DURATION_FLIP );
         }
     }
 

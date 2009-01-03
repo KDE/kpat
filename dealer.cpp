@@ -17,6 +17,7 @@
 #include "cardmaps.h"
 #include "speeds.h"
 #include "version.h"
+#include "view.h"
 #include "patsolve/patsolve.h"
 
 #include <cassert>
@@ -33,14 +34,35 @@
 #include <QtSvg/QSvgRenderer>
 #include <QtXml/QDomDocument>
 
+#include <KTemporaryFile>
 #include <kconfiggroup.h>
 #include <kdebug.h>
 #include <klocalizedstring.h>
 #include <krandom.h>
 #include <kstandarddirs.h>
 #include <ksharedconfig.h>
+#include <kio/netaccess.h>
 
 #define DEBUG_HINTS 0
+
+#if 0
+inline void myassert_fail (__const char *__assertion, __const char *__file,
+                           unsigned int __line, __const char *__function)
+{
+   QString tmp = PatienceView::instance()->dscene()->save_it();
+   fprintf(stderr, "SAVE %s.saved\n", qPrintable(tmp));
+   KIO::NetAccess::upload(tmp, tmp + ".saved", PatienceView::instance());
+   KIO::NetAccess::del(tmp, PatienceView::instance());
+   __assert_fail(__assertion, __file, __line, __function);
+}
+
+# define myassert(expr)                                                \
+  ((expr)                                                               \
+   ? __ASSERT_VOID_CAST (0)                                             \
+   : myassert_fail (__STRING(expr), __FILE__, __LINE__, __ASSERT_FUNCTION) )
+#endif
+
+#define myassert assert
 
 // ================================================================
 //                         class MoveHint
@@ -1629,7 +1651,7 @@ void DealerScene::demo()
     MoveHint *mh = chooseHint();
     if (mh) {
         kDebug(11111) << "moveFrom" << mh->card()->source()->objectName();
-        assert(mh->card()->source() == Deck::deck() ||
+        myassert(mh->card()->source() == Deck::deck() ||
                mh->card()->source()->legalRemove(mh->card(), true));
 
         CardList empty;
@@ -1642,7 +1664,7 @@ void DealerScene::demo()
                 empty.append(*it);
         }
 
-        assert(!empty.isEmpty());
+        myassert(!empty.isEmpty());
 
         qreal *oldcoords = new qreal[2*empty.count()];
         int i = 0;
@@ -2025,6 +2047,21 @@ void DealerScene::drawBackground ( QPainter * painter, const QRectF & rect )
     }
 
     painter->drawPixmap( 0, 0, d->backPix );
+}
+
+QString DealerScene::save_it()
+{
+    KTemporaryFile file;
+    file.setAutoRemove(false);
+    file.open();
+    QDomDocument doc("kpat");
+    saveGame(doc);
+    QTextStream stream (&file);
+    stream << doc.toString();
+    stream.flush();
+    file.flush();
+    file.close();
+    return file.fileName();
 }
 
 void DealerScene::createDump( QPaintDevice *device )

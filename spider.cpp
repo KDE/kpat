@@ -21,6 +21,7 @@
 #include "spider.h"
 #include "version.h"
 #include "view.h"
+#include "speeds.h"
 #include "deck.h"
 #include "patsolve/spider.h"
 
@@ -199,7 +200,7 @@ void Spider::cardStoped(Card * t)
     for( int column = 0; column < 10; column++ ) {
         Card *t = stack[column]->top();
         if (t && !t->isFaceUp())
-           t->flipTo(t->x(), t->y());
+           t->flipTo(t->x(), t->y(), DURATION_FLIP );
     }
     t->disconnect(this, SLOT( cardStoped( Card* ) ) );
     setWaiting( false );

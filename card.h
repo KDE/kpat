@@ -85,7 +85,7 @@ public:
     virtual int  type() const       { return UserType + my_type; }
 
     void         moveTo( qreal x2, qreal y2, qreal z, int duration);
-    void         flipTo( qreal x, qreal y, int duration = 180);
+    void         flipTo( qreal x, qreal y, int duration );
     void         setZValue(double z);
     void         getUp();
 

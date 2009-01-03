@@ -25,6 +25,7 @@
 #include "ksvgrenderer.h"
 #include "card.h"
 #include "cardcache.h"
+#include "speeds.h"
 #ifdef __GNUC__
 #warning cardmap should not really require to know the instance!
 #endif

@@ -11,8 +11,10 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
+
 #include "fortyeight.h"
 #include "deck.h"
+#include "speeds.h"
 #include "patsolve/fortyeight.h"
 
 #include <cassert>
@@ -121,7 +123,7 @@ void Fortyeight::deckPressed(Card *c2)
     qreal x = c->realX();
     qreal y = c->realY();
     c->setPos( Deck::deck()->pos() );
-    c->flipTo(x, y);
+    c->flipTo(x, y, DURATION_FLIP );
     takeState();
 }
 

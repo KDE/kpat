@@ -12,6 +12,7 @@
  * other special, indirect and consequential damages.
 */
 #include "golf.h"
+#include "speeds.h"
 #include "deck.h"
 #include "patsolve/golf.h"
 
@@ -104,7 +105,7 @@ void Golf::deckClicked(Card *)
     qreal x = c->x();
     qreal y = c->y();
     c->setPos( Deck::deck()->pos() );
-    c->flipTo(x, y);
+    c->flipTo(x, y, DURATION_FLIP );
 }
 
 //-------------------------------------------------------------------------//
