@@ -339,6 +339,8 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
                     if ( !Wlen[to] )
                         moves = 1 << ( freestores - 1 );
 
+                    moves = 1; // for now to avoid #178972 for 4.2
+
                     if ( moves >= Wlen[w] )
                         moves = Wlen[w];
 
