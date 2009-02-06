@@ -495,6 +495,7 @@ DealerScene::DealerScene():
     d->updateSolver = new QTimer(this);
     d->updateSolver->setInterval( 250 );
     d->updateSolver->setSingleShot( true );
+    d->initialDeal = true;
     connect( d->updateSolver, SIGNAL( timeout() ), SLOT( stopAndRestartSolver() ) );
 
     d->demotimer = new QTimer(this);
