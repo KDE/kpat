@@ -25,7 +25,7 @@ class Deck: public Pile
 {
 
 private:
-    Deck( DealerScene* parent = 0, int m = 1, int s = 4 );
+    explicit Deck( DealerScene* parent = 0, int m = 1, int s = 4 );
     virtual ~Deck();
 
 public:
