@@ -847,34 +847,6 @@ win at Easy level, and very difficult to win at Hard level.
 <qandaset>
 <!--Following is a standard list of FAQ questions.-->
 <qandaentry>
-<question><para>Who made this game?</para></question>
- <answer><para>The kdegames team. You can find their website <ulink url="http://games.kde.org">here</ulink>.</para></answer>
-</qandaentry>
-<qandaentry>
- <question><para>Where can I get cheatcodes? </para></question>
- <answer><para>You cannot get cheatcodes for &kde; games.</para></answer>
-</qandaentry>
-<qandaentry>
- <question><para>How do I start a new game? </para></question>
- <answer><para>To start a new game use <menuchoice>
-					<shortcut><keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo></shortcut>
-					<guimenu>Game</guimenu>
-					<guimenuitem>New</guimenuitem>
-				</menuchoice> on the menubar.</para></answer>
-</qandaentry>
-<qandaentry>
- <question><para>How do I restart a my current game? </para></question>
- <answer><para>To restart a current game use <menuchoice>
-					<shortcut><keycap>F5</keycap></shortcut>
-					<guimenu>Game</guimenu>
-					<guimenuitem>Restart Game</guimenuitem>
-				</menuchoice> on the menubar.</para></answer>
-</qandaentry>
-<qandaentry>
- <question><para>How do I pause the game? </para></question>
- <answer><para>&kappname; features no 'Pause' function at the moment.</para></answer>
-</qandaentry>
-<qandaentry>
  <question><para>I want to change the way this game looks. Can I? </para></question>
  <answer><para>You can change the faces and backs of the playing cards. To do so please use <menuchoice>
 					<shortcut><keycap>F10</keycap></shortcut>
@@ -883,47 +855,12 @@ win at Easy level, and very difficult to win at Hard level.
 				</menuchoice> on the menubar.</para></answer>
 </qandaentry>
 <qandaentry>
- <question><para>I have made a mistake. Can I undo? </para></question>
- <answer><para>Yes. To undo a wrong move you can use <menuchoice>
-					<shortcut><keycombo action="simul">&Ctrl;<keycap>Z</keycap></keycombo></shortcut>
-					<guimenu>Move</guimenu>
-					<guimenuitem>Undo</guimenuitem>
-				</menuchoice> on the menubar.</para></answer>
-</qandaentry>
-<qandaentry>
- <question><para>Can I use keyboard?</para></question>
+ <question><para>Can I use the keyboard to play the game?</para></question>
  <answer><para>No. &kappname; features no possible keyboard play.</para></answer>
 </qandaentry>
 <qandaentry>
- <question><para>I cannot figure out what to do here! Are there hints? </para></question>
- <answer><para>Yes. To take advantage of the 'Hint' feature use <menuchoice>
-					<shortcut><keycap>H</keycap></shortcut>
-					<guimenu>Game</guimenu>
-					<guimenuitem>Hint</guimenuitem>
-				</menuchoice> on the menubar.</para></answer>
-</qandaentry>
-<qandaentry>
  <question><para>Even with hints I still have no clue how to play. Help!</para></question>
- <answer><para>Besides the 'Hint' feature there also is a useful 'Demo' mode, where the built in artificial intelligence will play the game for you. You can try to watch and learn. However, if you have any questions it is better to read <link linkend="howto">How to Play</link> and <link linkend="rules_and_tips">Game Rules, Strategies and Tips</link> sections of this handbook.</para></answer><!--IMPORTANT!: this link has to send user to 'Interface Overview' section. So please setup the link structure accordingly.-->
-</qandaentry>
-<qandaentry>
- <question><para>I have to quit the game now, but I am not finished yet. Can I save my progress?</para></question>
-  <answer><para>Yes. To save your progress you can use <menuchoice>
-					<shortcut><keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo></shortcut>
-					<guimenu>Game</guimenu>
-					<guimenuitem>Save</guimenuitem>
-				</menuchoice> on the menubar.</para></answer>
-</qandaentry>
-<qandaentry>
- <question><para>Where are the high scores?</para></question>
- <answer><para>&kappname; has no high score board. However you can view your win vs lose statistics. To do so use <menuchoice>
-					<guimenu>Game</guimenu>
-					<guimenuitem>Statistics</guimenuitem>
-				</menuchoice> on the menubar.</para></answer>
-</qandaentry>
-<qandaentry>
- <question><para>I want to change the game configuration. Where do I go? </para></question>
- <answer><para>&kappname; requires no configuration.</para></answer><!--IMPORTANT!: this link has to send user to 'Interface Overview' section. So please setup the link structure accordingly.-->
+ <answer><para>Besides the <quote>Hint</quote> feature there also is a useful <quote>Demo</quote> mode, where the built-in artificial intelligence will play the game for you. You can try to watch and learn. However, if you have any questions it is better to read the <link linkend="howto">How to Play</link> and <link linkend="rules_and_tips">Game Rules, Strategies and Tips</link> sections of this handbook.</para></answer>
 </qandaentry>
 </qandaset>
 </chapter>
