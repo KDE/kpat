@@ -447,9 +447,9 @@ GypsySolver::GypsySolver(const Gypsy *dealer)
     for ( int i = 1; i <= 6; i++ )
     {
         sprintf( buffer, "DECK%d", i );
-        char *env = getenv( buffer );
-        if ( env )
-            params[i-1] = atoi( env );
+        const QByteArray env = qgetenv( buffer );
+        if ( !env.isEmpty() )
+            params[i-1] = env.toInt();
     }
 }
 

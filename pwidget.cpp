@@ -133,7 +133,7 @@ pWidget::pWidget()
 
     a = actionCollection()->addAction("snapshot");
     connect( a, SIGNAL( triggered( bool ) ), SLOT( slotSnapshot() ) );
-    if (getenv("KDE_DEBUG")) // developer shortcut
+    if (!qgetenv("KDE_DEBUG").isEmpty()) // developer shortcut
        a->setShortcuts( KShortcut( Qt::Key_F8 ) );
 
     a = actionCollection()->addAction("select_deck");
@@ -369,7 +369,7 @@ void pWidget::newGameType()
             {
                 dill->setScene( (*it)->createGame() );
                 QString name = (*it)->name;
-                name = name.replace(QRegExp("[&']"), "");
+                name = name.remove(QRegExp("[&']"));
                 name = name.replace(QRegExp("[ ]"), "_").toLower();
                 dill->setAnchorName("game_" + name);
                 id = *it2;
