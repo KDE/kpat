@@ -87,6 +87,7 @@ PatienceView::PatienceView( KXmlGuiWindow* _parent )
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFrameStyle(QFrame::NoFrame);
     setAlignment( Qt::AlignLeft | Qt::AlignTop );
+    setCacheMode(QGraphicsView::CacheBackground);
 
     assert(!s_instance);
     s_instance = this;
@@ -276,7 +277,6 @@ void PatienceView::resizeEvent( QResizeEvent *e )
     kDebug() << "resizeEvent" << size() << " " << e << " " << dscene() << " " << parent()->isVisible(); /*<< " " << kBacktrace()*/
 #endif
 
-    setCacheMode(QGraphicsView::CacheBackground);
     resetCachedContent();
 
     if ( !dscene() )
