@@ -33,7 +33,6 @@
 #include <QRegExp>
 #include <QTimer>
 #include <QImage>
-//Added by qt3to4:
 #include <QPixmap>
 #include <QTextStream>
 #include <QList>
@@ -41,6 +40,7 @@
 #include <QDomDocument>
 #include <QSvgRenderer>
 #include <QDesktopWidget>
+#include <QStackedWidget>
 
 #include <kapplication.h>
 #include <klocale.h>
@@ -70,7 +70,9 @@
 static pWidget *current_pwidget = 0;
 
 pWidget::pWidget()
-    : KXmlGuiWindow(0), dill(0)
+  : KXmlGuiWindow(0),
+    dill(0),
+    m_bubbles(0)
 {
     setObjectName( "pwidget" );
     current_pwidget = this;
@@ -126,6 +128,11 @@ pWidget::pWidget()
 
     games->setItems(list);
 
+    a = actionCollection()->addAction("change_game_type");
+    a->setText(i18n("Change Game Type..."));
+    connect( a, SIGNAL( triggered( bool ) ), SLOT( slotShowGameSelectionScreen() ) );
+    a->setEnabled( false );
+
     a = actionCollection()->addAction("random_set");
     a->setText(i18n("Random Cards"));
     connect( a, SIGNAL( triggered( bool ) ), SLOT( slotPickRandom() ) );
@@ -179,11 +186,8 @@ pWidget::pWidget()
 
     m_dealer_it = m_dealer_map.constEnd();
 
-    dill = 0;
-
-    m_bubbles = new DemoBubbles( this );
-    setCentralWidget( m_bubbles );
-    connect( m_bubbles, SIGNAL( gameSelected( int ) ), SLOT( slotGameSelected( int ) ) );
+    m_stack = new QStackedWidget;
+    setCentralWidget( m_stack );
 }
 
 pWidget::~pWidget()
@@ -347,11 +351,9 @@ void pWidget::newGameType()
 
     if ( !dill )
     {
-        m_bubbles->deleteLater();
-        m_bubbles = 0;
-        dill = new PatienceView( this, this );
+        dill = new PatienceView(this, m_stack);
+        m_stack->addWidget(dill);
         connect(dill, SIGNAL(saveGame()), SLOT(saveGame()));
-        setCentralWidget(dill);
     }
 
     actionCollection()->action( "random_set" )->setEnabled( true );
@@ -362,6 +364,7 @@ void pWidget::newGameType()
     actionCollection()->action( "game_restart" )->setEnabled( true );
     actionCollection()->action( "game_save" )->setEnabled( true );
     actionCollection()->action( "select_deck" )->setEnabled( true );
+    actionCollection()->action( "change_game_type" )->setEnabled( true );
 
     kDebug(11111) << "newGameType" << item;
     for (QList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin();
@@ -416,8 +419,34 @@ void pWidget::newGameType()
     KConfigGroup cg(KGlobal::config(), settings_group);
     cg.writeEntry("DefaultGame", id);
 
+    m_stack->setCurrentWidget(dill);
+
     QTimer::singleShot( 0, this, SLOT( show() ) );
 }
+
+void pWidget::slotShowGameSelectionScreen()
+{
+    if (!m_bubbles)
+    {
+        m_bubbles = new DemoBubbles(m_stack);
+        m_stack->addWidget(m_bubbles);
+        connect( m_bubbles, SIGNAL( gameSelected( int ) ), SLOT( slotGameSelected( int ) ) );
+    }
+
+    actionCollection()->action( "random_set" )->setEnabled( false );
+    actionCollection()->action( "choose_game" )->setEnabled( false );
+    actionCollection()->action( "enable_autodrop" )->setEnabled( false );
+    actionCollection()->action( "enable_solver" )->setEnabled( false );
+    actionCollection()->action( "game_new" )->setEnabled( false );
+    actionCollection()->action( "game_restart" )->setEnabled( false );
+    actionCollection()->action( "game_save" )->setEnabled( false );
+    actionCollection()->action( "select_deck" )->setEnabled( false );
+    actionCollection()->action( "change_game_type" )->setEnabled( false );
+
+    m_stack->setCurrentWidget(m_bubbles);
+}
+
+
 
 void pWidget::showEvent(QShowEvent *e)
 {

@@ -38,6 +38,7 @@ class KSelectAction;
 class KRecentFilesAction;
 class QAction;
 class QLabel;
+class QStackedWidget;
 class cardMap;
 
 class pWidget: public KXmlGuiWindow {
@@ -53,6 +54,7 @@ public slots:
     void newGameType();
     void slotNewGameType();
     void restart();
+    void slotShowGameSelectionScreen();
 
     void openGame();
     void openGame(const KUrl &url);
@@ -90,9 +92,6 @@ private:
 
 private:
     // Members
-
-    PatienceView   *dill;
-
     KSelectAction  *games;
     QAction        *undo, *redo;
     KToggleAction  *dropaction;
@@ -105,6 +104,8 @@ private:
     QMap<int, int>  m_dealer_map;
     QMap<int, int>::const_iterator  m_dealer_it;
 
+    QStackedWidget *m_stack;
+    PatienceView   *dill;
     DemoBubbles    *m_bubbles;
 };
 

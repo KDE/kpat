@@ -11,6 +11,7 @@
     <Separator/>
   </Menu>
   <Menu name="settings" noMerge="1"><text>&amp;Settings</text>
+    <Action name="change_game_type"/>
     <Action name="game_type"/>
     <Action name="backside"/>
     <Action name="animation"/> 
