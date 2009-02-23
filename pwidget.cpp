@@ -85,7 +85,8 @@ pWidget::pWidget()
     KStandardGameAction::load(this, SLOT(openGame()), actionCollection());
     recent = KStandardGameAction::loadRecent(this, SLOT(openGame(const KUrl&)), actionCollection());
     recent->loadEntries( KGlobal::config()->group( QString() ));
-    KStandardGameAction::save(this, SLOT(saveGame()), actionCollection());
+    a = KStandardGameAction::save(this, SLOT(saveGame()), actionCollection());
+    a->setEnabled( false );
     KStandardGameAction::quit(this, SLOT(close()), actionCollection());
 
     // Move
@@ -356,6 +357,7 @@ void pWidget::newGameType()
     actionCollection()->action( "enable_solver" )->setEnabled( true );
     actionCollection()->action( "game_new" )->setEnabled( true );
     actionCollection()->action( "game_restart" )->setEnabled( true );
+    actionCollection()->action( "game_save" )->setEnabled( true );
     actionCollection()->action( "select_deck" )->setEnabled( true );
 
     kDebug(11111) << "newGameType" << item;
