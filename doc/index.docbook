@@ -12,7 +12,7 @@
 
 <book lang="&language;"> <!-- do not change this! -->
 <bookinfo>
-	<title>The &kappname; Handbook</title> <!-- This is the title of the docbook. Live as is unless change is necessary.-->
+	<title>The &kappname; Handbook</title> <!-- This is the title of the docbook. Leave as is unless change is necessary.-->
 <!-- List of immidiate authors begins here. -->
 <!--INPORTANT! - All other contributors: [to be determined] -->
 <authorgroup>
