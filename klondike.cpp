@@ -135,7 +135,7 @@ Klondike::Klondike()
 
     options = new KSelectAction(i18n("Options"), this );
 
-    KXmlGuiWindow *xmlgui = PatienceView::instance()->parent();
+    KXmlGuiWindow *xmlgui = PatienceView::instance()->mainWindow();
 
     xmlgui->actionCollection()->addAction("dealer_options", options);
     options->addAction( "Draw 1" );

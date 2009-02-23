@@ -34,7 +34,7 @@ class PatienceView: public QGraphicsView
 
 public:
 
-    PatienceView ( KXmlGuiWindow* parent );
+    PatienceView ( KXmlGuiWindow* _window, QWidget* _parent );
     virtual ~PatienceView();
 
     static PatienceView *instance();
@@ -58,7 +58,7 @@ public:
     bool wasShown() const { return m_shown; }
     void setWasShown(bool b) { m_shown = b; }
 
-    KXmlGuiWindow *parent() const;
+    KXmlGuiWindow *mainWindow() const;
 
 public slots:
 
@@ -86,6 +86,8 @@ protected:
 
     qreal scaleFactor;
     bool m_shown;
+
+    KXmlGuiWindow * m_window;
 };
 
 #endif

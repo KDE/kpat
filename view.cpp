@@ -75,13 +75,14 @@ void DealerInfoList::add(DealerInfo *dealer)
 
 PatienceView *PatienceView::s_instance = 0;
 
-PatienceView::PatienceView( KXmlGuiWindow* _parent )
+PatienceView::PatienceView( KXmlGuiWindow* _window, QWidget* _parent )
   : QGraphicsView( _parent ),
     ademo(0),
     ahint(0),
     aredeal(0),
     adrop(0),
-    m_shown( true )
+    m_shown( true ),
+    m_window( _window )
 {
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -108,9 +109,9 @@ PatienceView::~PatienceView()
     delete dscene();
 }
 
-KXmlGuiWindow *PatienceView::parent() const
+KXmlGuiWindow *PatienceView::mainWindow() const
 {
-    return dynamic_cast<KXmlGuiWindow*>(QGraphicsView::parent());
+    return m_window;
 }
 
 
@@ -152,24 +153,24 @@ void PatienceView::setupActions()
 {
     QList<QAction*> actionlist;
 
-    parent()->guiFactory()->unplugActionList( parent(), QString::fromLatin1("game_actions"));
+    mainWindow()->guiFactory()->unplugActionList( mainWindow(), QString::fromLatin1("game_actions"));
 
     kDebug(11111) << "setupActions" << actions();
 
     if (dscene()->actions() & DealerScene::Hint) {
-        ahint = KStandardGameAction::hint(this, SLOT(hint()), parent()->actionCollection());
+        ahint = KStandardGameAction::hint(this, SLOT(hint()), mainWindow()->actionCollection());
         actionlist.append(ahint);
     } else
         ahint = 0;
 
     if (dscene()->actions() & DealerScene::Demo) {
-        ademo = KStandardGameAction::demo(dscene(), SLOT(toggleDemo()), parent()->actionCollection());
+        ademo = KStandardGameAction::demo(dscene(), SLOT(toggleDemo()), mainWindow()->actionCollection());
         actionlist.append(ademo);
     } else
         ademo = 0;
 
     if (dscene()->actions() & DealerScene::Redeal) {
-        aredeal = parent()->actionCollection()->addAction( "game_redeal" );
+        aredeal = mainWindow()->actionCollection()->addAction( "game_redeal" );
         aredeal->setText( i18n("&Redeal") );
         aredeal->setIcon( KIcon( "roll") );
         connect( aredeal, SIGNAL( triggered( bool ) ), dscene(), SLOT( redeal() ) );
@@ -179,7 +180,7 @@ void PatienceView::setupActions()
 
     delete adrop;
     if ( !dscene()->autoDrop() ) {
-        adrop = parent()->actionCollection()->addAction( "autodrop" );
+        adrop = mainWindow()->actionCollection()->addAction( "autodrop" );
         adrop->setText( i18n("Drop!") );
         adrop->setIcon( KIcon( "legalmoves") );
         connect( adrop, SIGNAL( triggered( bool ) ), dscene(), SLOT( slotAutoDrop() ) );
@@ -187,7 +188,7 @@ void PatienceView::setupActions()
     } else
         adrop = 0;
 
-    parent()->guiFactory()->plugActionList( parent(), QString::fromLatin1("game_actions"), actionlist);
+    mainWindow()->guiFactory()->plugActionList( mainWindow(), QString::fromLatin1("game_actions"), actionlist);
 }
 
 

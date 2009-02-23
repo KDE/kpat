@@ -346,7 +346,7 @@ void pWidget::newGameType()
     {
         m_bubbles->deleteLater();
         m_bubbles = 0;
-        dill = new PatienceView( this );
+        dill = new PatienceView( this, this );
         connect(dill, SIGNAL(saveGame()), SLOT(saveGame()));
         setCentralWidget(dill);
     }

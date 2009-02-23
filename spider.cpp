@@ -126,7 +126,7 @@ Spider::Spider()
 
     if ( PatienceView::instance() )
     {
-        xmlgui = PatienceView::instance()->parent();
+        xmlgui = PatienceView::instance()->mainWindow();
 
         xmlgui->actionCollection()->addAction("dealer_options", options);
     }
