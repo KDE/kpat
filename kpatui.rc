@@ -16,7 +16,6 @@
     <ActionList name="dealer_options"/>
     <Action name="enable_autodrop"/>
     <Action name="enable_solver"/>
-    <Action name="random_set"/>
     <Action name="select_deck"/>
   </Menu>
 </MenuBar>
