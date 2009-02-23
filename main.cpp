@@ -62,6 +62,20 @@ static DealerScene *getDealer( int wanted_game )
     return 0;
 }
 
+// A function to remove all nonalphanumeric characters from a string
+// and convert all letters to lowercase.
+QString lowerAlphaNum( const QString & string )
+{
+    QString result;
+    for ( int i = 0; i < string.size(); ++i )
+    {
+        QChar c = string.at( i );
+        if ( c.isLetterOrNumber() )
+            result += c.toLower();
+    }
+    return result;
+}
+
 int main( int argc, char **argv )
 {
     KAboutData aboutData( "kpat", 0, ki18n("KPatience"),
@@ -85,6 +99,22 @@ int main( int argc, char **argv )
     aboutData.addAuthor(ki18n("Inge Wallin"), ki18n("Bug fixes"), "inge@lysator.liu.se");
     aboutData.addAuthor(ki18n("Simon Hürlimann"), ki18n("Menu and Toolbar work"), "simon.huerlimann@huerlisi.ch");
 
+    // Create a KComponentData earlier than normal so that we can use i18n to translate
+    // the names of the game types in the help text.
+    KComponentData componentData(&aboutData);
+    KGlobal::locale()->insertCatalog("libkdegames");
+
+    QMap<QString, int> indexMap;
+    QStringList gameList;
+    foreach ( const DealerInfo *di, DealerInfoList::self()->games() )
+    {
+        const QString translatedKey = lowerAlphaNum( i18n( di->name ) );
+        gameList << translatedKey;
+        indexMap.insert( translatedKey, di->ids.first() );
+        indexMap.insert( lowerAlphaNum( QString( di->name ) ), di->ids.first() );
+    }
+    gameList.sort();
+
     KCmdLineArgs::init( argc, argv, &aboutData );
 
     KCmdLineOptions options;
@@ -92,12 +122,12 @@ int main( int argc, char **argv )
     options.add("solve <num>", ki18n("Dealer to solve (debug)" ));
     options.add("start <num>", ki18n("Game range start (default 0:INT_MAX)" ));
     options.add("end <num>", ki18n("Game range end (default start:start if start given)" ));
+    options.add("gametype <game>", ki18n("Skip the selection screen and load a particular game type. Valid values are: %1").subs(gameList.join(i18nc("List separator", ", "))));
     options.add("+file", ki18n("File to load"));
     KCmdLineArgs::addCmdLineOptions (options);
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
 
     KApplication application;
-    KGlobal::locale()->insertCatalog("libkdegames");
 
     QString savegame = args->getOption( "solvegame" );
     if ( !savegame.isEmpty() )
@@ -170,12 +200,23 @@ int main( int argc, char **argv )
         return 0;
     }
 
+    QString gametype = args->getOption("gametype").toLower();
+
     pWidget *w = new pWidget;
     if (args->count())
+    {
         w->openGame(args->url(0));
-    else
+    }
+    else if (indexMap.contains(gametype))
+    {
+        w->slotGameSelected(indexMap.value(gametype));
         w->show();
-    //QTimer::singleShot(100, w, SLOT(slotNewGameType()));
+    }
+    else
+    {
+        w->show();
+    }
+
     args->clear();
     return application.exec();
 }

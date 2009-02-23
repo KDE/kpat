@@ -324,8 +324,11 @@ void pWidget::setGameCaption()
 
 void pWidget::slotGameSelected( int i )
 {
-    games->setCurrentItem( m_dealer_map[i] );
-    slotNewGameType();
+    if ( m_dealer_map.contains(i) )
+    {
+        games->setCurrentItem( m_dealer_map[i] );
+        slotNewGameType();
+    }
 }
 
 void pWidget::slotNewGameType()
