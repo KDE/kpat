@@ -40,6 +40,7 @@ class QAction;
 class QLabel;
 class QStackedWidget;
 class cardMap;
+class DealerInfo;
 
 class pWidget: public KXmlGuiWindow {
     Q_OBJECT
@@ -51,8 +52,7 @@ public:
 public slots:
     void undoMove();
     void redoMove();
-    void newGameType();
-    void slotNewGameType();
+    void newGameType(int id);
     void restart();
     void slotShowGameSelectionScreen();
 
@@ -81,7 +81,7 @@ public slots:
 
     void slotSnapshot();
 
-    void slotGameSelected( int i );
+    void slotGameSelected(int id);
 
 private slots:
     void slotSnapshot2();
@@ -101,8 +101,8 @@ private:
     QPixmap         background;
     KRecentFilesAction  *recent;
     cardMap        *m_cards; // possibly move to PatienceView
-    QMap<int, int>  m_dealer_map;
-    QMap<int, int>::const_iterator  m_dealer_it;
+    QMap<int, const DealerInfo*>  m_dealer_map;
+    QMap<int, const DealerInfo*>::const_iterator  m_dealer_it;
 
     QStackedWidget *m_stack;
     PatienceView   *dill;

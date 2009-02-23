@@ -165,7 +165,7 @@ static class LocalDealerInfo2 : public DealerInfo
 {
 public:
     LocalDealerInfo2() : DealerInfo(I18N_NOOP("Aces Up"), 2) {}
-    virtual DealerScene *createGame() { return new Idiot(); }
+    virtual DealerScene *createGame() const { return new Idiot(); }
 } ldi4;
 
 

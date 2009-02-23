@@ -187,7 +187,7 @@ static class LocalDealerInfo1 : public DealerInfo
 {
 public:
     LocalDealerInfo1() : DealerInfo(I18N_NOOP("Grandfather"), 1) {}
-    virtual DealerScene *createGame() { return new Grandf(); }
+    virtual DealerScene *createGame() const { return new Grandf(); }
 } gfdi;
 
 #include "grandf.moc"

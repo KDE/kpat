@@ -175,8 +175,8 @@ void Fortyeight::setGameState( const QString &s )
 static class LocalDealerInfo8 : public DealerInfo
 {
 public:
-    LocalDealerInfo8() : DealerInfo(I18N_NOOP("Forty && Eight"), 8) {}
-    virtual DealerScene *createGame() { return new Fortyeight(); }
+    LocalDealerInfo8() : DealerInfo(I18N_NOOP("Forty & Eight"), 8) {}
+    virtual DealerScene *createGame() const { return new Fortyeight(); }
 } ldi9;
 
 //-------------------------------------------------------------------------//

@@ -77,7 +77,7 @@ static class LocalDealerInfo7 : public DealerInfo
 {
 public:
     LocalDealerInfo7() : DealerInfo(I18N_NOOP("Gypsy"), 7) {}
-    virtual DealerScene *createGame() { return new Gypsy(); }
+    virtual DealerScene *createGame() const { return new Gypsy(); }
 } gyfdi;
 
 #include "gypsy.moc"

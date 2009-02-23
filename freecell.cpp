@@ -403,7 +403,7 @@ static class LocalDealerInfo3 : public DealerInfo
 {
 public:
     LocalDealerInfo3() : DealerInfo(I18N_NOOP("Freecell"), 3) {}
-    virtual DealerScene *createGame() { return new Freecell(); }
+    virtual DealerScene *createGame() const { return new Freecell(); }
 } ldi8;
 
 //-------------------------------------------------------------------------//

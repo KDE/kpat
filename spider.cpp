@@ -412,7 +412,7 @@ static class LocalDealerInfo17 : public DealerInfo
 {
 public:
     LocalDealerInfo17() : DealerInfo(I18N_NOOP("Spider"), 17) { addOldId(14); addOldId(15); addOldId(16); }
-    virtual DealerScene *createGame() { return new Spider(); }
+    virtual DealerScene *createGame() const { return new Spider(); }
 } ldi17;
 
 void Spider::mapOldId(int id)

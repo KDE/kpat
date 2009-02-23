@@ -53,7 +53,7 @@ public:
     virtual ~DealerInfo(){}
     const char *name;
     QList<int> ids;
-    virtual DealerScene *createGame() = 0;
+    virtual DealerScene *createGame() const = 0;
     void addOldId(int id) { ids.push_back(id); }
     bool hasId(int id) { return ids.contains(id); }
 };

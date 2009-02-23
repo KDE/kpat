@@ -106,27 +106,6 @@ pWidget::pWidget()
 
     actionCollection()->addAction(KStandardAction::Help, "help_game",
                                   this, SLOT(helpGame()));
-    games = new KSelectAction(i18n("&Game Type"), actionCollection());
-    actionCollection()->addAction("game_type", games);
-    connect( games, SIGNAL( triggered( int ) ), SLOT( slotNewGameType() ) );
-
-    QStringList list;
-    QList<DealerInfo*>::ConstIterator it;
-
-    for (it = DealerInfoList::self()->games().begin();
-         it != DealerInfoList::self()->games().end(); ++it)
-    {
-        list.append( i18n((*it)->name) );
-    }
-    list.sort();
-    for (it = DealerInfoList::self()->games().begin();
-         it != DealerInfoList::self()->games().end(); ++it)
-    {
-        for ( QList<int>::const_iterator it2 = (*it )->ids.constBegin(); it2 != (*it )->ids.constEnd(); ++it2)
-            m_dealer_map[*it2] = list.indexOf( i18n((*it)->name) );
-    }
-
-    games->setItems(list);
 
     a = actionCollection()->addAction("change_game_type");
     a->setText(i18n("Change Game Type..."));
@@ -174,16 +153,15 @@ pWidget::pWidget()
     bool solver = cg.readEntry("Solver", true);
     solveraction->setChecked(solver);
 
-    //int game = cg.readEntry("DefaultGame", 0);
-    //games->setCurrentItem( m_dealer_map[game] );
-
     statusBar()->insertPermanentItem( "", 1, 0 );
     setupGUI(qApp->desktop()->availableGeometry().size()*0.7); // QString()/*, false*/);
     //KAcceleratorManager::manage(menuBar());
 
-    // QTimer::singleShot( 0, this, SLOT( newGameType() ) );
     setAutoSaveSettings();
 
+    foreach( const DealerInfo * di, DealerInfoList::self()->games() )
+        foreach( int id, di->ids )
+            m_dealer_map.insert( id, di );
     m_dealer_it = m_dealer_map.constEnd();
 
     m_stack = new QStackedWidget;
@@ -315,45 +293,52 @@ void pWidget::slotSelectDeck()
 
 void pWidget::setGameCaption()
 {
-    QString name = games->currentText();
-    QString newname;
-    QString gamenum;
-    gamenum.setNum( dill->gameNumber() );
-    for (int i = 0; i < name.length(); i++)
-        if (name.at(i) != QChar('&'))
-            newname += name.at(i);
-
-    setCaption( newname + " - " + gamenum );
+    QString caption;
+    if ( dill && dill->dscene() && m_stack->currentWidget() != m_bubbles )
+    {
+        const DealerInfo * di = m_dealer_map.value( dill->dscene()->gameId() );
+        QString name = di->name;
+        QString gamenum = QString::number(dill->gameNumber());
+        caption = name + " - " + gamenum;
+    }
+    setCaption( caption );
 }
 
-void pWidget::slotGameSelected( int i )
+void pWidget::slotGameSelected(int id)
 {
-    if ( m_dealer_map.contains(i) )
+    if ( m_dealer_map.contains(id) )
     {
-        games->setCurrentItem( m_dealer_map[i] );
-        slotNewGameType();
+        newGameType(id);
+        QTimer::singleShot(0 , this, SLOT( restart() ) );
     }
 }
 
-void pWidget::slotNewGameType()
-{
-    newGameType();
-    QTimer::singleShot(0 , this, SLOT( restart() ) );
-}
-
-void pWidget::newGameType()
+void pWidget::newGameType(int id)
 {
     slotUpdateMoves();
     kDebug(11111) << gettime() << "pWidget::newGameType\n";
-
-    int item = games->currentItem();
-    int id = -1;
 
     if ( !dill )
     {
         dill = new PatienceView(this, m_stack);
         m_stack->addWidget(dill);
         connect(dill, SIGNAL(saveGame()), SLOT(saveGame()));
+    }
+
+    if ( m_dealer_map.contains(id) )
+    {
+        const DealerInfo * di = m_dealer_map.value(id);
+        dill->setScene( di->createGame() );
+        QString name = di->name;
+        name = name.remove(QRegExp("[&']"));
+        name = name.replace(QRegExp("[ ]"), "_").toLower();
+        dill->setAnchorName("game_" + name);
+        dill->dscene()->setGameId( id );
+    }
+    else
+    {
+        kError() << "unimplemented game type" << id;
+        dill->setScene( DealerInfoList::self()->games().first()->createGame() );
     }
 
     actionCollection()->action( "random_set" )->setEnabled( true );
@@ -365,33 +350,6 @@ void pWidget::newGameType()
     actionCollection()->action( "game_save" )->setEnabled( true );
     actionCollection()->action( "select_deck" )->setEnabled( true );
     actionCollection()->action( "change_game_type" )->setEnabled( true );
-
-    kDebug(11111) << "newGameType" << item;
-    for (QList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin();
-	it != DealerInfoList::self()->games().end(); ++it)
-    {
-        for (QList<int>::const_iterator it2 = (*it )->ids.constBegin();
-	     it2 != (*it )->ids.constEnd(); ++it2)
-        {
-            if ( m_dealer_map[*it2] == item)
-            {
-                dill->setScene( (*it)->createGame() );
-                QString name = (*it)->name;
-                name = name.remove(QRegExp("[&']"));
-                name = name.replace(QRegExp("[ ]"), "_").toLower();
-                dill->setAnchorName("game_" + name);
-                id = *it2;
-                dill->dscene()->setGameId( id );
-                break;
-            }
-        }
-    }
-
-    Q_ASSERT( id != -1 );
-    if (!dill->dscene()) {
-        kError() << "unimplemented game type" << id;
-        dill->setScene( DealerInfoList::self()->games().first()->createGame() );
-    }
 
     enableAutoDrop();
     enableSolver();
@@ -410,6 +368,8 @@ void pWidget::newGameType()
 
     dill->setAutoDropEnabled(dropaction->isChecked());
 
+    m_stack->setCurrentWidget(dill);
+
     // it's a bit tricky - we have to do this here as the
     // base class constructor runs before the derived class's
     // dill->takeState();
@@ -418,8 +378,6 @@ void pWidget::newGameType()
 
     KConfigGroup cg(KGlobal::config(), settings_group);
     cg.writeEntry("DefaultGame", id);
-
-    m_stack->setCurrentWidget(dill);
 
     QTimer::singleShot( 0, this, SLOT( show() ) );
 }
@@ -444,6 +402,8 @@ void pWidget::slotShowGameSelectionScreen()
     actionCollection()->action( "change_game_type" )->setEnabled( false );
 
     m_stack->setCurrentWidget(m_bubbles);
+
+    setGameCaption();
 }
 
 
@@ -502,13 +462,11 @@ void pWidget::openGame(const KUrl &url)
         }
         int id = doc.documentElement().attribute("id").toInt();
 
-        games->setCurrentItem(m_dealer_map[id]);
-        newGameType();
+        newGameType(id);
 
         if (!dill->dscene()) {
            KMessageBox::error(this, i18n("The saved game is of unknown type!"));
-           games->setCurrentItem(0);
-           newGameType();
+           newGameType(m_dealer_map.keys().first());
         }
         // for old spider and klondike
         dill->dscene()->mapOldId( id );
@@ -574,8 +532,7 @@ void pWidget::slotSnapshot()
         m_dealer_it = m_dealer_map.constBegin();
     }
 
-    games->setCurrentItem(m_dealer_it.value());
-    newGameType();
+    newGameType(m_dealer_it.key());
     restart();
     m_dealer_it++;
     QTimer::singleShot( 200, this, SLOT( slotSnapshot2() ) );
@@ -597,4 +554,3 @@ void pWidget::slotSnapshot2()
 }
 
 #include "pwidget.moc"
-

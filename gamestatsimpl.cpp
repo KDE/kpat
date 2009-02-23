@@ -42,7 +42,7 @@ GameStatsImpl::GameStatsImpl(QWidget* aParent)
 	QMap<QString,int> nameToIndex;
 	foreach (DealerInfo* game, DealerInfoList::self()->games())
 	{
-		QString name = KGlobal::locale()->removeAcceleratorMarker(game->name);
+		QString name(game->name);
 		nameToIndex[name] = game->ids.first();
 	}
 	foreach (const QString& name, nameToIndex.keys())

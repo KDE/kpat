@@ -289,7 +289,7 @@ static class LocalDealerInfo0 : public DealerInfo
 {
 public:
     LocalDealerInfo0() : DealerInfo(I18N_NOOP("Klondike"), 18) { addOldId(0); addOldId(13); }
-    virtual DealerScene *createGame() { return new Klondike(); }
+    virtual DealerScene *createGame() const { return new Klondike(); }
 } ldi0;
 
 void Klondike::mapOldId(int id)

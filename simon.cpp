@@ -137,7 +137,7 @@ static class LocalDealerInfo9 : public DealerInfo
 {
 public:
     LocalDealerInfo9() : DealerInfo(I18N_NOOP("Simple Simon"), 9) {}
-    virtual DealerScene *createGame() { return new Simon(); }
+    virtual DealerScene *createGame() const { return new Simon(); }
 } gfi9;
 
 #include "simon.moc"

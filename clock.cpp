@@ -104,7 +104,7 @@ static class LocalDealerInfo11 : public DealerInfo
 {
 public:
     LocalDealerInfo11() : DealerInfo(I18N_NOOP("Grandfather's Clock"), 11) {}
-    virtual DealerScene *createGame() { return new Clock(); }
+    virtual DealerScene *createGame() const { return new Clock(); }
 } gfi11;
 
 #include "clock.moc"

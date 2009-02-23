@@ -153,7 +153,7 @@ static class LocalDealerInfo13 : public DealerInfo
 {
 public:
     LocalDealerInfo13() : DealerInfo(I18N_NOOP("Golf"), 12) {}
-    virtual DealerScene *createGame() { return new Golf(); }
+    virtual DealerScene *createGame() const { return new Golf(); }
 } ldi13;
 
 //-------------------------------------------------------------------------//

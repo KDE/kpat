@@ -78,7 +78,7 @@ static class LocalDealerInfo10 : public DealerInfo
 {
 public:
     LocalDealerInfo10() : DealerInfo(I18N_NOOP("Yukon"), 10) {}
-    virtual DealerScene *createGame() { return new Yukon(); }
+    virtual DealerScene *createGame() const { return new Yukon(); }
 } gfi10;
 
 #include "yukon.moc"

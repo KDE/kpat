@@ -128,7 +128,7 @@ void DemoBubbles::resizeEvent ( QResizeEvent * )
             m_bubbles[index].height = bubble_height;
             m_bubbles[index].gameindex = ( *it )->ids.first();
             m_bubbles[index].active = false;
-            m_bubbles[index].text = i18n( ( *it )->name ).replace( "&&", "&" );
+            m_bubbles[index].text = i18n( ( *it )->name );
             if ( m_bubbles[index].pix.isNull() )
                 m_bubbles[index].pix.load( KStandardDirs::locate( "data",
                                                                   QString( "kpat/demos/demo_%1.png" ).
