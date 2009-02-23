@@ -151,12 +151,12 @@ pWidget::pWidget()
     dropaction = new KToggleAction(i18n("&Enable Autodrop"), this);
     actionCollection()->addAction("enable_autodrop", dropaction);
     connect( dropaction, SIGNAL( triggered( bool ) ), SLOT(enableAutoDrop()) );
-    a->setEnabled( false );
+    dropaction->setEnabled( false );
 
     solveraction = new KToggleAction(i18n("E&nable Solver"), this);
     actionCollection()->addAction("enable_solver", solveraction);
     connect( solveraction, SIGNAL( triggered( bool ) ), SLOT( enableSolver() ) );
-    a->setEnabled( false );
+    solveraction->setEnabled( false );
 
     KConfigGroup cg(KGlobal::config(), settings_group );
 
