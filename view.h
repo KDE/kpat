@@ -68,9 +68,6 @@ public slots:
     void slotEnableRedeal(bool);
     void toggleDemo(bool);
 
-signals:
-    void saveGame(); // emergency
-
 protected:
 
     virtual void wheelEvent( QWheelEvent *e );

@@ -2039,8 +2039,10 @@ QString DealerScene::save_it()
     stream << doc.toString();
     stream.flush();
     file.flush();
+    // .close will make fileName() return ""
+    QString filename = file.fileName();
     file.close();
-    return file.fileName();
+    return filename;
 }
 
 void DealerScene::createDump( QPaintDevice *device )
