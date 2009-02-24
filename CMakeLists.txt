@@ -23,6 +23,7 @@ set(kpat_SRCS
    patsolve/memory.cpp
    patsolve/klondike.cpp
    klondike.cpp
+   render.cpp
 )
 
 if (RELEASE)
@@ -69,7 +70,7 @@ install(TARGETS kpat  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 ########### install files ###############
 
 install( FILES kpat.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
-install( FILES pile.svg won.svg background.svg demo_bubble.svg DESTINATION  ${DATA_INSTALL_DIR}/kpat )
+install( FILES theme.svg DESTINATION  ${DATA_INSTALL_DIR}/kpat )
 install( FILES kpatui.rc  DESTINATION  ${DATA_INSTALL_DIR}/kpat )
 
 install( FILES kpat_update_cardwidth.upd DESTINATION ${KCONF_UPDATE_INSTALL_DIR} )

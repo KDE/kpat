@@ -16,8 +16,6 @@
 
 #include "card.h"
 
-#include <QPixmap>
-//Added by qt3to4:
 #include <QGraphicsPixmapItem>
 
 class DealerScene;
@@ -131,8 +129,6 @@ public:
 
     void rescale();
 
-    static QSvgRenderer *pileRenderer();
-
     void setReservedSpace( const QSizeF &p) { m_reserved = p; }
     QSizeF reservedSpace() const { return m_reserved; }
 
@@ -159,8 +155,6 @@ protected:
     QTimer *m_relayoutTimer;
 
 private:
-    static QSvgRenderer *_renderer;
-
     PileType  _atype;
     PileType  _rtype;
     double    _spread;
@@ -169,13 +163,10 @@ private:
     int myIndex;
     bool _target;
 
-    static QPixmap *cache;
-    static QPixmap *cache_selected;
     bool m_highlighted;
     QPointF _pilePos;
     QSizeF m_reserved;
     QSizeF m_space;
-
 };
 
 #endif

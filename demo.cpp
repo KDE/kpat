@@ -1,9 +1,9 @@
 #include "demo.h"
 #include "dealer.h"
+#include "render.h"
 
 #include <cmath>
 
-#include <QSvgRenderer>
 #include <QPainter>
 #include <QMouseEvent>
 
@@ -34,12 +34,9 @@ static const int minimum_font_size = 8;
 DemoBubbles::DemoBubbles( QWidget *parent)
     : QWidget( parent )
 {
-    backPix.load( KStandardDirs::locateLocal( "data", "kpat/back.png" ) );
-
     games = DealerInfoList::self()->games().size();
 
     m_bubbles = new GameBubble[games];
-    bubblerenderer = new QSvgRenderer( KStandardDirs::locate( "data", "kpat/demo_bubble.svg" ) );
 
     setMouseTracking( true );
 }
@@ -47,13 +44,12 @@ DemoBubbles::DemoBubbles( QWidget *parent)
 DemoBubbles::~DemoBubbles()
 {
     delete [] m_bubbles;
-    delete bubblerenderer;
 }
 
 void DemoBubbles::resizeEvent ( QResizeEvent * )
 {
-    QRectF bubble_rect = bubblerenderer->boundsOnElement( "bubble" );
-    QRectF text_rect = bubblerenderer->boundsOnElement( "text" );
+    QRectF bubble_rect = Render::boundsOnElement( "bubble" );
+    QRectF text_rect = Render::boundsOnElement( "bubble_text_area" );
 
     qreal bubble_aspect = bubble_rect.width() / bubble_rect.height();
     qreal my_aspect = qreal(width()) / height();
@@ -183,31 +179,8 @@ void DemoBubbles::mousePressEvent ( QMouseEvent * event )
 
 void DemoBubbles::paintEvent ( QPaintEvent * )
 {
-    if ( backPix.width() != width() || backPix.height() != height() )
-    {
-        QSvgRenderer *backren = new QSvgRenderer( KStandardDirs::locate( "data", "kpat/background.svg" ) );
-
-        QImage img( width(), height(), QImage::Format_ARGB32);
-        QPainter p2( &img );
-        backren->render( &p2 );
-        p2.end();
-        backPix = QPixmap::fromImage( img );
-        backPix.save( KStandardDirs::locateLocal( "data", "kpat/back.png" ), "PNG" );
-        delete backren;
-    }
-
-    if ( bubblePix.width() != bubble_width )
-    {
-        QImage img( bubble_width, bubble_height, QImage::Format_ARGB32);
-        img.fill( qRgba( 0, 0, 255, 0 ) );
-        QPainter p2( &img );
-        bubblerenderer->render( &p2, "bubble" );
-        p2.end();
-        bubblePix = QPixmap::fromImage( img );
-    }
-
     QPainter painter( this );
-    painter.drawPixmap( 0, 0, backPix );
+    painter.drawPixmap( 0, 0, Render::renderElement( "background", size() ) );
 
     int inner_margin = qRound( inner_margin_ratio * bubble_width );
     int pixels = bubble_text_height - inner_margin;
@@ -229,7 +202,8 @@ void DemoBubbles::paintEvent ( QPaintEvent * )
     for ( int index = 0; index < games; ++index )
     {
         painter.drawPixmap( m_bubbles[index].x,
-                            m_bubbles[index].y, bubblePix );
+                            m_bubbles[index].y,
+                            Render::renderElement( "bubble", QSize(bubble_width, bubble_height) ) );
 
         QImage p = m_bubbles[index].pix.scaled( bubble_width - inner_margin * 2,
                                                 bubble_height - inner_margin * 2 - bubble_text_height,

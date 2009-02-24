@@ -19,6 +19,7 @@
 #include "version.h"
 #include "view.h"
 #include "patsolve/patsolve.h"
+#include "render.h"
 
 #include <cassert>
 #include <cmath>
@@ -29,9 +30,7 @@
 #include <QtCore/QThread>
 #include <QtGui/QGraphicsSceneMouseEvent>
 #include <QtGui/QGraphicsView>
-#include <QtGui/QImage>
 #include <QtGui/QPainter>
-#include <QtSvg/QSvgRenderer>
 #include <QtXml/QDomDocument>
 
 #include <KTemporaryFile>
@@ -39,7 +38,6 @@
 #include <kdebug.h>
 #include <klocalizedstring.h>
 #include <krandom.h>
-#include <kstandarddirs.h>
 #include <ksharedconfig.h>
 #include <kio/netaccess.h>
 
@@ -182,8 +180,6 @@ public:
     bool stop_demo_next;
     qreal m_autoDropFactor;
 
-    static QSvgRenderer *backren;
-    QPixmap backPix;
     bool initialDeal;
     qreal offx;
     qreal offy;
@@ -503,8 +499,6 @@ DealerScene::DealerScene():
     d->m_autoDropFactor = 1;
     d->m_autoDropOnce = false;
     connect( this, SIGNAL( gameWon( bool ) ), SLOT( showWonMessage() ) );
-
-    d->backPix.load( KStandardDirs::locateLocal( "data", "kpat/back.png" ) );
 
     d->stateTimer = new QTimer( this );
     connect( d->stateTimer, SIGNAL( timeout() ), this, SLOT( takeState() ) );
@@ -881,10 +875,7 @@ void DealerScene::showWonMessage()
 
 void DealerScene::updateWonItem()
 {
-    QSvgRenderer renderer( KStandardDirs::locate( "data", "kpat/won.svg" ) );
-
-    const QSizeF size = renderer.boundsOnElement("frame").size();
-    const qreal aspectRatio = size.width() / size.height();
+    const qreal aspectRatio = Render::aspectRatioOfElement("message_frame");
     int boxWidth;
     int boxHeight;
     if (width() < aspectRatio * height())
@@ -908,17 +899,15 @@ void DealerScene::updateWonItem()
         }
 
         QRect contentsRect = QRect( 0, 0, boxWidth, boxHeight );
-        QPixmap pix( contentsRect.size() );
-        pix.fill( Qt::transparent );
-        QPainter p( &pix );
-        renderer.render( &p, "frame", contentsRect );
+        QPixmap pix = Render::renderElement( "message_frame", contentsRect.size() );
 
-        QString text = i18n( "Congratulations! You have won." );
+        QString text;
         if ( d->gothelp )
             text = i18n( "Congratulations! We have won." );
+        else
+            text = i18n( "Congratulations! You have won." );
 
         QFont font;
-
         int fontsize = 36;
         font.setPointSize( fontsize );
         int twidth = QFontMetrics( font ).width( text );
@@ -929,6 +918,7 @@ void DealerScene::updateWonItem()
             twidth = QFontMetrics( font ).width ( text );
         }
 
+        QPainter p( &pix );
         p.setFont( font );
         p.setPen( Qt::white );
         p.drawText( contentsRect, Qt::AlignCenter, text );
@@ -2029,28 +2019,13 @@ void DealerScene::setNeededFutureMoves( int i ) { d->neededFutureMoves = i; }
 qreal DealerScene::offsetX() const { return d->offx; }
 qreal DealerScene::offsetY() const { return d->offy; }
 
-QSvgRenderer *DealerScene::DealerScenePrivate::backren = 0;
-
 void DealerScene::drawBackground ( QPainter * painter, const QRectF & rect )
 {
     kDebug(11111) << "drawBackground" << rect << d->hasScreenRect;
     if ( !d->hasScreenRect )
         return;
 
-    if ( ( d->backPix.width() != width() ) || ( d->backPix.height() != height() ) )
-    {
-        if ( !d->backren )
-            d->backren = new QSvgRenderer( KStandardDirs::locate( "data", "kpat/background.svg" ) );
-
-        QImage img( width(), height(), QImage::Format_ARGB32);
-        QPainter p2( &img );
-        d->backren->render( &p2 );
-        p2.end();
-        d->backPix = QPixmap::fromImage( img );
-        d->backPix.save( KStandardDirs::locateLocal( "data", "kpat/back.png" ), "PNG" );
-    }
-
-    painter->drawPixmap( 0, 0, d->backPix );
+    painter->drawPixmap( 0, 0, Render::renderElement( "background", sceneRect().size().toSize() ) );
 }
 
 QString DealerScene::save_it()

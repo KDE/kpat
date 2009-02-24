@@ -16,15 +16,13 @@
 #include "cardmaps.h"
 #include "speeds.h"
 #include "deck.h"
+#include "render.h"
 
 #include <cassert>
 #include <cmath>
 
-#include <QSvgRenderer>
-#include <QPainter>
-
-#include <kstandarddirs.h>
 #include <kdebug.h>
+
 
 const int Pile::my_type       = DealerScene::PileTypeId;
 
@@ -39,9 +37,6 @@ const int Pile::addSpread     = 0x0100;
 const int Pile::autoTurnTop   = 0x0200;
 const int Pile::wholeColumn   = 0x0400;
 const int Pile::demoOK        = 0x0800;
-
-QPixmap *Pile::cache = 0;
-QPixmap *Pile::cache_selected = 0;
 
 Pile::Pile( int _index, DealerScene* parent)
     : QGraphicsPixmapItem( ),
@@ -70,20 +65,6 @@ Pile::Pile( int _index, DealerScene* parent)
     m_relayoutTimer = new QTimer( this );
     m_relayoutTimer->setSingleShot( true );
     connect( m_relayoutTimer, SIGNAL( timeout() ), SLOT( relayoutCards() ) );
-
-    if ( !cache )
-        cache = new QPixmap( KStandardDirs::locateLocal( "data", "kpat/pile.png" ) );
-    if ( !cache_selected )
-        cache_selected = new QPixmap( KStandardDirs::locateLocal( "data", "kpat/pile_selected.png" ) );
-}
-
-QSvgRenderer *Pile::_renderer = 0;
-
-QSvgRenderer *Pile::pileRenderer()
-{
-    if ( !_renderer )
-        _renderer = new QSvgRenderer( KStandardDirs::locate( "data", "kpat/pile.svg" ) );
-    return _renderer;
 }
 
 DealerScene *Pile::dscene() const
@@ -167,11 +148,6 @@ void Pile::rescale()
     if (!scene())
         return;
 
-    int wantedheight = int( cardMap::self()->wantedCardHeight() + 1 );
-    QPixmap *mycache = cache;
-    if ( isHighlighted() )
-        mycache = cache_selected;
-
     QPointF new_pos = QPointF( _pilePos.x() * cardMap::self()->wantedCardWidth() / 10.,
                                _pilePos.y() * cardMap::self()->wantedCardHeight() / 10. );
     //kDebug() << scene()->sceneRect() << pos() << new_pos << dscene()->offsetX();
@@ -188,36 +164,12 @@ void Pile::rescale()
         tryRelayoutCards();
     }
 
-    if ( mycache->height() == wantedheight )
-    {
-        setPixmap( *mycache );
-        return;
-    }
     //kDebug(11111) << gettime() << "rescale start\n";
 
-#if 0
-    QImage pix( ( int )maximalSpace().width(),
-                ( int )maximalSpace().height(),
-                QImage::Format_ARGB32 );
-    pix.fill( qRgba( 0, 0, 255, 255 ) );
-#else
-    QImage pix( static_cast<int>( cardMap::self()->wantedCardWidth() + 1 ),
-                static_cast<int>( cardMap::self()->wantedCardHeight() + 1),
-                QImage::Format_ARGB32 );
-    pix.fill( qRgba( 0, 0, 255, 0 ) );
-#endif
-    QPainter p( &pix );
+    QSize size( static_cast<int>( cardMap::self()->wantedCardWidth() + 1 ),
+                static_cast<int>( cardMap::self()->wantedCardHeight() + 1) );
 
-    pileRenderer()->render( &p, isHighlighted() ? "pile_selected" : "pile",
-                            QRectF( 0, 0, cardMap::self()->wantedCardWidth(),
-                                    cardMap::self()->wantedCardHeight() ) );
-    p.end();
-    *mycache = QPixmap::fromImage( pix );
-    if ( isHighlighted() )
-        pix.save( KStandardDirs::locateLocal( "data", "kpat/pile_selected.png" ), "PNG" );
-    else
-        pix.save( KStandardDirs::locateLocal( "data", "kpat/pile.png" ), "PNG" );
-    setPixmap( *mycache );
+    setPixmap( Render::renderElement( isHighlighted() ? "pile_selected" : "pile", size ) );
     //kDebug(11111) << gettime() << "rescale end\n";
 }
 

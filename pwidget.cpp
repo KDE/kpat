@@ -26,6 +26,7 @@
 #include "cardmaps.h"
 #include "gamestatsimpl.h"
 #include "demo.h"
+#include "render.h"
 #include <carddeckinfo.h>
 
 #include <cstdio>
@@ -164,6 +165,8 @@ pWidget::pWidget()
             m_dealer_map.insert( id, di );
     m_dealer_it = m_dealer_map.constEnd();
 
+    Render::loadTheme( KStandardDirs::locate( "data", "kpat/theme.svg" ) );
+
     m_stack = new QStackedWidget;
     setCentralWidget( m_stack );
 }
@@ -172,7 +175,6 @@ pWidget::~pWidget()
 {
     delete dill;
     delete m_cards;
-    delete Pile::pileRenderer();
 }
 
 void pWidget::undoMove() {

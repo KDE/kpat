@@ -2,10 +2,8 @@
 #define DEMO_H
 
 #include <QWidget>
-#include <QPixmap>
 
 class GameBubble;
-class QSvgRenderer;
 
 class DemoBubbles : public QWidget
 {
@@ -23,14 +21,10 @@ signals:
     void gameSelected( int i );
 
 private:
-    QPixmap backPix, bubblePix;
     int games;
     int bubble_text_height, bubble_width, bubble_height;
 
     GameBubble *m_bubbles;
-
-    QSvgRenderer *bubblerenderer;
-
 };
 
 #endif // DEMO_H
