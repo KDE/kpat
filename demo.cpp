@@ -197,7 +197,8 @@ void DemoBubbles::paintEvent ( QPaintEvent * )
     {
         painter.drawPixmap( m_bubbles[index].x,
                             m_bubbles[index].y,
-                            Render::renderElement( "bubble", QSize(bubble_width, bubble_height) ) );
+                            Render::renderElement( m_bubbles[index].active ? "bubble_hover" : "bubble", 
+                                                   QSize(bubble_width, bubble_height) ) );
 
         QSize size( bubble_width - inner_margin * 2, bubble_height - inner_margin * 2 - bubble_text_height );
         QPixmap pix = Render::renderGamePreview( m_bubbles[index].gameindex, size );
@@ -208,15 +209,8 @@ void DemoBubbles::paintEvent ( QPaintEvent * )
 
         if ( pixels >= minimum_font_size )
         {
-            if ( m_bubbles[index].active )
-                painter.setPen( Qt::white );
-            else
-                painter.setPen( Qt::black );
-            painter.drawText( QRect( m_bubbles[index].x,
-                                    m_bubbles[index].y,
-                                    bubble_width,
-                                    bubble_text_height ),
-                            Qt::AlignCenter, m_bubbles[index].text );
+            QRect rect( m_bubbles[index].x, m_bubbles[index].y, bubble_width, bubble_text_height );
+            painter.drawText( rect, Qt::AlignCenter, m_bubbles[index].text );
         }
 
     }
