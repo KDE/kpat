@@ -116,13 +116,15 @@ void DemoBubbles::resizeEvent ( QResizeEvent * )
             it = DealerInfoList::self()->games().begin();
             while ( index != list.indexOf( i18n((*it)->name ) ) )
                 ++it;
-            m_bubbles[index].x = x_offset + x * ( bubble_width + outer_margin ) + outer_margin;
-            m_bubbles[index].y = y_offset + y * ( bubble_height + outer_margin ) + outer_margin;
-            m_bubbles[index].width = bubble_width;
-            m_bubbles[index].height = bubble_height;
-            m_bubbles[index].gameindex = ( *it )->ids.first();
-            m_bubbles[index].active = false;
-            m_bubbles[index].text = i18n( ( *it )->name );
+
+            GameBubble & bubble = m_bubbles[index];
+            bubble.x = x_offset + x * ( bubble_width + outer_margin ) + outer_margin;
+            bubble.y = y_offset + y * ( bubble_height + outer_margin ) + outer_margin;
+            bubble.width = bubble_width;
+            bubble.height = bubble_height;
+            bubble.gameindex = ( *it )->ids.first();
+            bubble.active = false;
+            bubble.text = i18n( ( *it )->name );
             ++index;
         }
     }
@@ -132,28 +134,29 @@ void DemoBubbles::mouseMoveEvent ( QMouseEvent *event )
 {
     for ( int i = 0; i < games; ++i )
     {
-        //kDebug() << m_bubbles[i].x << m_bubbles[i].y << m_bubbles[i].width << m_bubbles[i].height << event->pos();
-        if ( m_bubbles[i].x < event->x() && m_bubbles[i].y < event->y() &&
-             m_bubbles[i].width + m_bubbles[i].x > event->x() &&
-             m_bubbles[i].height + m_bubbles[i].y > event->y() )
+        GameBubble & bubble = m_bubbles[i];
+
+        if ( bubble.x < event->x() && bubble.y < event->y() &&
+             bubble.width + bubble.x > event->x() &&
+             bubble.height + bubble.y > event->y() )
         {
-            if ( !m_bubbles[i].active )
+            if ( !bubble.active )
             {
-                update( m_bubbles[i].x,
-                        m_bubbles[i].y,
-                        m_bubbles[i].width,
-                        m_bubbles[i].height );
+                update( bubble.x,
+                        bubble.y,
+                        bubble.width,
+                        bubble.height );
             }
-            m_bubbles[i].active = true;
+            bubble.active = true;
         } else {
-            if ( m_bubbles[i].active )
+            if ( bubble.active )
             {
-                update( m_bubbles[i].x,
-                        m_bubbles[i].y,
-                        m_bubbles[i].width,
-                        m_bubbles[i].height );
+                update( bubble.x,
+                        bubble.y,
+                        bubble.width,
+                        bubble.height );
             }
-            m_bubbles[i].active = false;
+            bubble.active = false;
         }
     }
 }
@@ -195,23 +198,23 @@ void DemoBubbles::paintEvent ( QPaintEvent * )
 
     for ( int index = 0; index < games; ++index )
     {
-        painter.drawPixmap( m_bubbles[index].x,
-                            m_bubbles[index].y,
-                            Render::renderElement( m_bubbles[index].active ? "bubble_hover" : "bubble", 
+        const GameBubble & bubble = m_bubbles[index];
+
+        painter.drawPixmap( bubble.x, bubble.y,
+                            Render::renderElement( bubble.active ? "bubble_hover" : "bubble", 
                                                    QSize(bubble_width, bubble_height) ) );
 
         QSize size( bubble_width - inner_margin * 2, bubble_height - inner_margin * 2 - bubble_text_height );
-        QPixmap pix = Render::renderGamePreview( m_bubbles[index].gameindex, size );
+        QPixmap pix = Render::renderGamePreview( bubble.gameindex, size );
 
-        int off = ( m_bubbles[index].width - pix.width() ) / 2;
-        painter.drawPixmap( m_bubbles[index].x + off,
-                            m_bubbles[index].y + inner_margin + bubble_text_height, pix );
+        int off = ( bubble.width - pix.width() ) / 2;
+        painter.drawPixmap( bubble.x + off,
+                            bubble.y + inner_margin + bubble_text_height, pix );
 
         if ( pixels >= minimum_font_size )
         {
-            QRect rect( m_bubbles[index].x, m_bubbles[index].y, bubble_width, bubble_text_height );
-            painter.drawText( rect, Qt::AlignCenter, m_bubbles[index].text );
+            QRect rect( bubble.x, bubble.y, bubble_width, bubble_text_height );
+            painter.drawText( rect, Qt::AlignCenter, bubble.text );
         }
-
     }
 }
