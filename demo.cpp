@@ -9,7 +9,6 @@
 
 #include <kdebug.h>
 #include <klocale.h>
-#include <kstandarddirs.h>
 
 class GameBubble
 {
@@ -22,7 +21,6 @@ public:
     int width, height;
     int gameindex;
     bool active;
-    QImage pix;
     QString text;
 };
 
@@ -125,10 +123,6 @@ void DemoBubbles::resizeEvent ( QResizeEvent * )
             m_bubbles[index].gameindex = ( *it )->ids.first();
             m_bubbles[index].active = false;
             m_bubbles[index].text = i18n( ( *it )->name );
-            if ( m_bubbles[index].pix.isNull() )
-                m_bubbles[index].pix.load( KStandardDirs::locate( "data",
-                                                                  QString( "kpat/demos/demo_%1.png" ).
-                                                                  arg( ( *it )->ids.first() ) ) );
             ++index;
         }
     }
@@ -205,12 +199,12 @@ void DemoBubbles::paintEvent ( QPaintEvent * )
                             m_bubbles[index].y,
                             Render::renderElement( "bubble", QSize(bubble_width, bubble_height) ) );
 
-        QImage p = m_bubbles[index].pix.scaled( bubble_width - inner_margin * 2,
-                                                bubble_height - inner_margin * 2 - bubble_text_height,
-                                                Qt::KeepAspectRatio );
-        int off = ( m_bubbles[index].width - p.width() ) / 2;
-        painter.drawImage( m_bubbles[index].x + off,
-                           m_bubbles[index].y + inner_margin + bubble_text_height, p );
+        QSize size( bubble_width - inner_margin * 2, bubble_height - inner_margin * 2 - bubble_text_height );
+        QPixmap pix = Render::renderGamePreview( m_bubbles[index].gameindex, size );
+
+        int off = ( m_bubbles[index].width - pix.width() ) / 2;
+        painter.drawPixmap( m_bubbles[index].x + off,
+                            m_bubbles[index].y + inner_margin + bubble_text_height, pix );
 
         if ( pixels >= minimum_font_size )
         {

@@ -31,6 +31,7 @@ namespace Render
     QPixmap renderElement( const QString & elementId, QSize size );
     QRectF boundsOnElement( const QString & elementId );
     qreal aspectRatioOfElement( const QString & elementId );
+    QPixmap renderGamePreview( int id, QSize size );
 }
 
 

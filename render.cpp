@@ -21,6 +21,7 @@
 #include <KDE/KDebug>
 #include <KDE/KGlobal>
 #include <KDE/KPixmapCache>
+#include <KDE/KStandardDirs>
 #include <KDE/KSvgRenderer>
 
 #include <QtCore/QDateTime>
@@ -120,4 +121,25 @@ qreal Render::aspectRatioOfElement( const QString & elementId )
 {
     const QRectF rect = rp->m_svgRenderer.boundsOnElement( elementId );
     return rect.width() / rect.height();
+}
+
+QPixmap Render::renderGamePreview( int id, QSize size )
+{
+    QPixmap result;
+
+    const QString key = QString("preview")
+                        + QString::number( id )
+                        + '_' + QString::number( size.width() )
+                        + 'x' + QString::number( size.height() );
+
+    if ( !rp->m_pixmapCache.find( key, result ) )
+    {
+        kDebug() << "Rendering preview number" << id << "at " << size << " pixels.";
+
+        result = QPixmap( KStandardDirs::locate( "data", QString( "kpat/demos/demo_%1.png" ).arg( id ) ) );
+        result = result.scaled( size, Qt::KeepAspectRatio );
+        rp->m_pixmapCache.insert( key, result );
+    }
+
+    return result;
 }
