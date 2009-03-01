@@ -130,9 +130,9 @@ pWidget::pWidget()
     a->setShortcuts( KShortcut( Qt::Key_F10 ) );
     a->setEnabled( false );
 
-    stats = actionCollection()->addAction("game_stats");
-    stats->setText(i18n("Statistics"));
-    connect( stats, SIGNAL( triggered( bool ) ), SLOT(showStats()) );
+    a = actionCollection()->addAction("game_stats");
+    a->setText(i18n("Statistics"));
+    connect( a, SIGNAL( triggered( bool ) ), SLOT(showStats()) );
 
     KConfigGroup cg(KGlobal::config(), settings_group );
 

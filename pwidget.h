@@ -96,15 +96,12 @@ private:
 
 private:
     // Members
-    KSelectAction  *games;
     QAction        *undo, *redo;
     KToggleAction  *dropaction;
     KToggleAction  *solveraction;
     KToggleAction  *rememberstateaction;
-    QAction        *stats;
-
-    QPixmap         background;
     KRecentFilesAction  *recent;
+
     cardMap        *m_cards; // possibly move to PatienceView
     QMap<int, const DealerInfo*>  m_dealer_map;
     QMap<int, const DealerInfo*>::const_iterator  m_dealer_it;
