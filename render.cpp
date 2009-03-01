@@ -63,9 +63,9 @@ bool Render::loadTheme( const QString & fileName )
     const bool svgFileIsNewer = svgFileTimeStamp > cacheTimeStamp;
     if ( svgFileIsNewer )
     {
-        kDebug() << "SVG file is newer than cache.";
-        kDebug() << "Cache timestamp is" << cacheTimeStamp.toString( Qt::ISODate );
-        kDebug() << "SVG file timestamp is" << svgFileTimeStamp.toString( Qt::ISODate );
+        kDebug(11111) << "SVG file is newer than cache.";
+        kDebug(11111) << "Cache timestamp is" << cacheTimeStamp.toString( Qt::ISODate );
+        kDebug(11111) << "SVG file timestamp is" << svgFileTimeStamp.toString( Qt::ISODate );
     }
 
     // Only bother actually loading the SVG if no SVG has been loaded
@@ -74,7 +74,7 @@ bool Render::loadTheme( const QString & fileName )
     {
         if ( svgFileIsNewer )
         {
-            kDebug() << "Discarding cache.";
+            kDebug(11111) << "Discarding cache.";
             rp->m_pixmapCache.discard();
             rp->m_pixmapCache.setTimestamp( QDateTime::currentDateTime().toTime_t() );
         }
@@ -95,7 +95,7 @@ QPixmap Render::renderElement( const QString & elementId, QSize size )
 
     if ( !rp->m_pixmapCache.find( key, result ) )
     {
-        kDebug() << "Rendering \"" << elementId << "\" at " << size << " pixels.";
+        kDebug(11111) << "Rendering \"" << elementId << "\" at " << size << " pixels.";
 
         result = QPixmap( size );
         result.fill( Qt::transparent );
@@ -134,7 +134,7 @@ QPixmap Render::renderGamePreview( int id, QSize size )
 
     if ( !rp->m_pixmapCache.find( key, result ) )
     {
-        kDebug() << "Rendering preview number" << id << "at " << size << " pixels.";
+        kDebug(11111) << "Rendering preview number" << id << "at " << size << " pixels.";
 
         result = QPixmap( KStandardDirs::locate( "data", QString( "kpat/demos/demo_%1.png" ).arg( id ) ) );
         result = result.scaled( size, Qt::KeepAspectRatio );
