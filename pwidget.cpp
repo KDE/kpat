@@ -130,34 +130,31 @@ pWidget::pWidget()
     a->setShortcuts( KShortcut( Qt::Key_F10 ) );
     a->setEnabled( false );
 
-    m_cards = new cardMap();
-
     stats = actionCollection()->addAction("game_stats");
     stats->setText(i18n("Statistics"));
     connect( stats, SIGNAL( triggered( bool ) ), SLOT(showStats()) );
+
+    KConfigGroup cg(KGlobal::config(), settings_group );
 
     dropaction = new KToggleAction(i18n("&Enable Autodrop"), this);
     actionCollection()->addAction("enable_autodrop", dropaction);
     connect( dropaction, SIGNAL( triggered( bool ) ), SLOT(enableAutoDrop()) );
     dropaction->setEnabled( false );
+    dropaction->setChecked( cg.readEntry("Autodrop", true) );
 
     solveraction = new KToggleAction(i18n("E&nable Solver"), this);
     actionCollection()->addAction("enable_solver", solveraction);
     connect( solveraction, SIGNAL( triggered( bool ) ), SLOT( enableSolver() ) );
     solveraction->setEnabled( false );
+    solveraction->setChecked( cg.readEntry("Solver", true) );
 
-    KConfigGroup cg(KGlobal::config(), settings_group );
-
-    bool autodrop = cg.readEntry("Autodrop", true);
-    dropaction->setChecked(autodrop);
-
-    bool solver = cg.readEntry("Solver", true);
-    solveraction->setChecked(solver);
+    rememberstateaction = new KToggleAction(i18n("&Remember State on Exit"), this);
+    actionCollection()->addAction("remember_state", rememberstateaction);
+    connect( rememberstateaction, SIGNAL( triggered( bool ) ), SLOT( enableRememberState() ) );
+    rememberstateaction->setChecked( cg.readEntry("RememberStateOnExit", false) );
 
     statusBar()->insertPermanentItem( "", 1, 0 );
-    setupGUI(qApp->desktop()->availableGeometry().size()*0.7); // QString()/*, false*/);
-    //KAcceleratorManager::manage(menuBar());
-
+    setupGUI(qApp->desktop()->availableGeometry().size()*0.7);
     setAutoSaveSettings();
 
     foreach( const DealerInfo * di, DealerInfoList::self()->games() )
@@ -165,10 +162,12 @@ pWidget::pWidget()
             m_dealer_map.insert( id, di );
     m_dealer_it = m_dealer_map.constEnd();
 
-    Render::loadTheme( KStandardDirs::locate( "data", "kpat/theme.svg" ) );
+    m_cards = new cardMap();
 
     m_stack = new QStackedWidget;
     setCentralWidget( m_stack );
+
+    Render::loadTheme( KStandardDirs::locate( "data", "kpat/theme.svg" ) );
 }
 
 pWidget::~pWidget()
@@ -220,6 +219,12 @@ void pWidget::enableSolver()
     cg.writeEntry( "Solver", solver );
     if ( dill )
         dill->setSolverEnabled(solver);
+}
+
+void pWidget::enableRememberState()
+{
+    KConfigGroup cg(KGlobal::config(), settings_group );
+    cg.writeEntry( "RememberStateOnExit", rememberstateaction->isChecked() );
 }
 
 void pWidget::newGame()
@@ -408,7 +413,19 @@ void pWidget::slotShowGameSelectionScreen()
     setGameCaption();
 }
 
-
+void pWidget::closeEvent(QCloseEvent *e)
+{
+    if ( rememberstateaction->isChecked()
+         && dill && dill->dscene()
+         && m_stack->currentWidget() == dill
+         && !dill->dscene()->isGameWon()
+       )
+    {
+        KUrl url(KStandardDirs::locateLocal("appdata", "savedstate.kpat"));
+        KIO::NetAccess::upload(dill->dscene()->save_it(), url, this);
+    }
+    KXmlGuiWindow::closeEvent(e);
+}
 
 void pWidget::showEvent(QShowEvent *e)
 {

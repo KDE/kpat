@@ -36,6 +36,7 @@
 #include <kglobal.h>
 #include <klocale.h>
 #include <kdebug.h>
+#include <kstandarddirs.h>
 #include <kurl.h>
 
 
@@ -201,6 +202,7 @@ int main( int argc, char **argv )
     }
 
     QString gametype = args->getOption("gametype").toLower();
+    QFile savedState( KStandardDirs::locateLocal("appdata", "savedstate.kpat") );
 
     pWidget *w = new pWidget;
     if (args->count())
@@ -211,6 +213,11 @@ int main( int argc, char **argv )
     {
         w->slotGameSelected(indexMap.value(gametype));
         w->show();
+    }
+    else if (savedState.exists())
+    {
+        w->openGame(savedState.fileName());
+        savedState.remove();
     }
     else
     {

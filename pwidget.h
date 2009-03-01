@@ -70,6 +70,7 @@ public slots:
     void helpGame();
     void enableAutoDrop();
     void enableSolver();
+    void enableRememberState();
     void showStats();
 
     void slotGameSolverStart();
@@ -83,12 +84,15 @@ public slots:
 
     void slotGameSelected(int id);
 
+protected:
+    virtual void closeEvent(QCloseEvent * e);
+    virtual void showEvent(QShowEvent *e);
+
 private slots:
     void slotSnapshot2();
 
 private:
     void setGameCaption();
-    virtual void showEvent(QShowEvent *e);
 
 private:
     // Members
@@ -96,6 +100,7 @@ private:
     QAction        *undo, *redo;
     KToggleAction  *dropaction;
     KToggleAction  *solveraction;
+    KToggleAction  *rememberstateaction;
     QAction        *stats;
 
     QPixmap         background;
