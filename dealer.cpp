@@ -359,6 +359,8 @@ void DealerScene::openGame(QDomDocument &doc)
 
     setGameNumber(dealer.attribute("number").toULong());
     d->loadedMoveCount = dealer.attribute("moves").toInt();
+    if (d->loadedMoveCount)
+        d->_gameRecorded = true;
 
     QDomNodeList piles = dealer.elementsByTagName("pile");
 
