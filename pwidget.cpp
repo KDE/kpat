@@ -419,6 +419,7 @@ void pWidget::closeEvent(QCloseEvent *e)
          && dill && dill->dscene()
          && m_stack->currentWidget() == dill
          && !dill->dscene()->isGameWon()
+         && !dill->dscene()->isGameLost()
        )
     {
         KUrl url(KStandardDirs::locateLocal("appdata", "savedstate.kpat"));

@@ -172,6 +172,7 @@ public:
     int neededFutureMoves;
     QTimer *updateSolver;
     bool hasScreenRect;
+    int loadedMoveCount;
 
     QTimer *demotimer;
     QTimer *stateTimer;
@@ -190,7 +191,7 @@ public:
 
 int DealerScene::getMoves() const
 {
-    return d->undoList.count();
+    return d->loadedMoveCount + d->undoList.count();
 }
 
 void DealerScene::takeState()
@@ -277,10 +278,10 @@ void DealerScene::saveGame(QDomDocument &doc)
     doc.appendChild(dealer);
     dealer.setAttribute("id", gameId());
     dealer.setAttribute("number", QString::number(gameNumber()));
+    dealer.setAttribute("moves", getMoves() - 1);
     QString data = getGameState();
     if (!data.isEmpty())
         dealer.setAttribute("data", data);
-    dealer.setAttribute("moves", QString::number(getMoves()));
 
     bool taken[1000];
     memset(taken, 0, sizeof(taken));
@@ -349,6 +350,7 @@ void DealerScene::openGame(QDomDocument &doc)
     QDomElement dealer = doc.documentElement();
 
     setGameNumber(dealer.attribute("number").toULong());
+    d->loadedMoveCount = dealer.attribute("moves").toInt();
 
     QDomNodeList piles = dealer.elementsByTagName("pile");
 
@@ -492,6 +494,7 @@ DealerScene::DealerScene():
     d->updateSolver->setInterval( 250 );
     d->updateSolver->setSingleShot( true );
     d->initialDeal = true;
+    d->loadedMoveCount = 0;
     connect( d->updateSolver, SIGNAL( timeout() ), SLOT( stopAndRestartSolver() ) );
 
     d->demotimer = new QTimer(this);
@@ -836,6 +839,7 @@ void DealerScene::startNew()
     d->redoList.clear();
     d->toldAboutLostGame = false;
     d->toldAboutWonGame = false;
+    d->loadedMoveCount = 0;
     emit updateMoves();
 
     stopDemo();
