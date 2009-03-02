@@ -277,6 +277,13 @@ void DealerScene::saveGame(QDomDocument &doc)
     QDomElement dealer = doc.createElement("dealer");
     doc.appendChild(dealer);
     dealer.setAttribute("id", gameId());
+
+    // If the game has been won, there's no sense in saving the state
+    // across sessions. In that case, just save the game ID so that
+    // we can later start up a new game of the same type.
+    if ( isGameWon() )
+        return;
+
     dealer.setAttribute("number", QString::number(gameNumber()));
     dealer.setAttribute("moves", getMoves() - 1);
     QString data = getGameState();
@@ -342,6 +349,7 @@ void DealerScene::saveGame(QDomDocument &doc)
     dealer.appendChild(eList);
     */
     // kDebug(11111) << doc.toString();
+
 }
 
 void DealerScene::openGame(QDomDocument &doc)

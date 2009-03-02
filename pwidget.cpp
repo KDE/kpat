@@ -415,16 +415,20 @@ void pWidget::slotShowGameSelectionScreen()
 
 void pWidget::closeEvent(QCloseEvent *e)
 {
-    if ( rememberstateaction->isChecked()
-         && dill && dill->dscene()
-         && m_stack->currentWidget() == dill
-         && !dill->dscene()->isGameWon()
-         && !dill->dscene()->isGameLost()
+    QFile savedState(KStandardDirs::locateLocal("appdata", "savedstate.kpat"));
+    if (savedState.exists())
+        savedState.remove();
+
+    if (rememberstateaction->isChecked()
+        && dill && dill->dscene()
+        && m_stack->currentWidget() == dill
        )
     {
-        KUrl url(KStandardDirs::locateLocal("appdata", "savedstate.kpat"));
-        KIO::NetAccess::upload(dill->dscene()->save_it(), url, this);
+        QFile temp(dill->dscene()->save_it());
+        temp.copy(savedState.fileName());
+        temp.remove();
     }
+
     KXmlGuiWindow::closeEvent(e);
 }
 
@@ -481,18 +485,25 @@ void pWidget::openGame(const KUrl &url)
             return;
         }
         int id = doc.documentElement().attribute("id").toInt();
-
-        newGameType(id);
-
-        if (!dill->dscene()) {
+        if (!m_dealer_map.contains(id)) {
            KMessageBox::error(this, i18n("The saved game is of unknown type!"));
-           newGameType(m_dealer_map.keys().first());
+           id = m_dealer_map.keys().first();
         }
-        // for old spider and klondike
-        dill->dscene()->mapOldId( id );
+
+        if (doc.documentElement().hasChildNodes())
+        {
+            newGameType(id);
+            // for old spider and klondike
+            dill->dscene()->mapOldId(id);
+
+            dill->dscene()->openGame(doc);
+        }
+        else
+        {
+            slotGameSelected(id);
+        }
 
         show();
-        dill->dscene()->openGame(doc);
         setGameCaption();
         KIO::NetAccess::removeTempFile( tmpFile );
         recent->addUrl(url);
