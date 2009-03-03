@@ -57,7 +57,7 @@ public slots:
     void slotShowGameSelectionScreen();
 
     void openGame();
-    void openGame(const KUrl &url);
+    void openGame(const KUrl &url, bool addToRecentFiles = true);
     void saveGame();
 
     void newGame();

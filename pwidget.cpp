@@ -483,7 +483,7 @@ void pWidget::gameLost()
     statusBar()->showMessage( i18n( "This game is lost." ) );
 }
 
-void pWidget::openGame(const KUrl &url)
+void pWidget::openGame(const KUrl &url, bool addToRecentFiles)
 {
     QString tmpFile;
     if( KIO::NetAccess::download( url, tmpFile, this ) )
@@ -519,8 +519,12 @@ void pWidget::openGame(const KUrl &url)
         show();
         setGameCaption();
         KIO::NetAccess::removeTempFile( tmpFile );
-        recent->addUrl(url);
-        recent->saveEntries(KGlobal::config()->group( QString() ));
+
+        if ( addToRecentFiles )
+        {
+            recent->addUrl(url);
+            recent->saveEntries(KGlobal::config()->group( QString() ));
+        }
     }
 }
 

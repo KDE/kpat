@@ -216,7 +216,7 @@ int main( int argc, char **argv )
     }
     else if (savedState.exists())
     {
-        w->openGame(savedState.fileName());
+        w->openGame(savedState.fileName(), false);
         savedState.remove();
     }
     else
