@@ -229,24 +229,12 @@ void pWidget::enableRememberState()
 
 void pWidget::newGame()
 {
-    // Check if the user is already running a game, and if she is,
-    // then ask if she wants to abort it.
-    if (!dill->dscene()->isGameWon() && !dill->dscene()->isGameLost()
-	&& KMessageBox::warningContinueCancel(0,
-                                     i18n("You are already running an unfinished game.  "
-                                          "If you abort the old game to start a new one, "
-                                          "the old game will be registered as a loss in "
-                                          "the statistics file.\n"
-                                          "What do you want to do?"),
-                                     i18n("Abort Current Game?"),
-                                     KGuiItem(i18n("Abort Current Game")),
-                                     KStandardGuiItem::cancel(),
-                                     "careaboutstats" )  == KMessageBox::Cancel)
-        return;
-
-    dill->setGameNumber(KRandom::random());
-    setGameCaption();
-    restart();
+    if (allowedToAbandonGame())
+    {
+        dill->setGameNumber(KRandom::random());
+        setGameCaption();
+        restart();
+    }
 }
 
 
@@ -309,6 +297,29 @@ void pWidget::setGameCaption()
         caption = name + " - " + gamenum;
     }
     setCaption( caption );
+}
+
+bool pWidget::allowedToAbandonGame()
+{
+    // Check if the user is already running a game, and if she is,
+    // then ask if she wants to about it.
+    return !dill
+           || !dill->dscene()
+           || dill->dscene()->isGameWon()
+           || dill->dscene()->isGameLost()
+           || dill->dscene()->getMoves() <= 1
+           || m_stack->currentWidget() != dill
+           || KMessageBox::warningContinueCancel(0,
+                                                 i18n("You are already running an unfinished game. "
+                                                      "If you abort the old game to start a new one, "
+                                                      "the old game will be registered as a loss in "
+                                                      "the statistics file.\n"
+                                                      "What do you want to do?"),
+                                                 i18n("Abort Current Game?"),
+                                                 KGuiItem(i18n("Abort Current Game")),
+                                                 KStandardGuiItem::cancel(),
+                                                 "careaboutstats"
+                                                ) == KMessageBox::Continue;
 }
 
 void pWidget::slotGameSelected(int id)
@@ -391,26 +402,29 @@ void pWidget::newGameType(int id)
 
 void pWidget::slotShowGameSelectionScreen()
 {
-    if (!m_bubbles)
+    if (allowedToAbandonGame())
     {
-        m_bubbles = new DemoBubbles(m_stack);
-        m_stack->addWidget(m_bubbles);
-        connect( m_bubbles, SIGNAL( gameSelected( int ) ), SLOT( slotGameSelected( int ) ) );
+        if (!m_bubbles)
+        {
+            m_bubbles = new DemoBubbles(m_stack);
+            m_stack->addWidget(m_bubbles);
+            connect( m_bubbles, SIGNAL( gameSelected( int ) ), SLOT( slotGameSelected( int ) ) );
+        }
+
+        actionCollection()->action( "random_set" )->setEnabled( false );
+        actionCollection()->action( "choose_game" )->setEnabled( false );
+        actionCollection()->action( "enable_autodrop" )->setEnabled( false );
+        actionCollection()->action( "enable_solver" )->setEnabled( false );
+        actionCollection()->action( "game_new" )->setEnabled( false );
+        actionCollection()->action( "game_restart" )->setEnabled( false );
+        actionCollection()->action( "game_save" )->setEnabled( false );
+        actionCollection()->action( "select_deck" )->setEnabled( false );
+        actionCollection()->action( "change_game_type" )->setEnabled( false );
+
+        m_stack->setCurrentWidget(m_bubbles);
+
+        setGameCaption();
     }
-
-    actionCollection()->action( "random_set" )->setEnabled( false );
-    actionCollection()->action( "choose_game" )->setEnabled( false );
-    actionCollection()->action( "enable_autodrop" )->setEnabled( false );
-    actionCollection()->action( "enable_solver" )->setEnabled( false );
-    actionCollection()->action( "game_new" )->setEnabled( false );
-    actionCollection()->action( "game_restart" )->setEnabled( false );
-    actionCollection()->action( "game_save" )->setEnabled( false );
-    actionCollection()->action( "select_deck" )->setEnabled( false );
-    actionCollection()->action( "change_game_type" )->setEnabled( false );
-
-    m_stack->setCurrentWidget(m_bubbles);
-
-    setGameCaption();
 }
 
 void pWidget::closeEvent(QCloseEvent *e)
