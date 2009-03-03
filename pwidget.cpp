@@ -340,7 +340,6 @@ void pWidget::newGameType(int id)
     {
         dill = new PatienceView(this, m_stack);
         m_stack->addWidget(dill);
-        connect(dill, SIGNAL(saveGame()), SLOT(saveGame()));
     }
 
     if ( m_dealer_map.contains(id) )
