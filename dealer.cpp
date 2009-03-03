@@ -826,19 +826,27 @@ public:
 };
 typedef QList<Hit> HitList;
 
-void DealerScene::startNew()
+void DealerScene::startNew(long gameNumber)
 {
+    if (gameNumber != -1)
+    {
+        setGameNumber(gameNumber);
+        if (!d->_won)
+            countLoss();
+    }
+
+    // Only consider this a new game if we have a new game number or the game was just beat.
+    if (gameNumber != -1 || d->_won)
+        d->_gameRecorded = false;
+
     if ( waiting() )
     {
         QTimer::singleShot( 100, this, SLOT( startNew() ) );
         return;
     }
 
-    if (!d->_won)
-        countLoss();
     d->_won = false;
     _waiting = 0;
-    d->_gameRecorded=false;
     delete d->wonItem;
     d->wonItem = 0;
     d->gothelp = false;

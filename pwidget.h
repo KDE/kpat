@@ -53,6 +53,7 @@ public slots:
     void undoMove();
     void redoMove();
     void newGameType(int id);
+    void startNew(long gameNumber = -1);
     void restart();
     void slotShowGameSelectionScreen();
 

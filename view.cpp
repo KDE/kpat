@@ -122,7 +122,6 @@ void PatienceView::setScene( QGraphicsScene *_scene )
     resetCachedContent();
     delete oldscene;
     dscene()->rescale(true);
-    dscene()->setGameNumber( KRandom::random() );
 
     // dscene()->setSceneRect( QRectF( 0,0,700,500 ) );
     scaleFactor = 1;
@@ -218,7 +217,7 @@ void PatienceView::setAutoDropEnabled(bool a)
     setupActions();
 }
 
-void PatienceView::startNew()
+void PatienceView::startNew(long gameNumber)
 {
     kDebug(11111) << "startnew\n";
     if ( ahint )
@@ -227,7 +226,7 @@ void PatienceView::startNew()
         ademo->setEnabled( true );
     if ( aredeal )
         aredeal->setEnabled( true );
-    dscene()->startNew();
+    dscene()->startNew( gameNumber );
 }
 
 void PatienceView::slotEnableRedeal( bool en )
@@ -240,10 +239,6 @@ DealerScene *PatienceView::dscene() const
 {
     return dynamic_cast<DealerScene*>( scene() );
 }
-
-void PatienceView::setGameNumber(long gmn) { dscene()->setGameNumber(gmn); }
-long PatienceView::gameNumber() const { return dscene()->gameNumber(); }
-
 
 void PatienceView::setAnchorName(const QString &name)
 {

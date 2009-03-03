@@ -49,9 +49,6 @@ public:
     void setSolverEnabled(bool a);
     void setAutoDropEnabled(bool a);
 
-    void setGameNumber(long gmn);
-    long gameNumber() const;
-
     void setScene( QGraphicsScene *scene);
     DealerScene  *dscene() const;
 
@@ -63,7 +60,7 @@ public:
 public slots:
 
     // restart is pure virtual, so we need something else
-    virtual void startNew();
+    virtual void startNew(long gameNumber = -1);
     void hint();
     void slotEnableRedeal(bool);
     void toggleDemo(bool);

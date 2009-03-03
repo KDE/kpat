@@ -231,17 +231,20 @@ void pWidget::newGame()
 {
     if (allowedToAbandonGame())
     {
-        dill->setGameNumber(KRandom::random());
+        startNew(KRandom::random());
         setGameCaption();
-        restart();
     }
 }
 
-
 void pWidget::restart()
 {
+    startNew();
+}
+
+void pWidget::startNew(long gameNumber)
+{
     statusBar()->clearMessage();
-    dill->startNew();
+    dill->startNew(gameNumber);
 }
 
 void pWidget::slotPickRandom()
@@ -293,7 +296,7 @@ void pWidget::setGameCaption()
     {
         const DealerInfo * di = m_dealer_map.value( dill->dscene()->gameId() );
         QString name = di->name;
-        QString gamenum = QString::number(dill->gameNumber());
+        QString gamenum = QString::number( dill->dscene()->gameNumber() );
         caption = name + " - " + gamenum;
     }
     setCaption( caption );
@@ -470,11 +473,10 @@ void pWidget::chooseGame()
     bool ok;
     long number = KInputDialog::getText(i18n("Game Number"),
                                         i18n("Enter a game number (FreeCell deals are the same as in the FreeCell FAQ):"),
-                                        QString::number(dill->gameNumber()), 0, this).toLong(&ok);
+                                        QString::number(dill->dscene()->gameNumber()), 0, this).toLong(&ok);
     if (ok) {
-        dill->setGameNumber(number);
+        startNew(number);
         setGameCaption();
-        restart();
     }
 }
 

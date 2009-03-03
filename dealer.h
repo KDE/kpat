@@ -196,7 +196,7 @@ public slots:
     void slotSolverFinished();
     void slotAutoDrop();
 
-    void startNew();
+    void startNew(long gameNumber = -1);
 
 protected slots:
     virtual void demo();
