@@ -94,7 +94,7 @@ private slots:
 
 private:
     void setGameCaption();
-    bool allowedToAbandonGame();
+    bool allowedToStartNewGame();
 
 private:
     // Members

@@ -229,7 +229,7 @@ void pWidget::enableRememberState()
 
 void pWidget::newGame()
 {
-    if (allowedToAbandonGame())
+    if (allowedToStartNewGame())
     {
         startNew(KRandom::random());
         setGameCaption();
@@ -302,7 +302,7 @@ void pWidget::setGameCaption()
     setCaption( caption );
 }
 
-bool pWidget::allowedToAbandonGame()
+bool pWidget::allowedToStartNewGame()
 {
     // Check if the user is already running a game, and if she is,
     // then ask if she wants to about it.
@@ -404,7 +404,7 @@ void pWidget::newGameType(int id)
 
 void pWidget::slotShowGameSelectionScreen()
 {
-    if (allowedToAbandonGame())
+    if (allowedToStartNewGame())
     {
         if (!m_bubbles)
         {
@@ -470,13 +470,16 @@ void pWidget::slotUpdateMoves()
 
 void pWidget::chooseGame()
 {
-    bool ok;
-    long number = KInputDialog::getText(i18n("Game Number"),
-                                        i18n("Enter a game number (FreeCell deals are the same as in the FreeCell FAQ):"),
-                                        QString::number(dill->dscene()->gameNumber()), 0, this).toLong(&ok);
-    if (ok) {
-        startNew(number);
-        setGameCaption();
+    if (allowedToStartNewGame())
+    {
+        bool ok;
+        long number = KInputDialog::getText(i18n("Game Number"),
+                                            i18n("Enter a game number (FreeCell deals are the same as in the FreeCell FAQ):"),
+                                            QString::number(dill->dscene()->gameNumber()), 0, this).toLong(&ok);
+        if (ok) {
+            startNew(number);
+            setGameCaption();
+        }
     }
 }
 
@@ -532,8 +535,11 @@ void pWidget::openGame(const KUrl &url, bool addToRecentFiles)
 
 void pWidget::openGame()
 {
-    KUrl url = KFileDialog::getOpenUrl();
-    openGame(url);
+    if (allowedToStartNewGame())
+    {
+        KUrl url = KFileDialog::getOpenUrl();
+        openGame(url);
+    }
 }
 
 void pWidget::saveGame()
