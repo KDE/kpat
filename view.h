@@ -60,7 +60,7 @@ public:
 public slots:
 
     // restart is pure virtual, so we need something else
-    virtual void startNew(long gameNumber = -1);
+    virtual void startNew(long gameNumber);
     void hint();
     void slotEnableRedeal(bool);
     void toggleDemo(bool);

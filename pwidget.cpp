@@ -234,21 +234,24 @@ void pWidget::enableRememberState()
 void pWidget::newGame()
 {
     if (allowedToStartNewGame())
-    {
-        startNew(KRandom::random());
-        setGameCaption();
-    }
+        startRandom();
 }
 
 void pWidget::restart()
 {
-    startNew();
+    startNew(-1);
+}
+
+void pWidget::startRandom()
+{
+    startNew(KRandom::random());
 }
 
 void pWidget::startNew(long gameNumber)
 {
     statusBar()->clearMessage();
     dill->startNew(gameNumber);
+    setGameCaption();
 }
 
 void pWidget::slotPickRandom()
@@ -334,7 +337,7 @@ void pWidget::slotGameSelected(int id)
     if ( m_dealer_map.contains(id) )
     {
         newGameType(id);
-        QTimer::singleShot(0 , this, SLOT( restart() ) );
+        QTimer::singleShot(0 , this, SLOT( startRandom() ) );
     }
 }
 
@@ -397,8 +400,6 @@ void pWidget::newGameType(int id)
     // it's a bit tricky - we have to do this here as the
     // base class constructor runs before the derived class's
     // dill->takeState();
-
-    setGameCaption();
 
     KConfigGroup cg(KGlobal::config(), settings_group);
     cg.writeEntry("DefaultGame", id);
@@ -486,10 +487,8 @@ void pWidget::chooseGame()
                                             QString::number(dill->dscene()->gameNumber()),
                                             0,
                                             this).toLong(&ok);
-        if (ok) {
+        if (ok)
             startNew(number);
-            setGameCaption();
-        }
     }
 }
 
@@ -523,8 +522,8 @@ void pWidget::openGame(const KUrl &url, bool addToRecentFiles)
             newGameType(id);
             // for old spider and klondike
             dill->dscene()->mapOldId(id);
-
             dill->dscene()->openGame(doc);
+            setGameCaption();
         }
         else
         {
@@ -532,7 +531,6 @@ void pWidget::openGame(const KUrl &url, bool addToRecentFiles)
         }
 
         show();
-        setGameCaption();
         KIO::NetAccess::removeTempFile( tmpFile );
 
         if ( addToRecentFiles )
@@ -599,7 +597,7 @@ void pWidget::slotSnapshot()
     }
 
     newGameType(m_dealer_it.key());
-    restart();
+    startRandom();
     m_dealer_it++;
     QTimer::singleShot( 200, this, SLOT( slotSnapshot2() ) );
 }

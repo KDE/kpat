@@ -53,7 +53,7 @@ public slots:
     void undoMove();
     void redoMove();
     void newGameType(int id);
-    void startNew(long gameNumber = -1);
+    void startRandom();
     void restart();
     void slotShowGameSelectionScreen();
 
@@ -95,6 +95,7 @@ private slots:
 private:
     void setGameCaption();
     bool allowedToStartNewGame();
+    void startNew(long gameNumber);
 
 private:
     // Members
