@@ -158,8 +158,12 @@ pWidget::pWidget()
     setAutoSaveSettings();
 
     foreach( const DealerInfo * di, DealerInfoList::self()->games() )
+    {
         foreach( int id, di->ids )
             m_dealer_map.insert( id, di );
+        if ( QString(di->name).toLower() == "freecell" )
+            m_freeCellId = di->ids.first();
+    }
     m_dealer_it = m_dealer_map.constEnd();
 
     m_cards = new cardMap();
@@ -472,10 +476,16 @@ void pWidget::chooseGame()
 {
     if (allowedToStartNewGame())
     {
+        QString text = (dill && dill->dscene() && dill->dscene()->gameId() == m_freeCellId)
+                       ? i18n("Enter a game number (FreeCell deals are the same as in the FreeCell FAQ):")
+                       : i18n("Enter a game number:");
+
         bool ok;
         long number = KInputDialog::getText(i18n("Game Number"),
-                                            i18n("Enter a game number (FreeCell deals are the same as in the FreeCell FAQ):"),
-                                            QString::number(dill->dscene()->gameNumber()), 0, this).toLong(&ok);
+                                            text,
+                                            QString::number(dill->dscene()->gameNumber()),
+                                            0,
+                                            this).toLong(&ok);
         if (ok) {
             startNew(number);
             setGameCaption();
