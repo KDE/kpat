@@ -496,55 +496,55 @@ void pWidget::gameLost()
 
 void pWidget::openGame(const KUrl &url, bool addToRecentFiles)
 {
-    QString tmpFile;
-    if( KIO::NetAccess::download( url, tmpFile, this ) )
+    if (!url.isEmpty() && allowedToStartNewGame())
     {
-        QFile of(tmpFile);
-        of.open(QIODevice::ReadOnly);
-        QDomDocument doc;
-        QString error;
-        if (!doc.setContent(&of, &error))
+        QString tmpFile;
+        if( KIO::NetAccess::download( url, tmpFile, this ) )
         {
-            KMessageBox::sorry(this, error);
-            return;
-        }
-        int id = doc.documentElement().attribute("id").toInt();
-        if (!m_dealer_map.contains(id)) {
-           KMessageBox::error(this, i18n("The saved game is of unknown type!"));
-           id = m_dealer_map.keys().first();
-        }
+            QFile of(tmpFile);
+            of.open(QIODevice::ReadOnly);
+            QDomDocument doc;
+            QString error;
+            if (!doc.setContent(&of, &error))
+            {
+                KMessageBox::sorry(this, error);
+                return;
+            }
+            int id = doc.documentElement().attribute("id").toInt();
+            if (!m_dealer_map.contains(id)) {
+               KMessageBox::error(this, i18n("The saved game is of unknown type!"));
+               id = m_dealer_map.keys().first();
+            }
 
-        if (doc.documentElement().hasChildNodes())
-        {
-            newGameType(id);
-            // for old spider and klondike
-            dill->dscene()->mapOldId(id);
-            dill->dscene()->openGame(doc);
-            setGameCaption();
-        }
-        else
-        {
-            slotGameSelected(id);
-        }
+            if (doc.documentElement().hasChildNodes())
+            {
+                newGameType(id);
+                // for old spider and klondike
+                dill->dscene()->mapOldId(id);
+                dill->dscene()->openGame(doc);
+                setGameCaption();
+            }
+            else
+            {
+                slotGameSelected(id);
+            }
 
-        show();
-        KIO::NetAccess::removeTempFile( tmpFile );
+            show();
+            KIO::NetAccess::removeTempFile( tmpFile );
 
-        if ( addToRecentFiles )
-        {
-            recent->addUrl(url);
-            recent->saveEntries(KGlobal::config()->group( QString() ));
+            if ( addToRecentFiles )
+            {
+                recent->addUrl(url);
+                recent->saveEntries(KGlobal::config()->group( QString() ));
+            }
         }
     }
 }
 
 void pWidget::openGame()
 {
-    if (allowedToStartNewGame())
-    {
-        KUrl url = KFileDialog::getOpenUrl();
-        openGame(url);
-    }
+    KUrl url = KFileDialog::getOpenUrl();
+    openGame(url);
 }
 
 void pWidget::saveGame()
