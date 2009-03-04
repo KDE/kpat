@@ -475,21 +475,18 @@ void pWidget::slotUpdateMoves()
 
 void pWidget::chooseGame()
 {
-    if (allowedToStartNewGame())
-    {
-        QString text = (dill && dill->dscene() && dill->dscene()->gameId() == m_freeCellId)
-                       ? i18n("Enter a game number (FreeCell deals are the same as in the FreeCell FAQ):")
-                       : i18n("Enter a game number:");
+    QString text = (dill && dill->dscene() && dill->dscene()->gameId() == m_freeCellId)
+                   ? i18n("Enter a game number (FreeCell deals are the same as in the FreeCell FAQ):")
+                   : i18n("Enter a game number:");
+    bool ok;
+    long number = KInputDialog::getText(i18n("Game Number"),
+                                        text,
+                                        QString::number(dill->dscene()->gameNumber()),
+                                        0,
+                                        this).toLong(&ok);
 
-        bool ok;
-        long number = KInputDialog::getText(i18n("Game Number"),
-                                            text,
-                                            QString::number(dill->dscene()->gameNumber()),
-                                            0,
-                                            this).toLong(&ok);
-        if (ok)
-            startNew(number);
-    }
+    if (ok && allowedToStartNewGame())
+        startNew(number);
 }
 
 void pWidget::gameLost()
