@@ -401,9 +401,6 @@ void pWidget::newGameType(int id)
     // base class constructor runs before the derived class's
     // dill->takeState();
 
-    KConfigGroup cg(KGlobal::config(), settings_group);
-    cg.writeEntry("DefaultGame", id);
-
     QTimer::singleShot( 0, this, SLOT( show() ) );
 }
 
