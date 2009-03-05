@@ -3,8 +3,6 @@
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
   <!ENTITY kappname "&kpatience;">
   <!ENTITY kappversion "3.0"><!--Applicaion version. Use this variable everywhere it's needed.-->
-  <!ENTITY docversion "2.2.3"><!--Document version. Use this variable everywhere it's needed.-->
-  <!ENTITY docupdate "2008-09-25"><!--Document version. Use this variable everywhere it's needed.-->
   <!ENTITY package "kdegames">  <!-- do not change this! -->
   <!ENTITY % English "INCLUDE" > <!-- change language only here -->
   <!ENTITY % addindex "IGNORE"> <!-- do not change this! -->
@@ -67,8 +65,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>&docupdate;</date><!-- Date of (re)writing, or update. Use the variable definitions within header to change this value.-->
-<releaseinfo>&docversion;</releaseinfo><!-- Application version number. Use the variable definitions within header to change this value.-->
+<date>2008-09-25</date><!-- Date of (re)writing, or update.-->
+<releaseinfo>&kappversion;</releaseinfo><!-- Application version number. Use the variable definitions within header to change this value.-->
 
 <!--Short description of this document. Do not change unless necessary!-->
 <abstract>
@@ -901,7 +899,7 @@ Documentation rewritten for &kpatience; 2.0 (&kde; 2.1) by &Maren.Pakura;
 </para>
 
 <para>
-Documentation proofread and update for &kpatience; &docversion; by &Richard.Hawthorne;
+Documentation proofread and update for &kpatience; &kappversion; by &Richard.Hawthorne;
 &Richard.Hawthorne.mail;
 </para>
 
