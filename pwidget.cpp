@@ -315,9 +315,9 @@ bool pWidget::allowedToStartNewGame()
     // then ask if she wants to about it.
     return !dill
            || !dill->dscene()
+           || !dill->dscene()->hasBeenCounted()
            || dill->dscene()->isGameWon()
            || dill->dscene()->isGameLost()
-           || dill->dscene()->getMoves() <= 1
            || m_stack->currentWidget() != dill
            || KMessageBox::warningContinueCancel(0,
                                                  i18n("You are already running an unfinished game. "

@@ -172,6 +172,7 @@ public:
     int neededFutureMoves() const;
 
     bool isInitialDeal() const;
+    bool hasBeenCounted() const;
 
     bool cardsAreMoving() const { return !movingCards.empty(); }
 

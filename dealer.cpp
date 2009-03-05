@@ -286,6 +286,7 @@ void DealerScene::saveGame(QDomDocument &doc)
 
     dealer.setAttribute("number", QString::number(gameNumber()));
     dealer.setAttribute("moves", getMoves() - 1);
+    dealer.setAttribute("counted", hasBeenCounted());
     QString data = getGameState();
     if (!data.isEmpty())
         dealer.setAttribute("data", data);
@@ -359,7 +360,7 @@ void DealerScene::openGame(QDomDocument &doc)
 
     setGameNumber(dealer.attribute("number").toULong());
     d->loadedMoveCount = dealer.attribute("moves").toInt();
-    d->_gameRecorded = d->loadedMoveCount > 0;
+    d->_gameRecorded = bool(dealer.attribute("counted").toInt());
 
     QDomNodeList piles = dealer.elementsByTagName("pile");
 
@@ -1839,6 +1840,12 @@ void DealerScene::countGame()
 	kc.sync();
     }
 }
+
+bool DealerScene::hasBeenCounted() const
+{
+    return d->_gameRecorded;
+}
+
 
 void DealerScene::countLoss()
 {
