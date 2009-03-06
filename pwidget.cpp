@@ -315,7 +315,7 @@ bool pWidget::allowedToStartNewGame()
     // then ask if she wants to about it.
     return !dill
            || !dill->dscene()
-           || !dill->dscene()->hasBeenCounted()
+           || !dill->dscene()->hasBeenStarted()
            || dill->dscene()->isGameWon()
            || dill->dscene()->isGameLost()
            || m_stack->currentWidget() != dill
@@ -351,6 +351,11 @@ void pWidget::newGameType(int id)
         dill = new PatienceView(this, m_stack);
         m_stack->addWidget(dill);
     }
+
+    // If we're replacing an exisiting DealerScene, record the stats of the
+    // game already in progress.
+    if ( dill->dscene() )
+        dill->dscene()->recordGameStatistics();
 
     if ( m_dealer_map.contains(id) )
     {
@@ -437,14 +442,23 @@ void pWidget::closeEvent(QCloseEvent *e)
     if (savedState.exists())
         savedState.remove();
 
-    if (rememberstateaction->isChecked()
-        && dill && dill->dscene()
-        && m_stack->currentWidget() == dill
-       )
+    if ( dill && dill->dscene() )
     {
-        QFile temp(dill->dscene()->save_it());
-        temp.copy(savedState.fileName());
-        temp.remove();
+        if (rememberstateaction->isChecked()
+            && m_stack->currentWidget() == dill
+           )
+        {
+            QFile temp(dill->dscene()->save_it());
+            temp.copy(savedState.fileName());
+            temp.remove();
+        }
+        else
+        {
+            // If there's a game in progress and we aren't going to save it
+            // then record its statistics, since the DealerScene will be destroyed
+            // shortly.
+            dill->dscene()->recordGameStatistics();
+        }
     }
 
     KXmlGuiWindow::closeEvent(e);

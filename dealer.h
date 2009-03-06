@@ -89,8 +89,6 @@ protected:
     virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent );
-    void countLoss();
-    void countGame();
     void drawBackground ( QPainter * painter, const QRectF & rect );
 
 public:
@@ -172,7 +170,8 @@ public:
     int neededFutureMoves() const;
 
     bool isInitialDeal() const;
-    bool hasBeenCounted() const;
+    bool hasBeenStarted() const;
+    void recordGameStatistics();
 
     bool cardsAreMoving() const { return !movingCards.empty(); }
 

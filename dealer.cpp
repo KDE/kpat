@@ -158,6 +158,7 @@ public:
     bool _won;
     quint32 _id;
     bool _gameRecorded;
+    bool gameStarted;
     QGraphicsPixmapItem *wonItem;
     bool gothelp;
     bool toldAboutLostGame;
@@ -286,7 +287,7 @@ void DealerScene::saveGame(QDomDocument &doc)
 
     dealer.setAttribute("number", QString::number(gameNumber()));
     dealer.setAttribute("moves", getMoves() - 1);
-    dealer.setAttribute("counted", hasBeenCounted());
+    dealer.setAttribute("started", d->gameStarted);
     QString data = getGameState();
     if (!data.isEmpty())
         dealer.setAttribute("data", data);
@@ -360,7 +361,7 @@ void DealerScene::openGame(QDomDocument &doc)
 
     setGameNumber(dealer.attribute("number").toULong());
     d->loadedMoveCount = dealer.attribute("moves").toInt();
-    d->_gameRecorded = bool(dealer.attribute("counted").toInt());
+    d->gameStarted = bool(dealer.attribute("started").toInt());
 
     QDomNodeList piles = dealer.elementsByTagName("pile");
 
@@ -490,6 +491,7 @@ DealerScene::DealerScene():
     d->stop_demo_next = false;
     d->_won = false;
     d->_gameRecorded = false;
+    d->gameStarted = false;
     d->wonItem = 0;
     d->gothelp = false;
     d->myActions = 0;
@@ -526,8 +528,6 @@ DealerScene::DealerScene():
 DealerScene::~DealerScene()
 {
     kDebug(11111) << "~DealerScene";
-    if (!d->_won)
-        countLoss();
     unmarkAll();
 
     // don't delete the deck
@@ -830,15 +830,16 @@ typedef QList<Hit> HitList;
 void DealerScene::startNew(long gameNumber)
 {
     if (gameNumber != -1)
-    {
         setGameNumber(gameNumber);
-        if (!d->_won)
-            countLoss();
-    }
 
-    // Only consider this a new game if we have a new game number or the game was just beat.
+    // Only record the statistics and reset gameStarted if  we're starting a
+    // new game number or we're restarting a game we've already won.
     if (gameNumber != -1 || d->_won)
+    {
+        recordGameStatistics();
         d->_gameRecorded = false;
+        d->gameStarted = false;
+    }
 
     if ( waiting() )
     {
@@ -971,7 +972,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
             assert(c);
             if (!c->animated()) {
                 if ( cardClicked(c) ) {
-                    countGame();
+                    d->gameStarted = true;
                 }
                 takeState();
                 eraseRedo();
@@ -997,7 +998,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
     if (destination) {
         Card *c = static_cast<Card*>(movingCards.first());
         assert(c);
-        countGame();
+        d->gameStarted = true;
         c->source()->moveCards(movingCards, destination);
         takeState();
         eraseRedo();
@@ -1111,7 +1112,7 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
     c->stopAnimation();
     kDebug(11111) << "card" << c->rank() << " " << c->suit();
     if ( cardDblClicked(c) ) {
-        countGame();
+        d->gameStarted = true;
     }
     takeState();
     eraseRedo();
@@ -1569,22 +1570,12 @@ void DealerScene::won()
         return;
     d->_won = true;
 
+    recordGameStatistics();
+
     for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
     {
         ( *it )->relayoutCards(); // stop the timer
     }
-
-    // update score, 'win' in demo mode also counts (keep it that way?)
-    KConfigGroup kc(KGlobal::config(), scores_group);
-    unsigned int n = kc.readEntry(QString("won%1").arg(d->_id),0) + 1;
-    kc.writeEntry(QString("won%1").arg(d->_id),n);
-    n = kc.readEntry(QString("winstreak%1").arg(d->_id),0) + 1;
-    kc.writeEntry(QString("winstreak%1").arg(d->_id),n);
-    unsigned int m = kc.readEntry(QString("maxwinstreak%1").arg(d->_id),0);
-    if (n>m)
-        kc.writeEntry(QString("maxwinstreak%1").arg(d->_id),n);
-    kc.writeEntry(QString("loosestreak%1").arg(d->_id),0);
-    kc.sync();
 
     // sort cards by increasing z
     QList<QGraphicsItem *> list = items();
@@ -1613,7 +1604,7 @@ void DealerScene::won()
             p.moveTopLeft(QPointF(x, y));
         } while (can.intersects(p));
 
-	card.ptr->moveTo( x, y, 0, 1200);
+        card.ptr->moveTo( x, y, 0, 1200);
         connect(card.ptr, SIGNAL(stoped(Card*)), SLOT(waitForWonAnim(Card*)));
         setWaiting(true);
     }
@@ -1658,7 +1649,7 @@ void DealerScene::demo()
     d->stop_demo_next = false;
     d->demo_active = true;
     d->gothelp = true;
-    countGame();
+    d->gameStarted = true;
     unmarkAll();
     clearHints();
     getHints();
@@ -1828,37 +1819,55 @@ bool DealerScene::checkAdd( int, const Pile *, const CardList&) const {
     return true;
 }
 
-void DealerScene::countGame()
+bool DealerScene::hasBeenStarted() const
 {
-    if ( !d->_gameRecorded ) {
-        kDebug(11111) << "counting game as played.";
-        KConfigGroup kc(KGlobal::config(), scores_group);
-        unsigned int Total = kc.readEntry(QString("total%1").arg(d->_id),0);
-        ++Total;
-        kc.writeEntry(QString("total%1").arg(d->_id),Total);
+    return d->gameStarted;
+}
+
+void DealerScene::recordGameStatistics()
+{
+    if ( d->gameStarted && !d->_gameRecorded )
+    {
+        QString totalPlayedKey = QString("total%1").arg( d->_id );
+        QString wonKey = QString("won%1").arg( d->_id );
+        QString winStreakKey = QString("winstreak%1").arg( d->_id );
+        QString maxWinStreakKey = QString("maxwinstreak%1").arg( d->_id );
+        QString loseStreakKey = QString("loosestreak%1").arg( d->_id );
+        QString maxLoseStreakKey = QString("maxloosestreak%1").arg( d->_id );
+
+        KConfigGroup config(KGlobal::config(), scores_group);
+
+        int totalPlayed = config.readEntry( totalPlayedKey, 0 );
+        int won = config.readEntry( wonKey, 0 );
+        int winStreak = config.readEntry( winStreakKey, 0 );
+        int maxWinStreak = config.readEntry( maxWinStreakKey, 0 );
+        int loseStreak = config.readEntry( loseStreakKey, 0 );
+        int maxLoseStreak = config.readEntry( maxLoseStreakKey, 0 );
+
+        ++totalPlayed;
+
+        if ( d->_won )
+        {
+            ++won;
+            ++winStreak;
+            maxWinStreak = qMax( winStreak, maxWinStreak );
+            loseStreak = 0;
+        }
+        else
+        {
+            ++loseStreak;
+            maxLoseStreak = qMax( loseStreak, maxLoseStreak );
+            winStreak = 0;
+        }
+
+        config.writeEntry( totalPlayedKey, totalPlayed );
+        config.writeEntry( wonKey, won );
+        config.writeEntry( winStreakKey, winStreak );
+        config.writeEntry( maxWinStreakKey, maxWinStreak );
+        config.writeEntry( loseStreakKey, loseStreak );
+        config.writeEntry( maxLoseStreakKey, maxLoseStreak );
+
         d->_gameRecorded = true;
-	kc.sync();
-    }
-}
-
-bool DealerScene::hasBeenCounted() const
-{
-    return d->_gameRecorded;
-}
-
-
-void DealerScene::countLoss()
-{
-    if ( d->_gameRecorded ) {
-        // update score
-        KConfigGroup kc(KGlobal::config(), scores_group);
-        unsigned int n = kc.readEntry(QString("loosestreak%1").arg(d->_id),0) + 1;
-        kc.writeEntry(QString("loosestreak%1").arg(d->_id),n);
-        unsigned int m = kc.readEntry(QString("maxloosestreak%1").arg(d->_id),0);
-        if (n>m)
-            kc.writeEntry(QString("maxloosestreak%1").arg(d->_id),n);
-        kc.writeEntry(QString("winstreak%1").arg(d->_id),0);
-        kc.sync();
     }
 }
 
