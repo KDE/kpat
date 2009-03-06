@@ -487,7 +487,7 @@ void pWidget::slotUpdateMoves()
 void pWidget::chooseGame()
 {
     QString text = (dill && dill->dscene() && dill->dscene()->gameId() == m_freeCellId)
-                   ? i18n("Enter a game number (FreeCell deals are the same as in the FreeCell FAQ):")
+                   ? i18n("Enter a game number (Freecell deals are the same as in the Freecell FAQ):")
                    : i18n("Enter a game number:");
     bool ok;
     long number = KInputDialog::getText(i18n("Game Number"),
