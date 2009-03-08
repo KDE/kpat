@@ -3,8 +3,6 @@
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
   <!ENTITY kappname "&kpatience;">
   <!ENTITY kappversion "3.0"><!--Applicaion version. Use this variable everywhere it's needed.-->
-  <!ENTITY docversion "2.2.3"><!--Document version. Use this variable everywhere it's needed.-->
-  <!ENTITY docupdate "2008-09-25"><!--Document version. Use this variable everywhere it's needed.-->
   <!ENTITY package "kdegames">  <!-- do not change this! -->
   <!ENTITY % English "INCLUDE" > <!-- change language only here -->
   <!ENTITY % addindex "IGNORE"> <!-- do not change this! -->
@@ -12,7 +10,7 @@
 
 <book lang="&language;"> <!-- do not change this! -->
 <bookinfo>
-	<title>The &kappname; Handbook</title> <!-- This is the title of the docbook. Live as is unless change is necessary.-->
+	<title>The &kappname; Handbook</title> <!-- This is the title of the docbook. Leave as is unless change is necessary.-->
 <!-- List of immidiate authors begins here. -->
 <!--INPORTANT! - All other contributors: [to be determined] -->
 <authorgroup>
@@ -67,8 +65,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>&docupdate;</date><!-- Date of (re)writing, ro update. Use the variable definitions within header to change this value.-->
-<releaseinfo>&docversion;</releaseinfo><!-- Application version number. Use the variable definitions within header to change this value.-->
+<date>2008-09-25</date><!-- Date of (re)writing, or update.-->
+<releaseinfo>&kappversion;</releaseinfo><!-- Application version number. Use the variable definitions within header to change this value.-->
 
 <!--Short description of this document. Do not change unless necessary!-->
 <abstract>
@@ -81,7 +79,7 @@
 	<keyword>kdegames</keyword> <!-- do not change this! -->
 	<keyword>game</keyword> <!-- do not change this! -->
 	<keyword>KPatience</keyword><!--Application name goes here-->
-<!-- Game genre. use as many as necessary.Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+<!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
 	<keyword>card</keyword>
 	<keyword>card game</keyword>
 	<keyword>playing cards</keyword>
@@ -94,7 +92,7 @@
 </bookinfo>
 <!--Content begins here: -->
 <chapter id="introduction"><title>Introduction</title> <!-- do not change this! -->
-	<note><title>Gametype:</title><para>Card</para></note><!-- Game genre. use as many as necessary.Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<note><title>Gametype:</title><para>Card</para></note><!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
 	<note><title>Number of possible players:</title><para>One</para></note><!--Number of possible players. It can be: One, Two,..., Multiplayer-->
 
 <!--Short game description starts here. 3-4 sentences (paragraphs)-->
@@ -847,34 +845,6 @@ win at Easy level, and very difficult to win at Hard level.
 <qandaset>
 <!--Following is a standard list of FAQ questions.-->
 <qandaentry>
-<question><para>Who made this game?</para></question>
- <answer><para>The kdegames team. You can find their website <ulink url="http://games.kde.org">here</ulink>.</para></answer>
-</qandaentry>
-<qandaentry>
- <question><para>Where can I get cheatcodes? </para></question>
- <answer><para>You cannot get cheatcodes for &kde; games.</para></answer>
-</qandaentry>
-<qandaentry>
- <question><para>How do I start a new game? </para></question>
- <answer><para>To start a new game use <menuchoice>
-					<shortcut><keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo></shortcut>
-					<guimenu>Game</guimenu>
-					<guimenuitem>New</guimenuitem>
-				</menuchoice> on the menubar.</para></answer>
-</qandaentry>
-<qandaentry>
- <question><para>How do I restart a my current game? </para></question>
- <answer><para>To restart a current game use <menuchoice>
-					<shortcut><keycap>F5</keycap></shortcut>
-					<guimenu>Game</guimenu>
-					<guimenuitem>Restart Game</guimenuitem>
-				</menuchoice> on the menubar.</para></answer>
-</qandaentry>
-<qandaentry>
- <question><para>How do I pause the game? </para></question>
- <answer><para>&kappname; features no 'Pause' function at the moment.</para></answer>
-</qandaentry>
-<qandaentry>
  <question><para>I want to change the way this game looks. Can I? </para></question>
  <answer><para>You can change the faces and backs of the playing cards. To do so please use <menuchoice>
 					<shortcut><keycap>F10</keycap></shortcut>
@@ -883,47 +853,12 @@ win at Easy level, and very difficult to win at Hard level.
 				</menuchoice> on the menubar.</para></answer>
 </qandaentry>
 <qandaentry>
- <question><para>I have made a mistake. Can I undo? </para></question>
- <answer><para>Yes. To undo a wrong move you can use <menuchoice>
-					<shortcut><keycombo action="simul">&Ctrl;<keycap>Z</keycap></keycombo></shortcut>
-					<guimenu>Move</guimenu>
-					<guimenuitem>Undo</guimenuitem>
-				</menuchoice> on the menubar.</para></answer>
-</qandaentry>
-<qandaentry>
- <question><para>Can I use keyboard?</para></question>
+ <question><para>Can I use the keyboard to play the game?</para></question>
  <answer><para>No. &kappname; features no possible keyboard play.</para></answer>
 </qandaentry>
 <qandaentry>
- <question><para>I cannot figure out what to do here! Are there hints? </para></question>
- <answer><para>Yes. To take advantage of the 'Hint' feature use <menuchoice>
-					<shortcut><keycap>H</keycap></shortcut>
-					<guimenu>Game</guimenu>
-					<guimenuitem>Hint</guimenuitem>
-				</menuchoice> on the menubar.</para></answer>
-</qandaentry>
-<qandaentry>
  <question><para>Even with hints I still have no clue how to play. Help!</para></question>
- <answer><para>Besides the 'Hint' feature there also is a useful 'Demo' mode, where the built in artificial intelligence will play the game for you. You can try to watch and learn. However, if you have any questions it is better to read <link linkend="howto">How to Play</link> and <link linkend="rules_and_tips">Game Rules, Strategies and Tips</link> sections of this handbook.</para></answer><!--IMPORTANT!: this link has to send user to 'Interface Overview' section. So please setup the link structure accordingly.-->
-</qandaentry>
-<qandaentry>
- <question><para>I have to quit the game now, but I am not finished yet. Can I save my progress?</para></question>
-  <answer><para>Yes. To save your progress you can use <menuchoice>
-					<shortcut><keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo></shortcut>
-					<guimenu>Game</guimenu>
-					<guimenuitem>Save</guimenuitem>
-				</menuchoice> on the menubar.</para></answer>
-</qandaentry>
-<qandaentry>
- <question><para>Where are the high scores?</para></question>
- <answer><para>&kappname; has no high score board. However you can view your win vs lose statistics. To do so use <menuchoice>
-					<guimenu>Game</guimenu>
-					<guimenuitem>Statistics</guimenuitem>
-				</menuchoice> on the menubar.</para></answer>
-</qandaentry>
-<qandaentry>
- <question><para>I want to change the game configuration. Where do I go? </para></question>
- <answer><para>&kappname; requires no configuration.</para></answer><!--IMPORTANT!: this link has to send user to 'Interface Overview' section. So please setup the link structure accordingly.-->
+ <answer><para>Besides the <quote>Hint</quote> feature there also is a useful <quote>Demo</quote> mode, where the built-in artificial intelligence will play the game for you. You can try to watch and learn. However, if you have any questions it is better to read the <link linkend="howto">How to Play</link> and <link linkend="rules_and_tips">Game Rules, Strategies and Tips</link> sections of this handbook.</para></answer>
 </qandaentry>
 </qandaset>
 </chapter>
@@ -964,7 +899,7 @@ Documentation rewritten for &kpatience; 2.0 (&kde; 2.1) by &Maren.Pakura;
 </para>
 
 <para>
-Documentation proofread and update for &kpatience; &docversion; by &Richard.Hawthorne;
+Documentation proofread and update for &kpatience; &kappversion; by &Richard.Hawthorne;
 &Richard.Hawthorne.mail;
 </para>
 
