@@ -202,7 +202,7 @@ int main( int argc, char **argv )
     }
 
     QString gametype = args->getOption("gametype").toLower();
-    QFile savedState( KStandardDirs::locateLocal("appdata", "savedstate.kpat") );
+    QFile savedState( KStandardDirs::locateLocal("appdata", saved_state_file) );
 
     pWidget *w = new pWidget;
     if (args->count())

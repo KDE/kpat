@@ -438,7 +438,7 @@ void pWidget::slotShowGameSelectionScreen()
 
 void pWidget::closeEvent(QCloseEvent *e)
 {
-    QFile savedState(KStandardDirs::locateLocal("appdata", "savedstate.kpat"));
+    QFile savedState(KStandardDirs::locateLocal("appdata", saved_state_file));
     if (savedState.exists())
         savedState.remove();
 
