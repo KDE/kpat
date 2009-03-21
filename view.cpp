@@ -132,15 +132,6 @@ void PatienceView::setScene( QGraphicsScene *_scene )
         dscene()->relayoutPiles();
 
     setupActions();
-    if ( ademo ) {
-        connect( dscene(), SIGNAL( demoActive( bool ) ), this, SLOT( toggleDemo( bool ) ) );
-        connect( dscene(), SIGNAL( demoPossible( bool ) ), ademo, SLOT( setEnabled( bool ) ) );
-    }
-    if ( ahint )
-        connect( dscene(), SIGNAL( hintPossible( bool ) ), ahint, SLOT( setEnabled( bool ) ) );
-    if ( aredeal ) {
-        connect( dscene(), SIGNAL( redealPossible( bool ) ), aredeal, SLOT( setEnabled( bool ) ) );
-    }
 }
 
 PatienceView *PatienceView::instance()
@@ -158,12 +149,15 @@ void PatienceView::setupActions()
 
     if (dscene()->actions() & DealerScene::Hint) {
         ahint = KStandardGameAction::hint(this, SLOT(hint()), mainWindow()->actionCollection());
+        connect( dscene(), SIGNAL( hintPossible( bool ) ), ahint, SLOT( setEnabled( bool ) ) );
         actionlist.append(ahint);
     } else
         ahint = 0;
 
     if (dscene()->actions() & DealerScene::Demo) {
         ademo = KStandardGameAction::demo(dscene(), SLOT(toggleDemo()), mainWindow()->actionCollection());
+        connect( dscene(), SIGNAL( demoActive( bool ) ), this, SLOT( toggleDemo( bool ) ) );
+        connect( dscene(), SIGNAL( demoPossible( bool ) ), ademo, SLOT( setEnabled( bool ) ) );
         actionlist.append(ademo);
     } else
         ademo = 0;
@@ -172,6 +166,7 @@ void PatienceView::setupActions()
         aredeal = mainWindow()->actionCollection()->addAction( "game_redeal" );
         aredeal->setText( i18n("&Redeal") );
         aredeal->setIcon( KIcon( "roll") );
+        connect( dscene(), SIGNAL( redealPossible( bool ) ), aredeal, SLOT( setEnabled( bool ) ) );
         connect( aredeal, SIGNAL( triggered( bool ) ), dscene(), SLOT( redeal() ) );
         actionlist.append(aredeal);
     } else
