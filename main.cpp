@@ -207,7 +207,11 @@ int main( int argc, char **argv )
     pWidget *w = new pWidget;
     if (args->count())
     {
-        w->openGame(args->url(0));
+        if (!w->openGame(args->url(0)))
+        {
+            w->slotShowGameSelectionScreen();
+            w->show();
+        }
     }
     else if (indexMap.contains(gametype))
     {
@@ -216,7 +220,11 @@ int main( int argc, char **argv )
     }
     else if (savedState.exists())
     {
-        w->openGame(savedState.fileName(), false);
+        if (!w->openGame(savedState.fileName(), false))
+        {
+            w->slotShowGameSelectionScreen();
+            w->show();
+        }
         savedState.remove();
     }
     else

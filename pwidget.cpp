@@ -505,57 +505,83 @@ void pWidget::gameLost()
     statusBar()->showMessage( i18n( "This game is lost." ) );
 }
 
-void pWidget::openGame(const KUrl &url, bool addToRecentFiles)
+bool pWidget::openGame(const KUrl &url, bool addToRecentFiles)
 {
-    if (!url.isEmpty() && allowedToStartNewGame())
+    QString error;
+    QString tmpFile;
+    if(KIO::NetAccess::download( url, tmpFile, this ))
     {
-        QString tmpFile;
-        if( KIO::NetAccess::download( url, tmpFile, this ) )
-        {
-            QFile of(tmpFile);
-            of.open(QIODevice::ReadOnly);
-            QDomDocument doc;
-            QString error;
-            if (!doc.setContent(&of, &error))
-            {
-                KMessageBox::sorry(this, error);
-                return;
-            }
-            int id = doc.documentElement().attribute("id").toInt();
-            if (!m_dealer_map.contains(id)) {
-               KMessageBox::error(this, i18n("The saved game is of unknown type!"));
-               id = m_dealer_map.keys().first();
-            }
+        QFile of(tmpFile);
+        of.open(QIODevice::ReadOnly);
+        QDomDocument doc;
 
-            if (doc.documentElement().hasChildNodes())
+        if (doc.setContent(&of, &error))
+        {
+            if (doc.documentElement().tagName() == "dealer")
             {
-                newGameType(id);
-                // for old spider and klondike
-                dill->dscene()->mapOldId(id);
-                dill->dscene()->openGame(doc);
-                setGameCaption();
+                int id = doc.documentElement().attribute("id").toInt();
+                if (m_dealer_map.contains(id))
+                {
+                    // Only ask for permission after we've determined the save game
+                    // file is good.
+                    if (allowedToStartNewGame())
+                    {
+                        // If the file contains pile and card data, then load it.
+                        // If it only contains an ID, just launch a new game with that ID.
+                        if (doc.documentElement().hasChildNodes())
+                        {
+                            newGameType(id);
+                            // for old spider and klondike
+                            dill->dscene()->mapOldId(id);
+                            dill->dscene()->openGame(doc);
+                            setGameCaption();
+                        }
+                        else
+                        {
+                            slotGameSelected(id);
+                        }
+
+                        show();
+                        KIO::NetAccess::removeTempFile( tmpFile );
+
+                        if ( addToRecentFiles )
+                        {
+                            recent->addUrl(url);
+                            recent->saveEntries(KGlobal::config()->group( QString() ));
+                        }
+                    }
+                }
+                else
+                {
+                    error = i18n("The saved game is of an unknown type.");
+                }
             }
             else
             {
-                slotGameSelected(id);
-            }
-
-            show();
-            KIO::NetAccess::removeTempFile( tmpFile );
-
-            if ( addToRecentFiles )
-            {
-                recent->addUrl(url);
-                recent->saveEntries(KGlobal::config()->group( QString() ));
+                error = i18n("The file is not a KPatience saved game.");
             }
         }
+        else
+        {
+            error = i18n("The following error ocurred while reading the file:\n\"%1\"", error);
+        }
     }
+    else
+    {
+        error = i18n("Unable to load the saved game file.");
+    }
+
+    if (!error.isEmpty())
+        KMessageBox::error(this, error);
+
+    return error.isEmpty();
 }
 
 void pWidget::openGame()
 {
     KUrl url = KFileDialog::getOpenUrl();
-    openGame(url);
+    if (!url.isEmpty())
+        openGame(url);
 }
 
 void pWidget::saveGame()
