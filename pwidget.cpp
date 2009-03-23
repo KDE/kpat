@@ -563,7 +563,7 @@ bool pWidget::openGame(const KUrl &url, bool addToRecentFiles)
         }
         else
         {
-            error = i18n("The following error ocurred while reading the file:\n\"%1\"", error);
+            error = i18n("The following error occurred while reading the file:\n\"%1\"", error);
         }
     }
     else
