@@ -399,7 +399,7 @@ void Card::mousePressEvent ( QGraphicsSceneMouseEvent *ev ) {
     if ( this == source()->top() )
         return; // no way this is meaningful
 
-    if (ev->buttons() & Qt::RightButton && !animated() && !source()->dscene()->isMoving( this ) )
+    if ( ev->button() == Qt::RightButton && !animated() && !source()->dscene()->isMoving( this ) )
     {
         m_hoverTimer->stop();
         stopAnimation();
@@ -410,7 +410,7 @@ void Card::mousePressEvent ( QGraphicsSceneMouseEvent *ev ) {
     }
 }
 
-void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ) {
+void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ev ) {
     //kDebug() << "mouseReleaseEvent\n";
     m_moving = false;
 
@@ -419,7 +419,7 @@ void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ) {
     if ( this == source()->top() )
         return; // no way this is meaningful
 
-    if (m_isZoomed)
+    if ( m_isZoomed && ev->button() == Qt::RightButton )
     {
         m_hoverTimer->stop();
         stopAnimation();
