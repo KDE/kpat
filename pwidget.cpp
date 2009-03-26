@@ -153,10 +153,6 @@ pWidget::pWidget()
     connect( rememberstateaction, SIGNAL( triggered( bool ) ), SLOT( enableRememberState() ) );
     rememberstateaction->setChecked( cg.readEntry("RememberStateOnExit", false) );
 
-    statusBar()->insertPermanentItem( "", 1, 0 );
-    setupGUI(qApp->desktop()->availableGeometry().size()*0.7);
-    setAutoSaveSettings();
-
     foreach( const DealerInfo * di, DealerInfoList::self()->games() )
     {
         foreach( int id, di->ids )
@@ -170,6 +166,10 @@ pWidget::pWidget()
 
     m_stack = new QStackedWidget;
     setCentralWidget( m_stack );
+
+    QSize defaultSize = qApp->desktop()->availableGeometry().size() * 0.7;
+    setupGUI(defaultSize, Create | Save | ToolBar | StatusBar | Keys);
+    statusBar()->insertPermanentItem( "", 1, 0 );
 
     Render::loadTheme( KStandardDirs::locate( "data", "kpat/theme.svg" ) );
 }
