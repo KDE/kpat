@@ -11,7 +11,6 @@
     <Action name="game_stats"/>
     <Separator/>
     <ActionList name="game_actions"/>
-    <Action name="autodrop"/>
     <Separator/>
   </Menu>
   <Menu name="settings">
@@ -27,7 +26,6 @@
   <Action name="game_new"/>
   <Action name="move_undo"/>
   <ActionList name="game_actions"/>
-  <Action name="autodrop"/>
 </ToolBar>
 <StatusBar/>
 </gui>
