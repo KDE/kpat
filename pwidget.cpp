@@ -118,7 +118,7 @@ pWidget::pWidget()
     a->setText(i18n("Random Cards"));
     connect( a, SIGNAL( triggered( bool ) ), SLOT( slotPickRandom() ) );
     a->setShortcuts( KShortcut( Qt::Key_F9 ) );
-    a->setEnabled( false );
+
 
     a = actionCollection()->addAction("snapshot");
     connect( a, SIGNAL( triggered( bool ) ), SLOT( slotSnapshot() ) );
@@ -129,7 +129,7 @@ pWidget::pWidget()
     a->setText(i18n("Select Deck..."));
     connect( a, SIGNAL( triggered( bool ) ), SLOT( slotSelectDeck() ) );
     a->setShortcuts( KShortcut( Qt::Key_F10 ) );
-    a->setEnabled( false );
+
 
     a = actionCollection()->addAction("game_stats");
     a->setText(i18n("Statistics"));
@@ -374,14 +374,12 @@ void pWidget::newGameType(int id)
         dill->setScene( DealerInfoList::self()->games().first()->createGame() );
     }
 
-    actionCollection()->action( "random_set" )->setEnabled( true );
     actionCollection()->action( "choose_game" )->setEnabled( true );
     actionCollection()->action( "enable_autodrop" )->setEnabled( true );
     actionCollection()->action( "enable_solver" )->setEnabled( true );
     actionCollection()->action( "game_new" )->setEnabled( true );
     actionCollection()->action( "game_restart" )->setEnabled( true );
     actionCollection()->action( "game_save" )->setEnabled( true );
-    actionCollection()->action( "select_deck" )->setEnabled( true );
     actionCollection()->action( "change_game_type" )->setEnabled( true );
 
     enableAutoDrop();
@@ -423,14 +421,12 @@ void pWidget::slotShowGameSelectionScreen()
 
         guiFactory()->unplugActionList( this, QString::fromLatin1("game_actions") );
 
-        actionCollection()->action( "random_set" )->setEnabled( false );
         actionCollection()->action( "choose_game" )->setEnabled( false );
         actionCollection()->action( "enable_autodrop" )->setEnabled( false );
         actionCollection()->action( "enable_solver" )->setEnabled( false );
         actionCollection()->action( "game_new" )->setEnabled( false );
         actionCollection()->action( "game_restart" )->setEnabled( false );
         actionCollection()->action( "game_save" )->setEnabled( false );
-        actionCollection()->action( "select_deck" )->setEnabled( false );
         actionCollection()->action( "change_game_type" )->setEnabled( false );
 
         m_stack->setCurrentWidget(m_bubbles);

@@ -163,7 +163,7 @@ void cardMap::triggerRescale()
     KConfigGroup cs(config, settings_group );
     cs.writeEntry( "CardWidth", d->_wantedCardWidth );
     config->sync();
-    if (  PatienceView::instance()->dscene() )
+    if ( PatienceView::instance() && PatienceView::instance()->dscene() )
          PatienceView::instance()->dscene()->rescale(false);
 }
 
