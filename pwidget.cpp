@@ -412,6 +412,9 @@ void pWidget::slotShowGameSelectionScreen()
 {
     if (allowedToStartNewGame())
     {
+        if (dill && dill->dscene())
+            dill->dscene()->recordGameStatistics();
+
         if (!m_bubbles)
         {
             m_bubbles = new DemoBubbles(m_stack);
