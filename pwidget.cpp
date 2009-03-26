@@ -66,6 +66,7 @@
 #include <kglobal.h>
 #include <kicon.h>
 #include <kconfiggroup.h>
+#include <kxmlguifactory.h>
 
 
 static pWidget *current_pwidget = 0;
@@ -419,6 +420,8 @@ void pWidget::slotShowGameSelectionScreen()
             m_stack->addWidget(m_bubbles);
             connect( m_bubbles, SIGNAL( gameSelected( int ) ), SLOT( slotGameSelected( int ) ) );
         }
+
+        guiFactory()->unplugActionList( this, QString::fromLatin1("game_actions") );
 
         actionCollection()->action( "random_set" )->setEnabled( false );
         actionCollection()->action( "choose_game" )->setEnabled( false );
