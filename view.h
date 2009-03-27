@@ -27,8 +27,6 @@ class KXmlGuiWindow;
 
 class PatienceView: public QGraphicsView
 {
-    friend class DealerScene;
-
     Q_OBJECT
 
 public:
