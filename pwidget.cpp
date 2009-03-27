@@ -222,8 +222,8 @@ void pWidget::enableAutoDrop()
     bool drop = autodropaction->isChecked();
     KConfigGroup cg(KGlobal::config(), settings_group );
     cg.writeEntry( "Autodrop", drop);
-    if ( dill )
-        dill->setAutoDropEnabled(drop);
+    if ( dill && dill->dscene() )
+        dill->dscene()->setAutoDropEnabled(drop);
     updateActions();
 }
 
@@ -232,8 +232,8 @@ void pWidget::enableSolver()
     bool solver = solveraction->isChecked();
     KConfigGroup cg(KGlobal::config(), settings_group );
     cg.writeEntry( "Solver", solver );
-    if ( dill )
-        dill->setSolverEnabled(solver);
+    if ( dill && dill->dscene() )
+        dill->dscene()->setSolverEnabled(solver);
 }
 
 void pWidget::enableRememberState()
@@ -261,7 +261,7 @@ void pWidget::startRandom()
 void pWidget::startNew(long gameNumber)
 {
     statusBar()->clearMessage();
-    dill->startNew(gameNumber);
+    dill->dscene()->startNew(gameNumber);
     setGameCaption();
 }
 
@@ -452,7 +452,7 @@ void pWidget::updateActions()
         {
             hintaction->setEnabled( true );
             hintaction->disconnect();
-            connect( hintaction, SIGNAL(triggered(bool)), dill, SLOT(hint()) );
+            connect( hintaction, SIGNAL(triggered(bool)), dill->dscene(), SLOT(hint()) );
             connect( dill->dscene(), SIGNAL(hintPossible(bool)), hintaction, SLOT(setEnabled(bool)) );
             actionList.append( hintaction );
         }

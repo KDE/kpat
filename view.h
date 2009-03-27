@@ -39,11 +39,6 @@ public:
 
     static PatienceView *instance();
 
-    void setViewSize(const QSize &size);
-
-    void setSolverEnabled(bool a);
-    void setAutoDropEnabled(bool a);
-
     void setScene( QGraphicsScene *scene);
     DealerScene  *dscene() const;
 
@@ -51,12 +46,6 @@ public:
     void setWasShown(bool b) { m_shown = b; }
 
     KXmlGuiWindow *mainWindow() const;
-
-public slots:
-
-    // restart is pure virtual, so we need something else
-    virtual void startNew(long gameNumber);
-    void hint();
 
 protected:
 

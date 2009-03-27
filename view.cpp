@@ -128,26 +128,6 @@ PatienceView *PatienceView::instance()
     return s_instance;
 }
 
-void PatienceView::hint()
-{
-    dscene()->hint();
-}
-
-void PatienceView::setSolverEnabled(bool a)
-{
-    dscene()->setSolverEnabled( a );
-}
-
-void PatienceView::setAutoDropEnabled(bool a)
-{
-    dscene()->setAutoDropEnabled( a );
-}
-
-void PatienceView::startNew(long gameNumber)
-{
-    dscene()->startNew( gameNumber );
-}
-
 DealerScene *PatienceView::dscene() const
 {
     return dynamic_cast<DealerScene*>( scene() );
