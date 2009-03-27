@@ -43,9 +43,6 @@ public:
 
     virtual void setupActions();
 
-    QString anchorName() const;
-    void setAnchorName(const QString &name);
-
     void setSolverEnabled(bool a);
     void setAutoDropEnabled(bool a);
 
@@ -75,7 +72,6 @@ protected:
     QAction *ademo;
     QAction *ahint, *aredeal, *adrop;
 
-    QString ac;
     static PatienceView *s_instance;
 
     qreal scaleFactor;

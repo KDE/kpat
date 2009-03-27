@@ -36,7 +36,7 @@ class PatienceView;
 class KToggleAction;
 class KSelectAction;
 class KRecentFilesAction;
-class QAction;
+class KAction;
 class QLabel;
 class QStackedWidget;
 class cardMap;
@@ -99,11 +99,12 @@ private:
 
 private:
     // Members
-    QAction        *undo, *redo;
+    KAction        *undo, *redo;
     KToggleAction  *dropaction;
     KToggleAction  *solveraction;
     KToggleAction  *rememberstateaction;
     KRecentFilesAction  *recent;
+    KAction        *gamehelpaction;
 
     cardMap        *m_cards; // possibly move to PatienceView
     QMap<int, const DealerInfo*>  m_dealer_map;

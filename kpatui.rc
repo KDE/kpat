@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gui name="kpat"
-     version="21"
+     version="22"
      xmlns="http://www.kde.org/standards/kxmlgui/1.0"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://www.kde.org/standards/kxmlgui/1.0
@@ -20,6 +20,9 @@
     <Action name="enable_autodrop"/>
     <Action name="enable_solver"/>
     <Action name="remember_state"/>
+  </Menu>
+  <Menu name="help">
+    <Action name="help_game"/>
   </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar"><text>Main Toolbar</text>

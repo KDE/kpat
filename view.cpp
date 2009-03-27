@@ -235,14 +235,6 @@ DealerScene *PatienceView::dscene() const
     return dynamic_cast<DealerScene*>( scene() );
 }
 
-void PatienceView::setAnchorName(const QString &name)
-{
-    kDebug(11111) << "setAnchorname" << name;
-    ac = name;
-}
-
-QString PatienceView::anchorName() const { return ac; }
-
 void PatienceView::wheelEvent( QWheelEvent *e )
 {
     return; // Maren hits the wheel mouse function of the touch pad way too often :)

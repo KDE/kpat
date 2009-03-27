@@ -106,9 +106,6 @@ pWidget::pWidget()
     connect( a, SIGNAL( triggered( bool ) ), SLOT( chooseGame() ) );
     a->setEnabled( false );
 
-    actionCollection()->addAction(KStandardAction::Help, "help_game",
-                                  this, SLOT(helpGame()));
-
     a = actionCollection()->addAction("change_game_type");
     a->setText(i18n("Change Game Type..."));
     connect( a, SIGNAL( triggered( bool ) ), SLOT( slotShowGameSelectionScreen() ) );
@@ -136,6 +133,10 @@ pWidget::pWidget()
     a = actionCollection()->addAction("game_stats");
     a->setText(i18n("Statistics"));
     connect( a, SIGNAL( triggered( bool ) ), SLOT(showStats()) );
+
+    gamehelpaction = actionCollection()->addAction("help_game");
+    connect( gamehelpaction, SIGNAL( triggered( bool ) ), SLOT(helpGame()));
+    gamehelpaction->setShortcuts( KShortcut( Qt::Key_F2 ) );
 
     KConfigGroup cg(KGlobal::config(), settings_group );
 
@@ -195,9 +196,14 @@ void pWidget::redoMove() {
 
 void pWidget::helpGame()
 {
-    if (!dill)
-        return;
-    KToolInvocation::invokeHelp(dill->anchorName());
+    if (dill && dill->dscene() && m_dealer_map.contains(dill->dscene()->gameId()))
+    {
+        const DealerInfo * di = m_dealer_map.value(dill->dscene()->gameId());
+        QString anchor = "game_" + QString(di->name);
+        anchor = anchor.remove('\'').replace('&', "and").replace(' ', '_').toLower();
+
+        KToolInvocation::invokeHelp(anchor);
+    }
 }
 
 void pWidget::undoPossible(bool poss)
@@ -364,11 +370,8 @@ void pWidget::newGameType(int id)
     {
         const DealerInfo * di = m_dealer_map.value(id);
         dill->setScene( di->createGame() );
-        QString name = di->name;
-        name = name.remove(QRegExp("[&']"));
-        name = name.replace(QRegExp("[ ]"), "_").toLower();
-        dill->setAnchorName("game_" + name);
         dill->dscene()->setGameId( id );
+        gamehelpaction->setText(i18n("Help &with %1", QString(di->name).replace('&', "&&")));
     }
     else
     {
@@ -383,6 +386,7 @@ void pWidget::newGameType(int id)
     actionCollection()->action( "game_restart" )->setEnabled( true );
     actionCollection()->action( "game_save" )->setEnabled( true );
     actionCollection()->action( "change_game_type" )->setEnabled( true );
+    actionCollection()->action( "help_game" )->setEnabled( true );
 
     enableAutoDrop();
     enableSolver();
@@ -433,6 +437,9 @@ void pWidget::slotShowGameSelectionScreen()
         actionCollection()->action( "game_restart" )->setEnabled( false );
         actionCollection()->action( "game_save" )->setEnabled( false );
         actionCollection()->action( "change_game_type" )->setEnabled( false );
+        actionCollection()->action( "help_game" )->setEnabled( false );
+
+        gamehelpaction->setText(i18n("Help &with Current Game"));
 
         m_stack->setCurrentWidget(m_bubbles);
 
