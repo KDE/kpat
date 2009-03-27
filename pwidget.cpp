@@ -199,16 +199,6 @@ void pWidget::helpGame()
     }
 }
 
-void pWidget::undoPossible(bool poss)
-{
-    undo->setEnabled(poss);
-}
-
-void pWidget::redoPossible(bool poss)
-{
-    redo->setEnabled(poss);
-}
-
 void pWidget::enableAutoDrop()
 {
     bool drop = autodropaction->isChecked();
@@ -367,8 +357,8 @@ void pWidget::newGameType(int id)
     enableAutoDrop();
     enableSolver();
 
-    connect(m_dealer, SIGNAL(undoPossible(bool)), SLOT(undoPossible(bool)));
-    connect(m_dealer, SIGNAL(redoPossible(bool)), SLOT(redoPossible(bool)));
+    connect(m_dealer, SIGNAL(undoPossible(bool)), undo, SLOT(setEnabled(bool)));
+    connect(m_dealer, SIGNAL(redoPossible(bool)), redo, SLOT(setEnabled(bool)));
     connect(m_dealer, SIGNAL(gameLost()), SLOT(gameLost()));
     connect(m_dealer, SIGNAL(gameInfo(QString)), SLOT(slotGameInfo(QString)));
     connect(m_dealer, SIGNAL(updateMoves()), SLOT(slotUpdateMoves()));

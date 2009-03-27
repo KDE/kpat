@@ -59,8 +59,6 @@ public slots:
 
     void newGame();
     void chooseGame();
-    void undoPossible(bool poss);
-    void redoPossible(bool poss);
     void gameLost();
     void slotGameInfo(const QString &);
     void slotUpdateMoves();
