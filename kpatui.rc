@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gui name="kpat"
-     version="22"
+     version="23"
      xmlns="http://www.kde.org/standards/kxmlgui/1.0"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://www.kde.org/standards/kxmlgui/1.0
@@ -9,9 +9,10 @@
   <Menu name="game">
     <Action name="choose_game"/>
     <Action name="game_stats"/>
+  </Menu>
+  <Menu name="move">
     <Separator/>
     <ActionList name="game_actions"/>
-    <Separator/>
   </Menu>
   <Menu name="settings">
     <Action name="change_game_type"/>
