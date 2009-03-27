@@ -486,6 +486,8 @@ DealerScene::DealerScene():
     _waiting(0),
     gamenumber( 0 )
 {
+    setItemIndexMethod(QGraphicsScene::NoIndex);
+
     d = new DealerScenePrivate();
     d->demo_active = false;
     d->stop_demo_next = false;

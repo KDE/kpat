@@ -123,8 +123,6 @@ void PatienceView::setScene( QGraphicsScene *_scene )
     delete oldscene;
     dscene()->rescale(true);
 
-    dscene()->setItemIndexMethod(QGraphicsScene::NoIndex);
-
     if ( oldscene )
         dscene()->relayoutPiles();
 
