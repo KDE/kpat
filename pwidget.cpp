@@ -80,36 +80,27 @@ pWidget::pWidget()
     current_pwidget = this;
     // KCrash::setEmergencySaveFunction(::saveGame);
 
-    KAction *a;
     // Game
-    a = KStandardGameAction::gameNew(this, SLOT(newGame()), actionCollection());
-    a->setEnabled( false );
-    a = KStandardGameAction::restart(this, SLOT(restart()), actionCollection());
-    a->setEnabled( false );
+    KStandardGameAction::gameNew(this, SLOT(newGame()), actionCollection());
+    KStandardGameAction::restart(this, SLOT(restart()), actionCollection());
     KStandardGameAction::load(this, SLOT(openGame()), actionCollection());
     recent = KStandardGameAction::loadRecent(this, SLOT(openGame(const KUrl&)), actionCollection());
     recent->loadEntries( KGlobal::config()->group( QString() ));
-    a = KStandardGameAction::save(this, SLOT(saveGame()), actionCollection());
-    a->setEnabled( false );
+    KStandardGameAction::save(this, SLOT(saveGame()), actionCollection());
     KStandardGameAction::quit(this, SLOT(close()), actionCollection());
 
     // Move
     undo = KStandardGameAction::undo(this, SLOT(undoMove()), actionCollection());
-    undo->setEnabled(false);
-
-    // Move
     redo = KStandardGameAction::redo(this, SLOT(redoMove()), actionCollection());
-    redo->setEnabled(false);
 
+    KAction *a;
     a = actionCollection()->addAction("choose_game");
     a->setText(i18n("&Choose Game..."));
     connect( a, SIGNAL( triggered( bool ) ), SLOT( chooseGame() ) );
-    a->setEnabled( false );
 
     a = actionCollection()->addAction("change_game_type");
     a->setText(i18n("Change Game Type..."));
     connect( a, SIGNAL( triggered( bool ) ), SLOT( slotShowGameSelectionScreen() ) );
-    a->setEnabled( false );
 
     a = actionCollection()->addAction("random_set");
     a->setText(i18n("Random Cards"));
@@ -134,22 +125,32 @@ pWidget::pWidget()
     a->setText(i18n("Statistics"));
     connect( a, SIGNAL( triggered( bool ) ), SLOT(showStats()) );
 
+    hintaction = KStandardGameAction::hint( 0, 0, actionCollection() );
+
+    demoaction = KStandardGameAction::demo( 0, 0, actionCollection() );
+
+    redealaction = actionCollection()->addAction("game_redeal");
+    redealaction->setText( i18n("&Redeal") );
+    redealaction->setIcon( KIcon("roll") );
+
+    dropaction = actionCollection()->addAction("game_drop");
+    dropaction->setText( i18n("Drop") );
+    dropaction->setIcon( KIcon("legalmoves") );
+
     gamehelpaction = actionCollection()->addAction("help_game");
     connect( gamehelpaction, SIGNAL( triggered( bool ) ), SLOT(helpGame()));
     gamehelpaction->setShortcuts( KShortcut( Qt::Key_F2 ) );
 
     KConfigGroup cg(KGlobal::config(), settings_group );
 
-    dropaction = new KToggleAction(i18n("&Enable Autodrop"), this);
-    actionCollection()->addAction("enable_autodrop", dropaction);
-    connect( dropaction, SIGNAL( triggered( bool ) ), SLOT(enableAutoDrop()) );
-    dropaction->setEnabled( false );
-    dropaction->setChecked( cg.readEntry("Autodrop", true) );
+    autodropaction = new KToggleAction(i18n("&Enable Autodrop"), this);
+    actionCollection()->addAction("enable_autodrop", autodropaction);
+    connect( autodropaction, SIGNAL( triggered( bool ) ), SLOT(enableAutoDrop()) );
+    autodropaction->setChecked( cg.readEntry("Autodrop", true) );
 
     solveraction = new KToggleAction(i18n("E&nable Solver"), this);
     actionCollection()->addAction("enable_solver", solveraction);
     connect( solveraction, SIGNAL( triggered( bool ) ), SLOT( enableSolver() ) );
-    solveraction->setEnabled( false );
     solveraction->setChecked( cg.readEntry("Solver", true) );
 
     rememberstateaction = new KToggleAction(i18n("&Remember State on Exit"), this);
@@ -218,11 +219,12 @@ void pWidget::redoPossible(bool poss)
 
 void pWidget::enableAutoDrop()
 {
-    bool drop = dropaction->isChecked();
+    bool drop = autodropaction->isChecked();
     KConfigGroup cg(KGlobal::config(), settings_group );
     cg.writeEntry( "Autodrop", drop);
     if ( dill )
         dill->setAutoDropEnabled(drop);
+    updateActions();
 }
 
 void pWidget::enableSolver()
@@ -379,15 +381,6 @@ void pWidget::newGameType(int id)
         dill->setScene( DealerInfoList::self()->games().first()->createGame() );
     }
 
-    actionCollection()->action( "choose_game" )->setEnabled( true );
-    actionCollection()->action( "enable_autodrop" )->setEnabled( true );
-    actionCollection()->action( "enable_solver" )->setEnabled( true );
-    actionCollection()->action( "game_new" )->setEnabled( true );
-    actionCollection()->action( "game_restart" )->setEnabled( true );
-    actionCollection()->action( "game_save" )->setEnabled( true );
-    actionCollection()->action( "change_game_type" )->setEnabled( true );
-    actionCollection()->action( "help_game" )->setEnabled( true );
-
     enableAutoDrop();
     enableSolver();
 
@@ -395,21 +388,16 @@ void pWidget::newGameType(int id)
     connect(dill->dscene(), SIGNAL(undoPossible(bool)), SLOT(undoPossible(bool)));
     connect(dill->dscene(), SIGNAL(redoPossible(bool)), SLOT(redoPossible(bool)));
     connect(dill->dscene(), SIGNAL(gameLost()), SLOT(gameLost()));
-    connect(dill->dscene(), SIGNAL(gameInfo(const QString&)),
-            SLOT(slotGameInfo(const QString &)));
+    connect(dill->dscene(), SIGNAL(gameInfo(QString)), SLOT(slotGameInfo(QString)));
     connect(dill->dscene(), SIGNAL(updateMoves()), SLOT(slotUpdateMoves()));
     connect(dill->dscene(), SIGNAL(gameSolverStart()), SLOT(slotGameSolverStart()));
     connect(dill->dscene(), SIGNAL(gameSolverWon()), SLOT(slotGameSolverWon()));
     connect(dill->dscene(), SIGNAL(gameSolverLost()), SLOT(slotGameSolverLost()));
     connect(dill->dscene(), SIGNAL(gameSolverUnknown()), SLOT(slotGameSolverUnknown()));
 
-    dill->setAutoDropEnabled(dropaction->isChecked());
-
     m_stack->setCurrentWidget(dill);
 
-    // it's a bit tricky - we have to do this here as the
-    // base class constructor runs before the derived class's
-    // dill->takeState();
+    updateActions();
 
     QTimer::singleShot( 0, this, SLOT( show() ) );
 }
@@ -427,24 +415,83 @@ void pWidget::slotShowGameSelectionScreen()
             m_stack->addWidget(m_bubbles);
             connect( m_bubbles, SIGNAL( gameSelected( int ) ), SLOT( slotGameSelected( int ) ) );
         }
-
-        guiFactory()->unplugActionList( this, QString::fromLatin1("game_actions") );
-
-        actionCollection()->action( "choose_game" )->setEnabled( false );
-        actionCollection()->action( "enable_autodrop" )->setEnabled( false );
-        actionCollection()->action( "enable_solver" )->setEnabled( false );
-        actionCollection()->action( "game_new" )->setEnabled( false );
-        actionCollection()->action( "game_restart" )->setEnabled( false );
-        actionCollection()->action( "game_save" )->setEnabled( false );
-        actionCollection()->action( "change_game_type" )->setEnabled( false );
-        actionCollection()->action( "help_game" )->setEnabled( false );
+        m_stack->setCurrentWidget(m_bubbles);
 
         gamehelpaction->setText(i18n("Help &with Current Game"));
 
-        m_stack->setCurrentWidget(m_bubbles);
+        updateActions();
 
         setGameCaption();
     }
+}
+
+void pWidget::updateActions()
+{
+    bool gameInProgress = dill && dill->dscene() && m_stack->currentWidget() == dill;
+
+    actionCollection()->action( "game_new" )->setEnabled( gameInProgress );
+    actionCollection()->action( "game_restart" )->setEnabled( gameInProgress );
+    actionCollection()->action( "game_save" )->setEnabled( gameInProgress );
+    actionCollection()->action( "choose_game" )->setEnabled( gameInProgress );
+    actionCollection()->action( "change_game_type" )->setEnabled( gameInProgress );
+    autodropaction->setEnabled( gameInProgress );
+    solveraction->setEnabled( gameInProgress );
+    gamehelpaction->setEnabled( gameInProgress );
+
+    hintaction->setEnabled( false );
+    demoaction->setEnabled( false );
+    redealaction->setEnabled( false );
+    dropaction->setEnabled( false );
+    guiFactory()->unplugActionList( this, "game_actions" );
+
+    if ( gameInProgress )
+    {
+        QList<QAction*> actionList;
+
+        if ( dill->dscene()->actions() & DealerScene::Hint )
+        {
+            hintaction->setEnabled( true );
+            hintaction->disconnect();
+            connect( hintaction, SIGNAL(triggered(bool)), dill, SLOT(hint()) );
+            connect( dill->dscene(), SIGNAL(hintPossible(bool)), hintaction, SLOT(setEnabled(bool)) );
+            actionList.append( hintaction );
+        }
+
+        if ( dill->dscene()->actions() & DealerScene::Demo )
+        {
+            demoaction->setEnabled( true );
+            demoaction->disconnect();
+            connect( demoaction, SIGNAL(triggered(bool)), dill->dscene(), SLOT(toggleDemo()) );
+            connect( dill->dscene(), SIGNAL(demoActive(bool)), this, SLOT(toggleDemoAction(bool)) );
+            connect( dill->dscene(), SIGNAL(demoPossible(bool)), demoaction, SLOT(setEnabled(bool)) );
+            actionList.append( demoaction );
+        }
+
+        if ( dill->dscene()->actions() & DealerScene::Redeal )
+        {
+            redealaction->setEnabled( true );
+            redealaction->disconnect();
+            connect( dill->dscene(), SIGNAL(redealPossible(bool)), redealaction, SLOT(setEnabled(bool)) );
+            connect( redealaction, SIGNAL(triggered(bool)), dill->dscene(), SLOT(redeal()) );
+            actionList.append( redealaction );
+        }
+
+        if ( !dill->dscene()->autoDrop() )
+        {
+            dropaction->setEnabled( true );
+            dropaction->disconnect();
+            connect( dropaction, SIGNAL(triggered(bool)), dill->dscene(), SLOT(slotAutoDrop()) );
+            actionList.append( dropaction );
+        }
+
+        guiFactory()->plugActionList( this, "game_actions", actionList );
+    }
+}
+
+void pWidget::toggleDemoAction(bool active) 
+{
+    demoaction->setChecked( active );
+    demoaction->setIcon( KIcon( active ? "media-playback-pause" : "media-playback-start" ) );
 }
 
 void pWidget::closeEvent(QCloseEvent *e)

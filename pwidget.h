@@ -72,6 +72,7 @@ public slots:
     void enableAutoDrop();
     void enableSolver();
     void enableRememberState();
+    void toggleDemoAction(bool active);
     void showStats();
 
     void slotGameSolverStart();
@@ -96,15 +97,21 @@ private:
     void setGameCaption();
     bool allowedToStartNewGame();
     void startNew(long gameNumber);
+    void updateActions();
 
 private:
     // Members
-    KAction        *undo, *redo;
-    KToggleAction  *dropaction;
+    KAction        *undo;
+    KAction        *redo;
+    KAction        *demoaction;
+    KAction        *hintaction;
+    KAction        *redealaction;
+    KAction        *dropaction;
+    KAction        *gamehelpaction;
+    KToggleAction  *autodropaction;
     KToggleAction  *solveraction;
     KToggleAction  *rememberstateaction;
     KRecentFilesAction  *recent;
-    KAction        *gamehelpaction;
 
     cardMap        *m_cards; // possibly move to PatienceView
     QMap<int, const DealerInfo*>  m_dealer_map;

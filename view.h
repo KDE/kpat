@@ -41,8 +41,6 @@ public:
 
     void setViewSize(const QSize &size);
 
-    virtual void setupActions();
-
     void setSolverEnabled(bool a);
     void setAutoDropEnabled(bool a);
 
@@ -59,8 +57,6 @@ public slots:
     // restart is pure virtual, so we need something else
     virtual void startNew(long gameNumber);
     void hint();
-    void slotEnableRedeal(bool);
-    void toggleDemo(bool);
 
 protected:
 
@@ -68,9 +64,6 @@ protected:
     virtual void resizeEvent( QResizeEvent *e );
 
 protected:
-
-    QAction *ademo;
-    QAction *ahint, *aredeal, *adrop;
 
     static PatienceView *s_instance;
 
