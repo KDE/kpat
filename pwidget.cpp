@@ -407,6 +407,12 @@ void pWidget::updateActions()
     actionCollection()->action( "change_game_type" )->setEnabled( m_dealer );
     gamehelpaction->setEnabled( m_dealer );
 
+    if (!m_dealer)
+    {
+        undo->setEnabled( false );
+        redo->setEnabled( false );
+    }
+
     hintaction->setEnabled( false );
     demoaction->setEnabled( false );
     redealaction->setEnabled( false );
