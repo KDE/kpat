@@ -119,11 +119,13 @@ pWidget::pWidget()
     connect( a, SIGNAL( triggered( bool ) ), SLOT( slotPickRandom() ) );
     a->setShortcuts( KShortcut( Qt::Key_F9 ) );
 
-
-    a = actionCollection()->addAction("snapshot");
-    connect( a, SIGNAL( triggered( bool ) ), SLOT( slotSnapshot() ) );
     if (!qgetenv("KDE_DEBUG").isEmpty()) // developer shortcut
-       a->setShortcuts( KShortcut( Qt::Key_F8 ) );
+    {
+        a = actionCollection()->addAction("snapshot");
+        a->setText(i18n("Take Game Preview Snapshots"));
+        connect( a, SIGNAL( triggered( bool ) ), SLOT( slotSnapshot() ) );
+        a->setShortcuts( KShortcut( Qt::Key_F8 ) );
+    }
 
     a = actionCollection()->addAction("select_deck");
     a->setText(i18n("Select Deck..."));
