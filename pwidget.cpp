@@ -65,6 +65,7 @@ static pWidget *current_pwidget = 0;
 pWidget::pWidget()
   : KXmlGuiWindow(0),
     dill(0),
+    m_dealer(0),
     m_bubbles(0)
 {
     setObjectName( "pwidget" );
@@ -177,20 +178,20 @@ pWidget::~pWidget()
 }
 
 void pWidget::undoMove() {
-    if( dill && dill->dscene() )
-        dill->dscene()->undo();
+    if( m_dealer )
+        m_dealer->undo();
 }
 
 void pWidget::redoMove() {
-    if( dill && dill->dscene() )
-        dill->dscene()->redo();
+    if( m_dealer )
+        m_dealer->redo();
 }
 
 void pWidget::helpGame()
 {
-    if (dill && dill->dscene() && m_dealer_map.contains(dill->dscene()->gameId()))
+    if (m_dealer && m_dealer_map.contains(m_dealer->gameId()))
     {
-        const DealerInfo * di = m_dealer_map.value(dill->dscene()->gameId());
+        const DealerInfo * di = m_dealer_map.value(m_dealer->gameId());
         QString anchor = "game_" + QString(di->name);
         anchor = anchor.remove('\'').replace('&', "and").replace(' ', '_').toLower();
 
@@ -213,8 +214,8 @@ void pWidget::enableAutoDrop()
     bool drop = autodropaction->isChecked();
     KConfigGroup cg(KGlobal::config(), settings_group );
     cg.writeEntry( "Autodrop", drop);
-    if ( dill && dill->dscene() )
-        dill->dscene()->setAutoDropEnabled(drop);
+    if ( m_dealer )
+        m_dealer->setAutoDropEnabled(drop);
     updateActions();
 }
 
@@ -223,8 +224,8 @@ void pWidget::enableSolver()
     bool solver = solveraction->isChecked();
     KConfigGroup cg(KGlobal::config(), settings_group );
     cg.writeEntry( "Solver", solver );
-    if ( dill && dill->dscene() )
-        dill->dscene()->setSolverEnabled(solver);
+    if ( m_dealer )
+        m_dealer->setSolverEnabled(solver);
 }
 
 void pWidget::enableRememberState()
@@ -252,7 +253,7 @@ void pWidget::startRandom()
 void pWidget::startNew(long gameNumber)
 {
     statusBar()->clearMessage();
-    dill->dscene()->startNew(gameNumber);
+    m_dealer->startNew(gameNumber);
     setGameCaption();
 }
 
@@ -301,12 +302,10 @@ void pWidget::slotSelectDeck()
 void pWidget::setGameCaption()
 {
     QString caption;
-    if ( dill && dill->dscene() && m_stack->currentWidget() != m_bubbles )
+    if ( m_dealer )
     {
-        const DealerInfo * di = m_dealer_map.value( dill->dscene()->gameId() );
-        QString name = di->name;
-        QString gamenum = QString::number( dill->dscene()->gameNumber() );
-        caption = name + " - " + gamenum;
+        const DealerInfo * di = m_dealer_map.value( m_dealer->gameId() );
+        caption = QString("%1 - %2").arg(di->name).arg(m_dealer->gameNumber());
     }
     setCaption( caption );
 }
@@ -315,12 +314,10 @@ bool pWidget::allowedToStartNewGame()
 {
     // Check if the user is already running a game, and if she is,
     // then ask if she wants to about it.
-    return !dill
-           || !dill->dscene()
-           || !dill->dscene()->hasBeenStarted()
-           || dill->dscene()->isGameWon()
-           || dill->dscene()->isGameLost()
-           || m_stack->currentWidget() != dill
+    return !m_dealer
+           || !m_dealer->hasBeenStarted()
+           || m_dealer->isGameWon()
+           || m_dealer->isGameLost()
            || KMessageBox::warningContinueCancel(0,
                                                  i18n("You are already running an unfinished game. "
                                                       "If you abort the old game to start a new one, "
@@ -356,37 +353,29 @@ void pWidget::newGameType(int id)
 
     // If we're replacing an exisiting DealerScene, record the stats of the
     // game already in progress.
-    if ( dill->dscene() )
-        dill->dscene()->recordGameStatistics();
+    if ( m_dealer )
+        m_dealer->recordGameStatistics();
 
-    if ( m_dealer_map.contains(id) )
-    {
-        const DealerInfo * di = m_dealer_map.value(id);
-        dill->setScene( di->createGame() );
-        dill->dscene()->setGameId( id );
-        gamehelpaction->setText(i18n("Help &with %1", QString(di->name).replace('&', "&&")));
-    }
-    else
-    {
-        kError() << "unimplemented game type" << id;
-        dill->setScene( DealerInfoList::self()->games().first()->createGame() );
-    }
+    const DealerInfo * di = m_dealer_map.value(id, DealerInfoList::self()->games().first());
+    m_dealer = di->createGame();
+    m_dealer->setGameId( id );
+    dill->setScene( m_dealer );
+    m_stack->setCurrentWidget(dill);
+
+    gamehelpaction->setText(i18n("Help &with %1", QString(di->name).replace('&', "&&")));
 
     enableAutoDrop();
     enableSolver();
 
-    kDebug(11111) << "dill" << dill << " " << dill->dscene();
-    connect(dill->dscene(), SIGNAL(undoPossible(bool)), SLOT(undoPossible(bool)));
-    connect(dill->dscene(), SIGNAL(redoPossible(bool)), SLOT(redoPossible(bool)));
-    connect(dill->dscene(), SIGNAL(gameLost()), SLOT(gameLost()));
-    connect(dill->dscene(), SIGNAL(gameInfo(QString)), SLOT(slotGameInfo(QString)));
-    connect(dill->dscene(), SIGNAL(updateMoves()), SLOT(slotUpdateMoves()));
-    connect(dill->dscene(), SIGNAL(gameSolverStart()), SLOT(slotGameSolverStart()));
-    connect(dill->dscene(), SIGNAL(gameSolverWon()), SLOT(slotGameSolverWon()));
-    connect(dill->dscene(), SIGNAL(gameSolverLost()), SLOT(slotGameSolverLost()));
-    connect(dill->dscene(), SIGNAL(gameSolverUnknown()), SLOT(slotGameSolverUnknown()));
-
-    m_stack->setCurrentWidget(dill);
+    connect(m_dealer, SIGNAL(undoPossible(bool)), SLOT(undoPossible(bool)));
+    connect(m_dealer, SIGNAL(redoPossible(bool)), SLOT(redoPossible(bool)));
+    connect(m_dealer, SIGNAL(gameLost()), SLOT(gameLost()));
+    connect(m_dealer, SIGNAL(gameInfo(QString)), SLOT(slotGameInfo(QString)));
+    connect(m_dealer, SIGNAL(updateMoves()), SLOT(slotUpdateMoves()));
+    connect(m_dealer, SIGNAL(gameSolverStart()), SLOT(slotGameSolverStart()));
+    connect(m_dealer, SIGNAL(gameSolverWon()), SLOT(slotGameSolverWon()));
+    connect(m_dealer, SIGNAL(gameSolverLost()), SLOT(slotGameSolverLost()));
+    connect(m_dealer, SIGNAL(gameSolverUnknown()), SLOT(slotGameSolverUnknown()));
 
     updateActions();
 
@@ -397,8 +386,11 @@ void pWidget::slotShowGameSelectionScreen()
 {
     if (allowedToStartNewGame())
     {
-        if (dill && dill->dscene())
-            dill->dscene()->recordGameStatistics();
+        if (m_dealer)
+        {
+            m_dealer->recordGameStatistics();
+            m_dealer = 0;
+        }
 
         if (!m_bubbles)
         {
@@ -418,16 +410,14 @@ void pWidget::slotShowGameSelectionScreen()
 
 void pWidget::updateActions()
 {
-    bool gameInProgress = dill && dill->dscene() && m_stack->currentWidget() == dill;
-
-    actionCollection()->action( "game_new" )->setEnabled( gameInProgress );
-    actionCollection()->action( "game_restart" )->setEnabled( gameInProgress );
-    actionCollection()->action( "game_save" )->setEnabled( gameInProgress );
-    actionCollection()->action( "choose_game" )->setEnabled( gameInProgress );
-    actionCollection()->action( "change_game_type" )->setEnabled( gameInProgress );
-    autodropaction->setEnabled( gameInProgress );
-    solveraction->setEnabled( gameInProgress );
-    gamehelpaction->setEnabled( gameInProgress );
+    actionCollection()->action( "game_new" )->setEnabled( m_dealer );
+    actionCollection()->action( "game_restart" )->setEnabled( m_dealer );
+    actionCollection()->action( "game_save" )->setEnabled( m_dealer );
+    actionCollection()->action( "choose_game" )->setEnabled( m_dealer );
+    actionCollection()->action( "change_game_type" )->setEnabled( m_dealer );
+    autodropaction->setEnabled( m_dealer );
+    solveraction->setEnabled( m_dealer );
+    gamehelpaction->setEnabled( m_dealer );
 
     hintaction->setEnabled( false );
     demoaction->setEnabled( false );
@@ -435,43 +425,43 @@ void pWidget::updateActions()
     dropaction->setEnabled( false );
     guiFactory()->unplugActionList( this, "game_actions" );
 
-    if ( gameInProgress )
+    if ( m_dealer )
     {
         QList<QAction*> actionList;
 
-        if ( dill->dscene()->actions() & DealerScene::Hint )
+        if ( m_dealer->actions() & DealerScene::Hint )
         {
             hintaction->setEnabled( true );
             hintaction->disconnect();
-            connect( hintaction, SIGNAL(triggered(bool)), dill->dscene(), SLOT(hint()) );
-            connect( dill->dscene(), SIGNAL(hintPossible(bool)), hintaction, SLOT(setEnabled(bool)) );
+            connect( hintaction, SIGNAL(triggered(bool)), m_dealer, SLOT(hint()) );
+            connect( m_dealer, SIGNAL(hintPossible(bool)), hintaction, SLOT(setEnabled(bool)) );
             actionList.append( hintaction );
         }
 
-        if ( dill->dscene()->actions() & DealerScene::Demo )
+        if ( m_dealer->actions() & DealerScene::Demo )
         {
             demoaction->setEnabled( true );
             demoaction->disconnect();
-            connect( demoaction, SIGNAL(triggered(bool)), dill->dscene(), SLOT(toggleDemo()) );
-            connect( dill->dscene(), SIGNAL(demoActive(bool)), this, SLOT(toggleDemoAction(bool)) );
-            connect( dill->dscene(), SIGNAL(demoPossible(bool)), demoaction, SLOT(setEnabled(bool)) );
+            connect( demoaction, SIGNAL(triggered(bool)), m_dealer, SLOT(toggleDemo()) );
+            connect( m_dealer, SIGNAL(demoActive(bool)), this, SLOT(toggleDemoAction(bool)) );
+            connect( m_dealer, SIGNAL(demoPossible(bool)), demoaction, SLOT(setEnabled(bool)) );
             actionList.append( demoaction );
         }
 
-        if ( dill->dscene()->actions() & DealerScene::Redeal )
+        if ( m_dealer->actions() & DealerScene::Redeal )
         {
             redealaction->setEnabled( true );
             redealaction->disconnect();
-            connect( dill->dscene(), SIGNAL(redealPossible(bool)), redealaction, SLOT(setEnabled(bool)) );
-            connect( redealaction, SIGNAL(triggered(bool)), dill->dscene(), SLOT(redeal()) );
+            connect( m_dealer, SIGNAL(redealPossible(bool)), redealaction, SLOT(setEnabled(bool)) );
+            connect( redealaction, SIGNAL(triggered(bool)), m_dealer, SLOT(redeal()) );
             actionList.append( redealaction );
         }
 
-        if ( !dill->dscene()->autoDrop() )
+        if ( !m_dealer->autoDrop() )
         {
             dropaction->setEnabled( true );
             dropaction->disconnect();
-            connect( dropaction, SIGNAL(triggered(bool)), dill->dscene(), SLOT(slotAutoDrop()) );
+            connect( dropaction, SIGNAL(triggered(bool)), m_dealer, SLOT(slotAutoDrop()) );
             actionList.append( dropaction );
         }
 
@@ -491,13 +481,11 @@ void pWidget::closeEvent(QCloseEvent *e)
     if (savedState.exists())
         savedState.remove();
 
-    if ( dill && dill->dscene() )
+    if ( m_dealer )
     {
-        if (rememberstateaction->isChecked()
-            && m_stack->currentWidget() == dill
-           )
+        if (rememberstateaction->isChecked())
         {
-            QFile temp(dill->dscene()->save_it());
+            QFile temp(m_dealer->save_it());
             temp.copy(savedState.fileName());
             temp.remove();
         }
@@ -506,7 +494,7 @@ void pWidget::closeEvent(QCloseEvent *e)
             // If there's a game in progress and we aren't going to save it
             // then record its statistics, since the DealerScene will be destroyed
             // shortly.
-            dill->dscene()->recordGameStatistics();
+            m_dealer->recordGameStatistics();
         }
     }
 
@@ -528,20 +516,19 @@ void pWidget::slotGameInfo(const QString &text)
 
 void pWidget::slotUpdateMoves()
 {
-    int moves = 0;
-    if ( dill && dill->dscene() ) moves = dill->dscene()->getMoves();
+    int moves = m_dealer ? m_dealer->getMoves() : 0;
     statusBar()->changeItem( i18np("1 move", "%1 moves", moves), 1 );
 }
 
 void pWidget::chooseGame()
 {
-    QString text = (dill && dill->dscene() && dill->dscene()->gameId() == m_freeCellId)
+    QString text = (m_dealer && m_dealer->gameId() == m_freeCellId)
                    ? i18n("Enter a game number (Freecell deals are the same as in the Freecell FAQ):")
                    : i18n("Enter a game number:");
     bool ok;
     long number = KInputDialog::getText(i18n("Game Number"),
                                         text,
-                                        QString::number(dill->dscene()->gameNumber()),
+                                        QString::number(m_dealer->gameNumber()),
                                         0,
                                         this).toLong(&ok);
 
@@ -581,8 +568,8 @@ bool pWidget::openGame(const KUrl &url, bool addToRecentFiles)
                         {
                             newGameType(id);
                             // for old spider and klondike
-                            dill->dscene()->mapOldId(id);
-                            dill->dscene()->openGame(doc);
+                            m_dealer->mapOldId(id);
+                            m_dealer->openGame(doc);
                             setGameCaption();
                         }
                         else
@@ -635,19 +622,20 @@ void pWidget::openGame()
 
 void pWidget::saveGame()
 {
-    if (!dill)
-       return;
-    KUrl url = KFileDialog::getSaveUrl();
-    KIO::NetAccess::upload(dill->dscene()->save_it(), url, this);
-    recent->addUrl(url);
-    recent->saveEntries( KGlobal::config()->group( QString() ) );
+    if (m_dealer)
+    {
+        KUrl url = KFileDialog::getSaveUrl();
+        KIO::NetAccess::upload(m_dealer->save_it(), url, this);
+        recent->addUrl(url);
+        recent->saveEntries( KGlobal::config()->group( QString() ) );
+    }
 }
 
 void pWidget::showStats()
 {
     GameStatsImpl dlg(this);
-    if (dill)
-        dlg.showGameType(dill->dscene()->gameId());
+    if (m_dealer)
+        dlg.showGameType(m_dealer->gameId());
     dlg.exec();
 }
 
@@ -687,15 +675,16 @@ void pWidget::slotSnapshot()
 
 void pWidget::slotSnapshot2()
 {
-    if ( dill->dscene()->waiting() ) {
+    if ( m_dealer->waiting() )
+    {
             QTimer::singleShot( 100, this, SLOT( slotSnapshot2() ) );
             return;
     }
     QImage img = QImage( dill->size(), QImage::Format_ARGB32 );
     img.fill( qRgba( 0, 0, 255, 0 ) );
-    dill->dscene()->createDump( &img );
+    m_dealer->createDump( &img );
     img = img.scaled( 320, 320, Qt::KeepAspectRatio, Qt::SmoothTransformation );
-    img.save( QString( "out_%1.png" ).arg( dill->dscene()->gameId() ) );
+    img.save( QString( "out_%1.png" ).arg( m_dealer->gameId() ) );
     if ( m_dealer_it != m_dealer_map.constEnd() )
         QTimer::singleShot( 200, this, SLOT( slotSnapshot() ) );
 }

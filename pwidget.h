@@ -28,6 +28,7 @@
 
 class DemoBubbles;
 class PatienceView;
+class DealerScene;
 class KToggleAction;
 class KSelectAction;
 class KRecentFilesAction;
@@ -115,6 +116,7 @@ private:
 
     QStackedWidget *m_stack;
     PatienceView   *dill;
+    DealerScene    *m_dealer;
     DemoBubbles    *m_bubbles;
 };
 
