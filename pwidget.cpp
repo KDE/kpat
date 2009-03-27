@@ -463,6 +463,12 @@ void pWidget::toggleDemoAction(bool active)
     demoaction->setIcon( KIcon( active ? "media-playback-pause" : "media-playback-start" ) );
 }
 
+void pWidget::saveNewToolbarConfig()
+{
+    KXmlGuiWindow::saveNewToolbarConfig();
+    updateActions();
+}
+
 void pWidget::closeEvent(QCloseEvent *e)
 {
     QFile savedState(KStandardDirs::locateLocal("appdata", saved_state_file));

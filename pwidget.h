@@ -83,6 +83,7 @@ public slots:
 protected:
     virtual void closeEvent(QCloseEvent * e);
     virtual void showEvent(QShowEvent *e);
+    virtual void saveNewToolbarConfig();
 
 private slots:
     void slotSnapshot2();
