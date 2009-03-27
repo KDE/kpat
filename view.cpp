@@ -237,9 +237,11 @@ DealerScene *PatienceView::dscene() const
 
 void PatienceView::wheelEvent( QWheelEvent *e )
 {
-    return; // Maren hits the wheel mouse function of the touch pad way too often :)
-    qreal scaleFactor = pow((double)2, -e->delta() / (10*120.0));
-    cardMap::self()->setWantedCardWidth( cardMap::self()->wantedCardWidth() / scaleFactor );
+    if ( e->modifiers() & Qt::ControlModifier )
+    {
+        qreal scaleFactor = pow((double)2, -e->delta() / (10*120.0));
+        cardMap::self()->setWantedCardWidth( cardMap::self()->wantedCardWidth() / scaleFactor );
+    }
 }
 
 
