@@ -123,10 +123,7 @@ void PatienceView::setScene( QGraphicsScene *_scene )
     delete oldscene;
     dscene()->rescale(true);
 
-    // dscene()->setSceneRect( QRectF( 0,0,700,500 ) );
-    scaleFactor = 1;
     dscene()->setItemIndexMethod(QGraphicsScene::NoIndex);
-    // connect( _scene, SIGNAL( gameWon( bool ) ), SIGNAL( gameWon( bool ) ) );
 
     if ( oldscene )
         dscene()->relayoutPiles();
@@ -239,7 +236,7 @@ void PatienceView::wheelEvent( QWheelEvent *e )
 {
     if ( e->modifiers() & Qt::ControlModifier )
     {
-        qreal scaleFactor = pow((double)2, -e->delta() / (10*120.0));
+        qreal scaleFactor = pow((double)2, e->delta() / (10*120.0));
         cardMap::self()->setWantedCardWidth( cardMap::self()->wantedCardWidth() / scaleFactor );
     }
 }

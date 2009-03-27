@@ -74,7 +74,6 @@ protected:
 
     static PatienceView *s_instance;
 
-    qreal scaleFactor;
     bool m_shown;
 
     KXmlGuiWindow * m_window;
