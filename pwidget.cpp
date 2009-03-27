@@ -415,8 +415,6 @@ void pWidget::updateActions()
     actionCollection()->action( "game_save" )->setEnabled( m_dealer );
     actionCollection()->action( "choose_game" )->setEnabled( m_dealer );
     actionCollection()->action( "change_game_type" )->setEnabled( m_dealer );
-    autodropaction->setEnabled( m_dealer );
-    solveraction->setEnabled( m_dealer );
     gamehelpaction->setEnabled( m_dealer );
 
     hintaction->setEnabled( false );
