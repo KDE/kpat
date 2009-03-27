@@ -19,7 +19,6 @@
 */
 
 #include "pwidget.h"
-#include "pile.h"
 #include "version.h"
 #include "dealer.h"
 #include "view.h"
@@ -29,17 +28,10 @@
 #include "render.h"
 #include <carddeckinfo.h>
 
-#include <cstdio>
-
-#include <QRegExp>
 #include <QTimer>
-#include <QImage>
-#include <QPixmap>
-#include <QTextStream>
 #include <QList>
 #include <QShowEvent>
 #include <QDomDocument>
-#include <QSvgRenderer>
 #include <QDesktopWidget>
 #include <QStackedWidget>
 
@@ -60,7 +52,6 @@
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
 #include <kstatusbar.h>
-#include <kacceleratormanager.h>
 #include <kmenubar.h>
 #include <ktoolinvocation.h>
 #include <kglobal.h>

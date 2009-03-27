@@ -21,32 +21,15 @@
 
 #include "view.h"
 #include "dealer.h"
-#include "deck.h"
 #include "cardmaps.h"
-#include "version.h"
 
-#include <cassert>
 #include <cmath>
 
 #include <QtCore/QCoreApplication>
-#include <QtCore/QList>
-#include <QtGui/QAction>
 #include <QtGui/QResizeEvent>
 #include <QtGui/QWheelEvent>
 
-#ifndef QT_NO_OPENGL
-#endif
-
-#include <kaction.h>
-#include <ktoggleaction.h>
-#include <kstandardgameaction.h>
-#include <kactioncollection.h>
 #include <kdebug.h>
-#include <kicon.h>
-#include <klocalizedstring.h>
-#include <krandom.h>
-#include <kxmlguifactory.h>
-#include <kxmlguiwindow.h>
 
 DealerInfoList *DealerInfoList::_self = 0;
 
@@ -86,7 +69,7 @@ PatienceView::PatienceView( KXmlGuiWindow* _window, QWidget* _parent )
     setAlignment( Qt::AlignLeft | Qt::AlignTop );
     setCacheMode(QGraphicsView::CacheBackground);
 
-    assert(!s_instance);
+    Q_ASSERT(!s_instance);
     s_instance = this;
 
 #ifndef QT_NO_OPENGL

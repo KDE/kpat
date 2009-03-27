@@ -24,7 +24,6 @@
 class DealerScene;
 class QWheelEvent;
 class KXmlGuiWindow;
-class QAction;
 
 class PatienceView: public QGraphicsView
 {

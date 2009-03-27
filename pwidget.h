@@ -23,11 +23,6 @@
 #ifndef PWIDGET_H
 #define PWIDGET_H
 
-//Added by qt3to4:
-#include <QPixmap>
-#include <QLabel>
-#include <QShowEvent>
-
 #include <kxmlguiwindow.h>
 #include <krecentfilesaction.h>
 
@@ -37,7 +32,7 @@ class KToggleAction;
 class KSelectAction;
 class KRecentFilesAction;
 class KAction;
-class QLabel;
+class QShowEvent;
 class QStackedWidget;
 class cardMap;
 class DealerInfo;
