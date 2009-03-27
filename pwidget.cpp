@@ -117,18 +117,6 @@ pWidget::pWidget()
     a->setText(i18n("Statistics"));
     connect( a, SIGNAL( triggered( bool ) ), SLOT(showStats()) );
 
-    hintaction = KStandardGameAction::hint( 0, 0, actionCollection() );
-
-    demoaction = KStandardGameAction::demo( 0, 0, actionCollection() );
-
-    redealaction = actionCollection()->addAction("game_redeal");
-    redealaction->setText( i18n("&Redeal") );
-    redealaction->setIcon( KIcon("roll") );
-
-    dropaction = actionCollection()->addAction("game_drop");
-    dropaction->setText( i18n("Drop") );
-    dropaction->setIcon( KIcon("legalmoves") );
-
     gamehelpaction = actionCollection()->addAction("help_game");
     connect( gamehelpaction, SIGNAL( triggered( bool ) ), SLOT(helpGame()));
     gamehelpaction->setShortcuts( KShortcut( Qt::Key_F2 ) );
@@ -167,6 +155,18 @@ pWidget::pWidget()
     QSize defaultSize = qApp->desktop()->availableGeometry().size() * 0.7;
     setupGUI(defaultSize, Create | Save | ToolBar | StatusBar | Keys);
     statusBar()->insertPermanentItem( "", 1, 0 );
+
+    // Create this actions after the call to setupGUI to prevent them from
+    // automatically inserted into the menu. Instead they are inserted
+    // dynamically through the "game_actions" action list.
+    hintaction = KStandardGameAction::hint( 0, 0, actionCollection() );
+    demoaction = KStandardGameAction::demo( 0, 0, actionCollection() );
+    redealaction = actionCollection()->addAction("game_redeal");
+    redealaction->setText( i18n("&Redeal") );
+    redealaction->setIcon( KIcon("roll") );
+    dropaction = actionCollection()->addAction("game_drop");
+    dropaction->setText( i18n("Drop") );
+    dropaction->setIcon( KIcon("legalmoves") );
 
     Render::loadTheme( KStandardDirs::locate( "data", "kpat/theme.svg" ) );
 }
