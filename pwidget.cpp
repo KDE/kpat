@@ -303,7 +303,7 @@ void pWidget::setGameCaption()
 bool pWidget::allowedToStartNewGame()
 {
     // Check if the user is already running a game, and if she is,
-    // then ask if she wants to about it.
+    // then ask if she wants to abort it.
     return !m_dealer
            || !m_dealer->hasBeenStarted()
            || m_dealer->isGameWon()
@@ -411,6 +411,9 @@ void pWidget::updateActions()
     {
         undo->setEnabled( false );
         redo->setEnabled( false );
+
+        guiFactory()->unplugActionList( this, "dealer_options" );
+        delete actionCollection()->action( "dealer_options" );
     }
 
     hintaction->setEnabled( false );

@@ -133,7 +133,7 @@ Klondike::Klondike()
     setSolver( new KlondikeSolver( this, pile->draw() ) );
     redealt = false;
 
-    options = new KSelectAction(i18n("Options"), this );
+    options = new KSelectAction(i18n("Klondike &Options"), this );
 
     KXmlGuiWindow *xmlgui = PatienceView::instance()->mainWindow();
 

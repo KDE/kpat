@@ -121,7 +121,7 @@ Spider::Spider()
     setActions(DealerScene::Hint | DealerScene::Demo );
     setSolver( new SpiderSolver( this ) );
 
-    options = new KSelectAction(i18n("Options"), this );
+    options = new KSelectAction(i18n("Spider &Options"), this );
     KXmlGuiWindow *xmlgui = 0;
 
     if ( PatienceView::instance() )
