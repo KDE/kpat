@@ -25,6 +25,7 @@
 #include <cmath>
 
 #include <QStyleOptionGraphicsItem>
+#include <QtCore/QCoreApplication>
 #include <QtCore/QMutex>
 #include <QtCore/QString>
 #include <QtCore/QThread>
@@ -61,6 +62,32 @@ inline void myassert_fail (__const char *__assertion, __const char *__file,
 #endif
 
 #define myassert assert
+
+
+// ================================================================
+//                      class DealerInfoList
+
+DealerInfoList *DealerInfoList::_self = 0;
+
+void DealerInfoList::cleanupDealerInfoList()
+{
+    delete DealerInfoList::_self;
+}
+
+DealerInfoList *DealerInfoList::self()
+{
+    if (!_self) {
+        _self = new DealerInfoList();
+        qAddPostRoutine(DealerInfoList::cleanupDealerInfoList);
+    }
+    return _self;
+}
+
+void DealerInfoList::add(DealerInfo *dealer)
+{
+    list.append(dealer);
+}
+
 
 // ================================================================
 //                         class MoveHint

@@ -25,35 +25,13 @@
 
 #include <cmath>
 
-#include <QtCore/QCoreApplication>
 #include <QtGui/QResizeEvent>
 #include <QtGui/QWheelEvent>
 
 #include <kdebug.h>
 
-DealerInfoList *DealerInfoList::_self = 0;
-
-void DealerInfoList::cleanupDealerInfoList()
-{
-    delete DealerInfoList::_self;
-}
-
-DealerInfoList *DealerInfoList::self()
-{
-    if (!_self) {
-        _self = new DealerInfoList();
-        qAddPostRoutine(DealerInfoList::cleanupDealerInfoList);
-    }
-    return _self;
-}
-
-void DealerInfoList::add(DealerInfo *dealer)
-{
-    list.append(dealer);
-}
-
 // ================================================================
-//                            class Dealer
+//                        class PatienceView
 
 
 PatienceView *PatienceView::s_instance = 0;

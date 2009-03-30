@@ -156,8 +156,8 @@ pWidget::pWidget()
     setupGUI(defaultSize, Create | Save | ToolBar | StatusBar | Keys);
     statusBar()->insertPermanentItem( "", 1, 0 );
 
-    // Create this actions after the call to setupGUI to prevent them from
-    // automatically inserted into the menu. Instead they are inserted
+    // Create these actions after the call to setupGUI to prevent them from
+    // being automatically inserted into the menu. Instead they are inserted
     // dynamically through the "game_actions" action list.
     hintaction = KStandardGameAction::hint( 0, 0, actionCollection() );
     demoaction = KStandardGameAction::demo( 0, 0, actionCollection() );
@@ -341,7 +341,7 @@ void pWidget::newGameType(int id)
         m_stack->addWidget(dill);
     }
 
-    // If we're replacing an exisiting DealerScene, record the stats of the
+    // If we're replacing an existing DealerScene, record the stats of the
     // game already in progress.
     if ( m_dealer )
         m_dealer->recordGameStatistics();
