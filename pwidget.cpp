@@ -167,7 +167,7 @@ pWidget::pWidget()
     dropaction->setText( i18n("Drop") );
     dropaction->setIcon( KIcon("legalmoves") );
 
-    Render::loadTheme( KStandardDirs::locate( "data", "kpat/theme.svg" ) );
+    Render::loadTheme( KStandardDirs::locate( "data", "kpat/theme.svgz" ) );
 }
 
 pWidget::~pWidget()
