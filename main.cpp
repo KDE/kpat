@@ -86,8 +86,8 @@ void sendAllPendingResizeEvents( QWidget * widget )
     do
     {
         foundOne = false;
-        QList<QWidget *> allChildWidgets = mainWindow->findChildren<QWidget *>();
-        allChildWidgets.prepend( mainWindow );
+        QList<QWidget *> allChildWidgets = widget->findChildren<QWidget *>();
+        allChildWidgets.prepend( widget );
         foreach( QWidget* w, allChildWidgets )
         {
             if ( w->testAttribute(Qt::WA_PendingResizeEvent) )
@@ -102,11 +102,14 @@ void sendAllPendingResizeEvents( QWidget * widget )
         }
         // Process LayoutRequest events, in particular
         qApp->sendPostedEvents();
-    } while ( foundOne );
 
-    // Reset visible flag, to avoid crashes in qt
-    foreach( QWidget* w, allChildWidgets )
-        w->setAttribute(Qt::WA_WState_Visible, false);
+        if ( !foundOne )
+        {
+            // Reset visible flag, to avoid crashes in qt
+            foreach( QWidget* w, allChildWidgets )
+                w->setAttribute(Qt::WA_WState_Visible, false);
+        }
+    } while ( foundOne );
 }
 
 int main( int argc, char **argv )
