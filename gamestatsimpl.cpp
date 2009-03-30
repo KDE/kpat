@@ -82,7 +82,7 @@ void GameStatsImpl::setGameType(int gameIndex)
 	else
 		ui->Won->setText( QString::number(w));
 	ui->WinStreak->setText( QString::number( cg.readEntry(QString("maxwinstreak%1").arg(gameIndex), 0)));
-	ui->LooseStreak->setText( QString::number( cg.readEntry(QString("maxloosestreak%1").arg(gameIndex), 0)));
+	ui->LoseStreak->setText( QString::number( cg.readEntry(QString("maxloosestreak%1").arg(gameIndex), 0)));
 	unsigned int l = cg.readEntry(QString("loosestreak%1").arg(gameIndex),0);
 	if (l)
 		ui->CurrentStreak->setText( i18np("1 loss", "%1 losses", l) );
