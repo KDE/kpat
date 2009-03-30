@@ -348,7 +348,7 @@ void pWidget::newGameType(int id)
 
     const DealerInfo * di = m_dealer_map.value(id, DealerInfoList::self()->games().first());
     m_dealer = di->createGame();
-    m_dealer->setGameId( id );
+    m_dealer->setGameId( di->ids.first() );
     dill->setScene( m_dealer );
     m_stack->setCurrentWidget(dill);
 
