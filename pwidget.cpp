@@ -583,7 +583,6 @@ bool pWidget::openGame(const KUrl &url, bool addToRecentFiles)
                         }
 
                         show();
-                        KIO::NetAccess::removeTempFile( tmpFile );
 
                         if ( addToRecentFiles )
                             recent->addUrl(url);
@@ -603,6 +602,8 @@ bool pWidget::openGame(const KUrl &url, bool addToRecentFiles)
         {
             error = i18n("The following error occurred while reading the file:\n\"%1\"", error);
         }
+
+        KIO::NetAccess::removeTempFile(tmpFile);
     }
     else
     {
@@ -627,7 +628,9 @@ void pWidget::saveGame()
     if (m_dealer)
     {
         KUrl url = KFileDialog::getSaveUrl();
-        KIO::NetAccess::upload(m_dealer->save_it(), url, this);
+        QString tmpFile = m_dealer->save_it();
+        KIO::NetAccess::upload(tmpFile, url, this);
+        KIO::NetAccess::removeTempFile(tmpFile);
         recent->addUrl(url);
     }
 }
