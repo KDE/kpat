@@ -77,7 +77,7 @@ pWidget::pWidget()
     KStandardGameAction::restart(this, SLOT(restart()), actionCollection());
     KStandardGameAction::load(this, SLOT(openGame()), actionCollection());
     recent = KStandardGameAction::loadRecent(this, SLOT(openGame(const KUrl&)), actionCollection());
-    recent->loadEntries( KGlobal::config()->group( QString() ));
+    recent->loadEntries(KGlobal::config()->group( QString() ));
     KStandardGameAction::save(this, SLOT(saveGame()), actionCollection());
     KStandardGameAction::quit(this, SLOT(close()), actionCollection());
 
@@ -173,6 +173,8 @@ pWidget::pWidget()
 
 pWidget::~pWidget()
 {
+    recent->saveEntries(KGlobal::config()->group( QString() ));
+
     delete dill;
     delete m_cards;
 }
@@ -584,10 +586,7 @@ bool pWidget::openGame(const KUrl &url, bool addToRecentFiles)
                         KIO::NetAccess::removeTempFile( tmpFile );
 
                         if ( addToRecentFiles )
-                        {
                             recent->addUrl(url);
-                            recent->saveEntries(KGlobal::config()->group( QString() ));
-                        }
                     }
                 }
                 else
@@ -630,7 +629,6 @@ void pWidget::saveGame()
         KUrl url = KFileDialog::getSaveUrl();
         KIO::NetAccess::upload(m_dealer->save_it(), url, this);
         recent->addUrl(url);
-        recent->saveEntries( KGlobal::config()->group( QString() ) );
     }
 }
 
