@@ -30,7 +30,6 @@
 
 #include <QTimer>
 #include <QList>
-#include <QShowEvent>
 #include <QDomDocument>
 #include <QDesktopWidget>
 #include <QStackedWidget>
@@ -370,8 +369,6 @@ void pWidget::newGameType(int id)
     connect(m_dealer, SIGNAL(gameSolverUnknown()), SLOT(slotGameSolverUnknown()));
 
     updateActions();
-
-    QTimer::singleShot( 0, this, SLOT( show() ) );
 }
 
 void pWidget::slotShowGameSelectionScreen()
@@ -506,14 +503,6 @@ void pWidget::closeEvent(QCloseEvent *e)
     KXmlGuiWindow::closeEvent(e);
 }
 
-void pWidget::showEvent(QShowEvent *e)
-{
-    kDebug(11111) << "showEvent ";
-    if ( dill )
-        dill->setWasShown( true );
-    KXmlGuiWindow::showEvent(e);
-}
-
 void pWidget::slotGameInfo(const QString &text)
 {
     statusBar()->showMessage(text, 3000);
@@ -581,8 +570,6 @@ bool pWidget::openGame(const KUrl &url, bool addToRecentFiles)
                         {
                             slotGameSelected(id);
                         }
-
-                        show();
 
                         if ( addToRecentFiles )
                             recent->addUrl(url);

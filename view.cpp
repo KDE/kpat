@@ -38,7 +38,6 @@ PatienceView *PatienceView::s_instance = 0;
 
 PatienceView::PatienceView( KXmlGuiWindow* _window, QWidget* _parent )
   : QGraphicsView( _parent ),
-    m_shown( true ),
     m_window( _window )
 {
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -109,11 +108,6 @@ void PatienceView::resizeEvent( QResizeEvent *e )
     if ( e )
         QGraphicsView::resizeEvent(e);
 
-    kDebug(11111) << "resizeEvent" << wasShown();
-
-    if ( !wasShown() )
-        return;
-
 #if 0
     foreach (QWidget *widget, QApplication::allWidgets())
         kDebug() << widget << " " << widget->objectName() << " " << widget->geometry();
@@ -121,12 +115,16 @@ void PatienceView::resizeEvent( QResizeEvent *e )
     kDebug() << "resizeEvent" << size() << " " << e << " " << dscene() << " " << parent()->isVisible(); /*<< " " << kBacktrace()*/
 #endif
 
-    resetCachedContent();
-
-    if ( !dscene() )
-        return;
-
-    dscene()->setSceneSize( size() );
+    if ( dscene() )
+    {
+        kDebug() << "resizeEvent got through" << e->size();
+        resetCachedContent();
+        dscene()->setSceneSize( size() );
+    }
+    else
+    {
+        kDebug() << "resizeEvent ignored" << e->size();
+    }
 }
 
 #include "view.moc"

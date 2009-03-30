@@ -39,9 +39,6 @@ public:
     void setScene( QGraphicsScene *scene);
     DealerScene  *dscene() const;
 
-    bool wasShown() const { return m_shown; }
-    void setWasShown(bool b) { m_shown = b; }
-
     KXmlGuiWindow *mainWindow() const;
 
 protected:
@@ -52,8 +49,6 @@ protected:
 protected:
 
     static PatienceView *s_instance;
-
-    bool m_shown;
 
     KXmlGuiWindow * m_window;
 };

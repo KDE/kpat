@@ -33,7 +33,6 @@ class KToggleAction;
 class KSelectAction;
 class KRecentFilesAction;
 class KAction;
-class QShowEvent;
 class QStackedWidget;
 class cardMap;
 class DealerInfo;
@@ -82,7 +81,6 @@ public slots:
 
 protected:
     virtual void closeEvent(QCloseEvent * e);
-    virtual void showEvent(QShowEvent *e);
     virtual void saveNewToolbarConfig();
 
 private slots:

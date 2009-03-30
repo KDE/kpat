@@ -240,35 +240,27 @@ int main( int argc, char **argv )
     QFile savedState( KStandardDirs::locateLocal("appdata", saved_state_file) );
 
     pWidget *w = new pWidget;
-    sendAllPendingResizeEvents( w );
-
+    sendAllPendingResizeEvents(w);
     if (args->count())
     {
         if (!w->openGame(args->url(0)))
-        {
             w->slotShowGameSelectionScreen();
-            w->show();
-        }
     }
     else if (indexMap.contains(gametype))
     {
         w->slotGameSelected(indexMap.value(gametype));
-        w->show();
     }
     else if (savedState.exists())
     {
         if (!w->openGame(savedState.fileName(), false))
-        {
             w->slotShowGameSelectionScreen();
-            w->show();
-        }
         savedState.remove();
     }
     else
     {
         w->slotShowGameSelectionScreen();
-        w->show();
     }
+    w->show();
 
     args->clear();
     return application.exec();
