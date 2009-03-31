@@ -307,6 +307,7 @@ bool pWidget::allowedToStartNewGame()
     // then ask if she wants to abort it.
     return !m_dealer
            || !m_dealer->hasBeenStarted()
+           || m_dealer->wasJustSaved()
            || m_dealer->isGameWon()
            || m_dealer->isGameLost()
            || KMessageBox::warningContinueCancel(0,

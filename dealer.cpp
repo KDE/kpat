@@ -186,6 +186,7 @@ public:
     quint32 _id;
     bool _gameRecorded;
     bool gameStarted;
+    bool wasJustSaved;
     QGraphicsPixmapItem *wonItem;
     bool gothelp;
     bool toldAboutLostGame;
@@ -272,6 +273,7 @@ void DealerScene::takeState()
 
     if (n) {
         d->initialDeal = false;
+        d->wasJustSaved = false;
         if (isGameWon()) {
             won();
             d->toldAboutWonGame = true;
@@ -353,6 +355,8 @@ void DealerScene::saveGame(QDomDocument &doc)
             dealer.appendChild(pile);
         }
     }
+
+    d->wasJustSaved = true;
 
     /*
     QDomElement eList = doc.createElement("undo");
@@ -521,6 +525,7 @@ DealerScene::DealerScene():
     d->_won = false;
     d->_gameRecorded = false;
     d->gameStarted = false;
+    d->wasJustSaved = false;
     d->wonItem = 0;
     d->gothelp = false;
     d->myActions = 0;
@@ -887,6 +892,7 @@ void DealerScene::startNew(long gameNumber)
     d->redoList.clear();
     d->toldAboutLostGame = false;
     d->toldAboutWonGame = false;
+    d->wasJustSaved = false;
     d->loadedMoveCount = 0;
     emit updateMoves();
 
@@ -1853,9 +1859,17 @@ bool DealerScene::hasBeenStarted() const
     return d->gameStarted;
 }
 
+bool DealerScene::wasJustSaved() const
+{
+    return d->wasJustSaved;
+}
+
 void DealerScene::recordGameStatistics()
 {
-    if ( d->gameStarted && !d->_gameRecorded )
+    // Don't record the game if it was never started, if it is unchanged since
+    // it was last saved (allowing the user to close KPat after saving without
+    // it recording a loss) or if it has already been recorded.
+    if ( d->gameStarted && !d->wasJustSaved && !d->_gameRecorded )
     {
         QString totalPlayedKey = QString("total%1").arg( d->_id );
         QString wonKey = QString("won%1").arg( d->_id );

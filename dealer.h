@@ -171,6 +171,7 @@ public:
 
     bool isInitialDeal() const;
     bool hasBeenStarted() const;
+    bool wasJustSaved() const;
     void recordGameStatistics();
 
     bool cardsAreMoving() const { return !movingCards.empty(); }
