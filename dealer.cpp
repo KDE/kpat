@@ -526,7 +526,6 @@ DealerScene::DealerScene():
     d->_gameRecorded = false;
     d->gameStarted = false;
     d->wasJustSaved = false;
-    d->wonItem = 0;
     d->gothelp = false;
     d->myActions = 0;
     d->m_solver = 0;
@@ -557,6 +556,10 @@ DealerScene::DealerScene():
     d->autoDropTimer = new QTimer( this );
     connect( d->autoDropTimer, SIGNAL( timeout() ), this, SLOT( startAutoDrop() ) );
     d->autoDropTimer->setSingleShot( true );
+
+    d->wonItem  = new QGraphicsPixmapItem( 0, this );
+    d->wonItem->setZValue( 2000 );
+    d->wonItem->hide();
 }
 
 DealerScene::~DealerScene()
@@ -882,9 +885,8 @@ void DealerScene::startNew(long gameNumber)
     }
 
     d->_won = false;
+    d->wonItem->hide();
     _waiting = 0;
-    delete d->wonItem;
-    d->wonItem = 0;
     d->gothelp = false;
     qDeleteAll(d->undoList);
     d->undoList.clear();
@@ -923,6 +925,7 @@ void DealerScene::showWonMessage()
     kDebug(11111) << "showWonMessage" << waiting();
     emit undoPossible( false );
 
+    d->wonItem->show();
     updateWonItem();
 
     emit demoPossible( false );
@@ -948,14 +951,8 @@ void DealerScene::updateWonItem()
     }
 
     // Only regenerate the pixmap if it doesn't already exist or the new one is a significantly different size.
-    if ( !d->wonItem || abs( d->wonItem->boundingRect().width() - boxWidth ) > 20 )
+    if ( abs( d->wonItem->boundingRect().width() - boxWidth ) > 20 )
     {
-        if ( !d->wonItem )
-        {
-            d->wonItem  = new QGraphicsPixmapItem( 0, this );
-            d->wonItem->setZValue( 2000 );
-        }
-
         QRect contentsRect = QRect( 0, 0, boxWidth, boxHeight );
         QPixmap pix = Render::renderElement( "message_frame", contentsRect.size() );
 
@@ -2076,7 +2073,7 @@ void DealerScene::setSceneSize( const QSize &s )
         p->setMaximalSpace( myRect.size() );
     }
 
-    if ( d->wonItem )
+    if ( d->wonItem->isVisible() )
         updateWonItem();
 
     for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
