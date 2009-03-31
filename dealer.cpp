@@ -912,7 +912,9 @@ void DealerScene::startNew(long gameNumber)
             c->stopAnimation();
         }
     }
-    emit undoPossible(false);
+
+    emit demoPossible( true );
+    emit hintPossible( true );
     d->initialDeal = true;
     kDebug(11111) << "startNew restart\n";
     restart();
@@ -923,7 +925,6 @@ void DealerScene::startNew(long gameNumber)
 void DealerScene::showWonMessage()
 {
     kDebug(11111) << "showWonMessage" << waiting();
-    emit undoPossible( false );
 
     d->wonItem->show();
     updateWonItem();
@@ -931,7 +932,7 @@ void DealerScene::showWonMessage()
     emit demoPossible( false );
     emit hintPossible( false );
     emit redealPossible( false );
-    // emit undoPossible(false); // technically it's possible but cheating :)
+    emit undoPossible( false ); // technically it's possible but cheating :)
 }
 
 void DealerScene::updateWonItem()
