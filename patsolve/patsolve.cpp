@@ -172,7 +172,7 @@ bool Solver::recursive(POSITION *parent)
 #endif
         Total_positions++;
         if ( Total_positions % 10000 == 0 )
-            kDebug() << "positions" << Total_positions;
+            kDebug(11111) << "positions" << Total_positions;
 
         pos->move = *mp;                 /* struct copy */
         pos->cluster = 0;
@@ -181,7 +181,7 @@ bool Solver::recursive(POSITION *parent)
 
         bool ret = recursive(pos);
         fit |= ret;
-        //kDebug() << "ret" << ret << " " << depth;
+        //kDebug(11111) << "ret" << ret << " " << depth;
         undo_move(mp);
         mm->give_back_block( (quint8 *)pos->node );
         if ( ret )
@@ -1085,7 +1085,7 @@ POSITION *Solver::new_position(POSITION *parent, MOVE *m)
         }
         if ( Total_positions % 1000 == 1000 )
             print_layout();
-        kDebug() << "new" << dummy;
+        kDebug(11111) << "new" << dummy;
 #endif
 	p += sizeof(POSITION);
 	return pos;

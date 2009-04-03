@@ -110,20 +110,20 @@ void PatienceView::resizeEvent( QResizeEvent *e )
 
 #if 0
     foreach (QWidget *widget, QApplication::allWidgets())
-        kDebug() << widget << " " << widget->objectName() << " " << widget->geometry();
+        kDebug(11111) << widget << " " << widget->objectName() << " " << widget->geometry();
 
-    kDebug() << "resizeEvent" << size() << " " << e << " " << dscene() << " " << parent()->isVisible(); /*<< " " << kBacktrace()*/
+    kDebug(11111) << "resizeEvent" << size() << " " << e << " " << dscene() << " " << parent()->isVisible(); /*<< " " << kBacktrace()*/
 #endif
 
     if ( dscene() )
     {
-        kDebug() << "resizeEvent got through" << e->size();
+        kDebug(11111) << "resizeEvent got through" << e->size();
         resetCachedContent();
         dscene()->setSceneSize( size() );
     }
     else
     {
-        kDebug() << "resizeEvent ignored" << e->size();
+        kDebug(11111) << "resizeEvent ignored" << e->size();
     }
 }
 

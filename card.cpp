@@ -204,7 +204,7 @@ void Card::setZValue(double z)
 void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
 {
 
-    //kDebug() << "Card::moveTo" << x2 << " " << y2 << " " << duration << " " << kBacktrace();
+    //kDebug(11111) << "Card::moveTo" << x2 << " " << y2 << " " << duration << " " << kBacktrace();
     if ( fabs( x2 - x() ) < 2 && fabs( y2 - y() ) < 1 )
     {
         setPos( QPointF( x2, y2 ) );
@@ -263,10 +263,10 @@ void Card::flipTo(qreal x2, qreal y2, int duration)
     animation->setScaleAt( 1, 1, 1 );
     QPointF hp = pos();
     hp.setX( ( x1 + x2 + boundingRect().width() ) / 2 );
-    //kDebug() << "flip" << name() << " " << x1 << " " << x2 << " " << y1 << " " << y2;
+    //kDebug(11111) << "flip" << name() << " " << x1 << " " << x2 << " " << y1 << " " << y2;
     if ( fabs( y1 - y2) > 2 )
         hp.setY( ( y1 + y2 + boundingRect().height() ) / 20 );
-    //kDebug() << "hp" << pos() << " " << hp << " " << QPointF( x2, y2 );
+    //kDebug(11111) << "hp" << pos() << " " << hp << " " << QPointF( x2, y2 );
     animation->setPosAt(0.5, hp );
     animation->setPosAt(1, QPointF( x2, y2 ));
 
@@ -321,7 +321,7 @@ void Card::testVisibility()
             return;
         }
 
-        //kDebug() << c->name() << "covers" << name() << " " << c->mapToScene( c->boundingRect() ).boundingRect() << " " << mapToScene( boundingRect() ).boundingRect() << " " << zValue() << " " << c->zValue();
+        //kDebug(11111) << c->name() << "covers" << name() << " " << c->mapToScene( c->boundingRect() ).boundingRect() << " " << mapToScene( boundingRect() ).boundingRect() << " " << zValue() << " " << c->zValue();
         c->m_hiddenCards.append( this );
         m_isSeen = CardHidden;
         return;
@@ -344,7 +344,7 @@ void Card::stopAnimation()
     if ( !animation )
         return;
 
-    //kDebug() << gettime() << "stopAnimation" << name();
+    //kDebug(11111) << gettime() << "stopAnimation" << name();
     QGraphicsItemAnimation *old_animation = animation;
     animation = 0;
     if ( old_animation->timeLine()->state() == QTimeLine::Running )
@@ -376,7 +376,7 @@ void Card::hoverEnterEvent ( QGraphicsSceneHoverEvent *  )
 
     m_hoverTimer->start(200);
     //zoomIn(400);
-    //kDebug() << "hoverEnterEvent\n";
+    //kDebug(11111) << "hoverEnterEvent\n";
 }
 
 void Card::hoverLeaveEvent ( QGraphicsSceneHoverEvent * )
@@ -393,7 +393,7 @@ void Card::hoverLeaveEvent ( QGraphicsSceneHoverEvent * )
 }
 
 void Card::mousePressEvent ( QGraphicsSceneMouseEvent *ev ) {
-    //kDebug() << "mousePressEvent\n";
+    //kDebug(11111) << "mousePressEvent\n";
     if ( !isFaceUp() )
         return;
     if ( this == source()->top() )
@@ -411,7 +411,7 @@ void Card::mousePressEvent ( QGraphicsSceneMouseEvent *ev ) {
 }
 
 void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ev ) {
-    //kDebug() << "mouseReleaseEvent\n";
+    //kDebug(11111) << "mouseReleaseEvent\n";
     m_moving = false;
 
     if ( !isFaceUp() )
@@ -470,7 +470,7 @@ void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     Q_ASSERT( !pixmap().isNull() );
 
     //painter->drawPixmap(exposed, pixmap(), exposed );
-    //kDebug() << "exposed" << exposed;
+    //kDebug(11111) << "exposed" << exposed;
 
     QRect body = cardMap::self()->opaqueRect();
     QMatrix m = painter->combinedMatrix();

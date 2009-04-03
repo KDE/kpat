@@ -94,7 +94,7 @@ void Fortyeight::restart()
 
 void Fortyeight::deckClicked( Card * )
 {
-    //kDebug() << "deckClicked" << c->name() << " " << pile->top()->name() << " " << pile->top()->animated();
+    //kDebug(11111) << "deckClicked" << c->name() << " " << pile->top()->name() << " " << pile->top()->animated();
     if ( pile->top() && pile->top()->animated() )
         return;
     if ( Deck::deck()->isEmpty())

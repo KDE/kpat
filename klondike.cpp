@@ -70,7 +70,7 @@ void KlondikePile::relayoutCards()
     {
         if ( ( *it )->animated() )
             continue;
-        //kDebug() << "car" << car << " " << p;
+        //kDebug(11111) << "car" << car << " " << p;
         ( *it )->setPos( QPointF( x + diff * cardMap::self()->wantedCardWidth(), y ) );
         ( *it )->setSpread( QSizeF( diff * 10, 0 ) );
         ( *it )->setZValue( z );

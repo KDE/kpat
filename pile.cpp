@@ -151,7 +151,7 @@ void Pile::rescale()
 
     QPointF new_pos = QPointF( _pilePos.x() * cardMap::self()->wantedCardWidth() / 10.,
                                _pilePos.y() * cardMap::self()->wantedCardHeight() / 10. );
-    //kDebug() << scene()->sceneRect() << pos() << new_pos << dscene()->offsetX();
+    //kDebug(11111) << scene()->sceneRect() << pos() << new_pos << dscene()->offsetX();
     if ( new_pos.x() < 0 )
         new_pos.setX( scene()->width() - cardMap::self()->wantedCardWidth() + new_pos.x() );
     else
@@ -304,12 +304,12 @@ void Pile::relayoutCards()
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
-        //kDebug() << ( *it )->name() << " " << ( *it )->spread();
+        //kDebug(11111) << ( *it )->name() << " " << ( *it )->spread();
         // the spreads should hopefully have all one sign, or we get in trouble
         preferredSize.rwidth() += fabs( ( *it )->spread().width() );
         preferredSize.rheight() += fabs( ( *it )->spread().height() );
         if ( ( *it )->animated() || dscene()->isMoving( *it ) ) {
-            // kDebug() << ( *it )->name() << "is animated - restarting timer\n";
+            // kDebug(11111) << ( *it )->name() << "is animated - restarting timer\n";
             tryRelayoutCards();
             return;
         }
@@ -321,7 +321,7 @@ void Pile::relayoutCards()
     if ( preferredSize.width() )
         divx = qMin( ( maximalSpace().width() - cardMap::self()->wantedCardWidth() ) / preferredSize.width() * 10 / cardMap::self()->wantedCardWidth(), 1. );
 
-    //kDebug() << "relayoutCards" << objectName() << " " <<  divx << " " << divy << " " << maximalSpace() << " " << preferredSize << " " << reservedSpace();
+    //kDebug(11111) << "relayoutCards" << objectName() << " " <<  divx << " " << divy << " " << maximalSpace() << " " << preferredSize << " " << reservedSpace();
 
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
@@ -406,7 +406,7 @@ void Pile::add( Card* _card, bool _facedown )
     qreal x2, y2, z2;
 
     if (t) {
-        // kDebug() << "::add" << t->pos() << " " << t->spread() << " " << _card->name() << " " << t->name() << " " << _card->spread();
+        // kDebug(11111) << "::add" << t->pos() << " " << t->spread() << " " << _card->name() << " " << t->name() << " " << _card->spread();
         x2 = t->realX() + t->spread().width()  / 10 * cardMap::self()->wantedCardWidth();
         y2 = t->realY() + t->spread().height() / 10 * cardMap::self()->wantedCardHeight();
         z2 = t->realZ() + 1;
@@ -488,7 +488,7 @@ CardList Pile::cardPressed(Card *c)
 {
     CardList result;
 
-    //kDebug() << gettime() << "cardPressed" << c->name() << " " << c->isFaceUp();
+    //kDebug(11111) << gettime() << "cardPressed" << c->name() << " " << c->isFaceUp();
     emit pressed( c );
 
     if ( !legalRemove(c) )
@@ -550,14 +550,14 @@ void Pile::moveCardsBack(CardList &cl, int steps )
         if (c == *iti) {
 
             if (before) {
-                // kDebug() << "moveCardsBack" << ( *iti )->name() << " " << before->name() << " " << before->spread();
+                // kDebug(11111) << "moveCardsBack" << ( *iti )->name() << " " << before->name() << " " << before->spread();
                 off = before->spread();
                 c->moveTo( before->realX() + off.width() / 10 * cardMap::self()->wantedCardWidth(),
 			   before->realY() + off.height()  / 10 * cardMap::self()->wantedCardHeight(),
 			   before->realZ() + 1, steps);
             }
             else {
-                // kDebug() << "moveCardsBack" << ( *iti )->name() << "no before";
+                // kDebug(11111) << "moveCardsBack" << ( *iti )->name() << "no before";
                 c->moveTo( x(), y(), zValue() + 1, steps);
             }
             break;

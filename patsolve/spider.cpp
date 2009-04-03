@@ -23,7 +23,7 @@
 void SpiderSolver::make_move(MOVE *m)
 {
 #if PRINT
-    kDebug() << "\n\nmake_move\n";
+    kDebug(11111) << "\n\nmake_move\n";
     if ( m->totype == O_Type )
         fprintf( stderr, "move %d from %d out (at %d) Prio: %d\n\n", m->card_index, m->from, m->turn_index, m->pri );
     else
@@ -112,7 +112,7 @@ void SpiderSolver::make_move(MOVE *m)
 void SpiderSolver::undo_move(MOVE *m)
 {
 #if PRINT
-    kDebug() << "\n\nundo_move\n";
+    kDebug(11111) << "\n\nundo_move\n";
     if ( m->totype == O_Type )
         fprintf( stderr, "move %d from %d out (at %d)\n\n", m->card_index, m->from, m->turn_index );
     else
@@ -437,14 +437,14 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
         break; // one is enough
     }
 
-    //kDebug() << "n" << n << toomuch << foundgood;
+    //kDebug(11111) << "n" << n << toomuch << foundgood;
     if ( n > toomuch && foundgood )
     {
         mp = Possible;
         int i = 0;
         while ( i < n )
         {
-            //kDebug() << "i" << i << Possible[i].pri;
+            //kDebug(11111) << "i" << i << Possible[i].pri;
             if ( Possible[i].pri < 0 )
             {
                 // kill it
@@ -457,7 +457,7 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
         i = 0;
         while ( i < n )
         {
-            //kDebug() << "i2" << i << Possible[i].pri;
+            //kDebug(11111) << "i2" << i << Possible[i].pri;
             if ( Possible[i].pri < 0 )
             {
                 // kill it

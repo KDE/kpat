@@ -185,7 +185,7 @@ bool FortyeightSolver::checkMove( int from, int to, MOVE *mp )
                 allowed = true;
         } else {
             card_t top = *Wp[to];
-            //kDebug() << "to" << to << " " << from;
+            //kDebug(11111) << "to" << to << " " << from;
             if ( SUIT( top ) == SUIT( card ) &&
                  RANK( top ) == RANK( card ) - 1 )
                 allowed = true;
@@ -361,7 +361,7 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
                         if ( moves < 2 || moves == Wlen[w] || !switched)
                             continue;
                         //print_layout();
-                        //kDebug() << "EMPTY move to empty" << w << " " << to << " " << moves << " " << switched;
+                        //kDebug(11111) << "EMPTY move to empty" << w << " " << to << " " << moves << " " << switched;
                         mp->card_index = moves-1;
                         mp->from = w;
                         mp->to = to;
@@ -383,7 +383,7 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
                         Q_ASSERT( SUIT( top ) == SUIT( cur ) );
                         if ( RANK( top ) == RANK( cur ) + 1 )
                         {
-                            //kDebug() << "MOVEEEEE move to non-empty" << w << " " << to << " " << moves << " " << switched;
+                            //kDebug(11111) << "MOVEEEEE move to non-empty" << w << " " << to << " " << moves << " " << switched;
                             mp->card_index = i-1;
                             mp->from = w;
                             mp->to = to;
@@ -432,7 +432,7 @@ bool FortyeightSolver::isWon()
     for ( int i = 8; i < 16; ++i )
         if ( Wlen[i] != 13 )
             return false;
-    kDebug() << "isWon" << getOuts();
+    kDebug(11111) << "isWon" << getOuts();
     return true;
 }
 
