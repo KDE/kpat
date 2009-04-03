@@ -44,7 +44,8 @@ Pile::Pile( int _index, DealerScene* parent)
       _rtype(Custom),
       myIndex(_index),
       _target(false),
-      m_highlighted( false )
+      m_highlighted( false ),
+      m_graphicVisible( true )
 {
     setObjectName( "<unknown>" );
     parent->addItem( this );
@@ -169,7 +170,16 @@ void Pile::rescale()
     QSize size( static_cast<int>( cardMap::self()->wantedCardWidth() + 1 ),
                 static_cast<int>( cardMap::self()->wantedCardHeight() + 1) );
 
-    setPixmap( Render::renderElement( isHighlighted() ? "pile_selected" : "pile", size ) );
+    if ( m_graphicVisible )
+    {
+        setPixmap( Render::renderElement( isHighlighted() ? "pile_selected" : "pile", size ) );
+    }
+    else
+    {
+        QPixmap blank( size );
+        blank.fill( Qt::transparent );
+        setPixmap( blank );
+    }
     //kDebug(11111) << gettime() << "rescale end\n";
 }
 
@@ -467,6 +477,12 @@ void Pile::setHighlighted( bool flag ) {
     m_highlighted = flag;
     rescale();
 }
+
+void Pile::setGraphicVisible( bool flag ) {
+    m_graphicVisible = flag;
+    rescale();
+}
+
 
 CardList Pile::cardPressed(Card *c)
 {

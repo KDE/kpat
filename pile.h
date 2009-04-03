@@ -77,6 +77,9 @@ public:
     void setHighlighted( bool flag );
     bool isHighlighted() const { return m_highlighted; }
 
+    void setGraphicVisible( bool flag );
+    bool isGraphicVisible() { return m_graphicVisible; } ;
+
     CardList cardPressed(Card *c);
 
     Card *top() const;
@@ -164,6 +167,7 @@ private:
     bool _target;
 
     bool m_highlighted;
+    bool m_graphicVisible;
     QPointF _pilePos;
     QSizeF m_reserved;
     QSizeF m_space;
