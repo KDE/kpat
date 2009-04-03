@@ -81,6 +81,7 @@ Spider::Spider()
         redeals[column]->setCheckIndex(0);
         redeals[column]->setAddFlags(Pile::disallow);
         redeals[column]->setRemoveFlags(Pile::disallow);
+        redeals[column]->setGraphicVisible( false );
         redeals[column]->setObjectName( QString( "redeals%1" ).arg( column ) );
         connect(redeals[column], SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
     }
@@ -109,7 +110,7 @@ Spider::Spider()
         legs[column]->setAddFlags(Pile::disallow);
         legs[column]->setRemoveFlags(Pile::disallow);
         legs[column]->setTarget(true);
-        legs[column]->setVisible( false );
+        legs[column]->setGraphicVisible( false );
         legs[column]->setZValue(14 * column);
         legs[column]->setObjectName( QString( "legs%1" ).arg( column ) );
     }
@@ -245,13 +246,7 @@ void Spider::setGameState(const QString &stream)
 {
     int i = stream.toInt();
 
-    if (m_leg > i/10) {
-        for (m_leg--; m_leg > i/10; m_leg--)
-            legs[m_leg]->setVisible(false);
-        legs[m_leg]->setVisible(false);
-    } else
-        for (; m_leg < i/10; m_leg++)
-            legs[m_leg]->setVisible(true);
+    m_leg = i/10;
 
     if (m_redeal > i%10) {
         for (m_redeal--; m_redeal > i%10; m_redeal--)
@@ -311,8 +306,6 @@ bool Spider::checkPileDeck(Pile *check, bool checkForDemo)
         // just using the CardList to see if this goes to King
         CardList run = getRun(check->top());
         if (run.first()->rank() == Card::King) {
-            legs[m_leg]->setVisible(true);
-
             CardList::iterator it = run.end();
             qreal z = 1;
             while (it != run.begin()) {
@@ -375,9 +368,6 @@ void Spider::deal()
         for (int i = 0; i < 10; i++ )
             redeals[column]->add(Deck::deck()->nextCard(), true);
 
-    // make the leg piles invisible
-    for (int i = 0; i < 8; i++ )
-        legs[i]->setVisible(false);
     // make the redeal piles visible
     for (int i = 0; i < 5; i++ )
         redeals[i]->setVisible(true);
