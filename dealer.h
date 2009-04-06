@@ -182,6 +182,7 @@ public:
 
 public slots:
     virtual bool startAutoDrop();
+    virtual void redeal() {};
     void hint();
     void rescale(bool onlypiles);
 
