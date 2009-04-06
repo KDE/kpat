@@ -167,9 +167,11 @@ pWidget::pWidget()
     redealaction = actionCollection()->addAction("game_redeal");
     redealaction->setText( i18n("&Redeal") );
     redealaction->setIcon( KIcon("roll") );
+    redealaction->setShortcut( Qt::Key_R );
     dropaction = actionCollection()->addAction("game_drop");
     dropaction->setText( i18n("Drop") );
     dropaction->setIcon( KIcon("legalmoves") );
+    dropaction->setShortcut( Qt::Key_P );
 
     Render::loadTheme( KStandardDirs::locate( "data", "kpat/theme.svgz" ) );
 }
