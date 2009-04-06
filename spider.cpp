@@ -237,7 +237,7 @@ bool Spider::checkRemove(int /*checkIndex*/, const Pile *p, const Card *c) const
 
 //-------------------------------------------------------------------------//
 
-QString Spider::getGameState() const
+QString Spider::getGameState()
 {
     return QString::number(m_leg*10 + m_redeal);
 }

@@ -140,7 +140,7 @@ public:
     virtual bool checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const;
 
     // reimplement this to add game-specific information in the state structure
-    virtual QString getGameState() const { return QString(); }
+    virtual QString getGameState() { return QString(); }
     // reimplement this to use the game-specific information from the state structure
     virtual void setGameState( const QString & ) {}
 
