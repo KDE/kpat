@@ -42,11 +42,12 @@ protected:
     virtual bool  cardDblClicked(Card *);
     virtual Card *demoNewCards();
     virtual bool  startAutoDrop()  { return false; }
+    virtual void  setGameState(const QString &);
 
 public slots:
 
     virtual void restart();
-    void         deal();
+    void         dealNext();
 
 private:
     bool canMoveAway(Card *c) const;

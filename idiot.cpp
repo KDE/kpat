@@ -52,7 +52,7 @@ Idiot::Idiot( )
     m_away->setPilePos( 20 + distx * 4, 1);
     m_away->setObjectName( "away" );
 
-    setActions(DealerScene::Hint | DealerScene::Demo);
+    setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);
     setSolver( new IdiotSolver(this ) );
 }
 
@@ -60,14 +60,15 @@ Idiot::Idiot( )
 void Idiot::restart()
 {
     Deck::deck()->collectAndShuffle();
-    deal();
+    dealNext();
+    emit dealPossible(true);
 }
 
 bool Idiot::cardClicked(Card *c)
 {
     // If the deck is clicked, deal 4 more cards.
     if (c->source() == Deck::deck()) {
-        deal();
+        dealNext();
         return true;
     }
 
@@ -140,14 +141,19 @@ bool Idiot::cardDblClicked(Card *)
 // Deal 4 cards face up - one on each pile.
 //
 
-void Idiot::deal()
+void Idiot::dealNext()
 {
+    unmarkAll();
     if ( Deck::deck()->isEmpty() )
-	return;
+        return;
 
     // Move the four top cards of the deck to the piles, faceup, spread out.
-    for ( int i = 0; i < 4; i++ )
-	m_play[ i ]->add( Deck::deck()->nextCard(), false );
+    for ( int i = 0; i < 4; ++i )
+        m_play[ i ]->add( Deck::deck()->nextCard(), false );
+
+    takeState();
+    considerGameStarted();
+    emit dealPossible( !Deck::deck()->isEmpty() );
 }
 
 Card *Idiot::demoNewCards()
@@ -155,11 +161,15 @@ Card *Idiot::demoNewCards()
     if ( Deck::deck()->isEmpty() )
         return 0;
 
-    deal();
+    dealNext();
 
     return m_play[0]->top();
 }
 
+void Idiot::setGameState(const QString &)
+{
+    emit dealPossible( !Deck::deck()->isEmpty() );
+}
 
 static class LocalDealerInfo2 : public DealerInfo
 {
