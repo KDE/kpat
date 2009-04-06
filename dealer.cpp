@@ -933,6 +933,7 @@ void DealerScene::showWonMessage()
 
     emit demoPossible( false );
     emit hintPossible( false );
+    emit dealPossible( false );
     emit redealPossible( false );
     emit undoPossible( false ); // technically it's possible but cheating :)
 }

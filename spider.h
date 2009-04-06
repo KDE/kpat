@@ -42,13 +42,11 @@ class Spider : public DealerScene
 public:
     Spider();
     void deal();
-    void dealRow();
     bool checkPileDeck(Pile *to, bool checkForDemo = true);
     virtual void restart();
     virtual void mapOldId(int id);
 
 public slots:
-    void deckClicked(Card *c);
     void cardStoped(Card *c);
     void gameTypeChanged();
     virtual void dealNext();

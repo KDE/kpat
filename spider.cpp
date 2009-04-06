@@ -83,7 +83,7 @@ Spider::Spider()
         redeals[column]->setRemoveFlags(Pile::disallow);
         redeals[column]->setGraphicVisible( false );
         redeals[column]->setObjectName( QString( "redeals%1" ).arg( column ) );
-        connect(redeals[column], SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
+        connect(redeals[column], SIGNAL(clicked(Card*)), SLOT(dealNext()));
     }
     redeals[0]->setReservedSpace( QSizeF( -50, 10 ) );
 
@@ -329,10 +329,12 @@ bool Spider::checkPileDeck(Pile *check, bool checkForDemo)
     return false;
 }
 
-void Spider::dealRow()
+void Spider::dealNext()
 {
     if (m_redeal > 4)
         return;
+
+    unmarkAll();
 
     for (int column = 0; column < 10; column++) {
         stack[column]->add(redeals[m_redeal]->top(), false);
@@ -341,9 +343,10 @@ void Spider::dealRow()
         if (stack[column]->top()->rank() == Card::Ace)
             checkPileDeck(stack[column]);
     }
-
     redeals[m_redeal++]->setVisible(false);
 
+    takeState();
+    considerGameStarted();
     emit dealPossible(m_redeal < 5);
 }
 
@@ -387,24 +390,8 @@ Card *Spider::demoNewCards()
     kDebug(11111) << m_leg;
     if (m_redeal > 4)
         return 0;
-    deckClicked(0);
+    dealNext();
     return stack[0]->top();
-}
-
-void Spider::deckClicked(Card*)
-{
-    //kDebug(11111) << "deck clicked" << m_redeal;
-    if (m_redeal > 4)
-        return;
-
-    unmarkAll();
-    dealRow();
-    takeState();
-}
-
-void Spider::dealNext()
-{
-    deckClicked(0);
 }
 
 static class LocalDealerInfo17 : public DealerInfo
