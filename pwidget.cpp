@@ -351,13 +351,13 @@ void pWidget::newGameType(int id)
     const DealerInfo * di = m_dealer_map.value(id, DealerInfoList::self()->games().first());
     m_dealer = di->createGame();
     m_dealer->setGameId( di->ids.first() );
+    m_dealer->setAutoDropEnabled( autodropaction->isChecked() );
+    m_dealer->setSolverEnabled( solveraction->isChecked() );
+
     dill->setScene( m_dealer );
     m_stack->setCurrentWidget(dill);
 
     gamehelpaction->setText(i18n("Help &with %1", QString(di->name).replace('&', "&&")));
-
-    enableAutoDrop();
-    enableSolver();
 
     connect(m_dealer, SIGNAL(gameLost()), SLOT(gameLost()));
     connect(m_dealer, SIGNAL(gameInfo(QString)), SLOT(slotGameInfo(QString)));
