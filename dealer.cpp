@@ -1007,7 +1007,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
             assert(c);
             if (!c->animated()) {
                 if ( cardClicked(c) ) {
-                    d->gameStarted = true;
+                    considerGameStarted();
                 }
                 takeState();
                 eraseRedo();
@@ -1033,7 +1033,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
     if (destination) {
         Card *c = static_cast<Card*>(movingCards.first());
         assert(c);
-        d->gameStarted = true;
+        considerGameStarted();
         c->source()->moveCards(movingCards, destination);
         takeState();
         eraseRedo();
@@ -1147,7 +1147,7 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
     c->stopAnimation();
     kDebug(11111) << "card" << c->rank() << " " << c->suit();
     if ( cardDblClicked(c) ) {
-        d->gameStarted = true;
+        considerGameStarted();
     }
     takeState();
     eraseRedo();
@@ -1684,7 +1684,7 @@ void DealerScene::demo()
     d->stop_demo_next = false;
     d->demo_active = true;
     d->gothelp = true;
-    d->gameStarted = true;
+    considerGameStarted();
     unmarkAll();
     clearHints();
     getHints();
@@ -1852,6 +1852,11 @@ bool DealerScene::checkRemove( int, const Pile *, const Card *) const {
 
 bool DealerScene::checkAdd( int, const Pile *, const CardList&) const {
     return true;
+}
+
+void DealerScene::considerGameStarted()
+{
+    d->gameStarted = true;
 }
 
 bool DealerScene::hasBeenStarted() const

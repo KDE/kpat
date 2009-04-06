@@ -237,6 +237,7 @@ protected:
 
     virtual Card *demoNewCards();
     virtual void newDemoMove(Card *m);
+    void considerGameStarted();
 
 private:
     QList<QGraphicsItem *> marked;
