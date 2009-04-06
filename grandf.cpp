@@ -77,10 +77,10 @@ void Grandf::redeal()
         deal();
         numberOfDeals++;
     }
-    if (numberOfDeals == 3)
-        emit redealPossible(false);
 
     takeState();
+    considerGameStarted();
+    emit redealPossible(numberOfDeals < 3);
 }
 
 Card *Grandf::demoNewCards()
