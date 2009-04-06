@@ -164,7 +164,6 @@ void Klondike::restart()
     Deck::deck()->collectAndShuffle();
     redealt = false;
     deal();
-    emit dealPossible(true);
 }
 
 void Klondike::gameTypeChanged()
@@ -175,11 +174,14 @@ void Klondike::gameTypeChanged()
     setEasy( options->currentItem() == 0 );
 }
 
-void Klondike::setGameState(const QString &)
+QString Klondike::getGameState()
 {
-    emit dealPossible(true);
+    // getGameState() is called every time a card is moved, so we use it to
+    // check if there are any cards left to deal. There might be a more elegant
+    // to do this, though.
+    emit dealPossible( !Deck::deck()->isEmpty() || !pile->isEmpty() );
+    return QString();
 }
-
 
 void Klondike::setEasy( bool _EasyRules )
 {

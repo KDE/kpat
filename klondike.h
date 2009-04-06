@@ -44,7 +44,7 @@ public:
     virtual void mapOldId(int id);
     virtual void restart();
     virtual bool startAutoDrop();
-    virtual void setGameState(const QString &);
+    virtual QString getGameState();
 
     void redeal(); // put pile back into deck
     void deal();
