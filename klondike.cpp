@@ -129,7 +129,7 @@ Klondike::Klondike()
         target[i]->setObjectName( QString( "target%1" ).arg( i ) );
     }
 
-    setActions(DealerScene::Hint | DealerScene::Demo);
+    setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);
     setSolver( new KlondikeSolver( this, pile->draw() ) );
     redealt = false;
 
@@ -152,7 +152,7 @@ Klondike::Klondike()
 
 Card *Klondike::demoNewCards()
 {
-    deal3();
+    dealNext();
     if ( Deck::deck()->isEmpty() )
         return pile->top();
     else
@@ -164,6 +164,7 @@ void Klondike::restart()
     Deck::deck()->collectAndShuffle();
     redealt = false;
     deal();
+    emit dealPossible(true);
 }
 
 void Klondike::gameTypeChanged()
@@ -173,6 +174,12 @@ void Klondike::gameTypeChanged()
 
     setEasy( options->currentItem() == 0 );
 }
+
+void Klondike::setGameState(const QString &)
+{
+    emit dealPossible(true);
+}
+
 
 void Klondike::setEasy( bool _EasyRules )
 {
@@ -193,7 +200,7 @@ void Klondike::setEasy( bool _EasyRules )
     startNew();
 }
 
-void Klondike::deal3()
+void Klondike::dealNext()
 {
     if (Deck::deck()->isEmpty())
     {
@@ -225,6 +232,8 @@ void Klondike::deal3()
 
     // we need to look that many steps in the future to see if we can loose
     setNeededFutureMoves( Deck::deck()->cardsLeft() + pile->cardsLeft() );
+
+    considerGameStarted();
 }
 
 //  Add cards from  pile to deck, in reverse direction
@@ -271,7 +280,7 @@ void Klondike::pileClicked(Pile *c) {
     DealerScene::pileClicked(c);
 
     if (c == Deck::deck()) {
-        deal3();
+        dealNext();
     }
 }
 
@@ -281,7 +290,7 @@ bool Klondike::startAutoDrop()
     if (!DealerScene::startAutoDrop())
         return false;
     if (pile->isEmpty() && !pileempty)
-        deal3();
+        dealNext();
     return true;
 }
 

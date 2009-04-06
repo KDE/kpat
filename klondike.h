@@ -44,10 +44,11 @@ public:
     virtual void mapOldId(int id);
     virtual void restart();
     virtual bool startAutoDrop();
+    virtual void setGameState(const QString &);
 
     void redeal(); // put pile back into deck
     void deal();
-    void deal3(); // move up to 3 cards from deck to pile
+    void dealNext(); // move up to 3 cards from deck to pile
 
     virtual bool cardClicked(Card *);
     virtual void pileClicked(Pile *c);
@@ -70,8 +71,6 @@ private:
 
 private slots:
     void gameTypeChanged();
-
-
 };
 
 class KlondikePile : public Pile
