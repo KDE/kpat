@@ -207,7 +207,7 @@ void pWidget::enableAutoDrop()
     cg.writeEntry( "Autodrop", drop);
     if ( m_dealer )
         m_dealer->setAutoDropEnabled(drop);
-    updateActions();
+    updateGameActionList();
 }
 
 void pWidget::enableSolver()
@@ -359,8 +359,6 @@ void pWidget::newGameType(int id)
     enableAutoDrop();
     enableSolver();
 
-    connect(m_dealer, SIGNAL(undoPossible(bool)), undo, SLOT(setEnabled(bool)));
-    connect(m_dealer, SIGNAL(redoPossible(bool)), redo, SLOT(setEnabled(bool)));
     connect(m_dealer, SIGNAL(gameLost()), SLOT(gameLost()));
     connect(m_dealer, SIGNAL(gameInfo(QString)), SLOT(slotGameInfo(QString)));
     connect(m_dealer, SIGNAL(updateMoves()), SLOT(slotUpdateMoves()));
@@ -407,7 +405,13 @@ void pWidget::updateActions()
     actionCollection()->action( "change_game_type" )->setEnabled( m_dealer );
     gamehelpaction->setEnabled( m_dealer );
 
-    if (!m_dealer)
+    if ( m_dealer )
+    {
+        connect( m_dealer, SIGNAL(undoPossible(bool)), undo, SLOT(setEnabled(bool)) );
+        connect( m_dealer, SIGNAL(redoPossible(bool)), redo, SLOT(setEnabled(bool)) );
+        connect( dropaction, SIGNAL(triggered(bool)), m_dealer, SLOT(slotAutoDrop()) );
+    }
+    else
     {
         undo->setEnabled( false );
         redo->setEnabled( false );
@@ -417,54 +421,47 @@ void pWidget::updateActions()
     }
 
     hintaction->setEnabled( false );
-    demoaction->setEnabled( false );
-    redealaction->setEnabled( false );
-    dropaction->setEnabled( false );
-    guiFactory()->unplugActionList( this, "game_actions" );
-
-    if ( m_dealer )
+    if ( m_dealer && m_dealer->actions() & DealerScene::Hint )
     {
-        QList<QAction*> actionList;
-
-        if ( m_dealer->actions() & DealerScene::Hint )
-        {
-            hintaction->setEnabled( true );
-            hintaction->disconnect();
-            connect( hintaction, SIGNAL(triggered(bool)), m_dealer, SLOT(hint()) );
-            connect( m_dealer, SIGNAL(hintPossible(bool)), hintaction, SLOT(setEnabled(bool)) );
-            actionList.append( hintaction );
-        }
-
-        if ( m_dealer->actions() & DealerScene::Demo )
-        {
-            demoaction->setEnabled( true );
-            demoaction->disconnect();
-            connect( demoaction, SIGNAL(triggered(bool)), m_dealer, SLOT(toggleDemo()) );
-            connect( m_dealer, SIGNAL(demoActive(bool)), this, SLOT(toggleDemoAction(bool)) );
-            connect( m_dealer, SIGNAL(demoPossible(bool)), demoaction, SLOT(setEnabled(bool)) );
-            actionList.append( demoaction );
-        }
-
-        if ( m_dealer->actions() & DealerScene::Redeal )
-        {
-            redealaction->setEnabled( true );
-            redealaction->disconnect();
-            connect( m_dealer, SIGNAL(redealPossible(bool)), redealaction, SLOT(setEnabled(bool)) );
-            connect( redealaction, SIGNAL(triggered(bool)), m_dealer, SLOT(redeal()) );
-            actionList.append( redealaction );
-        }
-
-        if ( !m_dealer->autoDrop() )
-        {
-            dropaction->setEnabled( true );
-            dropaction->disconnect();
-            connect( dropaction, SIGNAL(triggered(bool)), m_dealer, SLOT(slotAutoDrop()) );
-            actionList.append( dropaction );
-        }
-
-        guiFactory()->plugActionList( this, "game_actions", actionList );
+        connect( hintaction, SIGNAL(triggered(bool)), m_dealer, SLOT(hint()) );
+        connect( m_dealer, SIGNAL(hintPossible(bool)), hintaction, SLOT(setEnabled(bool)) );
     }
+
+    demoaction->setEnabled( false );
+    if ( m_dealer && m_dealer->actions() & DealerScene::Demo )
+    {
+        connect( demoaction, SIGNAL(triggered(bool)), m_dealer, SLOT(toggleDemo()) );
+        connect( m_dealer, SIGNAL(demoActive(bool)), this, SLOT(toggleDemoAction(bool)) );
+        connect( m_dealer, SIGNAL(demoPossible(bool)), demoaction, SLOT(setEnabled(bool)) );
+    }
+
+    redealaction->setEnabled( false );
+    if ( m_dealer && m_dealer->actions() & DealerScene::Redeal )
+    {
+        connect( m_dealer, SIGNAL(redealPossible(bool)), redealaction, SLOT(setEnabled(bool)) );
+        connect( redealaction, SIGNAL(triggered(bool)), m_dealer, SLOT(redeal()) );
+    }
+
+    updateGameActionList();
 }
+
+void pWidget::updateGameActionList()
+{
+    dropaction->setEnabled( m_dealer && !m_dealer->autoDrop() );
+
+    QList<QAction*> actionList;
+    if ( m_dealer && m_dealer->actions() & DealerScene::Hint )
+        actionList.append( hintaction );
+    if ( m_dealer && m_dealer->actions() & DealerScene::Demo )
+        actionList.append( demoaction );
+    if ( m_dealer && m_dealer->actions() & DealerScene::Redeal )
+        actionList.append( redealaction );
+    if ( dropaction->isEnabled() )
+        actionList.append( dropaction );
+    guiFactory()->unplugActionList( this, "game_actions" );
+    guiFactory()->plugActionList( this, "game_actions", actionList );
+}
+
 
 void pWidget::toggleDemoAction(bool active) 
 {
@@ -475,7 +472,7 @@ void pWidget::toggleDemoAction(bool active)
 void pWidget::saveNewToolbarConfig()
 {
     KXmlGuiWindow::saveNewToolbarConfig();
-    updateActions();
+    updateGameActionList();
 }
 
 void pWidget::closeEvent(QCloseEvent *e)

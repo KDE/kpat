@@ -455,6 +455,8 @@ void DealerScene::openGame(QDomDocument &doc)
     }
 
     emit updateMoves();
+    emit hintPossible(true);
+    emit demoPossible(true);
     takeState();
 }
 

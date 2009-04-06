@@ -91,6 +91,7 @@ private:
     bool allowedToStartNewGame();
     void startNew(long gameNumber);
     void updateActions();
+    void updateGameActionList();
 
 private:
     // Members
