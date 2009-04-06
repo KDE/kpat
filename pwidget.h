@@ -99,6 +99,7 @@ private:
     KAction        *redo;
     KAction        *demoaction;
     KAction        *hintaction;
+    KAction        *dealaction;
     KAction        *redealaction;
     KAction        *dropaction;
     KAction        *gamehelpaction;

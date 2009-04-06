@@ -160,6 +160,10 @@ pWidget::pWidget()
     // dynamically through the "game_actions" action list.
     hintaction = KStandardGameAction::hint( 0, 0, actionCollection() );
     demoaction = KStandardGameAction::demo( 0, 0, actionCollection() );
+    dealaction = actionCollection()->addAction("game_deal");
+    dealaction->setText( i18n("Dea&l") );
+    dealaction->setIcon( KIcon("kpat") );
+    dealaction->setShortcut( Qt::Key_Space );
     redealaction = actionCollection()->addAction("game_redeal");
     redealaction->setText( i18n("&Redeal") );
     redealaction->setIcon( KIcon("roll") );
@@ -413,6 +417,7 @@ void pWidget::updateActions()
     redo->setEnabled( false );
     hintaction->setEnabled( false );
     demoaction->setEnabled( false );
+    dealaction->setEnabled( false );
     redealaction->setEnabled( false );
 
     if ( m_dealer )
@@ -427,6 +432,9 @@ void pWidget::updateActions()
         connect( demoaction, SIGNAL(triggered(bool)), m_dealer, SLOT(toggleDemo()) );
         connect( m_dealer, SIGNAL(demoActive(bool)), this, SLOT(toggleDemoAction(bool)) );
         connect( m_dealer, SIGNAL(demoPossible(bool)), demoaction, SLOT(setEnabled(bool)) );
+
+        connect( dealaction, SIGNAL(triggered(bool)), m_dealer, SLOT(dealNext()) );
+        connect( m_dealer, SIGNAL(dealPossible(bool)), dealaction, SLOT(setEnabled(bool)) );
 
         connect( redealaction, SIGNAL(triggered(bool)), m_dealer, SLOT(redeal()) );
         connect( m_dealer, SIGNAL(redealPossible(bool)), redealaction, SLOT(setEnabled(bool)) );
@@ -456,6 +464,8 @@ void pWidget::updateGameActionList()
             actionList.append( hintaction );
         if ( m_dealer->actions() & DealerScene::Demo )
             actionList.append( demoaction );
+        if ( m_dealer->actions() & DealerScene::Deal )
+            actionList.append( dealaction );
         if ( m_dealer->actions() & DealerScene::Redeal )
             actionList.append( redealaction );
         if ( !m_dealer->autoDrop() )

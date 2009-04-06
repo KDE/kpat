@@ -119,7 +119,7 @@ Spider::Spider()
     // user should have no choice.  Also, it must be moved A first, ...
     // up to K so the King will be on top.
     setAutoDropEnabled(false);
-    setActions(DealerScene::Hint | DealerScene::Demo );
+    setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);
     setSolver( new SpiderSolver( this ) );
 
     options = new KSelectAction(i18n("Spider &Options"), this );
@@ -255,7 +255,8 @@ void Spider::setGameState(const QString &stream)
     } else
         for (; m_redeal < i%10; m_redeal++)
             redeals[m_redeal]->setVisible(false);
-    kDebug(11111) << m_leg << m_redeal;
+
+    emit dealPossible(m_redeal <= 4);
 }
 
 //-------------------------------------------------------------------------//
@@ -264,6 +265,7 @@ void Spider::restart()
 {
     Deck::deck()->collectAndShuffle();
     deal();
+    emit dealPossible(true);
 }
 
 //-------------------------------------------------------------------------//
@@ -341,6 +343,8 @@ void Spider::dealRow()
     }
 
     redeals[m_redeal++]->setVisible(false);
+
+    emit dealPossible(m_redeal < 5);
 }
 
 //-------------------------------------------------------------------------//
@@ -396,6 +400,11 @@ void Spider::deckClicked(Card*)
     unmarkAll();
     dealRow();
     takeState();
+}
+
+void Spider::dealNext()
+{
+    deckClicked(0);
 }
 
 static class LocalDealerInfo17 : public DealerInfo
