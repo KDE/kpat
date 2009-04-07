@@ -120,6 +120,27 @@ pWidget::pWidget()
     connect( gamehelpaction, SIGNAL( triggered( bool ) ), SLOT(helpGame()));
     gamehelpaction->setShortcuts( KShortcut( Qt::Key_F2 ) );
 
+    // Game type dependent actions
+    hintaction = KStandardGameAction::hint( 0, 0, actionCollection() );
+
+    demoaction = KStandardGameAction::demo( 0, 0, actionCollection() );
+
+    dealaction = actionCollection()->addAction("move_deal");
+    dealaction->setText( i18n("Dea&l") );
+    dealaction->setIcon( KIcon("kpat") );
+    dealaction->setShortcut( Qt::Key_Space );
+
+    redealaction = actionCollection()->addAction("move_redeal");
+    redealaction->setText( i18n("&Redeal") );
+    redealaction->setIcon( KIcon("roll") );
+    redealaction->setShortcut( Qt::Key_R );
+
+    dropaction = actionCollection()->addAction("move_drop");
+    dropaction->setText( i18n("Drop") );
+    dropaction->setIcon( KIcon("legalmoves") );
+    dropaction->setShortcut( Qt::Key_P );
+
+    // Configuration actions
     KConfigGroup cg(KGlobal::config(), settings_group );
 
     autodropaction = new KToggleAction(i18n("&Enable Autodrop"), this);
@@ -154,24 +175,6 @@ pWidget::pWidget()
     QSize defaultSize = qApp->desktop()->availableGeometry().size() * 0.7;
     setupGUI(defaultSize, Create | Save | ToolBar | StatusBar | Keys);
     statusBar()->insertPermanentItem( "", 1, 0 );
-
-    // Create these actions after the call to setupGUI to prevent them from
-    // being automatically inserted into the menu. Instead they are inserted
-    // dynamically through the "game_actions" action list.
-    hintaction = KStandardGameAction::hint( 0, 0, actionCollection() );
-    demoaction = KStandardGameAction::demo( 0, 0, actionCollection() );
-    dealaction = actionCollection()->addAction("game_deal");
-    dealaction->setText( i18n("Dea&l") );
-    dealaction->setIcon( KIcon("kpat") );
-    dealaction->setShortcut( Qt::Key_Space );
-    redealaction = actionCollection()->addAction("game_redeal");
-    redealaction->setText( i18n("&Redeal") );
-    redealaction->setIcon( KIcon("roll") );
-    redealaction->setShortcut( Qt::Key_R );
-    dropaction = actionCollection()->addAction("game_drop");
-    dropaction->setText( i18n("Drop") );
-    dropaction->setIcon( KIcon("legalmoves") );
-    dropaction->setShortcut( Qt::Key_P );
 
     Render::loadTheme( KStandardDirs::locate( "data", "kpat/theme.svgz" ) );
 }
