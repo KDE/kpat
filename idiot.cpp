@@ -60,7 +60,11 @@ Idiot::Idiot( )
 void Idiot::restart()
 {
     Deck::deck()->collectAndShuffle();
-    dealNext();
+
+    // Move the four top cards of the deck to the piles, faceup, spread out.
+    for ( int i = 0; i < 4; ++i )
+        m_play[ i ]->add( Deck::deck()->nextCard(), false );
+
     emit dealPossible(true);
 }
 
