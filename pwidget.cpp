@@ -619,7 +619,7 @@ bool pWidget::openGame(const KUrl &url, bool addToRecentFiles)
 
 void pWidget::openGame()
 {
-    KUrl url = KFileDialog::getOpenUrl();
+    KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///kpat"));
     if (!url.isEmpty())
         openGame(url);
 }
@@ -628,7 +628,7 @@ void pWidget::saveGame()
 {
     if (m_dealer)
     {
-        KUrl url = KFileDialog::getSaveUrl();
+        KUrl url = KFileDialog::getSaveUrl(KUrl("kfiledialog:///kpat"));
         QString tmpFile = m_dealer->save_it();
         KIO::NetAccess::upload(tmpFile, url, this);
         KIO::NetAccess::removeTempFile(tmpFile);
