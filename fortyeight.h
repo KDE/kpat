@@ -38,13 +38,14 @@ public:
 public slots:
     void deal();
     virtual void restart();
-    void deckPressed(Card *c);
+    virtual void dealNext();
     void deckClicked(Card *c);
+
 
 protected:
     virtual bool checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const;
     virtual Card *demoNewCards();
-    virtual QString getGameState() const;
+    virtual QString getGameState();
     virtual void setGameState( const QString & stream );
 
 private:

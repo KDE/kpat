@@ -51,7 +51,7 @@ Fortyeight::Fortyeight( )
 
     const qreal dist_x = 11.1;
 
-    connect(Deck::deck(), SIGNAL(pressed(Card*)), SLOT(deckPressed(Card*)));
+    connect(Deck::deck(), SIGNAL(pressed(Card*)), SLOT(dealNext()));
     connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
     Deck::deck()->setPilePos( -2, -1);
     Deck::deck()->setZValue(20);
@@ -79,7 +79,7 @@ Fortyeight::Fortyeight( )
         stack[i]->setReservedSpace( QSizeF( 10, 40 ) );
     }
 
-    setActions(DealerScene::Hint | DealerScene::Demo);
+    setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);
     setSolver( new FortyeightSolver( this ) );
 }
 
@@ -90,6 +90,7 @@ void Fortyeight::restart()
     lastdeal = false;
     Deck::deck()->collectAndShuffle();
     deal();
+    emit dealPossible( true );
 }
 
 void Fortyeight::deckClicked( Card * )
@@ -98,15 +99,14 @@ void Fortyeight::deckClicked( Card * )
     if ( pile->top() && pile->top()->animated() )
         return;
     if ( Deck::deck()->isEmpty())
-        deckPressed( 0 );
+        dealNext();
 }
 
-void Fortyeight::deckPressed(Card *c2)
+void Fortyeight::dealNext()
 {
-    if( c2 )
-        kDebug(11111) << gettime() << "deckPressed" << c2->rank() << " " << c2->suit();
-    else
-        kDebug(11111) << gettime() << "deckPressed" << "(nil)";
+    if ( pile->top() && pile->top()->animated() )
+        return;
+
     if (Deck::deck()->isEmpty()) {
         if (lastdeal)
             return;
@@ -124,14 +124,18 @@ void Fortyeight::deckPressed(Card *c2)
     qreal y = c->realY();
     c->setPos( Deck::deck()->pos() );
     c->flipTo(x, y, DURATION_FLIP );
+
     takeState();
+    considerGameStarted();
+    if ( Deck::deck()->isEmpty() && lastdeal )
+        emit dealPossible( false );
 }
 
 Card *Fortyeight::demoNewCards()
 {
     if (Deck::deck()->isEmpty() && lastdeal)
         return 0;
-    deckPressed(0);
+    dealNext();
     return pile->top();
 }
 
@@ -162,7 +166,7 @@ void Fortyeight::deal()
     pile->add(Deck::deck()->nextCard(), false);
 }
 
-QString Fortyeight::getGameState() const
+QString Fortyeight::getGameState()
 {
     return QString::number(lastdeal);
 }
@@ -170,6 +174,7 @@ QString Fortyeight::getGameState() const
 void Fortyeight::setGameState( const QString &s )
 {
     lastdeal = s.toInt();
+    emit dealPossible( !lastdeal || !Deck::deck()->isEmpty() );
 }
 
 static class LocalDealerInfo8 : public DealerInfo
