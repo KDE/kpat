@@ -36,13 +36,14 @@ public:
     void deal();
     virtual void restart();
 
-protected slots:
-    void deckClicked(Card *);
+public slots:
+    void dealNext();
 
 protected:
     virtual bool startAutoDrop() { return false; }
     virtual Card *demoNewCards();
     virtual bool cardClicked(Card *c);
+    virtual void setGameState( const QString & );
 
 private: // functions
     virtual bool checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const;

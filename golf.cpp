@@ -38,7 +38,7 @@ Golf::Golf( )
 
     Deck::create_deck( this);
     Deck::deck()->setPilePos(1, -1);
-    connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
+    connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(dealNext()));
 
     waste=new HorRightPile(8,this);
     waste->setPilePos(12, -1);
@@ -57,7 +57,7 @@ Golf::Golf( )
         stack[r]->setObjectName( QString( "stack%1" ).arg( r ) );
     }
 
-    setActions(DealerScene::Hint | DealerScene::Demo);
+    setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);
     setSolver( new GolfSolver( this ) );
 }
 
@@ -91,9 +91,10 @@ void Golf::restart()
 {
     Deck::deck()->collectAndShuffle();
     deal();
+    emit dealPossible( true );
 }
 
-void Golf::deckClicked(Card *)
+void Golf::dealNext()
 {
     if (Deck::deck()->isEmpty()) {
          return;
@@ -106,6 +107,11 @@ void Golf::deckClicked(Card *)
     qreal y = c->y();
     c->setPos( Deck::deck()->pos() );
     c->flipTo(x, y, DURATION_FLIP );
+
+    takeState();
+    considerGameStarted();
+    if ( Deck::deck()->isEmpty() )
+        emit dealPossible( false );
 }
 
 //-------------------------------------------------------------------------//
@@ -125,7 +131,7 @@ void Golf::deal()
 
 Card *Golf::demoNewCards()
 {
-    deckClicked(0);
+    dealNext();
     return waste->top();
 }
 
@@ -147,6 +153,11 @@ bool Golf::cardClicked(Card *c)
         return true;
     }
     return false;
+}
+
+void Golf::setGameState( const QString & )
+{
+    emit dealPossible( !Deck::deck()->isEmpty() );
 }
 
 static class LocalDealerInfo13 : public DealerInfo
