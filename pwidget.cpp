@@ -689,7 +689,7 @@ void pWidget::slotSnapshot2()
     img.fill( qRgba( 0, 0, 255, 0 ) );
     m_dealer->createDump( &img );
     img = img.scaled( 320, 320, Qt::KeepAspectRatio, Qt::SmoothTransformation );
-    img.save( QString( "out_%1.png" ).arg( m_dealer->gameId() ) );
+    img.save( QString( "demo_%1.png" ).arg( m_dealer->gameId() ) );
     if ( m_dealer_it != m_dealer_map.constEnd() )
         QTimer::singleShot( 200, this, SLOT( slotSnapshot() ) );
 }
