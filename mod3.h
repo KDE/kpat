@@ -39,10 +39,11 @@ public:
     virtual void restart();
 
 public slots:
-    void deckClicked(Card *c);
+    void dealNext();
 
 protected:
     virtual Card *demoNewCards();
+    virtual void setGameState(const QString & );
 
 private: // functions
     virtual bool checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const;

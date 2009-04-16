@@ -55,7 +55,7 @@ Mod3::Mod3( )
     Deck::create_deck( this, 2);
     Deck::deck()->setPilePos(3 + dist_x * 8 + 5, 2 + dist_y * 3 + margin);
 
-    connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
+    connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(dealNext()));
 
     aces = new Pile(50, this);
     aces->setPilePos(10 + dist_x * 8, dist_y / 2);
@@ -88,7 +88,7 @@ Mod3::Mod3( )
         }
      }
 
-    setActions(DealerScene::Hint | DealerScene::Demo );
+    setActions(DealerScene::Hint | DealerScene::Demo  | DealerScene::Deal);
     setSolver( new Mod3Solver( this ) );
 }
 
@@ -144,6 +144,7 @@ void Mod3::restart()
 {
     Deck::deck()->collectAndShuffle();
     deal();
+    emit dealPossible(true);
 }
 
 
@@ -164,15 +165,14 @@ void Mod3::dealRow(int row)
 }
 
 
-void Mod3::deckClicked(Card*)
+void Mod3::dealNext()
 {
-    kDebug(11111) << "deck clicked" << Deck::deck()->cardsLeft();
-    if (Deck::deck()->isEmpty())
-        return;
-
     unmarkAll();
     dealRow(3);
     takeState();
+    considerGameStarted();
+    if (Deck::deck()->isEmpty())
+        emit dealPossible(false);
 }
 
 
@@ -199,8 +199,13 @@ Card *Mod3::demoNewCards()
 {
    if (Deck::deck()->isEmpty())
        return 0;
-   deckClicked(0);
+   dealNext();
    return stack[3][0]->top();
+}
+
+void Mod3::setGameState(const QString &)
+{
+    emit dealPossible(!Deck::deck()->isEmpty());
 }
 
 static class LocalDealerInfo5 : public DealerInfo
