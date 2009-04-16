@@ -39,7 +39,7 @@ public:
     virtual void restart();
 
 public slots:
-    void dealNext();
+    virtual void dealNext();
 
 protected:
     virtual Card *demoNewCards();

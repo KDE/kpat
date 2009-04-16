@@ -26,7 +26,7 @@ Gypsy::Gypsy( )
     Deck::create_deck(this, 2);
     Deck::deck()->setPilePos(1 + dist_x / 2 + 8*dist_x, 4 * dist_y + 2 );
 
-    connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(slotClicked(Card *)));
+    connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(dealNext()));
 
     for (int i=0; i<8; i++) {
         target[i] = new Pile(i+1, this);
@@ -44,13 +44,14 @@ Gypsy::Gypsy( )
         store[i]->setObjectName( QString( "store%1" ).arg( i ) );
     }
 
-    setActions(DealerScene::Hint | DealerScene::Demo);
+    setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);
     setSolver( new GypsySolver( this ) );
 }
 
 void Gypsy::restart() {
     Deck::deck()->collectAndShuffle();
     deal();
+    emit dealPossible(true);
 }
 
 void Gypsy::dealRow(bool faceup) {
@@ -69,8 +70,25 @@ Card *Gypsy::demoNewCards()
 {
     if (Deck::deck()->isEmpty())
         return 0;
-    dealRow(true);
+    dealNext();
     return store[0]->top();
+}
+
+void Gypsy::dealNext()
+{
+    if (Deck::deck()->isEmpty())
+        return;
+    unmarkAll();
+    dealRow(true);
+    takeState();
+    considerGameStarted();
+    if (Deck::deck()->isEmpty())
+        emit dealPossible(false);
+}
+
+void Gypsy::setGameState(const QString &)
+{
+    emit dealPossible(!Deck::deck()->isEmpty());
 }
 
 static class LocalDealerInfo7 : public DealerInfo

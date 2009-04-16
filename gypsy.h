@@ -28,9 +28,12 @@ public:
     Gypsy( );
 
 public slots:
-    void slotClicked(Card *) { dealRow(true); }
+    virtual void dealNext();
     void deal();
     virtual void restart();
+
+protected:
+    virtual void setGameState(const QString &);
 
 private: // functions
     void dealRow(bool faceup);
