@@ -588,9 +588,9 @@ bool pWidget::openGame(const KUrl &url, bool addToRecentFiles)
                     // file is good.
                     if (allowedToStartNewGame())
                     {
-                        // If the file contains pile and card data, then load it.
+                        // If the file has a game number, then load it.
                         // If it only contains an ID, just launch a new game with that ID.
-                        if (doc.documentElement().hasChildNodes())
+                        if (doc.documentElement().hasAttribute("number"))
                         {
                             newGameType(id);
                             // for old spider and klondike
