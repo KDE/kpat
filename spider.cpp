@@ -256,7 +256,7 @@ void Spider::setGameState(const QString &stream)
         for (; m_redeal < i%10; m_redeal++)
             redeals[m_redeal]->setVisible(false);
 
-    emit dealPossible(m_redeal <= 4);
+    emit newCardsPossible(m_redeal <= 4);
 }
 
 //-------------------------------------------------------------------------//
@@ -265,7 +265,7 @@ void Spider::restart()
 {
     Deck::deck()->collectAndShuffle();
     deal();
-    emit dealPossible(true);
+    emit newCardsPossible(true);
 }
 
 //-------------------------------------------------------------------------//
@@ -329,27 +329,6 @@ bool Spider::checkPileDeck(Pile *check, bool checkForDemo)
     return false;
 }
 
-void Spider::dealNext()
-{
-    if (m_redeal > 4)
-        return;
-
-    unmarkAll();
-
-    for (int column = 0; column < 10; column++) {
-        stack[column]->add(redeals[m_redeal]->top(), false);
-
-        // I may put an Ace on a K->2 pile so it could need cleared.
-        if (stack[column]->top()->rank() == Card::Ace)
-            checkPileDeck(stack[column]);
-    }
-    redeals[m_redeal++]->setVisible(false);
-
-    takeState();
-    considerGameStarted();
-    emit dealPossible(m_redeal < 5);
-}
-
 //-------------------------------------------------------------------------//
 
 void Spider::deal()
@@ -380,17 +359,36 @@ void Spider::deal()
         redeals[i]->setVisible(true);
 }
 
-Card *Spider::demoNewCards()
+Card *Spider::newCards()
 {
-    for ( int i = 0; i < 10; i++ )
+    if ( demoActive() )
     {
-        if ( checkPileDeck( stack[i], false ) )
-            return legs[m_leg-1]->top();
+        for ( int i = 0; i < 10; i++ )
+        {
+            if ( checkPileDeck( stack[i], false ) )
+                return legs[m_leg-1]->top();
+        }
     }
-    kDebug(11111) << m_leg;
+
     if (m_redeal > 4)
         return 0;
-    dealNext();
+
+    unmarkAll();
+
+    for (int column = 0; column < 10; column++) {
+        stack[column]->add(redeals[m_redeal]->top(), false);
+
+        // I may put an Ace on a K->2 pile so it could need cleared.
+        if (stack[column]->top()->rank() == Card::Ace)
+            checkPileDeck(stack[column]);
+    }
+    redeals[m_redeal++]->setVisible(false);
+
+    takeState();
+    considerGameStarted();
+    if (m_redeal > 4)
+        emit newCardsPossible(false);
+
     return stack[0]->top();
 }
 

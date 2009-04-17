@@ -154,7 +154,7 @@ public:
     bool demoActive() const;
     int getMoves() const;
 
-    enum { None = 0, Hint = 1, Demo = 2, Deal = 4, Redeal = 8 } Actions;
+    enum { None = 0, Hint = 1, Demo = 2, Draw = 4, Deal = 8, Redeal = 16 } Actions;
 
     void setActions(int actions);
     int actions() const;
@@ -182,8 +182,7 @@ public:
 
 public slots:
     virtual bool startAutoDrop();
-    virtual void dealNext() {};
-    virtual void redeal() {};
+    virtual Card *newCards();
     void hint();
     void rescale(bool onlypiles);
 
@@ -212,8 +211,7 @@ signals:
     void redoPossible(bool poss);
     void hintPossible(bool poss);
     void demoPossible(bool poss);
-    void dealPossible(bool poss);
-    void redealPossible(bool poss);
+    void newCardsPossible(bool poss);
 
     void gameInfo(const QString &info);
     void gameWon(bool withhelp);
@@ -235,7 +233,6 @@ protected:
     QList<MoveHint*> hints;
     KRandomSequence randseq;
 
-    virtual Card *demoNewCards();
     virtual void newDemoMove(Card *m);
     void considerGameStarted();
 

@@ -51,7 +51,7 @@ Fortyeight::Fortyeight( )
 
     const qreal dist_x = 11.1;
 
-    connect(Deck::deck(), SIGNAL(pressed(Card*)), SLOT(dealNext()));
+    connect(Deck::deck(), SIGNAL(pressed(Card*)), SLOT(newCards()));
     connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
     Deck::deck()->setPilePos( -2, -1);
     Deck::deck()->setZValue(20);
@@ -79,7 +79,7 @@ Fortyeight::Fortyeight( )
         stack[i]->setReservedSpace( QSizeF( 10, 40 ) );
     }
 
-    setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);
+    setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);
     setSolver( new FortyeightSolver( this ) );
 }
 
@@ -90,7 +90,7 @@ void Fortyeight::restart()
     lastdeal = false;
     Deck::deck()->collectAndShuffle();
     deal();
-    emit dealPossible( true );
+    emit newCardsPossible( true );
 }
 
 void Fortyeight::deckClicked( Card * )
@@ -99,24 +99,28 @@ void Fortyeight::deckClicked( Card * )
     if ( pile->top() && pile->top()->animated() )
         return;
     if ( Deck::deck()->isEmpty())
-        dealNext();
+        newCards();
 }
 
-void Fortyeight::dealNext()
+Card *Fortyeight::newCards()
 {
-    if ( pile->top() && pile->top()->animated() )
-        return;
+    if (Deck::deck()->isEmpty() && lastdeal)
+        return 0;
 
-    if (Deck::deck()->isEmpty()) {
-        if (lastdeal)
-            return;
+    if (pile->top() && pile->top()->animated())
+        return pile->top();
+
+    if (Deck::deck()->isEmpty())
+    {
         lastdeal = true;
-        while (!pile->isEmpty()) {
+        while (!pile->isEmpty())
+        {
             Card *c = pile->at(pile->cardsLeft()-1);
             c->stopAnimation();
             Deck::deck()->add(c, true);
         }
     }
+
     Card *c = Deck::deck()->nextCard();
     pile->add(c, true);
     c->stopAnimation();
@@ -128,15 +132,9 @@ void Fortyeight::dealNext()
     takeState();
     considerGameStarted();
     if ( Deck::deck()->isEmpty() && lastdeal )
-        emit dealPossible( false );
-}
+        emit newCardsPossible( false );
 
-Card *Fortyeight::demoNewCards()
-{
-    if (Deck::deck()->isEmpty() && lastdeal)
-        return 0;
-    dealNext();
-    return pile->top();
+    return c;
 }
 
 bool Fortyeight::checkAdd(int, const Pile *c1, const CardList &c2) const
@@ -174,7 +172,7 @@ QString Fortyeight::getGameState()
 void Fortyeight::setGameState( const QString &s )
 {
     lastdeal = s.toInt();
-    emit dealPossible( !lastdeal || !Deck::deck()->isEmpty() );
+    emit newCardsPossible( !lastdeal || !Deck::deck()->isEmpty() );
 }
 
 static class LocalDealerInfo8 : public DealerInfo

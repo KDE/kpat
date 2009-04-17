@@ -48,13 +48,14 @@ public:
 
     void redeal(); // put pile back into deck
     void deal();
-    void dealNext(); // move up to 3 cards from deck to pile
 
     virtual bool cardClicked(Card *);
     virtual void pileClicked(Pile *c);
 
-    virtual Card *demoNewCards();
     void setEasy( bool easy );
+
+public slots:
+    virtual Card *newCards();
 
 private:
     bool EasyRules;

@@ -125,18 +125,23 @@ pWidget::pWidget()
 
     demoaction = KStandardGameAction::demo( 0, 0, actionCollection() );
 
+    drawaction = actionCollection()->addAction("move_draw");
+    drawaction->setText( i18nc("Take one or more cards from the deck, flip them, and place them in play", "Dra&w") );
+    drawaction->setIcon( KIcon("kpat") );
+    drawaction->setShortcut( Qt::Key_Space );
+
     dealaction = actionCollection()->addAction("move_deal");
-    dealaction->setText( i18n("Dea&l") );
+    dealaction->setText( i18nc("Deal a new row of cards from the deck", "Dea&l") );
     dealaction->setIcon( KIcon("kpat") );
-    dealaction->setShortcut( Qt::Key_Space );
+    dealaction->setShortcut( Qt::Key_Enter );
 
     redealaction = actionCollection()->addAction("move_redeal");
-    redealaction->setText( i18n("&Redeal") );
+    redealaction->setText( i18nc("Collect the cards in play, shuffle them and redeal them", "&Redeal") );
     redealaction->setIcon( KIcon("roll") );
     redealaction->setShortcut( Qt::Key_R );
 
     dropaction = actionCollection()->addAction("move_drop");
-    dropaction->setText( i18n("Drop") );
+    dropaction->setText( i18nc("Automatically move cards to the foundation piles", "Dro&p") );
     dropaction->setIcon( KIcon("legalmoves") );
     dropaction->setShortcut( Qt::Key_P );
 
@@ -422,6 +427,7 @@ void pWidget::updateActions()
     redo->setEnabled( false );
     hintaction->setEnabled( false );
     demoaction->setEnabled( false );
+    drawaction->setEnabled( false );
     dealaction->setEnabled( false );
     redealaction->setEnabled( false );
 
@@ -438,13 +444,23 @@ void pWidget::updateActions()
         connect( m_dealer, SIGNAL(demoActive(bool)), this, SLOT(toggleDemoAction(bool)) );
         connect( m_dealer, SIGNAL(demoPossible(bool)), demoaction, SLOT(setEnabled(bool)) );
 
-        connect( dealaction, SIGNAL(triggered(bool)), m_dealer, SLOT(dealNext()) );
-        connect( m_dealer, SIGNAL(dealPossible(bool)), dealaction, SLOT(setEnabled(bool)) );
-
-        connect( redealaction, SIGNAL(triggered(bool)), m_dealer, SLOT(redeal()) );
-        connect( m_dealer, SIGNAL(redealPossible(bool)), redealaction, SLOT(setEnabled(bool)) );
-
         connect( dropaction, SIGNAL(triggered(bool)), m_dealer, SLOT(slotAutoDrop()) );
+
+        if ( m_dealer->actions() & DealerScene::Draw )
+        {
+            connect( drawaction, SIGNAL(triggered(bool)), m_dealer, SLOT(newCards()) );
+            connect( m_dealer, SIGNAL(newCardsPossible(bool)), drawaction, SLOT(setEnabled(bool)) );
+        }
+        else if ( m_dealer->actions() & DealerScene::Deal )
+        {
+            connect( dealaction, SIGNAL(triggered(bool)), m_dealer, SLOT(newCards()) );
+            connect( m_dealer, SIGNAL(newCardsPossible(bool)), dealaction, SLOT(setEnabled(bool)) );
+        }
+        else if ( m_dealer->actions() & DealerScene::Redeal )
+        {
+            connect( redealaction, SIGNAL(triggered(bool)), m_dealer, SLOT(newCards()) );
+            connect( m_dealer, SIGNAL(newCardsPossible(bool)), redealaction, SLOT(setEnabled(bool)) );
+        }
     }
     else
     {
@@ -469,6 +485,8 @@ void pWidget::updateGameActionList()
             actionList.append( hintaction );
         if ( m_dealer->actions() & DealerScene::Demo )
             actionList.append( demoaction );
+        if ( m_dealer->actions() & DealerScene::Draw )
+            actionList.append( drawaction );
         if ( m_dealer->actions() & DealerScene::Deal )
             actionList.append( dealaction );
         if ( m_dealer->actions() & DealerScene::Redeal )

@@ -282,7 +282,7 @@ void DealerScene::takeState()
         else if ( !d->toldAboutWonGame && !d->toldAboutLostGame && isGameLost() ) {
             emit hintPossible( false );
             emit demoPossible( false );
-            emit redealPossible( false );
+            emit newCardsPossible( false );
             QTimer::singleShot(400, this, SIGNAL(gameLost()));
             d->toldAboutLostGame = true;
             stopDemo();
@@ -933,8 +933,7 @@ void DealerScene::showWonMessage()
 
     emit demoPossible( false );
     emit hintPossible( false );
-    emit dealPossible( false );
-    emit redealPossible( false );
+    emit newCardsPossible( false );
     emit undoPossible( false ); // technically it's possible but cheating :)
 }
 
@@ -1748,7 +1747,7 @@ void DealerScene::demo()
 
     } else {
         kDebug(11111) << "demoNewCards";
-        Card *t = demoNewCards();
+        Card *t = newCards();
         if (t) {
             newDemoMove(t);
         } else if (isGameWon()) {
@@ -1766,7 +1765,7 @@ void DealerScene::demo()
     eraseRedo();
 }
 
-Card *DealerScene::demoNewCards()
+Card *DealerScene::newCards()
 {
     return 0;
 }

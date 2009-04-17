@@ -33,21 +33,19 @@ class Idiot: public DealerScene
     Q_OBJECT
 
 public:
-
     Idiot( );
     virtual bool  isGameWon() const;
+    virtual void restart();
+
+public slots:
+    virtual Card *newCards();
 
 protected:
     virtual bool  cardClicked(Card *);
     virtual bool  cardDblClicked(Card *);
-    virtual Card *demoNewCards();
+
     virtual bool  startAutoDrop()  { return false; }
     virtual void  setGameState(const QString &);
-
-public slots:
-
-    virtual void restart();
-    void         dealNext();
 
 private:
     bool canMoveAway(Card *c) const;

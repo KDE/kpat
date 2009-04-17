@@ -62,47 +62,36 @@ void Grandf::restart() {
     Deck::deck()->collectAndShuffle();
     deal();
     numberOfDeals = 1;
+    emit newCardsPossible( true );
 }
 
-void Grandf::redeal()
+Card *Grandf::newCards()
 {
-    if ( waiting() || demoActive() || isGameWon()  )
-        return;
+//     if ( waiting() || demoActive() || isGameWon()  )
+//         return;
 
-    kDebug(11111) << "redeal\n";
+    if (numberOfDeals >= 3)
+        return 0;
+
     unmarkAll();
+    collect();
+    deal();
+    numberOfDeals++;
 
-    if (numberOfDeals < 3) {
-        collect();
-        deal();
-        numberOfDeals++;
+    Card *t = store[3]->top();
+    Q_ASSERT(t);
+    if (t)
+    {
+       t->turn(false);
+       t->flipTo( t->pos().x(), t->pos().y(), DURATION_FLIP );
     }
 
     takeState();
     considerGameStarted();
-    emit redealPossible(numberOfDeals < 3);
-}
+    if (numberOfDeals == 3)
+        emit newCardsPossible(false);
 
-Card *Grandf::demoNewCards()
-{
-  if (numberOfDeals < 3) {
-        if (numberOfDeals < 3) {
-            collect();
-            deal();
-            numberOfDeals++;
-        }
-        if (numberOfDeals == 3)
-            emit redealPossible(false);
-
-        Card *t = store[3]->top();
-        Q_ASSERT(t);
-        if (t) {
-           t->turn(false);
-           t->flipTo( t->pos().x(), t->pos().y(), DURATION_FLIP );
-        }
-        return t;
-  }
-  return 0;
+    return t;
 }
 
 void Grandf::deal() {
@@ -141,7 +130,6 @@ void Grandf::deal() {
         if (c)
             c->turn(true);
     }
-    emit redealPossible( true );
 }
 
 /*****************************
@@ -172,7 +160,7 @@ bool Grandf::checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const
                && c2.first()->suit() == c1->top()->suit();
 }
 
-QString Grandf::getGameState() const
+QString Grandf::getGameState()
 {
     return QString::number(numberOfDeals);
 }
@@ -180,7 +168,7 @@ QString Grandf::getGameState() const
 void Grandf::setGameState( const QString &s)
 {
     numberOfDeals = s.toInt();
-    emit redealPossible(numberOfDeals < 3);
+    emit newCardsPossible(numberOfDeals < 3);
 }
 
 static class LocalDealerInfo1 : public DealerInfo

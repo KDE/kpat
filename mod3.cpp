@@ -55,7 +55,7 @@ Mod3::Mod3( )
     Deck::create_deck( this, 2);
     Deck::deck()->setPilePos(3 + dist_x * 8 + 5, 2 + dist_y * 3 + margin);
 
-    connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(dealNext()));
+    connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(newCards()));
 
     aces = new Pile(50, this);
     aces->setPilePos(10 + dist_x * 8, dist_y / 2);
@@ -144,7 +144,7 @@ void Mod3::restart()
 {
     Deck::deck()->collectAndShuffle();
     deal();
-    emit dealPossible(true);
+    emit newCardsPossible(true);
 }
 
 
@@ -165,47 +165,42 @@ void Mod3::dealRow(int row)
 }
 
 
-void Mod3::dealNext()
-{
-    unmarkAll();
-    dealRow(3);
-    takeState();
-    considerGameStarted();
-    if (Deck::deck()->isEmpty())
-        emit dealPossible(false);
-}
-
-
 //-------------------------------------------------------------------------//
 
 
 void Mod3::deal()
 {
     unmarkAll();
-    CardList list = Deck::deck()->cards();
-/*    for (CardList::Iterator it = list.begin(); it != list.end(); ++it)
+/*  CardList list = Deck::deck()->cards();
+    for (CardList::Iterator it = list.begin(); it != list.end(); ++it)
         if ((*it)->rank() == Card::Ace) {
             aces->add(*it);
             (*it)->hide();
         }
+    kDebug(11111) << "init" << aces->cardsLeft() << " " << Deck::deck()->cardsLeft();
 */
-    //kDebug(11111) << "init" << aces->cardsLeft() << " " << Deck::deck()->cardsLeft();
-
     for (int r = 0; r < 4; r++)
         dealRow(r);
 }
 
-Card *Mod3::demoNewCards()
+Card *Mod3::newCards()
 {
-   if (Deck::deck()->isEmpty())
-       return 0;
-   dealNext();
-   return stack[3][0]->top();
+    if (Deck::deck()->isEmpty())
+        return 0;
+
+    unmarkAll();
+    dealRow(3);
+    takeState();
+    considerGameStarted();
+    if (Deck::deck()->isEmpty())
+        emit newCardsPossible(false);
+
+    return stack[3][0]->top();
 }
 
 void Mod3::setGameState(const QString &)
 {
-    emit dealPossible(!Deck::deck()->isEmpty());
+    emit newCardsPossible(!Deck::deck()->isEmpty());
 }
 
 static class LocalDealerInfo5 : public DealerInfo

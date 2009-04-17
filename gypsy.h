@@ -26,18 +26,17 @@ class Gypsy : public DealerScene
 
 public:
     Gypsy( );
+    virtual void restart();
 
 public slots:
-    virtual void dealNext();
-    void deal();
-    virtual void restart();
+    virtual Card *newCards();
 
 protected:
     virtual void setGameState(const QString &);
 
 private: // functions
+    void deal();
     void dealRow(bool faceup);
-    virtual Card *demoNewCards();
 
 private:
     Pile* store[8];

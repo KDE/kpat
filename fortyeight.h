@@ -34,21 +34,18 @@ class Fortyeight : public DealerScene
 
 public:
     Fortyeight( );
-
-public slots:
-    void deal();
     virtual void restart();
-    virtual void dealNext();
-    void deckClicked(Card *c);
-
-
-protected:
     virtual bool checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const;
-    virtual Card *demoNewCards();
     virtual QString getGameState();
     virtual void setGameState( const QString & stream );
 
+public slots:
+    virtual Card *newCards();
+    void deckClicked(Card *c);
+
 private:
+    void deal();
+
     Pile *stack[8];
     Pile *target[8];
     HorLeftPile *pile;

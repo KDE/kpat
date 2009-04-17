@@ -38,7 +38,7 @@ Golf::Golf( )
 
     Deck::create_deck( this);
     Deck::deck()->setPilePos(1, -1);
-    connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(dealNext()));
+    connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(newCards()));
 
     waste=new HorRightPile(8,this);
     waste->setPilePos(12, -1);
@@ -57,7 +57,7 @@ Golf::Golf( )
         stack[r]->setObjectName( QString( "stack%1" ).arg( r ) );
     }
 
-    setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);
+    setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);
     setSolver( new GolfSolver( this ) );
 }
 
@@ -91,27 +91,7 @@ void Golf::restart()
 {
     Deck::deck()->collectAndShuffle();
     deal();
-    emit dealPossible( true );
-}
-
-void Golf::dealNext()
-{
-    if (Deck::deck()->isEmpty()) {
-         return;
-
-    }
-    Card *c = Deck::deck()->nextCard();
-    waste->add(c, true );
-    c->stopAnimation();
-    qreal x = c->x();
-    qreal y = c->y();
-    c->setPos( Deck::deck()->pos() );
-    c->flipTo(x, y, DURATION_FLIP );
-
-    takeState();
-    considerGameStarted();
-    if ( Deck::deck()->isEmpty() )
-        emit dealPossible( false );
+    emit newCardsPossible( true );
 }
 
 //-------------------------------------------------------------------------//
@@ -129,10 +109,27 @@ void Golf::deal()
 
 }
 
-Card *Golf::demoNewCards()
+Card *Golf::newCards()
 {
-    dealNext();
-    return waste->top();
+    if (Deck::deck()->isEmpty())
+         return 0;
+
+    unmarkAll();
+
+    Card *c = Deck::deck()->nextCard();
+    waste->add(c, true );
+    c->stopAnimation();
+    qreal x = c->x();
+    qreal y = c->y();
+    c->setPos( Deck::deck()->pos() );
+    c->flipTo(x, y, DURATION_FLIP );
+
+    takeState();
+    considerGameStarted();
+    if ( Deck::deck()->isEmpty() )
+        emit newCardsPossible( false );
+
+    return c;
 }
 
 bool Golf::cardClicked(Card *c)
@@ -157,7 +154,7 @@ bool Golf::cardClicked(Card *c)
 
 void Golf::setGameState( const QString & )
 {
-    emit dealPossible( !Deck::deck()->isEmpty() );
+    emit newCardsPossible( !Deck::deck()->isEmpty() );
 }
 
 static class LocalDealerInfo13 : public DealerInfo

@@ -37,11 +37,10 @@ public:
     virtual void restart();
 
 public slots:
-    virtual void dealNext();
+    virtual Card *newCards();
 
 protected:
     virtual bool startAutoDrop() { return false; }
-    virtual Card *demoNewCards();
     virtual bool cardClicked(Card *c);
     virtual void setGameState( const QString & );
 

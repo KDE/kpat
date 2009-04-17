@@ -129,7 +129,7 @@ Klondike::Klondike()
         target[i]->setObjectName( QString( "target%1" ).arg( i ) );
     }
 
-    setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);
+    setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);
     setSolver( new KlondikeSolver( this, pile->draw() ) );
     redealt = false;
 
@@ -150,13 +150,43 @@ Klondike::Klondike()
     connect( options, SIGNAL( triggered( int ) ), SLOT( gameTypeChanged() ) );
 }
 
-Card *Klondike::demoNewCards()
+Card *Klondike::newCards()
 {
-    dealNext();
+    if ( Deck::deck()->isEmpty() && pile->cardsLeft() <= 1 )
+        return 0;
+
     if ( Deck::deck()->isEmpty() )
-        return pile->top();
-    else
+    {
+        // Move the cards from the pile back to the deck
+        redeal();
         return Deck::deck()->top();
+    }
+
+    // Unspread all cards on the pile
+    for (int i = 0; i < pile->cardsLeft(); ++i)
+        pile->at( i )->setSpread( QSizeF( 0, 0 ) );
+    pile->relayoutCards();
+
+    for (int flipped = 0; flipped < pile->draw() && !Deck::deck()->isEmpty(); ++flipped) {
+        Card *c = Deck::deck()->nextCard();
+        pile->add(c, true); // facedown, nospread
+        if (flipped < pile->draw() - 1)
+            c->setSpread( QSizeF( pile->spread() * 0.6, 0 ) );
+        c->stopAnimation();
+        // move back to flip
+        c->setPos( Deck::deck()->pos() );
+        c->flipTo( pile->x() + 0.125 * flipped * cardMap::self()->wantedCardWidth(), pile->y(), 200 + 80 * ( flipped + 1 ) );
+    }
+
+    takeState();
+    considerGameStarted();
+    if ( Deck::deck()->isEmpty() && pile->cardsLeft() <= 1 )
+       emit newCardsPossible( false );
+
+    // we need to look that many steps in the future to see if we can lose
+    setNeededFutureMoves( Deck::deck()->cardsLeft() + pile->cardsLeft() );
+
+    return pile->top();
 }
 
 void Klondike::restart()
@@ -179,7 +209,7 @@ QString Klondike::getGameState()
     // getGameState() is called every time a card is moved, so we use it to
     // check if there are any cards left to deal. There might be a more elegant
     // to do this, though.
-    emit dealPossible( !Deck::deck()->isEmpty() || !pile->isEmpty() );
+    emit newCardsPossible( !Deck::deck()->isEmpty() || pile->cardsLeft() > 1 );
     return QString();
 }
 
@@ -202,42 +232,6 @@ void Klondike::setEasy( bool _EasyRules )
     startNew();
 }
 
-void Klondike::dealNext()
-{
-    if (Deck::deck()->isEmpty())
-    {
-        redeal();
-        return;
-    }
-
-    // move the cards back on the deck, so we can have three new
-    for (int i = 0; i < pile->cardsLeft(); ++i)
-        pile->at( i )->setSpread( QSizeF( 0, 0 ) );
-    pile->relayoutCards();
-
-    for (int flipped = 0; flipped < pile->draw() ; ++flipped) {
-
-        Card *item = Deck::deck()->nextCard();
-        if (!item) {
-            kDebug(11111) << "deck empty!!!\n";
-            return;
-        }
-        pile->add(item, true); // facedown, nospread
-        if (flipped < pile->draw() - 1)
-            item->setSpread( QSizeF( pile->spread() * 0.6, 0 ) );
-        item->stopAnimation();
-        // move back to flip
-        item->setPos( Deck::deck()->pos() );
-
-        item->flipTo( pile->x() + 0.125 * flipped * cardMap::self()->wantedCardWidth(), pile->y(), 200 + 80 * ( flipped + 1 ) );
-    }
-
-    // we need to look that many steps in the future to see if we can loose
-    setNeededFutureMoves( Deck::deck()->cardsLeft() + pile->cardsLeft() );
-
-    considerGameStarted();
-}
-
 //  Add cards from  pile to deck, in reverse direction
 void Klondike::redeal() {
 
@@ -250,8 +244,8 @@ void Klondike::redeal() {
     for (int count = pilecards.count() - 1; count >= 0; --count)
     {
         Card *card = pilecards[count];
-	card->stopAnimation();
-	Deck::deck()->add(card, true); // facedown, nospread
+        card->stopAnimation();
+        Deck::deck()->add(card, true); // facedown, nospread
     }
 
     redealt = true;
@@ -282,7 +276,7 @@ void Klondike::pileClicked(Pile *c) {
     DealerScene::pileClicked(c);
 
     if (c == Deck::deck()) {
-        dealNext();
+        newCards();
     }
 }
 
@@ -292,7 +286,7 @@ bool Klondike::startAutoDrop()
     if (!DealerScene::startAutoDrop())
         return false;
     if (pile->isEmpty() && !pileempty)
-        dealNext();
+        newCards();
     return true;
 }
 

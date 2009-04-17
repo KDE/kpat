@@ -39,10 +39,9 @@ public:
     virtual void restart();
 
 public slots:
-    virtual void dealNext();
+    virtual Card *newCards();
 
 protected:
-    virtual Card *demoNewCards();
     virtual void setGameState(const QString & );
 
 private: // functions

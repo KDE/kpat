@@ -65,14 +65,14 @@ void Idiot::restart()
     for ( int i = 0; i < 4; ++i )
         m_play[ i ]->add( Deck::deck()->nextCard(), false );
 
-    emit dealPossible(true);
+    emit newCardsPossible(true);
 }
 
 bool Idiot::cardClicked(Card *c)
 {
     // If the deck is clicked, deal 4 more cards.
     if (c->source() == Deck::deck()) {
-        dealNext();
+        newCards();
         return true;
     }
 
@@ -144,12 +144,12 @@ bool Idiot::cardDblClicked(Card *)
 
 // Deal 4 cards face up - one on each pile.
 //
-
-void Idiot::dealNext()
+Card *Idiot::newCards()
 {
-    unmarkAll();
     if ( Deck::deck()->isEmpty() )
-        return;
+        return 0;
+
+    unmarkAll();
 
     // Move the four top cards of the deck to the piles, faceup, spread out.
     for ( int i = 0; i < 4; ++i )
@@ -157,22 +157,15 @@ void Idiot::dealNext()
 
     takeState();
     considerGameStarted();
-    emit dealPossible( !Deck::deck()->isEmpty() );
-}
-
-Card *Idiot::demoNewCards()
-{
     if ( Deck::deck()->isEmpty() )
-        return 0;
-
-    dealNext();
+        emit newCardsPossible( false );
 
     return m_play[0]->top();
 }
 
 void Idiot::setGameState(const QString &)
 {
-    emit dealPossible( !Deck::deck()->isEmpty() );
+    emit newCardsPossible( !Deck::deck()->isEmpty() );
 }
 
 static class LocalDealerInfo2 : public DealerInfo
