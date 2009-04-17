@@ -83,7 +83,7 @@ Spider::Spider()
         redeals[column]->setRemoveFlags(Pile::disallow);
         redeals[column]->setGraphicVisible( false );
         redeals[column]->setObjectName( QString( "redeals%1" ).arg( column ) );
-        connect(redeals[column], SIGNAL(clicked(Card*)), SLOT(dealNext()));
+        connect(redeals[column], SIGNAL(clicked(Card*)), SLOT(newCards()));
     }
     redeals[0]->setReservedSpace( QSizeF( -50, 10 ) );
 
