@@ -177,6 +177,7 @@ void Spider::setSuits(int suits)
     unmarkAll();
     Deck::destroy_deck();
     Deck::create_deck(this, 2, suits);
+    Deck::deck()->setVisible(false);
     KConfigGroup cg(KGlobal::config(), settings_group );
     cg.writeEntry( "SpiderSuits", suits);
     cg.sync();
@@ -189,7 +190,7 @@ void Spider::setSuits(int suits)
     case 2:
         options->setCurrentItem( 1 );
         break;
-    case 3:
+    case 4:
         options->setCurrentItem( 2 );
         break;
     }
