@@ -40,6 +40,7 @@ public:
     Card* nextCard();
 
     uint decksNum() const { return mult; }
+    uint suitsNum() const { return suits; }
     void update();
 
 private: // functions

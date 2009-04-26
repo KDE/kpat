@@ -202,6 +202,8 @@ void Klondike::gameTypeChanged()
        return;
 
     setEasy( options->currentItem() == 0 );
+
+    startNew();
 }
 
 QString Klondike::getGameState()
@@ -211,6 +213,16 @@ QString Klondike::getGameState()
     // to do this, though.
     emit newCardsPossible( !Deck::deck()->isEmpty() || pile->cardsLeft() > 1 );
     return QString();
+}
+
+QString Klondike::getGameOptions() const
+{
+    return QString::number( pile->draw() );
+}
+
+void Klondike::setGameOptions( const QString & options )
+{
+    setEasy( options.toInt() == 1 );
 }
 
 void Klondike::setEasy( bool _EasyRules )
@@ -228,8 +240,6 @@ void Klondike::setEasy( bool _EasyRules )
     KConfigGroup cg(KGlobal::config(), settings_group );
     cg.writeEntry( "KlondikeEasy", EasyRules);
     cg.sync();
-
-    startNew();
 }
 
 //  Add cards from  pile to deck, in reverse direction

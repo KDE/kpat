@@ -56,6 +56,8 @@ protected:
     virtual bool checkAdd(int /*checkIndex*/, const Pile *c1, const CardList &c2) const;
     virtual QString getGameState();
     virtual void setGameState(const QString &stream);
+    virtual QString getGameOptions() const;
+    virtual void setGameOptions(const QString &options);
     void setSuits(int s);
 
 private:

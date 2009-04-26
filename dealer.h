@@ -139,11 +139,6 @@ public:
     virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
     virtual bool checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const;
 
-    // reimplement this to add game-specific information in the state structure
-    virtual QString getGameState() { return QString(); }
-    // reimplement this to use the game-specific information from the state structure
-    virtual void setGameState( const QString & ) {}
-
     QPointF maxPilePos() const;
     qreal offsetX() const;
     qreal offsetY() const;
@@ -229,12 +224,20 @@ private slots:
     void stopAndRestartSolver();
 
 protected:
-    PileList piles;
-    QList<MoveHint*> hints;
-    KRandomSequence randseq;
+    // reimplement these to store and load game-specific information in the state structure
+    virtual QString getGameState() { return QString(); }
+    virtual void setGameState( const QString & ) {}
+
+    // reimplement these to store and load game-specific options in the saved game file
+    virtual QString getGameOptions() const { return QString(); }
+    virtual void setGameOptions( const QString & ) {}
 
     virtual void newDemoMove(Card *m);
     void considerGameStarted();
+
+    PileList piles;
+    QList<MoveHint*> hints;
+    KRandomSequence randseq;
 
 private:
     QList<QGraphicsItem *> marked;

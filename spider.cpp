@@ -169,6 +169,8 @@ void Spider::gameTypeChanged()
         suits = 2;
 
     setSuits( suits );
+
+    startNew();
 }
 
 void Spider::setSuits(int suits)
@@ -194,7 +196,6 @@ void Spider::setSuits(int suits)
         options->setCurrentItem( 2 );
         break;
     }
-    startNew();
 }
 
 void Spider::cardStoped(Card * t)
@@ -258,6 +259,16 @@ void Spider::setGameState(const QString &stream)
             redeals[m_redeal]->setVisible(false);
 
     emit newCardsPossible(m_redeal <= 4);
+}
+
+QString Spider::getGameOptions() const
+{
+    return QString::number(Deck::deck()->suitsNum());
+}
+
+void Spider::setGameOptions(const QString& options)
+{
+    setSuits(options.toInt());
 }
 
 //-------------------------------------------------------------------------//

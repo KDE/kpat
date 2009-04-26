@@ -307,6 +307,7 @@ void DealerScene::saveGame(QDomDocument &doc)
     QDomElement dealer = doc.createElement("dealer");
     doc.appendChild(dealer);
     dealer.setAttribute("id", gameId());
+    dealer.setAttribute("options", getGameOptions());
 
     // If the game has been won, there's no sense in saving the state
     // across sessions. In that case, just save the game ID so that
@@ -390,6 +391,7 @@ void DealerScene::openGame(QDomDocument &doc)
     unmarkAll();
     QDomElement dealer = doc.documentElement();
 
+    setGameOptions(dealer.attribute("options"));
     setGameNumber(dealer.attribute("number").toULong());
     d->loadedMoveCount = dealer.attribute("moves").toInt();
     d->gameStarted = bool(dealer.attribute("started").toInt());

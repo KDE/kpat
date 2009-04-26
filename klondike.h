@@ -40,11 +40,9 @@ class Klondike : public DealerScene {
 public:
     explicit Klondike();
 
-public:
     virtual void mapOldId(int id);
     virtual void restart();
     virtual bool startAutoDrop();
-    virtual QString getGameState();
 
     void redeal(); // put pile back into deck
     void deal();
@@ -56,6 +54,11 @@ public:
 
 public slots:
     virtual Card *newCards();
+
+protected:
+    virtual QString getGameState();
+    virtual QString getGameOptions() const;
+    virtual void setGameOptions(const QString &options);
 
 private:
     bool EasyRules;
