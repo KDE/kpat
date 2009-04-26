@@ -118,7 +118,7 @@ pWidget::pWidget()
 
     gamehelpaction = actionCollection()->addAction("help_game");
     connect( gamehelpaction, SIGNAL( triggered( bool ) ), SLOT(helpGame()));
-    gamehelpaction->setShortcuts( KShortcut( Qt::Key_F2 ) );
+    gamehelpaction->setShortcuts( KShortcut( Qt::ControlModifier | Qt::ShiftModifier | Qt::Key_F1 ) );
 
     // Game type dependent actions
     hintaction = KStandardGameAction::hint( 0, 0, actionCollection() );
@@ -207,9 +207,8 @@ void pWidget::helpGame()
     if (m_dealer && m_dealer_map.contains(m_dealer->gameId()))
     {
         const DealerInfo * di = m_dealer_map.value(m_dealer->gameId());
-        QString anchor = "game_" + QString(di->name);
-        anchor = anchor.remove('\'').replace('&', "and").replace(' ', '_').toLower();
-
+        QString anchor = QString(di->name).toLower();
+        anchor = anchor.remove('\'').replace('&', "and").replace(' ', '-');
         KToolInvocation::invokeHelp(anchor);
     }
 }

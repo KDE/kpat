@@ -195,7 +195,6 @@ completely new game.
 
 <sect2 id="klondike">
 <title>Klondike</title>
-<anchor id="game_klondike" />
 
 <para><indexterm><primary>Klondike</primary></indexterm>
 Klondike is the most famous patience &mdash; most likely because it comes with a well-known operating system. 
@@ -233,7 +232,6 @@ You can look through the cards on the talon as much as you like.
 
 <sect2 id="grandfather">
 <title>Grandfather</title>
-<anchor id="game_grandfather"/>
 
 <para><indexterm><primary>Grandfather</primary></indexterm>
 This game was introduced to &Paul-Olav.Tvete;, the original developer of &kpatience;, by his grandfather; it is named after this. 
@@ -275,7 +273,6 @@ hard to win. Despite this, or because of it, this game remains a joy to play.
 
 <sect2 id="aces-up">
 <title>Aces Up</title>
-<anchor id="game_aces_up"/>
 
 <para><indexterm><primary>Aces Up</primary></indexterm>
 This patience has simple rules, yet is hard to win.  It is played
@@ -307,7 +304,6 @@ The auto drop feature is disabled in this patience game.
 
 <sect2 id="freecell">
 <title>Freecell</title>
-<anchor id="game_freecell"/>
 
 <para><indexterm><primary>Freecell</primary></indexterm>
 Freecell is played with one card deck. You have four free cells in the top left
@@ -355,7 +351,6 @@ build sequences as long as possible.
 
 <sect2 id="mod3">
 <title>Mod3</title>
-<anchor id="game_mod3"/>
 
 <para><indexterm><primary>Mod3</primary></indexterm>
 Mod3 is played with two card decks. The goal is to put all
@@ -388,7 +383,7 @@ The auto drop feature is disabled in this patience game.
 
 <sect2 id="gypsy">
 <title>Gypsy</title>
-<anchor id="game_gypsy"/>
+
 <para><indexterm><primary>Gypsy</primary></indexterm>
 Gypsy is played with two card decks. The aim is to put all cards in
 real families ascending on the foundation.
@@ -414,7 +409,6 @@ clicked the talon.
 
 <sect2 id="forty-and-eight">
 <title>Forty &amp; Eight</title>
-<anchor id="game_forty_and_eight"/>
 
 <para><indexterm><primary>Forty &amp; Eight</primary></indexterm>
 Forty &amp; Eight is played with two card decks. The goal is to put all
@@ -447,7 +441,6 @@ foundation.
 
 <sect2 id="simple-simon">
 <title>Simple Simon</title>
-<anchor id="game_simple_simon"/>
 
 <para><indexterm><primary>Simple Simon</primary></indexterm>
 Simple Simon is played with one card deck. The goal is to put all cards
@@ -484,7 +477,6 @@ color. If you have all cards in such families you can sort them by color, so the
 
 <sect2 id="yukon">
 <title>Yukon</title>
-<anchor id="game_yukon"/>
 
 <para><indexterm><primary>Yukon</primary></indexterm>
 Yukon is played with one card deck. The goal is to put all cards as real
@@ -503,10 +495,9 @@ of it).
 </para>
 </sect2>
 
-<sect2 id="grandfathers-clock">
+<sect2 id="grandfathers">
 <title>Grandfather's Clock</title>
 
-<anchor id="game_grandfathers_clock"/>
 <para><indexterm><primary>Grandfathers Clock</primary></indexterm>
 Grandfather's clock is a simple patience game. With some experience you should
 be able to solve most deals. It is played with one card deck. The aim is to put the cards 
@@ -550,7 +541,6 @@ The game is over when all the cards in the talon have been dealt and there are n
 <sect2 id="spider">
 <title>Spider</title>
 
-<anchor id="game_spider"/>
 <para><indexterm><primary>Spider</primary></indexterm>
 Spider is played with two card decks. The cards are dealt out into 10 playing
 piles, 4 of 6 cards and 6 of 5 cards each. This leaves 50 cards that can be
