@@ -75,7 +75,7 @@ public:
     double _wantedCardWidth;
     mutable double _scale;
     KCardCache m_cache;
-    QSizeF m_backSize;
+    QSizeF m_cardSize;
     bool m_backsvg;
     bool m_frontsvg;
     QRect m_body;
@@ -127,11 +127,10 @@ void cardMap::updateTheme(const KConfigGroup &cs)
     d->m_backsvg = CardDeckInfo::isSVGFront( fronttheme );
     d->m_frontsvg = CardDeckInfo::isSVGBack( backtheme );
 
-    d->m_backSize = d->m_cache.defaultBackSize();
+    d->m_cardSize = d->m_cache.defaultFrontSize( KCardInfo( KCardInfo::Spade, KCardInfo::Ace ) );
+    Q_ASSERT( !d->m_cardSize.isNull() );
 
-    Q_ASSERT( !d->m_backSize.isNull() );
-    if ( !d->m_backsvg || !d->m_frontsvg )
-        setWantedCardWidth( d->m_backSize.width() );
+    setWantedCardWidth( d->m_cardSize.width() );
 
     if (PatienceView::instance() && PatienceView::instance()->dscene()) {
         PatienceView::instance()->dscene()->rescale(false);
@@ -149,7 +148,7 @@ cardMap::~cardMap()
 
 double cardMap::wantedCardHeight() const
 {
-    return d->_wantedCardWidth / d->m_backSize.width() * d->m_backSize.height();
+    return d->_wantedCardWidth / d->m_cardSize.width() * d->m_cardSize.height();
 }
 
 double cardMap::wantedCardWidth() const
@@ -172,7 +171,7 @@ void cardMap::setWantedCardWidth( double w )
     if ( w > 200 || w < 10 || d->_wantedCardWidth == w )
         return;
 
-    if ( !d->m_backsvg && !d->m_frontsvg && w != d->m_backSize.width() )
+    if ( !d->m_backsvg && !d->m_frontsvg && w != d->m_cardSize.width() )
         return;
 
     d->m_body = QRect();
