@@ -208,7 +208,6 @@ signals:
     void demoPossible(bool poss);
     void newCardsPossible(bool poss);
 
-    void gameInfo(const QString &info);
     void gameWon(bool withhelp);
     void demoActive(bool en);
     void updateMoves();

@@ -58,9 +58,6 @@ public slots:
 
     void newGame();
     void chooseGame();
-    void gameLost();
-    void slotGameInfo(const QString &);
-    void slotUpdateMoves();
     void helpGame();
     void enableAutoDrop();
     void enableSolver();
@@ -72,6 +69,9 @@ public slots:
     void slotGameSolverWon();
     void slotGameSolverLost();
     void slotGameSolverUnknown();
+    void slotGameLost();
+    void slotUpdateMoves();
+
     void slotPickRandom();
     void slotSelectDeck();
 

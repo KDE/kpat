@@ -179,7 +179,10 @@ pWidget::pWidget()
 
     QSize defaultSize = qApp->desktop()->availableGeometry().size() * 0.7;
     setupGUI(defaultSize, Create | Save | ToolBar | StatusBar | Keys);
-    statusBar()->insertPermanentItem( "", 1, 0 );
+
+    statusBar()->insertPermanentItem( "", 1, 0 ); // Solver message
+    statusBar()->insertPermanentItem( "", 2, 1 ); // Stretchy spacer
+    statusBar()->insertPermanentItem( "", 3, 0 ); // Move count
 
     Render::loadTheme( KStandardDirs::locate( "data", "kpat/theme.svgz" ) );
 }
@@ -228,6 +231,7 @@ void pWidget::enableSolver()
     bool solver = solveraction->isChecked();
     KConfigGroup cg(KGlobal::config(), settings_group );
     cg.writeEntry( "Solver", solver );
+    statusBar()->changeItem(QString(), 1);
     if ( m_dealer )
         m_dealer->setSolverEnabled(solver);
 }
@@ -256,7 +260,7 @@ void pWidget::startRandom()
 
 void pWidget::startNew(long gameNumber)
 {
-    statusBar()->clearMessage();
+    statusBar()->changeItem(QString(), 1);
     m_dealer->startNew(gameNumber);
     setGameCaption();
 }
@@ -325,9 +329,6 @@ void pWidget::slotGameSelected(int id)
 
 void pWidget::newGameType(int id)
 {
-    slotUpdateMoves();
-    kDebug(11111) << gettime() << "pWidget::newGameType\n";
-
     if ( !dill )
     {
         dill = new PatienceView(this, m_stack);
@@ -350,13 +351,12 @@ void pWidget::newGameType(int id)
 
     gamehelpaction->setText(i18n("Help &with %1", QString(di->name).replace('&', "&&")));
 
-    connect(m_dealer, SIGNAL(gameLost()), SLOT(gameLost()));
-    connect(m_dealer, SIGNAL(gameInfo(QString)), SLOT(slotGameInfo(QString)));
-    connect(m_dealer, SIGNAL(updateMoves()), SLOT(slotUpdateMoves()));
     connect(m_dealer, SIGNAL(gameSolverStart()), SLOT(slotGameSolverStart()));
     connect(m_dealer, SIGNAL(gameSolverWon()), SLOT(slotGameSolverWon()));
     connect(m_dealer, SIGNAL(gameSolverLost()), SLOT(slotGameSolverLost()));
     connect(m_dealer, SIGNAL(gameSolverUnknown()), SLOT(slotGameSolverUnknown()));
+    connect(m_dealer, SIGNAL(gameLost()), SLOT(slotGameLost()));
+    connect(m_dealer, SIGNAL(updateMoves()), SLOT(slotUpdateMoves()));
 
     updateActions();
 }
@@ -384,6 +384,9 @@ void pWidget::slotShowGameSelectionScreen()
         updateActions();
 
         setGameCaption();
+
+        statusBar()->changeItem(QString(), 1);
+        statusBar()->changeItem(QString(), 3);
     }
 }
 
@@ -512,17 +515,6 @@ void pWidget::closeEvent(QCloseEvent *e)
     KXmlGuiWindow::closeEvent(e);
 }
 
-void pWidget::slotGameInfo(const QString &text)
-{
-    statusBar()->showMessage(text, 3000);
-}
-
-void pWidget::slotUpdateMoves()
-{
-    int moves = m_dealer ? m_dealer->getMoves() : 0;
-    statusBar()->changeItem( i18np("1 move", "%1 moves", moves), 1 );
-}
-
 void pWidget::chooseGame()
 {
     if (m_dealer)
@@ -540,11 +532,6 @@ void pWidget::chooseGame()
         if (ok && m_dealer->allowedToStartNewGame())
             startNew(number);
     }
-}
-
-void pWidget::gameLost()
-{
-    statusBar()->showMessage( i18n( "This game is lost." ) );
 }
 
 bool pWidget::openGame(const KUrl &url, bool addToRecentFiles)
@@ -644,22 +631,33 @@ void pWidget::showStats()
 
 void pWidget::slotGameSolverWon()
 {
-    statusBar()->showMessage(i18n( "This game can still be won! Good luck to you." ));
+    statusBar()->changeItem(i18n( "This game can still be won! Good luck to you." ), 1);
 }
 
 void pWidget::slotGameSolverStart()
 {
-    statusBar()->showMessage(i18n( "Calculating..." ) );
+    statusBar()->changeItem(i18n( "Calculating..." ), 1);
 }
 
 void pWidget::slotGameSolverLost()
 {
-    statusBar()->showMessage(i18n( "Nope, this game cannot be won anymore." ));
+    statusBar()->changeItem(i18n( "Nope, this game cannot be won anymore." ), 1);
 }
 
 void pWidget::slotGameSolverUnknown()
 {
-    statusBar()->showMessage( i18n( "Timeout while playing - unknown if it can be won" ) );
+    statusBar()->changeItem(i18n( "Timeout while playing - unknown if it can be won" ), 1);
+}
+
+void pWidget::slotGameLost()
+{
+    statusBar()->changeItem(i18n( "This game is lost." ), 1);
+}
+
+void pWidget::slotUpdateMoves()
+{
+    if (m_dealer)
+        statusBar()->changeItem(i18np("1 move", "%1 moves", m_dealer->getMoves()), 3);
 }
 
 void pWidget::slotSnapshot()
