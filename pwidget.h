@@ -59,9 +59,9 @@ public slots:
     void newGame();
     void chooseGame();
     void helpGame();
-    void enableAutoDrop();
-    void enableSolver();
-    void enableRememberState();
+    void enableAutoDrop(bool enable);
+    void enableSolver(bool enable);
+    void enableRememberState(bool enable);
     void toggleDemoAction(bool active);
     void showStats();
 

@@ -150,17 +150,17 @@ pWidget::pWidget()
 
     autodropaction = new KToggleAction(i18n("&Enable Autodrop"), this);
     actionCollection()->addAction("enable_autodrop", autodropaction);
-    connect( autodropaction, SIGNAL( triggered( bool ) ), SLOT(enableAutoDrop()) );
+    connect( autodropaction, SIGNAL( triggered( bool ) ), SLOT( enableAutoDrop( bool ) ) );
     autodropaction->setChecked( cg.readEntry("Autodrop", true) );
 
     solveraction = new KToggleAction(i18n("E&nable Solver"), this);
     actionCollection()->addAction("enable_solver", solveraction);
-    connect( solveraction, SIGNAL( triggered( bool ) ), SLOT( enableSolver() ) );
+    connect( solveraction, SIGNAL( triggered( bool ) ), SLOT( enableSolver( bool ) ) );
     solveraction->setChecked( cg.readEntry("Solver", true) );
 
     rememberstateaction = new KToggleAction(i18n("&Remember State on Exit"), this);
     actionCollection()->addAction("remember_state", rememberstateaction);
-    connect( rememberstateaction, SIGNAL( triggered( bool ) ), SLOT( enableRememberState() ) );
+    connect( rememberstateaction, SIGNAL( triggered( bool ) ), SLOT( enableRememberState( bool ) ) );
     rememberstateaction->setChecked( cg.readEntry("RememberStateOnExit", false) );
 
     foreach( const DealerInfo * di, DealerInfoList::self()->games() )
@@ -216,30 +216,28 @@ void pWidget::helpGame()
     }
 }
 
-void pWidget::enableAutoDrop()
+void pWidget::enableAutoDrop(bool enable)
 {
-    bool drop = autodropaction->isChecked();
-    KConfigGroup cg(KGlobal::config(), settings_group );
-    cg.writeEntry( "Autodrop", drop);
-    if ( m_dealer )
-        m_dealer->setAutoDropEnabled(drop);
+    KConfigGroup cg(KGlobal::config(), settings_group);
+    cg.writeEntry("Autodrop", enable);
+    if (m_dealer)
+        m_dealer->setAutoDropEnabled(enable);
     updateGameActionList();
 }
 
-void pWidget::enableSolver()
+void pWidget::enableSolver(bool enable)
 {
-    bool solver = solveraction->isChecked();
-    KConfigGroup cg(KGlobal::config(), settings_group );
-    cg.writeEntry( "Solver", solver );
+    KConfigGroup cg(KGlobal::config(), settings_group);
+    cg.writeEntry("Solver", enable);
     statusBar()->changeItem(QString(), 1);
-    if ( m_dealer )
-        m_dealer->setSolverEnabled(solver);
+    if (m_dealer)
+        m_dealer->setSolverEnabled(enable);
 }
 
-void pWidget::enableRememberState()
+void pWidget::enableRememberState(bool enable)
 {
     KConfigGroup cg(KGlobal::config(), settings_group );
-    cg.writeEntry( "RememberStateOnExit", rememberstateaction->isChecked() );
+    cg.writeEntry( "RememberStateOnExit", enable );
 }
 
 void pWidget::newGame()
