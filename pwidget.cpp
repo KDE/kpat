@@ -240,7 +240,7 @@ void pWidget::enableRememberState()
 
 void pWidget::newGame()
 {
-    if (allowedToStartNewGame())
+    if (m_dealer && m_dealer->allowedToStartNewGame())
         startRandom();
 }
 
@@ -314,28 +314,6 @@ void pWidget::setGameCaption()
     setCaption( caption );
 }
 
-bool pWidget::allowedToStartNewGame()
-{
-    // Check if the user is already running a game, and if she is,
-    // then ask if she wants to abort it.
-    return !m_dealer
-           || !m_dealer->hasBeenStarted()
-           || m_dealer->wasJustSaved()
-           || m_dealer->isGameWon()
-           || m_dealer->isGameLost()
-           || KMessageBox::warningContinueCancel(0,
-                                                 i18n("You are already running an unfinished game. "
-                                                      "If you abort the old game to start a new one, "
-                                                      "the old game will be registered as a loss in "
-                                                      "the statistics file.\n"
-                                                      "What do you want to do?"),
-                                                 i18n("Abort Current Game?"),
-                                                 KGuiItem(i18n("Abort Current Game")),
-                                                 KStandardGuiItem::cancel(),
-                                                 "careaboutstats"
-                                                ) == KMessageBox::Continue;
-}
-
 void pWidget::slotGameSelected(int id)
 {
     if ( m_dealer_map.contains(id) )
@@ -385,7 +363,7 @@ void pWidget::newGameType(int id)
 
 void pWidget::slotShowGameSelectionScreen()
 {
-    if (allowedToStartNewGame())
+    if (!m_dealer || m_dealer->allowedToStartNewGame())
     {
         if (m_dealer)
         {
@@ -547,18 +525,21 @@ void pWidget::slotUpdateMoves()
 
 void pWidget::chooseGame()
 {
-    QString text = (m_dealer && m_dealer->gameId() == m_freeCellId)
-                   ? i18n("Enter a game number (Freecell deals are the same as in the Freecell FAQ):")
-                   : i18n("Enter a game number:");
-    bool ok;
-    long number = KInputDialog::getText(i18n("Game Number"),
-                                        text,
-                                        QString::number(m_dealer->gameNumber()),
-                                        0,
-                                        this).toLong(&ok);
+    if (m_dealer)
+    {
+        QString text = (m_dealer->gameId() == m_freeCellId)
+                       ? i18n("Enter a game number (Freecell deals are the same as in the Freecell FAQ):")
+                       : i18n("Enter a game number:");
+        bool ok;
+        long number = KInputDialog::getText(i18n("Game Number"),
+                                            text,
+                                            QString::number(m_dealer->gameNumber()),
+                                            0,
+                                            this).toLong(&ok);
 
-    if (ok && allowedToStartNewGame())
-        startNew(number);
+        if (ok && m_dealer->allowedToStartNewGame())
+            startNew(number);
+    }
 }
 
 void pWidget::gameLost()
@@ -585,7 +566,7 @@ bool pWidget::openGame(const KUrl &url, bool addToRecentFiles)
                 {
                     // Only ask for permission after we've determined the save game
                     // file is good.
-                    if (allowedToStartNewGame())
+                    if (!m_dealer || m_dealer->allowedToStartNewGame())
                     {
                         // If the file has a game number, then load it.
                         // If it only contains an ID, just launch a new game with that ID.

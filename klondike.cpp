@@ -35,6 +35,7 @@
 
 #include <kdebug.h>
 #include <klocale.h>
+#include <KRandom>
 #include <kselectaction.h>
 #include <kxmlguiwindow.h>
 #include <kactioncollection.h>
@@ -134,20 +135,22 @@ Klondike::Klondike()
     redealt = false;
 
     options = new KSelectAction(i18n("Klondike &Options"), this );
-
-    KXmlGuiWindow *xmlgui = PatienceView::instance()->mainWindow();
-
-    xmlgui->actionCollection()->addAction("dealer_options", options);
     options->addAction( "Draw 1" );
     options->addAction( "Draw 3" );
-
     options->setCurrentItem( EasyRules ? 0 : 1 );
-
-    QList<QAction*> actionlist;
-    actionlist.append( options );
-
-    xmlgui->guiFactory()->plugActionList( xmlgui, QString::fromLatin1("dealer_options"), actionlist);
     connect( options, SIGNAL( triggered( int ) ), SLOT( gameTypeChanged() ) );
+
+    if ( PatienceView::instance() )
+    {
+        KXmlGuiWindow * xmlgui = PatienceView::instance()->mainWindow();
+        if ( xmlgui )
+        {
+            xmlgui->actionCollection()->addAction("dealer_options", options);
+            QList<QAction*> actionlist;
+            actionlist.append( options );
+            xmlgui->guiFactory()->plugActionList( xmlgui, "dealer_options", actionlist);
+        }
+    }
 }
 
 Card *Klondike::newCards()
@@ -201,9 +204,17 @@ void Klondike::gameTypeChanged()
     if ( demoActive() || isGameWon()  )
        return;
 
-    setEasy( options->currentItem() == 0 );
-
-    startNew();
+    if ( allowedToStartNewGame() )
+    {
+        setEasy( options->currentItem() == 0 );
+        startNew( KRandom::random() );
+    }
+    else
+    {
+        // If we're not allowed, reset the option to
+        // the current number of suits.
+        options->setCurrentItem( EasyRules ? 0 : 1 );
+    }
 }
 
 QString Klondike::getGameState()

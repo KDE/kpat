@@ -58,16 +58,17 @@ protected:
     virtual void setGameState(const QString &stream);
     virtual QString getGameOptions() const;
     virtual void setGameOptions(const QString &options);
-    void setSuits(int s);
 
 private:
     CardList getRun(Card *c) const;
+    void setSuits(int s);
 
     SpiderPile *stack[10];
     Pile *legs[8];
     int m_leg;
     Pile *redeals[5];
     int m_redeal;
+    int m_suits;
 
     KSelectAction *options;
 };

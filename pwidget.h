@@ -88,7 +88,6 @@ private slots:
 
 private:
     void setGameCaption();
-    bool allowedToStartNewGame();
     void startNew(long gameNumber);
     void updateActions();
     void updateGameActionList();

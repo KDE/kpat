@@ -165,8 +165,6 @@ public:
     int neededFutureMoves() const;
 
     bool isInitialDeal() const;
-    bool hasBeenStarted() const;
-    bool wasJustSaved() const;
     void recordGameStatistics();
 
     bool cardsAreMoving() const { return !movingCards.empty(); }
@@ -174,6 +172,8 @@ public:
     void createDump( QPaintDevice * );
 
     void updateWonItem();
+
+    bool allowedToStartNewGame();
 
 public slots:
     virtual bool startAutoDrop();

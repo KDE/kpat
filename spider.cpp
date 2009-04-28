@@ -29,6 +29,7 @@
 
 #include <kdebug.h>
 #include <klocale.h>
+#include <KRandom>
 #include <kselectaction.h>
 #include <kxmlguiwindow.h>
 #include <kactioncollection.h>
@@ -65,9 +66,9 @@ Spider::Spider()
     const qreal dist_x = 11.2;
 
     KConfigGroup cg(KGlobal::config(), settings_group );
-    int suits = cg.readEntry( "SpiderSuits", 2);
+    m_suits = cg.readEntry( "SpiderSuits", 2);
 
-    Deck::create_deck(this, 2, suits);
+    Deck::create_deck(this, 2, m_suits);
 
     // I deal the cards into 'redeal' piles, so hide the deck
     Deck::deck()->setVisible(false);
@@ -123,32 +124,28 @@ Spider::Spider()
     setSolver( new SpiderSolver( this ) );
 
     options = new KSelectAction(i18n("Spider &Options"), this );
-    KXmlGuiWindow *xmlgui = 0;
-
-    if ( PatienceView::instance() )
-    {
-        xmlgui = PatienceView::instance()->mainWindow();
-
-        xmlgui->actionCollection()->addAction("dealer_options", options);
-    }
-
     options->addAction( "1 Suit (Easy)" );
     options->addAction( "2 Suits (Medium)" );
     options->addAction( "4 Suits (Hard)" );
-
-    if ( suits == 1 )
+    if ( m_suits == 1 )
         options->setCurrentItem( 0 );
-    else if ( suits == 2 )
+    else if ( m_suits == 2 )
         options->setCurrentItem( 1 );
     else
         options->setCurrentItem( 2 );
-
-    QList<QAction*> actionlist;
-    actionlist.append( options );
-
-    if ( xmlgui )
-        xmlgui->guiFactory()->plugActionList( xmlgui, QString::fromLatin1("dealer_options"), actionlist);
     connect( options, SIGNAL( triggered( int ) ), SLOT( gameTypeChanged() ) );
+
+    if ( PatienceView::instance() )
+    {
+        KXmlGuiWindow * xmlgui = PatienceView::instance()->mainWindow();
+        if ( xmlgui )
+        {
+            xmlgui->actionCollection()->addAction("dealer_options", options);
+            QList<QAction*> actionlist;
+            actionlist.append( options );
+            xmlgui->guiFactory()->plugActionList( xmlgui, "dealer_options", actionlist);
+        }
+    }
 }
 
 void Spider::gameTypeChanged()
@@ -162,39 +159,50 @@ void Spider::gameTypeChanged()
     if ( demoActive() || isGameWon()  )
         return;
 
-    int suits = 4;
-    if ( options->currentItem() == 0 )
-        suits = 1;
-    if ( options->currentItem() == 1 )
-        suits = 2;
-
-    setSuits( suits );
-
-    startNew();
+    if ( allowedToStartNewGame() )
+    {
+        if ( options->currentItem() == 0 )
+            setSuits( 1 );
+        else if ( options->currentItem() == 1 )
+            setSuits( 2 );
+        else
+            setSuits( 4 );
+        startNew(KRandom::random());
+    }
+    else
+    {
+        // If we're not allowed, reset the option to
+        // the current number of suits.
+        if ( m_suits == 1 )
+            options->setCurrentItem( 0 );
+        else if ( m_suits == 2 )
+            options->setCurrentItem( 1 );
+        else
+            options->setCurrentItem( 2 );
+    }
 }
 
 void Spider::setSuits(int suits)
 {
-    stopDemo();
-    unmarkAll();
-    Deck::destroy_deck();
-    Deck::create_deck(this, 2, suits);
-    Deck::deck()->setVisible(false);
-    KConfigGroup cg(KGlobal::config(), settings_group );
-    cg.writeEntry( "SpiderSuits", suits);
-    cg.sync();
-
-    switch ( suits )
+    if ( suits != m_suits )
     {
-    case 1:
-        options->setCurrentItem( 0 );
-        break;
-    case 2:
-        options->setCurrentItem( 1 );
-        break;
-    case 4:
-        options->setCurrentItem( 2 );
-        break;
+        m_suits = suits;
+
+        stopDemo();
+        unmarkAll();
+        Deck::destroy_deck();
+        Deck::create_deck(this, 2, m_suits);
+        Deck::deck()->setVisible(false);
+        KConfigGroup cg(KGlobal::config(), settings_group );
+        cg.writeEntry( "SpiderSuits", m_suits);
+        cg.sync();
+
+        if ( m_suits == 1 )
+            options->setCurrentItem( 0 );
+        else if ( m_suits == 2 )
+            options->setCurrentItem( 1 );
+        else
+            options->setCurrentItem( 2 );
     }
 }
 

@@ -38,6 +38,7 @@
 #include <kconfiggroup.h>
 #include <kdebug.h>
 #include <klocalizedstring.h>
+#include <KMessageBox>
 #include <krandom.h>
 #include <ksharedconfig.h>
 #include <kio/netaccess.h>
@@ -920,7 +921,7 @@ void DealerScene::startNew(long gameNumber)
     emit demoPossible( true );
     emit hintPossible( true );
     d->initialDeal = true;
-    kDebug(11111) << "startNew restart\n";
+
     restart();
     takeState();
     update();
@@ -1861,16 +1862,6 @@ void DealerScene::considerGameStarted()
     d->gameStarted = true;
 }
 
-bool DealerScene::hasBeenStarted() const
-{
-    return d->gameStarted;
-}
-
-bool DealerScene::wasJustSaved() const
-{
-    return d->wasJustSaved;
-}
-
 void DealerScene::recordGameStatistics()
 {
     // Don't record the game if it was never started, if it is unchanged since
@@ -2176,5 +2167,26 @@ void DealerScene::createDump( QPaintDevice *device )
 }
 
 void DealerScene::mapOldId(int) {}
+
+bool DealerScene::allowedToStartNewGame()
+{
+    // Check if the user is already running a game, and if she is,
+    // then ask if she wants to abort it.
+    return !d->gameStarted
+           || d->wasJustSaved
+           || isGameWon()
+           || isGameLost()
+           || KMessageBox::warningContinueCancel(0,
+                                                 i18n("You are already running an unfinished game. "
+                                                      "If you abort the old game to start a new one, "
+                                                      "the old game will be registered as a loss in "
+                                                      "the statistics file.\n"
+                                                      "What do you want to do?"),
+                                                 i18n("Abort Current Game?"),
+                                                 KGuiItem(i18n("Abort Current Game")),
+                                                 KStandardGuiItem::cancel(),
+                                                 "careaboutstats"
+                                                ) == KMessageBox::Continue;
+}
 
 #include "dealer.moc"
