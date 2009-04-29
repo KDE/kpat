@@ -258,7 +258,7 @@ void DealerScene::takeState()
     State *n = getState();
 
     if (!d->undoList.count()) {
-        emit updateMoves();
+        emit updateMoves(getMoves());
         d->undoList.append(n);
     } else {
         State *old = d->undoList.last();
@@ -267,7 +267,7 @@ void DealerScene::takeState()
             delete n;
             n = 0;
         } else {
-            emit updateMoves();
+            emit updateMoves(getMoves());
             d->undoList.append(n);
         }
     }
@@ -457,7 +457,7 @@ void DealerScene::openGame(QDomDocument &doc)
         emit undoPossible(d->undoList.count() > 1);
     }
 
-    emit updateMoves();
+    emit updateMoves(getMoves());
     emit hintPossible(true);
     emit demoPossible(true);
     takeState();
@@ -471,7 +471,7 @@ void DealerScene::undo()
     if (d->undoList.count() > 1) {
         d->redoList.append( d->undoList.takeLast() );
         setState(d->undoList.takeLast());
-        emit updateMoves();
+        emit updateMoves(getMoves());
         takeState(); // copying it again
         emit undoPossible(d->undoList.count() > 1);
         emit redoPossible(d->redoList.count() > 0);
@@ -492,7 +492,7 @@ void DealerScene::redo()
     kDebug(11111) << "::redo" << d->redoList.count();
     if (d->redoList.count() > 0) {
         setState(d->redoList.takeLast());
-        emit updateMoves();
+        emit updateMoves(getMoves());
         takeState(); // copying it again
         emit undoPossible(d->undoList.count() > 1);
         emit redoPossible(d->redoList.count() > 0);
@@ -901,12 +901,11 @@ void DealerScene::startNew(long gameNumber)
     d->toldAboutWonGame = false;
     d->wasJustSaved = false;
     d->loadedMoveCount = 0;
-    emit updateMoves();
 
     stopDemo();
     kDebug(11111) << gettime() << "startNew unmarkAll\n";
     unmarkAll();
-    kDebug(11111) << "startNew setAnimated(false)\n";
+
     QList<QGraphicsItem *> list = items();
     for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
     {
@@ -918,6 +917,7 @@ void DealerScene::startNew(long gameNumber)
         }
     }
 
+    emit updateMoves( 0 );
     emit demoPossible( true );
     emit hintPossible( true );
     d->initialDeal = true;

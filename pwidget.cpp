@@ -354,7 +354,7 @@ void pWidget::newGameType(int id)
     connect(m_dealer, SIGNAL(gameSolverLost()), SLOT(slotGameSolverLost()));
     connect(m_dealer, SIGNAL(gameSolverUnknown()), SLOT(slotGameSolverUnknown()));
     connect(m_dealer, SIGNAL(gameLost()), SLOT(slotGameLost()));
-    connect(m_dealer, SIGNAL(updateMoves()), SLOT(slotUpdateMoves()));
+    connect(m_dealer, SIGNAL(updateMoves(int)), SLOT(slotUpdateMoves(int)));
 
     updateActions();
 }
@@ -652,10 +652,9 @@ void pWidget::slotGameLost()
     statusBar()->changeItem(i18n( "This game is lost." ), 1);
 }
 
-void pWidget::slotUpdateMoves()
+void pWidget::slotUpdateMoves(int moves)
 {
-    if (m_dealer)
-        statusBar()->changeItem(i18np("1 move", "%1 moves", m_dealer->getMoves()), 3);
+    statusBar()->changeItem(i18np("1 move", "%1 moves", moves), 3);
 }
 
 void pWidget::slotSnapshot()

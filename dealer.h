@@ -210,7 +210,7 @@ signals:
 
     void gameWon(bool withhelp);
     void demoActive(bool en);
-    void updateMoves();
+    void updateMoves(int moves);
     void gameLost();
 
     void gameSolverStart();

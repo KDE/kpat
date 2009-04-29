@@ -70,7 +70,7 @@ public slots:
     void slotGameSolverLost();
     void slotGameSolverUnknown();
     void slotGameLost();
-    void slotUpdateMoves();
+    void slotUpdateMoves(int moves);
 
     void slotPickRandom();
     void slotSelectDeck();
