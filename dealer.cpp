@@ -240,16 +240,13 @@ void DealerScene::takeState()
         return;
     }
 
-    QList<QGraphicsItem *> list = items();
-    for (QList<QGraphicsItem *>::ConstIterator it = list.constBegin(); it != list.constEnd(); ++it)
+    foreach(const QGraphicsItem * item, items())
     {
-        if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
-            Card *c = static_cast<Card*>(*it);
-            if (c->animated())
-            {
-                d->stateTimer->start();
-                return;
-            }
+        const Card *c = qgraphicsitem_cast<const Card*>(item);
+        if (c && c->animated())
+        {
+            d->stateTimer->start();
+            return;
         }
     }
 
@@ -326,12 +323,11 @@ void DealerScene::saveGame(QDomDocument &doc)
     bool taken[1000];
     memset(taken, 0, sizeof(taken));
 
-    QList<QGraphicsItem *> list = items();
-    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
+    foreach(const QGraphicsItem *item, items())
     {
-        if ((*it)->type() == QGraphicsItem::UserType + DealerScene::PileTypeId ) {
-            Pile *p = dynamic_cast<Pile*>(*it);
-            assert(p);
+        const Pile *p = qgraphicsitem_cast<const Pile*>(item);
+        if (p)
+        {
             if (taken[p->index()]) {
                 kDebug(11111) << "pile index" << p->index() << "taken twice\n";
                 return;
@@ -342,16 +338,13 @@ void DealerScene::saveGame(QDomDocument &doc)
             pile.setAttribute("index", p->index());
             pile.setAttribute("z", p->zValue());
 
-            CardList cards = p->cards();
-            for (CardList::Iterator it = cards.begin();
-                 it != cards.end();
-                 ++it)
+            foreach(const Card * c, p->cards() )
             {
                 QDomElement card = doc.createElement("card");
-                card.setAttribute("suit", (*it)->suit());
-                card.setAttribute("value", (*it)->rank());
-                card.setAttribute("faceup", (*it)->isFaceUp());
-                card.setAttribute("z", (*it)->realZ());
+                card.setAttribute("suit", c->suit());
+                card.setAttribute("value", c->rank());
+                card.setAttribute("faceup", c->isFaceUp());
+                card.setAttribute("z", c->realZ());
                 pile.appendChild(card);
             }
             dealer.appendChild(pile);
@@ -399,22 +392,21 @@ void DealerScene::openGame(QDomDocument &doc)
 
     QDomNodeList piles = dealer.elementsByTagName("pile");
 
-    QList<QGraphicsItem *> list = items();
-
     CardList cards;
-    for (QList<QGraphicsItem *>::ConstIterator it = list.constBegin(); it != list.constEnd(); ++it)
-        if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId )
-            cards.append(static_cast<Card*>(*it));
+    foreach (QGraphicsItem *item, items())
+    {
+        Card *c = qgraphicsitem_cast<Card*>(item);
+        if (c)
+            cards.append(c);
+    }
 
     Deck::deck()->collectAndShuffle();
 
-    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
+    foreach (QGraphicsItem *item, items())
     {
-        if ((*it)->type() == QGraphicsItem::UserType + DealerScene::PileTypeId )
+        Pile *p = qgraphicsitem_cast<Pile*>(item);
+        if (p)
         {
-            Pile *p = dynamic_cast<Pile*>(*it);
-            assert(p);
-
             p->clear();
 
             for (int i = 0; i < piles.count(); ++i)
@@ -818,47 +810,41 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
     unmarkAll();
     stopDemo();
 
-    QList<QGraphicsItem *> list = items( e->scenePos() );
+    QGraphicsItem *topItem = itemAt( e->scenePos() );
 
     //kDebug(11111) << gettime() << "mouse pressed" << list.count() << " " << items().count() << " " << e->scenePos().x() << " " << e->scenePos().y();
     moved = false;
 
-    if (!list.count())
+    if (!topItem)
         return;
 
     QGraphicsScene::mousePressEvent( e );
 
     if (e->button() == Qt::LeftButton) {
-        if (list.first()->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
-            Card *c = dynamic_cast<Card*>(list.first());
-            assert(c);
-            CardList mycards = c->source()->cardPressed(c);
-            for (CardList::Iterator it = mycards.begin(); it != mycards.end(); ++it)
-                (*it)->stopAnimation();
-            movingCards = mycards;
+        Card *c = qgraphicsitem_cast<Card*>(topItem);
+        if (c) {
+            movingCards = c->source()->cardPressed(c);
+            foreach (Card *card, movingCards)
+                card->stopAnimation();
             moving_start = e->scenePos();
         }
         return;
     }
 
     if (e->button() == Qt::RightButton) {
-        if (list.first()->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
-            Card *preview = dynamic_cast<Card*>(list.first());
-            assert(preview);
-            if (!preview->animated() && !isMoving(preview))
-            {
-                if ( preview == preview->source()->top() )
-                    mouseDoubleClickEvent( e ); // see bug #151921
-                else
-                    preview->getUp();
-            }
+        Card *preview = qgraphicsitem_cast<Card*>(topItem);
+        if (preview && !preview->animated() && !isMoving(preview))
+        {
+            if ( preview == preview->source()->top() )
+                mouseDoubleClickEvent( e ); // see bug #151921
+            else
+                preview->getUp();
         }
         return;
     }
 
     // if it's nothing else, we move the cards back
     mouseReleaseEvent(e);
-
 }
 
 class Hit {
@@ -906,12 +892,11 @@ void DealerScene::startNew(long gameNumber)
     kDebug(11111) << gettime() << "startNew unmarkAll\n";
     unmarkAll();
 
-    QList<QGraphicsItem *> list = items();
-    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
+    foreach (QGraphicsItem *item, items())
     {
-        if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId )
+        Card *c = qgraphicsitem_cast<Card*>(item);
+        if (c)
         {
-            Card *c = static_cast<Card*>(*it);
             c->disconnect();
             c->stopAnimation();
         }
@@ -1001,13 +986,13 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
             movingCards.first()->source()->moveCardsBack(movingCards);
             movingCards.clear();
         }
-        QList<QGraphicsItem *> list = items(e->scenePos());
-        if (list.isEmpty())
+        
+        QGraphicsItem * topItem = itemAt(e->scenePos());
+        if (!topItem)
             return;
-        QList<QGraphicsItem *>::Iterator it = list.begin();
-        if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
-            Card *c = dynamic_cast<Card*>(*it);
-            assert(c);
+
+        Card *c = qgraphicsitem_cast<Card*>(topItem);
+        if (c) {
             if (!c->animated()) {
                 if ( cardClicked(c) ) {
                     considerGameStarted();
@@ -1017,10 +1002,10 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
             }
             return;
         }
-        if ((*it)->type() == QGraphicsItem::UserType + DealerScene::PileTypeId ) {
-            Pile *c = dynamic_cast<Pile*>(*it);
-            assert(c);
-            pileClicked(c);
+
+        Pile *p = qgraphicsitem_cast<Pile*>(topItem);
+        if (p) {
+            pileClicked(p);
             takeState();
             eraseRedo();
             return;
@@ -1050,14 +1035,12 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
 
 Pile * DealerScene::targetPile()
 {
-    QList<QGraphicsItem *> list = collidingItems( movingCards.first() );
     HitList sources;
-
-    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
+    foreach (QGraphicsItem *item, collidingItems( movingCards.first() ))
     {
-        if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
-            Card *c = dynamic_cast<Card*>(*it);
-            assert(c);
+        Card *c = qgraphicsitem_cast<Card*>(item);
+        if (c)
+        {
             if (!c->isFaceUp())
                 continue;
             if (c->source() == movingCards.first()->source())
@@ -1085,8 +1068,9 @@ Pile * DealerScene::targetPile()
 
             sources.append(t);
         } else {
-            if ((*it)->type() == QGraphicsItem::UserType + DealerScene::PileTypeId ) {
-                Pile *p = static_cast<Pile*>(*it);
+            Pile *p = qgraphicsitem_cast<Pile*>(item);
+            if (p)
+            {
                 if (p->isEmpty())
                 {
                     Hit t;
@@ -1096,7 +1080,7 @@ Pile * DealerScene::targetPile()
                     sources.append(t);
                 }
             } else {
-                kDebug(11111) << "unknown object" << *it << " " << (*it)->type();
+                kDebug(11111) << "unknown object" << item << " " << item->type();
             }
         }
     }
@@ -1138,15 +1122,13 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
         movingCards.first()->source()->moveCardsBack(movingCards);
         movingCards.clear();
     }
-    QList<QGraphicsItem *> list = items(e->scenePos());
-    kDebug(11111) << "mouseDoubleClickEvent" << list;
-    if (list.isEmpty())
+
+    QGraphicsItem *topItem = itemAt(e->scenePos());
+    kDebug(11111) << "mouseDoubleClickEvent" << topItem;
+    Card *c = qgraphicsitem_cast<Card*>(topItem);
+    if (!c)
         return;
-    QList<QGraphicsItem *>::Iterator it = list.begin();
-    if ((*it)->type() != QGraphicsItem::UserType + DealerScene::CardTypeId )
-        return;
-    Card *c = dynamic_cast<Card*>(*it);
-    assert(c);
+
     c->stopAnimation();
     kDebug(11111) << "card" << c->rank() << " " << c->suit();
     if ( cardDblClicked(c) ) {
@@ -1190,14 +1172,11 @@ bool DealerScene::cardDblClicked(Card *c)
 
 State *DealerScene::getState()
 {
-    QList<QGraphicsItem *> list = items();
     State * st = new State;
-
-    for (QList<QGraphicsItem *>::ConstIterator it = list.constBegin(); it != list.constEnd(); ++it)
+    foreach (QGraphicsItem *item, items())
     {
-       if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
-           Card *c = dynamic_cast<Card*>(*it);
-           assert(c);
+       Card *c = qgraphicsitem_cast<Card*>(item);
+       if (c) {
            CardState s;
            s.it = c;
            s.source = c->source();
@@ -1224,17 +1203,14 @@ void DealerScene::setState(State *st)
 {
     kDebug(11111) << gettime() << "setState\n";
     CardStateList * n = &st->cards;
-    QList<QGraphicsItem *> list = items();
 
-    for (QList<QGraphicsItem *>::Iterator it = list.begin(); it != list.end(); ++it)
+    foreach (QGraphicsItem *item, items())
     {
-        if ((*it)->type() == QGraphicsItem::UserType + DealerScene::PileTypeId )
+        Pile *p = qgraphicsitem_cast<Pile*>(item);
+        if (p)
         {
-            Pile *p = dynamic_cast<Pile*>(*it);
-            assert(p);
-            CardList cards = p->cards();
-            for (CardList::Iterator it = cards.begin(); it != cards.end(); ++it)
-                (*it)->setTakenDown(p->target());
+            foreach (Card *c, p->cards())
+                c->setTakenDown(p->target());
             p->clear();
         }
     }
@@ -1328,18 +1304,13 @@ bool DealerScene::startAutoDrop()
         return true;
     }
 
-    QList<QGraphicsItem *> list = items();
-
-    //kDebug( 11111 ) << "startAutoDrop\n";
-    for (QList<QGraphicsItem *>::ConstIterator it = list.constBegin(); it != list.constEnd(); ++it)
+    foreach (const QGraphicsItem *item, items())
     {
-        if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
-            Card *c = static_cast<Card*>(*it);
-            if (c->animated()) {
-                d->autoDropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
-                //kDebug(11111) << "animation still going on\n";
-                return true;
-            }
+        const Card *c = qgraphicsitem_cast<const Card*>(item);
+        if (c && c->animated())
+        {
+            d->autoDropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
+            return true;
         }
     }
 
@@ -1418,16 +1389,13 @@ void DealerScene::stopAndRestartSolver()
         d->solverMutex.unlock();
     }
 
-    QList<QGraphicsItem *> list = items();
-    for (QList<QGraphicsItem *>::ConstIterator it = list.constBegin(); it != list.constEnd(); ++it)
+    foreach (const QGraphicsItem *item, items())
     {
-        if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
-            Card *c = static_cast<Card*>(*it);
-            if (c->animated()) {
-                startSolver();
-                //kDebug(11111) << "animation still going on\n";
-                return;
-            }
+        const Card *c =qgraphicsitem_cast<const Card*>(item);
+        if (c && c->animated())
+        {
+            startSolver();
+            return;
         }
     }
     slotSolverEnded();
@@ -1563,13 +1531,11 @@ void DealerScene::stopDemo()
         return;
     } else d->stop_demo_next = false;
 
-    QList<QGraphicsItem *> list = items();
-    for (QList<QGraphicsItem *>::ConstIterator it = list.constBegin(); it != list.constEnd(); ++it)
+    foreach (QGraphicsItem *item, items())
     {
-        if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
-            Card *c = static_cast<Card*>(*it);
+        Card *c = qgraphicsitem_cast<Card*>(item);
+        if (c)
             c->stopAnimation();
-        }
     }
 
     d->demotimer->stop();
@@ -1615,16 +1581,18 @@ void DealerScene::won()
         ( *it )->relayoutCards(); // stop the timer
     }
 
-    // sort cards by increasing z
-    QList<QGraphicsItem *> list = items();
     QList<CardPtr> cards;
-    for (QList<QGraphicsItem *>::ConstIterator it=list.constBegin(); it!=list.constEnd(); ++it)
-        if ((*it)->type() == QGraphicsItem::UserType + DealerScene::CardTypeId ) {
+    foreach (QGraphicsItem *item, items())
+    {
+        Card *c = qgraphicsitem_cast<Card*>(item);
+        if (c)
+        {
             CardPtr p;
-            p.ptr = dynamic_cast<Card*>(*it);
-            assert(p.ptr);
+            p.ptr = c;
             cards.push_back(p);
         }
+    }
+
     qSort(cards);
 
     // disperse the cards everywhere
@@ -2126,9 +2094,8 @@ QString DealerScene::save_it()
 void DealerScene::createDump( QPaintDevice *device )
 {
     int maxz = 0;
-    QList<QGraphicsItem *> list = items();
-    for (int i = 0; i < list.size(); ++i) {
-        QGraphicsItem *item = list.at(i);
+    foreach (QGraphicsItem *item, items())
+    {
         assert( item->zValue() >= 0 );
         maxz = qMax( maxz, int( item->zValue() ) );
     }
@@ -2136,19 +2103,18 @@ void DealerScene::createDump( QPaintDevice *device )
     QPainter p( device );
 
     for ( int z = 0; z <= maxz; ++z )
-        for (int i = 0; i < list.size(); ++i)
+    {
+        foreach (QGraphicsItem *item, items())
         {
-            QGraphicsItem *item = list.at(i);
             if ( !item->isVisible() || item->zValue() != z )
                 continue;
 
-            if (item->type() == QGraphicsItem::UserType + DealerScene::CardTypeId )
+            if (qgraphicsitem_cast<Card*>(item))
             {
-
             }
-            else if (item->type() == QGraphicsItem::UserType + DealerScene::PileTypeId )
+            else if (qgraphicsitem_cast<Pile*>(item))
             {
-                QGraphicsPixmapItem *pitem = dynamic_cast<QGraphicsPixmapItem*>( item );
+                QGraphicsPixmapItem *pitem = qgraphicsitem_cast<QGraphicsPixmapItem*>( item );
                 assert( pitem );
                 p.save();
                 p.setTransform(item->deviceTransform(p.worldTransform()), false);
@@ -2164,6 +2130,7 @@ void DealerScene::createDump( QPaintDevice *device )
             item->paint( &p, &options );
             p.restore();
         }
+    }
 }
 
 void DealerScene::mapOldId(int) {}

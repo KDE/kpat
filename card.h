@@ -82,7 +82,8 @@ public:
     Pile        *source() const     { return m_source; }
     void         setSource(Pile *p) { m_source = p; }
 
-    virtual int  type() const       { return UserType + my_type; }
+    enum { Type = UserType + 1 };
+    virtual int type() const { return Type; }
 
     void         moveTo( qreal x2, qreal y2, qreal z, int duration);
     void         flipTo( qreal x, qreal y, int duration );
@@ -157,7 +158,6 @@ private:
     // The maximum Z ever used.
     static qreal  Hz;
 
-    static const int my_type;
     QGraphicsItemAnimation *animation;
     QGraphicsPixmapItem *m_shadow;
 

@@ -73,9 +73,6 @@ class DealerScene : public QGraphicsScene
     Q_OBJECT
 
 public:
-
-    enum UserTypes { CardTypeId = 1, PileTypeId = 2 };
-
     DealerScene();
     ~DealerScene();
 

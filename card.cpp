@@ -39,10 +39,6 @@
 
 #include <kdebug.h>
 
-
-// Run time type id
-const int Card::my_type = DealerScene::CardTypeId;
-
 AbstractCard::AbstractCard( Rank r, Suit s )
     : m_suit( s ), m_rank( r ), m_faceup( false )
 {

@@ -24,8 +24,6 @@
 #include <kdebug.h>
 
 
-const int Pile::my_type       = DealerScene::PileTypeId;
-
 const int Pile::Default       = 0x0000;
 const int Pile::disallow      = 0x0001;
 const int Pile::several       = 0x0002; // default: move one card

@@ -92,9 +92,8 @@ public:
     int  index()   const { return myIndex; }
     bool isEmpty() const { return m_cards.count() == 0; }
 
-    static const int my_type;
-
-    virtual int  type() const       { return UserType + my_type; }
+    enum { Type = UserType + 2 };
+    virtual int type() const { return Type; }
 
     virtual void setVisible(bool vis);
 
