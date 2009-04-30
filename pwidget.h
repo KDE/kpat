@@ -92,7 +92,8 @@ private:
     void updateActions();
     void updateGameActionList();
 
-private:
+    enum StatusBarAreas{ SolverArea = 1, SpacerArea = 2, MovesArea = 3 };
+
     // Members
     KAction        *undo;
     KAction        *redo;
