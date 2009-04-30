@@ -627,29 +627,29 @@ void pWidget::showStats()
     dlg.exec();
 }
 
-void pWidget::slotGameSolverWon()
-{
-    statusBar()->changeItem(i18n( "This game can still be won! Good luck to you." ), 1);
-}
-
 void pWidget::slotGameSolverStart()
 {
-    statusBar()->changeItem(i18n( "Calculating..." ), 1);
+    statusBar()->changeItem(i18n("Solver: Calculating..."), 1);
+}
+
+void pWidget::slotGameSolverWon()
+{
+    statusBar()->changeItem(i18n("Solver: This game is winnable."), 1);
 }
 
 void pWidget::slotGameSolverLost()
 {
-    statusBar()->changeItem(i18n( "Nope, this game cannot be won anymore." ), 1);
+    statusBar()->changeItem(i18n("Solver: This game is not winnable in its current state."), 1);
 }
 
 void pWidget::slotGameSolverUnknown()
 {
-    statusBar()->changeItem(i18n( "Timeout while playing - unknown if it can be won" ), 1);
+    statusBar()->changeItem(i18n("Solver: Unable to determine if this game is winnable."), 1);
 }
 
 void pWidget::slotGameLost()
 {
-    statusBar()->changeItem(i18n( "This game is lost." ), 1);
+    statusBar()->changeItem(i18n("This game is lost. No moves remain."), 1);
 }
 
 void pWidget::slotUpdateMoves(int moves)
