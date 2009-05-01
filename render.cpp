@@ -18,6 +18,8 @@
 
 #include "render.h"
 
+#include "kgamesvgdocument.h"
+
 #include <KDE/KDebug>
 #include <KDE/KGlobal>
 #include <KDE/KPixmapCache>
@@ -40,6 +42,9 @@ public:
 
     KSvgRenderer m_svgRenderer;
     KPixmapCache m_pixmapCache;
+    QColor m_bubbleTextColor;
+    QColor m_bubbleHoverTextColor;
+    QColor m_wonMessageTextColor;
     bool m_hasBeenLoaded;
 };
 
@@ -78,6 +83,25 @@ bool Render::loadTheme( const QString & fileName )
             rp->m_pixmapCache.discard();
             rp->m_pixmapCache.setTimestamp( QDateTime::currentDateTime().toTime_t() );
         }
+
+        // Get the theme's text colors.
+        KGameSvgDocument svg;
+        svg.load( fileName );
+
+        svg.elementById("message_text_color");
+        rp->m_wonMessageTextColor = QColor( svg.styleProperty("fill") );
+        if ( !rp->m_wonMessageTextColor.isValid() )
+            rp->m_wonMessageTextColor = Qt::black;
+
+        svg.elementById("bubble_text_color");
+        rp->m_bubbleTextColor = QColor( svg.styleProperty("fill") );
+        if ( !rp->m_bubbleTextColor.isValid() )
+            rp->m_bubbleTextColor = Qt::black;
+
+        svg.elementById("bubble_hover_text_color");
+        rp->m_bubbleHoverTextColor = QColor( svg.styleProperty("fill") );
+        if ( !rp->m_bubbleHoverTextColor.isValid() )
+            rp->m_bubbleHoverTextColor = Qt::black;
 
         result = rp->m_hasBeenLoaded = rp->m_svgRenderer.load( fileName );
     }
@@ -142,4 +166,19 @@ QPixmap Render::renderGamePreview( int id, QSize size )
     }
 
     return result;
+}
+
+QColor Render::wonMessageTextColor()
+{
+    return rp->m_wonMessageTextColor;
+}
+
+QColor Render::bubbleTextColor()
+{
+    return rp->m_bubbleTextColor;
+}
+
+QColor Render::bubbleHoverTextColor()
+{
+    return rp->m_bubbleHoverTextColor;
 }

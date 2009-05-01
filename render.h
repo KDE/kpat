@@ -19,6 +19,7 @@
 #ifndef KILLBOTS_RENDER_H
 #define KILLBOTS_RENDER_H
 
+class QColor;
 class QSize;
 class QString;
 class QPixmap;
@@ -32,6 +33,9 @@ namespace Render
     QRectF boundsOnElement( const QString & elementId );
     qreal aspectRatioOfElement( const QString & elementId );
     QPixmap renderGamePreview( int id, QSize size );
+    QColor bubbleTextColor();
+    QColor bubbleHoverTextColor();
+    QColor wonMessageTextColor();
 }
 
 

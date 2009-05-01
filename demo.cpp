@@ -214,6 +214,7 @@ void DemoBubbles::paintEvent ( QPaintEvent * )
         if ( pixels >= minimum_font_size )
         {
             QRect rect( bubble.x, bubble.y, bubble_width, bubble_text_height );
+            painter.setPen( bubble.active ? Render::bubbleHoverTextColor() : Render::bubbleTextColor() );
             painter.drawText( rect, Qt::AlignCenter, bubble.text );
         }
     }
