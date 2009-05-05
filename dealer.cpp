@@ -2144,16 +2144,13 @@ bool DealerScene::allowedToStartNewGame()
            || isGameWon()
            || isGameLost()
            || KMessageBox::warningContinueCancel(0,
-                                                 i18n("You are already running an unfinished game. "
-                                                      "If you abort the old game to start a new one, "
-                                                      "the old game will be registered as a loss in "
-                                                      "the statistics file.\n"
-                                                      "What do you want to do?"),
-                                                 i18n("Abort Current Game?"),
-                                                 KGuiItem(i18n("Abort Current Game")),
-                                                 KStandardGuiItem::cancel(),
-                                                 "careaboutstats"
-                                                ) == KMessageBox::Continue;
+                     i18n("A new game has been requested, but there is already a game in progress.\n\n"
+                          "A loss will be recorded in the statistics if the current game is abandoned."),
+                     i18n("Abandon Current Game?"),
+                     KGuiItem(i18n("Abandon Current Game")),
+                     KStandardGuiItem::cancel(),
+                     "careaboutstats"
+                    ) == KMessageBox::Continue;
 }
 
 #include "dealer.moc"
