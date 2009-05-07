@@ -29,6 +29,8 @@
 
 //-------------------------------------------------------------------------//
 
+// Special pile type used for the fourth row. Automatically grabs a new card
+// from the deck when emptied.
 class Mod3Pile : public Pile
 {
 public:
@@ -36,7 +38,10 @@ public:
         : Pile( _index, parent ) {}
     virtual void relayoutCards() {
         Pile::relayoutCards();
-        if ( isEmpty() && objectName().startsWith( "stack3" ) )
+        // Don't pull cards from the deck if the deck still contains all 104
+        // cards. This prevents glitchy things from happening before the initial
+        // deal has happened.
+        if ( isEmpty() && Deck::deck()->cardsLeft() < 104 )
         {
             add( Deck::deck()->nextCard(), false );
         }
@@ -67,12 +72,10 @@ Mod3::Mod3( )
 
     for ( int r = 0; r < 4; r++ ) {
         for ( int c = 0; c < 8; c++ ) {
-            stack[r][c] = new Mod3Pile ( r * 10 + c  + 1, this );
-            stack[r][c]->setPilePos( 2 + dist_x * c,
-                                     2 + dist_y * r + margin * ( r == 3 ));
-
-	    // The first 3 rows are the playing field, the fourth is the store.
+            int pileIndex = r * 10 + c  + 1;
+            // The first 3 rows are the playing field, the fourth is the store.
             if ( r < 3 ) {
+                stack[r][c] = new Pile ( pileIndex, this );
                 stack[r][c]->setCheckIndex( 0 );
                 stack[r][c]->setTarget(true);
                 stack[r][c]->setAddFlags( Pile::addSpread );
@@ -80,11 +83,15 @@ Mod3::Mod3( )
                 stack[r][c]->setObjectName( QString( "stack%1_%2" ).arg( r ).arg( c ) );
                 stack[r][c]->setReservedSpace( QSizeF( 10, 12.3 ) );
             } else {
+                stack[r][c] = new Mod3Pile ( pileIndex, this );
                 stack[r][c]->setReservedSpace( QSizeF( 10, 18 ) );
                 stack[r][c]->setAddFlags( Pile::addSpread );
                 stack[r][c]->setCheckIndex( 1 );
                 stack[r][c]->setObjectName( QString( "stack3_%1" ).arg( c ) );
             }
+
+            stack[r][c]->setPilePos( 2 + dist_x * c,
+                                     2 + dist_y * r + margin * ( r == 3 ));
         }
      }
 
