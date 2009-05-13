@@ -258,9 +258,13 @@ void ClockSolver::translate_layout()
     for (int i = 0; i < 12; i++)
     {
         Card *c = deal->target[i]->top();
-        Q_ASSERT( c );
 
-        W[8][i] = translateSuit( c->suit() ) + c->rank();
+        // It is not safe to assume that each target pile will always have a
+        // card on it. If it takes particularly long to render the card graphics
+        // at the start of a new game, it is possible that this method can be
+        // called before the initial deal has been completed.
+        if (c)
+            W[8][i] = translateSuit( c->suit() ) + c->rank();
     }
     Wp[8] = &W[8][11];
     Wlen[8] = 12;
