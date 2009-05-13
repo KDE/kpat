@@ -2109,21 +2109,20 @@ void DealerScene::createDump( QPaintDevice *device )
             if ( !item->isVisible() || item->zValue() != z )
                 continue;
 
-            if (qgraphicsitem_cast<Card*>(item))
+            Pile * pile = qgraphicsitem_cast<Pile*>(item);
+            if ( pile )
             {
-            }
-            else if (qgraphicsitem_cast<Pile*>(item))
-            {
-                QGraphicsPixmapItem *pitem = qgraphicsitem_cast<QGraphicsPixmapItem*>( item );
-                assert( pitem );
                 p.save();
                 p.setTransform(item->deviceTransform(p.worldTransform()), false);
-                //item->paint( &p, &options );
-                p.drawPixmap( 0, 0, pitem->pixmap() );
+                p.drawPixmap( 0, 0, pile->pixmap() );
                 p.restore();
                 continue;
-            } else
+            }
+            else if ( !qgraphicsitem_cast<Card*>(item) )
+            {
+                kDebug(11111) << "Unknown item type";
                 assert( false );
+            }
 
             p.save();
             p.setTransform(item->deviceTransform(p.worldTransform()), false);
