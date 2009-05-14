@@ -28,14 +28,13 @@ class QRectF;
 
 namespace Render
 {
-    bool loadTheme( const QString & fileName );
     QPixmap renderElement( const QString & elementId, QSize size );
-    QRectF boundsOnElement( const QString & elementId );
+    QSize sizeOfElement( const QString & elementId );
     qreal aspectRatioOfElement( const QString & elementId );
+    QColor colorOfElement( const QString & elementId );
     QPixmap renderGamePreview( int id, QSize size );
-    QColor bubbleTextColor();
-    QColor bubbleHoverTextColor();
-    QColor wonMessageTextColor();
+
+    bool loadTheme();
 }
 
 

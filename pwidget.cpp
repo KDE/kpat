@@ -183,8 +183,6 @@ pWidget::pWidget()
     statusBar()->insertPermanentItem( "", SolverArea, 0 ); // Solver message
     statusBar()->insertPermanentItem( "", SpacerArea, 1 ); // Stretchy spacer
     statusBar()->insertPermanentItem( "", MovesArea, 0 ); // Move count
-
-    Render::loadTheme( KStandardDirs::locate( "data", "kpat/theme.svgz" ) );
 }
 
 pWidget::~pWidget()

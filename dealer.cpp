@@ -966,7 +966,7 @@ void DealerScene::updateWonItem()
 
         QPainter p( &pix );
         p.setFont( font );
-        p.setPen( Render::wonMessageTextColor() );
+        p.setPen( Render::colorOfElement("message_text_color") );
         p.drawText( contentsRect, Qt::AlignCenter, text );
         p.end();
 

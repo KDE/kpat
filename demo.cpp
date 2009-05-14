@@ -46,10 +46,10 @@ DemoBubbles::~DemoBubbles()
 
 void DemoBubbles::resizeEvent ( QResizeEvent * )
 {
-    QRectF bubble_rect = Render::boundsOnElement( "bubble" );
-    QRectF text_rect = Render::boundsOnElement( "bubble_text_area" );
+    QSizeF bubble_size( Render::sizeOfElement( "bubble" ) );
+    QSizeF text_size( Render::sizeOfElement( "bubble_text_area" ) );
 
-    qreal bubble_aspect = bubble_rect.width() / bubble_rect.height();
+    qreal bubble_aspect = bubble_size.width() / bubble_size.height();
     qreal my_aspect = qreal(width()) / height();
 
     int rows, cols, best_rows = 1;
@@ -81,8 +81,8 @@ void DemoBubbles::resizeEvent ( QResizeEvent * )
         outer_margin = qRound( spacing_ratio * bubble_width );
         inner_margin = qRound( inner_margin_ratio * bubble_width );
 
-        bubble_height = int( bubble_width / bubble_rect.width() * bubble_rect.height() + 1 );
-        bubble_text_height = int( bubble_width / text_rect.width() * text_rect.height() + 1 );
+        bubble_height = int( bubble_width / bubble_size.width() * bubble_size.height() + 1 );
+        bubble_text_height = int( bubble_width / text_size.width() * text_size.height() + 1 );
 
         my_height = bubble_height * rows + outer_margin * ( rows + 1 );
 
@@ -214,7 +214,7 @@ void DemoBubbles::paintEvent ( QPaintEvent * )
         if ( pixels >= minimum_font_size )
         {
             QRect rect( bubble.x, bubble.y, bubble_width, bubble_text_height );
-            painter.setPen( bubble.active ? Render::bubbleHoverTextColor() : Render::bubbleTextColor() );
+            painter.setPen( Render::colorOfElement( bubble.active ? "bubble_hover_text_color" : "bubble_text_color" ) );
             painter.drawText( rect, Qt::AlignCenter, bubble.text );
         }
     }

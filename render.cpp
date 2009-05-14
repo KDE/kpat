@@ -37,15 +37,13 @@ public:
     RenderPrivate()
       : m_svgRenderer(),
         m_pixmapCache("kpat-cache"),
-        m_hasBeenLoaded( false )
+        m_fileToLoad( KStandardDirs::locate( "data", "kpat/theme.svgz" ) )
     {};
 
     KSvgRenderer m_svgRenderer;
     KPixmapCache m_pixmapCache;
-    QColor m_bubbleTextColor;
-    QColor m_bubbleHoverTextColor;
-    QColor m_wonMessageTextColor;
-    bool m_hasBeenLoaded;
+    QHash<QString, QColor> m_colors;
+    QString m_fileToLoad;
 };
 
 namespace Render
@@ -54,16 +52,14 @@ namespace Render
 }
 
 
-bool Render::loadTheme( const QString & fileName )
+bool Render::loadTheme()
 {
     bool result = false;
 
     const QDateTime cacheTimeStamp = QDateTime::fromTime_t( rp->m_pixmapCache.timestamp() );
-    const QDateTime svgFileTimeStamp = QFileInfo( fileName ).lastModified();
-
+    const QDateTime svgFileTimeStamp = QFileInfo( rp->m_fileToLoad ).lastModified();
 
     QPixmap nullPixmap;
-
 
     const bool svgFileIsNewer = svgFileTimeStamp > cacheTimeStamp;
     if ( svgFileIsNewer )
@@ -75,7 +71,7 @@ bool Render::loadTheme( const QString & fileName )
 
     // Only bother actually loading the SVG if no SVG has been loaded
     // yet or if the cache must be discarded.
-    if ( !rp->m_hasBeenLoaded || svgFileIsNewer )
+    if ( !rp->m_svgRenderer.isValid() || svgFileIsNewer )
     {
         if ( svgFileIsNewer )
         {
@@ -84,26 +80,7 @@ bool Render::loadTheme( const QString & fileName )
             rp->m_pixmapCache.setTimestamp( QDateTime::currentDateTime().toTime_t() );
         }
 
-        // Get the theme's text colors.
-        KGameSvgDocument svg;
-        svg.load( fileName );
-
-        svg.elementById("message_text_color");
-        rp->m_wonMessageTextColor = QColor( svg.styleProperty("fill") );
-        if ( !rp->m_wonMessageTextColor.isValid() )
-            rp->m_wonMessageTextColor = Qt::black;
-
-        svg.elementById("bubble_text_color");
-        rp->m_bubbleTextColor = QColor( svg.styleProperty("fill") );
-        if ( !rp->m_bubbleTextColor.isValid() )
-            rp->m_bubbleTextColor = Qt::black;
-
-        svg.elementById("bubble_hover_text_color");
-        rp->m_bubbleHoverTextColor = QColor( svg.styleProperty("fill") );
-        if ( !rp->m_bubbleHoverTextColor.isValid() )
-            rp->m_bubbleHoverTextColor = Qt::black;
-
-        result = rp->m_hasBeenLoaded = rp->m_svgRenderer.load( fileName );
+        result = rp->m_svgRenderer.load( rp->m_fileToLoad );
     }
 
     return result;
@@ -121,6 +98,9 @@ QPixmap Render::renderElement( const QString & elementId, QSize size )
     {
         kDebug(11111) << "Rendering \"" << elementId << "\" at " << size << " pixels.";
 
+        if ( !rp->m_svgRenderer.isValid() )
+            loadTheme();
+
         result = QPixmap( size );
         result.fill( Qt::transparent );
 
@@ -135,17 +115,47 @@ QPixmap Render::renderElement( const QString & elementId, QSize size )
 }
 
 
-QRectF Render::boundsOnElement( const QString & elementId )
+QSize Render::sizeOfElement( const QString & elementId )
 {
-    return rp->m_svgRenderer.boundsOnElement( elementId );
+    const QString key = elementId + "_default";
+    QSize size;
+    QPixmap pix;
+
+    if ( rp->m_pixmapCache.find( key, pix ) )
+    {
+        size = pix.size();
+    }
+    else
+    {
+        if ( !rp->m_svgRenderer.isValid() )
+            loadTheme();
+
+        size = rp->m_svgRenderer.boundsOnElement( elementId ).size().toSize();
+        rp->m_pixmapCache.insert( key, QPixmap( size ) );
+    }
+
+    return size;
 }
 
 
 qreal Render::aspectRatioOfElement( const QString & elementId )
 {
-    const QRectF rect = rp->m_svgRenderer.boundsOnElement( elementId );
-    return rect.width() / rect.height();
+    const QSizeF size( sizeOfElement( elementId ) );
+    return size.width() / size.height();
 }
+
+
+QColor Render::colorOfElement( const QString & elementId )
+{
+    if ( rp->m_colors.contains( elementId ) )
+        return rp->m_colors.value( elementId );
+
+    QPixmap pix = renderElement( elementId, QSize( 3, 3 ) );
+    QColor color = pix.toImage().pixel( 1, 1 );
+    rp->m_colors.insert( elementId, color );
+    return color;
+}
+
 
 QPixmap Render::renderGamePreview( int id, QSize size )
 {
@@ -166,19 +176,4 @@ QPixmap Render::renderGamePreview( int id, QSize size )
     }
 
     return result;
-}
-
-QColor Render::wonMessageTextColor()
-{
-    return rp->m_wonMessageTextColor;
-}
-
-QColor Render::bubbleTextColor()
-{
-    return rp->m_bubbleTextColor;
-}
-
-QColor Render::bubbleHoverTextColor()
-{
-    return rp->m_bubbleHoverTextColor;
 }
