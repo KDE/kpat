@@ -180,9 +180,13 @@ pWidget::pWidget()
     QSize defaultSize = qApp->desktop()->availableGeometry().size() * 0.7;
     setupGUI(defaultSize, Create | Save | ToolBar | StatusBar | Keys);
 
-    statusBar()->insertPermanentItem( "", SolverArea, 0 ); // Solver message
-    statusBar()->insertPermanentItem( "", SpacerArea, 1 ); // Stretchy spacer
-    statusBar()->insertPermanentItem( "", MovesArea, 0 ); // Move count
+    solverStatus = new QLabel(QString(), statusBar());
+    solverStatus->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    statusBar()->addWidget(solverStatus, 1);
+
+    moveStatus = new QLabel(QString(), statusBar());
+    moveStatus->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    statusBar()->addWidget(moveStatus, 0);
 }
 
 pWidget::~pWidget()
@@ -227,7 +231,7 @@ void pWidget::enableSolver(bool enable)
 {
     KConfigGroup cg(KGlobal::config(), settings_group);
     cg.writeEntry("Solver", enable);
-    statusBar()->changeItem(QString(), SolverArea);
+    solverStatus->setText(QString());
     if (m_dealer)
         m_dealer->setSolverEnabled(enable);
 }
@@ -256,7 +260,7 @@ void pWidget::startRandom()
 
 void pWidget::startNew(long gameNumber)
 {
-    statusBar()->changeItem(QString(), SolverArea);
+    solverStatus->setText(QString());
     m_dealer->startNew(gameNumber);
     setGameCaption();
 }
@@ -354,6 +358,11 @@ void pWidget::newGameType(int id)
     connect(m_dealer, SIGNAL(gameLost()), SLOT(slotGameLost()));
     connect(m_dealer, SIGNAL(updateMoves(int)), SLOT(slotUpdateMoves(int)));
 
+    solverStatus->setText(QString());
+    solverStatus->setVisible(true);
+    moveStatus->setText(QString());
+    moveStatus->setVisible(true);
+
     updateActions();
 }
 
@@ -381,8 +390,8 @@ void pWidget::slotShowGameSelectionScreen()
 
         setGameCaption();
 
-        statusBar()->changeItem(QString(), SolverArea);
-        statusBar()->changeItem(QString(), MovesArea);
+        solverStatus->setVisible(false);
+        moveStatus->setVisible(false);
     }
 }
 
@@ -627,32 +636,32 @@ void pWidget::showStats()
 
 void pWidget::slotGameSolverStart()
 {
-    statusBar()->changeItem(i18n("Solver: Calculating..."), SolverArea);
+    solverStatus->setText(i18n("Solver: Calculating..."));
 }
 
 void pWidget::slotGameSolverWon()
 {
-    statusBar()->changeItem(i18n("Solver: This game is winnable."), SolverArea);
+    solverStatus->setText(i18n("Solver: This game is winnable."));
 }
 
 void pWidget::slotGameSolverLost()
 {
-    statusBar()->changeItem(i18n("Solver: This game is not winnable in its current state."), SolverArea);
+    solverStatus->setText(i18n("Solver: This game is not winnable in its current state."));
 }
 
 void pWidget::slotGameSolverUnknown()
 {
-    statusBar()->changeItem(i18n("Solver: Unable to determine if this game is winnable."), SolverArea);
+    solverStatus->setText(i18n("Solver: Unable to determine if this game is winnable."));
 }
 
 void pWidget::slotGameLost()
 {
-    statusBar()->changeItem(i18n("This game is lost. No moves remain."), SolverArea);
+    solverStatus->setText(i18n("This game is lost. No moves remain."));
 }
 
 void pWidget::slotUpdateMoves(int moves)
 {
-    statusBar()->changeItem(i18np("1 move", "%1 moves", moves), MovesArea);
+    moveStatus->setText(i18np("1 move", "%1 moves", moves));
 }
 
 void pWidget::slotSnapshot()

@@ -33,6 +33,7 @@ class KToggleAction;
 class KSelectAction;
 class KRecentFilesAction;
 class KAction;
+class QLabel;
 class QStackedWidget;
 class cardMap;
 class DealerInfo;
@@ -92,8 +93,6 @@ private:
     void updateActions();
     void updateGameActionList();
 
-    enum StatusBarAreas{ SolverArea = 1, SpacerArea = 2, MovesArea = 3 };
-
     // Members
     KAction        *undo;
     KAction        *redo;
@@ -118,6 +117,9 @@ private:
     PatienceView   *dill;
     DealerScene    *m_dealer;
     DemoBubbles    *m_bubbles;
+
+    QLabel         *solverStatus;
+    QLabel         *moveStatus;
 };
 
 #endif
