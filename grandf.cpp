@@ -46,12 +46,12 @@ Grandf::Grandf( )
 
     for (int i=0; i<7; i++) {
         store[i] = new Pile(5+i, this);
-        store[i]->setPilePos(1+distx*i, 16 );
+        store[i]->setPilePos(1+distx*i, 13);
         store[i]->setAddFlags(Pile::addSpread | Pile::several);
         store[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
         store[i]->setObjectName( QString( "store%1" ).arg( i ) ) ;
         store[i]->setCheckIndex(1);
-        store[i]->setReservedSpace( QSizeF( 10, 45 ) );
+        store[i]->setReservedSpace( QSizeF( 10, 40 ) );
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Redeal);
