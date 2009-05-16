@@ -147,6 +147,8 @@ void cardMap::setCardWidth( int width )
         d->m_currentCardSize = newSize;
         d->m_cache.setSize( newSize );
         triggerRescale();
+
+        QTimer::singleShot( 200, this, SLOT(loadInBackground()) );
     }
 }
 
@@ -171,6 +173,11 @@ QPixmap cardMap::renderFrontside( AbstractCard::Rank r, AbstractCard::Suit s )
 {
     QPixmap pix = d->m_cache.frontside( KCardInfo( suits[s], ranks[r] ) );
     return pix;
+}
+
+void cardMap::loadInBackground()
+{
+    d->m_cache.loadTheme( KCardCache::LoadFrontSide | KCardCache::Load52Cards );
 }
 
 #include "cardmaps.moc"

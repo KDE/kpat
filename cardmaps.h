@@ -50,6 +50,7 @@ public:
 
 public slots:
     void triggerRescale();
+    void loadInBackground();
 
 private:
     cardMapPrivate *d;
