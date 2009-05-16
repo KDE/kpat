@@ -39,6 +39,7 @@
 #include <kdebug.h>
 #include <kstandarddirs.h>
 #include <kurl.h>
+#include <kmenubar.h>
 
 
 static const char description[] = I18N_NOOP("KDE Patience Game");
@@ -240,7 +241,7 @@ int main( int argc, char **argv )
     QFile savedState( KStandardDirs::locateLocal("appdata", saved_state_file) );
 
     pWidget *w = new pWidget;
-    sendAllPendingResizeEvents(w);
+    sendAllPendingResizeEvents(w->menuBar());
     if (args->count())
     {
         if (!w->openGame(args->url(0)))
