@@ -16,8 +16,8 @@
  *
  */
 
-#ifndef KILLBOTS_RENDER_H
-#define KILLBOTS_RENDER_H
+#ifndef RENDER_H
+#define RENDER_H
 
 class QColor;
 class QSize;

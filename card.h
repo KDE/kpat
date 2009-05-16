@@ -24,8 +24,8 @@
  ****************************************************/
 
 
-#ifndef PATIENCE_CARD
-#define PATIENCE_CARD
+#ifndef CARD_H
+#define CARD_H
 
 #include <QList>
 #include <QGraphicsScene>
