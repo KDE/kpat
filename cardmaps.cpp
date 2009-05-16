@@ -19,42 +19,21 @@
 ****************************************/
 
 #include "cardmaps.h"
+#include "dealer.h"
 #include "version.h"
 #include "view.h"
-#include "dealer.h"
-#include "ksvgrenderer.h"
-#include "card.h"
-#include "cardcache.h"
-#include "speeds.h"
+
 #ifdef __GNUC__
 #warning cardmap should not really require to know the instance!
 #endif
 
-#include <cstdlib>
-#include <cstdio>
-#include <unistd.h>
-#include <cassert>
-
-#include <QPainter>
-#include <QImage>
-#include <QFileInfo>
-#include <QSvgRenderer>
-#include <QPixmapCache>
-#include <QThread>
-#include <QMutex>
-//Added by qt3to4:
-#include <QPixmap>
-#include <QDir>
-
-#include <kconfig.h>
-#include <kdebug.h>
-#include <klocale.h>
-#include <kstandarddirs.h>
-#include <krandom.h>
+#include <cardcache.h>
 #include <carddeckinfo.h>
-#include <kglobalsettings.h>
-#include <kglobal.h>
+#include <kconfig.h>
 #include <kconfiggroup.h>
+#include <kdebug.h>
+#include <kglobal.h>
+#include <ksharedconfig.h>
 
 cardMap *cardMap::_self = 0;
 
@@ -64,21 +43,13 @@ static QHash<AbstractCard::Suit,KCardInfo::Suit> suits;
 class cardMapPrivate
 {
 public:
-
     cardMapPrivate()
-    {
-        _wantedCardWidth = 0;
-        m_frontsvg = false;
-        m_backsvg = false;
-        _scale = 1;
-    }
-    double _wantedCardWidth;
-    mutable double _scale;
+      : m_originalCardSize(1, 1),
+        m_currentCardSize(0, 0)
+    {}
     KCardCache m_cache;
-    QSizeF m_cardSize;
-    bool m_backsvg;
-    bool m_frontsvg;
-    QRect m_body;
+    QSizeF m_originalCardSize;
+    QSize m_currentCardSize;
 };
 
 cardMap::cardMap() : QObject()
@@ -91,7 +62,7 @@ cardMap::cardMap() : QObject()
     KConfigGroup cs(config, settings_group );
 
     updateTheme(cs);
-    setWantedCardWidth( cs.readEntry( "CardWidth", 100 ) );
+    setCardWidth( cs.readEntry( "CardWidth", 100 ) );
     suits[AbstractCard::Clubs] = KCardInfo::Club;
     suits[AbstractCard::Spades] = KCardInfo::Spade;
     suits[AbstractCard::Diamonds] = KCardInfo::Diamond;
@@ -122,20 +93,12 @@ void cardMap::updateTheme(const KConfigGroup &cs)
     d->m_cache.setFrontTheme( fronttheme );
     d->m_cache.setBackTheme( backtheme );
 
-    d->m_body = QRect();
-
-    d->m_backsvg = CardDeckInfo::isSVGFront( fronttheme );
-    d->m_frontsvg = CardDeckInfo::isSVGBack( backtheme );
-
-    d->m_cardSize = d->m_cache.defaultFrontSize( KCardInfo( KCardInfo::Spade, KCardInfo::Ace ) );
-    Q_ASSERT( !d->m_cardSize.isNull() );
-
-    setWantedCardWidth( d->m_cardSize.width() );
+    d->m_originalCardSize = d->m_cache.defaultFrontSize( KCardInfo( KCardInfo::Spade, KCardInfo::Ace ) );
+    Q_ASSERT( !d->m_originalCardSize.isNull() );
 
     if (PatienceView::instance() && PatienceView::instance()->dscene()) {
+        PatienceView::instance()->dscene()->relayoutPiles();
         PatienceView::instance()->dscene()->rescale(false);
-        if ( d->m_backsvg || d->m_frontsvg )
-            PatienceView::instance()->dscene()->relayoutPiles();
     }
 }
 
@@ -146,54 +109,57 @@ cardMap::~cardMap()
       _self = 0;
 }
 
-double cardMap::wantedCardHeight() const
+QSize cardMap::cardSize() const
 {
-    return d->_wantedCardWidth / d->m_cardSize.width() * d->m_cardSize.height();
+    return d->m_currentCardSize;
 }
 
-double cardMap::wantedCardWidth() const
+int cardMap::cardWidth() const
 {
-    return d->_wantedCardWidth;
+    return d->m_currentCardSize.width();
+}
+
+int cardMap::cardHeight() const
+{
+    return d->m_currentCardSize.height();
 }
 
 void cardMap::triggerRescale()
 {
     KSharedConfig::Ptr config = KGlobal::config();
     KConfigGroup cs(config, settings_group );
-    cs.writeEntry( "CardWidth", d->_wantedCardWidth );
+    cs.writeEntry( "CardWidth", d->m_currentCardSize.width() );
     config->sync();
     if ( PatienceView::instance() && PatienceView::instance()->dscene() )
          PatienceView::instance()->dscene()->rescale(false);
 }
 
-void cardMap::setWantedCardWidth( double w )
+void cardMap::setCardWidth( int width )
 {
-    if ( w > 200 || w < 10 || d->_wantedCardWidth == w )
+    if ( width > 200 || width < 10 )
         return;
 
-    if ( !d->m_backsvg && !d->m_frontsvg && w != d->m_cardSize.width() )
-        return;
+    int height = width * d->m_originalCardSize.height() / d->m_originalCardSize.width();
+    QSize newSize( width, height );
 
-    d->m_body = QRect();
-    kDebug(11111) << "setWantedCardWidth" << w << d->_wantedCardWidth;
-    d->_wantedCardWidth = w;
-    d->_scale = 0;
-    d->m_cache.setSize( QSize( wantedCardWidth(), wantedCardHeight() ) );
-    if (PatienceView::instance())
+    if ( newSize != d->m_currentCardSize )
     {
-       if (PatienceView::instance()->dscene())
-          PatienceView::instance()->dscene()->rescale(false);
-       triggerRescale();
+        d->m_currentCardSize = newSize;
+        d->m_cache.setSize( newSize );
+        triggerRescale();
     }
 }
 
 cardMap *cardMap::self() 
 {
-    assert(_self);
+    Q_ASSERT(_self);
     return _self;
 }
 
-QRect cardMap::opaqueRect() const { return d->m_body; }
+QRect cardMap::opaqueRect() const
+{
+    return QRect();
+}
 
 QPixmap cardMap::renderBackside( int variant )
 {

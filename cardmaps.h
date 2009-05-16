@@ -22,9 +22,7 @@
 #define CARDMAPS_H
 
 #include "card.h"
-#include "cardcache.h"
 
-//Added by qt3to4:
 #include <QPixmap>
 
 class cardMapPrivate;
@@ -39,9 +37,10 @@ public:
     cardMap();
     ~cardMap();
 
-    double wantedCardWidth() const;
-    double wantedCardHeight() const;
-    void setWantedCardWidth( double w );
+    QSize cardSize() const;
+    int cardWidth() const;
+    int cardHeight() const;
+    void setCardWidth( int width );
 
     QPixmap renderBackside( int variant = -1 );
     QPixmap renderFrontside( Card::Rank, Card::Suit );

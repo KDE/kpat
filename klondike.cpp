@@ -72,7 +72,7 @@ void KlondikePile::relayoutCards()
         if ( ( *it )->animated() )
             continue;
         //kDebug(11111) << "car" << car << " " << p;
-        ( *it )->setPos( QPointF( x + diff * cardMap::self()->wantedCardWidth(), y ) );
+        ( *it )->setPos( QPointF( x + diff * cardMap::self()->cardWidth(), y ) );
         ( *it )->setSpread( QSizeF( diff * 10, 0 ) );
         ( *it )->setZValue( z );
         z = z+1;
@@ -178,7 +178,7 @@ Card *Klondike::newCards()
         c->stopAnimation();
         // move back to flip
         c->setPos( Deck::deck()->pos() );
-        c->flipTo( pile->x() + 0.125 * flipped * cardMap::self()->wantedCardWidth(), pile->y(), 200 + 80 * ( flipped + 1 ) );
+        c->flipTo( pile->x() + 0.125 * flipped * cardMap::self()->cardWidth(), pile->y(), 200 + 80 * ( flipped + 1 ) );
     }
 
     takeState();
