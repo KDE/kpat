@@ -133,7 +133,7 @@ Spider::Spider()
         options->setCurrentItem( 1 );
     else
         options->setCurrentItem( 2 );
-    connect( options, SIGNAL( triggered( int ) ), SLOT( gameTypeChanged() ) );
+    connect( options, SIGNAL(triggered(int)), SLOT(gameTypeChanged()) );
 
     if ( PatienceView::instance() )
     {

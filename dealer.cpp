@@ -537,21 +537,21 @@ DealerScene::DealerScene():
     d->updateSolver->setSingleShot( true );
     d->initialDeal = true;
     d->loadedMoveCount = 0;
-    connect( d->updateSolver, SIGNAL( timeout() ), SLOT( stopAndRestartSolver() ) );
+    connect( d->updateSolver, SIGNAL(timeout()), SLOT(stopAndRestartSolver()) );
 
     d->demotimer = new QTimer(this);
-    connect(d->demotimer, SIGNAL(timeout()), SLOT(demo()));
+    connect( d->demotimer, SIGNAL(timeout()), SLOT(demo()) );
     d->m_autoDropFactor = 1;
     d->m_autoDropOnce = false;
-    connect( this, SIGNAL( gameWon( bool ) ), SLOT( showWonMessage() ) );
+    connect( this, SIGNAL(gameWon(bool)), SLOT(showWonMessage()) );
 
     d->stateTimer = new QTimer( this );
-    connect( d->stateTimer, SIGNAL( timeout() ), this, SLOT( takeState() ) );
+    connect( d->stateTimer, SIGNAL(timeout()), this, SLOT(takeState()) );
     d->stateTimer->setInterval( 100 );
     d->stateTimer->setSingleShot( true );
 
     d->autoDropTimer = new QTimer( this );
-    connect( d->autoDropTimer, SIGNAL( timeout() ), this, SLOT( startAutoDrop() ) );
+    connect( d->autoDropTimer, SIGNAL(timeout()), this, SLOT(startAutoDrop()) );
     d->autoDropTimer->setSingleShot( true );
 
     d->wonItem  = new QGraphicsPixmapItem( 0, this );
@@ -1413,7 +1413,7 @@ void DealerScene::slotSolverEnded()
     emit gameSolverStart();
     if ( !d->m_solver_thread ) {
         d->m_solver_thread = new SolverThread( d->m_solver );
-        connect( d->m_solver_thread, SIGNAL( finished() ), this, SLOT( slotSolverFinished() ));
+        connect( d->m_solver_thread, SIGNAL(finished()), this, SLOT(slotSolverFinished()));
     }
     d->m_solver_thread->start(_usesolver ? QThread::IdlePriority : QThread::NormalPriority );
 }
@@ -1471,7 +1471,7 @@ void DealerScene::waitForWonAnim(Card *c)
         return;
 
     c->setVisible( false ); // hide it
-    c->disconnect( this, SLOT( waitForWonAnim( Card* ) ) );
+    c->disconnect( this, SLOT(waitForWonAnim(Card*)) );
 
     setWaiting(false);
 
@@ -1757,7 +1757,7 @@ void DealerScene::waitForDemo(Card *t)
     if ( t )
     {
         kDebug(11111) << "waitForDemo" << t->rank() << " " << t->suit();
-        t->disconnect(this, SLOT( waitForDemo( Card* ) ) );
+        t->disconnect(this, SLOT(waitForDemo(Card*)) );
         setWaiting( false );
         takeState();
     }

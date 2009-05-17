@@ -63,7 +63,7 @@ Pile::Pile( int _index, DealerScene* parent)
     setMaximalSpace( QSizeF( 1, 1 ) ); // just to make it valid
     m_relayoutTimer = new QTimer( this );
     m_relayoutTimer->setSingleShot( true );
-    connect( m_relayoutTimer, SIGNAL( timeout() ), SLOT( relayoutCards() ) );
+    connect( m_relayoutTimer, SIGNAL(timeout()), SLOT(relayoutCards()) );
 }
 
 DealerScene *Pile::dscene() const

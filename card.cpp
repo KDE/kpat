@@ -226,7 +226,7 @@ void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
     timeLine->setDuration( duration );
     timeLine->start();
 
-    connect( timeLine, SIGNAL( finished() ), SLOT( stopAnimation() ) );
+    connect( timeLine, SIGNAL(finished()), SLOT(stopAnimation()) );
 
     m_destX = x2;
     m_destY = y2;
@@ -272,8 +272,8 @@ void Card::flipTo(qreal x2, qreal y2, int duration)
     timeLine->setDuration( duration );
     timeLine->start();
 
-    connect( timeLine, SIGNAL( finished() ), SLOT( stopAnimation() ) );
-    connect( timeLine, SIGNAL( valueChanged( qreal ) ), SLOT( flipAnimationChanged( qreal ) ) );
+    connect( timeLine, SIGNAL(finished()), SLOT(stopAnimation()) );
+    connect( timeLine, SIGNAL(valueChanged(qreal)), SLOT(flipAnimationChanged(qreal)) );
 
     // Set the target of the animation
     m_destX = x2;
@@ -439,7 +439,7 @@ void Card::getUp()
     timeLine->setDuration( 1500 );
     timeLine->start();
 
-    connect( timeLine, SIGNAL( finished() ), SLOT( stopAnimation() ) );
+    connect( timeLine, SIGNAL(finished()), SLOT(stopAnimation()) );
 
     m_destZ = zValue();
     m_destX = x();
@@ -547,7 +547,7 @@ void Card::zoomIn(int t)
 
     m_isZoomed = true;
 
-    connect( timeLine, SIGNAL( finished() ), SLOT( stopAnimation() ) );
+    connect( timeLine, SIGNAL(finished()), SLOT(stopAnimation()) );
 
     m_destZ = zValue();
     m_destX = dest.x();
@@ -578,7 +578,7 @@ void Card::zoomOut(int t)
 
     m_isZoomed = false;
 
-    connect( timeLine, SIGNAL( finished() ), SLOT( stopAnimation() ) );
+    connect( timeLine, SIGNAL(finished()), SLOT(stopAnimation()) );
 
     m_destZ = zValue();
     m_destX = m_originalPosition.x();

@@ -138,7 +138,7 @@ Klondike::Klondike()
     options->addAction( "Draw 1" );
     options->addAction( "Draw 3" );
     options->setCurrentItem( EasyRules ? 0 : 1 );
-    connect( options, SIGNAL( triggered( int ) ), SLOT( gameTypeChanged() ) );
+    connect( options, SIGNAL(triggered(int)), SLOT(gameTypeChanged()) );
 
     if ( PatienceView::instance() )
     {

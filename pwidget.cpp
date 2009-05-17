@@ -87,39 +87,39 @@ pWidget::pWidget()
     KAction *a;
     a = actionCollection()->addAction("choose_game");
     a->setText(i18n("&Choose Game..."));
-    connect( a, SIGNAL( triggered( bool ) ), SLOT( chooseGame() ) );
+    connect( a, SIGNAL(triggered(bool)), SLOT(chooseGame()) );
 
     a = actionCollection()->addAction("change_game_type");
     a->setText(i18n("Change Game Type..."));
-    connect( a, SIGNAL( triggered( bool ) ), SLOT( slotShowGameSelectionScreen() ) );
+    connect( a, SIGNAL(triggered(bool)), SLOT(slotShowGameSelectionScreen()) );
 
     a = actionCollection()->addAction("random_set");
     a->setText(i18n("Random Cards"));
-    connect( a, SIGNAL( triggered( bool ) ), SLOT( slotPickRandom() ) );
+    connect( a, SIGNAL(triggered(bool)), SLOT(slotPickRandom()) );
     a->setShortcuts( KShortcut( Qt::Key_F9 ) );
 
     if (!qgetenv("KDE_DEBUG").isEmpty()) // developer shortcut
     {
         a = actionCollection()->addAction("snapshot");
         a->setText(i18n("Take Game Preview Snapshots"));
-        connect( a, SIGNAL( triggered( bool ) ), SLOT( slotSnapshot() ) );
+        connect( a, SIGNAL(triggered(bool)), SLOT(slotSnapshot()) );
         a->setShortcuts( KShortcut( Qt::Key_F8 ) );
     }
 
     a = actionCollection()->addAction("select_deck");
     a->setText(i18n("Select Deck..."));
-    connect( a, SIGNAL( triggered( bool ) ), SLOT( slotSelectDeck() ) );
+    connect( a, SIGNAL(triggered(bool)), SLOT(slotSelectDeck()) );
     a->setShortcuts( KShortcut( Qt::Key_F10 ) );
 
 
     a = actionCollection()->addAction("game_stats");
     a->setText(i18n("Statistics"));
     a->setIcon( KIcon("games-highscores") );
-    connect( a, SIGNAL( triggered( bool ) ), SLOT(showStats()) );
+    connect( a, SIGNAL(triggered(bool)), SLOT(showStats()) );
 
     gamehelpaction = actionCollection()->addAction("help_game");
     gamehelpaction->setIcon( KIcon("help-browser") );
-    connect( gamehelpaction, SIGNAL( triggered( bool ) ), SLOT(helpGame()));
+    connect( gamehelpaction, SIGNAL(triggered(bool)), SLOT(helpGame()));
     gamehelpaction->setShortcuts( KShortcut( Qt::ControlModifier | Qt::ShiftModifier | Qt::Key_F1 ) );
 
     // Game type dependent actions
@@ -152,17 +152,17 @@ pWidget::pWidget()
 
     autodropaction = new KToggleAction(i18n("&Enable Autodrop"), this);
     actionCollection()->addAction("enable_autodrop", autodropaction);
-    connect( autodropaction, SIGNAL( triggered( bool ) ), SLOT( enableAutoDrop( bool ) ) );
+    connect( autodropaction, SIGNAL(triggered(bool)), SLOT(enableAutoDrop(bool)) );
     autodropaction->setChecked( cg.readEntry("Autodrop", true) );
 
     solveraction = new KToggleAction(i18n("E&nable Solver"), this);
     actionCollection()->addAction("enable_solver", solveraction);
-    connect( solveraction, SIGNAL( triggered( bool ) ), SLOT( enableSolver( bool ) ) );
+    connect( solveraction, SIGNAL(triggered(bool)), SLOT(enableSolver(bool)) );
     solveraction->setChecked( cg.readEntry("Solver", true) );
 
     rememberstateaction = new KToggleAction(i18n("&Remember State on Exit"), this);
     actionCollection()->addAction("remember_state", rememberstateaction);
-    connect( rememberstateaction, SIGNAL( triggered( bool ) ), SLOT( enableRememberState( bool ) ) );
+    connect( rememberstateaction, SIGNAL(triggered(bool)), SLOT(enableRememberState(bool)) );
     rememberstateaction->setChecked( cg.readEntry("RememberStateOnExit", false) );
 
     foreach( const DealerInfo * di, DealerInfoList::self()->games() )
@@ -382,7 +382,7 @@ void pWidget::slotShowGameSelectionScreen()
         {
             m_bubbles = new DemoBubbles(m_stack);
             m_stack->addWidget(m_bubbles);
-            connect( m_bubbles, SIGNAL( gameSelected( int ) ), SLOT( slotGameSelected( int ) ) );
+            connect( m_bubbles, SIGNAL(gameSelected(int)), SLOT(slotGameSelected(int)) );
         }
         m_stack->setCurrentWidget(m_bubbles);
 
