@@ -114,9 +114,11 @@ pWidget::pWidget()
 
     a = actionCollection()->addAction("game_stats");
     a->setText(i18n("Statistics"));
+    a->setIcon( KIcon("games-highscores") );
     connect( a, SIGNAL( triggered( bool ) ), SLOT(showStats()) );
 
     gamehelpaction = actionCollection()->addAction("help_game");
+    gamehelpaction->setIcon( KIcon("help-browser") );
     connect( gamehelpaction, SIGNAL( triggered( bool ) ), SLOT(helpGame()));
     gamehelpaction->setShortcuts( KShortcut( Qt::ControlModifier | Qt::ShiftModifier | Qt::Key_F1 ) );
 
