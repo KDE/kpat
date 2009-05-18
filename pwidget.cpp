@@ -351,7 +351,7 @@ void pWidget::newGameType(int id)
     dill->setScene( m_dealer );
     m_stack->setCurrentWidget(dill);
 
-    gamehelpaction->setText(i18n("Help &with %1", QString(di->name).replace('&', "&&")));
+    gamehelpaction->setText(i18n("Help &with %1", i18n(di->name).replace('&', "&&")));
 
     connect(m_dealer, SIGNAL(gameSolverStart()), SLOT(slotGameSolverStart()));
     connect(m_dealer, SIGNAL(gameSolverWon()), SLOT(slotGameSolverWon()));

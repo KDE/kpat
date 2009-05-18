@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gui name="kpat"
-     version="26"
+     version="27"
      xmlns="http://www.kde.org/standards/kxmlgui/1.0"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://www.kde.org/standards/kxmlgui/1.0
@@ -27,7 +27,7 @@
     <Action name="remember_state"/>
   </Menu>
   <Menu name="help">
-    <Action name="help_game"/>
+    <Action name="help_game" append="help_whats_this_merge"/>
   </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar">
