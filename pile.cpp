@@ -11,17 +11,18 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
+
 #include "pile.h"
-#include "dealer.h"
+
 #include "cardmaps.h"
-#include "speeds.h"
+#include "dealer.h"
 #include "deck.h"
 #include "render.h"
+#include "speeds.h"
 
-#include <cassert>
+#include <KDebug>
+
 #include <cmath>
-
-#include <kdebug.h>
 
 
 const int Pile::Default       = 0x0000;
@@ -256,7 +257,7 @@ void Pile::setVisible(bool vis)
 
 int Pile::indexOf(const Card *c) const
 {
-    assert(c->source() == this);
+    Q_ASSERT(c->source() == this);
     return m_cards.indexOf(const_cast<Card*>(c)); // the list is of non-const cards
 }
 
@@ -327,9 +328,6 @@ void Pile::relayoutCards()
     }
 }
 
-#include <sys/time.h>
-#include <stdio.h>
-
 void Pile::add( Card *_card, int index)
 {
     if (_card->source() == this)
@@ -353,7 +351,7 @@ void Pile::add( Card *_card, int index)
     else {
         while (m_cards.count() <= index)
             m_cards.append(0);
-        assert(m_cards[index] == 0);
+        Q_ASSERT(m_cards[index] == 0);
         m_cards[index] = _card;
     }
 
@@ -450,7 +448,7 @@ void Pile::waitForMoving( Card*c )
 
 void Pile::remove(Card *c)
 {
-    assert(m_cards.contains(c));
+    Q_ASSERT(m_cards.contains(c));
     m_cards.removeAll(c);
 }
 

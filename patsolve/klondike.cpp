@@ -1,19 +1,13 @@
 /* Common routines & arrays. */
 
 #include "klondike.h"
+
+#include "../deck.h"
 #include "../klondike.h"
 #include "../pile.h"
-#include "../deck.h"
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <cctype>
-#include <cmath>
-#include <sys/types.h>
-#include <cstdarg>
+#include <KDebug>
 
-#include <kdebug.h>
 
 /* Some macros used in get_possible_moves(). */
 
@@ -22,10 +16,9 @@
 */
 #define suitable(a, b) (COLOR( a ) != COLOR( b ) )
 
-/* These two routines make and unmake moves. */
-
 #define PRINT 0
-#define PRINT2 0
+
+/* These two routines make and unmake moves. */
 
 void KlondikeSolver::make_move(MOVE *m)
 {

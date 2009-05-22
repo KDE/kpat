@@ -2,8 +2,8 @@
 #define SIMONSOLVER_H
 
 #include "patsolve.h"
-
 class Simon;
+
 
 class SimonSolver : public Solver
 {

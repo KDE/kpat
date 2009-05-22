@@ -19,11 +19,12 @@
 #ifndef VIEW_H
 #define VIEW_H
 
-#include <QGraphicsView>
-
 class DealerScene;
-class QWheelEvent;
+
 class KXmlGuiWindow;
+
+#include <QtGui/QGraphicsView>
+class QWheelEvent;
 
 class PatienceView: public QGraphicsView
 {

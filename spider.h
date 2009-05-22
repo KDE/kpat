@@ -25,6 +25,7 @@
 
 class KSelectAction;
 
+
 class SpiderPile : public Pile
 {
 public:

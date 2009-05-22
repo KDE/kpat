@@ -1,10 +1,9 @@
 #ifndef FORTYEIGHTSOLVER_H
 #define FORTYEIGHTSOLVER_H
 
-
+class Fortyeight;
 #include "patsolve.h"
 
-class Fortyeight;
 
 class FortyeightSolver : public Solver
 {

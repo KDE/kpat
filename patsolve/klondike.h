@@ -1,9 +1,9 @@
 #ifndef KLONDIKESOLVER_H
 #define KLONDIKESOLVER_H
 
+class Klondike;
 #include "patsolve.h"
 
-class Klondike;
 
 class KlondikeSolver : public Solver
 {

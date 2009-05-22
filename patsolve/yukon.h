@@ -2,8 +2,8 @@
 #define YUKONSOLVER_H
 
 #include "patsolve.h"
-
 class Yukon;
+
 
 class YukonSolver : public Solver
 {

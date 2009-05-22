@@ -11,10 +11,12 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
+
 #ifndef SIMON_H
 #define SIMON_H
 
 #include "dealer.h"
+
 
 class Simon : public DealerScene {
     Q_OBJECT

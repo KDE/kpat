@@ -15,10 +15,9 @@
 #define PILE_H
 
 #include "card.h"
-
-#include <QGraphicsPixmapItem>
-
 class DealerScene;
+
+#include <QtGui/QGraphicsPixmapItem>
 
 
 /***************************************

@@ -19,12 +19,12 @@
 #ifndef RENDER_H
 #define RENDER_H
 
-class QColor;
 class QSize;
 class QString;
+#include <QtCore/Qt>
+class QColor;
 class QPixmap;
-class QRectF;
-#include <Qt>
+
 
 namespace Render
 {

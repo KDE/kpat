@@ -11,10 +11,12 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
+
 #ifndef YUKON_H
 #define YUKON_H
 
 #include "dealer.h"
+
 
 class Yukon : public DealerScene {
     friend class YukonSolver;

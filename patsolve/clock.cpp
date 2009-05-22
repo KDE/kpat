@@ -1,24 +1,17 @@
 /* Common routines & arrays. */
 
 #include "clock.h"
+
 #include "../clock.h"
-#include "../pile.h"
 #include "../deck.h"
+#include "../pile.h"
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <cctype>
-#include <cmath>
-#include <sys/types.h>
-#include <cstdarg>
-
-#include <kdebug.h>
-
-/* These two routines make and unmake moves. */
+#include <KDebug>
 
 #define PRINT 0
 #define PRINT2 0
+
+/* These two routines make and unmake moves. */
 
 void ClockSolver::make_move(MOVE *m)
 {

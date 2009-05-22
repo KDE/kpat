@@ -18,12 +18,12 @@
    4 positions, remove lowest card(s) of suit
 */
 
-
 #include "idiot.h"
+
 #include "deck.h"
 #include "patsolve/idiot.h"
 
-#include <klocale.h>
+#include <KLocale>
 
 Idiot::Idiot( )
   : DealerScene( )

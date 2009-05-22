@@ -11,13 +11,14 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
+
 #include "clock.h"
+
 #include "deck.h"
 #include "patsolve/clock.h"
 
-#include <cassert>
+#include <KLocale>
 
-#include <klocale.h>
 
 Clock::Clock( )
     : DealerScene( )

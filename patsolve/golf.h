@@ -1,9 +1,9 @@
 #ifndef GOLFSOLVER_H
 #define GOLFSOLVER_H
 
+class Golf;
 #include "patsolve.h"
 
-class Golf;
 
 class GolfSolver : public Solver
 {

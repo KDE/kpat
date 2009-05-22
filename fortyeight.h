@@ -11,10 +11,12 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
+
 #ifndef FORTYEIGHT_H
 #define FORTYEIGHT_H
 
 #include "dealer.h"
+
 
 class HorLeftPile : public Pile
 {

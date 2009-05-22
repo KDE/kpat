@@ -1,12 +1,13 @@
 #include "memory.h"
 
-#include <sys/types.h>
+#include <KDebug>
+
+#include <QtCore/QtGlobal>
+
 #include <cstdlib>
 #include <cstring>
+#include <sys/types.h>
 
-#include <QtGlobal>
-
-#include <kdebug.h>
 
 #define BLOCKSIZE (32 * 4096)
 

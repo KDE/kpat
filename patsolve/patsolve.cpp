@@ -1,18 +1,18 @@
 /* Common routines & arrays. */
 
 #include "patsolve.h"
-#include "../pile.h"
-#include "memory.h"
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
+#include "../pile.h"
+
+#include <KDebug>
+
 #include <cctype>
 #include <cmath>
 #include <cstdarg>
+#include <cstdlib>
+#include <cstring>
 #include <sys/types.h>
 
-#include <kdebug.h>
 
 long all_moves = 0;
 
@@ -978,6 +978,7 @@ int Solver::translateSuit( int s )
 
 int Solver::translate_pile(const Pile *pile, card_t *w, int size)
 {
+    Q_UNUSED( size );
         Q_ASSERT( pile->cardsLeft() <= size );
 
         card_t rank, suit;

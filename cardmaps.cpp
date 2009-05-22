@@ -19,21 +19,22 @@
 ****************************************/
 
 #include "cardmaps.h"
+
 #include "dealer.h"
 #include "version.h"
 #include "view.h"
 
+#include <KCardCache>
+#include <KCardDeckInfo>
+#include <KConfigGroup>
+#include <KDebug>
+#include <KGlobal>
+#include <KSharedConfig>
+
+
 #ifdef __GNUC__
 #warning cardmap should not really require to know the instance!
 #endif
-
-#include <cardcache.h>
-#include <carddeckinfo.h>
-#include <kconfig.h>
-#include <kconfiggroup.h>
-#include <kdebug.h>
-#include <kglobal.h>
-#include <ksharedconfig.h>
 
 cardMap *cardMap::_self = 0;
 

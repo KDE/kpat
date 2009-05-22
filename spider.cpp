@@ -19,22 +19,22 @@
 ---------------------------------------------------------------------------*/
 
 #include "spider.h"
+
+#include "deck.h"
+#include "speeds.h"
 #include "version.h"
 #include "view.h"
-#include "speeds.h"
-#include "deck.h"
 #include "patsolve/spider.h"
 
-#include <QApplication>
-
-#include <kdebug.h>
-#include <klocale.h>
+#include <KActionCollection>
+#include <KConfigGroup>
+#include <KDebug>
+#include <KLocale>
 #include <KRandom>
-#include <kselectaction.h>
-#include <kxmlguiwindow.h>
-#include <kactioncollection.h>
-#include <kxmlguifactory.h>
-#include <kconfiggroup.h>
+#include <KSelectAction>
+#include <KXMLGUIFactory>
+#include <KXmlGuiWindow>
+
 
 void SpiderPile::moveCards(CardList &c, Pile *to)
 {

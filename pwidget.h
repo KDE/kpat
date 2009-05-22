@@ -23,20 +23,22 @@
 #ifndef PWIDGET_H
 #define PWIDGET_H
 
-#include <kxmlguiwindow.h>
-#include <krecentfilesaction.h>
-
-class DemoBubbles;
-class PatienceView;
-class DealerScene;
-class KToggleAction;
-class KSelectAction;
-class KRecentFilesAction;
-class KAction;
-class QLabel;
-class QStackedWidget;
 class cardMap;
 class DealerInfo;
+class DealerScene;
+class DemoBubbles;
+class PatienceView;
+
+class KAction;
+class KRecentFilesAction;
+class KSelectAction;
+class KToggleAction;
+#include <KUrl>
+#include <KXmlGuiWindow>
+
+class QLabel;
+class QStackedWidget;
+
 
 class pWidget: public KXmlGuiWindow {
     Q_OBJECT

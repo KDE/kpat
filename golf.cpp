@@ -11,13 +11,16 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
+
 #include "golf.h"
-#include "speeds.h"
+
 #include "deck.h"
+#include "speeds.h"
 #include "patsolve/golf.h"
 
-#include <klocale.h>
-#include <kdebug.h>
+#include <KDebug>
+#include <KLocale>
+
 
 HorRightPile::HorRightPile( int _index, DealerScene* parent)
     : Pile(_index, parent)

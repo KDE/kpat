@@ -1,26 +1,17 @@
 /* Common routines & arrays. */
 
 #include "idiot.h"
+
+#include "../deck.h"
 #include "../idiot.h"
 #include "../pile.h"
-#include "../deck.h"
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <cctype>
-#include <cmath>
-#include <sys/types.h>
-#include <cstdarg>
+#include <KDebug>
 
-#include <kdebug.h>
-
-/* Some macros used in get_possible_moves(). */
-
-/* These two routines make and unmake moves. */
 
 #define PRINT 0
-#define PRINT2 0
+
+/* These two routines make and unmake moves. */
 
 void IdiotSolver::make_move(MOVE *m)
 {

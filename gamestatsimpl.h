@@ -11,14 +11,16 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
+
 #ifndef GAMESTATSIMPL_H
 #define GAMESTATSIMPL_H
 
 #include "ui_gamestats.h"
 
-#include <QMap>
+#include <KDialog>
 
-#include <kdialog.h>
+#include <QtCore/QMap>
+
 
 class GameStatsImpl : public KDialog
 {

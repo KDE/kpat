@@ -11,18 +11,19 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
+
 #include "gamestatsimpl.h"
+
 #include "dealer.h"
 #include "version.h"
 
-//Added by qt3to4:
-#include <QList>
+#include <KConfigGroup>
+#include <KDebug>
+#include <KGlobal>
+#include <KLocale>
 
-#include <kconfig.h>
-#include <kdebug.h>
-#include <klocale.h>
-#include <kglobal.h>
-#include <kconfiggroup.h>
+#include <QtCore/QList>
+
 
 GameStatsImpl::GameStatsImpl(QWidget* aParent)
 	: KDialog(aParent),

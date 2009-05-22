@@ -19,12 +19,13 @@
 ---------------------------------------------------------------------------*/
 
 #include "mod3.h"
+
 #include "deck.h"
 #include "hint.h"
 #include "patsolve/mod3.h"
 
-#include <klocale.h>
-#include <kdebug.h>
+#include <KDebug>
+#include <KLocale>
 
 
 //-------------------------------------------------------------------------//

@@ -19,25 +19,22 @@
 *******************************************************/
 
 #include "card.h"
-#include "pile.h"
+
 #include "cardmaps.h"
 #include "dealer.h"
+#include "pile.h"
+
+#include <KDebug>
+
+#include <QtCore/QTimeLine>
+#include <QtGui/QGraphicsItemAnimation>
+#include <QtGui/QGraphicsSceneMouseEvent>
+#include <QtGui/QPainter>
+#include <QtGui/QPixmap>
+#include <QtGui/QStyleOptionGraphicsItem>
 
 #include <cmath>
-#include <cassert>
 
-#include <QPainter>
-//Added by qt3to4:
-#include <QPixmap>
-#include <QBrush>
-#include <QTimeLine>
-#include <QGraphicsItemAnimation>
-#include <QGraphicsSceneMouseEvent>
-#include <QStyleOptionGraphicsItem>
-#include <QGraphicsSvgItem>
-#include <QPixmapCache>
-
-#include <kdebug.h>
 
 AbstractCard::AbstractCard( Rank r, Suit s )
     : m_suit( s ), m_rank( r ), m_faceup( false )
@@ -199,7 +196,6 @@ void Card::setZValue(double z)
 //
 void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
 {
-
     //kDebug(11111) << "Card::moveTo" << x2 << " " << y2 << " " << duration << " " << kBacktrace();
     if ( fabs( x2 - x() ) < 2 && fabs( y2 - y() ) < 1 )
     {
@@ -291,7 +287,7 @@ void Card::flipAnimationChanged( qreal r)
 {
     if ( r > 0.5 && !isFaceUp() ) {
         flip();
-        assert( m_destFace == m_faceup );
+        Q_ASSERT( m_destFace == m_faceup );
     }
 }
 
@@ -528,6 +524,7 @@ void Card::zoomIn(int t)
 
     QTimeLine *timeLine = new QTimeLine( t, this );
     m_originalPosition = pos();
+
     animation = new QGraphicsItemAnimation( this );
     animation->setItem( this );
     animation->setTimeLine( timeLine );

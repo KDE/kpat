@@ -1,9 +1,10 @@
 #ifndef DEMO_H
 #define DEMO_H
 
+class GameBubble;
+
 #include <QWidget>
 
-class GameBubble;
 
 class DemoBubbles : public QWidget
 {

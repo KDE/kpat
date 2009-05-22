@@ -1,22 +1,15 @@
 /* Common routines & arrays. */
 
 #include "golf.h"
+
+#include "../deck.h"
 #include "../golf.h"
 #include "../pile.h"
-#include "../deck.h"
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <cctype>
-#include <cmath>
-#include <sys/types.h>
-#include <cstdarg>
+#include <KDebug>
 
-#include <kdebug.h>
 
 #define PRINT 0
-#define PRINT2 0
 
 void GolfSolver::make_move(MOVE *m)
 {

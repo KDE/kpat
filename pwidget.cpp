@@ -19,44 +19,48 @@
 */
 
 #include "pwidget.h"
-#include "version.h"
-#include "dealer.h"
-#include "view.h"
+
 #include "cardmaps.h"
-#include "gamestatsimpl.h"
+#include "dealer.h"
 #include "demo.h"
+#include "gamestatsimpl.h"
 #include "render.h"
-#include <carddeckinfo.h>
+#include "version.h"
+#include "view.h"
 
-#include <QTimer>
-#include <QList>
-#include <QDomDocument>
-#include <QDesktopWidget>
-#include <QStackedWidget>
+#include <KCardDeckInfo>
+#include <KCardDialog>
+#include <KStandardGameAction>
 
-#include <kapplication.h>
-#include <klocale.h>
-#include <kaction.h>
-#include <kactioncollection.h>
-#include <ktoggleaction.h>
-#include <kstandardaction.h>
-#include <kstandardgameaction.h>
-#include <kdebug.h>
-#include <kcarddialog.h>
-#include <krandom.h>
-#include <kinputdialog.h>
-#include <kstandarddirs.h>
-#include <kfiledialog.h>
-#include <ktemporaryfile.h>
-#include <kio/netaccess.h>
-#include <kmessagebox.h>
-#include <kstatusbar.h>
-#include <kmenubar.h>
-#include <ktoolinvocation.h>
-#include <kglobal.h>
-#include <kicon.h>
-#include <kconfiggroup.h>
-#include <kxmlguifactory.h>
+#include <KAction>
+#include <KActionCollection>
+#include <KApplication>
+#include <KConfigGroup>
+#include <KDebug>
+#include <KFileDialog>
+#include <KGlobal>
+#include <KIcon>
+#include <KInputDialog>
+#include <KLocale>
+#include <KMenuBar>
+#include <KMessageBox>
+#include <KRandom>
+#include <KMenuBar>
+#include <KRecentFilesAction>
+#include <KStandardAction>
+#include <KStandardDirs>
+#include <KStatusBar>
+#include <KTemporaryFile>
+#include <KToggleAction>
+#include <KToolInvocation>
+#include <KXMLGUIFactory>
+#include <KIO/NetAccess>
+
+#include <QtCore/QList>
+#include <QtCore/QTimer>
+#include <QtGui/QDesktopWidget>
+#include <QtGui/QStackedWidget>
+#include <QtXml/QDomDocument>
 
 
 static pWidget *current_pwidget = 0;

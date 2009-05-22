@@ -23,24 +23,22 @@
 ****************************************/
 
 #include "klondike.h"
-#include "version.h"
-#include "deck.h"
+
 #include "cardmaps.h"
-#include "patsolve/klondike.h"
+#include "deck.h"
+#include "version.h"
 #include "view.h"
+#include "patsolve/klondike.h"
 
-#include <cassert>
-
-#include <QApplication>
-
-#include <kdebug.h>
-#include <klocale.h>
+#include <KActionCollection>
+#include <KConfigGroup>
+#include <KDebug>
+#include <KLocale>
 #include <KRandom>
-#include <kselectaction.h>
-#include <kxmlguiwindow.h>
-#include <kactioncollection.h>
-#include <kxmlguifactory.h>
-#include <kconfiggroup.h>
+#include <KSelectAction>
+#include <KXMLGUIFactory>
+#include <KXmlGuiWindow>
+
 
 KlondikePile::KlondikePile( int _index, int _draw, DealerScene* parent)
     : Pile(_index, parent), m_draw( _draw )

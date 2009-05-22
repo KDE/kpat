@@ -4,9 +4,9 @@
 #include "../hint.h"
 #include "memory.h"
 
-#include <cstdio>
+#include <QtCore/QMap>
 
-#include <QMap>
+#include <cstdio>
 
 
 /* A card is represented as ( down << 6 ) + (suit << 4) + rank. */

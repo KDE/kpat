@@ -1,27 +1,19 @@
  /* Common routines & arrays. */
 
 #include "gypsy.h"
+
+#include "../deck.h"
 #include "../gypsy.h"
 #include "../pile.h"
-#include "../deck.h"
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <cctype>
-#include <cmath>
-#include <sys/types.h>
-#include <cstdarg>
-#include <algorithm>
+#include <KDebug>
 
-#include <kdebug.h>
-
-/* These two routines make and unmake moves. */
 
 #define PRINT 0
-#define PRINT2 0
 
 #define suitable(a, b) (COLOR( a ) != COLOR( b ) )
+
+/* These two routines make and unmake moves. */
 
 void GypsySolver::make_move(MOVE *m)
 {
@@ -380,7 +372,7 @@ int GypsySolver::get_possible_moves(int *a, int *numout)
                     }
                     if ( o > -1 )
                         continue;
-                    mp->pri = ( int )std::min( 127., params[1] + double( l ) * params[5] / 10 );
+                    mp->pri = ( int )qMin( 127., params[1] + double( l ) * params[5] / 10 );
                 }
                 n++;
                 mp++;

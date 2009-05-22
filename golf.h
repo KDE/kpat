@@ -11,6 +11,7 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
+
 #ifndef GOLF_H
 #define GOLF_H
 

@@ -1,9 +1,9 @@
 #ifndef MOD3SOLVER_H
 #define MOD3SOLVER_H
 
+class Mod3;
 #include "patsolve.h"
 
-class Mod3;
 
 class Mod3Solver : public Solver
 {

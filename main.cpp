@@ -16,30 +16,30 @@
 
  */
 
+#include "cardmaps.h"
+#include "dealer.h"
 #include "version.h"
 #include "pwidget.h"
-#include "dealer.h"
 #include "patsolve/patsolve.h"
-#include "cardmaps.h"
+
+#include <KAboutData>
+#include <KApplication>
+#include <KCmdLineArgs>
+#include <KDebug>
+#include <KGlobal>
+#include <KLocale>
+#include <KMenuBar>
+#include <KStandardDirs>
+#include <KUrl>
+
+#include <QtCore/QFile>
+#include <QtCore/QTime>
+#include <QtCore/QTimer>
+#include <QtGui/QResizeEvent>
+#include <QtXml/QDomDocument>
 
 #include <cstdio>
 #include <climits>
-
-#include <QtCore/QTime>
-#include <QtCore/QTimer>
-#include <QtCore/QFile>
-#include <QtGui/QResizeEvent>
-#include <QDomDocument>
-
-#include <kapplication.h>
-#include <kcmdlineargs.h>
-#include <kaboutdata.h>
-#include <kglobal.h>
-#include <klocale.h>
-#include <kdebug.h>
-#include <kstandarddirs.h>
-#include <kurl.h>
-#include <kmenubar.h>
 
 
 static const char description[] = I18N_NOOP("KDE Patience Game");

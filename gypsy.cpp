@@ -11,11 +11,13 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
+
 #include "gypsy.h"
+
 #include "deck.h"
 #include "patsolve/gypsy.h"
 
-#include <klocale.h>
+#include <KLocale>
 
 Gypsy::Gypsy( )
     : DealerScene(  )

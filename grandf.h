@@ -28,8 +28,8 @@
 #define GRANDF_H
 
 #include "dealer.h"
-
 class Pile;
+
 
 class Grandf : public DealerScene
 {

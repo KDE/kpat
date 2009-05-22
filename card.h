@@ -27,18 +27,21 @@
 #ifndef CARD_H
 #define CARD_H
 
-#include <QList>
-#include <QGraphicsScene>
-#include <QTimer>
-#include <QGraphicsSvgItem>
-
-// The following classes are defined in other headers:
 class Pile;
 class Card;
+
+#include <QtCore/QList>
+#include <QtCore/QTimer>
 class QGraphicsItemAnimation;
+#include <QtGui/QGraphicsPixmapItem>
+class QGraphicsScene;
+class QGraphicsSceneHoverEvent;
+class QGraphicsSceneMouseEvent;
+
 
 // A list of cards.  Used in many places.
 typedef QList<Card*> CardList;
+
 
 // In kpat, a Card is an object that has at least two purposes:
 //  - It has card properties (Suit, Rank, etc)

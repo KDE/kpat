@@ -1,9 +1,9 @@
 #ifndef GRANDFSOLVER_H
 #define GRANDFSOLVER_H
 
+class Grandf;
 #include "patsolve.h"
 
-class Grandf;
 
 class GrandfSolver : public Solver
 {

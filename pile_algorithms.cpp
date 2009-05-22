@@ -11,9 +11,10 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
+
 #include "pile.h"
 
-#include <kdebug.h>
+#include <KDebug>
 
 bool Pile::add_klondikeTarget( const CardList& c2 ) const
 {

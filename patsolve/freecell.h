@@ -1,10 +1,9 @@
 #ifndef FREECELLSOLVER_H
 #define FREECELLSOLVER_H
 
-
+class Freecell;
 #include "patsolve.h"
 
-class Freecell;
 
 class FreecellSolver : public Solver
 {

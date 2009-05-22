@@ -1,24 +1,17 @@
 /* Common routines & arrays. */
 
 #include "grandf.h"
+
+#include "../deck.h"
 #include "../grandf.h"
 #include "../pile.h"
-#include "../deck.h"
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <cctype>
-#include <cmath>
-#include <sys/types.h>
-#include <cstdarg>
+#include <KDebug>
 
-#include <kdebug.h>
-
-/* These two routines make and unmake moves. */
 
 #define PRINT 0
-#define PRINT2 0
+
+/* These two routines make and unmake moves. */
 
 void GrandfSolver::make_move(MOVE *m)
 {

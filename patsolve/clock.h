@@ -1,9 +1,9 @@
 #ifndef CLOCKSOLVER_H
 #define CLOCKSOLVER_H
 
+class Clock;
 #include "patsolve.h"
 
-class Clock;
 
 class ClockSolver : public Solver
 {

@@ -1,16 +1,10 @@
 /* Common routines & arrays. */
 
 #include "freecell.h"
+
 #include "../freecell.h"
 #include "../pile.h"
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <cctype>
-#include <cmath>
-#include <sys/types.h>
-#include <cstdarg>
 
 /* Some macros used in get_possible_moves(). */
 

@@ -25,6 +25,7 @@
 
 #include "dealer.h"
 
+
 class Mod3 : public DealerScene
 {
     friend class Mod3Solver;

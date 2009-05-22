@@ -1,9 +1,9 @@
 #ifndef IDIOTSOLVER_H
 #define IDIOTSOLVER_H
 
+class Idiot;
 #include "patsolve.h"
 
-class Idiot;
 
 class IdiotSolver : public Solver
 {

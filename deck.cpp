@@ -11,13 +11,13 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
+
 #include "deck.h"
+
 #include "dealer.h"
 
-#include <ctime>
-#include <cassert>
+#include <KDebug>
 
-#include <kdebug.h>
 
 const unsigned int NumberOfCards = 52;
 
@@ -154,9 +154,9 @@ static long pseudoRandom_random() {
 
 void Deck::shuffle()
 {
-    assert((uint)m_cards.count() == mult*NumberOfCards);
+    Q_ASSERT((uint)m_cards.count() == mult*NumberOfCards);
 
-    assert(dscene()->gameNumber() >= 0);
+    Q_ASSERT(dscene()->gameNumber() >= 0);
     pseudoRandom_srand(dscene()->gameNumber());
 
     //kDebug(11111) << "first card" << m_cards[0]->name() << " " << dscene()->gameNumber();

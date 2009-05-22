@@ -22,11 +22,12 @@
 #define CARDMAPS_H
 
 #include "card.h"
-
-#include <QPixmap>
-
 class cardMapPrivate;
+
 class KConfigGroup;
+
+#include <QtGui/QPixmap>
+
 
 class cardMap : public QObject
 {

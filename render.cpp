@@ -18,13 +18,11 @@
 
 #include "render.h"
 
-#include "kgamesvgdocument.h"
-
-#include <KDE/KDebug>
-#include <KDE/KGlobal>
-#include <KDE/KPixmapCache>
-#include <KDE/KStandardDirs>
-#include <KDE/KSvgRenderer>
+#include <KDebug>
+#include <KGlobal>
+#include <KPixmapCache>
+#include <KStandardDirs>
+#include <KSvgRenderer>
 
 #include <QtCore/QDateTime>
 #include <QtCore/QFileInfo>

@@ -13,13 +13,13 @@
 */
 
 #include "yukon.h"
+
 #include "deck.h"
 #include "patsolve/yukon.h"
 
-#include <cassert>
+#include <KDebug>
+#include <KLocale>
 
-#include <klocale.h>
-#include <kdebug.h>
 
 Yukon::Yukon( )
     : DealerScene( )

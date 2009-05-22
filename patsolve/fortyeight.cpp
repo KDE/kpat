@@ -1,22 +1,15 @@
 /* Common routines & arrays. */
 
 #include "fortyeight.h"
+
+#include "../deck.h"
 #include "../fortyeight.h"
 #include "../pile.h"
-#include "../deck.h"
 
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <cctype>
-#include <cmath>
-#include <sys/types.h>
-#include <cstdarg>
+#include <KDebug>
 
-#include <kdebug.h>
 
 #define PRINT 0
-#define PRINT2 0
 
 void FortyeightSolver::make_move(MOVE *m)
 {
@@ -26,8 +19,6 @@ void FortyeightSolver::make_move(MOVE *m)
     else
         fprintf( stderr, "\nmake move %d from %d to %d (%d)\n\n", m->card_index, m->from, m->to, m->turn_index );
     print_layout();
-#else
-    //print_layout();
 #endif
 
     int from = m->from;

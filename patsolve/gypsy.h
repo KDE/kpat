@@ -1,9 +1,9 @@
 #ifndef GYPSYSOLVER_H
 #define GYPSYSOLVER_H
 
+class Gypsy;
 #include "patsolve.h"
 
-class Gypsy;
 
 class GypsySolver : public Solver
 {

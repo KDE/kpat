@@ -2,8 +2,8 @@
 #define SPIDERSOLVER_H
 
 #include "patsolve.h"
-
 class Spider;
+
 
 class SpiderSolver : public Solver
 {

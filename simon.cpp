@@ -11,14 +11,15 @@
  * event will the author be liable for any lost revenue or profits or
  * other special, indirect and consequential damages.
 */
+
 #include "simon.h"
+
 #include "deck.h"
 #include "patsolve/simon.h"
 
-#include <cassert>
+#include <KDebug>
+#include <KLocale>
 
-#include <klocale.h>
-#include <kdebug.h>
 
 Simon::Simon( )
     : DealerScene( )
@@ -74,7 +75,7 @@ void Simon::deal() {
         store[j]->add(c, false);
     }
 
-    assert(Deck::deck()->isEmpty());
+    Q_ASSERT(Deck::deck()->isEmpty());
 }
 
 bool Simon::checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const

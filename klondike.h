@@ -28,9 +28,10 @@
 #define KLONDIKE_H
 
 #include "dealer.h"
-
 class KlondikePile;
+
 class KSelectAction;
+
 
 class Klondike : public DealerScene {
     friend class KlondikeSolver;
