@@ -108,7 +108,13 @@ void Golf::deal()
             stack[r]->add(Deck::deck()->nextCard(),false);
         }
     }
-    newCards();
+
+    Card *c = Deck::deck()->nextCard();
+    waste->add(c, true);
+    qreal x = c->x();
+    qreal y = c->y();
+    c->setPos( Deck::deck()->pos() );
+    c->flipTo(x, y, DURATION_FLIP );
 }
 
 Card *Golf::newCards()
