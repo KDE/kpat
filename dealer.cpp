@@ -13,18 +13,24 @@
 */
 
 #include "dealer.h"
-#include "deck.h"
+
 #include "cardmaps.h"
+#include "deck.h"
+#include "render.h"
 #include "speeds.h"
 #include "version.h"
 #include "view.h"
 #include "patsolve/patsolve.h"
-#include "render.h"
 
-#include <cassert>
-#include <cmath>
+#include <KConfigGroup>
+#include <KDebug>
+#include <KLocalizedString>
+#include <KMessageBox>
+#include <KRandom>
+#include <KSharedConfig>
+#include <KTemporaryFile>
+#include <KIO/NetAccess>
 
-#include <QStyleOptionGraphicsItem>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QMutex>
 #include <QtCore/QString>
@@ -32,16 +38,11 @@
 #include <QtGui/QGraphicsSceneMouseEvent>
 #include <QtGui/QGraphicsView>
 #include <QtGui/QPainter>
+#include <QtGui/QStyleOptionGraphicsItem>
 #include <QtXml/QDomDocument>
 
-#include <KTemporaryFile>
-#include <kconfiggroup.h>
-#include <kdebug.h>
-#include <klocalizedstring.h>
-#include <KMessageBox>
-#include <krandom.h>
-#include <ksharedconfig.h>
-#include <kio/netaccess.h>
+#include <cassert>
+
 
 #define DEBUG_HINTS 0
 
