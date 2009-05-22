@@ -105,8 +105,7 @@ void Golf::deal()
             stack[r]->add(Deck::deck()->nextCard(),false);
         }
     }
-    waste->add(Deck::deck()->nextCard(),false);
-
+    newCards();
 }
 
 Card *Golf::newCards()
