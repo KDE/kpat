@@ -92,7 +92,7 @@ protected:
 public:
     Pile *findTarget(Card *c);
     virtual bool cardClicked(Card *);
-    virtual void pileClicked(Pile *);
+    virtual bool pileClicked(Pile *);
     virtual bool cardDblClicked(Card *);
 
     bool isMoving(Card *c) const;

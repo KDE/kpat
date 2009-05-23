@@ -1011,9 +1011,11 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
 
         Pile *p = qgraphicsitem_cast<Pile*>(topItem);
         if (p) {
-            pileClicked(p);
-            takeState();
-            eraseRedo();
+            if (pileClicked(p)) {
+                considerGameStarted();
+                takeState();
+                eraseRedo();
+            }
             return;
         }
     }
@@ -1037,6 +1039,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
         movingCards.first()->source()->moveCardsBack(movingCards);
     }
     movingCards.clear();
+    moved = false;
 }
 
 Pile * DealerScene::targetPile()
@@ -1119,10 +1122,15 @@ Pile * DealerScene::targetPile()
 
 void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
 {
-    stopDemo();
-    unmarkAll();
+    if (d->demo_active) {
+        stopDemo();
+        return;
+    }
+
     if (waiting())
         return;
+
+    unmarkAll();
 
     if (!movingCards.isEmpty()) {
         movingCards.first()->source()->moveCardsBack(movingCards);
@@ -1130,26 +1138,22 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
     }
 
     QGraphicsItem *topItem = itemAt(e->scenePos());
-    kDebug(11111) << "mouseDoubleClickEvent" << topItem;
     Card *c = qgraphicsitem_cast<Card*>(topItem);
-    if (!c)
-        return;
-
-    c->stopAnimation();
-    kDebug(11111) << "card" << c->rank() << " " << c->suit();
-    if ( cardDblClicked(c) ) {
+    if (c && cardDblClicked(c) ) {
         considerGameStarted();
+        takeState();
+        eraseRedo();
     }
-    takeState();
-    eraseRedo();
 }
 
 bool DealerScene::cardClicked(Card *c) {
     return c->source()->cardClicked(c);
 }
 
-void DealerScene::pileClicked(Pile *c) {
-    c->cardClicked(0);
+bool DealerScene::pileClicked(Pile *p)
+{
+    p->cardClicked(0);
+    return false;
 }
 
 bool DealerScene::cardDblClicked(Card *c)
@@ -1160,15 +1164,10 @@ bool DealerScene::cardDblClicked(Card *c)
     if (c->animated())
         return false;
 
-    if ( !c->source()->legalRemove( c ) )
-        return false;
-
-    if (c == c->source()->top() && c->realFace()) {
+    if (c == c->source()->top()  && c->realFace() && c->source()->legalRemove( c )) {
         Pile *tgt = findTarget(c);
         if (tgt) {
-            CardList empty;
-            empty.append(c);
-            c->source()->moveCards(empty, tgt);
+            c->source()->moveCards(CardList() << c , tgt);
             return true;
         }
     }
