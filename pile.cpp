@@ -320,7 +320,7 @@ void Pile::relayoutCards()
     for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
     {
         // ( *it )->stopAnimation();
-        ( *it )->moveTo( mypos.x(), mypos.y(), z, dscene()->speedUpTime(  120 ) );
+        ( *it )->moveTo( mypos.x(), mypos.y(), z, dscene()->speedUpTime( DURATION_RELAYOUT ) );
         ( *it )->setZValue( z );
         mypos.rx() += ( *it )->spread().width() * divx / 10 * cardMap::self()->cardWidth();
         mypos.ry() += ( *it )->spread().height() * divy / 10 * cardMap::self()->cardHeight();
