@@ -759,26 +759,34 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
     if (movingCards.isEmpty())
         return;
 
-    moved = true;
-
-    for (CardList::Iterator it = movingCards.begin(); it != movingCards.end(); ++it)
-    {
-        (*it)->setPos( ( *it )->pos() + e->scenePos() - moving_start );
-    }
-
-    // TODO some caching of the results
-    unmarkAll();
-
-    Pile * dropPile = targetPile();
-    if (dropPile) {
-        if (dropPile->isEmpty()) {
-            dropPile->setHighlighted(true);
-            marked.append(dropPile);
-        } else {
-            mark(dropPile->top());
+    if (!moved) {
+        const QPointF delta = e->scenePos() - moving_start;
+        const qreal distanceSquared = delta.x() * delta.x() + delta.y() * delta.y();
+        // Ignore the move event until we've moved at least 4 pixels
+        if (distanceSquared > 16.0) {
+            moved = true;
+            moving_start = e->scenePos();
         }
     }
-    moving_start = e->scenePos();
+
+    if (moved) {
+        foreach ( Card *card, movingCards )
+            card->setPos( card->pos() + e->scenePos() - moving_start );
+        moving_start = e->scenePos();
+
+        // TODO some caching of the results
+        unmarkAll();
+
+        Pile * dropPile = targetPile();
+        if (dropPile) {
+            if (dropPile->isEmpty()) {
+                dropPile->setHighlighted(true);
+                marked.append(dropPile);
+            } else {
+                mark(dropPile->top());
+            }
+        }
+    }
 }
 
 void DealerScene::mark(Card *c)
