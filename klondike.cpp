@@ -92,6 +92,8 @@ Klondike::Klondike()
 
     Deck::create_deck(this);
     Deck::deck()->setPilePos(margin, margin );
+    connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(newCards()));
+
     KConfigGroup cg(KGlobal::config(), settings_group );
     EasyRules = cg.readEntry( "KlondikeEasy", true);
 
@@ -288,15 +290,6 @@ bool Klondike::cardClicked(Card *c) {
     }
 
     return false;
-}
-
-void Klondike::pileClicked(Pile *c) {
-    kDebug(11111) << "pile clicked";
-    DealerScene::pileClicked(c);
-
-    if (c == Deck::deck()) {
-        newCards();
-    }
 }
 
 bool Klondike::startAutoDrop()

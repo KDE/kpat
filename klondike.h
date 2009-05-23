@@ -49,7 +49,6 @@ public:
     void deal();
 
     virtual bool cardClicked(Card *);
-    virtual void pileClicked(Pile *c);
 
     void setEasy( bool easy );
 
