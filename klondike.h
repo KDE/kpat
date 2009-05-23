@@ -48,8 +48,6 @@ public:
     void redeal(); // put pile back into deck
     void deal();
 
-    virtual bool cardClicked(Card *);
-
     void setEasy( bool easy );
 
 public slots:

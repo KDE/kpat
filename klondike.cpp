@@ -278,20 +278,6 @@ void Klondike::deal() {
             play[i]->add(Deck::deck()->nextCard(), i != round && true);
 }
 
-bool Klondike::cardClicked(Card *c) {
-    kDebug(11111) << "card clicked" << c->rank() << " " << c->suit();
-
-    if (DealerScene::cardClicked(c))
-        return true;
-
-    if (c->source() == Deck::deck()) {
-        pileClicked(Deck::deck());
-        return true;
-    }
-
-    return false;
-}
-
 bool Klondike::startAutoDrop()
 {
     bool pileempty = pile->isEmpty();
