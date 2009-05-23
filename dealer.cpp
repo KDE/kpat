@@ -1001,10 +1001,8 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
 
         Card *c = qgraphicsitem_cast<Card*>(topItem);
         if (c) {
-            if (!c->animated()) {
-                if ( cardClicked(c) ) {
-                    considerGameStarted();
-                }
+            if (!c->animated() && cardClicked(c) ) {
+                considerGameStarted();
                 takeState();
                 eraseRedo();
             }
