@@ -662,7 +662,7 @@ void pWidget::slotGameSolverUnknown()
 
 void pWidget::slotGameLost()
 {
-    solverStatus->setText(i18n("This game is lost. No moves remain."));
+    solverStatus->setText(i18n("Solver: This game is lost."));
 }
 
 void pWidget::slotUpdateMoves(int moves)
