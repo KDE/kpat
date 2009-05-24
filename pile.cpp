@@ -435,7 +435,7 @@ void Pile::add( Card* _card, bool _facedown )
         if ( _card->animated() )
         {
             dscene()->setWaiting( true );
-            connect(_card, SIGNAL(stoped(Card*)), SLOT(waitForMoving(Card*)));
+            connect(_card, SIGNAL(stopped(Card*)), SLOT(waitForMoving(Card*)));
         }
     }
 }

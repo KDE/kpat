@@ -48,7 +48,7 @@ public:
     virtual void mapOldId(int id);
 
 public slots:
-    void cardStoped(Card *c);
+    void cardStopped(Card *c);
     void gameTypeChanged();
     virtual Card *newCards();
 

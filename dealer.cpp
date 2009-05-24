@@ -1363,7 +1363,7 @@ bool DealerScene::startAutoDrop()
                 if ( t->animated() )
                 {
                     setWaiting( true );
-                    connect(t, SIGNAL(stoped(Card*)), SLOT(waitForAutoDrop(Card*)));
+                    connect(t, SIGNAL(stopped(Card*)), SLOT(waitForAutoDrop(Card*)));
                 }
             }
             d->m_autoDropFactor *= 0.8;
@@ -1616,7 +1616,7 @@ void DealerScene::won()
         } while (can.intersects(p));
 
         card.ptr->moveTo( x, y, 0, 1200);
-        connect(card.ptr, SIGNAL(stoped(Card*)), SLOT(waitForWonAnim(Card*)));
+        connect(card.ptr, SIGNAL(stopped(Card*)), SLOT(waitForWonAnim(Card*)));
         setWaiting(true);
     }
 }
@@ -1751,7 +1751,7 @@ void DealerScene::newDemoMove(Card *m)
     kDebug(11111) << "newDemoMove" << m->rank() << " " << m->suit();
     if ( m->animated() )
     {
-        connect(m, SIGNAL(stoped(Card*)), SLOT(waitForDemo(Card*)));
+        connect(m, SIGNAL(stopped(Card*)), SLOT(waitForDemo(Card*)));
         setWaiting( true );
     } else
         waitForDemo( 0 );

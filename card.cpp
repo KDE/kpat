@@ -349,7 +349,7 @@ void Card::stopAnimation()
         setSpread( source()->cardOffset(this) );
 
     m_isSeen = Unknown;
-    emit stoped( this );
+    emit stopped( this );
 }
 
 bool  Card::animated() const

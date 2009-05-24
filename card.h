@@ -130,7 +130,7 @@ public:
     void setIsSeen( VisibleState is );
 
 signals:
-    void         stoped(Card *c);
+    void       stopped(Card *c);
 
 public slots:
     void       setPixmap();

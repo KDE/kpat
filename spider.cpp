@@ -206,14 +206,14 @@ void Spider::setSuits(int suits)
     }
 }
 
-void Spider::cardStoped(Card * t)
+void Spider::cardStopped(Card * t)
 {
     for( int column = 0; column < 10; column++ ) {
         Card *t = stack[column]->top();
         if (t && !t->isFaceUp())
            t->flipTo(t->x(), t->y(), DURATION_FLIP );
     }
-    t->disconnect(this, SLOT( cardStoped( Card* ) ) );
+    t->disconnect(this, SLOT( cardStopped( Card* ) ) );
     setWaiting( false );
 }
 
@@ -337,7 +337,7 @@ bool Spider::checkPileDeck(Pile *check, bool checkForDemo)
                 ( *it )->moveTo( legs[m_leg]->x(), legs[m_leg]->y(), legs[m_leg]->zValue() + z, 300 + int( z ) * 30 );
                 z += 1;
             }
-            connect( run.first(), SIGNAL(stoped(Card*)), SLOT(cardStoped(Card*)));
+            connect(run.first(), SIGNAL(stopped(Card*)), SLOT(cardStopped(Card*)));
             setWaiting( true );
             /*if ( demoActive() )
               newDemoMove( run.first() );*/
