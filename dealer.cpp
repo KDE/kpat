@@ -760,12 +760,17 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
         return;
 
     if (!moved) {
-        const QPointF delta = e->scenePos() - moving_start;
-        const qreal distanceSquared = delta.x() * delta.x() + delta.y() * delta.y();
-        // Ignore the move event until we've moved at least 4 pixels
-        if (distanceSquared > 16.0) {
+        bool overCard = movingCards.first()->sceneBoundingRect().contains(e->scenePos());
+        QPointF delta = e->scenePos() - moving_start;
+        qreal distanceSquared = delta.x() * delta.x() + delta.y() * delta.y();
+        // Ignore the move event until we've moved at least 4 pixels or the
+        // cursor leaves the card.
+        if (distanceSquared > 16.0 || !overCard) {
             moved = true;
-            moving_start = e->scenePos();
+            // If the cursor hasn't left the card, then continue the drag from
+            // the current position, which makes it look smoother.
+            if (overCard)
+                moving_start = e->scenePos();
         }
     }
 
