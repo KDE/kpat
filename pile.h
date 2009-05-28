@@ -62,7 +62,7 @@ public:
     bool legalRemove(const Card *c, bool demo = false) const;
 
     virtual void moveCards(CardList &c, Pile *to = 0);
-    void moveCardsBack(CardList &c, int steps = -1 );
+    void moveCardsBack(CardList& c, int duration = -1);
 
     void setRemoveFlags( int flag ) { removeFlags = flag; }
     void setAddFlags( int flag ) { addFlags = flag; }
@@ -150,6 +150,8 @@ signals:
     void dblClicked(Card *c);
 
 protected:
+    virtual void layoutCards(int duration);
+
     int       removeFlags;
     int       addFlags;
     CardList  m_cards;

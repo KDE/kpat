@@ -997,6 +997,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
 
     if (!moved) {
         if (!movingCards.isEmpty()) {
+            movingCards.first()->source()->moveCardsBack(movingCards);
             movingCards.clear();
         }
 

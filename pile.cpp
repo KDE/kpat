@@ -292,40 +292,15 @@ void Pile::relayoutCards()
 {
     m_relayoutTimer->stop();
 
-    QPointF mypos = pos();
-    qreal z = zValue() + 1;
-    QSizeF preferredSize = QSizeF( 0, 0 );
-
-    for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
+    foreach ( Card * card, m_cards )
     {
-        //kDebug(11111) << ( *it )->name() << " " << ( *it )->spread();
-        // the spreads should hopefully have all one sign, or we get in trouble
-        preferredSize.rwidth() += fabs( ( *it )->spread().width() );
-        preferredSize.rheight() += fabs( ( *it )->spread().height() );
-        if ( ( *it )->animated() || dscene()->isMoving( *it ) ) {
-            // kDebug(11111) << ( *it )->name() << "is animated - restarting timer\n";
+        if ( card->animated() || dscene()->isMoving( card ) ) {
             tryRelayoutCards();
             return;
         }
     }
-    qreal divy = 1;
-    qreal divx = 1;
-    if ( preferredSize.height() )
-        divy = qMin( ( maximalSpace().height() - cardMap::self()->cardHeight() ) / preferredSize.height() * 10 / cardMap::self()->cardHeight(), 1. );
-    if ( preferredSize.width() )
-        divx = qMin( ( maximalSpace().width() - cardMap::self()->cardWidth() ) / preferredSize.width() * 10 / cardMap::self()->cardWidth(), 1. );
 
-    //kDebug(11111) << "relayoutCards" << objectName() << " " <<  divx << " " << divy << " " << maximalSpace() << " " << preferredSize << " " << reservedSpace();
-
-    for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
-    {
-        // ( *it )->stopAnimation();
-        ( *it )->moveTo( mypos.x(), mypos.y(), z, dscene()->speedUpTime( DURATION_RELAYOUT ) );
-        ( *it )->setZValue( z );
-        mypos.rx() += ( *it )->spread().width() * divx / 10 * cardMap::self()->cardWidth();
-        mypos.ry() += ( *it )->spread().height() * divy / 10 * cardMap::self()->cardHeight();
-        z += 1;
-    }
+    layoutCards( dscene()->speedUpTime( DURATION_RELAYOUT ) );
 }
 
 void Pile::add( Card *_card, int index)
@@ -523,53 +498,15 @@ void Pile::moveCards(CardList &cl, Pile *to)
     to->moveCardsBack(cl);
 }
 
-void Pile::moveCardsBack(CardList &cl, int steps )
+void Pile::moveCardsBack(CardList &cl, int duration)
 {
     if (!cl.count())
         return;
 
-    Card *c = cl.first();
+    if ( duration == -1 )
+        duration = DURATION_MOVEBACK;
 
-    Card *before = 0;
-    QSizeF off;
-
-    if ( steps == -1 )
-        steps = DURATION_MOVEBACK;
-
-    for (CardList::Iterator iti = m_cards.begin(); iti != m_cards.end(); ++iti)
-    {
-        if (c == *iti) {
-
-            if (before) {
-                // kDebug(11111) << "moveCardsBack" << ( *iti )->name() << " " << before->name() << " " << before->spread();
-                off = before->spread();
-                c->moveTo( before->realX() + off.width() / 10 * cardMap::self()->cardWidth(),
-                           before->realY() + off.height()  / 10 * cardMap::self()->cardHeight(),
-                           before->realZ() + 1, steps);
-            }
-            else {
-                // kDebug(11111) << "moveCardsBack" << ( *iti )->name() << "no before";
-                c->moveTo( x(), y(), zValue() + 1, steps);
-            }
-            break;
-        } else
-            before = *iti;
-    }
-
-    before = c;
-    CardList::Iterator it = cl.begin(); // == c
-    ++it;
-
-    for (; it != cl.end(); ++it)
-    {
-        off = before->spread();
-        (*it)->moveTo( before->realX() + off.width() / 10 * cardMap::self()->cardWidth(),
-                       before->realY() + off.height()  / 10 * cardMap::self()->cardHeight(),
-                       before->realZ() + 1, steps);
-        before = *it;
-    }
-
-    relayoutCards();
+    layoutCards( duration );
 }
 
 bool Pile::cardClicked(Card *c)
@@ -591,6 +528,34 @@ void Pile::tryRelayoutCards()
         m_relayoutTimer->start( 400 );
     else
         m_relayoutTimer->start( 40 );
+}
+
+void Pile::layoutCards(int duration)
+{
+    QSizeF preferredSize( 0, 0 );
+    foreach ( const Card * card, m_cards )
+    {
+        // The spreads should hopefully have all one sign, or we get in trouble
+        preferredSize.rwidth() += fabs( card->spread().width() );
+        preferredSize.rheight() += fabs( card->spread().height() );
+    }
+
+    qreal divy = 1;
+    if ( preferredSize.height() )
+        divy = qMin( ( maximalSpace().height() - cardMap::self()->cardHeight() ) / preferredSize.height() * 10 / cardMap::self()->cardHeight(), 1. );
+    qreal divx = 1;
+    if ( preferredSize.width() )
+        divx = qMin( ( maximalSpace().width() - cardMap::self()->cardWidth() ) / preferredSize.width() * 10 / cardMap::self()->cardWidth(), 1. );
+
+    QPointF cardPos = pos();
+    qreal z = zValue() + 1;
+    foreach ( Card * card, m_cards )
+    {
+        card->moveTo( cardPos.x(), cardPos.y(), z, dscene()->speedUpTime( duration ) );
+        cardPos.rx() += divx * card->spread().width() / 10 * cardMap::self()->cardWidth();
+        cardPos.ry() += divy * card->spread().height() / 10 * cardMap::self()->cardHeight();
+        z += 1;
+    }
 }
 
 #include "pile.moc"
