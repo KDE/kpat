@@ -128,10 +128,9 @@ int cardMap::cardHeight() const
 
 void cardMap::triggerRescale()
 {
-    KSharedConfig::Ptr config = KGlobal::config();
-    KConfigGroup cs(config, settings_group );
+    KConfigGroup cs( KGlobal::config(), settings_group );
     cs.writeEntry( "CardWidth", d->m_currentCardSize.width() );
-    config->sync();
+
     if ( PatienceView::instance() && PatienceView::instance()->dscene() )
          PatienceView::instance()->dscene()->rescale(false);
 }
