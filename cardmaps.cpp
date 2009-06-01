@@ -96,6 +96,7 @@ void cardMap::updateTheme(const KConfigGroup &cs)
 
     d->m_originalCardSize = d->m_cache.defaultFrontSize( KCardInfo( KCardInfo::Spade, KCardInfo::Ace ) );
     Q_ASSERT( !d->m_originalCardSize.isNull() );
+    d->m_currentCardSize = d->m_originalCardSize.toSize();
 
     if (PatienceView::instance() && PatienceView::instance()->dscene()) {
         PatienceView::instance()->dscene()->relayoutPiles();
