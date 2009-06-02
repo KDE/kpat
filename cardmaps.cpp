@@ -149,7 +149,7 @@ void cardMap::setCardWidth( int width )
         d->m_cache.setSize( newSize );
         triggerRescale();
 
-        QTimer::singleShot( 200, this, SLOT(loadInBackground()) );
+        QMetaObject::invokeMethod( this, "loadInBackground", Qt::QueuedConnection );
     }
 }
 
