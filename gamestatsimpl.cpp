@@ -27,7 +27,7 @@
 
 GameStatsImpl::GameStatsImpl(QWidget* aParent)
 	: KDialog(aParent),
-	  indexMap()
+	  indexToIdMap()
 {
 	QWidget* widget = new QWidget(this);
 	ui = new Ui::GameStats();
@@ -40,20 +40,20 @@ GameStatsImpl::GameStatsImpl(QWidget* aParent)
 	ui->GameType->setFocus();
 	ui->GameType->setMaxVisibleItems(DealerInfoList::self()->games().size());
 
-	QMap<QString,int> nameToIndex;
+	QMap<QString,int> nameToIdMap;
 	foreach (DealerInfo* game, DealerInfoList::self()->games())
+		nameToIdMap.insert(QString(game->name), game->ids.first());
+
+	QMap<QString,int>::const_iterator it = nameToIdMap.constBegin();
+	QMap<QString,int>::const_iterator end = nameToIdMap.constEnd();
+	for (; it != end; ++it)
 	{
-		QString name(game->name);
-		nameToIndex[name] = game->ids.first();
-	}
-	foreach (const QString& name, nameToIndex.keys())
-	{
-		// Map combobox indices to game indices
-		indexMap[ui->GameType->count()] = nameToIndex[name];
-		ui->GameType->addItem(name);
+		// Map combobox indices to game IDs
+		indexToIdMap[ui->GameType->count()] = it.value();
+		ui->GameType->addItem(it.key());
 	}
 
-	showGameType(indexMap[0]);
+	showGameType(indexToIdMap[0]);
 
 	connect(ui->GameType, SIGNAL(activated(int)), SLOT(selectionChanged(int)));
 	connect(this, SIGNAL(resetClicked()), SLOT(resetStats()));
@@ -61,13 +61,13 @@ GameStatsImpl::GameStatsImpl(QWidget* aParent)
 
 void GameStatsImpl::selectionChanged(int comboIndex)
 {
-	int gameIndex = indexMap[comboIndex];
+	int gameIndex = indexToIdMap[comboIndex];
 	setGameType(gameIndex);
 }
 
 void GameStatsImpl::showGameType(int gameIndex)
 {
-	int comboIndex = indexMap.key(gameIndex);
+	int comboIndex = indexToIdMap.key(gameIndex);
 	ui->GameType->setCurrentIndex(comboIndex);
 	setGameType(gameIndex);
 }
@@ -94,7 +94,7 @@ void GameStatsImpl::setGameType(int gameIndex)
 
 void GameStatsImpl::resetStats()
 {
-	int gameIndex = indexMap[ui->GameType->currentIndex()];
+	int gameIndex = indexToIdMap[ui->GameType->currentIndex()];
 	Q_ASSERT(gameIndex >= 0);
 	KConfigGroup cg(KGlobal::config(), scores_group);
 	cg.writeEntry(QString("total%1").arg(gameIndex),0);
@@ -109,3 +109,5 @@ void GameStatsImpl::resetStats()
 }
 
 #include "gamestatsimpl.moc"
+
+// kate: replace-tabs off; replace-tabs-save off

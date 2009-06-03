@@ -39,8 +39,9 @@ class GameStatsImpl : public KDialog
 
 	private:
 		Ui::GameStats * ui;
-		QMap<int,int> indexMap;
+		QMap<int,int> indexToIdMap;
 };
 
 #endif
 
+// kate: replace-tabs off; replace-tabs-save off
