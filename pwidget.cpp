@@ -45,7 +45,6 @@
 #include <KMenuBar>
 #include <KMessageBox>
 #include <KRandom>
-#include <KMenuBar>
 #include <KRecentFilesAction>
 #include <KStandardAction>
 #include <KStandardDirs>
@@ -59,6 +58,7 @@
 #include <QtCore/QList>
 #include <QtCore/QTimer>
 #include <QtGui/QDesktopWidget>
+#include <QtGui/QResizeEvent>
 #include <QtGui/QStackedWidget>
 #include <QtXml/QDomDocument>
 
