@@ -205,7 +205,7 @@ void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
         return;
     }
     stopAnimation();
-    m_isSeen = CardVisible; // avoid suprises
+    m_isSeen = CardVisible; // avoid surprises
 
     QTimeLine *timeLine = new QTimeLine( 1000, this );
 
