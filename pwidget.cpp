@@ -56,6 +56,7 @@
 #include <KIO/NetAccess>
 
 #include <QtCore/QList>
+#include <QtCore/QPointer>
 #include <QtCore/QTimer>
 #include <QtGui/QDesktopWidget>
 #include <QtGui/QResizeEvent>
@@ -286,31 +287,30 @@ void pWidget::slotPickRandom()
 
 void pWidget::slotSelectDeck()
 {
-    KSharedConfig::Ptr config = KGlobal::config();
-    KConfigGroup cs(config, settings_group);
-    KCardWidget* cardwidget = new KCardWidget();
+    KConfigGroup cs(KGlobal::config(), settings_group);
+    QPointer<KCardWidget> cardwidget = new KCardWidget();
     cardwidget->readSettings(cs);
-    QString deckName, oldDeckName;
-    QString cardName, oldCardName;
-    cardName = oldCardName = cardwidget->backName();
-    deckName = oldDeckName = cardwidget->frontName();
+    QString oldFrontName = cardwidget->frontName();
+    QString oldBackName = cardwidget->backName();
 
-    KCardDialog dlg(cardwidget);
-    if (dlg.exec() == QDialog::Accepted)
+    QPointer<KCardDialog> dlg = new KCardDialog(cardwidget);
+    dlg->setParent(this, dlg->windowFlags());
+    if (dlg->exec() == QDialog::Accepted && cardwidget)
     {
         // Always store the settings, as other things than only the deck may
         // have changed
         cardwidget->saveSettings(cs);
         cs.sync();
 
-        deckName = cardwidget->backName();
-        cardName = cardwidget->frontName();
-
-        if (deckName != oldDeckName || cardName != oldCardName) {
+        if (cardwidget->frontName() != oldFrontName || cardwidget->backName() != oldBackName)
+        {
             cardMap::self()->updateTheme(cs);
             cardMap::self()->triggerRescale();
         }
     }
+
+    // cardWidget has been reparented to dlg, so deleting dlg cleans them both up.
+    delete dlg;
 }
 
 void pWidget::setGameCaption()
