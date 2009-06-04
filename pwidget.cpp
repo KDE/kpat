@@ -634,10 +634,11 @@ void pWidget::saveGame()
 
 void pWidget::showStats()
 {
-    GameStatsImpl dlg(this);
+    QPointer<GameStatsImpl> dlg = new GameStatsImpl(this);
     if (m_dealer)
-        dlg.showGameType(m_dealer->gameId());
-    dlg.exec();
+        dlg->showGameType(m_dealer->gameId());
+    dlg->exec();
+    delete dlg;
 }
 
 void pWidget::slotGameSolverStart()
