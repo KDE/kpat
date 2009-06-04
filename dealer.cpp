@@ -281,7 +281,6 @@ void DealerScene::takeState()
         else if ( !d->toldAboutWonGame && !d->toldAboutLostGame && isGameLost() ) {
             emit hintPossible( false );
             emit demoPossible( false );
-            emit newCardsPossible( false );
             QTimer::singleShot(400, this, SIGNAL(gameLost()));
             d->toldAboutLostGame = true;
             stopDemo();
