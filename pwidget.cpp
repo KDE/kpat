@@ -140,7 +140,7 @@ pWidget::pWidget()
     dealaction = actionCollection()->addAction("move_deal");
     dealaction->setText( i18nc("Deal a new row of cards from the deck", "Dea&l") );
     dealaction->setIcon( KIcon("kpat") );
-    dealaction->setShortcut( Qt::Key_Enter );
+    dealaction->setShortcut( Qt::Key_Return );
 
     redealaction = actionCollection()->addAction("move_redeal");
     redealaction->setText( i18nc("Collect the cards in play, shuffle them and redeal them", "&Redeal") );
