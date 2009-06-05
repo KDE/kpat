@@ -385,7 +385,25 @@ void DealerScene::openGame(QDomDocument &doc)
     unmarkAll();
     QDomElement dealer = doc.documentElement();
 
-    setGameOptions(dealer.attribute("options"));
+    QString options = dealer.attribute("options");
+
+    // Before KDE4.3, KPat didn't store game specific options in the save
+    // file. This could cause crashes when loading a Spider game with a
+    // different number of suits than the current setting. Similarly, in 
+    // Klondike the number of cards drawn from the deck was forgotten, but
+    // this never caused crashes. Fortunately, in Spider we can count the
+    // number of suits ourselves. For Klondike, there is no way to recover
+    // that information.
+    if (gameId() == 17 && options.isEmpty())
+    {
+        QSet<int> suits;
+        QDomNodeList cardElements = dealer.elementsByTagName("card");
+        for (int i = 0; i < cardElements.count(); ++i)
+            suits.insert(cardElements.item(i).toElement().attribute("suit").toInt());
+        options = QString::number(suits.count());
+    }
+
+    setGameOptions(options);
     setGameNumber(dealer.attribute("number").toULong());
     d->loadedMoveCount = dealer.attribute("moves").toInt();
     d->gameStarted = bool(dealer.attribute("started").toInt());
@@ -424,7 +442,6 @@ void DealerScene::openGame(QDomDocument &doc)
                         for (CardList::Iterator it2 = cards.begin();
                              it2 != cards.end(); ++it2)
                         {
-
                             if ((*it2)->suit() == s && (*it2)->rank() == v)
                             {
                                 (*it2)->setVisible(p->isVisible());
