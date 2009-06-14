@@ -138,8 +138,8 @@ Klondike::Klondike()
     KXmlGuiWindow *xmlgui = PatienceView::instance()->parent();
 
     xmlgui->actionCollection()->addAction("dealer_options", options);
-    options->addAction( "Draw 1" );
-    options->addAction( "Draw 3" );
+    options->addAction( i18n( "Draw 1") );
+    options->addAction( i18n( "Draw 3") );
 
     options->setCurrentItem( EasyRules ? 0 : 1 );
 

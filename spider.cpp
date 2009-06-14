@@ -131,9 +131,9 @@ Spider::Spider()
         xmlgui->actionCollection()->addAction("dealer_options", options);
     }
 
-    options->addAction( "1 Suit (Easy)" );
-    options->addAction( "2 Suits (Medium)" );
-    options->addAction( "4 Suits (Hard)" );
+    options->addAction( i18n("1 Suit (Easy)") );
+    options->addAction( i18n("2 Suits (Medium)") );
+    options->addAction( i18n("4 Suits (Hard)") );
 
     if ( suits == 1 )
         options->setCurrentItem( 0 );
