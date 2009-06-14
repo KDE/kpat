@@ -124,9 +124,9 @@ Spider::Spider()
     setSolver( new SpiderSolver( this ) );
 
     options = new KSelectAction(i18n("Spider &Options"), this );
-    options->addAction( "1 Suit (Easy)" );
-    options->addAction( "2 Suits (Medium)" );
-    options->addAction( "4 Suits (Hard)" );
+    options->addAction( i18n("1 Suit (Easy)") );
+    options->addAction( i18n("2 Suits (Medium)") );
+    options->addAction( i18n("4 Suits (Hard)") );
     if ( m_suits == 1 )
         options->setCurrentItem( 0 );
     else if ( m_suits == 2 )
