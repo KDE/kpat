@@ -1984,7 +1984,7 @@ void DealerScene::setSceneSize( const QSize &s )
         if ( ms.height() < cardHeight - 0.2 )
             return;
 
-        p->setMaximalSpace( ms );
+        p->setMaximumSpace( ms );
     }
 
     for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
@@ -1993,11 +1993,11 @@ void DealerScene::setSceneSize( const QSize &s )
         if ( !p->isVisible() || ( p->reservedSpace().width() == 10 && p->reservedSpace().height() == 10 ) )
             continue;
 
-        QRectF myRect( p->pos(), p->maximalSpace() );
+        QRectF myRect( p->pos(), p->maximumSpace() );
         if ( p->reservedSpace().width() < 0 )
         {
             myRect.moveRight( p->x() + cardWidth );
-            myRect.moveLeft( p->x() - p->maximalSpace().width() );
+            myRect.moveLeft( p->x() - p->maximumSpace().width() );
         }
 
         //kDebug(11111) << p->objectName() << " " << p->spread() << " " << myRect;
@@ -2007,7 +2007,7 @@ void DealerScene::setSceneSize( const QSize &s )
             if ( *it2 == p || !( *it2 )->isVisible() )
                 continue;
 
-            QRectF pileRect( (*it2)->pos(), (*it2)->maximalSpace() );
+            QRectF pileRect( (*it2)->pos(), (*it2)->maximumSpace() );
             if ( (*it2)->reservedSpace().width() < 0 )
                 pileRect.moveRight( (*it2)->x() );
             if ( (*it2)->reservedSpace().height() < 0 )
@@ -2019,7 +2019,7 @@ void DealerScene::setSceneSize( const QSize &s )
             if ( myRect.intersects( pileRect ) )
             {
                 //kDebug(11111) << "compa" << p->objectName() << myRect << ( *it2 )->objectName() << pileRect << myRect.intersects( pileRect );
-                QSizeF pms = ( *it2 )->maximalSpace();
+                QSizeF pms = ( *it2 )->maximumSpace();
 
                 if ( p->reservedSpace().width() != 10 )
                 {
@@ -2065,14 +2065,14 @@ void DealerScene::setSceneSize( const QSize &s )
                 kDebug(11111) << pms  << cardWidth  << cardHeight;
                 Q_ASSERT( pms.width() >= cardWidth - 0.1 );
                 Q_ASSERT( pms.height() >= cardHeight - 0.1 );
-                ( *it2 )->setMaximalSpace( pms );
+                ( *it2 )->setMaximumSpace( pms );
             }
         }
         kDebug(11111) << myRect << cardHeight;
         Q_ASSERT( myRect.width() >= cardWidth - 0.1 );
         Q_ASSERT( myRect.height() >= cardHeight - 0.1 );
 
-        p->setMaximalSpace( myRect.size() );
+        p->setMaximumSpace( myRect.size() );
     }
 
     if ( d->wonItem->isVisible() )

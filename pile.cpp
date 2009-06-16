@@ -61,7 +61,7 @@ Pile::Pile( int _index, DealerScene* parent)
     setSpread( 3.3 );
     setReservedSpace( QSizeF( 10, 10 ) );
     setShapeMode( QGraphicsPixmapItem::BoundingRectShape );
-    setMaximalSpace( QSizeF( 1, 1 ) ); // just to make it valid
+    setMaximumSpace( QSizeF( 1, 1 ) ); // just to make it valid
     m_relayoutTimer = new QTimer( this );
     m_relayoutTimer->setSingleShot( true );
     connect( m_relayoutTimer, SIGNAL(timeout()), SLOT(relayoutCards()) );
@@ -542,10 +542,10 @@ void Pile::layoutCards(int duration)
 
     qreal divy = 1;
     if ( preferredSize.height() )
-        divy = qMin( ( maximalSpace().height() - cardMap::self()->cardHeight() ) / preferredSize.height() * 10 / cardMap::self()->cardHeight(), 1. );
+        divy = qMin( ( maximumSpace().height() - cardMap::self()->cardHeight() ) / preferredSize.height() * 10 / cardMap::self()->cardHeight(), 1. );
     qreal divx = 1;
     if ( preferredSize.width() )
-        divx = qMin( ( maximalSpace().width() - cardMap::self()->cardWidth() ) / preferredSize.width() * 10 / cardMap::self()->cardWidth(), 1. );
+        divx = qMin( ( maximumSpace().width() - cardMap::self()->cardWidth() ) / preferredSize.width() * 10 / cardMap::self()->cardWidth(), 1. );
 
     QPointF cardPos = pos();
     qreal z = zValue() + 1;

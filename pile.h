@@ -133,8 +133,8 @@ public:
     void setReservedSpace( const QSizeF &p) { m_reserved = p; }
     QSizeF reservedSpace() const { return m_reserved; }
 
-    void setMaximalSpace( const QSizeF &s) { m_space = s; }
-    QSizeF maximalSpace() const { return m_space; }
+    void setMaximumSpace( const QSizeF &s) { m_space = s; }
+    QSizeF maximumSpace() const { return m_space; }
 
     void tryRelayoutCards();
 
