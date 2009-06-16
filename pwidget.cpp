@@ -238,7 +238,7 @@ void pWidget::enableSolver(bool enable)
 {
     KConfigGroup cg(KGlobal::config(), settings_group);
     cg.writeEntry("Solver", enable);
-    solverStatus->setText(QString());
+    slotGameSolverReset();
     if (m_dealer)
         m_dealer->setSolverEnabled(enable);
 }
@@ -267,7 +267,6 @@ void pWidget::startRandom()
 
 void pWidget::startNew(long gameNumber)
 {
-    solverStatus->setText(QString());
     m_dealer->startNew(gameNumber);
     setGameCaption();
 }
@@ -357,6 +356,7 @@ void pWidget::newGameType(int id)
 
     gamehelpaction->setText(i18n("Help &with %1", i18n(di->name).replace('&', "&&")));
 
+    connect(m_dealer, SIGNAL(gameSolverReset()), SLOT(slotGameSolverReset()));
     connect(m_dealer, SIGNAL(gameSolverStart()), SLOT(slotGameSolverStart()));
     connect(m_dealer, SIGNAL(gameSolverWon()), SLOT(slotGameSolverWon()));
     connect(m_dealer, SIGNAL(gameSolverLost()), SLOT(slotGameSolverLost()));
@@ -639,6 +639,11 @@ void pWidget::showStats()
         dlg->showGameType(m_dealer->gameId());
     dlg->exec();
     delete dlg;
+}
+
+void pWidget::slotGameSolverReset()
+{
+    solverStatus->setText(QString());
 }
 
 void pWidget::slotGameSolverStart()

@@ -491,7 +491,7 @@ void DealerScene::undo()
             d->toldAboutWonGame = false;
         }
     }
-    emit gameSolverUnknown();
+    emit gameSolverReset();
 }
 
 void DealerScene::redo()
@@ -512,7 +512,7 @@ void DealerScene::redo()
             d->toldAboutWonGame = false;
         }
     }
-    emit gameSolverUnknown();
+    emit gameSolverReset();
 }
 
 void DealerScene::eraseRedo()
@@ -932,6 +932,7 @@ void DealerScene::startNew(long gameNumber)
         }
     }
 
+    emit gameSolverReset();
     emit updateMoves( 0 );
     emit demoPossible( true );
     emit hintPossible( true );

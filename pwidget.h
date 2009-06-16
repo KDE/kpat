@@ -68,6 +68,7 @@ public slots:
     void toggleDemoAction(bool active);
     void showStats();
 
+    void slotGameSolverReset();
     void slotGameSolverStart();
     void slotGameSolverWon();
     void slotGameSolverLost();

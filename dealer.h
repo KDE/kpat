@@ -211,6 +211,7 @@ signals:
     void updateMoves(int moves);
     void gameLost();
 
+    void gameSolverReset();
     void gameSolverStart();
     void gameSolverWon();
     void gameSolverLost();
