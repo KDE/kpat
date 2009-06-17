@@ -34,8 +34,6 @@ public:
     static void destroy_deck();
     static Deck *deck() { return my_deck; }
 
-    static const long n;
-
     void collectAndShuffle();
 
     Card* nextCard();

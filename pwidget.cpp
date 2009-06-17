@@ -265,7 +265,7 @@ void pWidget::startRandom()
     startNew(KRandom::random());
 }
 
-void pWidget::startNew(long gameNumber)
+void pWidget::startNew(int gameNumber)
 {
     m_dealer->startNew(gameNumber);
     setGameCaption();
@@ -534,11 +534,15 @@ void pWidget::chooseGame()
                        ? i18n("Enter a game number (Freecell deals are the same as in the Freecell FAQ):")
                        : i18n("Enter a game number:");
         bool ok;
-        long number = KInputDialog::getText(i18n("Game Number"),
-                                            text,
-                                            QString::number(m_dealer->gameNumber()),
-                                            0,
-                                            this).toLong(&ok);
+        int number = KInputDialog::getInteger(i18n("Game Number"), 
+                                              text,
+                                              m_dealer->gameNumber(),
+                                              1,
+                                              INT_MAX,
+                                              1,
+                                              10,
+                                              &ok, 
+                                              this);
 
         if (ok && m_dealer->allowedToStartNewGame())
             startNew(number);

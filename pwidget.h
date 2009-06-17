@@ -92,7 +92,7 @@ private slots:
 
 private:
     void setGameCaption();
-    void startNew(long gameNumber);
+    void startNew(int gameNumber);
     void updateActions();
     void updateGameActionList();
 

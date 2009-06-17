@@ -115,8 +115,8 @@ public:
     // use this for autodrop times
     int speedUpTime( int delay ) const;
 
-    void setGameNumber(long gmn);
-    long gameNumber() const;
+    void setGameNumber(int gmn);
+    int gameNumber() const;
 
     int waiting() const { return _waiting; }
     void setWaiting(bool w);
@@ -191,7 +191,7 @@ public slots:
     void slotSolverFinished();
     void slotAutoDrop();
 
-    void startNew(long gameNumber = -1);
+    void startNew(int gameNumber = -1);
 
 protected slots:
     virtual void demo();
@@ -247,7 +247,7 @@ private:
     bool _autodrop;
     bool _usesolver;
     int _waiting;
-    long gamenumber;
+    int gamenumber;
 
     class DealerScenePrivate;
     DealerScenePrivate *d;

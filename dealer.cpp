@@ -404,7 +404,7 @@ void DealerScene::openGame(QDomDocument &doc)
     }
 
     setGameOptions(options);
-    setGameNumber(dealer.attribute("number").toULong());
+    setGameNumber(dealer.attribute("number").toInt());
     d->loadedMoveCount = dealer.attribute("moves").toInt();
     d->gameStarted = bool(dealer.attribute("started").toInt());
 
@@ -885,7 +885,7 @@ public:
 };
 typedef QList<Hit> HitList;
 
-void DealerScene::startNew(long gameNumber)
+void DealerScene::startNew(int gameNumber)
 {
     if (gameNumber != -1)
         setGameNumber(gameNumber);
@@ -1510,7 +1510,7 @@ void DealerScene::waitForWonAnim(Card *c)
     }
 }
 
-long DealerScene::gameNumber() const
+int DealerScene::gameNumber() const
 {
     return gamenumber;
 }
@@ -1525,10 +1525,10 @@ void DealerScene::rescale(bool onlypiles)
     }
 }
 
-void DealerScene::setGameNumber(long gmn)
+void DealerScene::setGameNumber(int gmn)
 {
     // Deal in the range of 1 to INT_MAX.
-    gamenumber = ((gmn < 1) ? 1 : ((gmn > 0x7FFFFFFF) ? 0x7FFFFFFF : gmn));
+    gamenumber = qMax(1, gmn);
     qDeleteAll(d->undoList);
     d->undoList.clear();
     qDeleteAll(d->redoList);

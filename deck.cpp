@@ -132,9 +132,9 @@ Card* Deck::nextCard()
 // ----------------------------------------------------------------
 
 
-static long pseudoRandomSeed = 0;
+static int pseudoRandomSeed = 0;
 
-static void pseudoRandom_srand(long seed)
+static void pseudoRandom_srand(int seed)
 {
     pseudoRandomSeed=seed;
 }
@@ -144,7 +144,7 @@ static void pseudoRandom_srand(long seed)
 // http://support.microsoft.com/default.aspx?scid=kb;EN-US;Q28150
 //
 
-static long pseudoRandom_random() {
+static int pseudoRandom_random() {
     pseudoRandomSeed = 214013*pseudoRandomSeed+2531011;
     return (pseudoRandomSeed >> 16) & 0x7fff;
 }
@@ -162,7 +162,7 @@ void Deck::shuffle()
     //kDebug(11111) << "first card" << m_cards[0]->name() << " " << dscene()->gameNumber();
 
     Card* t;
-    long z;
+    int z;
     int left = mult*NumberOfCards;
     for (uint i = 0; i < mult*NumberOfCards; i++) {
         z = pseudoRandom_random() % left;
