@@ -158,6 +158,9 @@ Card *Klondike::newCards()
     if ( Deck::deck()->isEmpty() && pile->cardsLeft() <= 1 )
         return 0;
 
+    if ( pile->top() && pile->top()->animated() )
+        return pile->top();
+
     if ( Deck::deck()->isEmpty() )
     {
         // Move the cards from the pile back to the deck
