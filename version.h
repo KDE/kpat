@@ -2,7 +2,7 @@
 #define VERSION_H
 
 #ifndef KPAT_VERSION
-#define KPAT_VERSION "3.1"
+#define KPAT_VERSION "3.2"
 #endif
 
 #define settings_group "General Settings"
