@@ -253,12 +253,17 @@ void Card::flipTo(qreal x2, qreal y2, int duration)
     animation->setScaleAt( 0, 1, 1 );
     animation->setScaleAt( 0.5, 0.0, 1 );
     animation->setScaleAt( 1, 1, 1 );
+
     QPointF hp = pos();
     hp.setX( ( x1 + x2 + boundingRect().width() ) / 2 );
-    //kDebug(11111) << "flip" << name() << " " << x1 << " " << x2 << " " << y1 << " " << y2;
     if ( fabs( y1 - y2) > 2 )
         hp.setY( ( y1 + y2 + boundingRect().height() ) / 20 );
-    //kDebug(11111) << "hp" << pos() << " " << hp << " " << QPointF( x2, y2 );
+    else
+        // Workaround to bug 194775, pending a fix to Qt issue #255469. This
+        // adds a bit of arc to the flip animation, to avoid clipping that
+        // can occur during purely horizontal transformations/translations.
+        hp.ry() -= 5;
+
     animation->setPosAt(0.5, hp );
     animation->setPosAt(1, QPointF( x2, y2 ));
 
