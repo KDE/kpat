@@ -122,6 +122,9 @@ Card *Golf::newCards()
     if (Deck::deck()->isEmpty())
          return 0;
 
+    if ( waste->top() && waste->top()->animated() )
+        return waste->top();
+
     unmarkAll();
 
     Card *c = Deck::deck()->nextCard();
