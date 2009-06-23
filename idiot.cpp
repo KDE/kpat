@@ -149,6 +149,11 @@ Card *Idiot::newCards()
     if ( Deck::deck()->isEmpty() )
         return 0;
 
+    if ( waiting() )
+        for ( int i = 0; i < 4; ++i )
+            if ( m_play[i]->top() )
+                return m_play[i]->top();
+
     unmarkAll();
 
     // Move the four top cards of the deck to the piles, faceup, spread out.
