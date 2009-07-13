@@ -1650,12 +1650,14 @@ MoveHint *DealerScene::chooseHint()
     if ( d->winMoves.count() )
     {
         MOVE m = d->winMoves.takeFirst();
+#if DEBUG_HINTS
         if ( m.totype == O_Type )
             fprintf( stderr, "move from %d out (at %d) Prio: %d\n", m.from,
                      m.turn_index, m.pri );
         else
             fprintf( stderr, "move from %d to %d (%d) Prio: %d\n", m.from, m.to,
                      m.turn_index, m.pri );
+#endif
         MoveHint *mh = solver()->translateMove( m );
 
         if ( mh )
