@@ -542,10 +542,10 @@ void Pile::layoutCards(int duration)
 
     qreal divy = 1;
     if ( preferredSize.height() )
-        divy = qMin( ( maximumSpace().height() - cardMap::self()->cardHeight() ) / preferredSize.height() * 10 / cardMap::self()->cardHeight(), 1. );
+        divy = qMin<qreal>( ( maximumSpace().height() - cardMap::self()->cardHeight() ) / preferredSize.height() * 10 / cardMap::self()->cardHeight(), 1. );
     qreal divx = 1;
     if ( preferredSize.width() )
-        divx = qMin( ( maximumSpace().width() - cardMap::self()->cardWidth() ) / preferredSize.width() * 10 / cardMap::self()->cardWidth(), 1. );
+        divx = qMin<qreal>( ( maximumSpace().width() - cardMap::self()->cardWidth() ) / preferredSize.width() * 10 / cardMap::self()->cardWidth(), 1. );
 
     QPointF cardPos = pos();
     qreal z = zValue() + 1;
