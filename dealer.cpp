@@ -973,7 +973,7 @@ void DealerScene::updateWonItem()
     }
 
     // Only regenerate the pixmap if it doesn't already exist or the new one is a significantly different size.
-    if ( abs( d->wonItem->boundingRect().width() - boxWidth ) > 20 )
+    if ( qAbs( d->wonItem->boundingRect().width() - boxWidth ) > 20 )
     {
         QRect contentsRect = QRect( 0, 0, boxWidth, boxHeight );
         QPixmap pix = Render::renderElement( "message_frame", contentsRect.size() );
