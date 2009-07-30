@@ -149,10 +149,6 @@ int ClockSolver::get_possible_moves(int *a, int *numout)
             first_empty = w;
     }
 
-    // no need to move to empty if there are so few cards
-    if ( left_in_play < 8 )
-        first_empty = -1;
-
     /* No more automoves, but remember if there were any moves out. */
 
     *a = false;
