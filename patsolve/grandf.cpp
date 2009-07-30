@@ -72,7 +72,9 @@ void GrandfSolver::make_move(MOVE *m)
                     card = deck[--len];
                     int currentpile = m_redeal * 7 + i;
                     Wp[currentpile]++;
-                    *Wp[currentpile] = card + ( 1 << 7 );
+                    *Wp[currentpile] = card;
+                    if ( i != start )
+                        *Wp[currentpile] += ( 1 << 7 );
                     Wlen[currentpile]++;
                 }
                 i += dir;
@@ -317,7 +319,7 @@ int GrandfSolver::get_possible_moves(int *a, int *numout)
                 printcard( *Wp[j], stderr );
                 fprintf( stderr, " allowed %d\n",allowed );
 #endif
-                if ( allowed ) 
+                if ( allowed )
 		{
                     mp->card_index = l;
                     mp->from = i;
