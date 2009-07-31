@@ -574,6 +574,8 @@ DealerScene::DealerScene():
     d->wonItem  = new QGraphicsPixmapItem( 0, this );
     d->wonItem->setZValue( 2000 );
     d->wonItem->hide();
+
+    _usesolver = true;
 }
 
 DealerScene::~DealerScene()
