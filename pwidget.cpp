@@ -149,7 +149,7 @@ pWidget::pWidget()
 
     dropaction = actionCollection()->addAction("move_drop");
     dropaction->setText( i18nc("Automatically move cards to the foundation piles", "Dro&p") );
-    dropaction->setIcon( KIcon("legalmoves") );
+    dropaction->setIcon( KIcon("games-endturn") );
     dropaction->setShortcut( Qt::Key_P );
 
     // Configuration actions
