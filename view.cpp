@@ -80,7 +80,7 @@ void PatienceView::setScene( QGraphicsScene *_scene )
     dscene()->rescale(true);
 
     if ( oldscene )
-        dscene()->relayoutPiles();
+        dscene()->setSceneSize( size() );
 }
 
 PatienceView *PatienceView::instance()

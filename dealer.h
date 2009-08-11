@@ -181,6 +181,7 @@ public slots:
 
     State *getState();
     void setState(State *);
+    void relayoutScene();
     void relayoutPiles();
     void showWonMessage();
     void takeState();
