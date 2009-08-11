@@ -247,12 +247,12 @@ bool Pile::legalRemove(const Card *c, bool demo) const
 
 void Pile::setVisible(bool vis)
 {
+    if ( vis == isVisible() )
+        return;
+
     QGraphicsItem::setVisible(vis);
-
-    for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
-        (*it)->setVisible(vis);
-
-    dscene()->relayoutPiles();
+    foreach (Card *c, m_cards)
+        c->setVisible(vis);
 }
 
 int Pile::indexOf(const Card *c) const

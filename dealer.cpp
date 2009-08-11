@@ -1957,8 +1957,18 @@ void DealerScene::relayoutScene()
     }
 
     cardMap::self()->setCardWidth( int( n_scaleFactor * cardWidth ) );
-    cardWidth = cardMap::self()->cardWidth();
-    cardHeight = cardMap::self()->cardHeight();
+
+    relayoutPiles();
+}
+
+void DealerScene::relayoutPiles()
+{
+    if ( !d->hasScreenRect )
+        return;
+
+    QSize s = sceneRect().size().toSize();
+    int cardWidth = cardMap::self()->cardWidth();
+    int cardHeight = cardMap::self()->cardHeight();
 
     foreach ( Pile *p, piles )
     {
@@ -1977,17 +1987,6 @@ void DealerScene::relayoutScene()
 
         p->setMaximumSpace( ms );
     }
-
-    relayoutPiles();
-}
-
-void DealerScene::relayoutPiles()
-{
-    if ( !d->hasScreenRect )
-        return;
-
-    int cardWidth = cardMap::self()->cardWidth();
-    int cardHeight = cardMap::self()->cardHeight();
 
     foreach ( Pile *p, piles )
     {

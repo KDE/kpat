@@ -86,7 +86,6 @@ Spider::Spider()
         redeals[column]->setObjectName( QString( "redeals%1" ).arg( column ) );
         connect(redeals[column], SIGNAL(clicked(Card*)), SLOT(newCards()));
     }
-    redeals[0]->setReservedSpace( QSizeF( -50, 10 ) );
 
     // The 10 playing piles
     for( int column = 0; column < 10; column++ ) {
@@ -254,19 +253,24 @@ QString Spider::getGameState()
 
 void Spider::setGameState(const QString &stream)
 {
-    int i = stream.toInt();
+    int state = stream.toInt();
+    int numLegs = state / 10;
+    int numRedeals = state % 10;
 
-    m_leg = i/10;
+    if ( numRedeals != m_redeal || numLegs != m_leg )
+    {
+        m_redeal = numRedeals;
+        for ( int i = 0; i < 5; ++i )
+            redeals[i]->setVisible( i >= m_redeal );
 
-    if (m_redeal > i%10) {
-        for (m_redeal--; m_redeal > i%10; m_redeal--)
-            redeals[m_redeal]->setVisible(true);
-        redeals[m_redeal]->setVisible(true);
-    } else
-        for (; m_redeal < i%10; m_redeal++)
-            redeals[m_redeal]->setVisible(false);
+        m_leg = numLegs;
+        for ( int i = 0; i < 8; ++i )
+            legs[i]->setVisible( i <= m_leg );
 
-    emit newCardsPossible(m_redeal <= 4);
+        relayoutPiles();
+
+        emit newCardsPossible(m_redeal <= 4);
+    }
 }
 
 QString Spider::getGameOptions() const
@@ -328,6 +332,9 @@ bool Spider::checkPileDeck(Pile *check, bool checkForDemo)
         // just using the CardList to see if this goes to King
         CardList run = getRun(check->top());
         if (run.first()->rank() == Card::King) {
+            legs[m_leg]->setVisible(true);
+            relayoutPiles();
+
             CardList::iterator it = run.end();
             qreal z = 1;
             while (it != run.begin()) {
@@ -377,6 +384,12 @@ void Spider::deal()
     // make the redeal piles visible
     for (int i = 0; i < 5; i++ )
         redeals[i]->setVisible(true);
+
+    // make the leg piles invisible
+    for (int i = 0; i < 8; i++ )
+        legs[i]->setVisible(false);
+
+    relayoutPiles();
 }
 
 Card *Spider::newCards()
@@ -403,6 +416,7 @@ Card *Spider::newCards()
             checkPileDeck(stack[column]);
     }
     redeals[m_redeal++]->setVisible(false);
+    relayoutPiles();
 
     takeState();
     considerGameStarted();
