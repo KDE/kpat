@@ -88,6 +88,7 @@ protected:
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     void drawBackground ( QPainter * painter, const QRectF & rect );
+    void drawForeground ( QPainter * painter, const QRectF & rect );
 
 public:
     Pile *findTarget(Card *c);

@@ -43,7 +43,7 @@
 
 #include <cassert>
 
-
+#define DEBUG_LAYOUT 0
 #define DEBUG_HINTS 0
 
 #if 0
@@ -2098,6 +2098,47 @@ void DealerScene::drawBackground ( QPainter * painter, const QRectF & rect )
         return;
 
     painter->drawPixmap( 0, 0, Render::renderElement( "background", sceneRect().size().toSize() ) );
+}
+
+void DealerScene::drawForeground ( QPainter * painter, const QRectF & rect )
+{
+    Q_UNUSED( rect )
+    Q_UNUSED( painter )
+
+#if DEBUG_LAYOUT
+    if ( !d->hasScreenRect )
+        return;
+
+    const int cardWidth = cardMap::self()->cardWidth();
+    const int cardHeight = cardMap::self()->cardHeight();
+    foreach ( const Pile *p, piles )
+    {
+        if ( !p->isVisible() )
+            continue;
+
+        QRectF reservedRect;
+        reservedRect.moveTopLeft( p->pos() );
+        reservedRect.setWidth( qAbs( p->reservedSpace().width() / 10.0 * cardWidth ) );
+        reservedRect.setHeight( qAbs( p->reservedSpace().height() / 10.0 * cardHeight ) );
+        if ( p->reservedSpace().width() < 0 )
+            reservedRect.moveRight( p->x() + cardWidth );
+        if ( p->reservedSpace().height() < 0 )
+            reservedRect.moveBottom( p->y() + cardHeight );
+
+        QRectF availbleRect;
+        availbleRect.setSize( p->maximumSpace() );
+        availbleRect.moveTopLeft( p->pos() );
+        if ( p->reservedSpace().width() < 0 )
+            availbleRect.moveRight( p->x() + cardWidth );
+        if ( p->reservedSpace().height() < 0 )
+            availbleRect.moveBottom( p->y() + cardHeight );
+
+        painter->setPen( Qt::cyan );
+        painter->drawRect( availbleRect );
+        painter->setPen( QPen( Qt::darkRed, 1, Qt::DotLine, Qt::FlatCap ) );
+        painter->drawRect( reservedRect );
+    }
+#endif
 }
 
 QString DealerScene::save_it()
