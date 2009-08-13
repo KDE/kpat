@@ -28,6 +28,9 @@
 Idiot::Idiot( )
   : DealerScene( )
 {
+    // Since there are so few piles, we might as well set a big margin
+    setLayoutMargin( 0.6 );
+
     // Create the deck to the left.
     Deck::create_deck( this );
     Deck::deck()->setPilePos(0, 0);
