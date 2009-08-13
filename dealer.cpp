@@ -45,7 +45,7 @@
 #include <cmath>
 
 
-#define DEBUG_LAYOUT 0
+#define DEBUG_LAYOUT 1
 #define DEBUG_HINTS 0
 
 #if 0
@@ -207,6 +207,8 @@ public:
     bool hasScreenRect;
     QRectF contentsRect;
     int loadedMoveCount;
+    qreal layoutMargin;
+    qreal layoutSpacing;
 
     QTimer *demotimer;
     QTimer *stateTimer;
@@ -554,6 +556,8 @@ DealerScene::DealerScene():
     d->updateSolver->setSingleShot( true );
     d->initialDeal = true;
     d->loadedMoveCount = 0;
+    d->layoutMargin = 0.15;
+    d->layoutSpacing = 0.15;
     connect( d->updateSolver, SIGNAL(timeout()), SLOT(stopAndRestartSolver()) );
 
     d->demotimer = new QTimer(this);
@@ -1937,8 +1941,7 @@ void DealerScene::relayoutScene( const QSize &s )
     }
 
     // Add the border to the size of the contents
-    const qreal border = 0.15;
-    QSizeF sizeToFit = usedArea + 2 * QSizeF( border, border );
+    QSizeF sizeToFit = usedArea + 2 * QSizeF( d->layoutMargin, d->layoutMargin );
     QSizeF sceneSize = s.isValid() ? s : sceneRect().size();
 
     qreal scaleX = sceneSize.width() / ( cardMap::self()->cardWidth() * sizeToFit.width() );
@@ -1949,7 +1952,7 @@ void DealerScene::relayoutScene( const QSize &s )
 
     d->contentsRect = QRectF( 0, 0,
                               usedArea.width() * cardMap::self()->cardWidth(),
-                              sceneSize.height() - 2 * border * cardMap::self()->cardHeight() );
+                              sceneSize.height() - 2 * d->layoutMargin * cardMap::self()->cardHeight() );
 
     qreal xOffset = ( sceneSize.width() - d->contentsRect.width() ) / 2.0;
     qreal yOffset = ( sceneSize.height() - d->contentsRect.height() ) / 2.0;
@@ -1969,7 +1972,7 @@ void DealerScene::relayoutPiles()
     QSize s = d->contentsRect.size().toSize();
     int cardWidth = cardMap::self()->cardWidth();
     int cardHeight = cardMap::self()->cardHeight();
-    const qreal spacing = cardWidth * 0.15;
+    const qreal spacing = d->layoutSpacing * ( cardWidth + cardHeight ) / 2.0;
 
     foreach ( Pile *p, piles )
     {
@@ -2076,6 +2079,12 @@ int DealerScene::neededFutureMoves() const { return d->neededFutureMoves; }
 void DealerScene::setNeededFutureMoves( int i ) { d->neededFutureMoves = i; }
 
 QRectF DealerScene::contentArea() const { return d->contentsRect; }
+
+void DealerScene::setLayoutMargin(qreal margin) { d->layoutMargin = margin; }
+qreal DealerScene::layoutMargin() const { return d->layoutMargin; }
+
+void DealerScene::setLayoutSpacing(qreal spacing) { d->layoutSpacing = spacing; }
+qreal DealerScene::layoutSpacing() const { return d->layoutSpacing; }
 
 void DealerScene::drawBackground ( QPainter * painter, const QRectF & rect )
 {

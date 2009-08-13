@@ -85,6 +85,12 @@ public:
     void addPile(Pile *p);
     void removePile(Pile *p);
 
+    void setLayoutMargin( qreal margin );
+    qreal layoutMargin() const;
+
+    void setLayoutSpacing( qreal spacing );
+    qreal layoutSpacing() const;
+
     virtual bool checkRemove( int checkIndex, const Pile *c1, const Card *c) const;
     virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
     virtual bool checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const;
