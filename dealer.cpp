@@ -42,6 +42,8 @@
 #include <QtXml/QDomDocument>
 
 #include <cassert>
+#include <cmath>
+
 
 #define DEBUG_LAYOUT 0
 #define DEBUG_HINTS 0
@@ -203,6 +205,7 @@ public:
     int neededFutureMoves;
     QTimer *updateSolver;
     bool hasScreenRect;
+    QRectF contentsRect;
     int loadedMoveCount;
 
     QTimer *demotimer;
@@ -213,8 +216,6 @@ public:
     qreal m_autoDropFactor;
 
     bool initialDeal;
-    qreal offx;
-    qreal offy;
     bool m_autoDropOnce;
     QList<State*> redoList;
     QList<State*> undoList;
@@ -544,7 +545,6 @@ DealerScene::DealerScene():
     d->myActions = 0;
     d->m_solver = 0;
     d->m_solver_thread = 0;
-    d->offx = d->offy = 0;
     d->neededFutureMoves = 1;
     d->toldAboutLostGame = false;
     d->toldAboutWonGame = false;
@@ -1010,7 +1010,7 @@ void DealerScene::updateWonItem()
     }
 
     d->wonItem->setPos( QPointF( ( width() - d->wonItem->sceneBoundingRect().width() ) / 2,
-                                 ( height() - d->wonItem->sceneBoundingRect().height() ) / 2 ) );
+                                 ( height() - d->wonItem->sceneBoundingRect().height() ) / 2 ) + sceneRect().topLeft() );
 }
 
 void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
@@ -1905,48 +1905,55 @@ void DealerScene::recordGameStatistics()
     }
 }
 
-QPointF DealerScene::maxPilePos() const
-{
-    QPointF maxp( 0, 0 );
-    foreach ( const Pile *p, piles )
-    {
-        // we call qAbs here, because reserved space of -50 means for a pile at -1x-1 means it wants at least
-        // 49 all together. Even though the real logic should be more complex, it's enough for our current needs
-        maxp = QPointF( qMax( qAbs( p->pilePos().x() + p->reservedSpace().width() ), maxp.x() ),
-                        qMax( qAbs( p->pilePos().y() + p->reservedSpace().height() ), maxp.y() ) );
-    }
-    return maxp;
-}
-
 void DealerScene::setSceneSize( const QSize &s )
 {
-    setSceneRect( 0, 0, s.width(), s.height() );
     d->hasScreenRect = true;
 
-    relayoutScene();
+    relayoutScene( s );
 }
 
-void DealerScene::relayoutScene()
+void DealerScene::relayoutScene( const QSize &s )
 {
-    int cardWidth = cardMap::self()->cardWidth();
-    int cardHeight = cardMap::self()->cardHeight();
+    if ( !d->hasScreenRect )
+        return;
 
-    // Max pile position plus 2 units in each direction to give a 1 unit border
-    QPointF defaultSceneRect = maxPilePos() + QPointF( 2.0, 2.0 );
-    QSize s = sceneRect().size().toSize();
-
-    qreal scaleX = s.width() / ( cardWidth * defaultSceneRect.x() / 10.0 );
-    qreal scaleY = s.height() / ( cardHeight * defaultSceneRect.y() / 10.0 );
-    qreal n_scaleFactor = qMin( scaleX, scaleY );
-
-    d->offx = 0;
-    d->offy = 0; // just for completness
-    if ( n_scaleFactor < scaleX )
+    QSizeF usedArea( 0, 0 );
+    foreach ( const Pile *p, piles )
     {
-        d->offx = ( s.width() - n_scaleFactor * cardWidth * defaultSceneRect.x() / 10.0 ) / 2.0;
+        QSizeF neededPileArea;
+        if ( std::signbit( p->pilePos().x() ) == std::signbit( p->reservedSpace().width() ) )
+            neededPileArea.setWidth( qAbs( p->pilePos().x() + p->reservedSpace().width() ) );
+        else
+            neededPileArea.setWidth( qMax( qAbs( p->pilePos().x() ), qAbs( p->reservedSpace().width() ) ) );
+
+        if ( std::signbit( p->pilePos().y() ) == std::signbit( p->reservedSpace().height() ) )
+            neededPileArea.setHeight( qAbs( p->pilePos().y() + p->reservedSpace().height() ) );
+        else
+            neededPileArea.setHeight( qMax( qAbs( p->pilePos().y() ), qAbs( p->reservedSpace().height() ) ) );
+
+        usedArea = usedArea.expandedTo( neededPileArea );
     }
 
-    cardMap::self()->setCardWidth( int( n_scaleFactor * cardWidth ) );
+    // Add the border to the size of the contents
+    const qreal border = 1.5;
+    QSizeF sizeToFit = usedArea + 2 * QSizeF( border, border );
+    QSizeF sceneSize = s.isValid() ? s : sceneRect().size();
+
+    qreal scaleX = sceneSize.width() / ( cardMap::self()->cardWidth() * sizeToFit.width() / 10.0 );
+    qreal scaleY = sceneSize.height() / ( cardMap::self()->cardHeight() * sizeToFit.height() / 10.0 );
+    qreal n_scaleFactor = qMin( scaleX, scaleY );
+
+    cardMap::self()->setCardWidth( n_scaleFactor * cardMap::self()->cardWidth() );
+
+    d->contentsRect = QRectF( 0, 0,
+                              usedArea.width() / 10.0 * cardMap::self()->cardWidth(),
+                              sceneSize.height() - 2 * border / 10.0 * cardMap::self()->cardHeight() );
+
+    qreal xOffset = ( sceneSize.width() - d->contentsRect.width() ) / 2.0;
+    qreal yOffset = ( sceneSize.height() - d->contentsRect.height() ) / 2.0;
+
+    setSceneRect( -xOffset, -yOffset, sceneSize.width(), sceneSize.height() );
+
     updateWonItem();
 
     relayoutPiles();
@@ -1957,7 +1964,7 @@ void DealerScene::relayoutPiles()
     if ( !d->hasScreenRect )
         return;
 
-    QSize s = sceneRect().size().toSize();
+    QSize s = d->contentsRect.size().toSize();
     int cardWidth = cardMap::self()->cardWidth();
     int cardHeight = cardMap::self()->cardHeight();
 
@@ -2061,7 +2068,6 @@ void DealerScene::relayoutPiles()
 
     foreach ( Pile *p, piles )
         p->relayoutCards();
-
 }
 
 void DealerScene::setGameId(int id) { d->_id = id; }
@@ -2075,8 +2081,7 @@ Solver *DealerScene::solver() const { return d->m_solver; }
 int DealerScene::neededFutureMoves() const { return d->neededFutureMoves; }
 void DealerScene::setNeededFutureMoves( int i ) { d->neededFutureMoves = i; }
 
-qreal DealerScene::offsetX() const { return d->offx; }
-qreal DealerScene::offsetY() const { return d->offy; }
+QRectF DealerScene::contentArea() const { return d->contentsRect; }
 
 void DealerScene::drawBackground ( QPainter * painter, const QRectF & rect )
 {
@@ -2084,7 +2089,13 @@ void DealerScene::drawBackground ( QPainter * painter, const QRectF & rect )
     if ( !d->hasScreenRect )
         return;
 
-    painter->drawPixmap( 0, 0, Render::renderElement( "background", sceneRect().size().toSize() ) );
+    painter->drawPixmap( sceneRect().topLeft().toPoint(), Render::renderElement( "background", sceneRect().size().toSize() ) );
+
+#if DEBUG_LAYOUT
+    painter->setPen( Qt::black );
+    painter->setBrush( Qt::white );
+    painter->drawRect( d->contentsRect );
+#endif
 }
 
 void DealerScene::drawForeground ( QPainter * painter, const QRectF & rect )

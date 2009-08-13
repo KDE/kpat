@@ -148,15 +148,14 @@ void Pile::rescale()
     if (!scene())
         return;
 
-    QPointF new_pos = QPointF( _pilePos.x() * cardMap::self()->cardWidth() / 10.,
-                               _pilePos.y() * cardMap::self()->cardHeight() / 10. );
-    //kDebug(11111) << scene()->sceneRect() << pos() << new_pos << dscene()->offsetX();
+    QPointF new_pos = QPointF( _pilePos.x() * cardMap::self()->cardWidth() / 10.0,
+                               _pilePos.y() * cardMap::self()->cardHeight() / 10.0 );
+
     if ( new_pos.x() < 0 )
-        new_pos.setX( scene()->width() - cardMap::self()->cardWidth() + new_pos.x() );
-    else
-        new_pos.rx() += dscene()->offsetX();
+        new_pos.setX( dscene()->contentArea().width() - cardMap::self()->cardWidth() + new_pos.x() );
+
     if ( new_pos.y() < 0 )
-        new_pos.setY( scene()->height() - cardMap::self()->cardHeight() + new_pos.y() );
+        new_pos.setY( dscene()->contentArea().height() - cardMap::self()->cardHeight() + new_pos.y() );
 
     if ( new_pos != pos() )
     {

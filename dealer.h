@@ -138,9 +138,7 @@ public:
     virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
     virtual bool checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const;
 
-    QPointF maxPilePos() const;
-    qreal offsetX() const;
-    qreal offsetY() const;
+    QRectF contentArea() const;
 
     void setSceneSize( const QSize &s );
 
@@ -181,7 +179,7 @@ public slots:
 
     State *getState();
     void setState(State *);
-    void relayoutScene();
+    void relayoutScene(const QSize& s = QSize());
     void relayoutPiles();
     void showWonMessage();
     void takeState();

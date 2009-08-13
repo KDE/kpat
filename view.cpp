@@ -77,8 +77,6 @@ void PatienceView::setScene( QGraphicsScene *_scene )
     QGraphicsView::setScene( _scene );
     resetCachedContent();
     delete oldscene;
-    dscene()->rescale(true);
-
     if ( oldscene )
         dscene()->setSceneSize( size() );
 }
