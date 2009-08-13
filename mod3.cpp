@@ -53,6 +53,10 @@ public:
 Mod3::Mod3( )
     : DealerScene( )
 {
+    // Piles are placed very close together. Set layoutSpacing to 0 to prevent
+    // interference between them.
+    setLayoutSpacing(0.0);
+
     const qreal dist_x = 1.114;
     const qreal dist_y = 1.31;
     const qreal bottomRowY = 3 * dist_y + 0.2;
@@ -82,7 +86,9 @@ Mod3::Mod3( )
                 stack[r][c]->setCheckIndex( 0 );
                 stack[r][c]->setTarget(true);
                 stack[r][c]->setAddFlags( Pile::addSpread );
-                stack[r][c]->setSpread( 0.5 );
+                // Very tight spread makes it easy to quickly tell number of
+                // cards in each pile and we don't care about the cards beneath.
+                stack[r][c]->setSpread( 0.08 );
                 stack[r][c]->setObjectName( QString( "stack%1_%2" ).arg( r ).arg( c ) );
                 stack[r][c]->setReservedSpace( QSizeF( 1.0, 1.23 ) );
             } else {
