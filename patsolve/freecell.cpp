@@ -90,12 +90,12 @@ void FreecellSolver::prioritize(MOVE *mp0, int n)
 	give higher priority to the moves that remove cards from the piles
 	containing these cards. */
 
-	for (i = 0; i < NNEED; i++) {
+	for (i = 0; i < NNEED; ++i) {
 		pile[i] = -1;
 	}
 	npile = 0;
 
-	for (s = 0; s < 4; s++) {
+	for (s = 0; s < 4; ++s) {
 		need[s] = NONE;
 		if (O[s] == NONE) {
 			need[s] = Osuit[s] + PS_ACE;
@@ -108,9 +108,9 @@ void FreecellSolver::prioritize(MOVE *mp0, int n)
 	like maybe an array that keeps track of every card; if maintaining
 	such an array is not too expensive. */
 
-	for (w = 0; w < Nwpiles; w++) {
+	for (w = 0; w < Nwpiles; ++w) {
 		j = Wlen[w];
-		for (i = 0; i < j; i++) {
+		for (i = 0; i < j; ++i) {
 			card = W[w][i];
 			s = SUIT(card);
 
@@ -136,17 +136,17 @@ void FreecellSolver::prioritize(MOVE *mp0, int n)
 	covers a card we need, decrease its priority.  These priority
 	increments and decrements were determined empirically. */
 
-	for (i = 0, mp = mp0; i < n; i++, mp++) {
+	for (i = 0, mp = mp0; i < n; ++i, ++mp) {
 		if (mp->card_index != -1) {
 			w = mp->from;
-			for (j = 0; j < npile; j++) {
+			for (j = 0; j < npile; ++j) {
 				if (w == pile[j]) {
 					mp->pri += Xparam[0];
 				}
 			}
 			if (Wlen[w] > 1) {
 				card = W[w][Wlen[w] - 2];
-				for (s = 0; s < 4; s++) {
+				for (s = 0; s < 4; ++s) {
 					if (card == need[s]) {
 						mp->pri += Xparam[1];
 						break;
@@ -154,7 +154,7 @@ void FreecellSolver::prioritize(MOVE *mp0, int n)
 				}
 			}
 			if (mp->totype == W_Type) {
-				for (j = 0; j < npile; j++) {
+				for (j = 0; j < npile; ++j) {
 					if (mp->to == pile[j]) {
 						mp->pri -= Xparam[2];
 					}
@@ -218,7 +218,7 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
 
 	n = 0;
 	mp = Possible;
-	for (w = 0; w < Nwpiles + Ntpiles; w++) {
+	for (w = 0; w < Nwpiles + Ntpiles; ++w) {
 		if (Wlen[w] > 0) {
 			card = *Wp[w];
 			o = SUIT(card);
@@ -258,14 +258,14 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
 	empty W cells. */
 
 	emptyw = -1;
-	for (w = 0; w < Nwpiles; w++) {
+	for (w = 0; w < Nwpiles; ++w) {
 		if (Wlen[w] == 0) {
 			emptyw = w;
 			break;
 		}
 	}
 	if (emptyw >= 0) {
-		for (i = 0; i < Nwpiles + Ntpiles; i++) {
+		for (i = 0; i < Nwpiles + Ntpiles; ++i) {
 			if (i == emptyw || Wlen[i] == 0) {
 				continue;
 			}
@@ -293,10 +293,10 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
 
 	/* Check for moves from W to non-empty W cells. */
 
-	for (i = 0; i < Nwpiles + Ntpiles; i++) {
+	for (i = 0; i < Nwpiles + Ntpiles; ++i) {
 		if (Wlen[i] > 0) {
 			card = *Wp[i];
-			for (w = 0; w < Nwpiles; w++) {
+			for (w = 0; w < Nwpiles; ++w) {
 				if (i == w) {
 					continue;
 				}
@@ -321,14 +321,14 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
 
         /* Check for moves from W to one of any empty T cells. */
 
-        for (t = 0; t < Ntpiles; t++) {
+        for (t = 0; t < Ntpiles; ++t) {
                if (!Wlen[t+Nwpiles]) {
                        break;
                }
         }
 
         if (t < Ntpiles) {
-               for (w = 0; w < Nwpiles; w++) {
+               for (w = 0; w < Nwpiles; ++w) {
                        if (Wlen[w] > 0) {
                                card = *Wp[w];
                                mp->card_index = 0;
@@ -362,7 +362,7 @@ void FreecellSolver::unpack_cluster( int k )
 bool FreecellSolver::isWon()
 {
     // maybe won?
-    for (int o = 0; o < 4; o++) {
+    for (int o = 0; o < 4; ++o) {
         if (O[o] != PS_KING) {
             return false;
         }
@@ -414,7 +414,7 @@ void FreecellSolver::translate_layout()
 
 	/* Temp cells may have some cards too. */
 
-	for (int w = 0; w < Ntpiles; w++)
+	for (int w = 0; w < Ntpiles; ++w)
         {
             int i = translate_pile( deal->freecell[w], W[w+Nwpiles], 52 );
             Wp[w+Nwpiles] = &W[w+Nwpiles][i-1];
@@ -423,11 +423,11 @@ void FreecellSolver::translate_layout()
 	}
 
 	/* Output piles, if any. */
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < 4; ++i) {
 		O[i] = NONE;
 	}
 	if (total != 52) {
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 4; ++i) {
                 Card *c = deal->target[i]->top();
                 if (c) {
                     O[translateSuit( c->suit() ) >> 4] = c->rank();
@@ -452,7 +452,7 @@ MoveHint *FreecellSolver::translateMove( const MOVE &m )
     {
         Pile *target = 0;
         Pile *empty = 0;
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; ++i) {
             Card *c = deal->target[i]->top();
             if (c) {
                 if ( c->suit() == card->suit() )
@@ -491,17 +491,17 @@ void FreecellSolver::print_layout()
        int i, t, w, o;
 
        fprintf(stderr, "print-layout-begin\n");
-       for (w = 0; w < Nwpiles; w++) {
-               for (i = 0; i < Wlen[w]; i++) {
+       for (w = 0; w < Nwpiles; ++w) {
+               for (i = 0; i < Wlen[w]; ++i) {
                        printcard(W[w][i], stderr);
                }
                fputc('\n', stderr);
        }
-       for (t = 0; t < Ntpiles; t++) {
+       for (t = 0; t < Ntpiles; ++t) {
            printcard(W[t+Nwpiles][Wlen[t+Nwpiles]], stderr);
        }
        fprintf( stderr, "\n" );
-       for (o = 0; o < 4; o++) {
+       for (o = 0; o < 4; ++o) {
                printcard(O[o] + Osuit[o], stderr);
        }
        fprintf(stderr, "\nprint-layout-end\n");

@@ -82,7 +82,7 @@ void KlondikeSolver::make_move(MOVE *m)
             return;
         }
 
-        for ( int l = m->card_index; l >= 0; l-- )
+        for ( int l = m->card_index; l >= 0; --l )
         {
             card = W[from][Wlen[from]-l-1];
             Wp[from]--;
@@ -200,7 +200,7 @@ void KlondikeSolver::undo_move(MOVE *m)
             *Wp[from] = card;
             Wlen[from]++;
         } else {
-            for ( int l = m->card_index; l >= 0; l-- )
+            for ( int l = m->card_index; l >= 0; --l )
             {
                 card = W[to][Wlen[to]-l-1];
                 Wp[from]++;
@@ -282,7 +282,7 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
 
     int n = 0;
     mp = Possible;
-    for (w = 0; w < 8; w++) {
+    for (w = 0; w < 8; ++w) {
         if (Wlen[w] > 0) {
             card = *Wp[w];
             o = SUIT(card);
@@ -335,14 +335,14 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
     // we first check where to put a king, so we don't
     // try each king on each empty pile
     int first_empty_pile = -1;
-    for(int i=0; i<8; i++)
+    for(int i=0; i<8; ++i)
         if ( !Wlen[i] )
         {
             first_empty_pile = i;
             break;
         }
 
-    for(int i=0; i<8; i++)
+    for(int i=0; i<8; ++i)
     {
         int len = Wlen[i];
         if ( i == 7 && Wlen[i] > 0)
@@ -353,7 +353,7 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
             if ( DOWN( card ) )
                 break;
 
-            for (int j = 0; j < 7; j++)
+            for (int j = 0; j < 7; ++j)
             {
                 if (i == j)
                     continue;
@@ -446,7 +446,7 @@ void KlondikeSolver::unpack_cluster( int k )
 bool KlondikeSolver::isWon()
 {
     // maybe won?
-    for (int o = 0; o < 4; o++) {
+    for (int o = 0; o < 4; ++o) {
         if (O[o] != PS_KING) {
             return false;
         }
@@ -498,11 +498,11 @@ void KlondikeSolver::translate_layout()
     total += i;
 
     /* Output piles, if any. */
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; ++i) {
         O[i] = NONE;
     }
     if (total != 52) {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; ++i) {
             Card *c = deal->target[i]->top();
             if (c) {
                 O[translateSuit( c->suit() ) >> 4] = c->rank();
@@ -539,7 +539,7 @@ MoveHint *KlondikeSolver::translateMove( const MOVE &m )
     {
         Pile *target = 0;
         Pile *empty = 0;
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; ++i) {
             Card *c = deal->target[i]->top();
             if (c) {
                 if ( c->suit() == card->suit() )
@@ -569,20 +569,20 @@ void KlondikeSolver::print_layout()
     int i, w, o;
 
     fprintf(stderr, "print-layout-begin\n");
-    for (w = 0; w < 9; w++) {
+    for (w = 0; w < 9; ++w) {
         if ( w == 8 )
             fprintf( stderr, "Deck: " );
         else if ( w == 7 )
             fprintf( stderr, "Pile: " );
         else
             fprintf( stderr, "Play%d: ", w );
-        for (i = 0; i < Wlen[w]; i++) {
+        for (i = 0; i < Wlen[w]; ++i) {
             printcard(W[w][i], stderr);
         }
         fputc('\n', stderr);
     }
     fprintf( stderr, "Off: " );
-    for (o = 0; o < 4; o++) {
+    for (o = 0; o < 4; ++o) {
         printcard(O[o] + Osuit[o], stderr);
     }
     fprintf(stderr, "\nprint-layout-end\n");

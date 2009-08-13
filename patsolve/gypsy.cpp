@@ -55,7 +55,7 @@ void GypsySolver::make_move(MOVE *m)
     }
 
     card_t card = NONE;
-    for ( int l = m->card_index; l >= 0; l-- )
+    for ( int l = m->card_index; l >= 0; --l )
     {
         card = W[from][Wlen[from]-l-1];
         Wp[from]--;
@@ -166,7 +166,7 @@ void GypsySolver::undo_move(MOVE *m)
         Wlen[from]++;
         hashpile( to );
     } else {
-        for ( int l = m->card_index; l >= 0; l-- )
+        for ( int l = m->card_index; l >= 0; --l )
         {
             card = W[to][Wlen[to]-l-1];
             Wp[from]++;
@@ -263,7 +263,7 @@ int GypsySolver::get_possible_moves(int *a, int *numout)
 
     int n = 0;
     mp = Possible;
-    for (int w = 0; w < 8; w++) {
+    for (int w = 0; w < 8; ++w) {
         if (Wlen[w] > 0) {
             card_t card = *Wp[w];
             int o = SUIT(card);
@@ -303,7 +303,7 @@ int GypsySolver::get_possible_moves(int *a, int *numout)
     *a = false;
     *numout = n;
 
-    for(int i=0; i<8; i++)
+    for(int i=0; i<8; ++i)
     {
         int len = Wlen[i];
         for (int l=0; l < len; ++l )
@@ -321,7 +321,7 @@ int GypsySolver::get_possible_moves(int *a, int *numout)
             }
 
             bool wasempty = false;
-            for (int j = 0; j < 8; j++)
+            for (int j = 0; j < 8; ++j)
             {
                 if (i == j)
                     continue;
@@ -404,7 +404,7 @@ void GypsySolver::unpack_cluster( int )
 bool GypsySolver::isWon()
 {
     // maybe won?
-    for (int o = 0; o < 8; o++)
+    for (int o = 0; o < 8; ++o)
     {
         if ( ( Wlen[outs + o] == 0 ) || ( RANK( *Wp[outs + o] ) != PS_KING ) )
             return false;
@@ -416,7 +416,7 @@ bool GypsySolver::isWon()
 int GypsySolver::getOuts()
 {
     int k = 0;
-    for (int o = 0; o < 8; o++)
+    for (int o = 0; o < 8; ++o)
         if ( Wlen[outs + o] )
             k += RANK( *Wp[outs + o] );
 
@@ -436,7 +436,7 @@ GypsySolver::GypsySolver(const Gypsy *dealer)
     params[3] = 19;
     params[4] = 5;
     params[5] = 10;
-    for ( int i = 1; i <= 6; i++ )
+    for ( int i = 1; i <= 6; ++i )
     {
         sprintf( buffer, "DECK%d", i );
         const QByteArray env = qgetenv( buffer );
@@ -465,13 +465,13 @@ void GypsySolver::translate_layout()
     outs = 9;
 
     /* Output piles, if any. */
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 8; ++i)
     {
         Wlen[outs + i] = 0;
         Wp[outs + i] = &W[outs + i][-1];
     }
 
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 8; ++i) {
         Card *c = deal->target[i]->top();
         if (c) {
             int suit = translateSuit( c->suit() ) >> 4;
@@ -495,20 +495,20 @@ void GypsySolver::print_layout()
     int i, w, o;
 
     fprintf(stderr, "print-layout-begin\n");
-    for (w = 0; w < 8; w++) {
+    for (w = 0; w < 8; ++w) {
         fprintf( stderr, "Play%d: ", w );
-        for (i = 0; i < Wlen[w]; i++) {
+        for (i = 0; i < Wlen[w]; ++i) {
             printcard(W[w][i], stderr);
         }
         fputc('\n', stderr);
     }
     fprintf( stderr, "Off: " );
-    for (o = 0; o < 8; o++) {
+    for (o = 0; o < 8; ++o) {
         if ( Wlen[outs + o] )
             printcard( *Wp[outs + o], stderr);
     }
     fprintf( stderr, "\nDeck: " );
-    for (i = 0; i < Wlen[deck]; i++)
+    for (i = 0; i < Wlen[deck]; ++i)
         printcard(W[deck][i], stderr);
 
     fprintf(stderr, "\nprint-layout-end\n");
@@ -528,7 +528,7 @@ MoveHint *GypsySolver::translateMove( const MOVE &m )
     {
         Pile *target = 0;
         Pile *empty = 0;
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 8; ++i) {
             Card *c = deal->target[i]->top();
             if (c) {
                 if ( c->suit() == card->suit() && c->rank() == card->rank() - 1)

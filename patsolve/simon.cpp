@@ -47,7 +47,7 @@ void SimonSolver::make_move(MOVE *m)
             return;
         }
 
-        for ( int l = m->card_index; l >= 0; l-- )
+        for ( int l = m->card_index; l >= 0; --l )
         {
             card = W[from][Wlen[from]-l-1];
             Wp[from]--;
@@ -85,7 +85,7 @@ void SimonSolver::undo_move(MOVE *m)
 	to = m->to;
 
         if (m->totype == O_Type) {
-            for ( int j = PS_KING; j >= PS_ACE; j-- )
+            for ( int j = PS_KING; j >= PS_ACE; --j )
             {
                 Wp[from]++;
                 *Wp[from] = O[to] + j;
@@ -108,7 +108,7 @@ void SimonSolver::undo_move(MOVE *m)
             *Wp[from] = card2;
         }
 
-        for ( int l = m->card_index; l >= 0; l-- )
+        for ( int l = m->card_index; l >= 0; --l )
         {
             card = W[to][Wlen[to]-l-1];
             Wp[from]++;
@@ -134,12 +134,12 @@ int SimonSolver::get_possible_moves(int *a, int *numout)
 
     int n = 0;
     mp = Possible;
-    for (int w = 0; w < 10; w++) {
+    for (int w = 0; w < 10; ++w) {
         if (Wlen[w] >= 13 && RANK( *Wp[w] ) == PS_ACE )
         {
             int ace_suit = SUIT( *Wp[w] );
             bool stroke = true;
-            for ( int l = 0; l < 13; l++ )
+            for ( int l = 0; l < 13; ++l )
             {
                 if ( RANK( W[w][Wlen[w]-l-1] ) != l+1 ||
                      SUIT( W[w][Wlen[w]-l-1] ) != ace_suit )
@@ -174,7 +174,7 @@ int SimonSolver::get_possible_moves(int *a, int *numout)
     *numout = n;
 
     int conti[10];
-    for ( int j = 0; j < 10; j++ )
+    for ( int j = 0; j < 10; ++j )
     {
         conti[j] = 0;
         for ( ; conti[j] < Wlen[j]-1; ++conti[j] )
@@ -191,7 +191,7 @@ int SimonSolver::get_possible_moves(int *a, int *numout)
 
     bool foundgood = false;
 
-    for(int i=0; i<10; i++)
+    for(int i=0; i<10; ++i)
     {
         int len = Wlen[i];
         for (int l=0; l < len; ++l )
@@ -209,7 +209,7 @@ int SimonSolver::get_possible_moves(int *a, int *numout)
             }
 
             bool wasempty = false;
-            for (int j = 0; j < 10; j++)
+            for (int j = 0; j < 10; ++j)
             {
                 if (i == j)
                     continue;
@@ -278,7 +278,7 @@ int SimonSolver::get_possible_moves(int *a, int *numout)
 
                     /* and now check what sequence we open */
                     int conti_pos = l+1;
-                    for ( ; conti_pos < Wlen[i]-1; conti_pos++ )
+                    for ( ; conti_pos < Wlen[i]-1; ++conti_pos )
                     {
                         card_t top = W[i][Wlen[i]-l-2];
                         card_t theone = W[i][Wlen[i]-conti_pos-1];
@@ -322,7 +322,7 @@ void SimonSolver::unpack_cluster( int k )
 bool SimonSolver::isWon()
 {
     // maybe won?
-    for (int o = 0; o < 4; o++)
+    for (int o = 0; o < 4; ++o)
         if (O[o] == -1)
             return false;
 
@@ -332,7 +332,7 @@ bool SimonSolver::isWon()
 int SimonSolver::getOuts()
 {
     int k = 0;
-    for (int o = 0; o < 4; o++)
+    for (int o = 0; o < 4; ++o)
         if (O[o])
             k += 13;
 
@@ -361,7 +361,7 @@ void SimonSolver::translate_layout()
         total += i;
     }
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; ++i) {
         O[i] = -1;
         Card *c = deal->target[i]->top();
         if (c) {
@@ -387,16 +387,16 @@ void SimonSolver::print_layout()
     int i, w, o;
 
     fprintf(stderr, "print-layout-begin\n");
-    for (w = 0; w < 10; w++) {
+    for (w = 0; w < 10; ++w) {
         Q_ASSERT( Wp[w] == &W[w][Wlen[w]-1] );
         fprintf( stderr, "Play%d: ", w );
-        for (i = 0; i < Wlen[w]; i++) {
+        for (i = 0; i < Wlen[w]; ++i) {
             printcard(W[w][i], stderr);
         }
         fputc('\n', stderr);
     }
     fprintf( stderr, "Off: " );
-    for (o = 0; o < 4; o++) {
+    for (o = 0; o < 4; ++o) {
         if ( O[o] != -1 )
             printcard( O[o] + PS_KING, stderr);
     }
@@ -415,7 +415,7 @@ MoveHint *SimonSolver::translateMove( const MOVE &m )
     kDebug(11111) << "card" << card->rank() << " " << card->suit();
     if ( m.totype == O_Type )
     {
-        for ( int i = 0; i < 4; i++ )
+        for ( int i = 0; i < 4; ++i )
             if ( deal->target[i]->isEmpty() )
                 return new MoveHint( card, deal->target[i], 127 );
     }

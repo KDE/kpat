@@ -115,7 +115,7 @@ bool Solver::recursive(POSITION *parent)
         return false;
     }
     MOVE *mp = mp0;
-    for (i = 0; i < alln; i++) {
+    for (i = 0; i < alln; ++i) {
         if (Possible[i].card_index != -1) {
             *mp = Possible[i];      /* struct copy */
             mp++;
@@ -125,7 +125,7 @@ bool Solver::recursive(POSITION *parent)
     ++alln;
 
     bool fit = false;
-    for (mp = mp0; mp->card_index != -1; mp++) {
+    for (mp = mp0; mp->card_index != -1; ++mp) {
 
         int depth = 0;
         if (parent != NULL)
@@ -252,20 +252,20 @@ MOVE *Solver::get_moves(int *nmoves)
 	*nmoves = n;
 	i = 0;
 	if (a || numout == 0) {
-		for (i = 0; i < alln; i++) {
+		for (i = 0; i < alln; ++i) {
 			if (Possible[i].card_index != -1) {
 				*mp = Possible[i];      /* struct copy */
 				mp++;
 			}
 		}
 	} else {
-		for (i = numout; i < alln; i++) {
+		for (i = numout; i < alln; ++i) {
 			if (Possible[i].card_index != -1) {
 				*mp = Possible[i];      /* struct copy */
 				mp++;
 			}
 		}
-		for (i = 0; i < numout; i++) {
+		for (i = 0; i < numout; ++i) {
 			if (Possible[i].card_index != -1) {
 				*mp = Possible[i];      /* struct copy */
 				mp++;
@@ -362,7 +362,7 @@ TREE *Solver::pack_position(void)
 
 	k = 0;
         quint16 *p2 = ( quint16* ) p;
-	for (w = 0; w < m_number_piles; w++) {
+	for (w = 0; w < m_number_piles; ++w) {
 		j = Wpilenum[w];
                 if ( j < 0 )
                 {
@@ -466,7 +466,7 @@ void Solver::win(POSITION *pos)
         *mpp-- = &p->move;
     }
 
-    for (i = 0, mpp = mpp0; i < nmoves; i++, mpp++)
+    for (i = 0, mpp = mpp0; i < nmoves; ++i, ++mpp)
         winMoves.append( **mpp );
 
     MemoryManager::free_array(mpp0, nmoves);
@@ -573,7 +573,7 @@ int Solver::get_pilenum(int w)
 #if 0
 if (w < 4) {
         fprintf( stderr, "get_pile_num %d ", l->pilenum );
-        for (int i = 0; i < Wlen[w]; i++) {
+        for (int i = 0; i < Wlen[w]; ++i) {
             printcard(W[w][i], stderr);
         }
         fprintf( stderr, "\n" );
@@ -614,7 +614,7 @@ void Solver::doit()
 
 	/* Init the queues. */
 
-	for (i = 0; i < NQUEUES; i++) {
+	for (i = 0; i < NQUEUES; ++i) {
 		Qhead[i] = NULL;
 	}
 	Maxq = 0;
@@ -690,7 +690,7 @@ bool Solver::solve(POSITION *parent)
         if ( parent->depth == 0 )
         {
             Q_ASSERT( firstMoves.count() == 0 );
-            for (int j = 0; j < nmoves; j++)
+            for (int j = 0; j < nmoves; ++j)
                 firstMoves.append( Possible[j] );
         }
 
@@ -699,7 +699,7 @@ bool Solver::solve(POSITION *parent)
 	/* Make each move and either solve or queue the result. */
 
 	q = false;
-	for (i = 0, mp = mp0; i < nmoves; i++, mp++) {
+	for (i = 0, mp = mp0; i < nmoves; ++i, ++mp) {
 		make_move(mp);
 
 		/* Calculate indices for the new piles. */
@@ -880,7 +880,7 @@ Solver::~Solver()
 {
     delete mm;
 
-    for ( int i = 0; i < m_number_piles; i++ )
+    for ( int i = 0; i < m_number_piles; ++i )
     {
         delete [] W[i];
     }
@@ -952,7 +952,7 @@ void Solver::setNumberPiles( int p )
 
     /* Work arrays. */
     W = new card_t*[m_number_piles];
-    for ( int i = 0; i < m_number_piles; i++ )
+    for ( int i = 0; i < m_number_piles; ++i )
     {
         W[i] = new card_t[84];
         memset( W[i], 0, sizeof( card_t ) * 84 );
@@ -1079,7 +1079,7 @@ POSITION *Solver::new_position(POSITION *parent, MOVE *m)
 #if 0
         QString dummy;
         quint16 *t = ( quint16* )( ( char* )node + sizeof( TREE ) );
-        for ( int i = 0; i < m_number_piles; i++ )
+        for ( int i = 0; i < m_number_piles; ++i )
         {
             QString s = "      " + QString( "%1" ).arg( ( int )t[i] );
             dummy += s.right( 5 );

@@ -401,7 +401,7 @@ void Mod3Solver::print_layout()
     for (int col = 0; col < 8; col++)
     {
         fprintf( stderr, "Play%02d: ", w );
-        for (i = 0; i < Wlen[w]; i++) {
+        for (i = 0; i < Wlen[w]; ++i) {
             printcard(W[w][i], stderr);
         }
         fputc('\n', stderr);
@@ -409,13 +409,13 @@ void Mod3Solver::print_layout()
     }
 
     fprintf( stderr, "Aces: " );
-    for (o = 0; o < Wlen[aces]; o++) {
+    for (o = 0; o < Wlen[aces]; ++o) {
         printcard(W[aces][o], stderr);
     }
     fputc( '\n', stderr );
 
     fprintf( stderr, "Deck: " );
-    for (o = 0; o < Wlen[deck]; o++) {
+    for (o = 0; o < Wlen[deck]; ++o) {
         printcard(W[deck][o], stderr);
     }
 

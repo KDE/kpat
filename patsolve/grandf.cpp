@@ -41,13 +41,13 @@ void GrandfSolver::make_move(MOVE *m)
         card_t deck[52];
         int len = 0;
 
-        for ( int i = m_redeal * 7; i < m_redeal * 7 + 7; i++ )
+        for ( int i = m_redeal * 7; i < m_redeal * 7 + 7; ++i )
         {
             Wlen[i] = 0;
             Wp[i] = &W[i][-1];
         }
 
-        for (int pos = 6; pos >= 0; pos--)
+        for (int pos = 6; pos >= 0; --pos)
         {
             int oldpile = ( m_redeal - 1 ) * 7 + pos;
             for ( int l = 0; l < Wlen[oldpile]; ++l )
@@ -61,7 +61,7 @@ void GrandfSolver::make_move(MOVE *m)
         int stop = 7-1;
         int dir = 1;
 
-        for (int round=0; round < 7; round++)
+        for (int round=0; round < 7; ++round)
         {
             int i = start;
             do
@@ -96,7 +96,7 @@ void GrandfSolver::make_move(MOVE *m)
             j = (j+1)%6;
         }
 
-        for (int round=0; round < 7; round++)
+        for (int round=0; round < 7; ++round)
         {
             int currentpile = m_redeal * 7 + round;
             if ( Wlen[currentpile] )
@@ -114,7 +114,7 @@ void GrandfSolver::make_move(MOVE *m)
         return;
     }
 
-    for ( int l = m->card_index; l >= 0; l-- )
+    for ( int l = m->card_index; l >= 0; --l )
     {
         card = W[from][Wlen[from]-l-1];
         Wp[from]--;
@@ -212,7 +212,7 @@ void GrandfSolver::undo_move(MOVE *m)
         *Wp[from] = card;
         Wlen[from]++;
     } else {
-        for ( int l = m->card_index; l >= 0; l-- )
+        for ( int l = m->card_index; l >= 0; --l )
         {
             card = W[to][Wlen[to]-l-1];
             Wp[from]++;
@@ -253,7 +253,7 @@ int GrandfSolver::get_possible_moves(int *a, int *numout)
     int n = 0;
     mp = Possible;
 
-    for (w = m_redeal * 7 + 0; w < m_redeal * 7 + 7; w++) {
+    for (w = m_redeal * 7 + 0; w < m_redeal * 7 + 7; ++w) {
         if (Wlen[w] > 0) {
             card = *Wp[w];
             o = SUIT(card);
@@ -283,7 +283,7 @@ int GrandfSolver::get_possible_moves(int *a, int *numout)
     *a = false;
     *numout = n;
 
-    for(int i= m_redeal * 7 + 0; i < m_redeal * 7 + 7; i++)
+    for(int i= m_redeal * 7 + 0; i < m_redeal * 7 + 7; ++i)
     {
         int len = Wlen[i];
         for (int l=0; l < len; ++l )
@@ -292,7 +292,7 @@ int GrandfSolver::get_possible_moves(int *a, int *numout)
             if ( DOWN( card ) )
                 break;
 
-            for (int j = m_redeal * 7 + 0; j < m_redeal * 7 + 7; j++)
+            for (int j = m_redeal * 7 + 0; j < m_redeal * 7 + 7; ++j)
             {
                 if (i == j)
                     continue;
@@ -369,7 +369,7 @@ void GrandfSolver::unpack_cluster( int k )
 bool GrandfSolver::isWon()
 {
     // maybe won?
-    for (int o = 0; o < 4; o++) {
+    for (int o = 0; o < 4; ++o) {
         if (RANK( W[offs][o] ) != PS_KING) {
             return false;
         }
@@ -424,7 +424,7 @@ void GrandfSolver::translate_layout()
     for ( int i = 0; i < 4; ++i )
         W[offs][i] = NONE;
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; ++i) {
         Card *c = deal->target[i]->top();
         if (c)
             W[offs][translateSuit( c->suit() ) >> 4] = translateSuit( c->suit() ) + c->rank();
@@ -450,7 +450,7 @@ MoveHint *GrandfSolver::translateMove( const MOVE &m )
     {
         Pile *target = 0;
         Pile *empty = 0;
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; ++i) {
             Card *c = deal->target[i]->top();
             if (c) {
                 if ( c->suit() == card->suit() )
@@ -475,15 +475,15 @@ void GrandfSolver::print_layout()
     int i, w, o;
 
     fprintf(stderr, "print-layout-begin\n");
-    for (w = 0; w < 21; w++) {
+    for (w = 0; w < 21; ++w) {
         fprintf( stderr, "Play%d-%d(%d): ", w / 7, w % 7, w );
-        for (i = 0; i < Wlen[w]; i++) {
+        for (i = 0; i < Wlen[w]; ++i) {
             printcard(W[w][i], stderr);
         }
         fputc('\n', stderr);
     }
     fprintf( stderr, "Off: " );
-    for (o = 0; o < 4; o++) {
+    for (o = 0; o < 4; ++o) {
         if ( !DOWN( W[offs][o] ) )
             printcard(RANK( W[offs][o] ) + Osuit[o], stderr);
     }

@@ -113,7 +113,7 @@ int ClockSolver::get_possible_moves(int *a, int *numout)
     int left_in_play = 0;
     int n = 0;
     mp = Possible;
-    for (w = 0; w < 8; w++)
+    for (w = 0; w < 8; ++w)
     {
         left_in_play += Wlen[w];
 
@@ -121,7 +121,7 @@ int ClockSolver::get_possible_moves(int *a, int *numout)
         {
             card = *Wp[w];
             o = SUIT(card);
-            for ( int i = 0; i < 12; i++ )
+            for ( int i = 0; i < 12; ++i )
             {
                 if ( o != SUIT( W[8][i] ) )
                     continue;
@@ -154,7 +154,7 @@ int ClockSolver::get_possible_moves(int *a, int *numout)
     *a = false;
     *numout = n;
 
-    for(int i=0; i<8; i++)
+    for(int i=0; i<8; ++i)
     {
         if ( !Wlen[i] )
             continue;
@@ -206,7 +206,7 @@ void ClockSolver::unpack_cluster( int  )
 bool ClockSolver::isWon()
 {
     // maybe won?
-    for ( int i = 0; i < 8; i++ )
+    for ( int i = 0; i < 8; ++i )
         if ( Wlen[i] )
             return false;
     return true;
@@ -215,7 +215,7 @@ bool ClockSolver::isWon()
 int ClockSolver::getOuts()
 {
     int ret = 52;
-    for ( int i = 0; i < 8; i++ )
+    for ( int i = 0; i < 8; ++i )
         ret -= Wlen[i];
     return ret;
 }
@@ -244,7 +244,7 @@ void ClockSolver::translate_layout()
     }
 
     /* Output piles, if any. */
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i < 12; ++i)
     {
         Card *c = deal->target[i]->top();
 
@@ -282,15 +282,15 @@ void ClockSolver::print_layout()
     int i, w, o;
 
     fprintf(stderr, "print-layout-begin\n");
-    for (w = 0; w < 8; w++) {
+    for (w = 0; w < 8; ++w) {
         fprintf( stderr, "Play%d: ", w );
-        for (i = 0; i < Wlen[w]; i++) {
+        for (i = 0; i < Wlen[w]; ++i) {
             printcard(W[w][i], stderr);
         }
         fputc('\n', stderr);
     }
     fprintf( stderr, "Off: " );
-    for (o = 0; o < 12; o++) {
+    for (o = 0; o < 12; ++o) {
         printcard(W[8][o], stderr);
     }
     fprintf(stderr, "\nprint-layout-end\n");

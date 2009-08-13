@@ -122,7 +122,7 @@ int IdiotSolver::get_possible_moves(int *a, int *numout)
     *a = false;
     *numout = n;
 
-    for ( int i = 0; i < 4; i++ )
+    for ( int i = 0; i < 4; ++i )
         if ( Wlen[i] && canMoveAway( i ) )
         {
             mp->card_index = 0;
@@ -149,12 +149,12 @@ int IdiotSolver::get_possible_moves(int *a, int *numout)
     }
 
     // now let's try to be a bit clever with the empty piles
-    for( int i = 0; i < 4; i++ )
+    for( int i = 0; i < 4; ++i )
     {
         if (Wlen[i] == 0)
         {
             // Find a card to move there
-            for( int j = 0; j < 4; j++ )
+            for( int j = 0; j < 4; ++j )
             {
                 if ( i != j && Wlen[j]>1 )
                 {
@@ -253,14 +253,14 @@ void IdiotSolver::print_layout()
     int i, w;
 
     fprintf(stderr, "print-layout-begin\n");
-    for (w = 0; w < 6; w++) {
+    for (w = 0; w < 6; ++w) {
         if ( w == 4 )
             fprintf( stderr, "Deck: " );
         else if ( w == 5 )
             fprintf( stderr, "Away: " );
         else
             fprintf( stderr, "Play%d: ", w );
-        for (i = 0; i < Wlen[w]; i++) {
+        for (i = 0; i < Wlen[w]; ++i) {
             printcard(W[w][i], stderr);
         }
         fputc('\n', stderr);

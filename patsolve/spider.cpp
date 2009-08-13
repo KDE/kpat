@@ -67,7 +67,7 @@ void SpiderSolver::make_move(MOVE *m)
             return;
         }
 
-        for ( int l = m->card_index; l >= 0; l-- )
+        for ( int l = m->card_index; l >= 0; --l )
         {
             card = W[from][Wlen[from]-l-1];
             Wp[from]--;
@@ -149,7 +149,7 @@ void SpiderSolver::undo_move(MOVE *m)
                 card = ( SUIT( card ) << 4 ) + RANK( card ) + ( 1 << 7 );
                 *Wp[from] = card;
             }
-            for ( int j = PS_KING; j >= PS_ACE; j-- )
+            for ( int j = PS_KING; j >= PS_ACE; --j )
             {
                 Wp[from]++;
                 *Wp[from] = O[to] + j;
@@ -172,7 +172,7 @@ void SpiderSolver::undo_move(MOVE *m)
             *Wp[from] = card2;
         }
 
-        for ( int l = m->card_index; l >= 0; l-- )
+        for ( int l = m->card_index; l >= 0; --l )
         {
             card = W[to][Wlen[to]-l-1];
             Wp[from]++;
@@ -209,12 +209,12 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
 
     int n = 0;
     mp = Possible;
-    for (int w = 0; w < 10; w++) {
+    for (int w = 0; w < 10; ++w) {
         if (Wlen[w] >= 13 && RANK( *Wp[w] ) == PS_ACE )
         {
             int ace_suit = SUIT( *Wp[w] );
             bool stroke = true;
-            for ( int l = 0; l < 13; l++ )
+            for ( int l = 0; l < 13; ++l )
             {
                 if ( RANK( W[w][Wlen[w]-l-1] ) != l+1 ||
                      SUIT( W[w][Wlen[w]-l-1] ) != ace_suit )
@@ -253,7 +253,7 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
 
     // find out how many contious cards are on top of each pile
     int conti[10];
-    for ( int j = 0; j < 10; j++ )
+    for ( int j = 0; j < 10; ++j )
     {
         conti[j] = 0;
         if ( !Wlen[j] )
@@ -274,7 +274,7 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
     bool foundgood = false;
     int toomuch = 0;
 
-    for(int i=0; i<10; i++)
+    for(int i=0; i<10; ++i)
     {
         int len = Wlen[i];
         for (int l=0; l < len; ++l )
@@ -292,7 +292,7 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
             }
 
             bool wasempty = false;
-            for (int j = 0; j < 10; j++)
+            for (int j = 0; j < 10; ++j)
             {
                 if (i == j)
                     continue;
@@ -389,7 +389,7 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
 
                     /* and now check what sequence we open */
                     int conti_pos = l+1;
-                    for ( ; conti_pos < Wlen[i]-1; conti_pos++ )
+                    for ( ; conti_pos < Wlen[i]-1; ++conti_pos )
                     {
                         card_t top = W[i][Wlen[i]-l-2];
                         card_t theone = W[i][Wlen[i]-conti_pos-1];
@@ -480,7 +480,7 @@ void SpiderSolver::unpack_cluster( int k )
 bool SpiderSolver::isWon()
 {
     // maybe won?
-    for (int o = 0; o < 8; o++)
+    for (int o = 0; o < 8; ++o)
     {
         if (O[o] == -1)
             return false;
@@ -492,7 +492,7 @@ bool SpiderSolver::isWon()
 int SpiderSolver::getOuts()
 {
     int k = 0;
-    for (int o = 0; o < 8; o++)
+    for (int o = 0; o < 8; ++o)
         if ( O[o] != -1 )
             k += 13;
 
@@ -529,7 +529,7 @@ void SpiderSolver::translate_layout()
         total += i;
     }
 
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 8; ++i) {
         O[i] = -1;
         Card *c = deal->legs[i]->top();
         if (c) {
@@ -553,19 +553,19 @@ void SpiderSolver::print_layout()
     int i, w, o;
 
     fprintf(stderr, "print-layout-begin\n");
-    for (w = 0; w < 15; w++) {
+    for (w = 0; w < 15; ++w) {
         Q_ASSERT( Wp[w] == &W[w][Wlen[w]-1] );
         if ( w < 10 )
             fprintf( stderr, "Play%d: ", w );
         else
             fprintf( stderr, "Deal%d: ", w-10 );
-        for (i = 0; i < Wlen[w]; i++) {
+        for (i = 0; i < Wlen[w]; ++i) {
             printcard(W[w][i], stderr);
         }
         fputc('\n', stderr);
     }
     fprintf( stderr, "Off: " );
-    for (o = 0; o < 8; o++) {
+    for (o = 0; o < 8; ++o) {
         if ( O[o] != -1 )
             printcard( O[o] + PS_KING, stderr);
     }
