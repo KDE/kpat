@@ -107,7 +107,7 @@ void Deck::makedeck()
     }
 }
 
-void Deck::update()
+void Deck::updatePixmaps()
 {
     for ( uint i = 0; i < mult*NumberOfCards; ++i )
         _deck[i]->setPixmap();

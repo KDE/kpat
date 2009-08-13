@@ -40,7 +40,7 @@ public:
 
     uint decksNum() const { return mult; }
     uint suitsNum() const { return suits; }
-    void update();
+    void updatePixmaps();
 
 private: // functions
 
