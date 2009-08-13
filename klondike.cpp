@@ -53,7 +53,7 @@ void KlondikePile::setDraws( int _draw )
 QSizeF KlondikePile::cardOffset( const Card *c ) const
 {
     if ( indexOf( c ) >= cardsLeft() - m_draw )
-        return QSizeF( 3.3, 0 );
+        return QSizeF( 0.33, 0 );
     return QSizeF( 0, 0 );
 }
 
@@ -71,7 +71,7 @@ void KlondikePile::relayoutCards()
             continue;
 
         c->setPos( QPointF( x + diff * cardMap::self()->cardWidth(), y ) );
-        c->setSpread( QSizeF( diff * 10, 0 ) );
+        c->setSpread( QSizeF( diff, 0 ) );
         c->setZValue( z );
         z = z+1;
         if ( car > m_draw )
@@ -86,8 +86,8 @@ Klondike::Klondike()
     : DealerScene( )
 {
     // The units of the follwoing constants are pixels
-    const qreal hspacing = 10. / 6 + 0.2; // horizontal spacing between card piles
-    const qreal vspacing = 10. / 4; // vertical spacing between card piles
+    const qreal hspacing = 1.0 / 6 + 0.02; // horizontal spacing between card piles
+    const qreal vspacing = 1.0 / 4; // vertical spacing between card piles
 
     Deck::create_deck(this);
     Deck::deck()->setPilePos(0, 0);
@@ -98,9 +98,9 @@ Klondike::Klondike()
 
     pile = new KlondikePile( 13, EasyRules ? 1 : 3, this);
     pile->setObjectName( "pile" );
-    pile->setReservedSpace( QSizeF( 19, 10 ) );
+    pile->setReservedSpace( QSizeF( 1.9, 1.0 ) );
 
-    pile->setPilePos(10 + hspacing, 0);
+    pile->setPilePos(1.0 + hspacing, 0);
     // Move the visual representation of the pile to the intended position
     // on the game board.
 
@@ -110,17 +110,17 @@ Klondike::Klondike()
     for( int i = 0; i < 7; i++ )
     {
         play[ i ] = new Pile( i + 5, this);
-        play[i]->setPilePos((10. + hspacing) * i, 10. + vspacing);
+        play[i]->setPilePos((1.0 + hspacing) * i, 1.0 + vspacing);
         play[i]->setAddType(Pile::KlondikeStore);
         play[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop | Pile::wholeColumn);
         play[i]->setObjectName( QString( "play%1" ).arg( i ) );
-        play[i]->setReservedSpace( QSizeF( 10, 10 + play[i]->spread() * 7 ) );
+        play[i]->setReservedSpace( QSizeF( 1.0, 1.0 + play[i]->spread() * 7 ) );
     }
 
     for( int i = 0; i < 4; i++ )
     {
         target[ i ] = new Pile( i + 1, this );
-        target[i]->setPilePos((3 + i) * (10 + hspacing), 0);
+        target[i]->setPilePos((3 + i) * (1.0 + hspacing), 0);
         target[i]->setAddType(Pile::KlondikeTarget);
         if (EasyRules) // change default
             target[i]->setRemoveFlags(Pile::Default);

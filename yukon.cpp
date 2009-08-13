@@ -24,16 +24,15 @@
 Yukon::Yukon( )
     : DealerScene( )
 {
-    const qreal dist_x = 11.1;
-    const qreal dist_y = 11.1;
+    const qreal dist_x = 1.11;
+    const qreal dist_y = 1.11;
 
     Deck::create_deck(this);
-    Deck::deck()->setPilePos(0, 0);
     Deck::deck()->hide();
 
     for (int i=0; i<4; i++) {
         target[i] = new Pile(i+1, this);
-        target[i]->setPilePos(1.1+7*dist_x, dist_y *i);
+        target[i]->setPilePos(0.11+7*dist_x, dist_y *i);
         target[i]->setType(Pile::KlondikeTarget);
     }
 
@@ -42,7 +41,7 @@ Yukon::Yukon( )
         store[i]->setPilePos(dist_x*i, 0);
         store[i]->setAddType(Pile::KlondikeStore);
         store[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
-        store[i]->setReservedSpace( QSizeF( 10, 3 * dist_y + 10 ) );
+        store[i]->setReservedSpace( QSizeF( 1.0, 3 * dist_y + 1.0 ) );
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo);

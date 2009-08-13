@@ -1935,19 +1935,19 @@ void DealerScene::relayoutScene( const QSize &s )
     }
 
     // Add the border to the size of the contents
-    const qreal border = 1.5;
+    const qreal border = 0.15;
     QSizeF sizeToFit = usedArea + 2 * QSizeF( border, border );
     QSizeF sceneSize = s.isValid() ? s : sceneRect().size();
 
-    qreal scaleX = sceneSize.width() / ( cardMap::self()->cardWidth() * sizeToFit.width() / 10.0 );
-    qreal scaleY = sceneSize.height() / ( cardMap::self()->cardHeight() * sizeToFit.height() / 10.0 );
+    qreal scaleX = sceneSize.width() / ( cardMap::self()->cardWidth() * sizeToFit.width() );
+    qreal scaleY = sceneSize.height() / ( cardMap::self()->cardHeight() * sizeToFit.height() );
     qreal n_scaleFactor = qMin( scaleX, scaleY );
 
     cardMap::self()->setCardWidth( n_scaleFactor * cardMap::self()->cardWidth() );
 
     d->contentsRect = QRectF( 0, 0,
-                              usedArea.width() / 10.0 * cardMap::self()->cardWidth(),
-                              sceneSize.height() - 2 * border / 10.0 * cardMap::self()->cardHeight() );
+                              usedArea.width() * cardMap::self()->cardWidth(),
+                              sceneSize.height() - 2 * border * cardMap::self()->cardHeight() );
 
     qreal xOffset = ( sceneSize.width() - d->contentsRect.width() ) / 2.0;
     qreal yOffset = ( sceneSize.height() - d->contentsRect.height() ) / 2.0;
@@ -1967,7 +1967,7 @@ void DealerScene::relayoutPiles()
     QSize s = d->contentsRect.size().toSize();
     int cardWidth = cardMap::self()->cardWidth();
     int cardHeight = cardMap::self()->cardHeight();
-    const qreal spacing = cardWidth * 1.5 / 10;
+    const qreal spacing = cardWidth * 0.15;
 
     foreach ( Pile *p, piles )
     {
@@ -1975,12 +1975,12 @@ void DealerScene::relayoutPiles()
 
         QSizeF ms( cardWidth, cardHeight );
 
-        if ( p->reservedSpace().width() > 10 )
+        if ( p->reservedSpace().width() > 1 )
             ms.setWidth( s.width() - p->x() );
         else if ( p->reservedSpace().width() < 0 && p->x() > 0 )
             ms.setWidth( p->x() + cardWidth );
 
-        if ( p->reservedSpace().height() > 10 && s.height() > p->y() )
+        if ( p->reservedSpace().height() > 1 && s.height() > p->y() )
             ms.setHeight( s.height() - p->y() );
         Q_ASSERT( p->reservedSpace().height() > 0 ); // no such case yet
 
@@ -1989,7 +1989,7 @@ void DealerScene::relayoutPiles()
 
     foreach ( Pile *p, piles )
     {
-        if ( !p->isVisible() || p->reservedSpace() == QSizeF( 10, 10 ) )
+        if ( !p->isVisible() || p->reservedSpace() == QSizeF( 1, 1 ) )
             continue;
 
         QRectF myRect( p->pos(), p->maximumSpace() );
@@ -2012,9 +2012,9 @@ void DealerScene::relayoutPiles()
             {
                 QSizeF pms = p2->maximumSpace();
 
-                if ( p->reservedSpace().width() != 10 )
+                if ( p->reservedSpace().width() != 1 )
                 {
-                    if ( p2->reservedSpace().height() != 10 )
+                    if ( p2->reservedSpace().height() != 1 )
                     {
                         Q_ASSERT( p2->reservedSpace().height() > 0 );
                         // if it's growing too, we win
@@ -2023,7 +2023,7 @@ void DealerScene::relayoutPiles()
                     } else // if it's fixed height, we loose
                         if ( p->reservedSpace().width() < 0 ) {
                             // this isn't made for two piles one from left and one from right both growing
-                            Q_ASSERT( p2->reservedSpace().width() == 10 );
+                            Q_ASSERT( p2->reservedSpace().width() == 1 );
                             myRect.setLeft( p2->x() + cardWidth + spacing);
                             //kDebug(11111) << "2. reduced width of" << p->objectName();
                         } else {
@@ -2032,9 +2032,9 @@ void DealerScene::relayoutPiles()
                         }
                 }
 
-                if ( p->reservedSpace().height() != 10 )
+                if ( p->reservedSpace().height() != 1 )
                 {
-                    if ( p2->reservedSpace().width() != 10 )
+                    if ( p2->reservedSpace().width() != 1 )
                     {
                         Q_ASSERT( p2->reservedSpace().height() > 0 );
                         // if it's growing too, we win
@@ -2043,7 +2043,7 @@ void DealerScene::relayoutPiles()
                     } else // if it's fixed height, we loose
                         if ( p->reservedSpace().height() < 0 ) {
                             // this isn't made for two piles one from left and one from right both growing
-                            Q_ASSERT( p2->reservedSpace().height() == 10 );
+                            Q_ASSERT( p2->reservedSpace().height() == 1 );
                             Q_ASSERT( false ); // TODO
                             myRect.setLeft( p2->x() + cardWidth + spacing );
                             //kDebug(11111) << "5. reduced height of" << p->objectName();
@@ -2052,18 +2052,9 @@ void DealerScene::relayoutPiles()
                             //kDebug(11111) << "6. reduced height of" << p->objectName() << (*it2)->y() - 1 << myRect;
                         }
                 }
-
-                kDebug(11111) << pms  << cardWidth  << cardHeight;
-                Q_ASSERT( pms.width() >= cardWidth - 0.1 );
-                Q_ASSERT( pms.height() >= cardHeight - 0.1 );
                 p2->setMaximumSpace( pms );
             }
         }
-
-        kDebug(11111) << myRect << cardHeight;
-        Q_ASSERT( myRect.width() >= cardWidth - 0.1 );
-        Q_ASSERT( myRect.height() >= cardHeight - 0.1 );
-
         p->setMaximumSpace( myRect.size() );
     }
 
@@ -2117,8 +2108,8 @@ void DealerScene::drawForeground ( QPainter * painter, const QRectF & rect )
 
         QRectF reservedRect;
         reservedRect.moveTopLeft( p->pos() );
-        reservedRect.setWidth( qAbs( p->reservedSpace().width() / 10.0 * cardWidth ) );
-        reservedRect.setHeight( qAbs( p->reservedSpace().height() / 10.0 * cardHeight ) );
+        reservedRect.setWidth( qAbs( p->reservedSpace().width() * cardWidth ) );
+        reservedRect.setHeight( qAbs( p->reservedSpace().height() * cardHeight ) );
         if ( p->reservedSpace().width() < 0 )
             reservedRect.moveRight( p->x() + cardWidth );
         if ( p->reservedSpace().height() < 0 )

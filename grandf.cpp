@@ -34,7 +34,7 @@ Grandf::Grandf( )
     Deck::create_deck(this);
     Deck::deck()->hide();
 
-    const int distx = 14;
+    const qreal distx = 1.4;
     const qreal targetOffset = 1.5 * distx;
 
     for (int i=0; i<4; i++) {
@@ -46,12 +46,12 @@ Grandf::Grandf( )
 
     for (int i=0; i<7; i++) {
         store[i] = new Pile(5+i, this);
-        store[i]->setPilePos(distx*i, 12);
+        store[i]->setPilePos(distx*i, 1.2);
         store[i]->setAddFlags(Pile::addSpread | Pile::several);
         store[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
         store[i]->setObjectName( QString( "store%1" ).arg( i ) ) ;
         store[i]->setCheckIndex(1);
-        store[i]->setReservedSpace( QSizeF( 10, 50 ) );
+        store[i]->setReservedSpace( QSizeF( 1.0, 5.0 ) );
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Redeal);

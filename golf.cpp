@@ -29,7 +29,7 @@ HorRightPile::HorRightPile( int _index, DealerScene* parent)
 
 QSizeF HorRightPile::cardOffset( const Card *) const
 {
-    return QSizeF(1.2, 0);
+    return QSizeF(0.12, 0);
 }
 
 //-------------------------------------------------------------------------//
@@ -37,7 +37,7 @@ QSizeF HorRightPile::cardOffset( const Card *) const
 Golf::Golf( )
     : DealerScene( )
 {
-    const qreal dist_x = 11.1;
+    const qreal dist_x = 1.11;
     const qreal smallNeg = -1e-6;
 
     Deck::create_deck( this);
@@ -45,11 +45,11 @@ Golf::Golf( )
     connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(newCards()));
 
     waste=new HorRightPile(8,this);
-    waste->setPilePos(11, smallNeg);
+    waste->setPilePos(1.1, smallNeg);
     waste->setTarget(true);
     waste->setCheckIndex( 0 );
     waste->setAddFlags( Pile::addSpread);
-    waste->setReservedSpace( QSizeF( 40, 10 ) );
+    waste->setReservedSpace( QSizeF( 4.0, 1.0 ) );
     waste->setObjectName( "waste" );
 
     for( int r = 0; r < 7; r++ ) {
@@ -57,7 +57,7 @@ Golf::Golf( )
         stack[r]->setPilePos(r*dist_x,0);
         stack[r]->setAddFlags( Pile::addSpread | Pile::disallow);
         stack[r]->setCheckIndex( 1 );
-        stack[r]->setReservedSpace( QSizeF( 10, 20 ) );
+        stack[r]->setReservedSpace( QSizeF( 1.0, 2.0 ) );
         stack[r]->setObjectName( QString( "stack%1" ).arg( r ) );
     }
 

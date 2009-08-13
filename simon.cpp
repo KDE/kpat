@@ -25,10 +25,9 @@ Simon::Simon( )
     : DealerScene( )
 {
     Deck::create_deck(this, 1, 4);
-    Deck::deck()->setPilePos(0, 0);
     Deck::deck()->hide();
 
-    const qreal dist_x = 11.1;
+    const qreal dist_x = 1.11;
 
     for (int i=0; i<4; i++) {
         target[i] = new Pile(i+1, this);
@@ -42,10 +41,10 @@ Simon::Simon( )
 
     for (int i=0; i<10; i++) {
         store[i] = new Pile(5+i, this);
-        store[i]->setPilePos(dist_x*i, 12);
+        store[i]->setPilePos(dist_x*i, 1.2);
         store[i]->setAddFlags(Pile::addSpread | Pile::several);
         store[i]->setRemoveFlags(Pile::several);
-        store[i]->setReservedSpace( QSizeF( 10, 35 ) );
+        store[i]->setReservedSpace( QSizeF( 1.0, 3.5 ) );
         store[i]->setCheckIndex(1);
         store[i]->setObjectName( QString( "store%1" ).arg( i ) );
     }

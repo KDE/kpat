@@ -63,7 +63,7 @@ void SpiderPile::moveCards(CardList &c, Pile *to)
 Spider::Spider()
     : DealerScene(), m_leg(0), m_redeal(0)
 {
-    const qreal dist_x = 11.2;
+    const qreal dist_x = 1.12;
     const qreal smallNeg = -1e-6;
 
     KConfigGroup cg(KGlobal::config(), settings_group );
@@ -72,7 +72,7 @@ Spider::Spider()
     Deck::create_deck(this, 2, m_suits);
 
     // I deal the cards into 'redeal' piles, so hide the deck
-    Deck::deck()->setVisible(false);
+    Deck::deck()->hide();
 
     // Dealing the cards out into 5 piles so the user can see how many
     // sets of 10 cards are left to be dealt out
@@ -98,7 +98,7 @@ Spider::Spider()
         stack[column]->setRemoveFlags(Pile::several |
                                       Pile::autoTurnTop | Pile::wholeColumn);
         stack[column]->setObjectName( QString( "stack%1" ).arg( column ) );
-        stack[column]->setReservedSpace( QSizeF( 10, 35 ) );
+        stack[column]->setReservedSpace( QSizeF( 1.0, 3.5 ) );
     }
 
     // The 8 'legs' so named by me because spiders have 8 legs - why

@@ -54,9 +54,9 @@ Freecell::Freecell()
     Deck::create_deck(this, 1);
     Deck::deck()->hide();
 
-    const qreal topRowDist = 10.8;
-    const qreal bottomRowDist = 11.3;
-    const qreal targetOffsetDist = ( 7 * bottomRowDist + 10 ) - ( 3 * topRowDist + 10 );
+    const qreal topRowDist = 1.08;
+    const qreal bottomRowDist = 1.13;
+    const qreal targetOffsetDist = ( 7 * bottomRowDist + 1 ) - ( 3 * topRowDist + 1 );
 
 
     kDebug(11111) << "cards" << Deck::deck()->cards().count();
@@ -64,12 +64,12 @@ Freecell::Freecell()
     {
         FreecellPile *p = new FreecellPile(1 + i, this);
         store[i] = p;
-        p->setPilePos( bottomRowDist * i, 13 );
+        p->setPilePos( bottomRowDist * i, 1.3 );
         p->setObjectName( QString( "store%1" ).arg( i ) );
         p->setAddFlags(Pile::addSpread | Pile::several);
         p->setRemoveFlags(Pile::several);
         p->setCheckIndex(0);
-        p->setReservedSpace( QSizeF( 10, 35 ) );
+        p->setReservedSpace( QSizeF( 1.0, 3.5 ) );
     }
 
     for (int i = 0; i < 4; i++)

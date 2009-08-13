@@ -29,17 +29,17 @@ HorLeftPile::HorLeftPile( int _index, DealerScene* parent)
 
 QSizeF HorLeftPile::cardOffset( const Card *) const
 {
-    return QSizeF(-2.1, 0);
+    return QSizeF(-0.21, 0);
 }
 
 void HorLeftPile::relayoutCards()
 {
     // this is just too heavy to animate, so we stop it
     Pile::relayoutCards();
-    for ( CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it )
+    foreach ( Card *c, m_cards )
     {
-        if ( *it != top() )
-            ( *it )->stopAnimation();
+        if ( c != top() )
+            c->stopAnimation();
     }
 }
 
@@ -47,11 +47,10 @@ void HorLeftPile::relayoutCards()
 Fortyeight::Fortyeight( )
     : DealerScene()
 {
-    Deck::create_deck(this, 2);
-
-    const qreal dist_x = 11.1;
+    const qreal dist_x = 1.11;
     const qreal smallNeg = -1e-6;
 
+    Deck::create_deck(this, 2);
     connect(Deck::deck(), SIGNAL(pressed(Card*)), SLOT(newCards()));
     connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
     Deck::deck()->setPilePos(smallNeg, smallNeg);
@@ -61,7 +60,7 @@ Fortyeight::Fortyeight( )
     pile->setAddFlags(Pile::addSpread | Pile::disallow);
     pile->setPilePos(-dist_x, smallNeg);
     pile->setObjectName( "pile" );
-    pile->setReservedSpace( QSizeF( -(10 + 6 * dist_x), 10 ) );
+    pile->setReservedSpace( QSizeF( -(1 + 6 * dist_x), 1 ) );
 
     for (int i = 0; i < 8; i++) {
 
@@ -71,13 +70,13 @@ Fortyeight::Fortyeight( )
         target[i]->setObjectName( QString( "target%1" ).arg( i ) );
 
         stack[i] = new Pile(1 + i, this);
-        stack[i]->setPilePos(dist_x*i, 11 );
+        stack[i]->setPilePos(dist_x*i, 1.1 );
         stack[i]->setAddFlags(Pile::addSpread);
         stack[i]->setRemoveFlags(Pile::autoTurnTop);
         stack[i]->setCheckIndex(1);
         stack[i]->setSpread(stack[i]->spread() * 3 / 4);
         stack[i]->setObjectName( QString( "stack%1" ).arg( i ) );
-        stack[i]->setReservedSpace( QSizeF( 10, 40 ) );
+        stack[i]->setReservedSpace( QSizeF( 1.0, 4.0 ) );
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);

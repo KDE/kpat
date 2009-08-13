@@ -58,8 +58,8 @@ Pile::Pile( int _index, DealerScene* parent)
     removeFlags = 0;
 
     setZValue(0);
-    setSpread( 3.3 );
-    setReservedSpace( QSizeF( 10, 10 ) );
+    setSpread( 0.33 );
+    setReservedSpace( QSizeF( 1, 1 ) );
     setShapeMode( QGraphicsPixmapItem::BoundingRectShape );
     setMaximumSpace( QSizeF( 1, 1 ) ); // just to make it valid
     m_relayoutTimer = new QTimer( this );
@@ -148,8 +148,8 @@ void Pile::rescale()
     if (!scene())
         return;
 
-    QPointF new_pos = QPointF( _pilePos.x() * cardMap::self()->cardWidth() / 10.0,
-                               _pilePos.y() * cardMap::self()->cardHeight() / 10.0 );
+    QPointF new_pos = QPointF( _pilePos.x() * cardMap::self()->cardWidth(),
+                               _pilePos.y() * cardMap::self()->cardHeight() );
 
     if ( new_pos.x() < 0 )
         new_pos.setX( dscene()->contentArea().width() - cardMap::self()->cardWidth() + new_pos.x() );
@@ -372,8 +372,8 @@ void Pile::add( Card* _card, bool _facedown )
 
     if (t) {
         // kDebug(11111) << "::add" << t->pos() << " " << t->spread() << " " << _card->name() << " " << t->name() << " " << _card->spread();
-        x2 = t->realX() + t->spread().width()  / 10 * cardMap::self()->cardWidth();
-        y2 = t->realY() + t->spread().height() / 10 * cardMap::self()->cardHeight();
+        x2 = t->realX() + t->spread().width() * cardMap::self()->cardWidth();
+        y2 = t->realY() + t->spread().height() * cardMap::self()->cardHeight();
         z2 = t->realZ() + 1;
     } else {
         x2 = x();
@@ -544,19 +544,19 @@ void Pile::layoutCards(int duration)
 
     qreal divx = 1;
     if ( preferredSize.width() )
-        divx = qMin<qreal>( ( maximumSpace().width() - cardMap::self()->cardWidth() ) / ( preferredSize.width() / 10.0 * cardMap::self()->cardWidth() ), 1.0 );
+        divx = qMin<qreal>( ( maximumSpace().width() - cardMap::self()->cardWidth() ) / ( preferredSize.width() * cardMap::self()->cardWidth() ), 1.0 );
 
     qreal divy = 1;
     if ( preferredSize.height() )
-        divy = qMin<qreal>( ( maximumSpace().height() - cardMap::self()->cardHeight() ) / ( preferredSize.height() / 10.0 * cardMap::self()->cardHeight() ), 1.0 );
+        divy = qMin<qreal>( ( maximumSpace().height() - cardMap::self()->cardHeight() ) / ( preferredSize.height() * cardMap::self()->cardHeight() ), 1.0 );
 
     QPointF cardPos = pos();
     qreal z = zValue() + 1;
     foreach ( Card * card, m_cards )
     {
         card->moveTo( cardPos.x(), cardPos.y(), z, dscene()->speedUpTime( duration ) );
-        cardPos.rx() += divx * card->spread().width() / 10 * cardMap::self()->cardWidth();
-        cardPos.ry() += divy * card->spread().height() / 10 * cardMap::self()->cardHeight();
+        cardPos.rx() += divx * card->spread().width() * cardMap::self()->cardWidth();
+        cardPos.ry() += divy * card->spread().height() * cardMap::self()->cardHeight();
         z += 1;
     }
 }

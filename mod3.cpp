@@ -53,10 +53,10 @@ public:
 Mod3::Mod3( )
     : DealerScene( )
 {
-    const qreal dist_x = 11.14;
-    const qreal dist_y = 13.1;
-    const qreal bottomRowY = 3 * dist_y + 2;
-    const qreal rightColumX = 8 * dist_x + 8;
+    const qreal dist_x = 1.114;
+    const qreal dist_y = 1.31;
+    const qreal bottomRowY = 3 * dist_y + 0.2;
+    const qreal rightColumX = 8 * dist_x + 0.8;
 
     // This patience uses 2 deck of cards.
     Deck::create_deck( this, 2);
@@ -65,12 +65,12 @@ Mod3::Mod3( )
     connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(newCards()));
 
     aces = new Pile(50, this);
-    aces->setPilePos(rightColumX, 5);
+    aces->setPilePos(rightColumX, 0.5);
     aces->setTarget(true);
     aces->setCheckIndex(2);
     aces->setAddFlags(Pile::addSpread | Pile::several);
     aces->setObjectName( "aces" );
-    aces->setReservedSpace( QSizeF( 10, 20 ));
+    aces->setReservedSpace( QSizeF( 1.0, 2.0 ));
 
     for ( int r = 0; r < 4; r++ ) {
         for ( int c = 0; c < 8; c++ ) {
@@ -84,11 +84,11 @@ Mod3::Mod3( )
                 stack[r][c]->setAddFlags( Pile::addSpread );
                 stack[r][c]->setSpread( 0.5 );
                 stack[r][c]->setObjectName( QString( "stack%1_%2" ).arg( r ).arg( c ) );
-                stack[r][c]->setReservedSpace( QSizeF( 10, 12.3 ) );
+                stack[r][c]->setReservedSpace( QSizeF( 1.0, 1.23 ) );
             } else {
                 stack[r][c] = new Mod3Pile ( pileIndex, this );
                 stack[r][c]->setPilePos( dist_x * c, bottomRowY );
-                stack[r][c]->setReservedSpace( QSizeF( 10, 18 ) );
+                stack[r][c]->setReservedSpace( QSizeF( 1.0, 1.8 ) );
                 stack[r][c]->setAddFlags( Pile::addSpread );
                 stack[r][c]->setCheckIndex( 1 );
                 stack[r][c]->setObjectName( QString( "stack3_%1" ).arg( c ) );

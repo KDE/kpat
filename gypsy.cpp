@@ -22,17 +22,17 @@
 Gypsy::Gypsy( )
     : DealerScene(  )
 {
-    const qreal dist_x = 11.1;
-    const qreal dist_y = 11.1;
+    const qreal dist_x = 1.11;
+    const qreal dist_y = 1.11;
 
     Deck::create_deck(this, 2);
-    Deck::deck()->setPilePos(dist_x / 2 + 8*dist_x, 4 * dist_y);
+    Deck::deck()->setPilePos(8.5 * dist_x + 0.4, 4 * dist_y);
 
     connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(newCards()));
 
     for (int i=0; i<8; i++) {
         target[i] = new Pile(i+1, this);
-        target[i]->setPilePos(dist_x*(8+(i/4)), (i%4)*dist_y);
+        target[i]->setPilePos(dist_x*(8+(i/4)) + 0.4, (i%4)*dist_y);
         target[i]->setAddType(Pile::KlondikeTarget);
         target[i]->setObjectName( QString( "target%1" ).arg( i ) );
     }
@@ -42,7 +42,7 @@ Gypsy::Gypsy( )
         store[i]->setPilePos(dist_x*i,0);
         store[i]->setAddType(Pile::GypsyStore);
         store[i]->setRemoveType(Pile::FreecellStore);
-        store[i]->setReservedSpace( QSizeF( 10, 4 * dist_y + 10 ) );
+        store[i]->setReservedSpace( QSizeF( 1.0, 4 * dist_y + 1.0 ) );
         store[i]->setObjectName( QString( "store%1" ).arg( i ) );
     }
 

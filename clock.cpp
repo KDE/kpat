@@ -23,19 +23,16 @@
 Clock::Clock( )
     : DealerScene( )
 {
-    const qreal dist_x = 11.1;
-    const qreal dist_y = 11.1;
-
     Deck::create_deck(this);
-    Deck::deck()->setPos(0, dist_y*3);
     Deck::deck()->hide();
 
+    const qreal dist_x = 1.11;
     const qreal ys[12] = {   0./96,  15./96,  52./96, 158./96, 264./96, 301./96, 316./96, 301./96, 264./96, 158./96,  52./96,  15./96};
     const qreal xs[12] = { 200./72, 280./72, 360./72, 400./72, 360./72, 280./72, 200./72, 120./72, 40./72, 0./72, 40./72, 120./72};
 
     for (int i=0; i<12; i++) {
         target[i] = new Pile(i+1, this);
-        target[i]->setPilePos(10 * 24 / 5 + xs[i] * 10, 2 + ys[i] * 10);
+        target[i]->setPilePos(4 * dist_x + 0.4 + xs[i], 0.2 + ys[i]);
         target[i]->setCheckIndex(1);
         target[i]->setTarget(true);
         target[i]->setRemoveFlags(Pile::disallow);
@@ -44,10 +41,10 @@ Clock::Clock( )
 
     for (int i=0; i<8; i++) {
         store[i] = new Pile(14+i, this);
-        store[i]->setPilePos(dist_x*(i%4), 10 * 5 / 2 * (i/4));
+        store[i]->setPilePos(dist_x*(i%4), 2.5 * (i/4));
         store[i]->setAddFlags(Pile::addSpread);
         store[i]->setCheckIndex(0);
-        store[i]->setReservedSpace( QSizeF( 10, 18 ) );
+        store[i]->setReservedSpace( QSizeF( 1.0, 1.8 ) );
         store[i]->setObjectName( QString( "store%1" ).arg( i ) );
     }
 
@@ -80,11 +77,11 @@ bool Clock::checkAdd( int ci, const Pile *c1, const CardList& c2) const
 
 void Clock::deal() {
     static const Card::Suit suits[12] = { Card::Diamonds, Card::Spades, Card::Hearts, Card::Clubs,
-					  Card::Diamonds, Card::Spades, Card::Hearts, Card::Clubs,
-					  Card::Diamonds, Card::Spades, Card::Hearts, Card::Clubs, };
+                                          Card::Diamonds, Card::Spades, Card::Hearts, Card::Clubs,
+                                          Card::Diamonds, Card::Spades, Card::Hearts, Card::Clubs };
     static const Card::Rank ranks[12] = { Card::Nine, Card::Ten, Card::Jack, Card::Queen,
-					  Card::King, Card::Two, Card::Three, Card::Four,
-					  Card::Five, Card::Six, Card::Seven, Card::Eight};
+                                          Card::King, Card::Two, Card::Three, Card::Four,
+                                          Card::Five, Card::Six, Card::Seven, Card::Eight };
 
     int j = 0;
     while (!Deck::deck()->isEmpty()) {
