@@ -89,7 +89,7 @@ public:
     void clear();
 
     int  index()   const { return myIndex; }
-    bool isEmpty() const { return m_cards.count() == 0; }
+    bool isEmpty() const { return m_cards.isEmpty(); }
 
     enum { Type = UserType + 2 };
     virtual int type() const { return Type; }

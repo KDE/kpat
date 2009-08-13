@@ -1629,7 +1629,7 @@ void DealerScene::won()
     qSort(cards);
 
     // disperse the cards everywhere
-    QRectF can(0, 0, width(), height());
+    QRectF can = sceneRect();
     QListIterator<CardPtr> cit(cards);
     while (cit.hasNext()) {
         CardPtr card = cit.next();
@@ -1957,6 +1957,7 @@ void DealerScene::relayoutScene()
     }
 
     cardMap::self()->setCardWidth( int( n_scaleFactor * cardWidth ) );
+    updateWonItem();
 
     relayoutPiles();
 }
@@ -1995,10 +1996,7 @@ void DealerScene::relayoutPiles()
 
         QRectF myRect( p->pos(), p->maximumSpace() );
         if ( p->reservedSpace().width() < 0 )
-        {
             myRect.moveRight( p->x() + cardWidth );
-            myRect.moveLeft( p->x() - p->maximumSpace().width() );
-        }
 
         foreach ( Pile *p2, piles )
         {
@@ -2074,7 +2072,6 @@ void DealerScene::relayoutPiles()
     foreach ( Pile *p, piles )
         p->relayoutCards();
 
-    updateWonItem();
 }
 
 void DealerScene::setGameId(int id) { d->_id = id; }
@@ -2093,7 +2090,7 @@ qreal DealerScene::offsetY() const { return d->offy; }
 
 void DealerScene::drawBackground ( QPainter * painter, const QRectF & rect )
 {
-    kDebug(11111) << "drawBackground" << rect << d->hasScreenRect;
+    Q_UNUSED( rect )
     if ( !d->hasScreenRect )
         return;
 

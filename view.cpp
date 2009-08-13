@@ -108,13 +108,6 @@ void PatienceView::resizeEvent( QResizeEvent *e )
     if ( e )
         QGraphicsView::resizeEvent(e);
 
-#if 0
-    foreach (QWidget *widget, QApplication::allWidgets())
-        kDebug(11111) << widget << " " << widget->objectName() << " " << widget->geometry();
-
-    kDebug(11111) << "resizeEvent" << size() << " " << e << " " << dscene() << " " << parent()->isVisible(); /*<< " " << kBacktrace()*/
-#endif
-
     if ( dscene() )
     {
         kDebug(11111) << "resizeEvent got through" << e->size();
