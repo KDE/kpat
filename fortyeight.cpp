@@ -50,27 +50,28 @@ Fortyeight::Fortyeight( )
     Deck::create_deck(this, 2);
 
     const qreal dist_x = 11.1;
+    const qreal smallNeg = -1e-6;
 
     connect(Deck::deck(), SIGNAL(pressed(Card*)), SLOT(newCards()));
     connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
-    Deck::deck()->setPilePos( -2, -1);
+    Deck::deck()->setPilePos(smallNeg, smallNeg);
     Deck::deck()->setZValue(20);
 
     pile = new HorLeftPile(20, this);
     pile->setAddFlags(Pile::addSpread | Pile::disallow);
-    pile->setPilePos( -13.1, -1 );
+    pile->setPilePos(-dist_x, smallNeg);
     pile->setObjectName( "pile" );
-    pile->setReservedSpace( QSizeF( -50, 10 ) );
+    pile->setReservedSpace( QSizeF( -(10 + 6 * dist_x), 10 ) );
 
     for (int i = 0; i < 8; i++) {
 
         target[i] = new Pile(9 + i, this);
-        target[i]->setPilePos(1 + dist_x*i, 1);
+        target[i]->setPilePos(dist_x*i, 0);
         target[i]->setType(Pile::KlondikeTarget);
         target[i]->setObjectName( QString( "target%1" ).arg( i ) );
 
         stack[i] = new Pile(1 + i, this);
-        stack[i]->setPilePos(1 + dist_x*i, 12 );
+        stack[i]->setPilePos(dist_x*i, 11 );
         stack[i]->setAddFlags(Pile::addSpread);
         stack[i]->setRemoveFlags(Pile::autoTurnTop);
         stack[i]->setCheckIndex(1);

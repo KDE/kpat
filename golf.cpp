@@ -38,13 +38,14 @@ Golf::Golf( )
     : DealerScene( )
 {
     const qreal dist_x = 11.1;
+    const qreal smallNeg = -1e-6;
 
     Deck::create_deck( this);
-    Deck::deck()->setPilePos(1, -1);
+    Deck::deck()->setPilePos(0, smallNeg);
     connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(newCards()));
 
     waste=new HorRightPile(8,this);
-    waste->setPilePos(12, -1);
+    waste->setPilePos(11, smallNeg);
     waste->setTarget(true);
     waste->setCheckIndex( 0 );
     waste->setAddFlags( Pile::addSpread);
@@ -53,7 +54,7 @@ Golf::Golf( )
 
     for( int r = 0; r < 7; r++ ) {
         stack[r]=new Pile(1+r, this);
-        stack[r]->setPilePos(1+r*dist_x,1);
+        stack[r]->setPilePos(r*dist_x,0);
         stack[r]->setAddFlags( Pile::addSpread | Pile::disallow);
         stack[r]->setCheckIndex( 1 );
         stack[r]->setReservedSpace( QSizeF( 10, 20 ) );

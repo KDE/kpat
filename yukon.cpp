@@ -28,21 +28,21 @@ Yukon::Yukon( )
     const qreal dist_y = 11.1;
 
     Deck::create_deck(this);
-    Deck::deck()->setPilePos(1, 10+dist_y*3);
+    Deck::deck()->setPilePos(0, 0);
     Deck::deck()->hide();
 
     for (int i=0; i<4; i++) {
         target[i] = new Pile(i+1, this);
-        target[i]->setPilePos(2+7*dist_x, 1+dist_y *i);
+        target[i]->setPilePos(1.1+7*dist_x, dist_y *i);
         target[i]->setType(Pile::KlondikeTarget);
     }
 
     for (int i=0; i<7; i++) {
         store[i] = new Pile(5+i, this);
-        store[i]->setPilePos(1.5+dist_x*i, 1);
+        store[i]->setPilePos(dist_x*i, 0);
         store[i]->setAddType(Pile::KlondikeStore);
         store[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
-        store[i]->setReservedSpace( QSizeF( 10, 20 ) );
+        store[i]->setReservedSpace( QSizeF( 10, 3 * dist_y + 10 ) );
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo);

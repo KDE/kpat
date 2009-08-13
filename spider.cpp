@@ -64,6 +64,7 @@ Spider::Spider()
     : DealerScene(), m_leg(0), m_redeal(0)
 {
     const qreal dist_x = 11.2;
+    const qreal smallNeg = -1e-6;
 
     KConfigGroup cg(KGlobal::config(), settings_group );
     m_suits = cg.readEntry( "SpiderSuits", 2);
@@ -77,7 +78,7 @@ Spider::Spider()
     // sets of 10 cards are left to be dealt out
     for( int column = 0; column < 5; column++ ) {
         redeals[column] = new Pile(column + 1, this);
-        redeals[column]->setPilePos( 0 - dist_x / 3 * ( 5 - column ), -1);
+        redeals[column]->setPilePos(smallNeg - dist_x / 3 * ( 4 - column ), smallNeg);
         redeals[column]->setZValue(12 * ( 5-column ));
         redeals[column]->setCheckIndex(0);
         redeals[column]->setAddFlags(Pile::disallow);
@@ -90,7 +91,7 @@ Spider::Spider()
     // The 10 playing piles
     for( int column = 0; column < 10; column++ ) {
         stack[column] = new SpiderPile(column + 6, this);
-        stack[column]->setPilePos(1 + dist_x * column, 1);
+        stack[column]->setPilePos(dist_x * column, 0);
         stack[column]->setZValue(20);
         stack[column]->setCheckIndex(1);
         stack[column]->setAddFlags(Pile::addSpread | Pile::several);
@@ -104,7 +105,7 @@ Spider::Spider()
     // else the name Spider?
     for( int column = 0; column < 8; column++ ) {
         legs[column] = new Pile(column + 16, this);
-        legs[column]->setPilePos(1 + dist_x / 3 * column, -1);
+        legs[column]->setPilePos(dist_x / 3 * column, smallNeg);
         legs[column]->setZValue(column+1);
         legs[column]->setCheckIndex(0);
         legs[column]->setAddFlags(Pile::disallow);

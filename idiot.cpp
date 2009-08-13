@@ -30,7 +30,7 @@ Idiot::Idiot( )
 {
     // Create the deck to the left.
     Deck::create_deck( this );
-    Deck::deck()->setPilePos(1, 1);
+    Deck::deck()->setPilePos(0, 0);
 
     const int distx = 11;
 
@@ -40,7 +40,7 @@ Idiot::Idiot( )
 
         m_play[i]->setAddFlags( Pile::addSpread );
         m_play[i]->setRemoveFlags( Pile::disallow | Pile::demoOK );
-        m_play[i]->setPilePos( 16 + distx * i, 1);
+        m_play[i]->setPilePos(15 + distx * i, 0);
         m_play[i]->setObjectName( QString( "play%1" ).arg( i ) );
         m_play[i]->setReservedSpace( QSizeF( 10.0, 30.0 ) );
     }
@@ -49,7 +49,7 @@ Idiot::Idiot( )
     m_away = new Pile( 5, this );
     m_away->setTarget(true);
     m_away->setRemoveFlags(Pile::disallow);
-    m_away->setPilePos( 20 + distx * 4, 1);
+    m_away->setPilePos(19 + distx * 4, 0);
     m_away->setObjectName( "away" );
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);

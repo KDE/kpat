@@ -52,8 +52,8 @@ void KlondikePile::setDraws( int _draw )
 
 QSizeF KlondikePile::cardOffset( const Card *c ) const
 {
-    if ( indexOf( c ) > cardsLeft() - m_draw )
-        return QSizeF( 1.25, 0 );
+    if ( indexOf( c ) >= cardsLeft() - m_draw )
+        return QSizeF( 3.3, 0 );
     return QSizeF( 0, 0 );
 }
 
@@ -65,20 +65,20 @@ void KlondikePile::relayoutCards()
     qreal y = pos().y();
     qreal diff = 0;
     qreal z = zValue() + 1;
-    for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
+    foreach ( Card *c, m_cards )
     {
-        if ( ( *it )->animated() )
+        if ( c->animated() )
             continue;
-        //kDebug(11111) << "car" << car << " " << p;
-        ( *it )->setPos( QPointF( x + diff * cardMap::self()->cardWidth(), y ) );
-        ( *it )->setSpread( QSizeF( diff * 10, 0 ) );
-        ( *it )->setZValue( z );
+
+        c->setPos( QPointF( x + diff * cardMap::self()->cardWidth(), y ) );
+        c->setSpread( QSizeF( diff * 10, 0 ) );
+        c->setZValue( z );
         z = z+1;
         if ( car > m_draw )
         {
             --car;
         } else
-            diff += 0.125;
+            diff += .33;
     }
 }
 
@@ -86,12 +86,11 @@ Klondike::Klondike()
     : DealerScene( )
 {
     // The units of the follwoing constants are pixels
-    const double margin = 2; // between card piles and board edge
-    const double hspacing = 10. / 6 + 0.2; // horizontal spacing between card piles
-    const double vspacing = 10. / 4; // vertical spacing between card piles
+    const qreal hspacing = 10. / 6 + 0.2; // horizontal spacing between card piles
+    const qreal vspacing = 10. / 4; // vertical spacing between card piles
 
     Deck::create_deck(this);
-    Deck::deck()->setPilePos(margin, margin );
+    Deck::deck()->setPilePos(0, 0);
     connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(newCards()));
 
     KConfigGroup cg(KGlobal::config(), settings_group );
@@ -101,7 +100,7 @@ Klondike::Klondike()
     pile->setObjectName( "pile" );
     pile->setReservedSpace( QSizeF( 19, 10 ) );
 
-    pile->setPilePos(margin + 10 + hspacing, margin);
+    pile->setPilePos(10 + hspacing, 0);
     // Move the visual representation of the pile to the intended position
     // on the game board.
 
@@ -111,7 +110,7 @@ Klondike::Klondike()
     for( int i = 0; i < 7; i++ )
     {
         play[ i ] = new Pile( i + 5, this);
-        play[i]->setPilePos(margin + (10. + hspacing) * i, margin + 10. + vspacing);
+        play[i]->setPilePos((10. + hspacing) * i, 10. + vspacing);
         play[i]->setAddType(Pile::KlondikeStore);
         play[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop | Pile::wholeColumn);
         play[i]->setObjectName( QString( "play%1" ).arg( i ) );
@@ -121,7 +120,7 @@ Klondike::Klondike()
     for( int i = 0; i < 4; i++ )
     {
         target[ i ] = new Pile( i + 1, this );
-        target[i]->setPilePos(margin + (3 + i) * (10 + hspacing), margin);
+        target[i]->setPilePos((3 + i) * (10 + hspacing), 0);
         target[i]->setAddType(Pile::KlondikeTarget);
         if (EasyRules) // change default
             target[i]->setRemoveFlags(Pile::Default);

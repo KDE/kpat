@@ -54,13 +54,18 @@ Freecell::Freecell()
     Deck::create_deck(this, 1);
     Deck::deck()->hide();
 
+    const qreal topRowDist = 10.8;
+    const qreal bottomRowDist = 11.3;
+    const qreal targetOffsetDist = ( 7 * bottomRowDist + 10 ) - ( 3 * topRowDist + 10 );
+
+
     kDebug(11111) << "cards" << Deck::deck()->cards().count();
     for (int i = 0; i < 8; i++)
     {
         FreecellPile *p = new FreecellPile(1 + i, this);
         store[i] = p;
-        store[i]->setPilePos(1 + 11.3 * i, 14 );
-        store[i]->setObjectName( QString( "store%1" ).arg( i ) );
+        p->setPilePos( bottomRowDist * i, 13 );
+        p->setObjectName( QString( "store%1" ).arg( i ) );
         p->setAddFlags(Pile::addSpread | Pile::several);
         p->setRemoveFlags(Pile::several);
         p->setCheckIndex(0);
@@ -70,7 +75,7 @@ Freecell::Freecell()
     for (int i = 0; i < 4; i++)
     {
         freecell[i] = new Pile (1 + 8 +i, this);
-        freecell[i]->setPilePos(1 + 10.8 * i, 1);
+        freecell[i]->setPilePos(topRowDist * i, 0);
         freecell[i]->setObjectName( QString( "freecell%1" ).arg( i ) );
         freecell[i]->setType(Pile::FreeCell);
     }
@@ -79,7 +84,7 @@ Freecell::Freecell()
     {
         target[i] = new Pile(1 + 8 + 4 +i, this);
         target[i]->setObjectName( QString( "target%1" ).arg( i ) );
-        target[i]->setPilePos(4 + 10.8 * ( 4 + i ), 1);
+        target[i]->setPilePos(targetOffsetDist + topRowDist * i, 0);
         target[i]->setType(Pile::KlondikeTarget);
     }
 

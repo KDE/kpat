@@ -35,22 +35,23 @@ Grandf::Grandf( )
     Deck::deck()->hide();
 
     const int distx = 14;
+    const qreal targetOffset = 1.5 * distx;
 
     for (int i=0; i<4; i++) {
         target[i] = new Pile(i+1, this);
-        target[i]->setPilePos(10+(i+1)*distx, 1);
+        target[i]->setPilePos(targetOffset+i*distx, 0);
         target[i]->setType(Pile::KlondikeTarget);
         target[i]->setObjectName( QString( "target%1" ).arg( i ) ) ;
     }
 
     for (int i=0; i<7; i++) {
         store[i] = new Pile(5+i, this);
-        store[i]->setPilePos(1+distx*i, 13);
+        store[i]->setPilePos(distx*i, 12);
         store[i]->setAddFlags(Pile::addSpread | Pile::several);
         store[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
         store[i]->setObjectName( QString( "store%1" ).arg( i ) ) ;
         store[i]->setCheckIndex(1);
-        store[i]->setReservedSpace( QSizeF( 10, 40 ) );
+        store[i]->setReservedSpace( QSizeF( 10, 50 ) );
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Redeal);

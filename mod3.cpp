@@ -53,18 +53,19 @@ public:
 Mod3::Mod3( )
     : DealerScene( )
 {
-    const double dist_x = 11.14;
-    const double dist_y = 13.1;
-    const double margin = 2;
+    const qreal dist_x = 11.14;
+    const qreal dist_y = 13.1;
+    const qreal bottomRowY = 3 * dist_y + 2;
+    const qreal rightColumX = 8 * dist_x + 8;
 
     // This patience uses 2 deck of cards.
     Deck::create_deck( this, 2);
-    Deck::deck()->setPilePos(3 + dist_x * 8 + 5, 2 + dist_y * 3 + margin);
+    Deck::deck()->setPilePos(rightColumX, bottomRowY);
 
     connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(newCards()));
 
     aces = new Pile(50, this);
-    aces->setPilePos(10 + dist_x * 8, dist_y / 2);
+    aces->setPilePos(rightColumX, 5);
     aces->setTarget(true);
     aces->setCheckIndex(2);
     aces->setAddFlags(Pile::addSpread | Pile::several);
@@ -77,6 +78,7 @@ Mod3::Mod3( )
             // The first 3 rows are the playing field, the fourth is the store.
             if ( r < 3 ) {
                 stack[r][c] = new Pile ( pileIndex, this );
+                stack[r][c]->setPilePos( dist_x * c, dist_y * r );
                 stack[r][c]->setCheckIndex( 0 );
                 stack[r][c]->setTarget(true);
                 stack[r][c]->setAddFlags( Pile::addSpread );
@@ -85,16 +87,14 @@ Mod3::Mod3( )
                 stack[r][c]->setReservedSpace( QSizeF( 10, 12.3 ) );
             } else {
                 stack[r][c] = new Mod3Pile ( pileIndex, this );
+                stack[r][c]->setPilePos( dist_x * c, bottomRowY );
                 stack[r][c]->setReservedSpace( QSizeF( 10, 18 ) );
                 stack[r][c]->setAddFlags( Pile::addSpread );
                 stack[r][c]->setCheckIndex( 1 );
                 stack[r][c]->setObjectName( QString( "stack3_%1" ).arg( c ) );
             }
-
-            stack[r][c]->setPilePos( 2 + dist_x * c,
-                                     2 + dist_y * r + margin * ( r == 3 ));
         }
-     }
+    }
 
     setActions(DealerScene::Hint | DealerScene::Demo  | DealerScene::Deal);
     setSolver( new Mod3Solver( this ) );

@@ -26,23 +26,23 @@ Gypsy::Gypsy( )
     const qreal dist_y = 11.1;
 
     Deck::create_deck(this, 2);
-    Deck::deck()->setPilePos(1 + dist_x / 2 + 8*dist_x, 4 * dist_y + 2 );
+    Deck::deck()->setPilePos(dist_x / 2 + 8*dist_x, 4 * dist_y);
 
     connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(newCards()));
 
     for (int i=0; i<8; i++) {
         target[i] = new Pile(i+1, this);
-        target[i]->setPilePos(1 +dist_x*(8+(i/4)), 1 + (i%4)*dist_y);
+        target[i]->setPilePos(dist_x*(8+(i/4)), (i%4)*dist_y);
         target[i]->setAddType(Pile::KlondikeTarget);
         target[i]->setObjectName( QString( "target%1" ).arg( i ) );
     }
 
     for (int i=0; i<8; i++) {
         store[i] = new Pile(9+i, this);
-        store[i]->setPilePos(1+dist_x*i, 1);
+        store[i]->setPilePos(dist_x*i,0);
         store[i]->setAddType(Pile::GypsyStore);
         store[i]->setRemoveType(Pile::FreecellStore);
-        store[i]->setReservedSpace( QSizeF( 10, 20 ) );
+        store[i]->setReservedSpace( QSizeF( 10, 4 * dist_y + 10 ) );
         store[i]->setObjectName( QString( "store%1" ).arg( i ) );
     }
 
