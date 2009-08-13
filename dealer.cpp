@@ -1977,7 +1977,7 @@ void DealerScene::relayoutPiles()
         if ( p->reservedSpace().width() > 10 )
             ms.setWidth( s.width() - p->x() );
         else if ( p->reservedSpace().width() < 0 && p->x() > 0 )
-            ms.setWidth( p->x() );
+            ms.setWidth( p->x() + cardWidth );
 
         if ( p->reservedSpace().height() > 10 && s.height() > p->y() )
             ms.setHeight( s.height() - p->y() );
@@ -2002,9 +2002,9 @@ void DealerScene::relayoutPiles()
 
             QRectF pileRect( p2->pos(), p2->maximumSpace() );
             if ( p2->reservedSpace().width() < 0 )
-                pileRect.moveRight( p2->x() );
+                pileRect.moveRight( p2->x() + cardWidth );
             if ( p2->reservedSpace().height() < 0 )
-                pileRect.moveBottom( p2->y() );
+                pileRect.moveBottom( p2->y() + cardHeight );
 
             // if the growing pile intersects with another pile, we need to solve the conflict
             if ( myRect.intersects( pileRect ) )
