@@ -1967,6 +1967,7 @@ void DealerScene::relayoutPiles()
     QSize s = d->contentsRect.size().toSize();
     int cardWidth = cardMap::self()->cardWidth();
     int cardHeight = cardMap::self()->cardHeight();
+    const qreal spacing = cardWidth * 1.5 / 10;
 
     foreach ( Pile *p, piles )
     {
@@ -2017,16 +2018,16 @@ void DealerScene::relayoutPiles()
                     {
                         Q_ASSERT( p2->reservedSpace().height() > 0 );
                         // if it's growing too, we win
-                        pms.setHeight( qMin( myRect.top() - p2->y() - 1, pms.height() ) );
-                        //kDebug(11111) << "1. reduced height of" << ( *it2 )->objectName();
+                        pms.setHeight( qMin( myRect.top() - p2->y() - spacing, pms.height() ) );
+                        //kDebug(11111) << "1. reduced height of" << p2->objectName();
                     } else // if it's fixed height, we loose
                         if ( p->reservedSpace().width() < 0 ) {
                             // this isn't made for two piles one from left and one from right both growing
                             Q_ASSERT( p2->reservedSpace().width() == 10 );
-                            myRect.setLeft( p2->x() + cardWidth + 1);
+                            myRect.setLeft( p2->x() + cardWidth + spacing);
                             //kDebug(11111) << "2. reduced width of" << p->objectName();
                         } else {
-                            myRect.setRight( p2->x() - 1 );
+                            myRect.setRight( p2->x() - spacing );
                             //kDebug(11111) << "3. reduced width of" << p->objectName();
                         }
                 }
@@ -2037,17 +2038,17 @@ void DealerScene::relayoutPiles()
                     {
                         Q_ASSERT( p2->reservedSpace().height() > 0 );
                         // if it's growing too, we win
-                        pms.setWidth( qMin( myRect.right() - p2->x() - 1, pms.width() ) );
-                        //kDebug(11111) << "4. reduced width of" << ( *it2 )->objectName();
+                        pms.setWidth( qMin( myRect.right() - p2->x() - spacing, pms.width() ) );
+                        //kDebug(11111) << "4. reduced width of" << p2->objectName();
                     } else // if it's fixed height, we loose
                         if ( p->reservedSpace().height() < 0 ) {
                             // this isn't made for two piles one from left and one from right both growing
                             Q_ASSERT( p2->reservedSpace().height() == 10 );
                             Q_ASSERT( false ); // TODO
-                            myRect.setLeft( p2->x() + cardWidth + 1);
+                            myRect.setLeft( p2->x() + cardWidth + spacing );
                             //kDebug(11111) << "5. reduced height of" << p->objectName();
                         } else if ( p2->y() >= 1  ) {
-                            myRect.setBottom( p2->y() - 1 );
+                            myRect.setBottom( p2->y() - spacing );
                             //kDebug(11111) << "6. reduced height of" << p->objectName() << (*it2)->y() - 1 << myRect;
                         }
                 }

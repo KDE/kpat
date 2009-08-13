@@ -531,20 +531,24 @@ void Pile::tryRelayoutCards()
 
 void Pile::layoutCards(int duration)
 {
+    if ( m_cards.isEmpty() )
+        return;
+
     QSizeF preferredSize( 0, 0 );
-    foreach ( const Card * card, m_cards )
+    for ( int i = 0; i < m_cards.size() - 1; ++i )
     {
         // The spreads should hopefully have all one sign, or we get in trouble
-        preferredSize.rwidth() += fabs( card->spread().width() );
-        preferredSize.rheight() += fabs( card->spread().height() );
+        preferredSize.rwidth() += qAbs( m_cards[i]->spread().width() );
+        preferredSize.rheight() += qAbs( m_cards[i]->spread().height() );
     }
+
+    qreal divx = 1;
+    if ( preferredSize.width() )
+        divx = qMin<qreal>( ( maximumSpace().width() - cardMap::self()->cardWidth() ) / ( preferredSize.width() / 10.0 * cardMap::self()->cardWidth() ), 1.0 );
 
     qreal divy = 1;
     if ( preferredSize.height() )
-        divy = qMin<qreal>( ( maximumSpace().height() - cardMap::self()->cardHeight() ) / preferredSize.height() * 10 / cardMap::self()->cardHeight(), 1. );
-    qreal divx = 1;
-    if ( preferredSize.width() )
-        divx = qMin<qreal>( ( maximumSpace().width() - cardMap::self()->cardWidth() ) / preferredSize.width() * 10 / cardMap::self()->cardWidth(), 1. );
+        divy = qMin<qreal>( ( maximumSpace().height() - cardMap::self()->cardHeight() ) / ( preferredSize.height() / 10.0 * cardMap::self()->cardHeight() ), 1.0 );
 
     QPointF cardPos = pos();
     qreal z = zValue() + 1;
