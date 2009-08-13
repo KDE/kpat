@@ -1520,16 +1520,6 @@ int DealerScene::gameNumber() const
     return gamenumber;
 }
 
-void DealerScene::rescale(bool onlypiles)
-{
-    if ( !onlypiles )
-        Deck::deck()->update();
-    for (PileList::ConstIterator it = piles.constBegin(); it != piles.constEnd(); ++it)
-    {
-        ( *it )->rescale();
-    }
-}
-
 void DealerScene::setGameNumber(int gmn)
 {
     // Deal in the range of 1 to INT_MAX.

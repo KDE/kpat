@@ -21,6 +21,7 @@
 #include "cardmaps.h"
 
 #include "dealer.h"
+#include "deck.h"
 #include "version.h"
 #include "view.h"
 
@@ -98,9 +99,10 @@ void cardMap::updateTheme(const KConfigGroup &cs)
     Q_ASSERT( !d->m_originalCardSize.isNull() );
     d->m_currentCardSize = d->m_originalCardSize.toSize();
 
-    if (PatienceView::instance() && PatienceView::instance()->dscene()) {
-        PatienceView::instance()->dscene()->relayoutPiles();
-        PatienceView::instance()->dscene()->rescale(false);
+    if (PatienceView::instance() && PatienceView::instance()->dscene())
+    {
+        Deck::deck()->updatePixmaps();
+        PatienceView::instance()->dscene()->relayoutScene();
     }
 }
 
@@ -132,7 +134,7 @@ void cardMap::triggerRescale()
     cs.writeEntry( "CardWidth", d->m_currentCardSize.width() );
 
     if ( PatienceView::instance() && PatienceView::instance()->dscene() )
-         PatienceView::instance()->dscene()->rescale(false);
+        Deck::deck()->updatePixmaps();
 }
 
 void cardMap::setCardWidth( int width )

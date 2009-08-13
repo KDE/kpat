@@ -178,7 +178,6 @@ public slots:
     virtual bool startAutoDrop();
     virtual Card *newCards();
     void hint();
-    void rescale(bool onlypiles);
 
     State *getState();
     void setState(State *);
