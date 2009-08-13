@@ -93,7 +93,7 @@ void PatienceView::wheelEvent( QWheelEvent *e )
 {
     if ( e->modifiers() & Qt::ControlModifier )
     {
-        qreal scaleFactor = pow((double)2, -e->delta() / (10*120.0));
+        qreal scaleFactor = pow((qreal)2, -e->delta() / (10*120.0));
         cardMap::self()->setCardWidth( int( cardMap::self()->cardWidth() / scaleFactor ) );
     }
 }

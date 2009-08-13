@@ -122,10 +122,10 @@ public:
 
 
     // The spread properties.
-    double spread() const    { return _spread; }
-    void setSpread(double s)  { _spread = s; }
+    qreal spread() const    { return _spread; }
+    void setSpread(qreal s)  { _spread = s; }
 
-    void setPilePos( double x, double y);
+    void setPilePos( qreal x, qreal y);
     QPointF pilePos() const;
 
     void rescale();
@@ -160,7 +160,7 @@ protected:
 private:
     PileType  _atype;
     PileType  _rtype;
-    double    _spread;
+    qreal    _spread;
 
     int _checkIndex;
     int myIndex;

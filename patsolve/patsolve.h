@@ -128,7 +128,7 @@ protected:
 
     bool m_newer_piles_first;
     unsigned long Total_generated, Total_positions;
-    double depth_sum;
+    qreal depth_sum;
 
     POSITION *Stack;
     QMap<qint32,bool> recu_pos;

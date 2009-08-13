@@ -132,7 +132,7 @@ Pile::~Pile()
     delete m_relayoutTimer;
 }
 
-void Pile::setPilePos( double x,  double y )
+void Pile::setPilePos( qreal x,  qreal y )
 {
     _pilePos = QPointF( x, y );
     rescale();

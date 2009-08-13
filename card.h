@@ -90,7 +90,7 @@ public:
 
     void         moveTo( qreal x2, qreal y2, qreal z, int duration);
     void         flipTo( qreal x, qreal y, int duration );
-    void         setZValue(double z);
+    void         setZValue(qreal z);
     void         getUp();
 
     qreal        realX() const;

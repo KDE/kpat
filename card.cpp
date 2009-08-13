@@ -182,7 +182,7 @@ bool Card::realFace() const
 // middle of a destination pile.
 qreal  Card::Hz = 0;
 
-void Card::setZValue(double z)
+void Card::setZValue(qreal z)
 {
     QGraphicsPixmapItem::setZValue(z);
     if (z > Hz)

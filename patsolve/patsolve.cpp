@@ -780,8 +780,8 @@ void Solver::queue_position(POSITION *pos, int pri)
 
         int nout = getOuts();
 
-        static double Yparam[] = { 0.0032, 0.32, -3.0 };
-	double x = (Yparam[0] * nout + Yparam[1]) * nout + Yparam[2];
+        static qreal Yparam[] = { 0.0032, 0.32, -3.0 };
+	qreal x = (Yparam[0] * nout + Yparam[1]) * nout + Yparam[2];
 	pri += (int)floor(x + .5);
 
 	if (pri < 0) {

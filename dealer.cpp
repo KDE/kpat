@@ -1361,7 +1361,7 @@ bool DealerScene::startAutoDrop()
             CardList cards = mh->card()->source()->cards();
             while (cards.count() && cards.first() != t)
                 cards.erase(cards.begin());
-            QList<double> xs, ys;
+            QList<qreal> xs, ys;
             for ( CardList::Iterator it2 = cards.begin(); it2 != cards.end(); ++it2 )
             {
                 QPointF p = ( *it2 )->pos();
@@ -1369,7 +1369,7 @@ bool DealerScene::startAutoDrop()
                 ys.append( p.y() );
             }
 
-            double z = mh->pile()->zValue() + 1;
+            qreal z = mh->pile()->zValue() + 1;
             if ( mh->pile()->top() )
                 z = mh->pile()->top()->zValue() + 1;
             t->source()->moveCards(cards, mh->pile());
