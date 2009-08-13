@@ -265,7 +265,7 @@ void Spider::setGameState(const QString &stream)
 
         m_leg = numLegs;
         for ( int i = 0; i < 8; ++i )
-            legs[i]->setVisible( i <= m_leg );
+            legs[i]->setVisible( i < m_leg );
 
         relayoutPiles();
 
