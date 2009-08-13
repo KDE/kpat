@@ -583,6 +583,8 @@ DealerScene::~DealerScene()
     kDebug(11111) << "~DealerScene";
     unmarkAll();
 
+    clearHints();
+
     // don't delete the deck
     if ( Deck::deck()->scene() == this )
     {

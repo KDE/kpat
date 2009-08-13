@@ -57,8 +57,6 @@ PatienceView::PatienceView( KXmlGuiWindow* _window, QWidget* _parent )
 
 PatienceView::~PatienceView()
 {
-    dscene()->clearHints();
-
     if (s_instance == this)
         s_instance = 0;
 

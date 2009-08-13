@@ -47,10 +47,10 @@ class DealerInfo
 public:
     DealerInfo(const char *_name, int _index)
         : name(_name)
-	{
-	    DealerInfoList::self()->add(this);
+    {
+        DealerInfoList::self()->add(this);
             addOldId(_index);
-	}
+    }
     virtual ~DealerInfo(){}
     const char *name;
     QList<int> ids;
@@ -74,86 +74,46 @@ class DealerScene : public QGraphicsScene
     Q_OBJECT
 
 public:
+    enum { None = 0, Hint = 1, Demo = 2, Draw = 4, Deal = 8, Redeal = 16 } Actions;
+
     DealerScene();
     ~DealerScene();
 
-    void unmarkAll();
-    void mark(Card *c);
-    QString save_it();
-    Pile * targetPile();
-
-protected:
-    virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * mouseEvent );
-    virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent );
-    virtual void mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent );
-    virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent );
-    void drawBackground ( QPainter * painter, const QRectF & rect );
-    void drawForeground ( QPainter * painter, const QRectF & rect );
-
-public:
-    Pile *findTarget(Card *c);
-    virtual bool cardClicked(Card *);
-    virtual bool pileClicked(Pile *);
-    virtual bool cardDblClicked(Card *);
-
-    bool isMoving(Card *c) const;
-
-    void saveGame(QDomDocument &doc);
-    void openGame(QDomDocument &doc);
-    virtual void mapOldId(int id);
-
-    virtual void getHints();
-    void getSolverHints();
-    void newHint(MoveHint *mh);
-    void clearHints();
-    // it's not const because it changes the random seed
-    virtual MoveHint *chooseHint();
-
-    void setSolverEnabled(bool a);
-    void setAutoDropEnabled(bool a);
-    bool autoDrop() const { return _autodrop; }
-
-    // use this for autodrop times
-    int speedUpTime( int delay ) const;
-
-    void setGameNumber(int gmn);
-    int gameNumber() const;
-
-    int waiting() const { return _waiting; }
-    void setWaiting(bool w);
+    void setSceneSize( const QSize &s );
+    QRectF contentArea() const;
 
     void addPile(Pile *p);
     void removePile(Pile *p);
-
-    virtual bool isGameLost() const;
-    virtual bool isGameWon() const;
-
-    void setGameId(int id);
-    int gameId() const;
-
-    virtual void restart() = 0;
-    virtual void stopDemo();
 
     virtual bool checkRemove( int checkIndex, const Pile *c1, const Card *c) const;
     virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
     virtual bool checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const;
 
-    QRectF contentArea() const;
+    bool isMoving(Card *c) const;
+    bool cardsAreMoving() const { return !movingCards.empty(); }
+    void setWaiting(bool w);
+    int waiting() const { return _waiting; }
 
-    void setSceneSize( const QSize &s );
+    // use this for autodrop times
+    int speedUpTime( int delay ) const;
 
-    void won();
-    bool demoActive() const;
-    int getMoves() const;
+    void createDump( QPaintDevice * );
 
-    enum { None = 0, Hint = 1, Demo = 2, Draw = 4, Deal = 8, Redeal = 16 } Actions;
+    void setAutoDropEnabled(bool a);
+    bool autoDrop() const { return _autodrop; }
+
+    void setGameNumber(int gmn);
+    int gameNumber() const;
+
+    void setGameId(int id);
+    int gameId() const;
 
     void setActions(int actions);
     int actions() const;
 
+    void setSolverEnabled(bool a);
     void setSolver( Solver *s);
     Solver *solver() const;
-
     void startSolver() const;
     void unlockSolver() const;
     void finishSolver() const;
@@ -161,42 +121,20 @@ public:
     void setNeededFutureMoves(int);
     int neededFutureMoves() const;
 
+    bool demoActive() const;
+    virtual bool isGameLost() const;
+    virtual bool isGameWon() const;
     bool isInitialDeal() const;
+    bool allowedToStartNewGame();
+    int getMoves() const;
+
+    QString save_it();
+    void saveGame(QDomDocument &doc);
+    void openGame(QDomDocument &doc);
+    virtual void mapOldId(int id);
     void recordGameStatistics();
 
-    bool cardsAreMoving() const { return !movingCards.empty(); }
-
-    void createDump( QPaintDevice * );
-
-    void updateWonItem();
-
-    bool allowedToStartNewGame();
-
-public slots:
-    virtual bool startAutoDrop();
-    virtual Card *newCards();
-    void hint();
-
-    State *getState();
-    void setState(State *);
-    void relayoutScene(const QSize& s = QSize());
-    void relayoutPiles();
-    void showWonMessage();
-    void takeState();
-    void eraseRedo();
-    void undo();
-    void redo();
-    void slotSolverEnded();
-    void slotSolverFinished();
-    void slotAutoDrop();
-
-    void startNew(int gameNumber = -1);
-
-protected slots:
-    virtual void demo();
-    void waitForDemo(Card *);
-    void waitForWonAnim(Card *c);
-    void toggleDemo();
+    virtual void restart() = 0;
 
 signals:
     void undoPossible(bool poss);
@@ -216,11 +154,52 @@ signals:
     void gameSolverLost();
     void gameSolverUnknown();
 
-private slots:
-    void waitForAutoDrop(Card *);
-    void stopAndRestartSolver();
+public slots:
+    void relayoutScene(const QSize& s = QSize());
+    void relayoutPiles();
+
+    void startNew(int gameNumber = -1);
+    void hint();
+    void showWonMessage();
+
+    void undo();
+    void redo();
 
 protected:
+    virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * mouseEvent );
+    virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent );
+    virtual void mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent );
+    virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent );
+
+    virtual bool cardClicked(Card *);
+    virtual bool pileClicked(Pile *);
+    virtual bool cardDblClicked(Card *);
+
+    virtual void drawBackground ( QPainter * painter, const QRectF & rect );
+    virtual void drawForeground ( QPainter * painter, const QRectF & rect );
+
+    State *getState();
+    void setState(State *);
+    void eraseRedo();
+
+    void mark(Card *c);
+    void unmarkAll();
+
+    Pile *findTarget(Card *c);
+    Pile *targetPile();
+
+    virtual void getHints();
+    void getSolverHints();
+    void newHint(MoveHint *mh);
+    void clearHints();
+    // it's not const because it changes the random seed
+    virtual MoveHint *chooseHint();
+
+    virtual void stopDemo();
+
+    void won();
+    void updateWonItem();
+
     // reimplement these to store and load game-specific information in the state structure
     virtual QString getGameState() { return QString(); }
     virtual void setGameState( const QString & ) {}
@@ -234,7 +213,21 @@ protected:
 
     PileList piles;
     QList<MoveHint*> hints;
-    KRandomSequence randseq;
+
+protected slots:
+    virtual void demo();
+    void waitForDemo(Card *);
+    void waitForWonAnim(Card *c);
+    void toggleDemo();
+
+
+    void slotSolverEnded();
+    void slotSolverFinished();
+    void slotAutoDrop();
+
+    void takeState();
+    virtual Card *newCards();
+    virtual bool startAutoDrop();
 
 private:
     QList<QGraphicsItem *> marked;
@@ -250,6 +243,10 @@ private:
 
     class DealerScenePrivate;
     DealerScenePrivate *d;
+
+private slots:
+    void waitForAutoDrop(Card *);
+    void stopAndRestartSolver();
 };
 
 #endif
