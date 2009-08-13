@@ -50,35 +50,28 @@ void KlondikePile::setDraws( int _draw )
     m_draw = _draw;
 }
 
-QSizeF KlondikePile::cardOffset( const Card *c ) const
+void KlondikePile::layoutCards( int duration )
 {
-    if ( indexOf( c ) >= cardsLeft() - m_draw )
-        return QSizeF( 0.33, 0 );
-    return QSizeF( 0, 0 );
-}
+    if ( m_cards.isEmpty() )
+        return;
 
-void KlondikePile::relayoutCards()
-{
-    m_relayoutTimer->stop();
-    int car = m_cards.count();
-    qreal x = pos().x();
-    qreal y = pos().y();
-    qreal diff = 0;
-    qreal z = zValue() + 1;
-    foreach ( Card *c, m_cards )
+    qreal divx = qMin<qreal>( ( maximumSpace().width() - cardMap::self()->cardWidth() ) / ( 2 * spread() * cardMap::self()->cardWidth() ), 1.0 );
+
+    QPointF cardPos = pos();
+    int z = zValue();
+    for ( int i = 0; i < m_cards.size(); ++i )
     {
-        if ( c->animated() )
-            continue;
-
-        c->setPos( QPointF( x + diff * cardMap::self()->cardWidth(), y ) );
-        c->setSpread( QSizeF( diff, 0 ) );
-        c->setZValue( z );
-        z = z+1;
-        if ( car > m_draw )
+        ++z;
+        if ( i < m_cards.size() - m_draw )
         {
-            --car;
-        } else
-            diff += .33;
+            m_cards[i]->setZValue( z );
+            m_cards[i]->setPos( cardPos );
+        }
+        else
+        {
+            m_cards[i]->moveTo( cardPos.x(), cardPos.y(), z, dscene()->speedUpTime( duration ) );
+            cardPos.rx() += divx * spread() * cardMap::self()->cardWidth();
+        }
     }
 }
 
@@ -99,11 +92,8 @@ Klondike::Klondike()
     pile = new KlondikePile( 13, EasyRules ? 1 : 3, this);
     pile->setObjectName( "pile" );
     pile->setReservedSpace( QSizeF( 1.9, 1.0 ) );
-
     pile->setPilePos(1.0 + hspacing, 0);
-    // Move the visual representation of the pile to the intended position
-    // on the game board.
-
+    pile->setSpread( 0.33 );
     pile->setAddFlags( Pile::disallow );
     pile->setRemoveFlags(Pile::Default);
 
@@ -167,20 +157,13 @@ Card *Klondike::newCards()
         return Deck::deck()->top();
     }
 
-    // Unspread all cards on the pile
-    for (int i = 0; i < pile->cardsLeft(); ++i)
-        pile->at( i )->setSpread( QSizeF( 0, 0 ) );
-    pile->relayoutCards();
-
     for (int flipped = 0; flipped < pile->draw() && !Deck::deck()->isEmpty(); ++flipped) {
         Card *c = Deck::deck()->nextCard();
         pile->add(c, true); // facedown, nospread
-        if (flipped < pile->draw() - 1)
-            c->setSpread( QSizeF( pile->spread() * 0.6, 0 ) );
         c->stopAnimation();
         // move back to flip
         c->setPos( Deck::deck()->pos() );
-        c->flipTo( pile->x() + 0.125 * flipped * cardMap::self()->cardWidth(), pile->y(), 200 + 80 * ( flipped + 1 ) );
+        c->flipTo( pile->x() + pile->spread() * flipped * cardMap::self()->cardWidth(), pile->y(), 200 + 80 * ( flipped + 1 ) );
     }
 
     takeState();
