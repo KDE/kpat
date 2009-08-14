@@ -18,7 +18,7 @@
    Heavily modified by Mario Weilguni <mweilguni@sime.com>
 */
 
-#include "pwidget.h"
+#include "mainwindow.h"
 
 #include "cardmaps.h"
 #include "dealer.h"
@@ -64,16 +64,13 @@
 #include <QtXml/QDomDocument>
 
 
-static pWidget *current_pwidget = 0;
-
-pWidget::pWidget()
+MainWindow::MainWindow()
   : KXmlGuiWindow(0),
     dill(0),
     m_dealer(0),
     m_bubbles(0)
 {
-    setObjectName( "pwidget" );
-    current_pwidget = this;
+    setObjectName( "MainWindow" );
     // KCrash::setEmergencySaveFunction(::saveGame);
 
     // Game
@@ -196,7 +193,7 @@ pWidget::pWidget()
     statusBar()->addWidget(moveStatus, 0);
 }
 
-pWidget::~pWidget()
+MainWindow::~MainWindow()
 {
     recent->saveEntries(KGlobal::config()->group( QString() ));
 
@@ -204,17 +201,17 @@ pWidget::~pWidget()
     delete m_cards;
 }
 
-void pWidget::undoMove() {
+void MainWindow::undoMove() {
     if( m_dealer )
         m_dealer->undo();
 }
 
-void pWidget::redoMove() {
+void MainWindow::redoMove() {
     if( m_dealer )
         m_dealer->redo();
 }
 
-void pWidget::helpGame()
+void MainWindow::helpGame()
 {
     if (m_dealer && m_dealer_map.contains(m_dealer->gameId()))
     {
@@ -225,7 +222,7 @@ void pWidget::helpGame()
     }
 }
 
-void pWidget::enableAutoDrop(bool enable)
+void MainWindow::enableAutoDrop(bool enable)
 {
     KConfigGroup cg(KGlobal::config(), settings_group);
     cg.writeEntry("Autodrop", enable);
@@ -234,7 +231,7 @@ void pWidget::enableAutoDrop(bool enable)
     updateGameActionList();
 }
 
-void pWidget::enableSolver(bool enable)
+void MainWindow::enableSolver(bool enable)
 {
     KConfigGroup cg(KGlobal::config(), settings_group);
     cg.writeEntry("Solver", enable);
@@ -243,35 +240,35 @@ void pWidget::enableSolver(bool enable)
         m_dealer->setSolverEnabled(enable);
 }
 
-void pWidget::enableRememberState(bool enable)
+void MainWindow::enableRememberState(bool enable)
 {
     KConfigGroup cg(KGlobal::config(), settings_group );
     cg.writeEntry( "RememberStateOnExit", enable );
 }
 
-void pWidget::newGame()
+void MainWindow::newGame()
 {
     if (m_dealer && m_dealer->allowedToStartNewGame())
         startRandom();
 }
 
-void pWidget::restart()
+void MainWindow::restart()
 {
     startNew(-1);
 }
 
-void pWidget::startRandom()
+void MainWindow::startRandom()
 {
     startNew(KRandom::random());
 }
 
-void pWidget::startNew(int gameNumber)
+void MainWindow::startNew(int gameNumber)
 {
     m_dealer->startNew(gameNumber);
     setGameCaption();
 }
 
-void pWidget::slotPickRandom()
+void MainWindow::slotPickRandom()
 {
     QString theme = CardDeckInfo::randomFrontName();
     kDebug(11111) << "theme" << theme;
@@ -284,7 +281,7 @@ void pWidget::slotPickRandom()
     cardMap::self()->triggerRescale();
 }
 
-void pWidget::slotSelectDeck()
+void MainWindow::slotSelectDeck()
 {
     KConfigGroup cs(KGlobal::config(), settings_group);
     QPointer<KCardWidget> cardwidget = new KCardWidget();
@@ -312,7 +309,7 @@ void pWidget::slotSelectDeck()
     delete dlg;
 }
 
-void pWidget::setGameCaption()
+void MainWindow::setGameCaption()
 {
     QString caption;
     if ( m_dealer )
@@ -323,7 +320,7 @@ void pWidget::setGameCaption()
     setCaption( caption );
 }
 
-void pWidget::slotGameSelected(int id)
+void MainWindow::slotGameSelected(int id)
 {
     if ( m_dealer_map.contains(id) )
     {
@@ -332,7 +329,7 @@ void pWidget::slotGameSelected(int id)
     }
 }
 
-void pWidget::newGameType(int id)
+void MainWindow::newGameType(int id)
 {
     if ( !dill )
     {
@@ -372,7 +369,7 @@ void pWidget::newGameType(int id)
     updateActions();
 }
 
-void pWidget::slotShowGameSelectionScreen()
+void MainWindow::slotShowGameSelectionScreen()
 {
     if (!m_dealer || m_dealer->allowedToStartNewGame())
     {
@@ -401,7 +398,7 @@ void pWidget::slotShowGameSelectionScreen()
     }
 }
 
-void pWidget::updateActions()
+void MainWindow::updateActions()
 {
     // Enable/disable application actions that aren't appropriate on game
     // selection screen.
@@ -463,7 +460,7 @@ void pWidget::updateActions()
     updateGameActionList();
 }
 
-void pWidget::updateGameActionList()
+void MainWindow::updateGameActionList()
 {
     guiFactory()->unplugActionList( this, "game_actions" );
 
@@ -488,19 +485,19 @@ void pWidget::updateGameActionList()
     }
 }
 
-void pWidget::toggleDemoAction(bool active) 
+void MainWindow::toggleDemoAction(bool active) 
 {
     demoaction->setChecked( active );
     demoaction->setIcon( KIcon( active ? "media-playback-pause" : "media-playback-start" ) );
 }
 
-void pWidget::saveNewToolbarConfig()
+void MainWindow::saveNewToolbarConfig()
 {
     KXmlGuiWindow::saveNewToolbarConfig();
     updateGameActionList();
 }
 
-void pWidget::closeEvent(QCloseEvent *e)
+void MainWindow::closeEvent(QCloseEvent *e)
 {
     QFile savedState(KStandardDirs::locateLocal("appdata", saved_state_file));
     if (savedState.exists())
@@ -526,7 +523,7 @@ void pWidget::closeEvent(QCloseEvent *e)
     KXmlGuiWindow::closeEvent(e);
 }
 
-void pWidget::chooseGame()
+void MainWindow::chooseGame()
 {
     if (m_dealer)
     {
@@ -549,7 +546,7 @@ void pWidget::chooseGame()
     }
 }
 
-bool pWidget::openGame(const KUrl &url, bool addToRecentFiles)
+bool MainWindow::openGame(const KUrl &url, bool addToRecentFiles)
 {
     QString error;
     QString tmpFile;
@@ -617,14 +614,14 @@ bool pWidget::openGame(const KUrl &url, bool addToRecentFiles)
     return error.isEmpty();
 }
 
-void pWidget::openGame()
+void MainWindow::openGame()
 {
     KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///kpat"));
     if (!url.isEmpty())
         openGame(url);
 }
 
-void pWidget::saveGame()
+void MainWindow::saveGame()
 {
     if (m_dealer)
     {
@@ -636,7 +633,7 @@ void pWidget::saveGame()
     }
 }
 
-void pWidget::showStats()
+void MainWindow::showStats()
 {
     QPointer<GameStatsImpl> dlg = new GameStatsImpl(this);
     if (m_dealer)
@@ -645,42 +642,42 @@ void pWidget::showStats()
     delete dlg;
 }
 
-void pWidget::slotGameSolverReset()
+void MainWindow::slotGameSolverReset()
 {
     solverStatus->setText(QString());
 }
 
-void pWidget::slotGameSolverStart()
+void MainWindow::slotGameSolverStart()
 {
     solverStatus->setText(i18n("Solver: Calculating..."));
 }
 
-void pWidget::slotGameSolverWon()
+void MainWindow::slotGameSolverWon()
 {
     solverStatus->setText(i18n("Solver: This game is winnable."));
 }
 
-void pWidget::slotGameSolverLost()
+void MainWindow::slotGameSolverLost()
 {
     solverStatus->setText(i18n("Solver: This game is not winnable in its current state."));
 }
 
-void pWidget::slotGameSolverUnknown()
+void MainWindow::slotGameSolverUnknown()
 {
     solverStatus->setText(i18n("Solver: Unable to determine if this game is winnable."));
 }
 
-void pWidget::slotGameLost()
+void MainWindow::slotGameLost()
 {
     solverStatus->setText(i18n("Solver: This game is lost."));
 }
 
-void pWidget::slotUpdateMoves(int moves)
+void MainWindow::slotUpdateMoves(int moves)
 {
     moveStatus->setText(i18np("1 move", "%1 moves", moves));
 }
 
-void pWidget::slotSnapshot()
+void MainWindow::slotSnapshot()
 {
     if ( m_dealer_it == m_dealer_map.constEnd() )
     {
@@ -694,7 +691,7 @@ void pWidget::slotSnapshot()
     QTimer::singleShot( 200, this, SLOT( slotSnapshot2() ) );
 }
 
-void pWidget::slotSnapshot2()
+void MainWindow::slotSnapshot2()
 {
     if ( m_dealer->waiting() )
     {
@@ -710,4 +707,4 @@ void pWidget::slotSnapshot2()
         QTimer::singleShot( 200, this, SLOT( slotSnapshot() ) );
 }
 
-#include "pwidget.moc"
+#include "mainwindow.moc"

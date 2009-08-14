@@ -13,7 +13,7 @@ set(kpat_SRCS
    card.cpp 
    dealer.cpp 
    view.cpp
-   pwidget.cpp 
+   mainwindow.cpp 
    pile.cpp 
    deck.cpp 
    demo.cpp

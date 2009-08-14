@@ -19,7 +19,7 @@
 #include "cardmaps.h"
 #include "dealer.h"
 #include "version.h"
-#include "pwidget.h"
+#include "mainwindow.h"
 #include "patsolve/patsolve.h"
 
 #include <KAboutData>
@@ -240,7 +240,7 @@ int main( int argc, char **argv )
     QString gametype = args->getOption("gametype").toLower();
     QFile savedState( KStandardDirs::locateLocal("appdata", saved_state_file) );
 
-    pWidget *w = new pWidget;
+    MainWindow *w = new MainWindow;
     sendAllPendingResizeEvents(w->menuBar());
     if (args->count())
     {

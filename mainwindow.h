@@ -40,33 +40,38 @@ class QLabel;
 class QStackedWidget;
 
 
-class pWidget: public KXmlGuiWindow {
+class MainWindow: public KXmlGuiWindow {
     Q_OBJECT
 
 public:
-    pWidget();
-    ~pWidget();
+    MainWindow();
+    ~MainWindow();
 
 public slots:
+    bool openGame(const KUrl &url, bool addToRecentFiles = true);
+    void slotShowGameSelectionScreen();
+    void slotGameSelected(int id);
+
+protected slots:
+    void newGame();
+    void startRandom();
+    void openGame();
+    void restart();
+    void chooseGame();
+    void saveGame();
+    void showStats();
+
     void undoMove();
     void redoMove();
-    void newGameType(int id);
-    void startRandom();
-    void restart();
-    void slotShowGameSelectionScreen();
+    void toggleDemoAction(bool active);
 
-    void openGame();
-    bool openGame(const KUrl &url, bool addToRecentFiles = true);
-    void saveGame();
-
-    void newGame();
-    void chooseGame();
-    void helpGame();
     void enableAutoDrop(bool enable);
     void enableSolver(bool enable);
     void enableRememberState(bool enable);
-    void toggleDemoAction(bool active);
-    void showStats();
+    void slotPickRandom();
+    void slotSelectDeck();
+
+    void helpGame();
 
     void slotGameSolverReset();
     void slotGameSolverStart();
@@ -76,21 +81,16 @@ public slots:
     void slotGameLost();
     void slotUpdateMoves(int moves);
 
-    void slotPickRandom();
-    void slotSelectDeck();
-
-    void slotSnapshot();
-
-    void slotGameSelected(int id);
-
 protected:
     virtual void closeEvent(QCloseEvent * e);
     virtual void saveNewToolbarConfig();
 
 private slots:
+    void slotSnapshot();
     void slotSnapshot2();
 
 private:
+    void newGameType(int id);
     void setGameCaption();
     void startNew(int gameNumber);
     void updateActions();
