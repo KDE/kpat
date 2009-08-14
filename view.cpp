@@ -59,8 +59,6 @@ PatienceView::~PatienceView()
 {
     if (s_instance == this)
         s_instance = 0;
-
-    delete dscene();
 }
 
 KXmlGuiWindow *PatienceView::mainWindow() const
@@ -68,15 +66,15 @@ KXmlGuiWindow *PatienceView::mainWindow() const
     return m_window;
 }
 
-
 void PatienceView::setScene( QGraphicsScene *_scene )
 {
-    DealerScene *oldscene = dscene();
+    Q_ASSERT( dynamic_cast<DealerScene*>( _scene ) );
     QGraphicsView::setScene( _scene );
-    resetCachedContent();
-    delete oldscene;
-    if ( oldscene )
+    if ( _scene )
+    {
+        resetCachedContent();
         dscene()->setSceneSize( size() );
+    }
 }
 
 PatienceView *PatienceView::instance()
@@ -86,7 +84,7 @@ PatienceView *PatienceView::instance()
 
 DealerScene *PatienceView::dscene() const
 {
-    return dynamic_cast<DealerScene*>( scene() );
+    return static_cast<DealerScene*>( scene() );
 }
 
 void PatienceView::wheelEvent( QWheelEvent *e )
@@ -98,21 +96,14 @@ void PatienceView::wheelEvent( QWheelEvent *e )
     }
 }
 
-
 void PatienceView::resizeEvent( QResizeEvent *e )
 {
-    if ( e )
-        QGraphicsView::resizeEvent(e);
+    QGraphicsView::resizeEvent(e);
 
     if ( dscene() )
     {
-        kDebug(11111) << "resizeEvent got through" << e->size();
         resetCachedContent();
         dscene()->setSceneSize( size() );
-    }
-    else
-    {
-        kDebug(11111) << "resizeEvent ignored" << e->size();
     }
 }
 

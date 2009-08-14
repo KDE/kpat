@@ -376,6 +376,8 @@ void MainWindow::slotShowGameSelectionScreen()
         if (m_dealer)
         {
             m_dealer->recordGameStatistics();
+            delete m_dealer;
+            dill->setScene(0);
             m_dealer = 0;
         }
 

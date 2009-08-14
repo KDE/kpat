@@ -588,13 +588,9 @@ DealerScene::~DealerScene()
 
     clearHints();
 
-    // don't delete the deck
-    if ( Deck::deck()->scene() == this )
-    {
-        Deck::deck()->setParent( 0 );
-        removeItem( Deck::deck() );
-    }
     removePile( Deck::deck() );
+    Deck::destroy_deck();
+
     while (!piles.isEmpty()) {
         delete piles.first(); // removes itself
     }
