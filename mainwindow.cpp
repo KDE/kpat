@@ -23,8 +23,8 @@
 #include "cardmaps.h"
 #include "dealer.h"
 #include "demo.h"
-#include "gamestatsimpl.h"
 #include "render.h"
+#include "statisticsdialog.h"
 #include "version.h"
 #include "view.h"
 
@@ -635,7 +635,7 @@ void MainWindow::saveGame()
 
 void MainWindow::showStats()
 {
-    QPointer<GameStatsImpl> dlg = new GameStatsImpl(this);
+    QPointer<StatisticsDialog> dlg = new StatisticsDialog(this);
     if (m_dealer)
         dlg->showGameType(m_dealer->gameId());
     dlg->exec();

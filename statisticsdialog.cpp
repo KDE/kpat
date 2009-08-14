@@ -12,7 +12,7 @@
  * other special, indirect and consequential damages.
 */
 
-#include "gamestatsimpl.h"
+#include "statisticsdialog.h"
 
 #include "dealer.h"
 #include "version.h"
@@ -25,7 +25,7 @@
 #include <QtCore/QList>
 
 
-GameStatsImpl::GameStatsImpl(QWidget* aParent)
+StatisticsDialog::StatisticsDialog(QWidget* aParent)
 	: KDialog(aParent),
 	  indexToIdMap()
 {
@@ -59,20 +59,20 @@ GameStatsImpl::GameStatsImpl(QWidget* aParent)
 	connect(this, SIGNAL(resetClicked()), SLOT(resetStats()));
 }
 
-void GameStatsImpl::selectionChanged(int comboIndex)
+void StatisticsDialog::selectionChanged(int comboIndex)
 {
 	int gameIndex = indexToIdMap[comboIndex];
 	setGameType(gameIndex);
 }
 
-void GameStatsImpl::showGameType(int gameIndex)
+void StatisticsDialog::showGameType(int gameIndex)
 {
 	int comboIndex = indexToIdMap.key(gameIndex);
 	ui->GameType->setCurrentIndex(comboIndex);
 	setGameType(gameIndex);
 }
 
-void GameStatsImpl::setGameType(int gameIndex)
+void StatisticsDialog::setGameType(int gameIndex)
 {
 	KConfigGroup cg(KGlobal::config(), scores_group);
 	unsigned int t = cg.readEntry(QString("total%1").arg(gameIndex),0);
@@ -92,7 +92,7 @@ void GameStatsImpl::setGameType(int gameIndex)
 	cg.readEntry(QString("winstreak%1").arg(gameIndex),0)) );
 }
 
-void GameStatsImpl::resetStats()
+void StatisticsDialog::resetStats()
 {
 	int gameIndex = indexToIdMap[ui->GameType->currentIndex()];
 	Q_ASSERT(gameIndex >= 0);
@@ -108,6 +108,6 @@ void GameStatsImpl::resetStats()
 	setGameType(gameIndex);
 }
 
-#include "gamestatsimpl.moc"
+#include "statisticsdialog.moc"
 
 // kate: replace-tabs off; replace-tabs-save off

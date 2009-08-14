@@ -22,12 +22,12 @@
 #include <QtCore/QMap>
 
 
-class GameStatsImpl : public KDialog
+class StatisticsDialog : public KDialog
 {
 	Q_OBJECT
 
 	public:
-		explicit GameStatsImpl(QWidget* aParent);
+		explicit StatisticsDialog(QWidget* aParent);
 
 		void showGameType(int gameIndex);
 	public slots:

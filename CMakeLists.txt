@@ -18,7 +18,7 @@ set(kpat_SRCS
    deck.cpp 
    demo.cpp
    pile_algorithms.cpp
-   gamestatsimpl.cpp
+   statisticsdialog.cpp
    patsolve/patsolve.cpp
    patsolve/memory.cpp
    patsolve/klondike.cpp
@@ -53,7 +53,7 @@ set(kpat_SRCS ${kpat_SRCS}
 )
 endif(RELEASE)
 
-kde4_add_ui_files(kpat_SRCS gamestats.ui )
+kde4_add_ui_files(kpat_SRCS statisticsdialog.ui )
 
 kde4_add_app_icon(kpat_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-app-kpat.png")
 kde4_add_executable(kpat ${kpat_SRCS})
