@@ -117,7 +117,7 @@ private:
     int m_freeCellId;
 
     QStackedWidget *m_stack;
-    PatienceView   *dill;
+    PatienceView   *m_view;
     DealerScene    *m_dealer;
     DemoBubbles    *m_bubbles;
 

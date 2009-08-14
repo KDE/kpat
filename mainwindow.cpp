@@ -66,7 +66,7 @@
 
 MainWindow::MainWindow()
   : KXmlGuiWindow(0),
-    dill(0),
+    m_view(0),
     m_dealer(0),
     m_bubbles(0)
 {
@@ -197,7 +197,7 @@ MainWindow::~MainWindow()
 {
     recent->saveEntries(KGlobal::config()->group( QString() ));
 
-    delete dill;
+    delete m_view;
     delete m_cards;
 }
 
@@ -331,10 +331,10 @@ void MainWindow::slotGameSelected(int id)
 
 void MainWindow::newGameType(int id)
 {
-    if ( !dill )
+    if ( !m_view )
     {
-        dill = new PatienceView(this, m_stack);
-        m_stack->addWidget(dill);
+        m_view = new PatienceView(this, m_stack);
+        m_stack->addWidget(m_view);
     }
 
     // If we're replacing an existing DealerScene, record the stats of the
@@ -348,8 +348,8 @@ void MainWindow::newGameType(int id)
     m_dealer->setAutoDropEnabled( autodropaction->isChecked() );
     m_dealer->setSolverEnabled( solveraction->isChecked() );
 
-    dill->setScene( m_dealer );
-    m_stack->setCurrentWidget(dill);
+    m_view->setScene( m_dealer );
+    m_stack->setCurrentWidget(m_view);
 
     gamehelpaction->setText(i18n("Help &with %1", i18n(di->name).replace('&', "&&")));
 
@@ -377,7 +377,7 @@ void MainWindow::slotShowGameSelectionScreen()
         {
             m_dealer->recordGameStatistics();
             delete m_dealer;
-            dill->setScene(0);
+            m_view->setScene(0);
             m_dealer = 0;
         }
 
@@ -700,7 +700,7 @@ void MainWindow::slotSnapshot2()
             QTimer::singleShot( 100, this, SLOT( slotSnapshot2() ) );
             return;
     }
-    QImage img = QImage( dill->size(), QImage::Format_ARGB32 );
+    QImage img = QImage( m_view->size(), QImage::Format_ARGB32 );
     img.fill( qRgba( 0, 0, 255, 0 ) );
     m_dealer->createDump( &img );
     img = img.scaled( 320, 320, Qt::KeepAspectRatio, Qt::SmoothTransformation );
