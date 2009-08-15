@@ -15,7 +15,7 @@
 #ifndef GAMESTATSIMPL_H
 #define GAMESTATSIMPL_H
 
-#include "ui_gamestats.h"
+#include "ui_statisticsdialog.h"
 
 #include <KDialog>
 
