@@ -1922,12 +1922,14 @@ void DealerScene::relayoutScene( const QSize &s )
     foreach ( const Pile *p, piles )
     {
         QSizeF neededPileArea;
-        if ( std::signbit( p->pilePos().x() ) == std::signbit( p->reservedSpace().width() ) )
+        if ( ( p->pilePos().x() >= 0.0 && p->reservedSpace().width() >= 0.0 )
+             || ( p->pilePos().x() < 0.0 && p->reservedSpace().width() < 0.0 ) )
             neededPileArea.setWidth( qAbs( p->pilePos().x() + p->reservedSpace().width() ) );
         else
             neededPileArea.setWidth( qMax( qAbs( p->pilePos().x() ), qAbs( p->reservedSpace().width() ) ) );
 
-        if ( std::signbit( p->pilePos().y() ) == std::signbit( p->reservedSpace().height() ) )
+        if ( ( p->pilePos().y() >= 0.0 && p->reservedSpace().height() >= 0.0 )
+             || ( p->pilePos().y() < 0.0 && p->reservedSpace().height() < 0.0 ) )
             neededPileArea.setHeight( qAbs( p->pilePos().y() + p->reservedSpace().height() ) );
         else
             neededPileArea.setHeight( qMax( qAbs( p->pilePos().y() ), qAbs( p->reservedSpace().height() ) ) );
