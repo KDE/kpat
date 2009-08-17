@@ -31,7 +31,7 @@
 Grandf::Grandf( )
     : DealerScene(  )
 {
-    Deck::create_deck(this);
+    Deck::createDeck(this);
     Deck::deck()->hide();
 
     const qreal distx = 1.4;

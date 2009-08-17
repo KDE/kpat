@@ -66,7 +66,7 @@ Spider::Spider()
     KConfigGroup cg(KGlobal::config(), settings_group );
     m_suits = cg.readEntry( "SpiderSuits", 2);
 
-    Deck::create_deck(this, 2, m_suits);
+    Deck::createDeck(this, 2, m_suits);
 
     // I deal the cards into 'redeal' piles, so hide the deck
     Deck::deck()->hide();
@@ -180,8 +180,8 @@ void Spider::setSuits(int suits)
 
         stopDemo();
         unmarkAll();
-        Deck::destroy_deck();
-        Deck::create_deck(this, 2, m_suits);
+        Deck::destroyDeck();
+        Deck::createDeck(this, 2, m_suits);
         Deck::deck()->setVisible(false);
         KConfigGroup cg(KGlobal::config(), settings_group );
         cg.writeEntry( "SpiderSuits", m_suits);

@@ -79,7 +79,7 @@ Klondike::Klondike()
     const qreal hspacing = 1.0 / 6 + 0.02; // horizontal spacing between card piles
     const qreal vspacing = 1.0 / 4; // vertical spacing between card piles
 
-    Deck::create_deck(this);
+    Deck::createDeck(this);
     Deck::deck()->setPilePos(0, 0);
     connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(newCards()));
 

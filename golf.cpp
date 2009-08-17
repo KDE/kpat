@@ -40,7 +40,7 @@ Golf::Golf( )
     const qreal dist_x = 1.11;
     const qreal smallNeg = -1e-6;
 
-    Deck::create_deck( this);
+    Deck::createDeck( this);
     Deck::deck()->setPilePos(0, smallNeg);
     connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(newCards()));
 

@@ -589,7 +589,7 @@ DealerScene::~DealerScene()
     clearHints();
 
     removePile( Deck::deck() );
-    Deck::destroy_deck();
+    Deck::destroyDeck();
 
     while (!piles.isEmpty()) {
         delete piles.first(); // removes itself

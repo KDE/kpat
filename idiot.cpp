@@ -32,7 +32,7 @@ Idiot::Idiot( )
     setLayoutMargin( 0.6 );
 
     // Create the deck to the left.
-    Deck::create_deck( this );
+    Deck::createDeck( this );
     Deck::deck()->setPilePos(0, 0);
 
     const qreal distx = 1.1;

@@ -25,7 +25,7 @@ Gypsy::Gypsy( )
     const qreal dist_x = 1.11;
     const qreal dist_y = 1.11;
 
-    Deck::create_deck(this, 2);
+    Deck::createDeck(this, 2);
     Deck::deck()->setPilePos(8.5 * dist_x + 0.4, 4 * dist_y);
 
     connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(newCards()));

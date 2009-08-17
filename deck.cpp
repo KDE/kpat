@@ -29,8 +29,6 @@ Deck::Deck( DealerScene* parent, int m, int s )
     : Pile( 0, parent ), mult( m )
 {
     setObjectName( "deck" );
-    _deck = new Card * [mult*NumberOfCards];
-    Q_CHECK_PTR (_deck);
 
     // only allow 1, 2, or 4 suits
     if ( s == 1 || s == 2 )
@@ -38,8 +36,8 @@ Deck::Deck( DealerScene* parent, int m, int s )
     else
         suits = 4;
 
-    makedeck();
-    addToDeck();
+    makeDeck();
+    collectCards();
     shuffle();
 
     setAddFlags(Pile::disallow);
@@ -49,14 +47,12 @@ Deck::Deck( DealerScene* parent, int m, int s )
 
 Deck::~Deck()
 {
-    for (uint i=0; i < mult*NumberOfCards; i++) {
-        delete _deck[i];
-    }
+    qDeleteAll( _deck );
+    _deck.clear();
     m_cards.clear();
-    delete [] _deck;
 }
 
-void Deck::destroy_deck()
+void Deck::destroyDeck()
 {
     Q_ASSERT( my_deck );
     delete my_deck;
@@ -65,15 +61,15 @@ void Deck::destroy_deck()
 
 // ----------------------------------------------------------------
 
-void Deck::create_deck( DealerScene *parent, uint m, uint s )
+void Deck::createDeck( DealerScene *parent, uint m, uint s )
 {
     if ( my_deck && ( m == my_deck->mult && s == my_deck->suits ) )
     {
-        for (uint i = 0; i < my_deck->mult*NumberOfCards; i++) {
-            if ( my_deck->scene() )
-                my_deck->scene()->removeItem( my_deck );
-            my_deck->_deck[i]->setParent( parent );
-            parent->addItem( my_deck->_deck[i] );
+        if ( my_deck->scene() )
+            my_deck->scene()->removeItem( my_deck );
+        foreach (Card * c, my_deck->_deck) {
+            c->setParent( parent );
+            parent->addItem( c );
         }
         my_deck->disconnect( my_deck->dscene() );
         parent->addItem(my_deck);
@@ -86,9 +82,9 @@ void Deck::create_deck( DealerScene *parent, uint m, uint s )
     my_deck = new Deck(parent, m, s);
 }
 
-void Deck::makedeck()
+void Deck::makeDeck()
 {
-    int i=0;
+    _deck.clear();
 
     Card::Suit mysuits[4] = { Card::Clubs, Card::Diamonds, Card::Hearts, Card::Spades };
     show();
@@ -98,10 +94,10 @@ void Deck::makedeck()
         {
             for ( int s = 3; s >=  0 ; s--)
             {
-                _deck[i] = new Card(static_cast<Card::Rank>(r),
+                Card *c = new Card(static_cast<Card::Rank>(r),
                                     mysuits[3 - (s % suits)], dscene() );
-                _deck[i]->setPos(QPointF( 0, 0) );
-                i++;
+                c->setPos(QPointF( 0, 0) );
+                _deck << c;
             }
         }
     }
@@ -109,13 +105,13 @@ void Deck::makedeck()
 
 void Deck::updatePixmaps()
 {
-    for ( uint i = 0; i < mult*NumberOfCards; ++i )
-        _deck[i]->setPixmap();
+    foreach (Card * c, _deck)
+        c->setPixmap();
 }
 
 void Deck::collectAndShuffle()
 {
-    addToDeck();
+    collectCards();
     shuffle();
 }
 
@@ -175,19 +171,16 @@ void Deck::shuffle()
 
 
 // add cards in deck[] to Deck
-// FIXME: Rename to collectCards()
-
-void Deck::addToDeck()
+void Deck::collectCards()
 {
     clear();
 
-    for (uint i = 0; i < mult*NumberOfCards; i++) {
-        _deck[i]->setTakenDown(false);
-
-        add( _deck[i], true );
+    foreach (Card * c, _deck) {
+        c->setTakenDown(false);
+        add( c, true );
         if ( isVisible() )
-            _deck[i]->setPos( QPointF( x(), y() ) );
+            c->setPos( QPointF( x(), y() ) );
         else
-            _deck[i]->setPos( QPointF( 2000, 2000 ) );
+            c->setPos( QPointF( 2000, 2000 ) );
     }
 }

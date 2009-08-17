@@ -51,7 +51,7 @@ void FreecellPile::moveCards(CardList &c, Pile *to)
 Freecell::Freecell()
     : DealerScene()
 {
-    Deck::create_deck(this, 1);
+    Deck::createDeck(this, 1);
     Deck::deck()->hide();
 
     const qreal topRowDist = 1.08;

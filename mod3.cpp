@@ -63,7 +63,7 @@ Mod3::Mod3( )
     const qreal rightColumX = 8 * dist_x + 0.8;
 
     // This patience uses 2 deck of cards.
-    Deck::create_deck( this, 2);
+    Deck::createDeck( this, 2);
     Deck::deck()->setPilePos(rightColumX, bottomRowY);
 
     connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(newCards()));

@@ -27,7 +27,7 @@ Yukon::Yukon( )
     const qreal dist_x = 1.11;
     const qreal dist_y = 1.11;
 
-    Deck::create_deck(this);
+    Deck::createDeck(this);
     Deck::deck()->hide();
 
     for (int i=0; i<4; i++) {

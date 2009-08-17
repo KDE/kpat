@@ -24,7 +24,7 @@
 Simon::Simon( )
     : DealerScene( )
 {
-    Deck::create_deck(this, 1, 4);
+    Deck::createDeck(this, 1, 4);
     Deck::deck()->hide();
 
     const qreal dist_x = 1.11;

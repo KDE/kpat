@@ -50,7 +50,7 @@ Fortyeight::Fortyeight( )
     const qreal dist_x = 1.11;
     const qreal smallNeg = -1e-6;
 
-    Deck::create_deck(this, 2);
+    Deck::createDeck(this, 2);
     connect(Deck::deck(), SIGNAL(pressed(Card*)), SLOT(newCards()));
     connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
     Deck::deck()->setPilePos(smallNeg, smallNeg);

@@ -30,8 +30,8 @@ private:
     virtual ~Deck();
 
 public:
-    static void create_deck( DealerScene *parent = 0, uint m = 1, uint s = 4 );
-    static void destroy_deck();
+    static void createDeck( DealerScene *parent = 0, uint m = 1, uint s = 4 );
+    static void destroyDeck();
     static Deck *deck() { return my_deck; }
 
     void collectAndShuffle();
@@ -44,15 +44,15 @@ public:
 
 private: // functions
 
-    void makedeck();
-    void addToDeck();
+    void makeDeck();
+    void collectCards();
     void shuffle();
 
 private:
 
     uint mult;
     uint suits;
-    Card** _deck;
+    QList<Card*> _deck;
 
     static Deck *my_deck;
 };

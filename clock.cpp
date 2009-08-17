@@ -23,7 +23,7 @@
 Clock::Clock( )
     : DealerScene( )
 {
-    Deck::create_deck(this);
+    Deck::createDeck(this);
     Deck::deck()->hide();
 
     const qreal dist_x = 1.11;
