@@ -34,20 +34,14 @@
 //                        class PatienceView
 
 
-PatienceView *PatienceView::s_instance = 0;
-
-PatienceView::PatienceView( KXmlGuiWindow* _window, QWidget* _parent )
-  : QGraphicsView( _parent ),
-    m_window( _window )
+PatienceView::PatienceView( QWidget* _parent )
+  : QGraphicsView( _parent )
 {
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFrameStyle(QFrame::NoFrame);
     setAlignment( Qt::AlignLeft | Qt::AlignTop );
     setCacheMode(QGraphicsView::CacheBackground);
-
-    Q_ASSERT(!s_instance);
-    s_instance = this;
 
 #ifndef QT_NO_OPENGL
     //QGLWidget *wgl = new QGLWidget();
@@ -57,34 +51,17 @@ PatienceView::PatienceView( KXmlGuiWindow* _window, QWidget* _parent )
 
 PatienceView::~PatienceView()
 {
-    if (s_instance == this)
-        s_instance = 0;
-}
-
-KXmlGuiWindow *PatienceView::mainWindow() const
-{
-    return m_window;
 }
 
 void PatienceView::setScene( QGraphicsScene *_scene )
 {
-    Q_ASSERT( dynamic_cast<DealerScene*>( _scene ) );
     QGraphicsView::setScene( _scene );
-    if ( _scene )
+    DealerScene* dealer = dynamic_cast<DealerScene*>( _scene );
+    if ( dealer )
     {
         resetCachedContent();
-        dscene()->setSceneSize( size() );
+        dealer->setSceneSize( size() );
     }
-}
-
-PatienceView *PatienceView::instance()
-{
-    return s_instance;
-}
-
-DealerScene *PatienceView::dscene() const
-{
-    return static_cast<DealerScene*>( scene() );
 }
 
 void PatienceView::wheelEvent( QWheelEvent *e )
@@ -100,10 +77,11 @@ void PatienceView::resizeEvent( QResizeEvent *e )
 {
     QGraphicsView::resizeEvent(e);
 
-    if ( dscene() )
+    DealerScene* dealer = dynamic_cast<DealerScene*>( scene() );
+    if ( dealer )
     {
         resetCachedContent();
-        dscene()->setSceneSize( size() );
+        dealer->setSceneSize( size() );
     }
 }
 

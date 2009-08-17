@@ -46,6 +46,7 @@ public:
     bool checkPileDeck(Pile *to, bool checkForDemo = true);
     virtual void restart();
     virtual void mapOldId(int id);
+    virtual QList<QAction*> configActions() const;
 
 public slots:
     void cardStopped(Card *c);

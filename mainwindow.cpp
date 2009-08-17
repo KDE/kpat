@@ -335,14 +335,19 @@ void MainWindow::newGameType(int id)
 {
     if ( !m_view )
     {
-        m_view = new PatienceView(this, m_stack);
+        m_view = new PatienceView(m_stack);
         m_stack->addWidget(m_view);
     }
 
     // If we're replacing an existing DealerScene, record the stats of the
     // game already in progress.
     if ( m_dealer )
+    {
         m_dealer->recordGameStatistics();
+        delete m_dealer;
+        m_view->setScene(0);
+        m_dealer = 0;
+    }
 
     const DealerInfo * di = m_dealer_map.value(id, DealerInfoList::self()->games().first());
     m_dealer = di->createGame();
@@ -453,12 +458,9 @@ void MainWindow::updateActions()
             connect( redealaction, SIGNAL(triggered(bool)), m_dealer, SLOT(newCards()) );
             connect( m_dealer, SIGNAL(newCardsPossible(bool)), redealaction, SLOT(setEnabled(bool)) );
         }
-    }
-    else
-    {
-        // Remove the game type specific options from the GUI.
+
         guiFactory()->unplugActionList( this, "dealer_options" );
-        delete actionCollection()->action( "dealer_options" );
+        guiFactory()->plugActionList( this, "dealer_options", m_dealer->configActions() );
     }
 
     updateGameActionList();

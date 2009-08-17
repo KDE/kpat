@@ -19,10 +19,6 @@
 #ifndef VIEW_H
 #define VIEW_H
 
-class DealerScene;
-
-class KXmlGuiWindow;
-
 #include <QtGui/QGraphicsView>
 class QWheelEvent;
 
@@ -31,27 +27,15 @@ class PatienceView: public QGraphicsView
     Q_OBJECT
 
 public:
-
-    PatienceView ( KXmlGuiWindow* _window, QWidget* _parent );
+    PatienceView ( QWidget* _parent );
     virtual ~PatienceView();
 
-    static PatienceView *instance();
-
-    void setScene( QGraphicsScene *scene);
-    DealerScene  *dscene() const;
-
-    KXmlGuiWindow *mainWindow() const;
+    void setScene( QGraphicsScene *scene );
 
 protected:
-
     virtual void wheelEvent( QWheelEvent *e );
     virtual void resizeEvent( QResizeEvent *e );
 
-protected:
-
-    static PatienceView *s_instance;
-
-    KXmlGuiWindow * m_window;
 };
 
 #endif

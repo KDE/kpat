@@ -24,6 +24,7 @@ class Solver;
 
 #include <KRandomSequence>
 
+#include <QAction>
 #include <QGraphicsScene>
 class QDomDocument;
 
@@ -116,6 +117,8 @@ public:
 
     void setActions(int actions);
     int actions() const;
+
+    virtual QList<QAction*> configActions() const;
 
     void setSolverEnabled(bool a);
     void setSolver( Solver *s);

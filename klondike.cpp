@@ -30,14 +30,11 @@
 #include "view.h"
 #include "patsolve/klondike.h"
 
-#include <KActionCollection>
 #include <KConfigGroup>
 #include <KDebug>
 #include <KLocale>
 #include <KRandom>
 #include <KSelectAction>
-#include <KXMLGUIFactory>
-#include <KXmlGuiWindow>
 
 
 KlondikePile::KlondikePile( int _index, int _draw, DealerScene* parent)
@@ -128,18 +125,11 @@ Klondike::Klondike()
     options->addAction( i18n("Draw 3") );
     options->setCurrentItem( EasyRules ? 0 : 1 );
     connect( options, SIGNAL(triggered(int)), SLOT(gameTypeChanged()) );
+}
 
-    if ( PatienceView::instance() )
-    {
-        KXmlGuiWindow * xmlgui = PatienceView::instance()->mainWindow();
-        if ( xmlgui )
-        {
-            xmlgui->actionCollection()->addAction("dealer_options", options);
-            QList<QAction*> actionlist;
-            actionlist.append( options );
-            xmlgui->guiFactory()->plugActionList( xmlgui, "dealer_options", actionlist);
-        }
-    }
+QList<QAction*> Klondike::configActions() const
+{
+    return QList<QAction*>() << options;
 }
 
 Card *Klondike::newCards()

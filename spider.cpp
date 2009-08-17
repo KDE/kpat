@@ -26,14 +26,11 @@
 #include "view.h"
 #include "patsolve/spider.h"
 
-#include <KActionCollection>
 #include <KConfigGroup>
 #include <KDebug>
 #include <KLocale>
 #include <KRandom>
 #include <KSelectAction>
-#include <KXMLGUIFactory>
-#include <KXmlGuiWindow>
 
 
 void SpiderPile::moveCards(CardList &c, Pile *to)
@@ -134,18 +131,11 @@ Spider::Spider()
     else
         options->setCurrentItem( 2 );
     connect( options, SIGNAL(triggered(int)), SLOT(gameTypeChanged()) );
+}
 
-    if ( PatienceView::instance() )
-    {
-        KXmlGuiWindow * xmlgui = PatienceView::instance()->mainWindow();
-        if ( xmlgui )
-        {
-            xmlgui->actionCollection()->addAction("dealer_options", options);
-            QList<QAction*> actionlist;
-            actionlist.append( options );
-            xmlgui->guiFactory()->plugActionList( xmlgui, "dealer_options", actionlist);
-        }
-    }
+QList<QAction*> Spider::configActions() const
+{
+    return QList<QAction*>() << options;
 }
 
 void Spider::gameTypeChanged()

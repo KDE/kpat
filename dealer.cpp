@@ -2068,6 +2068,8 @@ int DealerScene::gameId() const { return d->_id; }
 void DealerScene::setActions(int actions) { d->myActions = actions; }
 int DealerScene::actions() const { return d->myActions; }
 
+QList<QAction*> DealerScene::configActions() const { return QList<QAction*>(); }
+
 Solver *DealerScene::solver() const { return d->m_solver; }
 
 int DealerScene::neededFutureMoves() const { return d->neededFutureMoves; }

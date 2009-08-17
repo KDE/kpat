@@ -44,6 +44,7 @@ public:
     virtual void mapOldId(int id);
     virtual void restart();
     virtual bool startAutoDrop();
+    QList<QAction*> configActions() const;
 
     void redeal(); // put pile back into deck
     void deal();
