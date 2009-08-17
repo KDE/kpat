@@ -20,10 +20,8 @@
 
 #include "cardmaps.h"
 
-#include "dealer.h"
 #include "deck.h"
 #include "version.h"
-#include "view.h"
 
 #include <KCardCache>
 #include <KCardDeckInfo>
@@ -31,11 +29,6 @@
 #include <KDebug>
 #include <KGlobal>
 #include <KSharedConfig>
-
-
-#ifdef __GNUC__
-#warning cardmap should not really require to know the instance!
-#endif
 
 cardMap *cardMap::_self = 0;
 
@@ -98,12 +91,6 @@ void cardMap::updateTheme(const KConfigGroup &cs)
     d->m_originalCardSize = d->m_cache.defaultFrontSize( KCardInfo( KCardInfo::Spade, KCardInfo::Ace ) );
     Q_ASSERT( !d->m_originalCardSize.isNull() );
     d->m_currentCardSize = d->m_originalCardSize.toSize();
-
-    if (PatienceView::instance() && PatienceView::instance()->dscene())
-    {
-        Deck::deck()->updatePixmaps();
-        PatienceView::instance()->dscene()->relayoutScene();
-    }
 }
 
 cardMap::~cardMap()
@@ -128,15 +115,6 @@ int cardMap::cardHeight() const
     return d->m_currentCardSize.height();
 }
 
-void cardMap::triggerRescale()
-{
-    KConfigGroup cs( KGlobal::config(), settings_group );
-    cs.writeEntry( "CardWidth", d->m_currentCardSize.width() );
-
-    if ( PatienceView::instance() && PatienceView::instance()->dscene() )
-        Deck::deck()->updatePixmaps();
-}
-
 void cardMap::setCardWidth( int width )
 {
     if ( width > 200 || width < 10 )
@@ -147,9 +125,13 @@ void cardMap::setCardWidth( int width )
 
     if ( newSize != d->m_currentCardSize )
     {
+        KConfigGroup cs( KGlobal::config(), settings_group );
+        cs.writeEntry( "CardWidth", d->m_currentCardSize.width() );
+
         d->m_currentCardSize = newSize;
         d->m_cache.setSize( newSize );
-        triggerRescale();
+        if (Deck::deck())
+            Deck::deck()->updatePixmaps();
 
         QTimer::singleShot( 200, this, SLOT(loadInBackground()) );;
     }

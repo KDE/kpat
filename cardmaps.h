@@ -50,7 +50,6 @@ public:
     void updateTheme(const KConfigGroup &cg);
 
 public slots:
-    void triggerRescale();
     void loadInBackground();
 
 private:

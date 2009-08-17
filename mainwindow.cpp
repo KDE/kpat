@@ -278,7 +278,8 @@ void MainWindow::slotPickRandom()
     CardDeckInfo::writeFrontTheme( cs, theme );
 
     cardMap::self()->updateTheme(cs);
-    cardMap::self()->triggerRescale();
+    if ( m_dealer )
+        m_dealer->relayoutScene();
 }
 
 void MainWindow::slotSelectDeck()
@@ -301,7 +302,8 @@ void MainWindow::slotSelectDeck()
         if (cardwidget->frontName() != oldFrontName || cardwidget->backName() != oldBackName)
         {
             cardMap::self()->updateTheme(cs);
-            cardMap::self()->triggerRescale();
+            if ( m_dealer )
+                m_dealer->relayoutScene();
         }
     }
 
