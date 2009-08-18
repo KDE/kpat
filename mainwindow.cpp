@@ -176,7 +176,8 @@ MainWindow::MainWindow()
     }
     m_dealer_it = m_dealer_map.constEnd();
 
-    m_cards = new cardMap();
+    // Initialise the cardMap
+    cardMap::self();
 
     m_stack = new QStackedWidget;
     setCentralWidget( m_stack );
@@ -197,8 +198,8 @@ MainWindow::~MainWindow()
 {
     recent->saveEntries(KGlobal::config()->group( QString() ));
 
+    delete m_dealer;
     delete m_view;
-    delete m_cards;
 }
 
 void MainWindow::undoMove() {

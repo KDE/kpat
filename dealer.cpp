@@ -42,7 +42,6 @@
 #include <QtXml/QDomDocument>
 
 #include <cassert>
-#include <cmath>
 
 #define DEBUG_LAYOUT 0
 #define DEBUG_HINTS 0

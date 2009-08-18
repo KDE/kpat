@@ -111,7 +111,6 @@ private:
     KToggleAction  *rememberstateaction;
     KRecentFilesAction  *recent;
 
-    cardMap        *m_cards; // possibly move to PatienceView
     QMap<int, const DealerInfo*>  m_dealer_map;
     QMap<int, const DealerInfo*>::const_iterator  m_dealer_it;
     int m_freeCellId;

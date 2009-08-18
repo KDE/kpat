@@ -32,11 +32,13 @@ class KConfigGroup;
 class cardMap : public QObject
 {
     Q_OBJECT
-public:
 
-    static cardMap *self();
+private:
     cardMap();
     ~cardMap();
+
+public:
+    static cardMap *self();
 
     QSize cardSize() const;
     int cardWidth() const;

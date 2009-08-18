@@ -175,7 +175,6 @@ int main( int argc, char **argv )
         QDomDocument doc;
         doc.setContent(&of);
 
-        cardMap c;
         DealerScene *f = getDealer( doc.documentElement().attribute("id").toInt() );
 
         f->openGame( doc );
@@ -214,7 +213,6 @@ int main( int argc, char **argv )
             if ( end_index == -1 )
                 end_index = start_index;
         }
-        cardMap c;
         DealerScene *f = getDealer( wanted_game );
         if ( !f )
             return 1;

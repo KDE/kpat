@@ -75,7 +75,6 @@ cardMap::cardMap() : QObject()
     ranks[AbstractCard::Queen] = KCardInfo::Queen;
     ranks[AbstractCard::King] = KCardInfo::King;
     ranks[AbstractCard::Ace] = KCardInfo::Ace;
-    _self = this;
 }
 
 void cardMap::updateTheme(const KConfigGroup &cs)
@@ -139,7 +138,8 @@ void cardMap::setCardWidth( int width )
 
 cardMap *cardMap::self() 
 {
-    Q_ASSERT(_self);
+    if ( !_self )
+        _self = new cardMap();
     return _self;
 }
 
