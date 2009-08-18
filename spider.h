@@ -2,7 +2,7 @@
 
   spider.cpp  implements a patience card game
 
-     Copyright (C) 2003  Josh Metzler
+     Copyright (C) 2003  Josh Metzler <joshdeb@metzlers.org>
 
  * Permission to use, copy, modify, and distribute this software and its
  * documentation for any purpose and without fee is hereby granted,

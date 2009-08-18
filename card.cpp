@@ -2,7 +2,7 @@
 
   Card.cpp -- support classes for patience type card games
 
-     Copyright (C) 1995  Paul Olav Tvete
+     Copyright (C) 1995  Paul Olav Tvete <paul@troll.no>
 
  * Permission to use, copy, modify, and distribute this software and its
  * documentation for any purpose and without fee is hereby granted,

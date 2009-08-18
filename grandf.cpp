@@ -2,8 +2,8 @@
 
   grandf.cpp  implements a patience card game
 
-     Copyright (C) 1995  Paul Olav Tvete
-               (C) 2000  Stephan Kulow
+     Copyright (C) 1995  Paul Olav Tvete <paul@troll.no>
+               (C) 2000  Stephan Kulow <coolo@kde.org>
  * Permission to use, copy, modify, and distribute this software and its
  * documentation for any purpose and without fee is hereby granted,
  * provided that the above copyright notice appear in all copies and that
