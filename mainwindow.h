@@ -20,8 +20,8 @@
  *
  */
 
-#ifndef PWIDGET_H
-#define PWIDGET_H
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
 class cardMap;
 class DealerInfo;

@@ -12,8 +12,8 @@
  * other special, indirect and consequential damages.
 */
 
-#ifndef GAMESTATSIMPL_H
-#define GAMESTATSIMPL_H
+#ifndef STATISTICSDIALOG_H
+#define STATISTICSDIALOG_H
 
 #include "ui_statisticsdialog.h"
 
