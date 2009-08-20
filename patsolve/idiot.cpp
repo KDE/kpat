@@ -156,7 +156,7 @@ int IdiotSolver::get_possible_moves(int *a, int *numout)
             // Find a card to move there
             for( int j = 0; j < 4; j++ )
             {
-                if ( i != j && Wlen[j]>1 )
+                if ( i != j && Wlen[j]>0 )
                 {
                     mp->card_index = 0;
                     mp->from = j;
