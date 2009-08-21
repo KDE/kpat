@@ -47,7 +47,6 @@ public:
 
     QPixmap renderBackside( int variant = -1 );
     QPixmap renderFrontside( Card::Rank, Card::Suit );
-    QRect opaqueRect() const;
 
     void updateTheme(const KConfigGroup &cg);
 

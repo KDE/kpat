@@ -143,11 +143,6 @@ cardMap *cardMap::self()
     return _self;
 }
 
-QRect cardMap::opaqueRect() const
-{
-    return QRect();
-}
-
 QPixmap cardMap::renderBackside( int variant )
 {
     QPixmap pix = d->m_cache.backside( variant );

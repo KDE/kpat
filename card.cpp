@@ -469,39 +469,7 @@ void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     //painter->drawPixmap(exposed, pixmap(), exposed );
     //kDebug(11111) << "exposed" << exposed;
 
-    QRect body = cardMap::self()->opaqueRect();
-    QMatrix m = painter->combinedMatrix();
-    bool isi = qFuzzyCompare( m.m11(), 1 ) &&
-               qFuzzyCompare( m.m22(), 1 ) &&
-               qFuzzyCompare( m.m12(), 0 ) &&
-               qFuzzyCompare( m.m21(), 0 );
-    painter->setRenderHint( QPainter::SmoothPixmapTransform, !isi );
-    painter->setRenderHint( QPainter::Antialiasing, !isi );
-
-    if ( body.isValid() && isi )
-    {
-        painter->setCompositionMode(QPainter::CompositionMode_Source);
-
-        //body = exposed.intersected( body );//.adjusted(-1, -1, 2, 2);
-        painter->drawPixmap( body.topLeft(), pixmap(), body );
-        painter->setCompositionMode(QPainter::CompositionMode_SourceOver );
-        QRectF hori( QPointF( 0, 0 ), QSizeF( pixmap().width(), body.top() ) );
-        if ( exposed.intersects( hori ) )
-            painter->drawPixmap( hori.topLeft(), pixmap(), hori );
-        hori.moveTop( body.bottom() );
-        hori.setHeight( pixmap().height() - body.bottom() );
-        if ( exposed.intersects( hori ) )
-            painter->drawPixmap( hori.topLeft(), pixmap(), hori );
-        QRectF vert( QPointF( 0, body.top() ),
-                     QSizeF( body.left(),  body.height() ) );
-        if ( vert.width() != 0 && exposed.intersects( vert ) )
-            painter->drawPixmap( vert.topLeft(), pixmap(), vert );
-        vert.moveLeft( body.right() );
-        vert.setWidth( pixmap().width() - body.right() );
-        if ( vert.width() != 0 && exposed.intersects( vert ) )
-            painter->drawPixmap( vert.topLeft(), pixmap(), vert );
-    } else
-         painter->drawPixmap( QPointF( 0, 0 ), pixmap() );
+    painter->drawPixmap( QPointF( 0, 0 ), pixmap() );
 
     if ( isHighlighted() ) {
         painter->setRenderHint( QPainter::SmoothPixmapTransform, true );
