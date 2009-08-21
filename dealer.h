@@ -164,7 +164,7 @@ signals:
     void gameSolverUnknown();
 
 public slots:
-    void relayoutScene(const QSize& s = QSize());
+    void relayoutScene();
     void relayoutPiles();
 
     void startNew(int gameNumber = -1);
