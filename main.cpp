@@ -116,26 +116,55 @@ void sendAllPendingResizeEvents( QWidget * widget )
 int main( int argc, char **argv )
 {
     KAboutData aboutData( "kpat", 0, ki18n("KPatience"),
-                          KPAT_VERSION, ki18n(description), KAboutData::License_GPL,
-                          ki18n("© 1995 Paul Olav Tvete\n"
-                          "© 2000 Stephan Kulow"), KLocalizedString(), "http://games.kde.org/kpat" );
-    aboutData.addAuthor(ki18n("Paul Olav Tvete"),ki18n("Author of original Qt version"),"paul@troll.no");
-    aboutData.addAuthor(ki18n("Mario Weilguni"),ki18n("Ported to KDE"),"mweilguni@kde.org");
-    aboutData.addAuthor(ki18n("Matthias Ettrich"),KLocalizedString(),"ettrich@kde.org");
-    aboutData.addAuthor(ki18n("Rodolfo Borges"),ki18n("New game types"),"barrett@9hells.org");
-    aboutData.addAuthor(ki18n("Peter H. Ruegg"),KLocalizedString(),"kpat@incense.org");
-    aboutData.addAuthor(ki18n("Michael Koch"), ki18n("Bug fixes"), "koch@kde.org");
-    aboutData.addAuthor(ki18n("Marcus Meissner"), ki18n("Shuffle algorithm for game numbers"),
-                        "mm@caldera.de");
-    aboutData.addAuthor(ki18n("Dr. Tom"), ki18n("Patience solver"), "http://members.tripod.com/professor_tom/");
-    aboutData.addAuthor(ki18n("Stephan Kulow"), ki18n("Rewrite and current maintainer"),
-                        "coolo@kde.org");
-    aboutData.addAuthor(ki18n("Erik Sigra"), ki18n("Improved Klondike"), "sigra@home.se");
-    aboutData.addAuthor(ki18n("Josh Metzler"), ki18n("Spider implementation"), "joshdeb@metzlers.org");
-    aboutData.addAuthor(ki18n("Maren Pakura"), ki18n("Documentation"), "maren@kde.org");
-    aboutData.addAuthor(ki18n("Inge Wallin"), ki18n("Bug fixes"), "inge@lysator.liu.se");
-    aboutData.addAuthor(ki18n("Simon Hürlimann"), ki18n("Menu and toolbar work"), "simon.huerlimann@huerlisi.ch");
-    aboutData.addAuthor(ki18n("Parker Coates"), ki18n("Cleanup and polish"), "parker.coates@gmail.com");
+                          KPAT_VERSION, ki18n(description), KAboutData::License_GPL_V2,
+                          ki18n("© 1995 Paul Olav Tvete\n© 2000 Stephan Kulow"),
+                          KLocalizedString(), "http://games.kde.org/kpat" );
+
+    aboutData.addAuthor( ki18n("Paul Olav Tvete"),
+                         ki18n("Author of original Qt version"),
+                         "paul@troll.no" );
+    aboutData.addAuthor( ki18n("Mario Weilguni"),
+                         ki18n("Initial KDE port"),
+                         "mweilguni@kde.org" );
+    aboutData.addAuthor( ki18n("Matthias Ettrich"),
+                         KLocalizedString(),
+                         "ettrich@kde.org" );
+    aboutData.addAuthor( ki18n("Rodolfo Borges"),
+                         ki18n("New game types"),
+                         "barrett@9hells.org" );
+    aboutData.addAuthor( ki18n("Peter H. Ruegg"),
+                         KLocalizedString(),
+                         "kpat@incense.org" );
+    aboutData.addAuthor( ki18n("Michael Koch"),
+                         ki18n("Bug fixes"),
+                         "koch@kde.org" );
+    aboutData.addAuthor( ki18n("Marcus Meissner"),
+                         ki18n("Shuffle algorithm for game numbers"),
+                         "mm@caldera.de" );
+    aboutData.addAuthor( ki18n("Tom Holroyd"),
+                         ki18n("Initial patience solver"),
+                         "tomh@kurage.nimh.nih.gov" );
+    aboutData.addAuthor( ki18n("Stephan Kulow"),
+                         ki18n("Rewrite and current maintainer"),
+                         "coolo@kde.org" );
+    aboutData.addAuthor( ki18n("Erik Sigra"),
+                         ki18n("Klondike improvements"),
+                        "sigra@home.se" );
+    aboutData.addAuthor( ki18n("Josh Metzler"),
+                         ki18n("Spider implementation"),
+                         "joshdeb@metzlers.org" );
+    aboutData.addAuthor( ki18n("Maren Pakura"),
+                         ki18n("Documentation"),
+                         "maren@kde.org" );
+    aboutData.addAuthor( ki18n("Inge Wallin"),
+                         ki18n("Bug fixes"),
+                         "inge@lysator.liu.se" );
+    aboutData.addAuthor( ki18n("Simon Hürlimann"),
+                         ki18n("Menu and toolbar work"),
+                         "simon.huerlimann@huerlisi.ch" );
+    aboutData.addAuthor( ki18n("Parker Coates"),
+                         ki18n("Cleanup and polish"),
+                         "parker.coates@gmail.com" );
 
     // Create a KComponentData earlier than normal so that we can use i18n to translate
     // the names of the game types in the help text.
