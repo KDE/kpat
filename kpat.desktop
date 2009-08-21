@@ -12,6 +12,7 @@ Name[sr]=К‑пасијанс
 Name[sr@latin]=K‑pasijans
 Name[sv]=Patiens
 Name[uk]=Пасьянс
+Name[wa]=KPacyince
 Name[x-test]=xxKPatiencexx
 Name[zh_TW]=KPatience 單人紙牌遊戲
 Exec=kpat -caption "%c"
