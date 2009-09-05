@@ -21,34 +21,34 @@ set(kpat_SRCS
    statisticsdialog.cpp
    patsolve/patsolve.cpp
    patsolve/memory.cpp
-   patsolve/klondike.cpp
+   patsolve/klondikesolver.cpp
    klondike.cpp
    render.cpp
 )
 
 if (RELEASE)
 set(kpat_SRCS ${kpat_SRCS}
-   patsolve/spider.cpp
+   patsolve/spidersolver.cpp
    spider.cpp
-   patsolve/freecell.cpp
+   patsolve/freecellsolver.cpp
    freecell.cpp 
-   patsolve/simon.cpp
+   patsolve/simonsolver.cpp
    simon.cpp
-   patsolve/idiot.cpp
+   patsolve/idiotsolver.cpp
    idiot.cpp
-   patsolve/yukon.cpp
+   patsolve/yukonsolver.cpp
    yukon.cpp
-   patsolve/golf.cpp
+   patsolve/golfsolver.cpp
    golf.cpp
-   patsolve/clock.cpp
+   patsolve/clocksolver.cpp
    clock.cpp
-   patsolve/mod3.cpp
+   patsolve/mod3solver.cpp
    mod3.cpp
-   patsolve/grandf.cpp
+   patsolve/grandfsolver.cpp
    grandf.cpp
-   patsolve/gypsy.cpp
+   patsolve/gypsysolver.cpp
    gypsy.cpp
-   patsolve/fortyeight.cpp
+   patsolve/fortyeightsolver.cpp
    fortyeight.cpp
 )
 endif(RELEASE)
