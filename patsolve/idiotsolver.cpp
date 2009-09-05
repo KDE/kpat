@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "idiot.h"
+#include "idiotsolver.h"
 
 #include "../deck.h"
 #include "../idiot.h"

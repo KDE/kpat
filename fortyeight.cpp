@@ -37,7 +37,7 @@
 
 #include "deck.h"
 #include "speeds.h"
-#include "patsolve/fortyeight.h"
+#include "patsolve/fortyeightsolver.h"
 
 #include <KDebug>
 #include <KLocale>

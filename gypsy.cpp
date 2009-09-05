@@ -36,7 +36,7 @@
 #include "gypsy.h"
 
 #include "deck.h"
-#include "patsolve/gypsy.h"
+#include "patsolve/gypsysolver.h"
 
 #include <KLocale>
 

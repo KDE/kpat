@@ -37,7 +37,7 @@
 
 #include "deck.h"
 #include "speeds.h"
-#include "patsolve/golf.h"
+#include "patsolve/golfsolver.h"
 
 #include <KDebug>
 #include <KLocale>

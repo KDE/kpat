@@ -36,7 +36,7 @@
 #include "simon.h"
 
 #include "deck.h"
-#include "patsolve/simon.h"
+#include "patsolve/simonsolver.h"
 
 #include <KDebug>
 #include <KLocale>

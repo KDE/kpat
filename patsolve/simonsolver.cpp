@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "simon.h"
+#include "simonsolver.h"
 
 #include "../deck.h"
 #include "../pile.h"

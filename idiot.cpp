@@ -37,7 +37,7 @@
 #include "idiot.h"
 
 #include "deck.h"
-#include "patsolve/idiot.h"
+#include "patsolve/idiotsolver.h"
 
 #include <KLocale>
 

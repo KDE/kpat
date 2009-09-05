@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "mod3.h"
+#include "mod3solver.h"
 
 #include "../deck.h"
 #include "../mod3.h"

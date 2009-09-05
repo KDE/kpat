@@ -36,7 +36,7 @@
 #include "yukon.h"
 
 #include "deck.h"
-#include "patsolve/yukon.h"
+#include "patsolve/yukonsolver.h"
 
 #include <KDebug>
 #include <KLocale>

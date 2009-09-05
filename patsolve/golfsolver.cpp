@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "golf.h"
+#include "golfsolver.h"
 
 #include "../deck.h"
 #include "../golf.h"

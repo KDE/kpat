@@ -40,7 +40,7 @@
 #include "speeds.h"
 #include "version.h"
 #include "view.h"
-#include "patsolve/spider.h"
+#include "patsolve/spidersolver.h"
 
 #include <KConfigGroup>
 #include <KDebug>

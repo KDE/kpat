@@ -36,7 +36,7 @@
 #include "clock.h"
 
 #include "deck.h"
-#include "patsolve/clock.h"
+#include "patsolve/clocksolver.h"
 
 #include <KLocale>
 

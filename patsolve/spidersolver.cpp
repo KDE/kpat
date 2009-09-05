@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "spider.h"
+#include "spidersolver.h"
 
 #include "../deck.h"
 #include "../pile.h"

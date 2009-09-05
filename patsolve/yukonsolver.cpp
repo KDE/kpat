@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "yukon.h"
+#include "yukonsolver.h"
 
 #include "../deck.h"
 #include "../pile.h"

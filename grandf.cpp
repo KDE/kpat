@@ -38,7 +38,7 @@
 
 #include "deck.h"
 #include "speeds.h"
-#include "patsolve/grandf.h"
+#include "patsolve/grandfsolver.h"
 
 #include <KDebug>
 #include <KLocale>

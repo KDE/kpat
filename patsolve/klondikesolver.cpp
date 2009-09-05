@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "klondike.h"
+#include "klondikesolver.h"
 
 #include "../deck.h"
 #include "../klondike.h"

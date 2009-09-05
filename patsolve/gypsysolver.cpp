@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "gypsy.h"
+#include "gypsysolver.h"
 
 #include "../deck.h"
 #include "../gypsy.h"

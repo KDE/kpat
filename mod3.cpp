@@ -38,7 +38,7 @@
 
 #include "deck.h"
 #include "hint.h"
-#include "patsolve/mod3.h"
+#include "patsolve/mod3solver.h"
 
 #include <KDebug>
 #include <KLocale>

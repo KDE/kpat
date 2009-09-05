@@ -38,7 +38,7 @@
 
 #include "deck.h"
 #include "speeds.h"
-#include "patsolve/freecell.h"
+#include "patsolve/freecellsolver.h"
 
 #include <KDebug>
 #include <KLocale>

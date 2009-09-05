@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "clock.h"
+#include "clocksolver.h"
 
 #include "../clock.h"
 #include "../deck.h"

@@ -40,7 +40,7 @@
 #include "deck.h"
 #include "version.h"
 #include "view.h"
-#include "patsolve/klondike.h"
+#include "patsolve/klondikesolver.h"
 
 #include <KConfigGroup>
 #include <KDebug>

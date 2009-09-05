@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "freecell.h"
+#include "freecellsolver.h"
 
 #include "../freecell.h"
 #include "../pile.h"
