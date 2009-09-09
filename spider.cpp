@@ -156,14 +156,7 @@ QList<QAction*> Spider::configActions() const
 
 void Spider::gameTypeChanged()
 {
-    if ( waiting() )
-    {
-        QTimer::singleShot( 100, this, SLOT( gameTypeChanged() ) );
-        return;
-    }
-
-    if ( demoActive() || isGameWon()  )
-        return;
+    stopDemo();
 
     if ( allowedToStartNewGame() )
     {

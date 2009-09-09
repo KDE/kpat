@@ -188,8 +188,7 @@ void Klondike::restart()
 
 void Klondike::gameTypeChanged()
 {
-    if ( demoActive() || isGameWon()  )
-       return;
+    stopDemo();
 
     if ( allowedToStartNewGame() )
     {
