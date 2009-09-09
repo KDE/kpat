@@ -67,6 +67,17 @@ Card::Card( Rank r, Suit s, QGraphicsScene *_parent )
     setShapeMode( QGraphicsPixmapItem::BoundingRectShape );
     _parent->addItem( this );
 
+    QString suitName;
+    switch( m_suit )
+    {
+        case Clubs :    suitName = "Clubs";    break;
+        case Diamonds : suitName = "Diamonds"; break;
+        case Hearts :   suitName = "Hearts";   break;
+        case Spades :   suitName = "Spades";   break;
+        default :       suitName = "???";      break;
+    }
+    setObjectName( suitName + QString::number( m_rank ) );
+
     // Set the name of the card
     m_hoverTimer = new QTimer(this);
     m_hovered = false;
@@ -95,7 +106,7 @@ Card::~Card()
 {
     // If the card is in a pile, remove it from there.
     if (source())
-	source()->remove(this);
+        source()->remove(this);
 
     hide();
 }

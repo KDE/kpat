@@ -1711,7 +1711,14 @@ void DealerScene::demo()
 
     MoveHint *mh = chooseHint();
     if (mh) {
-        kDebug(11111) << "moveFrom" << mh->card()->source()->objectName();
+        kDebug(mh->pile()->top(), 11111) << "Moving" << mh->card()->objectName()
+                                         << "from the" << mh->card()->source()->objectName()
+                                         << "pile to the" << mh->pile()->objectName()
+                                         << "pile, putting it on top of" << mh->pile()->top()->objectName();
+        kDebug(!mh->pile()->top(), 11111) << "Moving" << mh->card()->objectName()
+                                          << "from the" << mh->card()->source()->objectName()
+                                          << "pile to the" << mh->pile()->objectName()
+                                          << "pile, which is empty";
         myassert(mh->card()->source() == Deck::deck() ||
                mh->card()->source()->legalRemove(mh->card(), true));
 
@@ -1742,7 +1749,6 @@ void DealerScene::demo()
         assert(mh->card()->source());
         assert(mh->pile());
         assert(mh->card()->source() != mh->pile());
-        kDebug(11111) << "moveTo" << mh->pile()->objectName();
         assert(mh->pile()->target() || mh->pile()->legalAdd(empty));
 
         mh->card()->source()->moveCards(empty, mh->pile());
