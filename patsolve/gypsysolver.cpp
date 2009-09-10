@@ -387,7 +387,7 @@ int GypsySolver::get_possible_moves(int *a, int *numout)
                     }
                     if ( o > -1 )
                         continue;
-                    mp->pri = ( int )qMin( 127., params[1] + qreal( l ) * params[5] / 10 );
+                    mp->pri = ( int )qMin( qreal( 127. ), params[1] + qreal( l ) * params[5] / 10 );
                 }
                 n++;
                 mp++;
