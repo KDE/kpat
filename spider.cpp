@@ -166,7 +166,7 @@ void Spider::gameTypeChanged()
             setSuits( 2 );
         else
             setSuits( 4 );
-        startNew(KRandom::random());
+        startNew( gameNumber() );
     }
     else
     {

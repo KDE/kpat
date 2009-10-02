@@ -193,7 +193,7 @@ void Klondike::gameTypeChanged()
     if ( allowedToStartNewGame() )
     {
         setEasy( options->currentItem() == 0 );
-        startNew( KRandom::random() );
+        startNew( gameNumber() );
     }
     else
     {
