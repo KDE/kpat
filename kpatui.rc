@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gui name="kpat"
-     version="27"
+     version="28"
      xmlns="http://www.kde.org/standards/kxmlgui/1.0"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://www.kde.org/standards/kxmlgui/1.0
                          http://www.kde.org/standards/kxmlgui/1.0/kxmlgui.xsd">
 <MenuBar>
   <Menu name="game">
-    <Action name="choose_game" append="new_merge"/>
+    <Action name="choose_deal" append="new_merge"/>
     <Action name="game_stats"/>
   </Menu>
   <Menu name="move" noMerge="1">

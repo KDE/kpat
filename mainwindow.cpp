@@ -105,9 +105,9 @@ MainWindow::MainWindow()
     redo = KStandardGameAction::redo(this, SLOT(redoMove()), actionCollection());
 
     KAction *a;
-    a = actionCollection()->addAction("choose_game");
-    a->setText(i18n("&Choose Game..."));
-    connect( a, SIGNAL(triggered(bool)), SLOT(chooseGame()) );
+    a = actionCollection()->addAction("choose_deal");
+    a->setText(i18n("&Choose Numbered Deal..."));
+    connect( a, SIGNAL(triggered(bool)), SLOT(chooseDeal()) );
 
     a = actionCollection()->addAction("change_game_type");
     a->setText(i18n("Change Game Type..."));
@@ -433,7 +433,7 @@ void MainWindow::updateActions()
     actionCollection()->action( "game_new" )->setEnabled( m_dealer );
     actionCollection()->action( "game_restart" )->setEnabled( m_dealer );
     actionCollection()->action( "game_save" )->setEnabled( m_dealer );
-    actionCollection()->action( "choose_game" )->setEnabled( m_dealer );
+    actionCollection()->action( "choose_deal" )->setEnabled( m_dealer );
     actionCollection()->action( "change_game_type" )->setEnabled( m_dealer );
     gamehelpaction->setEnabled( m_dealer );
 
@@ -548,15 +548,15 @@ void MainWindow::closeEvent(QCloseEvent *e)
     KXmlGuiWindow::closeEvent(e);
 }
 
-void MainWindow::chooseGame()
+void MainWindow::chooseDeal()
 {
     if (m_dealer)
     {
         QString text = (m_dealer->gameId() == m_freeCellId)
-                       ? i18n("Enter a game number (Freecell deals are the same as in the Freecell FAQ):")
-                       : i18n("Enter a game number:");
+                       ? i18n("Enter a deal number (Freecell deals are numbered the same as those in the Freecell FAQ):")
+                       : i18n("Enter a deal number:");
         bool ok;
-        int number = KInputDialog::getInteger(i18n("Game Number"), 
+        int number = KInputDialog::getInteger(i18n("Choose Numbered Deal"), 
                                               text,
                                               m_dealer->gameNumber(),
                                               1,

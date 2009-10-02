@@ -73,7 +73,7 @@ protected slots:
     void startRandom();
     void openGame();
     void restart();
-    void chooseGame();
+    void chooseDeal();
     void saveGame();
     void showStats();
 
