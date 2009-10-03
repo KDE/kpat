@@ -46,28 +46,27 @@ Clock::Clock( )
 {
     CardDeck::self()->setScene(this);
     CardDeck::self()->setDeckProperties(1, 4);
-    CardDeck::self()->hide();
 
     const qreal dist_x = 1.11;
     const qreal ys[12] = {   0./96,  15./96,  52./96, 158./96, 264./96, 301./96, 316./96, 301./96, 264./96, 158./96,  52./96,  15./96};
     const qreal xs[12] = { 200./72, 280./72, 360./72, 400./72, 360./72, 280./72, 200./72, 120./72, 40./72, 0./72, 40./72, 120./72};
 
     for (int i=0; i<12; i++) {
-        target[i] = new Pile(i+1, this);
+        target[i] = new Pile(i+1, QString("target%1").arg(i));
         target[i]->setPilePos(4 * dist_x + 0.4 + xs[i], 0.2 + ys[i]);
         target[i]->setCheckIndex(1);
         target[i]->setTarget(true);
         target[i]->setRemoveFlags(Pile::disallow);
-        target[i]->setObjectName( QString( "target%1" ).arg( i ) );
+        addPile(target[i]);
     }
 
     for (int i=0; i<8; i++) {
-        store[i] = new Pile(14+i, this);
+        store[i] = new Pile(14+i, QString("store%1").arg(i));
         store[i]->setPilePos(dist_x*(i%4), 2.5 * (i/4));
         store[i]->setAddFlags(Pile::addSpread);
         store[i]->setCheckIndex(0);
         store[i]->setReservedSpace( QSizeF( 1.0, 1.8 ) );
-        store[i]->setObjectName( QString( "store%1" ).arg( i ) );
+        addPile(store[i]);
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo);

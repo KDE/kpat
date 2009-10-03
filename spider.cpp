@@ -85,40 +85,37 @@ Spider::Spider()
     CardDeck::self()->setScene(this);
     CardDeck::self()->setDeckProperties(2, m_suits);
 
-    // I deal the cards into 'redeal' piles, so hide the deck
-    CardDeck::self()->hide();
-
     // Dealing the cards out into 5 piles so the user can see how many
     // sets of 10 cards are left to be dealt out
     for( int column = 0; column < 5; column++ ) {
-        redeals[column] = new Pile(column + 1, this);
+        redeals[column] = new Pile(column + 1, QString( "redeals%1" ).arg( column ));
         redeals[column]->setPilePos(smallNeg - dist_x / 3 * ( 4 - column ), smallNeg);
         redeals[column]->setZValue(12 * ( 5-column ));
         redeals[column]->setCheckIndex(0);
         redeals[column]->setAddFlags(Pile::disallow);
         redeals[column]->setRemoveFlags(Pile::disallow);
         redeals[column]->setGraphicVisible( false );
-        redeals[column]->setObjectName( QString( "redeals%1" ).arg( column ) );
         connect(redeals[column], SIGNAL(clicked(Card*)), SLOT(newCards()));
+        addPile(redeals[column]);
     }
 
     // The 10 playing piles
     for( int column = 0; column < 10; column++ ) {
-        stack[column] = new SpiderPile(column + 6, this);
+        stack[column] = new SpiderPile(column + 6, QString( "stack%1" ).arg( column ));
         stack[column]->setPilePos(dist_x * column, 0);
         stack[column]->setZValue(20);
         stack[column]->setCheckIndex(1);
         stack[column]->setAddFlags(Pile::addSpread | Pile::several);
         stack[column]->setRemoveFlags(Pile::several |
                                       Pile::autoTurnTop | Pile::wholeColumn);
-        stack[column]->setObjectName( QString( "stack%1" ).arg( column ) );
         stack[column]->setReservedSpace( QSizeF( 1.0, 3.5 ) );
+        addPile(stack[column]);
     }
 
     // The 8 'legs' so named by me because spiders have 8 legs - why
     // else the name Spider?
     for( int column = 0; column < 8; column++ ) {
-        legs[column] = new Pile(column + 16, this);
+        legs[column] = new Pile(column + 16, QString( "legs%1" ).arg( column ));
         legs[column]->setPilePos(dist_x / 3 * column, smallNeg);
         legs[column]->setZValue(column+1);
         legs[column]->setCheckIndex(0);
@@ -127,7 +124,7 @@ Spider::Spider()
         legs[column]->setTarget(true);
         legs[column]->setGraphicVisible( false );
         legs[column]->setZValue(14 * column);
-        legs[column]->setObjectName( QString( "legs%1" ).arg( column ) );
+        addPile(legs[column]);
     }
 
     // Moving an A-K run to a leg is not really an autoDrop - the

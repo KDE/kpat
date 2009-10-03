@@ -49,26 +49,25 @@ Grandf::Grandf( )
 {
     CardDeck::self()->setScene(this);
     CardDeck::self()->setDeckProperties(1, 4);
-    CardDeck::self()->hide();
 
     const qreal distx = 1.4;
     const qreal targetOffset = 1.5 * distx;
 
     for (int i=0; i<4; i++) {
-        target[i] = new Pile(i+1, this);
+        target[i] = new Pile(i+1, QString("target%1").arg(i));
         target[i]->setPilePos(targetOffset+i*distx, 0);
         target[i]->setType(Pile::KlondikeTarget);
-        target[i]->setObjectName( QString( "target%1" ).arg( i ) ) ;
+        addPile(target[i]);
     }
 
     for (int i=0; i<7; i++) {
-        store[i] = new Pile(5+i, this);
+        store[i] = new Pile(5+i, QString("store%1").arg(i));
         store[i]->setPilePos(distx*i, 1.2);
         store[i]->setAddFlags(Pile::addSpread | Pile::several);
         store[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
-        store[i]->setObjectName( QString( "store%1" ).arg( i ) ) ;
         store[i]->setCheckIndex(1);
         store[i]->setReservedSpace( QSizeF( 1.0, 5.0 ) );
+        addPile(store[i]);
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Redeal);

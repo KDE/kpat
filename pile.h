@@ -75,7 +75,7 @@ public:
     static const int wholeColumn;
     static const int demoOK;
 
-    explicit Pile( int _index, DealerScene* parent = 0);
+    explicit Pile( int _index, const QString & objectName = QString() );
     virtual ~Pile();
 
     DealerScene  *dscene() const;

@@ -609,10 +609,8 @@ DealerScene::~DealerScene()
 
     clearHints();
 
-    CardDeck
-::self()->setScene( 0 );
-    removePile( CardDeck
-::self() );
+    CardDeck::self()->setScene( 0 );
+    removePile( CardDeck::self() );
 
     foreach ( Pile *p, piles )
     {
@@ -621,9 +619,6 @@ DealerScene::~DealerScene()
     }
     piles.clear();
 
-//     while (!piles.isEmpty()) {
-//         delete piles.first(); // removes itself
-//     }
     disconnect();
     if ( d->m_solver_thread )
         d->m_solver_thread->finish();

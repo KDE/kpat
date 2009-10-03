@@ -43,8 +43,8 @@
 #include <KLocale>
 
 
-HorLeftPile::HorLeftPile( int _index, DealerScene* parent)
-    : Pile(_index, parent)
+HorLeftPile::HorLeftPile( int _index, const QString & objectName )
+    : Pile(_index, objectName)
 {
 }
 
@@ -73,33 +73,32 @@ Fortyeight::Fortyeight( )
 
     CardDeck::self()->setScene(this);
     CardDeck::self()->setDeckProperties(2, 4);
-    connect(CardDeck::self(), SIGNAL(pressed(Card*)), SLOT(newCards()));
-    connect(CardDeck::self(), SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
     CardDeck::self()->setPilePos(smallNeg, smallNeg);
     CardDeck::self()->setZValue(20);
+    connect(CardDeck::self(), SIGNAL(pressed(Card*)), SLOT(newCards()));
+    connect(CardDeck::self(), SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
     addPile( CardDeck::self() );
 
-    pile = new HorLeftPile(20, this);
+    pile = new HorLeftPile(20, "pile");
     pile->setAddFlags(Pile::addSpread | Pile::disallow);
     pile->setPilePos(-dist_x, smallNeg);
-    pile->setObjectName( "pile" );
     pile->setReservedSpace( QSizeF( -(1 + 6 * dist_x), 1 ) );
+    addPile(pile);
 
     for (int i = 0; i < 8; i++) {
-
-        target[i] = new Pile(9 + i, this);
+        target[i] = new Pile(9 + i, QString( "target%1" ).arg( i ));
         target[i]->setPilePos(dist_x*i, 0);
         target[i]->setType(Pile::KlondikeTarget);
-        target[i]->setObjectName( QString( "target%1" ).arg( i ) );
+        addPile(target[i]);
 
-        stack[i] = new Pile(1 + i, this);
+        stack[i] = new Pile(1 + i, QString( "stack%1" ).arg( i ));
         stack[i]->setPilePos(dist_x*i, 1.1 );
         stack[i]->setAddFlags(Pile::addSpread);
         stack[i]->setRemoveFlags(Pile::autoTurnTop);
         stack[i]->setCheckIndex(1);
         stack[i]->setSpread(stack[i]->spread() * 3 / 4);
-        stack[i]->setObjectName( QString( "stack%1" ).arg( i ) );
         stack[i]->setReservedSpace( QSizeF( 1.0, 4.0 ) );
+        addPile(stack[i]);
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);

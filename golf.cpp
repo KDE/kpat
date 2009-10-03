@@ -43,8 +43,8 @@
 #include <KLocale>
 
 
-HorRightPile::HorRightPile( int _index, DealerScene* parent)
-    : Pile(_index, parent)
+HorRightPile::HorRightPile( int _index, const QString & objectName )
+    : Pile(_index, objectName)
 {
 }
 
@@ -67,21 +67,21 @@ Golf::Golf( )
     connect(CardDeck::self(), SIGNAL(clicked(Card*)), SLOT(newCards()));
     addPile(CardDeck::self());
 
-    waste=new HorRightPile(8,this);
+    waste=new HorRightPile(8, "waste");
     waste->setPilePos(1.1, smallNeg);
     waste->setTarget(true);
     waste->setCheckIndex( 0 );
     waste->setAddFlags( Pile::addSpread);
     waste->setReservedSpace( QSizeF( 4.0, 1.0 ) );
-    waste->setObjectName( "waste" );
+    addPile(waste);
 
     for( int r = 0; r < 7; r++ ) {
-        stack[r]=new Pile(1+r, this);
+        stack[r]=new Pile(1+r, QString("stack%1").arg(r));
         stack[r]->setPilePos(r*dist_x,0);
         stack[r]->setAddFlags( Pile::addSpread | Pile::disallow);
         stack[r]->setCheckIndex( 1 );
         stack[r]->setReservedSpace( QSizeF( 1.0, 2.0 ) );
-        stack[r]->setObjectName( QString( "stack%1" ).arg( r ) );
+        addPile(stack[r]);
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);

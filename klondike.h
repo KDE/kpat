@@ -89,7 +89,7 @@ private slots:
 class KlondikePile : public Pile
 {
 public:
-    KlondikePile( int _index, int _draw, DealerScene* parent);
+    KlondikePile( int _index, int _draw, const QString & objectName = QString() );
     int draw() const { return m_draw; }
     void setDraws( int _draw );
 

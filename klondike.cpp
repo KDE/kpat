@@ -48,8 +48,8 @@
 #include <KSelectAction>
 
 
-KlondikePile::KlondikePile( int _index, int _draw, DealerScene* parent)
-    : Pile(_index, parent), m_draw( _draw )
+KlondikePile::KlondikePile( int _index, int _draw, const QString & objectName)
+    : Pile(_index, objectName), m_draw( _draw )
 {
 }
 
@@ -94,38 +94,37 @@ Klondike::Klondike()
     CardDeck::self()->setDeckProperties( 1, 4 );
     CardDeck::self()->setPilePos(0, 0);
     connect(CardDeck::self(), SIGNAL(clicked(Card*)), SLOT(newCards()));
+    addPile(CardDeck::self());
 
     KConfigGroup cg(KGlobal::config(), settings_group );
     EasyRules = cg.readEntry( "KlondikeEasy", true);
 
-    pile = new KlondikePile( 13, EasyRules ? 1 : 3, this);
+    pile = new KlondikePile( 13, EasyRules ? 1 : 3, "pile" );
     pile->setObjectName( "pile" );
     pile->setReservedSpace( QSizeF( 1.9, 1.0 ) );
     pile->setPilePos(1.0 + hspacing, 0);
     pile->setSpread( 0.33 );
     pile->setAddFlags( Pile::disallow );
     pile->setRemoveFlags(Pile::Default);
+    addPile(pile);
 
     for( int i = 0; i < 7; i++ )
     {
-        play[ i ] = new Pile( i + 5, this);
+        play[ i ] = new Pile( i + 5, QString( "play%1" ).arg( i ));
         play[i]->setPilePos((1.0 + hspacing) * i, 1.0 + vspacing);
         play[i]->setAddType(Pile::KlondikeStore);
         play[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop | Pile::wholeColumn);
-        play[i]->setObjectName( QString( "play%1" ).arg( i ) );
         play[i]->setReservedSpace( QSizeF( 1.0, 1.0 + play[i]->spread() * 7 ) );
+        addPile(play[i]);
     }
 
     for( int i = 0; i < 4; i++ )
     {
-        target[ i ] = new Pile( i + 1, this );
+        target[ i ] = new Pile( i + 1, QString( "target%1" ).arg( i ) );
         target[i]->setPilePos((3 + i) * (1.0 + hspacing), 0);
         target[i]->setAddType(Pile::KlondikeTarget);
-        if (EasyRules) // change default
-            target[i]->setRemoveFlags(Pile::Default);
-        else
-            target[i]->setRemoveType(Pile::KlondikeTarget);
-        target[i]->setObjectName( QString( "target%1" ).arg( i ) );
+        target[i]->setRemoveFlags(EasyRules ? Pile::Default : Pile::KlondikeTarget);
+        addPile(target[i]);
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);

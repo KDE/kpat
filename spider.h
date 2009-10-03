@@ -45,7 +45,7 @@ class KSelectAction;
 class SpiderPile : public Pile
 {
 public:
-    explicit SpiderPile(int _index, DealerScene* parent = 0) : Pile(_index, parent) {}
+    explicit SpiderPile(int _index, const QString & objectName = QString()) : Pile(_index, objectName) {}
     virtual void moveCards(CardList &c, Pile *to);
     CardList getRun();
 };

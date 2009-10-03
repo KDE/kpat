@@ -51,25 +51,26 @@ Idiot::Idiot( )
     CardDeck::self()->setScene( this );
     CardDeck::self()->setDeckProperties(1, 4);
     CardDeck::self()->setPilePos(0, 0);
+    addPile(CardDeck::self());
 
     const qreal distx = 1.1;
 
     // Create 4 piles where the cards will be placed during the game.
     for( int i = 0; i < 4; i++ ) {
-        m_play[i] = new Pile( i + 1, this);
+        m_play[i] = new Pile( i + 1, QString( "play%1" ).arg( i ));
         m_play[i]->setAddFlags( Pile::addSpread );
         m_play[i]->setRemoveFlags( Pile::disallow | Pile::demoOK );
         m_play[i]->setPilePos(1.5 + distx * i, 0);
-        m_play[i]->setObjectName( QString( "play%1" ).arg( i ) );
         m_play[i]->setReservedSpace( QSizeF( 1.0, 3.0 ) );
+        addPile( m_play[i] );
     }
 
     // Create the discard pile to the right
-    m_away = new Pile( 5, this );
+    m_away = new Pile( 5, "away" );
     m_away->setTarget(true);
     m_away->setRemoveFlags(Pile::disallow);
     m_away->setPilePos(1.9 + distx * 4, 0);
-    m_away->setObjectName( "away" );
+    addPile(m_away);
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);
     setSolver( new IdiotSolver(this ) );

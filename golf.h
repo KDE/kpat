@@ -43,7 +43,7 @@ class HorRightPile : public Pile
     Q_OBJECT
 
 public:
-    explicit HorRightPile( int _index, DealerScene* parent = 0);
+    explicit HorRightPile( int _index, const QString & objectName = QString() );
     virtual QSizeF cardOffset( const Card *) const;
 };
 

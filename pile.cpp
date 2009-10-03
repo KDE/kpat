@@ -58,27 +58,25 @@ const int Pile::autoTurnTop   = 0x0200;
 const int Pile::wholeColumn   = 0x0400;
 const int Pile::demoOK        = 0x0800;
 
-Pile::Pile( int _index, DealerScene* parent)
-    : QGraphicsPixmapItem( ),
+Pile::Pile( int _index, const QString & objectName )
+    : QGraphicsPixmapItem(),
+      removeFlags(0),
+      addFlags(0),
       _atype(Custom),
       _rtype(Custom),
+      _checkIndex(-1),
       myIndex(_index),
       _target(false),
       m_highlighted( false ),
       m_graphicVisible( true )
 {
-    setObjectName( "<unknown>" );
-    if ( parent )
-        parent->addItem( this );
-
-    // Make the patience aware of this pile.
-    if ( dscene() )
-        dscene()->addPile(this);
+    if ( objectName.isEmpty() )
+        setObjectName( QString("pile%1").arg(_index) );
+    else
+        setObjectName( objectName );
 
     QGraphicsItem::setVisible(true); // default
-    _checkIndex = -1;
-    addFlags    = 0;
-    removeFlags = 0;
+
 
     setZValue(0);
     setSpread( 0.33 );

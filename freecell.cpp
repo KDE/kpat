@@ -68,7 +68,6 @@ Freecell::Freecell()
 {
     CardDeck::self()->setScene(this);
     CardDeck::self()->setDeckProperties(1);
-    CardDeck::self()->hide();
 
     const qreal topRowDist = 1.08;
     const qreal bottomRowDist = 1.13;
@@ -78,30 +77,30 @@ Freecell::Freecell()
     kDebug(11111) << "cards" << CardDeck::self()->cards().count();
     for (int i = 0; i < 8; i++)
     {
-        FreecellPile *p = new FreecellPile(1 + i, this);
+        FreecellPile *p = new FreecellPile(1 + i, QString( "store%1" ).arg( i ));
         store[i] = p;
         p->setPilePos( bottomRowDist * i, 1.3 );
-        p->setObjectName( QString( "store%1" ).arg( i ) );
         p->setAddFlags(Pile::addSpread | Pile::several);
         p->setRemoveFlags(Pile::several);
         p->setCheckIndex(0);
         p->setReservedSpace( QSizeF( 1.0, 3.5 ) );
+        addPile(p);
     }
 
     for (int i = 0; i < 4; i++)
     {
-        freecell[i] = new Pile (1 + 8 +i, this);
+        freecell[i] = new Pile (1 + 8 + i, QString( "freecell%1" ).arg( i ));
         freecell[i]->setPilePos(topRowDist * i, 0);
-        freecell[i]->setObjectName( QString( "freecell%1" ).arg( i ) );
         freecell[i]->setType(Pile::FreeCell);
+        addPile(freecell[i]);
     }
 
     for (int i = 0; i < 4; i++)
     {
-        target[i] = new Pile(1 + 8 + 4 +i, this);
-        target[i]->setObjectName( QString( "target%1" ).arg( i ) );
+        target[i] = new Pile(1 + 8 + 4 + i, QString( "target%1" ).arg( i ));
         target[i]->setPilePos(targetOffsetDist + topRowDist * i, 0);
         target[i]->setType(Pile::KlondikeTarget);
+        addPile(target[i]);
     }
 
     setActions(DealerScene::Demo | DealerScene::Hint);

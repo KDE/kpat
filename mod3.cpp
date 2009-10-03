@@ -51,8 +51,8 @@
 class Mod3Pile : public Pile
 {
 public:
-    Mod3Pile( int _index, DealerScene* parent = 0)
-        : Pile( _index, parent ) {}
+    Mod3Pile( int _index, const QString & objectName = QString() )
+        : Pile( _index, objectName ) {}
     virtual void relayoutCards() {
         Pile::relayoutCards();
         // Don't pull cards from the deck if the deck still contains all 104
@@ -85,20 +85,20 @@ Mod3::Mod3( )
     connect(CardDeck::self(), SIGNAL(clicked(Card*)), SLOT(newCards()));
     addPile(CardDeck::self());
 
-    aces = new Pile(50, this);
+    aces = new Pile(50, "aces");
     aces->setPilePos(rightColumX, 0.5);
     aces->setTarget(true);
     aces->setCheckIndex(2);
     aces->setAddFlags(Pile::addSpread | Pile::several);
-    aces->setObjectName( "aces" );
     aces->setReservedSpace( QSizeF( 1.0, 2.0 ));
+    addPile(aces);
 
     for ( int r = 0; r < 4; r++ ) {
         for ( int c = 0; c < 8; c++ ) {
             int pileIndex = r * 10 + c  + 1;
             // The first 3 rows are the playing field, the fourth is the store.
             if ( r < 3 ) {
-                stack[r][c] = new Pile ( pileIndex, this );
+                stack[r][c] = new Pile ( pileIndex, QString( "stack%1_%2" ).arg( r ).arg( c ) );
                 stack[r][c]->setPilePos( dist_x * c, dist_y * r );
                 stack[r][c]->setCheckIndex( 0 );
                 stack[r][c]->setTarget(true);
@@ -106,16 +106,15 @@ Mod3::Mod3( )
                 // Very tight spread makes it easy to quickly tell number of
                 // cards in each pile and we don't care about the cards beneath.
                 stack[r][c]->setSpread( 0.08 );
-                stack[r][c]->setObjectName( QString( "stack%1_%2" ).arg( r ).arg( c ) );
                 stack[r][c]->setReservedSpace( QSizeF( 1.0, 1.23 ) );
             } else {
-                stack[r][c] = new Mod3Pile ( pileIndex, this );
+                stack[r][c] = new Mod3Pile ( pileIndex, QString( "stack3_%1" ).arg( c ) );
                 stack[r][c]->setPilePos( dist_x * c, bottomRowY );
                 stack[r][c]->setReservedSpace( QSizeF( 1.0, 1.8 ) );
                 stack[r][c]->setAddFlags( Pile::addSpread );
                 stack[r][c]->setCheckIndex( 1 );
-                stack[r][c]->setObjectName( QString( "stack3_%1" ).arg( c ) );
             }
+            addPile(stack[r][c]);
         }
     }
 

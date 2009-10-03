@@ -53,19 +53,19 @@ Gypsy::Gypsy( )
     addPile(CardDeck::self());
 
     for (int i=0; i<8; i++) {
-        target[i] = new Pile(i+1, this);
+        target[i] = new Pile(i+1, QString("target%1").arg(i));
         target[i]->setPilePos(dist_x*(8+(i/4)) + 0.4, (i%4)*dist_y);
         target[i]->setAddType(Pile::KlondikeTarget);
-        target[i]->setObjectName( QString( "target%1" ).arg( i ) );
+        addPile(target[i]);
     }
 
     for (int i=0; i<8; i++) {
-        store[i] = new Pile(9+i, this);
+        store[i] = new Pile(9+i, QString("store%1").arg(i));
         store[i]->setPilePos(dist_x*i,0);
         store[i]->setAddType(Pile::GypsyStore);
         store[i]->setRemoveType(Pile::FreecellStore);
         store[i]->setReservedSpace( QSizeF( 1.0, 4 * dist_y + 1.0 ) );
-        store[i]->setObjectName( QString( "store%1" ).arg( i ) );
+        addPile(store[i]);
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);

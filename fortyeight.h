@@ -44,7 +44,7 @@ class HorLeftPile : public Pile
     Q_OBJECT
 
 public:
-    explicit HorLeftPile( int _index, DealerScene* parent = 0);
+    explicit HorLeftPile( int _index, const QString & objectName = QString() );
     virtual QSizeF cardOffset(const Card *before) const;
     virtual void relayoutCards();
 };
