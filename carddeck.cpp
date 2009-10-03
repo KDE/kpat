@@ -98,6 +98,12 @@ void CardDeck::setDeckType( int copies, QList<Card::Suit> suits, QList<Card::Ran
 }
 
 
+QList< Card* > CardDeck::cards() const
+{
+    return m_allCards;
+}
+
+
 bool CardDeck::hasUndealtCards()
 {
     return !m_undealtCards.isEmpty();
@@ -152,7 +158,7 @@ void CardDeck::clear()
 void CardDeck::shuffle( int gameNumber )
 {
     Q_ASSERT(gameNumber >= 0);
-    pseudoRandomSeed = gameNumber;
+    m_pseudoRandomSeed = gameNumber;
 
     Card* t;
     int z;
@@ -281,8 +287,8 @@ void CardDeck::loadInBackground()
 // For more inforation, see 
 // http://support.microsoft.com/default.aspx?scid=kb;EN-US;Q28150
 int CardDeck::pseudoRandom() {
-    pseudoRandomSeed = 214013 * pseudoRandomSeed + 2531011;
-    return (pseudoRandomSeed >> 16) & 0x7fff;
+    m_pseudoRandomSeed = 214013 * m_pseudoRandomSeed + 2531011;
+    return (m_pseudoRandomSeed >> 16) & 0x7fff;
 }
 
 #include "carddeck.moc"

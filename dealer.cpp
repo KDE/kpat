@@ -431,49 +431,37 @@ void DealerScene::openGame(QDomDocument &doc)
     d->loadedMoveCount = dealer.attribute("moves").toInt();
     d->gameStarted = bool(dealer.attribute("started").toInt());
 
-    QDomNodeList piles = dealer.elementsByTagName("pile");
-
-    CardList cards;
-    foreach (QGraphicsItem *item, items())
-    {
-        Card *c = qgraphicsitem_cast<Card*>(item);
-        if (c)
-            cards.append(c);
-    }
+    QDomNodeList pileNodes = dealer.elementsByTagName("pile");
 
     CardDeck::self()->returnAllCards();
+    CardList cards = CardDeck::self()->cards();
 
-    foreach (QGraphicsItem *item, items())
+    foreach (Pile *p, piles)
     {
-        Pile *p = qgraphicsitem_cast<Pile*>(item);
-        if (p)
+        p->clear();
+        for (int i = 0; i < pileNodes.count(); ++i)
         {
-            p->clear();
-
-            for (int i = 0; i < piles.count(); ++i)
+            QDomElement pile = pileNodes.item(i).toElement();
+            if (pile.attribute("index").toInt() == p->index())
             {
-                QDomElement pile = piles.item(i).toElement();
-                if (pile.attribute("index").toInt() == p->index())
+                QDomNodeList cardNodes = pile.elementsByTagName("card");
+                for (int j = 0; j < cardNodes.count(); ++j)
                 {
-                    QDomNodeList pcards = pile.elementsByTagName("card");
-                    for (int j = 0; j < pcards.count(); ++j)
-                    {
-                        QDomElement card = pcards.item(j).toElement();
-                        Card::Suit s = static_cast<Card::Suit>(card.attribute("suit").toInt());
-                        Card::Rank v = static_cast<Card::Rank>(card.attribute("value").toInt());
+                    QDomElement card = cardNodes.item(j).toElement();
+                    Card::Suit s = static_cast<Card::Suit>(card.attribute("suit").toInt());
+                    Card::Rank v = static_cast<Card::Rank>(card.attribute("value").toInt());
 
-                        for (CardList::Iterator it2 = cards.begin();
-                             it2 != cards.end(); ++it2)
+                    for (CardList::Iterator it = cards.begin(); it != cards.end(); ++it)
+                    {
+                        Card * c = *it;
+                        if (c->suit() == s && c->rank() == v)
                         {
-                            if ((*it2)->suit() == s && (*it2)->rank() == v)
-                            {
-                                (*it2)->setVisible(p->isVisible());
-                                p->add(*it2, !card.attribute("faceup").toInt());
-                                (*it2)->stopAnimation();
-                                (*it2)->setVisible(p->isVisible());
-                                cards.erase(it2);
-                                break;
-                            }
+                            p->add(c, !card.attribute("faceup").toInt());
+                            c->stopAnimation();
+                            c->updatePixmap();
+                            c->setVisible(p->isVisible());
+                            cards.erase(it);
+                            break;
                         }
                     }
                 }

@@ -79,6 +79,7 @@ public:
                                                 << Card::Queen
                                                 << Card::King
                     );
+    QList<Card*> cards() const;
 
     bool hasUndealtCards();
     Card * takeCard();
@@ -113,7 +114,7 @@ private:
     QSizeF m_originalCardSize;
     QSize m_currentCardSize;
 
-    int pseudoRandomSeed;
+    int m_pseudoRandomSeed;
 };
 
 #endif

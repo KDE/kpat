@@ -378,19 +378,15 @@ void Pile::add( Card* _card, bool _facedown )
     if (!_card)
         return;
 
-    // The top card
-    Card *t = top();
-
     // If this pile is visible, then also show the card.
-    if (isVisible())
-        _card->show();
-    else
-        _card->hide();
+    _card->setVisible(isVisible());
 
     _card->turn( !_facedown );
 
-    qreal x2, y2, z2;
+    // The top card
+    Card *t = top();
 
+    qreal x2, y2, z2;
     if (t) {
         // kDebug(11111) << "::add" << t->pos() << " " << t->spread() << " " << _card->name() << " " << t->name() << " " << _card->spread();
         x2 = t->realX() + t->spread().width() * CardDeck::self()->cardWidth();
