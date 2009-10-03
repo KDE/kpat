@@ -90,11 +90,11 @@ Klondike::Klondike()
     const qreal hspacing = 1.0 / 6 + 0.02; // horizontal spacing between card piles
     const qreal vspacing = 1.0 / 4; // vertical spacing between card piles
 
-    CardDeck::self()->setScene(this);
-    CardDeck::self()->setDeckProperties( 1, 4 );
-    CardDeck::self()->setPilePos(0, 0);
-    connect(CardDeck::self(), SIGNAL(clicked(Card*)), SLOT(newCards()));
-    addPile(CardDeck::self());
+    CardDeck::self()->setDeckType();
+
+    talon = new Pile( 0, "talon" );
+    connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
+    addPile(talon);
 
     KConfigGroup cg(KGlobal::config(), settings_group );
     EasyRules = cg.readEntry( "KlondikeEasy", true);
@@ -145,42 +145,43 @@ QList<QAction*> Klondike::configActions() const
 
 Card *Klondike::newCards()
 {
-    if ( CardDeck::self()->isEmpty() && pile->cardsLeft() <= 1 )
+    if ( talon->isEmpty() && pile->cardsLeft() <= 1 )
         return 0;
 
     if ( pile->top() && pile->top()->animated() )
         return pile->top();
 
-    if ( CardDeck::self()->isEmpty() )
+    if ( talon->isEmpty() )
     {
         // Move the cards from the pile back to the deck
         redeal();
-        return CardDeck::self()->top();
+        return talon->top();
     }
 
-    for (int flipped = 0; flipped < pile->draw() && !CardDeck::self()->isEmpty(); ++flipped) {
-        Card *c = CardDeck::self()->nextCard();
+    for (int flipped = 0; flipped < pile->draw() && !talon->isEmpty(); ++flipped) {
+        Card *c = talon->top();
         pile->add(c, true); // facedown, nospread
         c->stopAnimation();
         // move back to flip
-        c->setPos( CardDeck::self()->pos() );
+        c->setPos( talon->pos() );
         c->flipTo( pile->x() + pile->spread() * flipped * CardDeck::self()->cardWidth(), pile->y(), 200 + 80 * ( flipped + 1 ) );
     }
 
     takeState();
     considerGameStarted();
-    if ( CardDeck::self()->isEmpty() && pile->cardsLeft() <= 1 )
+    if ( talon->isEmpty() && pile->cardsLeft() <= 1 )
        emit newCardsPossible( false );
 
     // we need to look that many steps in the future to see if we can lose
-    setNeededFutureMoves( CardDeck::self()->cardsLeft() + pile->cardsLeft() );
+    setNeededFutureMoves( talon->cardsLeft() + pile->cardsLeft() );
 
     return pile->top();
 }
 
 void Klondike::restart()
 {
-    CardDeck::self()->collectAndShuffle();
+    CardDeck::self()->returnAllCards();
+    CardDeck::self()->shuffle( gameNumber() );
     redealt = false;
     deal();
 }
@@ -207,7 +208,7 @@ QString Klondike::getGameState()
     // getGameState() is called every time a card is moved, so we use it to
     // check if there are any cards left to deal. There might be a more elegant
     // to do this, though.
-    emit newCardsPossible( !CardDeck::self()->isEmpty() || pile->cardsLeft() > 1 );
+    emit newCardsPossible( !talon->isEmpty() || pile->cardsLeft() > 1 );
     return QString();
 }
 
@@ -245,13 +246,13 @@ void Klondike::redeal() {
     if (EasyRules)
         // the remaining cards in deck should be on top
         // of the new deck
-        pilecards += CardDeck::self()->cards();
+        pilecards += talon->cards();
 
     for (int count = pilecards.count() - 1; count >= 0; --count)
     {
         Card *card = pilecards[count];
         card->stopAnimation();
-        CardDeck::self()->add(card, true); // facedown, nospread
+        talon->add(card, true); // facedown, nospread
     }
 
     redealt = true;
@@ -260,7 +261,8 @@ void Klondike::redeal() {
 void Klondike::deal() {
     for(int round=0; round < 7; round++)
         for (int i = round; i < 7; i++ )
-            play[i]->add(CardDeck::self()->nextCard(), i != round && true);
+            play[i]->add(CardDeck::self()->takeCard(), i != round && true);
+    CardDeck::self()->takeAllCards(talon);
 }
 
 bool Klondike::startAutoDrop()

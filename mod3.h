@@ -66,6 +66,7 @@ private: // functions
     void         dealRow(int row);
 
 private:
+    Pile  *talon;
     Pile  *stack[4][8];
     Pile  *aces;
 };

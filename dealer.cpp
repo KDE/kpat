@@ -441,7 +441,7 @@ void DealerScene::openGame(QDomDocument &doc)
             cards.append(c);
     }
 
-    CardDeck::self()->collectAndShuffle();
+    CardDeck::self()->returnAllCards();
 
     foreach (QGraphicsItem *item, items())
     {
@@ -609,8 +609,7 @@ DealerScene::~DealerScene()
 
     clearHints();
 
-    CardDeck::self()->setScene( 0 );
-    removePile( CardDeck::self() );
+    CardDeck::self()->clear();
 
     foreach ( Pile *p, piles )
     {
@@ -1564,11 +1563,15 @@ void DealerScene::addPile(Pile *p)
         p->dscene()->removePile( p );
     }
     addItem(p);
+    foreach (Card *c, p->cards())
+        addItem(c);
     piles.append(p);
 }
 
 void DealerScene::removePile(Pile *p)
 {
+    foreach (Card *c, p->cards())
+        removeItem(c);
     removeItem(p);
     piles.removeAll(p);
 }

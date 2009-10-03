@@ -5,52 +5,46 @@ add_subdirectory( demos )
 
 ########### next target ###############
 
-set(RELEASE "1")
-
 set(kpat_SRCS
-   main.cpp 
-   card.cpp 
-   carddeck.cpp 
-   dealer.cpp 
-   view.cpp
-   mainwindow.cpp 
-   pile.cpp 
+   main.cpp
+   card.cpp
+   carddeck.cpp
+   dealer.cpp
    demo.cpp
+   mainwindow.cpp
+   pile.cpp
    pile_algorithms.cpp
-   statisticsdialog.cpp
-   patsolve/patsolve.cpp
-   patsolve/memory.cpp
-   patsolve/klondikesolver.cpp
-   klondike.cpp
    render.cpp
-)
+   statisticsdialog.cpp
+   view.cpp
+   patsolve/memory.cpp
+   patsolve/patsolve.cpp
 
-if (RELEASE)
-set(kpat_SRCS ${kpat_SRCS}
-   patsolve/spidersolver.cpp
-   spider.cpp
-   patsolve/freecellsolver.cpp
-   freecell.cpp 
-   patsolve/simonsolver.cpp
-   simon.cpp
-   patsolve/idiotsolver.cpp
-   idiot.cpp
-   patsolve/yukonsolver.cpp
-   yukon.cpp
-   patsolve/golfsolver.cpp
-   golf.cpp
+   clock.cpp 
    patsolve/clocksolver.cpp
-   clock.cpp
-   patsolve/mod3solver.cpp
-   mod3.cpp
-   patsolve/grandfsolver.cpp
-   grandf.cpp
-   patsolve/gypsysolver.cpp
-   gypsy.cpp
-   patsolve/fortyeightsolver.cpp
    fortyeight.cpp
+   patsolve/fortyeightsolver.cpp
+   freecell.cpp 
+   patsolve/freecellsolver.cpp
+   golf.cpp
+   patsolve/golfsolver.cpp
+   grandf.cpp
+   patsolve/grandfsolver.cpp
+   gypsy.cpp
+   patsolve/gypsysolver.cpp
+   idiot.cpp
+   patsolve/idiotsolver.cpp
+   klondike.cpp
+   patsolve/klondikesolver.cpp
+   mod3.cpp
+   patsolve/mod3solver.cpp
+   simon.cpp
+   patsolve/simonsolver.cpp
+   spider.cpp
+   patsolve/spidersolver.cpp
+   yukon.cpp
+   patsolve/yukonsolver.cpp
 )
-endif(RELEASE)
 
 kde4_add_ui_files(kpat_SRCS statisticsdialog.ui )
 

@@ -86,7 +86,7 @@ class Card: public QObject, public AbstractCard, public QGraphicsPixmapItem {
     Q_OBJECT
 
 public:
-    Card( Rank r, Suit s, QGraphicsScene *parent=0 );
+    Card( Rank r, Suit s );
     virtual ~Card();
 
     // Some basic tests.
@@ -143,7 +143,7 @@ signals:
     void       stopped(Card *c);
 
 public slots:
-    void       setPixmap();
+    void       updatePixmap();
     void       flip();
     void       flipAnimationChanged( qreal );
     void       stopAnimation();

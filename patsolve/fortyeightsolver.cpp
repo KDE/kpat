@@ -483,7 +483,7 @@ void FortyeightSolver::translate_layout()
     Wlen[16] = i;
     total += i;
 
-    i = translate_pile( CardDeck::self(), W[17], 80 );
+    i = translate_pile( deal->talon, W[17], 80 );
     Wp[17] = &W[17][i-1];
     Wlen[17] = i;
     total += i;

@@ -59,13 +59,12 @@ AbstractCard::AbstractCard( Rank r, Suit s )
     m_faceup = true;
 }
 
-Card::Card( Rank r, Suit s, QGraphicsScene *_parent )
+Card::Card( Rank r, Suit s )
     : QObject(), AbstractCard( r, s ), QGraphicsPixmapItem(),
       m_source(0), tookDown(false), animation( 0 ),
       m_highlighted( false ), m_moving( false ), m_isZoomed( false ), m_isSeen( Unknown )
 {
     setShapeMode( QGraphicsPixmapItem::BoundingRectShape );
-    _parent->addItem( this );
 
     QString suitName;
     switch( m_suit )
@@ -107,20 +106,20 @@ Card::~Card()
     // If the card is in a pile, remove it from there.
     if (source())
         source()->remove(this);
-
-    hide();
+    if (scene())
+        scene()->removeItem(this);
 }
 
 // ----------------------------------------------------------------
 //              Member functions regarding graphics
 
 
-void Card::setPixmap()
+void Card::updatePixmap()
 {
     if( m_faceup )
-        QGraphicsPixmapItem::setPixmap( CardDeck::self()->renderFrontside( m_rank, m_suit ) );
+        QGraphicsPixmapItem::setPixmap( CardDeck::self()->frontsidePixmap( m_rank, m_suit ) );
     else
-        QGraphicsPixmapItem::setPixmap( CardDeck::self()->renderBackside() );
+        QGraphicsPixmapItem::setPixmap( CardDeck::self()->backsidePixmap() );
     m_boundingRect = QRectF(QPointF(0,0), pixmap().size());
     m_isSeen = Unknown;
     return;
@@ -147,7 +146,7 @@ void Card::turn( bool _faceup )
     if (m_faceup != _faceup ) {
         m_faceup = _faceup;
         m_destFace = _faceup;
-        setPixmap();
+        updatePixmap();
     }
 }
 

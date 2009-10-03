@@ -301,10 +301,8 @@ Card *Pile::top() const
 
 void Pile::clear()
 {
-    for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
-    {
-        (*it)->setSource(0);
-    }
+    foreach ( Card *card, m_cards )
+        card->setSource(0);
     m_cards.clear();
 }
 
@@ -327,6 +325,8 @@ void Pile::add( Card *_card, int index)
 {
     if (_card->source() == this)
         return;
+
+    dscene()->addItem(_card);
 
     Pile *source = _card->source();
     if (source) {
@@ -416,7 +416,7 @@ void Pile::add( Card* _card, bool _facedown )
         _card->setPos( QPointF( x2, y2 ) );
         _card->setZValue( z2 );
     } else {
-        if ( source == CardDeck::self() && dscene()->isInitialDeal() )
+        if ( source == 0 && dscene()->isInitialDeal() )
         {
             _card->setPos(QPointF( x2, 0 - 3 * CardDeck::self()->cardHeight() ) );
         }
@@ -445,6 +445,7 @@ void Pile::remove(Card *c)
 {
     Q_ASSERT(m_cards.contains(c));
     m_cards.removeAll(c);
+    c->setSource(0);
 }
 
 void Pile::hideCards( const CardList & cards )

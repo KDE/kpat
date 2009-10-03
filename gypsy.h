@@ -60,6 +60,7 @@ private: // functions
     void dealRow(bool faceup);
 
 private:
+    Pile* talon;
     Pile* store[8];
     Pile* target[8];
 };

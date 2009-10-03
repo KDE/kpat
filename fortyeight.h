@@ -69,6 +69,7 @@ public slots:
 private:
     void deal();
 
+    Pile *talon;
     Pile *stack[8];
     Pile *target[8];
     HorLeftPile *pile;

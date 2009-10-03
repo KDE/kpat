@@ -61,11 +61,12 @@ Golf::Golf( )
     const qreal dist_x = 1.11;
     const qreal smallNeg = -1e-6;
 
-    CardDeck::self()->setScene(this);
-    CardDeck::self()->setDeckProperties(1, 4);
-    CardDeck::self()->setPilePos(0, smallNeg);
-    connect(CardDeck::self(), SIGNAL(clicked(Card*)), SLOT(newCards()));
-    addPile(CardDeck::self());
+    CardDeck::self()->setDeckType();
+
+    talon = new Pile(0, "talon");
+    talon->setPilePos(0, smallNeg);
+    connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
+    addPile(talon);
 
     waste=new HorRightPile(8, "waste");
     waste->setPilePos(1.1, smallNeg);
@@ -116,7 +117,8 @@ bool Golf::checkRemove( int checkIndex, const Pile *, const Card *c2) const
 
 void Golf::restart()
 {
-    CardDeck::self()->collectAndShuffle();
+    CardDeck::self()->returnAllCards();
+    CardDeck::self()->shuffle( gameNumber() );
     deal();
     emit newCardsPossible( true );
 }
@@ -129,21 +131,23 @@ void Golf::deal()
     {
         for(int r=0;r<7;r++)
         {
-            stack[r]->add(CardDeck::self()->nextCard(),false);
+            stack[r]->add(CardDeck::self()->takeCard(),false);
         }
     }
 
-    Card *c = CardDeck::self()->nextCard();
+    CardDeck::self()->takeAllCards(talon);
+
+    Card *c = talon->top();
     waste->add(c, true);
     qreal x = c->x();
     qreal y = c->y();
-    c->setPos( CardDeck::self()->pos() );
+    c->setPos( talon->pos() );
     c->flipTo(x, y, DURATION_FLIP );
 }
 
 Card *Golf::newCards()
 {
-    if (CardDeck::self()->isEmpty())
+    if (talon->isEmpty())
          return 0;
 
     if ( waste->top() && waste->top()->animated() )
@@ -151,17 +155,17 @@ Card *Golf::newCards()
 
     unmarkAll();
 
-    Card *c = CardDeck::self()->nextCard();
+    Card *c = talon->top();
     waste->add(c, true );
     c->stopAnimation();
     qreal x = c->x();
     qreal y = c->y();
-    c->setPos( CardDeck::self()->pos() );
+    c->setPos( talon->pos() );
     c->flipTo(x, y, DURATION_FLIP );
 
     takeState();
     considerGameStarted();
-    if ( CardDeck::self()->isEmpty() )
+    if ( talon->isEmpty() )
         emit newCardsPossible( false );
 
     return c;
@@ -189,7 +193,7 @@ bool Golf::cardClicked(Card *c)
 
 void Golf::setGameState( const QString & )
 {
-    emit newCardsPossible( !CardDeck::self()->isEmpty() );
+    emit newCardsPossible( !talon->isEmpty() );
 }
 
 static class LocalDealerInfo13 : public DealerInfo

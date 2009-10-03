@@ -45,8 +45,7 @@
 Simon::Simon( )
     : DealerScene( )
 {
-    CardDeck::self()->setScene(this);
-    CardDeck::self()->setDeckProperties(1, 4);
+    CardDeck::self()->setDeckType();
 
     const qreal dist_x = 1.11;
 
@@ -76,7 +75,8 @@ Simon::Simon( )
 }
 
 void Simon::restart() {
-    CardDeck::self()->collectAndShuffle();
+    CardDeck::self()->returnAllCards();
+    CardDeck::self()->shuffle( gameNumber() );
     deal();
 }
 
@@ -85,13 +85,13 @@ void Simon::deal() {
     {
         for (int j = 0; j < piles; j++)
         {
-            Card *c = CardDeck::self()->nextCard();
+            Card *c = CardDeck::self()->takeCard();
             store[j]->add(c, false);
         }
     }
     for ( int j = 0; j < 10; j++ )
     {
-        Card *c = CardDeck::self()->nextCard();
+        Card *c = CardDeck::self()->takeCard();
         store[j]->add(c, false);
     }
 

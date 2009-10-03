@@ -82,8 +82,7 @@ Spider::Spider()
     KConfigGroup cg(KGlobal::config(), settings_group );
     m_suits = cg.readEntry( "SpiderSuits", 2);
 
-    CardDeck::self()->setScene(this);
-    CardDeck::self()->setDeckProperties(2, m_suits);
+    setupDeck();
 
     // Dealing the cards out into 5 piles so the user can see how many
     // sets of 10 cards are left to be dealt out
@@ -187,8 +186,9 @@ void Spider::setSuits(int suits)
 
         stopDemo();
         unmarkAll();
-        CardDeck::self()->setDeckProperties(2, m_suits);
-        CardDeck::self()->setVisible(false);
+
+        setupDeck();
+
         KConfigGroup cg(KGlobal::config(), settings_group );
         cg.writeEntry( "SpiderSuits", m_suits);
         cg.sync();
@@ -201,6 +201,29 @@ void Spider::setSuits(int suits)
             options->setCurrentItem( 2 );
     }
 }
+
+
+void Spider::setupDeck()
+{
+    // These look a bit weird, but are needed to keep the game numbering
+    // from breaking. The original logic always created groupings of 4
+    // suits, while the new logic is more flexible. We maintain the card
+    // ordering by always passing a list of 4 suits even if we really only
+    // have one or two.
+    if ( m_suits == 1 )
+        CardDeck::self()->setDeckType( 2, QList<Card::Suit>() << Card::Spades
+                                                              << Card::Spades
+                                                              << Card::Spades
+                                                              << Card::Spades );
+    else if ( m_suits == 2 )
+        CardDeck::self()->setDeckType( 2, QList<Card::Suit>() << Card::Hearts
+                                                              << Card::Spades
+                                                              << Card::Hearts
+                                                              << Card::Spades );
+    else
+        CardDeck::self()->setDeckType( 2 );
+}
+
 
 void Spider::cardStopped(Card * t)
 {
@@ -272,7 +295,7 @@ void Spider::setGameState(const QString &stream)
 
 QString Spider::getGameOptions() const
 {
-    return QString::number(CardDeck::self()->suitsNum());
+    return QString::number(m_suits);
 }
 
 void Spider::setGameOptions(const QString& options)
@@ -284,7 +307,8 @@ void Spider::setGameOptions(const QString& options)
 
 void Spider::restart()
 {
-    CardDeck::self()->collectAndShuffle();
+    CardDeck::self()->returnAllCards();
+    CardDeck::self()->shuffle( gameNumber() );
     deal();
     emit newCardsPossible(true);
 }
@@ -365,18 +389,18 @@ void Spider::deal()
     int column = 0;
     // deal face down cards (5 to first 4 piles, 4 to last 6)
     for (int i = 0; i < 44; i++ ) {
-        stack[column]->add(CardDeck::self()->nextCard(), true);
+        stack[column]->add(CardDeck::self()->takeCard(), true);
         column = (column + 1) % 10;
     }
     // deal face up cards, one to each pile
     for (int i = 0; i < 10; i++ ) {
-        stack[column]->add(CardDeck::self()->nextCard(), false);
+        stack[column]->add(CardDeck::self()->takeCard(), false);
         column = (column + 1) % 10;
     }
     // deal the remaining cards into 5 'redeal' piles
     for (int column = 0; column < 5; column++ )
         for (int i = 0; i < 10; i++ )
-            redeals[column]->add(CardDeck::self()->nextCard(), true);
+            redeals[column]->add(CardDeck::self()->takeCard(), true);
 
     // make the redeal piles visible
     for (int i = 0; i < 5; i++ )

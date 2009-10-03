@@ -51,18 +51,19 @@
 class Mod3Pile : public Pile
 {
 public:
-    Mod3Pile( int _index, const QString & objectName = QString() )
-        : Pile( _index, objectName ) {}
+    Mod3Pile( int _index, Pile * pile, const QString & objectName = QString() )
+        : Pile( _index, objectName ), drawPile( pile ) {}
     virtual void relayoutCards() {
         Pile::relayoutCards();
         // Don't pull cards from the deck if the deck still contains all 104
         // cards. This prevents glitchy things from happening before the initial
         // deal has happened.
-        if ( isEmpty() && CardDeck::self()->cardsLeft() < 104 )
+        if ( isEmpty() /*&& CardDeck::self()->cardsLeft() < 104*/ )
         {
-            add( CardDeck::self()->nextCard(), false );
+            add( drawPile->top(), false );
         }
     }
+    Pile * drawPile;
 };
 
 
@@ -79,11 +80,12 @@ Mod3::Mod3( )
     const qreal rightColumX = 8 * dist_x + 0.8;
 
     // This patience uses 2 deck of cards.
-    CardDeck::self()->setScene(this);
-    CardDeck::self()->setDeckProperties(2, 4);
-    CardDeck::self()->setPilePos(rightColumX, bottomRowY);
-    connect(CardDeck::self(), SIGNAL(clicked(Card*)), SLOT(newCards()));
-    addPile(CardDeck::self());
+    CardDeck::self()->setDeckType(2);
+
+    talon = new Pile(0, "talon");
+    talon->setPilePos(rightColumX, bottomRowY);
+    connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
+    addPile(talon);
 
     aces = new Pile(50, "aces");
     aces->setPilePos(rightColumX, 0.5);
@@ -108,7 +110,7 @@ Mod3::Mod3( )
                 stack[r][c]->setSpread( 0.08 );
                 stack[r][c]->setReservedSpace( QSizeF( 1.0, 1.23 ) );
             } else {
-                stack[r][c] = new Mod3Pile ( pileIndex, QString( "stack3_%1" ).arg( c ) );
+                stack[r][c] = new Mod3Pile ( pileIndex, talon, QString( "stack3_%1" ).arg( c ) );
                 stack[r][c]->setPilePos( dist_x * c, bottomRowY );
                 stack[r][c]->setReservedSpace( QSizeF( 1.0, 1.8 ) );
                 stack[r][c]->setAddFlags( Pile::addSpread );
@@ -156,14 +158,14 @@ bool Mod3::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
         return cl.first()->rank() == Card::Ace;
 
     } else
-	return false;
+        return false;
 }
 
 
 bool Mod3::checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const
 {
     return (checkIndex == 0 && c1->isEmpty()
-	    && c2.first()->rank() == (c1->index()+1));
+            && c2.first()->rank() == (c1->index()+1));
 }
 
 
@@ -172,7 +174,8 @@ bool Mod3::checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) c
 
 void Mod3::restart()
 {
-    CardDeck::self()->collectAndShuffle();
+    CardDeck::self()->returnAllCards();
+    CardDeck::self()->shuffle( gameNumber() );
     deal();
     emit newCardsPossible(true);
 }
@@ -183,13 +186,11 @@ void Mod3::restart()
 
 void Mod3::dealRow(int row)
 {
-    if (CardDeck::self()->isEmpty())
+    if (talon->isEmpty())
         return;
 
     for (int c = 0; c < 8; c++) {
-        Card *card;
-
-        card = CardDeck::self()->nextCard();
+        Card *card = talon->top();
         stack[row][c]->add (card, false);
     }
 }
@@ -209,20 +210,22 @@ void Mod3::deal()
         }
     kDebug(11111) << "init" << aces->cardsLeft() << " " << Deck::self()->cardsLeft();
 */
+    CardDeck::self()->takeAllCards(talon);
+
     for (int r = 0; r < 4; r++)
         dealRow(r);
 }
 
 Card *Mod3::newCards()
 {
-    if (CardDeck::self()->isEmpty())
+    if (talon->isEmpty())
         return 0;
 
     unmarkAll();
     dealRow(3);
     takeState();
     considerGameStarted();
-    if (CardDeck::self()->isEmpty())
+    if (talon->isEmpty())
         emit newCardsPossible(false);
 
     return stack[3][0]->top();
@@ -230,7 +233,7 @@ Card *Mod3::newCards()
 
 void Mod3::setGameState(const QString &)
 {
-    emit newCardsPossible(!CardDeck::self()->isEmpty());
+    emit newCardsPossible(!talon->isEmpty());
 }
 
 static class LocalDealerInfo5 : public DealerInfo

@@ -64,6 +64,7 @@ protected:
 private:
     bool canMoveAway(Card *c) const;
 
+    Pile  *talon;
     Pile  *m_play[ 4 ];
     Pile  *m_away;
 };

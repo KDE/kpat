@@ -71,6 +71,7 @@ private: // functions
     virtual bool checkRemove( int checkIndex, const Pile *c1, const Card *c2) const;
 
 private:
+    Pile* talon;
     Pile* stack[7];
     HorRightPile* waste;
 };

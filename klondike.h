@@ -75,6 +75,7 @@ private:
 
     KSelectAction *options;
 
+    Pile* talon;
     Pile* play[7];
     Pile* target[4];
 

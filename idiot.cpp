@@ -47,11 +47,12 @@ Idiot::Idiot( )
     // Since there are so few piles, we might as well set a big margin
     setLayoutMargin( 0.6 );
 
-    // Create the deck to the left.
-    CardDeck::self()->setScene( this );
-    CardDeck::self()->setDeckProperties(1, 4);
-    CardDeck::self()->setPilePos(0, 0);
-    addPile(CardDeck::self());
+    CardDeck::self()->setDeckType();
+
+    // Create the talon to the left.
+    talon = new Pile( 0, "talon" );
+    talon->setPilePos(0, 0);
+    addPile(talon);
 
     const qreal distx = 1.1;
 
@@ -79,11 +80,14 @@ Idiot::Idiot( )
 
 void Idiot::restart()
 {
-    CardDeck::self()->collectAndShuffle();
+    CardDeck::self()->returnAllCards();
+    CardDeck::self()->shuffle( gameNumber() );
 
     // Move the four top cards of the deck to the piles, faceup, spread out.
     for ( int i = 0; i < 4; ++i )
-        m_play[ i ]->add( CardDeck::self()->nextCard(), false );
+        m_play[ i ]->add( CardDeck::self()->takeCard(), false );
+
+    CardDeck::self()->takeAllCards( talon );
 
     emit newCardsPossible(true);
 }
@@ -91,7 +95,7 @@ void Idiot::restart()
 bool Idiot::cardClicked(Card *c)
 {
     // If the deck is clicked, deal 4 more cards.
-    if (c->source() == CardDeck::self()) {
+    if (c->source() == talon) {
         newCards();
         return true;
     }
@@ -140,7 +144,7 @@ bool Idiot::cardClicked(Card *c)
 bool Idiot::isGameWon() const
 {
     // Criterium 1.
-    if (!CardDeck::self()->isEmpty())
+    if (!talon->isEmpty())
         return false;
 
     // Criterium 2.
@@ -166,7 +170,7 @@ bool Idiot::cardDblClicked(Card *)
 //
 Card *Idiot::newCards()
 {
-    if ( CardDeck::self()->isEmpty() )
+    if ( talon->isEmpty() )
         return 0;
 
     if ( waiting() )
@@ -178,11 +182,11 @@ Card *Idiot::newCards()
 
     // Move the four top cards of the deck to the piles, faceup, spread out.
     for ( int i = 0; i < 4; ++i )
-        m_play[ i ]->add( CardDeck::self()->nextCard(), false );
+        m_play[ i ]->add( talon->top(), false );
 
     takeState();
     considerGameStarted();
-    if ( CardDeck::self()->isEmpty() )
+    if ( talon->isEmpty() )
         emit newCardsPossible( false );
 
     return m_play[0]->top();
@@ -190,7 +194,7 @@ Card *Idiot::newCards()
 
 void Idiot::setGameState(const QString &)
 {
-    emit newCardsPossible( !CardDeck::self()->isEmpty() );
+    emit newCardsPossible( !talon->isEmpty() );
 }
 
 static class LocalDealerInfo2 : public DealerInfo

@@ -47,8 +47,7 @@
 Grandf::Grandf( )
     : DealerScene(  )
 {
-    CardDeck::self()->setScene(this);
-    CardDeck::self()->setDeckProperties(1, 4);
+    CardDeck::self()->setDeckType();
 
     const qreal distx = 1.4;
     const qreal targetOffset = 1.5 * distx;
@@ -75,7 +74,8 @@ Grandf::Grandf( )
 }
 
 void Grandf::restart() {
-    CardDeck::self()->collectAndShuffle();
+    CardDeck::self()->returnAllCards();
+    CardDeck::self()->shuffle( gameNumber() );
     deal();
     numberOfDeals = 1;
     emit newCardsPossible( true );
@@ -120,7 +120,7 @@ void Grandf::deal() {
         int i = start;
         do
         {
-            Card *next = CardDeck::self()->nextCard();
+            Card *next = CardDeck::self()->takeCard();
             if (next)
                 store[i]->add(next, i != start);
             i += dir;
@@ -132,11 +132,11 @@ void Grandf::deal() {
     }
 
     int i = 0;
-    Card *next = CardDeck::self()->nextCard();
+    Card *next = CardDeck::self()->takeCard();
     while (next)
     {
         store[i+1]->add(next, false);
-        next = CardDeck::self()->nextCard();
+        next = CardDeck::self()->takeCard();
         i = (i+1)%6;
     }
 
@@ -160,9 +160,8 @@ void Grandf::collect() {
     unmarkAll();
 
     for (int pos = 6; pos >= 0; pos--) {
-        CardList p = store[pos]->cards();
-        for (CardList::ConstIterator it = p.constBegin(); it != p.constEnd(); ++it)
-            CardDeck::self()->add(*it, true);
+        foreach (Card *c, store[pos]->cards())
+            CardDeck::self()->returnCard(c);
     }
 }
 

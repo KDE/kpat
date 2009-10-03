@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 1995 Paul Olav Tvete <paul@troll.no>
  * Copyright (C) 2000-2009 Stephan Kulow <coolo@kde.org>
+ * Copyright (C) 2009 Parker Coates <parker.coates@gmail.com>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -37,75 +38,82 @@
 #ifndef CARDDECK_H
 #define CARDDECK_H
 
-#include "pile.h"
+#include "card.h"
+class Pile;
 
 #include <KCardCache>
 class KConfigGroup;
 
 #include <QtCore/QPointer>
 
-/***************************************
-
-  Deck (Pile with id 0) -- create and shuffle 52 cards
-
-**************************************/
-class CardDeck: public Pile
+class CardDeck: public QObject
 {
     Q_OBJECT
+
 private:
+    friend class CardDeckPrivate;
     explicit CardDeck();
     virtual ~CardDeck();
 
 public:
-    void setDeckProperties( uint m = 1, uint s = 4 );
-    void setScene( DealerScene * dealer );
-    static CardDeck *self();
+    static CardDeck * self();
 
-    void collectAndShuffle();
+    void setDeckType( int copies = 1,
+                      QList<Card::Suit> suits = QList<Card::Suit>()
+                                                << Card::Clubs
+                                                << Card::Diamonds
+                                                << Card::Hearts
+                                                << Card::Spades,
+                      QList<Card::Rank> ranks = QList<Card::Rank>()
+                                                << Card::Ace
+                                                << Card::Two
+                                                << Card::Three
+                                                << Card::Four
+                                                << Card::Five
+                                                << Card::Six
+                                                << Card::Seven
+                                                << Card::Eight
+                                                << Card::Nine
+                                                << Card::Ten
+                                                << Card::Jack
+                                                << Card::Queen
+                                                << Card::King
+                    );
 
-    Card* nextCard();
+    bool hasUndealtCards();
+    Card * takeCard();
+    void takeAllCards( Pile * p );
+    void returnCard( Card * c );
+    void returnAllCards();
+    void shuffle( int gameNumber );
+    void clear();
 
-    uint decksNum() const { return mult; }
-    uint suitsNum() const { return suits; }
-    void updatePixmaps();
-
-
-
-    QSize cardSize() const;
-    int cardWidth() const;
-    int cardHeight() const;
     void setCardWidth( int width );
+    int cardWidth() const;
+    void setCardHeight( int height );
+    int cardHeight() const;
+    QSize cardSize() const;
 
-    QPixmap renderBackside( int variant = -1 );
-    QPixmap renderFrontside( Card::Rank, Card::Suit );
-    QRect opaqueRect() const;
+    QPixmap frontsidePixmap( Card::Rank, Card::Suit );
+    QPixmap backsidePixmap( int variant = -1 );
 
-    void updateTheme(const KConfigGroup &cg);
+    void updateTheme( const KConfigGroup &cg );
 
 public slots:
     void loadInBackground();
 
 private: // functions
-
-    void makeDeck();
-    void collectCards();
-    void shuffle();
+    int pseudoRandom();
 
 private:
-
-    uint mult;
-    uint suits;
     QList<Card*> m_allCards;
-
-    bool m_isInitialized;
+    QList<Card*> m_undealtCards;
 
     KCardCache m_cache;
     QSizeF m_originalCardSize;
     QSize m_currentCardSize;
 
-    QPointer<DealerScene> m_dscene;
-
-    static CardDeck *my_deck;
+    int pseudoRandomSeed;
 };
 
 #endif

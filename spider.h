@@ -80,6 +80,7 @@ protected:
 private:
     CardList getRun(Card *c) const;
     void setSuits(int s);
+    void setupDeck();
 
     SpiderPile *stack[10];
     Pile *legs[8];
