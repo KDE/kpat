@@ -37,7 +37,7 @@
 
 #include "view.h"
 #include "dealer.h"
-#include "cardmaps.h"
+#include "deck.h"
 
 #include <cmath>
 
@@ -85,7 +85,7 @@ void PatienceView::wheelEvent( QWheelEvent *e )
     if ( e->modifiers() & Qt::ControlModifier )
     {
         qreal scaleFactor = pow((qreal)2, -e->delta() / (10*120.0));
-        cardMap::self()->setCardWidth( int( cardMap::self()->cardWidth() / scaleFactor ) );
+        Deck::self()->setCardWidth( int( Deck::self()->cardWidth() / scaleFactor ) );
     }
 }
 

@@ -66,15 +66,16 @@ void FreecellPile::moveCards(CardList &c, Pile *to)
 Freecell::Freecell()
     : DealerScene()
 {
-    Deck::createDeck(this, 1);
-    Deck::deck()->hide();
+    Deck::self()->setScene(this);
+    Deck::self()->setDeckProperties(1);
+    Deck::self()->hide();
 
     const qreal topRowDist = 1.08;
     const qreal bottomRowDist = 1.13;
     const qreal targetOffsetDist = ( 7 * bottomRowDist + 1 ) - ( 3 * topRowDist + 1 );
 
 
-    kDebug(11111) << "cards" << Deck::deck()->cards().count();
+    kDebug(11111) << "cards" << Deck::self()->cards().count();
     for (int i = 0; i < 8; i++)
     {
         FreecellPile *p = new FreecellPile(1 + i, this);
@@ -115,7 +116,7 @@ Freecell::~Freecell()
 
 void Freecell::restart()
 {
-    Deck::deck()->collectAndShuffle();
+    Deck::self()->collectAndShuffle();
     deal();
 }
 
@@ -410,9 +411,9 @@ void Freecell::getHints()
 void Freecell::deal()
 {
     int column = 0;
-    while (!Deck::deck()->isEmpty())
+    while (!Deck::self()->isEmpty())
     {
-        Card *c = Deck::deck()->nextCard();
+        Card *c = Deck::self()->nextCard();
         store[column]->add (c, false);
         column = (column + 1) % 8;
     }

@@ -48,8 +48,9 @@ Yukon::Yukon( )
     const qreal dist_x = 1.11;
     const qreal dist_y = 1.11;
 
-    Deck::createDeck(this);
-    Deck::deck()->hide();
+    Deck::self()->setScene(this);
+    Deck::self()->setDeckProperties(1, 4);
+    Deck::self()->hide();
 
     for (int i=0; i<4; i++) {
         target[i] = new Pile(i+1, this);
@@ -71,7 +72,7 @@ Yukon::Yukon( )
 }
 
 void Yukon::restart() {
-    Deck::deck()->collectAndShuffle();
+    Deck::self()->collectAndShuffle();
     deal();
 }
 
@@ -89,7 +90,7 @@ void Yukon::deal() {
                 doit = (round < j + 5);
             }
             if (doit)
-                store[j]->add(Deck::deck()->nextCard(), round < j && j != 0);
+                store[j]->add(Deck::self()->nextCard(), round < j && j != 0);
         }
     }
 }

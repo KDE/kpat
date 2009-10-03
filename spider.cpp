@@ -82,10 +82,11 @@ Spider::Spider()
     KConfigGroup cg(KGlobal::config(), settings_group );
     m_suits = cg.readEntry( "SpiderSuits", 2);
 
-    Deck::createDeck(this, 2, m_suits);
+    Deck::self()->setScene(this);
+    Deck::self()->setDeckProperties(2, m_suits);
 
     // I deal the cards into 'redeal' piles, so hide the deck
-    Deck::deck()->hide();
+    Deck::self()->hide();
 
     // Dealing the cards out into 5 piles so the user can see how many
     // sets of 10 cards are left to be dealt out
@@ -189,9 +190,8 @@ void Spider::setSuits(int suits)
 
         stopDemo();
         unmarkAll();
-        Deck::destroyDeck();
-        Deck::createDeck(this, 2, m_suits);
-        Deck::deck()->setVisible(false);
+        Deck::self()->setDeckProperties(2, m_suits);
+        Deck::self()->setVisible(false);
         KConfigGroup cg(KGlobal::config(), settings_group );
         cg.writeEntry( "SpiderSuits", m_suits);
         cg.sync();
@@ -275,7 +275,7 @@ void Spider::setGameState(const QString &stream)
 
 QString Spider::getGameOptions() const
 {
-    return QString::number(Deck::deck()->suitsNum());
+    return QString::number(Deck::self()->suitsNum());
 }
 
 void Spider::setGameOptions(const QString& options)
@@ -287,7 +287,7 @@ void Spider::setGameOptions(const QString& options)
 
 void Spider::restart()
 {
-    Deck::deck()->collectAndShuffle();
+    Deck::self()->collectAndShuffle();
     deal();
     emit newCardsPossible(true);
 }
@@ -368,18 +368,18 @@ void Spider::deal()
     int column = 0;
     // deal face down cards (5 to first 4 piles, 4 to last 6)
     for (int i = 0; i < 44; i++ ) {
-        stack[column]->add(Deck::deck()->nextCard(), true);
+        stack[column]->add(Deck::self()->nextCard(), true);
         column = (column + 1) % 10;
     }
     // deal face up cards, one to each pile
     for (int i = 0; i < 10; i++ ) {
-        stack[column]->add(Deck::deck()->nextCard(), false);
+        stack[column]->add(Deck::self()->nextCard(), false);
         column = (column + 1) % 10;
     }
     // deal the remaining cards into 5 'redeal' piles
     for (int column = 0; column < 5; column++ )
         for (int i = 0; i < 10; i++ )
-            redeals[column]->add(Deck::deck()->nextCard(), true);
+            redeals[column]->add(Deck::self()->nextCard(), true);
 
     // make the redeal piles visible
     for (int i = 0; i < 5; i++ )

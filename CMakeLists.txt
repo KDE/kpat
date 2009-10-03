@@ -9,7 +9,6 @@ set(RELEASE "1")
 
 set(kpat_SRCS
    main.cpp 
-   cardmaps.cpp 
    card.cpp 
    dealer.cpp 
    view.cpp

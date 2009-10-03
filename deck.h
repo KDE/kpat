@@ -39,6 +39,11 @@
 
 #include "pile.h"
 
+#include <KCardCache>
+class KConfigGroup;
+
+#include <QtCore/QPointer>
+
 /***************************************
 
   Deck (Pile with id 0) -- create and shuffle 52 cards
@@ -46,15 +51,15 @@
 **************************************/
 class Deck: public Pile
 {
-
+    Q_OBJECT
 private:
-    explicit Deck( DealerScene* parent = 0, int m = 1, int s = 4 );
+    explicit Deck();
     virtual ~Deck();
 
 public:
-    static void createDeck( DealerScene *parent = 0, uint m = 1, uint s = 4 );
-    static void destroyDeck();
-    static Deck *deck() { return my_deck; }
+    void setDeckProperties( uint m = 1, uint s = 4 );
+    void setScene( DealerScene * dealer );
+    static Deck *self();
 
     void collectAndShuffle();
 
@@ -63,6 +68,22 @@ public:
     uint decksNum() const { return mult; }
     uint suitsNum() const { return suits; }
     void updatePixmaps();
+
+
+
+    QSize cardSize() const;
+    int cardWidth() const;
+    int cardHeight() const;
+    void setCardWidth( int width );
+
+    QPixmap renderBackside( int variant = -1 );
+    QPixmap renderFrontside( Card::Rank, Card::Suit );
+    QRect opaqueRect() const;
+
+    void updateTheme(const KConfigGroup &cg);
+
+public slots:
+    void loadInBackground();
 
 private: // functions
 
@@ -74,7 +95,15 @@ private:
 
     uint mult;
     uint suits;
-    QList<Card*> _deck;
+    QList<Card*> m_allCards;
+
+    bool m_isInitialized;
+
+    KCardCache m_cache;
+    QSizeF m_originalCardSize;
+    QSize m_currentCardSize;
+
+    QPointer<DealerScene> m_dscene;
 
     static Deck *my_deck;
 };

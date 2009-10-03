@@ -71,11 +71,13 @@ Fortyeight::Fortyeight( )
     const qreal dist_x = 1.11;
     const qreal smallNeg = -1e-6;
 
-    Deck::createDeck(this, 2);
-    connect(Deck::deck(), SIGNAL(pressed(Card*)), SLOT(newCards()));
-    connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
-    Deck::deck()->setPilePos(smallNeg, smallNeg);
-    Deck::deck()->setZValue(20);
+    Deck::self()->setScene(this);
+    Deck::self()->setDeckProperties(2, 4);
+    connect(Deck::self(), SIGNAL(pressed(Card*)), SLOT(newCards()));
+    connect(Deck::self(), SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
+    Deck::self()->setPilePos(smallNeg, smallNeg);
+    Deck::self()->setZValue(20);
+    addPile( Deck::self() );
 
     pile = new HorLeftPile(20, this);
     pile->setAddFlags(Pile::addSpread | Pile::disallow);
@@ -109,7 +111,7 @@ Fortyeight::Fortyeight( )
 void Fortyeight::restart()
 {
     lastdeal = false;
-    Deck::deck()->collectAndShuffle();
+    Deck::self()->collectAndShuffle();
     deal();
     emit newCardsPossible( true );
 }
@@ -119,40 +121,40 @@ void Fortyeight::deckClicked( Card * )
     //kDebug(11111) << "deckClicked" << c->name() << " " << pile->top()->name() << " " << pile->top()->animated();
     if ( pile->top() && pile->top()->animated() )
         return;
-    if ( Deck::deck()->isEmpty())
+    if ( Deck::self()->isEmpty())
         newCards();
 }
 
 Card *Fortyeight::newCards()
 {
-    if (Deck::deck()->isEmpty() && lastdeal)
+    if (Deck::self()->isEmpty() && lastdeal)
         return 0;
 
     if (pile->top() && pile->top()->animated())
         return pile->top();
 
-    if (Deck::deck()->isEmpty())
+    if (Deck::self()->isEmpty())
     {
         lastdeal = true;
         while (!pile->isEmpty())
         {
             Card *c = pile->at(pile->cardsLeft()-1);
             c->stopAnimation();
-            Deck::deck()->add(c, true);
+            Deck::self()->add(c, true);
         }
     }
 
-    Card *c = Deck::deck()->nextCard();
+    Card *c = Deck::self()->nextCard();
     pile->add(c, true);
     c->stopAnimation();
     qreal x = c->realX();
     qreal y = c->realY();
-    c->setPos( Deck::deck()->pos() );
+    c->setPos( Deck::self()->pos() );
     c->flipTo(x, y, DURATION_FLIP );
 
     takeState();
     considerGameStarted();
-    if ( Deck::deck()->isEmpty() && lastdeal )
+    if ( Deck::self()->isEmpty() && lastdeal )
         emit newCardsPossible( false );
 
     return c;
@@ -175,14 +177,14 @@ void Fortyeight::deal()
         for (int column = 0; column < 8; column++)
         {
             if (false) { // doesn't look
-                stack[column]->add(Deck::deck()->nextCard(), true);
+                stack[column]->add(Deck::self()->nextCard(), true);
                 stack[column]->top()->turn(true);
             } else {
-                stack[column]->add(Deck::deck()->nextCard(), false);
+                stack[column]->add(Deck::self()->nextCard(), false);
             }
         }
     }
-    pile->add(Deck::deck()->nextCard(), false);
+    pile->add(Deck::self()->nextCard(), false);
 }
 
 QString Fortyeight::getGameState()
@@ -193,7 +195,7 @@ QString Fortyeight::getGameState()
 void Fortyeight::setGameState( const QString &s )
 {
     lastdeal = s.toInt();
-    emit newCardsPossible( !lastdeal || !Deck::deck()->isEmpty() );
+    emit newCardsPossible( !lastdeal || !Deck::self()->isEmpty() );
 }
 
 static class LocalDealerInfo8 : public DealerInfo

@@ -58,9 +58,9 @@ public:
         // Don't pull cards from the deck if the deck still contains all 104
         // cards. This prevents glitchy things from happening before the initial
         // deal has happened.
-        if ( isEmpty() && Deck::deck()->cardsLeft() < 104 )
+        if ( isEmpty() && Deck::self()->cardsLeft() < 104 )
         {
-            add( Deck::deck()->nextCard(), false );
+            add( Deck::self()->nextCard(), false );
         }
     }
 };
@@ -79,10 +79,11 @@ Mod3::Mod3( )
     const qreal rightColumX = 8 * dist_x + 0.8;
 
     // This patience uses 2 deck of cards.
-    Deck::createDeck( this, 2);
-    Deck::deck()->setPilePos(rightColumX, bottomRowY);
-
-    connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(newCards()));
+    Deck::self()->setScene(this);
+    Deck::self()->setDeckProperties(2, 4);
+    Deck::self()->setPilePos(rightColumX, bottomRowY);
+    connect(Deck::self(), SIGNAL(clicked(Card*)), SLOT(newCards()));
+    addPile(Deck::self());
 
     aces = new Pile(50, this);
     aces->setPilePos(rightColumX, 0.5);
@@ -172,7 +173,7 @@ bool Mod3::checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) c
 
 void Mod3::restart()
 {
-    Deck::deck()->collectAndShuffle();
+    Deck::self()->collectAndShuffle();
     deal();
     emit newCardsPossible(true);
 }
@@ -183,13 +184,13 @@ void Mod3::restart()
 
 void Mod3::dealRow(int row)
 {
-    if (Deck::deck()->isEmpty())
+    if (Deck::self()->isEmpty())
         return;
 
     for (int c = 0; c < 8; c++) {
         Card *card;
 
-        card = Deck::deck()->nextCard();
+        card = Deck::self()->nextCard();
         stack[row][c]->add (card, false);
     }
 }
@@ -201,13 +202,13 @@ void Mod3::dealRow(int row)
 void Mod3::deal()
 {
     unmarkAll();
-/*  CardList list = Deck::deck()->cards();
+/*  CardList list = Deck::self()->cards();
     for (CardList::Iterator it = list.begin(); it != list.end(); ++it)
         if ((*it)->rank() == Card::Ace) {
             aces->add(*it);
             (*it)->hide();
         }
-    kDebug(11111) << "init" << aces->cardsLeft() << " " << Deck::deck()->cardsLeft();
+    kDebug(11111) << "init" << aces->cardsLeft() << " " << Deck::self()->cardsLeft();
 */
     for (int r = 0; r < 4; r++)
         dealRow(r);
@@ -215,14 +216,14 @@ void Mod3::deal()
 
 Card *Mod3::newCards()
 {
-    if (Deck::deck()->isEmpty())
+    if (Deck::self()->isEmpty())
         return 0;
 
     unmarkAll();
     dealRow(3);
     takeState();
     considerGameStarted();
-    if (Deck::deck()->isEmpty())
+    if (Deck::self()->isEmpty())
         emit newCardsPossible(false);
 
     return stack[3][0]->top();
@@ -230,7 +231,7 @@ Card *Mod3::newCards()
 
 void Mod3::setGameState(const QString &)
 {
-    emit newCardsPossible(!Deck::deck()->isEmpty());
+    emit newCardsPossible(!Deck::self()->isEmpty());
 }
 
 static class LocalDealerInfo5 : public DealerInfo

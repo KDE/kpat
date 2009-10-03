@@ -46,10 +46,11 @@ Gypsy::Gypsy( )
     const qreal dist_x = 1.11;
     const qreal dist_y = 1.11;
 
-    Deck::createDeck(this, 2);
-    Deck::deck()->setPilePos(8.5 * dist_x + 0.4, 4 * dist_y);
-
-    connect(Deck::deck(), SIGNAL(clicked(Card*)), SLOT(newCards()));
+    Deck::self()->setScene(this);
+    Deck::self()->setDeckProperties(2, 4);
+    Deck::self()->setPilePos(8.5 * dist_x + 0.4, 4 * dist_y);
+    connect(Deck::self(), SIGNAL(clicked(Card*)), SLOT(newCards()));
+    addPile(Deck::self());
 
     for (int i=0; i<8; i++) {
         target[i] = new Pile(i+1, this);
@@ -72,14 +73,14 @@ Gypsy::Gypsy( )
 }
 
 void Gypsy::restart() {
-    Deck::deck()->collectAndShuffle();
+    Deck::self()->collectAndShuffle();
     deal();
     emit newCardsPossible(true);
 }
 
 void Gypsy::dealRow(bool faceup) {
     for (int round=0; round < 8; round++)
-        store[round]->add(Deck::deck()->nextCard(), !faceup);
+        store[round]->add(Deck::self()->nextCard(), !faceup);
 }
 
 void Gypsy::deal() {
@@ -91,14 +92,14 @@ void Gypsy::deal() {
 
 Card *Gypsy::newCards()
 {
-    if (Deck::deck()->isEmpty())
+    if (Deck::self()->isEmpty())
         return 0;
 
     unmarkAll();
     dealRow(true);
     takeState();
     considerGameStarted();
-    if (Deck::deck()->isEmpty())
+    if (Deck::self()->isEmpty())
         emit newCardsPossible(false);
 
     return store[0]->top();
@@ -106,7 +107,7 @@ Card *Gypsy::newCards()
 
 void Gypsy::setGameState(const QString &)
 {
-    emit newCardsPossible(!Deck::deck()->isEmpty());
+    emit newCardsPossible(!Deck::self()->isEmpty());
 }
 
 static class LocalDealerInfo7 : public DealerInfo

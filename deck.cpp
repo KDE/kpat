@@ -37,97 +37,132 @@
 #include "deck.h"
 
 #include "dealer.h"
+#include "version.h"
 
+#include <KCardDeckInfo>
+#include <KConfigGroup>
 #include <KDebug>
+#include <KGlobal>
+#include <KSharedConfig>
 
 
 const unsigned int NumberOfCards = 52;
-
+static QHash<AbstractCard::Rank,KCardInfo::Card> rankList;
+static QHash<AbstractCard::Suit,KCardInfo::Suit> suitList;
 
 Deck *Deck::my_deck = 0;
 
+Deck * Deck::self()
+{
+    if ( !my_deck )
+        my_deck = new Deck();
+    return my_deck;
+}
 
-Deck::Deck( DealerScene* parent, int m, int s )
-    : Pile( 0, parent ), mult( m )
+
+Deck::Deck()
+    : Pile( 0, 0 ),
+    m_originalCardSize(1, 1),
+    m_currentCardSize(0, 0),
+    m_isInitialized(false),
+    m_dscene( 0 )
 {
     setObjectName( "deck" );
 
-    // only allow 1, 2, or 4 suits
-    if ( s == 1 || s == 2 )
-        suits = s;
-    else
-        suits = 4;
-
-    makeDeck();
-    collectCards();
-    shuffle();
-
     setAddFlags(Pile::disallow);
     setRemoveFlags(Pile::disallow);
+
+    KSharedConfig::Ptr config = KGlobal::config();
+    KConfigGroup cs(config, settings_group );
+
+    updateTheme(cs);
+    setCardWidth( cs.readEntry( "CardWidth", 100 ) );
+    suitList[AbstractCard::Clubs] = KCardInfo::Club;
+    suitList[AbstractCard::Spades] = KCardInfo::Spade;
+    suitList[AbstractCard::Diamonds] = KCardInfo::Diamond;
+    suitList[AbstractCard::Hearts] = KCardInfo::Heart;
+    rankList[AbstractCard::Two] = KCardInfo::Two;
+    rankList[AbstractCard::Three] = KCardInfo::Three;
+    rankList[AbstractCard::Four] = KCardInfo::Four;
+    rankList[AbstractCard::Five] = KCardInfo::Five;
+    rankList[AbstractCard::Six] = KCardInfo::Six;
+    rankList[AbstractCard::Seven] = KCardInfo::Seven;
+    rankList[AbstractCard::Eight] = KCardInfo::Eight;
+    rankList[AbstractCard::Nine] = KCardInfo::Nine;
+    rankList[AbstractCard::Ten] = KCardInfo::Ten;
+    rankList[AbstractCard::Jack] = KCardInfo::Jack;
+    rankList[AbstractCard::Queen] = KCardInfo::Queen;
+    rankList[AbstractCard::King] = KCardInfo::King;
+    rankList[AbstractCard::Ace] = KCardInfo::Ace;
 }
 
 
 Deck::~Deck()
 {
-    qDeleteAll( _deck );
-    _deck.clear();
+    qDeleteAll( m_allCards );
+    m_allCards.clear();
     m_cards.clear();
-}
-
-void Deck::destroyDeck()
-{
-    Q_ASSERT( my_deck );
-    delete my_deck;
-    my_deck = 0;
 }
 
 // ----------------------------------------------------------------
 
-void Deck::createDeck( DealerScene *parent, uint m, uint s )
+void Deck::setDeckProperties( uint m, uint s )
 {
-    if ( my_deck && ( m == my_deck->mult && s == my_deck->suits ) )
-    {
-        if ( my_deck->scene() )
-            my_deck->scene()->removeItem( my_deck );
-        foreach (Card * c, my_deck->_deck) {
-            c->setParent( parent );
-            parent->addItem( c );
-        }
-        my_deck->disconnect( my_deck->dscene() );
-        parent->addItem(my_deck);
-        my_deck->collectAndShuffle();
-        my_deck->setVisible(true); // default
-        parent->addPile( my_deck );
+    if ( m == mult && s == suits )
         return;
+
+    mult = m;
+    suits = s;
+
+    // Delete current cards
+    collectCards();
+    foreach ( Card *c, m_allCards )
+    {
+        m_dscene->removeItem( c );
+        delete c;
     }
-    delete my_deck;
-    my_deck = new Deck(parent, m, s);
+    m_allCards.clear();
+    m_cards.clear();
+
+    Card::Suit suitList[4] = { Card::Clubs, Card::Diamonds, Card::Hearts, Card::Spades };
+    for ( uint m = 0; m < mult; ++m )
+        for ( int r = Card::Ace; r <= Card::King; ++r )
+            for ( int s = 3; s >= 0 ; --s )
+                m_allCards << new Card( Card::Rank(r), suitList[3 - (s % suits)], m_dscene );
+
+    kDebug() << m_allCards.size();
+
+    collectAndShuffle();
 }
 
-void Deck::makeDeck()
+void Deck::setScene( DealerScene * dealer )
 {
-    _deck.clear();
+    if ( dealer == m_dscene )
+        return;
 
-    Card::Suit mysuits[4] = { Card::Clubs, Card::Diamonds, Card::Hearts, Card::Spades };
-    show();
-    for ( uint m = 0; m < mult; m++)
+    if ( m_dscene )
     {
-        for ( int r = Card::Ace; r <= Card::King; r++)
-        {
-            for ( int s = 3; s >=  0 ; s--)
-            {
-                Card *c = new Card(static_cast<Card::Rank>(r),
-                                    mysuits[3 - (s % suits)], dscene() );
-                c->setPos(QPointF( 0, 0) );
-                _deck << c;
-            }
+        disconnect( m_dscene );
+        foreach ( Card * c, m_allCards ) {
+            m_dscene->removeItem( c );
         }
+        m_dscene->removePile( this );
     }
+
+    if ( dealer )
+    {
+        foreach ( Card * c, m_allCards ) {
+            dealer->addItem( c );
+        }
+        dealer->addPile( this );
+    }
+
+    m_dscene = dealer;
 }
 
 void Deck::updatePixmaps()
 {
-    foreach (Card * c, _deck)
+    foreach (Card * c, m_allCards)
         c->setPixmap();
 }
 
@@ -197,7 +232,7 @@ void Deck::collectCards()
 {
     clear();
 
-    foreach (Card * c, _deck) {
+    foreach (Card * c, m_allCards) {
         c->setTakenDown(false);
         add( c, true );
         if ( isVisible() )
@@ -206,3 +241,74 @@ void Deck::collectCards()
             c->setPos( QPointF( 2000, 2000 ) );
     }
 }
+
+void Deck::updateTheme(const KConfigGroup &cs)
+{
+    QString fronttheme = CardDeckInfo::frontTheme( cs );
+    QString backtheme = CardDeckInfo::backTheme( cs );
+    Q_ASSERT ( !backtheme.isEmpty() );
+    Q_ASSERT ( !fronttheme.isEmpty() );
+
+    m_cache.setFrontTheme( fronttheme );
+    m_cache.setBackTheme( backtheme );
+
+    m_originalCardSize = m_cache.defaultFrontSize( KCardInfo( KCardInfo::Spade, KCardInfo::Ace ) );
+    Q_ASSERT( !m_originalCardSize.isNull() );
+    m_currentCardSize = m_originalCardSize.toSize();
+}
+
+QSize Deck::cardSize() const
+{
+    return m_currentCardSize;
+}
+
+int Deck::cardWidth() const
+{
+    return m_currentCardSize.width();
+}
+
+int Deck::cardHeight() const
+{
+    return m_currentCardSize.height();
+}
+
+void Deck::setCardWidth( int width )
+{
+    if ( width > 200 || width < 10 )
+        return;
+
+    int height = width * m_originalCardSize.height() / m_originalCardSize.width();
+    QSize newSize( width, height );
+
+    if ( newSize != m_currentCardSize )
+    {
+        KConfigGroup cs( KGlobal::config(), settings_group );
+        cs.writeEntry( "CardWidth", m_currentCardSize.width() );
+
+        m_currentCardSize = newSize;
+        m_cache.setSize( newSize );
+        foreach (Card * c, m_allCards)
+            c->setPixmap();
+
+        QTimer::singleShot( 200, this, SLOT(loadInBackground()) );;
+    }
+}
+
+QPixmap Deck::renderBackside( int variant )
+{
+    QPixmap pix = m_cache.backside( variant );
+    return pix;
+}
+
+QPixmap Deck::renderFrontside( AbstractCard::Rank r, AbstractCard::Suit s )
+{
+    QPixmap pix = m_cache.frontside( KCardInfo( suitList[s], rankList[r] ) );
+    return pix;
+}
+
+void Deck::loadInBackground()
+{
+    m_cache.loadTheme( KCardCache::LoadFrontSide | KCardCache::Load52Cards );
+}
+
+#include "deck.moc"

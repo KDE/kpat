@@ -507,7 +507,7 @@ void KlondikeSolver::translate_layout()
     Wlen[7] = i;
     total += i;
 
-    i = translate_pile( Deck::deck(), W[8], 52 );
+    i = translate_pile( Deck::self(), W[8], 52 );
     Wp[8] = &W[8][i-1];
     Wlen[8] = i;
     total += i;

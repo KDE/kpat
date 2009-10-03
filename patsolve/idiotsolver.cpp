@@ -227,7 +227,7 @@ void IdiotSolver::translate_layout()
         total += i;
     }
 
-    int i = translate_pile( Deck::deck(), W[4], 52 );
+    int i = translate_pile( Deck::self(), W[4], 52 );
     Wp[4] = &W[4][i-1];
     Wlen[4] = i;
     total += i;

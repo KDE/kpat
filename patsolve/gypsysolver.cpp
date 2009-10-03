@@ -473,7 +473,7 @@ void GypsySolver::translate_layout()
     }
 
     deck = 8;
-    int i = translate_pile( Deck::deck(), W[deck], 80 );
+    int i = translate_pile( Deck::self(), W[deck], 80 );
     Wp[deck] = &W[deck][i-1];
     Wlen[deck] = i;
 

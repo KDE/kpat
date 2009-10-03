@@ -38,8 +38,8 @@
 
 #include "mainwindow.h"
 
-#include "cardmaps.h"
 #include "dealer.h"
+#include "deck.h"
 #include "demo.h"
 #include "render.h"
 #include "statisticsdialog.h"
@@ -195,7 +195,7 @@ MainWindow::MainWindow()
     m_dealer_it = m_dealer_map.constEnd();
 
     // Initialise the cardMap
-    cardMap::self();
+    Deck::self();
 
     m_stack = new QStackedWidget;
     setCentralWidget( m_stack );
@@ -296,7 +296,7 @@ void MainWindow::slotPickRandom()
     KConfigGroup cs(config, settings_group );
     CardDeckInfo::writeFrontTheme( cs, theme );
 
-    cardMap::self()->updateTheme(cs);
+    Deck::self()->updateTheme(cs);
     if ( m_dealer )
         m_dealer->relayoutScene();
 }
@@ -320,7 +320,7 @@ void MainWindow::slotSelectDeck()
 
         if (cardwidget->frontName() != oldFrontName || cardwidget->backName() != oldBackName)
         {
-            cardMap::self()->updateTheme(cs);
+            Deck::self()->updateTheme(cs);
             if ( m_dealer )
                 m_dealer->relayoutScene();
         }
