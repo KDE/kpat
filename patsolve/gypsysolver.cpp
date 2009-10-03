@@ -17,7 +17,7 @@
 
 #include "gypsysolver.h"
 
-#include "../deck.h"
+#include "../carddeck.h"
 #include "../gypsy.h"
 #include "../pile.h"
 
@@ -473,7 +473,7 @@ void GypsySolver::translate_layout()
     }
 
     deck = 8;
-    int i = translate_pile( Deck::self(), W[deck], 80 );
+    int i = translate_pile( CardDeck::self(), W[deck], 80 );
     Wp[deck] = &W[deck][i-1];
     Wlen[deck] = i;
 

@@ -17,7 +17,7 @@
 
 #include "golfsolver.h"
 
-#include "../deck.h"
+#include "../carddeck.h"
 #include "../golf.h"
 #include "../pile.h"
 
@@ -215,7 +215,7 @@ void GolfSolver::translate_layout()
     Wlen[7] = i;
     total += i;
 
-    i = translate_pile( Deck::self(), W[8], 52 );
+    i = translate_pile( CardDeck::self(), W[8], 52 );
     Wp[8] = &W[8][i-1];
     Wlen[8] = i;
     total += i;

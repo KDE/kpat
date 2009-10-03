@@ -35,7 +35,7 @@
  */
 
 #include "dealer.h"
-#include "deck.h"
+#include "carddeck.h"
 #include "version.h"
 #include "mainwindow.h"
 #include "patsolve/patsolve.h"

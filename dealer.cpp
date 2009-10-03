@@ -37,7 +37,7 @@
 
 #include "dealer.h"
 
-#include "deck.h"
+#include "carddeck.h"
 #include "render.h"
 #include "speeds.h"
 #include "version.h"
@@ -441,7 +441,7 @@ void DealerScene::openGame(QDomDocument &doc)
             cards.append(c);
     }
 
-    Deck::self()->collectAndShuffle();
+    CardDeck::self()->collectAndShuffle();
 
     foreach (QGraphicsItem *item, items())
     {
@@ -609,8 +609,10 @@ DealerScene::~DealerScene()
 
     clearHints();
 
-    Deck::self()->setScene( 0 );
-    removePile( Deck::self() );
+    CardDeck
+::self()->setScene( 0 );
+    removePile( CardDeck
+::self() );
 
     foreach ( Pile *p, piles )
     {
@@ -1976,15 +1978,21 @@ void DealerScene::relayoutScene()
     // Add the border to the size of the contents
     QSizeF sizeToFit = usedArea + 2 * QSizeF( d->layoutMargin, d->layoutMargin );
 
-    qreal scaleX = width() / ( Deck::self()->cardWidth() * sizeToFit.width() );
-    qreal scaleY = height() / ( Deck::self()->cardHeight() * sizeToFit.height() );
+    qreal scaleX = width() / ( CardDeck
+::self()->cardWidth() * sizeToFit.width() );
+    qreal scaleY = height() / ( CardDeck
+::self()->cardHeight() * sizeToFit.height() );
     qreal n_scaleFactor = qMin( scaleX, scaleY );
 
-    Deck::self()->setCardWidth( n_scaleFactor * Deck::self()->cardWidth() );
+    CardDeck
+::self()->setCardWidth( n_scaleFactor * CardDeck
+::self()->cardWidth() );
 
     d->contentsRect = QRectF( 0, 0,
-                              usedArea.width() * Deck::self()->cardWidth(),
-                              height() - 2 * d->layoutMargin * Deck::self()->cardHeight() );
+                              usedArea.width() * CardDeck
+::self()->cardWidth(),
+                              height() - 2 * d->layoutMargin * CardDeck
+::self()->cardHeight() );
 
     qreal xOffset = ( width() - d->contentsRect.width() ) / 2.0;
     qreal yOffset = ( height() - d->contentsRect.height() ) / 2.0;
@@ -2002,15 +2010,18 @@ void DealerScene::relayoutPiles()
         return;
 
     QSize s = d->contentsRect.size().toSize();
-    int cardWidth = Deck::self()->cardWidth();
-    int cardHeight = Deck::self()->cardHeight();
+    int cardWidth = CardDeck
+::self()->cardWidth();
+    int cardHeight = CardDeck
+::self()->cardHeight();
     const qreal spacing = d->layoutSpacing * ( cardWidth + cardHeight ) / 2.0;
 
     foreach ( Pile *p, piles )
     {
         p->rescale();
 
-        QSizeF maxSpace = Deck::self()->cardSize();
+        QSizeF maxSpace = CardDeck
+::self()->cardSize();
 
         if ( p->reservedSpace().width() > 1 && s.width() > p->x() + cardWidth )
             maxSpace.setWidth( s.width() - p->x() );

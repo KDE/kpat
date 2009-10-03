@@ -35,7 +35,7 @@
 
 #include "gypsy.h"
 
-#include "deck.h"
+#include "carddeck.h"
 #include "patsolve/gypsysolver.h"
 
 #include <KLocale>
@@ -46,11 +46,11 @@ Gypsy::Gypsy( )
     const qreal dist_x = 1.11;
     const qreal dist_y = 1.11;
 
-    Deck::self()->setScene(this);
-    Deck::self()->setDeckProperties(2, 4);
-    Deck::self()->setPilePos(8.5 * dist_x + 0.4, 4 * dist_y);
-    connect(Deck::self(), SIGNAL(clicked(Card*)), SLOT(newCards()));
-    addPile(Deck::self());
+    CardDeck::self()->setScene(this);
+    CardDeck::self()->setDeckProperties(2, 4);
+    CardDeck::self()->setPilePos(8.5 * dist_x + 0.4, 4 * dist_y);
+    connect(CardDeck::self(), SIGNAL(clicked(Card*)), SLOT(newCards()));
+    addPile(CardDeck::self());
 
     for (int i=0; i<8; i++) {
         target[i] = new Pile(i+1, this);
@@ -73,14 +73,14 @@ Gypsy::Gypsy( )
 }
 
 void Gypsy::restart() {
-    Deck::self()->collectAndShuffle();
+    CardDeck::self()->collectAndShuffle();
     deal();
     emit newCardsPossible(true);
 }
 
 void Gypsy::dealRow(bool faceup) {
     for (int round=0; round < 8; round++)
-        store[round]->add(Deck::self()->nextCard(), !faceup);
+        store[round]->add(CardDeck::self()->nextCard(), !faceup);
 }
 
 void Gypsy::deal() {
@@ -92,14 +92,14 @@ void Gypsy::deal() {
 
 Card *Gypsy::newCards()
 {
-    if (Deck::self()->isEmpty())
+    if (CardDeck::self()->isEmpty())
         return 0;
 
     unmarkAll();
     dealRow(true);
     takeState();
     considerGameStarted();
-    if (Deck::self()->isEmpty())
+    if (CardDeck::self()->isEmpty())
         emit newCardsPossible(false);
 
     return store[0]->top();
@@ -107,7 +107,7 @@ Card *Gypsy::newCards()
 
 void Gypsy::setGameState(const QString &)
 {
-    emit newCardsPossible(!Deck::self()->isEmpty());
+    emit newCardsPossible(!CardDeck::self()->isEmpty());
 }
 
 static class LocalDealerInfo7 : public DealerInfo

@@ -17,7 +17,7 @@
 
 #include "mod3solver.h"
 
-#include "../deck.h"
+#include "../carddeck.h"
 #include "../mod3.h"
 #include "../pile.h"
 
@@ -367,7 +367,7 @@ void Mod3Solver::translate_layout()
 
     deck = ++w;
 
-    i = translate_pile(Deck::self(), W[w], 104);
+    i = translate_pile(CardDeck::self(), W[w], 104);
     Wp[w] = &W[w][i-1];
     Wlen[w] = i;
 }

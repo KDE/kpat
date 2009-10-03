@@ -36,7 +36,7 @@
 
 #include "freecell.h"
 
-#include "deck.h"
+#include "carddeck.h"
 #include "speeds.h"
 #include "patsolve/freecellsolver.h"
 
@@ -66,16 +66,16 @@ void FreecellPile::moveCards(CardList &c, Pile *to)
 Freecell::Freecell()
     : DealerScene()
 {
-    Deck::self()->setScene(this);
-    Deck::self()->setDeckProperties(1);
-    Deck::self()->hide();
+    CardDeck::self()->setScene(this);
+    CardDeck::self()->setDeckProperties(1);
+    CardDeck::self()->hide();
 
     const qreal topRowDist = 1.08;
     const qreal bottomRowDist = 1.13;
     const qreal targetOffsetDist = ( 7 * bottomRowDist + 1 ) - ( 3 * topRowDist + 1 );
 
 
-    kDebug(11111) << "cards" << Deck::self()->cards().count();
+    kDebug(11111) << "cards" << CardDeck::self()->cards().count();
     for (int i = 0; i < 8; i++)
     {
         FreecellPile *p = new FreecellPile(1 + i, this);
@@ -116,7 +116,7 @@ Freecell::~Freecell()
 
 void Freecell::restart()
 {
-    Deck::self()->collectAndShuffle();
+    CardDeck::self()->collectAndShuffle();
     deal();
 }
 
@@ -411,9 +411,9 @@ void Freecell::getHints()
 void Freecell::deal()
 {
     int column = 0;
-    while (!Deck::self()->isEmpty())
+    while (!CardDeck::self()->isEmpty())
     {
-        Card *c = Deck::self()->nextCard();
+        Card *c = CardDeck::self()->nextCard();
         store[column]->add (c, false);
         column = (column + 1) % 8;
     }

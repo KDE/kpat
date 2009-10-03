@@ -35,7 +35,7 @@
 
 #include "simon.h"
 
-#include "deck.h"
+#include "carddeck.h"
 #include "patsolve/simonsolver.h"
 
 #include <KDebug>
@@ -45,9 +45,9 @@
 Simon::Simon( )
     : DealerScene( )
 {
-    Deck::self()->setScene(this);
-    Deck::self()->setDeckProperties(1, 4);
-    Deck::self()->hide();
+    CardDeck::self()->setScene(this);
+    CardDeck::self()->setDeckProperties(1, 4);
+    CardDeck::self()->hide();
 
     const qreal dist_x = 1.11;
 
@@ -77,7 +77,7 @@ Simon::Simon( )
 }
 
 void Simon::restart() {
-    Deck::self()->collectAndShuffle();
+    CardDeck::self()->collectAndShuffle();
     deal();
 }
 
@@ -86,17 +86,17 @@ void Simon::deal() {
     {
         for (int j = 0; j < piles; j++)
         {
-            Card *c = Deck::self()->nextCard();
+            Card *c = CardDeck::self()->nextCard();
             store[j]->add(c, false);
         }
     }
     for ( int j = 0; j < 10; j++ )
     {
-        Card *c = Deck::self()->nextCard();
+        Card *c = CardDeck::self()->nextCard();
         store[j]->add(c, false);
     }
 
-    Q_ASSERT(Deck::self()->isEmpty());
+    Q_ASSERT(CardDeck::self()->isEmpty());
 }
 
 bool Simon::checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const

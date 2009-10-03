@@ -37,7 +37,7 @@
 #include "pile.h"
 
 #include "dealer.h"
-#include "deck.h"
+#include "carddeck.h"
 #include "render.h"
 #include "speeds.h"
 
@@ -171,14 +171,14 @@ void Pile::rescale()
     if (!scene())
         return;
 
-    QPointF new_pos = QPointF( _pilePos.x() * Deck::self()->cardWidth(),
-                               _pilePos.y() * Deck::self()->cardHeight() );
+    QPointF new_pos = QPointF( _pilePos.x() * CardDeck::self()->cardWidth(),
+                               _pilePos.y() * CardDeck::self()->cardHeight() );
 
     if ( new_pos.x() < 0 )
-        new_pos.setX( dscene()->contentArea().width() - Deck::self()->cardWidth() + new_pos.x() );
+        new_pos.setX( dscene()->contentArea().width() - CardDeck::self()->cardWidth() + new_pos.x() );
 
     if ( new_pos.y() < 0 )
-        new_pos.setY( dscene()->contentArea().height() - Deck::self()->cardHeight() + new_pos.y() );
+        new_pos.setY( dscene()->contentArea().height() - CardDeck::self()->cardHeight() + new_pos.y() );
 
     if ( new_pos != pos() )
     {
@@ -186,7 +186,7 @@ void Pile::rescale()
         tryRelayoutCards();
     }
 
-    QSize size = Deck::self()->cardSize();
+    QSize size = CardDeck::self()->cardSize();
     if ( m_graphicVisible )
     {
         setPixmap( Render::renderElement( isHighlighted() ? "pile_selected" : "pile", size ) );
@@ -395,8 +395,8 @@ void Pile::add( Card* _card, bool _facedown )
 
     if (t) {
         // kDebug(11111) << "::add" << t->pos() << " " << t->spread() << " " << _card->name() << " " << t->name() << " " << _card->spread();
-        x2 = t->realX() + t->spread().width() * Deck::self()->cardWidth();
-        y2 = t->realY() + t->spread().height() * Deck::self()->cardHeight();
+        x2 = t->realX() + t->spread().width() * CardDeck::self()->cardWidth();
+        y2 = t->realY() + t->spread().height() * CardDeck::self()->cardHeight();
         z2 = t->realZ() + 1;
     } else {
         x2 = x();
@@ -418,9 +418,9 @@ void Pile::add( Card* _card, bool _facedown )
         _card->setPos( QPointF( x2, y2 ) );
         _card->setZValue( z2 );
     } else {
-        if ( source == Deck::self() && dscene()->isInitialDeal() )
+        if ( source == CardDeck::self() && dscene()->isInitialDeal() )
         {
-            _card->setPos(QPointF( x2, 0 - 3 * Deck::self()->cardHeight() ) );
+            _card->setPos(QPointF( x2, 0 - 3 * CardDeck::self()->cardHeight() ) );
         }
         _card->setZValue( z2 );
         qreal distx = x2 - _card->x();
@@ -566,19 +566,19 @@ void Pile::layoutCards(int duration)
 
     qreal divx = 1;
     if ( preferredSize.width() )
-        divx = qMin<qreal>( ( maximumSpace().width() - Deck::self()->cardWidth() ) / ( preferredSize.width() * Deck::self()->cardWidth() ), 1.0 );
+        divx = qMin<qreal>( ( maximumSpace().width() - CardDeck::self()->cardWidth() ) / ( preferredSize.width() * CardDeck::self()->cardWidth() ), 1.0 );
 
     qreal divy = 1;
     if ( preferredSize.height() )
-        divy = qMin<qreal>( ( maximumSpace().height() - Deck::self()->cardHeight() ) / ( preferredSize.height() * Deck::self()->cardHeight() ), 1.0 );
+        divy = qMin<qreal>( ( maximumSpace().height() - CardDeck::self()->cardHeight() ) / ( preferredSize.height() * CardDeck::self()->cardHeight() ), 1.0 );
 
     QPointF cardPos = pos();
     qreal z = zValue() + 1;
     foreach ( Card * card, m_cards )
     {
         card->moveTo( cardPos.x(), cardPos.y(), z, dscene()->speedUpTime( duration ) );
-        cardPos.rx() += divx * card->spread().width() * Deck::self()->cardWidth();
-        cardPos.ry() += divy * card->spread().height() * Deck::self()->cardHeight();
+        cardPos.rx() += divx * card->spread().width() * CardDeck::self()->cardWidth();
+        cardPos.ry() += divy * card->spread().height() * CardDeck::self()->cardHeight();
         z += 1;
     }
 }

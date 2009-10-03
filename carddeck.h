@@ -34,8 +34,8 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef DECK_H
-#define DECK_H
+#ifndef CARDDECK_H
+#define CARDDECK_H
 
 #include "pile.h"
 
@@ -49,17 +49,17 @@ class KConfigGroup;
   Deck (Pile with id 0) -- create and shuffle 52 cards
 
 **************************************/
-class Deck: public Pile
+class CardDeck: public Pile
 {
     Q_OBJECT
 private:
-    explicit Deck();
-    virtual ~Deck();
+    explicit CardDeck();
+    virtual ~CardDeck();
 
 public:
     void setDeckProperties( uint m = 1, uint s = 4 );
     void setScene( DealerScene * dealer );
-    static Deck *self();
+    static CardDeck *self();
 
     void collectAndShuffle();
 
@@ -105,7 +105,7 @@ private:
 
     QPointer<DealerScene> m_dscene;
 
-    static Deck *my_deck;
+    static CardDeck *my_deck;
 };
 
 #endif

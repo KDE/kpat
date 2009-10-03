@@ -34,7 +34,7 @@
  * -------------------------------------------------------------------------
  */
 
-#include "deck.h"
+#include "carddeck.h"
 
 #include "dealer.h"
 #include "version.h"
@@ -50,17 +50,17 @@ const unsigned int NumberOfCards = 52;
 static QHash<AbstractCard::Rank,KCardInfo::Card> rankList;
 static QHash<AbstractCard::Suit,KCardInfo::Suit> suitList;
 
-Deck *Deck::my_deck = 0;
+CardDeck *CardDeck::my_deck = 0;
 
-Deck * Deck::self()
+CardDeck * CardDeck::self()
 {
     if ( !my_deck )
-        my_deck = new Deck();
+        my_deck = new CardDeck();
     return my_deck;
 }
 
 
-Deck::Deck()
+CardDeck::CardDeck()
     : Pile( 0, 0 ),
     m_originalCardSize(1, 1),
     m_currentCardSize(0, 0),
@@ -97,7 +97,7 @@ Deck::Deck()
 }
 
 
-Deck::~Deck()
+CardDeck::~CardDeck()
 {
     qDeleteAll( m_allCards );
     m_allCards.clear();
@@ -106,7 +106,7 @@ Deck::~Deck()
 
 // ----------------------------------------------------------------
 
-void Deck::setDeckProperties( uint m, uint s )
+void CardDeck::setDeckProperties( uint m, uint s )
 {
     if ( m == mult && s == suits )
         return;
@@ -135,7 +135,7 @@ void Deck::setDeckProperties( uint m, uint s )
     collectAndShuffle();
 }
 
-void Deck::setScene( DealerScene * dealer )
+void CardDeck::setScene( DealerScene * dealer )
 {
     if ( dealer == m_dscene )
         return;
@@ -160,20 +160,20 @@ void Deck::setScene( DealerScene * dealer )
     m_dscene = dealer;
 }
 
-void Deck::updatePixmaps()
+void CardDeck::updatePixmaps()
 {
     foreach (Card * c, m_allCards)
         c->setPixmap();
 }
 
-void Deck::collectAndShuffle()
+void CardDeck::collectAndShuffle()
 {
     collectCards();
     shuffle();
 }
 
 
-Card* Deck::nextCard()
+Card* CardDeck::nextCard()
 {
     if (m_cards.isEmpty())
         return 0;
@@ -205,7 +205,7 @@ static int pseudoRandom_random() {
 
 // Shuffle deck, assuming all cards are in m_cards
 
-void Deck::shuffle()
+void CardDeck::shuffle()
 {
     Q_ASSERT((uint)m_cards.count() == mult*NumberOfCards);
 
@@ -228,7 +228,7 @@ void Deck::shuffle()
 
 
 // add cards in deck[] to Deck
-void Deck::collectCards()
+void CardDeck::collectCards()
 {
     clear();
 
@@ -242,7 +242,7 @@ void Deck::collectCards()
     }
 }
 
-void Deck::updateTheme(const KConfigGroup &cs)
+void CardDeck::updateTheme(const KConfigGroup &cs)
 {
     QString fronttheme = CardDeckInfo::frontTheme( cs );
     QString backtheme = CardDeckInfo::backTheme( cs );
@@ -257,22 +257,22 @@ void Deck::updateTheme(const KConfigGroup &cs)
     m_currentCardSize = m_originalCardSize.toSize();
 }
 
-QSize Deck::cardSize() const
+QSize CardDeck::cardSize() const
 {
     return m_currentCardSize;
 }
 
-int Deck::cardWidth() const
+int CardDeck::cardWidth() const
 {
     return m_currentCardSize.width();
 }
 
-int Deck::cardHeight() const
+int CardDeck::cardHeight() const
 {
     return m_currentCardSize.height();
 }
 
-void Deck::setCardWidth( int width )
+void CardDeck::setCardWidth( int width )
 {
     if ( width > 200 || width < 10 )
         return;
@@ -294,21 +294,21 @@ void Deck::setCardWidth( int width )
     }
 }
 
-QPixmap Deck::renderBackside( int variant )
+QPixmap CardDeck::renderBackside( int variant )
 {
     QPixmap pix = m_cache.backside( variant );
     return pix;
 }
 
-QPixmap Deck::renderFrontside( AbstractCard::Rank r, AbstractCard::Suit s )
+QPixmap CardDeck::renderFrontside( AbstractCard::Rank r, AbstractCard::Suit s )
 {
     QPixmap pix = m_cache.frontside( KCardInfo( suitList[s], rankList[r] ) );
     return pix;
 }
 
-void Deck::loadInBackground()
+void CardDeck::loadInBackground()
 {
     m_cache.loadTheme( KCardCache::LoadFrontSide | KCardCache::Load52Cards );
 }
 
-#include "deck.moc"
+#include "carddeck.moc"

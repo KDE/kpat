@@ -17,7 +17,7 @@
 
 #include "grandfsolver.h"
 
-#include "../deck.h"
+#include "../carddeck.h"
 #include "../grandf.h"
 #include "../pile.h"
 

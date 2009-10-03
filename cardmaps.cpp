@@ -37,7 +37,7 @@
 
 #include "cardmaps.h"
 
-#include "deck.h"
+#include "carddeck.h"
 #include "version.h"
 
 #include <KCardCache>
@@ -146,8 +146,8 @@ void cardMap::setCardWidth( int width )
 
         d->m_currentCardSize = newSize;
         d->m_cache.setSize( newSize );
-        if (Deck::deck())
-            Deck::deck()->updatePixmaps();
+        if (CardDeck::deck())
+            CardDeck::deck()->updatePixmaps();
 
         QTimer::singleShot( 200, this, SLOT(loadInBackground()) );;
     }

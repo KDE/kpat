@@ -35,7 +35,7 @@
 
 #include "fortyeight.h"
 
-#include "deck.h"
+#include "carddeck.h"
 #include "speeds.h"
 #include "patsolve/fortyeightsolver.h"
 
@@ -71,13 +71,13 @@ Fortyeight::Fortyeight( )
     const qreal dist_x = 1.11;
     const qreal smallNeg = -1e-6;
 
-    Deck::self()->setScene(this);
-    Deck::self()->setDeckProperties(2, 4);
-    connect(Deck::self(), SIGNAL(pressed(Card*)), SLOT(newCards()));
-    connect(Deck::self(), SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
-    Deck::self()->setPilePos(smallNeg, smallNeg);
-    Deck::self()->setZValue(20);
-    addPile( Deck::self() );
+    CardDeck::self()->setScene(this);
+    CardDeck::self()->setDeckProperties(2, 4);
+    connect(CardDeck::self(), SIGNAL(pressed(Card*)), SLOT(newCards()));
+    connect(CardDeck::self(), SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
+    CardDeck::self()->setPilePos(smallNeg, smallNeg);
+    CardDeck::self()->setZValue(20);
+    addPile( CardDeck::self() );
 
     pile = new HorLeftPile(20, this);
     pile->setAddFlags(Pile::addSpread | Pile::disallow);
@@ -111,7 +111,7 @@ Fortyeight::Fortyeight( )
 void Fortyeight::restart()
 {
     lastdeal = false;
-    Deck::self()->collectAndShuffle();
+    CardDeck::self()->collectAndShuffle();
     deal();
     emit newCardsPossible( true );
 }
@@ -121,40 +121,40 @@ void Fortyeight::deckClicked( Card * )
     //kDebug(11111) << "deckClicked" << c->name() << " " << pile->top()->name() << " " << pile->top()->animated();
     if ( pile->top() && pile->top()->animated() )
         return;
-    if ( Deck::self()->isEmpty())
+    if ( CardDeck::self()->isEmpty())
         newCards();
 }
 
 Card *Fortyeight::newCards()
 {
-    if (Deck::self()->isEmpty() && lastdeal)
+    if (CardDeck::self()->isEmpty() && lastdeal)
         return 0;
 
     if (pile->top() && pile->top()->animated())
         return pile->top();
 
-    if (Deck::self()->isEmpty())
+    if (CardDeck::self()->isEmpty())
     {
         lastdeal = true;
         while (!pile->isEmpty())
         {
             Card *c = pile->at(pile->cardsLeft()-1);
             c->stopAnimation();
-            Deck::self()->add(c, true);
+            CardDeck::self()->add(c, true);
         }
     }
 
-    Card *c = Deck::self()->nextCard();
+    Card *c = CardDeck::self()->nextCard();
     pile->add(c, true);
     c->stopAnimation();
     qreal x = c->realX();
     qreal y = c->realY();
-    c->setPos( Deck::self()->pos() );
+    c->setPos( CardDeck::self()->pos() );
     c->flipTo(x, y, DURATION_FLIP );
 
     takeState();
     considerGameStarted();
-    if ( Deck::self()->isEmpty() && lastdeal )
+    if ( CardDeck::self()->isEmpty() && lastdeal )
         emit newCardsPossible( false );
 
     return c;
@@ -177,14 +177,17 @@ void Fortyeight::deal()
         for (int column = 0; column < 8; column++)
         {
             if (false) { // doesn't look
-                stack[column]->add(Deck::self()->nextCard(), true);
+                stack[column]->add(CardDeck
+::self()->nextCard(), true);
                 stack[column]->top()->turn(true);
             } else {
-                stack[column]->add(Deck::self()->nextCard(), false);
+                stack[column]->add(CardDeck
+::self()->nextCard(), false);
             }
         }
     }
-    pile->add(Deck::self()->nextCard(), false);
+    pile->add(CardDeck
+::self()->nextCard(), false);
 }
 
 QString Fortyeight::getGameState()
@@ -195,7 +198,8 @@ QString Fortyeight::getGameState()
 void Fortyeight::setGameState( const QString &s )
 {
     lastdeal = s.toInt();
-    emit newCardsPossible( !lastdeal || !Deck::self()->isEmpty() );
+    emit newCardsPossible( !lastdeal || !CardDeck
+::self()->isEmpty() );
 }
 
 static class LocalDealerInfo8 : public DealerInfo

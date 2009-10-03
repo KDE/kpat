@@ -17,7 +17,7 @@
 
 #include "simonsolver.h"
 
-#include "../deck.h"
+#include "../carddeck.h"
 #include "../pile.h"
 #include "../simon.h"
 

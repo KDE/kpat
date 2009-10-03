@@ -35,7 +35,7 @@
 
 #include "golf.h"
 
-#include "deck.h"
+#include "carddeck.h"
 #include "speeds.h"
 #include "patsolve/golfsolver.h"
 
@@ -61,11 +61,11 @@ Golf::Golf( )
     const qreal dist_x = 1.11;
     const qreal smallNeg = -1e-6;
 
-    Deck::self()->setScene(this);
-    Deck::self()->setDeckProperties(1, 4);
-    Deck::self()->setPilePos(0, smallNeg);
-    connect(Deck::self(), SIGNAL(clicked(Card*)), SLOT(newCards()));
-    addPile(Deck::self());
+    CardDeck::self()->setScene(this);
+    CardDeck::self()->setDeckProperties(1, 4);
+    CardDeck::self()->setPilePos(0, smallNeg);
+    connect(CardDeck::self(), SIGNAL(clicked(Card*)), SLOT(newCards()));
+    addPile(CardDeck::self());
 
     waste=new HorRightPile(8,this);
     waste->setPilePos(1.1, smallNeg);
@@ -116,7 +116,7 @@ bool Golf::checkRemove( int checkIndex, const Pile *, const Card *c2) const
 
 void Golf::restart()
 {
-    Deck::self()->collectAndShuffle();
+    CardDeck::self()->collectAndShuffle();
     deal();
     emit newCardsPossible( true );
 }
@@ -129,21 +129,21 @@ void Golf::deal()
     {
         for(int r=0;r<7;r++)
         {
-            stack[r]->add(Deck::self()->nextCard(),false);
+            stack[r]->add(CardDeck::self()->nextCard(),false);
         }
     }
 
-    Card *c = Deck::self()->nextCard();
+    Card *c = CardDeck::self()->nextCard();
     waste->add(c, true);
     qreal x = c->x();
     qreal y = c->y();
-    c->setPos( Deck::self()->pos() );
+    c->setPos( CardDeck::self()->pos() );
     c->flipTo(x, y, DURATION_FLIP );
 }
 
 Card *Golf::newCards()
 {
-    if (Deck::self()->isEmpty())
+    if (CardDeck::self()->isEmpty())
          return 0;
 
     if ( waste->top() && waste->top()->animated() )
@@ -151,17 +151,17 @@ Card *Golf::newCards()
 
     unmarkAll();
 
-    Card *c = Deck::self()->nextCard();
+    Card *c = CardDeck::self()->nextCard();
     waste->add(c, true );
     c->stopAnimation();
     qreal x = c->x();
     qreal y = c->y();
-    c->setPos( Deck::self()->pos() );
+    c->setPos( CardDeck::self()->pos() );
     c->flipTo(x, y, DURATION_FLIP );
 
     takeState();
     considerGameStarted();
-    if ( Deck::self()->isEmpty() )
+    if ( CardDeck::self()->isEmpty() )
         emit newCardsPossible( false );
 
     return c;
@@ -189,7 +189,7 @@ bool Golf::cardClicked(Card *c)
 
 void Golf::setGameState( const QString & )
 {
-    emit newCardsPossible( !Deck::self()->isEmpty() );
+    emit newCardsPossible( !CardDeck::self()->isEmpty() );
 }
 
 static class LocalDealerInfo13 : public DealerInfo

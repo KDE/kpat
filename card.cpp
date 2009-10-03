@@ -36,7 +36,7 @@
 
 #include "card.h"
 
-#include "deck.h"
+#include "carddeck.h"
 #include "dealer.h"
 #include "pile.h"
 
@@ -118,9 +118,9 @@ Card::~Card()
 void Card::setPixmap()
 {
     if( m_faceup )
-        QGraphicsPixmapItem::setPixmap( Deck::self()->renderFrontside( m_rank, m_suit ) );
+        QGraphicsPixmapItem::setPixmap( CardDeck::self()->renderFrontside( m_rank, m_suit ) );
     else
-        QGraphicsPixmapItem::setPixmap( Deck::self()->renderBackside() );
+        QGraphicsPixmapItem::setPixmap( CardDeck::self()->renderBackside() );
     m_boundingRect = QRectF(QPointF(0,0), pixmap().size());
     m_isSeen = Unknown;
     return;

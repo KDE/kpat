@@ -36,7 +36,7 @@
 
 #include "idiot.h"
 
-#include "deck.h"
+#include "carddeck.h"
 #include "patsolve/idiotsolver.h"
 
 #include <KLocale>
@@ -48,9 +48,9 @@ Idiot::Idiot( )
     setLayoutMargin( 0.6 );
 
     // Create the deck to the left.
-    Deck::self()->setScene( this );
-    Deck::self()->setDeckProperties(1, 4);
-    Deck::self()->setPilePos(0, 0);
+    CardDeck::self()->setScene( this );
+    CardDeck::self()->setDeckProperties(1, 4);
+    CardDeck::self()->setPilePos(0, 0);
 
     const qreal distx = 1.1;
 
@@ -78,11 +78,11 @@ Idiot::Idiot( )
 
 void Idiot::restart()
 {
-    Deck::self()->collectAndShuffle();
+    CardDeck::self()->collectAndShuffle();
 
     // Move the four top cards of the deck to the piles, faceup, spread out.
     for ( int i = 0; i < 4; ++i )
-        m_play[ i ]->add( Deck::self()->nextCard(), false );
+        m_play[ i ]->add( CardDeck::self()->nextCard(), false );
 
     emit newCardsPossible(true);
 }
@@ -90,7 +90,7 @@ void Idiot::restart()
 bool Idiot::cardClicked(Card *c)
 {
     // If the deck is clicked, deal 4 more cards.
-    if (c->source() == Deck::self()) {
+    if (c->source() == CardDeck::self()) {
         newCards();
         return true;
     }
@@ -139,7 +139,7 @@ bool Idiot::cardClicked(Card *c)
 bool Idiot::isGameWon() const
 {
     // Criterium 1.
-    if (!Deck::self()->isEmpty())
+    if (!CardDeck::self()->isEmpty())
         return false;
 
     // Criterium 2.
@@ -165,7 +165,7 @@ bool Idiot::cardDblClicked(Card *)
 //
 Card *Idiot::newCards()
 {
-    if ( Deck::self()->isEmpty() )
+    if ( CardDeck::self()->isEmpty() )
         return 0;
 
     if ( waiting() )
@@ -177,11 +177,11 @@ Card *Idiot::newCards()
 
     // Move the four top cards of the deck to the piles, faceup, spread out.
     for ( int i = 0; i < 4; ++i )
-        m_play[ i ]->add( Deck::self()->nextCard(), false );
+        m_play[ i ]->add( CardDeck::self()->nextCard(), false );
 
     takeState();
     considerGameStarted();
-    if ( Deck::self()->isEmpty() )
+    if ( CardDeck::self()->isEmpty() )
         emit newCardsPossible( false );
 
     return m_play[0]->top();
@@ -189,7 +189,7 @@ Card *Idiot::newCards()
 
 void Idiot::setGameState(const QString &)
 {
-    emit newCardsPossible( !Deck::self()->isEmpty() );
+    emit newCardsPossible( !CardDeck::self()->isEmpty() );
 }
 
 static class LocalDealerInfo2 : public DealerInfo

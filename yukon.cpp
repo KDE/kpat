@@ -35,7 +35,7 @@
 
 #include "yukon.h"
 
-#include "deck.h"
+#include "carddeck.h"
 #include "patsolve/yukonsolver.h"
 
 #include <KDebug>
@@ -48,9 +48,9 @@ Yukon::Yukon( )
     const qreal dist_x = 1.11;
     const qreal dist_y = 1.11;
 
-    Deck::self()->setScene(this);
-    Deck::self()->setDeckProperties(1, 4);
-    Deck::self()->hide();
+    CardDeck::self()->setScene(this);
+    CardDeck::self()->setDeckProperties(1, 4);
+    CardDeck::self()->hide();
 
     for (int i=0; i<4; i++) {
         target[i] = new Pile(i+1, this);
@@ -72,7 +72,7 @@ Yukon::Yukon( )
 }
 
 void Yukon::restart() {
-    Deck::self()->collectAndShuffle();
+    CardDeck::self()->collectAndShuffle();
     deal();
 }
 
@@ -90,7 +90,7 @@ void Yukon::deal() {
                 doit = (round < j + 5);
             }
             if (doit)
-                store[j]->add(Deck::self()->nextCard(), round < j && j != 0);
+                store[j]->add(CardDeck::self()->nextCard(), round < j && j != 0);
         }
     }
 }

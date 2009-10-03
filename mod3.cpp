@@ -36,7 +36,7 @@
 
 #include "mod3.h"
 
-#include "deck.h"
+#include "carddeck.h"
 #include "hint.h"
 #include "patsolve/mod3solver.h"
 
@@ -58,9 +58,9 @@ public:
         // Don't pull cards from the deck if the deck still contains all 104
         // cards. This prevents glitchy things from happening before the initial
         // deal has happened.
-        if ( isEmpty() && Deck::self()->cardsLeft() < 104 )
+        if ( isEmpty() && CardDeck::self()->cardsLeft() < 104 )
         {
-            add( Deck::self()->nextCard(), false );
+            add( CardDeck::self()->nextCard(), false );
         }
     }
 };
@@ -79,11 +79,11 @@ Mod3::Mod3( )
     const qreal rightColumX = 8 * dist_x + 0.8;
 
     // This patience uses 2 deck of cards.
-    Deck::self()->setScene(this);
-    Deck::self()->setDeckProperties(2, 4);
-    Deck::self()->setPilePos(rightColumX, bottomRowY);
-    connect(Deck::self(), SIGNAL(clicked(Card*)), SLOT(newCards()));
-    addPile(Deck::self());
+    CardDeck::self()->setScene(this);
+    CardDeck::self()->setDeckProperties(2, 4);
+    CardDeck::self()->setPilePos(rightColumX, bottomRowY);
+    connect(CardDeck::self(), SIGNAL(clicked(Card*)), SLOT(newCards()));
+    addPile(CardDeck::self());
 
     aces = new Pile(50, this);
     aces->setPilePos(rightColumX, 0.5);
@@ -173,7 +173,7 @@ bool Mod3::checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) c
 
 void Mod3::restart()
 {
-    Deck::self()->collectAndShuffle();
+    CardDeck::self()->collectAndShuffle();
     deal();
     emit newCardsPossible(true);
 }
@@ -184,13 +184,13 @@ void Mod3::restart()
 
 void Mod3::dealRow(int row)
 {
-    if (Deck::self()->isEmpty())
+    if (CardDeck::self()->isEmpty())
         return;
 
     for (int c = 0; c < 8; c++) {
         Card *card;
 
-        card = Deck::self()->nextCard();
+        card = CardDeck::self()->nextCard();
         stack[row][c]->add (card, false);
     }
 }
@@ -216,14 +216,14 @@ void Mod3::deal()
 
 Card *Mod3::newCards()
 {
-    if (Deck::self()->isEmpty())
+    if (CardDeck::self()->isEmpty())
         return 0;
 
     unmarkAll();
     dealRow(3);
     takeState();
     considerGameStarted();
-    if (Deck::self()->isEmpty())
+    if (CardDeck::self()->isEmpty())
         emit newCardsPossible(false);
 
     return stack[3][0]->top();
@@ -231,7 +231,7 @@ Card *Mod3::newCards()
 
 void Mod3::setGameState(const QString &)
 {
-    emit newCardsPossible(!Deck::self()->isEmpty());
+    emit newCardsPossible(!CardDeck::self()->isEmpty());
 }
 
 static class LocalDealerInfo5 : public DealerInfo

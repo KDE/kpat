@@ -17,7 +17,7 @@
 
 #include "fortyeightsolver.h"
 
-#include "../deck.h"
+#include "../carddeck.h"
 #include "../fortyeight.h"
 #include "../pile.h"
 
@@ -483,7 +483,7 @@ void FortyeightSolver::translate_layout()
     Wlen[16] = i;
     total += i;
 
-    i = translate_pile( Deck::self(), W[17], 80 );
+    i = translate_pile( CardDeck::self(), W[17], 80 );
     Wp[17] = &W[17][i-1];
     Wlen[17] = i;
     total += i;

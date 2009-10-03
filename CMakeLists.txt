@@ -10,11 +10,11 @@ set(RELEASE "1")
 set(kpat_SRCS
    main.cpp 
    card.cpp 
+   carddeck.cpp 
    dealer.cpp 
    view.cpp
    mainwindow.cpp 
    pile.cpp 
-   deck.cpp 
    demo.cpp
    pile_algorithms.cpp
    statisticsdialog.cpp
