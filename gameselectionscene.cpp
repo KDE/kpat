@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "demo.h"
+#include "gameselectionscene.h"
 
 #include "dealer.h"
 #include "render.h"
@@ -28,12 +28,12 @@
 #include <cmath>
 
 
-static const qreal innerMarginRatio = 0.035;
+static const qreal boxPaddingRatio = 0.035;
 static const qreal spacingRatio = 0.10;
 static const qreal textToTotalHeightRatio = 1 / 6.0;
 
 
-class GameSelectionBox : public QObject, public QGraphicsItem
+class GameSelectionScene::GameSelectionBox : public QObject, public QGraphicsItem
 {
     Q_OBJECT
 
@@ -46,7 +46,7 @@ public:
         setAcceptHoverEvents( true );
     }
 
-    void setSize( QSizeF size )
+    void setSize( const QSize & size )
     {
         m_size = size;
     }
@@ -95,18 +95,18 @@ protected:
         Q_UNUSED( option )
         Q_UNUSED( widget )
         int textAreaHeight = m_size.height() * textToTotalHeightRatio;
-        int innerMargin = innerMarginRatio * m_size.width();
-        QSize previewSize( m_size.height() - innerMargin * 2, m_size.height() - innerMargin * 2 - textAreaHeight );
+        int padding = boxPaddingRatio * m_size.width();
+        QSize previewSize( m_size.height() - padding * 2, m_size.height() - padding * 2 - textAreaHeight );
         QRect textRect( 0, 0, m_size.width(), textAreaHeight );
 
         // Draw background/frame
         painter->drawPixmap( QPointF( 0, 0 ),
                              Render::renderElement( m_highlighted ? "bubble_hover" : "bubble", 
-                                                    m_size.toSize() ) );
+                                                    m_size ) );
 
         // Draw game preview
         painter->drawPixmap( ( m_size.width() - previewSize.width() ) / 2,
-                             innerMargin + textAreaHeight,
+                             padding + textAreaHeight,
                              Render::renderGamePreview( m_gameId, previewSize ) );
 
         // Draw label
@@ -118,13 +118,13 @@ protected:
 private:
     QString m_label;
     int m_gameId;
-    QSizeF m_size;
+    QSize m_size;
     bool m_highlighted;
 };
 
 
 GameSelectionScene::GameSelectionScene( QObject * parent )
-    : QGraphicsScene( parent )
+    : PatienceGraphicsScene( parent )
 {
     foreach (const DealerInfo * i, DealerInfoList::self()->games())
     {
@@ -147,7 +147,7 @@ GameSelectionScene::~GameSelectionScene()
 }
 
 
-void GameSelectionScene::setSceneSize( QSize size )
+void GameSelectionScene::resizeScene( const QSize & size )
 {
     int numBoxes = m_boxes.size();
     QSizeF boxSize( Render::sizeOfElement( "bubble" ) );
@@ -198,8 +198,8 @@ void GameSelectionScene::setSceneSize( QSize size )
 
     // Initial font size estimate
     QPainter p;
-    int maxLabelWidth = boxWidth * ( 1 - 2 * innerMarginRatio );
-    int pixelFontSize = boxHeight * textToTotalHeightRatio - boxWidth * innerMarginRatio;
+    int maxLabelWidth = boxWidth * ( 1 - 2 * boxPaddingRatio );
+    int pixelFontSize = boxHeight * textToTotalHeightRatio - boxWidth * boxPaddingRatio;
     QFont f;
     f.setPixelSize( pixelFontSize );
     p.setFont( f );
@@ -219,7 +219,7 @@ void GameSelectionScene::setSceneSize( QSize size )
         // Position and size the boxes
         box->setPos( col * ( boxWidth * ( 1 + spacingRatio ) ),
                       row * ( boxHeight * ( 1 + spacingRatio ) ) );
-        box->setSize( QSizeF( boxWidth, boxHeight ) );
+        box->setSize( QSize( boxWidth, boxHeight ) );
 
         // Increment column and row
         ++col;
@@ -233,5 +233,5 @@ void GameSelectionScene::setSceneSize( QSize size )
     setFont( f );
 }
 
-#include "demo.moc"
-#include "moc_demo.cpp"
+#include "gameselectionscene.moc"
+#include "moc_gameselectionscene.cpp"

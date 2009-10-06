@@ -44,6 +44,7 @@ class DealerScene;
 class MoveHint;
 #include "pile.h"
 class Solver;
+#include "view.h"
 
 #include <KRandomSequence>
 
@@ -93,7 +94,7 @@ struct State
     QString gameData;
 };
 
-class DealerScene : public QGraphicsScene
+class DealerScene : public PatienceGraphicsScene
 {
     Q_OBJECT
 
@@ -103,7 +104,7 @@ public:
     DealerScene();
     ~DealerScene();
 
-    void setSceneSize( const QSize &s );
+    void resizeScene( const QSize & size );
     QRectF contentArea() const;
 
     void addPile(Pile *p);

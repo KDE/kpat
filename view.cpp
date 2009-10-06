@@ -38,7 +38,7 @@
 #include "view.h"
 
 #include "dealer.h"
-#include "demo.h"
+#include "gameselectionscene.h"
 #include "carddeck.h"
 #include "render.h"
 
@@ -74,20 +74,14 @@ PatienceView::~PatienceView()
 }
 
 
-void PatienceView::setScene( QGraphicsScene *_scene )
+void PatienceView::setScene( QGraphicsScene * scene )
 {
-    QGraphicsView::setScene( _scene );
-    resetCachedContent();
+    QGraphicsView::setScene( scene );
 
-    DealerScene* dealer = dynamic_cast<DealerScene*>( _scene );
-    if ( dealer )
+    PatienceGraphicsScene * pScene = dynamic_cast<PatienceGraphicsScene*>( scene );
+    if ( pScene )
     {
-        dealer->setSceneSize( size() );
-    }
-    GameSelectionScene* select = dynamic_cast<GameSelectionScene*>( _scene );
-    if ( select )
-    {
-        select->setSceneSize( size() );
+        pScene->resizeScene( size() );
     }
 }
 
@@ -106,16 +100,10 @@ void PatienceView::resizeEvent( QResizeEvent *e )
 {
     QGraphicsView::resizeEvent(e);
 
-    DealerScene* dealer = dynamic_cast<DealerScene*>( scene() );
-    if ( dealer )
+    PatienceGraphicsScene * pScene = dynamic_cast<PatienceGraphicsScene*>( scene() );
+    if ( pScene )
     {
-        resetCachedContent();
-        dealer->setSceneSize( size() );
-    }
-    GameSelectionScene* select = dynamic_cast<GameSelectionScene*>( scene() );
-    if ( select )
-    {
-        select->setSceneSize( size() );
+        pScene->resizeScene( size() );
     }
 }
 

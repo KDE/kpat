@@ -40,7 +40,7 @@
 
 #include "dealer.h"
 #include "carddeck.h"
-#include "demo.h"
+#include "gameselectionscene.h"
 #include "render.h"
 #include "statisticsdialog.h"
 #include "version.h"

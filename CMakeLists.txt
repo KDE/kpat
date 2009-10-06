@@ -10,7 +10,7 @@ set(kpat_SRCS
    card.cpp
    carddeck.cpp
    dealer.cpp
-   demo.cpp
+   gameselectionscene.cpp
    mainwindow.cpp
    pile.cpp
    pile_algorithms.cpp

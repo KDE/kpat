@@ -41,6 +41,17 @@
 #include <QtGui/QGraphicsView>
 class QWheelEvent;
 
+
+class PatienceGraphicsScene : public QGraphicsScene
+{
+public:
+    PatienceGraphicsScene( QObject * parent = 0 )
+      : QGraphicsScene( parent )
+    {}
+    virtual void resizeScene( const QSize & size ) = 0;
+};
+
+
 class PatienceView: public QGraphicsView
 {
     Q_OBJECT

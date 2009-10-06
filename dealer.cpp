@@ -1930,10 +1930,10 @@ void DealerScene::recordGameStatistics()
     }
 }
 
-void DealerScene::setSceneSize( const QSize &s )
+void DealerScene::resizeScene( const QSize & size )
 {
     d->hasScreenRect = true;
-    setSceneRect( QRectF( sceneRect().topLeft(), s ) );
+    setSceneRect( QRectF( sceneRect().topLeft(), size ) );
     relayoutScene();
 }
 

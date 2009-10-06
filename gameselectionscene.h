@@ -19,13 +19,12 @@
 #ifndef GAMESELECTIONSCENE_H
 #define GAMESELECTIONSCENE_H
 
-class GameSelectionBox;
+#include "view.h"
 
 #include <QtCore/QSignalMapper>
-#include <QtGui/QGraphicsScene>
 
 
-class GameSelectionScene : public QGraphicsScene
+class GameSelectionScene : public PatienceGraphicsScene
 {
     Q_OBJECT
 
@@ -33,12 +32,14 @@ public:
     GameSelectionScene( QObject * parent );
     ~GameSelectionScene();
 
-    void setSceneSize( QSize size );
+    void resizeScene( const QSize & size );
 
 signals:
     void gameSelected( int i );
 
 private:
+    class GameSelectionBox;
+
     QList<GameSelectionBox*> m_boxes;
     QSignalMapper m_signalMapper;
 };
