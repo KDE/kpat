@@ -36,8 +36,11 @@
  */
 
 #include "view.h"
+
 #include "dealer.h"
+#include "demo.h"
 #include "carddeck.h"
+#include "render.h"
 
 #include <cmath>
 
@@ -65,20 +68,29 @@ PatienceView::PatienceView( QWidget* _parent )
 #endif
 }
 
+
 PatienceView::~PatienceView()
 {
 }
 
+
 void PatienceView::setScene( QGraphicsScene *_scene )
 {
     QGraphicsView::setScene( _scene );
+    resetCachedContent();
+
     DealerScene* dealer = dynamic_cast<DealerScene*>( _scene );
     if ( dealer )
     {
-        resetCachedContent();
         dealer->setSceneSize( size() );
     }
+    GameSelectionScene* select = dynamic_cast<GameSelectionScene*>( _scene );
+    if ( select )
+    {
+        select->setSceneSize( size() );
+    }
 }
+
 
 void PatienceView::wheelEvent( QWheelEvent *e )
 {
@@ -88,6 +100,7 @@ void PatienceView::wheelEvent( QWheelEvent *e )
         CardDeck::self()->setCardWidth( int( CardDeck::self()->cardWidth() / scaleFactor ) );
     }
 }
+
 
 void PatienceView::resizeEvent( QResizeEvent *e )
 {
@@ -99,6 +112,17 @@ void PatienceView::resizeEvent( QResizeEvent *e )
         resetCachedContent();
         dealer->setSceneSize( size() );
     }
+    GameSelectionScene* select = dynamic_cast<GameSelectionScene*>( scene() );
+    if ( select )
+    {
+        select->setSceneSize( size() );
+    }
+}
+
+
+void PatienceView::drawBackground(QPainter* painter, const QRectF& rect)
+{
+    painter->drawPixmap( rect.topLeft().toPoint(), Render::renderElement( "background", rect.size().toSize() ) );
 }
 
 #include "view.moc"

@@ -207,7 +207,6 @@ protected:
     virtual bool pileClicked(Pile *);
     virtual bool cardDblClicked(Card *);
 
-    virtual void drawBackground ( QPainter * painter, const QRectF & rect );
     virtual void drawForeground ( QPainter * painter, const QRectF & rect );
 
     State *getState();

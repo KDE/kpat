@@ -54,7 +54,7 @@ public:
 protected:
     virtual void wheelEvent( QWheelEvent *e );
     virtual void resizeEvent( QResizeEvent *e );
-
+    virtual void drawBackground( QPainter *painter, const QRectF & rect);
 };
 
 #endif

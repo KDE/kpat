@@ -86,7 +86,7 @@ MainWindow::MainWindow()
   : KXmlGuiWindow(0),
     m_view(0),
     m_dealer(0),
-    m_bubbles(0)
+    m_selector(0)
 {
     setObjectName( "MainWindow" );
     // KCrash::setEmergencySaveFunction(::saveGame);
@@ -197,8 +197,8 @@ MainWindow::MainWindow()
     // Initialise the cardMap
     CardDeck::self();
 
-    m_stack = new QStackedWidget;
-    setCentralWidget( m_stack );
+    m_view = new PatienceView( this );
+    setCentralWidget( m_view );
 
     QSize defaultSize = qApp->desktop()->availableGeometry().size() * 0.7;
     setupGUI(defaultSize, Create | Save | ToolBar | StatusBar | Keys);
@@ -352,12 +352,6 @@ void MainWindow::slotGameSelected(int id)
 
 void MainWindow::newGameType(int id)
 {
-    if ( !m_view )
-    {
-        m_view = new PatienceView(m_stack);
-        m_stack->addWidget(m_view);
-    }
-
     // If we're replacing an existing DealerScene, record the stats of the
     // game already in progress.
     if ( m_dealer )
@@ -375,7 +369,6 @@ void MainWindow::newGameType(int id)
     m_dealer->setSolverEnabled( solveraction->isChecked() );
 
     m_view->setScene( m_dealer );
-    m_stack->setCurrentWidget(m_view);
 
     gamehelpaction->setText(i18n("Help &with %1", i18n(di->name).replace('&', "&&")));
 
@@ -407,13 +400,12 @@ void MainWindow::slotShowGameSelectionScreen()
             m_dealer = 0;
         }
 
-        if (!m_bubbles)
+        if (!m_selector)
         {
-            m_bubbles = new DemoBubbles(m_stack);
-            m_stack->addWidget(m_bubbles);
-            connect( m_bubbles, SIGNAL(gameSelected(int)), SLOT(slotGameSelected(int)) );
+            m_selector = new GameSelectionScene(this);
+            connect( m_selector, SIGNAL(gameSelected(int)), SLOT(slotGameSelected(int)) );
         }
-        m_stack->setCurrentWidget(m_bubbles);
+        m_view->setScene(m_selector);
 
         gamehelpaction->setText(i18n("Help &with Current Game"));
 

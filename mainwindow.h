@@ -42,7 +42,7 @@
 class cardMap;
 class DealerInfo;
 class DealerScene;
-class DemoBubbles;
+class GameSelectionScene;
 class PatienceView;
 
 class KAction;
@@ -53,7 +53,6 @@ class KToggleAction;
 #include <KXmlGuiWindow>
 
 class QLabel;
-class QStackedWidget;
 
 
 class MainWindow: public KXmlGuiWindow {
@@ -131,10 +130,9 @@ private:
     QMap<int, const DealerInfo*>::const_iterator  m_dealer_it;
     int m_freeCellId;
 
-    QStackedWidget *m_stack;
     PatienceView   *m_view;
     DealerScene    *m_dealer;
-    DemoBubbles    *m_bubbles;
+    GameSelectionScene *m_selector;
 
     QLabel         *solverStatus;
     QLabel         *moveStatus;

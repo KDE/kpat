@@ -2118,21 +2118,6 @@ qreal DealerScene::layoutMargin() const { return d->layoutMargin; }
 void DealerScene::setLayoutSpacing(qreal spacing) { d->layoutSpacing = spacing; }
 qreal DealerScene::layoutSpacing() const { return d->layoutSpacing; }
 
-void DealerScene::drawBackground ( QPainter * painter, const QRectF & rect )
-{
-    Q_UNUSED( rect )
-    if ( !d->hasScreenRect )
-        return;
-
-    painter->drawPixmap( sceneRect().topLeft().toPoint(), Render::renderElement( "background", sceneRect().size().toSize() ) );
-
-#if DEBUG_LAYOUT
-    painter->setPen( Qt::black );
-    painter->setBrush( Qt::white );
-    painter->drawRect( d->contentsRect );
-#endif
-}
-
 void DealerScene::drawForeground ( QPainter * painter, const QRectF & rect )
 {
     Q_UNUSED( rect )
@@ -2142,8 +2127,8 @@ void DealerScene::drawForeground ( QPainter * painter, const QRectF & rect )
     if ( !d->hasScreenRect )
         return;
 
-    const int cardWidth = Deck::self()->cardWidth();
-    const int cardHeight = Deck::self()->cardHeight();
+    const int cardWidth = CardDeck::self()->cardWidth();
+    const int cardHeight = CardDeck::self()->cardHeight();
     foreach ( const Pile *p, piles )
     {
         if ( !p->isVisible() )
@@ -2168,7 +2153,7 @@ void DealerScene::drawForeground ( QPainter * painter, const QRectF & rect )
 
         painter->setPen( Qt::cyan );
         painter->drawRect( availbleRect );
-        painter->setPen( QPen( Qt::darkRed, 1, Qt::DotLine, Qt::FlatCap ) );
+        painter->setPen( QPen( Qt::red, 1, Qt::DotLine, Qt::FlatCap ) );
         painter->drawRect( reservedRect );
     }
 #endif

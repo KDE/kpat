@@ -16,34 +16,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DEMO_H
-#define DEMO_H
+#ifndef GAMESELECTIONSCENE_H
+#define GAMESELECTIONSCENE_H
 
-class GameBubble;
+class GameSelectionBox;
 
-#include <QWidget>
+#include <QtCore/QSignalMapper>
+#include <QtGui/QGraphicsScene>
 
 
-class DemoBubbles : public QWidget
+class GameSelectionScene : public QGraphicsScene
 {
     Q_OBJECT
 
 public:
-    DemoBubbles( QWidget *parent);
-    ~DemoBubbles();
-    virtual void paintEvent ( QPaintEvent * event );
-    virtual void mouseMoveEvent ( QMouseEvent * event );
-    virtual void mousePressEvent ( QMouseEvent * event );
-    virtual void resizeEvent ( QResizeEvent * event );
+    GameSelectionScene( QObject * parent );
+    ~GameSelectionScene();
+
+    void setSceneSize( QSize size );
 
 signals:
     void gameSelected( int i );
 
 private:
-    int games;
-    int bubble_text_height, bubble_width, bubble_height;
-
-    GameBubble *m_bubbles;
+    QList<GameSelectionBox*> m_boxes;
+    QSignalMapper m_signalMapper;
 };
 
-#endif // DEMO_H
+#endif

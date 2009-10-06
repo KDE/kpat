@@ -21,221 +21,217 @@
 #include "dealer.h"
 #include "render.h"
 
-#include <KDebug>
 #include <KLocale>
 
 #include <QtGui/QPainter>
-#include <QtGui/QMouseEvent>
 
 #include <cmath>
 
 
-class GameBubble
+static const qreal innerMarginRatio = 0.035;
+static const qreal spacingRatio = 0.10;
+static const qreal textToTotalHeightRatio = 1 / 6.0;
+
+
+class GameSelectionBox : public QObject, public QGraphicsItem
 {
+    Q_OBJECT
+
 public:
-    GameBubble() {
-        active = false;
-        width = height = 0;
+    GameSelectionBox( const QString & name, int id )
+      : m_label( name ),
+        m_gameId( id ),
+        m_highlighted( false )
+    {
+        setAcceptHoverEvents( true );
     }
-    int x, y;
-    int width, height;
-    int gameindex;
-    bool active;
-    QString text;
+
+    void setSize( QSizeF size )
+    {
+        m_size = size;
+    }
+
+    virtual QRectF boundingRect() const
+    {
+        return QRectF( QPointF(), m_size );
+    }
+
+    QString label() const
+    {
+        return m_label;
+    }
+
+    static bool lessThan( const GameSelectionBox * a, const GameSelectionBox * b )
+    {
+        return a->m_label < b->m_label;
+    }
+
+signals:
+    void clicked();
+
+protected:
+    virtual void mousePressEvent( QGraphicsSceneMouseEvent * event )
+    {
+        Q_UNUSED( event )
+        emit clicked();
+    }
+
+    virtual void hoverEnterEvent( QGraphicsSceneHoverEvent * event )
+    {
+        Q_UNUSED( event )
+        m_highlighted = true;
+        update();
+    }
+
+    virtual void hoverLeaveEvent( QGraphicsSceneHoverEvent * event )
+    {
+        Q_UNUSED( event )
+        m_highlighted = false;
+        update();
+    }
+
+    virtual void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 )
+    {
+        Q_UNUSED( option )
+        Q_UNUSED( widget )
+        int textAreaHeight = m_size.height() * textToTotalHeightRatio;
+        int innerMargin = innerMarginRatio * m_size.width();
+        QSize previewSize( m_size.height() - innerMargin * 2, m_size.height() - innerMargin * 2 - textAreaHeight );
+        QRect textRect( 0, 0, m_size.width(), textAreaHeight );
+
+        // Draw background/frame
+        painter->drawPixmap( QPointF( 0, 0 ),
+                             Render::renderElement( m_highlighted ? "bubble_hover" : "bubble", 
+                                                    m_size.toSize() ) );
+
+        // Draw game preview
+        painter->drawPixmap( ( m_size.width() - previewSize.width() ) / 2,
+                             innerMargin + textAreaHeight,
+                             Render::renderGamePreview( m_gameId, previewSize ) );
+
+        // Draw label
+        painter->setFont( scene()->font() );
+        painter->setPen( Render::colorOfElement( m_highlighted ? "bubble_hover_text_color" : "bubble_text_color" ) );
+        painter->drawText( textRect, Qt::AlignCenter, m_label );
+    }
+
+private:
+    QString m_label;
+    int m_gameId;
+    QSizeF m_size;
+    bool m_highlighted;
 };
 
 
-static const qreal inner_margin_ratio = 0.035;
-static const qreal spacing_ratio = 0.10;
-static const int minimum_font_size = 8;
-
-DemoBubbles::DemoBubbles( QWidget *parent)
-    : QWidget( parent )
+GameSelectionScene::GameSelectionScene( QObject * parent )
+    : QGraphicsScene( parent )
 {
-    games = DealerInfoList::self()->games().size();
-
-    m_bubbles = new GameBubble[games];
-
-    setMouseTracking( true );
-}
-
-DemoBubbles::~DemoBubbles()
-{
-    delete [] m_bubbles;
-}
-
-void DemoBubbles::resizeEvent ( QResizeEvent * )
-{
-    QSizeF bubble_size( Render::sizeOfElement( "bubble" ) );
-    QSizeF text_size( Render::sizeOfElement( "bubble_text_area" ) );
-
-    qreal bubble_aspect = bubble_size.width() / bubble_size.height();
-    qreal my_aspect = qreal(width()) / height();
-
-    int rows, cols, best_rows = 1;
-    qreal lowest_error = 1000000.0;
-    for ( rows = 1; rows <= games; ++rows )
+    foreach (const DealerInfo * i, DealerInfoList::self()->games())
     {
-        cols = ceil( qreal( games ) / rows );
+        GameSelectionBox * box = new GameSelectionBox( i18n( i->name ), i->ids.first() );
+        m_boxes.append( box );
+        addItem( box );
 
-        // Skip combinations that would lead an empty last row
-        if ( cols * rows - games >= cols )
-            continue;
+        m_signalMapper.setMapping( box, i->ids.first() );
+        connect( box, SIGNAL(clicked()), &m_signalMapper, SLOT(map()) );
+    }
 
-        qreal grid_aspect = bubble_aspect * cols / rows;
-        qreal error = grid_aspect > my_aspect ? grid_aspect / my_aspect :  my_aspect / grid_aspect;
-        if ( error < lowest_error )
+    connect( &m_signalMapper, SIGNAL(mapped(int)), SIGNAL(gameSelected(int)) );
+
+    qSort( m_boxes.begin(), m_boxes.end(), GameSelectionBox::lessThan );
+}
+
+
+GameSelectionScene::~GameSelectionScene()
+{
+}
+
+
+void GameSelectionScene::setSceneSize( QSize size )
+{
+    int numBoxes = m_boxes.size();
+    QSizeF boxSize( Render::sizeOfElement( "bubble" ) );
+    qreal boxAspect = boxSize.width() / boxSize.height();
+    qreal sceneAspect = qreal( size.width() ) / size.height();
+
+    // Determine the optimal number of rows/columns for the grid
+    int numRows, numCols, bestNumRows = 1;
+    qreal lowestError = 10e10;
+    for ( numRows = 1; numRows <= numBoxes; ++numRows )
+    {
+        numCols = ceil( qreal( numBoxes ) / numRows );
+        int numNonEmptyRows = ceil( qreal( numBoxes ) / numCols );
+        qreal gridAspect = boxAspect * numCols / numNonEmptyRows;
+        qreal error = gridAspect > sceneAspect ? gridAspect / sceneAspect
+                                               : sceneAspect / gridAspect;
+        if ( error < lowestError )
         {
-            lowest_error = error;
-            best_rows = rows;
+            lowestError = error;
+            bestNumRows = numRows;
         }
     }
-    rows = best_rows;
-    cols = ceil( qreal( games ) / best_rows );
+    numRows = bestNumRows;
+    numCols = ceil( qreal( numBoxes ) / bestNumRows );
 
-    int my_height, outer_margin, inner_margin;
-    int my_width = ( width() / 10 ) * 10;
-    while ( true )
+    // Calculate the box and grid dimensions
+    qreal gridAspect = boxAspect * ( numCols + spacingRatio * ( numCols + 1 ) )
+                                  / ( numRows + spacingRatio * ( numRows + 1 ) );
+    int boxWidth, boxHeight;
+    if ( gridAspect > sceneAspect )
     {
-        bubble_width = qRound( my_width / ( cols + ( cols + 1 ) * spacing_ratio ) );
-        outer_margin = qRound( spacing_ratio * bubble_width );
-        inner_margin = qRound( inner_margin_ratio * bubble_width );
-
-        bubble_height = int( bubble_width / bubble_size.width() * bubble_size.height() + 1 );
-        bubble_text_height = int( bubble_width / text_size.width() * text_size.height() + 1 );
-
-        my_height = bubble_height * rows + outer_margin * ( rows + 1 );
-
-        if ( my_height > height() && bubble_text_height > inner_margin )
-            my_width -= 10;
-        else
-            break;
+        boxWidth = size.width() / ( numCols + spacingRatio * ( numCols + 1 ) );
+        boxHeight = boxWidth / boxAspect;
     }
-
-    int x_offset = ( width() - my_width ) / 2;
-    int y_offset = ( height() - my_height ) / 2;
-
-    QStringList list;
-    QList<DealerInfo*>::ConstIterator it;
-
-    for (it = DealerInfoList::self()->games().begin();
-         it != DealerInfoList::self()->games().end(); ++it)
+    else
     {
-        list.append( i18n((*it)->name) );
+        boxHeight = size.height() / ( numRows + spacingRatio * ( numRows + 1 ) );
+        boxWidth = boxHeight * boxAspect;
     }
-    list.sort();
+    int gridWidth = boxWidth * ( numCols + spacingRatio * ( numCols + 1 ) );
+    int gridHeight = boxHeight * ( numRows + spacingRatio * ( numRows + 1 ) );
 
-    int index = 0;
-    // reset
-    for ( int y = 0; y < rows; ++y )
+    // Set up the sceneRect so that the grid is centered
+    setSceneRect( ( gridWidth - size.width() ) / 2 - boxWidth * spacingRatio,
+                  ( gridHeight - size.height() ) / 2 - boxHeight * spacingRatio,
+                  size.width(),
+                  size.height() );
+
+    // Initial font size estimate
+    QPainter p;
+    int maxLabelWidth = boxWidth * ( 1 - 2 * innerMarginRatio );
+    int pixelFontSize = boxHeight * textToTotalHeightRatio - boxWidth * innerMarginRatio;
+    QFont f;
+    f.setPixelSize( pixelFontSize );
+    p.setFont( f );
+
+    int row = 0;
+    int col = 0;
+    foreach ( GameSelectionBox * box, m_boxes )
     {
-        for ( int x = 0; x < cols; ++x )
+        // Reduce font size until the label fits
+        while ( pixelFontSize > 0 &&
+                p.boundingRect( QRectF(), box->label() ).width() > maxLabelWidth )
         {
-            if ( index == games )
-                break;
-            it = DealerInfoList::self()->games().begin();
-            while ( index != list.indexOf( i18n((*it)->name ) ) )
-                ++it;
-
-            GameBubble & bubble = m_bubbles[index];
-            bubble.x = x_offset + x * ( bubble_width + outer_margin ) + outer_margin;
-            bubble.y = y_offset + y * ( bubble_height + outer_margin ) + outer_margin;
-            bubble.width = bubble_width;
-            bubble.height = bubble_height;
-            bubble.gameindex = ( *it )->ids.first();
-            bubble.active = false;
-            bubble.text = i18n( ( *it )->name );
-            ++index;
+            f.setPixelSize( --pixelFontSize );
+            p.setFont( f );
         }
-    }
-}
 
-void DemoBubbles::mouseMoveEvent ( QMouseEvent *event )
-{
-    for ( int i = 0; i < games; ++i )
-    {
-        GameBubble & bubble = m_bubbles[i];
+        // Position and size the boxes
+        box->setPos( col * ( boxWidth * ( 1 + spacingRatio ) ),
+                      row * ( boxHeight * ( 1 + spacingRatio ) ) );
+        box->setSize( QSizeF( boxWidth, boxHeight ) );
 
-        if ( bubble.x < event->x() && bubble.y < event->y() &&
-             bubble.width + bubble.x > event->x() &&
-             bubble.height + bubble.y > event->y() )
+        // Increment column and row
+        ++col;
+        if ( col == numCols )
         {
-            if ( !bubble.active )
-            {
-                update( bubble.x,
-                        bubble.y,
-                        bubble.width,
-                        bubble.height );
-            }
-            bubble.active = true;
-        } else {
-            if ( bubble.active )
-            {
-                update( bubble.x,
-                        bubble.y,
-                        bubble.width,
-                        bubble.height );
-            }
-            bubble.active = false;
-        }
-    }
-}
-
-void DemoBubbles::mousePressEvent ( QMouseEvent * event )
-{
-    mouseMoveEvent( event );
-    for ( int i = 0; i < games; ++i )
-    {
-        if ( m_bubbles[i].active )
-        {
-            emit gameSelected( m_bubbles[i].gameindex );
-            return;
-        }
-    }
-}
-
-void DemoBubbles::paintEvent ( QPaintEvent * )
-{
-    QPainter painter( this );
-    painter.drawPixmap( 0, 0, Render::renderElement( "background", size() ) );
-
-    int inner_margin = qRound( inner_margin_ratio * bubble_width );
-    int pixels = bubble_text_height - inner_margin;
-    QFont f( font() );
-    f.setPixelSize( pixels );
-    painter.setFont( f );
-
-    for ( int i = 0; i < games; ++i )
-    {
-        while ( pixels > minimum_font_size &&
-                painter.boundingRect( QRectF( 0, 0, width(), height() ), m_bubbles[i].text ).width() > bubble_width * 0.9 )
-        {
-            pixels--;
-            f.setPixelSize( pixels );
-            painter.setFont( f );
+            col = 0;
+            ++row;
         }
     }
 
-    for ( int index = 0; index < games; ++index )
-    {
-        const GameBubble & bubble = m_bubbles[index];
-
-        painter.drawPixmap( bubble.x, bubble.y,
-                            Render::renderElement( bubble.active ? "bubble_hover" : "bubble", 
-                                                   QSize(bubble_width, bubble_height) ) );
-
-        QSize size( bubble_width - inner_margin * 2, bubble_height - inner_margin * 2 - bubble_text_height );
-        QPixmap pix = Render::renderGamePreview( bubble.gameindex, size );
-
-        int off = ( bubble.width - pix.width() ) / 2;
-        painter.drawPixmap( bubble.x + off,
-                            bubble.y + inner_margin + bubble_text_height, pix );
-
-        if ( pixels >= minimum_font_size )
-        {
-            QRect rect( bubble.x, bubble.y, bubble_width, bubble_text_height );
-            painter.setPen( Render::colorOfElement( bubble.active ? "bubble_hover_text_color" : "bubble_text_color" ) );
-            painter.drawText( rect, Qt::AlignCenter, bubble.text );
-        }
-    }
+    setFont( f );
 }
+
+#include "demo.moc"
+#include "moc_demo.cpp"
