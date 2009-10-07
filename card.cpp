@@ -65,6 +65,7 @@ Card::Card( Rank r, Suit s )
       m_highlighted( false ), m_isZoomed( false ), m_isSeen( Unknown )
 {
     setShapeMode( QGraphicsPixmapItem::BoundingRectShape );
+    setTransformationMode( Qt::SmoothTransformation );
 
     QString suitName;
     switch( m_suit )
