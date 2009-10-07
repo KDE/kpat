@@ -37,13 +37,13 @@
 #include "card.h"
 
 #include "carddeck.h"
-#include "dealer.h"
 #include "pile.h"
 
 #include <KDebug>
 
 #include <QtCore/QTimeLine>
 #include <QtGui/QGraphicsItemAnimation>
+#include <QtGui/QGraphicsScene>
 #include <QtGui/QGraphicsSceneMouseEvent>
 #include <QtGui/QPainter>
 #include <QtGui/QPixmap>
@@ -62,7 +62,7 @@ AbstractCard::AbstractCard( Rank r, Suit s )
 Card::Card( Rank r, Suit s )
     : QObject(), AbstractCard( r, s ), QGraphicsPixmapItem(),
       m_source(0), tookDown(false), animation( 0 ),
-      m_highlighted( false ), m_moving( false ), m_isZoomed( false ), m_isSeen( Unknown )
+      m_highlighted( false ), m_isZoomed( false ), m_isSeen( Unknown )
 {
     setShapeMode( QGraphicsPixmapItem::BoundingRectShape );
 
@@ -123,19 +123,6 @@ void Card::updatePixmap()
     m_boundingRect = QRectF(QPointF(0,0), pixmap().size());
     m_isSeen = Unknown;
     return;
-
-    QImage img = pixmap().toImage().mirrored( false, true );
-    QImage acha( img.size(), QImage::Format_RGB32 );
-    acha.fill( Qt::white );
-    QPainter p( &acha );
-    QLinearGradient linearGrad(QPointF(0, 0), QPointF(0, 200));
-    linearGrad.setColorAt(0.6, Qt::black);
-    linearGrad.setColorAt( 1, Qt::black);
-    linearGrad.setColorAt(0, Qt::white);
-    p.fillRect( QRect( QPoint( 0,0 ), img.size() ), linearGrad );
-    p.end();
-    img.setAlphaChannel( acha );
-    m_shadow->setPixmap( QPixmap::fromImage( img ) );
 }
 
 // Turn the card if necessary.  If the face gets turned up, the card
@@ -415,28 +402,25 @@ void Card::hoverLeaveEvent ( QGraphicsSceneHoverEvent * )
     //zoomOut(200);
 }
 
-void Card::mousePressEvent ( QGraphicsSceneMouseEvent *ev ) {
-    //kDebug(11111) << "mousePressEvent\n";
+void Card::mousePressEvent ( QGraphicsSceneMouseEvent *ev )
+{
     if ( !isFaceUp() )
         return;
     if ( this == source()->top() )
         return; // no way this is meaningful
 
-    if ( ev->button() == Qt::RightButton && !animated() && !source()->dscene()->isMoving( this ) )
+    if ( ev->button() == Qt::RightButton && !animated() )
     {
         m_hoverTimer->stop();
         stopAnimation();
         zoomIn(400);
         m_hovered = false;
-        m_moving = true;
         m_isSeen = CardVisible;
     }
 }
 
-void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ev ) {
-    //kDebug(11111) << "mouseReleaseEvent\n";
-    m_moving = false;
-
+void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ev )
+{
     if ( !isFaceUp() )
         return;
     if ( this == source()->top() )
@@ -448,7 +432,6 @@ void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ev ) {
         stopAnimation();
         zoomOut(400);
         m_hovered = false;
-        m_moving = true;
         m_isSeen = CardVisible;
     }
 }

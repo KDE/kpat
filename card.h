@@ -172,14 +172,12 @@ private:
     static qreal  Hz;
 
     QGraphicsItemAnimation *animation;
-    QGraphicsPixmapItem *m_shadow;
 
     QRectF    m_boundingRect;
     QPointF   m_originalPosition;
     QTimer   *m_hoverTimer;
     bool      m_hovered;
     bool      m_highlighted;
-    bool      m_moving;
     bool      m_isZoomed;
     VisibleState  m_isSeen;
 
