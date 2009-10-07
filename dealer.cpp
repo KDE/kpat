@@ -1715,7 +1715,7 @@ void DealerScene::demo()
                                           << "from the" << mh->card()->source()->objectName()
                                           << "pile to the" << mh->pile()->objectName()
                                           << "pile, which is empty";
-        myassert(mh->card()->source() == Deck::deck() ||
+        myassert(mh->card()->source() == 0 ||
                mh->card()->source()->legalRemove(mh->card(), true));
 
         CardList empty;

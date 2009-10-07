@@ -202,14 +202,6 @@ void Mod3::dealRow(int row)
 void Mod3::deal()
 {
     unmarkAll();
-/*  CardList list = Deck::self()->cards();
-    for (CardList::Iterator it = list.begin(); it != list.end(); ++it)
-        if ((*it)->rank() == Card::Ace) {
-            aces->add(*it);
-            (*it)->hide();
-        }
-    kDebug(11111) << "init" << aces->cardsLeft() << " " << Deck::self()->cardsLeft();
-*/
     CardDeck::self()->takeAllCards(talon);
 
     for (int r = 0; r < 4; r++)

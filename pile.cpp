@@ -404,10 +404,6 @@ void Pile::add( Card* _card, bool _facedown )
 
     bool face = _facedown;
 
-#if 0
-    if ( source == Deck::deck() ) // ignore then
-        face = false;
-#endif
     if (face || !isVisible()) {
         _card->setPos( QPointF( x2, y2 ) );
         _card->setZValue( z2 );
