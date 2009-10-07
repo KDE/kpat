@@ -95,7 +95,7 @@ void Simon::deal() {
         store[j]->add(c, false);
     }
 
-    Q_ASSERT(CardDeck::self()->isEmpty());
+    Q_ASSERT(!CardDeck::self()->hasUndealtCards());
 }
 
 bool Simon::checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const
