@@ -35,6 +35,7 @@
  */
 
 #include "dealer.h"
+#include "dealerinfo.h"
 #include "carddeck.h"
 #include "version.h"
 #include "mainwindow.h"
@@ -68,15 +69,15 @@ static DealerScene *getDealer( int wanted_game )
     for (QList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin();
          it != DealerInfoList::self()->games().end(); ++it)
     {
-        if ( (*it)->hasId(wanted_game) ) {
+        if ( (*it)->ids().contains(wanted_game) ) {
             di = *it;
             DealerScene *f = di->createGame();
             if ( !f || !f->solver() ) {
-                kError() << "There is no solver for" << di->name;
+                kError() << "There is no solver for" << di->name();
                 return 0;
             }
 
-            fprintf( stdout, "Testing %s\n", di->name );
+            fprintf( stdout, "Testing %s\n", di->name() );
             return f;
         }
     }
@@ -193,10 +194,10 @@ int main( int argc, char **argv )
     QStringList gameList;
     foreach ( const DealerInfo *di, DealerInfoList::self()->games() )
     {
-        const QString translatedKey = lowerAlphaNum( i18n( di->name ) );
+        const QString translatedKey = lowerAlphaNum( i18n( di->name() ) );
         gameList << translatedKey;
-        indexMap.insert( translatedKey, di->ids.first() );
-        indexMap.insert( lowerAlphaNum( QString( di->name ) ), di->ids.first() );
+        indexMap.insert( translatedKey, di->ids().first() );
+        indexMap.insert( lowerAlphaNum( QString( di->name() ) ), di->ids().first() );
     }
     gameList.sort();
 

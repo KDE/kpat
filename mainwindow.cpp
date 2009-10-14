@@ -39,6 +39,7 @@
 #include "mainwindow.h"
 
 #include "dealer.h"
+#include "dealerinfo.h"
 #include "carddeck.h"
 #include "gameselectionscene.h"
 #include "render.h"
@@ -187,10 +188,10 @@ MainWindow::MainWindow()
 
     foreach( const DealerInfo * di, DealerInfoList::self()->games() )
     {
-        foreach( int id, di->ids )
+        foreach( int id, di->ids() )
             m_dealer_map.insert( id, di );
-        if ( QString(di->name).toLower() == "freecell" )
-            m_freeCellId = di->ids.first();
+        if ( QString(di->name()).toLower() == "freecell" )
+            m_freeCellId = di->ids().first();
     }
     m_dealer_it = m_dealer_map.constEnd();
 
@@ -235,7 +236,7 @@ void MainWindow::helpGame()
     if (m_dealer && m_dealer_map.contains(m_dealer->gameId()))
     {
         const DealerInfo * di = m_dealer_map.value(m_dealer->gameId());
-        QString anchor = QString(di->name).toLower();
+        QString anchor = QString(di->name()).toLower();
         anchor = anchor.remove('\'').replace('&', "and").replace(' ', '-');
         KToolInvocation::invokeHelp(anchor);
     }
@@ -336,7 +337,7 @@ void MainWindow::setGameCaption()
     if ( m_dealer )
     {
         const DealerInfo * di = m_dealer_map.value( m_dealer->gameId() );
-        caption = QString("%1 - %2").arg(di->name).arg(m_dealer->gameNumber());
+        caption = QString("%1 - %2").arg(di->name()).arg(m_dealer->gameNumber());
     }
     setCaption( caption );
 }
@@ -364,13 +365,13 @@ void MainWindow::newGameType(int id)
 
     const DealerInfo * di = m_dealer_map.value(id, DealerInfoList::self()->games().first());
     m_dealer = di->createGame();
-    m_dealer->setGameId( di->ids.first() );
+    m_dealer->setGameId( di->ids().first() );
     m_dealer->setAutoDropEnabled( autodropaction->isChecked() );
     m_dealer->setSolverEnabled( solveraction->isChecked() );
 
     m_view->setScene( m_dealer );
 
-    gamehelpaction->setText(i18n("Help &with %1", i18n(di->name).replace('&', "&&")));
+    gamehelpaction->setText(i18n("Help &with %1", i18n(di->name()).replace('&', "&&")));
 
     connect(m_dealer, SIGNAL(gameSolverReset()), SLOT(slotGameSolverReset()));
     connect(m_dealer, SIGNAL(gameSolverStart()), SLOT(slotGameSolverStart()));

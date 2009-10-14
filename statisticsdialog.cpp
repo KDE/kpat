@@ -37,7 +37,7 @@
 
 #include "statisticsdialog.h"
 
-#include "dealer.h"
+#include "dealerinfo.h"
 #include "version.h"
 
 #include <KConfigGroup>
@@ -65,7 +65,7 @@ StatisticsDialog::StatisticsDialog(QWidget* aParent)
 
 	QMap<QString,int> nameToIdMap;
 	foreach (DealerInfo* game, DealerInfoList::self()->games())
-		nameToIdMap.insert(QString(game->name), game->ids.first());
+		nameToIdMap.insert(QString(game->name()), game->ids().first());
 
 	QMap<QString,int>::const_iterator it = nameToIdMap.constBegin();
 	QMap<QString,int>::const_iterator end = nameToIdMap.constEnd();

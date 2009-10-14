@@ -39,7 +39,7 @@
 #define DEALER_H
 
 #include "card.h"
-class DealerInfo;
+class CardState;
 class DealerScene;
 class MoveHint;
 #include "pile.h"
@@ -54,38 +54,6 @@ class QDomDocument;
 
 
 typedef QList<Pile*> PileList;
-
-class DealerInfoList {
-public:
-    static DealerInfoList *self();
-    void add(DealerInfo *);
-
-    const QList<DealerInfo*> games() const { return list; }
-private:
-    QList<DealerInfo*> list;
-    static DealerInfoList *_self;
-    static void cleanupDealerInfoList();
-};
-
-class DealerInfo
-{
-public:
-    DealerInfo(const char *_name, int _index)
-        : name(_name)
-    {
-        DealerInfoList::self()->add(this);
-            addOldId(_index);
-    }
-    virtual ~DealerInfo(){}
-    const char *name;
-    QList<int> ids;
-    virtual DealerScene *createGame() const = 0;
-    void addOldId(int id) { ids.push_back(id); }
-    bool hasId(int id) { return ids.contains(id); }
-};
-
-class CardState;
-
 typedef QList<CardState> CardStateList;
 
 struct State

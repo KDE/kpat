@@ -10,6 +10,7 @@ set(kpat_SRCS
    card.cpp
    carddeck.cpp
    dealer.cpp
+   dealerinfo.cpp
    gameselectionscene.cpp
    mainwindow.cpp
    pile.cpp

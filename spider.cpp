@@ -37,9 +37,9 @@
 #include "spider.h"
 
 #include "carddeck.h"
+#include "dealerinfo.h"
 #include "speeds.h"
 #include "version.h"
-#include "view.h"
 #include "patsolve/spidersolver.h"
 
 #include <KConfigGroup>
@@ -450,7 +450,7 @@ Card *Spider::newCards()
 static class LocalDealerInfo17 : public DealerInfo
 {
 public:
-    LocalDealerInfo17() : DealerInfo(I18N_NOOP("Spider"), 17) { addOldId(14); addOldId(15); addOldId(16); }
+    LocalDealerInfo17() : DealerInfo(I18N_NOOP("Spider"), 17) { addId(14); addId(15); addId(16); }
     virtual DealerScene *createGame() const { return new Spider(); }
 } ldi17;
 

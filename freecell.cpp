@@ -37,6 +37,7 @@
 #include "freecell.h"
 
 #include "carddeck.h"
+#include "dealerinfo.h"
 #include "speeds.h"
 #include "patsolve/freecellsolver.h"
 

@@ -36,6 +36,7 @@
 #include "fortyeight.h"
 
 #include "carddeck.h"
+#include "dealerinfo.h"
 #include "speeds.h"
 #include "patsolve/fortyeightsolver.h"
 

@@ -1,5 +1,7 @@
 /*
+ * Copyright (C) 1995 Paul Olav Tvete <paul@troll.no>
  * Copyright (C) 2000-2009 Stephan Kulow <coolo@kde.org>
+ * Copyright (C) 2009 Parker Coates <parker.coates@gmail.com>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -33,75 +35,68 @@
  * -------------------------------------------------------------------------
  */
 
-#include "yukon.h"
-
-#include "carddeck.h"
 #include "dealerinfo.h"
-#include "patsolve/yukonsolver.h"
 
-#include <KDebug>
-#include <KLocale>
+#include <KGlobal>
 
 
-Yukon::Yukon( )
-    : DealerScene( )
+DealerInfo::DealerInfo( const char * name, int id )
+  : m_name( name )
 {
-    const qreal dist_x = 1.11;
-    const qreal dist_y = 1.11;
-
-    CardDeck::self()->setDeckType();
-
-    for (int i=0; i<4; i++) {
-        target[i] = new Pile(i+1, QString("target%1").arg(i));
-        target[i]->setPilePos(0.11+7*dist_x, dist_y *i);
-        target[i]->setType(Pile::KlondikeTarget);
-        addPile(target[i]);
-    }
-
-    for (int i=0; i<7; i++) {
-        store[i] = new Pile(5+i, QString("store%1").arg(i));
-        store[i]->setPilePos(dist_x*i, 0);
-        store[i]->setAddType(Pile::KlondikeStore);
-        store[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
-        store[i]->setReservedSpace( QSizeF( 1.0, 3 * dist_y + 1.0 ) );
-        addPile(store[i]);
-    }
-
-    setActions(DealerScene::Hint | DealerScene::Demo);
-    setSolver( new YukonSolver( this ) );
-    setNeededFutureMoves( 10 ); // it's a bit hard to judge as there are so many nonsense moves
+    addId( id );
+    DealerInfoList::self()->add(this);
 }
 
-void Yukon::restart() {
-    CardDeck::self()->returnAllCards();
-    CardDeck::self()->shuffle( gameNumber() );
-    deal();
+DealerInfo::~DealerInfo()
+{
 }
 
-void Yukon::deal() {
-    for (int round = 0; round < 11; round++)
-    {
-        for (int j = 0; j < 7; j++)
-        {
-            bool doit = false;
-            switch (j) {
-            case 0:
-                doit = (round == 0);
-                break;
-            default:
-                doit = (round < j + 5);
-            }
-            if (doit)
-                store[j]->add(CardDeck::self()->takeCard(), round < j && j != 0);
-        }
-    }
+const char * DealerInfo::name() const
+{
+    return m_name;
 }
 
-static class LocalDealerInfo10 : public DealerInfo
+void DealerInfo::addId( int id )
+{
+    m_ids.append( id );
+}
+
+const QList<int> DealerInfo::ids() const
+{
+    return m_ids;
+}
+
+
+
+class DealerInfoListPrivate
 {
 public:
-    LocalDealerInfo10() : DealerInfo(I18N_NOOP("Yukon"), 10) {}
-    virtual DealerScene *createGame() const { return new Yukon(); }
-} gfi10;
+    DealerInfoList instance;
+};
 
-#include "yukon.moc"
+K_GLOBAL_STATIC( DealerInfoListPrivate, dilp )
+
+
+
+DealerInfoList *DealerInfoList::self()
+{
+    return &(dilp->instance);
+}
+
+DealerInfoList::DealerInfoList()
+{
+}
+
+DealerInfoList::~DealerInfoList()
+{
+}
+
+void DealerInfoList::add( DealerInfo * di )
+{
+    m_list.append( di );
+}
+
+const QList< DealerInfo* > DealerInfoList::games() const
+{
+    return m_list;
+}

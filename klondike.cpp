@@ -37,8 +37,8 @@
 #include "klondike.h"
 
 #include "carddeck.h"
+#include "dealerinfo.h"
 #include "version.h"
-#include "view.h"
 #include "patsolve/klondikesolver.h"
 
 #include <KConfigGroup>
@@ -278,7 +278,7 @@ bool Klondike::startAutoDrop()
 static class LocalDealerInfo0 : public DealerInfo
 {
 public:
-    LocalDealerInfo0() : DealerInfo(I18N_NOOP("Klondike"), 18) { addOldId(0); addOldId(13); }
+    LocalDealerInfo0() : DealerInfo(I18N_NOOP("Klondike"), 18) { addId(0); addId(13); }
     virtual DealerScene *createGame() const { return new Klondike(); }
 } ldi0;
 

@@ -36,6 +36,7 @@
 #include "clock.h"
 
 #include "carddeck.h"
+#include "dealerinfo.h"
 #include "patsolve/clocksolver.h"
 
 #include <KLocale>

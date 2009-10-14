@@ -37,6 +37,7 @@
 #include "idiot.h"
 
 #include "carddeck.h"
+#include "dealerinfo.h"
 #include "patsolve/idiotsolver.h"
 
 #include <KLocale>

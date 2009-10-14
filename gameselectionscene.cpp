@@ -18,11 +18,12 @@
 
 #include "gameselectionscene.h"
 
-#include "dealer.h"
+#include "dealerinfo.h"
 #include "render.h"
 
 #include <KLocale>
 
+#include <QtGui/QGraphicsItem>
 #include <QtGui/QPainter>
 
 #include <cmath>
@@ -128,11 +129,11 @@ GameSelectionScene::GameSelectionScene( QObject * parent )
 {
     foreach (const DealerInfo * i, DealerInfoList::self()->games())
     {
-        GameSelectionBox * box = new GameSelectionBox( i18n( i->name ), i->ids.first() );
+        GameSelectionBox * box = new GameSelectionBox( i18n( i->name() ), i->ids().first() );
         m_boxes.append( box );
         addItem( box );
 
-        m_signalMapper.setMapping( box, i->ids.first() );
+        m_signalMapper.setMapping( box, i->ids().first() );
         connect( box, SIGNAL(clicked()), &m_signalMapper, SLOT(map()) );
     }
 
