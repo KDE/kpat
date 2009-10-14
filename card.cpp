@@ -117,6 +117,8 @@ Card::~Card()
 
 void Card::updatePixmap()
 {
+    Q_ASSERT( !CardDeck::self()->cardSize().isNull() );
+
     if( m_faceup )
         QGraphicsPixmapItem::setPixmap( CardDeck::self()->frontsidePixmap( m_rank, m_suit ) );
     else

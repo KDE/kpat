@@ -92,9 +92,15 @@ void CardDeck::setDeckType( int copies, QList<Card::Suit> suits, QList<Card::Ran
     for ( int i = 0; i < copies; ++i )
         foreach ( Card::Rank r, ranks )
             foreach ( Card::Suit s, suits )
-                m_allCards << new Card( r, s );
+            {
+                Card * c = new Card( r, s );
+                c->updatePixmap();
+                m_allCards << c;
+            }
 
     m_undealtCards = m_allCards;
+
+    Q_ASSERT( m_allCards.size() == copies * ranks.size() * suits.size() );
 }
 
 
