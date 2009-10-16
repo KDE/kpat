@@ -56,12 +56,11 @@ K_GLOBAL_STATIC( CardDeckPrivate, cdp )
 
 
 CardDeck::CardDeck()
-  : m_originalCardSize(1, 1),
-    m_currentCardSize(0, 0)
+  : m_originalCardSize( 1, 1 ),
+    m_currentCardSize( 0, 0 )
 {
-    KSharedConfig::Ptr config = KGlobal::config();
-    KConfigGroup cs(config, settings_group );
-    updateTheme(cs);
+    KConfigGroup cs( KGlobal::config(), settings_group );
+    updateTheme( cs );
     setCardWidth( cs.readEntry( "CardWidth", 100 ) );
 }
 
@@ -74,7 +73,7 @@ CardDeck::~CardDeck()
 
 CardDeck * CardDeck::self()
 {
-    return &(cdp->instance);
+    return &( cdp->instance );
 }
 
 
@@ -118,7 +117,7 @@ bool CardDeck::hasUndealtCards()
 
 Card* CardDeck::takeCard()
 {
-    if (m_undealtCards.isEmpty())
+    if ( m_undealtCards.isEmpty() )
         return 0;
 
     return m_undealtCards.takeLast();
@@ -127,19 +126,19 @@ Card* CardDeck::takeCard()
 
 void CardDeck::takeAllCards( Pile * p )
 {
-    while (!m_undealtCards.isEmpty())
-        p->add( m_undealtCards.takeFirst(), true);
+    while ( !m_undealtCards.isEmpty() )
+        p->add( m_undealtCards.takeFirst(), true );
 }
 
 
 void CardDeck::returnCard( Card * c )
 {
-    c->setTakenDown(false);
-    if (c->source())
-        c->source()->remove(c);
-    if (c->scene())
-        c->scene()->removeItem(c);
-    m_undealtCards.append(c);
+    c->setTakenDown( false );
+    if ( c->source() )
+        c->source()->remove( c );
+    if ( c->scene() )
+        c->scene()->removeItem( c );
+    m_undealtCards.append( c );
 }
 
 
@@ -163,19 +162,19 @@ void CardDeck::clear()
 // Shuffle all undealt cards
 void CardDeck::shuffle( int gameNumber )
 {
-    Q_ASSERT(gameNumber >= 0);
+    Q_ASSERT( gameNumber >= 0 );
     m_pseudoRandomSeed = gameNumber;
 
     Card* t;
     int z;
     int left = m_undealtCards.size();
-    for (int i = 0; i < m_undealtCards.size(); i++)
+    for ( int i = 0; i < m_undealtCards.size(); ++i )
     {
         z = pseudoRandom() % left;
-        t = m_undealtCards[z];
-        m_undealtCards[z] = m_undealtCards[left-1];
-        m_undealtCards[left-1] = t;
-        left--;
+        t = m_undealtCards[ z ];
+        m_undealtCards[ z ] = m_undealtCards[ left - 1 ];
+        m_undealtCards[ left - 1 ] = t;
+        --left;
     }
 }
 
@@ -195,7 +194,7 @@ void CardDeck::setCardWidth( int width )
 
         m_currentCardSize = newSize;
         m_cache.setSize( newSize );
-        foreach (Card * c, m_allCards)
+        foreach ( Card * c, m_allCards )
             c->updatePixmap();
 
         QTimer::singleShot( 200, this, SLOT(loadInBackground()) );;
@@ -266,7 +265,7 @@ QPixmap CardDeck::backsidePixmap( int variant )
 }
 
 
-void CardDeck::updateTheme(const KConfigGroup &cs)
+void CardDeck::updateTheme( const KConfigGroup & cs )
 {
     QString fronttheme = CardDeckInfo::frontTheme( cs );
     QString backtheme = CardDeckInfo::backTheme( cs );
@@ -294,7 +293,7 @@ void CardDeck::loadInBackground()
 // http://support.microsoft.com/default.aspx?scid=kb;EN-US;Q28150
 int CardDeck::pseudoRandom() {
     m_pseudoRandomSeed = 214013 * m_pseudoRandomSeed + 2531011;
-    return (m_pseudoRandomSeed >> 16) & 0x7fff;
+    return ( m_pseudoRandomSeed >> 16 ) & 0x7fff;
 }
 
 #include "carddeck.moc"

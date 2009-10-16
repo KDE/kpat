@@ -44,7 +44,6 @@ class Pile;
 #include <KCardCache>
 class KConfigGroup;
 
-#include <QtCore/QPointer>
 
 class CardDeck: public QObject
 {
@@ -98,7 +97,7 @@ public:
     QPixmap frontsidePixmap( Card::Rank, Card::Suit );
     QPixmap backsidePixmap( int variant = -1 );
 
-    void updateTheme( const KConfigGroup &cg );
+    void updateTheme( const KConfigGroup & cg );
 
 public slots:
     void loadInBackground();
