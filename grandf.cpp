@@ -187,11 +187,20 @@ void Grandf::setGameState( const QString &s)
     emit newCardsPossible(numberOfDeals < 3);
 }
 
-static class LocalDealerInfo1 : public DealerInfo
+
+
+static class GrandfDealerInfo : public DealerInfo
 {
 public:
-    LocalDealerInfo1() : DealerInfo(I18N_NOOP("Grandfather"), 1) {}
-    virtual DealerScene *createGame() const { return new Grandf(); }
-} gfdi;
+    GrandfDealerInfo()
+      : DealerInfo(I18N_NOOP("Grandfather"), 1)
+    {}
+
+    virtual DealerScene *createGame() const
+    {
+        return new Grandf();
+    }
+} grandfDealerInfo;
+
 
 #include "grandf.moc"

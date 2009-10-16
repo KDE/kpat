@@ -197,16 +197,20 @@ void Golf::setGameState( const QString & )
     emit newCardsPossible( !talon->isEmpty() );
 }
 
-static class LocalDealerInfo13 : public DealerInfo
+
+
+static class GolfDealerInfo : public DealerInfo
 {
 public:
-    LocalDealerInfo13() : DealerInfo(I18N_NOOP("Golf"), 12) {}
-    virtual DealerScene *createGame() const { return new Golf(); }
-} ldi13;
+    GolfDealerInfo()
+      : DealerInfo(I18N_NOOP("Golf"), 12)
+    {}
 
-//-------------------------------------------------------------------------//
+    virtual DealerScene *createGame() const
+    {
+        return new Golf();
+    }
+} golfDealerInfo;
+
 
 #include "golf.moc"
-
-//-------------------------------------------------------------------------//
-

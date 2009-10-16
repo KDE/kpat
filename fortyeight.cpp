@@ -209,16 +209,20 @@ void Fortyeight::setGameState( const QString &s )
     emit newCardsPossible( !lastdeal || !talon->isEmpty() );
 }
 
-static class LocalDealerInfo8 : public DealerInfo
+
+
+static class FortyEightDealerInfo : public DealerInfo
 {
 public:
-    LocalDealerInfo8() : DealerInfo(I18N_NOOP("Forty & Eight"), 8) {}
-    virtual DealerScene *createGame() const { return new Fortyeight(); }
-} ldi9;
+    FortyEightDealerInfo()
+      : DealerInfo(I18N_NOOP("Forty & Eight"), 8)
+    {}
 
-//-------------------------------------------------------------------------//
+    virtual DealerScene *createGame() const
+    {
+        return new Fortyeight();
+    }
+} fortyEightDealerInfo;
+
 
 #include "fortyeight.moc"
-
-//-------------------------------------------------------------------------//
-

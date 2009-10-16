@@ -229,16 +229,20 @@ void Mod3::setGameState(const QString &)
     emit newCardsPossible(!talon->isEmpty());
 }
 
-static class LocalDealerInfo5 : public DealerInfo
+
+
+static class Mod3DealerInfo : public DealerInfo
 {
 public:
-    LocalDealerInfo5() : DealerInfo(I18N_NOOP("Mod3"), 5) {}
-    virtual DealerScene *createGame() const { return new Mod3(); }
-} ldi5;
+    Mod3DealerInfo()
+      : DealerInfo(I18N_NOOP("Mod3"), 5)
+    {}
 
-//-------------------------------------------------------------------------//
+    virtual DealerScene *createGame() const
+    {
+        return new Mod3();
+    }
+} mod3DealerInfo;
+
 
 #include "mod3.moc"
-
-//-------------------------------------------------------------------------//
-

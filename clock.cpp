@@ -121,11 +121,20 @@ void Clock::deal() {
     }
 }
 
-static class LocalDealerInfo11 : public DealerInfo
+
+
+static class ClockDealerInfo : public DealerInfo
 {
 public:
-    LocalDealerInfo11() : DealerInfo(I18N_NOOP("Grandfather's Clock"), 11) {}
-    virtual DealerScene *createGame() const { return new Clock(); }
-} gfi11;
+    ClockDealerInfo()
+      : DealerInfo(I18N_NOOP("Grandfather's Clock"), 11)
+    {}
+
+    virtual DealerScene *createGame() const
+    {
+        return new Clock();
+    }
+} clockDealerInfo;
+
 
 #include "clock.moc"

@@ -447,13 +447,6 @@ Card *Spider::newCards()
     return stack[0]->top();
 }
 
-static class LocalDealerInfo17 : public DealerInfo
-{
-public:
-    LocalDealerInfo17() : DealerInfo(I18N_NOOP("Spider"), 17) { addId(14); addId(15); addId(16); }
-    virtual DealerScene *createGame() const { return new Spider(); }
-} ldi17;
-
 void Spider::mapOldId(int id)
 {
    switch (id) {
@@ -469,9 +462,24 @@ void Spider::mapOldId(int id)
    }
 }
 
-//-------------------------------------------------------------------------//
+
+
+static class SpideDealerInfo : public DealerInfo
+{
+public:
+    SpideDealerInfo()
+      : DealerInfo(I18N_NOOP("Spider"), 17)
+    {
+        addId(14);
+        addId(15);
+        addId(16);
+    }
+
+    virtual DealerScene *createGame() const
+    {
+        return new Spider();
+    }
+} spideDealerInfo;
+
 
 #include "spider.moc"
-
-//-------------------------------------------------------------------------//
-

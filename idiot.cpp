@@ -198,12 +198,20 @@ void Idiot::setGameState(const QString &)
     emit newCardsPossible( !talon->isEmpty() );
 }
 
-static class LocalDealerInfo2 : public DealerInfo
+
+
+static class IdiotDealerInfo : public DealerInfo
 {
 public:
-    LocalDealerInfo2() : DealerInfo(I18N_NOOP("Aces Up"), 2) {}
-    virtual DealerScene *createGame() const { return new Idiot(); }
-} ldi4;
+    IdiotDealerInfo()
+      : DealerInfo(I18N_NOOP("Aces Up"), 2)
+    {}
+
+    virtual DealerScene *createGame() const
+    {
+        return new Idiot();
+    }
+} idiotDealerInfo;
 
 
 #include "idiot.moc"

@@ -97,11 +97,20 @@ void Yukon::deal() {
     }
 }
 
-static class LocalDealerInfo10 : public DealerInfo
+
+
+static class YukonDealerInfo : public DealerInfo
 {
 public:
-    LocalDealerInfo10() : DealerInfo(I18N_NOOP("Yukon"), 10) {}
-    virtual DealerScene *createGame() const { return new Yukon(); }
-} gfi10;
+    YukonDealerInfo()
+      : DealerInfo(I18N_NOOP("Yukon"), 10)
+    {}
+
+    virtual DealerScene *createGame() const
+    {
+        return new Yukon();
+    }
+} yukonDealerInfo;
+
 
 #include "yukon.moc"

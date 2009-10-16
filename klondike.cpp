@@ -275,13 +275,6 @@ bool Klondike::startAutoDrop()
     return true;
 }
 
-static class LocalDealerInfo0 : public DealerInfo
-{
-public:
-    LocalDealerInfo0() : DealerInfo(I18N_NOOP("Klondike"), 18) { addId(0); addId(13); }
-    virtual DealerScene *createGame() const { return new Klondike(); }
-} ldi0;
-
 void Klondike::mapOldId(int id)
 {
    switch (id) {
@@ -291,5 +284,24 @@ void Klondike::mapOldId(int id)
        setEasy( true );
    }
 }
+
+
+
+static class KlondikeDealerInfo : public DealerInfo
+{
+public:
+    KlondikeDealerInfo()
+      : DealerInfo(I18N_NOOP("Klondike"), 18)
+    {
+        addId(0);
+        addId(13);
+    }
+
+    virtual DealerScene *createGame() const
+    {
+        return new Klondike();
+    }
+} klondikeDealerInfo;
+
 
 #include "klondike.moc"

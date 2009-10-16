@@ -114,11 +114,20 @@ void Gypsy::setGameState(const QString &)
     emit newCardsPossible(!talon->isEmpty());
 }
 
-static class LocalDealerInfo7 : public DealerInfo
+
+
+static class GypsyDealerInfo : public DealerInfo
 {
 public:
-    LocalDealerInfo7() : DealerInfo(I18N_NOOP("Gypsy"), 7) {}
-    virtual DealerScene *createGame() const { return new Gypsy(); }
-} gyfdi;
+    GypsyDealerInfo()
+      : DealerInfo(I18N_NOOP("Gypsy"), 7)
+    {}
+
+    virtual DealerScene *createGame() const
+    {
+        return new Gypsy();
+    }
+} gypsyDealerInfo;
+
 
 #include "gypsy.moc"
