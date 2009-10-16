@@ -195,9 +195,6 @@ MainWindow::MainWindow()
     }
     m_dealer_it = m_dealer_map.constEnd();
 
-    // Initialise the cardMap
-    CardDeck::self();
-
     m_view = new PatienceView( this );
     setCentralWidget( m_view );
 
@@ -301,9 +298,11 @@ void MainWindow::slotPickRandom()
     KConfigGroup cs(config, settings_group );
     CardDeckInfo::writeFrontTheme( cs, theme );
 
-    CardDeck::self()->updateTheme(cs);
     if ( m_dealer )
+    {
+        m_dealer->cardDeck()->updateTheme(cs);
         m_dealer->relayoutScene();
+    }
 }
 
 void MainWindow::slotSelectDeck()
@@ -325,9 +324,11 @@ void MainWindow::slotSelectDeck()
 
         if (cardwidget->frontName() != oldFrontName || cardwidget->backName() != oldBackName)
         {
-            CardDeck::self()->updateTheme(cs);
             if ( m_dealer )
+            {
+                m_dealer->cardDeck()->updateTheme(cs);
                 m_dealer->relayoutScene();
+            }
         }
     }
 

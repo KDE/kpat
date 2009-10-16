@@ -47,7 +47,7 @@ Gypsy::Gypsy( )
     const qreal dist_x = 1.11;
     const qreal dist_y = 1.11;
 
-    CardDeck::self()->setDeckType(2);
+    deck = new CardDeck(2);
 
     talon = new Pile(0, "talon");
     talon->setPilePos(8.5 * dist_x + 0.4, 4 * dist_y);
@@ -75,8 +75,8 @@ Gypsy::Gypsy( )
 }
 
 void Gypsy::restart() {
-    CardDeck::self()->returnAllCards();
-    CardDeck::self()->shuffle( gameNumber() );
+    deck->returnAllCards();
+    deck->shuffle( gameNumber() );
     deal();
     emit newCardsPossible(true);
 }
@@ -87,7 +87,7 @@ void Gypsy::dealRow(bool faceup) {
 }
 
 void Gypsy::deal() {
-    CardDeck::self()->takeAllCards(talon);
+    deck->takeAllCards(talon);
     dealRow(false);
     dealRow(false);
     dealRow(true);

@@ -205,23 +205,26 @@ void Spider::setSuits(int suits)
 
 void Spider::setupDeck()
 {
+    delete deck;
+    deck = 0;
+
     // These look a bit weird, but are needed to keep the game numbering
     // from breaking. The original logic always created groupings of 4
     // suits, while the new logic is more flexible. We maintain the card
     // ordering by always passing a list of 4 suits even if we really only
     // have one or two.
     if ( m_suits == 1 )
-        CardDeck::self()->setDeckType( 2, QList<Card::Suit>() << Card::Spades
-                                                              << Card::Spades
-                                                              << Card::Spades
-                                                              << Card::Spades );
+        deck = new CardDeck( 2, QList<Card::Suit>() << Card::Spades
+                                                    << Card::Spades
+                                                    << Card::Spades
+                                                    << Card::Spades );
     else if ( m_suits == 2 )
-        CardDeck::self()->setDeckType( 2, QList<Card::Suit>() << Card::Hearts
-                                                              << Card::Spades
-                                                              << Card::Hearts
-                                                              << Card::Spades );
+        deck = new CardDeck( 2, QList<Card::Suit>() << Card::Hearts
+                                                    << Card::Spades
+                                                    << Card::Hearts
+                                                    << Card::Spades );
     else
-        CardDeck::self()->setDeckType( 2 );
+        deck = new CardDeck( 2 );
 }
 
 
@@ -307,8 +310,8 @@ void Spider::setGameOptions(const QString& options)
 
 void Spider::restart()
 {
-    CardDeck::self()->returnAllCards();
-    CardDeck::self()->shuffle( gameNumber() );
+    deck->returnAllCards();
+    deck->shuffle( gameNumber() );
     deal();
     emit newCardsPossible(true);
 }
@@ -389,18 +392,18 @@ void Spider::deal()
     int column = 0;
     // deal face down cards (5 to first 4 piles, 4 to last 6)
     for (int i = 0; i < 44; i++ ) {
-        stack[column]->add(CardDeck::self()->takeCard(), true);
+        stack[column]->add(deck->takeCard(), true);
         column = (column + 1) % 10;
     }
     // deal face up cards, one to each pile
     for (int i = 0; i < 10; i++ ) {
-        stack[column]->add(CardDeck::self()->takeCard(), false);
+        stack[column]->add(deck->takeCard(), false);
         column = (column + 1) % 10;
     }
     // deal the remaining cards into 5 'redeal' piles
     for (int column = 0; column < 5; column++ )
         for (int i = 0; i < 10; i++ )
-            redeals[column]->add(CardDeck::self()->takeCard(), true);
+            redeals[column]->add(deck->takeCard(), true);
 
     // make the redeal piles visible
     for (int i = 0; i < 5; i++ )

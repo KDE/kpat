@@ -81,7 +81,7 @@ Mod3::Mod3( )
     const qreal rightColumX = 8 * dist_x + 0.8;
 
     // This patience uses 2 deck of cards.
-    CardDeck::self()->setDeckType(2);
+    deck = new CardDeck(2);
 
     talon = new Pile(0, "talon");
     talon->setPilePos(rightColumX, bottomRowY);
@@ -175,8 +175,8 @@ bool Mod3::checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) c
 
 void Mod3::restart()
 {
-    CardDeck::self()->returnAllCards();
-    CardDeck::self()->shuffle( gameNumber() );
+    deck->returnAllCards();
+    deck->shuffle( gameNumber() );
     deal();
     emit newCardsPossible(true);
 }
@@ -203,7 +203,7 @@ void Mod3::dealRow(int row)
 void Mod3::deal()
 {
     unmarkAll();
-    CardDeck::self()->takeAllCards(talon);
+    deck->takeAllCards(talon);
 
     for (int r = 0; r < 4; r++)
         dealRow(r);

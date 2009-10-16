@@ -37,6 +37,7 @@
 #include "card.h"
 
 #include "carddeck.h"
+#include "dealer.h"
 #include "pile.h"
 
 #include <KDebug>
@@ -117,12 +118,15 @@ Card::~Card()
 
 void Card::updatePixmap()
 {
-    Q_ASSERT( !CardDeck::self()->cardSize().isNull() );
+    if ( !source() || !source()->dscene() || !source()->dscene()->cardDeck())
+        return;
+
+    CardDeck * deck = source()->dscene()->cardDeck();
 
     if( m_faceup )
-        QGraphicsPixmapItem::setPixmap( CardDeck::self()->frontsidePixmap( m_rank, m_suit ) );
+        QGraphicsPixmapItem::setPixmap( deck->frontsidePixmap( m_rank, m_suit ) );
     else
-        QGraphicsPixmapItem::setPixmap( CardDeck::self()->backsidePixmap() );
+        QGraphicsPixmapItem::setPixmap( deck->backsidePixmap() );
     m_boundingRect = QRectF(QPointF(0,0), pixmap().size());
     m_isSeen = Unknown;
     return;
@@ -590,7 +594,7 @@ QSizeF Card::spread() const
 
 void Card::setSpread(const QSizeF& spread)
 {
-    if (m_spread != spread)
+    if (source() && m_spread != spread)
         source()->tryRelayoutCards();
     m_spread = spread;
 }

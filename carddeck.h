@@ -49,35 +49,30 @@ class CardDeck: public QObject
 {
     Q_OBJECT
 
-private:
-    friend class CardDeckPrivate;
-    explicit CardDeck();
+public:
+    explicit CardDeck( int copies = 1,
+                       QList<Card::Suit> suits = QList<Card::Suit>()
+                                                 << Card::Clubs
+                                                 << Card::Diamonds
+                                                 << Card::Hearts
+                                                 << Card::Spades,
+                       QList<Card::Rank> ranks = QList<Card::Rank>()
+                                                 << Card::Ace
+                                                 << Card::Two
+                                                 << Card::Three
+                                                 << Card::Four
+                                                 << Card::Five
+                                                 << Card::Six
+                                                 << Card::Seven
+                                                 << Card::Eight
+                                                 << Card::Nine
+                                                 << Card::Ten
+                                                 << Card::Jack
+                                                 << Card::Queen
+                                                 << Card::King
+                     );
     virtual ~CardDeck();
 
-public:
-    static CardDeck * self();
-
-    void setDeckType( int copies = 1,
-                      QList<Card::Suit> suits = QList<Card::Suit>()
-                                                << Card::Clubs
-                                                << Card::Diamonds
-                                                << Card::Hearts
-                                                << Card::Spades,
-                      QList<Card::Rank> ranks = QList<Card::Rank>()
-                                                << Card::Ace
-                                                << Card::Two
-                                                << Card::Three
-                                                << Card::Four
-                                                << Card::Five
-                                                << Card::Six
-                                                << Card::Seven
-                                                << Card::Eight
-                                                << Card::Nine
-                                                << Card::Ten
-                                                << Card::Jack
-                                                << Card::Queen
-                                                << Card::King
-                    );
     QList<Card*> cards() const;
 
     bool hasUndealtCards();
@@ -86,7 +81,6 @@ public:
     void returnCard( Card * c );
     void returnAllCards();
     void shuffle( int gameNumber );
-    void clear();
 
     void setCardWidth( int width );
     int cardWidth() const;

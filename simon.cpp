@@ -46,7 +46,7 @@
 Simon::Simon( )
     : DealerScene( )
 {
-    CardDeck::self()->setDeckType();
+    deck = new CardDeck();
 
     const qreal dist_x = 1.11;
 
@@ -76,8 +76,8 @@ Simon::Simon( )
 }
 
 void Simon::restart() {
-    CardDeck::self()->returnAllCards();
-    CardDeck::self()->shuffle( gameNumber() );
+    deck->returnAllCards();
+    deck->shuffle( gameNumber() );
     deal();
 }
 
@@ -86,17 +86,17 @@ void Simon::deal() {
     {
         for (int j = 0; j < piles; j++)
         {
-            Card *c = CardDeck::self()->takeCard();
+            Card *c = deck->takeCard();
             store[j]->add(c, false);
         }
     }
     for ( int j = 0; j < 10; j++ )
     {
-        Card *c = CardDeck::self()->takeCard();
+        Card *c = deck->takeCard();
         store[j]->add(c, false);
     }
 
-    Q_ASSERT(!CardDeck::self()->hasUndealtCards());
+    Q_ASSERT(!deck->hasUndealtCards());
 }
 
 bool Simon::checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const

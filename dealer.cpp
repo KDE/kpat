@@ -408,8 +408,8 @@ void DealerScene::openGame(QDomDocument &doc)
 
     QDomNodeList pileNodes = dealer.elementsByTagName("pile");
 
-    CardDeck::self()->returnAllCards();
-    CardList cards = CardDeck::self()->cards();
+    deck->returnAllCards();
+    CardList cards = deck->cards();
 
     foreach (Pile *p, piles)
     {
@@ -512,10 +512,12 @@ void DealerScene::eraseRedo()
 //                         class DealerScene
 
 
-DealerScene::DealerScene():
+DealerScene::DealerScene()
+  : deck(0),
     _autodrop(true),
     _waiting(0),
-    gamenumber( 0 )
+    gamenumber(0)
+
 {
     setItemIndexMethod(QGraphicsScene::NoIndex);
 
@@ -572,7 +574,7 @@ DealerScene::~DealerScene()
 
     clearHints();
 
-    CardDeck::self()->clear();
+    delete deck;
 
     foreach ( Pile *p, piles )
     {
@@ -1194,23 +1196,20 @@ bool DealerScene::cardDblClicked(Card *c)
 State *DealerScene::getState()
 {
     State * st = new State;
-    foreach (QGraphicsItem *item, items())
+    foreach (Card *c, deck->cards())
     {
-       Card *c = qgraphicsitem_cast<Card*>(item);
-       if (c) {
-           CardState s;
-           s.it = c;
-           s.source = c->source();
-           if (!s.source) {
-               kDebug(11111) << c->rank() << " " << c->suit() << "has no parent\n";
-               assert(false);
-           }
-           s.source_index = c->source()->indexOf(c);
-           s.z = c->realZ();
-           s.faceup = c->realFace();
-           s.tookdown = c->takenDown();
-           st->cards.append(s);
+       CardState s;
+       s.it = c;
+       s.source = c->source();
+       if (!s.source) {
+           kDebug(11111) << c->rank() << " " << c->suit() << "has no parent\n";
+           Q_ASSERT(false);
        }
+       s.source_index = c->source()->indexOf(c);
+       s.z = c->realZ();
+       s.faceup = c->realFace();
+       s.tookdown = c->takenDown();
+       st->cards.append(s);
     }
     qSort(st->cards);
 
@@ -1937,15 +1936,15 @@ void DealerScene::relayoutScene()
     // Add the border to the size of the contents
     QSizeF sizeToFit = usedArea + 2 * QSizeF( d->layoutMargin, d->layoutMargin );
 
-    qreal scaleX = width() / ( CardDeck::self()->cardWidth() * sizeToFit.width() );
-    qreal scaleY = height() / ( CardDeck::self()->cardHeight() * sizeToFit.height() );
+    qreal scaleX = width() / ( deck->cardWidth() * sizeToFit.width() );
+    qreal scaleY = height() / ( deck->cardHeight() * sizeToFit.height() );
     qreal n_scaleFactor = qMin( scaleX, scaleY );
 
-    CardDeck::self()->setCardWidth( n_scaleFactor * CardDeck::self()->cardWidth() );
+    deck->setCardWidth( n_scaleFactor * deck->cardWidth() );
 
     d->contentsRect = QRectF( 0, 0,
-                              usedArea.width() * CardDeck::self()->cardWidth(),
-                              height() - 2 * d->layoutMargin * CardDeck::self()->cardHeight() );
+                              usedArea.width() * deck->cardWidth(),
+                              height() - 2 * d->layoutMargin * deck->cardHeight() );
 
     qreal xOffset = ( width() - d->contentsRect.width() ) / 2.0;
     qreal yOffset = ( height() - d->contentsRect.height() ) / 2.0;
@@ -1963,15 +1962,15 @@ void DealerScene::relayoutPiles()
         return;
 
     QSize s = d->contentsRect.size().toSize();
-    int cardWidth = CardDeck::self()->cardWidth();
-    int cardHeight = CardDeck::self()->cardHeight();
+    int cardWidth = deck->cardWidth();
+    int cardHeight = deck->cardHeight();
     const qreal spacing = d->layoutSpacing * ( cardWidth + cardHeight ) / 2.0;
 
     foreach ( Pile *p, piles )
     {
         p->rescale();
 
-        QSizeF maxSpace = CardDeck::self()->cardSize();
+        QSizeF maxSpace = deck->cardSize();
 
         if ( p->reservedSpace().width() > 1 && s.width() > p->x() + cardWidth )
             maxSpace.setWidth( s.width() - p->x() );
@@ -2069,6 +2068,11 @@ int DealerScene::actions() const { return d->myActions; }
 
 QList<QAction*> DealerScene::configActions() const { return QList<QAction*>(); }
 
+CardDeck* DealerScene::cardDeck() const
+{
+    return deck;
+}
+
 Solver *DealerScene::solver() const { return d->m_solver; }
 
 int DealerScene::neededFutureMoves() const { return d->neededFutureMoves; }
@@ -2091,8 +2095,8 @@ void DealerScene::drawForeground ( QPainter * painter, const QRectF & rect )
     if ( !d->hasScreenRect )
         return;
 
-    const int cardWidth = CardDeck::self()->cardWidth();
-    const int cardHeight = CardDeck::self()->cardHeight();
+    const int cardWidth = deck->cardWidth();
+    const int cardHeight = deck->cardHeight();
     foreach ( const Pile *p, piles )
     {
         if ( !p->isVisible() )

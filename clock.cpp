@@ -45,7 +45,7 @@
 Clock::Clock( )
     : DealerScene( )
 {
-    CardDeck::self()->setDeckType();
+    deck = new CardDeck();
 
     const qreal dist_x = 1.11;
     const qreal ys[12] = {   0./96,  15./96,  52./96, 158./96, 264./96, 301./96, 316./96, 301./96, 264./96, 158./96,  52./96,  15./96};
@@ -75,8 +75,8 @@ Clock::Clock( )
 
 void Clock::restart()
 {
-    CardDeck::self()->returnAllCards();
-    CardDeck::self()->shuffle( gameNumber() );
+    deck->returnAllCards();
+    deck->shuffle( gameNumber() );
     deal();
 }
 
@@ -106,8 +106,8 @@ void Clock::deal() {
                                           Card::Five, Card::Six, Card::Seven, Card::Eight };
 
     int j = 0;
-    while (CardDeck::self()->hasUndealtCards()) {
-        Card *c = CardDeck::self()->takeCard();
+    while (deck->hasUndealtCards()) {
+        Card *c = deck->takeCard();
         for (int i = 0; i < 12; i++)
             if (c->rank() == ranks[i] && c->suit() == suits[i]) {
                 target[i]->add(c, false);

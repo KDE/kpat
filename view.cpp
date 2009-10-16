@@ -90,8 +90,14 @@ void PatienceView::wheelEvent( QWheelEvent *e )
 {
     if ( e->modifiers() & Qt::ControlModifier )
     {
-        qreal scaleFactor = pow((qreal)2, -e->delta() / (10*120.0));
-        CardDeck::self()->setCardWidth( int( CardDeck::self()->cardWidth() / scaleFactor ) );
+        DealerScene * dealer = dynamic_cast<DealerScene*>( scene() );
+        if (dealer)
+        {
+            qreal scaleFactor = pow( 2.0, -e->delta() / (10 * 120.0) );
+            int newWidth = dealer->cardDeck()->cardWidth() / scaleFactor;
+            dealer->cardDeck()->setCardWidth( newWidth );
+            dealer->relayoutPiles();
+        }
     }
 }
 

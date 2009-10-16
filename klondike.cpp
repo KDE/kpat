@@ -63,7 +63,7 @@ void KlondikePile::layoutCards( int duration )
     if ( m_cards.isEmpty() )
         return;
 
-    qreal divx = qMin<qreal>( ( maximumSpace().width() - CardDeck::self()->cardWidth() ) / ( 2 * spread() * CardDeck::self()->cardWidth() ), 1.0 );
+    qreal divx = qMin<qreal>( ( maximumSpace().width() - dscene()->cardDeck()->cardWidth() ) / ( 2 * spread() * dscene()->cardDeck()->cardWidth() ), 1.0 );
 
     QPointF cardPos = pos();
     int z = zValue();
@@ -78,7 +78,7 @@ void KlondikePile::layoutCards( int duration )
         else
         {
             m_cards[i]->moveTo( cardPos.x(), cardPos.y(), z, dscene()->speedUpTime( duration ) );
-            cardPos.rx() += divx * spread() * CardDeck::self()->cardWidth();
+            cardPos.rx() += divx * spread() * dscene()->cardDeck()->cardWidth();
         }
     }
 }
@@ -90,7 +90,7 @@ Klondike::Klondike()
     const qreal hspacing = 1.0 / 6 + 0.02; // horizontal spacing between card piles
     const qreal vspacing = 1.0 / 4; // vertical spacing between card piles
 
-    CardDeck::self()->setDeckType();
+    deck = new CardDeck();
 
     talon = new Pile( 0, "talon" );
     connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
@@ -164,7 +164,7 @@ Card *Klondike::newCards()
         c->stopAnimation();
         // move back to flip
         c->setPos( talon->pos() );
-        c->flipTo( pile->x() + pile->spread() * flipped * CardDeck::self()->cardWidth(), pile->y(), 200 + 80 * ( flipped + 1 ) );
+        c->flipTo( pile->x() + pile->spread() * flipped * deck->cardWidth(), pile->y(), 200 + 80 * ( flipped + 1 ) );
     }
 
     takeState();
@@ -180,8 +180,8 @@ Card *Klondike::newCards()
 
 void Klondike::restart()
 {
-    CardDeck::self()->returnAllCards();
-    CardDeck::self()->shuffle( gameNumber() );
+    deck->returnAllCards();
+    deck->shuffle( gameNumber() );
     redealt = false;
     deal();
 }
@@ -261,8 +261,8 @@ void Klondike::redeal() {
 void Klondike::deal() {
     for(int round=0; round < 7; round++)
         for (int i = round; i < 7; i++ )
-            play[i]->add(CardDeck::self()->takeCard(), i != round && true);
-    CardDeck::self()->takeAllCards(talon);
+            play[i]->add(deck->takeCard(), i != round && true);
+    deck->takeAllCards(talon);
 }
 
 bool Klondike::startAutoDrop()

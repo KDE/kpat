@@ -72,7 +72,7 @@ Fortyeight::Fortyeight( )
     const qreal dist_x = 1.11;
     const qreal smallNeg = -1e-6;
 
-    CardDeck::self()->setDeckType(2);
+    deck = new CardDeck(2);
 
     talon = new Pile(0, "talon");
     talon->setPilePos(smallNeg, smallNeg);
@@ -112,8 +112,8 @@ Fortyeight::Fortyeight( )
 void Fortyeight::restart()
 {
     lastdeal = false;
-    CardDeck::self()->returnAllCards();
-    CardDeck::self()->shuffle( gameNumber() );
+    deck->returnAllCards();
+    deck->shuffle( gameNumber() );
     deal();
     emit newCardsPossible( true );
 }
@@ -179,15 +179,15 @@ void Fortyeight::deal()
         for (int column = 0; column < 8; column++)
         {
             if (false) { // doesn't look
-                stack[column]->add(CardDeck::self()->takeCard(), true);
+                stack[column]->add(deck->takeCard(), true);
                 stack[column]->top()->turn(true);
             } else {
-                stack[column]->add(CardDeck::self()->takeCard(), false);
+                stack[column]->add(deck->takeCard(), false);
             }
         }
     }
 
-    CardDeck::self()->takeAllCards(talon);
+    deck->takeAllCards(talon);
 
     Card *c = talon->top();
     pile->add(c, true);

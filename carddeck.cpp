@@ -46,60 +46,38 @@
 #include <KGlobal>
 #include <KSharedConfig>
 
-class CardDeckPrivate
-{
-public:
-    CardDeck instance;
-};
 
-K_GLOBAL_STATIC( CardDeckPrivate, cdp )
-
-
-CardDeck::CardDeck()
+CardDeck::CardDeck( int copies, QList<Card::Suit> suits, QList<Card::Rank> ranks )
   : m_originalCardSize( 1, 1 ),
     m_currentCardSize( 0, 0 )
 {
     KConfigGroup cs( KGlobal::config(), settings_group );
     updateTheme( cs );
     setCardWidth( cs.readEntry( "CardWidth", 100 ) );
-}
 
-
-CardDeck::~CardDeck()
-{
-    clear();
-}
-
-
-CardDeck * CardDeck::self()
-{
-    return &( cdp->instance );
-}
-
-
-void CardDeck::setDeckType( int copies, QList<Card::Suit> suits, QList<Card::Rank> ranks )
-{
     Q_ASSERT( copies >= 1 );
     Q_ASSERT( suits.size() >= 1 );
     Q_ASSERT( ranks.size() >= 1 );
-
-    // Delete current cards
-    clear();
 
     // Note the order the cards are created in can't be changed as doing so
     // will mess up the game numbering.
     for ( int i = 0; i < copies; ++i )
         foreach ( Card::Rank r, ranks )
             foreach ( Card::Suit s, suits )
-            {
-                Card * c = new Card( r, s );
-                c->updatePixmap();
-                m_allCards << c;
-            }
+                m_allCards << new Card( r, s );
 
     m_undealtCards = m_allCards;
 
     Q_ASSERT( m_allCards.size() == copies * ranks.size() * suits.size() );
+}
+
+
+CardDeck::~CardDeck()
+{
+    returnAllCards();
+    qDeleteAll( m_allCards );
+    m_allCards.clear();
+    m_undealtCards.clear();
 }
 
 
@@ -147,15 +125,6 @@ void CardDeck::returnAllCards()
     m_undealtCards.clear();
     foreach ( Card * c, m_allCards )
         returnCard( c );
-}
-
-
-void CardDeck::clear()
-{
-    returnAllCards();
-    qDeleteAll( m_allCards );
-    m_allCards.clear();
-    m_undealtCards.clear();
 }
 
 

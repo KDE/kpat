@@ -169,14 +169,16 @@ void Pile::rescale()
     if (!scene())
         return;
 
-    QPointF new_pos = QPointF( _pilePos.x() * CardDeck::self()->cardWidth(),
-                               _pilePos.y() * CardDeck::self()->cardHeight() );
+    const QSize cardSize = dscene()->cardDeck()->cardSize();
+
+    QPointF new_pos = QPointF( _pilePos.x() * cardSize.width(),
+                               _pilePos.y() * cardSize.height() );
 
     if ( new_pos.x() < 0 )
-        new_pos.setX( dscene()->contentArea().width() - CardDeck::self()->cardWidth() + new_pos.x() );
+        new_pos.setX( dscene()->contentArea().width() - cardSize.width() + new_pos.x() );
 
     if ( new_pos.y() < 0 )
-        new_pos.setY( dscene()->contentArea().height() - CardDeck::self()->cardHeight() + new_pos.y() );
+        new_pos.setY( dscene()->contentArea().height() - cardSize.height() + new_pos.y() );
 
     if ( new_pos != pos() )
     {
@@ -184,14 +186,13 @@ void Pile::rescale()
         tryRelayoutCards();
     }
 
-    QSize size = CardDeck::self()->cardSize();
     if ( m_graphicVisible )
     {
-        setPixmap( Render::renderElement( isHighlighted() ? "pile_selected" : "pile", size ) );
+        setPixmap( Render::renderElement( isHighlighted() ? "pile_selected" : "pile", cardSize ) );
     }
     else
     {
-        QPixmap blank( size );
+        QPixmap blank( cardSize );
         blank.fill( Qt::transparent );
         setPixmap( blank );
     }
@@ -326,20 +327,23 @@ void Pile::add( Card *_card, int index)
     if (_card->source() == this)
         return;
 
-    dscene()->addItem(_card);
-
-    Pile *source = _card->source();
-    if (source) {
-        _card->setTakenDown(source->target() && !target());
-        source->remove(_card);
-        source->tryRelayoutCards();
-        _card->setVisible( isVisible() );
+    Pile *oldSource = _card->source();
+    if (oldSource)
+    {
+        _card->setTakenDown(oldSource->target() && !target());
+        oldSource->remove(_card);
+        oldSource->tryRelayoutCards();
     }
 
     _card->setSource(this);
+    if (!oldSource) // The card is new to the scene
+    {
+        dscene()->addItem(_card);
+        _card->updatePixmap();
+    }
 
-    QSizeF offset = cardOffset( _card );
-    _card->setSpread( offset );
+    _card->setVisible( isVisible() );
+    _card->setSpread( cardOffset( _card ) );
 
     if (index == -1)
         m_cards.append(_card);
@@ -378,6 +382,8 @@ void Pile::add( Card* _card, bool _facedown )
     if (!_card)
         return;
 
+    const QSize cardSize = dscene()->cardDeck()->cardSize();
+
     // If this pile is visible, then also show the card.
     _card->setVisible(isVisible());
 
@@ -389,8 +395,8 @@ void Pile::add( Card* _card, bool _facedown )
     qreal x2, y2, z2;
     if (t) {
         // kDebug(11111) << "::add" << t->pos() << " " << t->spread() << " " << _card->name() << " " << t->name() << " " << _card->spread();
-        x2 = t->realX() + t->spread().width() * CardDeck::self()->cardWidth();
-        y2 = t->realY() + t->spread().height() * CardDeck::self()->cardHeight();
+        x2 = t->realX() + t->spread().width() * cardSize.width();
+        y2 = t->realY() + t->spread().height() * cardSize.height();
         z2 = t->realZ() + 1;
     } else {
         x2 = x();
@@ -410,7 +416,7 @@ void Pile::add( Card* _card, bool _facedown )
     } else {
         if ( source == 0 && dscene()->isInitialDeal() )
         {
-            _card->setPos(QPointF( x2, 0 - 3 * CardDeck::self()->cardHeight() ) );
+            _card->setPos(QPointF( x2, 0 - 3 * cardSize.height() ) );
         }
         _card->setZValue( z2 );
         qreal distx = x2 - _card->x();
@@ -547,6 +553,8 @@ void Pile::layoutCards(int duration)
     if ( m_cards.isEmpty() )
         return;
 
+    const QSize cardSize = dscene()->cardDeck()->cardSize();
+
     QSizeF preferredSize( 0, 0 );
     for ( int i = 0; i < m_cards.size() - 1; ++i )
     {
@@ -557,19 +565,19 @@ void Pile::layoutCards(int duration)
 
     qreal divx = 1;
     if ( preferredSize.width() )
-        divx = qMin<qreal>( ( maximumSpace().width() - CardDeck::self()->cardWidth() ) / ( preferredSize.width() * CardDeck::self()->cardWidth() ), 1.0 );
+        divx = qMin<qreal>( ( maximumSpace().width() - cardSize.width() ) / ( preferredSize.width() * cardSize.width() ), 1.0 );
 
     qreal divy = 1;
     if ( preferredSize.height() )
-        divy = qMin<qreal>( ( maximumSpace().height() - CardDeck::self()->cardHeight() ) / ( preferredSize.height() * CardDeck::self()->cardHeight() ), 1.0 );
+        divy = qMin<qreal>( ( maximumSpace().height() - cardSize.height() ) / ( preferredSize.height() * cardSize.height() ), 1.0 );
 
     QPointF cardPos = pos();
     qreal z = zValue() + 1;
     foreach ( Card * card, m_cards )
     {
         card->moveTo( cardPos.x(), cardPos.y(), z, dscene()->speedUpTime( duration ) );
-        cardPos.rx() += divx * card->spread().width() * CardDeck::self()->cardWidth();
-        cardPos.ry() += divy * card->spread().height() * CardDeck::self()->cardHeight();
+        cardPos.rx() += divx * card->spread().width() * cardSize.width();
+        cardPos.ry() += divy * card->spread().height() * cardSize.height();
         z += 1;
     }
 }

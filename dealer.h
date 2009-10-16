@@ -39,6 +39,7 @@
 #define DEALER_H
 
 #include "card.h"
+class CardDeck;
 class CardState;
 class DealerScene;
 class MoveHint;
@@ -111,6 +112,7 @@ public:
     int actions() const;
 
     virtual QList<QAction*> configActions() const;
+    CardDeck * cardDeck() const;
 
     void setSolverEnabled(bool a);
     void setSolver( Solver *s);
@@ -211,6 +213,7 @@ protected:
     virtual void newDemoMove(Card *m);
     void considerGameStarted();
 
+    CardDeck * deck;
     PileList piles;
     QList<MoveHint*> hints;
 
