@@ -257,7 +257,11 @@ void MainWindow::enableSolver(bool enable)
     cg.writeEntry("Solver", enable);
     slotGameSolverReset();
     if (m_dealer)
+    {
         m_dealer->setSolverEnabled(enable);
+        if(enable)
+            m_dealer->startSolver();
+    }
 }
 
 void MainWindow::enableRememberState(bool enable)

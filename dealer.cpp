@@ -1311,8 +1311,6 @@ void DealerScene::slotAutoDrop()
 void DealerScene::setSolverEnabled(bool a)
 {
     _usesolver = a;
-    if(_usesolver)
-        startSolver();
 }
 
 bool DealerScene::startAutoDrop()
