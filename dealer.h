@@ -49,8 +49,8 @@ class Solver;
 
 #include <KRandomSequence>
 
-#include <QAction>
-#include <QGraphicsScene>
+#include <QtGui/QAction>
+#include <QtGui/QGraphicsScene>
 class QDomDocument;
 
 

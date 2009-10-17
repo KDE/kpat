@@ -382,6 +382,16 @@ bool Spider::checkPileDeck(Pile *check, bool checkForDemo)
 
 //-------------------------------------------------------------------------//
 
+
+QPointF Spider::randomPos()
+{
+    QRectF rect = sceneRect();
+    qreal x = rect.left() + qreal(KRandom::random()) / RAND_MAX * (rect.width() - deck->cardWidth());
+    qreal y = rect.top() + qreal(KRandom::random()) / RAND_MAX * (rect.height() - deck->cardHeight());
+    return QPointF( x, y );
+}
+
+
 void Spider::deal()
 {
     unmarkAll();
@@ -392,18 +402,18 @@ void Spider::deal()
     int column = 0;
     // deal face down cards (5 to first 4 piles, 4 to last 6)
     for (int i = 0; i < 44; i++ ) {
-        stack[column]->add(deck->takeCard(), true);
+        stack[column]->add(deck->takeCard(), true, randomPos());
         column = (column + 1) % 10;
     }
     // deal face up cards, one to each pile
     for (int i = 0; i < 10; i++ ) {
-        stack[column]->add(deck->takeCard(), false);
+        stack[column]->add(deck->takeCard(), false, randomPos());
         column = (column + 1) % 10;
     }
     // deal the remaining cards into 5 'redeal' piles
     for (int column = 0; column < 5; column++ )
         for (int i = 0; i < 10; i++ )
-            redeals[column]->add(deck->takeCard(), true);
+            redeals[column]->add(deck->takeCard(), true, randomPos());
 
     // make the redeal piles visible
     for (int i = 0; i < 5; i++ )

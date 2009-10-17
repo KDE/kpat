@@ -81,6 +81,7 @@ private:
     CardList getRun(Card *c) const;
     void setSuits(int s);
     void setupDeck();
+    QPointF randomPos();
 
     SpiderPile *stack[10];
     Pile *legs[8];

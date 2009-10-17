@@ -129,12 +129,8 @@ void Golf::restart()
 void Golf::deal()
 {
     for(int i=0;i<5;i++)
-    {
         for(int r=0;r<7;r++)
-        {
-            stack[r]->add(deck->takeCard(),false);
-        }
-    }
+            stack[r]->add(deck->takeCard(),false,stack[6]->pos());
 
     deck->takeAllCards(talon);
 

@@ -105,7 +105,11 @@ Card* CardDeck::takeCard()
 void CardDeck::takeAllCards( Pile * p )
 {
     while ( !m_undealtCards.isEmpty() )
-        p->add( m_undealtCards.takeFirst(), true );
+    {
+        Card * c = m_undealtCards.takeFirst();
+        c->setPos( p->pos() );
+        p->add( c, true );
+    }
 }
 
 

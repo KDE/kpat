@@ -105,17 +105,20 @@ void Clock::deal() {
                                           Card::King, Card::Two, Card::Three, Card::Four,
                                           Card::Five, Card::Six, Card::Seven, Card::Eight };
 
+    const QPointF center = ( target[0]->pos() + target[6]->pos() ) / 2;
+
     int j = 0;
     while (deck->hasUndealtCards()) {
         Card *c = deck->takeCard();
         for (int i = 0; i < 12; i++)
             if (c->rank() == ranks[i] && c->suit() == suits[i]) {
-                target[i]->add(c, false);
+                QPointF initPos = (2 * center + target[(i + 2) % 12]->pos()) / 3;
+                target[i]->add(c, false, initPos);
                 c = 0;
                 break;
             }
         if (c)
-            store[j++]->add(c, false);
+            store[j++]->add(c, false, store[ j < 4 ? 0 : 4 ]->pos());
         if (j == 8)
             j = 0;
     }

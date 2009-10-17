@@ -377,26 +377,17 @@ QSizeF Pile::cardOffset( const Card *card ) const
 }
 
 /* override cardtype (for initial deal ) */
-void Pile::add( Card* _card, bool _facedown )
+void Pile::add( Card* _card, bool _facedown, QPointF startPos )
 {
     if (!_card)
         return;
 
-    const QSize cardSize = dscene()->cardDeck()->cardSize();
-
-    // If this pile is visible, then also show the card.
-    _card->setVisible(isVisible());
-
-    _card->turn( !_facedown );
-
     // The top card
     Card *t = top();
-
     qreal x2, y2, z2;
     if (t) {
-        // kDebug(11111) << "::add" << t->pos() << " " << t->spread() << " " << _card->name() << " " << t->name() << " " << _card->spread();
-        x2 = t->realX() + t->spread().width() * cardSize.width();
-        y2 = t->realY() + t->spread().height() * cardSize.height();
+        x2 = t->realX() + t->spread().width() * dscene()->cardDeck()->cardWidth();
+        y2 = t->realY() + t->spread().height() * dscene()->cardDeck()->cardHeight();
         z2 = t->realZ() + 1;
     } else {
         x2 = x();
@@ -404,32 +395,22 @@ void Pile::add( Card* _card, bool _facedown )
         z2 = zValue() + 1;
     }
 
-    Pile *source = _card->source();
-
     add(_card);
+    _card->turn( !_facedown );
+    _card->setZValue( z2 );
+    if ( startPos != QPointF( -1, -1 ) )
+        _card->setPos( startPos );
 
-    bool face = _facedown;
+    qreal distx = x2 - _card->x();
+    qreal disty = y2 - _card->y();
+    qreal dist = sqrt( distx * distx + disty * disty );
+    qreal whole = sqrt( scene()->width() * scene()->width() + scene()->height() * scene()->height() );
+    _card->moveTo(x2, y2, z2, qRound( dist * DURATION_DEAL / whole ) );
 
-    if (face || !isVisible()) {
-        _card->setPos( QPointF( x2, y2 ) );
-        _card->setZValue( z2 );
-    } else {
-        if ( source == 0 && dscene()->isInitialDeal() )
-        {
-            _card->setPos(QPointF( x2, 0 - 3 * cardSize.height() ) );
-        }
-        _card->setZValue( z2 );
-        qreal distx = x2 - _card->x();
-        qreal disty = y2 - _card->y();
-        qreal dist = sqrt( distx * distx + disty * disty );
-        qreal whole = sqrt( scene()->width() * scene()->width() + scene()->height() * scene()->height() );
-        _card->moveTo(x2, y2, z2, qRound( dist * 1000 / whole ) );
-
-        if ( _card->animated() )
-        {
-            dscene()->setWaiting( true );
-            connect(_card, SIGNAL(stopped(Card*)), SLOT(waitForMoving(Card*)));
-        }
+    if ( _card->animated() )
+    {
+        dscene()->setWaiting( true );
+        connect(_card, SIGNAL(stopped(Card*)), SLOT(waitForMoving(Card*)));
     }
 }
 

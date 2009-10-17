@@ -72,13 +72,15 @@ Yukon::Yukon( )
     setNeededFutureMoves( 10 ); // it's a bit hard to judge as there are so many nonsense moves
 }
 
-void Yukon::restart() {
+void Yukon::restart()
+{
     deck->returnAllCards();
     deck->shuffle( gameNumber() );
     deal();
 }
 
-void Yukon::deal() {
+void Yukon::deal()
+{
     for (int round = 0; round < 11; round++)
     {
         for (int j = 0; j < 7; j++)
@@ -92,7 +94,7 @@ void Yukon::deal() {
                 doit = (round < j + 5);
             }
             if (doit)
-                store[j]->add(deck->takeCard(), round < j && j != 0);
+                store[j]->add(deck->takeCard(), round < j && j != 0, store[j]->pos() + QPointF(0, ((7-j/3.0)+round)* deck->cardHeight()));
         }
     }
 }

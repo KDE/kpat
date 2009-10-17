@@ -517,7 +517,6 @@ DealerScene::DealerScene()
     _autodrop(true),
     _waiting(0),
     gamenumber(0)
-
 {
     setItemIndexMethod(QGraphicsScene::NoIndex);
 

@@ -112,6 +112,8 @@ Card *Grandf::newCards()
 }
 
 void Grandf::deal() {
+    QPointF initPos( 1.4 * 3 * deck->cardWidth(), 1.2 * deck->cardHeight() );
+
     int start = 0;
     int stop = 7-1;
     int dir = 1;
@@ -123,7 +125,7 @@ void Grandf::deal() {
         {
             Card *next = deck->takeCard();
             if (next)
-                store[i]->add(next, i != start);
+                store[i]->add(next, i != start, initPos);
             i += dir;
         } while ( i != stop + dir);
         int t = start;
@@ -136,7 +138,7 @@ void Grandf::deal() {
     Card *next = deck->takeCard();
     while (next)
     {
-        store[i+1]->add(next, false);
+        store[i+1]->add(next, false, initPos);
         next = deck->takeCard();
         i = (i+1)%6;
     }

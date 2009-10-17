@@ -412,7 +412,7 @@ void Freecell::deal()
     while (deck->hasUndealtCards())
     {
         Card *c = deck->takeCard();
-        store[column]->add (c, false);
+        store[column]->add(c, false, store[0]->pos());
         column = (column + 1) % 8;
     }
 }
