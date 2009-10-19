@@ -185,21 +185,20 @@ int main( int argc, char **argv )
                          ki18n("Cleanup and polish"),
                          "parker.coates@gmail.com" );
 
-    // Create a KComponentData earlier than normal so that we can use i18n to translate
+    // Create a KLocale earlier than normal so that we can use i18n to translate
     // the names of the game types in the help text.
-    KComponentData componentData(&aboutData);
-    KGlobal::locale()->insertCatalog("libkdegames");
-
+    KLocale *tmpLocale = new KLocale("kpat");
     QMap<QString, int> indexMap;
     QStringList gameList;
     foreach ( const DealerInfo *di, DealerInfoList::self()->games() )
     {
-        const QString translatedKey = lowerAlphaNum( i18n( di->name() ) );
+        const QString translatedKey = lowerAlphaNum( ki18n( di->name() ).toString(tmpLocale) );
         gameList << translatedKey;
         indexMap.insert( translatedKey, di->ids().first() );
         indexMap.insert( lowerAlphaNum( QString( di->name() ) ), di->ids().first() );
     }
     gameList.sort();
+    delete tmpLocale;
 
     KCmdLineArgs::init( argc, argv, &aboutData );
 
@@ -214,6 +213,7 @@ int main( int argc, char **argv )
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
 
     KApplication application;
+    KGlobal::locale()->insertCatalog("libkdegames");
 
     QString savegame = args->getOption( "solvegame" );
     if ( !savegame.isEmpty() )
