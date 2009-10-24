@@ -42,6 +42,8 @@
 
 #include <KDebug>
 
+#include <QtCore/QParallelAnimationGroup>
+#include <QtCore/QPropertyAnimation>
 #include <QtCore/QTimeLine>
 #include <QtGui/QGraphicsItemAnimation>
 #include <QtGui/QGraphicsScene>
@@ -49,8 +51,6 @@
 #include <QtGui/QPainter>
 #include <QtGui/QPixmap>
 #include <QtGui/QStyleOptionGraphicsItem>
-
-#include <cmath>
 
 
 AbstractCard::AbstractCard( Rank r, Suit s )
@@ -137,12 +137,39 @@ void Card::turn( bool _faceup )
         m_destFace = _faceup;
         updatePixmap();
     }
+    m_flippedness = 1;
 }
 
 void Card::flip()
 {
     turn( !m_faceup );
 }
+
+void Card::setFlippedness( qreal flippedness )
+{
+    if ( flippedness == m_flippedness )
+        return;
+
+    if ( ( flippedness >= 0.5 && m_flippedness < 0.5 )
+         || ( flippedness <= 0.5 && m_flippedness > 0.5 ) )
+    {
+        m_faceup = m_destFace;
+        updatePixmap();
+    }
+
+    m_flippedness = flippedness;
+
+    qreal xOffset = pixmap().width() * ( 0.5 - qAbs( flippedness - 0.5 ) );
+    qreal xScale = qAbs( 2 * flippedness - 1 );
+
+    setTransform( QTransform().translate( xOffset, 0 ).scale( xScale, 1 ) );
+}
+
+qreal Card::flippedness() const
+{
+    return m_flippedness;
+}
+
 
 // Return the X of the cards real position.  This is the destination
 // of the animation if animated, and the current X otherwise.
@@ -205,41 +232,35 @@ void Card::setZValue(qreal z)
 // 'steps' is the number of steps the animation should take.
 void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
 {
-    if ( fabs( x2 - x() ) < 2 && fabs( y2 - y() ) < 1 )
+    stopAnimation();
+
+    if ( qAbs( x2 - x() ) < 2 && qAbs( y2 - y() ) < 1 )
     {
         setPos( QPointF( x2, y2 ) );
         setZValue( z2 );
         return;
     }
-    stopAnimation();
 
-    QTimeLine *timeLine = new QTimeLine( 1000, this );
+    QPropertyAnimation * an = new QPropertyAnimation(this, "pos");
+    an->setDuration( duration );
+    an->setKeyValueAt( 0, pos() );
+    an->setKeyValueAt( 1, QPointF( x2, y2 ));
+    animation = an;
 
-    animation = new QGraphicsItemAnimation(this);
-    animation->setItem(this);
-    animation->setTimeLine(timeLine);
-    animation->setPosAt(0, pos() );
-    animation->setPosAt(1, QPointF( x2, y2 ));
-
-    timeLine->setUpdateInterval(1000 / 25);
-    timeLine->setFrameRange(0, 100);
-    timeLine->setCurveShape(QTimeLine::LinearCurve);
-    timeLine->setLoopCount(1);
-    timeLine->setDuration( duration );
-    timeLine->start();
-
-    connect( timeLine, SIGNAL(finished()), SLOT(stopAnimation()) );
+    connect( animation, SIGNAL(finished()), SLOT(stopAnimation()) );
 
     m_destX = x2;
     m_destY = y2;
     m_destZ = z2;
 
-    if (fabs( x2 - x() ) < 1 && fabs( y2 - y() ) < 1) {
+    if (qAbs( x2 - x() ) < 1 && qAbs( y2 - y() ) < 1) {
         setZValue(z2);
         return;
     }
     // if ( fabs( z2 - zValue() ) >= 1 )
         setZValue(Hz++);
+
+    animation->start();
 }
 
 // Animate a move to (x2, y2), and at the same time flip the card.
@@ -247,59 +268,34 @@ void Card::flipTo(qreal x2, qreal y2, int duration)
 {
     stopAnimation();
 
-    qreal  x1 = x();
-    qreal  y1 = y();
+    QPropertyAnimation * flip = new QPropertyAnimation( this, "flippedness" );
+    flip->setKeyValueAt( 0, isFaceUp() ? 1 : 0 );
+    flip->setKeyValueAt( 1, isFaceUp() ? 0 : 1 );
+    flip->setDuration( duration );
 
-    QTimeLine *timeLine = new QTimeLine( 1000, this );
+    QPropertyAnimation * slide = new QPropertyAnimation( this, "pos" );
+    slide->setKeyValueAt( 0, pos() );
+    slide->setKeyValueAt( 1, QPointF( x2, y2 ) );
+    slide->setDuration( duration );
 
-    animation = new QGraphicsItemAnimation( this );
-    animation->setItem(this);
-    animation->setTimeLine(timeLine);
-    animation->setScaleAt( 0, 1, 1 );
-    animation->setScaleAt( 0.5, 0.0, 1 );
-    animation->setScaleAt( 1, 1, 1 );
-
-    QPointF hp = pos();
-    hp.setX( ( x1 + x2 + boundingRect().width() ) / 2 );
-    if ( fabs( y1 - y2) > 2 )
-        hp.setY( ( y1 + y2 + boundingRect().height() ) / 20 );
-    else
-        // Workaround to bug 194775, pending a fix to Qt issue #255469. This
-        // adds a bit of arc to the flip animation, to avoid clipping that
-        // can occur during purely horizontal transformations/translations.
-        hp.ry() -= 5;
-
-    animation->setPosAt(0.5, hp );
-    animation->setPosAt(1, QPointF( x2, y2 ));
-
-    timeLine->setUpdateInterval(1000 / 25);
-    timeLine->setFrameRange(0, 100);
-    timeLine->setLoopCount(1);
-    timeLine->setDuration( duration );
-    timeLine->start();
-
-    connect( timeLine, SIGNAL(finished()), SLOT(stopAnimation()) );
-    connect( timeLine, SIGNAL(valueChanged(qreal)), SLOT(flipAnimationChanged(qreal)) );
+    QParallelAnimationGroup * aniGroup = new QParallelAnimationGroup( this );
+    aniGroup->addAnimation( flip );
+    aniGroup->addAnimation( slide );
+    animation = aniGroup;
+    connect( animation, SIGNAL(finished()), SLOT(stopAnimation()) );
 
     // Set the target of the animation
     m_destX = x2;
     m_destY = y2;
     m_destZ = zValue();
+    m_destFace = !m_faceup;
 
     // Let the card be above all others during the animation.
     setZValue(Hz++);
 
-    m_destFace = !m_faceup;
+    animation->start();
 }
 
-
-void Card::flipAnimationChanged( qreal r)
-{
-    if ( r > 0.5 && !isFaceUp() ) {
-        flip();
-        Q_ASSERT( m_destFace == m_faceup );
-    }
-}
 
 void Card::setTakenDown(bool td)
 {
@@ -324,12 +320,12 @@ void Card::stopAnimation()
     if ( !animation )
         return;
 
-    QGraphicsItemAnimation *old_animation = animation;
+    if ( animation->state() != QAbstractAnimation::Stopped )
+        animation->setCurrentTime( animation->duration() );
+
+    delete animation;
     animation = 0;
-    if ( old_animation->timeLine()->state() == QTimeLine::Running )
-        old_animation->timeLine()->setCurrentTime(old_animation->timeLine()->duration() + 1);
-    old_animation->timeLine()->stop();
-    old_animation->deleteLater();
+
     setPos( QPointF( m_destX, m_destY ) );
     setZValue( m_destZ );
     if ( source() )
@@ -374,83 +370,87 @@ void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ev )
 // Get the card to the top.
 void Card::getUp()
 {
-    QTimeLine *timeLine = new QTimeLine( 1000, this );
-
-    animation = new QGraphicsItemAnimation( this );
-    animation->setItem(this);
-    animation->setTimeLine(timeLine);
-
-    timeLine->setDuration( 1500 );
-    timeLine->start();
-
-    connect( timeLine, SIGNAL(finished()), SLOT(stopAnimation()) );
+    QPropertyAnimation * an = new QPropertyAnimation(this, "pos");
+    an->setDuration( 1500 );
+    animation = an;
+    connect( animation, SIGNAL(finished()), SLOT(stopAnimation()) );
 
     m_destZ = zValue();
     m_destX = x();
     m_destY = y();
     setZValue(Hz+1);
+
+    animation->start();
 }
 
-void Card::zoomIn(int t)
+void Card::zoomIn( int duration )
 {
-    QTimeLine *timeLine = new QTimeLine( t, this );
     m_originalPosition = pos();
+    QPointF dest( pos().x() + boundingRect().width() / 3,
+                  pos().y() - boundingRect().height() / 4 );
 
-    animation = new QGraphicsItemAnimation( this );
-    animation->setItem( this );
-    animation->setTimeLine( timeLine );
-    QPointF dest =  QPointF( pos().x() + boundingRect().width() / 3,
-                             pos().y() - boundingRect().height() / 4 );
-    animation->setPosAt( 1, dest );
-    animation->setScaleAt( 1, 1.1, 1.1 );
-    animation->setRotationAt( 1, 20 );
-    //qreal x2 = pos().x() + boundingRect().width() / 2 - boundingRect().width() * 1.1 / 2;
-    //qreal y2 = pos().y() + boundingRect().height() / 2 - boundingRect().height() * 1.1 / 2;
-    //animation->setScaleAt( 1, 1, 1 );
+    QPropertyAnimation * zoom = new QPropertyAnimation( this, "scale" );
+    zoom->setKeyValueAt( 0, 1.0 );
+    zoom->setKeyValueAt( 1, 1.1 );
+    zoom->setDuration( duration );
 
-    timeLine->setUpdateInterval( 1000 / 25 );
-    timeLine->setFrameRange( 0, 100 );
-    timeLine->setLoopCount( 1 );
-    timeLine->start();
+    QPropertyAnimation * rotate = new QPropertyAnimation( this, "rotation" );
+    rotate->setKeyValueAt( 0, 0 );
+    rotate->setKeyValueAt( 1, 20 );
+    rotate->setDuration( duration );
+
+    QPropertyAnimation * slide = new QPropertyAnimation( this, "pos" );
+    slide->setKeyValueAt( 0, pos() );
+    slide->setKeyValueAt( 1, dest );
+    slide->setDuration( duration );
+
+    QParallelAnimationGroup * aniGroup = new QParallelAnimationGroup( this );
+    aniGroup->addAnimation( zoom );
+    aniGroup->addAnimation( rotate );
+    aniGroup->addAnimation( slide );
+    animation = aniGroup;
+    connect( animation, SIGNAL(finished()), SLOT(stopAnimation()) );
 
     m_isZoomed = true;
-
-    connect( timeLine, SIGNAL(finished()), SLOT(stopAnimation()) );
 
     m_destZ = zValue();
     m_destX = dest.x();
     m_destY = dest.y();
+
+    animation->start();
 }
 
-void Card::zoomOut(int t)
+void Card::zoomOut( int duration )
 {
-    QTimeLine *timeLine = new QTimeLine( t, this );
+    QPropertyAnimation * zoom = new QPropertyAnimation( this, "scale" );
+    zoom->setKeyValueAt( 0, 1.1 );
+    zoom->setKeyValueAt( 1, 1.0 );
+    zoom->setDuration( duration );
 
-    animation = new QGraphicsItemAnimation( this );
-    animation->setItem(this);
-    animation->setTimeLine(timeLine);
-    animation->setRotationAt( 0, 20 );
-    animation->setRotationAt( 0.5, 10 );
-    animation->setRotationAt( 1, 0 );
-    animation->setScaleAt( 0, 1.1, 1.1 );
-    animation->setScaleAt( 1, 1.0, 1.0 );
-    animation->setPosAt( 1, m_originalPosition );
-    //qreal x2 = pos().x() + boundingRect().width() / 2 - boundingRect().width() * 1.1 / 2;
-    //qreal y2 = pos().y() + boundingRect().height() / 2 - boundingRect().height() * 1.1 / 2;
-    //animation->setScaleAt( 1, 1, 1 );
+    QPropertyAnimation * rotate = new QPropertyAnimation( this, "rotation" );
+    rotate->setKeyValueAt( 0, 20 );
+    rotate->setKeyValueAt( 1, 0 );
+    rotate->setDuration( duration );
 
-    timeLine->setUpdateInterval(1000 / 25);
-    timeLine->setFrameRange(0, 100);
-    timeLine->setLoopCount(1);
-    timeLine->start();
+    QPropertyAnimation * slide = new QPropertyAnimation( this, "pos" );
+    slide->setKeyValueAt( 0, pos() );
+    slide->setKeyValueAt( 1, m_originalPosition );
+    slide->setDuration( duration );
+
+    QParallelAnimationGroup * aniGroup = new QParallelAnimationGroup( this );
+    aniGroup->addAnimation( zoom );
+    aniGroup->addAnimation( rotate );
+    aniGroup->addAnimation( slide );
+    animation = aniGroup;
+    connect( animation, SIGNAL(finished()), SLOT(stopAnimation()) );
 
     m_isZoomed = false;
-
-    connect( timeLine, SIGNAL(finished()), SLOT(stopAnimation()) );
 
     m_destZ = zValue();
     m_destX = m_originalPosition.x();
     m_destY = m_originalPosition.y();
+
+    animation->start();
 }
 
 void Card::zoomInAnimation()
@@ -478,18 +478,6 @@ void Card::setSpread(const QSizeF& spread)
     if (source() && m_spread != spread)
         source()->tryRelayoutCards();
     m_spread = spread;
-}
-
-bool Card::collidesWithItem ( const QGraphicsItem * other,
-                              Qt::ItemSelectionMode mode ) const
-{
-    if ( this == other )
-        return true;
-    const Card *othercard = dynamic_cast<const Card*>( other );
-    if ( !othercard )
-        return QGraphicsPixmapItem::collidesWithItem( other, mode );
-    bool col = sceneBoundingRect().intersects( othercard->sceneBoundingRect() );
-    return col;
 }
 
 QString gettime()

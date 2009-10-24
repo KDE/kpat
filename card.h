@@ -44,6 +44,7 @@ class Card;
 class QGraphicsItemAnimation;
 #include <QtGui/QGraphicsPixmapItem>
 class QGraphicsScene;
+class QAbstractAnimation;
 
 
 // A list of cards.  Used in many places.
@@ -81,6 +82,10 @@ protected:
 
 class Card: public QObject, public AbstractCard, public QGraphicsPixmapItem {
     Q_OBJECT
+    Q_PROPERTY( QPointF pos READ pos WRITE setPos )
+    Q_PROPERTY( qreal rotation READ rotation WRITE setRotation )
+    Q_PROPERTY( qreal scale READ scale WRITE setScale )
+    Q_PROPERTY( qreal flippedness READ flippedness WRITE setFlippedness )
 
 public:
     Card( Rank r, Suit s );
@@ -122,8 +127,8 @@ public:
     QSizeF spread() const;
     void  setSpread(const QSizeF& spread);
 
-    virtual bool collidesWithItem ( const QGraphicsItem * other,
-                                    Qt::ItemSelectionMode mode ) const;
+    void         setFlippedness( qreal flippedness );
+    qreal        flippedness() const;
 
 signals:
     void       stopped(Card *c);
@@ -131,17 +136,17 @@ signals:
 public slots:
     void       updatePixmap();
     void       flip();
-    void       flipAnimationChanged( qreal );
     void       stopAnimation();
     void       zoomInAnimation();
     void       zoomOutAnimation();
 
 private:
-    void       zoomIn(int t);
-    void       zoomOut(int t);
+    void       zoomIn( int duration );
+    void       zoomOut( int duration );
 
     // Grapics properties.
     bool        m_destFace;
+    qreal       m_flippedness;
     Pile       *m_source;
 
     bool        tookDown;
@@ -156,16 +161,12 @@ private:
     // The maximum Z ever used.
     static qreal  Hz;
 
-    QGraphicsItemAnimation *animation;
+    QAbstractAnimation *animation;
 
     QRectF    m_boundingRect;
     QPointF   m_originalPosition;
     bool      m_highlighted;
     bool      m_isZoomed;
-
-    // do not use
-    void moveBy( qreal, qreal );
-    QList<Card*> m_hiddenCards;
 };
 
 #include <sys/time.h>
