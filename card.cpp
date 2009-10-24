@@ -63,7 +63,7 @@ AbstractCard::AbstractCard( Rank r, Suit s )
 Card::Card( Rank r, Suit s )
     : QObject(), AbstractCard( r, s ), QGraphicsPixmapItem(),
       m_source(0), tookDown(false), animation( 0 ),
-      m_highlighted( false ), m_isZoomed( false ), m_isSeen( Unknown )
+      m_highlighted( false ), m_isZoomed( false )
 {
     setShapeMode( QGraphicsPixmapItem::BoundingRectShape );
     setTransformationMode( Qt::SmoothTransformation );
@@ -109,17 +109,27 @@ void Card::updatePixmap()
     CardDeck * deck = source()->dscene()->cardDeck();
 
     if( m_faceup )
-        QGraphicsPixmapItem::setPixmap( deck->frontsidePixmap( m_rank, m_suit ) );
+    {
+        QPixmap pix = deck->frontsidePixmap( m_rank, m_suit );
+        if ( m_highlighted )
+        {
+            QPainter p( &pix );
+            p.setCompositionMode( QPainter::CompositionMode_SourceAtop );
+            p.setOpacity( 0.5 );
+            p.fillRect( 0, 0, pix.width(), pix.height(), Qt::black );
+        }
+        setPixmap( pix );
+    }
     else
-        QGraphicsPixmapItem::setPixmap( deck->backsidePixmap() );
-    m_boundingRect = QRectF(QPointF(0,0), pixmap().size());
-    m_isSeen = Unknown;
-    return;
+    {
+        setPixmap( deck->backsidePixmap() );
+    }
+
+    m_boundingRect = QRectF( QPointF( 0, 0 ), pixmap().size() );
 }
 
 // Turn the card if necessary.  If the face gets turned up, the card
 // is activated at the same time.
-//
 void Card::turn( bool _faceup )
 {
     if (m_faceup != _faceup ) {
@@ -136,7 +146,6 @@ void Card::flip()
 
 // Return the X of the cards real position.  This is the destination
 // of the animation if animated, and the current X otherwise.
-//
 qreal Card::realX() const
 {
     if (animated())
@@ -148,7 +157,6 @@ qreal Card::realX() const
 
 // Return the Y of the cards real position.  This is the destination
 // of the animation if animated, and the current Y otherwise.
-//
 qreal Card::realY() const
 {
     if (animated())
@@ -160,7 +168,6 @@ qreal Card::realY() const
 
 // Return the > of the cards real position.  This is the destination
 // of the animation if animated, and the current Z otherwise.
-//
 qreal Card::realZ() const
 {
     if (animated())
@@ -175,8 +182,6 @@ qreal Card::realZ() const
 // This is the destination of the animation if animated and animation
 // is more than half way, the original if animated and animation is
 // less than half way, and the current "face up" status otherwise.
-//
-
 bool Card::realFace() const
 {
     return m_destFace;
@@ -198,19 +203,15 @@ void Card::setZValue(qreal z)
 // Start a move of the card using animation.
 //
 // 'steps' is the number of steps the animation should take.
-//
 void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
 {
-    //kDebug(11111) << "Card::moveTo" << x2 << " " << y2 << " " << duration << " " << kBacktrace();
     if ( fabs( x2 - x() ) < 2 && fabs( y2 - y() ) < 1 )
     {
         setPos( QPointF( x2, y2 ) );
         setZValue( z2 );
-        m_isSeen = Unknown;
         return;
     }
     stopAnimation();
-    m_isSeen = CardVisible; // avoid surprises
 
     QTimeLine *timeLine = new QTimeLine( 1000, this );
 
@@ -242,7 +243,6 @@ void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
 }
 
 // Animate a move to (x2, y2), and at the same time flip the card.
-//
 void Card::flipTo(qreal x2, qreal y2, int duration)
 {
     stopAnimation();
@@ -306,37 +306,17 @@ void Card::setTakenDown(bool td)
     tookDown = td;
 }
 
-void Card::testVisibility()
-{
-    // check if we can prove we're not visible
-    QList<QGraphicsItem *> list = scene()->items( mapToScene( m_boundingRect ), Qt::ContainsItemBoundingRect );
-    for ( QList<QGraphicsItem*>::Iterator it = list.begin(); it != list.end(); ++it )
-    {
-        Card *c = dynamic_cast<Card*>( *it );
-        if ( !c )
-            continue;
-        if ( c == this )
-        {
-            m_isSeen = CardVisible;
-            return;
-        }
-
-        //kDebug(11111) << c->name() << "covers" << name() << " " << c->mapToScene( c->boundingRect() ).boundingRect() << " " << mapToScene( boundingRect() ).boundingRect() << " " << zValue() << " " << c->zValue();
-        c->m_hiddenCards.append( this );
-        m_isSeen = CardHidden;
-        return;
-    }
-    m_isSeen = CardVisible;
-}
-
 bool Card::takenDown() const
 {
     return tookDown;
 }
 
 void Card::setHighlighted( bool flag ) {
-    m_highlighted = flag;
-    update();
+    if ( m_highlighted != flag )
+    {
+        m_highlighted = flag;
+        updatePixmap();
+    }
 }
 
 void Card::stopAnimation()
@@ -344,7 +324,6 @@ void Card::stopAnimation()
     if ( !animation )
         return;
 
-    //kDebug(11111) << gettime() << "stopAnimation" << name();
     QGraphicsItemAnimation *old_animation = animation;
     animation = 0;
     if ( old_animation->timeLine()->state() == QTimeLine::Running )
@@ -356,7 +335,6 @@ void Card::stopAnimation()
     if ( source() )
         setSpread( source()->cardOffset(this) );
 
-    m_isSeen = Unknown;
     emit stopped( this );
 }
 
@@ -376,7 +354,6 @@ void Card::mousePressEvent ( QGraphicsSceneMouseEvent *ev )
     {
         stopAnimation();
         zoomIn(400);
-        m_isSeen = CardVisible;
     }
 }
 
@@ -391,12 +368,10 @@ void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ev )
     {
         stopAnimation();
         zoomOut(400);
-        m_isSeen = CardVisible;
     }
 }
 
 // Get the card to the top.
-
 void Card::getUp()
 {
     QTimeLine *timeLine = new QTimeLine( 1000, this );
@@ -414,49 +389,6 @@ void Card::getUp()
     m_destX = x();
     m_destY = y();
     setZValue(Hz+1);
-}
-
-void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-                 QWidget *)
-{
-    if ( m_isSeen == Unknown )
-        testVisibility();
-    if ( m_isSeen == CardHidden )
-        return;
-
-    painter->save();
-//    painter->setRenderHint(QPainter::Antialiasing);
-    //painter->setRenderHint(QPainter::SmoothPixmapTransform);
-    if (scene()->mouseGrabberItem() == this) {
-        //painter->setOpacity(.8);
-    }
-    QRectF exposed = option->exposedRect;
-//    exposed = exposed.adjusted(-1, -1, 2, 2);
-    Q_ASSERT( !pixmap().isNull() );
-
-    //painter->drawPixmap(exposed, pixmap(), exposed );
-    //kDebug(11111) << "exposed" << exposed;
-
-    painter->drawPixmap( QPointF( 0, 0 ), pixmap() );
-
-    if ( isHighlighted() ) {
-        painter->setRenderHint( QPainter::SmoothPixmapTransform, true );
-        painter->setRenderHint( QPainter::Antialiasing, true );
-
-        painter->setCompositionMode(QPainter::CompositionMode_SourceOver );
-        QPixmap pix(pixmap().size());
-        pix.fill(Qt::black);
-
-        QPixmap shadow = pixmap();
-        QPainter px(&shadow);
-        px.setCompositionMode(QPainter::CompositionMode_SourceAtop);
-        px.drawPixmap(0, 0, pix);
-        px.end();
-        painter->setOpacity(.5);
-
-        painter->drawPixmap(exposed, shadow, exposed );
-    }
-    painter->restore();
 }
 
 void Card::zoomIn(int t)
@@ -546,18 +478,6 @@ void Card::setSpread(const QSizeF& spread)
     if (source() && m_spread != spread)
         source()->tryRelayoutCards();
     m_spread = spread;
-}
-
-void Card::setPos( const QPointF &pos )
-{
-    QGraphicsPixmapItem::setPos( pos );
-    m_isSeen = Unknown;
-    for ( QList<Card*>::Iterator it = m_hiddenCards.begin();
-          it != m_hiddenCards.end(); ++it )
-    {
-        ( *it )->m_isSeen = Unknown;
-    }
-    m_hiddenCards.clear();
 }
 
 bool Card::collidesWithItem ( const QGraphicsItem * other,

@@ -116,21 +116,14 @@ public:
 
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
     virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event );
-    virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
-                       QWidget *widget = 0);
 
     virtual QRectF boundingRect () const;
 
     QSizeF spread() const;
     void  setSpread(const QSizeF& spread);
 
-    // overload to move shadow
-    void setPos(const QPointF &pos);
     virtual bool collidesWithItem ( const QGraphicsItem * other,
                                     Qt::ItemSelectionMode mode ) const;
-
-    enum VisibleState { CardVisible, CardHidden, Unknown };
-    void setIsSeen( VisibleState is );
 
 signals:
     void       stopped(Card *c);
@@ -146,7 +139,6 @@ public slots:
 private:
     void       zoomIn(int t);
     void       zoomOut(int t);
-    void       testVisibility();
 
     // Grapics properties.
     bool        m_destFace;
@@ -170,10 +162,8 @@ private:
     QPointF   m_originalPosition;
     bool      m_highlighted;
     bool      m_isZoomed;
-    VisibleState  m_isSeen;
 
     // do not use
-    void setPos( qreal, qreal );
     void moveBy( qreal, qreal );
     QList<Card*> m_hiddenCards;
 };
