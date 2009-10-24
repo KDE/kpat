@@ -136,6 +136,7 @@ void Golf::deal()
 
     Card *c = talon->top();
     waste->add(c, false);
+    c->stopAnimation();
     qreal x = c->x();
     qreal y = c->y();
     c->setPos( talon->pos() );

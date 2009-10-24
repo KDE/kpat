@@ -181,7 +181,7 @@ void Fortyeight::deal()
     deck->takeAllCards(talon);
 
     Card *c = talon->top();
-    pile->add(c, true);
+    pile->add(c, false);
     c->stopAnimation();
     qreal x = c->realX();
     qreal y = c->realY();
