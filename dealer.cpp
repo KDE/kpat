@@ -57,6 +57,7 @@
 #include <QtCore/QMutex>
 #include <QtCore/QString>
 #include <QtCore/QThread>
+#include <QtCore/QTimer>
 #include <QtGui/QGraphicsSceneMouseEvent>
 #include <QtGui/QGraphicsView>
 #include <QtGui/QPainter>

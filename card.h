@@ -41,12 +41,9 @@ class Pile;
 class Card;
 
 #include <QtCore/QList>
-#include <QtCore/QTimer>
 class QGraphicsItemAnimation;
 #include <QtGui/QGraphicsPixmapItem>
 class QGraphicsScene;
-class QGraphicsSceneHoverEvent;
-class QGraphicsSceneMouseEvent;
 
 
 // A list of cards.  Used in many places.
@@ -117,9 +114,6 @@ public:
     void setHighlighted( bool flag );
     bool isHighlighted() const { return m_highlighted; }
 
-    virtual void hoverEnterEvent ( QGraphicsSceneHoverEvent * event );
-    virtual void hoverLeaveEvent ( QGraphicsSceneHoverEvent * event );
-
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
     virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event );
     virtual void paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
@@ -130,7 +124,6 @@ public:
     QSizeF spread() const;
     void  setSpread(const QSizeF& spread);
 
-    bool isHovered() const  { return m_hovered; }
     // overload to move shadow
     void setPos(const QPointF &pos);
     virtual bool collidesWithItem ( const QGraphicsItem * other,
@@ -175,8 +168,6 @@ private:
 
     QRectF    m_boundingRect;
     QPointF   m_originalPosition;
-    QTimer   *m_hoverTimer;
-    bool      m_hovered;
     bool      m_highlighted;
     bool      m_isZoomed;
     VisibleState  m_isSeen;

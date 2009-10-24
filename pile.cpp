@@ -43,6 +43,8 @@
 
 #include <KDebug>
 
+#include <QtCore/QTimer>
+
 #include <cmath>
 
 

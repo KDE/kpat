@@ -79,9 +79,6 @@ Card::Card( Rank r, Suit s )
     }
     setObjectName( suitName + QString::number( m_rank ) );
 
-    // Set the name of the card
-    m_hoverTimer = new QTimer(this);
-    m_hovered = false;
     m_destFace = isFaceUp();
 
     m_destX = 0;
@@ -89,18 +86,6 @@ Card::Card( Rank r, Suit s )
     m_destZ = 0;
 
     m_spread = QSizeF( 0, 0 );
-
-    setAcceptsHoverEvents( true );
-
-    //m_hoverTimer->setSingleShot(true);
-    //m_hoverTimer->setInterval(50);
-    connect(m_hoverTimer, SIGNAL(timeout()),
-            this, SLOT(zoomInAnimation()));
-
-#if 0
-    m_shadow = new QGraphicsPixmapItem();
-    scene()->addItem( m_shadow );
-#endif
 }
 
 Card::~Card()
@@ -318,8 +303,6 @@ void Card::flipAnimationChanged( qreal r)
 
 void Card::setTakenDown(bool td)
 {
-/*    if (td)
-      kDebug(11111) << "took down" << name();*/
     tookDown = td;
 }
 
@@ -382,33 +365,6 @@ bool  Card::animated() const
     return animation != 0;
 }
 
-void Card::hoverEnterEvent ( QGraphicsSceneHoverEvent *  )
-{
-    if ( animated() || !isFaceUp() )
-        return;
-
-    m_hovered = true;
-    source()->tryRelayoutCards();
-    return;
-
-    m_hoverTimer->start(200);
-    //zoomIn(400);
-    //kDebug(11111) << "hoverEnterEvent\n";
-}
-
-void Card::hoverLeaveEvent ( QGraphicsSceneHoverEvent * )
-{
-    if ( !isFaceUp() || !m_hovered)
-        return;
-
-    m_hovered = false;
-
-    source()->tryRelayoutCards();
-    m_hoverTimer->stop();
-
-    //zoomOut(200);
-}
-
 void Card::mousePressEvent ( QGraphicsSceneMouseEvent *ev )
 {
     if ( !isFaceUp() )
@@ -418,10 +374,8 @@ void Card::mousePressEvent ( QGraphicsSceneMouseEvent *ev )
 
     if ( ev->button() == Qt::RightButton && !animated() )
     {
-        m_hoverTimer->stop();
         stopAnimation();
         zoomIn(400);
-        m_hovered = false;
         m_isSeen = CardVisible;
     }
 }
@@ -435,10 +389,8 @@ void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ev )
 
     if ( m_isZoomed && ev->button() == Qt::RightButton )
     {
-        m_hoverTimer->stop();
         stopAnimation();
         zoomOut(400);
-        m_hovered = false;
         m_isSeen = CardVisible;
     }
 }
@@ -509,8 +461,6 @@ void Card::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
 void Card::zoomIn(int t)
 {
-    m_hovered = true;
-
     QTimeLine *timeLine = new QTimeLine( t, this );
     m_originalPosition = pos();
 
@@ -573,7 +523,6 @@ void Card::zoomOut(int t)
 
 void Card::zoomInAnimation()
 {
-    m_hoverTimer->stop();
     zoomIn(400);
 }
 
@@ -609,12 +558,6 @@ void Card::setPos( const QPointF &pos )
         ( *it )->m_isSeen = Unknown;
     }
     m_hiddenCards.clear();
-#if 0
-    m_shadow->setZValue( -1 );
-    m_shadow->setPos( pos + QPointF( 0, pixmap().height() ) );
-    if ( source() )
-        m_shadow->setVisible( ( source()->top() == this ) && realFace() );
-#endif
 }
 
 bool Card::collidesWithItem ( const QGraphicsItem * other,

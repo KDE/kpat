@@ -46,6 +46,8 @@
 #include <KGlobal>
 #include <KSharedConfig>
 
+#include <QtCore/QTimer>
+
 
 CardDeck::CardDeck( int copies, QList<Card::Suit> suits, QList<Card::Rank> ranks )
   : m_originalCardSize( 1, 1 ),
