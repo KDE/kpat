@@ -118,7 +118,10 @@ void Clock::deal() {
                 break;
             }
         if (c)
-            store[j++]->add(c, true, store[ j < 4 ? 0 : 4 ]->pos());
+        {
+            store[j]->add(c, true, store[ j < 4 ? 0 : 4 ]->pos());
+            ++j;
+        }
         if (j == 8)
             j = 0;
     }
