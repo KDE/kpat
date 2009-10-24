@@ -55,7 +55,6 @@ CardDeck::CardDeck( int copies, QList<Card::Suit> suits, QList<Card::Rank> ranks
 {
     KConfigGroup cs( KGlobal::config(), settings_group );
     updateTheme( cs );
-    setCardWidth( cs.readEntry( "CardWidth", 100 ) );
 
     Q_ASSERT( copies >= 1 );
     Q_ASSERT( suits.size() >= 1 );
@@ -164,9 +163,6 @@ void CardDeck::setCardWidth( int width )
 
     if ( newSize != m_currentCardSize )
     {
-        KConfigGroup cs( KGlobal::config(), settings_group );
-        cs.writeEntry( "CardWidth", m_currentCardSize.width() );
-
         m_currentCardSize = newSize;
         m_cache.setSize( newSize );
         foreach ( Card * c, m_allCards )
