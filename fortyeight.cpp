@@ -142,12 +142,12 @@ Card *Fortyeight::newCards()
         {
             Card *c = pile->at(pile->cardsLeft()-1);
             c->stopAnimation();
-            talon->add(c, true);
+            talon->add(c, false);
         }
     }
 
     Card *c = talon->top();
-    pile->add(c, true);
+    pile->add(c, false);
     c->stopAnimation();
     qreal x = c->realX();
     qreal y = c->realY();
@@ -176,7 +176,7 @@ void Fortyeight::deal()
 {
     for (int r = 0; r < 4; r++)
         for (int column = 0; column < 8; column++)
-            stack[column]->add(deck->takeCard(), false, stack[column]->pos() - QPointF(0,2*deck->cardHeight()));
+            stack[column]->add(deck->takeCard(), true, stack[column]->pos() - QPointF(0,2*deck->cardHeight()));
 
     deck->takeAllCards(talon);
 

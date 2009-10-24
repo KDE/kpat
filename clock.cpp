@@ -113,12 +113,12 @@ void Clock::deal() {
         for (int i = 0; i < 12; i++)
             if (c->rank() == ranks[i] && c->suit() == suits[i]) {
                 QPointF initPos = (2 * center + target[(i + 2) % 12]->pos()) / 3;
-                target[i]->add(c, false, initPos);
+                target[i]->add(c, true, initPos);
                 c = 0;
                 break;
             }
         if (c)
-            store[j++]->add(c, false, store[ j < 4 ? 0 : 4 ]->pos());
+            store[j++]->add(c, true, store[ j < 4 ? 0 : 4 ]->pos());
         if (j == 8)
             j = 0;
     }

@@ -130,12 +130,12 @@ void Golf::deal()
 {
     for(int i=0;i<5;i++)
         for(int r=0;r<7;r++)
-            stack[r]->add(deck->takeCard(),false,stack[6]->pos());
+            stack[r]->add(deck->takeCard(), true, stack[6]->pos());
 
     deck->takeAllCards(talon);
 
     Card *c = talon->top();
-    waste->add(c, true);
+    waste->add(c, false);
     qreal x = c->x();
     qreal y = c->y();
     c->setPos( talon->pos() );
@@ -153,7 +153,7 @@ Card *Golf::newCards()
     unmarkAll();
 
     Card *c = talon->top();
-    waste->add(c, true );
+    waste->add( c, false );
     c->stopAnimation();
     qreal x = c->x();
     qreal y = c->y();

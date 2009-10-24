@@ -432,7 +432,7 @@ void DealerScene::openGame(QDomDocument &doc)
                         Card * c = *it;
                         if (c->suit() == s && c->rank() == v)
                         {
-                            p->add(c, !card.attribute("faceup").toInt());
+                            p->add(c, bool(card.attribute("faceup").toInt()));
                             c->stopAnimation();
                             c->updatePixmap();
                             c->setVisible(p->isVisible());

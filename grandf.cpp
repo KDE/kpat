@@ -125,7 +125,7 @@ void Grandf::deal() {
         {
             Card *next = deck->takeCard();
             if (next)
-                store[i]->add(next, i != start, initPos);
+                store[i]->add(next, (i == start), initPos);
             i += dir;
         } while ( i != stop + dir);
         int t = start;
@@ -138,7 +138,7 @@ void Grandf::deal() {
     Card *next = deck->takeCard();
     while (next)
     {
-        store[i+1]->add(next, false, initPos);
+        store[i+1]->add(next, true, initPos);
         next = deck->takeCard();
         i = (i+1)%6;
     }

@@ -110,7 +110,7 @@ void CardDeck::takeAllCards( Pile * p )
     {
         Card * c = m_undealtCards.takeFirst();
         c->setPos( p->pos() );
-        p->add( c, true );
+        p->add( c, false );
     }
 }
 

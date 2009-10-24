@@ -87,13 +87,13 @@ void Simon::deal() {
         for (int j = 0; j < piles; j++)
         {
             Card *c = deck->takeCard();
-            store[j]->add(c, false, QPointF(0,-deck->cardHeight()));
+            store[j]->add(c, true, QPointF(0,-deck->cardHeight()));
         }
     }
     for ( int j = 0; j < 10; j++ )
     {
         Card *c = deck->takeCard();
-        store[j]->add(c, false, QPointF(0,-deck->cardHeight()));
+        store[j]->add(c, true, QPointF(0,-deck->cardHeight()));
     }
 
     Q_ASSERT(!deck->hasUndealtCards());

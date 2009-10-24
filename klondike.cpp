@@ -160,7 +160,7 @@ Card *Klondike::newCards()
 
     for (int flipped = 0; flipped < pile->draw() && !talon->isEmpty(); ++flipped) {
         Card *c = talon->top();
-        pile->add(c, true); // facedown, nospread
+        pile->add(c, false); // facedown, nospread
         c->stopAnimation();
         // move back to flip
         c->setPos( talon->pos() );
@@ -252,7 +252,7 @@ void Klondike::redeal() {
     {
         Card *card = pilecards[count];
         card->stopAnimation();
-        talon->add(card, true); // facedown, nospread
+        talon->add(card, false); // facedown, nospread
     }
 
     redealt = true;
@@ -261,7 +261,7 @@ void Klondike::redeal() {
 void Klondike::deal() {
     for(int round=0; round < 7; round++)
         for (int i = round; i < 7; i++ )
-            play[i]->add(deck->takeCard(), i != round && true, talon->pos());
+            play[i]->add(deck->takeCard(), (i == round), talon->pos());
     deck->takeAllCards(talon);
 }
 
