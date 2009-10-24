@@ -54,10 +54,8 @@
 
 
 AbstractCard::AbstractCard( Rank r, Suit s )
-    : m_suit( s ), m_rank( r ), m_faceup( false )
+    : m_suit( s ), m_rank( r ), m_faceup( true )
 {
-    // Default for the card is face up, standard size.
-    m_faceup = true;
 }
 
 Card::Card( Rank r, Suit s )
@@ -80,6 +78,7 @@ Card::Card( Rank r, Suit s )
     setObjectName( suitName + QString::number( m_rank ) );
 
     m_destFace = isFaceUp();
+    m_flippedness = m_faceup ? 1.0 : 0.0;
 
     m_destX = 0;
     m_destY = 0;
@@ -132,12 +131,12 @@ void Card::updatePixmap()
 // is activated at the same time.
 void Card::turn( bool _faceup )
 {
-    if (m_faceup != _faceup ) {
+    if ( m_faceup != _faceup ) {
         m_faceup = _faceup;
         m_destFace = _faceup;
         updatePixmap();
     }
-    m_flippedness = 1;
+    m_flippedness = m_faceup ? 1.0 : 0.0;
 }
 
 void Card::flip()
