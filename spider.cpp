@@ -187,7 +187,9 @@ void Spider::setSuits(int suits)
         stopDemo();
         unmarkAll();
 
+        int cardWidth = deck->cardWidth();
         setupDeck();
+        deck->setCardWidth( cardWidth );
 
         KConfigGroup cg(KGlobal::config(), settings_group );
         cg.writeEntry( "SpiderSuits", m_suits);
