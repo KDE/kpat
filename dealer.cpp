@@ -914,14 +914,10 @@ void DealerScene::startNew(int gameNumber)
     kDebug(11111) << gettime() << "startNew unmarkAll\n";
     unmarkAll();
 
-    foreach (QGraphicsItem *item, items())
+    foreach (Card * c, deck->cards())
     {
-        Card *c = qgraphicsitem_cast<Card*>(item);
-        if (c)
-        {
-            c->disconnect();
-            c->stopAnimation();
-        }
+        c->disconnect();
+        c->stopAnimation();
     }
 
     emit gameSolverReset();

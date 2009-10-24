@@ -384,6 +384,8 @@ void Pile::add( Card* _card, bool faceUp, QPointF startPos )
     if (!_card)
         return;
 
+    _card->turn( faceUp );
+
     // The top card
     Card *t = top();
     qreal x2, y2, z2;
@@ -398,7 +400,7 @@ void Pile::add( Card* _card, bool faceUp, QPointF startPos )
     }
 
     add(_card);
-    _card->turn( faceUp );
+
     _card->setZValue( z2 );
     if ( startPos != QPointF( -1, -1 ) )
         _card->setPos( startPos );
