@@ -1534,8 +1534,6 @@ void DealerScene::removePile(Pile *p)
 
 void DealerScene::stopDemo()
 {
-    kDebug(11111) << gettime() << "stopDemo" << waiting();
-
     if (waiting()) {
         d->stop_demo_next = true;
         return;

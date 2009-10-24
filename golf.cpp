@@ -82,7 +82,7 @@ Golf::Golf( )
         stack[r]->setPilePos(r*dist_x,0);
         stack[r]->setAddFlags( Pile::addSpread | Pile::disallow);
         stack[r]->setCheckIndex( 1 );
-        stack[r]->setReservedSpace( QSizeF( 1.0, 2.0 ) );
+        stack[r]->setReservedSpace( QSizeF( 1.0, 3.0 ) );
         addPile(stack[r]);
     }
 
