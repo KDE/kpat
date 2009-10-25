@@ -102,7 +102,6 @@ public:
 
     void         moveTo( qreal x2, qreal y2, qreal z, int duration);
     void         flipTo( qreal x, qreal y, int duration );
-    void         setZValue(qreal z);
 
     qreal        realX() const;
     qreal        realY() const;
@@ -153,9 +152,6 @@ private:
     qreal         m_destZ;
 
     QSizeF        m_spread;
-
-    // The maximum Z ever used.
-    static qreal  Hz;
 
     QAbstractAnimation *animation;
 

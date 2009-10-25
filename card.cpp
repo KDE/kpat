@@ -214,22 +214,8 @@ bool Card::realFace() const
     return m_destFace;
 }
 
-// The current maximum Z value.  This is used so that new cards always
-// get placed on top of the old ones and don't get placed in the
-// middle of a destination pile.
-qreal  Card::Hz = 0;
-
-void Card::setZValue(qreal z)
-{
-    QGraphicsPixmapItem::setZValue(z);
-    if (z > Hz)
-        Hz = z;
-}
-
 
 // Start a move of the card using animation.
-//
-// 'steps' is the number of steps the animation should take.
 void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
 {
     stopAnimation();
@@ -253,12 +239,7 @@ void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
     m_destY = y2;
     m_destZ = z2;
 
-    if (qAbs( x2 - x() ) < 1 && qAbs( y2 - y() ) < 1) {
-        setZValue(z2);
-        return;
-    }
-    // if ( fabs( z2 - zValue() ) >= 1 )
-        setZValue(Hz++);
+    setZValue( 1000 + zValue() );
 
     animation->start();
 }
@@ -290,8 +271,7 @@ void Card::flipTo(qreal x2, qreal y2, int duration)
     m_destZ = zValue();
     m_destFace = !m_faceup;
 
-    // Let the card be above all others during the animation.
-    setZValue(Hz++);
+    setZValue( 1000 + zValue() );
 
     animation->start();
 }
@@ -326,10 +306,9 @@ void Card::stopAnimation()
     delete animation;
     animation = 0;
 
-    setPos( QPointF( m_destX, m_destY ) );
     setZValue( m_destZ );
     if ( source() )
-        setSpread( source()->cardOffset(this) );
+        setSpread( source()->cardOffset( this ) );
 
     emit stopped( this );
 }
