@@ -62,7 +62,7 @@ AbstractCard::AbstractCard( Rank r, Suit s )
 Card::Card( Rank r, Suit s )
     : QObject(), AbstractCard( r, s ), QGraphicsPixmapItem(),
       m_source(0), tookDown(false), animation( 0 ),
-      m_highlighted( false ), m_isZoomed( false )
+      m_highlighted( false )
 {
     setShapeMode( QGraphicsPixmapItem::BoundingRectShape );
     setTransformationMode( Qt::SmoothTransformation );
@@ -212,6 +212,71 @@ bool Card::realFace() const
     return m_destFace;
 }
 
+void Card::generalAnimation( QPointF pos2, qreal z2, qreal zoom, qreal rotate, bool faceup, int duration )
+{
+    bool posChange = ( qAbs( pos2.x() - x() ) >= 2 || qAbs( pos2.y() - y() ) >= 1 );
+    bool scaleChange = ( zoom != scale() );
+    bool rotationChange = ( rotate != rotation() );
+    bool faceChange = ( faceup != m_faceup );
+
+    if ( !( posChange || scaleChange || rotationChange || faceChange ) )
+    {
+        setPos( pos2 );
+        setZValue( z2 );
+        setScale( zoom );
+        setRotation( rotate );
+        turn( faceup );
+        return;
+    }
+
+    QParallelAnimationGroup * aniGroup = new QParallelAnimationGroup( this );
+
+    if ( posChange )
+    {
+        QPropertyAnimation * slide = new QPropertyAnimation( this, "pos" );
+        slide->setKeyValueAt( 0, pos() );
+        slide->setKeyValueAt( 1, pos2 );
+        slide->setDuration( duration );
+        aniGroup->addAnimation( slide );
+    }
+
+    if ( scaleChange )
+    {
+        QPropertyAnimation * resize = new QPropertyAnimation( this, "scale" );
+        resize->setKeyValueAt( 0, scale() );
+        resize->setKeyValueAt( 1, zoom );
+        resize->setDuration( DURATION_FANCYSHOW );
+        aniGroup->addAnimation( resize );
+    }
+
+    if ( rotationChange )
+    {
+        QPropertyAnimation * spin = new QPropertyAnimation( this, "rotation" );
+        spin->setKeyValueAt( 0, rotation() );
+        spin->setKeyValueAt( 1, rotate );
+        spin->setDuration( DURATION_FANCYSHOW );
+        aniGroup->addAnimation( spin );
+    }
+
+    if ( faceChange )
+    {
+        QPropertyAnimation * flip = new QPropertyAnimation( this, "flippedness" );
+        flip->setKeyValueAt( 0, m_faceup ? 1.0 : 0.0 );
+        flip->setKeyValueAt( 1, faceup ? 1.0 : 0.0 );
+        flip->setDuration( duration );
+        aniGroup->addAnimation( flip );
+    }
+
+    m_destX = pos2.x();
+    m_destY = pos2.y();
+    m_destZ = z2;
+    m_destFace = !m_faceup;
+
+    animation = aniGroup;
+    connect( animation, SIGNAL(finished()), SLOT(stopAnimation()) );
+    animation->start();
+}
+
 
 // Start a move of the card using animation.
 void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
@@ -247,31 +312,35 @@ void Card::flipTo(qreal x2, qreal y2, int duration)
 {
     stopAnimation();
 
-    QPropertyAnimation * flip = new QPropertyAnimation( this, "flippedness" );
-    flip->setKeyValueAt( 0, isFaceUp() ? 1 : 0 );
-    flip->setKeyValueAt( 1, isFaceUp() ? 0 : 1 );
-    flip->setDuration( duration );
-
-    QPropertyAnimation * slide = new QPropertyAnimation( this, "pos" );
-    slide->setKeyValueAt( 0, pos() );
-    slide->setKeyValueAt( 1, QPointF( x2, y2 ) );
-    slide->setDuration( duration );
-
-    QParallelAnimationGroup * aniGroup = new QParallelAnimationGroup( this );
-    aniGroup->addAnimation( flip );
-    aniGroup->addAnimation( slide );
-    animation = aniGroup;
-    connect( animation, SIGNAL(finished()), SLOT(stopAnimation()) );
-
-    // Set the target of the animation
-    m_destX = x2;
-    m_destY = y2;
-    m_destZ = zValue();
-    m_destFace = !m_faceup;
+    generalAnimation( QPointF( x2, y2 ), zValue(), 1.0, 0.0, !isFaceUp(), duration );
 
     setZValue( 1000 + zValue() );
 
-    animation->start();
+//     QPropertyAnimation * flip = new QPropertyAnimation( this, "flippedness" );
+//     flip->setKeyValueAt( 0, isFaceUp() ? 1 : 0 );
+//     flip->setKeyValueAt( 1, isFaceUp() ? 0 : 1 );
+//     flip->setDuration( duration );
+// 
+//     QPropertyAnimation * slide = new QPropertyAnimation( this, "pos" );
+//     slide->setKeyValueAt( 0, pos() );
+//     slide->setKeyValueAt( 1, QPointF( x2, y2 ) );
+//     slide->setDuration( duration );
+// 
+//     QParallelAnimationGroup * aniGroup = new QParallelAnimationGroup( this );
+//     aniGroup->addAnimation( flip );
+//     aniGroup->addAnimation( slide );
+//     animation = aniGroup;
+//     connect( animation, SIGNAL(finished()), SLOT(stopAnimation()) );
+// 
+//     // Set the target of the animation
+//     m_destX = x2;
+//     m_destY = y2;
+//     m_destZ = zValue();
+//     m_destFace = !m_faceup;
+// 
+//     setZValue( 1000 + zValue() );
+// 
+//     animation->start();
 }
 
 
@@ -330,82 +399,23 @@ void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ev )
     if ( this == source()->top() )
         return; // no way this is meaningful
 
-    if ( m_isZoomed && ev->button() == Qt::RightButton )
+    if ( ev->button() == Qt::RightButton )
         zoomOutAnimation();
 }
 
 void Card::zoomInAnimation()
 {
-    stopAnimation();
+    m_unzoomedPosition = pos();
+    QPointF pos2 = pos();
+    pos2.rx() += pixmap().width() / 3;
+    pos2.ry() -= pixmap().height() / 4 ;
 
-    m_originalPosition = pos();
-    QPointF dest( pos().x() + boundingRect().width() / 3,
-                  pos().y() - boundingRect().height() / 4 );
-
-    QPropertyAnimation * zoom = new QPropertyAnimation( this, "scale" );
-    zoom->setKeyValueAt( 0, 1.0 );
-    zoom->setKeyValueAt( 1, 1.1 );
-    zoom->setDuration( DURATION_FANCYSHOW );
-
-    QPropertyAnimation * rotate = new QPropertyAnimation( this, "rotation" );
-    rotate->setKeyValueAt( 0, 0 );
-    rotate->setKeyValueAt( 1, 20 );
-    rotate->setDuration( DURATION_FANCYSHOW );
-
-    QPropertyAnimation * slide = new QPropertyAnimation( this, "pos" );
-    slide->setKeyValueAt( 0, pos() );
-    slide->setKeyValueAt( 1, dest );
-    slide->setDuration( DURATION_FANCYSHOW );
-
-    QParallelAnimationGroup * aniGroup = new QParallelAnimationGroup( this );
-    aniGroup->addAnimation( zoom );
-    aniGroup->addAnimation( rotate );
-    aniGroup->addAnimation( slide );
-    animation = aniGroup;
-    connect( animation, SIGNAL(finished()), SLOT(stopAnimation()) );
-
-    m_isZoomed = true;
-
-    m_destZ = zValue();
-    m_destX = dest.x();
-    m_destY = dest.y();
-
-    animation->start();
+    generalAnimation( pos2, zValue(), 1.1, 20, isFaceUp(), DURATION_FANCYSHOW );
 }
 
 void Card::zoomOutAnimation()
 {
-    stopAnimation();
-
-    QPropertyAnimation * zoom = new QPropertyAnimation( this, "scale" );
-    zoom->setKeyValueAt( 0, 1.1 );
-    zoom->setKeyValueAt( 1, 1.0 );
-    zoom->setDuration( DURATION_FANCYSHOW );
-
-    QPropertyAnimation * rotate = new QPropertyAnimation( this, "rotation" );
-    rotate->setKeyValueAt( 0, 20 );
-    rotate->setKeyValueAt( 1, 0 );
-    rotate->setDuration( DURATION_FANCYSHOW );
-
-    QPropertyAnimation * slide = new QPropertyAnimation( this, "pos" );
-    slide->setKeyValueAt( 0, pos() );
-    slide->setKeyValueAt( 1, m_originalPosition );
-    slide->setDuration( DURATION_FANCYSHOW );
-
-    QParallelAnimationGroup * aniGroup = new QParallelAnimationGroup( this );
-    aniGroup->addAnimation( zoom );
-    aniGroup->addAnimation( rotate );
-    aniGroup->addAnimation( slide );
-    animation = aniGroup;
-    connect( animation, SIGNAL(finished()), SLOT(stopAnimation()) );
-
-    m_isZoomed = false;
-
-    m_destZ = zValue();
-    m_destX = m_originalPosition.x();
-    m_destY = m_originalPosition.y();
-
-    animation->start();
+    generalAnimation( m_unzoomedPosition, zValue(), 1.0, 0, isFaceUp(), DURATION_FANCYSHOW );
 }
 
 QSizeF Card::spread() const

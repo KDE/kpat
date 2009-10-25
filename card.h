@@ -137,6 +137,8 @@ public slots:
     void       zoomOutAnimation();
 
 private:
+    void       generalAnimation( QPointF pos, qreal z2, qreal zoom, qreal rotate, bool faceup, int duration );
+
     // Grapics properties.
     bool        m_destFace;
     qreal       m_flippedness;
@@ -153,9 +155,8 @@ private:
 
     QAbstractAnimation *animation;
 
-    QPointF   m_originalPosition;
     bool      m_highlighted;
-    bool      m_isZoomed;
+    QPointF   m_unzoomedPosition;
 };
 
 #include <sys/time.h>
