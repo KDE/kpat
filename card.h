@@ -120,8 +120,6 @@ public:
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
     virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event );
 
-    virtual QRectF boundingRect () const;
-
     QSizeF spread() const;
     void  setSpread(const QSizeF& spread);
 
@@ -155,7 +153,6 @@ private:
 
     QAbstractAnimation *animation;
 
-    QRectF    m_boundingRect;
     QPointF   m_originalPosition;
     bool      m_highlighted;
     bool      m_isZoomed;

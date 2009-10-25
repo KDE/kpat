@@ -124,8 +124,6 @@ void Card::updatePixmap()
     {
         setPixmap( deck->backsidePixmap() );
     }
-
-    m_boundingRect = QRectF( QPointF( 0, 0 ), pixmap().size() );
 }
 
 // Turn the card if necessary.  If the face gets turned up, the card
@@ -408,11 +406,6 @@ void Card::zoomOutAnimation()
     m_destY = m_originalPosition.y();
 
     animation->start();
-}
-
-QRectF Card::boundingRect() const
-{
-    return m_boundingRect;
 }
 
 QSizeF Card::spread() const
