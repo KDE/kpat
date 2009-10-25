@@ -340,8 +340,6 @@ bool  Card::animated() const
 
 void Card::mousePressEvent ( QGraphicsSceneMouseEvent *ev )
 {
-    if ( !isFaceUp() )
-        return;
     if ( this == source()->top() )
         return; // no way this is meaningful
 
@@ -354,8 +352,6 @@ void Card::mousePressEvent ( QGraphicsSceneMouseEvent *ev )
 
 void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ev )
 {
-    if ( !isFaceUp() )
-        return;
     if ( this == source()->top() )
         return; // no way this is meaningful
 
@@ -364,22 +360,6 @@ void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ev )
         stopAnimation();
         zoomOut(400);
     }
-}
-
-// Get the card to the top.
-void Card::getUp()
-{
-    QPropertyAnimation * an = new QPropertyAnimation(this, "pos");
-    an->setDuration( 1500 );
-    animation = an;
-    connect( animation, SIGNAL(finished()), SLOT(stopAnimation()) );
-
-    m_destZ = zValue();
-    m_destX = x();
-    m_destY = y();
-    setZValue(Hz+1);
-
-    animation->start();
 }
 
 void Card::zoomIn( int duration )

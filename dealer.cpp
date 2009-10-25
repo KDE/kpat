@@ -859,8 +859,6 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
         {
             if ( preview == preview->source()->top() )
                 mouseDoubleClickEvent( e ); // see bug #151921
-            else
-                preview->getUp();
         }
         return;
     }
