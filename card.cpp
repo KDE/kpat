@@ -39,6 +39,7 @@
 #include "carddeck.h"
 #include "dealer.h"
 #include "pile.h"
+#include "speeds.h"
 
 #include <KDebug>
 
@@ -344,10 +345,7 @@ void Card::mousePressEvent ( QGraphicsSceneMouseEvent *ev )
         return; // no way this is meaningful
 
     if ( ev->button() == Qt::RightButton && !animated() )
-    {
-        stopAnimation();
-        zoomIn(400);
-    }
+        zoomInAnimation();
 }
 
 void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ev )
@@ -356,14 +354,13 @@ void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ev )
         return; // no way this is meaningful
 
     if ( m_isZoomed && ev->button() == Qt::RightButton )
-    {
-        stopAnimation();
-        zoomOut(400);
-    }
+        zoomOutAnimation();
 }
 
-void Card::zoomIn( int duration )
+void Card::zoomInAnimation()
 {
+    stopAnimation();
+
     m_originalPosition = pos();
     QPointF dest( pos().x() + boundingRect().width() / 3,
                   pos().y() - boundingRect().height() / 4 );
@@ -371,17 +368,17 @@ void Card::zoomIn( int duration )
     QPropertyAnimation * zoom = new QPropertyAnimation( this, "scale" );
     zoom->setKeyValueAt( 0, 1.0 );
     zoom->setKeyValueAt( 1, 1.1 );
-    zoom->setDuration( duration );
+    zoom->setDuration( DURATION_FANCYSHOW );
 
     QPropertyAnimation * rotate = new QPropertyAnimation( this, "rotation" );
     rotate->setKeyValueAt( 0, 0 );
     rotate->setKeyValueAt( 1, 20 );
-    rotate->setDuration( duration );
+    rotate->setDuration( DURATION_FANCYSHOW );
 
     QPropertyAnimation * slide = new QPropertyAnimation( this, "pos" );
     slide->setKeyValueAt( 0, pos() );
     slide->setKeyValueAt( 1, dest );
-    slide->setDuration( duration );
+    slide->setDuration( DURATION_FANCYSHOW );
 
     QParallelAnimationGroup * aniGroup = new QParallelAnimationGroup( this );
     aniGroup->addAnimation( zoom );
@@ -399,22 +396,24 @@ void Card::zoomIn( int duration )
     animation->start();
 }
 
-void Card::zoomOut( int duration )
+void Card::zoomOutAnimation()
 {
+    stopAnimation();
+
     QPropertyAnimation * zoom = new QPropertyAnimation( this, "scale" );
     zoom->setKeyValueAt( 0, 1.1 );
     zoom->setKeyValueAt( 1, 1.0 );
-    zoom->setDuration( duration );
+    zoom->setDuration( DURATION_FANCYSHOW );
 
     QPropertyAnimation * rotate = new QPropertyAnimation( this, "rotation" );
     rotate->setKeyValueAt( 0, 20 );
     rotate->setKeyValueAt( 1, 0 );
-    rotate->setDuration( duration );
+    rotate->setDuration( DURATION_FANCYSHOW );
 
     QPropertyAnimation * slide = new QPropertyAnimation( this, "pos" );
     slide->setKeyValueAt( 0, pos() );
     slide->setKeyValueAt( 1, m_originalPosition );
-    slide->setDuration( duration );
+    slide->setDuration( DURATION_FANCYSHOW );
 
     QParallelAnimationGroup * aniGroup = new QParallelAnimationGroup( this );
     aniGroup->addAnimation( zoom );
@@ -430,16 +429,6 @@ void Card::zoomOut( int duration )
     m_destY = m_originalPosition.y();
 
     animation->start();
-}
-
-void Card::zoomInAnimation()
-{
-    zoomIn(400);
-}
-
-void Card::zoomOutAnimation()
-{
-    zoomOut(100);
 }
 
 QRectF Card::boundingRect() const

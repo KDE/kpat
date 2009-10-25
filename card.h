@@ -140,9 +140,6 @@ public slots:
     void       zoomOutAnimation();
 
 private:
-    void       zoomIn( int duration );
-    void       zoomOut( int duration );
-
     // Grapics properties.
     bool        m_destFace;
     qreal       m_flippedness;
