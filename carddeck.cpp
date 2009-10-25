@@ -211,6 +211,7 @@ QPixmap CardDeck::frontsidePixmap( AbstractCard::Rank r, AbstractCard::Suit s )
     KCardInfo::Card rank;
     switch ( r )
     {
+        case AbstractCard::None :
         case AbstractCard::Ace :   rank = KCardInfo::Ace;   break;
         case AbstractCard::Two :   rank = KCardInfo::Two;   break;
         case AbstractCard::Three : rank = KCardInfo::Three; break;
