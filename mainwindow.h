@@ -128,7 +128,6 @@ private:
 
     QMap<int, const DealerInfo*>  m_dealer_map;
     QMap<int, const DealerInfo*>::const_iterator  m_dealer_it;
-    int m_freeCellId;
 
     PatienceView   *m_view;
     DealerScene    *m_dealer;

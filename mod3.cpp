@@ -235,7 +235,7 @@ static class Mod3DealerInfo : public DealerInfo
 {
 public:
     Mod3DealerInfo()
-      : DealerInfo(I18N_NOOP("Mod3"), 5)
+      : DealerInfo(I18N_NOOP("Mod3"), Mod3Id)
     {}
 
     virtual DealerScene *createGame() const

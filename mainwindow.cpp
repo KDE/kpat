@@ -190,8 +190,6 @@ MainWindow::MainWindow()
     {
         foreach( int id, di->ids() )
             m_dealer_map.insert( id, di );
-        if ( QString(di->name()).toLower() == "freecell" )
-            m_freeCellId = di->ids().first();
     }
     m_dealer_it = m_dealer_map.constEnd();
 
@@ -550,7 +548,7 @@ void MainWindow::chooseDeal()
 {
     if (m_dealer)
     {
-        QString text = (m_dealer->gameId() == m_freeCellId)
+        QString text = (m_dealer->gameId() == DealerInfo::FreecellId)
                        ? i18n("Enter a deal number (Freecell deals are numbered the same as those in the Freecell FAQ):")
                        : i18n("Enter a deal number:");
         bool ok;

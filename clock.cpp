@@ -135,7 +135,7 @@ static class ClockDealerInfo : public DealerInfo
 {
 public:
     ClockDealerInfo()
-      : DealerInfo(I18N_NOOP("Grandfather's Clock"), 11)
+      : DealerInfo(I18N_NOOP("Grandfather's Clock"), GrandfathersClockId)
     {}
 
     virtual DealerScene *createGame() const

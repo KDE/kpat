@@ -282,9 +282,9 @@ bool Klondike::startAutoDrop()
 void Klondike::mapOldId(int id)
 {
    switch (id) {
-   case 13: // draw 3
+   case DealerInfo::KlondikeDrawThreeId :
        setEasy( false );
-   case 0: // draw 1
+   case DealerInfo::KlondikeDrawOneId :
        setEasy( true );
    }
 }
@@ -295,10 +295,10 @@ static class KlondikeDealerInfo : public DealerInfo
 {
 public:
     KlondikeDealerInfo()
-      : DealerInfo(I18N_NOOP("Klondike"), 18)
+      : DealerInfo(I18N_NOOP("Klondike"), DealerInfo::KlondikeGeneralId)
     {
-        addId(0);
-        addId(13);
+        addId(DealerInfo::KlondikeDrawThreeId);
+        addId(DealerInfo::KlondikeDrawOneId);
     }
 
     virtual DealerScene *createGame() const

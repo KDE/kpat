@@ -424,7 +424,7 @@ static class FreecellDealerInfo : public DealerInfo
 {
 public:
     FreecellDealerInfo()
-      : DealerInfo(I18N_NOOP("Freecell"), 3)
+      : DealerInfo(I18N_NOOP("Freecell"), FreecellId)
     {}
 
     virtual DealerScene *createGame() const

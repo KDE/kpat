@@ -213,7 +213,7 @@ static class FortyEightDealerInfo : public DealerInfo
 {
 public:
     FortyEightDealerInfo()
-      : DealerInfo(I18N_NOOP("Forty & Eight"), 8)
+      : DealerInfo(I18N_NOOP("Forty & Eight"), FortyAndEightId)
     {}
 
     virtual DealerScene *createGame() const

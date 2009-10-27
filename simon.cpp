@@ -157,7 +157,7 @@ static class SimonDealerInfo : public DealerInfo
 {
 public:
     SimonDealerInfo()
-      : DealerInfo(I18N_NOOP("Simple Simon"), 9)
+      : DealerInfo(I18N_NOOP("Simple Simon"), SimpleSimonId)
     {}
 
     virtual DealerScene *createGame() const

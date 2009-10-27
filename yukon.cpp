@@ -109,7 +109,7 @@ static class YukonDealerInfo : public DealerInfo
 {
 public:
     YukonDealerInfo()
-      : DealerInfo(I18N_NOOP("Yukon"), 10)
+      : DealerInfo(I18N_NOOP("Yukon"), YukonId )
     {}
 
     virtual DealerScene *createGame() const

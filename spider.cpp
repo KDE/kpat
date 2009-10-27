@@ -467,13 +467,13 @@ Card *Spider::newCards()
 void Spider::mapOldId(int id)
 {
    switch (id) {
-   case 14:
+   case DealerInfo::SpiderOneSuitId :
        setSuits(1);
        break;
-   case 15:
+   case DealerInfo::SpiderTwoSuitId :
        setSuits(2);
        break;
-   case 16:
+   case DealerInfo::SpiderFourSuitId :
        setSuits(4);
        break;
    }
@@ -485,11 +485,11 @@ static class SpideDealerInfo : public DealerInfo
 {
 public:
     SpideDealerInfo()
-      : DealerInfo(I18N_NOOP("Spider"), 17)
+      : DealerInfo(I18N_NOOP("Spider"), SpiderGeneralId)
     {
-        addId(14);
-        addId(15);
-        addId(16);
+        addId(SpiderOneSuitId);
+        addId(SpiderTwoSuitId);
+        addId(SpiderFourSuitId);
     }
 
     virtual DealerScene *createGame() const

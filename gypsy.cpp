@@ -127,7 +127,7 @@ static class GypsyDealerInfo : public DealerInfo
 {
 public:
     GypsyDealerInfo()
-      : DealerInfo(I18N_NOOP("Gypsy"), 7)
+      : DealerInfo(I18N_NOOP("Gypsy"), GypsyId)
     {}
 
     virtual DealerScene *createGame() const

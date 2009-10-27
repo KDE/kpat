@@ -202,7 +202,7 @@ static class GolfDealerInfo : public DealerInfo
 {
 public:
     GolfDealerInfo()
-      : DealerInfo(I18N_NOOP("Golf"), 12)
+      : DealerInfo(I18N_NOOP("Golf"), GolfId)
     {}
 
     virtual DealerScene *createGame() const

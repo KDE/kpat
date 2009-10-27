@@ -204,7 +204,7 @@ static class IdiotDealerInfo : public DealerInfo
 {
 public:
     IdiotDealerInfo()
-      : DealerInfo(I18N_NOOP("Aces Up"), 2)
+      : DealerInfo(I18N_NOOP("Aces Up"), AcesUpId)
     {}
 
     virtual DealerScene *createGame() const

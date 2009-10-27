@@ -48,6 +48,27 @@ class Solver;
 class DealerInfo
 {
 public:
+    enum GameIds
+    {
+        KlondikeDrawOneId   = 0,
+        GrandfatherId       = 1,
+        AcesUpId            = 2,
+        FreecellId          = 3,
+        Mod3Id              = 5,
+        GypsyId             = 7,
+        FortyAndEightId     = 8,
+        SimpleSimonId       = 9,
+        YukonId             = 10,
+        GrandfathersClockId = 11,
+        GolfId              = 12,
+        KlondikeDrawThreeId = 13,
+        SpiderOneSuitId     = 14,
+        SpiderTwoSuitId     = 15,
+        SpiderFourSuitId    = 16,
+        SpiderGeneralId     = 17,
+        KlondikeGeneralId   = 18
+    };
+
     DealerInfo( const char * name, int id );
     virtual ~DealerInfo();
 

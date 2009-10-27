@@ -189,7 +189,7 @@ static class GrandfDealerInfo : public DealerInfo
 {
 public:
     GrandfDealerInfo()
-      : DealerInfo(I18N_NOOP("Grandfather"), 1)
+      : DealerInfo(I18N_NOOP("Grandfather"), GrandfatherId)
     {}
 
     virtual DealerScene *createGame() const
