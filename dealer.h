@@ -232,6 +232,9 @@ protected slots:
     virtual Card *newCards();
     virtual bool startAutoDrop();
 
+    void addCardForDeal( Pile * pile, Card * card, bool faceUp, QPointF startPos );
+    void startDealAnimation();
+
 private:
     QList<QGraphicsItem *> marked;
 
@@ -246,6 +249,8 @@ private:
 
     class DealerScenePrivate;
     DealerScenePrivate *d;
+
+    QMap<Card*,QPointF> m_initDealPositions;
 
 private slots:
     void waitForAutoDrop(Card *);

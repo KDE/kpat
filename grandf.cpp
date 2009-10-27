@@ -95,20 +95,12 @@ Card *Grandf::newCards()
     deal();
     numberOfDeals++;
 
-    Card *t = store[3]->top();
-    Q_ASSERT(t);
-    if (t)
-    {
-       t->turn(false);
-       t->flipTo( t->pos().x(), t->pos().y(), DURATION_FLIP );
-    }
-
     takeState();
     considerGameStarted();
     if (numberOfDeals == 3)
         emit newCardsPossible(false);
 
-    return t;
+    return store[0]->top();
 }
 
 void Grandf::deal() {
@@ -125,7 +117,7 @@ void Grandf::deal() {
         {
             Card *next = deck->takeCard();
             if (next)
-                store[i]->add(next, (i == start), initPos);
+                addCardForDeal( store[i], next, (i == start), initPos );
             i += dir;
         } while ( i != stop + dir);
         int t = start;
@@ -138,7 +130,7 @@ void Grandf::deal() {
     Card *next = deck->takeCard();
     while (next)
     {
-        store[i+1]->add(next, true, initPos);
+        addCardForDeal( store[i+1], next, true, initPos );
         next = deck->takeCard();
         i = (i+1)%6;
     }
@@ -149,6 +141,8 @@ void Grandf::deal() {
         if (c)
             c->turn(true);
     }
+
+    startDealAnimation();
 }
 
 /*****************************

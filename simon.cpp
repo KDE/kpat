@@ -85,18 +85,14 @@ void Simon::deal() {
     for ( int piles = 9; piles >= 3; piles-- )
     {
         for (int j = 0; j < piles; j++)
-        {
-            Card *c = deck->takeCard();
-            store[j]->add(c, true, QPointF(0,-deck->cardHeight()));
-        }
+            addCardForDeal(store[j], deck->takeCard(), true, QPointF(0,-deck->cardHeight()));
     }
     for ( int j = 0; j < 10; j++ )
-    {
-        Card *c = deck->takeCard();
-        store[j]->add(c, true, QPointF(0,-deck->cardHeight()));
-    }
+        addCardForDeal(store[j], deck->takeCard(), true, QPointF(0,-deck->cardHeight()));
 
     Q_ASSERT(!deck->hasUndealtCards());
+
+    startDealAnimation();
 }
 
 bool Simon::checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const

@@ -160,6 +160,7 @@ public:
     QSizeF maximumSpace() const { return m_space; }
 
     void tryRelayoutCards();
+    virtual void layoutCards(int duration);
 
 public slots:
     virtual bool cardClicked(Card *c);
@@ -173,8 +174,6 @@ signals:
     void dblClicked(Card *c);
 
 protected:
-    virtual void layoutCards(int duration);
-
     int       removeFlags;
     int       addFlags;
     CardList  m_cards;

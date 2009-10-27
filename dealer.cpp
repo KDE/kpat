@@ -65,6 +65,7 @@
 #include <QtXml/QDomDocument>
 
 #include <cassert>
+#include <cmath>
 
 #define DEBUG_LAYOUT 0
 #define DEBUG_HINTS 0
@@ -2195,5 +2196,43 @@ bool DealerScene::allowedToStartNewGame()
                      "careaboutstats"
                     ) == KMessageBox::Continue;
 }
+
+void DealerScene::addCardForDeal(Pile * pile, Card * card, bool faceUp, QPointF startPos)
+{
+    Q_ASSERT( card );
+    Q_ASSERT( pile );
+
+    card->turn( faceUp );
+    pile->add( card );
+    m_initDealPositions.insert( card, startPos );
+
+    kDebug() << "Adding for animation" << card->objectName();
+}
+
+
+void DealerScene::startDealAnimation()
+{
+    foreach ( Pile * p, piles )
+    {
+        p->layoutCards(0);
+        foreach ( Card * c, p->cards() )
+        {
+            if ( !m_initDealPositions.contains( c ) )
+                continue;
+
+            QPointF pos2 = c->pos();
+            c->setPos( m_initDealPositions.value( c ) );
+
+            qreal distx = pos2.x() - c->x();
+            qreal disty = pos2.y() - c->y();
+            qreal dist = sqrt( distx * distx + disty * disty );
+            qreal whole = sqrt( width() * width() + height() * height() );
+            c->moveTo( pos2.x(), pos2.y(), c->zValue(), qRound( dist * DURATION_DEAL / whole ) );
+        }
+    }
+    m_initDealPositions.clear();
+}
+
+
 
 #include "dealer.moc"

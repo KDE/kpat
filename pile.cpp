@@ -560,7 +560,13 @@ void Pile::layoutCards(int duration)
     qreal z = zValue() + 1;
     foreach ( Card * card, m_cards )
     {
-        card->moveTo( cardPos.x(), cardPos.y(), z, dscene()->speedUpTime( duration ) );
+        if ( duration )
+            card->moveTo( cardPos.x(), cardPos.y(), z, dscene()->speedUpTime( duration ) );
+        else
+        {
+            card->setZValue( z );
+            card->setPos( cardPos );
+        }
         cardPos.rx() += divx * card->spread().width() * cardSize.width();
         cardPos.ry() += divy * card->spread().height() * cardSize.height();
         z += 1;

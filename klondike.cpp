@@ -48,6 +48,7 @@
 #include <KSelectAction>
 
 
+
 KlondikePile::KlondikePile( int _index, int _draw, const QString & objectName)
     : Pile(_index, objectName), m_draw( _draw )
 {
@@ -261,8 +262,11 @@ void Klondike::redeal() {
 void Klondike::deal() {
     for(int round=0; round < 7; round++)
         for (int i = round; i < 7; i++ )
-            play[i]->add(deck->takeCard(), (i == round), talon->pos());
+            addCardForDeal( play[i], deck->takeCard(), (i == round), talon->pos());
+
     deck->takeAllCards(talon);
+
+    startDealAnimation();
 }
 
 bool Klondike::startAutoDrop()

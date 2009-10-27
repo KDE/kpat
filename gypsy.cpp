@@ -88,17 +88,17 @@ void Gypsy::dealRow(bool faceup) {
 
 void Gypsy::deal() {
     for (int round=0; round < 8; round++)
-        store[round]->add(deck->takeCard(), false, store[round]->pos() + QPointF(sceneRect().right(),0));
+        addCardForDeal(store[round], deck->takeCard(), false, store[round]->pos() + QPointF(sceneRect().right(),0));
 
     for (int round=0; round < 8; round++)
-        store[round]->add(deck->takeCard(), true, store[round]->pos() + QPointF(sceneRect().right(),1.11*deck->cardHeight()));
+        addCardForDeal(store[round], deck->takeCard(), true, store[round]->pos() + QPointF(sceneRect().right(),1.11*deck->cardHeight()));
 
     for (int round=0; round < 8; round++)
-        store[round]->add(deck->takeCard(), true, store[round]->pos() + QPointF(sceneRect().right(),2.22*deck->cardHeight()));
+        addCardForDeal(store[round], deck->takeCard(), true, store[round]->pos() + QPointF(sceneRect().right(),2.22*deck->cardHeight()));
 
     deck->takeAllCards(talon);
 
-    takeState();
+    startDealAnimation();
 }
 
 Card *Gypsy::newCards()

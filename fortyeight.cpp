@@ -175,10 +175,17 @@ bool Fortyeight::checkAdd(int, const Pile *c1, const CardList &c2) const
 void Fortyeight::deal()
 {
     for (int r = 0; r < 4; r++)
+    {
         for (int column = 0; column < 8; column++)
-            stack[column]->add(deck->takeCard(), true, stack[column]->pos() - QPointF(0,2*deck->cardHeight()));
+        {
+            QPointF initPos = stack[column]->pos() - QPointF( 0, 2 * deck->cardHeight() );
+            addCardForDeal( stack[column], deck->takeCard(), true, initPos );
+        }
+    }
 
     deck->takeAllCards(talon);
+
+    startDealAnimation();
 
     Card *c = talon->top();
     pile->add(c, false);

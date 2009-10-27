@@ -130,9 +130,11 @@ void Golf::deal()
 {
     for(int i=0;i<5;i++)
         for(int r=0;r<7;r++)
-            stack[r]->add(deck->takeCard(), true, stack[6]->pos());
+            addCardForDeal( stack[r], deck->takeCard(), true, stack[6]->pos() );
 
     deck->takeAllCards(talon);
+
+    startDealAnimation();
 
     Card *c = talon->top();
     waste->add(c, false);

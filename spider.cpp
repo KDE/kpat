@@ -404,18 +404,18 @@ void Spider::deal()
     int column = 0;
     // deal face down cards (5 to first 4 piles, 4 to last 6)
     for (int i = 0; i < 44; i++ ) {
-        stack[column]->add(deck->takeCard(), false, randomPos());
+        addCardForDeal( stack[column], deck->takeCard(), false, randomPos() );
         column = (column + 1) % 10;
     }
     // deal face up cards, one to each pile
     for (int i = 0; i < 10; i++ ) {
-        stack[column]->add(deck->takeCard(), true, randomPos());
+        addCardForDeal( stack[column], deck->takeCard(), true, randomPos());
         column = (column + 1) % 10;
     }
     // deal the remaining cards into 5 'redeal' piles
     for (int column = 0; column < 5; column++ )
         for (int i = 0; i < 10; i++ )
-            redeals[column]->add(deck->takeCard(), false, randomPos());
+            addCardForDeal( redeals[column], deck->takeCard(), false, randomPos());
 
     // make the redeal piles visible
     for (int i = 0; i < 5; i++ )
@@ -425,7 +425,9 @@ void Spider::deal()
     for (int i = 0; i < 8; i++ )
         legs[i]->setVisible(false);
 
-    relayoutPiles();
+//     relayoutPiles();
+
+    startDealAnimation();
 }
 
 Card *Spider::newCards()

@@ -94,9 +94,13 @@ void Yukon::deal()
                 doit = (round < j + 5);
             }
             if (doit)
-                store[j]->add(deck->takeCard(), (round >= j || j == 0), store[j]->pos() + QPointF(0, ((7-j/3.0)+round)* deck->cardHeight()));
+            {
+                QPointF initPos = store[j]->pos() + QPointF(0, ((7-j/3.0)+round)* deck->cardHeight());
+                addCardForDeal(store[j], deck->takeCard(), (round >= j || j == 0), initPos);
+            }
         }
     }
+    startDealAnimation();
 }
 
 
