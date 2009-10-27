@@ -272,7 +272,7 @@ void Card::generalAnimation( QPointF pos2, qreal z2, qreal zoom, qreal rotate, b
     m_destX = pos2.x();
     m_destY = pos2.y();
     m_destZ = z2;
-    m_destFace = !m_faceup;
+    m_destFace = faceup;
 
     m_animation = aniGroup;
     connect( m_animation, SIGNAL(finished()), SLOT(stopAnimation()) );
@@ -350,8 +350,8 @@ void Card::stopAnimation()
     m_animation = 0;
 
     setZValue( m_destZ );
-    if ( source() )
-        setSpread( source()->cardOffset( this ) );
+//     if ( source() )
+//         setSpread( source()->cardOffset( this ) );
 
     emit stopped( this );
 }

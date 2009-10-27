@@ -430,7 +430,8 @@ void DealerScene::openGame(QDomDocument &doc)
                     Card * c = deck->takeCard( v, s );
                     Q_ASSERT( c );
 
-                    p->add(c, bool(card.attribute("faceup").toInt()));
+                    c->turn(card.attribute("faceup").toInt());
+                    p->add(c);
                     c->stopAnimation();
                     c->updatePixmap();
                     c->setVisible(p->isVisible());
@@ -1218,23 +1219,16 @@ void DealerScene::setState(State *st)
     kDebug(11111) << gettime() << "setState\n";
     CardStateList * n = &st->cards;
 
-    foreach (QGraphicsItem *item, items())
+    foreach (Pile *p, piles)
     {
-        Pile *p = qgraphicsitem_cast<Pile*>(item);
-        if (p)
-        {
-            foreach (Card *c, p->cards())
-                c->setTakenDown(p->target());
-            p->clear();
-        }
+        foreach (Card *c, p->cards())
+            c->setTakenDown(p->target());
+        p->clear();
     }
 
-    for (CardStateList::ConstIterator it = n->constBegin(); it != n->constEnd(); ++it)
+    foreach (const CardState & s, *n)
     {
-        Card *c = (*it).it;
-        //c->stopAnimation();
-        CardState s = *it;
-        // kDebug(11111) << "c" << c->name() << " " << s.source->objectName() << " " << s.faceup;
+        Card *c = s.it;
         bool target = c->takenDown(); // abused
         c->turn(s.faceup);
         s.source->add(c, s.source_index);
@@ -1243,16 +1237,11 @@ void DealerScene::setState(State *st)
         c->setTakenDown(s.tookdown || (target && !s.source->target()));
     }
 
-    for (PileList::ConstIterator it = piles.constBegin(); it != piles.constEnd(); ++it)
-    {
-        ( *it )->relayoutCards();
-    }
+    foreach (Pile *p, piles)
+        p->relayoutCards();
 
-    for (CardStateList::ConstIterator it = n->constBegin(); it != n->constEnd(); ++it)
-    {
-        Card *c = (*it).it;
-        c->stopAnimation();
-    }
+    foreach (const CardState & s, *n)
+        s.it->stopAnimation();
 
     // restore game-specific information
     setGameState( st->gameData );

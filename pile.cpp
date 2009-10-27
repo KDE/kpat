@@ -355,8 +355,6 @@ void Pile::add( Card *_card, int index)
         Q_ASSERT(m_cards[index] == 0);
         m_cards[index] = _card;
     }
-
-    tryRelayoutCards();
 }
 
 
