@@ -610,6 +610,12 @@ void DealerScene::hint()
 
     d->autoDropTimer->stop();
 
+    if ( ! marked.isEmpty() )
+    {
+        unmarkAll();
+        return;
+    }
+
     setWaiting( true );
 
     unmarkAll();
