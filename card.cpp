@@ -53,6 +53,8 @@
 #include <QtGui/QPixmap>
 #include <QtGui/QStyleOptionGraphicsItem>
 
+#include <sys/time.h>
+
 
 AbstractCard::AbstractCard( Rank r, Suit s )
     : m_suit( s ), m_rank( r ), m_faceup( true )
@@ -61,7 +63,7 @@ AbstractCard::AbstractCard( Rank r, Suit s )
 
 Card::Card( Rank r, Suit s )
     : QObject(), AbstractCard( r, s ), QGraphicsPixmapItem(),
-      m_source(0), tookDown(false), animation( 0 ),
+      m_source(0), m_takenDown(false), m_animation( 0 ),
       m_highlighted( false )
 {
     setShapeMode( QGraphicsPixmapItem::BoundingRectShape );
@@ -272,9 +274,9 @@ void Card::generalAnimation( QPointF pos2, qreal z2, qreal zoom, qreal rotate, b
     m_destZ = z2;
     m_destFace = !m_faceup;
 
-    animation = aniGroup;
-    connect( animation, SIGNAL(finished()), SLOT(stopAnimation()) );
-    animation->start();
+    m_animation = aniGroup;
+    connect( m_animation, SIGNAL(finished()), SLOT(stopAnimation()) );
+    m_animation->start();
 }
 
 
@@ -294,9 +296,9 @@ void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
     an->setDuration( duration );
     an->setKeyValueAt( 0, pos() );
     an->setKeyValueAt( 1, QPointF( x2, y2 ));
-    animation = an;
+    m_animation = an;
 
-    connect( animation, SIGNAL(finished()), SLOT(stopAnimation()) );
+    connect( m_animation, SIGNAL(finished()), SLOT(stopAnimation()) );
 
     m_destX = x2;
     m_destY = y2;
@@ -304,7 +306,7 @@ void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
 
     setZValue( 1000 + zValue() );
 
-    animation->start();
+    m_animation->start();
 }
 
 // Animate a move to (x2, y2), and at the same time flip the card.
@@ -315,43 +317,17 @@ void Card::flipTo(qreal x2, qreal y2, int duration)
     generalAnimation( QPointF( x2, y2 ), zValue(), 1.0, 0.0, !isFaceUp(), duration );
 
     setZValue( 1000 + zValue() );
-
-//     QPropertyAnimation * flip = new QPropertyAnimation( this, "flippedness" );
-//     flip->setKeyValueAt( 0, isFaceUp() ? 1 : 0 );
-//     flip->setKeyValueAt( 1, isFaceUp() ? 0 : 1 );
-//     flip->setDuration( duration );
-// 
-//     QPropertyAnimation * slide = new QPropertyAnimation( this, "pos" );
-//     slide->setKeyValueAt( 0, pos() );
-//     slide->setKeyValueAt( 1, QPointF( x2, y2 ) );
-//     slide->setDuration( duration );
-// 
-//     QParallelAnimationGroup * aniGroup = new QParallelAnimationGroup( this );
-//     aniGroup->addAnimation( flip );
-//     aniGroup->addAnimation( slide );
-//     animation = aniGroup;
-//     connect( animation, SIGNAL(finished()), SLOT(stopAnimation()) );
-// 
-//     // Set the target of the animation
-//     m_destX = x2;
-//     m_destY = y2;
-//     m_destZ = zValue();
-//     m_destFace = !m_faceup;
-// 
-//     setZValue( 1000 + zValue() );
-// 
-//     animation->start();
 }
 
 
 void Card::setTakenDown(bool td)
 {
-    tookDown = td;
+    m_takenDown = td;
 }
 
 bool Card::takenDown() const
 {
-    return tookDown;
+    return m_takenDown;
 }
 
 void Card::setHighlighted( bool flag ) {
@@ -364,14 +340,14 @@ void Card::setHighlighted( bool flag ) {
 
 void Card::stopAnimation()
 {
-    if ( !animation )
+    if ( !m_animation )
         return;
 
-    if ( animation->state() != QAbstractAnimation::Stopped )
-        animation->setCurrentTime( animation->duration() );
+    if ( m_animation->state() != QAbstractAnimation::Stopped )
+        m_animation->setCurrentTime( m_animation->duration() );
 
-    delete animation;
-    animation = 0;
+    delete m_animation;
+    m_animation = 0;
 
     setZValue( m_destZ );
     if ( source() )
@@ -382,7 +358,7 @@ void Card::stopAnimation()
 
 bool  Card::animated() const
 {
-    return animation != 0;
+    return m_animation != 0;
 }
 
 void Card::mousePressEvent ( QGraphicsSceneMouseEvent *ev )

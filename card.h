@@ -54,8 +54,6 @@ typedef QList<Card*> CardList;
 // In kpat, a Card is an object that has at least two purposes:
 //  - It has card properties (Suit, Rank, etc)
 //  - It is a graphic entity on a QCanvas that can be moved around.
-//
-
 class AbstractCard
 {
 public:
@@ -76,7 +74,6 @@ protected:
     // The card values.
     Suit        m_suit;
     Rank        m_rank;
-
     bool        m_faceup;
 };
 
@@ -112,7 +109,6 @@ public:
     bool         takenDown() const;
 
     bool         animated() const;
-    void         setVelocity( int x, int y );
 
     void setHighlighted( bool flag );
     bool isHighlighted() const { return m_highlighted; }
@@ -139,27 +135,21 @@ public slots:
 private:
     void       generalAnimation( QPointF pos, qreal z2, qreal zoom, qreal rotate, bool faceup, int duration );
 
-    // Grapics properties.
-    bool        m_destFace;
-    qreal       m_flippedness;
     Pile       *m_source;
+    QAbstractAnimation *m_animation;
 
-    bool        tookDown;
-
-    // Used for animation
     qreal         m_destX;	// Destination point.
     qreal         m_destY;
     qreal         m_destZ;
+    bool          m_destFace;
 
     QSizeF        m_spread;
+    qreal         m_flippedness;
 
-    QAbstractAnimation *animation;
-
+    bool      m_takenDown;
     bool      m_highlighted;
     QPointF   m_unzoomedPosition;
 };
-
-#include <sys/time.h>
 
 extern QString gettime();
 
