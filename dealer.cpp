@@ -410,7 +410,6 @@ void DealerScene::openGame(QDomDocument &doc)
     QDomNodeList pileNodes = dealer.elementsByTagName("pile");
 
     deck->returnAllCards();
-    CardList cards = deck->cards();
 
     foreach (Pile *p, piles)
     {
@@ -427,19 +426,13 @@ void DealerScene::openGame(QDomDocument &doc)
                     Card::Suit s = static_cast<Card::Suit>(card.attribute("suit").toInt());
                     Card::Rank v = static_cast<Card::Rank>(card.attribute("value").toInt());
 
-                    for (CardList::Iterator it = cards.begin(); it != cards.end(); ++it)
-                    {
-                        Card * c = *it;
-                        if (c->suit() == s && c->rank() == v)
-                        {
-                            p->add(c, bool(card.attribute("faceup").toInt()));
-                            c->stopAnimation();
-                            c->updatePixmap();
-                            c->setVisible(p->isVisible());
-                            cards.erase(it);
-                            break;
-                        }
-                    }
+                    Card * c = deck->takeCard( v, s );
+                    Q_ASSERT( c );
+
+                    p->add(c, bool(card.attribute("faceup").toInt()));
+                    c->stopAnimation();
+                    c->updatePixmap();
+                    c->setVisible(p->isVisible());
                 }
             }
         }

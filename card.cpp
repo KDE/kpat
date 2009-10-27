@@ -63,7 +63,7 @@ AbstractCard::AbstractCard( Rank r, Suit s )
 
 Card::Card( Rank r, Suit s )
     : QObject(), AbstractCard( r, s ), QGraphicsPixmapItem(),
-      m_source(0), m_takenDown(false), m_animation( 0 ),
+      m_source(0), m_animation( 0 ), m_takenDown(false),
       m_highlighted( false )
 {
     setShapeMode( QGraphicsPixmapItem::BoundingRectShape );

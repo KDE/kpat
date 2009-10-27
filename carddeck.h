@@ -77,6 +77,7 @@ public:
 
     bool hasUndealtCards();
     Card * takeCard();
+    Card * takeCard( Card::Rank rank, Card::Suit suit );
     void takeAllCards( Pile * p );
     void returnCard( Card * c );
     void returnAllCards();

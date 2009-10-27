@@ -94,12 +94,29 @@ bool CardDeck::hasUndealtCards()
 }
 
 
-Card* CardDeck::takeCard()
+Card * CardDeck::takeCard()
 {
     if ( m_undealtCards.isEmpty() )
         return 0;
 
     return m_undealtCards.takeLast();
+}
+
+
+Card * CardDeck::takeCard( Card::Rank rank, Card::Suit suit )
+{
+    for ( QList<Card*>::iterator it = m_undealtCards.begin();
+          it != m_undealtCards.end();
+          ++it )
+    {
+        Card * c = *it;
+        if ( c->rank() == rank && c->suit() == suit )
+        {
+            m_undealtCards.erase( it );
+            return c;
+        }
+    }
+    return 0;
 }
 
 
