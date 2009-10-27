@@ -69,7 +69,7 @@ Pile::Pile( int _index, const QString & objectName )
       _checkIndex(-1),
       myIndex(_index),
       _target(false),
-      m_highlighted( false ),
+      m_marked( false ),
       m_graphicVisible( true )
 {
     if ( objectName.isEmpty() )
@@ -190,7 +190,7 @@ void Pile::rescale()
 
     if ( m_graphicVisible )
     {
-        setPixmap( Render::renderElement( isHighlighted() ? "pile_selected" : "pile", cardSize ) );
+        setPixmap( Render::renderElement( isMarked() ? "pile_selected" : "pile", cardSize ) );
     }
     else
     {
@@ -439,9 +439,15 @@ void Pile::unhideCards( const CardList & cards )
         m_cards.append(*it);
 }
 
-void Pile::setHighlighted( bool flag ) {
-    m_highlighted = flag;
+void Pile::setMarked( bool flag )
+{
+    m_marked = flag;
     rescale();
+}
+
+bool Pile::isMarked() const
+{
+    return m_marked;
 }
 
 void Pile::setGraphicVisible( bool flag ) {

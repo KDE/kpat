@@ -202,7 +202,7 @@ void Mod3::dealRow(int row)
 
 void Mod3::deal()
 {
-    unmarkAll();
+    setMarkedItems();
     deck->takeAllCards(talon);
 
     for (int r = 0; r < 4; r++)
@@ -214,7 +214,7 @@ Card *Mod3::newCards()
     if (talon->isEmpty())
         return 0;
 
-    unmarkAll();
+    setMarkedItems();
     dealRow(3);
     takeState();
     considerGameStarted();

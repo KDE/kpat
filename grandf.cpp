@@ -90,7 +90,7 @@ Card *Grandf::newCards()
     if (numberOfDeals >= 3)
         return 0;
 
-    unmarkAll();
+    setMarkedItems();
     collect();
     deal();
     numberOfDeals++;
@@ -154,7 +154,7 @@ void Grandf::deal() {
 
 ******************************/
 void Grandf::collect() {
-    unmarkAll();
+    setMarkedItems();
 
     for (int pos = 6; pos >= 0; pos--) {
         foreach (Card *c, store[pos]->cards())

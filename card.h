@@ -37,8 +37,8 @@
 #ifndef CARD_H
 #define CARD_H
 
-class Pile;
 class Card;
+class Pile;
 
 #include <QtCore/QList>
 class QGraphicsItemAnimation;
@@ -50,6 +50,13 @@ class QAbstractAnimation;
 // A list of cards.  Used in many places.
 typedef QList<Card*> CardList;
 
+class MarkableItem
+{
+public:
+    virtual ~MarkableItem() {};
+    virtual void setMarked( bool marked ) = 0;
+    virtual bool isMarked() const = 0;
+};
 
 // In kpat, a Card is an object that has at least two purposes:
 //  - It has card properties (Suit, Rank, etc)
@@ -77,7 +84,8 @@ protected:
     bool        m_faceup;
 };
 
-class Card: public QObject, public AbstractCard, public QGraphicsPixmapItem {
+class Card: public QObject, public AbstractCard, public QGraphicsPixmapItem, public MarkableItem
+{
     Q_OBJECT
     Q_PROPERTY( QPointF pos READ pos WRITE setPos )
     Q_PROPERTY( qreal rotation READ rotation WRITE setRotation )
@@ -110,8 +118,8 @@ public:
 
     bool         animated() const;
 
-    void setHighlighted( bool flag );
-    bool isHighlighted() const { return m_highlighted; }
+    virtual void setMarked( bool flag );
+    virtual bool isMarked() const;
 
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
     virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event );
@@ -147,7 +155,7 @@ private:
     qreal         m_flippedness;
 
     bool      m_takenDown;
-    bool      m_highlighted;
+    bool      m_marked;
     QPointF   m_unzoomedPosition;
 };
 

@@ -64,7 +64,7 @@ AbstractCard::AbstractCard( Rank r, Suit s )
 Card::Card( Rank r, Suit s )
     : QObject(), AbstractCard( r, s ), QGraphicsPixmapItem(),
       m_source(0), m_animation( 0 ), m_takenDown(false),
-      m_highlighted( false )
+      m_marked( false )
 {
     setShapeMode( QGraphicsPixmapItem::BoundingRectShape );
     setTransformationMode( Qt::SmoothTransformation );
@@ -113,7 +113,7 @@ void Card::updatePixmap()
     if( m_faceup )
     {
         QPixmap pix = deck->frontsidePixmap( m_rank, m_suit );
-        if ( m_highlighted )
+        if ( m_marked )
         {
             QPainter p( &pix );
             p.setCompositionMode( QPainter::CompositionMode_SourceAtop );
@@ -330,12 +330,17 @@ bool Card::takenDown() const
     return m_takenDown;
 }
 
-void Card::setHighlighted( bool flag ) {
-    if ( m_highlighted != flag )
+void Card::setMarked( bool flag ) {
+    if ( m_marked != flag )
     {
-        m_highlighted = flag;
+        m_marked = flag;
         updatePixmap();
     }
+}
+
+bool Card::isMarked() const
+{
+    return m_marked;
 }
 
 void Card::stopAnimation()
@@ -350,8 +355,6 @@ void Card::stopAnimation()
     m_animation = 0;
 
     setZValue( m_destZ );
-//     if ( source() )
-//         setSpread( source()->cardOffset( this ) );
 
     emit stopped( this );
 }

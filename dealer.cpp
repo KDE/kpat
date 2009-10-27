@@ -382,7 +382,7 @@ void DealerScene::saveGame(QDomDocument &doc)
 
 void DealerScene::openGame(QDomDocument &doc)
 {
-    unmarkAll();
+    setMarkedItems();
     QDomElement dealer = doc.documentElement();
 
     QString options = dealer.attribute("options");
@@ -456,7 +456,7 @@ void DealerScene::openGame(QDomDocument &doc)
 
 void DealerScene::undo()
 {
-    unmarkAll();
+    setMarkedItems();
     stopDemo();
     kDebug(11111) << "::undo" << d->undoList.count();
     if (d->undoList.count() > 1) {
@@ -478,7 +478,7 @@ void DealerScene::undo()
 
 void DealerScene::redo()
 {
-    unmarkAll();
+    setMarkedItems();
     stopDemo();
     kDebug(11111) << "::redo" << d->redoList.count();
     if (d->redoList.count() > 0) {
@@ -564,8 +564,7 @@ DealerScene::DealerScene()
 
 DealerScene::~DealerScene()
 {
-    kDebug(11111) << "~DealerScene";
-    unmarkAll();
+    setMarkedItems();
 
     clearHints();
 
@@ -605,17 +604,16 @@ void DealerScene::hint()
 
     d->autoDropTimer->stop();
 
-    if ( ! marked.isEmpty() )
+    if ( !m_markedItems.isEmpty() )
     {
-        unmarkAll();
+        setMarkedItems();
         return;
     }
 
     setWaiting( true );
 
-    unmarkAll();
     clearHints();
-    kDebug(11111) << "hint" << d->winMoves.count();
+
     if ( d->winMoves.count() )
     {
         MOVE m = d->winMoves.first();
@@ -634,11 +632,15 @@ void DealerScene::hint()
             kDebug(11111) << "win move" << mh->pile()->objectName() << " " << mh->card()->rank() << " " << mh->card()->suit() << " " << mh->priority();
         }
         getHints();
-    } else
+    } else {
         getHints();
+    }
 
-    for (HintList::ConstIterator it = hints.constBegin(); it != hints.constEnd(); ++it)
-        mark((*it)->card());
+    QSet<MarkableItem*> toMark;
+    foreach ( MoveHint * h, hints )
+        toMark << h->card();
+    setMarkedItems( toMark );
+
     clearHints();
 
     setWaiting( false );
@@ -788,41 +790,31 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
             card->setPos( card->pos() + e->scenePos() - moving_start );
         moving_start = e->scenePos();
 
-        // TODO some caching of the results
-        unmarkAll();
+        QSet<MarkableItem*> toMark;
 
         Pile * dropPile = targetPile();
         if (dropPile) {
             if (dropPile->isEmpty()) {
-                dropPile->setHighlighted(true);
-                marked.append(dropPile);
+                toMark << dropPile;
             } else {
-                mark(dropPile->top());
+                toMark << dropPile->top();
             }
         }
+
+        setMarkedItems( toMark );
     }
 }
 
-void DealerScene::mark(Card *c)
+
+void DealerScene::setMarkedItems( QSet<MarkableItem*> s )
 {
-    c->setHighlighted(true);
-    if (!marked.contains(c))
-        marked.append(c);
+    foreach ( MarkableItem * i, m_markedItems.subtract( s ) )
+        i->setMarked( false );
+    foreach ( MarkableItem * i, s )
+        i->setMarked( true );
+    m_markedItems = s;
 }
 
-void DealerScene::unmarkAll()
-{
-    for (QList<QGraphicsItem *>::Iterator it = marked.begin(); it != marked.end(); ++it)
-    {
-        Card *c = dynamic_cast<Card*>( *it );
-        if ( c )
-            c->setHighlighted(false);
-        Pile *p = dynamic_cast<Pile*>( *it );
-        if ( p )
-            p->setHighlighted(false);
-    }
-    marked.clear();
-}
 
 void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 {
@@ -830,7 +822,7 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
     if ( waiting() )
         return;
 
-    unmarkAll();
+    setMarkedItems();
     stopDemo();
 
     QGraphicsItem *topItem = itemAt( e->scenePos() );
@@ -911,7 +903,7 @@ void DealerScene::startNew(int gameNumber)
 
     stopDemo();
     kDebug(11111) << gettime() << "startNew unmarkAll\n";
-    unmarkAll();
+    setMarkedItems();
 
     foreach (Card * c, deck->cards())
     {
@@ -1036,7 +1028,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
     if (movingCards.isEmpty())
         return;
 
-    unmarkAll();
+    setMarkedItems();
 
     Pile * destination = targetPile();
     if (destination) {
@@ -1143,7 +1135,7 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
     if (waiting())
         return;
 
-    unmarkAll();
+    setMarkedItems();
 
     if (!movingCards.isEmpty()) {
         movingCards.first()->source()->moveCardsBack(movingCards);
@@ -1342,7 +1334,7 @@ bool DealerScene::startAutoDrop()
             int count = 0;
 
             if ( !cards.isEmpty() )
-                unmarkAll();
+                setMarkedItems();
 
             for ( CardList::Iterator it2 = cards.begin(); it2 != cards.end(); ++it2 )
             {
@@ -1653,7 +1645,7 @@ void DealerScene::demo()
     d->demo_active = true;
     d->gothelp = true;
     considerGameStarted();
-    unmarkAll();
+    setMarkedItems();
     clearHints();
     getHints();
     d->demotimer->stop();

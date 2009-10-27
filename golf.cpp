@@ -153,7 +153,7 @@ Card *Golf::newCards()
     if ( waste->top() && waste->top()->animated() )
         return waste->top();
 
-    unmarkAll();
+    setMarkedItems();
 
     Card *c = talon->top();
     waste->animatedAdd( c, false );

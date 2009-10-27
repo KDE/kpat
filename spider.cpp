@@ -185,7 +185,7 @@ void Spider::setSuits(int suits)
         m_suits = suits;
 
         stopDemo();
-        unmarkAll();
+        setMarkedItems();
 
         int cardWidth = deck->cardWidth();
         setupDeck();
@@ -396,7 +396,7 @@ QPointF Spider::randomPos()
 
 void Spider::deal()
 {
-    unmarkAll();
+    setMarkedItems();
 
     m_leg = 0;
     m_redeal = 0;
@@ -444,7 +444,7 @@ Card *Spider::newCards()
     if (m_redeal > 4)
         return 0;
 
-    unmarkAll();
+    setMarkedItems();
 
     for (int column = 0; column < 10; column++) {
         stack[column]->animatedAdd(redeals[m_redeal]->top(), true);

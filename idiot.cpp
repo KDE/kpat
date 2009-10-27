@@ -179,7 +179,7 @@ Card *Idiot::newCards()
             if ( m_play[i]->top() )
                 return m_play[i]->top();
 
-    unmarkAll();
+    setMarkedItems();
 
     // Move the four top cards of the deck to the piles, faceup, spread out.
     for ( int i = 0; i < 4; ++i )

@@ -106,7 +106,7 @@ Card *Gypsy::newCards()
     if (talon->isEmpty())
         return 0;
 
-    unmarkAll();
+    setMarkedItems();
     dealRow(true);
     takeState();
     considerGameStarted();

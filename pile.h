@@ -49,7 +49,7 @@ class DealerScene;
 
 **************************************/
 
-class Pile : public QObject, public QGraphicsPixmapItem
+class Pile : public QObject, public QGraphicsPixmapItem, public MarkableItem
 {
     Q_OBJECT
 
@@ -96,8 +96,8 @@ public:
     void setTarget(bool t) { _target = t; }
     bool target() const { return _target; }
 
-    void setHighlighted( bool flag );
-    bool isHighlighted() const { return m_highlighted; }
+    virtual void setMarked( bool flag );
+    virtual bool isMarked() const;
 
     void setGraphicVisible( bool flag );
     bool isGraphicVisible() { return m_graphicVisible; } ;
@@ -188,7 +188,7 @@ private:
     int myIndex;
     bool _target;
 
-    bool m_highlighted;
+    bool m_marked;
     bool m_graphicVisible;
     QPointF _pilePos;
     QSizeF m_reserved;

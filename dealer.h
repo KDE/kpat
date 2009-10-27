@@ -49,6 +49,7 @@ class Solver;
 
 #include <KRandomSequence>
 
+#include <QtCore/QSet>
 #include <QtGui/QAction>
 #include <QtGui/QGraphicsScene>
 class QDomDocument;
@@ -184,8 +185,7 @@ protected:
     void setState(State *);
     void eraseRedo();
 
-    void mark(Card *c);
-    void unmarkAll();
+    void setMarkedItems( QSet<MarkableItem*> s = QSet<MarkableItem*>() );
 
     Pile *findTarget(Card *c);
     Pile *targetPile();
@@ -236,7 +236,7 @@ protected slots:
     void startDealAnimation();
 
 private:
-    QList<QGraphicsItem *> marked;
+    QSet<MarkableItem*> m_markedItems;
 
     bool moved;
     CardList movingCards;
