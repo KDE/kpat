@@ -137,7 +137,7 @@ void Golf::deal()
     startDealAnimation();
 
     Card *c = talon->top();
-    waste->add(c, false);
+    waste->animatedAdd(c, false);
     c->stopAnimation();
     qreal x = c->x();
     qreal y = c->y();
@@ -156,7 +156,7 @@ Card *Golf::newCards()
     unmarkAll();
 
     Card *c = talon->top();
-    waste->add( c, false );
+    waste->animatedAdd( c, false );
     c->stopAnimation();
     qreal x = c->x();
     qreal y = c->y();

@@ -83,7 +83,7 @@ void Gypsy::restart() {
 
 void Gypsy::dealRow(bool faceup) {
     for (int round=0; round < 8; round++)
-        store[round]->add(talon->top(), faceup);
+        store[round]->animatedAdd(talon->top(), faceup);
 }
 
 void Gypsy::deal() {

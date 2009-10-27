@@ -106,7 +106,7 @@ public:
 
     Card *top() const;
 
-    void add( Card *c, bool faceUp, QPointF startPos = QPointF(-1,-1) ); // for initial deal
+    void animatedAdd( Card *c, bool faceUp );
     void add( Card *c, int index = -1);
     void remove(Card *c);
     void clear();

@@ -61,7 +61,7 @@ public:
         // deal has happened.
         if ( isEmpty() /*&& CardDeck::self()->cardsLeft() < 104*/ )
         {
-            add( drawPile->top(), true );
+            animatedAdd( drawPile->top(), true );
         }
     }
     Pile * drawPile;
@@ -192,7 +192,7 @@ void Mod3::dealRow(int row)
 
     for (int c = 0; c < 8; c++) {
         Card *card = talon->top();
-        stack[row][c]->add (card, true);
+        stack[row][c]->animatedAdd (card, true);
     }
 }
 

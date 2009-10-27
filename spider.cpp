@@ -447,7 +447,7 @@ Card *Spider::newCards()
     unmarkAll();
 
     for (int column = 0; column < 10; column++) {
-        stack[column]->add(redeals[m_redeal]->top(), true);
+        stack[column]->animatedAdd(redeals[m_redeal]->top(), true);
 
         // I may put an Ace on a K->2 pile so it could need cleared.
         if (stack[column]->top()->rank() == Card::Ace)

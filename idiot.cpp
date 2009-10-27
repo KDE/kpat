@@ -86,7 +86,7 @@ void Idiot::restart()
 
     // Move the four top cards of the deck to the piles, faceup, spread out.
     for ( int i = 0; i < 4; ++i )
-        m_play[ i ]->add( deck->takeCard(), true );
+        m_play[ i ]->animatedAdd( deck->takeCard(), true );
 
     deck->takeAllCards( talon );
 
@@ -118,19 +118,19 @@ bool Idiot::cardClicked(Card *c)
 
     if ( index != -1 && static_cast<IdiotSolver*>( solver() )->canMoveAway(index) )
         // Add to 'm_away', face up, no spread
-        m_away->add(c, true );
+        m_away->animatedAdd(c, true );
     else if ( m_play[ 0 ]->isEmpty() )
         // Add to pile 1, face up, spread.
-        m_play[0]->add(c, true );
+        m_play[0]->animatedAdd(c, true );
     else if ( m_play[ 1 ]->isEmpty() )
         // Add to pile 2, face up, spread.
-        m_play[1]->add(c, true );
+        m_play[1]->animatedAdd(c, true );
     else if ( m_play[ 2 ]->isEmpty() )
         // Add to pile 3, face up, spread.
-        m_play[2]->add( c, true );
+        m_play[2]->animatedAdd( c, true );
     else if ( m_play[ 3 ]->isEmpty() )
         // Add to pile 4, face up, spread.
-        m_play[3]->add(c, true );
+        m_play[3]->animatedAdd(c, true );
     else
         didMove = false;
 
@@ -183,7 +183,7 @@ Card *Idiot::newCards()
 
     // Move the four top cards of the deck to the piles, faceup, spread out.
     for ( int i = 0; i < 4; ++i )
-        m_play[ i ]->add( talon->top(), true );
+        m_play[ i ]->animatedAdd( talon->top(), true );
 
     takeState();
     considerGameStarted();

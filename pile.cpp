@@ -379,7 +379,7 @@ QSizeF Pile::cardOffset( const Card *card ) const
 }
 
 /* override cardtype (for initial deal ) */
-void Pile::add( Card* _card, bool faceUp, QPointF startPos )
+void Pile::animatedAdd( Card* _card, bool faceUp )
 {
     if (!_card)
         return;
@@ -402,8 +402,6 @@ void Pile::add( Card* _card, bool faceUp, QPointF startPos )
     add(_card);
 
     _card->setZValue( z2 );
-    if ( startPos != QPointF( -1, -1 ) )
-        _card->setPos( startPos );
 
     qreal distx = x2 - _card->x();
     qreal disty = y2 - _card->y();
