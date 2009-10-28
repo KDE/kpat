@@ -104,7 +104,7 @@ private:
     QList<Card*> m_allCards;
     QList<Card*> m_undealtCards;
 
-    KCardCache m_cache;
+    KCardCache * m_cache;
     QSizeF m_originalCardSize;
     QSize m_currentCardSize;
 

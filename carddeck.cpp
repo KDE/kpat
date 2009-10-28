@@ -46,11 +46,44 @@
 #include <KGlobal>
 #include <KSharedConfig>
 
+#include <QtCore/QCache>
 #include <QtCore/QTimer>
+
+class CardDeckPrivateStatic
+{
+public:
+    CardDeckPrivateStatic()
+      : m_cacheCache( 3 )
+    {}
+
+    KCardCache * getCardCache( const QString & frontSide, const QString & backSide )
+    {
+        KCardCache * cache = m_cacheCache.take( frontSide );
+        if ( !cache )
+        {
+            cache = new KCardCache();
+            cache->setFrontTheme( frontSide );
+        }
+        cache->setBackTheme( backSide );
+        return cache;
+    };
+
+    void stashCardCache( KCardCache * cache )
+    {
+        if ( cache )
+            m_cacheCache.insert( cache->frontTheme(), cache );
+    };
+
+private:
+    QCache<QString,KCardCache> m_cacheCache;
+};
+
+K_GLOBAL_STATIC( CardDeckPrivateStatic, cdps )
 
 
 CardDeck::CardDeck( int copies, QList<Card::Suit> suits, QList<Card::Rank> ranks )
-  : m_originalCardSize( 1, 1 ),
+  : m_cache( 0 ),
+    m_originalCardSize( 1, 1 ),
     m_currentCardSize( 0, 0 )
 {
     KConfigGroup cs( KGlobal::config(), settings_group );
@@ -79,6 +112,8 @@ CardDeck::~CardDeck()
     qDeleteAll( m_allCards );
     m_allCards.clear();
     m_undealtCards.clear();
+
+    cdps->stashCardCache( m_cache );
 }
 
 
@@ -181,7 +216,7 @@ void CardDeck::setCardWidth( int width )
     if ( newSize != m_currentCardSize )
     {
         m_currentCardSize = newSize;
-        m_cache.setSize( newSize );
+        m_cache->setSize( newSize );
         foreach ( Card * c, m_allCards )
             c->updatePixmap();
 
@@ -244,13 +279,13 @@ QPixmap CardDeck::frontsidePixmap( AbstractCard::Rank r, AbstractCard::Suit s )
         case AbstractCard::King :  rank = KCardInfo::King;  break;
     }
 
-    return m_cache.frontside( KCardInfo( suit, rank ) );
+    return m_cache->frontside( KCardInfo( suit, rank ) );
 }
 
 
 QPixmap CardDeck::backsidePixmap( int variant )
 {
-    return m_cache.backside( variant );
+    return m_cache->backside( variant );
 }
 
 
@@ -261,10 +296,10 @@ void CardDeck::updateTheme( const KConfigGroup & cs )
     Q_ASSERT ( !backtheme.isEmpty() );
     Q_ASSERT ( !fronttheme.isEmpty() );
 
-    m_cache.setFrontTheme( fronttheme );
-    m_cache.setBackTheme( backtheme );
+    cdps->stashCardCache( m_cache );
+    m_cache = cdps->getCardCache( fronttheme, backtheme );
 
-    m_originalCardSize = m_cache.defaultFrontSize( KCardInfo( KCardInfo::Spade, KCardInfo::Ace ) );
+    m_originalCardSize = m_cache->defaultFrontSize( KCardInfo( KCardInfo::Spade, KCardInfo::Ace ) );
     Q_ASSERT( !m_originalCardSize.isNull() );
     m_currentCardSize = m_originalCardSize.toSize();
 }
@@ -272,7 +307,7 @@ void CardDeck::updateTheme( const KConfigGroup & cs )
 
 void CardDeck::loadInBackground()
 {
-    m_cache.loadTheme( KCardCache::LoadFrontSide | KCardCache::Load52Cards );
+    m_cache->loadTheme( KCardCache::LoadFrontSide | KCardCache::Load52Cards );
 }
 
 

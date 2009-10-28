@@ -2186,8 +2186,6 @@ void DealerScene::addCardForDeal(Pile * pile, Card * card, bool faceUp, QPointF 
     card->turn( faceUp );
     pile->add( card );
     m_initDealPositions.insert( card, startPos );
-
-    kDebug() << "Adding for animation" << card->objectName();
 }
 
 

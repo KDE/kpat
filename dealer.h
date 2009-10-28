@@ -213,6 +213,9 @@ protected:
     virtual void newDemoMove(Card *m);
     void considerGameStarted();
 
+    void addCardForDeal( Pile * pile, Card * card, bool faceUp, QPointF startPos );
+    void startDealAnimation();
+
     CardDeck * deck;
     PileList piles;
     QList<MoveHint*> hints;
@@ -231,9 +234,6 @@ protected slots:
     void takeState();
     virtual Card *newCards();
     virtual bool startAutoDrop();
-
-    void addCardForDeal( Pile * pile, Card * card, bool faceUp, QPointF startPos );
-    void startDealAnimation();
 
 private:
     QSet<MarkableItem*> m_markedItems;
