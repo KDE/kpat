@@ -479,6 +479,19 @@ void Spider::mapOldId(int id)
    }
 }
 
+int Spider::oldId() const
+{
+    switch (m_suits) {
+    case 1 :
+        return DealerInfo::SpiderOneSuitId;
+    case 2 :
+        return DealerInfo::SpiderTwoSuitId;
+    case 4 :
+    default :
+        return DealerInfo::SpiderFourSuitId;
+    }
+}
+
 
 
 static class SpideDealerInfo : public DealerInfo
@@ -495,6 +508,21 @@ public:
     virtual DealerScene *createGame() const
     {
         return new Spider();
+    }
+
+    virtual const char * name( int id ) const
+    {
+        switch ( id )
+        {
+        case DealerInfo::SpiderOneSuitId :
+            return I18N_NOOP("Spider (1 Suit)");
+        case DealerInfo::SpiderTwoSuitId :
+            return I18N_NOOP("Spider (2 Suit)");
+        case DealerInfo::SpiderFourSuitId :
+            return I18N_NOOP("Spider (3 Suit)");
+        default :
+            return m_name;
+        }
     }
 } spideDealerInfo;
 

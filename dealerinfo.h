@@ -72,13 +72,13 @@ public:
     DealerInfo( const char * name, int id );
     virtual ~DealerInfo();
 
-    const char * name() const;
+    virtual const char * name( int id = -1 ) const;
     void addId( int id );
     const QList<int> ids() const;
 
     virtual DealerScene * createGame() const = 0;
 
-private:
+protected:
     const char * m_name;
     QList<int> m_ids;
 };

@@ -290,6 +290,16 @@ void Klondike::mapOldId(int id)
 }
 
 
+int Klondike::oldId() const
+{
+    if ( EasyRules )
+        return DealerInfo::KlondikeDrawOneId;
+    else
+        return DealerInfo::KlondikeDrawThreeId;
+}
+
+
+
 
 static class KlondikeDealerInfo : public DealerInfo
 {
@@ -304,6 +314,19 @@ public:
     virtual DealerScene *createGame() const
     {
         return new Klondike();
+    }
+
+    virtual const char * name( int id ) const
+    {
+        switch ( id )
+        {
+        case DealerInfo::KlondikeDrawOneId :
+            return I18N_NOOP("Klondike (Draw 1)");
+        case DealerInfo::KlondikeDrawThreeId :
+            return I18N_NOOP("Klondike (Draw 3)");
+        default :
+            return m_name;
+        }
     }
 } klondikeDealerInfo;
 

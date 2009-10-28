@@ -136,6 +136,7 @@ public:
     void saveGame(QDomDocument &doc);
     void openGame(QDomDocument &doc);
     virtual void mapOldId(int id);
+    virtual int oldId() const;
     void recordGameStatistics();
 
     virtual void restart() = 0;

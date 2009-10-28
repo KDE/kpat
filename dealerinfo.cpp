@@ -51,8 +51,9 @@ DealerInfo::~DealerInfo()
 {
 }
 
-const char * DealerInfo::name() const
+const char * DealerInfo::name( int id ) const
 {
+    Q_UNUSED( id );
     return m_name;
 }
 

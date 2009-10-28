@@ -1832,12 +1832,14 @@ void DealerScene::recordGameStatistics()
     // it recording a loss) or if it has already been recorded.
     if ( d->gameStarted && !d->wasJustSaved && !d->_gameRecorded )
     {
-        QString totalPlayedKey = QString("total%1").arg( d->_id );
-        QString wonKey = QString("won%1").arg( d->_id );
-        QString winStreakKey = QString("winstreak%1").arg( d->_id );
-        QString maxWinStreakKey = QString("maxwinstreak%1").arg( d->_id );
-        QString loseStreakKey = QString("loosestreak%1").arg( d->_id );
-        QString maxLoseStreakKey = QString("maxloosestreak%1").arg( d->_id );
+        int id = oldId();
+
+        QString totalPlayedKey = QString("total%1").arg( id );
+        QString wonKey = QString("won%1").arg( id );
+        QString winStreakKey = QString("winstreak%1").arg( id );
+        QString maxWinStreakKey = QString("maxwinstreak%1").arg( id );
+        QString loseStreakKey = QString("loosestreak%1").arg( id );
+        QString maxLoseStreakKey = QString("maxloosestreak%1").arg( id );
 
         KConfigGroup config(KGlobal::config(), scores_group);
 
@@ -2159,6 +2161,13 @@ void DealerScene::createDump( QPaintDevice *device )
 }
 
 void DealerScene::mapOldId(int) {}
+
+
+int DealerScene::oldId() const
+{
+    return gameId();
+}
+
 
 bool DealerScene::allowedToStartNewGame()
 {

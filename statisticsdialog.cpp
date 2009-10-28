@@ -60,12 +60,21 @@ StatisticsDialog::StatisticsDialog(QWidget* aParent)
 	setMainWidget(widget);
 	setButtons(KDialog::Reset | KDialog::Close);
 	setDefaultButton(KDialog::Close);
-	ui->GameType->setFocus();
-	ui->GameType->setMaxVisibleItems(DealerInfoList::self()->games().size());
+
 
 	QMap<QString,int> nameToIdMap;
 	foreach (DealerInfo* game, DealerInfoList::self()->games())
-		nameToIdMap.insert(QString(game->name()), game->ids().first());
+	{
+		QList<int> ids = game->ids();
+
+		// If a game has more than one ID, ignore the first one as it's the
+		// generic ID for all of the games sub-types.
+		if (ids.size() > 1)
+			ids.removeFirst();
+
+		foreach (int id, ids)
+			nameToIdMap.insert(QString(game->name(id)), id);
+	}
 
 	QMap<QString,int>::const_iterator it = nameToIdMap.constBegin();
 	QMap<QString,int>::const_iterator end = nameToIdMap.constEnd();
@@ -75,6 +84,9 @@ StatisticsDialog::StatisticsDialog(QWidget* aParent)
 		indexToIdMap[ui->GameType->count()] = it.value();
 		ui->GameType->addItem(it.key());
 	}
+
+	ui->GameType->setFocus();
+	ui->GameType->setMaxVisibleItems(indexToIdMap.size());
 
 	showGameType(indexToIdMap[0]);
 

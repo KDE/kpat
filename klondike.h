@@ -52,6 +52,7 @@ public:
     explicit Klondike();
 
     virtual void mapOldId(int id);
+    virtual int oldId() const;
     virtual void restart();
     virtual bool startAutoDrop();
     QList<QAction*> configActions() const;
@@ -81,7 +82,6 @@ private:
 
     KlondikePile *pile;
     Card::Rank target_tops[4];
-    bool noLongerNeeded(Card::Rank r, Card::Suit s );
 
 private slots:
     void gameTypeChanged();
