@@ -136,12 +136,7 @@ void Golf::deal()
 
     startDealAnimation();
 
-    Card *c = talon->top();
-    waste->animatedAdd(c, false);
-    c->stopAnimation();
-    QPointF destPos = c->realPos();
-    c->setPos( talon->pos() );
-    c->flipTo(destPos, DURATION_FLIP);
+    talon->top()->flipToPile(waste, DURATION_FLIP);
 }
 
 Card *Golf::newCards()
@@ -154,19 +149,14 @@ Card *Golf::newCards()
 
     setMarkedItems();
 
-    Card *c = talon->top();
-    waste->animatedAdd( c, false );
-    c->stopAnimation();
-    QPointF destPos = c->realPos();
-    c->setPos( talon->pos() );
-    c->flipTo(destPos, DURATION_FLIP);
+    talon->top()->flipToPile(waste, DURATION_FLIP);
 
     takeState();
     considerGameStarted();
     if ( talon->isEmpty() )
         emit newCardsPossible( false );
 
-    return c;
+    return talon->top();
 }
 
 bool Golf::cardClicked(Card *c)

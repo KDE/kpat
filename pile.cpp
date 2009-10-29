@@ -334,7 +334,6 @@ void Pile::add( Card *_card, int index)
     {
         _card->setTakenDown(oldSource->target() && !target());
         oldSource->remove(_card);
-        oldSource->tryRelayoutCards();
     }
 
     _card->setSource(this);
@@ -398,7 +397,11 @@ void Pile::animatedAdd( Card* _card, bool faceUp )
         z2 = zValue() + 1;
     }
 
+    Pile *oldSource = _card->source();
     add(_card);
+
+    if ( oldSource )
+        oldSource->tryRelayoutCards();
 
     _card->setZValue( z2 );
 

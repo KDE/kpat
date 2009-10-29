@@ -54,18 +54,6 @@ QSizeF HorLeftPile::cardOffset( const Card *) const
     return QSizeF(-0.21, 0);
 }
 
-void HorLeftPile::relayoutCards()
-{
-    // this is just too heavy to animate, so we stop it
-    Pile::relayoutCards();
-    foreach ( Card *c, m_cards )
-    {
-        if ( c != top() )
-            c->stopAnimation();
-    }
-}
-
-
 Fortyeight::Fortyeight( )
     : DealerScene()
 {
@@ -138,27 +126,24 @@ Card *Fortyeight::newCards()
     if (talon->isEmpty())
     {
         lastdeal = true;
-        while (!pile->isEmpty())
+        while (pile->cardsLeft() > 1)
         {
-            Card *c = pile->at(pile->cardsLeft()-1);
-            c->stopAnimation();
-            talon->animatedAdd(c, false);
+            Card *c = pile->top();
+            talon->add(c);
+            c->flipTo( talon->pos(), DURATION_FLIP );
         }
     }
-
-    Card *c = talon->top();
-    pile->animatedAdd(c, false);
-    c->stopAnimation();
-    QPointF destPos = c->realPos();
-    c->setPos( talon->pos() );
-    c->flipTo( destPos, DURATION_FLIP );
+    else
+    {
+        talon->top()->flipToPile( pile, DURATION_FLIP );
+    }
 
     takeState();
     considerGameStarted();
     if ( talon->isEmpty() && lastdeal )
         emit newCardsPossible( false );
 
-    return c;
+    return talon->top();
 }
 
 bool Fortyeight::checkAdd(int, const Pile *c1, const CardList &c2) const
@@ -186,12 +171,7 @@ void Fortyeight::deal()
 
     startDealAnimation();
 
-    Card *c = talon->top();
-    pile->animatedAdd(c, false);
-    c->stopAnimation();
-    QPointF destPos = c->realPos();
-    c->setPos( talon->pos() );
-    c->flipTo( destPos, DURATION_FLIP );
+    talon->top()->flipToPile( pile, DURATION_FLIP );
 }
 
 QString Fortyeight::getGameState()

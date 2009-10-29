@@ -287,6 +287,20 @@ void Card::flipTo( QPointF pos2, int duration )
     generalAnimation( pos2, zValue(), 1.0, 0.0, !isFaceUp(), true, duration );
 }
 
+void Card::flipToPile( Pile * pile, int duration )
+{
+    Q_ASSERT( pile );
+
+    QPointF origPos = pos();
+
+    pile->add(this);
+    pile->layoutCards( DURATION_RELAYOUT );
+    stopAnimation();
+    QPointF destPos = realPos();
+
+    setPos( origPos );
+    flipTo( destPos, duration );
+}
 
 void Card::setTakenDown(bool td)
 {
