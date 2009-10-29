@@ -38,14 +38,6 @@
 
 #include "dealer.h"
 
-class HorRightPile : public Pile
-{
-    Q_OBJECT
-
-public:
-    explicit HorRightPile( int _index, const QString & objectName = QString() );
-    virtual QSizeF cardOffset( const Card *) const;
-};
 
 class Golf : public DealerScene
 {
@@ -73,7 +65,7 @@ private: // functions
 private:
     Pile* talon;
     Pile* stack[7];
-    HorRightPile* waste;
+    Pile* waste;
 };
 
 #endif

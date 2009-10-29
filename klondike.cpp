@@ -64,7 +64,7 @@ void KlondikePile::layoutCards( int duration )
     if ( m_cards.isEmpty() )
         return;
 
-    qreal divx = qMin<qreal>( ( maximumSpace().width() - dscene()->cardDeck()->cardWidth() ) / ( 2 * spread() * dscene()->cardDeck()->cardWidth() ), 1.0 );
+    qreal divx = qMin<qreal>( ( maximumSpace().width() - dscene()->cardDeck()->cardWidth() ) / ( 2 * spread().width() * dscene()->cardDeck()->cardWidth() ), 1.0 );
 
     QPointF cardPos = pos();
     int z = zValue();
@@ -79,7 +79,7 @@ void KlondikePile::layoutCards( int duration )
         else
         {
             m_cards[i]->moveTo( cardPos, z, dscene()->speedUpTime( duration ) );
-            cardPos.rx() += divx * spread() * dscene()->cardDeck()->cardWidth();
+            cardPos.rx() += divx * spread().width() * dscene()->cardDeck()->cardWidth();
         }
     }
 }
@@ -104,7 +104,7 @@ Klondike::Klondike()
     pile->setObjectName( "pile" );
     pile->setReservedSpace( QSizeF( 1.9, 1.0 ) );
     pile->setPilePos(1.0 + hspacing, 0);
-    pile->setSpread( 0.33 );
+    pile->setSpread( 0.33, 0 );
     pile->setAddFlags( Pile::disallow );
     pile->setRemoveFlags(Pile::Default);
     addPile(pile);
@@ -115,7 +115,7 @@ Klondike::Klondike()
         play[i]->setPilePos((1.0 + hspacing) * i, 1.0 + vspacing);
         play[i]->setAddType(Pile::KlondikeStore);
         play[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop | Pile::wholeColumn);
-        play[i]->setReservedSpace( QSizeF( 1.0, 1.0 + play[i]->spread() * 7 ) );
+        play[i]->setReservedSpace( QSizeF( 1.0, 1.0 + play[i]->spread().height() * 7 ) );
         addPile(play[i]);
     }
 
@@ -165,7 +165,7 @@ Card *Klondike::newCards()
         c->stopAnimation();
         // move back to flip
         c->setPos( talon->pos() );
-        QPointF destPos( pile->x() + pile->spread() * flipped * deck->cardWidth(), pile->y() );
+        QPointF destPos( pile->x() + pile->spread().width() * flipped * deck->cardWidth(), pile->y() );
         c->flipTo( destPos, 200 + 80 * ( flipped + 1 ) );
     }
 

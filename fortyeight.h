@@ -39,15 +39,6 @@
 #include "dealer.h"
 
 
-class HorLeftPile : public Pile
-{
-    Q_OBJECT
-
-public:
-    explicit HorLeftPile( int _index, const QString & objectName = QString() );
-    virtual QSizeF cardOffset(const Card *before) const;
-};
-
 class Fortyeight : public DealerScene
 {
     friend class FortyeightSolver;
@@ -71,7 +62,7 @@ private:
     Pile *talon;
     Pile *stack[8];
     Pile *target[8];
-    HorLeftPile *pile;
+    Pile *pile;
     bool lastdeal;
 };
 

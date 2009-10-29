@@ -44,18 +44,6 @@
 #include <KLocale>
 
 
-HorRightPile::HorRightPile( int _index, const QString & objectName )
-    : Pile(_index, objectName)
-{
-}
-
-QSizeF HorRightPile::cardOffset( const Card *) const
-{
-    return QSizeF(0.12, 0);
-}
-
-//-------------------------------------------------------------------------//
-
 Golf::Golf( )
     : DealerScene( )
 {
@@ -69,12 +57,13 @@ Golf::Golf( )
     connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
     addPile(talon);
 
-    waste=new HorRightPile(8, "waste");
+    waste = new Pile(8, "waste");
     waste->setPilePos(1.1, smallNeg);
     waste->setTarget(true);
     waste->setCheckIndex( 0 );
     waste->setAddFlags( Pile::addSpread);
     waste->setReservedSpace( QSizeF( 4.0, 1.0 ) );
+    waste->setSpread(0.12, 0);
     addPile(waste);
 
     for( int r = 0; r < 7; r++ ) {

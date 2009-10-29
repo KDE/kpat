@@ -108,7 +108,7 @@ Mod3::Mod3( )
                 stack[r][c]->setAddFlags( Pile::addSpread );
                 // Very tight spread makes it easy to quickly tell number of
                 // cards in each pile and we don't care about the cards beneath.
-                stack[r][c]->setSpread( 0.08 );
+                stack[r][c]->setSpread( 0, 0.08 );
                 stack[r][c]->setReservedSpace( QSizeF( 1.0, 1.23 ) );
             } else {
                 stack[r][c] = new Mod3Pile ( pileIndex, talon, QString( "stack3_%1" ).arg( c ) );

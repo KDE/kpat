@@ -81,7 +81,7 @@ Pile::Pile( int _index, const QString & objectName )
 
 
     setZValue(0);
-    setSpread( 0.33 );
+    setSpread( 0, 0.33 );
     setReservedSpace( QSizeF( 1, 1 ) );
     setShapeMode( QGraphicsPixmapItem::BoundingRectShape );
     setMaximumSpace( QSizeF( 1, 1 ) ); // just to make it valid
@@ -359,17 +359,14 @@ void Pile::add( Card *_card, int index)
 
 // Return the number of pixels in x and y that the card should be
 // offset from the start position of the pile.
-//
-// Note: Default is to only have vertical spread (Y direction).
-
 QSizeF Pile::cardOffset( const Card *card ) const
 {
     if ( addFlags & Pile::addSpread )
     {
         if (card->realFace())
-            return QSizeF(0, spread());
+            return spread();
         else
-            return QSizeF(0, qMin( spread() * 0.6, 1.3) );
+            return spread() * 0.6;
     }
 
     return QSize(0, 0);

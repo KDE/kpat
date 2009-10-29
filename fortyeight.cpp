@@ -44,16 +44,6 @@
 #include <KLocale>
 
 
-HorLeftPile::HorLeftPile( int _index, const QString & objectName )
-    : Pile(_index, objectName)
-{
-}
-
-QSizeF HorLeftPile::cardOffset( const Card *) const
-{
-    return QSizeF(-0.21, 0);
-}
-
 Fortyeight::Fortyeight( )
     : DealerScene()
 {
@@ -69,9 +59,10 @@ Fortyeight::Fortyeight( )
     connect(talon, SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
     addPile(talon);
 
-    pile = new HorLeftPile(20, "pile");
+    pile = new Pile(20, "pile");
     pile->setAddFlags(Pile::addSpread | Pile::disallow);
     pile->setPilePos(-dist_x, smallNeg);
+    pile->setSpread(-0.21, 0);
     pile->setReservedSpace( QSizeF( -(1 + 6 * dist_x), 1 ) );
     addPile(pile);
 
