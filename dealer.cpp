@@ -1346,7 +1346,7 @@ bool DealerScene::startAutoDrop()
                 z = z + 1;
                 xs.removeFirst();
                 ys.removeFirst();
-                t->moveTo(t->source()->x(), t->source()->y(), t->zValue(),
+                t->moveTo(t->source()->pos(), t->zValue(),
                           speedUpTime( DURATION_AUTODROP + count++ * DURATION_AUTODROP / 10 ) );
                 if ( t->animated() )
                 {
@@ -1590,14 +1590,14 @@ void DealerScene::won()
         card.ptr->turn(true);
         QRectF p = card.ptr->sceneBoundingRect();
         p.moveTo( 0, 0 );
-        qreal x, y;
+        QPointF dest;
         do {
-            x = 3*width()/2 - KRandom::random() % int(width() * 2);
-            y = 3*height()/2 - (KRandom::random() % int(height() * 2));
-            p.moveTopLeft(QPointF(x, y));
+            dest.rx() = 3*width()/2 - KRandom::random() % int(width() * 2);
+            dest.ry() = 3*height()/2 - (KRandom::random() % int(height() * 2));
+            p.moveTopLeft(dest);
         } while (can.intersects(p));
 
-        card.ptr->moveTo( x, y, 0, 1200);
+        card.ptr->moveTo( dest, 0, 1200);
         connect(card.ptr, SIGNAL(stopped(Card*)), SLOT(waitForWonAnim(Card*)));
         setWaiting(true);
     }
@@ -1675,15 +1675,12 @@ void DealerScene::demo()
 
         myassert(!empty.isEmpty());
 
-        qreal *oldcoords = new qreal[2*empty.count()];
-        int i = 0;
+        QMap<Card*,QPointF> oldPositions;
 
-        for (CardList::Iterator it = empty.begin(); it != empty.end(); ++it) {
-            Card *t = *it;
-            t->stopAnimation();
-            t->turn(true);
-            oldcoords[i++] = t->realX();
-            oldcoords[i++] = t->realY();
+        foreach (Card *c, empty) {
+            c->stopAnimation();
+            c->turn(true);
+            oldPositions.insert(c, c->realPos());
         }
 
         assert(mh->card());
@@ -1694,20 +1691,12 @@ void DealerScene::demo()
 
         mh->card()->source()->moveCards(empty, mh->pile());
 
-        i = 0;
-
-        for (CardList::Iterator it = empty.begin(); it != empty.end(); ++it) {
-            Card *t = *it;
-            qreal x1 = oldcoords[i++];
-            qreal y1 = oldcoords[i++];
-            qreal x2 = t->realX();
-            qreal y2 = t->realY();
-            t->stopAnimation();
-            t->setPos(QPointF( x1, y1) );
-            t->moveTo(x2, y2, t->zValue(), DURATION_DEMO);
+        foreach (Card *c, empty) {
+            QPointF destPos = c->realPos();
+            c->stopAnimation();
+            c->setPos(oldPositions.value(c));
+            c->moveTo(destPos, c->zValue(), DURATION_DEMO);
         }
-
-        delete [] oldcoords;
 
         newDemoMove(mh->card());
 
@@ -2211,11 +2200,10 @@ void DealerScene::startDealAnimation()
             QPointF pos2 = c->pos();
             c->setPos( m_initDealPositions.value( c ) );
 
-            qreal distx = pos2.x() - c->x();
-            qreal disty = pos2.y() - c->y();
-            qreal dist = sqrt( distx * distx + disty * disty );
+            QPointF delta = c->pos() - pos2;
+            qreal dist = sqrt( delta.x() * delta.x() + delta.y() * delta.y() );
             qreal whole = sqrt( width() * width() + height() * height() );
-            c->moveTo( pos2.x(), pos2.y(), c->zValue(), qRound( dist * DURATION_DEAL / whole ) );
+            c->moveTo( pos2, c->zValue(), qRound( dist * DURATION_DEAL / whole ) );
         }
     }
     m_initDealPositions.clear();

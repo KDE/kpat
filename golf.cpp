@@ -139,10 +139,9 @@ void Golf::deal()
     Card *c = talon->top();
     waste->animatedAdd(c, false);
     c->stopAnimation();
-    qreal x = c->x();
-    qreal y = c->y();
+    QPointF destPos = c->realPos();
     c->setPos( talon->pos() );
-    c->flipTo(x, y, DURATION_FLIP );
+    c->flipTo(destPos, DURATION_FLIP);
 }
 
 Card *Golf::newCards()
@@ -158,10 +157,9 @@ Card *Golf::newCards()
     Card *c = talon->top();
     waste->animatedAdd( c, false );
     c->stopAnimation();
-    qreal x = c->x();
-    qreal y = c->y();
+    QPointF destPos = c->realPos();
     c->setPos( talon->pos() );
-    c->flipTo(x, y, DURATION_FLIP );
+    c->flipTo(destPos, DURATION_FLIP);
 
     takeState();
     considerGameStarted();

@@ -149,10 +149,9 @@ Card *Fortyeight::newCards()
     Card *c = talon->top();
     pile->animatedAdd(c, false);
     c->stopAnimation();
-    qreal x = c->realX();
-    qreal y = c->realY();
+    QPointF destPos = c->realPos();
     c->setPos( talon->pos() );
-    c->flipTo(x, y, DURATION_FLIP );
+    c->flipTo( destPos, DURATION_FLIP );
 
     takeState();
     considerGameStarted();
@@ -190,10 +189,9 @@ void Fortyeight::deal()
     Card *c = talon->top();
     pile->animatedAdd(c, false);
     c->stopAnimation();
-    qreal x = c->realX();
-    qreal y = c->realY();
+    QPointF destPos = c->realPos();
     c->setPos( talon->pos() );
-    c->flipTo(x, y, DURATION_FLIP );
+    c->flipTo( destPos, DURATION_FLIP );
 }
 
 QString Fortyeight::getGameState()

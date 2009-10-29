@@ -78,7 +78,7 @@ void KlondikePile::layoutCards( int duration )
         }
         else
         {
-            m_cards[i]->moveTo( cardPos.x(), cardPos.y(), z, dscene()->speedUpTime( duration ) );
+            m_cards[i]->moveTo( cardPos, z, dscene()->speedUpTime( duration ) );
             cardPos.rx() += divx * spread() * dscene()->cardDeck()->cardWidth();
         }
     }
@@ -165,7 +165,8 @@ Card *Klondike::newCards()
         c->stopAnimation();
         // move back to flip
         c->setPos( talon->pos() );
-        c->flipTo( pile->x() + pile->spread() * flipped * deck->cardWidth(), pile->y(), 200 + 80 * ( flipped + 1 ) );
+        QPointF destPos( pile->x() + pile->spread() * flipped * deck->cardWidth(), pile->y() );
+        c->flipTo( destPos, 200 + 80 * ( flipped + 1 ) );
     }
 
     takeState();

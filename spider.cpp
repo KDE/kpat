@@ -235,7 +235,7 @@ void Spider::cardStopped(Card * t)
     for( int column = 0; column < 10; column++ ) {
         Card *t = stack[column]->top();
         if (t && !t->isFaceUp())
-           t->flipTo(t->x(), t->y(), DURATION_FLIP );
+           t->flipTo(t->pos(), DURATION_FLIP);
     }
     t->disconnect(this, SLOT( cardStopped( Card* ) ) );
     setWaiting( false );
@@ -367,7 +367,7 @@ bool Spider::checkPileDeck(Pile *check, bool checkForDemo)
                 --it;
                 legs[m_leg]->add( *it );
                 // ( *it )->setSpread( QSize( 0, 0 ) );
-                ( *it )->moveTo( legs[m_leg]->x(), legs[m_leg]->y(), legs[m_leg]->zValue() + z, 300 + int( z ) * 30 );
+                ( *it )->moveTo( legs[m_leg]->pos(), legs[m_leg]->zValue() + z, 300 + int( z ) * 30 );
                 z += 1;
             }
             connect(run.first(), SIGNAL(stopped(Card*)), SLOT(cardStopped(Card*)));

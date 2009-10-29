@@ -170,26 +170,14 @@ qreal Card::flippedness() const
     return m_flippedness;
 }
 
-
-// Return the X of the cards real position.  This is the destination
-// of the animation if animated, and the current X otherwise.
-qreal Card::realX() const
+// Return the  cards real position.  This is the destination
+// of the animation if animated, and the current position otherwise.
+QPointF Card::realPos() const
 {
     if (animated())
-        return m_destX;
+        return QPointF(m_destX, m_destY);
     else
-        return x();
-}
-
-
-// Return the Y of the cards real position.  This is the destination
-// of the animation if animated, and the current Y otherwise.
-qreal Card::realY() const
-{
-    if (animated())
-        return m_destY;
-    else
-        return y();
+        return pos();
 }
 
 
@@ -214,7 +202,7 @@ bool Card::realFace() const
     return m_destFace;
 }
 
-void Card::generalAnimation( QPointF pos2, qreal z2, qreal zoom, qreal rotate, bool faceup, int duration )
+void Card::generalAnimation( QPointF pos2, qreal z2, qreal zoom, qreal rotate, bool faceup, bool raise, int duration )
 {
     bool posChange = ( qAbs( pos2.x() - x() ) >= 2 || qAbs( pos2.y() - y() ) >= 1 );
     bool scaleChange = ( zoom != scale() );
@@ -269,6 +257,9 @@ void Card::generalAnimation( QPointF pos2, qreal z2, qreal zoom, qreal rotate, b
         aniGroup->addAnimation( flip );
     }
 
+    if ( raise )
+        setZValue( 1000 + zValue() );
+
     m_destX = pos2.x();
     m_destY = pos2.y();
     m_destZ = z2;
@@ -281,42 +272,19 @@ void Card::generalAnimation( QPointF pos2, qreal z2, qreal zoom, qreal rotate, b
 
 
 // Start a move of the card using animation.
-void Card::moveTo(qreal x2, qreal y2, qreal z2, int duration)
+void Card::moveTo( QPointF pos2, qreal z2, int duration )
 {
     stopAnimation();
 
-    if ( qAbs( x2 - x() ) < 2 && qAbs( y2 - y() ) < 1 )
-    {
-        setPos( QPointF( x2, y2 ) );
-        setZValue( z2 );
-        return;
-    }
-
-    QPropertyAnimation * an = new QPropertyAnimation(this, "pos");
-    an->setDuration( duration );
-    an->setKeyValueAt( 0, pos() );
-    an->setKeyValueAt( 1, QPointF( x2, y2 ));
-    m_animation = an;
-
-    connect( m_animation, SIGNAL(finished()), SLOT(stopAnimation()) );
-
-    m_destX = x2;
-    m_destY = y2;
-    m_destZ = z2;
-
-    setZValue( 1000 + zValue() );
-
-    m_animation->start();
+    generalAnimation( pos2, z2, 1, 0, isFaceUp(), true, duration );
 }
 
 // Animate a move to (x2, y2), and at the same time flip the card.
-void Card::flipTo(qreal x2, qreal y2, int duration)
+void Card::flipTo( QPointF pos2, int duration )
 {
     stopAnimation();
 
-    generalAnimation( QPointF( x2, y2 ), zValue(), 1.0, 0.0, !isFaceUp(), duration );
-
-    setZValue( 1000 + zValue() );
+    generalAnimation( pos2, zValue(), 1.0, 0.0, !isFaceUp(), true, duration );
 }
 
 
@@ -385,16 +353,14 @@ void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ev )
 void Card::zoomInAnimation()
 {
     m_unzoomedPosition = pos();
-    QPointF pos2 = pos();
-    pos2.rx() += pixmap().width() / 3;
-    pos2.ry() -= pixmap().height() / 4 ;
+    QPointF pos2( x() + pixmap().width() / 3, y() - pixmap().height() / 4 );
 
-    generalAnimation( pos2, zValue(), 1.1, 20, isFaceUp(), DURATION_FANCYSHOW );
+    generalAnimation( pos2, zValue(), 1.1, 20, isFaceUp(), false, DURATION_FANCYSHOW );
 }
 
 void Card::zoomOutAnimation()
 {
-    generalAnimation( m_unzoomedPosition, zValue(), 1.0, 0, isFaceUp(), DURATION_FANCYSHOW );
+    generalAnimation( m_unzoomedPosition, zValue(), 1.0, 0, isFaceUp(), false, DURATION_FANCYSHOW );
 }
 
 QSizeF Card::spread() const

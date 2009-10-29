@@ -386,14 +386,15 @@ void Pile::animatedAdd( Card* _card, bool faceUp )
 
     // The top card
     Card *t = top();
-    qreal x2, y2, z2;
+    QPointF pos2;
+    qreal z2;
     if (t) {
-        x2 = t->realX() + t->spread().width() * dscene()->cardDeck()->cardWidth();
-        y2 = t->realY() + t->spread().height() * dscene()->cardDeck()->cardHeight();
+        pos2 = t->pos();
+        pos2.rx() += t->spread().width() * dscene()->cardDeck()->cardWidth();
+        pos2.ry() += t->spread().height() * dscene()->cardDeck()->cardHeight();
         z2 = t->realZ() + 1;
     } else {
-        x2 = x();
-        y2 = y();
+        pos2 = pos();
         z2 = zValue() + 1;
     }
 
@@ -401,11 +402,10 @@ void Pile::animatedAdd( Card* _card, bool faceUp )
 
     _card->setZValue( z2 );
 
-    qreal distx = x2 - _card->x();
-    qreal disty = y2 - _card->y();
-    qreal dist = sqrt( distx * distx + disty * disty );
+    QPointF delta = pos2 - _card->pos();
+    qreal dist = sqrt( delta.x() * delta.x() + delta.y() * delta.y() );
     qreal whole = sqrt( scene()->width() * scene()->width() + scene()->height() * scene()->height() );
-    _card->moveTo(x2, y2, z2, qRound( dist * DURATION_DEAL / whole ) );
+    _card->moveTo(pos2, z2, qRound( dist * DURATION_DEAL / whole ) );
 
     if ( _card->animated() )
     {
@@ -497,7 +497,7 @@ void Pile::moveCards(CardList &cl, Pile *to)
     if (removeFlags & autoTurnTop && top()) {
         Card *t = top();
         if (!t->isFaceUp()) {
-            t->flipTo(t->x(), t->y(), DURATION_FLIP );
+            t->flipTo(t->pos(), DURATION_FLIP);
         }
     }
 
@@ -563,7 +563,7 @@ void Pile::layoutCards(int duration)
     foreach ( Card * card, m_cards )
     {
         if ( duration )
-            card->moveTo( cardPos.x(), cardPos.y(), z, dscene()->speedUpTime( duration ) );
+            card->moveTo( cardPos, z, dscene()->speedUpTime( duration ) );
         else
         {
             card->setZValue( z );
