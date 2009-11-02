@@ -488,17 +488,16 @@ CardList Pile::cardPressed(Card *c)
 
 void Pile::moveCards(CardList &cl, Pile *to)
 {
-    if (!cl.count())
+    if (cl.isEmpty())
         return;
 
-    for (CardList::Iterator it = cl.begin(); it != cl.end(); ++it)
-        to->add(*it);
+    foreach (Card * c, cl)
+        to->add(c);
 
-    if (removeFlags & autoTurnTop && top()) {
-        Card *t = top();
-        if (!t->isFaceUp()) {
-            t->flipTo(t->pos(), DURATION_FLIP);
-        }
+    Card *t = top();
+    if (t && !t->isFaceUp() && removeFlags & autoTurnTop) {
+        t->flipTo(t->pos(), DURATION_FLIP);
+        t->setSpread(cardOffset(t));
     }
 
     to->moveCardsBack(cl);
