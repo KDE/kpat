@@ -432,12 +432,12 @@ void DealerScene::openGame(QDomDocument &doc)
 
                     c->turn(card.attribute("faceup").toInt());
                     p->add(c);
-                    c->stopAnimation();
                     c->updatePixmap();
-                    c->setVisible(p->isVisible());
                 }
+                break;
             }
         }
+        p->layoutCards( 0 );
     }
     setGameState( dealer.attribute("data") );
 
@@ -2021,7 +2021,7 @@ void DealerScene::relayoutPiles()
     }
 
     foreach ( Pile *p, piles )
-        p->relayoutCards();
+        p->layoutCards( 0 );
 }
 
 void DealerScene::setGameId(int id) { d->_id = id; }
