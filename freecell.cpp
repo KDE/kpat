@@ -171,14 +171,14 @@ struct MoveAway {
 
 void Freecell::movePileToPile(CardList &c, Pile *to, PileList fss, PileList &fcs, int start, int count, int debug_level)
 {
-    kDebug(11111) << debug_level << "movePileToPile" << c.count() << " " << start  << " " << count;
+    kDebug() << debug_level << "movePileToPile" << c.count() << " " << start  << " " << count;
     int moveaway = 0;
     if (count > fcs.count() + 1) {
         moveaway = (fcs.count() + 1);
         while (moveaway * 2 < count)
             moveaway <<= 1;
     }
-    kDebug(11111) << debug_level << "moveaway" << moveaway;
+    kDebug() << debug_level << "moveaway" << moveaway;
 
     QList<MoveAway> moves_away;
 
@@ -229,7 +229,7 @@ void Freecell::movePileToPile(CardList &c, Pile *to, PileList fss, PileList &fcs
 
 void Freecell::startMoving()
 {
-    kDebug(11111) << "startMoving\n";
+    kDebug() << "startMoving\n";
     if (moves.isEmpty()) {
         takeState();
         return;
@@ -247,7 +247,7 @@ void Freecell::startMoving()
     int duration = qMax( DURATION_MOVEBACK * mh->priority() / 1000, 1 );
     mh->pile()->moveCardsBack(empty, duration );
     waitfor = mh->card();
-    kDebug(11111) << "wait for moving end" << mh->card()->rank() << " " << mh->card()->suit() << mh->priority();
+    kDebug() << "wait for moving end" << mh->card()->rank() << " " << mh->card()->suit() << mh->priority();
     connect(mh->card(), SIGNAL(stopped(Card*)), SLOT(waitForMoving(Card*)));
     delete mh;
 }
@@ -361,7 +361,6 @@ void Freecell::getHints()
         Pile *store = *it;
         if (store->isEmpty())
             continue;
-//        kDebug(11111) << "trying" << store->top()->name();
 
         CardList cards = store->cards();
         while (cards.count() && !cards.first()->realFace()) cards.erase(cards.begin());
@@ -370,7 +369,6 @@ void Freecell::getHints()
         while (iti != cards.end())
         {
             if (store->legalRemove(*iti)) {
-//                kDebug(11111) << "could remove" << (*iti)->name();
                 for (PileList::Iterator pit = piles.begin(); pit != piles.end(); ++pit)
                 {
                     Pile *dest = *pit;

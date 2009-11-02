@@ -31,7 +31,7 @@
 void SimonSolver::make_move(MOVE *m)
 {
 #if PRINT
-    kDebug(11111) << "\n\nmake_move\n";
+    kDebug() << "\n\nmake_move\n";
     if ( m->totype == O_Type )
         fprintf( stderr, "move %d from %d out (at %d) Prio: %d\n\n", m->card_index, m->from, m->turn_index, m->pri );
     else
@@ -85,7 +85,7 @@ void SimonSolver::make_move(MOVE *m)
 void SimonSolver::undo_move(MOVE *m)
 {
 #if PRINT
-    kDebug(11111) << "\n\nundo_move\n";
+    kDebug() << "\n\nundo_move\n";
     if ( m->totype == O_Type )
         fprintf( stderr, "move %d from %d out (at %d)\n\n", m->card_index, m->from, m->turn_index );
     else
@@ -427,7 +427,7 @@ MoveHint *SimonSolver::translateMove( const MOVE &m )
     Pile *frompile = deal->store[m.from];
     Card *card = frompile->at( frompile->cardsLeft() - m.card_index - 1);
 
-    kDebug(11111) << "card" << card->rank() << " " << card->suit();
+    kDebug() << "card" << card->rank() << " " << card->suit();
     if ( m.totype == O_Type )
     {
         for ( int i = 0; i < 4; ++i )

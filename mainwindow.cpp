@@ -290,7 +290,6 @@ void MainWindow::startNew(int gameNumber)
 void MainWindow::slotPickRandom()
 {
     QString theme = CardDeckInfo::randomFrontName();
-    kDebug(11111) << "theme" << theme;
 
     KSharedConfig::Ptr config = KGlobal::config();
     KConfigGroup cs(config, settings_group );

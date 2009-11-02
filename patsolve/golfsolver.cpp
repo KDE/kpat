@@ -179,7 +179,7 @@ void GolfSolver::unpack_cluster( int )
 
 bool GolfSolver::isWon()
 {
-    //kDebug(11111) << "isWon" << Wlen[7];
+
     return Wlen[7] == 52 ;
 }
 

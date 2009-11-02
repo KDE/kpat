@@ -127,28 +127,20 @@ Mod3::Mod3( )
 
 bool Mod3::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
 {
-    // kDebug(11111) << "checkAdd" << checkIndex << " " << ( c1->top() ? c1->top()->name() : "none" ) << " " << c1->index() << " " << c1->index() / 10;
-
     if (checkIndex == 0) {
         Card *c2 = cl.first();
 
         if (c1->isEmpty())
             return (c2->rank() == ( ( c1->index() / 10 ) + 2 ) );
 
-        //kDebug(11111) << "not empty\n";
-
         if (c1->top()->suit() != c2->suit())
             return false;
 
-        //kDebug(11111) << "same suit\n";
         if (c2->rank() != (c1->top()->rank()+3))
             return false;
 
-        //kDebug(11111) << "+3" << c1->cardsLeft() << " " << c1->top()->rank() << " " << c1->index()+1;
         if (c1->cardsLeft() == 1)
             return (c1->top()->rank() == ((c1->index() / 10) + 2));
-
-        //kDebug(11111) << "+1\n";
 
         return true;
 

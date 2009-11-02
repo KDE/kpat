@@ -168,15 +168,15 @@ void SolverThread::run()
 #if 0
     if ( ret == Solver::WIN )
     {
-        kDebug(11111) << "won\n";
+        kDebug() << "won\n";
     } else if ( ret == Solver::NOSOL )
     {
-        kDebug(11111) << "lost\n";
+        kDebug() << "lost\n";
     } else if ( ret == Solver::QUIT  || ret == Solver::MLIMIT )
     {
-        kDebug(11111) << "quit\n";
+        kDebug() << "quit\n";
     } else
-        kDebug(11111) << "unknown\n";
+        kDebug() << "unknown\n";
 #endif
 }
 
@@ -227,11 +227,8 @@ int DealerScene::getMoves() const
 
 void DealerScene::takeState()
 {
-    //kDebug(11111) << "takeState" << waiting();
-
     if ( !demoActive() )
     {
-        //kDebug(11111) << "clear in takeState";
         d->winMoves.clear();
         clearHints();
     }
@@ -329,7 +326,7 @@ void DealerScene::saveGame(QDomDocument &doc)
         if (p)
         {
             if (taken[p->index()]) {
-                kDebug(11111) << "pile index" << p->index() << "taken twice\n";
+                kDebug() << "pile index" << p->index() << "taken twice\n";
                 return;
             }
             taken[p->index()] = true;
@@ -352,32 +349,6 @@ void DealerScene::saveGame(QDomDocument &doc)
     }
 
     d->wasJustSaved = true;
-
-    /*
-    QDomElement eList = doc.createElement("undo");
-
-    QPtrListIterator<State> it(undoList);
-    for (; it.current(); ++it)
-    {
-        State *n = it.current();
-        QDomElement state = doc.createElement("state");
-        if (!n->gameData.isEmpty())
-            state.setAttribute("data", n->gameData);
-        QDomElement cards = doc.createElement("cards");
-        for (QValueList<CardState>::ConstIterator it2 = n->cards.constBegin();
-             it2 != n->cards.constEnd(); ++it2)
-        {
-            QDomElement item = doc.createElement("item");
-            (*it2).fillNode(item);
-            cards.appendChild(item);
-        }
-        state.appendChild(cards);
-        eList.appendChild(state);
-    }
-    dealer.appendChild(eList);
-    */
-    // kDebug(11111) << doc.toString();
-
 }
 
 void DealerScene::openGame(QDomDocument &doc)
@@ -458,7 +429,7 @@ void DealerScene::undo()
 {
     setMarkedItems();
     stopDemo();
-    kDebug(11111) << "::undo" << d->undoList.count();
+    kDebug() << "::undo" << d->undoList.count();
     if (d->undoList.count() > 1) {
         d->redoList.append( d->undoList.takeLast() );
         setState(d->undoList.takeLast());
@@ -480,7 +451,7 @@ void DealerScene::redo()
 {
     setMarkedItems();
     stopDemo();
-    kDebug(11111) << "::redo" << d->redoList.count();
+    kDebug() << "::redo" << d->redoList.count();
     if (d->redoList.count() > 0) {
         setState(d->redoList.takeLast());
         emit updateMoves(getMoves());
@@ -596,7 +567,7 @@ DealerScene::~DealerScene()
 
 void DealerScene::hint()
 {
-    kDebug(11111) << waiting() << d->stateTimer->isActive();
+    kDebug() << waiting() << d->stateTimer->isActive();
     if ( waiting() && d->stateTimer->isActive() ) {
         QTimer::singleShot( 150, this, SLOT( hint() ) );
         return;
@@ -629,7 +600,7 @@ void DealerScene::hint()
         MoveHint *mh = solver()->translateMove( m );
         if ( mh ) {
             newHint( mh );
-            kDebug(11111) << "win move" << mh->pile()->objectName() << " " << mh->card()->rank() << " " << mh->card()->suit() << " " << mh->priority();
+            kDebug() << "win move" << mh->pile()->objectName() << " " << mh->card()->rank() << " " << mh->card()->suit() << " " << mh->priority();
         }
         getHints();
     } else {
@@ -657,7 +628,7 @@ void DealerScene::getSolverHints()
     solver()->translate_layout();
     solver()->patsolve( 1 );
 
-    kDebug(11111) << "getSolverHints";
+    kDebug() << "getSolverHints";
     QList<MOVE> moves = solver()->firstMoves;
     d->solverMutex.unlock();
 
@@ -697,7 +668,6 @@ void DealerScene::getHints()
         Pile *store = *it;
         if (store->isEmpty())
             continue;
-//        kDebug(11111) << "trying" << store->top()->name();
 
         CardList cards = store->cards();
         while (cards.count() && !cards.first()->realFace()) cards.erase(cards.begin());
@@ -706,7 +676,6 @@ void DealerScene::getHints()
         while (iti != cards.end())
         {
             if (store->legalRemove(*iti)) {
-//                kDebug(11111) << "could remove" << (*iti)->name();
                 for (PileList::Iterator pit = piles.begin(); pit != piles.end(); ++pit)
                 {
                     Pile *dest = *pit;
@@ -755,8 +724,6 @@ void DealerScene::clearHints()
 
 void DealerScene::newHint(MoveHint *mh)
 {
-    //kDebug(11111) << ( void* )mh << mh->pile()->objectName() <<
-    //mh->card()->rank() << mh->card()->suit() << mh->priority();
     hints.append(mh);
 }
 
@@ -827,7 +794,6 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 
     QGraphicsItem *topItem = itemAt( e->scenePos() );
 
-    //kDebug(11111) << gettime() << "mouse pressed" << list.count() << " " << items().count() << " " << e->scenePos().x() << " " << e->scenePos().y();
     moved = false;
 
     if (!topItem)
@@ -902,7 +868,6 @@ void DealerScene::startNew(int gameNumber)
     d->loadedMoveCount = 0;
 
     stopDemo();
-    kDebug(11111) << gettime() << "startNew unmarkAll\n";
     setMarkedItems();
 
     foreach (Card * c, deck->cards())
@@ -924,7 +889,7 @@ void DealerScene::startNew(int gameNumber)
 
 void DealerScene::showWonMessage()
 {
-    kDebug(11111) << "showWonMessage" << waiting();
+    kDebug() << "showWonMessage" << waiting();
 
     d->wonItem->show();
     updateWonItem();
@@ -1094,7 +1059,7 @@ Pile * DealerScene::targetPile()
                     sources.append(t);
                 }
             } else {
-                kDebug(11111) << "unknown object" << item << " " << item->type();
+                kDebug() << "unknown object" << item << " " << item->type();
             }
         }
     }
@@ -1189,7 +1154,7 @@ State *DealerScene::getState()
        s.it = c;
        s.source = c->source();
        if (!s.source) {
-           kDebug(11111) << c->rank() << " " << c->suit() << "has no parent\n";
+           kDebug() << c->rank() << " " << c->suit() << "has no parent\n";
            Q_ASSERT(false);
        }
        s.source_index = c->source()->indexOf(c);
@@ -1208,7 +1173,7 @@ State *DealerScene::getState()
 
 void DealerScene::setState(State *st)
 {
-    kDebug(11111) << gettime() << "setState\n";
+    kDebug() << gettime() << "setState\n";
     CardStateList * n = &st->cards;
 
     foreach (Pile *p, piles)
@@ -1260,14 +1225,12 @@ Pile *DealerScene::findTarget(Card *c)
 
 void DealerScene::setWaiting(bool w)
 {
-    //kDebug(11111) << "setWaiting" << w << " " << _waiting;
     assert( _waiting > 0 || w );
 
     if (w)
         _waiting++;
     else if ( _waiting > 0 )
         _waiting--;
-    //kDebug(11111) << "setWaiting" << w << " " << _waiting;
 }
 
 void DealerScene::setAutoDropEnabled(bool a)
@@ -1307,7 +1270,7 @@ bool DealerScene::startAutoDrop()
         }
     }
 
-    kDebug(11111) << gettime() << "startAutoDrop \n";
+    kDebug() << gettime() << "startAutoDrop \n";
 
     clearHints();
     getHints();
@@ -1375,7 +1338,6 @@ void DealerScene::stopAndRestartSolver()
     if ( d->toldAboutLostGame || d->toldAboutWonGame ) // who cares?
         return;
 
-    kDebug(11111) << "stopAndRestartSolver\n";
     if ( d->m_solver_thread && d->m_solver_thread->isRunning() )
     {
         d->m_solver_thread->finish();
@@ -1401,7 +1363,7 @@ void DealerScene::slotSolverEnded()
     if ( !d->solverMutex.tryLock() )
         return;
     d->m_solver->translate_layout();
-    kDebug(11111) << gettime() << "start thread\n";
+    kDebug() << gettime() << "start thread\n";
     d->winMoves.clear();
     emit gameSolverStart();
     if ( !d->m_solver_thread ) {
@@ -1422,7 +1384,7 @@ void DealerScene::slotSolverFinished()
         return;
     }
 
-    kDebug(11111) << gettime() << "stop thread" << ret;
+    kDebug() << gettime() << "stop thread" << ret;
     switch (  ret )
     {
     case Solver::WIN:
@@ -1449,7 +1411,6 @@ void DealerScene::slotSolverFinished()
 }
 
 void DealerScene::waitForAutoDrop(Card * c) {
-    //kDebug(11111) << "waitForAutoDrop" << c->name();
     setWaiting(false);
     c->disconnect();
     c->stopAnimation(); // should be a no-op
@@ -1459,7 +1420,6 @@ void DealerScene::waitForAutoDrop(Card * c) {
 
 void DealerScene::waitForWonAnim(Card *c)
 {
-    //kDebug(11111) << "waitForWonAnim" << c->name() << " " << waiting();
     if ( !waiting() )
         return;
 
@@ -1556,7 +1516,7 @@ bool operator <(const CardPtr &p1, const CardPtr &p2)
 
 void DealerScene::won()
 {
-    kDebug(11111) << "won" << waiting();
+    kDebug() << "won" << waiting();
     if (d->_won)
         return;
     d->_won = true;
@@ -1605,7 +1565,7 @@ void DealerScene::won()
 
 MoveHint *DealerScene::chooseHint()
 {
-    kDebug(11111) << "chooseHint " << d->winMoves.count();
+    kDebug() << "chooseHint " << d->winMoves.count();
     if ( d->winMoves.count() )
     {
         MOVE m = d->winMoves.takeFirst();
@@ -1633,7 +1593,7 @@ MoveHint *DealerScene::chooseHint()
 
 void DealerScene::demo()
 {
-    kDebug(11111) << "demo" << waiting() << d->stateTimer->isActive();
+    kDebug() << "demo" << waiting() << d->stateTimer->isActive();
     if ( waiting() || d->stateTimer->isActive() )
         return;
 
@@ -1652,14 +1612,14 @@ void DealerScene::demo()
 
     MoveHint *mh = chooseHint();
     if (mh) {
-        kDebug(mh->pile()->top(), 11111) << "Moving" << mh->card()->objectName()
-                                         << "from the" << mh->card()->source()->objectName()
-                                         << "pile to the" << mh->pile()->objectName()
-                                         << "pile, putting it on top of" << mh->pile()->top()->objectName();
-        kDebug(!mh->pile()->top(), 11111) << "Moving" << mh->card()->objectName()
-                                          << "from the" << mh->card()->source()->objectName()
-                                          << "pile to the" << mh->pile()->objectName()
-                                          << "pile, which is empty";
+        kDebug(mh->pile()->top()) << "Moving" << mh->card()->objectName()
+                                  << "from the" << mh->card()->source()->objectName()
+                                  << "pile to the" << mh->pile()->objectName()
+                                  << "pile, putting it on top of" << mh->pile()->top()->objectName();
+        kDebug(!mh->pile()->top()) << "Moving" << mh->card()->objectName()
+                                   << "from the" << mh->card()->source()->objectName()
+                                   << "pile to the" << mh->pile()->objectName()
+                                   << "pile, which is empty";
         myassert(mh->card()->source() == 0 ||
                mh->card()->source()->legalRemove(mh->card(), true));
 
@@ -1701,7 +1661,7 @@ void DealerScene::demo()
         newDemoMove(mh->card());
 
     } else {
-        kDebug(11111) << "demoNewCards";
+        kDebug() << "demoNewCards";
         Card *t = newCards();
         if (t) {
             newDemoMove(t);
@@ -1727,7 +1687,7 @@ Card *DealerScene::newCards()
 
 void DealerScene::newDemoMove(Card *m)
 {
-    kDebug(11111) << "newDemoMove" << m->rank() << " " << m->suit();
+    kDebug() << "newDemoMove" << m->rank() << " " << m->suit();
     if ( m->animated() )
     {
         connect(m, SIGNAL(stopped(Card*)), SLOT(waitForDemo(Card*)));
@@ -1740,7 +1700,7 @@ void DealerScene::waitForDemo(Card *t)
 {
     if ( t )
     {
-        kDebug(11111) << "waitForDemo" << t->rank() << " " << t->suit();
+        kDebug() << "waitForDemo" << t->rank() << " " << t->suit();
         t->disconnect(this, SLOT(waitForDemo(Card*)) );
         setWaiting( false );
         takeState();
@@ -1981,16 +1941,16 @@ void DealerScene::relayoutPiles()
                         Q_ASSERT( p2->reservedSpace().height() > 0 );
                         // if it's growing too, we win
                         p2Space.setHeight( qMin( p1Space.top() - p2->y() - spacing, p2Space.height() ) );
-                        //kDebug(11111) << "1. reduced height of" << p2->objectName();
+                        //kDebug() << "1. reduced height of" << p2->objectName();
                     } else // if it's fixed height, we loose
                         if ( p1->reservedSpace().width() < 0 ) {
                             // this isn't made for two piles one from left and one from right both growing
                             Q_ASSERT( p2->reservedSpace().width() == 1 );
                             p1Space.setLeft( p2->x() + cardWidth + spacing);
-                            //kDebug(11111) << "2. reduced width of" << p1->objectName();
+                            //kDebug() << "2. reduced width of" << p1->objectName();
                         } else {
                             p1Space.setRight( p2->x() - spacing );
-                            //kDebug(11111) << "3. reduced width of" << p1->objectName();
+                            //kDebug() << "3. reduced width of" << p1->objectName();
                         }
                 }
 
@@ -2001,17 +1961,17 @@ void DealerScene::relayoutPiles()
                         Q_ASSERT( p2->reservedSpace().height() > 0 );
                         // if it's growing too, we win
                         p2Space.setWidth( qMin( p1Space.right() - p2->x() - spacing, p2Space.width() ) );
-                        //kDebug(11111) << "4. reduced width of" << p2->objectName();
+                        //kDebug() << "4. reduced width of" << p2->objectName();
                     } else // if it's fixed height, we loose
                         if ( p1->reservedSpace().height() < 0 ) {
                             // this isn't made for two piles one from left and one from right both growing
                             Q_ASSERT( p2->reservedSpace().height() == 1 );
                             Q_ASSERT( false ); // TODO
                             p1Space.setLeft( p2->x() + cardWidth + spacing );
-                            //kDebug(11111) << "5. reduced width of" << p1->objectName();
+                            //kDebug() << "5. reduced width of" << p1->objectName();
                         } else if ( p2->y() >= 1  ) {
                             p1Space.setBottom( p2->y() - spacing );
-                            //kDebug(11111) << "6. reduced height of" << p1->objectName() << (*it2)->y() - 1 << myRect;
+                            //kDebug() << "6. reduced height of" << p1->objectName() << (*it2)->y() - 1 << myRect;
                         }
                 }
                 p2->setMaximumSpace( p2Space.size() );
@@ -2137,7 +2097,7 @@ void DealerScene::createDump( QPaintDevice *device )
             }
             else if ( !qgraphicsitem_cast<Card*>(item) )
             {
-                kDebug(11111) << "Unknown item type";
+                kDebug() << "Unknown item type";
                 assert( false );
             }
 

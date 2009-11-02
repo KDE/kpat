@@ -148,7 +148,7 @@ Pile::~Pile()
             int i = -13;
             if ((*it)->source())
                 i = (*it)->source()->index();
-            kDebug(11111) << "pile doesn't match" << index() << " - " << i;
+            kDebug() << "pile doesn't match" << index() << " - " << i;
         }
         (*it)->setSource(0);
     }
@@ -460,7 +460,6 @@ CardList Pile::cardPressed(Card *c)
 {
     CardList result;
 
-    //kDebug(11111) << gettime() << "cardPressed" << c->name() << " " << c->isFaceUp();
     emit pressed( c );
 
     if ( !legalRemove(c) )

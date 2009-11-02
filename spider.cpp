@@ -350,7 +350,6 @@ bool Spider::checkPileDeck(Pile *check, bool checkForDemo)
     if ( checkForDemo && demoActive() )
         return false;
 
-    //kDebug(11111) << "check for run";
     if (check->isEmpty())
         return false;
 
