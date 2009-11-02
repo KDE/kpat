@@ -591,7 +591,8 @@ bool MainWindow::openGame(const KUrl &url, bool addToRecentFiles)
                         // If it only contains an ID, just launch a new game with that ID.
                         if (doc.documentElement().hasAttribute("number"))
                         {
-                            newGameType(id);
+                            if ( !m_dealer || m_dealer_map.value(id) != m_dealer_map.value(m_dealer->gameId()) )
+                                newGameType(id);
                             // for old spider and klondike
                             m_dealer->mapOldId(id);
                             m_dealer->openGame(doc);
