@@ -54,15 +54,12 @@ class Mod3Pile : public Pile
 public:
     Mod3Pile( int _index, Pile * pile, const QString & objectName = QString() )
         : Pile( _index, objectName ), drawPile( pile ) {}
-    virtual void relayoutCards() {
-        Pile::relayoutCards();
-        // Don't pull cards from the deck if the deck still contains all 104
-        // cards. This prevents glitchy things from happening before the initial
-        // deal has happened.
-        if ( isEmpty() /*&& CardDeck::self()->cardsLeft() < 104*/ )
-        {
+    virtual void relayoutCards()
+    {
+        if ( isEmpty() )
             animatedAdd( drawPile->top(), true );
-        }
+        else
+            Pile::relayoutCards();
     }
     Pile * drawPile;
 };

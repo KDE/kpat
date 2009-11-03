@@ -997,8 +997,8 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
 
     Pile * destination = targetPile();
     if (destination) {
-        Card *c = static_cast<Card*>(movingCards.first());
-        assert(c);
+        Card *c = movingCards.first();
+        Q_ASSERT(c);
         considerGameStarted();
         c->source()->moveCards(movingCards, destination);
         takeState();

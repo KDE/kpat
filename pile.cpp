@@ -491,13 +491,18 @@ void Pile::moveCards(CardList &cl, Pile *to)
         return;
 
     foreach (Card * c, cl)
+    {
+        Q_ASSERT( c->source() == this );
         to->add(c);
+    }
 
     Card *t = top();
     if (t && !t->isFaceUp() && removeFlags & autoTurnTop) {
         t->flipTo(t->pos(), DURATION_FLIP);
         t->setSpread(cardOffset(t));
     }
+
+    relayoutCards();
 
     to->moveCardsBack(cl);
 }
