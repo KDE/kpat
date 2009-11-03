@@ -204,24 +204,9 @@ bool Card::realFace() const
 
 void Card::generalAnimation( QPointF pos2, qreal z2, qreal zoom, qreal rotate, bool faceup, bool raise, int duration )
 {
-    bool posChange = ( qAbs( pos2.x() - x() ) >= 2 || qAbs( pos2.y() - y() ) >= 1 );
-    bool scaleChange = ( zoom != scale() );
-    bool rotationChange = ( rotate != rotation() );
-    bool faceChange = ( faceup != m_faceup );
-
-    if ( !( posChange || scaleChange || rotationChange || faceChange ) )
-    {
-        setPos( pos2 );
-        setZValue( z2 );
-        setScale( zoom );
-        setRotation( rotate );
-        turn( faceup );
-        return;
-    }
-
     QParallelAnimationGroup * aniGroup = new QParallelAnimationGroup( this );
 
-    if ( posChange )
+    if ( qAbs( pos2.x() - x() ) > 2 || qAbs( pos2.y() - y() ) > 2 )
     {
         QPropertyAnimation * slide = new QPropertyAnimation( this, "pos" );
         slide->setKeyValueAt( 0, pos() );
@@ -229,8 +214,12 @@ void Card::generalAnimation( QPointF pos2, qreal z2, qreal zoom, qreal rotate, b
         slide->setDuration( duration );
         aniGroup->addAnimation( slide );
     }
+    else
+    {
+        setPos( pos2 );
+    }
 
-    if ( scaleChange )
+    if ( qAbs( zoom - scale() ) > 0.05 )
     {
         QPropertyAnimation * resize = new QPropertyAnimation( this, "scale" );
         resize->setKeyValueAt( 0, scale() );
@@ -238,8 +227,12 @@ void Card::generalAnimation( QPointF pos2, qreal z2, qreal zoom, qreal rotate, b
         resize->setDuration( DURATION_FANCYSHOW );
         aniGroup->addAnimation( resize );
     }
+    else
+    {
+        setScale( zoom );
+    }
 
-    if ( rotationChange )
+    if ( qAbs( rotate - rotation() ) > 2 )
     {
         QPropertyAnimation * spin = new QPropertyAnimation( this, "rotation" );
         spin->setKeyValueAt( 0, rotation() );
@@ -247,8 +240,12 @@ void Card::generalAnimation( QPointF pos2, qreal z2, qreal zoom, qreal rotate, b
         spin->setDuration( DURATION_FANCYSHOW );
         aniGroup->addAnimation( spin );
     }
+    else
+    {
+        setRotation( rotate );
+    }
 
-    if ( faceChange )
+    if ( faceup != m_faceup )
     {
         QPropertyAnimation * flip = new QPropertyAnimation( this, "flippedness" );
         flip->setKeyValueAt( 0, m_faceup ? 1.0 : 0.0 );
@@ -265,9 +262,17 @@ void Card::generalAnimation( QPointF pos2, qreal z2, qreal zoom, qreal rotate, b
     m_destZ = z2;
     m_destFace = faceup;
 
-    m_animation = aniGroup;
-    connect( m_animation, SIGNAL(finished()), SLOT(stopAnimation()) );
-    m_animation->start();
+    if ( aniGroup->animationCount() == 0 )
+    {
+        delete aniGroup;
+        setZValue( z2 );
+    }
+    else
+    {
+        m_animation = aniGroup;
+        connect( m_animation, SIGNAL(finished()), SLOT(stopAnimation()) );
+        m_animation->start();
+    }
 }
 
 
