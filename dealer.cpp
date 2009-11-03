@@ -1260,10 +1260,9 @@ bool DealerScene::startAutoDrop()
         return true;
     }
 
-    foreach (const QGraphicsItem *item, items())
+    foreach ( const Card *c, deck->cards() )
     {
-        const Card *c = qgraphicsitem_cast<const Card*>(item);
-        if (c && c->animated())
+        if ( c->animated() )
         {
             d->autoDropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
             return true;
@@ -1272,51 +1271,42 @@ bool DealerScene::startAutoDrop()
 
     kDebug() << gettime() << "startAutoDrop \n";
 
+    setMarkedItems();
     clearHints();
     getHints();
-    for (HintList::ConstIterator it = hints.constBegin(); it != hints.constEnd(); ++it) {
-        MoveHint *mh = *it;
-        if (mh->pile() && mh->pile()->target() && mh->priority() > 120 && !mh->card()->takenDown()) {
-            //setWaiting(true);
+
+    foreach ( const MoveHint *mh, hints )
+    {
+        if ( mh->pile() && mh->pile()->target() && mh->priority() > 120 && !mh->card()->takenDown() )
+        {
             Card *t = mh->card();
             CardList cards = mh->card()->source()->cards();
-            while (cards.count() && cards.first() != t)
-                cards.erase(cards.begin());
-            QList<qreal> xs, ys;
-            for ( CardList::Iterator it2 = cards.begin(); it2 != cards.end(); ++it2 )
-            {
-                QPointF p = ( *it2 )->pos();
-                xs.append( p.x() );
-                ys.append( p.y() );
-            }
+            while ( !cards.isEmpty() && cards.first() != t )
+                cards.removeFirst();
 
-            qreal z = mh->pile()->zValue() + 1;
-            if ( mh->pile()->top() )
-                z = mh->pile()->top()->zValue() + 1;
-            t->source()->moveCards(cards, mh->pile());
+            QMap<Card*,QPointF> oldPositions;
+            foreach ( Card *c, cards )
+                oldPositions.insert( c, c->pos() );
+
+            t->source()->moveCards( cards, mh->pile() );
+
             int count = 0;
-
-            if ( !cards.isEmpty() )
-                setMarkedItems();
-
-            for ( CardList::Iterator it2 = cards.begin(); it2 != cards.end(); ++it2 )
+            foreach ( Card *c, cards )
             {
-                Card *t = *it2;
-                t->stopAnimation();
-                t->turn(true);
-                t->setPos(QPointF( xs.first(), ys.first()) );
-                t->setZValue( z );
-                z = z + 1;
-                xs.removeFirst();
-                ys.removeFirst();
-                t->moveTo(t->source()->pos(), t->zValue(),
-                          speedUpTime( DURATION_AUTODROP + count++ * DURATION_AUTODROP / 10 ) );
-                if ( t->animated() )
+                QPointF destPos = c->realPos();
+                c->stopAnimation();
+                c->setPos( oldPositions.value( c ) );
+
+                int duration = speedUpTime( DURATION_AUTODROP + count++ * DURATION_AUTODROP / 10 );
+                c->moveTo( destPos, c->zValue(), duration );
+
+                if ( c->animated() )
                 {
                     setWaiting( true );
-                    connect(t, SIGNAL(stopped(Card*)), SLOT(waitForAutoDrop(Card*)));
+                    connect( c, SIGNAL(stopped(Card*)), SLOT(waitForAutoDrop(Card*)) );
                 }
             }
+
             d->m_autoDropFactor *= 0.8;
             return true;
         }
