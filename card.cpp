@@ -203,7 +203,7 @@ bool Card::realFace() const
     return m_destFace;
 }
 
-void Card::generalAnimation( QPointF pos2, qreal z2, qreal zoom, qreal rotate, bool faceup, bool raise, int duration )
+void Card::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool faceup2, bool raised, int duration )
 {
     QParallelAnimationGroup * aniGroup = new QParallelAnimationGroup( this );
 
@@ -220,48 +220,48 @@ void Card::generalAnimation( QPointF pos2, qreal z2, qreal zoom, qreal rotate, b
         setPos( pos2 );
     }
 
-    if ( qAbs( zoom - scale() ) > 0.05 )
+    if ( qAbs( scale2 - scale() ) > 0.05 )
     {
         QPropertyAnimation * resize = new QPropertyAnimation( this, "scale" );
         resize->setKeyValueAt( 0, scale() );
-        resize->setKeyValueAt( 1, zoom );
+        resize->setKeyValueAt( 1, scale2 );
         resize->setDuration( DURATION_FANCYSHOW );
         aniGroup->addAnimation( resize );
     }
     else
     {
-        setScale( zoom );
+        setScale( scale2 );
     }
 
-    if ( qAbs( rotate - rotation() ) > 2 )
+    if ( qAbs( rotation2 - rotation() ) > 2 )
     {
         QPropertyAnimation * spin = new QPropertyAnimation( this, "rotation" );
         spin->setKeyValueAt( 0, rotation() );
-        spin->setKeyValueAt( 1, rotate );
+        spin->setKeyValueAt( 1, rotation2 );
         spin->setDuration( DURATION_FANCYSHOW );
         aniGroup->addAnimation( spin );
     }
     else
     {
-        setRotation( rotate );
+        setRotation( rotation2 );
     }
 
-    if ( faceup != m_faceup )
+    if ( faceup2 != m_faceup )
     {
         QPropertyAnimation * flip = new QPropertyAnimation( this, "flippedness" );
         flip->setKeyValueAt( 0, m_faceup ? 1.0 : 0.0 );
-        flip->setKeyValueAt( 1, faceup ? 1.0 : 0.0 );
+        flip->setKeyValueAt( 1, faceup2 ? 1.0 : 0.0 );
         flip->setDuration( duration );
         aniGroup->addAnimation( flip );
     }
 
-    if ( raise )
         setZValue( 1000 + zValue() );
+    if ( raised )
 
     m_destX = pos2.x();
     m_destY = pos2.y();
     m_destZ = z2;
-    m_destFace = faceup;
+    m_destFace = faceup2;
 
     if ( aniGroup->animationCount() == 0 )
     {
@@ -282,7 +282,7 @@ void Card::moveTo( QPointF pos2, qreal z2, int duration )
 {
     stopAnimation();
 
-    generalAnimation( pos2, z2, 1, 0, isFaceUp(), true, duration );
+    animate( pos2, z2, 1, 0, isFaceUp(), true, duration );
 }
 
 // Animate a move to (x2, y2), and at the same time flip the card.
@@ -290,7 +290,7 @@ void Card::flipTo( QPointF pos2, int duration )
 {
     stopAnimation();
 
-    generalAnimation( pos2, zValue(), 1.0, 0.0, !isFaceUp(), true, duration );
+    animate( pos2, zValue(), 1.0, 0.0, !isFaceUp(), true, duration );
 }
 
 void Card::flipToPile( Pile * pile, int duration )
@@ -375,12 +375,12 @@ void Card::zoomInAnimation()
     m_unzoomedPosition = pos();
     QPointF pos2( x() + pixmap().width() / 3, y() - pixmap().height() / 4 );
 
-    generalAnimation( pos2, zValue(), 1.1, 20, isFaceUp(), false, DURATION_FANCYSHOW );
+    animate( pos2, zValue(), 1.1, 20, isFaceUp(), false, DURATION_FANCYSHOW );
 }
 
 void Card::zoomOutAnimation()
 {
-    generalAnimation( m_unzoomedPosition, zValue(), 1.0, 0, isFaceUp(), false, DURATION_FANCYSHOW );
+    animate( m_unzoomedPosition, zValue(), 1.0, 0, isFaceUp(), false, DURATION_FANCYSHOW );
 }
 
 QSizeF Card::spread() const
