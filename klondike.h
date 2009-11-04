@@ -57,7 +57,6 @@ public:
     virtual bool startAutoDrop();
     QList<QAction*> configActions() const;
 
-    void redeal(); // put pile back into deck
     void deal();
 
     void setEasy( bool easy );
@@ -93,8 +92,6 @@ public:
     KlondikePile( int _index, int _draw, const QString & objectName = QString() );
     int draw() const { return m_draw; }
     void setDraws( int _draw );
-
-protected:
     virtual void layoutCards( int duration );
 
 private:

@@ -74,11 +74,11 @@ void KlondikePile::layoutCards( int duration )
         if ( i < m_cards.size() - m_draw )
         {
             m_cards[i]->setZValue( z );
-            m_cards[i]->setPos( cardPos );
+            m_cards[i]->generalAnimation( cardPos, z, 1, 0, m_cards[i]->realFace(), false, dscene()->speedUpTime( duration ) );
         }
         else
         {
-            m_cards[i]->moveTo( cardPos, z, dscene()->speedUpTime( duration ) );
+            m_cards[i]->generalAnimation( cardPos, z, 1, 0, m_cards[i]->realFace(), false, dscene()->speedUpTime( duration ) );
             cardPos.rx() += divx * spread().width() * dscene()->cardDeck()->cardWidth();
         }
     }
@@ -155,18 +155,40 @@ Card *Klondike::newCards()
     if ( talon->isEmpty() )
     {
         // Move the cards from the pile back to the deck
-        redeal();
-        return talon->top();
-    }
+        CardList pilecards = pile->cards();
+        if (EasyRules)
+            // the remaining cards in deck should be on top
+            // of the new deck
+            pilecards += talon->cards();
 
-    for (int flipped = 0; flipped < pile->draw() && !talon->isEmpty(); ++flipped) {
-        Card *c = talon->top();
-        pile->animatedAdd(c, false); // facedown, nospread
-        c->stopAnimation();
-        // move back to flip
-        c->setPos( talon->pos() );
-        QPointF destPos( pile->x() + pile->spread().width() * flipped * deck->cardWidth(), pile->y() );
-        c->flipTo( destPos, 200 + 80 * ( flipped + 1 ) );
+        foreach ( Card *c, pilecards )
+        {
+            c->stopAnimation();
+            talon->add(c);
+            c->turn( false );
+        }
+        talon->relayoutCards();
+
+        redealt = true;
+    }
+    else
+    {
+        QList<Card*> flippedCards;
+        for (int flipped = 0; flipped < pile->draw() && !talon->isEmpty(); ++flipped)
+        {
+            pile->add( talon->top() );
+            flippedCards << pile->top();
+        }
+        pile->relayoutCards();
+        int flipped = 0;
+        foreach ( Card *c, flippedCards )
+        {
+            kDebug() << c->objectName() << c->realPos();
+            c->stopAnimation();
+            QPointF destPos = c->realPos();
+            c->setPos( talon->pos() );
+            c->flipTo( destPos, 200 + 80 * ( flipped++ + 1 ) );
+        }
     }
 
     takeState();
@@ -177,7 +199,7 @@ Card *Klondike::newCards()
     // we need to look that many steps in the future to see if we can lose
     setNeededFutureMoves( talon->cardsLeft() + pile->cardsLeft() );
 
-    return pile->top();
+    return pile->top() ? pile->top() : talon->top();
 }
 
 void Klondike::restart()
@@ -241,24 +263,6 @@ void Klondike::setEasy( bool _EasyRules )
     cg.sync();
 }
 
-//  Add cards from  pile to deck, in reverse direction
-void Klondike::redeal() {
-
-    CardList pilecards = pile->cards();
-    if (EasyRules)
-        // the remaining cards in deck should be on top
-        // of the new deck
-        pilecards += talon->cards();
-
-    for (int count = pilecards.count() - 1; count >= 0; --count)
-    {
-        Card *card = pilecards[count];
-        card->stopAnimation();
-        talon->animatedAdd(card, false); // facedown, nospread
-    }
-
-    redealt = true;
-}
 
 void Klondike::deal() {
     for(int round=0; round < 7; round++)

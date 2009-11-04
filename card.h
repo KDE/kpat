@@ -108,6 +108,7 @@ public:
     void         moveTo( QPointF pos2, qreal z, int duration);
     void         flipTo( QPointF pos2, int duration );
     void         flipToPile( Pile * destPile, int duration );
+    void         generalAnimation( QPointF pos, qreal z2, qreal zoom, qreal rotate, bool faceup, bool raise, int duration );
 
     QPointF      realPos() const;
     qreal        realZ() const;
@@ -141,8 +142,6 @@ public slots:
     void       zoomOutAnimation();
 
 private:
-    void       generalAnimation( QPointF pos, qreal z2, qreal zoom, qreal rotate, bool faceup, bool raise, int duration );
-
     Pile       *m_source;
     QAbstractAnimation *m_animation;
 
