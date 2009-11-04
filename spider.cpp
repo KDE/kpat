@@ -357,19 +357,17 @@ bool Spider::checkPileDeck(Pile *check, bool checkForDemo)
         // just using the CardList to see if this goes to King
         CardList run = getRun(check->top());
         if (run.first()->rank() == Card::King) {
-            legs[m_leg]->setVisible(true);
+            Pile *leg = legs[m_leg];
+            leg->setVisible(true);
             relayoutPiles();
 
-            CardList::iterator it = run.end();
             qreal z = 1;
-            while (it != run.begin()) {
-                --it;
-                legs[m_leg]->add( *it );
-                // ( *it )->setSpread( QSize( 0, 0 ) );
-                ( *it )->moveTo( legs[m_leg]->pos(), legs[m_leg]->zValue() + z, 300 + int( z ) * 30 );
-                z += 1;
+            foreach ( Card *c, run ) {
+                leg->add( c );
+                c->moveTo( leg->pos(), leg->zValue() + z, DURATION_AUTODROP * (0.7 + z / 10) );
+                ++z;
             }
-            connect(run.first(), SIGNAL(stopped(Card*)), SLOT(cardStopped(Card*)));
+            connect(run.last(), SIGNAL(stopped(Card*)), SLOT(cardStopped(Card*)));
             setWaiting( true );
             /*if ( demoActive() )
               newDemoMove( run.first() );*/
