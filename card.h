@@ -96,7 +96,7 @@ public:
     Card( Rank r, Suit s );
     virtual ~Card();
 
-    // Some basic tests.
+    void       raise();
     void       turn(bool faceup = true);
 
     Pile        *source() const     { return m_source; }

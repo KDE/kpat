@@ -171,6 +171,11 @@ qreal Card::flippedness() const
     return m_flippedness;
 }
 
+void Card::raise()
+{
+    setZValue( 1000 + zValue() );
+}
+
 // Return the  cards real position.  This is the destination
 // of the animation if animated, and the current position otherwise.
 QPointF Card::realPos() const
@@ -255,8 +260,8 @@ void Card::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool 
         aniGroup->addAnimation( flip );
     }
 
-        setZValue( 1000 + zValue() );
     if ( raised )
+        raise();
 
     m_destX = pos2.x();
     m_destY = pos2.y();
