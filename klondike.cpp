@@ -38,6 +38,7 @@
 
 #include "carddeck.h"
 #include "dealerinfo.h"
+#include "speeds.h"
 #include "version.h"
 #include "patsolve/klondikesolver.h"
 
@@ -183,11 +184,11 @@ Card *Klondike::newCards()
         int flipped = 0;
         foreach ( Card *c, flippedCards )
         {
-            kDebug() << c->objectName() << c->realPos();
+            ++flipped;
             c->stopAnimation();
             QPointF destPos = c->realPos();
             c->setPos( talon->pos() );
-            c->flipTo( destPos, 200 + 80 * ( flipped++ + 1 ) );
+            c->flipTo( destPos, DURATION_FLIP * ( 1 + flipped / 6.0) );
         }
     }
 

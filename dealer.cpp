@@ -1543,7 +1543,7 @@ void DealerScene::won()
             p.moveTopLeft(dest);
         } while (can.intersects(p));
 
-        card.ptr->moveTo( dest, 0, 1200);
+        card.ptr->moveTo( dest, 0, DURATION_DEAL );
         connect(card.ptr, SIGNAL(stopped(Card*)), SLOT(waitForWonAnim(Card*)));
         setWaiting(true);
     }
