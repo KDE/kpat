@@ -499,7 +499,7 @@ void Pile::moveCards(CardList &cl, Pile *to)
 
     Card *t = top();
     if (t && !t->isFaceUp() && removeFlags & autoTurnTop) {
-        t->flipTo(t->pos(), DURATION_FLIP);
+        t->animate(t->pos(), t->zValue(), 1, 0, true, false, DURATION_FLIP);
         t->setSpread(cardOffset(t));
     }
 
