@@ -171,7 +171,8 @@ qreal Card::flippedness() const
 
 void Card::raise()
 {
-    setZValue( 1000 + zValue() );
+    if ( zValue() < 1000 )
+        setZValue( 1000 + zValue() );
 }
 
 // Return the  cards real position.  This is the destination
