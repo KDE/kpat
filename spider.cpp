@@ -453,7 +453,6 @@ Card *Spider::newCards()
             checkPileDeck(stack[column]);
     }
     redeals[m_redeal++]->setVisible(false);
-    relayoutPiles();
 
     takeState();
     considerGameStarted();
