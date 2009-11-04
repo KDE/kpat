@@ -1189,16 +1189,12 @@ void DealerScene::setState(State *st)
         bool target = c->takenDown(); // abused
         c->turn(s.faceup);
         s.source->add(c, s.source_index);
-        c->setVisible(s.source->isVisible());
         c->setZValue(s.z);
         c->setTakenDown(s.tookdown || (target && !s.source->target()));
     }
 
     foreach (Pile *p, piles)
-        p->relayoutCards();
-
-    foreach (const CardState & s, *n)
-        s.it->stopAnimation();
+        p->layoutCards(0);
 
     // restore game-specific information
     setGameState( st->gameData );

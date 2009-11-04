@@ -132,7 +132,8 @@ void Card::updatePixmap()
 // is activated at the same time.
 void Card::turn( bool _faceup )
 {
-    if ( m_faceup != _faceup ) {
+    if ( m_faceup != _faceup || m_destFace != _faceup )
+    {
         m_faceup = _faceup;
         m_destFace = _faceup;
         updatePixmap();

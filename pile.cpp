@@ -329,6 +329,9 @@ void Pile::add( Card *_card, int index)
     if (_card->source() == this)
         return;
 
+    if (_card->scene() != dscene())
+        dscene()->addItem(_card);
+
     Pile *oldSource = _card->source();
     if (oldSource)
     {
@@ -337,14 +340,12 @@ void Pile::add( Card *_card, int index)
     }
 
     _card->setSource(this);
-    if (!oldSource) // The card is new to the scene
-    {
-        dscene()->addItem(_card);
-        _card->updatePixmap();
-    }
-
     _card->setVisible( isVisible() );
     _card->setSpread( cardOffset( _card ) );
+
+    // If the card didn't have a source, its pixmap might be out of date.
+    if (!oldSource)
+        _card->updatePixmap();
 
     if (index == -1)
         m_cards.append(_card);
