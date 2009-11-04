@@ -69,6 +69,8 @@ Golf::Golf( )
     for( int r = 0; r < 7; r++ ) {
         stack[r]=new Pile(1+r, QString("stack%1").arg(r));
         stack[r]->setPilePos(r*dist_x,0);
+        // Manual tweak of the pile z values to make some animations better.
+        stack[r]->setZValue((7-r)/100.0);
         stack[r]->setAddFlags( Pile::addSpread | Pile::disallow);
         stack[r]->setCheckIndex( 1 );
         stack[r]->setReservedSpace( QSizeF( 1.0, 3.0 ) );
@@ -145,7 +147,7 @@ Card *Golf::newCards()
     if ( talon->isEmpty() )
         emit newCardsPossible( false );
 
-    return talon->top();
+    return waste->top();
 }
 
 bool Golf::cardClicked(Card *c)

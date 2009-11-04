@@ -86,8 +86,6 @@ Card::Card( Rank r, Suit s )
     m_destX = 0;
     m_destY = 0;
     m_destZ = 0;
-
-    m_spread = QSizeF( 0, 0 );
 }
 
 Card::~Card()
@@ -386,18 +384,6 @@ void Card::zoomInAnimation()
 void Card::zoomOutAnimation()
 {
     animate( m_unzoomedPosition, zValue(), 1.0, 0, isFaceUp(), false, DURATION_FANCYSHOW );
-}
-
-QSizeF Card::spread() const
-{
-    return m_spread;
-}
-
-void Card::setSpread(const QSizeF& spread)
-{
-    if (source() && m_spread != spread)
-        source()->tryRelayoutCards();
-    m_spread = spread;
 }
 
 QString gettime()

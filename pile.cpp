@@ -341,7 +341,6 @@ void Pile::add( Card *_card, int index)
 
     _card->setSource(this);
     _card->setVisible( isVisible() );
-    _card->setSpread( cardOffset( _card ) );
 
     // If the card didn't have a source, its pixmap might be out of date.
     if (!oldSource)
@@ -360,17 +359,18 @@ void Pile::add( Card *_card, int index)
 
 // Return the number of pixels in x and y that the card should be
 // offset from the start position of the pile.
-QSizeF Pile::cardOffset( const Card *card ) const
+QPointF Pile::cardOffset( const Card *card ) const
 {
     if ( addFlags & Pile::addSpread )
     {
-        if (card->realFace())
-            return spread();
-        else
-            return spread() * 0.6;
+        QPointF offset( spread().width() * dscene()->cardDeck()->cardWidth(),
+                        spread().height() * dscene()->cardDeck()->cardHeight() );
+        if (!card->realFace())
+            offset *= 0.6;
+        return offset;
     }
 
-    return QSize(0, 0);
+    return QPointF(0, 0);
 }
 
 /* override cardtype (for initial deal ) */
@@ -386,9 +386,7 @@ void Pile::animatedAdd( Card* _card, bool faceUp )
     QPointF pos2;
     qreal z2;
     if (t) {
-        pos2 = t->pos();
-        pos2.rx() += t->spread().width() * dscene()->cardDeck()->cardWidth();
-        pos2.ry() += t->spread().height() * dscene()->cardDeck()->cardHeight();
+        pos2 = t->pos() + cardOffset( t );
         z2 = t->realZ() + 1;
     } else {
         pos2 = pos();
@@ -498,9 +496,9 @@ void Pile::moveCards(CardList &cl, Pile *to)
     }
 
     Card *t = top();
-    if (t && !t->isFaceUp() && removeFlags & autoTurnTop) {
+    if (t && !t->isFaceUp() && removeFlags & autoTurnTop)
+    {
         t->animate(t->pos(), t->zValue(), 1, 0, true, false, DURATION_FLIP);
-        t->setSpread(cardOffset(t));
     }
 
     relayoutCards();
@@ -549,21 +547,17 @@ void Pile::layoutCards(int duration)
 
     const QSize cardSize = dscene()->cardDeck()->cardSize();
 
-    QSizeF preferredSize( 0, 0 );
-    for ( int i = 0; i < m_cards.size() - 1; ++i )
-    {
-        // The spreads should hopefully have all one sign, or we get in trouble
-        preferredSize.rwidth() += qAbs( m_cards[i]->spread().width() );
-        preferredSize.rheight() += qAbs( m_cards[i]->spread().height() );
-    }
+    QPointF totalOffset( 0, 0 );
+    foreach ( const Card *c, m_cards )
+        totalOffset += cardOffset( c );
 
     qreal divx = 1;
-    if ( preferredSize.width() )
-        divx = qMin<qreal>( ( maximumSpace().width() - cardSize.width() ) / ( preferredSize.width() * cardSize.width() ), 1.0 );
+    if ( totalOffset.x() )
+        divx = qMin<qreal>( ( maximumSpace().width() - cardSize.width() ) / totalOffset.x(), 1.0 );
 
     qreal divy = 1;
-    if ( preferredSize.height() )
-        divy = qMin<qreal>( ( maximumSpace().height() - cardSize.height() ) / ( preferredSize.height() * cardSize.height() ), 1.0 );
+    if ( totalOffset.y() )
+        divy = qMin<qreal>( ( maximumSpace().height() - cardSize.height() ) / totalOffset.y(), 1.0 );
 
     QPointF cardPos = pos();
     qreal z = zValue() + 1;
@@ -578,9 +572,10 @@ void Pile::layoutCards(int duration)
             card->setZValue( z );
             card->setPos( cardPos );
         }
-        cardPos.rx() += divx * card->spread().width() * cardSize.width();
-        cardPos.ry() += divy * card->spread().height() * cardSize.height();
-        z += 1;
+        QPointF offset = cardOffset( card );
+        cardPos.rx() += divx * offset.x();
+        cardPos.ry() += divy * offset.y();
+        ++z;
     }
 }
 

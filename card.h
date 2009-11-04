@@ -125,9 +125,6 @@ public:
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
     virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event );
 
-    QSizeF spread() const;
-    void  setSpread(const QSizeF& spread);
-
     void         setFlippedness( qreal flippedness );
     qreal        flippedness() const;
 
@@ -150,7 +147,6 @@ private:
     qreal         m_destZ;
     bool          m_destFace;
 
-    QSizeF        m_spread;
     qreal         m_flippedness;
 
     bool      m_takenDown;

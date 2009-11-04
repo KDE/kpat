@@ -127,7 +127,7 @@ public:
     void hideCards( const CardList & cards );
     void unhideCards( const CardList & cards );
 
-    virtual QSizeF cardOffset( const Card *card ) const;
+    virtual QPointF cardOffset( const Card *card ) const;
 
     void setType( PileType t);
     void setAddType( PileType t);
