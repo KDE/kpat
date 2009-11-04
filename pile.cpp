@@ -516,6 +516,9 @@ void Pile::moveCardsBack(CardList &cl, int duration)
     if ( duration == -1 )
         duration = DURATION_MOVEBACK;
 
+    foreach ( Card *c, cl )
+        c->raise();
+
     layoutCards( duration );
 }
 
@@ -567,7 +570,9 @@ void Pile::layoutCards(int duration)
     foreach ( Card * card, m_cards )
     {
         if ( duration )
-            card->moveTo( cardPos, z, dscene()->speedUpTime( duration ) );
+        {
+            card->animate( cardPos, z, 1, 0, card->isFaceUp(), false, dscene()->speedUpTime( duration ) );
+        }
         else
         {
             card->setZValue( z );
