@@ -376,15 +376,14 @@ void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ev )
 
 void Card::zoomInAnimation()
 {
-    m_unzoomedPosition = pos();
     QPointF pos2( x() + pixmap().width() / 3, y() - pixmap().height() / 4 );
-
     animate( pos2, zValue(), 1.1, 20, isFaceUp(), false, DURATION_FANCYSHOW );
 }
 
 void Card::zoomOutAnimation()
 {
-    animate( m_unzoomedPosition, zValue(), 1.0, 0, isFaceUp(), false, DURATION_FANCYSHOW );
+    if ( source() )
+        source()->layoutCards( DURATION_FANCYSHOW );
 }
 
 QString gettime()

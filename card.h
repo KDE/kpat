@@ -151,7 +151,6 @@ private:
 
     bool      m_takenDown;
     bool      m_marked;
-    QPointF   m_unzoomedPosition;
 };
 
 extern QString gettime();
