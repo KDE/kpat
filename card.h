@@ -122,9 +122,6 @@ public:
     virtual void setMarked( bool flag );
     virtual bool isMarked() const;
 
-    virtual void mousePressEvent ( QGraphicsSceneMouseEvent * event );
-    virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * event );
-
     void         setFlippedness( qreal flippedness );
     qreal        flippedness() const;
 
@@ -135,8 +132,6 @@ public slots:
     void       updatePixmap();
     void       flip();
     void       stopAnimation();
-    void       zoomInAnimation();
-    void       zoomOutAnimation();
 
 private:
     Pile       *m_source;

@@ -206,7 +206,7 @@ public:
     int loadedMoveCount;
     qreal layoutMargin;
     qreal layoutSpacing;
-
+    Card *peekedCard;
     QTimer *demotimer;
     QTimer *stateTimer;
     QTimer *autoDropTimer;
@@ -509,6 +509,7 @@ DealerScene::DealerScene()
     d->loadedMoveCount = 0;
     d->layoutMargin = 0.15;
     d->layoutSpacing = 0.15;
+    d->peekedCard = 0;
     connect( d->updateSolver, SIGNAL(timeout()), SLOT(stopAndRestartSolver()) );
 
     d->demotimer = new QTimer(this);
@@ -817,7 +818,15 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
         if (preview && !preview->animated() && !isMoving(preview))
         {
             if ( preview == preview->source()->top() )
+            {
                 mouseDoubleClickEvent( e ); // see bug #151921
+            }
+            else
+            {
+                d->peekedCard = preview;
+                QPointF pos2( preview->x() + deck->cardWidth() / 3.0, preview->y() - deck->cardHeight() / 4.0 );
+                preview->animate( pos2, preview->zValue(), 1.1, 20, preview->isFaceUp(), false, DURATION_FANCYSHOW );
+            }
         }
         return;
     }
@@ -959,57 +968,66 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
 {
     QGraphicsScene::mouseReleaseEvent( e );
 
-    if (!moved) {
-        if (!movingCards.isEmpty()) {
-            movingCards.first()->source()->moveCardsBack(movingCards);
-            movingCards.clear();
-        }
-
-        QGraphicsItem * topItem = itemAt(e->scenePos());
-        if (!topItem)
-            return;
-
-        Card *c = qgraphicsitem_cast<Card*>(topItem);
-        if (c) {
-            if (!c->animated() && cardClicked(c) ) {
-                considerGameStarted();
-                takeState();
-                eraseRedo();
-            }
-            return;
-        }
-
-        Pile *p = qgraphicsitem_cast<Pile*>(topItem);
-        if (p) {
-            if (pileClicked(p)) {
-                considerGameStarted();
-                takeState();
-                eraseRedo();
-            }
-            return;
-        }
-    }
-
-    if (movingCards.isEmpty())
-        return;
-
-    setMarkedItems();
-
-    Pile * destination = targetPile();
-    if (destination) {
-        Card *c = movingCards.first();
-        Q_ASSERT(c);
-        considerGameStarted();
-        c->source()->moveCards(movingCards, destination);
-        takeState();
-        eraseRedo();
-    }
-    else
+    if ( e->button() == Qt::LeftButton )
     {
-        movingCards.first()->source()->moveCardsBack(movingCards);
+        if (!moved) {
+            if (!movingCards.isEmpty()) {
+                movingCards.first()->source()->moveCardsBack(movingCards);
+                movingCards.clear();
+            }
+
+            QGraphicsItem * topItem = itemAt(e->scenePos());
+            if (!topItem)
+                return;
+
+            Card *c = qgraphicsitem_cast<Card*>(topItem);
+            if (c) {
+                if (!c->animated() && cardClicked(c) ) {
+                    considerGameStarted();
+                    takeState();
+                    eraseRedo();
+                }
+                return;
+            }
+
+            Pile *p = qgraphicsitem_cast<Pile*>(topItem);
+            if (p) {
+                if (pileClicked(p)) {
+                    considerGameStarted();
+                    takeState();
+                    eraseRedo();
+                }
+                return;
+            }
+        }
+
+        if (movingCards.isEmpty())
+            return;
+
+        setMarkedItems();
+
+        Pile * destination = targetPile();
+        if (destination) {
+            Card *c = movingCards.first();
+            Q_ASSERT(c);
+            considerGameStarted();
+            c->source()->moveCards(movingCards, destination);
+            takeState();
+            eraseRedo();
+        }
+        else
+        {
+            movingCards.first()->source()->moveCardsBack(movingCards);
+        }
+        movingCards.clear();
+        moved = false;
     }
-    movingCards.clear();
-    moved = false;
+    else if ( e->button() == Qt::RightButton )
+    {
+        if ( d->peekedCard && d->peekedCard->source() )
+            d->peekedCard->source()->layoutCards( DURATION_FANCYSHOW );
+        d->peekedCard = 0;
+    }
 }
 
 Pile * DealerScene::targetPile()

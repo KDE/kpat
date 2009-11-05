@@ -366,36 +366,6 @@ bool  Card::animated() const
     return m_animation != 0;
 }
 
-void Card::mousePressEvent ( QGraphicsSceneMouseEvent *ev )
-{
-    if ( this == source()->top() )
-        return; // no way this is meaningful
-
-    if ( ev->button() == Qt::RightButton && !animated() )
-        zoomInAnimation();
-}
-
-void Card::mouseReleaseEvent ( QGraphicsSceneMouseEvent * ev )
-{
-    if ( this == source()->top() )
-        return; // no way this is meaningful
-
-    if ( ev->button() == Qt::RightButton )
-        zoomOutAnimation();
-}
-
-void Card::zoomInAnimation()
-{
-    QPointF pos2( x() + pixmap().width() / 3, y() - pixmap().height() / 4 );
-    animate( pos2, zValue(), 1.1, 20, isFaceUp(), false, DURATION_FANCYSHOW );
-}
-
-void Card::zoomOutAnimation()
-{
-    if ( source() )
-        source()->layoutCards( DURATION_FANCYSHOW );
-}
-
 QString gettime()
 {
     static struct timeval tv2 = { -1, -1};

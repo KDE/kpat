@@ -376,6 +376,9 @@ QPointF Pile::cardOffset( const Card *card ) const
 /* override cardtype (for initial deal ) */
 void Pile::animatedAdd( Card* _card, bool faceUp )
 {
+    if ( _card )
+        return;
+
     if ( _card->source() )
         _card->source()->tryRelayoutCards();
 
