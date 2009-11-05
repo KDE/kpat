@@ -1316,7 +1316,7 @@ bool DealerScene::startAutoDrop()
 
 int DealerScene::speedUpTime( int delay ) const
 {
-    return qMax( 1, qRound( delay * d->m_autoDropFactor ) );
+    return qRound( delay * d->m_autoDropFactor );
 }
 
 void DealerScene::stopAndRestartSolver()

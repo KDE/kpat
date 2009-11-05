@@ -550,15 +550,8 @@ void Pile::layoutCards(int duration)
     qreal z = zValue() + 1;
     foreach ( Card * card, m_cards )
     {
-        if ( duration )
-        {
-            card->animate( cardPos, z, 1, 0, card->isFaceUp(), false, dscene()->speedUpTime( duration ) );
-        }
-        else
-        {
-            card->setZValue( z );
-            card->setPos( cardPos );
-        }
+        card->animate( cardPos, z, 1, 0, card->isFaceUp(), false, dscene()->speedUpTime( duration ) );
+
         QPointF offset = cardOffset( card );
         cardPos.rx() += divx * offset.x();
         cardPos.ry() += divy * offset.y();

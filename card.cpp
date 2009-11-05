@@ -209,6 +209,16 @@ bool Card::realFace() const
 
 void Card::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool faceup2, bool raised, int duration )
 {
+    if ( duration <= 0 )
+    {
+        setPos( pos2 );
+        setZValue( z2 );
+        setScale( scale2 );
+        setRotation( rotation2 );
+        turn( faceup2 );
+        return;
+    }
+
     QParallelAnimationGroup * aniGroup = new QParallelAnimationGroup( this );
 
     if ( qAbs( pos2.x() - x() ) > 2 || qAbs( pos2.y() - y() ) > 2 )
