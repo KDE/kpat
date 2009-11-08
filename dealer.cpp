@@ -140,6 +140,14 @@ bool operator==( const State & st1, const State & st2) {
     return st1.cards == st2.cards && st1.gameData == st2.gameData;
 }
 
+class Hit {
+public:
+    Pile *source;
+    QRectF intersect;
+    bool top;
+};
+typedef QList<Hit> HitList;
+
 class SolverThread : public QThread
 {
 public:
@@ -733,47 +741,6 @@ bool DealerScene::isMoving(Card *c) const
     return movingCards.indexOf(c) != -1;
 }
 
-void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
-{
-    if (movingCards.isEmpty())
-        return;
-
-    if (!moved) {
-        bool overCard = movingCards.first()->sceneBoundingRect().contains(e->scenePos());
-        QPointF delta = e->scenePos() - moving_start;
-        qreal distanceSquared = delta.x() * delta.x() + delta.y() * delta.y();
-        // Ignore the move event until we've moved at least 4 pixels or the
-        // cursor leaves the card.
-        if (distanceSquared > 16.0 || !overCard) {
-            moved = true;
-            // If the cursor hasn't left the card, then continue the drag from
-            // the current position, which makes it look smoother.
-            if (overCard)
-                moving_start = e->scenePos();
-        }
-    }
-
-    if (moved) {
-        foreach ( Card *card, movingCards )
-            card->setPos( card->pos() + e->scenePos() - moving_start );
-        moving_start = e->scenePos();
-
-        QSet<MarkableItem*> toMark;
-
-        Pile * dropPile = targetPile();
-        if (dropPile) {
-            if (dropPile->isEmpty()) {
-                toMark << dropPile;
-            } else {
-                toMark << dropPile->top();
-            }
-        }
-
-        setMarkedItems( toMark );
-    }
-}
-
-
 void DealerScene::setMarkedItems( QSet<MarkableItem*> s )
 {
     foreach ( MarkableItem * i, m_markedItems.subtract( s ) )
@@ -782,66 +749,6 @@ void DealerScene::setMarkedItems( QSet<MarkableItem*> s )
         i->setMarked( true );
     m_markedItems = s;
 }
-
-
-void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
-{
-    // don't allow manual moves while automoves are going on
-    if ( waiting() )
-        return;
-
-    setMarkedItems();
-    stopDemo();
-
-    QGraphicsItem *topItem = itemAt( e->scenePos() );
-
-    moved = false;
-
-    if (!topItem)
-        return;
-
-    QGraphicsScene::mousePressEvent( e );
-
-    if (e->button() == Qt::LeftButton) {
-        Card *c = qgraphicsitem_cast<Card*>(topItem);
-        if (c) {
-            movingCards = c->source()->cardPressed(c);
-            foreach (Card *card, movingCards)
-                card->stopAnimation();
-            moving_start = e->scenePos();
-        }
-        return;
-    }
-
-    if (e->button() == Qt::RightButton) {
-        Card *preview = qgraphicsitem_cast<Card*>(topItem);
-        if (preview && !preview->animated() && !isMoving(preview))
-        {
-            if ( preview == preview->source()->top() )
-            {
-                mouseDoubleClickEvent( e ); // see bug #151921
-            }
-            else
-            {
-                d->peekedCard = preview;
-                QPointF pos2( preview->x() + deck->cardWidth() / 3.0, preview->y() - deck->cardHeight() / 4.0 );
-                preview->animate( pos2, preview->zValue(), 1.1, 20, preview->isFaceUp(), false, DURATION_FANCYSHOW );
-            }
-        }
-        return;
-    }
-
-    // if it's nothing else, we move the cards back
-    mouseReleaseEvent(e);
-}
-
-class Hit {
-public:
-    Pile *source;
-    QRectF intersect;
-    bool top;
-};
-typedef QList<Hit> HitList;
 
 void DealerScene::startNew(int gameNumber)
 {
@@ -964,72 +871,6 @@ void DealerScene::updateWonItem()
                                  ( height() - d->wonItem->sceneBoundingRect().height() ) / 2 ) + sceneRect().topLeft() );
 }
 
-void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
-{
-    QGraphicsScene::mouseReleaseEvent( e );
-
-    if ( e->button() == Qt::LeftButton )
-    {
-        if (!moved) {
-            if (!movingCards.isEmpty()) {
-                movingCards.first()->source()->moveCardsBack(movingCards);
-                movingCards.clear();
-            }
-
-            QGraphicsItem * topItem = itemAt(e->scenePos());
-            if (!topItem)
-                return;
-
-            Card *c = qgraphicsitem_cast<Card*>(topItem);
-            if (c) {
-                if (!c->animated() && cardClicked(c) ) {
-                    considerGameStarted();
-                    takeState();
-                    eraseRedo();
-                }
-                return;
-            }
-
-            Pile *p = qgraphicsitem_cast<Pile*>(topItem);
-            if (p) {
-                if (pileClicked(p)) {
-                    considerGameStarted();
-                    takeState();
-                    eraseRedo();
-                }
-                return;
-            }
-        }
-
-        if (movingCards.isEmpty())
-            return;
-
-        setMarkedItems();
-
-        Pile * destination = targetPile();
-        if (destination) {
-            Card *c = movingCards.first();
-            Q_ASSERT(c);
-            considerGameStarted();
-            c->source()->moveCards(movingCards, destination);
-            takeState();
-            eraseRedo();
-        }
-        else
-        {
-            movingCards.first()->source()->moveCardsBack(movingCards);
-        }
-        movingCards.clear();
-        moved = false;
-    }
-    else if ( e->button() == Qt::RightButton )
-    {
-        if ( d->peekedCard && d->peekedCard->source() )
-            d->peekedCard->source()->layoutCards( DURATION_FANCYSHOW );
-        d->peekedCard = 0;
-    }
-}
-
 Pile * DealerScene::targetPile()
 {
     HitList sources;
@@ -1105,6 +946,151 @@ Pile * DealerScene::targetPile()
         return (*best).source;
     } else {
         return 0;
+    }
+}
+
+void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
+{
+    // don't allow manual moves while automoves are going on
+    if ( waiting() )
+        return;
+
+    setMarkedItems();
+    stopDemo();
+
+    QGraphicsScene::mousePressEvent( e );
+
+    moved = false;
+
+    Card *card = qgraphicsitem_cast<Card*>( itemAt( e->scenePos() ) );
+    if ( !card || card->animated() || isMoving(card) )
+        return;
+
+    if ( e->button() == Qt::LeftButton && !d->peekedCard )
+    {
+        movingCards = card->source()->cardPressed( card );
+        foreach ( Card *c, movingCards )
+            c->stopAnimation();
+        moving_start = e->scenePos();
+    }
+    else if ( e->button() == Qt::RightButton && movingCards.isEmpty() )
+    {
+        if ( card == card->source()->top() )
+        {
+            mouseDoubleClickEvent( e ); // see bug #151921
+        }
+        else
+        {
+            d->peekedCard = card;
+            QPointF pos2( card->x() + deck->cardWidth() / 3.0, card->y() - deck->cardHeight() / 4.0 );
+            card->animate( pos2, card->zValue(), 1.1, 20, card->isFaceUp(), false, DURATION_FANCYSHOW );
+        }
+    }
+}
+
+void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
+{
+    if (movingCards.isEmpty())
+        return;
+
+    if (!moved) {
+        bool overCard = movingCards.first()->sceneBoundingRect().contains(e->scenePos());
+        QPointF delta = e->scenePos() - moving_start;
+        qreal distanceSquared = delta.x() * delta.x() + delta.y() * delta.y();
+        // Ignore the move event until we've moved at least 4 pixels or the
+        // cursor leaves the card.
+        if (distanceSquared > 16.0 || !overCard) {
+            moved = true;
+            // If the cursor hasn't left the card, then continue the drag from
+            // the current position, which makes it look smoother.
+            if (overCard)
+                moving_start = e->scenePos();
+        }
+    }
+
+    if (moved) {
+        foreach ( Card *card, movingCards )
+            card->setPos( card->pos() + e->scenePos() - moving_start );
+        moving_start = e->scenePos();
+
+        QSet<MarkableItem*> toMark;
+
+        Pile * dropPile = targetPile();
+        if (dropPile) {
+            if (dropPile->isEmpty()) {
+                toMark << dropPile;
+            } else {
+                toMark << dropPile->top();
+            }
+        }
+
+        setMarkedItems( toMark );
+    }
+}
+
+void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
+{
+    QGraphicsScene::mouseReleaseEvent( e );
+
+    if ( e->button() == Qt::LeftButton )
+    {
+        if (!moved) {
+            if (!movingCards.isEmpty()) {
+                movingCards.first()->source()->moveCardsBack(movingCards);
+                movingCards.clear();
+            }
+
+            QGraphicsItem * topItem = itemAt(e->scenePos());
+            if (!topItem)
+                return;
+
+            Card *c = qgraphicsitem_cast<Card*>(topItem);
+            if (c) {
+                if (!c->animated() && cardClicked(c) ) {
+                    considerGameStarted();
+                    takeState();
+                    eraseRedo();
+                }
+                return;
+            }
+
+            Pile *p = qgraphicsitem_cast<Pile*>(topItem);
+            if (p) {
+                if (pileClicked(p)) {
+                    considerGameStarted();
+                    takeState();
+                    eraseRedo();
+                }
+                return;
+            }
+        }
+
+        if (movingCards.isEmpty())
+            return;
+
+        setMarkedItems();
+
+        Pile * destination = targetPile();
+        if (destination) {
+            Card *c = movingCards.first();
+            Q_ASSERT(c);
+            considerGameStarted();
+            c->source()->moveCards(movingCards, destination);
+            takeState();
+            eraseRedo();
+        }
+        else
+        {
+            movingCards.first()->source()->moveCardsBack(movingCards);
+        }
+        movingCards.clear();
+        moved = false;
+    }
+    else if ( e->button() == Qt::RightButton )
+    {
+        if ( d->peekedCard && d->peekedCard->source() )
+            d->peekedCard->source()->layoutCards( DURATION_FANCYSHOW );
+        d->peekedCard = 0;
     }
 }
 
