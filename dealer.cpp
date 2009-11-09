@@ -246,16 +246,6 @@ void DealerScene::takeState()
         return;
     }
 
-    foreach(const QGraphicsItem * item, items())
-    {
-        const Card *c = qgraphicsitem_cast<const Card*>(item);
-        if (c && c->animated())
-        {
-            d->stateTimer->start();
-            return;
-        }
-    }
-
     d->stateTimer->stop();
 
     State *n = getState();
@@ -955,7 +945,7 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
     moved = false;
 
     Card *card = qgraphicsitem_cast<Card*>( itemAt( e->scenePos() ) );
-    if ( !card || card->animated() || isMoving(card) )
+    if ( !card || isMoving(card) )
         return;
 
     if ( e->button() == Qt::LeftButton && !d->peekedCard )
@@ -1243,15 +1233,6 @@ bool DealerScene::startAutoDrop()
         return true;
     }
 
-    foreach ( const Card *c, deck->cards() )
-    {
-        if ( c->animated() )
-        {
-            d->autoDropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
-            return true;
-        }
-    }
-
     kDebug() << gettime() << "startAutoDrop \n";
 
     setMarkedItems();
@@ -1314,15 +1295,12 @@ void DealerScene::stopAndRestartSolver()
         d->solverMutex.unlock();
     }
 
-    foreach (const QGraphicsItem *item, items())
+    if ( deck->hasAnimatedCards() )
     {
-        const Card *c =qgraphicsitem_cast<const Card*>(item);
-        if (c && c->animated())
-        {
-            startSolver();
-            return;
-        }
+        startSolver();
+        return;
     }
+
     slotSolverEnded();
 }
 
