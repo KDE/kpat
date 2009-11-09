@@ -437,9 +437,14 @@ Card *Spider::newCards()
     if (m_redeal > 4)
         return 0;
 
+    if (deck->hasAnimatedCards())
+        for (int i = 0; i < 10; ++i)
+            if (stack[i]->top())
+                return stack[i]->top();
+
     setMarkedItems();
 
-    for (int column = 0; column < 10; column++) {
+    for (int column = 0; column < 10; ++column) {
         stack[column]->animatedAdd(redeals[m_redeal]->top(), true);
 
         // I may put an Ace on a K->2 pile so it could need cleared.

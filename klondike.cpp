@@ -150,8 +150,14 @@ Card *Klondike::newCards()
     if ( talon->isEmpty() && pile->cardsLeft() <= 1 )
         return 0;
 
-    if ( pile->top() && pile->top()->animated() )
-        return pile->top();
+    if ( deck->hasAnimatedCards() )
+    {
+        if ( pile->top() )
+            return pile->top();
+        for (int i = 0; i < 7; ++i)
+            if (play[i]->top())
+                return play[i]->top();
+    }
 
     if ( talon->isEmpty() )
     {

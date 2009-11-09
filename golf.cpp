@@ -135,7 +135,7 @@ Card *Golf::newCards()
     if (talon->isEmpty())
          return 0;
 
-    if ( waste->top() && waste->top()->animated() )
+    if ( waste->top() && deck->hasAnimatedCards() )
         return waste->top();
 
     setMarkedItems();

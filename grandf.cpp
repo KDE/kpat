@@ -84,11 +84,13 @@ void Grandf::restart() {
 
 Card *Grandf::newCards()
 {
-//     if ( waiting() || demoActive() || isGameWon()  )
-//         return;
-
     if (numberOfDeals >= 3)
         return 0;
+
+    if (deck->hasAnimatedCards())
+        for (int i = 0; i < 7; ++i)
+            if (store[i]->top())
+                return store[i]->top();
 
     setMarkedItems();
     collect();

@@ -106,6 +106,11 @@ Card *Gypsy::newCards()
     if (talon->isEmpty())
         return 0;
 
+    if (deck->hasAnimatedCards())
+        for (int i = 0; i < 8; ++i)
+            if (store[i]->top())
+                return store[i]->top();
+
     setMarkedItems();
     dealRow(true);
     takeState();

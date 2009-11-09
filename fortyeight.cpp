@@ -110,7 +110,7 @@ Card *Fortyeight::newCards()
     if (talon->isEmpty() && lastdeal)
         return 0;
 
-    if (pile->top() && pile->top()->animated())
+    if (pile->top() && deck->hasAnimatedCards())
         return pile->top();
 
     if (talon->isEmpty())
