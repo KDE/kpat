@@ -342,10 +342,6 @@ void Pile::add( Card *_card, int index)
     _card->setSource(this);
     _card->setVisible( isVisible() );
 
-    // If the card didn't have a source, its pixmap might be out of date.
-    if (!oldSource)
-        _card->updatePixmap();
-
     if (index == -1)
         m_cards.append(_card);
     else {

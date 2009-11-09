@@ -411,7 +411,6 @@ void DealerScene::openGame(QDomDocument &doc)
 
                     c->turn(card.attribute("faceup").toInt());
                     p->add(c);
-                    c->updatePixmap();
                 }
                 break;
             }

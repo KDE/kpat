@@ -61,11 +61,16 @@ AbstractCard::AbstractCard( Rank r, Suit s )
 {
 }
 
-Card::Card( Rank r, Suit s )
-    : QObject(), AbstractCard( r, s ), QGraphicsPixmapItem(),
-      m_source(0), m_animation( 0 ), m_takenDown(false),
-      m_marked( false )
+Card::Card( Rank r, Suit s, CardDeck * deck )
+  : AbstractCard( r, s ),
+    m_deck( deck ),
+    m_source( 0 ),
+    m_animation( 0 ),
+    m_takenDown( false ),
+    m_marked( false )
 {
+    Q_ASSERT( m_deck );
+
     setShapeMode( QGraphicsPixmapItem::BoundingRectShape );
     setTransformationMode( Qt::SmoothTransformation );
 
@@ -103,14 +108,9 @@ Card::~Card()
 
 void Card::updatePixmap()
 {
-    if ( !source() || !source()->dscene() || !source()->dscene()->cardDeck())
-        return;
-
-    CardDeck * deck = source()->dscene()->cardDeck();
-
     if( m_faceup )
     {
-        QPixmap pix = deck->frontsidePixmap( m_rank, m_suit );
+        QPixmap pix = m_deck->frontsidePixmap( m_rank, m_suit );
         if ( m_marked )
         {
             QPainter p( &pix );
@@ -122,7 +122,7 @@ void Card::updatePixmap()
     }
     else
     {
-        setPixmap( deck->backsidePixmap() );
+        setPixmap( m_deck->backsidePixmap() );
     }
 }
 

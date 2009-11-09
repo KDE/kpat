@@ -38,6 +38,7 @@
 #define CARD_H
 
 class Card;
+class CardDeck;
 class Pile;
 
 #include <QtCore/QList>
@@ -93,7 +94,7 @@ class Card: public QObject, public AbstractCard, public QGraphicsPixmapItem, pub
     Q_PROPERTY( qreal flippedness READ flippedness WRITE setFlippedness )
 
 public:
-    Card( Rank r, Suit s );
+    Card( Rank r, Suit s, CardDeck * deck );
     virtual ~Card();
 
     void       raise();
@@ -134,6 +135,7 @@ public slots:
     void       stopAnimation();
 
 private:
+    CardDeck   *m_deck;
     Pile       *m_source;
     QAbstractAnimation *m_animation;
 

@@ -98,7 +98,7 @@ CardDeck::CardDeck( int copies, QList<Card::Suit> suits, QList<Card::Rank> ranks
     for ( int i = 0; i < copies; ++i )
         foreach ( Card::Rank r, ranks )
             foreach ( Card::Suit s, suits )
-                m_allCards << new Card( r, s );
+                m_allCards << new Card( r, s, this );
 
     m_undealtCards = m_allCards;
 
