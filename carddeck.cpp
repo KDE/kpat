@@ -123,7 +123,7 @@ QList< Card* > CardDeck::cards() const
 }
 
 
-bool CardDeck::hasUndealtCards()
+bool CardDeck::hasUndealtCards() const
 {
     return !m_undealtCards.isEmpty();
 }
@@ -249,7 +249,7 @@ QSize CardDeck::cardSize() const
 }
 
 
-QPixmap CardDeck::frontsidePixmap( AbstractCard::Rank r, AbstractCard::Suit s )
+QPixmap CardDeck::frontsidePixmap( AbstractCard::Rank r, AbstractCard::Suit s ) const
 {
     KCardInfo::Suit suit;
     switch ( s )
@@ -283,7 +283,7 @@ QPixmap CardDeck::frontsidePixmap( AbstractCard::Rank r, AbstractCard::Suit s )
 }
 
 
-QPixmap CardDeck::backsidePixmap( int variant )
+QPixmap CardDeck::backsidePixmap( int variant ) const
 {
     return m_cache->backside( variant );
 }

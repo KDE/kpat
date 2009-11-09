@@ -75,7 +75,7 @@ public:
 
     QList<Card*> cards() const;
 
-    bool hasUndealtCards();
+    bool hasUndealtCards() const;
     Card * takeCard();
     Card * takeCard( Card::Rank rank, Card::Suit suit );
     void takeAllCards( Pile * p );
@@ -89,8 +89,8 @@ public:
     int cardHeight() const;
     QSize cardSize() const;
 
-    QPixmap frontsidePixmap( Card::Rank, Card::Suit );
-    QPixmap backsidePixmap( int variant = -1 );
+    QPixmap frontsidePixmap( Card::Rank, Card::Suit ) const;
+    QPixmap backsidePixmap( int variant = -1 ) const;
 
     void updateTheme( const KConfigGroup & cg );
 
