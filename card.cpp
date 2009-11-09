@@ -350,6 +350,7 @@ void Card::stopAnimation()
     if ( !m_animation )
         return;
 
+    m_animation->disconnect( this );
     if ( m_animation->state() != QAbstractAnimation::Stopped )
         m_animation->setCurrentTime( m_animation->duration() );
 
