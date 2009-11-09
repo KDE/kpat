@@ -372,8 +372,7 @@ QPointF Pile::cardOffset( const Card *card ) const
 /* override cardtype (for initial deal ) */
 void Pile::animatedAdd( Card* _card, bool faceUp )
 {
-    if ( _card )
-        return;
+    Q_ASSERT( _card );
 
     if ( _card->source() )
         _card->source()->tryRelayoutCards();
@@ -391,18 +390,6 @@ void Pile::animatedAdd( Card* _card, bool faceUp )
     qreal dist = sqrt( delta.x() * delta.x() + delta.y() * delta.y() );
     qreal whole = sqrt( scene()->width() * scene()->width() + scene()->height() * scene()->height() );
     _card->moveTo(destPos, _card->zValue(), qRound( dist * DURATION_DEAL / whole ) );
-
-    if ( _card->animated() )
-    {
-        dscene()->setWaiting( true );
-        connect(_card, SIGNAL(stopped(Card*)), SLOT(waitForMoving(Card*)));
-    }
-}
-
-void Pile::waitForMoving( Card*c )
-{
-    c->disconnect(this);
-    dscene()->setWaiting( false );
 }
 
 void Pile::remove(Card *c)

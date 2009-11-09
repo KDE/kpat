@@ -127,7 +127,8 @@ public:
     qreal        flippedness() const;
 
 signals:
-    void       stopped(Card *c);
+    void       animationStarted(Card *c);
+    void       animationStopped(Card *c);
 
 public slots:
     void       updatePixmap();

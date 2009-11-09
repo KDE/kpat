@@ -174,7 +174,7 @@ Card *Idiot::newCards()
     if ( talon->isEmpty() )
         return 0;
 
-    if ( waiting() )
+    if ( deck->hasAnimatedCards() )
         for ( int i = 0; i < 4; ++i )
             if ( m_play[i]->top() )
                 return m_play[i]->top();

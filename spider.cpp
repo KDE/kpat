@@ -238,7 +238,6 @@ void Spider::cardStopped(Card * t)
            t->flipTo(t->pos(), DURATION_FLIP);
     }
     t->disconnect(this, SLOT( cardStopped( Card* ) ) );
-    setWaiting( false );
 }
 
 //-------------------------------------------------------------------------//
@@ -367,10 +366,7 @@ bool Spider::checkPileDeck(Pile *check, bool checkForDemo)
                 c->moveTo( leg->pos(), leg->zValue() + z, DURATION_AUTODROP * (0.7 + z / 10) );
                 ++z;
             }
-            connect(run.last(), SIGNAL(stopped(Card*)), SLOT(cardStopped(Card*)));
-            setWaiting( true );
-            /*if ( demoActive() )
-              newDemoMove( run.first() );*/
+            connect(run.last(), SIGNAL(animationStopped(Card*)), SLOT(cardStopped(Card*)));
             m_leg++;
 
             return true;

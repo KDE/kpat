@@ -84,7 +84,8 @@ K_GLOBAL_STATIC( CardDeckPrivateStatic, cdps )
 CardDeck::CardDeck( int copies, QList<Card::Suit> suits, QList<Card::Rank> ranks )
   : m_cache( 0 ),
     m_originalCardSize( 1, 1 ),
-    m_currentCardSize( 0, 0 )
+    m_currentCardSize( 0, 0 ),
+    m_cardsWaitedFor()
 {
     KConfigGroup cs( KGlobal::config(), settings_group );
     updateTheme( cs );
@@ -96,10 +97,18 @@ CardDeck::CardDeck( int copies, QList<Card::Suit> suits, QList<Card::Rank> ranks
     // Note the order the cards are created in can't be changed as doing so
     // will mess up the game numbering.
     for ( int i = 0; i < copies; ++i )
+    {
         foreach ( Card::Rank r, ranks )
+        {
             foreach ( Card::Suit s, suits )
-                m_allCards << new Card( r, s, this );
-
+            {
+                Card * c = new Card( r, s, this );
+                connect( c, SIGNAL(animationStarted(Card*)), this, SLOT(cardStartedAnimation(Card*)) );
+                connect( c, SIGNAL(animationStopped(Card*)), this, SLOT(cardStoppedAnimation(Card*)) );
+                m_allCards << c;
+            }
+        }
+    }
     m_undealtCards = m_allCards;
 
     Q_ASSERT( m_allCards.size() == copies * ranks.size() * suits.size() );
@@ -161,7 +170,8 @@ void CardDeck::takeAllCards( Pile * p )
     {
         Card * c = m_undealtCards.takeFirst();
         c->setPos( p->pos() );
-        p->animatedAdd( c, false );
+        c->turn( false );
+        p->add( c );
     }
 }
 
@@ -305,9 +315,28 @@ void CardDeck::updateTheme( const KConfigGroup & cs )
 }
 
 
+bool CardDeck::hasAnimatedCards() const
+{
+    return !m_cardsWaitedFor.isEmpty();
+}
+
+
 void CardDeck::loadInBackground()
 {
     m_cache->loadTheme( KCardCache::LoadFrontSide | KCardCache::Load52Cards );
+}
+
+
+void CardDeck::cardStartedAnimation( Card *card )
+{
+    m_cardsWaitedFor.insert( card );
+}
+
+
+void CardDeck::cardStoppedAnimation( Card *card )
+{
+    Q_ASSERT( m_cardsWaitedFor.contains( card ) );
+    m_cardsWaitedFor.remove( card );
 }
 
 

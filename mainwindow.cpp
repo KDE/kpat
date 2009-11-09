@@ -714,7 +714,7 @@ void MainWindow::slotSnapshot()
 
 void MainWindow::slotSnapshot2()
 {
-    if ( m_dealer->waiting() )
+    if ( m_dealer->cardDeck()->hasAnimatedCards() )
     {
             QTimer::singleShot( 100, this, SLOT( slotSnapshot2() ) );
             return;

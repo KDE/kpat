@@ -287,6 +287,7 @@ void Card::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool 
         m_animation = aniGroup;
         connect( m_animation, SIGNAL(finished()), SLOT(stopAnimation()) );
         m_animation->start();
+        emit animationStarted( this );
     }
 }
 
@@ -359,7 +360,7 @@ void Card::stopAnimation()
 
     setZValue( m_destZ );
 
-    emit stopped( this );
+    emit animationStopped( this );
 }
 
 bool  Card::animated() const

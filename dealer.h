@@ -92,8 +92,6 @@ public:
 
     bool isMoving(Card *c) const;
     bool cardsAreMoving() const { return !movingCards.empty(); }
-    void setWaiting(bool w);
-    int waiting() const { return _waiting; }
 
     // use this for autodrop times
     int speedUpTime( int delay ) const;
@@ -245,7 +243,6 @@ private:
     QPointF moving_start;
     bool _autodrop;
     bool _usesolver;
-    int _waiting;
     int gamenumber;
 
     class DealerScenePrivate;

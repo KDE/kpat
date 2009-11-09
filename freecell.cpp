@@ -132,11 +132,10 @@ void Freecell::countFreeCells(int &free_cells, int &free_stores) const
 void Freecell::moveCards(CardList &c, FreecellPile *from, Pile *to)
 {
     Q_ASSERT(c.count() > 1);
-    setWaiting(true);
 
     from->moveCardsBack(c);
     waitfor = c.first();
-    connect(waitfor, SIGNAL(stopped(Card*)), SLOT(waitForMoving(Card*)));
+    connect(waitfor, SIGNAL(animationStopped(Card*)), SLOT(waitForMoving(Card*)));
 
     PileList fcs;
 
@@ -235,7 +234,6 @@ void Freecell::startMoving()
         return;
     }
 
-    setWaiting(true);
     MoveHint *mh = moves.first();
     moves.erase(moves.begin());
     CardList empty;
@@ -248,7 +246,7 @@ void Freecell::startMoving()
     mh->pile()->moveCardsBack(empty, duration );
     waitfor = mh->card();
     kDebug() << "wait for moving end" << mh->card()->rank() << " " << mh->card()->suit() << mh->priority();
-    connect(mh->card(), SIGNAL(stopped(Card*)), SLOT(waitForMoving(Card*)));
+    connect(mh->card(), SIGNAL(animationStopped(Card*)), SLOT(waitForMoving(Card*)));
     delete mh;
 }
 
@@ -256,7 +254,7 @@ void Freecell::newDemoMove(Card *m)
 {
     DealerScene::newDemoMove(m);
     if (m != m->source()->top())
-        m->disconnect();
+        m->disconnect( this );
 }
 
 void Freecell::waitForMoving(Card *c)
@@ -265,7 +263,6 @@ void Freecell::waitForMoving(Card *c)
         return;
     c->disconnect(this);
     startMoving();
-    setWaiting(false);
 }
 
 bool Freecell::cardDblClicked(Card *c)

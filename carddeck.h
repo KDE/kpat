@@ -44,6 +44,8 @@ class Pile;
 #include <KCardCache>
 class KConfigGroup;
 
+#include <QSet>
+
 
 class CardDeck: public QObject
 {
@@ -94,11 +96,17 @@ public:
 
     void updateTheme( const KConfigGroup & cg );
 
+    bool hasAnimatedCards() const;
+
 public slots:
     void loadInBackground();
 
 private: // functions
     int pseudoRandom();
+
+private slots:
+    void cardStartedAnimation( Card* card );
+    void cardStoppedAnimation( Card* card );
 
 private:
     QList<Card*> m_allCards;
@@ -108,6 +116,7 @@ private:
     QSizeF m_originalCardSize;
     QSize m_currentCardSize;
 
+    QSet<Card*> m_cardsWaitedFor;
     int m_pseudoRandomSeed;
 };
 
