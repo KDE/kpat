@@ -516,7 +516,7 @@ public:
         case DealerInfo::SpiderTwoSuitId :
             return I18N_NOOP("Spider (2 Suit)");
         case DealerInfo::SpiderFourSuitId :
-            return I18N_NOOP("Spider (3 Suit)");
+            return I18N_NOOP("Spider (4 Suit)");
         default :
             return m_name;
         }
