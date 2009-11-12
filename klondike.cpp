@@ -162,17 +162,12 @@ Card *Klondike::newCards()
     if ( talon->isEmpty() )
     {
         // Move the cards from the pile back to the deck
-        CardList pilecards = pile->cards();
-        if (EasyRules)
-            // the remaining cards in deck should be on top
-            // of the new deck
-            pilecards += talon->cards();
-
-        foreach ( Card *c, pilecards )
+        while ( !pile->isEmpty() )
         {
+            Card *c = pile->top();
             c->stopAnimation();
-            talon->add(c);
             c->turn( false );
+            talon->add(c);
         }
         talon->relayoutCards();
 
