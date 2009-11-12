@@ -157,8 +157,12 @@ public:
         ret = Solver::FAIL;
     }
 
-    void finish() {
-        m_solver->m_shouldEnd = true;
+    void finish()
+    {
+        {
+            QMutexLocker lock( &m_solver->endMutex );
+            m_solver->m_shouldEnd = true;
+        }
         wait();
         ret = Solver::QUIT; // perhaps he managed to finish, but we won't listen
     }

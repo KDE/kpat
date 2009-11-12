@@ -679,10 +679,13 @@ bool Solver::solve(POSITION *parent)
 		return false;
 	}
 
-        if ( m_shouldEnd )
         {
-            Status = QUIT;
-            return false;
+            QMutexLocker lock( &endMutex );
+            if ( m_shouldEnd )
+            {
+                Status = QUIT;
+                return false;
+            }
         }
 
         if ( max_positions != -1 && Total_positions > ( unsigned long )max_positions )

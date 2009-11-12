@@ -23,6 +23,7 @@
 #include "memory.h"
 
 #include <QtCore/QMap>
+#include <QtCore/QMutex>
 
 #include <cstdio>
 
@@ -75,6 +76,7 @@ public:
     bool recursive(POSITION *pos = 0);
     virtual void translate_layout() = 0;
     bool m_shouldEnd;
+    QMutex endMutex;
     virtual MoveHint *translateMove( const MOVE &m) = 0;
     QList<MOVE> firstMoves;
     QList<MOVE> winMoves;
