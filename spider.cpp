@@ -394,6 +394,16 @@ void Spider::deal()
 {
     setMarkedItems();
 
+    // make the redeal piles visible
+    for (int i = 0; i < 5; i++ )
+        redeals[i]->setVisible(true);
+
+    // make the leg piles invisible
+    for (int i = 0; i < 8; i++ )
+        legs[i]->setVisible(false);
+
+    relayoutPiles();
+
     m_leg = 0;
     m_redeal = 0;
 
@@ -412,16 +422,6 @@ void Spider::deal()
     for (int column = 0; column < 5; column++ )
         for (int i = 0; i < 10; i++ )
             addCardForDeal( redeals[column], deck->takeCard(), false, randomPos());
-
-    // make the redeal piles visible
-    for (int i = 0; i < 5; i++ )
-        redeals[i]->setVisible(true);
-
-    // make the leg piles invisible
-    for (int i = 0; i < 8; i++ )
-        legs[i]->setVisible(false);
-
-//     relayoutPiles();
 
     startDealAnimation();
 }
@@ -447,6 +447,9 @@ Card *Spider::newCards()
 
     setMarkedItems();
 
+    redeals[m_redeal]->setVisible(false);
+    relayoutPiles();
+
     for (int column = 0; column < 10; ++column) {
         stack[column]->animatedAdd(redeals[m_redeal]->top(), true);
 
@@ -454,7 +457,8 @@ Card *Spider::newCards()
         if (stack[column]->top()->rank() == Card::Ace)
             checkPileDeck(stack[column]);
     }
-    redeals[m_redeal++]->setVisible(false);
+
+    ++m_redeal;
 
     takeState();
     considerGameStarted();
