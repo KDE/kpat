@@ -39,6 +39,7 @@
 
 #include "card.h"
 class DealerScene;
+#include "speeds.h"
 
 #include <QtGui/QGraphicsPixmapItem>
 
@@ -161,7 +162,7 @@ public:
     QSizeF maximumSpace() const { return m_space; }
 
     void tryRelayoutCards();
-    virtual void layoutCards(int duration);
+    virtual void layoutCards( int duration = DURATION_RELAYOUT );
 
 public slots:
     virtual bool cardClicked(Card *c);

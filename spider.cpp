@@ -63,12 +63,13 @@ void SpiderPile::moveCards(CardList &c, Pile *to)
     // then it could have a full deck that needs removed.
     if (c.last()->rank() == Card::Ace &&
         c.first()->suit() == to->top()->suit() &&
-        to->cardsLeft() > 12) {
+        to->cardsLeft() > 12)
+    {
             Spider *b = dynamic_cast<Spider*>(dscene());
             if (b) {
                 b->checkPileDeck(to);
             }
-        }
+    }
 }
 
 //-------------------------------------------------------------------------//
@@ -368,6 +369,8 @@ bool Spider::checkPileDeck(Pile *check, bool checkForDemo)
             }
             connect(run.last(), SIGNAL(animationStopped(Card*)), SLOT(cardStopped(Card*)));
             m_leg++;
+
+            check->layoutCards();
 
             return true;
         }

@@ -39,7 +39,6 @@
 #include "dealer.h"
 #include "carddeck.h"
 #include "render.h"
-#include "speeds.h"
 
 #include <KDebug>
 
