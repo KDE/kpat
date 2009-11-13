@@ -56,7 +56,7 @@ public:
         : Pile( _index, objectName ), drawPile( pile ) {}
     virtual void relayoutCards()
     {
-        if ( isEmpty() )
+        if ( isEmpty() && !drawPile->isEmpty() )
             animatedAdd( drawPile->top(), true );
         else
             Pile::relayoutCards();
@@ -179,9 +179,10 @@ void Mod3::dealRow(int row)
     if (talon->isEmpty())
         return;
 
-    for (int c = 0; c < 8; c++) {
+    for (int c = 0; c < 8; ++c) {
         Card *card = talon->top();
-        stack[row][c]->animatedAdd (card, true);
+        if ( card )
+            stack[row][c]->animatedAdd(card, true);
     }
 }
 
