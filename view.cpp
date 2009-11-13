@@ -80,9 +80,7 @@ void PatienceView::setScene( QGraphicsScene * scene )
 
     PatienceGraphicsScene * pScene = dynamic_cast<PatienceGraphicsScene*>( scene );
     if ( pScene )
-    {
         pScene->resizeScene( size() );
-    }
 }
 
 
@@ -108,15 +106,14 @@ void PatienceView::resizeEvent( QResizeEvent *e )
 
     PatienceGraphicsScene * pScene = dynamic_cast<PatienceGraphicsScene*>( scene() );
     if ( pScene )
-    {
         pScene->resizeScene( size() );
-    }
 }
 
 
-void PatienceView::drawBackground(QPainter* painter, const QRectF& rect)
+void PatienceView::drawBackground( QPainter * painter, const QRectF & rect)
 {
-    painter->drawPixmap( rect.topLeft().toPoint(), Render::renderElement( "background", rect.size().toSize() ) );
+    Q_UNUSED( rect );
+    painter->drawPixmap( sceneRect().topLeft(), Render::renderElement( "background", sceneRect().size().toSize() ) );
 }
 
 #include "view.moc"
