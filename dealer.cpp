@@ -1272,7 +1272,7 @@ bool DealerScene::startAutoDrop()
                     connect( c, SIGNAL(animationStopped(Card*)), SLOT(waitForAutoDrop(Card*)) );
             }
 
-            d->m_autoDropFactor *= 0.8;
+            d->m_autoDropFactor *= AUTODROP_SPEEDUP_FACTOR;
             return true;
         }
     }
@@ -1285,7 +1285,10 @@ bool DealerScene::startAutoDrop()
 
 int DealerScene::speedUpTime( int delay ) const
 {
-    return qRound( delay * d->m_autoDropFactor );
+    if ( delay < DURATION_AUTODROP_MINIMUM )
+        return delay;
+    else
+        return qMax<int>( delay * d->m_autoDropFactor, DURATION_AUTODROP_MINIMUM );
 }
 
 void DealerScene::stopAndRestartSolver()
