@@ -20,11 +20,16 @@
 
 #include "dealerinfo.h"
 #include "render.h"
+#include "speeds.h"
 
+#include <KColorUtils>
 #include <KLocale>
 
+#include <QtCore/QBasicTimer>
 #include <QtGui/QGraphicsItem>
 #include <QtGui/QPainter>
+#include <QtGui/QStyleOptionGraphicsItem>
+#include <QtCore/QPropertyAnimation>
 
 #include <cmath>
 
@@ -33,18 +38,24 @@ static const qreal boxPaddingRatio = 0.035;
 static const qreal spacingRatio = 0.10;
 static const qreal textToTotalHeightRatio = 1 / 6.0;
 
-
-class GameSelectionScene::GameSelectionBox : public QObject, public QGraphicsItem
+#include <KDebug>
+class GameSelectionScene::GameSelectionBox : public QGraphicsObject
 {
     Q_OBJECT
+    Q_PROPERTY( qreal fade READ hoverFadeAmount WRITE setHoverFadeAmount )
 
 public:
     GameSelectionBox( const QString & name, int id )
       : m_label( name ),
         m_gameId( id ),
-        m_highlighted( false )
+        m_anim( new QPropertyAnimation( this, "fade", this ) ),
+        m_highlightFadeAmount( 0 )
     {
         setAcceptHoverEvents( true );
+        m_anim->setDuration( DURATION_HOVERFADE );
+        m_anim->setStartValue( qreal( 0.0 ) );
+        m_anim->setEndValue( qreal( 1.0 ) );
+        m_anim->setEasingCurve( QEasingCurve::InOutSine );
     }
 
     void setSize( const QSize & size )
@@ -80,14 +91,31 @@ protected:
     virtual void hoverEnterEvent( QGraphicsSceneHoverEvent * event )
     {
         Q_UNUSED( event )
-        m_highlighted = true;
-        update();
+        m_anim->setDirection( QAbstractAnimation::Forward );
+        if ( m_anim->state() != QAbstractAnimation::Running )
+        {
+            m_anim->start();
+        }
     }
 
     virtual void hoverLeaveEvent( QGraphicsSceneHoverEvent * event )
     {
         Q_UNUSED( event )
-        m_highlighted = false;
+        m_anim->setDirection( QAbstractAnimation::Backward );
+        if ( m_anim->state() != QAbstractAnimation::Running )
+        {
+            m_anim->start();
+        }
+    }
+
+    qreal hoverFadeAmount() const
+    {
+        return m_highlightFadeAmount;
+    }
+
+    void setHoverFadeAmount( qreal amount )
+    {
+        m_highlightFadeAmount = amount;
         update();
     }
 
@@ -101,9 +129,23 @@ protected:
         QRect textRect( 0, 0, m_size.width(), textAreaHeight );
 
         // Draw background/frame
-        painter->drawPixmap( QPointF( 0, 0 ),
-                             Render::renderElement( m_highlighted ? "bubble_hover" : "bubble", 
-                                                    m_size ) );
+        if ( m_anim->state() == QAbstractAnimation::Running )
+        {
+            qreal opacity = painter->opacity();
+            painter->setOpacity( opacity * ( 1.0 - m_highlightFadeAmount ) );
+            painter->drawPixmap( QPointF( 0, 0 ),
+                                 Render::renderElement( "bubble", m_size ) );
+            painter->setOpacity( opacity * m_highlightFadeAmount );
+            painter->drawPixmap( QPointF( 0, 0 ),
+                                 Render::renderElement( "bubble_hover", m_size ) );
+            painter->setOpacity( opacity );
+        }
+        else
+        {
+            painter->drawPixmap( QPointF( 0, 0 ),
+                                 Render::renderElement( option->state & QStyle::State_MouseOver ? "bubble_hover" : "bubble",
+                                                        m_size ) );
+        }
 
         // Draw game preview
         painter->drawPixmap( ( m_size.width() - previewSize.width() ) / 2,
@@ -112,7 +154,9 @@ protected:
 
         // Draw label
         painter->setFont( scene()->font() );
-        painter->setPen( Render::colorOfElement( m_highlighted ? "bubble_hover_text_color" : "bubble_text_color" ) );
+        painter->setPen( KColorUtils::mix( Render::colorOfElement( "bubble_text_color" ),
+                                           Render::colorOfElement( "bubble_hover_text_color" ), 
+                                           m_highlightFadeAmount ) );
         painter->drawText( textRect, Qt::AlignCenter, m_label );
     }
 
@@ -120,7 +164,8 @@ private:
     QString m_label;
     int m_gameId;
     QSize m_size;
-    bool m_highlighted;
+    QPropertyAnimation *m_anim;
+    qreal m_highlightFadeAmount;
 };
 
 
