@@ -203,6 +203,7 @@ public:
     QGraphicsPixmapItem *wonItem;
     bool gothelp;
     bool toldAboutLostGame;
+    bool gameWasEverWinnable;
     // we need a flag to avoid telling someone the game is lost
     // just because the winning animation moved the cards away
     bool toldAboutWonGame;
@@ -357,6 +358,7 @@ void DealerScene::openGame(QDomDocument &doc)
 {
     setMarkedItems();
     d->wonItem->hide();
+    d->gameWasEverWinnable = false;
 
     QDomElement dealer = doc.documentElement();
 
@@ -769,6 +771,7 @@ void DealerScene::startNew(int gameNumber)
     d->undoList.clear();
     qDeleteAll(d->redoList);
     d->redoList.clear();
+    d->gameWasEverWinnable = false;
     d->toldAboutLostGame = false;
     d->toldAboutWonGame = false;
     d->wasJustSaved = false;
@@ -1348,11 +1351,15 @@ void DealerScene::slotSolverFinished()
     case Solver::WIN:
         d->winMoves = d->m_solver->winMoves;
         d->solverMutex.unlock();
+        d->gameWasEverWinnable = true;
         emit solverStateChanged( i18n("Solver: This game is winnable.") );
         break;
     case Solver::NOSOL:
         d->solverMutex.unlock();
-        emit solverStateChanged( i18n("Solver: This game is not winnable in its current state.") );
+        if ( d->gameWasEverWinnable )
+            emit solverStateChanged( i18n("Solver: This game is no longer winnable.") );
+        else
+            emit solverStateChanged( i18n("Solver: This game cannot be won.") );
         break;
     case Solver::FAIL:
         d->solverMutex.unlock();
