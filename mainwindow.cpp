@@ -250,7 +250,7 @@ void MainWindow::enableSolver(bool enable)
 {
     KConfigGroup cg(KGlobal::config(), settings_group);
     cg.writeEntry("Solver", enable);
-    slotGameSolverReset();
+    solverStatus->setText( QString() );
     if (m_dealer)
     {
         m_dealer->setSolverEnabled(enable);
@@ -375,12 +375,7 @@ void MainWindow::newGameType(int id)
 
     gamehelpaction->setText(i18n("Help &with %1", i18n(di->name()).replace('&', "&&")));
 
-    connect(m_dealer, SIGNAL(gameSolverReset()), SLOT(slotGameSolverReset()));
-    connect(m_dealer, SIGNAL(gameSolverStart()), SLOT(slotGameSolverStart()));
-    connect(m_dealer, SIGNAL(gameSolverWon()), SLOT(slotGameSolverWon()));
-    connect(m_dealer, SIGNAL(gameSolverLost()), SLOT(slotGameSolverLost()));
-    connect(m_dealer, SIGNAL(gameSolverUnknown()), SLOT(slotGameSolverUnknown()));
-    connect(m_dealer, SIGNAL(gameLost()), SLOT(slotGameLost()));
+    connect(m_dealer, SIGNAL(solverStateChanged(QString)), SLOT(updateSolverDescription(QString)));
     connect(m_dealer, SIGNAL(updateMoves(int)), SLOT(slotUpdateMoves(int)));
 
     solverStatus->setText(QString());
@@ -663,34 +658,9 @@ void MainWindow::showStats()
     delete dlg;
 }
 
-void MainWindow::slotGameSolverReset()
+void MainWindow::updateSolverDescription( const QString & text )
 {
-    solverStatus->setText(QString());
-}
-
-void MainWindow::slotGameSolverStart()
-{
-    solverStatus->setText(i18n("Solver: Calculating..."));
-}
-
-void MainWindow::slotGameSolverWon()
-{
-    solverStatus->setText(i18n("Solver: This game is winnable."));
-}
-
-void MainWindow::slotGameSolverLost()
-{
-    solverStatus->setText(i18n("Solver: This game is not winnable in its current state."));
-}
-
-void MainWindow::slotGameSolverUnknown()
-{
-    solverStatus->setText(i18n("Solver: Unable to determine if this game is winnable."));
-}
-
-void MainWindow::slotGameLost()
-{
-    solverStatus->setText(i18n("Solver: This game is lost."));
+    solverStatus->setText( text );
 }
 
 void MainWindow::slotUpdateMoves(int moves)

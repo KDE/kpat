@@ -88,12 +88,7 @@ protected slots:
 
     void helpGame();
 
-    void slotGameSolverReset();
-    void slotGameSolverStart();
-    void slotGameSolverWon();
-    void slotGameSolverLost();
-    void slotGameSolverUnknown();
-    void slotGameLost();
+    void updateSolverDescription(const QString & text);
     void slotUpdateMoves(int moves);
 
 protected:

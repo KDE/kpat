@@ -280,7 +280,7 @@ void DealerScene::takeState()
         else if ( !d->toldAboutWonGame && !d->toldAboutLostGame && isGameLost() ) {
             emit hintPossible( false );
             emit demoPossible( false );
-            QTimer::singleShot(400, this, SIGNAL(gameLost()));
+            emit solverStateChanged( i18n("Solver: This game is lost.") );
             d->toldAboutLostGame = true;
             stopDemo();
             return;
@@ -447,7 +447,7 @@ void DealerScene::undo()
             d->toldAboutWonGame = false;
         }
     }
-    emit gameSolverReset();
+    emit solverStateChanged( QString() );
 }
 
 void DealerScene::redo()
@@ -468,7 +468,7 @@ void DealerScene::redo()
             d->toldAboutWonGame = false;
         }
     }
-    emit gameSolverReset();
+    emit solverStateChanged( QString() );
 }
 
 void DealerScene::eraseRedo()
@@ -780,7 +780,7 @@ void DealerScene::startNew(int gameNumber)
         c->stopAnimation();
     }
 
-    emit gameSolverReset();
+    emit solverStateChanged( QString() );
     emit updateMoves( 0 );
     emit demoPossible( true );
     emit hintPossible( true );
@@ -1320,7 +1320,7 @@ void DealerScene::slotSolverEnded()
     d->m_solver->translate_layout();
     kDebug() << gettime() << "start thread\n";
     d->winMoves.clear();
-    emit gameSolverStart();
+    emit solverStateChanged( i18n("Solver: Calculating...") );
     if ( !d->m_solver_thread ) {
         d->m_solver_thread = new SolverThread( d->m_solver );
         connect( d->m_solver_thread, SIGNAL(finished()), this, SLOT(slotSolverFinished()));
@@ -1345,15 +1345,15 @@ void DealerScene::slotSolverFinished()
     case Solver::WIN:
         d->winMoves = d->m_solver->winMoves;
         d->solverMutex.unlock();
-        emit gameSolverWon();
+        emit solverStateChanged( i18n("Solver: This game is winnable.") );
         break;
     case Solver::NOSOL:
         d->solverMutex.unlock();
-        emit gameSolverLost();
+        emit solverStateChanged( i18n("Solver: This game is not winnable in its current state.") );
         break;
     case Solver::FAIL:
         d->solverMutex.unlock();
-        emit gameSolverUnknown();
+        emit solverStateChanged( i18n("Solver: Unable to determine if this game is winnable.") );
         break;
     case Solver::QUIT:
         d->solverMutex.unlock();

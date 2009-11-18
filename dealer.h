@@ -149,13 +149,8 @@ signals:
     void gameWon(bool withhelp);
     void demoActive(bool en);
     void updateMoves(int moves);
-    void gameLost();
 
-    void gameSolverReset();
-    void gameSolverStart();
-    void gameSolverWon();
-    void gameSolverLost();
-    void gameSolverUnknown();
+    void solverStateChanged(QString text);
 
 public slots:
     void relayoutScene();
