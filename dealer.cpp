@@ -560,8 +560,11 @@ DealerScene::~DealerScene()
     d->m_solver = 0;
     qDeleteAll( d->undoList );
     qDeleteAll( d->redoList );
+    delete d->wonItem;
 
     delete d;
+
+    Q_ASSERT( items().isEmpty() );
 }
 
 
