@@ -897,20 +897,17 @@ Pile * DealerScene::targetPile()
                 continue;
 
             sources.append(t);
-        } else {
+        }
+        else
+        {
             Pile *p = qgraphicsitem_cast<Pile*>(item);
-            if (p)
+            if (p && p->isEmpty())
             {
-                if (p->isEmpty())
-                {
-                    Hit t;
-                    t.source = p;
-                    t.intersect = p->sceneBoundingRect().intersect(movingCards.first()->sceneBoundingRect());
-                    t.top = true;
-                    sources.append(t);
-                }
-            } else {
-                kDebug() << "unknown object" << item << " " << item->type();
+                Hit t;
+                t.source = p;
+                t.intersect = p->sceneBoundingRect().intersect(movingCards.first()->sceneBoundingRect());
+                t.top = true;
+                sources.append(t);
             }
         }
     }
