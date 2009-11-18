@@ -100,6 +100,7 @@ private slots:
     void slotSnapshot2();
 
 private:
+    void setupActions();
     void newGameType(int id);
     void setGameCaption();
     void startNew(int gameNumber);

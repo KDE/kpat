@@ -92,105 +92,17 @@ MainWindow::MainWindow()
     setObjectName( "MainWindow" );
     // KCrash::setEmergencySaveFunction(::saveGame);
 
-    // Game
-    KStandardGameAction::gameNew(this, SLOT(newGame()), actionCollection());
-    KStandardGameAction::restart(this, SLOT(restart()), actionCollection());
-    KStandardGameAction::load(this, SLOT(openGame()), actionCollection());
-    recent = KStandardGameAction::loadRecent(this, SLOT(openGame(const KUrl&)), actionCollection());
-    recent->loadEntries(KGlobal::config()->group( QString() ));
-    KStandardGameAction::save(this, SLOT(saveGame()), actionCollection());
-    KStandardGameAction::quit(this, SLOT(close()), actionCollection());
+    setupActions();
 
-    // Move
-    undo = KStandardGameAction::undo(this, SLOT(undoMove()), actionCollection());
-    redo = KStandardGameAction::redo(this, SLOT(redoMove()), actionCollection());
-
-    KAction *a;
-    a = actionCollection()->addAction("choose_deal");
-    a->setText(i18n("&Choose Numbered Deal..."));
-    connect( a, SIGNAL(triggered(bool)), SLOT(chooseDeal()) );
-
-    a = actionCollection()->addAction("change_game_type");
-    a->setText(i18n("Change Game Type..."));
-    connect( a, SIGNAL(triggered(bool)), SLOT(slotShowGameSelectionScreen()) );
-
-    a = actionCollection()->addAction("random_set");
-    a->setText(i18n("Random Cards"));
-    connect( a, SIGNAL(triggered(bool)), SLOT(slotPickRandom()) );
-    a->setShortcuts( KShortcut( Qt::Key_F9 ) );
-
-    if (!qgetenv("KDE_DEBUG").isEmpty()) // developer shortcut
-    {
-        a = actionCollection()->addAction("snapshot");
-        a->setText(i18n("Take Game Preview Snapshots"));
-        connect( a, SIGNAL(triggered(bool)), SLOT(slotSnapshot()) );
-        a->setShortcuts( KShortcut( Qt::Key_F8 ) );
-    }
-
-    a = actionCollection()->addAction("select_deck");
-    a->setText(i18n("Select Deck..."));
-    connect( a, SIGNAL(triggered(bool)), SLOT(slotSelectDeck()) );
-    a->setShortcuts( KShortcut( Qt::Key_F10 ) );
-
-
-    a = actionCollection()->addAction("game_stats");
-    a->setText(i18n("Statistics"));
-    a->setIcon( KIcon("games-highscores") );
-    connect( a, SIGNAL(triggered(bool)), SLOT(showStats()) );
-
-    gamehelpaction = actionCollection()->addAction("help_game");
-    gamehelpaction->setIcon( KIcon("help-browser") );
-    connect( gamehelpaction, SIGNAL(triggered(bool)), SLOT(helpGame()));
-    gamehelpaction->setShortcuts( KShortcut( Qt::ControlModifier | Qt::ShiftModifier | Qt::Key_F1 ) );
-
-    // Game type dependent actions
-    hintaction = KStandardGameAction::hint( 0, 0, actionCollection() );
-
-    demoaction = KStandardGameAction::demo( 0, 0, actionCollection() );
-
-    drawaction = actionCollection()->addAction("move_draw");
-    drawaction->setText( i18nc("Take one or more cards from the deck, flip them, and place them in play", "Dra&w") );
-    drawaction->setIcon( KIcon("kpat") );
-    drawaction->setShortcut( Qt::Key_Space );
-
-    dealaction = actionCollection()->addAction("move_deal");
-    dealaction->setText( i18nc("Deal a new row of cards from the deck", "Dea&l") );
-    dealaction->setIcon( KIcon("kpat") );
-    dealaction->setShortcut( Qt::Key_Return );
-
-    redealaction = actionCollection()->addAction("move_redeal");
-    redealaction->setText( i18nc("Collect the cards in play, shuffle them and redeal them", "&Redeal") );
-    redealaction->setIcon( KIcon("roll") );
-    redealaction->setShortcut( Qt::Key_R );
-
-    dropaction = actionCollection()->addAction("move_drop");
-    dropaction->setText( i18nc("Automatically move cards to the foundation piles", "Dro&p") );
-    dropaction->setIcon( KIcon("games-endturn") );
-    dropaction->setShortcut( Qt::Key_P );
-
-    // Configuration actions
+    // Restore settings
     KConfigGroup cg(KGlobal::config(), settings_group );
-
-    autodropaction = new KToggleAction(i18n("&Enable Autodrop"), this);
-    actionCollection()->addAction("enable_autodrop", autodropaction);
-    connect( autodropaction, SIGNAL(triggered(bool)), SLOT(enableAutoDrop(bool)) );
     autodropaction->setChecked( cg.readEntry("Autodrop", true) );
-
-    solveraction = new KToggleAction(i18n("E&nable Solver"), this);
-    actionCollection()->addAction("enable_solver", solveraction);
-    connect( solveraction, SIGNAL(triggered(bool)), SLOT(enableSolver(bool)) );
     solveraction->setChecked( cg.readEntry("Solver", true) );
-
-    rememberstateaction = new KToggleAction(i18n("&Remember State on Exit"), this);
-    actionCollection()->addAction("remember_state", rememberstateaction);
-    connect( rememberstateaction, SIGNAL(triggered(bool)), SLOT(enableRememberState(bool)) );
     rememberstateaction->setChecked( cg.readEntry("RememberStateOnExit", false) );
 
     foreach( const DealerInfo * di, DealerInfoList::self()->games() )
-    {
         foreach( int id, di->ids() )
             m_dealer_map.insert( id, di );
-    }
     m_dealer_it = m_dealer_map.constEnd();
 
     m_view = new PatienceView( this );
@@ -215,6 +127,111 @@ MainWindow::~MainWindow()
     delete m_dealer;
     delete m_view;
 }
+
+
+void MainWindow::setupActions()
+{
+    KAction *a;
+
+    // Game Menu
+    KStandardGameAction::gameNew(this, SLOT(newGame()), actionCollection());
+
+    KStandardGameAction::load(this, SLOT(openGame()), actionCollection());
+
+    recent = KStandardGameAction::loadRecent(this, SLOT(openGame(const KUrl&)), actionCollection());
+    recent->loadEntries(KGlobal::config()->group( QString() ));
+
+    KStandardGameAction::restart(this, SLOT(restart()), actionCollection());
+
+    a = actionCollection()->addAction("choose_deal");
+    a->setText(i18n("&Choose Numbered Deal..."));
+    connect( a, SIGNAL(triggered(bool)), SLOT(chooseDeal()) );
+
+    KStandardGameAction::save(this, SLOT(saveGame()), actionCollection());
+
+    a = actionCollection()->addAction("game_stats");
+    a->setText(i18n("Statistics"));
+    a->setIcon( KIcon("games-highscores") );
+    connect( a, SIGNAL(triggered(bool)), SLOT(showStats()) );
+
+    KStandardGameAction::quit(this, SLOT(close()), actionCollection());
+
+
+    // Move Menu
+    undo = KStandardGameAction::undo(this, SLOT(undoMove()), actionCollection());
+
+    redo = KStandardGameAction::redo(this, SLOT(redoMove()), actionCollection());
+
+    hintaction = KStandardGameAction::hint( 0, 0, actionCollection() );
+
+    demoaction = KStandardGameAction::demo( 0, 0, actionCollection() );
+
+    drawaction = actionCollection()->addAction("move_draw");
+    drawaction->setText( i18nc("Take one or more cards from the deck, flip them, and place them in play", "Dra&w") );
+    drawaction->setIcon( KIcon("kpat") );
+    drawaction->setShortcut( Qt::Key_Space );
+
+    dealaction = actionCollection()->addAction("move_deal");
+    dealaction->setText( i18nc("Deal a new row of cards from the deck", "Dea&l") );
+    dealaction->setIcon( KIcon("kpat") );
+    dealaction->setShortcut( Qt::Key_Return );
+
+    redealaction = actionCollection()->addAction("move_redeal");
+    redealaction->setText( i18nc("Collect the cards in play, shuffle them and redeal them", "&Redeal") );
+    redealaction->setIcon( KIcon("roll") );
+    redealaction->setShortcut( Qt::Key_R );
+
+    dropaction = actionCollection()->addAction("move_drop");
+    dropaction->setText( i18nc("Automatically move cards to the foundation piles", "Dro&p") );
+    dropaction->setIcon( KIcon("games-endturn") );
+    dropaction->setShortcut( Qt::Key_P );
+
+
+    // Settings Menu
+    a = actionCollection()->addAction("change_game_type");
+    a->setText(i18n("Change Game Type..."));
+    connect( a, SIGNAL(triggered(bool)), SLOT(slotShowGameSelectionScreen()) );
+
+    a = actionCollection()->addAction("select_deck");
+    a->setText(i18n("Select Deck..."));
+    connect( a, SIGNAL(triggered(bool)), SLOT(slotSelectDeck()) );
+    a->setShortcuts( KShortcut( Qt::Key_F10 ) );
+
+    autodropaction = new KToggleAction(i18n("&Enable Autodrop"), this);
+    actionCollection()->addAction("enable_autodrop", autodropaction);
+    connect( autodropaction, SIGNAL(triggered(bool)), SLOT(enableAutoDrop(bool)) );
+
+    solveraction = new KToggleAction(i18n("E&nable Solver"), this);
+    actionCollection()->addAction("enable_solver", solveraction);
+    connect( solveraction, SIGNAL(triggered(bool)), SLOT(enableSolver(bool)) );
+
+    rememberstateaction = new KToggleAction(i18n("&Remember State on Exit"), this);
+    actionCollection()->addAction("remember_state", rememberstateaction);
+    connect( rememberstateaction, SIGNAL(triggered(bool)), SLOT(enableRememberState(bool)) );
+
+
+    // Help Menu
+    gamehelpaction = actionCollection()->addAction("help_game");
+    gamehelpaction->setIcon( KIcon("help-browser") );
+    connect( gamehelpaction, SIGNAL(triggered(bool)), SLOT(helpGame()));
+    gamehelpaction->setShortcuts( KShortcut( Qt::ControlModifier | Qt::ShiftModifier | Qt::Key_F1 ) );
+
+
+    // Hidden actions
+    if (!qgetenv("KDE_DEBUG").isEmpty()) // developer shortcut
+    {
+        a = actionCollection()->addAction("snapshot");
+        a->setText(i18n("Take Game Preview Snapshots"));
+        connect( a, SIGNAL(triggered(bool)), SLOT(slotSnapshot()) );
+        a->setShortcuts( KShortcut( Qt::Key_F8 ) );
+
+        a = actionCollection()->addAction("random_set");
+        a->setText(i18n("Random Cards"));
+        connect( a, SIGNAL(triggered(bool)), SLOT(slotPickRandom()) );
+        a->setShortcuts( KShortcut( Qt::Key_F9 ) );
+    }
+}
+
 
 void MainWindow::undoMove() {
     if( m_dealer )
