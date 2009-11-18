@@ -1235,7 +1235,7 @@ bool DealerScene::startAutoDrop()
     if (!autoDrop() && !d->m_autoDropOnce)
         return false;
 
-    if (!movingCards.isEmpty() || deck->hasAnimatedCards() ) {
+    if (!movingCards.isEmpty() || deck->hasAnimatedCards() || d->undoList.isEmpty() ) {
         d->autoDropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
         return true;
     }
