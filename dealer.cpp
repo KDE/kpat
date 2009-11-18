@@ -140,14 +140,6 @@ bool operator==( const State & st1, const State & st2) {
     return st1.cards == st2.cards && st1.gameData == st2.gameData;
 }
 
-class Hit {
-public:
-    Pile *source;
-    QRectF intersect;
-    bool top;
-};
-typedef QList<Hit> HitList;
-
 class SolverThread : public QThread
 {
 public:
@@ -865,77 +857,42 @@ void DealerScene::updateWonItem()
 
 Pile * DealerScene::targetPile()
 {
-    HitList sources;
-    foreach (QGraphicsItem *item, collidingItems( movingCards.first() ))
+    QSet<Pile*> targets;
+    foreach ( QGraphicsItem *item, collidingItems( movingCards.first() ) )
     {
-        Card *c = qgraphicsitem_cast<Card*>(item);
-        if (c)
+        Pile *p = qgraphicsitem_cast<Pile*>( item );
+        if ( !p )
         {
-            if (!c->isFaceUp())
-                continue;
-            if (c->source() == movingCards.first()->source())
-                continue;
-            Hit t;
-            t.source = c->source();
-            t.intersect = c->sceneBoundingRect().intersect(movingCards.first()->sceneBoundingRect());
-            t.top = (c == c->source()->top());
-
-            bool found = false;
-            for (HitList::Iterator hi = sources.begin(); hi != sources.end(); ++hi)
-            {
-                if ((*hi).source == c->source()) {
-                    found = true;
-                    if ((*hi).intersect.width() * (*hi).intersect.height() >
-                        t.intersect.width() * t.intersect.height())
-                    {
-                        (*hi).intersect = t.intersect;
-                        (*hi).top |= t.top;
-                    }
-                }
-            }
-            if (found)
-                continue;
-
-            sources.append(t);
+            Card *c = qgraphicsitem_cast<Card*>( item );
+            if ( c )
+                p = c->source();
         }
-        else
-        {
-            Pile *p = qgraphicsitem_cast<Pile*>(item);
-            if (p && p->isEmpty())
-            {
-                Hit t;
-                t.source = p;
-                t.intersect = p->sceneBoundingRect().intersect(movingCards.first()->sceneBoundingRect());
-                t.top = true;
-                sources.append(t);
-            }
-        }
+        if ( p )
+            targets << p;
     }
 
-    for (HitList::Iterator it = sources.begin(); it != sources.end(); )
+    Pile * bestTarget = 0;
+    qreal bestArea = 1;
+
+    foreach ( Pile *p, targets )
     {
-        if (!(*it).source->legalAdd(movingCards))
-            it = sources.erase(it);
-        else
-            ++it;
-    }
-
-    if (!sources.isEmpty()) {
-        HitList::Iterator best = sources.begin();
-        HitList::Iterator it = best;
-        for (++it; it != sources.end(); ++it )
+        if ( p != movingCards.first()->source() && p->legalAdd(movingCards) )
         {
-            if ((*it).intersect.width() * (*it).intersect.height() >
-                (*best).intersect.width() * (*best).intersect.height()
-                || ((*it).top && !(*best).top))
+            QRectF targetRect = p->sceneBoundingRect();
+            foreach ( Card *c, p->cards() )
+                targetRect |= c->sceneBoundingRect();
+
+            QRectF intersection = targetRect & movingCards.first()->sceneBoundingRect();
+            qreal area = intersection.width() * intersection.height();
+            if ( area > bestArea )
             {
-                best = it;
+                bestTarget = p;
+                bestArea = area;
             }
         }
-        return (*best).source;
-    } else {
-        return 0;
     }
+
+    return bestTarget;
 }
 
 void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
