@@ -98,9 +98,9 @@ CardDeck::CardDeck( int copies, QList<Card::Suit> suits, QList<Card::Rank> ranks
     // will mess up the game numbering.
     for ( int i = 0; i < copies; ++i )
     {
-        foreach ( Card::Rank r, ranks )
+        foreach ( const Card::Rank r, ranks )
         {
-            foreach ( Card::Suit s, suits )
+            foreach ( const Card::Suit s, suits )
             {
                 Card * c = new Card( r, s, this );
                 connect( c, SIGNAL(animationStarted(Card*)), this, SLOT(cardStartedAnimation(Card*)) );
