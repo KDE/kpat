@@ -525,11 +525,11 @@ void Pile::layoutCards(int duration)
 
     qreal divx = 1;
     if ( totalOffset.x() )
-        divx = qMin<qreal>( ( maximumSpace().width() - cardSize.width() ) / totalOffset.x(), 1.0 );
+        divx = qMin<qreal>( ( maximumSpace().width() - cardSize.width() ) / qAbs( totalOffset.x() ), 1.0 );
 
     qreal divy = 1;
     if ( totalOffset.y() )
-        divy = qMin<qreal>( ( maximumSpace().height() - cardSize.height() ) / totalOffset.y(), 1.0 );
+        divy = qMin<qreal>( ( maximumSpace().height() - cardSize.height() ) / qAbs( totalOffset.y() ), 1.0 );
 
     QPointF cardPos = pos();
     qreal z = zValue() + 1;
