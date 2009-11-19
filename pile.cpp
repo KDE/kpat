@@ -520,8 +520,8 @@ void Pile::layoutCards(int duration)
     const QSize cardSize = dscene()->cardDeck()->cardSize();
 
     QPointF totalOffset( 0, 0 );
-    foreach ( const Card *c, m_cards )
-        totalOffset += cardOffset( c );
+    for ( int i = 0; i < m_cards.size() - 1; ++i )
+        totalOffset += cardOffset( m_cards[i] );
 
     qreal divx = 1;
     if ( totalOffset.x() )
