@@ -133,7 +133,7 @@ Card *Fortyeight::newCards()
     if ( talon->isEmpty() && lastdeal )
         emit newCardsPossible( false );
 
-    return talon->top();
+    return pile->top();
 }
 
 bool Fortyeight::checkAdd(int, const Pile *c1, const CardList &c2) const
