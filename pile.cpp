@@ -76,7 +76,6 @@ Pile::Pile( int _index, const QString & objectName )
 
     QGraphicsItem::setVisible(true); // default
 
-
     setZValue(0);
     setSpread( 0, 0.33 );
     setReservedSpace( QSizeF( 1, 1 ) );
@@ -155,7 +154,6 @@ Pile::~Pile()
 void Pile::setPilePos( qreal x,  qreal y )
 {
     _pilePos = QPointF( x, y );
-    rescale();
 }
 
 QPointF Pile::pilePos() const
@@ -163,35 +161,19 @@ QPointF Pile::pilePos() const
     return _pilePos;
 }
 
-void Pile::rescale()
+void Pile::updatePixmap()
 {
-    if (!scene())
+    if ( !scene() )
         return;
-
-    const QSize cardSize = dscene()->deck()->cardSize();
-
-    QPointF new_pos = QPointF( _pilePos.x() * cardSize.width(),
-                               _pilePos.y() * cardSize.height() );
-
-    if ( new_pos.x() < 0 )
-        new_pos.setX( dscene()->contentSize().width() - cardSize.width() + new_pos.x() );
-
-    if ( new_pos.y() < 0 )
-        new_pos.setY( dscene()->contentSize().height() - cardSize.height() + new_pos.y() );
-
-    if ( new_pos != pos() )
-    {
-        setPos( new_pos );
-        tryRelayoutCards();
-    }
 
     if ( m_graphicVisible )
     {
-        setPixmap( Render::renderElement( isHighlighted() ? "pile_selected" : "pile", cardSize ) );
+        QString id = isHighlighted() ? "pile_selected" : "pile";
+        setPixmap( Render::renderElement( id, dscene()->deck()->cardSize() ) );
     }
     else
     {
-        QPixmap blank( cardSize );
+        QPixmap blank( dscene()->deck()->cardSize() );
         blank.fill( Qt::transparent );
         setPixmap( blank );
     }
@@ -326,8 +308,8 @@ void Pile::add( Card *_card, int index)
     if (_card->source() == this)
         return;
 
-    if (_card->scene() != dscene())
-        dscene()->addItem(_card);
+    if (_card->scene() != scene())
+        scene()->addItem(_card);
 
     Pile *oldSource = _card->source();
     if (oldSource)
@@ -413,13 +395,13 @@ void Pile::setHighlighted( bool flag )
     if ( flag != isHighlighted() )
     {
         HighlightableItem::setHighlighted( flag );
-        rescale();
+        updatePixmap();
     }
 }
 
 void Pile::setGraphicVisible( bool flag ) {
     m_graphicVisible = flag;
-    rescale();
+    updatePixmap();
 }
 
 

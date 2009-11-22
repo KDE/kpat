@@ -87,6 +87,12 @@ CardDeck * CardScene::deck() const
 }
 
 
+QList< Card* > CardScene::cardsBeingDragged() const
+{
+    return m_cardsBeingDragged;
+}
+
+
 void CardScene::addPile( Pile * pile )
 {
     if ( pile->dscene() )
@@ -135,12 +141,6 @@ void CardScene::setLayoutSpacing( qreal spacing )
 qreal CardScene::layoutSpacing() const
 {
     return m_layoutSpacing;
-}
-
-
-QSizeF CardScene::contentSize() const
-{
-    return m_contentSize;
 }
 
 
@@ -197,13 +197,6 @@ void CardScene::relayoutScene()
 }
 
 
-QList< Card* > CardScene::cardsBeingDragged() const
-{
-    return m_cardsBeingDragged;
-}
-
-
-
 void CardScene::relayoutPiles()
 {
     if ( !m_sizeHasBeenSet )
@@ -216,7 +209,16 @@ void CardScene::relayoutPiles()
 
     foreach ( Pile * p, piles() )
     {
-        p->rescale();
+        QPointF layoutPos = p->pilePos();
+        QPointF pixlePos = QPointF( layoutPos.x() * deck()->cardWidth(),
+                                    layoutPos.y() * deck()->cardHeight() );
+        if ( layoutPos.x() < 0 )
+            pixlePos.rx() += m_contentSize.width() - deck()->cardWidth();
+        if ( layoutPos.y() < 0 )
+            pixlePos.ry() += m_contentSize.height() - deck()->cardHeight();
+
+        p->setPos( pixlePos );
+        p->updatePixmap();
 
         QSizeF maxSpace = deck()->cardSize();
 

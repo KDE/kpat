@@ -144,7 +144,6 @@ public:
 
     bool remove_freecellStore( const Card *c) const;
 
-
     // The spread properties.
     QSizeF spread() const    { return _spread; }
     void setSpread(QSizeF s) { _spread = s; } 
@@ -153,7 +152,7 @@ public:
     void setPilePos( qreal x, qreal y);
     QPointF pilePos() const;
 
-    void rescale();
+    void updatePixmap();
 
     void setReservedSpace( const QSizeF &p) { m_reserved = p; }
     QSizeF reservedSpace() const { return m_reserved; }

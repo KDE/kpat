@@ -54,12 +54,10 @@ public:
     ~CardScene();
 
     CardDeck * deck() const;
+    QList<Card*> cardsBeingDragged() const;
 
     virtual void resizeScene( const QSize & size );
     virtual void relayoutScene();
-    QSizeF contentSize() const;
-
-    QList<Card*> cardsBeingDragged() const;
 
 protected:
     void setDeck( CardDeck * deck );
