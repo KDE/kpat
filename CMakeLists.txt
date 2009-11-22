@@ -9,6 +9,7 @@ set(kpat_SRCS
    main.cpp
    card.cpp
    carddeck.cpp
+   cardscene.cpp
    dealer.cpp
    dealerinfo.cpp
    gameselectionscene.cpp

@@ -39,6 +39,7 @@
 #define DEALER_H
 
 #include "card.h"
+#include "cardscene.h"
 class CardDeck;
 class CardState;
 class DealerScene;
@@ -64,7 +65,7 @@ struct State
     QString gameData;
 };
 
-class DealerScene : public PatienceGraphicsScene
+class DealerScene : public CardScene
 {
     Q_OBJECT
 
