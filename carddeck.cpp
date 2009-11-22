@@ -118,7 +118,8 @@ CardDeck::CardDeck( int copies, QList<Card::Suit> suits, QList<Card::Rank> ranks
 CardDeck::~CardDeck()
 {
     returnAllCards();
-    qDeleteAll( m_allCards );
+    foreach ( Card * c, m_allCards )
+        delete c;
     m_allCards.clear();
     m_undealtCards.clear();
 

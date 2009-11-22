@@ -85,8 +85,12 @@ class Card: public QObject, public AbstractCard, public QGraphicsPixmapItem, pub
     Q_PROPERTY( qreal scale READ scale WRITE setScale )
     Q_PROPERTY( qreal flippedness READ flippedness WRITE setFlippedness )
 
-public:
+    friend class CardDeck;
+
+private:
     Card( Rank r, Suit s, CardDeck * deck );
+
+public:
     virtual ~Card();
 
     void       raise();
