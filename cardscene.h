@@ -56,9 +56,27 @@ public:
     virtual void removePile( Pile * pile );
     QList<Pile*> piles() const;
 
+    void setLayoutMargin( qreal margin );
+    qreal layoutMargin() const;
+
+    void setLayoutSpacing( qreal spacing );
+    qreal layoutSpacing() const;
+
+    QSizeF contentSize() const;
+
+    virtual void resizeScene( const QSize & size );
+    virtual void relayoutScene();
+    virtual void relayoutPiles();
+
 private:
     CardDeck * m_deck;
     QList<Pile*> m_piles;
+
+    qreal m_layoutMargin;
+    qreal m_layoutSpacing;
+    QSizeF m_contentSize;
+
+    bool m_sizeHasBeenSet;
 };
 
 #endif // CARDSCENE_H

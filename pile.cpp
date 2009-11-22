@@ -175,10 +175,10 @@ void Pile::rescale()
                                _pilePos.y() * cardSize.height() );
 
     if ( new_pos.x() < 0 )
-        new_pos.setX( dscene()->contentArea().width() - cardSize.width() + new_pos.x() );
+        new_pos.setX( dscene()->contentSize().width() - cardSize.width() + new_pos.x() );
 
     if ( new_pos.y() < 0 )
-        new_pos.setY( dscene()->contentArea().height() - cardSize.height() + new_pos.y() );
+        new_pos.setY( dscene()->contentSize().height() - cardSize.height() + new_pos.y() );
 
     if ( new_pos != pos() )
     {

@@ -74,14 +74,7 @@ public:
     DealerScene();
     ~DealerScene();
 
-    void resizeScene( const QSize & size );
-    QRectF contentArea() const;
-
-    void setLayoutMargin( qreal margin );
-    qreal layoutMargin() const;
-
-    void setLayoutSpacing( qreal spacing );
-    qreal layoutSpacing() const;
+    virtual void relayoutScene();
 
     virtual bool checkRemove( int checkIndex, const Pile *c1, const Card *c) const;
     virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
@@ -149,9 +142,6 @@ signals:
     void solverStateChanged(QString text);
 
 public slots:
-    void relayoutScene();
-    void relayoutPiles();
-
     void startNew(int gameNumber = -1);
     void hint();
     void showWonMessage();
