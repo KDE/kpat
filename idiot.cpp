@@ -134,7 +134,10 @@ bool Idiot::cardClicked(Card *c)
     else
         didMove = false;
 
-    return true; // may be a lie, but no one cares
+    if ( didMove )
+        onGameStateAlteredByUser();
+
+    return didMove;
 }
 
 // The game is won when:
@@ -185,8 +188,7 @@ Card *Idiot::newCards()
     for ( int i = 0; i < 4; ++i )
         m_play[ i ]->animatedAdd( talon->top(), true );
 
-    takeState();
-    considerGameStarted();
+    onGameStateAlteredByUser();
     if ( talon->isEmpty() )
         emit newCardsPossible( false );
 

@@ -114,8 +114,8 @@ Card *Gypsy::newCards()
     clearHighlightedItems();
 
     dealRow(true);
-    takeState();
-    considerGameStarted();
+
+    onGameStateAlteredByUser();
     if (talon->isEmpty())
         emit newCardsPossible(false);
 

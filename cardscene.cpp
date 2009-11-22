@@ -197,6 +197,13 @@ void CardScene::relayoutScene()
 }
 
 
+QList< Card* > CardScene::cardsBeingDragged() const
+{
+    return m_cardsBeingDragged;
+}
+
+
+
 void CardScene::relayoutPiles()
 {
     if ( !m_sizeHasBeenSet )
@@ -327,27 +334,223 @@ QList< HighlightableItem* > CardScene::highlightedItems() const
 }
 
 
+void CardScene::onGameStateAlteredByUser()
+{
+}
+
+
+Pile * CardScene::targetPile()
+{
+    QSet<Pile*> targets;
+    foreach ( QGraphicsItem * item, collidingItems( m_cardsBeingDragged.first() ) )
+    {
+        Pile * p = qgraphicsitem_cast<Pile*>( item );
+        if ( !p )
+        {
+            Card * c = qgraphicsitem_cast<Card*>( item );
+            if ( c )
+                p = c->source();
+        }
+        if ( p )
+            targets << p;
+    }
+
+    Pile * bestTarget = 0;
+    qreal bestArea = 1;
+
+    foreach ( Pile * p, targets )
+    {
+        if ( p != m_cardsBeingDragged.first()->source() && p->legalAdd( m_cardsBeingDragged ) )
+        {
+            QRectF targetRect = p->sceneBoundingRect();
+            foreach ( Card *c, p->cards() )
+                targetRect |= c->sceneBoundingRect();
+
+            QRectF intersection = targetRect & m_cardsBeingDragged.first()->sceneBoundingRect();
+            qreal area = intersection.width() * intersection.height();
+            if ( area > bestArea )
+            {
+                bestTarget = p;
+                bestArea = area;
+            }
+        }
+    }
+
+    return bestTarget;
+}
+
+
 bool CardScene::pileClicked( Pile * pile )
 {
-    return pile->cardClicked( 0 );
+    if ( pile->cardClicked( 0 ) )
+    {
+        onGameStateAlteredByUser();
+        return true;
+    }
+    return false;
 }
 
 
 bool CardScene::pileDoubleClicked( Pile * pile )
 {
-    return pile->cardDoubleClicked( 0 );
+    if ( pile->cardDoubleClicked( 0 ) )
+    {
+        onGameStateAlteredByUser();
+        return true;
+    }
+    return false;
 }
 
 
 bool CardScene::cardClicked( Card * card )
 {
-    return card->source()->cardClicked( card );
+    if ( card->source()->cardClicked( card ) )
+    {
+        onGameStateAlteredByUser();
+        return true;
+    }
+    return false;
 }
 
 
 bool CardScene::cardDoubleClicked( Card * card )
 {
-    return card->source()->cardDoubleClicked( card );
+    if ( card->source()->cardDoubleClicked( card ) )
+    {
+        onGameStateAlteredByUser();
+        return true;
+    }
+    return false;
+}
+
+
+void CardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
+{
+    // don't allow manual moves while animations are going on
+    if ( deck()->hasAnimatedCards() )
+        return;
+
+    if ( e->button() == Qt::LeftButton )
+    {
+        Card *card = qgraphicsitem_cast<Card*>( itemAt( e->scenePos() ) );
+        if ( !card || m_cardsBeingDragged.contains( card ) )
+            return;
+
+        m_dragStarted = false;
+        m_cardsBeingDragged = card->source()->cardPressed( card );
+        m_startOfDrag = e->scenePos();
+        foreach ( Card * c, m_cardsBeingDragged )
+            c->stopAnimation();
+    }
+}
+
+
+void CardScene::mouseMoveEvent( QGraphicsSceneMouseEvent * e )
+{
+    if ( m_cardsBeingDragged.isEmpty() )
+        return;
+
+    if ( !m_dragStarted )
+    {
+        bool overCard = m_cardsBeingDragged.first()->sceneBoundingRect().contains( e->scenePos() );
+        QPointF delta = e->scenePos() - m_startOfDrag;
+        qreal distanceSquared = delta.x() * delta.x() + delta.y() * delta.y();
+        // Ignore the move event until we've moved at least 4 pixels or the
+        // cursor leaves the card.
+        if (distanceSquared > 16.0 || !overCard) {
+            m_dragStarted = true;
+            // If the cursor hasn't left the card, then continue the drag from
+            // the current position, which makes it look smoother.
+            if (overCard)
+                m_startOfDrag = e->scenePos();
+        }
+    }
+
+    if ( m_dragStarted )
+    {
+        foreach ( Card * card, m_cardsBeingDragged )
+            card->setPos( card->pos() + e->scenePos() - m_startOfDrag );
+        m_startOfDrag = e->scenePos();
+
+        QList<HighlightableItem*> toHighlight;
+        Pile * dropPile = targetPile();
+        if ( dropPile )
+        {
+            if ( dropPile->isEmpty() )
+                toHighlight << dropPile;
+            else
+                toHighlight << dropPile->top();
+        }
+
+        setHighlightedItems( toHighlight );
+    }
+}
+
+
+void CardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
+{
+    if ( e->button() == Qt::LeftButton )
+    {
+        if ( !m_dragStarted )
+        {
+            if ( !m_cardsBeingDragged.isEmpty() )
+            {
+                m_cardsBeingDragged.first()->source()->moveCardsBack(m_cardsBeingDragged);
+                m_cardsBeingDragged.clear();
+            }
+
+            QGraphicsItem * topItem = itemAt( e->scenePos() );
+            if ( !topItem )
+                return;
+
+            Card * card = qgraphicsitem_cast<Card*>( topItem );
+            if ( card && !card->animated() )
+            {
+                cardClicked( card );
+                return;
+            }
+
+            Pile * pile = qgraphicsitem_cast<Pile*>( topItem );
+            if ( pile )
+            {
+                pileClicked( pile );
+                return;
+            }
+        }
+
+        if ( m_cardsBeingDragged.isEmpty() )
+            return;
+
+        Pile * destination = targetPile();
+        if ( destination )
+        {
+            m_cardsBeingDragged.first()->source()->moveCards( m_cardsBeingDragged, destination );
+            onGameStateAlteredByUser();
+        }
+        else
+        {
+            m_cardsBeingDragged.first()->source()->moveCardsBack(m_cardsBeingDragged);
+        }
+        m_cardsBeingDragged.clear();
+        m_dragStarted = false;
+    }
+}
+
+
+void CardScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
+{
+    if ( deck()->hasAnimatedCards() )
+        return;
+
+    if ( !m_cardsBeingDragged.isEmpty() )
+    {
+        m_cardsBeingDragged.first()->source()->moveCardsBack( m_cardsBeingDragged );
+        m_cardsBeingDragged.clear();
+    }
+
+    Card * c = qgraphicsitem_cast<Card*>( itemAt( e->scenePos() ) );
+    if ( c )
+        cardDoubleClicked( c );
 }
 
 

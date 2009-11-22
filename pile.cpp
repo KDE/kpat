@@ -312,7 +312,7 @@ void Pile::relayoutCards()
 
     foreach ( Card * card, m_cards )
     {
-        if ( card->animated() || dscene()->isMoving( card ) ) {
+        if ( card->animated() || dscene()->cardsBeingDragged().contains( card ) ) {
             tryRelayoutCards();
             return;
         }

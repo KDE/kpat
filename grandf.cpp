@@ -96,8 +96,7 @@ Card *Grandf::newCards()
     deal();
     numberOfDeals++;
 
-    takeState();
-    considerGameStarted();
+    onGameStateAlteredByUser();
     if (numberOfDeals == 3)
         emit newCardsPossible(false);
 

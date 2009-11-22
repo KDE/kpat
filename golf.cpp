@@ -142,8 +142,7 @@ Card *Golf::newCards()
 
     talon->top()->flipToPile(waste, DURATION_FLIP);
 
-    takeState();
-    considerGameStarted();
+    onGameStateAlteredByUser();
     if ( talon->isEmpty() )
         emit newCardsPossible( false );
 

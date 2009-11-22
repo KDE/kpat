@@ -193,8 +193,7 @@ Card *Klondike::newCards()
         }
     }
 
-    takeState();
-    considerGameStarted();
+    onGameStateAlteredByUser();
     if ( talon->isEmpty() && pile->cardsLeft() <= 1 )
        emit newCardsPossible( false );
 

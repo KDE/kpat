@@ -457,8 +457,7 @@ Card *Spider::newCards()
 
     ++m_redeal;
 
-    takeState();
-    considerGameStarted();
+    onGameStateAlteredByUser();
     if (m_redeal > 4)
         emit newCardsPossible(false);
 

@@ -128,8 +128,7 @@ Card *Fortyeight::newCards()
         talon->top()->flipToPile( pile, DURATION_FLIP );
     }
 
-    takeState();
-    considerGameStarted();
+    onGameStateAlteredByUser();
     if ( talon->isEmpty() && lastdeal )
         emit newCardsPossible( false );
 

@@ -59,6 +59,8 @@ public:
     virtual void relayoutScene();
     QSizeF contentSize() const;
 
+    QList<Card*> cardsBeingDragged() const;
+
 protected:
     void setDeck( CardDeck * deck );
 
@@ -76,11 +78,19 @@ protected:
     void clearHighlightedItems();
     QList<HighlightableItem*> highlightedItems() const;
 
+    virtual void onGameStateAlteredByUser();
+
+    virtual Pile * targetPile();
+
     virtual bool pileClicked( Pile * pile );
     virtual bool pileDoubleClicked( Pile * pile );
     virtual bool cardClicked( Card * card );
     virtual bool cardDoubleClicked( Card * card );
 
+    virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * e );
+    virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * e );
+    virtual void mousePressEvent ( QGraphicsSceneMouseEvent * e );
+    virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * e );
     virtual void wheelEvent( QGraphicsSceneWheelEvent * e );
 
     virtual void drawForeground ( QPainter * painter, const QRectF & rect );
@@ -89,6 +99,10 @@ private:
     CardDeck * m_deck;
     QList<Pile*> m_piles;
     QSet<HighlightableItem*> m_highlightedItems;
+
+    QList<Card*> m_cardsBeingDragged;
+    QPointF m_startOfDrag;
+    bool m_dragStarted;
 
     qreal m_layoutMargin;
     qreal m_layoutSpacing;

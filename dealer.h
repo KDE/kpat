@@ -80,9 +80,6 @@ public:
     virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
     virtual bool checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const;
 
-    bool isMoving(Card *c) const;
-    bool cardsAreMoving() const { return !movingCards.empty(); }
-
     // use this for autodrop times
     int speedUpTime( int delay ) const;
 
@@ -151,18 +148,18 @@ public slots:
 
 protected:
     virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * mouseEvent );
-    virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent );
 
     virtual bool cardDoubleClicked( Card * card );
+
+    virtual void onGameStateAlteredByUser();
 
     State *getState();
     void setState(State *);
     void eraseRedo();
 
     Pile *findTarget(Card *c);
-    Pile *targetPile();
 
     QList<MoveHint*> hints() const;
     virtual void getHints();
@@ -186,7 +183,6 @@ protected:
     virtual void setGameOptions( const QString & ) {}
 
     virtual void newDemoMove(Card *m);
-    void considerGameStarted();
 
     void addCardForDeal( Pile * pile, Card * card, bool faceUp, QPointF startPos );
     void startDealAnimation();
@@ -206,10 +202,6 @@ protected slots:
     virtual bool startAutoDrop();
 
 private:
-    bool moved;
-    CardList movingCards;
-
-    QPointF moving_start;
     bool _autodrop;
     bool _usesolver;
     int gamenumber;

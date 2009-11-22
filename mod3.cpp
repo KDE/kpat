@@ -213,8 +213,8 @@ Card *Mod3::newCards()
     clearHighlightedItems();
 
     dealRow(3);
-    takeState();
-    considerGameStarted();
+
+    onGameStateAlteredByUser();
     if (talon->isEmpty())
         emit newCardsPossible(false);
 

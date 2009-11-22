@@ -703,11 +703,6 @@ void DealerScene::newHint(MoveHint *mh)
     d->hints.append(mh);
 }
 
-bool DealerScene::isMoving(Card *c) const
-{
-    return movingCards.indexOf(c) != -1;
-}
-
 void DealerScene::startNew(int gameNumber)
 {
     if (gameNumber != -1)
@@ -827,75 +822,30 @@ void DealerScene::updateWonItem()
                                  ( height() - d->wonItem->sceneBoundingRect().height() ) / 2 ) + sceneRect().topLeft() );
 }
 
-Pile * DealerScene::targetPile()
-{
-    QSet<Pile*> targets;
-    foreach ( QGraphicsItem *item, collidingItems( movingCards.first() ) )
-    {
-        Pile *p = qgraphicsitem_cast<Pile*>( item );
-        if ( !p )
-        {
-            Card *c = qgraphicsitem_cast<Card*>( item );
-            if ( c )
-                p = c->source();
-        }
-        if ( p )
-            targets << p;
-    }
-
-    Pile * bestTarget = 0;
-    qreal bestArea = 1;
-
-    foreach ( Pile *p, targets )
-    {
-        if ( p != movingCards.first()->source() && p->legalAdd(movingCards) )
-        {
-            QRectF targetRect = p->sceneBoundingRect();
-            foreach ( Card *c, p->cards() )
-                targetRect |= c->sceneBoundingRect();
-
-            QRectF intersection = targetRect & movingCards.first()->sceneBoundingRect();
-            qreal area = intersection.width() * intersection.height();
-            if ( area > bestArea )
-            {
-                bestTarget = p;
-                bestArea = area;
-            }
-        }
-    }
-
-    return bestTarget;
-}
 
 void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 {
-    // don't allow manual moves while animations are going on
-    if ( deck()->hasAnimatedCards() )
-        return;
-
-    clearHighlightedItems();
     stopDemo();
 
-    QGraphicsScene::mousePressEvent( e );
-
-    moved = false;
-
-    Card *card = qgraphicsitem_cast<Card*>( itemAt( e->scenePos() ) );
-    if ( !card || isMoving(card) )
-        return;
-
-    if ( e->button() == Qt::LeftButton && !d->peekedCard )
+    if ( e->button() == Qt::LeftButton )
     {
-        movingCards = card->source()->cardPressed( card );
-        foreach ( Card *c, movingCards )
-            c->stopAnimation();
-        moving_start = e->scenePos();
+        if ( d->peekedCard )
+            return;
+        clearHighlightedItems();
+        CardScene::mousePressEvent( e );
     }
-    else if ( e->button() == Qt::RightButton && movingCards.isEmpty() )
+    else if ( e->button() == Qt::RightButton && cardsBeingDragged().isEmpty() )
     {
+        if ( deck()->hasAnimatedCards() )
+            return;
+
+        Card *card = qgraphicsitem_cast<Card*>( itemAt( e->scenePos() ) );
+        if ( !card )
+            return;
+
         if ( card == card->source()->top() )
         {
-            mouseDoubleClickEvent( e ); // see bug #151921
+            cardDoubleClicked( card ); // see bug #151921
         }
         else
         {
@@ -906,109 +856,18 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
     }
 }
 
-void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
-{
-    if (movingCards.isEmpty())
-        return;
-
-    if (!moved) {
-        bool overCard = movingCards.first()->sceneBoundingRect().contains(e->scenePos());
-        QPointF delta = e->scenePos() - moving_start;
-        qreal distanceSquared = delta.x() * delta.x() + delta.y() * delta.y();
-        // Ignore the move event until we've moved at least 4 pixels or the
-        // cursor leaves the card.
-        if (distanceSquared > 16.0 || !overCard) {
-            moved = true;
-            // If the cursor hasn't left the card, then continue the drag from
-            // the current position, which makes it look smoother.
-            if (overCard)
-                moving_start = e->scenePos();
-        }
-    }
-
-    if (moved) {
-        foreach ( Card *card, movingCards )
-            card->setPos( card->pos() + e->scenePos() - moving_start );
-        moving_start = e->scenePos();
-
-        QList<HighlightableItem*> toHighlight;
-
-        Pile * dropPile = targetPile();
-        if (dropPile) {
-            if (dropPile->isEmpty()) {
-                toHighlight << dropPile;
-            } else {
-                toHighlight << dropPile->top();
-            }
-        }
-
-        setHighlightedItems( toHighlight );
-    }
-}
-
 void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
 {
-    QGraphicsScene::mouseReleaseEvent( e );
-
-    if ( e->button() == Qt::LeftButton )
-    {
-        if (!moved) {
-            if (!movingCards.isEmpty()) {
-                movingCards.first()->source()->moveCardsBack(movingCards);
-                movingCards.clear();
-            }
-
-            QGraphicsItem * topItem = itemAt(e->scenePos());
-            if (!topItem)
-                return;
-
-            Card *c = qgraphicsitem_cast<Card*>(topItem);
-            if (c) {
-                if (!c->animated() && cardClicked(c) ) {
-                    considerGameStarted();
-                    takeState();
-                    eraseRedo();
-                }
-                return;
-            }
-
-            Pile *p = qgraphicsitem_cast<Pile*>(topItem);
-            if (p) {
-                if (pileClicked(p)) {
-                    considerGameStarted();
-                    takeState();
-                    eraseRedo();
-                }
-                return;
-            }
-        }
-
-        if (movingCards.isEmpty())
-            return;
-
-        clearHighlightedItems();
-
-        Pile * destination = targetPile();
-        if (destination) {
-            Card *c = movingCards.first();
-            Q_ASSERT(c);
-            considerGameStarted();
-            c->source()->moveCards(movingCards, destination);
-            takeState();
-            eraseRedo();
-        }
-        else
-        {
-            movingCards.first()->source()->moveCardsBack(movingCards);
-        }
-        movingCards.clear();
-        moved = false;
-    }
-    else if ( e->button() == Qt::RightButton )
+    if ( e->button() == Qt::RightButton )
     {
         if ( d->peekedCard && d->peekedCard->source() )
             d->peekedCard->source()->layoutCards( DURATION_FANCYSHOW );
         d->peekedCard = 0;
+    }
+    else
+    {
+        clearHighlightedItems();
+        CardScene::mouseReleaseEvent( e );
     }
 }
 
@@ -1019,29 +878,18 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
         return;
     }
 
-    if (deck()->hasAnimatedCards())
-        return;
-
     clearHighlightedItems();
 
-    if (!movingCards.isEmpty()) {
-        movingCards.first()->source()->moveCardsBack(movingCards);
-        movingCards.clear();
-    }
-
-    QGraphicsItem *topItem = itemAt(e->scenePos());
-    Card *c = qgraphicsitem_cast<Card*>(topItem);
-    if (c && cardDoubleClicked(c) ) {
-        considerGameStarted();
-        takeState();
-        eraseRedo();
-    }
+    CardScene::mouseDoubleClickEvent( e );
 }
 
 bool DealerScene::cardDoubleClicked( Card * c )
 {
     if (c->source()->cardDoubleClicked(c))
+    {
+        onGameStateAlteredByUser();
         return true;
+    }
 
     if (c->animated())
         return false;
@@ -1050,6 +898,7 @@ bool DealerScene::cardDoubleClicked( Card * c )
         Pile *tgt = findTarget(c);
         if (tgt) {
             c->source()->moveCards(CardList() << c , tgt);
+            onGameStateAlteredByUser();
             return true;
         }
     }
@@ -1129,6 +978,13 @@ Pile *DealerScene::findTarget(Card *c)
     return 0;
 }
 
+void DealerScene::onGameStateAlteredByUser()
+{
+    d->gameStarted = true;
+    takeState();
+    eraseRedo();
+}
+
 void DealerScene::setAutoDropEnabled(bool a)
 {
     _autodrop = a;
@@ -1151,7 +1007,7 @@ bool DealerScene::startAutoDrop()
     if (!autoDrop() && !d->m_autoDropOnce)
         return false;
 
-    if (!movingCards.isEmpty() || deck()->hasAnimatedCards() || d->undoList.isEmpty() ) {
+    if (!cardsBeingDragged().isEmpty() || deck()->hasAnimatedCards() || d->undoList.isEmpty() ) {
         d->autoDropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
         return true;
     }
@@ -1445,7 +1301,7 @@ void DealerScene::demo()
     d->stop_demo_next = false;
     d->demo_active = true;
     d->gothelp = true;
-    considerGameStarted();
+    d->gameStarted = true;
     clearHighlightedItems();
     clearHints();
     getHints();
@@ -1605,11 +1461,6 @@ bool DealerScene::checkRemove( int, const Pile *, const Card *) const {
 
 bool DealerScene::checkAdd( int, const Pile *, const CardList&) const {
     return true;
-}
-
-void DealerScene::considerGameStarted()
-{
-    d->gameStarted = true;
 }
 
 void DealerScene::recordGameStatistics()
