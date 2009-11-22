@@ -37,6 +37,7 @@
 #include "pile.h"
 
 #include "carddeck.h"
+#include "cardscene.h"
 #include "render.h"
 
 #include <KDebug>
@@ -86,9 +87,9 @@ Pile::Pile( int _index, const QString & objectName )
     connect( m_relayoutTimer, SIGNAL(timeout()), SLOT(relayoutCards()) );
 }
 
-DealerScene *Pile::dscene() const
+CardScene *Pile::cardScene() const
 {
-    return dynamic_cast<DealerScene*>( scene() );
+    return dynamic_cast<CardScene*>( scene() );
 }
 
 void Pile::setType(PileType type)
@@ -169,11 +170,11 @@ void Pile::updatePixmap()
     if ( m_graphicVisible )
     {
         QString id = isHighlighted() ? "pile_selected" : "pile";
-        setPixmap( Render::renderElement( id, dscene()->deck()->cardSize() ) );
+        setPixmap( Render::renderElement( id, cardScene()->deck()->cardSize() ) );
     }
     else
     {
-        QPixmap blank( dscene()->deck()->cardSize() );
+        QPixmap blank( cardScene()->deck()->cardSize() );
         blank.fill( Qt::transparent );
         setPixmap( blank );
     }
@@ -198,7 +199,7 @@ bool Pile::legalAdd( const CardList& _cards, bool ) const
 
     switch (addType()) {
         case Custom:
-            return dscene()->checkAdd( checkIndex(), this, _cards );
+            return cardScene()->checkAdd( checkIndex(), this, _cards );
             break;
         case KlondikeTarget:
             return add_klondikeTarget(_cards);
@@ -231,7 +232,7 @@ bool Pile::legalRemove(const Card *c, bool demo) const
 
     switch (removeType()) {
         case Custom:
-            return dscene()->checkRemove( checkIndex(), this, c);
+            return cardScene()->checkRemove( checkIndex(), this, c);
             break;
         case KlondikeTarget:
         case GypsyStore:
@@ -294,7 +295,7 @@ void Pile::relayoutCards()
 
     foreach ( Card * card, m_cards )
     {
-        if ( card->animated() || dscene()->cardsBeingDragged().contains( card ) ) {
+        if ( card->animated() || cardScene()->cardsBeingDragged().contains( card ) ) {
             m_relayoutTimer->start( 50 );
             return;
         }
@@ -338,8 +339,8 @@ QPointF Pile::cardOffset( const Card *card ) const
 {
     if ( addFlags & Pile::addSpread )
     {
-        QPointF offset( spread().width() * dscene()->deck()->cardWidth(),
-                        spread().height() * dscene()->deck()->cardHeight() );
+        QPointF offset( spread().width() * cardScene()->deck()->cardWidth(),
+                        spread().height() * cardScene()->deck()->cardHeight() );
         if (!card->realFace())
             offset *= 0.6;
         return offset;
@@ -487,7 +488,7 @@ void Pile::layoutCards(int duration)
     if ( m_cards.isEmpty() )
         return;
 
-    const QSize cardSize = dscene()->deck()->cardSize();
+    const QSize cardSize = cardScene()->deck()->cardSize();
 
     QPointF totalOffset( 0, 0 );
     for ( int i = 0; i < m_cards.size() - 1; ++i )

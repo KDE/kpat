@@ -95,8 +95,8 @@ QList< Card* > CardScene::cardsBeingDragged() const
 
 void CardScene::addPile( Pile * pile )
 {
-    if ( pile->dscene() )
-        pile->dscene()->removePile( pile );
+    if ( pile->cardScene() )
+        pile->cardScene()->removePile( pile );
 
     addItem( pile );
     foreach ( Card * c, pile->cards() )

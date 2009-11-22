@@ -56,7 +56,7 @@ void FreecellPile::moveCards(CardList &c, Pile *to)
         Pile::moveCards(c, to);
         return;
     }
-    Freecell *b = dynamic_cast<Freecell*>(dscene());
+    Freecell *b = dynamic_cast<Freecell*>(scene());
     if (b) {
         b->moveCards(c, this, to);
     }

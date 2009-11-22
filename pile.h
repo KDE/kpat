@@ -37,8 +37,8 @@
 #ifndef PILE_H
 #define PILE_H
 
-class Card;
-#include "dealer.h"
+#include "card.h"
+class CardScene;
 #include "highlightableitem.h"
 #include "speeds.h"
 
@@ -80,7 +80,7 @@ public:
     explicit Pile( int _index, const QString & objectName = QString() );
     virtual ~Pile();
 
-    DealerScene  *dscene() const;
+    CardScene  *cardScene() const;
     CardList      cards()  const { return m_cards; }
 
     bool legalAdd(const CardList &c, bool demo = false ) const;

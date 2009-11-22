@@ -65,7 +65,7 @@ void KlondikePile::layoutCards( int duration )
     if ( m_cards.isEmpty() )
         return;
 
-    qreal divx = qMin<qreal>( ( maximumSpace().width() - dscene()->deck()->cardWidth() ) / ( 2 * spread().width() * dscene()->deck()->cardWidth() ), 1.0 );
+    qreal divx = qMin<qreal>( ( maximumSpace().width() - cardScene()->deck()->cardWidth() ) / ( 2 * spread().width() * cardScene()->deck()->cardWidth() ), 1.0 );
 
     QPointF cardPos = pos();
     int z = zValue();
@@ -75,12 +75,12 @@ void KlondikePile::layoutCards( int duration )
         if ( i < m_cards.size() - m_draw )
         {
             m_cards[i]->setZValue( z );
-            m_cards[i]->animate( cardPos, z, 1, 0, m_cards[i]->realFace(), false, dscene()->speedUpTime( duration ) );
+            m_cards[i]->animate( cardPos, z, 1, 0, m_cards[i]->realFace(), false, duration );
         }
         else
         {
-            m_cards[i]->animate( cardPos, z, 1, 0, m_cards[i]->realFace(), false, dscene()->speedUpTime( duration ) );
-            cardPos.rx() += divx * spread().width() * dscene()->deck()->cardWidth();
+            m_cards[i]->animate( cardPos, z, 1, 0, m_cards[i]->realFace(), false, duration );
+            cardPos.rx() += divx * spread().width() * cardScene()->deck()->cardWidth();
         }
     }
 }

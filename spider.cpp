@@ -65,7 +65,7 @@ void SpiderPile::moveCards(CardList &c, Pile *to)
         c.first()->suit() == to->top()->suit() &&
         to->cardsLeft() > 12)
     {
-            Spider *b = dynamic_cast<Spider*>(dscene());
+            Spider *b = dynamic_cast<Spider*>(scene());
             if (b) {
                 b->checkPileDeck(to);
             }
