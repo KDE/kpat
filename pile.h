@@ -166,13 +166,13 @@ public:
 
 public slots:
     virtual bool cardClicked(Card *c);
-    virtual bool cardDblClicked(Card *c);
+    virtual bool cardDoubleClicked(Card *c);
     virtual void relayoutCards();
 
 signals:
     void clicked(Card *c);
+    void doubleClicked(Card *c);
     void pressed(Card *c);
-    void dblClicked(Card *c);
 
 protected:
     int       removeFlags;

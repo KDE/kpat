@@ -155,9 +155,7 @@ protected:
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent );
 
-    virtual bool cardClicked(Card *);
-    virtual bool pileClicked(Pile *);
-    virtual bool cardDblClicked(Card *);
+    virtual bool cardDoubleClicked( Card * card );
 
     State *getState();
     void setState(State *);
@@ -198,7 +196,6 @@ protected slots:
     void waitForDemo(Card *);
     void waitForWonAnim(Card *c);
     void toggleDemo();
-
 
     void slotSolverEnded();
     void slotSolverFinished();

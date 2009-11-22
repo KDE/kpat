@@ -1031,26 +1031,16 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
 
     QGraphicsItem *topItem = itemAt(e->scenePos());
     Card *c = qgraphicsitem_cast<Card*>(topItem);
-    if (c && cardDblClicked(c) ) {
+    if (c && cardDoubleClicked(c) ) {
         considerGameStarted();
         takeState();
         eraseRedo();
     }
 }
 
-bool DealerScene::cardClicked(Card *c) {
-    return c->source()->cardClicked(c);
-}
-
-bool DealerScene::pileClicked(Pile *p)
+bool DealerScene::cardDoubleClicked( Card * c )
 {
-    p->cardClicked(0);
-    return false;
-}
-
-bool DealerScene::cardDblClicked(Card *c)
-{
-    if (c->source()->cardDblClicked(c))
+    if (c->source()->cardDoubleClicked(c))
         return true;
 
     if (c->animated())
@@ -1065,7 +1055,6 @@ bool DealerScene::cardDblClicked(Card *c)
     }
     return false;
 }
-
 
 State *DealerScene::getState()
 {

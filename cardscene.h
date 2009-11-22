@@ -39,6 +39,7 @@
 #ifndef CARDSCENE_H
 #define CARDSCENE_H
 
+class Card;
 class CardDeck;
 class HighlightableItem;
 class Pile;
@@ -74,6 +75,11 @@ protected:
     void setHighlightedItems( QList<HighlightableItem*> items );
     void clearHighlightedItems();
     QList<HighlightableItem*> highlightedItems() const;
+
+    virtual bool pileClicked( Pile * pile );
+    virtual bool pileDoubleClicked( Pile * pile );
+    virtual bool cardClicked( Card * card );
+    virtual bool cardDoubleClicked( Card * card );
 
     virtual void wheelEvent( QGraphicsSceneWheelEvent * e );
 

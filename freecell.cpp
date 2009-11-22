@@ -265,10 +265,10 @@ void Freecell::waitForMoving(Card *c)
     startMoving();
 }
 
-bool Freecell::cardDblClicked(Card *c)
+bool Freecell::cardDoubleClicked(Card *c)
 {
     // target move
-    if (DealerScene::cardDblClicked(c))
+    if (DealerScene::cardDoubleClicked(c))
         return true;
 
     if (c->animated())

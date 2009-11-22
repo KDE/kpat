@@ -494,9 +494,9 @@ bool Pile::cardClicked(Card *c)
     return false;
 }
 
-bool Pile::cardDblClicked(Card *c)
+bool Pile::cardDoubleClicked(Card *c)
 {
-    emit dblClicked(c);
+    emit doubleClicked(c);
     return false;
 }
 

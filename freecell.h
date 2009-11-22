@@ -81,7 +81,7 @@ protected:
     MoveHint *translateMove(void *m);
 
     virtual void newDemoMove(Card *m);
-    virtual bool cardDblClicked(Card *c);
+    virtual bool cardDoubleClicked(Card *c);
     virtual void deal();
     virtual void getHints();
 

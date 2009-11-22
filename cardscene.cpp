@@ -327,6 +327,30 @@ QList< HighlightableItem* > CardScene::highlightedItems() const
 }
 
 
+bool CardScene::pileClicked( Pile * pile )
+{
+    return pile->cardClicked( 0 );
+}
+
+
+bool CardScene::pileDoubleClicked( Pile * pile )
+{
+    return pile->cardDoubleClicked( 0 );
+}
+
+
+bool CardScene::cardClicked( Card * card )
+{
+    return card->source()->cardClicked( card );
+}
+
+
+bool CardScene::cardDoubleClicked( Card * card )
+{
+    return card->source()->cardDoubleClicked( card );
+}
+
+
 void CardScene::wheelEvent( QGraphicsSceneWheelEvent * e )
 {
     if ( e->modifiers() & Qt::ControlModifier )

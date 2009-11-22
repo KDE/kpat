@@ -161,7 +161,7 @@ bool Idiot::isGameWon() const
 // This patience doesn't support double click.
 //
 
-bool Idiot::cardDblClicked(Card *)
+bool Idiot::cardDoubleClicked(Card *)
 {
     return false; // nothing - nada
 }

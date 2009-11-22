@@ -56,7 +56,7 @@ public slots:
 
 protected:
     virtual bool  cardClicked(Card *);
-    virtual bool  cardDblClicked(Card *);
+    virtual bool  cardDoubleClicked(Card *);
 
     virtual bool  startAutoDrop()  { return false; }
     virtual void  setGameState(const QString &);
