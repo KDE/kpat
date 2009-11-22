@@ -48,7 +48,7 @@ Idiot::Idiot( )
     // Since there are so few piles, we might as well set a big margin
     setLayoutMargin( 0.6 );
 
-    deck = new CardDeck();
+    setDeck( new CardDeck() );
 
     // Create the talon to the left.
     talon = new Pile( 0, "talon" );
@@ -81,14 +81,14 @@ Idiot::Idiot( )
 
 void Idiot::restart()
 {
-    deck->returnAllCards();
-    deck->shuffle( gameNumber() );
+    deck()->returnAllCards();
+    deck()->shuffle( gameNumber() );
 
     // Move the four top cards of the deck to the piles, faceup, spread out.
     for ( int i = 0; i < 4; ++i )
-        m_play[ i ]->animatedAdd( deck->takeCard(), true );
+        m_play[ i ]->animatedAdd( deck()->takeCard(), true );
 
-    deck->takeAllCards( talon );
+    deck()->takeAllCards( talon );
 
     emit newCardsPossible(true);
 }
@@ -174,7 +174,7 @@ Card *Idiot::newCards()
     if ( talon->isEmpty() )
         return 0;
 
-    if ( deck->hasAnimatedCards() )
+    if ( deck()->hasAnimatedCards() )
         for ( int i = 0; i < 4; ++i )
             if ( m_play[i]->top() )
                 return m_play[i]->top();

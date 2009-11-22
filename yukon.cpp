@@ -49,7 +49,7 @@ Yukon::Yukon( )
     const qreal dist_x = 1.11;
     const qreal dist_y = 1.11;
 
-    deck = new CardDeck();
+    setDeck(new CardDeck());
 
     for (int i=0; i<4; i++) {
         target[i] = new Pile(i+1, QString("target%1").arg(i));
@@ -74,8 +74,8 @@ Yukon::Yukon( )
 
 void Yukon::restart()
 {
-    deck->returnAllCards();
-    deck->shuffle( gameNumber() );
+    deck()->returnAllCards();
+    deck()->shuffle( gameNumber() );
     deal();
 }
 
@@ -95,8 +95,8 @@ void Yukon::deal()
             }
             if (doit)
             {
-                QPointF initPos = store[j]->pos() + QPointF(0, ((7-j/3.0)+round)* deck->cardHeight());
-                addCardForDeal(store[j], deck->takeCard(), (round >= j || j == 0), initPos);
+                QPointF initPos = store[j]->pos() + QPointF(0, ((7-j/3.0)+round)* deck()->cardHeight());
+                addCardForDeal(store[j], deck()->takeCard(), (round >= j || j == 0), initPos);
             }
         }
     }

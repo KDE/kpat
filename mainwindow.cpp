@@ -314,7 +314,7 @@ void MainWindow::slotPickRandom()
 
     if ( m_dealer )
     {
-        m_dealer->cardDeck()->updateTheme(cs);
+        m_dealer->deck()->updateTheme(cs);
         m_dealer->relayoutScene();
     }
 }
@@ -340,7 +340,7 @@ void MainWindow::slotSelectDeck()
         {
             if ( m_dealer )
             {
-                m_dealer->cardDeck()->updateTheme(cs);
+                m_dealer->deck()->updateTheme(cs);
                 m_dealer->relayoutScene();
             }
         }
@@ -701,7 +701,7 @@ void MainWindow::slotSnapshot()
 
 void MainWindow::slotSnapshot2()
 {
-    if ( m_dealer->cardDeck()->hasAnimatedCards() )
+    if ( m_dealer->deck()->hasAnimatedCards() )
     {
             QTimer::singleShot( 100, this, SLOT( slotSnapshot2() ) );
             return;

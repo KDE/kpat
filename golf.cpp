@@ -50,7 +50,7 @@ Golf::Golf( )
     const qreal dist_x = 1.11;
     const qreal smallNeg = -1e-6;
 
-    deck = new CardDeck();
+    setDeck(new CardDeck());
 
     talon = new Pile(0, "talon");
     talon->setPilePos(0, smallNeg);
@@ -109,8 +109,8 @@ bool Golf::checkRemove( int checkIndex, const Pile *, const Card *c2) const
 
 void Golf::restart()
 {
-    deck->returnAllCards();
-    deck->shuffle( gameNumber() );
+    deck()->returnAllCards();
+    deck()->shuffle( gameNumber() );
     deal();
     emit newCardsPossible( true );
 }
@@ -121,9 +121,9 @@ void Golf::deal()
 {
     for(int i=0;i<5;i++)
         for(int r=0;r<7;r++)
-            addCardForDeal( stack[r], deck->takeCard(), true, stack[6]->pos() );
+            addCardForDeal( stack[r], deck()->takeCard(), true, stack[6]->pos() );
 
-    deck->takeAllCards(talon);
+    deck()->takeAllCards(talon);
 
     startDealAnimation();
 
@@ -135,7 +135,7 @@ Card *Golf::newCards()
     if (talon->isEmpty())
          return 0;
 
-    if ( waste->top() && deck->hasAnimatedCards() )
+    if ( waste->top() && deck()->hasAnimatedCards() )
         return waste->top();
 
     setMarkedItems();

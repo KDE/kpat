@@ -40,7 +40,6 @@
 
 #include "card.h"
 #include "cardscene.h"
-class CardDeck;
 class CardState;
 class DealerScene;
 class MoveHint;
@@ -112,7 +111,6 @@ public:
     int actions() const;
 
     virtual QList<QAction*> configActions() const;
-    CardDeck * cardDeck() const;
 
     void setSolverEnabled(bool a);
     void setSolver( Solver *s);
@@ -211,7 +209,6 @@ protected:
     void addCardForDeal( Pile * pile, Card * card, bool faceUp, QPointF startPos );
     void startDealAnimation();
 
-    CardDeck * deck;
     PileList piles;
     QList<MoveHint*> hints;
 

@@ -170,7 +170,7 @@ void Pile::rescale()
     if (!scene())
         return;
 
-    const QSize cardSize = dscene()->cardDeck()->cardSize();
+    const QSize cardSize = dscene()->deck()->cardSize();
 
     QPointF new_pos = QPointF( _pilePos.x() * cardSize.width(),
                                _pilePos.y() * cardSize.height() );
@@ -358,8 +358,8 @@ QPointF Pile::cardOffset( const Card *card ) const
 {
     if ( addFlags & Pile::addSpread )
     {
-        QPointF offset( spread().width() * dscene()->cardDeck()->cardWidth(),
-                        spread().height() * dscene()->cardDeck()->cardHeight() );
+        QPointF offset( spread().width() * dscene()->deck()->cardWidth(),
+                        spread().height() * dscene()->deck()->cardHeight() );
         if (!card->realFace())
             offset *= 0.6;
         return offset;
@@ -517,7 +517,7 @@ void Pile::layoutCards(int duration)
     if ( m_cards.isEmpty() )
         return;
 
-    const QSize cardSize = dscene()->cardDeck()->cardSize();
+    const QSize cardSize = dscene()->deck()->cardSize();
 
     QPointF totalOffset( 0, 0 );
     for ( int i = 0; i < m_cards.size() - 1; ++i )

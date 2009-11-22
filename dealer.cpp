@@ -237,7 +237,7 @@ void DealerScene::takeState()
         d->winMoves.clear();
         clearHints();
     }
-    if ( deck->hasAnimatedCards() )
+    if ( deck()->hasAnimatedCards() )
     {
         d->stateTimer->start();
         return;
@@ -279,10 +279,10 @@ void DealerScene::takeState()
             return;
         }
 
-        if ( d->m_solver && !demoActive() && !deck->hasAnimatedCards() )
+        if ( d->m_solver && !demoActive() && !deck()->hasAnimatedCards() )
             startSolver();
 
-        if (!demoActive() && !deck->hasAnimatedCards())
+        if (!demoActive() && !deck()->hasAnimatedCards())
             d->autoDropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
 
         emit undoPossible(d->undoList.count() > 1);
@@ -379,7 +379,7 @@ void DealerScene::openGame(QDomDocument &doc)
 
     QDomNodeList pileNodes = dealer.elementsByTagName("pile");
 
-    deck->returnAllCards();
+    deck()->returnAllCards();
 
     foreach (Pile *p, piles)
     {
@@ -396,7 +396,7 @@ void DealerScene::openGame(QDomDocument &doc)
                     Card::Suit s = static_cast<Card::Suit>(card.attribute("suit").toInt());
                     Card::Rank v = static_cast<Card::Rank>(card.attribute("value").toInt());
 
-                    Card * c = deck->takeCard( v, s );
+                    Card * c = deck()->takeCard( v, s );
                     Q_ASSERT( c );
 
                     c->turn(card.attribute("faceup").toInt());
@@ -477,8 +477,7 @@ void DealerScene::eraseRedo()
 
 
 DealerScene::DealerScene()
-  : deck(0),
-    _autodrop(true),
+  : _autodrop(true),
     gamenumber(0)
 {
     setItemIndexMethod(QGraphicsScene::NoIndex);
@@ -536,8 +535,6 @@ DealerScene::~DealerScene()
 
     clearHints();
 
-    delete deck;
-
     foreach ( Pile *p, piles )
     {
         removePile( p );
@@ -567,7 +564,7 @@ DealerScene::~DealerScene()
 
 void DealerScene::hint()
 {
-    if ( deck->hasAnimatedCards() && d->stateTimer->isActive() ) {
+    if ( deck()->hasAnimatedCards() && d->stateTimer->isActive() ) {
         QTimer::singleShot( 150, this, SLOT( hint() ) );
         return;
     }
@@ -750,7 +747,7 @@ void DealerScene::startNew(int gameNumber)
         d->gameStarted = false;
     }
 
-    if ( deck->hasAnimatedCards() )
+    if ( deck()->hasAnimatedCards() )
     {
         QTimer::singleShot( 100, this, SLOT( startNew() ) );
         return;
@@ -772,7 +769,7 @@ void DealerScene::startNew(int gameNumber)
     stopDemo();
     setMarkedItems();
 
-    foreach (Card * c, deck->cards())
+    foreach (Card * c, deck()->cards())
     {
         c->disconnect( this );
         c->stopAnimation();
@@ -898,7 +895,7 @@ Pile * DealerScene::targetPile()
 void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 {
     // don't allow manual moves while animations are going on
-    if ( deck->hasAnimatedCards() )
+    if ( deck()->hasAnimatedCards() )
         return;
 
     setMarkedItems();
@@ -928,7 +925,7 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
         else
         {
             d->peekedCard = card;
-            QPointF pos2( card->x() + deck->cardWidth() / 3.0, card->y() - deck->cardHeight() / 4.0 );
+            QPointF pos2( card->x() + deck()->cardWidth() / 3.0, card->y() - deck()->cardHeight() / 4.0 );
             card->animate( pos2, card->zValue(), 1.1, 20, card->isFaceUp(), false, DURATION_FANCYSHOW );
         }
     }
@@ -1047,7 +1044,7 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
         return;
     }
 
-    if (deck->hasAnimatedCards())
+    if (deck()->hasAnimatedCards())
         return;
 
     setMarkedItems();
@@ -1098,7 +1095,7 @@ bool DealerScene::cardDblClicked(Card *c)
 State *DealerScene::getState()
 {
     State * st = new State;
-    foreach (Card *c, deck->cards())
+    foreach (Card *c, deck()->cards())
     {
        CardState s;
        s.it = c;
@@ -1192,7 +1189,7 @@ bool DealerScene::startAutoDrop()
     if (!autoDrop() && !d->m_autoDropOnce)
         return false;
 
-    if (!movingCards.isEmpty() || deck->hasAnimatedCards() || d->undoList.isEmpty() ) {
+    if (!movingCards.isEmpty() || deck()->hasAnimatedCards() || d->undoList.isEmpty() ) {
         d->autoDropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
         return true;
     }
@@ -1262,7 +1259,7 @@ void DealerScene::stopAndRestartSolver()
         d->solverMutex.unlock();
     }
 
-    if ( deck->hasAnimatedCards() )
+    if ( deck()->hasAnimatedCards() )
     {
         startSolver();
         return;
@@ -1340,7 +1337,7 @@ void DealerScene::waitForWonAnim(Card *c)
 {
     c->disconnect( this, SLOT(waitForWonAnim(Card*)) );
 
-    if ( !deck->hasAnimatedCards() )
+    if ( !deck()->hasAnimatedCards() )
     {
         stopDemo();
         emit gameWon(d->gothelp);
@@ -1385,7 +1382,7 @@ void DealerScene::removePile(Pile *p)
 
 void DealerScene::stopDemo()
 {
-    if (deck->hasAnimatedCards()) {
+    if (deck()->hasAnimatedCards()) {
         d->stop_demo_next = true;
         return;
     } else d->stop_demo_next = false;
@@ -1438,7 +1435,7 @@ void DealerScene::won()
         p->relayoutCards();
 
     QList<CardPtr> cards;
-    foreach ( Card *c, deck->cards() )
+    foreach ( Card *c, deck()->cards() )
     {
         CardPtr p;
         p.ptr = c;
@@ -1497,7 +1494,7 @@ MoveHint *DealerScene::chooseHint()
 
 void DealerScene::demo()
 {
-    if ( deck->hasAnimatedCards() || d->stateTimer->isActive() )
+    if ( deck()->hasAnimatedCards() || d->stateTimer->isActive() )
         return;
 
     if (d->stop_demo_next) {
@@ -1760,15 +1757,15 @@ void DealerScene::relayoutScene()
     // Add the border to the size of the contents
     QSizeF sizeToFit = usedArea + 2 * QSizeF( d->layoutMargin, d->layoutMargin );
 
-    qreal scaleX = width() / ( deck->cardWidth() * sizeToFit.width() );
-    qreal scaleY = height() / ( deck->cardHeight() * sizeToFit.height() );
+    qreal scaleX = width() / ( deck()->cardWidth() * sizeToFit.width() );
+    qreal scaleY = height() / ( deck()->cardHeight() * sizeToFit.height() );
     qreal n_scaleFactor = qMin( scaleX, scaleY );
 
-    deck->setCardWidth( n_scaleFactor * deck->cardWidth() );
+    deck()->setCardWidth( n_scaleFactor * deck()->cardWidth() );
 
     d->contentsRect = QRectF( 0, 0,
-                              usedArea.width() * deck->cardWidth(),
-                              height() - 2 * d->layoutMargin * deck->cardHeight() );
+                              usedArea.width() * deck()->cardWidth(),
+                              height() - 2 * d->layoutMargin * deck()->cardHeight() );
 
     qreal xOffset = ( width() - d->contentsRect.width() ) / 2.0;
     qreal yOffset = ( height() - d->contentsRect.height() ) / 2.0;
@@ -1786,15 +1783,15 @@ void DealerScene::relayoutPiles()
         return;
 
     QSize s = d->contentsRect.size().toSize();
-    int cardWidth = deck->cardWidth();
-    int cardHeight = deck->cardHeight();
+    int cardWidth = deck()->cardWidth();
+    int cardHeight = deck()->cardHeight();
     const qreal spacing = d->layoutSpacing * ( cardWidth + cardHeight ) / 2.0;
 
     foreach ( Pile *p, piles )
     {
         p->rescale();
 
-        QSizeF maxSpace = deck->cardSize();
+        QSizeF maxSpace = deck()->cardSize();
 
         if ( p->reservedSpace().width() > 1 && s.width() > p->x() + cardWidth )
             maxSpace.setWidth( s.width() - p->x() );
@@ -1891,11 +1888,6 @@ void DealerScene::setActions(int actions) { d->myActions = actions; }
 int DealerScene::actions() const { return d->myActions; }
 
 QList<QAction*> DealerScene::configActions() const { return QList<QAction*>(); }
-
-CardDeck* DealerScene::cardDeck() const
-{
-    return deck;
-}
 
 Solver *DealerScene::solver() const { return d->m_solver; }
 

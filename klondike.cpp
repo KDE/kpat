@@ -65,7 +65,7 @@ void KlondikePile::layoutCards( int duration )
     if ( m_cards.isEmpty() )
         return;
 
-    qreal divx = qMin<qreal>( ( maximumSpace().width() - dscene()->cardDeck()->cardWidth() ) / ( 2 * spread().width() * dscene()->cardDeck()->cardWidth() ), 1.0 );
+    qreal divx = qMin<qreal>( ( maximumSpace().width() - dscene()->deck()->cardWidth() ) / ( 2 * spread().width() * dscene()->deck()->cardWidth() ), 1.0 );
 
     QPointF cardPos = pos();
     int z = zValue();
@@ -80,7 +80,7 @@ void KlondikePile::layoutCards( int duration )
         else
         {
             m_cards[i]->animate( cardPos, z, 1, 0, m_cards[i]->realFace(), false, dscene()->speedUpTime( duration ) );
-            cardPos.rx() += divx * spread().width() * dscene()->cardDeck()->cardWidth();
+            cardPos.rx() += divx * spread().width() * dscene()->deck()->cardWidth();
         }
     }
 }
@@ -92,7 +92,7 @@ Klondike::Klondike()
     const qreal hspacing = 1.0 / 6 + 0.02; // horizontal spacing between card piles
     const qreal vspacing = 1.0 / 4; // vertical spacing between card piles
 
-    deck = new CardDeck();
+    setDeck( new CardDeck() );
 
     talon = new Pile( 0, "talon" );
     connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
@@ -150,7 +150,7 @@ Card *Klondike::newCards()
     if ( talon->isEmpty() && pile->cardsLeft() <= 1 )
         return 0;
 
-    if ( deck->hasAnimatedCards() )
+    if ( deck()->hasAnimatedCards() )
     {
         if ( pile->top() )
             return pile->top();
@@ -206,8 +206,8 @@ Card *Klondike::newCards()
 
 void Klondike::restart()
 {
-    deck->returnAllCards();
-    deck->shuffle( gameNumber() );
+    deck()->returnAllCards();
+    deck()->shuffle( gameNumber() );
     redealt = false;
     deal();
 }
@@ -269,9 +269,9 @@ void Klondike::setEasy( bool _EasyRules )
 void Klondike::deal() {
     for(int round=0; round < 7; round++)
         for (int i = round; i < 7; i++ )
-            addCardForDeal( play[i], deck->takeCard(), (i == round), talon->pos());
+            addCardForDeal( play[i], deck()->takeCard(), (i == round), talon->pos());
 
-    deck->takeAllCards(talon);
+    deck()->takeAllCards(talon);
 
     startDealAnimation();
 }

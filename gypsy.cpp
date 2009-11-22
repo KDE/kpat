@@ -47,7 +47,7 @@ Gypsy::Gypsy( )
     const qreal dist_x = 1.11;
     const qreal dist_y = 1.11;
 
-    deck = new CardDeck(2);
+    setDeck(new CardDeck(2));
 
     talon = new Pile(0, "talon");
     talon->setPilePos(8.5 * dist_x + 0.4, 4 * dist_y);
@@ -75,8 +75,8 @@ Gypsy::Gypsy( )
 }
 
 void Gypsy::restart() {
-    deck->returnAllCards();
-    deck->shuffle( gameNumber() );
+    deck()->returnAllCards();
+    deck()->shuffle( gameNumber() );
     deal();
     emit newCardsPossible(true);
 }
@@ -88,15 +88,15 @@ void Gypsy::dealRow(bool faceup) {
 
 void Gypsy::deal() {
     for (int round=0; round < 8; round++)
-        addCardForDeal(store[round], deck->takeCard(), false, store[round]->pos() + QPointF(sceneRect().right(),0));
+        addCardForDeal(store[round], deck()->takeCard(), false, store[round]->pos() + QPointF(sceneRect().right(),0));
 
     for (int round=0; round < 8; round++)
-        addCardForDeal(store[round], deck->takeCard(), true, store[round]->pos() + QPointF(sceneRect().right(),1.11*deck->cardHeight()));
+        addCardForDeal(store[round], deck()->takeCard(), true, store[round]->pos() + QPointF(sceneRect().right(),1.11*deck()->cardHeight()));
 
     for (int round=0; round < 8; round++)
-        addCardForDeal(store[round], deck->takeCard(), true, store[round]->pos() + QPointF(sceneRect().right(),2.22*deck->cardHeight()));
+        addCardForDeal(store[round], deck()->takeCard(), true, store[round]->pos() + QPointF(sceneRect().right(),2.22*deck()->cardHeight()));
 
-    deck->takeAllCards(talon);
+    deck()->takeAllCards(talon);
 
     startDealAnimation();
 }
@@ -106,7 +106,7 @@ Card *Gypsy::newCards()
     if (talon->isEmpty())
         return 0;
 
-    if (deck->hasAnimatedCards())
+    if (deck()->hasAnimatedCards())
         for (int i = 0; i < 8; ++i)
             if (store[i]->top())
                 return store[i]->top();

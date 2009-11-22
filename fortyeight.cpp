@@ -50,7 +50,7 @@ Fortyeight::Fortyeight( )
     const qreal dist_x = 1.11;
     const qreal smallNeg = -1e-6;
 
-    deck = new CardDeck(2);
+    setDeck(new CardDeck(2));
 
     talon = new Pile(0, "talon");
     talon->setPilePos(smallNeg, smallNeg);
@@ -91,8 +91,8 @@ Fortyeight::Fortyeight( )
 void Fortyeight::restart()
 {
     lastdeal = false;
-    deck->returnAllCards();
-    deck->shuffle( gameNumber() );
+    deck()->returnAllCards();
+    deck()->shuffle( gameNumber() );
     deal();
     emit newCardsPossible( true );
 }
@@ -110,7 +110,7 @@ Card *Fortyeight::newCards()
     if (talon->isEmpty() && lastdeal)
         return 0;
 
-    if (pile->top() && deck->hasAnimatedCards())
+    if (pile->top() && deck()->hasAnimatedCards())
         return pile->top();
 
     if (talon->isEmpty())
@@ -152,12 +152,12 @@ void Fortyeight::deal()
     {
         for (int column = 0; column < 8; column++)
         {
-            QPointF initPos = stack[column]->pos() - QPointF( 0, 2 * deck->cardHeight() );
-            addCardForDeal( stack[column], deck->takeCard(), true, initPos );
+            QPointF initPos = stack[column]->pos() - QPointF( 0, 2 * deck()->cardHeight() );
+            addCardForDeal( stack[column], deck()->takeCard(), true, initPos );
         }
     }
 
-    deck->takeAllCards(talon);
+    deck()->takeAllCards(talon);
 
     startDealAnimation();
 

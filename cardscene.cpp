@@ -37,3 +37,34 @@
 
 #include "cardscene.h"
 
+#include "carddeck.h"
+
+
+CardScene::CardScene( QObject * parent )
+  : PatienceGraphicsScene( parent ),
+    m_deck( 0 )
+{
+}
+
+
+CardScene::~CardScene()
+{
+    delete m_deck;
+}
+
+
+void CardScene::setDeck( CardDeck * deck )
+{
+    delete m_deck;
+    m_deck = deck;
+}
+
+
+CardDeck * CardScene::deck() const
+{
+    return m_deck;
+}
+
+
+
+

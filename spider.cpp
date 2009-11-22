@@ -188,9 +188,9 @@ void Spider::setSuits(int suits)
         stopDemo();
         setMarkedItems();
 
-        int cardWidth = deck->cardWidth();
+        int cardWidth = deck()->cardWidth();
         setupDeck();
-        deck->setCardWidth( cardWidth );
+        deck()->setCardWidth( cardWidth );
 
         KConfigGroup cg(KGlobal::config(), settings_group );
         cg.writeEntry( "SpiderSuits", m_suits);
@@ -208,26 +208,23 @@ void Spider::setSuits(int suits)
 
 void Spider::setupDeck()
 {
-    delete deck;
-    deck = 0;
+    // Delete the existing CardDeck.
+    setDeck( 0 );
 
     // These look a bit weird, but are needed to keep the game numbering
     // from breaking. The original logic always created groupings of 4
     // suits, while the new logic is more flexible. We maintain the card
     // ordering by always passing a list of 4 suits even if we really only
     // have one or two.
+    QList<Card::Suit> suits;
     if ( m_suits == 1 )
-        deck = new CardDeck( 2, QList<Card::Suit>() << Card::Spades
-                                                    << Card::Spades
-                                                    << Card::Spades
-                                                    << Card::Spades );
+        suits << Card::Spades << Card::Spades << Card::Spades << Card::Spades;
     else if ( m_suits == 2 )
-        deck = new CardDeck( 2, QList<Card::Suit>() << Card::Hearts
-                                                    << Card::Spades
-                                                    << Card::Hearts
-                                                    << Card::Spades );
+        suits << Card::Hearts << Card::Spades << Card::Hearts << Card::Spades;
     else
-        deck = new CardDeck( 2 );
+        suits << Card::Clubs << Card::Diamonds << Card::Hearts << Card::Spades;
+
+    setDeck( new CardDeck( 2, suits ) );
 }
 
 
@@ -312,8 +309,8 @@ void Spider::setGameOptions(const QString& options)
 
 void Spider::restart()
 {
-    deck->returnAllCards();
-    deck->shuffle( gameNumber() );
+    deck()->returnAllCards();
+    deck()->shuffle( gameNumber() );
     deal();
     emit newCardsPossible(true);
 }
@@ -384,8 +381,8 @@ bool Spider::checkPileDeck(Pile *check, bool checkForDemo)
 QPointF Spider::randomPos()
 {
     QRectF rect = sceneRect();
-    qreal x = rect.left() + qreal(KRandom::random()) / RAND_MAX * (rect.width() - deck->cardWidth());
-    qreal y = rect.top() + qreal(KRandom::random()) / RAND_MAX * (rect.height() - deck->cardHeight());
+    qreal x = rect.left() + qreal(KRandom::random()) / RAND_MAX * (rect.width() - deck()->cardWidth());
+    qreal y = rect.top() + qreal(KRandom::random()) / RAND_MAX * (rect.height() - deck()->cardHeight());
     return QPointF( x, y );
 }
 
@@ -410,18 +407,18 @@ void Spider::deal()
     int column = 0;
     // deal face down cards (5 to first 4 piles, 4 to last 6)
     for (int i = 0; i < 44; i++ ) {
-        addCardForDeal( stack[column], deck->takeCard(), false, randomPos() );
+        addCardForDeal( stack[column], deck()->takeCard(), false, randomPos() );
         column = (column + 1) % 10;
     }
     // deal face up cards, one to each pile
     for (int i = 0; i < 10; i++ ) {
-        addCardForDeal( stack[column], deck->takeCard(), true, randomPos());
+        addCardForDeal( stack[column], deck()->takeCard(), true, randomPos());
         column = (column + 1) % 10;
     }
     // deal the remaining cards into 5 'redeal' piles
     for (int column = 0; column < 5; column++ )
         for (int i = 0; i < 10; i++ )
-            addCardForDeal( redeals[column], deck->takeCard(), false, randomPos());
+            addCardForDeal( redeals[column], deck()->takeCard(), false, randomPos());
 
     startDealAnimation();
 }
@@ -440,7 +437,7 @@ Card *Spider::newCards()
     if (m_redeal > 4)
         return 0;
 
-    if (deck->hasAnimatedCards())
+    if (deck()->hasAnimatedCards())
         for (int i = 0; i < 10; ++i)
             if (stack[i]->top())
                 return stack[i]->top();

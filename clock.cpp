@@ -45,7 +45,7 @@
 Clock::Clock( )
     : DealerScene( )
 {
-    deck = new CardDeck();
+    setDeck(new CardDeck());
 
     const qreal dist_x = 1.11;
     const qreal ys[12] = {   0./96,  15./96,  52./96, 158./96, 264./96, 301./96, 316./96, 301./96, 264./96, 158./96,  52./96,  15./96};
@@ -75,8 +75,8 @@ Clock::Clock( )
 
 void Clock::restart()
 {
-    deck->returnAllCards();
-    deck->shuffle( gameNumber() );
+    deck()->returnAllCards();
+    deck()->shuffle( gameNumber() );
     deal();
 }
 
@@ -108,8 +108,8 @@ void Clock::deal() {
     const QPointF center = ( target[0]->pos() + target[6]->pos() ) / 2;
 
     int j = 0;
-    while (deck->hasUndealtCards()) {
-        Card *c = deck->takeCard();
+    while (deck()->hasUndealtCards()) {
+        Card *c = deck()->takeCard();
         for (int i = 0; i < 12; i++)
             if (c->rank() == ranks[i] && c->suit() == suits[i]) {
                 QPointF initPos = (2 * center + target[(i + 2) % 12]->pos()) / 3;

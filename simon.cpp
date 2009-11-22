@@ -46,7 +46,7 @@
 Simon::Simon( )
     : DealerScene( )
 {
-    deck = new CardDeck();
+    setDeck(new CardDeck());
 
     const qreal dist_x = 1.11;
 
@@ -76,8 +76,8 @@ Simon::Simon( )
 }
 
 void Simon::restart() {
-    deck->returnAllCards();
-    deck->shuffle( gameNumber() );
+    deck()->returnAllCards();
+    deck()->shuffle( gameNumber() );
     deal();
 }
 
@@ -85,12 +85,12 @@ void Simon::deal() {
     for ( int piles = 9; piles >= 3; piles-- )
     {
         for (int j = 0; j < piles; j++)
-            addCardForDeal(store[j], deck->takeCard(), true, QPointF(0,-deck->cardHeight()));
+            addCardForDeal(store[j], deck()->takeCard(), true, QPointF(0,-deck()->cardHeight()));
     }
     for ( int j = 0; j < 10; j++ )
-        addCardForDeal(store[j], deck->takeCard(), true, QPointF(0,-deck->cardHeight()));
+        addCardForDeal(store[j], deck()->takeCard(), true, QPointF(0,-deck()->cardHeight()));
 
-    Q_ASSERT(!deck->hasUndealtCards());
+    Q_ASSERT(!deck()->hasUndealtCards());
 
     startDealAnimation();
 }

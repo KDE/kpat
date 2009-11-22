@@ -39,10 +39,19 @@
 #ifndef CARDSCENE_H
 #define CARDSCENE_H
 
+class CardDeck;
 #include "view.h"
 
 class CardScene : public PatienceGraphicsScene
 {
+public:
+    CardScene( QObject * parent = 0 );
+    ~CardScene();
+
+    void setDeck( CardDeck * deck );
+    CardDeck * deck() const;
+private:
+    CardDeck * m_deck;
 };
 
 #endif // CARDSCENE_H
