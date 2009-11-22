@@ -53,19 +53,22 @@ public:
     CardScene( QObject * parent = 0 );
     ~CardScene();
 
+    void setDeck( CardDeck * deck );
     CardDeck * deck() const;
+
     QList<Card*> cardsBeingDragged() const;
 
     virtual void resizeScene( const QSize & size );
     virtual void relayoutScene();
+    virtual void relayoutPiles();
 
-protected:
-    void setDeck( CardDeck * deck );
 
     virtual void addPile( Pile * pile );
     virtual void removePile( Pile * pile );
     QList<Pile*> piles() const;
-    virtual void relayoutPiles();
+
+    virtual bool checkAdd( int checkIndex, const Pile * pile, const QList<Card*> & cards ) const;
+    virtual bool checkRemove( int checkIndex, const Pile * pile, const Card * card ) const;
 
     void setLayoutMargin( qreal margin );
     qreal layoutMargin() const;
@@ -76,6 +79,7 @@ protected:
     void clearHighlightedItems();
     QList<HighlightableItem*> highlightedItems() const;
 
+protected:
     virtual void onGameStateAlteredByUser();
 
     virtual Pile * targetPile();

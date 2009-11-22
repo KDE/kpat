@@ -1455,14 +1455,6 @@ bool DealerScene::isGameLost() const
     return false;
 }
 
-bool DealerScene::checkRemove( int, const Pile *, const Card *) const {
-    return true;
-}
-
-bool DealerScene::checkAdd( int, const Pile *, const CardList&) const {
-    return true;
-}
-
 void DealerScene::recordGameStatistics()
 {
     // Don't record the game if it was never started, if it is unchanged since
