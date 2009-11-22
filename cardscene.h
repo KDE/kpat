@@ -75,6 +75,9 @@ public:
     void clearHighlightedItems();
     QList<HighlightableItem*> highlightedItems() const;
 
+protected:
+    virtual void drawForeground ( QPainter * painter, const QRectF & rect );
+
 private:
     CardDeck * m_deck;
     QList<Pile*> m_piles;

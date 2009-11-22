@@ -159,8 +159,6 @@ protected:
     virtual bool pileClicked(Pile *);
     virtual bool cardDblClicked(Card *);
 
-    virtual void drawForeground ( QPainter * painter, const QRectF & rect );
-
     State *getState();
     void setState(State *);
     void eraseRedo();
