@@ -39,7 +39,6 @@
 #define VIEW_H
 
 #include <QtGui/QGraphicsView>
-class QWheelEvent;
 
 
 class PatienceGraphicsScene : public QGraphicsScene
@@ -63,7 +62,6 @@ public:
     void setScene( QGraphicsScene *scene );
 
 protected:
-    virtual void wheelEvent( QWheelEvent *e );
     virtual void resizeEvent( QResizeEvent *e );
     virtual void drawBackground( QPainter *painter, const QRectF & rect);
 };

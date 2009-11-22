@@ -40,6 +40,10 @@
 #include "carddeck.h"
 #include "pile.h"
 
+#include <QtGui/QGraphicsSceneWheelEvent>
+
+#include <cmath>
+
 
 #define DEBUG_LAYOUT 0
 
@@ -320,6 +324,18 @@ void CardScene::clearHighlightedItems()
 QList< HighlightableItem* > CardScene::highlightedItems() const
 {
     return m_highlightedItems.toList();
+}
+
+
+void CardScene::wheelEvent( QGraphicsSceneWheelEvent * e )
+{
+    if ( e->modifiers() & Qt::ControlModifier )
+    {
+        qreal scaleFactor = pow( 2, e->delta() / qreal(10 * 120) );
+        int newWidth = deck()->cardWidth() * scaleFactor;
+        deck()->setCardWidth( newWidth );
+        relayoutPiles();
+    }
 }
 
 

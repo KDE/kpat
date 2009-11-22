@@ -42,12 +42,8 @@
 #include "carddeck.h"
 #include "render.h"
 
-#include <cmath>
-
 #include <QtGui/QResizeEvent>
-#include <QtGui/QWheelEvent>
 
-#include <kdebug.h>
 
 // ================================================================
 //                        class PatienceView
@@ -81,22 +77,6 @@ void PatienceView::setScene( QGraphicsScene * scene )
     PatienceGraphicsScene * pScene = dynamic_cast<PatienceGraphicsScene*>( scene );
     if ( pScene )
         pScene->resizeScene( size() );
-}
-
-
-void PatienceView::wheelEvent( QWheelEvent *e )
-{
-    if ( e->modifiers() & Qt::ControlModifier )
-    {
-        DealerScene * dealer = dynamic_cast<DealerScene*>( scene() );
-        if (dealer)
-        {
-            qreal scaleFactor = pow( 2.0, -e->delta() / (10 * 120.0) );
-            int newWidth = dealer->deck()->cardWidth() / scaleFactor;
-            dealer->deck()->setCardWidth( newWidth );
-            dealer->relayoutPiles();
-        }
-    }
 }
 
 

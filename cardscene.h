@@ -56,7 +56,6 @@ public:
 
     virtual void resizeScene( const QSize & size );
     virtual void relayoutScene();
-    virtual void relayoutPiles();
     QSizeF contentSize() const;
 
 protected:
@@ -65,6 +64,7 @@ protected:
     virtual void addPile( Pile * pile );
     virtual void removePile( Pile * pile );
     QList<Pile*> piles() const;
+    virtual void relayoutPiles();
 
     void setLayoutMargin( qreal margin );
     qreal layoutMargin() const;
@@ -74,6 +74,8 @@ protected:
     void setHighlightedItems( QList<HighlightableItem*> items );
     void clearHighlightedItems();
     QList<HighlightableItem*> highlightedItems() const;
+
+    virtual void wheelEvent( QGraphicsSceneWheelEvent * e );
 
     virtual void drawForeground ( QPainter * painter, const QRectF & rect );
 
