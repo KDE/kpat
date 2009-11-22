@@ -37,9 +37,8 @@
 
 #include "view.h"
 
-#include "dealer.h"
+#include "cardscene.h"
 #include "gameselectionscene.h"
-#include "carddeck.h"
 #include "render.h"
 
 #include <QtGui/QResizeEvent>
@@ -49,19 +48,14 @@
 //                        class PatienceView
 
 
-PatienceView::PatienceView( QWidget* _parent )
-  : QGraphicsView( _parent )
+PatienceView::PatienceView( QWidget * parent )
+  : QGraphicsView( parent )
 {
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setFrameStyle(QFrame::NoFrame);
+    setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+    setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+    setFrameStyle( QFrame::NoFrame );
     setAlignment( Qt::AlignLeft | Qt::AlignTop );
-    setCacheMode(QGraphicsView::CacheBackground);
-
-#ifndef QT_NO_OPENGL
-    //QGLWidget *wgl = new QGLWidget();
-    //setupViewport(wgl);
-#endif
+    setCacheMode( QGraphicsView::CacheBackground );
 }
 
 
@@ -73,20 +67,14 @@ PatienceView::~PatienceView()
 void PatienceView::setScene( QGraphicsScene * scene )
 {
     QGraphicsView::setScene( scene );
-
-    PatienceGraphicsScene * pScene = dynamic_cast<PatienceGraphicsScene*>( scene );
-    if ( pScene )
-        pScene->resizeScene( size() );
+    updateSceneSize();
 }
 
 
-void PatienceView::resizeEvent( QResizeEvent *e )
+void PatienceView::resizeEvent( QResizeEvent * e )
 {
-    QGraphicsView::resizeEvent(e);
-
-    PatienceGraphicsScene * pScene = dynamic_cast<PatienceGraphicsScene*>( scene() );
-    if ( pScene )
-        pScene->resizeScene( size() );
+    QGraphicsView::resizeEvent( e );
+    updateSceneSize();
 }
 
 
@@ -95,5 +83,22 @@ void PatienceView::drawBackground( QPainter * painter, const QRectF & rect)
     Q_UNUSED( rect );
     painter->drawPixmap( sceneRect().topLeft(), Render::renderElement( "background", sceneRect().size().toSize() ) );
 }
+
+
+void PatienceView::updateSceneSize()
+{
+    CardScene * cs = dynamic_cast<CardScene*>( scene() );
+    if ( cs )
+    {
+        cs->resizeScene( size() );
+    }
+    else
+    {
+        GameSelectionScene * gss = dynamic_cast<GameSelectionScene*>( scene() );
+        if ( gss )
+            gss->resizeScene( size() );
+    }
+}
+
 
 #include "view.moc"

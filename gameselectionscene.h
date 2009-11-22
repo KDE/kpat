@@ -19,12 +19,11 @@
 #ifndef GAMESELECTIONSCENE_H
 #define GAMESELECTIONSCENE_H
 
-#include "view.h"
-
 #include <QtCore/QSignalMapper>
+#include <QtGui/QGraphicsScene>
 
 
-class GameSelectionScene : public PatienceGraphicsScene
+class GameSelectionScene : public QGraphicsScene
 {
     Q_OBJECT
 

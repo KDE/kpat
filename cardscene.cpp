@@ -48,7 +48,7 @@
 #define DEBUG_LAYOUT 0
 
 CardScene::CardScene( QObject * parent )
-  : PatienceGraphicsScene( parent ),
+  : QGraphicsScene( parent ),
     m_deck( 0 ),
     m_piles(),
     m_layoutMargin( 0.15 ),

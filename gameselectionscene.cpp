@@ -170,7 +170,7 @@ private:
 
 
 GameSelectionScene::GameSelectionScene( QObject * parent )
-    : PatienceGraphicsScene( parent )
+    : QGraphicsScene( parent )
 {
     foreach (const DealerInfo * i, DealerInfoList::self()->games())
     {

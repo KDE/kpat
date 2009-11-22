@@ -42,11 +42,11 @@
 class CardDeck;
 class HighlightableItem;
 class Pile;
-#include "view.h"
 
 #include <QtCore/QSet>
+#include <QtGui/QGraphicsScene>
 
-class CardScene : public PatienceGraphicsScene
+class CardScene : public QGraphicsScene
 {
 public:
     CardScene( QObject * parent = 0 );

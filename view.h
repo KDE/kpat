@@ -41,16 +41,6 @@
 #include <QtGui/QGraphicsView>
 
 
-class PatienceGraphicsScene : public QGraphicsScene
-{
-public:
-    PatienceGraphicsScene( QObject * parent = 0 )
-      : QGraphicsScene( parent )
-    {}
-    virtual void resizeScene( const QSize & size ) = 0;
-};
-
-
 class PatienceView: public QGraphicsView
 {
     Q_OBJECT
@@ -64,6 +54,9 @@ public:
 protected:
     virtual void resizeEvent( QResizeEvent *e );
     virtual void drawBackground( QPainter *painter, const QRectF & rect);
+
+private:
+    void updateSceneSize();
 };
 
 #endif
