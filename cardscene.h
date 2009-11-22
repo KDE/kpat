@@ -40,6 +40,7 @@
 #define CARDSCENE_H
 
 class CardDeck;
+class Pile;
 #include "view.h"
 
 class CardScene : public PatienceGraphicsScene
@@ -50,8 +51,14 @@ public:
 
     void setDeck( CardDeck * deck );
     CardDeck * deck() const;
+
+    virtual void addPile( Pile * pile );
+    virtual void removePile( Pile * pile );
+    QList<Pile*> piles() const;
+
 private:
     CardDeck * m_deck;
+    QList<Pile*> m_piles;
 };
 
 #endif // CARDSCENE_H

@@ -38,6 +38,7 @@
 #include "cardscene.h"
 
 #include "carddeck.h"
+#include "pile.h"
 
 
 CardScene::CardScene( QObject * parent )
@@ -50,6 +51,15 @@ CardScene::CardScene( QObject * parent )
 CardScene::~CardScene()
 {
     delete m_deck;
+
+    foreach ( Pile * p, m_piles )
+    {
+        removePile( p );
+        delete p;
+    }
+    m_piles.clear();
+
+    Q_ASSERT( items().isEmpty() );
 }
 
 
@@ -64,6 +74,36 @@ CardDeck * CardScene::deck() const
 {
     return m_deck;
 }
+
+
+void CardScene::addPile( Pile * pile )
+{
+    if ( pile->dscene() )
+        pile->dscene()->removePile( pile );
+
+    addItem( pile );
+    foreach ( Card * c, pile->cards() )
+        addItem( c );
+    m_piles.append( pile );
+}
+
+
+void CardScene::removePile( Pile * pile )
+{
+    foreach ( Card * c, pile->cards() )
+        removeItem( c );
+    removeItem( pile );
+    m_piles.removeAll( pile );
+}
+
+
+QList<Pile*> CardScene::piles() const
+{
+    return m_piles;
+}
+
+
+
 
 
 

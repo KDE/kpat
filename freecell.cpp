@@ -353,9 +353,8 @@ void Freecell::getHints()
     if ( demoActive() )
         return;
 
-    for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
+    foreach ( Pile *store, piles() )
     {
-        Pile *store = *it;
         if (store->isEmpty())
             continue;
 
@@ -366,9 +365,8 @@ void Freecell::getHints()
         while (iti != cards.end())
         {
             if (store->legalRemove(*iti)) {
-                for (PileList::Iterator pit = piles.begin(); pit != piles.end(); ++pit)
+                foreach (Pile *dest, piles())
                 {
-                    Pile *dest = *pit;
                     if (dest == store)
                         continue;
                     if (store->indexOf(*iti) == 0 && dest->isEmpty() && !dest->target())

@@ -381,7 +381,7 @@ void DealerScene::openGame(QDomDocument &doc)
 
     deck()->returnAllCards();
 
-    foreach (Pile *p, piles)
+    foreach (Pile *p, piles())
     {
         p->clear();
         for (int i = 0; i < pileNodes.count(); ++i)
@@ -535,13 +535,6 @@ DealerScene::~DealerScene()
 
     clearHints();
 
-    foreach ( Pile *p, piles )
-    {
-        removePile( p );
-        delete p;
-    }
-    piles.clear();
-
     disconnect();
     if ( d->m_solver_thread )
         d->m_solver_thread->finish();
@@ -554,8 +547,6 @@ DealerScene::~DealerScene()
     delete d->wonItem;
 
     delete d;
-
-    Q_ASSERT( items().isEmpty() );
 }
 
 
@@ -652,13 +643,9 @@ void DealerScene::getHints()
         return;
     }
 
-    for (PileList::Iterator it = piles.begin(); it != piles.end(); ++it)
+    foreach (Pile *store, piles())
     {
-        if ((*it)->target())
-            continue;
-
-        Pile *store = *it;
-        if (store->isEmpty())
+        if (store->target() || store->isEmpty())
             continue;
 
         CardList cards = store->cards();
@@ -668,9 +655,8 @@ void DealerScene::getHints()
         while (iti != cards.end())
         {
             if (store->legalRemove(*iti)) {
-                for (PileList::Iterator pit = piles.begin(); pit != piles.end(); ++pit)
+                foreach (Pile *dest, piles())
                 {
-                    Pile *dest = *pit;
                     if (dest == store)
                         continue;
                     if (store->indexOf(*iti) == 0 && dest->isEmpty() && !dest->target())
@@ -1124,7 +1110,7 @@ void DealerScene::setState(State *st)
     kDebug() << gettime() << "setState\n";
     CardStateList * n = &st->cards;
 
-    foreach (Pile *p, piles)
+    foreach (Pile *p, piles())
     {
         foreach (Card *c, p->cards())
             c->setTakenDown(p->target());
@@ -1141,7 +1127,7 @@ void DealerScene::setState(State *st)
         c->setTakenDown(s.tookdown || (target && !s.source->target()));
     }
 
-    foreach (Pile *p, piles)
+    foreach (Pile *p, piles())
         p->layoutCards(0);
 
     // restore game-specific information
@@ -1155,14 +1141,12 @@ Pile *DealerScene::findTarget(Card *c)
     if (!c)
         return 0;
 
-    CardList empty;
-    empty.append(c);
-    for (PileList::ConstIterator it = piles.constBegin(); it != piles.constEnd(); ++it)
+    foreach (Pile *p, piles())
     {
-        if (!(*it)->target())
+        if (!p->target())
             continue;
-        if ((*it)->legalAdd(empty))
-            return *it;
+        if (p->legalAdd(CardList() << c))
+            return p;
     }
     return 0;
 }
@@ -1359,27 +1343,6 @@ void DealerScene::setGameNumber(int gmn)
     d->redoList.clear();
 }
 
-void DealerScene::addPile(Pile *p)
-{
-    if ( p->dscene() )
-    {
-        // might be this
-        p->dscene()->removePile( p );
-    }
-    addItem(p);
-    foreach (Card *c, p->cards())
-        addItem(c);
-    piles.append(p);
-}
-
-void DealerScene::removePile(Pile *p)
-{
-    foreach (Card *c, p->cards())
-        removeItem(c);
-    removeItem(p);
-    piles.removeAll(p);
-}
-
 void DealerScene::stopDemo()
 {
     if (deck()->hasAnimatedCards()) {
@@ -1431,7 +1394,7 @@ void DealerScene::won()
 
     recordGameStatistics();
 
-    foreach ( Pile *p, piles )
+    foreach ( Pile *p, piles() )
         p->relayoutCards();
 
     QList<CardPtr> cards;
@@ -1614,9 +1577,9 @@ void DealerScene::setSolver( Solver *s) {
 
 bool DealerScene::isGameWon() const
 {
-    for (PileList::ConstIterator it = piles.constBegin(); it != piles.constEnd(); ++it)
+    foreach (Pile *p, piles())
     {
-        if (!(*it)->target() && !(*it)->isEmpty())
+        if (!p->target() && !p->isEmpty())
             return false;
     }
     return true;
@@ -1736,7 +1699,7 @@ void DealerScene::relayoutScene()
         return;
 
     QSizeF usedArea( 0, 0 );
-    foreach ( const Pile *p, piles )
+    foreach ( const Pile *p, piles() )
     {
         QSizeF neededPileArea;
         if ( ( p->pilePos().x() >= 0.0 && p->reservedSpace().width() >= 0.0 )
@@ -1787,7 +1750,7 @@ void DealerScene::relayoutPiles()
     int cardHeight = deck()->cardHeight();
     const qreal spacing = d->layoutSpacing * ( cardWidth + cardHeight ) / 2.0;
 
-    foreach ( Pile *p, piles )
+    foreach ( Pile *p, piles() )
     {
         p->rescale();
 
@@ -1806,7 +1769,7 @@ void DealerScene::relayoutPiles()
         p->setMaximumSpace( maxSpace );
     }
 
-    foreach ( Pile *p1, piles )
+    foreach ( Pile *p1, piles() )
     {
         if ( !p1->isVisible() || p1->reservedSpace() == QSizeF( 1, 1 ) )
             continue;
@@ -1817,7 +1780,7 @@ void DealerScene::relayoutPiles()
         if ( p1->reservedSpace().height() < 0 )
             p1Space.moveBottom( p1->y() + cardHeight );
 
-        foreach ( Pile *p2, piles )
+        foreach ( Pile *p2, piles() )
         {
             if ( p2 == p1 || !p2->isVisible() )
                 continue;
@@ -1877,7 +1840,7 @@ void DealerScene::relayoutPiles()
         p1->setMaximumSpace( p1Space.size() );
     }
 
-    foreach ( Pile *p, piles )
+    foreach ( Pile *p, piles() )
         p->layoutCards( 0 );
 }
 
@@ -2041,7 +2004,7 @@ void DealerScene::addCardForDeal(Pile * pile, Card * card, bool faceUp, QPointF 
 
 void DealerScene::startDealAnimation()
 {
-    foreach ( Pile * p, piles )
+    foreach ( Pile * p, piles() )
     {
         p->layoutCards(0);
         foreach ( Card * c, p->cards() )

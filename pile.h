@@ -38,7 +38,7 @@
 #define PILE_H
 
 #include "card.h"
-class DealerScene;
+#include "dealer.h"
 #include "speeds.h"
 
 #include <QtGui/QGraphicsPixmapItem>

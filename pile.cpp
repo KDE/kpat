@@ -36,7 +36,6 @@
 
 #include "pile.h"
 
-#include "dealer.h"
 #include "carddeck.h"
 #include "render.h"
 

@@ -77,9 +77,6 @@ public:
     void resizeScene( const QSize & size );
     QRectF contentArea() const;
 
-    void addPile(Pile *p);
-    void removePile(Pile *p);
-
     void setLayoutMargin( qreal margin );
     qreal layoutMargin() const;
 
@@ -209,7 +206,6 @@ protected:
     void addCardForDeal( Pile * pile, Card * card, bool faceUp, QPointF startPos );
     void startDealAnimation();
 
-    PileList piles;
     QList<MoveHint*> hints;
 
 protected slots:
