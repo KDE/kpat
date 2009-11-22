@@ -216,6 +216,7 @@ public:
 
     bool initialDeal;
     bool m_autoDropOnce;
+    QList<MoveHint*> hints;
     QList<State*> redoList;
     QList<State*> undoList;
 };
@@ -545,6 +546,11 @@ DealerScene::~DealerScene()
 // ----------------------------------------------------------------
 
 
+QList<MoveHint*> DealerScene::hints() const
+{
+    return d->hints;
+}
+
 void DealerScene::hint()
 {
     if ( deck()->hasAnimatedCards() && d->stateTimer->isActive() ) {
@@ -585,7 +591,7 @@ void DealerScene::hint()
     }
 
     QList<HighlightableItem*> toHighlight;
-    foreach ( MoveHint * h, hints )
+    foreach ( MoveHint * h, d->hints )
         toHighlight << h->card();
     setHighlightedItems( toHighlight );
 
@@ -688,13 +694,13 @@ bool DealerScene::checkPrefering( int /*checkIndex*/, const Pile *, const CardLi
 
 void DealerScene::clearHints()
 {
-    qDeleteAll( hints );
-    hints.clear();
+    qDeleteAll( d->hints );
+    d->hints.clear();
 }
 
 void DealerScene::newHint(MoveHint *mh)
 {
-    hints.append(mh);
+    d->hints.append(mh);
 }
 
 bool DealerScene::isMoving(Card *c) const
@@ -1167,7 +1173,7 @@ bool DealerScene::startAutoDrop()
     clearHints();
     getHints();
 
-    foreach ( const MoveHint *mh, hints )
+    foreach ( const MoveHint *mh, d->hints )
     {
         if ( mh->pile() && mh->pile()->target() && mh->priority() > 120 && !mh->card()->takenDown() )
         {
@@ -1427,15 +1433,15 @@ MoveHint *DealerScene::chooseHint()
         MoveHint *mh = solver()->translateMove( m );
 
         if ( mh )
-            hints.append( mh );
+            d->hints.append( mh );
         return mh;
     }
 
-    if (hints.isEmpty())
+    if (d->hints.isEmpty())
         return 0;
 
-    qSort( hints.begin(), hints.end() );
-    return hints[0];
+    qSort( d->hints.begin(), d->hints.end() );
+    return d->hints[0];
 }
 
 void DealerScene::demo()

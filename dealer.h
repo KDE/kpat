@@ -166,6 +166,7 @@ protected:
     Pile *findTarget(Card *c);
     Pile *targetPile();
 
+    QList<MoveHint*> hints() const;
     virtual void getHints();
     void getSolverHints();
     void newHint(MoveHint *mh);
@@ -191,8 +192,6 @@ protected:
 
     void addCardForDeal( Pile * pile, Card * card, bool faceUp, QPointF startPos );
     void startDealAnimation();
-
-    QList<MoveHint*> hints;
 
 protected slots:
     virtual void demo();
