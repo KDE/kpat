@@ -52,8 +52,15 @@ public:
     CardScene( QObject * parent = 0 );
     ~CardScene();
 
-    void setDeck( CardDeck * deck );
     CardDeck * deck() const;
+
+    virtual void resizeScene( const QSize & size );
+    virtual void relayoutScene();
+    virtual void relayoutPiles();
+    QSizeF contentSize() const;
+
+protected:
+    void setDeck( CardDeck * deck );
 
     virtual void addPile( Pile * pile );
     virtual void removePile( Pile * pile );
@@ -61,21 +68,13 @@ public:
 
     void setLayoutMargin( qreal margin );
     qreal layoutMargin() const;
-
     void setLayoutSpacing( qreal spacing );
     qreal layoutSpacing() const;
-
-    QSizeF contentSize() const;
-
-    virtual void resizeScene( const QSize & size );
-    virtual void relayoutScene();
-    virtual void relayoutPiles();
 
     void setHighlightedItems( QList<HighlightableItem*> items );
     void clearHighlightedItems();
     QList<HighlightableItem*> highlightedItems() const;
 
-protected:
     virtual void drawForeground ( QPainter * painter, const QRectF & rect );
 
 private:
