@@ -165,8 +165,6 @@ protected:
     void setState(State *);
     void eraseRedo();
 
-    void setMarkedItems( QSet<MarkableItem*> s = QSet<MarkableItem*>() );
-
     Pile *findTarget(Card *c);
     Pile *targetPile();
 
@@ -214,8 +212,6 @@ protected slots:
     virtual bool startAutoDrop();
 
 private:
-    QSet<MarkableItem*> m_markedItems;
-
     bool moved;
     CardList movingCards;
 

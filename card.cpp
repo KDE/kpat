@@ -66,8 +66,7 @@ Card::Card( Rank r, Suit s, CardDeck * deck )
     m_deck( deck ),
     m_source( 0 ),
     m_animation( 0 ),
-    m_takenDown( false ),
-    m_marked( false )
+    m_takenDown( false )
 {
     Q_ASSERT( m_deck );
 
@@ -111,7 +110,7 @@ void Card::updatePixmap()
     if( m_faceup )
     {
         QPixmap pix = m_deck->frontsidePixmap( m_rank, m_suit );
-        if ( m_marked )
+        if ( isHighlighted() )
         {
             QPainter p( &pix );
             p.setCompositionMode( QPainter::CompositionMode_SourceAtop );
@@ -333,17 +332,13 @@ bool Card::takenDown() const
     return m_takenDown;
 }
 
-void Card::setMarked( bool flag ) {
-    if ( m_marked != flag )
+void Card::setHighlighted( bool flag )
+{
+    if ( flag != isHighlighted() )
     {
-        m_marked = flag;
+        HighlightableItem::setHighlighted( flag );
         updatePixmap();
     }
-}
-
-bool Card::isMarked() const
-{
-    return m_marked;
 }
 
 void Card::stopAnimation()

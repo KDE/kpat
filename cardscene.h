@@ -40,8 +40,11 @@
 #define CARDSCENE_H
 
 class CardDeck;
+class HighlightableItem;
 class Pile;
 #include "view.h"
+
+#include <QtCore/QSet>
 
 class CardScene : public PatienceGraphicsScene
 {
@@ -68,9 +71,14 @@ public:
     virtual void relayoutScene();
     virtual void relayoutPiles();
 
+    void setHighlightedItems( QList<HighlightableItem*> items );
+    void clearHighlightedItems();
+    QList<HighlightableItem*> highlightedItems() const;
+
 private:
     CardDeck * m_deck;
     QList<Pile*> m_piles;
+    QSet<HighlightableItem*> m_highlightedItems;
 
     qreal m_layoutMargin;
     qreal m_layoutSpacing;
@@ -79,4 +87,4 @@ private:
     bool m_sizeHasBeenSet;
 };
 
-#endif // CARDSCENE_H
+#endif

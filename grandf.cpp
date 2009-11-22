@@ -92,7 +92,6 @@ Card *Grandf::newCards()
             if (store[i]->top())
                 return store[i]->top();
 
-    setMarkedItems();
     collect();
     deal();
     numberOfDeals++;
@@ -156,7 +155,7 @@ void Grandf::deal() {
 
 ******************************/
 void Grandf::collect() {
-    setMarkedItems();
+    clearHighlightedItems();
 
     for (int pos = 6; pos >= 0; pos--) {
         foreach (Card *c, store[pos]->cards())

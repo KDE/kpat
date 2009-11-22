@@ -186,7 +186,7 @@ void Spider::setSuits(int suits)
         m_suits = suits;
 
         stopDemo();
-        setMarkedItems();
+        clearHighlightedItems();
 
         int cardWidth = deck()->cardWidth();
         setupDeck();
@@ -389,7 +389,7 @@ QPointF Spider::randomPos()
 
 void Spider::deal()
 {
-    setMarkedItems();
+    clearHighlightedItems();
 
     // make the redeal piles visible
     for (int i = 0; i < 5; i++ )
@@ -442,7 +442,7 @@ Card *Spider::newCards()
             if (stack[i]->top())
                 return stack[i]->top();
 
-    setMarkedItems();
+    clearHighlightedItems();
 
     redeals[m_redeal]->setVisible(false);
     relayoutPiles();

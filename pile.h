@@ -37,8 +37,9 @@
 #ifndef PILE_H
 #define PILE_H
 
-#include "card.h"
+class Card;
 #include "dealer.h"
+#include "highlightableitem.h"
 #include "speeds.h"
 
 #include <QtGui/QGraphicsPixmapItem>
@@ -50,7 +51,7 @@
 
 **************************************/
 
-class Pile : public QObject, public QGraphicsPixmapItem, public MarkableItem
+class Pile : public QObject, public QGraphicsPixmapItem, public HighlightableItem
 {
     Q_OBJECT
 
@@ -97,8 +98,7 @@ public:
     void setTarget(bool t) { _target = t; }
     bool target() const { return _target; }
 
-    virtual void setMarked( bool flag );
-    virtual bool isMarked() const;
+    virtual void setHighlighted( bool flag );
 
     void setGraphicVisible( bool flag );
     bool isGraphicVisible() { return m_graphicVisible; } ;
@@ -189,7 +189,6 @@ private:
     int myIndex;
     bool _target;
 
-    bool m_marked;
     bool m_graphicVisible;
     QPointF _pilePos;
     QSizeF m_reserved;

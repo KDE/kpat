@@ -344,7 +344,7 @@ void DealerScene::saveGame(QDomDocument &doc)
 
 void DealerScene::openGame(QDomDocument &doc)
 {
-    setMarkedItems();
+    clearHighlightedItems();
     d->wonItem->hide();
     d->gameWasEverWinnable = false;
 
@@ -420,7 +420,7 @@ void DealerScene::openGame(QDomDocument &doc)
 
 void DealerScene::undo()
 {
-    setMarkedItems();
+    clearHighlightedItems();
     stopDemo();
     kDebug() << "::undo" << d->undoList.count();
     if (d->undoList.count() > 1) {
@@ -442,7 +442,7 @@ void DealerScene::undo()
 
 void DealerScene::redo()
 {
-    setMarkedItems();
+    clearHighlightedItems();
     stopDemo();
     kDebug() << "::redo" << d->redoList.count();
     if (d->redoList.count() > 0) {
@@ -524,7 +524,7 @@ DealerScene::DealerScene()
 
 DealerScene::~DealerScene()
 {
-    setMarkedItems();
+    clearHighlightedItems();
 
     clearHints();
 
@@ -555,9 +555,9 @@ void DealerScene::hint()
 
     d->autoDropTimer->stop();
 
-    if ( !m_markedItems.isEmpty() )
+    if ( !highlightedItems().isEmpty() )
     {
-        setMarkedItems();
+        clearHighlightedItems();
         return;
     }
 
@@ -585,10 +585,10 @@ void DealerScene::hint()
         getHints();
     }
 
-    QSet<MarkableItem*> toMark;
+    QList<HighlightableItem*> toHighlight;
     foreach ( MoveHint * h, hints )
-        toMark << h->card();
-    setMarkedItems( toMark );
+        toHighlight << h->card();
+    setHighlightedItems( toHighlight );
 
     clearHints();
 }
@@ -703,15 +703,6 @@ bool DealerScene::isMoving(Card *c) const
     return movingCards.indexOf(c) != -1;
 }
 
-void DealerScene::setMarkedItems( QSet<MarkableItem*> s )
-{
-    foreach ( MarkableItem * i, m_markedItems.subtract( s ) )
-        i->setMarked( false );
-    foreach ( MarkableItem * i, s )
-        i->setMarked( true );
-    m_markedItems = s;
-}
-
 void DealerScene::startNew(int gameNumber)
 {
     if (gameNumber != -1)
@@ -746,7 +737,7 @@ void DealerScene::startNew(int gameNumber)
     d->loadedMoveCount = 0;
 
     stopDemo();
-    setMarkedItems();
+    clearHighlightedItems();
 
     foreach (Card * c, deck()->cards())
     {
@@ -877,7 +868,7 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
     if ( deck()->hasAnimatedCards() )
         return;
 
-    setMarkedItems();
+    clearHighlightedItems();
     stopDemo();
 
     QGraphicsScene::mousePressEvent( e );
@@ -935,18 +926,18 @@ void DealerScene::mouseMoveEvent(QGraphicsSceneMouseEvent* e)
             card->setPos( card->pos() + e->scenePos() - moving_start );
         moving_start = e->scenePos();
 
-        QSet<MarkableItem*> toMark;
+        QList<HighlightableItem*> toHighlight;
 
         Pile * dropPile = targetPile();
         if (dropPile) {
             if (dropPile->isEmpty()) {
-                toMark << dropPile;
+                toHighlight << dropPile;
             } else {
-                toMark << dropPile->top();
+                toHighlight << dropPile->top();
             }
         }
 
-        setMarkedItems( toMark );
+        setHighlightedItems( toHighlight );
     }
 }
 
@@ -990,7 +981,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
         if (movingCards.isEmpty())
             return;
 
-        setMarkedItems();
+        clearHighlightedItems();
 
         Pile * destination = targetPile();
         if (destination) {
@@ -1026,7 +1017,7 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
     if (deck()->hasAnimatedCards())
         return;
 
-    setMarkedItems();
+    clearHighlightedItems();
 
     if (!movingCards.isEmpty()) {
         movingCards.first()->source()->moveCardsBack(movingCards);
@@ -1173,7 +1164,7 @@ bool DealerScene::startAutoDrop()
 
     kDebug() << gettime() << "startAutoDrop \n";
 
-    setMarkedItems();
+    clearHighlightedItems();
     clearHints();
     getHints();
 
@@ -1461,7 +1452,7 @@ void DealerScene::demo()
     d->demo_active = true;
     d->gothelp = true;
     considerGameStarted();
-    setMarkedItems();
+    clearHighlightedItems();
     clearHints();
     getHints();
     d->demotimer->stop();

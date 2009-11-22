@@ -192,7 +192,7 @@ void Mod3::dealRow(int row)
 
 void Mod3::deal()
 {
-    setMarkedItems();
+    clearHighlightedItems();
 
     deck()->takeAllCards(talon);
 
@@ -210,7 +210,8 @@ Card *Mod3::newCards()
             if (stack[3][i]->top())
                 return stack[3][i]->top();
 
-    setMarkedItems();
+    clearHighlightedItems();
+
     dealRow(3);
     takeState();
     considerGameStarted();

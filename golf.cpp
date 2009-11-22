@@ -138,7 +138,7 @@ Card *Golf::newCards()
     if ( waste->top() && deck()->hasAnimatedCards() )
         return waste->top();
 
-    setMarkedItems();
+    clearHighlightedItems();
 
     talon->top()->flipToPile(waste, DURATION_FLIP);
 

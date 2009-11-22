@@ -111,7 +111,8 @@ Card *Gypsy::newCards()
             if (store[i]->top())
                 return store[i]->top();
 
-    setMarkedItems();
+    clearHighlightedItems();
+
     dealRow(true);
     takeState();
     considerGameStarted();

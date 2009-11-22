@@ -295,3 +295,27 @@ void CardScene::relayoutPiles()
         p->layoutCards( 0 );
 }
 
+
+void CardScene::setHighlightedItems( QList<HighlightableItem*> items )
+{
+    QSet<HighlightableItem*> s = QSet<HighlightableItem*>::fromList( items );
+    foreach ( HighlightableItem * i, m_highlightedItems.subtract( s ) )
+        i->setHighlighted( false );
+    foreach ( HighlightableItem * i, s )
+        i->setHighlighted( true );
+    m_highlightedItems = s;
+}
+
+
+void CardScene::clearHighlightedItems()
+{
+    foreach ( HighlightableItem * i, m_highlightedItems )
+        i->setHighlighted( false );
+    m_highlightedItems.clear();
+}
+
+
+QList< HighlightableItem* > CardScene::highlightedItems() const
+{
+    return m_highlightedItems.toList();
+}
