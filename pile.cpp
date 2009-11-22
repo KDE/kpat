@@ -295,12 +295,12 @@ void Pile::relayoutCards()
     foreach ( Card * card, m_cards )
     {
         if ( card->animated() || dscene()->cardsBeingDragged().contains( card ) ) {
-            tryRelayoutCards();
+            m_relayoutTimer->start( 50 );
             return;
         }
     }
 
-    layoutCards( dscene()->speedUpTime( DURATION_RELAYOUT ) );
+    layoutCards( DURATION_RELAYOUT );
 }
 
 void Pile::add( Card *_card, int index)
@@ -354,7 +354,7 @@ void Pile::animatedAdd( Card* _card, bool faceUp )
     Q_ASSERT( _card );
 
     if ( _card->source() )
-        _card->source()->tryRelayoutCards();
+        _card->source()->relayoutCards();
 
     QPointF origPos = _card->pos();
     _card->turn( faceUp );
@@ -482,14 +482,6 @@ bool Pile::cardDoubleClicked(Card *c)
     return false;
 }
 
-void Pile::tryRelayoutCards()
-{
-    if ( dscene() && dscene()->speedUpTime( 40 ) < 30 )
-        m_relayoutTimer->start( 400 );
-    else
-        m_relayoutTimer->start( 40 );
-}
-
 void Pile::layoutCards(int duration)
 {
     if ( m_cards.isEmpty() )
@@ -513,7 +505,7 @@ void Pile::layoutCards(int duration)
     qreal z = zValue() + 1;
     foreach ( Card * card, m_cards )
     {
-        card->animate( cardPos, z, 1, 0, card->isFaceUp(), false, dscene()->speedUpTime( duration ) );
+        card->animate( cardPos, z, 1, 0, card->isFaceUp(), false, duration );
 
         QPointF offset = cardOffset( card );
         cardPos.rx() += divx * offset.x();

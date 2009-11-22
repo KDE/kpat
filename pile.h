@@ -160,7 +160,6 @@ public:
     void setMaximumSpace( const QSizeF &s) { m_space = s; }
     QSizeF maximumSpace() const { return m_space; }
 
-    void tryRelayoutCards();
     virtual void layoutCards( int duration = DURATION_RELAYOUT );
 
 public slots:
