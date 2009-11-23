@@ -84,7 +84,7 @@ public:
     void createDump( QPaintDevice * );
 
     void setAutoDropEnabled(bool a);
-    bool autoDrop() const { return _autodrop; }
+    bool autoDropEnabled() const { return _autodrop; }
 
     void setGameNumber(int gmn);
     int gameNumber() const;
@@ -193,7 +193,7 @@ protected slots:
 
     void slotSolverEnded();
     void slotSolverFinished();
-    void slotAutoDrop();
+    void startManualDrop();
 
     void takeState();
     virtual Card *newCards();

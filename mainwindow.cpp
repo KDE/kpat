@@ -467,7 +467,7 @@ void MainWindow::updateActions()
         connect( m_dealer, SIGNAL(demoActive(bool)), this, SLOT(toggleDemoAction(bool)) );
         connect( m_dealer, SIGNAL(demoPossible(bool)), demoaction, SLOT(setEnabled(bool)) );
 
-        connect( dropaction, SIGNAL(triggered(bool)), m_dealer, SLOT(slotAutoDrop()) );
+        connect( dropaction, SIGNAL(triggered(bool)), m_dealer, SLOT(startManualDrop()) );
 
         if ( m_dealer->actions() & DealerScene::Draw )
         {
@@ -496,7 +496,7 @@ void MainWindow::updateGameActionList()
 {
     guiFactory()->unplugActionList( this, "game_actions" );
 
-    dropaction->setEnabled( m_dealer && !m_dealer->autoDrop() );
+    dropaction->setEnabled( m_dealer && !m_dealer->autoDropEnabled() );
 
     if ( m_dealer )
     {
@@ -511,7 +511,7 @@ void MainWindow::updateGameActionList()
             actionList.append( dealaction );
         if ( m_dealer->actions() & DealerScene::Redeal )
             actionList.append( redealaction );
-        if ( !m_dealer->autoDrop() )
+        if ( !m_dealer->autoDropEnabled() )
             actionList.append( dropaction );
         guiFactory()->plugActionList( this, "game_actions", actionList );
     }

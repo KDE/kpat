@@ -991,7 +991,7 @@ void DealerScene::setAutoDropEnabled(bool a)
     d->autoDropTimer->start( TIME_BETWEEN_MOVES );
 }
 
-void DealerScene::slotAutoDrop()
+void DealerScene::startManualDrop()
 {
     d->m_autoDropOnce = true;
     d->autoDropTimer->start( TIME_BETWEEN_MOVES );
@@ -1004,7 +1004,7 @@ void DealerScene::setSolverEnabled(bool a)
 
 bool DealerScene::startAutoDrop()
 {
-    if (!autoDrop() && !d->m_autoDropOnce)
+    if (!autoDropEnabled() && !d->m_autoDropOnce)
         return false;
 
     if (!cardsBeingDragged().isEmpty() || deck()->hasAnimatedCards() || d->undoList.isEmpty() ) {
