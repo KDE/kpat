@@ -238,7 +238,7 @@ void Card::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool 
         QPropertyAnimation * resize = new QPropertyAnimation( this, "scale" );
         resize->setKeyValueAt( 0, scale() );
         resize->setKeyValueAt( 1, scale2 );
-        resize->setDuration( DURATION_FANCYSHOW );
+        resize->setDuration( duration );
         aniGroup->addAnimation( resize );
     }
     else
@@ -251,7 +251,7 @@ void Card::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool 
         QPropertyAnimation * spin = new QPropertyAnimation( this, "rotation" );
         spin->setKeyValueAt( 0, rotation() );
         spin->setKeyValueAt( 1, rotation2 );
-        spin->setDuration( DURATION_FANCYSHOW );
+        spin->setDuration( duration );
         aniGroup->addAnimation( spin );
     }
     else
