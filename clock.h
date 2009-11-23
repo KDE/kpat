@@ -47,7 +47,7 @@ class Clock : public DealerScene
 public:
     Clock( );
     virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
-    virtual bool startAutoDrop() { return false; }
+    virtual bool drop() { return false; }
 
 public slots:
     void deal();

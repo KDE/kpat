@@ -54,7 +54,7 @@ public slots:
     virtual Card *newCards();
 
 protected:
-    virtual bool startAutoDrop() { return false; }
+    virtual bool drop() { return false; }
     virtual bool cardClicked(Card *c);
     virtual void setGameState( const QString & );
 

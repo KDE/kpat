@@ -209,13 +209,13 @@ public:
     Card *peekedCard;
     QTimer *demotimer;
     QTimer *stateTimer;
-    QTimer *autoDropTimer;
+    QTimer *dropTimer;
     bool demo_active;
     bool stop_demo_next;
-    qreal m_autoDropFactor;
+    qreal dropSpeedFactor;
 
     bool initialDeal;
-    bool m_autoDropOnce;
+    bool manualDropInProgress;
     QList<MoveHint*> hints;
     QList<State*> redoList;
     QList<State*> undoList;
@@ -279,7 +279,7 @@ void DealerScene::takeState()
             startSolver();
 
         if (!demoActive() && !deck()->hasAnimatedCards())
-            d->autoDropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
+            d->dropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
 
         emit undoPossible(d->undoList.count() > 1);
         emit redoPossible(d->redoList.count() > 1);
@@ -502,8 +502,8 @@ DealerScene::DealerScene()
 
     d->demotimer = new QTimer(this);
     connect( d->demotimer, SIGNAL(timeout()), SLOT(demo()) );
-    d->m_autoDropFactor = 1;
-    d->m_autoDropOnce = false;
+    d->dropSpeedFactor = 1;
+    d->manualDropInProgress = false;
     connect( this, SIGNAL(gameWon(bool)), SLOT(showWonMessage()) );
 
     d->stateTimer = new QTimer( this );
@@ -511,9 +511,9 @@ DealerScene::DealerScene()
     d->stateTimer->setInterval( 100 );
     d->stateTimer->setSingleShot( true );
 
-    d->autoDropTimer = new QTimer( this );
-    connect( d->autoDropTimer, SIGNAL(timeout()), this, SLOT(startAutoDrop()) );
-    d->autoDropTimer->setSingleShot( true );
+    d->dropTimer = new QTimer( this );
+    connect( d->dropTimer, SIGNAL(timeout()), this, SLOT(drop()) );
+    d->dropTimer->setSingleShot( true );
 
     d->wonItem  = new QGraphicsPixmapItem( 0, this );
     d->wonItem->setZValue( 2000 );
@@ -558,7 +558,7 @@ void DealerScene::hint()
         return;
     }
 
-    d->autoDropTimer->stop();
+    d->dropTimer->stop();
 
     if ( !highlightedItems().isEmpty() )
     {
@@ -988,13 +988,13 @@ void DealerScene::onGameStateAlteredByUser()
 void DealerScene::setAutoDropEnabled(bool a)
 {
     _autodrop = a;
-    d->autoDropTimer->start( TIME_BETWEEN_MOVES );
+    d->dropTimer->start( TIME_BETWEEN_MOVES );
 }
 
 void DealerScene::startManualDrop()
 {
-    d->m_autoDropOnce = true;
-    d->autoDropTimer->start( TIME_BETWEEN_MOVES );
+    d->manualDropInProgress = true;
+    d->dropTimer->start( TIME_BETWEEN_MOVES );
 }
 
 void DealerScene::setSolverEnabled(bool a)
@@ -1002,17 +1002,17 @@ void DealerScene::setSolverEnabled(bool a)
     _usesolver = a;
 }
 
-bool DealerScene::startAutoDrop()
+bool DealerScene::drop()
 {
-    if (!autoDropEnabled() && !d->m_autoDropOnce)
+    if (!autoDropEnabled() && !d->manualDropInProgress)
         return false;
 
     if (!cardsBeingDragged().isEmpty() || deck()->hasAnimatedCards() || d->undoList.isEmpty() ) {
-        d->autoDropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
+        d->dropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
         return true;
     }
 
-    kDebug() << gettime() << "startAutoDrop \n";
+    kDebug() << gettime() << "startDrop \n";
 
     clearHighlightedItems();
     clearHints();
@@ -1047,13 +1047,13 @@ bool DealerScene::startAutoDrop()
                     connect( c, SIGNAL(animationStopped(Card*)), SLOT(waitForAutoDrop(Card*)) );
             }
 
-            d->m_autoDropFactor *= AUTODROP_SPEEDUP_FACTOR;
+            d->dropSpeedFactor *= AUTODROP_SPEEDUP_FACTOR;
             return true;
         }
     }
     clearHints();
-    d->m_autoDropFactor = 1;
-    d->m_autoDropOnce = false;
+    d->dropSpeedFactor = 1;
+    d->manualDropInProgress = false;
 
     return false;
 }
@@ -1063,7 +1063,7 @@ int DealerScene::speedUpTime( int delay ) const
     if ( delay < DURATION_AUTODROP_MINIMUM )
         return delay;
     else
-        return qMax<int>( delay * d->m_autoDropFactor, DURATION_AUTODROP_MINIMUM );
+        return qMax<int>( delay * d->dropSpeedFactor, DURATION_AUTODROP_MINIMUM );
 }
 
 void DealerScene::stopAndRestartSolver()

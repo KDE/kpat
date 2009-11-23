@@ -275,10 +275,10 @@ void Klondike::deal() {
     startDealAnimation();
 }
 
-bool Klondike::startAutoDrop()
+bool Klondike::drop()
 {
     bool pileempty = pile->isEmpty();
-    if (!DealerScene::startAutoDrop())
+    if (!DealerScene::drop())
         return false;
     if (pile->isEmpty() && !pileempty)
         newCards();

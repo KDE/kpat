@@ -54,7 +54,7 @@ public:
     virtual void mapOldId(int id);
     virtual int oldId() const;
     virtual void restart();
-    virtual bool startAutoDrop();
+    virtual bool drop();
     QList<QAction*> configActions() const;
 
     void deal();

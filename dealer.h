@@ -197,7 +197,7 @@ protected slots:
 
     void takeState();
     virtual Card *newCards();
-    virtual bool startAutoDrop();
+    virtual bool drop();
 
 private:
     bool _autodrop;

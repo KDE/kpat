@@ -58,7 +58,7 @@ protected:
     virtual bool  cardClicked(Card *);
     virtual bool  cardDoubleClicked(Card *);
 
-    virtual bool  startAutoDrop()  { return false; }
+    virtual bool  drop()  { return false; }
     virtual void  setGameState(const QString &);
 
 private:
