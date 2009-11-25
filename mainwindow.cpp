@@ -134,18 +134,29 @@ void MainWindow::setupActions()
     KAction *a;
 
     // Game Menu
-    KStandardGameAction::gameNew(this, SLOT(newGame()), actionCollection());
+    a = actionCollection()->addAction("new_game");
+    a->setText(i18nc("Start a new game of a different type","New &Game..."));
+    a->setIcon( KIcon("document-new") );
+    a->setShortcuts( KShortcut( Qt::ControlModifier | Qt::ShiftModifier | Qt::Key_N ) );
+    connect( a, SIGNAL(triggered(bool)), SLOT(slotShowGameSelectionScreen()) );
+
+    a = actionCollection()->addAction("new_deal");
+    a->setText(i18nc("Start a new game of without changing the game type", "New &Deal"));
+    a->setIcon( KIcon("document-new") );
+    a->setShortcuts( KShortcut( Qt::ControlModifier | Qt::Key_N ) );
+    connect( a, SIGNAL(triggered(bool)), SLOT(newGame()) );
+
+    a = actionCollection()->addAction("new_numbered_deal");
+    a->setText(i18nc("Start a game by giving its particular number", "New &Numbered Deal..."));
+    connect( a, SIGNAL(triggered(bool)), SLOT(chooseDeal()) );
+
+    a = KStandardGameAction::restart(this, SLOT(restart()), actionCollection());
+    a->setText(i18nc("Replay the current deal from the start", "Restart Deal"));
 
     KStandardGameAction::load(this, SLOT(openGame()), actionCollection());
 
     recent = KStandardGameAction::loadRecent(this, SLOT(openGame(const KUrl&)), actionCollection());
     recent->loadEntries(KGlobal::config()->group( QString() ));
-
-    KStandardGameAction::restart(this, SLOT(restart()), actionCollection());
-
-    a = actionCollection()->addAction("choose_deal");
-    a->setText(i18n("&Choose Numbered Deal..."));
-    connect( a, SIGNAL(triggered(bool)), SLOT(chooseDeal()) );
 
     KStandardGameAction::save(this, SLOT(saveGame()), actionCollection());
 
@@ -172,7 +183,7 @@ void MainWindow::setupActions()
     drawaction->setShortcut( Qt::Key_Space );
 
     dealaction = actionCollection()->addAction("move_deal");
-    dealaction->setText( i18nc("Deal a new row of cards from the deck", "Dea&l") );
+    dealaction->setText( i18nc("Deal a new row of cards from the deck", "Dea&l Row") );
     dealaction->setIcon( KIcon("kpat") );
     dealaction->setShortcut( Qt::Key_Return );
 
@@ -188,10 +199,6 @@ void MainWindow::setupActions()
 
 
     // Settings Menu
-    a = actionCollection()->addAction("change_game_type");
-    a->setText(i18n("Change Game Type..."));
-    connect( a, SIGNAL(triggered(bool)), SLOT(slotShowGameSelectionScreen()) );
-
     a = actionCollection()->addAction("select_deck");
     a->setText(i18n("Select Deck..."));
     connect( a, SIGNAL(triggered(bool)), SLOT(slotSelectDeck()) );
@@ -437,11 +444,11 @@ void MainWindow::updateActions()
 {
     // Enable/disable application actions that aren't appropriate on game
     // selection screen.
-    actionCollection()->action( "game_new" )->setEnabled( m_dealer );
+    actionCollection()->action( "new_game" )->setEnabled( m_dealer );
+    actionCollection()->action( "new_deal" )->setEnabled( m_dealer );
+    actionCollection()->action( "new_numbered_deal" )->setEnabled( m_dealer );
     actionCollection()->action( "game_restart" )->setEnabled( m_dealer );
     actionCollection()->action( "game_save" )->setEnabled( m_dealer );
-    actionCollection()->action( "choose_deal" )->setEnabled( m_dealer );
-    actionCollection()->action( "change_game_type" )->setEnabled( m_dealer );
     gamehelpaction->setEnabled( m_dealer );
 
     // Initially disable game actions. They'll be reenabled through signals

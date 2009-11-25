@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gui name="kpat"
-     version="28"
+     version="29"
      xmlns="http://www.kde.org/standards/kxmlgui/1.0"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://www.kde.org/standards/kxmlgui/1.0
                          http://www.kde.org/standards/kxmlgui/1.0/kxmlgui.xsd">
 <MenuBar>
   <Menu name="game">
-    <Action name="choose_deal" append="new_merge"/>
+    <Action name="new_game"/>
+    <Separator/>
+    <Action name="new_deal"/>
+    <Action name="new_numbered_deal"/>
+    <Action name="game_restart"/>
+    <Separator/>
+    <Action name="game_load"/>
+    <Action name="game_load_recent"/>
+    <Action name="game_save"/>
+    <Separator/>
     <Action name="game_stats"/>
   </Menu>
   <Menu name="move" noMerge="1">
@@ -18,7 +27,6 @@
     <ActionList name="game_actions"/>
   </Menu>
   <Menu name="settings">
-    <Action name="change_game_type"/>
     <ActionList name="dealer_options"/>
     <Separator/>
     <Action name="select_deck"/>
@@ -32,7 +40,9 @@
 </MenuBar>
 <ToolBar name="mainToolBar">
   <text>Main Toolbar</text>
-  <Action name="game_new"/>
+  <Action name="new_game"/>
+  <Action name="new_deal"/>
+  <Separator/>
   <Action name="move_undo"/>
   <Action name="move_redo"/>
   <Separator/>
