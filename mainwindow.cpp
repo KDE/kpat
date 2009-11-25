@@ -158,7 +158,8 @@ void MainWindow::setupActions()
     recent = KStandardGameAction::loadRecent(this, SLOT(openGame(const KUrl&)), actionCollection());
     recent->loadEntries(KGlobal::config()->group( QString() ));
 
-    KStandardGameAction::save(this, SLOT(saveGame()), actionCollection());
+    a = KStandardGameAction::saveAs(this, SLOT(saveGame()), actionCollection());
+    a->setShortcut( KShortcut( Qt::ControlModifier | Qt::Key_S ) );
 
     a = actionCollection()->addAction("game_stats");
     a->setText(i18n("Statistics"));
@@ -448,7 +449,7 @@ void MainWindow::updateActions()
     actionCollection()->action( "new_deal" )->setEnabled( m_dealer );
     actionCollection()->action( "new_numbered_deal" )->setEnabled( m_dealer );
     actionCollection()->action( "game_restart" )->setEnabled( m_dealer );
-    actionCollection()->action( "game_save" )->setEnabled( m_dealer );
+    actionCollection()->action( "game_save_as" )->setEnabled( m_dealer );
     gamehelpaction->setEnabled( m_dealer );
 
     // Initially disable game actions. They'll be reenabled through signals

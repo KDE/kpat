@@ -15,7 +15,7 @@
     <Separator/>
     <Action name="game_load"/>
     <Action name="game_load_recent"/>
-    <Action name="game_save"/>
+    <Action name="game_save_as"/>
     <Separator/>
     <Action name="game_stats"/>
   </Menu>
