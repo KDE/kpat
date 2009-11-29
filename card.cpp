@@ -66,7 +66,8 @@ Card::Card( Rank r, Suit s, CardDeck * deck )
     m_deck( deck ),
     m_source( 0 ),
     m_animation( 0 ),
-    m_takenDown( false )
+    m_takenDown( false ),
+    m_highlighted( false )
 {
     Q_ASSERT( m_deck );
 
@@ -121,9 +122,11 @@ void Card::updatePixmap()
 
     qreal highlightOpacity = m_fadeAnimation->state() == QAbstractAnimation::Running
                              ? m_highlightedness
-                             : qreal( m_highlighted );
+                             : ( m_highlighted ? 1 : 0 );
 
-    if ( highlightOpacity != 0 )
+    kDebug() << highlightOpacity;
+
+    if ( highlightOpacity > 0 )
     {
         QPainter p( &pix );
         p.setCompositionMode( QPainter::CompositionMode_SourceAtop );

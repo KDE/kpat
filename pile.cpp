@@ -70,7 +70,8 @@ Pile::Pile( int _index, const QString & objectName )
       _checkIndex(-1),
       myIndex(_index),
       _target(false),
-      m_graphicVisible( true )
+      m_graphicVisible( true ),
+      m_highlighted( false )
 {
     if ( objectName.isEmpty() )
         setObjectName( QString("pile%1").arg(_index) );
