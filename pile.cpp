@@ -190,7 +190,7 @@ void Pile::updatePixmap()
         }
         else
         {
-            QString id = isHighlighted() ? "pile_selected" : "pile";
+            QString id = m_highlighted ? "pile_selected" : "pile";
             pix = Render::renderElement( id, cardScene()->deck()->cardSize() );
         }
     }
@@ -411,9 +411,9 @@ void Pile::unhideCards( const CardList & cards )
 
 void Pile::setHighlighted( bool flag )
 {
-    if ( flag != isHighlighted() )
+    if ( flag != m_highlighted )
     {
-        HighlightableItem::setHighlighted( flag );
+        m_highlighted = flag;
 
         m_fadeAnimation->setDirection( flag
                                        ? QAbstractAnimation::Forward
@@ -422,6 +422,11 @@ void Pile::setHighlighted( bool flag )
         if ( m_fadeAnimation->state() != QAbstractAnimation::Running )
             m_fadeAnimation->start();
     }
+}
+
+bool Pile::isHighlighted() const
+{
+    return m_highlighted;
 }
 
 void Pile::setHighlightedness( qreal highlightedness )

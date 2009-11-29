@@ -330,28 +330,46 @@ void CardScene::relayoutPiles()
 }
 
 
-void CardScene::setHighlightedItems( QList<HighlightableItem*> items )
+void CardScene::setHighlightedItems( QList<QGraphicsItem*> items )
 {
-    QSet<HighlightableItem*> s = QSet<HighlightableItem*>::fromList( items );
-    foreach ( HighlightableItem * i, m_highlightedItems.subtract( s ) )
-        i->setHighlighted( false );
-    foreach ( HighlightableItem * i, s )
-        i->setHighlighted( true );
+    QSet<QGraphicsItem*> s = QSet<QGraphicsItem*>::fromList( items );
+    foreach ( QGraphicsItem * i, m_highlightedItems.subtract( s ) )
+        setItemHighlight( i, false );
+    foreach ( QGraphicsItem * i, s )
+        setItemHighlight( i, true );
     m_highlightedItems = s;
 }
 
 
 void CardScene::clearHighlightedItems()
 {
-    foreach ( HighlightableItem * i, m_highlightedItems )
-        i->setHighlighted( false );
+    foreach ( QGraphicsItem * i, m_highlightedItems )
+        setItemHighlight( i, false );
     m_highlightedItems.clear();
 }
 
 
-QList< HighlightableItem* > CardScene::highlightedItems() const
+QList<QGraphicsItem*> CardScene::highlightedItems() const
 {
     return m_highlightedItems.toList();
+}
+
+
+void CardScene::setItemHighlight( QGraphicsItem * item, bool highlight )
+{
+    Card * card = qgraphicsitem_cast<Card*>( item );
+    if ( card )
+    {
+        card->setHighlighted( highlight );
+        return;
+    }
+
+    Pile * pile = qgraphicsitem_cast<Pile*>( item );
+    if ( pile )
+    {
+        pile->setHighlighted( highlight );
+        return;
+    }
 }
 
 
@@ -493,7 +511,7 @@ void CardScene::mouseMoveEvent( QGraphicsSceneMouseEvent * e )
             card->setPos( card->pos() + e->scenePos() - m_startOfDrag );
         m_startOfDrag = e->scenePos();
 
-        QList<HighlightableItem*> toHighlight;
+        QList<QGraphicsItem*> toHighlight;
         Pile * dropPile = targetPile();
         if ( dropPile )
         {

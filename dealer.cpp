@@ -590,7 +590,7 @@ void DealerScene::hint()
         getHints();
     }
 
-    QList<HighlightableItem*> toHighlight;
+    QList<QGraphicsItem*> toHighlight;
     foreach ( MoveHint * h, d->hints )
         toHighlight << h->card();
     setHighlightedItems( toHighlight );

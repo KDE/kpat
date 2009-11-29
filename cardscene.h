@@ -75,14 +75,16 @@ public:
     void setLayoutSpacing( qreal spacing );
     qreal layoutSpacing() const;
 
-    void setHighlightedItems( QList<HighlightableItem*> items );
+    void setHighlightedItems( QList<QGraphicsItem*> items );
     void clearHighlightedItems();
-    QList<HighlightableItem*> highlightedItems() const;
+    QList<QGraphicsItem*> highlightedItems() const;
 
 protected:
     virtual void onGameStateAlteredByUser();
 
     virtual Pile * targetPile();
+
+    virtual void setItemHighlight( QGraphicsItem * item, bool highlight );
 
     virtual bool pileClicked( Pile * pile );
     virtual bool pileDoubleClicked( Pile * pile );
@@ -100,7 +102,7 @@ protected:
 private:
     CardDeck * m_deck;
     QList<Pile*> m_piles;
-    QSet<HighlightableItem*> m_highlightedItems;
+    QSet<QGraphicsItem*> m_highlightedItems;
 
     QList<Card*> m_cardsBeingDragged;
     QPointF m_startOfDrag;

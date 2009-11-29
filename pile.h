@@ -39,7 +39,6 @@
 
 #include "card.h"
 class CardScene;
-#include "highlightableitem.h"
 #include "speeds.h"
 
 class QPropertyAnimation;
@@ -52,7 +51,7 @@ class QPropertyAnimation;
 
 **************************************/
 
-class Pile : public QObject, public QGraphicsPixmapItem, public HighlightableItem
+class Pile : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
     Q_PROPERTY( qreal highlightedness READ highlightedness WRITE setHighlightedness )
@@ -100,7 +99,8 @@ public:
     void setTarget(bool t) { _target = t; }
     bool target() const { return _target; }
 
-    virtual void setHighlighted( bool flag );
+    void setHighlighted( bool flag );
+    bool isHighlighted() const;
 
     void setGraphicVisible( bool flag );
     bool isGraphicVisible() { return m_graphicVisible; } ;
@@ -194,6 +194,7 @@ private:
     bool _target;
 
     bool m_graphicVisible;
+    bool m_highlighted;
     QPointF _pilePos;
     QSizeF m_reserved;
     QSizeF m_space;

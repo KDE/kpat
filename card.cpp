@@ -86,7 +86,7 @@ Card::Card( Rank r, Suit s, CardDeck * deck )
 
     m_destFace = isFaceUp();
     m_flippedness = m_faceup ? 1 : 0;
-    m_highlightedness = isHighlighted() ? 1 : 0;
+    m_highlightedness = m_highlighted ? 1 : 0;
 
     m_fadeAnimation = new QPropertyAnimation( this, "highlightedness", this );
     m_fadeAnimation->setDuration( DURATION_CARDHIGHLIGHT );
@@ -121,7 +121,7 @@ void Card::updatePixmap()
 
     qreal highlightOpacity = m_fadeAnimation->state() == QAbstractAnimation::Running
                              ? m_highlightedness
-                             : qreal( isHighlighted() );
+                             : qreal( m_highlighted );
 
     if ( highlightOpacity != 0 )
     {
@@ -343,9 +343,9 @@ bool Card::takenDown() const
 
 void Card::setHighlighted( bool flag )
 {
-    if ( flag != isHighlighted() )
+    if ( flag != m_highlighted )
     {
-        HighlightableItem::setHighlighted( flag );
+        m_highlighted = flag;
 
         m_fadeAnimation->setDirection( flag
                                        ? QAbstractAnimation::Forward
@@ -361,6 +361,11 @@ void Card::setHighlightedness( qreal highlightedness )
     m_highlightedness = highlightedness;
     updatePixmap();
     return;
+}
+
+bool Card::isHighlighted() const
+{
+    return m_highlighted;
 }
 
 qreal Card::highlightedness() const

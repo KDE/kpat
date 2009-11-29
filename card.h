@@ -39,7 +39,6 @@
 
 class Card;
 class CardDeck;
-#include "highlightableitem.h"
 class Pile;
 
 #include <QtCore/QList>
@@ -78,7 +77,7 @@ protected:
     bool        m_faceup;
 };
 
-class Card: public QObject, public AbstractCard, public QGraphicsPixmapItem, public HighlightableItem
+class Card: public QObject, public AbstractCard, public QGraphicsPixmapItem
 {
     Q_OBJECT
     Q_PROPERTY( QPointF pos READ pos WRITE setPos )
@@ -118,7 +117,8 @@ public:
 
     bool         animated() const;
 
-    virtual void setHighlighted( bool flag );
+    void setHighlighted( bool flag );
+    bool isHighlighted() const;
 
 signals:
     void       animationStarted(Card *c);
@@ -150,6 +150,7 @@ private:
     bool          m_destFace;
 
     bool      m_takenDown;
+    bool      m_highlighted;
 };
 
 extern QString gettime();
