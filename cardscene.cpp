@@ -41,6 +41,7 @@
 #include "pile.h"
 
 #include <QtGui/QGraphicsSceneWheelEvent>
+#include <QtGui/QPainter>
 
 #include <cmath>
 

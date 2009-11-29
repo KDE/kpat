@@ -85,7 +85,13 @@ Card::Card( Rank r, Suit s, CardDeck * deck )
     setObjectName( suitName + QString::number( m_rank ) );
 
     m_destFace = isFaceUp();
-    m_flippedness = m_faceup ? 1.0 : 0.0;
+    m_flippedness = m_faceup ? 1 : 0;
+    m_highlightedness = isHighlighted() ? 1 : 0;
+
+    m_fadeAnimation = new QPropertyAnimation( this, "highlightedness", this );
+    m_fadeAnimation->setDuration( DURATION_CARDHIGHLIGHT );
+    m_fadeAnimation->setKeyValueAt( 0, 0 );
+    m_fadeAnimation->setKeyValueAt( 1, 1 );
 
     m_destX = 0;
     m_destY = 0;
@@ -107,22 +113,25 @@ Card::~Card()
 
 void Card::updatePixmap()
 {
+    QPixmap pix;
     if( m_faceup )
-    {
-        QPixmap pix = m_deck->frontsidePixmap( m_rank, m_suit );
-        if ( isHighlighted() )
-        {
-            QPainter p( &pix );
-            p.setCompositionMode( QPainter::CompositionMode_SourceAtop );
-            p.setOpacity( 0.5 );
-            p.fillRect( 0, 0, pix.width(), pix.height(), Qt::black );
-        }
-        setPixmap( pix );
-    }
+        pix = m_deck->frontsidePixmap( m_rank, m_suit );
     else
+        pix = m_deck->backsidePixmap();
+
+    qreal highlightOpacity = m_fadeAnimation->state() == QAbstractAnimation::Running
+                             ? m_highlightedness
+                             : qreal( isHighlighted() );
+
+    if ( highlightOpacity != 0 )
     {
-        setPixmap( m_deck->backsidePixmap() );
+        QPainter p( &pix );
+        p.setCompositionMode( QPainter::CompositionMode_SourceAtop );
+        p.setOpacity( 0.5 * highlightOpacity );
+        p.fillRect( 0, 0, pix.width(), pix.height(), Qt::black );
     }
+
+    setPixmap( pix );
 }
 
 // Turn the card if necessary.  If the face gets turned up, the card
@@ -337,8 +346,26 @@ void Card::setHighlighted( bool flag )
     if ( flag != isHighlighted() )
     {
         HighlightableItem::setHighlighted( flag );
-        updatePixmap();
+
+        m_fadeAnimation->setDirection( flag
+                                       ? QAbstractAnimation::Forward
+                                       : QAbstractAnimation::Backward );
+
+        if ( m_fadeAnimation->state() != QAbstractAnimation::Running )
+            m_fadeAnimation->start();
     }
+}
+
+void Card::setHighlightedness( qreal highlightedness )
+{
+    m_highlightedness = highlightedness;
+    updatePixmap();
+    return;
+}
+
+qreal Card::highlightedness() const
+{
+    return m_highlightedness;
 }
 
 void Card::stopAnimation()

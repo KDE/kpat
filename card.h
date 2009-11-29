@@ -45,7 +45,8 @@ class Pile;
 #include <QtCore/QList>
 #include <QtGui/QGraphicsPixmapItem>
 class QGraphicsScene;
-class QAbstractAnimation;
+class QParallelAnimationGroup;
+class QPropertyAnimation;
 
 
 // A list of cards.  Used in many places.
@@ -84,6 +85,7 @@ class Card: public QObject, public AbstractCard, public QGraphicsPixmapItem, pub
     Q_PROPERTY( qreal rotation READ rotation WRITE setRotation )
     Q_PROPERTY( qreal scale READ scale WRITE setScale )
     Q_PROPERTY( qreal flippedness READ flippedness WRITE setFlippedness )
+    Q_PROPERTY( qreal highlightedness READ highlightedness WRITE setHighlightedness )
 
     friend class CardDeck;
 
@@ -118,9 +120,6 @@ public:
 
     virtual void setHighlighted( bool flag );
 
-    void         setFlippedness( qreal flippedness );
-    qreal        flippedness() const;
-
 signals:
     void       animationStarted(Card *c);
     void       animationStopped(Card *c);
@@ -131,16 +130,24 @@ public slots:
     void       stopAnimation();
 
 private:
+    void         setHighlightedness( qreal highlightedness );
+    qreal        highlightedness() const;
+
+    void         setFlippedness( qreal flippedness );
+    qreal        flippedness() const;
+
     CardDeck   *m_deck;
     Pile       *m_source;
-    QAbstractAnimation *m_animation;
+    QParallelAnimationGroup *m_animation;
+    QPropertyAnimation *m_fadeAnimation;
+
+    qreal         m_flippedness;
+    qreal         m_highlightedness;
 
     qreal         m_destX;	// Destination point.
     qreal         m_destY;
     qreal         m_destZ;
     bool          m_destFace;
-
-    qreal         m_flippedness;
 
     bool      m_takenDown;
 };
