@@ -43,6 +43,8 @@
 #include <KDebug>
 
 #include <QtCore/QTimer>
+#include <QtCore/QPropertyAnimation>
+#include <QtGui/QPainter>
 
 #include <cmath>
 
@@ -85,6 +87,11 @@ Pile::Pile( int _index, const QString & objectName )
     m_relayoutTimer = new QTimer( this );
     m_relayoutTimer->setSingleShot( true );
     connect( m_relayoutTimer, SIGNAL(timeout()), SLOT(relayoutCards()) );
+
+    m_fadeAnimation = new QPropertyAnimation( this, "highlightedness", this );
+    m_fadeAnimation->setDuration( DURATION_CARDHIGHLIGHT );
+    m_fadeAnimation->setKeyValueAt( 0, 0 );
+    m_fadeAnimation->setKeyValueAt( 1, 1 );
 }
 
 CardScene *Pile::cardScene() const
@@ -167,17 +174,28 @@ void Pile::updatePixmap()
     if ( !scene() )
         return;
 
+    QSize size = cardScene()->deck()->cardSize();
+    QPixmap pix( size );
+    pix.fill( Qt::transparent );
+
     if ( m_graphicVisible )
     {
-        QString id = isHighlighted() ? "pile_selected" : "pile";
-        setPixmap( Render::renderElement( id, cardScene()->deck()->cardSize() ) );
+        if ( m_fadeAnimation->state() == QAbstractAnimation::Running )
+        {
+            QPainter p( &pix );
+            p.setOpacity( 1 - m_highlightedness );
+            p.drawPixmap( 0, 0, Render::renderElement( "pile", size ) );
+            p.setOpacity( m_highlightedness );
+            p.drawPixmap( 0, 0, Render::renderElement( "pile_selected", size ) );
+        }
+        else
+        {
+            QString id = isHighlighted() ? "pile_selected" : "pile";
+            pix = Render::renderElement( id, cardScene()->deck()->cardSize() );
+        }
     }
-    else
-    {
-        QPixmap blank( cardScene()->deck()->cardSize() );
-        blank.fill( Qt::transparent );
-        setPixmap( blank );
-    }
+
+    setPixmap( pix );
 }
 
 bool Pile::legalAdd( const CardList& _cards, bool ) const
@@ -396,8 +414,26 @@ void Pile::setHighlighted( bool flag )
     if ( flag != isHighlighted() )
     {
         HighlightableItem::setHighlighted( flag );
-        updatePixmap();
+
+        m_fadeAnimation->setDirection( flag
+                                       ? QAbstractAnimation::Forward
+                                       : QAbstractAnimation::Backward );
+
+        if ( m_fadeAnimation->state() != QAbstractAnimation::Running )
+            m_fadeAnimation->start();
     }
+}
+
+void Pile::setHighlightedness( qreal highlightedness )
+{
+    m_highlightedness = highlightedness;
+    updatePixmap();
+    return;
+}
+
+qreal Pile::highlightedness() const
+{
+    return m_highlightedness;
 }
 
 void Pile::setGraphicVisible( bool flag ) {

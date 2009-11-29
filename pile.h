@@ -42,6 +42,7 @@ class CardScene;
 #include "highlightableitem.h"
 #include "speeds.h"
 
+class QPropertyAnimation;
 #include <QtGui/QGraphicsPixmapItem>
 
 
@@ -54,6 +55,7 @@ class CardScene;
 class Pile : public QObject, public QGraphicsPixmapItem, public HighlightableItem
 {
     Q_OBJECT
+    Q_PROPERTY( qreal highlightedness READ highlightedness WRITE setHighlightedness )
 
 public:
 
@@ -179,6 +181,10 @@ protected:
     QTimer *m_relayoutTimer;
 
 private:
+    void setHighlightedness( qreal highlightedness );
+    qreal highlightedness() const;
+    QPropertyAnimation *m_fadeAnimation;
+
     PileType  _atype;
     PileType  _rtype;
     QSizeF    _spread;
@@ -191,6 +197,8 @@ private:
     QPointF _pilePos;
     QSizeF m_reserved;
     QSizeF m_space;
+
+    qreal m_highlightedness;
 };
 
 #endif
