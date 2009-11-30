@@ -1625,6 +1625,7 @@ void DealerScene::addCardForDeal(Pile * pile, Card * card, bool faceUp, QPointF 
 
 void DealerScene::startDealAnimation()
 {
+    qreal speed = sqrt( width() * width() + height() * height() ) / ( DURATION_DEAL );
     foreach ( Pile * p, piles() )
     {
         p->layoutCards(0);
@@ -1638,8 +1639,8 @@ void DealerScene::startDealAnimation()
 
             QPointF delta = c->pos() - pos2;
             qreal dist = sqrt( delta.x() * delta.x() + delta.y() * delta.y() );
-            qreal whole = sqrt( width() * width() + height() * height() );
-            c->moveTo( pos2, c->zValue(), qRound( dist * DURATION_DEAL / whole ) );
+            int duration = qRound( dist / speed );
+            c->animate( pos2, c->zValue(), 1, 0, c->isFaceUp(), false, duration );
         }
     }
     m_initDealPositions.clear();

@@ -168,7 +168,7 @@ int main( int argc, char **argv )
                          "coolo@kde.org" );
     aboutData.addAuthor( ki18n("Erik Sigra"),
                          ki18n("Klondike improvements"),
-                        "sigra@home.se" );
+                         "sigra@home.se" );
     aboutData.addAuthor( ki18n("Josh Metzler"),
                          ki18n("Spider implementation"),
                          "joshdeb@metzlers.org" );

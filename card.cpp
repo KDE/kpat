@@ -124,8 +124,6 @@ void Card::updatePixmap()
                              ? m_highlightedness
                              : ( m_highlighted ? 1 : 0 );
 
-    kDebug() << highlightOpacity;
-
     if ( highlightOpacity > 0 )
     {
         QPainter p( &pix );

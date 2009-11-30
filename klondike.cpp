@@ -96,6 +96,9 @@ Klondike::Klondike()
 
     talon = new Pile( 0, "talon" );
     connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
+    // Give the talon a low Z value to keep it out of the way during there
+    // deal animation.
+    talon->setZValue( -52 );
     addPile(talon);
 
     KConfigGroup cg(KGlobal::config(), settings_group );
