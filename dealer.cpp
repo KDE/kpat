@@ -851,6 +851,7 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
         {
             d->peekedCard = card;
             QPointF pos2( card->x() + deck()->cardWidth() / 3.0, card->y() - deck()->cardHeight() / 4.0 );
+            card->setZValue( card->zValue() + 0.1 );
             card->animate( pos2, card->zValue(), 1.1, 20, card->isFaceUp(), false, DURATION_FANCYSHOW );
         }
     }
