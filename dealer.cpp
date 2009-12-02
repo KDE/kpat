@@ -48,7 +48,6 @@
 #include <KDebug>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KRandom>
 #include <KSharedConfig>
 #include <KTemporaryFile>
 #include <KIO/NetAccess>
@@ -263,7 +262,6 @@ void DealerScene::takeState()
         d->wasJustSaved = false;
         if (isGameWon()) {
             won();
-            d->toldAboutWonGame = true;
             return;
         }
         else if ( !d->toldAboutWonGame && !d->toldAboutLostGame && isGameLost() ) {
@@ -504,7 +502,6 @@ DealerScene::DealerScene()
     connect( d->demotimer, SIGNAL(timeout()), SLOT(demo()) );
     d->dropSpeedFactor = 1;
     d->manualDropInProgress = false;
-    connect( this, SIGNAL(gameWon(bool)), SLOT(showWonMessage()) );
 
     d->stateTimer = new QTimer( this );
     connect( d->stateTimer, SIGNAL(timeout()), this, SLOT(takeState()) );
@@ -756,22 +753,70 @@ void DealerScene::startNew(int gameNumber)
     update();
 }
 
-void DealerScene::showWonMessage()
+QPointF posAlongRect( qreal distOnRect, const QRectF & rect )
 {
-    d->wonItem->show();
-    updateWonItem();
+    if ( distOnRect < rect.width() )
+        return rect.topLeft() + QPointF( distOnRect, 0 );
+    distOnRect -= rect.width();
+    if ( distOnRect < rect.height() )
+        return rect.topRight() + QPointF( 0, distOnRect );
+    distOnRect -= rect.height();
+    if ( distOnRect < rect.width() )
+        return rect.bottomRight() + QPointF( -distOnRect, 0 );
+    distOnRect -= rect.width();
+    return rect.bottomLeft() + QPointF( 0, -distOnRect );
+}
+
+void DealerScene::won()
+{
+    if (d->_won)
+        return;
+
+    d->_won = true;
+    d->toldAboutWonGame = true;
+
+    stopDemo();
+    recordGameStatistics();
 
     emit demoPossible( false );
     emit hintPossible( false );
     emit newCardsPossible( false );
-    emit undoPossible( false ); // technically it's possible but cheating :)
+    emit undoPossible( false );
+
+    qreal speed = sqrt( width() * width() + height() * height() ) / ( DURATION_WON );
+
+    QRectF justOffScreen = sceneRect().adjusted( -deck()->cardWidth(), -deck()->cardHeight(), 0, 0 );
+    qreal spacing = 2 * ( justOffScreen.width() + justOffScreen.height() ) / deck()->cards().size();
+    qreal distOnRect = 0;
+
+    foreach ( Card *c, deck()->cards() )
+    {
+        distOnRect += spacing;
+        QPointF pos2 = posAlongRect( distOnRect, justOffScreen );
+        QPointF delta = c->pos() - pos2;
+        qreal dist = sqrt( delta.x() * delta.x() + delta.y() * delta.y() );
+
+        c->turn( true );
+        c->animate( pos2, c->zValue(), 1, 0, true, false, dist / speed );
+    }
+
+    connect(deck(), SIGNAL(cardAnimationDone()), this, SLOT(showWonMessage()));
+}
+
+void DealerScene::showWonMessage()
+{
+    disconnect(deck(), SIGNAL(cardAnimationDone()), this, SLOT(showWonMessage()));
+
+    // Return the Cards to the CardDeck, so they don't get shown if the Piles
+    // try to layoutCards() if the window is resized.
+    deck()->returnAllCards();
+
+    updateWonItem();
+    d->wonItem->show();
 }
 
 void DealerScene::updateWonItem()
 {
-    if ( !d->wonItem->isVisible() )
-        return;
-
     const qreal aspectRatio = Render::aspectRatioOfElement("message_frame");
     int boxWidth;
     int boxHeight;
@@ -1152,17 +1197,6 @@ void DealerScene::waitForAutoDrop(Card * c) {
     eraseRedo();
 }
 
-void DealerScene::waitForWonAnim(Card *c)
-{
-    c->disconnect( this, SLOT(waitForWonAnim(Card*)) );
-
-    if ( !deck()->hasAnimatedCards() )
-    {
-        stopDemo();
-        emit gameWon(d->gothelp);
-    }
-}
-
 int DealerScene::gameNumber() const
 {
     return gamenumber;
@@ -1208,58 +1242,6 @@ void DealerScene::toggleDemo()
         demo();
     else
         stopDemo();
-}
-
-class CardPtr
-{
- public:
-    Card *ptr;
-};
-
-bool operator <(const CardPtr &p1, const CardPtr &p2)
-{
-    return ( p1.ptr->zValue() < p2.ptr->zValue() );
-}
-
-void DealerScene::won()
-{
-    if (d->_won)
-        return;
-    d->_won = true;
-
-    recordGameStatistics();
-
-    foreach ( Pile *p, piles() )
-        p->relayoutCards();
-
-    QList<CardPtr> cards;
-    foreach ( Card *c, deck()->cards() )
-    {
-        CardPtr p;
-        p.ptr = c;
-        cards.push_back( p );
-    }
-
-    qSort(cards);
-
-    // disperse the cards everywhere
-    QRectF can = sceneRect();
-    QListIterator<CardPtr> cit(cards);
-    while (cit.hasNext()) {
-        CardPtr card = cit.next();
-        card.ptr->turn(true);
-        QRectF p = card.ptr->sceneBoundingRect();
-        p.moveTo( 0, 0 );
-        QPointF dest;
-        do {
-            dest.rx() = 3*width()/2 - KRandom::random() % int(width() * 2);
-            dest.ry() = 3*height()/2 - (KRandom::random() % int(height() * 2));
-            p.moveTopLeft(dest);
-        } while (can.intersects(p));
-
-        card.ptr->moveTo( dest, 0, DURATION_DEAL );
-        connect(card.ptr, SIGNAL(animationStopped(Card*)), SLOT(waitForWonAnim(Card*)));
-    }
 }
 
 MoveHint *DealerScene::chooseHint()
@@ -1364,7 +1346,7 @@ void DealerScene::demo()
         if (t) {
             newDemoMove(t);
         } else if (isGameWon()) {
-            emit gameWon(true);
+            won();
             return;
         } else {
             stopDemo();
@@ -1511,7 +1493,9 @@ void DealerScene::recordGameStatistics()
 void DealerScene::relayoutScene()
 {
     CardScene::relayoutScene();
-    updateWonItem();
+
+    if ( d->wonItem->isVisible() )
+        updateWonItem();
 }
 
 void DealerScene::setGameId(int id) { d->_id = id; }

@@ -130,7 +130,6 @@ signals:
     void demoPossible(bool poss);
     void newCardsPossible(bool poss);
 
-    void gameWon(bool withhelp);
     void demoActive(bool en);
     void updateMoves(int moves);
 
@@ -139,7 +138,6 @@ signals:
 public slots:
     void startNew(int gameNumber = -1);
     void hint();
-    void showWonMessage();
 
     void undo();
     void redo();
@@ -188,12 +186,13 @@ protected:
 protected slots:
     virtual void demo();
     void waitForDemo(Card *);
-    void waitForWonAnim(Card *c);
     void toggleDemo();
 
     void slotSolverEnded();
     void slotSolverFinished();
     void startManualDrop();
+
+    void showWonMessage();
 
     void takeState();
     virtual Card *newCards();
