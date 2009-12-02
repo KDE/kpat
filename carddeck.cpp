@@ -338,6 +338,9 @@ void CardDeck::cardStoppedAnimation( Card *card )
 {
     Q_ASSERT( m_cardsWaitedFor.contains( card ) );
     m_cardsWaitedFor.remove( card );
+
+    if ( m_cardsWaitedFor.isEmpty() )
+        emit cardAnimationDone();
 }
 
 

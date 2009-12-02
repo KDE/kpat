@@ -98,6 +98,9 @@ public:
 
     bool hasAnimatedCards() const;
 
+signals:
+    void cardAnimationDone();
+
 public slots:
     void loadInBackground();
 
@@ -105,8 +108,8 @@ private: // functions
     int pseudoRandom();
 
 private slots:
-    void cardStartedAnimation( Card* card );
-    void cardStoppedAnimation( Card* card );
+    void cardStartedAnimation( Card * card );
+    void cardStoppedAnimation( Card * card );
 
 private:
     QList<Card*> m_allCards;
