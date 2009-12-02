@@ -69,6 +69,7 @@ public slots:
     void cardStopped(Card *c);
     void gameTypeChanged();
     virtual Card *newCards();
+    void checkAllForRuns();
 
 protected:
     virtual bool checkRemove(int /*checkIndex*/, const Pile *p, const Card *c) const;

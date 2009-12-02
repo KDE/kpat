@@ -375,6 +375,14 @@ bool Spider::checkPileDeck(Pile *check, bool checkForDemo)
     return false;
 }
 
+void Spider::checkAllForRuns()
+{
+    disconnect(deck(), SIGNAL(cardAnimationDone()), this, SLOT(checkAllForRuns()));
+
+    for (int i = 0; i < 10; ++i)
+        checkPileDeck( stack[i], false );
+}
+
 //-------------------------------------------------------------------------//
 
 
@@ -447,13 +455,11 @@ Card *Spider::newCards()
     redeals[m_redeal]->setVisible(false);
     relayoutPiles();
 
-    for (int column = 0; column < 10; ++column) {
+    for (int column = 0; column < 10; ++column)
         stack[column]->animatedAdd(redeals[m_redeal]->top(), true);
 
-        // I may put an Ace on a K->2 pile so it could need cleared.
-        if (stack[column]->top()->rank() == Card::Ace)
-            checkPileDeck(stack[column]);
-    }
+    // I may put an Ace on a K->2 pile so it could need cleared.
+    connect(deck(), SIGNAL(cardAnimationDone()), this, SLOT(checkAllForRuns()));
 
     ++m_redeal;
 
