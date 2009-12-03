@@ -51,6 +51,7 @@ Gypsy::Gypsy( )
 
     talon = new Pile(0, "talon");
     talon->setPilePos(8.5 * dist_x + 0.4, 4 * dist_y);
+    talon->setAddFlags(Pile::disallow);
     connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
     addPile(talon);
 

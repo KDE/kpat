@@ -55,6 +55,7 @@ Fortyeight::Fortyeight( )
     talon = new Pile(0, "talon");
     talon->setPilePos(smallNeg, smallNeg);
     talon->setZValue(20);
+    talon->setAddFlags(Pile::disallow);
     connect(talon, SIGNAL(pressed(Card*)), SLOT(newCards()));
     connect(talon, SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
     addPile(talon);

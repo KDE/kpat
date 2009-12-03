@@ -82,6 +82,7 @@ Mod3::Mod3( )
 
     talon = new Pile(0, "talon");
     talon->setPilePos(rightColumX, bottomRowY);
+    talon->setAddFlags(Pile::disallow);
     connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
     addPile(talon);
 

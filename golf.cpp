@@ -54,6 +54,7 @@ Golf::Golf( )
 
     talon = new Pile(0, "talon");
     talon->setPilePos(0, smallNeg);
+    talon->setAddFlags(Pile::disallow);
     connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
     addPile(talon);
 

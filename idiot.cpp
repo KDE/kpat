@@ -53,6 +53,7 @@ Idiot::Idiot( )
     // Create the talon to the left.
     talon = new Pile( 0, "talon" );
     talon->setPilePos(0, 0);
+    talon->setAddFlags(Pile::disallow);
     addPile(talon);
 
     const qreal distx = 1.1;

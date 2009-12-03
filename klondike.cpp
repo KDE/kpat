@@ -95,6 +95,8 @@ Klondike::Klondike()
     setDeck( new CardDeck() );
 
     talon = new Pile( 0, "talon" );
+    talon->setPilePos(0, 0);
+    talon->setAddFlags(Pile::disallow);
     connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
     // Give the talon a low Z value to keep it out of the way during there
     // deal animation.
