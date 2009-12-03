@@ -161,9 +161,8 @@ bool Golf::cardClicked(Card *c)
     Pile*p=findTarget(c);
     if (p)
     {
-        CardList empty;
-        empty.append(c);
-        c->source()->moveCards(empty, p);
+        c->source()->moveCards(QList<Card*>() << c, p);
+        onGameStateAlteredByUser();
         return true;
     }
     return false;
