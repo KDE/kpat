@@ -1254,7 +1254,7 @@ MoveHint *DealerScene::chooseHint()
     kDebug() << "chooseHint " << d->winMoves.count();
     if ( d->winMoves.count() )
     {
-        MOVE m = d->winMoves.takeFirst();
+        MOVE m = d->winMoves.first();
 #if DEBUG_HINTS
         if ( m.totype == O_Type )
             fprintf( stderr, "move from %d out (at %d) Prio: %d\n", m.from,
@@ -1266,8 +1266,11 @@ MoveHint *DealerScene::chooseHint()
         MoveHint *mh = solver()->translateMove( m );
 
         if ( mh )
+        {
+            d->winMoves.removeFirst();
             d->hints.append( mh );
-        return mh;
+            return mh;
+        }
     }
 
     if (d->hints.isEmpty())
