@@ -44,8 +44,6 @@ class Pile;
 #include <KCardCache>
 class KConfigGroup;
 
-#include <QSet>
-
 
 class CardDeck: public QObject
 {
@@ -119,7 +117,7 @@ private:
     QSizeF m_originalCardSize;
     QSize m_currentCardSize;
 
-    QSet<Card*> m_cardsWaitedFor;
+    int m_cardsWaitedFor;
     int m_pseudoRandomSeed;
 };
 
