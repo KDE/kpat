@@ -888,11 +888,7 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
         if ( !card )
             return;
 
-        if ( card == card->source()->top() )
-        {
-            cardDoubleClicked( card ); // see bug #151921
-        }
-        else
+        if ( card != card->source()->top() )
         {
             d->peekedCard = card;
             QPointF pos2( card->x() + deck()->cardWidth() / 3.0, card->y() - deck()->cardHeight() / 4.0 );
@@ -904,17 +900,26 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 
 void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
 {
+    clearHighlightedItems();
+
     if ( e->button() == Qt::RightButton )
     {
         if ( d->peekedCard && d->peekedCard->source() )
+        {
             d->peekedCard->source()->layoutCards( DURATION_FANCYSHOW );
-        d->peekedCard = 0;
+            d->peekedCard = 0;
+            return;
+        }
+
+        Card * card = qgraphicsitem_cast<Card*>( itemAt( e->scenePos() ) );
+        if ( card )
+        {
+            cardDoubleClicked( card ); // see bug #151921
+            return;
+        }
     }
-    else
-    {
-        clearHighlightedItems();
-        CardScene::mouseReleaseEvent( e );
-    }
+
+    CardScene::mouseReleaseEvent( e );
 }
 
 void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
