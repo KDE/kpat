@@ -51,6 +51,10 @@ struct TREE {
 	short depth;
 };
 
+#ifdef ERR
+#undef ERR
+#endif
+
 class MemoryManager
 {
 public:

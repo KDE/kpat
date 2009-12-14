@@ -30,6 +30,10 @@
 #include <sys/types.h>
 
 
+#ifdef ERR
+#undef ERR
+#endif
+
 long all_moves = 0;
 
 /* This is a 32 bit FNV hash.  For more information, see
