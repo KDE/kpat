@@ -318,7 +318,7 @@ void CardDeck::updateTheme( const KConfigGroup & cs )
 
 bool CardDeck::hasAnimatedCards() const
 {
-    return m_cardsWaitedFor;
+    return !m_cardsWaitedFor.isEmpty();
 }
 
 
@@ -328,21 +328,18 @@ void CardDeck::loadInBackground()
 }
 
 
-void CardDeck::cardStartedAnimation( Card * card )
+void CardDeck::cardStartedAnimation( Card *card )
 {
-    Q_UNUSED( card );
-    ++m_cardsWaitedFor;
+    m_cardsWaitedFor.insert( card );
 }
 
 
-void CardDeck::cardStoppedAnimation( Card * card )
+void CardDeck::cardStoppedAnimation( Card *card )
 {
-    Q_UNUSED( card );
-    Q_ASSERT( m_cardsWaitedFor > 0 );
+    Q_ASSERT( m_cardsWaitedFor.contains( card ) );
+    m_cardsWaitedFor.remove( card );
 
-    --m_cardsWaitedFor;
-
-    if ( m_cardsWaitedFor == 0 )
+    if ( m_cardsWaitedFor.isEmpty() )
         emit cardAnimationDone();
 }
 
