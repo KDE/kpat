@@ -134,7 +134,7 @@ void Freecell::moveCards(CardList &c, FreecellPile *from, Pile *to)
     Q_ASSERT(c.count() > 1);
 
     from->moveCardsBack(c);
-    waitfor = c.first();
+    waitfor = c.last();
     connect(waitfor, SIGNAL(animationStopped(Card*)), SLOT(waitForMoving(Card*)));
 
     PileList fcs;
