@@ -275,13 +275,17 @@ bool Freecell::cardDoubleClicked(Card *c)
         return false;
 
     if (c == c->source()->top() && c->realFace())
+    {
         for (int i = 0; i < 4; i++)
-            if (freecell[i]->isEmpty()) {
-                CardList empty;
-                empty.append(c);
-                c->source()->moveCards(empty, freecell[i]);
+        {
+            if (freecell[i]->isEmpty())
+            {
+                c->source()->moveCards(QList<Card*>() << c, freecell[i]);
+                onGameStateAlteredByUser();
                 return true;
             }
+        }
+    }
     return false;
 }
 
