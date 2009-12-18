@@ -342,9 +342,7 @@ void DealerScene::saveGame(QDomDocument &doc)
 
 void DealerScene::openGame(QDomDocument &doc)
 {
-    clearHighlightedItems();
-    d->wonItem->hide();
-    d->gameWasEverWinnable = false;
+    resetInternals();
 
     QDomElement dealer = doc.documentElement();
 
@@ -403,16 +401,8 @@ void DealerScene::openGame(QDomDocument &doc)
     }
     setGameState( dealer.attribute("data") );
 
-    if (d->undoList.count() > 1) {
-        setState(d->undoList.takeLast());
-        takeState(); // copying it again
-        eraseRedo();
-        emit undoPossible(d->undoList.count() > 1);
-    }
-
     emit updateMoves(getMoves());
-    emit hintPossible(true);
-    emit demoPossible(true);
+
     takeState();
 }
 
@@ -720,21 +710,40 @@ void DealerScene::startNew(int gameNumber)
         return;
     }
 
+    resetInternals();
+    d->loadedMoveCount = 0;
+    d->wasJustSaved = false;
+    d->initialDeal = true;
+
+    emit updateMoves( 0 );
+
+
+    restart();
+    takeState();
+    update();
+}
+
+void DealerScene::resetInternals()
+{
+    stopDemo();
+    clearHighlightedItems();
+
     d->_won = false;
     d->wonItem->hide();
-    d->gothelp = false;
+
     qDeleteAll(d->undoList);
     d->undoList.clear();
     qDeleteAll(d->redoList);
     d->redoList.clear();
+
     d->gameWasEverWinnable = false;
     d->toldAboutLostGame = false;
     d->toldAboutWonGame = false;
-    d->wasJustSaved = false;
-    d->loadedMoveCount = 0;
 
-    stopDemo();
-    clearHighlightedItems();
+    d->gothelp = false;
+
+    d->manualDropInProgress = false;
+    d->dropSpeedFactor = 1;
 
     foreach (Card * c, deck()->cards())
     {
@@ -743,14 +752,8 @@ void DealerScene::startNew(int gameNumber)
     }
 
     emit solverStateChanged( QString() );
-    emit updateMoves( 0 );
-    emit demoPossible( true );
     emit hintPossible( true );
-    d->initialDeal = true;
-
-    restart();
-    takeState();
-    update();
+    emit demoPossible( true );
 }
 
 QPointF posAlongRect( qreal distOnRect, const QRectF & rect )

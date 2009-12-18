@@ -199,6 +199,8 @@ protected slots:
     virtual bool drop();
 
 private:
+    void resetInternals();
+
     bool _autodrop;
     bool _usesolver;
     int gamenumber;
