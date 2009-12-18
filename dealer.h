@@ -110,7 +110,6 @@ public:
     bool demoActive() const;
     virtual bool isGameLost() const;
     virtual bool isGameWon() const;
-    bool isInitialDeal() const;
     bool allowedToStartNewGame();
     int getMoves() const;
 

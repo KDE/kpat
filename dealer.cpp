@@ -213,7 +213,6 @@ public:
     bool stop_demo_next;
     qreal dropSpeedFactor;
 
-    bool initialDeal;
     bool manualDropInProgress;
     QList<MoveHint*> hints;
     QList<State*> redoList;
@@ -258,7 +257,6 @@ void DealerScene::takeState()
     }
 
     if (n) {
-        d->initialDeal = false;
         d->wasJustSaved = false;
         if (isGameWon()) {
             won();
@@ -283,8 +281,6 @@ void DealerScene::takeState()
         emit redoPossible(d->redoList.count() > 1);
     }
 }
-
-bool DealerScene::isInitialDeal() const { return d->initialDeal; }
 
 void DealerScene::saveGame(QDomDocument &doc)
 {
@@ -483,7 +479,6 @@ DealerScene::DealerScene()
     d->updateSolver = new QTimer(this);
     d->updateSolver->setInterval( 250 );
     d->updateSolver->setSingleShot( true );
-    d->initialDeal = true;
     d->loadedMoveCount = 0;
     d->peekedCard = 0;
     connect( d->updateSolver, SIGNAL(timeout()), SLOT(stopAndRestartSolver()) );
@@ -713,7 +708,6 @@ void DealerScene::startNew(int gameNumber)
     resetInternals();
     d->loadedMoveCount = 0;
     d->wasJustSaved = false;
-    d->initialDeal = true;
 
     emit updateMoves( 0 );
 
