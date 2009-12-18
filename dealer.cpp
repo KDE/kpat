@@ -1230,7 +1230,7 @@ void DealerScene::stopDemo()
     {
         Card *c = qgraphicsitem_cast<Card*>(item);
         if (c)
-            c->stopAnimation();
+            c->completeAnimation();
     }
 
     d->demotimer->stop();
@@ -1328,7 +1328,7 @@ void DealerScene::demo()
         QMap<Card*,QPointF> oldPositions;
 
         foreach (Card *c, empty) {
-            c->stopAnimation();
+            c->completeAnimation();
             c->turn(true);
             oldPositions.insert(c, c->realPos());
         }

@@ -381,7 +381,7 @@ void Pile::animatedAdd( Card* _card, bool faceUp )
     add(_card);
     layoutCards( DURATION_RELAYOUT);
 
-    _card->stopAnimation();
+    _card->completeAnimation();
     QPointF destPos = _card->pos();
     _card->setPos( origPos );
 

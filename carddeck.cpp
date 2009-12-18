@@ -330,6 +330,7 @@ void CardDeck::loadInBackground()
 
 void CardDeck::cardStartedAnimation( Card *card )
 {
+    Q_ASSERT( !m_cardsWaitedFor.contains( card ) );
     m_cardsWaitedFor.insert( card );
 }
 

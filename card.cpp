@@ -218,6 +218,8 @@ bool Card::realFace() const
 
 void Card::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool faceup2, bool raised, int duration )
 {
+    stopAnimation();
+
     if ( duration <= 0 )
     {
         setPos( pos2 );
@@ -304,16 +306,12 @@ void Card::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool 
 // Start a move of the card using animation.
 void Card::moveTo( QPointF pos2, qreal z2, int duration )
 {
-    stopAnimation();
-
     animate( pos2, z2, 1, 0, isFaceUp(), true, duration );
 }
 
 // Animate a move to (x2, y2), and at the same time flip the card.
 void Card::flipTo( QPointF pos2, int duration )
 {
-    stopAnimation();
-
     animate( pos2, zValue(), 1.0, 0.0, !isFaceUp(), true, duration );
 }
 
@@ -325,7 +323,7 @@ void Card::flipToPile( Pile * pile, int duration )
 
     pile->add(this);
     pile->layoutCards( DURATION_RELAYOUT );
-    stopAnimation();
+    completeAnimation();
     QPointF destPos = realPos();
 
     setPos( origPos );
@@ -374,7 +372,7 @@ qreal Card::highlightedness() const
     return m_highlightedness;
 }
 
-void Card::stopAnimation()
+void Card::completeAnimation()
 {
     if ( !m_animation )
         return;
@@ -382,6 +380,14 @@ void Card::stopAnimation()
     m_animation->disconnect( this );
     if ( m_animation->state() != QAbstractAnimation::Stopped )
         m_animation->setCurrentTime( m_animation->duration() );
+
+    stopAnimation();
+}
+
+void Card::stopAnimation()
+{
+    if ( !m_animation )
+        return;
 
     delete m_animation;
     m_animation = 0;

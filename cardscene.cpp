@@ -478,8 +478,6 @@ void CardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
         m_dragStarted = false;
         m_cardsBeingDragged = card->source()->cardPressed( card );
         m_startOfDrag = e->scenePos();
-        foreach ( Card * c, m_cardsBeingDragged )
-            c->stopAnimation();
     }
 }
 

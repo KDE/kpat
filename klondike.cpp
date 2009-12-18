@@ -170,7 +170,7 @@ Card *Klondike::newCards()
         while ( !pile->isEmpty() )
         {
             Card *c = pile->top();
-            c->stopAnimation();
+            c->completeAnimation();
             c->turn( false );
             talon->add(c);
         }
@@ -191,7 +191,7 @@ Card *Klondike::newCards()
         foreach ( Card *c, flippedCards )
         {
             ++flipped;
-            c->stopAnimation();
+            c->completeAnimation();
             QPointF destPos = c->realPos();
             c->setPos( talon->pos() );
             c->flipTo( destPos, DURATION_FLIP * ( 1 + flipped / 6.0) );

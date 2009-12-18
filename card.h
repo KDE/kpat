@@ -127,6 +127,7 @@ signals:
 public slots:
     void       updatePixmap();
     void       flip();
+    void       completeAnimation();
     void       stopAnimation();
 
 private:
