@@ -1084,6 +1084,7 @@ bool DealerScene::drop()
 
             t->source()->moveCards( cards, mh->pile() );
 
+            bool animationStarted = false;
             int count = 0;
             foreach ( Card *c, cards )
             {
@@ -1094,11 +1095,14 @@ bool DealerScene::drop()
                 int duration = speedUpTime( DURATION_AUTODROP + count++ * DURATION_AUTODROP / 10 );
                 c->moveTo( destPos, c->zValue(), duration );
 
-                if ( c->animated() )
-                    connect( c, SIGNAL(animationStopped(Card*)), SLOT(waitForAutoDrop(Card*)) );
+                animationStarted |= c->animated();
             }
 
             d->dropSpeedFactor *= AUTODROP_SPEEDUP_FACTOR;
+
+            if ( animationStarted )
+                connect( deck(), SIGNAL(cardAnimationDone()), this, SLOT(waitForAutoDrop()) );
+
             return true;
         }
     }
@@ -1195,9 +1199,10 @@ void DealerScene::slotSolverFinished()
     }
 }
 
-void DealerScene::waitForAutoDrop(Card * c) {
-    c->disconnect( this, SLOT(waitForAutoDrop(Card*)) );
-    c->stopAnimation(); // should be a no-op
+void DealerScene::waitForAutoDrop()
+{
+    disconnect( deck(), SIGNAL(cardAnimationDone()), this, SLOT(waitForAutoDrop()) );
+
     takeState();
     eraseRedo();
 }
