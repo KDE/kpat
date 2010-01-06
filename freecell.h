@@ -91,7 +91,7 @@ protected:
     Pile* target[4];
 
 private:
-    HintList moves;
+    QList<MoveHint*> moves;
     int sum_moves;
     int current_weight;
     Card *waitfor;

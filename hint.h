@@ -46,20 +46,34 @@ class Pile;
 class MoveHint
 {
 public:
-    MoveHint(Card *card, Pile *to, int prio);
+    MoveHint( Card * card, Pile * to, int prio )
+      : m_card( card ),
+        m_to( to ),
+        m_prio( prio )
+    {
+        Q_ASSERT( card );
+        Q_ASSERT( to );
+    }
 
-    Card  *card() const         { return m_card;         }
-    Pile  *pile() const         { return m_to;           }
-    int priority() const      { return m_prio; }
+    Card * card() const
+    {
+        return m_card;
+    }
+
+    Pile * pile() const
+    {
+        return m_to;
+    }
+
+    int priority() const
+    {
+        return m_prio;
+    }
 
 private:
-    Card  *m_card;
-    Pile  *m_to;
+    Card * m_card;
+    Pile * m_to;
     int m_prio;
 };
-
-
-typedef QList<MoveHint*>  HintList;
-
 
 #endif

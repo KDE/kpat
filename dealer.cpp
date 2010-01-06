@@ -89,17 +89,6 @@ inline void myassert_fail (__const char *__assertion, __const char *__file,
 
 
 // ================================================================
-//                         class MoveHint
-
-MoveHint::MoveHint(Card *card, Pile *to, int prio)
-{
-    m_card         = card;
-    m_to           = to;
-    m_prio         = prio;
-}
-
-
-// ================================================================
 //                          class CardState
 
 class CardState {
