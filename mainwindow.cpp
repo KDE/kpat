@@ -683,7 +683,7 @@ void MainWindow::showStats()
 {
     QPointer<StatisticsDialog> dlg = new StatisticsDialog(this);
     if (m_dealer)
-        dlg->showGameType(m_dealer->gameId());
+        dlg->showGameType(m_dealer->oldId());
     dlg->exec();
     delete dlg;
 }
