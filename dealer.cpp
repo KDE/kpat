@@ -395,6 +395,10 @@ void DealerScene::undo()
 {
     clearHighlightedItems();
     stopDemo();
+
+    if ( deck()->hasAnimatedCards() )
+        return;
+
     kDebug() << "::undo" << d->undoList.count();
     if (d->undoList.count() > 1) {
         d->redoList.append( d->undoList.takeLast() );
@@ -417,6 +421,10 @@ void DealerScene::redo()
 {
     clearHighlightedItems();
     stopDemo();
+
+    if ( deck()->hasAnimatedCards() )
+        return;
+
     kDebug() << "::redo" << d->redoList.count();
     if (d->redoList.count() > 0) {
         setState(d->redoList.takeLast());
