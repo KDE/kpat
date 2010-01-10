@@ -52,6 +52,7 @@ CardScene::CardScene( QObject * parent )
   : QGraphicsScene( parent ),
     m_deck( 0 ),
     m_piles(),
+    m_alignment( AlignHCenter | AlignHSpread ),
     m_layoutMargin( 0.15 ),
     m_layoutSpacing( 0.15 ),
     m_contentSize(),
@@ -139,9 +140,29 @@ bool CardScene::checkRemove( int checkIndex, const Pile * pile, const Card * car
 }
 
 
+void CardScene::setSceneAlignment( CardScene::SceneAlignment alignment )
+{
+    if ( alignment != m_alignment )
+    {
+        m_alignment = alignment;
+        relayoutScene();
+    }
+}
+
+
+CardScene::SceneAlignment CardScene::sceneAlignment() const
+{
+    return m_alignment;
+}
+
+
 void CardScene::setLayoutMargin( qreal margin )
 {
-    m_layoutMargin = margin;
+    if ( margin != m_layoutMargin )
+    {
+        m_layoutMargin = margin;
+        relayoutScene();
+    }
 }
 
 
@@ -153,7 +174,11 @@ qreal CardScene::layoutMargin() const
 
 void CardScene::setLayoutSpacing( qreal spacing )
 {
-    m_layoutSpacing = spacing;
+    if ( spacing != m_layoutSpacing )
+    {
+        m_layoutSpacing = spacing;
+        relayoutScene();
+    }
 }
 
 
@@ -204,12 +229,58 @@ void CardScene::relayoutScene()
 
     deck()->setCardWidth( n_scaleFactor * deck()->cardWidth() );
 
-    m_contentSize = QSizeF( usedArea.width() * deck()->cardWidth(),
-                            height() - 2 * m_layoutMargin * deck()->cardHeight() );
+    qreal usedPixelWidth = usedArea.width() * deck()->cardWidth();
+    qreal usedPixelHeight = usedArea.height() * deck()->cardHeight();
+    qreal pixelHMargin = m_layoutMargin * deck()->cardWidth();
+    qreal pixelVMargin = m_layoutMargin * deck()->cardHeight();
 
-    qreal xOffset = ( width() - m_contentSize.width() ) / 2;
-    qreal yOffset = ( height() - m_contentSize.height() ) / 2;
+    qreal contentWidth;
+    qreal xOffset;
+    if ( m_alignment & AlignLeft )
+    {
+        contentWidth = usedPixelWidth;
+        xOffset = pixelHMargin;
+    }
+    else if ( m_alignment & AlignRight )
+    {
+        contentWidth = usedPixelWidth;
+        xOffset = width() - contentWidth - pixelHMargin;
+    }
+    else if ( m_alignment & AlignHCenter )
+    {
+        contentWidth = usedPixelWidth;
+        xOffset = ( width() - contentWidth ) / 2;
+    }
+    else
+    {
+        contentWidth = width() - 2 * m_layoutMargin * deck()->cardWidth();
+        xOffset = pixelHMargin;
+    }
 
+    qreal contentHeight;
+    qreal yOffset;
+    if ( m_alignment & AlignTop )
+    {
+        contentHeight = usedPixelHeight;
+        yOffset = pixelVMargin;
+    }
+    else if ( m_alignment & AlignBottom )
+    {
+        contentHeight = usedPixelHeight;
+        yOffset = height() - contentHeight - pixelVMargin;
+    }
+    else if ( m_alignment & AlignVCenter )
+    {
+        contentHeight = usedPixelHeight;
+        yOffset = ( height() - contentHeight ) / 2;
+    }
+    else
+    {
+        contentHeight = height() - 2 * m_layoutMargin * deck()->cardHeight();
+        yOffset = pixelVMargin;
+    }
+
+    m_contentSize = QSizeF( contentWidth, contentHeight );
     setSceneRect( -xOffset, -yOffset, width(), height() );
 
     relayoutPiles();

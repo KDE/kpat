@@ -50,6 +50,19 @@ class Pile;
 class CardScene : public QGraphicsScene
 {
 public:
+    enum SceneAlignmentFlag
+    {
+        AlignLeft = 0x0001,
+        AlignRight = 0x0002,
+        AlignHCenter = 0x0004,
+        AlignHSpread = 0x0008,
+        AlignTop = 0x0010,
+        AlignBottom = 0x0020,
+        AlignVCenter = 0x0040,
+        AlignVSpread = 0x0080
+    };
+    Q_DECLARE_FLAGS(SceneAlignment, SceneAlignmentFlag)
+
     CardScene( QObject * parent = 0 );
     ~CardScene();
 
@@ -62,7 +75,6 @@ public:
     virtual void relayoutScene();
     virtual void relayoutPiles();
 
-
     virtual void addPile( Pile * pile );
     virtual void removePile( Pile * pile );
     QList<Pile*> piles() const;
@@ -70,6 +82,8 @@ public:
     virtual bool checkAdd( int checkIndex, const Pile * pile, const QList<Card*> & cards ) const;
     virtual bool checkRemove( int checkIndex, const Pile * pile, const Card * card ) const;
 
+    void setSceneAlignment( SceneAlignment alignment );
+    SceneAlignment sceneAlignment() const;
     void setLayoutMargin( qreal margin );
     qreal layoutMargin() const;
     void setLayoutSpacing( qreal spacing );
@@ -108,11 +122,14 @@ private:
     QPointF m_startOfDrag;
     bool m_dragStarted;
 
+    SceneAlignment m_alignment;
     qreal m_layoutMargin;
     qreal m_layoutSpacing;
     QSizeF m_contentSize;
 
     bool m_sizeHasBeenSet;
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS( CardScene::SceneAlignment )
 
 #endif

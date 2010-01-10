@@ -45,6 +45,8 @@
 Clock::Clock( )
     : DealerScene( )
 {
+    setSceneAlignment( AlignHCenter | AlignVCenter );
+
     setDeck(new CardDeck());
 
     const qreal dist_x = 1.11;
