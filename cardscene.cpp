@@ -612,9 +612,12 @@ void CardScene::drawForeground ( QPainter * painter, const QRectF & rect )
     if ( !m_sizeHasBeenSet )
         return;
 
+    painter->setPen( Qt::yellow );
+    painter->drawRect( 0, 0, m_contentSize.width(), m_contentSize.height() );
+
     const int cardWidth = deck()->cardWidth();
     const int cardHeight = deck()->cardHeight();
-    foreach ( const Pile *p, piles() )
+    foreach ( const Pile * p, piles() )
     {
         if ( !p->isVisible() )
             continue;
@@ -628,16 +631,16 @@ void CardScene::drawForeground ( QPainter * painter, const QRectF & rect )
         if ( p->reservedSpace().height() < 0 )
             reservedRect.moveBottom( p->y() + cardHeight );
 
-        QRectF availbleRect;
-        availbleRect.setSize( p->maximumSpace() );
-        availbleRect.moveTopLeft( p->pos() );
+        QRectF availableRect;
+        availableRect.setSize( p->maximumSpace() );
+        availableRect.moveTopLeft( p->pos() );
         if ( p->reservedSpace().width() < 0 )
-            availbleRect.moveRight( p->x() + cardWidth );
+            availableRect.moveRight( p->x() + cardWidth );
         if ( p->reservedSpace().height() < 0 )
-            availbleRect.moveBottom( p->y() + cardHeight );
+            availableRect.moveBottom( p->y() + cardHeight );
 
         painter->setPen( Qt::cyan );
-        painter->drawRect( availbleRect );
+        painter->drawRect( availableRect );
         painter->setPen( QPen( Qt::red, 1, Qt::DotLine, Qt::FlatCap ) );
         painter->drawRect( reservedRect );
     }
