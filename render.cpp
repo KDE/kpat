@@ -168,7 +168,7 @@ QPixmap Render::renderGamePreview( int id, QSize size )
     {
         kDebug() << "Rendering preview number" << id << "at " << size << " pixels.";
 
-        result = QPixmap( KStandardDirs::locate( "data", QString( "kpat/demos/demo_%1.png" ).arg( id ) ) );
+        result = QPixmap( KStandardDirs::locate( "data", QString( "kpat/previews/%1.png" ).arg( id ) ) );
         result = result.scaled( size, Qt::KeepAspectRatio );
         rp->m_pixmapCache.insert( key, result );
     }

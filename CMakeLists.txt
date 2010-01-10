@@ -1,7 +1,7 @@
 project(kpat)
 
 add_subdirectory( icons ) 
-add_subdirectory( demos )
+add_subdirectory( previews )
 
 ########### next target ###############
 
