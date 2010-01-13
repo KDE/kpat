@@ -96,7 +96,7 @@ public:
     virtual int checkIndex() const { return _checkIndex; }
 
     void setTarget(bool t) { _target = t; }
-    bool target() const { return _target; }
+    bool isTarget() const { return _target; }
 
     void setHighlighted( bool flag );
     bool isHighlighted() const;

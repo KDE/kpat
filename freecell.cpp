@@ -373,11 +373,11 @@ void Freecell::getHints()
                 {
                     if (dest == store)
                         continue;
-                    if (store->indexOf(*iti) == 0 && dest->isEmpty() && !dest->target())
+                    if (store->indexOf(*iti) == 0 && dest->isEmpty() && !dest->isTarget())
                         continue;
                     if (!dest->legalAdd(cards))
                         continue;
-                    if ( dest->target() ) // taken care by solver
+                    if ( dest->isTarget() ) // taken care by solver
                         continue;
 
                     bool old_prefer = checkPrefering( dest, cards );

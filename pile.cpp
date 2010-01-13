@@ -330,7 +330,7 @@ void Pile::add( Card *_card, int index)
     Pile *oldSource = _card->source();
     if (oldSource)
     {
-        _card->setTakenDown(oldSource->target() && !target());
+        _card->setTakenDown(oldSource->isTarget() && !isTarget());
         oldSource->remove(_card);
     }
 

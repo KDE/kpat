@@ -622,7 +622,7 @@ void DealerScene::getHints()
 
     foreach (Pile *store, piles())
     {
-        if (store->target() || store->isEmpty())
+        if (store->isTarget() || store->isEmpty())
             continue;
 
         CardList cards = store->cards();
@@ -636,13 +636,13 @@ void DealerScene::getHints()
                 {
                     if (dest == store)
                         continue;
-                    if (store->indexOf(*iti) == 0 && dest->isEmpty() && !dest->target())
+                    if (store->indexOf(*iti) == 0 && dest->isEmpty() && !dest->isTarget())
                         continue;
                     if (!dest->legalAdd(cards))
                         continue;
 
                     bool old_prefer = checkPrefering( dest, cards );
-                    if (dest->target())
+                    if (dest->isTarget())
                         newHint(new MoveHint(*iti, dest, 127));
                     else {
                         store->hideCards(cards);
@@ -988,7 +988,7 @@ void DealerScene::setState(State *st)
     foreach (Pile *p, piles())
     {
         foreach (Card *c, p->cards())
-            c->setTakenDown(p->target());
+            c->setTakenDown(p->isTarget());
         p->clear();
     }
 
@@ -999,7 +999,7 @@ void DealerScene::setState(State *st)
         c->turn(s.faceup);
         s.source->add(c, s.source_index);
         c->setZValue(s.z);
-        c->setTakenDown(s.tookdown || (target && !s.source->target()));
+        c->setTakenDown(s.tookdown || (target && !s.source->isTarget()));
     }
 
     foreach (Pile *p, piles())
@@ -1018,7 +1018,7 @@ Pile *DealerScene::findTarget(Card *c)
 
     foreach (Pile *p, piles())
     {
-        if (!p->target())
+        if (!p->isTarget())
             continue;
         if (p->legalAdd(CardList() << c))
             return p;
@@ -1068,7 +1068,7 @@ bool DealerScene::drop()
 
     foreach ( const MoveHint *mh, d->hints )
     {
-        if ( mh->pile() && mh->pile()->target() && mh->priority() > 120 && !mh->card()->takenDown() )
+        if ( mh->pile() && mh->pile()->isTarget() && mh->priority() > 120 && !mh->card()->takenDown() )
         {
             Card *t = mh->card();
             CardList cards = mh->card()->source()->cards();
@@ -1334,7 +1334,7 @@ void DealerScene::demo()
         assert(mh->card()->source());
         assert(mh->pile());
         assert(mh->card()->source() != mh->pile());
-        assert(mh->pile()->target() || mh->pile()->legalAdd(empty));
+        assert(mh->pile()->isTarget() || mh->pile()->legalAdd(empty));
 
         mh->card()->source()->moveCards(empty, mh->pile());
 
@@ -1403,7 +1403,7 @@ bool DealerScene::isGameWon() const
 {
     foreach (Pile *p, piles())
     {
-        if (!p->target() && !p->isEmpty())
+        if (!p->isTarget() && !p->isEmpty())
             return false;
     }
     return true;
