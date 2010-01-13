@@ -50,6 +50,9 @@ public:
     Idiot( );
     virtual bool  isGameWon() const;
     virtual void restart();
+    virtual bool checkAdd(int checkIndex, const Pile * pile, const QList<Card*> & cards) const;
+    virtual bool checkRemove(int checkIndex, const Pile * pile, const Card * card) const;
+    bool canMoveAway(const Card * card) const;
 
 public slots:
     virtual Card *newCards();
@@ -62,8 +65,6 @@ protected:
     virtual void  setGameState(const QString &);
 
 private:
-    bool canMoveAway(Card *c) const;
-
     Pile  *talon;
     Pile  *m_play[ 4 ];
     Pile  *m_away;

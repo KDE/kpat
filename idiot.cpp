@@ -42,6 +42,7 @@
 
 #include <KLocale>
 
+
 Idiot::Idiot( )
   : DealerScene( )
 {
@@ -60,8 +61,9 @@ Idiot::Idiot( )
     // Create 4 piles where the cards will be placed during the game.
     for( int i = 0; i < 4; i++ ) {
         m_play[i] = new Pile( i + 1, QString( "play%1" ).arg( i ));
-        m_play[i]->setAddFlags( Pile::addSpread );
-        m_play[i]->setRemoveFlags( Pile::disallow | Pile::demoOK );
+        m_play[i]->setCheckIndex(1);
+        m_play[i]->setAddFlags(Pile::addSpread | Pile::Custom);
+        m_play[i]->setRemoveFlags(Pile::Custom);
         m_play[i]->setPilePos(1.5 + distx * i, 0);
         m_play[i]->setReservedSpace( QSizeF( 1.0, 3.0 ) );
         addPile( m_play[i] );
@@ -70,6 +72,7 @@ Idiot::Idiot( )
     // Create the discard pile to the right
     m_away = new Pile( 5, "away" );
     m_away->setTarget(true);
+    m_away->setCheckIndex(2);
     m_away->setRemoveFlags(Pile::disallow);
     m_away->setPilePos(1.9 + distx * 4, 0);
     addPile(m_away);
@@ -93,6 +96,59 @@ void Idiot::restart()
     emit newCardsPossible(true);
 }
 
+bool Idiot::checkAdd(int checkIndex, const Pile * pile, const QList<Card*> & cards) const
+{
+    if ( checkIndex == 2 )
+        return true;
+
+    if ( checkIndex == 1 && pile->isEmpty() && cards.size() == 1 )
+        return true;
+
+    return false;
+}
+
+
+bool Idiot::checkRemove(int checkIndex, const Pile * pile, const Card * card) const
+{
+    if ( checkIndex != 1 )
+        return false;
+
+    if ( card != pile->top() )
+        return false;
+
+    if ( canMoveAway( card ) )
+        return true;
+
+    for ( int i = 0; i < 4; ++i )
+    {
+        if ( m_play[i]->isEmpty() )
+            return true;
+    }
+
+    return false;
+}
+
+bool Idiot::canMoveAway(const Card* card) const
+{
+    if ( card->source() == talon || card->source() == m_away )
+        return false;
+
+    if ( card != card->source()->top() )
+        return false;
+
+    for ( int i = 0; i < 4; ++i )
+    {
+        Card * c = m_play[i]->top();
+        if ( c && c != card && c->suit() == card->suit()
+            && ( c->rank() == Card::Ace || (card->rank() != Card::Ace && c->rank() > card->rank() ) ) )
+            return true;
+    }
+
+    return false;
+}
+
+
+
 bool Idiot::cardClicked(Card *c)
 {
     // If the deck is clicked, deal 4 more cards.
@@ -106,17 +162,8 @@ bool Idiot::cardClicked(Card *c)
         return false;
 
     bool  didMove = true;
-    finishSolver();
-    solver()->translate_layout();
-    int index = -1;
-    for ( int i = 0; i < 4; i++ )
-        if ( m_play[i] == c->source() )
-        {
-            index = i;
-            break;
-        }
 
-    if ( index != -1 && static_cast<IdiotSolver*>( solver() )->canMoveAway(index) )
+    if ( canMoveAway(c) )
         // Add to 'm_away', face up, no spread
         m_away->animatedAdd(c, true );
     else if ( m_play[ 0 ]->isEmpty() )

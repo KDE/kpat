@@ -59,7 +59,6 @@ const int Pile::addSpread     = 0x0100;
 // Remove-flags
 const int Pile::autoTurnTop   = 0x0200;
 const int Pile::wholeColumn   = 0x0400;
-const int Pile::demoOK        = 0x0800;
 
 Pile::Pile( int _index, const QString & objectName )
     : QGraphicsPixmapItem(),
@@ -199,7 +198,7 @@ void Pile::updatePixmap()
     setPixmap( pix );
 }
 
-bool Pile::legalAdd( const CardList& _cards, bool ) const
+bool Pile::legalAdd( const CardList& _cards ) const
 {
     if( addFlags & disallow ) {
         return false;
@@ -236,11 +235,8 @@ bool Pile::legalAdd( const CardList& _cards, bool ) const
     return false;
 }
 
-bool Pile::legalRemove(const Card *c, bool demo) const
+bool Pile::legalRemove(const Card *c) const
 {
-    if ( demo && removeFlags & demoOK )
-        return true;
-
     if( removeFlags & disallow ) {
         return false;
     }

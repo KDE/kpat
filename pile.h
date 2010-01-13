@@ -76,7 +76,6 @@ public:
     // Remove-flags
     static const int autoTurnTop;
     static const int wholeColumn;
-    static const int demoOK;
 
     explicit Pile( int _index, const QString & objectName = QString() );
     virtual ~Pile();
@@ -84,8 +83,8 @@ public:
     CardScene  *cardScene() const;
     CardList      cards()  const { return m_cards; }
 
-    bool legalAdd(const CardList &c, bool demo = false ) const;
-    bool legalRemove(const Card *c, bool demo = false) const;
+    virtual bool legalAdd(const CardList &c) const;
+    virtual bool legalRemove(const Card *c) const;
 
     virtual void moveCards(CardList &c, Pile *to = 0);
     void moveCardsBack(CardList& c, int duration = -1);

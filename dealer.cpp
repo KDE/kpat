@@ -1309,7 +1309,7 @@ void DealerScene::demo()
                                    << "pile to the" << mh->pile()->objectName()
                                    << "pile, which is empty";
         myassert(mh->card()->source() == 0 ||
-               mh->card()->source()->legalRemove(mh->card(), true));
+               mh->card()->source()->legalRemove(mh->card()));
 
         CardList empty;
         CardList cards = mh->card()->source()->cards();
