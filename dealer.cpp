@@ -641,7 +641,7 @@ void DealerScene::getHints()
                     if (!dest->legalAdd(cards))
                         continue;
 
-                    bool old_prefer = checkPrefering( dest->checkIndex(), dest, cards );
+                    bool old_prefer = checkPrefering( dest, cards );
                     if (dest->target())
                         newHint(new MoveHint(*iti, dest, 127));
                     else {
@@ -650,8 +650,7 @@ void DealerScene::getHints()
                         if ((store->isEmpty() && !dest->isEmpty()) || !store->legalAdd(cards))
                             newHint(new MoveHint(*iti, dest, 0));
                         else {
-                            if (old_prefer && !checkPrefering( store->checkIndex(),
-                                                               store, cards ))
+                            if (old_prefer && !checkPrefering( store, cards ))
                             { // if checkPrefers says so, we add it nonetheless
                                 newHint(new MoveHint(*iti, dest, 10));
                             }
@@ -666,7 +665,7 @@ void DealerScene::getHints()
     }
 }
 
-bool DealerScene::checkPrefering( int /*checkIndex*/, const Pile *, const CardList& ) const
+bool DealerScene::checkPrefering( const Pile *, const CardList& ) const
 {
     return false;
 }

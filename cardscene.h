@@ -79,8 +79,8 @@ public:
     virtual void removePile( Pile * pile );
     QList<Pile*> piles() const;
 
-    virtual bool checkAdd( int checkIndex, const Pile * pile, const QList<Card*> & cards ) const;
-    virtual bool checkRemove( int checkIndex, const Pile * pile, const Card * card ) const;
+    virtual bool checkAdd( const Pile * pile, const QList<Card*> & cards ) const;
+    virtual bool checkRemove( const Pile * pile, const Card * card ) const;
 
     void setSceneAlignment( SceneAlignment alignment );
     SceneAlignment sceneAlignment() const;

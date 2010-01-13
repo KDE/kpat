@@ -162,9 +162,8 @@ void Grandf::collect() {
     }
 }
 
-bool Grandf::checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const {
-    kDebug() << checkIndex << c1->isEmpty();
-    Q_ASSERT (checkIndex == 1);
+bool Grandf::checkAdd( const Pile *c1, const CardList& c2) const {
+    Q_ASSERT (c1->checkIndex() == 1);
     if (c1->isEmpty())
         return c2.first()->rank() == Card::King;
     else

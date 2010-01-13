@@ -59,8 +59,8 @@ protected:
     virtual void setGameState( const QString & );
 
 private: // functions
-    virtual bool checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const;
-    virtual bool checkRemove( int checkIndex, const Pile *c1, const Card *c2) const;
+    virtual bool checkAdd( const Pile *c1, const CardList& c2) const;
+    virtual bool checkRemove( const Pile *c1, const Card *c2) const;
 
 private:
     Pile* talon;

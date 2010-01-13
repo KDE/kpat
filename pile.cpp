@@ -217,7 +217,7 @@ bool Pile::legalAdd( const CardList& _cards ) const
 
     switch (addType()) {
         case Custom:
-            return cardScene()->checkAdd( checkIndex(), this, _cards );
+            return cardScene()->checkAdd( this, _cards );
             break;
         case KlondikeTarget:
             return add_klondikeTarget(_cards);
@@ -247,7 +247,7 @@ bool Pile::legalRemove(const Card *c) const
 
     switch (removeType()) {
         case Custom:
-            return cardScene()->checkRemove( checkIndex(), this, c);
+            return cardScene()->checkRemove( this, c);
             break;
         case KlondikeTarget:
         case GypsyStore:

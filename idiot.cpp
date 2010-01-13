@@ -96,21 +96,21 @@ void Idiot::restart()
     emit newCardsPossible(true);
 }
 
-bool Idiot::checkAdd(int checkIndex, const Pile * pile, const QList<Card*> & cards) const
+bool Idiot::checkAdd(const Pile * pile, const QList<Card*> & cards) const
 {
-    if ( checkIndex == 2 )
+    if ( pile->checkIndex() == 2 )
         return true;
 
-    if ( checkIndex == 1 && pile->isEmpty() && cards.size() == 1 )
+    if ( pile->checkIndex() == 1 && pile->isEmpty() && cards.size() == 1 )
         return true;
 
     return false;
 }
 
 
-bool Idiot::checkRemove(int checkIndex, const Pile * pile, const Card * card) const
+bool Idiot::checkRemove(const Pile * pile, const Card * card) const
 {
-    if ( checkIndex != 1 )
+    if ( pile->checkIndex() != 1 )
         return false;
 
     if ( card != pile->top() )

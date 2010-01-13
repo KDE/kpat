@@ -311,16 +311,16 @@ bool Freecell::CanPutStore(const Pile *c1, const CardList &c2) const
             && (c1->top()->isRed() != c->isRed()));
 }
 
-bool Freecell::checkAdd(int, const Pile *c1, const CardList &c2) const
+bool Freecell::checkAdd(const Pile *c1, const CardList &c2) const
 {
     return CanPutStore(c1, c2);
 }
 
 //-------------------------------------------------------------------------//
 
-bool Freecell::checkRemove(int checkIndex, const Pile *p, const Card *c) const
+bool Freecell::checkRemove(const Pile *p, const Card *c) const
 {
-    if (checkIndex != 0)
+    if (p->checkIndex() != 0)
         return false;
 
     // ok if just one card
@@ -380,14 +380,13 @@ void Freecell::getHints()
                     if ( dest->target() ) // taken care by solver
                         continue;
 
-                    bool old_prefer = checkPrefering( dest->checkIndex(), dest, cards );
+                    bool old_prefer = checkPrefering( dest, cards );
                     store->hideCards(cards);
                     // if it could be here as well, then it's no use
                     if ((store->isEmpty() && !dest->isEmpty()) || !store->legalAdd(cards))
                         newHint(new MoveHint(*iti, dest, 0));
                     else {
-                        if (old_prefer && !checkPrefering( store->checkIndex(),
-                                                           store, cards ))
+                        if (old_prefer && !checkPrefering( store, cards ))
                         { // if checkPrefers says so, we add it nonetheless
                             newHint(new MoveHint(*iti, dest, 0));
                         }

@@ -240,7 +240,7 @@ void Spider::cardStopped(Card * t)
 
 //-------------------------------------------------------------------------//
 
-bool Spider::checkAdd(int /*checkIndex*/, const Pile *c1, const CardList& c2) const
+bool Spider::checkAdd(const Pile *c1, const CardList& c2) const
 {
     // assuming the cardlist is a valid unit, since I allowed
     // it to be removed - can drop any card on empty pile or
@@ -251,7 +251,7 @@ bool Spider::checkAdd(int /*checkIndex*/, const Pile *c1, const CardList& c2) co
     return false;
 }
 
-bool Spider::checkRemove(int /*checkIndex*/, const Pile *p, const Card *c) const
+bool Spider::checkRemove(const Pile *p, const Card *c) const
 {
     // if the pile from c up is decreasing by 1 and all the same suit, ok
     // note that this is true if c is the top card

@@ -95,9 +95,9 @@ void Simon::deal() {
     startDealAnimation();
 }
 
-bool Simon::checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const
+bool Simon::checkPrefering(const Pile *c1, const CardList& c2) const
 {
-    if (checkIndex == 1) {
+    if (c1->checkIndex() == 1) {
         if (c1->isEmpty())
             return false;
 
@@ -105,9 +105,9 @@ bool Simon::checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) 
     } else return false; // it's just important to keep this unique
 }
 
-bool Simon::checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const
+bool Simon::checkAdd(const Pile *c1, const CardList& c2) const
 {
-    if (checkIndex == 1) {
+    if (c1->checkIndex() == 1) {
         if (c1->isEmpty())
             return true;
 
@@ -119,9 +119,9 @@ bool Simon::checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const
     }
 }
 
-bool Simon::checkRemove(int checkIndex, const Pile *p, const Card *c) const
+bool Simon::checkRemove(const Pile *p, const Card *c) const
 {
-    if (checkIndex != 1)
+    if (p->checkIndex() != 1)
         return false;
 
     // ok if just one card

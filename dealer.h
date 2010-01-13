@@ -76,7 +76,7 @@ public:
 
     virtual void relayoutScene();
 
-    virtual bool checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const;
+    virtual bool checkPrefering( const Pile *c1, const CardList& c2) const;
 
     // use this for autodrop times
     int speedUpTime( int delay ) const;

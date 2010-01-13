@@ -82,10 +82,10 @@ void Clock::restart()
     deal();
 }
 
-bool Clock::checkAdd( int ci, const Pile *c1, const CardList& c2) const
+bool Clock::checkAdd( const Pile *c1, const CardList& c2) const
 {
     Card *newone = c2.first();
-    if (ci == 0) {
+    if (c1->checkIndex() == 0) {
         if (c1->isEmpty())
             return true;
 

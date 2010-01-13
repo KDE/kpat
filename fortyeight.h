@@ -48,7 +48,7 @@ class Fortyeight : public DealerScene
 public:
     Fortyeight( );
     virtual void restart();
-    virtual bool checkAdd( int checkIndex, const Pile *c1, const CardList& c2) const;
+    virtual bool checkAdd( const Pile *c1, const CardList& c2) const;
     virtual QString getGameState();
     virtual void setGameState( const QString & stream );
 

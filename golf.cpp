@@ -84,9 +84,9 @@ Golf::Golf( )
 
 //-------------------------------------------------------------------------//
 
-bool Golf::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
+bool Golf::checkAdd( const Pile *c1, const CardList& cl) const
 {
-    if (checkIndex == 1)
+    if (c1->checkIndex() == 1)
         return false;
 
     Card *c2 = cl.first();
@@ -99,9 +99,9 @@ bool Golf::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
     return true;
 }
 
-bool Golf::checkRemove( int checkIndex, const Pile *, const Card *c2) const
+bool Golf::checkRemove( const Pile *c1, const Card *c2) const
 {
-    if (checkIndex == 0)
+    if (c1->checkIndex() == 0)
         return false;
     return (c2 ==  c2->source()->top());
 }

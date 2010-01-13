@@ -136,7 +136,7 @@ Card *Fortyeight::newCards()
     return pile->top();
 }
 
-bool Fortyeight::checkAdd(int, const Pile *c1, const CardList &c2) const
+bool Fortyeight::checkAdd(const Pile *c1, const CardList &c2) const
 {
     if (c1->isEmpty())
         return true;

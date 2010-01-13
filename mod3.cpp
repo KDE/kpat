@@ -123,9 +123,9 @@ Mod3::Mod3( )
     setSolver( new Mod3Solver( this ) );
 }
 
-bool Mod3::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
+bool Mod3::checkAdd(const Pile *c1, const CardList& cl) const
 {
-    if (checkIndex == 0) {
+    if (c1->checkIndex() == 0) {
         Card *c2 = cl.first();
 
         if (c1->isEmpty())
@@ -142,10 +142,10 @@ bool Mod3::checkAdd( int checkIndex, const Pile *c1, const CardList& cl) const
 
         return true;
 
-    } else if (checkIndex == 1) {
+    } else if (c1->checkIndex() == 1) {
         return c1->isEmpty();
 
-    } else if (checkIndex == 2) {
+    } else if (c1->checkIndex() == 2) {
         return cl.first()->rank() == Card::Ace;
 
     } else

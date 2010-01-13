@@ -52,9 +52,9 @@ public slots:
     virtual void restart();
 
 protected:
-    virtual bool checkAdd   ( int checkIndex, const Pile *c1, const CardList& c2) const;
-    virtual bool checkPrefering( int checkIndex, const Pile *c1, const CardList& c2) const;
-    virtual bool checkRemove( int checkIndex, const Pile *c1, const Card *c) const;
+    virtual bool checkAdd( const Pile *c1, const CardList& c2) const;
+    virtual bool checkPrefering( const Pile *c1, const CardList& c2) const;
+    virtual bool checkRemove( const Pile *c1, const Card *c) const;
 
 private:
     Pile* store[10];
