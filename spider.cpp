@@ -242,26 +242,24 @@ void Spider::cardStopped(Card * t)
 
 //-------------------------------------------------------------------------//
 
-bool Spider::checkAdd(const Pile *c1, const CardList& c2) const
+bool Spider::checkAdd(const Pile * pile, const CardList & cards) const
 {
     // assuming the cardlist is a valid unit, since I allowed
     // it to be removed - can drop any card on empty pile or
     // on any suit card of one higher rank
-    if (c1->isEmpty() || c1->top()->rank() == c2.first()->rank()+1)
-        return true;
-
-    return false;
+    return pile->isEmpty() || pile->top()->rank() == cards.first()->rank() + 1;
 }
 
-bool Spider::checkRemove(const Pile *p, const Card *c) const
+bool Spider::checkRemove(const Pile * pile, const CardList & cards) const
 {
     // if the pile from c up is decreasing by 1 and all the same suit, ok
     // note that this is true if c is the top card
-    const Card *before;
-    int index = p->indexOf(c);
-    while (c != p->top()) {
+    Card * c = cards.first();
+    const Card * before;
+    int index = pile->indexOf(c);
+    while (c != pile->top()) {
         before = c;
-        c = p->at(++index);
+        c = pile->at(++index);
         if (before->suit() != c->suit() || before->rank() != c->rank()+1)
             return false;
     }

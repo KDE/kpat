@@ -106,45 +106,47 @@ bool Simon::checkPrefering(const Pile *c1, const CardList& c2) const
     } else return false; // it's just important to keep this unique
 }
 
-bool Simon::checkAdd(const Pile *c1, const CardList& c2) const
+bool Simon::checkAdd(const Pile * pile, const CardList & cards) const
 {
-    if (c1->checkIndex() == 1) {
-        if (c1->isEmpty())
+    if (pile->checkIndex() == 1) {
+        if (pile->isEmpty())
             return true;
 
-        return (c1->top()->rank() == c2.first()->rank() + 1);
+        return (pile->top()->rank() == cards.first()->rank() + 1);
     } else {
-        if (!c1->isEmpty())
+        if (!pile->isEmpty())
             return false;
-        return (c2.first()->rank() == Card::King && c2.last()->rank() == Card::Ace);
+        return (cards.first()->rank() == Card::King && cards.last()->rank() == Card::Ace);
     }
 }
 
-bool Simon::checkRemove(const Pile *p, const Card *c) const
+bool Simon::checkRemove(const Pile * pile, const CardList & cards) const
 {
-    if (p->checkIndex() != 1)
+    if (pile->checkIndex() != 1)
         return false;
 
+    Card * c = cards.first();
+
     // ok if just one card
-    if (c == p->top())
+    if (c == pile->top())
         return true;
 
     // Now we're trying to move two or more cards.
 
     // First, let's check if the column is in valid
     // (that is, in sequence, alternated colors).
-    int index = p->indexOf(c) + 1;
+    int index = pile->indexOf(c) + 1;
     const Card *before = c;
     while (true)
     {
-        c = p->at(index++);
+        c = pile->at(index++);
 
         if (!((c->rank() == (before->rank()-1))
               && (c->suit() == before->suit())))
         {
             return false;
         }
-        if (c == p->top())
+        if (c == pile->top())
             return true;
         before = c;
     }

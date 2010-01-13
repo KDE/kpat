@@ -137,14 +137,12 @@ Card *Fortyeight::newCards()
     return pile->top();
 }
 
-bool Fortyeight::checkAdd(const Pile *c1, const CardList &c2) const
+bool Fortyeight::checkAdd(const Pile * pile, const CardList & cards) const
 {
-    if (c1->isEmpty())
-        return true;
+    return pile->isEmpty()
+           || ( pile->top()->suit() == cards.first()->suit()
+                && pile->top()->rank() == cards.first()->rank() + 1 );
 
-    // ok if in sequence, same suit
-    return (c1->top()->suit() == c2.first()->suit())
-       && (c1->top()->rank() == (c2.first()->rank()+1));
 }
 
 void Fortyeight::deal()

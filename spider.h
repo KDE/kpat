@@ -72,8 +72,8 @@ public slots:
     void checkAllForRuns();
 
 protected:
-    virtual bool checkRemove(const Pile *p, const Card *c) const;
-    virtual bool checkAdd(const Pile *c1, const CardList &c2) const;
+    virtual bool checkRemove(const Pile * pile, const CardList & cards) const;
+    virtual bool checkAdd(const Pile * pile, const CardList & cards) const;
     virtual QString getGameState();
     virtual void setGameState(const QString &stream);
     virtual QString getGameOptions() const;

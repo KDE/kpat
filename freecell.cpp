@@ -312,38 +312,40 @@ bool Freecell::CanPutStore(const Pile *c1, const CardList &c2) const
             && (c1->top()->isRed() != c->isRed()));
 }
 
-bool Freecell::checkAdd(const Pile *c1, const CardList &c2) const
+bool Freecell::checkAdd(const Pile * pile, const CardList & cards) const
 {
-    return CanPutStore(c1, c2);
+    return CanPutStore(pile, cards);
 }
 
 //-------------------------------------------------------------------------//
 
-bool Freecell::checkRemove(const Pile *p, const Card *c) const
+bool Freecell::checkRemove(const Pile * pile, const CardList & cards) const
 {
-    if (p->checkIndex() != 0)
+    if (pile->checkIndex() != 0)
         return false;
 
+    Card * c = cards.first();
+
     // ok if just one card
-    if (c == p->top())
+    if (c == pile->top())
         return true;
 
     // Now we're trying to move two or more cards.
 
     // First, let's check if the column is in valid
     // (that is, in sequence, alternated colors).
-    int index = p->indexOf(c) + 1;
+    int index = pile->indexOf(c) + 1;
     const Card *before = c;
     while (true)
     {
-        c = p->at(index++);
+        c = pile->at(index++);
 
         if (!((c->rank() == (before->rank()-1))
               && (c->isRed() != before->isRed())))
         {
             return false;
         }
-        if (c == p->top())
+        if (c == pile->top())
             return true;
         before = c;
     }

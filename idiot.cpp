@@ -98,7 +98,7 @@ void Idiot::restart()
     emit newCardsPossible(true);
 }
 
-bool Idiot::checkAdd(const Pile * pile, const QList<Card*> & cards) const
+bool Idiot::checkAdd(const Pile * pile, const CardList & cards) const
 {
     if ( pile->checkIndex() == 2 )
         return true;
@@ -110,15 +110,15 @@ bool Idiot::checkAdd(const Pile * pile, const QList<Card*> & cards) const
 }
 
 
-bool Idiot::checkRemove(const Pile * pile, const Card * card) const
+bool Idiot::checkRemove(const Pile * pile, const CardList & cards) const
 {
     if ( pile->checkIndex() != 1 )
         return false;
 
-    if ( card != pile->top() )
+    if ( cards.first() != pile->top() )
         return false;
 
-    if ( canMoveAway( card ) )
+    if ( canMoveAway( cards.first() ) )
         return true;
 
     for ( int i = 0; i < 4; ++i )

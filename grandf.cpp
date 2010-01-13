@@ -164,13 +164,14 @@ void Grandf::collect() {
     }
 }
 
-bool Grandf::checkAdd( const Pile *c1, const CardList& c2) const {
-    Q_ASSERT (c1->checkIndex() == 1);
-    if (c1->isEmpty())
-        return c2.first()->rank() == Card::King;
+bool Grandf::checkAdd( const Pile * pile, const CardList & cards) const
+{
+    Q_ASSERT (pile->checkIndex() == 1);
+    if (pile->isEmpty())
+        return cards.first()->rank() == Card::King;
     else
-        return (c2.first()->rank() == c1->top()->rank() - 1)
-               && c2.first()->suit() == c1->top()->suit();
+        return cards.first()->rank() == pile->top()->rank() - 1
+               && cards.first()->suit() == pile->top()->suit();
 }
 
 QString Grandf::getGameState()

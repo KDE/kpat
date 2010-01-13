@@ -50,8 +50,8 @@ public:
     Idiot( );
     virtual bool  isGameWon() const;
     virtual void restart();
-    virtual bool checkAdd(const Pile * pile, const QList<Card*> & cards) const;
-    virtual bool checkRemove(const Pile * pile, const Card * card) const;
+    virtual bool checkAdd(const Pile * pile, const CardList & cards) const;
+    virtual bool checkRemove(const Pile * pile, const CardList & cards) const;
     bool canMoveAway(const Card * card) const;
 
 public slots:

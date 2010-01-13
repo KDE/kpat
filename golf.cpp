@@ -84,26 +84,17 @@ Golf::Golf( )
 
 //-------------------------------------------------------------------------//
 
-bool Golf::checkAdd( const Pile *c1, const CardList& cl) const
+bool Golf::checkAdd(const Pile * pile, const CardList & cards) const
 {
-    if (c1->checkIndex() == 1)
-        return false;
-
-    Card *c2 = cl.first();
-
-    kDebug()<<"check add "<< c1->objectName()<<" " << c2->objectName() <<" ";
-
-    if ((c2->rank() != (c1->top()->rank()+1)) && (c2->rank() != (c1->top()->rank()-1)))
-        return false;
-
-    return true;
+    return pile->checkIndex() == 1
+           && ( cards.first()->rank() == pile->top()->rank() + 1
+                || cards.first()->rank() == pile->top()->rank() - 1 );
 }
 
-bool Golf::checkRemove( const Pile *c1, const Card *c2) const
+bool Golf::checkRemove( const Pile * pile, const CardList & cards) const
 {
-    if (c1->checkIndex() == 0)
-        return false;
-    return (c2 ==  c2->source()->top());
+    return pile->checkIndex() == 0
+           && cards.first() == pile->top();
 }
 
 //-------------------------------------------------------------------------//

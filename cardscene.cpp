@@ -130,10 +130,10 @@ bool CardScene::checkAdd( const Pile * pile, const QList<Card*> & cards ) const
 }
 
 
-bool CardScene::checkRemove( const Pile * pile, const Card * card ) const
+bool CardScene::checkRemove( const Pile * pile, const QList<Card*> & cards ) const
 {
     Q_UNUSED( pile )
-    Q_UNUSED( card )
+    Q_UNUSED( cards )
     return true;
 }
 

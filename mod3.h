@@ -60,7 +60,7 @@ protected:
     virtual void setGameState(const QString & );
 
 private: // functions
-    virtual bool checkAdd(const Pile *c1, const CardList& c2) const;
+    virtual bool checkAdd(const Pile * pile, const CardList & cards) const;
 
     void         dealRow(int row);
 

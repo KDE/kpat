@@ -122,30 +122,30 @@ Mod3::Mod3( )
     setSolver( new Mod3Solver( this ) );
 }
 
-bool Mod3::checkAdd(const Pile *c1, const CardList& cl) const
+bool Mod3::checkAdd(const Pile * pile, const CardList & cards) const
 {
-    if (c1->checkIndex() == 0) {
-        Card *c2 = cl.first();
+    if (pile->checkIndex() == 0) {
+        Card *c2 = cards.first();
 
-        if (c1->isEmpty())
-            return (c2->rank() == ( ( c1->index() / 10 ) + 2 ) );
+        if (pile->isEmpty())
+            return (c2->rank() == ( ( pile->index() / 10 ) + 2 ) );
 
-        if (c1->top()->suit() != c2->suit())
+        if (pile->top()->suit() != c2->suit())
             return false;
 
-        if (c2->rank() != (c1->top()->rank()+3))
+        if (c2->rank() != (pile->top()->rank()+3))
             return false;
 
-        if (c1->cardsLeft() == 1)
-            return (c1->top()->rank() == ((c1->index() / 10) + 2));
+        if (pile->cardsLeft() == 1)
+            return (pile->top()->rank() == ((pile->index() / 10) + 2));
 
         return true;
 
-    } else if (c1->checkIndex() == 1) {
-        return c1->isEmpty();
+    } else if (pile->checkIndex() == 1) {
+        return pile->isEmpty();
 
-    } else if (c1->checkIndex() == 2) {
-        return cl.first()->rank() == Card::Ace;
+    } else if (pile->checkIndex() == 2) {
+        return cards.first()->rank() == Card::Ace;
 
     } else
         return false;

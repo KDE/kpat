@@ -46,7 +46,7 @@ class Clock : public DealerScene
 
 public:
     Clock( );
-    virtual bool checkAdd( const Pile *c1, const CardList& c2) const;
+    virtual bool checkAdd(const Pile * pile, const CardList & cards) const;
     virtual bool drop() { return false; }
 
 public slots:

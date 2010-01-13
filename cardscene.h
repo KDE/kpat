@@ -80,7 +80,7 @@ public:
     QList<Pile*> piles() const;
 
     virtual bool checkAdd( const Pile * pile, const QList<Card*> & cards ) const;
-    virtual bool checkRemove( const Pile * pile, const Card * card ) const;
+    virtual bool checkRemove( const Pile * pile, const QList<Card*> & cards ) const;
 
     void setSceneAlignment( SceneAlignment alignment );
     SceneAlignment sceneAlignment() const;

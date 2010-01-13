@@ -82,20 +82,20 @@ void Clock::restart()
     deal();
 }
 
-bool Clock::checkAdd( const Pile *c1, const CardList& c2) const
+bool Clock::checkAdd(const Pile * pile, const CardList & cards) const
 {
-    Card *newone = c2.first();
-    if (c1->checkIndex() == 0) {
-        if (c1->isEmpty())
+    Card *newone = cards.first();
+    if (pile->checkIndex() == 0) {
+        if (pile->isEmpty())
             return true;
 
-        return (newone->rank() == c1->top()->rank() - 1);
+        return (newone->rank() == pile->top()->rank() - 1);
     } else {
-        if (c1->top()->suit() != newone->suit())
+        if (pile->top()->suit() != newone->suit())
             return false;
-        if (c1->top()->rank() == Card::King)
+        if (pile->top()->rank() == Card::King)
             return (newone->rank() == Card::Ace);
-        return (newone->rank() == c1->top()->rank() + 1);
+        return (newone->rank() == pile->top()->rank() + 1);
     }
 }
 

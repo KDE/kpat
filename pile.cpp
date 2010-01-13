@@ -229,30 +229,32 @@ bool Pile::legalAdd( const CardList& _cards ) const
     return false;
 }
 
-bool Pile::legalRemove(const Card *c) const
+bool Pile::legalRemove( const Card * card ) const
 {
     if( removeFlags & disallow ) {
         return false;
     }
-    if( !( removeFlags & several ) && top() != c)
+    if( !( removeFlags & several ) && top() != card)
     {
         return false;
     }
 
     switch (removeType()) {
         case Custom:
-            return cardScene()->checkRemove( this, c);
-            break;
+        {
+            int index = m_cards.indexOf( const_cast<Card*>( card ) );
+            if ( index == -1 )
+                return false;
+            return cardScene()->checkRemove( this, m_cards.mid( index ) );
+        }
         case KlondikeTarget:
         case GypsyStore:
         case KlondikeStore:
             break;
         case FreecellStore:
-            return remove_freecellStore(c);
-            break;
+            return remove_freecellStore( card );
         case FreeCell:
-            return (top() == c);
-            break;
+            return (top() == card);
     }
     return true;
 }
