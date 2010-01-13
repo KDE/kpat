@@ -55,7 +55,6 @@ const int Pile::several       = 0x0002; // default: move one card
 
 // Remove-flags
 const int Pile::autoTurnTop   = 0x0200;
-const int Pile::wholeColumn   = 0x0400;
 
 Pile::Pile( int _index, const QString & objectName )
     : QGraphicsPixmapItem(),

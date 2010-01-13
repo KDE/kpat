@@ -107,8 +107,7 @@ Spider::Spider()
         stack[column]->setZValue(20);
         stack[column]->setCheckIndex(1);
         stack[column]->setAddFlags(Pile::several);
-        stack[column]->setRemoveFlags(Pile::several |
-                                      Pile::autoTurnTop | Pile::wholeColumn);
+        stack[column]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
         stack[column]->setReservedSpace( QSizeF( 1.0, 3.5 ) );
         addPile(stack[column]);
     }

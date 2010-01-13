@@ -72,7 +72,6 @@ public:
 
     // Remove-flags
     static const int autoTurnTop;
-    static const int wholeColumn;
 
     explicit Pile( int _index, const QString & objectName = QString() );
     virtual ~Pile();
