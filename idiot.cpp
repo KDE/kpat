@@ -89,11 +89,11 @@ void Idiot::restart()
     deck()->returnAllCards();
     deck()->shuffle( gameNumber() );
 
+    deck()->takeAllCards( talon );
+
     // Move the four top cards of the deck to the piles, faceup, spread out.
     for ( int i = 0; i < 4; ++i )
-        m_play[ i ]->animatedAdd( deck()->takeCard(), true );
-
-    deck()->takeAllCards( talon );
+        m_play[ i ]->animatedAdd( talon->top(), true );
 
     emit newCardsPossible(true);
 }
