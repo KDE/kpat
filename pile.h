@@ -70,9 +70,6 @@ public:
     static const int disallow;
     static const int several; // default: move one card
 
-    // Remove-flags
-    static const int autoTurnTop;
-
     explicit Pile( int _index, const QString & objectName = QString() );
     virtual ~Pile();
 
@@ -93,6 +90,9 @@ public:
 
     void setTarget(bool t) { _target = t; }
     bool isTarget() const { return _target; }
+
+    void setAutoTurnTop( bool autoTurnTop ) { m_autoTurnTop = autoTurnTop; }
+    bool autoTurnTop() const { return m_autoTurnTop; }
 
     void setHighlighted( bool flag );
     bool isHighlighted() const;
@@ -187,6 +187,7 @@ private:
     int _checkIndex;
     int myIndex;
     bool _target;
+    bool m_autoTurnTop;
 
     bool m_graphicVisible;
     bool m_highlighted;

@@ -53,9 +53,6 @@ const int Pile::Default       = 0x0000;
 const int Pile::disallow      = 0x0001;
 const int Pile::several       = 0x0002; // default: move one card
 
-// Remove-flags
-const int Pile::autoTurnTop   = 0x0200;
-
 Pile::Pile( int _index, const QString & objectName )
     : QGraphicsPixmapItem(),
       removeFlags(0),
@@ -65,6 +62,7 @@ Pile::Pile( int _index, const QString & objectName )
       _checkIndex(-1),
       myIndex(_index),
       _target(false),
+      m_autoTurnTop(false),
       m_graphicVisible( true ),
       m_highlighted( false )
 {
@@ -133,7 +131,7 @@ void Pile::setRemoveType(PileType type)
         case FreeCell:
             break;
         case FreecellStore:
-            setRemoveFlags(Pile::several | Pile::autoTurnTop);
+            setRemoveFlags(Pile::several);
             break;
     }
 }
@@ -476,7 +474,7 @@ void Pile::moveCards(CardList &cl, Pile *to)
     }
 
     Card *t = top();
-    if (t && !t->isFaceUp() && removeFlags & autoTurnTop)
+    if (t && !t->isFaceUp() && m_autoTurnTop)
     {
         t->animate(t->pos(), t->zValue(), 1, 0, true, false, DURATION_FLIP);
     }

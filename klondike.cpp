@@ -120,7 +120,8 @@ Klondike::Klondike()
         play[ i ] = new Pile( i + 5, QString( "play%1" ).arg( i ));
         play[i]->setPilePos((1.0 + hspacing) * i, 1.0 + vspacing);
         play[i]->setAddType(Pile::KlondikeStore);
-        play[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
+        play[i]->setRemoveFlags(Pile::several);
+        play[i]->setAutoTurnTop(true);
         play[i]->setReservedSpace( QSizeF( 1.0, 1.0 + play[i]->spread().height() * 7 ) );
         addPile(play[i]);
     }

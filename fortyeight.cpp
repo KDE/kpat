@@ -77,7 +77,7 @@ Fortyeight::Fortyeight( )
 
         stack[i] = new Pile(1 + i, QString( "stack%1" ).arg( i ));
         stack[i]->setPilePos(dist_x*i, 1.1 );
-        stack[i]->setRemoveFlags(Pile::autoTurnTop);
+        stack[i]->setAutoTurnTop(true);
         stack[i]->setCheckIndex(1);
         stack[i]->setSpread(0, 0.25);
         stack[i]->setReservedSpace( QSizeF( 1.0, 4.0 ) );

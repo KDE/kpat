@@ -65,7 +65,8 @@ Grandf::Grandf( )
         store[i] = new Pile(5+i, QString("store%1").arg(i));
         store[i]->setPilePos(distx*i, 1.2);
         store[i]->setAddFlags(Pile::several);
-        store[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
+        store[i]->setRemoveFlags(Pile::several);
+        store[i]->setAutoTurnTop(true);
         store[i]->setCheckIndex(1);
         store[i]->setReservedSpace( QSizeF( 1.0, 5.0 ) );
         addPile(store[i]);

@@ -67,6 +67,7 @@ Gypsy::Gypsy( )
         store[i]->setPilePos(dist_x*i,0);
         store[i]->setAddType(Pile::GypsyStore);
         store[i]->setRemoveType(Pile::FreecellStore);
+        store[i]->setAutoTurnTop(true);
         store[i]->setReservedSpace( QSizeF( 1.0, 4 * dist_y + 1.0 ) );
         addPile(store[i]);
     }

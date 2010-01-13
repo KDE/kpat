@@ -62,7 +62,8 @@ Yukon::Yukon( )
         store[i] = new Pile(5+i, QString("store%1").arg(i));
         store[i]->setPilePos(dist_x*i, 0);
         store[i]->setAddType(Pile::KlondikeStore);
-        store[i]->setRemoveFlags(Pile::several | Pile::autoTurnTop);
+        store[i]->setRemoveFlags(Pile::several);
+        store[i]->setAutoTurnTop(true);
         store[i]->setReservedSpace( QSizeF( 1.0, 3 * dist_y + 1.0 ) );
         addPile(store[i]);
     }
