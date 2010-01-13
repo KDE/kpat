@@ -83,6 +83,7 @@ Mod3::Mod3( )
     talon = new Pile(0, "talon");
     talon->setPilePos(rightColumX, bottomRowY);
     talon->setAddFlags(Pile::disallow);
+    talon->setSpread(0, 0);
     connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
     addPile(talon);
 
@@ -90,7 +91,7 @@ Mod3::Mod3( )
     aces->setPilePos(rightColumX, 0.5);
     aces->setTarget(true);
     aces->setCheckIndex(2);
-    aces->setAddFlags(Pile::addSpread | Pile::several);
+    aces->setAddFlags(Pile::several);
     aces->setReservedSpace( QSizeF( 1.0, 2.0 ));
     addPile(aces);
 
@@ -103,7 +104,6 @@ Mod3::Mod3( )
                 stack[r][c]->setPilePos( dist_x * c, dist_y * r );
                 stack[r][c]->setCheckIndex( 0 );
                 stack[r][c]->setTarget(true);
-                stack[r][c]->setAddFlags( Pile::addSpread );
                 // Very tight spread makes it easy to quickly tell number of
                 // cards in each pile and we don't care about the cards beneath.
                 stack[r][c]->setSpread( 0, 0.08 );
@@ -112,7 +112,6 @@ Mod3::Mod3( )
                 stack[r][c] = new Mod3Pile ( pileIndex, talon, QString( "stack3_%1" ).arg( c ) );
                 stack[r][c]->setPilePos( dist_x * c, bottomRowY );
                 stack[r][c]->setReservedSpace( QSizeF( 1.0, 1.8 ) );
-                stack[r][c]->setAddFlags( Pile::addSpread );
                 stack[r][c]->setCheckIndex( 1 );
             }
             addPile(stack[r][c]);

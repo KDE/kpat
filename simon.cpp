@@ -57,13 +57,14 @@ Simon::Simon( )
         target[i]->setAddFlags(Pile::several);
         target[i]->setCheckIndex(0);
         target[i]->setTarget(true);
+        target[i]->setSpread(0, 0);
         addPile(target[i]);
     }
 
     for (int i=0; i<10; i++) {
         store[i] = new Pile(5+i, QString( "store%1" ).arg( i ));
         store[i]->setPilePos(dist_x*i, 1.2);
-        store[i]->setAddFlags(Pile::addSpread | Pile::several);
+        store[i]->setAddFlags(Pile::several);
         store[i]->setRemoveFlags(Pile::several);
         store[i]->setReservedSpace( QSizeF( 1.0, 3.5 ) );
         store[i]->setCheckIndex(1);

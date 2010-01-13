@@ -54,6 +54,7 @@ Idiot::Idiot( )
     talon = new Pile( 0, "talon" );
     talon->setPilePos(0, 0);
     talon->setAddFlags(Pile::disallow);
+    talon->setSpread(0, 0);
     addPile(talon);
 
     const qreal distx = 1.1;
@@ -62,7 +63,7 @@ Idiot::Idiot( )
     for( int i = 0; i < 4; i++ ) {
         m_play[i] = new Pile( i + 1, QString( "play%1" ).arg( i ));
         m_play[i]->setCheckIndex(1);
-        m_play[i]->setAddFlags(Pile::addSpread | Pile::Custom);
+        m_play[i]->setAddFlags(Pile::Custom);
         m_play[i]->setRemoveFlags(Pile::Custom);
         m_play[i]->setPilePos(1.5 + distx * i, 0);
         m_play[i]->setReservedSpace( QSizeF( 1.0, 3.0 ) );
@@ -75,6 +76,7 @@ Idiot::Idiot( )
     m_away->setCheckIndex(2);
     m_away->setRemoveFlags(Pile::disallow);
     m_away->setPilePos(1.9 + distx * 4, 0);
+    m_away->setSpread(0, 0);
     addPile(m_away);
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);

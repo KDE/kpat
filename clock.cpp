@@ -59,13 +59,13 @@ Clock::Clock( )
         target[i]->setCheckIndex(1);
         target[i]->setTarget(true);
         target[i]->setRemoveFlags(Pile::disallow);
+        target[i]->setSpread(0, 0);
         addPile(target[i]);
     }
 
     for (int i=0; i<8; i++) {
         store[i] = new Pile(14+i, QString("store%1").arg(i));
         store[i]->setPilePos(dist_x*(i%4), 2.5 * (i/4));
-        store[i]->setAddFlags(Pile::addSpread);
         store[i]->setCheckIndex(0);
         store[i]->setReservedSpace( QSizeF( 1.0, 1.8 ) );
         addPile(store[i]);

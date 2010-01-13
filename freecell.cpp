@@ -78,7 +78,7 @@ Freecell::Freecell()
         FreecellPile *p = new FreecellPile(1 + i, QString( "store%1" ).arg( i ));
         store[i] = p;
         p->setPilePos( bottomRowDist * i, 1.3 );
-        p->setAddFlags(Pile::addSpread | Pile::several);
+        p->setAddFlags(Pile::several);
         p->setRemoveFlags(Pile::several);
         p->setCheckIndex(0);
         p->setReservedSpace( QSizeF( 1.0, 3.5 ) );
@@ -98,6 +98,7 @@ Freecell::Freecell()
         target[i] = new Pile(1 + 8 + 4 + i, QString( "target%1" ).arg( i ));
         target[i]->setPilePos(targetOffsetDist + topRowDist * i, 0);
         target[i]->setType(Pile::KlondikeTarget);
+        target[i]->setSpread(0, 0);
         addPile(target[i]);
     }
 

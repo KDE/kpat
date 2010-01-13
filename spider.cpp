@@ -95,6 +95,7 @@ Spider::Spider()
         redeals[column]->setAddFlags(Pile::disallow);
         redeals[column]->setRemoveFlags(Pile::disallow);
         redeals[column]->setGraphicVisible( false );
+        redeals[column]->setSpread(0, 0);
         connect(redeals[column], SIGNAL(clicked(Card*)), SLOT(newCards()));
         addPile(redeals[column]);
     }
@@ -105,7 +106,7 @@ Spider::Spider()
         stack[column]->setPilePos(dist_x * column, 0);
         stack[column]->setZValue(20);
         stack[column]->setCheckIndex(1);
-        stack[column]->setAddFlags(Pile::addSpread | Pile::several);
+        stack[column]->setAddFlags(Pile::several);
         stack[column]->setRemoveFlags(Pile::several |
                                       Pile::autoTurnTop | Pile::wholeColumn);
         stack[column]->setReservedSpace( QSizeF( 1.0, 3.5 ) );
@@ -123,6 +124,7 @@ Spider::Spider()
         legs[column]->setRemoveFlags(Pile::disallow);
         legs[column]->setTarget(true);
         legs[column]->setGraphicVisible( false );
+        legs[column]->setSpread(0, 0);
         legs[column]->setZValue(14 * column);
         addPile(legs[column]);
     }

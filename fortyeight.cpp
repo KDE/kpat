@@ -56,12 +56,13 @@ Fortyeight::Fortyeight( )
     talon->setPilePos(smallNeg, smallNeg);
     talon->setZValue(20);
     talon->setAddFlags(Pile::disallow);
+    talon->setSpread(0, 0);
     connect(talon, SIGNAL(pressed(Card*)), SLOT(newCards()));
     connect(talon, SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
     addPile(talon);
 
     pile = new Pile(20, "pile");
-    pile->setAddFlags(Pile::addSpread | Pile::disallow);
+    pile->setAddFlags(Pile::disallow);
     pile->setPilePos(-dist_x, smallNeg);
     pile->setSpread(-0.21, 0);
     pile->setReservedSpace( QSizeF( -(1 + 6 * dist_x), 1 ) );
@@ -71,14 +72,14 @@ Fortyeight::Fortyeight( )
         target[i] = new Pile(9 + i, QString( "target%1" ).arg( i ));
         target[i]->setPilePos(dist_x*i, 0);
         target[i]->setType(Pile::KlondikeTarget);
+        target[i]->setSpread(0, 0);
         addPile(target[i]);
 
         stack[i] = new Pile(1 + i, QString( "stack%1" ).arg( i ));
         stack[i]->setPilePos(dist_x*i, 1.1 );
-        stack[i]->setAddFlags(Pile::addSpread);
         stack[i]->setRemoveFlags(Pile::autoTurnTop);
         stack[i]->setCheckIndex(1);
-        stack[i]->setSpread(stack[i]->spread() * 3 / 4);
+        stack[i]->setSpread(0, 0.25);
         stack[i]->setReservedSpace( QSizeF( 1.0, 4.0 ) );
         addPile(stack[i]);
     }

@@ -53,9 +53,6 @@ const int Pile::Default       = 0x0000;
 const int Pile::disallow      = 0x0001;
 const int Pile::several       = 0x0002; // default: move one card
 
-// Add-flags
-const int Pile::addSpread     = 0x0100;
-
 // Remove-flags
 const int Pile::autoTurnTop   = 0x0200;
 const int Pile::wholeColumn   = 0x0400;
@@ -118,7 +115,7 @@ void Pile::setAddType(PileType type)
         case KlondikeStore:
         case GypsyStore:
         case FreecellStore:
-            setAddFlags(Pile::addSpread | Pile::several);
+            setAddFlags(Pile::several);
             break;
     }
 }
@@ -352,16 +349,11 @@ void Pile::add( Card *_card, int index)
 // offset from the start position of the pile.
 QPointF Pile::cardOffset( const Card *card ) const
 {
-    if ( addFlags & Pile::addSpread )
-    {
-        QPointF offset( spread().width() * cardScene()->deck()->cardWidth(),
-                        spread().height() * cardScene()->deck()->cardHeight() );
-        if (!card->realFace())
-            offset *= 0.6;
-        return offset;
-    }
-
-    return QPointF(0, 0);
+    QPointF offset( spread().width() * cardScene()->deck()->cardWidth(),
+                    spread().height() * cardScene()->deck()->cardHeight() );
+    if (!card->realFace())
+        offset *= 0.6;
+    return offset;
 }
 
 /* override cardtype (for initial deal ) */
