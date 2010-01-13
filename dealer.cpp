@@ -281,7 +281,7 @@ void DealerScene::saveGame(QDomDocument &doc)
     // If the game has been won, there's no sense in saving the state
     // across sessions. In that case, just save the game ID so that
     // we can later start up a new game of the same type.
-    if ( isGameWon() )
+    if ( d->_won )
         return;
 
     dealer.setAttribute("number", QString::number(gameNumber()));
@@ -800,6 +800,10 @@ void DealerScene::won()
 void DealerScene::showWonMessage()
 {
     disconnect(deck(), SIGNAL(cardAnimationDone()), this, SLOT(showWonMessage()));
+
+    // It shouldn't be necessary to stop the demo yet again here, but we
+    // get crashes if we don't. Will have to look into this further.
+    stopDemo();
 
     // Return the Cards to the CardDeck, so they don't get shown if the Piles
     // try to layoutCards() if the window is resized.
@@ -1589,8 +1593,8 @@ bool DealerScene::allowedToStartNewGame()
     // then ask if she wants to abort it.
     return !d->gameStarted
            || d->wasJustSaved
-           || isGameWon()
-           || isGameLost()
+           || d->toldAboutWonGame
+           || d->toldAboutLostGame
            || KMessageBox::warningContinueCancel(0,
                      i18n("A new game has been requested, but there is already a game in progress.\n\n"
                           "A loss will be recorded in the statistics if the current game is abandoned."),
