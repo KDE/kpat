@@ -130,7 +130,10 @@ Klondike::Klondike()
         target[ i ] = new Pile( i + 1, QString( "target%1" ).arg( i ) );
         target[i]->setPilePos((3 + i) * (1.0 + hspacing), 0);
         target[i]->setAddType(Pile::KlondikeTarget);
-        target[i]->setRemoveFlags(EasyRules ? Pile::Default : Pile::KlondikeTarget);
+        if (EasyRules)
+            target[i]->setRemoveFlags(Pile::Default);
+        else
+            target[i]->setRemoveType(Pile::KlondikeTarget);
         addPile(target[i]);
     }
 
