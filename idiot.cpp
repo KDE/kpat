@@ -38,6 +38,7 @@
 
 #include "carddeck.h"
 #include "dealerinfo.h"
+#include "pileutils.h"
 #include "patsolve/idiotsolver.h"
 
 #include <KLocale>
@@ -52,8 +53,8 @@ Idiot::Idiot( )
 
     // Create the talon to the left.
     talon = new Pile( 0, "talon" );
+    talon->setCheckIndex(Stock);
     talon->setPilePos(0, 0);
-    talon->setAddFlags(Pile::disallow);
     talon->setSpread(0, 0);
     addPile(talon);
 
@@ -62,9 +63,7 @@ Idiot::Idiot( )
     // Create 4 piles where the cards will be placed during the game.
     for( int i = 0; i < 4; i++ ) {
         m_play[i] = new Pile( i + 1, QString( "play%1" ).arg( i ));
-        m_play[i]->setCheckIndex(1);
-        m_play[i]->setAddFlags(Pile::Custom);
-        m_play[i]->setRemoveFlags(Pile::Custom);
+        m_play[i]->setCheckIndex(Tableau);
         m_play[i]->setPilePos(1.5 + distx * i, 0);
         m_play[i]->setReservedSpace( QSizeF( 1.0, 3.0 ) );
         addPile( m_play[i] );
@@ -72,9 +71,8 @@ Idiot::Idiot( )
 
     // Create the discard pile to the right
     m_away = new Pile( 5, "away" );
+    m_away->setCheckIndex(Waste);
     m_away->setTarget(true);
-    m_away->setCheckIndex(2);
-    m_away->setRemoveFlags(Pile::disallow);
     m_away->setPilePos(1.9 + distx * 4, 0);
     m_away->setSpread(0, 0);
     addPile(m_away);
@@ -100,37 +98,31 @@ void Idiot::restart()
 
 bool Idiot::checkAdd(const Pile * pile, const CardList & cards) const
 {
-    if ( pile->checkIndex() == 2 )
-        return true;
-
-    if ( pile->checkIndex() == 1 && pile->isEmpty() && cards.size() == 1 )
-        return true;
-
-    return false;
+    switch ( pile->checkIndex() )
+    {
+    case Waste:
+        return canMoveAway( cards.first() );
+    case Tableau:
+        return pile->isEmpty() && cards.size() == 1;
+    case Stock:
+    default:
+        return false;
+    }
 }
 
 
 bool Idiot::checkRemove(const Pile * pile, const CardList & cards) const
 {
-    if ( pile->checkIndex() != 1 )
-        return false;
-
-    if ( cards.first() != pile->top() )
-        return false;
-
-    if ( canMoveAway( cards.first() ) )
-        return true;
-
-    for ( int i = 0; i < 4; ++i )
-    {
-        if ( m_play[i]->isEmpty() )
-            return true;
-    }
-
-    return false;
+    return pile->checkIndex() == Tableau
+           && cards.first() == pile->top()
+           && ( canMoveAway( cards.first() )
+                || m_play[0]->isEmpty()
+                || m_play[1]->isEmpty()
+                || m_play[2]->isEmpty()
+                || m_play[3]->isEmpty() );
 }
 
-bool Idiot::canMoveAway(const Card* card) const
+bool Idiot::canMoveAway(const Card * card) const
 {
     if ( card->source() == talon || card->source() == m_away )
         return false;

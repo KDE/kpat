@@ -38,6 +38,7 @@
 
 #include "carddeck.h"
 #include "dealerinfo.h"
+#include "pileutils.h"
 #include "speeds.h"
 #include "patsolve/freecellsolver.h"
 
@@ -77,10 +78,8 @@ Freecell::Freecell()
     {
         FreecellPile *p = new FreecellPile(1 + i, QString( "store%1" ).arg( i ));
         store[i] = p;
+        p->setCheckIndex(Tableau);
         p->setPilePos( bottomRowDist * i, 1.3 );
-        p->setAddFlags(Pile::several);
-        p->setRemoveFlags(Pile::several);
-        p->setCheckIndex(0);
         p->setReservedSpace( QSizeF( 1.0, 3.5 ) );
         addPile(p);
     }
@@ -88,16 +87,17 @@ Freecell::Freecell()
     for (int i = 0; i < 4; i++)
     {
         freecell[i] = new Pile (1 + 8 + i, QString( "freecell%1" ).arg( i ));
+        freecell[i]->setCheckIndex(Cell);
         freecell[i]->setPilePos(topRowDist * i, 0);
-        freecell[i]->setType(Pile::FreeCell);
         addPile(freecell[i]);
     }
 
     for (int i = 0; i < 4; i++)
     {
         target[i] = new Pile(1 + 8 + 4 + i, QString( "target%1" ).arg( i ));
+        target[i]->setCheckIndex(Foundation);
+        target[i]->setTarget(true);
         target[i]->setPilePos(targetOffsetDist + topRowDist * i, 0);
-        target[i]->setType(Pile::KlondikeTarget);
         target[i]->setSpread(0, 0);
         addPile(target[i]);
     }
@@ -314,43 +314,31 @@ bool Freecell::CanPutStore(const Pile *c1, const CardList &c2) const
 
 bool Freecell::checkAdd(const Pile * pile, const CardList & cards) const
 {
-    return CanPutStore(pile, cards);
+    switch (pile->checkIndex())
+    {
+    case Tableau:
+        return CanPutStore(pile, cards);
+    case Cell:
+        return pile->isEmpty() && cards.size() == 1;
+    case Foundation:
+        return checkAddSameSuitAscendingFromAce(pile, cards);
+    default:
+        return false;
+    }
 }
-
-//-------------------------------------------------------------------------//
 
 bool Freecell::checkRemove(const Pile * pile, const CardList & cards) const
 {
-    if (pile->checkIndex() != 0)
-        return false;
-
-    Card * c = cards.first();
-
-    // ok if just one card
-    if (c == pile->top())
-        return true;
-
-    // Now we're trying to move two or more cards.
-
-    // First, let's check if the column is in valid
-    // (that is, in sequence, alternated colors).
-    int index = pile->indexOf(c) + 1;
-    const Card *before = c;
-    while (true)
+    switch (pile->checkIndex())
     {
-        c = pile->at(index++);
-
-        if (!((c->rank() == (before->rank()-1))
-              && (c->isRed() != before->isRed())))
-        {
-            return false;
-        }
-        if (c == pile->top())
-            return true;
-        before = c;
+    case Tableau:
+        return isAlternateColorDescending(cards);
+    case Cell:
+        return cards.first() == pile->top();
+    case Foundation:
+    default:
+        return false;
     }
-
-    return true;
 }
 
 void Freecell::getHints()

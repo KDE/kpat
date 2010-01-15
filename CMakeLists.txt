@@ -15,7 +15,7 @@ set(kpat_SRCS
    gameselectionscene.cpp
    mainwindow.cpp
    pile.cpp
-   pile_algorithms.cpp
+   pileutils.cpp
    render.cpp
    statisticsdialog.cpp
    view.cpp

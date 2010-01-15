@@ -49,16 +49,8 @@
 #include <cmath>
 
 
-const int Pile::Default       = 0x0000;
-const int Pile::disallow      = 0x0001;
-const int Pile::several       = 0x0002; // default: move one card
-
 Pile::Pile( int _index, const QString & objectName )
     : QGraphicsPixmapItem(),
-      removeFlags(0),
-      addFlags(0),
-      _atype(Custom),
-      _rtype(Custom),
       _checkIndex(-1),
       myIndex(_index),
       _target(false),
@@ -91,49 +83,6 @@ Pile::Pile( int _index, const QString & objectName )
 CardScene *Pile::cardScene() const
 {
     return dynamic_cast<CardScene*>( scene() );
-}
-
-void Pile::setType(PileType type)
-{
-    setAddType(type);
-    setRemoveType(type);
-}
-
-void Pile::setAddType(PileType type)
-{
-    _atype = type;
-    switch (type) {
-        case Custom:
-        case FreeCell:
-            break;
-        case KlondikeTarget:
-            setTarget(true);
-            break;
-        case KlondikeStore:
-        case GypsyStore:
-        case FreecellStore:
-            setAddFlags(Pile::several);
-            break;
-    }
-}
-
-void Pile::setRemoveType(PileType type)
-{
-    _rtype = type;
-    switch (type) {
-        case Custom:
-            break;
-        case KlondikeTarget:
-            setRemoveFlags(Pile::disallow);
-            break;
-        case KlondikeStore:
-        case GypsyStore:
-        case FreeCell:
-            break;
-        case FreecellStore:
-            setRemoveFlags(Pile::several);
-            break;
-    }
 }
 
 Pile::~Pile()
@@ -192,71 +141,17 @@ void Pile::updatePixmap()
     setPixmap( pix );
 }
 
-bool Pile::legalAdd( const CardList& _cards ) const
+bool Pile::legalAdd( const CardList& cards ) const
 {
-    if( addFlags & disallow ) {
-        return false;
-    }
-
-    if( !( addFlags & several ) &&
-        _cards.count() > 1 )
-    {
-        return false;
-    }
-
-    // getHint removes cards without turning, so it could be it
-    // checks later if cards can be added to a face down card
-    if (top() && !top()->realFace())
-	return false;
-
-    switch (addType()) {
-        case Custom:
-            return cardScene()->checkAdd( this, _cards );
-            break;
-        case KlondikeTarget:
-            return add_klondikeTarget(_cards);
-            break;
-        case FreecellStore:
-        case KlondikeStore:
-            return add_klondikeStore(_cards);
-            break;
-        case GypsyStore:
-            return add_gypsyStore(_cards);
-            break;
-        case FreeCell:
-            return add_freeCell(_cards);
-    }
-    return false;
+    return cardScene()->checkAdd( this, cards );
 }
 
 bool Pile::legalRemove( const Card * card ) const
 {
-    if( removeFlags & disallow ) {
+    int index = m_cards.indexOf( const_cast<Card*>( card ) );
+    if ( index == -1 )
         return false;
-    }
-    if( !( removeFlags & several ) && top() != card)
-    {
-        return false;
-    }
-
-    switch (removeType()) {
-        case Custom:
-        {
-            int index = m_cards.indexOf( const_cast<Card*>( card ) );
-            if ( index == -1 )
-                return false;
-            return cardScene()->checkRemove( this, m_cards.mid( index ) );
-        }
-        case KlondikeTarget:
-        case GypsyStore:
-        case KlondikeStore:
-            break;
-        case FreecellStore:
-            return remove_freecellStore( card );
-        case FreeCell:
-            return (top() == card);
-    }
-    return true;
+    return cardScene()->checkRemove( this, m_cards.mid( index ) );
 }
 
 void Pile::setVisible(bool vis)

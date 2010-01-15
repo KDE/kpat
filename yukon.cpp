@@ -37,6 +37,7 @@
 
 #include "carddeck.h"
 #include "dealerinfo.h"
+#include "pileutils.h"
 #include "patsolve/yukonsolver.h"
 
 #include <KDebug>
@@ -53,16 +54,16 @@ Yukon::Yukon( )
 
     for (int i=0; i<4; i++) {
         target[i] = new Pile(i+1, QString("target%1").arg(i));
+        target[i]->setCheckIndex(Foundation);
+        target[i]->setTarget(true);
         target[i]->setPilePos(0.11+7*dist_x, dist_y *i);
-        target[i]->setType(Pile::KlondikeTarget);
         addPile(target[i]);
     }
 
     for (int i=0; i<7; i++) {
         store[i] = new Pile(5+i, QString("store%1").arg(i));
+        store[i]->setCheckIndex(Tableau);
         store[i]->setPilePos(dist_x*i, 0);
-        store[i]->setAddType(Pile::KlondikeStore);
-        store[i]->setRemoveFlags(Pile::several);
         store[i]->setAutoTurnTop(true);
         store[i]->setReservedSpace( QSizeF( 1.0, 3 * dist_y + 1.0 ) );
         addPile(store[i]);
@@ -71,6 +72,27 @@ Yukon::Yukon( )
     setActions(DealerScene::Hint | DealerScene::Demo);
     setSolver( new YukonSolver( this ) );
     setNeededFutureMoves( 10 ); // it's a bit hard to judge as there are so many nonsense moves
+}
+
+bool Yukon::checkAdd(const Pile * pile, const CardList & cards) const
+{
+    if (pile->checkIndex() == Tableau)
+    {
+        if (pile->isEmpty())
+            return cards.first()->rank() == Card::King;
+        else
+            return cards.first()->rank() == pile->top()->rank() - 1
+                   && cards.first()->isRed() != pile->top()->isRed();
+    }
+    else
+    {
+        return checkAddSameSuitAscendingFromAce(pile, cards);
+    }
+}
+
+bool Yukon::checkRemove(const Pile * pile, const CardList & cards) const
+{
+    return pile->checkIndex() == Tableau && cards.first()->isFaceUp();
 }
 
 void Yukon::restart()

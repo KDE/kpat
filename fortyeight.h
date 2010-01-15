@@ -49,6 +49,7 @@ public:
     Fortyeight( );
     virtual void restart();
     virtual bool checkAdd(const Pile * pile, const CardList & cards) const;
+    virtual bool checkRemove(const Pile* pile, const CardList & cards) const;
     virtual QString getGameState();
     virtual void setGameState( const QString & stream );
 

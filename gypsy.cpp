@@ -37,6 +37,7 @@
 
 #include "carddeck.h"
 #include "dealerinfo.h"
+#include "pileutils.h"
 #include "patsolve/gypsysolver.h"
 
 #include <KLocale>
@@ -50,23 +51,23 @@ Gypsy::Gypsy( )
     setDeck(new CardDeck(2));
 
     talon = new Pile(0, "talon");
+    talon->setCheckIndex(Stock);
     talon->setPilePos(8.5 * dist_x + 0.4, 4 * dist_y);
-    talon->setAddFlags(Pile::disallow);
     connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
     addPile(talon);
 
     for (int i=0; i<8; i++) {
         target[i] = new Pile(i+1, QString("target%1").arg(i));
+        target[i]->setCheckIndex(Foundation);
+        target[i]->setTarget(true);
         target[i]->setPilePos(dist_x*(8+(i/4)) + 0.4, (i%4)*dist_y);
-        target[i]->setAddType(Pile::KlondikeTarget);
         addPile(target[i]);
     }
 
     for (int i=0; i<8; i++) {
         store[i] = new Pile(9+i, QString("store%1").arg(i));
+        store[i]->setCheckIndex(Tableau);
         store[i]->setPilePos(dist_x*i,0);
-        store[i]->setAddType(Pile::GypsyStore);
-        store[i]->setRemoveType(Pile::FreecellStore);
         store[i]->setAutoTurnTop(true);
         store[i]->setReservedSpace( QSizeF( 1.0, 4 * dist_y + 1.0 ) );
         addPile(store[i]);
@@ -82,6 +83,35 @@ void Gypsy::restart() {
     deal();
     emit newCardsPossible(true);
 }
+
+bool Gypsy::checkAdd(const Pile * pile, const CardList & cards) const
+{
+    switch (pile->checkIndex())
+    {
+    case Tableau:
+        return checkAddAlternateColorDescending(pile, cards);
+    case Foundation:
+        return checkAddSameSuitAscendingFromAce(pile, cards);
+    case Stock:
+    default:
+        return false;
+    }
+}
+
+bool Gypsy::checkRemove(const Pile * pile, const CardList & cards) const
+{
+    switch (pile->checkIndex())
+    {
+    case Tableau:
+        return isAlternateColorDescending(cards);
+    case Foundation:
+        return cards.first() == pile->top();
+    case Stock:
+    default:
+        return false;
+    }
+}
+
 
 void Gypsy::dealRow(bool faceup) {
     for (int round=0; round < 8; round++)

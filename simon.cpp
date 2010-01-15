@@ -37,6 +37,7 @@
 
 #include "carddeck.h"
 #include "dealerinfo.h"
+#include "pileutils.h"
 #include "patsolve/simonsolver.h"
 
 #include <KDebug>
@@ -52,22 +53,18 @@ Simon::Simon( )
 
     for (int i=0; i<4; i++) {
         target[i] = new Pile(i+1, QString( "target%1" ).arg( i ));
-        target[i]->setPilePos((i+3)*dist_x, 0);
-        target[i]->setRemoveFlags(Pile::disallow);
-        target[i]->setAddFlags(Pile::several);
-        target[i]->setCheckIndex(0);
+        target[i]->setCheckIndex(Foundation);
         target[i]->setTarget(true);
+        target[i]->setPilePos((i+3)*dist_x, 0);
         target[i]->setSpread(0, 0);
         addPile(target[i]);
     }
 
     for (int i=0; i<10; i++) {
         store[i] = new Pile(5+i, QString( "store%1" ).arg( i ));
+        store[i]->setCheckIndex(Tableau);
         store[i]->setPilePos(dist_x*i, 1.2);
-        store[i]->setAddFlags(Pile::several);
-        store[i]->setRemoveFlags(Pile::several);
         store[i]->setReservedSpace( QSizeF( 1.0, 3.5 ) );
-        store[i]->setCheckIndex(1);
         addPile(store[i]);
     }
 
@@ -96,62 +93,32 @@ void Simon::deal() {
     startDealAnimation();
 }
 
-bool Simon::checkPrefering(const Pile *c1, const CardList& c2) const
+bool Simon::checkPrefering(const Pile * pile, const CardList & cards) const
 {
-    if (c1->checkIndex() == 1) {
-        if (c1->isEmpty())
-            return false;
-
-        return (c1->top()->suit() == c2.first()->suit());
-    } else return false; // it's just important to keep this unique
+    return pile->checkIndex() == Tableau
+           && !pile->isEmpty()
+           && pile->top()->suit() == cards.first()->suit();
 }
 
 bool Simon::checkAdd(const Pile * pile, const CardList & cards) const
 {
-    if (pile->checkIndex() == 1) {
-        if (pile->isEmpty())
-            return true;
-
-        return (pile->top()->rank() == cards.first()->rank() + 1);
-    } else {
-        if (!pile->isEmpty())
-            return false;
-        return (cards.first()->rank() == Card::King && cards.last()->rank() == Card::Ace);
+    if (pile->checkIndex() == Tableau)
+    {
+        return pile->isEmpty()
+               || pile->top()->rank() == cards.first()->rank() + 1;
+    }
+    else
+    {
+        return pile->isEmpty()
+               && cards.first()->rank() == Card::King
+               && cards.last()->rank() == Card::Ace;
     }
 }
 
 bool Simon::checkRemove(const Pile * pile, const CardList & cards) const
 {
-    if (pile->checkIndex() != 1)
-        return false;
-
-    Card * c = cards.first();
-
-    // ok if just one card
-    if (c == pile->top())
-        return true;
-
-    // Now we're trying to move two or more cards.
-
-    // First, let's check if the column is in valid
-    // (that is, in sequence, alternated colors).
-    int index = pile->indexOf(c) + 1;
-    const Card *before = c;
-    while (true)
-    {
-        c = pile->at(index++);
-
-        if (!((c->rank() == (before->rank()-1))
-              && (c->suit() == before->suit())))
-        {
-            return false;
-        }
-        if (c == pile->top())
-            return true;
-        before = c;
-    }
-
-    return true;
+    return pile->checkIndex() == Tableau
+           && isSameSuitDescending(cards);
 }
 
 

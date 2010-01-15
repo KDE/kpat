@@ -38,6 +38,7 @@
 
 #include "carddeck.h"
 #include "dealerinfo.h"
+#include "pileutils.h"
 #include "speeds.h"
 #include "version.h"
 #include "patsolve/klondikesolver.h"
@@ -95,8 +96,8 @@ Klondike::Klondike()
     setDeck( new CardDeck() );
 
     talon = new Pile( 0, "talon" );
+    talon->setCheckIndex(Stock);
     talon->setPilePos(0, 0);
-    talon->setAddFlags(Pile::disallow);
     connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
     // Give the talon a low Z value to keep it out of the way during there
     // deal animation.
@@ -107,20 +108,17 @@ Klondike::Klondike()
     EasyRules = cg.readEntry( "KlondikeEasy", true);
 
     pile = new KlondikePile( 13, EasyRules ? 1 : 3, "pile" );
-    pile->setObjectName( "pile" );
+    pile->setCheckIndex(Waste);
     pile->setReservedSpace( QSizeF( 1.9, 1.0 ) );
     pile->setPilePos(1.0 + hspacing, 0);
     pile->setSpread( 0.33, 0 );
-    pile->setAddFlags( Pile::disallow );
-    pile->setRemoveFlags(Pile::Default);
     addPile(pile);
 
     for( int i = 0; i < 7; i++ )
     {
         play[ i ] = new Pile( i + 5, QString( "play%1" ).arg( i ));
+        play[i]->setCheckIndex(Tableau);
         play[i]->setPilePos((1.0 + hspacing) * i, 1.0 + vspacing);
-        play[i]->setAddType(Pile::KlondikeStore);
-        play[i]->setRemoveFlags(Pile::several);
         play[i]->setAutoTurnTop(true);
         play[i]->setReservedSpace( QSizeF( 1.0, 1.0 + play[i]->spread().height() * 7 ) );
         addPile(play[i]);
@@ -129,12 +127,9 @@ Klondike::Klondike()
     for( int i = 0; i < 4; i++ )
     {
         target[ i ] = new Pile( i + 1, QString( "target%1" ).arg( i ) );
+        target[i]->setCheckIndex(Foundation);
+        target[i]->setTarget(true);
         target[i]->setPilePos((3 + i) * (1.0 + hspacing), 0);
-        target[i]->setAddType(Pile::KlondikeTarget);
-        if (EasyRules)
-            target[i]->setRemoveFlags(Pile::Default);
-        else
-            target[i]->setRemoveType(Pile::KlondikeTarget);
         addPile(target[i]);
     }
 
@@ -148,6 +143,38 @@ Klondike::Klondike()
     options->setCurrentItem( EasyRules ? 0 : 1 );
     connect( options, SIGNAL(triggered(int)), SLOT(gameTypeChanged()) );
 }
+
+bool Klondike::checkAdd(const Pile * pile, const CardList & cards) const
+{
+    switch (pile->checkIndex())
+    {
+    case Tableau:
+        return checkAddAlternateColorDescendingFromKing(pile, cards);
+    case Foundation:
+        return checkAddSameSuitAscendingFromAce(pile, cards);
+    case Waste:
+    case Stock:
+    default:
+        return false;
+    }
+}
+
+bool Klondike::checkRemove(const Pile * pile, const CardList & cards) const
+{
+    switch (pile->checkIndex())
+    {
+    case Tableau:
+        return isAlternateColorDescending(cards);
+    case Foundation:
+        return EasyRules && cards.first() == pile->top();
+    case Waste:
+        return cards.first() == pile->top();
+    case Stock:
+    default:
+        return false;
+    }
+}
+
 
 QList<QAction*> Klondike::configActions() const
 {
@@ -262,12 +289,6 @@ void Klondike::setEasy( bool _EasyRules )
     pile->setDraws( EasyRules ? 1 : 3 );
     options->setCurrentItem( EasyRules ? 0 : 1 );
 
-    for( int i = 0; i < 4; i++ ) {
-        if (EasyRules) // change default
-            target[i]->setRemoveFlags(Pile::Default);
-        else
-            target[i]->setRemoveType(Pile::KlondikeTarget);
-    }
     KConfigGroup cg(KGlobal::config(), settings_group );
     cg.writeEntry( "KlondikeEasy", EasyRules);
     cg.sync();

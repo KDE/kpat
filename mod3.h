@@ -61,7 +61,7 @@ protected:
 
 private: // functions
     virtual bool checkAdd(const Pile * pile, const CardList & cards) const;
-
+    virtual bool checkRemove(const Pile * pile, const CardList & cards) const;
     void         dealRow(int row);
 
 private:

@@ -37,6 +37,7 @@
 
 #include "carddeck.h"
 #include "dealerinfo.h"
+#include "pileutils.h"
 #include "speeds.h"
 #include "patsolve/fortyeightsolver.h"
 
@@ -53,16 +54,16 @@ Fortyeight::Fortyeight( )
     setDeck(new CardDeck(2));
 
     talon = new Pile(0, "talon");
+    talon->setCheckIndex(Stock);
     talon->setPilePos(smallNeg, smallNeg);
     talon->setZValue(20);
-    talon->setAddFlags(Pile::disallow);
     talon->setSpread(0, 0);
     connect(talon, SIGNAL(pressed(Card*)), SLOT(newCards()));
     connect(talon, SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
     addPile(talon);
 
     pile = new Pile(20, "pile");
-    pile->setAddFlags(Pile::disallow);
+    pile->setCheckIndex(Waste);
     pile->setPilePos(-dist_x, smallNeg);
     pile->setSpread(-0.21, 0);
     pile->setReservedSpace( QSizeF( -(1 + 6 * dist_x), 1 ) );
@@ -70,15 +71,16 @@ Fortyeight::Fortyeight( )
 
     for (int i = 0; i < 8; i++) {
         target[i] = new Pile(9 + i, QString( "target%1" ).arg( i ));
+        target[i]->setCheckIndex(Foundation);
+        target[i]->setTarget(true);
         target[i]->setPilePos(dist_x*i, 0);
-        target[i]->setType(Pile::KlondikeTarget);
         target[i]->setSpread(0, 0);
         addPile(target[i]);
 
         stack[i] = new Pile(1 + i, QString( "stack%1" ).arg( i ));
+        stack[i]->setCheckIndex(Tableau);
         stack[i]->setPilePos(dist_x*i, 1.1 );
         stack[i]->setAutoTurnTop(true);
-        stack[i]->setCheckIndex(1);
         stack[i]->setSpread(0, 0.25);
         stack[i]->setReservedSpace( QSizeF( 1.0, 4.0 ) );
         addPile(stack[i]);
@@ -139,10 +141,34 @@ Card *Fortyeight::newCards()
 
 bool Fortyeight::checkAdd(const Pile * pile, const CardList & cards) const
 {
-    return pile->isEmpty()
-           || ( pile->top()->suit() == cards.first()->suit()
-                && pile->top()->rank() == cards.first()->rank() + 1 );
+    switch ( pile->checkIndex() )
+    {
+    case Foundation:
+        return checkAddSameSuitAscendingFromAce(pile, cards);
+    case Tableau:
+        return cards.size() == 1
+               && ( pile->isEmpty()
+                    || ( pile->top()->suit() == cards.first()->suit()
+                         && pile->top()->rank() == cards.first()->rank() + 1 ) );
+    case Stock:
+    case Waste:
+    default:
+        return false;
+    }
+}
 
+bool Fortyeight::checkRemove( const Pile * pile, const CardList & cards) const
+{
+    switch ( pile->checkIndex() )
+    {
+    case Waste:
+    case Tableau:
+        return cards.first() == pile->top();
+    case Foundation:
+    case Stock:
+    default:
+        return false;
+    }
 }
 
 void Fortyeight::deal()

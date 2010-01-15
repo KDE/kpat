@@ -37,6 +37,7 @@
 
 #include "carddeck.h"
 #include "dealerinfo.h"
+#include "pileutils.h"
 #include "patsolve/clocksolver.h"
 
 #include <KLocale>
@@ -55,18 +56,17 @@ Clock::Clock( )
 
     for (int i=0; i<12; i++) {
         target[i] = new Pile(i+1, QString("target%1").arg(i));
-        target[i]->setPilePos(4 * dist_x + 0.4 + xs[i], 0.2 + ys[i]);
-        target[i]->setCheckIndex(1);
+        target[i]->setCheckIndex(Foundation);
         target[i]->setTarget(true);
-        target[i]->setRemoveFlags(Pile::disallow);
+        target[i]->setPilePos(4 * dist_x + 0.4 + xs[i], 0.2 + ys[i]);
         target[i]->setSpread(0, 0);
         addPile(target[i]);
     }
 
     for (int i=0; i<8; i++) {
         store[i] = new Pile(14+i, QString("store%1").arg(i));
+        store[i]->setCheckIndex(Tableau);
         store[i]->setPilePos(dist_x*(i%4), 2.5 * (i/4));
-        store[i]->setCheckIndex(0);
         store[i]->setReservedSpace( QSizeF( 1.0, 1.8 ) );
         addPile(store[i]);
     }
@@ -84,19 +84,24 @@ void Clock::restart()
 
 bool Clock::checkAdd(const Pile * pile, const CardList & cards) const
 {
-    Card *newone = cards.first();
-    if (pile->checkIndex() == 0) {
-        if (pile->isEmpty())
-            return true;
-
-        return (newone->rank() == pile->top()->rank() - 1);
-    } else {
-        if (pile->top()->suit() != newone->suit())
-            return false;
-        if (pile->top()->rank() == Card::King)
-            return (newone->rank() == Card::Ace);
-        return (newone->rank() == pile->top()->rank() + 1);
+    if ( pile->checkIndex() == Tableau )
+    {
+        return pile->isEmpty()
+               || cards.first()->rank() == pile->top()->rank() - 1;
     }
+    else
+    {
+        return pile->top()->suit() == cards.first()->suit()
+               && ( cards.first()->rank() == pile->top()->rank() + 1
+                    || ( pile->top()->rank() == Card::King
+                         && cards.first()->rank() == Card::Ace ) );
+    }
+}
+
+bool Clock::checkRemove(const Pile* pile, const CardList & cards) const
+{
+    return pile->checkIndex() == Tableau
+           && cards.first() == pile->top();
 }
 
 void Clock::deal() {

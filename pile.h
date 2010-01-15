@@ -57,33 +57,17 @@ class Pile : public QObject, public QGraphicsPixmapItem
     Q_PROPERTY( qreal highlightedness READ highlightedness WRITE setHighlightedness )
 
 public:
-
-    enum PileType { Custom, 
-		    KlondikeTarget,
-		    KlondikeStore, 
-		    GypsyStore, 
-		    FreeCell, 
-		    FreecellStore};
-
-    //  Add- and remove-flags
-    static const int Default;
-    static const int disallow;
-    static const int several; // default: move one card
-
     explicit Pile( int _index, const QString & objectName = QString() );
     virtual ~Pile();
 
     CardScene  *cardScene() const;
     CardList      cards()  const { return m_cards; }
 
-    virtual bool legalAdd(const CardList &c) const;
-    virtual bool legalRemove(const Card *c) const;
+    virtual bool legalAdd(const CardList & cards) const;
+    virtual bool legalRemove(const Card * card) const;
 
     virtual void moveCards(CardList &c, Pile *to = 0);
     void moveCardsBack(CardList& c, int duration = -1);
-
-    void setRemoveFlags( int flag ) { removeFlags = flag; }
-    void setAddFlags( int flag ) { addFlags = flag; }
 
     void setCheckIndex( int index ) { _checkIndex = index; }
     virtual int checkIndex() const { return _checkIndex; }
@@ -127,20 +111,6 @@ public:
 
     virtual QPointF cardOffset( const Card *card ) const;
 
-    void setType( PileType t);
-    void setAddType( PileType t);
-    void setRemoveType( PileType t);
-    PileType addType() const { return _atype; }
-    PileType removeType() const { return _rtype; }
-
-    // pile_algorithms
-    bool add_klondikeTarget( const CardList& c2 ) const;
-    bool add_klondikeStore( const CardList& c2 ) const;
-    bool add_gypsyStore( const CardList& c2 ) const;
-    bool add_freeCell( const CardList& c2) const;
-
-    bool remove_freecellStore( const Card *c) const;
-
     // The spread properties.
     QSizeF spread() const    { return _spread; }
     void setSpread(QSizeF s) { _spread = s; } 
@@ -170,8 +140,6 @@ signals:
     void pressed(Card *c);
 
 protected:
-    int       removeFlags;
-    int       addFlags;
     CardList  m_cards;
     QTimer *m_relayoutTimer;
 
@@ -180,8 +148,6 @@ private:
     qreal highlightedness() const;
     QPropertyAnimation *m_fadeAnimation;
 
-    PileType  _atype;
-    PileType  _rtype;
     QSizeF    _spread;
 
     int _checkIndex;

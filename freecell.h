@@ -65,8 +65,8 @@ public slots:
     void startMoving();
 
 protected:
+    virtual bool checkAdd(const Pile * pile, const CardList & cards) const;
     virtual bool checkRemove(const Pile * pile, const CardList & cards) const;
-    virtual bool checkAdd   (const Pile * pile, const CardList & cards) const;
 
     bool CanPutStore(const Pile *c1, const CardList& c2) const;
     bool CanRemove(const Pile *c1, const Card *c) const;

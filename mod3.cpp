@@ -39,6 +39,7 @@
 #include "carddeck.h"
 #include "dealerinfo.h"
 #include "hint.h"
+#include "pileutils.h"
 #include "patsolve/mod3solver.h"
 
 #include <KDebug>
@@ -81,39 +82,42 @@ Mod3::Mod3( )
     setDeck(new CardDeck(2));
 
     talon = new Pile(0, "talon");
+    talon->setCheckIndex(Stock);
     talon->setPilePos(rightColumX, bottomRowY);
-    talon->setAddFlags(Pile::disallow);
     talon->setSpread(0, 0);
     connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
     addPile(talon);
 
     aces = new Pile(50, "aces");
-    aces->setPilePos(rightColumX, 0.5);
+    aces->setCheckIndex(FoundationType1);
     aces->setTarget(true);
-    aces->setCheckIndex(2);
-    aces->setAddFlags(Pile::several);
+    aces->setPilePos(rightColumX, 0.5);
     aces->setReservedSpace( QSizeF( 1.0, 2.0 ));
     addPile(aces);
 
     for ( int r = 0; r < 4; r++ ) {
         for ( int c = 0; c < 8; c++ ) {
             int pileIndex = r * 10 + c  + 1;
+            QString objectName = QString( "stack%1_%2" ).arg( r ).arg( c );
+
             // The first 3 rows are the playing field, the fourth is the store.
             if ( r < 3 ) {
-                stack[r][c] = new Pile ( pileIndex, QString( "stack%1_%2" ).arg( r ).arg( c ) );
+                stack[r][c] = new Pile( pileIndex, objectName );
+                stack[r][c]->setTarget( true );
                 stack[r][c]->setPilePos( dist_x * c, dist_y * r );
-                stack[r][c]->setCheckIndex( 0 );
-                stack[r][c]->setTarget(true);
                 // Very tight spread makes it easy to quickly tell number of
                 // cards in each pile and we don't care about the cards beneath.
                 stack[r][c]->setSpread( 0, 0.08 );
                 stack[r][c]->setReservedSpace( QSizeF( 1.0, 1.23 ) );
             } else {
-                stack[r][c] = new Mod3Pile ( pileIndex, talon, QString( "stack3_%1" ).arg( c ) );
+                stack[r][c] = new Mod3Pile( pileIndex, talon, objectName );
                 stack[r][c]->setPilePos( dist_x * c, bottomRowY );
                 stack[r][c]->setReservedSpace( QSizeF( 1.0, 1.8 ) );
-                stack[r][c]->setCheckIndex( 1 );
             }
+            stack[r][c]->setCheckIndex( r == 0 ? FoundationType2
+                                      : r == 1 ? FoundationType3
+                                      : r == 2 ? FoundationType4
+                                      : Tableau );
             addPile(stack[r][c]);
         }
     }
@@ -122,35 +126,52 @@ Mod3::Mod3( )
     setSolver( new Mod3Solver( this ) );
 }
 
-bool Mod3::checkAdd(const Pile * pile, const CardList & cards) const
+bool mod3CheckAdd(int baseRank, const Pile * pile, const CardList & cards)
 {
-    if (pile->checkIndex() == 0) {
-        Card *c2 = cards.first();
-
-        if (pile->isEmpty())
-            return (c2->rank() == ( ( pile->index() / 10 ) + 2 ) );
-
-        if (pile->top()->suit() != c2->suit())
-            return false;
-
-        if (c2->rank() != (pile->top()->rank()+3))
-            return false;
-
-        if (pile->cardsLeft() == 1)
-            return (pile->top()->rank() == ((pile->index() / 10) + 2));
-
-        return true;
-
-    } else if (pile->checkIndex() == 1) {
-        return pile->isEmpty();
-
-    } else if (pile->checkIndex() == 2) {
-        return cards.first()->rank() == Card::Ace;
-
-    } else
-        return false;
+    if (pile->isEmpty())
+        return cards.first()->rank() == baseRank;
+    else
+        return pile->at(0)->rank() == baseRank
+               && cards.first()->suit() == pile->top()->suit()
+               && cards.first()->rank() == pile->top()->rank() + 3;
 }
 
+
+bool Mod3::checkAdd(const Pile * pile, const CardList & cards) const
+{
+    switch (pile->checkIndex())
+    {
+    case FoundationType1:
+        return cards.size() == 1 && cards.first()->rank() == Card::Ace;
+    case FoundationType2:
+        return mod3CheckAdd(Card::Two, pile, cards);
+    case FoundationType3:
+        return mod3CheckAdd(Card::Three, pile, cards);
+    case FoundationType4:
+        return mod3CheckAdd(Card::Four, pile, cards);
+    case Tableau:
+        return pile->isEmpty();
+    case Stock:
+    default:
+        return false;
+    }
+}
+
+bool Mod3::checkRemove(const Pile * pile, const CardList & cards) const
+{
+    switch (pile->checkIndex())
+    {
+    case FoundationType2:
+    case FoundationType3:
+    case FoundationType4:
+    case Tableau:
+        return cards.first() == pile->top();
+    case FoundationType1:
+    case Stock:
+    default:
+        return false;
+    }
+}
 
 //-------------------------------------------------------------------------//
 

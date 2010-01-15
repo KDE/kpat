@@ -38,6 +38,7 @@
 
 #include "carddeck.h"
 #include "dealerinfo.h"
+#include "pileutils.h"
 #include "speeds.h"
 #include "version.h"
 #include "patsolve/spidersolver.h"
@@ -89,11 +90,9 @@ Spider::Spider()
     // sets of 10 cards are left to be dealt out
     for( int column = 0; column < 5; column++ ) {
         redeals[column] = new Pile(column + 1, QString( "redeals%1" ).arg( column ));
+        redeals[column]->setCheckIndex(Stock);
         redeals[column]->setPilePos(smallNeg - dist_x / 3 * ( 4 - column ), smallNeg);
         redeals[column]->setZValue(12 * ( 5-column ));
-        redeals[column]->setCheckIndex(0);
-        redeals[column]->setAddFlags(Pile::disallow);
-        redeals[column]->setRemoveFlags(Pile::disallow);
         redeals[column]->setGraphicVisible( false );
         redeals[column]->setSpread(0, 0);
         connect(redeals[column], SIGNAL(clicked(Card*)), SLOT(newCards()));
@@ -103,11 +102,9 @@ Spider::Spider()
     // The 10 playing piles
     for( int column = 0; column < 10; column++ ) {
         stack[column] = new SpiderPile(column + 6, QString( "stack%1" ).arg( column ));
+        stack[column]->setCheckIndex(Tableau);
         stack[column]->setPilePos(dist_x * column, 0);
         stack[column]->setZValue(20);
-        stack[column]->setCheckIndex(1);
-        stack[column]->setAddFlags(Pile::several);
-        stack[column]->setRemoveFlags(Pile::several);
         stack[column]->setAutoTurnTop(true);
         stack[column]->setReservedSpace( QSizeF( 1.0, 3.5 ) );
         addPile(stack[column]);
@@ -117,12 +114,10 @@ Spider::Spider()
     // else the name Spider?
     for( int column = 0; column < 8; column++ ) {
         legs[column] = new Pile(column + 16, QString( "legs%1" ).arg( column ));
+        legs[column]->setCheckIndex(Foundation);
+        legs[column]->setTarget(true);
         legs[column]->setPilePos(dist_x / 3 * column, smallNeg);
         legs[column]->setZValue(column+1);
-        legs[column]->setCheckIndex(0);
-        legs[column]->setAddFlags(Pile::disallow);
-        legs[column]->setRemoveFlags(Pile::disallow);
-        legs[column]->setTarget(true);
         legs[column]->setGraphicVisible( false );
         legs[column]->setSpread(0, 0);
         legs[column]->setZValue(14 * column);
@@ -130,8 +125,7 @@ Spider::Spider()
     }
 
     // Moving an A-K run to a leg is not really an autoDrop - the
-    // user should have no choice.  Also, it must be moved A first, ...
-    // up to K so the King will be on top.
+    // user should have no choice.
     setAutoDropEnabled(false);
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);
     setSolver( new SpiderSolver( this ) );
@@ -247,23 +241,15 @@ bool Spider::checkAdd(const Pile * pile, const CardList & cards) const
     // assuming the cardlist is a valid unit, since I allowed
     // it to be removed - can drop any card on empty pile or
     // on any suit card of one higher rank
-    return pile->isEmpty() || pile->top()->rank() == cards.first()->rank() + 1;
+    return pile->checkIndex() == Tableau
+           && ( pile->isEmpty()
+                || pile->top()->rank() == cards.first()->rank() + 1 );
 }
 
 bool Spider::checkRemove(const Pile * pile, const CardList & cards) const
 {
-    // if the pile from c up is decreasing by 1 and all the same suit, ok
-    // note that this is true if c is the top card
-    Card * c = cards.first();
-    const Card * before;
-    int index = pile->indexOf(c);
-    while (c != pile->top()) {
-        before = c;
-        c = pile->at(++index);
-        if (before->suit() != c->suit() || before->rank() != c->rank()+1)
-            return false;
-    }
-    return true;
+    return pile->checkIndex() == Tableau
+           && isSameSuitDescending(cards);
 }
 
 //-------------------------------------------------------------------------//

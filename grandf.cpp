@@ -38,6 +38,7 @@
 
 #include "carddeck.h"
 #include "dealerinfo.h"
+#include "pileutils.h"
 #include "speeds.h"
 #include "patsolve/grandfsolver.h"
 
@@ -55,19 +56,18 @@ Grandf::Grandf( )
 
     for (int i=0; i<4; i++) {
         target[i] = new Pile(i+1, QString("target%1").arg(i));
+        target[i]->setCheckIndex(Foundation);
+        target[i]->setTarget(true);
         target[i]->setPilePos(targetOffset+i*distx, 0);
-        target[i]->setType(Pile::KlondikeTarget);
         target[i]->setSpread(0, 0);
         addPile(target[i]);
     }
 
     for (int i=0; i<7; i++) {
         store[i] = new Pile(5+i, QString("store%1").arg(i));
+        store[i]->setCheckIndex(Tableau);
         store[i]->setPilePos(distx*i, 1.2);
-        store[i]->setAddFlags(Pile::several);
-        store[i]->setRemoveFlags(Pile::several);
         store[i]->setAutoTurnTop(true);
-        store[i]->setCheckIndex(1);
         store[i]->setReservedSpace( QSizeF( 1.0, 5.0 ) );
         addPile(store[i]);
     }
@@ -166,12 +166,23 @@ void Grandf::collect() {
 
 bool Grandf::checkAdd( const Pile * pile, const CardList & cards) const
 {
-    Q_ASSERT (pile->checkIndex() == 1);
-    if (pile->isEmpty())
-        return cards.first()->rank() == Card::King;
-    else
-        return cards.first()->rank() == pile->top()->rank() - 1
-               && cards.first()->suit() == pile->top()->suit();
+    switch (pile->checkIndex())
+    {
+    case Tableau:
+        if (pile->isEmpty())
+            return cards.first()->rank() == Card::King;
+        else
+            return cards.first()->rank() == pile->top()->rank() - 1
+                   && cards.first()->suit() == pile->top()->suit();
+    case Foundation:
+    default:
+        return checkAddSameSuitAscendingFromAce(pile, cards);
+    }
+}
+
+bool Grandf::checkRemove(const Pile * pile, const CardList & cards) const
+{
+    return pile->checkIndex() == Tableau && cards.first()->isFaceUp();
 }
 
 QString Grandf::getGameState()

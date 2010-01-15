@@ -50,7 +50,8 @@ class Klondike : public DealerScene {
 
 public:
     explicit Klondike();
-
+    virtual bool checkAdd(const Pile * pile, const CardList & cards) const;
+    virtual bool checkRemove(const Pile * pile, const CardList & cards) const;
     virtual void mapOldId(int id);
     virtual int oldId() const;
     virtual void restart();

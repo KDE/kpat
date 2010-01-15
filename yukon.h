@@ -46,7 +46,8 @@ class Yukon : public DealerScene {
 
 public:
     Yukon( );
-
+    virtual bool checkAdd(const Pile * pile, const CardList & cards) const;
+    virtual bool checkRemove(const Pile * pile, const CardList & cards) const;
 public slots:
     void deal();
     virtual void restart();
