@@ -138,6 +138,13 @@ bool CardScene::checkRemove( const Pile * pile, const QList<Card*> & cards ) con
 }
 
 
+bool CardScene::checkRemoveDownTo( const Pile * pile, const Card * card ) const
+{
+    QList<Card*> cards = pile->topCardsDownTo( card );
+    return !cards.isEmpty() && checkRemove( pile, cards );
+}
+
+
 void CardScene::setSceneAlignment( CardScene::SceneAlignment alignment )
 {
     if ( alignment != m_alignment )
@@ -468,7 +475,7 @@ Pile * CardScene::targetPile()
 
     foreach ( Pile * p, targets )
     {
-        if ( p != m_cardsBeingDragged.first()->source() && p->legalAdd( m_cardsBeingDragged ) )
+        if ( p != m_cardsBeingDragged.first()->source() && checkAdd( p, m_cardsBeingDragged ) )
         {
             QRectF targetRect = p->sceneBoundingRect();
             foreach ( Card *c, p->cards() )
@@ -544,8 +551,23 @@ void CardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
         if ( !card || m_cardsBeingDragged.contains( card ) )
             return;
 
+        card->source()->cardPressed( card );
+
+        m_cardsBeingDragged = card->source()->topCardsDownTo( card );
+        if ( checkRemove( card->source(), m_cardsBeingDragged ) )
+        {
+            foreach ( Card * c, m_cardsBeingDragged )
+            {
+                c->stopAnimation();
+                c->raise();
+            }
+        }
+        else
+        {
+            m_cardsBeingDragged.clear();
+        }
+
         m_dragStarted = false;
-        m_cardsBeingDragged = card->source()->cardPressed( card );
         m_startOfDrag = e->scenePos();
     }
 }

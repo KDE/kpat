@@ -240,7 +240,7 @@ void Freecell::startMoving()
     CardList empty;
     empty.append(mh->card());
     Q_ASSERT(mh->card() == mh->card()->source()->top());
-    Q_ASSERT(mh->pile()->legalAdd(empty));
+    Q_ASSERT(checkAdd(mh->pile(), empty));
     mh->pile()->add(mh->card());
 
     int duration = qMax( DURATION_MOVEBACK * mh->priority() / 1000, 1 );
@@ -359,14 +359,14 @@ void Freecell::getHints()
         CardList::Iterator iti = cards.begin();
         while (iti != cards.end())
         {
-            if (store->legalRemove(*iti)) {
+            if (checkRemoveDownTo(store, (*iti))) {
                 foreach (Pile *dest, piles())
                 {
                     if (dest == store)
                         continue;
                     if (store->indexOf(*iti) == 0 && dest->isEmpty() && !dest->isTarget())
                         continue;
-                    if (!dest->legalAdd(cards))
+                    if (!checkAdd(dest, cards))
                         continue;
                     if ( dest->isTarget() ) // taken care by solver
                         continue;
@@ -374,7 +374,7 @@ void Freecell::getHints()
                     bool old_prefer = checkPrefering( dest, cards );
                     store->hideCards(cards);
                     // if it could be here as well, then it's no use
-                    if ((store->isEmpty() && !dest->isEmpty()) || !store->legalAdd(cards))
+                    if ((store->isEmpty() && !dest->isEmpty()) || !checkAdd(store,cards))
                         newHint(new MoveHint(*iti, dest, 0));
                     else {
                         if (old_prefer && !checkPrefering( store, cards ))

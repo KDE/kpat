@@ -141,19 +141,6 @@ void Pile::updatePixmap()
     setPixmap( pix );
 }
 
-bool Pile::legalAdd( const CardList& cards ) const
-{
-    return cardScene()->checkAdd( this, cards );
-}
-
-bool Pile::legalRemove( const Card * card ) const
-{
-    int index = m_cards.indexOf( const_cast<Card*>( card ) );
-    if ( index == -1 )
-        return false;
-    return cardScene()->checkRemove( this, m_cards.mid( index ) );
-}
-
 void Pile::setVisible(bool vis)
 {
     if ( vis == isVisible() )
@@ -337,34 +324,9 @@ void Pile::setGraphicVisible( bool flag ) {
     updatePixmap();
 }
 
-
-CardList Pile::cardPressed(Card *c)
+void Pile::cardPressed(Card* card)
 {
-    CardList result;
-
-    emit pressed( c );
-
-    if ( !legalRemove(c) )
-        return result;
-
-    int below = -1;
-
-    if (!c->isFaceUp())
-        return result;
-
-    for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
-    {
-        if (c == *it) {
-            below = 0;
-        }
-        if (below >= 0) {
-            (*it)->stopAnimation();
-            (*it)->setZValue(1000 + below);
-            below++;
-            result.append(*it);
-        }
-    }
-    return result;
+    emit pressed( card );
 }
 
 void Pile::moveCards(CardList &cl, Pile *to)

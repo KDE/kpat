@@ -63,9 +63,6 @@ public:
     CardScene  *cardScene() const;
     CardList      cards()  const { return m_cards; }
 
-    virtual bool legalAdd(const CardList & cards) const;
-    virtual bool legalRemove(const Card * card) const;
-
     virtual void moveCards(CardList &c, Pile *to = 0);
     void moveCardsBack(CardList& c, int duration = -1);
 
@@ -84,7 +81,7 @@ public:
     void setGraphicVisible( bool flag );
     bool isGraphicVisible() { return m_graphicVisible; } ;
 
-    CardList cardPressed(Card *c);
+    void cardPressed(Card * card);
 
     Card *top() const;
     CardList topCardsDownTo( const Card * card ) const;

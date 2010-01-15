@@ -631,14 +631,14 @@ void DealerScene::getHints()
         CardList::Iterator iti = cards.begin();
         while (iti != cards.end())
         {
-            if (store->legalRemove(*iti)) {
+            if (checkRemoveDownTo(store, (*iti))) {
                 foreach (Pile *dest, piles())
                 {
                     if (dest == store)
                         continue;
                     if (store->indexOf(*iti) == 0 && dest->isEmpty() && !dest->isTarget())
                         continue;
-                    if (!dest->legalAdd(cards))
+                    if (!checkAdd(dest, cards))
                         continue;
 
                     bool old_prefer = checkPrefering( dest, cards );
@@ -647,7 +647,7 @@ void DealerScene::getHints()
                     else {
                         store->hideCards(cards);
                         // if it could be here as well, then it's no use
-                        if ((store->isEmpty() && !dest->isEmpty()) || !store->legalAdd(cards))
+                        if ((store->isEmpty() && !dest->isEmpty()) || !checkAdd(store, cards))
                             newHint(new MoveHint(*iti, dest, 0));
                         else {
                             if (old_prefer && !checkPrefering( store, cards ))
@@ -942,7 +942,7 @@ bool DealerScene::cardDoubleClicked( Card * c )
     if (c->animated())
         return false;
 
-    if (c == c->source()->top()  && c->realFace() && c->source()->legalRemove( c )) {
+    if (c == c->source()->top()  && c->realFace() && checkRemoveDownTo(c->source(), c)) {
         Pile *tgt = findTarget(c);
         if (tgt) {
             c->source()->moveCards(CardList() << c , tgt);
@@ -1020,7 +1020,7 @@ Pile *DealerScene::findTarget(Card *c)
     {
         if (!p->isTarget())
             continue;
-        if (p->legalAdd(CardList() << c))
+        if (checkAdd(p, CardList() << c))
             return p;
     }
     return 0;
@@ -1307,8 +1307,8 @@ void DealerScene::demo()
                                    << "from the" << mh->card()->source()->objectName()
                                    << "pile to the" << mh->pile()->objectName()
                                    << "pile, which is empty";
-        myassert(mh->card()->source() == 0 ||
-               mh->card()->source()->legalRemove(mh->card()));
+        myassert(mh->card()->source() == 0
+                 || checkRemoveDownTo(mh->card()->source(), mh->card()));
 
         CardList empty;
         CardList cards = mh->card()->source()->cards();
@@ -1334,7 +1334,7 @@ void DealerScene::demo()
         assert(mh->card()->source());
         assert(mh->pile());
         assert(mh->card()->source() != mh->pile());
-        assert(mh->pile()->isTarget() || mh->pile()->legalAdd(empty));
+        assert(mh->pile()->isTarget() || checkAdd(mh->pile(), empty));
 
         mh->card()->source()->moveCards(empty, mh->pile());
 
