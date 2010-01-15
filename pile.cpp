@@ -188,6 +188,14 @@ Card *Pile::top() const
     return m_cards.last();
 }
 
+CardList Pile::topCardsDownTo( const Card * card ) const
+{
+    int index = m_cards.indexOf( const_cast<Card*>( card ) );
+    if ( index == -1 )
+        return CardList();
+    return m_cards.mid( index );
+}
+
 void Pile::clear()
 {
     foreach ( Card *card, m_cards )

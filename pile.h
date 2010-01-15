@@ -87,6 +87,7 @@ public:
     CardList cardPressed(Card *c);
 
     Card *top() const;
+    CardList topCardsDownTo( const Card * card ) const;
 
     void animatedAdd( Card *c, bool faceUp );
     void add( Card *c, int index = -1);
