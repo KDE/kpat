@@ -125,7 +125,6 @@ signals:
     void       animationStopped(Card *c);
 
 public slots:
-    void       updatePixmap();
     void       flip();
     void       completeAnimation();
     void       stopAnimation();
@@ -136,6 +135,8 @@ private:
 
     void         setFlippedness( qreal flippedness );
     qreal        flippedness() const;
+
+    void       updatePixmap();
 
     CardDeck   *m_deck;
     Pile       *m_source;
