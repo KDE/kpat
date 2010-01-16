@@ -257,19 +257,26 @@ void Klondike::setGameOptions( const QString & options )
 
 void Klondike::setEasy( bool _EasyRules )
 {
-    EasyRules = _EasyRules;
-    pile->setDraws( EasyRules ? 1 : 3 );
-    options->setCurrentItem( EasyRules ? 0 : 1 );
+    if ( _EasyRules != EasyRules )
+    {
+        EasyRules = _EasyRules;
+        options->setCurrentItem( EasyRules ? 0 : 1 );
 
-    for( int i = 0; i < 4; i++ ) {
-        if (EasyRules) // change default
-            target[i]->setRemoveFlags(Pile::Default);
-        else
-            target[i]->setRemoveType(Pile::KlondikeTarget);
+        int drawNumber = EasyRules ? 1 : 3;
+        pile->setDraws( drawNumber );
+        setSolver( new KlondikeSolver( this, drawNumber ) );
+
+        for( int i = 0; i < 4; i++ ) {
+            if (EasyRules) // change default
+                target[i]->setRemoveFlags(Pile::Default);
+            else
+                target[i]->setRemoveType(Pile::KlondikeTarget);
+        }
+
+        KConfigGroup cg(KGlobal::config(), settings_group );
+        cg.writeEntry( "KlondikeEasy", EasyRules);
+        cg.sync();
     }
-    KConfigGroup cg(KGlobal::config(), settings_group );
-    cg.writeEntry( "KlondikeEasy", EasyRules);
-    cg.sync();
 }
 
 
