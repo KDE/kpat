@@ -432,7 +432,7 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
         }
     }
 
-    if ( !Wlen[8] && Wlen[7] )
+    if ( Wlen[8] == 0 && Wlen[7] > 1 )
     {
         mp->card_index = 0;
         mp->from = 7;
