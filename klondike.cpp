@@ -155,9 +155,6 @@ QList<QAction*> Klondike::configActions() const
 
 Card *Klondike::newCards()
 {
-    if ( talon->isEmpty() && pile->cardsLeft() <= 1 )
-        return 0;
-
     if ( deck()->hasAnimatedCards() )
     {
         if ( pile->top() )
