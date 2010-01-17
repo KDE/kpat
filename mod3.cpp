@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 1997 Rodolfo Borges <barrett@labma.ufrj.br>
  * Copyright (C) 1998-2009 Stephan Kulow <coolo@kde.org>
- * Copyright (C) 2010 Parker Coates <parker.coates@gmail.com>
+ * Copyright (C) 2010 Parker Coates <parker.coates@kdemail.net>
  *
  * License of original code:
  * -------------------------------------------------------------------------

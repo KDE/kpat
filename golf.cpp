@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2001-2009 Stephan Kulow <coolo@kde.org>
- * Copyright (C) 2010 Parker Coates <parker.coates@gmail.com>
+ * Copyright (C) 2010 Parker Coates <parker.coates@kdemail.net>
  *
  * License of original code:
  * -------------------------------------------------------------------------

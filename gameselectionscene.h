@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2008-2009 Stephan Kulow <coolo@kde.org>
- * Copyright (C) 2008-2009 Parker Coates <parker.coates@gmail.com>
+ * Copyright (C) 2008-2009 Parker Coates <parker.coates@kdemail.net>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as

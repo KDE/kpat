@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2004 Bart Vanhauwaert <bvh-cplusplus@irule.be>
  * Copyright (C) 2005-2008 Stephan Kulow <coolo@kde.org>
- * Copyright (C) 2008-2009 Parker Coates <parker.coates@gmail.com>
+ * Copyright (C) 2008-2009 Parker Coates <parker.coates@kdemail.net>
  *
  * License of original code:
  * -------------------------------------------------------------------------
