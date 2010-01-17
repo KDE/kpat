@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 1995 Paul Olav Tvete <paul@troll.no>
  * Copyright (C) 2000-2009 Stephan Kulow <coolo@kde.org>
- * Copyright (C) 2009 Parker Coates <parker.coates@gmail.com>
+ * Copyright (C) 2009-2010 Parker Coates <parker.coates@gmail.com>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -76,8 +76,6 @@ public:
 
     virtual void relayoutScene();
 
-    virtual bool checkPrefering( const Pile *c1, const CardList& c2) const;
-
     // use this for autodrop times
     int speedUpTime( int delay ) const;
 
@@ -142,6 +140,13 @@ public slots:
     void redo();
 
 protected:
+    virtual bool allowedToAdd(const Pile * pile, const CardList & cards) const;
+    virtual bool allowedToRemove(const Pile * pile, const Card * card) const;
+
+    virtual bool checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const;
+    virtual bool checkRemove( const Pile * pile, const CardList & cards ) const;
+    virtual bool checkPrefering(const Pile * pile, const CardList & oldCards, const CardList & newCards) const;
+
     virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent );

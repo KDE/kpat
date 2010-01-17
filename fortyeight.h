@@ -48,14 +48,16 @@ class Fortyeight : public DealerScene
 public:
     Fortyeight( );
     virtual void restart();
-    virtual bool checkAdd(const Pile * pile, const CardList & cards) const;
-    virtual bool checkRemove(const Pile* pile, const CardList & cards) const;
     virtual QString getGameState();
     virtual void setGameState( const QString & stream );
 
 public slots:
     virtual Card *newCards();
     void deckClicked(Card *c);
+
+protected:
+    virtual bool checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const;
+    virtual bool checkRemove(const Pile* pile, const CardList & cards) const;
 
 private:
     void deal();

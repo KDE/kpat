@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 1997 Rodolfo Borges <barrett@labma.ufrj.br>
  * Copyright (C) 1998-2009 Stephan Kulow <coolo@kde.org>
+ * Copyright (C) 2010 Parker Coates <parker.coates@gmail.com>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -240,7 +241,7 @@ void Freecell::startMoving()
     CardList empty;
     empty.append(mh->card());
     Q_ASSERT(mh->card() == mh->card()->source()->top());
-    Q_ASSERT(checkAdd(mh->pile(), empty));
+    Q_ASSERT(allowedToAdd(mh->pile(), empty));
     mh->pile()->add(mh->card());
 
     int duration = qMax( DURATION_MOVEBACK * mh->priority() / 1000, 1 );
@@ -312,16 +313,16 @@ bool Freecell::CanPutStore(const Pile *c1, const CardList &c2) const
             && (c1->top()->isRed() != c->isRed()));
 }
 
-bool Freecell::checkAdd(const Pile * pile, const CardList & cards) const
+bool Freecell::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
 {
     switch (pile->checkIndex())
     {
     case Tableau:
-        return CanPutStore(pile, cards);
+        return CanPutStore(pile, newCards);
     case Cell:
-        return pile->isEmpty() && cards.size() == 1;
+        return oldCards.isEmpty() && newCards.size() == 1;
     case Foundation:
-        return checkAddSameSuitAscendingFromAce(pile, cards);
+        return checkAddSameSuitAscendingFromAce(oldCards, newCards);
     default:
         return false;
     }
@@ -354,35 +355,40 @@ void Freecell::getHints()
             continue;
 
         CardList cards = store->cards();
-        while (cards.count() && !cards.first()->realFace()) cards.erase(cards.begin());
+        while (cards.count() && !cards.first()->realFace())
+            cards.erase(cards.begin());
 
         CardList::Iterator iti = cards.begin();
         while (iti != cards.end())
         {
-            if (checkRemoveDownTo(store, (*iti))) {
+            if (allowedToRemove(store, (*iti)))
+            {
                 foreach (Pile *dest, piles())
                 {
                     if (dest == store)
                         continue;
-                    if (store->indexOf(*iti) == 0 && dest->isEmpty() && !dest->isTarget())
+
+                    int cardIndex = store->indexOf(*iti);
+                    if (cardIndex == 0 && dest->isEmpty() && !dest->isTarget())
                         continue;
-                    if (!checkAdd(dest, cards))
+
+                    if (!allowedToAdd(dest, cards))
                         continue;
+
                     if ( dest->isTarget() ) // taken care by solver
                         continue;
 
-                    bool old_prefer = checkPrefering( dest, cards );
-                    store->hideCards(cards);
+                    CardList cardsBelow = cards.mid(0, cardIndex);
                     // if it could be here as well, then it's no use
-                    if ((store->isEmpty() && !dest->isEmpty()) || !checkAdd(store,cards))
+                    if ((cardsBelow.isEmpty() && !dest->isEmpty()) || !checkAdd(store, cardsBelow, cards))
+                    {
                         newHint(new MoveHint(*iti, dest, 0));
-                    else {
-                        if (old_prefer && !checkPrefering( store, cards ))
-                        { // if checkPrefers says so, we add it nonetheless
-                            newHint(new MoveHint(*iti, dest, 0));
-                        }
                     }
-                    store->unhideCards(cards);
+                    else if (checkPrefering( dest, dest->cards(), cards )
+                             && !checkPrefering( store, cardsBelow, cards ))
+                    { // if checkPrefers says so, we add it nonetheless
+                        newHint(new MoveHint(*iti, dest, 0));
+                    }
                 }
             }
             cards.erase(iti);

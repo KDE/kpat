@@ -60,8 +60,6 @@ public:
     Spider();
     void deal();
     bool checkPileDeck(Pile *to, bool checkForDemo = true);
-    virtual bool checkAdd(const Pile * pile, const CardList & cards) const;
-    virtual bool checkRemove(const Pile * pile, const CardList & cards) const;
     virtual void restart();
     virtual void mapOldId(int id);
     virtual int oldId() const;
@@ -78,6 +76,9 @@ protected:
     virtual void setGameState(const QString &stream);
     virtual QString getGameOptions() const;
     virtual void setGameOptions(const QString &options);
+
+    virtual bool checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const;
+    virtual bool checkRemove(const Pile * pile, const CardList & cards) const;
 
 private:
     CardList getRun(Card *c) const;

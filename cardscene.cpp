@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 1995 Paul Olav Tvete <paul@troll.no>
  * Copyright (C) 2000-2009 Stephan Kulow <coolo@kde.org>
- * Copyright (C) 2009 Parker Coates <parker.coates@gmail.com>
+ * Copyright (C) 2009-2010 Parker Coates <parker.coates@gmail.com>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -119,29 +119,6 @@ void CardScene::removePile( Pile * pile )
 QList<Pile*> CardScene::piles() const
 {
     return m_piles;
-}
-
-
-bool CardScene::checkAdd( const Pile * pile, const QList<Card*> & cards ) const
-{
-    Q_UNUSED( pile )
-    Q_UNUSED( cards )
-    return true;
-}
-
-
-bool CardScene::checkRemove( const Pile * pile, const QList<Card*> & cards ) const
-{
-    Q_UNUSED( pile )
-    Q_UNUSED( cards )
-    return true;
-}
-
-
-bool CardScene::checkRemoveDownTo( const Pile * pile, const Card * card ) const
-{
-    QList<Card*> cards = pile->topCardsDownTo( card );
-    return !cards.isEmpty() && checkRemove( pile, cards );
 }
 
 
@@ -454,6 +431,22 @@ void CardScene::onGameStateAlteredByUser()
 }
 
 
+bool CardScene::allowedToAdd( const Pile * pile, const QList<Card*> & cards ) const
+{
+    Q_UNUSED( pile )
+    Q_UNUSED( cards )
+    return true;
+}
+
+
+bool CardScene::allowedToRemove( const Pile * pile, const Card * card ) const
+{
+    Q_UNUSED( pile )
+    Q_UNUSED( card )
+    return true;
+}
+
+
 Pile * CardScene::targetPile()
 {
     QSet<Pile*> targets;
@@ -475,7 +468,7 @@ Pile * CardScene::targetPile()
 
     foreach ( Pile * p, targets )
     {
-        if ( p != m_cardsBeingDragged.first()->source() && checkAdd( p, m_cardsBeingDragged ) )
+        if ( p != m_cardsBeingDragged.first()->source() && allowedToAdd( p, m_cardsBeingDragged ) )
         {
             QRectF targetRect = p->sceneBoundingRect();
             foreach ( Card *c, p->cards() )
@@ -554,7 +547,7 @@ void CardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
         card->source()->cardPressed( card );
 
         m_cardsBeingDragged = card->source()->topCardsDownTo( card );
-        if ( checkRemove( card->source(), m_cardsBeingDragged ) )
+        if ( allowedToRemove( card->source(), m_cardsBeingDragged.first() ) )
         {
             foreach ( Card * c, m_cardsBeingDragged )
             {

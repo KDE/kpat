@@ -48,14 +48,14 @@ class Gypsy : public DealerScene
 public:
     Gypsy( );
     virtual void restart();
-    virtual bool checkAdd(const Pile * pile, const CardList & cards) const;
-    virtual bool checkRemove(const Pile * pile, const CardList & cards) const;
 
 public slots:
     virtual Card *newCards();
 
 protected:
     virtual void setGameState(const QString &);
+    virtual bool checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const;
+    virtual bool checkRemove(const Pile * pile, const CardList & cards) const;
 
 private: // functions
     void deal();

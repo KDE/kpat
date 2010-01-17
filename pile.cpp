@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 1995 Paul Olav Tvete <paul@troll.no>
  * Copyright (C) 2000-2009 Stephan Kulow <coolo@kde.org>
+ * Copyright (C) 2010 Parker Coates <parker.coates@gmail.com>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -273,18 +274,6 @@ void Pile::remove(Card *c)
     Q_ASSERT(m_cards.contains(c));
     m_cards.removeAll(c);
     c->setSource(0);
-}
-
-void Pile::hideCards( const CardList & cards )
-{
-    for (CardList::ConstIterator it = cards.begin(); it != cards.end(); ++it)
-        m_cards.removeAll(*it);
-}
-
-void Pile::unhideCards( const CardList & cards )
-{
-    for (CardList::ConstIterator it = cards.begin(); it != cards.end(); ++it)
-        m_cards.append(*it);
 }
 
 void Pile::setHighlighted( bool flag )

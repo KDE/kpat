@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2000-2009 Stephan Kulow <coolo@kde.org>
+ * Copyright (C) 2010 Parker Coates <parker.coates@gmail.com>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -139,17 +140,17 @@ Card *Fortyeight::newCards()
     return pile->top();
 }
 
-bool Fortyeight::checkAdd(const Pile * pile, const CardList & cards) const
+bool Fortyeight::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
 {
     switch ( pile->checkIndex() )
     {
     case Foundation:
-        return checkAddSameSuitAscendingFromAce(pile, cards);
+        return checkAddSameSuitAscendingFromAce(oldCards, newCards);
     case Tableau:
-        return cards.size() == 1
-               && ( pile->isEmpty()
-                    || ( pile->top()->suit() == cards.first()->suit()
-                         && pile->top()->rank() == cards.first()->rank() + 1 ) );
+        return newCards.size() == 1
+               && ( oldCards.isEmpty()
+                    || ( oldCards.last()->suit() == newCards.first()->suit()
+                         && oldCards.last()->rank() == newCards.first()->rank() + 1 ) );
     case Stock:
     case Waste:
     default:

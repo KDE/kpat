@@ -50,7 +50,6 @@ public:
     Mod3( );
 
     void deal();
-
     virtual void restart();
 
 public slots:
@@ -59,9 +58,10 @@ public slots:
 protected:
     virtual void setGameState(const QString & );
 
-private: // functions
-    virtual bool checkAdd(const Pile * pile, const CardList & cards) const;
+    virtual bool checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const;
     virtual bool checkRemove(const Pile * pile, const CardList & cards) const;
+
+private: // functions
     void         dealRow(int row);
 
 private:

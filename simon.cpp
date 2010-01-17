@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2000-2009 Stephan Kulow <coolo@kde.org>
+ * Copyright (C) 2010 Parker Coates <parker.coates@gmail.com>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -93,25 +94,25 @@ void Simon::deal() {
     startDealAnimation();
 }
 
-bool Simon::checkPrefering(const Pile * pile, const CardList & cards) const
+bool Simon::checkPrefering(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
 {
     return pile->checkIndex() == Tableau
-           && !pile->isEmpty()
-           && pile->top()->suit() == cards.first()->suit();
+           && !oldCards.isEmpty()
+           && oldCards.last()->suit() == newCards.first()->suit();
 }
 
-bool Simon::checkAdd(const Pile * pile, const CardList & cards) const
+bool Simon::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
 {
     if (pile->checkIndex() == Tableau)
     {
-        return pile->isEmpty()
-               || pile->top()->rank() == cards.first()->rank() + 1;
+        return oldCards.isEmpty()
+               || oldCards.last()->rank() == newCards.first()->rank() + 1;
     }
     else
     {
-        return pile->isEmpty()
-               && cards.first()->rank() == Card::King
-               && cards.last()->rank() == Card::Ace;
+        return oldCards.isEmpty()
+               && newCards.first()->rank() == Card::King
+               && newCards.last()->rank() == Card::Ace;
     }
 }
 

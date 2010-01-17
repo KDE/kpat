@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 1995 Paul Olav Tvete <paul@troll.no>
  * Copyright (C) 2000-2009 Stephan Kulow <coolo@kde.org>
- * Copyright (C) 2009 Parker Coates <parker.coates@gmail.com>
+ * Copyright (C) 2009-2010 Parker Coates <parker.coates@gmail.com>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -79,10 +79,6 @@ public:
     virtual void removePile( Pile * pile );
     QList<Pile*> piles() const;
 
-    virtual bool checkAdd( const Pile * pile, const QList<Card*> & cards ) const;
-    virtual bool checkRemove( const Pile * pile, const QList<Card*> & cards ) const;
-    bool checkRemoveDownTo( const Pile * pile, const Card * card ) const;
-
     void setSceneAlignment( SceneAlignment alignment );
     SceneAlignment sceneAlignment() const;
     void setLayoutMargin( qreal margin );
@@ -97,6 +93,8 @@ public:
 protected:
     virtual void onGameStateAlteredByUser();
 
+    virtual bool allowedToAdd( const Pile * pile, const QList<Card*> & cards ) const;
+    virtual bool allowedToRemove( const Pile * pile, const Card * card ) const;
     virtual Pile * targetPile();
 
     virtual void setItemHighlight( QGraphicsItem * item, bool highlight );

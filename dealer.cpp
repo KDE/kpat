@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 1995 Paul Olav Tvete <paul@troll.no>
  * Copyright (C) 2000-2009 Stephan Kulow <coolo@kde.org>
- * Copyright (C) 2009 Parker Coates <parker.coates@gmail.com>
+ * Copyright (C) 2009-2010 Parker Coates <parker.coates@gmail.com>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -626,36 +626,44 @@ void DealerScene::getHints()
             continue;
 
         CardList cards = store->cards();
-        while (cards.count() && !cards.first()->realFace()) cards.erase(cards.begin());
+        while (cards.count() && !cards.first()->realFace())
+            cards.erase(cards.begin());
 
         CardList::Iterator iti = cards.begin();
         while (iti != cards.end())
         {
-            if (checkRemoveDownTo(store, (*iti))) {
+            if (allowedToRemove(store, (*iti)))
+            {
                 foreach (Pile *dest, piles())
                 {
                     if (dest == store)
                         continue;
-                    if (store->indexOf(*iti) == 0 && dest->isEmpty() && !dest->isTarget())
-                        continue;
-                    if (!checkAdd(dest, cards))
+
+                    int cardIndex = store->indexOf(*iti);
+                    if (cardIndex == 0 && dest->isEmpty() && !dest->isTarget())
                         continue;
 
-                    bool old_prefer = checkPrefering( dest, cards );
+                    if (!allowedToAdd(dest, cards))
+                        continue;
+
                     if (dest->isTarget())
+                    {
                         newHint(new MoveHint(*iti, dest, 127));
-                    else {
-                        store->hideCards(cards);
+                    }
+                    else
+                    {
+                        CardList cardsBelow = cards.mid(0, cardIndex);
+ 
                         // if it could be here as well, then it's no use
-                        if ((store->isEmpty() && !dest->isEmpty()) || !checkAdd(store, cards))
+                        if ((cardsBelow.isEmpty() && !dest->isEmpty()) || !checkAdd(store, cardsBelow, cards))
+                        {
                             newHint(new MoveHint(*iti, dest, 0));
-                        else {
-                            if (old_prefer && !checkPrefering( store, cards ))
-                            { // if checkPrefers says so, we add it nonetheless
-                                newHint(new MoveHint(*iti, dest, 10));
-                            }
                         }
-                        store->unhideCards(cards);
+                        else if (checkPrefering(dest, dest->cards(), cards)
+                                 && !checkPrefering(store, cardsBelow, cards))
+                        { // if checkPrefers says so, we add it nonetheless
+                            newHint(new MoveHint(*iti, dest, 10));
+                        }
                     }
                 }
             }
@@ -663,11 +671,6 @@ void DealerScene::getHints()
             iti = cards.begin();
         }
     }
-}
-
-bool DealerScene::checkPrefering( const Pile *, const CardList& ) const
-{
-    return false;
 }
 
 void DealerScene::clearHints()
@@ -865,6 +868,45 @@ void DealerScene::updateWonItem()
 }
 
 
+bool DealerScene::allowedToAdd( const Pile * pile, const CardList & cards ) const
+{
+    return checkAdd( pile, pile->cards(), cards );
+}
+
+
+bool DealerScene::allowedToRemove( const Pile * pile, const Card * card ) const
+{
+    CardList cards = pile->topCardsDownTo( card );
+    return !cards.isEmpty() && checkRemove( pile, cards );
+}
+
+
+bool DealerScene::checkAdd( const Pile * pile, const CardList & oldCards, const CardList & newCards ) const
+{
+    Q_UNUSED( pile )
+    Q_UNUSED( oldCards )
+    Q_UNUSED( newCards )
+    return false;
+}
+
+
+bool DealerScene::checkRemove(const Pile * pile, const CardList & cards) const
+{
+    Q_UNUSED( pile )
+    Q_UNUSED( cards )
+    return false;
+}
+
+
+bool DealerScene::checkPrefering( const Pile * pile, const CardList & oldCards, const CardList & newCards ) const
+{
+    Q_UNUSED( pile )
+    Q_UNUSED( oldCards )
+    Q_UNUSED( newCards )
+    return false;
+}
+
+
 void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 {
     stopDemo();
@@ -942,7 +984,7 @@ bool DealerScene::cardDoubleClicked( Card * c )
     if (c->animated())
         return false;
 
-    if (c == c->source()->top()  && c->realFace() && checkRemoveDownTo(c->source(), c)) {
+    if (c == c->source()->top()  && c->realFace() && allowedToRemove(c->source(), c)) {
         Pile *tgt = findTarget(c);
         if (tgt) {
             c->source()->moveCards(CardList() << c , tgt);
@@ -1020,7 +1062,7 @@ Pile *DealerScene::findTarget(Card *c)
     {
         if (!p->isTarget())
             continue;
-        if (checkAdd(p, CardList() << c))
+        if (allowedToAdd(p, CardList() << c))
             return p;
     }
     return 0;
@@ -1308,7 +1350,7 @@ void DealerScene::demo()
                                    << "pile to the" << mh->pile()->objectName()
                                    << "pile, which is empty";
         myassert(mh->card()->source() == 0
-                 || checkRemoveDownTo(mh->card()->source(), mh->card()));
+                 || allowedToRemove(mh->card()->source(), mh->card()));
 
         CardList empty;
         CardList cards = mh->card()->source()->cards();
@@ -1334,7 +1376,7 @@ void DealerScene::demo()
         assert(mh->card()->source());
         assert(mh->pile());
         assert(mh->card()->source() != mh->pile());
-        assert(mh->pile()->isTarget() || checkAdd(mh->pile(), empty));
+        assert(mh->pile()->isTarget() || allowedToAdd(mh->pile(), empty));
 
         mh->card()->source()->moveCards(empty, mh->pile());
 

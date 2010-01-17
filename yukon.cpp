@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2000-2009 Stephan Kulow <coolo@kde.org>
+ * Copyright (C) 2010 Parker Coates <parker.coates@gmail.com>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -74,19 +75,19 @@ Yukon::Yukon( )
     setNeededFutureMoves( 10 ); // it's a bit hard to judge as there are so many nonsense moves
 }
 
-bool Yukon::checkAdd(const Pile * pile, const CardList & cards) const
+bool Yukon::checkAdd(const Pile* pile, const CardList& oldCards, const CardList& newCards) const
 {
     if (pile->checkIndex() == Tableau)
     {
-        if (pile->isEmpty())
-            return cards.first()->rank() == Card::King;
+        if (oldCards.isEmpty())
+            return newCards.first()->rank() == Card::King;
         else
-            return cards.first()->rank() == pile->top()->rank() - 1
-                   && cards.first()->isRed() != pile->top()->isRed();
+            return newCards.first()->rank() == oldCards.last()->rank() - 1
+                   && newCards.first()->isRed() != oldCards.last()->isRed();
     }
     else
     {
-        return checkAddSameSuitAscendingFromAce(pile, cards);
+        return checkAddSameSuitAscendingFromAce(oldCards, newCards);
     }
 }
 

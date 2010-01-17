@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2001-2009 Stephan Kulow <coolo@kde.org>
+ * Copyright (C) 2010 Parker Coates <parker.coates@gmail.com>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -84,11 +85,11 @@ Golf::Golf( )
 
 //-------------------------------------------------------------------------//
 
-bool Golf::checkAdd(const Pile * pile, const CardList & cards) const
+bool Golf::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
 {
     return pile->checkIndex() == Waste
-           && ( cards.first()->rank() == pile->top()->rank() + 1
-                || cards.first()->rank() == pile->top()->rank() - 1 );
+           && ( newCards.first()->rank() == oldCards.last()->rank() + 1
+                || newCards.first()->rank() == oldCards.last()->rank() - 1 );
 }
 
 bool Golf::checkRemove(const Pile * pile, const CardList & cards) const

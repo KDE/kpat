@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 1995 Paul Olav Tvete <paul@troll.no>
  * Copyright (C) 2000-2009 Stephan Kulow <coolo@kde.org>
+ * Copyright (C) 2010 Parker Coates <parker.coates@gmail.com>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -144,14 +145,14 @@ Klondike::Klondike()
     connect( options, SIGNAL(triggered(int)), SLOT(gameTypeChanged()) );
 }
 
-bool Klondike::checkAdd(const Pile * pile, const CardList & cards) const
+bool Klondike::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
 {
     switch (pile->checkIndex())
     {
     case Tableau:
-        return checkAddAlternateColorDescendingFromKing(pile, cards);
+        return checkAddAlternateColorDescendingFromKing(oldCards, newCards);
     case Foundation:
-        return checkAddSameSuitAscendingFromAce(pile, cards);
+        return checkAddSameSuitAscendingFromAce(oldCards, newCards);
     case Waste:
     case Stock:
     default:

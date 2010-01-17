@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2000-2009 Stephan Kulow <coolo@kde.org>
+ * Copyright (C) 2010 Parker Coates <parker.coates@gmail.com>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -84,14 +85,14 @@ void Gypsy::restart() {
     emit newCardsPossible(true);
 }
 
-bool Gypsy::checkAdd(const Pile * pile, const CardList & cards) const
+bool Gypsy::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
 {
     switch (pile->checkIndex())
     {
     case Tableau:
-        return checkAddAlternateColorDescending(pile, cards);
+        return checkAddAlternateColorDescending(oldCards, newCards);
     case Foundation:
-        return checkAddSameSuitAscendingFromAce(pile, cards);
+        return checkAddSameSuitAscendingFromAce(oldCards, newCards);
     case Stock:
     default:
         return false;

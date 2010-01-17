@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 1995 Paul Olav Tvete <paul@troll.no>
  * Copyright (C) 2000-2009 Stephan Kulow <coolo@kde.org>
+ * Copyright (C) 2010 Parker Coates <parker.coates@gmail.com>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -164,19 +165,19 @@ void Grandf::collect() {
     }
 }
 
-bool Grandf::checkAdd( const Pile * pile, const CardList & cards) const
+bool Grandf::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
 {
     switch (pile->checkIndex())
     {
     case Tableau:
-        if (pile->isEmpty())
-            return cards.first()->rank() == Card::King;
+        if (oldCards.isEmpty())
+            return newCards.first()->rank() == Card::King;
         else
-            return cards.first()->rank() == pile->top()->rank() - 1
-                   && cards.first()->suit() == pile->top()->suit();
+            return newCards.first()->rank() == oldCards.last()->rank() - 1
+                   && newCards.first()->suit() == oldCards.last()->suit();
     case Foundation:
     default:
-        return checkAddSameSuitAscendingFromAce(pile, cards);
+        return checkAddSameSuitAscendingFromAce(oldCards, newCards);
     }
 }
 

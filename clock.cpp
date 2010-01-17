@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2000-2009 Stephan Kulow <coolo@kde.org>
+ * Copyright (C) 2010 Parker Coates <parker.coates@gmail.com>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -82,21 +83,22 @@ void Clock::restart()
     deal();
 }
 
-bool Clock::checkAdd(const Pile * pile, const CardList & cards) const
+bool Clock::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
 {
     if ( pile->checkIndex() == Tableau )
     {
-        return pile->isEmpty()
-               || cards.first()->rank() == pile->top()->rank() - 1;
+        return oldCards.isEmpty()
+               || newCards.first()->rank() == oldCards.last()->rank() - 1;
     }
     else
     {
-        return pile->top()->suit() == cards.first()->suit()
-               && ( cards.first()->rank() == pile->top()->rank() + 1
+        return oldCards.last()->suit() == newCards.first()->suit()
+               && ( newCards.first()->rank() == oldCards.last()->rank() + 1
                     || ( pile->top()->rank() == Card::King
-                         && cards.first()->rank() == Card::Ace ) );
+                         && newCards.first()->rank() == Card::Ace ) );
     }
 }
+
 
 bool Clock::checkRemove(const Pile* pile, const CardList & cards) const
 {

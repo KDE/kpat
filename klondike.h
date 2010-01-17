@@ -50,8 +50,6 @@ class Klondike : public DealerScene {
 
 public:
     explicit Klondike();
-    virtual bool checkAdd(const Pile * pile, const CardList & cards) const;
-    virtual bool checkRemove(const Pile * pile, const CardList & cards) const;
     virtual void mapOldId(int id);
     virtual int oldId() const;
     virtual void restart();
@@ -69,6 +67,9 @@ protected:
     virtual QString getGameState();
     virtual QString getGameOptions() const;
     virtual void setGameOptions(const QString &options);
+
+    virtual bool checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const;
+    virtual bool checkRemove(const Pile * pile, const CardList & cards) const;
 
 private:
     bool EasyRules;

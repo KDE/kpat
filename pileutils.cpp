@@ -1,5 +1,5 @@
 /*
- *  Copyright 2010 Parker Coates <parker.coates@gmail.com>
+ *  Copyright (C) 2010 Parker Coates <parker.coates@gmail.com>
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License as
@@ -79,37 +79,37 @@ bool isAlternateColorDescending( const QList<Card*> & cards )
 }
 
 
-bool checkAddSameSuitAscendingFromAce( const Pile * pile, const QList<Card*> & cards )
+bool checkAddSameSuitAscendingFromAce( const QList<Card*> & oldCards, const QList<Card*> & newCards )
 {
-    if ( !isSameSuitAscending( cards ) )
+    if ( !isSameSuitAscending( newCards ) )
         return false;
 
-    if ( pile->isEmpty() )
-        return cards.first()->rank() == Card::Ace;
+    if ( oldCards.isEmpty() )
+        return newCards.first()->rank() == Card::Ace;
     else
-        return cards.first()->suit() == pile->top()->suit()
-            && cards.first()->rank() == pile->top()->rank() + 1;
+        return newCards.first()->suit() == oldCards.last()->suit()
+            && newCards.first()->rank() == oldCards.last()->rank() + 1;
 }
 
 
-bool checkAddAlternateColorDescending( const Pile * pile, const QList<Card*> & cards )
+bool checkAddAlternateColorDescending( const QList<Card*> & oldCards, const QList<Card*> & newCards )
 {
-    return isAlternateColorDescending( cards )
-           && ( pile->isEmpty()
-                || ( cards.first()->isRed() != pile->top()->isRed()
-                     && cards.first()->rank() == pile->top()->rank() - 1 ) );
+    return isAlternateColorDescending( newCards )
+           && ( oldCards.isEmpty()
+                || ( newCards.first()->isRed() != oldCards.last()->isRed()
+                     && newCards.first()->rank() == oldCards.last()->rank() - 1 ) );
 }
 
 
-bool checkAddAlternateColorDescendingFromKing( const Pile * pile, const QList<Card*> & cards )
+bool checkAddAlternateColorDescendingFromKing( const QList<Card*> & oldCards, const QList<Card*> & newCards )
 {
-    if ( !isAlternateColorDescending( cards ) )
+    if ( !isAlternateColorDescending( newCards ) )
         return false;
 
-    if ( pile->isEmpty() )
-        return cards.first()->rank() == Card::King;
+    if ( oldCards.isEmpty() )
+        return newCards.first()->rank() == Card::King;
     else
-        return cards.first()->isRed() != pile->top()->isRed()
-            && cards.first()->rank() == pile->top()->rank() - 1;
+        return newCards.first()->isRed() != oldCards.last()->isRed()
+            && newCards.first()->rank() == oldCards.last()->rank() - 1;
 }
 

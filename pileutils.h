@@ -1,5 +1,5 @@
 /*
- *  Copyright 2010 Parker Coates <parker.coates@gmail.com>
+ *  Copyright (C) 2010 Parker Coates <parker.coates@gmail.com>
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License as
@@ -46,8 +46,8 @@ bool isSameSuitAscending( const QList<Card*> & cards );
 bool isSameSuitDescending( const QList<Card*> & cards );
 bool isAlternateColorDescending( const QList<Card*> & cards );
 
-bool checkAddSameSuitAscendingFromAce( const Pile * pile, const QList<Card*> & cards );
-bool checkAddAlternateColorDescending( const Pile * pile, const QList<Card*> & cards );
-bool checkAddAlternateColorDescendingFromKing( const Pile * pile, const QList<Card*> & cards );
+bool checkAddSameSuitAscendingFromAce( const QList<Card*> & oldCards, const QList<Card*> & newCards );
+bool checkAddAlternateColorDescending( const QList<Card*> & oldCards, const QList<Card*> & newCards );
+bool checkAddAlternateColorDescendingFromKing( const QList<Card*> & oldCards, const QList<Card*> & newCards );
 
 #endif

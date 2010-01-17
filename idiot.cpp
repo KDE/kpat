@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 1995 Paul Olav Tvete <paul@troll.no>
  * Copyright (C) 2000-2009 Stephan Kulow <coolo@kde.org>
+ * Copyright (C) 2010 Parker Coates <parker.coates@gmail.com>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -96,20 +97,19 @@ void Idiot::restart()
     emit newCardsPossible(true);
 }
 
-bool Idiot::checkAdd(const Pile * pile, const CardList & cards) const
+bool Idiot::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
 {
     switch ( pile->checkIndex() )
     {
     case Waste:
-        return canMoveAway( cards.first() );
+        return canMoveAway( newCards.first() );
     case Tableau:
-        return pile->isEmpty() && cards.size() == 1;
+        return oldCards.isEmpty() && newCards.size() == 1;
     case Stock:
     default:
         return false;
     }
 }
-
 
 bool Idiot::checkRemove(const Pile * pile, const CardList & cards) const
 {

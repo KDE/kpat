@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 1997 Rodolfo Borges <barrett@labma.ufrj.br>
  * Copyright (C) 1998-2009 Stephan Kulow <coolo@kde.org>
+ * Copyright (C) 2010 Parker Coates <parker.coates@gmail.com>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -126,31 +127,30 @@ Mod3::Mod3( )
     setSolver( new Mod3Solver( this ) );
 }
 
-bool mod3CheckAdd(int baseRank, const Pile * pile, const CardList & cards)
+bool mod3CheckAdd(int baseRank, const CardList & oldCards, const CardList & newCards)
 {
-    if (pile->isEmpty())
-        return cards.first()->rank() == baseRank;
+    if (oldCards.isEmpty())
+        return newCards.first()->rank() == baseRank;
     else
-        return pile->at(0)->rank() == baseRank
-               && cards.first()->suit() == pile->top()->suit()
-               && cards.first()->rank() == pile->top()->rank() + 3;
+        return oldCards.first()->rank() == baseRank
+               && newCards.first()->suit() == oldCards.last()->suit()
+               && newCards.first()->rank() == oldCards.last()->rank() + 3;
 }
 
-
-bool Mod3::checkAdd(const Pile * pile, const CardList & cards) const
+bool Mod3::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
 {
     switch (pile->checkIndex())
     {
     case FoundationType1:
-        return cards.size() == 1 && cards.first()->rank() == Card::Ace;
+        return newCards.size() == 1 && newCards.first()->rank() == Card::Ace;
     case FoundationType2:
-        return mod3CheckAdd(Card::Two, pile, cards);
+        return mod3CheckAdd(Card::Two, oldCards, newCards);
     case FoundationType3:
-        return mod3CheckAdd(Card::Three, pile, cards);
+        return mod3CheckAdd(Card::Three, oldCards, newCards);
     case FoundationType4:
-        return mod3CheckAdd(Card::Four, pile, cards);
+        return mod3CheckAdd(Card::Four, oldCards, newCards);
     case Tableau:
-        return pile->isEmpty();
+        return oldCards.isEmpty();
     case Stock:
     default:
         return false;

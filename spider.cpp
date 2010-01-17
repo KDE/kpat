@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2003 Josh Metzler <joshdeb@metzlers.org>
  * Copyright (C) 2000-2009 Stephan Kulow <coolo@kde.org>
+ * Copyright (C) 2010 Parker Coates <parker.coates@gmail.com>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -236,14 +237,14 @@ void Spider::cardStopped(Card * t)
 
 //-------------------------------------------------------------------------//
 
-bool Spider::checkAdd(const Pile * pile, const CardList & cards) const
+bool Spider::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
 {
     // assuming the cardlist is a valid unit, since I allowed
     // it to be removed - can drop any card on empty pile or
     // on any suit card of one higher rank
     return pile->checkIndex() == Tableau
-           && ( pile->isEmpty()
-                || pile->top()->rank() == cards.first()->rank() + 1 );
+           && ( oldCards.isEmpty()
+                || oldCards.last()->rank() == newCards.first()->rank() + 1 );
 }
 
 bool Spider::checkRemove(const Pile * pile, const CardList & cards) const
