@@ -51,17 +51,13 @@
 #include <cmath>
 
 
-Pile::Pile( int _index, const QString & objectName )
+Pile::Pile( const QString & objectName )
     : QGraphicsPixmapItem(),
-      myIndex(_index),
       m_autoTurnTop(false),
       m_graphicVisible( true ),
       m_highlighted( false )
 {
-    if ( objectName.isEmpty() )
-        setObjectName( QString("pile%1").arg(_index) );
-    else
-        setObjectName( objectName );
+    setObjectName( objectName );
 
     QGraphicsItem::setVisible(true); // default
 
@@ -89,16 +85,9 @@ Pile::~Pile()
 {
 //     dscene()->removePile(this);
 
-    for (CardList::Iterator it = m_cards.begin(); it != m_cards.end(); ++it)
-    {
-        if ((*it)->source() != this) {
-            int i = -13;
-            if ((*it)->source())
-                i = (*it)->source()->index();
-            kDebug() << "pile doesn't match" << index() << " - " << i;
-        }
-        (*it)->setSource(0);
-    }
+    foreach ( Card * c, m_cards )
+        c->setSource( 0 );
+
     delete m_relayoutTimer;
 }
 

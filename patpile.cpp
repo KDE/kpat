@@ -20,10 +20,19 @@
 
 
 PatPile::PatPile( int index, const QString & objectName )
-  : Pile( index, objectName ),
-    m_role( NoRole )
+  : Pile( objectName ),
+    m_index( index ),
+    m_role( NoRole ),
+    m_foundation( false )
 {
+    if ( objectName.isEmpty() )
+        setObjectName( QString("pile%1").arg( m_index ) );
+}
 
+
+int PatPile::index() const
+{
+    return m_index;
 }
 
 

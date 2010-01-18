@@ -58,7 +58,7 @@ class Pile : public QObject, public QGraphicsPixmapItem
     Q_PROPERTY( qreal highlightedness READ highlightedness WRITE setHighlightedness )
 
 public:
-    explicit Pile( int _index, const QString & objectName = QString() );
+    explicit Pile( const QString & objectName = QString() );
     virtual ~Pile();
 
     CardScene  *cardScene() const;
@@ -86,7 +86,6 @@ public:
     void remove(Card *c);
     void clear();
 
-    int  index()   const { return myIndex; }
     bool isEmpty() const { return m_cards.isEmpty(); }
 
     enum { Type = UserType + 2 };
@@ -140,7 +139,6 @@ private:
 
     QSizeF    _spread;
 
-    int myIndex;
     bool m_autoTurnTop;
 
     bool m_graphicVisible;

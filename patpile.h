@@ -45,6 +45,8 @@ public:
 
     PatPile( int index, const QString & objectName = QString() );
 
+    int index() const;
+
     void setPileRole( PileRole role );
     PileRole pileRole() const;
 
@@ -52,6 +54,7 @@ public:
     bool isFoundation() const;
 
 private:
+    int m_index;
     PileRole m_role;
     bool m_foundation;
 };
