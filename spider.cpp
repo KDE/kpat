@@ -66,7 +66,7 @@ void SpiderPile::moveCards(CardList &c, Pile *to)
     // then it could have a full deck that needs removed.
     if (c.last()->rank() == Card::Ace &&
         c.first()->suit() == p->top()->suit() &&
-        p->cardsLeft() > 12)
+        p->count() > 12)
     {
             Spider *b = dynamic_cast<Spider*>(scene());
             if (b) {

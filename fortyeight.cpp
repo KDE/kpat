@@ -121,7 +121,7 @@ Card *Fortyeight::newCards()
     if (talon->isEmpty())
     {
         lastdeal = true;
-        while (pile->cardsLeft() > 1)
+        while (pile->count() > 1)
         {
             Card *c = pile->top();
             talon->add(c);

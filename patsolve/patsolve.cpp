@@ -1001,12 +1001,12 @@ int Solver::translateSuit( int s )
 int Solver::translate_pile(const PatPile *pile, card_t *w, int size)
 {
     Q_UNUSED( size );
-        Q_ASSERT( pile->cardsLeft() <= size );
+        Q_ASSERT( pile->count() <= size );
 
         card_t rank, suit;
 
 	rank = suit = NONE;
-        for ( int i = 0; i < pile->cardsLeft(); ++i )
+        for ( int i = 0; i < pile->count(); ++i )
         {
             Card *c = pile->at( i );
             *w =  + translateSuit( c->suit() ) + c->rank();
@@ -1014,7 +1014,7 @@ int Solver::translate_pile(const PatPile *pile, card_t *w, int size)
                 *w += 1 << 7;
             w++;
 	}
-	return pile->cardsLeft();
+	return pile->count();
 }
 
 /* Insert key into the tree unless it's already there.  Return true if

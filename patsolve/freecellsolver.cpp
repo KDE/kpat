@@ -462,7 +462,7 @@ MoveHint *FreecellSolver::translateMove( const MOVE &m )
         frompile = deal->store[m.from];
     else
         frompile = deal->freecell[m.from-8];
-    Card *card = frompile->at( frompile->cardsLeft() - m.card_index - 1);
+    Card *card = frompile->at( frompile->count() - m.card_index - 1);
 
     if ( m.totype == O_Type )
     {

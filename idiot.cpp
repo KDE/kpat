@@ -193,7 +193,7 @@ bool Idiot::isGameWon() const
 
     // Criterium 2.
     for (int i = 0; i < 4; i++) {
-        if (m_play[i]->cardsLeft() != 1 || m_play[i]->top()->rank() != Card::Ace)
+        if (m_play[i]->count() != 1 || m_play[i]->top()->rank() != Card::Ace)
             return false;
     }
 

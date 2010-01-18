@@ -51,20 +51,21 @@
 
 
 Pile::Pile( const QString & objectName )
-    : QGraphicsPixmapItem(),
-      m_autoTurnTop(false),
-      m_graphicVisible( true ),
-      m_highlighted( false )
+  : QGraphicsPixmapItem(),
+    m_autoTurnTop(false),
+    m_highlighted( false ),
+    m_graphicVisible( true ),
+    m_reserved( 1, 1 ),
+    m_spread( 0, 0.33 )
 {
     setObjectName( objectName );
 
-    QGraphicsItem::setVisible(true); // default
-
-    setZValue(0);
-    setSpread( 0, 0.33 );
-    setReservedSpace( QSizeF( 1, 1 ) );
+    setZValue( 0 );
     setShapeMode( QGraphicsPixmapItem::BoundingRectShape );
+    QGraphicsItem::setVisible( true );
+
     setMaximumSpace( QSizeF( 1, 1 ) ); // just to make it valid
+
     m_relayoutTimer = new QTimer( this );
     m_relayoutTimer->setSingleShot( true );
     connect( m_relayoutTimer, SIGNAL(timeout()), SLOT(relayoutCards()) );
@@ -75,10 +76,6 @@ Pile::Pile( const QString & objectName )
     m_fadeAnimation->setKeyValueAt( 1, 1 );
 }
 
-CardScene *Pile::cardScene() const
-{
-    return dynamic_cast<CardScene*>( scene() );
-}
 
 Pile::~Pile()
 {
@@ -91,15 +88,190 @@ Pile::~Pile()
 }
 
 
+int Pile::type() const
+{
+    return Type;
+}
+
+
+CardScene * Pile::cardScene() const
+{
+    return dynamic_cast<CardScene*>( scene() );
+}
+
+
+QList<Card*> Pile::cards() const
+{
+    return m_cards;
+}
+
+
+int Pile::count() const
+{
+    return m_cards.count();
+}
+
+
+bool Pile::isEmpty() const
+{
+    return m_cards.isEmpty();
+}
+
+
+int Pile::indexOf( const Card * card ) const
+{
+    return m_cards.indexOf( const_cast<Card*>( card ) );
+}
+
+
+Card * Pile::at( int index ) const
+{
+    if ( index < 0 || index >= m_cards.size() )
+        return 0;
+    return m_cards.at( index );
+}
+
+
+Card *Pile::top() const
+{
+    if ( m_cards.isEmpty() )
+        return 0;
+
+    return m_cards.last();
+}
+
+
+QList<Card*> Pile::topCardsDownTo( const Card * card ) const
+{
+    int index = m_cards.indexOf( const_cast<Card*>( card ) );
+    if ( index == -1 )
+        return CardList();
+    return m_cards.mid( index );
+}
+
+
+void Pile::setPilePos( QPointF pos )
+{
+    m_pilePos = pos;
+}
+
+
 void Pile::setPilePos( qreal x,  qreal y )
 {
-    _pilePos = QPointF( x, y );
+    setPilePos( QPointF( x, y ) );
 }
 
 
 QPointF Pile::pilePos() const
 {
-    return _pilePos;
+    return m_pilePos;
+}
+
+
+void Pile::setReservedSpace( QSizeF space )
+{
+    m_reserved = space;
+}
+
+
+void Pile::setReservedSpace( qreal width, qreal height )
+{
+    setReservedSpace( QSizeF( width, height ) );
+}
+
+
+QSizeF Pile::reservedSpace() const
+{
+    return m_reserved;
+}
+
+
+void Pile::setMaximumSpace( QSizeF size )
+{
+    m_maximumSpace = size;
+}
+
+
+QSizeF Pile::maximumSpace() const
+{
+    return m_maximumSpace;
+}
+
+
+void Pile::setSpread( QSizeF spread )
+{
+    m_spread = spread;
+}
+
+
+void Pile::setSpread( qreal width, qreal height )
+{
+    setSpread( QSizeF( width, height ) );
+}
+
+
+QSizeF Pile::spread() const
+{
+    return m_spread;
+}
+
+
+void Pile::setAutoTurnTop( bool autoTurnTop )
+{
+    m_autoTurnTop = autoTurnTop;
+}
+
+
+bool Pile::autoTurnTop() const
+{
+    return m_autoTurnTop;
+}
+
+
+void Pile::setVisible( bool visible )
+{
+    if ( visible != isVisible() )
+    {
+        QGraphicsItem::setVisible( visible );
+        foreach ( Card * c, m_cards )
+            c->setVisible( visible );
+    }
+}
+
+
+void Pile::setHighlighted( bool highlighted )
+{
+    if ( highlighted != m_highlighted )
+    {
+        m_highlighted = highlighted;
+        m_fadeAnimation->setDirection( highlighted
+                                       ? QAbstractAnimation::Forward
+                                       : QAbstractAnimation::Backward );
+        if ( m_fadeAnimation->state() != QAbstractAnimation::Running )
+            m_fadeAnimation->start();
+    }
+}
+
+
+bool Pile::isHighlighted() const
+{
+    return m_highlighted;
+}
+
+
+void Pile::setGraphicVisible( bool visible )
+{
+    if ( m_graphicVisible != visible )
+    {
+        m_graphicVisible = visible;
+        updatePixmap( pixmap().size() );
+    }
+}
+
+
+bool Pile::isGraphicVisible()
+{
+    return m_graphicVisible;
 }
 
 
@@ -107,6 +279,213 @@ void Pile::setGraphicSize( QSize size )
 {
     if ( size != pixmap().size() )
         updatePixmap( size );
+}
+
+
+void Pile::animatedAdd( Card * card, bool faceUp )
+{
+    Q_ASSERT( card );
+
+    if ( card->source() )
+        card->source()->relayoutCards();
+
+    QPointF origPos = card->pos();
+    card->turn( faceUp );
+    add( card );
+    layoutCards( DURATION_RELAYOUT );
+
+    card->completeAnimation();
+    QPointF destPos = card->pos();
+    card->setPos( origPos );
+
+    QPointF delta = destPos - card->pos();
+    qreal dist = sqrt( delta.x() * delta.x() + delta.y() * delta.y() );
+    qreal whole = sqrt( scene()->width() * scene()->width() + scene()->height() * scene()->height() );
+    card->moveTo(destPos, card->zValue(), qRound( dist * DURATION_DEAL / whole ) );
+}
+
+
+void Pile::add( Card * card, int index )
+{
+    if ( card->source() == this )
+        return;
+
+    if ( card->scene() != scene() )
+        scene()->addItem(card);
+
+    Pile * oldSource = card->source();
+    if ( oldSource )
+    {
+        // This is hideous and needs to be refactored.
+        PatPile * self = dynamic_cast<PatPile*>( this );
+        PatPile * other = dynamic_cast<PatPile*>( oldSource );
+        card->setTakenDown( self && other && other->isFoundation() && !self->isFoundation() );
+        oldSource->remove( card );
+    }
+
+    card->setSource( this );
+    card->setVisible( isVisible() );
+
+    if ( index == -1 )
+    {
+        m_cards.append( card );
+    }
+    else
+    {
+        while ( m_cards.count() <= index )
+            m_cards.append( 0 );
+
+        Q_ASSERT( m_cards[index] == 0 );
+        m_cards[index] = card;
+    }
+}
+
+
+void Pile::remove( Card * card )
+{
+    Q_ASSERT( m_cards.contains( card ) );
+    m_cards.removeAll( card );
+    card->setSource( 0 );
+}
+
+
+void Pile::clear()
+{
+    foreach ( Card *card, m_cards )
+        remove( card );
+}
+
+
+void Pile::layoutCards( int duration )
+{
+    if ( m_cards.isEmpty() )
+        return;
+
+    const QSize cardSize = cardScene()->deck()->cardSize();
+
+    QPointF totalOffset( 0, 0 );
+    for ( int i = 0; i < m_cards.size() - 1; ++i )
+        totalOffset += cardOffset( m_cards[i] );
+
+    qreal divx = 1;
+    if ( totalOffset.x() )
+        divx = qMin<qreal>( ( maximumSpace().width() - cardSize.width() ) / qAbs( totalOffset.x() ), 1.0 );
+
+    qreal divy = 1;
+    if ( totalOffset.y() )
+        divy = qMin<qreal>( ( maximumSpace().height() - cardSize.height() ) / qAbs( totalOffset.y() ), 1.0 );
+
+    QPointF cardPos = pos();
+    qreal z = zValue() + 1;
+    foreach ( Card * card, m_cards )
+    {
+        card->animate( cardPos, z, 1, 0, card->isFaceUp(), false, duration );
+
+        QPointF offset = cardOffset( card );
+        cardPos.rx() += divx * offset.x();
+        cardPos.ry() += divy * offset.y();
+        ++z;
+    }
+}
+
+
+void Pile::moveCardsBack( QList<Card*> & cards, int duration )
+{
+    if ( cards.isEmpty() )
+        return;
+
+    foreach ( Card * c, cards )
+        c->raise();
+
+    layoutCards( duration );
+}
+
+
+void Pile::moveCards( QList<Card*> & cards, Pile * pile )
+{
+    if ( cards.isEmpty() )
+        return;
+
+    foreach ( Card * c, cards )
+    {
+        Q_ASSERT( c->source() == this );
+        pile->add( c );
+    }
+
+    Card * t = top();
+    if ( t && !t->isFaceUp() && m_autoTurnTop )
+    {
+        t->animate( t->pos(), t->zValue(), 1, 0, true, false, DURATION_FLIP );
+    }
+
+    relayoutCards();
+
+    pile->moveCardsBack( cards );
+}
+
+
+void Pile::cardPressed( Card * card )
+{
+    emit pressed( card );
+}
+
+
+bool Pile::cardClicked( Card * card )
+{
+    emit clicked( card );
+    return false;
+}
+
+
+bool Pile::cardDoubleClicked( Card * card )
+{
+    emit doubleClicked( card );
+    return false;
+}
+
+
+void Pile::relayoutCards()
+{
+    m_relayoutTimer->stop();
+
+    foreach ( Card * card, m_cards )
+    {
+        if ( card->animated() || cardScene()->cardsBeingDragged().contains( card ) )
+        {
+            m_relayoutTimer->start( 50 );
+            return;
+        }
+    }
+
+    layoutCards( DURATION_RELAYOUT );
+}
+
+
+// Return the number of pixels in x and y that the card should be
+// offset from the start position of the pile.
+QPointF Pile::cardOffset( const Card * card ) const
+{
+    QPointF offset( spread().width() * cardScene()->deck()->cardWidth(),
+                    spread().height() * cardScene()->deck()->cardHeight() );
+    if (!card->realFace())
+        offset *= 0.6;
+    return offset;
+}
+
+
+QPixmap Pile::normalPixmap( QSize size )
+{
+    QPixmap pix( size );
+    pix.fill( Qt::transparent );
+    return pix;
+}
+
+
+QPixmap Pile::highlightedPixmap( QSize size )
+{
+    QPixmap pix( size );
+    pix.fill( QColor( 0, 0, 0, 128 ) );
+    return pix;
 }
 
 
@@ -146,178 +525,6 @@ void Pile::updatePixmap( QSize size )
     setPixmap( pix );
 }
 
-QPixmap Pile::normalPixmap( QSize size )
-{
-    QPixmap pix( size );
-    pix.fill( Qt::transparent );
-    return pix;
-}
-
-QPixmap Pile::highlightedPixmap( QSize size )
-{
-    QPixmap pix( size );
-    pix.fill( QColor( 0, 0, 0, 128 ) );
-    return pix;
-}
-
-
-void Pile::setVisible(bool vis)
-{
-    if ( vis == isVisible() )
-        return;
-
-    QGraphicsItem::setVisible(vis);
-    foreach (Card *c, m_cards)
-        c->setVisible(vis);
-}
-
-int Pile::indexOf(const Card *c) const
-{
-    Q_ASSERT(c->source() == this);
-    return m_cards.indexOf(const_cast<Card*>(c)); // the list is of non-const cards
-}
-
-Card *Pile::at(int index) const
-{
-    if (index < 0 || index >= int(m_cards.count()))
-        return 0;
-    return m_cards.at(index);
-}
-
-// Return the top card of this pile.
-//
-
-Card *Pile::top() const
-{
-    if (m_cards.isEmpty())
-        return 0;
-
-    return m_cards.last();
-}
-
-CardList Pile::topCardsDownTo( const Card * card ) const
-{
-    int index = m_cards.indexOf( const_cast<Card*>( card ) );
-    if ( index == -1 )
-        return CardList();
-    return m_cards.mid( index );
-}
-
-void Pile::clear()
-{
-    foreach ( Card *card, m_cards )
-        card->setSource(0);
-    m_cards.clear();
-}
-
-void Pile::relayoutCards()
-{
-    m_relayoutTimer->stop();
-
-    foreach ( Card * card, m_cards )
-    {
-        if ( card->animated() || cardScene()->cardsBeingDragged().contains( card ) ) {
-            m_relayoutTimer->start( 50 );
-            return;
-        }
-    }
-
-    layoutCards( DURATION_RELAYOUT );
-}
-
-void Pile::add( Card *_card, int index)
-{
-    if (_card->source() == this)
-        return;
-
-    if (_card->scene() != scene())
-        scene()->addItem(_card);
-
-    Pile *oldSource = _card->source();
-    if (oldSource)
-    {
-        // This is hideous and needs to be refactored.
-        PatPile * self = dynamic_cast<PatPile*>( this );
-        PatPile * other = dynamic_cast<PatPile*>( oldSource );
-        _card->setTakenDown(self && other && other->isFoundation() && !self->isFoundation());
-        oldSource->remove(_card);
-    }
-
-    _card->setSource(this);
-    _card->setVisible( isVisible() );
-
-    if (index == -1)
-        m_cards.append(_card);
-    else {
-        while (m_cards.count() <= index)
-            m_cards.append(0);
-        Q_ASSERT(m_cards[index] == 0);
-        m_cards[index] = _card;
-    }
-}
-
-
-// Return the number of pixels in x and y that the card should be
-// offset from the start position of the pile.
-QPointF Pile::cardOffset( const Card *card ) const
-{
-    QPointF offset( spread().width() * cardScene()->deck()->cardWidth(),
-                    spread().height() * cardScene()->deck()->cardHeight() );
-    if (!card->realFace())
-        offset *= 0.6;
-    return offset;
-}
-
-/* override cardtype (for initial deal ) */
-void Pile::animatedAdd( Card* _card, bool faceUp )
-{
-    Q_ASSERT( _card );
-
-    if ( _card->source() )
-        _card->source()->relayoutCards();
-
-    QPointF origPos = _card->pos();
-    _card->turn( faceUp );
-    add(_card);
-    layoutCards( DURATION_RELAYOUT);
-
-    _card->completeAnimation();
-    QPointF destPos = _card->pos();
-    _card->setPos( origPos );
-
-    QPointF delta = destPos - _card->pos();
-    qreal dist = sqrt( delta.x() * delta.x() + delta.y() * delta.y() );
-    qreal whole = sqrt( scene()->width() * scene()->width() + scene()->height() * scene()->height() );
-    _card->moveTo(destPos, _card->zValue(), qRound( dist * DURATION_DEAL / whole ) );
-}
-
-void Pile::remove(Card *c)
-{
-    Q_ASSERT(m_cards.contains(c));
-    m_cards.removeAll(c);
-    c->setSource(0);
-}
-
-void Pile::setHighlighted( bool flag )
-{
-    if ( flag != m_highlighted )
-    {
-        m_highlighted = flag;
-
-        m_fadeAnimation->setDirection( flag
-                                       ? QAbstractAnimation::Forward
-                                       : QAbstractAnimation::Backward );
-
-        if ( m_fadeAnimation->state() != QAbstractAnimation::Running )
-            m_fadeAnimation->start();
-    }
-}
-
-bool Pile::isHighlighted() const
-{
-    return m_highlighted;
-}
-
 void Pile::setHighlightedness( qreal highlightedness )
 {
     if ( m_highlightedness != highlightedness )
@@ -332,106 +539,5 @@ qreal Pile::highlightedness() const
     return m_highlightedness;
 }
 
-
-void Pile::setGraphicVisible( bool visible )
-{
-    if ( m_graphicVisible != visible )
-    {
-        m_graphicVisible = visible;
-        updatePixmap( pixmap().size() );
-    }
-}
-
-
-bool Pile::isGraphicVisible()
-{
-    return m_graphicVisible;
-}
-
-
-void Pile::cardPressed(Card* card)
-{
-    emit pressed( card );
-}
-
-void Pile::moveCards(CardList &cl, Pile *to)
-{
-    if (cl.isEmpty())
-        return;
-
-    foreach (Card * c, cl)
-    {
-        Q_ASSERT( c->source() == this );
-        to->add(c);
-    }
-
-    Card *t = top();
-    if (t && !t->isFaceUp() && m_autoTurnTop)
-    {
-        t->animate(t->pos(), t->zValue(), 1, 0, true, false, DURATION_FLIP);
-    }
-
-    relayoutCards();
-
-    to->moveCardsBack(cl);
-}
-
-void Pile::moveCardsBack(CardList &cl, int duration)
-{
-    if (!cl.count())
-        return;
-
-    if ( duration == -1 )
-        duration = DURATION_MOVEBACK;
-
-    foreach ( Card *c, cl )
-        c->raise();
-
-    layoutCards( duration );
-}
-
-bool Pile::cardClicked(Card *c)
-{
-    emit clicked(c);
-    return false;
-}
-
-bool Pile::cardDoubleClicked(Card *c)
-{
-    emit doubleClicked(c);
-    return false;
-}
-
-void Pile::layoutCards(int duration)
-{
-    if ( m_cards.isEmpty() )
-        return;
-
-    const QSize cardSize = cardScene()->deck()->cardSize();
-
-    QPointF totalOffset( 0, 0 );
-    for ( int i = 0; i < m_cards.size() - 1; ++i )
-        totalOffset += cardOffset( m_cards[i] );
-
-    qreal divx = 1;
-    if ( totalOffset.x() )
-        divx = qMin<qreal>( ( maximumSpace().width() - cardSize.width() ) / qAbs( totalOffset.x() ), 1.0 );
-
-    qreal divy = 1;
-    if ( totalOffset.y() )
-        divy = qMin<qreal>( ( maximumSpace().height() - cardSize.height() ) / qAbs( totalOffset.y() ), 1.0 );
-
-    QPointF cardPos = pos();
-    qreal z = zValue() + 1;
-    foreach ( Card * card, m_cards )
-    {
-        card->animate( cardPos, z, 1, 0, card->isFaceUp(), false, duration );
-
-        QPointF offset = cardOffset( card );
-        cardPos.rx() += divx * offset.x();
-        cardPos.ry() += divy * offset.y();
-        ++z;
-    }
-}
 
 #include "pile.moc"

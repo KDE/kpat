@@ -600,7 +600,7 @@ MoveHint *SpiderSolver::translateMove( const MOVE &m )
 
     Q_ASSERT( m.from < 10 && m.to < 10 );
 
-    Card *card = frompile->at( frompile->cardsLeft() - m.card_index - 1);
+    Card *card = frompile->at( frompile->count() - m.card_index - 1);
 
     Q_ASSERT( m.to < 10 );
     return new MoveHint( card, deal->stack[m.to], m.pri );

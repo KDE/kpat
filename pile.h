@@ -61,97 +61,95 @@ public:
     explicit Pile( const QString & objectName = QString() );
     virtual ~Pile();
 
-    CardScene  *cardScene() const;
-    CardList      cards()  const { return m_cards; }
+    enum { Type = UserType + 2 };
+    virtual int type() const;
 
-    virtual void moveCards(CardList &c, Pile *to = 0);
-    void moveCardsBack(CardList& c, int duration = -1);
+    CardScene * cardScene() const;
 
-    void setAutoTurnTop( bool autoTurnTop ) { m_autoTurnTop = autoTurnTop; }
-    bool autoTurnTop() const { return m_autoTurnTop; }
+    QList<Card*> cards() const;
+    int count() const;
+    bool isEmpty() const;
+    int indexOf( const Card * card ) const;
+    Card * at( int index ) const;
+    Card * top() const;
+    QList<Card*> topCardsDownTo( const Card * card ) const;
 
-    void setHighlighted( bool flag );
+    void setPilePos( QPointF pos );
+    void setPilePos( qreal x, qreal y );
+    QPointF pilePos() const;
+
+    void setReservedSpace( QSizeF space );
+    void setReservedSpace( qreal width, qreal height );
+    QSizeF reservedSpace() const;
+
+    void setMaximumSpace( QSizeF size );
+    QSizeF maximumSpace() const;
+
+    void setSpread( QSizeF spread );
+    void setSpread( qreal width, qreal height );
+    QSizeF spread() const;
+
+    void setAutoTurnTop( bool autoTurnTop );
+    bool autoTurnTop() const;
+
+    virtual void setVisible(bool vis);
+
+    void setHighlighted( bool highlighted );
     bool isHighlighted() const;
 
     void setGraphicVisible( bool visible );
     bool isGraphicVisible();
 
-    void cardPressed(Card * card);
-
-    Card *top() const;
-    CardList topCardsDownTo( const Card * card ) const;
-
-    void animatedAdd( Card *c, bool faceUp );
-    void add( Card *c, int index = -1);
-    void remove(Card *c);
-    void clear();
-
-    bool isEmpty() const { return m_cards.isEmpty(); }
-
-    enum { Type = UserType + 2 };
-    virtual int type() const { return Type; }
-
-    virtual void setVisible(bool vis);
-
-    int cardsLeft() const { return m_cards.count(); }
-
-    int indexOf(const Card *c) const;
-    Card *at(int index) const;
-
-    virtual QPointF cardOffset( const Card *card ) const;
-
-    // The spread properties.
-    QSizeF spread() const    { return _spread; }
-    void setSpread(QSizeF s) { _spread = s; } 
-    void setSpread(qreal width, qreal height)  { _spread = QSizeF(width,height); }
-
-    void setPilePos( qreal x, qreal y);
-    QPointF pilePos() const;
-
     void setGraphicSize( QSize size );
 
-    void setReservedSpace( const QSizeF &p) { m_reserved = p; }
-    QSizeF reservedSpace() const { return m_reserved; }
-
-    void setMaximumSpace( const QSizeF &s) { m_space = s; }
-    QSizeF maximumSpace() const { return m_space; }
+    virtual void animatedAdd( Card * card, bool faceUp );
+    virtual void add( Card * card, int index = -1 );
+    virtual void remove( Card * card );
+    void clear();
 
     virtual void layoutCards( int duration = DURATION_RELAYOUT );
+    virtual void moveCardsBack( QList<Card*> & cards, int duration = DURATION_MOVEBACK );
+    virtual void moveCards( QList<Card*> & cards, Pile * pile );
+
+    void cardPressed( Card * card );
 
 public slots:
-    virtual bool cardClicked(Card *c);
-    virtual bool cardDoubleClicked(Card *c);
+    virtual bool cardClicked( Card * card );
+    virtual bool cardDoubleClicked( Card * card );
     virtual void relayoutCards();
 
 signals:
-    void clicked(Card *c);
-    void doubleClicked(Card *c);
-    void pressed(Card *c);
+    void clicked( Card * card );
+    void doubleClicked( Card * card );
+    void pressed( Card * card );
 
 protected:
+    virtual QPointF cardOffset( const Card * card ) const;
+
     virtual QPixmap normalPixmap( QSize size );
     virtual QPixmap highlightedPixmap( QSize size );
 
-    CardList  m_cards;
-    QTimer *m_relayoutTimer;
-
 private:
+    void updatePixmap( QSize size );
+
     void setHighlightedness( qreal highlightedness );
     qreal highlightedness() const;
-    void updatePixmap( QSize size );
-    QPropertyAnimation *m_fadeAnimation;
 
-    QSizeF    _spread;
+    QList<Card*> m_cards;
 
     bool m_autoTurnTop;
-
-    bool m_graphicVisible;
     bool m_highlighted;
-    QPointF _pilePos;
+    bool m_graphicVisible;
+
+    QPointF m_pilePos;
     QSizeF m_reserved;
-    QSizeF m_space;
+    QSizeF m_spread;
+    QSizeF m_maximumSpace;
 
     qreal m_highlightedness;
+
+    QPropertyAnimation * m_fadeAnimation;
+    QTimer * m_relayoutTimer;
 };
 
 #endif

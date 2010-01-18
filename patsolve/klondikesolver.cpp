@@ -548,7 +548,7 @@ MoveHint *KlondikeSolver::translateMove( const MOVE &m )
     else
         frompile = deal->play[m.from];
 
-    Card *card = frompile->at( frompile->cardsLeft() - m.card_index - 1);
+    Card *card = frompile->at( frompile->count() - m.card_index - 1);
 
     if ( m.totype == O_Type )
     {

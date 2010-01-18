@@ -459,7 +459,7 @@ MoveHint *GrandfSolver::translateMove( const MOVE &m )
     PatPile *frompile = 0;
     frompile = deal->store[m.from % 7];
 
-    Card *card = frompile->at( frompile->cardsLeft() - m.card_index - 1);
+    Card *card = frompile->at( frompile->count() - m.card_index - 1);
 
     if ( m.totype == O_Type )
     {

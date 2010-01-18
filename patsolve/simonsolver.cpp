@@ -425,7 +425,7 @@ MoveHint *SimonSolver::translateMove( const MOVE &m )
     Q_ASSERT( m.from < 10 && m.to < 10 );
 
     PatPile *frompile = deal->store[m.from];
-    Card *card = frompile->at( frompile->cardsLeft() - m.card_index - 1);
+    Card *card = frompile->at( frompile->count() - m.card_index - 1);
 
     kDebug() << "card" << card->rank() << " " << card->suit();
     if ( m.totype == O_Type )

@@ -245,7 +245,7 @@ MoveHint *GolfSolver::translateMove( const MOVE &m )
         return 0;
     PatPile *frompile = deal->stack[m.from];
 
-    Card *card = frompile->at( frompile->cardsLeft() - m.card_index - 1);
+    Card *card = frompile->at( frompile->count() - m.card_index - 1);
 
     return new MoveHint( card, deal->waste, m.pri );
 }

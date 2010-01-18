@@ -64,24 +64,26 @@ void KlondikePile::setDraws( int _draw )
 
 void KlondikePile::layoutCards( int duration )
 {
-    if ( m_cards.isEmpty() )
+    QList<Card*> cards = this->cards();
+
+    if ( cards.isEmpty() )
         return;
 
     qreal divx = qMin<qreal>( ( maximumSpace().width() - cardScene()->deck()->cardWidth() ) / ( 2 * spread().width() * cardScene()->deck()->cardWidth() ), 1.0 );
 
     QPointF cardPos = pos();
     int z = zValue();
-    for ( int i = 0; i < m_cards.size(); ++i )
+    for ( int i = 0; i < cards.size(); ++i )
     {
         ++z;
-        if ( i < m_cards.size() - m_draw )
+        if ( i < cards.size() - m_draw )
         {
-            m_cards[i]->setZValue( z );
-            m_cards[i]->animate( cardPos, z, 1, 0, m_cards[i]->realFace(), false, duration );
+            cards[i]->setZValue( z );
+            cards[i]->animate( cardPos, z, 1, 0, cards[i]->realFace(), false, duration );
         }
         else
         {
-            m_cards[i]->animate( cardPos, z, 1, 0, m_cards[i]->realFace(), false, duration );
+            cards[i]->animate( cardPos, z, 1, 0, cards[i]->realFace(), false, duration );
             cardPos.rx() += divx * spread().width() * cardScene()->deck()->cardWidth();
         }
     }
@@ -184,7 +186,7 @@ QList<QAction*> Klondike::configActions() const
 
 Card *Klondike::newCards()
 {
-    if ( talon->isEmpty() && pile->cardsLeft() <= 1 )
+    if ( talon->isEmpty() && pile->count() <= 1 )
         return 0;
 
     if ( deck()->hasAnimatedCards() )
@@ -231,11 +233,11 @@ Card *Klondike::newCards()
     }
 
     onGameStateAlteredByUser();
-    if ( talon->isEmpty() && pile->cardsLeft() <= 1 )
+    if ( talon->isEmpty() && pile->count() <= 1 )
        emit newCardsPossible( false );
 
     // we need to look that many steps in the future to see if we can lose
-    setNeededFutureMoves( talon->cardsLeft() + pile->cardsLeft() );
+    setNeededFutureMoves( talon->count() + pile->count() );
 
     return pile->top() ? pile->top() : talon->top();
 }
@@ -270,7 +272,7 @@ QString Klondike::getGameState()
     // getGameState() is called every time a card is moved, so we use it to
     // check if there are any cards left to deal. There might be a more elegant
     // to do this, though.
-    emit newCardsPossible( !talon->isEmpty() || pile->cardsLeft() > 1 );
+    emit newCardsPossible( !talon->isEmpty() || pile->count() > 1 );
     return QString();
 }
 

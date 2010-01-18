@@ -250,7 +250,7 @@ MoveHint *IdiotSolver::translateMove( const MOVE &m )
         return 0;
     PatPile *frompile = deal->m_play[m.from];
 
-    Card *card = frompile->at( frompile->cardsLeft() - m.card_index - 1);
+    Card *card = frompile->at( frompile->count() - m.card_index - 1);
     Q_ASSERT( card );
 
     PatPile *target = 0;

@@ -537,7 +537,7 @@ MoveHint *GypsySolver::translateMove( const MOVE &m )
         return 0;
 
     PatPile *frompile = deal->store[m.from];
-    Card *card = frompile->at( frompile->cardsLeft() - m.card_index - 1);
+    Card *card = frompile->at( frompile->count() - m.card_index - 1);
 
     if ( m.totype == O_Type )
     {
