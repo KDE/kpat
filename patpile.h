@@ -53,6 +53,8 @@ public:
     void setFoundation( bool foundation );
     bool isFoundation() const;
 
+    virtual void add(Card * card, int index = -1);
+
 protected:
     virtual QPixmap normalPixmap( QSize size );
     virtual QPixmap highlightedPixmap( QSize size );

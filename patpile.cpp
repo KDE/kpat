@@ -62,6 +62,16 @@ bool PatPile::isFoundation() const
 }
 
 
+void PatPile::add( Card * card, int index )
+{
+    PatPile * oldSource = dynamic_cast<PatPile*>( card->source() );
+
+    Pile::add( card, index );
+
+    card->setTakenDown( oldSource && oldSource->isFoundation() && !isFoundation() );
+}
+
+
 QPixmap PatPile::normalPixmap( QSize size )
 {
     return Render::renderElement( "pile", size );

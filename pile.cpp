@@ -313,15 +313,8 @@ void Pile::add( Card * card, int index )
     if ( card->scene() != scene() )
         scene()->addItem(card);
 
-    Pile * oldSource = card->source();
-    if ( oldSource )
-    {
-        // This is hideous and needs to be refactored.
-        PatPile * self = dynamic_cast<PatPile*>( this );
-        PatPile * other = dynamic_cast<PatPile*>( oldSource );
-        card->setTakenDown( self && other && other->isFoundation() && !self->isFoundation() );
-        oldSource->remove( card );
-    }
+    if ( card->source() )
+        card->source()->remove( card );
 
     card->setSource( this );
     card->setVisible( isVisible() );
