@@ -97,7 +97,7 @@ Klondike::Klondike()
     setDeck( new CardDeck() );
 
     talon = new PatPile( 0, "talon" );
-    talon->setPileRole(Stock);
+    talon->setPileRole(PatPile::Stock);
     talon->setPilePos(0, 0);
     connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
     // Give the talon a low Z value to keep it out of the way during there
@@ -109,7 +109,7 @@ Klondike::Klondike()
     EasyRules = cg.readEntry( "KlondikeEasy", true);
 
     pile = new KlondikePile( 13, EasyRules ? 1 : 3, "pile" );
-    pile->setPileRole(Waste);
+    pile->setPileRole(PatPile::Waste);
     pile->setReservedSpace( QSizeF( 1.9, 1.0 ) );
     pile->setPilePos(1.0 + hspacing, 0);
     pile->setSpread( 0.33, 0 );
@@ -118,7 +118,7 @@ Klondike::Klondike()
     for( int i = 0; i < 7; i++ )
     {
         play[ i ] = new PatPile( i + 5, QString( "play%1" ).arg( i ));
-        play[i]->setPileRole(Tableau);
+        play[i]->setPileRole(PatPile::Tableau);
         play[i]->setPilePos((1.0 + hspacing) * i, 1.0 + vspacing);
         play[i]->setAutoTurnTop(true);
         play[i]->setReservedSpace( QSizeF( 1.0, 1.0 + play[i]->spread().height() * 7 ) );
@@ -128,7 +128,7 @@ Klondike::Klondike()
     for( int i = 0; i < 4; i++ )
     {
         target[ i ] = new PatPile( i + 1, QString( "target%1" ).arg( i ) );
-        target[i]->setPileRole(Foundation);
+        target[i]->setPileRole(PatPile::Foundation);
         target[i]->setTarget(true);
         target[i]->setPilePos((3 + i) * (1.0 + hspacing), 0);
         addPile(target[i]);
@@ -149,12 +149,12 @@ bool Klondike::checkAdd(const PatPile * pile, const CardList & oldCards, const C
 {
     switch (pile->pileRole())
     {
-    case Tableau:
+    case PatPile::Tableau:
         return checkAddAlternateColorDescendingFromKing(oldCards, newCards);
-    case Foundation:
+    case PatPile::Foundation:
         return checkAddSameSuitAscendingFromAce(oldCards, newCards);
-    case Waste:
-    case Stock:
+    case PatPile::Waste:
+    case PatPile::Stock:
     default:
         return false;
     }
@@ -164,13 +164,13 @@ bool Klondike::checkRemove(const PatPile * pile, const CardList & cards) const
 {
     switch (pile->pileRole())
     {
-    case Tableau:
+    case PatPile::Tableau:
         return isAlternateColorDescending(cards);
-    case Foundation:
+    case PatPile::Foundation:
         return EasyRules && cards.first() == pile->top();
-    case Waste:
+    case PatPile::Waste:
         return cards.first() == pile->top();
-    case Stock:
+    case PatPile::Stock:
     default:
         return false;
     }

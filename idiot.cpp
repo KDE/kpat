@@ -39,7 +39,6 @@
 
 #include "carddeck.h"
 #include "dealerinfo.h"
-#include "pileutils.h"
 #include "patsolve/idiotsolver.h"
 
 #include <KLocale>
@@ -54,7 +53,7 @@ Idiot::Idiot( )
 
     // Create the talon to the left.
     talon = new PatPile( 0, "talon" );
-    talon->setPileRole(Stock);
+    talon->setPileRole(PatPile::Stock);
     talon->setPilePos(0, 0);
     talon->setSpread(0, 0);
     addPile(talon);
@@ -64,7 +63,7 @@ Idiot::Idiot( )
     // Create 4 piles where the cards will be placed during the game.
     for( int i = 0; i < 4; i++ ) {
         m_play[i] = new PatPile( i + 1, QString( "play%1" ).arg( i ));
-        m_play[i]->setPileRole(Tableau);
+        m_play[i]->setPileRole(PatPile::Tableau);
         m_play[i]->setPilePos(1.5 + distx * i, 0);
         m_play[i]->setReservedSpace( QSizeF( 1.0, 3.0 ) );
         addPile( m_play[i] );
@@ -72,7 +71,7 @@ Idiot::Idiot( )
 
     // Create the discard pile to the right
     m_away = new PatPile( 5, "away" );
-    m_away->setPileRole(Waste);
+    m_away->setPileRole(PatPile::Waste);
     m_away->setTarget(true);
     m_away->setPilePos(1.9 + distx * 4, 0);
     m_away->setSpread(0, 0);
@@ -101,11 +100,11 @@ bool Idiot::checkAdd(const PatPile * pile, const CardList & oldCards, const Card
 {
     switch ( pile->pileRole() )
     {
-    case Waste:
+    case PatPile::Waste:
         return canMoveAway( newCards.first() );
-    case Tableau:
+    case PatPile::Tableau:
         return oldCards.isEmpty() && newCards.size() == 1;
-    case Stock:
+    case PatPile::Stock:
     default:
         return false;
     }
@@ -113,7 +112,7 @@ bool Idiot::checkAdd(const PatPile * pile, const CardList & oldCards, const Card
 
 bool Idiot::checkRemove(const PatPile * pile, const CardList & cards) const
 {
-    return pile->pileRole() == Tableau
+    return pile->pileRole() == PatPile::Tableau
            && cards.first() == pile->top()
            && ( canMoveAway( cards.first() )
                 || m_play[0]->isEmpty()

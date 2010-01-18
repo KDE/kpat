@@ -57,7 +57,7 @@ Grandf::Grandf( )
 
     for (int i=0; i<4; i++) {
         target[i] = new PatPile(i+1, QString("target%1").arg(i));
-        target[i]->setPileRole(Foundation);
+        target[i]->setPileRole(PatPile::Foundation);
         target[i]->setTarget(true);
         target[i]->setPilePos(targetOffset+i*distx, 0);
         target[i]->setSpread(0, 0);
@@ -66,7 +66,7 @@ Grandf::Grandf( )
 
     for (int i=0; i<7; i++) {
         store[i] = new PatPile(5+i, QString("store%1").arg(i));
-        store[i]->setPileRole(Tableau);
+        store[i]->setPileRole(PatPile::Tableau);
         store[i]->setPilePos(distx*i, 1.2);
         store[i]->setAutoTurnTop(true);
         store[i]->setReservedSpace( QSizeF( 1.0, 5.0 ) );
@@ -169,13 +169,13 @@ bool Grandf::checkAdd(const PatPile * pile, const CardList & oldCards, const Car
 {
     switch (pile->pileRole())
     {
-    case Tableau:
+    case PatPile::Tableau:
         if (oldCards.isEmpty())
             return newCards.first()->rank() == Card::King;
         else
             return newCards.first()->rank() == oldCards.last()->rank() - 1
                    && newCards.first()->suit() == oldCards.last()->suit();
-    case Foundation:
+    case PatPile::Foundation:
     default:
         return checkAddSameSuitAscendingFromAce(oldCards, newCards);
     }
@@ -183,7 +183,7 @@ bool Grandf::checkAdd(const PatPile * pile, const CardList & oldCards, const Car
 
 bool Grandf::checkRemove(const PatPile * pile, const CardList & cards) const
 {
-    return pile->pileRole() == Tableau && cards.first()->isFaceUp();
+    return pile->pileRole() == PatPile::Tableau && cards.first()->isFaceUp();
 }
 
 QString Grandf::getGameState()

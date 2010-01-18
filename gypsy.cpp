@@ -52,14 +52,14 @@ Gypsy::Gypsy( )
     setDeck(new CardDeck(2));
 
     talon = new PatPile(0, "talon");
-    talon->setPileRole(Stock);
+    talon->setPileRole(PatPile::Stock);
     talon->setPilePos(8.5 * dist_x + 0.4, 4 * dist_y);
     connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
     addPile(talon);
 
     for (int i=0; i<8; i++) {
         target[i] = new PatPile(i+1, QString("target%1").arg(i));
-        target[i]->setPileRole(Foundation);
+        target[i]->setPileRole(PatPile::Foundation);
         target[i]->setTarget(true);
         target[i]->setPilePos(dist_x*(8+(i/4)) + 0.4, (i%4)*dist_y);
         addPile(target[i]);
@@ -67,7 +67,7 @@ Gypsy::Gypsy( )
 
     for (int i=0; i<8; i++) {
         store[i] = new PatPile(9+i, QString("store%1").arg(i));
-        store[i]->setPileRole(Tableau);
+        store[i]->setPileRole(PatPile::Tableau);
         store[i]->setPilePos(dist_x*i,0);
         store[i]->setAutoTurnTop(true);
         store[i]->setReservedSpace( QSizeF( 1.0, 4 * dist_y + 1.0 ) );
@@ -89,11 +89,11 @@ bool Gypsy::checkAdd(const PatPile * pile, const CardList & oldCards, const Card
 {
     switch (pile->pileRole())
     {
-    case Tableau:
+    case PatPile::Tableau:
         return checkAddAlternateColorDescending(oldCards, newCards);
-    case Foundation:
+    case PatPile::Foundation:
         return checkAddSameSuitAscendingFromAce(oldCards, newCards);
-    case Stock:
+    case PatPile::Stock:
     default:
         return false;
     }
@@ -103,11 +103,11 @@ bool Gypsy::checkRemove(const PatPile * pile, const CardList & cards) const
 {
     switch (pile->pileRole())
     {
-    case Tableau:
+    case PatPile::Tableau:
         return isAlternateColorDescending(cards);
-    case Foundation:
+    case PatPile::Foundation:
         return cards.first() == pile->top();
-    case Stock:
+    case PatPile::Stock:
     default:
         return false;
     }

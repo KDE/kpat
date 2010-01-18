@@ -55,7 +55,7 @@ Yukon::Yukon( )
 
     for (int i=0; i<4; i++) {
         target[i] = new PatPile(i+1, QString("target%1").arg(i));
-        target[i]->setPileRole(Foundation);
+        target[i]->setPileRole(PatPile::Foundation);
         target[i]->setTarget(true);
         target[i]->setPilePos(0.11+7*dist_x, dist_y *i);
         addPile(target[i]);
@@ -63,7 +63,7 @@ Yukon::Yukon( )
 
     for (int i=0; i<7; i++) {
         store[i] = new PatPile(5+i, QString("store%1").arg(i));
-        store[i]->setPileRole(Tableau);
+        store[i]->setPileRole(PatPile::Tableau);
         store[i]->setPilePos(dist_x*i, 0);
         store[i]->setAutoTurnTop(true);
         store[i]->setReservedSpace( QSizeF( 1.0, 3 * dist_y + 1.0 ) );
@@ -77,7 +77,7 @@ Yukon::Yukon( )
 
 bool Yukon::checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const
 {
-    if (pile->pileRole() == Tableau)
+    if (pile->pileRole() == PatPile::Tableau)
     {
         if (oldCards.isEmpty())
             return newCards.first()->rank() == Card::King;
@@ -93,7 +93,7 @@ bool Yukon::checkAdd(const PatPile * pile, const CardList & oldCards, const Card
 
 bool Yukon::checkRemove(const PatPile * pile, const CardList & cards) const
 {
-    return pile->pileRole() == Tableau && cards.first()->isFaceUp();
+    return pile->pileRole() == PatPile::Tableau && cards.first()->isFaceUp();
 }
 
 void Yukon::restart()

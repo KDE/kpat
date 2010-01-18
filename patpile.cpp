@@ -21,19 +21,19 @@
 
 PatPile::PatPile( int index, const QString & objectName )
   : Pile( index, objectName ),
-    m_role( -1 )
+    m_role( NoRole )
 {
 
 }
 
 
-void PatPile::setPileRole( int role )
+void PatPile::setPileRole( PileRole role )
 {
     m_role = role;
 }
 
 
-int PatPile::pileRole() const
+PatPile::PileRole PatPile::pileRole() const
 {
     return m_role;
 }

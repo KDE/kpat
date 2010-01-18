@@ -55,7 +55,7 @@ Fortyeight::Fortyeight( )
     setDeck(new CardDeck(2));
 
     talon = new PatPile(0, "talon");
-    talon->setPileRole(Stock);
+    talon->setPileRole(PatPile::Stock);
     talon->setPilePos(smallNeg, smallNeg);
     talon->setZValue(20);
     talon->setSpread(0, 0);
@@ -64,7 +64,7 @@ Fortyeight::Fortyeight( )
     addPile(talon);
 
     pile = new PatPile(20, "pile");
-    pile->setPileRole(Waste);
+    pile->setPileRole(PatPile::Waste);
     pile->setPilePos(-dist_x, smallNeg);
     pile->setSpread(-0.21, 0);
     pile->setReservedSpace( QSizeF( -(1 + 6 * dist_x), 1 ) );
@@ -72,14 +72,14 @@ Fortyeight::Fortyeight( )
 
     for (int i = 0; i < 8; i++) {
         target[i] = new PatPile(9 + i, QString( "target%1" ).arg( i ));
-        target[i]->setPileRole(Foundation);
+        target[i]->setPileRole(PatPile::Foundation);
         target[i]->setTarget(true);
         target[i]->setPilePos(dist_x*i, 0);
         target[i]->setSpread(0, 0);
         addPile(target[i]);
 
         stack[i] = new PatPile(1 + i, QString( "stack%1" ).arg( i ));
-        stack[i]->setPileRole(Tableau);
+        stack[i]->setPileRole(PatPile::Tableau);
         stack[i]->setPilePos(dist_x*i, 1.1 );
         stack[i]->setAutoTurnTop(true);
         stack[i]->setSpread(0, 0.25);
@@ -144,15 +144,15 @@ bool Fortyeight::checkAdd(const PatPile * pile, const CardList & oldCards, const
 {
     switch ( pile->pileRole() )
     {
-    case Foundation:
+    case PatPile::Foundation:
         return checkAddSameSuitAscendingFromAce(oldCards, newCards);
-    case Tableau:
+    case PatPile::Tableau:
         return newCards.size() == 1
                && ( oldCards.isEmpty()
                     || ( oldCards.last()->suit() == newCards.first()->suit()
                          && oldCards.last()->rank() == newCards.first()->rank() + 1 ) );
-    case Stock:
-    case Waste:
+    case PatPile::Stock:
+    case PatPile::Waste:
     default:
         return false;
     }
@@ -162,11 +162,11 @@ bool Fortyeight::checkRemove( const PatPile * pile, const CardList & cards) cons
 {
     switch ( pile->pileRole() )
     {
-    case Waste:
-    case Tableau:
+    case PatPile::Waste:
+    case PatPile::Tableau:
         return cards.first() == pile->top();
-    case Foundation:
-    case Stock:
+    case PatPile::Foundation:
+    case PatPile::Stock:
     default:
         return false;
     }

@@ -39,7 +39,6 @@
 #include "carddeck.h"
 #include "dealerinfo.h"
 #include "speeds.h"
-#include "pileutils.h"
 #include "patsolve/golfsolver.h"
 
 #include <KDebug>
@@ -55,14 +54,14 @@ Golf::Golf( )
     setDeck(new CardDeck());
 
     talon = new PatPile(0, "talon");
-    talon->setPileRole(Stock);
+    talon->setPileRole(PatPile::Stock);
     talon->setPilePos(0, smallNeg);
     talon->setSpread(0, 0);
     connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
     addPile(talon);
 
     waste = new PatPile(8, "waste");
-    waste->setPileRole(Waste);
+    waste->setPileRole(PatPile::Waste);
     waste->setTarget(true);
     waste->setPilePos(1.1, smallNeg);
     waste->setSpread(0.12, 0);
@@ -71,7 +70,7 @@ Golf::Golf( )
 
     for( int r = 0; r < 7; r++ ) {
         stack[r]=new PatPile(1+r, QString("stack%1").arg(r));
-        stack[r]->setPileRole(Tableau);
+        stack[r]->setPileRole(PatPile::Tableau);
         stack[r]->setPilePos(r*dist_x,0);
         // Manual tweak of the pile z values to make some animations better.
         stack[r]->setZValue((7-r)/100.0);
@@ -87,14 +86,14 @@ Golf::Golf( )
 
 bool Golf::checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const
 {
-    return pile->pileRole() == Waste
+    return pile->pileRole() == PatPile::Waste
            && ( newCards.first()->rank() == oldCards.last()->rank() + 1
                 || newCards.first()->rank() == oldCards.last()->rank() - 1 );
 }
 
 bool Golf::checkRemove(const PatPile * pile, const CardList & cards) const
 {
-    return pile->pileRole() == Tableau
+    return pile->pileRole() == PatPile::Tableau
            && cards.first() == pile->top();
 }
 
@@ -145,7 +144,7 @@ Card *Golf::newCards()
 bool Golf::cardClicked(Card *c)
 {
     PatPile * source = dynamic_cast<PatPile*>( c->source() );
-    if (!source || source->pileRole() != Tableau) {
+    if (!source || source->pileRole() != PatPile::Tableau) {
         return DealerScene::cardClicked(c);
     }
 

@@ -25,13 +25,31 @@
 class PatPile : public Pile
 {
 public:
-    explicit PatPile( int index, const QString & objectName = QString() );
+    enum PileRole
+    {
+        NoRole,
+        Stock,
+        Waste,
+        Tableau,
+        TableauType1 = Tableau,
+        TableauType2,
+        TableauType3,
+        TableauType4,
+        Foundation,
+        FoundationType1 = Foundation,
+        FoundationType2,
+        FoundationType3,
+        FoundationType4,
+        Cell
+    };
 
-    void setPileRole( int role );
-    int pileRole() const;
+    PatPile( int index, const QString & objectName = QString() );
+
+    void setPileRole( PileRole role );
+    PileRole pileRole() const;
 
 private:
-    int m_role;
+    PileRole m_role;
 };
 
 #endif

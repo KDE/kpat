@@ -92,7 +92,7 @@ Spider::Spider()
     // sets of 10 cards are left to be dealt out
     for( int column = 0; column < 5; column++ ) {
         redeals[column] = new PatPile(column + 1, QString( "redeals%1" ).arg( column ));
-        redeals[column]->setPileRole(Stock);
+        redeals[column]->setPileRole(PatPile::Stock);
         redeals[column]->setPilePos(smallNeg - dist_x / 3 * ( 4 - column ), smallNeg);
         redeals[column]->setZValue(12 * ( 5-column ));
         redeals[column]->setGraphicVisible( false );
@@ -104,7 +104,7 @@ Spider::Spider()
     // The 10 playing piles
     for( int column = 0; column < 10; column++ ) {
         stack[column] = new SpiderPile(column + 6, QString( "stack%1" ).arg( column ));
-        stack[column]->setPileRole(Tableau);
+        stack[column]->setPileRole(PatPile::Tableau);
         stack[column]->setPilePos(dist_x * column, 0);
         stack[column]->setZValue(20);
         stack[column]->setAutoTurnTop(true);
@@ -116,7 +116,7 @@ Spider::Spider()
     // else the name Spider?
     for( int column = 0; column < 8; column++ ) {
         legs[column] = new PatPile(column + 16, QString( "legs%1" ).arg( column ));
-        legs[column]->setPileRole(Foundation);
+        legs[column]->setPileRole(PatPile::Foundation);
         legs[column]->setTarget(true);
         legs[column]->setPilePos(dist_x / 3 * column, smallNeg);
         legs[column]->setZValue(column+1);
@@ -243,14 +243,14 @@ bool Spider::checkAdd(const PatPile * pile, const CardList & oldCards, const Car
     // assuming the cardlist is a valid unit, since I allowed
     // it to be removed - can drop any card on empty pile or
     // on any suit card of one higher rank
-    return pile->pileRole() == Tableau
+    return pile->pileRole() == PatPile::Tableau
            && ( oldCards.isEmpty()
                 || oldCards.last()->rank() == newCards.first()->rank() + 1 );
 }
 
 bool Spider::checkRemove(const PatPile * pile, const CardList & cards) const
 {
-    return pile->pileRole() == Tableau
+    return pile->pileRole() == PatPile::Tableau
            && isSameSuitDescending(cards);
 }
 

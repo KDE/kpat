@@ -79,7 +79,7 @@ Freecell::Freecell()
     {
         FreecellPile *p = new FreecellPile(1 + i, QString( "store%1" ).arg( i ));
         store[i] = p;
-        p->setPileRole(Tableau);
+        p->setPileRole(PatPile::Tableau);
         p->setPilePos( bottomRowDist * i, 1.3 );
         p->setReservedSpace( QSizeF( 1.0, 3.5 ) );
         addPile(p);
@@ -88,7 +88,7 @@ Freecell::Freecell()
     for (int i = 0; i < 4; i++)
     {
         freecell[i] = new PatPile (1 + 8 + i, QString( "freecell%1" ).arg( i ));
-        freecell[i]->setPileRole(Cell);
+        freecell[i]->setPileRole(PatPile::Cell);
         freecell[i]->setPilePos(topRowDist * i, 0);
         addPile(freecell[i]);
     }
@@ -96,7 +96,7 @@ Freecell::Freecell()
     for (int i = 0; i < 4; i++)
     {
         target[i] = new PatPile(1 + 8 + 4 + i, QString( "target%1" ).arg( i ));
-        target[i]->setPileRole(Foundation);
+        target[i]->setPileRole(PatPile::Foundation);
         target[i]->setTarget(true);
         target[i]->setPilePos(targetOffsetDist + topRowDist * i, 0);
         target[i]->setSpread(0, 0);
@@ -317,11 +317,11 @@ bool Freecell::checkAdd(const PatPile * pile, const CardList & oldCards, const C
 {
     switch (pile->pileRole())
     {
-    case Tableau:
+    case PatPile::Tableau:
         return CanPutStore(pile, newCards);
-    case Cell:
+    case PatPile::Cell:
         return oldCards.isEmpty() && newCards.size() == 1;
-    case Foundation:
+    case PatPile::Foundation:
         return checkAddSameSuitAscendingFromAce(oldCards, newCards);
     default:
         return false;
@@ -332,11 +332,11 @@ bool Freecell::checkRemove(const PatPile * pile, const CardList & cards) const
 {
     switch (pile->pileRole())
     {
-    case Tableau:
+    case PatPile::Tableau:
         return isAlternateColorDescending(cards);
-    case Cell:
+    case PatPile::Cell:
         return cards.first() == pile->top();
-    case Foundation:
+    case PatPile::Foundation:
     default:
         return false;
     }

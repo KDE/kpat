@@ -25,23 +25,6 @@ class Card;
 #include <QList>
 
 
-enum PileTypes
-{
-    Stock = 1,
-    Waste,
-    Tableau,
-    TableauType1 = Tableau,
-    TableauType2,
-    TableauType3,
-    TableauType4,
-    Foundation,
-    FoundationType1 = Foundation,
-    FoundationType2,
-    FoundationType3,
-    FoundationType4,
-    Cell
-};
-
 bool isSameSuitAscending( const QList<Card*> & cards );
 bool isSameSuitDescending( const QList<Card*> & cards );
 bool isAlternateColorDescending( const QList<Card*> & cards );

@@ -39,8 +39,6 @@
 
 #include "carddeck.h"
 #include "dealerinfo.h"
-#include "hint.h"
-#include "pileutils.h"
 #include "patsolve/mod3solver.h"
 
 #include <KDebug>
@@ -83,14 +81,14 @@ Mod3::Mod3( )
     setDeck(new CardDeck(2));
 
     talon = new PatPile(0, "talon");
-    talon->setPileRole(Stock);
+    talon->setPileRole(PatPile::Stock);
     talon->setPilePos(rightColumX, bottomRowY);
     talon->setSpread(0, 0);
     connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
     addPile(talon);
 
     aces = new PatPile(50, "aces");
-    aces->setPileRole(FoundationType1);
+    aces->setPileRole(PatPile::FoundationType1);
     aces->setTarget(true);
     aces->setPilePos(rightColumX, 0.5);
     aces->setReservedSpace( QSizeF( 1.0, 2.0 ));
@@ -115,10 +113,10 @@ Mod3::Mod3( )
                 stack[r][c]->setPilePos( dist_x * c, bottomRowY );
                 stack[r][c]->setReservedSpace( QSizeF( 1.0, 1.8 ) );
             }
-            stack[r][c]->setPileRole( r == 0 ? FoundationType2
-                                      : r == 1 ? FoundationType3
-                                      : r == 2 ? FoundationType4
-                                      : Tableau );
+            stack[r][c]->setPileRole( r == 0 ? PatPile::FoundationType2
+                                      : r == 1 ? PatPile::FoundationType3
+                                      : r == 2 ? PatPile::FoundationType4
+                                      : PatPile::Tableau );
             addPile(stack[r][c]);
         }
     }
@@ -141,17 +139,17 @@ bool Mod3::checkAdd(const PatPile * pile, const CardList & oldCards, const CardL
 {
     switch (pile->pileRole())
     {
-    case FoundationType1:
+    case PatPile::FoundationType1:
         return newCards.size() == 1 && newCards.first()->rank() == Card::Ace;
-    case FoundationType2:
+    case PatPile::FoundationType2:
         return mod3CheckAdd(Card::Two, oldCards, newCards);
-    case FoundationType3:
+    case PatPile::FoundationType3:
         return mod3CheckAdd(Card::Three, oldCards, newCards);
-    case FoundationType4:
+    case PatPile::FoundationType4:
         return mod3CheckAdd(Card::Four, oldCards, newCards);
-    case Tableau:
+    case PatPile::Tableau:
         return oldCards.isEmpty();
-    case Stock:
+    case PatPile::Stock:
     default:
         return false;
     }
@@ -161,13 +159,13 @@ bool Mod3::checkRemove(const PatPile * pile, const CardList & cards) const
 {
     switch (pile->pileRole())
     {
-    case FoundationType2:
-    case FoundationType3:
-    case FoundationType4:
-    case Tableau:
+    case PatPile::FoundationType2:
+    case PatPile::FoundationType3:
+    case PatPile::FoundationType4:
+    case PatPile::Tableau:
         return cards.first() == pile->top();
-    case FoundationType1:
-    case Stock:
+    case PatPile::FoundationType1:
+    case PatPile::Stock:
     default:
         return false;
     }
