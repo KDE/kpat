@@ -1,67 +1,57 @@
-project(kpat)
+project( kpat )
 
 add_subdirectory( icons ) 
 add_subdirectory( previews )
 
-########### next target ###############
+set( kpat_SRCS
+    main.cpp
+    abstractcard.cpp
+    card.cpp
+    carddeck.cpp
+    cardscene.cpp
+    dealerinfo.cpp
+    gameselectionscene.cpp
+    mainwindow.cpp
+    patpile.cpp
+    pile.cpp
+    pileutils.cpp
+    render.cpp
+    statisticsdialog.cpp
+    view.cpp
+    patsolve/memory.cpp
+    patsolve/patsolve.cpp
 
-set(kpat_SRCS
-   main.cpp
-   abstractcard.cpp
-   card.cpp
-   carddeck.cpp
-   cardscene.cpp
-   dealer.cpp
-   dealerinfo.cpp
-   gameselectionscene.cpp
-   mainwindow.cpp
-   patpile.cpp
-   pile.cpp
-   pileutils.cpp
-   render.cpp
-   statisticsdialog.cpp
-   view.cpp
-   patsolve/memory.cpp
-   patsolve/patsolve.cpp
-
-   clock.cpp 
-   patsolve/clocksolver.cpp
-   fortyeight.cpp
-   patsolve/fortyeightsolver.cpp
-   freecell.cpp 
-   patsolve/freecellsolver.cpp
-   golf.cpp
-   patsolve/golfsolver.cpp
-   grandf.cpp
-   patsolve/grandfsolver.cpp
-   gypsy.cpp
-   patsolve/gypsysolver.cpp
-   idiot.cpp
-   patsolve/idiotsolver.cpp
-   klondike.cpp
-   patsolve/klondikesolver.cpp
-   mod3.cpp
-   patsolve/mod3solver.cpp
-   simon.cpp
-   patsolve/simonsolver.cpp
-   spider.cpp
-   patsolve/spidersolver.cpp
-   yukon.cpp
-   patsolve/yukonsolver.cpp
+    clock.cpp 
+    patsolve/clocksolver.cpp
+    fortyeight.cpp
+    patsolve/fortyeightsolver.cpp
+    freecell.cpp 
+    patsolve/freecellsolver.cpp
+    golf.cpp
+    patsolve/golfsolver.cpp
+    grandf.cpp
+    patsolve/grandfsolver.cpp
+    gypsy.cpp
+    patsolve/gypsysolver.cpp
+    idiot.cpp
+    patsolve/idiotsolver.cpp
+    klondike.cpp
+    patsolve/klondikesolver.cpp
+    mod3.cpp
+    patsolve/mod3solver.cpp
+    simon.cpp
+    patsolve/simonsolver.cpp
+    spider.cpp
+    patsolve/spidersolver.cpp
+    yukon.cpp
+    patsolve/yukonsolver.cpp
 )
 
-kde4_add_ui_files(kpat_SRCS statisticsdialog.ui )
-
-kde4_add_app_icon(kpat_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-app-kpat.png")
-kde4_add_executable(kpat ${kpat_SRCS})
-
-IF (QT_QTOPENGL_FOUND)
-target_link_libraries(kpat  ${KDE4_KIO_LIBS} kdegames ${QT_QTOPENGL_LIBRARY})
-ELSE (QT_QTOPENGL_FOUND)
-target_link_libraries(kpat  ${KDE4_KIO_LIBS} kdegames)
-ENDIF (QT_QTOPENGL_FOUND)
-
-install(TARGETS kpat  ${INSTALL_TARGETS_DEFAULT_ARGS} )
+kde4_add_ui_files( kpat_SRCS statisticsdialog.ui )
+kde4_add_app_icon( kpat_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-app-kpat.png" )
+kde4_add_executable( kpat ${kpat_SRCS} )
+target_link_libraries( kpat ${KDE4_KIO_LIBS} kdegames )
+install( TARGETS kpat ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 
 ########### install files ###############
