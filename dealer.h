@@ -73,6 +73,8 @@ public:
     DealerScene();
     ~DealerScene();
 
+    void setupDeck( CardDeck * deck );
+
     virtual void relayoutScene();
 
     // use this for autodrop times

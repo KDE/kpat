@@ -83,7 +83,7 @@ protected:
 private:
     CardList getRun(Card *c) const;
     void setSuits(int s);
-    void setupDeck();
+    void createDeck();
     QPointF randomPos();
 
     SpiderPile *stack[10];

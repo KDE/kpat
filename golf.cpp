@@ -50,7 +50,7 @@ Golf::Golf( )
     const qreal dist_x = 1.11;
     const qreal smallNeg = -1e-6;
 
-    setDeck(new CardDeck());
+    setupDeck(new CardDeck());
 
     talon = new PatPile(0, "talon");
     talon->setPileRole(PatPile::Stock);

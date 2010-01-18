@@ -536,6 +536,16 @@ DealerScene::~DealerScene()
 }
 
 
+void DealerScene::setupDeck( CardDeck * deck )
+{
+    if ( deck )
+        deck->updateTheme( KConfigGroup( KGlobal::config(), settings_group ) );
+
+    setDeck( deck );
+}
+
+
+
 void DealerScene::addPile( Pile * pile )
 {
     PatPile * p = dynamic_cast<PatPile*>( pile );

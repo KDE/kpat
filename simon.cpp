@@ -47,7 +47,7 @@
 Simon::Simon( )
     : DealerScene( )
 {
-    setDeck(new CardDeck());
+    setupDeck(new CardDeck());
 
     const qreal dist_x = 1.11;
 

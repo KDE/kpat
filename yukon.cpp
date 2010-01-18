@@ -50,7 +50,7 @@ Yukon::Yukon( )
     const qreal dist_x = 1.11;
     const qreal dist_y = 1.11;
 
-    setDeck(new CardDeck());
+    setupDeck(new CardDeck());
 
     for (int i=0; i<4; i++) {
         target[i] = new PatPile(i+1, QString("target%1").arg(i));

@@ -38,7 +38,6 @@
 #include "carddeck.h"
 
 #include "pile.h"
-#include "../version.h"
 
 #include <KCardDeckInfo>
 #include <KConfigGroup>
@@ -88,9 +87,6 @@ CardDeck::CardDeck( int copies, QList<Card::Suit> suits, QList<Card::Rank> ranks
     m_currentCardSize( 0, 0 ),
     m_cardsWaitedFor()
 {
-    KConfigGroup cs( KGlobal::config(), settings_group );
-    updateTheme( cs );
-
     Q_ASSERT( copies >= 1 );
     Q_ASSERT( suits.size() >= 1 );
     Q_ASSERT( ranks.size() >= 1 );

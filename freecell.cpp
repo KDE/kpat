@@ -69,7 +69,7 @@ void FreecellPile::moveCards(CardList &c, Pile *to)
 Freecell::Freecell()
     : DealerScene()
 {
-    setDeck( new CardDeck() );
+    setupDeck( new CardDeck() );
 
     const qreal topRowDist = 1.08;
     const qreal bottomRowDist = 1.13;

@@ -49,7 +49,7 @@
 Grandf::Grandf( )
     : DealerScene(  )
 {
-    setDeck(new CardDeck());
+    setupDeck(new CardDeck());
 
     const qreal distx = 1.4;
     const qreal targetOffset = 1.5 * distx;

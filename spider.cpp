@@ -85,7 +85,7 @@ Spider::Spider()
     KConfigGroup cg(KGlobal::config(), settings_group );
     m_suits = cg.readEntry( "SpiderSuits", 2);
 
-    setupDeck();
+    createDeck();
 
     // Dealing the cards out into 5 piles so the user can see how many
     // sets of 10 cards are left to be dealt out
@@ -186,7 +186,7 @@ void Spider::setSuits(int suits)
         clearHighlightedItems();
 
         int cardWidth = deck()->cardWidth();
-        setupDeck();
+        createDeck();
         deck()->setCardWidth( cardWidth );
 
         KConfigGroup cg(KGlobal::config(), settings_group );
@@ -203,10 +203,10 @@ void Spider::setSuits(int suits)
 }
 
 
-void Spider::setupDeck()
+void Spider::createDeck()
 {
     // Delete the existing CardDeck.
-    setDeck( 0 );
+    setupDeck( 0 );
 
     // These look a bit weird, but are needed to keep the game numbering
     // from breaking. The original logic always created groupings of 4
@@ -221,7 +221,7 @@ void Spider::setupDeck()
     else
         suits << Card::Clubs << Card::Diamonds << Card::Hearts << Card::Spades;
 
-    setDeck( new CardDeck( 2, suits ) );
+    setupDeck( new CardDeck( 2, suits ) );
 }
 
 

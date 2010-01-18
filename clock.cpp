@@ -47,7 +47,7 @@ Clock::Clock( )
 {
     setSceneAlignment( AlignHCenter | AlignVCenter );
 
-    setDeck(new CardDeck());
+    setupDeck(new CardDeck());
 
     const qreal dist_x = 1.11;
     const qreal ys[12] = {   0./96,  15./96,  52./96, 158./96, 264./96, 301./96, 316./96, 301./96, 264./96, 158./96,  52./96,  15./96};
