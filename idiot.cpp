@@ -95,7 +95,7 @@ void Idiot::restart()
     emit newCardsPossible(true);
 }
 
-bool Idiot::checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const
+bool Idiot::checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const
 {
     switch ( pile->pileRole() )
     {
@@ -109,7 +109,7 @@ bool Idiot::checkAdd(const PatPile * pile, const CardList & oldCards, const Card
     }
 }
 
-bool Idiot::checkRemove(const PatPile * pile, const CardList & cards) const
+bool Idiot::checkRemove(const PatPile * pile, const QList<Card*> & cards) const
 {
     return pile->pileRole() == PatPile::Tableau
            && cards.first() == pile->top()

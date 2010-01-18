@@ -74,7 +74,7 @@ Yukon::Yukon( )
     setNeededFutureMoves( 10 ); // it's a bit hard to judge as there are so many nonsense moves
 }
 
-bool Yukon::checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const
+bool Yukon::checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const
 {
     if (pile->pileRole() == PatPile::Tableau)
     {
@@ -90,7 +90,7 @@ bool Yukon::checkAdd(const PatPile * pile, const CardList & oldCards, const Card
     }
 }
 
-bool Yukon::checkRemove(const PatPile * pile, const CardList & cards) const
+bool Yukon::checkRemove(const PatPile * pile, const QList<Card*> & cards) const
 {
     return pile->pileRole() == PatPile::Tableau && cards.first()->isFaceUp();
 }

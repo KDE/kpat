@@ -49,11 +49,6 @@ class QParallelAnimationGroup;
 class QPropertyAnimation;
 
 
-// A list of cards.  Used in many places.
-typedef QList<Card*> CardList;
-
-
-
 class LIBKCARDGAME_EXPORT Card: public QObject, public AbstractCard
 {
     Q_OBJECT

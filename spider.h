@@ -46,8 +46,7 @@ class SpiderPile : public PatPile
 {
 public:
     explicit SpiderPile(int _index, const QString & objectName = QString()) : PatPile(_index, objectName) {}
-    virtual void moveCards(CardList &c, Pile *to);
-    CardList getRun();
+    virtual void moveCards(QList<Card*> & c, Pile *to);
 };
 
 class Spider : public DealerScene
@@ -77,11 +76,11 @@ protected:
     virtual QString getGameOptions() const;
     virtual void setGameOptions(const QString &options);
 
-    virtual bool checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const;
-    virtual bool checkRemove(const PatPile * pile, const CardList & cards) const;
+    virtual bool checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const;
+    virtual bool checkRemove(const PatPile * pile, const QList<Card*> & cards) const;
 
 private:
-    CardList getRun(Card *c) const;
+    QList<Card*> getRun(Card *c) const;
     void setSuits(int s);
     void createDeck();
     QPointF randomPos();

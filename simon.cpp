@@ -93,14 +93,14 @@ void Simon::deal() {
     startDealAnimation();
 }
 
-bool Simon::checkPrefering(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const
+bool Simon::checkPrefering(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const
 {
     return pile->pileRole() == PatPile::Tableau
            && !oldCards.isEmpty()
            && oldCards.last()->suit() == newCards.first()->suit();
 }
 
-bool Simon::checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const
+bool Simon::checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const
 {
     if (pile->pileRole() == PatPile::Tableau)
     {
@@ -115,7 +115,7 @@ bool Simon::checkAdd(const PatPile * pile, const CardList & oldCards, const Card
     }
 }
 
-bool Simon::checkRemove(const PatPile * pile, const CardList & cards) const
+bool Simon::checkRemove(const PatPile * pile, const QList<Card*> & cards) const
 {
     return pile->pileRole() == PatPile::Tableau
            && isSameSuitDescending(cards);

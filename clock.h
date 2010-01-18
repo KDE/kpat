@@ -53,8 +53,8 @@ public slots:
     virtual void restart();
 
 protected:
-    virtual bool checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const;
-    virtual bool checkRemove(const PatPile* pile, const CardList & cards) const;
+    virtual bool checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const;
+    virtual bool checkRemove(const PatPile* pile, const QList<Card*> & cards) const;
 
 private:
     PatPile* store[8];

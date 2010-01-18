@@ -148,7 +148,7 @@ Klondike::Klondike()
     connect( options, SIGNAL(triggered(int)), SLOT(gameTypeChanged()) );
 }
 
-bool Klondike::checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const
+bool Klondike::checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const
 {
     switch (pile->pileRole())
     {
@@ -163,7 +163,7 @@ bool Klondike::checkAdd(const PatPile * pile, const CardList & oldCards, const C
     }
 }
 
-bool Klondike::checkRemove(const PatPile * pile, const CardList & cards) const
+bool Klondike::checkRemove(const PatPile * pile, const QList<Card*> & cards) const
 {
     switch (pile->pileRole())
     {

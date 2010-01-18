@@ -45,7 +45,7 @@ class FreecellPile : public PatPile
 {
 public:
     explicit FreecellPile(int _index, const QString & objectName = QString()) : PatPile(_index, objectName) {}
-    virtual void moveCards(CardList &c, Pile *to);
+    virtual void moveCards(QList<Card*> &c, Pile *to);
 };
 
 class Freecell : public DealerScene
@@ -56,7 +56,7 @@ class Freecell : public DealerScene
 
 public:
     Freecell();
-    void moveCards(CardList &c, FreecellPile *from, PatPile *to);
+    void moveCards(QList<Card*> &c, FreecellPile *from, PatPile *to);
     virtual ~Freecell();
 
 public slots:
@@ -65,14 +65,14 @@ public slots:
     void startMoving();
 
 protected:
-    virtual bool checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const;
-    virtual bool checkRemove(const PatPile * pile, const CardList & cards) const;
+    virtual bool checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const;
+    virtual bool checkRemove(const PatPile * pile, const QList<Card*> & cards) const;
 
-    bool canPutStore(const PatPile *c1, const CardList& c2) const;
+    bool canPutStore(const PatPile *c1, const QList<Card*>& c2) const;
 
     void countFreeCells(int &free_cells, int &free_stores) const;
 
-    void movePileToPile(CardList &c, PatPile *to, QList<PatPile*> & fss, QList<PatPile*> & fcs,
+    void movePileToPile(QList<Card*> &c, PatPile *to, QList<PatPile*> & fss, QList<PatPile*> & fcs,
                         int start, int count, int debug_level);
 
     Pile *pileForName(QString line) const;

@@ -145,12 +145,12 @@ public slots:
     void redo();
 
 protected:
-    virtual bool allowedToAdd(const Pile * pile, const CardList & cards) const;
+    virtual bool allowedToAdd(const Pile * pile, const QList<Card*> & cards) const;
     virtual bool allowedToRemove(const Pile * pile, const Card * card) const;
 
-    virtual bool checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const;
-    virtual bool checkRemove( const PatPile * pile, const CardList & cards ) const;
-    virtual bool checkPrefering(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const;
+    virtual bool checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const;
+    virtual bool checkRemove( const PatPile * pile, const QList<Card*> & cards ) const;
+    virtual bool checkPrefering(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const;
 
     virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent );

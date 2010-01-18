@@ -675,11 +675,11 @@ void DealerScene::getHints()
         if (store->isFoundation() || store->isEmpty())
             continue;
 
-        CardList cards = store->cards();
+        QList<Card*> cards = store->cards();
         while (cards.count() && !cards.first()->realFace())
             cards.erase(cards.begin());
 
-        CardList::Iterator iti = cards.begin();
+        QList<Card*>::Iterator iti = cards.begin();
         while (iti != cards.end())
         {
             if (allowedToRemove(store, (*iti)))
@@ -699,7 +699,7 @@ void DealerScene::getHints()
                     }
                     else
                     {
-                        CardList cardsBelow = cards.mid(0, cardIndex);
+                        QList<Card*> cardsBelow = cards.mid(0, cardIndex);
  
                         // if it could be here as well, then it's no use
                         if ((cardsBelow.isEmpty() && !dest->isEmpty()) || !checkAdd(store, cardsBelow, cards))
@@ -915,7 +915,7 @@ void DealerScene::updateWonItem()
 }
 
 
-bool DealerScene::allowedToAdd( const Pile * pile, const CardList & cards ) const
+bool DealerScene::allowedToAdd( const Pile * pile, const QList<Card*> & cards ) const
 {
     const PatPile * p = dynamic_cast<const PatPile*>( pile );
     return p && checkAdd( p, p->cards(), cards );
@@ -928,12 +928,12 @@ bool DealerScene::allowedToRemove( const Pile * pile, const Card * card ) const
     if ( !p )
         return false;
 
-    CardList cards = p->topCardsDownTo( card );
+    QList<Card*> cards = p->topCardsDownTo( card );
     return !cards.isEmpty() && checkRemove( p, cards );
 }
 
 
-bool DealerScene::checkAdd( const PatPile * pile, const CardList & oldCards, const CardList & newCards ) const
+bool DealerScene::checkAdd( const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards ) const
 {
     Q_UNUSED( pile )
     Q_UNUSED( oldCards )
@@ -942,7 +942,7 @@ bool DealerScene::checkAdd( const PatPile * pile, const CardList & oldCards, con
 }
 
 
-bool DealerScene::checkRemove(const PatPile * pile, const CardList & cards) const
+bool DealerScene::checkRemove(const PatPile * pile, const QList<Card*> & cards) const
 {
     Q_UNUSED( pile )
     Q_UNUSED( cards )
@@ -950,7 +950,7 @@ bool DealerScene::checkRemove(const PatPile * pile, const CardList & cards) cons
 }
 
 
-bool DealerScene::checkPrefering( const PatPile * pile, const CardList & oldCards, const CardList & newCards ) const
+bool DealerScene::checkPrefering( const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards ) const
 {
     Q_UNUSED( pile )
     Q_UNUSED( oldCards )
@@ -1039,7 +1039,7 @@ bool DealerScene::cardDoubleClicked( Card * c )
     if (c == c->source()->top()  && c->realFace() && allowedToRemove(c->source(), c)) {
         Pile *tgt = findTarget(c);
         if (tgt) {
-            c->source()->moveCards(CardList() << c , tgt);
+            c->source()->moveCards(QList<Card*>() << c , tgt);
             onGameStateAlteredByUser();
             return true;
         }
@@ -1117,7 +1117,7 @@ PatPile *DealerScene::findTarget(Card *c)
     {
         if (!p->isFoundation())
             continue;
-        if (allowedToAdd(p, CardList() << c))
+        if (allowedToAdd(p, QList<Card*>() << c))
             return p;
     }
     return 0;
@@ -1168,7 +1168,7 @@ bool DealerScene::drop()
         if ( mh->pile() && mh->pile()->isFoundation() && mh->priority() > 120 && !mh->card()->takenDown() )
         {
             Card *t = mh->card();
-            CardList cards = mh->card()->source()->cards();
+            QList<Card*> cards = mh->card()->source()->cards();
             while ( !cards.isEmpty() && cards.first() != t )
                 cards.removeFirst();
 
@@ -1407,10 +1407,10 @@ void DealerScene::demo()
         myassert(mh->card()->source() == 0
                  || allowedToRemove(mh->card()->source(), mh->card()));
 
-        CardList empty;
-        CardList cards = mh->card()->source()->cards();
+        QList<Card*> empty;
+        QList<Card*> cards = mh->card()->source()->cards();
         bool after = false;
-        for (CardList::Iterator it = cards.begin(); it != cards.end(); ++it) {
+        for (QList<Card*>::Iterator it = cards.begin(); it != cards.end(); ++it) {
             if (*it == mh->card())
                 after = true;
             if (after)

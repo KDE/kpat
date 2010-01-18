@@ -55,8 +55,8 @@ public slots:
     virtual Card *newCards();
 
 protected:
-    virtual bool checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const;
-    virtual bool checkRemove(const PatPile * pile, const CardList & cards) const;
+    virtual bool checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const;
+    virtual bool checkRemove(const PatPile * pile, const QList<Card*> & cards) const;
 
     virtual bool  cardClicked(Card *);
     virtual bool  cardDoubleClicked(Card *);

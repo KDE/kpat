@@ -164,7 +164,7 @@ void Grandf::collect() {
     }
 }
 
-bool Grandf::checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const
+bool Grandf::checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const
 {
     switch (pile->pileRole())
     {
@@ -180,7 +180,7 @@ bool Grandf::checkAdd(const PatPile * pile, const CardList & oldCards, const Car
     }
 }
 
-bool Grandf::checkRemove(const PatPile * pile, const CardList & cards) const
+bool Grandf::checkRemove(const PatPile * pile, const QList<Card*> & cards) const
 {
     return pile->pileRole() == PatPile::Tableau && cards.first()->isFaceUp();
 }

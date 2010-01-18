@@ -81,7 +81,7 @@ void Clock::restart()
     deal();
 }
 
-bool Clock::checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const
+bool Clock::checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const
 {
     if ( pile->pileRole() == PatPile::Tableau )
     {
@@ -98,7 +98,7 @@ bool Clock::checkAdd(const PatPile * pile, const CardList & oldCards, const Card
 }
 
 
-bool Clock::checkRemove(const PatPile* pile, const CardList & cards) const
+bool Clock::checkRemove(const PatPile* pile, const QList<Card*> & cards) const
 {
     return pile->pileRole() == PatPile::Tableau
            && cards.first() == pile->top();

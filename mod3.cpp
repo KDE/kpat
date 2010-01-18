@@ -124,7 +124,7 @@ Mod3::Mod3( )
     setSolver( new Mod3Solver( this ) );
 }
 
-bool mod3CheckAdd(int baseRank, const CardList & oldCards, const CardList & newCards)
+bool mod3CheckAdd(int baseRank, const QList<Card*> & oldCards, const QList<Card*> & newCards)
 {
     if (oldCards.isEmpty())
         return newCards.first()->rank() == baseRank;
@@ -134,7 +134,7 @@ bool mod3CheckAdd(int baseRank, const CardList & oldCards, const CardList & newC
                && newCards.first()->rank() == oldCards.last()->rank() + 3;
 }
 
-bool Mod3::checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const
+bool Mod3::checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const
 {
     switch (pile->pileRole())
     {
@@ -154,7 +154,7 @@ bool Mod3::checkAdd(const PatPile * pile, const CardList & oldCards, const CardL
     }
 }
 
-bool Mod3::checkRemove(const PatPile * pile, const CardList & cards) const
+bool Mod3::checkRemove(const PatPile * pile, const QList<Card*> & cards) const
 {
     switch (pile->pileRole())
     {

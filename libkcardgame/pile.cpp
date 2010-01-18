@@ -144,7 +144,7 @@ QList<Card*> Pile::topCardsDownTo( const Card * card ) const
 {
     int index = m_cards.indexOf( const_cast<Card*>( card ) );
     if ( index == -1 )
-        return CardList();
+        return QList<Card*>();
     return m_cards.mid( index );
 }
 

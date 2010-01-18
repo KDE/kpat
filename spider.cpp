@@ -50,7 +50,7 @@
 #include <KSelectAction>
 
 
-void SpiderPile::moveCards(CardList &c, Pile *to)
+void SpiderPile::moveCards(QList<Card*> & c, Pile *to)
 {
     Pile::moveCards(c, to);
 
@@ -237,7 +237,7 @@ void Spider::cardStopped(Card * t)
 
 //-------------------------------------------------------------------------//
 
-bool Spider::checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const
+bool Spider::checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const
 {
     // assuming the cardlist is a valid unit, since I allowed
     // it to be removed - can drop any card on empty pile or
@@ -247,7 +247,7 @@ bool Spider::checkAdd(const PatPile * pile, const CardList & oldCards, const Car
                 || oldCards.last()->rank() == newCards.first()->rank() + 1 );
 }
 
-bool Spider::checkRemove(const PatPile * pile, const CardList & cards) const
+bool Spider::checkRemove(const PatPile * pile, const QList<Card*> & cards) const
 {
     return pile->pileRole() == PatPile::Tableau
            && isSameSuitDescending(cards);
@@ -304,9 +304,9 @@ void Spider::restart()
 
 //-------------------------------------------------------------------------//
 
-CardList Spider::getRun(Card *c) const
+QList<Card*> Spider::getRun(Card *c) const
 {
-    CardList result;
+    QList<Card*> result;
 
     Pile *p = c->source();
     if (!p || p->isEmpty())
@@ -339,7 +339,7 @@ bool Spider::checkPileDeck(PatPile *check, bool checkForDemo)
 
     if (check->top()->rank() == Card::Ace) {
         // just using the CardList to see if this goes to King
-        CardList run = getRun(check->top());
+        QList<Card*> run = getRun(check->top());
         if (run.first()->rank() == Card::King) {
             PatPile *leg = legs[m_leg];
             leg->setVisible(true);
