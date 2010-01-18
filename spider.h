@@ -59,7 +59,7 @@ class Spider : public DealerScene
 public:
     Spider();
     void deal();
-    bool checkPileDeck(Pile *to, bool checkForDemo = true);
+    bool checkPileDeck(PatPile *to, bool checkForDemo = true);
     virtual void restart();
     virtual void mapOldId(int id);
     virtual int oldId() const;

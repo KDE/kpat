@@ -456,15 +456,15 @@ MoveHint *GrandfSolver::translateMove( const MOVE &m )
     if ( m.from == offs )
         return 0;
 
-    Pile *frompile = 0;
+    PatPile *frompile = 0;
     frompile = deal->store[m.from % 7];
 
     Card *card = frompile->at( frompile->cardsLeft() - m.card_index - 1);
 
     if ( m.totype == O_Type )
     {
-        Pile *target = 0;
-        Pile *empty = 0;
+        PatPile *target = 0;
+        PatPile *empty = 0;
         for (int i = 0; i < 4; ++i) {
             Card *c = deal->target[i]->top();
             if (c) {

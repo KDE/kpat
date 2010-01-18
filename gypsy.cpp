@@ -60,7 +60,7 @@ Gypsy::Gypsy( )
     for (int i=0; i<8; i++) {
         target[i] = new PatPile(i+1, QString("target%1").arg(i));
         target[i]->setPileRole(PatPile::Foundation);
-        target[i]->setTarget(true);
+        target[i]->setFoundation(true);
         target[i]->setPilePos(dist_x*(8+(i/4)) + 0.4, (i%4)*dist_y);
         addPile(target[i]);
     }

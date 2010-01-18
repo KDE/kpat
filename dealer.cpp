@@ -94,7 +94,7 @@ inline void myassert_fail (__const char *__assertion, __const char *__file,
 class CardState {
 public:
     Card *it;
-    Pile *source;
+    PatPile *source;
     qreal z;
     bool faceup;
     bool tookdown;
@@ -206,6 +206,7 @@ public:
     QList<MoveHint*> hints;
     QList<State*> redoList;
     QList<State*> undoList;
+    QList<PatPile*> patPiles;
 };
 
 int DealerScene::getMoves() const
@@ -296,7 +297,7 @@ void DealerScene::saveGame(QDomDocument &doc)
 
     foreach(const QGraphicsItem *item, items())
     {
-        const Pile *p = qgraphicsitem_cast<const Pile*>(item);
+        const PatPile *p = qgraphicsitem_cast<const PatPile*>(item);
         if (p)
         {
             if (taken[p->index()]) {
@@ -358,7 +359,7 @@ void DealerScene::openGame(QDomDocument &doc)
 
     deck()->returnAllCards();
 
-    foreach (Pile *p, piles())
+    foreach (PatPile *p, patPiles())
     {
         p->clear();
         for (int i = 0; i < pileNodes.count(); ++i)
@@ -522,6 +523,32 @@ DealerScene::~DealerScene()
 }
 
 
+void DealerScene::addPile( Pile * pile )
+{
+    PatPile * p = dynamic_cast<PatPile*>( pile );
+    Q_ASSERT( p );
+    if ( p && !d->patPiles.contains( p ) )
+        d->patPiles << p;
+
+    CardScene::addPile( pile );
+}
+
+
+void DealerScene::removePile( Pile * pile )
+{
+    PatPile * p = dynamic_cast<PatPile*>( pile );
+    Q_ASSERT( p );
+    d->patPiles.removeAll( p );
+
+    CardScene::removePile( pile );
+}
+
+
+QList<PatPile*> DealerScene::patPiles() const
+{
+    return d->patPiles;
+}
+
 // ----------------------------------------------------------------
 
 
@@ -620,11 +647,9 @@ void DealerScene::getHints()
         return;
     }
 
-    foreach (Pile * p1, piles())
+    foreach (PatPile * store, patPiles())
     {
-        PatPile * store = dynamic_cast<PatPile*>(p1);
-
-        if (store->isTarget() || store->isEmpty())
+        if (store->isFoundation() || store->isEmpty())
             continue;
 
         CardList cards = store->cards();
@@ -636,21 +661,16 @@ void DealerScene::getHints()
         {
             if (allowedToRemove(store, (*iti)))
             {
-                foreach (Pile * p2, piles())
+                foreach (PatPile * dest, patPiles())
                 {
-                    if (p2 == p1)
-                        continue;
-
-                    PatPile * dest = dynamic_cast<PatPile*>(p2);
-
                     int cardIndex = store->indexOf(*iti);
-                    if (cardIndex == 0 && dest->isEmpty() && !dest->isTarget())
+                    if (cardIndex == 0 && dest->isEmpty() && !dest->isFoundation())
                         continue;
 
                     if (!allowedToAdd(dest, cards))
                         continue;
 
-                    if (dest->isTarget())
+                    if (dest->isFoundation())
                     {
                         newHint(new MoveHint(*iti, dest, 127));
                     }
@@ -1009,19 +1029,20 @@ State *DealerScene::getState()
     State * st = new State;
     foreach (Card *c, deck()->cards())
     {
-       CardState s;
-       s.it = c;
-       s.source = c->source();
-       if (!s.source) {
-           kDebug() << c->objectName() << "has no parent\n";
-           Q_ASSERT(false);
-           continue;
-       }
-       s.source_index = c->source()->indexOf(c);
-       s.z = c->realZ();
-       s.faceup = c->realFace();
-       s.tookdown = c->takenDown();
-       st->cards.append(s);
+        CardState s;
+        s.it = c;
+        PatPile * source = dynamic_cast<PatPile*>( c->source() );
+        if (!source) {
+            kDebug() << c->objectName() << "has no valid parent.";
+            Q_ASSERT(false);
+            continue;
+        }
+        s.source = source;
+        s.source_index = source->indexOf(c);
+        s.z = c->realZ();
+        s.faceup = c->realFace();
+        s.tookdown = c->takenDown();
+        st->cards.append(s);
     }
     qSort(st->cards);
 
@@ -1036,10 +1057,10 @@ void DealerScene::setState(State *st)
     kDebug() << gettime() << "setState\n";
     CardStateList * n = &st->cards;
 
-    foreach (Pile *p, piles())
+    foreach (PatPile *p, patPiles())
     {
         foreach (Card *c, p->cards())
-            c->setTakenDown(p->isTarget());
+            c->setTakenDown(p->isFoundation());
         p->clear();
     }
 
@@ -1050,10 +1071,12 @@ void DealerScene::setState(State *st)
         c->turn(s.faceup);
         s.source->add(c, s.source_index);
         c->setZValue(s.z);
-        c->setTakenDown(s.tookdown || (target && !s.source->isTarget()));
+
+        PatPile * p = dynamic_cast<PatPile*>(c->source());
+        c->setTakenDown(s.tookdown || (target && !(p && p->isFoundation())));
     }
 
-    foreach (Pile *p, piles())
+    foreach (PatPile *p, patPiles())
         p->layoutCards(0);
 
     // restore game-specific information
@@ -1062,14 +1085,14 @@ void DealerScene::setState(State *st)
     delete st;
 }
 
-Pile *DealerScene::findTarget(Card *c)
+PatPile *DealerScene::findTarget(Card *c)
 {
     if (!c)
         return 0;
 
-    foreach (Pile *p, piles())
+    foreach (PatPile *p, patPiles())
     {
-        if (!p->isTarget())
+        if (!p->isFoundation())
             continue;
         if (allowedToAdd(p, CardList() << c))
             return p;
@@ -1119,7 +1142,7 @@ bool DealerScene::drop()
 
     foreach ( const MoveHint *mh, d->hints )
     {
-        if ( mh->pile() && mh->pile()->isTarget() && mh->priority() > 120 && !mh->card()->takenDown() )
+        if ( mh->pile() && mh->pile()->isFoundation() && mh->priority() > 120 && !mh->card()->takenDown() )
         {
             Card *t = mh->card();
             CardList cards = mh->card()->source()->cards();
@@ -1385,7 +1408,7 @@ void DealerScene::demo()
         assert(mh->card()->source());
         assert(mh->pile());
         assert(mh->card()->source() != mh->pile());
-        assert(mh->pile()->isTarget() || allowedToAdd(mh->pile(), empty));
+        assert(mh->pile()->isFoundation() || allowedToAdd(mh->pile(), empty));
 
         mh->card()->source()->moveCards(empty, mh->pile());
 
@@ -1452,9 +1475,9 @@ void DealerScene::setSolver( Solver *s) {
 
 bool DealerScene::isGameWon() const
 {
-    foreach (Pile *p, piles())
+    foreach (PatPile *p, patPiles())
     {
-        if (!p->isTarget() && !p->isEmpty())
+        if (!p->isFoundation() && !p->isEmpty())
             return false;
     }
     return true;
@@ -1655,7 +1678,7 @@ bool DealerScene::allowedToStartNewGame()
                     ) == KMessageBox::Continue;
 }
 
-void DealerScene::addCardForDeal(Pile * pile, Card * card, bool faceUp, QPointF startPos)
+void DealerScene::addCardForDeal(PatPile * pile, Card * card, bool faceUp, QPointF startPos)
 {
     Q_ASSERT( card );
     Q_ASSERT( pile );
@@ -1669,7 +1692,7 @@ void DealerScene::addCardForDeal(Pile * pile, Card * card, bool faceUp, QPointF 
 void DealerScene::startDealAnimation()
 {
     qreal speed = sqrt( width() * width() + height() * height() ) / ( DURATION_DEAL );
-    foreach ( Pile * p, piles() )
+    foreach ( PatPile * p, patPiles() )
     {
         p->layoutCards(0);
         foreach ( Card * c, p->cards() )

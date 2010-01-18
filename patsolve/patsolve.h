@@ -102,7 +102,7 @@ protected:
     MemoryManager::inscode insert(int *cluster, int d, TREE **node);
     void free_buckets(void);
     void printcard(card_t card, FILE *outfile);
-    int translate_pile(const Pile *pile, card_t *w, int size);
+    int translate_pile(const PatPile *pile, card_t *w, int size);
     virtual void print_layout();
 
     void pilesort(void);

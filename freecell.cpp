@@ -59,8 +59,9 @@ void FreecellPile::moveCards(CardList &c, Pile *to)
         return;
     }
     Freecell *b = dynamic_cast<Freecell*>(scene());
-    if (b) {
-        b->moveCards(c, this, to);
+    PatPile *p = dynamic_cast<PatPile*>(to);
+    if (b && p) {
+        b->moveCards(c, this, p);
     }
 }
 
@@ -97,7 +98,7 @@ Freecell::Freecell()
     {
         target[i] = new PatPile(1 + 8 + 4 + i, QString( "target%1" ).arg( i ));
         target[i]->setPileRole(PatPile::Foundation);
-        target[i]->setTarget(true);
+        target[i]->setFoundation(true);
         target[i]->setPilePos(targetOffsetDist + topRowDist * i, 0);
         target[i]->setSpread(0, 0);
         addPile(target[i]);
@@ -131,7 +132,7 @@ void Freecell::countFreeCells(int &free_cells, int &free_stores) const
         if (store[i]->isEmpty()) free_stores++;
 }
 
-void Freecell::moveCards(CardList &c, FreecellPile *from, Pile *to)
+void Freecell::moveCards(CardList &c, FreecellPile *from, PatPile *to)
 {
     Q_ASSERT(c.count() > 1);
 
@@ -139,12 +140,12 @@ void Freecell::moveCards(CardList &c, FreecellPile *from, Pile *to)
     waitfor = c.last();
     connect(waitfor, SIGNAL(animationStopped(Card*)), SLOT(waitForMoving(Card*)));
 
-    PileList fcs;
+    QList<PatPile*> fcs;
 
     for (int i = 0; i < 4; i++)
         if (freecell[i]->isEmpty()) fcs.append(freecell[i]);
 
-    PileList fss;
+    QList<PatPile*> fss;
 
     for (int i = 0; i < 8; i++)
         if (store[i]->isEmpty() && to != store[i]) fss.append(store[i]);
@@ -165,12 +166,12 @@ void Freecell::moveCards(CardList &c, FreecellPile *from, Pile *to)
 }
 
 struct MoveAway {
-    Pile *firstfree;
+    PatPile *firstfree;
     int start;
     int count;
 };
 
-void Freecell::movePileToPile(CardList &c, Pile *to, PileList fss, PileList &fcs, int start, int count, int debug_level)
+void Freecell::movePileToPile(CardList &c, PatPile *to, QList<PatPile*> & fss, QList<PatPile*> & fcs, int start, int count, int debug_level)
 {
     kDebug() << debug_level << "movePileToPile" << c.count() << " " << start  << " " << count;
     int moveaway = 0;
@@ -291,7 +292,7 @@ bool Freecell::cardDoubleClicked(Card *c)
     return false;
 }
 
-bool Freecell::CanPutStore(const Pile *c1, const CardList &c2) const
+bool Freecell::canPutStore(const PatPile *c1, const CardList &c2) const
 {
     int fcs, fss;
     countFreeCells(fcs, fss);
@@ -318,7 +319,7 @@ bool Freecell::checkAdd(const PatPile * pile, const CardList & oldCards, const C
     switch (pile->pileRole())
     {
     case PatPile::Tableau:
-        return CanPutStore(pile, newCards);
+        return canPutStore(pile, newCards);
     case PatPile::Cell:
         return oldCards.isEmpty() && newCards.size() == 1;
     case PatPile::Foundation:
@@ -349,10 +350,8 @@ void Freecell::getHints()
     if ( demoActive() )
         return;
 
-    foreach (Pile * p1, piles())
+    foreach (PatPile * store, patPiles())
     {
-        PatPile * store = dynamic_cast<PatPile*>(p1);
-
         if (store->isEmpty())
             continue;
 
@@ -365,21 +364,16 @@ void Freecell::getHints()
         {
             if (allowedToRemove(store, (*iti)))
             {
-                foreach (Pile * p2, piles())
+                foreach (PatPile * dest, patPiles())
                 {
-                    if (p2 == p1)
-                        continue;
-
-                    PatPile * dest = dynamic_cast<PatPile*>(p2);
-
                     int cardIndex = store->indexOf(*iti);
-                    if (cardIndex == 0 && dest->isEmpty() && !dest->isTarget())
+                    if (cardIndex == 0 && dest->isEmpty() && !dest->isFoundation())
                         continue;
 
                     if (!allowedToAdd(dest, cards))
                         continue;
 
-                    if ( dest->isTarget() ) // taken care by solver
+                    if ( dest->isFoundation() ) // taken care by solver
                         continue;
 
                     CardList cardsBelow = cards.mid(0, cardIndex);

@@ -40,13 +40,13 @@
 #include <QList>
 
 class Card;
-class Pile;
+class PatPile;
 
 
 class MoveHint
 {
 public:
-    MoveHint( Card * card, Pile * to, int prio )
+    MoveHint( Card * card, PatPile * to, int prio )
       : m_card( card ),
         m_to( to ),
         m_prio( prio )
@@ -60,7 +60,7 @@ public:
         return m_card;
     }
 
-    Pile * pile() const
+    PatPile * pile() const
     {
         return m_to;
     }
@@ -72,7 +72,7 @@ public:
 
 private:
     Card * m_card;
-    Pile * m_to;
+    PatPile * m_to;
     int m_prio;
 };
 

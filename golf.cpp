@@ -62,7 +62,7 @@ Golf::Golf( )
 
     waste = new PatPile(8, "waste");
     waste->setPileRole(PatPile::Waste);
-    waste->setTarget(true);
+    waste->setFoundation(true);
     waste->setPilePos(1.1, smallNeg);
     waste->setSpread(0.12, 0);
     waste->setReservedSpace( QSizeF( 4.0, 1.0 ) );

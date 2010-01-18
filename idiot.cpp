@@ -72,7 +72,7 @@ Idiot::Idiot( )
     // Create the discard pile to the right
     m_away = new PatPile( 5, "away" );
     m_away->setPileRole(PatPile::Waste);
-    m_away->setTarget(true);
+    m_away->setFoundation(true);
     m_away->setPilePos(1.9 + distx * 4, 0);
     m_away->setSpread(0, 0);
     addPile(m_away);

@@ -55,12 +55,9 @@ class Solver;
 class QDomDocument;
 
 
-typedef QList<Pile*> PileList;
-typedef QList<CardState> CardStateList;
-
 struct State
 {
-    CardStateList cards;
+    QList<CardState> cards;
     QString gameData;
 };
 
@@ -80,6 +77,10 @@ public:
     int speedUpTime( int delay ) const;
 
     void createDump( QPaintDevice * );
+
+    virtual void addPile( Pile * pile );
+    virtual void removePile( Pile * pile );
+    QList<PatPile*> patPiles() const;
 
     void setAutoDropEnabled(bool a);
     bool autoDropEnabled() const { return _autodrop; }
@@ -159,7 +160,7 @@ protected:
     void setState(State *);
     void eraseRedo();
 
-    Pile *findTarget(Card *c);
+    PatPile *findTarget(Card *c);
 
     QList<MoveHint*> hints() const;
     virtual void getHints();
@@ -184,7 +185,7 @@ protected:
 
     virtual void newDemoMove(Card *m);
 
-    void addCardForDeal( Pile * pile, Card * card, bool faceUp, QPointF startPos );
+    void addCardForDeal( PatPile * pile, Card * card, bool faceUp, QPointF startPos );
     void startDealAnimation();
 
 protected slots:

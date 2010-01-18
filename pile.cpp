@@ -39,6 +39,7 @@
 
 #include "carddeck.h"
 #include "cardscene.h"
+#include "patpile.h"
 #include "render.h"
 
 #include <KDebug>
@@ -53,7 +54,6 @@
 Pile::Pile( int _index, const QString & objectName )
     : QGraphicsPixmapItem(),
       myIndex(_index),
-      _target(false),
       m_autoTurnTop(false),
       m_graphicVisible( true ),
       m_highlighted( false )
@@ -219,7 +219,10 @@ void Pile::add( Card *_card, int index)
     Pile *oldSource = _card->source();
     if (oldSource)
     {
-        _card->setTakenDown(oldSource->isTarget() && !isTarget());
+        // This is hideous and needs to be refactored.
+        PatPile * self = dynamic_cast<PatPile*>( this );
+        PatPile * other = dynamic_cast<PatPile*>( oldSource );
+        _card->setTakenDown(self && other && other->isFoundation() && !self->isFoundation());
         oldSource->remove(_card);
     }
 

@@ -590,7 +590,7 @@ MoveHint *SpiderSolver::translateMove( const MOVE &m )
     if ( m.from >= 10 )
         return 0;
 
-    Pile *frompile = deal->stack[m.from];
+    PatPile *frompile = deal->stack[m.from];
 
     if ( m.totype == O_Type )
     {

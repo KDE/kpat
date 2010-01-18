@@ -18,8 +18,6 @@
 
 #ifndef PILEUTILS_H
 #define PILEUTILS_H
-
-class Pile;
 class Card;
 
 #include <QList>

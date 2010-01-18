@@ -56,7 +56,7 @@ class Freecell : public DealerScene
 
 public:
     Freecell();
-    void moveCards(CardList &c, FreecellPile *from, Pile *to);
+    void moveCards(CardList &c, FreecellPile *from, PatPile *to);
     virtual ~Freecell();
 
 public slots:
@@ -68,12 +68,11 @@ protected:
     virtual bool checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const;
     virtual bool checkRemove(const PatPile * pile, const CardList & cards) const;
 
-    bool CanPutStore(const Pile *c1, const CardList& c2) const;
-    bool CanRemove(const Pile *c1, const Card *c) const;
+    bool canPutStore(const PatPile *c1, const CardList& c2) const;
 
     void countFreeCells(int &free_cells, int &free_stores) const;
 
-    void movePileToPile(CardList &c, Pile *to, PileList fss, PileList &fcs,
+    void movePileToPile(CardList &c, PatPile *to, QList<PatPile*> & fss, QList<PatPile*> & fcs,
                         int start, int count, int debug_level);
 
     Pile *pileForName(QString line) const;

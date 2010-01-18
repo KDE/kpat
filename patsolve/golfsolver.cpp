@@ -243,7 +243,7 @@ MoveHint *GolfSolver::translateMove( const MOVE &m )
 {
     if ( m.from >= 7 )
         return 0;
-    Pile *frompile = deal->stack[m.from];
+    PatPile *frompile = deal->stack[m.from];
 
     Card *card = frompile->at( frompile->cardsLeft() - m.card_index - 1);
 

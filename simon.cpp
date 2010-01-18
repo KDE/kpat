@@ -55,7 +55,7 @@ Simon::Simon( )
     for (int i=0; i<4; i++) {
         target[i] = new PatPile(i+1, QString( "target%1" ).arg( i ));
         target[i]->setPileRole(PatPile::Foundation);
-        target[i]->setTarget(true);
+        target[i]->setFoundation(true);
         target[i]->setPilePos((i+3)*dist_x, 0);
         target[i]->setSpread(0, 0);
         addPile(target[i]);

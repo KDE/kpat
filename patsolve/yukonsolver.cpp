@@ -394,15 +394,15 @@ int YukonSolver::getClusterNumber()
 
 MoveHint *YukonSolver::translateMove( const MOVE &m )
 {
-    Pile *frompile = 0;
+    PatPile *frompile = 0;
     frompile = deal->store[m.from];
 
     Card *card = frompile->at( frompile->cardsLeft() - m.card_index - 1);
 
     if ( m.totype == O_Type )
     {
-        Pile *target = 0;
-        Pile *empty = 0;
+        PatPile *target = 0;
+        PatPile *empty = 0;
         for (int i = 0; i < 4; ++i) {
             Card *c = deal->target[i]->top();
             if (c) {

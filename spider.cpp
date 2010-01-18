@@ -65,12 +65,12 @@ void SpiderPile::moveCards(CardList &c, Pile *to)
     // and the destination pile now has more than 12 cards,
     // then it could have a full deck that needs removed.
     if (c.last()->rank() == Card::Ace &&
-        c.first()->suit() == to->top()->suit() &&
-        to->cardsLeft() > 12)
+        c.first()->suit() == p->top()->suit() &&
+        p->cardsLeft() > 12)
     {
             Spider *b = dynamic_cast<Spider*>(scene());
             if (b) {
-                b->checkPileDeck(to);
+                b->checkPileDeck(p);
             }
     }
 }
@@ -117,7 +117,7 @@ Spider::Spider()
     for( int column = 0; column < 8; column++ ) {
         legs[column] = new PatPile(column + 16, QString( "legs%1" ).arg( column ));
         legs[column]->setPileRole(PatPile::Foundation);
-        legs[column]->setTarget(true);
+        legs[column]->setFoundation(true);
         legs[column]->setPilePos(dist_x / 3 * column, smallNeg);
         legs[column]->setZValue(column+1);
         legs[column]->setGraphicVisible( false );
@@ -330,7 +330,7 @@ CardList Spider::getRun(Card *c) const
     return result;
 }
 
-bool Spider::checkPileDeck(Pile *check, bool checkForDemo)
+bool Spider::checkPileDeck(PatPile *check, bool checkForDemo)
 {
     if ( checkForDemo && demoActive() )
         return false;
@@ -342,7 +342,7 @@ bool Spider::checkPileDeck(Pile *check, bool checkForDemo)
         // just using the CardList to see if this goes to King
         CardList run = getRun(check->top());
         if (run.first()->rank() == Card::King) {
-            Pile *leg = legs[m_leg];
+            PatPile *leg = legs[m_leg];
             leg->setVisible(true);
             relayoutPiles();
 

@@ -38,3 +38,17 @@ PatPile::PileRole PatPile::pileRole() const
     return m_role;
 }
 
+
+void PatPile::setFoundation( bool foundation )
+{
+    m_foundation = foundation;
+}
+
+
+bool PatPile::isFoundation() const
+{
+    return m_foundation;
+}
+
+
+

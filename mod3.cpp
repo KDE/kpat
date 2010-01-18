@@ -52,7 +52,7 @@
 class Mod3Pile : public PatPile
 {
 public:
-    Mod3Pile( int _index, Pile * pile, const QString & objectName = QString() )
+    Mod3Pile( int _index, PatPile * pile, const QString & objectName = QString() )
         : PatPile( _index, objectName ), drawPile( pile ) {}
     virtual void relayoutCards()
     {
@@ -61,7 +61,7 @@ public:
         else
             PatPile::relayoutCards();
     }
-    Pile * drawPile;
+    PatPile * drawPile;
 };
 
 
@@ -89,7 +89,7 @@ Mod3::Mod3( )
 
     aces = new PatPile(50, "aces");
     aces->setPileRole(PatPile::FoundationType1);
-    aces->setTarget(true);
+    aces->setFoundation(true);
     aces->setPilePos(rightColumX, 0.5);
     aces->setReservedSpace( QSizeF( 1.0, 2.0 ));
     addPile(aces);
@@ -102,7 +102,7 @@ Mod3::Mod3( )
             // The first 3 rows are the playing field, the fourth is the store.
             if ( r < 3 ) {
                 stack[r][c] = new PatPile( pileIndex, objectName );
-                stack[r][c]->setTarget( true );
+                stack[r][c]->setFoundation( true );
                 stack[r][c]->setPilePos( dist_x * c, dist_y * r );
                 // Very tight spread makes it easy to quickly tell number of
                 // cards in each pile and we don't care about the cards beneath.

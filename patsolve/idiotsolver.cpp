@@ -248,12 +248,12 @@ MoveHint *IdiotSolver::translateMove( const MOVE &m )
 {
     if ( m.from >=4 )
         return 0;
-    Pile *frompile = deal->m_play[m.from];
+    PatPile *frompile = deal->m_play[m.from];
 
     Card *card = frompile->at( frompile->cardsLeft() - m.card_index - 1);
     Q_ASSERT( card );
 
-    Pile *target = 0;
+    PatPile *target = 0;
     if ( m.to == 5 )
         target = deal->m_away;
     else

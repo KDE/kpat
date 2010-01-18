@@ -497,7 +497,7 @@ MoveHint *FortyeightSolver::translateMove( const MOVE &m )
 {
     if ( m.from == 17 || m.to == 17 )
         return 0;
-    Pile *frompile = 0;
+    PatPile *frompile = 0;
     if ( m.from < 8 )
         frompile = deal->stack[m.from];
     else

@@ -38,7 +38,6 @@
 
 #include "dealer.h"
 
-class Pile;
 
 class Gypsy : public DealerScene
 {

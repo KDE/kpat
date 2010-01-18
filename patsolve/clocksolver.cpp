@@ -281,7 +281,7 @@ int ClockSolver::getClusterNumber()
 
 MoveHint *ClockSolver::translateMove( const MOVE &m )
 {
-    Pile *frompile = deal->store[m.from];
+    PatPile *frompile = deal->store[m.from];
     Card *card = frompile->top();
 
     if ( m.totype == O_Type )

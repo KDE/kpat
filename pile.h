@@ -67,9 +67,6 @@ public:
     virtual void moveCards(CardList &c, Pile *to = 0);
     void moveCardsBack(CardList& c, int duration = -1);
 
-    void setTarget(bool t) { _target = t; }
-    bool isTarget() const { return _target; }
-
     void setAutoTurnTop( bool autoTurnTop ) { m_autoTurnTop = autoTurnTop; }
     bool autoTurnTop() const { return m_autoTurnTop; }
 
@@ -144,7 +141,6 @@ private:
     QSizeF    _spread;
 
     int myIndex;
-    bool _target;
     bool m_autoTurnTop;
 
     bool m_graphicVisible;
