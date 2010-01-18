@@ -93,14 +93,14 @@ void Simon::deal() {
     startDealAnimation();
 }
 
-bool Simon::checkPrefering(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const
+bool Simon::checkPrefering(const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards) const
 {
     return pile->pileRole() == PatPile::Tableau
            && !oldCards.isEmpty()
            && oldCards.last()->suit() == newCards.first()->suit();
 }
 
-bool Simon::checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const
+bool Simon::checkAdd(const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards) const
 {
     if (pile->pileRole() == PatPile::Tableau)
     {
@@ -110,12 +110,12 @@ bool Simon::checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const 
     else
     {
         return oldCards.isEmpty()
-               && newCards.first()->rank() == Card::King
-               && newCards.last()->rank() == Card::Ace;
+               && newCards.first()->rank() == StandardCard::King
+               && newCards.last()->rank() == StandardCard::Ace;
     }
 }
 
-bool Simon::checkRemove(const PatPile * pile, const QList<Card*> & cards) const
+bool Simon::checkRemove(const PatPile * pile, const QList<StandardCard*> & cards) const
 {
     return pile->pileRole() == PatPile::Tableau
            && isSameSuitDescending(cards);

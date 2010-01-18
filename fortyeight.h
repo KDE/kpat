@@ -56,8 +56,8 @@ public slots:
     void deckClicked(Card *c);
 
 protected:
-    virtual bool checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const;
-    virtual bool checkRemove(const PatPile* pile, const QList<Card*> & cards) const;
+    virtual bool checkAdd(const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards) const;
+    virtual bool checkRemove(const PatPile* pile, const QList<StandardCard*> & cards) const;
 
 private:
     void deal();

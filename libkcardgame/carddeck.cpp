@@ -81,7 +81,7 @@ private:
 K_GLOBAL_STATIC( CardDeckPrivateStatic, cdps )
 
 
-CardDeck::CardDeck( int copies, QList<Card::Suit> suits, QList<Card::Rank> ranks )
+CardDeck::CardDeck( int copies, QList<StandardCard::Suit> suits, QList<StandardCard::Rank> ranks )
   : m_cache( 0 ),
     m_originalCardSize( 1, 1 ),
     m_currentCardSize( 0, 0 ),
@@ -95,12 +95,11 @@ CardDeck::CardDeck( int copies, QList<Card::Suit> suits, QList<Card::Rank> ranks
     // will mess up the game numbering.
     for ( int i = 0; i < copies; ++i )
     {
-        foreach ( const Card::Rank r, ranks )
+        foreach ( const StandardCard::Rank r, ranks )
         {
-            foreach ( const Card::Suit s, suits )
+            foreach ( const StandardCard::Suit s, suits )
             {
-                Card * c = new Card( r, s, this );
-                kDebug() << c->data() << c->suit() << c->rank();
+                StandardCard * c = new StandardCard( r, s, this );
                 connect( c, SIGNAL(animationStarted(Card*)), this, SLOT(cardStartedAnimation(Card*)) );
                 connect( c, SIGNAL(animationStopped(Card*)), this, SLOT(cardStoppedAnimation(Card*)) );
                 m_allCards << c;
@@ -146,14 +145,14 @@ Card * CardDeck::takeCard()
 }
 
 
-Card * CardDeck::takeCard( Card::Rank rank, Card::Suit suit )
+Card * CardDeck::takeCard( StandardCard::Rank rank, StandardCard::Suit suit )
 {
     for ( QList<Card*>::iterator it = m_undealtCards.begin();
           it != m_undealtCards.end();
           ++it )
     {
-        Card * c = *it;
-        if ( c->rank() == rank && c->suit() == suit )
+        StandardCard * c = dynamic_cast<StandardCard*>(*it);
+        if ( c && c->rank() == rank && c->suit() == suit )
         {
             m_undealtCards.erase( it );
             return c;
@@ -177,7 +176,8 @@ void CardDeck::takeAllCards( Pile * p )
 
 void CardDeck::returnCard( Card * c )
 {
-    c->setTakenDown( false );
+//FIXME
+//     c->setTakenDown( false );
     if ( c->source() )
         c->source()->remove( c );
     if ( c->scene() )
@@ -263,29 +263,29 @@ QPixmap CardDeck::frontsidePixmap( quint32 id ) const
     KCardInfo::Suit suit;
     switch ( id >> 4 )
     {
-        case Card::Clubs :    suit = KCardInfo::Club;    break;
-        case Card::Spades :   suit = KCardInfo::Spade;   break;
-        case Card::Diamonds : suit = KCardInfo::Diamond; break;
-        case Card::Hearts :   suit = KCardInfo::Heart;   break;
+        case StandardCard::Clubs :    suit = KCardInfo::Club;    break;
+        case StandardCard::Spades :   suit = KCardInfo::Spade;   break;
+        case StandardCard::Diamonds : suit = KCardInfo::Diamond; break;
+        case StandardCard::Hearts :   suit = KCardInfo::Heart;   break;
         default : Q_ASSERT( false );
     }
 
     KCardInfo::Card rank;
     switch ( id & 0xf )
     {
-        case Card::Ace :   rank = KCardInfo::Ace;   break;
-        case Card::Two :   rank = KCardInfo::Two;   break;
-        case Card::Three : rank = KCardInfo::Three; break;
-        case Card::Four :  rank = KCardInfo::Four;  break;
-        case Card::Five :  rank = KCardInfo::Five;  break;
-        case Card::Six :   rank = KCardInfo::Six;   break;
-        case Card::Seven : rank = KCardInfo::Seven; break;
-        case Card::Eight : rank = KCardInfo::Eight; break;
-        case Card::Nine :  rank = KCardInfo::Nine;  break;
-        case Card::Ten :   rank = KCardInfo::Ten;   break;
-        case Card::Jack :  rank = KCardInfo::Jack;  break;
-        case Card::Queen : rank = KCardInfo::Queen; break;
-        case Card::King :  rank = KCardInfo::King;  break;
+        case StandardCard::Ace :   rank = KCardInfo::Ace;   break;
+        case StandardCard::Two :   rank = KCardInfo::Two;   break;
+        case StandardCard::Three : rank = KCardInfo::Three; break;
+        case StandardCard::Four :  rank = KCardInfo::Four;  break;
+        case StandardCard::Five :  rank = KCardInfo::Five;  break;
+        case StandardCard::Six :   rank = KCardInfo::Six;   break;
+        case StandardCard::Seven : rank = KCardInfo::Seven; break;
+        case StandardCard::Eight : rank = KCardInfo::Eight; break;
+        case StandardCard::Nine :  rank = KCardInfo::Nine;  break;
+        case StandardCard::Ten :   rank = KCardInfo::Ten;   break;
+        case StandardCard::Jack :  rank = KCardInfo::Jack;  break;
+        case StandardCard::Queen : rank = KCardInfo::Queen; break;
+        case StandardCard::King :  rank = KCardInfo::King;  break;
         default : Q_ASSERT( false );
     }
 

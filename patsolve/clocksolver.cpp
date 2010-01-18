@@ -266,7 +266,7 @@ void ClockSolver::translate_layout()
         // at the start of a new game, it is possible that this method can be
         // called before the initial deal has been completed.
         if (c)
-            W[8][i] = translateSuit( c->suit() ) + c->rank();
+            W[8][i] = translateSuit( getSuit(c) ) + getRank(c);
     }
     Wp[8] = &W[8][11];
     Wlen[8] = 12;
@@ -280,7 +280,7 @@ int ClockSolver::getClusterNumber()
 MoveHint *ClockSolver::translateMove( const MOVE &m )
 {
     PatPile *frompile = deal->store[m.from];
-    Card *card = frompile->top();
+    StandardCard *card = frompile->top();
 
     if ( m.totype == O_Type )
     {

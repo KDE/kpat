@@ -376,7 +376,7 @@ void SimonSolver::translate_layout()
 
     for (int i = 0; i < 4; ++i) {
         O[i] = -1;
-        Card *c = deal->target[i]->top();
+        StandardCard *c = deal->target[i]->top();
         if (c) {
             total += 13;
             O[i] = translateSuit( c->suit() );
@@ -423,7 +423,7 @@ MoveHint *SimonSolver::translateMove( const MOVE &m )
     Q_ASSERT( m.from < 10 && m.to < 10 );
 
     PatPile *frompile = deal->store[m.from];
-    Card *card = frompile->at( frompile->count() - m.card_index - 1);
+    StandardCard *card = frompile->at( frompile->count() - m.card_index - 1);
 
     kDebug() << "card" << card->rank() << " " << card->suit();
     if ( m.totype == O_Type )

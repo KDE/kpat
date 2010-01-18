@@ -34,38 +34,64 @@
  * -------------------------------------------------------------------------
  */
 
+#ifndef CARD_H
+#define CARD_H
 
-#ifndef GRANDF_H
-#define GRANDF_H
+#include "card.h"
+#include "libkcardgame_export.h"
+class Pile;
 
-#include "dealer.h"
+#include <QtCore/QList>
 
 
-class Grandf : public DealerScene
+class LIBKCARDGAME_EXPORT StandardCard: public Card
 {
-    friend class GrandfSolver;
-    Q_OBJECT
+    friend class CardDeck;
 
 public:
-    Grandf( );
+    enum Suit
+    {
+        NoSuit = -1,
+        Clubs = 0,
+        Diamonds = 1,
+        Hearts = 2,
+        Spades = 3
+    };
 
-public slots:
-    void deal();
-    virtual void restart();
-    virtual Card *newCards();
+    enum Rank
+    {
+        NoRank = 0,
+        Ace = 1,
+        Two,
+        Three,
+        Four,
+        Five,
+        Six,
+        Seven,
+        Eight,
+        Nine,
+        Ten,
+        Jack,
+        Queen,
+        King
+    };
 
-protected:
-    void collect();
-    virtual bool checkAdd(const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards) const;
-    virtual bool checkRemove(const PatPile * pile, const QList<StandardCard*> & cards) const;
-    virtual QString getGameState();
-    virtual void setGameState( const QString & stream );
+    StandardCard( Rank r, Suit s, CardDeck * deck );
+    virtual ~StandardCard();
+
+    Suit suit() const;
+    Rank rank() const;
+    bool isRed() const;
+
+    void         setTakenDown(bool td);
+    bool         takenDown() const;
 
 private:
-    PatPile* store[7];
-    PatPile* target[4];
-    int numberOfDeals;
-
+    bool      m_takenDown;
 };
+
+LIBKCARDGAME_EXPORT StandardCard::Suit getSuit( const Card * card );
+LIBKCARDGAME_EXPORT StandardCard::Rank getRank( const Card * card );
+LIBKCARDGAME_EXPORT QList<StandardCard*> castCardList( const QList<Card*> & cards );
 
 #endif

@@ -106,14 +106,14 @@ QString gettime()
 
 class CardState {
 public:
-    Card *it;
+    StandardCard *it;
     PatPile *source;
     qreal z;
     bool faceup;
     bool tookdown;
     int source_index;
     CardState() {}
-public:
+
     // as every card is only once we can sort after the card.
     // < is the same as <= in that context. == is different
     bool operator<(const CardState &rhs) const { return it < rhs.it; }
@@ -124,13 +124,6 @@ public:
         return (it == rhs.it && source == rhs.source &&
                 z == rhs.z && faceup == rhs.faceup &&
                 source_index == rhs.source_index && tookdown == rhs.tookdown);
-    }
-    void fillNode(QDomElement &e) const {
-        e.setAttribute("value", it->rank());
-        e.setAttribute("suit", it->suit());
-        e.setAttribute("z", z);
-        e.setAttribute("faceup", faceup);
-        e.setAttribute("tookdown", tookdown);
     }
 };
 
@@ -323,7 +316,7 @@ void DealerScene::saveGame(QDomDocument &doc)
             pile.setAttribute("index", p->index());
             pile.setAttribute("z", p->zValue());
 
-            foreach(const Card * c, p->cards() )
+            foreach(const StandardCard * c, p->cards() )
             {
                 QDomElement card = doc.createElement("card");
                 card.setAttribute("suit", c->suit());
@@ -384,8 +377,8 @@ void DealerScene::openGame(QDomDocument &doc)
                 for (int j = 0; j < cardNodes.count(); ++j)
                 {
                     QDomElement card = cardNodes.item(j).toElement();
-                    Card::Suit s = static_cast<Card::Suit>(card.attribute("suit").toInt());
-                    Card::Rank v = static_cast<Card::Rank>(card.attribute("value").toInt());
+                    StandardCard::Suit s = static_cast<StandardCard::Suit>(card.attribute("suit").toInt());
+                    StandardCard::Rank v = static_cast<StandardCard::Rank>(card.attribute("value").toInt());
 
                     Card * c = deck()->takeCard( v, s );
                     Q_ASSERT( c );
@@ -675,11 +668,11 @@ void DealerScene::getHints()
         if (store->isFoundation() || store->isEmpty())
             continue;
 
-        QList<Card*> cards = store->cards();
+        QList<StandardCard*> cards = store->cards();
         while (cards.count() && !cards.first()->realFace())
             cards.erase(cards.begin());
 
-        QList<Card*>::Iterator iti = cards.begin();
+        QList<StandardCard*>::Iterator iti = cards.begin();
         while (iti != cards.end())
         {
             if (allowedToRemove(store, (*iti)))
@@ -690,7 +683,7 @@ void DealerScene::getHints()
                     if (cardIndex == 0 && dest->isEmpty() && !dest->isFoundation())
                         continue;
 
-                    if (!allowedToAdd(dest, cards))
+                    if (!checkAdd(dest, dest->cards(), cards))
                         continue;
 
                     if (dest->isFoundation())
@@ -699,7 +692,7 @@ void DealerScene::getHints()
                     }
                     else
                     {
-                        QList<Card*> cardsBelow = cards.mid(0, cardIndex);
+                        QList<StandardCard*> cardsBelow = cards.mid(0, cardIndex);
  
                         // if it could be here as well, then it's no use
                         if ((cardsBelow.isEmpty() && !dest->isEmpty()) || !checkAdd(store, cardsBelow, cards))
@@ -918,7 +911,7 @@ void DealerScene::updateWonItem()
 bool DealerScene::allowedToAdd( const Pile * pile, const QList<Card*> & cards ) const
 {
     const PatPile * p = dynamic_cast<const PatPile*>( pile );
-    return p && checkAdd( p, p->cards(), cards );
+    return p && checkAdd( p, p->cards(), castCardList( cards ) );
 }
 
 
@@ -928,12 +921,12 @@ bool DealerScene::allowedToRemove( const Pile * pile, const Card * card ) const
     if ( !p )
         return false;
 
-    QList<Card*> cards = p->topCardsDownTo( card );
+    QList<StandardCard*> cards = p->topCardsDownTo( card );
     return !cards.isEmpty() && checkRemove( p, cards );
 }
 
 
-bool DealerScene::checkAdd( const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards ) const
+bool DealerScene::checkAdd( const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards ) const
 {
     Q_UNUSED( pile )
     Q_UNUSED( oldCards )
@@ -942,7 +935,7 @@ bool DealerScene::checkAdd( const PatPile * pile, const QList<Card*> & oldCards,
 }
 
 
-bool DealerScene::checkRemove(const PatPile * pile, const QList<Card*> & cards) const
+bool DealerScene::checkRemove(const PatPile * pile, const QList<StandardCard*> & cards) const
 {
     Q_UNUSED( pile )
     Q_UNUSED( cards )
@@ -950,7 +943,7 @@ bool DealerScene::checkRemove(const PatPile * pile, const QList<Card*> & cards) 
 }
 
 
-bool DealerScene::checkPrefering( const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards ) const
+bool DealerScene::checkPrefering( const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards ) const
 {
     Q_UNUSED( pile )
     Q_UNUSED( oldCards )
@@ -1050,22 +1043,25 @@ bool DealerScene::cardDoubleClicked( Card * c )
 State *DealerScene::getState()
 {
     State * st = new State;
-    foreach (Card *c, deck()->cards())
+    foreach (PatPile * p, patPiles())
     {
-        CardState s;
-        s.it = c;
-        PatPile * source = dynamic_cast<PatPile*>( c->source() );
-        if (!source) {
-            kDebug() << c->objectName() << "has no valid parent.";
-            Q_ASSERT(false);
-            continue;
+        foreach (StandardCard * c, p->cards())
+        {
+            CardState s;
+            s.it = c;
+            PatPile * source = dynamic_cast<PatPile*>( c->source() );
+            if (!source) {
+                kDebug() << c->objectName() << "has no valid parent.";
+                Q_ASSERT(false);
+                continue;
+            }
+            s.source = source;
+            s.source_index = source->indexOf(c);
+            s.z = c->realZ();
+            s.faceup = c->realFace();
+            s.tookdown = c->takenDown();
+            st->cards.append(s);
         }
-        s.source = source;
-        s.source_index = source->indexOf(c);
-        s.z = c->realZ();
-        s.faceup = c->realFace();
-        s.tookdown = c->takenDown();
-        st->cards.append(s);
     }
     qSort(st->cards);
 
@@ -1082,14 +1078,14 @@ void DealerScene::setState(State *st)
 
     foreach (PatPile *p, patPiles())
     {
-        foreach (Card *c, p->cards())
+        foreach (StandardCard *c, p->cards())
             c->setTakenDown(p->isFoundation());
         p->clear();
     }
 
     foreach (const CardState & s, *n)
     {
-        Card *c = s.it;
+        StandardCard *c = s.it;
         bool target = c->takenDown(); // abused
         c->turn(s.faceup);
         s.source->add(c, s.source_index);
@@ -1323,11 +1319,9 @@ void DealerScene::stopDemo()
         return;
     } else d->stop_demo_next = false;
 
-    foreach (QGraphicsItem *item, items())
+    foreach ( Card * c, deck()->cards() )
     {
-        Card *c = qgraphicsitem_cast<Card*>(item);
-        if (c)
-            c->completeAnimation();
+        c->completeAnimation();
     }
 
     d->demotimer->stop();
@@ -1471,7 +1465,6 @@ Card *DealerScene::newCards()
 
 void DealerScene::newDemoMove(Card *m)
 {
-    kDebug() << "newDemoMove" << m->rank() << " " << m->suit();
     if ( m->animated() )
         connect(m, SIGNAL(animationStopped(Card*)), SLOT(waitForDemo(Card*)));
     else
@@ -1482,7 +1475,6 @@ void DealerScene::waitForDemo(Card *t)
 {
     if ( t )
     {
-        kDebug() << "waitForDemo" << t->rank() << " " << t->suit();
         t->disconnect(this, SLOT(waitForDemo(Card*)) );
         takeState();
     }

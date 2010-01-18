@@ -1,9 +1,9 @@
 set( libkcardgame_SRCS
-    abstractcard.cpp
     card.cpp
     carddeck.cpp
     cardscene.cpp
     pile.cpp
+    standardcard.cpp
 )
 
 kde4_add_library( libkcardgame SHARED ${libkcardgame_SRCS} )

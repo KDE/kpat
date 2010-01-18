@@ -45,7 +45,7 @@ class MoveHint;
 class Solver;
 #include "view.h"
 
-#include "libkcardgame/card.h"
+#include "libkcardgame/standardcard.h"
 #include "libkcardgame/carddeck.h"
 #include "libkcardgame/cardscene.h"
 
@@ -148,9 +148,9 @@ protected:
     virtual bool allowedToAdd(const Pile * pile, const QList<Card*> & cards) const;
     virtual bool allowedToRemove(const Pile * pile, const Card * card) const;
 
-    virtual bool checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const;
-    virtual bool checkRemove( const PatPile * pile, const QList<Card*> & cards ) const;
-    virtual bool checkPrefering(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const;
+    virtual bool checkAdd( const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards ) const;
+    virtual bool checkRemove( const PatPile * pile, const QList<StandardCard*> & cards ) const;
+    virtual bool checkPrefering( const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards ) const;
 
     virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent );

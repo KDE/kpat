@@ -63,8 +63,8 @@ void SpiderPile::moveCards(QList<Card*> & c, Pile *to)
     // the run I just moved is the same suit as the pile,
     // and the destination pile now has more than 12 cards,
     // then it could have a full deck that needs removed.
-    if (c.last()->rank() == Card::Ace &&
-        c.first()->suit() == p->top()->suit() &&
+    if (getRank(c.last()) == StandardCard::Ace &&
+        getSuit(c.first()) == p->top()->suit() &&
         p->count() > 12)
     {
             Spider *b = dynamic_cast<Spider*>(scene());
@@ -213,13 +213,13 @@ void Spider::createDeck()
     // suits, while the new logic is more flexible. We maintain the card
     // ordering by always passing a list of 4 suits even if we really only
     // have one or two.
-    QList<Card::Suit> suits;
+    QList<StandardCard::Suit> suits;
     if ( m_suits == 1 )
-        suits << Card::Spades << Card::Spades << Card::Spades << Card::Spades;
+        suits << StandardCard::Spades << StandardCard::Spades << StandardCard::Spades << StandardCard::Spades;
     else if ( m_suits == 2 )
-        suits << Card::Hearts << Card::Spades << Card::Hearts << Card::Spades;
+        suits << StandardCard::Hearts << StandardCard::Spades << StandardCard::Hearts << StandardCard::Spades;
     else
-        suits << Card::Clubs << Card::Diamonds << Card::Hearts << Card::Spades;
+        suits << StandardCard::Clubs << StandardCard::Diamonds << StandardCard::Hearts << StandardCard::Spades;
 
     setupDeck( new CardDeck( 2, suits ) );
 }
@@ -237,7 +237,7 @@ void Spider::cardStopped(Card * t)
 
 //-------------------------------------------------------------------------//
 
-bool Spider::checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const
+bool Spider::checkAdd(const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards) const
 {
     // assuming the cardlist is a valid unit, since I allowed
     // it to be removed - can drop any card on empty pile or
@@ -247,7 +247,7 @@ bool Spider::checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const
                 || oldCards.last()->rank() == newCards.first()->rank() + 1 );
 }
 
-bool Spider::checkRemove(const PatPile * pile, const QList<Card*> & cards) const
+bool Spider::checkRemove(const PatPile * pile, const QList<StandardCard*> & cards) const
 {
     return pile->pileRole() == PatPile::Tableau
            && isSameSuitDescending(cards);
@@ -304,17 +304,17 @@ void Spider::restart()
 
 //-------------------------------------------------------------------------//
 
-QList<Card*> Spider::getRun(Card *c) const
+QList<StandardCard*> Spider::getRun(StandardCard *c) const
 {
-    QList<Card*> result;
+    QList<StandardCard*> result;
 
-    Pile *p = c->source();
+    PatPile *p = dynamic_cast<PatPile*>( c->source() );
     if (!p || p->isEmpty())
         return result;
 
     result.append(c);
 
-    Card::Suit s = c->suit();
+    StandardCard::Suit s = c->suit();
     int v = c->rank();
 
     int index = p->indexOf(c);
@@ -337,10 +337,10 @@ bool Spider::checkPileDeck(PatPile *check, bool checkForDemo)
     if (check->isEmpty())
         return false;
 
-    if (check->top()->rank() == Card::Ace) {
+    if (check->top()->rank() == StandardCard::Ace) {
         // just using the CardList to see if this goes to King
-        QList<Card*> run = getRun(check->top());
-        if (run.first()->rank() == Card::King) {
+        QList<StandardCard*> run = getRun(check->top());
+        if (run.first()->rank() == StandardCard::King) {
             PatPile *leg = legs[m_leg];
             leg->setVisible(true);
             relayoutPiles();

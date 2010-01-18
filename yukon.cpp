@@ -74,12 +74,12 @@ Yukon::Yukon( )
     setNeededFutureMoves( 10 ); // it's a bit hard to judge as there are so many nonsense moves
 }
 
-bool Yukon::checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const
+bool Yukon::checkAdd(const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards) const
 {
     if (pile->pileRole() == PatPile::Tableau)
     {
         if (oldCards.isEmpty())
-            return newCards.first()->rank() == Card::King;
+            return newCards.first()->rank() == StandardCard::King;
         else
             return newCards.first()->rank() == oldCards.last()->rank() - 1
                    && newCards.first()->isRed() != oldCards.last()->isRed();
@@ -90,7 +90,7 @@ bool Yukon::checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const 
     }
 }
 
-bool Yukon::checkRemove(const PatPile * pile, const QList<Card*> & cards) const
+bool Yukon::checkRemove(const PatPile * pile, const QList<StandardCard*> & cards) const
 {
     return pile->pileRole() == PatPile::Tableau && cards.first()->isFaceUp();
 }

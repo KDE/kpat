@@ -83,14 +83,14 @@ Golf::Golf( )
 
 //-------------------------------------------------------------------------//
 
-bool Golf::checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const
+bool Golf::checkAdd(const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards) const
 {
     return pile->pileRole() == PatPile::Waste
            && ( newCards.first()->rank() == oldCards.last()->rank() + 1
                 || newCards.first()->rank() == oldCards.last()->rank() - 1 );
 }
 
-bool Golf::checkRemove(const PatPile * pile, const QList<Card*> & cards) const
+bool Golf::checkRemove(const PatPile * pile, const QList<StandardCard*> & cards) const
 {
     return pile->pileRole() == PatPile::Tableau
            && cards.first() == pile->top();

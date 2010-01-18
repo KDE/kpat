@@ -38,7 +38,7 @@
 #ifndef CARDDECK_H
 #define CARDDECK_H
 
-#include "card.h"
+#include "standardcard.h"
 #include "libkcardgame_export.h"
 class Pile;
 
@@ -54,25 +54,25 @@ class LIBKCARDGAME_EXPORT CardDeck: public QObject
 
 public:
     explicit CardDeck( int copies = 1,
-                       QList<Card::Suit> suits = QList<Card::Suit>()
-                                                 << Card::Clubs
-                                                 << Card::Diamonds
-                                                 << Card::Hearts
-                                                 << Card::Spades,
-                       QList<Card::Rank> ranks = QList<Card::Rank>()
-                                                 << Card::Ace
-                                                 << Card::Two
-                                                 << Card::Three
-                                                 << Card::Four
-                                                 << Card::Five
-                                                 << Card::Six
-                                                 << Card::Seven
-                                                 << Card::Eight
-                                                 << Card::Nine
-                                                 << Card::Ten
-                                                 << Card::Jack
-                                                 << Card::Queen
-                                                 << Card::King
+                       QList<StandardCard::Suit> suits = QList<StandardCard::Suit>()
+                                                         << StandardCard::Clubs
+                                                         << StandardCard::Diamonds
+                                                         << StandardCard::Hearts
+                                                         << StandardCard::Spades,
+                       QList<StandardCard::Rank> ranks = QList<StandardCard::Rank>()
+                                                         << StandardCard::Ace
+                                                         << StandardCard::Two
+                                                         << StandardCard::Three
+                                                         << StandardCard::Four
+                                                         << StandardCard::Five
+                                                         << StandardCard::Six
+                                                         << StandardCard::Seven
+                                                         << StandardCard::Eight
+                                                         << StandardCard::Nine
+                                                         << StandardCard::Ten
+                                                         << StandardCard::Jack
+                                                         << StandardCard::Queen
+                                                         << StandardCard::King
                      );
     virtual ~CardDeck();
 
@@ -80,7 +80,7 @@ public:
 
     bool hasUndealtCards() const;
     Card * takeCard();
-    Card * takeCard( Card::Rank rank, Card::Suit suit );
+    Card * takeCard( StandardCard::Rank rank, StandardCard::Suit suit );
     void takeAllCards( Pile * p );
     void returnCard( Card * c );
     void returnAllCards();

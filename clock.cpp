@@ -81,7 +81,7 @@ void Clock::restart()
     deal();
 }
 
-bool Clock::checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const
+bool Clock::checkAdd(const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards) const
 {
     if ( pile->pileRole() == PatPile::Tableau )
     {
@@ -92,25 +92,25 @@ bool Clock::checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const 
     {
         return oldCards.last()->suit() == newCards.first()->suit()
                && ( newCards.first()->rank() == oldCards.last()->rank() + 1
-                    || ( pile->top()->rank() == Card::King
-                         && newCards.first()->rank() == Card::Ace ) );
+                    || ( oldCards.last()->rank() == StandardCard::King
+                         && newCards.first()->rank() == StandardCard::Ace ) );
     }
 }
 
 
-bool Clock::checkRemove(const PatPile* pile, const QList<Card*> & cards) const
+bool Clock::checkRemove(const PatPile* pile, const QList<StandardCard*> & cards) const
 {
     return pile->pileRole() == PatPile::Tableau
            && cards.first() == pile->top();
 }
 
 void Clock::deal() {
-    static const Card::Suit suits[12] = { Card::Diamonds, Card::Spades, Card::Hearts, Card::Clubs,
-                                          Card::Diamonds, Card::Spades, Card::Hearts, Card::Clubs,
-                                          Card::Diamonds, Card::Spades, Card::Hearts, Card::Clubs };
-    static const Card::Rank ranks[12] = { Card::Nine, Card::Ten, Card::Jack, Card::Queen,
-                                          Card::King, Card::Two, Card::Three, Card::Four,
-                                          Card::Five, Card::Six, Card::Seven, Card::Eight };
+    static const StandardCard::Suit suits[12] = { StandardCard::Diamonds, StandardCard::Spades, StandardCard::Hearts, StandardCard::Clubs,
+                                                  StandardCard::Diamonds, StandardCard::Spades, StandardCard::Hearts, StandardCard::Clubs,
+                                                  StandardCard::Diamonds, StandardCard::Spades, StandardCard::Hearts, StandardCard::Clubs };
+    static const StandardCard::Rank ranks[12] = { StandardCard::Nine, StandardCard::Ten, StandardCard::Jack, StandardCard::Queen,
+                                                  StandardCard::King, StandardCard::Two, StandardCard::Three, StandardCard::Four,
+                                                  StandardCard::Five, StandardCard::Six, StandardCard::Seven, StandardCard::Eight };
 
     const QPointF center = ( target[0]->pos() + target[6]->pos() ) / 2;
 
@@ -118,7 +118,7 @@ void Clock::deal() {
     while (deck()->hasUndealtCards()) {
         Card *c = deck()->takeCard();
         for (int i = 0; i < 12; i++)
-            if (c->rank() == ranks[i] && c->suit() == suits[i]) {
+            if (getRank(c) == ranks[i] && getSuit(c) == suits[i]) {
                 QPointF initPos = (2 * center + target[(i + 2) % 12]->pos()) / 3;
                 addCardForDeal( target[i], c, true, initPos );
                 c = 0;

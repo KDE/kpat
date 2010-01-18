@@ -124,7 +124,7 @@ Mod3::Mod3( )
     setSolver( new Mod3Solver( this ) );
 }
 
-bool mod3CheckAdd(int baseRank, const QList<Card*> & oldCards, const QList<Card*> & newCards)
+bool mod3CheckAdd(int baseRank, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards)
 {
     if (oldCards.isEmpty())
         return newCards.first()->rank() == baseRank;
@@ -134,18 +134,18 @@ bool mod3CheckAdd(int baseRank, const QList<Card*> & oldCards, const QList<Card*
                && newCards.first()->rank() == oldCards.last()->rank() + 3;
 }
 
-bool Mod3::checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const
+bool Mod3::checkAdd(const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards) const
 {
     switch (pile->pileRole())
     {
     case PatPile::FoundationType1:
-        return newCards.size() == 1 && newCards.first()->rank() == Card::Ace;
+        return newCards.size() == 1 && newCards.first()->rank() == StandardCard::Ace;
     case PatPile::FoundationType2:
-        return mod3CheckAdd(Card::Two, oldCards, newCards);
+        return mod3CheckAdd(StandardCard::Two, oldCards, newCards);
     case PatPile::FoundationType3:
-        return mod3CheckAdd(Card::Three, oldCards, newCards);
+        return mod3CheckAdd(StandardCard::Three, oldCards, newCards);
     case PatPile::FoundationType4:
-        return mod3CheckAdd(Card::Four, oldCards, newCards);
+        return mod3CheckAdd(StandardCard::Four, oldCards, newCards);
     case PatPile::Tableau:
         return oldCards.isEmpty();
     case PatPile::Stock:
@@ -154,7 +154,7 @@ bool Mod3::checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const Q
     }
 }
 
-bool Mod3::checkRemove(const PatPile * pile, const QList<Card*> & cards) const
+bool Mod3::checkRemove(const PatPile * pile, const QList<StandardCard*> & cards) const
 {
     switch (pile->pileRole())
     {

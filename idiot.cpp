@@ -95,7 +95,7 @@ void Idiot::restart()
     emit newCardsPossible(true);
 }
 
-bool Idiot::checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const
+bool Idiot::checkAdd(const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards) const
 {
     switch ( pile->pileRole() )
     {
@@ -109,7 +109,7 @@ bool Idiot::checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const 
     }
 }
 
-bool Idiot::checkRemove(const PatPile * pile, const QList<Card*> & cards) const
+bool Idiot::checkRemove(const PatPile * pile, const QList<StandardCard*> & cards) const
 {
     return pile->pileRole() == PatPile::Tableau
            && cards.first() == pile->top()
@@ -120,7 +120,7 @@ bool Idiot::checkRemove(const PatPile * pile, const QList<Card*> & cards) const
                 || m_play[3]->isEmpty() );
 }
 
-bool Idiot::canMoveAway(const Card * card) const
+bool Idiot::canMoveAway(const StandardCard * card) const
 {
     if ( card->source() == talon || card->source() == m_away )
         return false;
@@ -130,9 +130,9 @@ bool Idiot::canMoveAway(const Card * card) const
 
     for ( int i = 0; i < 4; ++i )
     {
-        Card * c = m_play[i]->top();
+        StandardCard * c = m_play[i]->top();
         if ( c && c != card && c->suit() == card->suit()
-            && ( c->rank() == Card::Ace || (card->rank() != Card::Ace && c->rank() > card->rank() ) ) )
+            && ( c->rank() == StandardCard::Ace || (card->rank() != StandardCard::Ace && c->rank() > card->rank() ) ) )
             return true;
     }
 
@@ -153,9 +153,10 @@ bool Idiot::cardClicked(Card *c)
     if (c != c->source()->top())
         return false;
 
-    bool  didMove = true;
+    StandardCard * sc = dynamic_cast<StandardCard*>( c );
 
-    if ( canMoveAway(c) )
+    bool  didMove = true;
+    if ( sc && canMoveAway(sc) )
         // Add to 'm_away', face up, no spread
         m_away->animatedAdd(c, true );
     else if ( m_play[ 0 ]->isEmpty() )
@@ -192,7 +193,7 @@ bool Idiot::isGameWon() const
 
     // Criterium 2.
     for (int i = 0; i < 4; i++) {
-        if (m_play[i]->count() != 1 || m_play[i]->top()->rank() != Card::Ace)
+        if (m_play[i]->count() != 1 || m_play[i]->top()->rank() != StandardCard::Ace)
             return false;
     }
 

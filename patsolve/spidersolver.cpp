@@ -541,7 +541,7 @@ void SpiderSolver::translate_layout()
 
     for (int i = 0; i < 8; ++i) {
         O[i] = -1;
-        Card *c = deal->legs[i]->top();
+        StandardCard *c = deal->legs[i]->top();
         if (c) {
             total += 13;
             O[i] = translateSuit( c->suit() );
@@ -598,7 +598,7 @@ MoveHint *SpiderSolver::translateMove( const MOVE &m )
 
     Q_ASSERT( m.from < 10 && m.to < 10 );
 
-    Card *card = frompile->at( frompile->count() - m.card_index - 1);
+    StandardCard *card = frompile->at( frompile->count() - m.card_index - 1);
 
     Q_ASSERT( m.to < 10 );
     return new MoveHint( card, deal->stack[m.to], m.pri );

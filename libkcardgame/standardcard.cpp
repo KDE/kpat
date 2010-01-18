@@ -34,38 +34,87 @@
  * -------------------------------------------------------------------------
  */
 
-
-#ifndef GRANDF_H
-#define GRANDF_H
-
-#include "dealer.h"
+#include "standardcard.h"
 
 
-class Grandf : public DealerScene
+StandardCard::StandardCard( Rank r, Suit s, CardDeck * deck )
+  : Card( (s << 4) + r, deck ),
+    m_takenDown( false )
 {
-    friend class GrandfSolver;
-    Q_OBJECT
+    Q_ASSERT( m_deck );
 
-public:
-    Grandf( );
+    QString suitName;
+    switch( suit() )
+    {
+        case Clubs :    suitName = "Clubs";    break;
+        case Diamonds : suitName = "Diamonds"; break;
+        case Hearts :   suitName = "Hearts";   break;
+        case Spades :   suitName = "Spades";   break;
+        default :       suitName = "???";      break;
+    }
+    setObjectName( suitName + QString::number( rank() ) );
+}
 
-public slots:
-    void deal();
-    virtual void restart();
-    virtual Card *newCards();
 
-protected:
-    void collect();
-    virtual bool checkAdd(const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards) const;
-    virtual bool checkRemove(const PatPile * pile, const QList<StandardCard*> & cards) const;
-    virtual QString getGameState();
-    virtual void setGameState( const QString & stream );
+StandardCard::~StandardCard()
+{
+}
 
-private:
-    PatPile* store[7];
-    PatPile* target[4];
-    int numberOfDeals;
 
-};
+StandardCard::Suit StandardCard::suit() const
+{
+    return getSuit( this );
+}
 
-#endif
+
+StandardCard::Rank StandardCard::rank() const
+{
+    return getRank( this );
+}
+
+
+bool StandardCard::isRed() const
+{
+    return suit() == Diamonds || suit() == Hearts;
+}
+
+
+void StandardCard::setTakenDown(bool td)
+{
+    m_takenDown = td;
+}
+
+
+bool StandardCard::takenDown() const
+{
+    return m_takenDown;
+}
+
+
+StandardCard::Suit getSuit( const Card * card )
+{
+    StandardCard::Suit s = StandardCard::Suit( card->data() >> 4 );
+    Q_ASSERT( StandardCard::Clubs <= s && s <= StandardCard::Spades );
+    return s;
+}
+
+
+StandardCard::Rank getRank( const Card * card )
+{
+    StandardCard::Rank r = StandardCard::Rank( card->data() & 0xf );
+    Q_ASSERT( StandardCard::Ace <= r && r <= StandardCard::King );
+    return r;
+}
+
+
+QList<StandardCard*> castCardList( const QList<Card*> & cards )
+{
+    QList<StandardCard*> result;
+    foreach ( Card * c, cards )
+    {
+        Q_ASSERT( dynamic_cast<StandardCard*>( c ) );
+        result << static_cast<StandardCard*>( c );
+    }
+    return result;
+}
+

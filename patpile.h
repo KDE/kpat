@@ -19,6 +19,7 @@
 #ifndef PATPILE_H
 #define PATPILE_H
 
+#include "libkcardgame/standardcard.h"
 #include "libkcardgame/pile.h"
 
 
@@ -52,6 +53,11 @@ public:
 
     void setFoundation( bool foundation );
     bool isFoundation() const;
+
+    QList<StandardCard*> cards() const;
+    StandardCard * at( int index ) const;
+    StandardCard * top() const;
+    QList<StandardCard*> topCardsDownTo( const Card * card ) const;
 
     virtual void add(Card * card, int index = -1);
 

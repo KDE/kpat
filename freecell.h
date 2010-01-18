@@ -65,14 +65,14 @@ public slots:
     void startMoving();
 
 protected:
-    virtual bool checkAdd(const PatPile * pile, const QList<Card*> & oldCards, const QList<Card*> & newCards) const;
-    virtual bool checkRemove(const PatPile * pile, const QList<Card*> & cards) const;
+    virtual bool checkAdd(const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards) const;
+    virtual bool checkRemove(const PatPile * pile, const QList<StandardCard*> & cards) const;
 
-    bool canPutStore(const PatPile *c1, const QList<Card*>& c2) const;
+    bool canPutStore(const PatPile *c1, const QList<StandardCard*>& c2) const;
 
     void countFreeCells(int &free_cells, int &free_stores) const;
 
-    void movePileToPile(QList<Card*> &c, PatPile *to, QList<PatPile*> & fss, QList<PatPile*> & fcs,
+    void movePileToPile(QList<StandardCard*> &c, PatPile *to, QList<PatPile*> & fss, QList<PatPile*> & fcs,
                         int start, int count, int debug_level);
 
     Pile *pileForName(QString line) const;

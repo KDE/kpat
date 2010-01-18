@@ -502,7 +502,7 @@ MoveHint *FortyeightSolver::translateMove( const MOVE &m )
         frompile = deal->pile;
 
     Q_ASSERT( frompile );
-    Card *card = frompile->at( frompile->count() - m.card_index - 1);
+    StandardCard *card = frompile->at( frompile->count() - m.card_index - 1);
     Q_ASSERT( card );
     Q_ASSERT( m.to < 16 );
     if ( m.to >= 8 )
