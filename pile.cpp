@@ -354,7 +354,7 @@ void Pile::layoutCards( int duration )
     if ( m_cards.isEmpty() )
         return;
 
-    const QSize cardSize = cardScene()->deck()->cardSize();
+    const QSize cardSize = m_cards.first()->pixmap().size();
 
     QPointF totalOffset( 0, 0 );
     for ( int i = 0; i < m_cards.size() - 1; ++i )
@@ -458,8 +458,8 @@ void Pile::relayoutCards()
 // offset from the start position of the pile.
 QPointF Pile::cardOffset( const Card * card ) const
 {
-    QPointF offset( spread().width() * cardScene()->deck()->cardWidth(),
-                    spread().height() * cardScene()->deck()->cardHeight() );
+    QPointF offset( spread().width() * card->pixmap().width(),
+                    spread().height() * card->pixmap().height() );
     if (!card->realFace())
         offset *= 0.6;
     return offset;
