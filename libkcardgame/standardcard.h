@@ -83,8 +83,8 @@ public:
     Rank rank() const;
     bool isRed() const;
 
-    void         setTakenDown(bool td);
-    bool         takenDown() const;
+    void setTakenDown( bool td );
+    bool takenDown() const;
 
 private:
     bool      m_takenDown;

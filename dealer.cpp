@@ -303,7 +303,7 @@ void DealerScene::saveGame(QDomDocument &doc)
 
     foreach(const QGraphicsItem *item, items())
     {
-        const PatPile *p = qgraphicsitem_cast<const PatPile*>(item);
+        const PatPile *p = dynamic_cast<const PatPile*>(item);
         if (p)
         {
             if (taken[p->index()]) {
@@ -377,10 +377,10 @@ void DealerScene::openGame(QDomDocument &doc)
                 for (int j = 0; j < cardNodes.count(); ++j)
                 {
                     QDomElement card = cardNodes.item(j).toElement();
-                    StandardCard::Suit s = static_cast<StandardCard::Suit>(card.attribute("suit").toInt());
-                    StandardCard::Rank v = static_cast<StandardCard::Rank>(card.attribute("value").toInt());
+                    int s = card.attribute("suit").toInt();
+                    int r = card.attribute("value").toInt();
 
-                    Card * c = deck()->takeCard( v, s );
+                    Card * c = deck()->takeCard( ( s << 4 ) + r );
                     Q_ASSERT( c );
 
                     c->turn(card.attribute("faceup").toInt());

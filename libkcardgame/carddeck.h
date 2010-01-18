@@ -80,7 +80,7 @@ public:
 
     bool hasUndealtCards() const;
     Card * takeCard();
-    Card * takeCard( StandardCard::Rank rank, StandardCard::Suit suit );
+    Card * takeCard( quint32 id );
     void takeAllCards( Pile * p );
     void returnCard( Card * c );
     void returnAllCards();

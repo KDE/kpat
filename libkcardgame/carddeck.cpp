@@ -145,14 +145,15 @@ Card * CardDeck::takeCard()
 }
 
 
-Card * CardDeck::takeCard( StandardCard::Rank rank, StandardCard::Suit suit )
+Card * CardDeck::takeCard( quint32 id )
 {
     for ( QList<Card*>::iterator it = m_undealtCards.begin();
           it != m_undealtCards.end();
           ++it )
     {
-        StandardCard * c = dynamic_cast<StandardCard*>(*it);
-        if ( c && c->rank() == rank && c->suit() == suit )
+        Card * c = *it;
+
+        if ( c->data() == id )
         {
             m_undealtCards.erase( it );
             return c;

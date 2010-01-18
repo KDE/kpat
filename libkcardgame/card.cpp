@@ -58,12 +58,11 @@ Card::Card( quint32 data, CardDeck * deck )
 Card::~Card()
 {
     // If the card is in a pile, remove it from there.
-    if (source())
-        source()->remove(this);
-    if (scene())
-        scene()->removeItem(this);
+    if ( source() )
+        source()->remove( this );
+    if ( scene() )
+        scene()->removeItem( this );
 }
-
 
 
 bool Card::isFaceUp() const
