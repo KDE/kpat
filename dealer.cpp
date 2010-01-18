@@ -65,6 +65,7 @@
 
 #include <cassert>
 #include <cmath>
+#include <sys/time.h>
 
 #define DEBUG_HINTS 0
 
@@ -86,6 +87,17 @@ inline void myassert_fail (__const char *__assertion, __const char *__file,
 #endif
 
 #define myassert assert
+
+
+QString gettime()
+{
+    static struct timeval tv2 = { -1, -1};
+    struct timeval tv;
+    gettimeofday( &tv, 0 );
+    if ( tv2.tv_sec == -1 )
+        gettimeofday( &tv2, 0 );
+    return QString::number( ( tv.tv_sec - tv2.tv_sec ) * 1000 + ( tv.tv_usec -tv2.tv_usec ) / 1000 );
+}
 
 
 // ================================================================

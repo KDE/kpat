@@ -161,7 +161,4 @@ private:
     bool      m_highlighted;
 };
 
-extern QString gettime();
-
-
 #endif

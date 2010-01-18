@@ -53,8 +53,6 @@
 #include <QtGui/QPixmap>
 #include <QtGui/QStyleOptionGraphicsItem>
 
-#include <sys/time.h>
-
 
 Card::Card( Rank r, Suit s, CardDeck * deck )
   : AbstractCard( (s << 4) + r ),
@@ -395,16 +393,6 @@ void Card::stopAnimation()
 bool  Card::animated() const
 {
     return m_animation != 0;
-}
-
-QString gettime()
-{
-    static struct timeval tv2 = { -1, -1};
-    struct timeval tv;
-    gettimeofday( &tv, 0 );
-    if ( tv2.tv_sec == -1 )
-        gettimeofday( &tv2, 0 );
-    return QString::number( ( tv.tv_sec - tv2.tv_sec ) * 1000 + ( tv.tv_usec -tv2.tv_usec ) / 1000 );
 }
 
 #include "card.moc"
