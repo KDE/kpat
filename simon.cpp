@@ -36,7 +36,6 @@
 
 #include "simon.h"
 
-#include "carddeck.h"
 #include "dealerinfo.h"
 #include "pileutils.h"
 #include "patsolve/simonsolver.h"

@@ -36,7 +36,6 @@
 
 #include "gypsy.h"
 
-#include "carddeck.h"
 #include "dealerinfo.h"
 #include "pileutils.h"
 #include "patsolve/gypsysolver.h"

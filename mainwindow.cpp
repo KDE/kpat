@@ -40,12 +40,13 @@
 
 #include "dealer.h"
 #include "dealerinfo.h"
-#include "carddeck.h"
 #include "gameselectionscene.h"
 #include "render.h"
 #include "statisticsdialog.h"
 #include "version.h"
 #include "view.h"
+
+#include "libkcardgame/carddeck.h"
 
 #include <KCardDeckInfo>
 #include <KCardDialog>

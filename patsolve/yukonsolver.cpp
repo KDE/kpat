@@ -17,8 +17,6 @@
 
 #include "yukonsolver.h"
 
-#include "../carddeck.h"
-#include "../pile.h"
 #include "../yukon.h"
 
 #include <KDebug>

@@ -18,8 +18,8 @@
 
 #include "pileutils.h"
 
-#include "card.h"
-#include "pile.h"
+#include "libkcardgame/card.h"
+#include "libkcardgame/pile.h"
 
 #include <KDebug>
 

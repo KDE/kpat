@@ -17,9 +17,7 @@
 
 #include "idiotsolver.h"
 
-#include "../carddeck.h"
 #include "../idiot.h"
-#include "../pile.h"
 
 #include <KDebug>
 

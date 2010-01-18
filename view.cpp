@@ -37,9 +37,10 @@
 
 #include "view.h"
 
-#include "cardscene.h"
 #include "gameselectionscene.h"
 #include "render.h"
+
+#include "libkcardgame/cardscene.h"
 
 #include <QtGui/QResizeEvent>
 

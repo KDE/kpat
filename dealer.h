@@ -38,14 +38,16 @@
 #ifndef DEALER_H
 #define DEALER_H
 
-#include "card.h"
-#include "cardscene.h"
 class CardState;
 class DealerScene;
 class MoveHint;
 #include "patpile.h"
 class Solver;
 #include "view.h"
+
+#include "libkcardgame/card.h"
+#include "libkcardgame/carddeck.h"
+#include "libkcardgame/cardscene.h"
 
 #include <KRandomSequence>
 

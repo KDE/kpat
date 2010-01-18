@@ -17,8 +17,6 @@
 
 #include "spidersolver.h"
 
-#include "../carddeck.h"
-#include "../pile.h"
 #include "../spider.h"
 
 #include <KDebug>

@@ -17,9 +17,7 @@
 
 #include "fortyeightsolver.h"
 
-#include "../carddeck.h"
 #include "../fortyeight.h"
-#include "../pile.h"
 
 #include <KDebug>
 

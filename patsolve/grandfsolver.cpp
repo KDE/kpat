@@ -17,9 +17,7 @@
 
 #include "grandfsolver.h"
 
-#include "../carddeck.h"
 #include "../grandf.h"
-#include "../pile.h"
 
 #include <KDebug>
 

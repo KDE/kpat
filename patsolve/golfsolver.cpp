@@ -17,9 +17,7 @@
 
 #include "golfsolver.h"
 
-#include "../carddeck.h"
 #include "../golf.h"
-#include "../pile.h"
 
 #include <KDebug>
 

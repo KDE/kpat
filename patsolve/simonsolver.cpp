@@ -17,8 +17,6 @@
 
 #include "simonsolver.h"
 
-#include "../carddeck.h"
-#include "../pile.h"
 #include "../simon.h"
 
 #include <KDebug>

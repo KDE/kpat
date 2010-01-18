@@ -18,8 +18,6 @@
 #include "clocksolver.h"
 
 #include "../clock.h"
-#include "../carddeck.h"
-#include "../pile.h"
 
 #include <KDebug>
 

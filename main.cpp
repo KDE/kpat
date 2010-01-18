@@ -36,10 +36,11 @@
 
 #include "dealer.h"
 #include "dealerinfo.h"
-#include "carddeck.h"
 #include "version.h"
 #include "mainwindow.h"
 #include "patsolve/patsolve.h"
+
+#include "libkcardgame/carddeck.h"
 
 #include <KAboutData>
 #include <KApplication>

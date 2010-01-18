@@ -37,8 +37,8 @@
 
 #include "carddeck.h"
 
-#include "dealer.h"
-#include "version.h"
+#include "pile.h"
+#include "../version.h"
 
 #include <KCardDeckInfo>
 #include <KConfigGroup>
@@ -48,6 +48,7 @@
 
 #include <QtCore/QCache>
 #include <QtCore/QTimer>
+#include <QtGui/QGraphicsScene>
 
 class CardDeckPrivateStatic
 {

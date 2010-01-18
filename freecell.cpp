@@ -37,7 +37,6 @@
 
 #include "freecell.h"
 
-#include "carddeck.h"
 #include "dealerinfo.h"
 #include "pileutils.h"
 #include "speeds.h"

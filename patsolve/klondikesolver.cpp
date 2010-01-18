@@ -17,9 +17,7 @@
 
 #include "klondikesolver.h"
 
-#include "../carddeck.h"
 #include "../klondike.h"
-#include "../pile.h"
 
 #include <KDebug>
 

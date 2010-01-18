@@ -19,7 +19,6 @@
 #include "freecellsolver.h"
 
 #include "../freecell.h"
-#include "../pile.h"
 
 
 /* Some macros used in get_possible_moves(). */

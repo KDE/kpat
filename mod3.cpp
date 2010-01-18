@@ -37,7 +37,6 @@
 
 #include "mod3.h"
 
-#include "carddeck.h"
 #include "dealerinfo.h"
 #include "patsolve/mod3solver.h"
 

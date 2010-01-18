@@ -37,9 +37,8 @@
 #include "card.h"
 
 #include "carddeck.h"
-#include "dealer.h"
 #include "pile.h"
-#include "speeds.h"
+#include "../speeds.h"
 
 #include <KDebug>
 

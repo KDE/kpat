@@ -17,9 +17,7 @@
 
 #include "mod3solver.h"
 
-#include "../carddeck.h"
 #include "../mod3.h"
-#include "../pile.h"
 
 #include <KDebug>
 

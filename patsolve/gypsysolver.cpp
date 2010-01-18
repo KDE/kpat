@@ -17,9 +17,7 @@
 
 #include "gypsysolver.h"
 
-#include "../carddeck.h"
 #include "../gypsy.h"
-#include "../pile.h"
 
 #include <KDebug>
 

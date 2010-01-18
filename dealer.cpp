@@ -37,12 +37,13 @@
 
 #include "dealer.h"
 
-#include "carddeck.h"
 #include "render.h"
 #include "speeds.h"
 #include "version.h"
 #include "view.h"
 #include "patsolve/patsolve.h"
+
+#include "libkcardgame/carddeck.h"
 
 #include <KConfigGroup>
 #include <KDebug>
