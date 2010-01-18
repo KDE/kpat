@@ -82,8 +82,8 @@ public:
 
     void createDump( QPaintDevice * );
 
-    virtual void addPile( Pile * pile );
-    virtual void removePile( Pile * pile );
+    void addPile( PatPile * pile );
+    void removePile( PatPile * pile );
     QList<PatPile*> patPiles() const;
 
     void setAutoDropEnabled(bool a);

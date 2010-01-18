@@ -76,8 +76,8 @@ public:
     virtual void relayoutScene();
     virtual void relayoutPiles();
 
-    virtual void addPile( Pile * pile );
-    virtual void removePile( Pile * pile );
+    void addPile( Pile * pile );
+    void removePile( Pile * pile );
     QList<Pile*> piles() const;
 
     void setSceneAlignment( SceneAlignment alignment );

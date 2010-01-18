@@ -107,7 +107,7 @@ QString gettime()
 class CardState {
 public:
     StandardCard *it;
-    PatPile *source;
+    Pile *source;
     qreal z;
     bool faceup;
     bool tookdown;
@@ -298,36 +298,23 @@ void DealerScene::saveGame(QDomDocument &doc)
     if (!data.isEmpty())
         dealer.setAttribute("data", data);
 
-    bool taken[1000];
-    memset(taken, 0, sizeof(taken));
-
-    foreach(const QGraphicsItem *item, items())
+    foreach( PatPile * p, patPiles() )
     {
-        const PatPile *p = dynamic_cast<const PatPile*>(item);
-        if (p)
+        QDomElement pile = doc.createElement("pile");
+        pile.setAttribute("index", p->index());
+        pile.setAttribute("z", p->zValue());
+
+        foreach(const StandardCard * c, p->cards() )
         {
-            if (taken[p->index()]) {
-                kDebug() << "pile index" << p->index() << "taken twice\n";
-                return;
-            }
-            taken[p->index()] = true;
-
-            QDomElement pile = doc.createElement("pile");
-            pile.setAttribute("index", p->index());
-            pile.setAttribute("z", p->zValue());
-
-            foreach(const StandardCard * c, p->cards() )
-            {
-                QDomElement card = doc.createElement("card");
-                card.setAttribute("suit", c->suit());
-                card.setAttribute("value", c->rank());
-                card.setAttribute("faceup", c->isFaceUp());
-                card.setAttribute("z", c->realZ());
-                pile.appendChild(card);
-            }
-            dealer.appendChild(pile);
+            QDomElement card = doc.createElement("card");
+            card.setAttribute("suit", c->suit());
+            card.setAttribute("value", c->rank());
+            card.setAttribute("faceup", c->isFaceUp());
+            card.setAttribute("z", c->realZ());
+            pile.appendChild(card);
         }
-    }
+        dealer.appendChild(pile);
+     }
 
     d->wasJustSaved = true;
 }
@@ -539,22 +526,18 @@ void DealerScene::setupDeck( CardDeck * deck )
 
 
 
-void DealerScene::addPile( Pile * pile )
+void DealerScene::addPile( PatPile * pile )
 {
-    PatPile * p = dynamic_cast<PatPile*>( pile );
-    Q_ASSERT( p );
-    if ( p && !d->patPiles.contains( p ) )
-        d->patPiles << p;
+    if ( !d->patPiles.contains( pile ) )
+        d->patPiles << pile;
 
     CardScene::addPile( pile );
 }
 
 
-void DealerScene::removePile( Pile * pile )
+void DealerScene::removePile( PatPile * pile )
 {
-    PatPile * p = dynamic_cast<PatPile*>( pile );
-    Q_ASSERT( p );
-    d->patPiles.removeAll( p );
+    d->patPiles.removeAll( pile );
 
     CardScene::removePile( pile );
 }
@@ -1049,14 +1032,13 @@ State *DealerScene::getState()
         {
             CardState s;
             s.it = c;
-            PatPile * source = dynamic_cast<PatPile*>( c->source() );
-            if (!source) {
+            s.source = c->source();
+            if (!s.source) {
                 kDebug() << c->objectName() << "has no valid parent.";
                 Q_ASSERT(false);
                 continue;
             }
-            s.source = source;
-            s.source_index = source->indexOf(c);
+            s.source_index = s.source->indexOf(c);
             s.z = c->realZ();
             s.faceup = c->realFace();
             s.tookdown = c->takenDown();
