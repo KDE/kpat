@@ -54,7 +54,7 @@ Idiot::Idiot( )
 
     // Create the talon to the left.
     talon = new Pile( 0, "talon" );
-    talon->setCheckIndex(Stock);
+    talon->setPileRole(Stock);
     talon->setPilePos(0, 0);
     talon->setSpread(0, 0);
     addPile(talon);
@@ -64,7 +64,7 @@ Idiot::Idiot( )
     // Create 4 piles where the cards will be placed during the game.
     for( int i = 0; i < 4; i++ ) {
         m_play[i] = new Pile( i + 1, QString( "play%1" ).arg( i ));
-        m_play[i]->setCheckIndex(Tableau);
+        m_play[i]->setPileRole(Tableau);
         m_play[i]->setPilePos(1.5 + distx * i, 0);
         m_play[i]->setReservedSpace( QSizeF( 1.0, 3.0 ) );
         addPile( m_play[i] );
@@ -72,7 +72,7 @@ Idiot::Idiot( )
 
     // Create the discard pile to the right
     m_away = new Pile( 5, "away" );
-    m_away->setCheckIndex(Waste);
+    m_away->setPileRole(Waste);
     m_away->setTarget(true);
     m_away->setPilePos(1.9 + distx * 4, 0);
     m_away->setSpread(0, 0);
@@ -99,7 +99,7 @@ void Idiot::restart()
 
 bool Idiot::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
 {
-    switch ( pile->checkIndex() )
+    switch ( pile->pileRole() )
     {
     case Waste:
         return canMoveAway( newCards.first() );
@@ -113,7 +113,7 @@ bool Idiot::checkAdd(const Pile * pile, const CardList & oldCards, const CardLis
 
 bool Idiot::checkRemove(const Pile * pile, const CardList & cards) const
 {
-    return pile->checkIndex() == Tableau
+    return pile->pileRole() == Tableau
            && cards.first() == pile->top()
            && ( canMoveAway( cards.first() )
                 || m_play[0]->isEmpty()

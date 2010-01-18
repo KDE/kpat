@@ -55,7 +55,7 @@ Fortyeight::Fortyeight( )
     setDeck(new CardDeck(2));
 
     talon = new Pile(0, "talon");
-    talon->setCheckIndex(Stock);
+    talon->setPileRole(Stock);
     talon->setPilePos(smallNeg, smallNeg);
     talon->setZValue(20);
     talon->setSpread(0, 0);
@@ -64,7 +64,7 @@ Fortyeight::Fortyeight( )
     addPile(talon);
 
     pile = new Pile(20, "pile");
-    pile->setCheckIndex(Waste);
+    pile->setPileRole(Waste);
     pile->setPilePos(-dist_x, smallNeg);
     pile->setSpread(-0.21, 0);
     pile->setReservedSpace( QSizeF( -(1 + 6 * dist_x), 1 ) );
@@ -72,14 +72,14 @@ Fortyeight::Fortyeight( )
 
     for (int i = 0; i < 8; i++) {
         target[i] = new Pile(9 + i, QString( "target%1" ).arg( i ));
-        target[i]->setCheckIndex(Foundation);
+        target[i]->setPileRole(Foundation);
         target[i]->setTarget(true);
         target[i]->setPilePos(dist_x*i, 0);
         target[i]->setSpread(0, 0);
         addPile(target[i]);
 
         stack[i] = new Pile(1 + i, QString( "stack%1" ).arg( i ));
-        stack[i]->setCheckIndex(Tableau);
+        stack[i]->setPileRole(Tableau);
         stack[i]->setPilePos(dist_x*i, 1.1 );
         stack[i]->setAutoTurnTop(true);
         stack[i]->setSpread(0, 0.25);
@@ -142,7 +142,7 @@ Card *Fortyeight::newCards()
 
 bool Fortyeight::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
 {
-    switch ( pile->checkIndex() )
+    switch ( pile->pileRole() )
     {
     case Foundation:
         return checkAddSameSuitAscendingFromAce(oldCards, newCards);
@@ -160,7 +160,7 @@ bool Fortyeight::checkAdd(const Pile * pile, const CardList & oldCards, const Ca
 
 bool Fortyeight::checkRemove( const Pile * pile, const CardList & cards) const
 {
-    switch ( pile->checkIndex() )
+    switch ( pile->pileRole() )
     {
     case Waste:
     case Tableau:

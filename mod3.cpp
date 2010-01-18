@@ -83,14 +83,14 @@ Mod3::Mod3( )
     setDeck(new CardDeck(2));
 
     talon = new Pile(0, "talon");
-    talon->setCheckIndex(Stock);
+    talon->setPileRole(Stock);
     talon->setPilePos(rightColumX, bottomRowY);
     talon->setSpread(0, 0);
     connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
     addPile(talon);
 
     aces = new Pile(50, "aces");
-    aces->setCheckIndex(FoundationType1);
+    aces->setPileRole(FoundationType1);
     aces->setTarget(true);
     aces->setPilePos(rightColumX, 0.5);
     aces->setReservedSpace( QSizeF( 1.0, 2.0 ));
@@ -115,7 +115,7 @@ Mod3::Mod3( )
                 stack[r][c]->setPilePos( dist_x * c, bottomRowY );
                 stack[r][c]->setReservedSpace( QSizeF( 1.0, 1.8 ) );
             }
-            stack[r][c]->setCheckIndex( r == 0 ? FoundationType2
+            stack[r][c]->setPileRole( r == 0 ? FoundationType2
                                       : r == 1 ? FoundationType3
                                       : r == 2 ? FoundationType4
                                       : Tableau );
@@ -139,7 +139,7 @@ bool mod3CheckAdd(int baseRank, const CardList & oldCards, const CardList & newC
 
 bool Mod3::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
 {
-    switch (pile->checkIndex())
+    switch (pile->pileRole())
     {
     case FoundationType1:
         return newCards.size() == 1 && newCards.first()->rank() == Card::Ace;
@@ -159,7 +159,7 @@ bool Mod3::checkAdd(const Pile * pile, const CardList & oldCards, const CardList
 
 bool Mod3::checkRemove(const Pile * pile, const CardList & cards) const
 {
-    switch (pile->checkIndex())
+    switch (pile->pileRole())
     {
     case FoundationType2:
     case FoundationType3:

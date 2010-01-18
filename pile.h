@@ -67,8 +67,8 @@ public:
     virtual void moveCards(CardList &c, Pile *to = 0);
     void moveCardsBack(CardList& c, int duration = -1);
 
-    void setCheckIndex( int index ) { _checkIndex = index; }
-    virtual int checkIndex() const { return _checkIndex; }
+    void setPileRole( int role );
+    virtual int pileRole() const;
 
     void setTarget(bool t) { _target = t; }
     bool isTarget() const { return _target; }
@@ -146,7 +146,7 @@ private:
 
     QSizeF    _spread;
 
-    int _checkIndex;
+    int m_role;
     int myIndex;
     bool _target;
     bool m_autoTurnTop;

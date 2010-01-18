@@ -57,7 +57,7 @@ Clock::Clock( )
 
     for (int i=0; i<12; i++) {
         target[i] = new Pile(i+1, QString("target%1").arg(i));
-        target[i]->setCheckIndex(Foundation);
+        target[i]->setPileRole(Foundation);
         target[i]->setTarget(true);
         target[i]->setPilePos(4 * dist_x + 0.4 + xs[i], 0.2 + ys[i]);
         target[i]->setSpread(0, 0);
@@ -66,7 +66,7 @@ Clock::Clock( )
 
     for (int i=0; i<8; i++) {
         store[i] = new Pile(14+i, QString("store%1").arg(i));
-        store[i]->setCheckIndex(Tableau);
+        store[i]->setPileRole(Tableau);
         store[i]->setPilePos(dist_x*(i%4), 2.5 * (i/4));
         store[i]->setReservedSpace( QSizeF( 1.0, 1.8 ) );
         addPile(store[i]);
@@ -85,7 +85,7 @@ void Clock::restart()
 
 bool Clock::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
 {
-    if ( pile->checkIndex() == Tableau )
+    if ( pile->pileRole() == Tableau )
     {
         return oldCards.isEmpty()
                || newCards.first()->rank() == oldCards.last()->rank() - 1;
@@ -102,7 +102,7 @@ bool Clock::checkAdd(const Pile * pile, const CardList & oldCards, const CardLis
 
 bool Clock::checkRemove(const Pile* pile, const CardList & cards) const
 {
-    return pile->checkIndex() == Tableau
+    return pile->pileRole() == Tableau
            && cards.first() == pile->top();
 }
 

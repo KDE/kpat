@@ -79,7 +79,7 @@ Freecell::Freecell()
     {
         FreecellPile *p = new FreecellPile(1 + i, QString( "store%1" ).arg( i ));
         store[i] = p;
-        p->setCheckIndex(Tableau);
+        p->setPileRole(Tableau);
         p->setPilePos( bottomRowDist * i, 1.3 );
         p->setReservedSpace( QSizeF( 1.0, 3.5 ) );
         addPile(p);
@@ -88,7 +88,7 @@ Freecell::Freecell()
     for (int i = 0; i < 4; i++)
     {
         freecell[i] = new Pile (1 + 8 + i, QString( "freecell%1" ).arg( i ));
-        freecell[i]->setCheckIndex(Cell);
+        freecell[i]->setPileRole(Cell);
         freecell[i]->setPilePos(topRowDist * i, 0);
         addPile(freecell[i]);
     }
@@ -96,7 +96,7 @@ Freecell::Freecell()
     for (int i = 0; i < 4; i++)
     {
         target[i] = new Pile(1 + 8 + 4 + i, QString( "target%1" ).arg( i ));
-        target[i]->setCheckIndex(Foundation);
+        target[i]->setPileRole(Foundation);
         target[i]->setTarget(true);
         target[i]->setPilePos(targetOffsetDist + topRowDist * i, 0);
         target[i]->setSpread(0, 0);
@@ -315,7 +315,7 @@ bool Freecell::CanPutStore(const Pile *c1, const CardList &c2) const
 
 bool Freecell::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
 {
-    switch (pile->checkIndex())
+    switch (pile->pileRole())
     {
     case Tableau:
         return CanPutStore(pile, newCards);
@@ -330,7 +330,7 @@ bool Freecell::checkAdd(const Pile * pile, const CardList & oldCards, const Card
 
 bool Freecell::checkRemove(const Pile * pile, const CardList & cards) const
 {
-    switch (pile->checkIndex())
+    switch (pile->pileRole())
     {
     case Tableau:
         return isAlternateColorDescending(cards);

@@ -54,7 +54,7 @@ Simon::Simon( )
 
     for (int i=0; i<4; i++) {
         target[i] = new Pile(i+1, QString( "target%1" ).arg( i ));
-        target[i]->setCheckIndex(Foundation);
+        target[i]->setPileRole(Foundation);
         target[i]->setTarget(true);
         target[i]->setPilePos((i+3)*dist_x, 0);
         target[i]->setSpread(0, 0);
@@ -63,7 +63,7 @@ Simon::Simon( )
 
     for (int i=0; i<10; i++) {
         store[i] = new Pile(5+i, QString( "store%1" ).arg( i ));
-        store[i]->setCheckIndex(Tableau);
+        store[i]->setPileRole(Tableau);
         store[i]->setPilePos(dist_x*i, 1.2);
         store[i]->setReservedSpace( QSizeF( 1.0, 3.5 ) );
         addPile(store[i]);
@@ -96,14 +96,14 @@ void Simon::deal() {
 
 bool Simon::checkPrefering(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
 {
-    return pile->checkIndex() == Tableau
+    return pile->pileRole() == Tableau
            && !oldCards.isEmpty()
            && oldCards.last()->suit() == newCards.first()->suit();
 }
 
 bool Simon::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
 {
-    if (pile->checkIndex() == Tableau)
+    if (pile->pileRole() == Tableau)
     {
         return oldCards.isEmpty()
                || oldCards.last()->rank() == newCards.first()->rank() + 1;
@@ -118,7 +118,7 @@ bool Simon::checkAdd(const Pile * pile, const CardList & oldCards, const CardLis
 
 bool Simon::checkRemove(const Pile * pile, const CardList & cards) const
 {
-    return pile->checkIndex() == Tableau
+    return pile->pileRole() == Tableau
            && isSameSuitDescending(cards);
 }
 

@@ -97,7 +97,7 @@ Klondike::Klondike()
     setDeck( new CardDeck() );
 
     talon = new Pile( 0, "talon" );
-    talon->setCheckIndex(Stock);
+    talon->setPileRole(Stock);
     talon->setPilePos(0, 0);
     connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
     // Give the talon a low Z value to keep it out of the way during there
@@ -109,7 +109,7 @@ Klondike::Klondike()
     EasyRules = cg.readEntry( "KlondikeEasy", true);
 
     pile = new KlondikePile( 13, EasyRules ? 1 : 3, "pile" );
-    pile->setCheckIndex(Waste);
+    pile->setPileRole(Waste);
     pile->setReservedSpace( QSizeF( 1.9, 1.0 ) );
     pile->setPilePos(1.0 + hspacing, 0);
     pile->setSpread( 0.33, 0 );
@@ -118,7 +118,7 @@ Klondike::Klondike()
     for( int i = 0; i < 7; i++ )
     {
         play[ i ] = new Pile( i + 5, QString( "play%1" ).arg( i ));
-        play[i]->setCheckIndex(Tableau);
+        play[i]->setPileRole(Tableau);
         play[i]->setPilePos((1.0 + hspacing) * i, 1.0 + vspacing);
         play[i]->setAutoTurnTop(true);
         play[i]->setReservedSpace( QSizeF( 1.0, 1.0 + play[i]->spread().height() * 7 ) );
@@ -128,7 +128,7 @@ Klondike::Klondike()
     for( int i = 0; i < 4; i++ )
     {
         target[ i ] = new Pile( i + 1, QString( "target%1" ).arg( i ) );
-        target[i]->setCheckIndex(Foundation);
+        target[i]->setPileRole(Foundation);
         target[i]->setTarget(true);
         target[i]->setPilePos((3 + i) * (1.0 + hspacing), 0);
         addPile(target[i]);
@@ -147,7 +147,7 @@ Klondike::Klondike()
 
 bool Klondike::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
 {
-    switch (pile->checkIndex())
+    switch (pile->pileRole())
     {
     case Tableau:
         return checkAddAlternateColorDescendingFromKing(oldCards, newCards);
@@ -162,7 +162,7 @@ bool Klondike::checkAdd(const Pile * pile, const CardList & oldCards, const Card
 
 bool Klondike::checkRemove(const Pile * pile, const CardList & cards) const
 {
-    switch (pile->checkIndex())
+    switch (pile->pileRole())
     {
     case Tableau:
         return isAlternateColorDescending(cards);

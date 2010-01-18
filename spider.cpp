@@ -56,7 +56,7 @@ void SpiderPile::moveCards(CardList &c, Pile *to)
     Pile::moveCards(c, to);
 
     // if this is a leg pile, don't do anything special
-    if ( to->checkIndex() == 0 )
+    if ( to->pileRole() == Foundation )
         return;
 
     // if the top card of the list I just moved is an Ace,
@@ -91,7 +91,7 @@ Spider::Spider()
     // sets of 10 cards are left to be dealt out
     for( int column = 0; column < 5; column++ ) {
         redeals[column] = new Pile(column + 1, QString( "redeals%1" ).arg( column ));
-        redeals[column]->setCheckIndex(Stock);
+        redeals[column]->setPileRole(Stock);
         redeals[column]->setPilePos(smallNeg - dist_x / 3 * ( 4 - column ), smallNeg);
         redeals[column]->setZValue(12 * ( 5-column ));
         redeals[column]->setGraphicVisible( false );
@@ -103,7 +103,7 @@ Spider::Spider()
     // The 10 playing piles
     for( int column = 0; column < 10; column++ ) {
         stack[column] = new SpiderPile(column + 6, QString( "stack%1" ).arg( column ));
-        stack[column]->setCheckIndex(Tableau);
+        stack[column]->setPileRole(Tableau);
         stack[column]->setPilePos(dist_x * column, 0);
         stack[column]->setZValue(20);
         stack[column]->setAutoTurnTop(true);
@@ -115,7 +115,7 @@ Spider::Spider()
     // else the name Spider?
     for( int column = 0; column < 8; column++ ) {
         legs[column] = new Pile(column + 16, QString( "legs%1" ).arg( column ));
-        legs[column]->setCheckIndex(Foundation);
+        legs[column]->setPileRole(Foundation);
         legs[column]->setTarget(true);
         legs[column]->setPilePos(dist_x / 3 * column, smallNeg);
         legs[column]->setZValue(column+1);
@@ -242,14 +242,14 @@ bool Spider::checkAdd(const Pile * pile, const CardList & oldCards, const CardLi
     // assuming the cardlist is a valid unit, since I allowed
     // it to be removed - can drop any card on empty pile or
     // on any suit card of one higher rank
-    return pile->checkIndex() == Tableau
+    return pile->pileRole() == Tableau
            && ( oldCards.isEmpty()
                 || oldCards.last()->rank() == newCards.first()->rank() + 1 );
 }
 
 bool Spider::checkRemove(const Pile * pile, const CardList & cards) const
 {
-    return pile->checkIndex() == Tableau
+    return pile->pileRole() == Tableau
            && isSameSuitDescending(cards);
 }
 

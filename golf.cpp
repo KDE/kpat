@@ -55,14 +55,14 @@ Golf::Golf( )
     setDeck(new CardDeck());
 
     talon = new Pile(0, "talon");
-    talon->setCheckIndex(Stock);
+    talon->setPileRole(Stock);
     talon->setPilePos(0, smallNeg);
     talon->setSpread(0, 0);
     connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
     addPile(talon);
 
     waste = new Pile(8, "waste");
-    waste->setCheckIndex(Waste);
+    waste->setPileRole(Waste);
     waste->setTarget(true);
     waste->setPilePos(1.1, smallNeg);
     waste->setSpread(0.12, 0);
@@ -71,7 +71,7 @@ Golf::Golf( )
 
     for( int r = 0; r < 7; r++ ) {
         stack[r]=new Pile(1+r, QString("stack%1").arg(r));
-        stack[r]->setCheckIndex(Tableau);
+        stack[r]->setPileRole(Tableau);
         stack[r]->setPilePos(r*dist_x,0);
         // Manual tweak of the pile z values to make some animations better.
         stack[r]->setZValue((7-r)/100.0);
@@ -87,14 +87,14 @@ Golf::Golf( )
 
 bool Golf::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
 {
-    return pile->checkIndex() == Waste
+    return pile->pileRole() == Waste
            && ( newCards.first()->rank() == oldCards.last()->rank() + 1
                 || newCards.first()->rank() == oldCards.last()->rank() - 1 );
 }
 
 bool Golf::checkRemove(const Pile * pile, const CardList & cards) const
 {
-    return pile->checkIndex() == Tableau
+    return pile->pileRole() == Tableau
            && cards.first() == pile->top();
 }
 
@@ -144,7 +144,7 @@ Card *Golf::newCards()
 
 bool Golf::cardClicked(Card *c)
 {
-    if (c->source()->checkIndex() != Tableau) {
+    if (c->source()->pileRole() != Tableau) {
         return DealerScene::cardClicked(c);
     }
 
