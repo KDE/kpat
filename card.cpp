@@ -56,13 +56,8 @@
 #include <sys/time.h>
 
 
-AbstractCard::AbstractCard( Rank r, Suit s )
-    : m_suit( s ), m_rank( r ), m_faceup( true )
-{
-}
-
 Card::Card( Rank r, Suit s, CardDeck * deck )
-  : AbstractCard( r, s ),
+  : AbstractCard( (s << 4) + r ),
     m_deck( deck ),
     m_source( 0 ),
     m_animation( 0 ),
@@ -75,7 +70,7 @@ Card::Card( Rank r, Suit s, CardDeck * deck )
     setTransformationMode( Qt::SmoothTransformation );
 
     QString suitName;
-    switch( m_suit )
+    switch( suit() )
     {
         case Clubs :    suitName = "Clubs";    break;
         case Diamonds : suitName = "Diamonds"; break;
@@ -83,7 +78,7 @@ Card::Card( Rank r, Suit s, CardDeck * deck )
         case Spades :   suitName = "Spades";   break;
         default :       suitName = "???";      break;
     }
-    setObjectName( suitName + QString::number( m_rank ) );
+    setObjectName( suitName + QString::number( rank() ) );
 
     m_destFace = isFaceUp();
     m_flippedness = m_faceup ? 1 : 0;
@@ -116,7 +111,7 @@ void Card::updatePixmap()
 {
     QPixmap pix;
     if( m_faceup )
-        pix = m_deck->frontsidePixmap( m_rank, m_suit );
+        pix = m_deck->frontsidePixmap( rank(), suit() );
     else
         pix = m_deck->backsidePixmap();
 

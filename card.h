@@ -37,12 +37,12 @@
 #ifndef CARD_H
 #define CARD_H
 
+#include "abstractcard.h"
 class Card;
 class CardDeck;
 class Pile;
 
 #include <QtCore/QList>
-#include <QtGui/QGraphicsPixmapItem>
 class QGraphicsScene;
 class QParallelAnimationGroup;
 class QPropertyAnimation;
@@ -51,33 +51,8 @@ class QPropertyAnimation;
 // A list of cards.  Used in many places.
 typedef QList<Card*> CardList;
 
-// In kpat, a Card is an object that has at least two purposes:
-//  - It has card properties (Suit, Rank, etc)
-//  - It is a graphic entity on a QCanvas that can be moved around.
-class AbstractCard
-{
-public:
-    enum Suit { Clubs = 0, Diamonds = 1, Hearts = 2, Spades = 3 };
-    enum Rank { None = 0, Ace = 1, Two,  Three, Four, Five,  Six, Seven,
-                Eight,   Nine,  Ten, Jack, Queen, King = 13};
 
-    AbstractCard( Rank r, Suit s );
-
-    // Properties of the card.
-    Suit       suit()  const  { return m_suit; }
-    Rank       rank()  const  { return m_rank; }
-
-    bool       isRed()    const  { return m_suit == Diamonds || m_suit == Hearts; }
-    bool       isFaceUp() const  { return m_faceup; }
-
-protected:
-    // The card values.
-    Suit        m_suit;
-    Rank        m_rank;
-    bool        m_faceup;
-};
-
-class Card: public QObject, public AbstractCard, public QGraphicsPixmapItem
+class Card: public QObject, public AbstractCard
 {
     Q_OBJECT
     Q_PROPERTY( QPointF pos READ pos WRITE setPos )
@@ -88,11 +63,42 @@ class Card: public QObject, public AbstractCard, public QGraphicsPixmapItem
 
     friend class CardDeck;
 
+public:
+    enum Suit
+    {
+        Clubs = 0,
+        Diamonds = 1,
+        Hearts = 2,
+        Spades = 3
+    };
+
+    enum Rank
+    {
+        Ace = 1,
+        Two,
+        Three,
+        Four,
+        Five,
+        Six,
+        Seven,
+        Eight,
+        Nine,
+        Ten,
+        Jack,
+        Queen,
+        King
+    };
+
 private:
     Card( Rank r, Suit s, CardDeck * deck );
 
 public:
     virtual ~Card();
+
+    Suit       suit()  const  { return Suit( m_data >> 4 ); }
+    Rank       rank()  const  { return Rank( m_data & 0xf ); }
+
+    bool       isRed()    const  { return suit() == Diamonds || suit() == Hearts; }
 
     void       raise();
     void       turn(bool faceup = true);

@@ -103,6 +103,7 @@ CardDeck::CardDeck( int copies, QList<Card::Suit> suits, QList<Card::Rank> ranks
             foreach ( const Card::Suit s, suits )
             {
                 Card * c = new Card( r, s, this );
+                kDebug() << c->data() << c->suit() << c->rank();
                 connect( c, SIGNAL(animationStarted(Card*)), this, SLOT(cardStartedAnimation(Card*)) );
                 connect( c, SIGNAL(animationStopped(Card*)), this, SLOT(cardStoppedAnimation(Card*)) );
                 m_allCards << c;
@@ -260,34 +261,33 @@ QSize CardDeck::cardSize() const
 }
 
 
-QPixmap CardDeck::frontsidePixmap( AbstractCard::Rank r, AbstractCard::Suit s ) const
+QPixmap CardDeck::frontsidePixmap( Card::Rank r, Card::Suit s ) const
 {
     KCardInfo::Suit suit;
     switch ( s )
     {
-        case AbstractCard::Clubs :    suit = KCardInfo::Club;    break;
-        case AbstractCard::Spades :   suit = KCardInfo::Spade;   break;
-        case AbstractCard::Diamonds : suit = KCardInfo::Diamond; break;
-        case AbstractCard::Hearts :   suit = KCardInfo::Heart;   break;
+        case Card::Clubs :    suit = KCardInfo::Club;    break;
+        case Card::Spades :   suit = KCardInfo::Spade;   break;
+        case Card::Diamonds : suit = KCardInfo::Diamond; break;
+        case Card::Hearts :   suit = KCardInfo::Heart;   break;
     }
 
     KCardInfo::Card rank;
     switch ( r )
     {
-        case AbstractCard::None :
-        case AbstractCard::Ace :   rank = KCardInfo::Ace;   break;
-        case AbstractCard::Two :   rank = KCardInfo::Two;   break;
-        case AbstractCard::Three : rank = KCardInfo::Three; break;
-        case AbstractCard::Four :  rank = KCardInfo::Four;  break;
-        case AbstractCard::Five :  rank = KCardInfo::Five;  break;
-        case AbstractCard::Six :   rank = KCardInfo::Six;   break;
-        case AbstractCard::Seven : rank = KCardInfo::Seven; break;
-        case AbstractCard::Eight : rank = KCardInfo::Eight; break;
-        case AbstractCard::Nine :  rank = KCardInfo::Nine;  break;
-        case AbstractCard::Ten :   rank = KCardInfo::Ten;   break;
-        case AbstractCard::Jack :  rank = KCardInfo::Jack;  break;
-        case AbstractCard::Queen : rank = KCardInfo::Queen; break;
-        case AbstractCard::King :  rank = KCardInfo::King;  break;
+        case Card::Ace :   rank = KCardInfo::Ace;   break;
+        case Card::Two :   rank = KCardInfo::Two;   break;
+        case Card::Three : rank = KCardInfo::Three; break;
+        case Card::Four :  rank = KCardInfo::Four;  break;
+        case Card::Five :  rank = KCardInfo::Five;  break;
+        case Card::Six :   rank = KCardInfo::Six;   break;
+        case Card::Seven : rank = KCardInfo::Seven; break;
+        case Card::Eight : rank = KCardInfo::Eight; break;
+        case Card::Nine :  rank = KCardInfo::Nine;  break;
+        case Card::Ten :   rank = KCardInfo::Ten;   break;
+        case Card::Jack :  rank = KCardInfo::Jack;  break;
+        case Card::Queen : rank = KCardInfo::Queen; break;
+        case Card::King :  rank = KCardInfo::King;  break;
     }
 
     return m_cache->frontside( KCardInfo( suit, rank ) );

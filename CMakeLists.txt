@@ -7,6 +7,7 @@ add_subdirectory( previews )
 
 set(kpat_SRCS
    main.cpp
+   abstractcard.cpp
    card.cpp
    carddeck.cpp
    cardscene.cpp

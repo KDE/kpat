@@ -39,7 +39,6 @@
 
 #include "carddeck.h"
 #include "cardscene.h"
-#include "patpile.h"
 
 #include <KDebug>
 
