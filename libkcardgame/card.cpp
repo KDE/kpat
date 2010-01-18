@@ -108,9 +108,9 @@ void Card::updatePixmap()
 {
     QPixmap pix;
     if( m_faceup )
-        pix = m_deck->frontsidePixmap( rank(), suit() );
+        pix = m_deck->frontsidePixmap( data() );
     else
-        pix = m_deck->backsidePixmap();
+        pix = m_deck->backsidePixmap( data() );
 
     qreal highlightOpacity = m_fadeAnimation->state() == QAbstractAnimation::Running
                              ? m_highlightedness

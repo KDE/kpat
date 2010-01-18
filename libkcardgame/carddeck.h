@@ -92,8 +92,8 @@ public:
     int cardHeight() const;
     QSize cardSize() const;
 
-    QPixmap frontsidePixmap( Card::Rank, Card::Suit ) const;
-    QPixmap backsidePixmap( int variant = -1 ) const;
+    QPixmap frontsidePixmap( quint32 id ) const;
+    QPixmap backsidePixmap( quint32 id ) const;
 
     void updateTheme( const KConfigGroup & cg );
 

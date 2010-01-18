@@ -258,19 +258,20 @@ QSize CardDeck::cardSize() const
 }
 
 
-QPixmap CardDeck::frontsidePixmap( Card::Rank r, Card::Suit s ) const
+QPixmap CardDeck::frontsidePixmap( quint32 id ) const
 {
     KCardInfo::Suit suit;
-    switch ( s )
+    switch ( id >> 4 )
     {
         case Card::Clubs :    suit = KCardInfo::Club;    break;
         case Card::Spades :   suit = KCardInfo::Spade;   break;
         case Card::Diamonds : suit = KCardInfo::Diamond; break;
         case Card::Hearts :   suit = KCardInfo::Heart;   break;
+        default : Q_ASSERT( false );
     }
 
     KCardInfo::Card rank;
-    switch ( r )
+    switch ( id & 0xf )
     {
         case Card::Ace :   rank = KCardInfo::Ace;   break;
         case Card::Two :   rank = KCardInfo::Two;   break;
@@ -285,15 +286,17 @@ QPixmap CardDeck::frontsidePixmap( Card::Rank r, Card::Suit s ) const
         case Card::Jack :  rank = KCardInfo::Jack;  break;
         case Card::Queen : rank = KCardInfo::Queen; break;
         case Card::King :  rank = KCardInfo::King;  break;
+        default : Q_ASSERT( false );
     }
 
     return m_cache->frontside( KCardInfo( suit, rank ) );
 }
 
 
-QPixmap CardDeck::backsidePixmap( int variant ) const
+QPixmap CardDeck::backsidePixmap( quint32 id ) const
 {
-    return m_cache->backside( variant );
+    Q_UNUSED( id );
+    return m_cache->backside();
 }
 
 
