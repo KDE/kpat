@@ -40,7 +40,6 @@
 #include "carddeck.h"
 #include "cardscene.h"
 #include "patpile.h"
-#include "render.h"
 
 #include <KDebug>
 
@@ -104,34 +103,63 @@ QPointF Pile::pilePos() const
 }
 
 
-void Pile::updatePixmap()
+void Pile::setGraphicSize( QSize size )
+{
+    if ( size != pixmap().size() )
+        updatePixmap( size );
+}
+
+
+void Pile::updatePixmap( QSize size )
 {
     if ( !scene() )
         return;
 
-    QSize size = cardScene()->deck()->cardSize();
-    QPixmap pix( size );
-    pix.fill( Qt::transparent );
-
+    QPixmap pix;
     if ( m_graphicVisible )
     {
         if ( m_fadeAnimation->state() == QAbstractAnimation::Running )
         {
+            pix = QPixmap( size );
+            pix.fill( Qt::transparent );
             QPainter p( &pix );
             p.setOpacity( 1 - m_highlightedness );
-            p.drawPixmap( 0, 0, Render::renderElement( "pile", size ) );
+            p.drawPixmap( 0, 0, normalPixmap( size ) );
             p.setOpacity( m_highlightedness );
-            p.drawPixmap( 0, 0, Render::renderElement( "pile_selected", size ) );
+            p.drawPixmap( 0, 0, highlightedPixmap( size ) );
+        }
+        else if ( m_highlighted )
+        {
+            pix = highlightedPixmap( size );
         }
         else
         {
-            QString id = m_highlighted ? "pile_selected" : "pile";
-            pix = Render::renderElement( id, cardScene()->deck()->cardSize() );
+            pix = normalPixmap( size );
         }
+    }
+    else
+    {
+        pix = QPixmap( size );
+        pix.fill( Qt::transparent );
     }
 
     setPixmap( pix );
 }
+
+QPixmap Pile::normalPixmap( QSize size )
+{
+    QPixmap pix( size );
+    pix.fill( Qt::transparent );
+    return pix;
+}
+
+QPixmap Pile::highlightedPixmap( QSize size )
+{
+    QPixmap pix( size );
+    pix.fill( QColor( 0, 0, 0, 128 ) );
+    return pix;
+}
+
 
 void Pile::setVisible(bool vis)
 {
@@ -292,9 +320,11 @@ bool Pile::isHighlighted() const
 
 void Pile::setHighlightedness( qreal highlightedness )
 {
-    m_highlightedness = highlightedness;
-    updatePixmap();
-    return;
+    if ( m_highlightedness != highlightedness )
+    {
+        m_highlightedness = highlightedness;
+        updatePixmap( pixmap().size() );
+    }
 }
 
 qreal Pile::highlightedness() const
@@ -302,10 +332,22 @@ qreal Pile::highlightedness() const
     return m_highlightedness;
 }
 
-void Pile::setGraphicVisible( bool flag ) {
-    m_graphicVisible = flag;
-    updatePixmap();
+
+void Pile::setGraphicVisible( bool visible )
+{
+    if ( m_graphicVisible != visible )
+    {
+        m_graphicVisible = visible;
+        updatePixmap( pixmap().size() );
+    }
 }
+
+
+bool Pile::isGraphicVisible()
+{
+    return m_graphicVisible;
+}
+
 
 void Pile::cardPressed(Card* card)
 {

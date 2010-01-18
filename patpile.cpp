@@ -18,6 +18,8 @@
 
 #include "patpile.h"
 
+#include "render.h"
+
 
 PatPile::PatPile( int index, const QString & objectName )
   : Pile( objectName ),
@@ -60,4 +62,13 @@ bool PatPile::isFoundation() const
 }
 
 
+QPixmap PatPile::normalPixmap( QSize size )
+{
+    return Render::renderElement( "pile", size );
+}
 
+
+QPixmap PatPile::highlightedPixmap( QSize size )
+{
+    return Render::renderElement( "pile_selected", size );
+}

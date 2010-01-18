@@ -53,6 +53,10 @@ public:
     void setFoundation( bool foundation );
     bool isFoundation() const;
 
+protected:
+    virtual QPixmap normalPixmap( QSize size );
+    virtual QPixmap highlightedPixmap( QSize size );
+
 private:
     int m_index;
     PileRole m_role;

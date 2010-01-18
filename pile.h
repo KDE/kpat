@@ -73,8 +73,8 @@ public:
     void setHighlighted( bool flag );
     bool isHighlighted() const;
 
-    void setGraphicVisible( bool flag );
-    bool isGraphicVisible() { return m_graphicVisible; } ;
+    void setGraphicVisible( bool visible );
+    bool isGraphicVisible();
 
     void cardPressed(Card * card);
 
@@ -108,7 +108,7 @@ public:
     void setPilePos( qreal x, qreal y);
     QPointF pilePos() const;
 
-    void updatePixmap();
+    void setGraphicSize( QSize size );
 
     void setReservedSpace( const QSizeF &p) { m_reserved = p; }
     QSizeF reservedSpace() const { return m_reserved; }
@@ -129,12 +129,16 @@ signals:
     void pressed(Card *c);
 
 protected:
+    virtual QPixmap normalPixmap( QSize size );
+    virtual QPixmap highlightedPixmap( QSize size );
+
     CardList  m_cards;
     QTimer *m_relayoutTimer;
 
 private:
     void setHighlightedness( qreal highlightedness );
     qreal highlightedness() const;
+    void updatePixmap( QSize size );
     QPropertyAnimation *m_fadeAnimation;
 
     QSizeF    _spread;

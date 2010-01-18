@@ -282,15 +282,15 @@ void CardScene::relayoutPiles()
     foreach ( Pile * p, piles() )
     {
         QPointF layoutPos = p->pilePos();
-        QPointF pixlePos = QPointF( layoutPos.x() * deck()->cardWidth(),
-                                    layoutPos.y() * deck()->cardHeight() );
+        QPointF pixlePos = QPointF( layoutPos.x() * cardWidth,
+                                    layoutPos.y() * cardHeight );
         if ( layoutPos.x() < 0 )
-            pixlePos.rx() += m_contentSize.width() - deck()->cardWidth();
+            pixlePos.rx() += m_contentSize.width() - cardWidth;
         if ( layoutPos.y() < 0 )
-            pixlePos.ry() += m_contentSize.height() - deck()->cardHeight();
+            pixlePos.ry() += m_contentSize.height() - cardHeight;
 
         p->setPos( pixlePos );
-        p->updatePixmap();
+        p->setGraphicSize( deck()->cardSize() );
 
         QSizeF maxSpace = deck()->cardSize();
 
