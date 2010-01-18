@@ -42,12 +42,13 @@
 class Card;
 class CardDeck;
 class HighlightableItem;
+#include "libkcardgame_export.h"
 class Pile;
 
 #include <QtCore/QSet>
 #include <QtGui/QGraphicsScene>
 
-class CardScene : public QGraphicsScene
+class LIBKCARDGAME_EXPORT CardScene : public QGraphicsScene
 {
 public:
     enum SceneAlignmentFlag

@@ -39,6 +39,7 @@
 #define CARDDECK_H
 
 #include "card.h"
+#include "libkcardgame_export.h"
 class Pile;
 
 #include <KCardCache>
@@ -47,7 +48,7 @@ class KConfigGroup;
 #include <QSet>
 
 
-class CardDeck: public QObject
+class LIBKCARDGAME_EXPORT CardDeck: public QObject
 {
     Q_OBJECT
 

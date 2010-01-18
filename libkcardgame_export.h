@@ -1,4 +1,5 @@
 /*
+ *  Copyright (C) 2007 David Faure <faure@kde.org>
  *  Copyright (C) 2010 Parker Coates <parker.coates@kdemail.net>
  *
  *  This program is free software; you can redistribute it and/or
@@ -16,25 +17,24 @@
  *
  */
 
-#ifndef ABSTRACTCARD_H
-#define ABSTRACTCARD_H
+#ifndef LIBKCARDGAME_EXPORT_H
+#define LIBKCARDGAME_EXPORT_H
 
-#include "libkcardgame_export.h"
+/* needed for KDE_EXPORT and KDE_IMPORT macros */
+#include <kdemacros.h>
 
-#include <QtGui/QGraphicsItem>
+#ifndef LIBKCARDGAME_EXPORT
+#    if defined(MAKE_LIBKCARDGAME_LIB)
+         /* We are building this library */ 
+#        define LIBKCARDGAME_EXPORT KDE_EXPORT
+#    else
+         /* We are using this library */ 
+#        define LIBKCARDGAME_EXPORT KDE_IMPORT
+#    endif
+#endif
 
-
-class LIBKCARDGAME_EXPORT AbstractCard : public QGraphicsPixmapItem
-{
-public:
-    AbstractCard( quint32 data, bool faceUp = true );
-
-    bool isFaceUp() const;
-    quint32 data() const;
-
-protected:
-    bool m_faceup;
-    const quint32 m_data;
-};
+#ifndef LIBKCARDGAME_EXPORT_DEPRECATED
+#    define LIBKCARDGAME_EXPORT_DEPRECATED KDE_DEPRECATED LIBKCARDGAME_EXPORT
+#endif
 
 #endif

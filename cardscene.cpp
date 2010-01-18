@@ -89,7 +89,7 @@ CardDeck * CardScene::deck() const
 }
 
 
-QList< Card* > CardScene::cardsBeingDragged() const
+QList<Card*> CardScene::cardsBeingDragged() const
 {
     return m_cardsBeingDragged;
 }

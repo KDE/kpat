@@ -1,19 +1,16 @@
 project( kpat )
 
-add_subdirectory( icons ) 
+add_subdirectory( icons )
+add_subdirectory( libkcardgame )
 add_subdirectory( previews )
 
 set( kpat_SRCS
     main.cpp
-    abstractcard.cpp
-    card.cpp
-    carddeck.cpp
-    cardscene.cpp
+    dealer.cpp
     dealerinfo.cpp
     gameselectionscene.cpp
     mainwindow.cpp
     patpile.cpp
-    pile.cpp
     pileutils.cpp
     render.cpp
     statisticsdialog.cpp
@@ -50,7 +47,7 @@ set( kpat_SRCS
 kde4_add_ui_files( kpat_SRCS statisticsdialog.ui )
 kde4_add_app_icon( kpat_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-app-kpat.png" )
 kde4_add_executable( kpat ${kpat_SRCS} )
-target_link_libraries( kpat ${KDE4_KIO_LIBS} kdegames )
+target_link_libraries( kpat ${KDE4_KIO_LIBS} kdegames libkcardgame )
 install( TARGETS kpat ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 

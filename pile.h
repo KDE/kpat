@@ -40,19 +40,14 @@
 
 #include "card.h"
 class CardScene;
+#include "libkcardgame_export.h"
 #include "speeds.h"
 
 class QPropertyAnimation;
 #include <QtGui/QGraphicsPixmapItem>
 
 
-/***************************************
-
-  Pile -- A pile on the board that can hold cards.
-
-**************************************/
-
-class Pile : public QObject, public QGraphicsPixmapItem
+class LIBKCARDGAME_EXPORT Pile : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
     Q_PROPERTY( qreal highlightedness READ highlightedness WRITE setHighlightedness )

@@ -40,6 +40,7 @@
 #include "abstractcard.h"
 class Card;
 class CardDeck;
+#include "libkcardgame_export.h"
 class Pile;
 
 #include <QtCore/QList>
@@ -52,7 +53,8 @@ class QPropertyAnimation;
 typedef QList<Card*> CardList;
 
 
-class Card: public QObject, public AbstractCard
+
+class LIBKCARDGAME_EXPORT Card: public QObject, public AbstractCard
 {
     Q_OBJECT
     Q_PROPERTY( QPointF pos READ pos WRITE setPos )
