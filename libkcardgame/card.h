@@ -55,10 +55,8 @@ public:
     void setSource( Pile * pile ) { m_source = pile; }
     Pile * source() const { return m_source; }
 
-    void moveTo( QPointF pos2, qreal z, int duration);
-    void flipTo( QPointF pos2, int duration );
-    void flipToPile( Pile * destPile, int duration );
     void animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool faceup2, bool raised, int duration );
+    void moveTo( QPointF pos2, qreal z2, int duration );
     bool animated() const;
 
     QPointF realPos() const;

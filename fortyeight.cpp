@@ -122,14 +122,12 @@ Card *Fortyeight::newCards()
         lastdeal = true;
         while (pile->count() > 1)
         {
-            Card *c = pile->top();
-            talon->add(c);
-            c->flipTo( talon->pos(), DURATION_FLIP );
+            flipCardToPile( pile->top(), talon, DURATION_FLIP );
         }
     }
     else
     {
-        talon->top()->flipToPile( pile, DURATION_FLIP );
+        flipCardToPile( talon->top(), pile, DURATION_FLIP );
     }
 
     onGameStateAlteredByUser();
@@ -186,7 +184,7 @@ void Fortyeight::deal()
 
     startDealAnimation();
 
-    talon->top()->flipToPile( pile, DURATION_FLIP );
+    flipCardToPile( talon->top(), pile, DURATION_FLIP );
 }
 
 QString Fortyeight::getGameState()

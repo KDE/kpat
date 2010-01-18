@@ -91,6 +91,8 @@ public:
     void clearHighlightedItems();
     QList<QGraphicsItem*> highlightedItems() const;
 
+    void flipCardToPile( Card * card, Pile * pile, int duration );
+
 protected:
     virtual void onGameStateAlteredByUser();
 

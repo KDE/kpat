@@ -426,6 +426,20 @@ void CardScene::setItemHighlight( QGraphicsItem * item, bool highlight )
 }
 
 
+void CardScene::flipCardToPile( Card * card, Pile * pile, int duration )
+{
+    QPointF origPos = card->pos();
+
+    pile->add( card );
+    pile->layoutCards();
+    card->completeAnimation();
+    QPointF destPos = card->pos();
+
+    card->setPos( origPos );
+    card->animate( destPos, card->zValue(), 1.0, 0.0, !card->isFaceUp(), true, duration );
+}
+
+
 void CardScene::onGameStateAlteredByUser()
 {
 }

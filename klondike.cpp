@@ -229,7 +229,7 @@ Card *Klondike::newCards()
             c->completeAnimation();
             QPointF destPos = c->realPos();
             c->setPos( talon->pos() );
-            c->flipTo( destPos, DURATION_FLIP * ( 1 + flipped / 6.0) );
+            c->animate( destPos, c->zValue(), 1.0, 0.0, true, true, DURATION_FLIP * ( 1 + flipped / 6.0) );
         }
     }
 

@@ -196,29 +196,6 @@ void Card::moveTo( QPointF pos2, qreal z2, int duration )
 }
 
 
-// Animate a move to (x2, y2), and at the same time flip the card.
-void Card::flipTo( QPointF pos2, int duration )
-{
-    animate( pos2, zValue(), 1.0, 0.0, !isFaceUp(), true, duration );
-}
-
-
-void Card::flipToPile( Pile * pile, int duration )
-{
-    Q_ASSERT( pile );
-
-    QPointF origPos = pos();
-
-    pile->add(this);
-    pile->layoutCards( DURATION_RELAYOUT );
-    completeAnimation();
-    QPointF destPos = realPos();
-
-    setPos( origPos );
-    flipTo( destPos, duration );
-}
-
-
 bool Card::animated() const
 {
     return m_animation != 0;

@@ -230,7 +230,7 @@ void Spider::cardStopped(Card * t)
     for( int column = 0; column < 10; column++ ) {
         Card *t = stack[column]->top();
         if (t && !t->isFaceUp())
-           t->flipTo(t->pos(), DURATION_FLIP);
+           t->animate( t->pos(), t->zValue(), 1.0, 0.0, true, true, DURATION_FLIP );
     }
     t->disconnect(this, SLOT( cardStopped( Card* ) ) );
 }
