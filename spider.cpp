@@ -56,7 +56,8 @@ void SpiderPile::moveCards(CardList &c, Pile *to)
     Pile::moveCards(c, to);
 
     // if this is a leg pile, don't do anything special
-    if ( to->pileRole() == Foundation )
+    PatPile * p = dynamic_cast<PatPile*>( to );
+    if ( !p || p->pileRole() == Foundation )
         return;
 
     // if the top card of the list I just moved is an Ace,
@@ -90,7 +91,7 @@ Spider::Spider()
     // Dealing the cards out into 5 piles so the user can see how many
     // sets of 10 cards are left to be dealt out
     for( int column = 0; column < 5; column++ ) {
-        redeals[column] = new Pile(column + 1, QString( "redeals%1" ).arg( column ));
+        redeals[column] = new PatPile(column + 1, QString( "redeals%1" ).arg( column ));
         redeals[column]->setPileRole(Stock);
         redeals[column]->setPilePos(smallNeg - dist_x / 3 * ( 4 - column ), smallNeg);
         redeals[column]->setZValue(12 * ( 5-column ));
@@ -114,7 +115,7 @@ Spider::Spider()
     // The 8 'legs' so named by me because spiders have 8 legs - why
     // else the name Spider?
     for( int column = 0; column < 8; column++ ) {
-        legs[column] = new Pile(column + 16, QString( "legs%1" ).arg( column ));
+        legs[column] = new PatPile(column + 16, QString( "legs%1" ).arg( column ));
         legs[column]->setPileRole(Foundation);
         legs[column]->setTarget(true);
         legs[column]->setPilePos(dist_x / 3 * column, smallNeg);
@@ -237,7 +238,7 @@ void Spider::cardStopped(Card * t)
 
 //-------------------------------------------------------------------------//
 
-bool Spider::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
+bool Spider::checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const
 {
     // assuming the cardlist is a valid unit, since I allowed
     // it to be removed - can drop any card on empty pile or
@@ -247,7 +248,7 @@ bool Spider::checkAdd(const Pile * pile, const CardList & oldCards, const CardLi
                 || oldCards.last()->rank() == newCards.first()->rank() + 1 );
 }
 
-bool Spider::checkRemove(const Pile * pile, const CardList & cards) const
+bool Spider::checkRemove(const PatPile * pile, const CardList & cards) const
 {
     return pile->pileRole() == Tableau
            && isSameSuitDescending(cards);

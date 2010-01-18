@@ -54,7 +54,7 @@ Yukon::Yukon( )
     setDeck(new CardDeck());
 
     for (int i=0; i<4; i++) {
-        target[i] = new Pile(i+1, QString("target%1").arg(i));
+        target[i] = new PatPile(i+1, QString("target%1").arg(i));
         target[i]->setPileRole(Foundation);
         target[i]->setTarget(true);
         target[i]->setPilePos(0.11+7*dist_x, dist_y *i);
@@ -62,7 +62,7 @@ Yukon::Yukon( )
     }
 
     for (int i=0; i<7; i++) {
-        store[i] = new Pile(5+i, QString("store%1").arg(i));
+        store[i] = new PatPile(5+i, QString("store%1").arg(i));
         store[i]->setPileRole(Tableau);
         store[i]->setPilePos(dist_x*i, 0);
         store[i]->setAutoTurnTop(true);
@@ -75,7 +75,7 @@ Yukon::Yukon( )
     setNeededFutureMoves( 10 ); // it's a bit hard to judge as there are so many nonsense moves
 }
 
-bool Yukon::checkAdd(const Pile* pile, const CardList& oldCards, const CardList& newCards) const
+bool Yukon::checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const
 {
     if (pile->pileRole() == Tableau)
     {
@@ -91,7 +91,7 @@ bool Yukon::checkAdd(const Pile* pile, const CardList& oldCards, const CardList&
     }
 }
 
-bool Yukon::checkRemove(const Pile * pile, const CardList & cards) const
+bool Yukon::checkRemove(const PatPile * pile, const CardList & cards) const
 {
     return pile->pileRole() == Tableau && cards.first()->isFaceUp();
 }

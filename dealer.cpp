@@ -620,8 +620,10 @@ void DealerScene::getHints()
         return;
     }
 
-    foreach (Pile *store, piles())
+    foreach (Pile * p1, piles())
     {
+        PatPile * store = dynamic_cast<PatPile*>(p1);
+
         if (store->isTarget() || store->isEmpty())
             continue;
 
@@ -634,10 +636,12 @@ void DealerScene::getHints()
         {
             if (allowedToRemove(store, (*iti)))
             {
-                foreach (Pile *dest, piles())
+                foreach (Pile * p2, piles())
                 {
-                    if (dest == store)
+                    if (p2 == p1)
                         continue;
+
+                    PatPile * dest = dynamic_cast<PatPile*>(p2);
 
                     int cardIndex = store->indexOf(*iti);
                     if (cardIndex == 0 && dest->isEmpty() && !dest->isTarget())
@@ -870,18 +874,23 @@ void DealerScene::updateWonItem()
 
 bool DealerScene::allowedToAdd( const Pile * pile, const CardList & cards ) const
 {
-    return checkAdd( pile, pile->cards(), cards );
+    const PatPile * p = dynamic_cast<const PatPile*>( pile );
+    return p && checkAdd( p, p->cards(), cards );
 }
 
 
 bool DealerScene::allowedToRemove( const Pile * pile, const Card * card ) const
 {
-    CardList cards = pile->topCardsDownTo( card );
-    return !cards.isEmpty() && checkRemove( pile, cards );
+    const PatPile * p = dynamic_cast<const PatPile*>( pile );
+    if ( !p )
+        return false;
+
+    CardList cards = p->topCardsDownTo( card );
+    return !cards.isEmpty() && checkRemove( p, cards );
 }
 
 
-bool DealerScene::checkAdd( const Pile * pile, const CardList & oldCards, const CardList & newCards ) const
+bool DealerScene::checkAdd( const PatPile * pile, const CardList & oldCards, const CardList & newCards ) const
 {
     Q_UNUSED( pile )
     Q_UNUSED( oldCards )
@@ -890,7 +899,7 @@ bool DealerScene::checkAdd( const Pile * pile, const CardList & oldCards, const 
 }
 
 
-bool DealerScene::checkRemove(const Pile * pile, const CardList & cards) const
+bool DealerScene::checkRemove(const PatPile * pile, const CardList & cards) const
 {
     Q_UNUSED( pile )
     Q_UNUSED( cards )
@@ -898,7 +907,7 @@ bool DealerScene::checkRemove(const Pile * pile, const CardList & cards) const
 }
 
 
-bool DealerScene::checkPrefering( const Pile * pile, const CardList & oldCards, const CardList & newCards ) const
+bool DealerScene::checkPrefering( const PatPile * pile, const CardList & oldCards, const CardList & newCards ) const
 {
     Q_UNUSED( pile )
     Q_UNUSED( oldCards )

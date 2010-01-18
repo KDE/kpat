@@ -53,7 +53,7 @@
 
 
 KlondikePile::KlondikePile( int _index, int _draw, const QString & objectName)
-    : Pile(_index, objectName), m_draw( _draw )
+    : PatPile(_index, objectName), m_draw( _draw )
 {
 }
 
@@ -96,7 +96,7 @@ Klondike::Klondike()
 
     setDeck( new CardDeck() );
 
-    talon = new Pile( 0, "talon" );
+    talon = new PatPile( 0, "talon" );
     talon->setPileRole(Stock);
     talon->setPilePos(0, 0);
     connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
@@ -117,7 +117,7 @@ Klondike::Klondike()
 
     for( int i = 0; i < 7; i++ )
     {
-        play[ i ] = new Pile( i + 5, QString( "play%1" ).arg( i ));
+        play[ i ] = new PatPile( i + 5, QString( "play%1" ).arg( i ));
         play[i]->setPileRole(Tableau);
         play[i]->setPilePos((1.0 + hspacing) * i, 1.0 + vspacing);
         play[i]->setAutoTurnTop(true);
@@ -127,7 +127,7 @@ Klondike::Klondike()
 
     for( int i = 0; i < 4; i++ )
     {
-        target[ i ] = new Pile( i + 1, QString( "target%1" ).arg( i ) );
+        target[ i ] = new PatPile( i + 1, QString( "target%1" ).arg( i ) );
         target[i]->setPileRole(Foundation);
         target[i]->setTarget(true);
         target[i]->setPilePos((3 + i) * (1.0 + hspacing), 0);
@@ -145,7 +145,7 @@ Klondike::Klondike()
     connect( options, SIGNAL(triggered(int)), SLOT(gameTypeChanged()) );
 }
 
-bool Klondike::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
+bool Klondike::checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const
 {
     switch (pile->pileRole())
     {
@@ -160,7 +160,7 @@ bool Klondike::checkAdd(const Pile * pile, const CardList & oldCards, const Card
     }
 }
 
-bool Klondike::checkRemove(const Pile * pile, const CardList & cards) const
+bool Klondike::checkRemove(const PatPile * pile, const CardList & cards) const
 {
     switch (pile->pileRole())
     {

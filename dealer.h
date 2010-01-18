@@ -43,7 +43,7 @@
 class CardState;
 class DealerScene;
 class MoveHint;
-#include "pile.h"
+#include "patpile.h"
 class Solver;
 #include "view.h"
 
@@ -143,9 +143,9 @@ protected:
     virtual bool allowedToAdd(const Pile * pile, const CardList & cards) const;
     virtual bool allowedToRemove(const Pile * pile, const Card * card) const;
 
-    virtual bool checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const;
-    virtual bool checkRemove( const Pile * pile, const CardList & cards ) const;
-    virtual bool checkPrefering(const Pile * pile, const CardList & oldCards, const CardList & newCards) const;
+    virtual bool checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const;
+    virtual bool checkRemove( const PatPile * pile, const CardList & cards ) const;
+    virtual bool checkPrefering(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const;
 
     virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent );

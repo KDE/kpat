@@ -41,10 +41,10 @@
 #include "hint.h"
 
 
-class FreecellPile : public Pile
+class FreecellPile : public PatPile
 {
 public:
-    explicit FreecellPile(int _index, const QString & objectName = QString()) : Pile(_index, objectName) {}
+    explicit FreecellPile(int _index, const QString & objectName = QString()) : PatPile(_index, objectName) {}
     virtual void moveCards(CardList &c, Pile *to);
 };
 
@@ -65,8 +65,8 @@ public slots:
     void startMoving();
 
 protected:
-    virtual bool checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const;
-    virtual bool checkRemove(const Pile * pile, const CardList & cards) const;
+    virtual bool checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const;
+    virtual bool checkRemove(const PatPile * pile, const CardList & cards) const;
 
     bool CanPutStore(const Pile *c1, const CardList& c2) const;
     bool CanRemove(const Pile *c1, const Card *c) const;
@@ -87,8 +87,8 @@ protected:
 
 protected:
     FreecellPile* store[8];
-    Pile* freecell[4];
-    Pile* target[4];
+    PatPile* freecell[4];
+    PatPile* target[4];
 
 private:
     QList<MoveHint*> moves;

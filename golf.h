@@ -57,13 +57,13 @@ protected:
     virtual bool drop() { return false; }
     virtual bool cardClicked(Card *c);
     virtual void setGameState( const QString & );
-    virtual bool checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const;
-    virtual bool checkRemove(const Pile * pile, const CardList & cards) const;
+    virtual bool checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const;
+    virtual bool checkRemove(const PatPile * pile, const CardList & cards) const;
 
 private:
-    Pile* talon;
-    Pile* stack[7];
-    Pile* waste;
+    PatPile* talon;
+    PatPile* stack[7];
+    PatPile* waste;
 };
 
 #endif

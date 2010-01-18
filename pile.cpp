@@ -52,7 +52,6 @@
 
 Pile::Pile( int _index, const QString & objectName )
     : QGraphicsPixmapItem(),
-      m_role(-1),
       myIndex(_index),
       _target(false),
       m_autoTurnTop(false),
@@ -113,18 +112,6 @@ void Pile::setPilePos( qreal x,  qreal y )
 QPointF Pile::pilePos() const
 {
     return _pilePos;
-}
-
-
-void Pile::setPileRole( int role )
-{
-    m_role = role;
-}
-
-
-int Pile::pileRole() const
-{
-    return m_role;
 }
 
 

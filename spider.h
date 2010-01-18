@@ -42,10 +42,10 @@
 class KSelectAction;
 
 
-class SpiderPile : public Pile
+class SpiderPile : public PatPile
 {
 public:
-    explicit SpiderPile(int _index, const QString & objectName = QString()) : Pile(_index, objectName) {}
+    explicit SpiderPile(int _index, const QString & objectName = QString()) : PatPile(_index, objectName) {}
     virtual void moveCards(CardList &c, Pile *to);
     CardList getRun();
 };
@@ -77,8 +77,8 @@ protected:
     virtual QString getGameOptions() const;
     virtual void setGameOptions(const QString &options);
 
-    virtual bool checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const;
-    virtual bool checkRemove(const Pile * pile, const CardList & cards) const;
+    virtual bool checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const;
+    virtual bool checkRemove(const PatPile * pile, const CardList & cards) const;
 
 private:
     CardList getRun(Card *c) const;
@@ -87,9 +87,9 @@ private:
     QPointF randomPos();
 
     SpiderPile *stack[10];
-    Pile *legs[8];
+    PatPile *legs[8];
     int m_leg;
-    Pile *redeals[5];
+    PatPile *redeals[5];
     int m_redeal;
     int m_suits;
 

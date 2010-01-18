@@ -56,16 +56,16 @@ public slots:
     void deckClicked(Card *c);
 
 protected:
-    virtual bool checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const;
-    virtual bool checkRemove(const Pile* pile, const CardList & cards) const;
+    virtual bool checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const;
+    virtual bool checkRemove(const PatPile* pile, const CardList & cards) const;
 
 private:
     void deal();
 
-    Pile *talon;
-    Pile *stack[8];
-    Pile *target[8];
-    Pile *pile;
+    PatPile *talon;
+    PatPile *stack[8];
+    PatPile *target[8];
+    PatPile *pile;
     bool lastdeal;
 };
 

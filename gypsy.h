@@ -54,17 +54,17 @@ public slots:
 
 protected:
     virtual void setGameState(const QString &);
-    virtual bool checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const;
-    virtual bool checkRemove(const Pile * pile, const CardList & cards) const;
+    virtual bool checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const;
+    virtual bool checkRemove(const PatPile * pile, const CardList & cards) const;
 
 private: // functions
     void deal();
     void dealRow(bool faceup);
 
 private:
-    Pile* talon;
-    Pile* store[8];
-    Pile* target[8];
+    PatPile* talon;
+    PatPile* store[8];
+    PatPile* target[8];
 };
 
 #endif

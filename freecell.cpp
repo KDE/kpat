@@ -87,7 +87,7 @@ Freecell::Freecell()
 
     for (int i = 0; i < 4; i++)
     {
-        freecell[i] = new Pile (1 + 8 + i, QString( "freecell%1" ).arg( i ));
+        freecell[i] = new PatPile (1 + 8 + i, QString( "freecell%1" ).arg( i ));
         freecell[i]->setPileRole(Cell);
         freecell[i]->setPilePos(topRowDist * i, 0);
         addPile(freecell[i]);
@@ -95,7 +95,7 @@ Freecell::Freecell()
 
     for (int i = 0; i < 4; i++)
     {
-        target[i] = new Pile(1 + 8 + 4 + i, QString( "target%1" ).arg( i ));
+        target[i] = new PatPile(1 + 8 + 4 + i, QString( "target%1" ).arg( i ));
         target[i]->setPileRole(Foundation);
         target[i]->setTarget(true);
         target[i]->setPilePos(targetOffsetDist + topRowDist * i, 0);
@@ -313,7 +313,7 @@ bool Freecell::CanPutStore(const Pile *c1, const CardList &c2) const
             && (c1->top()->isRed() != c->isRed()));
 }
 
-bool Freecell::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
+bool Freecell::checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const
 {
     switch (pile->pileRole())
     {
@@ -328,7 +328,7 @@ bool Freecell::checkAdd(const Pile * pile, const CardList & oldCards, const Card
     }
 }
 
-bool Freecell::checkRemove(const Pile * pile, const CardList & cards) const
+bool Freecell::checkRemove(const PatPile * pile, const CardList & cards) const
 {
     switch (pile->pileRole())
     {
@@ -349,8 +349,10 @@ void Freecell::getHints()
     if ( demoActive() )
         return;
 
-    foreach ( Pile *store, piles() )
+    foreach (Pile * p1, piles())
     {
+        PatPile * store = dynamic_cast<PatPile*>(p1);
+
         if (store->isEmpty())
             continue;
 
@@ -363,10 +365,12 @@ void Freecell::getHints()
         {
             if (allowedToRemove(store, (*iti)))
             {
-                foreach (Pile *dest, piles())
+                foreach (Pile * p2, piles())
                 {
-                    if (dest == store)
+                    if (p2 == p1)
                         continue;
+
+                    PatPile * dest = dynamic_cast<PatPile*>(p2);
 
                     int cardIndex = store->indexOf(*iti);
                     if (cardIndex == 0 && dest->isEmpty() && !dest->isTarget())

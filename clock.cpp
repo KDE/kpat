@@ -56,7 +56,7 @@ Clock::Clock( )
     const qreal xs[12] = { 200./72, 280./72, 360./72, 400./72, 360./72, 280./72, 200./72, 120./72, 40./72, 0./72, 40./72, 120./72};
 
     for (int i=0; i<12; i++) {
-        target[i] = new Pile(i+1, QString("target%1").arg(i));
+        target[i] = new PatPile(i+1, QString("target%1").arg(i));
         target[i]->setPileRole(Foundation);
         target[i]->setTarget(true);
         target[i]->setPilePos(4 * dist_x + 0.4 + xs[i], 0.2 + ys[i]);
@@ -65,7 +65,7 @@ Clock::Clock( )
     }
 
     for (int i=0; i<8; i++) {
-        store[i] = new Pile(14+i, QString("store%1").arg(i));
+        store[i] = new PatPile(14+i, QString("store%1").arg(i));
         store[i]->setPileRole(Tableau);
         store[i]->setPilePos(dist_x*(i%4), 2.5 * (i/4));
         store[i]->setReservedSpace( QSizeF( 1.0, 1.8 ) );
@@ -83,7 +83,7 @@ void Clock::restart()
     deal();
 }
 
-bool Clock::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
+bool Clock::checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const
 {
     if ( pile->pileRole() == Tableau )
     {
@@ -100,7 +100,7 @@ bool Clock::checkAdd(const Pile * pile, const CardList & oldCards, const CardLis
 }
 
 
-bool Clock::checkRemove(const Pile* pile, const CardList & cards) const
+bool Clock::checkRemove(const PatPile* pile, const CardList & cards) const
 {
     return pile->pileRole() == Tableau
            && cards.first() == pile->top();

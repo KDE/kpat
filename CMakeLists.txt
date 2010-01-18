@@ -14,6 +14,7 @@ set(kpat_SRCS
    dealerinfo.cpp
    gameselectionscene.cpp
    mainwindow.cpp
+   patpile.cpp
    pile.cpp
    pileutils.cpp
    render.cpp

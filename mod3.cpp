@@ -51,17 +51,17 @@
 
 // Special pile type used for the fourth row. Automatically grabs a new card
 // from the deck when emptied.
-class Mod3Pile : public Pile
+class Mod3Pile : public PatPile
 {
 public:
     Mod3Pile( int _index, Pile * pile, const QString & objectName = QString() )
-        : Pile( _index, objectName ), drawPile( pile ) {}
+        : PatPile( _index, objectName ), drawPile( pile ) {}
     virtual void relayoutCards()
     {
         if ( isEmpty() && !drawPile->isEmpty() )
             animatedAdd( drawPile->top(), true );
         else
-            Pile::relayoutCards();
+            PatPile::relayoutCards();
     }
     Pile * drawPile;
 };
@@ -82,14 +82,14 @@ Mod3::Mod3( )
     // This patience uses 2 deck of cards.
     setDeck(new CardDeck(2));
 
-    talon = new Pile(0, "talon");
+    talon = new PatPile(0, "talon");
     talon->setPileRole(Stock);
     talon->setPilePos(rightColumX, bottomRowY);
     talon->setSpread(0, 0);
     connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
     addPile(talon);
 
-    aces = new Pile(50, "aces");
+    aces = new PatPile(50, "aces");
     aces->setPileRole(FoundationType1);
     aces->setTarget(true);
     aces->setPilePos(rightColumX, 0.5);
@@ -103,7 +103,7 @@ Mod3::Mod3( )
 
             // The first 3 rows are the playing field, the fourth is the store.
             if ( r < 3 ) {
-                stack[r][c] = new Pile( pileIndex, objectName );
+                stack[r][c] = new PatPile( pileIndex, objectName );
                 stack[r][c]->setTarget( true );
                 stack[r][c]->setPilePos( dist_x * c, dist_y * r );
                 // Very tight spread makes it easy to quickly tell number of
@@ -137,7 +137,7 @@ bool mod3CheckAdd(int baseRank, const CardList & oldCards, const CardList & newC
                && newCards.first()->rank() == oldCards.last()->rank() + 3;
 }
 
-bool Mod3::checkAdd(const Pile * pile, const CardList & oldCards, const CardList & newCards) const
+bool Mod3::checkAdd(const PatPile * pile, const CardList & oldCards, const CardList & newCards) const
 {
     switch (pile->pileRole())
     {
@@ -157,7 +157,7 @@ bool Mod3::checkAdd(const Pile * pile, const CardList & oldCards, const CardList
     }
 }
 
-bool Mod3::checkRemove(const Pile * pile, const CardList & cards) const
+bool Mod3::checkRemove(const PatPile * pile, const CardList & cards) const
 {
     switch (pile->pileRole())
     {
