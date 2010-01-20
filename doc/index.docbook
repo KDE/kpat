@@ -2,7 +2,7 @@
 <!--IMPORTANT: please note that'do not change this!' notice does not apply to translators -->
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
   <!ENTITY kappname "&kpatience;">
-  <!ENTITY kappversion "3.0"><!--Applicaion version. Use this variable everywhere it's needed.-->
+  <!ENTITY kappversion "3.3"><!--Applicaion version. Use this variable everywhere it's needed.-->
   <!ENTITY package "kdegames">  <!-- do not change this! -->
   <!ENTITY % English "INCLUDE" > <!-- change language only here -->
   <!ENTITY % addindex "IGNORE"> <!-- do not change this! -->
@@ -65,7 +65,7 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2008-09-25</date><!-- Date of (re)writing, or update.-->
+<date>2009-01-19</date><!-- Date of (re)writing, or update.-->
 <releaseinfo>&kappversion;</releaseinfo><!-- Application version number. Use the variable definitions within header to change this value.-->
 
 <!--Short description of this document. Do not change unless necessary!-->
@@ -116,17 +116,16 @@ moving, turning and reordering them.
 
 <chapter id="howto"><title>How to Play</title> <!-- do not change this! -->
 <!--IMPORTANT: If the game has no defined objective, please remove the below line.-->
-	<note><title>Objective:</title><para>Rearrange the cards by suite within shortest time possible.</para></note><!--Describe the objective of the game.-->
+	<note><title>Objective:</title><para>Rearrange the cards by suit in as few moves as possible.</para></note><!--Describe the objective of the game.-->
 <!--How to play description. Don't be to specific on rules as they have a separate section in this document-->
 	<para>
 	As &kappname; offers you a multiplicity of different solitaire games, there is no straightforward how-to which could fit all of them. Therefore, it is essential that you read each individual subsection of Game Rules, Strategies and Tips section before you start playing a version you are not familiar with.</para>
 <para>
-Essentially there are two types of solitaire games – the ones that let you arrange the cards by same color and the ones that let you arrange the cards by alternating color. You can easily determine which game you are trying out using trial-and-error method. Once you know which one you are dealing with, rest is easy; keep arranging and rearranging the cards, collecting the matching ones.</para>
+Essentially there are two types of solitaire games – the ones that let you arrange the cards by same color and the ones that let you arrange the cards by alternating color. You can easily determine which game you are trying out using trial-and-error method. Once you know which one you are dealing with the rest is easy; keep arranging and rearranging the cards and collecting the matching ones.</para>
 <para>
-From the beginning, however, pay attention to your card stacks. Do not rush to move individual cards around, see if it might be more useful elsewhere.</para>
+From the beginning, however, pay attention to your card stacks. Do not rush to move individual cards around. See if it might be more useful elsewhere.</para>
 <para>
-For additional help you can also take quick peeks onto the statusbar. For the
-most of the games there is a built in solver which informs you whether the game
+For additional help you can also take quick peeks onto the statusbar. Each of the games has a built in solver which informs you whether the game
 you are currently playing can be completed or not. If you see that solver could
 not complete the current game, chances are you will not be able to do so as
 well. At this point you can either restart the current game, or start a
@@ -170,22 +169,20 @@ completely new game.
 	<para>There are a number of features found in typical patience games. These are described below.</para>
 	<variablelist>
 		<varlistentry><term>1. Talon</term>
-			<listitem><para><indexterm><primary>talon</primary></indexterm>At the beginning of each game all cards are mixed in the deck. In some games not all cards are dealt out. The remaining cards are put down on the so-called talon. You can find this quite easily, since in most games it is the only pile showing the reverse. </para>
-			<para>If no card shows the reverse side, all cards are dealt out and there is no talon. These card games are the hardest as there is no randomness involved after the start of the game, so there is nothing to blame. </para>
+			<listitem><para><indexterm><primary>talon</primary></indexterm>At the beginning of each game all cards are mixed in the deck. In some games not all cards are dealt out. The remaining cards are put down on the talon (also called the stock). You can find this quite easily, since in most games it is the only pile in which all cards are face down.</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry><term>2. Waste Pile</term>
-			<listitem><para><indexterm><primary>waste pile</primary></indexterm>Many games put cards from the talon on a waste pile, after you click on the reverse of the topmost card on the talon.</para>
-			<para>From there you can take the card (which is then face up) and put it into the game.</para>
+			<listitem><para><indexterm><primary>waste pile</primary></indexterm>Many games use a waste pile to hold cards taken from the talon. Typically clicking on the talon will cause the topmost card to be flipped face up and placed on the waste pile, at which point the card enters play.</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry><term>3. Foundation</term>
-			<listitem><para><indexterm><primary>foundation</primary></indexterm>The foundation pile is where you want to have your cards in the end.  If all cards end up there in the right order, you've won. Some games use more than one foundation pile.</para>
-			<para>In most card games these piles are empty in the beginning. &kpatience; drops cards there for you when it sees they fit. </para>
+			<listitem><para><indexterm><primary>foundation</primary></indexterm>The foundation piles are where you want your cards to end up. Typically, the game is one only once all cards have been moved to the foundation piles in the correct order. The number of foundation piles and the ordering required varies from game to game.</para>
+			<para>Most games start with the foundation piles empty. Choosing the <guimenuitem>Drop</guimenuitem> action from the menu or toolbar will cause &kpatience; to scan through all the piles move as many cards to the foundation piles as it can. If you have the <guimenuitem>Enabled Autodrop</guimenuitem> setting activated, &kpatience; will attempt to perform a drop whenever possible.</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry><term>4. Playing Piles</term>
-			<listitem><para><indexterm><primary>playing piles</primary></indexterm>These piles are those where the actual reordering happens. The rules for these piles vary a lot between games. Some show all cards on them, some do not. Some allow only one card to be removed, some allow every card to be removed, &etc;. </para>
+			<listitem><para><indexterm><primary>playing piles</primary></indexterm>These piles are those where the actual reordering happens. The rules for these piles vary a lot between games. Some show all cards on them, some do not. Some allow only one card to be removed, some allow every card to be removed, &etc;.</para>
 			</listitem>
 		</varlistentry>
 	</variablelist>
@@ -576,13 +573,36 @@ win at Easy level, and very difficult to win at Hard level.
 <sect1 id="game-menu">
 	<title>The <guimenu>Game</guimenu> Menu</title>
 		<variablelist>
-			<varlistentry id="game-menu-new">
+			<varlistentry id="game-menu-new-game">
+				<term><menuchoice>
+					<shortcut><keycombo action="simul">&Ctrl;&Shift;<keycap>N</keycap></keycombo></shortcut>
+					<guimenu>Game</guimenu>
+					<guimenuitem>New Game...</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Return to the game selection screen.</action> This action abandons the deal in progress.</para></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-deal">
 				<term><menuchoice>
 					<shortcut><keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo></shortcut>
 					<guimenu>Game</guimenu>
-					<guimenuitem>New</guimenuitem>
+					<guimenuitem>New Deal</guimenuitem>
 				</menuchoice></term>
-				<listitem><para><action>Starts a new game.</action></para></listitem>
+				<listitem><para><action>Start a new deal of the same game type.</action> This action abandons the deal in progress.</para></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-numbered-deal">
+				<term><menuchoice>
+					<guimenu>Game</guimenu>
+					<guimenuitem>New Numbered Deal...</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Start a new deal of the same game type by specifying the deal number.</action> This action abandons the deal in progress.</para><para>&kpatience; gives each deal a unique indentifying number (which it uses internally to randomize the deck during the initial deal). This feature allows you to replay a deal of interest or to attempt a particularly difficult deal recommended by a friend. Especially dedicated players may wish to "beat" &kpatience; by playing all 2147483647 deals consecutively for each of the game types.</para></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-restart-deal">
+				<term><menuchoice>
+					<shortcut><keycap>F5</keycap></shortcut>
+					<guimenu>Game</guimenu>
+					<guimenuitem>Restart Deal</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Return the current game to its initially dealt condition.</action></para></listitem>
 			</varlistentry>
 			<varlistentry id="game-menu-load">
 				<term><menuchoice>
@@ -590,7 +610,7 @@ win at Easy level, and very difficult to win at Hard level.
 					<guimenu>Game</guimenu>
 					<guimenuitem>Load...</guimenuitem>
 				</menuchoice></term>
-				<listitem><para><action>Loads a saved game.</action></para></listitem>
+				<listitem><para><action>Load a saved game.</action> This action abandons the deal in progress.</para></listitem>
 			</varlistentry>
 			<varlistentry id="game-menu-load-recent">
 				<term><menuchoice>
@@ -598,53 +618,22 @@ win at Easy level, and very difficult to win at Hard level.
 					<guisubmenu>Load Recent</guisubmenu>
 					<guimenuitem>List of recently accessed files.</guimenuitem>
 				</menuchoice></term>
-				<listitem><para><action>List</action> all recently accessed save files.</para></listitem>
-			</varlistentry>
-			<varlistentry id="game-menu-restart">
-				<term><menuchoice>
-					<shortcut><keycap>F5</keycap></shortcut>
-					<guimenu>Game</guimenu>
-					<guimenuitem>Restart Game</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Restart</action> the current game.</para></listitem>
+				<listitem><para><action>List recently accessed save files in order of last use.</action> Selecting a game will load it. This action abandons the deal in progress.</para></listitem>
 			</varlistentry>
 			<varlistentry id="game-menu-save">
 				<term><menuchoice>
 					<shortcut><keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo></shortcut>
 					<guimenu>Game</guimenu>
-					<guimenuitem>Save</guimenuitem>
+					<guimenuitem>Save As...</guimenuitem>
 				</menuchoice></term>
-				<listitem><para><action>Save</action> the current game as a default save file.</para></listitem>
-			</varlistentry>
-			<varlistentry id="game-menu-chose-game">
-				<term><menuchoice>
-					<guimenu>Game</guimenu>
-					<guimenuitem>Choose Game...</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Opens</action> the game selection dialog.</para></listitem>
+				<listitem><para><action>Save the current game to disk.</action></para></listitem>
 			</varlistentry>
 			<varlistentry id="game-menu-statistics">
 				<term><menuchoice>
 					<guimenu>Game</guimenu>
 					<guimenuitem>Statistics</guimenuitem>
 				</menuchoice></term>
-				<listitem><para><action>Opens</action> the game win/lose statistics dialog.</para></listitem>
-			</varlistentry>
-			<varlistentry id="game-menu-hint">
-				<term><menuchoice>
-					<shortcut><keycap>H</keycap></shortcut>
-					<guimenu>Game</guimenu>
-					<guimenuitem>Hint</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Show a hint.</action></para></listitem>
-			</varlistentry>
-			<varlistentry  id="game-menu-demo">
-				<term><menuchoice>
-					<shortcut><keycap>D</keycap></shortcut>
-					<guimenu>Game</guimenu>
-					<guimenuitem>Demo</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Switch on/off</action> the demo mode.</para></listitem>
+				<listitem><para><action>Display various statistics about your performance broken down by game type.</action></para></listitem>
 			</varlistentry>
 			<varlistentry  id="game-menu-quit">
 				<term><menuchoice>
@@ -667,145 +656,66 @@ win at Easy level, and very difficult to win at Hard level.
 				</menuchoice></term>
 				<listitem><para><action>Undo</action> your last move.</para></listitem>
 			</varlistentry>
+			<varlistentry id="move-menu-redo">
+				<term><menuchoice>
+					<shortcut><keycombo action="simul">&Ctrl;&Shift;<keycap>Z</keycap></keycombo></shortcut>
+					<guimenu>Move</guimenu>
+					<guimenuitem>Redo</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Redo</action> the move that was just undone by <guimenuitem>Undo</guimenuitem>.</para></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-hint">
+				<term><menuchoice>
+					<shortcut><keycap>H</keycap></shortcut>
+					<guimenu>Move</guimenu>
+					<guimenuitem>Hint</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Provide some hints as to which cards may be moved.</action></para></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-demo">
+				<term><menuchoice>
+					<shortcut><keycap>D</keycap></shortcut>
+					<guimenu>Move</guimenu>
+					<guimenuitem>Demo</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Start the demo mode.</action> While in demo mode, &kpatience; attempts to solve the deal for you. Activate this action a second time to exit demo mode.</para></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-draw">
+				<term><menuchoice>
+					<shortcut><keycap>Space</keycap></shortcut>
+					<guimenu>Move</guimenu>
+					<guimenuitem>Draw</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Flip one of more cards from the talon and move them to the waste pile.</action> This action is available in only certain games.</para></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-deal-row">
+				<term><menuchoice>
+					<shortcut><keycap>Return</keycap></shortcut>
+					<guimenu>Move</guimenu>
+					<guimenuitem>Deal Row</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Flip several cards from the talon and place one on each playing pile.</action> This action is available in only certain games.</para></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-redeal">
+				<term><menuchoice>
+					<shortcut><keycap>R</keycap></shortcut>
+					<guimenu>Move</guimenu>
+					<guimenuitem>Redeal</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Collect all the card left in play and redeal them without shuffling.</action> This action is available in only certain games.</para></listitem>
+			</varlistentry>
 		</variablelist>
 </sect1>
 <sect1 id="settings-menu">
 	<title>The <guimenu>Settings</guimenu> Menu</title>
 		<variablelist>
-			<varlistentry>
+			<varlistentry id="settings-menu-game-type-options">
 				<term><menuchoice>
 					<guimenu>Settings</guimenu>
-					<guisubmenu>Game Type</guisubmenu>
-					<guimenuitem>Klondike</guimenuitem>
+					<guisubmenu>"Game Type" Options</guisubmenu>
+					<guimenuitem>List of game type specific options.</guimenuitem>
 				</menuchoice></term>
-				<listitem><para>Switch to Klondike game mode.</para></listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guisubmenu>Game Type</guisubmenu>
-					<guimenuitem>Grandfather</guimenuitem>
-				</menuchoice></term>
-				<listitem><para>Switch to Grandfather game mode.</para></listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guisubmenu>Game Type</guisubmenu>
-					<guimenuitem>Aces Up</guimenuitem>
-				</menuchoice></term>
-				<listitem><para>Switch to Aces Up game mode.</para></listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guisubmenu>Game Type</guisubmenu>
-					<guimenuitem>Freecell</guimenuitem>
-				</menuchoice></term>
-				<listitem><para>Switch to Freecell game mode.</para></listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guisubmenu>Game Type</guisubmenu>
-					<guimenuitem>Mod3</guimenuitem>
-				</menuchoice></term>
-				<listitem><para>Switch to Mod3 game mode.</para></listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guisubmenu>Game Type</guisubmenu>
-					<guimenuitem>Gypsy</guimenuitem>
-				</menuchoice></term>
-				<listitem><para>Switch to Gypsy game mode.</para></listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guisubmenu>Game Type</guisubmenu>
-					<guimenuitem>Forty and Eight</guimenuitem>
-				</menuchoice></term>
-				<listitem><para>Switch to Forty and Eight game mode.</para> </listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guisubmenu>Game Type</guisubmenu>
-					<guimenuitem>Simple Simon</guimenuitem>
-				</menuchoice></term>
-				<listitem><para>Switch to Simple Simon game mode.</para></listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guisubmenu>Game Type</guisubmenu>
-					<guimenuitem>Yukon</guimenuitem>
-				</menuchoice></term>
-				<listitem><para>Switch to Yukon game mode.</para></listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guisubmenu>Game Type</guisubmenu>
-					<guimenuitem>Grandfather's Clock</guimenuitem>
-				</menuchoice></term>
-				<listitem><para>Switch to Grandfather's Clock game mode.</para></listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guisubmenu>Game Type</guisubmenu>
-					<guimenuitem>Golf</guimenuitem>
-				</menuchoice></term>
-				<listitem><para>Switch to Golf game mode.</para></listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guisubmenu>Game Type</guisubmenu>
-					<guimenuitem>Klondike (draw 3)</guimenuitem>
-				</menuchoice></term>
-				<listitem><para>Switch to Klondike (draw 3) game mode.</para></listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guisubmenu>Game Type</guisubmenu>
-					<guimenuitem>Spider (Easy)</guimenuitem>
-				</menuchoice></term>
-				<listitem><para>Switch to Spider (Easy) game mode.</para></listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guisubmenu>Game Type</guisubmenu>
-					<guimenuitem>Spider (Medium)</guimenuitem>
-				</menuchoice></term>
-				<listitem><para>Switch to Spider (Medium) game mode.</para></listitem>
-			</varlistentry>
-			<varlistentry>
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guisubmenu>Game Type</guisubmenu>
-					<guimenuitem>Spider (Hard)</guimenuitem>
-				</menuchoice></term>
-				<listitem><para>Switch to Spider (Hard) game mode.</para></listitem>
-			</varlistentry>
-			<varlistentry id="settings-menu-autodrop">
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guimenuitem>Disable Autodrop</guimenuitem>
-				</menuchoice></term>
-				<listitem><para>Enable/Disable automatically moving matching cards.</para></listitem>
-			</varlistentry>
-			<varlistentry id="settings-menu-random">
-				<term><menuchoice>
-					<shortcut><keycap>F9</keycap></shortcut>
-					<guimenu>Settings</guimenu>
-					<guimenuitem>Random Cards</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Randomly pick</action> card faces and backs.</para></listitem>
+				<listitem><para><action>List options specific to the current game type.</action> This menu is available in only certain games.</para></listitem>
 			</varlistentry>
 			<varlistentry id="settings-menu-deck">
 				<term><menuchoice>
@@ -813,14 +723,42 @@ win at Easy level, and very difficult to win at Hard level.
 					<guimenu>Settings</guimenu>
 					<guimenuitem>Select Deck...</guimenuitem>
 				</menuchoice></term>
-				<listitem><para><action>Open</action> the card deck selection dialog.</para></listitem>
-			</varlistentry>			
+				<listitem><para><action>Open a dialog to change the card deck used.</action></para></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-autodrop">
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guimenuitem>Enable Autodrop</guimenuitem>
+				</menuchoice></term>
+				<listitem><para>Enable automatically moving cards to the foundation piles when possible.</para></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-solver">
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guimenuitem>Enable Solver</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Enable the automatic solving engine.</action> When enabled, the solver will constantly try to determine whether the current game state is winnable. You may wish to disable the solver to conserve processor or battery usage.</para></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-remember">
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guimenuitem>Remember State on Exit</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Enable automatic saving of the game state when &kpatience; is shut down.</action> If enabled, &kpatience; will load the previous game state automatically the next time it is started.</para></listitem>
+			</varlistentry>
 			<varlistentry id="settings-menu-toolbar">
 				<term><menuchoice>
 					<guimenu>Settings</guimenu>
 					<guimenuitem>Show Toolbar</guimenuitem>
 				</menuchoice></term>
-				<listitem><para>Shows or hides the Toolbar.</para></listitem>
+				<listitem><para>Show or hide the toolbar.</para></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-statusbar">
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guimenuitem>Show Statusbar</guimenuitem>
+				</menuchoice></term>
+				<listitem><para>Show or hide the statusbar.</para></listitem>
 			</varlistentry>
 		</variablelist>
 </sect1>
@@ -844,7 +782,7 @@ win at Easy level, and very difficult to win at Hard level.
 </qandaentry>
 <qandaentry>
  <question><para>Can I use the keyboard to play the game?</para></question>
- <answer><para>No. &kappname; features no possible keyboard play.</para></answer>
+ <answer><para>No, &kappname; features no keyboard only play. However, most menu options do have keyboard shortcuts.</para></answer>
 </qandaentry>
 <qandaentry>
  <question><para>Even with hints I still have no clue how to play. Help!</para></question>
