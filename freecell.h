@@ -61,7 +61,7 @@ public:
 
 public slots:
     virtual void restart();
-    void waitForMoving(Card *c);
+    void waitForMoving();
     void startMoving();
 
 protected:
@@ -94,7 +94,6 @@ private:
     QList<MoveHint*> moves;
     int sum_moves;
     int current_weight;
-    Card *waitfor;
     bool noLongerNeeded(const Card &);
 };
 

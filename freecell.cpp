@@ -40,7 +40,7 @@
 #include "dealerinfo.h"
 #include "speeds.h"
 #include "patsolve/freecellsolver.h"
-
++    
 #include <KDebug>
 #include <KLocale>
 
@@ -134,8 +134,6 @@ void Freecell::moveCards(CardList &c, FreecellPile *from, Pile *to)
     Q_ASSERT(c.count() > 1);
 
     from->moveCardsBack(c);
-    waitfor = c.last();
-    connect(waitfor, SIGNAL(animationStopped(Card*)), SLOT(waitForMoving(Card*)));
 
     PileList fcs;
 
@@ -158,7 +156,9 @@ void Freecell::moveCards(CardList &c, FreecellPile *from, Pile *to)
     current_weight = 1000;
     movePileToPile(c, to, fss, fcs, 0, c.count(), 0);
 
-    if (!waitfor->animated())
+    if (deck()->hasAnimatedCards())
+        connect(deck(), SIGNAL(cardAnimationDone()), this, SLOT(waitForMoving()));
+    else
         QTimer::singleShot(0, this, SLOT(startMoving()));
 }
 
@@ -238,15 +238,21 @@ void Freecell::startMoving()
     moves.erase(moves.begin());
     CardList empty;
     empty.append(mh->card());
-    Q_ASSERT(mh->card() == mh->card()->source()->top());
+
+    Pile * p = mh->card()->source();
+    Q_ASSERT(mh->card() == p->top());
     Q_ASSERT(mh->pile()->legalAdd(empty));
     mh->pile()->add(mh->card());
 
     int duration = qMax( DURATION_MOVEBACK * mh->priority() / 1000, 1 );
     mh->pile()->moveCardsBack(empty, duration );
-    waitfor = mh->card();
-    kDebug() << "wait for moving end" << mh->card()->rank() << " " << mh->card()->suit() << mh->priority();
-    connect(mh->card(), SIGNAL(animationStopped(Card*)), SLOT(waitForMoving(Card*)));
+    p->layoutCards( duration );
+
+    if (deck()->hasAnimatedCards())
+        connect(deck(), SIGNAL(cardAnimationDone()), this, SLOT(waitForMoving()));
+    else
+        QTimer::singleShot(0, this, SLOT(startMoving()));
+
     delete mh;
 }
 
@@ -257,11 +263,9 @@ void Freecell::newDemoMove(Card *m)
         m->disconnect( this );
 }
 
-void Freecell::waitForMoving(Card *c)
+void Freecell::waitForMoving()
 {
-    if (waitfor != c)
-        return;
-    c->disconnect(this);
+    disconnect(deck(), SIGNAL(cardAnimationDone()), this, SLOT(waitForMoving()));
     startMoving();
 }
 
