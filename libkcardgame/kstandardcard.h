@@ -34,8 +34,8 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef CARD_H
-#define CARD_H
+#ifndef KSTANDARDCARD_H
+#define KSTANDARDCARD_H
 
 #include "kcard.h"
 #include "libkcardgame_export.h"

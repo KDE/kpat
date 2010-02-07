@@ -35,8 +35,8 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef PILE_H
-#define PILE_H
+#ifndef KCARDPILE_H
+#define KCARDPILE_H
 
 #include "kcard.h"
 class KCardScene;

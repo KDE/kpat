@@ -36,8 +36,8 @@
  */
 
 
-#ifndef CARDSCENE_H
-#define CARDSCENE_H
+#ifndef KCARDSCENE_H
+#define KCARDSCENE_H
 
 class KCard;
 class KAbstractCardDeck;

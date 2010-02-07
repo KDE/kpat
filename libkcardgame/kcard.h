@@ -16,8 +16,8 @@
  *
  */
 
-#ifndef ABSTRACTCARD_H
-#define ABSTRACTCARD_H
+#ifndef KCARD_H
+#define KCARD_H
 
 class KAbstractCardDeck;
 class KCardPile;

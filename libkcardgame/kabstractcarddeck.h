@@ -35,8 +35,8 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef CARDDECK_H
-#define CARDDECK_H
+#ifndef KABSTRACTCARDDECK_H
+#define KABSTRACTCARDDECK_H
 
 #include "libkcardgame_export.h"
 #include "kcardcache.h"
