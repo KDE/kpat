@@ -82,7 +82,7 @@ void LoadThread::run()
     {
         {
             QMutexLocker l( killMutex );
-            if( doKill )
+            if ( doKill )
                 return;
         }
 
@@ -111,10 +111,10 @@ KCardCache2::KCardCache2()
 
 KCardCache2::~KCardCache2()
 {
-    if( d->loadThread && d->loadThread->isRunning() )
+    if ( d->loadThread && d->loadThread->isRunning() )
         d->loadThread->kill();
 
-    if( d->loadThread )
+    if ( d->loadThread )
         delete d->loadThread;
     delete d->cache;
     delete d->svgRenderer;
@@ -124,7 +124,7 @@ KCardCache2::~KCardCache2()
 
 void KCardCache2::setSize( const QSize& s )
 {
-    if( s != d->size )
+    if ( s != d->size )
         d->size = s;
 }
 
@@ -139,13 +139,13 @@ void KCardCache2::setTheme( const QString& theme )
     d->cache = new KPixmapCache( QString( "kdegames-cards_%1" ).arg( theme ) );
 
     QDateTime dt = QFileInfo( CardDeckInfo::frontSVGFilePath( theme ) ).lastModified();
-    if( d->cache->timestamp() < dt.toTime_t() )
+    if ( d->cache->timestamp() < dt.toTime_t() )
     {
         d->cache->discard();
         d->cache->setTimestamp( dt.toTime_t() );
     }
 
-    if( d->loadThread && d->loadThread->isRunning() )
+    if ( d->loadThread && d->loadThread->isRunning() )
         d->loadThread->kill();
 
     {
@@ -166,7 +166,7 @@ QString KCardCache2::theme() const
 QPixmap KCardCache2::renderCard( const QString & element ) const
 {
     QPixmap pix;
-    if( d->theme.isEmpty() || d->size.isEmpty() )
+    if ( d->theme.isEmpty() || d->size.isEmpty() )
         return pix;
 
     QString key = keyForPixmap( element , d->size );
@@ -221,23 +221,32 @@ QSizeF KCardCache2::naturalSize( const QString & element ) const
             size = d->renderer()->boundsOnElement( element ).size().toSize();
     }
 
-    if( elementExists && d->cache )
+    if ( elementExists && d->cache )
         d->cache->insert( key, QPixmap( size ) );
 
     return size;
 }
 
 
+QDateTime KCardCache2::timestamp() const
+{
+    if ( d->cache )
+        return QDateTime::fromTime_t( d->cache->timestamp() );
+    else
+        return QDateTime();
+}
+
+
 void KCardCache2::invalidateCache()
 {
-    if( d->cache )
+    if ( d->cache )
         d->cache->discard();
 }
 
 
 void KCardCache2::loadInBackground( const QStringList & elements )
 {
-    if( d->loadThread && d->loadThread->isRunning() )
+    if ( d->loadThread && d->loadThread->isRunning() )
     {
         d->loadThread->kill();
         d->loadThread->wait();
@@ -251,7 +260,7 @@ void KCardCache2::loadInBackground( const QStringList & elements )
     foreach ( const QString & element, elements )
     {
         QString key = keyForPixmap( element, d->size );
-        if( d->cache && !d->cache->find( key, pix ) )
+        if ( d->cache && !d->cache->find( key, pix ) )
             unrenderedElements << element;
     }
 

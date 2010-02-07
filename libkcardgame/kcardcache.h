@@ -20,6 +20,7 @@
 #ifndef KCARDCACHE_H
 #define KCARDCACHE_H
 
+class QDateTime;
 class QPixmap;
 class QSize;
 class QSizeF;
@@ -130,6 +131,7 @@ public:
      */
     QSizeF naturalSize( const QString & element ) const;
 
+    QDateTime timestamp() const;
 
     /**
      * Invalidates all cached images in the current size for the current frontside theme
