@@ -59,15 +59,18 @@ void CardThemeModel::reload()
     m_previews.clear();
     m_leftToRender.clear();
 
-    QDateTime cacheModified = QDateTime::fromTime_t( d->cache->timestamp() );
-
     foreach( const KCardTheme & theme, KCardTheme::findAll() )
     {
-        QString mapKey = theme.directoryName();
+        if ( !theme.isValid() )
+            continue;
+
+        QString mapKey = theme.dirName();
+
+        KCardCache2 cache( theme );
 
         QPixmap * pix = new QPixmap();
-        if ( cacheModified > theme.lastModified()
-             && d->cache->find( d->previewString + mapKey, *pix ) )
+        if ( cache.timestamp() >= theme.lastModified()
+             && cache.findOther( "preview_" + d->previewString, *pix ) )
         {
             m_previews.insert( mapKey, pix );
         }
@@ -92,15 +95,12 @@ void CardThemeModel::renderNext()
 {
     KCardTheme theme = m_leftToRender.takeFirst();
 
-    KCardCache2 cardCache;
-    cardCache.setTheme( theme.displayName() );
+    KCardCache2 cache( theme );
 
-    if ( theme.lastModified() > cardCache.timestamp() )
-        cardCache.invalidateCache();
-
-    QSizeF s = cardCache.naturalSize("back");
+    QSizeF s = cache.naturalSize("back");
     s.scale( 1.5 * d->baseCardSize.width(), d->baseCardSize.height(), Qt::KeepAspectRatio );
-    cardCache.setSize( s.toSize() );
+    kDebug() << s;
+    cache.setSize( s.toSize() );
 
     qreal yPos = ( d->previewSize.height() - s.height() ) / 2.0;
     qreal spacingWidth = d->baseCardSize.width()
@@ -115,7 +115,7 @@ void CardThemeModel::renderNext()
     {
         foreach ( const QString & st, sl )
         {
-            p.drawPixmap( xPos, yPos, cardCache.renderCard( st ) );
+            p.drawPixmap( xPos, yPos, cache.renderCard( st ) );
             xPos += 0.3 * spacingWidth;
         }
         xPos -= 0.3 * spacingWidth;
@@ -123,9 +123,9 @@ void CardThemeModel::renderNext()
     }
     p.end();
 
-    QString dirName = theme.directoryName();
+    QString dirName = theme.dirName();
 
-    d->cache->insert( d->previewString + dirName, *pix );
+    cache.insertOther( "preview_" + d->previewString, *pix );
 
     delete m_previews.value( dirName, 0 );
     m_previews.insert( dirName, pix );
@@ -258,8 +258,6 @@ KCardThemeWidget::KCardThemeWidget( const QString & previewString, QWidget * par
     d->textHeight = fontMetrics().height();
     d->itemSize = QSize( d->previewSize.width() + 2 * d->itemMargin, d->previewSize.height() + d->textHeight + 3 * d->itemMargin );
 
-    d->cache = new KPixmapCache("libkcardgame-previews");
-
     d->model = new CardThemeModel( d, this );
 
     d->listView = new QListView( this );
@@ -280,14 +278,13 @@ KCardThemeWidget::KCardThemeWidget( const QString & previewString, QWidget * par
 
 KCardThemeWidget::~KCardThemeWidget()
 {
-    delete d->cache;
     delete d;
 }
 
 
-void KCardThemeWidget::setCurrentSelection( const QString & theme )
+void KCardThemeWidget::setCurrentSelection( const QString & dirName )
 {
-    QModelIndex index = d->model->indexOf( theme );
+    QModelIndex index = d->model->indexOf( dirName );
     if ( index.isValid() )
         d->listView->setCurrentIndex( index );
 }

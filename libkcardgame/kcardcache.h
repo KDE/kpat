@@ -20,6 +20,8 @@
 #ifndef KCARDCACHE_H
 #define KCARDCACHE_H
 
+class KCardTheme;
+
 class QDateTime;
 class QPixmap;
 class QSize;
@@ -61,7 +63,7 @@ public:
      * Constructor creates and initializes a KPixmapCache for all KDE Games 
      * card games
      */
-    KCardCache2();
+    KCardCache2( const KCardTheme & theme );
 
     /**
      * Cleans up the cache
@@ -85,19 +87,11 @@ public:
     QSize size() const;
 
     /**
-     * Set the theme to be used to render the frontside of cards.
-     *
-     * Make sure to set a proper theme before fetching frontside pixmaps from the cache.
-     *
-     * @param theme the name of the theme to be use for rendering frontsides
-     */
-    void setTheme( const QString& theme );
-
-    /**
      * Return the currently used frontside theme
      * @returns the name of the frontside theme
      */
-    QString theme() const;
+    KCardTheme theme() const;
+
 
     /**
      * Retrieve the frontside pixmap.

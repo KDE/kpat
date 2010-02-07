@@ -32,7 +32,7 @@ class KCardThemePrivate
 public:
     bool isValid;
     QString displayName;
-    QString directoryName;
+    QString dirName;
     QString desktopFilePath;
     QString graphicsFilePath;
     QDateTime lastModified;
@@ -55,13 +55,13 @@ QList<KCardTheme> KCardTheme::findAll()
 
 
 
-KCardTheme::KCardTheme( const QString & directoryName )
+KCardTheme::KCardTheme( const QString & dirName )
   : d( new KCardThemePrivate )
 {
     d->isValid = false;
-    d->directoryName = directoryName;
+    d->dirName = dirName;
 
-    QString indexFilePath = KGlobal::dirs()->findResource( "data", QString( "carddecks/%1/index.desktop" ).arg( directoryName ) );
+    QString indexFilePath = KGlobal::dirs()->findResource( "data", QString( "carddecks/%1/index.desktop" ).arg( dirName ) );
     if ( indexFilePath.isEmpty() )
         return;
 
@@ -99,46 +99,53 @@ KCardTheme::KCardTheme( const KCardTheme & theme )
 {
     d->isValid = theme.d->isValid;
     d->displayName = theme.d->displayName;
-    d->directoryName = theme.d->directoryName;
+    d->dirName = theme.d->dirName;
     d->desktopFilePath = theme.d->desktopFilePath;
     d->graphicsFilePath = theme.d->graphicsFilePath;
     d->lastModified = theme.d->lastModified;
 }
 
 
+KCardTheme::KCardTheme()
+  : d( new KCardThemePrivate )
+{
+    d->isValid = false;
+}
+
+
 bool KCardTheme::isValid() const
 {
-    return d->isValid;
+    return d && d->isValid;
 }
 
 
 QString KCardTheme::displayName() const
 {
-    return d->displayName;
+    return d ? d->displayName : QString();
 }
 
 
-QString KCardTheme::directoryName() const
+QString KCardTheme::dirName() const
 {
-    return d->directoryName;
+    return d ? d->dirName : QString();
 }
 
 
 QString KCardTheme::desktopFilePath() const
 {
-    return d->desktopFilePath;
+    return d ? d->desktopFilePath : QString();
 }
 
 
 QString KCardTheme::graphicsFilePath() const
 {
-    return d->graphicsFilePath;
+    return d ? d->graphicsFilePath : QString();
 }
 
 
 QDateTime KCardTheme::lastModified() const
 {
-    return d->lastModified;
+    return d ? d->lastModified : QDateTime();
 }
 
 
@@ -146,7 +153,7 @@ KCardTheme::KCardTheme & KCardTheme::operator=( const KCardTheme & theme )
 {
     d->isValid = theme.d->isValid;
     d->displayName = theme.d->displayName;
-    d->directoryName = theme.d->directoryName;
+    d->dirName = theme.d->dirName;
     d->desktopFilePath = theme.d->desktopFilePath;
     d->graphicsFilePath = theme.d->graphicsFilePath;
     d->lastModified = theme.d->lastModified;

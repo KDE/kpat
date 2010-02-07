@@ -43,7 +43,7 @@ QSvgRenderer* KCardCache2Private::renderer()
     if ( !svgRenderer )
     {
         kDebug() << "Loading front SVG renderer";
-        svgRenderer = new QSvgRenderer( CardDeckInfo::frontSVGFilePath( theme ) );
+        svgRenderer = new QSvgRenderer( theme.graphicsFilePath() );
     }
     return svgRenderer;
 }
@@ -100,13 +100,22 @@ void LoadThread::run()
     }
 }
 
-KCardCache2::KCardCache2()
+KCardCache2::KCardCache2( const KCardTheme & theme )
     : d( new KCardCache2Private )
 {
-    d->cache = 0;
+    d->theme = theme;
     d->svgRenderer = 0;
     d->rendererMutex = new QMutex();
     d->loadThread = 0;
+
+    d->cache = new KPixmapCache( QString( "kdegames-cards_%1" ).arg( theme.dirName() ) );
+
+    QDateTime dt = theme.lastModified();
+    if ( d->cache->timestamp() < dt.toTime_t() )
+    {
+        d->cache->discard();
+        d->cache->setTimestamp( dt.toTime_t() );
+    }
 }
 
 KCardCache2::~KCardCache2()
@@ -114,8 +123,7 @@ KCardCache2::~KCardCache2()
     if ( d->loadThread && d->loadThread->isRunning() )
         d->loadThread->kill();
 
-    if ( d->loadThread )
-        delete d->loadThread;
+    delete d->loadThread;
     delete d->cache;
     delete d->svgRenderer;
     delete d->rendererMutex;
@@ -133,31 +141,8 @@ QSize KCardCache2::size() const
     return d->size;
 }
 
-void KCardCache2::setTheme( const QString& theme )
-{
-    delete d->cache;
-    d->cache = new KPixmapCache( QString( "kdegames-cards_%1" ).arg( theme ) );
 
-    QDateTime dt = QFileInfo( CardDeckInfo::frontSVGFilePath( theme ) ).lastModified();
-    if ( d->cache->timestamp() < dt.toTime_t() )
-    {
-        d->cache->discard();
-        d->cache->setTimestamp( dt.toTime_t() );
-    }
-
-    if ( d->loadThread && d->loadThread->isRunning() )
-        d->loadThread->kill();
-
-    {
-        QMutexLocker l( d->rendererMutex );
-        delete d->svgRenderer;
-        d->svgRenderer = 0;
-    }
-    d->theme = theme;
-}
-
-
-QString KCardCache2::theme() const
+KCardTheme KCardCache2::theme() const
 {
     return d->theme;
 }
@@ -166,11 +151,11 @@ QString KCardCache2::theme() const
 QPixmap KCardCache2::renderCard( const QString & element ) const
 {
     QPixmap pix;
-    if ( d->theme.isEmpty() || d->size.isEmpty() )
+    if ( !d->theme.isValid() || d->size.isEmpty() )
         return pix;
 
     QString key = keyForPixmap( element , d->size );
-    if ( !d->cache || !d->cache->find( key, pix ) )
+    if ( !d->cache->find( key, pix ) )
     {
         kDebug() << "Renderering" << key << "in main thread.";
 
@@ -204,11 +189,11 @@ QPixmap KCardCache2::renderCard( const QString & element ) const
 
 QSizeF KCardCache2::naturalSize( const QString & element ) const
 {
-    if( d->theme.isEmpty() )
+    if( !d->theme.isValid() )
         return QSizeF();
 
     QPixmap pix;
-    QString key = d->theme + '_' + element + "_default";
+    QString key = d->theme.dirName() + '_' + element + "_default";
     if ( d->cache && d->cache->find( key, pix ) )
         return pix.size();
 
@@ -276,7 +261,7 @@ void KCardCache2::loadInBackground( const QStringList & elements )
             unrenderedElements << element;
     }
 
-    d->loadThread = new LoadThread( d, d->size, d->theme, unrenderedElements );
+    d->loadThread = new LoadThread( d, d->size, d->theme.dirName(), unrenderedElements );
     d->connect( d->loadThread, SIGNAL(renderingDone(QString,QImage)), SLOT(submitRendering(QString,QImage)), Qt::QueuedConnection );
     d->loadThread->start( QThread::IdlePriority );
 }

@@ -30,10 +30,11 @@ public:
 
     explicit KCardTheme( const QString & directoryName );
     KCardTheme( const KCardTheme & theme );
+    KCardTheme();
 
     bool isValid() const;
     QString displayName() const;
-    QString directoryName() const;
+    QString dirName() const;
     QString desktopFilePath() const;
     QString graphicsFilePath() const;
     QDateTime lastModified() const;

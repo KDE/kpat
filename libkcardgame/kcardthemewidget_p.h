@@ -75,7 +75,6 @@ class KCardThemeWidgetPrivate
 public:
     CardThemeModel * model;
     QListView * listView;
-    KPixmapCache * cache;
 
     int itemMargin;
     int textHeight;

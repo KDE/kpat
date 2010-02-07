@@ -22,6 +22,10 @@
 
 class LoadThread;
 
+#include "kcardtheme.h"
+
+class KPixmapCache;
+
 class QMutex;
 #include <QtCore/QSize>
 #include <QtCore/QStringList>
@@ -30,20 +34,19 @@ class QImage;
 class QPixmap;
 class QSvgRenderer;
 
-class KPixmapCache;
-
 
 class KCardCache2Private : public QObject
 {
     Q_OBJECT
 
 public:
-    KPixmapCache * cache;
-    LoadThread * loadThread;
     QSize size;
-    QString theme;
+    KCardTheme theme;
+    KPixmapCache * cache;
     QMutex * rendererMutex;
     QSvgRenderer * svgRenderer;
+    LoadThread * loadThread;
+
     QSvgRenderer * renderer();
 
 public slots:

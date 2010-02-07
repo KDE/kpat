@@ -37,6 +37,7 @@
 
 #include "carddeck.h"
 
+#include "kcardtheme.h"
 #include "pile.h"
 #include "shuffle.h"
 
@@ -62,8 +63,7 @@ public:
         KCardCache2 * cache = m_cacheCache.take( frontSide );
         if ( !cache )
         {
-            cache = new KCardCache2();
-            cache->setTheme( frontSide );
+            cache = new KCardCache2( KCardTheme( frontSide ) );
         }
         return cache;
     };
@@ -71,7 +71,7 @@ public:
     void stashCardCache( KCardCache2 * cache )
     {
         if ( cache )
-            m_cacheCache.insert( cache->theme(), cache );
+            m_cacheCache.insert( cache->theme().dirName(), cache );
     };
 
 private:
