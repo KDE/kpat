@@ -24,10 +24,6 @@ class KCardPile;
 #include "libkcardgame_export.h"
 
 #include <QtGui/QGraphicsItem>
-class QGraphicsScene;
-class QParallelAnimationGroup;
-class QPropertyAnimation;
-
 
 class LIBKCARDGAME_EXPORT KCard : public QObject, public QGraphicsPixmapItem
 {
@@ -36,64 +32,46 @@ class LIBKCARDGAME_EXPORT KCard : public QObject, public QGraphicsPixmapItem
     Q_PROPERTY( qreal rotation READ rotation WRITE setRotation )
     Q_PROPERTY( qreal scale READ scale WRITE setScale )
     Q_PROPERTY( qreal flippedness READ flippedness WRITE setFlippedness )
-    Q_PROPERTY( qreal highlightedness READ highlightedness WRITE setHighlightedness )
 
-    friend class KAbstractCardDeck;
-
-public:
+private:
     KCard( quint32 data, KAbstractCardDeck * deck );
     virtual ~KCard();
 
+public:
     enum { Type = QGraphicsItem::UserType + 1 };
     virtual int type() const;
 
     quint32 data() const;
 
-    void raise();
+    void setSource( KCardPile * pile );
+    KCardPile * source() const;
 
     void turn( bool faceUp );
     bool isFaceUp() const;
 
-    void setSource( KCardPile * pile ) { m_source = pile; }
-    KCardPile * source() const { return m_source; }
-
     void animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool faceup2, bool raised, int duration );
     bool isAnimated() const;
+
+    void raise();
 
     void setHighlighted( bool highlighted );
     bool isHighlighted() const;
 
 signals:
-    void       animationStarted( KCard * card );
-    void       animationStopped( KCard * card );
+    void animationStarted( KCard * card );
+    void animationStopped( KCard * card );
 
 public slots:
-    void       completeAnimation();
-    void       stopAnimation();
+    void completeAnimation();
+    void stopAnimation();
 
 private:
-    void updatePixmap();
-
-    void setHighlightedness( qreal highlightedness );
-    qreal highlightedness() const;
-
     void setFlippedness( qreal flippedness );
     qreal flippedness() const;
 
-    bool m_faceUp;
-    bool m_highlighted;
-    const quint32 m_data;
+    class KCardPrivate * const d;
 
-    qreal m_destZ;
-
-    qreal m_flippedness;
-    qreal m_highlightedness;
-
-    KAbstractCardDeck * m_deck;
-    KCardPile * m_source;
-
-    QParallelAnimationGroup * m_animation;
-    QPropertyAnimation * m_fadeAnimation;
+    friend class KAbstractCardDeck;
 };
 
 #endif

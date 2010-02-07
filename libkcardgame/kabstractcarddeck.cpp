@@ -37,6 +37,7 @@
 
 #include "kabstractcarddeck.h"
 
+#include "kcard_p.h"
 #include "kcardtheme.h"
 #include "kcardpile.h"
 #include "shuffle.h"
@@ -260,7 +261,7 @@ void KAbstractCardDeck::setCardWidth( int width )
         d->currentCardSize = newSize;
         d->cache->setSize( newSize );
         foreach ( KCard * c, d->allCards )
-            c->updatePixmap();
+            c->d->updatePixmap();
 
         QTimer::singleShot( 200, d, SLOT(loadInBackground()) );;
     }

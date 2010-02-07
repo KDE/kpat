@@ -16,7 +16,7 @@
  *
  */
 
-#include "kcard.h"
+#include "kcard_p.h"
 
 #include "kabstractcarddeck.h"
 #include "kcardpile.h"
@@ -29,25 +29,75 @@
 #include <QtGui/QPainter>
 
 
+KCardPrivate::KCardPrivate( KCard * card )
+  : QObject( card ),
+    q( card )
+{
+}
+
+
+void KCardPrivate::updatePixmap()
+{
+    QPixmap pix;
+    if( flippedness > 0.5 )
+        pix = deck->frontsidePixmap( data );
+    else
+        pix = deck->backsidePixmap( data );
+
+    qreal highlightOpacity = fadeAnimation->state() == QAbstractAnimation::Running
+                             ? highlightValue
+                             : ( highlighted ? 1 : 0 );
+
+    if ( highlightOpacity > 0 )
+    {
+        QPainter p( &pix );
+        p.setCompositionMode( QPainter::CompositionMode_SourceAtop );
+        p.setOpacity( 0.5 * highlightOpacity );
+        p.fillRect( 0, 0, pix.width(), pix.height(), Qt::black );
+    }
+
+    q->setPixmap( pix );
+}
+
+
+void KCardPrivate::setHighlightedness( qreal highlightedness )
+{
+    highlightValue = highlightedness;
+    updatePixmap();
+    return;
+}
+
+
+qreal KCardPrivate::highlightedness() const
+{
+    return highlightValue;
+}
+
+
 KCard::KCard( quint32 data, KAbstractCardDeck * deck )
   : QObject(),
     QGraphicsPixmapItem(),
-    m_faceUp( true ),
-    m_highlighted( false ),
-    m_data( data ),
-    m_flippedness( m_faceUp ? 1 : 0 ),
-    m_highlightedness( m_highlighted ? 1 : 0 ),
-    m_deck( deck ),
-    m_source( 0 ),
-    m_animation( 0 )
+    d( new KCardPrivate( this ) )
 {
+    d->data = data;
+    d->deck = deck;
+
+    d->faceUp = true;
+    d->flippedness = d->faceUp ? 1 : 0;
+    d->highlighted = false;
+    d->highlightValue = d->highlighted ? 1 : 0;
+
+    d->source = 0;
+
+    d->animation = 0;
+
+    d->fadeAnimation = new QPropertyAnimation( d, "highlightedness", d );
+    d->fadeAnimation->setDuration( DURATION_CARDHIGHLIGHT );
+    d->fadeAnimation->setKeyValueAt( 0, 0 );
+    d->fadeAnimation->setKeyValueAt( 1, 1 );
+
     setShapeMode( QGraphicsPixmapItem::BoundingRectShape );
     setTransformationMode( Qt::SmoothTransformation );
-
-    m_fadeAnimation = new QPropertyAnimation( this, "highlightedness", this );
-    m_fadeAnimation->setDuration( DURATION_CARDHIGHLIGHT );
-    m_fadeAnimation->setKeyValueAt( 0, 0 );
-    m_fadeAnimation->setKeyValueAt( 1, 1 );
 }
 
 
@@ -56,8 +106,6 @@ KCard::~KCard()
     // If the card is in a pile, remove it from there.
     if ( source() )
         source()->remove( this );
-    if ( scene() )
-        scene()->removeItem( this );
 }
 
 
@@ -69,32 +117,37 @@ int KCard::type() const
 
 quint32 KCard::data() const
 {
-    return m_data;
+    return d->data;
 }
 
 
-void KCard::raise()
+void KCard::setSource( KCardPile * pile )
 {
-    if ( zValue() < 1000 )
-        setZValue( 1000 + zValue() );
+    d->source = pile;
+}
+
+
+KCardPile * KCard::source() const
+{
+    return d->source;
 }
 
 
 void KCard::turn( bool faceUp )
 {
     qreal flippedness = faceUp ? 1.0 : 0.0;
-    if ( m_faceUp != faceUp || m_flippedness != flippedness )
+    if ( d->faceUp != faceUp || d->flippedness != flippedness )
     {
-        m_faceUp = faceUp;
-        m_flippedness = flippedness;
-        updatePixmap();
+        d->faceUp = faceUp;
+        d->flippedness = flippedness;
+        d->updatePixmap();
     }
 }
 
 
 bool KCard::isFaceUp() const
 {
-    return m_faceUp;
+    return d->faceUp;
 }
 
 
@@ -153,14 +206,14 @@ void KCard::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool
         setRotation( rotation2 );
     }
 
-    if ( faceup2 != m_faceUp )
+    if ( faceup2 != d->faceUp )
     {
         QPropertyAnimation * flip = new QPropertyAnimation( this, "flippedness" );
-        flip->setKeyValueAt( 0, m_faceUp ? 1.0 : 0.0 );
+        flip->setKeyValueAt( 0, d->faceUp ? 1.0 : 0.0 );
         flip->setKeyValueAt( 1, faceup2 ? 1.0 : 0.0 );
         flip->setDuration( duration );
         aniGroup->addAnimation( flip );
-        m_faceUp = faceup2;
+        d->faceUp = faceup2;
     }
 
     if ( raised )
@@ -174,11 +227,11 @@ void KCard::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool
     }
     else
     {
-        m_destZ = z2;
+        d->destZ = z2;
 
-        m_animation = aniGroup;
-        connect( m_animation, SIGNAL(finished()), SLOT(stopAnimation()) );
-        m_animation->start();
+        d->animation = aniGroup;
+        connect( d->animation, SIGNAL(finished()), SLOT(stopAnimation()) );
+        d->animation->start();
         emit animationStarted( this );
     }
 }
@@ -186,53 +239,47 @@ void KCard::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool
 
 bool KCard::isAnimated() const
 {
-    return m_animation != 0;
+    return d->animation != 0;
 }
+
+
+void KCard::raise()
+{
+    if ( zValue() < 1000 )
+        setZValue( 1000 + zValue() );
+}
+
 
 void KCard::setHighlighted( bool flag )
 {
-    if ( flag != m_highlighted )
+    if ( flag != d->highlighted )
     {
-        m_highlighted = flag;
+        d->highlighted = flag;
 
-        m_fadeAnimation->setDirection( flag
+        d->fadeAnimation->setDirection( flag
                                        ? QAbstractAnimation::Forward
                                        : QAbstractAnimation::Backward );
 
-        if ( m_fadeAnimation->state() != QAbstractAnimation::Running )
-            m_fadeAnimation->start();
+        if ( d->fadeAnimation->state() != QAbstractAnimation::Running )
+            d->fadeAnimation->start();
     }
-}
-
-
-void KCard::setHighlightedness( qreal highlightedness )
-{
-    m_highlightedness = highlightedness;
-    updatePixmap();
-    return;
 }
 
 
 bool KCard::isHighlighted() const
 {
-    return m_highlighted;
-}
-
-
-qreal KCard::highlightedness() const
-{
-    return m_highlightedness;
+    return d->highlighted;
 }
 
 
 void KCard::completeAnimation()
 {
-    if ( !m_animation )
+    if ( !d->animation )
         return;
 
-    m_animation->disconnect( this );
-    if ( m_animation->state() != QAbstractAnimation::Stopped )
-        m_animation->setCurrentTime( m_animation->duration() );
+    d->animation->disconnect( this );
+    if ( d->animation->state() != QAbstractAnimation::Stopped )
+        d->animation->setCurrentTime( d->animation->duration() );
 
     stopAnimation();
 }
@@ -240,54 +287,30 @@ void KCard::completeAnimation()
 
 void KCard::stopAnimation()
 {
-    if ( !m_animation )
+    if ( !d->animation )
         return;
 
-    delete m_animation;
-    m_animation = 0;
+    delete d->animation;
+    d->animation = 0;
 
-    setZValue( m_destZ );
+    setZValue( d->destZ );
 
     emit animationStopped( this );
 }
 
 
-void KCard::updatePixmap()
-{
-    QPixmap pix;
-    if( m_flippedness > 0.5 )
-        pix = m_deck->frontsidePixmap( data() );
-    else
-        pix = m_deck->backsidePixmap( data() );
-
-    qreal highlightOpacity = m_fadeAnimation->state() == QAbstractAnimation::Running
-                             ? m_highlightedness
-                             : ( m_highlighted ? 1 : 0 );
-
-    if ( highlightOpacity > 0 )
-    {
-        QPainter p( &pix );
-        p.setCompositionMode( QPainter::CompositionMode_SourceAtop );
-        p.setOpacity( 0.5 * highlightOpacity );
-        p.fillRect( 0, 0, pix.width(), pix.height(), Qt::black );
-    }
-
-    setPixmap( pix );
-}
-
-
 void KCard::setFlippedness( qreal flippedness )
 {
-    if ( flippedness == m_flippedness )
+    if ( flippedness == d->flippedness )
         return;
 
-    bool changePixmap = ( flippedness >= 0.5 && m_flippedness < 0.5 )
-                        || ( flippedness <= 0.5 && m_flippedness > 0.5 );
+    bool changePixmap = ( flippedness >= 0.5 && d->flippedness < 0.5 )
+                        || ( flippedness <= 0.5 && d->flippedness > 0.5 );
 
-    m_flippedness = flippedness;
+    d->flippedness = flippedness;
 
     if ( changePixmap )
-        updatePixmap();
+        d->updatePixmap();
 
     qreal xOffset = pixmap().width() * ( 0.5 - qAbs( flippedness - 0.5 ) );
     qreal xScale = qAbs( 2 * flippedness - 1 );
@@ -298,8 +321,9 @@ void KCard::setFlippedness( qreal flippedness )
 
 qreal KCard::flippedness() const
 {
-    return m_flippedness;
+    return d->flippedness;
 }
 
 
+#include "kcard_p.moc"
 #include "kcard.moc"
