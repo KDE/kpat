@@ -95,7 +95,7 @@ void Idiot::restart()
     emit newCardsPossible(true);
 }
 
-bool Idiot::checkAdd(const PatPile * pile, const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards) const
+bool Idiot::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
 {
     switch ( pile->pileRole() )
     {
@@ -109,7 +109,7 @@ bool Idiot::checkAdd(const PatPile * pile, const QList<KStandardCard*> & oldCard
     }
 }
 
-bool Idiot::checkRemove(const PatPile * pile, const QList<KStandardCard*> & cards) const
+bool Idiot::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
 {
     return pile->pileRole() == PatPile::Tableau
            && cards.first() == pile->top()
@@ -120,7 +120,7 @@ bool Idiot::checkRemove(const PatPile * pile, const QList<KStandardCard*> & card
                 || m_play[3]->isEmpty() );
 }
 
-bool Idiot::canMoveAway(const KStandardCard * card) const
+bool Idiot::canMoveAway(const KCard * card) const
 {
     if ( card->source() == talon || card->source() == m_away )
         return false;
@@ -130,9 +130,11 @@ bool Idiot::canMoveAway(const KStandardCard * card) const
 
     for ( int i = 0; i < 4; ++i )
     {
-        KStandardCard * c = m_play[i]->top();
-        if ( c && c != card && c->suit() == card->suit()
-            && ( c->rank() == KStandardCard::Ace || (card->rank() != KStandardCard::Ace && c->rank() > card->rank() ) ) )
+        KCard * c = m_play[i]->top();
+        if ( c && c != card && getSuit( c ) == getSuit( card )
+             && ( getRank( c ) == KStandardCardDeck::Ace
+                  || ( getRank( card ) != KStandardCardDeck::Ace
+                       && getRank( c ) > getRank( card ) ) ) )
             return true;
     }
 
@@ -153,7 +155,7 @@ bool Idiot::cardClicked(KCard *c)
     if (c != c->source()->top())
         return false;
 
-    KStandardCard * sc = dynamic_cast<KStandardCard*>( c );
+    KCard * sc = dynamic_cast<KCard*>( c );
 
     bool  didMove = true;
     if ( sc && canMoveAway(sc) )
@@ -193,7 +195,7 @@ bool Idiot::isGameWon() const
 
     // Criterium 2.
     for (int i = 0; i < 4; i++) {
-        if (m_play[i]->count() != 1 || m_play[i]->top()->rank() != KStandardCard::Ace)
+        if (m_play[i]->count() != 1 || getRank( m_play[i]->top() ) != KStandardCardDeck::Ace)
             return false;
     }
 

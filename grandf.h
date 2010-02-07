@@ -56,8 +56,8 @@ public slots:
 
 protected:
     void collect();
-    virtual bool checkAdd(const PatPile * pile, const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards) const;
-    virtual bool checkRemove(const PatPile * pile, const QList<KStandardCard*> & cards) const;
+    virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
+    virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
     virtual QString getGameState();
     virtual void setGameState( const QString & stream );
 

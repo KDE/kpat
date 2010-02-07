@@ -137,7 +137,7 @@ KCard *Fortyeight::newCards()
     return pile->top();
 }
 
-bool Fortyeight::checkAdd(const PatPile * pile, const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards) const
+bool Fortyeight::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
 {
     switch ( pile->pileRole() )
     {
@@ -146,8 +146,8 @@ bool Fortyeight::checkAdd(const PatPile * pile, const QList<KStandardCard*> & ol
     case PatPile::Tableau:
         return newCards.size() == 1
                && ( oldCards.isEmpty()
-                    || ( oldCards.last()->suit() == newCards.first()->suit()
-                         && oldCards.last()->rank() == newCards.first()->rank() + 1 ) );
+                    || ( getSuit( oldCards.last() ) == getSuit( newCards.first() )
+                         && getRank( oldCards.last() ) == getRank( newCards.first() ) + 1 ) );
     case PatPile::Stock:
     case PatPile::Waste:
     default:
@@ -155,7 +155,7 @@ bool Fortyeight::checkAdd(const PatPile * pile, const QList<KStandardCard*> & ol
     }
 }
 
-bool Fortyeight::checkRemove( const PatPile * pile, const QList<KStandardCard*> & cards) const
+bool Fortyeight::checkRemove( const PatPile * pile, const QList<KCard*> & cards) const
 {
     switch ( pile->pileRole() )
     {

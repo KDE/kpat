@@ -63,34 +63,8 @@ bool PatPile::isFoundation() const
 }
 
 
-QList<KStandardCard*> PatPile::cards() const
-{
-    return castCardList( KCardPile::cards() );
-}
-
-
-KStandardCard * PatPile::at( int index ) const
-{
-    return static_cast<KStandardCard*>( KCardPile::at( index ) );
-}
-
-
-KStandardCard* PatPile::top() const
-{
-    return static_cast<KStandardCard*>( KCardPile::top() );
-}
-
-
-QList< KStandardCard* > PatPile::topCardsDownTo( const KCard * card ) const
-{
-    return castCardList( KCardPile::topCardsDownTo( card ) );
-}
-
-
 void PatPile::add( KCard * card, int index )
 {
-    Q_ASSERT( dynamic_cast<KStandardCard*>( card ) );
-
     // FIXME This is hideous and way too casty. Find a more elegant way,
     // maybe moving this code into CardScene to be reimplemented by
     // DealerScene.
@@ -98,10 +72,9 @@ void PatPile::add( KCard * card, int index )
 
     KCardPile::add( card, index );
 
-    KStandardCard * c = dynamic_cast<KStandardCard*>( card );
     DealerScene * d = dynamic_cast<DealerScene*>( scene() );
-    bool takenDown =  c && d && oldSource && oldSource->isFoundation() && !isFoundation();
-    d->preventDropsFor( takenDown, c );
+    bool takenDown =  d && oldSource && oldSource->isFoundation() && !isFoundation();
+    d->preventDropsFor( takenDown, card );
 }
 
 

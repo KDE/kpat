@@ -443,10 +443,10 @@ void FreecellSolver::translate_layout()
 	}
 	if (total != 52) {
             for (int i = 0; i < 4; ++i) {
-                KStandardCard *c = deal->target[i]->top();
+                KCard *c = deal->target[i]->top();
                 if (c) {
-                    O[translateSuit( c->suit() ) >> 4] = c->rank();
-                    total += c->rank();
+                    O[translateSuit( getSuit( c ) ) >> 4] = getRank( c );
+                    total += getRank( c );
                 }
             }
 	}
@@ -461,16 +461,16 @@ MoveHint *FreecellSolver::translateMove( const MOVE &m )
         frompile = deal->store[m.from];
     else
         frompile = deal->freecell[m.from-8];
-    KStandardCard *card = frompile->at( frompile->count() - m.card_index - 1);
+    KCard *card = frompile->at( frompile->count() - m.card_index - 1);
 
     if ( m.totype == O_Type )
     {
         PatPile *target = 0;
         PatPile *empty = 0;
         for (int i = 0; i < 4; ++i) {
-            KStandardCard *c = deal->target[i]->top();
+            KCard *c = deal->target[i]->top();
             if (c) {
-                if ( c->suit() == card->suit() )
+                if ( getSuit( c ) == getSuit( card ) )
                 {
                     target = deal->target[i];
                     break;

@@ -20,23 +20,55 @@
 #define KSTANDARDCARDDECK_H
 
 #include "kabstractcarddeck.h"
-#include "kstandardcard.h"
 #include "libkcardgame_export.h"
 
 
 class LIBKCARDGAME_EXPORT KStandardCardDeck : public KAbstractCardDeck
 {
 public:
-    static QList<KStandardCard::Suit> standardSuits();
-    static QList<KStandardCard::Rank> standardRanks();
+    enum Suit
+    {
+        NoSuit = -1,
+        Clubs = 0,
+        Diamonds = 1,
+        Hearts = 2,
+        Spades = 3
+    };
+
+    enum Rank
+    {
+        NoRank = 0,
+        Ace = 1,
+        Two,
+        Three,
+        Four,
+        Five,
+        Six,
+        Seven,
+        Eight,
+        Nine,
+        Ten,
+        Jack,
+        Queen,
+        King
+    };
+
+    static QList<Suit> standardSuits();
+    static QList<Rank> standardRanks();
+
+    static quint32 getId( Suit suit, Rank rank );
 
     explicit KStandardCardDeck( int copies = 1,
-                                QList<KStandardCard::Suit> suits = standardSuits(),
-                                QList<KStandardCard::Rank> ranks = standardRanks() );
+                                QList<Suit> suits = standardSuits(),
+                                QList<Rank> ranks = standardRanks() );
     virtual ~KStandardCardDeck();
 
 protected:
-    virtual QString elementName(quint32 id, bool faceUp = true) const;
+    virtual QString elementName( quint32 id, bool faceUp = true ) const;
 };
+
+LIBKCARDGAME_EXPORT KStandardCardDeck::Suit getSuit( const KCard * card );
+LIBKCARDGAME_EXPORT KStandardCardDeck::Rank getRank( const KCard * card );
+LIBKCARDGAME_EXPORT bool getIsRed( const KCard * card );
 
 #endif

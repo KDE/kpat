@@ -164,23 +164,23 @@ void Grandf::collect() {
     }
 }
 
-bool Grandf::checkAdd(const PatPile * pile, const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards) const
+bool Grandf::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
 {
     switch (pile->pileRole())
     {
     case PatPile::Tableau:
         if (oldCards.isEmpty())
-            return newCards.first()->rank() == KStandardCard::King;
+            return getRank( newCards.first() ) == KStandardCardDeck::King;
         else
-            return newCards.first()->rank() == oldCards.last()->rank() - 1
-                   && newCards.first()->suit() == oldCards.last()->suit();
+            return getRank( newCards.first() ) == getRank( oldCards.last() ) - 1
+                   && getSuit( newCards.first() ) == getSuit( oldCards.last() );
     case PatPile::Foundation:
     default:
         return checkAddSameSuitAscendingFromAce(oldCards, newCards);
     }
 }
 
-bool Grandf::checkRemove(const PatPile * pile, const QList<KStandardCard*> & cards) const
+bool Grandf::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
 {
     return pile->pileRole() == PatPile::Tableau && cards.first()->isFaceUp();
 }

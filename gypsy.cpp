@@ -84,7 +84,7 @@ void Gypsy::restart() {
     emit newCardsPossible(true);
 }
 
-bool Gypsy::checkAdd(const PatPile * pile, const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards) const
+bool Gypsy::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
 {
     switch (pile->pileRole())
     {
@@ -98,7 +98,7 @@ bool Gypsy::checkAdd(const PatPile * pile, const QList<KStandardCard*> & oldCard
     }
 }
 
-bool Gypsy::checkRemove(const PatPile * pile, const QList<KStandardCard*> & cards) const
+bool Gypsy::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
 {
     switch (pile->pileRole())
     {

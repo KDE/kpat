@@ -68,8 +68,8 @@ protected:
     virtual QString getGameOptions() const;
     virtual void setGameOptions(const QString &options);
 
-    virtual bool checkAdd(const PatPile * pile, const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards) const;
-    virtual bool checkRemove(const PatPile * pile, const QList<KStandardCard*> & cards) const;
+    virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
+    virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
 
 private:
     bool EasyRules;
@@ -82,7 +82,7 @@ private:
     PatPile* target[4];
 
     KlondikePile *pile;
-    KStandardCard::Rank target_tops[4];
+    KStandardCardDeck::Rank target_tops[4];
 
 private slots:
     void gameTypeChanged();

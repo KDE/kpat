@@ -76,11 +76,11 @@ protected:
     virtual QString getGameOptions() const;
     virtual void setGameOptions(const QString &options);
 
-    virtual bool checkAdd(const PatPile * pile, const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards) const;
-    virtual bool checkRemove(const PatPile * pile, const QList<KStandardCard*> & cards) const;
+    virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
+    virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
 
 private:
-    QList<KStandardCard*> getRun(KStandardCard *c) const;
+    QList<KCard*> getRun(KCard *c) const;
     void setSuits(int s);
     void createDeck();
     QPointF randomPos();

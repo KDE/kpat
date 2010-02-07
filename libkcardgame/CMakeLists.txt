@@ -6,7 +6,6 @@ set( libkcardgame_SRCS
     kcardscene.cpp
     kcardtheme.cpp
     kcardthemewidget.cpp
-    kstandardcard.cpp
     kstandardcarddeck.cpp
 )
 

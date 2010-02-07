@@ -124,28 +124,28 @@ Mod3::Mod3( )
     setSolver( new Mod3Solver( this ) );
 }
 
-bool mod3CheckAdd(int baseRank, const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards)
+bool mod3CheckAdd(int baseRank, const QList<KCard*> & oldCards, const QList<KCard*> & newCards)
 {
     if (oldCards.isEmpty())
-        return newCards.first()->rank() == baseRank;
+        return getRank( newCards.first() ) == baseRank;
     else
-        return oldCards.first()->rank() == baseRank
-               && newCards.first()->suit() == oldCards.last()->suit()
-               && newCards.first()->rank() == oldCards.last()->rank() + 3;
+        return getRank( oldCards.first() ) == baseRank
+               && getSuit( newCards.first() ) == getSuit( oldCards.last() )
+               && getRank( newCards.first() ) == getRank( oldCards.last() ) + 3;
 }
 
-bool Mod3::checkAdd(const PatPile * pile, const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards) const
+bool Mod3::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
 {
     switch (pile->pileRole())
     {
     case PatPile::FoundationType1:
-        return newCards.size() == 1 && newCards.first()->rank() == KStandardCard::Ace;
+        return newCards.size() == 1 && getRank( newCards.first() ) == KStandardCardDeck::Ace;
     case PatPile::FoundationType2:
-        return mod3CheckAdd(KStandardCard::Two, oldCards, newCards);
+        return mod3CheckAdd(KStandardCardDeck::Two, oldCards, newCards);
     case PatPile::FoundationType3:
-        return mod3CheckAdd(KStandardCard::Three, oldCards, newCards);
+        return mod3CheckAdd(KStandardCardDeck::Three, oldCards, newCards);
     case PatPile::FoundationType4:
-        return mod3CheckAdd(KStandardCard::Four, oldCards, newCards);
+        return mod3CheckAdd(KStandardCardDeck::Four, oldCards, newCards);
     case PatPile::Tableau:
         return oldCards.isEmpty();
     case PatPile::Stock:
@@ -154,7 +154,7 @@ bool Mod3::checkAdd(const PatPile * pile, const QList<KStandardCard*> & oldCards
     }
 }
 
-bool Mod3::checkRemove(const PatPile * pile, const QList<KStandardCard*> & cards) const
+bool Mod3::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
 {
     switch (pile->pileRole())
     {

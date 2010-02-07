@@ -485,15 +485,15 @@ void GypsySolver::translate_layout()
     }
 
     for (int i = 0; i < 8; ++i) {
-        KStandardCard *c = deal->target[i]->top();
+        KCard *c = deal->target[i]->top();
         if (c) {
-            int suit = translateSuit( c->suit() ) >> 4;
+            int suit = translateSuit( getSuit( c ) ) >> 4;
             int target = outs + suit*2;
             if ( Wlen[target] )
                 target++;
             Wp[target]++;
             Wlen[target]++;
-            *Wp[target] = ( suit << 4 ) + c->rank();
+            *Wp[target] = ( suit << 4 ) + getRank( c );
         }
     }
 }
@@ -535,16 +535,16 @@ MoveHint *GypsySolver::translateMove( const MOVE &m )
         return 0;
 
     PatPile *frompile = deal->store[m.from];
-    KStandardCard *card = frompile->at( frompile->count() - m.card_index - 1);
+    KCard *card = frompile->at( frompile->count() - m.card_index - 1);
 
     if ( m.totype == O_Type )
     {
         PatPile *target = 0;
         PatPile *empty = 0;
         for (int i = 0; i < 8; ++i) {
-            KStandardCard *c = deal->target[i]->top();
+            KCard *c = deal->target[i]->top();
             if (c) {
-                if ( c->suit() == card->suit() && c->rank() == card->rank() - 1)
+                if ( getSuit( c ) == getSuit( card ) && getRank( c ) == getRank( card ) - 1)
                 {
                     target = deal->target[i];
                     break;

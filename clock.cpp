@@ -81,36 +81,36 @@ void Clock::restart()
     deal();
 }
 
-bool Clock::checkAdd(const PatPile * pile, const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards) const
+bool Clock::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
 {
     if ( pile->pileRole() == PatPile::Tableau )
     {
         return oldCards.isEmpty()
-               || newCards.first()->rank() == oldCards.last()->rank() - 1;
+               || getRank( newCards.first() ) == getRank( oldCards.last() ) - 1;
     }
     else
     {
-        return oldCards.last()->suit() == newCards.first()->suit()
-               && ( newCards.first()->rank() == oldCards.last()->rank() + 1
-                    || ( oldCards.last()->rank() == KStandardCard::King
-                         && newCards.first()->rank() == KStandardCard::Ace ) );
+        return getSuit( oldCards.last() ) == getSuit( newCards.first() )
+               && ( getRank( newCards.first() ) == getRank( oldCards.last() ) + 1
+                    || ( getRank( oldCards.last() ) == KStandardCardDeck::King
+                         && getRank( newCards.first() ) == KStandardCardDeck::Ace ) );
     }
 }
 
 
-bool Clock::checkRemove(const PatPile* pile, const QList<KStandardCard*> & cards) const
+bool Clock::checkRemove(const PatPile* pile, const QList<KCard*> & cards) const
 {
     return pile->pileRole() == PatPile::Tableau
            && cards.first() == pile->top();
 }
 
 void Clock::deal() {
-    static const KStandardCard::Suit suits[12] = { KStandardCard::Diamonds, KStandardCard::Spades, KStandardCard::Hearts, KStandardCard::Clubs,
-                                                  KStandardCard::Diamonds, KStandardCard::Spades, KStandardCard::Hearts, KStandardCard::Clubs,
-                                                  KStandardCard::Diamonds, KStandardCard::Spades, KStandardCard::Hearts, KStandardCard::Clubs };
-    static const KStandardCard::Rank ranks[12] = { KStandardCard::Nine, KStandardCard::Ten, KStandardCard::Jack, KStandardCard::Queen,
-                                                  KStandardCard::King, KStandardCard::Two, KStandardCard::Three, KStandardCard::Four,
-                                                  KStandardCard::Five, KStandardCard::Six, KStandardCard::Seven, KStandardCard::Eight };
+    static const KStandardCardDeck::Suit suits[12] = { KStandardCardDeck::Diamonds, KStandardCardDeck::Spades, KStandardCardDeck::Hearts, KStandardCardDeck::Clubs,
+                                                       KStandardCardDeck::Diamonds, KStandardCardDeck::Spades, KStandardCardDeck::Hearts, KStandardCardDeck::Clubs,
+                                                       KStandardCardDeck::Diamonds, KStandardCardDeck::Spades, KStandardCardDeck::Hearts, KStandardCardDeck::Clubs };
+    static const KStandardCardDeck::Rank ranks[12] = { KStandardCardDeck::Nine, KStandardCardDeck::Ten, KStandardCardDeck::Jack, KStandardCardDeck::Queen,
+                                                       KStandardCardDeck::King, KStandardCardDeck::Two, KStandardCardDeck::Three, KStandardCardDeck::Four,
+                                                       KStandardCardDeck::Five, KStandardCardDeck::Six, KStandardCardDeck::Seven, KStandardCardDeck::Eight };
 
     const QPointF center = ( target[0]->pos() + target[6]->pos() ) / 2;
 

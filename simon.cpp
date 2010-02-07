@@ -93,29 +93,29 @@ void Simon::deal() {
     startDealAnimation();
 }
 
-bool Simon::checkPrefering(const PatPile * pile, const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards) const
+bool Simon::checkPrefering(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
 {
     return pile->pileRole() == PatPile::Tableau
            && !oldCards.isEmpty()
-           && oldCards.last()->suit() == newCards.first()->suit();
+           && getSuit( oldCards.last() ) == getSuit( newCards.first() );
 }
 
-bool Simon::checkAdd(const PatPile * pile, const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards) const
+bool Simon::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
 {
     if (pile->pileRole() == PatPile::Tableau)
     {
         return oldCards.isEmpty()
-               || oldCards.last()->rank() == newCards.first()->rank() + 1;
+               || getRank( oldCards.last() ) == getRank( newCards.first() ) + 1;
     }
     else
     {
         return oldCards.isEmpty()
-               && newCards.first()->rank() == KStandardCard::King
-               && newCards.last()->rank() == KStandardCard::Ace;
+               && getRank( newCards.first() ) == KStandardCardDeck::King
+               && getRank( newCards.last() ) == KStandardCardDeck::Ace;
     }
 }
 
-bool Simon::checkRemove(const PatPile * pile, const QList<KStandardCard*> & cards) const
+bool Simon::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
 {
     return pile->pileRole() == PatPile::Tableau
            && isSameSuitDescending(cards);

@@ -280,7 +280,7 @@ int ClockSolver::getClusterNumber()
 MoveHint *ClockSolver::translateMove( const MOVE &m )
 {
     PatPile *frompile = deal->store[m.from];
-    KStandardCard *card = frompile->top();
+    KCard *card = frompile->top();
 
     if ( m.totype == O_Type )
     {

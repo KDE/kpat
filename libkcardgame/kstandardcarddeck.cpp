@@ -19,35 +19,40 @@
 #include "kstandardcarddeck.h"
 
 
-QList<KStandardCard::Suit> KStandardCardDeck::standardSuits()
+QList<KStandardCardDeck::Suit> KStandardCardDeck::standardSuits()
 {
-    return QList<KStandardCard::Suit>() << KStandardCard::Clubs
-                                       << KStandardCard::Diamonds
-                                       << KStandardCard::Hearts
-                                       << KStandardCard::Spades;
+    return QList<Suit>() << Clubs
+                         << Diamonds
+                         << Hearts
+                         << Spades;
 }
 
 
-QList<KStandardCard::Rank> KStandardCardDeck::standardRanks()
+QList<KStandardCardDeck::Rank> KStandardCardDeck::standardRanks()
 {
-    return QList<KStandardCard::Rank>() << KStandardCard::Ace
-                                       << KStandardCard::Two
-                                       << KStandardCard::Three
-                                       << KStandardCard::Four
-                                       << KStandardCard::Five
-                                       << KStandardCard::Six
-                                       << KStandardCard::Seven
-                                       << KStandardCard::Eight
-                                       << KStandardCard::Nine
-                                       << KStandardCard::Ten
-                                       << KStandardCard::Jack
-                                       << KStandardCard::Queen
-                                       << KStandardCard::King;
+    return QList<Rank>() << Ace
+                         << Two
+                         << Three
+                         << Four
+                         << Five
+                         << Six
+                         << Seven
+                         << Eight
+                         << Nine
+                         << Ten
+                         << Jack
+                         << Queen
+                         << King;
 }
 
 
+quint32 KStandardCardDeck::getId( Suit suit, Rank rank )
+{
+    return ( suit << 4 ) + rank;
+}
 
-KStandardCardDeck::KStandardCardDeck( int copies, QList<KStandardCard::Suit> suits, QList<KStandardCard::Rank> ranks )
+
+KStandardCardDeck::KStandardCardDeck( int copies, QList<Suit> suits, QList<Rank> ranks )
   : KAbstractCardDeck()
 {
     Q_ASSERT( copies >= 1 );
@@ -58,9 +63,9 @@ KStandardCardDeck::KStandardCardDeck( int copies, QList<KStandardCard::Suit> sui
     // will mess up the game numbering.
     QList<KCard*> cards;
     for ( int i = 0; i < copies; ++i )
-        foreach ( const KStandardCard::Rank r, ranks )
-            foreach ( const KStandardCard::Suit s, suits )
-                cards << new KStandardCard( r, s, this );
+        foreach ( const Rank r, ranks )
+            foreach ( const Suit s, suits )
+                cards << new KCard( getId( s, r ), this );
 
     Q_ASSERT( cards.size() == copies * ranks.size() * suits.size() );
 
@@ -83,13 +88,13 @@ QString KStandardCardDeck::elementName( quint32 id, bool faceUp ) const
     int rank = id & 0xf;
     switch( rank )
     {
-    case KStandardCard::King:
+    case King:
         element = "king";
         break;
-    case KStandardCard::Queen:
+    case Queen:
         element = "queen";
         break;
-    case KStandardCard::Jack:
+    case Jack:
         element = "jack";
         break;
     default:
@@ -99,20 +104,43 @@ QString KStandardCardDeck::elementName( quint32 id, bool faceUp ) const
 
     switch( id >> 4 )
     {
-    case KStandardCard::Clubs:
+    case Clubs:
         element += "_club";
         break;
-    case KStandardCard::Spades:
+    case Spades:
         element += "_spade";
         break;
-    case KStandardCard::Diamonds:
+    case Diamonds:
         element += "_diamond";
         break;
-    case KStandardCard::Hearts:
+    case Hearts:
         element += "_heart";
         break;
     }
 
     return element;
+}
+
+
+KStandardCardDeck::Suit getSuit( const KCard * card )
+{
+    KStandardCardDeck::Suit s = KStandardCardDeck::Suit( card->data() >> 4 );
+    Q_ASSERT( KStandardCardDeck::Clubs <= s && s <= KStandardCardDeck::Spades );
+    return s;
+}
+
+
+KStandardCardDeck::Rank getRank( const KCard * card )
+{
+    KStandardCardDeck::Rank r = KStandardCardDeck::Rank( card->data() & 0xf );
+    Q_ASSERT( KStandardCardDeck::Ace <= r && r <= KStandardCardDeck::King );
+    return r;
+}
+
+
+bool getIsRed( const KCard * card )
+{
+    KStandardCardDeck::Suit s = getSuit( card );
+    return s == KStandardCardDeck::Hearts || s == KStandardCardDeck::Diamonds;
 }
 

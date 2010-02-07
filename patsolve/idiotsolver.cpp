@@ -248,7 +248,7 @@ MoveHint *IdiotSolver::translateMove( const MOVE &m )
         return 0;
     PatPile *frompile = deal->m_play[m.from];
 
-    KStandardCard *card = frompile->at( frompile->count() - m.card_index - 1);
+    KCard *card = frompile->at( frompile->count() - m.card_index - 1);
     Q_ASSERT( card );
 
     PatPile *target = 0;

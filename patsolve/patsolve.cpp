@@ -20,6 +20,8 @@
 
 #include "../patpile.h"
 
+#include "../libkcardgame/kstandardcarddeck.h"
+
 #include <KDebug>
 
 #include <cctype>
