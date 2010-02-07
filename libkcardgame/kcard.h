@@ -34,14 +34,14 @@ class LIBKCARDGAME_EXPORT KCard : public QObject, public QGraphicsPixmapItem
     Q_PROPERTY( qreal flippedness READ flippedness WRITE setFlippedness )
 
 private:
-    KCard( quint32 data, KAbstractCardDeck * deck );
+    KCard( quint32 id, KAbstractCardDeck * deck );
     virtual ~KCard();
 
 public:
     enum { Type = QGraphicsItem::UserType + 1 };
     virtual int type() const;
 
-    quint32 data() const;
+    quint32 id() const;
 
     void setSource( KCardPile * pile );
     KCardPile * source() const;

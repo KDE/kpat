@@ -44,7 +44,7 @@ public:
 
     bool faceUp;
     bool highlighted;
-    quint32 data;
+    quint32 id;
 
     qreal destZ;
     qreal flippedness;

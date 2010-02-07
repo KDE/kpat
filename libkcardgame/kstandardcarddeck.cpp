@@ -75,7 +75,7 @@ KStandardCardDeck::KStandardCardDeck( int copies, QList<Suit> suits, QList<Rank>
     d( new KStandardCardDeckPrivate )
 {
     foreach ( KCard * c, cards() )
-        c->setObjectName( elementName( c->data() ) );
+        c->setObjectName( elementName( c->id() ) );
 }
 
 
@@ -130,7 +130,7 @@ QString KStandardCardDeck::elementName( quint32 id, bool faceUp ) const
 
 KStandardCardDeck::Suit getSuit( const KCard * card )
 {
-    KStandardCardDeck::Suit s = KStandardCardDeck::Suit( card->data() >> 4 );
+    KStandardCardDeck::Suit s = KStandardCardDeck::Suit( card->id() >> 4 );
     Q_ASSERT( KStandardCardDeck::Clubs <= s && s <= KStandardCardDeck::Spades );
     return s;
 }
@@ -138,7 +138,7 @@ KStandardCardDeck::Suit getSuit( const KCard * card )
 
 KStandardCardDeck::Rank getRank( const KCard * card )
 {
-    KStandardCardDeck::Rank r = KStandardCardDeck::Rank( card->data() & 0xf );
+    KStandardCardDeck::Rank r = KStandardCardDeck::Rank( card->id() & 0xf );
     Q_ASSERT( KStandardCardDeck::Ace <= r && r <= KStandardCardDeck::King );
     return r;
 }

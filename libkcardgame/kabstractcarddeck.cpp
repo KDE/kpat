@@ -115,8 +115,8 @@ public slots:
         QSet<QString> elements;
         foreach ( const KCard * c, allCards )
         {
-            elements << q->elementName( c->data(), true );
-            elements << q->elementName( c->data(), false );
+            elements << q->elementName( c->id(), true );
+            elements << q->elementName( c->id(), false );
         }
 
         cache->loadInBackground( elements.toList() );
@@ -199,7 +199,7 @@ KCard * KAbstractCardDeck::takeCard( quint32 id )
     {
         KCard * c = *it;
 
-        if ( c->data() == id )
+        if ( c->id() == id )
         {
             d->undealtCards.erase( it );
             return c;

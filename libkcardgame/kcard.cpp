@@ -40,9 +40,9 @@ void KCardPrivate::updatePixmap()
 {
     QPixmap pix;
     if( flippedness > 0.5 )
-        pix = deck->frontsidePixmap( data );
+        pix = deck->frontsidePixmap( id );
     else
-        pix = deck->backsidePixmap( data );
+        pix = deck->backsidePixmap( id );
 
     qreal highlightOpacity = fadeAnimation->state() == QAbstractAnimation::Running
                              ? highlightValue
@@ -74,12 +74,12 @@ qreal KCardPrivate::highlightedness() const
 }
 
 
-KCard::KCard( quint32 data, KAbstractCardDeck * deck )
+KCard::KCard( quint32 id, KAbstractCardDeck * deck )
   : QObject(),
     QGraphicsPixmapItem(),
     d( new KCardPrivate( this ) )
 {
-    d->data = data;
+    d->id = id;
     d->deck = deck;
 
     d->faceUp = true;
@@ -115,9 +115,9 @@ int KCard::type() const
 }
 
 
-quint32 KCard::data() const
+quint32 KCard::id() const
 {
-    return d->data;
+    return d->id;
 }
 
 
