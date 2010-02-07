@@ -432,7 +432,7 @@ QPointF KCardPile::cardOffset( const KCard * card ) const
 {
     QPointF offset( spread().width() * card->pixmap().width(),
                     spread().height() * card->pixmap().height() );
-    if (!card->realFace())
+    if (!card->isFaceUp())
         offset *= 0.6;
     return offset;
 }

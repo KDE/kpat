@@ -78,11 +78,11 @@ void KlondikePile::layoutCards( int duration )
         if ( i < cards.size() - m_draw )
         {
             cards[i]->setZValue( z );
-            cards[i]->animate( cardPos, z, 1, 0, cards[i]->realFace(), false, duration );
+            cards[i]->animate( cardPos, z, 1, 0, cards[i]->isFaceUp(), false, duration );
         }
         else
         {
-            cards[i]->animate( cardPos, z, 1, 0, cards[i]->realFace(), false, duration );
+            cards[i]->animate( cardPos, z, 1, 0, cards[i]->isFaceUp(), false, duration );
             cardPos.rx() += divx * spread().width() * cardWidth;
         }
     }

@@ -47,12 +47,12 @@ public:
     enum { Type = QGraphicsItem::UserType + 1 };
     virtual int type() const;
 
-    bool isFaceUp() const;
     quint32 data() const;
 
     void raise();
 
     void turn( bool faceUp );
+    bool isFaceUp() const;
 
     void setSource( KCardPile * pile ) { m_source = pile; }
     KCardPile * source() const { return m_source; }
@@ -63,7 +63,6 @@ public:
 
     QPointF realPos() const;
     qreal realZ() const;
-    bool realFace() const;
 
     void setHighlighted( bool highlighted );
     bool isHighlighted() const;
@@ -85,11 +84,10 @@ private:
     void setFlippedness( qreal flippedness );
     qreal flippedness() const;
 
-    bool m_faceup;
+    bool m_faceUp;
     bool m_highlighted;
     const quint32 m_data;
 
-    bool m_destFace;
     qreal m_destX;
     qreal m_destY;
     qreal m_destZ;

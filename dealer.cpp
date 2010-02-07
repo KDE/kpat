@@ -654,7 +654,7 @@ void DealerScene::getHints()
             continue;
 
         QList<KCard*> cards = store->cards();
-        while (cards.count() && !cards.first()->realFace())
+        while (cards.count() && !cards.first()->isFaceUp())
             cards.erase(cards.begin());
 
         QList<KCard*>::Iterator iti = cards.begin();
@@ -1015,7 +1015,7 @@ bool DealerScene::cardDoubleClicked( KCard * c )
     if (c->animated())
         return false;
 
-    if (c == c->source()->top()  && c->realFace() && allowedToRemove(c->source(), c)) {
+    if (c == c->source()->top() && c->isFaceUp() && allowedToRemove(c->source(), c)) {
         KCardPile *tgt = findTarget(c);
         if (tgt) {
             c->source()->moveCards(QList<KCard*>() << c , tgt);
@@ -1043,7 +1043,7 @@ State *DealerScene::getState()
             }
             s.source_index = s.source->indexOf(c);
             s.z = c->realZ();
-            s.faceup = c->realFace();
+            s.faceup = c->isFaceUp();
             s.tookdown = d->cardsNotToDrop.contains( c );
             st->cards.append(s);
         }

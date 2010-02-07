@@ -315,7 +315,7 @@ QList<KCard*> Spider::getRun(KCard *c) const
 
     int index = p->indexOf(c);
     c = p->at(--index);
-    while (index >= 0 && c->realFace()
+    while (index >= 0 && c->isFaceUp()
            && getSuit( c ) == s && getRank( c ) == ++v)
     {
         result.prepend(c);

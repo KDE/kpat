@@ -281,7 +281,7 @@ bool Freecell::cardDoubleClicked(KCard *c)
     if (c->animated())
         return false;
 
-    if (c == c->source()->top() && c->realFace())
+    if (c == c->source()->top() && c->isFaceUp())
     {
         for (int i = 0; i < 4; i++)
         {
@@ -360,7 +360,7 @@ void Freecell::getHints()
             continue;
 
         QList<KCard*> cards = store->cards();
-        while (cards.count() && !cards.first()->realFace())
+        while (cards.count() && !cards.first()->isFaceUp())
             cards.erase(cards.begin());
 
         QList<KCard*>::Iterator iti = cards.begin();

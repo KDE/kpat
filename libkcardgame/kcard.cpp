@@ -32,14 +32,13 @@
 KCard::KCard( quint32 data, KAbstractCardDeck * deck )
   : QObject(),
     QGraphicsPixmapItem(),
-    m_faceup( true ),
+    m_faceUp( true ),
     m_highlighted( false ),
     m_data( data ),
-    m_destFace( m_faceup ),
     m_destX( 0 ),
     m_destY( 0 ),
     m_destZ( 0 ),
-    m_flippedness( m_faceup ? 1 : 0 ),
+    m_flippedness( m_faceUp ? 1 : 0 ),
     m_highlightedness( m_highlighted ? 1 : 0 ),
     m_deck( deck ),
     m_source( 0 ),
@@ -71,12 +70,6 @@ int KCard::type() const
 }
 
 
-bool KCard::isFaceUp() const
-{
-    return m_faceup;
-}
-
-
 quint32 KCard::data() const
 {
     return m_data;
@@ -92,13 +85,19 @@ void KCard::raise()
 
 void KCard::turn( bool faceUp )
 {
-    if ( m_faceup != faceUp || m_destFace != faceUp )
+    qreal flippedness = faceUp ? 1.0 : 0.0;
+    if ( m_faceUp != faceUp || m_flippedness != flippedness )
     {
-        m_faceup = faceUp;
-        m_destFace = faceUp;
+        m_faceUp = faceUp;
+        m_flippedness = flippedness;
         updatePixmap();
     }
-    m_flippedness = m_faceup ? 1.0 : 0.0;
+}
+
+
+bool KCard::isFaceUp() const
+{
+    return m_faceUp;
 }
 
 
@@ -157,13 +156,14 @@ void KCard::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool
         setRotation( rotation2 );
     }
 
-    if ( faceup2 != m_faceup )
+    if ( faceup2 != m_faceUp )
     {
         QPropertyAnimation * flip = new QPropertyAnimation( this, "flippedness" );
-        flip->setKeyValueAt( 0, m_faceup ? 1.0 : 0.0 );
+        flip->setKeyValueAt( 0, m_faceUp ? 1.0 : 0.0 );
         flip->setKeyValueAt( 1, faceup2 ? 1.0 : 0.0 );
         flip->setDuration( duration );
         aniGroup->addAnimation( flip );
+        m_faceUp = faceup2;
     }
 
     if ( raised )
@@ -172,7 +172,6 @@ void KCard::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool
     m_destX = pos2.x();
     m_destY = pos2.y();
     m_destZ = z2;
-    m_destFace = faceup2;
 
     if ( aniGroup->animationCount() == 0 )
     {
@@ -224,17 +223,6 @@ qreal KCard::realZ() const
 }
 
 
-// Return the "face up" status of the card.
-//
-// This is the destination of the animation if animated and animation
-// is more than half way, the original if animated and animation is
-// less than half way, and the current "face up" status otherwise.
-bool KCard::realFace() const
-{
-    return m_destFace;
-}
-
-
 void KCard::setHighlighted( bool flag )
 {
     if ( flag != m_highlighted )
@@ -276,7 +264,6 @@ void KCard::completeAnimation()
     if ( !m_animation )
         return;
 
-    kDebug() << this->data();
 
     m_animation->disconnect( this );
     if ( m_animation->state() != QAbstractAnimation::Stopped )
@@ -300,19 +287,10 @@ void KCard::stopAnimation()
 }
 
 
-
-
-
-
-
-
-
-
-
 void KCard::updatePixmap()
 {
     QPixmap pix;
-    if( m_faceup )
+    if( m_flippedness > 0.5 )
         pix = m_deck->frontsidePixmap( data() );
     else
         pix = m_deck->backsidePixmap( data() );
@@ -338,14 +316,13 @@ void KCard::setFlippedness( qreal flippedness )
     if ( flippedness == m_flippedness )
         return;
 
-    if ( ( flippedness >= 0.5 && m_flippedness < 0.5 )
-         || ( flippedness <= 0.5 && m_flippedness > 0.5 ) )
-    {
-        m_faceup = m_destFace;
-        updatePixmap();
-    }
+    bool changePixmap = ( flippedness >= 0.5 && m_flippedness < 0.5 )
+                        || ( flippedness <= 0.5 && m_flippedness > 0.5 );
 
     m_flippedness = flippedness;
+
+    if ( changePixmap )
+        updatePixmap();
 
     qreal xOffset = pixmap().width() * ( 0.5 - qAbs( flippedness - 0.5 ) );
     qreal xScale = qAbs( 2 * flippedness - 1 );
