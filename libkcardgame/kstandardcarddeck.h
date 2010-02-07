@@ -56,8 +56,6 @@ public:
     static QList<Suit> standardSuits();
     static QList<Rank> standardRanks();
 
-    static quint32 getId( Suit suit, Rank rank );
-
     explicit KStandardCardDeck( int copies = 1,
                                 QList<Suit> suits = standardSuits(),
                                 QList<Rank> ranks = standardRanks() );
@@ -65,6 +63,9 @@ public:
 
 protected:
     virtual QString elementName( quint32 id, bool faceUp = true ) const;
+
+private:
+    class KStandardCardDeckPrivate * const d;
 };
 
 LIBKCARDGAME_EXPORT KStandardCardDeck::Suit getSuit( const KCard * card );

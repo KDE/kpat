@@ -137,12 +137,22 @@ public:
 
 
 
-KAbstractCardDeck::KAbstractCardDeck()
+KAbstractCardDeck::KAbstractCardDeck( QList<quint32> ids )
   : d( new KAbstractCardDeckPrivate( this ) )
 {
     d->cache = 0;
     d->originalCardSize = QSize( 1, 1 );
     d->currentCardSize = QSize( 0, 0 );
+
+    foreach ( quint32 id, ids )
+    {
+        KCard * c = new KCard( id, this );
+        connect( c, SIGNAL(animationStarted(KCard*)), d, SLOT(cardStartedAnimation(KCard*)) );
+        connect( c, SIGNAL(animationStopped(KCard*)), d, SLOT(cardStoppedAnimation(KCard*)) );
+        d->allCards << c;
+    }
+
+    d->undealtCards = d->allCards;
 }
 
 
@@ -311,21 +321,6 @@ void KAbstractCardDeck::updateTheme( const KCardTheme & theme )
 bool KAbstractCardDeck::hasAnimatedCards() const
 {
     return !d->cardsWaitedFor.isEmpty();
-}
-
-
-void KAbstractCardDeck::initializeCards( const QList<KCard*> & cards )
-{
-    Q_ASSERT( d->allCards.isEmpty() );
-
-    d->allCards = d->undealtCards = cards;
-
-    foreach ( KCard * c, cards )
-    {
-        c->setObjectName( elementName( c->data() ) );
-        connect( c, SIGNAL(animationStarted(KCard*)), d, SLOT(cardStartedAnimation(KCard*)) );
-        connect( c, SIGNAL(animationStopped(KCard*)), d, SLOT(cardStoppedAnimation(KCard*)) );
-    }
 }
 
 

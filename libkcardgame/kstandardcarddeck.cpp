@@ -19,6 +19,30 @@
 #include "kstandardcarddeck.h"
 
 
+class KStandardCardDeckPrivate
+{
+public:
+    QList<quint32> generateIds( int copies, QList<KStandardCardDeck::Suit> suits, QList<KStandardCardDeck::Rank> ranks )
+    {
+        Q_ASSERT( copies >= 1 );
+        Q_ASSERT( suits.size() >= 1 );
+        Q_ASSERT( ranks.size() >= 1 );
+
+        // Note the order the cards are created in can't be changed as doing so
+        // will mess up the game numbering.
+        QList<quint32> ids;
+        for ( int i = 0; i < copies; ++i )
+            foreach ( const KStandardCardDeck::Rank & r, ranks )
+                foreach ( const KStandardCardDeck::Suit & s, suits )
+                    ids << ( s << 4 ) + r;
+
+        Q_ASSERT( ids.size() == copies * ranks.size() * suits.size() );
+
+        return ids;
+    }
+};
+
+
 QList<KStandardCardDeck::Suit> KStandardCardDeck::standardSuits()
 {
     return QList<Suit>() << Clubs
@@ -46,30 +70,12 @@ QList<KStandardCardDeck::Rank> KStandardCardDeck::standardRanks()
 }
 
 
-quint32 KStandardCardDeck::getId( Suit suit, Rank rank )
-{
-    return ( suit << 4 ) + rank;
-}
-
-
 KStandardCardDeck::KStandardCardDeck( int copies, QList<Suit> suits, QList<Rank> ranks )
-  : KAbstractCardDeck()
+  : KAbstractCardDeck( d->generateIds( copies, suits, ranks ) ),
+    d( new KStandardCardDeckPrivate )
 {
-    Q_ASSERT( copies >= 1 );
-    Q_ASSERT( suits.size() >= 1 );
-    Q_ASSERT( ranks.size() >= 1 );
-
-    // Note the order the cards are created in can't be changed as doing so
-    // will mess up the game numbering.
-    QList<KCard*> cards;
-    for ( int i = 0; i < copies; ++i )
-        foreach ( const Rank r, ranks )
-            foreach ( const Suit s, suits )
-                cards << new KCard( getId( s, r ), this );
-
-    Q_ASSERT( cards.size() == copies * ranks.size() * suits.size() );
-
-    initializeCards( cards );
+    foreach ( KCard * c, cards() )
+        c->setObjectName( elementName( c->data() ) );
 }
 
 

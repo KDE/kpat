@@ -53,7 +53,7 @@ class LIBKCARDGAME_EXPORT KAbstractCardDeck : public QObject
     Q_OBJECT
 
 public:
-    explicit KAbstractCardDeck();
+    explicit KAbstractCardDeck( QList<quint32> ids );
     virtual ~KAbstractCardDeck();
 
     QList<KCard*> cards() const;
@@ -83,7 +83,6 @@ signals:
     void cardAnimationDone();
 
 protected:
-    virtual void initializeCards( const QList<KCard*> & cards );
     virtual QString elementName( quint32 id, bool faceUp = true ) const = 0;
 
 private:
