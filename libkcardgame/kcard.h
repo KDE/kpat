@@ -61,9 +61,6 @@ public:
     void moveTo( QPointF pos2, qreal z2, int duration );
     bool animated() const;
 
-    QPointF realPos() const;
-    qreal realZ() const;
-
     void setHighlighted( bool highlighted );
     bool isHighlighted() const;
 
@@ -88,8 +85,6 @@ private:
     bool m_highlighted;
     const quint32 m_data;
 
-    qreal m_destX;
-    qreal m_destY;
     qreal m_destZ;
 
     qreal m_flippedness;

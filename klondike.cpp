@@ -224,7 +224,7 @@ KCard *Klondike::newCards()
         {
             ++flipped;
             c->completeAnimation();
-            QPointF destPos = c->realPos();
+            QPointF destPos = c->pos();
             c->setPos( talon->pos() );
             c->animate( destPos, c->zValue(), 1.0, 0.0, true, true, DURATION_FLIP * ( 1 + flipped / 6.0) );
         }

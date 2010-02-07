@@ -1172,8 +1172,8 @@ bool DealerScene::drop()
             int count = 0;
             foreach ( KCard *c, cards )
             {
-                QPointF destPos = c->realPos();
-                c->stopAnimation();
+                c->completeAnimation();
+                QPointF destPos = c->pos();
                 c->setPos( oldPositions.value( c ) );
 
                 int duration = speedUpTime( DURATION_AUTODROP + count++ * DURATION_AUTODROP / 10 );
@@ -1412,7 +1412,7 @@ void DealerScene::demo()
         foreach (KCard *c, empty) {
             c->completeAnimation();
             c->turn(true);
-            oldPositions.insert(c, c->realPos());
+            oldPositions.insert(c, c->pos());
         }
 
         assert(mh->card());
@@ -1424,8 +1424,8 @@ void DealerScene::demo()
         mh->card()->source()->moveCards(empty, mh->pile());
 
         foreach (KCard *c, empty) {
-            QPointF destPos = c->realPos();
-            c->stopAnimation();
+            c->completeAnimation();
+            QPointF destPos = c->pos();
             c->setPos(oldPositions.value(c));
             c->moveTo(destPos, c->zValue(), DURATION_DEMO);
         }

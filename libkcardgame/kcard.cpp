@@ -35,9 +35,6 @@ KCard::KCard( quint32 data, KAbstractCardDeck * deck )
     m_faceUp( true ),
     m_highlighted( false ),
     m_data( data ),
-    m_destX( 0 ),
-    m_destY( 0 ),
-    m_destZ( 0 ),
     m_flippedness( m_faceUp ? 1 : 0 ),
     m_highlightedness( m_highlighted ? 1 : 0 ),
     m_deck( deck ),
@@ -169,17 +166,16 @@ void KCard::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool
     if ( raised )
         raise();
 
-    m_destX = pos2.x();
-    m_destY = pos2.y();
-    m_destZ = z2;
-
     if ( aniGroup->animationCount() == 0 )
     {
-        delete aniGroup;
         setZValue( z2 );
+
+        delete aniGroup;
     }
     else
     {
+        m_destZ = z2;
+
         m_animation = aniGroup;
         connect( m_animation, SIGNAL(finished()), SLOT(stopAnimation()) );
         m_animation->start();
@@ -199,29 +195,6 @@ bool KCard::animated() const
 {
     return m_animation != 0;
 }
-
-
-// Return the  cards real position.  This is the destination
-// of the animation if animated, and the current position otherwise.
-QPointF KCard::realPos() const
-{
-    if (animated())
-        return QPointF(m_destX, m_destY);
-    else
-        return pos();
-}
-
-
-// Return the > of the cards real position.  This is the destination
-// of the animation if animated, and the current Z otherwise.
-qreal KCard::realZ() const
-{
-    if (animated())
-        return m_destZ;
-    else
-        return zValue();
-}
-
 
 void KCard::setHighlighted( bool flag )
 {
@@ -263,7 +236,6 @@ void KCard::completeAnimation()
 {
     if ( !m_animation )
         return;
-
 
     m_animation->disconnect( this );
     if ( m_animation->state() != QAbstractAnimation::Stopped )
