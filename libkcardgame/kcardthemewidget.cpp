@@ -29,6 +29,7 @@
 
 #include <QtGui/QApplication>
 #include <QtGui/QFontMetrics>
+#include <QtGui/QLineEdit>
 #include <QtGui/QListView>
 #include <QtGui/QPainter>
 #include <QtGui/QPixmap>
@@ -244,6 +245,20 @@ QSize CardThemeDelegate::sizeHint( const QStyleOptionViewItem & option, const QM
 }
 
 
+void KCardThemeWidgetPrivate::updateLineEdit( const QModelIndex & index )
+{
+    hiddenLineEdit->setText( model->data( index, Qt::UserRole ).toString() );
+}
+
+
+void KCardThemeWidgetPrivate::updateListView( const QString & dirName )
+{
+    QModelIndex index = model->indexOf( dirName );
+    if ( index.isValid() )
+        listView->setCurrentIndex( index );
+}
+
+
 KCardThemeWidget::KCardThemeWidget( const QString & previewString, QWidget * parent )
   : QWidget( parent ),
     d( new KCardThemeWidgetPrivate() )
@@ -282,8 +297,15 @@ KCardThemeWidget::KCardThemeWidget( const QString & previewString, QWidget * par
     d->listView->setMinimumWidth( d->itemSize.width() * 1.1 ); 
     d->listView->setMinimumHeight( d->itemSize.height() * 2.5 );
 
+    d->hiddenLineEdit = new QLineEdit( this );
+    d->hiddenLineEdit->setObjectName( "kcfg_CardTheme" );
+    d->hiddenLineEdit->hide();
+    connect( d->listView, SIGNAL(activated(QModelIndex)), d, SLOT(updateLineEdit(QModelIndex)) );
+    connect( d->hiddenLineEdit, SIGNAL(textChanged(QString)), d, SLOT(updateListView(QString)) );
+
     QVBoxLayout * layout = new QVBoxLayout( this );
     layout->addWidget( d->listView );
+    layout->addWidget( d->hiddenLineEdit );
 }
 
 

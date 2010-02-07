@@ -70,10 +70,17 @@ private:
 };
 
 
-class KCardThemeWidgetPrivate
+class KCardThemeWidgetPrivate : public QObject
 {
+    Q_OBJECT
+
+public slots:
+    void updateLineEdit( const QModelIndex & index );
+    void updateListView( const QString & dirName );
+
 public:
     CardThemeModel * model;
+    QLineEdit * hiddenLineEdit;
     QListView * listView;
 
     int itemMargin;

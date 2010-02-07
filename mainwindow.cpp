@@ -56,6 +56,7 @@
 #include <KAction>
 #include <KActionCollection>
 #include <KApplication>
+#include <KConfigDialog>
 #include <KDebug>
 #include <KFileDialog>
 #include <KGlobal>
@@ -315,39 +316,45 @@ void MainWindow::slotPickRandom()
     KCardTheme theme = themes.at( KRandom::random() % themes.size() );
     Settings::setCardTheme( theme.dirName() );
 
-    if ( m_dealer )
-    {
-        m_dealer->deck()->updateTheme( theme );
-        m_dealer->relayoutScene();
-    }
+    appearanceChanged();
 }
 
 void MainWindow::slotSelectDeck()
 {
-    KDialog * d = new KDialog( this );
-    KCardThemeWidget * w = new KCardThemeWidget( "back;10_spade,jack_diamond,queen_club,king_heart;1_spade", d );
-    d->setMainWidget( w );
+    const QString previewFormat = "back;10_spade,jack_diamond,queen_club,king_heart;1_spade";
 
-    QString oldTheme = Settings::cardTheme();
-    w->setCurrentSelection( oldTheme );
-
-    if ( d->exec() == QDialog::Accepted )
+    if ( !KConfigDialog::showDialog( "cardTheme" ) )
     {
-        QString theme = w->currentSelection();
-        if ( !theme.isEmpty() && theme != oldTheme )
-        {
-            Settings::setCardTheme( theme );
+        KConfigDialog * dialog = new KConfigDialog( this, "cardTheme", Settings::self() );
 
-            if ( m_dealer )
-            {
-                m_dealer->deck()->updateTheme( KCardTheme( theme ) );
-                m_dealer->relayoutScene();
-            }
+        // Leaving the header text and icon empty prevents the header from being shown.
+        dialog->addPage( new KCardThemeWidget( previewFormat, this ), QString() );
+
+        dialog->setFaceType( KPageDialog::Plain );
+        dialog->setButtons( KDialog::Ok | KDialog::Apply | KDialog::Cancel );
+        dialog->showButtonSeparator( false );
+
+        connect( dialog, SIGNAL(settingsChanged(QString)), this, SLOT(appearanceChanged()) );
+
+        dialog->show();
+    }
+}
+
+
+void MainWindow::appearanceChanged()
+{
+    if ( m_dealer )
+    {
+        QString currentTheme = m_dealer->deck()->theme().dirName();
+        QString newTheme = Settings::cardTheme();
+        if ( newTheme != currentTheme )
+        {
+            m_dealer->deck()->updateTheme( KCardTheme( newTheme ) );
+            m_dealer->relayoutScene();
         }
     }
-
-    delete d;
 }
+
 
 void MainWindow::setGameCaption()
 {

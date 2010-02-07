@@ -317,6 +317,12 @@ void KAbstractCardDeck::updateTheme( const KCardTheme & theme )
 }
 
 
+KCardTheme KAbstractCardDeck::theme() const
+{
+    return KCardTheme( d->cache->theme() );
+}
+
+
 bool KAbstractCardDeck::hasAnimatedCards() const
 {
     return !d->cardsWaitedFor.isEmpty();

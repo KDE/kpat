@@ -74,6 +74,7 @@ public:
     QPixmap backsidePixmap( quint32 id ) const;
 
     void updateTheme( const KCardTheme & theme  );
+    KCardTheme theme() const;
 
     bool hasAnimatedCards() const;
 
