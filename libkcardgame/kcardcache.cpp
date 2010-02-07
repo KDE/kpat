@@ -137,7 +137,7 @@ void KCardCache2::setTheme( const QString& theme )
 {
     delete d->cache;
     d->cache = new KPixmapCache( QString( "kdegames-cards_%1" ).arg( theme ) );
-    d->cache->setUseQPixmapCache( true );
+
     QDateTime dt = QFileInfo( CardDeckInfo::frontSVGFilePath( theme ) ).lastModified();
     if( d->cache->timestamp() < dt.toTime_t() )
     {
@@ -170,8 +170,7 @@ QPixmap KCardCache2::renderCard( const QString & element ) const
         return pix;
 
     QString key = keyForPixmap( element , d->size );
-
-    if ( d->cache && ( !d->cache->find( key, pix ) || pix.isNull() ) )
+    if ( !d->cache || !d->cache->find( key, pix ) )
     {
         kDebug() << "Renderering" << key << "in main thread.";
 
@@ -180,24 +179,23 @@ QPixmap KCardCache2::renderCard( const QString & element ) const
         QPainter p( &pix );
         {
             QMutexLocker l( d->rendererMutex );
-            d->renderer()->render( &p, element );
+            if ( d->renderer()->elementExists( element ) )
+            {
+                d->renderer()->render( &p, element );
+            }
+            else
+            {
+                kWarning() << "Could not find" << element << "in SVG.";
+                p.fillRect( QRect( 0, 0, pix.width(), pix.height() ), Qt::white );
+                p.setPen( Qt::red );
+                p.drawLine( 0, 0, pix.width(), pix.height() );
+                p.drawLine( pix.width(), 0, 0, pix.height() );
+                p.end();
+            }
         }
         p.end();
-        d->cache->insert( key, pix );
-    }
-
-    // Make sure we never return an invalid pixmap
-    if( pix.isNull() )
-    {
-        kWarning() << "Couldn't produce a non-null pixmap, creating a red cross";
-
-        pix = QPixmap( d->size );
-        pix.fill( Qt::white );
-        QPainter p( &pix );
-        p.setPen( Qt::red );
-        p.drawLine( 0, 0, pix.width(), pix.height() );
-        p.drawLine( pix.width(), 0, 0, pix.height() );
-        p.end();
+        if ( d->cache )
+            d->cache->insert( key, pix );
     }
 
     return pix;
@@ -214,13 +212,16 @@ QSizeF KCardCache2::naturalSize( const QString & element ) const
     if ( d->cache && d->cache->find( key, pix ) )
         return pix.size();
 
-    QSize size;
+    QSize size = QSize( 70, 100 ); // Sane default
+    bool elementExists;
     {
         QMutexLocker( d->rendererMutex );
-        size = d->renderer()->boundsOnElement( element ).size().toSize();
+        elementExists = d->renderer()->elementExists( element );
+        if ( elementExists )
+            size = d->renderer()->boundsOnElement( element ).size().toSize();
     }
 
-    if( d->cache )
+    if( elementExists && d->cache )
         d->cache->insert( key, QPixmap( size ) );
 
     return size;

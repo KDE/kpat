@@ -40,8 +40,6 @@
 #include "mainwindow.h"
 #include "patsolve/patsolve.h"
 
-#include "libkcardgame/carddeck.h"
-
 #include <KAboutData>
 #include <KApplication>
 #include <KCmdLineArgs>

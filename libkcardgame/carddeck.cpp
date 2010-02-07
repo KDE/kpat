@@ -249,7 +249,7 @@ void CardDeck::updateTheme( const KConfigGroup & cs )
     cdps->stashCardCache( m_cache );
     m_cache = cdps->getCardCache( fronttheme );
 
-    m_originalCardSize = m_cache->naturalSize( "1_spade" );
+    m_originalCardSize = m_cache->naturalSize( "back" );
     Q_ASSERT( !m_originalCardSize.isNull() );
     m_currentCardSize = m_originalCardSize.toSize();
 }
