@@ -1,6 +1,6 @@
 /*
  *  Copyright (C) 2007 David Faure <faure@kde.org>
- *  Copyright (C) 2010 Parker Coates <parker.coates@kdemail.net>
+ *  Copyright (C) 2010 Parker Coates <parker.coates@kdemail.org>
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License as
@@ -24,17 +24,17 @@
 #include <kdemacros.h>
 
 #ifndef LIBKCARDGAME_EXPORT
-#    if defined(MAKE_LIBKCARDGAME_LIB)
-         /* We are building this library */ 
-#        define LIBKCARDGAME_EXPORT KDE_EXPORT
-#    else
-         /* We are using this library */ 
-#        define LIBKCARDGAME_EXPORT KDE_IMPORT
-#    endif
+    #if defined(MAKE_LIBKCARDGAME_LIB)
+        /* We are building this library */ 
+        #define LIBKCARDGAME_EXPORT KDE_EXPORT
+    #else
+        /* We are using this library */ 
+        #define LIBKCARDGAME_EXPORT KDE_IMPORT
+    #endif
 #endif
 
 #ifndef LIBKCARDGAME_EXPORT_DEPRECATED
-#    define LIBKCARDGAME_EXPORT_DEPRECATED KDE_DEPRECATED LIBKCARDGAME_EXPORT
+    #define LIBKCARDGAME_EXPORT_DEPRECATED KDE_DEPRECATED LIBKCARDGAME_EXPORT
 #endif
 
 #endif

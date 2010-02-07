@@ -48,7 +48,7 @@ class KConfigGroup;
 #include <QSet>
 
 
-class LIBKCARDGAME_EXPORT CardDeck: public QObject
+class LIBKCARDGAME_EXPORT CardDeck : public QObject
 {
     Q_OBJECT
 
@@ -108,9 +108,6 @@ public slots:
 protected:
     virtual QString elementName( quint32 id, bool faceUp = true ) const;
 
-private: // functions
-    int pseudoRandom();
-
 private slots:
     void cardStartedAnimation( Card * card );
     void cardStoppedAnimation( Card * card );
@@ -124,7 +121,6 @@ private:
     QSize m_currentCardSize;
 
     QSet<Card*> m_cardsWaitedFor;
-    int m_pseudoRandomSeed;
 };
 
 #endif

@@ -38,6 +38,7 @@
 #include "carddeck.h"
 
 #include "pile.h"
+#include "shuffle.h"
 
 #include <KCardDeckInfo>
 #include <KConfigGroup>
@@ -197,20 +198,7 @@ void CardDeck::returnAllCards()
 // Shuffle all undealt cards
 void CardDeck::shuffle( int gameNumber )
 {
-    Q_ASSERT( gameNumber >= 0 );
-    m_pseudoRandomSeed = gameNumber;
-
-    Card* t;
-    int z;
-    int left = m_undealtCards.size();
-    for ( int i = 0; i < m_undealtCards.size(); ++i )
-    {
-        z = pseudoRandom() % left;
-        t = m_undealtCards[ z ];
-        m_undealtCards[ z ] = m_undealtCards[ left - 1 ];
-        m_undealtCards[ left - 1 ] = t;
-        --left;
-    }
+    m_undealtCards = shuffled( m_undealtCards, gameNumber );
 }
 
 
@@ -361,16 +349,6 @@ void CardDeck::cardStoppedAnimation( Card *card )
 
     if ( m_cardsWaitedFor.isEmpty() )
         emit cardAnimationDone();
-}
-
-
-// KPat uses the same pseudorandom number generation algorithm as Windows
-// Freecell, so that game numbers are the same between the two applications.
-// For more inforation, see 
-// http://support.microsoft.com/default.aspx?scid=kb;EN-US;Q28150
-int CardDeck::pseudoRandom() {
-    m_pseudoRandomSeed = 214013 * m_pseudoRandomSeed + 2531011;
-    return ( m_pseudoRandomSeed >> 16 ) & 0x7fff;
 }
 
 #include "carddeck.moc"
