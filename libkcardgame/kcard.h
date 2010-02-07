@@ -42,7 +42,7 @@ public:
     void setSource( KCardPile * pile );
     KCardPile * source() const;
 
-    void turn( bool faceUp );
+    void setFaceUp( bool faceUp );
     bool isFaceUp() const;
 
     void animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool faceup2, bool raised, int duration );

@@ -203,7 +203,7 @@ KCard *Klondike::newCards()
         {
             KCard *c = pile->top();
             c->completeAnimation();
-            c->turn( false );
+            c->setFaceUp( false );
             talon->add(c);
         }
         talon->layoutCards();

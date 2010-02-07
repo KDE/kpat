@@ -370,7 +370,7 @@ void DealerScene::openGame(QDomDocument &doc)
                     KCard * c = deck()->takeCard( ( s << 4 ) + r );
                     Q_ASSERT( c );
 
-                    c->turn(card.attribute("faceup").toInt());
+                    c->setFaceUp(card.attribute("faceup").toInt());
                     p->add(c);
                 }
                 break;
@@ -816,7 +816,7 @@ void DealerScene::won()
         QPointF delta = c->pos() - pos2;
         qreal dist = sqrt( delta.x() * delta.x() + delta.y() * delta.y() );
 
-        c->turn( true );
+        c->setFaceUp( true );
         c->animate( pos2, c->zValue(), 1, 0, true, false, dist / speed );
     }
 
@@ -1072,7 +1072,7 @@ void DealerScene::setState(State *st)
     foreach (const CardState & s, *n)
     {
         KCard *c = s.it;
-        c->turn(s.faceup);
+        c->setFaceUp(s.faceup);
         s.source->add(c, s.source_index);
 
         PatPile * p = dynamic_cast<PatPile*>(c->source());
@@ -1411,7 +1411,7 @@ void DealerScene::demo()
 
         foreach (KCard *c, empty) {
             c->completeAnimation();
-            c->turn(true);
+            c->setFaceUp(true);
             oldPositions.insert(c, c->pos());
         }
 
@@ -1692,7 +1692,7 @@ void DealerScene::addCardForDeal(PatPile * pile, KCard * card, bool faceUp, QPoi
     Q_ASSERT( card );
     Q_ASSERT( pile );
 
-    card->turn( faceUp );
+    card->setFaceUp( faceUp );
     pile->add( card );
     m_initDealPositions.insert( card, startPos );
 }

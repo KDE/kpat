@@ -215,7 +215,7 @@ void KAbstractCardDeck::takeAllCards( KCardPile * p )
     {
         KCard * c = d->undealtCards.takeFirst();
         c->setPos( p->pos() );
-        c->turn( false );
+        c->setFaceUp( false );
         p->add( c );
     }
 }

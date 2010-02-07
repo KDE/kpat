@@ -275,7 +275,7 @@ void KCardPile::animatedAdd( KCard * card, bool faceUp )
     QPointF origPos = card->pos();
     KCardPile * origPile = card->source();
 
-    card->turn( faceUp );
+    card->setFaceUp( faceUp );
     add( card );
 
     if ( origPile )

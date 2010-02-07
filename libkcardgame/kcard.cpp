@@ -207,7 +207,7 @@ KCardPile * KCard::source() const
 }
 
 
-void KCard::turn( bool faceUp )
+void KCard::setFaceUp( bool faceUp )
 {
     qreal flippedness = faceUp ? 1.0 : 0.0;
     if ( d->faceUp != faceUp || d->flipValue != flippedness )
@@ -235,7 +235,7 @@ void KCard::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool
         setZValue( z2 );
         setScale( scale2 );
         setRotation( rotation2 );
-        turn( faceup2 );
+        setFaceUp( faceup2 );
         return;
     }
 

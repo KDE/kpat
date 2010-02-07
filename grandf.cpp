@@ -141,7 +141,7 @@ void Grandf::deal() {
     {
         KCard *c = store[round]->top();
         if (c)
-            c->turn(true);
+            c->setFaceUp(true);
     }
 
     startDealAnimation();
