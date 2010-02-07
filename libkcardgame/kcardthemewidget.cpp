@@ -50,6 +50,12 @@ CardThemeModel::~CardThemeModel()
 }
 
 
+bool lessThanByDisplayName( const KCardTheme & a, const KCardTheme & b )
+{
+    return a.displayName() < b.displayName();
+}
+
+
 void CardThemeModel::reload()
 {
     reset();
@@ -64,24 +70,24 @@ void CardThemeModel::reload()
         if ( !theme.isValid() )
             continue;
 
-        QString mapKey = theme.dirName();
-
         KCardCache2 cache( theme );
 
         QPixmap * pix = new QPixmap();
         if ( cache.timestamp() >= theme.lastModified()
              && cache.findOther( "preview_" + d->previewString, *pix ) )
         {
-            m_previews.insert( mapKey, pix );
+            m_previews.insert( theme.dirName(), pix );
         }
         else
         {
             delete pix;
-            m_previews.insert( mapKey, 0 );
+            m_previews.insert( theme.displayName(), 0 );
             m_leftToRender << theme;
         }
-        m_themes.insert( mapKey, theme );
+        m_themes.insert( theme.displayName(), theme );
     }
+
+    qSort( m_leftToRender.begin(), m_leftToRender.end(), lessThanByDisplayName ) ;
 
     beginInsertRows( QModelIndex(), 0, m_themes.size() );
     endInsertRows();
@@ -123,14 +129,12 @@ void CardThemeModel::renderNext()
     }
     p.end();
 
-    QString dirName = theme.dirName();
-
     cache.insertOther( "preview_" + d->previewString, *pix );
 
-    delete m_previews.value( dirName, 0 );
-    m_previews.insert( dirName, pix );
+    delete m_previews.value( theme.displayName(), 0 );
+    m_previews.insert( theme.displayName(), pix );
 
-    QModelIndex index = indexOf( dirName );
+    QModelIndex index = indexOf( theme.dirName() );
     emit dataChanged( index, index );
 
     if ( !m_leftToRender.isEmpty() )
@@ -170,12 +174,12 @@ QVariant CardThemeModel::data( const QModelIndex & index, int role ) const
 }
 
 
-QModelIndex CardThemeModel::indexOf( const QString & name ) const
+QModelIndex CardThemeModel::indexOf( const QString & dirName ) const
 {
     QMap<QString,KCardTheme>::const_iterator it = m_themes.constBegin();
     for ( int i = 0; i < m_themes.size(); ++i )
     {
-        if ( it.key() == name )
+        if ( it.value().dirName() == dirName )
             return index( i, 0 );
         ++it;
     }

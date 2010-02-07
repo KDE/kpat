@@ -30,7 +30,7 @@ public:
     KCardThemeWidget( const QString & previewString, QWidget * parent = 0 );
     virtual ~KCardThemeWidget();
 
-    void setCurrentSelection( const QString & theme );
+    void setCurrentSelection( const QString & dirName );
     QString currentSelection() const;
 
 private:
