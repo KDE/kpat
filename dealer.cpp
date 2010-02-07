@@ -105,7 +105,7 @@ QString gettime()
 class CardState {
 public:
     KStandardCard *it;
-    Pile *source;
+    KCardPile *source;
     qreal z;
     bool faceup;
     bool tookdown;
@@ -889,14 +889,14 @@ void DealerScene::updateWonItem()
 }
 
 
-bool DealerScene::allowedToAdd( const Pile * pile, const QList<KCard*> & cards ) const
+bool DealerScene::allowedToAdd( const KCardPile * pile, const QList<KCard*> & cards ) const
 {
     const PatPile * p = dynamic_cast<const PatPile*>( pile );
     return p && checkAdd( p, p->cards(), castCardList( cards ) );
 }
 
 
-bool DealerScene::allowedToRemove( const Pile * pile, const KCard * card ) const
+bool DealerScene::allowedToRemove( const KCardPile * pile, const KCard * card ) const
 {
     const PatPile * p = dynamic_cast<const PatPile*>( pile );
     if ( !p )
@@ -1011,7 +1011,7 @@ bool DealerScene::cardDoubleClicked( KCard * c )
         return false;
 
     if (c == c->source()->top()  && c->realFace() && allowedToRemove(c->source(), c)) {
-        Pile *tgt = findTarget(c);
+        KCardPile *tgt = findTarget(c);
         if (tgt) {
             c->source()->moveCards(QList<KCard*>() << c , tgt);
             onGameStateAlteredByUser();
@@ -1623,7 +1623,7 @@ void DealerScene::createDump( QPaintDevice *device )
             if ( !item->isVisible() || item->zValue() != z )
                 continue;
 
-            Pile * pile = qgraphicsitem_cast<Pile*>(item);
+            KCardPile * pile = qgraphicsitem_cast<KCardPile*>(item);
             if ( pile )
             {
                 p.save();

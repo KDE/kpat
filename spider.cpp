@@ -50,9 +50,9 @@
 #include <KSelectAction>
 
 
-void SpiderPile::moveCards(QList<KCard*> & c, Pile *to)
+void SpiderPile::moveCards(QList<KCard*> & c, KCardPile *to)
 {
-    Pile::moveCards(c, to);
+    KCardPile::moveCards(c, to);
 
     // if this is a leg pile, don't do anything special
     PatPile * p = dynamic_cast<PatPile*>( to );

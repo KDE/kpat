@@ -45,7 +45,7 @@ class FreecellPile : public PatPile
 {
 public:
     explicit FreecellPile(int _index, const QString & objectName = QString()) : PatPile(_index, objectName) {}
-    virtual void moveCards(QList<KCard*> &c, Pile *to);
+    virtual void moveCards(QList<KCard*> &c, KCardPile *to);
 };
 
 class Freecell : public DealerScene
@@ -75,7 +75,7 @@ protected:
     void movePileToPile(QList<KStandardCard*> &c, PatPile *to, QList<PatPile*> & fss, QList<PatPile*> & fcs,
                         int start, int count, int debug_level);
 
-    Pile *pileForName(QString line) const;
+    KCardPile *pileForName(QString line) const;
 
     MoveHint *translateMove(void *m);
 

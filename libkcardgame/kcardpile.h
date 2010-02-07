@@ -47,14 +47,14 @@ class QPropertyAnimation;
 #include <QtGui/QGraphicsPixmapItem>
 
 
-class LIBKCARDGAME_EXPORT Pile : public QObject, public QGraphicsPixmapItem
+class LIBKCARDGAME_EXPORT KCardPile : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
     Q_PROPERTY( qreal highlightedness READ highlightedness WRITE setHighlightedness )
 
 public:
-    explicit Pile( const QString & objectName = QString() );
-    virtual ~Pile();
+    explicit KCardPile( const QString & objectName = QString() );
+    virtual ~KCardPile();
 
     enum { Type = UserType + 2 };
     virtual int type() const;
@@ -104,7 +104,7 @@ public:
 
     virtual void layoutCards( int duration = DURATION_RELAYOUT );
     virtual void moveCardsBack( QList<KCard*> & cards, int duration = DURATION_MOVEBACK );
-    virtual void moveCards( QList<KCard*> & cards, Pile * pile );
+    virtual void moveCards( QList<KCard*> & cards, KCardPile * pile );
 
     void cardPressed( KCard * card );
 

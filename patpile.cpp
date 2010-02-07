@@ -22,7 +22,7 @@
 
 
 PatPile::PatPile( int index, const QString & objectName )
-  : Pile( objectName ),
+  : KCardPile( objectName ),
     m_index( index ),
     m_role( NoRole ),
     m_foundation( false )
@@ -64,25 +64,25 @@ bool PatPile::isFoundation() const
 
 QList<KStandardCard*> PatPile::cards() const
 {
-    return castCardList( Pile::cards() );
+    return castCardList( KCardPile::cards() );
 }
 
 
 KStandardCard * PatPile::at( int index ) const
 {
-    return static_cast<KStandardCard*>( Pile::at( index ) );
+    return static_cast<KStandardCard*>( KCardPile::at( index ) );
 }
 
 
 KStandardCard* PatPile::top() const
 {
-    return static_cast<KStandardCard*>( Pile::top() );
+    return static_cast<KStandardCard*>( KCardPile::top() );
 }
 
 
 QList< KStandardCard* > PatPile::topCardsDownTo( const KCard * card ) const
 {
-    return castCardList( Pile::topCardsDownTo( card ) );
+    return castCardList( KCardPile::topCardsDownTo( card ) );
 }
 
 
@@ -92,7 +92,7 @@ void PatPile::add( KCard * card, int index )
 
     PatPile * oldSource = dynamic_cast<PatPile*>( card->source() );
 
-    Pile::add( card, index );
+    KCardPile::add( card, index );
 
     KStandardCard * c = dynamic_cast<KStandardCard*>( card );
     if ( c )

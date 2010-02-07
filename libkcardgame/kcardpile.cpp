@@ -35,7 +35,7 @@
  * -------------------------------------------------------------------------
  */
 
-#include "pile.h"
+#include "kcardpile.h"
 
 #include "kcardscene.h"
 
@@ -48,7 +48,7 @@
 #include <cmath>
 
 
-Pile::Pile( const QString & objectName )
+KCardPile::KCardPile( const QString & objectName )
   : QGraphicsPixmapItem(),
     m_autoTurnTop(false),
     m_highlighted( false ),
@@ -75,7 +75,7 @@ Pile::Pile( const QString & objectName )
 }
 
 
-Pile::~Pile()
+KCardPile::~KCardPile()
 {
 //     dscene()->removePile(this);
 
@@ -86,43 +86,43 @@ Pile::~Pile()
 }
 
 
-int Pile::type() const
+int KCardPile::type() const
 {
     return Type;
 }
 
 
-KCardScene * Pile::cardScene() const
+KCardScene * KCardPile::cardScene() const
 {
     return dynamic_cast<KCardScene*>( scene() );
 }
 
 
-QList<KCard*> Pile::cards() const
+QList<KCard*> KCardPile::cards() const
 {
     return m_cards;
 }
 
 
-int Pile::count() const
+int KCardPile::count() const
 {
     return m_cards.count();
 }
 
 
-bool Pile::isEmpty() const
+bool KCardPile::isEmpty() const
 {
     return m_cards.isEmpty();
 }
 
 
-int Pile::indexOf( const KCard * card ) const
+int KCardPile::indexOf( const KCard * card ) const
 {
     return m_cards.indexOf( const_cast<KCard*>( card ) );
 }
 
 
-KCard * Pile::at( int index ) const
+KCard * KCardPile::at( int index ) const
 {
     if ( index < 0 || index >= m_cards.size() )
         return 0;
@@ -130,7 +130,7 @@ KCard * Pile::at( int index ) const
 }
 
 
-KCard *Pile::top() const
+KCard *KCardPile::top() const
 {
     if ( m_cards.isEmpty() )
         return 0;
@@ -139,7 +139,7 @@ KCard *Pile::top() const
 }
 
 
-QList<KCard*> Pile::topCardsDownTo( const KCard * card ) const
+QList<KCard*> KCardPile::topCardsDownTo( const KCard * card ) const
 {
     int index = m_cards.indexOf( const_cast<KCard*>( card ) );
     if ( index == -1 )
@@ -148,85 +148,85 @@ QList<KCard*> Pile::topCardsDownTo( const KCard * card ) const
 }
 
 
-void Pile::setPilePos( QPointF pos )
+void KCardPile::setPilePos( QPointF pos )
 {
     m_pilePos = pos;
 }
 
 
-void Pile::setPilePos( qreal x,  qreal y )
+void KCardPile::setPilePos( qreal x,  qreal y )
 {
     setPilePos( QPointF( x, y ) );
 }
 
 
-QPointF Pile::pilePos() const
+QPointF KCardPile::pilePos() const
 {
     return m_pilePos;
 }
 
 
-void Pile::setReservedSpace( QSizeF space )
+void KCardPile::setReservedSpace( QSizeF space )
 {
     m_reserved = space;
 }
 
 
-void Pile::setReservedSpace( qreal width, qreal height )
+void KCardPile::setReservedSpace( qreal width, qreal height )
 {
     setReservedSpace( QSizeF( width, height ) );
 }
 
 
-QSizeF Pile::reservedSpace() const
+QSizeF KCardPile::reservedSpace() const
 {
     return m_reserved;
 }
 
 
-void Pile::setMaximumSpace( QSizeF size )
+void KCardPile::setMaximumSpace( QSizeF size )
 {
     m_maximumSpace = size;
 }
 
 
-QSizeF Pile::maximumSpace() const
+QSizeF KCardPile::maximumSpace() const
 {
     return m_maximumSpace;
 }
 
 
-void Pile::setSpread( QSizeF spread )
+void KCardPile::setSpread( QSizeF spread )
 {
     m_spread = spread;
 }
 
 
-void Pile::setSpread( qreal width, qreal height )
+void KCardPile::setSpread( qreal width, qreal height )
 {
     setSpread( QSizeF( width, height ) );
 }
 
 
-QSizeF Pile::spread() const
+QSizeF KCardPile::spread() const
 {
     return m_spread;
 }
 
 
-void Pile::setAutoTurnTop( bool autoTurnTop )
+void KCardPile::setAutoTurnTop( bool autoTurnTop )
 {
     m_autoTurnTop = autoTurnTop;
 }
 
 
-bool Pile::autoTurnTop() const
+bool KCardPile::autoTurnTop() const
 {
     return m_autoTurnTop;
 }
 
 
-void Pile::setVisible( bool visible )
+void KCardPile::setVisible( bool visible )
 {
     if ( visible != isVisible() )
     {
@@ -237,7 +237,7 @@ void Pile::setVisible( bool visible )
 }
 
 
-void Pile::setHighlighted( bool highlighted )
+void KCardPile::setHighlighted( bool highlighted )
 {
     if ( highlighted != m_highlighted )
     {
@@ -251,13 +251,13 @@ void Pile::setHighlighted( bool highlighted )
 }
 
 
-bool Pile::isHighlighted() const
+bool KCardPile::isHighlighted() const
 {
     return m_highlighted;
 }
 
 
-void Pile::setGraphicVisible( bool visible )
+void KCardPile::setGraphicVisible( bool visible )
 {
     if ( m_graphicVisible != visible )
     {
@@ -267,20 +267,20 @@ void Pile::setGraphicVisible( bool visible )
 }
 
 
-bool Pile::isGraphicVisible()
+bool KCardPile::isGraphicVisible()
 {
     return m_graphicVisible;
 }
 
 
-void Pile::setGraphicSize( QSize size )
+void KCardPile::setGraphicSize( QSize size )
 {
     if ( size != pixmap().size() )
         updatePixmap( size );
 }
 
 
-void Pile::animatedAdd( KCard * card, bool faceUp )
+void KCardPile::animatedAdd( KCard * card, bool faceUp )
 {
     Q_ASSERT( card );
 
@@ -303,7 +303,7 @@ void Pile::animatedAdd( KCard * card, bool faceUp )
 }
 
 
-void Pile::add( KCard * card, int index )
+void KCardPile::add( KCard * card, int index )
 {
     if ( card->source() == this )
         return;
@@ -332,7 +332,7 @@ void Pile::add( KCard * card, int index )
 }
 
 
-void Pile::remove( KCard * card )
+void KCardPile::remove( KCard * card )
 {
     Q_ASSERT( m_cards.contains( card ) );
     m_cards.removeAll( card );
@@ -340,14 +340,14 @@ void Pile::remove( KCard * card )
 }
 
 
-void Pile::clear()
+void KCardPile::clear()
 {
     foreach ( KCard *card, m_cards )
         remove( card );
 }
 
 
-void Pile::layoutCards( int duration )
+void KCardPile::layoutCards( int duration )
 {
     if ( m_cards.isEmpty() )
         return;
@@ -380,7 +380,7 @@ void Pile::layoutCards( int duration )
 }
 
 
-void Pile::moveCardsBack( QList<KCard*> & cards, int duration )
+void KCardPile::moveCardsBack( QList<KCard*> & cards, int duration )
 {
     if ( cards.isEmpty() )
         return;
@@ -392,7 +392,7 @@ void Pile::moveCardsBack( QList<KCard*> & cards, int duration )
 }
 
 
-void Pile::moveCards( QList<KCard*> & cards, Pile * pile )
+void KCardPile::moveCards( QList<KCard*> & cards, KCardPile * pile )
 {
     if ( cards.isEmpty() )
         return;
@@ -415,27 +415,27 @@ void Pile::moveCards( QList<KCard*> & cards, Pile * pile )
 }
 
 
-void Pile::cardPressed( KCard * card )
+void KCardPile::cardPressed( KCard * card )
 {
     emit pressed( card );
 }
 
 
-bool Pile::cardClicked( KCard * card )
+bool KCardPile::cardClicked( KCard * card )
 {
     emit clicked( card );
     return false;
 }
 
 
-bool Pile::cardDoubleClicked( KCard * card )
+bool KCardPile::cardDoubleClicked( KCard * card )
 {
     emit doubleClicked( card );
     return false;
 }
 
 
-void Pile::relayoutCards()
+void KCardPile::relayoutCards()
 {
     m_relayoutTimer->stop();
 
@@ -454,7 +454,7 @@ void Pile::relayoutCards()
 
 // Return the number of pixels in x and y that the card should be
 // offset from the start position of the pile.
-QPointF Pile::cardOffset( const KCard * card ) const
+QPointF KCardPile::cardOffset( const KCard * card ) const
 {
     QPointF offset( spread().width() * card->pixmap().width(),
                     spread().height() * card->pixmap().height() );
@@ -464,7 +464,7 @@ QPointF Pile::cardOffset( const KCard * card ) const
 }
 
 
-QPixmap Pile::normalPixmap( QSize size )
+QPixmap KCardPile::normalPixmap( QSize size )
 {
     QPixmap pix( size );
     pix.fill( Qt::transparent );
@@ -472,7 +472,7 @@ QPixmap Pile::normalPixmap( QSize size )
 }
 
 
-QPixmap Pile::highlightedPixmap( QSize size )
+QPixmap KCardPile::highlightedPixmap( QSize size )
 {
     QPixmap pix( size );
     pix.fill( QColor( 0, 0, 0, 128 ) );
@@ -480,7 +480,7 @@ QPixmap Pile::highlightedPixmap( QSize size )
 }
 
 
-void Pile::updatePixmap( QSize size )
+void KCardPile::updatePixmap( QSize size )
 {
     if ( !scene() )
         return;
@@ -516,7 +516,7 @@ void Pile::updatePixmap( QSize size )
     setPixmap( pix );
 }
 
-void Pile::setHighlightedness( qreal highlightedness )
+void KCardPile::setHighlightedness( qreal highlightedness )
 {
     if ( m_highlightedness != highlightedness )
     {
@@ -525,10 +525,10 @@ void Pile::setHighlightedness( qreal highlightedness )
     }
 }
 
-qreal Pile::highlightedness() const
+qreal KCardPile::highlightedness() const
 {
     return m_highlightedness;
 }
 
 
-#include "pile.moc"
+#include "kcardpile.moc"

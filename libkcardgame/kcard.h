@@ -20,7 +20,7 @@
 #define ABSTRACTCARD_H
 
 class KAbstractCardDeck;
-class Pile;
+class KCardPile;
 #include "libkcardgame_export.h"
 
 #include <QtGui/QGraphicsItem>
@@ -52,8 +52,8 @@ public:
     void turn( bool faceUp );
     void flip();
 
-    void setSource( Pile * pile ) { m_source = pile; }
-    Pile * source() const { return m_source; }
+    void setSource( KCardPile * pile ) { m_source = pile; }
+    KCardPile * source() const { return m_source; }
 
     void animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool faceup2, bool raised, int duration );
     void moveTo( QPointF pos2, qreal z2, int duration );
@@ -96,7 +96,7 @@ private:
     qreal m_highlightedness;
 
     KAbstractCardDeck * m_deck;
-    Pile * m_source;
+    KCardPile * m_source;
 
     QParallelAnimationGroup * m_animation;
     QPropertyAnimation * m_fadeAnimation;

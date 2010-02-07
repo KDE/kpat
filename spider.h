@@ -46,7 +46,7 @@ class SpiderPile : public PatPile
 {
 public:
     explicit SpiderPile(int _index, const QString & objectName = QString()) : PatPile(_index, objectName) {}
-    virtual void moveCards(QList<KCard*> & c, Pile *to);
+    virtual void moveCards(QList<KCard*> & c, KCardPile *to);
 };
 
 class Spider : public DealerScene

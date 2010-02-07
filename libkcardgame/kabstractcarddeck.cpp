@@ -38,7 +38,7 @@
 #include "kabstractcarddeck.h"
 
 #include "kcardtheme.h"
-#include "pile.h"
+#include "kcardpile.h"
 #include "shuffle.h"
 
 #include <KCardDeckInfo>
@@ -199,7 +199,7 @@ KCard * KAbstractCardDeck::takeCard( quint32 id )
 }
 
 
-void KAbstractCardDeck::takeAllCards( Pile * p )
+void KAbstractCardDeck::takeAllCards( KCardPile * p )
 {
     while ( !d->undealtCards.isEmpty() )
     {

@@ -40,7 +40,7 @@
 
 #include "libkcardgame_export.h"
 #include "kcardcache.h"
-class Pile;
+class KCardPile;
 #include "kcard.h"
 
 class KConfigGroup;
@@ -61,7 +61,7 @@ public:
     bool hasUndealtCards() const;
     KCard * takeCard();
     KCard * takeCard( quint32 id );
-    void takeAllCards( Pile * p );
+    void takeAllCards( KCardPile * p );
     void returnCard( KCard * c );
     void returnAllCards();
     void shuffle( int gameNumber );

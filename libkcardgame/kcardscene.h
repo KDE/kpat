@@ -43,7 +43,7 @@ class KCard;
 class KAbstractCardDeck;
 class HighlightableItem;
 #include "libkcardgame_export.h"
-class Pile;
+class KCardPile;
 
 #include <QtCore/QSet>
 #include <QtGui/QGraphicsScene>
@@ -76,9 +76,9 @@ public:
     virtual void relayoutScene();
     virtual void relayoutPiles();
 
-    void addPile( Pile * pile );
-    void removePile( Pile * pile );
-    QList<Pile*> piles() const;
+    void addPile( KCardPile * pile );
+    void removePile( KCardPile * pile );
+    QList<KCardPile*> piles() const;
 
     void setSceneAlignment( SceneAlignment alignment );
     SceneAlignment sceneAlignment() const;
@@ -91,19 +91,19 @@ public:
     void clearHighlightedItems();
     QList<QGraphicsItem*> highlightedItems() const;
 
-    void flipCardToPile( KCard * card, Pile * pile, int duration );
+    void flipCardToPile( KCard * card, KCardPile * pile, int duration );
 
 protected:
     virtual void onGameStateAlteredByUser();
 
-    virtual bool allowedToAdd( const Pile * pile, const QList<KCard*> & cards ) const;
-    virtual bool allowedToRemove( const Pile * pile, const KCard * card ) const;
-    virtual Pile * targetPile();
+    virtual bool allowedToAdd( const KCardPile * pile, const QList<KCard*> & cards ) const;
+    virtual bool allowedToRemove( const KCardPile * pile, const KCard * card ) const;
+    virtual KCardPile * targetPile();
 
     virtual void setItemHighlight( QGraphicsItem * item, bool highlight );
 
-    virtual bool pileClicked( Pile * pile );
-    virtual bool pileDoubleClicked( Pile * pile );
+    virtual bool pileClicked( KCardPile * pile );
+    virtual bool pileDoubleClicked( KCardPile * pile );
     virtual bool cardClicked( KCard * card );
     virtual bool cardDoubleClicked( KCard * card );
 
@@ -117,7 +117,7 @@ protected:
 
 private:
     KAbstractCardDeck * m_deck;
-    QList<Pile*> m_piles;
+    QList<KCardPile*> m_piles;
     QSet<QGraphicsItem*> m_highlightedItems;
 
     QList<KCard*> m_cardsBeingDragged;

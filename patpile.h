@@ -20,10 +20,10 @@
 #define PATPILE_H
 
 #include "libkcardgame/kstandardcard.h"
-#include "libkcardgame/pile.h"
+#include "libkcardgame/kcardpile.h"
 
 
-class PatPile : public Pile
+class PatPile : public KCardPile
 {
 public:
     enum PileRole

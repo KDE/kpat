@@ -144,8 +144,8 @@ public slots:
     void redo();
 
 protected:
-    virtual bool allowedToAdd(const Pile * pile, const QList<KCard*> & cards) const;
-    virtual bool allowedToRemove(const Pile * pile, const KCard * card) const;
+    virtual bool allowedToAdd(const KCardPile * pile, const QList<KCard*> & cards) const;
+    virtual bool allowedToRemove(const KCardPile * pile, const KCard * card) const;
 
     virtual bool checkAdd( const PatPile * pile, const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards ) const;
     virtual bool checkRemove( const PatPile * pile, const QList<KStandardCard*> & cards ) const;

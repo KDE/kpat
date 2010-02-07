@@ -150,7 +150,7 @@ bool Golf::cardClicked(KCard *c)
     if (c != c->source()->top())
         return false;
 
-    Pile*p=findTarget(c);
+    KCardPile*p=findTarget(c);
     if (p)
     {
         c->source()->moveCards(QList<KCard*>() << c, p);

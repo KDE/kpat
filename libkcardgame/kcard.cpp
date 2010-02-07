@@ -19,7 +19,7 @@
 #include "kcard.h"
 
 #include "kabstractcarddeck.h"
-#include "pile.h"
+#include "kcardpile.h"
 
 #include <KDebug>
 

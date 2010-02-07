@@ -38,7 +38,7 @@
 #include "kcardscene.h"
 
 #include "kabstractcarddeck.h"
-#include "pile.h"
+#include "kcardpile.h"
 
 #include <QtGui/QGraphicsSceneWheelEvent>
 #include <QtGui/QPainter>
@@ -65,7 +65,7 @@ KCardScene::~KCardScene()
 {
     delete m_deck;
 
-    foreach ( Pile * p, m_piles )
+    foreach ( KCardPile * p, m_piles )
     {
         removePile( p );
         delete p;
@@ -95,7 +95,7 @@ QList<KCard*> KCardScene::cardsBeingDragged() const
 }
 
 
-void KCardScene::addPile( Pile * pile )
+void KCardScene::addPile( KCardPile * pile )
 {
     if ( pile->cardScene() )
         pile->cardScene()->removePile( pile );
@@ -107,7 +107,7 @@ void KCardScene::addPile( Pile * pile )
 }
 
 
-void KCardScene::removePile( Pile * pile )
+void KCardScene::removePile( KCardPile * pile )
 {
     foreach ( KCard * c, pile->cards() )
         removeItem( c );
@@ -116,7 +116,7 @@ void KCardScene::removePile( Pile * pile )
 }
 
 
-QList<Pile*> KCardScene::piles() const
+QList<KCardPile*> KCardScene::piles() const
 {
     return m_piles;
 }
@@ -184,7 +184,7 @@ void KCardScene::relayoutScene()
         return;
 
     QSizeF usedArea( 0, 0 );
-    foreach ( const Pile * p, piles() )
+    foreach ( const KCardPile * p, piles() )
     {
         QSizeF neededPileArea;
         if ( ( p->pilePos().x() >= 0 && p->reservedSpace().width() >= 0 )
@@ -279,7 +279,7 @@ void KCardScene::relayoutPiles()
     int cardHeight = deck()->cardHeight();
     const qreal spacing = m_layoutSpacing * ( cardWidth + cardHeight ) / 2;
 
-    foreach ( Pile * p, piles() )
+    foreach ( KCardPile * p, piles() )
     {
         QPointF layoutPos = p->pilePos();
         QPointF pixlePos = QPointF( layoutPos.x() * cardWidth,
@@ -307,7 +307,7 @@ void KCardScene::relayoutPiles()
         p->setMaximumSpace( maxSpace );
     }
 
-    foreach ( Pile * p1, piles() )
+    foreach ( KCardPile * p1, piles() )
     {
         if ( !p1->isVisible() || p1->reservedSpace() == QSizeF( 1, 1 ) )
             continue;
@@ -318,7 +318,7 @@ void KCardScene::relayoutPiles()
         if ( p1->reservedSpace().height() < 0 )
             p1Space.moveBottom( p1->y() + cardHeight );
 
-        foreach ( Pile * p2, piles() )
+        foreach ( KCardPile * p2, piles() )
         {
             if ( p2 == p1 || !p2->isVisible() )
                 continue;
@@ -378,7 +378,7 @@ void KCardScene::relayoutPiles()
         p1->setMaximumSpace( p1Space.size() );
     }
 
-    foreach ( Pile * p, piles() )
+    foreach ( KCardPile * p, piles() )
         p->layoutCards( 0 );
 }
 
@@ -417,7 +417,7 @@ void KCardScene::setItemHighlight( QGraphicsItem * item, bool highlight )
         return;
     }
 
-    Pile * pile = qgraphicsitem_cast<Pile*>( item );
+    KCardPile * pile = qgraphicsitem_cast<KCardPile*>( item );
     if ( pile )
     {
         pile->setHighlighted( highlight );
@@ -426,7 +426,7 @@ void KCardScene::setItemHighlight( QGraphicsItem * item, bool highlight )
 }
 
 
-void KCardScene::flipCardToPile( KCard * card, Pile * pile, int duration )
+void KCardScene::flipCardToPile( KCard * card, KCardPile * pile, int duration )
 {
     QPointF origPos = card->pos();
 
@@ -445,7 +445,7 @@ void KCardScene::onGameStateAlteredByUser()
 }
 
 
-bool KCardScene::allowedToAdd( const Pile * pile, const QList<KCard*> & cards ) const
+bool KCardScene::allowedToAdd( const KCardPile * pile, const QList<KCard*> & cards ) const
 {
     Q_UNUSED( pile )
     Q_UNUSED( cards )
@@ -453,7 +453,7 @@ bool KCardScene::allowedToAdd( const Pile * pile, const QList<KCard*> & cards ) 
 }
 
 
-bool KCardScene::allowedToRemove( const Pile * pile, const KCard * card ) const
+bool KCardScene::allowedToRemove( const KCardPile * pile, const KCard * card ) const
 {
     Q_UNUSED( pile )
     Q_UNUSED( card )
@@ -461,12 +461,12 @@ bool KCardScene::allowedToRemove( const Pile * pile, const KCard * card ) const
 }
 
 
-Pile * KCardScene::targetPile()
+KCardPile * KCardScene::targetPile()
 {
-    QSet<Pile*> targets;
+    QSet<KCardPile*> targets;
     foreach ( QGraphicsItem * item, collidingItems( m_cardsBeingDragged.first() ) )
     {
-        Pile * p = qgraphicsitem_cast<Pile*>( item );
+        KCardPile * p = qgraphicsitem_cast<KCardPile*>( item );
         if ( !p )
         {
             KCard * c = qgraphicsitem_cast<KCard*>( item );
@@ -477,10 +477,10 @@ Pile * KCardScene::targetPile()
             targets << p;
     }
 
-    Pile * bestTarget = 0;
+    KCardPile * bestTarget = 0;
     qreal bestArea = 1;
 
-    foreach ( Pile * p, targets )
+    foreach ( KCardPile * p, targets )
     {
         if ( p != m_cardsBeingDragged.first()->source() && allowedToAdd( p, m_cardsBeingDragged ) )
         {
@@ -502,7 +502,7 @@ Pile * KCardScene::targetPile()
 }
 
 
-bool KCardScene::pileClicked( Pile * pile )
+bool KCardScene::pileClicked( KCardPile * pile )
 {
     if ( pile->cardClicked( 0 ) )
     {
@@ -513,7 +513,7 @@ bool KCardScene::pileClicked( Pile * pile )
 }
 
 
-bool KCardScene::pileDoubleClicked( Pile * pile )
+bool KCardScene::pileDoubleClicked( KCardPile * pile )
 {
     if ( pile->cardDoubleClicked( 0 ) )
     {
@@ -608,7 +608,7 @@ void KCardScene::mouseMoveEvent( QGraphicsSceneMouseEvent * e )
         m_startOfDrag = e->scenePos();
 
         QList<QGraphicsItem*> toHighlight;
-        Pile * dropPile = targetPile();
+        KCardPile * dropPile = targetPile();
         if ( dropPile )
         {
             if ( dropPile->isEmpty() )
@@ -645,7 +645,7 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
                 return;
             }
 
-            Pile * pile = qgraphicsitem_cast<Pile*>( topItem );
+            KCardPile * pile = qgraphicsitem_cast<KCardPile*>( topItem );
             if ( pile )
             {
                 pileClicked( pile );
@@ -656,7 +656,7 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
         if ( m_cardsBeingDragged.isEmpty() )
             return;
 
-        Pile * destination = targetPile();
+        KCardPile * destination = targetPile();
         if ( destination )
         {
             m_cardsBeingDragged.first()->source()->moveCards( m_cardsBeingDragged, destination );

@@ -51,10 +51,10 @@
 
 const int CHUNKSIZE = 100;
 
-void FreecellPile::moveCards(QList<KCard*> &c, Pile *to)
+void FreecellPile::moveCards(QList<KCard*> &c, KCardPile *to)
 {
     if (c.count() == 1) {
-        Pile::moveCards(c, to);
+        KCardPile::moveCards(c, to);
         return;
     }
     Freecell *b = dynamic_cast<Freecell*>(scene());
@@ -242,7 +242,7 @@ void Freecell::startMoving()
     QList<KCard*> empty;
     empty.append(mh->card());
     
-    Pile * p = mh->card()->source();
+    KCardPile * p = mh->card()->source();
     Q_ASSERT(mh->card() == p->top());
     Q_ASSERT(allowedToAdd(mh->pile(), empty));
     mh->pile()->add(mh->card());

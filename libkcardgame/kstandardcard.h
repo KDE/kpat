@@ -39,7 +39,7 @@
 
 #include "kcard.h"
 #include "libkcardgame_export.h"
-class Pile;
+class KCardPile;
 
 #include <QtCore/QList>
 
