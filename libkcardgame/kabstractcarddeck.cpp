@@ -253,7 +253,7 @@ void KAbstractCardDeck::setCardWidth( int width )
         foreach ( KCard * c, d->allCards )
             c->updatePixmap();
 
-        QTimer::singleShot( 200, this, SLOT(loadInBackground()) );;
+        QTimer::singleShot( 200, d, SLOT(loadInBackground()) );;
     }
 }
 
