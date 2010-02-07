@@ -311,7 +311,6 @@ void DealerScene::saveGame(QDomDocument &doc)
             card.setAttribute("suit", getSuit( c ));
             card.setAttribute("value", getRank( c ));
             card.setAttribute("faceup", c->isFaceUp());
-            card.setAttribute("z", c->realZ());
             pile.appendChild(card);
         }
         dealer.appendChild(pile);
