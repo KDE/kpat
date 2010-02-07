@@ -42,6 +42,7 @@
 #include "dealerinfo.h"
 #include "gameselectionscene.h"
 #include "render.h"
+#include "settings.h"
 #include "statisticsdialog.h"
 #include "version.h"
 #include "view.h"
@@ -55,7 +56,6 @@
 #include <KAction>
 #include <KActionCollection>
 #include <KApplication>
-#include <KConfigGroup>
 #include <KDebug>
 #include <KFileDialog>
 #include <KGlobal>
@@ -95,12 +95,6 @@ MainWindow::MainWindow()
 
     setupActions();
 
-    // Restore settings
-    KConfigGroup cg(KGlobal::config(), settings_group );
-    autodropaction->setChecked( cg.readEntry("Autodrop", true) );
-    solveraction->setChecked( cg.readEntry("Solver", true) );
-    rememberstateaction->setChecked( cg.readEntry("RememberStateOnExit", false) );
-
     foreach( const DealerInfo * di, DealerInfoList::self()->games() )
         foreach( int id, di->ids() )
             m_dealer_map.insert( id, di );
@@ -124,6 +118,8 @@ MainWindow::MainWindow()
 MainWindow::~MainWindow()
 {
     recent->saveEntries(KGlobal::config()->group( QString() ));
+
+    Settings::self()->writeConfig();
 
     delete m_dealer;
     delete m_view;
@@ -209,14 +205,17 @@ void MainWindow::setupActions()
     autodropaction = new KToggleAction(i18n("&Enable Autodrop"), this);
     actionCollection()->addAction("enable_autodrop", autodropaction);
     connect( autodropaction, SIGNAL(triggered(bool)), SLOT(enableAutoDrop(bool)) );
+    autodropaction->setChecked( Settings::autoDropEnabled() );
 
     solveraction = new KToggleAction(i18n("E&nable Solver"), this);
     actionCollection()->addAction("enable_solver", solveraction);
     connect( solveraction, SIGNAL(triggered(bool)), SLOT(enableSolver(bool)) );
+    solveraction->setChecked( Settings::solverEnabled() );
 
     rememberstateaction = new KToggleAction(i18n("&Remember State on Exit"), this);
     actionCollection()->addAction("remember_state", rememberstateaction);
     connect( rememberstateaction, SIGNAL(triggered(bool)), SLOT(enableRememberState(bool)) );
+    rememberstateaction->setChecked( Settings::rememberStateOnExit() );
 
 
     // Help Menu
@@ -265,8 +264,7 @@ void MainWindow::helpGame()
 
 void MainWindow::enableAutoDrop(bool enable)
 {
-    KConfigGroup cg(KGlobal::config(), settings_group);
-    cg.writeEntry("Autodrop", enable);
+    Settings::setAutoDropEnabled( enable );
     if (m_dealer)
         m_dealer->setAutoDropEnabled(enable);
     updateGameActionList();
@@ -274,8 +272,7 @@ void MainWindow::enableAutoDrop(bool enable)
 
 void MainWindow::enableSolver(bool enable)
 {
-    KConfigGroup cg(KGlobal::config(), settings_group);
-    cg.writeEntry("Solver", enable);
+    Settings::setSolverEnabled( enable );
     solverStatus->setText( QString() );
     if (m_dealer)
     {
@@ -287,8 +284,7 @@ void MainWindow::enableSolver(bool enable)
 
 void MainWindow::enableRememberState(bool enable)
 {
-    KConfigGroup cg(KGlobal::config(), settings_group );
-    cg.writeEntry( "RememberStateOnExit", enable );
+    Settings::setRememberStateOnExit( enable );
 }
 
 void MainWindow::newGame()
@@ -317,10 +313,7 @@ void MainWindow::slotPickRandom()
 {
     QList<KCardTheme> themes = KCardTheme::findAll();
     KCardTheme theme = themes.at( KRandom::random() % themes.size() );
-
-    KConfigGroup cg(KGlobal::config(), settings_group );
-    cg.writeEntry("CardDeck", theme.dirName());
-    cg.sync();
+    Settings::setCardTheme( theme.dirName() );
 
     if ( m_dealer )
     {
@@ -335,8 +328,7 @@ void MainWindow::slotSelectDeck()
     KCardThemeWidget * w = new KCardThemeWidget( "back;10_spade,jack_diamond,queen_club,king_heart;1_spade", d );
     d->setMainWidget( w );
 
-    KConfigGroup cg( KGlobal::config(), settings_group );
-    QString oldTheme = cg.readEntry( "Cardname" );
+    QString oldTheme = Settings::cardTheme();
     w->setCurrentSelection( oldTheme );
 
     if ( d->exec() == QDialog::Accepted )
@@ -344,8 +336,7 @@ void MainWindow::slotSelectDeck()
         QString theme = w->currentSelection();
         if ( !theme.isEmpty() && theme != oldTheme )
         {
-            cg.writeEntry( "Cardname", theme );
-            cg.sync();
+            Settings::setCardTheme( theme );
 
             if ( m_dealer )
             {
@@ -545,7 +536,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
     if ( m_dealer )
     {
-        if (rememberstateaction->isChecked())
+        if ( Settings::rememberStateOnExit() )
         {
             QFile temp(m_dealer->save_it());
             temp.copy(savedState.fileName());

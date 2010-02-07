@@ -39,16 +39,14 @@
 
 #include "dealerinfo.h"
 #include "pileutils.h"
+#include "settings.h"
 #include "speeds.h"
-#include "version.h"
 #include "patsolve/klondikesolver.h"
 
-#include <KConfigGroup>
 #include <KDebug>
 #include <KLocale>
 #include <KRandom>
 #include <KSelectAction>
-
 
 
 KlondikePile::KlondikePile( int _index, int _draw, const QString & objectName)
@@ -99,6 +97,8 @@ Klondike::Klondike()
 
     setupDeck( new KStandardCardDeck() );
 
+    EasyRules = Settings::klondikeIsDrawOne();
+
     talon = new PatPile( 0, "talon" );
     talon->setPileRole(PatPile::Stock);
     talon->setPilePos(0, 0);
@@ -107,9 +107,6 @@ Klondike::Klondike()
     // deal animation.
     talon->setZValue( -52 );
     addPile(talon);
-
-    KConfigGroup cg(KGlobal::config(), settings_group );
-    EasyRules = cg.readEntry( "KlondikeEasy", true);
 
     pile = new KlondikePile( 13, EasyRules ? 1 : 3, "pile" );
     pile->setPileRole(PatPile::Waste);
@@ -298,9 +295,7 @@ void Klondike::setEasy( bool _EasyRules )
         pile->setDraws( drawNumber );
         setSolver( new KlondikeSolver( this, drawNumber ) );
 
-        KConfigGroup cg(KGlobal::config(), settings_group );
-        cg.writeEntry( "KlondikeEasy", EasyRules);
-        cg.sync();
+        Settings::setKlondikeIsDrawOne( EasyRules );
     }
 }
 

@@ -42,7 +42,6 @@
 #include "shuffle.h"
 
 #include <KCardDeckInfo>
-#include <KConfigGroup>
 #include <KDebug>
 #include <KGlobal>
 #include <KSharedConfig>

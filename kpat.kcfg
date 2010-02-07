@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+    <kcfgfile name="kpatrc"/>
+    <group name="General Settings">
+        <entry name="AutoDropEnabled" key="Autodrop" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="SolverEnabled" key="Solver" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="RememberStateOnExit" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="CardTheme" key="Cardname" type="String">
+            <default>svg-ancient-egyptians</default>
+        </entry>
+        <entry name="KlondikeIsDrawOne" key="KlondikeEasy" type="Bool">
+            <default>true</default>
+        </entry>
+        <entry name="SpiderSuitCount" key="SpiderSuits" type="Int">
+            <default>2</default>
+        </entry>
+    </group>
+</kcfg>

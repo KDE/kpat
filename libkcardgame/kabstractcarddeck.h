@@ -43,8 +43,6 @@
 class KCardPile;
 #include "kcard.h"
 
-class KConfigGroup;
-
 #include <QSet>
 
 

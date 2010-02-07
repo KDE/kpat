@@ -21,7 +21,6 @@
 
 #include "kcardcache.h"
 
-#include <KConfigGroup>
 #include <KDebug>
 #include <KLocale>
 #include <KGlobal>

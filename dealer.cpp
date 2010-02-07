@@ -38,6 +38,7 @@
 #include "dealer.h"
 
 #include "render.h"
+#include "settings.h"
 #include "speeds.h"
 #include "version.h"
 #include "view.h"
@@ -520,11 +521,7 @@ DealerScene::~DealerScene()
 void DealerScene::setupDeck( KAbstractCardDeck * deck )
 {
     if ( deck )
-    {
-        KConfigGroup cg( KGlobal::config(), settings_group );
-        KCardTheme theme( cg.readEntry( "Cardname" ) );
-        deck->updateTheme( theme );
-    }
+        deck->updateTheme( KCardTheme( Settings::cardTheme() ) );
 
     setDeck( deck );
 }

@@ -39,11 +39,10 @@
 
 #include "dealerinfo.h"
 #include "pileutils.h"
+#include "settings.h"
 #include "speeds.h"
-#include "version.h"
 #include "patsolve/spidersolver.h"
 
-#include <KConfigGroup>
 #include <KDebug>
 #include <KLocale>
 #include <KRandom>
@@ -82,8 +81,7 @@ Spider::Spider()
     const qreal dist_x = 1.12;
     const qreal smallNeg = -1e-6;
 
-    KConfigGroup cg(KGlobal::config(), settings_group );
-    m_suits = cg.readEntry( "SpiderSuits", 2);
+    m_suits = Settings::spiderSuitCount();
 
     createDeck();
 
@@ -189,9 +187,7 @@ void Spider::setSuits(int suits)
         createDeck();
         deck()->setCardWidth( cardWidth );
 
-        KConfigGroup cg(KGlobal::config(), settings_group );
-        cg.writeEntry( "SpiderSuits", m_suits);
-        cg.sync();
+        Settings::setSpiderSuitCount( m_suits );
 
         if ( m_suits == 1 )
             options->setCurrentItem( 0 );
