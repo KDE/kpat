@@ -640,7 +640,7 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
                 return;
 
             KCard * card = qgraphicsitem_cast<KCard*>( topItem );
-            if ( card && !card->animated() )
+            if ( card && !card->isAnimated() )
             {
                 cardClicked( card );
                 return;

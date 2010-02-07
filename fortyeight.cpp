@@ -103,7 +103,7 @@ void Fortyeight::restart()
 
 void Fortyeight::deckClicked( KCard * )
 {
-    if ( pile->top() && pile->top()->animated() )
+    if ( pile->top() && pile->top()->isAnimated() )
         return;
     if ( talon->isEmpty())
         newCards();

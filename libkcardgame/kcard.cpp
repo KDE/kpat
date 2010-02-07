@@ -191,7 +191,7 @@ void KCard::moveTo( QPointF pos2, qreal z2, int duration )
 }
 
 
-bool KCard::animated() const
+bool KCard::isAnimated() const
 {
     return m_animation != 0;
 }

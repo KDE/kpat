@@ -278,7 +278,7 @@ bool Freecell::cardDoubleClicked(KCard *c)
     if (DealerScene::cardDoubleClicked(c))
         return true;
 
-    if (c->animated())
+    if (c->isAnimated())
         return false;
 
     if (c == c->source()->top() && c->isFaceUp())

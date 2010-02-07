@@ -1010,7 +1010,7 @@ bool DealerScene::cardDoubleClicked( KCard * c )
         return true;
     }
 
-    if (c->animated())
+    if (c->isAnimated())
         return false;
 
     if (c == c->source()->top() && c->isFaceUp() && allowedToRemove(c->source(), c)) {
@@ -1179,7 +1179,7 @@ bool DealerScene::drop()
                 int duration = speedUpTime( DURATION_AUTODROP + count++ * DURATION_AUTODROP / 10 );
                 c->moveTo( destPos, c->zValue(), duration );
 
-                animationStarted |= c->animated();
+                animationStarted |= c->isAnimated();
             }
 
             d->dropSpeedFactor *= AUTODROP_SPEEDUP_FACTOR;
@@ -1459,7 +1459,7 @@ KCard *DealerScene::newCards()
 
 void DealerScene::newDemoMove(KCard *m)
 {
-    if ( m->animated() )
+    if ( m->isAnimated() )
         connect(m, SIGNAL(animationStopped(KCard*)), SLOT(waitForDemo(KCard*)));
     else
         waitForDemo( 0 );

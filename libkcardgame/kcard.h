@@ -59,7 +59,7 @@ public:
 
     void animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool faceup2, bool raised, int duration );
     void moveTo( QPointF pos2, qreal z2, int duration );
-    bool animated() const;
+    bool isAnimated() const;
 
     void setHighlighted( bool highlighted );
     bool isHighlighted() const;
