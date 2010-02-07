@@ -97,7 +97,7 @@ Klondike::Klondike()
     const qreal hspacing = 1.0 / 6 + 0.02; // horizontal spacing between card piles
     const qreal vspacing = 1.0 / 4; // vertical spacing between card piles
 
-    setupDeck( new CardDeck() );
+    setupDeck( new KStandardCardDeck() );
 
     talon = new PatPile( 0, "talon" );
     talon->setPileRole(PatPile::Stock);

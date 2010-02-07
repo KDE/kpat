@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 1995 Paul Olav Tvete <paul@troll.no>
  * Copyright (C) 2000-2009 Stephan Kulow <coolo@kde.org>
- * Copyright (C) 2009 Parker Coates <parker.coates@kdemail.net>
+ * Copyright (C) 2009-2010 Parker Coates <parker.coates@kdemail.net>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -53,27 +53,7 @@ class LIBKCARDGAME_EXPORT CardDeck : public QObject
     Q_OBJECT
 
 public:
-    explicit CardDeck( int copies = 1,
-                       QList<StandardCard::Suit> suits = QList<StandardCard::Suit>()
-                                                         << StandardCard::Clubs
-                                                         << StandardCard::Diamonds
-                                                         << StandardCard::Hearts
-                                                         << StandardCard::Spades,
-                       QList<StandardCard::Rank> ranks = QList<StandardCard::Rank>()
-                                                         << StandardCard::Ace
-                                                         << StandardCard::Two
-                                                         << StandardCard::Three
-                                                         << StandardCard::Four
-                                                         << StandardCard::Five
-                                                         << StandardCard::Six
-                                                         << StandardCard::Seven
-                                                         << StandardCard::Eight
-                                                         << StandardCard::Nine
-                                                         << StandardCard::Ten
-                                                         << StandardCard::Jack
-                                                         << StandardCard::Queen
-                                                         << StandardCard::King
-                     );
+    explicit CardDeck();
     virtual ~CardDeck();
 
     QList<Card*> cards() const;
@@ -102,13 +82,12 @@ public:
 signals:
     void cardAnimationDone();
 
-public slots:
-    void loadInBackground();
-
 protected:
-    virtual QString elementName( quint32 id, bool faceUp = true ) const;
+    virtual void initializeCards( const QList<Card*> & cards );
+    virtual QString elementName( quint32 id, bool faceUp = true ) const = 0;
 
 private slots:
+    void loadInBackground();
     void cardStartedAnimation( Card * card );
     void cardStoppedAnimation( Card * card );
 

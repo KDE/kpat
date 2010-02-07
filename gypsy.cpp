@@ -48,7 +48,7 @@ Gypsy::Gypsy( )
     const qreal dist_x = 1.11;
     const qreal dist_y = 1.11;
 
-    setupDeck(new CardDeck(2));
+    setupDeck(new KStandardCardDeck(2));
 
     talon = new PatPile(0, "talon");
     talon->setPileRole(PatPile::Stock);

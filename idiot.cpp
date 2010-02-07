@@ -48,7 +48,7 @@ Idiot::Idiot( )
 {
     setSceneAlignment( AlignHCenter | AlignVCenter );
 
-    setupDeck( new CardDeck() );
+    setupDeck( new KStandardCardDeck() );
 
     // Create the talon to the left.
     talon = new PatPile( 0, "talon" );

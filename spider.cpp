@@ -221,7 +221,7 @@ void Spider::createDeck()
     else
         suits << StandardCard::Clubs << StandardCard::Diamonds << StandardCard::Hearts << StandardCard::Spades;
 
-    setupDeck( new CardDeck( 2, suits ) );
+    setupDeck( new KStandardCardDeck( 2, suits ) );
 }
 
 

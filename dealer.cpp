@@ -43,8 +43,6 @@
 #include "view.h"
 #include "patsolve/patsolve.h"
 
-#include "libkcardgame/carddeck.h"
-
 #include <KConfigGroup>
 #include <KDebug>
 #include <KLocalizedString>

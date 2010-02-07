@@ -46,7 +46,7 @@ class Solver;
 #include "view.h"
 
 #include "libkcardgame/standardcard.h"
-#include "libkcardgame/carddeck.h"
+#include "libkcardgame/kstandardcarddeck.h"
 #include "libkcardgame/cardscene.h"
 
 #include <KRandomSequence>

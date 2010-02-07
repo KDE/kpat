@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 1995 Paul Olav Tvete <paul@troll.no>
  * Copyright (C) 2000-2009 Stephan Kulow <coolo@kde.org>
- * Copyright (C) 2009 Parker Coates <parker.coates@kdemail.net>
+ * Copyright (C) 2009-2010 Parker Coates <parker.coates@kdemail.net>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -81,34 +81,16 @@ private:
 K_GLOBAL_STATIC( CardDeckPrivateStatic, cdps )
 
 
-CardDeck::CardDeck( int copies, QList<StandardCard::Suit> suits, QList<StandardCard::Rank> ranks )
-  : m_cache( 0 ),
+
+
+CardDeck::CardDeck()
+  : m_allCards(),
+    m_undealtCards(),
+    m_cache( 0 ),
     m_originalCardSize( 1, 1 ),
     m_currentCardSize( 0, 0 ),
     m_cardsWaitedFor()
 {
-    Q_ASSERT( copies >= 1 );
-    Q_ASSERT( suits.size() >= 1 );
-    Q_ASSERT( ranks.size() >= 1 );
-
-    // Note the order the cards are created in can't be changed as doing so
-    // will mess up the game numbering.
-    for ( int i = 0; i < copies; ++i )
-    {
-        foreach ( const StandardCard::Rank r, ranks )
-        {
-            foreach ( const StandardCard::Suit s, suits )
-            {
-                StandardCard * c = new StandardCard( r, s, this );
-                connect( c, SIGNAL(animationStarted(Card*)), this, SLOT(cardStartedAnimation(Card*)) );
-                connect( c, SIGNAL(animationStopped(Card*)), this, SLOT(cardStoppedAnimation(Card*)) );
-                m_allCards << c;
-            }
-        }
-    }
-    m_undealtCards = m_allCards;
-
-    Q_ASSERT( m_allCards.size() == copies * ranks.size() * suits.size() );
 }
 
 
@@ -246,51 +228,6 @@ QSize CardDeck::cardSize() const
 }
 
 
-QString CardDeck::elementName( quint32 id, bool faceUp ) const
-{
-    if ( !faceUp )
-        return "back";
-
-    QString element;
-
-    int rank = id & 0xf;
-    switch( rank )
-    {
-    case StandardCard::King:
-        element = "king";
-        break;
-    case StandardCard::Queen:
-        element = "queen";
-        break;
-    case StandardCard::Jack:
-        element = "jack";
-        break;
-    default:
-        element = QString::number( rank );
-        break;
-    }
-
-    switch( id >> 4 )
-    {
-    case StandardCard::Clubs:
-        element += "_club";
-        break;
-    case StandardCard::Spades:
-        element += "_spade";
-        break;
-    case StandardCard::Diamonds:
-        element += "_diamond";
-        break;
-    case StandardCard::Hearts:
-        element += "_heart";
-        break;
-    }
-
-    return element;
-}
-
-
-
 QPixmap CardDeck::frontsidePixmap( quint32 id ) const
 {
     return m_cache->renderCard( elementName( id, true ) );
@@ -324,12 +261,22 @@ bool CardDeck::hasAnimatedCards() const
 }
 
 
+void CardDeck::initializeCards( const QList<Card*> & cards )
+{
+    Q_ASSERT( m_allCards.isEmpty() );
+
+    m_allCards = m_undealtCards = cards;
+}
+
+
 void CardDeck::loadInBackground()
 {
     QSet<QString> elements;
-    elements << "back";
     foreach ( const Card * c, m_allCards )
+    {
         elements << elementName( c->data(), true );
+        elements << elementName( c->data(), false );
+    }
 
     m_cache->loadInBackground( elements.toList() );
 }

@@ -77,7 +77,7 @@ Mod3::Mod3( )
     const qreal rightColumX = 8 * dist_x + 0.8;
 
     // This patience uses 2 deck of cards.
-    setupDeck(new CardDeck(2));
+    setupDeck(new KStandardCardDeck(2));
 
     talon = new PatPile(0, "talon");
     talon->setPileRole(PatPile::Stock);
