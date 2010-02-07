@@ -102,12 +102,6 @@ void KCard::turn( bool faceUp )
 }
 
 
-void KCard::flip()
-{
-    turn( !m_faceup );
-}
-
-
 void KCard::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool faceup2, bool raised, int duration )
 {
     stopAnimation();

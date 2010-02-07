@@ -53,7 +53,6 @@ public:
     void raise();
 
     void turn( bool faceUp );
-    void flip();
 
     void setSource( KCardPile * pile ) { m_source = pile; }
     KCardPile * source() const { return m_source; }
