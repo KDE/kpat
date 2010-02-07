@@ -20,8 +20,6 @@
 #include "kcardthemewidget_p.h"
 
 #include "kcardcache.h"
-#include "carddeckinfo.h"
-#include "carddeckinfo_p.h"
 
 #include <KConfigGroup>
 #include <KDebug>
@@ -56,29 +54,33 @@ void CardThemeModel::reload()
 {
     reset();
 
+    m_themes.clear();
     qDeleteAll( m_previews );
     m_previews.clear();
-
     m_leftToRender.clear();
 
-    KCardCache2 cardCache;
+    QDateTime cacheModified = QDateTime::fromTime_t( d->cache->timestamp() );
 
-    foreach( const QString & name, CardDeckInfo::frontNames() )
+    foreach( const KCardTheme & theme, KCardTheme::findAll() )
     {
+        QString mapKey = theme.directoryName();
+
         QPixmap * pix = new QPixmap();
-        if ( d->cache->find( d->previewString + name, *pix ) )
+        if ( cacheModified > theme.lastModified()
+             && d->cache->find( d->previewString + mapKey, *pix ) )
         {
-            m_previews.insert( name, pix );
+            m_previews.insert( mapKey, pix );
         }
         else
         {
             delete pix;
-            m_previews.insert( name, 0 );
-            m_leftToRender << name;
+            m_previews.insert( mapKey, 0 );
+            m_leftToRender << theme;
         }
+        m_themes.insert( mapKey, theme );
     }
 
-    beginInsertRows( QModelIndex(), 0, m_previews.size() );
+    beginInsertRows( QModelIndex(), 0, m_themes.size() );
     endInsertRows();
 
     if ( !m_leftToRender.isEmpty() )
@@ -88,10 +90,13 @@ void CardThemeModel::reload()
 
 void CardThemeModel::renderNext()
 {
-    QString name = m_leftToRender.takeFirst();
+    KCardTheme theme = m_leftToRender.takeFirst();
 
     KCardCache2 cardCache;
-    cardCache.setTheme( name );
+    cardCache.setTheme( theme.displayName() );
+
+    if ( theme.lastModified() > cardCache.timestamp() )
+        cardCache.invalidateCache();
 
     QSizeF s = cardCache.naturalSize("back");
     s.scale( 1.5 * d->baseCardSize.width(), d->baseCardSize.height(), Qt::KeepAspectRatio );
@@ -118,12 +123,14 @@ void CardThemeModel::renderNext()
     }
     p.end();
 
-    d->cache->insert( d->previewString + name, *pix );
+    QString dirName = theme.directoryName();
 
-    delete m_previews.value( name, 0 );
-    m_previews.insert( name, pix );
+    d->cache->insert( d->previewString + dirName, *pix );
 
-    QModelIndex index = indexOf( name );
+    delete m_previews.value( dirName, 0 );
+    m_previews.insert( dirName, pix );
+
+    QModelIndex index = indexOf( dirName );
     emit dataChanged( index, index );
 
     if ( !m_leftToRender.isEmpty() )
@@ -134,35 +141,39 @@ void CardThemeModel::renderNext()
 int CardThemeModel::rowCount(const QModelIndex & parent ) const
 {
     Q_UNUSED( parent )
-    return m_previews.size();
+    return m_themes.size();
 }
 
 
 QVariant CardThemeModel::data( const QModelIndex & index, int role ) const
 {
-    if ( !index.isValid() || index.row() >= m_previews.size())
+    if ( !index.isValid() || index.row() >= m_themes.size())
         return QVariant();
 
-    QMap<QString,QPixmap*>::const_iterator it = m_previews.constBegin();
-    for ( int i = 0; i < index.row(); ++i )
-        ++it;
-
-    switch ( role )
+    if ( role == Qt::DisplayRole )
     {
-    case Qt::DisplayRole:
-        return it.key();
-    case Qt::DecorationRole:
-        return qVariantFromValue( (void*)(it.value()) );
-    default:
-        return QVariant();
+        QMap<QString,KCardTheme>::const_iterator it = m_themes.constBegin();
+        for ( int i = 0; i < index.row(); ++i )
+            ++it;
+        return it.value().displayName();
     }
+
+    if ( role == Qt::DecorationRole )
+    {
+        QMap<QString,QPixmap*>::const_iterator it = m_previews.constBegin();
+        for ( int i = 0; i < index.row(); ++i )
+            ++it;
+        return qVariantFromValue( (void*)(it.value()) );
+    }
+
+    return QVariant();
 }
 
 
 QModelIndex CardThemeModel::indexOf( const QString & name ) const
 {
-    QMap<QString,QPixmap*>::const_iterator it = m_previews.constBegin();
-    for ( int i = 0; i < m_previews.size(); ++i )
+    QMap<QString,KCardTheme>::const_iterator it = m_themes.constBegin();
+    for ( int i = 0; i < m_themes.size(); ++i )
     {
         if ( it.key() == name )
             return index( i, 0 );

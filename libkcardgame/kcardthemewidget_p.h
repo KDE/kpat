@@ -22,8 +22,7 @@
 
 #include "kcardthemewidget.h"
 
-#include "carddeckinfo.h"
-#include "carddeckinfo_p.h"
+#include "kcardtheme.h"
 
 class KPixmapCache;
 
@@ -52,8 +51,9 @@ private slots:
 
 private:
     const KCardThemeWidgetPrivate * const d;
+    QMap<QString,KCardTheme> m_themes;
     QMap<QString,QPixmap*> m_previews;
-    QList<QString> m_leftToRender;
+    QList<KCardTheme> m_leftToRender;
 };
 
 
