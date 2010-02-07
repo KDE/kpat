@@ -42,17 +42,6 @@ KStandardCard::KStandardCard( Rank r, Suit s, KAbstractCardDeck * deck )
     m_takenDown( false )
 {
     Q_ASSERT( deck );
-
-    QString suitName;
-    switch( suit() )
-    {
-        case Clubs :    suitName = "Clubs";    break;
-        case Diamonds : suitName = "Diamonds"; break;
-        case Hearts :   suitName = "Hearts";   break;
-        case Spades :   suitName = "Spades";   break;
-        default :       suitName = "???";      break;
-    }
-    setObjectName( suitName + QString::number( rank() ) );
 }
 
 

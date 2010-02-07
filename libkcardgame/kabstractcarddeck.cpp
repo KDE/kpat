@@ -320,8 +320,9 @@ void KAbstractCardDeck::initializeCards( const QList<KCard*> & cards )
 
     d->allCards = d->undealtCards = cards;
 
-    foreach ( const KCard * c, cards )
+    foreach ( KCard * c, cards )
     {
+        c->setObjectName( elementName( c->data() ) );
         connect( c, SIGNAL(animationStarted(KCard*)), d, SLOT(cardStartedAnimation(KCard*)) );
         connect( c, SIGNAL(animationStopped(KCard*)), d, SLOT(cardStoppedAnimation(KCard*)) );
     }
