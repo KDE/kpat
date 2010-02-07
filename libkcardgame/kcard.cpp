@@ -65,6 +65,12 @@ KCard::~KCard()
 }
 
 
+int KCard::type() const
+{
+    return KCard::Type;
+}
+
+
 bool KCard::isFaceUp() const
 {
     return m_faceup;

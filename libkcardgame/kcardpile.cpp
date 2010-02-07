@@ -88,7 +88,7 @@ KCardPile::~KCardPile()
 
 int KCardPile::type() const
 {
-    return Type;
+    return KCardPile::Type;
 }
 
 

@@ -44,6 +44,9 @@ public:
     KCard( quint32 data, KAbstractCardDeck * deck );
     virtual ~KCard();
 
+    enum { Type = QGraphicsItem::UserType + 1 };
+    virtual int type() const;
+
     bool isFaceUp() const;
     quint32 data() const;
 

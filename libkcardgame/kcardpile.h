@@ -56,7 +56,7 @@ public:
     explicit KCardPile( const QString & objectName = QString() );
     virtual ~KCardPile();
 
-    enum { Type = UserType + 2 };
+    enum { Type = QGraphicsItem::UserType + 2 };
     virtual int type() const;
 
     KCardScene * cardScene() const;
