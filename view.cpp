@@ -40,7 +40,7 @@
 #include "gameselectionscene.h"
 #include "render.h"
 
-#include "libkcardgame/cardscene.h"
+#include "libkcardgame/kcardscene.h"
 
 #include <QtGui/QResizeEvent>
 
@@ -88,7 +88,7 @@ void PatienceView::drawBackground( QPainter * painter, const QRectF & rect)
 
 void PatienceView::updateSceneSize()
 {
-    CardScene * cs = dynamic_cast<CardScene*>( scene() );
+    KCardScene * cs = dynamic_cast<KCardScene*>( scene() );
     if ( cs )
     {
         cs->resizeScene( size() );

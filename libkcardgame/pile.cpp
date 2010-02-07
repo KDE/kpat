@@ -37,7 +37,7 @@
 
 #include "pile.h"
 
-#include "cardscene.h"
+#include "kcardscene.h"
 
 #include <KDebug>
 
@@ -92,9 +92,9 @@ int Pile::type() const
 }
 
 
-CardScene * Pile::cardScene() const
+KCardScene * Pile::cardScene() const
 {
-    return dynamic_cast<CardScene*>( scene() );
+    return dynamic_cast<KCardScene*>( scene() );
 }
 
 

@@ -529,7 +529,7 @@ void DealerScene::addPile( PatPile * pile )
     if ( !d->patPiles.contains( pile ) )
         d->patPiles << pile;
 
-    CardScene::addPile( pile );
+    KCardScene::addPile( pile );
 }
 
 
@@ -537,7 +537,7 @@ void DealerScene::removePile( PatPile * pile )
 {
     d->patPiles.removeAll( pile );
 
-    CardScene::removePile( pile );
+    KCardScene::removePile( pile );
 }
 
 
@@ -942,7 +942,7 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
         if ( d->peekedCard )
             return;
         clearHighlightedItems();
-        CardScene::mousePressEvent( e );
+        KCardScene::mousePressEvent( e );
     }
     else if ( e->button() == Qt::RightButton && cardsBeingDragged().isEmpty() )
     {
@@ -984,7 +984,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
         }
     }
 
-    CardScene::mouseReleaseEvent( e );
+    KCardScene::mouseReleaseEvent( e );
 }
 
 void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
@@ -996,7 +996,7 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
 
     clearHighlightedItems();
 
-    CardScene::mouseDoubleClickEvent( e );
+    KCardScene::mouseDoubleClickEvent( e );
 }
 
 bool DealerScene::cardDoubleClicked( KCard * c )
@@ -1568,7 +1568,7 @@ void DealerScene::recordGameStatistics()
 
 void DealerScene::relayoutScene()
 {
-    CardScene::relayoutScene();
+    KCardScene::relayoutScene();
 
     if ( d->wonItem->isVisible() )
         updateWonItem();

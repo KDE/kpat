@@ -48,7 +48,7 @@ class Pile;
 #include <QtCore/QSet>
 #include <QtGui/QGraphicsScene>
 
-class LIBKCARDGAME_EXPORT CardScene : public QGraphicsScene
+class LIBKCARDGAME_EXPORT KCardScene : public QGraphicsScene
 {
 public:
     enum SceneAlignmentFlag
@@ -64,8 +64,8 @@ public:
     };
     Q_DECLARE_FLAGS(SceneAlignment, SceneAlignmentFlag)
 
-    CardScene( QObject * parent = 0 );
-    ~CardScene();
+    KCardScene( QObject * parent = 0 );
+    ~KCardScene();
 
     void setDeck( KAbstractCardDeck * deck );
     KAbstractCardDeck * deck() const;
@@ -132,6 +132,6 @@ private:
     bool m_sizeHasBeenSet;
 };
 
-Q_DECLARE_OPERATORS_FOR_FLAGS( CardScene::SceneAlignment )
+Q_DECLARE_OPERATORS_FOR_FLAGS( KCardScene::SceneAlignment )
 
 #endif

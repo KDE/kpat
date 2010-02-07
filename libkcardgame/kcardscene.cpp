@@ -35,7 +35,7 @@
  * -------------------------------------------------------------------------
  */
 
-#include "cardscene.h"
+#include "kcardscene.h"
 
 #include "kabstractcarddeck.h"
 #include "pile.h"
@@ -48,7 +48,7 @@
 
 #define DEBUG_LAYOUT 0
 
-CardScene::CardScene( QObject * parent )
+KCardScene::KCardScene( QObject * parent )
   : QGraphicsScene( parent ),
     m_deck( 0 ),
     m_piles(),
@@ -61,7 +61,7 @@ CardScene::CardScene( QObject * parent )
 }
 
 
-CardScene::~CardScene()
+KCardScene::~KCardScene()
 {
     delete m_deck;
 
@@ -76,26 +76,26 @@ CardScene::~CardScene()
 }
 
 
-void CardScene::setDeck( KAbstractCardDeck * deck )
+void KCardScene::setDeck( KAbstractCardDeck * deck )
 {
     delete m_deck;
     m_deck = deck;
 }
 
 
-KAbstractCardDeck * CardScene::deck() const
+KAbstractCardDeck * KCardScene::deck() const
 {
     return m_deck;
 }
 
 
-QList<KCard*> CardScene::cardsBeingDragged() const
+QList<KCard*> KCardScene::cardsBeingDragged() const
 {
     return m_cardsBeingDragged;
 }
 
 
-void CardScene::addPile( Pile * pile )
+void KCardScene::addPile( Pile * pile )
 {
     if ( pile->cardScene() )
         pile->cardScene()->removePile( pile );
@@ -107,7 +107,7 @@ void CardScene::addPile( Pile * pile )
 }
 
 
-void CardScene::removePile( Pile * pile )
+void KCardScene::removePile( Pile * pile )
 {
     foreach ( KCard * c, pile->cards() )
         removeItem( c );
@@ -116,13 +116,13 @@ void CardScene::removePile( Pile * pile )
 }
 
 
-QList<Pile*> CardScene::piles() const
+QList<Pile*> KCardScene::piles() const
 {
     return m_piles;
 }
 
 
-void CardScene::setSceneAlignment( CardScene::SceneAlignment alignment )
+void KCardScene::setSceneAlignment( KCardScene::SceneAlignment alignment )
 {
     if ( alignment != m_alignment )
     {
@@ -132,13 +132,13 @@ void CardScene::setSceneAlignment( CardScene::SceneAlignment alignment )
 }
 
 
-CardScene::SceneAlignment CardScene::sceneAlignment() const
+KCardScene::SceneAlignment KCardScene::sceneAlignment() const
 {
     return m_alignment;
 }
 
 
-void CardScene::setLayoutMargin( qreal margin )
+void KCardScene::setLayoutMargin( qreal margin )
 {
     if ( margin != m_layoutMargin )
     {
@@ -148,13 +148,13 @@ void CardScene::setLayoutMargin( qreal margin )
 }
 
 
-qreal CardScene::layoutMargin() const
+qreal KCardScene::layoutMargin() const
 {
     return m_layoutMargin;
 }
 
 
-void CardScene::setLayoutSpacing( qreal spacing )
+void KCardScene::setLayoutSpacing( qreal spacing )
 {
     if ( spacing != m_layoutSpacing )
     {
@@ -164,13 +164,13 @@ void CardScene::setLayoutSpacing( qreal spacing )
 }
 
 
-qreal CardScene::layoutSpacing() const
+qreal KCardScene::layoutSpacing() const
 {
     return m_layoutSpacing;
 }
 
 
-void CardScene::resizeScene( const QSize & size )
+void KCardScene::resizeScene( const QSize & size )
 {
     m_sizeHasBeenSet = true;
     setSceneRect( QRectF( sceneRect().topLeft(), size ) );
@@ -178,7 +178,7 @@ void CardScene::resizeScene( const QSize & size )
 }
 
 
-void CardScene::relayoutScene()
+void KCardScene::relayoutScene()
 {
     if ( !m_sizeHasBeenSet )
         return;
@@ -269,7 +269,7 @@ void CardScene::relayoutScene()
 }
 
 
-void CardScene::relayoutPiles()
+void KCardScene::relayoutPiles()
 {
     if ( !m_sizeHasBeenSet )
         return;
@@ -383,7 +383,7 @@ void CardScene::relayoutPiles()
 }
 
 
-void CardScene::setHighlightedItems( QList<QGraphicsItem*> items )
+void KCardScene::setHighlightedItems( QList<QGraphicsItem*> items )
 {
     QSet<QGraphicsItem*> s = QSet<QGraphicsItem*>::fromList( items );
     foreach ( QGraphicsItem * i, m_highlightedItems.subtract( s ) )
@@ -394,7 +394,7 @@ void CardScene::setHighlightedItems( QList<QGraphicsItem*> items )
 }
 
 
-void CardScene::clearHighlightedItems()
+void KCardScene::clearHighlightedItems()
 {
     foreach ( QGraphicsItem * i, m_highlightedItems )
         setItemHighlight( i, false );
@@ -402,13 +402,13 @@ void CardScene::clearHighlightedItems()
 }
 
 
-QList<QGraphicsItem*> CardScene::highlightedItems() const
+QList<QGraphicsItem*> KCardScene::highlightedItems() const
 {
     return m_highlightedItems.toList();
 }
 
 
-void CardScene::setItemHighlight( QGraphicsItem * item, bool highlight )
+void KCardScene::setItemHighlight( QGraphicsItem * item, bool highlight )
 {
     KCard * card = qgraphicsitem_cast<KCard*>( item );
     if ( card )
@@ -426,7 +426,7 @@ void CardScene::setItemHighlight( QGraphicsItem * item, bool highlight )
 }
 
 
-void CardScene::flipCardToPile( KCard * card, Pile * pile, int duration )
+void KCardScene::flipCardToPile( KCard * card, Pile * pile, int duration )
 {
     QPointF origPos = card->pos();
 
@@ -440,12 +440,12 @@ void CardScene::flipCardToPile( KCard * card, Pile * pile, int duration )
 }
 
 
-void CardScene::onGameStateAlteredByUser()
+void KCardScene::onGameStateAlteredByUser()
 {
 }
 
 
-bool CardScene::allowedToAdd( const Pile * pile, const QList<KCard*> & cards ) const
+bool KCardScene::allowedToAdd( const Pile * pile, const QList<KCard*> & cards ) const
 {
     Q_UNUSED( pile )
     Q_UNUSED( cards )
@@ -453,7 +453,7 @@ bool CardScene::allowedToAdd( const Pile * pile, const QList<KCard*> & cards ) c
 }
 
 
-bool CardScene::allowedToRemove( const Pile * pile, const KCard * card ) const
+bool KCardScene::allowedToRemove( const Pile * pile, const KCard * card ) const
 {
     Q_UNUSED( pile )
     Q_UNUSED( card )
@@ -461,7 +461,7 @@ bool CardScene::allowedToRemove( const Pile * pile, const KCard * card ) const
 }
 
 
-Pile * CardScene::targetPile()
+Pile * KCardScene::targetPile()
 {
     QSet<Pile*> targets;
     foreach ( QGraphicsItem * item, collidingItems( m_cardsBeingDragged.first() ) )
@@ -502,7 +502,7 @@ Pile * CardScene::targetPile()
 }
 
 
-bool CardScene::pileClicked( Pile * pile )
+bool KCardScene::pileClicked( Pile * pile )
 {
     if ( pile->cardClicked( 0 ) )
     {
@@ -513,7 +513,7 @@ bool CardScene::pileClicked( Pile * pile )
 }
 
 
-bool CardScene::pileDoubleClicked( Pile * pile )
+bool KCardScene::pileDoubleClicked( Pile * pile )
 {
     if ( pile->cardDoubleClicked( 0 ) )
     {
@@ -524,7 +524,7 @@ bool CardScene::pileDoubleClicked( Pile * pile )
 }
 
 
-bool CardScene::cardClicked( KCard * card )
+bool KCardScene::cardClicked( KCard * card )
 {
     if ( card->source()->cardClicked( card ) )
     {
@@ -535,7 +535,7 @@ bool CardScene::cardClicked( KCard * card )
 }
 
 
-bool CardScene::cardDoubleClicked( KCard * card )
+bool KCardScene::cardDoubleClicked( KCard * card )
 {
     if ( card->source()->cardDoubleClicked( card ) )
     {
@@ -546,7 +546,7 @@ bool CardScene::cardDoubleClicked( KCard * card )
 }
 
 
-void CardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
+void KCardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 {
     // don't allow manual moves while animations are going on
     if ( deck()->hasAnimatedCards() )
@@ -580,7 +580,7 @@ void CardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 }
 
 
-void CardScene::mouseMoveEvent( QGraphicsSceneMouseEvent * e )
+void KCardScene::mouseMoveEvent( QGraphicsSceneMouseEvent * e )
 {
     if ( m_cardsBeingDragged.isEmpty() )
         return;
@@ -622,7 +622,7 @@ void CardScene::mouseMoveEvent( QGraphicsSceneMouseEvent * e )
 }
 
 
-void CardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
+void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
 {
     if ( e->button() == Qt::LeftButton )
     {
@@ -672,7 +672,7 @@ void CardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
 }
 
 
-void CardScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
+void KCardScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
 {
     if ( deck()->hasAnimatedCards() )
         return;
@@ -689,7 +689,7 @@ void CardScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
 }
 
 
-void CardScene::wheelEvent( QGraphicsSceneWheelEvent * e )
+void KCardScene::wheelEvent( QGraphicsSceneWheelEvent * e )
 {
     if ( e->modifiers() & Qt::ControlModifier )
     {
@@ -701,7 +701,7 @@ void CardScene::wheelEvent( QGraphicsSceneWheelEvent * e )
 }
 
 
-void CardScene::drawForeground ( QPainter * painter, const QRectF & rect )
+void KCardScene::drawForeground ( QPainter * painter, const QRectF & rect )
 {
     Q_UNUSED( rect )
     Q_UNUSED( painter )

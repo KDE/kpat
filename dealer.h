@@ -47,7 +47,7 @@ class Solver;
 
 #include "libkcardgame/standardcard.h"
 #include "libkcardgame/kstandardcarddeck.h"
-#include "libkcardgame/cardscene.h"
+#include "libkcardgame/kcardscene.h"
 
 #include <KRandomSequence>
 
@@ -63,7 +63,7 @@ struct State
     QString gameData;
 };
 
-class DealerScene : public CardScene
+class DealerScene : public KCardScene
 {
     Q_OBJECT
 

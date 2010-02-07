@@ -39,7 +39,7 @@
 #define PILE_H
 
 #include "kcard.h"
-class CardScene;
+class KCardScene;
 #include "libkcardgame_export.h"
 #include "../speeds.h"
 
@@ -59,7 +59,7 @@ public:
     enum { Type = UserType + 2 };
     virtual int type() const;
 
-    CardScene * cardScene() const;
+    KCardScene * cardScene() const;
 
     QList<KCard*> cards() const;
     int count() const;
