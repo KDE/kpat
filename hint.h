@@ -39,14 +39,14 @@
 
 #include <QList>
 
-class StandardCard;
+class KStandardCard;
 class PatPile;
 
 
 class MoveHint
 {
 public:
-    MoveHint( StandardCard * card, PatPile * to, int prio )
+    MoveHint( KStandardCard * card, PatPile * to, int prio )
       : m_card( card ),
         m_to( to ),
         m_prio( prio )
@@ -55,7 +55,7 @@ public:
         Q_ASSERT( to );
     }
 
-    StandardCard * card() const
+    KStandardCard * card() const
     {
         return m_card;
     }
@@ -71,7 +71,7 @@ public:
     }
 
 private:
-    StandardCard * m_card;
+    KStandardCard * m_card;
     PatPile * m_to;
     int m_prio;
 };

@@ -62,25 +62,25 @@ bool PatPile::isFoundation() const
 }
 
 
-QList<StandardCard*> PatPile::cards() const
+QList<KStandardCard*> PatPile::cards() const
 {
     return castCardList( Pile::cards() );
 }
 
 
-StandardCard * PatPile::at( int index ) const
+KStandardCard * PatPile::at( int index ) const
 {
-    return static_cast<StandardCard*>( Pile::at( index ) );
+    return static_cast<KStandardCard*>( Pile::at( index ) );
 }
 
 
-StandardCard* PatPile::top() const
+KStandardCard* PatPile::top() const
 {
-    return static_cast<StandardCard*>( Pile::top() );
+    return static_cast<KStandardCard*>( Pile::top() );
 }
 
 
-QList< StandardCard* > PatPile::topCardsDownTo( const KCard * card ) const
+QList< KStandardCard* > PatPile::topCardsDownTo( const KCard * card ) const
 {
     return castCardList( Pile::topCardsDownTo( card ) );
 }
@@ -88,13 +88,13 @@ QList< StandardCard* > PatPile::topCardsDownTo( const KCard * card ) const
 
 void PatPile::add( KCard * card, int index )
 {
-    Q_ASSERT( dynamic_cast<StandardCard*>( card ) );
+    Q_ASSERT( dynamic_cast<KStandardCard*>( card ) );
 
     PatPile * oldSource = dynamic_cast<PatPile*>( card->source() );
 
     Pile::add( card, index );
 
-    StandardCard * c = dynamic_cast<StandardCard*>( card );
+    KStandardCard * c = dynamic_cast<KStandardCard*>( card );
     if ( c )
         c->setTakenDown( oldSource && oldSource->isFoundation() && !isFoundation() );
 }

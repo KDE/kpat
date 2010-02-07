@@ -156,7 +156,7 @@ void Freecell::moveCards(QList<KCard*> &c, FreecellPile *from, PatPile *to)
 
     sum_moves = 0;
     current_weight = 1000;
-    QList<StandardCard*> cards = castCardList(c);
+    QList<KStandardCard*> cards = castCardList(c);
     movePileToPile(cards, to, fss, fcs, 0, c.count(), 0);
 
     if (deck()->hasAnimatedCards())
@@ -171,7 +171,7 @@ struct MoveAway {
     int count;
 };
 
-void Freecell::movePileToPile(QList<StandardCard*> &c, PatPile *to, QList<PatPile*> & fss, QList<PatPile*> & fcs, int start, int count, int debug_level)
+void Freecell::movePileToPile(QList<KStandardCard*> &c, PatPile *to, QList<PatPile*> & fss, QList<PatPile*> & fcs, int start, int count, int debug_level)
 {
     kDebug() << debug_level << "movePileToPile" << c.count() << " " << start  << " " << count;
     int moveaway = 0;
@@ -297,7 +297,7 @@ bool Freecell::cardDoubleClicked(KCard *c)
     return false;
 }
 
-bool Freecell::canPutStore(const PatPile *c1, const QList<StandardCard*> &c2) const
+bool Freecell::canPutStore(const PatPile *c1, const QList<KStandardCard*> &c2) const
 {
     int fcs, fss;
     countFreeCells(fcs, fss);
@@ -312,14 +312,14 @@ bool Freecell::canPutStore(const PatPile *c1, const QList<StandardCard*> &c2) co
     if (c1->isEmpty())
         return true;
 
-    StandardCard *c = c2.first(); // we assume there are only valid sequences
+    KStandardCard *c = c2.first(); // we assume there are only valid sequences
 
     // ok if in sequence, alternate colors
     return ((c1->top()->rank() == (c->rank()+1))
             && (c1->top()->isRed() != c->isRed()));
 }
 
-bool Freecell::checkAdd(const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards) const
+bool Freecell::checkAdd(const PatPile * pile, const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards) const
 {
     switch (pile->pileRole())
     {
@@ -334,7 +334,7 @@ bool Freecell::checkAdd(const PatPile * pile, const QList<StandardCard*> & oldCa
     }
 }
 
-bool Freecell::checkRemove(const PatPile * pile, const QList<StandardCard*> & cards) const
+bool Freecell::checkRemove(const PatPile * pile, const QList<KStandardCard*> & cards) const
 {
     switch (pile->pileRole())
     {
@@ -360,11 +360,11 @@ void Freecell::getHints()
         if (store->isEmpty())
             continue;
 
-        QList<StandardCard*> cards = store->cards();
+        QList<KStandardCard*> cards = store->cards();
         while (cards.count() && !cards.first()->realFace())
             cards.erase(cards.begin());
 
-        QList<StandardCard*>::Iterator iti = cards.begin();
+        QList<KStandardCard*>::Iterator iti = cards.begin();
         while (iti != cards.end())
         {
             if (allowedToRemove(store, (*iti)))
@@ -381,7 +381,7 @@ void Freecell::getHints()
                     if ( dest->isFoundation() ) // taken care by solver
                         continue;
 
-                    QList<StandardCard*> cardsBelow = cards.mid(0, cardIndex);
+                    QList<KStandardCard*> cardsBelow = cards.mid(0, cardIndex);
                     // if it could be here as well, then it's no use
                     if ((cardsBelow.isEmpty() && !dest->isEmpty()) || !checkAdd(store, cardsBelow, cards))
                     {

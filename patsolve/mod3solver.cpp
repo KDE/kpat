@@ -381,7 +381,7 @@ MoveHint *Mod3Solver::translateMove( const MOVE & m )
         return 0;
 
     PatPile *frompile = deal->stack[m.from / 8][m.from % 8];
-    StandardCard *card = frompile->top();
+    KStandardCard *card = frompile->top();
 
     if ( m.to == aces )
     {

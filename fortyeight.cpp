@@ -137,7 +137,7 @@ KCard *Fortyeight::newCards()
     return pile->top();
 }
 
-bool Fortyeight::checkAdd(const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards) const
+bool Fortyeight::checkAdd(const PatPile * pile, const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards) const
 {
     switch ( pile->pileRole() )
     {
@@ -155,7 +155,7 @@ bool Fortyeight::checkAdd(const PatPile * pile, const QList<StandardCard*> & old
     }
 }
 
-bool Fortyeight::checkRemove( const PatPile * pile, const QList<StandardCard*> & cards) const
+bool Fortyeight::checkRemove( const PatPile * pile, const QList<KStandardCard*> & cards) const
 {
     switch ( pile->pileRole() )
     {

@@ -55,8 +55,8 @@ public slots:
     virtual KCard *newCards();
 
 protected:
-    virtual bool checkAdd(const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards) const;
-    virtual bool checkRemove(const PatPile * pile, const QList<StandardCard*> & cards) const;
+    virtual bool checkAdd(const PatPile * pile, const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards) const;
+    virtual bool checkRemove(const PatPile * pile, const QList<KStandardCard*> & cards) const;
 
     virtual bool  cardClicked(KCard *);
     virtual bool  cardDoubleClicked(KCard *);
@@ -65,7 +65,7 @@ protected:
     virtual void  setGameState(const QString &);
 
 private:
-    bool canMoveAway(const StandardCard * card) const;
+    bool canMoveAway(const KStandardCard * card) const;
 
     PatPile  *talon;
     PatPile  *m_play[ 4 ];

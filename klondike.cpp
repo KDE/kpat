@@ -63,7 +63,7 @@ void KlondikePile::setDraws( int _draw )
 
 void KlondikePile::layoutCards( int duration )
 {
-    QList<StandardCard*> cards = this->cards();
+    QList<KStandardCard*> cards = this->cards();
 
     if ( cards.isEmpty() )
         return;
@@ -148,7 +148,7 @@ Klondike::Klondike()
     connect( options, SIGNAL(triggered(int)), SLOT(gameTypeChanged()) );
 }
 
-bool Klondike::checkAdd(const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards) const
+bool Klondike::checkAdd(const PatPile * pile, const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards) const
 {
     switch (pile->pileRole())
     {
@@ -163,7 +163,7 @@ bool Klondike::checkAdd(const PatPile * pile, const QList<StandardCard*> & oldCa
     }
 }
 
-bool Klondike::checkRemove(const PatPile * pile, const QList<StandardCard*> & cards) const
+bool Klondike::checkRemove(const PatPile * pile, const QList<KStandardCard*> & cards) const
 {
     switch (pile->pileRole())
     {

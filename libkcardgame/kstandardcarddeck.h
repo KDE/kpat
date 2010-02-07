@@ -20,19 +20,19 @@
 #define KSTANDARDCARDDECK_H
 
 #include "kabstractcarddeck.h"
-#include "standardcard.h"
+#include "kstandardcard.h"
 #include "libkcardgame_export.h"
 
 
 class LIBKCARDGAME_EXPORT KStandardCardDeck : public KAbstractCardDeck
 {
 public:
-    static QList<StandardCard::Suit> standardSuits();
-    static QList<StandardCard::Rank> standardRanks();
+    static QList<KStandardCard::Suit> standardSuits();
+    static QList<KStandardCard::Rank> standardRanks();
 
     explicit KStandardCardDeck( int copies = 1,
-                                QList<StandardCard::Suit> suits = standardSuits(),
-                                QList<StandardCard::Rank> ranks = standardRanks() );
+                                QList<KStandardCard::Suit> suits = standardSuits(),
+                                QList<KStandardCard::Rank> ranks = standardRanks() );
     virtual ~KStandardCardDeck();
 
 protected:

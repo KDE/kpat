@@ -18,17 +18,17 @@
 
 #ifndef PILEUTILS_H
 #define PILEUTILS_H
-class StandardCard;
+class KStandardCard;
 
 #include <QList>
 
 
-bool isSameSuitAscending( const QList<StandardCard*> & cards );
-bool isSameSuitDescending( const QList<StandardCard*> & cards );
-bool isAlternateColorDescending( const QList<StandardCard*> & cards );
+bool isSameSuitAscending( const QList<KStandardCard*> & cards );
+bool isSameSuitDescending( const QList<KStandardCard*> & cards );
+bool isAlternateColorDescending( const QList<KStandardCard*> & cards );
 
-bool checkAddSameSuitAscendingFromAce( const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards );
-bool checkAddAlternateColorDescending( const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards );
-bool checkAddAlternateColorDescendingFromKing( const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards );
+bool checkAddSameSuitAscendingFromAce( const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards );
+bool checkAddAlternateColorDescending( const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards );
+bool checkAddAlternateColorDescendingFromKing( const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards );
 
 #endif

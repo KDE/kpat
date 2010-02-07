@@ -34,87 +34,64 @@
  * -------------------------------------------------------------------------
  */
 
-#include "standardcard.h"
+#ifndef CARD_H
+#define CARD_H
+
+#include "kcard.h"
+#include "libkcardgame_export.h"
+class Pile;
+
+#include <QtCore/QList>
 
 
-StandardCard::StandardCard( Rank r, Suit s, KAbstractCardDeck * deck )
-  : KCard( (s << 4) + r, deck ),
-    m_takenDown( false )
+class LIBKCARDGAME_EXPORT KStandardCard: public KCard
 {
-    Q_ASSERT( deck );
+    friend class KAbstractCardDeck;
 
-    QString suitName;
-    switch( suit() )
+public:
+    enum Suit
     {
-        case Clubs :    suitName = "Clubs";    break;
-        case Diamonds : suitName = "Diamonds"; break;
-        case Hearts :   suitName = "Hearts";   break;
-        case Spades :   suitName = "Spades";   break;
-        default :       suitName = "???";      break;
-    }
-    setObjectName( suitName + QString::number( rank() ) );
-}
+        NoSuit = -1,
+        Clubs = 0,
+        Diamonds = 1,
+        Hearts = 2,
+        Spades = 3
+    };
 
-
-StandardCard::~StandardCard()
-{
-}
-
-
-StandardCard::Suit StandardCard::suit() const
-{
-    return getSuit( this );
-}
-
-
-StandardCard::Rank StandardCard::rank() const
-{
-    return getRank( this );
-}
-
-
-bool StandardCard::isRed() const
-{
-    return suit() == Diamonds || suit() == Hearts;
-}
-
-
-void StandardCard::setTakenDown(bool td)
-{
-    m_takenDown = td;
-}
-
-
-bool StandardCard::takenDown() const
-{
-    return m_takenDown;
-}
-
-
-StandardCard::Suit getSuit( const KCard * card )
-{
-    StandardCard::Suit s = StandardCard::Suit( card->data() >> 4 );
-    Q_ASSERT( StandardCard::Clubs <= s && s <= StandardCard::Spades );
-    return s;
-}
-
-
-StandardCard::Rank getRank( const KCard * card )
-{
-    StandardCard::Rank r = StandardCard::Rank( card->data() & 0xf );
-    Q_ASSERT( StandardCard::Ace <= r && r <= StandardCard::King );
-    return r;
-}
-
-
-QList<StandardCard*> castCardList( const QList<KCard*> & cards )
-{
-    QList<StandardCard*> result;
-    foreach ( KCard * c, cards )
+    enum Rank
     {
-        Q_ASSERT( dynamic_cast<StandardCard*>( c ) );
-        result << static_cast<StandardCard*>( c );
-    }
-    return result;
-}
+        NoRank = 0,
+        Ace = 1,
+        Two,
+        Three,
+        Four,
+        Five,
+        Six,
+        Seven,
+        Eight,
+        Nine,
+        Ten,
+        Jack,
+        Queen,
+        King
+    };
 
+    KStandardCard( Rank r, Suit s, KAbstractCardDeck * deck );
+    virtual ~KStandardCard();
+
+    Suit suit() const;
+    Rank rank() const;
+    bool isRed() const;
+
+    void setTakenDown( bool td );
+    bool takenDown() const;
+
+private:
+    bool      m_takenDown;
+};
+
+LIBKCARDGAME_EXPORT KStandardCard::Suit getSuit( const KCard * card );
+LIBKCARDGAME_EXPORT KStandardCard::Rank getRank( const KCard * card );
+LIBKCARDGAME_EXPORT QList<KStandardCard*> castCardList( const QList<KCard*> & cards );
+
+#endif

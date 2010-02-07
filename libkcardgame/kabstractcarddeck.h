@@ -41,7 +41,7 @@
 #include "libkcardgame_export.h"
 #include "kcardcache.h"
 class Pile;
-#include "standardcard.h"
+#include "kcard.h"
 
 class KConfigGroup;
 

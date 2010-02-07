@@ -438,7 +438,7 @@ void GrandfSolver::translate_layout()
         W[offs][i] = NONE;
 
     for (int i = 0; i < 4; ++i) {
-        StandardCard *c = deal->target[i]->top();
+        KStandardCard *c = deal->target[i]->top();
         if (c)
             W[offs][translateSuit( c->suit() ) >> 4] = translateSuit( c->suit() ) + c->rank();
     }
@@ -457,14 +457,14 @@ MoveHint *GrandfSolver::translateMove( const MOVE &m )
     PatPile *frompile = 0;
     frompile = deal->store[m.from % 7];
 
-    StandardCard *card = frompile->at( frompile->count() - m.card_index - 1);
+    KStandardCard *card = frompile->at( frompile->count() - m.card_index - 1);
 
     if ( m.totype == O_Type )
     {
         PatPile *target = 0;
         PatPile *empty = 0;
         for (int i = 0; i < 4; ++i) {
-            StandardCard *c = deal->target[i]->top();
+            KStandardCard *c = deal->target[i]->top();
             if (c) {
                 if ( c->suit() == card->suit() )
                 {

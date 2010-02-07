@@ -18,13 +18,13 @@
 
 #include "pileutils.h"
 
-#include "libkcardgame/standardcard.h"
+#include "libkcardgame/kstandardcard.h"
 #include "libkcardgame/pile.h"
 
 #include <KDebug>
 
 
-bool isSameSuitAscending( const QList<StandardCard*> & cards )
+bool isSameSuitAscending( const QList<KStandardCard*> & cards )
 {
     if ( cards.size() <= 1 )
         return true;
@@ -32,7 +32,7 @@ bool isSameSuitAscending( const QList<StandardCard*> & cards )
     int suit = cards.first()->suit();
     int rank = cards.first()->rank();
 
-    foreach ( const StandardCard * c, cards )
+    foreach ( const KStandardCard * c, cards )
     {
         if ( c->suit() != suit || c->rank() != rank )
             return false;
@@ -42,7 +42,7 @@ bool isSameSuitAscending( const QList<StandardCard*> & cards )
 }
 
 
-bool isSameSuitDescending( const QList<StandardCard*> & cards )
+bool isSameSuitDescending( const QList<KStandardCard*> & cards )
 {
     if ( cards.size() <= 1 )
         return true;
@@ -50,7 +50,7 @@ bool isSameSuitDescending( const QList<StandardCard*> & cards )
     int suit = cards.first()->suit();
     int rank = cards.first()->rank();
 
-    foreach ( const StandardCard * c, cards )
+    foreach ( const KStandardCard * c, cards )
     {
         if ( c->suit() != suit || c->rank() != rank )
             return false;
@@ -60,7 +60,7 @@ bool isSameSuitDescending( const QList<StandardCard*> & cards )
 }
 
 
-bool isAlternateColorDescending( const QList<StandardCard*> & cards )
+bool isAlternateColorDescending( const QList<KStandardCard*> & cards )
 {
     if ( cards.size() <= 1 )
         return true;
@@ -68,7 +68,7 @@ bool isAlternateColorDescending( const QList<StandardCard*> & cards )
     bool isRed = !cards.first()->isRed();
     int rank = cards.first()->rank();
 
-    foreach ( const StandardCard * c, cards )
+    foreach ( const KStandardCard * c, cards )
     {
         if ( c->isRed() == isRed || c->rank() != rank )
             return false;
@@ -79,20 +79,20 @@ bool isAlternateColorDescending( const QList<StandardCard*> & cards )
 }
 
 
-bool checkAddSameSuitAscendingFromAce( const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards )
+bool checkAddSameSuitAscendingFromAce( const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards )
 {
     if ( !isSameSuitAscending( newCards ) )
         return false;
 
     if ( oldCards.isEmpty() )
-        return newCards.first()->rank() == StandardCard::Ace;
+        return newCards.first()->rank() == KStandardCard::Ace;
     else
         return newCards.first()->suit() == oldCards.last()->suit()
             && newCards.first()->rank() == oldCards.last()->rank() + 1;
 }
 
 
-bool checkAddAlternateColorDescending( const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards )
+bool checkAddAlternateColorDescending( const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards )
 {
     return isAlternateColorDescending( newCards )
            && ( oldCards.isEmpty()
@@ -101,13 +101,13 @@ bool checkAddAlternateColorDescending( const QList<StandardCard*> & oldCards, co
 }
 
 
-bool checkAddAlternateColorDescendingFromKing( const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards )
+bool checkAddAlternateColorDescendingFromKing( const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards )
 {
     if ( !isAlternateColorDescending( newCards ) )
         return false;
 
     if ( oldCards.isEmpty() )
-        return newCards.first()->rank() == StandardCard::King;
+        return newCards.first()->rank() == KStandardCard::King;
     else
         return newCards.first()->isRed() != oldCards.last()->isRed()
             && newCards.first()->rank() == oldCards.last()->rank() - 1;

@@ -95,7 +95,7 @@ void Idiot::restart()
     emit newCardsPossible(true);
 }
 
-bool Idiot::checkAdd(const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards) const
+bool Idiot::checkAdd(const PatPile * pile, const QList<KStandardCard*> & oldCards, const QList<KStandardCard*> & newCards) const
 {
     switch ( pile->pileRole() )
     {
@@ -109,7 +109,7 @@ bool Idiot::checkAdd(const PatPile * pile, const QList<StandardCard*> & oldCards
     }
 }
 
-bool Idiot::checkRemove(const PatPile * pile, const QList<StandardCard*> & cards) const
+bool Idiot::checkRemove(const PatPile * pile, const QList<KStandardCard*> & cards) const
 {
     return pile->pileRole() == PatPile::Tableau
            && cards.first() == pile->top()
@@ -120,7 +120,7 @@ bool Idiot::checkRemove(const PatPile * pile, const QList<StandardCard*> & cards
                 || m_play[3]->isEmpty() );
 }
 
-bool Idiot::canMoveAway(const StandardCard * card) const
+bool Idiot::canMoveAway(const KStandardCard * card) const
 {
     if ( card->source() == talon || card->source() == m_away )
         return false;
@@ -130,9 +130,9 @@ bool Idiot::canMoveAway(const StandardCard * card) const
 
     for ( int i = 0; i < 4; ++i )
     {
-        StandardCard * c = m_play[i]->top();
+        KStandardCard * c = m_play[i]->top();
         if ( c && c != card && c->suit() == card->suit()
-            && ( c->rank() == StandardCard::Ace || (card->rank() != StandardCard::Ace && c->rank() > card->rank() ) ) )
+            && ( c->rank() == KStandardCard::Ace || (card->rank() != KStandardCard::Ace && c->rank() > card->rank() ) ) )
             return true;
     }
 
@@ -153,7 +153,7 @@ bool Idiot::cardClicked(KCard *c)
     if (c != c->source()->top())
         return false;
 
-    StandardCard * sc = dynamic_cast<StandardCard*>( c );
+    KStandardCard * sc = dynamic_cast<KStandardCard*>( c );
 
     bool  didMove = true;
     if ( sc && canMoveAway(sc) )
@@ -193,7 +193,7 @@ bool Idiot::isGameWon() const
 
     // Criterium 2.
     for (int i = 0; i < 4; i++) {
-        if (m_play[i]->count() != 1 || m_play[i]->top()->rank() != StandardCard::Ace)
+        if (m_play[i]->count() != 1 || m_play[i]->top()->rank() != KStandardCard::Ace)
             return false;
     }
 

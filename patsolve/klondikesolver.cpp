@@ -516,7 +516,7 @@ void KlondikeSolver::translate_layout()
     }
     if (total != 52) {
         for (int i = 0; i < 4; ++i) {
-            StandardCard *c = deal->target[i]->top();
+            KStandardCard *c = deal->target[i]->top();
             if (c) {
                 O[translateSuit( c->suit() ) >> 4] = c->rank();
                 total += c->rank();
@@ -546,14 +546,14 @@ MoveHint *KlondikeSolver::translateMove( const MOVE &m )
     else
         frompile = deal->play[m.from];
 
-    StandardCard *card = frompile->at( frompile->count() - m.card_index - 1);
+    KStandardCard *card = frompile->at( frompile->count() - m.card_index - 1);
 
     if ( m.totype == O_Type )
     {
         PatPile *target = 0;
         PatPile *empty = 0;
         for (int i = 0; i < 4; ++i) {
-            StandardCard *c = deal->target[i]->top();
+            KStandardCard *c = deal->target[i]->top();
             if (c) {
                 if ( c->suit() == card->suit() )
                 {

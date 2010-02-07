@@ -19,35 +19,35 @@
 #include "kstandardcarddeck.h"
 
 
-QList<StandardCard::Suit> KStandardCardDeck::standardSuits()
+QList<KStandardCard::Suit> KStandardCardDeck::standardSuits()
 {
-    return QList<StandardCard::Suit>() << StandardCard::Clubs
-                                       << StandardCard::Diamonds
-                                       << StandardCard::Hearts
-                                       << StandardCard::Spades;
+    return QList<KStandardCard::Suit>() << KStandardCard::Clubs
+                                       << KStandardCard::Diamonds
+                                       << KStandardCard::Hearts
+                                       << KStandardCard::Spades;
 }
 
 
-QList<StandardCard::Rank> KStandardCardDeck::standardRanks()
+QList<KStandardCard::Rank> KStandardCardDeck::standardRanks()
 {
-    return QList<StandardCard::Rank>() << StandardCard::Ace
-                                       << StandardCard::Two
-                                       << StandardCard::Three
-                                       << StandardCard::Four
-                                       << StandardCard::Five
-                                       << StandardCard::Six
-                                       << StandardCard::Seven
-                                       << StandardCard::Eight
-                                       << StandardCard::Nine
-                                       << StandardCard::Ten
-                                       << StandardCard::Jack
-                                       << StandardCard::Queen
-                                       << StandardCard::King;
+    return QList<KStandardCard::Rank>() << KStandardCard::Ace
+                                       << KStandardCard::Two
+                                       << KStandardCard::Three
+                                       << KStandardCard::Four
+                                       << KStandardCard::Five
+                                       << KStandardCard::Six
+                                       << KStandardCard::Seven
+                                       << KStandardCard::Eight
+                                       << KStandardCard::Nine
+                                       << KStandardCard::Ten
+                                       << KStandardCard::Jack
+                                       << KStandardCard::Queen
+                                       << KStandardCard::King;
 }
 
 
 
-KStandardCardDeck::KStandardCardDeck( int copies, QList<StandardCard::Suit> suits, QList<StandardCard::Rank> ranks )
+KStandardCardDeck::KStandardCardDeck( int copies, QList<KStandardCard::Suit> suits, QList<KStandardCard::Rank> ranks )
   : KAbstractCardDeck()
 {
     Q_ASSERT( copies >= 1 );
@@ -58,9 +58,9 @@ KStandardCardDeck::KStandardCardDeck( int copies, QList<StandardCard::Suit> suit
     // will mess up the game numbering.
     QList<KCard*> cards;
     for ( int i = 0; i < copies; ++i )
-        foreach ( const StandardCard::Rank r, ranks )
-            foreach ( const StandardCard::Suit s, suits )
-                cards << new StandardCard( r, s, this );
+        foreach ( const KStandardCard::Rank r, ranks )
+            foreach ( const KStandardCard::Suit s, suits )
+                cards << new KStandardCard( r, s, this );
 
     Q_ASSERT( cards.size() == copies * ranks.size() * suits.size() );
 
@@ -83,13 +83,13 @@ QString KStandardCardDeck::elementName( quint32 id, bool faceUp ) const
     int rank = id & 0xf;
     switch( rank )
     {
-    case StandardCard::King:
+    case KStandardCard::King:
         element = "king";
         break;
-    case StandardCard::Queen:
+    case KStandardCard::Queen:
         element = "queen";
         break;
-    case StandardCard::Jack:
+    case KStandardCard::Jack:
         element = "jack";
         break;
     default:
@@ -99,16 +99,16 @@ QString KStandardCardDeck::elementName( quint32 id, bool faceUp ) const
 
     switch( id >> 4 )
     {
-    case StandardCard::Clubs:
+    case KStandardCard::Clubs:
         element += "_club";
         break;
-    case StandardCard::Spades:
+    case KStandardCard::Spades:
         element += "_spade";
         break;
-    case StandardCard::Diamonds:
+    case KStandardCard::Diamonds:
         element += "_diamond";
         break;
-    case StandardCard::Hearts:
+    case KStandardCard::Hearts:
         element += "_heart";
         break;
     }
