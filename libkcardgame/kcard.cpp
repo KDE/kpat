@@ -23,10 +23,48 @@
 
 #include <KDebug>
 
-#include <QtCore/QParallelAnimationGroup>
 #include <QtCore/QPropertyAnimation>
-#include <QtGui/QGraphicsScene>
 #include <QtGui/QPainter>
+
+
+KCardAnimation::KCardAnimation( KCardPrivate * d,
+                                int duration,
+                                QPointF pos,
+                                qreal rotation,
+                                qreal scale,
+                                bool faceUp )
+  : QAbstractAnimation( d ),
+    d( d ),
+    m_duration( duration ),
+    m_x0( d->q->x() ),
+    m_y0( d->q->y() ),
+    m_rotation0( d->q->rotation() ),
+    m_scale0( d->q->scale() ),
+    m_flippedness0( d->flippedness() ),
+    m_x1( pos.x() ),
+    m_y1( pos.y() ),
+    m_rotation1( rotation ),
+    m_scale1( scale ),
+    m_flippedness1( faceUp ? 1.0 : 0.0 )
+{
+}
+
+
+int KCardAnimation::duration() const
+{
+    return m_duration;
+}
+
+
+void KCardAnimation::updateCurrentTime( int msec )
+{
+    qreal progress = qreal(msec) / m_duration;
+
+    d->q->setPos( m_x0 + (m_x1 - m_x0) * progress, m_y0 + (m_y1 - m_y0) * progress );
+    d->q->setRotation( m_rotation0 + (m_rotation1 - m_rotation0) * progress );
+    d->q->setScale( m_scale0 + (m_scale1 - m_scale0) * progress );
+    d->setFlippedness( m_flippedness0 + (m_flippedness1 - m_flippedness0) * progress );
+}
 
 
 KCardPrivate::KCardPrivate( KCard * card )
@@ -57,54 +95,6 @@ void KCardPrivate::updatePixmap()
     }
 
     q->setPixmap( pix );
-}
-
-
-void KCardPrivate::setPos( QPointF pos )
-{
-    q->setPos( pos );
-}
-
-
-QPointF KCardPrivate::pos() const
-{
-    return q->pos();
-}
-
-
-void KCardPrivate::setZValue( qreal z )
-{
-    q->setZValue( z );
-}
-
-
-qreal KCardPrivate::zValue() const
-{
-    return q->zValue();
-}
-
-
-void KCardPrivate::setRotation( qreal rotation )
-{
-    q->setRotation( rotation );
-}
-
-
-qreal KCardPrivate::rotation() const
-{
-    return q->rotation();
-}
-
-
-void KCardPrivate::setScale( qreal scale )
-{
-    q->setScale( scale );
-}
-
-
-qreal KCardPrivate::scale() const
-{
-    return q->scale();
 }
 
 
@@ -225,88 +215,35 @@ bool KCard::isFaceUp() const
 }
 
 
-void KCard::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool faceup2, bool raised, int duration )
+void KCard::animate( QPointF pos, qreal z, qreal scale, qreal rotation, bool faceUp, bool raised, int duration )
 {
     stopAnimation();
 
-    if ( duration <= 0 )
+    if ( duration > 0
+         && ( qAbs( pos.x() - x() ) > 2
+              || qAbs( pos.y() - y() ) > 2
+              || qAbs( scale - this->scale() ) > 0.05
+              || qAbs( rotation - this->rotation() ) > 2
+              || faceUp != d->faceUp ) )
     {
-        setPos( pos2 );
-        setZValue( z2 );
-        setScale( scale2 );
-        setRotation( rotation2 );
-        setFaceUp( faceup2 );
-        return;
-    }
+        if ( raised )
+            raise();
 
-    QParallelAnimationGroup * aniGroup = new QParallelAnimationGroup( d );
+        d->destZ = z;
+        d->faceUp = faceUp;
 
-    if ( qAbs( pos2.x() - x() ) > 2 || qAbs( pos2.y() - y() ) > 2 )
-    {
-        QPropertyAnimation * slide = new QPropertyAnimation( d, "pos" );
-        slide->setKeyValueAt( 0, pos() );
-        slide->setKeyValueAt( 1, pos2 );
-        slide->setDuration( duration );
-        aniGroup->addAnimation( slide );
-    }
-    else
-    {
-        setPos( pos2 );
-    }
-
-    if ( qAbs( scale2 - scale() ) > 0.05 )
-    {
-        QPropertyAnimation * resize = new QPropertyAnimation( d, "scale" );
-        resize->setKeyValueAt( 0, scale() );
-        resize->setKeyValueAt( 1, scale2 );
-        resize->setDuration( duration );
-        aniGroup->addAnimation( resize );
-    }
-    else
-    {
-        setScale( scale2 );
-    }
-
-    if ( qAbs( rotation2 - rotation() ) > 2 )
-    {
-        QPropertyAnimation * spin = new QPropertyAnimation( d, "rotation" );
-        spin->setKeyValueAt( 0, rotation() );
-        spin->setKeyValueAt( 1, rotation2 );
-        spin->setDuration( duration );
-        aniGroup->addAnimation( spin );
-    }
-    else
-    {
-        setRotation( rotation2 );
-    }
-
-    if ( faceup2 != d->faceUp )
-    {
-        QPropertyAnimation * flip = new QPropertyAnimation( d, "flippedness" );
-        flip->setKeyValueAt( 0, d->faceUp ? 1.0 : 0.0 );
-        flip->setKeyValueAt( 1, faceup2 ? 1.0 : 0.0 );
-        flip->setDuration( duration );
-        aniGroup->addAnimation( flip );
-        d->faceUp = faceup2;
-    }
-
-    if ( raised )
-        raise();
-
-    if ( aniGroup->animationCount() == 0 )
-    {
-        setZValue( z2 );
-
-        delete aniGroup;
-    }
-    else
-    {
-        d->destZ = z2;
-
-        d->animation = aniGroup;
+        d->animation = new KCardAnimation( d, duration, pos, rotation, scale, faceUp );
         connect( d->animation, SIGNAL(finished()), SLOT(stopAnimation()) );
         d->animation->start();
         emit animationStarted( this );
+    }
+    else
+    {
+        setPos( pos );
+        setZValue( z );
+        setScale( scale );
+        setRotation( rotation );
+        setFaceUp( faceUp );
     }
 }
 

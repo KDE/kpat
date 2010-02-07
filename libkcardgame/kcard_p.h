@@ -21,39 +21,49 @@
 
 #include "kcard.h"
 
+#include <QtCore/QAbstractAnimation>
+
 class KAbstractCardDeck;
 class KCardPile;
 
-class QGraphicsScene;
-class QParallelAnimationGroup;
 class QPropertyAnimation;
+
+
+class KCardAnimation : public QAbstractAnimation
+{
+public:
+    KCardAnimation( KCardPrivate * d, int duration, QPointF pos, qreal rotation, qreal scale, bool faceUp );
+    int duration() const;
+    void updateCurrentTime( int msec );
+
+private:
+    KCardPrivate * d;
+
+    int m_duration;
+
+    qreal m_x0;
+    qreal m_y0;
+    qreal m_rotation0;
+    qreal m_scale0;
+    qreal m_flippedness0;
+
+    qreal m_x1;
+    qreal m_y1;
+    qreal m_rotation1;
+    qreal m_scale1;
+    qreal m_flippedness1;
+};
 
 
 class KCardPrivate : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY( QPointF pos READ pos WRITE setPos )
-    Q_PROPERTY( qreal rotation READ rotation WRITE setRotation )
-    Q_PROPERTY( qreal scale READ scale WRITE setScale )
-    Q_PROPERTY( qreal flippedness READ flippedness WRITE setFlippedness )
     Q_PROPERTY( qreal highlightedness READ highlightedness WRITE setHighlightedness )
 
 public:
     KCardPrivate( KCard * card );
     void updatePixmap();
-
-    void setPos( QPointF pos );
-    QPointF pos() const;
-
-    void setZValue( qreal z );
-    qreal zValue() const;
-
-    void setRotation( qreal rotation );
-    qreal rotation() const;
-
-    void setScale( qreal scale );
-    qreal scale() const;
 
     void setFlippedness( qreal flippedness );
     qreal flippedness() const;
@@ -73,7 +83,7 @@ public:
     KAbstractCardDeck * deck;
     KCardPile * source;
 
-    QParallelAnimationGroup * animation;
+    KCardAnimation * animation;
     QPropertyAnimation * fadeAnimation;
 };
 

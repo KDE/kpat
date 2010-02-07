@@ -45,7 +45,7 @@ public:
     void setFaceUp( bool faceUp );
     bool isFaceUp() const;
 
-    void animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool faceup2, bool raised, int duration );
+    void animate( QPointF pos, qreal z, qreal scale, qreal rotation, bool faceUp, bool raised, int duration );
     bool isAnimated() const;
 
     void raise();
