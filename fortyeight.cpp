@@ -58,8 +58,8 @@ Fortyeight::Fortyeight( )
     talon->setPilePos(smallNeg, smallNeg);
     talon->setZValue(20);
     talon->setSpread(0, 0);
-    connect(talon, SIGNAL(pressed(Card*)), SLOT(newCards()));
-    connect(talon, SIGNAL(clicked(Card*)), SLOT(deckClicked(Card*)));
+    connect(talon, SIGNAL(pressed(KCard*)), SLOT(newCards()));
+    connect(talon, SIGNAL(clicked(KCard*)), SLOT(deckClicked(KCard*)));
     addPile(talon);
 
     pile = new PatPile(20, "pile");
@@ -101,7 +101,7 @@ void Fortyeight::restart()
     emit newCardsPossible( true );
 }
 
-void Fortyeight::deckClicked( Card * )
+void Fortyeight::deckClicked( KCard * )
 {
     if ( pile->top() && pile->top()->animated() )
         return;
@@ -109,7 +109,7 @@ void Fortyeight::deckClicked( Card * )
         newCards();
 }
 
-Card *Fortyeight::newCards()
+KCard *Fortyeight::newCards()
 {
     if (talon->isEmpty() && lastdeal)
         return 0;

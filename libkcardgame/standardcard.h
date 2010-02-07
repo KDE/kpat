@@ -37,14 +37,14 @@
 #ifndef CARD_H
 #define CARD_H
 
-#include "card.h"
+#include "kcard.h"
 #include "libkcardgame_export.h"
 class Pile;
 
 #include <QtCore/QList>
 
 
-class LIBKCARDGAME_EXPORT StandardCard: public Card
+class LIBKCARDGAME_EXPORT StandardCard: public KCard
 {
     friend class KAbstractCardDeck;
 
@@ -90,8 +90,8 @@ private:
     bool      m_takenDown;
 };
 
-LIBKCARDGAME_EXPORT StandardCard::Suit getSuit( const Card * card );
-LIBKCARDGAME_EXPORT StandardCard::Rank getRank( const Card * card );
-LIBKCARDGAME_EXPORT QList<StandardCard*> castCardList( const QList<Card*> & cards );
+LIBKCARDGAME_EXPORT StandardCard::Suit getSuit( const KCard * card );
+LIBKCARDGAME_EXPORT StandardCard::Rank getRank( const KCard * card );
+LIBKCARDGAME_EXPORT QList<StandardCard*> castCardList( const QList<KCard*> & cards );
 
 #endif

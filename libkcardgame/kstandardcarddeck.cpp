@@ -56,7 +56,7 @@ KStandardCardDeck::KStandardCardDeck( int copies, QList<StandardCard::Suit> suit
 
     // Note the order the cards are created in can't be changed as doing so
     // will mess up the game numbering.
-    QList<Card*> cards;
+    QList<KCard*> cards;
     for ( int i = 0; i < copies; ++i )
         foreach ( const StandardCard::Rank r, ranks )
             foreach ( const StandardCard::Suit s, suits )

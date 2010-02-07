@@ -52,8 +52,8 @@ public:
     virtual void setGameState( const QString & stream );
 
 public slots:
-    virtual Card *newCards();
-    void deckClicked(Card *c);
+    virtual KCard *newCards();
+    void deckClicked(KCard *c);
 
 protected:
     virtual bool checkAdd(const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards) const;

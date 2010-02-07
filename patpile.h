@@ -57,9 +57,9 @@ public:
     QList<StandardCard*> cards() const;
     StandardCard * at( int index ) const;
     StandardCard * top() const;
-    QList<StandardCard*> topCardsDownTo( const Card * card ) const;
+    QList<StandardCard*> topCardsDownTo( const KCard * card ) const;
 
-    virtual void add(Card * card, int index = -1);
+    virtual void add(KCard * card, int index = -1);
 
 protected:
     virtual QPixmap normalPixmap( QSize size );

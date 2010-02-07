@@ -38,7 +38,7 @@
 #ifndef PILE_H
 #define PILE_H
 
-#include "card.h"
+#include "kcard.h"
 class CardScene;
 #include "libkcardgame_export.h"
 #include "../speeds.h"
@@ -61,13 +61,13 @@ public:
 
     CardScene * cardScene() const;
 
-    QList<Card*> cards() const;
+    QList<KCard*> cards() const;
     int count() const;
     bool isEmpty() const;
-    int indexOf( const Card * card ) const;
-    Card * at( int index ) const;
-    Card * top() const;
-    QList<Card*> topCardsDownTo( const Card * card ) const;
+    int indexOf( const KCard * card ) const;
+    KCard * at( int index ) const;
+    KCard * top() const;
+    QList<KCard*> topCardsDownTo( const KCard * card ) const;
 
     void setPilePos( QPointF pos );
     void setPilePos( qreal x, qreal y );
@@ -97,29 +97,29 @@ public:
 
     void setGraphicSize( QSize size );
 
-    virtual void animatedAdd( Card * card, bool faceUp );
-    virtual void add( Card * card, int index = -1 );
-    virtual void remove( Card * card );
+    virtual void animatedAdd( KCard * card, bool faceUp );
+    virtual void add( KCard * card, int index = -1 );
+    virtual void remove( KCard * card );
     void clear();
 
     virtual void layoutCards( int duration = DURATION_RELAYOUT );
-    virtual void moveCardsBack( QList<Card*> & cards, int duration = DURATION_MOVEBACK );
-    virtual void moveCards( QList<Card*> & cards, Pile * pile );
+    virtual void moveCardsBack( QList<KCard*> & cards, int duration = DURATION_MOVEBACK );
+    virtual void moveCards( QList<KCard*> & cards, Pile * pile );
 
-    void cardPressed( Card * card );
+    void cardPressed( KCard * card );
 
 public slots:
-    virtual bool cardClicked( Card * card );
-    virtual bool cardDoubleClicked( Card * card );
+    virtual bool cardClicked( KCard * card );
+    virtual bool cardDoubleClicked( KCard * card );
     virtual void relayoutCards();
 
 signals:
-    void clicked( Card * card );
-    void doubleClicked( Card * card );
-    void pressed( Card * card );
+    void clicked( KCard * card );
+    void doubleClicked( KCard * card );
+    void pressed( KCard * card );
 
 protected:
-    virtual QPointF cardOffset( const Card * card ) const;
+    virtual QPointF cardOffset( const KCard * card ) const;
 
     virtual QPixmap normalPixmap( QSize size );
     virtual QPixmap highlightedPixmap( QSize size );
@@ -130,7 +130,7 @@ private:
     void setHighlightedness( qreal highlightedness );
     qreal highlightedness() const;
 
-    QList<Card*> m_cards;
+    QList<KCard*> m_cards;
 
     bool m_autoTurnTop;
     bool m_highlighted;

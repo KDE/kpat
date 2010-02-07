@@ -116,7 +116,7 @@ void Clock::deal() {
 
     int j = 0;
     while (deck()->hasUndealtCards()) {
-        Card *c = deck()->takeCard();
+        KCard *c = deck()->takeCard();
         for (int i = 0; i < 12; i++)
             if (getRank(c) == ranks[i] && getSuit(c) == suits[i]) {
                 QPointF initPos = (2 * center + target[(i + 2) % 12]->pos()) / 3;

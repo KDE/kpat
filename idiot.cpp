@@ -141,7 +141,7 @@ bool Idiot::canMoveAway(const StandardCard * card) const
 
 
 
-bool Idiot::cardClicked(Card *c)
+bool Idiot::cardClicked(KCard *c)
 {
     // If the deck is clicked, deal 4 more cards.
     if (c->source() == talon) {
@@ -204,7 +204,7 @@ bool Idiot::isGameWon() const
 // This patience doesn't support double click.
 //
 
-bool Idiot::cardDoubleClicked(Card *)
+bool Idiot::cardDoubleClicked(KCard *)
 {
     return false; // nothing - nada
 }
@@ -212,7 +212,7 @@ bool Idiot::cardDoubleClicked(Card *)
 
 // Deal 4 cards face up - one on each pile.
 //
-Card *Idiot::newCards()
+KCard *Idiot::newCards()
 {
     if ( talon->isEmpty() )
         return 0;

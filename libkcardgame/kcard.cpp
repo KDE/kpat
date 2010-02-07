@@ -16,7 +16,7 @@
  *
  */
 
-#include "card.h"
+#include "kcard.h"
 
 #include "kabstractcarddeck.h"
 #include "pile.h"
@@ -29,7 +29,7 @@
 #include <QtGui/QPainter>
 
 
-Card::Card( quint32 data, KAbstractCardDeck * deck )
+KCard::KCard( quint32 data, KAbstractCardDeck * deck )
   : QObject(),
     QGraphicsPixmapItem(),
     m_faceup( true ),
@@ -55,7 +55,7 @@ Card::Card( quint32 data, KAbstractCardDeck * deck )
 }
 
 
-Card::~Card()
+KCard::~KCard()
 {
     // If the card is in a pile, remove it from there.
     if ( source() )
@@ -65,26 +65,26 @@ Card::~Card()
 }
 
 
-bool Card::isFaceUp() const
+bool KCard::isFaceUp() const
 {
     return m_faceup;
 }
 
 
-quint32 Card::data() const
+quint32 KCard::data() const
 {
     return m_data;
 }
 
 
-void Card::raise()
+void KCard::raise()
 {
     if ( zValue() < 1000 )
         setZValue( 1000 + zValue() );
 }
 
 
-void Card::turn( bool faceUp )
+void KCard::turn( bool faceUp )
 {
     if ( m_faceup != faceUp || m_destFace != faceUp )
     {
@@ -96,13 +96,13 @@ void Card::turn( bool faceUp )
 }
 
 
-void Card::flip()
+void KCard::flip()
 {
     turn( !m_faceup );
 }
 
 
-void Card::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool faceup2, bool raised, int duration )
+void KCard::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool faceup2, bool raised, int duration )
 {
     stopAnimation();
 
@@ -190,13 +190,13 @@ void Card::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool 
 
 
 // Start a move of the card using animation.
-void Card::moveTo( QPointF pos2, qreal z2, int duration )
+void KCard::moveTo( QPointF pos2, qreal z2, int duration )
 {
     animate( pos2, z2, 1, 0, isFaceUp(), true, duration );
 }
 
 
-bool Card::animated() const
+bool KCard::animated() const
 {
     return m_animation != 0;
 }
@@ -204,7 +204,7 @@ bool Card::animated() const
 
 // Return the  cards real position.  This is the destination
 // of the animation if animated, and the current position otherwise.
-QPointF Card::realPos() const
+QPointF KCard::realPos() const
 {
     if (animated())
         return QPointF(m_destX, m_destY);
@@ -215,7 +215,7 @@ QPointF Card::realPos() const
 
 // Return the > of the cards real position.  This is the destination
 // of the animation if animated, and the current Z otherwise.
-qreal Card::realZ() const
+qreal KCard::realZ() const
 {
     if (animated())
         return m_destZ;
@@ -229,13 +229,13 @@ qreal Card::realZ() const
 // This is the destination of the animation if animated and animation
 // is more than half way, the original if animated and animation is
 // less than half way, and the current "face up" status otherwise.
-bool Card::realFace() const
+bool KCard::realFace() const
 {
     return m_destFace;
 }
 
 
-void Card::setHighlighted( bool flag )
+void KCard::setHighlighted( bool flag )
 {
     if ( flag != m_highlighted )
     {
@@ -251,7 +251,7 @@ void Card::setHighlighted( bool flag )
 }
 
 
-void Card::setHighlightedness( qreal highlightedness )
+void KCard::setHighlightedness( qreal highlightedness )
 {
     m_highlightedness = highlightedness;
     updatePixmap();
@@ -259,19 +259,19 @@ void Card::setHighlightedness( qreal highlightedness )
 }
 
 
-bool Card::isHighlighted() const
+bool KCard::isHighlighted() const
 {
     return m_highlighted;
 }
 
 
-qreal Card::highlightedness() const
+qreal KCard::highlightedness() const
 {
     return m_highlightedness;
 }
 
 
-void Card::completeAnimation()
+void KCard::completeAnimation()
 {
     if ( !m_animation )
         return;
@@ -286,7 +286,7 @@ void Card::completeAnimation()
 }
 
 
-void Card::stopAnimation()
+void KCard::stopAnimation()
 {
     if ( !m_animation )
         return;
@@ -309,7 +309,7 @@ void Card::stopAnimation()
 
 
 
-void Card::updatePixmap()
+void KCard::updatePixmap()
 {
     QPixmap pix;
     if( m_faceup )
@@ -333,7 +333,7 @@ void Card::updatePixmap()
 }
 
 
-void Card::setFlippedness( qreal flippedness )
+void KCard::setFlippedness( qreal flippedness )
 {
     if ( flippedness == m_flippedness )
         return;
@@ -354,10 +354,10 @@ void Card::setFlippedness( qreal flippedness )
 }
 
 
-qreal Card::flippedness() const
+qreal KCard::flippedness() const
 {
     return m_flippedness;
 }
 
 
-#include "card.moc"
+#include "kcard.moc"

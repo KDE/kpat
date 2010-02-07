@@ -1,6 +1,6 @@
 set( libkcardgame_SRCS
-    card.cpp
     cardscene.cpp
+    kcard.cpp
     kabstractcarddeck.cpp
     kcardcache.cpp
     kcardtheme.cpp

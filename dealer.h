@@ -145,8 +145,8 @@ public slots:
     void redo();
 
 protected:
-    virtual bool allowedToAdd(const Pile * pile, const QList<Card*> & cards) const;
-    virtual bool allowedToRemove(const Pile * pile, const Card * card) const;
+    virtual bool allowedToAdd(const Pile * pile, const QList<KCard*> & cards) const;
+    virtual bool allowedToRemove(const Pile * pile, const KCard * card) const;
 
     virtual bool checkAdd( const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards ) const;
     virtual bool checkRemove( const PatPile * pile, const QList<StandardCard*> & cards ) const;
@@ -156,7 +156,7 @@ protected:
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent );
 
-    virtual bool cardDoubleClicked( Card * card );
+    virtual bool cardDoubleClicked( KCard * card );
 
     virtual void onGameStateAlteredByUser();
 
@@ -164,7 +164,7 @@ protected:
     void setState(State *);
     void eraseRedo();
 
-    PatPile *findTarget(Card *c);
+    PatPile *findTarget(KCard *c);
 
     QList<MoveHint*> hints() const;
     virtual void getHints();
@@ -187,14 +187,14 @@ protected:
     virtual QString getGameOptions() const { return QString(); }
     virtual void setGameOptions( const QString & ) {}
 
-    virtual void newDemoMove(Card *m);
+    virtual void newDemoMove(KCard *m);
 
-    void addCardForDeal( PatPile * pile, Card * card, bool faceUp, QPointF startPos );
+    void addCardForDeal( PatPile * pile, KCard * card, bool faceUp, QPointF startPos );
     void startDealAnimation();
 
 protected slots:
     virtual void demo();
-    void waitForDemo(Card *);
+    void waitForDemo(KCard *);
     void toggleDemo();
 
     void slotSolverEnded();
@@ -204,7 +204,7 @@ protected slots:
     void showWonMessage();
 
     void takeState();
-    virtual Card *newCards();
+    virtual KCard *newCards();
     virtual bool drop();
 
 private:
@@ -217,7 +217,7 @@ private:
     class DealerScenePrivate;
     DealerScenePrivate *d;
 
-    QMap<Card*,QPointF> m_initDealPositions;
+    QMap<KCard*,QPointF> m_initDealPositions;
 
 private slots:
     void waitForAutoDrop();

@@ -89,7 +89,7 @@ KAbstractCardDeck * CardScene::deck() const
 }
 
 
-QList<Card*> CardScene::cardsBeingDragged() const
+QList<KCard*> CardScene::cardsBeingDragged() const
 {
     return m_cardsBeingDragged;
 }
@@ -101,7 +101,7 @@ void CardScene::addPile( Pile * pile )
         pile->cardScene()->removePile( pile );
 
     addItem( pile );
-    foreach ( Card * c, pile->cards() )
+    foreach ( KCard * c, pile->cards() )
         addItem( c );
     m_piles.append( pile );
 }
@@ -109,7 +109,7 @@ void CardScene::addPile( Pile * pile )
 
 void CardScene::removePile( Pile * pile )
 {
-    foreach ( Card * c, pile->cards() )
+    foreach ( KCard * c, pile->cards() )
         removeItem( c );
     removeItem( pile );
     m_piles.removeAll( pile );
@@ -410,7 +410,7 @@ QList<QGraphicsItem*> CardScene::highlightedItems() const
 
 void CardScene::setItemHighlight( QGraphicsItem * item, bool highlight )
 {
-    Card * card = qgraphicsitem_cast<Card*>( item );
+    KCard * card = qgraphicsitem_cast<KCard*>( item );
     if ( card )
     {
         card->setHighlighted( highlight );
@@ -426,7 +426,7 @@ void CardScene::setItemHighlight( QGraphicsItem * item, bool highlight )
 }
 
 
-void CardScene::flipCardToPile( Card * card, Pile * pile, int duration )
+void CardScene::flipCardToPile( KCard * card, Pile * pile, int duration )
 {
     QPointF origPos = card->pos();
 
@@ -445,7 +445,7 @@ void CardScene::onGameStateAlteredByUser()
 }
 
 
-bool CardScene::allowedToAdd( const Pile * pile, const QList<Card*> & cards ) const
+bool CardScene::allowedToAdd( const Pile * pile, const QList<KCard*> & cards ) const
 {
     Q_UNUSED( pile )
     Q_UNUSED( cards )
@@ -453,7 +453,7 @@ bool CardScene::allowedToAdd( const Pile * pile, const QList<Card*> & cards ) co
 }
 
 
-bool CardScene::allowedToRemove( const Pile * pile, const Card * card ) const
+bool CardScene::allowedToRemove( const Pile * pile, const KCard * card ) const
 {
     Q_UNUSED( pile )
     Q_UNUSED( card )
@@ -469,7 +469,7 @@ Pile * CardScene::targetPile()
         Pile * p = qgraphicsitem_cast<Pile*>( item );
         if ( !p )
         {
-            Card * c = qgraphicsitem_cast<Card*>( item );
+            KCard * c = qgraphicsitem_cast<KCard*>( item );
             if ( c )
                 p = c->source();
         }
@@ -485,7 +485,7 @@ Pile * CardScene::targetPile()
         if ( p != m_cardsBeingDragged.first()->source() && allowedToAdd( p, m_cardsBeingDragged ) )
         {
             QRectF targetRect = p->sceneBoundingRect();
-            foreach ( Card *c, p->cards() )
+            foreach ( KCard *c, p->cards() )
                 targetRect |= c->sceneBoundingRect();
 
             QRectF intersection = targetRect & m_cardsBeingDragged.first()->sceneBoundingRect();
@@ -524,7 +524,7 @@ bool CardScene::pileDoubleClicked( Pile * pile )
 }
 
 
-bool CardScene::cardClicked( Card * card )
+bool CardScene::cardClicked( KCard * card )
 {
     if ( card->source()->cardClicked( card ) )
     {
@@ -535,7 +535,7 @@ bool CardScene::cardClicked( Card * card )
 }
 
 
-bool CardScene::cardDoubleClicked( Card * card )
+bool CardScene::cardDoubleClicked( KCard * card )
 {
     if ( card->source()->cardDoubleClicked( card ) )
     {
@@ -554,7 +554,7 @@ void CardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 
     if ( e->button() == Qt::LeftButton )
     {
-        Card *card = qgraphicsitem_cast<Card*>( itemAt( e->scenePos() ) );
+        KCard *card = qgraphicsitem_cast<KCard*>( itemAt( e->scenePos() ) );
         if ( !card || m_cardsBeingDragged.contains( card ) )
             return;
 
@@ -563,7 +563,7 @@ void CardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
         m_cardsBeingDragged = card->source()->topCardsDownTo( card );
         if ( allowedToRemove( card->source(), m_cardsBeingDragged.first() ) )
         {
-            foreach ( Card * c, m_cardsBeingDragged )
+            foreach ( KCard * c, m_cardsBeingDragged )
             {
                 c->stopAnimation();
                 c->raise();
@@ -603,7 +603,7 @@ void CardScene::mouseMoveEvent( QGraphicsSceneMouseEvent * e )
 
     if ( m_dragStarted )
     {
-        foreach ( Card * card, m_cardsBeingDragged )
+        foreach ( KCard * card, m_cardsBeingDragged )
             card->setPos( card->pos() + e->scenePos() - m_startOfDrag );
         m_startOfDrag = e->scenePos();
 
@@ -638,7 +638,7 @@ void CardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
             if ( !topItem )
                 return;
 
-            Card * card = qgraphicsitem_cast<Card*>( topItem );
+            KCard * card = qgraphicsitem_cast<KCard*>( topItem );
             if ( card && !card->animated() )
             {
                 cardClicked( card );
@@ -683,7 +683,7 @@ void CardScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
         m_cardsBeingDragged.clear();
     }
 
-    Card * c = qgraphicsitem_cast<Card*>( itemAt( e->scenePos() ) );
+    KCard * c = qgraphicsitem_cast<KCard*>( itemAt( e->scenePos() ) );
     if ( c )
         cardDoubleClicked( c );
 }

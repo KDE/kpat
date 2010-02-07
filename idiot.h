@@ -52,14 +52,14 @@ public:
     virtual void restart();
 
 public slots:
-    virtual Card *newCards();
+    virtual KCard *newCards();
 
 protected:
     virtual bool checkAdd(const PatPile * pile, const QList<StandardCard*> & oldCards, const QList<StandardCard*> & newCards) const;
     virtual bool checkRemove(const PatPile * pile, const QList<StandardCard*> & cards) const;
 
-    virtual bool  cardClicked(Card *);
-    virtual bool  cardDoubleClicked(Card *);
+    virtual bool  cardClicked(KCard *);
+    virtual bool  cardDoubleClicked(KCard *);
 
     virtual bool  drop()  { return false; }
     virtual void  setGameState(const QString &);

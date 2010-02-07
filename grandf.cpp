@@ -84,7 +84,7 @@ void Grandf::restart() {
     emit newCardsPossible( true );
 }
 
-Card *Grandf::newCards()
+KCard *Grandf::newCards()
 {
     if (numberOfDeals >= 3)
         return 0;
@@ -117,7 +117,7 @@ void Grandf::deal() {
         int i = start;
         do
         {
-            Card *next = deck()->takeCard();
+            KCard *next = deck()->takeCard();
             if (next)
                 addCardForDeal( store[i], next, (i == start), initPos );
             i += dir;
@@ -129,7 +129,7 @@ void Grandf::deal() {
     }
 
     int i = 0;
-    Card *next = deck()->takeCard();
+    KCard *next = deck()->takeCard();
     while (next)
     {
         addCardForDeal( store[i+1], next, true, initPos );
@@ -139,7 +139,7 @@ void Grandf::deal() {
 
     for (int round=0; round < 7; round++)
     {
-        Card *c = store[round]->top();
+        KCard *c = store[round]->top();
         if (c)
             c->turn(true);
     }
@@ -159,7 +159,7 @@ void Grandf::collect() {
     clearHighlightedItems();
 
     for (int pos = 6; pos >= 0; pos--) {
-        foreach (Card *c, store[pos]->cards())
+        foreach (KCard *c, store[pos]->cards())
             deck()->returnCard(c);
     }
 }

@@ -56,7 +56,7 @@ Golf::Golf( )
     talon->setPileRole(PatPile::Stock);
     talon->setPilePos(0, smallNeg);
     talon->setSpread(0, 0);
-    connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
+    connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
     addPile(talon);
 
     waste = new PatPile(8, "waste");
@@ -121,7 +121,7 @@ void Golf::deal()
     flipCardToPile(talon->top(), waste, DURATION_FLIP);
 }
 
-Card *Golf::newCards()
+KCard *Golf::newCards()
 {
     if (talon->isEmpty())
          return 0;
@@ -140,7 +140,7 @@ Card *Golf::newCards()
     return waste->top();
 }
 
-bool Golf::cardClicked(Card *c)
+bool Golf::cardClicked(KCard *c)
 {
     PatPile * source = dynamic_cast<PatPile*>( c->source() );
     if (!source || source->pileRole() != PatPile::Tableau) {
@@ -153,7 +153,7 @@ bool Golf::cardClicked(Card *c)
     Pile*p=findTarget(c);
     if (p)
     {
-        c->source()->moveCards(QList<Card*>() << c, p);
+        c->source()->moveCards(QList<KCard*>() << c, p);
         onGameStateAlteredByUser();
         return true;
     }

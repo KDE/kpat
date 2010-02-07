@@ -51,7 +51,7 @@
 
 const int CHUNKSIZE = 100;
 
-void FreecellPile::moveCards(QList<Card*> &c, Pile *to)
+void FreecellPile::moveCards(QList<KCard*> &c, Pile *to)
 {
     if (c.count() == 1) {
         Pile::moveCards(c, to);
@@ -131,7 +131,7 @@ void Freecell::countFreeCells(int &free_cells, int &free_stores) const
         if (store[i]->isEmpty()) free_stores++;
 }
 
-void Freecell::moveCards(QList<Card*> &c, FreecellPile *from, PatPile *to)
+void Freecell::moveCards(QList<KCard*> &c, FreecellPile *from, PatPile *to)
 {
     Q_ASSERT(c.count() > 1);
 
@@ -239,7 +239,7 @@ void Freecell::startMoving()
 
     MoveHint *mh = moves.first();
     moves.erase(moves.begin());
-    QList<Card*> empty;
+    QList<KCard*> empty;
     empty.append(mh->card());
     
     Pile * p = mh->card()->source();
@@ -260,7 +260,7 @@ void Freecell::startMoving()
     delete mh;
 }
 
-void Freecell::newDemoMove(Card *m)
+void Freecell::newDemoMove(KCard *m)
 {
     DealerScene::newDemoMove(m);
     if (m != m->source()->top())
@@ -273,7 +273,7 @@ void Freecell::waitForMoving()
     startMoving();
 }
 
-bool Freecell::cardDoubleClicked(Card *c)
+bool Freecell::cardDoubleClicked(KCard *c)
 {
     // target move
     if (DealerScene::cardDoubleClicked(c))
@@ -288,7 +288,7 @@ bool Freecell::cardDoubleClicked(Card *c)
         {
             if (freecell[i]->isEmpty())
             {
-                c->source()->moveCards(QList<Card*>() << c, freecell[i]);
+                c->source()->moveCards(QList<KCard*>() << c, freecell[i]);
                 onGameStateAlteredByUser();
                 return true;
             }
@@ -407,7 +407,7 @@ void Freecell::deal()
     int column = 0;
     while (deck()->hasUndealtCards())
     {
-        Card *c = deck()->takeCard();
+        KCard *c = deck()->takeCard();
         addCardForDeal( store[column], c, true, store[0]->pos() );
         column = (column + 1) % 8;
     }

@@ -93,14 +93,14 @@ public:
     };
 
 public slots:
-    void cardStartedAnimation( Card *card )
+    void cardStartedAnimation( KCard * card )
     {
         Q_ASSERT( !cardsWaitedFor.contains( card ) );
         cardsWaitedFor.insert( card );
     };
 
 
-    void cardStoppedAnimation( Card *card )
+    void cardStoppedAnimation( KCard *card )
     {
         Q_ASSERT( cardsWaitedFor.contains( card ) );
         cardsWaitedFor.remove( card );
@@ -113,7 +113,7 @@ public slots:
     void loadInBackground()
     {
         QSet<QString> elements;
-        foreach ( const Card * c, allCards )
+        foreach ( const KCard * c, allCards )
         {
             elements << q->elementName( c->data(), true );
             elements << q->elementName( c->data(), false );
@@ -125,14 +125,14 @@ public slots:
 public:
     KAbstractCardDeck * q;
 
-    QList<Card*> allCards;
-    QList<Card*> undealtCards;
+    QList<KCard*> allCards;
+    QList<KCard*> undealtCards;
 
     KCardCache2 * cache;
     QSizeF originalCardSize;
     QSize currentCardSize;
 
-    QSet<Card*> cardsWaitedFor;
+    QSet<KCard*> cardsWaitedFor;
 };
 
 
@@ -149,7 +149,7 @@ KAbstractCardDeck::KAbstractCardDeck()
 KAbstractCardDeck::~KAbstractCardDeck()
 {
     returnAllCards();
-    foreach ( Card * c, d->allCards )
+    foreach ( KCard * c, d->allCards )
         delete c;
     d->allCards.clear();
     d->undealtCards.clear();
@@ -160,7 +160,7 @@ KAbstractCardDeck::~KAbstractCardDeck()
 }
 
 
-QList< Card* > KAbstractCardDeck::cards() const
+QList<KCard*> KAbstractCardDeck::cards() const
 {
     return d->allCards;
 }
@@ -172,7 +172,7 @@ bool KAbstractCardDeck::hasUndealtCards() const
 }
 
 
-Card * KAbstractCardDeck::takeCard()
+KCard * KAbstractCardDeck::takeCard()
 {
     if ( d->undealtCards.isEmpty() )
         return 0;
@@ -181,13 +181,13 @@ Card * KAbstractCardDeck::takeCard()
 }
 
 
-Card * KAbstractCardDeck::takeCard( quint32 id )
+KCard * KAbstractCardDeck::takeCard( quint32 id )
 {
-    for ( QList<Card*>::iterator it = d->undealtCards.begin();
+    for ( QList<KCard*>::iterator it = d->undealtCards.begin();
           it != d->undealtCards.end();
           ++it )
     {
-        Card * c = *it;
+        KCard * c = *it;
 
         if ( c->data() == id )
         {
@@ -203,7 +203,7 @@ void KAbstractCardDeck::takeAllCards( Pile * p )
 {
     while ( !d->undealtCards.isEmpty() )
     {
-        Card * c = d->undealtCards.takeFirst();
+        KCard * c = d->undealtCards.takeFirst();
         c->setPos( p->pos() );
         c->turn( false );
         p->add( c );
@@ -211,7 +211,7 @@ void KAbstractCardDeck::takeAllCards( Pile * p )
 }
 
 
-void KAbstractCardDeck::returnCard( Card * c )
+void KAbstractCardDeck::returnCard( KCard * c )
 {
 //FIXME
 //     c->setTakenDown( false );
@@ -226,7 +226,7 @@ void KAbstractCardDeck::returnCard( Card * c )
 void KAbstractCardDeck::returnAllCards()
 {
     d->undealtCards.clear();
-    foreach ( Card * c, d->allCards )
+    foreach ( KCard * c, d->allCards )
         returnCard( c );
 }
 
@@ -250,7 +250,7 @@ void KAbstractCardDeck::setCardWidth( int width )
     {
         d->currentCardSize = newSize;
         d->cache->setSize( newSize );
-        foreach ( Card * c, d->allCards )
+        foreach ( KCard * c, d->allCards )
             c->updatePixmap();
 
         QTimer::singleShot( 200, this, SLOT(loadInBackground()) );;
@@ -315,16 +315,16 @@ bool KAbstractCardDeck::hasAnimatedCards() const
 }
 
 
-void KAbstractCardDeck::initializeCards( const QList<Card*> & cards )
+void KAbstractCardDeck::initializeCards( const QList<KCard*> & cards )
 {
     Q_ASSERT( d->allCards.isEmpty() );
 
     d->allCards = d->undealtCards = cards;
 
-    foreach ( const Card * c, cards )
+    foreach ( const KCard * c, cards )
     {
-        connect( c, SIGNAL(animationStarted(Card*)), d, SLOT(cardStartedAnimation(Card*)) );
-        connect( c, SIGNAL(animationStopped(Card*)), d, SLOT(cardStoppedAnimation(Card*)) );
+        connect( c, SIGNAL(animationStarted(KCard*)), d, SLOT(cardStartedAnimation(KCard*)) );
+        connect( c, SIGNAL(animationStopped(KCard*)), d, SLOT(cardStoppedAnimation(KCard*)) );
     }
 }
 

@@ -61,7 +61,7 @@ public:
     void setEasy( bool easy );
 
 public slots:
-    virtual Card *newCards();
+    virtual KCard *newCards();
 
 protected:
     virtual QString getGameState();

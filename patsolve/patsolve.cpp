@@ -1008,7 +1008,7 @@ int Solver::translate_pile(const PatPile *pile, card_t *w, int size)
 	rank = suit = NONE;
         for ( int i = 0; i < pile->count(); ++i )
         {
-            Card *c = pile->at( i );
+            KCard *c = pile->at( i );
             *w =  + translateSuit( getSuit(c) ) + getRank(c);
             if ( !c->realFace() )
                 *w += 1 << 7;

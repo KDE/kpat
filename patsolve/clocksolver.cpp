@@ -259,7 +259,7 @@ void ClockSolver::translate_layout()
     /* Output piles, if any. */
     for (int i = 0; i < 12; ++i)
     {
-        Card *c = deal->target[i]->top();
+        KCard *c = deal->target[i]->top();
 
         // It is not safe to assume that each target pile will always have a
         // card on it. If it takes particularly long to render the card graphics

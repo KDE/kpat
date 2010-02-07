@@ -56,13 +56,13 @@ public:
     explicit KAbstractCardDeck();
     virtual ~KAbstractCardDeck();
 
-    QList<Card*> cards() const;
+    QList<KCard*> cards() const;
 
     bool hasUndealtCards() const;
-    Card * takeCard();
-    Card * takeCard( quint32 id );
+    KCard * takeCard();
+    KCard * takeCard( quint32 id );
     void takeAllCards( Pile * p );
-    void returnCard( Card * c );
+    void returnCard( KCard * c );
     void returnAllCards();
     void shuffle( int gameNumber );
 
@@ -83,7 +83,7 @@ signals:
     void cardAnimationDone();
 
 protected:
-    virtual void initializeCards( const QList<Card*> & cards );
+    virtual void initializeCards( const QList<KCard*> & cards );
     virtual QString elementName( quint32 id, bool faceUp = true ) const = 0;
 
 private:

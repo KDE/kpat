@@ -38,10 +38,10 @@
 
 
 StandardCard::StandardCard( Rank r, Suit s, KAbstractCardDeck * deck )
-  : Card( (s << 4) + r, deck ),
+  : KCard( (s << 4) + r, deck ),
     m_takenDown( false )
 {
-    Q_ASSERT( m_deck );
+    Q_ASSERT( deck );
 
     QString suitName;
     switch( suit() )
@@ -91,7 +91,7 @@ bool StandardCard::takenDown() const
 }
 
 
-StandardCard::Suit getSuit( const Card * card )
+StandardCard::Suit getSuit( const KCard * card )
 {
     StandardCard::Suit s = StandardCard::Suit( card->data() >> 4 );
     Q_ASSERT( StandardCard::Clubs <= s && s <= StandardCard::Spades );
@@ -99,7 +99,7 @@ StandardCard::Suit getSuit( const Card * card )
 }
 
 
-StandardCard::Rank getRank( const Card * card )
+StandardCard::Rank getRank( const KCard * card )
 {
     StandardCard::Rank r = StandardCard::Rank( card->data() & 0xf );
     Q_ASSERT( StandardCard::Ace <= r && r <= StandardCard::King );
@@ -107,10 +107,10 @@ StandardCard::Rank getRank( const Card * card )
 }
 
 
-QList<StandardCard*> castCardList( const QList<Card*> & cards )
+QList<StandardCard*> castCardList( const QList<KCard*> & cards )
 {
     QList<StandardCard*> result;
-    foreach ( Card * c, cards )
+    foreach ( KCard * c, cards )
     {
         Q_ASSERT( dynamic_cast<StandardCard*>( c ) );
         result << static_cast<StandardCard*>( c );

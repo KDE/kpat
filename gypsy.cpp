@@ -53,7 +53,7 @@ Gypsy::Gypsy( )
     talon = new PatPile(0, "talon");
     talon->setPileRole(PatPile::Stock);
     talon->setPilePos(8.5 * dist_x + 0.4, 4 * dist_y);
-    connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
+    connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
     addPile(talon);
 
     for (int i=0; i<8; i++) {
@@ -133,7 +133,7 @@ void Gypsy::deal() {
     startDealAnimation();
 }
 
-Card *Gypsy::newCards()
+KCard *Gypsy::newCards()
 {
     if (talon->isEmpty())
         return 0;

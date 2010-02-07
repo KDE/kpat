@@ -80,13 +80,13 @@ StandardCard* PatPile::top() const
 }
 
 
-QList< StandardCard* > PatPile::topCardsDownTo( const Card * card ) const
+QList< StandardCard* > PatPile::topCardsDownTo( const KCard * card ) const
 {
     return castCardList( Pile::topCardsDownTo( card ) );
 }
 
 
-void PatPile::add( Card * card, int index )
+void PatPile::add( KCard * card, int index )
 {
     Q_ASSERT( dynamic_cast<StandardCard*>( card ) );
 

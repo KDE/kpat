@@ -52,7 +52,7 @@ public:
 public slots:
     void deal();
     virtual void restart();
-    virtual Card *newCards();
+    virtual KCard *newCards();
 
 protected:
     void collect();

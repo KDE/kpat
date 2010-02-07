@@ -83,7 +83,7 @@ Mod3::Mod3( )
     talon->setPileRole(PatPile::Stock);
     talon->setPilePos(rightColumX, bottomRowY);
     talon->setSpread(0, 0);
-    connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
+    connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
     addPile(talon);
 
     aces = new PatPile(50, "aces");
@@ -191,7 +191,7 @@ void Mod3::dealRow(int row)
         return;
 
     for (int c = 0; c < 8; ++c) {
-        Card *card = talon->top();
+        KCard *card = talon->top();
         if ( card )
             stack[row][c]->animatedAdd(card, true);
     }
@@ -211,7 +211,7 @@ void Mod3::deal()
         dealRow(r);
 }
 
-Card *Mod3::newCards()
+KCard *Mod3::newCards()
 {
     if (talon->isEmpty())
         return 0;

@@ -79,7 +79,7 @@ Pile::~Pile()
 {
 //     dscene()->removePile(this);
 
-    foreach ( Card * c, m_cards )
+    foreach ( KCard * c, m_cards )
         c->setSource( 0 );
 
     delete m_relayoutTimer;
@@ -98,7 +98,7 @@ CardScene * Pile::cardScene() const
 }
 
 
-QList<Card*> Pile::cards() const
+QList<KCard*> Pile::cards() const
 {
     return m_cards;
 }
@@ -116,13 +116,13 @@ bool Pile::isEmpty() const
 }
 
 
-int Pile::indexOf( const Card * card ) const
+int Pile::indexOf( const KCard * card ) const
 {
-    return m_cards.indexOf( const_cast<Card*>( card ) );
+    return m_cards.indexOf( const_cast<KCard*>( card ) );
 }
 
 
-Card * Pile::at( int index ) const
+KCard * Pile::at( int index ) const
 {
     if ( index < 0 || index >= m_cards.size() )
         return 0;
@@ -130,7 +130,7 @@ Card * Pile::at( int index ) const
 }
 
 
-Card *Pile::top() const
+KCard *Pile::top() const
 {
     if ( m_cards.isEmpty() )
         return 0;
@@ -139,11 +139,11 @@ Card *Pile::top() const
 }
 
 
-QList<Card*> Pile::topCardsDownTo( const Card * card ) const
+QList<KCard*> Pile::topCardsDownTo( const KCard * card ) const
 {
-    int index = m_cards.indexOf( const_cast<Card*>( card ) );
+    int index = m_cards.indexOf( const_cast<KCard*>( card ) );
     if ( index == -1 )
-        return QList<Card*>();
+        return QList<KCard*>();
     return m_cards.mid( index );
 }
 
@@ -231,7 +231,7 @@ void Pile::setVisible( bool visible )
     if ( visible != isVisible() )
     {
         QGraphicsItem::setVisible( visible );
-        foreach ( Card * c, m_cards )
+        foreach ( KCard * c, m_cards )
             c->setVisible( visible );
     }
 }
@@ -280,7 +280,7 @@ void Pile::setGraphicSize( QSize size )
 }
 
 
-void Pile::animatedAdd( Card * card, bool faceUp )
+void Pile::animatedAdd( KCard * card, bool faceUp )
 {
     Q_ASSERT( card );
 
@@ -303,7 +303,7 @@ void Pile::animatedAdd( Card * card, bool faceUp )
 }
 
 
-void Pile::add( Card * card, int index )
+void Pile::add( KCard * card, int index )
 {
     if ( card->source() == this )
         return;
@@ -332,7 +332,7 @@ void Pile::add( Card * card, int index )
 }
 
 
-void Pile::remove( Card * card )
+void Pile::remove( KCard * card )
 {
     Q_ASSERT( m_cards.contains( card ) );
     m_cards.removeAll( card );
@@ -342,7 +342,7 @@ void Pile::remove( Card * card )
 
 void Pile::clear()
 {
-    foreach ( Card *card, m_cards )
+    foreach ( KCard *card, m_cards )
         remove( card );
 }
 
@@ -368,7 +368,7 @@ void Pile::layoutCards( int duration )
 
     QPointF cardPos = pos();
     qreal z = zValue() + 1;
-    foreach ( Card * card, m_cards )
+    foreach ( KCard * card, m_cards )
     {
         card->animate( cardPos, z, 1, 0, card->isFaceUp(), false, duration );
 
@@ -380,30 +380,30 @@ void Pile::layoutCards( int duration )
 }
 
 
-void Pile::moveCardsBack( QList<Card*> & cards, int duration )
+void Pile::moveCardsBack( QList<KCard*> & cards, int duration )
 {
     if ( cards.isEmpty() )
         return;
 
-    foreach ( Card * c, cards )
+    foreach ( KCard * c, cards )
         c->raise();
 
     layoutCards( duration );
 }
 
 
-void Pile::moveCards( QList<Card*> & cards, Pile * pile )
+void Pile::moveCards( QList<KCard*> & cards, Pile * pile )
 {
     if ( cards.isEmpty() )
         return;
 
-    foreach ( Card * c, cards )
+    foreach ( KCard * c, cards )
     {
         Q_ASSERT( c->source() == this );
         pile->add( c );
     }
 
-    Card * t = top();
+    KCard * t = top();
     if ( t && !t->isFaceUp() && m_autoTurnTop )
     {
         t->animate( t->pos(), t->zValue(), 1, 0, true, false, DURATION_FLIP );
@@ -415,20 +415,20 @@ void Pile::moveCards( QList<Card*> & cards, Pile * pile )
 }
 
 
-void Pile::cardPressed( Card * card )
+void Pile::cardPressed( KCard * card )
 {
     emit pressed( card );
 }
 
 
-bool Pile::cardClicked( Card * card )
+bool Pile::cardClicked( KCard * card )
 {
     emit clicked( card );
     return false;
 }
 
 
-bool Pile::cardDoubleClicked( Card * card )
+bool Pile::cardDoubleClicked( KCard * card )
 {
     emit doubleClicked( card );
     return false;
@@ -439,7 +439,7 @@ void Pile::relayoutCards()
 {
     m_relayoutTimer->stop();
 
-    foreach ( Card * card, m_cards )
+    foreach ( KCard * card, m_cards )
     {
         if ( card->animated() || cardScene()->cardsBeingDragged().contains( card ) )
         {
@@ -454,7 +454,7 @@ void Pile::relayoutCards()
 
 // Return the number of pixels in x and y that the card should be
 // offset from the start position of the pile.
-QPointF Pile::cardOffset( const Card * card ) const
+QPointF Pile::cardOffset( const KCard * card ) const
 {
     QPointF offset( spread().width() * card->pixmap().width(),
                     spread().height() * card->pixmap().height() );

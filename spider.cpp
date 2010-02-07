@@ -50,7 +50,7 @@
 #include <KSelectAction>
 
 
-void SpiderPile::moveCards(QList<Card*> & c, Pile *to)
+void SpiderPile::moveCards(QList<KCard*> & c, Pile *to)
 {
     Pile::moveCards(c, to);
 
@@ -96,7 +96,7 @@ Spider::Spider()
         redeals[column]->setZValue(12 * ( 5-column ));
         redeals[column]->setGraphicVisible( false );
         redeals[column]->setSpread(0, 0);
-        connect(redeals[column], SIGNAL(clicked(Card*)), SLOT(newCards()));
+        connect(redeals[column], SIGNAL(clicked(KCard*)), SLOT(newCards()));
         addPile(redeals[column]);
     }
 
@@ -225,14 +225,14 @@ void Spider::createDeck()
 }
 
 
-void Spider::cardStopped(Card * t)
+void Spider::cardStopped(KCard * t)
 {
     for( int column = 0; column < 10; column++ ) {
-        Card *t = stack[column]->top();
+        KCard *t = stack[column]->top();
         if (t && !t->isFaceUp())
            t->animate( t->pos(), t->zValue(), 1.0, 0.0, true, true, DURATION_FLIP );
     }
-    t->disconnect(this, SLOT( cardStopped( Card* ) ) );
+    t->disconnect(this, SLOT( cardStopped( KCard* ) ) );
 }
 
 //-------------------------------------------------------------------------//
@@ -346,12 +346,12 @@ bool Spider::checkPileDeck(PatPile *check, bool checkForDemo)
             relayoutPiles();
 
             qreal z = 1;
-            foreach ( Card *c, run ) {
+            foreach ( KCard *c, run ) {
                 leg->add( c );
                 c->moveTo( leg->pos(), leg->zValue() + z, DURATION_AUTODROP * (0.7 + z / 10) );
                 ++z;
             }
-            connect(run.last(), SIGNAL(animationStopped(Card*)), SLOT(cardStopped(Card*)));
+            connect(run.last(), SIGNAL(animationStopped(KCard*)), SLOT(cardStopped(KCard*)));
             m_leg++;
 
             check->layoutCards();
@@ -418,7 +418,7 @@ void Spider::deal()
     startDealAnimation();
 }
 
-Card *Spider::newCards()
+KCard *Spider::newCards()
 {
     if ( demoActive() )
     {

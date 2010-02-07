@@ -29,7 +29,7 @@ class QParallelAnimationGroup;
 class QPropertyAnimation;
 
 
-class LIBKCARDGAME_EXPORT Card : public QObject, public QGraphicsPixmapItem
+class LIBKCARDGAME_EXPORT KCard : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
     Q_PROPERTY( QPointF pos READ pos WRITE setPos )
@@ -41,8 +41,8 @@ class LIBKCARDGAME_EXPORT Card : public QObject, public QGraphicsPixmapItem
     friend class KAbstractCardDeck;
 
 public:
-    Card( quint32 data, KAbstractCardDeck * deck );
-    virtual ~Card();
+    KCard( quint32 data, KAbstractCardDeck * deck );
+    virtual ~KCard();
 
     bool isFaceUp() const;
     quint32 data() const;
@@ -67,17 +67,14 @@ public:
     bool isHighlighted() const;
 
 signals:
-    void       animationStarted( Card * card );
-    void       animationStopped( Card * card );
+    void       animationStarted( KCard * card );
+    void       animationStopped( KCard * card );
 
 public slots:
     void       completeAnimation();
     void       stopAnimation();
 
-protected:
-
-
-//private:
+private:
     void updatePixmap();
 
     void setHighlightedness( qreal highlightedness );

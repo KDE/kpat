@@ -45,7 +45,7 @@ class FreecellPile : public PatPile
 {
 public:
     explicit FreecellPile(int _index, const QString & objectName = QString()) : PatPile(_index, objectName) {}
-    virtual void moveCards(QList<Card*> &c, Pile *to);
+    virtual void moveCards(QList<KCard*> &c, Pile *to);
 };
 
 class Freecell : public DealerScene
@@ -56,7 +56,7 @@ class Freecell : public DealerScene
 
 public:
     Freecell();
-    void moveCards(QList<Card*> &c, FreecellPile *from, PatPile *to);
+    void moveCards(QList<KCard*> &c, FreecellPile *from, PatPile *to);
     virtual ~Freecell();
 
 public slots:
@@ -79,8 +79,8 @@ protected:
 
     MoveHint *translateMove(void *m);
 
-    virtual void newDemoMove(Card *m);
-    virtual bool cardDoubleClicked(Card *c);
+    virtual void newDemoMove(KCard *m);
+    virtual bool cardDoubleClicked(KCard *c);
     virtual void deal();
     virtual void getHints();
 
@@ -93,7 +93,7 @@ private:
     QList<MoveHint*> moves;
     int sum_moves;
     int current_weight;
-    bool noLongerNeeded(const Card &);
+    bool noLongerNeeded(const KCard &);
 };
 
 #endif

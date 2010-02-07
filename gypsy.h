@@ -49,7 +49,7 @@ public:
     virtual void restart();
 
 public slots:
-    virtual Card *newCards();
+    virtual KCard *newCards();
 
 protected:
     virtual void setGameState(const QString &);

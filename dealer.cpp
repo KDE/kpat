@@ -198,7 +198,7 @@ public:
     int neededFutureMoves;
     QTimer *updateSolver;
     int loadedMoveCount;
-    Card *peekedCard;
+    KCard *peekedCard;
     QTimer *demotimer;
     QTimer *stateTimer;
     QTimer *dropTimer;
@@ -365,7 +365,7 @@ void DealerScene::openGame(QDomDocument &doc)
                     int s = card.attribute("suit").toInt();
                     int r = card.attribute("value").toInt();
 
-                    Card * c = deck()->takeCard( ( s << 4 ) + r );
+                    KCard * c = deck()->takeCard( ( s << 4 ) + r );
                     Q_ASSERT( c );
 
                     c->turn(card.attribute("faceup").toInt());
@@ -759,7 +759,7 @@ void DealerScene::resetInternals()
     d->manualDropInProgress = false;
     d->dropSpeedFactor = 1;
 
-    foreach (Card * c, deck()->cards())
+    foreach (KCard * c, deck()->cards())
     {
         c->disconnect( this );
         c->stopAnimation();
@@ -806,7 +806,7 @@ void DealerScene::won()
     qreal spacing = 2 * ( justOffScreen.width() + justOffScreen.height() ) / deck()->cards().size();
     qreal distOnRect = 0;
 
-    foreach ( Card *c, deck()->cards() )
+    foreach ( KCard *c, deck()->cards() )
     {
         distOnRect += spacing;
         QPointF pos2 = posAlongRect( distOnRect, justOffScreen );
@@ -889,14 +889,14 @@ void DealerScene::updateWonItem()
 }
 
 
-bool DealerScene::allowedToAdd( const Pile * pile, const QList<Card*> & cards ) const
+bool DealerScene::allowedToAdd( const Pile * pile, const QList<KCard*> & cards ) const
 {
     const PatPile * p = dynamic_cast<const PatPile*>( pile );
     return p && checkAdd( p, p->cards(), castCardList( cards ) );
 }
 
 
-bool DealerScene::allowedToRemove( const Pile * pile, const Card * card ) const
+bool DealerScene::allowedToRemove( const Pile * pile, const KCard * card ) const
 {
     const PatPile * p = dynamic_cast<const PatPile*>( pile );
     if ( !p )
@@ -949,7 +949,7 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
         if ( deck()->hasAnimatedCards() )
             return;
 
-        Card *card = qgraphicsitem_cast<Card*>( itemAt( e->scenePos() ) );
+        KCard *card = qgraphicsitem_cast<KCard*>( itemAt( e->scenePos() ) );
         if ( !card )
             return;
 
@@ -976,7 +976,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
             return;
         }
 
-        Card * card = qgraphicsitem_cast<Card*>( itemAt( e->scenePos() ) );
+        KCard * card = qgraphicsitem_cast<KCard*>( itemAt( e->scenePos() ) );
         if ( card )
         {
             cardDoubleClicked( card ); // see bug #151921
@@ -999,7 +999,7 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
     CardScene::mouseDoubleClickEvent( e );
 }
 
-bool DealerScene::cardDoubleClicked( Card * c )
+bool DealerScene::cardDoubleClicked( KCard * c )
 {
     if (c->source()->cardDoubleClicked(c))
     {
@@ -1013,7 +1013,7 @@ bool DealerScene::cardDoubleClicked( Card * c )
     if (c == c->source()->top()  && c->realFace() && allowedToRemove(c->source(), c)) {
         Pile *tgt = findTarget(c);
         if (tgt) {
-            c->source()->moveCards(QList<Card*>() << c , tgt);
+            c->source()->moveCards(QList<KCard*>() << c , tgt);
             onGameStateAlteredByUser();
             return true;
         }
@@ -1084,7 +1084,7 @@ void DealerScene::setState(State *st)
     delete st;
 }
 
-PatPile *DealerScene::findTarget(Card *c)
+PatPile *DealerScene::findTarget(KCard *c)
 {
     if (!c)
         return 0;
@@ -1093,7 +1093,7 @@ PatPile *DealerScene::findTarget(Card *c)
     {
         if (!p->isFoundation())
             continue;
-        if (allowedToAdd(p, QList<Card*>() << c))
+        if (allowedToAdd(p, QList<KCard*>() << c))
             return p;
     }
     return 0;
@@ -1143,20 +1143,20 @@ bool DealerScene::drop()
     {
         if ( mh->pile() && mh->pile()->isFoundation() && mh->priority() > 120 && !mh->card()->takenDown() )
         {
-            Card *t = mh->card();
-            QList<Card*> cards = mh->card()->source()->cards();
+            KCard *t = mh->card();
+            QList<KCard*> cards = mh->card()->source()->cards();
             while ( !cards.isEmpty() && cards.first() != t )
                 cards.removeFirst();
 
-            QMap<Card*,QPointF> oldPositions;
-            foreach ( Card *c, cards )
+            QMap<KCard*,QPointF> oldPositions;
+            foreach ( KCard *c, cards )
                 oldPositions.insert( c, c->pos() );
 
             t->source()->moveCards( cards, mh->pile() );
 
             bool animationStarted = false;
             int count = 0;
-            foreach ( Card *c, cards )
+            foreach ( KCard *c, cards )
             {
                 QPointF destPos = c->realPos();
                 c->stopAnimation();
@@ -1299,7 +1299,7 @@ void DealerScene::stopDemo()
         return;
     } else d->stop_demo_next = false;
 
-    foreach ( Card * c, deck()->cards() )
+    foreach ( KCard * c, deck()->cards() )
     {
         c->completeAnimation();
     }
@@ -1381,10 +1381,10 @@ void DealerScene::demo()
         myassert(mh->card()->source() == 0
                  || allowedToRemove(mh->card()->source(), mh->card()));
 
-        QList<Card*> empty;
-        QList<Card*> cards = mh->card()->source()->cards();
+        QList<KCard*> empty;
+        QList<KCard*> cards = mh->card()->source()->cards();
         bool after = false;
-        for (QList<Card*>::Iterator it = cards.begin(); it != cards.end(); ++it) {
+        for (QList<KCard*>::Iterator it = cards.begin(); it != cards.end(); ++it) {
             if (*it == mh->card())
                 after = true;
             if (after)
@@ -1393,9 +1393,9 @@ void DealerScene::demo()
 
         myassert(!empty.isEmpty());
 
-        QMap<Card*,QPointF> oldPositions;
+        QMap<KCard*,QPointF> oldPositions;
 
-        foreach (Card *c, empty) {
+        foreach (KCard *c, empty) {
             c->completeAnimation();
             c->turn(true);
             oldPositions.insert(c, c->realPos());
@@ -1409,7 +1409,7 @@ void DealerScene::demo()
 
         mh->card()->source()->moveCards(empty, mh->pile());
 
-        foreach (Card *c, empty) {
+        foreach (KCard *c, empty) {
             QPointF destPos = c->realPos();
             c->stopAnimation();
             c->setPos(oldPositions.value(c));
@@ -1420,7 +1420,7 @@ void DealerScene::demo()
 
     } else {
         kDebug() << "demoNewCards";
-        Card *t = newCards();
+        KCard *t = newCards();
         if (t) {
             newDemoMove(t);
         } else if (isGameWon()) {
@@ -1438,24 +1438,24 @@ void DealerScene::demo()
     eraseRedo();
 }
 
-Card *DealerScene::newCards()
+KCard *DealerScene::newCards()
 {
     return 0;
 }
 
-void DealerScene::newDemoMove(Card *m)
+void DealerScene::newDemoMove(KCard *m)
 {
     if ( m->animated() )
-        connect(m, SIGNAL(animationStopped(Card*)), SLOT(waitForDemo(Card*)));
+        connect(m, SIGNAL(animationStopped(KCard*)), SLOT(waitForDemo(KCard*)));
     else
         waitForDemo( 0 );
 }
 
-void DealerScene::waitForDemo(Card *t)
+void DealerScene::waitForDemo(KCard *t)
 {
     if ( t )
     {
-        t->disconnect(this, SLOT(waitForDemo(Card*)) );
+        t->disconnect(this, SLOT(waitForDemo(KCard*)) );
         takeState();
     }
     d->demotimer->start(250);
@@ -1632,7 +1632,7 @@ void DealerScene::createDump( QPaintDevice *device )
                 p.restore();
                 continue;
             }
-            else if ( !qgraphicsitem_cast<Card*>(item) )
+            else if ( !qgraphicsitem_cast<KCard*>(item) )
             {
                 kDebug() << "Unknown item type";
                 assert( false );
@@ -1673,7 +1673,7 @@ bool DealerScene::allowedToStartNewGame()
                     ) == KMessageBox::Continue;
 }
 
-void DealerScene::addCardForDeal(PatPile * pile, Card * card, bool faceUp, QPointF startPos)
+void DealerScene::addCardForDeal(PatPile * pile, KCard * card, bool faceUp, QPointF startPos)
 {
     Q_ASSERT( card );
     Q_ASSERT( pile );
@@ -1690,7 +1690,7 @@ void DealerScene::startDealAnimation()
     foreach ( PatPile * p, patPiles() )
     {
         p->layoutCards(0);
-        foreach ( Card * c, p->cards() )
+        foreach ( KCard * c, p->cards() )
         {
             if ( !m_initDealPositions.contains( c ) )
                 continue;

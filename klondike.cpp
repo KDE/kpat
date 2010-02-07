@@ -102,7 +102,7 @@ Klondike::Klondike()
     talon = new PatPile( 0, "talon" );
     talon->setPileRole(PatPile::Stock);
     talon->setPilePos(0, 0);
-    connect(talon, SIGNAL(clicked(Card*)), SLOT(newCards()));
+    connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
     // Give the talon a low Z value to keep it out of the way during there
     // deal animation.
     talon->setZValue( -52 );
@@ -185,7 +185,7 @@ QList<QAction*> Klondike::configActions() const
     return QList<QAction*>() << options;
 }
 
-Card *Klondike::newCards()
+KCard *Klondike::newCards()
 {
     if ( talon->isEmpty() && pile->count() <= 1 )
         return 0;
@@ -204,7 +204,7 @@ Card *Klondike::newCards()
         // Move the cards from the pile back to the deck
         while ( !pile->isEmpty() )
         {
-            Card *c = pile->top();
+            KCard *c = pile->top();
             c->completeAnimation();
             c->turn( false );
             talon->add(c);
@@ -215,7 +215,7 @@ Card *Klondike::newCards()
     }
     else
     {
-        QList<Card*> flippedCards;
+        QList<KCard*> flippedCards;
         for (int flipped = 0; flipped < pile->draw() && !talon->isEmpty(); ++flipped)
         {
             pile->add( talon->top() );
@@ -223,7 +223,7 @@ Card *Klondike::newCards()
         }
         pile->relayoutCards();
         int flipped = 0;
-        foreach ( Card *c, flippedCards )
+        foreach ( KCard *c, flippedCards )
         {
             ++flipped;
             c->completeAnimation();

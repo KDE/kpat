@@ -39,7 +39,7 @@
 #ifndef CARDSCENE_H
 #define CARDSCENE_H
 
-class Card;
+class KCard;
 class KAbstractCardDeck;
 class HighlightableItem;
 #include "libkcardgame_export.h"
@@ -70,7 +70,7 @@ public:
     void setDeck( KAbstractCardDeck * deck );
     KAbstractCardDeck * deck() const;
 
-    QList<Card*> cardsBeingDragged() const;
+    QList<KCard*> cardsBeingDragged() const;
 
     virtual void resizeScene( const QSize & size );
     virtual void relayoutScene();
@@ -91,21 +91,21 @@ public:
     void clearHighlightedItems();
     QList<QGraphicsItem*> highlightedItems() const;
 
-    void flipCardToPile( Card * card, Pile * pile, int duration );
+    void flipCardToPile( KCard * card, Pile * pile, int duration );
 
 protected:
     virtual void onGameStateAlteredByUser();
 
-    virtual bool allowedToAdd( const Pile * pile, const QList<Card*> & cards ) const;
-    virtual bool allowedToRemove( const Pile * pile, const Card * card ) const;
+    virtual bool allowedToAdd( const Pile * pile, const QList<KCard*> & cards ) const;
+    virtual bool allowedToRemove( const Pile * pile, const KCard * card ) const;
     virtual Pile * targetPile();
 
     virtual void setItemHighlight( QGraphicsItem * item, bool highlight );
 
     virtual bool pileClicked( Pile * pile );
     virtual bool pileDoubleClicked( Pile * pile );
-    virtual bool cardClicked( Card * card );
-    virtual bool cardDoubleClicked( Card * card );
+    virtual bool cardClicked( KCard * card );
+    virtual bool cardDoubleClicked( KCard * card );
 
     virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * e );
     virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * e );
@@ -120,7 +120,7 @@ private:
     QList<Pile*> m_piles;
     QSet<QGraphicsItem*> m_highlightedItems;
 
-    QList<Card*> m_cardsBeingDragged;
+    QList<KCard*> m_cardsBeingDragged;
     QPointF m_startOfDrag;
     bool m_dragStarted;
 
