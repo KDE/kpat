@@ -2,6 +2,7 @@ set( libkcardgame_SRCS
     card.cpp
     carddeck.cpp
     cardscene.cpp
+    kcardcache.cpp
     pile.cpp
     standardcard.cpp
 )

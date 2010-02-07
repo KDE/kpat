@@ -42,7 +42,7 @@
 #include "libkcardgame_export.h"
 class Pile;
 
-#include <KCardCache>
+#include "kcardcache.h"
 class KConfigGroup;
 
 #include <QSet>
@@ -105,6 +105,9 @@ signals:
 public slots:
     void loadInBackground();
 
+protected:
+    virtual QString elementName( quint32 id, bool faceUp = true ) const;
+
 private: // functions
     int pseudoRandom();
 
@@ -116,7 +119,7 @@ private:
     QList<Card*> m_allCards;
     QList<Card*> m_undealtCards;
 
-    KCardCache * m_cache;
+    KCardCache2 * m_cache;
     QSizeF m_originalCardSize;
     QSize m_currentCardSize;
 

@@ -56,26 +56,25 @@ public:
       : m_cacheCache( 3 )
     {}
 
-    KCardCache * getCardCache( const QString & frontSide, const QString & backSide )
+    KCardCache2 * getCardCache( const QString & frontSide )
     {
-        KCardCache * cache = m_cacheCache.take( frontSide );
+        KCardCache2 * cache = m_cacheCache.take( frontSide );
         if ( !cache )
         {
-            cache = new KCardCache();
-            cache->setFrontTheme( frontSide );
+            cache = new KCardCache2();
+            cache->setTheme( frontSide );
         }
-        cache->setBackTheme( backSide );
         return cache;
     };
 
-    void stashCardCache( KCardCache * cache )
+    void stashCardCache( KCardCache2 * cache )
     {
         if ( cache )
-            m_cacheCache.insert( cache->frontTheme(), cache );
+            m_cacheCache.insert( cache->theme(), cache );
     };
 
 private:
-    QCache<QString,KCardCache> m_cacheCache;
+    QCache<QString,KCardCache2> m_cacheCache;
 };
 
 K_GLOBAL_STATIC( CardDeckPrivateStatic, cdps )
@@ -259,59 +258,73 @@ QSize CardDeck::cardSize() const
 }
 
 
+QString CardDeck::elementName( quint32 id, bool faceUp ) const
+{
+    if ( !faceUp )
+        return "back";
+
+    QString element;
+
+    int rank = id & 0xf;
+    switch( rank )
+    {
+    case StandardCard::King:
+        element = "king";
+        break;
+    case StandardCard::Queen:
+        element = "queen";
+        break;
+    case StandardCard::Jack:
+        element = "jack";
+        break;
+    default:
+        element = QString::number( rank );
+        break;
+    }
+
+    switch( id >> 4 )
+    {
+    case StandardCard::Clubs:
+        element += "_club";
+        break;
+    case StandardCard::Spades:
+        element += "_spade";
+        break;
+    case StandardCard::Diamonds:
+        element += "_diamond";
+        break;
+    case StandardCard::Hearts:
+        element += "_heart";
+        break;
+    }
+
+    return element;
+}
+
+
+
 QPixmap CardDeck::frontsidePixmap( quint32 id ) const
 {
-    KCardInfo::Suit suit;
-    switch ( id >> 4 )
-    {
-        case StandardCard::Clubs :    suit = KCardInfo::Club;    break;
-        case StandardCard::Spades :   suit = KCardInfo::Spade;   break;
-        case StandardCard::Diamonds : suit = KCardInfo::Diamond; break;
-        case StandardCard::Hearts :   suit = KCardInfo::Heart;   break;
-        default : Q_ASSERT( false );
-    }
-
-    KCardInfo::Card rank;
-    switch ( id & 0xf )
-    {
-        case StandardCard::Ace :   rank = KCardInfo::Ace;   break;
-        case StandardCard::Two :   rank = KCardInfo::Two;   break;
-        case StandardCard::Three : rank = KCardInfo::Three; break;
-        case StandardCard::Four :  rank = KCardInfo::Four;  break;
-        case StandardCard::Five :  rank = KCardInfo::Five;  break;
-        case StandardCard::Six :   rank = KCardInfo::Six;   break;
-        case StandardCard::Seven : rank = KCardInfo::Seven; break;
-        case StandardCard::Eight : rank = KCardInfo::Eight; break;
-        case StandardCard::Nine :  rank = KCardInfo::Nine;  break;
-        case StandardCard::Ten :   rank = KCardInfo::Ten;   break;
-        case StandardCard::Jack :  rank = KCardInfo::Jack;  break;
-        case StandardCard::Queen : rank = KCardInfo::Queen; break;
-        case StandardCard::King :  rank = KCardInfo::King;  break;
-        default : Q_ASSERT( false );
-    }
-
-    return m_cache->frontside( KCardInfo( suit, rank ) );
+    return m_cache->renderCard( elementName( id, true ) );
 }
 
 
 QPixmap CardDeck::backsidePixmap( quint32 id ) const
 {
     Q_UNUSED( id );
-    return m_cache->backside();
+    return m_cache->renderCard( elementName( id, false ) );
 }
 
 
 void CardDeck::updateTheme( const KConfigGroup & cs )
 {
     QString fronttheme = CardDeckInfo::frontTheme( cs );
-    QString backtheme = CardDeckInfo::backTheme( cs );
-    Q_ASSERT ( !backtheme.isEmpty() );
     Q_ASSERT ( !fronttheme.isEmpty() );
 
     cdps->stashCardCache( m_cache );
-    m_cache = cdps->getCardCache( fronttheme, backtheme );
+    m_cache = cdps->getCardCache( fronttheme );
 
-    m_originalCardSize = m_cache->defaultFrontSize( KCardInfo( KCardInfo::Spade, KCardInfo::Ace ) );
+    m_originalCardSize = m_cache->naturalSize( "1_spade" );
     Q_ASSERT( !m_originalCardSize.isNull() );
     m_currentCardSize = m_originalCardSize.toSize();
 }
@@ -325,7 +338,12 @@ bool CardDeck::hasAnimatedCards() const
 
 void CardDeck::loadInBackground()
 {
-    m_cache->loadTheme( KCardCache::LoadFrontSide | KCardCache::Load52Cards );
+    QSet<QString> elements;
+    elements << "back";
+    foreach ( const Card * c, m_allCards )
+        elements << elementName( c->data(), true );
+
+    m_cache->loadInBackground( elements.toList() );
 }
 
 
