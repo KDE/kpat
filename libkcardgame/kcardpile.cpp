@@ -289,7 +289,7 @@ void KCardPile::animatedAdd( KCard * card, bool faceUp )
     QPointF delta = destPos - card->pos();
     qreal dist = sqrt( delta.x() * delta.x() + delta.y() * delta.y() );
     qreal whole = sqrt( scene()->width() * scene()->width() + scene()->height() * scene()->height() );
-    card->moveTo(destPos, card->zValue(), qRound( dist * DURATION_DEAL / whole ) );
+    card->animate(destPos, card->zValue(), 1, 0, card->isFaceUp(), true, qRound( dist * DURATION_DEAL / whole ) );
 }
 
 

@@ -58,7 +58,6 @@ public:
     KCardPile * source() const { return m_source; }
 
     void animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool faceup2, bool raised, int duration );
-    void moveTo( QPointF pos2, qreal z2, int duration );
     bool isAnimated() const;
 
     void setHighlighted( bool highlighted );

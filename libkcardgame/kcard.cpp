@@ -184,13 +184,6 @@ void KCard::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool
 }
 
 
-// Start a move of the card using animation.
-void KCard::moveTo( QPointF pos2, qreal z2, int duration )
-{
-    animate( pos2, z2, 1, 0, isFaceUp(), true, duration );
-}
-
-
 bool KCard::isAnimated() const
 {
     return m_animation != 0;

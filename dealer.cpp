@@ -1177,7 +1177,7 @@ bool DealerScene::drop()
                 c->setPos( oldPositions.value( c ) );
 
                 int duration = speedUpTime( DURATION_AUTODROP + count++ * DURATION_AUTODROP / 10 );
-                c->moveTo( destPos, c->zValue(), duration );
+                c->animate( destPos, c->zValue(), 1, 0, c->isFaceUp(), true, duration );
 
                 animationStarted |= c->isAnimated();
             }
@@ -1427,7 +1427,7 @@ void DealerScene::demo()
             c->completeAnimation();
             QPointF destPos = c->pos();
             c->setPos(oldPositions.value(c));
-            c->moveTo(destPos, c->zValue(), DURATION_DEMO);
+            c->animate(destPos, c->zValue(), 1, 0, c->isFaceUp(), true, DURATION_DEMO);
         }
 
         newDemoMove(mh->card());
