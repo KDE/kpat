@@ -18,6 +18,7 @@
 
 #include "patpile.h"
 
+#include "dealer.h"
 #include "render.h"
 
 
@@ -90,13 +91,17 @@ void PatPile::add( KCard * card, int index )
 {
     Q_ASSERT( dynamic_cast<KStandardCard*>( card ) );
 
+    // FIXME This is hideous and way too casty. Find a more elegant way,
+    // maybe moving this code into CardScene to be reimplemented by
+    // DealerScene.
     PatPile * oldSource = dynamic_cast<PatPile*>( card->source() );
 
     KCardPile::add( card, index );
 
     KStandardCard * c = dynamic_cast<KStandardCard*>( card );
-    if ( c )
-        c->setTakenDown( oldSource && oldSource->isFoundation() && !isFoundation() );
+    DealerScene * d = dynamic_cast<DealerScene*>( scene() );
+    bool takenDown =  c && d && oldSource && oldSource->isFoundation() && !isFoundation();
+    d->preventDropsFor( takenDown, c );
 }
 
 

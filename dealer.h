@@ -124,6 +124,8 @@ public:
 
     virtual void restart() = 0;
 
+    void preventDropsFor( bool prevent, KCard * card );
+
 signals:
     void undoPossible(bool poss);
     void redoPossible(bool poss);

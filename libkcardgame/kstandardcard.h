@@ -82,12 +82,6 @@ public:
     Suit suit() const;
     Rank rank() const;
     bool isRed() const;
-
-    void setTakenDown( bool td );
-    bool takenDown() const;
-
-private:
-    bool      m_takenDown;
 };
 
 LIBKCARDGAME_EXPORT KStandardCard::Suit getSuit( const KCard * card );

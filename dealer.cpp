@@ -213,6 +213,7 @@ public:
     QList<State*> redoList;
     QList<State*> undoList;
     QList<PatPile*> patPiles;
+    QSet<KCard*> cardsNotToDrop;
 };
 
 int DealerScene::getMoves() const
@@ -764,6 +765,7 @@ void DealerScene::resetInternals()
 
     d->manualDropInProgress = false;
     d->dropSpeedFactor = 1;
+    d->cardsNotToDrop.clear();
 
     foreach (KCard * c, deck()->cards())
     {
@@ -1045,7 +1047,7 @@ State *DealerScene::getState()
             s.source_index = s.source->indexOf(c);
             s.z = c->realZ();
             s.faceup = c->realFace();
-            s.tookdown = c->takenDown();
+            s.tookdown = d->cardsNotToDrop.contains( c );
             st->cards.append(s);
         }
     }
@@ -1062,23 +1064,27 @@ void DealerScene::setState(State *st)
     kDebug() << gettime() << "setState\n";
     CardStateList * n = &st->cards;
 
+    d->cardsNotToDrop.clear();
+
+    QSet<KCard*> cardsFromFoundations;
     foreach (PatPile *p, patPiles())
     {
-        foreach (KStandardCard *c, p->cards())
-            c->setTakenDown(p->isFoundation());
+        if ( p->isFoundation() )
+            foreach (KCard *c, p->cards())
+                cardsFromFoundations.insert( c );
         p->clear();
     }
 
     foreach (const CardState & s, *n)
     {
         KStandardCard *c = s.it;
-        bool target = c->takenDown(); // abused
         c->turn(s.faceup);
         s.source->add(c, s.source_index);
         c->setZValue(s.z);
 
         PatPile * p = dynamic_cast<PatPile*>(c->source());
-        c->setTakenDown(s.tookdown || (target && !(p && p->isFoundation())));
+        if (s.tookdown || (cardsFromFoundations.contains(c) && !(p && p->isFoundation())))
+            d->cardsNotToDrop.insert( c );
     }
 
     foreach (PatPile *p, patPiles())
@@ -1129,6 +1135,15 @@ void DealerScene::setSolverEnabled(bool a)
     _usesolver = a;
 }
 
+void DealerScene::preventDropsFor( bool prevent, KCard * card )
+{
+    if ( prevent )
+        d->cardsNotToDrop.insert( card );
+    else
+        d->cardsNotToDrop.remove( card );
+}
+
+
 bool DealerScene::drop()
 {
     if (!autoDropEnabled() && !d->manualDropInProgress)
@@ -1147,7 +1162,7 @@ bool DealerScene::drop()
 
     foreach ( const MoveHint *mh, d->hints )
     {
-        if ( mh->pile() && mh->pile()->isFoundation() && mh->priority() > 120 && !mh->card()->takenDown() )
+        if ( mh->pile() && mh->pile()->isFoundation() && mh->priority() > 120 && !d->cardsNotToDrop.contains( mh->card() ) )
         {
             KCard *t = mh->card();
             QList<KCard*> cards = mh->card()->source()->cards();

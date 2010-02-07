@@ -38,8 +38,7 @@
 
 
 KStandardCard::KStandardCard( Rank r, Suit s, KAbstractCardDeck * deck )
-  : KCard( (s << 4) + r, deck ),
-    m_takenDown( false )
+  : KCard( (s << 4) + r, deck )
 {
     Q_ASSERT( deck );
 }
@@ -65,18 +64,6 @@ KStandardCard::Rank KStandardCard::rank() const
 bool KStandardCard::isRed() const
 {
     return suit() == Diamonds || suit() == Hearts;
-}
-
-
-void KStandardCard::setTakenDown(bool td)
-{
-    m_takenDown = td;
-}
-
-
-bool KStandardCard::takenDown() const
-{
-    return m_takenDown;
 }
 
 
