@@ -1,8 +1,10 @@
 set( libkcardgame_SRCS
     card.cpp
     carddeck.cpp
+    carddeckinfo.cpp
     cardscene.cpp
     kcardcache.cpp
+    kcardthemewidget.cpp
     kstandardcarddeck.cpp
     pile.cpp
     standardcard.cpp

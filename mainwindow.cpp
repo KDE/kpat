@@ -47,9 +47,9 @@
 #include "view.h"
 
 #include "libkcardgame/carddeck.h"
+#include "libkcardgame/kcardthemewidget.h"
 
 #include <KCardDeckInfo>
-#include <KCardDialog>
 #include <KStandardGameAction>
 
 #include <KAction>
@@ -330,33 +330,36 @@ void MainWindow::slotPickRandom()
 
 void MainWindow::slotSelectDeck()
 {
-    KConfigGroup cs(KGlobal::config(), settings_group);
-    QPointer<KCardWidget> cardwidget = new KCardWidget();
-    cardwidget->readSettings(cs);
-    QString oldFrontName = cardwidget->frontName();
-    QString oldBackName = cardwidget->backName();
+    QList<QList<QString> > previewFormat;
+    previewFormat << ( QList<QString>() << "back" )
+                  << ( QList<QString>() << "10_spade" << "jack_diamond" << "queen_club" << "king_heart" )
+                  << ( QList<QString>() << "1_spade" );
 
-    QPointer<KCardDialog> dlg = new KCardDialog(cardwidget);
-    dlg->setParent(this, dlg->windowFlags());
-    if (dlg->exec() == QDialog::Accepted && cardwidget)
+    KDialog * d = new KDialog( this );
+    KCardThemeWidget * w = new KCardThemeWidget( previewFormat, this );
+    d->setMainWidget( w );
+
+    KConfigGroup cg( KGlobal::config(), settings_group );
+    QString oldTheme = cg.readEntry( "Cardname" );
+    w->setCurrentSelection( oldTheme );
+
+    if ( d->exec() == QDialog::Accepted )
     {
-        // Always store the settings, as other things than only the deck may
-        // have changed
-        cardwidget->saveSettings(cs);
-        cs.sync();
-
-        if (cardwidget->frontName() != oldFrontName || cardwidget->backName() != oldBackName)
+        QString theme = w->currentSelection();
+        if ( !theme.isEmpty() && theme != oldTheme )
         {
+            cg.writeEntry( "Cardname", theme );
+            cg.sync();
+
             if ( m_dealer )
             {
-                m_dealer->deck()->updateTheme(cs);
+                m_dealer->deck()->updateTheme( cg );
                 m_dealer->relayoutScene();
             }
         }
     }
 
-    // cardWidget has been reparented to dlg, so deleting dlg cleans them both up.
-    delete dlg;
+    delete d;
 }
 
 void MainWindow::setGameCaption()
