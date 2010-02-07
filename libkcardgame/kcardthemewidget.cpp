@@ -59,48 +59,75 @@ void CardThemeModel::reload()
     qDeleteAll( m_previews );
     m_previews.clear();
 
+    m_leftToRender.clear();
+
     KCardCache2 cardCache;
 
     foreach( const QString & name, CardDeckInfo::frontNames() )
     {
         QPixmap * pix = new QPixmap();
-        if ( true || !d->cache->find( name, *pix ) )
+        if ( d->cache->find( name, *pix ) )
         {
-            cardCache.setTheme( name );
-
-            QSizeF s = cardCache.naturalSize("back");
-            s.scale( 1.5 * d->baseCardSize.width(), d->baseCardSize.height(), Qt::KeepAspectRatio );
-            cardCache.setSize( s.toSize() );
-
-            qreal yPos = ( d->previewSize.height() - s.height() ) / 2.0;
-            qreal spacingWidth = d->baseCardSize.width()
-                                 * ( d->previewSize.width() - d->previewFormat.size() * s.width() )
-                                 / ( d->previewSize.width() - d->previewFormat.size() * d->baseCardSize.width() );
-
-            *pix = QPixmap( d->previewSize );
-            pix->fill( Qt::transparent );
-            QPainter p( pix );
-            qreal xPos = 0;
-            foreach ( const QList<QString> & sl, d->previewFormat )
-            {
-                foreach ( const QString & st, sl )
-                {
-                    p.drawPixmap( xPos, yPos, cardCache.renderCard( st ) );
-                    xPos += 0.3 * spacingWidth;
-                }
-                xPos -= 0.3 * spacingWidth;
-                xPos += 1 * s.width() + 0.1 * spacingWidth;
-            }
-            p.end();
-
-            d->cache->insert( name, *pix );
+            m_previews.insert( name, pix );
         }
-
-        m_previews.insert( name, pix );
+        else
+        {
+            delete pix;
+            m_previews.insert( name, 0 );
+            m_leftToRender << name;
+        }
     }
 
     beginInsertRows( QModelIndex(), 0, m_previews.size() );
     endInsertRows();
+
+    if ( !m_leftToRender.isEmpty() )
+        QTimer::singleShot( 0, this, SLOT(renderNext()) );
+}
+
+
+void CardThemeModel::renderNext()
+{
+    QString name = m_leftToRender.takeFirst();
+
+    KCardCache2 cardCache;
+    cardCache.setTheme( name );
+
+    QSizeF s = cardCache.naturalSize("back");
+    s.scale( 1.5 * d->baseCardSize.width(), d->baseCardSize.height(), Qt::KeepAspectRatio );
+    cardCache.setSize( s.toSize() );
+
+    qreal yPos = ( d->previewSize.height() - s.height() ) / 2.0;
+    qreal spacingWidth = d->baseCardSize.width()
+                         * ( d->previewSize.width() - d->previewFormat.size() * s.width() )
+                         / ( d->previewSize.width() - d->previewFormat.size() * d->baseCardSize.width() );
+
+    QPixmap * pix = new QPixmap( d->previewSize );
+    pix->fill( Qt::transparent );
+    QPainter p( pix );
+    qreal xPos = 0;
+    foreach ( const QList<QString> & sl, d->previewFormat )
+    {
+        foreach ( const QString & st, sl )
+        {
+            p.drawPixmap( xPos, yPos, cardCache.renderCard( st ) );
+            xPos += 0.3 * spacingWidth;
+        }
+        xPos -= 0.3 * spacingWidth;
+        xPos += 1 * s.width() + 0.1 * spacingWidth;
+    }
+    p.end();
+
+    d->cache->insert( name, *pix );
+
+    delete m_previews.value( name, 0 );
+    m_previews.insert( name, pix );
+
+    QModelIndex index = indexOf( name );
+    emit dataChanged( index, index );
+
+    if ( !m_leftToRender.isEmpty() )
+        QTimer::singleShot( 500, this, SLOT(renderNext()) );
 }
 
 
@@ -157,19 +184,32 @@ void CardThemeDelegate::paint( QPainter * painter, const QStyleOptionViewItem & 
 {
     QApplication::style()->drawControl( QStyle::CE_ItemViewItem, &option, painter );
 
-    QVariant var = index.model()->data( index, Qt::DecorationRole );
-    QPixmap * pix = static_cast<QPixmap*>( var.value<void*>() );
-    QPoint pixPoint( option.rect.left() + ( option.rect.width() - pix->width() ) / 2,
-                     option.rect.top() + d->itemMargin );
-    painter->drawPixmap( pixPoint, *pix );
-
     painter->save();
     QFont font = painter->font();
     font.setWeight( QFont::Bold );
     painter->setFont( font );
-    QString name = index.model()->data( index, Qt::DisplayRole ).toString();
+
+    QRect previewRect( option.rect.left() + ( option.rect.width() - d->previewSize.width() ) / 2,
+                       option.rect.top() + d->itemMargin,
+                       d->previewSize.width(),
+                       d->previewSize.height() );
+
+    QVariant var = index.model()->data( index, Qt::DecorationRole );
+    QPixmap * pix = static_cast<QPixmap*>( var.value<void*>() );
+    if ( pix )
+    {
+        painter->drawPixmap( previewRect.topLeft(), *pix );
+    }
+    else
+    {
+        painter->fillRect( previewRect, QColor( 0, 0, 0, 16 ) );
+        painter->drawText( previewRect, Qt::AlignCenter, i18n("Loading...") );
+    }
+
     QRect textRect = option.rect.adjusted( 0, 0, 0, -d->itemMargin );
-    painter->drawText( textRect, Qt::AlignHCenter | Qt::AlignBottom | Qt::TextWordWrap, name );
+    QString name = index.model()->data( index, Qt::DisplayRole ).toString();
+    painter->drawText( textRect, Qt::AlignHCenter | Qt::AlignBottom, name );
+
     painter->restore();
 }
 
@@ -206,6 +246,7 @@ KCardThemeWidget::KCardThemeWidget( const QList<QList<QString> > & previewFormat
     d->cache = new KPixmapCache("libkcardgame-previews");
 
     d->model = new CardThemeModel( d, this );
+
     d->listView = new QListView( this );
     d->listView->setModel( d->model );
     d->listView->setItemDelegate( new CardThemeDelegate( d, d->model ) );

@@ -28,25 +28,32 @@
 class KPixmapCache;
 
 #include <QtCore/QAbstractItemModel>
+#include <QtCore/QTimer>
 #include <QtGui/QAbstractItemDelegate>
 class QListView;
 
 
 class CardThemeModel : public QAbstractListModel
 {
+    Q_OBJECT
+
 public:
     CardThemeModel( KCardThemeWidgetPrivate * d, QObject * parent = 0 );
     virtual ~CardThemeModel();
 
+    void reload();
+    QModelIndex indexOf( const QString & name ) const;
+
     virtual int rowCount( const QModelIndex & parent = QModelIndex() ) const;
     virtual QVariant data( const QModelIndex & index, int role = Qt::DisplayRole ) const;
 
-    void reload();
-    QModelIndex indexOf( const QString & name ) const;
+private slots:
+    void renderNext();
 
 private:
     const KCardThemeWidgetPrivate * const d;
     QMap<QString,QPixmap*> m_previews;
+    QList<QString> m_leftToRender;
 };
 
 
