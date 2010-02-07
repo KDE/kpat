@@ -206,7 +206,7 @@ KCard *Klondike::newCards()
             c->turn( false );
             talon->add(c);
         }
-        talon->relayoutCards();
+        talon->layoutCards();
 
         redealt = true;
     }
@@ -218,7 +218,7 @@ KCard *Klondike::newCards()
             pile->add( talon->top() );
             flippedCards << pile->top();
         }
-        pile->relayoutCards();
+        pile->layoutCards();
         int flipped = 0;
         foreach ( KCard *c, flippedCards )
         {

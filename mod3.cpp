@@ -53,12 +53,12 @@ class Mod3Pile : public PatPile
 public:
     Mod3Pile( int _index, PatPile * pile, const QString & objectName = QString() )
         : PatPile( _index, objectName ), drawPile( pile ) {}
-    virtual void relayoutCards()
+    virtual void layoutCards( int duration = DURATION_RELAYOUT )
     {
         if ( isEmpty() && !drawPile->isEmpty() )
             animatedAdd( drawPile->top(), true );
         else
-            PatPile::relayoutCards();
+            PatPile::layoutCards( duration );
     }
     PatPile * drawPile;
 };

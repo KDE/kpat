@@ -94,7 +94,7 @@ public:
     KlondikePile( int _index, int _draw, const QString & objectName = QString() );
     int draw() const { return m_draw; }
     void setDraws( int _draw );
-    virtual void layoutCards( int duration );
+    virtual void layoutCards( int duration = DURATION_RELAYOUT );
 
 private:
     int m_draw;

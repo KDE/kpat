@@ -111,7 +111,6 @@ public:
 public slots:
     virtual bool cardClicked( KCard * card );
     virtual bool cardDoubleClicked( KCard * card );
-    virtual void relayoutCards();
 
 signals:
     void clicked( KCard * card );
@@ -144,7 +143,6 @@ private:
     qreal m_highlightedness;
 
     QPropertyAnimation * m_fadeAnimation;
-    QTimer * m_relayoutTimer;
 };
 
 #endif

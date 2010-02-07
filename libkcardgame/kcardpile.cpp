@@ -64,10 +64,6 @@ KCardPile::KCardPile( const QString & objectName )
 
     setMaximumSpace( QSizeF( 1, 1 ) ); // just to make it valid
 
-    m_relayoutTimer = new QTimer( this );
-    m_relayoutTimer->setSingleShot( true );
-    connect( m_relayoutTimer, SIGNAL(timeout()), SLOT(relayoutCards()) );
-
     m_fadeAnimation = new QPropertyAnimation( this, "highlightedness", this );
     m_fadeAnimation->setDuration( DURATION_CARDHIGHLIGHT );
     m_fadeAnimation->setKeyValueAt( 0, 0 );
@@ -81,8 +77,6 @@ KCardPile::~KCardPile()
 
     foreach ( KCard * c, m_cards )
         c->setSource( 0 );
-
-    delete m_relayoutTimer;
 }
 
 
@@ -284,13 +278,15 @@ void KCardPile::animatedAdd( KCard * card, bool faceUp )
 {
     Q_ASSERT( card );
 
-    if ( card->source() )
-        card->source()->relayoutCards();
-
     QPointF origPos = card->pos();
+    KCardPile * origPile = card->source();
+
     card->turn( faceUp );
     add( card );
-    layoutCards( DURATION_RELAYOUT );
+
+    if ( origPile )
+        origPile->layoutCards();
+    layoutCards();
 
     card->completeAnimation();
     QPointF destPos = card->pos();
@@ -368,8 +364,10 @@ void KCardPile::layoutCards( int duration )
 
     QPointF cardPos = pos();
     qreal z = zValue() + 1;
-    foreach ( KCard * card, m_cards )
+
+    for ( int i = 0; i < m_cards.size() - 1; ++i )
     {
+        KCard * card = m_cards[i];
         card->animate( cardPos, z, 1, 0, card->isFaceUp(), false, duration );
 
         QPointF offset = cardOffset( card );
@@ -377,6 +375,11 @@ void KCardPile::layoutCards( int duration )
         cardPos.ry() += divy * offset.y();
         ++z;
     }
+
+    if ( m_autoTurnTop && !top()->isFaceUp() )
+        top()->animate( cardPos, z, 1, 0, true, false, DURATION_FLIP );
+    else
+        top()->animate( cardPos, z, 1, 0, top()->isFaceUp(), false, duration );
 }
 
 
@@ -403,13 +406,7 @@ void KCardPile::moveCards( QList<KCard*> & cards, KCardPile * pile )
         pile->add( c );
     }
 
-    KCard * t = top();
-    if ( t && !t->isFaceUp() && m_autoTurnTop )
-    {
-        t->animate( t->pos(), t->zValue(), 1, 0, true, false, DURATION_FLIP );
-    }
-
-    relayoutCards();
+    layoutCards();
 
     pile->moveCardsBack( cards );
 }
@@ -432,23 +429,6 @@ bool KCardPile::cardDoubleClicked( KCard * card )
 {
     emit doubleClicked( card );
     return false;
-}
-
-
-void KCardPile::relayoutCards()
-{
-    m_relayoutTimer->stop();
-
-    foreach ( KCard * card, m_cards )
-    {
-        if ( card->animated() || cardScene()->cardsBeingDragged().contains( card ) )
-        {
-            m_relayoutTimer->start( 50 );
-            return;
-        }
-    }
-
-    layoutCards( DURATION_RELAYOUT );
 }
 
 
