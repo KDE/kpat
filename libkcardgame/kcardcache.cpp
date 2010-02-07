@@ -228,6 +228,18 @@ QSizeF KCardCache2::naturalSize( const QString & element ) const
 }
 
 
+void KCardCache2::insertOther( const QString & key, const QPixmap & pix )
+{
+    d->cache->insert( key, pix );
+}
+
+
+bool KCardCache2::findOther (const QString & key, QPixmap & pix )
+{
+    return d->cache->find( key, pix );
+}
+
+
 QDateTime KCardCache2::timestamp() const
 {
     if ( d->cache )

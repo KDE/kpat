@@ -131,6 +131,10 @@ public:
      */
     QSizeF naturalSize( const QString & element ) const;
 
+    void insertOther( const QString & key, const QPixmap & pix );
+
+    bool findOther( const QString & key, QPixmap & pix );
+
     QDateTime timestamp() const;
 
     /**
