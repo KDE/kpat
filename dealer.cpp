@@ -514,7 +514,7 @@ DealerScene::~DealerScene()
 }
 
 
-void DealerScene::setupDeck( CardDeck * deck )
+void DealerScene::setupDeck( KAbstractCardDeck * deck )
 {
     if ( deck )
         deck->updateTheme( KConfigGroup( KGlobal::config(), settings_group ) );

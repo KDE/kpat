@@ -40,7 +40,7 @@
 #define CARDSCENE_H
 
 class Card;
-class CardDeck;
+class KAbstractCardDeck;
 class HighlightableItem;
 #include "libkcardgame_export.h"
 class Pile;
@@ -67,8 +67,8 @@ public:
     CardScene( QObject * parent = 0 );
     ~CardScene();
 
-    void setDeck( CardDeck * deck );
-    CardDeck * deck() const;
+    void setDeck( KAbstractCardDeck * deck );
+    KAbstractCardDeck * deck() const;
 
     QList<Card*> cardsBeingDragged() const;
 
@@ -116,7 +116,7 @@ protected:
     virtual void drawForeground ( QPainter * painter, const QRectF & rect );
 
 private:
-    CardDeck * m_deck;
+    KAbstractCardDeck * m_deck;
     QList<Pile*> m_piles;
     QSet<QGraphicsItem*> m_highlightedItems;
 

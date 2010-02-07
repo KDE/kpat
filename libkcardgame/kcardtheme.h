@@ -45,7 +45,7 @@ public:
     QDateTime lastModified() const;
 
 private:
-    QSharedDataPointer<KCardThemePrivate> d;
+    QSharedDataPointer<const KCardThemePrivate> d;
 };
 
 #endif

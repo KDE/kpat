@@ -18,7 +18,7 @@
 
 #include "card.h"
 
-#include "carddeck.h"
+#include "kabstractcarddeck.h"
 #include "pile.h"
 
 #include <KDebug>
@@ -29,7 +29,7 @@
 #include <QtGui/QPainter>
 
 
-Card::Card( quint32 data, CardDeck * deck )
+Card::Card( quint32 data, KAbstractCardDeck * deck )
   : QObject(),
     QGraphicsPixmapItem(),
     m_faceup( true ),

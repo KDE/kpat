@@ -37,7 +37,7 @@
 #include "standardcard.h"
 
 
-StandardCard::StandardCard( Rank r, Suit s, CardDeck * deck )
+StandardCard::StandardCard( Rank r, Suit s, KAbstractCardDeck * deck )
   : Card( (s << 4) + r, deck ),
     m_takenDown( false )
 {

@@ -19,7 +19,7 @@
 #ifndef ABSTRACTCARD_H
 #define ABSTRACTCARD_H
 
-class CardDeck;
+class KAbstractCardDeck;
 class Pile;
 #include "libkcardgame_export.h"
 
@@ -38,10 +38,10 @@ class LIBKCARDGAME_EXPORT Card : public QObject, public QGraphicsPixmapItem
     Q_PROPERTY( qreal flippedness READ flippedness WRITE setFlippedness )
     Q_PROPERTY( qreal highlightedness READ highlightedness WRITE setHighlightedness )
 
-    friend class CardDeck;
+    friend class KAbstractCardDeck;
 
 public:
-    Card( quint32 data, CardDeck * deck );
+    Card( quint32 data, KAbstractCardDeck * deck );
     virtual ~Card();
 
     bool isFaceUp() const;
@@ -98,7 +98,7 @@ protected:
     qreal m_flippedness;
     qreal m_highlightedness;
 
-    CardDeck * m_deck;
+    KAbstractCardDeck * m_deck;
     Pile * m_source;
 
     QParallelAnimationGroup * m_animation;

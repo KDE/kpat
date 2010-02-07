@@ -19,15 +19,14 @@
 #ifndef KSTANDARDCARDDECK_H
 #define KSTANDARDCARDDECK_H
 
-#include "carddeck.h"
+#include "kabstractcarddeck.h"
 #include "standardcard.h"
 #include "libkcardgame_export.h"
 
 
-class LIBKCARDGAME_EXPORT KStandardCardDeck : public CardDeck
+class LIBKCARDGAME_EXPORT KStandardCardDeck : public KAbstractCardDeck
 {
 public:
-
     static QList<StandardCard::Suit> standardSuits();
     static QList<StandardCard::Rank> standardRanks();
 

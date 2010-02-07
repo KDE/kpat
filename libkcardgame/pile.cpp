@@ -37,7 +37,6 @@
 
 #include "pile.h"
 
-#include "carddeck.h"
 #include "cardscene.h"
 
 #include <KDebug>

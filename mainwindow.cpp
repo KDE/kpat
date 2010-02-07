@@ -46,7 +46,7 @@
 #include "version.h"
 #include "view.h"
 
-#include "libkcardgame/carddeck.h"
+#include "libkcardgame/kabstractcarddeck.h"
 #include "libkcardgame/kcardthemewidget.h"
 
 #include <KCardDeckInfo>

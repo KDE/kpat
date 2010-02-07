@@ -37,7 +37,7 @@
 
 #include "cardscene.h"
 
-#include "carddeck.h"
+#include "kabstractcarddeck.h"
 #include "pile.h"
 
 #include <QtGui/QGraphicsSceneWheelEvent>
@@ -76,14 +76,14 @@ CardScene::~CardScene()
 }
 
 
-void CardScene::setDeck( CardDeck * deck )
+void CardScene::setDeck( KAbstractCardDeck * deck )
 {
     delete m_deck;
     m_deck = deck;
 }
 
 
-CardDeck * CardScene::deck() const
+KAbstractCardDeck * CardScene::deck() const
 {
     return m_deck;
 }

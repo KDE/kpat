@@ -48,7 +48,7 @@ QList<StandardCard::Rank> KStandardCardDeck::standardRanks()
 
 
 KStandardCardDeck::KStandardCardDeck( int copies, QList<StandardCard::Suit> suits, QList<StandardCard::Rank> ranks )
-  : CardDeck()
+  : KAbstractCardDeck()
 {
     Q_ASSERT( copies >= 1 );
     Q_ASSERT( suits.size() >= 1 );
@@ -58,18 +58,10 @@ KStandardCardDeck::KStandardCardDeck( int copies, QList<StandardCard::Suit> suit
     // will mess up the game numbering.
     QList<Card*> cards;
     for ( int i = 0; i < copies; ++i )
-    {
         foreach ( const StandardCard::Rank r, ranks )
-        {
             foreach ( const StandardCard::Suit s, suits )
-            {
-                StandardCard * c = new StandardCard( r, s, this );
-                connect( c, SIGNAL(animationStarted(Card*)), this, SLOT(cardStartedAnimation(Card*)) );
-                connect( c, SIGNAL(animationStopped(Card*)), this, SLOT(cardStoppedAnimation(Card*)) );
-                cards << c;
-            }
-        }
-    }
+                cards << new StandardCard( r, s, this );
+
     Q_ASSERT( cards.size() == copies * ranks.size() * suits.size() );
 
     initializeCards( cards );

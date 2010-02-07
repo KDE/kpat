@@ -38,23 +38,23 @@
 #ifndef CARDDECK_H
 #define CARDDECK_H
 
-#include "standardcard.h"
 #include "libkcardgame_export.h"
-class Pile;
-
 #include "kcardcache.h"
+class Pile;
+#include "standardcard.h"
+
 class KConfigGroup;
 
 #include <QSet>
 
 
-class LIBKCARDGAME_EXPORT CardDeck : public QObject
+class LIBKCARDGAME_EXPORT KAbstractCardDeck : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit CardDeck();
-    virtual ~CardDeck();
+    explicit KAbstractCardDeck();
+    virtual ~KAbstractCardDeck();
 
     QList<Card*> cards() const;
 
@@ -86,20 +86,9 @@ protected:
     virtual void initializeCards( const QList<Card*> & cards );
     virtual QString elementName( quint32 id, bool faceUp = true ) const = 0;
 
-private slots:
-    void loadInBackground();
-    void cardStartedAnimation( Card * card );
-    void cardStoppedAnimation( Card * card );
-
 private:
-    QList<Card*> m_allCards;
-    QList<Card*> m_undealtCards;
-
-    KCardCache2 * m_cache;
-    QSizeF m_originalCardSize;
-    QSize m_currentCardSize;
-
-    QSet<Card*> m_cardsWaitedFor;
+    friend class KAbstractCardDeckPrivate;
+    class KAbstractCardDeckPrivate * const d;
 };
 
 #endif

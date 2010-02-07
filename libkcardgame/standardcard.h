@@ -46,7 +46,7 @@ class Pile;
 
 class LIBKCARDGAME_EXPORT StandardCard: public Card
 {
-    friend class CardDeck;
+    friend class KAbstractCardDeck;
 
 public:
     enum Suit
@@ -76,7 +76,7 @@ public:
         King
     };
 
-    StandardCard( Rank r, Suit s, CardDeck * deck );
+    StandardCard( Rank r, Suit s, KAbstractCardDeck * deck );
     virtual ~StandardCard();
 
     Suit suit() const;
