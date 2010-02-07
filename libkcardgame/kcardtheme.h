@@ -21,28 +21,31 @@
 
 #include <QtCore/QDateTime>
 #include <QtCore/QList>
-#include <qlayout.h>
+#include <QtCore/QSharedDataPointer>
+
+class KCardThemePrivate;
 
 class KCardTheme
 {
 public:
     static QList<KCardTheme> findAll();
 
-    explicit KCardTheme( const QString & directoryName );
-    KCardTheme( const KCardTheme & theme );
     KCardTheme();
+    explicit KCardTheme( const QString & dirName );
+    KCardTheme( const KCardTheme & other );
+    ~KCardTheme();
+
+    KCardTheme & operator=( const KCardTheme & other );
 
     bool isValid() const;
-    QString displayName() const;
     QString dirName() const;
+    QString displayName() const;
     QString desktopFilePath() const;
     QString graphicsFilePath() const;
     QDateTime lastModified() const;
 
-    KCardTheme::KCardTheme & operator=( const KCardTheme & theme );
-
 private:
-    class KCardThemePrivate * const d;
+    QSharedDataPointer<KCardThemePrivate> d;
 };
 
 #endif

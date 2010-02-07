@@ -25,17 +25,33 @@
 
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
+#include <QtCore/QSharedData>
 
 
-class KCardThemePrivate
+class KCardThemePrivate : public QSharedData
 {
 public:
-    bool isValid;
-    QString displayName;
-    QString dirName;
-    QString desktopFilePath;
-    QString graphicsFilePath;
-    QDateTime lastModified;
+    KCardThemePrivate( bool isValid,
+                       const QString & dirName,
+                       const QString & displayName,
+                       const QString & desktopFilePath,
+                       const QString & graphicsFilePath,
+                       const QDateTime & lastModified )
+      : isValid( isValid ),
+        dirName( dirName ),
+        displayName( displayName ),
+        desktopFilePath( desktopFilePath ),
+        graphicsFilePath( graphicsFilePath ),
+        lastModified( lastModified )
+    {
+    };
+
+    const bool isValid;
+    const QString dirName;
+    const QString displayName;
+    const QString desktopFilePath;
+    const QString graphicsFilePath;
+    const QDateTime lastModified;
 };
 
 
@@ -54,62 +70,67 @@ QList<KCardTheme> KCardTheme::findAll()
 }
 
 
+KCardTheme::KCardTheme()
+  : d( 0 )
+{
+}
+
 
 KCardTheme::KCardTheme( const QString & dirName )
-  : d( new KCardThemePrivate )
 {
-    d->isValid = false;
-    d->dirName = dirName;
+    bool isValid = false;
+    QString displayName;
+    QString desktopFilePath;
+    QString graphicsFilePath;
+    QDateTime lastModified;
 
     QString indexFilePath = KGlobal::dirs()->findResource( "data", QString( "carddecks/%1/index.desktop" ).arg( dirName ) );
-    if ( indexFilePath.isEmpty() )
-        return;
+    if ( !indexFilePath.isEmpty() )
+    {
+        desktopFilePath = indexFilePath;
 
-    d->desktopFilePath = indexFilePath;
+        KConfig config( indexFilePath, KConfig::SimpleConfig );
+        if ( config.hasGroup( "KDE Backdeck" ) )
+        {
+            KConfigGroup configGroup = config.group( "KDE Backdeck" );
 
-    KConfig config( indexFilePath, KConfig::SimpleConfig );
-    if ( !config.hasGroup( "KDE Backdeck" ) )
-        return;
+            displayName = configGroup.readEntry("Name");
 
-    KConfigGroup configGroup = config.group( "KDE Backdeck" );
+            QString svgName = configGroup.readEntry("SVG");
+            if ( !svgName.isEmpty() )
+            {
+                QFileInfo indexFile( indexFilePath );
+                QFileInfo svgFile( indexFile.dir(), svgName );
+                graphicsFilePath = svgFile.absoluteFilePath();
 
-    d->displayName = configGroup.readEntry("Name");
-    if ( d->displayName.isEmpty() )
-        return;
+                if ( svgFile.exists() )
+                {
+                    lastModified = qMax( svgFile.lastModified(), indexFile.lastModified() );
+                    isValid = true;
+                }
+            }
+        }
+    }
 
-    QString svgName = configGroup.readEntry("SVG");
-    if ( svgName.isEmpty() )
-        return;
-
-    QFileInfo indexFile( indexFilePath );
-    QFileInfo svgFile( indexFile.dir(), svgName );
-    d->graphicsFilePath = svgFile.absoluteFilePath();
-
-    if ( !svgFile.exists() )
-        return;
-
-    d->lastModified = qMax( svgFile.lastModified(), indexFile.lastModified() );
-
-    d->isValid = true;
+    d = new KCardThemePrivate( isValid, dirName, displayName, desktopFilePath, graphicsFilePath, lastModified );
 }
 
 
-KCardTheme::KCardTheme( const KCardTheme & theme )
-  : d( new KCardThemePrivate )
+KCardTheme::KCardTheme( const KCardTheme & other )
+  : d( other.d )
 {
-    d->isValid = theme.d->isValid;
-    d->displayName = theme.d->displayName;
-    d->dirName = theme.d->dirName;
-    d->desktopFilePath = theme.d->desktopFilePath;
-    d->graphicsFilePath = theme.d->graphicsFilePath;
-    d->lastModified = theme.d->lastModified;
 }
 
 
-KCardTheme::KCardTheme()
-  : d( new KCardThemePrivate )
+KCardTheme::~KCardTheme()
 {
-    d->isValid = false;
+}
+
+
+KCardTheme & KCardTheme::operator=( const KCardTheme & other )
+{
+    d = other.d;
+    return *this;
 }
 
 
@@ -119,15 +140,15 @@ bool KCardTheme::isValid() const
 }
 
 
-QString KCardTheme::displayName() const
-{
-    return d ? d->displayName : QString();
-}
-
-
 QString KCardTheme::dirName() const
 {
     return d ? d->dirName : QString();
+}
+
+
+QString KCardTheme::displayName() const
+{
+    return d ? d->displayName : QString();
 }
 
 
@@ -146,18 +167,5 @@ QString KCardTheme::graphicsFilePath() const
 QDateTime KCardTheme::lastModified() const
 {
     return d ? d->lastModified : QDateTime();
-}
-
-
-KCardTheme::KCardTheme & KCardTheme::operator=( const KCardTheme & theme )
-{
-    d->isValid = theme.d->isValid;
-    d->displayName = theme.d->displayName;
-    d->dirName = theme.d->dirName;
-    d->desktopFilePath = theme.d->desktopFilePath;
-    d->graphicsFilePath = theme.d->graphicsFilePath;
-    d->lastModified = theme.d->lastModified;
-
-    return *this;
 }
 
