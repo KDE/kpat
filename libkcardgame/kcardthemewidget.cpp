@@ -76,7 +76,7 @@ void CardThemeModel::reload()
         if ( cache.timestamp() >= theme.lastModified()
              && cache.findOther( "preview_" + d->previewString, *pix ) )
         {
-            m_previews.insert( theme.dirName(), pix );
+            m_previews.insert( theme.displayName(), pix );
         }
         else
         {
@@ -153,6 +153,14 @@ QVariant CardThemeModel::data( const QModelIndex & index, int role ) const
 {
     if ( !index.isValid() || index.row() >= m_themes.size())
         return QVariant();
+
+    if ( role == Qt::UserRole )
+    {
+        QMap<QString,KCardTheme>::const_iterator it = m_themes.constBegin();
+        for ( int i = 0; i < index.row(); ++i )
+            ++it;
+        return it.value().dirName();
+    }
 
     if ( role == Qt::DisplayRole )
     {
@@ -298,7 +306,7 @@ QString KCardThemeWidget::currentSelection() const
 {
     QModelIndex index = d->listView->currentIndex();
     if ( index.isValid() )
-        return d->model->data( index, Qt::DisplayRole ).toString();
+        return d->model->data( index, Qt::UserRole ).toString();
     else
         return QString();
 }

@@ -19,13 +19,15 @@
 #ifndef KCARDTHEME_H
 #define KCARDTHEME_H
 
+#include "libkcardgame_export.h"
+
 #include <QtCore/QDateTime>
 #include <QtCore/QList>
 #include <QtCore/QSharedDataPointer>
 
 class KCardThemePrivate;
 
-class KCardTheme
+class LIBKCARDGAME_EXPORT KCardTheme
 {
 public:
     static QList<KCardTheme> findAll();

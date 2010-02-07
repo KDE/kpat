@@ -295,13 +295,12 @@ QPixmap KAbstractCardDeck::backsidePixmap( quint32 id ) const
 }
 
 
-void KAbstractCardDeck::updateTheme( const KConfigGroup & cs )
+void KAbstractCardDeck::updateTheme( const KCardTheme & theme )
 {
-    QString fronttheme = CardDeckInfo::frontTheme( cs );
-    Q_ASSERT ( !fronttheme.isEmpty() );
+    Q_ASSERT ( theme.isValid() );
 
     cdps->stashCardCache( d->cache );
-    d->cache = cdps->getCardCache( fronttheme );
+    d->cache = cdps->getCardCache( theme.dirName() );
 
     d->originalCardSize = d->cache->naturalSize( "back" );
     Q_ASSERT( !d->originalCardSize.isNull() );

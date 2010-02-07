@@ -43,6 +43,8 @@
 #include "view.h"
 #include "patsolve/patsolve.h"
 
+#include "libkcardgame/kcardtheme.h"
+
 #include <KConfigGroup>
 #include <KDebug>
 #include <KLocalizedString>
@@ -517,7 +519,11 @@ DealerScene::~DealerScene()
 void DealerScene::setupDeck( KAbstractCardDeck * deck )
 {
     if ( deck )
-        deck->updateTheme( KConfigGroup( KGlobal::config(), settings_group ) );
+    {
+        KConfigGroup cg( KGlobal::config(), settings_group );
+        KCardTheme theme( cg.readEntry( "Cardname" ) );
+        deck->updateTheme( theme );
+    }
 
     setDeck( deck );
 }

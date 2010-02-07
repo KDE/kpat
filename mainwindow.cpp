@@ -47,9 +47,9 @@
 #include "view.h"
 
 #include "libkcardgame/kabstractcarddeck.h"
+#include "libkcardgame/kcardtheme.h"
 #include "libkcardgame/kcardthemewidget.h"
 
-#include <KCardDeckInfo>
 #include <KStandardGameAction>
 
 #include <KAction>
@@ -315,15 +315,16 @@ void MainWindow::startNew(int gameNumber)
 
 void MainWindow::slotPickRandom()
 {
-    QString theme = CardDeckInfo::randomFrontName();
+    QList<KCardTheme> themes = KCardTheme::findAll();
+    KCardTheme theme = themes.at( KRandom::random() % themes.size() );
 
-    KSharedConfig::Ptr config = KGlobal::config();
-    KConfigGroup cs(config, settings_group );
-    CardDeckInfo::writeFrontTheme( cs, theme );
+    KConfigGroup cg(KGlobal::config(), settings_group );
+    cg.writeEntry("CardDeck", theme.dirName());
+    cg.sync();
 
     if ( m_dealer )
     {
-        m_dealer->deck()->updateTheme(cs);
+        m_dealer->deck()->updateTheme( theme );
         m_dealer->relayoutScene();
     }
 }
@@ -348,7 +349,7 @@ void MainWindow::slotSelectDeck()
 
             if ( m_dealer )
             {
-                m_dealer->deck()->updateTheme( cg );
+                m_dealer->deck()->updateTheme( KCardTheme( theme ) );
                 m_dealer->relayoutScene();
             }
         }
