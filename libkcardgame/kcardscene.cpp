@@ -265,11 +265,11 @@ void KCardScene::relayoutScene()
     m_contentSize = QSizeF( contentWidth, contentHeight );
     setSceneRect( -xOffset, -yOffset, width(), height() );
 
-    relayoutPiles();
+    relayoutPiles( 0 );
 }
 
 
-void KCardScene::relayoutPiles()
+void KCardScene::relayoutPiles( int duration )
 {
     if ( !m_sizeHasBeenSet )
         return;
@@ -379,7 +379,7 @@ void KCardScene::relayoutPiles()
     }
 
     foreach ( KCardPile * p, piles() )
-        p->layoutCards( 0 );
+        p->layoutCards( duration );
 }
 
 

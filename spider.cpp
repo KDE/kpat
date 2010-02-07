@@ -343,7 +343,7 @@ bool Spider::checkPileDeck(PatPile *check, bool checkForDemo)
         if ( getRank( run.first() ) == KStandardCardDeck::King) {
             PatPile *leg = legs[m_leg];
             leg->setVisible(true);
-            relayoutPiles();
+            relayoutPiles( DURATION_RELAYOUT );
 
             qreal z = 1;
             foreach ( KCard *c, run ) {
