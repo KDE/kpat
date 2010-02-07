@@ -59,8 +59,6 @@ public:
     enum { Type = QGraphicsItem::UserType + 2 };
     virtual int type() const;
 
-    KCardScene * cardScene() const;
-
     QList<KCard*> cards() const;
     int count() const;
     bool isEmpty() const;

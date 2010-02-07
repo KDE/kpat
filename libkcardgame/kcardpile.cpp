@@ -86,12 +86,6 @@ int KCardPile::type() const
 }
 
 
-KCardScene * KCardPile::cardScene() const
-{
-    return dynamic_cast<KCardScene*>( scene() );
-}
-
-
 QList<KCard*> KCardPile::cards() const
 {
     return m_cards;

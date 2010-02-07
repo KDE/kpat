@@ -97,8 +97,9 @@ QList<KCard*> KCardScene::cardsBeingDragged() const
 
 void KCardScene::addPile( KCardPile * pile )
 {
-    if ( pile->cardScene() )
-        pile->cardScene()->removePile( pile );
+    KCardScene * origScene = dynamic_cast<KCardScene*>( pile->scene() );
+    if ( origScene )
+        origScene->removePile( pile );
 
     addItem( pile );
     foreach ( KCard * c, pile->cards() )
