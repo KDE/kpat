@@ -33,11 +33,30 @@ class KCardPrivate : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY( QPointF pos READ pos WRITE setPos )
+    Q_PROPERTY( qreal rotation READ rotation WRITE setRotation )
+    Q_PROPERTY( qreal scale READ scale WRITE setScale )
+    Q_PROPERTY( qreal flippedness READ flippedness WRITE setFlippedness )
     Q_PROPERTY( qreal highlightedness READ highlightedness WRITE setHighlightedness )
 
 public:
     KCardPrivate( KCard * card );
     void updatePixmap();
+
+    void setPos( QPointF pos );
+    QPointF pos() const;
+
+    void setZValue( qreal z );
+    qreal zValue() const;
+
+    void setRotation( qreal rotation );
+    qreal rotation() const;
+
+    void setScale( qreal scale );
+    qreal scale() const;
+
+    void setFlippedness( qreal flippedness );
+    qreal flippedness() const;
 
     void setHighlightedness( qreal highlightedness );
     qreal highlightedness() const;
@@ -47,7 +66,7 @@ public:
     quint32 id;
 
     qreal destZ;
-    qreal flippedness;
+    qreal flipValue;
     qreal highlightValue;
 
     KCard * q;
@@ -57,5 +76,6 @@ public:
     QParallelAnimationGroup * animation;
     QPropertyAnimation * fadeAnimation;
 };
+
 
 #endif

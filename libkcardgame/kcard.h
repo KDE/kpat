@@ -28,10 +28,6 @@ class KCardPile;
 class LIBKCARDGAME_EXPORT KCard : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
-    Q_PROPERTY( QPointF pos READ pos WRITE setPos )
-    Q_PROPERTY( qreal rotation READ rotation WRITE setRotation )
-    Q_PROPERTY( qreal scale READ scale WRITE setScale )
-    Q_PROPERTY( qreal flippedness READ flippedness WRITE setFlippedness )
 
 private:
     KCard( quint32 id, KAbstractCardDeck * deck );
@@ -66,9 +62,6 @@ public slots:
     void stopAnimation();
 
 private:
-    void setFlippedness( qreal flippedness );
-    qreal flippedness() const;
-
     class KCardPrivate * const d;
 
     friend class KAbstractCardDeck;

@@ -39,7 +39,7 @@ KCardPrivate::KCardPrivate( KCard * card )
 void KCardPrivate::updatePixmap()
 {
     QPixmap pix;
-    if( flippedness > 0.5 )
+    if( flipValue > 0.5 )
         pix = deck->frontsidePixmap( id );
     else
         pix = deck->backsidePixmap( id );
@@ -57,6 +57,80 @@ void KCardPrivate::updatePixmap()
     }
 
     q->setPixmap( pix );
+}
+
+
+void KCardPrivate::setPos( QPointF pos )
+{
+    q->setPos( pos );
+}
+
+
+QPointF KCardPrivate::pos() const
+{
+    return q->pos();
+}
+
+
+void KCardPrivate::setZValue( qreal z )
+{
+    q->setZValue( z );
+}
+
+
+qreal KCardPrivate::zValue() const
+{
+    return q->zValue();
+}
+
+
+void KCardPrivate::setRotation( qreal rotation )
+{
+    q->setRotation( rotation );
+}
+
+
+qreal KCardPrivate::rotation() const
+{
+    return q->rotation();
+}
+
+
+void KCardPrivate::setScale( qreal scale )
+{
+    q->setScale( scale );
+}
+
+
+qreal KCardPrivate::scale() const
+{
+    return q->scale();
+}
+
+
+void KCardPrivate::setFlippedness( qreal flippedness )
+{
+    if ( flippedness == flipValue )
+        return;
+
+    bool changePixmap = ( flippedness >= 0.5 && flipValue < 0.5 )
+                        || ( flippedness <= 0.5 && flipValue > 0.5 );
+
+    flipValue = flippedness;
+
+    if ( changePixmap )
+        updatePixmap();
+
+    qreal xOffset = q->pixmap().width() * ( 0.5 - qAbs( flippedness - 0.5 ) );
+    qreal xScale = qAbs( 2 * flippedness - 1 );
+
+    q->setTransform( QTransform().translate( xOffset, 0 ).scale( xScale, 1 ) );
+}
+
+
+qreal KCardPrivate::flippedness() const
+{
+    return flipValue;
 }
 
 
@@ -83,7 +157,7 @@ KCard::KCard( quint32 id, KAbstractCardDeck * deck )
     d->deck = deck;
 
     d->faceUp = true;
-    d->flippedness = d->faceUp ? 1 : 0;
+    d->flipValue = d->faceUp ? 1 : 0;
     d->highlighted = false;
     d->highlightValue = d->highlighted ? 1 : 0;
 
@@ -136,10 +210,10 @@ KCardPile * KCard::source() const
 void KCard::turn( bool faceUp )
 {
     qreal flippedness = faceUp ? 1.0 : 0.0;
-    if ( d->faceUp != faceUp || d->flippedness != flippedness )
+    if ( d->faceUp != faceUp || d->flipValue != flippedness )
     {
         d->faceUp = faceUp;
-        d->flippedness = flippedness;
+        d->flipValue = flippedness;
         d->updatePixmap();
     }
 }
@@ -165,11 +239,11 @@ void KCard::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool
         return;
     }
 
-    QParallelAnimationGroup * aniGroup = new QParallelAnimationGroup( this );
+    QParallelAnimationGroup * aniGroup = new QParallelAnimationGroup( d );
 
     if ( qAbs( pos2.x() - x() ) > 2 || qAbs( pos2.y() - y() ) > 2 )
     {
-        QPropertyAnimation * slide = new QPropertyAnimation( this, "pos" );
+        QPropertyAnimation * slide = new QPropertyAnimation( d, "pos" );
         slide->setKeyValueAt( 0, pos() );
         slide->setKeyValueAt( 1, pos2 );
         slide->setDuration( duration );
@@ -182,7 +256,7 @@ void KCard::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool
 
     if ( qAbs( scale2 - scale() ) > 0.05 )
     {
-        QPropertyAnimation * resize = new QPropertyAnimation( this, "scale" );
+        QPropertyAnimation * resize = new QPropertyAnimation( d, "scale" );
         resize->setKeyValueAt( 0, scale() );
         resize->setKeyValueAt( 1, scale2 );
         resize->setDuration( duration );
@@ -195,7 +269,7 @@ void KCard::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool
 
     if ( qAbs( rotation2 - rotation() ) > 2 )
     {
-        QPropertyAnimation * spin = new QPropertyAnimation( this, "rotation" );
+        QPropertyAnimation * spin = new QPropertyAnimation( d, "rotation" );
         spin->setKeyValueAt( 0, rotation() );
         spin->setKeyValueAt( 1, rotation2 );
         spin->setDuration( duration );
@@ -208,7 +282,7 @@ void KCard::animate( QPointF pos2, qreal z2, qreal scale2, qreal rotation2, bool
 
     if ( faceup2 != d->faceUp )
     {
-        QPropertyAnimation * flip = new QPropertyAnimation( this, "flippedness" );
+        QPropertyAnimation * flip = new QPropertyAnimation( d, "flippedness" );
         flip->setKeyValueAt( 0, d->faceUp ? 1.0 : 0.0 );
         flip->setKeyValueAt( 1, faceup2 ? 1.0 : 0.0 );
         flip->setDuration( duration );
@@ -296,32 +370,6 @@ void KCard::stopAnimation()
     setZValue( d->destZ );
 
     emit animationStopped( this );
-}
-
-
-void KCard::setFlippedness( qreal flippedness )
-{
-    if ( flippedness == d->flippedness )
-        return;
-
-    bool changePixmap = ( flippedness >= 0.5 && d->flippedness < 0.5 )
-                        || ( flippedness <= 0.5 && d->flippedness > 0.5 );
-
-    d->flippedness = flippedness;
-
-    if ( changePixmap )
-        d->updatePixmap();
-
-    qreal xOffset = pixmap().width() * ( 0.5 - qAbs( flippedness - 0.5 ) );
-    qreal xScale = qAbs( 2 * flippedness - 1 );
-
-    setTransform( QTransform().translate( xOffset, 0 ).scale( xScale, 1 ) );
-}
-
-
-qreal KCard::flippedness() const
-{
-    return d->flippedness;
 }
 
 
