@@ -27,7 +27,7 @@
 class LIBKCARDGAME_EXPORT KCardThemeWidget : public QWidget
 {
 public:
-    KCardThemeWidget( const QList<QList<QString> > & previewFormat, QWidget * parent = 0 );
+    KCardThemeWidget( const QString & previewString, QWidget * parent = 0 );
     virtual ~KCardThemeWidget();
 
     void setCurrentSelection( const QString & theme );

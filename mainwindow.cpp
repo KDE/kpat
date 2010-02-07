@@ -330,13 +330,8 @@ void MainWindow::slotPickRandom()
 
 void MainWindow::slotSelectDeck()
 {
-    QList<QList<QString> > previewFormat;
-    previewFormat << ( QList<QString>() << "back" )
-                  << ( QList<QString>() << "10_spade" << "jack_diamond" << "queen_club" << "king_heart" )
-                  << ( QList<QString>() << "1_spade" );
-
     KDialog * d = new KDialog( this );
-    KCardThemeWidget * w = new KCardThemeWidget( previewFormat, this );
+    KCardThemeWidget * w = new KCardThemeWidget( "back;10_spade,jack_diamond,queen_club,king_heart;1_spade", d );
     d->setMainWidget( w );
 
     KConfigGroup cg( KGlobal::config(), settings_group );

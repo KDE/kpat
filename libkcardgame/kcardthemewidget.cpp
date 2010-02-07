@@ -66,7 +66,7 @@ void CardThemeModel::reload()
     foreach( const QString & name, CardDeckInfo::frontNames() )
     {
         QPixmap * pix = new QPixmap();
-        if ( d->cache->find( name, *pix ) )
+        if ( d->cache->find( d->previewString + name, *pix ) )
         {
             m_previews.insert( name, pix );
         }
@@ -99,14 +99,14 @@ void CardThemeModel::renderNext()
 
     qreal yPos = ( d->previewSize.height() - s.height() ) / 2.0;
     qreal spacingWidth = d->baseCardSize.width()
-                         * ( d->previewSize.width() - d->previewFormat.size() * s.width() )
-                         / ( d->previewSize.width() - d->previewFormat.size() * d->baseCardSize.width() );
+                         * ( d->previewSize.width() - d->previewLayout.size() * s.width() )
+                         / ( d->previewSize.width() - d->previewLayout.size() * d->baseCardSize.width() );
 
     QPixmap * pix = new QPixmap( d->previewSize );
     pix->fill( Qt::transparent );
     QPainter p( pix );
     qreal xPos = 0;
-    foreach ( const QList<QString> & sl, d->previewFormat )
+    foreach ( const QList<QString> & sl, d->previewLayout )
     {
         foreach ( const QString & st, sl )
         {
@@ -118,7 +118,7 @@ void CardThemeModel::renderNext()
     }
     p.end();
 
-    d->cache->insert( name, *pix );
+    d->cache->insert( d->previewString + name, *pix );
 
     delete m_previews.value( name, 0 );
     m_previews.insert( name, pix );
@@ -222,18 +222,22 @@ QSize CardThemeDelegate::sizeHint( const QStyleOptionViewItem & option, const QM
 }
 
 
-KCardThemeWidget::KCardThemeWidget( const QList<QList<QString> > & previewFormat, QWidget * parent )
+KCardThemeWidget::KCardThemeWidget( const QString & previewString, QWidget * parent )
   : QWidget( parent ),
     d( new KCardThemeWidgetPrivate() )
 {
-    d->previewFormat = previewFormat;
+    d->previewString = previewString;
+
+    d->previewLayout.clear();
+    foreach ( const QString & pile, previewString.split(';') )
+        d->previewLayout << pile.split(',');
 
     d->abstractPreviewWidth = 0;
-    for ( int i = 0; i < d->previewFormat.size(); ++i )
+    for ( int i = 0; i < d->previewLayout.size(); ++i )
     {
         d->abstractPreviewWidth += 1.0;
-        d->abstractPreviewWidth += 0.3 * ( d->previewFormat.at( i ).size() - 1 );
-        if ( i + 1 < d->previewFormat.size() )
+        d->abstractPreviewWidth += 0.3 * ( d->previewLayout.at( i ).size() - 1 );
+        if ( i + 1 < d->previewLayout.size() )
             d->abstractPreviewWidth += 0.1;
     }
 

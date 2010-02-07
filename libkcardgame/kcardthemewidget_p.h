@@ -77,13 +77,14 @@ public:
     QListView * listView;
     KPixmapCache * cache;
 
-    QList<QList<QString> > previewFormat;
-    QSize baseCardSize;
-    QSize previewSize;
-    QSize itemSize;
     int itemMargin;
     int textHeight;
     qreal abstractPreviewWidth;
+    QSize baseCardSize;
+    QSize previewSize;
+    QSize itemSize;
+    QString previewString;
+    QList<QList<QString> > previewLayout;
 };
 
 #endif
