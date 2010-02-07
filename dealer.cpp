@@ -109,7 +109,6 @@ class CardState {
 public:
     KCard *it;
     KCardPile *source;
-    qreal z;
     bool faceup;
     bool tookdown;
     int source_index;
@@ -123,7 +122,7 @@ public:
     bool operator>=(const CardState &rhs) const { return it > rhs.it; }
     bool operator==(const CardState &rhs) const {
         return (it == rhs.it && source == rhs.source &&
-                z == rhs.z && faceup == rhs.faceup &&
+                faceup == rhs.faceup &&
                 source_index == rhs.source_index && tookdown == rhs.tookdown);
     }
 };
@@ -1042,7 +1041,6 @@ State *DealerScene::getState()
                 continue;
             }
             s.source_index = s.source->indexOf(c);
-            s.z = c->realZ();
             s.faceup = c->isFaceUp();
             s.tookdown = d->cardsNotToDrop.contains( c );
             st->cards.append(s);
@@ -1077,7 +1075,6 @@ void DealerScene::setState(State *st)
         KCard *c = s.it;
         c->turn(s.faceup);
         s.source->add(c, s.source_index);
-        c->setZValue(s.z);
 
         PatPile * p = dynamic_cast<PatPile*>(c->source());
         if (s.tookdown || (cardsFromFoundations.contains(c) && !(p && p->isFoundation())))
