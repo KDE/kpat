@@ -62,9 +62,6 @@ public:
     int cardHeight() const;
     QSize cardSize() const;
 
-    QPixmap frontsidePixmap( quint32 id ) const;
-    QPixmap backsidePixmap( quint32 id ) const;
-
     void updateTheme( const KCardTheme & theme  );
     KCardTheme theme() const;
 
@@ -77,8 +74,13 @@ protected:
     virtual QString elementName( quint32 id, bool faceUp = true ) const = 0;
 
 private:
-    friend class KAbstractCardDeckPrivate;
+    virtual void paintCard( QPainter * painter, quint32 id, bool faceUp, qreal highlightedness );
+
+private:
     class KAbstractCardDeckPrivate * const d;
+
+    friend class KCard;
+    friend class KAbstractCardDeckPrivate;
 };
 
 #endif

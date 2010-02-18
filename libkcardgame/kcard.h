@@ -68,13 +68,10 @@ protected:
     virtual void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
 
 private:
-    void setFrontsidePixmap( const QPixmap & pix );
-
     class KCardPrivate * const d;
 
     friend class KCardPrivate;
     friend class KAbstractCardDeck;
-    friend class KAbstractCardDeckPrivate;
 };
 
 #endif

@@ -285,31 +285,12 @@ void KCard::stopAnimation()
 }
 
 
-void KCard::setFrontsidePixmap( const QPixmap & pix )
-{
-    d->frontside = pix;
-    update();
-}
-
-
 void KCard::paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget )
 {
     Q_UNUSED( option );
     Q_UNUSED( widget );
 
-    QPixmap pix = d->flipValue > 0.5
-                  ? d->frontside
-                  : d->deck->backsidePixmap( d->id );
-
-    if ( d->highlightValue > 0 )
-    {
-        QPainter p( &pix );
-        p.setCompositionMode( QPainter::CompositionMode_SourceAtop );
-        p.setOpacity( 0.5 * d->highlightValue );
-        p.fillRect( 0, 0, d->deck->cardWidth(), d->deck->cardHeight(), Qt::black );
-    }
-
-    painter->drawPixmap( 0, 0, pix );
+    d->deck->paintCard( painter, d->id, d->flipValue > 0.5, d->highlightValue );
 }
 
 

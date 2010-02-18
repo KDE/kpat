@@ -21,11 +21,10 @@
 
 #include "kcard.h"
 
-#include <QtCore/QAbstractAnimation>
-
 class KAbstractCardDeck;
 class KCardPile;
 
+#include <QtCore/QAbstractAnimation>
 class QPropertyAnimation;
 
 
@@ -77,8 +76,6 @@ public:
     qreal destZ;
     qreal flipValue;
     qreal highlightValue;
-
-    QPixmap frontside;
 
     KCard * q;
     KAbstractCardDeck * deck;

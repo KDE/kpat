@@ -37,19 +37,16 @@
 
 #include "kabstractcarddeck.h"
 
-#include "kcard_p.h"
 #include "kcardtheme.h"
 #include "kcardpile.h"
 #include "shuffle.h"
 
-#include <KCardDeckInfo>
 #include <KDebug>
 #include <KGlobal>
-#include <KSharedConfig>
 
 #include <QtCore/QCache>
 #include <QtCore/QTimer>
-#include <QtGui/QGraphicsScene>
+#include <QtGui/QPainter>
 
 class CardDeckPrivateStatic
 {
@@ -100,7 +97,7 @@ public slots:
     };
 
 
-    void cardStoppedAnimation( KCard *card )
+    void cardStoppedAnimation( KCard * card )
     {
         Q_ASSERT( cardsWaitedFor.contains( card ) );
         cardsWaitedFor.remove( card );
@@ -110,38 +107,74 @@ public slots:
     };
 
 
+    QPixmap requestPixmap( QString elementId, bool immediate )
+    {
+        if ( elementIds.isEmpty() )
+            initializeMapping();
+
+        QPixmap & stored = elementIdMapping[ elementId ].first;
+        if ( stored.size() != currentCardSize )
+        {
+            if ( immediate /*|| stored.isNull()*/ )
+            {
+                stored = cache->renderCard( elementId );
+            }
+            else 
+            {
+                QPixmap pix = cache->renderCardIfCached( elementId );
+                if ( !pix.isNull() )
+                    stored = pix;
+                else
+                    stored = stored.scaled( currentCardSize );
+            }
+        }
+        return stored;
+    }
+
+
     void pixmapUpdated( const QString & element, const QPixmap & pix )
     {
-        foreach ( KCard * c, elementMapping.values( element ) )
-            c->setFrontsidePixmap( pix );
+        QPair<QPixmap,QList<KCard*> > & pair = elementIdMapping[ element ];
+        pair.first = pix;
+        foreach ( KCard * c, pair.second )
+            c->update();
     }
 
 
     void loadInBackground()
     {
-        if ( frontsideElements.isEmpty() )
-        {
-            foreach ( KCard * c, cards )
-                elementMapping.insert( q->elementName( c->id(), true ), c );
-            frontsideElements = elementMapping.uniqueKeys();
-        }
+        if ( elementIds.isEmpty() )
+            initializeMapping();
 
-        cache->loadInBackground( frontsideElements );
+        cache->loadInBackground( elementIds );
     };
+
+
+    void initializeMapping()
+    {
+        foreach ( KCard * c, cards )
+        {
+            QString elementId = q->elementName( c->id(), true );
+            elementIdMapping[ elementId ].second.append( c );
+
+            elementId = q->elementName( c->id(), false );
+            elementIdMapping[ elementId ].second.append( c );
+        }
+        elementIds = elementIdMapping.uniqueKeys();
+    }
 
 public:
     KAbstractCardDeck * q;
-
-    QList<KCard*> cards;
 
     KCardCache2 * cache;
     QSizeF originalCardSize;
     QSize currentCardSize;
 
+    QList<KCard*> cards;
     QSet<KCard*> cardsWaitedFor;
 
-    QList<QString> frontsideElements;
-    QMultiHash<QString,KCard*> elementMapping;
+    QStringList elementIds;
+    QHash<QString,QPair<QPixmap,QList<KCard*> > > elementIdMapping;
 };
 
 
@@ -193,27 +226,13 @@ void KAbstractCardDeck::setCardWidth( int width )
     if ( newSize != d->currentCardSize )
     {
         foreach ( KCard * c, d->cards )
-        {
             c->prepareGeometryChange();
-        }
 
         d->currentCardSize = newSize;
         d->cache->setSize( newSize );
 
         foreach ( KCard * c, d->cards )
-        {
-            QString element = elementName( c->id(), true );
-            QPixmap pix;
-            if ( oldSize.isEmpty() )
-                pix = d->cache->renderCard( element );
-            else 
-                pix = d->cache->renderCardIfCached( element );
-
-            if ( pix.isNull() )
-                pix = c->d->frontside.scaled( newSize );
-
-            c->setFrontsidePixmap( pix );
-        }
+            c->update();
 
         QTimer::singleShot( 0, d, SLOT(loadInBackground()) );;
     }
@@ -244,19 +263,6 @@ QSize KAbstractCardDeck::cardSize() const
 }
 
 
-QPixmap KAbstractCardDeck::frontsidePixmap( quint32 id ) const
-{
-    return d->cache->renderCard( elementName( id, true ) );
-}
-
-
-QPixmap KAbstractCardDeck::backsidePixmap( quint32 id ) const
-{
-    Q_UNUSED( id );
-    return d->cache->renderCard( elementName( id, false ) );
-}
-
-
 void KAbstractCardDeck::updateTheme( const KCardTheme & theme )
 {
     Q_ASSERT ( theme.isValid() );
@@ -280,6 +286,22 @@ KCardTheme KAbstractCardDeck::theme() const
 bool KAbstractCardDeck::hasAnimatedCards() const
 {
     return !d->cardsWaitedFor.isEmpty();
+}
+
+
+void KAbstractCardDeck::paintCard( QPainter * painter, quint32 id, bool faceUp, qreal highlightedness )
+{
+    QPixmap pix = d->requestPixmap( elementName( id, faceUp ), false );
+
+    if ( highlightedness > 0 )
+    {
+        QPainter p( &pix );
+        p.setCompositionMode( QPainter::CompositionMode_SourceAtop );
+        p.setOpacity( 0.5 * highlightedness );
+        p.fillRect( 0, 0, pix.width(), pix.height(), Qt::black );
+    }
+
+    painter->drawPixmap( 0, 0, pix );
 }
 
 
