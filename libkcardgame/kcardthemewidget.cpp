@@ -300,7 +300,7 @@ KCardThemeWidget::KCardThemeWidget( const QString & previewString, QWidget * par
     d->hiddenLineEdit = new QLineEdit( this );
     d->hiddenLineEdit->setObjectName( "kcfg_CardTheme" );
     d->hiddenLineEdit->hide();
-    connect( d->listView, SIGNAL(activated(QModelIndex)), d, SLOT(updateLineEdit(QModelIndex)) );
+    connect( d->listView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), d, SLOT(updateLineEdit(QModelIndex)) );
     connect( d->hiddenLineEdit, SIGNAL(textChanged(QString)), d, SLOT(updateListView(QString)) );
 
     QVBoxLayout * layout = new QVBoxLayout( this );
