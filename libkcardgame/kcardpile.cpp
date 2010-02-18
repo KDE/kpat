@@ -342,7 +342,7 @@ void KCardPile::layoutCards( int duration )
     if ( m_cards.isEmpty() )
         return;
 
-    const QSize cardSize = m_cards.first()->pixmap().size();
+    const QSize cardSize = m_cards.first()->boundingRect().size().toSize();
 
     QPointF totalOffset( 0, 0 );
     for ( int i = 0; i < m_cards.size() - 1; ++i )
@@ -430,8 +430,8 @@ bool KCardPile::cardDoubleClicked( KCard * card )
 // offset from the start position of the pile.
 QPointF KCardPile::cardOffset( const KCard * card ) const
 {
-    QPointF offset( spread().width() * card->pixmap().width(),
-                    spread().height() * card->pixmap().height() );
+    QPointF offset( spread().width() * card->boundingRect().width(),
+                    spread().height() * card->boundingRect().height() );
     if (!card->isFaceUp())
         offset *= 0.6;
     return offset;

@@ -74,44 +74,14 @@ KCardPrivate::KCardPrivate( KCard * card )
 }
 
 
-void KCardPrivate::updatePixmap()
-{
-    QPixmap pix;
-    if( flipValue > 0.5 )
-        pix = deck->frontsidePixmap( id );
-    else
-        pix = deck->backsidePixmap( id );
-
-    qreal highlightOpacity = fadeAnimation->state() == QAbstractAnimation::Running
-                             ? highlightValue
-                             : ( highlighted ? 1 : 0 );
-
-    if ( highlightOpacity > 0 )
-    {
-        QPainter p( &pix );
-        p.setCompositionMode( QPainter::CompositionMode_SourceAtop );
-        p.setOpacity( 0.5 * highlightOpacity );
-        p.fillRect( 0, 0, pix.width(), pix.height(), Qt::black );
-    }
-
-    q->setPixmap( pix );
-}
-
-
 void KCardPrivate::setFlippedness( qreal flippedness )
 {
     if ( flippedness == flipValue )
         return;
 
-    bool changePixmap = ( flippedness >= 0.5 && flipValue < 0.5 )
-                        || ( flippedness <= 0.5 && flipValue > 0.5 );
-
     flipValue = flippedness;
 
-    if ( changePixmap )
-        updatePixmap();
-
-    qreal xOffset = q->pixmap().width() * ( 0.5 - qAbs( flippedness - 0.5 ) );
+    qreal xOffset = deck->cardWidth() * ( 0.5 - qAbs( flippedness - 0.5 ) );
     qreal xScale = qAbs( 2 * flippedness - 1 );
 
     q->setTransform( QTransform().translate( xOffset, 0 ).scale( xScale, 1 ) );
@@ -127,7 +97,7 @@ qreal KCardPrivate::flippedness() const
 void KCardPrivate::setHighlightedness( qreal highlightedness )
 {
     highlightValue = highlightedness;
-    updatePixmap();
+    q->update();
     return;
 }
 
@@ -140,7 +110,7 @@ qreal KCardPrivate::highlightedness() const
 
 KCard::KCard( quint32 id, KAbstractCardDeck * deck )
   : QObject(),
-    QGraphicsPixmapItem(),
+    QGraphicsItem(),
     d( new KCardPrivate( this ) )
 {
     d->id = id;
@@ -159,9 +129,6 @@ KCard::KCard( quint32 id, KAbstractCardDeck * deck )
     d->fadeAnimation->setDuration( DURATION_CARDHIGHLIGHT );
     d->fadeAnimation->setKeyValueAt( 0, 0 );
     d->fadeAnimation->setKeyValueAt( 1, 1 );
-
-    setShapeMode( QGraphicsPixmapItem::BoundingRectShape );
-    setTransformationMode( Qt::SmoothTransformation );
 }
 
 
@@ -176,6 +143,12 @@ KCard::~KCard()
 int KCard::type() const
 {
     return KCard::Type;
+}
+
+
+QRectF KCard::boundingRect() const
+{
+    return QRectF( QPointF( 0, 0 ), d->deck->cardSize() );
 }
 
 
@@ -204,7 +177,7 @@ void KCard::setFaceUp( bool faceUp )
     {
         d->faceUp = faceUp;
         d->flipValue = flippedness;
-        d->updatePixmap();
+        update();
     }
 }
 
@@ -268,12 +241,14 @@ void KCard::setHighlighted( bool flag )
         d->highlighted = flag;
 
         d->fadeAnimation->setDirection( flag
-                                       ? QAbstractAnimation::Forward
-                                       : QAbstractAnimation::Backward );
+                                        ? QAbstractAnimation::Forward
+                                        : QAbstractAnimation::Backward );
 
         if ( d->fadeAnimation->state() != QAbstractAnimation::Running )
             d->fadeAnimation->start();
     }
+
+    update();
 }
 
 
@@ -307,6 +282,34 @@ void KCard::stopAnimation()
     setZValue( d->destZ );
 
     emit animationStopped( this );
+}
+
+
+void KCard::setFrontsidePixmap( const QPixmap & pix )
+{
+    d->frontside = pix;
+    update();
+}
+
+
+void KCard::paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget )
+{
+    Q_UNUSED( option );
+    Q_UNUSED( widget );
+
+    QPixmap pix = d->flipValue > 0.5
+                  ? d->frontside
+                  : d->deck->backsidePixmap( d->id );
+
+    if ( d->highlightValue > 0 )
+    {
+        QPainter p( &pix );
+        p.setCompositionMode( QPainter::CompositionMode_SourceAtop );
+        p.setOpacity( 0.5 * d->highlightValue );
+        p.fillRect( 0, 0, d->deck->cardWidth(), d->deck->cardHeight(), Qt::black );
+    }
+
+    painter->drawPixmap( 0, 0, pix );
 }
 
 

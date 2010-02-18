@@ -63,7 +63,6 @@ class KCardPrivate : public QObject
 
 public:
     KCardPrivate( KCard * card );
-    void updatePixmap();
 
     void setFlippedness( qreal flippedness );
     qreal flippedness() const;
@@ -78,6 +77,8 @@ public:
     qreal destZ;
     qreal flipValue;
     qreal highlightValue;
+
+    QPixmap frontside;
 
     KCard * q;
     KAbstractCardDeck * deck;

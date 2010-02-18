@@ -184,7 +184,7 @@ void KAbstractCardDeck::setCardWidth( int width )
         d->currentCardSize = newSize;
         d->cache->setSize( newSize );
         foreach ( KCard * c, d->cards )
-            c->d->updatePixmap();
+            c->setFrontsidePixmap( frontsidePixmap( c->id() ) );
 
         QTimer::singleShot( 200, d, SLOT(loadInBackground()) );;
     }

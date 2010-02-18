@@ -25,9 +25,10 @@ class KCardPile;
 
 #include <QtGui/QGraphicsItem>
 
-class LIBKCARDGAME_EXPORT KCard : public QObject, public QGraphicsPixmapItem
+class LIBKCARDGAME_EXPORT KCard : public QObject, public QGraphicsItem
 {
     Q_OBJECT
+    Q_INTERFACES( QGraphicsItem )
 
 private:
     KCard( quint32 id, KAbstractCardDeck * deck );
@@ -36,6 +37,8 @@ private:
 public:
     enum { Type = QGraphicsItem::UserType + 1 };
     virtual int type() const;
+
+    virtual QRectF boundingRect() const;
 
     quint32 id() const;
 
@@ -61,9 +64,15 @@ public slots:
     void completeAnimation();
     void stopAnimation();
 
+protected:
+    virtual void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
+
 private:
+    void setFrontsidePixmap( const QPixmap & pix );
+
     class KCardPrivate * const d;
 
+    friend class KCardPrivate;
     friend class KAbstractCardDeck;
 };
 

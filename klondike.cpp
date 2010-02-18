@@ -68,7 +68,7 @@ void KlondikePile::layoutCards( int duration )
     if ( cards.isEmpty() )
         return;
 
-    qreal cardWidth = cards.first()->pixmap().width();
+    qreal cardWidth = cards.first()->boundingRect().width();
 
     qreal divx = qMin<qreal>( ( maximumSpace().width() - cardWidth ) / ( 2 * spread().width() * cardWidth ), 1.0 );
 
