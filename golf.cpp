@@ -40,6 +40,8 @@
 #include "speeds.h"
 #include "patsolve/golfsolver.h"
 
+#include "libkcardgame/shuffle.h"
+
 #include <KDebug>
 #include <KLocale>
 
@@ -100,8 +102,8 @@ bool Golf::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
 
 void Golf::restart()
 {
-    deck()->returnAllCards();
-    deck()->shuffle( gameNumber() );
+    foreach( KCardPile * p, piles() )
+        p->clear();
     deal();
     emit newCardsPossible( true );
 }
@@ -110,11 +112,19 @@ void Golf::restart()
 
 void Golf::deal()
 {
+    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
+
     for(int i=0;i<5;i++)
         for(int r=0;r<7;r++)
-            addCardForDeal( stack[r], deck()->takeCard(), true, stack[6]->pos() );
+            addCardForDeal( stack[r], cards.takeLast(), true, stack[6]->pos() );
 
-    deck()->takeAllCards(talon);
+    while ( !cards.isEmpty() )
+    {
+        KCard * c = cards.takeFirst();
+        c->setPos( talon->pos() );
+        c->setFaceUp( false );
+        talon->add( c );
+    }
 
     startDealAnimation();
 

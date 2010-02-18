@@ -40,6 +40,8 @@
 #include "dealerinfo.h"
 #include "patsolve/idiotsolver.h"
 
+#include "libkcardgame/shuffle.h"
+
 #include <KLocale>
 
 
@@ -83,10 +85,18 @@ Idiot::Idiot( )
 
 void Idiot::restart()
 {
-    deck()->returnAllCards();
-    deck()->shuffle( gameNumber() );
+    foreach( KCardPile * p, piles() )
+        p->clear();
 
-    deck()->takeAllCards( talon );
+    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
+
+    while ( !cards.isEmpty() )
+    {
+        KCard * c = cards.takeFirst();
+        c->setPos( talon->pos() );
+        c->setFaceUp( false );
+        talon->add( c );
+    }
 
     // Move the four top cards of the deck to the piles, faceup, spread out.
     for ( int i = 0; i < 4; ++i )

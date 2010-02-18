@@ -42,6 +42,8 @@
 #include "speeds.h"
 #include "patsolve/freecellsolver.h"
 
+#include "libkcardgame/shuffle.h"
+
 #include <KDebug>
 #include <KLocale>
 
@@ -115,8 +117,8 @@ Freecell::~Freecell()
 
 void Freecell::restart()
 {
-    deck()->returnAllCards();
-    deck()->shuffle( gameNumber() );
+    foreach( KCardPile * p, piles() )
+        p->clear();
     deal();
 }
 
@@ -403,13 +405,15 @@ void Freecell::getHints()
 
 void Freecell::deal()
 {
+    QList<KCard*> cards = shuffled(deck()->cards(), gameNumber() );
+
     int column = 0;
-    while (deck()->hasUndealtCards())
+    while (!cards.isEmpty())
     {
-        KCard *c = deck()->takeCard();
-        addCardForDeal( store[column], c, true, store[0]->pos() );
+        addCardForDeal( store[column], cards.takeLast(), true, store[0]->pos() );
         column = (column + 1) % 8;
     }
+
     startDealAnimation();
 }
 

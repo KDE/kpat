@@ -56,14 +56,6 @@ public:
 
     QList<KCard*> cards() const;
 
-    bool hasUndealtCards() const;
-    KCard * takeCard();
-    KCard * takeCard( quint32 id );
-    void takeAllCards( KCardPile * p );
-    void returnCard( KCard * c );
-    void returnAllCards();
-    void shuffle( int gameNumber );
-
     void setCardWidth( int width );
     int cardWidth() const;
     void setCardHeight( int height );

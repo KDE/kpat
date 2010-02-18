@@ -42,6 +42,8 @@
 #include "speeds.h"
 #include "patsolve/grandfsolver.h"
 
+#include "libkcardgame/shuffle.h"
+
 #include <KDebug>
 #include <KLocale>
 
@@ -77,9 +79,9 @@ Grandf::Grandf( )
 }
 
 void Grandf::restart() {
-    deck()->returnAllCards();
-    deck()->shuffle( gameNumber() );
-    deal();
+    foreach( KCardPile * p, piles() )
+        p->clear();
+    deal( shuffled( deck()->cards(), gameNumber() ) );
     numberOfDeals = 1;
     emit newCardsPossible( true );
 }
@@ -94,8 +96,17 @@ KCard *Grandf::newCards()
             if (store[i]->top())
                 return store[i]->top();
 
-    collect();
-    deal();
+    QList<KCard*> collectedCards;
+    for ( int pos = 6; pos >= 0; --pos )
+    {
+        foreach ( KCard * c, store[pos]->cards() )
+        {
+            store[pos]->remove(c);
+            collectedCards << c;
+        }
+    }
+    deal( collectedCards );
+
     numberOfDeals++;
 
     onGameStateAlteredByUser();
@@ -105,7 +116,10 @@ KCard *Grandf::newCards()
     return store[0]->top();
 }
 
-void Grandf::deal() {
+void Grandf::deal( const QList<KCard*> & cardsToDeal )
+{
+    QList<KCard*> cards = cardsToDeal;
+
     QPointF initPos( 1.4 * 3 * deck()->cardWidth(), 1.2 * deck()->cardHeight() );
 
     int start = 0;
@@ -117,9 +131,8 @@ void Grandf::deal() {
         int i = start;
         do
         {
-            KCard *next = deck()->takeCard();
-            if (next)
-                addCardForDeal( store[i], next, (i == start), initPos );
+            if (!cards.isEmpty())
+                addCardForDeal( store[i], cards.takeLast(), (i == start), initPos );
             i += dir;
         } while ( i != stop + dir);
         int t = start;
@@ -129,11 +142,9 @@ void Grandf::deal() {
     }
 
     int i = 0;
-    KCard *next = deck()->takeCard();
-    while (next)
+    while (!cards.isEmpty())
     {
-        addCardForDeal( store[i+1], next, true, initPos );
-        next = deck()->takeCard();
+        addCardForDeal( store[i+1], cards.takeLast(), true, initPos );
         i = (i+1)%6;
     }
 
@@ -158,10 +169,7 @@ void Grandf::deal() {
 void Grandf::collect() {
     clearHighlightedItems();
 
-    for (int pos = 6; pos >= 0; pos--) {
-        foreach (KCard *c, store[pos]->cards())
-            deck()->returnCard(c);
-    }
+
 }
 
 bool Grandf::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const

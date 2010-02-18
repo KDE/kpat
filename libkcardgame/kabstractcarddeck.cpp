@@ -113,7 +113,7 @@ public slots:
     void loadInBackground()
     {
         QSet<QString> elements;
-        foreach ( const KCard * c, allCards )
+        foreach ( const KCard * c, cards )
         {
             elements << q->elementName( c->id(), true );
             elements << q->elementName( c->id(), false );
@@ -125,8 +125,7 @@ public slots:
 public:
     KAbstractCardDeck * q;
 
-    QList<KCard*> allCards;
-    QList<KCard*> undealtCards;
+    QList<KCard*> cards;
 
     KCardCache2 * cache;
     QSizeF originalCardSize;
@@ -149,20 +148,16 @@ KAbstractCardDeck::KAbstractCardDeck( QList<quint32> ids )
         KCard * c = new KCard( id, this );
         connect( c, SIGNAL(animationStarted(KCard*)), d, SLOT(cardStartedAnimation(KCard*)) );
         connect( c, SIGNAL(animationStopped(KCard*)), d, SLOT(cardStoppedAnimation(KCard*)) );
-        d->allCards << c;
+        d->cards << c;
     }
-
-    d->undealtCards = d->allCards;
 }
 
 
 KAbstractCardDeck::~KAbstractCardDeck()
 {
-    returnAllCards();
-    foreach ( KCard * c, d->allCards )
+    foreach ( KCard * c, d->cards )
         delete c;
-    d->allCards.clear();
-    d->undealtCards.clear();
+    d->cards.clear();
 
     cdps->stashCardCache( d->cache );
 
@@ -172,79 +167,7 @@ KAbstractCardDeck::~KAbstractCardDeck()
 
 QList<KCard*> KAbstractCardDeck::cards() const
 {
-    return d->allCards;
-}
-
-
-bool KAbstractCardDeck::hasUndealtCards() const
-{
-    return !d->undealtCards.isEmpty();
-}
-
-
-KCard * KAbstractCardDeck::takeCard()
-{
-    if ( d->undealtCards.isEmpty() )
-        return 0;
-
-    return d->undealtCards.takeLast();
-}
-
-
-KCard * KAbstractCardDeck::takeCard( quint32 id )
-{
-    for ( QList<KCard*>::iterator it = d->undealtCards.begin();
-          it != d->undealtCards.end();
-          ++it )
-    {
-        KCard * c = *it;
-
-        if ( c->id() == id )
-        {
-            d->undealtCards.erase( it );
-            return c;
-        }
-    }
-    return 0;
-}
-
-
-void KAbstractCardDeck::takeAllCards( KCardPile * p )
-{
-    while ( !d->undealtCards.isEmpty() )
-    {
-        KCard * c = d->undealtCards.takeFirst();
-        c->setPos( p->pos() );
-        c->setFaceUp( false );
-        p->add( c );
-    }
-}
-
-
-void KAbstractCardDeck::returnCard( KCard * c )
-{
-//FIXME
-//     c->setTakenDown( false );
-    if ( c->source() )
-        c->source()->remove( c );
-    if ( c->scene() )
-        c->scene()->removeItem( c );
-    d->undealtCards.append( c );
-}
-
-
-void KAbstractCardDeck::returnAllCards()
-{
-    d->undealtCards.clear();
-    foreach ( KCard * c, d->allCards )
-        returnCard( c );
-}
-
-
-// Shuffle all undealt cards
-void KAbstractCardDeck::shuffle( int gameNumber )
-{
-    d->undealtCards = shuffled( d->undealtCards, gameNumber );
+    return d->cards;
 }
 
 
@@ -260,7 +183,7 @@ void KAbstractCardDeck::setCardWidth( int width )
     {
         d->currentCardSize = newSize;
         d->cache->setSize( newSize );
-        foreach ( KCard * c, d->allCards )
+        foreach ( KCard * c, d->cards )
             c->d->updatePixmap();
 
         QTimer::singleShot( 200, d, SLOT(loadInBackground()) );;

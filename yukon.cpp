@@ -40,6 +40,8 @@
 #include "pileutils.h"
 #include "patsolve/yukonsolver.h"
 
+#include "libkcardgame/shuffle.h"
+
 #include <KDebug>
 #include <KLocale>
 
@@ -97,13 +99,15 @@ bool Yukon::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
 
 void Yukon::restart()
 {
-    deck()->returnAllCards();
-    deck()->shuffle( gameNumber() );
+    foreach( KCardPile * p, piles() )
+        p->clear();
     deal();
 }
 
 void Yukon::deal()
 {
+    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
+
     for (int round = 0; round < 11; round++)
     {
         for (int j = 0; j < 7; j++)
@@ -119,7 +123,7 @@ void Yukon::deal()
             if (doit)
             {
                 QPointF initPos = store[j]->pos() + QPointF(0, ((7-j/3.0)+round)* deck()->cardHeight());
-                addCardForDeal(store[j], deck()->takeCard(), (round >= j || j == 0), initPos);
+                addCardForDeal(store[j], cards.takeLast(), (round >= j || j == 0), initPos);
             }
         }
     }

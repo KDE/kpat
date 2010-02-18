@@ -50,7 +50,7 @@ public:
     Grandf( );
 
 public slots:
-    void deal();
+    void deal( const QList<KCard*> & cardsToDeal );
     virtual void restart();
     virtual KCard *newCards();
 

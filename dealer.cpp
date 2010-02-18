@@ -350,7 +350,9 @@ void DealerScene::openGame(QDomDocument &doc)
 
     QDomNodeList pileNodes = dealer.elementsByTagName("pile");
 
-    deck()->returnAllCards();
+    QMultiHash<quint32,KCard*> cards;
+    foreach ( KCard * c, deck()->cards() )
+        cards.insert( c->id(), c );
 
     foreach (PatPile *p, patPiles())
     {
@@ -367,7 +369,7 @@ void DealerScene::openGame(QDomDocument &doc)
                     int s = card.attribute("suit").toInt();
                     int r = card.attribute("value").toInt();
 
-                    KCard * c = deck()->takeCard( ( s << 4 ) + r );
+                    KCard * c = cards.take( ( s << 4 ) + r );
                     Q_ASSERT( c );
 
                     c->setFaceUp(card.attribute("faceup").toInt());
@@ -831,9 +833,10 @@ void DealerScene::showWonMessage()
     // get crashes if we don't. Will have to look into this further.
     stopDemo();
 
-    // Return the Cards to the CardDeck, so they don't get shown if the Piles
-    // try to layoutCards() if the window is resized.
-    deck()->returnAllCards();
+    // Remove all cards from the scene to prevent them from showing up accidentally
+    // if the window is resized.
+    foreach ( KCard * c, deck()->cards() )
+        removeItem( c );
 
     updateWonItem();
     d->wonItem->show();

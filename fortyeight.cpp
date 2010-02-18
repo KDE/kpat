@@ -41,6 +41,8 @@
 #include "speeds.h"
 #include "patsolve/fortyeightsolver.h"
 
+#include "libkcardgame/shuffle.h"
+
 #include <KDebug>
 #include <KLocale>
 
@@ -94,9 +96,9 @@ Fortyeight::Fortyeight( )
 
 void Fortyeight::restart()
 {
+    foreach( KCardPile * p, piles() )
+        p->clear();
     lastdeal = false;
-    deck()->returnAllCards();
-    deck()->shuffle( gameNumber() );
     deal();
     emit newCardsPossible( true );
 }
@@ -171,16 +173,24 @@ bool Fortyeight::checkRemove( const PatPile * pile, const QList<KCard*> & cards)
 
 void Fortyeight::deal()
 {
+    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
+
     for (int r = 0; r < 4; r++)
     {
         for (int column = 0; column < 8; column++)
         {
             QPointF initPos = stack[column]->pos() - QPointF( 0, 2 * deck()->cardHeight() );
-            addCardForDeal( stack[column], deck()->takeCard(), true, initPos );
+            addCardForDeal( stack[column], cards.takeLast(), true, initPos );
         }
     }
 
-    deck()->takeAllCards(talon);
+    while ( !cards.isEmpty() )
+    {
+        KCard * c = cards.takeFirst();
+        c->setPos( talon->pos() );
+        c->setFaceUp( false );
+        talon->add( c );
+    }
 
     startDealAnimation();
 

@@ -39,6 +39,8 @@
 #include "dealerinfo.h"
 #include "patsolve/clocksolver.h"
 
+#include "libkcardgame/shuffle.h"
+
 #include <KLocale>
 
 
@@ -76,8 +78,8 @@ Clock::Clock( )
 
 void Clock::restart()
 {
-    deck()->returnAllCards();
-    deck()->shuffle( gameNumber() );
+    foreach( KCardPile * p, piles() )
+        p->clear();
     deal();
 }
 
@@ -114,23 +116,27 @@ void Clock::deal() {
 
     const QPointF center = ( target[0]->pos() + target[6]->pos() ) / 2;
 
+    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
+
     int j = 0;
-    while (deck()->hasUndealtCards()) {
-        KCard *c = deck()->takeCard();
+    while (!cards.isEmpty())
+    {
+        KCard *c =cards.takeLast();
         for (int i = 0; i < 12; i++)
-            if (getRank(c) == ranks[i] && getSuit(c) == suits[i]) {
+        {
+            if (getRank(c) == ranks[i] && getSuit(c) == suits[i])
+            {
                 QPointF initPos = (2 * center + target[(i + 2) % 12]->pos()) / 3;
                 addCardForDeal( target[i], c, true, initPos );
                 c = 0;
                 break;
             }
+        }
         if (c)
         {
             addCardForDeal( store[j], c, true, store[ j < 4 ? 0 : 4 ]->pos() );
-            ++j;
+            j = (j + 1) % 8;
         }
-        if (j == 8)
-            j = 0;
     }
 
     startDealAnimation();

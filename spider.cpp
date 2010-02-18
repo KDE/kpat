@@ -43,6 +43,8 @@
 #include "speeds.h"
 #include "patsolve/spidersolver.h"
 
+#include "libkcardgame/shuffle.h"
+
 #include <KDebug>
 #include <KLocale>
 #include <KRandom>
@@ -292,8 +294,8 @@ void Spider::setGameOptions(const QString& options)
 
 void Spider::restart()
 {
-    deck()->returnAllCards();
-    deck()->shuffle( gameNumber() );
+    foreach( KCardPile * p, piles() )
+        p->clear();
     deal();
     emit newCardsPossible(true);
 }
@@ -395,21 +397,23 @@ void Spider::deal()
     m_leg = 0;
     m_redeal = 0;
 
+    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
+
     int column = 0;
     // deal face down cards (5 to first 4 piles, 4 to last 6)
     for (int i = 0; i < 44; i++ ) {
-        addCardForDeal( stack[column], deck()->takeCard(), false, randomPos() );
+        addCardForDeal( stack[column], cards.takeLast(), false, randomPos() );
         column = (column + 1) % 10;
     }
     // deal face up cards, one to each pile
     for (int i = 0; i < 10; i++ ) {
-        addCardForDeal( stack[column], deck()->takeCard(), true, randomPos());
+        addCardForDeal( stack[column], cards.takeLast(), true, randomPos());
         column = (column + 1) % 10;
     }
     // deal the remaining cards into 5 'redeal' piles
     for (int column = 0; column < 5; column++ )
         for (int i = 0; i < 10; i++ )
-            addCardForDeal( redeals[column], deck()->takeCard(), false, randomPos());
+            addCardForDeal( redeals[column], cards.takeLast(), false, randomPos());
 
     startDealAnimation();
 }

@@ -40,6 +40,8 @@
 #include "dealerinfo.h"
 #include "patsolve/mod3solver.h"
 
+#include "libkcardgame/shuffle.h"
+
 #include <KDebug>
 #include <KLocale>
 
@@ -175,8 +177,8 @@ bool Mod3::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
 
 void Mod3::restart()
 {
-    deck()->returnAllCards();
-    deck()->shuffle( gameNumber() );
+    foreach( KCardPile * p, piles() )
+        p->clear();
     deal();
     emit newCardsPossible(true);
 }
@@ -205,7 +207,15 @@ void Mod3::deal()
 {
     clearHighlightedItems();
 
-    deck()->takeAllCards(talon);
+    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
+
+    while ( !cards.isEmpty() )
+    {
+        KCard * c = cards.takeFirst();
+        c->setPos( talon->pos() );
+        c->setFaceUp( false );
+        talon->add( c );
+    }
 
     for (int r = 0; r < 4; r++)
         dealRow(r);
