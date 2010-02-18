@@ -110,16 +110,23 @@ public slots:
     };
 
 
+    void pixmapUpdated( const QString & element, const QPixmap & pix )
+    {
+        foreach ( KCard * c, elementMapping.values( element ) )
+            c->setFrontsidePixmap( pix );
+    }
+
+
     void loadInBackground()
     {
-        QSet<QString> elements;
-        foreach ( const KCard * c, cards )
+        if ( frontsideElements.isEmpty() )
         {
-            elements << q->elementName( c->id(), true );
-            elements << q->elementName( c->id(), false );
+            foreach ( KCard * c, cards )
+                elementMapping.insert( q->elementName( c->id(), true ), c );
+            frontsideElements = elementMapping.uniqueKeys();
         }
 
-        cache->loadInBackground( elements.toList() );
+        cache->loadInBackground( frontsideElements );
     };
 
 public:
@@ -132,6 +139,9 @@ public:
     QSize currentCardSize;
 
     QSet<KCard*> cardsWaitedFor;
+
+    QList<QString> frontsideElements;
+    QMultiHash<QString,KCard*> elementMapping;
 };
 
 
@@ -178,15 +188,34 @@ void KAbstractCardDeck::setCardWidth( int width )
 
     int height = width * d->originalCardSize.height() / d->originalCardSize.width();
     QSize newSize( width, height );
+    QSize oldSize = d->currentCardSize;
 
     if ( newSize != d->currentCardSize )
     {
+        foreach ( KCard * c, d->cards )
+        {
+            c->prepareGeometryChange();
+        }
+
         d->currentCardSize = newSize;
         d->cache->setSize( newSize );
-        foreach ( KCard * c, d->cards )
-            c->setFrontsidePixmap( frontsidePixmap( c->id() ) );
 
-        QTimer::singleShot( 200, d, SLOT(loadInBackground()) );;
+        foreach ( KCard * c, d->cards )
+        {
+            QString element = elementName( c->id(), true );
+            QPixmap pix;
+            if ( oldSize.isEmpty() )
+                pix = d->cache->renderCard( element );
+            else 
+                pix = d->cache->renderCardIfCached( element );
+
+            if ( pix.isNull() )
+                pix = c->d->frontside.scaled( newSize );
+
+            c->setFrontsidePixmap( pix );
+        }
+
+        QTimer::singleShot( 0, d, SLOT(loadInBackground()) );;
     }
 }
 
@@ -234,6 +263,7 @@ void KAbstractCardDeck::updateTheme( const KCardTheme & theme )
 
     cdps->stashCardCache( d->cache );
     d->cache = cdps->getCardCache( theme.dirName() );
+    connect( d->cache, SIGNAL(renderingDone(QString,QPixmap)), d, SLOT(pixmapUpdated(QString,QPixmap)) );
 
     d->originalCardSize = d->cache->naturalSize( "back" );
     Q_ASSERT( !d->originalCardSize.isNull() );

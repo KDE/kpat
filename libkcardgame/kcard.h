@@ -74,6 +74,7 @@ private:
 
     friend class KCardPrivate;
     friend class KAbstractCardDeck;
+    friend class KAbstractCardDeckPrivate;
 };
 
 #endif

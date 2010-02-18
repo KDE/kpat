@@ -23,11 +23,12 @@
 class KCardTheme;
 
 class QDateTime;
-class QPixmap;
+#include <QtCore/QObject>
 class QSize;
 class QSizeF;
 class QString;
 class QStringList;
+class QPixmap;
 
 /**
  * \class KCardCache2 cardcache.h <KCardCache2>
@@ -56,8 +57,9 @@ class QStringList;
  * </code>
  * 
  */
-class KCardCache2
+class KCardCache2 : public QObject
 {
+    Q_OBJECT
 public:
     /**
      * Constructor creates and initializes a KPixmapCache for all KDE Games 
@@ -111,6 +113,8 @@ public:
      */
     QPixmap renderCard( const QString & element ) const;
 
+    QPixmap renderCardIfCached( const QString & element ) const;
+
     /**
      * Retrieve the default size for the frontside card.
      *
@@ -145,8 +149,14 @@ public:
      * sides. Also its possible to specify a different deck, like a 32 card deck.
      */
     void loadInBackground( const QStringList & elements );
+
+signals:
+    void renderingDone( const QString & element, const QPixmap & pix );
+
 private:
-    class KCardCache2Private* const d;
+    class KCardCache2Private * const d;
+
+    friend class KCardCache2Private;
 };
 
 #endif

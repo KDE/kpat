@@ -20,6 +20,7 @@
 #ifndef KCARDCACHE_P_H
 #define KCARDCACHE_P_H
 
+#include "kcardcache.h"
 class LoadThread;
 
 #include "kcardtheme.h"
@@ -40,6 +41,14 @@ class KCardCache2Private : public QObject
     Q_OBJECT
 
 public:
+    KCardCache2Private( KCardCache2 * q )
+      : QObject( q ),
+        q( q )
+    {
+    }
+
+    KCardCache2 * q;
+
     QSize size;
     KCardTheme theme;
     KPixmapCache * cache;
@@ -48,6 +57,7 @@ public:
     LoadThread * loadThread;
 
     QSvgRenderer * renderer();
+    void stopThread();
 
 public slots:
     void submitRendering( const QString & key, const QImage & image );

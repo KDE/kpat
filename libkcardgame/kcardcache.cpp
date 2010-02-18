@@ -48,10 +48,24 @@ QSvgRenderer* KCardCache2Private::renderer()
     return svgRenderer;
 }
 
+void KCardCache2Private::stopThread()
+{
+    if ( loadThread && loadThread->isRunning() )
+    {
+        loadThread->kill();
+        loadThread->wait();
+    }
+    delete loadThread;
+    loadThread = 0;
+}
+
 void KCardCache2Private::submitRendering( const QString& key, const QImage& image )
 {
     kDebug() << "Received render of" << key << "from rendering thread.";
-    cache->insert( key, QPixmap::fromImage( image ) );
+    QPixmap pix = QPixmap::fromImage( image );
+    cache->insert( key, pix );
+
+    emit q->renderingDone( key.left( key.indexOf('@') ), pix );
 }
 
 LoadThread::LoadThread( KCardCache2Private * d, QSize size, const QString & theme, const QStringList & elements )
@@ -101,7 +115,7 @@ void LoadThread::run()
 }
 
 KCardCache2::KCardCache2( const KCardTheme & theme )
-    : d( new KCardCache2Private )
+    : d( new KCardCache2Private( this ) )
 {
     d->theme = theme;
     d->svgRenderer = 0;
@@ -127,11 +141,12 @@ KCardCache2::~KCardCache2()
     delete d->cache;
     delete d->svgRenderer;
     delete d->rendererMutex;
-    delete d;
 }
 
 void KCardCache2::setSize( const QSize& s )
 {
+    d->stopThread();
+
     if ( s != d->size )
         d->size = s;
 }
@@ -183,6 +198,15 @@ QPixmap KCardCache2::renderCard( const QString & element ) const
             d->cache->insert( key, pix );
     }
 
+    return pix;
+}
+
+
+QPixmap KCardCache2::renderCardIfCached( const QString & element ) const
+{
+    QPixmap pix;
+    if ( d->theme.isValid() && !d->size.isEmpty() )
+        d->cache->find( keyForPixmap( element , d->size ), pix );
     return pix;
 }
 
@@ -243,12 +267,7 @@ void KCardCache2::invalidateCache()
 
 void KCardCache2::loadInBackground( const QStringList & elements )
 {
-    if ( d->loadThread && d->loadThread->isRunning() )
-    {
-        d->loadThread->kill();
-        d->loadThread->wait();
-    }
-    delete d->loadThread;
+    d->stopThread();
 
     // We have to compile the list of elements to load here, because we can't
     // check the contents of the KPixmapCache from outside the GUI thread.
@@ -267,4 +286,5 @@ void KCardCache2::loadInBackground( const QStringList & elements )
 }
 
 
+#include "kcardcache.moc"
 #include "kcardcache_p.moc"
