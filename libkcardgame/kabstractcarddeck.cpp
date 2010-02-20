@@ -160,7 +160,15 @@ public slots:
             elementId = q->elementName( c->id(), false );
             elementIdMapping[ elementId ].second.append( c );
         }
-        elementIds = elementIdMapping.uniqueKeys();
+
+        QHash<QString,QPair<QPixmap,QList<KCard*> > >::iterator it = elementIdMapping.begin();
+        QHash<QString,QPair<QPixmap,QList<KCard*> > >::iterator end = elementIdMapping.end();
+        while ( it != end )
+        {
+            elementIds << it.key();
+            it.value().first = requestPixmap( it.key(), false );
+            ++it;
+        }
     }
 
 public:
