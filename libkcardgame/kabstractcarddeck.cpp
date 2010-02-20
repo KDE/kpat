@@ -115,7 +115,7 @@ public slots:
         QPixmap & stored = elementIdMapping[ elementId ].first;
         if ( stored.size() != currentCardSize )
         {
-            if ( immediate /*|| stored.isNull()*/ )
+            if ( immediate || stored.isNull() )
             {
                 stored = cache->renderCard( elementId );
             }
