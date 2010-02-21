@@ -282,7 +282,7 @@ void KCardCache2::loadInBackground( const QStringList & elements )
 
     d->loadThread = new LoadThread( d, d->size, d->theme.dirName(), unrenderedElements );
     d->connect( d->loadThread, SIGNAL(renderingDone(QString,QImage)), SLOT(submitRendering(QString,QImage)), Qt::QueuedConnection );
-    d->loadThread->start( QThread::IdlePriority );
+    d->loadThread->start();
 }
 
 
