@@ -521,7 +521,12 @@ DealerScene::~DealerScene()
 void DealerScene::setupDeck( KAbstractCardDeck * deck )
 {
     if ( deck )
-        deck->updateTheme( KCardTheme( Settings::cardTheme() ) );
+    {
+        KCardTheme theme = KCardTheme( Settings::cardTheme() );
+        if ( !theme.isValid() )
+            theme = KCardTheme( Settings::defaultCardThemeValue() );
+        deck->updateTheme( theme );
+    }
 
     setDeck( deck );
 }
