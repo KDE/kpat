@@ -133,6 +133,8 @@ KCard::KCard( quint32 id, KAbstractCardDeck * deck )
 
 KCard::~KCard()
 {
+    stopAnimation();
+
     // If the card is in a pile, remove it from there.
     if ( source() )
         source()->remove( this );
