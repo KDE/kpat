@@ -43,7 +43,7 @@ public:
         Cell
     };
 
-    PatPile( int index, const QString & objectName = QString() );
+    explicit PatPile( int index, const QString & objectName = QString() );
 
     int index() const;
 

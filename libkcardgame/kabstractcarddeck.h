@@ -62,7 +62,7 @@ public:
     int cardHeight() const;
     QSize cardSize() const;
 
-    void updateTheme( const KCardTheme & theme  );
+    void updateTheme( const KCardTheme & theme );
     KCardTheme theme() const;
 
     bool hasAnimatedCards() const;

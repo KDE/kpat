@@ -37,7 +37,7 @@ class CardThemeModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-    CardThemeModel( KCardThemeWidgetPrivate * d, QObject * parent = 0 );
+    explicit CardThemeModel( KCardThemeWidgetPrivate * d, QObject * parent = 0 );
     virtual ~CardThemeModel();
 
     void reload();
@@ -60,7 +60,7 @@ private:
 class CardThemeDelegate : public QAbstractItemDelegate
 {
 public:
-    CardThemeDelegate( KCardThemeWidgetPrivate * d, QObject * parent = 0 );
+    explicit CardThemeDelegate( KCardThemeWidgetPrivate * d, QObject * parent = 0 );
 
     virtual void paint( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
     virtual QSize sizeHint( const QStyleOptionViewItem & option, const QModelIndex & index ) const;
