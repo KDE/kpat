@@ -13,5 +13,4 @@ kde4_add_library( libkcardgame SHARED ${libkcardgame_SRCS} )
 target_link_libraries( libkcardgame kdegames ${KDE4_KNEWSTUFF3_LIBS} )
 
 install( TARGETS libkcardgame ${INSTALL_TARGETS_DEFAULT_ARGS} )
-#Laurent Missing file, uncomment it when you add it.
-#install( FILES kcardtheme.knsrc  DESTINATION  ${CONFIG_INSTALL_DIR} )
+install( FILES kcardtheme.knsrc  DESTINATION  ${CONFIG_INSTALL_DIR} )
