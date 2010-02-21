@@ -109,8 +109,7 @@ qreal KCardPrivate::highlightedness() const
 
 
 KCard::KCard( quint32 id, KAbstractCardDeck * deck )
-  : QObject(),
-    QGraphicsItem(),
+  : QGraphicsObject(),
     d( new KCardPrivate( this ) )
 {
     d->id = id;

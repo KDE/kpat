@@ -70,8 +70,8 @@ QList<KStandardCardDeck::Rank> KStandardCardDeck::standardRanks()
 }
 
 
-KStandardCardDeck::KStandardCardDeck( int copies, QList<Suit> suits, QList<Rank> ranks )
-  : KAbstractCardDeck( d->generateIds( copies, suits, ranks ) ),
+KStandardCardDeck::KStandardCardDeck( int copies, QList<Suit> suits, QList<Rank> ranks, QObject * parent )
+  : KAbstractCardDeck( d->generateIds( copies, suits, ranks ), parent ),
     d( new KStandardCardDeckPrivate )
 {
     foreach ( KCard * c, cards() )

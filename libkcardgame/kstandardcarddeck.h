@@ -58,7 +58,8 @@ public:
 
     explicit KStandardCardDeck( int copies = 1,
                                 QList<Suit> suits = standardSuits(),
-                                QList<Rank> ranks = standardRanks() );
+                                QList<Rank> ranks = standardRanks(),
+                                QObject * parent = 0 );
     virtual ~KStandardCardDeck();
 
 protected:

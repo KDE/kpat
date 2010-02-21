@@ -187,8 +187,9 @@ public:
 
 
 
-KAbstractCardDeck::KAbstractCardDeck( QList<quint32> ids )
-  : d( new KAbstractCardDeckPrivate( this ) )
+KAbstractCardDeck::KAbstractCardDeck( QList<quint32> ids, QObject * parent )
+  : QObject( parent ),
+    d( new KAbstractCardDeckPrivate( this ) )
 {
     d->cache = 0;
     d->originalCardSize = QSize( 1, 1 );

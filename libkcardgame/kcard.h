@@ -23,9 +23,9 @@ class KAbstractCardDeck;
 class KCardPile;
 #include "libkcardgame_export.h"
 
-#include <QtGui/QGraphicsItem>
+#include <QtGui/QGraphicsObject>
 
-class LIBKCARDGAME_EXPORT KCard : public QObject, public QGraphicsItem
+class LIBKCARDGAME_EXPORT KCard : public QGraphicsObject
 {
     Q_OBJECT
     Q_INTERFACES( QGraphicsItem )

@@ -51,7 +51,7 @@ class LIBKCARDGAME_EXPORT KAbstractCardDeck : public QObject
     Q_OBJECT
 
 public:
-    explicit KAbstractCardDeck( QList<quint32> ids );
+    explicit KAbstractCardDeck( QList<quint32> ids, QObject * parent = 0 );
     virtual ~KAbstractCardDeck();
 
     QList<KCard*> cards() const;
