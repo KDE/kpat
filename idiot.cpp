@@ -45,12 +45,11 @@
 #include <KLocale>
 
 
-Idiot::Idiot( )
-  : DealerScene( )
+void Idiot::initialize()
 {
     setSceneAlignment( AlignHCenter | AlignVCenter );
 
-    setupDeck( new KStandardCardDeck() );
+    static_cast<KStandardCardDeck*>( deck() )->setDeckContents();
 
     // Create the talon to the left.
     talon = new PatPile( 0, "talon" );

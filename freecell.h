@@ -55,7 +55,7 @@ class Freecell : public DealerScene
     Q_OBJECT
 
 public:
-    Freecell();
+    virtual void initialize();
     void moveCards(QList<KCard*> &c, FreecellPile *from, PatPile *to);
     virtual ~Freecell();
 

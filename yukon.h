@@ -39,13 +39,14 @@
 #include "dealer.h"
 
 
-class Yukon : public DealerScene {
+class Yukon : public DealerScene
+{
     friend class YukonSolver;
 
     Q_OBJECT
 
 public:
-    Yukon( );
+    virtual void initialize();
 
 public slots:
     void deal();

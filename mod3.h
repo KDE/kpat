@@ -47,7 +47,7 @@ class Mod3 : public DealerScene
     Q_OBJECT
 
 public:
-    Mod3( );
+    virtual void initialize();
 
     void deal();
     virtual void restart();

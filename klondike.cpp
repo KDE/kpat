@@ -90,14 +90,13 @@ void KlondikePile::layoutCards( int duration )
     }
 }
 
-Klondike::Klondike()
-    : DealerScene( )
+void Klondike::initialize()
 {
     // The units of the follwoing constants are pixels
     const qreal hspacing = 1.0 / 6 + 0.02; // horizontal spacing between card piles
     const qreal vspacing = 1.0 / 4; // vertical spacing between card piles
 
-    setupDeck( new KStandardCardDeck() );
+    static_cast<KStandardCardDeck*>( deck() )->setDeckContents();
 
     EasyRules = Settings::klondikeIsDrawOne();
 

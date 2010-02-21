@@ -45,7 +45,7 @@ class Gypsy : public DealerScene
     Q_OBJECT
 
 public:
-    Gypsy( );
+    virtual void initialize();
     virtual void restart();
 
 public slots:

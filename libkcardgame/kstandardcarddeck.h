@@ -56,11 +56,12 @@ public:
     static QList<Suit> standardSuits();
     static QList<Rank> standardRanks();
 
-    explicit KStandardCardDeck( int copies = 1,
-                                QList<Suit> suits = standardSuits(),
-                                QList<Rank> ranks = standardRanks(),
-                                QObject * parent = 0 );
+    explicit KStandardCardDeck( QObject * parent = 0 );
     virtual ~KStandardCardDeck();
+
+    void setDeckContents( int copies = 1,
+                          QList<Suit> suits = standardSuits(),
+                          QList<Rank> ranks = standardRanks() );
 
 protected:
     virtual QString elementName( quint32 id, bool faceUp = true ) const;

@@ -45,7 +45,7 @@ class Simon : public DealerScene {
     friend class SimonSolver;
 
 public:
-    Simon( );
+    virtual void initialize();
 
 public slots:
     void deal();

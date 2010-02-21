@@ -68,10 +68,9 @@ void FreecellPile::moveCards(QList<KCard*> &c, KCardPile *to)
 
 //-------------------------------------------------------------------------//
 
-Freecell::Freecell()
-    : DealerScene()
+void Freecell::initialize()
 {
-    setupDeck( new KStandardCardDeck() );
+    static_cast<KStandardCardDeck*>( deck() )->setDeckContents();
 
     const qreal topRowDist = 1.08;
     const qreal bottomRowDist = 1.13;

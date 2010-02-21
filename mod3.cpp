@@ -66,8 +66,7 @@ public:
 };
 
 
-Mod3::Mod3( )
-    : DealerScene( )
+void Mod3::initialize()
 {
     // Piles are placed very close together. Set layoutSpacing to 0 to prevent
     // interference between them.
@@ -79,7 +78,7 @@ Mod3::Mod3( )
     const qreal rightColumX = 8 * dist_x + 0.8;
 
     // This patience uses 2 deck of cards.
-    setupDeck(new KStandardCardDeck(2));
+    static_cast<KStandardCardDeck*>( deck() )->setDeckContents( 2 );
 
     talon = new PatPile(0, "talon");
     talon->setPileRole(PatPile::Stock);

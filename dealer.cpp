@@ -38,7 +38,6 @@
 #include "dealer.h"
 
 #include "render.h"
-#include "settings.h"
 #include "speeds.h"
 #include "version.h"
 #include "view.h"
@@ -516,21 +515,6 @@ DealerScene::~DealerScene()
 
     delete d;
 }
-
-
-void DealerScene::setupDeck( KAbstractCardDeck * deck )
-{
-    if ( deck )
-    {
-        KCardTheme theme = KCardTheme( Settings::cardTheme() );
-        if ( !theme.isValid() )
-            theme = KCardTheme( Settings::defaultCardThemeValue() );
-        deck->updateTheme( theme );
-    }
-
-    setDeck( deck );
-}
-
 
 
 void DealerScene::addPile( PatPile * pile )

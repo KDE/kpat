@@ -89,7 +89,8 @@ MainWindow::MainWindow()
   : KXmlGuiWindow(0),
     m_view(0),
     m_dealer(0),
-    m_selector(0)
+    m_selector(0),
+    m_cardDeck(0)
 {
     setObjectName( "MainWindow" );
     // KCrash::setEmergencySaveFunction(::saveGame);
@@ -388,8 +389,21 @@ void MainWindow::newGameType(int id)
         m_dealer = 0;
     }
 
+    if ( !m_cardDeck )
+    {
+        m_cardDeck = new KStandardCardDeck( this );
+
+        KCardTheme theme = KCardTheme( Settings::cardTheme() );
+        if ( !theme.isValid() )
+            theme = KCardTheme( Settings::defaultCardThemeValue() );
+
+        m_cardDeck->updateTheme( theme );
+    }
+
     const DealerInfo * di = m_dealer_map.value(id, DealerInfoList::self()->games().first());
     m_dealer = di->createGame();
+    m_dealer->setDeck( m_cardDeck );
+    m_dealer->initialize();
     m_dealer->setGameId( di->ids().first() );
     m_dealer->setAutoDropEnabled( autodropaction->isChecked() );
     m_dealer->setSolverEnabled( solveraction->isChecked() );

@@ -47,8 +47,8 @@ class Idiot: public DealerScene
     Q_OBJECT
 
 public:
-    Idiot( );
-    virtual bool  isGameWon() const;
+    virtual void initialize();
+    virtual bool isGameWon() const;
     virtual void restart();
 
 public slots:

@@ -48,10 +48,9 @@
 #include <KLocale>
 
 
-Grandf::Grandf( )
-    : DealerScene(  )
+void Grandf::initialize()
 {
-    setupDeck(new KStandardCardDeck());
+    static_cast<KStandardCardDeck*>( deck() )->setDeckContents();
 
     const qreal distx = 1.4;
     const qreal targetOffset = 1.5 * distx;

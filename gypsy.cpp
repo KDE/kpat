@@ -44,13 +44,12 @@
 
 #include <KLocale>
 
-Gypsy::Gypsy( )
-    : DealerScene(  )
+void Gypsy::initialize()
 {
     const qreal dist_x = 1.11;
     const qreal dist_y = 1.11;
 
-    setupDeck(new KStandardCardDeck(2));
+    static_cast<KStandardCardDeck*>( deck() )->setDeckContents( 2 );
 
     talon = new PatPile(0, "talon");
     talon->setPileRole(PatPile::Stock);

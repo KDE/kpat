@@ -63,8 +63,6 @@ KCardScene::KCardScene( QObject * parent )
 
 KCardScene::~KCardScene()
 {
-    delete m_deck;
-
     foreach ( KCardPile * p, m_piles )
     {
         removePile( p );
@@ -78,7 +76,6 @@ KCardScene::~KCardScene()
 
 void KCardScene::setDeck( KAbstractCardDeck * deck )
 {
-    delete m_deck;
     m_deck = deck;
 }
 

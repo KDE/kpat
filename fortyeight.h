@@ -46,7 +46,7 @@ class Fortyeight : public DealerScene
     Q_OBJECT
 
 public:
-    Fortyeight( );
+    virtual void initialize();
     virtual void restart();
     virtual QString getGameState();
     virtual void setGameState( const QString & stream );

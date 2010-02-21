@@ -21,25 +21,6 @@
 
 class KStandardCardDeckPrivate
 {
-public:
-    QList<quint32> generateIds( int copies, QList<KStandardCardDeck::Suit> suits, QList<KStandardCardDeck::Rank> ranks )
-    {
-        Q_ASSERT( copies >= 1 );
-        Q_ASSERT( suits.size() >= 1 );
-        Q_ASSERT( ranks.size() >= 1 );
-
-        // Note the order the cards are created in can't be changed as doing so
-        // will mess up the game numbering.
-        QList<quint32> ids;
-        for ( int i = 0; i < copies; ++i )
-            foreach ( const KStandardCardDeck::Rank & r, ranks )
-                foreach ( const KStandardCardDeck::Suit & s, suits )
-                    ids << ( s << 4 ) + r;
-
-        Q_ASSERT( ids.size() == copies * ranks.size() * suits.size() );
-
-        return ids;
-    }
 };
 
 
@@ -70,17 +51,35 @@ QList<KStandardCardDeck::Rank> KStandardCardDeck::standardRanks()
 }
 
 
-KStandardCardDeck::KStandardCardDeck( int copies, QList<Suit> suits, QList<Rank> ranks, QObject * parent )
-  : KAbstractCardDeck( d->generateIds( copies, suits, ranks ), parent ),
+KStandardCardDeck::KStandardCardDeck( QObject * parent )
+  : KAbstractCardDeck( parent ),
     d( new KStandardCardDeckPrivate )
 {
-    foreach ( KCard * c, cards() )
-        c->setObjectName( elementName( c->id() ) );
 }
 
 
 KStandardCardDeck::~KStandardCardDeck()
 {
+}
+
+
+void KStandardCardDeck::setDeckContents( int copies, QList<KStandardCardDeck::Suit> suits, QList<KStandardCardDeck::Rank> ranks)
+{
+    Q_ASSERT( copies >= 1 );
+    Q_ASSERT( suits.size() >= 1 );
+    Q_ASSERT( ranks.size() >= 1 );
+
+    // Note the order the cards are created in can't be changed as doing so
+    // will mess up the game numbering in KPat.
+    QList<quint32> ids;
+    for ( int i = 0; i < copies; ++i )
+        foreach ( const KStandardCardDeck::Rank & r, ranks )
+            foreach ( const KStandardCardDeck::Suit & s, suits )
+                ids << ( s << 4 ) + r;
+
+    Q_ASSERT( ids.size() == copies * ranks.size() * suits.size() );
+
+    KAbstractCardDeck::setDeckContents( ids );
 }
 
 

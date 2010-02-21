@@ -47,7 +47,7 @@ class Grandf : public DealerScene
     Q_OBJECT
 
 public:
-    Grandf( );
+    virtual void initialize();
 
 public slots:
     void deal( const QList<KCard*> & cardsToDeal );

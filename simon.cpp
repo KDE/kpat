@@ -46,10 +46,9 @@
 #include <KLocale>
 
 
-Simon::Simon( )
-    : DealerScene( )
+void Simon::initialize()
 {
-    setupDeck(new KStandardCardDeck());
+    static_cast<KStandardCardDeck*>( deck() )->setDeckContents();
 
     const qreal dist_x = 1.11;
 

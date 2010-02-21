@@ -56,7 +56,7 @@ class Spider : public DealerScene
     Q_OBJECT
 
 public:
-    Spider();
+    virtual void initialize();
     void deal();
     bool checkPileDeck(PatPile *to, bool checkForDemo = true);
     virtual void restart();

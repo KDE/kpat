@@ -77,9 +77,11 @@ void SpiderPile::moveCards(QList<KCard*> & c, KCardPile *to)
 
 //-------------------------------------------------------------------------//
 
-Spider::Spider()
-    : DealerScene(), m_leg(0), m_redeal(0)
+void Spider::initialize()
 {
+    m_leg = 0;
+    m_redeal = 0;
+
     const qreal dist_x = 1.12;
     const qreal smallNeg = -1e-6;
 
@@ -203,9 +205,6 @@ void Spider::setSuits(int suits)
 
 void Spider::createDeck()
 {
-    // Delete the existing CardDeck.
-    setupDeck( 0 );
-
     // These look a bit weird, but are needed to keep the game numbering
     // from breaking. The original logic always created groupings of 4
     // suits, while the new logic is more flexible. We maintain the card
@@ -219,7 +218,7 @@ void Spider::createDeck()
     else
         suits << KStandardCardDeck::Clubs << KStandardCardDeck::Diamonds << KStandardCardDeck::Hearts << KStandardCardDeck::Spades;
 
-    setupDeck( new KStandardCardDeck( 2, suits ) );
+    static_cast<KStandardCardDeck*>( deck() )->setDeckContents( 2, suits );
 }
 
 

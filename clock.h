@@ -45,7 +45,7 @@ class Clock : public DealerScene
     Q_OBJECT
 
 public:
-    Clock( );
+    virtual void initialize();
     virtual bool drop() { return false; }
 
 public slots:

@@ -46,13 +46,12 @@
 #include <KLocale>
 
 
-Golf::Golf( )
-    : DealerScene( )
+void Golf::initialize()
 {
     const qreal dist_x = 1.11;
     const qreal smallNeg = -1e-6;
 
-    setupDeck(new KStandardCardDeck());
+    static_cast<KStandardCardDeck*>( deck() )->setDeckContents();
 
     talon = new PatPile(0, "talon");
     talon->setPileRole(PatPile::Stock);

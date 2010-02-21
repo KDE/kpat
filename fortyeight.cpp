@@ -47,13 +47,12 @@
 #include <KLocale>
 
 
-Fortyeight::Fortyeight( )
-    : DealerScene()
+void Fortyeight::initialize()
 {
     const qreal dist_x = 1.11;
     const qreal smallNeg = -1e-6;
 
-    setupDeck(new KStandardCardDeck(2));
+    static_cast<KStandardCardDeck*>( deck() )->setDeckContents( 2 );
 
     talon = new PatPile(0, "talon");
     talon->setPileRole(PatPile::Stock);

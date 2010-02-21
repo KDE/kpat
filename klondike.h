@@ -49,7 +49,7 @@ class Klondike : public DealerScene {
     Q_OBJECT
 
 public:
-    explicit Klondike();
+    virtual void initialize();
     virtual void mapOldId(int id);
     virtual int oldId() const;
     virtual void restart();

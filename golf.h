@@ -46,7 +46,7 @@ class Golf : public DealerScene
     Q_OBJECT
 
 public:
-    Golf( );
+    virtual void initialize();
     void deal();
     virtual void restart();
 

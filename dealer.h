@@ -72,7 +72,7 @@ public:
     DealerScene();
     ~DealerScene();
 
-    void setupDeck( KAbstractCardDeck * deck );
+    virtual void initialize() = 0;
 
     virtual void relayoutScene();
 

@@ -39,11 +39,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-class cardMap;
 class DealerInfo;
 class DealerScene;
 class GameSelectionScene;
 class PatienceView;
+
+class KStandardCardDeck;
 
 class KAction;
 class KRecentFilesAction;
@@ -129,6 +130,7 @@ private:
     PatienceView   *m_view;
     DealerScene    *m_dealer;
     GameSelectionScene *m_selector;
+    KStandardCardDeck *m_cardDeck;
 
     QLabel         *solverStatus;
     QLabel         *moveStatus;
