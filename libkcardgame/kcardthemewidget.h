@@ -21,6 +21,8 @@
 
 #include "libkcardgame_export.h"
 
+#include <KConfigDialog>
+
 #include <QWidget>
 
 
@@ -35,6 +37,16 @@ public:
 
 private:
     class KCardThemeWidgetPrivate * const d;
+};
+
+
+class LIBKCARDGAME_EXPORT KCardThemeDialog : public KConfigDialog
+{
+public:
+    explicit KCardThemeDialog( QWidget * parent, KConfigSkeleton * config, const QString & previewString );
+    virtual ~KCardThemeDialog();
+
+    static bool showDialog();
 };
 
 #endif

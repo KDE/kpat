@@ -324,19 +324,10 @@ void MainWindow::slotSelectDeck()
 {
     const QString previewFormat = "back;10_spade,jack_diamond,queen_club,king_heart;1_spade";
 
-    if ( !KConfigDialog::showDialog( "cardTheme" ) )
+    if ( !KCardThemeDialog::showDialog() )
     {
-        KConfigDialog * dialog = new KConfigDialog( this, "cardTheme", Settings::self() );
-
-        // Leaving the header text and icon empty prevents the header from being shown.
-        dialog->addPage( new KCardThemeWidget( previewFormat, this ), QString() );
-
-        dialog->setFaceType( KPageDialog::Plain );
-        dialog->setButtons( KDialog::Ok | KDialog::Apply | KDialog::Cancel );
-        dialog->showButtonSeparator( false );
-
+        KCardThemeDialog * dialog = new KCardThemeDialog( this, Settings::self(), previewFormat );
         connect( dialog, SIGNAL(settingsChanged(QString)), this, SLOT(appearanceChanged()) );
-
         dialog->show();
     }
 }

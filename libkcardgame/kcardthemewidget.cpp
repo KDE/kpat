@@ -21,6 +21,7 @@
 
 #include "kcardcache.h"
 
+#include <KConfigDialog>
 #include <KDebug>
 #include <KLineEdit>
 #include <KLocale>
@@ -355,5 +356,28 @@ QString KCardThemeWidget::currentSelection() const
         return d->model->data( index, Qt::UserRole ).toString();
     else
         return QString();
+}
+
+
+KCardThemeDialog::KCardThemeDialog( QWidget * parent, KConfigSkeleton * config, const QString & previewString )
+  : KConfigDialog( parent, "KCardThemeDialog", config )
+{
+    // Leaving the header text and icon empty prevents the header from being shown.
+    addPage( new KCardThemeWidget( previewString, this ), QString() );
+
+    setFaceType( KPageDialog::Plain );
+    setButtons( KDialog::Ok | KDialog::Apply | KDialog::Cancel );
+    showButtonSeparator( false );
+}
+
+
+KCardThemeDialog::~KCardThemeDialog()
+{
+}
+
+
+bool KCardThemeDialog::showDialog()
+{
+    return KConfigDialog::showDialog( "KCardThemeDialog" );
 }
 
