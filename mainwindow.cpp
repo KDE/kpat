@@ -344,14 +344,14 @@ void MainWindow::slotSelectDeck()
 
 void MainWindow::appearanceChanged()
 {
-    if ( m_dealer )
+    if ( m_cardDeck && Settings::cardTheme() != m_cardDeck->theme().dirName() )
     {
-        QString currentTheme = m_dealer->deck()->theme().dirName();
-        QString newTheme = Settings::cardTheme();
-        if ( newTheme != currentTheme )
+        KCardTheme theme( Settings::cardTheme() );
+        if ( theme.isValid() )
         {
-            m_dealer->deck()->updateTheme( KCardTheme( newTheme ) );
-            m_dealer->relayoutScene();
+            m_cardDeck->updateTheme( KCardTheme( theme ) );
+            if ( m_dealer )
+                m_dealer->relayoutScene();
         }
     }
 }
@@ -726,7 +726,7 @@ void MainWindow::slotSnapshot()
 
 void MainWindow::slotSnapshot2()
 {
-    if ( m_dealer->deck()->hasAnimatedCards() )
+    if ( m_cardDeck->hasAnimatedCards() )
     {
             QTimer::singleShot( 100, this, SLOT( slotSnapshot2() ) );
             return;

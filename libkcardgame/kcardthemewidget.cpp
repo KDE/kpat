@@ -22,14 +22,16 @@
 #include "kcardcache.h"
 
 #include <KDebug>
+#include <KLineEdit>
 #include <KLocale>
 #include <KGlobal>
 #include <KPixmapCache>
+#include <KPushButton>
 #include <KStandardDirs>
+#include <knewstuff3/downloaddialog.h>
 
 #include <QtGui/QApplication>
 #include <QtGui/QFontMetrics>
-#include <QtGui/QLineEdit>
 #include <QtGui/QListView>
 #include <QtGui/QPainter>
 #include <QtGui/QPixmap>
@@ -245,6 +247,13 @@ QSize CardThemeDelegate::sizeHint( const QStyleOptionViewItem & option, const QM
 }
 
 
+KCardThemeWidgetPrivate::KCardThemeWidgetPrivate( KCardThemeWidget * q )
+  : QObject( q ),
+    q( q )
+{
+}
+
+
 void KCardThemeWidgetPrivate::updateLineEdit( const QModelIndex & index )
 {
     hiddenLineEdit->setText( model->data( index, Qt::UserRole ).toString() );
@@ -259,9 +268,18 @@ void KCardThemeWidgetPrivate::updateListView( const QString & dirName )
 }
 
 
+void KCardThemeWidgetPrivate::getNewCardThemes()
+{
+    KNS3::DownloadDialog dialog( "kcardtheme.knsrc", q );
+    dialog.exec();
+    if ( !dialog.changedEntries().isEmpty() )
+        model->reload();
+}
+
+
 KCardThemeWidget::KCardThemeWidget( const QString & previewString, QWidget * parent )
   : QWidget( parent ),
-    d( new KCardThemeWidgetPrivate() )
+    d( new KCardThemeWidgetPrivate( this ) )
 {
     d->previewString = previewString;
 
@@ -297,21 +315,28 @@ KCardThemeWidget::KCardThemeWidget( const QString & previewString, QWidget * par
     d->listView->setMinimumWidth( d->itemSize.width() * 1.1 ); 
     d->listView->setMinimumHeight( d->itemSize.height() * 2.5 );
 
-    d->hiddenLineEdit = new QLineEdit( this );
+    d->hiddenLineEdit = new KLineEdit( this );
     d->hiddenLineEdit->setObjectName( "kcfg_CardTheme" );
     d->hiddenLineEdit->hide();
     connect( d->listView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), d, SLOT(updateLineEdit(QModelIndex)) );
     connect( d->hiddenLineEdit, SIGNAL(textChanged(QString)), d, SLOT(updateListView(QString)) );
 
+    d->newDeckButton = new KPushButton( KIcon("get-hot-new-stuff"), "Get New Card Decks...", this );
+    connect( d->newDeckButton, SIGNAL(clicked(bool)), d, SLOT(getNewCardThemes()) );
+
+    QHBoxLayout * hLayout = new QHBoxLayout();
+    hLayout->addWidget( d->newDeckButton );
+    hLayout->addStretch( 1 );
+
     QVBoxLayout * layout = new QVBoxLayout( this );
     layout->addWidget( d->listView );
     layout->addWidget( d->hiddenLineEdit );
+    layout->addLayout( hLayout );
 }
 
 
 KCardThemeWidget::~KCardThemeWidget()
 {
-    delete d;
 }
 
 

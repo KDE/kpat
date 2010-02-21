@@ -24,7 +24,9 @@
 
 #include "kcardtheme.h"
 
+class KLineEdit;
 class KPixmapCache;
+class KPushButton;
 
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QTimer>
@@ -74,14 +76,21 @@ class KCardThemeWidgetPrivate : public QObject
 {
     Q_OBJECT
 
+public:
+    KCardThemeWidgetPrivate( KCardThemeWidget * parent );
+
 public slots:
     void updateLineEdit( const QModelIndex & index );
     void updateListView( const QString & dirName );
+    void getNewCardThemes();
 
 public:
+    KCardThemeWidget * q;
+
     CardThemeModel * model;
-    QLineEdit * hiddenLineEdit;
     QListView * listView;
+    KLineEdit * hiddenLineEdit;
+    KPushButton * newDeckButton;
 
     int itemMargin;
     int textHeight;
