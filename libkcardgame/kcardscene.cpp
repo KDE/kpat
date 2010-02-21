@@ -181,7 +181,7 @@ void KCardScene::resizeScene( const QSize & size )
 
 void KCardScene::relayoutScene()
 {
-    if ( !m_sizeHasBeenSet )
+    if ( !m_sizeHasBeenSet || !m_deck  )
         return;
 
     QSizeF usedArea( 0, 0 );
@@ -206,16 +206,16 @@ void KCardScene::relayoutScene()
     // Add the border to the size of the contents
     QSizeF sizeToFit = usedArea + 2 * QSizeF( m_layoutMargin, m_layoutMargin );
 
-    qreal scaleX = width() / ( deck()->cardWidth() * sizeToFit.width() );
-    qreal scaleY = height() / ( deck()->cardHeight() * sizeToFit.height() );
+    qreal scaleX = width() / ( m_deck->cardWidth() * sizeToFit.width() );
+    qreal scaleY = height() / ( m_deck->cardHeight() * sizeToFit.height() );
     qreal n_scaleFactor = qMin( scaleX, scaleY );
 
-    deck()->setCardWidth( n_scaleFactor * deck()->cardWidth() );
+    m_deck->setCardWidth( n_scaleFactor * m_deck->cardWidth() );
 
-    qreal usedPixelWidth = usedArea.width() * deck()->cardWidth();
-    qreal usedPixelHeight = usedArea.height() * deck()->cardHeight();
-    qreal pixelHMargin = m_layoutMargin * deck()->cardWidth();
-    qreal pixelVMargin = m_layoutMargin * deck()->cardHeight();
+    qreal usedPixelWidth = usedArea.width() * m_deck->cardWidth();
+    qreal usedPixelHeight = usedArea.height() * m_deck->cardHeight();
+    qreal pixelHMargin = m_layoutMargin * m_deck->cardWidth();
+    qreal pixelVMargin = m_layoutMargin * m_deck->cardHeight();
 
     qreal contentWidth;
     qreal xOffset;
@@ -236,7 +236,7 @@ void KCardScene::relayoutScene()
     }
     else
     {
-        contentWidth = width() - 2 * m_layoutMargin * deck()->cardWidth();
+        contentWidth = width() - 2 * m_layoutMargin * m_deck->cardWidth();
         xOffset = pixelHMargin;
     }
 
@@ -259,7 +259,7 @@ void KCardScene::relayoutScene()
     }
     else
     {
-        contentHeight = height() - 2 * m_layoutMargin * deck()->cardHeight();
+        contentHeight = height() - 2 * m_layoutMargin * m_deck->cardHeight();
         yOffset = pixelVMargin;
     }
 
@@ -272,12 +272,12 @@ void KCardScene::relayoutScene()
 
 void KCardScene::relayoutPiles( int duration )
 {
-    if ( !m_sizeHasBeenSet )
+    if ( !m_sizeHasBeenSet || !m_deck )
         return;
 
     QSize s = m_contentSize.toSize();
-    int cardWidth = deck()->cardWidth();
-    int cardHeight = deck()->cardHeight();
+    int cardWidth = m_deck->cardWidth();
+    int cardHeight = m_deck->cardHeight();
     const qreal spacing = m_layoutSpacing * ( cardWidth + cardHeight ) / 2;
 
     foreach ( KCardPile * p, piles() )
@@ -291,9 +291,9 @@ void KCardScene::relayoutPiles( int duration )
             pixlePos.ry() += m_contentSize.height() - cardHeight;
 
         p->setPos( pixlePos );
-        p->setGraphicSize( deck()->cardSize() );
+        p->setGraphicSize( m_deck->cardSize() );
 
-        QSizeF maxSpace = deck()->cardSize();
+        QSizeF maxSpace = m_deck->cardSize();
 
         if ( p->reservedSpace().width() > 1 && s.width() > p->x() + cardWidth )
             maxSpace.setWidth( s.width() - p->x() );
@@ -550,7 +550,7 @@ bool KCardScene::cardDoubleClicked( KCard * card )
 void KCardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 {
     // don't allow manual moves while animations are going on
-    if ( deck()->hasAnimatedCards() )
+    if ( m_deck && m_deck->hasAnimatedCards() )
         return;
 
     if ( e->button() == Qt::LeftButton )
@@ -675,7 +675,7 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
 
 void KCardScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
 {
-    if ( deck()->hasAnimatedCards() )
+    if ( m_deck && m_deck->hasAnimatedCards() )
         return;
 
     if ( !m_cardsBeingDragged.isEmpty() )
@@ -692,11 +692,11 @@ void KCardScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
 
 void KCardScene::wheelEvent( QGraphicsSceneWheelEvent * e )
 {
-    if ( e->modifiers() & Qt::ControlModifier )
+    if ( m_deck && e->modifiers() & Qt::ControlModifier )
     {
         qreal scaleFactor = pow( 2, e->delta() / qreal(10 * 120) );
-        int newWidth = deck()->cardWidth() * scaleFactor;
-        deck()->setCardWidth( newWidth );
+        int newWidth = m_deck->cardWidth() * scaleFactor;
+        m_deck->setCardWidth( newWidth );
         relayoutPiles();
     }
 }
@@ -708,14 +708,14 @@ void KCardScene::drawForeground ( QPainter * painter, const QRectF & rect )
     Q_UNUSED( painter )
 
 #if DEBUG_LAYOUT
-    if ( !m_sizeHasBeenSet )
+    if ( !m_sizeHasBeenSet || !m_deck  )
         return;
 
     painter->setPen( Qt::yellow );
     painter->drawRect( 0, 0, m_contentSize.width(), m_contentSize.height() );
 
-    const int cardWidth = deck()->cardWidth();
-    const int cardHeight = deck()->cardHeight();
+    const int cardWidth = m_deck->cardWidth();
+    const int cardHeight = m_deck->cardHeight();
     foreach ( const Pile * p, piles() )
     {
         if ( !p->isVisible() )
