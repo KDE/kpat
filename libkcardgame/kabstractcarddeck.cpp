@@ -282,6 +282,7 @@ void KAbstractCardDeck::paintCard( QPainter * painter, quint32 id, bool faceUp, 
         p.fillRect( 0, 0, pix.width(), pix.height(), Qt::black );
     }
 
+    painter->setRenderHint( QPainter::SmoothPixmapTransform );
     painter->drawPixmap( 0, 0, pix );
 }
 
