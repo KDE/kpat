@@ -164,31 +164,25 @@ bool Idiot::cardClicked(KCard *c)
     if (c != c->source()->top())
         return false;
 
-    KCard * sc = dynamic_cast<KCard*>( c );
-
-    bool  didMove = true;
-    if ( sc && canMoveAway(sc) )
-        // Add to 'm_away', face up, no spread
-        m_away->animatedAdd(c, true );
+    KCardPile * destination = 0;
+    if ( canMoveAway(c) )
+        destination = m_away;
     else if ( m_play[ 0 ]->isEmpty() )
-        // Add to pile 1, face up, spread.
-        m_play[0]->animatedAdd(c, true );
+        destination = m_play[0];
     else if ( m_play[ 1 ]->isEmpty() )
-        // Add to pile 2, face up, spread.
-        m_play[1]->animatedAdd(c, true );
+        destination = m_play[1];
     else if ( m_play[ 2 ]->isEmpty() )
-        // Add to pile 3, face up, spread.
-        m_play[2]->animatedAdd( c, true );
+        destination = m_play[2];
     else if ( m_play[ 3 ]->isEmpty() )
-        // Add to pile 4, face up, spread.
-        m_play[3]->animatedAdd(c, true );
-    else
-        didMove = false;
+        destination = m_play[3];
 
-    if ( didMove )
+    if ( destination )
+    {
+        moveCardToPile( c, destination, DURATION_MOVE );
         onGameStateAlteredByUser();
+    }
 
-    return didMove;
+    return destination != 0;
 }
 
 // The game is won when:
