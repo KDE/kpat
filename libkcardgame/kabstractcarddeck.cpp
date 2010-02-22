@@ -176,17 +176,21 @@ void KAbstractCardDeck::setDeckContents( QList<quint32> ids )
         d->cards << c;
     }
 
-    QHash<QString,QPair<QPixmap,QList<KCard*> > >::iterator it = d->elementIdMapping.begin();
-    QHash<QString,QPair<QPixmap,QList<KCard*> > >::iterator end = d->elementIdMapping.end();
-    while ( it != end )
+    d->elementIds = d->elementIdMapping.keys();
+
+    if ( d->currentCardSize.isValid() )
     {
-        if ( oldMapping.contains( it.key() ) )
-            it.value().first = oldMapping[ it.key() ].first;
+        QHash<QString,QPair<QPixmap,QList<KCard*> > >::iterator it = d->elementIdMapping.begin();
+        QHash<QString,QPair<QPixmap,QList<KCard*> > >::iterator end = d->elementIdMapping.end();
+        while ( it != end )
+        {
+            if ( oldMapping.contains( it.key() ) )
+                it.value().first = oldMapping[ it.key() ].first;
 
-        it.value().first = d->requestPixmap( it.key(), false );
+            it.value().first = d->requestPixmap( it.key(), false );
 
-        d->elementIds << it.key();
-        ++it;
+            ++it;
+        }
     }
 }
 
