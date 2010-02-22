@@ -93,7 +93,9 @@ public:
 
     virtual void moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
     void moveCardToPile( KCard * card, KCardPile * pile, int duration );
+    void moveCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal velocity );
     void flipCardToPile( KCard * card, KCardPile * pile, int duration );
+    void flipCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal velocity );
 
 protected:
     virtual void onGameStateAlteredByUser();
@@ -118,6 +120,8 @@ protected:
     virtual void drawForeground ( QPainter * painter, const QRectF & rect );
 
 private:
+    int calculateDuration( QPointF pos1, QPointF pos2, qreal velocity ) const;
+
     KAbstractCardDeck * m_deck;
     QList<KCardPile*> m_piles;
     QSet<QGraphicsItem*> m_highlightedItems;
