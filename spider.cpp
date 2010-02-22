@@ -196,18 +196,6 @@ void Spider::createDeck()
 }
 
 
-void Spider::cardStopped(KCard * t)
-{
-    for( int column = 0; column < 10; column++ ) {
-        KCard *t = stack[column]->top();
-        if (t && !t->isFaceUp())
-           t->animate( t->pos(), t->zValue(), 1.0, 0.0, true, true, DURATION_MOVE );
-    }
-    t->disconnect(this, SLOT( cardStopped( KCard* ) ) );
-}
-
-//-------------------------------------------------------------------------//
-
 bool Spider::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
 {
     // assuming the cardlist is a valid unit, since I allowed
@@ -344,7 +332,6 @@ bool Spider::checkPileDeck( KCardPile * pile, bool checkForDemo )
                 c->animate( leg->pos(), leg->zValue() + z, 1, 0, true, true, DURATION_AUTODROP * (0.7 + z / 10) );
                 ++z;
             }
-            connect(run.last(), SIGNAL(animationStopped(KCard*)), SLOT(cardStopped(KCard*)));
             m_leg++;
 
             pile->layoutCards( DURATION_RELAYOUT );

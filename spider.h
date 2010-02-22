@@ -59,7 +59,6 @@ public:
     virtual QList<QAction*> configActions() const;
 
 public slots:
-    void cardStopped(KCard *c);
     void gameTypeChanged();
     virtual KCard *newCards();
     void checkAllForRuns();
