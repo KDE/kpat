@@ -134,7 +134,7 @@ KCard::KCard( quint32 id, KAbstractCardDeck * deck )
     d->animation = 0;
 
     d->fadeAnimation = new QPropertyAnimation( d, "highlightedness", d );
-    d->fadeAnimation->setDuration( DURATION_CARDHIGHLIGHT );
+    d->fadeAnimation->setDuration( 150 );
     d->fadeAnimation->setKeyValueAt( 0, 0 );
     d->fadeAnimation->setKeyValueAt( 1, 1 );
 }

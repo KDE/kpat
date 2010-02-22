@@ -127,7 +127,7 @@ void Golf::deal()
 
     startDealAnimation();
 
-    flipCardToPile(talon->top(), waste, DURATION_FLIP);
+    flipCardToPile(talon->top(), waste, DURATION_MOVE);
 }
 
 KCard *Golf::newCards()
@@ -140,7 +140,7 @@ KCard *Golf::newCards()
 
     clearHighlightedItems();
 
-    flipCardToPile(talon->top(), waste, DURATION_FLIP);
+    flipCardToPile(talon->top(), waste, DURATION_MOVE);
 
     onGameStateAlteredByUser();
     if ( talon->isEmpty() )

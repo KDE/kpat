@@ -65,7 +65,7 @@ KCardPile::KCardPile( const QString & objectName )
     setMaximumSpace( QSizeF( 1, 1 ) ); // just to make it valid
 
     m_fadeAnimation = new QPropertyAnimation( this, "highlightedness", this );
-    m_fadeAnimation->setDuration( DURATION_CARDHIGHLIGHT );
+    m_fadeAnimation->setDuration( 150 );
     m_fadeAnimation->setKeyValueAt( 0, 0 );
     m_fadeAnimation->setKeyValueAt( 1, 1 );
 }
@@ -279,8 +279,8 @@ void KCardPile::animatedAdd( KCard * card, bool faceUp )
     add( card );
 
     if ( origPile )
-        origPile->layoutCards();
-    layoutCards();
+        origPile->layoutCards( DURATION_RELAYOUT );
+    layoutCards( DURATION_RELAYOUT );
 
     card->completeAnimation();
     QPointF destPos = card->pos();
@@ -371,7 +371,7 @@ void KCardPile::layoutCards( int duration )
     }
 
     if ( m_autoTurnTop && !top()->isFaceUp() )
-        top()->animate( cardPos, z, 1, 0, true, false, DURATION_FLIP );
+        top()->animate( cardPos, z, 1, 0, true, false, duration );
     else
         top()->animate( cardPos, z, 1, 0, top()->isFaceUp(), false, duration );
 }

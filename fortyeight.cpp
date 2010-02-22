@@ -123,12 +123,12 @@ KCard *Fortyeight::newCards()
         lastdeal = true;
         while (pile->count() > 1)
         {
-            flipCardToPile( pile->top(), talon, DURATION_FLIP );
+            flipCardToPile( pile->top(), talon, DURATION_MOVE );
         }
     }
     else
     {
-        flipCardToPile( talon->top(), pile, DURATION_FLIP );
+        flipCardToPile( talon->top(), pile, DURATION_MOVE );
     }
 
     onGameStateAlteredByUser();
@@ -193,7 +193,7 @@ void Fortyeight::deal()
 
     startDealAnimation();
 
-    flipCardToPile( talon->top(), pile, DURATION_FLIP );
+    flipCardToPile( talon->top(), pile, DURATION_MOVE );
 }
 
 QString Fortyeight::getGameState()

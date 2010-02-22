@@ -207,7 +207,7 @@ KCard *Klondike::newCards()
             c->setFaceUp( false );
             talon->add(c);
         }
-        talon->layoutCards();
+        talon->layoutCards( DURATION_RELAYOUT );
 
         redealt = true;
     }
@@ -219,7 +219,7 @@ KCard *Klondike::newCards()
             pile->add( talon->top() );
             flippedCards << pile->top();
         }
-        pile->layoutCards();
+        pile->layoutCards( DURATION_RELAYOUT );
         int flipped = 0;
         foreach ( KCard *c, flippedCards )
         {
@@ -227,7 +227,7 @@ KCard *Klondike::newCards()
             c->completeAnimation();
             QPointF destPos = c->pos();
             c->setPos( talon->pos() );
-            c->animate( destPos, c->zValue(), 1.0, 0.0, true, true, DURATION_FLIP * ( 1 + flipped / 6.0) );
+            c->animate( destPos, c->zValue(), 1.0, 0.0, true, true, DURATION_MOVE * ( 1 + flipped / 6.0) );
         }
     }
 

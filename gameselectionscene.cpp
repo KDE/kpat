@@ -34,9 +34,10 @@
 #include <cmath>
 
 
-static const qreal boxPaddingRatio = 0.035;
-static const qreal spacingRatio = 0.10;
-static const qreal textToTotalHeightRatio = 1 / 6.0;
+const qreal boxPaddingRatio = 0.035;
+const qreal spacingRatio = 0.10;
+const qreal textToTotalHeightRatio = 1 / 6.0;
+const int hoverTransitionDuration = 300;
 
 #include <KDebug>
 class GameSelectionScene::GameSelectionBox : public QGraphicsObject
@@ -52,7 +53,7 @@ public:
         m_highlightFadeAmount( 0 )
     {
         setAcceptHoverEvents( true );
-        m_anim->setDuration( DURATION_HOVERFADE );
+        m_anim->setDuration( hoverTransitionDuration );
         m_anim->setStartValue( qreal( 0.0 ) );
         m_anim->setEndValue( qreal( 1.0 ) );
         m_anim->setEasingCurve( QEasingCurve::InOutSine );

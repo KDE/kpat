@@ -201,7 +201,7 @@ void Spider::cardStopped(KCard * t)
     for( int column = 0; column < 10; column++ ) {
         KCard *t = stack[column]->top();
         if (t && !t->isFaceUp())
-           t->animate( t->pos(), t->zValue(), 1.0, 0.0, true, true, DURATION_FLIP );
+           t->animate( t->pos(), t->zValue(), 1.0, 0.0, true, true, DURATION_MOVE );
     }
     t->disconnect(this, SLOT( cardStopped( KCard* ) ) );
 }
@@ -347,7 +347,7 @@ bool Spider::checkPileDeck( KCardPile * pile, bool checkForDemo )
             connect(run.last(), SIGNAL(animationStopped(KCard*)), SLOT(cardStopped(KCard*)));
             m_leg++;
 
-            pile->layoutCards();
+            pile->layoutCards( DURATION_RELAYOUT );
 
             return true;
         }

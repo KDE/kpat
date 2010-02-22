@@ -100,7 +100,7 @@ public:
     virtual void remove( KCard * card );
     void clear();
 
-    virtual void layoutCards( int duration = DURATION_RELAYOUT );
+    virtual void layoutCards( int duration );
 
     void cardPressed( KCard * card );
 
