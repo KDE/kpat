@@ -42,41 +42,9 @@
 #include "shuffle.h"
 
 #include <KDebug>
-#include <KGlobal>
 
-#include <QtCore/QCache>
 #include <QtCore/QTimer>
 #include <QtGui/QPainter>
-
-class CardDeckPrivateStatic
-{
-public:
-    CardDeckPrivateStatic()
-      : m_cacheCache( 3 )
-    {}
-
-    KCardCache2 * getCardCache( const QString & frontSide )
-    {
-        KCardCache2 * cache = m_cacheCache.take( frontSide );
-        if ( !cache )
-        {
-            cache = new KCardCache2( KCardTheme( frontSide ) );
-        }
-        return cache;
-    };
-
-    void stashCardCache( KCardCache2 * cache )
-    {
-        if ( cache )
-            m_cacheCache.insert( cache->theme().dirName(), cache );
-    };
-
-private:
-    QCache<QString,KCardCache2> m_cacheCache;
-};
-
-K_GLOBAL_STATIC( CardDeckPrivateStatic, cdps )
-
 
 
 class KAbstractCardDeckPrivate : public QObject
@@ -175,8 +143,6 @@ KAbstractCardDeck::~KAbstractCardDeck()
     foreach ( KCard * c, d->cards )
         delete c;
     d->cards.clear();
-
-    cdps->stashCardCache( d->cache );
 
     delete d;
 }
@@ -284,8 +250,8 @@ void KAbstractCardDeck::updateTheme( const KCardTheme & theme )
 {
     Q_ASSERT ( theme.isValid() );
 
-    cdps->stashCardCache( d->cache );
-    d->cache = cdps->getCardCache( theme.dirName() );
+    delete d->cache;
+    d->cache = new KCardCache2( theme );
     connect( d->cache, SIGNAL(renderingDone(QString,QPixmap)), d, SLOT(pixmapUpdated(QString,QPixmap)) );
 
     d->originalCardSize = d->cache->naturalSize( "back" );
