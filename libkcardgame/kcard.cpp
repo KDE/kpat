@@ -26,6 +26,8 @@
 #include <QtCore/QPropertyAnimation>
 #include <QtGui/QPainter>
 
+#include <cmath>
+
 
 KCardAnimation::KCardAnimation( KCardPrivate * d,
                                 int duration,
@@ -41,12 +43,18 @@ KCardAnimation::KCardAnimation( KCardPrivate * d,
     m_rotation0( d->q->rotation() ),
     m_scale0( d->q->scale() ),
     m_flippedness0( d->flippedness() ),
-    m_x1( pos.x() ),
-    m_y1( pos.y() ),
-    m_rotation1( rotation ),
-    m_scale1( scale ),
-    m_flippedness1( faceUp ? 1.0 : 0.0 )
+    m_xDelta( pos.x() - m_x0 ),
+    m_yDelta( pos.y() - m_y0 ),
+    m_rotationDelta( rotation - m_rotation0 ),
+    m_scaleDelta( scale - m_scale0 ),
+    m_flippednessDelta( (faceUp ? 1.0 : 0.0) - m_flippedness0 )
 {
+    qreal w = d->deck->cardWidth();
+    qreal h = d->deck->cardHeight();
+    qreal diagSquared = w * w + h * h;
+    qreal distSquared = m_xDelta * m_xDelta + m_yDelta * m_yDelta;
+
+    m_flipProgressFactor = qMax<qreal>( 1, sqrt( distSquared / diagSquared ) );
 }
 
 
@@ -59,11 +67,12 @@ int KCardAnimation::duration() const
 void KCardAnimation::updateCurrentTime( int msec )
 {
     qreal progress = qreal(msec) / m_duration;
+    qreal flipProgress = qMin<qreal>( 1, progress * m_flipProgressFactor );
 
-    d->q->setPos( m_x0 + (m_x1 - m_x0) * progress, m_y0 + (m_y1 - m_y0) * progress );
-    d->q->setRotation( m_rotation0 + (m_rotation1 - m_rotation0) * progress );
-    d->q->setScale( m_scale0 + (m_scale1 - m_scale0) * progress );
-    d->setFlippedness( m_flippedness0 + (m_flippedness1 - m_flippedness0) * progress );
+    d->q->setPos( m_x0 + m_xDelta * progress, m_y0 + m_yDelta * progress );
+    d->q->setRotation( m_rotation0 + m_rotationDelta * progress );
+    d->q->setScale( m_scale0 + m_scaleDelta * progress );
+    d->setFlippedness( m_flippedness0 + m_flippednessDelta * flipProgress );
 }
 
 

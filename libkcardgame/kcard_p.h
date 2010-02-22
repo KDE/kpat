@@ -46,11 +46,13 @@ private:
     qreal m_scale0;
     qreal m_flippedness0;
 
-    qreal m_x1;
-    qreal m_y1;
-    qreal m_rotation1;
-    qreal m_scale1;
-    qreal m_flippedness1;
+    qreal m_xDelta;
+    qreal m_yDelta;
+    qreal m_rotationDelta;
+    qreal m_scaleDelta;
+    qreal m_flippednessDelta;
+
+    qreal m_flipProgressFactor;
 };
 
 
