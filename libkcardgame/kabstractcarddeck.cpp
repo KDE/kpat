@@ -106,12 +106,6 @@ public slots:
     }
 
 
-    void loadInBackground()
-    {
-        cache->loadInBackground( elementIds );
-    };
-
-
 public:
     KAbstractCardDeck * q;
 
@@ -221,7 +215,7 @@ void KAbstractCardDeck::setCardWidth( int width )
         foreach ( KCard * c, d->cards )
             c->update();
 
-        QTimer::singleShot( 0, d, SLOT(loadInBackground()) );;
+        d->cache->loadInBackground( d->elementIds );
     }
 }
 
