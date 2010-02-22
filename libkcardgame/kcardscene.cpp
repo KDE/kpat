@@ -424,6 +424,25 @@ void KCardScene::setItemHighlight( QGraphicsItem * item, bool highlight )
 }
 
 
+void KCardScene::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration )
+{
+    if ( cards.isEmpty() )
+        return;
+
+    KCardPile * source = cards.first()->source();
+
+    foreach ( KCard * c, cards )
+    {
+        Q_ASSERT( c->source() == source );
+        pile->add( c );
+    }
+
+    source->layoutCards();
+
+    pile->moveCardsBack( cards, duration );
+}
+
+
 void KCardScene::flipCardToPile( KCard * card, KCardPile * pile, int duration )
 {
     QPointF origPos = card->pos();
@@ -657,7 +676,7 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
         KCardPile * destination = targetPile();
         if ( destination )
         {
-            m_cardsBeingDragged.first()->source()->moveCards( m_cardsBeingDragged, destination );
+            moveCardsToPile( m_cardsBeingDragged, destination, DURATION_MOVE );
             onGameStateAlteredByUser();
         }
         else

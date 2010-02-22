@@ -41,13 +41,6 @@
 #include "hint.h"
 
 
-class FreecellPile : public PatPile
-{
-public:
-    explicit FreecellPile(int _index, const QString & objectName = QString()) : PatPile(_index, objectName) {}
-    virtual void moveCards(QList<KCard*> &c, KCardPile *to);
-};
-
 class Freecell : public DealerScene
 {
     friend class FreecellSolver;
@@ -56,7 +49,7 @@ class Freecell : public DealerScene
 
 public:
     virtual void initialize();
-    void moveCards(QList<KCard*> &c, FreecellPile *from, PatPile *to);
+    virtual void moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
     virtual ~Freecell();
 
 public slots:
@@ -75,17 +68,13 @@ protected:
     void movePileToPile(QList<KCard*> &c, PatPile *to, QList<PatPile*> & fss, QList<PatPile*> & fcs,
                         int start, int count, int debug_level);
 
-    KCardPile *pileForName(QString line) const;
-
-    MoveHint *translateMove(void *m);
-
     virtual void newDemoMove(KCard *m);
     virtual bool cardDoubleClicked(KCard *c);
     virtual void deal();
     virtual void getHints();
 
 protected:
-    FreecellPile* store[8];
+    PatPile* store[8];
     PatPile* freecell[4];
     PatPile* target[4];
 
@@ -93,7 +82,6 @@ private:
     QList<MoveHint*> moves;
     int sum_moves;
     int current_weight;
-    bool noLongerNeeded(const KCard &);
 };
 
 #endif

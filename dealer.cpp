@@ -1008,7 +1008,7 @@ bool DealerScene::cardDoubleClicked( KCard * c )
     if (c == c->source()->top() && c->isFaceUp() && allowedToRemove(c->source(), c)) {
         KCardPile *tgt = findTarget(c);
         if (tgt) {
-            c->source()->moveCards(QList<KCard*>() << c , tgt);
+            moveCardsToPile( QList<KCard*>() << c , tgt, DURATION_MOVE );
             onGameStateAlteredByUser();
             return true;
         }
@@ -1158,7 +1158,7 @@ bool DealerScene::drop()
             foreach ( KCard *c, cards )
                 oldPositions.insert( c, c->pos() );
 
-            t->source()->moveCards( cards, mh->pile() );
+            moveCardsToPile( cards, mh->pile(), DURATION_MOVE );
 
             bool animationStarted = false;
             int count = 0;
@@ -1413,7 +1413,7 @@ void DealerScene::demo()
         assert(mh->card()->source() != mh->pile());
         assert(mh->pile()->isFoundation() || allowedToAdd(mh->pile(), empty));
 
-        mh->card()->source()->moveCards(empty, mh->pile());
+        moveCardsToPile( empty, mh->pile(), DURATION_MOVE );
 
         foreach (KCard *c, empty) {
             c->completeAnimation();

@@ -53,20 +53,6 @@
 
 const int CHUNKSIZE = 100;
 
-void FreecellPile::moveCards(QList<KCard*> &c, KCardPile *to)
-{
-    if (c.count() == 1) {
-        KCardPile::moveCards(c, to);
-        return;
-    }
-    Freecell *b = dynamic_cast<Freecell*>(scene());
-    PatPile *p = dynamic_cast<PatPile*>(to);
-    if (b && p) {
-        b->moveCards(c, this, p);
-    }
-}
-
-//-------------------------------------------------------------------------//
 
 void Freecell::initialize()
 {
@@ -78,7 +64,7 @@ void Freecell::initialize()
 
     for (int i = 0; i < 8; i++)
     {
-        FreecellPile *p = new FreecellPile(1 + i, QString( "store%1" ).arg( i ));
+        PatPile *p = new PatPile(1 + i, QString( "store%1" ).arg( i ));
         store[i] = p;
         p->setPileRole(PatPile::Tableau);
         p->setPilePos( bottomRowDist * i, 1.3 );
@@ -132,32 +118,40 @@ void Freecell::countFreeCells(int &free_cells, int &free_stores) const
         if (store[i]->isEmpty()) free_stores++;
 }
 
-void Freecell::moveCards(QList<KCard*> &c, FreecellPile *from, PatPile *to)
+void Freecell::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration )
 {
-    Q_ASSERT(c.count() > 1);
-
-    from->moveCardsBack(c);
-
-    QList<PatPile*> fcs;
-
-    for (int i = 0; i < 4; i++)
-        if (freecell[i]->isEmpty()) fcs.append(freecell[i]);
-
-    QList<PatPile*> fss;
-
-    for (int i = 0; i < 8; i++)
-        if (store[i]->isEmpty() && to != store[i]) fss.append(store[i]);
-
-    if (fcs.count() == 0) {
-        Q_ASSERT(fss.count());
-        fcs.append(fss.last());
-        fss.erase(--fss.end());
+    if ( cards.size() <= 1 )
+    {
+        KCardScene::moveCardsToPile( cards, pile, duration );
+        return;
     }
-    while (moves.count()) { delete moves.first(); moves.erase(moves.begin()); }
+
+    PatPile * destPile = static_cast<PatPile*>( pile );
+
+    cards.first()->source()->moveCardsBack( cards, duration );
+
+    QList<PatPile*> emptyFreeCells;
+    for ( int i = 0; i < 4; ++i )
+        if ( freecell[i]->isEmpty() )
+            emptyFreeCells << freecell[i];
+
+    QList<PatPile*> emptyStores;
+    for ( int i = 0; i < 8; ++i )
+        if ( store[i]->isEmpty() && destPile != store[i] )
+            emptyStores << store[i];
+
+    if ( emptyFreeCells.isEmpty() )
+    {
+        Q_ASSERT( !emptyStores.isEmpty() );
+        emptyFreeCells << emptyStores.takeLast();
+    }
+
+    qDeleteAll( moves );
+    moves.clear();
 
     sum_moves = 0;
     current_weight = 1000;
-    movePileToPile(c, to, fss, fcs, 0, c.count(), 0);
+    movePileToPile( cards, destPile, emptyStores, emptyFreeCells, 0, cards.size(), 0);
 
     if (deck()->hasAnimatedCards())
         connect(deck(), SIGNAL(cardAnimationDone()), this, SLOT(waitForMoving()));
@@ -247,7 +241,7 @@ void Freecell::startMoving()
     Q_ASSERT(allowedToAdd(mh->pile(), empty));
     mh->pile()->add(mh->card());
 
-    int duration = qMax( DURATION_MOVEBACK * mh->priority() / 1000, 1 );
+    int duration = qMax( DURATION_MOVE * mh->priority() / 1000, 1 );
     mh->pile()->moveCardsBack(empty, duration );
     p->layoutCards( duration );
     kDebug() << "wait for moving end" << mh->card()->objectName() << mh->priority();
@@ -288,7 +282,7 @@ bool Freecell::cardDoubleClicked(KCard *c)
         {
             if (freecell[i]->isEmpty())
             {
-                c->source()->moveCards(QList<KCard*>() << c, freecell[i]);
+                moveCardsToPile( QList<KCard*>() << c, freecell[i], DURATION_MOVE );
                 onGameStateAlteredByUser();
                 return true;
             }

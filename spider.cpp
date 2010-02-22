@@ -51,32 +51,6 @@
 #include <KSelectAction>
 
 
-void SpiderPile::moveCards(QList<KCard*> & c, KCardPile *to)
-{
-    KCardPile::moveCards(c, to);
-
-    // if this is a leg pile, don't do anything special
-    PatPile * p = dynamic_cast<PatPile*>( to );
-    if ( !p || p->pileRole() == Foundation )
-        return;
-
-    // if the top card of the list I just moved is an Ace,
-    // the run I just moved is the same suit as the pile,
-    // and the destination pile now has more than 12 cards,
-    // then it could have a full deck that needs removed.
-    if (getRank( c.last() ) == KStandardCardDeck::Ace &&
-        getSuit( c.first() ) == getSuit( p->top() ) &&
-        p->count() > 12)
-    {
-            Spider *b = dynamic_cast<Spider*>(scene());
-            if (b) {
-                b->checkPileDeck(p);
-            }
-    }
-}
-
-//-------------------------------------------------------------------------//
-
 void Spider::initialize()
 {
     m_leg = 0;
@@ -104,7 +78,7 @@ void Spider::initialize()
 
     // The 10 playing piles
     for( int column = 0; column < 10; column++ ) {
-        stack[column] = new SpiderPile(column + 6, QString( "stack%1" ).arg( column ));
+        stack[column] = new PatPile(column + 6, QString( "stack%1" ).arg( column ));
         stack[column]->setPileRole(PatPile::Tableau);
         stack[column]->setPilePos(dist_x * column, 0);
         stack[column]->setZValue(20);
@@ -326,17 +300,39 @@ QList<KCard*> Spider::getRun(KCard *c) const
     return result;
 }
 
-bool Spider::checkPileDeck(PatPile *check, bool checkForDemo)
+
+void Spider::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration )
+{
+    KCardScene::moveCardsToPile( cards, pile, duration );
+
+    PatPile * p = dynamic_cast<PatPile*>( pile );
+
+    // if the top card of the list I just moved is an Ace,
+    // the run I just moved is the same suit as the pile,
+    // and the destination pile now has more than 12 cards,
+    // then it could have a full deck that needs removed.
+    if ( p
+         && p->pileRole() != PatPile::Foundation
+         && getRank( cards.last() ) == KStandardCardDeck::Ace
+         && getSuit( cards.first() ) == getSuit( p->top() )
+         && p->count() > 12 )
+    {
+        checkPileDeck( p );
+    }
+}
+
+
+bool Spider::checkPileDeck( KCardPile * pile, bool checkForDemo )
 {
     if ( checkForDemo && demoActive() )
         return false;
 
-    if (check->isEmpty())
+    if (pile->isEmpty())
         return false;
 
-    if ( getRank( check->top() ) == KStandardCardDeck::Ace) {
+    if ( getRank( pile->top() ) == KStandardCardDeck::Ace) {
         // just using the CardList to see if this goes to King
-        QList<KCard*> run = getRun(check->top());
+        QList<KCard*> run = getRun(pile->top());
         if ( getRank( run.first() ) == KStandardCardDeck::King) {
             PatPile *leg = legs[m_leg];
             leg->setVisible(true);
@@ -351,7 +347,7 @@ bool Spider::checkPileDeck(PatPile *check, bool checkForDemo)
             connect(run.last(), SIGNAL(animationStopped(KCard*)), SLOT(cardStopped(KCard*)));
             m_leg++;
 
-            check->layoutCards();
+            pile->layoutCards();
 
             return true;
         }

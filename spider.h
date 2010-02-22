@@ -42,13 +42,6 @@
 class KSelectAction;
 
 
-class SpiderPile : public PatPile
-{
-public:
-    explicit SpiderPile(int _index, const QString & objectName = QString()) : PatPile(_index, objectName) {}
-    virtual void moveCards(QList<KCard*> & c, KCardPile *to);
-};
-
 class Spider : public DealerScene
 {
     friend class SpiderSolver;
@@ -58,7 +51,8 @@ class Spider : public DealerScene
 public:
     virtual void initialize();
     void deal();
-    bool checkPileDeck(PatPile *to, bool checkForDemo = true);
+    virtual void moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
+    bool checkPileDeck( KCardPile * pile, bool checkForDemo = true );
     virtual void restart();
     virtual void mapOldId(int id);
     virtual int oldId() const;
@@ -85,7 +79,7 @@ private:
     void createDeck();
     QPointF randomPos();
 
-    SpiderPile *stack[10];
+    PatPile *stack[10];
     PatPile *legs[8];
     int m_leg;
     PatPile *redeals[5];

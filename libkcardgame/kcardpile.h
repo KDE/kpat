@@ -101,8 +101,7 @@ public:
     void clear();
 
     virtual void layoutCards( int duration = DURATION_RELAYOUT );
-    virtual void moveCardsBack( QList<KCard*> & cards, int duration = DURATION_MOVEBACK );
-    virtual void moveCards( QList<KCard*> & cards, KCardPile * pile );
+    virtual void moveCardsBack( QList<KCard*> & cards, int duration = DURATION_MOVE );
 
     void cardPressed( KCard * card );
 

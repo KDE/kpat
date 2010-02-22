@@ -389,23 +389,6 @@ void KCardPile::moveCardsBack( QList<KCard*> & cards, int duration )
 }
 
 
-void KCardPile::moveCards( QList<KCard*> & cards, KCardPile * pile )
-{
-    if ( cards.isEmpty() )
-        return;
-
-    foreach ( KCard * c, cards )
-    {
-        Q_ASSERT( c->source() == this );
-        pile->add( c );
-    }
-
-    layoutCards();
-
-    pile->moveCardsBack( cards );
-}
-
-
 void KCardPile::cardPressed( KCard * card )
 {
     emit pressed( card );
