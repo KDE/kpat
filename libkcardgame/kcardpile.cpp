@@ -377,18 +377,6 @@ void KCardPile::layoutCards( int duration )
 }
 
 
-void KCardPile::moveCardsBack( QList<KCard*> & cards, int duration )
-{
-    if ( cards.isEmpty() )
-        return;
-
-    foreach ( KCard * c, cards )
-        c->raise();
-
-    layoutCards( duration );
-}
-
-
 void KCardPile::cardPressed( KCard * card )
 {
     emit pressed( card );

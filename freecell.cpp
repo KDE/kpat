@@ -128,7 +128,7 @@ void Freecell::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int durat
 
     PatPile * destPile = static_cast<PatPile*>( pile );
 
-    cards.first()->source()->moveCardsBack( cards, duration );
+    cards.first()->source()->layoutCards( duration );
 
     QList<PatPile*> emptyFreeCells;
     for ( int i = 0; i < 4; ++i )
@@ -231,18 +231,18 @@ void Freecell::startMoving()
         return;
     }
 
-    MoveHint *mh = moves.first();
-    moves.erase(moves.begin());
+    MoveHint * mh = moves.takeFirst();
     QList<KCard*> empty;
     empty.append(mh->card());
-    
+
     KCardPile * p = mh->card()->source();
     Q_ASSERT(mh->card() == p->top());
     Q_ASSERT(allowedToAdd(mh->pile(), empty));
     mh->pile()->add(mh->card());
 
     int duration = qMax( DURATION_MOVE * mh->priority() / 1000, 1 );
-    mh->pile()->moveCardsBack(empty, duration );
+    mh->card()->raise();
+    mh->pile()->layoutCards( duration );
     p->layoutCards( duration );
     kDebug() << "wait for moving end" << mh->card()->objectName() << mh->priority();
 

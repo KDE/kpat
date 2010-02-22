@@ -435,11 +435,12 @@ void KCardScene::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int dur
     {
         Q_ASSERT( c->source() == source );
         pile->add( c );
+        c->raise();
     }
 
     source->layoutCards();
 
-    pile->moveCardsBack( cards, duration );
+    pile->layoutCards( duration );
 }
 
 
@@ -647,7 +648,7 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
         {
             if ( !m_cardsBeingDragged.isEmpty() )
             {
-                m_cardsBeingDragged.first()->source()->moveCardsBack(m_cardsBeingDragged);
+                m_cardsBeingDragged.first()->source()->layoutCards( DURATION_MOVE );
                 m_cardsBeingDragged.clear();
             }
 
@@ -681,7 +682,7 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
         }
         else
         {
-            m_cardsBeingDragged.first()->source()->moveCardsBack(m_cardsBeingDragged);
+            m_cardsBeingDragged.first()->source()->layoutCards( DURATION_MOVE );
         }
         m_cardsBeingDragged.clear();
         m_dragStarted = false;
@@ -696,7 +697,7 @@ void KCardScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
 
     if ( !m_cardsBeingDragged.isEmpty() )
     {
-        m_cardsBeingDragged.first()->source()->moveCardsBack( m_cardsBeingDragged );
+        m_cardsBeingDragged.first()->source()->layoutCards( DURATION_MOVE );
         m_cardsBeingDragged.clear();
     }
 
