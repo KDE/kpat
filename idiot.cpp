@@ -97,9 +97,7 @@ void Idiot::restart()
         talon->add( c );
     }
 
-    // Move the four top cards of the deck to the piles, faceup, spread out.
-    for ( int i = 0; i < 4; ++i )
-        m_play[ i ]->animatedAdd( talon->top(), true );
+    dealRow();
 
     emit newCardsPossible(true);
 }
@@ -229,9 +227,7 @@ KCard *Idiot::newCards()
 
     clearHighlightedItems();
 
-    // Move the four top cards of the deck to the piles, faceup, spread out.
-    for ( int i = 0; i < 4; ++i )
-        m_play[ i ]->animatedAdd( talon->top(), true );
+    dealRow();
 
     onGameStateAlteredByUser();
     if ( talon->isEmpty() )
@@ -239,6 +235,24 @@ KCard *Idiot::newCards()
 
     return m_play[0]->top();
 }
+
+
+void Idiot::dealRow()
+{
+    Q_ASSERT(talon->count() >= 4);
+
+    for ( int i = 0; i < 4; ++i )
+    {
+        KCard * c = talon->top();
+//         c->setFaceUp( true );
+//         moveCardToPileAtSpeed( c, m_play[i], DEAL_SPEED );
+        flipCardToPileAtSpeed( c, m_play[i], DEAL_SPEED );
+
+        // Fudge the z values so that cards don't appear to pop through one another.
+        c->setZValue( c->zValue() + i );
+    }
+}
+
 
 void Idiot::setGameState(const QString &)
 {

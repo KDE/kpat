@@ -23,6 +23,8 @@
 
 const qreal SPEED_FACTOR = 1;
 
+const qreal DEAL_SPEED = 4 / SPEED_FACTOR;
+
 const int DURATION_DEAL        = SPEED_FACTOR * 1500;
 const int DURATION_WON         = SPEED_FACTOR * 2000;
 const int DURATION_DEMO        = SPEED_FACTOR * 300;

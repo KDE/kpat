@@ -65,6 +65,7 @@ protected:
     virtual void  setGameState(const QString &);
 
 private:
+    void dealRow();
     bool canMoveAway(const KCard * card) const;
 
     PatPile  *talon;
