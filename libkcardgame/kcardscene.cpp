@@ -438,7 +438,7 @@ void KCardScene::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int dur
         c->raise();
     }
 
-    source->layoutCards();
+    source->layoutCards( duration );
 
     pile->layoutCards( duration );
 }
@@ -454,11 +454,10 @@ void KCardScene::flipCardToPile( KCard * card, KCardPile * pile, int duration )
 {
     QPointF origPos = card->pos();
 
-    pile->add( card );
-    pile->layoutCards();
+    moveCardToPile( card, pile, duration );
+
     card->completeAnimation();
     QPointF destPos = card->pos();
-
     card->setPos( origPos );
     card->animate( destPos, card->zValue(), 1.0, 0.0, !card->isFaceUp(), true, duration );
 }
