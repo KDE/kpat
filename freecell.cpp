@@ -282,7 +282,7 @@ bool Freecell::cardDoubleClicked(KCard *c)
         {
             if (freecell[i]->isEmpty())
             {
-                moveCardsToPile( QList<KCard*>() << c, freecell[i], DURATION_MOVE );
+                moveCardToPile( c, freecell[i], DURATION_MOVE );
                 onGameStateAlteredByUser();
                 return true;
             }

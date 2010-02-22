@@ -162,7 +162,7 @@ bool Golf::cardClicked(KCard *c)
     KCardPile*p=findTarget(c);
     if (p)
     {
-        moveCardsToPile( QList<KCard*>() << c, p, DURATION_MOVE );
+        moveCardToPile( c, p, DURATION_MOVE );
         onGameStateAlteredByUser();
         return true;
     }

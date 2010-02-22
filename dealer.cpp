@@ -1008,7 +1008,7 @@ bool DealerScene::cardDoubleClicked( KCard * c )
     if (c == c->source()->top() && c->isFaceUp() && allowedToRemove(c->source(), c)) {
         KCardPile *tgt = findTarget(c);
         if (tgt) {
-            moveCardsToPile( QList<KCard*>() << c , tgt, DURATION_MOVE );
+            moveCardToPile( c , tgt, DURATION_MOVE );
             onGameStateAlteredByUser();
             return true;
         }

@@ -444,6 +444,12 @@ void KCardScene::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int dur
 }
 
 
+void KCardScene::moveCardToPile( KCard * card, KCardPile * pile, int duration )
+{
+    moveCardsToPile( QList<KCard*>() << card, pile, duration );
+}
+
+
 void KCardScene::flipCardToPile( KCard * card, KCardPile * pile, int duration )
 {
     QPointF origPos = card->pos();

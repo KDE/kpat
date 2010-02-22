@@ -92,6 +92,7 @@ public:
     QList<QGraphicsItem*> highlightedItems() const;
 
     virtual void moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
+    virtual void moveCardToPile( KCard * card, KCardPile * pile, int duration );
     virtual void flipCardToPile( KCard * card, KCardPile * pile, int duration );
 
 protected:
