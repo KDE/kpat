@@ -51,6 +51,7 @@ public:
 
     void deal();
     virtual void restart();
+    virtual void moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
 
 public slots:
     virtual KCard *newCards();

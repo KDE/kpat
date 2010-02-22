@@ -46,26 +46,6 @@
 #include <KLocale>
 
 
-//-------------------------------------------------------------------------//
-
-// Special pile type used for the fourth row. Automatically grabs a new card
-// from the deck when emptied.
-class Mod3Pile : public PatPile
-{
-public:
-    Mod3Pile( int _index, PatPile * pile, const QString & objectName = QString() )
-        : PatPile( _index, objectName ), drawPile( pile ) {}
-    virtual void layoutCards( int duration = DURATION_RELAYOUT )
-    {
-        if ( isEmpty() && !drawPile->isEmpty() )
-            animatedAdd( drawPile->top(), true );
-        else
-            PatPile::layoutCards( duration );
-    }
-    PatPile * drawPile;
-};
-
-
 void Mod3::initialize()
 {
     // Piles are placed very close together. Set layoutSpacing to 0 to prevent
@@ -98,10 +78,10 @@ void Mod3::initialize()
         for ( int c = 0; c < 8; c++ ) {
             int pileIndex = r * 10 + c  + 1;
             QString objectName = QString( "stack%1_%2" ).arg( r ).arg( c );
+            stack[r][c] = new PatPile( pileIndex, objectName );
 
             // The first 3 rows are the playing field, the fourth is the store.
             if ( r < 3 ) {
-                stack[r][c] = new PatPile( pileIndex, objectName );
                 stack[r][c]->setFoundation( true );
                 stack[r][c]->setPilePos( dist_x * c, dist_y * r );
                 // Very tight spread makes it easy to quickly tell number of
@@ -109,7 +89,6 @@ void Mod3::initialize()
                 stack[r][c]->setSpread( 0, 0.08 );
                 stack[r][c]->setReservedSpace( QSizeF( 1.0, 1.23 ) );
             } else {
-                stack[r][c] = new Mod3Pile( pileIndex, talon, objectName );
                 stack[r][c]->setPilePos( dist_x * c, bottomRowY );
                 stack[r][c]->setReservedSpace( QSizeF( 1.0, 1.8 ) );
             }
@@ -171,7 +150,21 @@ bool Mod3::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
     }
 }
 
-//-------------------------------------------------------------------------//
+void Mod3::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration )
+{
+    PatPile * p = dynamic_cast<PatPile*>( cards.first()->source() );
+
+    KCardScene::moveCardsToPile( cards, pile, duration );
+
+    if ( p
+         && p->pileRole() == PatPile::Tableau
+         && p->isEmpty()
+         && !talon->isEmpty() )
+    {
+        flipCardToPile( talon->top(), p, duration );
+    }
+}
+
 
 
 void Mod3::restart()
