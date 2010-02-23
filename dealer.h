@@ -43,6 +43,7 @@ class DealerScene;
 class MoveHint;
 #include "patpile.h"
 class Solver;
+#include "speeds.h"
 #include "view.h"
 
 #include "libkcardgame/kstandardcarddeck.h"

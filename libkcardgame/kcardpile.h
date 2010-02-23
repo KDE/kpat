@@ -41,7 +41,6 @@
 #include "kcard.h"
 class KCardScene;
 #include "libkcardgame_export.h"
-#include "../speeds.h"
 
 class QPropertyAnimation;
 #include <QtGui/QGraphicsPixmapItem>

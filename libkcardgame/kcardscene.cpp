@@ -50,6 +50,10 @@
 
 #define DEBUG_LAYOUT 0
 
+
+const int cardMoveDuration = 230;
+
+
 KCardScene::KCardScene( QObject * parent )
   : QGraphicsScene( parent ),
     m_deck( 0 ),
@@ -456,7 +460,8 @@ void KCardScene::moveCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal ve
 {
     QPointF origPos = card->pos();
 
-    moveCardToPile( card, pile, DURATION_RELAYOUT );
+    QPointF estimatedDestPos = pile->isEmpty() ? pile->pos() : pile->top()->pos();
+    moveCardToPile( card, pile, calculateDuration( origPos, estimatedDestPos, velocity ) );
 
     card->completeAnimation();
     QPointF destPos = card->pos();
@@ -488,7 +493,8 @@ void KCardScene::flipCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal ve
     QPointF origPos = card->pos();
     bool origFaceUp = card->isFaceUp();
 
-    moveCardToPile( card, pile, DURATION_RELAYOUT );
+    QPointF estimatedDestPos = pile->isEmpty() ? pile->pos() : pile->top()->pos();
+    moveCardToPile( card, pile, calculateDuration( origPos, estimatedDestPos, velocity ) );
 
     card->completeAnimation();
     QPointF destPos = card->pos();
@@ -690,7 +696,7 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
         {
             if ( !m_cardsBeingDragged.isEmpty() )
             {
-                m_cardsBeingDragged.first()->source()->layoutCards( DURATION_MOVE );
+                m_cardsBeingDragged.first()->source()->layoutCards( cardMoveDuration );
                 m_cardsBeingDragged.clear();
             }
 
@@ -719,12 +725,12 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
         KCardPile * destination = targetPile();
         if ( destination )
         {
-            moveCardsToPile( m_cardsBeingDragged, destination, DURATION_MOVE );
+            moveCardsToPile( m_cardsBeingDragged, destination, cardMoveDuration );
             onGameStateAlteredByUser();
         }
         else
         {
-            m_cardsBeingDragged.first()->source()->layoutCards( DURATION_MOVE );
+            m_cardsBeingDragged.first()->source()->layoutCards( cardMoveDuration );
         }
         m_cardsBeingDragged.clear();
         m_dragStarted = false;
@@ -739,7 +745,7 @@ void KCardScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
 
     if ( !m_cardsBeingDragged.isEmpty() )
     {
-        m_cardsBeingDragged.first()->source()->layoutCards( DURATION_MOVE );
+        m_cardsBeingDragged.first()->source()->layoutCards( cardMoveDuration );
         m_cardsBeingDragged.clear();
     }
 
