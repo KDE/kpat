@@ -176,25 +176,6 @@ void Mod3::restart()
 }
 
 
-//-------------------------------------------------------------------------//
-
-
-void Mod3::dealRow(int row)
-{
-    if (talon->isEmpty())
-        return;
-
-    for (int c = 0; c < 8; ++c) {
-        KCard *card = talon->top();
-        if ( card )
-            stack[row][c]->animatedAdd(card, true);
-    }
-}
-
-
-//-------------------------------------------------------------------------//
-
-
 void Mod3::deal()
 {
     clearHighlightedItems();
@@ -210,7 +191,17 @@ void Mod3::deal()
     }
 
     for (int r = 0; r < 4; r++)
-        dealRow(r);
+    {
+        for ( int c = 0; c < 8; ++c )
+        {
+            KCard * card = talon->top();
+            card->setFaceUp( true );
+            moveCardToPileAtSpeed( card, stack[r][c], DEAL_SPEED );
+
+            // Fudge the z values to keep cards from popping through one another.
+            card->setZValue( card->zValue() + (4-r)*(4-r) + (8-c)*(8-c) );
+        }
+    }
 }
 
 KCard *Mod3::newCards()
@@ -225,7 +216,13 @@ KCard *Mod3::newCards()
 
     clearHighlightedItems();
 
-    dealRow(3);
+    for ( int c = 0; c < 8; ++c )
+    {
+        if ( talon->isEmpty() )
+            break;
+
+        flipCardToPileAtSpeed( talon->top(), stack[3][c], DEAL_SPEED * 2 );
+    }
 
     onGameStateAlteredByUser();
     if (talon->isEmpty())

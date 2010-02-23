@@ -268,31 +268,6 @@ void KCardPile::setGraphicSize( QSize size )
 }
 
 
-void KCardPile::animatedAdd( KCard * card, bool faceUp )
-{
-    Q_ASSERT( card );
-
-    QPointF origPos = card->pos();
-    KCardPile * origPile = card->source();
-
-    card->setFaceUp( faceUp );
-    add( card );
-
-    if ( origPile )
-        origPile->layoutCards( DURATION_RELAYOUT );
-    layoutCards( DURATION_RELAYOUT );
-
-    card->completeAnimation();
-    QPointF destPos = card->pos();
-    card->setPos( origPos );
-
-    QPointF delta = destPos - card->pos();
-    qreal dist = sqrt( delta.x() * delta.x() + delta.y() * delta.y() );
-    qreal whole = sqrt( scene()->width() * scene()->width() + scene()->height() * scene()->height() );
-    card->animate(destPos, card->zValue(), 1, 0, card->isFaceUp(), true, qRound( dist * DURATION_DEAL / whole ) );
-}
-
-
 void KCardPile::add( KCard * card, int index )
 {
     if ( card->source() == this )

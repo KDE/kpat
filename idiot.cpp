@@ -244,8 +244,6 @@ void Idiot::dealRow()
     for ( int i = 0; i < 4; ++i )
     {
         KCard * c = talon->top();
-//         c->setFaceUp( true );
-//         moveCardToPileAtSpeed( c, m_play[i], DEAL_SPEED );
         flipCardToPileAtSpeed( c, m_play[i], DEAL_SPEED );
 
         // Fudge the z values so that cards don't appear to pop through one another.

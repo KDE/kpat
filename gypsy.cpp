@@ -113,13 +113,6 @@ bool Gypsy::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
     }
 }
 
-
-void Gypsy::dealRow(bool faceup)
-{
-    for (int round=0; round < 8; round++)
-        store[round]->animatedAdd(talon->top(), faceup);
-}
-
 void Gypsy::deal()
 {
     QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
@@ -156,7 +149,12 @@ KCard *Gypsy::newCards()
 
     clearHighlightedItems();
 
-    dealRow(true);
+    for ( int round = 0; round < 8; ++round )
+    {
+        KCard * c = talon->top();
+        flipCardToPileAtSpeed( c, store[round], DEAL_SPEED );
+        c->setZValue( c->zValue() + 8 - round );
+    }
 
     onGameStateAlteredByUser();
     if (talon->isEmpty())

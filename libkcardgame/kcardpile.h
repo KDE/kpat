@@ -95,7 +95,6 @@ public:
 
     void setGraphicSize( QSize size );
 
-    virtual void animatedAdd( KCard * card, bool faceUp );
     virtual void add( KCard * card, int index = -1 );
     virtual void remove( KCard * card );
     void clear();

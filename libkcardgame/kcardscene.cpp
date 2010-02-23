@@ -40,6 +40,8 @@
 #include "kabstractcarddeck.h"
 #include "kcardpile.h"
 
+#include <KDebug>
+
 #include <QtGui/QGraphicsSceneWheelEvent>
 #include <QtGui/QPainter>
 
@@ -468,28 +470,33 @@ void KCardScene::moveCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal ve
 void KCardScene::flipCardToPile( KCard * card, KCardPile * pile, int duration )
 {
     QPointF origPos = card->pos();
+    bool origFaceUp = card->isFaceUp();
 
     moveCardToPile( card, pile, duration );
 
     card->completeAnimation();
     QPointF destPos = card->pos();
     card->setPos( origPos );
-    card->animate( destPos, card->zValue(), 1.0, 0.0, !card->isFaceUp(), true, duration );
+    card->setFaceUp( origFaceUp );
+
+    card->animate( destPos, card->zValue(), 1.0, 0.0, !origFaceUp, true, duration );
 }
 
 
 void KCardScene::flipCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal velocity )
 {
     QPointF origPos = card->pos();
+    bool origFaceUp = card->isFaceUp();
 
     moveCardToPile( card, pile, DURATION_RELAYOUT );
 
     card->completeAnimation();
     QPointF destPos = card->pos();
     card->setPos( origPos );
+    card->setFaceUp( origFaceUp );
 
     int duration = calculateDuration( origPos, destPos, velocity );
-    card->animate( destPos, card->zValue(), 1.0, 0.0, !card->isFaceUp(), true, duration );
+    card->animate( destPos, card->zValue(), 1.0, 0.0, !origFaceUp, true, duration );
 }
 
 
@@ -802,7 +809,7 @@ void KCardScene::drawForeground ( QPainter * painter, const QRectF & rect )
 int KCardScene::calculateDuration( QPointF pos1, QPointF pos2, qreal velocity ) const
 {
     QPointF delta = pos2 - pos1;
-    qreal distance = sqrt( delta.x() * delta.x() + delta.y() + delta.y() );
+    qreal distance = sqrt( delta.x() * delta.x() + delta.y() * delta.y() );
     qreal cardUnit = ( deck()->cardWidth() + deck()->cardHeight() ) / 2.0;
     qreal unitDistance = distance / cardUnit;
 

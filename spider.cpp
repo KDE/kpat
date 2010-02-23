@@ -424,8 +424,15 @@ KCard *Spider::newCards()
     redeals[m_redeal]->setVisible(false);
     relayoutPiles();
 
-    for (int column = 0; column < 10; ++column)
-        stack[column]->animatedAdd(redeals[m_redeal]->top(), true);
+    foreach( KCard * c, redeals[m_redeal]->cards() )
+        c->setFaceUp( false );
+
+    for ( int column = 0; column < 10; ++column )
+    {
+        KCard * c = redeals[m_redeal]->top();
+        flipCardToPileAtSpeed( c, stack[column], DEAL_SPEED );
+        c->setZValue( c->zValue() + 10 - column );
+    }
 
     // I may put an Ace on a K->2 pile so it could need cleared.
     connect(deck(), SIGNAL(cardAnimationDone()), this, SLOT(checkAllForRuns()));

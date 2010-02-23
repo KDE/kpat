@@ -58,7 +58,6 @@ protected:
 
 private: // functions
     void deal();
-    void dealRow(bool faceup);
 
 private:
     PatPile* talon;
