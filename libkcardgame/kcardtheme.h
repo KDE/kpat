@@ -23,6 +23,7 @@
 
 #include <QtCore/QDateTime>
 #include <QtCore/QList>
+#include <QtCore/QMetaType>
 #include <QtCore/QSharedDataPointer>
 
 class KCardThemePrivate;
@@ -49,5 +50,7 @@ public:
 private:
     QSharedDataPointer<const KCardThemePrivate> d;
 };
+
+Q_DECLARE_METATYPE( KCardTheme )
 
 #endif

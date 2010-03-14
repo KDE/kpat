@@ -31,24 +31,90 @@
 #include <KStandardDirs>
 #include <knewstuff3/downloaddialog.h>
 
+#include <QtCore/QMutexLocker>
 #include <QtGui/QApplication>
 #include <QtGui/QFontMetrics>
 #include <QtGui/QListView>
 #include <QtGui/QPainter>
 #include <QtGui/QPixmap>
 #include <QtGui/QVBoxLayout>
+#include <QtSvg/QSvgRenderer>
+
+
+PreviewThread::PreviewThread( const KCardThemeWidgetPrivate * d, const QList<KCardTheme> & themes )
+  : d( d ),
+    m_themes( themes ),
+    m_haltFlag( false ),
+    m_haltMutex()
+{
+}
+
+
+void PreviewThread::halt()
+{
+    {
+        QMutexLocker l( &m_haltMutex );
+        m_haltFlag = true;
+    }
+    wait();
+}
+
+
+void PreviewThread::run()
+{
+    foreach( const KCardTheme & theme, m_themes )
+    {
+        {
+            QMutexLocker l( &m_haltMutex );
+            if ( m_haltFlag )
+                return;
+        }
+
+        QImage img( d->previewSize, QImage::Format_ARGB32 );
+        img.fill( Qt::transparent );
+        QPainter p( &img );
+
+        QSvgRenderer renderer( theme.graphicsFilePath() );
+
+        QSizeF size = renderer.boundsOnElement("back").size();
+        size.scale( 1.5 * d->baseCardSize.width(), d->baseCardSize.height(), Qt::KeepAspectRatio );
+
+        qreal yPos = ( d->previewSize.height() - size.height() ) / 2;
+        qreal spacingWidth = d->baseCardSize.width()
+                             * ( d->previewSize.width() - d->previewLayout.size() * size.width() )
+                             / ( d->previewSize.width() - d->previewLayout.size() * d->baseCardSize.width() );
+
+        qreal xPos = 0;
+        foreach ( const QList<QString> & pile, d->previewLayout )
+        {
+            foreach ( const QString & card, pile )
+            {
+                renderer.render( &p, card, QRectF( QPointF( xPos, yPos ), size ) );
+                xPos += 0.3 * spacingWidth;
+            }
+            xPos += 1 * size.width() + ( 0.1 - 0.3 ) * spacingWidth;
+        }
+
+        emit previewRendered( theme, img );
+    }
+}
 
 
 CardThemeModel::CardThemeModel( KCardThemeWidgetPrivate * d, QObject * parent )
   : QAbstractListModel( parent ),
-    d( d )
+    d( d ),
+    m_thread( 0 )
 {
+    qRegisterMetaType<KCardTheme>();
+
     reload();
 }
 
 
 CardThemeModel::~CardThemeModel()
 {
+    deleteThread();
+
     qDeleteAll( m_previews );
 }
 
@@ -61,12 +127,15 @@ bool lessThanByDisplayName( const KCardTheme & a, const KCardTheme & b )
 
 void CardThemeModel::reload()
 {
+    deleteThread();
+
     reset();
 
     m_themes.clear();
     qDeleteAll( m_previews );
     m_previews.clear();
-    m_leftToRender.clear();
+
+    QList<KCardTheme> previewsNeeded;
 
     foreach( const KCardTheme & theme, KCardTheme::findAll() )
     {
@@ -85,52 +154,40 @@ void CardThemeModel::reload()
         {
             delete pix;
             m_previews.insert( theme.displayName(), 0 );
-            m_leftToRender << theme;
+            previewsNeeded << theme;
         }
         m_themes.insert( theme.displayName(), theme );
     }
 
-    qSort( m_leftToRender.begin(), m_leftToRender.end(), lessThanByDisplayName ) ;
-
     beginInsertRows( QModelIndex(), 0, m_themes.size() );
     endInsertRows();
 
-    if ( !m_leftToRender.isEmpty() )
-        QTimer::singleShot( 0, this, SLOT(renderNext()) );
+    if ( !previewsNeeded.isEmpty() )
+    {
+        qSort( previewsNeeded.begin(), previewsNeeded.end(), lessThanByDisplayName ) ;
+
+        m_thread = new PreviewThread( d, previewsNeeded );
+        connect( m_thread, SIGNAL(previewRendered(KCardTheme,QImage)),
+                 this, SLOT(submitPreview(KCardTheme,QImage)), Qt::QueuedConnection );
+        m_thread->start();
+    }
 }
 
 
-void CardThemeModel::renderNext()
+void CardThemeModel::deleteThread()
 {
-    KCardTheme theme = m_leftToRender.takeFirst();
+    if ( m_thread && m_thread->isRunning() )
+        m_thread->halt();
+    delete m_thread;
+    m_thread = 0;
+}
 
+
+void CardThemeModel::submitPreview( const KCardTheme & theme, const QImage & img )
+{
     KCardCache2 cache( theme );
 
-    QSizeF s = cache.naturalSize("back");
-    s.scale( 1.5 * d->baseCardSize.width(), d->baseCardSize.height(), Qt::KeepAspectRatio );
-    kDebug() << s;
-    cache.setSize( s.toSize() );
-
-    qreal yPos = ( d->previewSize.height() - s.height() ) / 2.0;
-    qreal spacingWidth = d->baseCardSize.width()
-                         * ( d->previewSize.width() - d->previewLayout.size() * s.width() )
-                         / ( d->previewSize.width() - d->previewLayout.size() * d->baseCardSize.width() );
-
-    QPixmap * pix = new QPixmap( d->previewSize );
-    pix->fill( Qt::transparent );
-    QPainter p( pix );
-    qreal xPos = 0;
-    foreach ( const QList<QString> & sl, d->previewLayout )
-    {
-        foreach ( const QString & st, sl )
-        {
-            p.drawPixmap( xPos, yPos, cache.renderCard( st ) );
-            xPos += 0.3 * spacingWidth;
-        }
-        xPos -= 0.3 * spacingWidth;
-        xPos += 1 * s.width() + 0.1 * spacingWidth;
-    }
-    p.end();
+    QPixmap * pix = new QPixmap( QPixmap::fromImage( img ) );
 
     cache.insertOther( "preview_" + d->previewString, *pix );
 
@@ -139,9 +196,6 @@ void CardThemeModel::renderNext()
 
     QModelIndex index = indexOf( theme.dirName() );
     emit dataChanged( index, index );
-
-    if ( !m_leftToRender.isEmpty() )
-        QTimer::singleShot( 500, this, SLOT(renderNext()) );
 }
 
 

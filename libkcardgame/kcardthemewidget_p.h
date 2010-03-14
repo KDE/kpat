@@ -29,9 +29,31 @@ class KPixmapCache;
 class KPushButton;
 
 #include <QtCore/QAbstractItemModel>
+#include <QtCore/QMutex>
+#include <QtCore/QThread>
 #include <QtCore/QTimer>
 #include <QtGui/QAbstractItemDelegate>
 class QListView;
+
+
+class PreviewThread : public QThread
+{
+    Q_OBJECT
+
+public:
+    PreviewThread( const KCardThemeWidgetPrivate * d, const QList<KCardTheme> & themes );
+    void run();
+    void halt();
+
+signals:
+    void previewRendered( const KCardTheme & theme, const QImage & image );
+
+private:
+    const KCardThemeWidgetPrivate * const d;
+    const QList<KCardTheme> m_themes;
+    bool m_haltFlag;
+    QMutex m_haltMutex;
+};
 
 
 class CardThemeModel : public QAbstractListModel
@@ -49,13 +71,14 @@ public:
     virtual QVariant data( const QModelIndex & index, int role = Qt::DisplayRole ) const;
 
 private slots:
-    void renderNext();
+    void deleteThread();
+    void submitPreview( const KCardTheme & theme, const QImage & img );
 
 private:
     const KCardThemeWidgetPrivate * const d;
     QMap<QString,KCardTheme> m_themes;
     QMap<QString,QPixmap*> m_previews;
-    QList<KCardTheme> m_leftToRender;
+    PreviewThread * m_thread;
 };
 
 
@@ -68,7 +91,7 @@ public:
     virtual QSize sizeHint( const QStyleOptionViewItem & option, const QModelIndex & index ) const;
 
 private:
-    const KCardThemeWidgetPrivate * const d; 
+    const KCardThemeWidgetPrivate * const d;
 };
 
 
