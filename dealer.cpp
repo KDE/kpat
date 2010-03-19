@@ -822,10 +822,10 @@ void DealerScene::showWonMessage()
     // get crashes if we don't. Will have to look into this further.
     stopDemo();
 
-    // Remove all cards from the scene to prevent them from showing up accidentally
-    // if the window is resized.
+    // Hide all cards to prevent them from showing up accidentally if the 
+    // window is resized.
     foreach ( KCard * c, deck()->cards() )
-        removeItem( c );
+        c->hide();
 
     updateWonItem();
     d->wonItem->show();
