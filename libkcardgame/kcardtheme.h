@@ -32,6 +32,7 @@ class LIBKCARDGAME_EXPORT KCardTheme
 {
 public:
     static QList<KCardTheme> findAll();
+    static QList<KCardTheme> findAllWithFeatures( const QSet<QString> & neededFeatures );
 
     KCardTheme();
     explicit KCardTheme( const QString & dirName );
@@ -46,6 +47,7 @@ public:
     QString desktopFilePath() const;
     QString graphicsFilePath() const;
     QDateTime lastModified() const;
+    QSet<QString> supportedFeatures() const;
 
 private:
     QSharedDataPointer<const KCardThemePrivate> d;

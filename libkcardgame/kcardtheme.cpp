@@ -25,6 +25,7 @@
 
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
+#include <QtCore/QSet>
 #include <QtCore/QSharedData>
 
 
@@ -36,12 +37,14 @@ public:
                        const QString & displayName,
                        const QString & desktopFilePath,
                        const QString & graphicsFilePath,
+                       const QSet<QString> & supportedFeatures,
                        const QDateTime & lastModified )
       : isValid( isValid ),
         dirName( dirName ),
         displayName( displayName ),
         desktopFilePath( desktopFilePath ),
         graphicsFilePath( graphicsFilePath ),
+        supportedFeatures( supportedFeatures ),
         lastModified( lastModified )
     {
     };
@@ -51,6 +54,7 @@ public:
     const QString displayName;
     const QString desktopFilePath;
     const QString graphicsFilePath;
+    const QSet<QString> supportedFeatures;
     const QDateTime lastModified;
 };
 
@@ -70,6 +74,22 @@ QList<KCardTheme> KCardTheme::findAll()
 }
 
 
+QList<KCardTheme> KCardTheme::findAllWithFeatures( const QSet<QString> & neededFeatures )
+{
+    QStringList indexFiles = KGlobal::dirs()->findAllResources( "data", "carddecks/*/index.desktop" );
+
+    QList<KCardTheme> result;
+    foreach ( const QString & indexFilePath, indexFiles )
+    {
+        QString directoryName = QFileInfo( indexFilePath ).dir().dirName();
+        KCardTheme t( directoryName );
+        if ( t.isValid() && t.supportedFeatures().contains( neededFeatures ) )
+            result << t;
+    }
+    return result;
+}
+
+
 KCardTheme::KCardTheme()
   : d( 0 )
 {
@@ -82,6 +102,7 @@ KCardTheme::KCardTheme( const QString & dirName )
     QString displayName;
     QString desktopFilePath;
     QString graphicsFilePath;
+    QStringList supportedFeatures;
     QDateTime lastModified;
 
     QString indexFilePath = KGlobal::dirs()->findResource( "data", QString( "carddecks/%1/index.desktop" ).arg( dirName ) );
@@ -94,9 +115,11 @@ KCardTheme::KCardTheme( const QString & dirName )
         {
             KConfigGroup configGroup = config.group( "KDE Backdeck" );
 
-            displayName = configGroup.readEntry("Name");
+            displayName = configGroup.readEntry( "Name" );
 
-            QString svgName = configGroup.readEntry("SVG");
+            supportedFeatures = configGroup.readEntry( "Features", QStringList() << "AngloAmerican" << "Backs1" );
+
+            QString svgName = configGroup.readEntry( "SVG" );
             if ( !svgName.isEmpty() )
             {
                 QFileInfo indexFile( indexFilePath );
@@ -112,7 +135,13 @@ KCardTheme::KCardTheme( const QString & dirName )
         }
     }
 
-    d = new KCardThemePrivate( isValid, dirName, displayName, desktopFilePath, graphicsFilePath, lastModified );
+    d = new KCardThemePrivate( isValid,
+                               dirName,
+                               displayName,
+                               desktopFilePath,
+                               graphicsFilePath,
+                               supportedFeatures.toSet(),
+                               lastModified );
 }
 
 
@@ -167,5 +196,10 @@ QString KCardTheme::graphicsFilePath() const
 QDateTime KCardTheme::lastModified() const
 {
     return d ? d->lastModified : QDateTime();
+}
+
+QSet<QString> KCardTheme::supportedFeatures() const
+{
+    return d ? d->supportedFeatures : QSet<QString>();
 }
 
