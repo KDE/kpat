@@ -142,11 +142,15 @@ void CardThemeModel::reload()
         if ( !theme.isValid() )
             continue;
 
-        KCardCache2 cache( theme );
+        KPixmapCache cache( QString( "kdegames-cards_%1" ).arg( theme.dirName() ) );
+        if ( cache.timestamp() < theme.lastModified().toTime_t() )
+        {
+            cache.discard();
+            cache.setTimestamp( theme.lastModified().toTime_t() );
+        }
 
         QPixmap * pix = new QPixmap();
-        if ( cache.timestamp() >= theme.lastModified()
-             && cache.findOther( "preview_" + d->previewString, *pix ) )
+        if ( cache.find( "preview_" + d->previewString, *pix ) )
         {
             m_previews.insert( theme.displayName(), pix );
         }
@@ -185,11 +189,11 @@ void CardThemeModel::deleteThread()
 
 void CardThemeModel::submitPreview( const KCardTheme & theme, const QImage & img )
 {
-    KCardCache2 cache( theme );
+    KPixmapCache cache( QString( "kdegames-cards_%1" ).arg( theme.dirName() ) );
 
     QPixmap * pix = new QPixmap( QPixmap::fromImage( img ) );
 
-    cache.insertOther( "preview_" + d->previewString, *pix );
+    cache.insert( "preview_" + d->previewString, *pix );
 
     delete m_previews.value( theme.displayName(), 0 );
     m_previews.insert( theme.displayName(), pix );
