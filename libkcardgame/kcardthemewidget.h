@@ -29,7 +29,7 @@
 class LIBKCARDGAME_EXPORT KCardThemeWidget : public QWidget
 {
 public:
-    explicit KCardThemeWidget( const QString & previewString, QWidget * parent = 0 );
+    explicit KCardThemeWidget( const QSet<QString> & requiredFeatures, const QString & previewString, QWidget * parent = 0 );
     virtual ~KCardThemeWidget();
 
     void setCurrentSelection( const QString & dirName );
@@ -43,7 +43,7 @@ private:
 class LIBKCARDGAME_EXPORT KCardThemeDialog : public KConfigDialog
 {
 public:
-    explicit KCardThemeDialog( QWidget * parent, KConfigSkeleton * config, const QString & previewString );
+    explicit KCardThemeDialog( QWidget * parent, KConfigSkeleton * config, const QSet<QString> & requiredFeatures, const QString & previewString );
     virtual ~KCardThemeDialog();
 
     static bool showDialog();

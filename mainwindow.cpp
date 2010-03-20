@@ -323,10 +323,11 @@ void MainWindow::slotPickRandom()
 void MainWindow::slotSelectDeck()
 {
     const QString previewFormat = "back;10_spade,jack_diamond,queen_club,king_heart;1_spade";
+    const QSet<QString> features = QSet<QString>() << "AngloAmerican" << "Backs1";
 
     if ( !KCardThemeDialog::showDialog() )
     {
-        KCardThemeDialog * dialog = new KCardThemeDialog( this, Settings::self(), previewFormat );
+        KCardThemeDialog * dialog = new KCardThemeDialog( this, Settings::self(), features, previewFormat );
         connect( dialog, SIGNAL(settingsChanged(QString)), this, SLOT(appearanceChanged()) );
         dialog->show();
     }

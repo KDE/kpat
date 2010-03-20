@@ -30,6 +30,7 @@ class KPushButton;
 
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QMutex>
+#include <QtCore/QSet>
 #include <QtCore/QThread>
 #include <QtCore/QTimer>
 #include <QtGui/QAbstractItemDelegate>
@@ -123,6 +124,7 @@ public:
     QSize itemSize;
     QString previewString;
     QList<QList<QString> > previewLayout;
+    QSet<QString> requiredFeatures;
 };
 
 #endif

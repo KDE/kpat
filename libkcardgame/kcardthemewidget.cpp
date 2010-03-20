@@ -137,7 +137,7 @@ void CardThemeModel::reload()
 
     QList<KCardTheme> previewsNeeded;
 
-    foreach( const KCardTheme & theme, KCardTheme::findAll() )
+    foreach( const KCardTheme & theme, KCardTheme::findAllWithFeatures( d->requiredFeatures ) )
     {
         if ( !theme.isValid() )
             continue;
@@ -332,10 +332,11 @@ void KCardThemeWidgetPrivate::getNewCardThemes()
 }
 
 
-KCardThemeWidget::KCardThemeWidget( const QString & previewString, QWidget * parent )
+KCardThemeWidget::KCardThemeWidget( const QSet<QString> & requiredFeatures, const QString & previewString, QWidget * parent )
   : QWidget( parent ),
     d( new KCardThemeWidgetPrivate( this ) )
 {
+    d->requiredFeatures = requiredFeatures;
     d->previewString = previewString;
 
     d->previewLayout.clear();
@@ -413,11 +414,11 @@ QString KCardThemeWidget::currentSelection() const
 }
 
 
-KCardThemeDialog::KCardThemeDialog( QWidget * parent, KConfigSkeleton * config, const QString & previewString )
+KCardThemeDialog::KCardThemeDialog( QWidget * parent, KConfigSkeleton * config, const QSet<QString> & requiredFeatures, const QString & previewString )
   : KConfigDialog( parent, "KCardThemeDialog", config )
 {
     // Leaving the header text and icon empty prevents the header from being shown.
-    addPage( new KCardThemeWidget( previewString, this ), QString() );
+    addPage( new KCardThemeWidget( requiredFeatures, previewString, this ), QString() );
 
     setFaceType( KPageDialog::Plain );
     setButtons( KDialog::Ok | KDialog::Apply | KDialog::Cancel );
