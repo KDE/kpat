@@ -1,41 +1,22 @@
 /*
- * Copyright (C) 1995 Paul Olav Tvete <paul@troll.no>
- * Copyright (C) 2000-2009 Stephan Kulow <coolo@kde.org>
- * Copyright (C) 2009-2010 Parker Coates <parker.coates@kdemail.net>
+ *  Copyright (C) 2009-2010 Parker Coates <parker.coates@kdemail.org>
  *
- * License of original code:
- * -------------------------------------------------------------------------
- *   Permission to use, copy, modify, and distribute this software and its
- *   documentation for any purpose and without fee is hereby granted,
- *   provided that the above copyright notice appear in all copies and that
- *   both that copyright notice and this permission notice appear in
- *   supporting documentation.
+ *  This program is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU General Public License as
+ *  published by the Free Software Foundation; either version 2 of 
+ *  the License, or (at your option) any later version.
  *
- *   This file is provided AS IS with no warranties of any kind.  The author
- *   shall have no liability with respect to the infringement of copyrights,
- *   trade secrets or any patents by this file or any part thereof.  In no
- *   event will the author be liable for any lost revenue or profits or
- *   other special, indirect and consequential damages.
- * -------------------------------------------------------------------------
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- * License of modifications/additions made after 2009-01-01:
- * -------------------------------------------------------------------------
- *   This program is free software; you can redistribute it and/or
- *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
- *   the License, or (at your option) any later version.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
- * -------------------------------------------------------------------------
  */
 
-#include "kabstractcarddeck.h"
+#include "kabstractcarddeck_p.h"
 
 #include "kcardtheme.h"
 #include "kcardpile.h"
@@ -47,79 +28,58 @@
 #include <QtGui/QPainter>
 
 
-class KAbstractCardDeckPrivate : public QObject
+KAbstractCardDeckPrivate::KAbstractCardDeckPrivate( KAbstractCardDeck * q )
+  : q( q )
 {
-    Q_OBJECT
-
-public:
-    KAbstractCardDeckPrivate( KAbstractCardDeck * q )
-      : q( q )
-    {
-    };
-
-public slots:
-    void cardStartedAnimation( KCard * card )
-    {
-        Q_ASSERT( !cardsWaitedFor.contains( card ) );
-        cardsWaitedFor.insert( card );
-    };
-
-
-    void cardStoppedAnimation( KCard * card )
-    {
-        Q_ASSERT( cardsWaitedFor.contains( card ) );
-        cardsWaitedFor.remove( card );
-
-        if ( cardsWaitedFor.isEmpty() )
-            emit q->cardAnimationDone();
-    };
-
-
-    QPixmap requestPixmap( QString elementId, bool immediate )
-    {
-        QPixmap & stored = elementIdMapping[ elementId ].first;
-        if ( stored.size() != currentCardSize )
-        {
-            if ( immediate || stored.isNull() )
-            {
-                stored = cache->renderCard( elementId );
-            }
-            else 
-            {
-                QPixmap pix = cache->renderCardIfCached( elementId );
-                if ( !pix.isNull() )
-                    stored = pix;
-                else
-                    stored = stored.scaled( currentCardSize );
-            }
-        }
-        return stored;
-    }
-
-
-    void pixmapUpdated( const QString & element, const QPixmap & pix )
-    {
-        QPair<QPixmap,QList<KCard*> > & pair = elementIdMapping[ element ];
-        pair.first = pix;
-        foreach ( KCard * c, pair.second )
-            c->update();
-    }
-
-
-public:
-    KAbstractCardDeck * q;
-
-    KCardCache2 * cache;
-    QSizeF originalCardSize;
-    QSize currentCardSize;
-
-    QList<KCard*> cards;
-    QSet<KCard*> cardsWaitedFor;
-
-    QStringList elementIds;
-    QHash<QString,QPair<QPixmap,QList<KCard*> > > elementIdMapping;
 };
 
+
+void KAbstractCardDeckPrivate::cardStartedAnimation( KCard * card )
+{
+    Q_ASSERT( !cardsWaitedFor.contains( card ) );
+    cardsWaitedFor.insert( card );
+};
+
+
+void KAbstractCardDeckPrivate::cardStoppedAnimation( KCard * card )
+{
+    Q_ASSERT( cardsWaitedFor.contains( card ) );
+    cardsWaitedFor.remove( card );
+
+    if ( cardsWaitedFor.isEmpty() )
+        emit q->cardAnimationDone();
+};
+
+
+QPixmap KAbstractCardDeckPrivate::requestPixmap( QString elementId, bool immediate )
+{
+    QPixmap & stored = elementIdMapping[ elementId ].first;
+    if ( stored.size() != currentCardSize )
+    {
+        if ( immediate || stored.isNull() )
+        {
+            stored = cache->renderCard( elementId );
+        }
+        else 
+        {
+            QPixmap pix = cache->renderCardIfCached( elementId );
+            if ( !pix.isNull() )
+                stored = pix;
+            else
+                stored = stored.scaled( currentCardSize );
+        }
+    }
+    return stored;
+}
+
+
+void KAbstractCardDeckPrivate::pixmapUpdated( const QString & element, const QPixmap & pix )
+{
+    QPair<QPixmap,QList<KCard*> > & pair = elementIdMapping[ element ];
+    pair.first = pix;
+    foreach ( KCard * c, pair.second )
+        c->update();
+}
 
 
 KAbstractCardDeck::KAbstractCardDeck( const KCardTheme & theme, QObject * parent )

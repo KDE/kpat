@@ -18,6 +18,8 @@
 
 #include "kstandardcarddeck.h"
 
+#include "kcard.h"
+
 
 class KStandardCardDeckPrivate
 {
