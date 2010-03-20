@@ -341,7 +341,7 @@ void MainWindow::appearanceChanged()
         KCardTheme theme( Settings::cardTheme() );
         if ( theme.isValid() )
         {
-            m_cardDeck->updateTheme( KCardTheme( theme ) );
+            m_cardDeck->setTheme( KCardTheme( theme ) );
             if ( m_dealer )
                 m_dealer->relayoutScene();
         }
@@ -383,13 +383,11 @@ void MainWindow::newGameType(int id)
 
     if ( !m_cardDeck )
     {
-        m_cardDeck = new KStandardCardDeck( this );
-
         KCardTheme theme = KCardTheme( Settings::cardTheme() );
         if ( !theme.isValid() )
             theme = KCardTheme( Settings::defaultCardThemeValue() );
 
-        m_cardDeck->updateTheme( theme );
+        m_cardDeck = new KStandardCardDeck( theme, this );
     }
 
     const DealerInfo * di = m_dealer_map.value(id, DealerInfoList::self()->games().first());

@@ -51,7 +51,7 @@ class LIBKCARDGAME_EXPORT KAbstractCardDeck : public QObject
     Q_OBJECT
 
 public:
-    explicit KAbstractCardDeck( QObject * parent = 0 );
+    explicit KAbstractCardDeck( const KCardTheme & theme, QObject * parent = 0 );
     virtual ~KAbstractCardDeck();
 
     void setDeckContents( QList<quint32> ids );
@@ -63,7 +63,7 @@ public:
     int cardHeight() const;
     QSize cardSize() const;
 
-    void updateTheme( const KCardTheme & theme );
+    void setTheme( const KCardTheme & theme );
     KCardTheme theme() const;
 
     bool hasAnimatedCards() const;

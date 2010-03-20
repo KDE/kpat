@@ -56,7 +56,7 @@ public:
     static QList<Suit> standardSuits();
     static QList<Rank> standardRanks();
 
-    explicit KStandardCardDeck( QObject * parent = 0 );
+    explicit KStandardCardDeck( const KCardTheme & theme, QObject * parent = 0 );
     virtual ~KStandardCardDeck();
 
     void setDeckContents( int copies = 1,

@@ -51,8 +51,8 @@ QList<KStandardCardDeck::Rank> KStandardCardDeck::standardRanks()
 }
 
 
-KStandardCardDeck::KStandardCardDeck( QObject * parent )
-  : KAbstractCardDeck( parent ),
+KStandardCardDeck::KStandardCardDeck( const KCardTheme & theme, QObject * parent )
+  : KAbstractCardDeck( theme, parent ),
     d( new KStandardCardDeckPrivate )
 {
 }

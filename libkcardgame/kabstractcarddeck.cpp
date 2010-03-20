@@ -122,13 +122,12 @@ public:
 
 
 
-KAbstractCardDeck::KAbstractCardDeck( QObject * parent )
+KAbstractCardDeck::KAbstractCardDeck( const KCardTheme & theme, QObject * parent )
   : QObject( parent ),
     d( new KAbstractCardDeckPrivate( this ) )
 {
     d->cache = 0;
-    d->originalCardSize = QSize( 1, 1 );
-    d->currentCardSize = QSize( 0, 0 );
+    setTheme( theme );
 }
 
 
@@ -244,7 +243,7 @@ QSize KAbstractCardDeck::cardSize() const
 }
 
 
-void KAbstractCardDeck::updateTheme( const KCardTheme & theme )
+void KAbstractCardDeck::setTheme( const KCardTheme & theme )
 {
     Q_ASSERT ( theme.isValid() );
 
