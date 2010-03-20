@@ -1,6 +1,9 @@
 /*
  *  Copyright (C) 2009-2010 Parker Coates <parker.coates@kdemail.org>
  *
+ *  Original card caching:
+ *  Copyright (C) 2008 Andreas Pakulat <apaku@gmx.de>
+ *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License as
  *  published by the Free Software Foundation; either version 2 of 
@@ -23,15 +26,242 @@
 #include "shuffle.h"
 
 #include <KDebug>
+#include <KPixmapCache>
 
 #include <QtCore/QTimer>
+#include <QtGui/QApplication>
 #include <QtGui/QPainter>
+#include <QtSvg/QSvgRenderer>
+
+namespace
+{
+    QString keyForPixmap( const QString & element, const QSize & s )
+    {
+        return element + '@' + QString::number( s.width() ) + 'x' + QString::number( s.height() );
+    }
+}
+
+
+RenderingThread::RenderingThread( KAbstractCardDeckPrivate * d, QSize size, const QStringList & elements )
+  : d( d ),
+    m_size( size ),
+    m_elementsToRender( elements ),
+    m_haltFlag( false )
+{
+    connect( this, SIGNAL(renderingDone(QString,QImage)), d, SLOT(submitRendering(QString,QImage)), Qt::QueuedConnection );
+}
+
+
+void RenderingThread::halt()
+{
+    {
+        QMutexLocker l( &m_haltMutex );
+        m_haltFlag = true;
+    }
+    wait();
+}
+
+
+void RenderingThread::run()
+{
+    {
+        // Load the renderer even if we don't have any elements to render.
+        QMutexLocker l( &(d->rendererMutex) );
+        d->renderer();
+    }
+
+    foreach( const QString& element, m_elementsToRender )
+    {
+        {
+            QMutexLocker l( &m_haltMutex );
+            if ( m_haltFlag )
+                return;
+        }
+
+        QString key = keyForPixmap( element, m_size );
+        kDebug() << "Renderering" << key << "in rendering thread.";
+
+        QImage img = QImage( m_size, QImage::Format_ARGB32 );
+        img.fill( Qt::transparent );
+        QPainter p( &img );
+        {
+            QMutexLocker l( &(d->rendererMutex) );
+            d->renderer()->render( &p, element );
+        }
+        p.end();
+
+        emit renderingDone( key, img );
+    }
+}
 
 
 KAbstractCardDeckPrivate::KAbstractCardDeckPrivate( KAbstractCardDeck * q )
-  : q( q )
+  : QObject( q ),
+    q( q ),
+    cache( 0 ),
+    svgRenderer( 0 ),
+    thread( 0 )
 {
 };
+
+
+KAbstractCardDeckPrivate::~KAbstractCardDeckPrivate()
+{
+    deleteThread();
+    delete cache;
+}
+
+
+// Note that rendererMutex MUST be locked before calling this function.
+QSvgRenderer * KAbstractCardDeckPrivate::renderer()
+{
+    if ( !svgRenderer )
+    {
+        QString thread = (qApp->thread() == QThread::currentThread()) ? "main" : "rendering";
+        kDebug() << QString("Loading card deck SVG in %1 thread").arg( thread );
+
+        svgRenderer = new QSvgRenderer( theme.graphicsFilePath(), this );
+    }
+    return svgRenderer;
+}
+
+
+QPixmap KAbstractCardDeckPrivate::renderCard( const QString & element )
+{
+    QPixmap pix;
+    if ( !theme.isValid() || currentCardSize.isEmpty() )
+        return pix;
+
+    QString key = keyForPixmap( element , currentCardSize );
+    if ( !cache->find( key, pix ) )
+    {
+        kDebug() << "Renderering" << key << "in main thread.";
+
+        pix = QPixmap( currentCardSize );
+        pix.fill( Qt::transparent );
+        QPainter p( &pix );
+        {
+            QMutexLocker l( &rendererMutex );
+            if ( renderer()->elementExists( element ) )
+            {
+                renderer()->render( &p, element );
+            }
+            else
+            {
+                kWarning() << "Could not find" << element << "in SVG.";
+                p.fillRect( QRect( 0, 0, pix.width(), pix.height() ), Qt::white );
+                p.setPen( Qt::red );
+                p.drawLine( 0, 0, pix.width(), pix.height() );
+                p.drawLine( pix.width(), 0, 0, pix.height() );
+                p.end();
+            }
+        }
+        p.end();
+
+        cache->insert( key, pix );
+    }
+
+    return pix;
+}
+
+
+QSizeF KAbstractCardDeckPrivate::unscaledCardSize()
+{
+    if( !theme.isValid() )
+        return QSizeF();
+
+    const QString element = "back";
+
+    QPixmap pix;
+    QString key = theme.dirName() + '_' + element + "_default";
+    if ( cache->find( key, pix ) )
+        return pix.size();
+
+    QSize size = QSize( 70, 100 ); // Sane default
+    bool elementExists;
+    {
+        QMutexLocker l( &rendererMutex );
+        elementExists = renderer()->elementExists( element );
+        if ( elementExists )
+            size = renderer()->boundsOnElement( element ).size().toSize();
+    }
+
+    if ( elementExists )
+        cache->insert( key, QPixmap( size ) );
+
+    return size;
+}
+
+
+QPixmap KAbstractCardDeckPrivate::requestPixmap( QString elementId, bool immediate )
+{
+    QPixmap & stored = elementIdMapping[ elementId ].first;
+    if ( stored.size() != currentCardSize )
+    {
+        if ( immediate || stored.isNull() )
+        {
+            stored = renderCard( elementId );
+        }
+        else
+        {
+            QPixmap pix;
+            if ( cache->find( keyForPixmap( elementId , currentCardSize ), pix ) )
+                stored = pix;
+            else
+                stored = stored.scaled( currentCardSize );
+        }
+    }
+    return stored;
+}
+
+
+void KAbstractCardDeckPrivate::updateCardSize( const QSize & size )
+{
+    currentCardSize = size;
+
+    foreach ( KCard * c, cards )
+        c->update();
+
+    deleteThread();
+
+    // We have to compile the list of elements to load here, because we can't
+    // check the contents of the KPixmapCache from outside the GUI thread.
+    QPixmap pix;
+    QStringList unrenderedElements;
+    CardPixmapHash::const_iterator it = elementIdMapping.constBegin();
+    CardPixmapHash::const_iterator end = elementIdMapping.constEnd();
+    for ( ; it != end; ++it )
+    {
+        QString key = keyForPixmap( it.key(), currentCardSize );
+        if ( !cache->find( key, pix ) )
+            unrenderedElements << it.key();
+    }
+
+    thread = new RenderingThread( this, currentCardSize, unrenderedElements );
+    thread->start();
+}
+
+
+void KAbstractCardDeckPrivate::deleteThread()
+{
+    if ( thread && thread->isRunning() )
+        thread->halt();
+    delete thread;
+    thread = 0;
+}
+
+
+void KAbstractCardDeckPrivate::submitRendering( const QString & key, const QImage & image )
+{
+    QString elementId = key.left( key.indexOf('@') );
+    QPair<QPixmap,QList<KCard*> > & pair = elementIdMapping[ elementId ];
+
+    pair.first = QPixmap::fromImage( image );
+    cache->insert( key, pair.first );
+
+    foreach ( KCard * c, pair.second )
+        c->update();
+}
 
 
 void KAbstractCardDeckPrivate::cardStartedAnimation( KCard * card )
@@ -51,42 +281,10 @@ void KAbstractCardDeckPrivate::cardStoppedAnimation( KCard * card )
 };
 
 
-QPixmap KAbstractCardDeckPrivate::requestPixmap( QString elementId, bool immediate )
-{
-    QPixmap & stored = elementIdMapping[ elementId ].first;
-    if ( stored.size() != currentCardSize )
-    {
-        if ( immediate || stored.isNull() )
-        {
-            stored = cache->renderCard( elementId );
-        }
-        else 
-        {
-            QPixmap pix = cache->renderCardIfCached( elementId );
-            if ( !pix.isNull() )
-                stored = pix;
-            else
-                stored = stored.scaled( currentCardSize );
-        }
-    }
-    return stored;
-}
-
-
-void KAbstractCardDeckPrivate::pixmapUpdated( const QString & element, const QPixmap & pix )
-{
-    QPair<QPixmap,QList<KCard*> > & pair = elementIdMapping[ element ];
-    pair.first = pix;
-    foreach ( KCard * c, pair.second )
-        c->update();
-}
-
-
 KAbstractCardDeck::KAbstractCardDeck( const KCardTheme & theme, QObject * parent )
   : QObject( parent ),
     d( new KAbstractCardDeckPrivate( this ) )
 {
-    d->cache = 0;
     setTheme( theme );
 }
 
@@ -96,8 +294,6 @@ KAbstractCardDeck::~KAbstractCardDeck()
     foreach ( KCard * c, d->cards )
         delete c;
     d->cards.clear();
-
-    delete d;
 }
 
 
@@ -129,8 +325,6 @@ void KAbstractCardDeck::setDeckContents( QList<quint32> ids )
         d->cards << c;
     }
 
-    d->elementIds = d->elementIdMapping.keys();
-
     if ( d->currentCardSize.isValid() )
     {
         QHash<QString,QPair<QPixmap,QList<KCard*> > >::iterator it = d->elementIdMapping.begin();
@@ -161,20 +355,13 @@ void KAbstractCardDeck::setCardWidth( int width )
 
     int height = width * d->originalCardSize.height() / d->originalCardSize.width();
     QSize newSize( width, height );
-    QSize oldSize = d->currentCardSize;
 
     if ( newSize != d->currentCardSize )
     {
         foreach ( KCard * c, d->cards )
             c->prepareGeometryChange();
 
-        d->currentCardSize = newSize;
-        d->cache->setSize( newSize );
-
-        foreach ( KCard * c, d->cards )
-            c->update();
-
-        d->cache->loadInBackground( d->elementIds );
+        d->updateCardSize( newSize );
     }
 }
 
@@ -207,11 +394,25 @@ void KAbstractCardDeck::setTheme( const KCardTheme & theme )
 {
     Q_ASSERT ( theme.isValid() );
 
-    delete d->cache;
-    d->cache = new KCardCache2( theme );
-    connect( d->cache, SIGNAL(renderingDone(QString,QPixmap)), d, SLOT(pixmapUpdated(QString,QPixmap)) );
+    d->deleteThread();
 
-    d->originalCardSize = d->cache->naturalSize( "back" );
+    d->theme = theme;
+
+    {
+        QMutexLocker l( &(d->rendererMutex) );
+        delete d->svgRenderer;
+        d->svgRenderer = 0;
+    }
+
+    delete d->cache;
+    d->cache = new KPixmapCache( QString( "kdegames-cards_%1" ).arg( theme.dirName() ) );
+    if ( d->cache->timestamp() < theme.lastModified().toTime_t() )
+    {
+        d->cache->discard();
+        d->cache->setTimestamp( theme.lastModified().toTime_t() );
+    }
+
+    d->originalCardSize = d->unscaledCardSize();
     Q_ASSERT( !d->originalCardSize.isNull() );
     d->currentCardSize = d->originalCardSize.toSize();
 }
@@ -219,7 +420,7 @@ void KAbstractCardDeck::setTheme( const KCardTheme & theme )
 
 KCardTheme KAbstractCardDeck::theme() const
 {
-    return d->cache->theme();
+    return d->theme;
 }
 
 
@@ -247,4 +448,4 @@ void KAbstractCardDeck::paintCard( QPainter * painter, quint32 id, bool faceUp, 
 
 
 #include "kabstractcarddeck.moc"
-#include "moc_kabstractcarddeck.cpp"
+#include "kabstractcarddeck_p.moc"

@@ -19,8 +19,6 @@
 #include "kcardthemewidget.h"
 #include "kcardthemewidget_p.h"
 
-#include "kcardcache.h"
-
 #include <KConfigDialog>
 #include <KDebug>
 #include <KLineEdit>

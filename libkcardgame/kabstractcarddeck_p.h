@@ -16,14 +16,47 @@
  *
  */
 
+#ifndef KABSTRACTCARDDECK_P_H
+#define KABSTRACTCARDDECK_P_H
+
 #include "kabstractcarddeck.h"
 
-#include "kcardcache.h"
+#include "kcardtheme.h"
+
+class KPixmapCache;
 
 #include <QtCore/QHash>
+class QImage;
+#include <QtCore/QMutex>
 #include <QtCore/QSet>
 #include <QtCore/QSizeF>
 #include <QtCore/QStringList>
+#include <QtCore/QThread>
+class QSvgRenderer;
+
+
+typedef QHash<QString,QPair<QPixmap,QList<KCard*> > > CardPixmapHash;
+
+
+class RenderingThread : public QThread
+{
+    Q_OBJECT
+
+public:
+    RenderingThread( KAbstractCardDeckPrivate * d, QSize size, const QStringList & elements );
+    void run();
+    void halt();
+
+signals:
+    void renderingDone( const QString & key, const QImage & image );
+
+private:
+    KAbstractCardDeckPrivate * const d;
+    const QSize m_size;
+    const QStringList m_elementsToRender;
+    bool m_haltFlag;
+    QMutex m_haltMutex;
+};
 
 
 class KAbstractCardDeckPrivate : public QObject
@@ -32,23 +65,37 @@ class KAbstractCardDeckPrivate : public QObject
 
 public:
     KAbstractCardDeckPrivate( KAbstractCardDeck * q );
+    ~KAbstractCardDeckPrivate();
+
+    QSvgRenderer * renderer();
+    QPixmap renderCard( const QString & element );
+    QSizeF unscaledCardSize();
+    QPixmap requestPixmap( QString elementId, bool immediate );
+    void updateCardSize( const QSize & size );
+    void deleteThread();
 
 public slots:
+    void submitRendering( const QString & key, const QImage & image );
     void cardStartedAnimation( KCard * card );
     void cardStoppedAnimation( KCard * card );
-    QPixmap requestPixmap( QString elementId, bool immediate );
-    void pixmapUpdated( const QString & element, const QPixmap & pix );
+
 
 public:
     KAbstractCardDeck * q;
 
-    KCardCache2 * cache;
     QSizeF originalCardSize;
     QSize currentCardSize;
 
     QList<KCard*> cards;
     QSet<KCard*> cardsWaitedFor;
 
-    QStringList elementIds;
-    QHash<QString,QPair<QPixmap,QList<KCard*> > > elementIdMapping;
+    KCardTheme theme;
+    KPixmapCache * cache;
+    QSvgRenderer * svgRenderer;
+    QMutex rendererMutex;
+    RenderingThread * thread;
+
+    CardPixmapHash elementIdMapping;
 };
+
+#endif
