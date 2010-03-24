@@ -47,26 +47,78 @@
 
 #include <cmath>
 
+class KCardPilePrivate : public QObject
+{
+    Q_OBJECT
+
+    Q_PROPERTY( qreal highlightedness READ highlightedness WRITE setHighlightedness )
+
+public:
+    KCardPilePrivate( KCardPile * q );
+
+    void setHighlightedness( qreal highlightedness );
+    qreal highlightedness() const;
+
+    KCardPile * q;
+
+    QList<KCard*> cards;
+
+    bool autoTurnTop;
+    bool highlighted;
+    bool graphicVisible;
+
+    QSize graphicSize;
+    QPointF pilePos;
+    QSizeF reserved;
+    QSizeF spread;
+    QSizeF maximumSpace;
+
+    qreal highlightValue;
+
+    QPropertyAnimation * fadeAnimation;
+};
+
+
+KCardPilePrivate::KCardPilePrivate( KCardPile * q )
+  : QObject( q ),
+    q( q )
+{
+}
+
+
+void KCardPilePrivate::setHighlightedness( qreal highlightedness )
+{
+    highlightValue = highlightedness;
+    q->update();
+}
+
+
+qreal KCardPilePrivate::highlightedness() const
+{
+    return highlightValue;
+}
+
 
 KCardPile::KCardPile( const QString & objectName )
   : QGraphicsObject(),
-    m_autoTurnTop(false),
-    m_highlighted( false ),
-    m_graphicVisible( true ),
-    m_reserved( 1, 1 ),
-    m_spread( 0, 0.33 )
+    d( new KCardPilePrivate( this ) )
 {
     setObjectName( objectName );
 
+    d->autoTurnTop = false;
+    d->highlighted = false;
+    d->graphicVisible = true;
+    d->reserved = QSizeF( 1, 1 );
+    d->spread = QSizeF( 0, 0.33 );
+    d->maximumSpace = QSizeF( 1, 1 ); // just to make it valid
+
+    d->fadeAnimation = new QPropertyAnimation( d, "highlightedness", d );
+    d->fadeAnimation->setDuration( 150 );
+    d->fadeAnimation->setKeyValueAt( 0, 0 );
+    d->fadeAnimation->setKeyValueAt( 1, 1 );
+
     setZValue( 0 );
     QGraphicsItem::setVisible( true );
-
-    setMaximumSpace( QSizeF( 1, 1 ) ); // just to make it valid
-
-    m_fadeAnimation = new QPropertyAnimation( this, "highlightedness", this );
-    m_fadeAnimation->setDuration( 150 );
-    m_fadeAnimation->setKeyValueAt( 0, 0 );
-    m_fadeAnimation->setKeyValueAt( 1, 1 );
 }
 
 
@@ -74,7 +126,7 @@ KCardPile::~KCardPile()
 {
 //     dscene()->removePile(this);
 
-    foreach ( KCard * c, m_cards )
+    foreach ( KCard * c, d->cards )
         c->setSource( 0 );
 }
 
@@ -87,7 +139,7 @@ int KCardPile::type() const
 
 QRectF KCardPile::boundingRect() const
 {
-    return QRectF( QPointF( 0, 0 ), m_graphicSize );
+    return QRectF( QPointF( 0, 0 ), d->graphicSize );
 }
 
 
@@ -96,16 +148,16 @@ void KCardPile::paint( QPainter * painter, const QStyleOptionGraphicsItem * opti
     Q_UNUSED( option );
     Q_UNUSED( widget );
 
-    if ( m_graphicVisible )
+    if ( d->graphicVisible )
     {
-        if ( m_fadeAnimation->state() == QAbstractAnimation::Running )
+        if ( d->fadeAnimation->state() == QAbstractAnimation::Running )
         {
-            painter->setOpacity( 1 - m_highlightedness );
+            painter->setOpacity( 1 - d->highlightValue );
             paintNormalGraphic( painter );
-            painter->setOpacity( m_highlightedness );
+            painter->setOpacity( d->highlightValue );
             paintHighlightedGraphic( painter );
         }
-        else if ( m_highlighted )
+        else if ( d->highlighted )
         {
             paintHighlightedGraphic( painter );
         }
@@ -119,57 +171,57 @@ void KCardPile::paint( QPainter * painter, const QStyleOptionGraphicsItem * opti
 
 QList<KCard*> KCardPile::cards() const
 {
-    return m_cards;
+    return d->cards;
 }
 
 
 int KCardPile::count() const
 {
-    return m_cards.count();
+    return d->cards.count();
 }
 
 
 bool KCardPile::isEmpty() const
 {
-    return m_cards.isEmpty();
+    return d->cards.isEmpty();
 }
 
 
 int KCardPile::indexOf( const KCard * card ) const
 {
-    return m_cards.indexOf( const_cast<KCard*>( card ) );
+    return d->cards.indexOf( const_cast<KCard*>( card ) );
 }
 
 
 KCard * KCardPile::at( int index ) const
 {
-    if ( index < 0 || index >= m_cards.size() )
+    if ( index < 0 || index >= d->cards.size() )
         return 0;
-    return m_cards.at( index );
+    return d->cards.at( index );
 }
 
 
 KCard *KCardPile::top() const
 {
-    if ( m_cards.isEmpty() )
+    if ( d->cards.isEmpty() )
         return 0;
 
-    return m_cards.last();
+    return d->cards.last();
 }
 
 
 QList<KCard*> KCardPile::topCardsDownTo( const KCard * card ) const
 {
-    int index = m_cards.indexOf( const_cast<KCard*>( card ) );
+    int index = d->cards.indexOf( const_cast<KCard*>( card ) );
     if ( index == -1 )
         return QList<KCard*>();
-    return m_cards.mid( index );
+    return d->cards.mid( index );
 }
 
 
 void KCardPile::setPilePos( QPointF pos )
 {
-    m_pilePos = pos;
+    d->pilePos = pos;
 }
 
 
@@ -181,13 +233,13 @@ void KCardPile::setPilePos( qreal x,  qreal y )
 
 QPointF KCardPile::pilePos() const
 {
-    return m_pilePos;
+    return d->pilePos;
 }
 
 
 void KCardPile::setReservedSpace( QSizeF space )
 {
-    m_reserved = space;
+    d->reserved = space;
 }
 
 
@@ -199,25 +251,25 @@ void KCardPile::setReservedSpace( qreal width, qreal height )
 
 QSizeF KCardPile::reservedSpace() const
 {
-    return m_reserved;
+    return d->reserved;
 }
 
 
 void KCardPile::setMaximumSpace( QSizeF size )
 {
-    m_maximumSpace = size;
+    d->maximumSpace = size;
 }
 
 
 QSizeF KCardPile::maximumSpace() const
 {
-    return m_maximumSpace;
+    return d->maximumSpace;
 }
 
 
 void KCardPile::setSpread( QSizeF spread )
 {
-    m_spread = spread;
+    d->spread = spread;
 }
 
 
@@ -229,19 +281,19 @@ void KCardPile::setSpread( qreal width, qreal height )
 
 QSizeF KCardPile::spread() const
 {
-    return m_spread;
+    return d->spread;
 }
 
 
 void KCardPile::setAutoTurnTop( bool autoTurnTop )
 {
-    m_autoTurnTop = autoTurnTop;
+    d->autoTurnTop = autoTurnTop;
 }
 
 
 bool KCardPile::autoTurnTop() const
 {
-    return m_autoTurnTop;
+    return d->autoTurnTop;
 }
 
 
@@ -250,7 +302,7 @@ void KCardPile::setVisible( bool visible )
     if ( visible != isVisible() )
     {
         QGraphicsItem::setVisible( visible );
-        foreach ( KCard * c, m_cards )
+        foreach ( KCard * c, d->cards )
             c->setVisible( visible );
     }
 }
@@ -258,29 +310,29 @@ void KCardPile::setVisible( bool visible )
 
 void KCardPile::setHighlighted( bool highlighted )
 {
-    if ( highlighted != m_highlighted )
+    if ( highlighted != d->highlighted )
     {
-        m_highlighted = highlighted;
-        m_fadeAnimation->setDirection( highlighted
+        d->highlighted = highlighted;
+        d->fadeAnimation->setDirection( highlighted
                                        ? QAbstractAnimation::Forward
                                        : QAbstractAnimation::Backward );
-        if ( m_fadeAnimation->state() != QAbstractAnimation::Running )
-            m_fadeAnimation->start();
+        if ( d->fadeAnimation->state() != QAbstractAnimation::Running )
+            d->fadeAnimation->start();
     }
 }
 
 
 bool KCardPile::isHighlighted() const
 {
-    return m_highlighted;
+    return d->highlighted;
 }
 
 
 void KCardPile::setGraphicVisible( bool visible )
 {
-    if ( m_graphicVisible != visible )
+    if ( d->graphicVisible != visible )
     {
-        m_graphicVisible = visible;
+        d->graphicVisible = visible;
         update();
     }
 }
@@ -288,16 +340,16 @@ void KCardPile::setGraphicVisible( bool visible )
 
 bool KCardPile::isGraphicVisible()
 {
-    return m_graphicVisible;
+    return d->graphicVisible;
 }
 
 
 void KCardPile::setGraphicSize( QSize size )
 {
-    if ( size != m_graphicSize )
+    if ( size != d->graphicSize )
     {
         prepareGeometryChange();
-        m_graphicSize = size;
+        d->graphicSize = size;
         update();
     }
 }
@@ -319,44 +371,44 @@ void KCardPile::add( KCard * card, int index )
 
     if ( index == -1 )
     {
-        m_cards.append( card );
+        d->cards.append( card );
     }
     else
     {
-        while ( m_cards.count() <= index )
-            m_cards.append( 0 );
+        while ( d->cards.count() <= index )
+            d->cards.append( 0 );
 
-        Q_ASSERT( m_cards[index] == 0 );
-        m_cards[index] = card;
+        Q_ASSERT( d->cards[index] == 0 );
+        d->cards[index] = card;
     }
 }
 
 
 void KCardPile::remove( KCard * card )
 {
-    Q_ASSERT( m_cards.contains( card ) );
-    m_cards.removeAll( card );
+    Q_ASSERT( d->cards.contains( card ) );
+    d->cards.removeAll( card );
     card->setSource( 0 );
 }
 
 
 void KCardPile::clear()
 {
-    foreach ( KCard *card, m_cards )
+    foreach ( KCard *card, d->cards )
         remove( card );
 }
 
 
 void KCardPile::layoutCards( int duration )
 {
-    if ( m_cards.isEmpty() )
+    if ( d->cards.isEmpty() )
         return;
 
-    const QSize cardSize = m_cards.first()->boundingRect().size().toSize();
+    const QSize cardSize = d->cards.first()->boundingRect().size().toSize();
 
     QPointF totalOffset( 0, 0 );
-    for ( int i = 0; i < m_cards.size() - 1; ++i )
-        totalOffset += cardOffset( m_cards[i] );
+    for ( int i = 0; i < d->cards.size() - 1; ++i )
+        totalOffset += cardOffset( d->cards[i] );
 
     qreal divx = 1;
     if ( totalOffset.x() )
@@ -369,9 +421,9 @@ void KCardPile::layoutCards( int duration )
     QPointF cardPos = pos();
     qreal z = zValue() + 1;
 
-    for ( int i = 0; i < m_cards.size() - 1; ++i )
+    for ( int i = 0; i < d->cards.size() - 1; ++i )
     {
-        KCard * card = m_cards[i];
+        KCard * card = d->cards[i];
         card->animate( cardPos, z, 1, 0, card->isFaceUp(), false, duration );
 
         QPointF offset = cardOffset( card );
@@ -380,7 +432,7 @@ void KCardPile::layoutCards( int duration )
         ++z;
     }
 
-    if ( m_autoTurnTop && !top()->isFaceUp() )
+    if ( d->autoTurnTop && !top()->isFaceUp() )
         top()->animate( cardPos, z, 1, 0, true, false, duration );
     else
         top()->animate( cardPos, z, 1, 0, top()->isFaceUp(), false, duration );
@@ -436,19 +488,5 @@ QPointF KCardPile::cardOffset( const KCard * card ) const
 }
 
 
-void KCardPile::setHighlightedness( qreal highlightedness )
-{
-    if ( m_highlightedness != highlightedness )
-    {
-        m_highlightedness = highlightedness;
-        update();
-    }
-}
-
-qreal KCardPile::highlightedness() const
-{
-    return m_highlightedness;
-}
-
-
 #include "kcardpile.moc"
+#include "moc_kcardpile.cpp"

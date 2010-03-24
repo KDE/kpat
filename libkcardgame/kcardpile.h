@@ -49,7 +49,6 @@ class QPropertyAnimation;
 class LIBKCARDGAME_EXPORT KCardPile : public QGraphicsObject
 {
     Q_OBJECT
-    Q_PROPERTY( qreal highlightedness READ highlightedness WRITE setHighlightedness )
 
 public:
     explicit KCardPile( const QString & objectName = QString() );
@@ -121,24 +120,8 @@ protected:
     virtual QPointF cardOffset( const KCard * card ) const;
 
 private:
-    void setHighlightedness( qreal highlightedness );
-    qreal highlightedness() const;
-
-    QList<KCard*> m_cards;
-
-    bool m_autoTurnTop;
-    bool m_highlighted;
-    bool m_graphicVisible;
-
-    QSize m_graphicSize;
-    QPointF m_pilePos;
-    QSizeF m_reserved;
-    QSizeF m_spread;
-    QSizeF m_maximumSpace;
-
-    qreal m_highlightedness;
-
-    QPropertyAnimation * m_fadeAnimation;
+    class KCardPilePrivate * const d;
+    friend class KCardPilePrivate;
 };
 
 #endif

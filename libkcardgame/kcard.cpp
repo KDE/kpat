@@ -107,7 +107,6 @@ void KCardPrivate::setHighlightedness( qreal highlightedness )
 {
     highlightValue = highlightedness;
     q->update();
-    return;
 }
 
 
@@ -257,8 +256,6 @@ void KCard::setHighlighted( bool flag )
         if ( d->fadeAnimation->state() != QAbstractAnimation::Running )
             d->fadeAnimation->start();
     }
-
-    update();
 }
 
 
