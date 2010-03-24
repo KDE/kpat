@@ -49,7 +49,7 @@
 
 
 KCardPile::KCardPile( const QString & objectName )
-  : QGraphicsPixmapItem(),
+  : QGraphicsObject(),
     m_autoTurnTop(false),
     m_highlighted( false ),
     m_graphicVisible( true ),
@@ -59,7 +59,6 @@ KCardPile::KCardPile( const QString & objectName )
     setObjectName( objectName );
 
     setZValue( 0 );
-    setShapeMode( QGraphicsPixmapItem::BoundingRectShape );
     QGraphicsItem::setVisible( true );
 
     setMaximumSpace( QSizeF( 1, 1 ) ); // just to make it valid
@@ -83,6 +82,38 @@ KCardPile::~KCardPile()
 int KCardPile::type() const
 {
     return KCardPile::Type;
+}
+
+
+QRectF KCardPile::boundingRect() const
+{
+    return QRectF( QPointF( 0, 0 ), m_graphicSize );
+}
+
+
+void KCardPile::paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget )
+{
+    Q_UNUSED( option );
+    Q_UNUSED( widget );
+
+    if ( m_graphicVisible )
+    {
+        if ( m_fadeAnimation->state() == QAbstractAnimation::Running )
+        {
+            painter->setOpacity( 1 - m_highlightedness );
+            paintNormalGraphic( painter );
+            painter->setOpacity( m_highlightedness );
+            paintHighlightedGraphic( painter );
+        }
+        else if ( m_highlighted )
+        {
+            paintHighlightedGraphic( painter );
+        }
+        else
+        {
+            paintNormalGraphic( painter );
+        }
+    }
 }
 
 
@@ -250,7 +281,7 @@ void KCardPile::setGraphicVisible( bool visible )
     if ( m_graphicVisible != visible )
     {
         m_graphicVisible = visible;
-        updatePixmap( pixmap().size() );
+        update();
     }
 }
 
@@ -263,8 +294,12 @@ bool KCardPile::isGraphicVisible()
 
 void KCardPile::setGraphicSize( QSize size )
 {
-    if ( size != pixmap().size() )
-        updatePixmap( size );
+    if ( size != m_graphicSize )
+    {
+        prepareGeometryChange();
+        m_graphicSize = size;
+        update();
+    }
 }
 
 
@@ -372,6 +407,23 @@ bool KCardPile::cardDoubleClicked( KCard * card )
 }
 
 
+void KCardPile::paintNormalGraphic( QPainter * painter )
+{
+    int penWidth = boundingRect().width() / 40;
+    int topLeft = penWidth / 2;
+    int bottomRight = topLeft - penWidth;
+    painter->setPen( QPen( Qt::black, penWidth ) );
+    painter->drawRect( boundingRect().adjusted( topLeft, topLeft, bottomRight, bottomRight ) );
+}
+
+
+void KCardPile::paintHighlightedGraphic( QPainter * painter )
+{
+    painter->setBrush( QColor( 0, 0, 0, 64 ) );
+    paintNormalGraphic( painter );
+}
+
+
 // Return the number of pixels in x and y that the card should be
 // offset from the start position of the pile.
 QPointF KCardPile::cardOffset( const KCard * card ) const
@@ -384,64 +436,12 @@ QPointF KCardPile::cardOffset( const KCard * card ) const
 }
 
 
-QPixmap KCardPile::normalPixmap( QSize size )
-{
-    QPixmap pix( size );
-    pix.fill( Qt::transparent );
-    return pix;
-}
-
-
-QPixmap KCardPile::highlightedPixmap( QSize size )
-{
-    QPixmap pix( size );
-    pix.fill( QColor( 0, 0, 0, 128 ) );
-    return pix;
-}
-
-
-void KCardPile::updatePixmap( QSize size )
-{
-    if ( !scene() )
-        return;
-
-    QPixmap pix;
-    if ( m_graphicVisible )
-    {
-        if ( m_fadeAnimation->state() == QAbstractAnimation::Running )
-        {
-            pix = QPixmap( size );
-            pix.fill( Qt::transparent );
-            QPainter p( &pix );
-            p.setOpacity( 1 - m_highlightedness );
-            p.drawPixmap( 0, 0, normalPixmap( size ) );
-            p.setOpacity( m_highlightedness );
-            p.drawPixmap( 0, 0, highlightedPixmap( size ) );
-        }
-        else if ( m_highlighted )
-        {
-            pix = highlightedPixmap( size );
-        }
-        else
-        {
-            pix = normalPixmap( size );
-        }
-    }
-    else
-    {
-        pix = QPixmap( size );
-        pix.fill( Qt::transparent );
-    }
-
-    setPixmap( pix );
-}
-
 void KCardPile::setHighlightedness( qreal highlightedness )
 {
     if ( m_highlightedness != highlightedness )
     {
         m_highlightedness = highlightedness;
-        updatePixmap( pixmap().size() );
+        update();
     }
 }
 

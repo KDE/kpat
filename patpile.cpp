@@ -78,13 +78,13 @@ void PatPile::add( KCard * card, int index )
 }
 
 
-QPixmap PatPile::normalPixmap( QSize size )
+void PatPile::paintNormalGraphic( QPainter * painter )
 {
-    return Render::renderElement( "pile", size );
+    painter->drawPixmap( 0, 0, Render::renderElement( "pile", boundingRect().size().toSize() ) );
 }
 
 
-QPixmap PatPile::highlightedPixmap( QSize size )
+void PatPile::paintHighlightedGraphic( QPainter * painter )
 {
-    return Render::renderElement( "pile_selected", size );
+    painter->drawPixmap( 0, 0, Render::renderElement( "pile_selected", boundingRect().size().toSize() ) );
 }

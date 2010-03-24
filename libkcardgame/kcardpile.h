@@ -46,7 +46,7 @@ class QPropertyAnimation;
 #include <QtGui/QGraphicsPixmapItem>
 
 
-class LIBKCARDGAME_EXPORT KCardPile : public QObject, public QGraphicsPixmapItem
+class LIBKCARDGAME_EXPORT KCardPile : public QGraphicsObject
 {
     Q_OBJECT
     Q_PROPERTY( qreal highlightedness READ highlightedness WRITE setHighlightedness )
@@ -57,6 +57,9 @@ public:
 
     enum { Type = QGraphicsItem::UserType + 2 };
     virtual int type() const;
+
+    virtual QRectF boundingRect() const;
+    virtual void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
 
     QList<KCard*> cards() const;
     int count() const;
@@ -112,14 +115,12 @@ signals:
     void pressed( KCard * card );
 
 protected:
+    virtual void paintNormalGraphic( QPainter * painter );
+    virtual void paintHighlightedGraphic( QPainter * painter );
+
     virtual QPointF cardOffset( const KCard * card ) const;
 
-    virtual QPixmap normalPixmap( QSize size );
-    virtual QPixmap highlightedPixmap( QSize size );
-
 private:
-    void updatePixmap( QSize size );
-
     void setHighlightedness( qreal highlightedness );
     qreal highlightedness() const;
 
@@ -129,6 +130,7 @@ private:
     bool m_highlighted;
     bool m_graphicVisible;
 
+    QSize m_graphicSize;
     QPointF m_pilePos;
     QSizeF m_reserved;
     QSizeF m_spread;

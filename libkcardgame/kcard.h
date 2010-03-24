@@ -28,7 +28,6 @@ class KCardPile;
 class LIBKCARDGAME_EXPORT KCard : public QGraphicsObject
 {
     Q_OBJECT
-    Q_INTERFACES( QGraphicsItem )
 
 private:
     KCard( quint32 id, KAbstractCardDeck * deck );
@@ -39,6 +38,7 @@ public:
     virtual int type() const;
 
     virtual QRectF boundingRect() const;
+    virtual void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
 
     quint32 id() const;
 
@@ -63,9 +63,6 @@ signals:
 public slots:
     void completeAnimation();
     void stopAnimation();
-
-protected:
-    virtual void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
 
 private:
     class KCardPrivate * const d;

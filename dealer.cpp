@@ -1634,7 +1634,7 @@ void DealerScene::createDump( QPaintDevice *device )
             {
                 p.save();
                 p.setTransform(item->deviceTransform(p.worldTransform()), false);
-                p.drawPixmap( 0, 0, pile->pixmap() );
+                pile->paint( &p, 0 );
                 p.restore();
                 continue;
             }

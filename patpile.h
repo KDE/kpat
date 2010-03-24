@@ -56,8 +56,8 @@ public:
     virtual void add(KCard * card, int index = -1);
 
 protected:
-    virtual QPixmap normalPixmap( QSize size );
-    virtual QPixmap highlightedPixmap( QSize size );
+    virtual void paintNormalGraphic( QPainter * painter );
+    virtual void paintHighlightedGraphic( QPainter * painter );
 
 private:
     int m_index;
