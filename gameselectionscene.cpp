@@ -19,7 +19,7 @@
 #include "gameselectionscene.h"
 
 #include "dealerinfo.h"
-#include "render.h"
+#include "renderer.h"
 #include "speeds.h"
 
 #include <KColorUtils>

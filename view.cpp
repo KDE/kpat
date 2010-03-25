@@ -38,7 +38,7 @@
 #include "view.h"
 
 #include "gameselectionscene.h"
-#include "render.h"
+#include "renderer.h"
 
 #include "libkcardgame/kcardscene.h"
 

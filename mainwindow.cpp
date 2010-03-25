@@ -41,7 +41,7 @@
 #include "dealer.h"
 #include "dealerinfo.h"
 #include "gameselectionscene.h"
-#include "render.h"
+#include "renderer.h"
 #include "settings.h"
 #include "statisticsdialog.h"
 #include "version.h"

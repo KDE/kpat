@@ -13,7 +13,7 @@ set( kpat_SRCS
     mainwindow.cpp
     patpile.cpp
     pileutils.cpp
-    render.cpp
+    renderer.cpp
     statisticsdialog.cpp
     view.cpp
     patsolve/memory.cpp

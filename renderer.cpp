@@ -16,7 +16,7 @@
  *
  */
 
-#include "render.h"
+#include "renderer.h"
 
 #include <KDebug>
 #include <KGlobal>

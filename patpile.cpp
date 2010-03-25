@@ -19,7 +19,7 @@
 #include "patpile.h"
 
 #include "dealer.h"
-#include "render.h"
+#include "renderer.h"
 
 
 PatPile::PatPile( int index, const QString & objectName )
