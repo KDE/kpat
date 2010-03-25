@@ -18,7 +18,7 @@
             <default>svg-ancient-egyptians</default>
         </entry>
         <entry name="Theme" key="Theme" type="String">
-            <default>themes/ancientegypt.desktop</default>
+            <default>themes/cleangreen.desktop</default>
         </entry>
         <entry name="KlondikeIsDrawOne" key="KlondikeEasy" type="Bool">
             <default>true</default>
