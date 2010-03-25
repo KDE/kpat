@@ -28,13 +28,14 @@ class QPixmap;
 
 namespace Render
 {
+    bool setTheme( const QString & fileName );
     QPixmap renderElement( const QString & elementId, QSize size );
     QSize sizeOfElement( const QString & elementId );
     qreal aspectRatioOfElement( const QString & elementId );
     QColor colorOfElement( const QString & elementId );
     QPixmap renderGamePreview( int id, QSize size );
 
-    bool loadTheme();
+    void loadTheme();
 }
 
 

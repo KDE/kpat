@@ -18,15 +18,17 @@
 
 #include "render.h"
 
+#include "kgametheme.h"
+
 #include <KDebug>
 #include <KGlobal>
 #include <KPixmapCache>
 #include <KStandardDirs>
-#include <KSvgRenderer>
 
 #include <QtCore/QDateTime>
 #include <QtCore/QFileInfo>
 #include <QtGui/QPainter>
+#include <QtSvg/QSvgRenderer>
 
 
 class RenderPrivate
@@ -34,11 +36,10 @@ class RenderPrivate
 public:
     RenderPrivate()
       : m_svgRenderer(),
-        m_pixmapCache("kpat-cache"),
-        m_fileToLoad( KStandardDirs::locate( "data", "kpat/themes/ancientegypt.svgz" ) )
+        m_pixmapCache("kpat-cache")
     {};
 
-    KSvgRenderer m_svgRenderer;
+    QSvgRenderer m_svgRenderer;
     KPixmapCache m_pixmapCache;
     QHash<QString, QColor> m_colors;
     QString m_fileToLoad;
@@ -49,38 +50,59 @@ namespace Render
     K_GLOBAL_STATIC( RenderPrivate, rp )
 }
 
-
-bool Render::loadTheme()
+bool Render::setTheme( const QString & fileName )
 {
     bool result = false;
 
-    const QDateTime cacheTimeStamp = QDateTime::fromTime_t( rp->m_pixmapCache.timestamp() );
-    const QDateTime svgFileTimeStamp = QFileInfo( rp->m_fileToLoad ).lastModified();
-
-    QPixmap nullPixmap;
-
-    const bool svgFileIsNewer = svgFileTimeStamp > cacheTimeStamp;
-    if ( svgFileIsNewer )
+    KGameTheme newTheme;
+    if ( newTheme.load( fileName ) )
     {
-        kDebug() << "SVG file is newer than cache.";
-        kDebug() << "Cache timestamp is" << cacheTimeStamp.toString( Qt::ISODate );
-        kDebug() << "SVG file timestamp is" << svgFileTimeStamp.toString( Qt::ISODate );
-    }
+        const QDateTime cacheTimeStamp = QDateTime::fromTime_t( rp->m_pixmapCache.timestamp() );
+        const QDateTime desktopFileTimeStamp = QFileInfo( newTheme.path() ).lastModified();
+        const QDateTime svgFileTimeStamp = QFileInfo( newTheme.graphics() ).lastModified();
 
-    // Only bother actually loading the SVG if no SVG has been loaded
-    // yet or if the cache must be discarded.
-    if ( !rp->m_svgRenderer.isValid() || svgFileIsNewer )
-    {
+        QPixmap nullPixmap;
+        const bool isNotInCache = !rp->m_pixmapCache.find( newTheme.path(), nullPixmap );
+        kDebug( isNotInCache ) << "Theme is not already in cache.";
+
+        const bool desktopFileIsNewer = desktopFileTimeStamp > cacheTimeStamp;
+        if ( desktopFileIsNewer )
+        {
+            kDebug() << "Desktop file is newer than cache.";
+            kDebug() << "Cache timestamp is" << cacheTimeStamp.toString( Qt::ISODate );
+            kDebug() << "Desktop file timestamp is" << desktopFileTimeStamp.toString( Qt::ISODate );
+        }
+
+        const bool svgFileIsNewer = svgFileTimeStamp > cacheTimeStamp;
         if ( svgFileIsNewer )
+        {
+            kDebug() << "SVG file is newer than cache.";
+            kDebug() << "Cache timestamp is" << cacheTimeStamp.toString( Qt::ISODate );
+            kDebug() << "SVG file timestamp is" << svgFileTimeStamp.toString( Qt::ISODate );
+        }
+
+        // Discard the cache if the loaded theme doesn't match the one already
+        // in the cache, or if either of the theme files have been updated
+        // since the cache was created.
+        const bool discardCache = isNotInCache || svgFileIsNewer || desktopFileIsNewer;
+        if ( discardCache )
         {
             kDebug() << "Discarding cache.";
             rp->m_pixmapCache.discard();
             rp->m_pixmapCache.setTimestamp( QDateTime::currentDateTime().toTime_t() );
+
+            // We store a null pixmap in the cache with the new theme's
+            // file path as the key. This allows us to keep track of the
+            // theme that is stored in the disk cache between runs.
+            rp->m_pixmapCache.insert( newTheme.path(), nullPixmap );
         }
 
-        result = rp->m_svgRenderer.load( rp->m_fileToLoad );
+        if ( QFile( newTheme.graphics() ).exists() )
+        {
+            rp->m_fileToLoad = newTheme.graphics();
+            result = true;
+        }
     }
-
     return result;
 }
 
@@ -174,4 +196,9 @@ QPixmap Render::renderGamePreview( int id, QSize size )
     }
 
     return result;
+}
+
+void Render::loadTheme()
+{
+    rp->m_svgRenderer.load( rp->m_fileToLoad );
 }

@@ -36,6 +36,7 @@
 
 #include "dealer.h"
 #include "dealerinfo.h"
+#include "render.h"
 #include "version.h"
 #include "mainwindow.h"
 #include "patsolve/patsolve.h"
@@ -282,6 +283,8 @@ int main( int argc, char **argv )
         fprintf( stdout, "all_moves %ld\n", all_moves );
         return 0;
     }
+
+    Render::setTheme( KStandardDirs::locate( "data", "kpat/themes/ancientegypt.desktop" ) );
 
     QString gametype = args->getOption("gametype").toLower();
     QFile savedState( KStandardDirs::locateLocal("appdata", saved_state_file) );
