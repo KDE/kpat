@@ -82,7 +82,8 @@ void PatienceView::resizeEvent( QResizeEvent * e )
 void PatienceView::drawBackground( QPainter * painter, const QRectF & rect)
 {
     Q_UNUSED( rect );
-    painter->drawPixmap( sceneRect().topLeft(), Render::renderElement( "background", sceneRect().size().toSize() ) );
+    QPixmap pix = Renderer::self()->renderElement( "background", sceneRect().size().toSize() );
+    painter->drawPixmap( sceneRect().topLeft(), pix );
 }
 
 

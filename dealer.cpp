@@ -833,7 +833,7 @@ void DealerScene::showWonMessage()
 
 void DealerScene::updateWonItem()
 {
-    const qreal aspectRatio = Render::aspectRatioOfElement("message_frame");
+    const qreal aspectRatio = Renderer::self()->aspectRatioOfElement("message_frame");
     int boxWidth;
     int boxHeight;
     if (width() < aspectRatio * height())
@@ -851,7 +851,7 @@ void DealerScene::updateWonItem()
     if ( qAbs( d->wonItem->boundingRect().width() - boxWidth ) > 20 )
     {
         QRect contentsRect = QRect( 0, 0, boxWidth, boxHeight );
-        QPixmap pix = Render::renderElement( "message_frame", contentsRect.size() );
+        QPixmap pix = Renderer::self()->renderElement( "message_frame", contentsRect.size() );
 
         QString text;
         if ( d->gothelp )
@@ -872,7 +872,7 @@ void DealerScene::updateWonItem()
 
         QPainter p( &pix );
         p.setFont( font );
-        p.setPen( Render::colorOfElement("message_text_color") );
+        p.setPen( Renderer::self()->colorOfElement("message_text_color") );
         p.drawText( contentsRect, Qt::AlignCenter, text );
         p.end();
 
