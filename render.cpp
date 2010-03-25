@@ -35,7 +35,7 @@ public:
     RenderPrivate()
       : m_svgRenderer(),
         m_pixmapCache("kpat-cache"),
-        m_fileToLoad( KStandardDirs::locate( "data", "kpat/theme.svgz" ) )
+        m_fileToLoad( KStandardDirs::locate( "data", "kpat/themes/ancientegypt.svgz" ) )
     {};
 
     KSvgRenderer m_svgRenderer;

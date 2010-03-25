@@ -3,6 +3,7 @@ project( kpat )
 add_subdirectory( icons )
 add_subdirectory( libkcardgame )
 add_subdirectory( previews )
+add_subdirectory( themes )
 
 set( kpat_SRCS
     main.cpp
@@ -55,7 +56,6 @@ install( TARGETS kpat ${INSTALL_TARGETS_DEFAULT_ARGS} )
 ########### install files ###############
 
 install( FILES kpat.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
-install( FILES theme.svgz DESTINATION  ${DATA_INSTALL_DIR}/kpat )
 install( FILES kpatui.rc  DESTINATION  ${DATA_INSTALL_DIR}/kpat )
 install( FILES kpat.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
 install( FILES kpat_update_cardwidth.upd DESTINATION ${KCONF_UPDATE_INSTALL_DIR} )
