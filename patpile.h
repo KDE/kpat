@@ -53,7 +53,7 @@ public:
     void setFoundation( bool foundation );
     bool isFoundation() const;
 
-    virtual void add(KCard * card, int index = -1);
+    virtual void insert( KCard * card, int index );
 
 protected:
     virtual void paintNormalGraphic( QPainter * painter );

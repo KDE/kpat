@@ -1061,19 +1061,26 @@ void DealerScene::setState(State *st)
         p->clear();
     }
 
+    QMap<KCard*,int> cardIndices;
     foreach (const CardState & s, *n)
     {
         KCard *c = s.it;
         c->setFaceUp(s.faceup);
-        s.source->add(c, s.source_index);
+        s.source->add( c );
+        cardIndices.insert( c, s.source_index );
 
         PatPile * p = dynamic_cast<PatPile*>(c->source());
         if (s.tookdown || (cardsFromFoundations.contains(c) && !(p && p->isFoundation())))
             d->cardsNotToDrop.insert( c );
     }
 
-    foreach (PatPile *p, patPiles())
+    foreach( PatPile * p, patPiles() )
+    {
+        foreach ( KCard * c, p->cards() )
+            p->swapCards( p->indexOf( c ), cardIndices.value( c ) );
+
         p->layoutCards(0);
+    }
 
     // restore game-specific information
     setGameState( st->gameData );

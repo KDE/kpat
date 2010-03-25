@@ -355,13 +355,18 @@ void KCardPile::setGraphicSize( QSize size )
 }
 
 
-void KCardPile::add( KCard * card, int index )
+void KCardPile::add( KCard * card )
 {
-    if ( card->source() == this )
-        return;
+    insert( card, d->cards.size() );
+}
+
+
+void KCardPile::insert( KCard * card, int index )
+{
+    Q_ASSERT( 0 <= index && index <= d->cards.size() );
 
     if ( card->scene() != scene() )
-        scene()->addItem(card);
+        scene()->addItem( card );
 
     if ( card->source() )
         card->source()->remove( card );
@@ -369,18 +374,7 @@ void KCardPile::add( KCard * card, int index )
     card->setSource( this );
     card->setVisible( isVisible() );
 
-    if ( index == -1 )
-    {
-        d->cards.append( card );
-    }
-    else
-    {
-        while ( d->cards.count() <= index )
-            d->cards.append( 0 );
-
-        Q_ASSERT( d->cards[index] == 0 );
-        d->cards[index] = card;
-    }
+    d->cards.insert( index, card );
 }
 
 
@@ -401,6 +395,9 @@ void KCardPile::clear()
 
 void KCardPile::swapCards( int index1, int index2 )
 {
+    if ( index1 == index2 )
+        return;
+
     KCard * temp = d->cards.at( index1 );
     d->cards[ index1 ] = d->cards.at( index2 );
     d->cards[ index2 ] = temp;

@@ -63,14 +63,14 @@ bool PatPile::isFoundation() const
 }
 
 
-void PatPile::add( KCard * card, int index )
+void PatPile::insert( KCard * card, int index )
 {
     // FIXME This is hideous and way too casty. Find a more elegant way,
     // maybe moving this code into CardScene to be reimplemented by
     // DealerScene.
     PatPile * oldSource = dynamic_cast<PatPile*>( card->source() );
 
-    KCardPile::add( card, index );
+    KCardPile::insert( card, index );
 
     DealerScene * d = dynamic_cast<DealerScene*>( scene() );
     bool takenDown =  d && oldSource && oldSource->isFoundation() && !isFoundation();

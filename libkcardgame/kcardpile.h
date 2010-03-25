@@ -96,7 +96,8 @@ public:
 
     void setGraphicSize( QSize size );
 
-    virtual void add( KCard * card, int index = -1 );
+    void add( KCard * card );
+    virtual void insert( KCard * card, int index );
     virtual void remove( KCard * card );
     void clear();
     void swapCards( int index1, int index2 );
