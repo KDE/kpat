@@ -38,7 +38,14 @@ public:
       : m_svgRenderer(),
         m_pixmapCache("kpat-cache"),
         m_themeIsLoaded( false )
-    {};
+    {
+    };
+
+    void ensureSvgIsLoaded()
+    {
+        if ( !m_svgRenderer.isValid() && m_themeIsLoaded )
+            m_svgRenderer.load( m_theme.graphics() );
+    }
 
     QSvgRenderer m_svgRenderer;
     KPixmapCache m_pixmapCache;
@@ -128,8 +135,7 @@ QPixmap Render::renderElement( const QString & elementId, QSize size )
     {
         kDebug() << "Rendering \"" << elementId << "\" at " << size << " pixels.";
 
-        if ( !rp->m_svgRenderer.isValid() )
-            loadSvg();
+        rp->ensureSvgIsLoaded();
 
         result = QPixmap( size );
         result.fill( Qt::transparent );
@@ -157,8 +163,7 @@ QSize Render::sizeOfElement( const QString & elementId )
     }
     else
     {
-        if ( !rp->m_svgRenderer.isValid() )
-            loadSvg();
+        rp->ensureSvgIsLoaded();
 
         size = rp->m_svgRenderer.boundsOnElement( elementId ).size().toSize();
         rp->m_pixmapCache.insert( key, QPixmap( size ) );
@@ -208,8 +213,4 @@ QPixmap Render::renderGamePreview( int id, QSize size )
     return result;
 }
 
-void Render::loadSvg()
-{
-    if ( rp->m_themeIsLoaded )
-        rp->m_svgRenderer.load( rp->m_theme.graphics() );
-}
+

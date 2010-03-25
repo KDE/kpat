@@ -38,8 +38,6 @@ namespace Render
     qreal aspectRatioOfElement( const QString & elementId );
     QColor colorOfElement( const QString & elementId );
     QPixmap renderGamePreview( int id, QSize size );
-
-    void loadSvg();
 }
 
 
