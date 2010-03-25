@@ -219,6 +219,8 @@ void KAbstractCardDeckPrivate::updateCardSize( const QSize & size )
 {
     currentCardSize = size;
 
+    cache->insert( "lastUsedSize", QPixmap( currentCardSize ) );
+
     foreach ( KCard * c, cards )
         c->update();
 
@@ -414,7 +416,10 @@ void KAbstractCardDeck::setTheme( const KCardTheme & theme )
 
     d->originalCardSize = d->unscaledCardSize();
     Q_ASSERT( !d->originalCardSize.isNull() );
-    d->currentCardSize = d->originalCardSize.toSize();
+
+    QPixmap pix( 10, 10 * d->originalCardSize.height() / d->originalCardSize.width() );
+    d->cache->find( "lastUsedSize", pix );
+    d->currentCardSize = pix.size();
 }
 
 
