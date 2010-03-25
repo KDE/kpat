@@ -399,6 +399,14 @@ void KCardPile::clear()
 }
 
 
+void KCardPile::swapCards( int index1, int index2 )
+{
+    KCard * temp = d->cards.at( index1 );
+    d->cards[ index1 ] = d->cards.at( index2 );
+    d->cards[ index2 ] = temp;
+}
+
+
 void KCardPile::layoutCards( int duration )
 {
     if ( d->cards.isEmpty() )

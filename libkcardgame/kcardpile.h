@@ -99,6 +99,7 @@ public:
     virtual void add( KCard * card, int index = -1 );
     virtual void remove( KCard * card );
     void clear();
+    void swapCards( int index1, int index2 );
 
     virtual void layoutCards( int duration );
 
