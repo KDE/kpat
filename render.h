@@ -19,6 +19,8 @@
 #ifndef RENDER_H
 #define RENDER_H
 
+class KGameTheme;
+
 class QSize;
 class QString;
 #include <QtCore/Qt>
@@ -29,13 +31,15 @@ class QPixmap;
 namespace Render
 {
     bool setTheme( const QString & fileName );
+    const KGameTheme & theme();
+
     QPixmap renderElement( const QString & elementId, QSize size );
     QSize sizeOfElement( const QString & elementId );
     qreal aspectRatioOfElement( const QString & elementId );
     QColor colorOfElement( const QString & elementId );
     QPixmap renderGamePreview( int id, QSize size );
 
-    void loadTheme();
+    void loadSvg();
 }
 
 

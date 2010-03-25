@@ -18,7 +18,7 @@
 
 #include "render.h"
 
-#include "kgametheme.h"
+#include <KGameTheme>
 
 #include <KDebug>
 #include <KGlobal>
@@ -36,13 +36,15 @@ class RenderPrivate
 public:
     RenderPrivate()
       : m_svgRenderer(),
-        m_pixmapCache("kpat-cache")
+        m_pixmapCache("kpat-cache"),
+        m_themeIsLoaded( false )
     {};
 
     QSvgRenderer m_svgRenderer;
     KPixmapCache m_pixmapCache;
     QHash<QString, QColor> m_colors;
-    QString m_fileToLoad;
+    KGameTheme m_theme;
+    bool m_themeIsLoaded;
 };
 
 namespace Render
@@ -55,14 +57,20 @@ bool Render::setTheme( const QString & fileName )
     bool result = false;
 
     KGameTheme newTheme;
-    if ( newTheme.load( fileName ) )
+    if ( newTheme.load( fileName ) && QFile( newTheme.graphics() ).exists() )
     {
+        rp->m_themeIsLoaded = rp->m_theme.load( fileName );
+        rp->m_svgRenderer.load( QByteArray() );
+        rp->m_colors.clear();
+
+        kDebug() << rp->m_theme.path();
+
         const QDateTime cacheTimeStamp = QDateTime::fromTime_t( rp->m_pixmapCache.timestamp() );
-        const QDateTime desktopFileTimeStamp = QFileInfo( newTheme.path() ).lastModified();
-        const QDateTime svgFileTimeStamp = QFileInfo( newTheme.graphics() ).lastModified();
+        const QDateTime desktopFileTimeStamp = QFileInfo( rp->m_theme.path() ).lastModified();
+        const QDateTime svgFileTimeStamp = QFileInfo( rp->m_theme.graphics() ).lastModified();
 
         QPixmap nullPixmap;
-        const bool isNotInCache = !rp->m_pixmapCache.find( newTheme.path(), nullPixmap );
+        const bool isNotInCache = !rp->m_pixmapCache.find( rp->m_theme.path(), nullPixmap );
         kDebug( isNotInCache ) << "Theme is not already in cache.";
 
         const bool desktopFileIsNewer = desktopFileTimeStamp > cacheTimeStamp;
@@ -94,16 +102,18 @@ bool Render::setTheme( const QString & fileName )
             // We store a null pixmap in the cache with the new theme's
             // file path as the key. This allows us to keep track of the
             // theme that is stored in the disk cache between runs.
-            rp->m_pixmapCache.insert( newTheme.path(), nullPixmap );
+            rp->m_pixmapCache.insert( rp->m_theme.path(), nullPixmap );
         }
 
-        if ( QFile( newTheme.graphics() ).exists() )
-        {
-            rp->m_fileToLoad = newTheme.graphics();
-            result = true;
-        }
+        result = true;
     }
     return result;
+}
+
+
+const KGameTheme & Render::theme()
+{
+    return rp->m_theme;
 }
 
 
@@ -119,7 +129,7 @@ QPixmap Render::renderElement( const QString & elementId, QSize size )
         kDebug() << "Rendering \"" << elementId << "\" at " << size << " pixels.";
 
         if ( !rp->m_svgRenderer.isValid() )
-            loadTheme();
+            loadSvg();
 
         result = QPixmap( size );
         result.fill( Qt::transparent );
@@ -148,7 +158,7 @@ QSize Render::sizeOfElement( const QString & elementId )
     else
     {
         if ( !rp->m_svgRenderer.isValid() )
-            loadTheme();
+            loadSvg();
 
         size = rp->m_svgRenderer.boundsOnElement( elementId ).size().toSize();
         rp->m_pixmapCache.insert( key, QPixmap( size ) );
@@ -191,14 +201,15 @@ QPixmap Render::renderGamePreview( int id, QSize size )
         kDebug() << "Rendering preview number" << id << "at " << size << " pixels.";
 
         result = QPixmap( KStandardDirs::locate( "data", QString( "kpat/previews/%1.png" ).arg( id ) ) );
-        result = result.scaled( size, Qt::KeepAspectRatio );
+        result = result.scaled( size, Qt::KeepAspectRatio, Qt::SmoothTransformation );
         rp->m_pixmapCache.insert( key, result );
     }
 
     return result;
 }
 
-void Render::loadTheme()
+void Render::loadSvg()
 {
-    rp->m_svgRenderer.load( rp->m_fileToLoad );
+    if ( rp->m_themeIsLoaded )
+        rp->m_svgRenderer.load( rp->m_theme.graphics() );
 }

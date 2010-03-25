@@ -41,6 +41,7 @@
 #include "dealer.h"
 #include "dealerinfo.h"
 #include "gameselectionscene.h"
+#include "render.h"
 #include "settings.h"
 #include "statisticsdialog.h"
 #include "version.h"
@@ -50,6 +51,8 @@
 #include "libkcardgame/kcardtheme.h"
 #include "libkcardgame/kcardthemewidget.h"
 
+#include <KGameTheme>
+#include <KGameThemeSelector>
 #include <KStandardGameAction>
 
 #include <KAction>
@@ -114,6 +117,12 @@ MainWindow::MainWindow()
     moveStatus = new QLabel(QString(), statusBar());
     moveStatus->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     statusBar()->addWidget(moveStatus, 0);
+
+    if ( !Render::setTheme( Settings::theme() ) )
+    {
+        Settings::setTheme( Settings::defaultThemeValue() );
+        Render::setTheme( Settings::theme() );
+    }
 }
 
 MainWindow::~MainWindow()
@@ -199,8 +208,8 @@ void MainWindow::setupActions()
 
     // Settings Menu
     a = actionCollection()->addAction("select_deck");
-    a->setText(i18n("Select Deck..."));
-    connect( a, SIGNAL(triggered(bool)), SLOT(slotSelectDeck()) );
+    a->setText(i18n("Change Appearance..."));
+    connect( a, SIGNAL(triggered(bool)), SLOT(configureAppearance()) );
     a->setShortcuts( KShortcut( Qt::Key_F10 ) );
 
     autodropaction = new KToggleAction(i18n("&Enable Autodrop"), this);
@@ -319,14 +328,27 @@ void MainWindow::slotPickRandom()
     appearanceChanged();
 }
 
-void MainWindow::slotSelectDeck()
+void MainWindow::configureAppearance()
 {
     const QString previewFormat = "back;10_spade,jack_diamond,queen_club,king_heart;1_spade";
     const QSet<QString> features = QSet<QString>() << "AngloAmerican" << "Backs1";
 
-    if ( !KCardThemeDialog::showDialog() )
+    if ( !KConfigDialog::showDialog("KPatAppearanceDialog") )
     {
-        KCardThemeDialog * dialog = new KCardThemeDialog( this, Settings::self(), features, previewFormat );
+        KConfigDialog * dialog = new KConfigDialog( this, "KPatAppearanceDialog", Settings::self() );
+
+        dialog->addPage( new KCardThemeWidget( features, previewFormat ),
+                         i18n("Card Deck"),
+                         "games-config-theme",
+                         i18n("Select a card deck")
+                       );
+
+        dialog->addPage( new KGameThemeSelector( this, Settings::self(), KGameThemeSelector::NewStuffDisableDownload ),
+                         i18n("Game Theme"),
+                         "games-config-theme",
+                         i18n("Select a theme for non-card game elements")
+                       );
+
         connect( dialog, SIGNAL(settingsChanged(QString)), this, SLOT(appearanceChanged()) );
         dialog->show();
     }
@@ -335,6 +357,12 @@ void MainWindow::slotSelectDeck()
 
 void MainWindow::appearanceChanged()
 {
+    if ( !Render::theme().path().endsWith( Settings::theme() ) )
+    {
+        Render::setTheme( Settings::theme() );
+        m_view->resetCachedContent();
+    }
+
     if ( m_cardDeck && Settings::cardTheme() != m_cardDeck->theme().dirName() )
     {
         KCardTheme theme( Settings::cardTheme() );

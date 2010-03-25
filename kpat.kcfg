@@ -17,6 +17,9 @@
         <entry name="CardTheme" key="Cardname" type="String">
             <default>svg-ancient-egyptians</default>
         </entry>
+        <entry name="Theme" key="Theme" type="String">
+            <default>themes/ancientegypt.desktop</default>
+        </entry>
         <entry name="KlondikeIsDrawOne" key="KlondikeEasy" type="Bool">
             <default>true</default>
         </entry>

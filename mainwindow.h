@@ -85,7 +85,7 @@ protected slots:
     void enableSolver(bool enable);
     void enableRememberState(bool enable);
     void slotPickRandom();
-    void slotSelectDeck();
+    void configureAppearance();
     void appearanceChanged();
 
     void helpGame();
