@@ -670,7 +670,7 @@ win at Easy level, and very difficult to win at Hard level.
 					<guimenu>Move</guimenu>
 					<guimenuitem>Hint</guimenuitem>
 				</menuchoice></term>
-				<listitem><para><action>Provide some hints as to which cards may be moved.</action></para></listitem>
+				<listitem><para><action>Provide some hints as to possible moves, should the player become stuck. Cards that can be legally moved to another pile are temporarily highlighted.</action></para></listitem>
 			</varlistentry>
 			<varlistentry  id="game-menu-demo">
 				<term><menuchoice>
