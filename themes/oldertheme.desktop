@@ -1,6 +1,12 @@
 [KGameTheme]
 Name=Older Theme
+Name[pt]=Tema Antigo
+Name[sv]= Äldre tema
+Name[uk]=Стара тема
 Description=An older, unnamed KPat theme.
+Description[pt]=Um tema mais antigo e anónimo do KPat.
+Description[sv]=Ett äldre namnlöst tema för Kpat.
+Description[uk]=Стара тема KPat без назви.
 Author=Sean Wilson & Eugene Trounev
 AuthorEmail=suseux@gmail.com, eugene.trounev@gmail.com
 FileName=oldertheme.svgz
