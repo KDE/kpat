@@ -1,12 +1,18 @@
 [KGameTheme]
 Name=Clean Green
+Name[en_GB]=Clean Green
 Name[pt]=Verde Limpo
+Name[pt_BR]=Verde limpo
 Name[sv]=Rent grön
 Name[uk]=Чиста зелена
+Name[x-test]=xxClean Greenxx
 Description=A simple green felt theme
+Description[en_GB]=A simple green felt theme
 Description[pt]=Um tema simples em verde
+Description[pt_BR]=Um tema simples em verde
 Description[sv]=Ett enkelt tema med grön filt
 Description[uk]=Проста зелена тема
+Description[x-test]=xxA simple green felt themexx
 Author=Parker Coates
 AuthorEmail=parker.coates@kdemail.net
 Type=SVG

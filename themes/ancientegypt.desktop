@@ -1,8 +1,11 @@
 [KGameTheme]
 Name=Desert Sands
+Name[en_GB]=Desert Sands
 Name[pt]=Areias do Deserto
+Name[pt_BR]=Areias do deserto
 Name[sv]=Ökensand
 Name[uk]=Піски пустелі
+Name[x-test]=xxDesert Sandsxx
 Description=Egyptian style theme.
 Description[ca]=Tema d'estil egipci.
 Description[ca@valencia]=Tema d'estil egipci.
