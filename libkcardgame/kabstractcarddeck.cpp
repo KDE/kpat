@@ -102,7 +102,7 @@ KAbstractCardDeckPrivate::KAbstractCardDeckPrivate( KAbstractCardDeck * q )
     svgRenderer( 0 ),
     thread( 0 )
 {
-};
+}
 
 
 KAbstractCardDeckPrivate::~KAbstractCardDeckPrivate()
@@ -270,7 +270,7 @@ void KAbstractCardDeckPrivate::cardStartedAnimation( KCard * card )
 {
     Q_ASSERT( !cardsWaitedFor.contains( card ) );
     cardsWaitedFor.insert( card );
-};
+}
 
 
 void KAbstractCardDeckPrivate::cardStoppedAnimation( KCard * card )
@@ -280,7 +280,7 @@ void KAbstractCardDeckPrivate::cardStoppedAnimation( KCard * card )
 
     if ( cardsWaitedFor.isEmpty() )
         emit q->cardAnimationDone();
-};
+}
 
 
 KAbstractCardDeck::KAbstractCardDeck( const KCardTheme & theme, QObject * parent )
