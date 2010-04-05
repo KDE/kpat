@@ -43,7 +43,8 @@ class KlondikePile;
 class KSelectAction;
 
 
-class Klondike : public DealerScene {
+class Klondike : public DealerScene
+{
     friend class KlondikeSolver;
 
     Q_OBJECT

@@ -45,9 +45,7 @@
 
 #include "libkcardgame/shuffle.h"
 
-#include <KDebug>
 #include <KLocale>
-#include <KRandom>
 #include <KSelectAction>
 
 

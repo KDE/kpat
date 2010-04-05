@@ -52,11 +52,9 @@
 
 #include <QtCore/QFile>
 #include <QtCore/QTime>
-#include <QtCore/QTimer>
 #include <QtGui/QResizeEvent>
 #include <QtXml/QDomDocument>
 
-#include <cstdio>
 #include <climits>
 
 

@@ -47,7 +47,6 @@
 #include <KDebug>
 #include <KLocale>
 
-#include <QtCore/QList>
 #include <QtCore/QTimer>
 
 

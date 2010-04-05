@@ -20,13 +20,12 @@
 
 #include "dealerinfo.h"
 #include "renderer.h"
-#include "speeds.h"
 
 #include <KColorUtils>
+#include <KDebug>
 #include <KLocale>
 
-#include <QtCore/QBasicTimer>
-#include <QtGui/QGraphicsItem>
+#include <QtGui/QGraphicsObject>
 #include <QtGui/QPainter>
 #include <QtGui/QStyleOptionGraphicsItem>
 #include <QtCore/QPropertyAnimation>
@@ -39,7 +38,7 @@ const qreal spacingRatio = 0.10;
 const qreal textToTotalHeightRatio = 1 / 6.0;
 const int hoverTransitionDuration = 300;
 
-#include <KDebug>
+
 class GameSelectionScene::GameSelectionBox : public QGraphicsObject
 {
     Q_OBJECT

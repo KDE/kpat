@@ -48,9 +48,8 @@ class KStandardCardDeck;
 
 class KAction;
 class KRecentFilesAction;
-class KSelectAction;
 class KToggleAction;
-#include <KUrl>
+class KUrl;
 #include <KXmlGuiWindow>
 
 class QLabel;

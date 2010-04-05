@@ -57,7 +57,6 @@
 
 #include <KAction>
 #include <KActionCollection>
-#include <KApplication>
 #include <KConfigDialog>
 #include <KDebug>
 #include <KFileDialog>
@@ -65,11 +64,9 @@
 #include <KIcon>
 #include <KInputDialog>
 #include <KLocale>
-#include <KMenuBar>
 #include <KMessageBox>
 #include <KRandom>
 #include <KRecentFilesAction>
-#include <KStandardAction>
 #include <KStandardDirs>
 #include <KStatusBar>
 #include <KTemporaryFile>
@@ -82,7 +79,6 @@
 #include <QtCore/QPointer>
 #include <QtCore/QTimer>
 #include <QtGui/QDesktopWidget>
-#include <QtGui/QResizeEvent>
 #include <QtGui/QStackedWidget>
 #include <QtXml/QDomDocument>
 
