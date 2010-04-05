@@ -94,6 +94,7 @@ public:
     virtual void moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
     void moveCardToPile( KCard * card, KCardPile * pile, int duration );
     void moveCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal velocity );
+    void flipCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
     void flipCardToPile( KCard * card, KCardPile * pile, int duration );
     void flipCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal velocity );
 

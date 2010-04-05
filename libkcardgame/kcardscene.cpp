@@ -468,23 +468,52 @@ void KCardScene::moveCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal ve
     card->setPos( origPos );
 
     int duration = calculateDuration( origPos, destPos, velocity );
-    card->animate( destPos, card->zValue(), 1.0, 0.0, card->isFaceUp(), true, duration );
+    card->animate( destPos, card->zValue(), 1, 0, card->isFaceUp(), true, duration );
+}
+
+
+void KCardScene::flipCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration )
+{
+    QList<KCard*> revCards;
+    QList<bool> origFaces;
+    QList<QPointF> origPositions;
+    QList<qreal> origZValues;
+
+    for ( int i = cards.size() - 1; i >= 0; --i )
+    {
+        KCard * c = cards.at( i );
+        revCards << c;
+        origFaces << c->isFaceUp();
+        origZValues << c->zValue();
+        origPositions << c->pos();
+    }
+
+    moveCardsToPile( revCards, pile, duration );
+
+    for ( int i = 0; i < revCards.size(); ++i )
+    {
+        KCard * c = revCards.at( i );
+
+        c->completeAnimation();
+        c->setFaceUp( origFaces.at( i ) );
+        QPointF destPos = c->pos();
+        c->setPos( origPositions.at( i ) );
+        qreal destZValue = c->zValue();
+
+        // This is a bit of a hack. It means we preserve the z ordering of face
+        // up cards, but feel free to mess about with face down ones. This may
+        // need to be smarter in the future.
+        if ( c->isFaceUp() )
+            c->setZValue( origZValues.at( i ) );
+
+        c->animate( destPos, destZValue, 1, 0, !c->isFaceUp(), true, duration );
+    }
 }
 
 
 void KCardScene::flipCardToPile( KCard * card, KCardPile * pile, int duration )
 {
-    QPointF origPos = card->pos();
-    bool origFaceUp = card->isFaceUp();
-
-    moveCardToPile( card, pile, duration );
-
-    card->completeAnimation();
-    QPointF destPos = card->pos();
-    card->setPos( origPos );
-    card->setFaceUp( origFaceUp );
-
-    card->animate( destPos, card->zValue(), 1.0, 0.0, !origFaceUp, true, duration );
+    flipCardsToPile( QList<KCard*>() << card, pile, duration );
 }
 
 

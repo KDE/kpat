@@ -77,16 +77,10 @@ void KlondikePile::layoutCards( int duration )
     for ( int i = 0; i < cards.size(); ++i )
     {
         ++z;
-        if ( i < cards.size() - m_draw )
-        {
-            cards[i]->setZValue( z );
-            cards[i]->animate( cardPos, z, 1, 0, cards[i]->isFaceUp(), false, duration );
-        }
-        else
-        {
-            cards[i]->animate( cardPos, z, 1, 0, cards[i]->isFaceUp(), false, duration );
+        cards[i]->setZValue( z );
+        cards[i]->animate( cardPos, z, 1, 0, cards[i]->isFaceUp(), false, duration );
+        if ( i >= cards.size() - m_draw )
             cardPos.rx() += divx * spread().width() * cardWidth;
-        }
     }
 }
 
@@ -200,35 +194,15 @@ KCard *Klondike::newCards()
     if ( talon->isEmpty() )
     {
         // Move the cards from the pile back to the deck
-        while ( !pile->isEmpty() )
-        {
-            KCard *c = pile->top();
-            c->completeAnimation();
-            c->setFaceUp( false );
-            talon->add(c);
-        }
-        talon->layoutCards( DURATION_RELAYOUT );
+        flipCardsToPile( pile->cards(), talon, DURATION_MOVE );
 
         redealt = true;
     }
     else
     {
-        QList<KCard*> flippedCards;
-        for (int flipped = 0; flipped < pile->draw() && !talon->isEmpty(); ++flipped)
-        {
-            moveCardToPile( talon->top(), pile, DURATION_RELAYOUT );
-            flippedCards << pile->top();
-        }
-
-        int flipped = 0;
-        foreach ( KCard *c, flippedCards )
-        {
-            ++flipped;
-            c->completeAnimation();
-            QPointF destPos = c->pos();
-            c->setPos( talon->pos() );
-            c->animate( destPos, c->zValue(), 1.0, 0.0, true, true, DURATION_MOVE * ( 1 + flipped / 6.0) );
-        }
+        int depth = qMax( 0, talon->count() - pile->draw() );
+        QList<KCard*> cards = talon->topCardsDownTo( talon->at( depth ) );
+        flipCardsToPile( cards, pile, DURATION_MOVE );
     }
 
     if ( talon->isEmpty() && pile->count() <= 1 )

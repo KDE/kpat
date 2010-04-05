@@ -112,8 +112,7 @@ KCard *Fortyeight::newCards()
     if (talon->isEmpty())
     {
         lastdeal = true;
-        while (pile->count() > 1)
-            flipCardToPile( pile->top(), talon, DURATION_MOVE );
+        flipCardsToPile( pile->cards(), talon, DURATION_MOVE * 20 );
     }
     else
     {
