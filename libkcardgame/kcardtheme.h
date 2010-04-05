@@ -49,6 +49,9 @@ public:
     QDateTime lastModified() const;
     QSet<QString> supportedFeatures() const;
 
+    bool operator==( KCardTheme theme ) const;
+    bool operator!=( KCardTheme theme ) const;
+
 private:
     QSharedDataPointer<const KCardThemePrivate> d;
 };

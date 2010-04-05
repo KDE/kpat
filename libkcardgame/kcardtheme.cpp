@@ -198,8 +198,21 @@ QDateTime KCardTheme::lastModified() const
     return d ? d->lastModified : QDateTime();
 }
 
+
 QSet<QString> KCardTheme::supportedFeatures() const
 {
     return d ? d->supportedFeatures : QSet<QString>();
+}
+
+
+bool KCardTheme::operator==( KCardTheme theme ) const
+{
+    return dirName() == theme.dirName();
+}
+
+
+bool KCardTheme::operator!=( KCardTheme theme ) const
+{
+    return !operator==( theme );
 }
 
