@@ -104,8 +104,6 @@ public:
 
     virtual void layoutCards( int duration );
 
-    void cardPressed( KCard * card );
-
 public slots:
     virtual bool cardClicked( KCard * card );
     virtual bool cardDoubleClicked( KCard * card );
@@ -113,7 +111,6 @@ public slots:
 signals:
     void clicked( KCard * card );
     void doubleClicked( KCard * card );
-    void pressed( KCard * card );
 
 protected:
     virtual void paintNormalGraphic( QPainter * painter );

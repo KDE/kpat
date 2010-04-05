@@ -53,7 +53,6 @@ public:
 
 public slots:
     virtual KCard *newCards();
-    void deckClicked(KCard *c);
 
 protected:
     virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;

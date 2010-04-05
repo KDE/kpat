@@ -444,12 +444,6 @@ void KCardPile::layoutCards( int duration )
 }
 
 
-void KCardPile::cardPressed( KCard * card )
-{
-    emit pressed( card );
-}
-
-
 bool KCardPile::cardClicked( KCard * card )
 {
     emit clicked( card );

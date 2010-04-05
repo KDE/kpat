@@ -624,8 +624,6 @@ void KCardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
         if ( !card || m_cardsBeingDragged.contains( card ) )
             return;
 
-        card->source()->cardPressed( card );
-
         m_cardsBeingDragged = card->source()->topCardsDownTo( card );
         if ( allowedToRemove( card->source(), m_cardsBeingDragged.first() ) )
         {
