@@ -1,6 +1,7 @@
 [KGameTheme]
 Name=Older Theme
 Name[en_GB]=Older Theme
+Name[es]=Tema más antiguo
 Name[pt]=Tema Antigo
 Name[pt_BR]=Tema antigo
 Name[sv]= Äldre tema
@@ -8,6 +9,7 @@ Name[uk]=Стара тема
 Name[x-test]=xxOlder Themexx
 Description=An older, unnamed KPat theme.
 Description[en_GB]=An older, unnamed KPat theme.
+Description[es]=Un tema más viejo sinnombre de KPat
 Description[pt]=Um tema mais antigo e anónimo do KPat.
 Description[pt_BR]=Um tema mais antigo e sem nome do KPat.
 Description[sv]=Ett äldre namnlöst tema för Kpat.
