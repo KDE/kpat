@@ -142,7 +142,6 @@ KCard *Golf::newCards()
 
     flipCardToPile(talon->top(), waste, DURATION_MOVE);
 
-    onGameStateAlteredByUser();
     if ( talon->isEmpty() )
         emit newCardsPossible( false );
 
@@ -163,7 +162,6 @@ bool Golf::cardClicked(KCard *c)
     if (p)
     {
         moveCardToPile( c, p, DURATION_MOVE );
-        onGameStateAlteredByUser();
         return true;
     }
     return false;

@@ -122,7 +122,7 @@ void Freecell::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int durat
 {
     if ( cards.size() <= 1 )
     {
-        KCardScene::moveCardsToPile( cards, pile, duration );
+        DealerScene::moveCardsToPile( cards, pile, duration );
         return;
     }
 
@@ -283,7 +283,6 @@ bool Freecell::cardDoubleClicked(KCard *c)
             if (freecell[i]->isEmpty())
             {
                 moveCardToPile( c, freecell[i], DURATION_MOVE );
-                onGameStateAlteredByUser();
                 return true;
             }
         }

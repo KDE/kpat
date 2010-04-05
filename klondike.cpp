@@ -216,10 +216,10 @@ KCard *Klondike::newCards()
         QList<KCard*> flippedCards;
         for (int flipped = 0; flipped < pile->draw() && !talon->isEmpty(); ++flipped)
         {
-            pile->add( talon->top() );
+            moveCardToPile( talon->top(), pile, DURATION_RELAYOUT );
             flippedCards << pile->top();
         }
-        pile->layoutCards( DURATION_RELAYOUT );
+
         int flipped = 0;
         foreach ( KCard *c, flippedCards )
         {
@@ -231,7 +231,6 @@ KCard *Klondike::newCards()
         }
     }
 
-    onGameStateAlteredByUser();
     if ( talon->isEmpty() && pile->count() <= 1 )
        emit newCardsPossible( false );
 

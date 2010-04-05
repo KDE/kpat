@@ -175,10 +175,7 @@ bool Idiot::cardClicked(KCard *c)
         destination = m_play[3];
 
     if ( destination )
-    {
         moveCardToPile( c, destination, DURATION_MOVE );
-        onGameStateAlteredByUser();
-    }
 
     return destination != 0;
 }
@@ -229,7 +226,6 @@ KCard *Idiot::newCards()
 
     dealRow();
 
-    onGameStateAlteredByUser();
     if ( talon->isEmpty() )
         emit newCardsPossible( false );
 

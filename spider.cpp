@@ -291,7 +291,7 @@ QList<KCard*> Spider::getRun(KCard *c) const
 
 void Spider::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration )
 {
-    KCardScene::moveCardsToPile( cards, pile, duration );
+    DealerScene::moveCardsToPile( cards, pile, duration );
 
     PatPile * p = dynamic_cast<PatPile*>( pile );
 
@@ -439,7 +439,6 @@ KCard *Spider::newCards()
 
     ++m_redeal;
 
-    onGameStateAlteredByUser();
     if (m_redeal > 4)
         emit newCardsPossible(false);
 

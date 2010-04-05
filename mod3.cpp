@@ -154,7 +154,7 @@ void Mod3::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration 
 {
     PatPile * p = dynamic_cast<PatPile*>( cards.first()->source() );
 
-    KCardScene::moveCardsToPile( cards, pile, duration );
+    DealerScene::moveCardsToPile( cards, pile, duration );
 
     if ( p
          && p->pileRole() == PatPile::Tableau
@@ -224,7 +224,6 @@ KCard *Mod3::newCards()
         flipCardToPileAtSpeed( talon->top(), stack[3][c], DEAL_SPEED * 2 );
     }
 
-    onGameStateAlteredByUser();
     if (talon->isEmpty())
         emit newCardsPossible(false);
 

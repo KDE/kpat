@@ -207,7 +207,8 @@ public:
     bool stop_demo_next;
     qreal dropSpeedFactor;
 
-    bool manualDropInProgress;
+    bool dropInProgress;
+    bool dealInProgress;
     QList<MoveHint*> hints;
     QList<State*> redoList;
     QList<State*> undoList;
@@ -478,7 +479,9 @@ DealerScene::DealerScene()
     d->demotimer = new QTimer(this);
     connect( d->demotimer, SIGNAL(timeout()), SLOT(demo()) );
     d->dropSpeedFactor = 1;
-    d->manualDropInProgress = false;
+    d->dropInProgress = false;
+
+    d->dealInProgress = false;
 
     d->stateTimer = new QTimer( this );
     connect( d->stateTimer, SIGNAL(timeout()), this, SLOT(takeState()) );
@@ -539,7 +542,18 @@ QList<PatPile*> DealerScene::patPiles() const
     return d->patPiles;
 }
 
-// ----------------------------------------------------------------
+
+void DealerScene::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration )
+{
+    KCardScene::moveCardsToPile( cards, pile, duration );
+
+    if ( !d->dropInProgress && !d->dealInProgress )
+    {
+        d->gameStarted = true;
+        takeState();
+        eraseRedo();
+    }
+}
 
 
 QList<MoveHint*> DealerScene::hints() const
@@ -724,8 +738,10 @@ void DealerScene::startNew(int gameNumber)
 
     emit updateMoves( 0 );
 
-
+    d->dealInProgress = true;
     restart();
+    d->dealInProgress = false;
+
     takeState();
     update();
 }
@@ -749,7 +765,9 @@ void DealerScene::resetInternals()
 
     d->gothelp = false;
 
-    d->manualDropInProgress = false;
+    d->dealInProgress = false;
+
+    d->dropInProgress = false;
     d->dropSpeedFactor = 1;
     d->cardsNotToDrop.clear();
 
@@ -998,7 +1016,6 @@ bool DealerScene::cardDoubleClicked( KCard * c )
 {
     if (c->source()->cardDoubleClicked(c))
     {
-        onGameStateAlteredByUser();
         return true;
     }
 
@@ -1009,7 +1026,6 @@ bool DealerScene::cardDoubleClicked( KCard * c )
         KCardPile *tgt = findTarget(c);
         if (tgt) {
             moveCardToPile( c , tgt, DURATION_MOVE );
-            onGameStateAlteredByUser();
             return true;
         }
     }
@@ -1103,12 +1119,6 @@ PatPile *DealerScene::findTarget(KCard *c)
     return 0;
 }
 
-void DealerScene::onGameStateAlteredByUser()
-{
-    d->gameStarted = true;
-    takeState();
-    eraseRedo();
-}
 
 void DealerScene::setAutoDropEnabled(bool a)
 {
@@ -1118,7 +1128,7 @@ void DealerScene::setAutoDropEnabled(bool a)
 
 void DealerScene::startManualDrop()
 {
-    d->manualDropInProgress = true;
+    d->dropInProgress = true;
     d->dropTimer->start( TIME_BETWEEN_MOVES );
 }
 
@@ -1138,7 +1148,7 @@ void DealerScene::preventDropsFor( bool prevent, KCard * card )
 
 bool DealerScene::drop()
 {
-    if (!autoDropEnabled() && !d->manualDropInProgress)
+    if (!autoDropEnabled() && !d->dropInProgress)
         return false;
 
     if (!cardsBeingDragged().isEmpty() || deck()->hasAnimatedCards() || d->undoList.isEmpty() ) {
@@ -1147,6 +1157,8 @@ bool DealerScene::drop()
     }
 
     kDebug() << gettime() << "startDrop \n";
+
+    d->dropInProgress = true;
 
     clearHighlightedItems();
     clearHints();
@@ -1191,7 +1203,7 @@ bool DealerScene::drop()
     }
     clearHints();
     d->dropSpeedFactor = 1;
-    d->manualDropInProgress = false;
+    d->dropInProgress = false;
 
     return false;
 }

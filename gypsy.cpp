@@ -156,7 +156,6 @@ KCard *Gypsy::newCards()
         c->setZValue( c->zValue() + 8 - round );
     }
 
-    onGameStateAlteredByUser();
     if (talon->isEmpty())
         emit newCardsPossible(false);
 

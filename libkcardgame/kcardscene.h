@@ -98,8 +98,6 @@ public:
     void flipCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal velocity );
 
 protected:
-    virtual void onGameStateAlteredByUser();
-
     virtual bool allowedToAdd( const KCardPile * pile, const QList<KCard*> & cards ) const;
     virtual bool allowedToRemove( const KCardPile * pile, const KCard * card ) const;
     virtual KCardPile * targetPile();

@@ -86,6 +86,8 @@ public:
     void removePile( PatPile * pile );
     QList<PatPile*> patPiles() const;
 
+    virtual void moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
+
     void setAutoDropEnabled(bool a);
     bool autoDropEnabled() const { return _autodrop; }
 
@@ -159,8 +161,6 @@ protected:
     virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent );
 
     virtual bool cardDoubleClicked( KCard * card );
-
-    virtual void onGameStateAlteredByUser();
 
     State *getState();
     void setState(State *);

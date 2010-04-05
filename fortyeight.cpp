@@ -113,16 +113,13 @@ KCard *Fortyeight::newCards()
     {
         lastdeal = true;
         while (pile->count() > 1)
-        {
             flipCardToPile( pile->top(), talon, DURATION_MOVE );
-        }
     }
     else
     {
         flipCardToPile( talon->top(), pile, DURATION_MOVE );
     }
 
-    onGameStateAlteredByUser();
     if ( talon->isEmpty() && lastdeal )
         emit newCardsPossible( false );
 

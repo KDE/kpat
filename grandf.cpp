@@ -108,7 +108,6 @@ KCard *Grandf::newCards()
 
     numberOfDeals++;
 
-    onGameStateAlteredByUser();
     if (numberOfDeals == 3)
         emit newCardsPossible(false);
 

@@ -506,11 +506,6 @@ void KCardScene::flipCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal ve
 }
 
 
-void KCardScene::onGameStateAlteredByUser()
-{
-}
-
-
 bool KCardScene::allowedToAdd( const KCardPile * pile, const QList<KCard*> & cards ) const
 {
     Q_UNUSED( pile )
@@ -570,45 +565,25 @@ KCardPile * KCardScene::targetPile()
 
 bool KCardScene::pileClicked( KCardPile * pile )
 {
-    if ( pile->cardClicked( 0 ) )
-    {
-        onGameStateAlteredByUser();
-        return true;
-    }
-    return false;
+    return pile->cardClicked( 0 );
 }
 
 
 bool KCardScene::pileDoubleClicked( KCardPile * pile )
 {
-    if ( pile->cardDoubleClicked( 0 ) )
-    {
-        onGameStateAlteredByUser();
-        return true;
-    }
-    return false;
+    return pile->cardDoubleClicked( 0 );
 }
 
 
 bool KCardScene::cardClicked( KCard * card )
 {
-    if ( card->source()->cardClicked( card ) )
-    {
-        onGameStateAlteredByUser();
-        return true;
-    }
-    return false;
+    return card->source()->cardClicked( card );
 }
 
 
 bool KCardScene::cardDoubleClicked( KCard * card )
 {
-    if ( card->source()->cardDoubleClicked( card ) )
-    {
-        onGameStateAlteredByUser();
-        return true;
-    }
-    return false;
+    return card->source()->cardDoubleClicked( card );
 }
 
 
@@ -724,7 +699,6 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
         if ( destination )
         {
             moveCardsToPile( m_cardsBeingDragged, destination, cardMoveDuration );
-            onGameStateAlteredByUser();
         }
         else
         {
