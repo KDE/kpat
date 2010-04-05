@@ -40,6 +40,9 @@
 #include "version.h"
 #include "patsolve/patsolve.h"
 
+#include "libkcardgame/kcardtheme.h"
+#include "libkcardgame/kstandardcarddeck.h"
+
 #include <KAboutData>
 #include <KApplication>
 #include <KCmdLineArgs>
@@ -62,20 +65,23 @@ static const char description[] = I18N_NOOP("KDE Patience Game");
 
 static DealerScene *getDealer( int wanted_game )
 {
-    DealerInfo *di = 0;
-    for (QList<DealerInfo*>::ConstIterator it = DealerInfoList::self()->games().begin();
-         it != DealerInfoList::self()->games().end(); ++it)
+    foreach ( DealerInfo * di, DealerInfoList::self()->games() )
     {
-        if ( (*it)->ids().contains(wanted_game) ) {
-            di = *it;
-            DealerScene *f = di->createGame();
-            if ( !f || !f->solver() ) {
+        if ( di->ids().contains( wanted_game ) )
+        {
+            DealerScene * d = di->createGame();
+            Q_ASSERT( d );
+            d->setDeck( new KStandardCardDeck( KCardTheme(), d ) );
+            d->initialize();
+
+            if ( !d->solver() )
+            {
                 kError() << "There is no solver for" << di->name();
                 return 0;
             }
 
             fprintf( stdout, "Testing %s\n", di->name() );
-            return f;
+            return d;
         }
     }
     return 0;
