@@ -46,14 +46,14 @@ class PatienceView: public QGraphicsView
     Q_OBJECT
 
 public:
-    PatienceView ( QWidget* _parent );
+    PatienceView ( QWidget * parent );
     virtual ~PatienceView();
 
-    void setScene( QGraphicsScene *scene );
+    void setScene( QGraphicsScene * scene );
 
 protected:
-    virtual void resizeEvent( QResizeEvent *e );
-    virtual void drawBackground( QPainter *painter, const QRectF & rect);
+    virtual void resizeEvent( QResizeEvent * e );
+    virtual void drawBackground( QPainter * painter, const QRectF & rect );
 
 private:
     void updateSceneSize();
