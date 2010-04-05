@@ -195,6 +195,9 @@ QSizeF KAbstractCardDeckPrivate::unscaledCardSize()
 
 QPixmap KAbstractCardDeckPrivate::requestPixmap( QString elementId, bool immediate )
 {
+    if( !theme.isValid() )
+        return QPixmap();
+
     QPixmap & stored = elementIdMapping[ elementId ].first;
     if ( stored.size() != currentCardSize )
     {
@@ -218,6 +221,9 @@ QPixmap KAbstractCardDeckPrivate::requestPixmap( QString elementId, bool immedia
 void KAbstractCardDeckPrivate::updateCardSize( const QSize & size )
 {
     currentCardSize = size;
+
+    if( !theme.isValid() )
+        return;
 
     cache->insert( "lastUsedSize", QPixmap( currentCardSize ) );
 
@@ -394,32 +400,33 @@ QSize KAbstractCardDeck::cardSize() const
 
 void KAbstractCardDeck::setTheme( const KCardTheme & theme )
 {
-    Q_ASSERT ( theme.isValid() );
-
-    d->deleteThread();
-
-    d->theme = theme;
-
+    if ( theme != d->theme && theme.isValid() )
     {
-        QMutexLocker l( &(d->rendererMutex) );
-        delete d->svgRenderer;
-        d->svgRenderer = 0;
+        d->deleteThread();
+
+        d->theme = theme;
+
+        {
+            QMutexLocker l( &(d->rendererMutex) );
+            delete d->svgRenderer;
+            d->svgRenderer = 0;
+        }
+
+        delete d->cache;
+        d->cache = new KPixmapCache( QString( "kdegames-cards_%1" ).arg( theme.dirName() ) );
+        if ( d->cache->timestamp() < theme.lastModified().toTime_t() )
+        {
+            d->cache->discard();
+            d->cache->setTimestamp( theme.lastModified().toTime_t() );
+        }
+
+        d->originalCardSize = d->unscaledCardSize();
+        Q_ASSERT( !d->originalCardSize.isNull() );
+
+        QPixmap pix( 10, 10 * d->originalCardSize.height() / d->originalCardSize.width() );
+        d->cache->find( "lastUsedSize", pix );
+        d->currentCardSize = pix.size();
     }
-
-    delete d->cache;
-    d->cache = new KPixmapCache( QString( "kdegames-cards_%1" ).arg( theme.dirName() ) );
-    if ( d->cache->timestamp() < theme.lastModified().toTime_t() )
-    {
-        d->cache->discard();
-        d->cache->setTimestamp( theme.lastModified().toTime_t() );
-    }
-
-    d->originalCardSize = d->unscaledCardSize();
-    Q_ASSERT( !d->originalCardSize.isNull() );
-
-    QPixmap pix( 10, 10 * d->originalCardSize.height() / d->originalCardSize.width() );
-    d->cache->find( "lastUsedSize", pix );
-    d->currentCardSize = pix.size();
 }
 
 

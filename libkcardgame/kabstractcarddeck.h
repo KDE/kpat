@@ -22,7 +22,7 @@
 #include "libkcardgame_export.h"
 class KCard;
 class KCardPile;
-class KCardTheme;
+#include "kcardtheme.h"
 
 #include <QtCore/QObject>
 class QSize;
@@ -34,7 +34,7 @@ class LIBKCARDGAME_EXPORT KAbstractCardDeck : public QObject
     Q_OBJECT
 
 public:
-    explicit KAbstractCardDeck( const KCardTheme & theme, QObject * parent = 0 );
+    explicit KAbstractCardDeck( const KCardTheme & theme = KCardTheme(), QObject * parent = 0 );
     virtual ~KAbstractCardDeck();
 
     void setDeckContents( QList<quint32> ids );
