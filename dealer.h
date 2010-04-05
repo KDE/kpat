@@ -76,6 +76,7 @@ public:
     virtual void initialize() = 0;
 
     virtual void relayoutScene();
+    void updateWonItem( bool force = false );
 
     // use this for autodrop times
     int speedUpTime( int delay ) const;
@@ -179,7 +180,6 @@ protected:
     virtual void stopDemo();
 
     void won();
-    void updateWonItem();
 
     // reimplement these to store and load game-specific information in the state structure
     virtual QString getGameState() { return QString(); }

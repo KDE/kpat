@@ -849,7 +849,7 @@ void DealerScene::showWonMessage()
     d->wonItem->show();
 }
 
-void DealerScene::updateWonItem()
+void DealerScene::updateWonItem( bool force )
 {
     const qreal aspectRatio = Renderer::self()->aspectRatioOfElement("message_frame");
     int boxWidth;
@@ -865,8 +865,8 @@ void DealerScene::updateWonItem()
         boxWidth = boxHeight * aspectRatio;
     }
 
-    // Only regenerate the pixmap if it doesn't already exist or the new one is a significantly different size.
-    if ( qAbs( d->wonItem->boundingRect().width() - boxWidth ) > 20 )
+    // Only regenerate the pixmap if the new one is a significantly different size.
+    if ( force || qAbs( d->wonItem->boundingRect().width() - boxWidth ) > 20 )
     {
         QRect contentsRect = QRect( 0, 0, boxWidth, boxHeight );
         QPixmap pix = Renderer::self()->renderElement( "message_frame", contentsRect.size() );
