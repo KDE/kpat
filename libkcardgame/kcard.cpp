@@ -297,6 +297,10 @@ void KCard::paint( QPainter * painter, const QStyleOptionGraphicsItem * option, 
     Q_UNUSED( option );
     Q_UNUSED( widget );
 
+    // Enable smooth pixmap transformation only if the card is rotated. We
+    // don't really need it otherwise and it slows down our flip animations.
+    painter->setRenderHint( QPainter::SmoothPixmapTransform, int(rotation()) % 90 );
+
     d->deck->paintCard( painter, d->id, d->flipValue > 0.5, d->highlightValue );
 }
 
