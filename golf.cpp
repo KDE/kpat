@@ -100,8 +100,6 @@ bool Golf::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
 
 void Golf::restart()
 {
-    foreach( KCardPile * p, piles() )
-        p->clear();
     deal();
     emit newCardsPossible( true );
 }

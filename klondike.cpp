@@ -214,8 +214,6 @@ KCard *Klondike::newCards()
 
 void Klondike::restart()
 {
-    foreach( KCardPile * p, piles() )
-        p->clear();
     redealt = false;
     deal();
 }

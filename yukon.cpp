@@ -97,8 +97,6 @@ bool Yukon::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
 
 void Yukon::restart()
 {
-    foreach( KCardPile * p, piles() )
-        p->clear();
     deal();
 }
 

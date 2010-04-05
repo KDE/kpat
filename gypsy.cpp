@@ -78,9 +78,8 @@ void Gypsy::initialize()
     setSolver( new GypsySolver( this ) );
 }
 
-void Gypsy::restart() {
-    foreach( KCardPile * p, piles() )
-        p->clear();
+void Gypsy::restart()
+{
     deal();
     emit newCardsPossible(true);
 }

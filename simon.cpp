@@ -75,8 +75,6 @@ void Simon::initialize()
 
 void Simon::restart()
 {
-    foreach( KCardPile * p, piles() )
-        p->clear();
     deal();
 }
 

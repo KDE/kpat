@@ -77,8 +77,6 @@ void Clock::initialize()
 
 void Clock::restart()
 {
-    foreach( KCardPile * p, piles() )
-        p->clear();
     deal();
 }
 

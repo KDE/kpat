@@ -84,9 +84,6 @@ void Idiot::initialize()
 
 void Idiot::restart()
 {
-    foreach( KCardPile * p, piles() )
-        p->clear();
-
     QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
 
     while ( !cards.isEmpty() )

@@ -168,8 +168,6 @@ void Mod3::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration 
 
 void Mod3::restart()
 {
-    foreach( KCardPile * p, piles() )
-        p->clear();
     deal();
     emit newCardsPossible(true);
 }

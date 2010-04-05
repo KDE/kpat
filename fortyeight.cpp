@@ -93,8 +93,6 @@ void Fortyeight::initialize()
 
 void Fortyeight::restart()
 {
-    foreach( KCardPile * p, piles() )
-        p->clear();
     lastdeal = false;
     deal();
     emit newCardsPossible( true );

@@ -254,8 +254,6 @@ void Spider::setGameOptions(const QString& options)
 
 void Spider::restart()
 {
-    foreach( KCardPile * p, piles() )
-        p->clear();
     deal();
     emit newCardsPossible(true);
 }

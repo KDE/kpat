@@ -101,8 +101,6 @@ Freecell::~Freecell()
 
 void Freecell::restart()
 {
-    foreach( KCardPile * p, piles() )
-        p->clear();
     deal();
 }
 

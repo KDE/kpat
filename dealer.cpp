@@ -739,6 +739,8 @@ void DealerScene::startNew(int gameNumber)
     emit updateMoves( 0 );
 
     d->dealInProgress = true;
+    foreach( KCardPile * p, piles() )
+        p->clear();
     restart();
     d->dealInProgress = false;
 

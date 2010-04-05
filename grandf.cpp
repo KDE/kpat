@@ -76,9 +76,8 @@ void Grandf::initialize()
     setSolver( new GrandfSolver( this ) );
 }
 
-void Grandf::restart() {
-    foreach( KCardPile * p, piles() )
-        p->clear();
+void Grandf::restart()
+{
     deal( shuffled( deck()->cards(), gameNumber() ) );
     numberOfDeals = 1;
     emit newCardsPossible( true );
