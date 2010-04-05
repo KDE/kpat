@@ -100,14 +100,6 @@ bool Golf::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
 
 void Golf::restart()
 {
-    deal();
-    emit newCardsPossible( true );
-}
-
-//-------------------------------------------------------------------------//
-
-void Golf::deal()
-{
     QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
 
     for(int i=0;i<5;i++)
@@ -125,7 +117,10 @@ void Golf::deal()
     startDealAnimation();
 
     flipCardToPile(talon->top(), waste, DURATION_MOVE);
+
+    emit newCardsPossible( true );
 }
+
 
 KCard *Golf::newCards()
 {

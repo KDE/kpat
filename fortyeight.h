@@ -59,8 +59,6 @@ protected:
     virtual bool checkRemove(const PatPile* pile, const QList<KCard*> & cards) const;
 
 private:
-    void deal();
-
     PatPile *talon;
     PatPile *stack[8];
     PatPile *target[8];

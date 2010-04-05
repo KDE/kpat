@@ -80,7 +80,27 @@ void Gypsy::initialize()
 
 void Gypsy::restart()
 {
-    deal();
+    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
+
+    for ( int round = 0; round < 8; ++round )
+        addCardForDeal(store[round], cards.takeLast(), false, store[round]->pos() + QPointF(-2*deck()->cardWidth(),-1.1*deck()->cardHeight()));
+
+    for ( int round = 0; round < 8; ++round )
+        addCardForDeal(store[round], cards.takeLast(), true, store[round]->pos() + QPointF(-3*deck()->cardWidth(),-1.6*deck()->cardHeight()));
+
+    for ( int round = 0; round < 8; ++round )
+        addCardForDeal(store[round], cards.takeLast(), true, store[round]->pos() + QPointF(-4*deck()->cardWidth(),-2.1*deck()->cardHeight()));
+
+    while ( !cards.isEmpty() )
+    {
+        KCard * c = cards.takeFirst();
+        c->setPos( talon->pos() );
+        c->setFaceUp( false );
+        talon->add( c );
+    }
+
+    startDealAnimation();
+
     emit newCardsPossible(true);
 }
 
@@ -112,29 +132,6 @@ bool Gypsy::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
     }
 }
 
-void Gypsy::deal()
-{
-    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
-
-    for (int round=0; round < 8; round++)
-        addCardForDeal(store[round], cards.takeLast(), false, store[round]->pos() + QPointF(-2*deck()->cardWidth(),-1.1*deck()->cardHeight()));
-
-    for (int round=0; round < 8; round++)
-        addCardForDeal(store[round], cards.takeLast(), true, store[round]->pos() + QPointF(-3*deck()->cardWidth(),-1.6*deck()->cardHeight()));
-
-    for (int round=0; round < 8; round++)
-        addCardForDeal(store[round], cards.takeLast(), true, store[round]->pos() + QPointF(-4*deck()->cardWidth(),-2.1*deck()->cardHeight()));
-
-    while ( !cards.isEmpty() )
-    {
-        KCard * c = cards.takeFirst();
-        c->setPos( talon->pos() );
-        c->setFaceUp( false );
-        talon->add( c );
-    }
-
-    startDealAnimation();
-}
 
 KCard *Gypsy::newCards()
 {

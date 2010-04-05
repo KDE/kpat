@@ -168,13 +168,6 @@ void Mod3::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration 
 
 void Mod3::restart()
 {
-    deal();
-    emit newCardsPossible(true);
-}
-
-
-void Mod3::deal()
-{
     clearHighlightedItems();
 
     QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
@@ -187,7 +180,7 @@ void Mod3::deal()
         talon->add( c );
     }
 
-    for (int r = 0; r < 4; r++)
+    for ( int r = 0; r < 4; r++ )
     {
         for ( int c = 0; c < 8; ++c )
         {
@@ -196,10 +189,13 @@ void Mod3::deal()
             moveCardToPileAtSpeed( card, stack[r][c], DEAL_SPEED );
 
             // Fudge the z values to keep cards from popping through one another.
-            card->setZValue( card->zValue() + (4-r)*(4-r) + (8-c)*(8-c) );
+            card->setZValue( card->zValue() + ((4 - r) * (4 - r)) + ((8 - c) * (8 - c)) );
         }
     }
+
+    emit newCardsPossible(true);
 }
+
 
 KCard *Mod3::newCards()
 {

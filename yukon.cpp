@@ -97,32 +97,21 @@ bool Yukon::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
 
 void Yukon::restart()
 {
-    deal();
-}
-
-void Yukon::deal()
-{
     QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
 
-    for (int round = 0; round < 11; round++)
+    for ( int round = 0; round < 11; ++round )
     {
-        for (int j = 0; j < 7; j++)
+        for ( int j = 0; j < 7; ++j )
         {
-            bool doit = false;
-            switch (j) {
-            case 0:
-                doit = (round == 0);
-                break;
-            default:
-                doit = (round < j + 5);
-            }
-            if (doit)
+            if ( ( j == 0 && round == 0 ) || ( j && round < j + 5 ) )
             {
-                QPointF initPos = store[j]->pos() + QPointF(0, ((7-j/3.0)+round)* deck()->cardHeight());
-                addCardForDeal(store[j], cards.takeLast(), (round >= j || j == 0), initPos);
+                QPointF initPos = store[j]->pos();
+                initPos.ry() += ((7 - j / 3.0) + round) * deck()->cardHeight();
+                addCardForDeal( store[j], cards.takeLast(), (round >= j || j == 0), initPos );
             }
         }
     }
+
     startDealAnimation();
 }
 

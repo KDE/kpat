@@ -96,11 +96,8 @@ KCard *Grandf::newCards()
     QList<KCard*> collectedCards;
     for ( int pos = 6; pos >= 0; --pos )
     {
-        foreach ( KCard * c, store[pos]->cards() )
-        {
-            store[pos]->remove(c);
-            collectedCards << c;
-        }
+        collectedCards << store[pos]->cards();
+        store[pos]->clear();
     }
     deal( collectedCards );
 

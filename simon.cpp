@@ -75,22 +75,18 @@ void Simon::initialize()
 
 void Simon::restart()
 {
-    deal();
-}
-
-void Simon::deal()
-{
     QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
 
-    for ( int piles = 9; piles >= 3; piles-- )
-    {
-        for (int j = 0; j < piles; j++)
-            addCardForDeal(store[j], cards.takeLast(), true, QPointF(0,-deck()->cardHeight()));
-    }
-    for ( int j = 0; j < 10; j++ )
-        addCardForDeal(store[j], cards.takeLast(), true, QPointF(0,-deck()->cardHeight()));
+    QPointF initPos( 0, -deck()->cardHeight() );
 
-    Q_ASSERT(cards.isEmpty());
+    for ( int piles = 9; piles >= 3; --piles )
+        for ( int j = 0; j < piles; ++j )
+            addCardForDeal( store[j], cards.takeLast(), true, initPos );
+
+    for ( int j = 0; j < 10; ++j )
+        addCardForDeal( store[j], cards.takeLast(), true, initPos );
+
+    Q_ASSERT( cards.isEmpty() );
 
     startDealAnimation();
 }

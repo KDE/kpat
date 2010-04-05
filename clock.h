@@ -49,7 +49,6 @@ public:
     virtual bool drop() { return false; }
 
 public slots:
-    void deal();
     virtual void restart();
 
 protected:

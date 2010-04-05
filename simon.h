@@ -48,7 +48,6 @@ public:
     virtual void initialize();
 
 public slots:
-    void deal();
     virtual void restart();
 
 protected:

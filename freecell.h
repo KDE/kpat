@@ -70,7 +70,6 @@ protected:
 
     virtual void newDemoMove(KCard *m);
     virtual bool cardDoubleClicked(KCard *c);
-    virtual void deal();
     virtual void getHints();
 
 protected:

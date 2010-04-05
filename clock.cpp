@@ -77,7 +77,39 @@ void Clock::initialize()
 
 void Clock::restart()
 {
-    deal();
+    static const KStandardCardDeck::Suit suits[12] = { KStandardCardDeck::Diamonds, KStandardCardDeck::Spades, KStandardCardDeck::Hearts, KStandardCardDeck::Clubs,
+                                                       KStandardCardDeck::Diamonds, KStandardCardDeck::Spades, KStandardCardDeck::Hearts, KStandardCardDeck::Clubs,
+                                                       KStandardCardDeck::Diamonds, KStandardCardDeck::Spades, KStandardCardDeck::Hearts, KStandardCardDeck::Clubs };
+    static const KStandardCardDeck::Rank ranks[12] = { KStandardCardDeck::Nine, KStandardCardDeck::Ten, KStandardCardDeck::Jack, KStandardCardDeck::Queen,
+                                                       KStandardCardDeck::King, KStandardCardDeck::Two, KStandardCardDeck::Three, KStandardCardDeck::Four,
+                                                       KStandardCardDeck::Five, KStandardCardDeck::Six, KStandardCardDeck::Seven, KStandardCardDeck::Eight };
+
+    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
+
+    const QPointF center = ( target[0]->pos() + target[6]->pos() ) / 2;
+
+    int j = 0;
+    while ( !cards.isEmpty() )
+    {
+        KCard * c = cards.takeLast();
+        for ( int i = 0; i < 12; ++i )
+        {
+            if ( getRank( c ) == ranks[i] && getSuit( c ) == suits[i] )
+            {
+                QPointF initPos = (2 * center + target[(i + 2) % 12]->pos()) / 3;
+                addCardForDeal( target[i], c, true, initPos );
+                c = 0;
+                break;
+            }
+        }
+        if ( c )
+        {
+            addCardForDeal( store[j], c, true, store[ j < 4 ? 0 : 4 ]->pos() );
+            j = (j + 1) % 8;
+        }
+    }
+
+    startDealAnimation();
 }
 
 bool Clock::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
@@ -102,43 +134,6 @@ bool Clock::checkRemove(const PatPile* pile, const QList<KCard*> & cards) const
     return pile->pileRole() == PatPile::Tableau
            && cards.first() == pile->top();
 }
-
-void Clock::deal() {
-    static const KStandardCardDeck::Suit suits[12] = { KStandardCardDeck::Diamonds, KStandardCardDeck::Spades, KStandardCardDeck::Hearts, KStandardCardDeck::Clubs,
-                                                       KStandardCardDeck::Diamonds, KStandardCardDeck::Spades, KStandardCardDeck::Hearts, KStandardCardDeck::Clubs,
-                                                       KStandardCardDeck::Diamonds, KStandardCardDeck::Spades, KStandardCardDeck::Hearts, KStandardCardDeck::Clubs };
-    static const KStandardCardDeck::Rank ranks[12] = { KStandardCardDeck::Nine, KStandardCardDeck::Ten, KStandardCardDeck::Jack, KStandardCardDeck::Queen,
-                                                       KStandardCardDeck::King, KStandardCardDeck::Two, KStandardCardDeck::Three, KStandardCardDeck::Four,
-                                                       KStandardCardDeck::Five, KStandardCardDeck::Six, KStandardCardDeck::Seven, KStandardCardDeck::Eight };
-
-    const QPointF center = ( target[0]->pos() + target[6]->pos() ) / 2;
-
-    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
-
-    int j = 0;
-    while (!cards.isEmpty())
-    {
-        KCard *c =cards.takeLast();
-        for (int i = 0; i < 12; i++)
-        {
-            if (getRank(c) == ranks[i] && getSuit(c) == suits[i])
-            {
-                QPointF initPos = (2 * center + target[(i + 2) % 12]->pos()) / 3;
-                addCardForDeal( target[i], c, true, initPos );
-                c = 0;
-                break;
-            }
-        }
-        if (c)
-        {
-            addCardForDeal( store[j], c, true, store[ j < 4 ? 0 : 4 ]->pos() );
-            j = (j + 1) % 8;
-        }
-    }
-
-    startDealAnimation();
-}
-
 
 
 static class ClockDealerInfo : public DealerInfo

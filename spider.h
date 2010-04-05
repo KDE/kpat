@@ -50,7 +50,6 @@ class Spider : public DealerScene
 
 public:
     virtual void initialize();
-    void deal();
     virtual void moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
     bool checkPileDeck( KCardPile * pile, bool checkForDemo = true );
     virtual void restart();

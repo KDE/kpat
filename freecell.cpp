@@ -101,7 +101,16 @@ Freecell::~Freecell()
 
 void Freecell::restart()
 {
-    deal();
+    QList<KCard*> cards = shuffled(deck()->cards(), gameNumber() );
+
+    int column = 0;
+    while ( !cards.isEmpty() )
+    {
+        addCardForDeal( store[column], cards.takeLast(), true, store[0]->pos() );
+        column = (column + 1) % 8;
+    }
+
+    startDealAnimation();
 }
 
 void Freecell::countFreeCells(int &free_cells, int &free_stores) const
@@ -389,23 +398,6 @@ void Freecell::getHints()
         }
     }
 }
-
-//-------------------------------------------------------------------------//
-
-void Freecell::deal()
-{
-    QList<KCard*> cards = shuffled(deck()->cards(), gameNumber() );
-
-    int column = 0;
-    while (!cards.isEmpty())
-    {
-        addCardForDeal( store[column], cards.takeLast(), true, store[0]->pos() );
-        column = (column + 1) % 8;
-    }
-
-    startDealAnimation();
-}
-
 
 
 static class FreecellDealerInfo : public DealerInfo

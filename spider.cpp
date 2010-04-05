@@ -254,7 +254,43 @@ void Spider::setGameOptions(const QString& options)
 
 void Spider::restart()
 {
-    deal();
+    clearHighlightedItems();
+
+    // make the redeal piles visible
+    for (int i = 0; i < 5; ++i )
+        redeals[i]->setVisible( true );
+
+    // make the leg piles invisible
+    for (int i = 0; i < 8; ++i )
+        legs[i]->setVisible( false );
+
+    relayoutPiles();
+
+    m_leg = 0;
+    m_redeal = 0;
+
+    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
+
+    int column = 0;
+    // deal face down cards (5 to first 4 piles, 4 to last 6)
+    for ( int i = 0; i < 44; ++i )
+    {
+        addCardForDeal( stack[column], cards.takeLast(), false, randomPos() );
+        column = (column + 1) % 10;
+    }
+    // deal face up cards, one to each pile
+    for ( int i = 0; i < 10; ++i )
+    {
+        addCardForDeal( stack[column], cards.takeLast(), true, randomPos() );
+        column = (column + 1) % 10;
+    }
+    // deal the remaining cards into 5 'redeal' piles
+    for ( int column = 0; column < 5; ++column )
+        for ( int i = 0; i < 10; ++i )
+            addCardForDeal( redeals[column], cards.takeLast(), false, randomPos() );
+
+    startDealAnimation();
+
     emit newCardsPossible(true);
 }
 
@@ -356,45 +392,6 @@ QPointF Spider::randomPos()
     qreal x = rect.left() + qreal(KRandom::random()) / RAND_MAX * (rect.width() - deck()->cardWidth());
     qreal y = rect.top() + qreal(KRandom::random()) / RAND_MAX * (rect.height() - deck()->cardHeight());
     return QPointF( x, y );
-}
-
-
-void Spider::deal()
-{
-    clearHighlightedItems();
-
-    // make the redeal piles visible
-    for (int i = 0; i < 5; i++ )
-        redeals[i]->setVisible(true);
-
-    // make the leg piles invisible
-    for (int i = 0; i < 8; i++ )
-        legs[i]->setVisible(false);
-
-    relayoutPiles();
-
-    m_leg = 0;
-    m_redeal = 0;
-
-    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
-
-    int column = 0;
-    // deal face down cards (5 to first 4 piles, 4 to last 6)
-    for (int i = 0; i < 44; i++ ) {
-        addCardForDeal( stack[column], cards.takeLast(), false, randomPos() );
-        column = (column + 1) % 10;
-    }
-    // deal face up cards, one to each pile
-    for (int i = 0; i < 10; i++ ) {
-        addCardForDeal( stack[column], cards.takeLast(), true, randomPos());
-        column = (column + 1) % 10;
-    }
-    // deal the remaining cards into 5 'redeal' piles
-    for (int column = 0; column < 5; column++ )
-        for (int i = 0; i < 10; i++ )
-            addCardForDeal( redeals[column], cards.takeLast(), false, randomPos());
-
-    startDealAnimation();
 }
 
 KCard *Spider::newCards()

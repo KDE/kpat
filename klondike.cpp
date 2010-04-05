@@ -215,7 +215,22 @@ KCard *Klondike::newCards()
 void Klondike::restart()
 {
     redealt = false;
-    deal();
+
+    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
+
+    for( int round = 0; round < 7; ++round )
+        for ( int i = round; i < 7; ++i )
+            addCardForDeal( play[i], cards.takeLast(), (i == round), talon->pos());
+
+    while ( !cards.isEmpty() )
+    {
+        KCard * c = cards.takeFirst();
+        c->setPos( talon->pos() );
+        c->setFaceUp( false );
+        talon->add( c );
+    }
+
+    startDealAnimation();
 }
 
 void Klondike::gameTypeChanged()
@@ -269,25 +284,6 @@ void Klondike::setEasy( bool _EasyRules )
     }
 }
 
-
-void Klondike::deal()
-{
-    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
-
-    for(int round=0; round < 7; round++)
-        for (int i = round; i < 7; i++ )
-            addCardForDeal( play[i], cards.takeLast(), (i == round), talon->pos());
-
-    while ( !cards.isEmpty() )
-    {
-        KCard * c = cards.takeFirst();
-        c->setPos( talon->pos() );
-        c->setFaceUp( false );
-        talon->add( c );
-    }
-
-    startDealAnimation();
-}
 
 bool Klondike::drop()
 {

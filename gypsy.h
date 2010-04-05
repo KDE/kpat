@@ -56,9 +56,6 @@ protected:
     virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
     virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
 
-private: // functions
-    void deal();
-
 private:
     PatPile* talon;
     PatPile* store[8];

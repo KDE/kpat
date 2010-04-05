@@ -47,7 +47,6 @@ class Golf : public DealerScene
 
 public:
     virtual void initialize();
-    void deal();
     virtual void restart();
 
 public slots:

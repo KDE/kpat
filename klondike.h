@@ -57,8 +57,6 @@ public:
     virtual bool drop();
     QList<QAction*> configActions() const;
 
-    void deal();
-
     void setEasy( bool easy );
 
 public slots:
