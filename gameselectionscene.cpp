@@ -33,7 +33,7 @@
 #include <cmath>
 
 
-const qreal boxPaddingRatio = 0.035;
+const qreal boxPaddingRatio = 0.037;
 const qreal spacingRatio = 0.10;
 const qreal textToTotalHeightRatio = 1 / 6.0;
 const int hoverTransitionDuration = 300;
@@ -247,7 +247,7 @@ void GameSelectionScene::resizeScene( const QSize & size )
     // Initial font size estimate
     QPainter p;
     int maxLabelWidth = boxWidth * ( 1 - 2 * boxPaddingRatio );
-    int pixelFontSize = boxHeight * textToTotalHeightRatio - boxWidth * boxPaddingRatio;
+    int pixelFontSize = boxHeight * (textToTotalHeightRatio - 1.5 * boxPaddingRatio);
     QFont f;
     f.setPixelSize( pixelFontSize );
     p.setFont( f );
