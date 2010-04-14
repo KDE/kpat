@@ -65,6 +65,7 @@ void Simon::initialize()
         store[i]->setPileRole(PatPile::Tableau);
         store[i]->setPilePos(dist_x*i, 1.2);
         store[i]->setReservedSpace( QSizeF( 1.0, 3.5 ) );
+        store[i]->setZValue( 0.01 * i );
         addPile(store[i]);
     }
 
