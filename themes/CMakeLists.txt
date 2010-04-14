@@ -14,3 +14,5 @@ set( kpat_themes
 
 install( FILES ${kpat_themes} DESTINATION  ${DATA_INSTALL_DIR}/kpat/themes )
 
+install( FILES kpat.knsrc  DESTINATION  ${CONFIG_INSTALL_DIR} )
+

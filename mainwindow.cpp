@@ -344,7 +344,7 @@ void MainWindow::configureAppearance()
                          i18n("Select a card deck")
                        );
 
-        dialog->addPage( new KGameThemeSelector( this, Settings::self(), KGameThemeSelector::NewStuffDisableDownload ),
+        dialog->addPage( new KGameThemeSelector( this, Settings::self(), KGameThemeSelector::NewStuffEnableDownload ),
                          i18n("Game Theme"),
                          "games-config-theme",
                          i18n("Select a theme for non-card game elements")
