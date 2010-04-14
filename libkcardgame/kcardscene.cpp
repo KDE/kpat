@@ -174,6 +174,12 @@ qreal KCardScene::layoutSpacing() const
 }
 
 
+QRectF KCardScene::contentArea() const
+{
+    return QRectF( QPoint( 0, 0 ), m_contentSize );
+}
+
+
 void KCardScene::resizeScene( const QSize & size )
 {
     m_sizeHasBeenSet = true;

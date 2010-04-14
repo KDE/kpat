@@ -1632,45 +1632,46 @@ QString DealerScene::save_it()
     return filename;
 }
 
-void DealerScene::createDump( QPaintDevice *device )
+QImage DealerScene::createDump() const
 {
-    int maxz = 0;
-    foreach (QGraphicsItem *item, items())
+    const QSize previewSize( 480, 320 );
+
+    foreach ( KCard * c, deck()->cards() )
+        c->completeAnimation();
+
+    QMultiMap<qreal,QGraphicsItem*> itemsByZ;
+    foreach ( QGraphicsItem * item, items() )
     {
         assert( item->zValue() >= 0 );
-        maxz = qMax( maxz, int( item->zValue() ) );
+        itemsByZ.insert( item->zValue(), item );
     }
-    QStyleOptionGraphicsItem options;
-    QPainter p( device );
 
-    for ( int z = 0; z <= maxz; ++z )
+    QImage img( contentArea().size().toSize(), QImage::Format_ARGB32 );
+    img.fill( Qt::transparent );
+    QPainter p( &img );
+
+    foreach ( QGraphicsItem * item, itemsByZ )
     {
-        foreach (QGraphicsItem *item, items())
+        if ( item->isVisible() )
         {
-            if ( !item->isVisible() || item->zValue() != z )
-                continue;
-
-            KCardPile * pile = qgraphicsitem_cast<KCardPile*>(item);
-            if ( pile )
-            {
-                p.save();
-                p.setTransform(item->deviceTransform(p.worldTransform()), false);
-                pile->paint( &p, 0 );
-                p.restore();
-                continue;
-            }
-            else if ( !qgraphicsitem_cast<KCard*>(item) )
-            {
-                kDebug() << "Unknown item type";
-                assert( false );
-            }
-
             p.save();
-            p.setTransform(item->deviceTransform(p.worldTransform()), false);
-            item->paint( &p, &options );
+            p.setTransform( item->deviceTransform( p.worldTransform() ), false );
+            item->paint( &p, 0 );
             p.restore();
         }
     }
+
+    p.end();
+
+    img = img.scaled( previewSize, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+
+    QImage img2( previewSize, QImage::Format_ARGB32 );
+    img2.fill( Qt::transparent );
+    QPainter p2( &img2 );
+    p2.drawImage( (img2.width() - img.width()) / 2, (img2.height() - img.height()) / 2, img );
+    p2.end();
+
+    return img2;
 }
 
 void DealerScene::mapOldId(int) {}

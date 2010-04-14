@@ -733,26 +733,20 @@ void MainWindow::slotSnapshot()
         m_dealer_it = m_dealer_map.constBegin();
     }
 
-    newGameType(m_dealer_it.key());
+    newGameType( m_dealer_it.key() );
+    m_dealer->setAutoDropEnabled( false );
     startRandom();
-    m_dealer_it++;
-    QTimer::singleShot( 200, this, SLOT( slotSnapshot2() ) );
+
+    QTimer::singleShot( 1000, this, SLOT( slotSnapshot2() ) );
 }
 
 void MainWindow::slotSnapshot2()
 {
-    if ( m_cardDeck->hasAnimatedCards() )
-    {
-            QTimer::singleShot( 100, this, SLOT( slotSnapshot2() ) );
-            return;
-    }
-    QImage img = QImage( m_view->size(), QImage::Format_ARGB32 );
-    img.fill( qRgba( 0, 0, 255, 0 ) );
-    m_dealer->createDump( &img );
-    img = img.scaled( 320, 320, Qt::KeepAspectRatio, Qt::SmoothTransformation );
-    img.save( QString( "%1.png" ).arg( m_dealer->gameId() ) );
+    m_dealer->createDump().save( QString( "%1.png" ).arg( m_dealer->gameId() ) );
+
+    ++m_dealer_it;
     if ( m_dealer_it != m_dealer_map.constEnd() )
-        QTimer::singleShot( 200, this, SLOT( slotSnapshot() ) );
+        QTimer::singleShot( 0, this, SLOT( slotSnapshot() ) );
 }
 
 #include "mainwindow.moc"

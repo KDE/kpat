@@ -81,7 +81,7 @@ public:
     // use this for autodrop times
     int speedUpTime( int delay ) const;
 
-    void createDump( QPaintDevice * );
+    QImage createDump() const;
 
     void addPile( PatPile * pile );
     void removePile( PatPile * pile );

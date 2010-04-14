@@ -72,6 +72,14 @@ public:
 
     QList<KCard*> cardsBeingDragged() const;
 
+    void setSceneAlignment( SceneAlignment alignment );
+    SceneAlignment sceneAlignment() const;
+    void setLayoutMargin( qreal margin );
+    qreal layoutMargin() const;
+    void setLayoutSpacing( qreal spacing );
+    qreal layoutSpacing() const;
+    QRectF contentArea() const;
+
     virtual void resizeScene( const QSize & size );
     virtual void relayoutScene();
     virtual void relayoutPiles( int duration = 0);
@@ -79,13 +87,6 @@ public:
     void addPile( KCardPile * pile );
     void removePile( KCardPile * pile );
     QList<KCardPile*> piles() const;
-
-    void setSceneAlignment( SceneAlignment alignment );
-    SceneAlignment sceneAlignment() const;
-    void setLayoutMargin( qreal margin );
-    qreal layoutMargin() const;
-    void setLayoutSpacing( qreal spacing );
-    qreal layoutSpacing() const;
 
     void setHighlightedItems( QList<QGraphicsItem*> items );
     void clearHighlightedItems();
