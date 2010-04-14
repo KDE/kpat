@@ -99,6 +99,7 @@ protected:
 private slots:
     void slotSnapshot();
     void slotSnapshot2();
+    void generateThemePreview();
 
 private:
     void setupActions();

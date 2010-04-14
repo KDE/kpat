@@ -234,6 +234,11 @@ void MainWindow::setupActions()
     // Hidden actions
     if (!qgetenv("KDE_DEBUG").isEmpty()) // developer shortcut
     {
+        a = actionCollection()->addAction("themePreview");
+        a->setText(i18n("Generate a theme preview image"));
+        connect( a, SIGNAL(triggered(bool)), SLOT(generateThemePreview()) );
+        a->setShortcuts( KShortcut( Qt::Key_F7 ) );
+
         a = actionCollection()->addAction("snapshot");
         a->setText(i18n("Take Game Preview Snapshots"));
         connect( a, SIGNAL(triggered(bool)), SLOT(slotSnapshot()) );
@@ -747,6 +752,35 @@ void MainWindow::slotSnapshot2()
     ++m_dealer_it;
     if ( m_dealer_it != m_dealer_map.constEnd() )
         QTimer::singleShot( 0, this, SLOT( slotSnapshot() ) );
+}
+
+
+void MainWindow::generateThemePreview()
+{
+    const QSize previewSize( 240, 160 );
+    m_view->setMinimumSize( previewSize );
+    m_view->setMaximumSize( previewSize );
+
+    QImage img( m_view->contentsRect().size(), QImage::Format_ARGB32 );
+    img.fill( Qt::transparent );
+    QPainter p( &img );
+
+    foreach ( KCard * c, m_cardDeck->cards() )
+        c->completeAnimation();
+
+    m_view->render( &p );
+
+    slotShowGameSelectionScreen();
+
+    QRect leftHalf( 0, 0, m_view->contentsRect().width() / 2, m_view->contentsRect().height() );
+    m_view->render( &p, leftHalf, leftHalf );
+
+    p.end();
+
+    img.save( "preview.png" );
+
+    m_view->setMinimumSize( 0, 0 );
+    m_view->setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
 }
 
 #include "mainwindow.moc"
