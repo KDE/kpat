@@ -642,6 +642,8 @@ void KCardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
                 c->stopAnimation();
                 c->raise();
             }
+
+            e->accept();
         }
         else
         {
