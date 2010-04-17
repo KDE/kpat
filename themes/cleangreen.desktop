@@ -1,5 +1,6 @@
 [KGameTheme]
 Name=Clean Green
+Name[ca]=Verd net
 Name[en_GB]=Clean Green
 Name[es]=Verde limpio
 Name[pt]=Verde Limpo
@@ -8,6 +9,7 @@ Name[sv]=Rent grön
 Name[uk]=Чиста зелена
 Name[x-test]=xxClean Greenxx
 Description=A simple green felt theme
+Description[ca]=Un tema senzill de sentiments verds
 Description[en_GB]=A simple green felt theme
 Description[es]=Un tema simple de fieltro verde
 Description[pt]=Um tema simples em verde
