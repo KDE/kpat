@@ -718,6 +718,12 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
             if ( card->source() )
                 emit card->source()->clicked( card );
         }
+        else if ( e->button() == Qt::RightButton )
+        {
+            emit cardRightClicked( card );
+            if ( card->source() )
+                emit card->source()->rightClicked( card );
+        }
     }
     else if ( pile && !m_deck->hasAnimatedCards() )
     {
@@ -726,6 +732,11 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
         {
             emit pileClicked( pile );
             emit pile->clicked( 0 );
+        }
+        else if ( e->button() == Qt::RightButton )
+        {
+            emit pileRightClicked( pile );
+            emit pile->rightClicked( 0 );
         }
     }
     else

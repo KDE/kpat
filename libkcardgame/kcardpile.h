@@ -102,6 +102,7 @@ public:
 signals:
     void clicked( KCard * card );
     void doubleClicked( KCard * card );
+    void rightClicked( KCard * card );
 
 protected:
     virtual void paintNormalGraphic( QPainter * painter );

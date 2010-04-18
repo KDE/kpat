@@ -104,8 +104,10 @@ public:
 signals:
     void cardClicked( KCard * card );
     void cardDoubleClicked( KCard * card );
+    void cardRightClicked( KCard * card );
     void pileClicked( KCardPile * pile );
     void pileDoubleClicked( KCardPile * pile );
+    void pileRightClicked( KCardPile * pile );
 
 protected:
     virtual bool allowedToAdd( const KCardPile * pile, const QList<KCard*> & cards ) const;

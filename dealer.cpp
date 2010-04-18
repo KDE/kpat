@@ -499,6 +499,8 @@ DealerScene::DealerScene()
     _usesolver = true;
 
     connect( this, SIGNAL(cardDoubleClicked(KCard*)), this, SLOT(tryAutomaticMove(KCard*)) );
+    // Make rightClick == doubleClick. See bug #151921
+    connect( this, SIGNAL(cardRightClicked(KCard*)), this, SLOT(tryAutomaticMove(KCard*)) );
 }
 
 DealerScene::~DealerScene()
@@ -985,18 +987,11 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
 {
     clearHighlightedItems();
 
-    KCard * card = qgraphicsitem_cast<KCard*>( itemAt( e->scenePos() ) );
-
     if ( e->button() == Qt::RightButton && d->peekedCard && d->peekedCard->source() )
     {
         e->accept();
         d->peekedCard->source()->layoutCards( DURATION_FANCYSHOW );
         d->peekedCard = 0;
-    }
-    else if ( e->button() == Qt::RightButton && card && !deck()->hasAnimatedCards() )
-    {
-        e->accept();
-        tryAutomaticMove( card ); // see bug #151921
     }
     else
     {
