@@ -59,8 +59,6 @@ protected:
     virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
 
     virtual bool  cardClicked(KCard *);
-    virtual bool  cardDoubleClicked(KCard *);
-
     virtual bool  drop()  { return false; }
     virtual void  setGameState(const QString &);
 

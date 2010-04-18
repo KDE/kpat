@@ -198,15 +198,6 @@ bool Idiot::isGameWon() const
 }
 
 
-// This patience doesn't support double click.
-//
-
-bool Idiot::cardDoubleClicked(KCard *)
-{
-    return false; // nothing - nada
-}
-
-
 // Deal 4 cards face up - one on each pile.
 //
 KCard *Idiot::newCards()
