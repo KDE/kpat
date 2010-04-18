@@ -497,6 +497,8 @@ DealerScene::DealerScene()
     d->wonItem->hide();
 
     _usesolver = true;
+
+    connect( this, SIGNAL(cardDoubleClicked(KCard*)), this, SLOT(tryAutomaticMove(KCard*)) );
 }
 
 DealerScene::~DealerScene()
@@ -994,7 +996,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
         KCard * card = qgraphicsitem_cast<KCard*>( itemAt( e->scenePos() ) );
         if ( card )
         {
-            cardDoubleClicked( card ); // see bug #151921
+            tryAutomaticMove( card ); // see bug #151921
             return;
         }
     }
@@ -1014,7 +1016,7 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
     KCardScene::mouseDoubleClickEvent( e );
 }
 
-bool DealerScene::cardDoubleClicked( KCard * c )
+bool DealerScene::tryAutomaticMove( KCard * c )
 {
     if (c->isAnimated())
         return false;

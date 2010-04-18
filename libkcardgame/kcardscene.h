@@ -103,7 +103,9 @@ public:
 
 signals:
     void cardClicked( KCard * card );
+    void cardDoubleClicked( KCard * card );
     void pileClicked( KCardPile * pile );
+    void pileDoubleClicked( KCardPile * pile );
 
 protected:
     virtual bool allowedToAdd( const KCardPile * pile, const QList<KCard*> & cards ) const;
@@ -111,9 +113,6 @@ protected:
     virtual KCardPile * targetPile();
 
     virtual void setItemHighlight( QGraphicsItem * item, bool highlight );
-
-    virtual bool pileDoubleClicked( KCardPile * pile );
-    virtual bool cardDoubleClicked( KCard * card );
 
     virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * e );
     virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * e );

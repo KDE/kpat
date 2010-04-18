@@ -598,21 +598,6 @@ KCardPile * KCardScene::targetPile()
 }
 
 
-bool KCardScene::pileDoubleClicked( KCardPile * pile )
-{
-    emit pile->doubleClicked( 0 );
-    return false;
-
-}
-
-
-bool KCardScene::cardDoubleClicked( KCard * card )
-{
-    emit card->source()->doubleClicked( card );
-    return false;
-}
-
-
 void KCardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 {
     // don't allow manual moves while animations are going on
@@ -723,38 +708,54 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
             }
         }
 
-        if ( m_cardsBeingDragged.isEmpty() )
-            return;
-
-        KCardPile * destination = targetPile();
-        if ( destination )
+        if ( !m_cardsBeingDragged.isEmpty() )
         {
-            moveCardsToPile( m_cardsBeingDragged, destination, cardMoveDuration );
+            KCardPile * destination = targetPile();
+            if ( destination )
+                moveCardsToPile( m_cardsBeingDragged, destination, cardMoveDuration );
+            else
+                m_cardsBeingDragged.first()->source()->layoutCards( cardMoveDuration );
+            m_cardsBeingDragged.clear();
+            m_dragStarted = false;
         }
-        else
-        {
-            m_cardsBeingDragged.first()->source()->layoutCards( cardMoveDuration );
-        }
-        m_cardsBeingDragged.clear();
-        m_dragStarted = false;
     }
 }
 
 
 void KCardScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
 {
-    if ( m_deck && m_deck->hasAnimatedCards() )
-        return;
-
-    if ( !m_cardsBeingDragged.isEmpty() )
+    if ( e->button() == Qt::LeftButton )
     {
-        m_cardsBeingDragged.first()->source()->layoutCards( cardMoveDuration );
-        m_cardsBeingDragged.clear();
-    }
+        if ( m_deck && m_deck->hasAnimatedCards() )
+            return;
 
-    KCard * c = qgraphicsitem_cast<KCard*>( itemAt( e->scenePos() ) );
-    if ( c )
-        cardDoubleClicked( c );
+        if ( !m_cardsBeingDragged.isEmpty() )
+        {
+            m_cardsBeingDragged.first()->source()->layoutCards( cardMoveDuration );
+            m_cardsBeingDragged.clear();
+        }
+
+        QGraphicsItem * topItem = itemAt( e->scenePos() );
+        if ( !topItem )
+            return;
+
+        KCard * card = qgraphicsitem_cast<KCard*>( topItem );
+        if ( card && !card->isAnimated() )
+        {
+            emit cardDoubleClicked( card );
+            if ( card->source() )
+                emit card->source()->doubleClicked( card );
+            return;
+        }
+
+        KCardPile * pile = qgraphicsitem_cast<KCardPile*>( topItem );
+        if ( pile )
+        {
+            emit pileDoubleClicked( pile );
+            emit pile->doubleClicked( 0 );
+            return;
+        }
+    }
 }
 
 

@@ -273,10 +273,10 @@ void Freecell::waitForMoving()
     startMoving();
 }
 
-bool Freecell::cardDoubleClicked(KCard *c)
+bool Freecell::tryAutomaticMove(KCard *c)
 {
     // target move
-    if (DealerScene::cardDoubleClicked(c))
+    if (DealerScene::tryAutomaticMove(c))
         return true;
 
     if (c->isAnimated())
