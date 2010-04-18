@@ -72,9 +72,12 @@ public:
     void setPilePos( qreal x, qreal y );
     QPointF pilePos() const;
 
-    void setRequestedSpace( QSizeF space );
-    void setRequestedSpace( qreal width, qreal height );
-    QSizeF requestedSpace() const;
+    void setReservedSpace( QSizeF space );
+    void setReservedSpace( qreal width, qreal height );
+    QSizeF reservedSpace() const;
+
+    void setMaximumSpace( QSizeF size );
+    QSizeF maximumSpace() const;
 
     void setSpread( QSizeF spread );
     void setSpread( qreal width, qreal height );
@@ -91,6 +94,8 @@ public:
     void setGraphicVisible( bool visible );
     bool isGraphicVisible();
 
+    void setGraphicSize( QSize size );
+
     void add( KCard * card );
     virtual void insert( KCard * card, int index );
     virtual void remove( KCard * card );
@@ -99,26 +104,23 @@ public:
 
     virtual void layoutCards( int duration );
 
-Q_SIGNALS:
+public slots:
+    virtual bool cardClicked( KCard * card );
+    virtual bool cardDoubleClicked( KCard * card );
+
+signals:
     void clicked( KCard * card );
     void doubleClicked( KCard * card );
-    void rightClicked( KCard * card );
 
 protected:
     virtual void paintNormalGraphic( QPainter * painter );
     virtual void paintHighlightedGraphic( QPainter * painter );
 
-    QSizeF availableSpace() const;
-
     virtual QPointF cardOffset( const KCard * card ) const;
 
 private:
-    void setGraphicSize( QSize size );
-    void setAvailableSpace( QSizeF size );
-
     class KCardPilePrivate * const d;
     friend class KCardPilePrivate;
-    friend class KCardScene;
 };
 
 #endif

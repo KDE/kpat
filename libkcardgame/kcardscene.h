@@ -50,8 +50,6 @@ class KCardPile;
 
 class LIBKCARDGAME_EXPORT KCardScene : public QGraphicsScene
 {
-    Q_OBJECT
-
 public:
     enum SceneAlignmentFlag
     {
@@ -101,14 +99,6 @@ public:
     void flipCardToPile( KCard * card, KCardPile * pile, int duration );
     void flipCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal velocity );
 
-Q_SIGNALS:
-    void cardClicked( KCard * card );
-    void cardDoubleClicked( KCard * card );
-    void cardRightClicked( KCard * card );
-    void pileClicked( KCardPile * pile );
-    void pileDoubleClicked( KCardPile * pile );
-    void pileRightClicked( KCardPile * pile );
-
 protected:
     virtual bool allowedToAdd( const KCardPile * pile, const QList<KCard*> & cards ) const;
     virtual bool allowedToRemove( const KCardPile * pile, const KCard * card ) const;
@@ -116,16 +106,36 @@ protected:
 
     virtual void setItemHighlight( QGraphicsItem * item, bool highlight );
 
-    virtual void mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e );
-    virtual void mouseMoveEvent( QGraphicsSceneMouseEvent * e );
-    virtual void mousePressEvent( QGraphicsSceneMouseEvent * e );
-    virtual void mouseReleaseEvent( QGraphicsSceneMouseEvent * e );
+    virtual bool pileClicked( KCardPile * pile );
+    virtual bool pileDoubleClicked( KCardPile * pile );
+    virtual bool cardClicked( KCard * card );
+    virtual bool cardDoubleClicked( KCard * card );
+
+    virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * e );
+    virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * e );
+    virtual void mousePressEvent ( QGraphicsSceneMouseEvent * e );
+    virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * e );
     virtual void wheelEvent( QGraphicsSceneWheelEvent * e );
 
     virtual void drawForeground ( QPainter * painter, const QRectF & rect );
 
 private:
-    class KCardScenePrivate * const d;
+    int calculateDuration( QPointF pos1, QPointF pos2, qreal velocity ) const;
+
+    KAbstractCardDeck * m_deck;
+    QList<KCardPile*> m_piles;
+    QSet<QGraphicsItem*> m_highlightedItems;
+
+    QList<KCard*> m_cardsBeingDragged;
+    QPointF m_startOfDrag;
+    bool m_dragStarted;
+
+    SceneAlignment m_alignment;
+    qreal m_layoutMargin;
+    qreal m_layoutSpacing;
+    QSizeF m_contentSize;
+
+    bool m_sizeHasBeenSet;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS( KCardScene::SceneAlignment )

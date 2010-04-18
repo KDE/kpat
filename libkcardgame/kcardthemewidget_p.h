@@ -46,7 +46,7 @@ public:
     void run();
     void halt();
 
-Q_SIGNALS:
+signals:
     void previewRendered( const KCardTheme & theme, const QImage & image );
 
 private:
@@ -71,7 +71,7 @@ public:
     virtual int rowCount( const QModelIndex & parent = QModelIndex() ) const;
     virtual QVariant data( const QModelIndex & index, int role = Qt::DisplayRole ) const;
 
-private Q_SLOTS:
+private slots:
     void deleteThread();
     void submitPreview( const KCardTheme & theme, const QImage & img );
 
@@ -103,7 +103,7 @@ class KCardThemeWidgetPrivate : public QObject
 public:
     KCardThemeWidgetPrivate( KCardThemeWidget * parent );
 
-public Q_SLOTS:
+public slots:
     void updateLineEdit( const QModelIndex & index );
     void updateListView( const QString & dirName );
     void getNewCardThemes();

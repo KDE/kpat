@@ -64,7 +64,7 @@ void Simon::initialize()
         store[i] = new PatPile(5+i, QString( "store%1" ).arg( i ));
         store[i]->setPileRole(PatPile::Tableau);
         store[i]->setPilePos(dist_x*i, 1.2);
-        store[i]->setRequestedSpace( QSizeF( 1.0, 3.5 ) );
+        store[i]->setReservedSpace( QSizeF( 1.0, 3.5 ) );
         store[i]->setZValue( 0.01 * i );
         addPile(store[i]);
     }

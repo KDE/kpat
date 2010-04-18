@@ -69,7 +69,7 @@ protected:
                         int start, int count, int debug_level);
 
     virtual void newDemoMove(KCard *m);
-    virtual bool tryAutomaticMove(KCard *c);
+    virtual bool cardDoubleClicked(KCard *c);
     virtual void getHints();
 
 protected:

@@ -70,7 +70,7 @@ void Mod3::initialize()
     aces->setPileRole(PatPile::FoundationType1);
     aces->setFoundation(true);
     aces->setPilePos(rightColumX, 0.5);
-    aces->setRequestedSpace( QSizeF( 1.0, 2.0 ));
+    aces->setReservedSpace( QSizeF( 1.0, 2.0 ));
     addPile(aces);
 
     for ( int r = 0; r < 4; r++ ) {
@@ -86,10 +86,10 @@ void Mod3::initialize()
                 // Very tight spread makes it easy to quickly tell number of
                 // cards in each pile and we don't care about the cards beneath.
                 stack[r][c]->setSpread( 0, 0.08 );
-                stack[r][c]->setRequestedSpace( QSizeF( 1.0, 1.23 ) );
+                stack[r][c]->setReservedSpace( QSizeF( 1.0, 1.23 ) );
             } else {
                 stack[r][c]->setPilePos( dist_x * c, bottomRowY );
-                stack[r][c]->setRequestedSpace( QSizeF( 1.0, 1.8 ) );
+                stack[r][c]->setReservedSpace( QSizeF( 1.0, 1.8 ) );
             }
             stack[r][c]->setPileRole( r == 0 ? PatPile::FoundationType2
                                       : r == 1 ? PatPile::FoundationType3

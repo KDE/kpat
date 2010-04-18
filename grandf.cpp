@@ -68,7 +68,7 @@ void Grandf::initialize()
         store[i]->setPileRole(PatPile::Tableau);
         store[i]->setPilePos(distx*i, 1.2);
         store[i]->setAutoTurnTop(true);
-        store[i]->setRequestedSpace( QSizeF( 1.0, 5.0 ) );
+        store[i]->setReservedSpace( QSizeF( 1.0, 5.0 ) );
         addPile(store[i]);
     }
 

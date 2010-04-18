@@ -54,12 +54,10 @@ public slots:
 
 protected:
     virtual bool drop() { return false; }
+    virtual bool cardClicked(KCard *c);
     virtual void setGameState( const QString & );
     virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
     virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
-
-private slots:
-    void handleCardClick( KCard * card );
 
 private:
     PatPile* talon;
