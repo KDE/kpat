@@ -600,161 +600,170 @@ KCardPile * KCardScene::targetPile()
 
 void KCardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 {
-    // don't allow manual moves while animations are going on
-    if ( m_deck && m_deck->hasAnimatedCards() )
-        return;
+    QGraphicsItem * item = itemAt( e->scenePos() );
+    KCard * card = qgraphicsitem_cast<KCard*>( item );
+    KCardPile * pile = qgraphicsitem_cast<KCardPile*>( item );
 
-    if ( e->button() == Qt::LeftButton )
+    if ( e->button() == Qt::LeftButton && ( card || pile ) )
     {
-        KCard *card = qgraphicsitem_cast<KCard*>( itemAt( e->scenePos() ) );
-        if ( !card || m_cardsBeingDragged.contains( card ) )
-            return;
+        e->accept();
 
-        m_cardsBeingDragged = card->source()->topCardsDownTo( card );
-        if ( allowedToRemove( card->source(), m_cardsBeingDragged.first() ) )
+        if ( card
+             && !m_deck->hasAnimatedCards()
+             && !m_cardsBeingDragged.contains( card ) )
         {
-            foreach ( KCard * c, m_cardsBeingDragged )
+            QList<KCard*> cards = card->source()->topCardsDownTo( card );
+
+            if ( allowedToRemove( card->source(), cards.first() ) )
             {
-                c->stopAnimation();
-                c->raise();
+                m_cardsBeingDragged = cards;
+                foreach ( KCard * c, m_cardsBeingDragged )
+                {
+                    c->stopAnimation();
+                    c->raise();
+                }
             }
 
-            e->accept();
+            m_dragStarted = false;
+            m_startOfDrag = e->scenePos();
         }
-        else
-        {
-            m_cardsBeingDragged.clear();
-        }
-
-        m_dragStarted = false;
-        m_startOfDrag = e->scenePos();
+    }
+    else
+    {
+        kDebug() << "Calling QGraphicsScene::mousePressEvent:" << e->isAccepted();
+        QGraphicsScene::mousePressEvent( e );
     }
 }
 
 
 void KCardScene::mouseMoveEvent( QGraphicsSceneMouseEvent * e )
 {
-    if ( m_cardsBeingDragged.isEmpty() )
-        return;
-
-    if ( !m_dragStarted )
+    if ( !m_cardsBeingDragged.isEmpty() )
     {
-        bool overCard = m_cardsBeingDragged.first()->sceneBoundingRect().contains( e->scenePos() );
-        QPointF delta = e->scenePos() - m_startOfDrag;
-        qreal distanceSquared = delta.x() * delta.x() + delta.y() * delta.y();
-        // Ignore the move event until we've moved at least 4 pixels or the
-        // cursor leaves the card.
-        if (distanceSquared > 16.0 || !overCard) {
-            m_dragStarted = true;
-            // If the cursor hasn't left the card, then continue the drag from
-            // the current position, which makes it look smoother.
-            if (overCard)
-                m_startOfDrag = e->scenePos();
+        e->accept();
+
+        if ( !m_dragStarted )
+        {
+            bool overCard = m_cardsBeingDragged.first()->sceneBoundingRect().contains( e->scenePos() );
+            QPointF delta = e->scenePos() - m_startOfDrag;
+            qreal distanceSquared = delta.x() * delta.x() + delta.y() * delta.y();
+            // Ignore the move event until we've moved at least 4 pixels or the
+            // cursor leaves the card.
+            if ( distanceSquared > 16.0 || !overCard )
+            {
+                m_dragStarted = true;
+                // If the cursor hasn't left the card, then continue the drag from
+                // the current position, which makes it look smoother.
+                if ( overCard )
+                    m_startOfDrag = e->scenePos();
+            }
+        }
+
+        if ( m_dragStarted )
+        {
+            foreach ( KCard * card, m_cardsBeingDragged )
+                card->setPos( card->pos() + e->scenePos() - m_startOfDrag );
+            m_startOfDrag = e->scenePos();
+
+            QList<QGraphicsItem*> toHighlight;
+            KCardPile * dropPile = targetPile();
+            if ( dropPile )
+            {
+                if ( dropPile->isEmpty() )
+                    toHighlight << dropPile;
+                else
+                    toHighlight << dropPile->top();
+            }
+
+            setHighlightedItems( toHighlight );
         }
     }
-
-    if ( m_dragStarted )
+    else
     {
-        foreach ( KCard * card, m_cardsBeingDragged )
-            card->setPos( card->pos() + e->scenePos() - m_startOfDrag );
-        m_startOfDrag = e->scenePos();
-
-        QList<QGraphicsItem*> toHighlight;
-        KCardPile * dropPile = targetPile();
-        if ( dropPile )
-        {
-            if ( dropPile->isEmpty() )
-                toHighlight << dropPile;
-            else
-                toHighlight << dropPile->top();
-        }
-
-        setHighlightedItems( toHighlight );
+        QGraphicsScene::mouseMoveEvent( e );
     }
 }
 
 
 void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
 {
-    if ( e->button() == Qt::LeftButton )
+    QGraphicsItem * topItem = itemAt( e->scenePos() );
+    KCard * card = qgraphicsitem_cast<KCard*>( topItem );
+    KCardPile * pile = qgraphicsitem_cast<KCardPile*>( topItem );
+
+    if ( e->button() == Qt::LeftButton && !m_dragStarted && !m_cardsBeingDragged.isEmpty() )
     {
-        if ( !m_dragStarted )
+        m_cardsBeingDragged.first()->source()->layoutCards( cardMoveDuration );
+        m_cardsBeingDragged.clear();
+    }
+
+    if ( e->button() == Qt::LeftButton && !m_cardsBeingDragged.isEmpty() )
+    {
+        e->accept();
+
+        KCardPile * destination = targetPile();
+        if ( destination )
+            moveCardsToPile( m_cardsBeingDragged, destination, cardMoveDuration );
+        else
+            m_cardsBeingDragged.first()->source()->layoutCards( cardMoveDuration );
+        m_cardsBeingDragged.clear();
+        m_dragStarted = false;
+    }
+    else if ( card && !m_deck->hasAnimatedCards() )
+    {
+        e->accept();
+        if ( e->button() == Qt::LeftButton )
         {
-            if ( !m_cardsBeingDragged.isEmpty() )
-            {
-                m_cardsBeingDragged.first()->source()->layoutCards( cardMoveDuration );
-                m_cardsBeingDragged.clear();
-            }
-
-            QGraphicsItem * topItem = itemAt( e->scenePos() );
-            if ( !topItem )
-                return;
-
-            KCard * card = qgraphicsitem_cast<KCard*>( topItem );
-            if ( card && !card->isAnimated() )
-            {
-                emit cardClicked( card );
-                if ( card->source() )
-                    emit card->source()->clicked( card );
-                return;
-            }
-
-            KCardPile * pile = qgraphicsitem_cast<KCardPile*>( topItem );
-            if ( pile )
-            {
-                emit pileClicked( pile );
-                emit pile->clicked( 0 );
-                return;
-            }
+            emit cardClicked( card );
+            if ( card->source() )
+                emit card->source()->clicked( card );
         }
-
-        if ( !m_cardsBeingDragged.isEmpty() )
+    }
+    else if ( pile && !m_deck->hasAnimatedCards() )
+    {
+        e->accept();
+        if ( e->button() == Qt::LeftButton )
         {
-            KCardPile * destination = targetPile();
-            if ( destination )
-                moveCardsToPile( m_cardsBeingDragged, destination, cardMoveDuration );
-            else
-                m_cardsBeingDragged.first()->source()->layoutCards( cardMoveDuration );
-            m_cardsBeingDragged.clear();
-            m_dragStarted = false;
+            emit pileClicked( pile );
+            emit pile->clicked( 0 );
         }
+    }
+    else
+    {
+        kDebug() << "Calling QGraphicsScene::mouseReleaseEvent:" << e->isAccepted();
+        QGraphicsScene::mouseReleaseEvent( e );
     }
 }
 
 
 void KCardScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
 {
-    if ( e->button() == Qt::LeftButton )
+    QGraphicsItem * topItem = itemAt( e->scenePos() );
+    KCard * card = qgraphicsitem_cast<KCard*>( topItem );
+    KCardPile * pile = qgraphicsitem_cast<KCardPile*>( topItem );
+
+    if ( !m_cardsBeingDragged.isEmpty() )
     {
-        if ( m_deck && m_deck->hasAnimatedCards() )
-            return;
+        m_cardsBeingDragged.first()->source()->layoutCards( cardMoveDuration );
+        m_cardsBeingDragged.clear();
+    }
 
-        if ( !m_cardsBeingDragged.isEmpty() )
-        {
-            m_cardsBeingDragged.first()->source()->layoutCards( cardMoveDuration );
-            m_cardsBeingDragged.clear();
-        }
-
-        QGraphicsItem * topItem = itemAt( e->scenePos() );
-        if ( !topItem )
-            return;
-
-        KCard * card = qgraphicsitem_cast<KCard*>( topItem );
-        if ( card && !card->isAnimated() )
-        {
-            emit cardDoubleClicked( card );
-            if ( card->source() )
-                emit card->source()->doubleClicked( card );
-            return;
-        }
-
-        KCardPile * pile = qgraphicsitem_cast<KCardPile*>( topItem );
-        if ( pile )
-        {
-            emit pileDoubleClicked( pile );
-            emit pile->doubleClicked( 0 );
-            return;
-        }
+    if ( card && e->button() == Qt::LeftButton && !m_deck->hasAnimatedCards() )
+    {
+        e->accept();
+        emit cardDoubleClicked( card );
+        if ( card->source() )
+            emit card->source()->doubleClicked( card );
+    }
+    else if ( pile && e->button() == Qt::LeftButton && !m_deck->hasAnimatedCards() )
+    {
+        e->accept();
+        emit pileDoubleClicked( pile );
+        emit pile->doubleClicked( 0 );
+    }
+    else
+    {
+        QGraphicsScene::mouseDoubleClickEvent( e );
     }
 }
 
@@ -763,10 +772,16 @@ void KCardScene::wheelEvent( QGraphicsSceneWheelEvent * e )
 {
     if ( m_deck && e->modifiers() & Qt::ControlModifier )
     {
+        e->accept();
+
         qreal scaleFactor = pow( 2, e->delta() / qreal(10 * 120) );
         int newWidth = m_deck->cardWidth() * scaleFactor;
         m_deck->setCardWidth( newWidth );
         relayoutPiles();
+    }
+    else
+    {
+        QGraphicsScene::wheelEvent( e );
     }
 }
 

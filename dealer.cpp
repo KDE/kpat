@@ -952,68 +952,71 @@ bool DealerScene::checkPrefering( const PatPile * pile, const QList<KCard*> & ol
 
 void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 {
+    clearHighlightedItems();
+
     stopDemo();
 
-    if ( e->button() == Qt::LeftButton )
+    KCard * card = qgraphicsitem_cast<KCard*>( itemAt( e->scenePos() ) );
+
+    if ( d->peekedCard )
     {
-        if ( d->peekedCard )
-            return;
-        clearHighlightedItems();
+        e->accept();
+    }
+    else if ( e->button() == Qt::RightButton
+              && card
+              && card->source()
+              && card != card->source()->top()
+              && cardsBeingDragged().isEmpty()
+              && !deck()->hasAnimatedCards() )
+    {
+        e->accept();
+        d->peekedCard = card;
+        QPointF pos2( card->x() + deck()->cardWidth() / 3.0, card->y() - deck()->cardHeight() / 4.0 );
+        card->setZValue( card->zValue() + 0.1 );
+        card->animate( pos2, card->zValue(), 1.1, 20, card->isFaceUp(), false, DURATION_FANCYSHOW );
+    }
+    else
+    {
         KCardScene::mousePressEvent( e );
     }
-    else if ( e->button() == Qt::RightButton && cardsBeingDragged().isEmpty() )
-    {
-        if ( deck()->hasAnimatedCards() )
-            return;
-
-        KCard *card = qgraphicsitem_cast<KCard*>( itemAt( e->scenePos() ) );
-        if ( !card )
-            return;
-
-        if ( card != card->source()->top() )
-        {
-            d->peekedCard = card;
-            QPointF pos2( card->x() + deck()->cardWidth() / 3.0, card->y() - deck()->cardHeight() / 4.0 );
-            card->setZValue( card->zValue() + 0.1 );
-            card->animate( pos2, card->zValue(), 1.1, 20, card->isFaceUp(), false, DURATION_FANCYSHOW );
-        }
-    }
 }
 
-void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent *e )
+void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
 {
     clearHighlightedItems();
 
-    if ( e->button() == Qt::RightButton )
+    KCard * card = qgraphicsitem_cast<KCard*>( itemAt( e->scenePos() ) );
+
+    if ( e->button() == Qt::RightButton && d->peekedCard && d->peekedCard->source() )
     {
-        if ( d->peekedCard && d->peekedCard->source() )
-        {
-            d->peekedCard->source()->layoutCards( DURATION_FANCYSHOW );
-            d->peekedCard = 0;
-            return;
-        }
-
-        KCard * card = qgraphicsitem_cast<KCard*>( itemAt( e->scenePos() ) );
-        if ( card )
-        {
-            tryAutomaticMove( card ); // see bug #151921
-            return;
-        }
+        e->accept();
+        d->peekedCard->source()->layoutCards( DURATION_FANCYSHOW );
+        d->peekedCard = 0;
     }
-
-    KCardScene::mouseReleaseEvent( e );
+    else if ( e->button() == Qt::RightButton && card && !deck()->hasAnimatedCards() )
+    {
+        e->accept();
+        tryAutomaticMove( card ); // see bug #151921
+    }
+    else
+    {
+        KCardScene::mouseReleaseEvent( e );
+    }
 }
 
-void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
+void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
 {
-    if (d->demo_active) {
+    clearHighlightedItems();
+
+    if ( d->demo_active )
+    {
+        e->accept();
         stopDemo();
-        return;
     }
-
-    clearHighlightedItems();
-
-    KCardScene::mouseDoubleClickEvent( e );
+    else
+    {
+        KCardScene::mouseDoubleClickEvent( e );
+    }
 }
 
 bool DealerScene::tryAutomaticMove( KCard * c )
