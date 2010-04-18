@@ -197,17 +197,17 @@ void KCardScene::relayoutScene()
     foreach ( const KCardPile * p, piles() )
     {
         QSizeF neededPileArea;
-        if ( ( p->pilePos().x() >= 0 && p->reservedSpace().width() >= 0 )
-             || ( p->pilePos().x() < 0 && p->reservedSpace().width() < 0 ) )
-            neededPileArea.setWidth( qAbs( p->pilePos().x() + p->reservedSpace().width() ) );
+        if ( ( p->pilePos().x() >= 0 && p->requestedSpace().width() >= 0 )
+             || ( p->pilePos().x() < 0 && p->requestedSpace().width() < 0 ) )
+            neededPileArea.setWidth( qAbs( p->pilePos().x() + p->requestedSpace().width() ) );
         else
-            neededPileArea.setWidth( qMax( qAbs( p->pilePos().x() ), qAbs( p->reservedSpace().width() ) ) );
+            neededPileArea.setWidth( qMax( qAbs( p->pilePos().x() ), qAbs( p->requestedSpace().width() ) ) );
 
-        if ( ( p->pilePos().y() >= 0 && p->reservedSpace().height() >= 0 )
-             || ( p->pilePos().y() < 0 && p->reservedSpace().height() < 0 ) )
-            neededPileArea.setHeight( qAbs( p->pilePos().y() + p->reservedSpace().height() ) );
+        if ( ( p->pilePos().y() >= 0 && p->requestedSpace().height() >= 0 )
+             || ( p->pilePos().y() < 0 && p->requestedSpace().height() < 0 ) )
+            neededPileArea.setHeight( qAbs( p->pilePos().y() + p->requestedSpace().height() ) );
         else
-            neededPileArea.setHeight( qMax( qAbs( p->pilePos().y() ), qAbs( p->reservedSpace().height() ) ) );
+            neededPileArea.setHeight( qMax( qAbs( p->pilePos().y() ), qAbs( p->requestedSpace().height() ) ) );
 
         usedArea = usedArea.expandedTo( neededPileArea );
     }
@@ -304,14 +304,14 @@ void KCardScene::relayoutPiles( int duration )
 
         QSizeF maxSpace = m_deck->cardSize();
 
-        if ( p->reservedSpace().width() > 1 && s.width() > p->x() + cardWidth )
+        if ( p->requestedSpace().width() > 1 && s.width() > p->x() + cardWidth )
             maxSpace.setWidth( s.width() - p->x() );
-        else if ( p->reservedSpace().width() < 0 && p->x() > 0 )
+        else if ( p->requestedSpace().width() < 0 && p->x() > 0 )
             maxSpace.setWidth( p->x() + cardWidth );
 
-        if ( p->reservedSpace().height() > 1 && s.height() > p->y() + cardHeight )
+        if ( p->requestedSpace().height() > 1 && s.height() > p->y() + cardHeight )
             maxSpace.setHeight( s.height() - p->y() );
-        else if ( p->reservedSpace().height() < 0 && p->y() > 0 )
+        else if ( p->requestedSpace().height() < 0 && p->y() > 0 )
             maxSpace.setHeight( p->y() + cardHeight );
 
         p->setAvailableSpace( maxSpace );
@@ -319,13 +319,13 @@ void KCardScene::relayoutPiles( int duration )
 
     foreach ( KCardPile * p1, piles() )
     {
-        if ( !p1->isVisible() || p1->reservedSpace() == QSizeF( 1, 1 ) )
+        if ( !p1->isVisible() || p1->requestedSpace() == QSizeF( 1, 1 ) )
             continue;
 
         QRectF p1Space( p1->pos(), p1->availableSpace() );
-        if ( p1->reservedSpace().width() < 0 )
+        if ( p1->requestedSpace().width() < 0 )
             p1Space.moveRight( p1->x() + cardWidth );
-        if ( p1->reservedSpace().height() < 0 )
+        if ( p1->requestedSpace().height() < 0 )
             p1Space.moveBottom( p1->y() + cardHeight );
 
         foreach ( KCardPile * p2, piles() )
@@ -334,26 +334,26 @@ void KCardScene::relayoutPiles( int duration )
                 continue;
 
             QRectF p2Space( p2->pos(), p2->availableSpace() );
-            if ( p2->reservedSpace().width() < 0 )
+            if ( p2->requestedSpace().width() < 0 )
                 p2Space.moveRight( p2->x() + cardWidth );
-            if ( p2->reservedSpace().height() < 0 )
+            if ( p2->requestedSpace().height() < 0 )
                 p2Space.moveBottom( p2->y() + cardHeight );
 
             // If the piles spaces intersect we need to solve the conflict.
             if ( p1Space.intersects( p2Space ) )
             {
-                if ( p1->reservedSpace().width() != 1 )
+                if ( p1->requestedSpace().width() != 1 )
                 {
-                    if ( p2->reservedSpace().height() != 1 )
+                    if ( p2->requestedSpace().height() != 1 )
                     {
-                        Q_ASSERT( p2->reservedSpace().height() > 0 );
+                        Q_ASSERT( p2->requestedSpace().height() > 0 );
                         // if it's growing too, we win
                         p2Space.setHeight( qMin( p1Space.top() - p2->y() - spacing, p2Space.height() ) );
                         //kDebug() << "1. reduced height of" << p2->objectName();
                     } else // if it's fixed height, we loose
-                        if ( p1->reservedSpace().width() < 0 ) {
+                        if ( p1->requestedSpace().width() < 0 ) {
                             // this isn't made for two piles one from left and one from right both growing
-                            Q_ASSERT( p2->reservedSpace().width() == 1 );
+                            Q_ASSERT( p2->requestedSpace().width() == 1 );
                             p1Space.setLeft( p2->x() + cardWidth + spacing);
                             //kDebug() << "2. reduced width of" << p1->objectName();
                         } else {
@@ -362,18 +362,18 @@ void KCardScene::relayoutPiles( int duration )
                         }
                 }
 
-                if ( p1->reservedSpace().height() != 1 )
+                if ( p1->requestedSpace().height() != 1 )
                 {
-                    if ( p2->reservedSpace().width() != 1 )
+                    if ( p2->requestedSpace().width() != 1 )
                     {
-                        Q_ASSERT( p2->reservedSpace().height() > 0 );
+                        Q_ASSERT( p2->requestedSpace().height() > 0 );
                         // if it's growing too, we win
                         p2Space.setWidth( qMin( p1Space.right() - p2->x() - spacing, p2Space.width() ) );
                         //kDebug() << "4. reduced width of" << p2->objectName();
                     } else // if it's fixed height, we loose
-                        if ( p1->reservedSpace().height() < 0 ) {
+                        if ( p1->requestedSpace().height() < 0 ) {
                             // this isn't made for two piles one from left and one from right both growing
-                            Q_ASSERT( p2->reservedSpace().height() == 1 );
+                            Q_ASSERT( p2->requestedSpace().height() == 1 );
                             Q_ASSERT( false ); // TODO
                             p1Space.setLeft( p2->x() + cardWidth + spacing );
                             //kDebug() << "5. reduced width of" << p1->objectName();

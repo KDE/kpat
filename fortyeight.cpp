@@ -65,7 +65,7 @@ void Fortyeight::initialize()
     pile->setPileRole(PatPile::Waste);
     pile->setPilePos(-dist_x, smallNeg);
     pile->setSpread(-0.21, 0);
-    pile->setReservedSpace( QSizeF( -(1 + 6 * dist_x), 1 ) );
+    pile->setRequestedSpace( QSizeF( -(1 + 6 * dist_x), 1 ) );
     addPile(pile);
 
     for (int i = 0; i < 8; i++) {
@@ -81,7 +81,7 @@ void Fortyeight::initialize()
         stack[i]->setPilePos(dist_x*i, 1.1 );
         stack[i]->setAutoTurnTop(true);
         stack[i]->setSpread(0, 0.25);
-        stack[i]->setReservedSpace( QSizeF( 1.0, 4.0 ) );
+        stack[i]->setRequestedSpace( QSizeF( 1.0, 4.0 ) );
         addPile(stack[i]);
     }
 

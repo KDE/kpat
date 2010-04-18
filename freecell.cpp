@@ -67,7 +67,7 @@ void Freecell::initialize()
         store[i] = p;
         p->setPileRole(PatPile::Tableau);
         p->setPilePos( bottomRowDist * i, 1.3 );
-        p->setReservedSpace( QSizeF( 1.0, 3.5 ) );
+        p->setRequestedSpace( QSizeF( 1.0, 3.5 ) );
         addPile(p);
     }
 

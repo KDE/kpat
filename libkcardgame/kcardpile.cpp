@@ -69,7 +69,7 @@ public:
 
     QSize graphicSize;
     QPointF pilePos;
-    QSizeF reserved;
+    QSizeF requestedSpace;
     QSizeF spread;
     QSizeF availableSpace;
 
@@ -108,7 +108,7 @@ KCardPile::KCardPile( const QString & objectName )
     d->autoTurnTop = false;
     d->highlighted = false;
     d->graphicVisible = true;
-    d->reserved = QSizeF( 1, 1 );
+    d->requestedSpace = QSizeF( 1, 1 );
     d->spread = QSizeF( 0, 0.33 );
     d->availableSpace = QSizeF( 1, 1 ); // just to make it valid
 
@@ -237,21 +237,21 @@ QPointF KCardPile::pilePos() const
 }
 
 
-void KCardPile::setReservedSpace( QSizeF space )
+void KCardPile::setRequestedSpace( QSizeF space )
 {
-    d->reserved = space;
+    d->requestedSpace = space;
 }
 
 
-void KCardPile::setReservedSpace( qreal width, qreal height )
+void KCardPile::setRequestedSpace( qreal width, qreal height )
 {
-    setReservedSpace( QSizeF( width, height ) );
+    setRequestedSpace( QSizeF( width, height ) );
 }
 
 
-QSizeF KCardPile::reservedSpace() const
+QSizeF KCardPile::requestedSpace() const
 {
-    return d->reserved;
+    return d->requestedSpace;
 }
 
 

@@ -82,7 +82,7 @@ void Spider::initialize()
         stack[column]->setPilePos(dist_x * column, 0);
         stack[column]->setZValue(20);
         stack[column]->setAutoTurnTop(true);
-        stack[column]->setReservedSpace( QSizeF( 1.0, 3.5 ) );
+        stack[column]->setRequestedSpace( QSizeF( 1.0, 3.5 ) );
         addPile(stack[column]);
     }
 

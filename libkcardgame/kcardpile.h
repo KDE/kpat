@@ -72,9 +72,9 @@ public:
     void setPilePos( qreal x, qreal y );
     QPointF pilePos() const;
 
-    void setReservedSpace( QSizeF space );
-    void setReservedSpace( qreal width, qreal height );
-    QSizeF reservedSpace() const;
+    void setRequestedSpace( QSizeF space );
+    void setRequestedSpace( qreal width, qreal height );
+    QSizeF requestedSpace() const;
 
     void setSpread( QSizeF spread );
     void setSpread( qreal width, qreal height );
