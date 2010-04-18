@@ -101,7 +101,7 @@ public:
     void flipCardToPile( KCard * card, KCardPile * pile, int duration );
     void flipCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal velocity );
 
-signals:
+Q_SIGNALS:
     void cardClicked( KCard * card );
     void cardDoubleClicked( KCard * card );
     void cardRightClicked( KCard * card );

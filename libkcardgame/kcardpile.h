@@ -99,7 +99,7 @@ public:
 
     virtual void layoutCards( int duration );
 
-signals:
+Q_SIGNALS:
     void clicked( KCard * card );
     void doubleClicked( KCard * card );
     void rightClicked( KCard * card );

@@ -51,7 +51,7 @@ public:
 
     bool hasAnimatedCards() const;
 
-signals:
+Q_SIGNALS:
     void cardAnimationDone();
 
 protected:
