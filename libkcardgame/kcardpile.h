@@ -99,10 +99,6 @@ public:
 
     virtual void layoutCards( int duration );
 
-public slots:
-    virtual bool cardClicked( KCard * card );
-    virtual bool cardDoubleClicked( KCard * card );
-
 signals:
     void clicked( KCard * card );
     void doubleClicked( KCard * card );

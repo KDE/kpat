@@ -600,25 +600,30 @@ KCardPile * KCardScene::targetPile()
 
 bool KCardScene::pileClicked( KCardPile * pile )
 {
-    return pile->cardClicked( 0 );
+    emit pile->clicked( 0 );
+    return false;
 }
 
 
 bool KCardScene::pileDoubleClicked( KCardPile * pile )
 {
-    return pile->cardDoubleClicked( 0 );
+    emit pile->doubleClicked( 0 );
+    return false;
+
 }
 
 
 bool KCardScene::cardClicked( KCard * card )
 {
-    return card->source()->cardClicked( card );
+    emit card->source()->clicked( card );
+    return false;
 }
 
 
 bool KCardScene::cardDoubleClicked( KCard * card )
 {
-    return card->source()->cardDoubleClicked( card );
+    emit card->source()->doubleClicked( card );
+    return false;
 }
 
 

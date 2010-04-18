@@ -1016,11 +1016,6 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent *e )
 
 bool DealerScene::cardDoubleClicked( KCard * c )
 {
-    if (c->source()->cardDoubleClicked(c))
-    {
-        return true;
-    }
-
     if (c->isAnimated())
         return false;
 

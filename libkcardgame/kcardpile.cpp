@@ -421,20 +421,6 @@ void KCardPile::layoutCards( int duration )
 }
 
 
-bool KCardPile::cardClicked( KCard * card )
-{
-    emit clicked( card );
-    return false;
-}
-
-
-bool KCardPile::cardDoubleClicked( KCard * card )
-{
-    emit doubleClicked( card );
-    return false;
-}
-
-
 void KCardPile::paintNormalGraphic( QPainter * painter )
 {
     int penWidth = boundingRect().width() / 40;
