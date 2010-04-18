@@ -47,7 +47,7 @@ public:
     void run();
     void halt();
 
-signals:
+Q_SIGNALS:
     void renderingDone( const QString & key, const QImage & image );
 
 private:
@@ -74,7 +74,7 @@ public:
     void updateCardSize( const QSize & size );
     void deleteThread();
 
-public slots:
+public Q_SLOTS:
     void submitRendering( const QString & key, const QImage & image );
     void cardStartedAnimation( KCard * card );
     void cardStoppedAnimation( KCard * card );

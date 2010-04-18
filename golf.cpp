@@ -64,7 +64,7 @@ void Golf::initialize()
     waste->setFoundation(true);
     waste->setPilePos(1.1, smallNeg);
     waste->setSpread(0.12, 0);
-    waste->setReservedSpace( QSizeF( 4.0, 1.0 ) );
+    waste->setRequestedSpace( QSizeF( 4.0, 1.0 ) );
     addPile(waste);
 
     for( int r = 0; r < 7; r++ ) {
@@ -73,12 +73,14 @@ void Golf::initialize()
         stack[r]->setPilePos(r*dist_x,0);
         // Manual tweak of the pile z values to make some animations better.
         stack[r]->setZValue((7-r)/100.0);
-        stack[r]->setReservedSpace( QSizeF( 1.0, 3.0 ) );
+        stack[r]->setRequestedSpace( QSizeF( 1.0, 3.0 ) );
         addPile(stack[r]);
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);
     setSolver( new GolfSolver( this ) );
+
+    connect( this, SIGNAL(cardClicked(KCard*)), this, SLOT(handleCardClick(KCard*)) );
 }
 
 //-------------------------------------------------------------------------//
@@ -140,23 +142,18 @@ KCard *Golf::newCards()
     return waste->top();
 }
 
-bool Golf::cardClicked(KCard *c)
+void Golf::handleCardClick( KCard * card )
 {
-    PatPile * source = dynamic_cast<PatPile*>( c->source() );
-    if (!source || source->pileRole() != PatPile::Tableau) {
-        return DealerScene::cardClicked(c);
-    }
+    PatPile * source = dynamic_cast<PatPile*>( card->source() );
 
-    if (c != c->source()->top())
-        return false;
-
-    KCardPile*p=findTarget(c);
-    if (p)
+    if ( source
+         && source->pileRole() == PatPile::Tableau
+         && card == source->top() )
     {
-        moveCardToPile( c, p, DURATION_MOVE );
-        return true;
+        KCardPile * p = findTarget( card );
+        if ( p )
+            moveCardToPile( card, p, DURATION_MOVE );
     }
-    return false;
 }
 
 void Golf::setGameState( const QString & )

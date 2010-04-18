@@ -69,9 +69,9 @@ public:
 
     QSize graphicSize;
     QPointF pilePos;
-    QSizeF reserved;
+    QSizeF requestedSpace;
     QSizeF spread;
-    QSizeF maximumSpace;
+    QSizeF availableSpace;
 
     qreal highlightValue;
 
@@ -108,9 +108,9 @@ KCardPile::KCardPile( const QString & objectName )
     d->autoTurnTop = false;
     d->highlighted = false;
     d->graphicVisible = true;
-    d->reserved = QSizeF( 1, 1 );
+    d->requestedSpace = QSizeF( 1, 1 );
     d->spread = QSizeF( 0, 0.33 );
-    d->maximumSpace = QSizeF( 1, 1 ); // just to make it valid
+    d->availableSpace = QSizeF( 1, 1 ); // just to make it valid
 
     d->fadeAnimation = new QPropertyAnimation( d, "highlightedness", d );
     d->fadeAnimation->setDuration( 150 );
@@ -237,33 +237,21 @@ QPointF KCardPile::pilePos() const
 }
 
 
-void KCardPile::setReservedSpace( QSizeF space )
+void KCardPile::setRequestedSpace( QSizeF space )
 {
-    d->reserved = space;
+    d->requestedSpace = space;
 }
 
 
-void KCardPile::setReservedSpace( qreal width, qreal height )
+void KCardPile::setRequestedSpace( qreal width, qreal height )
 {
-    setReservedSpace( QSizeF( width, height ) );
+    setRequestedSpace( QSizeF( width, height ) );
 }
 
 
-QSizeF KCardPile::reservedSpace() const
+QSizeF KCardPile::requestedSpace() const
 {
-    return d->reserved;
-}
-
-
-void KCardPile::setMaximumSpace( QSizeF size )
-{
-    d->maximumSpace = size;
-}
-
-
-QSizeF KCardPile::maximumSpace() const
-{
-    return d->maximumSpace;
+    return d->requestedSpace;
 }
 
 
@@ -344,17 +332,6 @@ bool KCardPile::isGraphicVisible()
 }
 
 
-void KCardPile::setGraphicSize( QSize size )
-{
-    if ( size != d->graphicSize )
-    {
-        prepareGeometryChange();
-        d->graphicSize = size;
-        update();
-    }
-}
-
-
 void KCardPile::add( KCard * card )
 {
     insert( card, d->cards.size() );
@@ -417,11 +394,11 @@ void KCardPile::layoutCards( int duration )
 
     qreal divx = 1;
     if ( totalOffset.x() )
-        divx = qMin<qreal>( ( maximumSpace().width() - cardSize.width() ) / qAbs( totalOffset.x() ), 1.0 );
+        divx = qMin<qreal>( ( availableSpace().width() - cardSize.width() ) / qAbs( totalOffset.x() ), 1.0 );
 
     qreal divy = 1;
     if ( totalOffset.y() )
-        divy = qMin<qreal>( ( maximumSpace().height() - cardSize.height() ) / qAbs( totalOffset.y() ), 1.0 );
+        divy = qMin<qreal>( ( availableSpace().height() - cardSize.height() ) / qAbs( totalOffset.y() ), 1.0 );
 
     QPointF cardPos = pos();
     qreal z = zValue() + 1;
@@ -444,20 +421,6 @@ void KCardPile::layoutCards( int duration )
 }
 
 
-bool KCardPile::cardClicked( KCard * card )
-{
-    emit clicked( card );
-    return false;
-}
-
-
-bool KCardPile::cardDoubleClicked( KCard * card )
-{
-    emit doubleClicked( card );
-    return false;
-}
-
-
 void KCardPile::paintNormalGraphic( QPainter * painter )
 {
     int penWidth = boundingRect().width() / 40;
@@ -475,6 +438,12 @@ void KCardPile::paintHighlightedGraphic( QPainter * painter )
 }
 
 
+QSizeF KCardPile::availableSpace() const
+{
+    return d->availableSpace;
+}
+
+
 // Return the number of pixels in x and y that the card should be
 // offset from the start position of the pile.
 QPointF KCardPile::cardOffset( const KCard * card ) const
@@ -484,6 +453,23 @@ QPointF KCardPile::cardOffset( const KCard * card ) const
     if (!card->isFaceUp())
         offset *= 0.6;
     return offset;
+}
+
+
+void KCardPile::setGraphicSize( QSize size )
+{
+    if ( size != d->graphicSize )
+    {
+        prepareGeometryChange();
+        d->graphicSize = size;
+        update();
+    }
+}
+
+
+void KCardPile::setAvailableSpace( QSizeF size )
+{
+    d->availableSpace = size;
 }
 
 

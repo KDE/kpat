@@ -56,11 +56,11 @@ public:
     void setHighlighted( bool highlighted );
     bool isHighlighted() const;
 
-signals:
+Q_SIGNALS:
     void animationStarted( KCard * card );
     void animationStopped( KCard * card );
 
-public slots:
+public Q_SLOTS:
     void completeAnimation();
     void stopAnimation();
 

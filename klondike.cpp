@@ -68,7 +68,7 @@ void KlondikePile::layoutCards( int duration )
 
     qreal cardWidth = cards.first()->boundingRect().width();
 
-    qreal divx = qMin<qreal>( ( maximumSpace().width() - cardWidth ) / ( 2 * spread().width() * cardWidth ), 1.0 );
+    qreal divx = qMin<qreal>( ( availableSpace().width() - cardWidth ) / ( 2 * spread().width() * cardWidth ), 1.0 );
 
     QPointF cardPos = pos();
     int z = zValue();
@@ -103,7 +103,7 @@ void Klondike::initialize()
 
     pile = new KlondikePile( 13, EasyRules ? 1 : 3, "pile" );
     pile->setPileRole(PatPile::Waste);
-    pile->setReservedSpace( QSizeF( 1.9, 1.0 ) );
+    pile->setRequestedSpace( QSizeF( 1.9, 1.0 ) );
     pile->setPilePos(1.0 + hspacing, 0);
     pile->setSpread( 0.33, 0 );
     addPile(pile);
@@ -114,7 +114,7 @@ void Klondike::initialize()
         play[i]->setPileRole(PatPile::Tableau);
         play[i]->setPilePos((1.0 + hspacing) * i, 1.0 + vspacing);
         play[i]->setAutoTurnTop(true);
-        play[i]->setReservedSpace( QSizeF( 1.0, 1.0 + play[i]->spread().height() * 7 ) );
+        play[i]->setRequestedSpace( QSizeF( 1.0, 1.0 + play[i]->spread().height() * 7 ) );
         addPile(play[i]);
     }
 

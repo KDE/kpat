@@ -161,8 +161,6 @@ protected:
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent );
 
-    virtual bool cardDoubleClicked( KCard * card );
-
     State *getState();
     void setState(State *);
     void eraseRedo();
@@ -208,6 +206,7 @@ protected slots:
     void takeState();
     virtual KCard *newCards();
     virtual bool drop();
+    virtual bool tryAutomaticMove( KCard * card );
 
 private:
     void resetInternals();

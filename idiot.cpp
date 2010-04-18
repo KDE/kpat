@@ -65,7 +65,7 @@ void Idiot::initialize()
         m_play[i] = new PatPile( i + 1, QString( "play%1" ).arg( i ));
         m_play[i]->setPileRole(PatPile::Tableau);
         m_play[i]->setPilePos(1.5 + distx * i, 0);
-        m_play[i]->setReservedSpace( QSizeF( 1.0, 3.0 ) );
+        m_play[i]->setRequestedSpace( QSizeF( 1.0, 3.0 ) );
         addPile( m_play[i] );
     }
 
@@ -76,6 +76,8 @@ void Idiot::initialize()
     m_away->setPilePos(1.9 + distx * 4, 0);
     m_away->setSpread(0, 0);
     addPile(m_away);
+
+    connect( this, SIGNAL(cardClicked(KCard*)), this, SLOT(handleCardClick(KCard*)) );
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);
     setSolver( new IdiotSolver(this ) );
@@ -147,34 +149,28 @@ bool Idiot::canMoveAway(const KCard * card) const
 
 
 
-bool Idiot::cardClicked(KCard *c)
+void Idiot::handleCardClick( KCard * card )
 {
-    // If the deck is clicked, deal 4 more cards.
-    if (c->source() == talon) {
-        newCards();
-        return true;
-    }
-
     // Only the top card of a pile can be clicked.
-    if (c != c->source()->top())
-        return false;
+    if ( card != card->source()->top())
+        return;
 
     KCardPile * destination = 0;
-    if ( canMoveAway(c) )
+    if ( card->source() == talon )
+        newCards();
+    else if ( canMoveAway( card) )
         destination = m_away;
-    else if ( m_play[ 0 ]->isEmpty() )
+    else if ( m_play[0]->isEmpty() )
         destination = m_play[0];
-    else if ( m_play[ 1 ]->isEmpty() )
+    else if ( m_play[1]->isEmpty() )
         destination = m_play[1];
-    else if ( m_play[ 2 ]->isEmpty() )
+    else if ( m_play[2]->isEmpty() )
         destination = m_play[2];
-    else if ( m_play[ 3 ]->isEmpty() )
+    else if ( m_play[3]->isEmpty() )
         destination = m_play[3];
 
     if ( destination )
-        moveCardToPile( c, destination, DURATION_MOVE );
-
-    return destination != 0;
+        moveCardToPile( card, destination, DURATION_MOVE );
 }
 
 // The game is won when:
@@ -195,15 +191,6 @@ bool Idiot::isGameWon() const
     }
 
     return true;
-}
-
-
-// This patience doesn't support double click.
-//
-
-bool Idiot::cardDoubleClicked(KCard *)
-{
-    return false; // nothing - nada
 }
 
 
