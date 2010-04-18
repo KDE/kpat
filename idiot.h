@@ -58,9 +58,11 @@ protected:
     virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
     virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
 
-    virtual bool  cardClicked(KCard *);
     virtual bool  drop()  { return false; }
     virtual void  setGameState(const QString &);
+
+private slots:
+    void handleCardClick( KCard * card );
 
 private:
     void dealRow();

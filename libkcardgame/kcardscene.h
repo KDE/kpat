@@ -50,6 +50,8 @@ class KCardPile;
 
 class LIBKCARDGAME_EXPORT KCardScene : public QGraphicsScene
 {
+    Q_OBJECT
+
 public:
     enum SceneAlignmentFlag
     {
@@ -99,6 +101,10 @@ public:
     void flipCardToPile( KCard * card, KCardPile * pile, int duration );
     void flipCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal velocity );
 
+signals:
+    void cardClicked( KCard * card );
+    void pileClicked( KCardPile * pile );
+
 protected:
     virtual bool allowedToAdd( const KCardPile * pile, const QList<KCard*> & cards ) const;
     virtual bool allowedToRemove( const KCardPile * pile, const KCard * card ) const;
@@ -106,9 +112,7 @@ protected:
 
     virtual void setItemHighlight( QGraphicsItem * item, bool highlight );
 
-    virtual bool pileClicked( KCardPile * pile );
     virtual bool pileDoubleClicked( KCardPile * pile );
-    virtual bool cardClicked( KCard * card );
     virtual bool cardDoubleClicked( KCard * card );
 
     virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * e );

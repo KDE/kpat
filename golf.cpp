@@ -79,6 +79,8 @@ void Golf::initialize()
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);
     setSolver( new GolfSolver( this ) );
+
+    connect( this, SIGNAL(cardClicked(KCard*)), this, SLOT(handleCardClick(KCard*)) );
 }
 
 //-------------------------------------------------------------------------//
@@ -140,23 +142,18 @@ KCard *Golf::newCards()
     return waste->top();
 }
 
-bool Golf::cardClicked(KCard *c)
+void Golf::handleCardClick( KCard * card )
 {
-    PatPile * source = dynamic_cast<PatPile*>( c->source() );
-    if (!source || source->pileRole() != PatPile::Tableau) {
-        return DealerScene::cardClicked(c);
-    }
+    PatPile * source = dynamic_cast<PatPile*>( card->source() );
 
-    if (c != c->source()->top())
-        return false;
-
-    KCardPile*p=findTarget(c);
-    if (p)
+    if ( source
+         && source->pileRole() == PatPile::Tableau
+         && card == source->top() )
     {
-        moveCardToPile( c, p, DURATION_MOVE );
-        return true;
+        KCardPile * p = findTarget( card );
+        if ( p )
+            moveCardToPile( card, p, DURATION_MOVE );
     }
-    return false;
 }
 
 void Golf::setGameState( const QString & )

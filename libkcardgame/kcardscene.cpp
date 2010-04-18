@@ -598,25 +598,11 @@ KCardPile * KCardScene::targetPile()
 }
 
 
-bool KCardScene::pileClicked( KCardPile * pile )
-{
-    emit pile->clicked( 0 );
-    return false;
-}
-
-
 bool KCardScene::pileDoubleClicked( KCardPile * pile )
 {
     emit pile->doubleClicked( 0 );
     return false;
 
-}
-
-
-bool KCardScene::cardClicked( KCard * card )
-{
-    emit card->source()->clicked( card );
-    return false;
 }
 
 
@@ -722,14 +708,17 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
             KCard * card = qgraphicsitem_cast<KCard*>( topItem );
             if ( card && !card->isAnimated() )
             {
-                cardClicked( card );
+                emit cardClicked( card );
+                if ( card->source() )
+                    emit card->source()->clicked( card );
                 return;
             }
 
             KCardPile * pile = qgraphicsitem_cast<KCardPile*>( topItem );
             if ( pile )
             {
-                pileClicked( pile );
+                emit pileClicked( pile );
+                emit pile->clicked( 0 );
                 return;
             }
         }
@@ -836,3 +825,5 @@ int KCardScene::calculateDuration( QPointF pos1, QPointF pos2, qreal velocity ) 
     return 1000 * unitDistance / velocity;
 }
 
+
+#include "kcardscene.moc"
