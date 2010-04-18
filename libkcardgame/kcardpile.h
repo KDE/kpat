@@ -76,9 +76,6 @@ public:
     void setReservedSpace( qreal width, qreal height );
     QSizeF reservedSpace() const;
 
-    void setMaximumSpace( QSizeF size );
-    QSizeF maximumSpace() const;
-
     void setSpread( QSizeF spread );
     void setSpread( qreal width, qreal height );
     QSizeF spread() const;
@@ -93,8 +90,6 @@ public:
 
     void setGraphicVisible( bool visible );
     bool isGraphicVisible();
-
-    void setGraphicSize( QSize size );
 
     void add( KCard * card );
     virtual void insert( KCard * card, int index );
@@ -116,11 +111,17 @@ protected:
     virtual void paintNormalGraphic( QPainter * painter );
     virtual void paintHighlightedGraphic( QPainter * painter );
 
+    QSizeF availableSpace() const;
+
     virtual QPointF cardOffset( const KCard * card ) const;
 
 private:
+    void setGraphicSize( QSize size );
+    void setAvailableSpace( QSizeF size );
+
     class KCardPilePrivate * const d;
     friend class KCardPilePrivate;
+    friend class KCardScene;
 };
 
 #endif

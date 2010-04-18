@@ -314,7 +314,7 @@ void KCardScene::relayoutPiles( int duration )
         else if ( p->reservedSpace().height() < 0 && p->y() > 0 )
             maxSpace.setHeight( p->y() + cardHeight );
 
-        p->setMaximumSpace( maxSpace );
+        p->setAvailableSpace( maxSpace );
     }
 
     foreach ( KCardPile * p1, piles() )
@@ -322,7 +322,7 @@ void KCardScene::relayoutPiles( int duration )
         if ( !p1->isVisible() || p1->reservedSpace() == QSizeF( 1, 1 ) )
             continue;
 
-        QRectF p1Space( p1->pos(), p1->maximumSpace() );
+        QRectF p1Space( p1->pos(), p1->availableSpace() );
         if ( p1->reservedSpace().width() < 0 )
             p1Space.moveRight( p1->x() + cardWidth );
         if ( p1->reservedSpace().height() < 0 )
@@ -333,7 +333,7 @@ void KCardScene::relayoutPiles( int duration )
             if ( p2 == p1 || !p2->isVisible() )
                 continue;
 
-            QRectF p2Space( p2->pos(), p2->maximumSpace() );
+            QRectF p2Space( p2->pos(), p2->availableSpace() );
             if ( p2->reservedSpace().width() < 0 )
                 p2Space.moveRight( p2->x() + cardWidth );
             if ( p2->reservedSpace().height() < 0 )
@@ -382,10 +382,10 @@ void KCardScene::relayoutPiles( int duration )
                             //kDebug() << "6. reduced height of" << p1->objectName() << (*it2)->y() - 1 << myRect;
                         }
                 }
-                p2->setMaximumSpace( p2Space.size() );
+                p2->setAvailableSpace( p2Space.size() );
             }
         }
-        p1->setMaximumSpace( p1Space.size() );
+        p1->setAvailableSpace( p1Space.size() );
     }
 
     foreach ( KCardPile * p, piles() )
