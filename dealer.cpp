@@ -126,8 +126,6 @@ public:
     }
 };
 
-typedef class QList<CardState> CardStateList;
-
 bool operator==( const State & st1, const State & st2) {
     return st1.cards == st2.cards && st1.gameData == st2.gameData;
 }
@@ -1061,7 +1059,7 @@ State *DealerScene::getState()
 void DealerScene::setState(State *st)
 {
     kDebug() << gettime() << "setState\n";
-    CardStateList * n = &st->cards;
+    QList<CardState> n = st->cards;
 
     d->cardsNotToDrop.clear();
 
@@ -1075,7 +1073,7 @@ void DealerScene::setState(State *st)
     }
 
     QMap<KCard*,int> cardIndices;
-    foreach (const CardState & s, *n)
+    foreach (const CardState & s, n)
     {
         KCard *c = s.it;
         c->setFaceUp(s.faceup);
