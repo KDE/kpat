@@ -54,27 +54,67 @@
 const int cardMoveDuration = 230;
 
 
+class KCardScenePrivate : public QObject
+{
+public:
+    KCardScenePrivate( KCardScene * p );
+
+    int calculateDuration( QPointF pos1, QPointF pos2, qreal velocity ) const;
+
+    KAbstractCardDeck * deck;
+    QList<KCardPile*> piles;
+    QSet<QGraphicsItem*> highlightedItems;
+
+    QList<KCard*> cardsBeingDragged;
+    QPointF startOfDrag;
+    bool dragStarted;
+
+    KCardScene::SceneAlignment alignment;
+    qreal layoutMargin;
+    qreal layoutSpacing;
+    QSizeF contentSize;
+
+    bool sizeHasBeenSet;
+};
+
+
+KCardScenePrivate::KCardScenePrivate( KCardScene * p )
+  : QObject( p )
+{
+}
+
+
+int KCardScenePrivate::calculateDuration( QPointF pos1, QPointF pos2, qreal velocity ) const
+{
+    QPointF delta = pos2 - pos1;
+    qreal distance = sqrt( delta.x() * delta.x() + delta.y() * delta.y() );
+    qreal cardUnit = ( deck->cardWidth() + deck->cardHeight() ) / 2.0;
+    qreal unitDistance = distance / cardUnit;
+
+    return 1000 * unitDistance / velocity;
+}
+
+
 KCardScene::KCardScene( QObject * parent )
   : QGraphicsScene( parent ),
-    m_deck( 0 ),
-    m_piles(),
-    m_alignment( AlignHCenter | AlignHSpread ),
-    m_layoutMargin( 0.15 ),
-    m_layoutSpacing( 0.15 ),
-    m_contentSize(),
-    m_sizeHasBeenSet( false )
+    d( new KCardScenePrivate( this ) )
 {
+    d->deck = 0;
+    d->alignment = AlignHCenter | AlignHSpread;
+    d->layoutMargin = 0.15;
+    d->layoutSpacing = 0.15;
+    d->sizeHasBeenSet = false;
 }
 
 
 KCardScene::~KCardScene()
 {
-    foreach ( KCardPile * p, m_piles )
+    foreach ( KCardPile * p, d->piles )
     {
         removePile( p );
         delete p;
     }
-    m_piles.clear();
+    d->piles.clear();
 
     Q_ASSERT( items().isEmpty() );
 }
@@ -82,19 +122,19 @@ KCardScene::~KCardScene()
 
 void KCardScene::setDeck( KAbstractCardDeck * deck )
 {
-    m_deck = deck;
+    d->deck = deck;
 }
 
 
 KAbstractCardDeck * KCardScene::deck() const
 {
-    return m_deck;
+    return d->deck;
 }
 
 
 QList<KCard*> KCardScene::cardsBeingDragged() const
 {
-    return m_cardsBeingDragged;
+    return d->cardsBeingDragged;
 }
 
 
@@ -107,7 +147,7 @@ void KCardScene::addPile( KCardPile * pile )
     addItem( pile );
     foreach ( KCard * c, pile->cards() )
         addItem( c );
-    m_piles.append( pile );
+    d->piles.append( pile );
 }
 
 
@@ -116,21 +156,21 @@ void KCardScene::removePile( KCardPile * pile )
     foreach ( KCard * c, pile->cards() )
         removeItem( c );
     removeItem( pile );
-    m_piles.removeAll( pile );
+    d->piles.removeAll( pile );
 }
 
 
 QList<KCardPile*> KCardScene::piles() const
 {
-    return m_piles;
+    return d->piles;
 }
 
 
 void KCardScene::setSceneAlignment( KCardScene::SceneAlignment alignment )
 {
-    if ( alignment != m_alignment )
+    if ( alignment != d->alignment )
     {
-        m_alignment = alignment;
+        d->alignment = alignment;
         relayoutScene();
     }
 }
@@ -138,15 +178,15 @@ void KCardScene::setSceneAlignment( KCardScene::SceneAlignment alignment )
 
 KCardScene::SceneAlignment KCardScene::sceneAlignment() const
 {
-    return m_alignment;
+    return d->alignment;
 }
 
 
 void KCardScene::setLayoutMargin( qreal margin )
 {
-    if ( margin != m_layoutMargin )
+    if ( margin != d->layoutMargin )
     {
-        m_layoutMargin = margin;
+        d->layoutMargin = margin;
         relayoutScene();
     }
 }
@@ -154,15 +194,15 @@ void KCardScene::setLayoutMargin( qreal margin )
 
 qreal KCardScene::layoutMargin() const
 {
-    return m_layoutMargin;
+    return d->layoutMargin;
 }
 
 
 void KCardScene::setLayoutSpacing( qreal spacing )
 {
-    if ( spacing != m_layoutSpacing )
+    if ( spacing != d->layoutSpacing )
     {
-        m_layoutSpacing = spacing;
+        d->layoutSpacing = spacing;
         relayoutScene();
     }
 }
@@ -170,19 +210,19 @@ void KCardScene::setLayoutSpacing( qreal spacing )
 
 qreal KCardScene::layoutSpacing() const
 {
-    return m_layoutSpacing;
+    return d->layoutSpacing;
 }
 
 
 QRectF KCardScene::contentArea() const
 {
-    return QRectF( QPoint( 0, 0 ), m_contentSize );
+    return QRectF( QPoint( 0, 0 ), d->contentSize );
 }
 
 
 void KCardScene::resizeScene( const QSize & size )
 {
-    m_sizeHasBeenSet = true;
+    d->sizeHasBeenSet = true;
     setSceneRect( QRectF( sceneRect().topLeft(), size ) );
     relayoutScene();
 }
@@ -190,7 +230,7 @@ void KCardScene::resizeScene( const QSize & size )
 
 void KCardScene::relayoutScene()
 {
-    if ( !m_sizeHasBeenSet || !m_deck  )
+    if ( !d->sizeHasBeenSet || !d->deck  )
         return;
 
     QSizeF usedArea( 0, 0 );
@@ -213,66 +253,66 @@ void KCardScene::relayoutScene()
     }
 
     // Add the border to the size of the contents
-    QSizeF sizeToFit = usedArea + 2 * QSizeF( m_layoutMargin, m_layoutMargin );
+    QSizeF sizeToFit = usedArea + 2 * QSizeF( d->layoutMargin, d->layoutMargin );
 
-    qreal scaleX = width() / ( m_deck->cardWidth() * sizeToFit.width() );
-    qreal scaleY = height() / ( m_deck->cardHeight() * sizeToFit.height() );
+    qreal scaleX = width() / ( d->deck->cardWidth() * sizeToFit.width() );
+    qreal scaleY = height() / ( d->deck->cardHeight() * sizeToFit.height() );
     qreal n_scaleFactor = qMin( scaleX, scaleY );
 
-    m_deck->setCardWidth( n_scaleFactor * m_deck->cardWidth() );
+    d->deck->setCardWidth( n_scaleFactor * d->deck->cardWidth() );
 
-    qreal usedPixelWidth = usedArea.width() * m_deck->cardWidth();
-    qreal usedPixelHeight = usedArea.height() * m_deck->cardHeight();
-    qreal pixelHMargin = m_layoutMargin * m_deck->cardWidth();
-    qreal pixelVMargin = m_layoutMargin * m_deck->cardHeight();
+    qreal usedPixelWidth = usedArea.width() * d->deck->cardWidth();
+    qreal usedPixelHeight = usedArea.height() * d->deck->cardHeight();
+    qreal pixelHMargin = d->layoutMargin * d->deck->cardWidth();
+    qreal pixelVMargin = d->layoutMargin * d->deck->cardHeight();
 
     qreal contentWidth;
     qreal xOffset;
-    if ( m_alignment & AlignLeft )
+    if ( d->alignment & AlignLeft )
     {
         contentWidth = usedPixelWidth;
         xOffset = pixelHMargin;
     }
-    else if ( m_alignment & AlignRight )
+    else if ( d->alignment & AlignRight )
     {
         contentWidth = usedPixelWidth;
         xOffset = width() - contentWidth - pixelHMargin;
     }
-    else if ( m_alignment & AlignHCenter )
+    else if ( d->alignment & AlignHCenter )
     {
         contentWidth = usedPixelWidth;
         xOffset = ( width() - contentWidth ) / 2;
     }
     else
     {
-        contentWidth = width() - 2 * m_layoutMargin * m_deck->cardWidth();
+        contentWidth = width() - 2 * d->layoutMargin * d->deck->cardWidth();
         xOffset = pixelHMargin;
     }
 
     qreal contentHeight;
     qreal yOffset;
-    if ( m_alignment & AlignTop )
+    if ( d->alignment & AlignTop )
     {
         contentHeight = usedPixelHeight;
         yOffset = pixelVMargin;
     }
-    else if ( m_alignment & AlignBottom )
+    else if ( d->alignment & AlignBottom )
     {
         contentHeight = usedPixelHeight;
         yOffset = height() - contentHeight - pixelVMargin;
     }
-    else if ( m_alignment & AlignVCenter )
+    else if ( d->alignment & AlignVCenter )
     {
         contentHeight = usedPixelHeight;
         yOffset = ( height() - contentHeight ) / 2;
     }
     else
     {
-        contentHeight = height() - 2 * m_layoutMargin * m_deck->cardHeight();
+        contentHeight = height() - 2 * d->layoutMargin * d->deck->cardHeight();
         yOffset = pixelVMargin;
     }
 
-    m_contentSize = QSizeF( contentWidth, contentHeight );
+    d->contentSize = QSizeF( contentWidth, contentHeight );
     setSceneRect( -xOffset, -yOffset, width(), height() );
 
     relayoutPiles( 0 );
@@ -281,13 +321,13 @@ void KCardScene::relayoutScene()
 
 void KCardScene::relayoutPiles( int duration )
 {
-    if ( !m_sizeHasBeenSet || !m_deck )
+    if ( !d->sizeHasBeenSet || !d->deck )
         return;
 
-    QSize s = m_contentSize.toSize();
-    int cardWidth = m_deck->cardWidth();
-    int cardHeight = m_deck->cardHeight();
-    const qreal spacing = m_layoutSpacing * ( cardWidth + cardHeight ) / 2;
+    QSize s = d->contentSize.toSize();
+    int cardWidth = d->deck->cardWidth();
+    int cardHeight = d->deck->cardHeight();
+    const qreal spacing = d->layoutSpacing * ( cardWidth + cardHeight ) / 2;
 
     foreach ( KCardPile * p, piles() )
     {
@@ -295,14 +335,14 @@ void KCardScene::relayoutPiles( int duration )
         QPointF pixlePos = QPointF( layoutPos.x() * cardWidth,
                                     layoutPos.y() * cardHeight );
         if ( layoutPos.x() < 0 )
-            pixlePos.rx() += m_contentSize.width() - cardWidth;
+            pixlePos.rx() += d->contentSize.width() - cardWidth;
         if ( layoutPos.y() < 0 )
-            pixlePos.ry() += m_contentSize.height() - cardHeight;
+            pixlePos.ry() += d->contentSize.height() - cardHeight;
 
         p->setPos( pixlePos );
-        p->setGraphicSize( m_deck->cardSize() );
+        p->setGraphicSize( d->deck->cardSize() );
 
-        QSizeF maxSpace = m_deck->cardSize();
+        QSizeF maxSpace = d->deck->cardSize();
 
         if ( p->requestedSpace().width() > 1 && s.width() > p->x() + cardWidth )
             maxSpace.setWidth( s.width() - p->x() );
@@ -396,25 +436,25 @@ void KCardScene::relayoutPiles( int duration )
 void KCardScene::setHighlightedItems( QList<QGraphicsItem*> items )
 {
     QSet<QGraphicsItem*> s = QSet<QGraphicsItem*>::fromList( items );
-    foreach ( QGraphicsItem * i, m_highlightedItems.subtract( s ) )
+    foreach ( QGraphicsItem * i, d->highlightedItems.subtract( s ) )
         setItemHighlight( i, false );
     foreach ( QGraphicsItem * i, s )
         setItemHighlight( i, true );
-    m_highlightedItems = s;
+    d->highlightedItems = s;
 }
 
 
 void KCardScene::clearHighlightedItems()
 {
-    foreach ( QGraphicsItem * i, m_highlightedItems )
+    foreach ( QGraphicsItem * i, d->highlightedItems )
         setItemHighlight( i, false );
-    m_highlightedItems.clear();
+    d->highlightedItems.clear();
 }
 
 
 QList<QGraphicsItem*> KCardScene::highlightedItems() const
 {
-    return m_highlightedItems.toList();
+    return d->highlightedItems.toList();
 }
 
 
@@ -467,13 +507,13 @@ void KCardScene::moveCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal ve
     QPointF origPos = card->pos();
 
     QPointF estimatedDestPos = pile->isEmpty() ? pile->pos() : pile->top()->pos();
-    moveCardToPile( card, pile, calculateDuration( origPos, estimatedDestPos, velocity ) );
+    moveCardToPile( card, pile, d->calculateDuration( origPos, estimatedDestPos, velocity ) );
 
     card->completeAnimation();
     QPointF destPos = card->pos();
     card->setPos( origPos );
 
-    int duration = calculateDuration( origPos, destPos, velocity );
+    int duration = d->calculateDuration( origPos, destPos, velocity );
     card->animate( destPos, card->zValue(), 1, 0, card->isFaceUp(), true, duration );
 }
 
@@ -529,14 +569,14 @@ void KCardScene::flipCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal ve
     bool origFaceUp = card->isFaceUp();
 
     QPointF estimatedDestPos = pile->isEmpty() ? pile->pos() : pile->top()->pos();
-    moveCardToPile( card, pile, calculateDuration( origPos, estimatedDestPos, velocity ) );
+    moveCardToPile( card, pile, d->calculateDuration( origPos, estimatedDestPos, velocity ) );
 
     card->completeAnimation();
     QPointF destPos = card->pos();
     card->setPos( origPos );
     card->setFaceUp( origFaceUp );
 
-    int duration = calculateDuration( origPos, destPos, velocity );
+    int duration = d->calculateDuration( origPos, destPos, velocity );
     card->animate( destPos, card->zValue(), 1.0, 0.0, !origFaceUp, true, duration );
 }
 
@@ -560,7 +600,7 @@ bool KCardScene::allowedToRemove( const KCardPile * pile, const KCard * card ) c
 KCardPile * KCardScene::targetPile()
 {
     QSet<KCardPile*> targets;
-    foreach ( QGraphicsItem * item, collidingItems( m_cardsBeingDragged.first() ) )
+    foreach ( QGraphicsItem * item, collidingItems( d->cardsBeingDragged.first() ) )
     {
         KCardPile * p = qgraphicsitem_cast<KCardPile*>( item );
         if ( !p )
@@ -578,13 +618,13 @@ KCardPile * KCardScene::targetPile()
 
     foreach ( KCardPile * p, targets )
     {
-        if ( p != m_cardsBeingDragged.first()->source() && allowedToAdd( p, m_cardsBeingDragged ) )
+        if ( p != d->cardsBeingDragged.first()->source() && allowedToAdd( p, d->cardsBeingDragged ) )
         {
             QRectF targetRect = p->sceneBoundingRect();
             foreach ( KCard *c, p->cards() )
                 targetRect |= c->sceneBoundingRect();
 
-            QRectF intersection = targetRect & m_cardsBeingDragged.first()->sceneBoundingRect();
+            QRectF intersection = targetRect & d->cardsBeingDragged.first()->sceneBoundingRect();
             qreal area = intersection.width() * intersection.height();
             if ( area > bestArea )
             {
@@ -609,23 +649,23 @@ void KCardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
         e->accept();
 
         if ( card
-             && !m_deck->hasAnimatedCards()
-             && !m_cardsBeingDragged.contains( card ) )
+             && !d->deck->hasAnimatedCards()
+             && !d->cardsBeingDragged.contains( card ) )
         {
             QList<KCard*> cards = card->source()->topCardsDownTo( card );
 
             if ( allowedToRemove( card->source(), cards.first() ) )
             {
-                m_cardsBeingDragged = cards;
-                foreach ( KCard * c, m_cardsBeingDragged )
+                d->cardsBeingDragged = cards;
+                foreach ( KCard * c, d->cardsBeingDragged )
                 {
                     c->stopAnimation();
                     c->raise();
                 }
             }
 
-            m_dragStarted = false;
-            m_startOfDrag = e->scenePos();
+            d->dragStarted = false;
+            d->startOfDrag = e->scenePos();
         }
     }
     else
@@ -638,32 +678,32 @@ void KCardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 
 void KCardScene::mouseMoveEvent( QGraphicsSceneMouseEvent * e )
 {
-    if ( !m_cardsBeingDragged.isEmpty() )
+    if ( !d->cardsBeingDragged.isEmpty() )
     {
         e->accept();
 
-        if ( !m_dragStarted )
+        if ( !d->dragStarted )
         {
-            bool overCard = m_cardsBeingDragged.first()->sceneBoundingRect().contains( e->scenePos() );
-            QPointF delta = e->scenePos() - m_startOfDrag;
+            bool overCard = d->cardsBeingDragged.first()->sceneBoundingRect().contains( e->scenePos() );
+            QPointF delta = e->scenePos() - d->startOfDrag;
             qreal distanceSquared = delta.x() * delta.x() + delta.y() * delta.y();
             // Ignore the move event until we've moved at least 4 pixels or the
             // cursor leaves the card.
             if ( distanceSquared > 16.0 || !overCard )
             {
-                m_dragStarted = true;
+                d->dragStarted = true;
                 // If the cursor hasn't left the card, then continue the drag from
                 // the current position, which makes it look smoother.
                 if ( overCard )
-                    m_startOfDrag = e->scenePos();
+                    d->startOfDrag = e->scenePos();
             }
         }
 
-        if ( m_dragStarted )
+        if ( d->dragStarted )
         {
-            foreach ( KCard * card, m_cardsBeingDragged )
-                card->setPos( card->pos() + e->scenePos() - m_startOfDrag );
-            m_startOfDrag = e->scenePos();
+            foreach ( KCard * card, d->cardsBeingDragged )
+                card->setPos( card->pos() + e->scenePos() - d->startOfDrag );
+            d->startOfDrag = e->scenePos();
 
             QList<QGraphicsItem*> toHighlight;
             KCardPile * dropPile = targetPile();
@@ -691,25 +731,25 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
     KCard * card = qgraphicsitem_cast<KCard*>( topItem );
     KCardPile * pile = qgraphicsitem_cast<KCardPile*>( topItem );
 
-    if ( e->button() == Qt::LeftButton && !m_dragStarted && !m_cardsBeingDragged.isEmpty() )
+    if ( e->button() == Qt::LeftButton && !d->dragStarted && !d->cardsBeingDragged.isEmpty() )
     {
-        m_cardsBeingDragged.first()->source()->layoutCards( cardMoveDuration );
-        m_cardsBeingDragged.clear();
+        d->cardsBeingDragged.first()->source()->layoutCards( cardMoveDuration );
+        d->cardsBeingDragged.clear();
     }
 
-    if ( e->button() == Qt::LeftButton && !m_cardsBeingDragged.isEmpty() )
+    if ( e->button() == Qt::LeftButton && !d->cardsBeingDragged.isEmpty() )
     {
         e->accept();
 
         KCardPile * destination = targetPile();
         if ( destination )
-            moveCardsToPile( m_cardsBeingDragged, destination, cardMoveDuration );
+            moveCardsToPile( d->cardsBeingDragged, destination, cardMoveDuration );
         else
-            m_cardsBeingDragged.first()->source()->layoutCards( cardMoveDuration );
-        m_cardsBeingDragged.clear();
-        m_dragStarted = false;
+            d->cardsBeingDragged.first()->source()->layoutCards( cardMoveDuration );
+        d->cardsBeingDragged.clear();
+        d->dragStarted = false;
     }
-    else if ( card && !m_deck->hasAnimatedCards() )
+    else if ( card && !d->deck->hasAnimatedCards() )
     {
         e->accept();
         if ( e->button() == Qt::LeftButton )
@@ -725,7 +765,7 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
                 emit card->source()->rightClicked( card );
         }
     }
-    else if ( pile && !m_deck->hasAnimatedCards() )
+    else if ( pile && !d->deck->hasAnimatedCards() )
     {
         e->accept();
         if ( e->button() == Qt::LeftButton )
@@ -753,20 +793,20 @@ void KCardScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
     KCard * card = qgraphicsitem_cast<KCard*>( topItem );
     KCardPile * pile = qgraphicsitem_cast<KCardPile*>( topItem );
 
-    if ( !m_cardsBeingDragged.isEmpty() )
+    if ( !d->cardsBeingDragged.isEmpty() )
     {
-        m_cardsBeingDragged.first()->source()->layoutCards( cardMoveDuration );
-        m_cardsBeingDragged.clear();
+        d->cardsBeingDragged.first()->source()->layoutCards( cardMoveDuration );
+        d->cardsBeingDragged.clear();
     }
 
-    if ( card && e->button() == Qt::LeftButton && !m_deck->hasAnimatedCards() )
+    if ( card && e->button() == Qt::LeftButton && !d->deck->hasAnimatedCards() )
     {
         e->accept();
         emit cardDoubleClicked( card );
         if ( card->source() )
             emit card->source()->doubleClicked( card );
     }
-    else if ( pile && e->button() == Qt::LeftButton && !m_deck->hasAnimatedCards() )
+    else if ( pile && e->button() == Qt::LeftButton && !d->deck->hasAnimatedCards() )
     {
         e->accept();
         emit pileDoubleClicked( pile );
@@ -781,13 +821,13 @@ void KCardScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
 
 void KCardScene::wheelEvent( QGraphicsSceneWheelEvent * e )
 {
-    if ( m_deck && e->modifiers() & Qt::ControlModifier )
+    if ( d->deck && e->modifiers() & Qt::ControlModifier )
     {
         e->accept();
 
         qreal scaleFactor = pow( 2, e->delta() / qreal(10 * 120) );
-        int newWidth = m_deck->cardWidth() * scaleFactor;
-        m_deck->setCardWidth( newWidth );
+        int newWidth = d->deck->cardWidth() * scaleFactor;
+        d->deck->setCardWidth( newWidth );
         relayoutPiles();
     }
     else
@@ -803,14 +843,14 @@ void KCardScene::drawForeground ( QPainter * painter, const QRectF & rect )
     Q_UNUSED( painter )
 
 #if DEBUG_LAYOUT
-    if ( !m_sizeHasBeenSet || !m_deck  )
+    if ( !d->sizeHasBeenSet || !d->deck  )
         return;
 
     painter->setPen( Qt::yellow );
-    painter->drawRect( 0, 0, m_contentSize.width(), m_contentSize.height() );
+    painter->drawRect( 0, 0, d->contentSize.width(), d->contentSize.height() );
 
-    const int cardWidth = m_deck->cardWidth();
-    const int cardHeight = m_deck->cardHeight();
+    const int cardWidth = d->deck->cardWidth();
+    const int cardHeight = d->deck->cardHeight();
     foreach ( const Pile * p, piles() )
     {
         if ( !p->isVisible() )
@@ -839,17 +879,6 @@ void KCardScene::drawForeground ( QPainter * painter, const QRectF & rect )
         painter->drawRect( reservedRect );
     }
 #endif
-}
-
-
-int KCardScene::calculateDuration( QPointF pos1, QPointF pos2, qreal velocity ) const
-{
-    QPointF delta = pos2 - pos1;
-    qreal distance = sqrt( delta.x() * delta.x() + delta.y() * delta.y() );
-    qreal cardUnit = ( deck()->cardWidth() + deck()->cardHeight() ) / 2.0;
-    qreal unitDistance = distance / cardUnit;
-
-    return 1000 * unitDistance / velocity;
 }
 
 

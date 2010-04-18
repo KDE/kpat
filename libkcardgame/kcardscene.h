@@ -116,31 +116,16 @@ protected:
 
     virtual void setItemHighlight( QGraphicsItem * item, bool highlight );
 
-    virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * e );
-    virtual void mouseMoveEvent ( QGraphicsSceneMouseEvent * e );
-    virtual void mousePressEvent ( QGraphicsSceneMouseEvent * e );
-    virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * e );
+    virtual void mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e );
+    virtual void mouseMoveEvent( QGraphicsSceneMouseEvent * e );
+    virtual void mousePressEvent( QGraphicsSceneMouseEvent * e );
+    virtual void mouseReleaseEvent( QGraphicsSceneMouseEvent * e );
     virtual void wheelEvent( QGraphicsSceneWheelEvent * e );
 
     virtual void drawForeground ( QPainter * painter, const QRectF & rect );
 
 private:
-    int calculateDuration( QPointF pos1, QPointF pos2, qreal velocity ) const;
-
-    KAbstractCardDeck * m_deck;
-    QList<KCardPile*> m_piles;
-    QSet<QGraphicsItem*> m_highlightedItems;
-
-    QList<KCard*> m_cardsBeingDragged;
-    QPointF m_startOfDrag;
-    bool m_dragStarted;
-
-    SceneAlignment m_alignment;
-    qreal m_layoutMargin;
-    qreal m_layoutSpacing;
-    QSizeF m_contentSize;
-
-    bool m_sizeHasBeenSet;
+    class KCardScenePrivate * const d;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS( KCardScene::SceneAlignment )
