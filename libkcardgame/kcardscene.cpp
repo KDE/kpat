@@ -851,26 +851,26 @@ void KCardScene::drawForeground ( QPainter * painter, const QRectF & rect )
 
     const int cardWidth = d->deck->cardWidth();
     const int cardHeight = d->deck->cardHeight();
-    foreach ( const Pile * p, piles() )
+    foreach ( const KCardPile * p, piles() )
     {
         if ( !p->isVisible() )
             continue;
 
         QRectF reservedRect;
         reservedRect.moveTopLeft( p->pos() );
-        reservedRect.setWidth( qAbs( p->reservedSpace().width() * cardWidth ) );
-        reservedRect.setHeight( qAbs( p->reservedSpace().height() * cardHeight ) );
-        if ( p->reservedSpace().width() < 0 )
+        reservedRect.setWidth( qAbs( p->requestedSpace().width() * cardWidth ) );
+        reservedRect.setHeight( qAbs( p->requestedSpace().height() * cardHeight ) );
+        if ( p->requestedSpace().width() < 0 )
             reservedRect.moveRight( p->x() + cardWidth );
-        if ( p->reservedSpace().height() < 0 )
+        if ( p->requestedSpace().height() < 0 )
             reservedRect.moveBottom( p->y() + cardHeight );
 
         QRectF availableRect;
-        availableRect.setSize( p->maximumSpace() );
+        availableRect.setSize( p->availableSpace() );
         availableRect.moveTopLeft( p->pos() );
-        if ( p->reservedSpace().width() < 0 )
+        if ( p->requestedSpace().width() < 0 )
             availableRect.moveRight( p->x() + cardWidth );
-        if ( p->reservedSpace().height() < 0 )
+        if ( p->requestedSpace().height() < 0 )
             availableRect.moveBottom( p->y() + cardHeight );
 
         painter->setPen( Qt::cyan );
