@@ -70,7 +70,7 @@ void Gypsy::initialize()
         store[i]->setPileRole(PatPile::Tableau);
         store[i]->setPilePos(dist_x*i,0);
         store[i]->setAutoTurnTop(true);
-        store[i]->setRequestedSpace( QSizeF( 1.0, 4 * dist_y + 1.0 ) );
+        store[i]->setReservedSpace( 0, 0, 1, 4 * dist_y + 1 );
         addPile(store[i]);
     }
 

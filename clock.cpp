@@ -67,7 +67,7 @@ void Clock::initialize()
         store[i] = new PatPile(14+i, QString("store%1").arg(i));
         store[i]->setPileRole(PatPile::Tableau);
         store[i]->setPilePos(dist_x*(i%4), 2.5 * (i/4));
-        store[i]->setRequestedSpace( QSizeF( 1.0, 1.8 ) );
+        store[i]->setReservedSpace( 0, 0, 1.0, 2.3 );
         addPile(store[i]);
     }
 

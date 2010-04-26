@@ -72,9 +72,9 @@ public:
     void setPilePos( qreal x, qreal y );
     QPointF pilePos() const;
 
-    void setRequestedSpace( QSizeF space );
-    void setRequestedSpace( qreal width, qreal height );
-    QSizeF requestedSpace() const;
+    void setReservedSpace( QRectF space );
+    void setReservedSpace( qreal x, qreal y, qreal width, qreal height );
+    QRectF reservedSpace() const;
 
     void setSpread( QSizeF spread );
     void setSpread( qreal width, qreal height );
@@ -108,13 +108,13 @@ protected:
     virtual void paintNormalGraphic( QPainter * painter );
     virtual void paintHighlightedGraphic( QPainter * painter );
 
-    QSizeF availableSpace() const;
+    QRectF availableSpace() const;
 
     virtual QPointF cardOffset( const KCard * card ) const;
 
 private:
     void setGraphicSize( QSize size );
-    void setAvailableSpace( QSizeF size );
+    void setAvailableSpace( QRectF space );
 
     class KCardPilePrivate * const d;
     friend class KCardPilePrivate;

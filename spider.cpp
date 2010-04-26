@@ -64,10 +64,11 @@ void Spider::initialize()
 
     // Dealing the cards out into 5 piles so the user can see how many
     // sets of 10 cards are left to be dealt out
-    for( int column = 0; column < 5; column++ ) {
+    for( int column = 0; column < 5; ++column )
+    {
         redeals[column] = new PatPile(column + 1, QString( "redeals%1" ).arg( column ));
         redeals[column]->setPileRole(PatPile::Stock);
-        redeals[column]->setPilePos(smallNeg - dist_x / 3 * ( 4 - column ), smallNeg);
+        redeals[column]->setPilePos( dist_x * (9 - (4.0 - column) / 3), smallNeg );
         redeals[column]->setZValue(12 * ( 5-column ));
         redeals[column]->setGraphicVisible( false );
         redeals[column]->setSpread(0, 0);
@@ -76,19 +77,21 @@ void Spider::initialize()
     }
 
     // The 10 playing piles
-    for( int column = 0; column < 10; column++ ) {
+    for( int column = 0; column < 10; ++column )
+    {
         stack[column] = new PatPile(column + 6, QString( "stack%1" ).arg( column ));
         stack[column]->setPileRole(PatPile::Tableau);
         stack[column]->setPilePos(dist_x * column, 0);
         stack[column]->setZValue(20);
         stack[column]->setAutoTurnTop(true);
-        stack[column]->setRequestedSpace( QSizeF( 1.0, 3.5 ) );
+        stack[column]->setReservedSpace( 0, 0, 1, 2.5 );
         addPile(stack[column]);
     }
 
     // The 8 'legs' so named by me because spiders have 8 legs - why
     // else the name Spider?
-    for( int column = 0; column < 8; column++ ) {
+    for( int column = 0; column < 8; ++column )
+    {
         legs[column] = new PatPile(column + 16, QString( "legs%1" ).arg( column ));
         legs[column]->setPileRole(PatPile::Foundation);
         legs[column]->setFoundation(true);
@@ -97,6 +100,7 @@ void Spider::initialize()
         legs[column]->setGraphicVisible( false );
         legs[column]->setSpread(0, 0);
         legs[column]->setZValue(14 * column);
+        legs[column]->setVisible( false );
         addPile(legs[column]);
     }
 

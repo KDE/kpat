@@ -54,6 +54,24 @@
 const int cardMoveDuration = 230;
 
 
+inline QRectF multRectSize( const QRectF & rect, const QSize & size )
+{
+    return QRectF( rect.x() * size.width(), 
+                   rect.y() * size.height(),
+                   rect.width() * size.width(),
+                   rect.height() * size.height() );
+}
+
+
+inline QRectF divRectSize( const QRectF & rect, const QSize & size )
+{
+    return QRectF( rect.x() / size.width(), 
+                   rect.y() / size.height(),
+                   rect.width() / size.width(),
+                   rect.height() / size.height() );
+}
+
+
 class KCardScenePrivate : public QObject
 {
 public:
@@ -233,27 +251,35 @@ void KCardScene::relayoutScene()
     if ( !d->sizeHasBeenSet || !d->deck  )
         return;
 
-    QSizeF usedArea( 0, 0 );
+    qreal usedWidth = 1;
+    qreal usedHeight = 1;
+    qreal extraWidth = 0;
+    qreal extraHeight = 0;
     foreach ( const KCardPile * p, piles() )
     {
-        QSizeF neededPileArea;
-        if ( ( p->pilePos().x() >= 0 && p->requestedSpace().width() >= 0 )
-             || ( p->pilePos().x() < 0 && p->requestedSpace().width() < 0 ) )
-            neededPileArea.setWidth( qAbs( p->pilePos().x() + p->requestedSpace().width() ) );
+        if ( p->pilePos().x() >= 0 )
+            usedWidth = qMax( usedWidth, p->pilePos().x() + p->reservedSpace().right() );
         else
-            neededPileArea.setWidth( qMax( qAbs( p->pilePos().x() ), qAbs( p->requestedSpace().width() ) ) );
+            extraWidth = qMax( extraWidth, p->reservedSpace().width() );
 
-        if ( ( p->pilePos().y() >= 0 && p->requestedSpace().height() >= 0 )
-             || ( p->pilePos().y() < 0 && p->requestedSpace().height() < 0 ) )
-            neededPileArea.setHeight( qAbs( p->pilePos().y() + p->requestedSpace().height() ) );
+        if ( p->pilePos().y() >= 0 )
+            usedHeight = qMax( usedHeight, p->pilePos().y() + p->reservedSpace().bottom() );
         else
-            neededPileArea.setHeight( qMax( qAbs( p->pilePos().y() ), qAbs( p->requestedSpace().height() ) ) );
-
-        usedArea = usedArea.expandedTo( neededPileArea );
+            extraHeight = qMax( extraHeight, p->reservedSpace().height() );
+    }
+    if ( extraWidth )
+    {
+        qreal hSpacing = d->layoutSpacing * (1 + d->deck->cardHeight() / d->deck->cardWidth()) / 2;
+        usedWidth += hSpacing + extraWidth;
+    }
+    if ( extraHeight )
+    {
+        qreal vSpacing = d->layoutSpacing * (1 + d->deck->cardWidth() / d->deck->cardHeight()) / 2;
+        usedHeight += vSpacing + extraHeight;
     }
 
     // Add the border to the size of the contents
-    QSizeF sizeToFit = usedArea + 2 * QSizeF( d->layoutMargin, d->layoutMargin );
+    QSizeF sizeToFit( usedWidth + 2 * d->layoutMargin, usedHeight+ 2 * d->layoutMargin );
 
     qreal scaleX = width() / ( d->deck->cardWidth() * sizeToFit.width() );
     qreal scaleY = height() / ( d->deck->cardHeight() * sizeToFit.height() );
@@ -261,8 +287,8 @@ void KCardScene::relayoutScene()
 
     d->deck->setCardWidth( n_scaleFactor * d->deck->cardWidth() );
 
-    qreal usedPixelWidth = usedArea.width() * d->deck->cardWidth();
-    qreal usedPixelHeight = usedArea.height() * d->deck->cardHeight();
+    qreal usedPixelWidth = usedWidth * d->deck->cardWidth();
+    qreal usedPixelHeight = usedHeight * d->deck->cardHeight();
     qreal pixelHMargin = d->layoutMargin * d->deck->cardWidth();
     qreal pixelVMargin = d->layoutMargin * d->deck->cardHeight();
 
@@ -324,112 +350,115 @@ void KCardScene::relayoutPiles( int duration )
     if ( !d->sizeHasBeenSet || !d->deck )
         return;
 
-    QSize s = d->contentSize.toSize();
-    int cardWidth = d->deck->cardWidth();
-    int cardHeight = d->deck->cardHeight();
-    const qreal spacing = d->layoutSpacing * ( cardWidth + cardHeight ) / 2;
+    QSize cardSize = d->deck->cardSize();
+    const qreal spacing = d->layoutSpacing * ( cardSize.width() + cardSize.height() ) / 2;
 
+    QList<KCardPile*> visiblePiles;
+    QHash<KCardPile*,QRectF> reserve;
+    QHash<KCardPile*,QRectF> areas;
     foreach ( KCardPile * p, piles() )
     {
         QPointF layoutPos = p->pilePos();
-        QPointF pixlePos = QPointF( layoutPos.x() * cardWidth,
-                                    layoutPos.y() * cardHeight );
         if ( layoutPos.x() < 0 )
-            pixlePos.rx() += d->contentSize.width() - cardWidth;
+            layoutPos.rx() += d->contentSize.width() / cardSize.width() - 1;
         if ( layoutPos.y() < 0 )
-            pixlePos.ry() += d->contentSize.height() - cardHeight;
+            layoutPos.ry() += d->contentSize.height() / cardSize.height() - 1;
 
-        p->setPos( pixlePos );
-        p->setGraphicSize( d->deck->cardSize() );
+        p->setPos( layoutPos.x() * cardSize.width(), layoutPos.y() * cardSize.height() );
+        p->setAvailableSpace( p->reservedSpace().translated( layoutPos ) );
+        p->setGraphicSize( cardSize );
 
-        QSizeF maxSpace = d->deck->cardSize();
-
-        if ( p->requestedSpace().width() > 1 && s.width() > p->x() + cardWidth )
-            maxSpace.setWidth( s.width() - p->x() );
-        else if ( p->requestedSpace().width() < 0 && p->x() > 0 )
-            maxSpace.setWidth( p->x() + cardWidth );
-
-        if ( p->requestedSpace().height() > 1 && s.height() > p->y() + cardHeight )
-            maxSpace.setHeight( s.height() - p->y() );
-        else if ( p->requestedSpace().height() < 0 && p->y() > 0 )
-            maxSpace.setHeight( p->y() + cardHeight );
-
-        p->setAvailableSpace( maxSpace );
+        if ( p->isVisible() )
+        {
+            visiblePiles << p;
+            QRectF r = multRectSize( p->reservedSpace().translated( layoutPos ), cardSize );
+            areas[p] = reserve[p] = r;
+        }
     }
 
-    foreach ( KCardPile * p1, piles() )
+    // Grow piles down
+    foreach ( KCardPile * p1, visiblePiles )
     {
-        if ( !p1->isVisible() || p1->requestedSpace() == QSizeF( 1, 1 ) )
-            continue;
-
-        QRectF p1Space( p1->pos(), p1->availableSpace() );
-        if ( p1->requestedSpace().width() < 0 )
-            p1Space.moveRight( p1->x() + cardWidth );
-        if ( p1->requestedSpace().height() < 0 )
-            p1Space.moveBottom( p1->y() + cardHeight );
-
-        foreach ( KCardPile * p2, piles() )
+        if ( p1->reservedSpace().height() > 1 )
         {
-            if ( p2 == p1 || !p2->isVisible() )
-                continue;
-
-            QRectF p2Space( p2->pos(), p2->availableSpace() );
-            if ( p2->requestedSpace().width() < 0 )
-                p2Space.moveRight( p2->x() + cardWidth );
-            if ( p2->requestedSpace().height() < 0 )
-                p2Space.moveBottom( p2->y() + cardHeight );
-
-            // If the piles spaces intersect we need to solve the conflict.
-            if ( p1Space.intersects( p2Space ) )
+            areas[p1].setBottom( d->contentSize.height() );
+            foreach ( KCardPile * p2, visiblePiles )
             {
-                if ( p1->requestedSpace().width() != 1 )
+                if ( p2 != p1 && areas[p1].intersects( areas[p2] ) )
                 {
-                    if ( p2->requestedSpace().height() != 1 )
-                    {
-                        Q_ASSERT( p2->requestedSpace().height() > 0 );
-                        // if it's growing too, we win
-                        p2Space.setHeight( qMin( p1Space.top() - p2->y() - spacing, p2Space.height() ) );
-                        //kDebug() << "1. reduced height of" << p2->objectName();
-                    } else // if it's fixed height, we loose
-                        if ( p1->requestedSpace().width() < 0 ) {
-                            // this isn't made for two piles one from left and one from right both growing
-                            Q_ASSERT( p2->requestedSpace().width() == 1 );
-                            p1Space.setLeft( p2->x() + cardWidth + spacing);
-                            //kDebug() << "2. reduced width of" << p1->objectName();
-                        } else {
-                            p1Space.setRight( p2->x() - spacing );
-                            //kDebug() << "3. reduced width of" << p1->objectName();
-                        }
+                    if ( p2->reservedSpace().y() < 0 )
+                        areas[p1].setBottom( (reserve[p1].bottom() + reserve[p2].top() - spacing ) / 2 );
+                    else
+                        areas[p1].setBottom( reserve[p2].top() - spacing );
                 }
-
-                if ( p1->requestedSpace().height() != 1 )
-                {
-                    if ( p2->requestedSpace().width() != 1 )
-                    {
-                        Q_ASSERT( p2->requestedSpace().height() > 0 );
-                        // if it's growing too, we win
-                        p2Space.setWidth( qMin( p1Space.right() - p2->x() - spacing, p2Space.width() ) );
-                        //kDebug() << "4. reduced width of" << p2->objectName();
-                    } else // if it's fixed height, we loose
-                        if ( p1->requestedSpace().height() < 0 ) {
-                            // this isn't made for two piles one from left and one from right both growing
-                            Q_ASSERT( p2->requestedSpace().height() == 1 );
-                            Q_ASSERT( false ); // TODO
-                            p1Space.setLeft( p2->x() + cardWidth + spacing );
-                            //kDebug() << "5. reduced width of" << p1->objectName();
-                        } else if ( p2->y() >= 1  ) {
-                            p1Space.setBottom( p2->y() - spacing );
-                            //kDebug() << "6. reduced height of" << p1->objectName() << (*it2)->y() - 1 << myRect;
-                        }
-                }
-                p2->setAvailableSpace( p2Space.size() );
             }
         }
-        p1->setAvailableSpace( p1Space.size() );
+    }
+
+    // Grow piles up
+    foreach ( KCardPile * p1, visiblePiles )
+    {
+        if ( p1->reservedSpace().y() < 0 )
+        {
+            areas[p1].setTop( 0 );
+            foreach ( KCardPile * p2, visiblePiles )
+            {
+                if ( p2 != p1 && areas[p1].intersects( areas[p2] ) )
+                {
+                    if ( p2->reservedSpace().height() > 1 )
+                        areas[p1].setTop( (reserve[p1].top() + reserve[p2].bottom() + spacing ) / 2 );
+                    else
+                        areas[p1].setTop( reserve[p2].bottom() + spacing );
+                }
+            }
+        }
+    }
+
+    // Grow piles right
+    foreach ( KCardPile * p1, visiblePiles )
+    {
+        if ( p1->reservedSpace().width() > 1 )
+        {
+            areas[p1].setRight( d->contentSize.width() );
+            foreach ( KCardPile * p2, visiblePiles )
+            {
+                if ( p2 != p1 && areas[p1].intersects( areas[p2] ) )
+                {
+                    if ( p2->reservedSpace().x() < 0 )
+                        areas[p1].setRight( (reserve[p1].right() + reserve[p2].left() - spacing ) / 2 );
+                    else
+                        areas[p1].setRight( reserve[p2].left() - spacing );
+                }
+            }
+        }
+    }
+
+    // Grow piles left
+    foreach ( KCardPile * p1, visiblePiles )
+    {
+        if ( p1->reservedSpace().x() < 0 )
+        {
+            areas[p1].setLeft( 0 );
+            foreach ( KCardPile * p2, visiblePiles )
+            {
+                 Q_ASSERT( p2 == p1 || !reserve[p1].intersects( reserve[p2] ) );
+
+                if ( p2 != p1 && areas[p1].intersects( areas[p2] ) )
+                {
+                    if ( p2->reservedSpace().width() > 1 )
+                        areas[p1].setLeft( (reserve[p1].left() + reserve[p2].right() + spacing ) / 2 );
+                    else
+                        areas[p1].setLeft( reserve[p2].right() + spacing );
+                }
+            }
+        }
     }
 
     foreach ( KCardPile * p, piles() )
+    {
+        p->setAvailableSpace( divRectSize( areas[p].translated( -p->pos() ), cardSize ) );
         p->layoutCards( duration );
+    }
 }
 
 
@@ -849,29 +878,15 @@ void KCardScene::drawForeground ( QPainter * painter, const QRectF & rect )
     painter->setPen( Qt::yellow );
     painter->drawRect( 0, 0, d->contentSize.width(), d->contentSize.height() );
 
-    const int cardWidth = d->deck->cardWidth();
-    const int cardHeight = d->deck->cardHeight();
     foreach ( const KCardPile * p, piles() )
     {
         if ( !p->isVisible() )
             continue;
 
-        QRectF reservedRect;
-        reservedRect.moveTopLeft( p->pos() );
-        reservedRect.setWidth( qAbs( p->requestedSpace().width() * cardWidth ) );
-        reservedRect.setHeight( qAbs( p->requestedSpace().height() * cardHeight ) );
-        if ( p->requestedSpace().width() < 0 )
-            reservedRect.moveRight( p->x() + cardWidth );
-        if ( p->requestedSpace().height() < 0 )
-            reservedRect.moveBottom( p->y() + cardHeight );
+        QRectF reservedRect = multRectSize( p->reservedSpace(), d->deck->cardSize() );
+        reservedRect.translate( p->pos() );
 
-        QRectF availableRect;
-        availableRect.setSize( p->availableSpace() );
-        availableRect.moveTopLeft( p->pos() );
-        if ( p->requestedSpace().width() < 0 )
-            availableRect.moveRight( p->x() + cardWidth );
-        if ( p->requestedSpace().height() < 0 )
-            availableRect.moveBottom( p->y() + cardHeight );
+        QRectF availableRect = multRectSize( p->availableSpace(), d->deck->cardSize() );
 
         painter->setPen( Qt::cyan );
         painter->drawRect( availableRect );

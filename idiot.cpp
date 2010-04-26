@@ -65,7 +65,7 @@ void Idiot::initialize()
         m_play[i] = new PatPile( i + 1, QString( "play%1" ).arg( i ));
         m_play[i]->setPileRole(PatPile::Tableau);
         m_play[i]->setPilePos(1.5 + distx * i, 0);
-        m_play[i]->setRequestedSpace( QSizeF( 1.0, 3.0 ) );
+        m_play[i]->setReservedSpace( 0, 0, 1, 3 );
         addPile( m_play[i] );
     }
 

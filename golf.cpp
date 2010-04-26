@@ -64,7 +64,7 @@ void Golf::initialize()
     waste->setFoundation(true);
     waste->setPilePos(1.1, smallNeg);
     waste->setSpread(0.12, 0);
-    waste->setRequestedSpace( QSizeF( 4.0, 1.0 ) );
+    waste->setReservedSpace( 0, 0, 1 + 5 * dist_x, 1 );
     addPile(waste);
 
     for( int r = 0; r < 7; r++ ) {
@@ -73,7 +73,7 @@ void Golf::initialize()
         stack[r]->setPilePos(r*dist_x,0);
         // Manual tweak of the pile z values to make some animations better.
         stack[r]->setZValue((7-r)/100.0);
-        stack[r]->setRequestedSpace( QSizeF( 1.0, 3.0 ) );
+        stack[r]->setReservedSpace( 0, 0, 1, 2.3 );
         addPile(stack[r]);
     }
 

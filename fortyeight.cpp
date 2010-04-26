@@ -55,7 +55,7 @@ void Fortyeight::initialize()
 
     talon = new PatPile(0, "talon");
     talon->setPileRole(PatPile::Stock);
-    talon->setPilePos(smallNeg, smallNeg);
+    talon->setPilePos( 7 * dist_x, smallNeg );
     talon->setZValue(20);
     talon->setSpread(0, 0);
     connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
@@ -63,9 +63,9 @@ void Fortyeight::initialize()
 
     pile = new PatPile(20, "pile");
     pile->setPileRole(PatPile::Waste);
-    pile->setPilePos(-dist_x, smallNeg);
+    pile->setPilePos( 6 * dist_x, smallNeg );
     pile->setSpread(-0.21, 0);
-    pile->setRequestedSpace( QSizeF( -(1 + 6 * dist_x), 1 ) );
+    pile->setReservedSpace( -6 * dist_x, 0, 6 * dist_x + 1, 1 );
     addPile(pile);
 
     for (int i = 0; i < 8; i++) {
@@ -81,7 +81,7 @@ void Fortyeight::initialize()
         stack[i]->setPilePos(dist_x*i, 1.1 );
         stack[i]->setAutoTurnTop(true);
         stack[i]->setSpread(0, 0.25);
-        stack[i]->setRequestedSpace( QSizeF( 1.0, 4.0 ) );
+        stack[i]->setReservedSpace( 0, 0, 1, 2.75 );
         addPile(stack[i]);
     }
 
