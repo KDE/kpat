@@ -29,7 +29,7 @@
 <refsect1>
 <title>DESCRIPTION</title>
 <para>
-&kpat; is a compendium of several well known patience card games,
+&kpatience; is a compendium of several well known patience card games,
 ranging from the well known Klondike and Freecell, to lesser known
 games such as Grandfather's Clock and Mod3.  In all there are 13
 variations for you to while away time.</para>
@@ -312,7 +312,7 @@ sets the client geometry of the main widget.
 <refsect1>
 <title>SEE ALSO</title>
 <para>
-&kpat; is documented in detail in <emphasis>The &kpat;
+&kpatience; is documented in detail in <emphasis>The &kpatience;
 Handbook</emphasis>
 (<filename>$<envar>KDEDIR</envar>share/doc/HTML/en/kpat/index.html</filename>
 or enter <userinput>help://kpat/index.html</userinput> in
@@ -324,7 +324,7 @@ or enter <userinput>help://kpat/index.html</userinput> in
 <refsect1>
 <title>AUTHOR</title>
 
-<para>&kpat; is by:</para>
+<para>&kpatience; is by:</para>
 <simplelist type="vert">
 <member>Paul Olav Tvete</member>
 <member>Mario Weilguni <email>mweilguni@kde.org</email></member>
