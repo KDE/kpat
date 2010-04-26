@@ -42,8 +42,8 @@ public:
 
     quint32 id() const;
 
-    void setSource( KCardPile * pile );
-    KCardPile * source() const;
+    void setPile( KCardPile * pile );
+    KCardPile * pile() const;
 
     void setFaceUp( bool faceUp );
     bool isFaceUp() const;

@@ -107,10 +107,10 @@ QString gettime()
 class CardState {
 public:
     KCard *it;
-    KCardPile *source;
+    KCardPile *pile;
     bool faceup;
     bool tookdown;
-    int source_index;
+    int pile_index;
     CardState() {}
 
     // as every card is only once we can sort after the card.
@@ -120,9 +120,9 @@ public:
     bool operator>(const CardState &rhs) const { return it > rhs.it; }
     bool operator>=(const CardState &rhs) const { return it > rhs.it; }
     bool operator==(const CardState &rhs) const {
-        return (it == rhs.it && source == rhs.source &&
+        return (it == rhs.it && pile == rhs.pile &&
                 faceup == rhs.faceup &&
-                source_index == rhs.source_index && tookdown == rhs.tookdown);
+                pile_index == rhs.pile_index && tookdown == rhs.tookdown);
     }
 };
 
@@ -964,8 +964,8 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
     }
     else if ( e->button() == Qt::RightButton
               && card
-              && card->source()
-              && card != card->source()->top()
+              && card->pile()
+              && card != card->pile()->top()
               && cardsBeingDragged().isEmpty()
               && !deck()->hasAnimatedCards() )
     {
@@ -985,10 +985,10 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
 {
     clearHighlightedItems();
 
-    if ( e->button() == Qt::RightButton && d->peekedCard && d->peekedCard->source() )
+    if ( e->button() == Qt::RightButton && d->peekedCard && d->peekedCard->pile() )
     {
         e->accept();
-        d->peekedCard->source()->layoutCards( DURATION_FANCYSHOW );
+        d->peekedCard->pile()->layoutCards( DURATION_FANCYSHOW );
         d->peekedCard = 0;
     }
     else
@@ -1017,7 +1017,7 @@ bool DealerScene::tryAutomaticMove( KCard * c )
     if (c->isAnimated())
         return false;
 
-    if (c == c->source()->top() && c->isFaceUp() && allowedToRemove(c->source(), c)) {
+    if (c == c->pile()->top() && c->isFaceUp() && allowedToRemove(c->pile(), c)) {
         KCardPile *tgt = findTarget(c);
         if (tgt) {
             moveCardToPile( c , tgt, DURATION_MOVE );
@@ -1036,13 +1036,13 @@ State *DealerScene::getState()
         {
             CardState s;
             s.it = c;
-            s.source = c->source();
-            if (!s.source) {
+            s.pile = c->pile();
+            if (!s.pile) {
                 kDebug() << c->objectName() << "has no valid parent.";
                 Q_ASSERT(false);
                 continue;
             }
-            s.source_index = s.source->indexOf(c);
+            s.pile_index = s.pile->indexOf(c);
             s.faceup = c->isFaceUp();
             s.tookdown = d->cardsNotToDrop.contains( c );
             st->cards.append(s);
@@ -1077,10 +1077,10 @@ void DealerScene::setState(State *st)
     {
         KCard *c = s.it;
         c->setFaceUp(s.faceup);
-        s.source->add( c );
-        cardIndices.insert( c, s.source_index );
+        s.pile->add( c );
+        cardIndices.insert( c, s.pile_index );
 
-        PatPile * p = dynamic_cast<PatPile*>(c->source());
+        PatPile * p = dynamic_cast<PatPile*>(c->pile());
         if (s.tookdown || (cardsFromFoundations.contains(c) && !(p && p->isFoundation())))
             d->cardsNotToDrop.insert( c );
     }
@@ -1164,7 +1164,7 @@ bool DealerScene::drop()
         if ( mh->pile() && mh->pile()->isFoundation() && mh->priority() > 120 && !d->cardsNotToDrop.contains( mh->card() ) )
         {
             KCard *t = mh->card();
-            QList<KCard*> cards = mh->card()->source()->cards();
+            QList<KCard*> cards = mh->card()->pile()->cards();
             while ( !cards.isEmpty() && cards.first() != t )
                 cards.removeFirst();
 
@@ -1391,18 +1391,18 @@ void DealerScene::demo()
     MoveHint *mh = chooseHint();
     if (mh) {
         kDebug(mh->pile()->top()) << "Moving" << mh->card()->objectName()
-                                  << "from the" << mh->card()->source()->objectName()
+                                  << "from the" << mh->card()->pile()->objectName()
                                   << "pile to the" << mh->pile()->objectName()
                                   << "pile, putting it on top of" << mh->pile()->top()->objectName();
         kDebug(!mh->pile()->top()) << "Moving" << mh->card()->objectName()
-                                   << "from the" << mh->card()->source()->objectName()
+                                   << "from the" << mh->card()->pile()->objectName()
                                    << "pile to the" << mh->pile()->objectName()
                                    << "pile, which is empty";
-        myassert(mh->card()->source() == 0
-                 || allowedToRemove(mh->card()->source(), mh->card()));
+        myassert(mh->card()->pile() == 0
+                 || allowedToRemove(mh->card()->pile(), mh->card()));
 
         QList<KCard*> empty;
-        QList<KCard*> cards = mh->card()->source()->cards();
+        QList<KCard*> cards = mh->card()->pile()->cards();
         bool after = false;
         for (QList<KCard*>::Iterator it = cards.begin(); it != cards.end(); ++it) {
             if (*it == mh->card())
@@ -1422,9 +1422,9 @@ void DealerScene::demo()
         }
 
         assert(mh->card());
-        assert(mh->card()->source());
+        assert(mh->card()->pile());
         assert(mh->pile());
-        assert(mh->card()->source() != mh->pile());
+        assert(mh->card()->pile() != mh->pile());
         assert(mh->pile()->isFoundation() || allowedToAdd(mh->pile(), empty));
 
         moveCardsToPile( empty, mh->pile(), DURATION_MOVE );

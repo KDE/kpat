@@ -304,7 +304,7 @@ QList<KCard*> Spider::getRun(KCard *c) const
 {
     QList<KCard*> result;
 
-    PatPile *p = dynamic_cast<PatPile*>( c->source() );
+    PatPile *p = dynamic_cast<PatPile*>( c->pile() );
     if (!p || p->isEmpty())
         return result;
 

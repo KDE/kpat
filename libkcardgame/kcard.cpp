@@ -128,7 +128,7 @@ KCard::KCard( quint32 id, KAbstractCardDeck * deck )
     d->highlighted = false;
     d->highlightValue = d->highlighted ? 1 : 0;
 
-    d->source = 0;
+    d->pile = 0;
 
     d->animation = 0;
 
@@ -144,8 +144,8 @@ KCard::~KCard()
     stopAnimation();
 
     // If the card is in a pile, remove it from there.
-    if ( source() )
-        source()->remove( this );
+    if ( pile() )
+        pile()->remove( this );
 }
 
 
@@ -167,15 +167,15 @@ quint32 KCard::id() const
 }
 
 
-void KCard::setSource( KCardPile * pile )
+void KCard::setPile( KCardPile * pile )
 {
-    d->source = pile;
+    d->pile = pile;
 }
 
 
-KCardPile * KCard::source() const
+KCardPile * KCard::pile() const
 {
-    return d->source;
+    return d->pile;
 }
 
 

@@ -127,7 +127,7 @@ KCardPile::~KCardPile()
 //     dscene()->removePile(this);
 
     foreach ( KCard * c, d->cards )
-        c->setSource( 0 );
+        c->setPile( 0 );
 }
 
 
@@ -346,10 +346,10 @@ void KCardPile::insert( KCard * card, int index )
     if ( card->scene() != scene() )
         scene()->addItem( card );
 
-    if ( card->source() )
-        card->source()->remove( card );
+    if ( card->pile() )
+        card->pile()->remove( card );
 
-    card->setSource( this );
+    card->setPile( this );
     card->setVisible( isVisible() );
 
     d->cards.insert( index, card );
@@ -360,7 +360,7 @@ void KCardPile::remove( KCard * card )
 {
     Q_ASSERT( d->cards.contains( card ) );
     d->cards.removeAll( card );
-    card->setSource( 0 );
+    card->setPile( 0 );
 }
 
 

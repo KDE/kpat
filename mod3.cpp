@@ -151,7 +151,7 @@ bool Mod3::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
 
 void Mod3::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration )
 {
-    PatPile * p = dynamic_cast<PatPile*>( cards.first()->source() );
+    PatPile * p = dynamic_cast<PatPile*>( cards.first()->pile() );
 
     DealerScene::moveCardsToPile( cards, pile, duration );
 

@@ -134,7 +134,7 @@ void Freecell::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int durat
 
     PatPile * destPile = static_cast<PatPile*>( pile );
 
-    cards.first()->source()->layoutCards( duration );
+    cards.first()->pile()->layoutCards( duration );
 
     QList<PatPile*> emptyFreeCells;
     for ( int i = 0; i < 4; ++i )
@@ -241,7 +241,7 @@ void Freecell::startMoving()
     QList<KCard*> empty;
     empty.append(mh->card());
 
-    KCardPile * p = mh->card()->source();
+    KCardPile * p = mh->card()->pile();
     Q_ASSERT(mh->card() == p->top());
     Q_ASSERT(allowedToAdd(mh->pile(), empty));
     mh->pile()->add(mh->card());
@@ -263,7 +263,7 @@ void Freecell::startMoving()
 void Freecell::newDemoMove(KCard *m)
 {
     DealerScene::newDemoMove(m);
-    if (m != m->source()->top())
+    if (m != m->pile()->top())
         m->disconnect( this );
 }
 
@@ -282,7 +282,7 @@ bool Freecell::tryAutomaticMove(KCard *c)
     if (c->isAnimated())
         return false;
 
-    if (c == c->source()->top() && c->isFaceUp())
+    if (c == c->pile()->top() && c->isFaceUp())
     {
         for (int i = 0; i < 4; i++)
         {

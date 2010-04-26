@@ -128,10 +128,10 @@ bool Idiot::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
 
 bool Idiot::canMoveAway(const KCard * card) const
 {
-    if ( card->source() == talon || card->source() == m_away )
+    if ( card->pile() == talon || card->pile() == m_away )
         return false;
 
-    if ( card != card->source()->top() )
+    if ( card != card->pile()->top() )
         return false;
 
     for ( int i = 0; i < 4; ++i )
@@ -152,11 +152,11 @@ bool Idiot::canMoveAway(const KCard * card) const
 void Idiot::handleCardClick( KCard * card )
 {
     // Only the top card of a pile can be clicked.
-    if ( card != card->source()->top())
+    if ( card != card->pile()->top())
         return;
 
     KCardPile * destination = 0;
-    if ( card->source() == talon )
+    if ( card->pile() == talon )
         newCards();
     else if ( canMoveAway( card) )
         destination = m_away;

@@ -510,11 +510,11 @@ void KCardScene::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int dur
     if ( cards.isEmpty() )
         return;
 
-    KCardPile * source = cards.first()->source();
+    KCardPile * source = cards.first()->pile();
 
     foreach ( KCard * c, cards )
     {
-        Q_ASSERT( c->source() == source );
+        Q_ASSERT( c->pile() == source );
         pile->add( c );
         c->raise();
     }
@@ -636,7 +636,7 @@ KCardPile * KCardScene::targetPile()
         {
             KCard * c = qgraphicsitem_cast<KCard*>( item );
             if ( c )
-                p = c->source();
+                p = c->pile();
         }
         if ( p )
             targets << p;
@@ -647,7 +647,7 @@ KCardPile * KCardScene::targetPile()
 
     foreach ( KCardPile * p, targets )
     {
-        if ( p != d->cardsBeingDragged.first()->source() && allowedToAdd( p, d->cardsBeingDragged ) )
+        if ( p != d->cardsBeingDragged.first()->pile() && allowedToAdd( p, d->cardsBeingDragged ) )
         {
             QRectF targetRect = p->sceneBoundingRect();
             foreach ( KCard *c, p->cards() )
@@ -681,9 +681,9 @@ void KCardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
              && !d->deck->hasAnimatedCards()
              && !d->cardsBeingDragged.contains( card ) )
         {
-            QList<KCard*> cards = card->source()->topCardsDownTo( card );
+            QList<KCard*> cards = card->pile()->topCardsDownTo( card );
 
-            if ( allowedToRemove( card->source(), cards.first() ) )
+            if ( allowedToRemove( card->pile(), cards.first() ) )
             {
                 d->cardsBeingDragged = cards;
                 foreach ( KCard * c, d->cardsBeingDragged )
@@ -762,7 +762,7 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
 
     if ( e->button() == Qt::LeftButton && !d->dragStarted && !d->cardsBeingDragged.isEmpty() )
     {
-        d->cardsBeingDragged.first()->source()->layoutCards( cardMoveDuration );
+        d->cardsBeingDragged.first()->pile()->layoutCards( cardMoveDuration );
         d->cardsBeingDragged.clear();
     }
 
@@ -774,7 +774,7 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
         if ( destination )
             moveCardsToPile( d->cardsBeingDragged, destination, cardMoveDuration );
         else
-            d->cardsBeingDragged.first()->source()->layoutCards( cardMoveDuration );
+            d->cardsBeingDragged.first()->pile()->layoutCards( cardMoveDuration );
         d->cardsBeingDragged.clear();
         d->dragStarted = false;
     }
@@ -784,14 +784,14 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
         if ( e->button() == Qt::LeftButton )
         {
             emit cardClicked( card );
-            if ( card->source() )
-                emit card->source()->clicked( card );
+            if ( card->pile() )
+                emit card->pile()->clicked( card );
         }
         else if ( e->button() == Qt::RightButton )
         {
             emit cardRightClicked( card );
-            if ( card->source() )
-                emit card->source()->rightClicked( card );
+            if ( card->pile() )
+                emit card->pile()->rightClicked( card );
         }
     }
     else if ( pile && !d->deck->hasAnimatedCards() )
@@ -824,7 +824,7 @@ void KCardScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
 
     if ( !d->cardsBeingDragged.isEmpty() )
     {
-        d->cardsBeingDragged.first()->source()->layoutCards( cardMoveDuration );
+        d->cardsBeingDragged.first()->pile()->layoutCards( cardMoveDuration );
         d->cardsBeingDragged.clear();
     }
 
@@ -832,8 +832,8 @@ void KCardScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
     {
         e->accept();
         emit cardDoubleClicked( card );
-        if ( card->source() )
-            emit card->source()->doubleClicked( card );
+        if ( card->pile() )
+            emit card->pile()->doubleClicked( card );
     }
     else if ( pile && e->button() == Qt::LeftButton && !d->deck->hasAnimatedCards() )
     {

@@ -144,11 +144,11 @@ KCard *Golf::newCards()
 
 void Golf::handleCardClick( KCard * card )
 {
-    PatPile * source = dynamic_cast<PatPile*>( card->source() );
+    PatPile * pile = dynamic_cast<PatPile*>( card->pile() );
 
-    if ( source
-         && source->pileRole() == PatPile::Tableau
-         && card == source->top() )
+    if ( pile
+         && pile->pileRole() == PatPile::Tableau
+         && card == pile->top() )
     {
         KCardPile * p = findTarget( card );
         if ( p )
