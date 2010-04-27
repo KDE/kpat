@@ -43,7 +43,7 @@
 #include "speeds.h"
 #include "patsolve/spidersolver.h"
 
-#include "libkcardgame/shuffle.h"
+#include "shuffle.h"
 
 #include <KLocale>
 #include <KRandom>

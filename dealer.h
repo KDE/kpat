@@ -46,8 +46,8 @@ class Solver;
 #include "speeds.h"
 #include "view.h"
 
-#include "libkcardgame/kstandardcarddeck.h"
-#include "libkcardgame/kcardscene.h"
+#include "kstandardcarddeck.h"
+#include "kcardscene.h"
 
 #include <KRandomSequence>
 

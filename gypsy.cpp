@@ -40,7 +40,7 @@
 #include "pileutils.h"
 #include "patsolve/gypsysolver.h"
 
-#include "libkcardgame/shuffle.h"
+#include "shuffle.h"
 
 #include <KLocale>
 

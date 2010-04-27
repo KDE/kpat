@@ -47,9 +47,9 @@
 #include "version.h"
 #include "view.h"
 
-#include "libkcardgame/kabstractcarddeck.h"
-#include "libkcardgame/kcardtheme.h"
-#include "libkcardgame/kcardthemewidget.h"
+#include "kabstractcarddeck.h"
+#include "kcardtheme.h"
+#include "kcardthemewidget.h"
 
 #include <KGameTheme>
 #include <KGameThemeSelector>

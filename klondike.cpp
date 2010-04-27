@@ -43,7 +43,7 @@
 #include "speeds.h"
 #include "patsolve/klondikesolver.h"
 
-#include "libkcardgame/shuffle.h"
+#include "shuffle.h"
 
 #include <KLocale>
 #include <KSelectAction>

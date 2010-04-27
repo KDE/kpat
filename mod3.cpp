@@ -40,7 +40,7 @@
 #include "dealerinfo.h"
 #include "patsolve/mod3solver.h"
 
-#include "libkcardgame/shuffle.h"
+#include "shuffle.h"
 
 #include <KLocale>
 

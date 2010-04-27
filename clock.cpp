@@ -39,7 +39,7 @@
 #include "dealerinfo.h"
 #include "patsolve/clocksolver.h"
 
-#include "libkcardgame/shuffle.h"
+#include "shuffle.h"
 
 #include <KLocale>
 

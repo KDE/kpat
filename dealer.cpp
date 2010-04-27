@@ -43,7 +43,7 @@
 #include "view.h"
 #include "patsolve/patsolve.h"
 
-#include "libkcardgame/kcardtheme.h"
+#include "kcardtheme.h"
 
 #include <KConfigGroup>
 #include <KDebug>

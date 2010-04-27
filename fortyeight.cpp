@@ -41,7 +41,7 @@
 #include "speeds.h"
 #include "patsolve/fortyeightsolver.h"
 
-#include "libkcardgame/shuffle.h"
+#include "shuffle.h"
 
 #include <KLocale>
 
