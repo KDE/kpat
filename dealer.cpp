@@ -393,7 +393,6 @@ void DealerScene::undo()
     if ( deck()->hasAnimatedCards() )
         return;
 
-    kDebug() << "::undo" << d->undoList.count();
     if (d->undoList.count() > 1) {
         d->redoList.append( d->undoList.takeLast() );
         setState(d->undoList.takeLast());
@@ -419,7 +418,6 @@ void DealerScene::redo()
     if ( deck()->hasAnimatedCards() )
         return;
 
-    kDebug() << "::redo" << d->redoList.count();
     if (d->redoList.count() > 0) {
         setState(d->redoList.takeLast());
         emit updateMoves(getMoves());
@@ -621,7 +619,6 @@ void DealerScene::getSolverHints()
     solver()->translate_layout();
     solver()->patsolve( 1 );
 
-    kDebug() << "getSolverHints";
     QList<MOVE> moves = solver()->firstMoves;
     d->solverMutex.unlock();
 
@@ -1058,7 +1055,6 @@ State *DealerScene::getState()
 
 void DealerScene::setState(State *st)
 {
-    kDebug() << gettime() << "setState\n";
     QList<CardState> n = st->cards;
 
     d->cardsNotToDrop.clear();
@@ -1151,8 +1147,6 @@ bool DealerScene::drop()
         return true;
     }
 
-    kDebug() << gettime() << "startDrop \n";
-
     d->dropInProgress = true;
 
     clearHighlightedItems();
@@ -1238,7 +1232,6 @@ void DealerScene::slotSolverEnded()
     if ( !d->solverMutex.tryLock() )
         return;
     d->m_solver->translate_layout();
-    kDebug() << gettime() << "start thread\n";
     d->winMoves.clear();
     emit solverStateChanged( i18n("Solver: Calculating...") );
     if ( !d->m_solver_thread ) {
@@ -1259,7 +1252,6 @@ void DealerScene::slotSolverFinished()
         return;
     }
 
-    kDebug() << gettime() << "stop thread" << ret;
     switch (  ret )
     {
     case Solver::WIN:
@@ -1344,7 +1336,6 @@ void DealerScene::toggleDemo()
 
 MoveHint *DealerScene::chooseHint()
 {
-    kDebug() << "chooseHint " << d->winMoves.count();
     if ( d->winMoves.count() )
     {
         MOVE m = d->winMoves.takeFirst();
@@ -1439,7 +1430,6 @@ void DealerScene::demo()
         newDemoMove(mh->card());
 
     } else {
-        kDebug() << "demoNewCards";
         KCard *t = newCards();
         if (t) {
             newDemoMove(t);

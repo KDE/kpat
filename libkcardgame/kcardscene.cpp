@@ -699,7 +699,6 @@ void KCardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
     }
     else
     {
-        kDebug() << "Calling QGraphicsScene::mousePressEvent:" << e->isAccepted();
         QGraphicsScene::mousePressEvent( e );
     }
 }
@@ -810,7 +809,6 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
     }
     else
     {
-        kDebug() << "Calling QGraphicsScene::mouseReleaseEvent:" << e->isAccepted();
         QGraphicsScene::mouseReleaseEvent( e );
     }
 }
