@@ -53,8 +53,6 @@ public:
     void setFoundation( bool foundation );
     bool isFoundation() const;
 
-    virtual void insert( KCard * card, int index );
-
 protected:
     virtual void paintNormalGraphic( QPainter * painter );
     virtual void paintHighlightedGraphic( QPainter * painter );

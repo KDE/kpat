@@ -125,8 +125,6 @@ public:
     virtual int oldId() const;
     void recordGameStatistics();
 
-    void preventDropsFor( bool prevent, KCard * card );
-
 signals:
     void undoPossible(bool poss);
     void redoPossible(bool poss);
@@ -188,7 +186,7 @@ protected:
 
     virtual void newDemoMove(KCard *m);
 
-    void addCardForDeal( PatPile * pile, KCard * card, bool faceUp, QPointF startPos );
+    void addCardForDeal( KCardPile * pile, KCard * card, bool faceUp, QPointF startPos );
     void startDealAnimation();
 
 protected slots:

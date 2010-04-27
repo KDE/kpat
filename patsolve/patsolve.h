@@ -22,6 +22,8 @@
 #include "../hint.h"
 #include "memory.h"
 
+#include "KCardPile"
+
 #include <QtCore/QMap>
 #include <QtCore/QMutex>
 
@@ -102,7 +104,7 @@ protected:
     MemoryManager::inscode insert(int *cluster, int d, TREE **node);
     void free_buckets(void);
     void printcard(card_t card, FILE *outfile);
-    int translate_pile(const PatPile *pile, card_t *w, int size);
+    int translate_pile(const KCardPile *pile, card_t *w, int size);
     virtual void print_layout();
 
     void pilesort(void);

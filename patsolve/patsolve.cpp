@@ -1000,7 +1000,7 @@ int Solver::translateSuit( int s )
     return suit;
 }
 
-int Solver::translate_pile(const PatPile *pile, card_t *w, int size)
+int Solver::translate_pile(const KCardPile *pile, card_t *w, int size)
 {
     Q_UNUSED( size );
         Q_ASSERT( pile->count() <= size );

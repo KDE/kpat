@@ -545,6 +545,16 @@ QList<PatPile*> DealerScene::patPiles() const
 
 void DealerScene::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration )
 {
+    PatPile * newPile = dynamic_cast<PatPile*>( pile );
+    foreach ( KCard * c, cards )
+    {
+        PatPile * oldPile = dynamic_cast<PatPile*>( c->pile() );
+        if ( oldPile && oldPile->isFoundation() && !newPile->isFoundation() )
+            d->cardsNotToDrop.insert( c );
+        else
+            d->cardsNotToDrop.remove( c );
+    }
+
     KCardScene::moveCardsToPile( cards, pile, duration );
 
     if ( !d->dropInProgress && !d->dealInProgress )
@@ -1128,14 +1138,6 @@ void DealerScene::setSolverEnabled(bool a)
     _usesolver = a;
 }
 
-void DealerScene::preventDropsFor( bool prevent, KCard * card )
-{
-    if ( prevent )
-        d->cardsNotToDrop.insert( card );
-    else
-        d->cardsNotToDrop.remove( card );
-}
-
 
 bool DealerScene::drop()
 {
@@ -1674,7 +1676,7 @@ bool DealerScene::allowedToStartNewGame()
                     ) == KMessageBox::Continue;
 }
 
-void DealerScene::addCardForDeal(PatPile * pile, KCard * card, bool faceUp, QPointF startPos)
+void DealerScene::addCardForDeal( KCardPile * pile, KCard * card, bool faceUp, QPointF startPos )
 {
     Q_ASSERT( card );
     Q_ASSERT( pile );
