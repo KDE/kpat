@@ -89,7 +89,6 @@ void Fortyeight::initialize()
     setSolver( new FortyeightSolver( this ) );
 }
 
-//-------------------------------------------------------------------------//
 
 void Fortyeight::restart()
 {
@@ -121,6 +120,7 @@ void Fortyeight::restart()
     emit newCardsPossible( true );
 }
 
+
 KCard *Fortyeight::newCards()
 {
     if (talon->isEmpty() && lastdeal)
@@ -145,6 +145,7 @@ KCard *Fortyeight::newCards()
     return pile->top();
 }
 
+
 bool Fortyeight::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
 {
     switch ( pile->pileRole() )
@@ -162,6 +163,7 @@ bool Fortyeight::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, 
         return false;
     }
 }
+
 
 bool Fortyeight::checkRemove( const PatPile * pile, const QList<KCard*> & cards) const
 {
@@ -183,12 +185,12 @@ QString Fortyeight::getGameState()
     return QString::number(lastdeal);
 }
 
+
 void Fortyeight::setGameState( const QString &s )
 {
     lastdeal = s.toInt();
     emit newCardsPossible( !lastdeal || !talon->isEmpty() );
 }
-
 
 
 static class FortyEightDealerInfo : public DealerInfo

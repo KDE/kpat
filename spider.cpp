@@ -123,10 +123,12 @@ void Spider::initialize()
     connect( options, SIGNAL(triggered(int)), SLOT(gameTypeChanged()) );
 }
 
+
 QList<QAction*> Spider::configActions() const
 {
     return QList<QAction*>() << options;
 }
+
 
 void Spider::gameTypeChanged()
 {
@@ -154,6 +156,7 @@ void Spider::gameTypeChanged()
             options->setCurrentItem( 2 );
     }
 }
+
 
 void Spider::setSuits(int suits)
 {
@@ -209,18 +212,19 @@ bool Spider::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, cons
                 || getRank( oldCards.last() ) == getRank( newCards.first() ) + 1 );
 }
 
+
 bool Spider::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
 {
     return pile->pileRole() == PatPile::Tableau
            && isSameSuitDescending(cards);
 }
 
-//-------------------------------------------------------------------------//
 
 QString Spider::getGameState()
 {
     return QString::number(m_leg*10 + m_redeal);
 }
+
 
 void Spider::setGameState(const QString &stream)
 {
@@ -244,17 +248,18 @@ void Spider::setGameState(const QString &stream)
     }
 }
 
+
 QString Spider::getGameOptions() const
 {
     return QString::number(m_suits);
 }
+
 
 void Spider::setGameOptions(const QString& options)
 {
     setSuits(options.toInt());
 }
 
-//-------------------------------------------------------------------------//
 
 void Spider::restart()
 {
@@ -298,7 +303,6 @@ void Spider::restart()
     emit newCardsPossible(true);
 }
 
-//-------------------------------------------------------------------------//
 
 QList<KCard*> Spider::getRun(KCard *c) const
 {
@@ -379,6 +383,7 @@ bool Spider::checkPileDeck( KCardPile * pile, bool checkForDemo )
     return false;
 }
 
+
 void Spider::checkAllForRuns()
 {
     disconnect(deck(), SIGNAL(cardAnimationDone()), this, SLOT(checkAllForRuns()));
@@ -386,8 +391,6 @@ void Spider::checkAllForRuns()
     for (int i = 0; i < 10; ++i)
         checkPileDeck( stack[i], false );
 }
-
-//-------------------------------------------------------------------------//
 
 
 QPointF Spider::randomPos()
@@ -397,6 +400,7 @@ QPointF Spider::randomPos()
     qreal y = rect.top() + qreal(KRandom::random()) / RAND_MAX * (rect.height() - deck()->cardHeight());
     return QPointF( x, y );
 }
+
 
 KCard *Spider::newCards()
 {
@@ -443,6 +447,7 @@ KCard *Spider::newCards()
     return stack[0]->top();
 }
 
+
 void Spider::mapOldId(int id)
 {
    switch (id) {
@@ -458,6 +463,7 @@ void Spider::mapOldId(int id)
    }
 }
 
+
 int Spider::oldId() const
 {
     switch (m_suits) {
@@ -470,7 +476,6 @@ int Spider::oldId() const
         return DealerInfo::SpiderFourSuitId;
     }
 }
-
 
 
 static class SpideDealerInfo : public DealerInfo

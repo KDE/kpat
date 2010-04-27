@@ -83,7 +83,6 @@ void Golf::initialize()
     connect( this, SIGNAL(cardClicked(KCard*)), this, SLOT(handleCardClick(KCard*)) );
 }
 
-//-------------------------------------------------------------------------//
 
 bool Golf::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
 {
@@ -92,13 +91,13 @@ bool Golf::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const 
                 || getRank( newCards.first() ) == getRank( oldCards.last() ) - 1 );
 }
 
+
 bool Golf::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
 {
     return pile->pileRole() == PatPile::Tableau
            && cards.first() == pile->top();
 }
 
-//-------------------------------------------------------------------------//
 
 void Golf::restart()
 {
@@ -142,6 +141,7 @@ KCard *Golf::newCards()
     return waste->top();
 }
 
+
 void Golf::handleCardClick( KCard * card )
 {
     PatPile * pile = dynamic_cast<PatPile*>( card->pile() );
@@ -167,7 +167,6 @@ void Golf::setGameState( const QString & )
 {
     emit newCardsPossible( !talon->isEmpty() );
 }
-
 
 
 static class GolfDealerInfo : public DealerInfo
