@@ -23,13 +23,15 @@
 
 
 PatPile::PatPile( int index, const QString & objectName )
-  : KCardPile( objectName ),
+  : KCardPile(),
     m_index( index ),
     m_role( NoRole ),
     m_foundation( false )
 {
     if ( objectName.isEmpty() )
         setObjectName( QString("pile%1").arg( m_index ) );
+    else
+        setObjectName( objectName );
 }
 
 

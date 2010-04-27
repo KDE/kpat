@@ -99,12 +99,10 @@ qreal KCardPilePrivate::highlightedness() const
 }
 
 
-KCardPile::KCardPile( const QString & objectName )
+KCardPile::KCardPile()
   : QGraphicsObject(),
     d( new KCardPilePrivate( this ) )
 {
-    setObjectName( objectName );
-
     d->autoTurnTop = false;
     d->highlighted = false;
     d->graphicVisible = true;

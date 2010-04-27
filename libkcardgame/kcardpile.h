@@ -51,7 +51,7 @@ class LIBKCARDGAME_EXPORT KCardPile : public QGraphicsObject
     Q_OBJECT
 
 public:
-    explicit KCardPile( const QString & objectName = QString() );
+    explicit KCardPile();
     virtual ~KCardPile();
 
     enum { Type = QGraphicsItem::UserType + 2 };
