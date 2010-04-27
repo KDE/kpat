@@ -42,7 +42,7 @@
 #include "speeds.h"
 #include "patsolve/grandfsolver.h"
 
-#include "shuffle.h"
+#include "Shuffle"
 
 #include <KLocale>
 

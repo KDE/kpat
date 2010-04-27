@@ -40,7 +40,7 @@
 #include "speeds.h"
 #include "patsolve/golfsolver.h"
 
-#include "shuffle.h"
+#include "Shuffle"
 
 #include <KLocale>
 

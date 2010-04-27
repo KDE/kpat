@@ -40,8 +40,8 @@
 #include "version.h"
 #include "patsolve/patsolve.h"
 
-#include "kcardtheme.h"
-#include "kstandardcarddeck.h"
+#include "KCardTheme"
+#include "KStandardCardDeck"
 
 #include <KAboutData>
 #include <KApplication>

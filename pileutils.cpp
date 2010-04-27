@@ -18,7 +18,7 @@
 
 #include "pileutils.h"
 
-#include "kstandardcarddeck.h"
+#include "KStandardCardDeck"
 
 #include <KDebug>
 

@@ -19,7 +19,7 @@
 #ifndef PATPILE_H
 #define PATPILE_H
 
-#include "kcardpile.h"
+#include "KCardPile"
 
 
 class PatPile : public KCardPile

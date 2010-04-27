@@ -42,7 +42,7 @@
 #include "speeds.h"
 #include "patsolve/freecellsolver.h"
 
-#include "shuffle.h"
+#include "Shuffle"
 
 #include <KDebug>
 #include <KLocale>

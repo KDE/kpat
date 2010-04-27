@@ -43,7 +43,7 @@
 #include "view.h"
 #include "patsolve/patsolve.h"
 
-#include "kcardtheme.h"
+#include "KCardTheme"
 
 #include <KConfigGroup>
 #include <KDebug>

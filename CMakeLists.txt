@@ -1,6 +1,6 @@
 project( kpat )
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/libkcardgame)
+include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/libkcardgame/include )
 
 add_subdirectory( icons )
 add_subdirectory( libkcardgame )

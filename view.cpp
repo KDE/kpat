@@ -40,7 +40,7 @@
 #include "gameselectionscene.h"
 #include "renderer.h"
 
-#include "kcardscene.h"
+#include "KCardScene"
 
 #include <QtGui/QResizeEvent>
 

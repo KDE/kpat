@@ -40,7 +40,7 @@
 #include "dealerinfo.h"
 #include "patsolve/idiotsolver.h"
 
-#include "shuffle.h"
+#include "Shuffle"
 
 #include <KLocale>
 

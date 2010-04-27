@@ -40,7 +40,7 @@
 #include "pileutils.h"
 #include "patsolve/simonsolver.h"
 
-#include "shuffle.h"
+#include "Shuffle"
 
 #include <KLocale>
 
