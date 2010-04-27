@@ -25,8 +25,7 @@
 PatPile::PatPile( int index, const QString & objectName )
   : KCardPile(),
     m_index( index ),
-    m_role( NoRole ),
-    m_foundation( false )
+    m_role( NoRole )
 {
     if ( objectName.isEmpty() )
         setObjectName( QString("pile%1").arg( m_index ) );
@@ -53,15 +52,9 @@ PatPile::PileRole PatPile::pileRole() const
 }
 
 
-void PatPile::setFoundation( bool foundation )
-{
-    m_foundation = foundation;
-}
-
-
 bool PatPile::isFoundation() const
 {
-    return m_foundation;
+    return FoundationType1 <= m_role && m_role <= FoundationType4;
 }
 
 

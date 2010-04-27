@@ -71,8 +71,7 @@ void Idiot::initialize()
 
     // Create the discard pile to the right
     m_away = new PatPile( 5, "away" );
-    m_away->setPileRole(PatPile::Waste);
-    m_away->setFoundation(true);
+    m_away->setPileRole(PatPile::Foundation);
     m_away->setPilePos(1.9 + distx * 4, 0);
     m_away->setSpread(0, 0);
     addPile(m_away);
@@ -112,7 +111,7 @@ bool Idiot::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const
 {
     switch ( pile->pileRole() )
     {
-    case PatPile::Waste:
+    case PatPile::Foundation:
         return canMoveAway( newCards.first() );
     case PatPile::Tableau:
         return oldCards.isEmpty() && newCards.size() == 1;

@@ -49,8 +49,6 @@ public:
 
     void setPileRole( PileRole role );
     PileRole pileRole() const;
-
-    void setFoundation( bool foundation );
     bool isFoundation() const;
 
 protected:
@@ -60,7 +58,6 @@ protected:
 private:
     int m_index;
     PileRole m_role;
-    bool m_foundation;
 };
 
 #endif

@@ -71,7 +71,6 @@ void Fortyeight::initialize()
     for (int i = 0; i < 8; i++) {
         target[i] = new PatPile(9 + i, QString( "target%1" ).arg( i ));
         target[i]->setPileRole(PatPile::Foundation);
-        target[i]->setFoundation(true);
         target[i]->setPilePos(dist_x*i, 0);
         target[i]->setSpread(0, 0);
         addPile(target[i]);

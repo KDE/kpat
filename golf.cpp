@@ -60,8 +60,7 @@ void Golf::initialize()
     addPile(talon);
 
     waste = new PatPile(8, "waste");
-    waste->setPileRole(PatPile::Waste);
-    waste->setFoundation(true);
+    waste->setPileRole(PatPile::Foundation);
     waste->setPilePos(1.1, smallNeg);
     waste->setSpread(0.12, 0);
     waste->setReservedSpace( 0, 0, 1 + 5 * dist_x, 1 );
@@ -86,7 +85,7 @@ void Golf::initialize()
 
 bool Golf::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
 {
-    return pile->pileRole() == PatPile::Waste
+    return pile->pileRole() == PatPile::Foundation
            && ( getRank( newCards.first() ) == getRank( oldCards.last() ) + 1
                 || getRank( newCards.first() ) == getRank( oldCards.last() ) - 1 );
 }

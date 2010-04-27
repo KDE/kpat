@@ -68,7 +68,6 @@ void Mod3::initialize()
 
     aces = new PatPile(50, "aces");
     aces->setPileRole(PatPile::FoundationType1);
-    aces->setFoundation(true);
     aces->setPilePos(rightColumX, 0.5);
     aces->setReservedSpace( 0, 0, 1, 2 );
     addPile(aces);
@@ -81,7 +80,6 @@ void Mod3::initialize()
 
             // The first 3 rows are the playing field, the fourth is the store.
             if ( r < 3 ) {
-                stack[r][c]->setFoundation( true );
                 stack[r][c]->setPilePos( dist_x * c, dist_y * r );
                 // Very tight spread makes it easy to quickly tell number of
                 // cards in each pile and we don't care about the cards beneath.

@@ -55,7 +55,6 @@ void Yukon::initialize()
     for (int i=0; i<4; i++) {
         target[i] = new PatPile(i+1, QString("target%1").arg(i));
         target[i]->setPileRole(PatPile::Foundation);
-        target[i]->setFoundation(true);
         target[i]->setPilePos(0.11+7*dist_x, dist_y *i);
         addPile(target[i]);
     }

@@ -57,7 +57,6 @@ void Grandf::initialize()
     for (int i=0; i<4; i++) {
         target[i] = new PatPile(i+1, QString("target%1").arg(i));
         target[i]->setPileRole(PatPile::Foundation);
-        target[i]->setFoundation(true);
         target[i]->setPilePos(targetOffset+i*distx, 0);
         target[i]->setSpread(0, 0);
         addPile(target[i]);

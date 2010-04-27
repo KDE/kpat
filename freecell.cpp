@@ -83,7 +83,6 @@ void Freecell::initialize()
     {
         target[i] = new PatPile(1 + 8 + 4 + i, QString( "target%1" ).arg( i ));
         target[i]->setPileRole(PatPile::Foundation);
-        target[i]->setFoundation(true);
         target[i]->setPilePos(targetOffsetDist + topRowDist * i, 0);
         target[i]->setSpread(0, 0);
         addPile(target[i]);

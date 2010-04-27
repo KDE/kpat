@@ -94,7 +94,6 @@ void Spider::initialize()
     {
         legs[column] = new PatPile(column + 16, QString( "legs%1" ).arg( column ));
         legs[column]->setPileRole(PatPile::Foundation);
-        legs[column]->setFoundation(true);
         legs[column]->setPilePos(dist_x / 3 * column, smallNeg);
         legs[column]->setZValue(column+1);
         legs[column]->setGraphicVisible( false );

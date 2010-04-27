@@ -57,7 +57,6 @@ void Clock::initialize()
     for (int i=0; i<12; i++) {
         target[i] = new PatPile(i+1, QString("target%1").arg(i));
         target[i]->setPileRole(PatPile::Foundation);
-        target[i]->setFoundation(true);
         target[i]->setPilePos(4 * dist_x + 0.4 + xs[i], 0.2 + ys[i]);
         target[i]->setSpread(0, 0);
         addPile(target[i]);

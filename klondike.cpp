@@ -122,7 +122,6 @@ void Klondike::initialize()
     {
         target[ i ] = new PatPile( i + 1, QString( "target%1" ).arg( i ) );
         target[i]->setPileRole(PatPile::Foundation);
-        target[i]->setFoundation(true);
         target[i]->setPilePos((3 + i) * (1.0 + hspacing), 0);
         addPile(target[i]);
     }
