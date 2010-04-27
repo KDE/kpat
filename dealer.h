@@ -92,7 +92,6 @@ public:
     void setAutoDropEnabled(bool a);
     bool autoDropEnabled() const { return _autodrop; }
 
-    void setGameNumber(int gmn);
     int gameNumber() const;
 
     void setGameId(int id);
@@ -113,11 +112,11 @@ public:
     void setNeededFutureMoves(int);
     int neededFutureMoves() const;
 
-    bool demoActive() const;
+    bool isDemoActive() const;
     virtual bool isGameLost() const;
     virtual bool isGameWon() const;
     bool allowedToStartNewGame();
-    int getMoves() const;
+    int moveCount() const;
 
     QString save_it();
     void saveGame(QDomDocument &doc);

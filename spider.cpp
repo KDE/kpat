@@ -353,7 +353,7 @@ void Spider::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duratio
 
 bool Spider::checkPileDeck( KCardPile * pile, bool checkForDemo )
 {
-    if ( checkForDemo && demoActive() )
+    if ( checkForDemo && isDemoActive() )
         return false;
 
     if (pile->isEmpty())
@@ -404,7 +404,7 @@ QPointF Spider::randomPos()
 
 KCard *Spider::newCards()
 {
-    if ( demoActive() )
+    if ( isDemoActive() )
     {
         for ( int i = 0; i < 10; i++ )
         {

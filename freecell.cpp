@@ -347,7 +347,7 @@ void Freecell::getHints()
 {
     getSolverHints();
 
-    if ( demoActive() )
+    if ( isDemoActive() )
         return;
 
     foreach (PatPile * store, patPiles())

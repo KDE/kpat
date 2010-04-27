@@ -214,14 +214,14 @@ public:
     QSet<KCard*> cardsNotToDrop;
 };
 
-int DealerScene::getMoves() const
+int DealerScene::moveCount() const
 {
     return d->loadedMoveCount + d->undoList.count();
 }
 
 void DealerScene::takeState()
 {
-    if ( !demoActive() )
+    if ( !isDemoActive() )
     {
         d->winMoves.clear();
         clearHints();
@@ -237,7 +237,7 @@ void DealerScene::takeState()
     State *n = getState();
 
     if (!d->undoList.count()) {
-        emit updateMoves(getMoves());
+        emit updateMoves( moveCount());
         d->undoList.append(n);
     } else {
         State *old = d->undoList.last();
@@ -246,7 +246,7 @@ void DealerScene::takeState()
             delete n;
             n = 0;
         } else {
-            emit updateMoves(getMoves());
+            emit updateMoves( moveCount());
             d->undoList.append(n);
         }
     }
@@ -266,10 +266,10 @@ void DealerScene::takeState()
             return;
         }
 
-        if ( d->m_solver && !demoActive() && !deck()->hasAnimatedCards() )
+        if ( d->m_solver && !isDemoActive() && !deck()->hasAnimatedCards() )
             startSolver();
 
-        if (!demoActive() && !deck()->hasAnimatedCards())
+        if (!isDemoActive() && !deck()->hasAnimatedCards())
             d->dropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
 
         emit undoPossible(d->undoList.count() > 1);
@@ -291,7 +291,7 @@ void DealerScene::saveGame(QDomDocument &doc)
         return;
 
     dealer.setAttribute("number", QString::number(gameNumber()));
-    dealer.setAttribute("moves", getMoves() - 1);
+    dealer.setAttribute("moves", moveCount() - 1);
     dealer.setAttribute("started", d->gameStarted);
     QString data = getGameState();
     if (!data.isEmpty())
@@ -342,7 +342,7 @@ void DealerScene::openGame(QDomDocument &doc)
     }
 
     setGameOptions(options);
-    setGameNumber(dealer.attribute("number").toInt());
+    gamenumber = dealer.attribute("number").toInt();
     d->loadedMoveCount = dealer.attribute("moves").toInt();
     d->gameStarted = bool(dealer.attribute("started").toInt());
 
@@ -380,7 +380,7 @@ void DealerScene::openGame(QDomDocument &doc)
     }
     setGameState( dealer.attribute("data") );
 
-    emit updateMoves(getMoves());
+    emit updateMoves( moveCount());
 
     takeState();
 }
@@ -396,7 +396,7 @@ void DealerScene::undo()
     if (d->undoList.count() > 1) {
         d->redoList.append( d->undoList.takeLast() );
         setState(d->undoList.takeLast());
-        emit updateMoves(getMoves());
+        emit updateMoves( moveCount());
         takeState(); // copying it again
         emit undoPossible(d->undoList.count() > 1);
         emit redoPossible(d->redoList.count() > 0);
@@ -420,7 +420,7 @@ void DealerScene::redo()
 
     if (d->redoList.count() > 0) {
         setState(d->redoList.takeLast());
-        emit updateMoves(getMoves());
+        emit updateMoves( moveCount());
         takeState(); // copying it again
         emit undoPossible(d->undoList.count() > 1);
         emit redoPossible(d->redoList.count() > 0);
@@ -714,7 +714,7 @@ void DealerScene::newHint(MoveHint *mh)
 void DealerScene::startNew(int gameNumber)
 {
     if (gameNumber != -1)
-        setGameNumber(gameNumber);
+        gamenumber = qBound( 1, gameNumber, INT_MAX );
 
     // Only record the statistics and reset gameStarted if  we're starting a
     // new game number or we're restarting a game we've already won.
@@ -1294,16 +1294,6 @@ int DealerScene::gameNumber() const
     return gamenumber;
 }
 
-void DealerScene::setGameNumber(int gmn)
-{
-    // Deal in the range of 1 to INT_MAX.
-    gamenumber = qMax(1, gmn);
-    qDeleteAll(d->undoList);
-    d->undoList.clear();
-    qDeleteAll(d->redoList);
-    d->redoList.clear();
-}
-
 void DealerScene::stopDemo()
 {
     if (deck()->hasAnimatedCards()) {
@@ -1321,14 +1311,14 @@ void DealerScene::stopDemo()
     emit demoActive( false );
 }
 
-bool DealerScene::demoActive() const
+bool DealerScene::isDemoActive() const
 {
     return d->demo_active;
 }
 
 void DealerScene::toggleDemo()
 {
-    if ( !demoActive() )
+    if ( !isDemoActive() )
         demo();
     else
         stopDemo();
