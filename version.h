@@ -38,7 +38,7 @@
 #define VERSION_H
 
 #ifndef KPAT_VERSION
-#define KPAT_VERSION "3.3"
+#define KPAT_VERSION "3.4"
 #endif
 
 #define scores_group "Scores"

@@ -61,8 +61,6 @@
 #include <climits>
 
 
-static const char description[] = I18N_NOOP("KDE Patience Game");
-
 static DealerScene *getDealer( int wanted_game )
 {
     foreach ( DealerInfo * di, DealerInfoList::self()->games() )
@@ -137,10 +135,15 @@ void sendAllPendingResizeEvents( QWidget * widget )
 
 int main( int argc, char **argv )
 {
-    KAboutData aboutData( "kpat", 0, ki18n("KPatience"),
-                          KPAT_VERSION, ki18n(description), KAboutData::License_GPL_V2,
+    KAboutData aboutData( "kpat",
+                          0,
+                          ki18n("KPatience"),
+                          KPAT_VERSION,
+                          ki18n("KDE Patience Game"),
+                          KAboutData::License_GPL_V2,
                           ki18n("© 1995 Paul Olav Tvete\n© 2000 Stephan Kulow"),
-                          KLocalizedString(), "http://games.kde.org/kpat" );
+                          KLocalizedString(),
+                          "http://games.kde.org/kpat" );
 
     aboutData.addAuthor( ki18n("Paul Olav Tvete"),
                          ki18n("Author of original Qt version"),
