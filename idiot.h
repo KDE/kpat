@@ -42,24 +42,21 @@
 
 class Idiot: public DealerScene
 {
-    friend class IdiotSolver;
-
     Q_OBJECT
 
 public:
     virtual void initialize();
     virtual bool isGameWon() const;
-    virtual void restart();
-
-public slots:
-    virtual KCard *newCards();
 
 protected:
+    virtual void setGameState(const QString &);
     virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
     virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
+    virtual void restart();
+    virtual bool drop();
 
-    virtual bool  drop()  { return false; }
-    virtual void  setGameState(const QString &);
+protected slots:
+    virtual KCard * newCards();
 
 private slots:
     void handleCardClick( KCard * card );
@@ -71,6 +68,8 @@ private:
     PatPile  *talon;
     PatPile  *m_play[ 4 ];
     PatPile  *m_away;
+
+    friend class IdiotSolver;
 };
 
 #endif

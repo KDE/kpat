@@ -101,6 +101,13 @@ void Idiot::restart()
     emit newCardsPossible(true);
 }
 
+
+bool Idiot::drop()
+{
+    return false;
+}
+
+
 bool Idiot::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
 {
     switch ( pile->pileRole() )

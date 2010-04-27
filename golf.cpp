@@ -156,6 +156,13 @@ void Golf::handleCardClick( KCard * card )
     }
 }
 
+
+bool Golf::drop()
+{
+    return false;
+}
+
+
 void Golf::setGameState( const QString & )
 {
     emit newCardsPossible( !talon->isEmpty() );

@@ -39,25 +39,24 @@
 #include "dealer.h"
 
 
-class Simon : public DealerScene {
+class Simon : public DealerScene
+{
     Q_OBJECT
-
-    friend class SimonSolver;
 
 public:
     virtual void initialize();
-
-public slots:
-    virtual void restart();
 
 protected:
     virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
     virtual bool checkPrefering(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
     virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
+    virtual void restart();
 
 private:
     PatPile* store[10];
     PatPile* target[4];
+
+    friend class SimonSolver;
 };
 
 #endif

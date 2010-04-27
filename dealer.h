@@ -126,8 +126,6 @@ public:
     virtual int oldId() const;
     void recordGameStatistics();
 
-    virtual void restart() = 0;
-
     void preventDropsFor( bool prevent, KCard * card );
 
 signals:
@@ -160,6 +158,8 @@ protected:
     virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent );
+
+    virtual void restart() = 0;
 
     State *getState();
     void setState(State *);

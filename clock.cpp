@@ -112,6 +112,13 @@ void Clock::restart()
     startDealAnimation();
 }
 
+
+bool Clock::drop()
+{
+    return false;
+}
+
+
 bool Clock::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
 {
     if ( pile->pileRole() == PatPile::Tableau )

@@ -42,32 +42,27 @@
 
 class Mod3 : public DealerScene
 {
-    friend class Mod3Solver;
-
     Q_OBJECT
 
 public:
     virtual void initialize();
-
-    void deal();
-    virtual void restart();
     virtual void moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
-
-public slots:
-    virtual KCard *newCards();
 
 protected:
     virtual void setGameState(const QString & );
-
     virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
     virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
+    virtual void restart();
+
+protected slots:
+    virtual KCard * newCards();
 
 private:
     PatPile  *talon;
     PatPile  *stack[4][8];
     PatPile  *aces;
+
+    friend class Mod3Solver;
 };
 
 #endif
-
-//-------------------------------------------------------------------------//

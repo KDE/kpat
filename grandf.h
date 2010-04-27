@@ -43,29 +43,29 @@
 
 class Grandf : public DealerScene
 {
-    friend class GrandfSolver;
     Q_OBJECT
 
 public:
     virtual void initialize();
 
-public slots:
-    void deal( const QList<KCard*> & cardsToDeal );
-    virtual void restart();
-    virtual KCard *newCards();
-
 protected:
-    void collect();
+    virtual void setGameState( const QString & stream );
+    virtual QString getGameState();
     virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
     virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
-    virtual QString getGameState();
-    virtual void setGameState( const QString & stream );
+    virtual void restart();
+
+protected slots:
+    virtual KCard * newCards();
 
 private:
+    void deal( const QList<KCard*> & cardsToDeal );
+
     PatPile* store[7];
     PatPile* target[4];
     int numberOfDeals;
 
+    friend class GrandfSolver;
 };
 
 #endif

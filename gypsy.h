@@ -41,25 +41,27 @@
 
 class Gypsy : public DealerScene
 {
-    friend class GypsySolver;
     Q_OBJECT
 
 public:
     virtual void initialize();
-    virtual void restart();
 
-public slots:
-    virtual KCard *newCards();
 
 protected:
     virtual void setGameState(const QString &);
     virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
     virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
+    virtual void restart();
+
+protected slots:
+    virtual KCard * newCards();
 
 private:
     PatPile* talon;
     PatPile* store[8];
     PatPile* target[8];
+
+    friend class GypsySolver;
 };
 
 #endif

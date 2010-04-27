@@ -41,23 +41,24 @@
 
 class Clock : public DealerScene
 {
-    friend class ClockSolver;
     Q_OBJECT
 
 public:
     virtual void initialize();
-    virtual bool drop() { return false; }
-
-public slots:
-    virtual void restart();
 
 protected:
     virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
     virtual bool checkRemove(const PatPile* pile, const QList<KCard*> & cards) const;
+    virtual void restart();
+
+protected slots:
+    virtual bool drop();
 
 private:
     PatPile* store[8];
     PatPile* target[12];
+
+    friend class ClockSolver;
 };
 
 #endif

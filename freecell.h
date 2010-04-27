@@ -43,44 +43,39 @@
 
 class Freecell : public DealerScene
 {
-    friend class FreecellSolver;
-
     Q_OBJECT
 
 public:
     virtual void initialize();
     virtual void moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
-    virtual ~Freecell();
-
-public slots:
-    virtual void restart();
-    void waitForMoving();
-    void startMoving();
 
 protected:
     virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
     virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
+    virtual void restart();
+    virtual void newDemoMove(KCard *m);
+    virtual void getHints();
 
+protected slots:
+    virtual bool tryAutomaticMove( KCard * c );
+    void waitForMoving();
+    void startMoving();
+
+private:
     bool canPutStore(const PatPile *c1, const QList<KCard*>& c2) const;
-
     void countFreeCells(int &free_cells, int &free_stores) const;
-
     void movePileToPile(QList<KCard*> &c, PatPile *to, QList<PatPile*> & fss, QList<PatPile*> & fcs,
                         int start, int count, int debug_level);
 
-    virtual void newDemoMove(KCard *m);
-    virtual bool tryAutomaticMove(KCard *c);
-    virtual void getHints();
-
-protected:
     PatPile* store[8];
     PatPile* freecell[4];
     PatPile* target[4];
 
-private:
     QList<MoveHint*> moves;
     int sum_moves;
     int current_weight;
+
+    friend class FreecellSolver;
 };
 
 #endif

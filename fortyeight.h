@@ -41,22 +41,20 @@
 
 class Fortyeight : public DealerScene
 {
-    friend class FortyeightSolver;
-
     Q_OBJECT
 
 public:
     virtual void initialize();
-    virtual void restart();
-    virtual QString getGameState();
-    virtual void setGameState( const QString & stream );
-
-public slots:
-    virtual KCard *newCards();
 
 protected:
+    virtual void setGameState( const QString & stream );
+    virtual QString getGameState();
     virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
     virtual bool checkRemove(const PatPile* pile, const QList<KCard*> & cards) const;
+    virtual void restart();
+
+protected slots:
+    virtual KCard * newCards();
 
 private:
     PatPile *talon;
@@ -64,6 +62,8 @@ private:
     PatPile *target[8];
     PatPile *pile;
     bool lastdeal;
+
+    friend class FortyeightSolver;
 };
 
 #endif

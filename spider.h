@@ -44,34 +44,33 @@ class KSelectAction;
 
 class Spider : public DealerScene
 {
-    friend class SpiderSolver;
-
     Q_OBJECT
 
 public:
     virtual void initialize();
     virtual void moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
-    bool checkPileDeck( KCardPile * pile, bool checkForDemo = true );
-    virtual void restart();
     virtual void mapOldId(int id);
     virtual int oldId() const;
     virtual QList<QAction*> configActions() const;
-
-public slots:
-    void gameTypeChanged();
-    virtual KCard *newCards();
-    void checkAllForRuns();
 
 protected:
     virtual QString getGameState();
     virtual void setGameState(const QString &stream);
     virtual QString getGameOptions() const;
     virtual void setGameOptions(const QString &options);
-
     virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
     virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
+    virtual void restart();
+
+protected slots:
+    virtual KCard *newCards();
+
+private slots:
+    void gameTypeChanged();
+    void checkAllForRuns();
 
 private:
+    bool checkPileDeck( KCardPile * pile, bool checkForDemo = true );
     QList<KCard*> getRun(KCard *c) const;
     void setSuits(int s);
     void createDeck();
@@ -85,6 +84,8 @@ private:
     int m_suits;
 
     KSelectAction *options;
+
+    friend class SpiderSolver;
 };
 
 #endif

@@ -41,22 +41,20 @@
 
 class Golf : public DealerScene
 {
-    friend class GolfSolver;
-
     Q_OBJECT
 
 public:
     virtual void initialize();
-    virtual void restart();
-
-public slots:
-    virtual KCard *newCards();
 
 protected:
-    virtual bool drop() { return false; }
     virtual void setGameState( const QString & );
     virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
     virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
+    virtual void restart();
+    virtual bool drop();
+
+protected slots:
+    virtual KCard * newCards();
 
 private slots:
     void handleCardClick( KCard * card );
@@ -65,6 +63,8 @@ private:
     PatPile* talon;
     PatPile* stack[7];
     PatPile* waste;
+
+    friend class GolfSolver;
 };
 
 #endif

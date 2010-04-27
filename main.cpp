@@ -272,8 +272,7 @@ int main( int argc, char **argv )
         for ( int i = start_index; i <= end_index; i++ )
         {
             mytime.start();
-            f->setGameNumber( i );
-            f->restart();
+            f->startNew( i );
             f->solver()->translate_layout();
             int ret = f->solver()->patsolve();
             if ( ret == Solver::WIN )

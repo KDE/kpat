@@ -45,32 +45,32 @@ class KSelectAction;
 
 class Klondike : public DealerScene
 {
-    friend class KlondikeSolver;
-
     Q_OBJECT
 
 public:
     virtual void initialize();
     virtual void mapOldId(int id);
     virtual int oldId() const;
-    virtual void restart();
-    virtual bool drop();
     QList<QAction*> configActions() const;
-
-    void setEasy( bool easy );
-
-public slots:
-    virtual KCard *newCards();
 
 protected:
     virtual QString getGameState();
     virtual QString getGameOptions() const;
     virtual void setGameOptions(const QString &options);
-
     virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
     virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
+    virtual void restart();
+
+protected slots:
+    virtual bool drop();
+    virtual KCard *newCards();
+
+private slots:
+    void gameTypeChanged();
 
 private:
+    void setEasy( bool easy );
+
     bool EasyRules;
     bool redealt;
 
@@ -83,8 +83,7 @@ private:
     KlondikePile *pile;
     KStandardCardDeck::Rank target_tops[4];
 
-private slots:
-    void gameTypeChanged();
+    friend class KlondikeSolver;
 };
 
 class KlondikePile : public PatPile

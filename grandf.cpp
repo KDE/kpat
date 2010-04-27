@@ -93,6 +93,8 @@ KCard *Grandf::newCards()
             if (store[i]->top())
                 return store[i]->top();
 
+    // NOTE: This is not quite correct. The piles should be turned face down
+    //       (i.e. partially reversed) during collection.
     QList<KCard*> collectedCards;
     for ( int pos = 6; pos >= 0; --pos )
     {
@@ -149,20 +151,6 @@ void Grandf::deal( const QList<KCard*> & cardsToDeal )
     }
 
     startDealAnimation();
-}
-
-/*****************************
-
-  Does the collecting step of the game
-
-  NOTE: this is not quite correct -- the piles should be turned
-  facedown (ie partially reversed) during collection.
-
-******************************/
-void Grandf::collect() {
-    clearHighlightedItems();
-
-
 }
 
 bool Grandf::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const

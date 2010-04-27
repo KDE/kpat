@@ -94,10 +94,6 @@ void Freecell::initialize()
     setNeededFutureMoves( 4 ); // reserve some
 }
 
-Freecell::~Freecell()
-{
-}
-//-------------------------------------------------------------------------//
 
 void Freecell::restart()
 {
