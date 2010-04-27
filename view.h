@@ -43,8 +43,6 @@
 
 class PatienceView: public QGraphicsView
 {
-    Q_OBJECT
-
 public:
     PatienceView ( QWidget * parent );
     virtual ~PatienceView();

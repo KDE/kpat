@@ -101,6 +101,3 @@ void PatienceView::updateSceneSize()
             gss->resizeScene( size() );
     }
 }
-
-
-#include "view.moc"
