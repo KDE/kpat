@@ -1,2 +1,2 @@
 #! /usr/bin/env bash
-$XGETTEXT *.cpp -o $podir/kpat.pot
+$XGETTEXT *.cpp libkcardgame/*.cpp -o $podir/kpat.pot
