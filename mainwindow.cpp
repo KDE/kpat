@@ -41,6 +41,7 @@
 #include "dealer.h"
 #include "dealerinfo.h"
 #include "gameselectionscene.h"
+#include "numbereddealdialog.h"
 #include "renderer.h"
 #include "settings.h"
 #include "statisticsdialog.h"
@@ -84,11 +85,12 @@
 
 
 MainWindow::MainWindow()
-  : KXmlGuiWindow(0),
-    m_view(0),
-    m_dealer(0),
-    m_selector(0),
-    m_cardDeck(0)
+  : KXmlGuiWindow( 0 ),
+    m_view( 0 ),
+    m_dealer( 0 ),
+    m_selector( 0 ),
+    m_cardDeck( 0 ),
+    m_dealDialog( 0 )
 {
     setObjectName( "MainWindow" );
     // KCrash::setEmergencySaveFunction(::saveGame);
@@ -151,7 +153,7 @@ void MainWindow::setupActions()
 
     a = actionCollection()->addAction("new_numbered_deal");
     a->setText(i18nc("Start a game by giving its particular number", "New &Numbered Deal..."));
-    connect( a, SIGNAL(triggered(bool)), SLOT(chooseDeal()) );
+    connect( a, SIGNAL( triggered(bool) ), SLOT( newNumberedDeal()) );
 
     a = KStandardGameAction::restart(this, SLOT(restart()), actionCollection());
     a->setText(i18nc("Replay the current deal from the start", "Restart Deal"));
@@ -394,13 +396,22 @@ void MainWindow::slotGameSelected(int id)
 {
     if ( m_dealer_map.contains(id) )
     {
-        newGameType(id);
+        setGameType( id );
         QTimer::singleShot(0 , this, SLOT( startRandom() ) );
     }
 }
 
-void MainWindow::newGameType(int id)
+void MainWindow::setGameType(int id)
 {
+    // Only bother calling creating a new DealerScene if we don't already have
+    // the right DealerScene open.
+    if ( m_dealer && m_dealer_map.value( id ) == m_dealer_map.value( m_dealer->gameId() ) )
+    {
+        m_dealer->recordGameStatistics();
+        m_dealer->mapOldId( id );
+        return;
+    }
+
     // If we're replacing an existing DealerScene, record the stats of the
     // game already in progress.
     if ( m_dealer )
@@ -425,6 +436,7 @@ void MainWindow::newGameType(int id)
     m_dealer->setDeck( m_cardDeck );
     m_dealer->initialize();
     m_dealer->setGameId( di->ids().first() );
+    m_dealer->mapOldId( id );
     m_dealer->setAutoDropEnabled( autodropaction->isChecked() );
     m_dealer->setSolverEnabled( solveraction->isChecked() );
 
@@ -479,7 +491,6 @@ void MainWindow::updateActions()
     // selection screen.
     actionCollection()->action( "new_game" )->setEnabled( m_dealer );
     actionCollection()->action( "new_deal" )->setEnabled( m_dealer );
-    actionCollection()->action( "new_numbered_deal" )->setEnabled( m_dealer );
     actionCollection()->action( "game_restart" )->setEnabled( m_dealer );
     actionCollection()->action( "game_save_as" )->setEnabled( m_dealer );
     gamehelpaction->setEnabled( m_dealer );
@@ -595,28 +606,34 @@ void MainWindow::closeEvent(QCloseEvent *e)
     KXmlGuiWindow::closeEvent(e);
 }
 
-void MainWindow::chooseDeal()
+
+void MainWindow::newNumberedDeal()
 {
+    if ( !m_dealDialog )
+    {
+        m_dealDialog = new NumberedDealDialog( this );
+        connect( m_dealDialog, SIGNAL(dealChosen(int,int)), this, SLOT(startNumbered(int,int)) );
+    }
+
     if (m_dealer)
     {
-        QString text = (m_dealer->gameId() == DealerInfo::FreecellId)
-                       ? i18n("Enter a deal number (Freecell deals are numbered the same as those in the Freecell FAQ):")
-                       : i18n("Enter a deal number:");
-        bool ok;
-        int number = KInputDialog::getInteger(i18n("Choose Numbered Deal"), 
-                                              text,
-                                              m_dealer->gameNumber(),
-                                              1,
-                                              INT_MAX,
-                                              1,
-                                              10,
-                                              &ok, 
-                                              this);
+        m_dealDialog->setGameType( m_dealer->oldId() );
+        m_dealDialog->setDealNumber( m_dealer->gameNumber() );
+    }
 
-        if (ok && m_dealer->allowedToStartNewGame())
-            startNew(number);
+    m_dealDialog->show();
+}
+
+
+void MainWindow::startNumbered( int gameId, int dealNumber )
+{
+    if ( !m_dealer || m_dealer->allowedToStartNewGame() )
+    {
+        setGameType( gameId );
+        startNew( dealNumber );
     }
 }
+
 
 bool MainWindow::openGame(const KUrl &url, bool addToRecentFiles)
 {
@@ -643,15 +660,7 @@ bool MainWindow::openGame(const KUrl &url, bool addToRecentFiles)
                         // If it only contains an ID, just launch a new game with that ID.
                         if (doc.documentElement().hasAttribute("number"))
                         {
-                            // Only bother calling newGameType if we don't
-                            // already have the right DealerScene open.
-                            if ( !m_dealer || m_dealer_map.value(id) != m_dealer_map.value(m_dealer->gameId()) )
-                                newGameType(id);
-                            else
-                                m_dealer->recordGameStatistics();
-
-                            // for old spider and klondike
-                            m_dealer->mapOldId(id);
+                            setGameType( id );
                             m_dealer->openGame(doc);
                             setGameCaption();
                         }
@@ -738,7 +747,7 @@ void MainWindow::slotSnapshot()
         m_dealer_it = m_dealer_map.constBegin();
     }
 
-    newGameType( m_dealer_it.key() );
+    setGameType( m_dealer_it.key() );
     m_dealer->setAutoDropEnabled( false );
     startRandom();
 

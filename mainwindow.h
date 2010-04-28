@@ -42,6 +42,7 @@
 class DealerInfo;
 class DealerScene;
 class GameSelectionScene;
+class NumberedDealDialog;
 class PatienceView;
 
 class KStandardCardDeck;
@@ -72,7 +73,8 @@ protected slots:
     void startRandom();
     void openGame();
     void restart();
-    void chooseDeal();
+    void newNumberedDeal();
+    void startNumbered( int gameId, int dealNumber );
     void saveGame();
     void showStats();
 
@@ -103,7 +105,7 @@ private slots:
 
 private:
     void setupActions();
-    void newGameType(int id);
+    void setGameType( int id );
     void setGameCaption();
     void startNew(int gameNumber);
     void updateActions();
@@ -131,6 +133,8 @@ private:
     DealerScene    *m_dealer;
     GameSelectionScene *m_selector;
     KStandardCardDeck *m_cardDeck;
+
+    NumberedDealDialog * m_dealDialog;
 
     QLabel         *solverStatus;
     QLabel         *moveStatus;
