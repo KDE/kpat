@@ -95,7 +95,7 @@ void Klondike::initialize()
 
     talon = new PatPile( this, 0, "talon" );
     talon->setPileRole(PatPile::Stock);
-    talon->setPilePos(0, 0);
+    talon->setLayoutPos(0, 0);
     connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
     // Give the talon a low Z value to keep it out of the way during there
     // deal animation.
@@ -104,14 +104,14 @@ void Klondike::initialize()
     pile = new KlondikePile( this, 13, EasyRules ? 1 : 3, "pile" );
     pile->setPileRole(PatPile::Waste);
     pile->setReservedSpace( 0, 0, 1.9, 1.0 );
-    pile->setPilePos(1.0 + hspacing, 0);
+    pile->setLayoutPos(1.0 + hspacing, 0);
     pile->setSpread( 0.33, 0 );
 
     for( int i = 0; i < 7; ++i )
     {
         play[i] = new PatPile( this, i + 5, QString( "play%1" ).arg( i ));
         play[i]->setPileRole(PatPile::Tableau);
-        play[i]->setPilePos((1.0 + hspacing) * i, 1.0 + vspacing);
+        play[i]->setLayoutPos((1.0 + hspacing) * i, 1.0 + vspacing);
         play[i]->setAutoTurnTop(true);
         play[i]->setReservedSpace( 0, 0, 1, 1 + play[i]->spread().height() * 7 );
     }
@@ -120,7 +120,7 @@ void Klondike::initialize()
     {
         target[i] = new PatPile( this, i + 1, QString( "target%1" ).arg( i ) );
         target[i]->setPileRole(PatPile::Foundation);
-        target[i]->setPilePos((3 + i) * (1.0 + hspacing), 0);
+        target[i]->setLayoutPos((3 + i) * (1.0 + hspacing), 0);
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);

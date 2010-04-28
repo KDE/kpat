@@ -68,7 +68,7 @@ public:
     bool graphicVisible;
 
     QSize graphicSize;
-    QPointF pilePos;
+    QPointF layoutPos;
     QSizeF spread;
     QRectF reservedSpace;
     QRectF availableSpace;
@@ -222,21 +222,21 @@ QList<KCard*> KCardPile::topCardsDownTo( const KCard * card ) const
 }
 
 
-void KCardPile::setPilePos( QPointF pos )
+void KCardPile::setLayoutPos( QPointF pos )
 {
-    d->pilePos = pos;
+    d->layoutPos = pos;
 }
 
 
-void KCardPile::setPilePos( qreal x,  qreal y )
+void KCardPile::setLayoutPos( qreal x,  qreal y )
 {
-    setPilePos( QPointF( x, y ) );
+    setLayoutPos( QPointF( x, y ) );
 }
 
 
-QPointF KCardPile::pilePos() const
+QPointF KCardPile::layoutPos() const
 {
-    return d->pilePos;
+    return d->layoutPos;
 }
 
 

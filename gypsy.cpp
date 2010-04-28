@@ -53,21 +53,21 @@ void Gypsy::initialize()
 
     talon = new PatPile( this, 0, "talon" );
     talon->setPileRole(PatPile::Stock);
-    talon->setPilePos(8.5 * dist_x + 0.4, 4 * dist_y);
+    talon->setLayoutPos(8.5 * dist_x + 0.4, 4 * dist_y);
     connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
 
     for ( int i = 0; i < 8; ++i )
     {
         target[i] = new PatPile( this, i + 1, QString("target%1").arg(i) );
         target[i]->setPileRole(PatPile::Foundation);
-        target[i]->setPilePos(dist_x*(8+(i/4)) + 0.4, (i%4)*dist_y);
+        target[i]->setLayoutPos(dist_x*(8+(i/4)) + 0.4, (i%4)*dist_y);
     }
 
     for ( int i = 0; i < 8; ++i )
     {
         store[i] = new PatPile( this, 9 + i, QString("store%1").arg(i) );
         store[i]->setPileRole(PatPile::Tableau);
-        store[i]->setPilePos(dist_x*i,0);
+        store[i]->setLayoutPos(dist_x*i,0);
         store[i]->setAutoTurnTop(true);
         store[i]->setReservedSpace( 0, 0, 1, 4 * dist_y + 1 );
     }

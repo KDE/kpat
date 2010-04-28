@@ -54,13 +54,13 @@ void Golf::initialize()
 
     talon = new PatPile( this, 0, "talon" );
     talon->setPileRole(PatPile::Stock);
-    talon->setPilePos(0, smallNeg);
+    talon->setLayoutPos(0, smallNeg);
     talon->setSpread(0, 0);
     connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
 
     waste = new PatPile( this, 8, "waste" );
     waste->setPileRole(PatPile::Foundation);
-    waste->setPilePos(1.1, smallNeg);
+    waste->setLayoutPos(1.1, smallNeg);
     waste->setSpread(0.12, 0);
     waste->setReservedSpace( 0, 0, 1 + 5 * dist_x, 1 );
 
@@ -69,7 +69,7 @@ void Golf::initialize()
     {
         stack[r] = new PatPile( this, 1 + r, QString("stack%1").arg(r) );
         stack[r]->setPileRole(PatPile::Tableau);
-        stack[r]->setPilePos(r*dist_x,0);
+        stack[r]->setLayoutPos(r*dist_x,0);
         // Manual tweak of the pile z values to make some animations better.
         stack[r]->setZValue((7-r)/100.0);
         stack[r]->setReservedSpace( 0, 0, 1, 2.3 );

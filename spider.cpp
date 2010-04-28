@@ -68,7 +68,7 @@ void Spider::initialize()
     {
         redeals[column] = new PatPile( this, column + 1, QString( "redeals%1" ).arg( column ) );
         redeals[column]->setPileRole(PatPile::Stock);
-        redeals[column]->setPilePos( dist_x * (9 - (4.0 - column) / 3), smallNeg );
+        redeals[column]->setLayoutPos( dist_x * (9 - (4.0 - column) / 3), smallNeg );
         redeals[column]->setZValue(12 * ( 5-column ));
         redeals[column]->setGraphicVisible( false );
         redeals[column]->setSpread(0, 0);
@@ -80,7 +80,7 @@ void Spider::initialize()
     {
         stack[column] = new PatPile( this, column + 6, QString( "stack%1" ).arg( column ) );
         stack[column]->setPileRole(PatPile::Tableau);
-        stack[column]->setPilePos(dist_x * column, 0);
+        stack[column]->setLayoutPos(dist_x * column, 0);
         stack[column]->setZValue(20);
         stack[column]->setAutoTurnTop(true);
         stack[column]->setReservedSpace( 0, 0, 1, 2.5 );
@@ -92,7 +92,7 @@ void Spider::initialize()
     {
         legs[column] = new PatPile( this, column + 16, QString( "legs%1" ).arg( column ) );
         legs[column]->setPileRole(PatPile::Foundation);
-        legs[column]->setPilePos(dist_x / 3 * column, smallNeg);
+        legs[column]->setLayoutPos(dist_x / 3 * column, smallNeg);
         legs[column]->setZValue(column+1);
         legs[column]->setGraphicVisible( false );
         legs[column]->setSpread(0, 0);

@@ -58,7 +58,7 @@ void Grandf::initialize()
     {
         target[i] = new PatPile( this, i + 1, QString("target%1").arg(i) );
         target[i]->setPileRole(PatPile::Foundation);
-        target[i]->setPilePos(targetOffset+i*distx, 0);
+        target[i]->setLayoutPos(targetOffset+i*distx, 0);
         target[i]->setSpread(0, 0);
     }
 
@@ -66,7 +66,7 @@ void Grandf::initialize()
     {
         store[i] = new PatPile( this, 5 + i, QString("store%1").arg(i) );
         store[i]->setPileRole(PatPile::Tableau);
-        store[i]->setPilePos(distx*i, 1.2);
+        store[i]->setLayoutPos(distx*i, 1.2);
         store[i]->setAutoTurnTop(true);
         store[i]->setReservedSpace( 0, 0, 1, 5 );
     }

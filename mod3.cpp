@@ -61,13 +61,13 @@ void Mod3::initialize()
 
     talon = new PatPile( this, 0, "talon" );
     talon->setPileRole(PatPile::Stock);
-    talon->setPilePos(rightColumX, bottomRowY);
+    talon->setLayoutPos(rightColumX, bottomRowY);
     talon->setSpread(0, 0);
     connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
 
     aces = new PatPile( this, 50, "aces");
     aces->setPileRole(PatPile::FoundationType1);
-    aces->setPilePos(rightColumX, 0.5);
+    aces->setLayoutPos(rightColumX, 0.5);
     aces->setReservedSpace( 0, 0, 1, 2 );
 
     for ( int r = 0; r < 4; ++r )
@@ -81,7 +81,7 @@ void Mod3::initialize()
             // The first 3 rows are the playing field, the fourth is the store.
             if ( r < 3 )
             {
-                stack[r][c]->setPilePos( dist_x * c, dist_y * r );
+                stack[r][c]->setLayoutPos( dist_x * c, dist_y * r );
                 // Very tight spread makes it easy to quickly tell number of
                 // cards in each pile and we don't care about the cards beneath.
                 stack[r][c]->setSpread( 0, 0.08 );
@@ -89,7 +89,7 @@ void Mod3::initialize()
             }
             else
             {
-                stack[r][c]->setPilePos( dist_x * c, bottomRowY );
+                stack[r][c]->setLayoutPos( dist_x * c, bottomRowY );
                 stack[r][c]->setReservedSpace( 0, 0, 1, 1.8 );
             }
             stack[r][c]->setPileRole( r == 0 ? PatPile::FoundationType2

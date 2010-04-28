@@ -58,7 +58,7 @@ void Clock::initialize()
     {
         target[i] = new PatPile( this, i + 1, QString("target%1").arg(i) );
         target[i]->setPileRole(PatPile::Foundation);
-        target[i]->setPilePos(4 * dist_x + 0.4 + xs[i], 0.2 + ys[i]);
+        target[i]->setLayoutPos(4 * dist_x + 0.4 + xs[i], 0.2 + ys[i]);
         target[i]->setSpread(0, 0);
     }
 
@@ -66,7 +66,7 @@ void Clock::initialize()
     {
         store[i] = new PatPile( this, 14 + i, QString("store%1").arg(i) );
         store[i]->setPileRole(PatPile::Tableau);
-        store[i]->setPilePos(dist_x*(i%4), 2.5 * (i/4));
+        store[i]->setLayoutPos(dist_x*(i%4), 2.5 * (i/4));
         store[i]->setReservedSpace( 0, 0, 1.0, 2.3 );
     }
 

@@ -68,9 +68,9 @@ public:
     KCard * top() const;
     QList<KCard*> topCardsDownTo( const KCard * card ) const;
 
-    void setPilePos( QPointF pos );
-    void setPilePos( qreal x, qreal y );
-    QPointF pilePos() const;
+    void setLayoutPos( QPointF pos );
+    void setLayoutPos( qreal x, qreal y );
+    QPointF layoutPos() const;
 
     void setReservedSpace( QRectF space );
     void setReservedSpace( qreal x, qreal y, qreal width, qreal height );

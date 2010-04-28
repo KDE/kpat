@@ -257,13 +257,13 @@ void KCardScene::relayoutScene()
     qreal extraHeight = 0;
     foreach ( const KCardPile * p, piles() )
     {
-        if ( p->pilePos().x() >= 0 )
-            usedWidth = qMax( usedWidth, p->pilePos().x() + p->reservedSpace().right() );
+        if ( p->layoutPos().x() >= 0 )
+            usedWidth = qMax( usedWidth, p->layoutPos().x() + p->reservedSpace().right() );
         else
             extraWidth = qMax( extraWidth, p->reservedSpace().width() );
 
-        if ( p->pilePos().y() >= 0 )
-            usedHeight = qMax( usedHeight, p->pilePos().y() + p->reservedSpace().bottom() );
+        if ( p->layoutPos().y() >= 0 )
+            usedHeight = qMax( usedHeight, p->layoutPos().y() + p->reservedSpace().bottom() );
         else
             extraHeight = qMax( extraHeight, p->reservedSpace().height() );
     }
@@ -358,7 +358,7 @@ void KCardScene::relayoutPiles( int duration )
     QHash<KCardPile*,QRectF> areas;
     foreach ( KCardPile * p, piles() )
     {
-        QPointF layoutPos = p->pilePos();
+        QPointF layoutPos = p->layoutPos();
         if ( layoutPos.x() < 0 )
             layoutPos.rx() += d->contentSize.width() / cardSize.width() - 1;
         if ( layoutPos.y() < 0 )
