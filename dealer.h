@@ -83,8 +83,8 @@ public:
 
     QImage createDump() const;
 
-    void addPile( PatPile * pile );
-    void removePile( PatPile * pile );
+    virtual void addPile( KCardPile * pile );
+    virtual void removePile( KCardPile * pile );
     QList<PatPile*> patPiles() const;
 
     virtual void moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );

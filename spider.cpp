@@ -66,33 +66,31 @@ void Spider::initialize()
     // sets of 10 cards are left to be dealt out
     for( int column = 0; column < 5; ++column )
     {
-        redeals[column] = new PatPile(column + 1, QString( "redeals%1" ).arg( column ));
+        redeals[column] = new PatPile( this, column + 1, QString( "redeals%1" ).arg( column ) );
         redeals[column]->setPileRole(PatPile::Stock);
         redeals[column]->setPilePos( dist_x * (9 - (4.0 - column) / 3), smallNeg );
         redeals[column]->setZValue(12 * ( 5-column ));
         redeals[column]->setGraphicVisible( false );
         redeals[column]->setSpread(0, 0);
         connect(redeals[column], SIGNAL(clicked(KCard*)), SLOT(newCards()));
-        addPile(redeals[column]);
     }
 
     // The 10 playing piles
     for( int column = 0; column < 10; ++column )
     {
-        stack[column] = new PatPile(column + 6, QString( "stack%1" ).arg( column ));
+        stack[column] = new PatPile( this, column + 6, QString( "stack%1" ).arg( column ) );
         stack[column]->setPileRole(PatPile::Tableau);
         stack[column]->setPilePos(dist_x * column, 0);
         stack[column]->setZValue(20);
         stack[column]->setAutoTurnTop(true);
         stack[column]->setReservedSpace( 0, 0, 1, 2.5 );
-        addPile(stack[column]);
     }
 
     // The 8 'legs' so named by me because spiders have 8 legs - why
     // else the name Spider?
     for( int column = 0; column < 8; ++column )
     {
-        legs[column] = new PatPile(column + 16, QString( "legs%1" ).arg( column ));
+        legs[column] = new PatPile( this, column + 16, QString( "legs%1" ).arg( column ) );
         legs[column]->setPileRole(PatPile::Foundation);
         legs[column]->setPilePos(dist_x / 3 * column, smallNeg);
         legs[column]->setZValue(column+1);
@@ -100,7 +98,6 @@ void Spider::initialize()
         legs[column]->setSpread(0, 0);
         legs[column]->setZValue(14 * column);
         legs[column]->setVisible( false );
-        addPile(legs[column]);
     }
 
     // Moving an A-K run to a leg is not really an autoDrop - the

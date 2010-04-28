@@ -89,7 +89,7 @@ private:
 class KlondikePile : public PatPile
 {
 public:
-    KlondikePile( int _index, int _draw, const QString & objectName = QString() );
+    KlondikePile( KCardScene * cardScene, int _index, int _draw, const QString & objectName = QString() );
     int draw() const { return m_draw; }
     void setDraws( int _draw );
     virtual void layoutCards( int duration );

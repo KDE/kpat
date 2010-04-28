@@ -59,33 +59,36 @@ void Mod3::initialize()
     // This patience uses 2 deck of cards.
     static_cast<KStandardCardDeck*>( deck() )->setDeckContents( 2 );
 
-    talon = new PatPile(0, "talon");
+    talon = new PatPile( this, 0, "talon" );
     talon->setPileRole(PatPile::Stock);
     talon->setPilePos(rightColumX, bottomRowY);
     talon->setSpread(0, 0);
     connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
-    addPile(talon);
 
-    aces = new PatPile(50, "aces");
+    aces = new PatPile( this, 50, "aces");
     aces->setPileRole(PatPile::FoundationType1);
     aces->setPilePos(rightColumX, 0.5);
     aces->setReservedSpace( 0, 0, 1, 2 );
-    addPile(aces);
 
-    for ( int r = 0; r < 4; r++ ) {
-        for ( int c = 0; c < 8; c++ ) {
+    for ( int r = 0; r < 4; ++r )
+    {
+        for ( int c = 0; c < 8; ++c )
+        {
             int pileIndex = r * 10 + c  + 1;
             QString objectName = QString( "stack%1_%2" ).arg( r ).arg( c );
-            stack[r][c] = new PatPile( pileIndex, objectName );
+            stack[r][c] = new PatPile( this, pileIndex, objectName );
 
             // The first 3 rows are the playing field, the fourth is the store.
-            if ( r < 3 ) {
+            if ( r < 3 )
+            {
                 stack[r][c]->setPilePos( dist_x * c, dist_y * r );
                 // Very tight spread makes it easy to quickly tell number of
                 // cards in each pile and we don't care about the cards beneath.
                 stack[r][c]->setSpread( 0, 0.08 );
                 stack[r][c]->setReservedSpace( 0, 0, 1, 1.23 );
-            } else {
+            }
+            else
+            {
                 stack[r][c]->setPilePos( dist_x * c, bottomRowY );
                 stack[r][c]->setReservedSpace( 0, 0, 1, 1.8 );
             }
@@ -93,7 +96,6 @@ void Mod3::initialize()
                                       : r == 1 ? PatPile::FoundationType3
                                       : r == 2 ? PatPile::FoundationType4
                                       : PatPile::Tableau );
-            addPile(stack[r][c]);
         }
     }
 

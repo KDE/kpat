@@ -52,28 +52,27 @@ void Golf::initialize()
 
     static_cast<KStandardCardDeck*>( deck() )->setDeckContents();
 
-    talon = new PatPile(0, "talon");
+    talon = new PatPile( this, 0, "talon" );
     talon->setPileRole(PatPile::Stock);
     talon->setPilePos(0, smallNeg);
     talon->setSpread(0, 0);
     connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
-    addPile(talon);
 
-    waste = new PatPile(8, "waste");
+    waste = new PatPile( this, 8, "waste" );
     waste->setPileRole(PatPile::Foundation);
     waste->setPilePos(1.1, smallNeg);
     waste->setSpread(0.12, 0);
     waste->setReservedSpace( 0, 0, 1 + 5 * dist_x, 1 );
-    addPile(waste);
 
-    for( int r = 0; r < 7; r++ ) {
-        stack[r]=new PatPile(1+r, QString("stack%1").arg(r));
+
+    for( int r = 0; r < 7; r++ )
+    {
+        stack[r] = new PatPile( this, 1 + r, QString("stack%1").arg(r) );
         stack[r]->setPileRole(PatPile::Tableau);
         stack[r]->setPilePos(r*dist_x,0);
         // Manual tweak of the pile z values to make some animations better.
         stack[r]->setZValue((7-r)/100.0);
         stack[r]->setReservedSpace( 0, 0, 1, 2.3 );
-        addPile(stack[r]);
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);

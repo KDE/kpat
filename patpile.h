@@ -43,7 +43,7 @@ public:
         Cell
     };
 
-    explicit PatPile( int index, const QString & objectName = QString() );
+    PatPile( KCardScene * cardScene, int index, const QString & objectName = QString() );
 
     int index() const;
 

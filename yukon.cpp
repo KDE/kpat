@@ -52,20 +52,20 @@ void Yukon::initialize()
 
     static_cast<KStandardCardDeck*>( deck() )->setDeckContents();
 
-    for (int i=0; i<4; i++) {
-        target[i] = new PatPile(i+1, QString("target%1").arg(i));
+    for ( int i = 0; i < 4; ++i )
+    {
+        target[i] = new PatPile( this, i + 1, QString("target%1").arg(i) );
         target[i]->setPileRole(PatPile::Foundation);
         target[i]->setPilePos(0.11+7*dist_x, dist_y *i);
-        addPile(target[i]);
     }
 
-    for (int i=0; i<7; i++) {
-        store[i] = new PatPile(5+i, QString("store%1").arg(i));
+    for ( int i = 0; i < 7; ++i )
+    {
+        store[i] = new PatPile( this, 5 + i, QString("store%1").arg(i) );
         store[i]->setPileRole(PatPile::Tableau);
         store[i]->setPilePos(dist_x*i, 0);
         store[i]->setAutoTurnTop(true);
         store[i]->setReservedSpace( 0, 0, 1, 3 * dist_y + 1.0 );
-        addPile(store[i]);
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo);

@@ -51,21 +51,21 @@ void Simon::initialize()
 
     const qreal dist_x = 1.11;
 
-    for (int i=0; i<4; i++) {
-        target[i] = new PatPile(i+1, QString( "target%1" ).arg( i ));
+    for ( int i = 0; i < 4; ++i )
+    {
+        target[i] = new PatPile( this, i + 1, QString( "target%1" ).arg( i ) );
         target[i]->setPileRole(PatPile::Foundation);
         target[i]->setPilePos((i+3)*dist_x, 0);
         target[i]->setSpread(0, 0);
-        addPile(target[i]);
     }
 
-    for (int i=0; i<10; i++) {
-        store[i] = new PatPile(5+i, QString( "store%1" ).arg( i ));
+    for ( int i = 0; i < 10; ++i )
+    {
+        store[i] = new PatPile( this, 5 + i, QString( "store%1" ).arg( i ) );
         store[i]->setPileRole(PatPile::Tableau);
         store[i]->setPilePos(dist_x*i, 1.2);
         store[i]->setReservedSpace( 0, 0, 1, 3.5 );
         store[i]->setZValue( 0.01 * i );
-        addPile(store[i]);
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo);

@@ -53,35 +53,32 @@ void Fortyeight::initialize()
 
     static_cast<KStandardCardDeck*>( deck() )->setDeckContents( 2 );
 
-    talon = new PatPile(0, "talon");
+    talon = new PatPile( this, 0, "talon" );
     talon->setPileRole(PatPile::Stock);
     talon->setPilePos( 7 * dist_x, smallNeg );
     talon->setZValue(20);
     talon->setSpread(0, 0);
     connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
-    addPile(talon);
 
-    pile = new PatPile(20, "pile");
+    pile = new PatPile( this, 20, "pile" );
     pile->setPileRole(PatPile::Waste);
     pile->setPilePos( 6 * dist_x, smallNeg );
     pile->setSpread(-0.21, 0);
     pile->setReservedSpace( -6 * dist_x, 0, 6 * dist_x + 1, 1 );
-    addPile(pile);
 
-    for (int i = 0; i < 8; i++) {
-        target[i] = new PatPile(9 + i, QString( "target%1" ).arg( i ));
+    for ( int i = 0; i < 8; i++ )
+    {
+        target[i] = new PatPile( this, 9 + i, QString( "target%1" ).arg( i ) );
         target[i]->setPileRole(PatPile::Foundation);
         target[i]->setPilePos(dist_x*i, 0);
         target[i]->setSpread(0, 0);
-        addPile(target[i]);
 
-        stack[i] = new PatPile(1 + i, QString( "stack%1" ).arg( i ));
+        stack[i] = new PatPile( this, 1 + i, QString( "stack%1" ).arg( i ) );
         stack[i]->setPileRole(PatPile::Tableau);
         stack[i]->setPilePos(dist_x*i, 1.1 );
         stack[i]->setAutoTurnTop(true);
         stack[i]->setSpread(0, 0.25);
         stack[i]->setReservedSpace( 0, 0, 1, 2.75 );
-        addPile(stack[i]);
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);

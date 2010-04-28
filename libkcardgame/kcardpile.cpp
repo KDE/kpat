@@ -99,7 +99,7 @@ qreal KCardPilePrivate::highlightedness() const
 }
 
 
-KCardPile::KCardPile()
+KCardPile::KCardPile( KCardScene * cardScene )
   : QGraphicsObject(),
     d( new KCardPilePrivate( this ) )
 {
@@ -117,15 +117,20 @@ KCardPile::KCardPile()
 
     setZValue( 0 );
     QGraphicsItem::setVisible( true );
+
+    if ( cardScene )
+        cardScene->addPile( this );
 }
 
 
 KCardPile::~KCardPile()
 {
-//     dscene()->removePile(this);
-
     foreach ( KCard * c, d->cards )
         c->setPile( 0 );
+
+    KCardScene * cardScene = dynamic_cast<KCardScene*>( scene() );
+    if ( cardScene )
+        cardScene->removePile( this );
 }
 
 

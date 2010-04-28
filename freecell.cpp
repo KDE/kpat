@@ -63,29 +63,25 @@ void Freecell::initialize()
 
     for (int i = 0; i < 8; i++)
     {
-        PatPile *p = new PatPile(1 + i, QString( "store%1" ).arg( i ));
-        store[i] = p;
-        p->setPileRole(PatPile::Tableau);
-        p->setPilePos( bottomRowDist * i, 1.3 );
-        p->setReservedSpace( 0, 0, 1, 3.5 );
-        addPile(p);
+        store[i] = new PatPile(this, 1 + i, QString( "store%1" ).arg( i ));
+        store[i]->setPileRole(PatPile::Tableau);
+        store[i]->setPilePos( bottomRowDist * i, 1.3 );
+        store[i]->setReservedSpace( 0, 0, 1, 3.5 );
     }
 
     for (int i = 0; i < 4; i++)
     {
-        freecell[i] = new PatPile (1 + 8 + i, QString( "freecell%1" ).arg( i ));
+        freecell[i] = new PatPile(this, 1 + 8 + i, QString( "freecell%1" ).arg( i ));
         freecell[i]->setPileRole(PatPile::Cell);
         freecell[i]->setPilePos(topRowDist * i, 0);
-        addPile(freecell[i]);
     }
 
     for (int i = 0; i < 4; i++)
     {
-        target[i] = new PatPile(1 + 8 + 4 + i, QString( "target%1" ).arg( i ));
+        target[i] = new PatPile(this, 1 + 8 + 4 + i, QString( "target%1" ).arg( i ));
         target[i]->setPileRole(PatPile::Foundation);
         target[i]->setPilePos(targetOffsetDist + topRowDist * i, 0);
         target[i]->setSpread(0, 0);
-        addPile(target[i]);
     }
 
     setActions(DealerScene::Demo | DealerScene::Hint);

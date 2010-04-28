@@ -54,20 +54,20 @@ void Clock::initialize()
     const qreal ys[12] = {   0./96,  15./96,  52./96, 158./96, 264./96, 301./96, 316./96, 301./96, 264./96, 158./96,  52./96,  15./96};
     const qreal xs[12] = { 200./72, 280./72, 360./72, 400./72, 360./72, 280./72, 200./72, 120./72, 40./72, 0./72, 40./72, 120./72};
 
-    for (int i=0; i<12; i++) {
-        target[i] = new PatPile(i+1, QString("target%1").arg(i));
+    for ( int i = 0; i < 12; ++i )
+    {
+        target[i] = new PatPile( this, i + 1, QString("target%1").arg(i) );
         target[i]->setPileRole(PatPile::Foundation);
         target[i]->setPilePos(4 * dist_x + 0.4 + xs[i], 0.2 + ys[i]);
         target[i]->setSpread(0, 0);
-        addPile(target[i]);
     }
 
-    for (int i=0; i<8; i++) {
-        store[i] = new PatPile(14+i, QString("store%1").arg(i));
+    for ( int i = 0; i < 8; ++i )
+    {
+        store[i] = new PatPile( this, 14 + i, QString("store%1").arg(i) );
         store[i]->setPileRole(PatPile::Tableau);
         store[i]->setPilePos(dist_x*(i%4), 2.5 * (i/4));
         store[i]->setReservedSpace( 0, 0, 1.0, 2.3 );
-        addPile(store[i]);
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo);

@@ -22,8 +22,8 @@
 #include "renderer.h"
 
 
-PatPile::PatPile( int index, const QString & objectName )
-  : KCardPile(),
+PatPile::PatPile( KCardScene * cardScene, int index, const QString & objectName )
+  : KCardPile( cardScene ),
     m_index( index ),
     m_role( NoRole )
 {

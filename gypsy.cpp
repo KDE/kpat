@@ -51,26 +51,25 @@ void Gypsy::initialize()
 
     static_cast<KStandardCardDeck*>( deck() )->setDeckContents( 2 );
 
-    talon = new PatPile(0, "talon");
+    talon = new PatPile( this, 0, "talon" );
     talon->setPileRole(PatPile::Stock);
     talon->setPilePos(8.5 * dist_x + 0.4, 4 * dist_y);
     connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
-    addPile(talon);
 
-    for (int i=0; i<8; i++) {
-        target[i] = new PatPile(i+1, QString("target%1").arg(i));
+    for ( int i = 0; i < 8; ++i )
+    {
+        target[i] = new PatPile( this, i + 1, QString("target%1").arg(i) );
         target[i]->setPileRole(PatPile::Foundation);
         target[i]->setPilePos(dist_x*(8+(i/4)) + 0.4, (i%4)*dist_y);
-        addPile(target[i]);
     }
 
-    for (int i=0; i<8; i++) {
-        store[i] = new PatPile(9+i, QString("store%1").arg(i));
+    for ( int i = 0; i < 8; ++i )
+    {
+        store[i] = new PatPile( this, 9 + i, QString("store%1").arg(i) );
         store[i]->setPileRole(PatPile::Tableau);
         store[i]->setPilePos(dist_x*i,0);
         store[i]->setAutoTurnTop(true);
         store[i]->setReservedSpace( 0, 0, 1, 4 * dist_y + 1 );
-        addPile(store[i]);
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);
