@@ -2,7 +2,7 @@
 <!--IMPORTANT: please note that'do not change this!' notice does not apply to translators -->
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
   <!ENTITY kappname "&kpatience;">
-  <!ENTITY kappversion "3.3"><!--Applicaion version. Use this variable everywhere it's needed.-->
+  <!ENTITY kappversion "3.4"><!--Applicaion version. Use this variable everywhere it's needed.-->
   <!ENTITY package "kdegames">  <!-- do not change this! -->
   <!ENTITY % English "INCLUDE" > <!-- change language only here -->
   <!ENTITY % addindex "IGNORE"> <!-- do not change this! -->
@@ -594,7 +594,11 @@ win at Easy level, and very difficult to win at Hard level.
 					<guimenu>Game</guimenu>
 					<guimenuitem>New Numbered Deal...</guimenuitem>
 				</menuchoice></term>
-				<listitem><para><action>Start a new deal of the same game type by specifying the deal number.</action> This action abandons the deal in progress.</para><para>&kpatience; gives each deal a unique indentifying number (which it uses internally to randomize the deck during the initial deal). This feature allows you to replay a deal of interest or to attempt a particularly difficult deal recommended by a friend. Especially dedicated players may wish to "beat" &kpatience; by playing all 2147483647 deals consecutively for each of the game types.</para></listitem>
+				<listitem>
+					<para><action>Start a new deal by specifying the game type and deal number.</action> This action abandons the deal in progress.</para>
+					<para>&kpatience; gives each deal a unique indentifying number (which it uses internally to randomize the deck during the initial deal). This feature allows you to replay a deal of interest or to attempt a particularly difficult deal recommended by a friend. Especially dedicated players may wish to "beat" &kpatience; by playing all 2147483647 deals consecutively for each of the game types.</para>
+					<para>Note that for Freecell, &kpatience;'s deal numbers match those described in <ulink url="http://www.solitairelaboratory.com/fcfaq.html">the Freecell FAQ</ulink>.</para>
+				</listitem>
 			</varlistentry>
 			<varlistentry id="game-menu-restart-deal">
 				<term><menuchoice>

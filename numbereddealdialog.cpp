@@ -43,7 +43,6 @@ NumberedDealDialog::NumberedDealDialog( QWidget * parent )
 
     m_dealNumber = new QSpinBox( widget );
     m_dealNumber->setRange( 1, INT_MAX );
-    m_dealNumber->setToolTip( i18n( "Freecell deals are numbered the same as those in the Freecell FAQ." ) );
     layout->addRow( i18n( "Deal number:" ), m_dealNumber );
 
     setMainWidget( widget );
