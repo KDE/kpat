@@ -37,6 +37,7 @@
 
 #include "dealer.h"
 
+#include "gamestate.h"
 #include "renderer.h"
 #include "speeds.h"
 #include "version.h"
@@ -55,6 +56,7 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QMutex>
+#include <QtCore/QStack>
 #include <QtCore/QString>
 #include <QtCore/QThread>
 #include <QtCore/QTimer>
@@ -100,35 +102,6 @@ QString gettime()
     return QString::number( ( tv.tv_sec - tv2.tv_sec ) * 1000 + ( tv.tv_usec -tv2.tv_usec ) / 1000 );
 }
 
-
-// ================================================================
-//                          class CardState
-
-class CardState {
-public:
-    KCard *it;
-    KCardPile *pile;
-    bool faceup;
-    bool tookdown;
-    int pile_index;
-    CardState() {}
-
-    // as every card is only once we can sort after the card.
-    // < is the same as <= in that context. == is different
-    bool operator<(const CardState &rhs) const { return it < rhs.it; }
-    bool operator<=(const CardState &rhs) const { return it <= rhs.it; }
-    bool operator>(const CardState &rhs) const { return it > rhs.it; }
-    bool operator>=(const CardState &rhs) const { return it > rhs.it; }
-    bool operator==(const CardState &rhs) const {
-        return (it == rhs.it && pile == rhs.pile &&
-                faceup == rhs.faceup &&
-                pile_index == rhs.pile_index && tookdown == rhs.tookdown);
-    }
-};
-
-bool operator==( const State & st1, const State & st2) {
-    return st1.cards == st2.cards && st1.gameData == st2.gameData;
-}
 
 class SolverThread : public QThread
 {
@@ -208,74 +181,20 @@ public:
     bool dropInProgress;
     bool dealInProgress;
     QList<MoveHint*> hints;
-    QList<State*> redoList;
-    QList<State*> undoList;
+
+    QStack<GameState*> undoStack;
+    GameState * currentState;
+    QStack<GameState*> redoStack;
+
     QList<PatPile*> patPiles;
     QSet<KCard*> cardsNotToDrop;
 };
 
 int DealerScene::moveCount() const
 {
-    return d->loadedMoveCount + d->undoList.count();
+    return d->loadedMoveCount + d->undoStack.size();
 }
 
-void DealerScene::takeState()
-{
-    if ( !isDemoActive() )
-    {
-        d->winMoves.clear();
-        clearHints();
-    }
-    if ( deck()->hasAnimatedCards() )
-    {
-        d->stateTimer->start();
-        return;
-    }
-
-    d->stateTimer->stop();
-
-    State *n = getState();
-
-    if (!d->undoList.count()) {
-        emit updateMoves( moveCount());
-        d->undoList.append(n);
-    } else {
-        State *old = d->undoList.last();
-
-        if (*old == *n) {
-            delete n;
-            n = 0;
-        } else {
-            emit updateMoves( moveCount());
-            d->undoList.append(n);
-        }
-    }
-
-    if (n) {
-        d->wasJustSaved = false;
-        if (isGameWon()) {
-            won();
-            return;
-        }
-        else if ( !d->toldAboutWonGame && !d->toldAboutLostGame && isGameLost() ) {
-            emit hintPossible( false );
-            emit demoPossible( false );
-            emit solverStateChanged( i18n("Solver: This game is lost.") );
-            d->toldAboutLostGame = true;
-            stopDemo();
-            return;
-        }
-
-        if ( d->m_solver && !isDemoActive() && !deck()->hasAnimatedCards() )
-            startSolver();
-
-        if (!isDemoActive() && !deck()->hasAnimatedCards())
-            d->dropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
-
-        emit undoPossible(d->undoList.count() > 1);
-        emit redoPossible(d->redoList.count() > 1);
-    }
-}
 
 void DealerScene::saveGame(QDomDocument &doc)
 {
@@ -284,7 +203,7 @@ void DealerScene::saveGame(QDomDocument &doc)
     dealer.setAttribute("id", gameId());
     dealer.setAttribute("options", getGameOptions());
     dealer.setAttribute("number", QString::number(gameNumber()));
-    dealer.setAttribute("moves", moveCount() - 1);
+    dealer.setAttribute("moves", moveCount());
     dealer.setAttribute("started", d->gameStarted);
     QString data = getGameState();
     if (!data.isEmpty())
@@ -378,62 +297,6 @@ void DealerScene::openGame(QDomDocument &doc)
     takeState();
 }
 
-void DealerScene::undo()
-{
-    clearHighlightedItems();
-    stopDemo();
-
-    if ( deck()->hasAnimatedCards() )
-        return;
-
-    if (d->undoList.count() > 1) {
-        d->redoList.append( d->undoList.takeLast() );
-        setState(d->undoList.takeLast());
-        emit updateMoves( moveCount());
-        takeState(); // copying it again
-        emit undoPossible(d->undoList.count() > 1);
-        emit redoPossible(d->redoList.count() > 0);
-        if ( d->toldAboutLostGame ) { // everything's possible again
-            hintPossible( true );
-            demoPossible( true );
-            d->toldAboutLostGame = false;
-            d->toldAboutWonGame = false;
-        }
-    }
-    emit solverStateChanged( QString() );
-}
-
-void DealerScene::redo()
-{
-    clearHighlightedItems();
-    stopDemo();
-
-    if ( deck()->hasAnimatedCards() )
-        return;
-
-    if (d->redoList.count() > 0) {
-        setState(d->redoList.takeLast());
-        emit updateMoves( moveCount());
-        takeState(); // copying it again
-        emit undoPossible(d->undoList.count() > 1);
-        emit redoPossible(d->redoList.count() > 0);
-        if ( d->toldAboutLostGame ) { // everything's possible again
-            hintPossible( true );
-            demoPossible( true );
-            d->toldAboutLostGame = false;
-            d->toldAboutWonGame = false;
-        }
-    }
-    emit solverStateChanged( QString() );
-}
-
-void DealerScene::eraseRedo()
-{
-    qDeleteAll(d->redoList);
-    d->redoList.clear();
-    emit redoPossible( false );
-}
-
 // ================================================================
 //                         class DealerScene
 
@@ -485,6 +348,8 @@ DealerScene::DealerScene()
     d->wonItem->setZValue( 2000 );
     d->wonItem->hide();
 
+    d->currentState = 0;
+
     _usesolver = true;
 
     connect( this, SIGNAL(cardDoubleClicked(KCard*)), this, SLOT(tryAutomaticMove(KCard*)) );
@@ -505,8 +370,9 @@ DealerScene::~DealerScene()
     d->m_solver_thread = 0;
     delete d->m_solver;
     d->m_solver = 0;
-    qDeleteAll( d->undoList );
-    qDeleteAll( d->redoList );
+    qDeleteAll( d->undoStack );
+    delete d->currentState;
+    qDeleteAll( d->redoStack );
     delete d->wonItem;
 
     delete d;
@@ -563,7 +429,6 @@ void DealerScene::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int du
     {
         d->gameStarted = true;
         takeState();
-        eraseRedo();
     }
 }
 
@@ -767,10 +632,12 @@ void DealerScene::resetInternals()
     d->_won = false;
     d->wonItem->hide();
 
-    qDeleteAll(d->undoList);
-    d->undoList.clear();
-    qDeleteAll(d->redoList);
-    d->redoList.clear();
+    qDeleteAll( d->undoStack );
+    d->undoStack.clear();
+    delete d->currentState;
+    d->currentState = 0;
+    qDeleteAll( d->redoStack );
+    d->redoStack.clear();
 
     d->gameWasEverWinnable = false;
     d->toldAboutLostGame = false;
@@ -1036,39 +903,141 @@ bool DealerScene::tryAutomaticMove( KCard * c )
     return false;
 }
 
-State *DealerScene::getState()
+
+void DealerScene::undo()
 {
-    State * st = new State;
+    undoOrRedo( true );
+}
+
+
+void DealerScene::redo()
+{
+    undoOrRedo( false );
+}
+
+
+void DealerScene::undoOrRedo( bool undo )
+{
+    clearHighlightedItems();
+    stopDemo();
+
+    if ( deck()->hasAnimatedCards() )
+        return;
+
+    QStack<GameState*> & from = undo ? d->undoStack : d->redoStack;
+    QStack<GameState*> & to = undo ? d->redoStack : d->undoStack;
+
+    if ( !from.isEmpty() && d->currentState )
+    {
+        to.push( d->currentState );
+        d->currentState = from.pop();
+        setState( d->currentState );
+
+        emit updateMoves( moveCount() );
+        emit undoPossible( !d->undoStack.isEmpty() );
+        emit redoPossible( !d->redoStack.isEmpty() );
+
+        if ( d->toldAboutLostGame ) // everything's possible again
+        {
+            hintPossible( true );
+            demoPossible( true );
+            d->toldAboutLostGame = false;
+            d->toldAboutWonGame = false;
+        }
+    }
+    emit solverStateChanged( QString() );
+}
+
+
+void DealerScene::takeState()
+{
+    if ( !isDemoActive() )
+    {
+        d->winMoves.clear();
+        clearHints();
+    }
+
+    if ( deck()->hasAnimatedCards() )
+    {
+        d->stateTimer->start();
+        return;
+    }
+    d->stateTimer->stop();
+
+    GameState * newState = getState();
+
+    if ( d->currentState && *newState == *(d->currentState) )
+    {
+        delete newState;
+        return;
+    }
+
+    if ( d->currentState )
+    {
+        d->undoStack.push( d->currentState );
+        qDeleteAll( d->redoStack );
+        d->redoStack.clear();
+    }
+    d->currentState = newState;
+
+    emit redoPossible( false );
+    emit undoPossible( !d->undoStack.isEmpty() );
+    emit updateMoves( moveCount() );
+
+    d->wasJustSaved = false;
+    if ( isGameWon() )
+    {
+        won();
+        return;
+    }
+
+    if ( !d->toldAboutWonGame && !d->toldAboutLostGame && isGameLost() )
+    {
+        emit hintPossible( false );
+        emit demoPossible( false );
+        emit solverStateChanged( i18n( "Solver: This game is lost." ) );
+        d->toldAboutLostGame = true;
+        stopDemo();
+        return;
+    }
+
+    if ( d->m_solver && !isDemoActive() && !deck()->hasAnimatedCards() )
+        startSolver();
+
+    if ( !isDemoActive() && !deck()->hasAnimatedCards() )
+        d->dropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
+}
+
+
+GameState *DealerScene::getState()
+{
+    QSet<CardState> cardStates;
+    cardStates.reserve( deck()->cards().size() );
     foreach (PatPile * p, patPiles())
     {
         foreach (KCard * c, p->cards())
         {
             CardState s;
-            s.it = c;
+            s.card = c;
             s.pile = c->pile();
             if (!s.pile) {
                 kDebug() << c->objectName() << "has no valid parent.";
                 Q_ASSERT(false);
                 continue;
             }
-            s.pile_index = s.pile->indexOf(c);
-            s.faceup = c->isFaceUp();
-            s.tookdown = d->cardsNotToDrop.contains( c );
-            st->cards.append(s);
+            s.cardIndex = s.pile->indexOf( c );
+            s.faceUp = c->isFaceUp();
+            s.takenDown = d->cardsNotToDrop.contains( c );
+            cardStates << s;
         }
     }
-    qSort(st->cards);
 
-    // Game specific information
-    st->gameData = getGameState( );
-
-    return st;
+    return new GameState( cardStates, getGameState() );
 }
 
-void DealerScene::setState(State *st)
-{
-    QList<CardState> n = st->cards;
 
+void DealerScene::setState( GameState * state )
+{
     d->cardsNotToDrop.clear();
 
     QSet<KCard*> cardsFromFoundations;
@@ -1081,15 +1050,15 @@ void DealerScene::setState(State *st)
     }
 
     QMap<KCard*,int> cardIndices;
-    foreach (const CardState & s, n)
+    foreach ( const CardState & s, state->cards )
     {
-        KCard *c = s.it;
-        c->setFaceUp(s.faceup);
+        KCard *c = s.card;
+        c->setFaceUp( s.faceUp );
         s.pile->add( c );
-        cardIndices.insert( c, s.pile_index );
+        cardIndices.insert( c, s.cardIndex );
 
         PatPile * p = dynamic_cast<PatPile*>(c->pile());
-        if (s.tookdown || (cardsFromFoundations.contains(c) && !(p && p->isFoundation())))
+        if ( s.takenDown || (cardsFromFoundations.contains( c ) && !(p && p->isFoundation())) )
             d->cardsNotToDrop.insert( c );
     }
 
@@ -1102,9 +1071,7 @@ void DealerScene::setState(State *st)
     }
 
     // restore game-specific information
-    setGameState( st->gameData );
-
-    delete st;
+    setGameState( state->gameData );
 }
 
 PatPile *DealerScene::findTarget(KCard *c)
@@ -1146,7 +1113,7 @@ bool DealerScene::drop()
     if (!autoDropEnabled() && !d->dropInProgress)
         return false;
 
-    if (!cardsBeingDragged().isEmpty() || deck()->hasAnimatedCards() || d->undoList.isEmpty() ) {
+    if (!cardsBeingDragged().isEmpty() || deck()->hasAnimatedCards() || d->undoStack.isEmpty() ) {
         d->dropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
         return true;
     }
@@ -1290,7 +1257,6 @@ void DealerScene::waitForAutoDrop()
     disconnect( deck(), SIGNAL(cardAnimationDone()), this, SLOT(waitForAutoDrop()) );
 
     takeState();
-    eraseRedo();
 }
 
 int DealerScene::gameNumber() const
@@ -1439,7 +1405,6 @@ void DealerScene::demo()
 
     emit demoActive( true );
     takeState();
-    eraseRedo();
 }
 
 KCard *DealerScene::newCards()
@@ -1522,7 +1487,7 @@ void DealerScene::recordGameStatistics()
 {
     // Don't record the game if it was never started, if it is unchanged since
     // it was last saved (allowing the user to close KPat after saving without
-    // it recording a loss) or if it has already been recorded.
+    // it recording a loss) or if it has already been recorded.//         takeState(); // copying it again
     if ( d->gameStarted && !d->wasJustSaved && !d->_gameRecorded )
     {
         int id = oldId();

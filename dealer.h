@@ -38,8 +38,8 @@
 #ifndef DEALER_H
 #define DEALER_H
 
-class CardState;
 class DealerScene;
+class GameState;
 class MoveHint;
 #include "patpile.h"
 class Solver;
@@ -49,19 +49,10 @@ class Solver;
 #include "KStandardCardDeck"
 #include "KCardScene"
 
-#include <KRandomSequence>
-
-#include <QtCore/QSet>
-#include <QtGui/QAction>
-#include <QtGui/QGraphicsScene>
+class QAction;
+#include <QtCore/QMap>
 class QDomDocument;
 
-
-struct State
-{
-    QList<CardState> cards;
-    QString gameData;
-};
 
 class DealerScene : public KCardScene
 {
@@ -158,9 +149,9 @@ protected:
 
     virtual void restart() = 0;
 
-    State *getState();
-    void setState(State *);
-    void eraseRedo();
+    void undoOrRedo( bool undo );
+    GameState * getState();
+    void setState( GameState * state );
 
     PatPile *findTarget(KCard *c);
 
