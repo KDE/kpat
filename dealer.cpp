@@ -74,46 +74,38 @@
 class SolverThread : public QThread
 {
 public:
-    virtual void run();
-    SolverThread( Solver *solver) {
-        m_solver = solver;
-        ret = Solver::FAIL;
+    SolverThread( Solver * solver )
+      : m_solver( solver ),
+        m_result( Solver::FAIL )
+    {
     }
 
-    void finish()
+    virtual void run()
+    {
+        m_result = Solver::FAIL;
+        m_result = m_solver->patsolve();
+    }
+
+    void abort()
     {
         {
             QMutexLocker lock( &m_solver->endMutex );
             m_solver->m_shouldEnd = true;
         }
         wait();
-        ret = Solver::QUIT; // perhaps he managed to finish, but we won't listen
+        m_result = Solver::QUIT; // perhaps he managed to finish, but we won't listen
     }
-    Solver::statuscode result() const { return ret; }
+
+    Solver::statuscode result() const
+    {
+        return m_result;
+    }
 
 private:
-    Solver *m_solver;
-    Solver::statuscode ret;
+    Solver * m_solver;
+    Solver::statuscode m_result;
 };
 
-void SolverThread::run()
-{
-    ret = Solver::FAIL;
-    ret = m_solver->patsolve();
-#if 0
-    if ( ret == Solver::WIN )
-    {
-        kDebug() << "won\n";
-    } else if ( ret == Solver::NOSOL )
-    {
-        kDebug() << "lost\n";
-    } else if ( ret == Solver::QUIT  || ret == Solver::MLIMIT )
-    {
-        kDebug() << "quit\n";
-    } else
-        kDebug() << "unknown\n";
-#endif
-}
 
 class DealerScene::DealerScenePrivate
 {
@@ -332,7 +324,7 @@ DealerScene::~DealerScene()
 
     disconnect();
     if ( d->m_solver_thread )
-        d->m_solver_thread->finish();
+        d->m_solver_thread->abort();
     delete d->m_solver_thread;
     d->m_solver_thread = 0;
     delete d->m_solver;
@@ -455,7 +447,7 @@ void DealerScene::hint()
 void DealerScene::getSolverHints()
 {
     if ( d->m_solver_thread && d->m_solver_thread->isRunning() )
-        d->m_solver_thread->finish();
+        d->m_solver_thread->abort();
 
     solver()->translate_layout();
     solver()->patsolve( 1 );
@@ -1166,7 +1158,7 @@ void DealerScene::stopAndRestartSolver()
 
     if ( d->m_solver_thread && d->m_solver_thread->isRunning() )
     {
-        d->m_solver_thread->finish();
+        d->m_solver_thread->abort();
     }
 
     if ( deck()->hasAnimatedCards() )
@@ -1436,7 +1428,7 @@ bool DealerScene::isGameLost() const
     if ( solver() )
     {
         if ( d->m_solver_thread && d->m_solver_thread->isRunning() )
-            d->m_solver_thread->finish();
+            d->m_solver_thread->abort();
 
         solver()->translate_layout();
         return solver()->patsolve( neededFutureMoves() ) == Solver::NOSOL;
