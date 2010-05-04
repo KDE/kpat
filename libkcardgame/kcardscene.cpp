@@ -156,6 +156,12 @@ KAbstractCardDeck * KCardScene::deck() const
 }
 
 
+bool KCardScene::isCardAnimationRunning() const
+{
+    return d->deck && d->deck->hasAnimatedCards();
+}
+
+
 QList<KCard*> KCardScene::cardsBeingDragged() const
 {
     return d->cardsBeingDragged;
@@ -684,7 +690,7 @@ void KCardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
         e->accept();
 
         if ( card
-             && !d->deck->hasAnimatedCards()
+             && !isCardAnimationRunning()
              && !d->cardsBeingDragged.contains( card ) )
         {
             QList<KCard*> cards = card->pile()->topCardsDownTo( card );
@@ -783,7 +789,7 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
         d->cardsBeingDragged.clear();
         d->dragStarted = false;
     }
-    else if ( card && !d->deck->hasAnimatedCards() )
+    else if ( card && !isCardAnimationRunning() )
     {
         e->accept();
         if ( e->button() == Qt::LeftButton )
@@ -799,7 +805,7 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
                 emit card->pile()->rightClicked( card );
         }
     }
-    else if ( pile && !d->deck->hasAnimatedCards() )
+    else if ( pile && !isCardAnimationRunning() )
     {
         e->accept();
         if ( e->button() == Qt::LeftButton )
@@ -832,14 +838,14 @@ void KCardScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
         d->cardsBeingDragged.clear();
     }
 
-    if ( card && e->button() == Qt::LeftButton && !d->deck->hasAnimatedCards() )
+    if ( card && e->button() == Qt::LeftButton && !isCardAnimationRunning() )
     {
         e->accept();
         emit cardDoubleClicked( card );
         if ( card->pile() )
             emit card->pile()->doubleClicked( card );
     }
-    else if ( pile && e->button() == Qt::LeftButton && !d->deck->hasAnimatedCards() )
+    else if ( pile && e->button() == Qt::LeftButton && !isCardAnimationRunning() )
     {
         e->accept();
         emit pileDoubleClicked( pile );

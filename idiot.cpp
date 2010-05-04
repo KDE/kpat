@@ -205,7 +205,7 @@ KCard *Idiot::newCards()
     if ( talon->isEmpty() )
         return 0;
 
-    if ( deck()->hasAnimatedCards() )
+    if ( isCardAnimationRunning() )
         for ( int i = 0; i < 4; ++i )
             if ( m_play[i]->top() )
                 return m_play[i]->top();

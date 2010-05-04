@@ -176,7 +176,7 @@ KCard *Klondike::newCards()
     if ( talon->isEmpty() && pile->count() <= 1 )
         return 0;
 
-    if ( deck()->hasAnimatedCards() )
+    if ( isCardAnimationRunning() )
     {
         if ( pile->top() )
             return pile->top();

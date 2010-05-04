@@ -403,7 +403,7 @@ QList<MoveHint*> DealerScene::hints() const
 
 void DealerScene::hint()
 {
-    if ( deck()->hasAnimatedCards() )
+    if ( isCardAnimationRunning() )
     {
         d->hintQueued = true;
         return;
@@ -561,7 +561,7 @@ void DealerScene::startNew(int gameNumber)
         d->gameStarted = false;
     }
 
-    if ( deck()->hasAnimatedCards() )
+    if ( isCardAnimationRunning() )
     {
         QTimer::singleShot( 100, this, SLOT( startNew() ) );
         return;
@@ -802,7 +802,7 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
               && card->pile()
               && card != card->pile()->top()
               && cardsBeingDragged().isEmpty()
-              && !deck()->hasAnimatedCards() )
+              && !isCardAnimationRunning() )
     {
         e->accept();
         d->peekedCard = card;
@@ -880,7 +880,7 @@ void DealerScene::undoOrRedo( bool undo )
     clearHighlightedItems();
     stopDemo();
 
-    if ( deck()->hasAnimatedCards() )
+    if ( isCardAnimationRunning() )
         return;
 
     QStack<GameState*> & from = undo ? d->undoStack : d->redoStack;
@@ -935,7 +935,7 @@ void DealerScene::takeState()
         clearHints();
     }
 
-    if ( deck()->hasAnimatedCards() )
+    if ( isCardAnimationRunning() )
     {
         d->takeStateQueued = true;
         return;
@@ -979,7 +979,7 @@ void DealerScene::takeState()
         return;
     }
 
-    if ( !isDemoActive() && !deck()->hasAnimatedCards() )
+    if ( !isDemoActive() && !isCardAnimationRunning() )
     {
         if ( d->m_solver )
             startSolver();
@@ -1093,7 +1093,7 @@ bool DealerScene::drop()
     if (!autoDropEnabled() && !d->dropInProgress)
         return false;
 
-    if (!cardsBeingDragged().isEmpty() || deck()->hasAnimatedCards() || d->undoStack.isEmpty() ) {
+    if (!cardsBeingDragged().isEmpty() || isCardAnimationRunning() || d->undoStack.isEmpty() ) {
         d->dropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
         return true;
     }
@@ -1166,7 +1166,7 @@ void DealerScene::stopAndRestartSolver()
         d->m_solver_thread->abort();
     }
 
-    if ( deck()->hasAnimatedCards() )
+    if ( isCardAnimationRunning() )
     {
         startSolver();
         return;
@@ -1240,7 +1240,7 @@ int DealerScene::gameNumber() const
 
 void DealerScene::stopDemo()
 {
-    if (deck()->hasAnimatedCards()) {
+    if ( isCardAnimationRunning()) {
         d->stop_demo_next = true;
         return;
     } else d->stop_demo_next = false;
@@ -1320,7 +1320,7 @@ void DealerScene::animationDone()
 
 void DealerScene::demo()
 {
-    if ( deck()->hasAnimatedCards() )
+    if ( isCardAnimationRunning() )
     {
         d->demoQueued = true;
         return;

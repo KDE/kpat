@@ -150,7 +150,7 @@ void Freecell::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int durat
     current_weight = 1000;
     movePileToPile( cards, destPile, emptyStores, emptyFreeCells, 0, cards.size(), 0);
 
-    if (deck()->hasAnimatedCards())
+    if ( isCardAnimationRunning() )
         connect(deck(), SIGNAL(cardAnimationDone()), this, SLOT(waitForMoving()));
     else
         QTimer::singleShot(0, this, SLOT(startMoving()));
@@ -243,7 +243,7 @@ void Freecell::startMoving()
     p->layoutCards( duration );
     kDebug() << "wait for moving end" << mh->card()->objectName() << mh->priority();
 
-    if (deck()->hasAnimatedCards())
+    if ( isCardAnimationRunning() )
         connect(deck(), SIGNAL(cardAnimationDone()), this, SLOT(waitForMoving()));
     else
         QTimer::singleShot(0, this, SLOT(startMoving()));

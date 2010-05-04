@@ -122,7 +122,7 @@ KCard *Fortyeight::newCards()
     if (talon->isEmpty() && lastdeal)
         return 0;
 
-    if (pile->top() && deck()->hasAnimatedCards())
+    if (pile->top() && isCardAnimationRunning() )
         return pile->top();
 
     if (talon->isEmpty())

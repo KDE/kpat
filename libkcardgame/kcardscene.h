@@ -101,6 +101,8 @@ public:
     void flipCardToPile( KCard * card, KCardPile * pile, int duration );
     void flipCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal velocity );
 
+    bool isCardAnimationRunning() const;
+
 Q_SIGNALS:
     void cardClicked( KCard * card );
     void cardDoubleClicked( KCard * card );

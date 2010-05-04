@@ -412,7 +412,7 @@ KCard *Spider::newCards()
     if (m_redeal > 4)
         return 0;
 
-    if (deck()->hasAnimatedCards())
+    if ( isCardAnimationRunning() )
         for (int i = 0; i < 10; ++i)
             if (stack[i]->top())
                 return stack[i]->top();

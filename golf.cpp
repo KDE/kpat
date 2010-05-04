@@ -126,7 +126,7 @@ KCard *Golf::newCards()
     if (talon->isEmpty())
          return 0;
 
-    if ( waste->top() && deck()->hasAnimatedCards() )
+    if ( waste->top() && isCardAnimationRunning() )
         return waste->top();
 
     clearHighlightedItems();

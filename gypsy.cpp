@@ -136,7 +136,7 @@ KCard *Gypsy::newCards()
     if (talon->isEmpty())
         return 0;
 
-    if (deck()->hasAnimatedCards())
+    if ( isCardAnimationRunning() )
         for (int i = 0; i < 8; ++i)
             if (store[i]->top())
                 return store[i]->top();
