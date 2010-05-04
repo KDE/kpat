@@ -97,8 +97,6 @@ public:
     void setSolver( Solver *s);
     Solver *solver() const;
     void startSolver() const;
-    void unlockSolver() const;
-    void finishSolver() const;
 
     void setNeededFutureMoves(int);
     int neededFutureMoves() const;

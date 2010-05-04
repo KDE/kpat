@@ -165,7 +165,6 @@ public:
     int myActions;
     Solver *m_solver;
     SolverThread *m_solver_thread;
-    mutable QMutex solverMutex;
     QList<MOVE> winMoves;
     int neededFutureMoves;
     QTimer *updateSolver;
@@ -487,18 +486,13 @@ void DealerScene::hint()
 
 void DealerScene::getSolverHints()
 {
-    if ( !d->solverMutex.tryLock() )
-    {
+    if ( d->m_solver_thread && d->m_solver_thread->isRunning() )
         d->m_solver_thread->finish();
-        // already locked
-    }
 
     solver()->translate_layout();
     solver()->patsolve( 1 );
 
     QList<MOVE> moves = solver()->firstMoves;
-    d->solverMutex.unlock();
-
     QListIterator<MOVE> mit( moves );
 
     while ( mit.hasNext() )
@@ -1205,7 +1199,6 @@ void DealerScene::stopAndRestartSolver()
     if ( d->m_solver_thread && d->m_solver_thread->isRunning() )
     {
         d->m_solver_thread->finish();
-        d->solverMutex.unlock();
     }
 
     if ( deck()->hasAnimatedCards() )
@@ -1221,8 +1214,7 @@ void DealerScene::slotSolverEnded()
 {
     if ( d->m_solver_thread && d->m_solver_thread->isRunning() )
         return;
-    if ( !d->solverMutex.tryLock() )
-        return;
+
     d->m_solver->translate_layout();
     d->winMoves.clear();
     emit solverStateChanged( i18n("Solver: Calculating...") );
@@ -1235,40 +1227,31 @@ void DealerScene::slotSolverEnded()
 
 void DealerScene::slotSolverFinished()
 {
-    Solver::statuscode ret = d->m_solver_thread->result();
-    if ( d->solverMutex.tryLock() )
-    {
-        // if we can lock, then this finish signal is abnormal
-        d->solverMutex.unlock();
-        startSolver();
+    if ( !d->m_solver_thread || d->m_solver_thread->isRunning() )
         return;
-    }
+
+    Solver::statuscode ret = d->m_solver_thread->result();
 
     switch ( ret )
     {
     case Solver::WIN:
         d->winMoves = d->m_solver->winMoves;
-        d->solverMutex.unlock();
         d->gameWasEverWinnable = true;
         emit solverStateChanged( i18n("Solver: This game is winnable.") );
         break;
     case Solver::NOSOL:
-        d->solverMutex.unlock();
         if ( d->gameWasEverWinnable )
             emit solverStateChanged( i18n("Solver: This game is no longer winnable.") );
         else
             emit solverStateChanged( i18n("Solver: This game cannot be won.") );
         break;
     case Solver::FAIL:
-        d->solverMutex.unlock();
         emit solverStateChanged( i18n("Solver: Unable to determine if this game is winnable.") );
         break;
     case Solver::QUIT:
-        d->solverMutex.unlock();
         startSolver();
         break;
     case Solver::MLIMIT:
-        d->solverMutex.unlock();
         break;
     }
 
@@ -1479,32 +1462,16 @@ void DealerScene::startSolver() const
         d->updateSolver->start();
 }
 
-void DealerScene::unlockSolver() const
-{
-    d->solverMutex.unlock();
-}
-
-void DealerScene::finishSolver() const
-{
-    if ( !d->solverMutex.tryLock() )
-    {
-        d->m_solver_thread->finish();
-        unlockSolver();
-    } else
-        d->solverMutex.unlock(); // have to unlock again
-}
 
 bool DealerScene::isGameLost() const
 {
     if ( solver() )
     {
-        finishSolver();
-        QMutexLocker ml( &d->solverMutex );
+        if ( d->m_solver_thread && d->m_solver_thread->isRunning() )
+            d->m_solver_thread->finish();
+
         solver()->translate_layout();
-        Solver::statuscode ret = solver()->patsolve( neededFutureMoves() );
-        if ( ret == Solver::NOSOL )
-            return true;
-        return false;
+        return solver()->patsolve( neededFutureMoves() ) == Solver::NOSOL;
     }
     return false;
 }
