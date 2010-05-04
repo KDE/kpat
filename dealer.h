@@ -179,6 +179,8 @@ protected:
     void startDealAnimation();
 
 protected slots:
+    virtual void animationDone();
+
     virtual void demo();
     void waitForDemo(KCard *);
     void toggleDemo();

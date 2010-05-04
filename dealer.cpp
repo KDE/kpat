@@ -131,7 +131,6 @@ public:
     int loadedMoveCount;
     KCard *peekedCard;
     QTimer *demotimer;
-    QTimer *stateTimer;
     QTimer *dropTimer;
     bool demo_active;
     bool stop_demo_next;
@@ -139,6 +138,11 @@ public:
 
     bool dropInProgress;
     bool dealInProgress;
+
+    bool takeStateQueued;
+    bool hintQueued;
+    bool demoQueued;
+
     QList<MoveHint*> hints;
 
     QStack<GameState*> undoStack;
@@ -294,10 +298,10 @@ DealerScene::DealerScene()
 
     d->dealInProgress = false;
 
-    d->stateTimer = new QTimer( this );
-    connect( d->stateTimer, SIGNAL(timeout()), this, SLOT(takeState()) );
-    d->stateTimer->setInterval( 100 );
-    d->stateTimer->setSingleShot( true );
+    d->takeStateQueued = false;
+    d->hintQueued = false;
+    d->demoQueued = false;
+    connect( this, SIGNAL(cardAnimationDone()), this, SLOT(animationDone()) );
 
     d->dropTimer = new QTimer( this );
     connect( d->dropTimer, SIGNAL(timeout()), this, SLOT(drop()) );
@@ -399,8 +403,9 @@ QList<MoveHint*> DealerScene::hints() const
 
 void DealerScene::hint()
 {
-    if ( deck()->hasAnimatedCards() && d->stateTimer->isActive() ) {
-        QTimer::singleShot( 150, this, SLOT( hint() ) );
+    if ( deck()->hasAnimatedCards() )
+    {
+        d->hintQueued = true;
         return;
     }
 
@@ -932,10 +937,10 @@ void DealerScene::takeState()
 
     if ( deck()->hasAnimatedCards() )
     {
-        d->stateTimer->start();
+        d->takeStateQueued = true;
         return;
     }
-    d->stateTimer->stop();
+
 
     GameState * newState = getState();
 
@@ -1290,10 +1295,36 @@ MoveHint *DealerScene::chooseHint()
     return d->hints[0];
 }
 
+
+void DealerScene::animationDone()
+{
+    if ( d->takeStateQueued )
+    {
+        d->takeStateQueued = false;
+        takeState();
+    }
+
+    if ( d->hintQueued )
+    {
+        d->hintQueued = false;
+        hint();
+    }
+
+    if ( d->demoQueued )
+    {
+        d->demoQueued = false;
+        demo();
+    }
+}
+
+
 void DealerScene::demo()
 {
-    if ( deck()->hasAnimatedCards() || d->stateTimer->isActive() )
+    if ( deck()->hasAnimatedCards() )
+    {
+        d->demoQueued = true;
         return;
+    }
 
     if (d->stop_demo_next) {
         stopDemo();
