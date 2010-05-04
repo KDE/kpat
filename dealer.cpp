@@ -944,8 +944,27 @@ void DealerScene::undoOrRedo( bool undo )
             d->toldAboutLostGame = false;
             d->toldAboutWonGame = false;
         }
+
+        if ( d->currentState->solvability == Solver::WIN )
+        {
+            d->winMoves = d->currentState->winningMoves;
+            emit solverStateChanged( i18n("Solver: This game is winnable.") );
+        }
+        else if ( d->currentState->solvability == Solver::NOSOL )
+        {
+            d->winMoves.clear();
+            if ( d->gameWasEverWinnable )
+                emit solverStateChanged( i18n("Solver: This game is no longer winnable.") );
+            else
+                emit solverStateChanged( i18n("Solver: This game cannot be won.") );
+        }
+        else
+        {
+            emit solverStateChanged( QString() );
+            if ( d->m_solver )
+                startSolver();
+        }
     }
-    emit solverStateChanged( QString() );
 }
 
 
@@ -1001,11 +1020,13 @@ void DealerScene::takeState()
         return;
     }
 
-    if ( d->m_solver && !isDemoActive() && !deck()->hasAnimatedCards() )
-        startSolver();
-
     if ( !isDemoActive() && !deck()->hasAnimatedCards() )
+    {
+        if ( d->m_solver )
+            startSolver();
+
         d->dropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
+    }
 }
 
 
@@ -1223,7 +1244,7 @@ void DealerScene::slotSolverFinished()
         return;
     }
 
-    switch (  ret )
+    switch ( ret )
     {
     case Solver::WIN:
         d->winMoves = d->m_solver->winMoves;
@@ -1250,7 +1271,12 @@ void DealerScene::slotSolverFinished()
         d->solverMutex.unlock();
         break;
     }
+
+    d->currentState->solvability = ret;
+    if ( ret == Solver::WIN )
+        d->currentState->winningMoves = d->winMoves;
 }
+
 
 void DealerScene::waitForAutoDrop()
 {

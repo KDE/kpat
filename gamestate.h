@@ -37,6 +37,8 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 
+#include "patsolve/patsolve.h"
+
 class KCard;
 class KCardPile;
 
@@ -75,10 +77,13 @@ class GameState
 public:
     QSet<CardState> cards;
     QString gameData;
+    Solver::statuscode solvability;
+    QList<MOVE> winningMoves;
 
     GameState( QSet<CardState> cardStates, QString gameData )
       : cards( cardStates ),
-        gameData( gameData )
+        gameData( gameData ),
+        solvability( Solver::FAIL )
     {
     }
 
