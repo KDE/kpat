@@ -234,9 +234,9 @@ int main( int argc, char **argv )
         f->openGame( doc );
         f->solver()->translate_layout();
         int ret = f->solver()->patsolve();
-        if ( ret == Solver::WIN )
+        if ( ret == Solver::SolutionExists )
             fprintf( stdout, "won\n");
-        else if ( ret == Solver::NOSOL )
+        else if ( ret == Solver::NoSolutionExists )
             fprintf( stdout, "lost\n" );
         else
             fprintf( stdout, "unknown\n");
@@ -278,9 +278,9 @@ int main( int argc, char **argv )
             f->startNew( i );
             f->solver()->translate_layout();
             int ret = f->solver()->patsolve();
-            if ( ret == Solver::WIN )
+            if ( ret == Solver::SolutionExists )
                 fprintf( stdout, "%d won (%d ms)\n", i, mytime.elapsed() );
-            else if ( ret == Solver::NOSOL )
+            else if ( ret == Solver::NoSolutionExists )
                 fprintf( stdout, "%d lost (%d ms)\n", i, mytime.elapsed()  );
             else
                 fprintf( stdout, "%d unknown (%d ms)\n", i, mytime.elapsed() );

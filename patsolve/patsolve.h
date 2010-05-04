@@ -71,10 +71,18 @@ class MemoryManager;
 class Solver
 {
 public:
-    enum statuscode { MLIMIT = -3, QUIT = -2, FAIL = -1, NOSOL = 0, WIN = 1 };
+    enum ExitStatus
+    {
+        MemoryLimitReached = -3,
+        SearchAborted = -2,
+        UnableToDetermineSolvability = -1,
+        NoSolutionExists = 0,
+        SolutionExists = 1
+    };
+
     Solver();
     virtual ~Solver();
-    statuscode patsolve( int max_positions = -1);
+    ExitStatus patsolve( int max_positions = -1);
     bool recursive(POSITION *pos = 0);
     virtual void translate_layout() = 0;
     bool m_shouldEnd;
@@ -141,7 +149,7 @@ protected:
     MOVE Possible[MAXMOVES];
 
     MemoryManager *mm;
-    statuscode Status;             /* win, lose, or fail */
+    ExitStatus Status;             /* win, lose, or fail */
 
 #define NQUEUES 127
 

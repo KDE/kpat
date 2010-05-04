@@ -77,13 +77,13 @@ class GameState
 public:
     QSet<CardState> cards;
     QString gameData;
-    Solver::statuscode solvability;
+    Solver::ExitStatus solvability;
     QList<MOVE> winningMoves;
 
     GameState( QSet<CardState> cardStates, QString gameData )
       : cards( cardStates ),
         gameData( gameData ),
-        solvability( Solver::FAIL )
+        solvability( Solver::UnableToDetermineSolvability )
     {
     }
 

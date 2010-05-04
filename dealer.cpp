@@ -76,13 +76,13 @@ class SolverThread : public QThread
 public:
     SolverThread( Solver * solver )
       : m_solver( solver ),
-        m_result( Solver::FAIL )
+        m_result( Solver::UnableToDetermineSolvability )
     {
     }
 
     virtual void run()
     {
-        m_result = Solver::FAIL;
+        m_result = Solver::UnableToDetermineSolvability;
         m_result = m_solver->patsolve();
     }
 
@@ -93,17 +93,17 @@ public:
             m_solver->m_shouldEnd = true;
         }
         wait();
-        m_result = Solver::QUIT; // perhaps he managed to finish, but we won't listen
+        m_result = Solver::SearchAborted; // perhaps he managed to finish, but we won't listen
     }
 
-    Solver::statuscode result() const
+    Solver::ExitStatus result() const
     {
         return m_result;
     }
 
 private:
     Solver * m_solver;
-    Solver::statuscode m_result;
+    Solver::ExitStatus m_result;
 };
 
 
@@ -899,12 +899,12 @@ void DealerScene::undoOrRedo( bool undo )
             d->toldAboutWonGame = false;
         }
 
-        if ( d->currentState->solvability == Solver::WIN )
+        if ( d->currentState->solvability == Solver::SolutionExists )
         {
             d->winMoves = d->currentState->winningMoves;
             emit solverStateChanged( i18n("Solver: This game is winnable.") );
         }
-        else if ( d->currentState->solvability == Solver::NOSOL )
+        else if ( d->currentState->solvability == Solver::NoSolutionExists )
         {
             d->winMoves.clear();
             if ( d->gameWasEverWinnable )
@@ -1190,33 +1190,33 @@ void DealerScene::slotSolverFinished()
     if ( !d->m_solver_thread || d->m_solver_thread->isRunning() )
         return;
 
-    Solver::statuscode ret = d->m_solver_thread->result();
+    Solver::ExitStatus ret = d->m_solver_thread->result();
 
     switch ( ret )
     {
-    case Solver::WIN:
+    case Solver::SolutionExists:
         d->winMoves = d->m_solver->winMoves;
         d->gameWasEverWinnable = true;
         emit solverStateChanged( i18n("Solver: This game is winnable.") );
         break;
-    case Solver::NOSOL:
+    case Solver::NoSolutionExists:
         if ( d->gameWasEverWinnable )
             emit solverStateChanged( i18n("Solver: This game is no longer winnable.") );
         else
             emit solverStateChanged( i18n("Solver: This game cannot be won.") );
         break;
-    case Solver::FAIL:
+    case Solver::UnableToDetermineSolvability:
         emit solverStateChanged( i18n("Solver: Unable to determine if this game is winnable.") );
         break;
-    case Solver::QUIT:
+    case Solver::SearchAborted:
         startSolver();
         break;
-    case Solver::MLIMIT:
+    case Solver::MemoryLimitReached:
         break;
     }
 
     d->currentState->solvability = ret;
-    if ( ret == Solver::WIN )
+    if ( ret == Solver::SolutionExists )
         d->currentState->winningMoves = d->winMoves;
 }
 
@@ -1431,7 +1431,7 @@ bool DealerScene::isGameLost() const
             d->m_solver_thread->abort();
 
         solver()->translate_layout();
-        return solver()->patsolve( neededFutureMoves() ) == Solver::NOSOL;
+        return solver()->patsolve( neededFutureMoves() ) == Solver::NoSolutionExists;
     }
     return false;
 }

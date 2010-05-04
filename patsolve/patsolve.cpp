@@ -108,7 +108,7 @@ bool Solver::recursive(POSITION *parent)
 
     if (alln == 0) {
         if ( isWon() ) {
-            Status = WIN;
+            Status = SolutionExists;
             Q_ASSERT(parent); // it just is never called with a won game
             win(parent);
             return true;
@@ -367,7 +367,7 @@ TREE *Solver::pack_position(void)
 
 	p = mm->new_from_block(Treebytes);
 	if (p == NULL) {
-                Status = FAIL;
+                Status = UnableToDetermineSolvability;
 		return NULL;
 	}
 	node = (TREE *)p;
@@ -479,7 +479,7 @@ void Solver::win(POSITION *pos)
 
     mpp0 = new_array(MOVE *, nmoves);
     if (mpp0 == NULL) {
-        Status = FAIL;
+        Status = UnableToDetermineSolvability;
         return; /* how sad, so close... */
     }
     mpp = mpp0 + nmoves - 1;
@@ -561,17 +561,17 @@ int Solver::get_pilenum(int w)
 
 	if (l == NULL) {
 		if (Pilenum >= NPILES ) {
-                        Status = FAIL;
+                        Status = UnableToDetermineSolvability;
 			return -1;
 		}
 		l = mm_allocate(BUCKETLIST);
 		if (l == NULL) {
-                        Status = FAIL;
+                        Status = UnableToDetermineSolvability;
 			return -1;
 		}
 		l->pile = new_array(quint8, Wlen[w] + 1);
 		if (l->pile == NULL) {
-                    Status = FAIL;
+                    Status = UnableToDetermineSolvability;
                     MemoryManager::free_ptr(l);
                     return -1;
 		}
@@ -649,7 +649,7 @@ void Solver::doit()
 	pos = new_position(NULL, &m);
 	if ( pos == NULL )
         {
-            Status = FAIL;
+            Status = UnableToDetermineSolvability;
             return;
         }
 	queue_position(pos, 0);
@@ -681,7 +681,7 @@ bool Solver::solve(POSITION *parent)
 	but always return false from any position.  This enables the cleanup
 	of the move stack and eventual destruction of the position store. */
 
-	if (Status != NOSOL) {
+	if (Status != NoSolutionExists) {
 		return false;
 	}
 
@@ -689,14 +689,14 @@ bool Solver::solve(POSITION *parent)
             QMutexLocker lock( &endMutex );
             if ( m_shouldEnd )
             {
-                Status = QUIT;
+                Status = SearchAborted;
                 return false;
             }
         }
 
         if ( max_positions != -1 && Total_positions > ( unsigned long )max_positions )
         {
-            Status = MLIMIT;
+            Status = MemoryLimitReached;
             return false;
         }
 
@@ -705,7 +705,7 @@ bool Solver::solve(POSITION *parent)
 
 	if ((mp0 = get_moves(&nmoves)) == NULL) {
             if ( isWon() ) {
-                Status = WIN;
+                Status = SolutionExists;
                 win( parent );
             }
             return false;
@@ -927,7 +927,7 @@ void Solver::init()
 
     /* Reset stats. */
 
-    Status = NOSOL;
+    Status = NoSolutionExists;
     Total_positions = 0;
     Total_generated = 0;
     depth_sum = 0;
@@ -942,7 +942,7 @@ void Solver::free()
 }
 
 
-Solver::statuscode Solver::patsolve( int _max_positions )
+Solver::ExitStatus Solver::patsolve( int _max_positions )
 {
     max_positions = _max_positions;
 
@@ -952,7 +952,7 @@ Solver::statuscode Solver::patsolve( int _max_positions )
     /* Go to it. */
     doit();
 
-    if ( Status == QUIT ) // thread quit
+    if ( Status == SearchAborted ) // thread quit
     {
         firstMoves.clear();
         winMoves.clear();
@@ -1087,7 +1087,7 @@ POSITION *Solver::new_position(POSITION *parent, MOVE *m)
 	} else {
 		p = mm->new_from_block(Posbytes);
 		if (p == NULL) {
-                        Status = FAIL;
+                        Status = UnableToDetermineSolvability;
 			return NULL;
 		}
 	}
