@@ -283,13 +283,6 @@ void DealerScene::saveGame(QDomDocument &doc)
     doc.appendChild(dealer);
     dealer.setAttribute("id", gameId());
     dealer.setAttribute("options", getGameOptions());
-
-    // If the game has been won, there's no sense in saving the state
-    // across sessions. In that case, just save the game ID so that
-    // we can later start up a new game of the same type.
-    if ( d->_won )
-        return;
-
     dealer.setAttribute("number", QString::number(gameNumber()));
     dealer.setAttribute("moves", moveCount() - 1);
     dealer.setAttribute("started", d->gameStarted);
@@ -1601,6 +1594,10 @@ void DealerScene::setNeededFutureMoves( int i ) { d->neededFutureMoves = i; }
 
 QString DealerScene::save_it()
 {
+    // If the game has been won, there's no current state to save.
+    if ( d->_won )
+        return QString();
+
     KTemporaryFile file;
     file.setAutoRemove(false);
     file.open();

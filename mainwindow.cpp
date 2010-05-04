@@ -590,9 +590,13 @@ void MainWindow::closeEvent(QCloseEvent *e)
     {
         if ( Settings::rememberStateOnExit() )
         {
-            QFile temp(m_dealer->save_it());
-            temp.copy(savedState.fileName());
-            temp.remove();
+            QString tempFile = m_dealer->save_it();
+            if ( !tempFile.isEmpty() )
+            {
+                QFile temp( tempFile );
+                temp.copy(savedState.fileName());
+                temp.remove();
+            }
         }
         else
         {
