@@ -66,41 +66,9 @@
 #include <QtGui/QStyleOptionGraphicsItem>
 #include <QtXml/QDomDocument>
 
-#include <cassert>
 #include <cmath>
-#include <sys/time.h>
 
 #define DEBUG_HINTS 0
-
-#if 0
-inline void myassert_fail (__const char *__assertion, __const char *__file,
-                           unsigned int __line, __const char *__function)
-{
-   QString tmp = PatienceView::instance()->dscene()->save_it();
-   fprintf(stderr, "SAVE %s.saved\n", qPrintable(tmp));
-   KIO::NetAccess::upload(tmp, tmp + ".saved", PatienceView::instance());
-   KIO::NetAccess::del(tmp, PatienceView::instance());
-   __assert_fail(__assertion, __file, __line, __function);
-}
-
-# define myassert(expr)                                                \
-  ((expr)                                                               \
-   ? __ASSERT_VOID_CAST (0)                                             \
-   : myassert_fail (__STRING(expr), __FILE__, __LINE__, __ASSERT_FUNCTION) )
-#endif
-
-#define myassert assert
-
-
-QString gettime()
-{
-    static struct timeval tv2 = { -1, -1};
-    struct timeval tv;
-    gettimeofday( &tv, 0 );
-    if ( tv2.tv_sec == -1 )
-        gettimeofday( &tv2, 0 );
-    return QString::number( ( tv.tv_sec - tv2.tv_sec ) * 1000 + ( tv.tv_usec -tv2.tv_usec ) / 1000 );
-}
 
 
 class SolverThread : public QThread
@@ -1358,7 +1326,7 @@ void DealerScene::demo()
                                    << "from the" << mh->card()->pile()->objectName()
                                    << "pile to the" << mh->pile()->objectName()
                                    << "pile, which is empty";
-        myassert(mh->card()->pile() == 0
+        Q_ASSERT(mh->card()->pile() == 0
                  || allowedToRemove(mh->card()->pile(), mh->card()));
 
         QList<KCard*> empty;
@@ -1371,7 +1339,7 @@ void DealerScene::demo()
                 empty.append(*it);
         }
 
-        myassert(!empty.isEmpty());
+        Q_ASSERT(!empty.isEmpty());
 
         QMap<KCard*,QPointF> oldPositions;
 
@@ -1381,11 +1349,11 @@ void DealerScene::demo()
             oldPositions.insert(c, c->pos());
         }
 
-        assert(mh->card());
-        assert(mh->card()->pile());
-        assert(mh->pile());
-        assert(mh->card()->pile() != mh->pile());
-        assert(mh->pile()->isFoundation() || allowedToAdd(mh->pile(), empty));
+        Q_ASSERT(mh->card());
+        Q_ASSERT(mh->card()->pile());
+        Q_ASSERT(mh->pile());
+        Q_ASSERT(mh->card()->pile() != mh->pile());
+        Q_ASSERT(mh->pile()->isFoundation() || allowedToAdd(mh->pile(), empty));
 
         moveCardsToPile( empty, mh->pile(), DURATION_MOVE );
 
@@ -1581,7 +1549,7 @@ QImage DealerScene::createDump() const
     QMultiMap<qreal,QGraphicsItem*> itemsByZ;
     foreach ( QGraphicsItem * item, items() )
     {
-        assert( item->zValue() >= 0 );
+        Q_ASSERT( item->zValue() >= 0 );
         itemsByZ.insert( item->zValue(), item );
     }
 
