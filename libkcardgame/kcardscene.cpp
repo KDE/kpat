@@ -140,7 +140,13 @@ KCardScene::~KCardScene()
 
 void KCardScene::setDeck( KAbstractCardDeck * deck )
 {
+    if ( d->deck )
+        disconnect( d->deck, SIGNAL(cardAnimationDone()), this, SIGNAL(cardAnimationDone()) );
+
     d->deck = deck;
+
+    if ( d->deck )
+        connect( d->deck, SIGNAL(cardAnimationDone()), this, SIGNAL(cardAnimationDone()) );
 }
 
 

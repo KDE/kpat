@@ -109,6 +109,8 @@ Q_SIGNALS:
     void pileDoubleClicked( KCardPile * pile );
     void pileRightClicked( KCardPile * pile );
 
+    void cardAnimationDone();
+
 protected:
     virtual bool allowedToAdd( const KCardPile * pile, const QList<KCard*> & cards ) const;
     virtual bool allowedToRemove( const KCardPile * pile, const KCard * card ) const;
