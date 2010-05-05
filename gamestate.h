@@ -83,7 +83,7 @@ public:
     GameState( QSet<CardState> cardStates, QString gameData )
       : cards( cardStates ),
         gameData( gameData ),
-        solvability( Solver::UnableToDetermineSolvability )
+        solvability( Solver::SearchAborted )
     {
     }
 

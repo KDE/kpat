@@ -917,6 +917,11 @@ void DealerScene::undoOrRedo( bool undo )
             else
                 emit solverStateChanged( i18n("Solver: This game cannot be won.") );
         }
+        else if ( d->currentState->solvability == Solver::UnableToDetermineSolvability )
+        {
+            d->winMoves.clear();
+            emit solverStateChanged( i18n("Solver: Unable to determine if this game is winnable.") );
+        }
         else
         {
             emit solverStateChanged( QString() );
