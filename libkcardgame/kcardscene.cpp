@@ -78,6 +78,7 @@ public:
     KCardScenePrivate( KCardScene * p );
 
     int calculateDuration( QPointF pos1, QPointF pos2, qreal velocity ) const;
+    void changeFocus( int pileChange, int cardChange );
     void updateKeyboardFocus();
 
     KCardScene * const q;
@@ -122,6 +123,79 @@ int KCardScenePrivate::calculateDuration( QPointF pos1, QPointF pos2, qreal velo
 }
 
 
+void KCardScenePrivate::changeFocus( int pileChange, int cardChange )
+{
+    if ( !keyboardMode )
+    {
+        q->setKeyboardModeActive( true );
+        return;
+    }
+
+    if ( pileChange )
+    {
+        KCardPile * pile;
+        KCardPile::KeyboardFocusHint hint;
+        do
+        {
+            keyboardPileIndex += pileChange;
+            if ( keyboardPileIndex < 0 )
+                keyboardPileIndex = piles.size() - 1;
+            else if ( keyboardPileIndex >= piles.size() )
+                keyboardPileIndex = 0;
+
+            pile = piles.at( keyboardPileIndex );
+            hint = cardsBeingDragged.isEmpty()
+                 ? pile->keyboardSelectHint()
+                 : pile->keyboardDropHint();
+        }
+        while ( hint == KCardPile::NeverFocus );
+
+        if ( !pile->isEmpty() )
+        {
+            if ( hint == KCardPile::AutoFocusTop || hint == KCardPile::ForceFocusTop )
+            {
+                keyboardCardIndex = pile->count() - 1;
+            }
+            else if ( hint == KCardPile::AutoFocusDeepestRemovable )
+            {
+                keyboardCardIndex = pile->count() - 1;
+                while ( keyboardCardIndex > 0 && q->allowedToRemove( pile, pile->at( keyboardCardIndex - 1 ) ) )
+                    --keyboardCardIndex;
+            }
+            else if ( hint == KCardPile::AutoFocusDeepestFaceUp )
+            {
+                keyboardCardIndex = pile->count() - 1;
+                while ( keyboardCardIndex > 0 && pile->at( keyboardCardIndex - 1 )->isFaceUp() )
+                    --keyboardCardIndex;
+            }
+            else if ( hint == KCardPile::AutoFocusBottom )
+            {
+                keyboardCardIndex = 0;
+            }
+        }
+    }
+
+    if ( cardChange )
+    {
+        KCardPile * pile = piles.at( keyboardPileIndex );
+        if ( cardChange < 0 && keyboardCardIndex >= pile->count() )
+        {
+            keyboardCardIndex = qMax( 0, pile->count() - 2 );
+        }
+        else
+        {
+            keyboardCardIndex += cardChange;
+            if ( keyboardCardIndex < 0 )
+                keyboardCardIndex =  pile->count() - 1;
+            else if ( keyboardCardIndex >= pile->count() )
+                keyboardCardIndex = 0;
+        }
+    }
+
+    updateKeyboardFocus();
+}
+
+
 void KCardScenePrivate::updateKeyboardFocus()
 {
     q->setItemHighlight( keyboardFocusItem, false );
@@ -130,6 +204,9 @@ void KCardScenePrivate::updateKeyboardFocus()
         return;
 
     KCardPile * pile = piles.at( keyboardPileIndex );
+    KCardPile::KeyboardFocusHint hint = cardsBeingDragged.isEmpty()
+                                      ? pile->keyboardSelectHint()
+                                      : pile->keyboardDropHint();
 
     if ( !cardsBeingDragged.isEmpty()
          && cardsBeingDragged.first()->pile() == pile )
@@ -141,11 +218,17 @@ void KCardScenePrivate::updateKeyboardFocus()
             keyboardFocusItem = pile->at( index - 1 );
     }
     else if ( pile->isEmpty() )
+    {
         keyboardFocusItem = pile;
-    else if ( keyboardCardIndex >= pile->count() )
+    }
+    else if ( keyboardCardIndex >= pile->count() || hint == KCardPile::ForceFocusTop )
+    {
         keyboardFocusItem = pile->top();
+    }
     else
+    {
         keyboardFocusItem = pile->at( keyboardCardIndex );
+    }
 
     q->setItemHighlight( keyboardFocusItem, true );
 
@@ -671,81 +754,31 @@ void KCardScene::flipCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal ve
 
 void KCardScene::keyboardFocusLeft()
 {
-    if ( !isKeyboardModeActive() )
-    {
-        setKeyboardModeActive( true );
-        return;
-    }
-
-    --d->keyboardPileIndex;
-    if ( d->keyboardPileIndex < 0 )
-        d->keyboardPileIndex = d->piles.size() - 1;
-
-    d->updateKeyboardFocus();
+    d->changeFocus( -1, 0 );
 }
 
 
 void KCardScene::keyboardFocusRight()
 {
-    if ( !isKeyboardModeActive() )
-    {
-        setKeyboardModeActive( true );
-        return;
-    }
-
-    ++d->keyboardPileIndex;
-    if ( d->keyboardPileIndex >= d->piles.size() )
-        d->keyboardPileIndex = 0;
-
-    d->updateKeyboardFocus();
+    d->changeFocus( +1, 0 );
 }
 
 
 void KCardScene::keyboardFocusUp()
 {
-    if ( !isKeyboardModeActive() )
-    {
-        setKeyboardModeActive( true );
-        return;
-    }
-
-    KCardPile * pile = d->piles.at( d->keyboardPileIndex );
-    if ( d->keyboardCardIndex >= pile->count() )
-    {
-        d->keyboardCardIndex = qMax( 0, pile->count() - 2 );
-    }
-    else
-    {
-        --d->keyboardCardIndex;
-        if ( d->keyboardCardIndex < 0 )
-            d->keyboardCardIndex =  pile->count() - 1;
-    }
-
-    d->updateKeyboardFocus();
+    d->changeFocus( 0, -1 );
 }
 
 
 void KCardScene::keyboardFocusDown()
 {
-    if ( !isKeyboardModeActive() )
-    {
-        setKeyboardModeActive( true );
-        return;
-    }
-
-    KCardPile * pile = d->piles.at( d->keyboardPileIndex );
-    ++d->keyboardCardIndex;
-    if ( d->keyboardCardIndex >= pile->count() )
-        d->keyboardCardIndex = 0;
-
-    d->updateKeyboardFocus();
+    d->changeFocus( 0, +1 );
 }
 
 
 void KCardScene::keyboardFocusCancel()
 {
-    if ( isKeyboardModeActive() )
-        setKeyboardModeActive( false );
+    setKeyboardModeActive( false );
 }
 
 

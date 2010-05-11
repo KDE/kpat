@@ -73,6 +73,9 @@ public:
     QRectF reservedSpace;
     QRectF availableSpace;
 
+    KCardPile::KeyboardFocusHint selectHint;
+    KCardPile::KeyboardFocusHint dropHint;
+
     qreal highlightValue;
 
     QPropertyAnimation * fadeAnimation;
@@ -286,6 +289,30 @@ void KCardPile::setAutoTurnTop( bool autoTurnTop )
 bool KCardPile::autoTurnTop() const
 {
     return d->autoTurnTop;
+}
+
+
+void KCardPile::setKeyboardSelectHint( KeyboardFocusHint hint )
+{
+    d->selectHint = hint;
+}
+
+
+KCardPile::KeyboardFocusHint KCardPile::keyboardSelectHint() const
+{
+    return d->selectHint;
+}
+
+
+void KCardPile::setKeyboardDropHint( KeyboardFocusHint hint )
+{
+    d->dropHint = hint;
+}
+
+
+KCardPile::KeyboardFocusHint KCardPile::keyboardDropHint() const
+{
+    return d->dropHint;
 }
 
 

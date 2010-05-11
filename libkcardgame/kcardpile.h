@@ -83,6 +83,22 @@ public:
     void setAutoTurnTop( bool autoTurnTop );
     bool autoTurnTop() const;
 
+    enum KeyboardFocusHint
+    {
+        FreeFocus,
+        AutoFocusTop,
+        AutoFocusDeepestRemovable,
+        AutoFocusDeepestFaceUp,
+        AutoFocusBottom,
+        ForceFocusTop,
+        NeverFocus
+    };
+
+    void setKeyboardSelectHint( KeyboardFocusHint hint );
+    KeyboardFocusHint keyboardSelectHint() const;
+    void setKeyboardDropHint( KeyboardFocusHint hint );
+    KeyboardFocusHint keyboardDropHint() const;
+
     virtual void setVisible(bool vis);
 
     void setHighlighted( bool highlighted );
