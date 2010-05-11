@@ -98,6 +98,7 @@ public:
     bool keyboardMode;
     int keyboardPileIndex;
     int keyboardCardIndex;
+    QGraphicsItem * keyboardFocusItem;
 
     bool sizeHasBeenSet;
 };
@@ -123,37 +124,33 @@ int KCardScenePrivate::calculateDuration( QPointF pos1, QPointF pos2, qreal velo
 
 void KCardScenePrivate::updateKeyboardFocus()
 {
+    q->setItemHighlight( keyboardFocusItem, false );
+
     if ( !keyboardMode )
-    {
-        q->clearHighlightedItems();
         return;
-    }
 
     KCardPile * pile = piles.at( keyboardPileIndex );
-    QGraphicsItem * item = 0;
 
     if ( !cardsBeingDragged.isEmpty()
          && cardsBeingDragged.first()->pile() == pile )
     {
         int index = pile->indexOf( cardsBeingDragged.first() );
         if ( index == 0 )
-            item = pile;
+            keyboardFocusItem = pile;
         else
-            item = pile->at( index - 1 );
+            keyboardFocusItem = pile->at( index - 1 );
     }
     else if ( pile->isEmpty() )
-        item = pile;
+        keyboardFocusItem = pile;
     else if ( keyboardCardIndex >= pile->count() )
-        item = pile->top();
+        keyboardFocusItem = pile->top();
     else
-        item = pile->at( keyboardCardIndex );
+        keyboardFocusItem = pile->at( keyboardCardIndex );
 
-    Q_ASSERT( item );
+    q->setItemHighlight( keyboardFocusItem, true );
 
-    q->setHighlightedItems( QList<QGraphicsItem*>() << item );
-
-    QPointF delta = item->pos() - startOfDrag;
-    startOfDrag = item->pos();
+    QPointF delta = keyboardFocusItem->pos() - startOfDrag;
+    startOfDrag = keyboardFocusItem->pos();
     foreach ( KCard * c, cardsBeingDragged )
         c->setPos( c->pos() + delta );
 }
@@ -170,6 +167,7 @@ KCardScene::KCardScene( QObject * parent )
     d->keyboardMode = false;
     d->keyboardPileIndex = 0;
     d->keyboardCardIndex = 0;
+    d->keyboardFocusItem = 0;
     d->sizeHasBeenSet = false;
 }
 
@@ -714,7 +712,7 @@ void KCardScene::keyboardFocusUp()
     KCardPile * pile = d->piles.at( d->keyboardPileIndex );
     if ( d->keyboardCardIndex >= pile->count() )
     {
-        d->keyboardCardIndex = pile->count() - 2;
+        d->keyboardCardIndex = qMax( 0, pile->count() - 2 );
     }
     else
     {
@@ -812,6 +810,7 @@ void KCardScene::setKeyboardModeActive( bool keyboardMode )
 {
     if ( !d->keyboardMode && keyboardMode )
     {
+        clearHighlightedItems();
         d->keyboardMode = true;
         d->updateKeyboardFocus();
     }

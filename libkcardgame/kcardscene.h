@@ -140,6 +140,7 @@ protected:
     virtual void drawForeground ( QPainter * painter, const QRectF & rect );
 
 private:
+    friend class KCardScenePrivate;
     class KCardScenePrivate * const d;
 };
 
