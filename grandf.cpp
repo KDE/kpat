@@ -60,6 +60,8 @@ void Grandf::initialize()
         target[i]->setPileRole(PatPile::Foundation);
         target[i]->setLayoutPos(targetOffset+i*distx, 0);
         target[i]->setSpread(0, 0);
+        target[i]->setKeyboardSelectHint( KCardPile::NeverFocus );
+        target[i]->setKeyboardDropHint( KCardPile::ForceFocusTop );
     }
 
     for ( int i = 0; i < 7; ++i )
@@ -69,6 +71,8 @@ void Grandf::initialize()
         store[i]->setLayoutPos(distx*i, 1.2);
         store[i]->setAutoTurnTop(true);
         store[i]->setReservedSpace( 0, 0, 1, 5 );
+        store[i]->setKeyboardSelectHint( KCardPile::FreeFocus );
+        store[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Redeal);

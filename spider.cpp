@@ -72,6 +72,8 @@ void Spider::initialize()
         redeals[column]->setZValue(12 * ( 5-column ));
         redeals[column]->setGraphicVisible( false );
         redeals[column]->setSpread(0, 0);
+        redeals[column]->setKeyboardSelectHint( KCardPile::NeverFocus );
+        redeals[column]->setKeyboardDropHint( KCardPile::NeverFocus );
         connect(redeals[column], SIGNAL(clicked(KCard*)), SLOT(newCards()));
     }
 
@@ -84,6 +86,8 @@ void Spider::initialize()
         stack[column]->setZValue(20);
         stack[column]->setAutoTurnTop(true);
         stack[column]->setReservedSpace( 0, 0, 1, 2.5 );
+        stack[column]->setKeyboardSelectHint( KCardPile::AutoFocusDeepestRemovable );
+        stack[column]->setKeyboardDropHint( KCardPile::AutoFocusTop );
     }
 
     // The 8 'legs' so named by me because spiders have 8 legs - why
@@ -98,6 +102,8 @@ void Spider::initialize()
         legs[column]->setSpread(0, 0);
         legs[column]->setZValue(14 * column);
         legs[column]->setVisible( false );
+        legs[column]->setKeyboardSelectHint( KCardPile::NeverFocus );
+        legs[column]->setKeyboardDropHint( KCardPile::NeverFocus );
     }
 
     // Moving an A-K run to a leg is not really an autoDrop - the

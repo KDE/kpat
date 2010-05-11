@@ -57,6 +57,8 @@ void Simon::initialize()
         target[i]->setPileRole(PatPile::Foundation);
         target[i]->setLayoutPos((i+3)*dist_x, 0);
         target[i]->setSpread(0, 0);
+        target[i]->setKeyboardSelectHint( KCardPile::NeverFocus );
+        target[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
     }
 
     for ( int i = 0; i < 10; ++i )
@@ -66,6 +68,8 @@ void Simon::initialize()
         store[i]->setLayoutPos(dist_x*i, 1.2);
         store[i]->setReservedSpace( 0, 0, 1, 3.5 );
         store[i]->setZValue( 0.01 * i );
+        store[i]->setKeyboardSelectHint( KCardPile::AutoFocusDeepestRemovable );
+        store[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo);

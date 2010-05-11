@@ -56,6 +56,8 @@ void Golf::initialize()
     talon->setPileRole(PatPile::Stock);
     talon->setLayoutPos(0, smallNeg);
     talon->setSpread(0, 0);
+    talon->setKeyboardSelectHint( KCardPile::NeverFocus );
+    talon->setKeyboardDropHint( KCardPile::NeverFocus );
     connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
 
     waste = new PatPile( this, 8, "waste" );
@@ -63,9 +65,10 @@ void Golf::initialize()
     waste->setLayoutPos(1.1, smallNeg);
     waste->setSpread(0.12, 0);
     waste->setReservedSpace( 0, 0, 1 + 5 * dist_x, 1 );
+    waste->setKeyboardSelectHint( KCardPile::NeverFocus );
+    waste->setKeyboardDropHint( KCardPile::AutoFocusTop );
 
-
-    for( int r = 0; r < 7; r++ )
+    for( int r = 0; r < 7; ++r )
     {
         stack[r] = new PatPile( this, 1 + r, QString("stack%1").arg(r) );
         stack[r]->setPileRole(PatPile::Tableau);
@@ -73,6 +76,8 @@ void Golf::initialize()
         // Manual tweak of the pile z values to make some animations better.
         stack[r]->setZValue((7-r)/100.0);
         stack[r]->setReservedSpace( 0, 0, 1, 2.3 );
+        stack[r]->setKeyboardSelectHint( KCardPile::AutoFocusTop );
+        stack[r]->setKeyboardDropHint( KCardPile::NeverFocus );
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);

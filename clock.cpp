@@ -60,6 +60,8 @@ void Clock::initialize()
         target[i]->setPileRole(PatPile::Foundation);
         target[i]->setLayoutPos(4 * dist_x + 0.4 + xs[i], 0.2 + ys[i]);
         target[i]->setSpread(0, 0);
+        target[i]->setKeyboardSelectHint( KCardPile::NeverFocus );
+        target[i]->setKeyboardDropHint( KCardPile::ForceFocusTop );
     }
 
     for ( int i = 0; i < 8; ++i )
@@ -68,6 +70,8 @@ void Clock::initialize()
         store[i]->setPileRole(PatPile::Tableau);
         store[i]->setLayoutPos(dist_x*(i%4), 2.5 * (i/4));
         store[i]->setReservedSpace( 0, 0, 1.0, 2.3 );
+        store[i]->setKeyboardSelectHint( KCardPile::AutoFocusTop );
+        store[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo);

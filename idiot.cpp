@@ -56,6 +56,8 @@ void Idiot::initialize()
     talon->setPileRole(PatPile::Stock);
     talon->setLayoutPos(0, 0);
     talon->setSpread(0, 0);
+    talon->setKeyboardSelectHint( KCardPile::NeverFocus );
+    talon->setKeyboardDropHint( KCardPile::NeverFocus );
 
     const qreal distx = 1.1;
 
@@ -66,6 +68,8 @@ void Idiot::initialize()
         m_play[i]->setPileRole(PatPile::Tableau);
         m_play[i]->setLayoutPos(1.5 + distx * i, 0);
         m_play[i]->setReservedSpace( 0, 0, 1, 3 );
+        m_play[i]->setKeyboardSelectHint( KCardPile::AutoFocusTop );
+        m_play[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
     }
 
     // Create the discard pile to the right
@@ -73,6 +77,8 @@ void Idiot::initialize()
     m_away->setPileRole(PatPile::Foundation);
     m_away->setLayoutPos(1.9 + distx * 4, 0);
     m_away->setSpread(0, 0);
+    m_away->setKeyboardSelectHint(KCardPile::NeverFocus);
+    m_away->setKeyboardDropHint(KCardPile::ForceFocusTop);
 
     connect( this, SIGNAL(cardClicked(KCard*)), this, SLOT(handleCardClick(KCard*)) );
 

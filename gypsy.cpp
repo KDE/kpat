@@ -54,6 +54,8 @@ void Gypsy::initialize()
     talon = new PatPile( this, 0, "talon" );
     talon->setPileRole(PatPile::Stock);
     talon->setLayoutPos(8.5 * dist_x + 0.4, 4 * dist_y);
+    talon->setKeyboardSelectHint( KCardPile::NeverFocus );
+    talon->setKeyboardDropHint( KCardPile::NeverFocus );
     connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
 
     for ( int i = 0; i < 8; ++i )
@@ -61,6 +63,8 @@ void Gypsy::initialize()
         target[i] = new PatPile( this, i + 1, QString("target%1").arg(i) );
         target[i]->setPileRole(PatPile::Foundation);
         target[i]->setLayoutPos(dist_x*(8+(i/4)) + 0.4, (i%4)*dist_y);
+        target[i]->setKeyboardSelectHint( KCardPile::NeverFocus );
+        target[i]->setKeyboardDropHint( KCardPile::ForceFocusTop );
     }
 
     for ( int i = 0; i < 8; ++i )
@@ -70,6 +74,8 @@ void Gypsy::initialize()
         store[i]->setLayoutPos(dist_x*i,0);
         store[i]->setAutoTurnTop(true);
         store[i]->setReservedSpace( 0, 0, 1, 4 * dist_y + 1 );
+        store[i]->setKeyboardSelectHint( KCardPile::AutoFocusDeepestRemovable );
+        store[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);

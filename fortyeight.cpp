@@ -58,6 +58,8 @@ void Fortyeight::initialize()
     talon->setLayoutPos( 7 * dist_x, smallNeg );
     talon->setZValue(20);
     talon->setSpread(0, 0);
+    talon->setKeyboardSelectHint( KCardPile::NeverFocus );
+    talon->setKeyboardDropHint( KCardPile::NeverFocus );
     connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
 
     pile = new PatPile( this, 20, "pile" );
@@ -65,20 +67,29 @@ void Fortyeight::initialize()
     pile->setLayoutPos( 6 * dist_x, smallNeg );
     pile->setSpread(-0.21, 0);
     pile->setReservedSpace( -6 * dist_x, 0, 6 * dist_x + 1, 1 );
+    pile->setKeyboardSelectHint( KCardPile::AutoFocusTop );
+    pile->setKeyboardDropHint( KCardPile::NeverFocus );
 
-    for ( int i = 0; i < 8; i++ )
+    for ( int i = 0; i < 8; ++i )
     {
         target[i] = new PatPile( this, 9 + i, QString( "target%1" ).arg( i ) );
         target[i]->setPileRole(PatPile::Foundation);
         target[i]->setLayoutPos(dist_x*i, 0);
         target[i]->setSpread(0, 0);
+        target[i]->setKeyboardSelectHint( KCardPile::NeverFocus );
+        target[i]->setKeyboardDropHint( KCardPile::ForceFocusTop );
+    }
 
+    for ( int i = 0; i < 8; ++i )
+    {
         stack[i] = new PatPile( this, 1 + i, QString( "stack%1" ).arg( i ) );
         stack[i]->setPileRole(PatPile::Tableau);
         stack[i]->setLayoutPos(dist_x*i, 1.1 );
         stack[i]->setAutoTurnTop(true);
         stack[i]->setSpread(0, 0.25);
         stack[i]->setReservedSpace( 0, 0, 1, 2.75 );
+        stack[i]->setKeyboardSelectHint( KCardPile::FreeFocus );
+        stack[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);

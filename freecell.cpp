@@ -61,27 +61,33 @@ void Freecell::initialize()
     const qreal bottomRowDist = 1.13;
     const qreal targetOffsetDist = ( 7 * bottomRowDist + 1 ) - ( 3 * topRowDist + 1 );
 
-    for (int i = 0; i < 8; i++)
+    for ( int i = 0; i < 4; ++i )
     {
-        store[i] = new PatPile(this, 1 + i, QString( "store%1" ).arg( i ));
+        freecell[i] = new PatPile ( this, 1 + 8 + i, QString( "freecell%1" ).arg( i ) );
+        freecell[i]->setPileRole(PatPile::Cell);
+        freecell[i]->setLayoutPos(topRowDist * i, 0);
+        freecell[i]->setKeyboardSelectHint( KCardPile::AutoFocusTop );
+        freecell[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
+    }
+
+    for ( int i = 0; i < 8; ++i )
+    {
+        store[i] = new PatPile( this, 1 + i, QString( "store%1" ).arg( i ) );
         store[i]->setPileRole(PatPile::Tableau);
         store[i]->setLayoutPos( bottomRowDist * i, 1.3 );
         store[i]->setReservedSpace( 0, 0, 1, 3.5 );
+        store[i]->setKeyboardSelectHint( KCardPile::AutoFocusDeepestRemovable );
+        store[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
     }
 
-    for (int i = 0; i < 4; i++)
-    {
-        freecell[i] = new PatPile(this, 1 + 8 + i, QString( "freecell%1" ).arg( i ));
-        freecell[i]->setPileRole(PatPile::Cell);
-        freecell[i]->setLayoutPos(topRowDist * i, 0);
-    }
-
-    for (int i = 0; i < 4; i++)
+    for ( int i = 0; i < 4; ++i )
     {
         target[i] = new PatPile(this, 1 + 8 + 4 + i, QString( "target%1" ).arg( i ));
         target[i]->setPileRole(PatPile::Foundation);
         target[i]->setLayoutPos(targetOffsetDist + topRowDist * i, 0);
         target[i]->setSpread(0, 0);
+        target[i]->setKeyboardSelectHint( KCardPile::NeverFocus );
+        target[i]->setKeyboardDropHint( KCardPile::ForceFocusTop );
     }
 
     setActions(DealerScene::Demo | DealerScene::Hint);

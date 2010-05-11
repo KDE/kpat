@@ -63,12 +63,16 @@ void Mod3::initialize()
     talon->setPileRole(PatPile::Stock);
     talon->setLayoutPos(rightColumX, bottomRowY);
     talon->setSpread(0, 0);
+    talon->setKeyboardSelectHint( KCardPile::NeverFocus );
+    talon->setKeyboardDropHint( KCardPile::NeverFocus );
     connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
 
     aces = new PatPile( this, 50, "aces");
     aces->setPileRole(PatPile::FoundationType1);
     aces->setLayoutPos(rightColumX, 0.5);
     aces->setReservedSpace( 0, 0, 1, 2 );
+    aces->setKeyboardSelectHint( KCardPile::NeverFocus );
+    aces->setKeyboardDropHint( KCardPile::ForceFocusTop );
 
     for ( int r = 0; r < 4; ++r )
     {
@@ -96,6 +100,8 @@ void Mod3::initialize()
                                       : r == 1 ? PatPile::FoundationType3
                                       : r == 2 ? PatPile::FoundationType4
                                       : PatPile::Tableau );
+            stack[r][c]->setKeyboardSelectHint( KCardPile::AutoFocusTop );
+            stack[r][c]->setKeyboardDropHint( KCardPile::AutoFocusTop );
         }
     }
 

@@ -96,16 +96,20 @@ void Klondike::initialize()
     talon = new PatPile( this, 0, "talon" );
     talon->setPileRole(PatPile::Stock);
     talon->setLayoutPos(0, 0);
-    connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
     // Give the talon a low Z value to keep it out of the way during there
     // deal animation.
     talon->setZValue( -52 );
+    talon->setKeyboardSelectHint( KCardPile::NeverFocus );
+    talon->setKeyboardDropHint( KCardPile::NeverFocus );
+    connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
 
     pile = new KlondikePile( this, 13, EasyRules ? 1 : 3, "pile" );
     pile->setPileRole(PatPile::Waste);
     pile->setReservedSpace( 0, 0, 1.9, 1.0 );
     pile->setLayoutPos(1.0 + hspacing, 0);
     pile->setSpread( 0.33, 0 );
+    pile->setKeyboardSelectHint( KCardPile::ForceFocusTop );
+    pile->setKeyboardDropHint( KCardPile::NeverFocus );
 
     for( int i = 0; i < 7; ++i )
     {
@@ -114,6 +118,8 @@ void Klondike::initialize()
         play[i]->setLayoutPos((1.0 + hspacing) * i, 1.0 + vspacing);
         play[i]->setAutoTurnTop(true);
         play[i]->setReservedSpace( 0, 0, 1, 1 + play[i]->spread().height() * 7 );
+        play[i]->setKeyboardSelectHint( KCardPile::AutoFocusDeepestFaceUp );
+        play[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
     }
 
     for( int i = 0; i < 4; ++i )
@@ -121,6 +127,8 @@ void Klondike::initialize()
         target[i] = new PatPile( this, i + 1, QString( "target%1" ).arg( i ) );
         target[i]->setPileRole(PatPile::Foundation);
         target[i]->setLayoutPos((3 + i) * (1.0 + hspacing), 0);
+        target[i]->setKeyboardSelectHint( KCardPile::ForceFocusTop );
+        target[i]->setKeyboardDropHint( KCardPile::ForceFocusTop );
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);
@@ -274,6 +282,13 @@ void Klondike::setEasy( bool _EasyRules )
 
         int drawNumber = EasyRules ? 1 : 3;
         pile->setDraws( drawNumber );
+
+        KCardPile::KeyboardFocusHint hint = EasyRules
+                                          ? KCardPile::ForceFocusTop
+                                          : KCardPile::NeverFocus;
+        for( int i = 0; i < 4; ++i )
+            target[i]->setKeyboardSelectHint( hint );
+
         setSolver( new KlondikeSolver( this, drawNumber ) );
 
         Settings::setKlondikeIsDrawOne( EasyRules );
