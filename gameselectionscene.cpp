@@ -26,6 +26,7 @@
 #include <KLocale>
 
 #include <QtGui/QGraphicsObject>
+#include <QtGui/QKeyEvent>
 #include <QtGui/QPainter>
 #include <QtGui/QStyleOptionGraphicsItem>
 #include <QtCore/QPropertyAnimation>
@@ -73,39 +74,53 @@ public:
         return m_label;
     }
 
+    int id() const
+    {
+        return m_gameId;
+    }
+
+    void setHighlighted( bool highlighted )
+    {
+        if ( highlighted )
+        {
+            m_anim->setDirection( QAbstractAnimation::Forward );
+            if ( m_anim->state() != QAbstractAnimation::Running )
+                m_anim->start();
+        }
+        else
+        {
+            m_anim->setDirection( QAbstractAnimation::Backward );
+            if ( m_anim->state() != QAbstractAnimation::Running )
+                m_anim->start();
+        }
+    }
+
     static bool lessThan( const GameSelectionBox * a, const GameSelectionBox * b )
     {
         return a->m_label < b->m_label;
     }
 
 signals:
-    void clicked();
+    void selected( int gameId );
+    void hoverChanged( GameSelectionBox * box, bool hovered );
 
 protected:
     virtual void mousePressEvent( QGraphicsSceneMouseEvent * event )
     {
         Q_UNUSED( event )
-        emit clicked();
+        emit selected( m_gameId );
     }
 
     virtual void hoverEnterEvent( QGraphicsSceneHoverEvent * event )
     {
         Q_UNUSED( event )
-        m_anim->setDirection( QAbstractAnimation::Forward );
-        if ( m_anim->state() != QAbstractAnimation::Running )
-        {
-            m_anim->start();
-        }
+        emit hoverChanged( this, true );
     }
 
     virtual void hoverLeaveEvent( QGraphicsSceneHoverEvent * event )
     {
         Q_UNUSED( event )
-        m_anim->setDirection( QAbstractAnimation::Backward );
-        if ( m_anim->state() != QAbstractAnimation::Running )
-        {
-            m_anim->start();
-        }
+        emit hoverChanged( this, false );
     }
 
     qreal hoverFadeAmount() const
@@ -142,11 +157,13 @@ protected:
                                  r->renderElement( "bubble_hover", m_size ) );
             painter->setOpacity( opacity );
         }
+        else if ( m_highlightFadeAmount == 1 )
+        {
+            painter->drawPixmap( 0, 0, r->renderElement( "bubble_hover", m_size ) );
+        }
         else
         {
-            painter->drawPixmap( QPointF( 0, 0 ),
-                                 r->renderElement( option->state & QStyle::State_MouseOver ? "bubble_hover" : "bubble",
-                                                                  m_size ) );
+            painter->drawPixmap( 0, 0, r->renderElement( "bubble", m_size ) );
         }
 
         // Draw game preview
@@ -172,7 +189,8 @@ private:
 
 
 GameSelectionScene::GameSelectionScene( QObject * parent )
-    : QGraphicsScene( parent )
+  : QGraphicsScene( parent ),
+    m_selectionIndex( -1 )
 {
     foreach (const DealerInfo * i, DealerInfoList::self()->games())
     {
@@ -180,11 +198,9 @@ GameSelectionScene::GameSelectionScene( QObject * parent )
         m_boxes.append( box );
         addItem( box );
 
-        m_signalMapper.setMapping( box, i->ids().first() );
-        connect( box, SIGNAL(clicked()), &m_signalMapper, SLOT(map()) );
+        connect( box, SIGNAL(selected(int)), this, SIGNAL(gameSelected(int)) );
+        connect( box, SIGNAL(hoverChanged(GameSelectionBox*,bool)), this, SLOT(boxHoverChanged(GameSelectionBox*,bool)) );
     }
-
-    connect( &m_signalMapper, SIGNAL(mapped(int)), SIGNAL(gameSelected(int)) );
 
     qSort( m_boxes.begin(), m_boxes.end(), GameSelectionBox::lessThan );
 }
@@ -203,13 +219,15 @@ void GameSelectionScene::resizeScene( const QSize & size )
     qreal sceneAspect = qreal( size.width() ) / size.height();
 
     // Determine the optimal number of rows/columns for the grid
-    int numRows, numCols, bestNumRows = 1;
+    m_columns = 1;
+    int numRows = 1;
+    int bestNumRows = 1;
     qreal lowestError = 10e10;
     for ( numRows = 1; numRows <= numBoxes; ++numRows )
     {
-        numCols = ceil( qreal( numBoxes ) / numRows );
-        int numNonEmptyRows = ceil( qreal( numBoxes ) / numCols );
-        qreal gridAspect = boxAspect * numCols / numNonEmptyRows;
+        m_columns = ceil( qreal( numBoxes ) / numRows );
+        int numNonEmptyRows = ceil( qreal( numBoxes ) / m_columns );
+        qreal gridAspect = boxAspect * m_columns / numNonEmptyRows;
         qreal error = gridAspect > sceneAspect ? gridAspect / sceneAspect
                                                : sceneAspect / gridAspect;
         if ( error < lowestError )
@@ -219,15 +237,15 @@ void GameSelectionScene::resizeScene( const QSize & size )
         }
     }
     numRows = bestNumRows;
-    numCols = ceil( qreal( numBoxes ) / bestNumRows );
+    m_columns = ceil( qreal( numBoxes ) / bestNumRows );
 
     // Calculate the box and grid dimensions
-    qreal gridAspect = boxAspect * ( numCols + spacingRatio * ( numCols + 1 ) )
+    qreal gridAspect = boxAspect * ( m_columns + spacingRatio * ( m_columns + 1 ) )
                                   / ( numRows + spacingRatio * ( numRows + 1 ) );
     int boxWidth, boxHeight;
     if ( gridAspect > sceneAspect )
     {
-        boxWidth = size.width() / ( numCols + spacingRatio * ( numCols + 1 ) );
+        boxWidth = size.width() / ( m_columns + spacingRatio * ( m_columns + 1 ) );
         boxHeight = boxWidth / boxAspect;
     }
     else
@@ -235,7 +253,7 @@ void GameSelectionScene::resizeScene( const QSize & size )
         boxHeight = size.height() / ( numRows + spacingRatio * ( numRows + 1 ) );
         boxWidth = boxHeight * boxAspect;
     }
-    int gridWidth = boxWidth * ( numCols + spacingRatio * ( numCols + 1 ) );
+    int gridWidth = boxWidth * ( m_columns + spacingRatio * ( m_columns + 1 ) );
     int gridHeight = boxHeight * ( numRows + spacingRatio * ( numRows + 1 ) );
 
     // Set up the sceneRect so that the grid is centered
@@ -271,7 +289,7 @@ void GameSelectionScene::resizeScene( const QSize & size )
 
         // Increment column and row
         ++col;
-        if ( col == numCols )
+        if ( col == m_columns )
         {
             col = 0;
             ++row;
@@ -280,6 +298,74 @@ void GameSelectionScene::resizeScene( const QSize & size )
 
     setFont( f );
 }
+
+
+void GameSelectionScene::keyReleaseEvent( QKeyEvent * event )
+{
+    if ( m_selectionIndex == -1 )
+    {
+        m_selectionIndex = 0;
+        m_boxes.at( m_selectionIndex )->setHighlighted( true );
+    }
+    else if ( event->key() == Qt::Key_Up
+         && m_selectionIndex / m_columns > 0 )
+    {
+        m_boxes.at( m_selectionIndex )->setHighlighted( false );
+        m_selectionIndex -= m_columns;
+        m_boxes.at( m_selectionIndex )->setHighlighted( true );
+    }
+    else if ( event->key() == Qt::Key_Down
+              && m_selectionIndex + m_columns < m_boxes.size() )
+    {
+        m_boxes.at( m_selectionIndex )->setHighlighted( false );
+        m_selectionIndex += m_columns;
+        m_boxes.at( m_selectionIndex )->setHighlighted( true );
+    }
+    else if ( event->key() == Qt::Key_Left
+              && m_selectionIndex % m_columns > 0 )
+    {
+        m_boxes.at( m_selectionIndex )->setHighlighted( false );
+        --m_selectionIndex;
+        m_boxes.at( m_selectionIndex )->setHighlighted( true );
+    }
+    else if ( event->key() == Qt::Key_Right
+              && m_selectionIndex % m_columns < m_columns - 1
+              && m_selectionIndex < m_boxes.size() - 1 )
+    {
+        m_boxes.at( m_selectionIndex )->setHighlighted( false );
+        ++m_selectionIndex;
+        m_boxes.at( m_selectionIndex )->setHighlighted( true );
+    }
+    else if ( ( event->key() == Qt::Key_Return
+                || event->key() ==Qt::Key_Enter
+                || event->key() ==Qt::Key_Space )
+              && m_selectionIndex != -1 )
+    {
+        emit gameSelected( m_boxes.at( m_selectionIndex )->id() );
+    }
+}
+
+
+void GameSelectionScene::boxHoverChanged( GameSelectionScene::GameSelectionBox * box, bool hovered )
+{
+    if ( hovered )
+    {
+        if ( m_selectionIndex != -1 )
+            m_boxes.at( m_selectionIndex )->setHighlighted( false );
+
+        m_selectionIndex = m_boxes.indexOf( box );
+        box->setHighlighted( true );
+    }
+    else
+    {
+        if ( m_boxes.indexOf( box ) == m_selectionIndex )
+        {
+            m_selectionIndex = -1;
+            box->setHighlighted( false );
+        }
+    }
+}
+
 
 #include "gameselectionscene.moc"
 #include "moc_gameselectionscene.cpp"

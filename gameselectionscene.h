@@ -27,6 +27,8 @@ class GameSelectionScene : public QGraphicsScene
 {
     Q_OBJECT
 
+    class GameSelectionBox;
+
 public:
     GameSelectionScene( QObject * parent );
     ~GameSelectionScene();
@@ -36,11 +38,16 @@ public:
 signals:
     void gameSelected( int i );
 
-private:
-    class GameSelectionBox;
+protected:
+    virtual void keyReleaseEvent( QKeyEvent * event );
 
+private slots:
+    void boxHoverChanged( GameSelectionBox * box, bool hovered );
+
+private:
+    int m_columns;
+    int m_selectionIndex;
     QList<GameSelectionBox*> m_boxes;
-    QSignalMapper m_signalMapper;
 };
 
 #endif
