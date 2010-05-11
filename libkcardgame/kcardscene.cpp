@@ -78,6 +78,9 @@ public:
     KCardScenePrivate( KCardScene * p );
 
     int calculateDuration( QPointF pos1, QPointF pos2, qreal velocity ) const;
+    void updateKeyboardFocus();
+
+    KCardScene * const q;
 
     KAbstractCardDeck * deck;
     QList<KCardPile*> piles;
@@ -92,12 +95,17 @@ public:
     qreal layoutSpacing;
     QSizeF contentSize;
 
+    bool keyboardMode;
+    int keyboardPileIndex;
+    int keyboardCardIndex;
+
     bool sizeHasBeenSet;
 };
 
 
 KCardScenePrivate::KCardScenePrivate( KCardScene * p )
-  : QObject( p )
+  : QObject( p ),
+    q( p )
 {
 }
 
@@ -113,6 +121,44 @@ int KCardScenePrivate::calculateDuration( QPointF pos1, QPointF pos2, qreal velo
 }
 
 
+void KCardScenePrivate::updateKeyboardFocus()
+{
+    if ( !keyboardMode )
+    {
+        q->clearHighlightedItems();
+        return;
+    }
+
+    KCardPile * pile = piles.at( keyboardPileIndex );
+    QGraphicsItem * item = 0;
+
+    if ( !cardsBeingDragged.isEmpty()
+         && cardsBeingDragged.first()->pile() == pile )
+    {
+        int index = pile->indexOf( cardsBeingDragged.first() );
+        if ( index == 0 )
+            item = pile;
+        else
+            item = pile->at( index - 1 );
+    }
+    else if ( pile->isEmpty() )
+        item = pile;
+    else if ( keyboardCardIndex >= pile->count() )
+        item = pile->top();
+    else
+        item = pile->at( keyboardCardIndex );
+
+    Q_ASSERT( item );
+
+    q->setHighlightedItems( QList<QGraphicsItem*>() << item );
+
+    QPointF delta = item->pos() - startOfDrag;
+    startOfDrag = item->pos();
+    foreach ( KCard * c, cardsBeingDragged )
+        c->setPos( c->pos() + delta );
+}
+
+
 KCardScene::KCardScene( QObject * parent )
   : QGraphicsScene( parent ),
     d( new KCardScenePrivate( this ) )
@@ -121,6 +167,9 @@ KCardScene::KCardScene( QObject * parent )
     d->alignment = AlignHCenter | AlignHSpread;
     d->layoutMargin = 0.15;
     d->layoutSpacing = 0.15;
+    d->keyboardMode = false;
+    d->keyboardPileIndex = 0;
+    d->keyboardCardIndex = 0;
     d->sizeHasBeenSet = false;
 }
 
@@ -622,6 +671,168 @@ void KCardScene::flipCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal ve
 }
 
 
+void KCardScene::keyboardFocusLeft()
+{
+    if ( !isKeyboardModeActive() )
+    {
+        setKeyboardModeActive( true );
+        return;
+    }
+
+    --d->keyboardPileIndex;
+    if ( d->keyboardPileIndex < 0 )
+        d->keyboardPileIndex = d->piles.size() - 1;
+
+    d->updateKeyboardFocus();
+}
+
+
+void KCardScene::keyboardFocusRight()
+{
+    if ( !isKeyboardModeActive() )
+    {
+        setKeyboardModeActive( true );
+        return;
+    }
+
+    ++d->keyboardPileIndex;
+    if ( d->keyboardPileIndex >= d->piles.size() )
+        d->keyboardPileIndex = 0;
+
+    d->updateKeyboardFocus();
+}
+
+
+void KCardScene::keyboardFocusUp()
+{
+    if ( !isKeyboardModeActive() )
+    {
+        setKeyboardModeActive( true );
+        return;
+    }
+
+    KCardPile * pile = d->piles.at( d->keyboardPileIndex );
+    if ( d->keyboardCardIndex >= pile->count() )
+    {
+        d->keyboardCardIndex = pile->count() - 2;
+    }
+    else
+    {
+        --d->keyboardCardIndex;
+        if ( d->keyboardCardIndex < 0 )
+            d->keyboardCardIndex =  pile->count() - 1;
+    }
+
+    d->updateKeyboardFocus();
+}
+
+
+void KCardScene::keyboardFocusDown()
+{
+    if ( !isKeyboardModeActive() )
+    {
+        setKeyboardModeActive( true );
+        return;
+    }
+
+    KCardPile * pile = d->piles.at( d->keyboardPileIndex );
+    ++d->keyboardCardIndex;
+    if ( d->keyboardCardIndex >= pile->count() )
+        d->keyboardCardIndex = 0;
+
+    d->updateKeyboardFocus();
+}
+
+
+void KCardScene::keyboardFocusCancel()
+{
+    if ( isKeyboardModeActive() )
+        setKeyboardModeActive( false );
+}
+
+
+void KCardScene::keyboardFocusSelect()
+{
+    if ( !isKeyboardModeActive() )
+    {
+        setKeyboardModeActive( true );
+        return;
+    }
+
+    if ( d->cardsBeingDragged.isEmpty() )
+    {
+        KCardPile * pile = d->piles.at( d->keyboardPileIndex );
+        if ( pile->isEmpty() )
+            return;
+
+        if ( d->keyboardCardIndex >= pile->count() )
+            d->keyboardCardIndex = pile->count() - 1;
+
+        KCard * card = pile->at( d->keyboardCardIndex );
+        d->cardsBeingDragged = card->pile()->topCardsDownTo( card );
+        if ( allowedToRemove( card->pile(), d->cardsBeingDragged.first() ) )
+        {
+            d->startOfDrag = d->keyboardCardIndex > 0
+                          ? pile->at( d->keyboardCardIndex - 1 )->pos()
+                          : pile->pos();
+
+            QPointF offset = d->startOfDrag - card->pos() + QPointF( d->deck->cardWidth(), d->deck->cardHeight() ) / 10.0;
+            foreach ( KCard * c, d->cardsBeingDragged )
+            {
+                c->stopAnimation();
+                c->raise();
+                c->setPos( c->pos() + offset );
+            }
+            d->dragStarted = true;
+            d->updateKeyboardFocus();
+        }
+        else
+        {
+            d->cardsBeingDragged.clear();
+        }
+    }
+    else
+    {
+        KCardPile * destination = targetPile();
+        if ( destination )
+        {
+            moveCardsToPile( d->cardsBeingDragged, destination, cardMoveDuration );
+        }
+        else
+        {
+            d->cardsBeingDragged.first()->pile()->layoutCards( cardMoveDuration );
+        }
+        d->cardsBeingDragged.clear();
+        d->dragStarted = false;
+    }
+}
+
+
+void KCardScene::setKeyboardModeActive( bool keyboardMode )
+{
+    if ( !d->keyboardMode && keyboardMode )
+    {
+        d->keyboardMode = true;
+        d->updateKeyboardFocus();
+    }
+    else if ( d->keyboardMode && !keyboardMode )
+    {
+        if ( !d->cardsBeingDragged.isEmpty() )
+            d->cardsBeingDragged.first()->pile()->layoutCards( cardMoveDuration );
+        d->cardsBeingDragged.clear();
+
+        d->keyboardMode = false;
+        d->updateKeyboardFocus();
+    }
+}
+
+
+bool KCardScene::isKeyboardModeActive() const
+{
+    return d->keyboardMode;
+}
+
+
 bool KCardScene::allowedToAdd( const KCardPile * pile, const QList<KCard*> & cards ) const
 {
     Q_UNUSED( pile )
@@ -681,6 +892,9 @@ KCardPile * KCardScene::targetPile()
 
 void KCardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 {
+    if ( isKeyboardModeActive() )
+        setKeyboardModeActive( false );
+
     QGraphicsItem * item = itemAt( e->scenePos() );
     KCard * card = qgraphicsitem_cast<KCard*>( item );
     KCardPile * pile = qgraphicsitem_cast<KCardPile*>( item );

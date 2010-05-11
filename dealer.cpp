@@ -411,6 +411,11 @@ void DealerScene::hint()
 
     d->dropTimer->stop();
 
+    if ( isKeyboardModeActive() )
+    {
+        setKeyboardModeActive( false );
+    }
+
     if ( !highlightedItems().isEmpty() )
     {
         clearHighlightedItems();

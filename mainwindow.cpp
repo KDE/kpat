@@ -186,7 +186,7 @@ void MainWindow::setupActions()
     drawaction = actionCollection()->addAction("move_draw");
     drawaction->setText( i18nc("Take one or more cards from the deck, flip them, and place them in play", "Dra&w") );
     drawaction->setIcon( KIcon("kpat") );
-    drawaction->setShortcut( Qt::Key_Space );
+    drawaction->setShortcut( Qt::Key_Tab );
 
     dealaction = actionCollection()->addAction("move_deal");
     dealaction->setText( i18nc("Deal a new row of cards from the deck", "Dea&l Row") );
@@ -251,6 +251,31 @@ void MainWindow::setupActions()
         connect( a, SIGNAL(triggered(bool)), SLOT(slotPickRandom()) );
         a->setShortcuts( KShortcut( Qt::Key_F9 ) );
     }
+
+    // Keyboard navigation actions
+    m_leftAction = actionCollection()->addAction("focus_left");
+    m_leftAction->setText("Move Focus to Previous Pile");
+    m_leftAction->setShortcuts( KShortcut( Qt::Key_Left ) );
+
+    m_rightAction = actionCollection()->addAction("focus_right");
+    m_rightAction->setText("Move Focus to Next Pile");
+    m_rightAction->setShortcuts( KShortcut( Qt::Key_Right ) );
+
+    m_upAction = actionCollection()->addAction("focus_up");
+    m_upAction->setText("Move Focus to Card Below");
+    m_upAction->setShortcuts( KShortcut( Qt::Key_Up ) );
+
+    m_downAction = actionCollection()->addAction("focus_down");
+    m_downAction->setText("Move Focus to Card Above");
+    m_downAction->setShortcuts( KShortcut( Qt::Key_Down ) );
+
+    m_cancelAction = actionCollection()->addAction("focus_cancel");
+    m_cancelAction->setText("Cancel Focus");
+    m_cancelAction->setShortcuts( KShortcut( Qt::Key_Escape ) );
+
+    m_pickUpSetDownAction = actionCollection()->addAction("focus_activate");
+    m_pickUpSetDownAction->setText("Pick Up or Set Down Focus");
+    m_pickUpSetDownAction->setShortcuts( KShortcut( Qt::Key_Space ) );
 }
 
 
@@ -519,6 +544,13 @@ void MainWindow::updateActions()
         connect( m_dealer, SIGNAL(demoPossible(bool)), demoaction, SLOT(setEnabled(bool)) );
 
         connect( dropaction, SIGNAL(triggered(bool)), m_dealer, SLOT(startManualDrop()) );
+
+        connect( m_leftAction, SIGNAL(triggered(bool)), m_dealer, SLOT(keyboardFocusLeft()) );
+        connect( m_rightAction, SIGNAL(triggered(bool)), m_dealer, SLOT(keyboardFocusRight()) );
+        connect( m_upAction, SIGNAL(triggered(bool)), m_dealer, SLOT(keyboardFocusUp()) );
+        connect( m_downAction, SIGNAL(triggered(bool)), m_dealer, SLOT(keyboardFocusDown()) );
+        connect( m_cancelAction, SIGNAL(triggered(bool)), m_dealer, SLOT(keyboardFocusCancel()) );
+        connect( m_pickUpSetDownAction, SIGNAL(triggered(bool)), m_dealer, SLOT(keyboardFocusSelect()) );
 
         if ( m_dealer->actions() & DealerScene::Draw )
         {

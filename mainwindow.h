@@ -112,6 +112,13 @@ private:
     void updateGameActionList();
 
     // Members
+    KAction * m_leftAction;
+    KAction * m_rightAction;
+    KAction * m_upAction;
+    KAction * m_downAction;
+    KAction * m_cancelAction;
+    KAction * m_pickUpSetDownAction;    
+
     KAction        *undo;
     KAction        *redo;
     KAction        *demoaction;

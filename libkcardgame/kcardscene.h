@@ -103,6 +103,14 @@ public:
 
     bool isCardAnimationRunning() const;
 
+public Q_SLOTS:
+    void keyboardFocusLeft();
+    void keyboardFocusRight();
+    void keyboardFocusUp();
+    void keyboardFocusDown();
+    void keyboardFocusCancel();
+    void keyboardFocusSelect();
+
 Q_SIGNALS:
     void cardClicked( KCard * card );
     void cardDoubleClicked( KCard * card );
@@ -114,6 +122,9 @@ Q_SIGNALS:
     void cardAnimationDone();
 
 protected:
+    void setKeyboardModeActive( bool keyboardMode );
+    bool isKeyboardModeActive() const;
+
     virtual bool allowedToAdd( const KCardPile * pile, const QList<KCard*> & cards ) const;
     virtual bool allowedToRemove( const KCardPile * pile, const KCard * card ) const;
     virtual KCardPile * targetPile();
