@@ -592,6 +592,7 @@ void DealerScene::resetInternals()
 {
     stopDemo();
     clearHighlightedItems();
+    setKeyboardModeActive( false );
 
     d->_won = false;
     d->wonItem->hide();
@@ -655,6 +656,8 @@ void DealerScene::won()
     emit hintPossible( false );
     emit newCardsPossible( false );
     emit undoPossible( false );
+
+    setKeyboardModeActive( false );
 
     qreal speed = sqrt( width() * width() + height() * height() ) / ( DURATION_WON );
 

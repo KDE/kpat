@@ -122,6 +122,8 @@ Q_SIGNALS:
     void cardAnimationDone();
 
 protected:
+    void setKeyboardFocus( QGraphicsItem * item );
+
     void setKeyboardModeActive( bool keyboardMode );
     bool isKeyboardModeActive() const;
 

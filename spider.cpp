@@ -168,6 +168,7 @@ void Spider::setSuits(int suits)
 
         stopDemo();
         clearHighlightedItems();
+        setKeyboardModeActive( false );
 
         int cardWidth = deck()->cardWidth();
         createDeck();

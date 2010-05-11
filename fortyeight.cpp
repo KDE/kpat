@@ -144,6 +144,7 @@ KCard *Fortyeight::newCards()
     else
     {
         flipCardToPile( talon->top(), pile, DURATION_MOVE );
+        setKeyboardFocus( pile->top() );
     }
 
     if ( talon->isEmpty() && lastdeal )

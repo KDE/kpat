@@ -201,7 +201,12 @@ void KCardScenePrivate::updateKeyboardFocus()
     q->setItemHighlight( keyboardFocusItem, false );
 
     if ( !keyboardMode )
+    {
+        keyboardFocusItem = 0;
+        keyboardPileIndex = 0;
+        keyboardCardIndex = 0;
         return;
+    }
 
     KCardPile * pile = piles.at( keyboardPileIndex );
     KCardPile::KeyboardFocusHint hint = cardsBeingDragged.isEmpty()
@@ -826,16 +831,37 @@ void KCardScene::keyboardFocusSelect()
     {
         KCardPile * destination = targetPile();
         if ( destination )
-        {
             moveCardsToPile( d->cardsBeingDragged, destination, cardMoveDuration );
-        }
         else
-        {
             d->cardsBeingDragged.first()->pile()->layoutCards( cardMoveDuration );
-        }
+
+        QGraphicsItem * toFocus = d->cardsBeingDragged.first();
         d->cardsBeingDragged.clear();
         d->dragStarted = false;
+        setKeyboardFocus( toFocus );
     }
+}
+
+
+void KCardScene::setKeyboardFocus( QGraphicsItem * item )
+{
+    KCard * c = qgraphicsitem_cast<KCard*>( item );
+    if ( c && c->pile() )
+    {
+        KCardPile * p = c->pile();
+        d->keyboardPileIndex = d->piles.indexOf( p );
+        d->keyboardCardIndex = p->indexOf( c );
+    }
+    else
+    {
+        KCardPile * p = qgraphicsitem_cast<KCardPile*>( item );
+        if ( p )
+        {
+            d->keyboardPileIndex = d->piles.indexOf( p );
+            d->keyboardCardIndex = 0;
+        }
+    }
+    d->updateKeyboardFocus();
 }
 
 

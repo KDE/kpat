@@ -116,6 +116,8 @@ KCard *Grandf::newCards()
 
 void Grandf::deal( const QList<KCard*> & cardsToDeal )
 {
+    setKeyboardModeActive( false );
+
     QList<KCard*> cards = cardsToDeal;
 
     QPointF initPos( 1.4 * 3 * deck()->cardWidth(), 1.2 * deck()->cardHeight() );

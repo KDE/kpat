@@ -205,6 +205,7 @@ KCard *Klondike::newCards()
         int depth = qMax( 0, talon->count() - pile->draw() );
         QList<KCard*> cards = talon->topCardsDownTo( talon->at( depth ) );
         flipCardsToPile( cards, pile, DURATION_MOVE );
+        setKeyboardFocus( pile->top() );
     }
 
     if ( talon->isEmpty() && pile->count() <= 1 )
