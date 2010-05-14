@@ -450,8 +450,7 @@ void KAbstractCardDeck::paintCard( QPainter * painter, quint32 id, bool faceUp, 
     {
         QPainter p( &pix );
         p.setCompositionMode( QPainter::CompositionMode_SourceAtop );
-        p.setOpacity( 0.5 * highlightedness );
-        p.fillRect( 0, 0, pix.width(), pix.height(), Qt::black );
+        p.fillRect( 0, 0, pix.width(), pix.height(), QColor::fromRgbF( 0, 0, 0, 0.5 * highlightedness ) );
     }
 
     painter->drawPixmap( 0, 0, pix );
