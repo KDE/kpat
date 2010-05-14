@@ -139,7 +139,7 @@ protected:
     virtual void mouseReleaseEvent( QGraphicsSceneMouseEvent * e );
     virtual void wheelEvent( QGraphicsSceneWheelEvent * e );
 
-    virtual void drawForeground ( QPainter * painter, const QRectF & rect );
+    virtual void drawForeground( QPainter * painter, const QRectF & rect );
 
 private:
     friend class KCardScenePrivate;

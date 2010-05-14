@@ -121,8 +121,7 @@ Q_SIGNALS:
     void rightClicked( KCard * card );
 
 protected:
-    virtual void paintNormalGraphic( QPainter * painter );
-    virtual void paintHighlightedGraphic( QPainter * painter );
+    virtual void paintGraphic( QPainter * painter, qreal highlightedness );
 
     QRectF availableSpace() const;
 

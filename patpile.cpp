@@ -58,15 +58,21 @@ bool PatPile::isFoundation() const
 }
 
 
-void PatPile::paintNormalGraphic( QPainter * painter )
+void PatPile::paintGraphic( QPainter* painter, qreal highlightedness )
 {
-    QPixmap pix = Renderer::self()->renderElement( "pile", boundingRect().size().toSize() );
-    painter->drawPixmap( 0, 0, pix );
+    if ( highlightedness < 1 )
+    {
+        QPixmap pix = Renderer::self()->renderElement( "pile", boundingRect().size().toSize() );
+        painter->drawPixmap( 0, 0, pix );
+    }
+
+    if ( highlightedness > 0 )
+    {
+        if ( highlightedness < 1 )
+            painter->setOpacity( highlightedness );
+
+        QPixmap pix = Renderer::self()->renderElement( "pile_selected", boundingRect().size().toSize() );
+        painter->drawPixmap( 0, 0, pix );
+    }
 }
 
-
-void PatPile::paintHighlightedGraphic( QPainter * painter )
-{
-    QPixmap pix = Renderer::self()->renderElement( "pile_selected", boundingRect().size().toSize() );
-    painter->drawPixmap( 0, 0, pix );
-}

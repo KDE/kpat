@@ -155,23 +155,7 @@ void KCardPile::paint( QPainter * painter, const QStyleOptionGraphicsItem * opti
     Q_UNUSED( widget );
 
     if ( d->graphicVisible )
-    {
-        if ( d->fadeAnimation->state() == QAbstractAnimation::Running )
-        {
-            painter->setOpacity( 1 - d->highlightValue );
-            paintNormalGraphic( painter );
-            painter->setOpacity( d->highlightValue );
-            paintHighlightedGraphic( painter );
-        }
-        else if ( d->highlighted )
-        {
-            paintHighlightedGraphic( painter );
-        }
-        else
-        {
-            paintNormalGraphic( painter );
-        }
-    }
+        paintGraphic( painter, d->highlightValue );
 }
 
 
@@ -452,20 +436,14 @@ void KCardPile::layoutCards( int duration )
 }
 
 
-void KCardPile::paintNormalGraphic( QPainter * painter )
+void KCardPile::paintGraphic( QPainter* painter, qreal highlightedness )
 {
     int penWidth = boundingRect().width() / 40;
     int topLeft = penWidth / 2;
     int bottomRight = topLeft - penWidth;
     painter->setPen( QPen( Qt::black, penWidth ) );
+    painter->setBrush( QColor( 0, 0, 0, 64 * highlightedness ) );
     painter->drawRect( boundingRect().adjusted( topLeft, topLeft, bottomRight, bottomRight ) );
-}
-
-
-void KCardPile::paintHighlightedGraphic( QPainter * painter )
-{
-    painter->setBrush( QColor( 0, 0, 0, 64 ) );
-    paintNormalGraphic( painter );
 }
 
 
