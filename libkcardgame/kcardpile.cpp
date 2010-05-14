@@ -421,7 +421,7 @@ void KCardPile::layoutCards( int duration )
     for ( int i = 0; i < d->cards.size() - 1; ++i )
     {
         KCard * card = d->cards[i];
-        card->animate( cardPos, z, 1, 0, card->isFaceUp(), false, duration );
+        card->animate( cardPos, z, 0, card->isFaceUp(), false, duration );
 
         QPointF offset = cardOffset( card );
         cardPos.rx() += divx * offset.x();
@@ -430,9 +430,9 @@ void KCardPile::layoutCards( int duration )
     }
 
     if ( d->autoTurnTop && !top()->isFaceUp() )
-        top()->animate( cardPos, z, 1, 0, true, false, duration );
+        top()->animate( cardPos, z, 0, true, false, duration );
     else
-        top()->animate( cardPos, z, 1, 0, top()->isFaceUp(), false, duration );
+        top()->animate( cardPos, z, 0, top()->isFaceUp(), false, duration );
 }
 
 

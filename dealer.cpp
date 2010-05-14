@@ -673,7 +673,7 @@ void DealerScene::won()
         qreal dist = sqrt( delta.x() * delta.x() + delta.y() * delta.y() );
 
         c->setFaceUp( true );
-        c->animate( pos2, c->zValue(), 1, 0, true, false, dist / speed );
+        c->animate( pos2, c->zValue(), 0, true, false, dist / speed );
     }
 
     connect(deck(), SIGNAL(cardAnimationDone()), this, SLOT(showWonMessage()));
@@ -814,9 +814,9 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
     {
         e->accept();
         d->peekedCard = card;
-        QPointF pos2( card->x() + deck()->cardWidth() / 3.0, card->y() - deck()->cardHeight() / 4.0 );
+        QPointF pos2( card->x() + deck()->cardWidth() / 3.0, card->y() - deck()->cardHeight() / 3.0 );
         card->setZValue( card->zValue() + 0.1 );
-        card->animate( pos2, card->zValue(), 1.1, 20, card->isFaceUp(), false, DURATION_FANCYSHOW );
+        card->animate( pos2, card->zValue(), 20, card->isFaceUp(), false, DURATION_FANCYSHOW );
     }
     else
     {
@@ -1141,7 +1141,7 @@ bool DealerScene::drop()
                 c->setPos( oldPositions.value( c ) );
 
                 int duration = speedUpTime( DURATION_AUTODROP + count++ * DURATION_AUTODROP / 10 );
-                c->animate( destPos, c->zValue(), 1, 0, c->isFaceUp(), true, duration );
+                c->animate( destPos, c->zValue(), 0, c->isFaceUp(), true, duration );
 
                 animationStarted |= c->isAnimated();
             }
@@ -1397,7 +1397,7 @@ void DealerScene::demo()
             c->completeAnimation();
             QPointF destPos = c->pos();
             c->setPos(oldPositions.value(c));
-            c->animate(destPos, c->zValue(), 1, 0, c->isFaceUp(), true, DURATION_DEMO);
+            c->animate(destPos, c->zValue(), 0, c->isFaceUp(), true, DURATION_DEMO);
         }
 
         newDemoMove(mh->card());
@@ -1672,7 +1672,7 @@ void DealerScene::startDealAnimation()
             QPointF delta = c->pos() - pos2;
             qreal dist = sqrt( delta.x() * delta.x() + delta.y() * delta.y() );
             int duration = qRound( dist / speed );
-            c->animate( pos2, c->zValue(), 1, 0, c->isFaceUp(), false, duration );
+            c->animate( pos2, c->zValue(), 0, c->isFaceUp(), false, duration );
         }
     }
     m_initDealPositions.clear();

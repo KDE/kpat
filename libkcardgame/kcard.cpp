@@ -33,7 +33,6 @@ KCardAnimation::KCardAnimation( KCardPrivate * d,
                                 int duration,
                                 QPointF pos,
                                 qreal rotation,
-                                qreal scale,
                                 bool faceUp )
   : QAbstractAnimation( d ),
     d( d ),
@@ -41,12 +40,10 @@ KCardAnimation::KCardAnimation( KCardPrivate * d,
     m_x0( d->q->x() ),
     m_y0( d->q->y() ),
     m_rotation0( d->q->rotation() ),
-    m_scale0( d->q->scale() ),
     m_flippedness0( d->flippedness() ),
     m_xDelta( pos.x() - m_x0 ),
     m_yDelta( pos.y() - m_y0 ),
     m_rotationDelta( rotation - m_rotation0 ),
-    m_scaleDelta( scale - m_scale0 ),
     m_flippednessDelta( (faceUp ? 1.0 : 0.0) - m_flippedness0 )
 {
     qreal w = d->deck->cardWidth();
@@ -71,7 +68,6 @@ void KCardAnimation::updateCurrentTime( int msec )
 
     d->q->setPos( m_x0 + m_xDelta * progress, m_y0 + m_yDelta * progress );
     d->q->setRotation( m_rotation0 + m_rotationDelta * progress );
-    d->q->setScale( m_scale0 + m_scaleDelta * progress );
     d->setFlippedness( m_flippedness0 + m_flippednessDelta * flipProgress );
 }
 
@@ -197,14 +193,13 @@ bool KCard::isFaceUp() const
 }
 
 
-void KCard::animate( QPointF pos, qreal z, qreal scale, qreal rotation, bool faceUp, bool raised, int duration )
+void KCard::animate( QPointF pos, qreal z, qreal rotation, bool faceUp, bool raised, int duration )
 {
     stopAnimation();
 
     if ( duration > 0
          && ( qAbs( pos.x() - x() ) > 2
               || qAbs( pos.y() - y() ) > 2
-              || qAbs( scale - this->scale() ) > 0.05
               || qAbs( rotation - this->rotation() ) > 2
               || faceUp != d->faceUp ) )
     {
@@ -214,7 +209,7 @@ void KCard::animate( QPointF pos, qreal z, qreal scale, qreal rotation, bool fac
         d->destZ = z;
         d->faceUp = faceUp;
 
-        d->animation = new KCardAnimation( d, duration, pos, rotation, scale, faceUp );
+        d->animation = new KCardAnimation( d, duration, pos, rotation, faceUp );
         connect( d->animation, SIGNAL(finished()), SLOT(stopAnimation()) );
         d->animation->start();
         emit animationStarted( this );
@@ -223,7 +218,6 @@ void KCard::animate( QPointF pos, qreal z, qreal scale, qreal rotation, bool fac
     {
         setPos( pos );
         setZValue( z );
-        setScale( scale );
         setRotation( rotation );
         setFaceUp( faceUp );
     }

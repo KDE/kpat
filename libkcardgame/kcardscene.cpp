@@ -690,7 +690,7 @@ void KCardScene::moveCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal ve
     card->setPos( origPos );
 
     int duration = d->calculateDuration( origPos, destPos, velocity );
-    card->animate( destPos, card->zValue(), 1, 0, card->isFaceUp(), true, duration );
+    card->animate( destPos, card->zValue(), 0, card->isFaceUp(), true, duration );
 }
 
 
@@ -728,7 +728,7 @@ void KCardScene::flipCardsToPile( QList<KCard*> cards, KCardPile * pile, int dur
         if ( c->isFaceUp() )
             c->setZValue( origZValues.at( i ) );
 
-        c->animate( destPos, destZValue, 1, 0, !c->isFaceUp(), true, duration );
+        c->animate( destPos, destZValue, 0, !c->isFaceUp(), true, duration );
     }
 }
 
@@ -753,7 +753,7 @@ void KCardScene::flipCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal ve
     card->setFaceUp( origFaceUp );
 
     int duration = d->calculateDuration( origPos, destPos, velocity );
-    card->animate( destPos, card->zValue(), 1.0, 0.0, !origFaceUp, true, duration );
+    card->animate( destPos, card->zValue(), 0, !origFaceUp, true, duration );
 }
 
 

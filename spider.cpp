@@ -373,7 +373,7 @@ bool Spider::checkPileDeck( KCardPile * pile, bool checkForDemo )
             qreal z = 1;
             foreach ( KCard *c, run ) {
                 leg->add( c );
-                c->animate( leg->pos(), leg->zValue() + z, 1, 0, true, true, DURATION_AUTODROP * (0.7 + z / 10) );
+                c->animate( leg->pos(), leg->zValue() + z, 0, true, true, DURATION_AUTODROP * (0.7 + z / 10) );
                 ++z;
             }
             m_leg++;

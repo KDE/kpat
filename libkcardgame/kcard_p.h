@@ -31,7 +31,7 @@ class QPropertyAnimation;
 class KCardAnimation : public QAbstractAnimation
 {
 public:
-    KCardAnimation( KCardPrivate * d, int duration, QPointF pos, qreal rotation, qreal scale, bool faceUp );
+    KCardAnimation( KCardPrivate * d, int duration, QPointF pos, qreal rotation, bool faceUp );
     int duration() const;
     void updateCurrentTime( int msec );
 
@@ -43,13 +43,11 @@ private:
     qreal m_x0;
     qreal m_y0;
     qreal m_rotation0;
-    qreal m_scale0;
     qreal m_flippedness0;
 
     qreal m_xDelta;
     qreal m_yDelta;
     qreal m_rotationDelta;
-    qreal m_scaleDelta;
     qreal m_flippednessDelta;
 
     qreal m_flipProgressFactor;
