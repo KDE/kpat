@@ -198,7 +198,7 @@ QPixmap KAbstractCardDeckPrivate::requestPixmap( QString elementId, bool immedia
     if( !theme.isValid() )
         return QPixmap();
 
-    QPixmap & stored = elementIdMapping[ elementId ].first;
+    QPixmap & stored = elementIdMapping[ elementId ].cardPixmap;
     if ( stored.size() != currentCardSize )
     {
         if ( immediate || stored.isNull() )
@@ -236,8 +236,8 @@ void KAbstractCardDeckPrivate::updateCardSize( const QSize & size )
     // check the contents of the KPixmapCache from outside the GUI thread.
     QPixmap pix;
     QStringList unrenderedElements;
-    CardPixmapHash::const_iterator it = elementIdMapping.constBegin();
-    CardPixmapHash::const_iterator end = elementIdMapping.constEnd();
+    QHash<QString,CardElementData>::const_iterator it = elementIdMapping.constBegin();
+    QHash<QString,CardElementData>::const_iterator end = elementIdMapping.constEnd();
     for ( ; it != end; ++it )
     {
         QString key = keyForPixmap( it.key(), currentCardSize );
@@ -262,12 +262,12 @@ void KAbstractCardDeckPrivate::deleteThread()
 void KAbstractCardDeckPrivate::submitRendering( const QString & key, const QImage & image )
 {
     QString elementId = key.left( key.indexOf('@') );
-    QPair<QPixmap,QList<KCard*> > & pair = elementIdMapping[ elementId ];
+    CardElementData & usage = elementIdMapping[ elementId ];
 
-    pair.first = QPixmap::fromImage( image );
-    cache->insert( key, pair.first );
+    usage.cardPixmap = QPixmap::fromImage( image );
+    cache->insert( key, usage.cardPixmap );
 
-    foreach ( KCard * c, pair.second )
+    foreach ( KCard * c, usage.cardUsers )
         c->update();
 }
 
@@ -312,7 +312,7 @@ void KAbstractCardDeck::setDeckContents( QList<quint32> ids )
     d->cards.clear();
     d->cardsWaitedFor.clear();
 
-    QHash<QString,QPair<QPixmap,QList<KCard*> > > oldMapping = d->elementIdMapping;
+    QHash<QString,CardElementData> oldMapping = d->elementIdMapping;
     d->elementIdMapping.clear();
 
     foreach ( quint32 id, ids )
@@ -325,24 +325,24 @@ void KAbstractCardDeck::setDeckContents( QList<quint32> ids )
         connect( c, SIGNAL(animationStopped(KCard*)), d, SLOT(cardStoppedAnimation(KCard*)) );
 
         QString elementId = elementName( id, true );
-        d->elementIdMapping[ elementId ].second.append( c );
+        d->elementIdMapping[ elementId ].cardUsers.append( c );
 
         elementId = elementName( id, false );
-        d->elementIdMapping[ elementId ].second.append( c );
+        d->elementIdMapping[ elementId ].cardUsers.append( c );
 
         d->cards << c;
     }
 
     if ( d->currentCardSize.isValid() )
     {
-        QHash<QString,QPair<QPixmap,QList<KCard*> > >::iterator it = d->elementIdMapping.begin();
-        QHash<QString,QPair<QPixmap,QList<KCard*> > >::iterator end = d->elementIdMapping.end();
+        QHash<QString,CardElementData>::iterator it = d->elementIdMapping.begin();
+        QHash<QString,CardElementData>::iterator end = d->elementIdMapping.end();
         while ( it != end )
         {
             if ( oldMapping.contains( it.key() ) )
-                it.value().first = oldMapping[ it.key() ].first;
+                it.value().cardPixmap = oldMapping[ it.key() ].cardPixmap;
 
-            it.value().first = d->requestPixmap( it.key(), false );
+            it.value().cardPixmap = d->requestPixmap( it.key(), false );
 
             ++it;
         }

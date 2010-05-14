@@ -32,10 +32,8 @@ class QImage;
 #include <QtCore/QSizeF>
 #include <QtCore/QStringList>
 #include <QtCore/QThread>
+#include <QtGui/QPixmap>
 class QSvgRenderer;
-
-
-typedef QHash<QString,QPair<QPixmap,QList<KCard*> > > CardPixmapHash;
 
 
 class RenderingThread : public QThread
@@ -56,6 +54,13 @@ private:
     const QStringList m_elementsToRender;
     bool m_haltFlag;
     QMutex m_haltMutex;
+};
+
+
+struct CardElementData
+{
+    QPixmap cardPixmap;
+    QList<KCard*> cardUsers;
 };
 
 
@@ -95,7 +100,7 @@ public:
     QMutex rendererMutex;
     RenderingThread * thread;
 
-    CardPixmapHash elementIdMapping;
+    QHash<QString,CardElementData> elementIdMapping;
 };
 
 #endif
