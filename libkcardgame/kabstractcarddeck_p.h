@@ -75,7 +75,7 @@ public:
     QSvgRenderer * renderer();
     QPixmap renderCard( const QString & element );
     QSizeF unscaledCardSize();
-    QPixmap requestPixmap( QString elementId, bool immediate );
+    QPixmap requestPixmap( QString elementId );
     void updateCardSize( const QSize & size );
     void deleteThread();
 

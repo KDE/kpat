@@ -70,7 +70,7 @@ void RenderingThread::run()
         d->renderer();
     }
 
-    foreach( const QString& element, m_elementsToRender )
+    foreach ( const QString & element, m_elementsToRender )
     {
         {
             QMutexLocker l( &m_haltMutex );
@@ -167,7 +167,7 @@ QPixmap KAbstractCardDeckPrivate::renderCard( const QString & element )
 
 QSizeF KAbstractCardDeckPrivate::unscaledCardSize()
 {
-    if( !theme.isValid() )
+    if ( !theme.isValid() )
         return QSizeF();
 
     const QString element = "back";
@@ -193,23 +193,18 @@ QSizeF KAbstractCardDeckPrivate::unscaledCardSize()
 }
 
 
-QPixmap KAbstractCardDeckPrivate::requestPixmap( QString elementId, bool immediate )
+QPixmap KAbstractCardDeckPrivate::requestPixmap( QString elementId )
 {
-    if( !theme.isValid() )
+    if ( !theme.isValid() )
         return QPixmap();
 
     QPixmap & stored = elementIdMapping[ elementId ].cardPixmap;
     if ( stored.size() != currentCardSize )
     {
-        if ( immediate || stored.isNull() )
+        if ( !cache->find( keyForPixmap( elementId , currentCardSize ), stored ) )
         {
-            stored = renderCard( elementId );
-        }
-        else
-        {
-            QPixmap pix;
-            if ( cache->find( keyForPixmap( elementId , currentCardSize ), pix ) )
-                stored = pix;
+            if ( stored.isNull() )
+                stored = renderCard( elementId );
             else
                 stored = stored.scaled( currentCardSize );
         }
@@ -222,7 +217,7 @@ void KAbstractCardDeckPrivate::updateCardSize( const QSize & size )
 {
     currentCardSize = size;
 
-    if( !theme.isValid() )
+    if ( !theme.isValid() )
         return;
 
     cache->insert( "lastUsedSize", QPixmap( currentCardSize ) );
@@ -261,7 +256,7 @@ void KAbstractCardDeckPrivate::deleteThread()
 
 void KAbstractCardDeckPrivate::submitRendering( const QString & key, const QImage & image )
 {
-    QString elementId = key.left( key.indexOf('@') );
+    QString elementId = key.left( key.indexOf( '@' ) );
     CardElementData & usage = elementIdMapping[ elementId ];
 
     usage.cardPixmap = QPixmap::fromImage( image );
@@ -342,7 +337,7 @@ void KAbstractCardDeck::setDeckContents( QList<quint32> ids )
             if ( oldMapping.contains( it.key() ) )
                 it.value().cardPixmap = oldMapping[ it.key() ].cardPixmap;
 
-            it.value().cardPixmap = d->requestPixmap( it.key(), false );
+            it.value().cardPixmap = d->requestPixmap( it.key() );
 
             ++it;
         }
@@ -444,7 +439,7 @@ bool KAbstractCardDeck::hasAnimatedCards() const
 
 void KAbstractCardDeck::paintCard( QPainter * painter, quint32 id, bool faceUp, qreal highlightedness )
 {
-    QPixmap pix = d->requestPixmap( elementName( id, faceUp ), false );
+    QPixmap pix = d->requestPixmap( elementName( id, faceUp ) );
 
     if ( highlightedness > 0 )
     {
