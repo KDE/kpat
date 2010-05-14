@@ -954,7 +954,6 @@ void DealerScene::takeState()
         return;
     }
 
-
     GameState * newState = getState();
 
     if ( d->currentState && *newState == *(d->currentState) )
@@ -1106,7 +1105,10 @@ bool DealerScene::drop()
     if (!autoDropEnabled() && !d->dropInProgress)
         return false;
 
-    if (!cardsBeingDragged().isEmpty() || isCardAnimationRunning() || d->undoStack.isEmpty() ) {
+    if ( !cardsBeingDragged().isEmpty()
+         || isCardAnimationRunning()
+         || !d->currentState )
+    {
         d->dropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
         return true;
     }
