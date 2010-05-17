@@ -109,6 +109,7 @@ KAbstractCardDeckPrivate::~KAbstractCardDeckPrivate()
 {
     deleteThread();
     delete cache;
+    delete svgRenderer;
 }
 
 
@@ -120,7 +121,7 @@ QSvgRenderer * KAbstractCardDeckPrivate::renderer()
         QString thread = (qApp->thread() == QThread::currentThread()) ? "main" : "rendering";
         kDebug() << QString("Loading card deck SVG in %1 thread").arg( thread );
 
-        svgRenderer = new QSvgRenderer( theme.graphicsFilePath(), this );
+        svgRenderer = new QSvgRenderer( theme.graphicsFilePath() );
     }
     return svgRenderer;
 }
