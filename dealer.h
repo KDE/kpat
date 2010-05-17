@@ -42,9 +42,9 @@ class DealerScene;
 class GameState;
 class MoveHint;
 #include "patpile.h"
-class Solver;
 #include "speeds.h"
 #include "view.h"
+class Solver;
 
 #include "KStandardCardDeck"
 #include "KCardScene"
@@ -186,7 +186,7 @@ protected slots:
     void toggleDemo();
 
     void slotSolverEnded();
-    void slotSolverFinished();
+    void slotSolverFinished( int result );
     void startManualDrop();
 
     void showWonMessage();

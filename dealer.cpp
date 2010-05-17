@@ -73,17 +73,18 @@
 
 class SolverThread : public QThread
 {
+    Q_OBJECT
+
 public:
     SolverThread( Solver * solver )
-      : m_solver( solver ),
-        m_result( Solver::UnableToDetermineSolvability )
+      : m_solver( solver )
     {
     }
 
     virtual void run()
     {
-        m_result = Solver::UnableToDetermineSolvability;
-        m_result = m_solver->patsolve();
+        Solver::ExitStatus result = m_solver->patsolve();
+        emit finished( result );
     }
 
     void abort()
@@ -93,17 +94,13 @@ public:
             m_solver->m_shouldEnd = true;
         }
         wait();
-        m_result = Solver::SearchAborted; // perhaps he managed to finish, but we won't listen
     }
 
-    Solver::ExitStatus result() const
-    {
-        return m_result;
-    }
+signals:
+    void finished( int result );
 
 private:
     Solver * m_solver;
-    Solver::ExitStatus m_result;
 };
 
 
@@ -571,6 +568,9 @@ void DealerScene::startNew(int gameNumber)
         QTimer::singleShot( 100, this, SLOT( startNew() ) );
         return;
     }
+
+    if ( d->m_solver_thread && d->m_solver_thread->isRunning() )
+        d->m_solver_thread->abort();
 
     resetInternals();
     d->loadedMoveCount = 0;
@@ -1200,19 +1200,14 @@ void DealerScene::slotSolverEnded()
     emit solverStateChanged( i18n("Solver: Calculating...") );
     if ( !d->m_solver_thread ) {
         d->m_solver_thread = new SolverThread( d->m_solver );
-        connect( d->m_solver_thread, SIGNAL(finished()), this, SLOT(slotSolverFinished()));
+        connect( d->m_solver_thread, SIGNAL(finished(int)), this, SLOT(slotSolverFinished(int)));
     }
     d->m_solver_thread->start(_usesolver ? QThread::IdlePriority : QThread::NormalPriority );
 }
 
-void DealerScene::slotSolverFinished()
+void DealerScene::slotSolverFinished( int result )
 {
-    if ( !d->m_solver_thread || d->m_solver_thread->isRunning() )
-        return;
-
-    Solver::ExitStatus ret = d->m_solver_thread->result();
-
-    switch ( ret )
+    switch ( result )
     {
     case Solver::SolutionExists:
         d->winMoves = d->m_solver->winMoves;
@@ -1235,9 +1230,12 @@ void DealerScene::slotSolverFinished()
         break;
     }
 
-    d->currentState->solvability = ret;
-    if ( ret == Solver::SolutionExists )
-        d->currentState->winningMoves = d->winMoves;
+    if ( d->currentState )
+    {
+        d->currentState->solvability = static_cast<Solver::ExitStatus>( result );
+        if ( result == Solver::SolutionExists )
+            d->currentState->winningMoves = d->winMoves;
+    }
 }
 
 
@@ -1681,5 +1679,5 @@ void DealerScene::startDealAnimation()
 }
 
 
-
 #include "dealer.moc"
+#include "moc_dealer.cpp"
