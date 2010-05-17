@@ -29,6 +29,12 @@
 #include <cmath>
 
 
+namespace
+{
+    const qreal raisedZValue = 10000;
+}
+
+
 KCardAnimation::KCardAnimation( KCardPrivate * d,
                                 int duration,
                                 QPointF pos,
@@ -232,8 +238,8 @@ bool KCard::isAnimated() const
 
 void KCard::raise()
 {
-    if ( zValue() < 1000 )
-        setZValue( 1000 + zValue() );
+    if ( zValue() < raisedZValue )
+        setZValue( raisedZValue + zValue() );
 }
 
 
