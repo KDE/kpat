@@ -181,7 +181,20 @@ void MainWindow::setupActions()
 
     demoaction = KStandardGameAction::demo( this, SLOT(toggleDemo()), actionCollection() );
 
-    hintaction = KStandardGameAction::hint( 0, 0, actionCollection() );
+    // KStandardGameAction::hint is a regular action, but we want a toggle
+    // action, so we must create a new action and copy all the standard
+    // properties over one by one.
+    hintaction = new KToggleAction( actionCollection() );
+    a = KStandardGameAction::hint( 0, 0, 0 );
+    hintaction->setText( a->text() );
+    hintaction->setIcon( a->icon() );
+    hintaction->setShortcut( a->shortcut() );
+    hintaction->setToolTip( a->toolTip() );
+    hintaction->setWhatsThis( a->whatsThis() );
+    delete a;
+    QString actionName( KStandardGameAction::name( KStandardGameAction::Hint ) );
+    actionCollection()->addAction( actionName, hintaction );
+    connect( hintaction, SIGNAL(triggered()), this, SLOT(toggleHints()) );
 
     drawaction = actionCollection()->addAction("move_draw");
     drawaction->setText( i18nc("Take one or more cards from the deck, flip them, and place them in play", "Dra&w") );
@@ -536,7 +549,7 @@ void MainWindow::updateActions()
         connect( m_dealer, SIGNAL(undoPossible(bool)), undo, SLOT(setEnabled(bool)) );
         connect( m_dealer, SIGNAL(redoPossible(bool)), redo, SLOT(setEnabled(bool)) );
 
-        connect( hintaction, SIGNAL(triggered(bool)), m_dealer, SLOT(hint()) );
+        connect( m_dealer, SIGNAL(hintActive(bool)), hintaction, SLOT(setChecked(bool)) );
         connect( m_dealer, SIGNAL(hintPossible(bool)), hintaction, SLOT(setEnabled(bool)) );
 
         connect( m_dealer, SIGNAL(demoActive(bool)), this, SLOT(toggleDemoAction(bool)) );
@@ -600,14 +613,26 @@ void MainWindow::updateGameActionList()
 }
 
 
+void MainWindow::toggleHints()
+{
+    if ( m_dealer )
+    {
+        if ( m_dealer->highlightedItems().isEmpty() )
+            m_dealer->startHints();
+        else
+            m_dealer->stop();
+    }
+}
+
+
 void MainWindow::toggleDemo()
 {
     if ( m_dealer )
     {
-        if ( m_dealer->isDemoActive() )
-            m_dealer->stop();
+        if ( !m_dealer->isDemoActive() )
+            m_dealer->startDemo();
         else
-            m_dealer->demo();
+            m_dealer->stop();
     }
 }
 

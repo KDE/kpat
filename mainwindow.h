@@ -80,6 +80,8 @@ protected slots:
 
     void undoMove();
     void redoMove();
+
+    void toggleHints();
     void toggleDemo();
     void toggleDemoAction(bool active);
 

@@ -391,7 +391,7 @@ void DealerScene::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int du
 }
 
 
-void DealerScene::hint()
+void DealerScene::startHints()
 {
     if ( isCardAnimationRunning() )
     {
@@ -399,17 +399,13 @@ void DealerScene::hint()
         return;
     }
 
+    stop();
+
     d->dropTimer->stop();
 
     if ( isKeyboardModeActive() )
     {
         setKeyboardModeActive( false );
-    }
-
-    if ( !highlightedItems().isEmpty() )
-    {
-        clearHighlightedItems();
-        return;
     }
 
     QList<QGraphicsItem*> toHighlight;
@@ -434,7 +430,17 @@ void DealerScene::hint()
     }
 
     setHighlightedItems( toHighlight );
+
+    emit hintActive( !toHighlight.isEmpty() );
 }
+
+
+void DealerScene::stopHints()
+{
+    clearHighlightedItems();
+    emit hintActive( false );
+}
+
 
 QList<MoveHint> DealerScene::getSolverHints()
 {
@@ -1246,24 +1252,10 @@ int DealerScene::gameNumber() const
 
 void DealerScene::stop()
 {
+    stopHints();
     stopDemo();
-    clearHighlightedItems();
 }
 
-
-void DealerScene::stopDemo()
-{
-    if ( isCardAnimationRunning() )
-    {
-        d->stop_demo_next = true;
-        return;
-    }
-
-    d->stop_demo_next = false;
-    d->demotimer->stop();
-    d->demoInProgress = false;
-    emit demoActive( false );
-}
 
 bool DealerScene::isDemoActive() const
 {
@@ -1284,7 +1276,7 @@ void DealerScene::animationDone()
     if ( d->hintQueued )
     {
         d->hintQueued = false;
-        hint();
+        startHints();
     }
     else if ( d->demoQueued )
     {
@@ -1295,6 +1287,28 @@ void DealerScene::animationDone()
     {
         d->dropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
     }
+}
+
+
+void DealerScene::startDemo()
+{
+    stop();
+    demo();
+}
+
+
+void DealerScene::stopDemo()
+{
+    if ( isCardAnimationRunning() )
+    {
+        d->stop_demo_next = true;
+        return;
+    }
+
+    d->stop_demo_next = false;
+    d->demotimer->stop();
+    d->demoInProgress = false;
+    emit demoActive( false );
 }
 
 

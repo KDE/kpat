@@ -121,18 +121,20 @@ signals:
     void demoPossible(bool poss);
     void newCardsPossible(bool poss);
 
-    void demoActive(bool en);
+    void demoActive(bool active);
+    void hintActive(bool active);
     void updateMoves(int moves);
 
     void solverStateChanged(QString text);
 
 public slots:
     void startNew(int gameNumber = -1);
-    void hint();
+    void startHints();
 
     void undo();
     void redo();
 
+    void startDemo();
     virtual void demo();
     void stop();
 
@@ -162,6 +164,7 @@ protected:
     virtual MoveHint chooseHint();
 
     virtual void stopDemo();
+    virtual void stopHints();
 
     void won();
 
