@@ -179,9 +179,9 @@ void MainWindow::setupActions()
 
     redo = KStandardGameAction::redo(this, SLOT(redoMove()), actionCollection());
 
-    hintaction = KStandardGameAction::hint( 0, 0, actionCollection() );
+    demoaction = KStandardGameAction::demo( this, SLOT(toggleDemo()), actionCollection() );
 
-    demoaction = KStandardGameAction::demo( 0, 0, actionCollection() );
+    hintaction = KStandardGameAction::hint( 0, 0, actionCollection() );
 
     drawaction = actionCollection()->addAction("move_draw");
     drawaction->setText( i18nc("Take one or more cards from the deck, flip them, and place them in play", "Dra&w") );
@@ -539,7 +539,6 @@ void MainWindow::updateActions()
         connect( hintaction, SIGNAL(triggered(bool)), m_dealer, SLOT(hint()) );
         connect( m_dealer, SIGNAL(hintPossible(bool)), hintaction, SLOT(setEnabled(bool)) );
 
-        connect( demoaction, SIGNAL(triggered(bool)), m_dealer, SLOT(toggleDemo()) );
         connect( m_dealer, SIGNAL(demoActive(bool)), this, SLOT(toggleDemoAction(bool)) );
         connect( m_dealer, SIGNAL(demoPossible(bool)), demoaction, SLOT(setEnabled(bool)) );
 
@@ -599,6 +598,19 @@ void MainWindow::updateGameActionList()
         guiFactory()->plugActionList( this, "game_actions", actionList );
     }
 }
+
+
+void MainWindow::toggleDemo()
+{
+    if ( m_dealer )
+    {
+        if ( m_dealer->isDemoActive() )
+            m_dealer->stop();
+        else
+            m_dealer->demo();
+    }
+}
+
 
 void MainWindow::toggleDemoAction(bool active) 
 {

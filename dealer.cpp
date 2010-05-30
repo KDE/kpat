@@ -320,7 +320,7 @@ DealerScene::DealerScene()
 
 DealerScene::~DealerScene()
 {
-    clearHighlightedItems();
+    stop();
 
     clearHints();
 
@@ -591,8 +591,8 @@ void DealerScene::startNew(int gameNumber)
 
 void DealerScene::resetInternals()
 {
-    stopDemo();
-    clearHighlightedItems();
+    stop();
+
     setKeyboardModeActive( false );
 
     d->_won = false;
@@ -796,9 +796,7 @@ bool DealerScene::checkPrefering( const PatPile * pile, const QList<KCard*> & ol
 
 void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 {
-    clearHighlightedItems();
-
-    stopDemo();
+    stop();
 
     KCard * card = qgraphicsitem_cast<KCard*>( itemAt( e->scenePos() ) );
 
@@ -827,7 +825,7 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 
 void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
 {
-    clearHighlightedItems();
+    stop();
 
     if ( e->button() == Qt::RightButton && d->peekedCard && d->peekedCard->pile() )
     {
@@ -843,7 +841,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
 
 void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
 {
-    clearHighlightedItems();
+    stop();
 
     if ( d->demoInProgress )
     {
@@ -886,8 +884,7 @@ void DealerScene::redo()
 
 void DealerScene::undoOrRedo( bool undo )
 {
-    clearHighlightedItems();
-    stopDemo();
+    stop();
 
     if ( isCardAnimationRunning() )
         return;
@@ -1241,18 +1238,23 @@ int DealerScene::gameNumber() const
     return gamenumber;
 }
 
+
+void DealerScene::stop()
+{
+    stopDemo();
+    clearHighlightedItems();
+}
+
+
 void DealerScene::stopDemo()
 {
-    if ( isCardAnimationRunning()) {
+    if ( isCardAnimationRunning() )
+    {
         d->stop_demo_next = true;
         return;
-    } else d->stop_demo_next = false;
-
-    foreach ( KCard * c, deck()->cards() )
-    {
-        c->completeAnimation();
     }
 
+    d->stop_demo_next = false;
     d->demotimer->stop();
     d->demoInProgress = false;
     emit demoActive( false );
@@ -1261,14 +1263,6 @@ void DealerScene::stopDemo()
 bool DealerScene::isDemoActive() const
 {
     return d->demoInProgress;
-}
-
-void DealerScene::toggleDemo()
-{
-    if ( !isDemoActive() )
-        demo();
-    else
-        stopDemo();
 }
 
 MoveHint *DealerScene::chooseHint()

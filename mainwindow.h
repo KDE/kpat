@@ -80,6 +80,7 @@ protected slots:
 
     void undoMove();
     void redoMove();
+    void toggleDemo();
     void toggleDemoAction(bool active);
 
     void enableAutoDrop(bool enable);
