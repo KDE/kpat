@@ -156,13 +156,10 @@ protected:
 
     PatPile *findTarget(KCard *c);
 
-    QList<MoveHint*> hints() const;
-    virtual void getHints();
-    void getSolverHints();
-    void newHint(MoveHint *mh);
-    void clearHints();
+    virtual QList<MoveHint> getHints();
+    QList<MoveHint> getSolverHints();
     // it's not const because it changes the random seed
-    virtual MoveHint *chooseHint();
+    virtual MoveHint chooseHint();
 
     virtual void stopDemo();
 

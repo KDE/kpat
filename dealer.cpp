@@ -50,6 +50,7 @@
 #include <KDebug>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <KRandom>
 #include <KSharedConfig>
 #include <KTemporaryFile>
 #include <KIO/NetAccess>
@@ -139,8 +140,6 @@ public:
     bool takeStateQueued;
     bool hintQueued;
     bool demoQueued;
-
-    QList<MoveHint*> hints;
 
     QStack<GameState*> undoStack;
     GameState * currentState;
@@ -322,8 +321,6 @@ DealerScene::~DealerScene()
 {
     stop();
 
-    clearHints();
-
     disconnect();
     if ( d->m_solver_thread )
         d->m_solver_thread->abort();
@@ -394,11 +391,6 @@ void DealerScene::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int du
 }
 
 
-QList<MoveHint*> DealerScene::hints() const
-{
-    return d->hints;
-}
-
 void DealerScene::hint()
 {
     if ( isCardAnimationRunning() )
@@ -420,11 +412,17 @@ void DealerScene::hint()
         return;
     }
 
-    clearHints();
+    QList<QGraphicsItem*> toHighlight;
+    foreach ( const MoveHint & h, getHints() )
+        toHighlight << h.card();
 
-    if ( d->winMoves.count() )
+    if ( !d->winMoves.isEmpty() )
     {
         MOVE m = d->winMoves.first();
+        MoveHint mh = solver()->translateMove( m );
+        if ( mh.isValid() )
+            toHighlight << mh.card();
+
 #if DEBUG_HINTS
         if ( m.totype == O_Type )
             fprintf( stderr, "move from %d out (at %d) Prio: %d\n", m.from,
@@ -433,39 +431,24 @@ void DealerScene::hint()
             fprintf( stderr, "move from %d to %d (%d) Prio: %d\n", m.from, m.to,
                      m.turn_index, m.pri );
 #endif
-
-        MoveHint *mh = solver()->translateMove( m );
-        if ( mh ) {
-            newHint( mh );
-            kDebug() << "win move" << mh->pile()->objectName() << mh->card()->objectName() << mh->priority();
-        }
-        getHints();
-    } else {
-        getHints();
     }
 
-    QList<QGraphicsItem*> toHighlight;
-    foreach ( MoveHint * h, d->hints )
-        toHighlight << h->card();
     setHighlightedItems( toHighlight );
-
-    clearHints();
 }
 
-void DealerScene::getSolverHints()
+QList<MoveHint> DealerScene::getSolverHints()
 {
+    QList<MoveHint> hintList;
+
     if ( d->m_solver_thread && d->m_solver_thread->isRunning() )
         d->m_solver_thread->abort();
 
     solver()->translate_layout();
     solver()->patsolve( 1 );
 
-    QList<MOVE> moves = solver()->firstMoves;
-    QListIterator<MOVE> mit( moves );
-
-    while ( mit.hasNext() )
+    foreach ( const MOVE & m, solver()->firstMoves )
     {
-        MOVE m = mit.next();
+
 #if DEBUG_HINTS
         if ( m.totype == O_Type )
             fprintf( stderr, "   move from %d out (at %d) Prio: %d\n", m.from,
@@ -475,20 +458,19 @@ void DealerScene::getSolverHints()
                      m.turn_index, m.pri );
 #endif
 
-        MoveHint *mh = solver()->translateMove( m );
-        if ( mh )
-            newHint( mh );
+        MoveHint mh = solver()->translateMove( m );
+        if ( mh.isValid() )
+            hintList << mh;
     }
+    return hintList;
 }
 
-void DealerScene::getHints()
+QList<MoveHint> DealerScene::getHints()
 {
     if ( solver() )
-    {
-        getSolverHints();
-        return;
-    }
+        return getSolverHints();
 
+    QList<MoveHint> hintList;
     foreach (PatPile * store, patPiles())
     {
         if (store->isFoundation() || store->isEmpty())
@@ -514,7 +496,7 @@ void DealerScene::getHints()
 
                     if (dest->isFoundation())
                     {
-                        newHint(new MoveHint(*iti, dest, 127));
+                        hintList << MoveHint( *iti, dest, 127 );
                     }
                     else
                     {
@@ -523,12 +505,12 @@ void DealerScene::getHints()
                         // if it could be here as well, then it's no use
                         if ((cardsBelow.isEmpty() && !dest->isEmpty()) || !checkAdd(store, cardsBelow, cards))
                         {
-                            newHint(new MoveHint(*iti, dest, 0));
+                            hintList << MoveHint( *iti, dest, 0 );
                         }
                         else if (checkPrefering(dest, dest->cards(), cards)
                                  && !checkPrefering(store, cardsBelow, cards))
                         { // if checkPrefers says so, we add it nonetheless
-                            newHint(new MoveHint(*iti, dest, 10));
+                            hintList << MoveHint( *iti, dest, 10 );
                         }
                     }
                 }
@@ -537,18 +519,46 @@ void DealerScene::getHints()
             iti = cards.begin();
         }
     }
+    return hintList;
 }
 
-void DealerScene::clearHints()
+
+MoveHint DealerScene::chooseHint()
 {
-    qDeleteAll( d->hints );
-    d->hints.clear();
+    if ( !d->winMoves.isEmpty() )
+    {
+        MOVE m = d->winMoves.takeFirst();
+        MoveHint mh = solver()->translateMove( m );
+
+#if DEBUG_HINTS
+        if ( m.totype == O_Type )
+            fprintf( stderr, "move from %d out (at %d) Prio: %d\n", m.from,
+                     m.turn_index, m.pri );
+        else
+            fprintf( stderr, "move from %d to %d (%d) Prio: %d\n", m.from, m.to,
+                     m.turn_index, m.pri );
+#endif
+
+        return mh;
+    }
+
+    QList<MoveHint> hintList = getHints();
+
+    if ( hintList.isEmpty() )
+    {
+        return MoveHint();
+    }
+    else
+    {
+        // Generate a random number with an exponentional distribution averaging 1/4.
+        qreal randomExp = qMin<qreal>( -log( 1 - qreal( KRandom::random() ) / RAND_MAX ) / 4, 1 );
+        int randomIndex =  randomExp * ( hintList.size() - 1 );
+
+        qSort( hintList.begin(), hintList.end(), qGreater<MoveHint>() );
+        return hintList.at( randomIndex );
+    }
 }
 
-void DealerScene::newHint(MoveHint *mh)
-{
-    d->hints.append(mh);
-}
 
 void DealerScene::startNew(int gameNumber)
 {
@@ -941,10 +951,8 @@ void DealerScene::undoOrRedo( bool undo )
 void DealerScene::takeState()
 {
     if ( !isDemoActive() )
-    {
         d->winMoves.clear();
-        clearHints();
-    }
+
 
     if ( isCardAnimationRunning() )
     {
@@ -1112,23 +1120,21 @@ bool DealerScene::drop()
     d->dropInProgress = true;
 
     clearHighlightedItems();
-    clearHints();
-    getHints();
 
-    foreach ( const MoveHint * mh, d->hints )
+    foreach ( const MoveHint & mh, getHints() )
     {
-        if ( mh->pile()
-             && mh->pile()->isFoundation()
-             && mh->priority() > 120
-             && !d->cardsNotToDrop.contains( mh->card() ) )
+        if ( mh.pile()
+             && mh.pile()->isFoundation()
+             && mh.priority() > 120
+             && !d->cardsNotToDrop.contains( mh.card() ) )
         {
-            QList<KCard*> cards = mh->card()->pile()->topCardsDownTo( mh->card() );
+            QList<KCard*> cards = mh.card()->pile()->topCardsDownTo( mh.card() );
 
             QMap<KCard*,QPointF> oldPositions;
             foreach ( KCard * c, cards )
                 oldPositions.insert( c, c->pos() );
 
-            moveCardsToPile( cards, mh->pile(), DURATION_MOVE );
+            moveCardsToPile( cards, mh.pile(), DURATION_MOVE );
 
             int count = 0;
             foreach ( KCard * c, cards )
@@ -1150,7 +1156,6 @@ bool DealerScene::drop()
             return true;
         }
     }
-    clearHints();
     d->dropSpeedFactor = 1;
     d->dropInProgress = false;
 
@@ -1265,33 +1270,6 @@ bool DealerScene::isDemoActive() const
     return d->demoInProgress;
 }
 
-MoveHint *DealerScene::chooseHint()
-{
-    if ( d->winMoves.count() )
-    {
-        MOVE m = d->winMoves.takeFirst();
-#if DEBUG_HINTS
-        if ( m.totype == O_Type )
-            fprintf( stderr, "move from %d out (at %d) Prio: %d\n", m.from,
-                     m.turn_index, m.pri );
-        else
-            fprintf( stderr, "move from %d to %d (%d) Prio: %d\n", m.from, m.to,
-                     m.turn_index, m.pri );
-#endif
-        MoveHint *mh = solver()->translateMove( m );
-
-        if ( mh )
-            d->hints.append( mh );
-        return mh;
-    }
-
-    if (d->hints.isEmpty())
-        return 0;
-
-    qSort( d->hints.begin(), d->hints.end() );
-    return d->hints[0];
-}
-
 
 void DealerScene::animationDone()
 {
@@ -1337,28 +1315,28 @@ void DealerScene::demo()
     d->gothelp = true;
     d->gameStarted = true;
     clearHighlightedItems();
-    clearHints();
-    getHints();
+
     d->demotimer->stop();
 
-    MoveHint *mh = chooseHint();
-    if (mh) {
-        kDebug(mh->pile()->top()) << "Moving" << mh->card()->objectName()
-                                  << "from the" << mh->card()->pile()->objectName()
-                                  << "pile to the" << mh->pile()->objectName()
-                                  << "pile, putting it on top of" << mh->pile()->top()->objectName();
-        kDebug(!mh->pile()->top()) << "Moving" << mh->card()->objectName()
-                                   << "from the" << mh->card()->pile()->objectName()
-                                   << "pile to the" << mh->pile()->objectName()
-                                   << "pile, which is empty";
-        Q_ASSERT(mh->card()->pile() == 0
-                 || allowedToRemove(mh->card()->pile(), mh->card()));
+    MoveHint mh = chooseHint();
+    if ( mh.isValid() )
+    {
+        kDebug(mh.pile()->top()) << "Moving" << mh.card()->objectName()
+                                 << "from the" << mh.card()->pile()->objectName()
+                                 << "pile to the" << mh.pile()->objectName()
+                                 << "pile, putting it on top of" << mh.pile()->top()->objectName();
+        kDebug(!mh.pile()->top()) << "Moving" << mh.card()->objectName()
+                                  << "from the" << mh.card()->pile()->objectName()
+                                  << "pile to the" << mh.pile()->objectName()
+                                  << "pile, which is empty";
+        Q_ASSERT(mh.card()->pile() == 0
+                 || allowedToRemove(mh.card()->pile(), mh.card()));
 
         QList<KCard*> empty;
-        QList<KCard*> cards = mh->card()->pile()->cards();
+        QList<KCard*> cards = mh.card()->pile()->cards();
         bool after = false;
         for (QList<KCard*>::Iterator it = cards.begin(); it != cards.end(); ++it) {
-            if (*it == mh->card())
+            if (*it == mh.card())
                 after = true;
             if (after)
                 empty.append(*it);
@@ -1374,13 +1352,13 @@ void DealerScene::demo()
             oldPositions.insert(c, c->pos());
         }
 
-        Q_ASSERT(mh->card());
-        Q_ASSERT(mh->card()->pile());
-        Q_ASSERT(mh->pile());
-        Q_ASSERT(mh->card()->pile() != mh->pile());
-        Q_ASSERT(mh->pile()->isFoundation() || allowedToAdd(mh->pile(), empty));
+        Q_ASSERT(mh.card());
+        Q_ASSERT(mh.card()->pile());
+        Q_ASSERT(mh.pile());
+        Q_ASSERT(mh.card()->pile() != mh.pile());
+        Q_ASSERT(mh.pile()->isFoundation() || allowedToAdd(mh.pile(), empty));
 
-        moveCardsToPile( empty, mh->pile(), DURATION_MOVE );
+        moveCardsToPile( empty, mh.pile(), DURATION_MOVE );
 
         foreach (KCard *c, empty) {
             c->completeAnimation();
@@ -1389,7 +1367,7 @@ void DealerScene::demo()
             c->animate(destPos, c->zValue(), 0, c->isFaceUp(), true, DURATION_DEMO);
         }
 
-        newDemoMove(mh->card());
+        newDemoMove(mh.card());
 
     } else {
         KCard *t = newCards();

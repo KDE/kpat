@@ -237,15 +237,15 @@ int GolfSolver::getClusterNumber()
     return Wlen[8] / 8;
 }
 
-MoveHint *GolfSolver::translateMove( const MOVE &m )
+MoveHint GolfSolver::translateMove( const MOVE &m )
 {
     if ( m.from >= 7 )
-        return 0;
+        return MoveHint();
     PatPile *frompile = deal->stack[m.from];
 
     KCard *card = frompile->at( frompile->count() - m.card_index - 1);
 
-    return new MoveHint( card, deal->waste, m.pri );
+    return MoveHint( card, deal->waste, m.pri );
 }
 
 void GolfSolver::print_layout()

@@ -46,10 +46,17 @@ class PatPile;
 class MoveHint
 {
 public:
+    MoveHint()
+      : m_card( 0 ),
+        m_to( 0 ),
+        m_priority( 0 )
+    {
+    }
+
     MoveHint( KCard * card, PatPile * to, int prio )
       : m_card( card ),
         m_to( to ),
-        m_prio( prio )
+        m_priority( prio )
     {
         Q_ASSERT( card );
         Q_ASSERT( to );
@@ -67,13 +74,23 @@ public:
 
     int priority() const
     {
-        return m_prio;
+        return m_priority;
+    }
+
+    bool isValid() const
+    {
+        return m_card;
+    }
+
+    bool operator<( const MoveHint & other ) const
+    {
+        return m_priority < other.m_priority;
     }
 
 private:
     KCard * m_card;
     PatPile * m_to;
-    int m_prio;
+    int m_priority;
 };
 
 #endif

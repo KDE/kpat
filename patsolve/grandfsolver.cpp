@@ -449,10 +449,10 @@ void GrandfSolver::translate_layout()
     Wp[offs] = &W[offs][3];
 }
 
-MoveHint *GrandfSolver::translateMove( const MOVE &m )
+MoveHint GrandfSolver::translateMove( const MOVE &m )
 {
     if ( m.from == offs )
-        return 0;
+        return MoveHint();
 
     PatPile *frompile = 0;
     frompile = deal->store[m.from % 7];
@@ -476,11 +476,11 @@ MoveHint *GrandfSolver::translateMove( const MOVE &m )
         }
         if ( !target )
             target = empty;
-        return new MoveHint( card, target, m.pri );
+        return MoveHint( card, target, m.pri );
     } else {
-        return new MoveHint( card, deal->store[m.to % 7], m.pri );
+        return MoveHint( card, deal->store[m.to % 7], m.pri );
     }
-    return 0;
+    return MoveHint();
 }
 
 void GrandfSolver::print_layout()

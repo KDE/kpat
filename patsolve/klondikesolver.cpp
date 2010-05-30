@@ -535,11 +535,11 @@ int KlondikeSolver::getClusterNumber()
     return k;
 }
 
-MoveHint *KlondikeSolver::translateMove( const MOVE &m )
+MoveHint KlondikeSolver::translateMove( const MOVE &m )
 {
     PatPile *frompile = 0;
     if ( m.from == 8 && m.to == 7 )
-        return 0;
+        return MoveHint();
     Q_ASSERT( m.from != 8 );
     if ( m.from == 7 )
         frompile = deal->pile;
@@ -565,15 +565,15 @@ MoveHint *KlondikeSolver::translateMove( const MOVE &m )
         }
         if ( !target )
             target = empty;
-        return new MoveHint( card, target, m.pri );
+        return MoveHint( card, target, m.pri );
     } else {
         if ( m.to == 7 )
         {
-            return new MoveHint( card, deal->pile, m.pri );
+            return MoveHint( card, deal->pile, m.pri );
         } else if ( m.to == 8 )
-            return 0;
+            return MoveHint();
         else
-            return new MoveHint( card, deal->play[m.to], m.pri );
+            return MoveHint( card, deal->play[m.to], m.pri );
     }
 }
 

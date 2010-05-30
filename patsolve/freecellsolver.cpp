@@ -452,7 +452,7 @@ void FreecellSolver::translate_layout()
 	}
 }
 
-MoveHint *FreecellSolver::translateMove( const MOVE &m )
+MoveHint FreecellSolver::translateMove( const MOVE &m )
 {
     // this is tricky as we need to want to build the "meta moves"
 
@@ -480,7 +480,7 @@ MoveHint *FreecellSolver::translateMove( const MOVE &m )
         }
         if ( !target )
             target = empty;
-        return new MoveHint( card, target, m.pri );
+        return MoveHint( card, target, m.pri );
     } else {
         PatPile *target = 0;
         if ( m.to < 8 )
@@ -488,7 +488,7 @@ MoveHint *FreecellSolver::translateMove( const MOVE &m )
         else
             target = deal->freecell[m.to-8];
 
-        return new MoveHint( card, target, m.pri );
+        return MoveHint( card, target, m.pri );
     }
 }
 

@@ -416,10 +416,8 @@ void SimonSolver::print_layout()
     fprintf(stderr, "\nprint-layout-end\n");
 }
 
-MoveHint *SimonSolver::translateMove( const MOVE &m )
+MoveHint SimonSolver::translateMove( const MOVE &m )
 {
-
-
     Q_ASSERT( m.from < 10 && m.to < 10 );
 
     PatPile *frompile = deal->store[m.from];
@@ -429,9 +427,9 @@ MoveHint *SimonSolver::translateMove( const MOVE &m )
     {
         for ( int i = 0; i < 4; ++i )
             if ( deal->target[i]->isEmpty() )
-                return new MoveHint( card, deal->target[i], 127 );
+                return MoveHint( card, deal->target[i], 127 );
     }
 
     Q_ASSERT( m.to < 10 );
-    return new MoveHint( card, deal->store[m.to], m.pri );
+    return MoveHint( card, deal->store[m.to], m.pri );
 }

@@ -54,7 +54,7 @@ protected:
     virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
     virtual void restart();
     virtual void newDemoMove(KCard *m);
-    virtual void getHints();
+    virtual QList<MoveHint> getHints();
 
 protected slots:
     virtual bool tryAutomaticMove( KCard * c );

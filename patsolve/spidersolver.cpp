@@ -583,17 +583,17 @@ void SpiderSolver::print_layout()
     return;
 }
 
-MoveHint *SpiderSolver::translateMove( const MOVE &m )
+MoveHint SpiderSolver::translateMove( const MOVE &m )
 {
     if ( m.from >= 10 )
-        return 0;
+        return MoveHint();
 
     PatPile *frompile = deal->stack[m.from];
 
     if ( m.totype == O_Type )
     {
-        return 0; // the move to the legs is fully automated
-        return new MoveHint( frompile->top(), deal->legs[0], m.pri ); // for now
+        return MoveHint(); // the move to the legs is fully automated
+        return MoveHint( frompile->top(), deal->legs[0], m.pri ); // for now
     }
 
     Q_ASSERT( m.from < 10 && m.to < 10 );
@@ -601,5 +601,5 @@ MoveHint *SpiderSolver::translateMove( const MOVE &m )
     KCard *card = frompile->at( frompile->count() - m.card_index - 1);
 
     Q_ASSERT( m.to < 10 );
-    return new MoveHint( card, deal->stack[m.to], m.pri );
+    return MoveHint( card, deal->stack[m.to], m.pri );
 }

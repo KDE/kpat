@@ -375,19 +375,19 @@ int Mod3Solver::getClusterNumber()
     return 0;
 }
 
-MoveHint *Mod3Solver::translateMove( const MOVE & m )
+MoveHint Mod3Solver::translateMove( const MOVE & m )
 {
     if ( m.from == deck )
-        return 0;
+        return MoveHint();
 
     PatPile *frompile = deal->stack[m.from / 8][m.from % 8];
     KCard *card = frompile->top();
 
     if ( m.to == aces )
     {
-        return new MoveHint( card, deal->aces, m.pri );
+        return MoveHint( card, deal->aces, m.pri );
     } else {
-        return new MoveHint( card, deal->stack[m.to / 8][m.to % 8], m.pri );
+        return MoveHint( card, deal->stack[m.to / 8][m.to % 8], m.pri );
     }
 }
 

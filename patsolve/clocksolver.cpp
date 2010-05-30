@@ -277,16 +277,16 @@ int ClockSolver::getClusterNumber()
     return 0;
 }
 
-MoveHint *ClockSolver::translateMove( const MOVE &m )
+MoveHint ClockSolver::translateMove( const MOVE &m )
 {
     PatPile *frompile = deal->store[m.from];
     KCard *card = frompile->top();
 
     if ( m.totype == O_Type )
     {
-        return new MoveHint( card, deal->target[m.to], m.pri );
+        return MoveHint( card, deal->target[m.to], m.pri );
     } else {
-        return new MoveHint( card, deal->store[m.to], m.pri );
+        return MoveHint( card, deal->store[m.to], m.pri );
     }
 }
 

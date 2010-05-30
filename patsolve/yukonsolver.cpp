@@ -390,7 +390,7 @@ int YukonSolver::getClusterNumber()
     return k;
 }
 
-MoveHint *YukonSolver::translateMove( const MOVE &m )
+MoveHint YukonSolver::translateMove( const MOVE &m )
 {
     PatPile *frompile = 0;
     frompile = deal->store[m.from];
@@ -414,9 +414,9 @@ MoveHint *YukonSolver::translateMove( const MOVE &m )
         }
         if ( !target )
             target = empty;
-        return new MoveHint( card, target, m.pri );
+        return MoveHint( card, target, m.pri );
     } else {
-        return new MoveHint( card, deal->store[m.to], m.pri );
+        return MoveHint( card, deal->store[m.to], m.pri );
     }
 }
 

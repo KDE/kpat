@@ -87,7 +87,7 @@ public:
     virtual void translate_layout() = 0;
     bool m_shouldEnd;
     QMutex endMutex;
-    virtual MoveHint *translateMove( const MOVE &m) = 0;
+    virtual MoveHint translateMove(const MOVE &m ) = 0;
     QList<MOVE> firstMoves;
     QList<MOVE> winMoves;
 

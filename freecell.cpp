@@ -344,12 +344,12 @@ bool Freecell::checkRemove(const PatPile * pile, const QList<KCard*> & cards) co
     }
 }
 
-void Freecell::getHints()
+QList<MoveHint> Freecell::getHints()
 {
-    getSolverHints();
+    QList<MoveHint> hintList = getSolverHints();
 
     if ( isDemoActive() )
-        return;
+        return hintList;
 
     foreach (PatPile * store, patPiles())
     {
@@ -381,12 +381,12 @@ void Freecell::getHints()
                     // if it could be here as well, then it's no use
                     if ((cardsBelow.isEmpty() && !dest->isEmpty()) || !checkAdd(store, cardsBelow, cards))
                     {
-                        newHint(new MoveHint(*iti, dest, 0));
+                        hintList << MoveHint( *iti, dest, 0 );
                     }
                     else if (checkPrefering( dest, dest->cards(), cards )
                              && !checkPrefering( store, cardsBelow, cards ))
                     { // if checkPrefers says so, we add it nonetheless
-                        newHint(new MoveHint(*iti, dest, 0));
+                        hintList << MoveHint( *iti, dest, 0 );
                     }
                 }
             }
@@ -394,6 +394,7 @@ void Freecell::getHints()
             iti = cards.begin();
         }
     }
+    return hintList;
 }
 
 

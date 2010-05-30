@@ -491,10 +491,10 @@ int FortyeightSolver::getClusterNumber()
     return 0;
 }
 
-MoveHint *FortyeightSolver::translateMove( const MOVE &m )
+MoveHint FortyeightSolver::translateMove( const MOVE &m )
 {
     if ( m.from == 17 || m.to == 17 )
-        return 0;
+        return MoveHint();
     PatPile *frompile = 0;
     if ( m.from < 8 )
         frompile = deal->stack[m.from];
@@ -506,9 +506,9 @@ MoveHint *FortyeightSolver::translateMove( const MOVE &m )
     Q_ASSERT( card );
     Q_ASSERT( m.to < 16 );
     if ( m.to >= 8 )
-        return new MoveHint( card, deal->target[m.to-8], m.pri );
+        return MoveHint( card, deal->target[m.to-8], m.pri );
     else
-        return new MoveHint( card, deal->stack[m.to], m.pri );
+        return MoveHint( card, deal->stack[m.to], m.pri );
 }
 
 void FortyeightSolver::print_layout()

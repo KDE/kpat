@@ -242,10 +242,10 @@ int IdiotSolver::getClusterNumber()
     return 0;
 }
 
-MoveHint *IdiotSolver::translateMove( const MOVE &m )
+MoveHint IdiotSolver::translateMove( const MOVE &m )
 {
     if ( m.from >=4 )
-        return 0;
+        return MoveHint();
     PatPile *frompile = deal->m_play[m.from];
 
     KCard *card = frompile->at( frompile->count() - m.card_index - 1);
@@ -257,7 +257,7 @@ MoveHint *IdiotSolver::translateMove( const MOVE &m )
     else
         target = deal->m_play[m.to];
 
-    return new MoveHint( card, target, m.pri );
+    return MoveHint( card, target, m.pri );
 }
 
 void IdiotSolver::print_layout()

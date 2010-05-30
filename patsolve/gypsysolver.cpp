@@ -528,11 +528,11 @@ void GypsySolver::print_layout()
     return;
 }
 
-MoveHint *GypsySolver::translateMove( const MOVE &m )
+MoveHint GypsySolver::translateMove( const MOVE &m )
 {
     //print_layout();
     if ( m.from == deck )
-        return 0;
+        return MoveHint();
 
     PatPile *frompile = deal->store[m.from];
     KCard *card = frompile->at( frompile->count() - m.card_index - 1);
@@ -554,8 +554,8 @@ MoveHint *GypsySolver::translateMove( const MOVE &m )
         }
         if ( !target )
             target = empty;
-        return new MoveHint( card, target, m.pri );
+        return MoveHint( card, target, m.pri );
     }
 
-    return new MoveHint( card, deal->store[m.to], m.pri );
+    return MoveHint( card, deal->store[m.to], m.pri );
 }
