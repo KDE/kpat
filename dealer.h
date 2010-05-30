@@ -101,7 +101,10 @@ public:
     void setNeededFutureMoves(int);
     int neededFutureMoves() const;
 
+    bool isHintActive() const;
     bool isDemoActive() const;
+    bool isDropActive() const;
+
     virtual bool isGameLost() const;
     virtual bool isGameWon() const;
     bool allowedToStartNewGame();
@@ -119,10 +122,12 @@ signals:
     void redoPossible(bool poss);
     void hintPossible(bool poss);
     void demoPossible(bool poss);
+    void dropPossible(bool poss);
     void newCardsPossible(bool poss);
 
     void demoActive(bool active);
     void hintActive(bool active);
+    void dropActive(bool active);
     void updateMoves(int moves);
 
     void solverStateChanged(QString text);
@@ -130,6 +135,9 @@ signals:
 public slots:
     void startNew(int gameNumber = -1);
     void startHints();
+
+    void startDrop();
+    void stopDrop();
 
     void undo();
     void redo();
@@ -184,7 +192,6 @@ protected slots:
 
     void slotSolverEnded();
     void slotSolverFinished( int result );
-    void startManualDrop();
 
     void showWonMessage();
 

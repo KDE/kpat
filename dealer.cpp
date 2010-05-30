@@ -125,12 +125,15 @@ public:
     SolverThread *m_solver_thread;
     QList<MOVE> winMoves;
     int neededFutureMoves;
-    QTimer *updateSolver;
     int loadedMoveCount;
     KCard *peekedCard;
-    QTimer *demotimer;
+
+    QTimer *updateSolver;
+    QTimer *demoTimer;
     QTimer *dropTimer;
+
     qreal dropSpeedFactor;
+    bool interruptAutoDrop;
 
     bool dropInProgress;
     bool dealInProgress;
@@ -139,6 +142,7 @@ public:
     bool takeStateQueued;
     bool hintQueued;
     bool demoQueued;
+    bool dropQueued;
 
     QStack<GameState*> undoStack;
     GameState * currentState;
@@ -285,10 +289,12 @@ DealerScene::DealerScene()
     d->peekedCard = 0;
     connect( d->updateSolver, SIGNAL(timeout()), SLOT(stopAndRestartSolver()) );
 
-    d->demotimer = new QTimer(this);
-    d->demotimer->setSingleShot( true );
-    connect( d->demotimer, SIGNAL(timeout()), SLOT(demo()) );
+    d->demoTimer = new QTimer(this);
+    d->demoTimer->setSingleShot( true );
+    connect( d->demoTimer, SIGNAL(timeout()), SLOT(demo()) );
     d->dropSpeedFactor = 1;
+
+    d->interruptAutoDrop = false;
 
     d->dealInProgress = false;
     d->demoInProgress = false;
@@ -297,6 +303,7 @@ DealerScene::DealerScene()
     d->takeStateQueued = false;
     d->hintQueued = false;
     d->demoQueued = false;
+    d->dropQueued = false;
 
     connect( this, SIGNAL(cardAnimationDone()), this, SLOT(animationDone()) );
 
@@ -393,15 +400,14 @@ void DealerScene::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int du
 
 void DealerScene::startHints()
 {
+    stopDemo();
+    stopDrop();
+
     if ( isCardAnimationRunning() )
     {
         d->hintQueued = true;
         return;
     }
-
-    stop();
-
-    d->dropTimer->stop();
 
     if ( isKeyboardModeActive() )
     {
@@ -642,6 +648,7 @@ void DealerScene::resetInternals()
     emit solverStateChanged( QString() );
     emit hintPossible( true );
     emit demoPossible( true );
+    emit dropPossible( true );
 }
 
 QPointF posAlongRect( qreal distOnRect, const QRectF & rect )
@@ -671,6 +678,7 @@ void DealerScene::won()
 
     emit demoPossible( false );
     emit hintPossible( false );
+    emit dropPossible( false );
     emit newCardsPossible( false );
     emit undoPossible( false );
 
@@ -914,6 +922,7 @@ void DealerScene::undoOrRedo( bool undo )
         {
             hintPossible( true );
             demoPossible( true );
+            dropPossible( true );
             d->toldAboutLostGame = false;
             d->toldAboutWonGame = false;
         }
@@ -948,15 +957,14 @@ void DealerScene::undoOrRedo( bool undo )
 
 void DealerScene::takeState()
 {
-    if ( !isDemoActive() )
-        d->winMoves.clear();
-
-
     if ( isCardAnimationRunning() )
     {
         d->takeStateQueued = true;
         return;
     }
+
+    if ( !isDemoActive() )
+        d->winMoves.clear();
 
     GameState * newState = getState();
 
@@ -989,6 +997,7 @@ void DealerScene::takeState()
     {
         emit hintPossible( false );
         emit demoPossible( false );
+        emit dropPossible( false );
         emit solverStateChanged( i18n( "Solver: This game is lost." ) );
         d->toldAboutLostGame = true;
         stopDemo();
@@ -998,6 +1007,13 @@ void DealerScene::takeState()
     if ( !isDemoActive() && !isCardAnimationRunning() && d->m_solver )
         startSolver();
 
+    if ( autoDropEnabled() && !d->dropInProgress )
+    {
+        if ( d->interruptAutoDrop )
+            d->interruptAutoDrop = false;
+        else
+            startDrop();
+    }
 }
 
 
@@ -1082,43 +1098,51 @@ PatPile *DealerScene::findTarget(KCard *c)
 }
 
 
-void DealerScene::setAutoDropEnabled(bool a)
-{
-    _autodrop = a;
-    drop();
-}
-
-void DealerScene::startManualDrop()
-{
-    stopDemo();
-
-    d->dropInProgress = true;
-    drop();
-}
-
 void DealerScene::setSolverEnabled(bool a)
 {
     _usesolver = a;
 }
 
 
-bool DealerScene::drop()
+void DealerScene::setAutoDropEnabled(bool a)
 {
-    if (!autoDropEnabled() && !d->dropInProgress)
-        return false;
+    _autodrop = a;
+    if ( a )
+        startDrop();
+    else
+        stopDrop();
+}
 
-    if ( !cardsBeingDragged().isEmpty()
-         || isCardAnimationRunning()
-         || !d->currentState )
-    {
-        d->dropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
-        return true;
-    }
+void DealerScene::startDrop()
+{
+    stopHints();
+    stopDemo();
 
     d->dropInProgress = true;
+    d->interruptAutoDrop = false;
+    d->dropSpeedFactor = 1;
+    emit dropActive( true );
 
-    clearHighlightedItems();
+    d->dropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
+}
 
+
+void DealerScene::stopDrop()
+{
+    if ( d->dropInProgress )
+    {
+        d->dropTimer->stop();
+        d->dropInProgress = false;
+        emit dropActive( false );
+
+        if ( autoDropEnabled() && d->takeStateQueued )
+            d->interruptAutoDrop = true;
+    }
+}
+
+
+bool DealerScene::drop()
+{
     foreach ( const MoveHint & mh, getHints() )
     {
         if ( mh.pile()
@@ -1154,8 +1178,9 @@ bool DealerScene::drop()
             return true;
         }
     }
-    d->dropSpeedFactor = 1;
+
     d->dropInProgress = false;
+    emit dropActive( false );
 
     return false;
 }
@@ -1246,12 +1271,25 @@ void DealerScene::stop()
 {
     stopHints();
     stopDemo();
+    stopDrop();
+}
+
+
+bool DealerScene::isHintActive() const
+{
+    return !highlightedItems().isEmpty();
 }
 
 
 bool DealerScene::isDemoActive() const
 {
     return d->demoInProgress;
+}
+
+
+bool DealerScene::isDropActive() const
+{
+    return d->dropInProgress;
 }
 
 
@@ -1265,30 +1303,36 @@ void DealerScene::animationDone()
         takeState();
     }
 
-    if ( d->hintQueued )
+    if ( d->demoInProgress )
+    {
+        d->demoTimer->start( TIME_BETWEEN_MOVES );
+    }
+    else if ( d->dropInProgress )
+    {
+        d->dropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
+    }
+    else if ( d->hintQueued )
     {
         d->hintQueued = false;
         startHints();
-    }
-    else if ( d->demoInProgress )
-    {
-        d->demotimer->start( 250 );
     }
     else if ( d->demoQueued )
     {
         d->demoQueued = false;
         startDemo();
     }
-    else if ( autoDropEnabled() || d->dropInProgress )
+    else if ( d->dropQueued )
     {
-        d->dropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
+        d->dropQueued = false;
+        startDrop();
     }
 }
 
 
 void DealerScene::startDemo()
 {
-    stop();
+    stopHints();
+    stopDrop();
 
     if ( isCardAnimationRunning() )
     {
@@ -1306,9 +1350,12 @@ void DealerScene::startDemo()
 
 void DealerScene::stopDemo()
 {
-    d->demotimer->stop();
-    d->demoInProgress = false;
-    emit demoActive( false );
+    if ( d->demoInProgress )
+    {
+        d->demoTimer->stop();
+        d->demoInProgress = false;
+        emit demoActive( false );
+    }
 }
 
 
@@ -1325,7 +1372,7 @@ void DealerScene::demo()
     d->gameStarted = true;
     clearHighlightedItems();
 
-    d->demotimer->stop();
+    d->demoTimer->stop();
 
     MoveHint mh = chooseHint();
     if ( mh.isValid() )

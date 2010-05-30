@@ -211,10 +211,12 @@ void MainWindow::setupActions()
     redealaction->setIcon( KIcon("roll") );
     redealaction->setShortcut( Qt::Key_R );
 
-    dropaction = actionCollection()->addAction("move_drop");
+    dropaction = new KToggleAction( actionCollection() );
     dropaction->setText( i18nc("Automatically move cards to the foundation piles", "Dro&p") );
     dropaction->setIcon( KIcon("games-endturn") );
     dropaction->setShortcut( Qt::Key_P );
+    actionCollection()->addAction( "move_drop", dropaction );
+    connect( dropaction, SIGNAL(triggered()), this, SLOT(toggleDrop()) );
 
 
     // Settings Menu
@@ -539,13 +541,14 @@ void MainWindow::updateActions()
     redo->setEnabled( false );
     hintaction->setEnabled( false );
     demoaction->setEnabled( false );
+    dropaction->setEnabled( false );
     drawaction->setEnabled( false );
     dealaction->setEnabled( false );
     redealaction->setEnabled( false );
 
+    // If a dealer exists, connect the game actions to it.
     if ( m_dealer )
     {
-        // If a dealer exists, connect the game actions to it.
         connect( m_dealer, SIGNAL(undoPossible(bool)), undo, SLOT(setEnabled(bool)) );
         connect( m_dealer, SIGNAL(redoPossible(bool)), redo, SLOT(setEnabled(bool)) );
 
@@ -555,7 +558,8 @@ void MainWindow::updateActions()
         connect( m_dealer, SIGNAL(demoActive(bool)), this, SLOT(toggleDemoAction(bool)) );
         connect( m_dealer, SIGNAL(demoPossible(bool)), demoaction, SLOT(setEnabled(bool)) );
 
-        connect( dropaction, SIGNAL(triggered(bool)), m_dealer, SLOT(startManualDrop()) );
+        connect( m_dealer, SIGNAL(dropActive(bool)), dropaction, SLOT(setChecked(bool)) );
+        connect( m_dealer, SIGNAL(demoPossible(bool)), dropaction, SLOT(setEnabled(bool)) );
 
         connect( m_leftAction, SIGNAL(triggered(bool)), m_dealer, SLOT(keyboardFocusLeft()) );
         connect( m_rightAction, SIGNAL(triggered(bool)), m_dealer, SLOT(keyboardFocusRight()) );
@@ -613,11 +617,23 @@ void MainWindow::updateGameActionList()
 }
 
 
+void MainWindow::toggleDrop()
+{
+    if ( m_dealer )
+    {
+        if ( !m_dealer->isDropActive() )
+            m_dealer->startDrop();
+        else
+            m_dealer->stopDrop();
+    }
+}
+
+
 void MainWindow::toggleHints()
 {
     if ( m_dealer )
     {
-        if ( m_dealer->highlightedItems().isEmpty() )
+        if ( !m_dealer->isHintActive() )
             m_dealer->startHints();
         else
             m_dealer->stop();
