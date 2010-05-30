@@ -154,7 +154,6 @@ protected:
     virtual bool checkRemove( const PatPile * pile, const QList<KCard*> & cards ) const;
     virtual bool checkPrefering( const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards ) const;
 
-    virtual void mouseDoubleClickEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent );
 

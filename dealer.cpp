@@ -847,10 +847,9 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
     }
 }
 
+
 void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
 {
-    stop();
-
     if ( e->button() == Qt::RightButton && d->peekedCard && d->peekedCard->pile() )
     {
         e->accept();
@@ -863,12 +862,6 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
     }
 }
 
-void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
-{
-    stop();
-
-    KCardScene::mouseDoubleClickEvent( e );
-}
 
 bool DealerScene::tryAutomaticMove( KCard * c )
 {
