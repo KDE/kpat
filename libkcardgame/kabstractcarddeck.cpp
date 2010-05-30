@@ -98,10 +98,15 @@ void RenderingThread::run()
 KAbstractCardDeckPrivate::KAbstractCardDeckPrivate( KAbstractCardDeck * q )
   : QObject( q ),
     q( q ),
+    animationCheckTimer( new QTimer( this ) ),
     cache( 0 ),
     svgRenderer( 0 ),
     thread( 0 )
+
 {
+    animationCheckTimer->setSingleShot( true );
+    animationCheckTimer->setInterval( 0 );
+    connect( animationCheckTimer, SIGNAL(timeout()), this, SLOT(checkIfAnimationIsDone()) );
 }
 
 
@@ -280,6 +285,13 @@ void KAbstractCardDeckPrivate::cardStoppedAnimation( KCard * card )
     Q_ASSERT( cardsWaitedFor.contains( card ) );
     cardsWaitedFor.remove( card );
 
+    if ( cardsWaitedFor.isEmpty() )
+        animationCheckTimer->start();
+}
+
+
+void KAbstractCardDeckPrivate::checkIfAnimationIsDone()
+{
     if ( cardsWaitedFor.isEmpty() )
         emit q->cardAnimationDone();
 }

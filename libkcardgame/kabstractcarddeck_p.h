@@ -83,6 +83,7 @@ public Q_SLOTS:
     void submitRendering( const QString & key, const QImage & image );
     void cardStartedAnimation( KCard * card );
     void cardStoppedAnimation( KCard * card );
+    void checkIfAnimationIsDone();
 
 
 public:
@@ -93,6 +94,7 @@ public:
 
     QList<KCard*> cards;
     QSet<KCard*> cardsWaitedFor;
+    QTimer * animationCheckTimer;
 
     KCardTheme theme;
     KPixmapCache * cache;

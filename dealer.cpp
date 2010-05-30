@@ -298,6 +298,7 @@ DealerScene::DealerScene()
     d->takeStateQueued = false;
     d->hintQueued = false;
     d->demoQueued = false;
+
     connect( this, SIGNAL(cardAnimationDone()), this, SLOT(animationDone()) );
 
     d->dropTimer = new QTimer( this );
@@ -1311,6 +1312,8 @@ MoveHint *DealerScene::chooseHint()
 
 void DealerScene::animationDone()
 {
+    Q_ASSERT( !isCardAnimationRunning() );
+
     if ( d->takeStateQueued )
     {
         d->takeStateQueued = false;
