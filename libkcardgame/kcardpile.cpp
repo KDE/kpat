@@ -108,6 +108,7 @@ KCardPile::KCardPile( KCardScene * cardScene )
 {
     d->autoTurnTop = false;
     d->highlighted = false;
+    d->highlightValue = 0;
     d->graphicVisible = true;
     d->spread = QSizeF( 0, 0.33 );
     d->reservedSpace = QRectF( 0, 0, 1, 1 );
