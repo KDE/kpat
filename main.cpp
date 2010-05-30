@@ -99,39 +99,6 @@ QString lowerAlphaNum( const QString & string )
     return result;
 }
 
-// A function that forces all pending resize events to happen immediately.
-// Used to prevent expensive resize events after the scene has been created.
-void sendAllPendingResizeEvents( QWidget * widget )
-{
-    bool foundOne;
-    do
-    {
-        foundOne = false;
-        QList<QWidget *> allChildWidgets = widget->findChildren<QWidget *>();
-        allChildWidgets.prepend( widget );
-        foreach( QWidget* w, allChildWidgets )
-        {
-            if ( w->testAttribute(Qt::WA_PendingResizeEvent) )
-            {
-                QResizeEvent e(w->size(), QSize());
-                QApplication::sendEvent(w, &e);
-                w->setAttribute(Qt::WA_PendingResizeEvent, false);
-                // hack: make QTabWidget think it's visible; no layout otherwise
-                w->setAttribute(Qt::WA_WState_Visible, true);
-                foundOne = true;
-            }
-        }
-        // Process LayoutRequest events, in particular
-        qApp->sendPostedEvents();
-
-        if ( !foundOne )
-        {
-            // Reset visible flag, to avoid crashes in qt
-            foreach( QWidget* w, allChildWidgets )
-                w->setAttribute(Qt::WA_WState_Visible, false);
-        }
-    } while ( foundOne );
-}
 
 int main( int argc, char **argv )
 {
@@ -293,7 +260,6 @@ int main( int argc, char **argv )
     QFile savedState( KStandardDirs::locateLocal("appdata", saved_state_file) );
 
     MainWindow *w = new MainWindow;
-    sendAllPendingResizeEvents(w->menuBar());
     if (args->count())
     {
         if (!w->openGame(args->url(0)))
