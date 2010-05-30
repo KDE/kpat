@@ -57,13 +57,13 @@ protected:
 
 protected slots:
     virtual bool tryAutomaticMove( KCard * c );
-    void waitForMoving();
+    virtual void animationDone();
     void startMoving();
 
 private:
     bool canPutStore(const PatPile *c1, const QList<KCard*>& c2) const;
     void countFreeCells(int &free_cells, int &free_stores) const;
-    void movePileToPile(QList<KCard*> &c, PatPile *to, QList<PatPile*> & fss, QList<PatPile*> & fcs,
+    void moveRunToPile(QList<KCard*> &c, PatPile *to, QList<PatPile*> & fss, QList<PatPile*> & fcs,
                         int start, int count, int debug_level);
 
     PatPile* store[8];
@@ -73,6 +73,8 @@ private:
     QList<MoveHint*> moves;
     int sum_moves;
     int current_weight;
+
+    bool startMovingQueued;
 
     friend class FreecellSolver;
 };

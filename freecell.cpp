@@ -47,14 +47,14 @@
 #include <KDebug>
 #include <KLocale>
 
-#include <QtCore/QTimer>
-
 
 const int CHUNKSIZE = 100;
 
 
 void Freecell::initialize()
 {
+    startMovingQueued = false;
+
     static_cast<KStandardCardDeck*>( deck() )->setDeckContents();
 
     const qreal topRowDist = 1.08;
@@ -154,12 +154,9 @@ void Freecell::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int durat
 
     sum_moves = 0;
     current_weight = 1000;
-    movePileToPile( cards, destPile, emptyStores, emptyFreeCells, 0, cards.size(), 0);
+    moveRunToPile( cards, destPile, emptyStores, emptyFreeCells, 0, cards.size(), 0);
 
-    if ( isCardAnimationRunning() )
-        connect(deck(), SIGNAL(cardAnimationDone()), this, SLOT(waitForMoving()));
-    else
-        QTimer::singleShot(0, this, SLOT(startMoving()));
+    startMoving();
 }
 
 struct MoveAway {
@@ -168,7 +165,7 @@ struct MoveAway {
     int count;
 };
 
-void Freecell::movePileToPile(QList<KCard*> &c, PatPile *to, QList<PatPile*> & fss, QList<PatPile*> & fcs, int start, int count, int debug_level)
+void Freecell::moveRunToPile(QList<KCard*> &c, PatPile *to, QList<PatPile*> & fss, QList<PatPile*> & fcs, int start, int count, int debug_level)
 {
     kDebug() << debug_level << "movePileToPile" << c.count() << " " << start  << " " << count;
     int moveaway = 0;
@@ -192,7 +189,7 @@ void Freecell::movePileToPile(QList<KCard*> &c, PatPile *to, QList<PatPile*> & f
         ma.count = moveaway;
         moves_away.append(ma);
         fss.erase(fss.begin());
-        movePileToPile(c, ma.firstfree, fss, fcs, start, moveaway, debug_level + 1);
+        moveRunToPile(c, ma.firstfree, fss, fcs, start, moveaway, debug_level + 1);
         start += moveaway;
         count -= moveaway;
         moveaway >>= 1;
@@ -219,18 +216,24 @@ void Freecell::movePileToPile(QList<KCard*> &c, PatPile *to, QList<PatPile*> & f
 
     while (moves_away.count())
     {
-        MoveAway ma = moves_away.last();
-        moves_away.erase(--moves_away.end());
-        movePileToPile(c, to, fss, fcs, ma.start, ma.count, debug_level + 1);
+        MoveAway ma = moves_away.takeLast();
+        moveRunToPile(c, to, fss, fcs, ma.start, ma.count, debug_level + 1);
         fss.append(ma.firstfree);
     }
+
+    takeState();
 }
 
 void Freecell::startMoving()
 {
     kDebug() << "startMoving\n";
-    if (moves.isEmpty()) {
-        takeState();
+
+    if ( moves.isEmpty() )
+        return;
+
+    if ( isCardAnimationRunning() )
+    {
+        startMovingQueued = true;
         return;
     }
 
@@ -248,21 +251,25 @@ void Freecell::startMoving()
     mh->pile()->layoutCards( duration );
     p->layoutCards( duration );
     kDebug() << "wait for moving end" << mh->card()->objectName() << mh->priority();
-
-    if ( isCardAnimationRunning() )
-        connect(deck(), SIGNAL(cardAnimationDone()), this, SLOT(waitForMoving()));
-    else
-        QTimer::singleShot(0, this, SLOT(startMoving()));
-    
     delete mh;
-}
 
-
-void Freecell::waitForMoving()
-{
-    disconnect(deck(), SIGNAL(cardAnimationDone()), this, SLOT(waitForMoving()));
     startMoving();
 }
+
+
+void Freecell::animationDone()
+{
+    if ( startMovingQueued )
+    {
+        startMovingQueued = false;
+        startMoving();
+    }
+    else
+    {
+        DealerScene::animationDone();
+    }
+}
+
 
 bool Freecell::tryAutomaticMove(KCard *c)
 {
