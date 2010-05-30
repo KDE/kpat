@@ -176,15 +176,11 @@ protected:
     virtual QString getGameOptions() const { return QString(); }
     virtual void setGameOptions( const QString & ) {}
 
-    virtual void newDemoMove(KCard *m);
-
     void addCardForDeal( KCardPile * pile, KCard * card, bool faceUp, QPointF startPos );
     void startDealAnimation();
 
 protected slots:
     virtual void animationDone();
-
-    void waitForDemo(KCard *);
 
     void slotSolverEnded();
     void slotSolverFinished( int result );

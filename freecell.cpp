@@ -257,12 +257,6 @@ void Freecell::startMoving()
     delete mh;
 }
 
-void Freecell::newDemoMove(KCard *m)
-{
-    DealerScene::newDemoMove(m);
-    if (m != m->pile()->top())
-        m->disconnect( this );
-}
 
 void Freecell::waitForMoving()
 {

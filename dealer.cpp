@@ -130,7 +130,6 @@ public:
     KCard *peekedCard;
     QTimer *demotimer;
     QTimer *dropTimer;
-    bool stop_demo_next;
     qreal dropSpeedFactor;
 
     bool dropInProgress;
@@ -267,8 +266,7 @@ DealerScene::DealerScene()
     setItemIndexMethod(QGraphicsScene::NoIndex);
 
     d = new DealerScenePrivate();
-    d->demoInProgress = false;
-    d->stop_demo_next = false;
+
     d->_won = false;
     d->_gameRecorded = false;
     d->gameStarted = false;
@@ -288,11 +286,13 @@ DealerScene::DealerScene()
     connect( d->updateSolver, SIGNAL(timeout()), SLOT(stopAndRestartSolver()) );
 
     d->demotimer = new QTimer(this);
+    d->demotimer->setSingleShot( true );
     connect( d->demotimer, SIGNAL(timeout()), SLOT(demo()) );
     d->dropSpeedFactor = 1;
-    d->dropInProgress = false;
 
     d->dealInProgress = false;
+    d->demoInProgress = false;
+    d->dropInProgress = false;
 
     d->takeStateQueued = false;
     d->hintQueued = false;
@@ -859,15 +859,7 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
 {
     stop();
 
-    if ( d->demoInProgress )
-    {
-        e->accept();
-        stopDemo();
-    }
-    else
-    {
-        KCardScene::mouseDoubleClickEvent( e );
-    }
+    KCardScene::mouseDoubleClickEvent( e );
 }
 
 bool DealerScene::tryAutomaticMove( KCard * c )
@@ -1278,10 +1270,14 @@ void DealerScene::animationDone()
         d->hintQueued = false;
         startHints();
     }
+    else if ( d->demoInProgress )
+    {
+        d->demotimer->start( 250 );
+    }
     else if ( d->demoQueued )
     {
         d->demoQueued = false;
-        demo();
+        startDemo();
     }
     else if ( autoDropEnabled() || d->dropInProgress )
     {
@@ -1293,19 +1289,23 @@ void DealerScene::animationDone()
 void DealerScene::startDemo()
 {
     stop();
+
+    if ( isCardAnimationRunning() )
+    {
+        d->demoQueued = true;
+        return;
+    }
+
+    d->demoInProgress = true;
+    d->gothelp = true;
+    d->gameStarted = true;
+
     demo();
 }
 
 
 void DealerScene::stopDemo()
 {
-    if ( isCardAnimationRunning() )
-    {
-        d->stop_demo_next = true;
-        return;
-    }
-
-    d->stop_demo_next = false;
     d->demotimer->stop();
     d->demoInProgress = false;
     emit demoActive( false );
@@ -1320,11 +1320,6 @@ void DealerScene::demo()
         return;
     }
 
-    if (d->stop_demo_next) {
-        stopDemo();
-        return;
-    }
-    d->stop_demo_next = false;
     d->demoInProgress = true;
     d->gothelp = true;
     d->gameStarted = true;
@@ -1380,49 +1375,31 @@ void DealerScene::demo()
             c->setPos(oldPositions.value(c));
             c->animate(destPos, c->zValue(), 0, c->isFaceUp(), true, DURATION_DEMO);
         }
-
-        newDemoMove(mh.card());
-
-    } else {
-        KCard *t = newCards();
-        if (t) {
-            newDemoMove(t);
-        } else if (isGameWon()) {
+    }
+    else if ( !newCards() )
+    {
+        if (isGameWon())
+        {
             won();
-            return;
-        } else {
+        }
+        else
+        {
             stopDemo();
             slotSolverEnded();
-            return;
         }
+        return;
     }
 
     emit demoActive( true );
     takeState();
 }
 
+
 KCard *DealerScene::newCards()
 {
     return 0;
 }
 
-void DealerScene::newDemoMove(KCard *m)
-{
-    if ( m->isAnimated() )
-        connect(m, SIGNAL(animationStopped(KCard*)), SLOT(waitForDemo(KCard*)));
-    else
-        waitForDemo( 0 );
-}
-
-void DealerScene::waitForDemo(KCard *t)
-{
-    if ( t )
-    {
-        t->disconnect(this, SLOT(waitForDemo(KCard*)) );
-        takeState();
-    }
-    d->demotimer->start(250);
-}
 
 void DealerScene::setSolver( Solver *s) {
     delete d->m_solver;
