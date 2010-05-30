@@ -209,7 +209,6 @@ private:
     QMap<KCard*,QPointF> m_initDealPositions;
 
 private slots:
-    void waitForAutoDrop();
     void stopAndRestartSolver();
 };
 

@@ -129,12 +129,12 @@ public:
     KCard *peekedCard;
     QTimer *demotimer;
     QTimer *dropTimer;
-    bool demo_active;
     bool stop_demo_next;
     qreal dropSpeedFactor;
 
     bool dropInProgress;
     bool dealInProgress;
+    bool demoInProgress;
 
     bool takeStateQueued;
     bool hintQueued;
@@ -268,7 +268,7 @@ DealerScene::DealerScene()
     setItemIndexMethod(QGraphicsScene::NoIndex);
 
     d = new DealerScenePrivate();
-    d->demo_active = false;
+    d->demoInProgress = false;
     d->stop_demo_next = false;
     d->_won = false;
     d->_gameRecorded = false;
@@ -845,7 +845,7 @@ void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
 {
     clearHighlightedItems();
 
-    if ( d->demo_active )
+    if ( d->demoInProgress )
     {
         e->accept();
         stopDemo();
@@ -992,13 +992,9 @@ void DealerScene::takeState()
         return;
     }
 
-    if ( !isDemoActive() && !isCardAnimationRunning() )
-    {
-        if ( d->m_solver )
-            startSolver();
+    if ( !isDemoActive() && !isCardAnimationRunning() && d->m_solver )
+        startSolver();
 
-        d->dropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
-    }
 }
 
 
@@ -1086,13 +1082,15 @@ PatPile *DealerScene::findTarget(KCard *c)
 void DealerScene::setAutoDropEnabled(bool a)
 {
     _autodrop = a;
-    d->dropTimer->start( TIME_BETWEEN_MOVES );
+    drop();
 }
 
 void DealerScene::startManualDrop()
 {
+    stopDemo();
+
     d->dropInProgress = true;
-    d->dropTimer->start( TIME_BETWEEN_MOVES );
+    drop();
 }
 
 void DealerScene::setSolverEnabled(bool a)
@@ -1120,39 +1118,37 @@ bool DealerScene::drop()
     clearHints();
     getHints();
 
-    foreach ( const MoveHint *mh, d->hints )
+    foreach ( const MoveHint * mh, d->hints )
     {
-        if ( mh->pile() && mh->pile()->isFoundation() && mh->priority() > 120 && !d->cardsNotToDrop.contains( mh->card() ) )
+        if ( mh->pile()
+             && mh->pile()->isFoundation()
+             && mh->priority() > 120
+             && !d->cardsNotToDrop.contains( mh->card() ) )
         {
-            KCard *t = mh->card();
-            QList<KCard*> cards = mh->card()->pile()->cards();
-            while ( !cards.isEmpty() && cards.first() != t )
-                cards.removeFirst();
+            QList<KCard*> cards = mh->card()->pile()->topCardsDownTo( mh->card() );
 
             QMap<KCard*,QPointF> oldPositions;
-            foreach ( KCard *c, cards )
+            foreach ( KCard * c, cards )
                 oldPositions.insert( c, c->pos() );
 
             moveCardsToPile( cards, mh->pile(), DURATION_MOVE );
 
-            bool animationStarted = false;
             int count = 0;
-            foreach ( KCard *c, cards )
+            foreach ( KCard * c, cards )
             {
                 c->completeAnimation();
                 QPointF destPos = c->pos();
                 c->setPos( oldPositions.value( c ) );
 
-                int duration = speedUpTime( DURATION_AUTODROP + count++ * DURATION_AUTODROP / 10 );
+                int duration = speedUpTime( DURATION_AUTODROP + count * DURATION_AUTODROP / 10 );
                 c->animate( destPos, c->zValue(), 0, c->isFaceUp(), true, duration );
 
-                animationStarted |= c->isAnimated();
+                ++count;
             }
 
             d->dropSpeedFactor *= AUTODROP_SPEEDUP_FACTOR;
 
-            if ( animationStarted )
-                connect( deck(), SIGNAL(cardAnimationDone()), this, SLOT(waitForAutoDrop()) );
+            takeState();
 
             return true;
         }
@@ -1240,13 +1236,6 @@ void DealerScene::slotSolverFinished( int result )
 }
 
 
-void DealerScene::waitForAutoDrop()
-{
-    disconnect( deck(), SIGNAL(cardAnimationDone()), this, SLOT(waitForAutoDrop()) );
-
-    takeState();
-}
-
 int DealerScene::gameNumber() const
 {
     return gamenumber;
@@ -1265,13 +1254,13 @@ void DealerScene::stopDemo()
     }
 
     d->demotimer->stop();
-    d->demo_active = false;
+    d->demoInProgress = false;
     emit demoActive( false );
 }
 
 bool DealerScene::isDemoActive() const
 {
-    return d->demo_active;
+    return d->demoInProgress;
 }
 
 void DealerScene::toggleDemo()
@@ -1325,11 +1314,14 @@ void DealerScene::animationDone()
         d->hintQueued = false;
         hint();
     }
-
-    if ( d->demoQueued )
+    else if ( d->demoQueued )
     {
         d->demoQueued = false;
         demo();
+    }
+    else if ( autoDropEnabled() || d->dropInProgress )
+    {
+        d->dropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
     }
 }
 
@@ -1347,7 +1339,7 @@ void DealerScene::demo()
         return;
     }
     d->stop_demo_next = false;
-    d->demo_active = true;
+    d->demoInProgress = true;
     d->gothelp = true;
     d->gameStarted = true;
     clearHighlightedItems();
