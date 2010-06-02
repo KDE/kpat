@@ -24,7 +24,7 @@
 #include <kdemacros.h>
 
 #ifndef LIBKCARDGAME_EXPORT
-    #if defined(MAKE_LIBKCARDGAME_LIB)
+    #if defined(MAKE_KCARDGAME_LIB)
         /* We are building this library */ 
         #define LIBKCARDGAME_EXPORT KDE_EXPORT
     #else
