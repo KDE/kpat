@@ -69,10 +69,6 @@ public:
     virtual void relayoutScene();
     void updateWonItem( bool force = false );
 
-    // use this for autodrop times
-    int speedUpTime( int delay ) const;
-
-    QImage createDump() const;
 
     virtual void addPile( KCardPile * pile );
     virtual void removePile( KCardPile * pile );
@@ -80,15 +76,15 @@ public:
 
     virtual void moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
 
-    void setAutoDropEnabled(bool a);
     bool autoDropEnabled() const { return _autodrop; }
+    void setAutoDropEnabled( bool enabled );
 
     int gameNumber() const;
 
-    void setGameId(int id);
+    void setGameId( int id );
     int gameId() const;
 
-    void setActions(int actions);
+    void setActions( int actions );
     int actions() const;
 
     virtual QList<QAction*> configActions() const;
@@ -105,16 +101,10 @@ public:
     void stopDemo();
     bool isDemoActive() const;
 
-    void setSolverEnabled(bool a);
-    void setSolver( Solver *s);
-    Solver *solver() const;
+    void setSolverEnabled( bool enabled );
+    Solver * solver() const;
     void startSolver() const;
 
-    void setNeededFutureMoves(int);
-    int neededFutureMoves() const;
-
-    virtual bool isGameLost() const;
-    virtual bool isGameWon() const;
     bool allowedToStartNewGame();
     int moveCount() const;
 
@@ -124,6 +114,8 @@ public:
     virtual void mapOldId(int id);
     virtual int oldId() const;
     void recordGameStatistics();
+
+    QImage createDump() const;
 
 signals:
     void undoPossible(bool poss);
@@ -163,18 +155,14 @@ protected:
 
     virtual void restart() = 0;
 
-    void undoOrRedo( bool undo );
-    GameState * getState();
-    void setState( GameState * state );
+    void setSolver( Solver * solver );
 
-    PatPile *findTarget(KCard *c);
+    virtual bool isGameLost() const;
+    virtual bool isGameWon() const;
+
+    PatPile * findTarget( KCard * card );
 
     virtual QList<MoveHint> getHints();
-    QList<MoveHint> getSolverHints();
-    // it's not const because it changes the random seed
-    virtual MoveHint chooseHint();
-
-    void won();
 
     // reimplement these to store and load game-specific information in the state structure
     virtual QString getGameState() { return QString(); }
@@ -187,23 +175,39 @@ protected:
     void addCardForDeal( KCardPile * pile, KCard * card, bool faceUp, QPointF startPos );
     void startDealAnimation();
 
+    void setNeededFutureMoves( int moves );
+    int neededFutureMoves() const;
+
 protected slots:
-    virtual void animationDone();
-
-    virtual void demo();
-
-    void slotSolverEnded();
-    void slotSolverFinished( int result );
-
-    void showWonMessage();
-
     void takeState();
+    virtual void animationDone();
     virtual bool newCards();
     virtual bool drop();
     virtual bool tryAutomaticMove( KCard * card );
 
+    void undoOrRedo( bool undo );
+    GameState * getState();
+    void setState( GameState * state );
+
+    QList<MoveHint> getSolverHints();
+
+private slots:
+    void stopAndRestartSolver();
+    void slotSolverEnded();
+    void slotSolverFinished( int result );
+
+    void demo();
+
+    void showWonMessage();
+
 private:
     void resetInternals();
+
+    MoveHint chooseHint();
+
+    void won();
+
+    int speedUpTime( int delay ) const;
 
     bool _autodrop;
     bool _usesolver;
@@ -214,8 +218,7 @@ private:
 
     QMap<KCard*,QPointF> m_initDealPositions;
 
-private slots:
-    void stopAndRestartSolver();
+
 };
 
 #endif
