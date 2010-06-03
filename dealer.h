@@ -93,6 +93,18 @@ public:
 
     virtual QList<QAction*> configActions() const;
 
+    void startHint();
+    void stopHint();
+    bool isHintActive() const;
+ 
+    void startDrop();
+    void stopDrop();
+    bool isDropActive() const;
+
+    void startDemo();
+    void stopDemo();
+    bool isDemoActive() const;
+
     void setSolverEnabled(bool a);
     void setSolver( Solver *s);
     Solver *solver() const;
@@ -100,10 +112,6 @@ public:
 
     void setNeededFutureMoves(int);
     int neededFutureMoves() const;
-
-    bool isHintActive() const;
-    bool isDemoActive() const;
-    bool isDropActive() const;
 
     virtual bool isGameLost() const;
     virtual bool isGameWon() const;
@@ -134,15 +142,11 @@ signals:
 
 public slots:
     void startNew(int gameNumber = -1);
-    void startHints();
-
-    void startDrop();
-    void stopDrop();
 
     void undo();
     void redo();
 
-    void startDemo();
+
     virtual void demo();
     void stop();
 
@@ -169,9 +173,6 @@ protected:
     QList<MoveHint> getSolverHints();
     // it's not const because it changes the random seed
     virtual MoveHint chooseHint();
-
-    virtual void stopDemo();
-    virtual void stopHints();
 
     void won();
 

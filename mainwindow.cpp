@@ -634,7 +634,7 @@ void MainWindow::toggleHints()
     if ( m_dealer )
     {
         if ( !m_dealer->isHintActive() )
-            m_dealer->startHints();
+            m_dealer->startHint();
         else
             m_dealer->stop();
     }

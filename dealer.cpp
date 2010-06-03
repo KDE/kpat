@@ -135,6 +135,7 @@ public:
     qreal dropSpeedFactor;
     bool interruptAutoDrop;
 
+    bool hintInProgress;
     bool dropInProgress;
     bool dealInProgress;
     bool demoInProgress;
@@ -296,6 +297,7 @@ DealerScene::DealerScene()
 
     d->interruptAutoDrop = false;
 
+    d->hintInProgress = false;
     d->dealInProgress = false;
     d->demoInProgress = false;
     d->dropInProgress = false;
@@ -398,7 +400,7 @@ void DealerScene::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int du
 }
 
 
-void DealerScene::startHints()
+void DealerScene::startHint()
 {
     stopDemo();
     stopDrop();
@@ -410,9 +412,7 @@ void DealerScene::startHints()
     }
 
     if ( isKeyboardModeActive() )
-    {
         setKeyboardModeActive( false );
-    }
 
     QList<QGraphicsItem*> toHighlight;
     foreach ( const MoveHint & h, getHints() )
@@ -424,27 +424,31 @@ void DealerScene::startHints()
         MoveHint mh = solver()->translateMove( m );
         if ( mh.isValid() )
             toHighlight << mh.card();
-
-#if DEBUG_HINTS
-        if ( m.totype == O_Type )
-            fprintf( stderr, "move from %d out (at %d) Prio: %d\n", m.from,
-                     m.turn_index, m.pri );
-        else
-            fprintf( stderr, "move from %d to %d (%d) Prio: %d\n", m.from, m.to,
-                     m.turn_index, m.pri );
-#endif
     }
 
-    setHighlightedItems( toHighlight );
-
-    emit hintActive( !toHighlight.isEmpty() );
+    if ( !toHighlight.isEmpty() )
+    {
+        d->hintInProgress = true;
+        setHighlightedItems( toHighlight );
+        emit hintActive( true );
+    }
 }
 
 
-void DealerScene::stopHints()
+void DealerScene::stopHint()
 {
-    clearHighlightedItems();
-    emit hintActive( false );
+    if ( d->hintInProgress )
+    {
+        d->hintInProgress = false;
+        clearHighlightedItems();
+        emit hintActive( false );
+    }
+}
+
+
+bool DealerScene::isHintActive() const
+{
+    return d->hintInProgress;
 }
 
 
@@ -1108,7 +1112,7 @@ void DealerScene::setAutoDropEnabled(bool a)
 
 void DealerScene::startDrop()
 {
-    stopHints();
+    stopHint();
     stopDemo();
 
     d->dropInProgress = true;
@@ -1131,6 +1135,12 @@ void DealerScene::stopDrop()
         if ( autoDropEnabled() && d->takeStateQueued )
             d->interruptAutoDrop = true;
     }
+}
+
+
+bool DealerScene::isDropActive() const
+{
+    return d->dropInProgress;
 }
 
 
@@ -1262,27 +1272,9 @@ int DealerScene::gameNumber() const
 
 void DealerScene::stop()
 {
-    stopHints();
+    stopHint();
     stopDemo();
     stopDrop();
-}
-
-
-bool DealerScene::isHintActive() const
-{
-    return !highlightedItems().isEmpty();
-}
-
-
-bool DealerScene::isDemoActive() const
-{
-    return d->demoInProgress;
-}
-
-
-bool DealerScene::isDropActive() const
-{
-    return d->dropInProgress;
 }
 
 
@@ -1307,7 +1299,7 @@ void DealerScene::animationDone()
     else if ( d->hintQueued )
     {
         d->hintQueued = false;
-        startHints();
+        startHint();
     }
     else if ( d->demoQueued )
     {
@@ -1324,7 +1316,7 @@ void DealerScene::animationDone()
 
 void DealerScene::startDemo()
 {
-    stopHints();
+    stopHint();
     stopDrop();
 
     if ( isCardAnimationRunning() )
@@ -1349,6 +1341,12 @@ void DealerScene::stopDemo()
         d->demoInProgress = false;
         emit demoActive( false );
     }
+}
+
+
+bool DealerScene::isDemoActive() const
+{
+    return d->demoInProgress;
 }
 
 
