@@ -160,8 +160,6 @@ protected:
     virtual bool isGameLost() const;
     virtual bool isGameWon() const;
 
-    PatPile * findTarget( KCard * card );
-
     virtual QList<MoveHint> getHints();
 
     // reimplement these to store and load game-specific information in the state structure

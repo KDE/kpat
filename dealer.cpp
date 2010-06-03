@@ -869,18 +869,26 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
 }
 
 
-bool DealerScene::tryAutomaticMove( KCard * c )
+bool DealerScene::tryAutomaticMove( KCard * card )
 {
-    if (c->isAnimated())
-        return false;
+    if ( card
+         && !card->isAnimated()
+         && card == card->pile()->top()
+         && card->isFaceUp()
+         && allowedToRemove( card->pile(), card ) )
+    {
+        QList<KCard*> cardList = QList<KCard*>() << card;
 
-    if (c == c->pile()->top() && c->isFaceUp() && allowedToRemove(c->pile(), c)) {
-        KCardPile *tgt = findTarget(c);
-        if (tgt) {
-            moveCardToPile( c , tgt, DURATION_MOVE );
-            return true;
+        foreach ( PatPile * p, patPiles() )
+        {
+            if ( p->isFoundation() && allowedToAdd( p, cardList ) )
+            {
+                moveCardToPile( card , p, DURATION_MOVE );
+                return true;
+            }
         }
     }
+
     return false;
 }
 
@@ -1079,21 +1087,6 @@ void DealerScene::setState( GameState * state )
 
     // restore game-specific information
     setGameState( state->gameData );
-}
-
-PatPile *DealerScene::findTarget(KCard *c)
-{
-    if (!c)
-        return 0;
-
-    foreach (PatPile *p, patPiles())
-    {
-        if (!p->isFoundation())
-            continue;
-        if (allowedToAdd(p, QList<KCard*>() << c))
-            return p;
-    }
-    return 0;
 }
 
 
