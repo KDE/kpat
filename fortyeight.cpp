@@ -60,7 +60,7 @@ void Fortyeight::initialize()
     talon->setSpread(0, 0);
     talon->setKeyboardSelectHint( KCardPile::NeverFocus );
     talon->setKeyboardDropHint( KCardPile::NeverFocus );
-    connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
+    connect( talon, SIGNAL(clicked(KCard*)), SLOT(drawDealRowOrRedeal()) );
 
     pile = new PatPile( this, 20, "pile" );
     pile->setPileRole(PatPile::Waste);
@@ -130,16 +130,17 @@ void Fortyeight::restart()
 
 KCard *Fortyeight::newCards()
 {
-    if (talon->isEmpty() && lastdeal)
-        return 0;
-
-    if (pile->top() && isCardAnimationRunning() )
-        return pile->top();
-
     if (talon->isEmpty())
     {
-        lastdeal = true;
-        flipCardsToPile( pile->cards(), talon, DURATION_MOVE * 20 );
+        if ( lastdeal )
+        {
+            return 0;
+        }
+        else
+        {
+            lastdeal = true;
+            flipCardsToPile( pile->cards(), talon, DURATION_MOVE );
+        }
     }
     else
     {

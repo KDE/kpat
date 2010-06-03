@@ -65,7 +65,7 @@ void Mod3::initialize()
     talon->setSpread(0, 0);
     talon->setKeyboardSelectHint( KCardPile::NeverFocus );
     talon->setKeyboardDropHint( KCardPile::NeverFocus );
-    connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
+    connect( talon, SIGNAL(clicked(KCard*)), SLOT(drawDealRowOrRedeal()) );
 
     aces = new PatPile( this, 50, "aces");
     aces->setPileRole(PatPile::FoundationType1);
@@ -207,13 +207,6 @@ KCard *Mod3::newCards()
 {
     if (talon->isEmpty())
         return 0;
-
-    if ( isCardAnimationRunning() )
-        for (int i = 0; i < 8; ++i)
-            if (stack[3][i]->top())
-                return stack[3][i]->top();
-
-    clearHighlightedItems();
 
     for ( int c = 0; c < 8; ++c )
     {

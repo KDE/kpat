@@ -56,7 +56,7 @@ void Gypsy::initialize()
     talon->setLayoutPos(8.5 * dist_x + 0.4, 4 * dist_y);
     talon->setKeyboardSelectHint( KCardPile::NeverFocus );
     talon->setKeyboardDropHint( KCardPile::NeverFocus );
-    connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
+    connect( talon, SIGNAL(clicked(KCard*)), SLOT(drawDealRowOrRedeal()) );
 
     for ( int i = 0; i < 8; ++i )
     {
@@ -141,13 +141,6 @@ KCard *Gypsy::newCards()
 {
     if (talon->isEmpty())
         return 0;
-
-    if ( isCardAnimationRunning() )
-        for (int i = 0; i < 8; ++i)
-            if (store[i]->top())
-                return store[i]->top();
-
-    clearHighlightedItems();
 
     for ( int round = 0; round < 8; ++round )
     {

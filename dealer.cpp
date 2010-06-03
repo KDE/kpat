@@ -144,6 +144,7 @@ public:
     bool hintQueued;
     bool demoQueued;
     bool dropQueued;
+    bool newCardsQueued;
 
     QStack<GameState*> undoStack;
     GameState * currentState;
@@ -306,6 +307,7 @@ DealerScene::DealerScene()
     d->hintQueued = false;
     d->demoQueued = false;
     d->dropQueued = false;
+    d->newCardsQueued = false;
 
     connect( this, SIGNAL(cardAnimationDone()), this, SLOT(animationDone()) );
 
@@ -1296,6 +1298,11 @@ void DealerScene::animationDone()
     {
         d->dropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
     }
+    else if ( d->newCardsQueued )
+    {
+        d->newCardsQueued = false;
+        newCards();
+    }
     else if ( d->hintQueued )
     {
         d->hintQueued = false;
@@ -1430,6 +1437,21 @@ void DealerScene::demo()
 
     emit demoActive( true );
     takeState();
+}
+
+
+void DealerScene::drawDealRowOrRedeal()
+{
+    stop();
+
+    if ( isCardAnimationRunning() )
+    {
+        d->newCardsQueued = true;
+        return;
+    }
+
+    d->newCardsQueued = false;
+    newCards();
 }
 
 

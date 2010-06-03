@@ -167,7 +167,7 @@ void Idiot::handleCardClick( KCard * card )
 
     KCardPile * destination = 0;
     if ( card->pile() == talon )
-        newCards();
+        drawDealRowOrRedeal();
     else if ( canMoveAway( card) )
         destination = m_away;
     else if ( m_play[0]->isEmpty() )
@@ -210,13 +210,6 @@ KCard *Idiot::newCards()
 {
     if ( talon->isEmpty() )
         return 0;
-
-    if ( isCardAnimationRunning() )
-        for ( int i = 0; i < 4; ++i )
-            if ( m_play[i]->top() )
-                return m_play[i]->top();
-
-    clearHighlightedItems();
 
     dealRow();
 

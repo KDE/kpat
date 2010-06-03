@@ -570,17 +570,17 @@ void MainWindow::updateActions()
 
         if ( m_dealer->actions() & DealerScene::Draw )
         {
-            connect( drawaction, SIGNAL(triggered(bool)), m_dealer, SLOT(newCards()) );
+            connect( drawaction, SIGNAL(triggered(bool)), m_dealer, SLOT(drawDealRowOrRedeal()) );
             connect( m_dealer, SIGNAL(newCardsPossible(bool)), drawaction, SLOT(setEnabled(bool)) );
         }
         else if ( m_dealer->actions() & DealerScene::Deal )
         {
-            connect( dealaction, SIGNAL(triggered(bool)), m_dealer, SLOT(newCards()) );
+            connect( dealaction, SIGNAL(triggered(bool)), m_dealer, SLOT(drawDealRowOrRedeal()) );
             connect( m_dealer, SIGNAL(newCardsPossible(bool)), dealaction, SLOT(setEnabled(bool)) );
         }
         else if ( m_dealer->actions() & DealerScene::Redeal )
         {
-            connect( redealaction, SIGNAL(triggered(bool)), m_dealer, SLOT(newCards()) );
+            connect( redealaction, SIGNAL(triggered(bool)), m_dealer, SLOT(drawDealRowOrRedeal()) );
             connect( m_dealer, SIGNAL(newCardsPossible(bool)), redealaction, SLOT(setEnabled(bool)) );
         }
 

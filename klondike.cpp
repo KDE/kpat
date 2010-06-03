@@ -101,7 +101,7 @@ void Klondike::initialize()
     talon->setZValue( -52 );
     talon->setKeyboardSelectHint( KCardPile::NeverFocus );
     talon->setKeyboardDropHint( KCardPile::NeverFocus );
-    connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
+    connect( talon, SIGNAL(clicked(KCard*)), SLOT(drawDealRowOrRedeal()) );
 
     pile = new KlondikePile( this, 13, EasyRules ? 1 : 3, "pile" );
     pile->setPileRole(PatPile::Waste);
@@ -183,15 +183,6 @@ KCard *Klondike::newCards()
 {
     if ( talon->isEmpty() && pile->count() <= 1 )
         return 0;
-
-    if ( isCardAnimationRunning() )
-    {
-        if ( pile->top() )
-            return pile->top();
-        for (int i = 0; i < 7; ++i)
-            if (play[i]->top())
-                return play[i]->top();
-    }
 
     if ( talon->isEmpty() )
     {

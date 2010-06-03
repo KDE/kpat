@@ -146,9 +146,9 @@ public slots:
     void undo();
     void redo();
 
-
-    virtual void demo();
     void stop();
+
+    void drawDealRowOrRedeal();
 
 protected:
     virtual bool allowedToAdd(const KCardPile * pile, const QList<KCard*> & cards) const;
@@ -189,6 +189,8 @@ protected:
 
 protected slots:
     virtual void animationDone();
+
+    virtual void demo();
 
     void slotSolverEnded();
     void slotSolverFinished( int result );

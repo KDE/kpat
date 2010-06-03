@@ -58,7 +58,7 @@ void Golf::initialize()
     talon->setSpread(0, 0);
     talon->setKeyboardSelectHint( KCardPile::NeverFocus );
     talon->setKeyboardDropHint( KCardPile::NeverFocus );
-    connect(talon, SIGNAL(clicked(KCard*)), SLOT(newCards()));
+    connect( talon, SIGNAL(clicked(KCard*)), SLOT(drawDealRowOrRedeal()) );
 
     waste = new PatPile( this, 8, "waste" );
     waste->setPileRole(PatPile::Foundation);
@@ -130,11 +130,6 @@ KCard *Golf::newCards()
 {
     if (talon->isEmpty())
          return 0;
-
-    if ( waste->top() && isCardAnimationRunning() )
-        return waste->top();
-
-    clearHighlightedItems();
 
     flipCardToPile(talon->top(), waste, DURATION_MOVE);
 

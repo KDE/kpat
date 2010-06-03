@@ -91,11 +91,6 @@ KCard *Grandf::newCards()
     if (numberOfDeals >= 3)
         return 0;
 
-    if ( isCardAnimationRunning() )
-        for (int i = 0; i < 7; ++i)
-            if (store[i]->top())
-                return store[i]->top();
-
     // NOTE: This is not quite correct. The piles should be turned face down
     //       (i.e. partially reversed) during collection.
     QList<KCard*> collectedCards;

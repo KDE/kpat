@@ -74,7 +74,7 @@ void Spider::initialize()
         redeals[column]->setSpread(0, 0);
         redeals[column]->setKeyboardSelectHint( KCardPile::NeverFocus );
         redeals[column]->setKeyboardDropHint( KCardPile::NeverFocus );
-        connect(redeals[column], SIGNAL(clicked(KCard*)), SLOT(newCards()));
+        connect( redeals[column], SIGNAL(clicked(KCard*)), SLOT(drawDealRowOrRedeal()) );
     }
 
     // The 10 playing piles
@@ -418,13 +418,6 @@ KCard *Spider::newCards()
 
     if (m_redeal > 4)
         return 0;
-
-    if ( isCardAnimationRunning() )
-        for (int i = 0; i < 10; ++i)
-            if (stack[i]->top())
-                return stack[i]->top();
-
-    clearHighlightedItems();
 
     redeals[m_redeal]->setVisible(false);
     relayoutPiles();
