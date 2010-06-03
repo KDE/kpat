@@ -1060,6 +1060,7 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
             d->cardsBeingDragged.first()->pile()->layoutCards( cardMoveDuration );
         d->cardsBeingDragged.clear();
         d->dragStarted = false;
+        clearHighlightedItems();
     }
     else if ( card && !isCardAnimationRunning() )
     {
