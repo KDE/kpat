@@ -106,8 +106,8 @@ void Golf::restart()
 {
     QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
 
-    for(int i=0;i<5;i++)
-        for(int r=0;r<7;r++)
+    for ( int i = 0; i < 5; ++i )
+        for ( int r = 0; r < 7; ++r )
             addCardForDeal( stack[r], cards.takeLast(), true, stack[6]->pos() );
 
     while ( !cards.isEmpty() )
@@ -142,6 +142,16 @@ bool Golf::newCards()
 
 bool Golf::drop()
 {
+    for ( int i = 0; i < 7; ++i )
+        if ( !stack[i]->isEmpty() )
+            return false;
+
+    if ( !talon->isEmpty() )
+    {
+        flipCardToPile( talon->top(), waste, DURATION_MOVE );
+        return true;
+    }
+
     return false;
 }
 
