@@ -99,7 +99,7 @@ public:
     bool keyboardMode;
     int keyboardPileIndex;
     int keyboardCardIndex;
-    QGraphicsItem * keyboardFocusItem;
+    QWeakPointer<QGraphicsItem> keyboardFocusItem;
 
     bool sizeHasBeenSet;
 };
@@ -198,11 +198,11 @@ void KCardScenePrivate::changeFocus( int pileChange, int cardChange )
 
 void KCardScenePrivate::updateKeyboardFocus()
 {
-    q->setItemHighlight( keyboardFocusItem, false );
+    q->setItemHighlight( keyboardFocusItem.data(), false );
 
     if ( !keyboardMode )
     {
-        keyboardFocusItem = 0;
+        keyboardFocusItem.clear();
         keyboardPileIndex = 0;
         keyboardCardIndex = 0;
         return;
@@ -235,10 +235,10 @@ void KCardScenePrivate::updateKeyboardFocus()
         keyboardFocusItem = pile->at( keyboardCardIndex );
     }
 
-    q->setItemHighlight( keyboardFocusItem, true );
+    q->setItemHighlight( keyboardFocusItem.data(), true );
 
-    QPointF delta = keyboardFocusItem->pos() - startOfDrag;
-    startOfDrag = keyboardFocusItem->pos();
+    QPointF delta = keyboardFocusItem.data()->pos() - startOfDrag;
+    startOfDrag = keyboardFocusItem.data()->pos();
     foreach ( KCard * c, cardsBeingDragged )
         c->setPos( c->pos() + delta );
 }
@@ -255,7 +255,7 @@ KCardScene::KCardScene( QObject * parent )
     d->keyboardMode = false;
     d->keyboardPileIndex = 0;
     d->keyboardCardIndex = 0;
-    d->keyboardFocusItem = 0;
+    d->keyboardFocusItem.clear();
     d->sizeHasBeenSet = false;
 }
 
