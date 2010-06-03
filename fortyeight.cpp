@@ -128,13 +128,13 @@ void Fortyeight::restart()
 }
 
 
-KCard *Fortyeight::newCards()
+bool Fortyeight::newCards()
 {
-    if (talon->isEmpty())
+    if ( talon->isEmpty() )
     {
         if ( lastdeal )
         {
-            return 0;
+            return false;
         }
         else
         {
@@ -151,7 +151,7 @@ KCard *Fortyeight::newCards()
     if ( talon->isEmpty() && lastdeal )
         emit newCardsPossible( false );
 
-    return pile->top();
+    return true;
 }
 
 

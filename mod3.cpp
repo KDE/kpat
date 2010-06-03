@@ -203,10 +203,10 @@ void Mod3::restart()
 }
 
 
-KCard *Mod3::newCards()
+bool Mod3::newCards()
 {
-    if (talon->isEmpty())
-        return 0;
+    if ( talon->isEmpty() )
+        return false;
 
     for ( int c = 0; c < 8; ++c )
     {
@@ -219,8 +219,9 @@ KCard *Mod3::newCards()
     if (talon->isEmpty())
         emit newCardsPossible(false);
 
-    return stack[3][0]->top();
+    return true;
 }
+
 
 void Mod3::setGameState(const QString &)
 {

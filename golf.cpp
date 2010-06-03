@@ -126,17 +126,17 @@ void Golf::restart()
 }
 
 
-KCard *Golf::newCards()
+bool Golf::newCards()
 {
-    if (talon->isEmpty())
-         return 0;
+    if ( talon->isEmpty() )
+         return false;
 
     flipCardToPile(talon->top(), waste, DURATION_MOVE);
 
     if ( talon->isEmpty() )
         emit newCardsPossible( false );
 
-    return waste->top();
+    return true;
 }
 
 

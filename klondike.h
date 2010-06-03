@@ -63,7 +63,7 @@ protected:
 
 protected slots:
     virtual bool drop();
-    virtual KCard *newCards();
+    virtual bool newCards();
 
 private slots:
     void gameTypeChanged();

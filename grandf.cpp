@@ -86,10 +86,10 @@ void Grandf::restart()
     emit newCardsPossible( true );
 }
 
-KCard *Grandf::newCards()
+bool Grandf::newCards()
 {
-    if (numberOfDeals >= 3)
-        return 0;
+    if ( numberOfDeals >= 3 )
+        return false;
 
     // NOTE: This is not quite correct. The piles should be turned face down
     //       (i.e. partially reversed) during collection.
@@ -106,7 +106,7 @@ KCard *Grandf::newCards()
     if (numberOfDeals == 3)
         emit newCardsPossible(false);
 
-    return store[0]->top();
+    return true;
 }
 
 void Grandf::deal( const QList<KCard*> & cardsToDeal )

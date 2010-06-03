@@ -54,7 +54,7 @@ protected:
     virtual void restart();
 
 protected slots:
-    virtual KCard * newCards();
+    virtual bool newCards();
 
 private:
     PatPile *talon;

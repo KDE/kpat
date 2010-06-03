@@ -198,7 +198,7 @@ protected slots:
     void showWonMessage();
 
     void takeState();
-    virtual KCard *newCards();
+    virtual bool newCards();
     virtual bool drop();
     virtual bool tryAutomaticMove( KCard * card );
 

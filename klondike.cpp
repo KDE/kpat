@@ -179,10 +179,11 @@ QList<QAction*> Klondike::configActions() const
     return QList<QAction*>() << options;
 }
 
-KCard *Klondike::newCards()
+
+bool Klondike::newCards()
 {
     if ( talon->isEmpty() && pile->count() <= 1 )
-        return 0;
+        return false;
 
     if ( talon->isEmpty() )
     {
@@ -205,8 +206,9 @@ KCard *Klondike::newCards()
     // we need to look that many steps in the future to see if we can lose
     setNeededFutureMoves( talon->count() + pile->count() );
 
-    return pile->top() ? pile->top() : talon->top();
+    return true;
 }
+
 
 void Klondike::restart()
 {

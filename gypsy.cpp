@@ -137,10 +137,10 @@ bool Gypsy::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
 }
 
 
-KCard *Gypsy::newCards()
+bool Gypsy::newCards()
 {
-    if (talon->isEmpty())
-        return 0;
+    if ( talon->isEmpty() )
+        return false;
 
     for ( int round = 0; round < 8; ++round )
     {
@@ -152,8 +152,9 @@ KCard *Gypsy::newCards()
     if (talon->isEmpty())
         emit newCardsPossible(false);
 
-    return store[0]->top();
+    return true;
 }
+
 
 void Gypsy::setGameState(const QString &)
 {

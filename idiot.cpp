@@ -205,18 +205,17 @@ bool Idiot::isGameWon() const
 
 
 // Deal 4 cards face up - one on each pile.
-//
-KCard *Idiot::newCards()
+bool Idiot::newCards()
 {
     if ( talon->isEmpty() )
-        return 0;
+        return false;
 
     dealRow();
 
     if ( talon->isEmpty() )
         emit newCardsPossible( false );
 
-    return m_play[0]->top();
+    return true;
 }
 
 

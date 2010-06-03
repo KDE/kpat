@@ -56,7 +56,7 @@ protected:
     virtual bool drop();
 
 protected slots:
-    virtual KCard * newCards();
+    virtual bool newCards();
 
 private slots:
     void handleCardClick( KCard * card );

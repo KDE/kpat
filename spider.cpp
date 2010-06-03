@@ -405,19 +405,15 @@ QPointF Spider::randomPos()
 }
 
 
-KCard *Spider::newCards()
+bool Spider::newCards()
 {
     if ( isDemoActive() )
-    {
-        for ( int i = 0; i < 10; i++ )
-        {
+        for ( int i = 0; i < 10; ++i )
             if ( checkPileDeck( stack[i], false ) )
-                return legs[m_leg-1]->top();
-        }
-    }
+                return true;
 
-    if (m_redeal > 4)
-        return 0;
+    if ( m_redeal > 4 )
+        return false;
 
     redeals[m_redeal]->setVisible(false);
     relayoutPiles();
@@ -440,7 +436,7 @@ KCard *Spider::newCards()
     if (m_redeal > 4)
         emit newCardsPossible(false);
 
-    return stack[0]->top();
+    return true;
 }
 
 

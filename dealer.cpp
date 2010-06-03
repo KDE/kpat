@@ -1455,9 +1455,9 @@ void DealerScene::drawDealRowOrRedeal()
 }
 
 
-KCard *DealerScene::newCards()
+bool DealerScene::newCards()
 {
-    return 0;
+    return false;
 }
 
 
