@@ -1117,6 +1117,12 @@ void DealerScene::startDrop()
     stopHint();
     stopDemo();
 
+    if ( isCardAnimationRunning() )
+    {
+        d->dropQueued = true;
+        return;
+    }
+
     d->dropInProgress = true;
     d->interruptAutoDrop = false;
     d->dropSpeedFactor = 1;
