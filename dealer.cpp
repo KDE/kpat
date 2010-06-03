@@ -1116,7 +1116,7 @@ void DealerScene::startDrop()
     d->dropSpeedFactor = 1;
     emit dropActive( true );
 
-    d->dropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
+    drop();
 }
 
 
