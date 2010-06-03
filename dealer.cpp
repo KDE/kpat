@@ -1024,7 +1024,7 @@ void DealerScene::takeState()
     if ( !isDemoActive() && !isCardAnimationRunning() && d->solver )
         startSolver();
 
-    if ( autoDropEnabled() && !d->dropInProgress )
+    if ( autoDropEnabled() && !isDropActive() && !isDemoActive() )
     {
         if ( d->interruptAutoDrop )
             d->interruptAutoDrop = false;
