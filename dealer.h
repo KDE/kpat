@@ -76,8 +76,8 @@ public:
 
     virtual void moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
 
-    bool autoDropEnabled() const { return _autodrop; }
     void setAutoDropEnabled( bool enabled );
+    bool autoDropEnabled() const;
 
     int gameNumber() const;
 
@@ -207,16 +207,8 @@ private:
 
     int speedUpTime( int delay ) const;
 
-    bool _autodrop;
-    bool _usesolver;
-    int gamenumber;
-
     class DealerScenePrivate;
     DealerScenePrivate *d;
-
-    QMap<KCard*,QPointF> m_initDealPositions;
-
-
 };
 
 #endif

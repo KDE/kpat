@@ -108,29 +108,37 @@ private:
 class DealerScene::DealerScenePrivate
 {
 public:
-    bool _won;
-    quint32 _id;
-    bool _gameRecorded;
-    bool gameStarted;
-    bool wasJustSaved;
-    QGraphicsPixmapItem *wonItem;
-    bool gothelp;
-    bool toldAboutLostGame;
+    int gameId;
+    int gameNumber;
+
+    bool autodropEnabled;
+    bool solverEnabled;
+
+    int actions;
+    int neededFutureMoves;
+    int loadedMoveCount;
+
+    bool gameHasBeenWon;
     bool gameWasEverWinnable;
+    bool gameStarted;
+    bool gameRecorded;
+    bool gameWasJustSaved;
+    bool playerReceivedHelp;
+
     // we need a flag to avoid telling someone the game is lost
     // just because the winning animation moved the cards away
     bool toldAboutWonGame;
-    int myActions;
-    Solver *m_solver;
-    SolverThread *m_solver_thread;
-    QList<MOVE> winMoves;
-    int neededFutureMoves;
-    int loadedMoveCount;
-    KCard *peekedCard;
+    bool toldAboutLostGame;
 
-    QTimer *updateSolver;
-    QTimer *demoTimer;
-    QTimer *dropTimer;
+    KCard * peekedCard;
+
+    Solver * solver;
+    SolverThread * solverThread;
+    QGraphicsPixmapItem * wonItem;
+
+    QTimer * updateSolver;
+    QTimer * demoTimer;
+    QTimer * dropTimer;
 
     qreal dropSpeedFactor;
     bool interruptAutoDrop;
@@ -152,6 +160,8 @@ public:
 
     QList<PatPile*> patPiles;
     QSet<KCard*> cardsNotToDrop;
+    QList<MOVE> winMoves;
+    QMap<KCard*,QPointF> initDealPositions;
 };
 
 int DealerScene::moveCount() const
@@ -190,7 +200,7 @@ void DealerScene::saveGame(QDomDocument &doc)
         dealer.appendChild(pile);
      }
 
-    d->wasJustSaved = true;
+    d->gameWasJustSaved = true;
 }
 
 void DealerScene::openGame(QDomDocument &doc)
@@ -218,7 +228,7 @@ void DealerScene::openGame(QDomDocument &doc)
     }
 
     setGameOptions(options);
-    gamenumber = dealer.attribute("number").toInt();
+    d->gameNumber = dealer.attribute("number").toInt();
     d->loadedMoveCount = dealer.attribute("moves").toInt();
     d->gameStarted = bool(dealer.attribute("started").toInt());
 
@@ -266,21 +276,23 @@ void DealerScene::openGame(QDomDocument &doc)
 
 
 DealerScene::DealerScene()
-  : _autodrop(true),
-    gamenumber(0)
 {
     setItemIndexMethod(QGraphicsScene::NoIndex);
 
     d = new DealerScenePrivate();
 
-    d->_won = false;
-    d->_gameRecorded = false;
+    d->autodropEnabled = false;
+    d->solverEnabled = false;
+    d->gameNumber = 0;
+
+    d->gameHasBeenWon = false;
+    d->gameRecorded = false;
     d->gameStarted = false;
-    d->wasJustSaved = false;
-    d->gothelp = false;
-    d->myActions = 0;
-    d->m_solver = 0;
-    d->m_solver_thread = 0;
+    d->gameWasJustSaved = false;
+    d->playerReceivedHelp = false;
+    d->actions = 0;
+    d->solver = 0;
+    d->solverThread = 0;
     d->neededFutureMoves = 1;
     d->toldAboutLostGame = false;
     d->toldAboutWonGame = false;
@@ -321,8 +333,6 @@ DealerScene::DealerScene()
 
     d->currentState = 0;
 
-    _usesolver = true;
-
     connect( this, SIGNAL(cardDoubleClicked(KCard*)), this, SLOT(tryAutomaticMove(KCard*)) );
     // Make rightClick == doubleClick. See bug #151921
     connect( this, SIGNAL(cardRightClicked(KCard*)), this, SLOT(tryAutomaticMove(KCard*)) );
@@ -333,12 +343,12 @@ DealerScene::~DealerScene()
     stop();
 
     disconnect();
-    if ( d->m_solver_thread )
-        d->m_solver_thread->abort();
-    delete d->m_solver_thread;
-    d->m_solver_thread = 0;
-    delete d->m_solver;
-    d->m_solver = 0;
+    if ( d->solverThread )
+        d->solverThread->abort();
+    delete d->solverThread;
+    d->solverThread = 0;
+    delete d->solver;
+    d->solver = 0;
     qDeleteAll( d->undoStack );
     delete d->currentState;
     qDeleteAll( d->redoStack );
@@ -458,8 +468,8 @@ QList<MoveHint> DealerScene::getSolverHints()
 {
     QList<MoveHint> hintList;
 
-    if ( d->m_solver_thread && d->m_solver_thread->isRunning() )
-        d->m_solver_thread->abort();
+    if ( d->solverThread && d->solverThread->isRunning() )
+        d->solverThread->abort();
 
     solver()->translate_layout();
     solver()->patsolve( 1 );
@@ -581,14 +591,14 @@ MoveHint DealerScene::chooseHint()
 void DealerScene::startNew(int gameNumber)
 {
     if (gameNumber != -1)
-        gamenumber = qBound( 1, gameNumber, INT_MAX );
+        d->gameNumber = qBound( 1, gameNumber, INT_MAX );
 
     // Only record the statistics and reset gameStarted if  we're starting a
     // new game number or we're restarting a game we've already won.
-    if (gameNumber != -1 || d->_won)
+    if (gameNumber != -1 || d->gameHasBeenWon)
     {
         recordGameStatistics();
-        d->_gameRecorded = false;
+        d->gameRecorded = false;
         d->gameStarted = false;
     }
 
@@ -598,12 +608,12 @@ void DealerScene::startNew(int gameNumber)
         return;
     }
 
-    if ( d->m_solver_thread && d->m_solver_thread->isRunning() )
-        d->m_solver_thread->abort();
+    if ( d->solverThread && d->solverThread->isRunning() )
+        d->solverThread->abort();
 
     resetInternals();
     d->loadedMoveCount = 0;
-    d->wasJustSaved = false;
+    d->gameWasJustSaved = false;
 
     emit updateMoves( 0 );
 
@@ -623,7 +633,7 @@ void DealerScene::resetInternals()
 
     setKeyboardModeActive( false );
 
-    d->_won = false;
+    d->gameHasBeenWon = false;
     d->wonItem->hide();
 
     qDeleteAll( d->undoStack );
@@ -637,7 +647,7 @@ void DealerScene::resetInternals()
     d->toldAboutLostGame = false;
     d->toldAboutWonGame = false;
 
-    d->gothelp = false;
+    d->playerReceivedHelp = false;
 
     d->dealInProgress = false;
 
@@ -673,10 +683,10 @@ QPointF posAlongRect( qreal distOnRect, const QRectF & rect )
 
 void DealerScene::won()
 {
-    if (d->_won)
+    if (d->gameHasBeenWon)
         return;
 
-    d->_won = true;
+    d->gameHasBeenWon = true;
     d->toldAboutWonGame = true;
 
     stopDemo();
@@ -750,7 +760,7 @@ void DealerScene::updateWonItem( bool force )
         QPixmap pix = Renderer::self()->renderElement( "message_frame", contentsRect.size() );
 
         QString text;
-        if ( d->gothelp )
+        if ( d->playerReceivedHelp )
             text = i18n( "Congratulations! We have won." );
         else
             text = i18n( "Congratulations! You have won." );
@@ -955,7 +965,7 @@ void DealerScene::undoOrRedo( bool undo )
         else
         {
             emit solverStateChanged( QString() );
-            if ( d->m_solver )
+            if ( d->solver )
                 startSolver();
         }
     }
@@ -993,7 +1003,7 @@ void DealerScene::takeState()
     emit undoPossible( !d->undoStack.isEmpty() );
     emit updateMoves( moveCount() );
 
-    d->wasJustSaved = false;
+    d->gameWasJustSaved = false;
     if ( isGameWon() )
     {
         won();
@@ -1011,7 +1021,7 @@ void DealerScene::takeState()
         return;
     }
 
-    if ( !isDemoActive() && !isCardAnimationRunning() && d->m_solver )
+    if ( !isDemoActive() && !isCardAnimationRunning() && d->solver )
         startSolver();
 
     if ( autoDropEnabled() && !d->dropInProgress )
@@ -1092,18 +1102,24 @@ void DealerScene::setState( GameState * state )
 
 void DealerScene::setSolverEnabled(bool a)
 {
-    _usesolver = a;
+    d->solverEnabled = a;
 }
 
 
 void DealerScene::setAutoDropEnabled(bool a)
 {
-    _autodrop = a;
+    d->autodropEnabled = a;
     if ( a )
         startDrop();
     else
         stopDrop();
 }
+
+bool DealerScene::autoDropEnabled() const
+{
+    return d->autodropEnabled;
+}
+
 
 void DealerScene::startDrop()
 {
@@ -1202,9 +1218,9 @@ void DealerScene::stopAndRestartSolver()
     if ( d->toldAboutLostGame || d->toldAboutWonGame ) // who cares?
         return;
 
-    if ( d->m_solver_thread && d->m_solver_thread->isRunning() )
+    if ( d->solverThread && d->solverThread->isRunning() )
     {
-        d->m_solver_thread->abort();
+        d->solverThread->abort();
     }
 
     if ( isCardAnimationRunning() )
@@ -1218,17 +1234,17 @@ void DealerScene::stopAndRestartSolver()
 
 void DealerScene::slotSolverEnded()
 {
-    if ( d->m_solver_thread && d->m_solver_thread->isRunning() )
+    if ( d->solverThread && d->solverThread->isRunning() )
         return;
 
-    d->m_solver->translate_layout();
+    d->solver->translate_layout();
     d->winMoves.clear();
     emit solverStateChanged( i18n("Solver: Calculating...") );
-    if ( !d->m_solver_thread ) {
-        d->m_solver_thread = new SolverThread( d->m_solver );
-        connect( d->m_solver_thread, SIGNAL(finished(int)), this, SLOT(slotSolverFinished(int)));
+    if ( !d->solverThread ) {
+        d->solverThread = new SolverThread( d->solver );
+        connect( d->solverThread, SIGNAL(finished(int)), this, SLOT(slotSolverFinished(int)));
     }
-    d->m_solver_thread->start(_usesolver ? QThread::IdlePriority : QThread::NormalPriority );
+    d->solverThread->start( d->solverEnabled ? QThread::IdlePriority : QThread::NormalPriority );
 }
 
 void DealerScene::slotSolverFinished( int result )
@@ -1236,7 +1252,7 @@ void DealerScene::slotSolverFinished( int result )
     switch ( result )
     {
     case Solver::SolutionExists:
-        d->winMoves = d->m_solver->winMoves;
+        d->winMoves = d->solver->winMoves;
         d->gameWasEverWinnable = true;
         emit solverStateChanged( i18n("Solver: This game is winnable.") );
         break;
@@ -1267,7 +1283,7 @@ void DealerScene::slotSolverFinished( int result )
 
 int DealerScene::gameNumber() const
 {
-    return gamenumber;
+    return d->gameNumber;
 }
 
 
@@ -1332,7 +1348,7 @@ void DealerScene::startDemo()
     }
 
     d->demoInProgress = true;
-    d->gothelp = true;
+    d->playerReceivedHelp = true;
     d->gameStarted = true;
 
     demo();
@@ -1365,7 +1381,7 @@ void DealerScene::demo()
     }
 
     d->demoInProgress = true;
-    d->gothelp = true;
+    d->playerReceivedHelp = true;
     d->gameStarted = true;
     clearHighlightedItems();
 
@@ -1461,10 +1477,10 @@ bool DealerScene::newCards()
 
 
 void DealerScene::setSolver( Solver *s) {
-    delete d->m_solver;
-    delete d->m_solver_thread;
-    d->m_solver = s;
-    d->m_solver_thread = 0;
+    delete d->solver;
+    delete d->solverThread;
+    d->solver = s;
+    d->solverThread = 0;
 }
 
 bool DealerScene::isGameWon() const
@@ -1479,7 +1495,7 @@ bool DealerScene::isGameWon() const
 
 void DealerScene::startSolver() const
 {
-    if(_usesolver)
+    if( d->solverEnabled )
         d->updateSolver->start();
 }
 
@@ -1488,8 +1504,8 @@ bool DealerScene::isGameLost() const
 {
     if ( solver() )
     {
-        if ( d->m_solver_thread && d->m_solver_thread->isRunning() )
-            d->m_solver_thread->abort();
+        if ( d->solverThread && d->solverThread->isRunning() )
+            d->solverThread->abort();
 
         solver()->translate_layout();
         return solver()->patsolve( neededFutureMoves() ) == Solver::NoSolutionExists;
@@ -1502,7 +1518,7 @@ void DealerScene::recordGameStatistics()
     // Don't record the game if it was never started, if it is unchanged since
     // it was last saved (allowing the user to close KPat after saving without
     // it recording a loss) or if it has already been recorded.//         takeState(); // copying it again
-    if ( d->gameStarted && !d->wasJustSaved && !d->_gameRecorded )
+    if ( d->gameStarted && !d->gameWasJustSaved && !d->gameRecorded )
     {
         int id = oldId();
 
@@ -1524,7 +1540,7 @@ void DealerScene::recordGameStatistics()
 
         ++totalPlayed;
 
-        if ( d->_won )
+        if ( d->gameHasBeenWon )
         {
             ++won;
             ++winStreak;
@@ -1545,7 +1561,7 @@ void DealerScene::recordGameStatistics()
         config.writeEntry( loseStreakKey, loseStreak );
         config.writeEntry( maxLoseStreakKey, maxLoseStreak );
 
-        d->_gameRecorded = true;
+        d->gameRecorded = true;
     }
 }
 
@@ -1557,15 +1573,15 @@ void DealerScene::relayoutScene()
         updateWonItem();
 }
 
-void DealerScene::setGameId(int id) { d->_id = id; }
-int DealerScene::gameId() const { return d->_id; }
+void DealerScene::setGameId(int id) { d->gameId = id; }
+int DealerScene::gameId() const { return d->gameId; }
 
-void DealerScene::setActions(int actions) { d->myActions = actions; }
-int DealerScene::actions() const { return d->myActions; }
+void DealerScene::setActions(int actions) { d->actions = actions; }
+int DealerScene::actions() const { return d->actions; }
 
 QList<QAction*> DealerScene::configActions() const { return QList<QAction*>(); }
 
-Solver *DealerScene::solver() const { return d->m_solver; }
+Solver *DealerScene::solver() const { return d->solver; }
 
 int DealerScene::neededFutureMoves() const { return d->neededFutureMoves; }
 void DealerScene::setNeededFutureMoves( int i ) { d->neededFutureMoves = i; }
@@ -1574,7 +1590,7 @@ void DealerScene::setNeededFutureMoves( int i ) { d->neededFutureMoves = i; }
 QString DealerScene::save_it()
 {
     // If the game has been won, there's no current state to save.
-    if ( d->_won )
+    if ( d->gameHasBeenWon )
         return QString();
 
     KTemporaryFile file;
@@ -1648,7 +1664,7 @@ bool DealerScene::allowedToStartNewGame()
     // Check if the user is already running a game, and if she is,
     // then ask if she wants to abort it.
     return !d->gameStarted
-           || d->wasJustSaved
+           || d->gameWasJustSaved
            || d->toldAboutWonGame
            || d->toldAboutLostGame
            || KMessageBox::warningContinueCancel(0,
@@ -1668,7 +1684,7 @@ void DealerScene::addCardForDeal( KCardPile * pile, KCard * card, bool faceUp, Q
 
     card->setFaceUp( faceUp );
     pile->add( card );
-    m_initDealPositions.insert( card, startPos );
+    d->initDealPositions.insert( card, startPos );
 }
 
 
@@ -1680,11 +1696,11 @@ void DealerScene::startDealAnimation()
         p->layoutCards(0);
         foreach ( KCard * c, p->cards() )
         {
-            if ( !m_initDealPositions.contains( c ) )
+            if ( !d->initDealPositions.contains( c ) )
                 continue;
 
             QPointF pos2 = c->pos();
-            c->setPos( m_initDealPositions.value( c ) );
+            c->setPos( d->initDealPositions.value( c ) );
 
             QPointF delta = c->pos() - pos2;
             qreal dist = sqrt( delta.x() * delta.x() + delta.y() * delta.y() );
@@ -1692,7 +1708,7 @@ void DealerScene::startDealAnimation()
             c->animate( pos2, c->zValue(), 0, c->isFaceUp(), false, duration );
         }
     }
-    m_initDealPositions.clear();
+    d->initDealPositions.clear();
 }
 
 
