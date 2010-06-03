@@ -56,9 +56,6 @@ protected:
 protected slots:
     virtual bool newCards();
 
-private slots:
-    void handleCardClick( KCard * card );
-
 private:
     PatPile* talon;
     PatPile* stack[7];

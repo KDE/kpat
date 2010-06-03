@@ -83,7 +83,7 @@ void Golf::initialize()
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);
     setSolver( new GolfSolver( this ) );
 
-    connect( this, SIGNAL(cardClicked(KCard*)), this, SLOT(handleCardClick(KCard*)) );
+    connect( this, SIGNAL(cardClicked(KCard*)), this, SLOT(tryAutomaticMove(KCard*)) );
 }
 
 
@@ -137,21 +137,6 @@ bool Golf::newCards()
         emit newCardsPossible( false );
 
     return true;
-}
-
-
-void Golf::handleCardClick( KCard * card )
-{
-    PatPile * pile = dynamic_cast<PatPile*>( card->pile() );
-
-    if ( pile
-         && pile->pileRole() == PatPile::Tableau
-         && card == pile->top() )
-    {
-        KCardPile * p = findTarget( card );
-        if ( p )
-            moveCardToPile( card, p, DURATION_MOVE );
-    }
 }
 
 
