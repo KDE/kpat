@@ -34,6 +34,9 @@ class NumberedDealDialog : public KDialog
         void setGameType( int gameId );
         void setDealNumber( int dealNumber );
 
+    public slots:
+        virtual void setVisible( bool visible );
+
     signals:
         void dealChosen( int gameId, int dealNumber );
 

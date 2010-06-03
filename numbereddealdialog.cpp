@@ -92,6 +92,18 @@ void NumberedDealDialog::setDealNumber( int dealNumber )
 }
 
 
+void NumberedDealDialog::setVisible( bool visible )
+{
+    if ( visible )
+    {
+        m_dealNumber->setFocus();
+        m_dealNumber->selectAll();
+    }
+
+    QDialog::setVisible( visible );
+}
+
+
 void NumberedDealDialog::handleOkClicked()
 {
     emit dealChosen( m_indexToIdMap.value( m_gameType->currentIndex() ), m_dealNumber->value() );

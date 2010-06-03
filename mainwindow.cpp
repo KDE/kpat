@@ -704,7 +704,7 @@ void MainWindow::newNumberedDeal()
         connect( m_dealDialog, SIGNAL(dealChosen(int,int)), this, SLOT(startNumbered(int,int)) );
     }
 
-    if (m_dealer)
+    if ( m_dealer )
     {
         m_dealDialog->setGameType( m_dealer->oldId() );
         m_dealDialog->setDealNumber( m_dealer->gameNumber() );
