@@ -424,6 +424,9 @@ bool Spider::newCards()
     for ( int column = 0; column < 10; ++column )
     {
         KCard * c = redeals[m_redeal]->top();
+        if ( !c )
+            break;
+
         flipCardToPileAtSpeed( c, stack[column], DEAL_SPEED );
         c->setZValue( c->zValue() + 10 - column );
     }
