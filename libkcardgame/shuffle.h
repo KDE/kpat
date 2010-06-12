@@ -39,13 +39,18 @@
 
 #include "libkcardgame_export.h"
 
+#include <KRandom>
+
 #include <QtCore/QList>
 
 
 template <class T>
-QList<T> shuffled( const QList<T> & list, int seed )
+QList<T> shuffled( const QList<T> & list, int seed = -1 )
 {
-    Q_ASSERT( seed >= 0 );
+    Q_ASSERT( seed >= -1 );
+
+    if ( seed == -1 )
+        seed = KRandom::random();
 
     QList<T> result = list;
     for ( int i = result.size(); i > 0; --i )
@@ -59,9 +64,9 @@ QList<T> shuffled( const QList<T> & list, int seed )
 
         int z = rand % i;
 
-        T temp = result[ z ];
-        result[ z ] = result[ i - 1 ];
-        result[ i - 1 ] = temp;
+        T temp = result[z];
+        result[z] = result[i - 1];
+        result[i - 1] = temp;
     }
 
     return result;
