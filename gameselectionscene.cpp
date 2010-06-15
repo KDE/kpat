@@ -138,32 +138,34 @@ protected:
     {
         Q_UNUSED( option )
         Q_UNUSED( widget )
+
+        Renderer * r = Renderer::self();
         int textAreaHeight = m_size.height() * textToTotalHeightRatio;
         int padding = boxPaddingRatio * m_size.width();
         QSize previewSize( m_size.height() - padding * 2, m_size.height() - padding * 2 - textAreaHeight );
         QRect textRect( 0, 0, m_size.width(), textAreaHeight );
 
-        Renderer * r = Renderer::self();
-
-        // Draw background/frame
-        if ( m_anim->state() == QAbstractAnimation::Running )
-        {
-            qreal opacity = painter->opacity();
-            painter->setOpacity( opacity * ( 1.0 - m_highlightFadeAmount ) );
-            painter->drawPixmap( QPointF( 0, 0 ),
-                                 r->renderElement( "bubble", m_size ) );
-            painter->setOpacity( opacity * m_highlightFadeAmount );
-            painter->drawPixmap( QPointF( 0, 0 ),
-                                 r->renderElement( "bubble_hover", m_size ) );
-            painter->setOpacity( opacity );
-        }
-        else if ( m_highlightFadeAmount == 1 )
-        {
-            painter->drawPixmap( 0, 0, r->renderElement( "bubble_hover", m_size ) );
-        }
-        else
-        {
+        if ( m_highlightFadeAmount < 1 )
             painter->drawPixmap( 0, 0, r->renderElement( "bubble", m_size ) );
+
+        if ( m_highlightFadeAmount > 0 )
+        {
+            if ( m_highlightFadeAmount < 1 )
+            {
+                // Using QPainter::setOpacity is currently very inefficient, so to
+                // paint a semitransparent pixmap, we have to do some fiddling.
+                QPixmap transPix( m_size );
+                transPix.fill( Qt::transparent );
+                QPainter p( &transPix );
+                p.drawPixmap( 0, 0, r->renderElement( "bubble_hover", m_size ) );
+                p.setCompositionMode( QPainter::CompositionMode_DestinationIn );
+                p.fillRect( transPix.rect(), QColor( 0, 0, 0, m_highlightFadeAmount * 255 ) );
+                painter->drawPixmap( 0, 0, transPix );
+            }
+            else
+            {
+                painter->drawPixmap( 0, 0, r->renderElement( "bubble_hover", m_size ) );
+            }
         }
 
         // Draw game preview

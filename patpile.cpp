@@ -58,21 +58,32 @@ bool PatPile::isFoundation() const
 }
 
 
-void PatPile::paintGraphic( QPainter* painter, qreal highlightedness )
+void PatPile::paintGraphic( QPainter * painter, qreal highlightedness )
 {
+    const QSize size = boundingRect().size().toSize();
+    Renderer * r = Renderer::self();
+
     if ( highlightedness < 1 )
-    {
-        QPixmap pix = Renderer::self()->renderElement( "pile", boundingRect().size().toSize() );
-        painter->drawPixmap( 0, 0, pix );
-    }
+        painter->drawPixmap( 0, 0, r->renderElement( "pile", size ) );
 
     if ( highlightedness > 0 )
     {
         if ( highlightedness < 1 )
-            painter->setOpacity( highlightedness );
-
-        QPixmap pix = Renderer::self()->renderElement( "pile_selected", boundingRect().size().toSize() );
-        painter->drawPixmap( 0, 0, pix );
+        {
+            // Using QPainter::setOpacity is currently very inefficient, so to
+            // paint a semitransparent pixmap, we have to do some fiddling.
+            QPixmap transPix( size );
+            transPix.fill( Qt::transparent );
+            QPainter p( &transPix );
+            p.drawPixmap( 0, 0, r->renderElement( "pile_selected", size ) );
+            p.setCompositionMode( QPainter::CompositionMode_DestinationIn );
+            p.fillRect( transPix.rect(), QColor( 0, 0, 0, highlightedness * 255 ) );
+            painter->drawPixmap( 0, 0, transPix );
+        }
+        else
+        {
+            painter->drawPixmap( 0, 0, r->renderElement( "pile_selected", size ) );
+        }
     }
 }
 
