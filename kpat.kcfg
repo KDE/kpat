@@ -15,10 +15,10 @@
             <default>false</default>
         </entry>
         <entry name="CardTheme" key="Cardname" type="String">
-            <default>svg-ancient-egyptians</default>
+            <default>svg-oxygen-air</default>
         </entry>
         <entry name="Theme" key="Theme" type="String">
-            <default>themes/cleangreen.desktop</default>
+            <default>themes/greenblaze.desktop</default>
         </entry>
         <entry name="KlondikeIsDrawOne" key="KlondikeEasy" type="Bool">
             <default>true</default>
