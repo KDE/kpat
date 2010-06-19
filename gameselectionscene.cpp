@@ -34,10 +34,15 @@
 #include <cmath>
 
 
-const qreal boxPaddingRatio = 0.037;
-const qreal spacingRatio = 0.10;
-const qreal textToTotalHeightRatio = 1 / 6.0;
-const int hoverTransitionDuration = 300;
+namespace
+{
+    const qreal boxPaddingRatio = 0.037;
+    const qreal spacingRatio = 0.10;
+    const qreal textToBoxHeightRatio = 1 / 6.0;
+    const qreal textToBoxWidthRatio = 0.57;
+    const int hoverTransitionDuration = 300;
+    const int minimumFontSize = 5;
+}
 
 
 class GameSelectionScene::GameSelectionBox : public QGraphicsObject
@@ -140,7 +145,7 @@ protected:
         Q_UNUSED( widget )
 
         Renderer * r = Renderer::self();
-        int textAreaHeight = m_size.height() * textToTotalHeightRatio;
+        int textAreaHeight = m_size.height() * textToBoxHeightRatio;
         int padding = boxPaddingRatio * m_size.width();
         QSize previewSize( m_size.height() - padding * 2, m_size.height() - padding * 2 - textAreaHeight );
         QRect textRect( 0, 0, m_size.width(), textAreaHeight );
@@ -185,7 +190,7 @@ private:
     QString m_label;
     int m_gameId;
     QSize m_size;
-    QPropertyAnimation *m_anim;
+    QPropertyAnimation * m_anim;
     qreal m_highlightFadeAmount;
 };
 
@@ -264,21 +269,24 @@ void GameSelectionScene::resizeScene( const QSize & size )
                   size.width(),
                   size.height() );
 
-    // Initial font size estimate
-    QPainter p;
-    int maxLabelWidth = boxWidth * ( 1 - 2 * boxPaddingRatio );
-    int pixelFontSize = boxHeight * (textToTotalHeightRatio - 1.5 * boxPaddingRatio);
+    QPixmap pix( 1, 1 );
+    QPainter p( &pix );
     QFont f;
+
+    // Initial font size estimate
+    int pixelFontSize = boxHeight * (textToBoxHeightRatio - 1.5 * boxPaddingRatio);
     f.setPixelSize( pixelFontSize );
     p.setFont( f );
 
+    qreal maxLabelWidth = boxWidth * textToBoxWidthRatio;
     int row = 0;
     int col = 0;
+
     foreach ( GameSelectionBox * box, m_boxes )
     {
         // Reduce font size until the label fits
-        while ( pixelFontSize > 0 &&
-                p.boundingRect( QRectF(), box->label() ).width() > maxLabelWidth )
+        while ( pixelFontSize > minimumFontSize
+                && p.boundingRect( QRectF(), box->label() ).width() > maxLabelWidth )
         {
             f.setPixelSize( --pixelFontSize );
             p.setFont( f );
