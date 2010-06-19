@@ -72,6 +72,15 @@
 #define DEBUG_HINTS 0
 
 
+namespace
+{
+    const qreal wonBoxToSceneSizeRatio = 0.7;
+    const qreal textToWonBoxRatio = 0.8;
+    const int minimumWonBoxFontSize = 5;
+    const int maximumWonBoxFontSize = 36;
+}
+
+
 class SolverThread : public QThread
 {
     Q_OBJECT
@@ -744,12 +753,12 @@ void DealerScene::updateWonItem( bool force )
     int boxHeight;
     if (width() < aspectRatio * height())
     {
-        boxWidth = width() * 0.7;
+        boxWidth = width() * wonBoxToSceneSizeRatio;
         boxHeight = boxWidth / aspectRatio;
     }
     else
     {
-        boxHeight = height() * 0.7;
+        boxHeight = height() * wonBoxToSceneSizeRatio;
         boxWidth = boxHeight * aspectRatio;
     }
 
@@ -766,10 +775,10 @@ void DealerScene::updateWonItem( bool force )
             text = i18n( "Congratulations! You have won." );
 
         QFont font;
-        int fontsize = 36;
+        int fontsize = maximumWonBoxFontSize;
         font.setPointSize( fontsize );
         int twidth = QFontMetrics( font ).width( text );
-        while ( twidth > boxWidth * 0.9 && fontsize > 5 )
+        while ( twidth > boxWidth * textToWonBoxRatio && fontsize > minimumWonBoxFontSize )
         {
             fontsize--;
             font.setPointSize( fontsize );
