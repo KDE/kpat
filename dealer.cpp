@@ -1115,14 +1115,11 @@ void DealerScene::setSolverEnabled(bool a)
 }
 
 
-void DealerScene::setAutoDropEnabled(bool a)
+void DealerScene::setAutoDropEnabled( bool enabled )
 {
-    d->autodropEnabled = a;
-    if ( a )
-        startDrop();
-    else
-        stopDrop();
+    d->autodropEnabled = enabled;
 }
+
 
 bool DealerScene::autoDropEnabled() const
 {

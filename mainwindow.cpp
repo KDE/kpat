@@ -227,7 +227,7 @@ void MainWindow::setupActions()
 
     autodropaction = new KToggleAction(i18n("&Enable Autodrop"), this);
     actionCollection()->addAction("enable_autodrop", autodropaction);
-    connect( autodropaction, SIGNAL(triggered(bool)), SLOT(enableAutoDrop(bool)) );
+    connect( autodropaction, SIGNAL(triggered(bool)), SLOT(setAutoDropEnabled(bool)) );
     autodropaction->setChecked( Settings::autoDropEnabled() );
 
     solveraction = new KToggleAction(i18n("E&nable Solver"), this);
@@ -315,13 +315,21 @@ void MainWindow::helpGame()
     }
 }
 
-void MainWindow::enableAutoDrop(bool enable)
+
+void MainWindow::setAutoDropEnabled( bool enabled )
 {
-    Settings::setAutoDropEnabled( enable );
-    if (m_dealer)
-        m_dealer->setAutoDropEnabled(enable);
+    Settings::setAutoDropEnabled( enabled );
+    if ( m_dealer )
+    {
+        m_dealer->setAutoDropEnabled( enabled );
+        if ( enabled )
+            m_dealer->startDrop();
+        else
+            m_dealer->stopDrop();
+    }
     updateGameActionList();
 }
+
 
 void MainWindow::enableSolver(bool enable)
 {
@@ -477,8 +485,8 @@ void MainWindow::setGameType(int id)
     m_dealer->initialize();
     m_dealer->setGameId( di->ids().first() );
     m_dealer->mapOldId( id );
-    m_dealer->setAutoDropEnabled( autodropaction->isChecked() );
     m_dealer->setSolverEnabled( solveraction->isChecked() );
+    m_dealer->setAutoDropEnabled( autodropaction->isChecked() );
 
     m_view->setScene( m_dealer );
 

@@ -86,7 +86,7 @@ protected slots:
     void toggleDemo();
     void toggleDemoAction(bool active);
 
-    void enableAutoDrop(bool enable);
+    void setAutoDropEnabled( bool enabled );
     void enableSolver(bool enable);
     void enableRememberState(bool enable);
     void slotPickRandom();
