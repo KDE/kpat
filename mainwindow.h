@@ -75,6 +75,8 @@ protected slots:
     void restart();
     void newNumberedDeal();
     void startNumbered( int gameId, int dealNumber );
+    void nextDeal();
+    void previousDeal();
     void saveGame();
     void showStats();
 

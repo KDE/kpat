@@ -154,10 +154,28 @@ void MainWindow::setupActions()
     a = actionCollection()->addAction("new_numbered_deal");
     a->setText(i18nc("Start a game by giving its particular number", "New &Numbered Deal..."));
     a->setShortcut( KShortcut( Qt::ControlModifier | Qt::Key_D ) );
-    connect( a, SIGNAL( triggered(bool) ), SLOT( newNumberedDeal()) );
+    connect( a, SIGNAL(triggered(bool)), SLOT(newNumberedDeal()) );
 
     a = KStandardGameAction::restart(this, SLOT(restart()), actionCollection());
     a->setText(i18nc("Replay the current deal from the start", "Restart Deal"));
+
+    // Note that this action is not shown in the menu or toolbar. It is
+    // only provided for advanced users who can use it by shorcut or add it to
+    // the toolbar if they wish.
+    a = actionCollection()->addAction("next_deal");
+    a->setText(i18nc("Start the game with the number one greater than the current one", "Next Deal"));
+    a->setIcon( KIcon("go-next") );
+    a->setShortcut( KShortcut( Qt::ControlModifier | Qt::Key_Plus ) );
+    connect( a, SIGNAL(triggered(bool)), this, SLOT(nextDeal()) );
+
+    // Note that this action is not shown in the menu or toolbar. It is
+    // only provided for advanced users who can use it by shorcut or add it to
+    // the toolbar if they wish.
+    a = actionCollection()->addAction("previous_deal");
+    a->setText(i18nc("Start the game with the number one less than the current one", "Previous Deal"));
+    a->setIcon( KIcon("go-previous") );
+    a->setShortcut( KShortcut( Qt::ControlModifier | Qt::Key_Minus ) );
+    connect( a, SIGNAL(triggered(bool)), this, SLOT(previousDeal()) );
 
     KStandardGameAction::load(this, SLOT(openGame()), actionCollection());
 
@@ -730,6 +748,24 @@ void MainWindow::startNumbered( int gameId, int dealNumber )
         setGameType( gameId );
         startNew( dealNumber );
     }
+}
+
+
+void MainWindow::nextDeal()
+{
+    if ( !m_dealer )
+        newNumberedDeal();
+    else if ( m_dealer->allowedToStartNewGame() )
+        startNew( m_dealer->gameNumber() == INT_MAX ? 1 : m_dealer->gameNumber() + 1 );
+}
+
+
+void MainWindow::previousDeal()
+{
+    if ( !m_dealer )
+        newNumberedDeal();
+    else if ( m_dealer->allowedToStartNewGame() )
+        startNew( m_dealer->gameNumber() == 1 ? INT_MAX : m_dealer->gameNumber() - 1 );
 }
 
 
