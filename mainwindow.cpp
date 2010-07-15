@@ -153,6 +153,7 @@ void MainWindow::setupActions()
 
     a = actionCollection()->addAction("new_numbered_deal");
     a->setText(i18nc("Start a game by giving its particular number", "New &Numbered Deal..."));
+    a->setShortcut( KShortcut( Qt::ControlModifier | Qt::Key_D ) );
     connect( a, SIGNAL( triggered(bool) ), SLOT( newNumberedDeal()) );
 
     a = KStandardGameAction::restart(this, SLOT(restart()), actionCollection());
