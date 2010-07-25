@@ -701,6 +701,8 @@ void DealerScene::won()
     stopDemo();
     recordGameStatistics();
 
+    emit solverStateChanged( QString() );
+
     emit demoPossible( false );
     emit hintPossible( false );
     emit dropPossible( false );
