@@ -509,7 +509,9 @@ void MainWindow::setGameType(int id)
 
     m_view->setScene( m_dealer );
 
-    gamehelpaction->setText(i18n("Help &with %1", i18n(di->name()).replace('&', "&&")));
+    gamehelpaction->setText(i18nc("Is disabled and changes to \"Help &with Current Game\" when"
+                                  " there is no current game.",
+                                  "Help &with %1", i18n(di->name()).replace('&', "&&")));
 
     connect(m_dealer, SIGNAL(solverStateChanged(QString)), SLOT(updateSolverDescription(QString)));
     connect(m_dealer, SIGNAL(updateMoves(int)), SLOT(slotUpdateMoves(int)));
@@ -541,7 +543,8 @@ void MainWindow::slotShowGameSelectionScreen()
         }
         m_view->setScene(m_selector);
 
-        gamehelpaction->setText(i18n("Help &with Current Game"));
+        gamehelpaction->setText(i18nc("Shown when there is no game open. Is always disabled.",
+                                      "Help &with Current Game"));
 
         updateActions();
 
