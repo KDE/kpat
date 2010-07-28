@@ -51,7 +51,7 @@ class StatisticsDialog : public KDialog
 
 	public:
 		explicit StatisticsDialog(QWidget* aParent);
-
+                ~StatisticsDialog();
 		void showGameType(int gameIndex);
 	public slots:
 		void setGameType(int gameIndex);

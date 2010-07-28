@@ -94,6 +94,11 @@ StatisticsDialog::StatisticsDialog(QWidget* aParent)
 	connect(this, SIGNAL(resetClicked()), SLOT(resetStats()));
 }
 
+StatisticsDialog::~StatisticsDialog()
+{
+	delete ui;
+}
+
 void StatisticsDialog::selectionChanged(int comboIndex)
 {
 	int gameIndex = indexToIdMap[comboIndex];
