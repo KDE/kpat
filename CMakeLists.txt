@@ -5,6 +5,7 @@ include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/libkcardgame/include )
 add_subdirectory( icons )
 add_subdirectory( libkcardgame )
 add_subdirectory( previews )
+add_subdirectory( sounds )
 add_subdirectory( themes )
 
 set( kpat_SRCS
@@ -17,6 +18,7 @@ set( kpat_SRCS
     patpile.cpp
     pileutils.cpp
     renderer.cpp
+    soundengine.cpp
     statisticsdialog.cpp
     view.cpp
     patsolve/memory.cpp
@@ -52,7 +54,7 @@ kde4_add_ui_files( kpat_SRCS statisticsdialog.ui )
 kde4_add_kcfg_files( kpat_SRCS settings.kcfgc )
 kde4_add_app_icon( kpat_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-app-kpat.png" )
 kde4_add_executable( kpat ${kpat_SRCS} )
-target_link_libraries( kpat ${KDE4_KIO_LIBS} kdegames kcardgame )
+target_link_libraries( kpat kcardgame kdegames ${KDE4_KIO_LIBS} ${KDE4_PHONON_LIBS} )
 install( TARGETS kpat ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 

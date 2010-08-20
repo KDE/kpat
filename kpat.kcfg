@@ -11,6 +11,9 @@
         <entry name="SolverEnabled" key="Solver" type="Bool">
             <default>true</default>
         </entry>
+        <entry name="PlaySounds" type="Bool">
+            <default>false</default>
+        </entry>
         <entry name="RememberStateOnExit" type="Bool">
             <default>false</default>
         </entry>

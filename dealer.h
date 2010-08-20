@@ -132,6 +132,9 @@ signals:
 
     void solverStateChanged(QString text);
 
+    void cardsPickedUp();
+    void cardsPutDown();
+
 public slots:
     void startNew(int gameNumber = -1);
 

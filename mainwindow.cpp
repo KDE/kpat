@@ -44,6 +44,7 @@
 #include "numbereddealdialog.h"
 #include "renderer.h"
 #include "settings.h"
+#include "soundengine.h"
 #include "statisticsdialog.h"
 #include "version.h"
 #include "view.h"
@@ -90,6 +91,7 @@ MainWindow::MainWindow()
     m_dealer( 0 ),
     m_selector( 0 ),
     m_cardDeck( 0 ),
+    m_soundEngine( 0 ),
     m_dealDialog( 0 )
 {
     setObjectName( "MainWindow" );
@@ -254,6 +256,11 @@ void MainWindow::setupActions()
     connect( solveraction, SIGNAL(triggered(bool)), SLOT(enableSolver(bool)) );
     solveraction->setChecked( Settings::solverEnabled() );
 
+    m_playSoundsAction = new KToggleAction( KIcon("preferences-desktop-sound"), i18n("Play &Sounds"), this );
+    actionCollection()->addAction( "play_sounds", m_playSoundsAction );
+    connect( m_playSoundsAction, SIGNAL(triggered(bool)), SLOT(enableSounds(bool)) );
+    m_playSoundsAction->setChecked( Settings::playSounds() );
+
     rememberstateaction = new KToggleAction(i18n("&Remember State on Exit"), this);
     actionCollection()->addAction("remember_state", rememberstateaction);
     connect( rememberstateaction, SIGNAL(triggered(bool)), SLOT(enableRememberState(bool)) );
@@ -361,6 +368,14 @@ void MainWindow::enableSolver(bool enable)
             m_dealer->startSolver();
     }
 }
+
+
+void MainWindow::enableSounds( bool enable )
+{
+    Settings::setPlaySounds( enable );
+    updateSoundEngine();
+}
+
 
 void MainWindow::enableRememberState(bool enable)
 {
@@ -522,6 +537,7 @@ void MainWindow::setGameType(int id)
     moveStatus->setVisible(true);
 
     updateActions();
+    updateSoundEngine();
 }
 
 void MainWindow::slotShowGameSelectionScreen()
@@ -643,6 +659,26 @@ void MainWindow::updateGameActionList()
         if ( !m_dealer->autoDropEnabled() )
             actionList.append( dropaction );
         guiFactory()->plugActionList( this, "game_actions", actionList );
+    }
+}
+
+
+void MainWindow::updateSoundEngine()
+{
+    if ( m_dealer )
+    {
+        if ( Settings::playSounds() )
+        {
+            if ( !m_soundEngine )
+                m_soundEngine = new SoundEngine( this );
+
+            connect( m_dealer, SIGNAL(cardsPickedUp()), m_soundEngine, SLOT(cardsPickedUp()) );
+            connect( m_dealer, SIGNAL(cardsPutDown()), m_soundEngine, SLOT(cardsPutDown()) );
+        }
+        else
+        {
+            disconnect( m_dealer, 0, m_soundEngine, 0 );
+        }
     }
 }
 

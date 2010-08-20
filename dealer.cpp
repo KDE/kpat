@@ -871,6 +871,8 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
     else
     {
         KCardScene::mousePressEvent( e );
+        if ( !cardsBeingDragged().isEmpty() )
+            emit cardsPickedUp();
     }
 }
 
@@ -887,7 +889,10 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
     }
     else
     {
+        bool hadCards = !cardsBeingDragged().isEmpty();
         KCardScene::mouseReleaseEvent( e );
+        if ( hadCards && cardsBeingDragged().isEmpty() )
+            emit cardsPutDown();
     }
 }
 

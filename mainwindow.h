@@ -44,6 +44,7 @@ class DealerScene;
 class GameSelectionScene;
 class NumberedDealDialog;
 class PatienceView;
+class SoundEngine;
 
 class KStandardCardDeck;
 
@@ -90,6 +91,7 @@ protected slots:
 
     void setAutoDropEnabled( bool enabled );
     void enableSolver(bool enable);
+    void enableSounds(bool enable);
     void enableRememberState(bool enable);
     void slotPickRandom();
     void configureAppearance();
@@ -116,6 +118,7 @@ private:
     void startNew(int gameNumber);
     void updateActions();
     void updateGameActionList();
+    void updateSoundEngine();
 
     // Members
     KAction * m_leftAction;
@@ -137,6 +140,7 @@ private:
     KToggleAction  *autodropaction;
     KToggleAction  *solveraction;
     KToggleAction  *rememberstateaction;
+    KToggleAction * m_playSoundsAction;
     KRecentFilesAction  *recent;
 
     QMap<int, const DealerInfo*>  m_dealer_map;
@@ -146,6 +150,7 @@ private:
     DealerScene    *m_dealer;
     GameSelectionScene *m_selector;
     KStandardCardDeck *m_cardDeck;
+    SoundEngine * m_soundEngine;
 
     NumberedDealDialog * m_dealDialog;
 
