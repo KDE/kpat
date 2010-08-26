@@ -675,7 +675,7 @@ void MainWindow::updateSoundEngine()
             connect( m_dealer, SIGNAL(cardsPickedUp()), m_soundEngine, SLOT(cardsPickedUp()) );
             connect( m_dealer, SIGNAL(cardsPutDown()), m_soundEngine, SLOT(cardsPutDown()) );
         }
-        else
+        else if ( m_soundEngine )
         {
             disconnect( m_dealer, 0, m_soundEngine, 0 );
         }
