@@ -35,6 +35,11 @@
 
 namespace
 {
+    const QString cacheNameTemplate( "libkcardgame-themes/%1" );
+    const QString timeStampKey( "libkcardgame_timestamp" );
+    const QString unscaledSizeKey( "libkcardgame_unscaledsize" );
+    const QString lastUsedSizeKey( "libkcardgame_lastusedsize" );
+
     QString keyForPixmap( const QString & element, const QSize & s )
     {
         return element + '@' + QString::number( s.width() ) + 'x' + QString::number( s.height() );
@@ -180,7 +185,7 @@ QSizeF KAbstractCardDeckPrivate::unscaledCardSize()
 
 
     QByteArray buffer;
-    if ( cache->find( "libkcardgame_unscaled", &buffer ) )
+    if ( cache->find( unscaledSizeKey, &buffer ) )
     {
         QDataStream stream( &buffer, QIODevice::ReadOnly );
         stream >> size;
@@ -195,7 +200,7 @@ QSizeF KAbstractCardDeckPrivate::unscaledCardSize()
         buffer.clear();
         QDataStream stream( &buffer, QIODevice::WriteOnly );
         stream << size;
-        cache->insert( "libkcardgame_unscaled", buffer );
+        cache->insert( unscaledSizeKey, buffer );
     }
 
     return size;
@@ -232,7 +237,7 @@ void KAbstractCardDeckPrivate::updateCardSize( const QSize & size )
     QByteArray buffer;
     QDataStream stream( &buffer, QIODevice::WriteOnly );
     stream << currentCardSize;
-    cache->insert( "libkcardgame_lastusedsize", buffer );
+    cache->insert( lastUsedSizeKey, buffer );
 
     foreach ( KCard * c, cards )
         c->update();
@@ -427,13 +432,13 @@ void KAbstractCardDeck::setTheme( const KCardTheme & theme )
         }
 
         delete d->cache;
-        QString cacheName = QString( "libkcardgame-themes/%1" ).arg( theme.dirName() );
+        QString cacheName = QString( cacheNameTemplate ).arg( theme.dirName() );
         d->cache = new KImageCache( cacheName, 3 * 1024 * 1024 );
         d->cache->setPixmapCaching( true );
 
         bool keepCache = false;
         QByteArray buffer;
-        if ( d->cache->find( "libkcardgame_timestamp", &buffer ) )
+        if ( d->cache->find( timeStampKey, &buffer ) )
         {
             QDataStream stream( &buffer, QIODevice::ReadOnly );
             QDateTime cacheTimeStamp;
@@ -447,13 +452,13 @@ void KAbstractCardDeck::setTheme( const KCardTheme & theme )
             buffer.clear();
             QDataStream stream( &buffer, QIODevice::WriteOnly );
             stream << theme.lastModified();
-            d->cache->insert( "libkcardgame_timestamp", buffer );
+            d->cache->insert( timeStampKey, buffer );
         }
 
         d->originalCardSize = d->unscaledCardSize();
         Q_ASSERT( !d->originalCardSize.isNull() );
 
-        if ( d->cache->find( "libkcardgame_lastusedsize", &buffer ) )
+        if ( d->cache->find( lastUsedSizeKey, &buffer ) )
         {
             QDataStream stream( &buffer, QIODevice::ReadOnly );
             stream >> d->currentCardSize;
