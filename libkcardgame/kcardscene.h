@@ -90,6 +90,8 @@ public:
     virtual void removePile( KCardPile * pile );
     QList<KCardPile*> piles() const;
 
+    QRectF spaceAllottedToPile( KCardPile * pile ) const;
+
     void setHighlightedItems( QList<QGraphicsItem*> items );
     void clearHighlightedItems();
     QList<QGraphicsItem*> highlightedItems() const;

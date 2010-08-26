@@ -147,13 +147,10 @@ Q_SIGNALS:
 protected:
     virtual void paintGraphic( QPainter * painter, qreal highlightedness );
 
-    QRectF availableSpace() const;
-
     virtual QPointF cardOffset( const KCard * card ) const;
 
 private:
     void setGraphicSize( QSize size );
-    void setAvailableSpace( QRectF space );
 
     class KCardPilePrivate * const d;
     friend class KCardPilePrivate;

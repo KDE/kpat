@@ -76,6 +76,7 @@ public:
 
     KAbstractCardDeck * deck;
     QList<KCardPile*> piles;
+    QHash<KCardPile*,QRectF> pileAreas;
     QSet<QGraphicsItem*> highlightedItems;
 
     QList<KCard*> cardsBeingDragged;
@@ -322,6 +323,12 @@ QList<KCardPile*> KCardScene::piles() const
 }
 
 
+QRectF KCardScene::spaceAllottedToPile( KCardPile * pile ) const
+{
+    return d->pileAreas.value( pile, QRectF() );
+}
+
+
 void KCardScene::setSceneAlignment( KCardScene::SceneAlignment alignment )
 {
     if ( alignment != d->alignment )
@@ -495,7 +502,8 @@ void KCardScene::relayoutPiles( int duration )
 
     QList<KCardPile*> visiblePiles;
     QHash<KCardPile*,QRectF> reserve;
-    QHash<KCardPile*,QRectF> areas;
+    QHash<KCardPile*,QRectF> & areas = d->pileAreas;
+    areas.clear();
     foreach ( KCardPile * p, piles() )
     {
         QPointF layoutPos = p->layoutPos();
@@ -511,11 +519,11 @@ void KCardScene::relayoutPiles( int duration )
         {
             visiblePiles << p;
 
-            QRectF reserved( layoutPos, QSize( 1, 1 ) );
-            areas[p] = reserve[p] = reserved.adjusted( -p->leftPadding(),
-                                                       -p->topPadding(),
-                                                       p->rightPadding(),
-                                                       p->bottomPadding() );
+            reserve[p] = QRectF( layoutPos, QSize( 1, 1 ) ).adjusted( -p->leftPadding(),
+                                                                      -p->topPadding(),
+                                                                       p->rightPadding(),
+                                                                       p->bottomPadding() );
+            areas[p] =  reserve[p];
         }
     }
 
@@ -596,16 +604,7 @@ void KCardScene::relayoutPiles( int duration )
     }
 
     foreach ( KCardPile * p, piles() )
-    {
-        QPointF layoutPos = p->layoutPos();
-        if ( layoutPos.x() < 0 )
-            layoutPos.rx() += contentWidth - 1;
-        if ( layoutPos.y() < 0 )
-            layoutPos.ry() += contentHeight - 1;
-        p->setAvailableSpace( areas[p].translated( -layoutPos ) );
-
         p->layoutCards( duration );
-    }
 }
 
 

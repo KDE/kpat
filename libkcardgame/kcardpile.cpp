@@ -70,7 +70,6 @@ public:
     QSize graphicSize;
     QPointF layoutPos;
     QSizeF spread;
-    QRectF availableSpace;
 
     qreal topPadding;
     qreal rightPadding;
@@ -118,7 +117,6 @@ KCardPile::KCardPile( KCardScene * cardScene )
     d->highlightValue = 0;
     d->graphicVisible = true;
     d->spread = QSizeF( 0, 0.33 );
-    d->availableSpace = QRectF( 0, 0, 1, 1 );
 
     d->topPadding = 0;
     d->rightPadding = 0;
@@ -475,7 +473,9 @@ void KCardPile::swapCards( int index1, int index2 )
 
 void KCardPile::layoutCards( int duration )
 {
-    if ( d->cards.isEmpty() )
+    KCardScene * kcs = dynamic_cast<KCardScene*>( scene() );
+
+    if ( !kcs || d->cards.isEmpty() )
         return;
 
     qreal minX = 0;
@@ -492,12 +492,11 @@ void KCardPile::layoutCards( int duration )
         maxY = qMax( maxY, totalOffset.y() );
     }
 
-    QRectF available = availableSpace();
+    QRectF available = kcs->spaceAllottedToPile( this );
     qreal availableTop = -available.top();
     qreal availableRight = available.right() - 1;
     qreal availableBottom = available.bottom() - 1;
     qreal availableLeft = -available.right();
-
 
     qreal scaleTop = 1;
     if ( minY < 0 )
@@ -548,12 +547,6 @@ void KCardPile::paintGraphic( QPainter * painter, qreal highlightedness )
 }
 
 
-QRectF KCardPile::availableSpace() const
-{
-    return d->availableSpace;
-}
-
-
 QPointF KCardPile::cardOffset( const KCard * card ) const
 {
     QPointF offset( spread().width(), spread().height() );
@@ -571,12 +564,6 @@ void KCardPile::setGraphicSize( QSize size )
         d->graphicSize = size;
         update();
     }
-}
-
-
-void KCardPile::setAvailableSpace( QRectF space )
-{
-    d->availableSpace = space;
 }
 
 
