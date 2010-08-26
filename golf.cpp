@@ -64,7 +64,8 @@ void Golf::initialize()
     waste->setPileRole(PatPile::Foundation);
     waste->setLayoutPos(1.1, smallNeg);
     waste->setSpread(0.12, 0);
-    waste->setReservedSpace( 0, 0, 1 + 5 * dist_x, 1 );
+    waste->setRightPadding( 5 * dist_x );
+    waste->setWidthPolicy( KCardPile::GrowRight );
     waste->setKeyboardSelectHint( KCardPile::NeverFocus );
     waste->setKeyboardDropHint( KCardPile::AutoFocusTop );
 
@@ -75,7 +76,8 @@ void Golf::initialize()
         stack[r]->setLayoutPos(r*dist_x,0);
         // Manual tweak of the pile z values to make some animations better.
         stack[r]->setZValue((7-r)/100.0);
-        stack[r]->setReservedSpace( 0, 0, 1, 2.3 );
+        stack[r]->setBottomPadding( 1.3 );
+        stack[r]->setHeightPolicy( KCardPile::GrowDown );
         stack[r]->setKeyboardSelectHint( KCardPile::AutoFocusTop );
         stack[r]->setKeyboardDropHint( KCardPile::NeverFocus );
     }

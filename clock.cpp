@@ -69,7 +69,7 @@ void Clock::initialize()
         store[i] = new PatPile( this, 14 + i, QString("store%1").arg(i) );
         store[i]->setPileRole(PatPile::Tableau);
         store[i]->setLayoutPos(dist_x*(i%4), 2.5 * (i/4));
-        store[i]->setReservedSpace( 0, 0, 1.0, 2.3 );
+        store[i]->setBottomPadding( 1.3 );
         store[i]->setKeyboardSelectHint( KCardPile::AutoFocusTop );
         store[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
     }

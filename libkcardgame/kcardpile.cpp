@@ -70,8 +70,15 @@ public:
     QSize graphicSize;
     QPointF layoutPos;
     QSizeF spread;
-    QRectF reservedSpace;
     QRectF availableSpace;
+
+    qreal topPadding;
+    qreal rightPadding;
+    qreal bottomPadding;
+    qreal leftPadding;
+
+    KCardPile::WidthPolicy widthPolicy;
+    KCardPile::HeightPolicy heightPolicy;
 
     KCardPile::KeyboardFocusHint selectHint;
     KCardPile::KeyboardFocusHint dropHint;
@@ -111,8 +118,15 @@ KCardPile::KCardPile( KCardScene * cardScene )
     d->highlightValue = 0;
     d->graphicVisible = true;
     d->spread = QSizeF( 0, 0.33 );
-    d->reservedSpace = QRectF( 0, 0, 1, 1 );
-    d->availableSpace = d->reservedSpace;
+    d->availableSpace = QRectF( 0, 0, 1, 1 );
+
+    d->topPadding = 0;
+    d->rightPadding = 0;
+    d->bottomPadding = 0;
+    d->leftPadding = 0;
+
+    d->widthPolicy = FixedWidth;
+    d->heightPolicy = FixedHeight;
 
     d->fadeAnimation = new QPropertyAnimation( d, "highlightedness", d );
     d->fadeAnimation->setDuration( 150 );
@@ -228,22 +242,84 @@ QPointF KCardPile::layoutPos() const
 }
 
 
-void KCardPile::setReservedSpace( QRectF space )
+void KCardPile::setWidthPolicy( WidthPolicy policy )
 {
-    // The reserved space must be big enough for at least one card.
-    d->reservedSpace = space | QRectF( 0, 0, 1, 1 );
+    d->widthPolicy = policy;
 }
 
 
-void KCardPile::setReservedSpace( qreal x, qreal y, qreal width, qreal height )
+KCardPile::WidthPolicy KCardPile::widthPolicy() const
 {
-    setReservedSpace( QRectF( x, y, width, height ) );
+    return d->widthPolicy;
 }
 
 
-QRectF KCardPile::reservedSpace() const
+void KCardPile::setHeightPolicy( HeightPolicy policy )
 {
-    return d->reservedSpace;
+    d->heightPolicy = policy;
+}
+
+
+KCardPile::HeightPolicy KCardPile::heightPolicy() const
+{
+    return d->heightPolicy;
+}
+
+
+void KCardPile::setPadding( qreal topPadding, qreal rightPadding, qreal bottomPadding, qreal leftPadding )
+{
+    setTopPadding( topPadding );
+    setRightPadding( rightPadding );
+    setBottomPadding( bottomPadding );
+    setLeftPadding( leftPadding);
+}
+
+
+void KCardPile::setTopPadding( qreal padding )
+{
+    d->topPadding = padding;
+}
+
+
+qreal KCardPile::topPadding() const
+{
+    return d->topPadding;
+}
+
+
+void KCardPile::setRightPadding( qreal padding )
+{
+    d->rightPadding = padding;
+}
+
+
+qreal KCardPile::rightPadding() const
+{
+    return d->rightPadding;
+}
+
+
+void KCardPile::setBottomPadding( qreal padding )
+{
+    d->bottomPadding = padding;
+}
+
+
+qreal KCardPile::bottomPadding() const
+{
+    return d->bottomPadding;
+}
+
+
+void KCardPile::setLeftPadding( qreal padding )
+{
+    d->leftPadding = padding;
+}
+
+
+qreal KCardPile::leftPadding() const
+{
+    return d->leftPadding;
 }
 
 

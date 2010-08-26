@@ -67,7 +67,8 @@ void Idiot::initialize()
         m_play[i] = new PatPile( this, i + 1, QString( "play%1" ).arg( i ));
         m_play[i]->setPileRole(PatPile::Tableau);
         m_play[i]->setLayoutPos(1.5 + distx * i, 0);
-        m_play[i]->setReservedSpace( 0, 0, 1, 3 );
+        m_play[i]->setBottomPadding( 2 );
+        m_play[i]->setHeightPolicy( KCardPile::GrowDown );
         m_play[i]->setKeyboardSelectHint( KCardPile::AutoFocusTop );
         m_play[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
     }

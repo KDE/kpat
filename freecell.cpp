@@ -75,7 +75,8 @@ void Freecell::initialize()
         store[i] = new PatPile( this, 1 + i, QString( "store%1" ).arg( i ) );
         store[i]->setPileRole(PatPile::Tableau);
         store[i]->setLayoutPos( bottomRowDist * i, 1.3 );
-        store[i]->setReservedSpace( 0, 0, 1, 3.5 );
+        store[i]->setBottomPadding( 2.5 );
+        store[i]->setHeightPolicy( KCardPile::GrowDown );
         store[i]->setKeyboardSelectHint( KCardPile::AutoFocusDeepestRemovable );
         store[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
     }

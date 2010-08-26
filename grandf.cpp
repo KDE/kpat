@@ -70,7 +70,8 @@ void Grandf::initialize()
         store[i]->setPileRole(PatPile::Tableau);
         store[i]->setLayoutPos(distx*i, 1.2);
         store[i]->setAutoTurnTop(true);
-        store[i]->setReservedSpace( 0, 0, 1, 5 );
+        store[i]->setBottomPadding( 4 );
+        store[i]->setHeightPolicy( KCardPile::GrowDown );
         store[i]->setKeyboardSelectHint( KCardPile::FreeFocus );
         store[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
     }

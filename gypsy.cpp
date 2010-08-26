@@ -73,7 +73,8 @@ void Gypsy::initialize()
         store[i]->setPileRole(PatPile::Tableau);
         store[i]->setLayoutPos(dist_x*i,0);
         store[i]->setAutoTurnTop(true);
-        store[i]->setReservedSpace( 0, 0, 1, 4 * dist_y + 1 );
+        store[i]->setBottomPadding( 4 * dist_y );
+        store[i]->setHeightPolicy( KCardPile::GrowDown );
         store[i]->setKeyboardSelectHint( KCardPile::AutoFocusDeepestRemovable );
         store[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
     }

@@ -70,7 +70,7 @@ void Mod3::initialize()
     aces = new PatPile( this, 50, "aces");
     aces->setPileRole(PatPile::FoundationType1);
     aces->setLayoutPos(rightColumX, 0.5);
-    aces->setReservedSpace( 0, 0, 1, 2 );
+    aces->setBottomPadding( 2.5 );
     aces->setKeyboardSelectHint( KCardPile::NeverFocus );
     aces->setKeyboardDropHint( KCardPile::ForceFocusTop );
 
@@ -89,17 +89,18 @@ void Mod3::initialize()
                 // Very tight spread makes it easy to quickly tell number of
                 // cards in each pile and we don't care about the cards beneath.
                 stack[r][c]->setSpread( 0, 0.08 );
-                stack[r][c]->setReservedSpace( 0, 0, 1, 1.23 );
+                stack[r][c]->setBottomPadding( 0.23 );
             }
             else
             {
                 stack[r][c]->setLayoutPos( dist_x * c, bottomRowY );
-                stack[r][c]->setReservedSpace( 0, 0, 1, 1.8 );
+                stack[r][c]->setBottomPadding( 0.8 );
             }
             stack[r][c]->setPileRole( r == 0 ? PatPile::FoundationType2
                                       : r == 1 ? PatPile::FoundationType3
                                       : r == 2 ? PatPile::FoundationType4
                                       : PatPile::Tableau );
+            stack[r][c]->setHeightPolicy( KCardPile::GrowDown );
             stack[r][c]->setKeyboardSelectHint( KCardPile::AutoFocusTop );
             stack[r][c]->setKeyboardDropHint( KCardPile::AutoFocusTop );
         }

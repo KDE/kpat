@@ -65,8 +65,9 @@ void Fortyeight::initialize()
     pile = new PatPile( this, 20, "pile" );
     pile->setPileRole(PatPile::Waste);
     pile->setLayoutPos( 6 * dist_x, smallNeg );
+    pile->setLeftPadding( 6 * dist_x );
+    pile->setWidthPolicy( KCardPile::GrowLeft );
     pile->setSpread(-0.21, 0);
-    pile->setReservedSpace( -6 * dist_x, 0, 6 * dist_x + 1, 1 );
     pile->setKeyboardSelectHint( KCardPile::AutoFocusTop );
     pile->setKeyboardDropHint( KCardPile::NeverFocus );
 
@@ -87,7 +88,8 @@ void Fortyeight::initialize()
         stack[i]->setLayoutPos(dist_x*i, 1.1 );
         stack[i]->setAutoTurnTop(true);
         stack[i]->setSpread(0, 0.25);
-        stack[i]->setReservedSpace( 0, 0, 1, 2.75 );
+        stack[i]->setBottomPadding( 1.75 );
+        stack[i]->setHeightPolicy( KCardPile::GrowDown );
         stack[i]->setKeyboardSelectHint( KCardPile::FreeFocus );
         stack[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
     }

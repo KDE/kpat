@@ -67,7 +67,8 @@ void Yukon::initialize()
         store[i]->setPileRole(PatPile::Tableau);
         store[i]->setLayoutPos(dist_x*i, 0);
         store[i]->setAutoTurnTop(true);
-        store[i]->setReservedSpace( 0, 0, 1, 3 * dist_y + 1.0 );
+        store[i]->setBottomPadding( 3 * dist_y );
+        store[i]->setHeightPolicy( KCardPile::GrowDown );
         store[i]->setKeyboardSelectHint( KCardPile::FreeFocus );
         store[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
     }

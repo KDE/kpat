@@ -66,7 +66,8 @@ void Simon::initialize()
         store[i] = new PatPile( this, 5 + i, QString( "store%1" ).arg( i ) );
         store[i]->setPileRole(PatPile::Tableau);
         store[i]->setLayoutPos(dist_x*i, 1.2);
-        store[i]->setReservedSpace( 0, 0, 1, 3.5 );
+        store[i]->setBottomPadding( 2.5 );
+        store[i]->setHeightPolicy( KCardPile::GrowDown );
         store[i]->setZValue( 0.01 * i );
         store[i]->setKeyboardSelectHint( KCardPile::AutoFocusDeepestRemovable );
         store[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );

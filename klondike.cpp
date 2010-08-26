@@ -105,7 +105,7 @@ void Klondike::initialize()
 
     pile = new KlondikePile( this, 13, EasyRules ? 1 : 3, "pile" );
     pile->setPileRole(PatPile::Waste);
-    pile->setReservedSpace( 0, 0, 1.9, 1.0 );
+    pile->setRightPadding( 1.1 );
     pile->setLayoutPos(1.0 + hspacing, 0);
     pile->setSpread( 0.33, 0 );
     pile->setKeyboardSelectHint( KCardPile::ForceFocusTop );
@@ -117,7 +117,8 @@ void Klondike::initialize()
         play[i]->setPileRole(PatPile::Tableau);
         play[i]->setLayoutPos((1.0 + hspacing) * i, 1.0 + vspacing);
         play[i]->setAutoTurnTop(true);
-        play[i]->setReservedSpace( 0, 0, 1, 1 + play[i]->spread().height() * 7 );
+        play[i]->setBottomPadding( play[i]->spread().height() * 7 );
+        play[i]->setHeightPolicy( KCardPile::GrowDown );
         play[i]->setKeyboardSelectHint( KCardPile::AutoFocusDeepestFaceUp );
         play[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
     }

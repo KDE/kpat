@@ -72,9 +72,33 @@ public:
     void setLayoutPos( qreal x, qreal y );
     QPointF layoutPos() const;
 
-    void setReservedSpace( QRectF space );
-    void setReservedSpace( qreal x, qreal y, qreal width, qreal height );
-    QRectF reservedSpace() const;
+    enum WidthPolicy
+    {
+        FixedWidth,
+        GrowLeft,
+        GrowRight
+    };
+    void setWidthPolicy( WidthPolicy policy );
+    WidthPolicy widthPolicy() const;
+
+    enum HeightPolicy
+    {
+        FixedHeight,
+        GrowUp,
+        GrowDown
+    };
+    void setHeightPolicy( HeightPolicy policy );
+    HeightPolicy heightPolicy() const;
+
+    void setPadding( qreal topPadding, qreal rightPadding, qreal bottomPadding, qreal leftPadding );
+    void setTopPadding( qreal padding );
+    qreal topPadding() const;
+    void setRightPadding( qreal padding );
+    qreal rightPadding() const;
+    void setBottomPadding( qreal padding );
+    qreal bottomPadding() const;
+    void setLeftPadding( qreal padding );
+    qreal leftPadding() const;
 
     void setSpread( QSizeF spread );
     void setSpread( qreal width, qreal height );

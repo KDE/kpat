@@ -63,15 +63,6 @@ inline QRectF multRectSize( const QRectF & rect, const QSize & size )
 }
 
 
-inline QRectF divRectSize( const QRectF & rect, const QSize & size )
-{
-    return QRectF( rect.x() / size.width(), 
-                   rect.y() / size.height(),
-                   rect.width() / size.width(),
-                   rect.height() / size.height() );
-}
-
-
 class KCardScenePrivate : public QObject
 {
 public:
@@ -405,14 +396,14 @@ void KCardScene::relayoutScene()
     foreach ( const KCardPile * p, piles() )
     {
         if ( p->layoutPos().x() >= 0 )
-            usedWidth = qMax( usedWidth, p->layoutPos().x() + p->reservedSpace().right() );
+            usedWidth = qMax( usedWidth, p->layoutPos().x() + 1 + p->rightPadding() );
         else
-            extraWidth = qMax( extraWidth, p->reservedSpace().width() );
+            extraWidth = qMax( extraWidth, p->leftPadding() + 1 + p->rightPadding() );
 
         if ( p->layoutPos().y() >= 0 )
-            usedHeight = qMax( usedHeight, p->layoutPos().y() + p->reservedSpace().bottom() );
+            usedHeight = qMax( usedHeight, p->layoutPos().y() + 1 + p->bottomPadding() );
         else
-            extraHeight = qMax( extraHeight, p->reservedSpace().height() );
+            extraHeight = qMax( extraHeight, p->topPadding() + 1 + p->bottomPadding() );
     }
     if ( extraWidth )
     {
@@ -498,7 +489,9 @@ void KCardScene::relayoutPiles( int duration )
         return;
 
     QSize cardSize = d->deck->cardSize();
-    const qreal spacing = d->layoutSpacing * ( cardSize.width() + cardSize.height() ) / 2;
+    const qreal contentWidth = d->contentSize.width() / cardSize.width();
+    const qreal contentHeight = d->contentSize.height() / cardSize.height();
+    const qreal spacing = d->layoutSpacing;
 
     QList<KCardPile*> visiblePiles;
     QHash<KCardPile*,QRectF> reserve;
@@ -507,34 +500,37 @@ void KCardScene::relayoutPiles( int duration )
     {
         QPointF layoutPos = p->layoutPos();
         if ( layoutPos.x() < 0 )
-            layoutPos.rx() += d->contentSize.width() / cardSize.width() - 1;
+            layoutPos.rx() += contentWidth - 1;
         if ( layoutPos.y() < 0 )
-            layoutPos.ry() += d->contentSize.height() / cardSize.height() - 1;
+            layoutPos.ry() += contentHeight - 1;
 
         p->setPos( layoutPos.x() * cardSize.width(), layoutPos.y() * cardSize.height() );
-        p->setAvailableSpace( p->reservedSpace().translated( layoutPos ) );
         p->setGraphicSize( cardSize );
 
         if ( p->isVisible() )
         {
             visiblePiles << p;
-            QRectF r = multRectSize( p->reservedSpace().translated( layoutPos ), cardSize );
-            areas[p] = reserve[p] = r;
+
+            QRectF reserved( layoutPos, QSize( 1, 1 ) );
+            areas[p] = reserve[p] = reserved.adjusted( -p->leftPadding(),
+                                                       -p->topPadding(),
+                                                       p->rightPadding(),
+                                                       p->bottomPadding() );
         }
     }
 
     // Grow piles down
     foreach ( KCardPile * p1, visiblePiles )
     {
-        if ( p1->reservedSpace().height() > 1 )
+        if ( p1->heightPolicy() == KCardPile::GrowDown )
         {
-            areas[p1].setBottom( d->contentSize.height() );
+            areas[p1].setBottom( contentHeight );
             foreach ( KCardPile * p2, visiblePiles )
             {
                 if ( p2 != p1 && areas[p1].intersects( areas[p2] ) )
                 {
-                    if ( p2->reservedSpace().y() < 0 )
-                        areas[p1].setBottom( (reserve[p1].bottom() + reserve[p2].top() - spacing ) / 2 );
+                    if ( p2->heightPolicy() == KCardPile::GrowUp )
+                        areas[p1].setBottom( (reserve[p1].bottom() + reserve[p2].top() - spacing) / 2 );
                     else
                         areas[p1].setBottom( reserve[p2].top() - spacing );
                 }
@@ -545,15 +541,15 @@ void KCardScene::relayoutPiles( int duration )
     // Grow piles up
     foreach ( KCardPile * p1, visiblePiles )
     {
-        if ( p1->reservedSpace().y() < 0 )
+        if ( p1->heightPolicy() == KCardPile::GrowUp )
         {
             areas[p1].setTop( 0 );
             foreach ( KCardPile * p2, visiblePiles )
             {
                 if ( p2 != p1 && areas[p1].intersects( areas[p2] ) )
                 {
-                    if ( p2->reservedSpace().height() > 1 )
-                        areas[p1].setTop( (reserve[p1].top() + reserve[p2].bottom() + spacing ) / 2 );
+                    if ( p2->heightPolicy() == KCardPile::GrowDown )
+                        areas[p1].setTop( (reserve[p1].top() + reserve[p2].bottom() + spacing) / 2 );
                     else
                         areas[p1].setTop( reserve[p2].bottom() + spacing );
                 }
@@ -564,15 +560,15 @@ void KCardScene::relayoutPiles( int duration )
     // Grow piles right
     foreach ( KCardPile * p1, visiblePiles )
     {
-        if ( p1->reservedSpace().width() > 1 )
+        if ( p1->widthPolicy() == KCardPile::GrowRight )
         {
-            areas[p1].setRight( d->contentSize.width() );
+            areas[p1].setRight( contentWidth );
             foreach ( KCardPile * p2, visiblePiles )
             {
                 if ( p2 != p1 && areas[p1].intersects( areas[p2] ) )
                 {
-                    if ( p2->reservedSpace().x() < 0 )
-                        areas[p1].setRight( (reserve[p1].right() + reserve[p2].left() - spacing ) / 2 );
+                    if ( p2->widthPolicy() == KCardPile::GrowLeft )
+                        areas[p1].setRight( (reserve[p1].right() + reserve[p2].left() - spacing) / 2 );
                     else
                         areas[p1].setRight( reserve[p2].left() - spacing );
                 }
@@ -583,17 +579,15 @@ void KCardScene::relayoutPiles( int duration )
     // Grow piles left
     foreach ( KCardPile * p1, visiblePiles )
     {
-        if ( p1->reservedSpace().x() < 0 )
+        if ( p1->widthPolicy() == KCardPile::GrowLeft )
         {
             areas[p1].setLeft( 0 );
             foreach ( KCardPile * p2, visiblePiles )
             {
-                 Q_ASSERT( p2 == p1 || !reserve[p1].intersects( reserve[p2] ) );
-
                 if ( p2 != p1 && areas[p1].intersects( areas[p2] ) )
                 {
-                    if ( p2->reservedSpace().width() > 1 )
-                        areas[p1].setLeft( (reserve[p1].left() + reserve[p2].right() + spacing ) / 2 );
+                    if ( p2->widthPolicy() == KCardPile::GrowRight )
+                        areas[p1].setLeft( (reserve[p1].left() + reserve[p2].right() + spacing) / 2 );
                     else
                         areas[p1].setLeft( reserve[p2].right() + spacing );
                 }
@@ -603,7 +597,13 @@ void KCardScene::relayoutPiles( int duration )
 
     foreach ( KCardPile * p, piles() )
     {
-        p->setAvailableSpace( divRectSize( areas[p].translated( -p->pos() ), cardSize ) );
+        QPointF layoutPos = p->layoutPos();
+        if ( layoutPos.x() < 0 )
+            layoutPos.rx() += contentWidth - 1;
+        if ( layoutPos.y() < 0 )
+            layoutPos.ry() += contentHeight - 1;
+        p->setAvailableSpace( areas[p].translated( -layoutPos ) );
+
         p->layoutCards( duration );
     }
 }
@@ -1151,8 +1151,8 @@ void KCardScene::wheelEvent( QGraphicsSceneWheelEvent * e )
 
 void KCardScene::drawForeground ( QPainter * painter, const QRectF & rect )
 {
-    Q_UNUSED( rect )
     Q_UNUSED( painter )
+    Q_UNUSED( rect )
 
 #if DEBUG_LAYOUT
     if ( !d->sizeHasBeenSet || !d->deck  )
@@ -1166,10 +1166,12 @@ void KCardScene::drawForeground ( QPainter * painter, const QRectF & rect )
         if ( !p->isVisible() )
             continue;
 
-        QRectF reservedRect = multRectSize( p->reservedSpace(), d->deck->cardSize() );
-        reservedRect.translate( p->pos() );
-
         QRectF availableRect = multRectSize( p->availableSpace(), d->deck->cardSize() );
+        availableRect.translate( p->pos() );
+
+        QRectF reservedRect( -p->leftPadding(), -p->topPadding(), 1 + p->rightPadding(), 1 + p->bottomPadding() );
+        reservedRect = multRectSize( reservedRect, d->deck->cardSize() );
+        reservedRect.translate( p->pos() );
 
         painter->setPen( Qt::cyan );
         painter->drawRect( availableRect );

@@ -85,7 +85,8 @@ void Spider::initialize()
         stack[column]->setLayoutPos(dist_x * column, 0);
         stack[column]->setZValue(20);
         stack[column]->setAutoTurnTop(true);
-        stack[column]->setReservedSpace( 0, 0, 1, 2.5 );
+        stack[column]->setBottomPadding( 1.5 );
+        stack[column]->setHeightPolicy( KCardPile::GrowDown );
         stack[column]->setKeyboardSelectHint( KCardPile::AutoFocusDeepestRemovable );
         stack[column]->setKeyboardDropHint( KCardPile::AutoFocusTop );
     }
