@@ -26,7 +26,7 @@
 #include "shuffle.h"
 
 #include <KDebug>
-#include <KPixmapCache>
+#include <KImageCache>
 
 #include <QtCore/QTimer>
 #include <QtGui/QApplication>
@@ -139,7 +139,7 @@ QPixmap KAbstractCardDeckPrivate::renderCard( const QString & element )
         return pix;
 
     QString key = keyForPixmap( element , currentCardSize );
-    if ( !cache->find( key, pix ) )
+    if ( !cache->findPixmap( key, &pix ) )
     {
         kDebug() << "Renderering" << key << "in main thread.";
 
@@ -164,7 +164,7 @@ QPixmap KAbstractCardDeckPrivate::renderCard( const QString & element )
         }
         p.end();
 
-        cache->insert( key, pix );
+        cache->insertPixmap( key, pix );
     }
 
     return pix;
@@ -173,27 +173,30 @@ QPixmap KAbstractCardDeckPrivate::renderCard( const QString & element )
 
 QSizeF KAbstractCardDeckPrivate::unscaledCardSize()
 {
+    QSizeF size;
+
     if ( !theme.isValid() )
-        return QSizeF();
+        return size;
 
-    const QString element = "back";
 
-    QPixmap pix;
-    QString key = theme.dirName() + '_' + element + "_default";
-    if ( cache->find( key, pix ) )
-        return pix.size();
-
-    QSize size = QSize( 70, 100 ); // Sane default
-    bool elementExists;
+    QByteArray buffer;
+    if ( cache->find( "libkcardgame_unscaled", &buffer ) )
     {
-        QMutexLocker l( &rendererMutex );
-        elementExists = renderer()->elementExists( element );
-        if ( elementExists )
-            size = renderer()->boundsOnElement( element ).size().toSize();
+        QDataStream stream( &buffer, QIODevice::ReadOnly );
+        stream >> size;
     }
+    else
+    {
+        {
+            QMutexLocker l( &rendererMutex );
+            size = renderer()->boundsOnElement( "back" ).size();
+        }
 
-    if ( elementExists )
-        cache->insert( key, QPixmap( size ) );
+        buffer.clear();
+        QDataStream stream( &buffer, QIODevice::WriteOnly );
+        stream << size;
+        cache->insert( "libkcardgame_unscaled", buffer );
+    }
 
     return size;
 }
@@ -207,7 +210,7 @@ QPixmap KAbstractCardDeckPrivate::requestPixmap( QString elementId )
     QPixmap & stored = elementIdMapping[ elementId ].cardPixmap;
     if ( stored.size() != currentCardSize )
     {
-        if ( !cache->find( keyForPixmap( elementId , currentCardSize ), stored ) )
+        if ( !cache->findPixmap( keyForPixmap( elementId , currentCardSize ), &stored ) )
         {
             if ( stored.isNull() )
                 stored = renderCard( elementId );
@@ -226,7 +229,10 @@ void KAbstractCardDeckPrivate::updateCardSize( const QSize & size )
     if ( !theme.isValid() )
         return;
 
-    cache->insert( "lastUsedSize", QPixmap( currentCardSize ) );
+    QByteArray buffer;
+    QDataStream stream( &buffer, QIODevice::WriteOnly );
+    stream << currentCardSize;
+    cache->insert( "libkcardgame_lastusedsize", buffer );
 
     foreach ( KCard * c, cards )
         c->update();
@@ -242,7 +248,7 @@ void KAbstractCardDeckPrivate::updateCardSize( const QSize & size )
     for ( ; it != end; ++it )
     {
         QString key = keyForPixmap( it.key(), currentCardSize );
-        if ( !cache->find( key, pix ) )
+        if ( !cache->findPixmap( key, &pix ) )
             unrenderedElements << it.key();
     }
 
@@ -263,10 +269,10 @@ void KAbstractCardDeckPrivate::deleteThread()
 void KAbstractCardDeckPrivate::submitRendering( const QString & key, const QImage & image )
 {
     QString elementId = key.left( key.indexOf( '@' ) );
-    CardElementData & usage = elementIdMapping[ elementId ];
+    cache->insertImage( key, image );
 
-    usage.cardPixmap = QPixmap::fromImage( image );
-    cache->insert( key, usage.cardPixmap );
+    CardElementData & usage = elementIdMapping[ elementId ];
+    cache->findPixmap( key, &(usage.cardPixmap) );
 
     foreach ( KCard * c, usage.cardUsers )
         c->update();
@@ -421,19 +427,42 @@ void KAbstractCardDeck::setTheme( const KCardTheme & theme )
         }
 
         delete d->cache;
-        d->cache = new KPixmapCache( QString( "kdegames-cards_%1" ).arg( theme.dirName() ) );
-        if ( d->cache->timestamp() < theme.lastModified().toTime_t() )
+        QString cacheName = QString( "libkcardgame-themes/%1" ).arg( theme.dirName() );
+        d->cache = new KImageCache( cacheName, 3 * 1024 * 1024 );
+        d->cache->setPixmapCaching( true );
+
+        bool keepCache = false;
+        QByteArray buffer;
+        if ( d->cache->find( "libkcardgame_timestamp", &buffer ) )
         {
-            d->cache->discard();
-            d->cache->setTimestamp( theme.lastModified().toTime_t() );
+            QDataStream stream( &buffer, QIODevice::ReadOnly );
+            QDateTime cacheTimeStamp;
+            stream >> cacheTimeStamp;
+            keepCache = cacheTimeStamp >= theme.lastModified();
+        }
+
+        if ( !keepCache )
+        {
+            d->cache->clear();
+            buffer.clear();
+            QDataStream stream( &buffer, QIODevice::WriteOnly );
+            stream << theme.lastModified();
+            d->cache->insert( "libkcardgame_timestamp", buffer );
         }
 
         d->originalCardSize = d->unscaledCardSize();
         Q_ASSERT( !d->originalCardSize.isNull() );
 
-        QPixmap pix( 10, 10 * d->originalCardSize.height() / d->originalCardSize.width() );
-        d->cache->find( "lastUsedSize", pix );
-        d->currentCardSize = pix.size();
+        if ( d->cache->find( "libkcardgame_lastusedsize", &buffer ) )
+        {
+            QDataStream stream( &buffer, QIODevice::ReadOnly );
+            stream >> d->currentCardSize;
+        }
+        else
+        {
+            qreal ratio = d->originalCardSize.height() / d->originalCardSize.width();
+            d->currentCardSize = QSize( 10, 10 * ratio );
+        }
     }
 }
 

@@ -23,7 +23,7 @@
 
 #include "kcardtheme.h"
 
-class KPixmapCache;
+class KImageCache;
 
 #include <QtCore/QHash>
 class QImage;
@@ -97,7 +97,7 @@ public:
     QTimer * animationCheckTimer;
 
     KCardTheme theme;
-    KPixmapCache * cache;
+    KImageCache * cache;
     QSvgRenderer * svgRenderer;
     QMutex rendererMutex;
     RenderingThread * thread;
