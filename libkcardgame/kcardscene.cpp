@@ -76,7 +76,7 @@ public:
 
     KAbstractCardDeck * deck;
     QList<KCardPile*> piles;
-    QHash<KCardPile*,QRectF> pileAreas;
+    QHash<const KCardPile*,QRectF> pileAreas;
     QSet<QGraphicsItem*> highlightedItems;
 
     QList<KCard*> cardsBeingDragged;
@@ -323,7 +323,7 @@ QList<KCardPile*> KCardScene::piles() const
 }
 
 
-QRectF KCardScene::spaceAllottedToPile( KCardPile * pile ) const
+QRectF KCardScene::spaceAllottedToPile( const KCardPile * pile ) const
 {
     return d->pileAreas.value( pile, QRectF() );
 }
@@ -502,7 +502,7 @@ void KCardScene::relayoutPiles( int duration )
 
     QList<KCardPile*> visiblePiles;
     QHash<KCardPile*,QRectF> reserve;
-    QHash<KCardPile*,QRectF> & areas = d->pileAreas;
+    QHash<const KCardPile*,QRectF> & areas = d->pileAreas;
     areas.clear();
     foreach ( KCardPile * p, piles() )
     {
@@ -1165,8 +1165,7 @@ void KCardScene::drawForeground ( QPainter * painter, const QRectF & rect )
         if ( !p->isVisible() )
             continue;
 
-        QRectF availableRect = multRectSize( p->availableSpace(), d->deck->cardSize() );
-        availableRect.translate( p->pos() );
+        QRectF availableRect = multRectSize( spaceAllottedToPile( p ), d->deck->cardSize() );
 
         QRectF reservedRect( -p->leftPadding(), -p->topPadding(), 1 + p->rightPadding(), 1 + p->bottomPadding() );
         reservedRect = multRectSize( reservedRect, d->deck->cardSize() );
