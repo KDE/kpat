@@ -440,8 +440,6 @@ void MainWindow::appearanceChanged()
     {
         Renderer::self()->setTheme( Settings::theme() );
         m_view->resetCachedContent();
-        if ( m_dealer )
-            m_dealer->updateWonItem( true );
     }
 
     if ( m_cardDeck && Settings::cardTheme() != m_cardDeck->theme().dirName() )

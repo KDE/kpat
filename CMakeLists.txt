@@ -14,6 +14,7 @@ set( kpat_SRCS
     dealerinfo.cpp
     gameselectionscene.cpp
     mainwindow.cpp
+    messagebox.cpp
     numbereddealdialog.cpp
     patpile.cpp
     pileutils.cpp

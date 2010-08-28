@@ -38,6 +38,7 @@
 #include "dealer.h"
 
 #include "gamestate.h"
+#include "messagebox.h"
 #include "renderer.h"
 #include "speeds.h"
 #include "version.h"
@@ -75,9 +76,6 @@
 namespace
 {
     const qreal wonBoxToSceneSizeRatio = 0.7;
-    const qreal textToWonBoxRatio = 0.8;
-    const int minimumWonBoxFontSize = 5;
-    const int maximumWonBoxFontSize = 36;
 }
 
 
@@ -143,7 +141,7 @@ public:
 
     Solver * solver;
     SolverThread * solverThread;
-    QGraphicsPixmapItem * wonItem;
+    MessageBox * wonItem;
 
     QTimer * updateSolver;
     QTimer * demoTimer;
@@ -336,9 +334,10 @@ DealerScene::DealerScene()
     connect( d->dropTimer, SIGNAL(timeout()), this, SLOT(drop()) );
     d->dropTimer->setSingleShot( true );
 
-    d->wonItem  = new QGraphicsPixmapItem( 0, this );
+    d->wonItem = new MessageBox();
     d->wonItem->setZValue( 2000 );
     d->wonItem->hide();
+    addItem( d->wonItem );
 
     d->currentState = 0;
 
@@ -748,12 +747,12 @@ void DealerScene::showWonMessage()
     d->wonItem->show();
 }
 
-void DealerScene::updateWonItem( bool force )
+void DealerScene::updateWonItem()
 {
     const qreal aspectRatio = Renderer::self()->aspectRatioOfElement("message_frame");
     int boxWidth;
     int boxHeight;
-    if (width() < aspectRatio * height())
+    if ( width() < aspectRatio * height() )
     {
         boxWidth = width() * wonBoxToSceneSizeRatio;
         boxHeight = boxWidth / aspectRatio;
@@ -763,41 +762,15 @@ void DealerScene::updateWonItem( bool force )
         boxHeight = height() * wonBoxToSceneSizeRatio;
         boxWidth = boxHeight * aspectRatio;
     }
+    d->wonItem->setSize( QSize( boxWidth, boxHeight ) );
 
-    // Only regenerate the pixmap if the new one is a significantly different size.
-    if ( force || qAbs( d->wonItem->boundingRect().width() - boxWidth ) > 20 )
-    {
-        QRect contentsRect = QRect( 0, 0, boxWidth, boxHeight );
-        QPixmap pix = Renderer::self()->spritePixmap( "message_frame", contentsRect.size() );
+    if ( d->playerReceivedHelp )
+        d->wonItem->setMessage( i18n( "Congratulations! We have won." ) );
+    else
+        d->wonItem->setMessage( i18n( "Congratulations! You have won." ) );
 
-        QString text;
-        if ( d->playerReceivedHelp )
-            text = i18n( "Congratulations! We have won." );
-        else
-            text = i18n( "Congratulations! You have won." );
-
-        QFont font;
-        int fontsize = maximumWonBoxFontSize;
-        font.setPointSize( fontsize );
-        int twidth = QFontMetrics( font ).width( text );
-        while ( twidth > boxWidth * textToWonBoxRatio && fontsize > minimumWonBoxFontSize )
-        {
-            fontsize--;
-            font.setPointSize( fontsize );
-            twidth = QFontMetrics( font ).width ( text );
-        }
-
-        QPainter p( &pix );
-        p.setFont( font );
-        p.setPen( Renderer::self()->colorOfElement("message_text_color") );
-        p.drawText( contentsRect, Qt::AlignCenter, text );
-        p.end();
-
-        d->wonItem->setPixmap( pix );
-    }
-
-    d->wonItem->setPos( QPointF( ( width() - d->wonItem->sceneBoundingRect().width() ) / 2,
-                                 ( height() - d->wonItem->sceneBoundingRect().height() ) / 2 ) + sceneRect().topLeft() );
+    d->wonItem->setPos( QPointF( (width() - boxWidth) / 2, (height() - boxHeight) / 2 )
+                        + sceneRect().topLeft() );
 }
 
 

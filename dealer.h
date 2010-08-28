@@ -67,7 +67,7 @@ public:
     virtual void initialize() = 0;
 
     virtual void relayoutScene();
-    void updateWonItem( bool force = false );
+    void updateWonItem();
 
 
     virtual void addPile( KCardPile * pile );
