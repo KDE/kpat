@@ -493,10 +493,10 @@ void KCardPile::layoutCards( int duration )
     }
 
     QRectF available = kcs->spaceAllottedToPile( this );
-    qreal availableTop = -available.top();
-    qreal availableRight = available.right() - 1;
-    qreal availableBottom = available.bottom() - 1;
-    qreal availableLeft = -available.right();
+    qreal availableTop = -available.top() - layoutPos().y();
+    qreal availableRight = available.right() - layoutPos().x() - 1;
+    qreal availableBottom = available.bottom() - layoutPos().y() - 1;
+    qreal availableLeft = -available.right() - layoutPos().x();
 
     qreal scaleTop = 1;
     if ( minY < 0 )
