@@ -768,7 +768,7 @@ void DealerScene::updateWonItem( bool force )
     if ( force || qAbs( d->wonItem->boundingRect().width() - boxWidth ) > 20 )
     {
         QRect contentsRect = QRect( 0, 0, boxWidth, boxHeight );
-        QPixmap pix = Renderer::self()->renderElement( "message_frame", contentsRect.size() );
+        QPixmap pix = Renderer::self()->spritePixmap( "message_frame", contentsRect.size() );
 
         QString text;
         if ( d->playerReceivedHelp )

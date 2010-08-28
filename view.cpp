@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 1995 Paul Olav Tvete <paul@troll.no>
  * Copyright (C) 2000-2008 Stephan Kulow <coolo@kde.org>
- * Copyright (C) 2009 Parker Coates <parker.coates@kde.org>
+ * Copyright (C) 2009-2010 Parker Coates <parker.coates@kde.org>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -79,10 +79,10 @@ void PatienceView::resizeEvent( QResizeEvent * e )
 }
 
 
-void PatienceView::drawBackground( QPainter * painter, const QRectF & rect)
+void PatienceView::drawBackground( QPainter * painter, const QRectF & rect )
 {
     Q_UNUSED( rect );
-    QPixmap pix = Renderer::self()->renderElement( "background", sceneRect().size().toSize() );
+    QPixmap pix = Renderer::self()->spritePixmap( "background", sceneRect().size().toSize() );
     painter->drawPixmap( sceneRect().topLeft(), pix );
 }
 

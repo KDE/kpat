@@ -117,12 +117,6 @@ MainWindow::MainWindow()
     moveStatus = new QLabel(QString(), statusBar());
     moveStatus->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     statusBar()->addWidget(moveStatus, 0);
-
-    if ( !Renderer::self()->setTheme( Settings::theme() ) )
-    {
-        Settings::setTheme( Settings::defaultThemeValue() );
-        Renderer::self()->setTheme( Settings::theme() );
-    }
 }
 
 MainWindow::~MainWindow()
@@ -442,7 +436,7 @@ void MainWindow::configureAppearance()
 
 void MainWindow::appearanceChanged()
 {
-    if ( !Renderer::self()->theme().path().endsWith( Settings::theme() ) )
+    if ( Renderer::self()->theme() != Settings::theme() )
     {
         Renderer::self()->setTheme( Settings::theme() );
         m_view->resetCachedContent();

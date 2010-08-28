@@ -64,7 +64,7 @@ void PatPile::paintGraphic( QPainter * painter, qreal highlightedness )
     Renderer * r = Renderer::self();
 
     if ( highlightedness < 1 )
-        painter->drawPixmap( 0, 0, r->renderElement( "pile", size ) );
+        painter->drawPixmap( 0, 0, r->spritePixmap( "pile", size ) );
 
     if ( highlightedness > 0 )
     {
@@ -75,14 +75,14 @@ void PatPile::paintGraphic( QPainter * painter, qreal highlightedness )
             QPixmap transPix( size );
             transPix.fill( Qt::transparent );
             QPainter p( &transPix );
-            p.drawPixmap( 0, 0, r->renderElement( "pile_selected", size ) );
+            p.drawPixmap( 0, 0, r->spritePixmap( "pile_selected", size ) );
             p.setCompositionMode( QPainter::CompositionMode_DestinationIn );
             p.fillRect( transPix.rect(), QColor( 0, 0, 0, highlightedness * 255 ) );
             painter->drawPixmap( 0, 0, transPix );
         }
         else
         {
-            painter->drawPixmap( 0, 0, r->renderElement( "pile_selected", size ) );
+            painter->drawPixmap( 0, 0, r->spritePixmap( "pile_selected", size ) );
         }
     }
 }
