@@ -39,6 +39,9 @@ public:
 private:
     Renderer();
 
+    QHash<QString,QColor> m_colors;
+    QString m_cachedTheme;
+
     friend class RendererPrivate;
 };
 

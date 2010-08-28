@@ -47,12 +47,24 @@ qreal Renderer::aspectRatioOfElement( const QString & elementId )
 
 QColor Renderer::colorOfElement( const QString & elementId )
 {
-//     if ( m_colors.contains( elementId ) )
-//         return m_colors.value( elementId );
+    if ( m_cachedTheme != theme() )
+    {
+        m_colors.clear();
+        m_cachedTheme = theme();
+    }
 
-    QPixmap pix = spritePixmap( elementId, QSize( 3, 3 ) );
-    QColor color = pix.toImage().pixel( 1, 1 );
-//     m_colors.insert( elementId, color );
+    QColor color;
+    QHash<QString,QColor>::const_iterator it = m_colors.constFind( elementId );
+    if ( it != m_colors.end() )
+    {
+        color = it.value();
+    }
+    else
+    {
+        QPixmap pix = spritePixmap( elementId, QSize( 3, 3 ) );
+        color = pix.toImage().pixel( 1, 1 );
+        m_colors.insert( elementId, color );
+    }
     return color;
 }
 
