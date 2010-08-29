@@ -436,11 +436,7 @@ void MainWindow::configureAppearance()
 
 void MainWindow::appearanceChanged()
 {
-    if ( Renderer::self()->theme() != Settings::theme() )
-    {
-        Renderer::self()->setTheme( Settings::theme() );
-        m_view->resetCachedContent();
-    }
+    Renderer::self()->setTheme( Settings::theme() );
 
     if ( m_cardDeck && Settings::cardTheme() != m_cardDeck->theme().dirName() )
     {

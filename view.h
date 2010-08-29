@@ -38,10 +38,12 @@
 #ifndef VIEW_H
 #define VIEW_H
 
+#include <KGameRendererClient>
+
 #include <QtGui/QGraphicsView>
 
 
-class PatienceView: public QGraphicsView
+class PatienceView: public QGraphicsView, public KGameRendererClient
 {
 public:
     PatienceView ( QWidget * parent );
@@ -52,9 +54,12 @@ public:
 protected:
     virtual void resizeEvent( QResizeEvent * e );
     virtual void drawBackground( QPainter * painter, const QRectF & rect );
+    virtual void receivePixmap( const QPixmap & pixmap );
 
 private:
     void updateSceneSize();
+
+    QPixmap m_background;
 };
 
 #endif

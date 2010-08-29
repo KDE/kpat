@@ -50,7 +50,8 @@
 
 
 PatienceView::PatienceView( QWidget * parent )
-  : QGraphicsView( parent )
+  : QGraphicsView( parent ),
+    KGameRendererClient( Renderer::self(), "background" )
 {
     setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
     setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
@@ -75,15 +76,33 @@ void PatienceView::setScene( QGraphicsScene * scene )
 void PatienceView::resizeEvent( QResizeEvent * e )
 {
     QGraphicsView::resizeEvent( e );
+    setRenderSize( e->size() );
+    resetCachedContent();
     updateSceneSize();
 }
 
 
 void PatienceView::drawBackground( QPainter * painter, const QRectF & rect )
 {
-    Q_UNUSED( rect );
-    QPixmap pix = Renderer::self()->spritePixmap( "background", sceneRect().size().toSize() );
-    painter->drawPixmap( sceneRect().topLeft(), pix );
+    QRectF source = rect.translated( -sceneRect().topLeft() );
+    if ( m_background.size() != sceneRect().size().toSize() )
+    {
+        qreal xScale = m_background.width() / sceneRect().width();
+        qreal yScale = m_background.height() / sceneRect().height();
+        source = QRectF( source.x() * xScale,
+                         source.y() * yScale,
+                         source.width() * xScale,
+                         source.height() * yScale );
+    }
+
+    painter->drawPixmap( rect, m_background, source );
+}
+
+
+void PatienceView::receivePixmap( const QPixmap & pixmap )
+{
+    m_background = pixmap;
+    resetCachedContent();
 }
 
 
