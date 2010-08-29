@@ -55,7 +55,7 @@ QColor Renderer::colorOfElement( const QString & elementId )
 
     QColor color;
     QHash<QString,QColor>::const_iterator it = m_colors.constFind( elementId );
-    if ( it != m_colors.end() )
+    if ( it != m_colors.constEnd() )
     {
         color = it.value();
     }
