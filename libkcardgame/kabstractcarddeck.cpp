@@ -53,7 +53,7 @@ RenderingThread::RenderingThread( KAbstractCardDeckPrivate * d, QSize size, cons
     m_elementsToRender( elements ),
     m_haltFlag( false )
 {
-    connect( this, SIGNAL(renderingDone(QString,QImage)), d, SLOT(submitRendering(QString,QImage)), Qt::QueuedConnection );
+    connect( this, SIGNAL(renderingDone(QString)), d, SLOT(submitRendering(QString)), Qt::QueuedConnection );
 }
 
 
@@ -95,7 +95,9 @@ void RenderingThread::run()
         }
         p.end();
 
-        emit renderingDone( key, img );
+        d->cache->insertImage( key, img );
+
+        emit renderingDone( element );
     }
 }
 
@@ -271,13 +273,10 @@ void KAbstractCardDeckPrivate::deleteThread()
 }
 
 
-void KAbstractCardDeckPrivate::submitRendering( const QString & key, const QImage & image )
+void KAbstractCardDeckPrivate::submitRendering( const QString & elementId )
 {
-    QString elementId = key.left( key.indexOf( '@' ) );
-    cache->insertImage( key, image );
-
     CardElementData & usage = elementIdMapping[ elementId ];
-    cache->findPixmap( key, &(usage.cardPixmap) );
+    cache->findPixmap( keyForPixmap( elementId, currentCardSize ), &(usage.cardPixmap) );
 
     foreach ( KCard * c, usage.cardUsers )
         c->update();

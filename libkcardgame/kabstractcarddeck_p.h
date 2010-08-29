@@ -46,7 +46,7 @@ public:
     void halt();
 
 Q_SIGNALS:
-    void renderingDone( const QString & key, const QImage & image );
+    void renderingDone( const QString & elementId );
 
 private:
     KAbstractCardDeckPrivate * const d;
@@ -80,7 +80,7 @@ public:
     void deleteThread();
 
 public Q_SLOTS:
-    void submitRendering( const QString & key, const QImage & image );
+    void submitRendering( const QString & elementId );
     void cardStartedAnimation( KCard * card );
     void cardStoppedAnimation( KCard * card );
     void checkIfAnimationIsDone();
