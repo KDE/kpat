@@ -41,8 +41,6 @@
 #include "speeds.h"
 #include "patsolve/fortyeightsolver.h"
 
-#include "Shuffle"
-
 #include <KLocale>
 
 
@@ -99,24 +97,24 @@ void Fortyeight::initialize()
 }
 
 
-void Fortyeight::restart()
+void Fortyeight::restart( const QList<KCard*> & cards )
 {
     lastdeal = false;
 
-    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
+    QList<KCard*> cardList = cards;
 
     for ( int r = 0; r < 4; ++r )
     {
         for ( int column = 0; column < 8; ++column )
         {
             QPointF initPos = stack[column]->pos() - QPointF( 0, 2 * deck()->cardHeight() );
-            addCardForDeal( stack[column], cards.takeLast(), true, initPos );
+            addCardForDeal( stack[column], cardList.takeLast(), true, initPos );
         }
     }
 
-    while ( !cards.isEmpty() )
+    while ( !cardList.isEmpty() )
     {
-        KCard * c = cards.takeFirst();
+        KCard * c = cardList.takeFirst();
         c->setPos( talon->pos() );
         c->setFaceUp( false );
         talon->add( c );

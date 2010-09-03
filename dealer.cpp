@@ -76,6 +76,26 @@
 namespace
 {
     const qreal wonBoxToSceneSizeRatio = 0.7;
+
+    QList<KCard*> shuffled( const QList<KCard*> & cards, int seed )
+    {
+        Q_ASSERT( seed > 0 );
+
+        QList<KCard*> result = cards;
+        for ( int i = result.size(); i > 1; --i )
+        {
+            // We use the same pseudorandom number generation algorithm as Windows
+            // Freecell, so that game numbers are the same between the two applications.
+            // For more inforation, see
+            // http://support.microsoft.com/default.aspx?scid=kb;EN-US;Q28150
+            seed = 214013 * seed + 2531011;
+            int rand = ( seed >> 16 ) & 0x7fff;
+
+            result.swap( i - 1, rand % i );
+        }
+
+        return result;
+    }
 }
 
 
@@ -628,7 +648,9 @@ void DealerScene::startNew(int gameNumber)
     d->dealInProgress = true;
     foreach( KCardPile * p, piles() )
         p->clear();
-    restart();
+
+    restart( shuffled( deck()->cards(), gameNumber ) );
+
     d->dealInProgress = false;
 
     takeState();

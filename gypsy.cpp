@@ -40,8 +40,6 @@
 #include "pileutils.h"
 #include "patsolve/gypsysolver.h"
 
-#include "Shuffle"
-
 #include <KLocale>
 
 void Gypsy::initialize()
@@ -83,22 +81,22 @@ void Gypsy::initialize()
     setSolver( new GypsySolver( this ) );
 }
 
-void Gypsy::restart()
+void Gypsy::restart( const QList<KCard*> & cards )
 {
-    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
+    QList<KCard*> cardList = cards;
 
     for ( int round = 0; round < 8; ++round )
-        addCardForDeal(store[round], cards.takeLast(), false, store[round]->pos() + QPointF(-2*deck()->cardWidth(),-1.1*deck()->cardHeight()));
+        addCardForDeal(store[round], cardList.takeLast(), false, store[round]->pos() + QPointF(-2*deck()->cardWidth(),-1.1*deck()->cardHeight()));
 
     for ( int round = 0; round < 8; ++round )
-        addCardForDeal(store[round], cards.takeLast(), true, store[round]->pos() + QPointF(-3*deck()->cardWidth(),-1.6*deck()->cardHeight()));
+        addCardForDeal(store[round], cardList.takeLast(), true, store[round]->pos() + QPointF(-3*deck()->cardWidth(),-1.6*deck()->cardHeight()));
 
     for ( int round = 0; round < 8; ++round )
-        addCardForDeal(store[round], cards.takeLast(), true, store[round]->pos() + QPointF(-4*deck()->cardWidth(),-2.1*deck()->cardHeight()));
+        addCardForDeal(store[round], cardList.takeLast(), true, store[round]->pos() + QPointF(-4*deck()->cardWidth(),-2.1*deck()->cardHeight()));
 
-    while ( !cards.isEmpty() )
+    while ( !cardList.isEmpty() )
     {
-        KCard * c = cards.takeFirst();
+        KCard * c = cardList.takeFirst();
         c->setPos( talon->pos() );
         c->setFaceUp( false );
         talon->add( c );

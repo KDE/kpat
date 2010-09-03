@@ -157,7 +157,7 @@ protected:
     virtual void mousePressEvent( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mouseReleaseEvent( QGraphicsSceneMouseEvent * mouseEvent );
 
-    virtual void restart() = 0;
+    virtual void restart( const QList<KCard*> & cards ) = 0;
 
     void setSolver( Solver * solver );
 

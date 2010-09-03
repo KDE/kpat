@@ -40,8 +40,6 @@
 #include "pileutils.h"
 #include "patsolve/simonsolver.h"
 
-#include "Shuffle"
-
 #include <KLocale>
 
 
@@ -78,20 +76,20 @@ void Simon::initialize()
     //setNeededFutureMoves( 1 ); // could be some nonsense moves
 }
 
-void Simon::restart()
+void Simon::restart( const QList<KCard*> & cards )
 {
-    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
+    QList<KCard*> cardList = cards;
 
     QPointF initPos( 0, -deck()->cardHeight() );
 
     for ( int piles = 9; piles >= 3; --piles )
         for ( int j = 0; j < piles; ++j )
-            addCardForDeal( store[j], cards.takeLast(), true, initPos );
+            addCardForDeal( store[j], cardList.takeLast(), true, initPos );
 
     for ( int j = 0; j < 10; ++j )
-        addCardForDeal( store[j], cards.takeLast(), true, initPos );
+        addCardForDeal( store[j], cardList.takeLast(), true, initPos );
 
-    Q_ASSERT( cards.isEmpty() );
+    Q_ASSERT( cardList.isEmpty() );
 
     startDealAnimation();
 }

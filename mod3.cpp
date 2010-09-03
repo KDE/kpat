@@ -40,8 +40,6 @@
 #include "dealerinfo.h"
 #include "patsolve/mod3solver.h"
 
-#include "Shuffle"
-
 #include <KLocale>
 
 
@@ -173,15 +171,12 @@ void Mod3::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration 
 
 
 
-void Mod3::restart()
+void Mod3::restart( const QList<KCard*> & cards )
 {
     clearHighlightedItems();
 
-    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
-
-    while ( !cards.isEmpty() )
+    foreach ( KCard * c, cards )
     {
-        KCard * c = cards.takeFirst();
         c->setPos( talon->pos() );
         c->setFaceUp( false );
         talon->add( c );

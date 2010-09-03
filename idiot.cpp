@@ -40,8 +40,6 @@
 #include "dealerinfo.h"
 #include "patsolve/idiotsolver.h"
 
-#include "Shuffle"
-
 #include <KLocale>
 
 
@@ -88,13 +86,10 @@ void Idiot::initialize()
 }
 
 
-void Idiot::restart()
+void Idiot::restart( const QList<KCard*> & cards )
 {
-    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
-
-    while ( !cards.isEmpty() )
+    foreach ( KCard * c, cards )
     {
-        KCard * c = cards.takeFirst();
         c->setPos( talon->pos() );
         c->setFaceUp( false );
         talon->add( c );

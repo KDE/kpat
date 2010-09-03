@@ -42,8 +42,6 @@
 #include "speeds.h"
 #include "patsolve/grandfsolver.h"
 
-#include "Shuffle"
-
 #include <KLocale>
 
 
@@ -80,9 +78,9 @@ void Grandf::initialize()
     setSolver( new GrandfSolver( this ) );
 }
 
-void Grandf::restart()
+void Grandf::restart( const QList<KCard*> & cards )
 {
-    deal( shuffled( deck()->cards(), gameNumber() ) );
+    deal( cards );
     numberOfDeals = 1;
     emit newCardsPossible( true );
 }

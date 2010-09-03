@@ -40,8 +40,6 @@
 #include "speeds.h"
 #include "patsolve/golfsolver.h"
 
-#include "Shuffle"
-
 #include <KLocale>
 
 
@@ -104,17 +102,17 @@ bool Golf::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
 }
 
 
-void Golf::restart()
+void Golf::restart( const QList<KCard*> & cards )
 {
-    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
+    QList<KCard*> cardList = cards;
 
     for ( int i = 0; i < 5; ++i )
         for ( int r = 0; r < 7; ++r )
-            addCardForDeal( stack[r], cards.takeLast(), true, stack[6]->pos() );
+            addCardForDeal( stack[r], cardList.takeLast(), true, stack[6]->pos() );
 
-    while ( !cards.isEmpty() )
+    while ( !cardList.isEmpty() )
     {
-        KCard * c = cards.takeFirst();
+        KCard * c = cardList.takeFirst();
         c->setPos( talon->pos() );
         c->setFaceUp( false );
         talon->add( c );

@@ -43,8 +43,6 @@
 #include "speeds.h"
 #include "patsolve/klondikesolver.h"
 
-#include "Shuffle"
-
 #include <KLocale>
 #include <KSelectAction>
 
@@ -209,19 +207,19 @@ bool Klondike::newCards()
 }
 
 
-void Klondike::restart()
+void Klondike::restart( const QList<KCard*> & cards )
 {
     redealt = false;
 
-    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
+    QList<KCard*> cardList = cards;
 
     for( int round = 0; round < 7; ++round )
         for ( int i = round; i < 7; ++i )
-            addCardForDeal( play[i], cards.takeLast(), (i == round), talon->pos());
+            addCardForDeal( play[i], cardList.takeLast(), (i == round), talon->pos());
 
-    while ( !cards.isEmpty() )
+    while ( !cardList.isEmpty() )
     {
-        KCard * c = cards.takeFirst();
+        KCard * c = cardList.takeFirst();
         c->setPos( talon->pos() );
         c->setFaceUp( false );
         talon->add( c );

@@ -49,7 +49,7 @@ public:
     virtual void initialize();
 
 public slots:
-    virtual void restart();
+    virtual void restart( const QList<KCard*> & cards );
 
 protected:
     virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;

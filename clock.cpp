@@ -39,8 +39,6 @@
 #include "dealerinfo.h"
 #include "patsolve/clocksolver.h"
 
-#include "Shuffle"
-
 #include <KLocale>
 
 
@@ -78,7 +76,7 @@ void Clock::initialize()
     setSolver( new ClockSolver( this ) );
 }
 
-void Clock::restart()
+void Clock::restart( const QList<KCard*> & cards )
 {
     static const KStandardCardDeck::Suit suits[12] = { KStandardCardDeck::Diamonds, KStandardCardDeck::Spades, KStandardCardDeck::Hearts, KStandardCardDeck::Clubs,
                                                        KStandardCardDeck::Diamonds, KStandardCardDeck::Spades, KStandardCardDeck::Hearts, KStandardCardDeck::Clubs,
@@ -87,14 +85,13 @@ void Clock::restart()
                                                        KStandardCardDeck::King, KStandardCardDeck::Two, KStandardCardDeck::Three, KStandardCardDeck::Four,
                                                        KStandardCardDeck::Five, KStandardCardDeck::Six, KStandardCardDeck::Seven, KStandardCardDeck::Eight };
 
-    QList<KCard*> cards = shuffled( deck()->cards(), gameNumber() );
-
     const QPointF center = ( target[0]->pos() + target[6]->pos() ) / 2;
 
     int j = 0;
-    while ( !cards.isEmpty() )
+    QList<KCard*> cardList = cards;
+    while ( !cardList.isEmpty() )
     {
-        KCard * c = cards.takeLast();
+        KCard * c = cardList.takeLast();
         for ( int i = 0; i < 12; ++i )
         {
             if ( getRank( c ) == ranks[i] && getSuit( c ) == suits[i] )

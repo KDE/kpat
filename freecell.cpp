@@ -42,8 +42,6 @@
 #include "speeds.h"
 #include "patsolve/freecellsolver.h"
 
-#include "Shuffle"
-
 #include <KDebug>
 #include <KLocale>
 
@@ -97,14 +95,14 @@ void Freecell::initialize()
 }
 
 
-void Freecell::restart()
+void Freecell::restart( const QList<KCard*> & cards )
 {
-    QList<KCard*> cards = shuffled(deck()->cards(), gameNumber() );
+    QList<KCard*> cardList = cards;
 
     int column = 0;
-    while ( !cards.isEmpty() )
+    while ( !cardList.isEmpty() )
     {
-        addCardForDeal( store[column], cards.takeLast(), true, store[0]->pos() );
+        addCardForDeal( store[column], cardList.takeLast(), true, store[0]->pos() );
         column = (column + 1) % 8;
     }
 

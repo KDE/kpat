@@ -50,7 +50,7 @@ protected:
     virtual void setGameState( const QString & );
     virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
     virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
-    virtual void restart();
+    virtual void restart( const QList<KCard*> & cards );
     virtual bool drop();
 
 protected slots:
