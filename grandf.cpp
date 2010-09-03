@@ -47,7 +47,7 @@
 
 void Grandf::initialize()
 {
-    static_cast<KStandardCardDeck*>( deck() )->setDeckContents();
+    deck()->setDeckContents( KStandardCardDeck::generateIdList() );
 
     const qreal distx = 1.4;
     const qreal targetOffset = 1.5 * distx;

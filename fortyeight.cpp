@@ -49,7 +49,7 @@ void Fortyeight::initialize()
     const qreal dist_x = 1.11;
     const qreal smallNeg = -1e-6;
 
-    static_cast<KStandardCardDeck*>( deck() )->setDeckContents( 2 );
+    deck()->setDeckContents( KStandardCardDeck::generateIdList( 2 ) );
 
     talon = new PatPile( this, 0, "talon" );
     talon->setPileRole(PatPile::Stock);

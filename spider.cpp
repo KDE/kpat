@@ -200,7 +200,7 @@ void Spider::createDeck()
     else
         suits << KStandardCardDeck::Clubs << KStandardCardDeck::Diamonds << KStandardCardDeck::Hearts << KStandardCardDeck::Spades;
 
-    static_cast<KStandardCardDeck*>( deck() )->setDeckContents( 2, suits );
+    deck()->setDeckContents( KStandardCardDeck::generateIdList( 2, suits ) );
 }
 
 

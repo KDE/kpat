@@ -48,7 +48,7 @@ void Golf::initialize()
     const qreal dist_x = 1.11;
     const qreal smallNeg = -1e-6;
 
-    static_cast<KStandardCardDeck*>( deck() )->setDeckContents();
+    deck()->setDeckContents( KStandardCardDeck::generateIdList() );
 
     talon = new PatPile( this, 0, "talon" );
     talon->setPileRole(PatPile::Stock);

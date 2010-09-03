@@ -47,7 +47,7 @@ void Idiot::initialize()
 {
     setSceneAlignment( AlignHCenter | AlignVCenter );
 
-    static_cast<KStandardCardDeck*>( deck() )->setDeckContents();
+    deck()->setDeckContents( KStandardCardDeck::generateIdList() );
 
     // Create the talon to the left.
     talon = new PatPile( this, 0, "talon" );

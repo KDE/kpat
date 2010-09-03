@@ -45,7 +45,7 @@
 
 void Simon::initialize()
 {
-    static_cast<KStandardCardDeck*>( deck() )->setDeckContents();
+    deck()->setDeckContents( KStandardCardDeck::generateIdList() );
 
     const qreal dist_x = 1.11;
 

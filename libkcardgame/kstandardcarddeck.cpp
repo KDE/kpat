@@ -65,25 +65,24 @@ KStandardCardDeck::~KStandardCardDeck()
 }
 
 
-void KStandardCardDeck::setDeckContents( int copies,
-                                         const QList<Suit> & suits,
-                                         const QList<Rank> & ranks )
+QList<quint32> KStandardCardDeck::generateIdList( int copies,
+                                                  const QList<Suit> & suits,
+                                                  const QList<Rank> & ranks )
 {
     Q_ASSERT( copies >= 1 );
-    Q_ASSERT( suits.size() >= 1 );
-    Q_ASSERT( ranks.size() >= 1 );
+    Q_ASSERT( !suits.isEmpty() );
+    Q_ASSERT( !ranks.isEmpty() );
 
-    // Note the order the cards are created in can't be changed as doing so
-    // will mess up the game numbering in KPat.
+    // Note that changing the order in which the cards are created should be
+    // avoided if at all possible. Doing so may effect the game logic of
+    // games relying on LibKCardGame.
     QList<quint32> ids;
     for ( int i = 0; i < copies; ++i )
         foreach ( const KStandardCardDeck::Rank & r, ranks )
             foreach ( const KStandardCardDeck::Suit & s, suits )
                 ids << getId( s, r );
 
-    Q_ASSERT( ids.size() == copies * ranks.size() * suits.size() );
-
-    KAbstractCardDeck::setDeckContents( ids );
+    return ids;
 }
 
 
