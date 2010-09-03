@@ -173,8 +173,6 @@ void Mod3::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration 
 
 void Mod3::restart( const QList<KCard*> & cards )
 {
-    clearHighlightedItems();
-
     foreach ( KCard * c, cards )
     {
         c->setPos( talon->pos() );

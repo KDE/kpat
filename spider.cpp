@@ -265,8 +265,6 @@ void Spider::setGameOptions(const QString& options)
 
 void Spider::restart( const QList<KCard*> & cards )
 {
-    clearHighlightedItems();
-
     // make the redeal piles visible
     for (int i = 0; i < 5; ++i )
         redeals[i]->setVisible( true );
