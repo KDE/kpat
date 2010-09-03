@@ -58,8 +58,8 @@ public:
     virtual ~KStandardCardDeck();
 
     void setDeckContents( int copies = 1,
-                          QList<Suit> suits = standardSuits(),
-                          QList<Rank> ranks = standardRanks() );
+                          const QList<Suit> & suits = standardSuits(),
+                          const QList<Rank> & ranks = standardRanks() );
 
 protected:
     virtual QString elementName( quint32 id, bool faceUp = true ) const;

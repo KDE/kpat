@@ -323,7 +323,7 @@ KAbstractCardDeck::~KAbstractCardDeck()
 }
 
 
-void KAbstractCardDeck::setDeckContents( QList<quint32> ids )
+void KAbstractCardDeck::setDeckContents( const QList<quint32> & ids )
 {
     foreach ( KCard * c, d->cards )
         delete c;

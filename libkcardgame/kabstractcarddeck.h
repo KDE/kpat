@@ -37,7 +37,7 @@ public:
     explicit KAbstractCardDeck( const KCardTheme & theme = KCardTheme(), QObject * parent = 0 );
     virtual ~KAbstractCardDeck();
 
-    void setDeckContents( QList<quint32> ids );
+    void setDeckContents( const QList<quint32> & ids );
     QList<KCard*> cards() const;
 
     void setCardWidth( int width );

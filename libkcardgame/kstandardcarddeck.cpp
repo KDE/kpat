@@ -65,7 +65,9 @@ KStandardCardDeck::~KStandardCardDeck()
 }
 
 
-void KStandardCardDeck::setDeckContents( int copies, QList<KStandardCardDeck::Suit> suits, QList<KStandardCardDeck::Rank> ranks)
+void KStandardCardDeck::setDeckContents( int copies,
+                                         const QList<Suit> & suits,
+                                         const QList<Rank> & ranks )
 {
     Q_ASSERT( copies >= 1 );
     Q_ASSERT( suits.size() >= 1 );
