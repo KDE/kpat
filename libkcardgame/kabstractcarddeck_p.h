@@ -75,7 +75,7 @@ public:
     QSvgRenderer * renderer();
     QPixmap renderCard( const QString & element );
     QSizeF unscaledCardSize();
-    QPixmap requestPixmap( QString elementId );
+    QPixmap requestPixmap( quint32 id, bool faceUp );
     void updateCardSize( const QSize & size );
     void deleteThread();
 
@@ -102,7 +102,8 @@ public:
     QMutex rendererMutex;
     RenderingThread * thread;
 
-    QHash<QString,CardElementData> elementIdMapping;
+    QHash<QString,CardElementData> frontIndex;
+    QHash<QString,CardElementData> backIndex;
 };
 
 #endif

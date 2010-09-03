@@ -209,12 +209,19 @@ QSizeF KAbstractCardDeckPrivate::unscaledCardSize()
 }
 
 
-QPixmap KAbstractCardDeckPrivate::requestPixmap( QString elementId )
+QPixmap KAbstractCardDeckPrivate::requestPixmap( quint32 id, bool faceUp )
 {
-    if ( !theme.isValid() )
+    if ( !theme.isValid() || !currentCardSize.isValid() )
         return QPixmap();
 
-    QPixmap & stored = elementIdMapping[ elementId ].cardPixmap;
+    QString elementId = q->elementName( id, faceUp );
+    QHash<QString,CardElementData> & index = faceUp ? frontIndex : backIndex;
+
+    QHash<QString,CardElementData>::iterator it = index.find( elementId );
+    if ( it == index.end() )
+        return QPixmap();
+
+    QPixmap & stored = it.value().cardPixmap;
     if ( stored.size() != currentCardSize )
     {
         if ( !cache->findPixmap( keyForPixmap( elementId , currentCardSize ), &stored ) )
@@ -240,12 +247,28 @@ void KAbstractCardDeckPrivate::deleteThread()
 
 void KAbstractCardDeckPrivate::submitRendering( const QString & elementId )
 {
-    CardElementData & usage = elementIdMapping[ elementId ];
-    cache->findPixmap( keyForPixmap( elementId, currentCardSize ), &(usage.cardPixmap) );
+    QPixmap pix;
+    if ( cache->findPixmap( keyForPixmap( elementId, currentCardSize ), &pix ) )
+    {
+        QHash<QString,CardElementData>::iterator it;
+        it = frontIndex.find( elementId );
+        if ( it != frontIndex.end() )
+        {
+            it.value().cardPixmap = pix;
+            foreach ( KCard * c, it.value().cardUsers )
+                if ( c->isFaceUp() )
+                    c->setPixmap( pix );
+        }
 
-    foreach ( KCard * c, usage.cardUsers )
-        if ( elementId == q->elementName( c->id(), c->isFaceUp() ) )
-            c->setPixmap( usage.cardPixmap );
+        it = backIndex.find( elementId );
+        if ( it != backIndex.end() )
+        {
+            it.value().cardPixmap = pix;
+            foreach ( KCard * c, it.value().cardUsers )
+                if ( !c->isFaceUp() )
+                    c->setPixmap( pix );
+        }
+    }
 }
 
 
@@ -296,8 +319,11 @@ void KAbstractCardDeck::setDeckContents( const QList<quint32> & ids )
     d->cards.clear();
     d->cardsWaitedFor.clear();
 
-    QHash<QString,CardElementData> oldMapping = d->elementIdMapping;
-    d->elementIdMapping.clear();
+    QHash<QString,CardElementData> oldFrontIndex = d->frontIndex;
+    d->frontIndex.clear();
+
+    QHash<QString,CardElementData> oldBackIndex = d->backIndex;
+    d->backIndex.clear();
 
     foreach ( quint32 id, ids )
     {
@@ -309,27 +335,35 @@ void KAbstractCardDeck::setDeckContents( const QList<quint32> & ids )
         connect( c, SIGNAL(animationStopped(KCard*)), d, SLOT(cardStoppedAnimation(KCard*)) );
 
         QString elementId = elementName( id, true );
-        d->elementIdMapping[ elementId ].cardUsers.append( c );
+        d->frontIndex[ elementId ].cardUsers.append( c );
 
         elementId = elementName( id, false );
-        d->elementIdMapping[ elementId ].cardUsers.append( c );
+        d->backIndex[ elementId ].cardUsers.append( c );
 
         d->cards << c;
     }
 
-    if ( d->currentCardSize.isValid() )
+    QHash<QString,CardElementData>::iterator it;
+    QHash<QString,CardElementData>::iterator end;
+    QHash<QString,CardElementData>::const_iterator it2;
+    QHash<QString,CardElementData>::const_iterator end2;
+
+    end = d->frontIndex.end();
+    end2 = oldFrontIndex.constEnd();
+    for ( it = d->frontIndex.begin(); it != end; ++it )
     {
-        QHash<QString,CardElementData>::iterator it = d->elementIdMapping.begin();
-        QHash<QString,CardElementData>::iterator end = d->elementIdMapping.end();
-        while ( it != end )
-        {
-            if ( oldMapping.contains( it.key() ) )
-                it.value().cardPixmap = oldMapping[ it.key() ].cardPixmap;
+        it2 = oldFrontIndex.constFind( it.key() );
+        if ( it2 != end2 )
+            it.value().cardPixmap = it2.value().cardPixmap;
+    }
 
-            it.value().cardPixmap = d->requestPixmap( it.key() );
-
-            ++it;
-        }
+    end = d->backIndex.end();
+    end2 = oldBackIndex.constEnd();
+    for ( it = d->backIndex.begin(); it != end; ++it )
+    {
+        it2 = oldBackIndex.constFind( it.key() );
+        if ( it2 != end2 )
+            it.value().cardPixmap = it2.value().cardPixmap;
     }
 }
 
@@ -388,16 +422,20 @@ void KAbstractCardDeck::setCardWidth( int width )
 
         // We have to compile the list of elements to load here, because we can't
         // check the contents of the KPixmapCache from outside the GUI thread.
-        QPixmap pix;
         QStringList unrenderedElements;
-        QHash<QString,CardElementData>::const_iterator it = d->elementIdMapping.constBegin();
-        QHash<QString,CardElementData>::const_iterator end = d->elementIdMapping.constEnd();
+        QHash<QString,CardElementData>::const_iterator it;
+        QHash<QString,CardElementData>::const_iterator end;
+        it = d->frontIndex.constBegin();
+        end = d->frontIndex.constEnd();
         for ( ; it != end; ++it )
-        {
-            QString key = keyForPixmap( it.key(), d->currentCardSize );
-            if ( !d->cache->findPixmap( key, &pix ) )
+            if ( !d->cache->contains( keyForPixmap( it.key(), d->currentCardSize ) ) )
                 unrenderedElements << it.key();
-        }
+
+        it = d->backIndex.constBegin();
+        end = d->backIndex.constEnd();
+        for ( ; it != end; ++it )
+            if ( !d->cache->contains( keyForPixmap( it.key(), d->currentCardSize ) ) )
+                unrenderedElements << it.key();
 
         d->thread = new RenderingThread( d, d->currentCardSize, unrenderedElements );
         d->thread->start();
@@ -498,7 +536,7 @@ bool KAbstractCardDeck::hasAnimatedCards() const
 
 QPixmap KAbstractCardDeck::cardPixmap( KCard * card )
 {
-    return d->requestPixmap( elementName( card->id(), card->isFaceUp() ) );
+    return d->requestPixmap( card->id(), card->isFaceUp() );
 }
 
 
