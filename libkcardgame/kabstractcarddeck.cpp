@@ -229,41 +229,6 @@ QPixmap KAbstractCardDeckPrivate::requestPixmap( QString elementId )
 }
 
 
-void KAbstractCardDeckPrivate::updateCardSize( const QSize & size )
-{
-    currentCardSize = size;
-
-    if ( !theme.isValid() )
-        return;
-
-    QByteArray buffer;
-    QDataStream stream( &buffer, QIODevice::WriteOnly );
-    stream << currentCardSize;
-    cache->insert( lastUsedSizeKey, buffer );
-
-    foreach ( KCard * c, cards )
-        c->update();
-
-    deleteThread();
-
-    // We have to compile the list of elements to load here, because we can't
-    // check the contents of the KPixmapCache from outside the GUI thread.
-    QPixmap pix;
-    QStringList unrenderedElements;
-    QHash<QString,CardElementData>::const_iterator it = elementIdMapping.constBegin();
-    QHash<QString,CardElementData>::const_iterator end = elementIdMapping.constEnd();
-    for ( ; it != end; ++it )
-    {
-        QString key = keyForPixmap( it.key(), currentCardSize );
-        if ( !cache->findPixmap( key, &pix ) )
-            unrenderedElements << it.key();
-    }
-
-    thread = new RenderingThread( this, currentCardSize, unrenderedElements );
-    thread->start();
-}
-
-
 void KAbstractCardDeckPrivate::deleteThread()
 {
     if ( thread && thread->isRunning() )
@@ -279,7 +244,8 @@ void KAbstractCardDeckPrivate::submitRendering( const QString & elementId )
     cache->findPixmap( keyForPixmap( elementId, currentCardSize ), &(usage.cardPixmap) );
 
     foreach ( KCard * c, usage.cardUsers )
-        c->update();
+        if ( elementId == q->elementName( c->id(), c->isFaceUp() ) )
+            c->setPixmap( usage.cardPixmap );
 }
 
 
@@ -405,10 +371,36 @@ void KAbstractCardDeck::setCardWidth( int width )
 
     if ( newSize != d->currentCardSize )
     {
-        foreach ( KCard * c, d->cards )
-            c->prepareGeometryChange();
+        d->currentCardSize = newSize;
 
-        d->updateCardSize( newSize );
+        if ( !d->theme.isValid() )
+            return;
+
+        QByteArray buffer;
+        QDataStream stream( &buffer, QIODevice::WriteOnly );
+        stream << d->currentCardSize;
+        d->cache->insert( lastUsedSizeKey, buffer );
+
+        foreach ( KCard * c, d->cards )
+            c->setPixmap( cardPixmap( c ) );
+
+        d->deleteThread();
+
+        // We have to compile the list of elements to load here, because we can't
+        // check the contents of the KPixmapCache from outside the GUI thread.
+        QPixmap pix;
+        QStringList unrenderedElements;
+        QHash<QString,CardElementData>::const_iterator it = d->elementIdMapping.constBegin();
+        QHash<QString,CardElementData>::const_iterator end = d->elementIdMapping.constEnd();
+        for ( ; it != end; ++it )
+        {
+            QString key = keyForPixmap( it.key(), d->currentCardSize );
+            if ( !d->cache->findPixmap( key, &pix ) )
+                unrenderedElements << it.key();
+        }
+
+        d->thread = new RenderingThread( d, d->currentCardSize, unrenderedElements );
+        d->thread->start();
     }
 }
 
@@ -504,18 +496,9 @@ bool KAbstractCardDeck::hasAnimatedCards() const
 }
 
 
-void KAbstractCardDeck::paintCard( QPainter * painter, quint32 id, bool faceUp, qreal highlightedness )
+QPixmap KAbstractCardDeck::cardPixmap( KCard * card )
 {
-    QPixmap pix = d->requestPixmap( elementName( id, faceUp ) );
-
-    if ( highlightedness > 0 )
-    {
-        QPainter p( &pix );
-        p.setCompositionMode( QPainter::CompositionMode_SourceAtop );
-        p.fillRect( 0, 0, pix.width(), pix.height(), QColor::fromRgbF( 0, 0, 0, 0.5 * highlightedness ) );
-    }
-
-    painter->drawPixmap( 0, 0, pix );
+    return d->requestPixmap( elementName( card->id(), card->isFaceUp() ) );
 }
 
 

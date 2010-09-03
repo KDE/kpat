@@ -90,6 +90,12 @@ void KCardPrivate::setFlippedness( qreal flippedness )
     if ( flippedness == flipValue )
         return;
 
+    if ( (flipValue < 0.5 && flippedness >= 0.5)
+         || (flipValue >= 0.5 && flippedness < 0.5) )
+    {
+        q->setPixmap( deck->cardPixmap( q ) );
+    }
+
     flipValue = flippedness;
 
     qreal xOffset = deck->cardWidth() * ( 0.5 - qAbs( flippedness - 0.5 ) );
@@ -119,7 +125,8 @@ qreal KCardPrivate::highlightedness() const
 
 
 KCard::KCard( quint32 id, KAbstractCardDeck * deck )
-  : QGraphicsObject(),
+  : QObject(),
+    QGraphicsPixmapItem(),
     d( new KCardPrivate( this ) )
 {
     d->id = id;
@@ -154,12 +161,6 @@ KCard::~KCard()
 int KCard::type() const
 {
     return KCard::Type;
-}
-
-
-QRectF KCard::boundingRect() const
-{
-    return QRectF( QPointF( 0, 0 ), d->deck->cardSize() );
 }
 
 
@@ -205,8 +206,7 @@ void KCard::setFaceUp( bool faceUp )
     if ( d->faceUp != faceUp || d->flipValue != flippedness )
     {
         d->faceUp = faceUp;
-        d->flipValue = flippedness;
-        update();
+        d->setFlippedness( flippedness );
     }
 }
 
@@ -319,7 +319,16 @@ void KCard::paint( QPainter * painter, const QStyleOptionGraphicsItem * option, 
     // don't really need it otherwise and it slows down our flip animations.
     painter->setRenderHint( QPainter::SmoothPixmapTransform, int(rotation()) % 90 );
 
-    d->deck->paintCard( painter, d->id, d->flipValue > 0.5, d->highlightValue );
+    QPixmap pix = pixmap();
+
+    if ( d->highlightValue > 0 )
+    {
+        QPainter p( &pix );
+        p.setCompositionMode( QPainter::CompositionMode_SourceAtop );
+        p.fillRect( 0, 0, pix.width(), pix.height(), QColor::fromRgbF( 0, 0, 0, 0.5 * d->highlightValue ) );
+    }
+
+    painter->drawPixmap( 0, 0, pix );
 }
 
 

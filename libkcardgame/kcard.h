@@ -23,9 +23,11 @@ class KAbstractCardDeck;
 class KCardPile;
 #include "libkcardgame_export.h"
 
-#include <QtGui/QGraphicsObject>
+#include <QtCore/QObject>
+#include <QtGui/QGraphicsPixmapItem>
 
-class LIBKCARDGAME_EXPORT KCard : public QGraphicsObject
+
+class LIBKCARDGAME_EXPORT KCard : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 
@@ -37,7 +39,6 @@ public:
     enum { Type = QGraphicsItem::UserType + 1 };
     virtual int type() const;
 
-    virtual QRectF boundingRect() const;
     virtual void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
 
     quint32 id() const;

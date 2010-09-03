@@ -55,14 +55,13 @@ public:
 
     bool hasAnimatedCards() const;
 
+    QPixmap cardPixmap( KCard * card );
+
 Q_SIGNALS:
     void cardAnimationDone();
 
 protected:
     virtual QString elementName( quint32 id, bool faceUp = true ) const = 0;
-
-private:
-    virtual void paintCard( QPainter * painter, quint32 id, bool faceUp, qreal highlightedness );
 
 private:
     class KAbstractCardDeckPrivate * const d;
