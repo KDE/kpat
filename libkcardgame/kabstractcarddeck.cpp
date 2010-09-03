@@ -84,20 +84,23 @@ void RenderingThread::run()
         }
 
         QString key = keyForPixmap( element, m_size );
-        kDebug() << "Renderering" << key << "in rendering thread.";
-
-        QImage img = QImage( m_size, QImage::Format_ARGB32 );
-        img.fill( Qt::transparent );
-        QPainter p( &img );
+        if ( !d->cache->contains( key ) )
         {
-            QMutexLocker l( &(d->rendererMutex) );
-            d->renderer()->render( &p, element );
+            kDebug() << "Renderering" << key << "in rendering thread.";
+
+            QImage img = QImage( m_size, QImage::Format_ARGB32 );
+            img.fill( Qt::transparent );
+            QPainter p( &img );
+            {
+                QMutexLocker l( &(d->rendererMutex) );
+                d->renderer()->render( &p, element );
+            }
+            p.end();
+
+            d->cache->insertImage( key, img );
+
+            emit renderingDone( element );
         }
-        p.end();
-
-        d->cache->insertImage( key, img );
-
-        emit renderingDone( element );
     }
 }
 
@@ -420,24 +423,8 @@ void KAbstractCardDeck::setCardWidth( int width )
 
         d->deleteThread();
 
-        // We have to compile the list of elements to load here, because we can't
-        // check the contents of the KPixmapCache from outside the GUI thread.
-        QStringList unrenderedElements;
-        QHash<QString,CardElementData>::const_iterator it;
-        QHash<QString,CardElementData>::const_iterator end;
-        it = d->frontIndex.constBegin();
-        end = d->frontIndex.constEnd();
-        for ( ; it != end; ++it )
-            if ( !d->cache->contains( keyForPixmap( it.key(), d->currentCardSize ) ) )
-                unrenderedElements << it.key();
-
-        it = d->backIndex.constBegin();
-        end = d->backIndex.constEnd();
-        for ( ; it != end; ++it )
-            if ( !d->cache->contains( keyForPixmap( it.key(), d->currentCardSize ) ) )
-                unrenderedElements << it.key();
-
-        d->thread = new RenderingThread( d, d->currentCardSize, unrenderedElements );
+        QStringList elementsToRender = d->frontIndex.keys() + d->backIndex.keys();
+        d->thread = new RenderingThread( d, d->currentCardSize, elementsToRender );
         d->thread->start();
     }
 }
