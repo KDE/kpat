@@ -472,6 +472,7 @@ void KAbstractCardDeck::setTheme( const KCardTheme & theme )
         QString cacheName = QString( cacheNameTemplate ).arg( theme.dirName() );
         d->cache = new KImageCache( cacheName, 3 * 1024 * 1024 );
         d->cache->setPixmapCaching( true );
+        d->cache->setEvictionPolicy( KSharedDataCache::EvictLeastRecentlyUsed );
 
         bool keepCache = false;
         QByteArray buffer;
