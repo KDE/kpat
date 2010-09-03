@@ -77,7 +77,7 @@ void KStandardCardDeck::setDeckContents( int copies, QList<KStandardCardDeck::Su
     for ( int i = 0; i < copies; ++i )
         foreach ( const KStandardCardDeck::Rank & r, ranks )
             foreach ( const KStandardCardDeck::Suit & s, suits )
-                ids << ( s << 4 ) + r;
+                ids << getId( s, r );
 
     Q_ASSERT( ids.size() == copies * ranks.size() * suits.size() );
 
@@ -149,5 +149,11 @@ bool getIsRed( const KCard * card )
 {
     KStandardCardDeck::Suit s = getSuit( card );
     return s == KStandardCardDeck::Hearts || s == KStandardCardDeck::Diamonds;
+}
+
+
+quint32 getId( KStandardCardDeck::Suit suit, KStandardCardDeck::Rank rank )
+{
+    return ( suit << 4 ) | ( rank & 0xf );
 }
 

@@ -71,5 +71,6 @@ private:
 LIBKCARDGAME_EXPORT KStandardCardDeck::Suit getSuit( const KCard * card );
 LIBKCARDGAME_EXPORT KStandardCardDeck::Rank getRank( const KCard * card );
 LIBKCARDGAME_EXPORT bool getIsRed( const KCard * card );
+LIBKCARDGAME_EXPORT quint32 getId( KStandardCardDeck::Suit suit, KStandardCardDeck::Rank rank );
 
 #endif
