@@ -640,17 +640,14 @@ void DealerScene::startNew(int gameNumber)
         d->solverThread->abort();
 
     resetInternals();
-    d->loadedMoveCount = 0;
-    d->gameWasJustSaved = false;
 
     emit updateMoves( 0 );
 
-    d->dealInProgress = true;
     foreach( KCardPile * p, piles() )
         p->clear();
 
+    d->dealInProgress = true;
     restart( shuffled( deck()->cards(), gameNumber ) );
-
     d->dealInProgress = false;
 
     takeState();
@@ -673,9 +670,11 @@ void DealerScene::resetInternals()
     qDeleteAll( d->redoStack );
     d->redoStack.clear();
 
+    d->gameWasJustSaved = false;
     d->gameWasEverWinnable = false;
     d->toldAboutLostGame = false;
     d->toldAboutWonGame = false;
+    d->loadedMoveCount = 0;
 
     d->playerReceivedHelp = false;
 
