@@ -81,6 +81,9 @@ public:
     KAbstractCardDeck * deck;
     KCardPile * pile;
 
+    QPixmap frontPixmap;
+    QPixmap backPixmap;
+
     KCardAnimation * animation;
     QPropertyAnimation * fadeAnimation;
 };

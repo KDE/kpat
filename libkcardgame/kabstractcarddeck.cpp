@@ -259,8 +259,7 @@ void KAbstractCardDeckPrivate::submitRendering( const QString & elementId )
         {
             it.value().cardPixmap = pix;
             foreach ( KCard * c, it.value().cardUsers )
-                if ( c->isFaceUp() )
-                    c->setPixmap( pix );
+                c->setFrontPixmap( pix );
         }
 
         it = backIndex.find( elementId );
@@ -268,8 +267,7 @@ void KAbstractCardDeckPrivate::submitRendering( const QString & elementId )
         {
             it.value().cardPixmap = pix;
             foreach ( KCard * c, it.value().cardUsers )
-                if ( !c->isFaceUp() )
-                    c->setPixmap( pix );
+                c->setBackPixmap( pix );
         }
     }
 }
@@ -419,7 +417,10 @@ void KAbstractCardDeck::setCardWidth( int width )
         d->cache->insert( lastUsedSizeKey, buffer );
 
         foreach ( KCard * c, d->cards )
-            c->setPixmap( cardPixmap( c ) );
+        {
+            c->setFrontPixmap( d->requestPixmap( c->id(), true ) );
+            c->setBackPixmap( d->requestPixmap( c->id(), false ) );
+        }
 
         d->deleteThread();
 
@@ -519,12 +520,6 @@ KCardTheme KAbstractCardDeck::theme() const
 bool KAbstractCardDeck::hasAnimatedCards() const
 {
     return !d->cardsWaitedFor.isEmpty();
-}
-
-
-QPixmap KAbstractCardDeck::cardPixmap( KCard * card )
-{
-    return d->requestPixmap( card->id(), card->isFaceUp() );
 }
 
 

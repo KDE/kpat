@@ -90,11 +90,10 @@ void KCardPrivate::setFlippedness( qreal flippedness )
     if ( flippedness == flipValue )
         return;
 
-    if ( (flipValue < 0.5 && flippedness >= 0.5)
-         || (flipValue >= 0.5 && flippedness < 0.5) )
-    {
-        q->setPixmap( deck->cardPixmap( q ) );
-    }
+    if ( flipValue < 0.5 && flippedness >= 0.5 )
+        q->setPixmap( frontPixmap );
+    else if ( flipValue >= 0.5 && flippedness < 0.5 )
+        q->setPixmap( backPixmap );
 
     flipValue = flippedness;
 
@@ -330,6 +329,29 @@ void KCard::paint( QPainter * painter, const QStyleOptionGraphicsItem * option, 
 
     painter->drawPixmap( 0, 0, pix );
 }
+
+
+void KCard::setFrontPixmap( const QPixmap & pix )
+{
+    d->frontPixmap = pix;
+    if ( d->flipValue >= 0.5 )
+        setPixmap( d->frontPixmap );
+}
+
+
+void KCard::setBackPixmap( const QPixmap & pix )
+{
+    d->backPixmap = pix;
+    if ( d->flipValue < 0.5 )
+        setPixmap( d->backPixmap );
+}
+
+
+void KCard::setPixmap( const QPixmap & pix )
+{
+    QGraphicsPixmapItem::setPixmap( pix );
+}
+
 
 
 #include "kcard_p.moc"

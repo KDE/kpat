@@ -55,8 +55,6 @@ public:
 
     bool hasAnimatedCards() const;
 
-    QPixmap cardPixmap( KCard * card );
-
 Q_SIGNALS:
     void cardAnimationDone();
 

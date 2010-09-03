@@ -60,6 +60,9 @@ public:
     void setHighlighted( bool highlighted );
     bool isHighlighted() const;
 
+    void setFrontPixmap( const QPixmap & pix );
+    void setBackPixmap( const QPixmap & pix );
+
 Q_SIGNALS:
     void animationStarted( KCard * card );
     void animationStopped( KCard * card );
@@ -69,6 +72,8 @@ public Q_SLOTS:
     void stopAnimation();
 
 private:
+    void setPixmap( const QPixmap & pix );
+
     class KCardPrivate * const d;
 
     friend class KCardPrivate;
