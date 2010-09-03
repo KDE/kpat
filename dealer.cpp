@@ -1605,6 +1605,25 @@ int DealerScene::neededFutureMoves() const { return d->neededFutureMoves; }
 void DealerScene::setNeededFutureMoves( int i ) { d->neededFutureMoves = i; }
 
 
+void DealerScene::setDeckContents( int copies, const QList<KStandardCardDeck::Suit> & suits )
+{
+    Q_ASSERT( copies >= 1 );
+    Q_ASSERT( !suits.isEmpty() );
+
+    // Note that the order in which the cards are created can not be changed
+    // without breaking the game numbering. For historical reasons, KPat
+    // generates card by rank and then by suit, rather than the more common
+    // suit then rank ordering.
+    QList<quint32> ids;
+    for ( int i = 0; i < copies; ++i )
+        foreach ( const KStandardCardDeck::Rank & r, KStandardCardDeck::standardRanks() )
+            foreach ( const KStandardCardDeck::Suit & s, suits )
+                ids << getId( s, r );
+
+    deck()->setDeckContents( ids );
+}
+
+
 QString DealerScene::save_it()
 {
     // If the game has been won, there's no current state to save.

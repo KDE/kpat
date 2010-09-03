@@ -78,8 +78,8 @@ QList<quint32> KStandardCardDeck::generateIdList( int copies,
     // games relying on LibKCardGame.
     QList<quint32> ids;
     for ( int i = 0; i < copies; ++i )
-        foreach ( const KStandardCardDeck::Rank & r, ranks )
-            foreach ( const KStandardCardDeck::Suit & s, suits )
+        foreach ( const KStandardCardDeck::Suit & s, suits )
+            foreach ( const KStandardCardDeck::Rank & r, ranks )
                 ids << getId( s, r );
 
     return ids;

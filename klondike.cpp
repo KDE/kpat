@@ -85,7 +85,7 @@ void Klondike::initialize()
     const qreal hspacing = 1.0 / 6 + 0.02; // horizontal spacing between card piles
     const qreal vspacing = 1.0 / 4; // vertical spacing between card piles
 
-    deck()->setDeckContents( KStandardCardDeck::generateIdList() );
+    setDeckContents();
 
     EasyRules = Settings::klondikeIsDrawOne();
 

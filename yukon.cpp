@@ -48,7 +48,7 @@ void Yukon::initialize()
     const qreal dist_x = 1.11;
     const qreal dist_y = 1.11;
 
-    deck()->setDeckContents( KStandardCardDeck::generateIdList() );
+    setDeckContents();
 
     for ( int i = 0; i < 4; ++i )
     {

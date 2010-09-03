@@ -53,7 +53,7 @@ void Freecell::initialize()
 {
     startMovingQueued = false;
 
-    deck()->setDeckContents( KStandardCardDeck::generateIdList() );
+    setDeckContents();
 
     const qreal topRowDist = 1.08;
     const qreal bottomRowDist = 1.13;

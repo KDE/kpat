@@ -180,6 +180,9 @@ protected:
     void setNeededFutureMoves( int moves );
     int neededFutureMoves() const;
 
+    void setDeckContents( int copies = 1,
+                          const QList<KStandardCardDeck::Suit> & suits = KStandardCardDeck::standardSuits() );
+
 protected slots:
     void takeState();
     virtual void animationDone();
