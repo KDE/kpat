@@ -28,16 +28,14 @@ class LIBKCARDGAME_EXPORT KStandardCardDeck : public KAbstractCardDeck
 public:
     enum Suit
     {
-        NoSuit = -1,
         Clubs = 0,
-        Diamonds = 1,
-        Hearts = 2,
-        Spades = 3
+        Diamonds,
+        Hearts,
+        Spades
     };
 
     enum Rank
     {
-        NoRank = 0,
         Ace = 1,
         Two,
         Three,
