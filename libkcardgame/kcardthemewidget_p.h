@@ -73,7 +73,7 @@ public:
 
 private Q_SLOTS:
     void deleteThread();
-    void submitPreview( const KCardTheme & theme, const QImage & img );
+    void submitPreview( const KCardTheme & theme, const QImage & image );
 
 private:
     const KCardThemeWidgetPrivate * const d;

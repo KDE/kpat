@@ -19,17 +19,20 @@
 #include "kcardthemewidget.h"
 #include "kcardthemewidget_p.h"
 
+#include "common.h"
+
 #include <KConfigDialog>
 #include <KDebug>
 #include <KLineEdit>
 #include <KLocale>
 #include <KGlobal>
-#include <KPixmapCache>
+#include <KImageCache>
 #include <KPushButton>
 #include <KStandardDirs>
 #include <knewstuff3/downloaddialog.h>
 
 #include <QtCore/QMutexLocker>
+#include <QtCore/QScopedPointer>
 #include <QtGui/QApplication>
 #include <QtGui/QFontMetrics>
 #include <QtGui/QListView>
@@ -37,6 +40,12 @@
 #include <QtGui/QPixmap>
 #include <QtGui/QVBoxLayout>
 #include <QtSvg/QSvgRenderer>
+
+
+namespace
+{
+    const QString previewKeyTemplate( "preview_%1" );
+}
 
 
 PreviewThread::PreviewThread( const KCardThemeWidgetPrivate * d, const QList<KCardTheme> & themes )
@@ -140,15 +149,10 @@ void CardThemeModel::reload()
         if ( !theme.isValid() )
             continue;
 
-        KPixmapCache cache( QString( "kdegames-cards_%1" ).arg( theme.dirName() ) );
-        if ( cache.timestamp() < theme.lastModified().toTime_t() )
-        {
-            cache.discard();
-            cache.setTimestamp( theme.lastModified().toTime_t() );
-        }
-
+        QScopedPointer<KImageCache> cache( createCache( theme ) );
         QPixmap * pix = new QPixmap();
-        if ( cache.find( "preview_" + d->previewString, *pix ) )
+        QString key = previewKeyTemplate.arg( d->previewString );
+        if ( cache->findPixmap( key, pix ) )
         {
             m_previews.insert( theme.displayName(), pix );
         }
@@ -158,6 +162,7 @@ void CardThemeModel::reload()
             m_previews.insert( theme.displayName(), 0 );
             previewsNeeded << theme;
         }
+
         m_themes.insert( theme.displayName(), theme );
     }
 
@@ -185,13 +190,14 @@ void CardThemeModel::deleteThread()
 }
 
 
-void CardThemeModel::submitPreview( const KCardTheme & theme, const QImage & img )
+void CardThemeModel::submitPreview( const KCardTheme & theme, const QImage & image )
 {
-    KPixmapCache cache( QString( "kdegames-cards_%1" ).arg( theme.dirName() ) );
+    QScopedPointer<KImageCache> cache( createCache( theme ) );
 
-    QPixmap * pix = new QPixmap( QPixmap::fromImage( img ) );
+    QPixmap * pix = new QPixmap( QPixmap::fromImage( image ) );
 
-    cache.insert( "preview_" + d->previewString, *pix );
+    QString key = previewKeyTemplate.arg( d->previewString );
+    cache->insertPixmap( key, *pix );
 
     delete m_previews.value( theme.displayName(), 0 );
     m_previews.insert( theme.displayName(), pix );
@@ -201,7 +207,7 @@ void CardThemeModel::submitPreview( const KCardTheme & theme, const QImage & img
 }
 
 
-int CardThemeModel::rowCount(const QModelIndex & parent ) const
+int CardThemeModel::rowCount( const QModelIndex & parent ) const
 {
     Q_UNUSED( parent )
     return m_themes.size();
