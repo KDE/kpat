@@ -39,37 +39,25 @@
 
 #include "libkcardgame_export.h"
 
-#include <KRandom>
+#include <KRandomSequence>
 
 #include <QtCore/QList>
 
 
 template <class T>
-QList<T> shuffled( const QList<T> & list, int seed = -1 )
+QList<T> shuffled( const QList<T> & list, unsigned long seed = 0 )
 {
-    Q_ASSERT( seed >= -1 );
-
-    if ( seed == -1 )
-        seed = KRandom::random();
+    KRandomSequence randSeq( seed );
 
     QList<T> result = list;
-    for ( int i = result.size(); i > 0; --i )
+    for ( int i = result.size(); i > 1; --i )
     {
-        // We use the same pseudorandom number generation algorithm as Windows
-        // Freecell, so that game numbers are the same between the two applications.
-        // For more inforation, see 
-        // http://support.microsoft.com/default.aspx?scid=kb;EN-US;Q28150
-        seed = 214013 * seed + 2531011;
-        int rand = ( seed >> 16 ) & 0x7fff;
-
-        int z = rand % i;
-
-        T temp = result[z];
-        result[z] = result[i - 1];
-        result[i - 1] = temp;
+        int j = int( randSeq.getLong( (unsigned long)i ) );
+        result.swap( i - 1, j );
     }
 
     return result;
 }
+
 
 #endif
