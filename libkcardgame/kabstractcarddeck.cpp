@@ -21,6 +21,7 @@
 
 #include "kabstractcarddeck_p.h"
 
+#include "common.h"
 #include "kcardtheme.h"
 #include "kcardpile.h"
 #include "shuffle.h"
@@ -33,10 +34,9 @@
 #include <QtGui/QPainter>
 #include <QtSvg/QSvgRenderer>
 
+
 namespace
 {
-    const QString cacheNameTemplate( "libkcardgame-themes/%1" );
-    const QString timeStampKey( "libkcardgame_timestamp" );
     const QString unscaledSizeKey( "libkcardgame_unscaledsize" );
     const QString lastUsedSizeKey( "libkcardgame_lastusedsize" );
 
@@ -188,24 +188,13 @@ QSizeF KAbstractCardDeckPrivate::unscaledCardSize()
     if ( !theme.isValid() )
         return size;
 
-
-    QByteArray buffer;
-    if ( cache->find( unscaledSizeKey, &buffer ) )
-    {
-        QDataStream stream( &buffer, QIODevice::ReadOnly );
-        stream >> size;
-    }
-    else
+    if ( !cacheFind( cache, unscaledSizeKey, &size ) )
     {
         {
             QMutexLocker l( &rendererMutex );
             size = renderer()->boundsOnElement( "back" ).size();
         }
-
-        buffer.clear();
-        QDataStream stream( &buffer, QIODevice::WriteOnly );
-        stream << size;
-        cache->insert( unscaledSizeKey, buffer );
+        cacheInsert( cache, unscaledSizeKey, size );
     }
 
     return size;
@@ -411,10 +400,7 @@ void KAbstractCardDeck::setCardWidth( int width )
         if ( !d->theme.isValid() )
             return;
 
-        QByteArray buffer;
-        QDataStream stream( &buffer, QIODevice::WriteOnly );
-        stream << d->currentCardSize;
-        d->cache->insert( lastUsedSizeKey, buffer );
+        cacheInsert( d->cache, lastUsedSizeKey, d->currentCardSize );
 
         foreach ( KCard * c, d->cards )
         {
@@ -470,39 +456,12 @@ void KAbstractCardDeck::setTheme( const KCardTheme & theme )
         }
 
         delete d->cache;
-        QString cacheName = QString( cacheNameTemplate ).arg( theme.dirName() );
-        d->cache = new KImageCache( cacheName, 3 * 1024 * 1024 );
-        d->cache->setPixmapCaching( true );
-        d->cache->setEvictionPolicy( KSharedDataCache::EvictLeastRecentlyUsed );
-
-        bool keepCache = false;
-        QByteArray buffer;
-        if ( d->cache->find( timeStampKey, &buffer ) )
-        {
-            QDataStream stream( &buffer, QIODevice::ReadOnly );
-            QDateTime cacheTimeStamp;
-            stream >> cacheTimeStamp;
-            keepCache = cacheTimeStamp >= theme.lastModified();
-        }
-
-        if ( !keepCache )
-        {
-            d->cache->clear();
-            buffer.clear();
-            QDataStream stream( &buffer, QIODevice::WriteOnly );
-            stream << theme.lastModified();
-            d->cache->insert( timeStampKey, buffer );
-        }
+        d->cache = createCache( d->theme );
 
         d->originalCardSize = d->unscaledCardSize();
         Q_ASSERT( !d->originalCardSize.isNull() );
 
-        if ( d->cache->find( lastUsedSizeKey, &buffer ) )
-        {
-            QDataStream stream( &buffer, QIODevice::ReadOnly );
-            stream >> d->currentCardSize;
-        }
-        else
+        if ( !cacheFind( d->cache, lastUsedSizeKey, &(d->currentCardSize) ) )
         {
             qreal ratio = d->originalCardSize.height() / d->originalCardSize.width();
             d->currentCardSize = QSize( 10, 10 * ratio );
