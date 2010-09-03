@@ -373,8 +373,8 @@ void YukonSolver::translate_layout()
         for (int i = 0; i < 4; ++i) {
             KCard *c = deal->target[i]->top();
             if (c) {
-                O[translateSuit( getSuit( c ) ) >> 4] = getRank( c );
-                total += getRank( c );
+                O[translateSuit( c->suit() ) >> 4] = c->rank();
+                total += c->rank();
             }
         }
     }
@@ -404,7 +404,7 @@ MoveHint YukonSolver::translateMove( const MOVE &m )
         for (int i = 0; i < 4; ++i) {
             KCard *c = deal->target[i]->top();
             if (c) {
-                if ( getSuit( c ) == getSuit( card ) )
+                if ( c->suit() == card->suit() )
                 {
                     target = deal->target[i];
                     break;

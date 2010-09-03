@@ -211,7 +211,7 @@ bool Spider::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, cons
     // on any suit card of one higher rank
     return pile->pileRole() == PatPile::Tableau
            && ( oldCards.isEmpty()
-                || getRank( oldCards.last() ) == getRank( newCards.first() ) + 1 );
+                || oldCards.last()->rank() == newCards.first()->rank() + 1 );
 }
 
 
@@ -308,19 +308,21 @@ QList<KCard*> Spider::getRun(KCard *c) const
 {
     QList<KCard*> result;
 
-    PatPile *p = dynamic_cast<PatPile*>( c->pile() );
+    KCardPile * p = c->pile();
     if (!p || p->isEmpty())
         return result;
 
     result.append(c);
 
-    KStandardCardDeck::Suit s = getSuit( c );
-    int v = getRank( c );
+    int suit = c->suit();
+    int rank = c->rank();
 
     int index = p->indexOf(c);
     c = p->at(--index);
-    while (index >= 0 && c->isFaceUp()
-           && getSuit( c ) == s && getRank( c ) == ++v)
+    while ( index >= 0
+            && c->isFaceUp()
+            && c->suit() == suit
+            && c->rank() == ++rank )
     {
         result.prepend(c);
         c = p->at(--index);
@@ -342,8 +344,8 @@ void Spider::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duratio
     // then it could have a full deck that needs removed.
     if ( p
          && p->pileRole() != PatPile::Foundation
-         && getRank( cards.last() ) == KStandardCardDeck::Ace
-         && getSuit( cards.first() ) == getSuit( p->top() )
+         && cards.last()->rank() == KStandardCardDeck::Ace
+         && cards.first()->suit() == p->top()->suit()
          && p->count() > 12 )
     {
         checkPileDeck( p );
@@ -359,10 +361,12 @@ bool Spider::checkPileDeck( KCardPile * pile, bool checkForDemo )
     if (pile->isEmpty())
         return false;
 
-    if ( getRank( pile->top() ) == KStandardCardDeck::Ace) {
+    if ( pile->top()->rank() == KStandardCardDeck::Ace )
+    {
         // just using the CardList to see if this goes to King
         QList<KCard*> run = getRun(pile->top());
-        if ( getRank( run.first() ) == KStandardCardDeck::King) {
+        if ( run.first()->rank() == KStandardCardDeck::King )
+        {
             PatPile *leg = legs[m_leg];
             leg->setVisible(true);
             relayoutPiles( DURATION_RELAYOUT );

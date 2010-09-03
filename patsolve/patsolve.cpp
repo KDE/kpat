@@ -1011,7 +1011,7 @@ int Solver::translate_pile(const KCardPile *pile, card_t *w, int size)
         for ( int i = 0; i < pile->count(); ++i )
         {
             KCard *c = pile->at( i );
-            *w =  + translateSuit( getSuit(c) ) + getRank(c);
+            *w =  + translateSuit( c->suit() ) + c->rank();
             if ( !c->isFaceUp() )
                 *w += 1 << 7;
             w++;

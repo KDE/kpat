@@ -94,7 +94,7 @@ void Clock::restart( const QList<KCard*> & cards )
         KCard * c = cardList.takeLast();
         for ( int i = 0; i < 12; ++i )
         {
-            if ( getRank( c ) == ranks[i] && getSuit( c ) == suits[i] )
+            if ( c->rank() == ranks[i] && c->suit() == suits[i] )
             {
                 QPointF initPos = (2 * center + target[(i + 2) % 12]->pos()) / 3;
                 addCardForDeal( target[i], c, true, initPos );
@@ -124,14 +124,14 @@ bool Clock::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const
     if ( pile->pileRole() == PatPile::Tableau )
     {
         return oldCards.isEmpty()
-               || getRank( newCards.first() ) == getRank( oldCards.last() ) - 1;
+               || newCards.first()->rank() == oldCards.last()->rank() - 1;
     }
     else
     {
-        return getSuit( oldCards.last() ) == getSuit( newCards.first() )
-               && ( getRank( newCards.first() ) == getRank( oldCards.last() ) + 1
-                    || ( getRank( oldCards.last() ) == KStandardCardDeck::King
-                         && getRank( newCards.first() ) == KStandardCardDeck::Ace ) );
+        return oldCards.last()->suit() == newCards.first()->suit()
+               && ( newCards.first()->rank() == oldCards.last()->rank() + 1
+                    || ( oldCards.last()->rank() == KStandardCardDeck::King
+                         && newCards.first()->rank() == KStandardCardDeck::Ace ) );
     }
 }
 

@@ -18,6 +18,7 @@
 
 #include "pileutils.h"
 
+#include "KCard"
 #include "KStandardCardDeck"
 
 #include <KDebug>
@@ -28,14 +29,14 @@ bool isSameSuitAscending( const QList<KCard*> & cards )
     if ( cards.size() <= 1 )
         return true;
 
-    int suit = getSuit( cards.first() );
-    int rank = getRank( cards.first() );
+    int suit = cards.first()->suit();
+    int lastRank = cards.first()->rank();
 
     foreach ( const KCard * c, cards )
     {
-        if ( getSuit( c ) != suit || getRank( c ) != rank )
+        if ( c->suit() != suit || c->rank() != lastRank )
             return false;
-        ++rank;
+        ++lastRank;
     }
     return true;
 }
@@ -46,14 +47,14 @@ bool isSameSuitDescending( const QList<KCard*> & cards )
     if ( cards.size() <= 1 )
         return true;
 
-    int suit = getSuit( cards.first() );
-    int rank = getRank( cards.first() );
+    int suit = cards.first()->suit();
+    int lastRank = cards.first()->rank();
 
     foreach ( const KCard * c, cards )
     {
-        if ( getSuit( c ) != suit || getRank( c ) != rank )
+        if ( c->suit() != suit || c->rank() != lastRank )
             return false;
-        --rank;
+        --lastRank;
     }
     return true;
 }
@@ -64,15 +65,15 @@ bool isAlternateColorDescending( const QList<KCard*> & cards )
     if ( cards.size() <= 1 )
         return true;
 
-    bool isRed = !getIsRed( cards.first() );
-    int rank = getRank( cards.first() );
+    int lastColor = cards.first()->color();
+    int lastRank = cards.first()->rank();
 
     foreach ( const KCard * c, cards )
     {
-        if ( getIsRed( c ) == isRed || getRank( c ) != rank )
+        if ( c->color() == lastColor || c->rank() != lastRank )
             return false;
-        isRed = !isRed;
-        --rank;
+        lastColor = c->color();
+        --lastRank;
     }
     return true;
 }
@@ -84,10 +85,10 @@ bool checkAddSameSuitAscendingFromAce( const QList<KCard*> & oldCards, const QLi
         return false;
 
     if ( oldCards.isEmpty() )
-        return getRank( newCards.first() ) == KStandardCardDeck::Ace;
+        return newCards.first()->rank() == KStandardCardDeck::Ace;
     else
-        return getSuit( newCards.first() ) == getSuit( oldCards.last() )
-            && getRank( newCards.first() ) == getRank( oldCards.last() ) + 1;
+        return newCards.first()->suit() == oldCards.last()->suit()
+            && newCards.first()->rank() == oldCards.last()->rank() + 1;
 }
 
 
@@ -95,8 +96,8 @@ bool checkAddAlternateColorDescending( const QList<KCard*> & oldCards, const QLi
 {
     return isAlternateColorDescending( newCards )
            && ( oldCards.isEmpty()
-                || ( getIsRed( newCards.first() ) != getIsRed( oldCards.last() )
-                     && getRank( newCards.first() ) == getRank( oldCards.last() ) - 1 ) );
+                || ( newCards.first()->color() != oldCards.last()->color()
+                     && newCards.first()->rank() == oldCards.last()->rank() - 1 ) );
 }
 
 
@@ -106,9 +107,9 @@ bool checkAddAlternateColorDescendingFromKing( const QList<KCard*> & oldCards, c
         return false;
 
     if ( oldCards.isEmpty() )
-        return getRank( newCards.first() ) == KStandardCardDeck::King;
+        return newCards.first()->rank() == KStandardCardDeck::King;
     else
-        return getIsRed( newCards.first() ) != getIsRed( oldCards.last() )
-            && getRank( newCards.first() ) == getRank( oldCards.last() ) - 1;
+        return newCards.first()->color() != oldCards.last()->color()
+            && newCards.first()->rank() == oldCards.last()->rank() - 1;
 }
 

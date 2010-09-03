@@ -26,6 +26,12 @@
 class LIBKCARDGAME_EXPORT KStandardCardDeck : public KAbstractCardDeck
 {
 public:
+    enum Color
+    {
+        Black = 0,
+        Red
+    };
+
     enum Suit
     {
         Clubs = 0,
@@ -53,7 +59,7 @@ public:
 
     static QList<Suit> standardSuits();
     static QList<Rank> standardRanks();
-
+    static quint32 getId( Suit suit, Rank rank );
     static QList<quint32> generateIdList( int copies = 1,
                                           const QList<Suit> & suits = standardSuits(),
                                           const QList<Rank> & ranks = standardRanks() );
@@ -61,7 +67,9 @@ public:
     explicit KStandardCardDeck( const KCardTheme & theme = KCardTheme(), QObject * parent = 0 );
     virtual ~KStandardCardDeck();
 
-
+    virtual int rankFromId( quint32 id ) const;
+    virtual int suitFromId( quint32 id ) const;
+    virtual int colorFromId( quint32 id ) const;
 
 protected:
     virtual QString elementName( quint32 id, bool faceUp = true ) const;
@@ -69,10 +77,5 @@ protected:
 private:
     class KStandardCardDeckPrivate * const d;
 };
-
-LIBKCARDGAME_EXPORT KStandardCardDeck::Suit getSuit( const KCard * card );
-LIBKCARDGAME_EXPORT KStandardCardDeck::Rank getRank( const KCard * card );
-LIBKCARDGAME_EXPORT bool getIsRed( const KCard * card );
-LIBKCARDGAME_EXPORT quint32 getId( KStandardCardDeck::Suit suit, KStandardCardDeck::Rank rank );
 
 #endif

@@ -169,6 +169,24 @@ quint32 KCard::id() const
 }
 
 
+int KCard::rank() const
+{
+    return d->deck->rankFromId( d->id );
+}
+
+
+int KCard::suit() const
+{
+    return d->deck->suitFromId( d->id );
+}
+
+
+int KCard::color() const
+{
+    return d->deck->colorFromId( d->id );
+}
+
+
 void KCard::setPile( KCardPile * pile )
 {
     d->pile = pile;

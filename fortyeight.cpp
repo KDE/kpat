@@ -164,8 +164,8 @@ bool Fortyeight::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, 
     case PatPile::Tableau:
         return newCards.size() == 1
                && ( oldCards.isEmpty()
-                    || ( getSuit( oldCards.last() ) == getSuit( newCards.first() )
-                         && getRank( oldCards.last() ) == getRank( newCards.first() ) + 1 ) );
+                    || ( oldCards.last()->suit() == newCards.first()->suit()
+                         && oldCards.last()->rank() == newCards.first()->rank() + 1 ) );
     case PatPile::Stock:
     case PatPile::Waste:
     default:

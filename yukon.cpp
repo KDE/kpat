@@ -81,10 +81,10 @@ bool Yukon::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const
     if (pile->pileRole() == PatPile::Tableau)
     {
         if (oldCards.isEmpty())
-            return getRank( newCards.first() ) == KStandardCardDeck::King;
+            return newCards.first()->rank() == KStandardCardDeck::King;
         else
-            return getRank( newCards.first() ) == getRank( oldCards.last() ) - 1
-                   && getIsRed( newCards.first() ) != getIsRed( oldCards.last() );
+            return newCards.first()->rank() == oldCards.last()->rank() - 1
+                   && newCards.first()->color() != oldCards.last()->color();
     }
     else
     {

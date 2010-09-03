@@ -544,7 +544,7 @@ void SpiderSolver::translate_layout()
         KCard *c = deal->legs[i]->top();
         if (c) {
             total += 13;
-            O[i] = translateSuit( getSuit( c ) );
+            O[i] = translateSuit( c->suit() );
         }
     }
 }

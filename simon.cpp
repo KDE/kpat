@@ -98,7 +98,7 @@ bool Simon::checkPrefering(const PatPile * pile, const QList<KCard*> & oldCards,
 {
     return pile->pileRole() == PatPile::Tableau
            && !oldCards.isEmpty()
-           && getSuit( oldCards.last() ) == getSuit( newCards.first() );
+           && oldCards.last()->suit() == newCards.first()->suit();
 }
 
 bool Simon::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
@@ -106,13 +106,13 @@ bool Simon::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const
     if (pile->pileRole() == PatPile::Tableau)
     {
         return oldCards.isEmpty()
-               || getRank( oldCards.last() ) == getRank( newCards.first() ) + 1;
+               || oldCards.last()->rank() == newCards.first()->rank() + 1;
     }
     else
     {
         return oldCards.isEmpty()
-               && getRank( newCards.first() ) == KStandardCardDeck::King
-               && getRank( newCards.last() ) == KStandardCardDeck::Ace;
+               && newCards.first()->rank() == KStandardCardDeck::King
+               && newCards.last()->rank() == KStandardCardDeck::Ace;
     }
 }
 

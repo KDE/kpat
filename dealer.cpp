@@ -219,8 +219,8 @@ void DealerScene::saveGame(QDomDocument &doc)
         foreach(const KCard * c, p->cards() )
         {
             QDomElement card = doc.createElement("card");
-            card.setAttribute("suit", getSuit( c ));
-            card.setAttribute("value", getRank( c ));
+            card.setAttribute("suit", c->suit());
+            card.setAttribute("value", c->rank());
             card.setAttribute("faceup", c->isFaceUp());
             pile.appendChild(card);
         }
@@ -1618,7 +1618,7 @@ void DealerScene::setDeckContents( int copies, const QList<KStandardCardDeck::Su
     for ( int i = 0; i < copies; ++i )
         foreach ( const KStandardCardDeck::Rank & r, KStandardCardDeck::standardRanks() )
             foreach ( const KStandardCardDeck::Suit & s, suits )
-                ids << getId( s, r );
+                ids << KStandardCardDeck::getId( s, r );
 
     deck()->setDeckContents( ids );
 }

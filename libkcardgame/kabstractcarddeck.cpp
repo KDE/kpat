@@ -374,6 +374,27 @@ QList<KCard*> KAbstractCardDeck::cards() const
 }
 
 
+int KAbstractCardDeck::rankFromId( quint32 id ) const
+{
+    Q_UNUSED( id );
+    return -1;
+}
+
+
+int KAbstractCardDeck::suitFromId( quint32 id ) const
+{
+    Q_UNUSED( id );
+    return -1;
+}
+
+
+int KAbstractCardDeck::colorFromId( quint32 id ) const
+{
+    Q_UNUSED( id );
+    return -1;
+}
+
+
 void KAbstractCardDeck::setCardWidth( int width )
 {
     if ( width > 200 || width < 20 )

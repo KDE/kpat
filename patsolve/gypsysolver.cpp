@@ -487,13 +487,13 @@ void GypsySolver::translate_layout()
     for (int i = 0; i < 8; ++i) {
         KCard *c = deal->target[i]->top();
         if (c) {
-            int suit = translateSuit( getSuit( c ) ) >> 4;
+            int suit = translateSuit( c->suit() ) >> 4;
             int target = outs + suit*2;
             if ( Wlen[target] )
                 target++;
             Wp[target]++;
             Wlen[target]++;
-            *Wp[target] = ( suit << 4 ) + getRank( c );
+            *Wp[target] = ( suit << 4 ) + c->rank();
         }
     }
 }
@@ -544,7 +544,7 @@ MoveHint GypsySolver::translateMove( const MOVE &m )
         for (int i = 0; i < 8; ++i) {
             KCard *c = deal->target[i]->top();
             if (c) {
-                if ( getSuit( c ) == getSuit( card ) && getRank( c ) == getRank( card ) - 1)
+                if ( c->suit() == card->suit() && c->rank() == card->rank() - 1)
                 {
                     target = deal->target[i];
                     break;

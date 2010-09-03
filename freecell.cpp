@@ -311,8 +311,8 @@ bool Freecell::canPutStore(const PatPile *c1, const QList<KCard*> &c2) const
     KCard *c = c2.first(); // we assume there are only valid sequences
 
     // ok if in sequence, alternate colors
-    return getRank( c1->top() ) == getRank( c ) + 1
-           && getIsRed( c1->top() ) != getIsRed( c );
+    return c1->top()->rank() == c->rank() + 1
+           && c1->top()->color() != c->color();
 }
 
 bool Freecell::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const

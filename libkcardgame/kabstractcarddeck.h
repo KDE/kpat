@@ -40,6 +40,10 @@ public:
     void setDeckContents( const QList<quint32> & ids );
     QList<KCard*> cards() const;
 
+    virtual int rankFromId( quint32 id ) const;
+    virtual int suitFromId( quint32 id ) const;
+    virtual int colorFromId( quint32 id ) const;
+
     void setCardWidth( int width );
     int cardWidth() const;
     void setCardHeight( int height );

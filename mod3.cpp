@@ -111,11 +111,11 @@ void Mod3::initialize()
 bool mod3CheckAdd(int baseRank, const QList<KCard*> & oldCards, const QList<KCard*> & newCards)
 {
     if (oldCards.isEmpty())
-        return getRank( newCards.first() ) == baseRank;
+        return newCards.first()->rank() == baseRank;
     else
-        return getRank( oldCards.first() ) == baseRank
-               && getSuit( newCards.first() ) == getSuit( oldCards.last() )
-               && getRank( newCards.first() ) == getRank( oldCards.last() ) + 3;
+        return oldCards.first()->rank() == baseRank
+               && newCards.first()->suit() == oldCards.last()->suit()
+               && newCards.first()->rank() == oldCards.last()->rank() + 3;
 }
 
 bool Mod3::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
@@ -123,7 +123,7 @@ bool Mod3::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const 
     switch (pile->pileRole())
     {
     case PatPile::FoundationType1:
-        return newCards.size() == 1 && getRank( newCards.first() ) == KStandardCardDeck::Ace;
+        return newCards.size() == 1 && newCards.first()->rank() == KStandardCardDeck::Ace;
     case PatPile::FoundationType2:
         return mod3CheckAdd(KStandardCardDeck::Two, oldCards, newCards);
     case PatPile::FoundationType3:

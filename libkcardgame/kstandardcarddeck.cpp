@@ -53,15 +53,9 @@ QList<KStandardCardDeck::Rank> KStandardCardDeck::standardRanks()
 }
 
 
-KStandardCardDeck::KStandardCardDeck( const KCardTheme & theme, QObject * parent )
-  : KAbstractCardDeck( theme, parent ),
-    d( new KStandardCardDeckPrivate )
+quint32 KStandardCardDeck::getId( Suit suit, Rank rank )
 {
-}
-
-
-KStandardCardDeck::~KStandardCardDeck()
-{
+    return ((suit & 0x3) << 4) | (rank & 0xf);
 }
 
 
@@ -83,6 +77,41 @@ QList<quint32> KStandardCardDeck::generateIdList( int copies,
                 ids << getId( s, r );
 
     return ids;
+}
+
+
+KStandardCardDeck::KStandardCardDeck( const KCardTheme & theme, QObject * parent )
+  : KAbstractCardDeck( theme, parent ),
+    d( new KStandardCardDeckPrivate )
+{
+}
+
+
+KStandardCardDeck::~KStandardCardDeck()
+{
+}
+
+
+int KStandardCardDeck::rankFromId( quint32 id ) const
+{
+    int rank = id & 0xf;
+    Q_ASSERT( Ace <= rank && rank <= King );
+    return rank;
+}
+
+
+int KStandardCardDeck::suitFromId( quint32 id ) const
+{
+    int suit = (id >> 4) & 0x3;
+    Q_ASSERT( Clubs <= suit && suit <= Spades );
+    return suit;
+}
+
+
+int KStandardCardDeck::colorFromId( quint32 id ) const
+{
+    int suit = suitFromId( id );
+    return (suit == Clubs || suit == Spades) ? Black : Red;
 }
 
 
@@ -127,34 +156,5 @@ QString KStandardCardDeck::elementName( quint32 id, bool faceUp ) const
     }
 
     return element;
-}
-
-
-KStandardCardDeck::Suit getSuit( const KCard * card )
-{
-    KStandardCardDeck::Suit s = KStandardCardDeck::Suit( card->id() >> 4 );
-    Q_ASSERT( KStandardCardDeck::Clubs <= s && s <= KStandardCardDeck::Spades );
-    return s;
-}
-
-
-KStandardCardDeck::Rank getRank( const KCard * card )
-{
-    KStandardCardDeck::Rank r = KStandardCardDeck::Rank( card->id() & 0xf );
-    Q_ASSERT( KStandardCardDeck::Ace <= r && r <= KStandardCardDeck::King );
-    return r;
-}
-
-
-bool getIsRed( const KCard * card )
-{
-    KStandardCardDeck::Suit s = getSuit( card );
-    return s == KStandardCardDeck::Hearts || s == KStandardCardDeck::Diamonds;
-}
-
-
-quint32 getId( KStandardCardDeck::Suit suit, KStandardCardDeck::Rank rank )
-{
-    return ( suit << 4 ) | ( rank & 0xf );
 }
 

@@ -41,6 +41,9 @@ public:
     virtual void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 );
 
     quint32 id() const;
+    int rank() const;
+    int suit() const;
+    int color() const;
 
     void setPile( KCardPile * pile );
     KCardPile * pile() const;

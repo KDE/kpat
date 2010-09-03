@@ -90,8 +90,8 @@ void Golf::initialize()
 bool Golf::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
 {
     return pile->pileRole() == PatPile::Foundation
-           && ( getRank( newCards.first() ) == getRank( oldCards.last() ) + 1
-                || getRank( newCards.first() ) == getRank( oldCards.last() ) - 1 );
+           && ( newCards.first()->rank() == oldCards.last()->rank() + 1
+                || newCards.first()->rank() == oldCards.last()->rank() - 1 );
 }
 
 
