@@ -64,7 +64,6 @@ protected:
 private:
     class KAbstractCardDeckPrivate * const d;
 
-    friend class KCard;
     friend class KAbstractCardDeckPrivate;
 };
 
