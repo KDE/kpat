@@ -492,7 +492,7 @@ of it).
 </para>
 </sect2>
 
-<sect2 id="grandfathers">
+<sect2 id="grandfathers-clock">
 <title>Grandfather's Clock</title>
 
 <para><indexterm><primary>Grandfathers Clock</primary></indexterm>
@@ -503,8 +503,8 @@ as real ascending sequences on the foundation.
 
 <para>
 The foundation is on the right-hand side and consists of 12 piles that form the shape
-of a clock. The ace is at one o'clock, the jack is at 11 o'clock, and the queen is at 12
-o'clock.
+of a clock. The nine is at 12 o'clock, the queen is at 3 o'clock, the six is at 6 o'clock
+and the six is at 9 o'clock.
 </para>
 
 <para>
@@ -512,8 +512,6 @@ There are 8 playing piles beside the clock and on each are 5 cards. On the
 playing piles you can build descending sequences. The color of the cards is not important. 
 You can only move one card at a time.
 </para>
-
-<para>The auto drop feature is disabled in this patience game.</para>
 
 </sect2>
 
