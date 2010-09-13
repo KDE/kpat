@@ -81,7 +81,7 @@ bool Yukon::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const
     if (pile->pileRole() == PatPile::Tableau)
     {
         if (oldCards.isEmpty())
-            return newCards.first()->rank() == KStandardCardDeck::King;
+            return newCards.first()->rank() == KCardDeck::King;
         else
             return newCards.first()->rank() == oldCards.last()->rank() - 1
                    && newCards.first()->color() != oldCards.last()->color();

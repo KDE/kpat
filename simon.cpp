@@ -111,8 +111,8 @@ bool Simon::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const
     else
     {
         return oldCards.isEmpty()
-               && newCards.first()->rank() == KStandardCardDeck::King
-               && newCards.last()->rank() == KStandardCardDeck::Ace;
+               && newCards.first()->rank() == KCardDeck::King
+               && newCards.last()->rank() == KCardDeck::Ace;
     }
 }
 

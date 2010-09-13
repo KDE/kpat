@@ -41,7 +41,7 @@
 #include "patsolve/patsolve.h"
 
 #include "KCardTheme"
-#include "KStandardCardDeck"
+#include "KCardDeck"
 
 #include <KAboutData>
 #include <KApplication>
@@ -69,7 +69,7 @@ static DealerScene *getDealer( int wanted_game )
         {
             DealerScene * d = di->createGame();
             Q_ASSERT( d );
-            d->setDeck( new KStandardCardDeck( KCardTheme(), d ) );
+            d->setDeck( new KCardDeck( KCardTheme(), d ) );
             d->initialize();
 
             if ( !d->solver() )

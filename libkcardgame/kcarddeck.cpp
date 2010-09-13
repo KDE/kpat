@@ -16,7 +16,7 @@
  *
  */
 
-#include "kstandardcarddeck.h"
+#include "kcarddeck.h"
 
 #include "kcard.h"
 
@@ -26,7 +26,7 @@ class KStandardCardDeckPrivate
 };
 
 
-QList<KStandardCardDeck::Suit> KStandardCardDeck::standardSuits()
+QList<KCardDeck::Suit> KCardDeck::standardSuits()
 {
     return QList<Suit>() << Clubs
                          << Diamonds
@@ -35,7 +35,7 @@ QList<KStandardCardDeck::Suit> KStandardCardDeck::standardSuits()
 }
 
 
-QList<KStandardCardDeck::Rank> KStandardCardDeck::standardRanks()
+QList<KCardDeck::Rank> KCardDeck::standardRanks()
 {
     return QList<Rank>() << Ace
                          << Two
@@ -53,13 +53,13 @@ QList<KStandardCardDeck::Rank> KStandardCardDeck::standardRanks()
 }
 
 
-quint32 KStandardCardDeck::getId( Suit suit, Rank rank )
+quint32 KCardDeck::getId( Suit suit, Rank rank )
 {
     return ((suit & 0x3) << 4) | (rank & 0xf);
 }
 
 
-QList<quint32> KStandardCardDeck::generateIdList( int copies,
+QList<quint32> KCardDeck::generateIdList( int copies,
                                                   const QList<Suit> & suits,
                                                   const QList<Rank> & ranks )
 {
@@ -72,27 +72,27 @@ QList<quint32> KStandardCardDeck::generateIdList( int copies,
     // games relying on LibKCardGame.
     QList<quint32> ids;
     for ( int i = 0; i < copies; ++i )
-        foreach ( const KStandardCardDeck::Suit & s, suits )
-            foreach ( const KStandardCardDeck::Rank & r, ranks )
+        foreach ( const Suit & s, suits )
+            foreach ( const Rank & r, ranks )
                 ids << getId( s, r );
 
     return ids;
 }
 
 
-KStandardCardDeck::KStandardCardDeck( const KCardTheme & theme, QObject * parent )
+KCardDeck::KCardDeck( const KCardTheme & theme, QObject * parent )
   : KAbstractCardDeck( theme, parent ),
     d( new KStandardCardDeckPrivate )
 {
 }
 
 
-KStandardCardDeck::~KStandardCardDeck()
+KCardDeck::~KCardDeck()
 {
 }
 
 
-int KStandardCardDeck::rankFromId( quint32 id ) const
+int KCardDeck::rankFromId( quint32 id ) const
 {
     int rank = id & 0xf;
     Q_ASSERT( Ace <= rank && rank <= King );
@@ -100,7 +100,7 @@ int KStandardCardDeck::rankFromId( quint32 id ) const
 }
 
 
-int KStandardCardDeck::suitFromId( quint32 id ) const
+int KCardDeck::suitFromId( quint32 id ) const
 {
     int suit = (id >> 4) & 0x3;
     Q_ASSERT( Clubs <= suit && suit <= Spades );
@@ -108,14 +108,14 @@ int KStandardCardDeck::suitFromId( quint32 id ) const
 }
 
 
-int KStandardCardDeck::colorFromId( quint32 id ) const
+int KCardDeck::colorFromId( quint32 id ) const
 {
     int suit = suitFromId( id );
     return (suit == Clubs || suit == Spades) ? Black : Red;
 }
 
 
-QString KStandardCardDeck::elementName( quint32 id, bool faceUp ) const
+QString KCardDeck::elementName( quint32 id, bool faceUp ) const
 {
     if ( !faceUp )
         return "back";

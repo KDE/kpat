@@ -146,8 +146,8 @@ bool Idiot::canMoveAway(const KCard * card) const
         if ( c
              && c != card
              && c->suit() == card->suit()
-             && ( c->rank() == KStandardCardDeck::Ace
-                  || ( card->rank() != KStandardCardDeck::Ace
+             && ( c->rank() == KCardDeck::Ace
+                  || ( card->rank() != KCardDeck::Ace
                        && c->rank() > card->rank() ) ) )
             return true;
     }
@@ -194,7 +194,7 @@ bool Idiot::isGameWon() const
 
     // Criterium 2.
     for (int i = 0; i < 4; i++) {
-        if (m_play[i]->count() != 1 || m_play[i]->top()->rank() != KStandardCardDeck::Ace)
+        if (m_play[i]->count() != 1 || m_play[i]->top()->rank() != KCardDeck::Ace)
             return false;
     }
 

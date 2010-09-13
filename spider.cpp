@@ -192,13 +192,13 @@ void Spider::createDeck()
     // suits, while the new logic is more flexible. We maintain the card
     // ordering by always passing a list of 4 suits even if we really only
     // have one or two.
-    QList<KStandardCardDeck::Suit> suits;
+    QList<KCardDeck::Suit> suits;
     if ( m_suits == 1 )
-        suits << KStandardCardDeck::Spades << KStandardCardDeck::Spades << KStandardCardDeck::Spades << KStandardCardDeck::Spades;
+        suits << KCardDeck::Spades << KCardDeck::Spades << KCardDeck::Spades << KCardDeck::Spades;
     else if ( m_suits == 2 )
-        suits << KStandardCardDeck::Hearts << KStandardCardDeck::Spades << KStandardCardDeck::Hearts << KStandardCardDeck::Spades;
+        suits << KCardDeck::Hearts << KCardDeck::Spades << KCardDeck::Hearts << KCardDeck::Spades;
     else
-        suits << KStandardCardDeck::Clubs << KStandardCardDeck::Diamonds << KStandardCardDeck::Hearts << KStandardCardDeck::Spades;
+        suits << KCardDeck::Clubs << KCardDeck::Diamonds << KCardDeck::Hearts << KCardDeck::Spades;
 
     setDeckContents( 2, suits );
 }
@@ -344,7 +344,7 @@ void Spider::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duratio
     // then it could have a full deck that needs removed.
     if ( p
          && p->pileRole() != PatPile::Foundation
-         && cards.last()->rank() == KStandardCardDeck::Ace
+         && cards.last()->rank() == KCardDeck::Ace
          && cards.first()->suit() == p->top()->suit()
          && p->count() > 12 )
     {
@@ -361,11 +361,11 @@ bool Spider::checkPileDeck( KCardPile * pile, bool checkForDemo )
     if (pile->isEmpty())
         return false;
 
-    if ( pile->top()->rank() == KStandardCardDeck::Ace )
+    if ( pile->top()->rank() == KCardDeck::Ace )
     {
         // just using the CardList to see if this goes to King
         QList<KCard*> run = getRun(pile->top());
-        if ( run.first()->rank() == KStandardCardDeck::King )
+        if ( run.first()->rank() == KCardDeck::King )
         {
             PatPile *leg = legs[m_leg];
             leg->setVisible(true);

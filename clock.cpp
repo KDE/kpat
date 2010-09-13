@@ -78,12 +78,12 @@ void Clock::initialize()
 
 void Clock::restart( const QList<KCard*> & cards )
 {
-    static const KStandardCardDeck::Suit suits[12] = { KStandardCardDeck::Diamonds, KStandardCardDeck::Spades, KStandardCardDeck::Hearts, KStandardCardDeck::Clubs,
-                                                       KStandardCardDeck::Diamonds, KStandardCardDeck::Spades, KStandardCardDeck::Hearts, KStandardCardDeck::Clubs,
-                                                       KStandardCardDeck::Diamonds, KStandardCardDeck::Spades, KStandardCardDeck::Hearts, KStandardCardDeck::Clubs };
-    static const KStandardCardDeck::Rank ranks[12] = { KStandardCardDeck::Nine, KStandardCardDeck::Ten, KStandardCardDeck::Jack, KStandardCardDeck::Queen,
-                                                       KStandardCardDeck::King, KStandardCardDeck::Two, KStandardCardDeck::Three, KStandardCardDeck::Four,
-                                                       KStandardCardDeck::Five, KStandardCardDeck::Six, KStandardCardDeck::Seven, KStandardCardDeck::Eight };
+    static const KCardDeck::Suit suits[12] = { KCardDeck::Diamonds, KCardDeck::Spades, KCardDeck::Hearts, KCardDeck::Clubs,
+                                               KCardDeck::Diamonds, KCardDeck::Spades, KCardDeck::Hearts, KCardDeck::Clubs,
+                                               KCardDeck::Diamonds, KCardDeck::Spades, KCardDeck::Hearts, KCardDeck::Clubs };
+    static const KCardDeck::Rank ranks[12] = { KCardDeck::Nine, KCardDeck::Ten, KCardDeck::Jack, KCardDeck::Queen,
+                                               KCardDeck::King, KCardDeck::Two, KCardDeck::Three, KCardDeck::Four,
+                                               KCardDeck::Five, KCardDeck::Six, KCardDeck::Seven, KCardDeck::Eight };
 
     const QPointF center = ( target[0]->pos() + target[6]->pos() ) / 2;
 
@@ -130,8 +130,8 @@ bool Clock::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const
     {
         return oldCards.last()->suit() == newCards.first()->suit()
                && ( newCards.first()->rank() == oldCards.last()->rank() + 1
-                    || ( oldCards.last()->rank() == KStandardCardDeck::King
-                         && newCards.first()->rank() == KStandardCardDeck::Ace ) );
+                    || ( oldCards.last()->rank() == KCardDeck::King
+                         && newCards.first()->rank() == KCardDeck::Ace ) );
     }
 }
 

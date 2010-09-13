@@ -81,7 +81,7 @@ private:
     PatPile* target[4];
 
     KlondikePile *pile;
-    KStandardCardDeck::Rank target_tops[4];
+    KCardDeck::Rank target_tops[4];
 
     friend class KlondikeSolver;
 };

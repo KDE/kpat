@@ -498,7 +498,7 @@ void MainWindow::setGameType(int id)
         if ( !theme.isValid() )
             theme = KCardTheme( Settings::defaultCardThemeValue() );
 
-        m_cardDeck = new KStandardCardDeck( theme, this );
+        m_cardDeck = new KCardDeck( theme, this );
     }
 
     const DealerInfo * di = m_dealer_map.value(id, DealerInfoList::self()->games().first());

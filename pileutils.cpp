@@ -19,7 +19,7 @@
 #include "pileutils.h"
 
 #include "KCard"
-#include "KStandardCardDeck"
+#include "KCardDeck"
 
 
 namespace
@@ -93,7 +93,7 @@ bool checkAddSameSuitAscendingFromAce( const QList<KCard*> & oldCards, const QLi
         return false;
 
     if ( oldCards.isEmpty() )
-        return newCards.first()->rank() == KStandardCardDeck::Ace;
+        return newCards.first()->rank() == KCardDeck::Ace;
     else
         return newCards.first()->suit() == oldCards.last()->suit()
             && newCards.first()->rank() == oldCards.last()->rank() + 1;
@@ -115,7 +115,7 @@ bool checkAddAlternateColorDescendingFromKing( const QList<KCard*> & oldCards, c
         return false;
 
     if ( oldCards.isEmpty() )
-        return newCards.first()->rank() == KStandardCardDeck::King;
+        return newCards.first()->rank() == KCardDeck::King;
     else
         return newCards.first()->color() == alternateColor( oldCards.last()->color() )
             && newCards.first()->rank() == oldCards.last()->rank() - 1;

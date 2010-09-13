@@ -46,7 +46,7 @@ class MoveHint;
 #include "view.h"
 class Solver;
 
-#include "KStandardCardDeck"
+#include "KCardDeck"
 #include "KCardScene"
 
 class QAction;
@@ -181,7 +181,7 @@ protected:
     int neededFutureMoves() const;
 
     void setDeckContents( int copies = 1,
-                          const QList<KStandardCardDeck::Suit> & suits = KStandardCardDeck::standardSuits() );
+                          const QList<KCardDeck::Suit> & suits = KCardDeck::standardSuits() );
 
 protected slots:
     void takeState();

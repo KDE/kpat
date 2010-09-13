@@ -46,7 +46,7 @@ class NumberedDealDialog;
 class PatienceView;
 class SoundEngine;
 
-class KStandardCardDeck;
+class KCardDeck;
 
 class KAction;
 class KRecentFilesAction;
@@ -149,7 +149,7 @@ private:
     PatienceView   *m_view;
     DealerScene    *m_dealer;
     GameSelectionScene *m_selector;
-    KStandardCardDeck *m_cardDeck;
+    KCardDeck *m_cardDeck;
     SoundEngine * m_soundEngine;
 
     NumberedDealDialog * m_dealDialog;

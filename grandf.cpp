@@ -158,7 +158,7 @@ bool Grandf::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, cons
     {
     case PatPile::Tableau:
         if (oldCards.isEmpty())
-            return newCards.first()->rank() == KStandardCardDeck::King;
+            return newCards.first()->rank() == KCardDeck::King;
         else
             return newCards.first()->rank() == oldCards.last()->rank() - 1
                    && newCards.first()->suit() == oldCards.last()->suit();

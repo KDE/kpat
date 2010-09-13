@@ -1605,7 +1605,7 @@ int DealerScene::neededFutureMoves() const { return d->neededFutureMoves; }
 void DealerScene::setNeededFutureMoves( int i ) { d->neededFutureMoves = i; }
 
 
-void DealerScene::setDeckContents( int copies, const QList<KStandardCardDeck::Suit> & suits )
+void DealerScene::setDeckContents( int copies, const QList<KCardDeck::Suit> & suits )
 {
     Q_ASSERT( copies >= 1 );
     Q_ASSERT( !suits.isEmpty() );
@@ -1616,9 +1616,9 @@ void DealerScene::setDeckContents( int copies, const QList<KStandardCardDeck::Su
     // suit then rank ordering.
     QList<quint32> ids;
     for ( int i = 0; i < copies; ++i )
-        foreach ( const KStandardCardDeck::Rank & r, KStandardCardDeck::standardRanks() )
-            foreach ( const KStandardCardDeck::Suit & s, suits )
-                ids << KStandardCardDeck::getId( s, r );
+        foreach ( const KCardDeck::Rank & r, KCardDeck::standardRanks() )
+            foreach ( const KCardDeck::Suit & s, suits )
+                ids << KCardDeck::getId( s, r );
 
     deck()->setDeckContents( ids );
 }

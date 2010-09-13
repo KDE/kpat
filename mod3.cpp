@@ -123,13 +123,13 @@ bool Mod3::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const 
     switch (pile->pileRole())
     {
     case PatPile::FoundationType1:
-        return newCards.size() == 1 && newCards.first()->rank() == KStandardCardDeck::Ace;
+        return newCards.size() == 1 && newCards.first()->rank() == KCardDeck::Ace;
     case PatPile::FoundationType2:
-        return mod3CheckAdd(KStandardCardDeck::Two, oldCards, newCards);
+        return mod3CheckAdd(KCardDeck::Two, oldCards, newCards);
     case PatPile::FoundationType3:
-        return mod3CheckAdd(KStandardCardDeck::Three, oldCards, newCards);
+        return mod3CheckAdd(KCardDeck::Three, oldCards, newCards);
     case PatPile::FoundationType4:
-        return mod3CheckAdd(KStandardCardDeck::Four, oldCards, newCards);
+        return mod3CheckAdd(KCardDeck::Four, oldCards, newCards);
     case PatPile::Tableau:
         return oldCards.isEmpty();
     case PatPile::Stock:

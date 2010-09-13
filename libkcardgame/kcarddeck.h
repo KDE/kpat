@@ -16,14 +16,14 @@
  *
  */
 
-#ifndef KSTANDARDCARDDECK_H
-#define KSTANDARDCARDDECK_H
+#ifndef KCARDDECK_H
+#define KCARDDECK_H
 
 #include "kabstractcarddeck.h"
 #include "libkcardgame_export.h"
 
 
-class LIBKCARDGAME_EXPORT KStandardCardDeck : public KAbstractCardDeck
+class LIBKCARDGAME_EXPORT KCardDeck : public KAbstractCardDeck
 {
 public:
     enum Color
@@ -64,8 +64,8 @@ public:
                                           const QList<Suit> & suits = standardSuits(),
                                           const QList<Rank> & ranks = standardRanks() );
 
-    explicit KStandardCardDeck( const KCardTheme & theme = KCardTheme(), QObject * parent = 0 );
-    virtual ~KStandardCardDeck();
+    explicit KCardDeck( const KCardTheme & theme = KCardTheme(), QObject * parent = 0 );
+    virtual ~KCardDeck();
 
     virtual int rankFromId( quint32 id ) const;
     virtual int suitFromId( quint32 id ) const;

@@ -20,7 +20,7 @@
 
 #include "../patpile.h"
 
-#include "KStandardCardDeck"
+#include "KCardDeck"
 
 #include <KDebug>
 
