@@ -53,7 +53,7 @@ RenderingThread::RenderingThread( KAbstractCardDeckPrivate * d, QSize size, cons
     m_elementsToRender( elements ),
     m_haltFlag( false )
 {
-    connect( this, SIGNAL(renderingDone(QString)), d, SLOT(submitRendering(QString)), Qt::QueuedConnection );
+    connect( this, SIGNAL(renderingDone(QString,QImage)), d, SLOT(submitRendering(QString,QImage)), Qt::QueuedConnection );
 }
 
 
@@ -99,7 +99,7 @@ void RenderingThread::run()
 
             d->cache->insertImage( key, img );
 
-            emit renderingDone( element );
+            emit renderingDone( element, img );
         }
     }
 }
@@ -237,27 +237,32 @@ void KAbstractCardDeckPrivate::deleteThread()
 }
 
 
-void KAbstractCardDeckPrivate::submitRendering( const QString & elementId )
+void KAbstractCardDeckPrivate::submitRendering( const QString & elementId, const QImage & image )
 {
     QPixmap pix;
-    if ( cache->findPixmap( keyForPixmap( elementId, currentCardSize ), &pix ) )
-    {
-        QHash<QString,CardElementData>::iterator it;
-        it = frontIndex.find( elementId );
-        if ( it != frontIndex.end() )
-        {
-            it.value().cardPixmap = pix;
-            foreach ( KCard * c, it.value().cardUsers )
-                c->setFrontPixmap( pix );
-        }
 
-        it = backIndex.find( elementId );
-        if ( it != backIndex.end() )
-        {
-            it.value().cardPixmap = pix;
-            foreach ( KCard * c, it.value().cardUsers )
-                c->setBackPixmap( pix );
-        }
+    // The RenderingThread just put the image in the cache, but due to the
+    // volatility of the cache there's no guarantee that it'll still be there
+    // by the time this slot is called, in which case we convert the QImage
+    // passed in the signal.
+    if ( !cache->findPixmap( keyForPixmap( elementId, currentCardSize ), &pix ) )
+        pix = QPixmap::fromImage( image );
+
+    QHash<QString,CardElementData>::iterator it;
+    it = frontIndex.find( elementId );
+    if ( it != frontIndex.end() )
+    {
+        it.value().cardPixmap = pix;
+        foreach ( KCard * c, it.value().cardUsers )
+            c->setFrontPixmap( pix );
+    }
+
+    it = backIndex.find( elementId );
+    if ( it != backIndex.end() )
+    {
+        it.value().cardPixmap = pix;
+        foreach ( KCard * c, it.value().cardUsers )
+            c->setBackPixmap( pix );
     }
 }
 
