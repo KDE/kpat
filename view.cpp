@@ -56,6 +56,17 @@ PatienceView::PatienceView( QWidget * parent )
     setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
     setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
     setFrameStyle( QFrame::NoFrame );
+
+    // This makes the background of the widget transparent so that Oxygen's
+    // (or any other style's) window gradient is visible in unpainted areas of
+    // the scene.
+    QPalette p = palette();
+    QColor c = p.color( QPalette::Base );
+    c.setAlpha( 0 );
+    p.setColor( QPalette::Base, c );
+    setPalette( p );
+    setBackgroundRole( QPalette::Base );
+
     setAlignment( Qt::AlignLeft | Qt::AlignTop );
     setCacheMode( QGraphicsView::CacheBackground );
 }
