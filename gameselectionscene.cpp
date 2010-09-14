@@ -275,11 +275,11 @@ void GameSelectionScene::resizeScene( const QSize & size )
     int gridWidth = boxWidth * ( m_columns + spacingRatio * ( m_columns + 1 ) );
     int gridHeight = boxHeight * ( numRows + spacingRatio * ( numRows + 1 ) );
 
+    int xOffset = (gridWidth - size.width()) / 2 - boxWidth * spacingRatio;
+    int yOffset = (gridHeight - size.height()) / 2 - boxHeight * spacingRatio;
+
     // Set up the sceneRect so that the grid is centered
-    setSceneRect( ( gridWidth - size.width() ) / 2 - boxWidth * spacingRatio,
-                  ( gridHeight - size.height() ) / 2 - boxHeight * spacingRatio,
-                  size.width(),
-                  size.height() );
+    setSceneRect( xOffset, yOffset, size.width(), size.height() );
 
     QPixmap pix( 1, 1 );
     QPainter p( &pix );

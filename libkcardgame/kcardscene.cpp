@@ -432,13 +432,13 @@ void KCardScene::relayoutScene()
 
     d->deck->setCardWidth( n_scaleFactor * d->deck->cardWidth() );
 
-    qreal usedPixelWidth = usedWidth * d->deck->cardWidth();
-    qreal usedPixelHeight = usedHeight * d->deck->cardHeight();
-    qreal pixelHMargin = d->layoutMargin * d->deck->cardWidth();
-    qreal pixelVMargin = d->layoutMargin * d->deck->cardHeight();
+    int usedPixelWidth = usedWidth * d->deck->cardWidth();
+    int usedPixelHeight = usedHeight * d->deck->cardHeight();
+    int pixelHMargin = d->layoutMargin * d->deck->cardWidth();
+    int pixelVMargin = d->layoutMargin * d->deck->cardHeight();
 
-    qreal contentWidth;
-    qreal xOffset;
+    int contentWidth;
+    int xOffset;
     if ( d->alignment & AlignLeft )
     {
         contentWidth = usedPixelWidth;
@@ -460,8 +460,8 @@ void KCardScene::relayoutScene()
         xOffset = pixelHMargin;
     }
 
-    qreal contentHeight;
-    qreal yOffset;
+    int contentHeight;
+    int yOffset;
     if ( d->alignment & AlignTop )
     {
         contentHeight = usedPixelHeight;

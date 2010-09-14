@@ -85,10 +85,10 @@ void PatienceView::resizeEvent( QResizeEvent * e )
 void PatienceView::drawBackground( QPainter * painter, const QRectF & rect )
 {
     QRectF source = rect.translated( -sceneRect().topLeft() );
-    if ( m_background.size() != sceneRect().size().toSize() )
+    if ( m_background.size() != size() )
     {
-        qreal xScale = m_background.width() / sceneRect().width();
-        qreal yScale = m_background.height() / sceneRect().height();
+        qreal xScale = m_background.width() / width();
+        qreal yScale = m_background.height() / height();
         source = QRectF( source.x() * xScale,
                          source.y() * yScale,
                          source.width() * xScale,
