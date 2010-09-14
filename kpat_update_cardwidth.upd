@@ -1,5 +1,0 @@
-Id=kpat_cardwidth_update.kde41
-File=kpatrc
-Group=General Settings
-Key=CardWith,CardWidth
-RemoveKey=CardWith
