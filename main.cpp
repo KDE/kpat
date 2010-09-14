@@ -171,6 +171,7 @@ int main( int argc, char **argv )
         indexMap.insert( lowerAlphaNum( QString( di->name() ) ), di->ids().first() );
     }
     gameList.sort();
+    const QString listSeparator = ki18nc( "List separator", ", " ).toString( tmpLocale );
     delete tmpLocale;
 
     KCmdLineArgs::init( argc, argv, &aboutData );
@@ -180,7 +181,7 @@ int main( int argc, char **argv )
     options.add("solve <num>", ki18n("Dealer to solve (debug)" ));
     options.add("start <num>", ki18n("Game range start (default 0:INT_MAX)" ));
     options.add("end <num>", ki18n("Game range end (default start:start if start given)" ));
-    options.add("gametype <game>", ki18n("Skip the selection screen and load a particular game type. Valid values are: %1").subs(gameList.join(i18nc("List separator", ", "))));
+    options.add("gametype <game>", ki18n("Skip the selection screen and load a particular game type. Valid values are: %1").subs(gameList.join(listSeparator)));
     options.add("+file", ki18n("File to load"));
     KCmdLineArgs::addCmdLineOptions (options);
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
