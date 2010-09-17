@@ -261,7 +261,7 @@ If there are no more possible moves, you can redeal the cards. A redeal
 consists of picking up the cards from the playing piles (pile by pile, left to
 right) and redealing them in the starting pattern (zigzagging rows of face down
 cards forming a peak and then left to right rows of face up cards on top). Note
-that the cards are <em>not</em> shuffled and that cards on the foundation piles
+that the cards are <emphasis>not</emphasis> shuffled and that cards on the foundation piles
 are left untouched. You may redeal no more than twice in a single game.
 </para>
 
