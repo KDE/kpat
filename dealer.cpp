@@ -466,12 +466,9 @@ void DealerScene::startHint()
             toHighlight << mh.card();
     }
 
-    if ( !toHighlight.isEmpty() )
-    {
-        d->hintInProgress = true;
-        setHighlightedItems( toHighlight );
-        emit hintActive( true );
-    }
+    d->hintInProgress = !toHighlight.isEmpty();
+    setHighlightedItems( toHighlight );
+    emit hintActive( d->hintInProgress );
 }
 
 
