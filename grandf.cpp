@@ -99,6 +99,7 @@ bool Grandf::newCards()
         store[pos]->clear();
     }
     deal( collectedCards );
+    takeState();
 
     numberOfDeals++;
 
