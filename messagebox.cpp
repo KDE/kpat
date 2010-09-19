@@ -88,20 +88,26 @@ void MessageBox::paint( QPainter * painter, const QStyleOptionGraphicsItem * opt
         int availableWidth = rect.width() * textToBoxSizeRatio;
         int availableHeight = rect.height() * textToBoxSizeRatio;
         int size = maximumFontSize;
-        QRect boundingRect;
-        while ( size > minimumFontSize )
+
+        QFont f = painter->font();
+        f.setPointSize( size );
+        painter->setFont( f );
+        do
         {
+            QRect br = painter->boundingRect( rect, Qt::AlignLeft | Qt::AlignTop, m_message );
+            if ( br.width() < availableWidth && br.height() < availableHeight )
+                break;
+
+            size = qMax( minimumFontSize,
+                         qMin( size - 1,
+                               qMin( availableWidth * size / br.width(),
+                                     availableHeight * size / br.height() ) ) );
+
             QFont f = painter->font();
             f.setPointSize( size );
             painter->setFont( f );
-
-            boundingRect = painter->boundingRect( rect, Qt::AlignLeft | Qt::AlignTop, m_message );
-            if ( boundingRect.width() < availableWidth && boundingRect.height() < availableHeight )
-                break;
-
-            size = qMin( availableWidth * size / boundingRect.width(),
-                         availableHeight * size / boundingRect.height() );
         }
+        while ( size > minimumFontSize );
 
         m_font = painter->font();
         m_fontCached = true;
