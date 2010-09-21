@@ -76,7 +76,7 @@ void MessageBox::paint( QPainter * painter, const QStyleOptionGraphicsItem * opt
 {
     QRect rect = pixmap().rect();
 
-    if ( rect.isNull() )
+    if ( rect.isEmpty() )
         return;
 
     KGameRenderedItem::paint( painter, option, widget );
@@ -98,10 +98,10 @@ void MessageBox::paint( QPainter * painter, const QStyleOptionGraphicsItem * opt
             if ( br.width() < availableWidth && br.height() < availableHeight )
                 break;
 
-            size = qMax( minimumFontSize,
-                         qMin( size - 1,
-                               qMin( availableWidth * size / br.width(),
-                                     availableHeight * size / br.height() ) ) );
+            size = qBound( minimumFontSize,
+                           qMin( size * availableWidth / br.width(),
+                                 size * availableHeight / br.height() ),
+                           size - 1 );
 
             QFont f = painter->font();
             f.setPointSize( size );
