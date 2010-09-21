@@ -44,7 +44,15 @@
 
 namespace
 {
-    const QString previewKeyTemplate( "preview_%1" );
+    inline QString timestampKey( const KCardTheme & theme )
+    {
+        return theme.dirName() + "_timestamp";
+    }
+
+    inline QString previewKey( const KCardTheme & theme, const QString & previewString )
+    {
+        return theme.dirName() + '_' + previewString;
+    }
 }
 
 
@@ -149,10 +157,11 @@ void CardThemeModel::reload()
         if ( !theme.isValid() )
             continue;
 
-        QScopedPointer<KImageCache> cache( createCache( theme ) );
         QPixmap * pix = new QPixmap();
-        QString key = previewKeyTemplate.arg( d->previewString );
-        if ( cache->findPixmap( key, pix ) )
+        QDateTime timestamp;
+        if ( cacheFind( d->cache, timestampKey( theme ), &timestamp )
+             && timestamp >= theme.lastModified() 
+             && d->cache->findPixmap( previewKey( theme, d->previewString ), pix ) )
         {
             m_previews.insert( theme.displayName(), pix );
         }
@@ -192,13 +201,10 @@ void CardThemeModel::deleteThread()
 
 void CardThemeModel::submitPreview( const KCardTheme & theme, const QImage & image )
 {
-    QScopedPointer<KImageCache> cache( createCache( theme ) );
+    d->cache->insertImage( previewKey( theme, d->previewString ), image );
+    cacheInsert( d->cache, timestampKey( theme ), theme.lastModified() );
 
     QPixmap * pix = new QPixmap( QPixmap::fromImage( image ) );
-
-    QString key = previewKeyTemplate.arg( d->previewString );
-    cache->insertPixmap( key, *pix );
-
     delete m_previews.value( theme.displayName(), 0 );
     m_previews.insert( theme.displayName(), pix );
 
@@ -344,6 +350,10 @@ KCardThemeWidget::KCardThemeWidget( const QSet<QString> & requiredFeatures, cons
   : QWidget( parent ),
     d( new KCardThemeWidgetPrivate( this ) )
 {
+    d->cache = new KImageCache( "libkcardgame-themes/previews", 1 * 1024 * 1024 );
+    d->cache->setPixmapCaching( false );
+    d->cache->setEvictionPolicy( KSharedDataCache::EvictOldest );
+
     d->requiredFeatures = requiredFeatures;
     d->previewString = previewString;
 

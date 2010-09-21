@@ -24,8 +24,8 @@
 
 #include "kcardtheme.h"
 
+class KImageCache;
 class KLineEdit;
-class KPixmapCache;
 class KPushButton;
 
 #include <QtCore/QAbstractItemModel>
@@ -110,6 +110,8 @@ public Q_SLOTS:
 
 public:
     KCardThemeWidget * q;
+
+    KImageCache * cache;
 
     CardThemeModel * model;
     QListView * listView;
