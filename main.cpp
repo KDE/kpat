@@ -187,7 +187,7 @@ int main( int argc, char **argv )
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
 
     KApplication application;
-    KGlobal::locale()->insertCatalog("libkdegames");
+    KGlobal::locale()->insertCatalog( QLatin1String( "libkdegames" ));
 
     QString savegame = args->getOption( "solvegame" );
     if ( !savegame.isEmpty() )

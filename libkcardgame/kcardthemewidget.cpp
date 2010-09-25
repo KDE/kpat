@@ -390,12 +390,12 @@ KCardThemeWidget::KCardThemeWidget( const QSet<QString> & requiredFeatures, cons
     d->listView->setMinimumHeight( d->itemSize.height() * 2.5 );
 
     d->hiddenLineEdit = new KLineEdit( this );
-    d->hiddenLineEdit->setObjectName( "kcfg_CardTheme" );
+    d->hiddenLineEdit->setObjectName( QLatin1String( "kcfg_CardTheme" ) );
     d->hiddenLineEdit->hide();
     connect( d->listView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), d, SLOT(updateLineEdit(QModelIndex)) );
     connect( d->hiddenLineEdit, SIGNAL(textChanged(QString)), d, SLOT(updateListView(QString)) );
 
-    d->newDeckButton = new KPushButton( KIcon("get-hot-new-stuff"), i18n("Get New Card Decks..."), this );
+    d->newDeckButton = new KPushButton( KIcon( QLatin1String( "get-hot-new-stuff") ), i18n("Get New Card Decks..." ), this );
     connect( d->newDeckButton, SIGNAL(clicked(bool)), d, SLOT(getNewCardThemes()) );
 
     QHBoxLayout * hLayout = new QHBoxLayout();

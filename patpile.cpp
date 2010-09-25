@@ -28,7 +28,7 @@ PatPile::PatPile( KCardScene * cardScene, int index, const QString & objectName 
     m_role( NoRole )
 {
     if ( objectName.isEmpty() )
-        setObjectName( QString("pile%1").arg( m_index ) );
+        setObjectName( QString(QLatin1String("pile%1" )).arg( m_index ) );
     else
         setObjectName( objectName );
 }

@@ -133,8 +133,8 @@ void Klondike::initialize()
     redealt = false;
 
     options = new KSelectAction(i18n("Klondike &Options"), this );
-    options->addAction( i18n("Draw 1") );
-    options->addAction( i18n("Draw 3") );
+    options->addAction( i18n("Draw 1" ));
+    options->addAction( i18n("Draw 3" ));
     options->setCurrentItem( EasyRules ? 0 : 1 );
     connect( options, SIGNAL(triggered(int)), SLOT(gameTypeChanged()) );
 }

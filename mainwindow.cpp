@@ -94,7 +94,7 @@ MainWindow::MainWindow()
     m_soundEngine( 0 ),
     m_dealDialog( 0 )
 {
-    setObjectName( "MainWindow" );
+    setObjectName( QLatin1String( "MainWindow" ) );
     // KCrash::setEmergencySaveFunction(::saveGame);
 
     setupActions();
@@ -135,19 +135,19 @@ void MainWindow::setupActions()
     KAction *a;
 
     // Game Menu
-    a = actionCollection()->addAction("new_game");
+    a = actionCollection()->addAction( QLatin1String( "new_game" ));
     a->setText(i18nc("Start a new game of a different type","New &Game..."));
-    a->setIcon( KIcon("document-new") );
+    a->setIcon( KIcon( QLatin1String( "document-new" )) );
     a->setShortcuts( KShortcut( Qt::ControlModifier | Qt::ShiftModifier | Qt::Key_N ) );
     connect( a, SIGNAL(triggered(bool)), SLOT(slotShowGameSelectionScreen()) );
 
-    a = actionCollection()->addAction("new_deal");
+    a = actionCollection()->addAction( QLatin1String( "new_deal" ));
     a->setText(i18nc("Start a new game of without changing the game type", "New &Deal"));
-    a->setIcon( KIcon("document-new") );
+    a->setIcon( KIcon( QLatin1String( "document-new" )) );
     a->setShortcuts( KShortcut( Qt::ControlModifier | Qt::Key_N ) );
     connect( a, SIGNAL(triggered(bool)), SLOT(newGame()) );
 
-    a = actionCollection()->addAction("new_numbered_deal");
+    a = actionCollection()->addAction( QLatin1String( "new_numbered_deal" ));
     a->setText(i18nc("Start a game by giving its particular number", "New &Numbered Deal..."));
     a->setShortcut( KShortcut( Qt::ControlModifier | Qt::Key_D ) );
     connect( a, SIGNAL(triggered(bool)), SLOT(newNumberedDeal()) );
@@ -158,18 +158,18 @@ void MainWindow::setupActions()
     // Note that this action is not shown in the menu or toolbar. It is
     // only provided for advanced users who can use it by shorcut or add it to
     // the toolbar if they wish.
-    a = actionCollection()->addAction("next_deal");
+    a = actionCollection()->addAction( QLatin1String( "next_deal" ));
     a->setText(i18nc("Start the game with the number one greater than the current one", "Next Deal"));
-    a->setIcon( KIcon("go-next") );
+    a->setIcon( KIcon( QLatin1String( "go-next" )) );
     a->setShortcut( KShortcut( Qt::ControlModifier | Qt::Key_Plus ) );
     connect( a, SIGNAL(triggered(bool)), this, SLOT(nextDeal()) );
 
     // Note that this action is not shown in the menu or toolbar. It is
     // only provided for advanced users who can use it by shorcut or add it to
     // the toolbar if they wish.
-    a = actionCollection()->addAction("previous_deal");
+    a = actionCollection()->addAction( QLatin1String( "previous_deal" ));
     a->setText(i18nc("Start the game with the number one less than the current one", "Previous Deal"));
-    a->setIcon( KIcon("go-previous") );
+    a->setIcon( KIcon( QLatin1String( "go-previous" )) );
     a->setShortcut( KShortcut( Qt::ControlModifier | Qt::Key_Minus ) );
     connect( a, SIGNAL(triggered(bool)), this, SLOT(previousDeal()) );
 
@@ -181,9 +181,9 @@ void MainWindow::setupActions()
     a = KStandardGameAction::saveAs(this, SLOT(saveGame()), actionCollection());
     a->setShortcut( KShortcut( Qt::ControlModifier | Qt::Key_S ) );
 
-    a = actionCollection()->addAction("game_stats");
+    a = actionCollection()->addAction( QLatin1String( "game_stats" ));
     a->setText(i18n("Statistics"));
-    a->setIcon( KIcon("games-highscores") );
+    a->setIcon( KIcon( QLatin1String( "games-highscores" )) );
     connect( a, SIGNAL(triggered(bool)), SLOT(showStats()) );
 
     KStandardGameAction::quit(this, SLOT(close()), actionCollection());
@@ -211,59 +211,59 @@ void MainWindow::setupActions()
     actionCollection()->addAction( actionName, hintaction );
     connect( hintaction, SIGNAL(triggered()), this, SLOT(toggleHints()) );
 
-    drawaction = actionCollection()->addAction("move_draw");
+    drawaction = actionCollection()->addAction( QLatin1String( "move_draw" ));
     drawaction->setText( i18nc("Take one or more cards from the deck, flip them, and place them in play", "Dra&w") );
-    drawaction->setIcon( KIcon("kpat") );
+    drawaction->setIcon( KIcon( QLatin1String( "kpat" )) );
     drawaction->setShortcut( Qt::Key_Tab );
 
-    dealaction = actionCollection()->addAction("move_deal");
+    dealaction = actionCollection()->addAction( QLatin1String( "move_deal" ));
     dealaction->setText( i18nc("Deal a new row of cards from the deck", "Dea&l Row") );
-    dealaction->setIcon( KIcon("kpat") );
+    dealaction->setIcon( KIcon( QLatin1String( "kpat" )) );
     dealaction->setShortcut( Qt::Key_Return );
 
-    redealaction = actionCollection()->addAction("move_redeal");
+    redealaction = actionCollection()->addAction( QLatin1String( "move_redeal" ));
     redealaction->setText( i18nc("Collect the cards in play, shuffle them and redeal them", "&Redeal") );
-    redealaction->setIcon( KIcon("roll") );
+    redealaction->setIcon( KIcon( QLatin1String( "roll" )) );
     redealaction->setShortcut( Qt::Key_R );
 
     dropaction = new KToggleAction( actionCollection() );
     dropaction->setText( i18nc("Automatically move cards to the foundation piles", "Dro&p") );
-    dropaction->setIcon( KIcon("games-endturn") );
+    dropaction->setIcon( KIcon( QLatin1String( "games-endturn" )) );
     dropaction->setShortcut( Qt::Key_P );
-    actionCollection()->addAction( "move_drop", dropaction );
+    actionCollection()->addAction( QLatin1String(  "move_drop" ), dropaction );
     connect( dropaction, SIGNAL(triggered()), this, SLOT(toggleDrop()) );
 
 
     // Settings Menu
-    a = actionCollection()->addAction("select_deck");
+    a = actionCollection()->addAction( QLatin1String( "select_deck" ));
     a->setText(i18n("Change Appearance..."));
     connect( a, SIGNAL(triggered(bool)), SLOT(configureAppearance()) );
     a->setShortcuts( KShortcut( Qt::Key_F10 ) );
 
     autodropaction = new KToggleAction(i18n("&Enable Autodrop"), this);
-    actionCollection()->addAction("enable_autodrop", autodropaction);
+    actionCollection()->addAction( QLatin1String( "enable_autodrop" ), autodropaction);
     connect( autodropaction, SIGNAL(triggered(bool)), SLOT(setAutoDropEnabled(bool)) );
     autodropaction->setChecked( Settings::autoDropEnabled() );
 
     solveraction = new KToggleAction(i18n("E&nable Solver"), this);
-    actionCollection()->addAction("enable_solver", solveraction);
+    actionCollection()->addAction( QLatin1String( "enable_solver" ), solveraction);
     connect( solveraction, SIGNAL(triggered(bool)), SLOT(enableSolver(bool)) );
     solveraction->setChecked( Settings::solverEnabled() );
 
-    m_playSoundsAction = new KToggleAction( KIcon("preferences-desktop-sound"), i18n("Play &Sounds"), this );
-    actionCollection()->addAction( "play_sounds", m_playSoundsAction );
+    m_playSoundsAction = new KToggleAction( KIcon( QLatin1String( "preferences-desktop-sound") ), i18n("Play &Sounds" ), this );
+    actionCollection()->addAction( QLatin1String(  "play_sounds" ), m_playSoundsAction );
     connect( m_playSoundsAction, SIGNAL(triggered(bool)), SLOT(enableSounds(bool)) );
     m_playSoundsAction->setChecked( Settings::playSounds() );
 
     rememberstateaction = new KToggleAction(i18n("&Remember State on Exit"), this);
-    actionCollection()->addAction("remember_state", rememberstateaction);
+    actionCollection()->addAction( QLatin1String( "remember_state" ), rememberstateaction);
     connect( rememberstateaction, SIGNAL(triggered(bool)), SLOT(enableRememberState(bool)) );
     rememberstateaction->setChecked( Settings::rememberStateOnExit() );
 
 
     // Help Menu
-    gamehelpaction = actionCollection()->addAction("help_game");
-    gamehelpaction->setIcon( KIcon("help-browser") );
+    gamehelpaction = actionCollection()->addAction( QLatin1String( "help_game" ));
+    gamehelpaction->setIcon( KIcon( QLatin1String( "help-browser" )) );
     connect( gamehelpaction, SIGNAL(triggered(bool)), SLOT(helpGame()));
     gamehelpaction->setShortcuts( KShortcut( Qt::ControlModifier | Qt::ShiftModifier | Qt::Key_F1 ) );
 
@@ -271,44 +271,44 @@ void MainWindow::setupActions()
     // Hidden actions
     if (!qgetenv("KDE_DEBUG").isEmpty()) // developer shortcut
     {
-        a = actionCollection()->addAction("themePreview");
+        a = actionCollection()->addAction( QLatin1String( "themePreview" ));
         a->setText(i18n("Generate a theme preview image"));
         connect( a, SIGNAL(triggered(bool)), SLOT(generateThemePreview()) );
         a->setShortcuts( KShortcut( Qt::Key_F7 ) );
 
-        a = actionCollection()->addAction("snapshot");
+        a = actionCollection()->addAction( QLatin1String( "snapshot" ));
         a->setText(i18n("Take Game Preview Snapshots"));
         connect( a, SIGNAL(triggered(bool)), SLOT(slotSnapshot()) );
         a->setShortcuts( KShortcut( Qt::Key_F8 ) );
 
-        a = actionCollection()->addAction("random_set");
+        a = actionCollection()->addAction( QLatin1String( "random_set" ));
         a->setText(i18n("Random Cards"));
         connect( a, SIGNAL(triggered(bool)), SLOT(slotPickRandom()) );
         a->setShortcuts( KShortcut( Qt::Key_F9 ) );
     }
 
     // Keyboard navigation actions
-    m_leftAction = actionCollection()->addAction("focus_left");
+    m_leftAction = actionCollection()->addAction( QLatin1String( "focus_left" ));
     m_leftAction->setText("Move Focus to Previous Pile");
     m_leftAction->setShortcuts( KShortcut( Qt::Key_Left ) );
 
-    m_rightAction = actionCollection()->addAction("focus_right");
+    m_rightAction = actionCollection()->addAction( QLatin1String( "focus_right" ));
     m_rightAction->setText("Move Focus to Next Pile");
     m_rightAction->setShortcuts( KShortcut( Qt::Key_Right ) );
 
-    m_upAction = actionCollection()->addAction("focus_up");
+    m_upAction = actionCollection()->addAction( QLatin1String( "focus_up" ));
     m_upAction->setText("Move Focus to Card Below");
     m_upAction->setShortcuts( KShortcut( Qt::Key_Up ) );
 
-    m_downAction = actionCollection()->addAction("focus_down");
+    m_downAction = actionCollection()->addAction( QLatin1String( "focus_down" ));
     m_downAction->setText("Move Focus to Card Above");
     m_downAction->setShortcuts( KShortcut( Qt::Key_Down ) );
 
-    m_cancelAction = actionCollection()->addAction("focus_cancel");
+    m_cancelAction = actionCollection()->addAction( QLatin1String( "focus_cancel" ));
     m_cancelAction->setText("Cancel Focus");
     m_cancelAction->setShortcuts( KShortcut( Qt::Key_Escape ) );
 
-    m_pickUpSetDownAction = actionCollection()->addAction("focus_activate");
+    m_pickUpSetDownAction = actionCollection()->addAction( QLatin1String( "focus_activate" ));
     m_pickUpSetDownAction->setText("Pick Up or Set Down Focus");
     m_pickUpSetDownAction->setShortcuts( KShortcut( Qt::Key_Space ) );
 }
@@ -710,7 +710,7 @@ void MainWindow::toggleDemo()
 void MainWindow::toggleDemoAction(bool active) 
 {
     demoaction->setChecked( active );
-    demoaction->setIcon( KIcon( active ? "media-playback-pause" : "media-playback-start" ) );
+    demoaction->setIcon( KIcon( QLatin1String(  active ? "media-playback-pause" : "media-playback-start" ) ) );
 }
 
 void MainWindow::saveNewToolbarConfig()
