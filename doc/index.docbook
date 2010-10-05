@@ -257,9 +257,12 @@ it).
 </para>
 
 <para>
-If no more cards can be moved, you can re-deal up to two times. All cards already
-in the foundations stay there, but the cards in the playing piles are reordered
-to give you a new chance to find a solution.
+If there are no more possible moves, you can redeal the cards. A redeal
+consists of picking up the cards from the playing piles (pile by pile, left to
+right) and redealing them in the starting pattern (zigzagging rows of face down
+cards forming a peak and then left to right rows of face up cards on top). Note
+that the cards are <emphasis>not</emphasis> shuffled and that cards on the foundation piles
+are left untouched. You may redeal no more than twice in a single game.
 </para>
 
 <para>
@@ -492,7 +495,7 @@ of it).
 </para>
 </sect2>
 
-<sect2 id="grandfathers">
+<sect2 id="grandfathers-clock">
 <title>Grandfather's Clock</title>
 
 <para><indexterm><primary>Grandfathers Clock</primary></indexterm>
@@ -503,8 +506,8 @@ as real ascending sequences on the foundation.
 
 <para>
 The foundation is on the right-hand side and consists of 12 piles that form the shape
-of a clock. The ace is at one o'clock, the jack is at 11 o'clock, and the queen is at 12
-o'clock.
+of a clock. The nine is at 12 o'clock, the queen is at 3 o'clock, the three is at 6 o'clock
+and the six is at 9 o'clock.
 </para>
 
 <para>
@@ -512,8 +515,6 @@ There are 8 playing piles beside the clock and on each are 5 cards. On the
 playing piles you can build descending sequences. The color of the cards is not important. 
 You can only move one card at a time.
 </para>
-
-<para>The auto drop feature is disabled in this patience game.</para>
 
 </sect2>
 
