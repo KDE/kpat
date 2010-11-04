@@ -49,17 +49,8 @@ NumberedDealDialog::NumberedDealDialog( QWidget * parent )
 
     QMap<QString,int> nameToIdMap;
     foreach ( DealerInfo * game, DealerInfoList::self()->games() )
-    {
-        QList<int> ids = game->ids();
-
-        // If a game has more than one ID, ignore the first one as it's the
-        // generic ID for all of the games sub-types.
-        if ( ids.size() > 1 )
-            ids.removeFirst();
-
-        foreach ( int id, ids )
-            nameToIdMap.insert( QString( game->name( id ) ), id );
-    }
+        foreach ( int id, game->distinctIds() )
+            nameToIdMap.insert( game->nameForId( id ), id );
 
     QMap<QString,int>::const_iterator it = nameToIdMap.constBegin();
     QMap<QString,int>::const_iterator end = nameToIdMap.constEnd();

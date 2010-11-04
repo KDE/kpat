@@ -100,8 +100,11 @@ MainWindow::MainWindow()
     setupActions();
 
     foreach( const DealerInfo * di, DealerInfoList::self()->games() )
-        foreach( int id, di->ids() )
+    {
+        m_dealer_map.insert( di->baseId(), di );
+        foreach( int id, di->subtypeIds() )
             m_dealer_map.insert( id, di );
+    }
     m_dealer_it = m_dealer_map.constEnd();
 
     m_view = new PatienceView( this );
@@ -329,7 +332,8 @@ void MainWindow::helpGame()
     if (m_dealer && m_dealer_map.contains(m_dealer->gameId()))
     {
         const DealerInfo * di = m_dealer_map.value(m_dealer->gameId());
-        QString anchor = QString(di->name()).toLower();
+        QString anchor = QString::fromUtf8( di->untranslatedBaseName() );
+        anchor = anchor.toLower();
         anchor = anchor.remove('\'').replace('&', "and").replace(' ', '-');
         KToolInvocation::invokeHelp(anchor);
     }
@@ -457,7 +461,7 @@ void MainWindow::setGameCaption()
     if ( m_dealer )
     {
         const DealerInfo * di = m_dealer_map.value( m_dealer->gameId() );
-        caption = QString("%1 - %2").arg( i18n( di->name() ) ).arg(m_dealer->gameNumber());
+        caption = QString("%1 - %2").arg( di->baseName() ).arg(m_dealer->gameNumber());
     }
     setCaption( caption );
 }
@@ -505,7 +509,7 @@ void MainWindow::setGameType(int id)
     m_dealer = di->createGame();
     m_dealer->setDeck( m_cardDeck );
     m_dealer->initialize();
-    m_dealer->setGameId( di->ids().first() );
+    m_dealer->setGameId( di->baseId() );
     m_dealer->mapOldId( id );
     m_dealer->setSolverEnabled( solveraction->isChecked() );
     m_dealer->setAutoDropEnabled( autodropaction->isChecked() );
@@ -514,7 +518,7 @@ void MainWindow::setGameType(int id)
 
     gamehelpaction->setText(i18nc("Is disabled and changes to \"Help &with Current Game\" when"
                                   " there is no current game.",
-                                  "Help &with %1", i18n(di->name()).replace('&', "&&")));
+                                  "Help &with %1", di->baseName().replace('&', "&&")));
 
     connect(m_dealer, SIGNAL(solverStateChanged(QString)), SLOT(updateSolverDescription(QString)));
     connect(m_dealer, SIGNAL(updateMoves(int)), SLOT(slotUpdateMoves(int)));

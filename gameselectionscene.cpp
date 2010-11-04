@@ -214,7 +214,7 @@ GameSelectionScene::GameSelectionScene( QObject * parent )
 {
     foreach (const DealerInfo * i, DealerInfoList::self()->games())
     {
-        GameSelectionBox * box = new GameSelectionBox( i18n( i->name() ), i->ids().first() );
+        GameSelectionBox * box = new GameSelectionBox( i->baseName(), i->baseId() );
         m_boxes.append( box );
         addItem( box );
 

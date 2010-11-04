@@ -480,29 +480,14 @@ public:
     SpideDealerInfo()
       : DealerInfo(I18N_NOOP("Spider"), SpiderGeneralId)
     {
-        addId(SpiderOneSuitId);
-        addId(SpiderTwoSuitId);
-        addId(SpiderFourSuitId);
+        addSubtype( SpiderOneSuitId, I18N_NOOP( "Spider (1 Suit)" ) );
+        addSubtype( SpiderTwoSuitId, I18N_NOOP( "Spider (2 Suit)" ) );
+        addSubtype( SpiderFourSuitId, I18N_NOOP( "Spider (4 Suit)" ) );
     }
 
     virtual DealerScene *createGame() const
     {
         return new Spider();
-    }
-
-    virtual const char * name( int id ) const
-    {
-        switch ( id )
-        {
-        case DealerInfo::SpiderOneSuitId :
-            return I18N_NOOP("Spider (1 Suit)");
-        case DealerInfo::SpiderTwoSuitId :
-            return I18N_NOOP("Spider (2 Suit)");
-        case DealerInfo::SpiderFourSuitId :
-            return I18N_NOOP("Spider (4 Suit)");
-        default :
-            return m_name;
-        }
     }
 } spideDealerInfo;
 

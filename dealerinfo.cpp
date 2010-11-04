@@ -38,35 +38,78 @@
 #include "dealerinfo.h"
 
 #include <KGlobal>
+#include <KLocale>
 
 
-DealerInfo::DealerInfo( const char * name, int id )
-  : m_name( name )
+DealerInfo::DealerInfo( const QByteArray & untranslatedBaseName, int baseId )
+  : m_baseName( untranslatedBaseName ),
+    m_baseId( baseId )
 {
-    addId( id );
-    DealerInfoList::self()->add(this);
+    DealerInfoList::self()->add( this );
 }
+
 
 DealerInfo::~DealerInfo()
 {
 }
 
-const char * DealerInfo::name( int id ) const
+
+QString DealerInfo::baseName() const
 {
-    Q_UNUSED( id );
-    return m_name;
+    return i18n( m_baseName );
 }
 
-void DealerInfo::addId( int id )
+
+QByteArray DealerInfo::untranslatedBaseName() const
 {
-    m_ids.append( id );
+    return m_baseName;
 }
 
-const QList<int> DealerInfo::ids() const
+
+int DealerInfo::baseId() const
 {
-    return m_ids;
+    return m_baseId;
 }
 
+
+void DealerInfo::addSubtype( int id, const QByteArray & untranslatedName )
+{
+    m_subtypes.insert( id, untranslatedName );
+}
+
+
+QList<int> DealerInfo::subtypeIds() const
+{
+    return m_subtypes.keys();
+}
+
+
+QList<int> DealerInfo::distinctIds() const
+{
+    if ( m_subtypes.isEmpty() )
+        return QList<int>() << m_baseId;
+    else
+        return m_subtypes.keys();
+}
+
+
+bool DealerInfo::providesId( int id ) const
+{
+    return id == m_baseId || m_subtypes.contains( id );
+}
+
+
+QString DealerInfo::nameForId( int id ) const
+{
+    if ( id == m_baseId )
+        return baseName();
+
+    QMap<int,QByteArray>::const_iterator it = m_subtypes.find( id );
+    if ( it != m_subtypes.constEnd() )
+        return i18n( it.value().constData() );
+    else
+        return QString();
+}
 
 
 class DealerInfoListPrivate

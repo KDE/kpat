@@ -42,7 +42,9 @@ class DealerInfoList;
 class DealerScene;
 class Solver;
 
+#include <QtCore/QByteArray>
 #include <QtCore/QList>
+#include <QtCore/QMap>
 
 
 class DealerInfo
@@ -69,18 +71,27 @@ public:
         KlondikeGeneralId   = 18
     };
 
-    DealerInfo( const char * name, int id );
+    DealerInfo( const QByteArray & untranslatedBaseName, int baseId );
     virtual ~DealerInfo();
 
-    virtual const char * name( int id = -1 ) const;
-    void addId( int id );
-    const QList<int> ids() const;
+    QString baseName() const;
+    QByteArray untranslatedBaseName() const;
+    int baseId() const;
+
+    void addSubtype( int id, const QByteArray & untranslatedName );
+    QList<int> subtypeIds() const;
+
+    QList<int> distinctIds() const;
+    bool providesId( int id ) const;
+    QString nameForId( int id ) const;
 
     virtual DealerScene * createGame() const = 0;
 
 protected:
-    const char * m_name;
-    QList<int> m_ids;
+    QByteArray m_baseName;
+    int m_baseId;
+
+    QMap<int,QByteArray> m_subtypes;
 };
 
 

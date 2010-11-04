@@ -325,26 +325,13 @@ public:
     KlondikeDealerInfo()
       : DealerInfo(I18N_NOOP("Klondike"), DealerInfo::KlondikeGeneralId)
     {
-        addId(DealerInfo::KlondikeDrawThreeId);
-        addId(DealerInfo::KlondikeDrawOneId);
+        addSubtype( KlondikeDrawThreeId, I18N_NOOP( "Klondike (Draw 1)" ) );
+        addSubtype( KlondikeDrawOneId, I18N_NOOP( "Klondike (Draw 3)" ) );
     }
 
     virtual DealerScene *createGame() const
     {
         return new Klondike();
-    }
-
-    virtual const char * name( int id ) const
-    {
-        switch ( id )
-        {
-        case DealerInfo::KlondikeDrawOneId :
-            return I18N_NOOP("Klondike (Draw 1)");
-        case DealerInfo::KlondikeDrawThreeId :
-            return I18N_NOOP("Klondike (Draw 3)");
-        default :
-            return m_name;
-        }
     }
 } klondikeDealerInfo;
 

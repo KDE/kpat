@@ -65,7 +65,7 @@ static DealerScene *getDealer( int wanted_game )
 {
     foreach ( DealerInfo * di, DealerInfoList::self()->games() )
     {
-        if ( di->ids().contains( wanted_game ) )
+        if ( di->providesId( wanted_game ) )
         {
             DealerScene * d = di->createGame();
             Q_ASSERT( d );
@@ -74,11 +74,10 @@ static DealerScene *getDealer( int wanted_game )
 
             if ( !d->solver() )
             {
-                kError() << "There is no solver for" << di->name();
+                kError() << "There is no solver for" << di->nameForId( wanted_game );;
                 return 0;
             }
 
-            fprintf( stdout, "Testing %s\n", di->name() );
             return d;
         }
     }
@@ -165,10 +164,11 @@ int main( int argc, char **argv )
     QStringList gameList;
     foreach ( const DealerInfo *di, DealerInfoList::self()->games() )
     {
-        const QString translatedKey = lowerAlphaNum( ki18n( di->name() ).toString(tmpLocale) );
+        KLocalizedString localizedKey = ki18n( di->untranslatedBaseName().constData() );
+        const QString translatedKey = lowerAlphaNum( localizedKey.toString( tmpLocale ) );
         gameList << translatedKey;
-        indexMap.insert( translatedKey, di->ids().first() );
-        indexMap.insert( lowerAlphaNum( QString( di->name() ) ), di->ids().first() );
+        indexMap.insert( translatedKey, di->baseId() );
+        indexMap.insert( lowerAlphaNum( QString::fromUtf8( di->untranslatedBaseName() ) ), di->baseId() );
     }
     gameList.sort();
     const QString listSeparator = ki18nc( "List separator", ", " ).toString( tmpLocale );
