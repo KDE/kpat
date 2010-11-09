@@ -6,10 +6,10 @@
 
 <refentry id="kpat">
 <refmeta>
-<refentrytitle>KPAT</refentrytitle>
+<refentrytitle>KPat</refentrytitle>
 <manvolnum>6</manvolnum>
-<refmiscinfo class="date">January 24, 2002</refmiscinfo>
-<refmiscinfo class="source">kde-games</refmiscinfo>
+<refmiscinfo class="date">2010-11-09</refmiscinfo>
+<refmiscinfo class="source">kdegames</refmiscinfo>
 <refmiscinfo class="title">KDE User's Manual</refmiscinfo>
 </refmeta>
 
@@ -23,6 +23,12 @@
 <command>kpat</command>
 <arg choice="opt" rep="repeat">Qt-option</arg>
 <arg choice="opt" rep="repeat">KDE-option</arg>
+<group choice="opt"><option>--solvegame</option> <replaceable> file</replaceable></group>
+<group choice="opt"><option>--solve</option> <replaceable> num</replaceable></group>
+<group choice="opt"><option>--start</option> <replaceable> num</replaceable></group>
+<group choice="opt"><option>--end</option> <replaceable> num</replaceable></group>
+<group choice="opt"><option>--gametype</option> <replaceable> game</replaceable></group>
+
 </cmdsynopsis>
 </refsynopsisdiv>
 
@@ -31,7 +37,7 @@
 <para>
 &kpatience; is a compendium of several well known patience card games,
 ranging from the well known Klondike and Freecell, to lesser known
-games such as Grandfather's Clock and Mod3.  In all there are 13
+games such as Grandfather's Clock and Mod3.  In all there are 12
 variations for you to while away time.</para>
 </refsect1>
 	
@@ -41,8 +47,7 @@ variations for you to while away time.</para>
 This program follows the usual GNU command line syntax,
 with long options starting with two dashes (`--'). A
 summary of the options supported by <command>kpat</command>
-is included below.		</para>
-		
+is included below.</para>
 
 <refsect2>
 <title>Generic Options</title>
@@ -56,7 +61,7 @@ is included below.		</para>
 </varlistentry>
 
 <varlistentry>
-<term>--help</term>
+<term><option>--help</option></term>
 <listitem>
 <para>Show help about options</para>
 </listitem>
@@ -235,6 +240,25 @@ and root.
 <para>disable XIM.</para>
 </listitem>
 </varlistentry>
+<varlistentry>
+<term><option>--reverse</option></term>
+<listitem>
+<para>mirrors the whole layout of widgets.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--stylesheet <replaceable>file.qss</replaceable></option></term>
+<listitem>
+<para>applies the Qt stylesheet to the application widgets.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><option>--graphicssystem <replaceable>system</replaceable></option></term>
+<listitem>
+<para>use a different graphics system instead of the default one, 
+options are <quote>raster</quote> and <quote>opengl</quote> (experimental).</para>
+</listitem>
+</varlistentry>
 </variablelist>
 </refsect2>
 
@@ -256,17 +280,10 @@ and root.
 </varlistentry>
 
 <varlistentry>
-<term><option>--miniicon <replaceable>icon</replaceable></option></term>
-<listitem>
-<para>Use <replaceable>icon</replaceable> as the icon in the titlebar.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--dcopserver <replaceable>server</replaceable></option></term>
+<term><option>--config <replaceable>filename</replaceable></option></term>
 <listitem>
 <para>
-Use the DCOP Server specified by <emphasis>server</emphasis>.
+Use alternative configuration file.
 </para>
 </listitem>
 </varlistentry>
@@ -298,7 +315,8 @@ Waits for a WM_NET compatible windowmanager.
 <term><option>--geometry <replaceable>geometry</replaceable></option></term>
 <listitem>
 <para>
-sets the client geometry of the main widget.
+sets the client geometry of the main widget - see the manual page 
+<ulink url="man:/X">man:/X</ulink> for the argument format (usually WidthxHeight+XPos+YPos).
 </para>
 </listitem>
 </varlistentry>
@@ -307,6 +325,62 @@ sets the client geometry of the main widget.
 
 <!-- Stop cutting here: End of entity text -->
 
+<refsect2>
+<title>Options</title>
+<variablelist>
+
+<varlistentry>
+<term><option>--solvegame</option> <replaceable> file</replaceable></term>
+<listitem>
+<para>Try to find a solution to the given savegame</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--solve</option> <replaceable> num</replaceable></term>
+<listitem>
+<para>Dealer to solve (debug)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--start</option> <replaceable> num</replaceable></term>
+<listitem>
+<para>Game range start (default 0:INT_MAX)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--end</option> <replaceable> num</replaceable></term>
+<listitem>
+<para>Game range end (default start:start if start given)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--gametype</option> <replaceable> game</replaceable></term>
+<listitem>
+<para>Skip the selection screen and load a particular game type. Valid values are: acesup, fortyeight, freecell, golf, grandfather, grandfathersclock, gypsy, klondike, mod3, simplesimon, spider, yukon</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect2>
+
+<refsect2>
+<title>Arguments</title>
+<variablelist>
+
+<varlistentry>
+<term><replaceable> file</replaceable></term>
+<listitem>
+<para>File to load</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect2>
+
 </refsect1>
 	
 <refsect1>
@@ -314,7 +388,7 @@ sets the client geometry of the main widget.
 <para>
 &kpatience; is documented in detail in <emphasis>The &kpatience;
 Handbook</emphasis>
-(<filename>$<envar>KDEDIR</envar>share/doc/HTML/en/kpat/index.html</filename>
+(<filename>$<envar>KDEDIR</envar>/share/doc/HTML/en/kpat/index.html</filename>
 or enter <userinput>help://kpat/index.html</userinput> in
 &konqueror;).</para>
 		
