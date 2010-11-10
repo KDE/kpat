@@ -547,7 +547,7 @@ dealt out 10 at a time, one on each playing pile.
 
 <para>
 In the playing piles, a card can be placed on another card of any suit and
-of one higher value.  A sequence of ascending cards of the same suit may be
+of one higher value.  A sequence of descending cards of the same suit may be
 moved from one playing pile to another.
 </para>
 
