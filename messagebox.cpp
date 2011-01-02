@@ -26,7 +26,7 @@
 namespace
 {
     const qreal textToBoxSizeRatio = 0.8;
-    const int minimumFontSize = 5;
+    const int MessageBoxMinimumFontSize = 5;
     const int maximumFontSize = 36;
 }
 
@@ -98,7 +98,7 @@ void MessageBox::paint( QPainter * painter, const QStyleOptionGraphicsItem * opt
             if ( br.width() < availableWidth && br.height() < availableHeight )
                 break;
 
-            size = qBound( minimumFontSize,
+            size = qBound( MessageBoxMinimumFontSize,
                            qMin( size * availableWidth / br.width(),
                                  size * availableHeight / br.height() ),
                            size - 1 );
@@ -107,7 +107,7 @@ void MessageBox::paint( QPainter * painter, const QStyleOptionGraphicsItem * opt
             f.setPointSize( size );
             painter->setFont( f );
         }
-        while ( size > minimumFontSize );
+        while ( size > MessageBoxMinimumFontSize );
 
         m_font = painter->font();
         m_fontCached = true;
