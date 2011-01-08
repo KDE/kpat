@@ -744,6 +744,7 @@ void KCardScene::flipCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal ve
     bool origFaceUp = card->isFaceUp();
 
     QPointF estimatedDestPos = pile->isEmpty() ? pile->pos() : pile->top()->pos();
+    card->setFaceUp( !origFaceUp );
     moveCardToPile( card, pile, d->calculateDuration( origPos, estimatedDestPos, velocity ) );
 
     card->completeAnimation();
