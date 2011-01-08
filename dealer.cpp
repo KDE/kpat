@@ -644,7 +644,7 @@ void DealerScene::startNew(int gameNumber)
         p->clear();
 
     d->dealInProgress = true;
-    restart( shuffled( deck()->cards(), gameNumber ) );
+    restart( shuffled( deck()->cards(), d->gameNumber ) );
     d->dealInProgress = false;
 
     takeState();
