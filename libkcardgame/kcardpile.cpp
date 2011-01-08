@@ -478,6 +478,8 @@ void KCardPile::layoutCards( int duration )
     if ( !kcs || d->cards.isEmpty() )
         return;
 
+    const QSize cardSize = d->cards.first()->boundingRect().size().toSize();
+
     qreal minX = 0;
     qreal maxX = 0;
     qreal minY = 0;
@@ -492,11 +494,17 @@ void KCardPile::layoutCards( int duration )
         maxY = qMax( maxY, totalOffset.y() );
     }
 
+    QPointF absLayoutPos = layoutPos();
+    if ( absLayoutPos.x() < 0 )
+        absLayoutPos.rx() += kcs->contentArea().width() / cardSize.width() - 1;
+    if ( absLayoutPos.y() < 0 )
+        absLayoutPos.ry() += kcs->contentArea().height() / cardSize.height() - 1;
+
     QRectF available = kcs->spaceAllottedToPile( this );
-    qreal availableTop = -available.top() - layoutPos().y();
-    qreal availableRight = available.right() - layoutPos().x() - 1;
-    qreal availableBottom = available.bottom() - layoutPos().y() - 1;
-    qreal availableLeft = -available.right() - layoutPos().x();
+    qreal availableTop = absLayoutPos.y() - available.top();
+    qreal availableBottom = available.bottom() - (absLayoutPos.y() + 1);
+    qreal availableLeft = absLayoutPos.x() - available.left();
+    qreal availableRight = available.right() - (absLayoutPos.x() + 1);
 
     qreal scaleTop = 1;
     if ( minY < 0 )
@@ -514,7 +522,6 @@ void KCardPile::layoutCards( int duration )
         scaleRight = qMin<qreal>( availableRight / maxX, 1 );
     qreal scaleX = qMin( scaleLeft, scaleRight );
 
-    const QSize cardSize = d->cards.first()->boundingRect().size().toSize();
     QPointF cardPos = pos();
     qreal z = zValue() + 1;
 
