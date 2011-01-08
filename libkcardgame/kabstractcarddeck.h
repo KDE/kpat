@@ -55,6 +55,8 @@ public:
 
     bool hasAnimatedCards() const;
 
+    QPixmap cardPixmap( quint32 id, bool faceUp );
+
 Q_SIGNALS:
     void cardAnimationDone();
 

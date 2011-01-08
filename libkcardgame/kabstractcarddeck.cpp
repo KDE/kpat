@@ -487,5 +487,11 @@ bool KAbstractCardDeck::hasAnimatedCards() const
 }
 
 
+QPixmap KAbstractCardDeck::cardPixmap( quint32 id, bool faceUp )
+{
+    return d->requestPixmap( id, faceUp );
+}
+
+
 #include "kabstractcarddeck.moc"
 #include "kabstractcarddeck_p.moc"
