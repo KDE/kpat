@@ -794,6 +794,9 @@ void DealerScene::updateWonItem()
 
 bool DealerScene::allowedToAdd( const KCardPile * pile, const QList<KCard*> & cards ) const
 {
+    if ( !pile->isEmpty() && !pile->top()->isFaceUp() )
+        return false;
+
     const PatPile * p = dynamic_cast<const PatPile*>( pile );
     return p && checkAdd( p, p->cards(), cards );
 }
@@ -802,11 +805,11 @@ bool DealerScene::allowedToAdd( const KCardPile * pile, const QList<KCard*> & ca
 bool DealerScene::allowedToRemove( const KCardPile * pile, const KCard * card ) const
 {
     const PatPile * p = dynamic_cast<const PatPile*>( pile );
-    if ( !p )
-        return false;
-
-    QList<KCard*> cards = p->topCardsDownTo( card );
-    return !cards.isEmpty() && checkRemove( p, cards );
+    QList<KCard*> cards = pile->topCardsDownTo( card );
+    return p
+           && card->isFaceUp()
+           && !cards.isEmpty()
+           && checkRemove( p, cards );
 }
 
 
