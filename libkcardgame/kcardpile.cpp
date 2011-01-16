@@ -37,6 +37,7 @@
 
 #include "kcardpile.h"
 
+#include "kabstractcarddeck.h"
 #include "kcardscene.h"
 
 #include <KDebug>
@@ -478,7 +479,7 @@ void KCardPile::layoutCards( int duration )
     if ( !kcs || d->cards.isEmpty() )
         return;
 
-    const QSize cardSize = d->cards.first()->boundingRect().size().toSize();
+    const QSize cardSize = kcs->deck()->cardSize();
 
     qreal minX = 0;
     qreal maxX = 0;
