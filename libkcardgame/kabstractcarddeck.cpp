@@ -88,7 +88,7 @@ void RenderingThread::run()
         {
             kDebug() << "Renderering" << key << "in rendering thread.";
 
-            QImage img = QImage( m_size, QImage::Format_ARGB32 );
+            QImage img = QImage( m_size, QImage::Format_ARGB32_Premultiplied );
             img.fill( Qt::transparent );
             QPainter p( &img );
             {
@@ -144,40 +144,33 @@ QSvgRenderer * KAbstractCardDeckPrivate::renderer()
 
 QPixmap KAbstractCardDeckPrivate::renderCard( const QString & element )
 {
-    QPixmap pix;
-    if ( !theme.isValid() || currentCardSize.isEmpty() )
-        return pix;
-
     QString key = keyForPixmap( element , currentCardSize );
-    if ( !cache->findPixmap( key, &pix ) )
+    kDebug() << "Renderering" << key << "in main thread.";
+
+    QImage img( currentCardSize, QImage::Format_ARGB32_Premultiplied );
+    img.fill( Qt::transparent );
+    QPainter p( &img );
     {
-        kDebug() << "Renderering" << key << "in main thread.";
-
-        pix = QPixmap( currentCardSize );
-        pix.fill( Qt::transparent );
-        QPainter p( &pix );
+        QMutexLocker l( &rendererMutex );
+        if ( renderer()->elementExists( element ) )
         {
-            QMutexLocker l( &rendererMutex );
-            if ( renderer()->elementExists( element ) )
-            {
-                renderer()->render( &p, element );
-            }
-            else
-            {
-                kWarning() << "Could not find" << element << "in SVG.";
-                p.fillRect( QRect( 0, 0, pix.width(), pix.height() ), Qt::white );
-                p.setPen( Qt::red );
-                p.drawLine( 0, 0, pix.width(), pix.height() );
-                p.drawLine( pix.width(), 0, 0, pix.height() );
-                p.end();
-            }
+            renderer()->render( &p, element );
         }
-        p.end();
-
-        cache->insertPixmap( key, pix );
+        else
+        {
+            kWarning() << "Could not find" << element << "in SVG.";
+            p.fillRect( QRect( 0, 0, img.width(), img.height() ), Qt::white );
+            p.setPen( Qt::red );
+            p.drawLine( 0, 0, img.width(), img.height() );
+            p.drawLine( img.width(), 0, 0, img.height() );
+            p.end();
+        }
     }
+    p.end();
 
-    return pix;
+    cache->insertImage( key, img );
+
+    return QPixmap::fromImage( img );
 }
 
 
@@ -223,6 +216,7 @@ QPixmap KAbstractCardDeckPrivate::requestPixmap( quint32 id, bool faceUp )
             else
                 stored = stored.scaled( currentCardSize );
         }
+        Q_ASSERT( stored.size() == currentCardSize );
     }
     return stored;
 }
@@ -240,6 +234,11 @@ void KAbstractCardDeckPrivate::deleteThread()
 void KAbstractCardDeckPrivate::submitRendering( const QString & elementId, const QImage & image )
 {
     QPixmap pix;
+
+    // If the currentCardSize has changed since the rendering was performed,
+    // we sadly just have to throw it away.
+    if ( image.size() != currentCardSize )
+        return;
 
     // The RenderingThread just put the image in the cache, but due to the
     // volatility of the cache there's no guarantee that it'll still be there
@@ -400,20 +399,14 @@ void KAbstractCardDeck::setCardWidth( int width )
 
     if ( newSize != d->currentCardSize )
     {
+        d->deleteThread();
+
         d->currentCardSize = newSize;
 
         if ( !d->theme.isValid() )
             return;
 
         cacheInsert( d->cache, lastUsedSizeKey, d->currentCardSize );
-
-        foreach ( KCard * c, d->cards )
-        {
-            c->setFrontPixmap( d->requestPixmap( c->id(), true ) );
-            c->setBackPixmap( d->requestPixmap( c->id(), false ) );
-        }
-
-        d->deleteThread();
 
         QStringList elementsToRender = d->frontIndex.keys() + d->backIndex.keys();
         d->thread = new RenderingThread( d, d->currentCardSize, elementsToRender );
