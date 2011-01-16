@@ -321,6 +321,10 @@ void KCard::paint( QPainter * painter, const QStyleOptionGraphicsItem * option, 
             setFrontPixmap( newPix );
         else
             setBackPixmap( newPix );
+
+        // Changing the pixmap will call update() and force a repaint, so we
+        // might as well return early.
+        return;
     }
 
     // Enable smooth pixmap transformation only if the card is rotated. We

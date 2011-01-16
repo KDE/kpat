@@ -42,8 +42,13 @@ KImageCache * createCache( const KCardTheme & theme )
 
     QString cacheName = QString( cacheNameTemplate ).arg( theme.dirName() );
     cache = new KImageCache( cacheName, 3 * 1024 * 1024 );
-    cache->setPixmapCaching( true );
     cache->setEvictionPolicy( KSharedDataCache::EvictLeastRecentlyUsed );
+
+    // Enabling the pixmap cache has caused issues: we were getting back
+    // different pixmaps than we had inserted. We keep a partial cache of the
+    // pixmaps in KAbstractCardDeck already, so the builtin pixmap caching
+    // doesn't really add that much benefit anyway.
+    cache->setPixmapCaching( false );
 
     QDateTime cacheTimeStamp;
     if ( !cacheFind( cache, timeStampKey, &cacheTimeStamp )
