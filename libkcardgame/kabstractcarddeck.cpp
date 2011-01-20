@@ -88,7 +88,7 @@ void RenderingThread::run()
         {
             kDebug() << "Renderering" << key << "in rendering thread.";
 
-            QImage img = QImage( m_size, QImage::Format_ARGB32_Premultiplied );
+            QImage img = QImage( m_size, QImage::Format_ARGB32 );
             img.fill( Qt::transparent );
             QPainter p( &img );
             {
@@ -147,7 +147,12 @@ QPixmap KAbstractCardDeckPrivate::renderCard( const QString & element )
     QString key = keyForPixmap( element , currentCardSize );
     kDebug() << "Renderering" << key << "in main thread.";
 
-    QImage img( currentCardSize, QImage::Format_ARGB32_Premultiplied );
+    // Note that we don't use Format_ARGB32_Premultiplied as it sacrifices some
+    // colour accuracy at low opacities for performance. Normally this wouldn't
+    // be an issue, but in card games we often will have, say, 52 pixmaps
+    // stacked on top of one another, which causes these colour inaccuracies to
+    // add up to the point that they're very visible.
+    QImage img( currentCardSize, QImage::Format_ARGB32 );
     img.fill( Qt::transparent );
     QPainter p( &img );
     {
