@@ -127,7 +127,7 @@ void SimonSolver::undo_move(MOVE *m)
             Wp[from]++;
             *Wp[from] = card;
             Wlen[from]++;
-            *Wp[to]--;
+            Wp[to]--;
         }
         Wlen[to] -= m->card_index + 1;
         hashpile(to);
@@ -320,10 +320,10 @@ int SimonSolver::get_possible_moves(int *a, int *numout)
     return n;
 }
 
-void SimonSolver::unpack_cluster( int k )
+void SimonSolver::unpack_cluster( unsigned int k )
 {
     // TODO: this only works for easy
-    for ( int i = 0; i < 4; ++i )
+    for ( unsigned int i = 0; i < 4; ++i )
     {
         if ( i < k )
             O[i] = PS_SPADE;
@@ -384,9 +384,9 @@ void SimonSolver::translate_layout()
     }
 }
 
-int SimonSolver::getClusterNumber()
+unsigned int SimonSolver::getClusterNumber()
 {
-    int k = 0;
+    unsigned int k = 0;
     for ( int i = 0; i < 4; ++i )
     {
         if ( O[i] != -1 )

@@ -484,6 +484,12 @@ bool KAbstractCardDeck::hasAnimatedCards() const
     return !d->cardsWaitedFor.isEmpty();
 }
 
+void KAbstractCardDeck::stopAnimations() 
+{
+    foreach ( KCard * c, d->cardsWaitedFor )
+       c->stopAnimation();
+    d->cardsWaitedFor.clear();
+}
 
 QPixmap KAbstractCardDeck::cardPixmap( quint32 id, bool faceUp )
 {

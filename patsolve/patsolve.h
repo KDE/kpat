@@ -60,7 +60,7 @@ struct POSITION {
 	POSITION *parent;     /* point back up the move stack */
 	TREE *node;             /* compact position rep.'s tree node */
 	MOVE move;              /* move that got us here from the parent */
-	unsigned short cluster; /* the cluster this node is in */
+	quint32 cluster; /* the cluster this node is in */
 	short depth;            /* number of moves so far */
 	quint8 ntemp;           /* number of cards in T */
 	quint8 nchild;          /* number of child nodes left */
@@ -82,7 +82,7 @@ public:
 
     Solver();
     virtual ~Solver();
-    ExitStatus patsolve( int max_positions = -1);
+    ExitStatus patsolve( int max_positions = -1, bool debug = false);
     bool recursive(POSITION *pos = 0);
     virtual void translate_layout() = 0;
     bool m_shouldEnd;
@@ -109,7 +109,7 @@ protected:
     void unpack_position(POSITION *pos);
     void init_buckets(void);
     int get_pilenum(int w);
-    MemoryManager::inscode insert(int *cluster, int d, TREE **node);
+    MemoryManager::inscode insert(unsigned int *cluster, int d, TREE **node);
     void free_buckets(void);
     void printcard(card_t card, FILE *outfile);
     int translate_pile(const KCardPile *pile, card_t *w, int size);
@@ -122,8 +122,8 @@ protected:
     virtual void prioritize(MOVE *mp0, int n);
     virtual bool isWon() = 0;
     virtual int getOuts() = 0;
-    virtual int getClusterNumber() = 0;
-    virtual void unpack_cluster( int k ) = 0;
+    virtual unsigned int getClusterNumber() { return 0; }
+    virtual void unpack_cluster( unsigned int  ) {}
 
     void setNumberPiles( int i );
     int m_number_piles;
@@ -163,6 +163,7 @@ protected:
     POSITION *Stack;
     QMap<qint32,bool> recu_pos;
     int max_positions;
+    bool debug;
 };
 
 /* Misc. */

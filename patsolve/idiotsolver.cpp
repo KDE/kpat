@@ -64,7 +64,7 @@ void IdiotSolver::make_move(MOVE *m)
         card = *Wp[from];
         Wp[from]--;
         Wlen[from]--;
-        *Wp[to]++;
+        Wp[to]++;
         *Wp[to] = card;
         Wlen[to]++;
 
@@ -112,7 +112,7 @@ void IdiotSolver::undo_move(MOVE *m)
         card = *Wp[to];
         Wp[to]--;
         Wlen[to]--;
-        *Wp[from]++;
+        Wp[from]++;
         *Wp[from] = card;
         Wlen[from]++;
 
@@ -187,10 +187,6 @@ int IdiotSolver::get_possible_moves(int *a, int *numout)
     return n;
 }
 
-void IdiotSolver::unpack_cluster( int )
-{
-}
-
 bool IdiotSolver::isWon()
 {
     // maybe won?
@@ -235,11 +231,6 @@ void IdiotSolver::translate_layout()
     total += i;
 
     Q_ASSERT( total == 52 );
-}
-
-int IdiotSolver::getClusterNumber()
-{
-    return 0;
 }
 
 MoveHint IdiotSolver::translateMove( const MOVE &m )

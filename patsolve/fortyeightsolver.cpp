@@ -21,14 +21,66 @@
 
 #include <KDebug>
 
+#define NUM_PILE 8
+#define NUM_DECK 9
 
 #define PRINT 0
+
+class FortyeightSolverState {
+public:
+  bool empty[8];
+  bool linedup[8];
+  int  highestbreak[8];
+  int  firstempty;
+  int  freestores;
+  int  fromscore[8];
+};
+
+void FortyeightSolver::checkState(FortyeightSolverState &d)
+{
+    d.firstempty = -1;
+    d.freestores = 0;
+
+    for ( int w = 0; w < 8; w++ )
+      {
+	d.empty[w] = (Wlen[w] == 0);
+	d.linedup[w] = true;
+	if ( !Wlen[w] ) 
+	  {
+	    d.freestores++;
+	    if (d.firstempty < 0) d.firstempty = w;
+	  }
+	d.highestbreak[w] = 0;
+	for (int i = 1; i < Wlen[w]; i++) 
+	  {
+	    card_t card1 = W[w][Wlen[w]-i-1];
+	    card_t card2 = W[w][Wlen[w]-i];
+	    if ( SUIT( card1 ) != SUIT( card2 ) ||
+		 RANK( card1 ) != RANK( card2 ) + 1 ) 
+	      {
+		d.highestbreak[w] = i - 1;
+		d.linedup[w] = false;
+		break;
+	      }
+	  }
+	d.fromscore[w] = 0;
+	for (int i = d.highestbreak[w] + 1; i < Wlen[w]; i++) 
+	  {
+	    card_t card = W[w][Wlen[w]-i-1];
+	    if ( RANK(card) < 5 || RANK(card) == PS_ACE) {
+	      d.fromscore[w] += (13 - RANK(card)) * 20;
+	    }
+	  }
+	if (Wlen[w])
+	  d.fromscore[w] /= Wlen[w];
+      }
+}
 
 void FortyeightSolver::make_move(MOVE *m)
 {
 #if PRINT
     if ( m->totype == O_Type )
-        fprintf( stderr, "\nmake move %d from %d out (at %d)\n\n", m->card_index, m->from, m->turn_index );
+      fprintf( stderr, "\nmake move %d from %d to %d out (at %d)\n\n", m->card_index, m->from, m->to, m->turn_index );
     else
         fprintf( stderr, "\nmake move %d from %d to %d (%d)\n\n", m->card_index, m->from, m->to, m->turn_index );
     print_layout();
@@ -38,17 +90,17 @@ void FortyeightSolver::make_move(MOVE *m)
     int to = m->to;
 
     // move to pile
-    if ( from == 17 && to == 16 )
+    if ( from == NUM_DECK && to == NUM_PILE )
     {
-        card_t card = *Wp[17];
-        Wp[17]--;
-        Wlen[17]--;
+        card_t card = *Wp[NUM_DECK];
+        Wp[NUM_DECK]--;
+        Wlen[NUM_DECK]--;
         card = ( SUIT( card ) << 4 ) + RANK( card );
-        Wp[16]++;
-        *Wp[16] = card;
-        Wlen[16]++;
-        hashpile( 17 );
-        hashpile( 16 );
+        Wp[NUM_PILE]++;
+        *Wp[NUM_PILE] = card;
+        Wlen[NUM_PILE]++;
+        hashpile( NUM_DECK );
+        hashpile( NUM_PILE );
 #if PRINT
         print_layout();
 #endif
@@ -56,19 +108,19 @@ void FortyeightSolver::make_move(MOVE *m)
     }
 
     // move to deck
-    if ( from == 16 && to == 17 )
+    if ( from == NUM_PILE && to == NUM_DECK )
     {
-        while ( Wlen[16] > 1 )
+        while ( Wlen[NUM_PILE] > 1 )
         {
-            Wlen[17]++;
-            Wp[17]++;
-            card_t card = *Wp[16] + ( 1 << 7 );
-            *Wp[17] = card;
-            Wlen[16]--;
-            Wp[16]--;
+            Wlen[NUM_DECK]++;
+            Wp[NUM_DECK]++;
+            card_t card = *Wp[NUM_PILE] + ( 1 << 7 );
+            *Wp[NUM_DECK] = card;
+            Wlen[NUM_PILE]--;
+            Wp[NUM_PILE]--;
         }
-        hashpile( 17 );
-        hashpile( 16 );
+        hashpile( NUM_DECK );
+        hashpile( NUM_PILE );
         lastdeal = true;
 #if PRINT
         print_layout();
@@ -81,14 +133,22 @@ void FortyeightSolver::make_move(MOVE *m)
         card_t card = W[from][Wlen[from]-i];
         Wp[from]--;
 
-        Wp[to]++;
-        *Wp[to] = card;
-        Wlen[to]++;
+	if ( m->totype == O_Type )
+	  {
+	    O[to]++;
+	  }
+	else 
+	  {
+	    Wp[to]++;
+	    *Wp[to] = card;
+	    Wlen[to]++;
+	  }
     }
     Wlen[from] -= m->card_index+1;
 
     hashpile(from);
-    hashpile(to);
+    if ( m->totype != O_Type )
+      hashpile(to);
 #if PRINT
     print_layout();
 #endif
@@ -98,28 +158,27 @@ void FortyeightSolver::undo_move(MOVE *m)
 {
 #if PRINT
     if ( m->totype == O_Type )
-        fprintf( stderr, "\nundo move %d from %d out (at %d)\n\n", m->card_index, m->from, m->turn_index );
+      fprintf( stderr, "\nundo move %d from %d to %d out (at %d)\n\n", m->card_index, m->from, m->to, m->turn_index );
     else
         fprintf( stderr, "\nundo move %d from %d to %d (%d)\n\n", m->card_index, m->from, m->to, m->turn_index );
     print_layout();
-
 #endif
 
     int from = m->from;
     int to = m->to;
 
     // move to pile
-    if ( from == 17 && to == 16 )
+    if ( from == NUM_DECK && to == NUM_PILE )
     {
-        card_t card = *Wp[16];
-        Wp[16]--;
-        Wlen[16]--;
+        card_t card = *Wp[NUM_PILE];
+        Wp[NUM_PILE]--;
+        Wlen[NUM_PILE]--;
         card = ( SUIT( card ) << 4 ) + RANK( card ) + ( 1 << 7 );
-        Wp[17]++;
-        *Wp[17] = card;
-        Wlen[17]++;
-        hashpile( 17 );
-        hashpile( 16 );
+        Wp[NUM_DECK]++;
+        *Wp[NUM_DECK] = card;
+        Wlen[NUM_DECK]++;
+        hashpile( NUM_DECK );
+        hashpile( NUM_PILE );
 #if PRINT
         print_layout();
 #endif
@@ -127,18 +186,18 @@ void FortyeightSolver::undo_move(MOVE *m)
     }
 
     // move to deck
-    if ( from == 16 && to == 17 )
+    if ( from == NUM_PILE && to == NUM_DECK )
     {
-        while ( Wlen[17] )
+        while ( Wlen[NUM_DECK] )
         {
-            Wlen[16]++;
-            Wp[16]++;
-            *Wp[16] = ( SUIT( *Wp[17] ) << 4 ) + RANK( *Wp[17] );
-            Wlen[17]--;
-            Wp[17]--;
+            Wlen[NUM_PILE]++;
+            Wp[NUM_PILE]++;
+            *Wp[NUM_PILE] = ( SUIT( *Wp[NUM_DECK] ) << 4 ) + RANK( *Wp[NUM_DECK] );
+            Wlen[NUM_DECK]--;
+            Wp[NUM_DECK]--;
         }
-        hashpile( 17 );
-        hashpile( 16 );
+        hashpile( NUM_DECK );
+        hashpile( NUM_PILE );
         lastdeal = false;
 #if PRINT
         print_layout();
@@ -148,20 +207,69 @@ void FortyeightSolver::undo_move(MOVE *m)
 
     for ( int i = m->card_index + 1; i > 0; --i )
     {
-        card_t card = W[to][Wlen[to]-i];
-        Wp[to]--;
+      
+      card_t card;
+      if ( m->totype != O_Type ) 
+	{
+	  card = W[to][Wlen[to]-i];
+	  Wp[to]--;
+	} 
+      else 
+	{
+	  card = Osuit[to] + O[to];
+	  O[to]--;
+	}
 
-        Wp[from]++;
-        *Wp[from] = card;
-        Wlen[from]++;
+      Wp[from]++;
+      *Wp[from] = card;
+      Wlen[from]++;
     }
-    Wlen[to] -= m->card_index+1;
 
     hashpile(from);
-    hashpile(to);
+    if ( m->totype != O_Type ) {
+      Wlen[to] -= m->card_index+1;
+      hashpile(to);
+    }
 #if PRINT
     print_layout();
 #endif
+}
+
+bool FortyeightSolver::checkMoveOut( int from, MOVE *mp, int *dropped)
+{
+  if ( !Wlen[from] )
+    return false;
+
+  card_t card = *Wp[from];
+  int suit = SUIT( card );
+  
+  int target = suit * 2;
+
+  // aces need to fit on empty
+  if ( RANK(card) == PS_ACE )
+    {
+      if (O[target++] != NONE)
+	target--;
+      else if ( O[target] != NONE)
+	return false;
+    }
+  else 
+    {
+      if ( RANK(card) == O[target++] + 1 ) 
+	target--;
+      else if ( RANK(card) != O[target] + 1 )
+	return false;
+    }
+  
+  dropped[target]++;
+  mp->card_index = 0;
+  mp->from = from;
+  mp->to = target;
+  mp->totype = O_Type;
+  mp->pri = 127;
+  mp->turn_index = -1;
+  return true;
+
 }
 
 /* Get the possible moves from a position, and store them in Possible[]. */
@@ -171,47 +279,21 @@ bool FortyeightSolver::checkMove( int from, int to, MOVE *mp )
         return false;
 
     card_t card = *Wp[from];
-    bool allowed = false;
-    if ( to < 8 )
-    {
-        if ( Wlen[to])
-        {
-            card_t top = *Wp[to];
-            if ( SUIT( top ) == SUIT( card ) &&
-                 RANK( top ) == RANK( card ) + 1 )
-                allowed = true;
-        } else
-            allowed = true;
-    } else {
-        if ( !Wlen[to] )
-        {
-            if ( RANK( card ) == PS_ACE )
-                allowed = true;
-        } else {
-            card_t top = *Wp[to];
-            if ( SUIT( top ) == SUIT( card ) &&
-                 RANK( top ) == RANK( card ) - 1 )
-                allowed = true;
-        }
-    }
-    if ( !allowed )
-        return false;
+    Q_ASSERT( to < 8 );
 
-    // meta moves we check extra
-    if ( Wlen[from] > 1 && to < 8 && from < 8 )
-    {
-        card_t card1 = *Wp[from];
-        card_t card2 = W[from][Wlen[from]-2];
-        if ( SUIT( card1 ) == SUIT( card2 ) &&
-             RANK( card1 ) == RANK( card2 ) - 1 )
-            return false;
-    }
+    if ( Wlen[to] )
+      {
+	card_t top = *Wp[to];
+	if ( SUIT( top ) != SUIT( card ) ||
+	     RANK( top ) != RANK( card ) + 1 )
+	  return false;
+      }
 
     mp->card_index = 0;
     mp->from = from;
     mp->to = to;
     mp->totype = W_Type;
-    mp->pri = 13;
+    mp->pri = 70;
     mp->turn_index = -1;
     return true;
 }
@@ -220,51 +302,39 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
 {
     int n = 0;
     MOVE *mp = Possible;
-    freestores = 0;
 
     *a = false;
 
-    // off
-    for ( int w = 0; w < 8; w++ )
-    {
-        for ( int i = 0; i < 8; i++ )
-            if ( checkMove( w, i+8, mp ) )
-            {
-                n++;
-                mp->pri = 127;
-                mp++;
-                break;
-            }
-    }
-    for ( int i = 0; i < 8; i++ )
-    {
-        if ( checkMove( 16, i+8, mp ) )
-        {
-            n++;
-            mp->pri = 127;
-            mp++;
-            break;
-        }
-        if ( !Wlen[i] )
-            freestores++;
-    }
+    FortyeightSolverState d;
+    checkState(d);
 
+    //print_layout();
     // if a specific target got two possible drops, we don't make it auto drop
     int dropped[8] = { 0, 0, 0, 0, 0, 0, 0, 0};
 
-    for ( int i = 0; i < n; i++ )
-    {
-        if ( Possible[i].to >= 8 && Possible[i].to < 16 && RANK(*Wp[Possible[i].from]) != PS_ACE )
-            dropped[Possible[i].to-8]++;
-    }
+    // off
+    for ( int w = 0; w < 8; w++ )
+      {
+	if ( checkMoveOut( w, mp, dropped ) )
+	  {
+	    n++;
+	    mp++;
+	    break;
+	  }
+      }
+    if ( checkMoveOut( NUM_PILE, mp, dropped ) )
+      {
+	n++;
+	mp++;
+      }
 
     for ( int i = 0; i < 8; i++ )
     {
         if ( dropped[i] > 1 )
         {
             for ( int j = 0; j < n; j++ )
-                if ( Possible[j].to == i + 8 )
-                    Possible[j].pri = qMin( 119, 100 + Wlen[Possible[j].from] );
+                if ( Possible[j].to == i )
+                    Possible[j].pri = qBound( 121, 110 + Wlen[Possible[j].from], 126 );
         }
         if ( dropped[i] == 1 )
         {
@@ -273,9 +343,10 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
             {
                 for ( int j = 0; j < n; j++ )
                 {
-                    if ( Possible[j].to == i + 8 )
+                    if ( Possible[j].to == i )
                     {
-                        Possible[0] = Possible[j];
+		      Possible[0] = Possible[j];
+		      Possible[0].pri = 127;
                         break;
                     }
                 }
@@ -286,12 +357,11 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
         }
     }
 
+    //fprintf(stderr, "\n");
     *numout = n;
 
-    bool found_p2e = false;
     for (int w = 0; w < 8; w++)
     {
-        bool foundempty = false;
         for ( int j = 0; j < 8; j++ )
         {
             if ( j == w )
@@ -300,31 +370,45 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
             {
                 if ( !Wlen[j] )
                 {
-                    if (Wlen[w] == 1)
-			continue; // ignore it
-                    if ( foundempty ) // one is enough
-                        continue;
-                    foundempty = true;
-                    mp->pri = 20;
-                } else
-                    mp->pri = 20 + RANK( *Wp[j] );
+		  if (d.linedup[w])
+		    continue; // ignore it
+
+		  if ( j != d.firstempty ) // one is enough
+		    continue;
+		  if ( d.highestbreak[w] >= 1)
+		    continue;
+		  mp->pri = qMin( 115, 11 + d.fromscore[w]);
+                } else {
+		  if (d.linedup[w] && Wlen[w] > 1)
+		    continue;
+		  if (d.linedup[j] && Wlen[j] > 1)
+		    mp->pri = 110 + Wlen[j];
+		  else {
+		    if (d.fromscore[w] < d.fromscore[j])
+		      mp->pri = 2;
+		    else
+		      mp->pri = qMin(115, 20 + d.highestbreak[w] + RANK(*Wp[w]) + d.fromscore[w]);
+		  }
+		}
 
                 n++;
                 mp++;
             }
         }
-        if ( checkMove( 16, w, mp ) )
+        if ( checkMove( NUM_PILE, w, mp ) && (!d.empty[w] || w == d.firstempty))
         {
-            if ( !Wlen[w] )
-            {
-                if ( found_p2e )
-                    continue;
-                found_p2e = true;
-            }
-            n++;
-            mp++;
+	  if (d.empty[w])
+	    mp->pri = 15;
+	  else {
+	    if (d.linedup[w])
+	      mp->pri = 100;
+	    else
+	      mp->pri = qMax(50 - d.fromscore[w], 0);
+	  }
+	  n++;
+	  mp++;
         }
-        if ( Wlen[w] > 1 && freestores )
+        if ( Wlen[w] > 1 && d.freestores )
         {
             if ( SUIT( *Wp[w] ) == SUIT( W[w][Wlen[w]-2] ) )
             {
@@ -336,13 +420,11 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
                         continue;
                     if ( Wlen[to] && SUIT( *Wp[to] ) != SUIT( *Wp[w] ) )
                         continue;
-                    if ( !Wlen[to] && foundempty )
+                    if ( d.empty[to] && to != d.firstempty )
                         continue;
-                    int moves = 1 << freestores;
+                    int moves = 1 << d.freestores;
                     if ( !Wlen[to] )
-                        moves = 1 << ( freestores - 1 );
-
-                    moves = 1; // for now to avoid #178972 for 4.2
+                        moves = 1 << ( d.freestores - 1 );
 
                     if ( moves >= Wlen[w] )
                         moves = Wlen[w];
@@ -353,7 +435,9 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
                         /*      printcard( W[w][Wlen[w]-i-1], stderr );
                         printcard( *Wp[w], stderr );
                         fprintf( stderr, " switch? %d\n", i ); */
-                        if ( SUIT( W[w][Wlen[w]-i-1] ) != SUIT( *Wp[w] ) ) {
+		      if ( SUIT( W[w][Wlen[w]-i-1] ) != SUIT( *Wp[w] ) ||
+			   RANK ( W[w][Wlen[w]-i-1] ) != RANK ( W[w][Wlen[w]-i] ) + 1)
+			{
                             switched = true;
                             moves = i;
                             break;
@@ -372,9 +456,10 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
                         mp->turn_index = -1;
                         n++;
                         mp++;
-                        foundempty = true;
                         continue;
                     }
+		    if (d.linedup[w])
+		      continue;
                     card_t top = *Wp[to];
                     for ( int i = 2; i <= moves && i <= Wlen[w]; i++ )
                     {
@@ -400,22 +485,22 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
         }
     }
     /* check for deck->pile */
-    if ( Wlen[17] ) {
+    if ( Wlen[NUM_DECK] ) {
         mp->card_index = 1;
-        mp->from = 17;
-        mp->to = 16;
+        mp->from = NUM_DECK;
+        mp->to = NUM_PILE;
         mp->totype = W_Type;
-        mp->pri = 9;
+        mp->pri = 19;
         mp->turn_index = 0;
         n++;
         mp++;
     } else if ( !lastdeal )
     {
         mp->card_index = 1;
-        mp->from = 16;
-        mp->to = 17;
+        mp->from = NUM_PILE;
+        mp->to = NUM_DECK;
         mp->totype = W_Type;
-        mp->pri = 50;
+        mp->pri = 19;
         mp->turn_index = 0;
         n++;
         mp++;
@@ -424,14 +509,29 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
     return n;
 }
 
-void FortyeightSolver::unpack_cluster( int )
+void FortyeightSolver::unpack_cluster( unsigned int k )
 {
+    O[0] = k & 0xF;
+    k >>= 4;
+    O[1] = k & 0xF;
+    k >>= 4;
+    O[2] = k & 0xF;
+    k >>= 4;
+    O[3] = k & 0xF;
+    k >>= 4;
+    O[4] = k & 0xF;
+    k >>= 4;
+    O[5] = k & 0xF;
+    k >>= 4;
+    O[6] = k & 0xF;
+    k >>= 4;
+    O[7] = k & 0xF;
 }
 
 bool FortyeightSolver::isWon()
 {
-    for ( int i = 8; i < 16; ++i )
-        if ( Wlen[i] != 13 )
+    for ( int i = 0; i < 8; ++i )
+        if ( O[i] != PS_KING )
             return false;
     kDebug() << "isWon" << getOuts();
     return true;
@@ -440,20 +540,17 @@ bool FortyeightSolver::isWon()
 int FortyeightSolver::getOuts()
 {
     int total = 0;
-    for ( int i = 8; i < 16; ++i )
-        total += Wlen[i];
+    for ( int i = 0; i < 8; ++i )
+        total += O[i];
     return total;
 }
 
 FortyeightSolver::FortyeightSolver(const Fortyeight *dealer)
     : Solver()
 {
-    setNumberPiles( 18 );
+    setNumberPiles( 10 );
     deal = dealer;
 }
-
-/* Read a layout file.  Format is one pile per line, bottom to top (visible
-card).  Temp cells and Out on the last two lines, if any. */
 
 void FortyeightSolver::translate_layout()
 {
@@ -466,34 +563,68 @@ void FortyeightSolver::translate_layout()
         Wlen[w] = i;
         total += i;
     }
-    for ( int w = 0; w < 8; ++w ) {
-        int i = translate_pile(deal->target[w], W[w+8], 52);
-        Wp[w+8] = &W[w+8][i - 1];
-        Wlen[w+8] = i;
-        total += i;
-    }
 
-    int i = translate_pile( deal->pile, W[16], 80 );
-    Wp[16] = &W[16][i-1];
-    Wlen[16] = i;
+    /* Output piles, if any. */
+    for (int i = 0; i < 8; ++i) {
+        O[i] = NONE;
+    }
+    Osuit[0] = PS_DIAMOND;
+    Osuit[1] = PS_DIAMOND;
+    Osuit[2] = PS_CLUB;
+    Osuit[3] = PS_CLUB;
+    Osuit[4] = PS_HEART;
+    Osuit[5] = PS_HEART;
+    Osuit[6] = PS_SPADE;
+    Osuit[7] = PS_SPADE;
+
+    for (int i = 0; i < 8; ++i) {
+      KCard *c = deal->target[i]->top();
+      if (c) {
+	int suit = translateSuit( c->suit() ) >> 4;
+	if (O[suit * 2] == NONE)
+	  O[suit * 2] = c->rank();
+	else {
+	  if (O[suit * 2] < c->rank()) {
+	    O[suit * 2 + 1] = O[suit * 2];
+	    O[suit * 2] = c->rank();
+	  } else {
+	    O[suit * 2 + 1] = c->rank();
+	  }
+	}
+	total += c->rank();
+      }
+    }
+    int i = translate_pile( deal->pile, W[NUM_PILE], 80 );
+    Wp[NUM_PILE] = &W[NUM_PILE][i-1];
+    Wlen[NUM_PILE] = i;
     total += i;
 
-    i = translate_pile( deal->talon, W[17], 80 );
-    Wp[17] = &W[17][i-1];
-    Wlen[17] = i;
+    i = translate_pile( deal->talon, W[NUM_DECK], 80 );
+    Wp[NUM_DECK] = &W[NUM_DECK][i-1];
+    Wlen[NUM_DECK] = i;
     total += i;
 
     lastdeal = deal->lastdeal;
+
+    Q_ASSERT( total == 104 );
 }
 
-int FortyeightSolver::getClusterNumber()
+unsigned int FortyeightSolver::getClusterNumber()
 {
-    return 0;
+    unsigned int i = O[0] + (O[1] << 4);
+    unsigned int k = i;
+    i = O[2] + (O[3] << 4);
+    k |= i << 8;
+    i = O[4] + (O[5] << 4);
+    k |= i << 16;
+    i = O[6] + (O[7] << 4);
+    k |= i << 24;
+    return k;
 }
 
 MoveHint FortyeightSolver::translateMove( const MOVE &m )
 {
-    if ( m.from == 17 || m.to == 17 )
+    if ( m.from == NUM_DECK || m.to == NUM_DECK )
         return MoveHint();
     PatPile *frompile = 0;
     if ( m.from < 8 )
@@ -504,30 +635,52 @@ MoveHint FortyeightSolver::translateMove( const MOVE &m )
     Q_ASSERT( frompile );
     KCard *card = frompile->at( frompile->count() - m.card_index - 1);
     Q_ASSERT( card );
-    Q_ASSERT( m.to < 16 );
-    if ( m.to >= 8 )
-        return MoveHint( card, deal->target[m.to-8], m.pri );
-    else
-        return MoveHint( card, deal->stack[m.to], m.pri );
+    Q_ASSERT( m.to < NUM_PILE );
+    if ( m.totype == W_Type)
+      return MoveHint( card, deal->stack[m.to], m.pri );
+
+    for (int i = 0; i < 8; i++) {
+      KCard *top = deal->target[i]->top(); 
+      if (top) {
+	if (top->suit() == card->suit() && top->rank() + 1 == card->rank())
+	  return MoveHint( card, deal->target[i], m.pri );
+      } else {
+	if (card->rank() == PS_ACE)
+	  return MoveHint( card, deal->target[i], m.pri );
+      }
+    }
+    Q_ASSERT( false);
+    return MoveHint();
 }
 
 void FortyeightSolver::print_layout()
 {
+    FortyeightSolverState d;
+    checkState(d);
+
     fprintf(stderr, "print-layout-begin\n");
-    for (int w = 0; w < 18; w++) {
-        if ( w == 17 )
-            fprintf( stderr, "Deck: " );
-        else if ( w == 16 )
-            fprintf( stderr, "Pile: " );
+    for (int w = 0; w < 10; w++) {
+        if ( w == NUM_DECK )
+            fprintf( stderr, "Deck(9): " );
+        else if ( w == 8 )
+            fprintf( stderr, "Pile(8): " );
         else if ( w < 8 )
             fprintf( stderr, "Play%d: ", w );
-        else
-            fprintf( stderr, "Target%d: ", w - 8 );
         for (int i = 0; i < Wlen[w]; i++) {
             printcard(W[w][i], stderr);
         }
         fputc('\n', stderr);
     }
-    fprintf( stderr, "Last-Deal: %d\n", lastdeal );
+    fprintf( stderr, "Off: " );
+    for (int o = 0; o < 8; ++o) {
+      printcard(O[o] + Osuit[o], stderr);
+    }
+    fprintf( stderr, "\nLast-Deal: %d\n", lastdeal );
+#if 1
+    fprintf( stderr, "FE: %d FS: %d\n", d.firstempty, d.freestores);
+    for (int o = 0; o < 8; ++o) {
+      fprintf( stderr, "Pile%d: empty:%d linedup:%d highestbreak:%d fromscore:%d\n", o, d.empty[o], d.linedup[o], d.highestbreak[o], d.fromscore[o]);
+    }
+#endif
     fprintf(stderr, "print-layout-end\n");
 }

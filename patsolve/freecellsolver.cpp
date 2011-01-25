@@ -362,7 +362,7 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
 	return n;
 }
 
-void FreecellSolver::unpack_cluster( int k )
+void FreecellSolver::unpack_cluster( unsigned int k )
 {
     /* Get the Out cells from the cluster number. */
     O[0] = k & 0xF;
@@ -492,10 +492,10 @@ MoveHint FreecellSolver::translateMove( const MOVE &m )
     }
 }
 
-int FreecellSolver::getClusterNumber()
+unsigned int FreecellSolver::getClusterNumber()
 {
     int i = O[0] + (O[1] << 4);
-    int k = i;
+    unsigned int k = i;
     i = O[2] + (O[3] << 4);
     k |= i << 8;
     return k;

@@ -70,7 +70,7 @@
 
 #include <cmath>
 
-#define DEBUG_HINTS 0
+#define DEBUG_HINTS 1
 
 
 namespace
@@ -488,7 +488,6 @@ bool DealerScene::isHintActive() const
     return d->hintInProgress;
 }
 
-
 QList<MoveHint> DealerScene::getSolverHints()
 {
     QList<MoveHint> hintList;
@@ -497,23 +496,16 @@ QList<MoveHint> DealerScene::getSolverHints()
         d->solverThread->abort();
 
     solver()->translate_layout();
-    solver()->patsolve( 1 );
+    bool debug = false;
+#if DEBUG_HINTS
+    debug = true;
+#endif
+    solver()->patsolve( 1, debug );
 
     foreach ( const MOVE & m, solver()->firstMoves )
     {
-
-#if DEBUG_HINTS
-        if ( m.totype == O_Type )
-            fprintf( stderr, "   move from %d out (at %d) Prio: %d\n", m.from,
-                     m.turn_index, m.pri );
-        else
-            fprintf( stderr, "   move from %d to %d (%d) Prio: %d\n", m.from, m.to,
-                     m.turn_index, m.pri );
-#endif
-
         MoveHint mh = solver()->translateMove( m );
-        if ( mh.isValid() )
-            hintList << mh;
+	hintList << mh;
     }
     return hintList;
 }
@@ -575,6 +567,11 @@ QList<MoveHint> DealerScene::getHints()
     return hintList;
 }
 
+static bool prioSort(const MoveHint &c1, const MoveHint &c2) 
+{
+  return c1.priority() < c2.priority();
+}
+
 
 MoveHint DealerScene::chooseHint()
 {
@@ -607,7 +604,7 @@ MoveHint DealerScene::chooseHint()
         qreal randomExp = qMin<qreal>( -log( 1 - qreal( KRandom::random() ) / RAND_MAX ) / 4, 1 );
         int randomIndex =  randomExp * ( hintList.size() - 1 );
 
-        qSort( hintList.begin(), hintList.end(), qGreater<MoveHint>() );
+	qSort(hintList.begin(), hintList.end(), prioSort);
         return hintList.at( randomIndex );
     }
 }

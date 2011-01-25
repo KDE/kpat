@@ -185,7 +185,7 @@ void GypsySolver::undo_move(MOVE *m)
             Wp[from]++;
             *Wp[from] = card;
             Wlen[from]++;
-            *Wp[to]--;
+            Wp[to]--;
         }
         Wlen[to] -= m->card_index + 1;
         hashpile(to);
@@ -409,11 +409,6 @@ int GypsySolver::get_possible_moves(int *a, int *numout)
     return n;
 }
 
-void GypsySolver::unpack_cluster( int )
-{
-
-}
-
 bool GypsySolver::isWon()
 {
     // maybe won?
@@ -496,11 +491,6 @@ void GypsySolver::translate_layout()
             *Wp[target] = ( suit << 4 ) + c->rank();
         }
     }
-}
-
-int GypsySolver::getClusterNumber()
-{
-    return 1;
 }
 
 void GypsySolver::print_layout()

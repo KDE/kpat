@@ -154,6 +154,27 @@ bool Fortyeight::newCards()
     return true;
 }
 
+bool Fortyeight::canPutStore(const PatPile *c1, const QList<KCard*> &c2) const
+{
+    int frees = 0;
+    for (int i = 0; i < 8; i++)
+        if (stack[i]->isEmpty()) frees++;
+
+    if (c1->isEmpty()) // destination is empty
+        frees--;
+
+    if (int(c2.count()) > 1<<frees)
+        return false;
+
+    // ok if the target is empty
+    if (c1->isEmpty())
+        return true;
+
+    KCard *c = c2.first(); // we assume there are only valid sequences
+
+    return c1->top()->suit() == c->suit()
+      && c1->top()->rank() == c->rank() + 1;
+}
 
 bool Fortyeight::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
 {
@@ -162,10 +183,7 @@ bool Fortyeight::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, 
     case PatPile::Foundation:
         return checkAddSameSuitAscendingFromAce(oldCards, newCards);
     case PatPile::Tableau:
-        return newCards.size() == 1
-               && ( oldCards.isEmpty()
-                    || ( oldCards.last()->suit() == newCards.first()->suit()
-                         && oldCards.last()->rank() == newCards.first()->rank() + 1 ) );
+      return canPutStore(pile, newCards);
     case PatPile::Stock:
     case PatPile::Waste:
     default:
@@ -179,8 +197,9 @@ bool Fortyeight::checkRemove( const PatPile * pile, const QList<KCard*> & cards)
     switch ( pile->pileRole() )
     {
     case PatPile::Waste:
+      return cards.first() == pile->top();
     case PatPile::Tableau:
-        return cards.first() == pile->top();
+      return isSameSuitDescending(cards);
     case PatPile::Foundation:
     case PatPile::Stock:
     default:

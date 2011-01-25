@@ -93,7 +93,7 @@ void MemoryManager::init_clusters(void)
 	Block = new_block();                    /* @@@ */
 }
 
-TREELIST *MemoryManager::cluster_tree(int cluster)
+TREELIST *MemoryManager::cluster_tree(unsigned int cluster)
 {
 	int bucket;
 	TREELIST *tl, *last;

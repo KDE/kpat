@@ -59,7 +59,7 @@
 #include <QtXml/QDomDocument>
 
 #include <climits>
-
+#include <time.h>
 
 static DealerScene *getDealer( int wanted_game )
 {
@@ -98,6 +98,11 @@ QString lowerAlphaNum( const QString & string )
     return result;
 }
 
+void saveGame(QString testdir, QString tmpFile, int dealer, int gameNumber, bool won)
+{
+    QFile f(tmpFile);
+    f.copy(testdir + "/" + QString("%1-%2-%3").arg(dealer).arg(gameNumber).arg(won ? "1" : "0"));
+}
 
 int main( int argc, char **argv )
 {
@@ -182,6 +187,8 @@ int main( int argc, char **argv )
     options.add("start <num>", ki18n("Game range start (default 0:INT_MAX)" ));
     options.add("end <num>", ki18n("Game range end (default start:start if start given)" ));
     options.add("gametype <game>", ki18n("Skip the selection screen and load a particular game type. Valid values are: %1").subs(gameList.join(listSeparator)));
+    options.add("testdir <directory>", ki18n( "Directory with test cases" ) );
+    options.add("generate", ki18n( "Generate random test cases" ) );
     options.add("+file", ki18n("File to load"));
     KCmdLineArgs::addCmdLineOptions (options);
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
@@ -210,6 +217,41 @@ int main( int argc, char **argv )
             fprintf( stdout, "unknown\n");
 
         return 0;
+    }
+
+    QString testdir = args->getOption("testdir");
+    if ( !testdir.isEmpty() ) {
+       qsrand(time(0));
+       if ( args->isSet("generate") ) {
+          for (int dealer = 0; dealer < 20; dealer++) {
+              DealerScene *f = getDealer( dealer );
+              if (!f) continue;
+              int count = 100;
+              QTime mytime;
+              while (count) {
+                if (f->deck()) f->deck()->stopAnimations();
+                int i = qrand() % INT_MAX;
+                f->startNew( i );
+                QString tmpfile = f->save_it();
+                mytime.start();
+                f->solver()->translate_layout();
+                int ret = f->solver()->patsolve();
+                if ( ret == Solver::SolutionExists ) {
+                   fprintf( stdout, "%d: %d won (%d ms)\n", dealer, i, mytime.elapsed() );
+                   count--;
+                   saveGame(testdir, tmpfile, dealer, i, true);
+                }
+                else if ( ret == Solver::NoSolutionExists ) {
+                   fprintf( stdout, "%d: %d lost (%d ms)\n", dealer, i, mytime.elapsed()  );
+                   count--;
+                   saveGame(testdir, tmpfile, dealer, i, false);
+                } else {
+		  fprintf( stdout, "%d: %d unknown (%d ms)\n", dealer, i, mytime.elapsed() );
+                }
+             }
+          }
+       } 
+       return 0;
     }
 
     bool ok = false;
@@ -243,6 +285,7 @@ int main( int argc, char **argv )
         for ( int i = start_index; i <= end_index; i++ )
         {
             mytime.start();
+            f->deck()->stopAnimations();
             f->startNew( i );
             f->solver()->translate_layout();
             int ret = f->solver()->patsolve();

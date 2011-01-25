@@ -231,7 +231,7 @@ void GrandfSolver::undo_move(MOVE *m)
             Wp[from]++;
             *Wp[from] = card;
             Wlen[from]++;
-            *Wp[to]--;
+	    Wp[to]--;
         }
         Wlen[to] -= m->card_index + 1;
         hashpile(to);
@@ -369,12 +369,12 @@ int GrandfSolver::get_possible_moves(int *a, int *numout)
     return n;
 }
 
-int GrandfSolver::getClusterNumber()
+unsigned int GrandfSolver::getClusterNumber()
 {
     return m_redeal;
 }
 
-void GrandfSolver::unpack_cluster( int k )
+void GrandfSolver::unpack_cluster( unsigned int k )
 {
     m_redeal = k;
 }

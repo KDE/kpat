@@ -132,7 +132,7 @@ void YukonSolver::undo_move(MOVE *m)
                 Wp[from]++;
                 *Wp[from] = card;
                 Wlen[from]++;
-                *Wp[to]--;
+                Wp[to]--;
             }
             Wlen[to] -= m->card_index + 1;
             hashpile(to);
@@ -309,7 +309,7 @@ int YukonSolver::get_possible_moves(int *a, int *numout)
     return n;
 }
 
-void YukonSolver::unpack_cluster( int k )
+void YukonSolver::unpack_cluster( unsigned int k )
 {
     /* Get the Out cells from the cluster number. */
     O[0] = k & 0xF;
@@ -381,10 +381,10 @@ void YukonSolver::translate_layout()
     Q_ASSERT( total == 52 );
 }
 
-int YukonSolver::getClusterNumber()
+unsigned int YukonSolver::getClusterNumber()
 {
     int i = O[0] + (O[1] << 4);
-    int k = i;
+    unsigned int k = i;
     i = O[2] + (O[3] << 4);
     k |= i << 8;
     return k;

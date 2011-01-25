@@ -64,6 +64,7 @@ private:
     bool lastdeal;
 
     friend class FortyeightSolver;
+    bool canPutStore(const PatPile *c1, const QList<KCard*> &c2) const;
 };
 
 #endif

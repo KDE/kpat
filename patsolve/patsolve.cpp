@@ -230,20 +230,21 @@ MOVE *Solver::get_moves(int *nmoves)
 	/* Fill in the Possible array. */
 
         alln = n = get_possible_moves(&a, &numout);
-#if 0
-        print_layout();
-        fprintf( stderr, "moves %d\n", n );
-	for (int j = 0; j < n; j++) {
-            fprintf( stderr,  "  " );
-            if ( Possible[j].totype == O_Type )
+	if (debug) 
+	  {
+	    print_layout();
+	    fprintf( stderr, "moves %d\n", n );
+	    for (int j = 0; j < n; j++) {
+	      fprintf( stderr,  "  " );
+	      if ( Possible[j].totype == O_Type )
                 fprintf( stderr, "move from %d out (at %d) Prio: %d\n", Possible[j].from,
                          Possible[j].turn_index, Possible[j].pri );
-            else
+	      else
                 fprintf( stderr, "move %d from %d to %d (%d) Prio: %d\n", Possible[j].card_index,
                          Possible[j].from, Possible[j].to,
                          Possible[j].turn_index, Possible[j].pri );
-        }
-#endif
+	    }
+	  }
 
 	/* No moves?  Maybe we won. */
 
@@ -329,7 +330,7 @@ void Solver::pilesort(void)
         //fprintf( stderr, "\n" );
 }
 
-#define NBUCKETS 65521          /* the largest 16 bit prime */
+#define NBUCKETS 65521           /* the largest 16 bit prime */
 #define NPILES   65536           /* a 16 bit code */
 
 typedef struct bucketlist {
@@ -562,17 +563,20 @@ int Solver::get_pilenum(int w)
 	if (l == NULL) {
 		if (Pilenum >= NPILES ) {
                         Status = UnableToDetermineSolvability;
+			qDebug() << "out of piles";
 			return -1;
 		}
 		l = mm_allocate(BUCKETLIST);
 		if (l == NULL) {
                         Status = UnableToDetermineSolvability;
+			qDebug() << "out of buckets";
 			return -1;
 		}
 		l->pile = new_array(quint8, Wlen[w] + 1);
 		if (l->pile == NULL) {
                     Status = UnableToDetermineSolvability;
                     MemoryManager::free_ptr(l);
+		    qDebug() << "out of memory";
                     return -1;
 		}
 
@@ -942,9 +946,10 @@ void Solver::free()
 }
 
 
-Solver::ExitStatus Solver::patsolve( int _max_positions )
+Solver::ExitStatus Solver::patsolve( int _max_positions, bool _debug )
 {
     max_positions = _max_positions;
+    debug = _debug;
 
     /* Initialize the suitable() macro variables. */
     init();
@@ -1022,11 +1027,11 @@ int Solver::translate_pile(const KCardPile *pile, card_t *w, int size)
 /* Insert key into the tree unless it's already there.  Return true if
 it was new. */
 
-MemoryManager::inscode Solver::insert(int *cluster, int d, TREE **node)
+MemoryManager::inscode Solver::insert(unsigned int *cluster, int d, TREE **node)
 {
 	/* Get the cluster number from the Out cell contents. */
 
-        int k = getClusterNumber();
+        unsigned int k = getClusterNumber();
         *cluster = k;
 
         /* Get the tree for this cluster. */
@@ -1056,7 +1061,7 @@ MemoryManager::inscode Solver::insert(int *cluster, int d, TREE **node)
 
 POSITION *Solver::new_position(POSITION *parent, MOVE *m)
 {
-	int depth, cluster;
+	unsigned int depth, cluster;
 	quint8 *p;
 	POSITION *pos;
 	TREE *node;

@@ -36,7 +36,7 @@ struct BLOCK {
 struct TREELIST;
 struct TREELIST {
 	TREE *tree;
-	int cluster;
+	unsigned int cluster;
 	TREELIST *next;
 };
 
@@ -64,7 +64,7 @@ public:
     void init_clusters(void);
     void free_blocks(void);
     void free_clusters(void);
-    TREELIST *cluster_tree(int cluster);
+    TREELIST *cluster_tree(unsigned int cluster);
     inscode insert_node(TREE *n, int d, TREE **tree, TREE **node);
     void give_back_block(unsigned char *p);
     void init_buckets( int i );

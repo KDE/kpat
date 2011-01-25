@@ -100,7 +100,7 @@ void ClockSolver::undo_move(MOVE *m)
         Wp[from]++;
         *Wp[from] = card;
         Wlen[from]++;
-        *Wp[to]--;
+        Wp[to]--;
         Wlen[to]--;
         hashpile(to);
         hashpile( from );
@@ -212,10 +212,6 @@ int ClockSolver::get_possible_moves(int *a, int *numout)
     return n;
 }
 
-void ClockSolver::unpack_cluster( int  )
-{
-}
-
 bool ClockSolver::isWon()
 {
     // maybe won?
@@ -270,11 +266,6 @@ void ClockSolver::translate_layout()
     }
     Wp[8] = &W[8][11];
     Wlen[8] = 12;
-}
-
-int ClockSolver::getClusterNumber()
-{
-    return 0;
 }
 
 MoveHint ClockSolver::translateMove( const MOVE &m )

@@ -219,7 +219,7 @@ void KlondikeSolver::undo_move(MOVE *m)
                 Wp[from]++;
                 *Wp[from] = card;
                 Wlen[from]++;
-                *Wp[to]--;
+                Wp[to]--;
             }
             Wlen[to] -= m->card_index + 1;
             hashpile(to);
@@ -444,7 +444,7 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
     return n;
 }
 
-void KlondikeSolver::unpack_cluster( int k )
+void KlondikeSolver::unpack_cluster( unsigned int k )
 {
     /* Get the Out cells from the cluster number. */
     O[0] = k & 0xF;
@@ -526,10 +526,10 @@ void KlondikeSolver::translate_layout()
 
 }
 
-int KlondikeSolver::getClusterNumber()
+unsigned int KlondikeSolver::getClusterNumber()
 {
     int i = O[0] + (O[1] << 4);
-    int k = i;
+    unsigned int k = i;
     i = O[2] + (O[3] << 4);
     k |= i << 8;
     return k;

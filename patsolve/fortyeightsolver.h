@@ -21,6 +21,7 @@
 class Fortyeight;
 #include "patsolve.h"
 
+class FortyeightSolverState;
 
 class FortyeightSolver : public Solver
 {
@@ -32,17 +33,22 @@ public:
     virtual void make_move(MOVE *m);
     virtual void undo_move(MOVE *m);
     virtual int getOuts();
-    virtual int getClusterNumber();
+    virtual unsigned int getClusterNumber();
     virtual void translate_layout();
-    virtual void unpack_cluster( int k );
+    virtual void unpack_cluster( unsigned int k );
     virtual MoveHint translateMove(const MOVE &m);
     bool checkMove( int from, int to, MOVE *mp );
+    bool checkMoveOut( int from, MOVE *mp, int *dropped );
+    void checkState(FortyeightSolverState &d);
 
     virtual void print_layout();
 
     const Fortyeight *deal;
     bool lastdeal;
-    int freestores;
+
+    card_t O[8]; /* output piles store only the rank or NONE */
+    card_t Osuit[8];
+
 };
 
 #endif // FORTYEIGHTSOLVER_H

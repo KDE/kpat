@@ -54,6 +54,7 @@ public:
     KCardTheme theme() const;
 
     bool hasAnimatedCards() const;
+    void stopAnimations();
 
     QPixmap cardPixmap( quint32 id, bool faceUp );
 

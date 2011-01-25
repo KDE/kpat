@@ -101,6 +101,7 @@ KCardScenePrivate::KCardScenePrivate( KCardScene * p )
   : QObject( p ),
     q( p )
 {
+  dragStarted = false;
 }
 
 

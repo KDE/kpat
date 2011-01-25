@@ -191,7 +191,7 @@ void SpiderSolver::undo_move(MOVE *m)
             Wp[from]++;
             *Wp[from] = card;
             Wlen[from]++;
-            *Wp[to]--;
+            Wp[to]--;
         }
         Wlen[to] -= m->card_index + 1;
         hashpile(to);
@@ -475,10 +475,10 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
     return n;
 }
 
-void SpiderSolver::unpack_cluster( int k )
+void SpiderSolver::unpack_cluster( unsigned int k )
 {
     // TODO: this only works for easy
-    for ( int i = 0; i < 8; ++i )
+    for ( unsigned int i = 0; i < 8; ++i )
     {
         if ( i < k )
             O[i] = PS_SPADE;
@@ -549,9 +549,9 @@ void SpiderSolver::translate_layout()
     }
 }
 
-int SpiderSolver::getClusterNumber()
+unsigned int SpiderSolver::getClusterNumber()
 {
-    int k = 0;
+    unsigned int k = 0;
     for ( int i = 0; i < 8; ++i )
         if ( O[i] != -1 )
             k++;

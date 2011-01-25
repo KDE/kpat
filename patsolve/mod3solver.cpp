@@ -154,7 +154,7 @@ void Mod3Solver::undo_move(MOVE *m)
     Wp[from]++;
     *Wp[from] = card;
     Wlen[from]++;
-    *Wp[to]--;
+    Wp[to]--;
     Wlen[to]--;
     hashpile(to);
     hashpile( from );
@@ -312,10 +312,6 @@ int Mod3Solver::get_possible_moves(int *a, int *numout)
     return n;
 }
 
-void Mod3Solver::unpack_cluster( int  )
-{
-}
-
 bool Mod3Solver::isWon()
 {
     return getOuts() == 52 * 2;
@@ -368,11 +364,6 @@ void Mod3Solver::translate_layout()
     i = translate_pile(deal->talon, W[w], 104);
     Wp[w] = &W[w][i-1];
     Wlen[w] = i;
-}
-
-int Mod3Solver::getClusterNumber()
-{
-    return 0;
 }
 
 MoveHint Mod3Solver::translateMove( const MOVE & m )

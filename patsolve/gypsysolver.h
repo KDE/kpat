@@ -32,9 +32,7 @@ public:
     virtual void make_move(MOVE *m);
     virtual void undo_move(MOVE *m);
     virtual int getOuts();
-    virtual int getClusterNumber();
     virtual void translate_layout();
-    virtual void unpack_cluster( int k );
     virtual MoveHint translateMove(const MOVE &m);
 
     virtual void print_layout();

@@ -171,10 +171,6 @@ int GolfSolver::get_possible_moves(int *a, int *numout)
     return n;
 }
 
-void GolfSolver::unpack_cluster( int )
-{
-}
-
 bool GolfSolver::isWon()
 {
 
@@ -230,11 +226,6 @@ void GolfSolver::translate_layout()
             W[i][l] = card;
         }
     }
-}
-
-int GolfSolver::getClusterNumber()
-{
-    return Wlen[8] / 8;
 }
 
 MoveHint GolfSolver::translateMove( const MOVE &m )
