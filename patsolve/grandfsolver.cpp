@@ -323,6 +323,8 @@ int GrandfSolver::get_possible_moves(int *a, int *numout)
                 {
                     if ( l != Wlen[i]-1 )
                         allowed = 4;
+		    else if (m_redeal < 2)
+  		        allowed = 1;
                 }
                 // TODO: there is no point in moving if we're not opening anything
                 // e.g. if both i and j have perfect runs below the cards
