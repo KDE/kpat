@@ -444,8 +444,8 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
                         }
                     }
                     if ( !Wlen[to] )
-                    {
-                        if ( moves < 2 || moves == Wlen[w] || !switched)
+		      {
+			if ( moves < 2 || moves == Wlen[w] || !switched)
                             continue;
                         //print_layout();
                         mp->card_index = moves-1;
@@ -458,7 +458,7 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
                         mp++;
                         continue;
                     }
-		    if (d.linedup[w])
+		    if (d.linedup[w] && moves < Wlen[w])
 		      continue;
                     card_t top = *Wp[to];
                     for ( int i = 2; i <= moves && i <= Wlen[w]; i++ )
