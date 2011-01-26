@@ -368,26 +368,28 @@ int GypsySolver::get_possible_moves(int *a, int *numout)
                     mp->pri = params[2];
                 else
                     mp->pri = params[3];
-                card_t card2 = W[i][Wlen[i]-2-l];
-                if ( Wlen[i] >= l+2 && RANK( card ) == RANK( card2 ) - 1 &&
-                     COLOR( card ) != COLOR( card2 ) && !DOWN( card2 ) )
-                {
-                    int o = SUIT(card2);
-                    for ( int off = 0; off < 2; ++off )
-                    {
-                        bool empty = !Wlen[o*2+off+outs];
-                        if ((empty && (RANK(card2) == PS_ACE)) ||
-                            (!empty && (RANK(card2) == RANK( *Wp[outs+o*2+off] ) + 1 ) ) )
-                        {
-                            o = -1;
-                            break;
-                        }
-                    }
-                    if ( o > -1 )
-		      mp->pri = -117;
-		    else
-		      mp->pri = ( int )qMin( qreal( 127. ), params[1] + qreal( l ) * params[5] / 10 );
-                }
+		if (Wlen[i] >= 2+l) {
+		  card_t card2 = W[i][Wlen[i]-2-l];
+		  if ( Wlen[i] >= l+2 && RANK( card ) == RANK( card2 ) - 1 &&
+		       COLOR( card ) != COLOR( card2 ) && !DOWN( card2 ) )
+		    {
+		      int o = SUIT(card2);
+		      for ( int off = 0; off < 2; ++off )
+			{
+			  bool empty = !Wlen[o*2+off+outs];
+			  if ((empty && (RANK(card2) == PS_ACE)) ||
+			      (!empty && (RANK(card2) == RANK( *Wp[outs+o*2+off] ) + 1 ) ) )
+			    {
+			      o = -1;
+			      break;
+			    }
+			}
+		      if ( o > -1 )
+			mp->pri = -117;
+		      else
+			mp->pri = ( int )qMin( qreal( 127. ), params[1] + qreal( l ) * params[5] / 10 );
+		    }
+		}
                 n++;
                 mp++;
             }
