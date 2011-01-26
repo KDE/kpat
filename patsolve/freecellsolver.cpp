@@ -30,8 +30,6 @@
 static card_t Suit_mask;
 static card_t Suit_val;
 
-#define king_only(card) (RANK(card) == PS_KING)
-
 /* Statistics. */
 
 int FreecellSolver::Xparam[] = { 4, 1, 8, -1, 7, 11, 4, 2, 2, 1, 2 };
@@ -285,7 +283,7 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
 				continue;
 			}
                         bool allowed = false;
-                        if ( i < Nwpiles && king_only(*Wp[i]) )
+                        if ( i < Nwpiles)
                             allowed = true;
                         if ( i >= Nwpiles )
                             allowed = true;
@@ -507,12 +505,14 @@ void FreecellSolver::print_layout()
 
        fprintf(stderr, "print-layout-begin\n");
        for (w = 0; w < Nwpiles; ++w) {
+	 fprintf(stderr, "W-Pile%d: ", w);
                for (i = 0; i < Wlen[w]; ++i) {
                        printcard(W[w][i], stderr);
                }
                fputc('\n', stderr);
        }
        for (t = 0; t < Ntpiles; ++t) {
+	 fprintf(stderr, "T-Pile%d: ", t+Nwpiles);
            printcard(W[t+Nwpiles][Wlen[t+Nwpiles]], stderr);
        }
        fprintf( stderr, "\n" );
