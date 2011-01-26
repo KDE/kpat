@@ -182,6 +182,8 @@ int Mod3Solver::get_possible_moves(int *a, int *numout)
     int first_empty_pile = -1;
     bool foundone = false;
 
+    int firstfree[4] = { -1, -1, -1, -1};
+
     for (int i = 0; i < 32; ++i )
     {
         if ( !Wlen[i] )
@@ -213,6 +215,15 @@ int Mod3Solver::get_possible_moves(int *a, int *numout)
             int current_row = i / 8;
             int row = j / 8;
 
+	    if (!Wlen[j]) {
+	      if (firstfree[row] < 0)
+		firstfree[row] = j;
+	      
+	      //fprintf(stderr, "firstfree %d %d %d\n", row, firstfree[row], j);
+	      if (j != firstfree[row] && row < 4)
+		continue;
+	    }
+	      
             if ( Wlen[j] && RANK( *Wp[j] ) != row + 2 + ( Wlen[j] - 1 ) * 3 )
             {
                 //fprintf( stderr, "rank %d %d\n", i, j );
@@ -238,7 +249,7 @@ int Mod3Solver::get_possible_moves(int *a, int *numout)
                     if ( Wlen[i] == Wlen[j] + 1 )
                         continue;
                 }
-                mp->pri = 12 + 20 * Wlen[j] - current_row * 2;
+                mp->pri = qMin(119, 12 + 20 * Wlen[j] + current_row * 2 + RANK(*Wp[j]) * 5);
 
                 mp->turn_index = -1;
                 if ( i >= 24 && Wlen[i] == 1 && Wlen[deck] )
@@ -295,14 +306,14 @@ int Mod3Solver::get_possible_moves(int *a, int *numout)
         }
     }
 
-    if ( n == 0 && Wlen[deck] )
+    if ( Wlen[deck] )
     {
         // move
         mp->card_index = 0;
         mp->from = deck;
         mp->to = 0;
         mp->totype = W_Type;
-        mp->pri = 0;    /* unused */
+        mp->pri = -77; // last resort
         mp->turn_index = -1;
         mp->card_index = Wlen[deck];
         n++;
