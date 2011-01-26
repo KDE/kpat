@@ -230,7 +230,7 @@ MOVE *Solver::get_moves(int *nmoves)
 	/* Fill in the Possible array. */
 
         alln = n = get_possible_moves(&a, &numout);
-	if (debug) 
+	if (debug)  
 	  {
 	    print_layout();
 	    fprintf( stderr, "moves %d\n", n );
@@ -563,20 +563,20 @@ int Solver::get_pilenum(int w)
 	if (l == NULL) {
 		if (Pilenum >= NPILES ) {
                         Status = UnableToDetermineSolvability;
-			qDebug() << "out of piles";
+			//qDebug() << "out of piles";
 			return -1;
 		}
 		l = mm_allocate(BUCKETLIST);
 		if (l == NULL) {
                         Status = UnableToDetermineSolvability;
-			qDebug() << "out of buckets";
+			//qDebug() << "out of buckets";
 			return -1;
 		}
 		l->pile = new_array(quint8, Wlen[w] + 1);
 		if (l->pile == NULL) {
                     Status = UnableToDetermineSolvability;
                     MemoryManager::free_ptr(l);
-		    qDebug() << "out of memory";
+		    //qDebug() << "out of memory";
                     return -1;
 		}
 

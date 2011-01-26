@@ -298,8 +298,10 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
 
             if ( l > 0 ) {
                 card_t card_on_top = W[i][Wlen[i]-l];
-                if ( RANK( card ) != RANK( card_on_top ) + 1 )
+		//printcard(card_on_top, stderr);
+                if ( RANK( card ) != RANK( card_on_top ) + 1 ) {
                     break;
+                }
                 if ( SUIT( card ) != SUIT( card_on_top ) )
                     break;
             }
@@ -344,7 +346,7 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
 #endif
                         if ( SUIT( card ) != SUIT( *Wp[j] ) )
                         {
-                            //fprintf( stderr, "continue %d %d %d %d\n",conti[j]+l, conti[i],conti[j]+l, SUIT( card ) != SUIT( *Wp[j] ) );
+			  //fprintf( stderr, "continue %d %d %d %d\n",conti[j]+l, conti[i],conti[j]+l, SUIT( card ) != SUIT( *Wp[j] ) );
                             continue;
                         }
 
@@ -381,7 +383,7 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
                             if ( conti[j]+l+1 != 13 || conti[i]>conti[j]+l )
                             {
                                 card_t card_below = W[i][Wlen[i]-l-2];
-                                if ( SUIT( card_below ) != SUIT( card ) )
+                                if ( SUIT( card_below ) != SUIT( card ) || RANK(card_below) != RANK(card) + 1 )
                                 {
                                     foundgood = true;
                                 } else {
@@ -401,19 +403,19 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
                         mp->pri = qMin( 127, mp->pri + 2 );
 
                     /* and now check what sequence we open */
-                    int conti_pos = l+1;
+                    int conti_pos = l;
                     for ( ; conti_pos < Wlen[i]-1; ++conti_pos )
                     {
-                        card_t top = W[i][Wlen[i]-l-2];
                         card_t theone = W[i][Wlen[i]-conti_pos-1];
                         card_t below = W[i][Wlen[i]-conti_pos-2];
 #if 0
-                        printcard( top, stderr );
+			fprintf(stderr, "checking pile%d len:%d prio:%d ", i, l, mp->pri);
+                        printcard( card, stderr );
                         printcard( theone, stderr );
                         printcard( below, stderr );
                         fputc( '\n', stderr );
 #endif
-                        if ( SUIT( top ) != SUIT( below ) || DOWN( below ) )
+                        if ( SUIT( card ) != SUIT( below ) || DOWN( below ) )
                             break;
                         if ( RANK( theone ) !=
                              RANK( below ) - 1)
@@ -443,7 +445,7 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
         break; // one is enough
     }
 
-    if ( n > toomuch && foundgood )
+    if ( n > toomuch && foundgood)
     {
         mp = Possible;
         int i = 0;
