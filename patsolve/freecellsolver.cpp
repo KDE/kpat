@@ -26,9 +26,7 @@
 /* The following macro implements
 	(Same_suit ? (suit(a) == suit(b)) : (color(a) != color(b)))
 */
-#define suitable(a, b) ((((a) ^ (b)) & Suit_mask) == Suit_val)
-static card_t Suit_mask;
-static card_t Suit_val;
+#define suitable(a, b) ((((a) ^ (b)) & PS_COLOR) == PS_COLOR)
 
 /* Statistics. */
 
@@ -402,8 +400,6 @@ FreecellSolver::FreecellSolver(const Freecell *dealer)
 
     setNumberPiles( Nwpiles + Ntpiles );
 
-    Suit_mask = PS_COLOR;
-    Suit_val = PS_COLOR;
     deal = dealer;
 }
 
