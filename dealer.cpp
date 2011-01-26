@@ -279,10 +279,12 @@ void DealerScene::openGame(QDomDocument &doc)
                     QDomElement card = cardNodes.item(j).toElement();
                     int s = card.attribute("suit").toInt();
                     int r = card.attribute("value").toInt();
-
-                    KCard * c = cards.take( ( s << 4 ) + r );
+		    
+		    KCard * c = cards.take( ( s << 4 ) + r );
+		    if (!c)
+		      continue;
                     Q_ASSERT( c );
-
+		    
                     c->setFaceUp(card.attribute("faceup").toInt());
                     p->add(c);
                 }
