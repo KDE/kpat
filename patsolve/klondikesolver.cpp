@@ -313,9 +313,10 @@ int KlondikeSolver::get_possible_moves(int *a, int *numout)
                 n++;
                 mp++;
 
-                /* If it's an automove, just do it. */
-
-                if (good_automove(o, RANK(card))) {
+                /* If it's an automove, just do it. Automoves from the pile are problematic though
+		   in draw=3 because automoves can break the offset and break winnable games 
+		 */
+                if (good_automove(o, RANK(card)) && (w != 7 || m_draw == 1 || Wlen[7] < 3)) {
                     *a = true;
                     mp[-1].pri = 127;
                     if (n != 1) {
