@@ -45,6 +45,7 @@ class Fortyeight : public DealerScene
 
 public:
     virtual void initialize();
+    virtual void moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
 
 protected:
     virtual void setGameState( const QString & stream );
@@ -57,6 +58,8 @@ protected slots:
     virtual bool newCards();
 
 private:
+    bool canPutStore( const KCardPile * pile, const QList<KCard*> &cards ) const;
+
     PatPile *talon;
     PatPile *stack[8];
     PatPile *target[8];
@@ -64,7 +67,6 @@ private:
     bool lastdeal;
 
     friend class FortyeightSolver;
-    bool canPutStore(const PatPile *c1, const QList<KCard*> &c2) const;
 };
 
 #endif

@@ -154,26 +154,44 @@ bool Fortyeight::newCards()
     return true;
 }
 
-bool Fortyeight::canPutStore(const PatPile *c1, const QList<KCard*> &c2) const
+
+void Fortyeight::moveCardsToPile( QList<KCard*> cards, KCardPile* pile, int duration )
+{
+    if ( cards.size() <= 1 )
+    {
+        DealerScene::moveCardsToPile( cards, pile, duration );
+        return;
+    }
+
+    QList<KCardPile*> freePiles;
+    for ( int i = 0; i < 8; ++i )
+        if ( stack[i]->isEmpty() && stack[i] != pile )
+            freePiles << stack[i];
+
+    multiStepMove( cards, pile, freePiles, QList<KCardPile*>(), DURATION_MOVE );
+}
+
+
+bool Fortyeight::canPutStore( const KCardPile * pile, const QList<KCard*> &cards ) const
 {
     int frees = 0;
     for (int i = 0; i < 8; i++)
         if (stack[i]->isEmpty()) frees++;
 
-    if (c1->isEmpty()) // destination is empty
+    if ( pile->isEmpty()) // destination is empty
         frees--;
 
-    if (int(c2.count()) > 1<<frees)
+    if (int( cards.count()) > 1<<frees)
         return false;
 
     // ok if the target is empty
-    if (c1->isEmpty())
+    if ( pile->isEmpty())
         return true;
 
-    KCard *c = c2.first(); // we assume there are only valid sequences
+    KCard *c = cards.first(); // we assume there are only valid sequences
 
-    return c1->top()->suit() == c->suit()
-      && c1->top()->rank() == c->rank() + 1;
+    return pile->top()->suit() == c->suit()
+      && pile->top()->rank() == c->rank() + 1;
 }
 
 bool Fortyeight::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
