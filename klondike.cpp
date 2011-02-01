@@ -325,8 +325,8 @@ public:
     KlondikeDealerInfo()
       : DealerInfo(I18N_NOOP("Klondike"), DealerInfo::KlondikeGeneralId)
     {
-        addSubtype( KlondikeDrawThreeId, I18N_NOOP( "Klondike (Draw 1)" ) );
-        addSubtype( KlondikeDrawOneId, I18N_NOOP( "Klondike (Draw 3)" ) );
+        addSubtype( KlondikeDrawOneId, I18N_NOOP( "Klondike (Draw 1)" ) );
+        addSubtype( KlondikeDrawThreeId, I18N_NOOP( "Klondike (Draw 3)" ) );
     }
 
     virtual DealerScene *createGame() const
