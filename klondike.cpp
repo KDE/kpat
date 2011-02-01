@@ -74,7 +74,7 @@ QList<QPointF> KlondikePile::cardPositions() const
     {
         positions << currentPos;
         if ( i >= count() - m_cardsToShow )
-            currentPos += cardOffset( at(i) );
+            currentPos += spread();
     }
     return positions;
 }
@@ -114,7 +114,7 @@ void Klondike::initialize()
         play[i]->setPileRole(PatPile::Tableau);
         play[i]->setLayoutPos((1.0 + hspacing) * i, 1.0 + vspacing);
         play[i]->setAutoTurnTop(true);
-        play[i]->setBottomPadding( play[i]->spread().height() * 7 );
+        play[i]->setBottomPadding( play[i]->spread().y() * 7 );
         play[i]->setHeightPolicy( KCardPile::GrowDown );
         play[i]->setKeyboardSelectHint( KCardPile::AutoFocusDeepestFaceUp );
         play[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );

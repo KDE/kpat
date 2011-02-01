@@ -51,6 +51,8 @@ public:
     PileRole pileRole() const;
     bool isFoundation() const;
 
+    virtual QList<QPointF> cardPositions() const;
+
 protected:
     virtual void paintGraphic( QPainter * painter, qreal highlightedness );
 

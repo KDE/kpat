@@ -70,7 +70,7 @@ public:
 
     QSize graphicSize;
     QPointF layoutPos;
-    QSizeF spread;
+    QPointF spread;
 
     qreal topPadding;
     qreal rightPadding;
@@ -117,7 +117,7 @@ KCardPile::KCardPile( KCardScene * cardScene )
     d->highlighted = false;
     d->highlightValue = 0;
     d->graphicVisible = true;
-    d->spread = QSizeF( 0, 0.33 );
+    d->spread = QPointF( 0, 0 );
 
     d->topPadding = 0;
     d->rightPadding = 0;
@@ -322,7 +322,7 @@ qreal KCardPile::leftPadding() const
 }
 
 
-void KCardPile::setSpread( QSizeF spread )
+void KCardPile::setSpread( QPointF spread )
 {
     d->spread = spread;
 }
@@ -330,11 +330,11 @@ void KCardPile::setSpread( QSizeF spread )
 
 void KCardPile::setSpread( qreal width, qreal height )
 {
-    setSpread( QSizeF( width, height ) );
+    setSpread( QPointF( width, height ) );
 }
 
 
-QSizeF KCardPile::spread() const
+QPointF KCardPile::spread() const
 {
     return d->spread;
 }
@@ -483,24 +483,11 @@ void KCardPile::paintGraphic( QPainter * painter, qreal highlightedness )
 }
 
 
-QPointF KCardPile::cardOffset( const KCard * card ) const
-{
-    QPointF offset( spread().width(), spread().height() );
-    if (!card->isFaceUp())
-        offset *= 0.6;
-    return offset;
-}
-
-
 QList<QPointF> KCardPile::cardPositions() const
 {
     QList<QPointF> positions;
-    QPointF currentPosition( 0, 0 );
-    foreach( KCard * c, d->cards )
-    {
-        positions << currentPosition;
-        currentPosition += cardOffset( c );
-    }
+    for ( int i = 0; i < count(); ++i )
+        positions << i * spread();
     return positions;
 }
 

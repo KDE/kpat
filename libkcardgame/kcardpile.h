@@ -100,9 +100,9 @@ public:
     void setLeftPadding( qreal padding );
     qreal leftPadding() const;
 
-    void setSpread( QSizeF spread );
+    void setSpread( QPointF spread );
     void setSpread( qreal width, qreal height );
-    QSizeF spread() const;
+    QPointF spread() const;
 
     void setAutoTurnTop( bool autoTurnTop );
     bool autoTurnTop() const;
@@ -146,8 +146,6 @@ Q_SIGNALS:
 
 protected:
     virtual void paintGraphic( QPainter * painter, qreal highlightedness );
-
-    virtual QPointF cardOffset( const KCard * card ) const;
 
 private:
     void setGraphicSize( QSize size );

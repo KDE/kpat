@@ -31,6 +31,9 @@ PatPile::PatPile( KCardScene * cardScene, int index, const QString & objectName 
         setObjectName( QString(QLatin1String("pile%1" )).arg( m_index ) );
     else
         setObjectName( objectName );
+
+    // Set the default spread for all piles in KPat.
+    setSpread( 0, 0.33 );
 }
 
 
@@ -55,6 +58,20 @@ PatPile::PileRole PatPile::pileRole() const
 bool PatPile::isFoundation() const
 {
     return FoundationType1 <= m_role && m_role <= FoundationType4;
+}
+
+
+QList< QPointF > PatPile::cardPositions() const
+{
+    QList<QPointF> positions;
+    QPointF currentPosition( 0, 0 );
+    foreach( KCard * c, cards() )
+    {
+        positions << currentPosition;
+        qreal adjustment = c->isFaceUp() ? 1 : 0.6;
+        currentPosition += adjustment * spread();
+    }
+    return positions;
 }
 
 
