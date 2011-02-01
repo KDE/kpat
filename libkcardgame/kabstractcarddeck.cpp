@@ -465,12 +465,10 @@ void KAbstractCardDeck::setTheme( const KCardTheme & theme )
         // doesn't really add that much benefit anyway.
         d->cache->setPixmapCaching( false );
 
-        QDateTime cacheTimeStamp;
-        if ( !cacheFind( d->cache, timeStampKey, &cacheTimeStamp )
-            || cacheTimeStamp < theme.lastModified() )
+        if ( d->cache->timestamp() < theme.lastModified().toTime_t() )
         {
             d->cache->clear();
-            cacheInsert( d->cache, timeStampKey, theme.lastModified() );
+            d->cache->setTimestamp( theme.lastModified().toTime_t() );
         }
 
         d->originalCardSize = d->unscaledCardSize();
