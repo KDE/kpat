@@ -299,12 +299,19 @@ bool Klondike::drop()
 
 void Klondike::mapOldId(int id)
 {
-   switch (id) {
-   case DealerInfo::KlondikeDrawThreeId :
-       setEasy( false );
-   case DealerInfo::KlondikeDrawOneId :
-       setEasy( true );
-   }
+    switch ( id )
+    {
+    case DealerInfo::KlondikeDrawOneId:
+        setEasy( true );
+        break;
+    case DealerInfo::KlondikeDrawThreeId:
+        setEasy( false );
+        break;
+    case DealerInfo::KlondikeGeneralId:
+    default:
+        // Do nothing.
+        break;
+    }
 }
 
 
