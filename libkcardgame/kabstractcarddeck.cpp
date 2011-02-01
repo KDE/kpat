@@ -87,18 +87,8 @@ void RenderingThread::run()
         if ( !d->cache->contains( key ) )
         {
             kDebug() << "Renderering" << key << "in rendering thread.";
-
-            QImage img = QImage( m_size, QImage::Format_ARGB32 );
-            img.fill( Qt::transparent );
-            QPainter p( &img );
-            {
-                QMutexLocker l( &(d->rendererMutex) );
-                d->renderer()->render( &p, element );
-            }
-            p.end();
-
+            QImage img = d->renderCard( element, m_size );
             d->cache->insertImage( key, img );
-
             emit renderingDone( element, img );
         }
     }
@@ -142,17 +132,14 @@ QSvgRenderer * KAbstractCardDeckPrivate::renderer()
 }
 
 
-QPixmap KAbstractCardDeckPrivate::renderCard( const QString & element )
+QImage KAbstractCardDeckPrivate::renderCard( const QString & element, const QSize & size )
 {
-    QString key = keyForPixmap( element , currentCardSize );
-    kDebug() << "Renderering" << key << "in main thread.";
-
     // Note that we don't use Format_ARGB32_Premultiplied as it sacrifices some
     // colour accuracy at low opacities for performance. Normally this wouldn't
     // be an issue, but in card games we often will have, say, 52 pixmaps
     // stacked on top of one another, which causes these colour inaccuracies to
     // add up to the point that they're very visible.
-    QImage img( currentCardSize, QImage::Format_ARGB32 );
+    QImage img( size, QImage::Format_ARGB32 );
     img.fill( Qt::transparent );
     QPainter p( &img );
     {
@@ -173,9 +160,7 @@ QPixmap KAbstractCardDeckPrivate::renderCard( const QString & element )
     }
     p.end();
 
-    cache->insertImage( key, img );
-
-    return QPixmap::fromImage( img );
+    return img;
 }
 
 
@@ -214,12 +199,20 @@ QPixmap KAbstractCardDeckPrivate::requestPixmap( quint32 id, bool faceUp )
     QPixmap & stored = it.value().cardPixmap;
     if ( stored.size() != currentCardSize )
     {
-        if ( !cache->findPixmap( keyForPixmap( elementId , currentCardSize ), &stored ) )
+        QString key = keyForPixmap( elementId , currentCardSize );
+        if ( !cache->findPixmap( key, &stored ) )
         {
             if ( stored.isNull() )
-                stored = renderCard( elementId );
+            {
+                kDebug() << "Renderering" << key << "in main thread.";
+                QImage img = renderCard( elementId, currentCardSize );
+                cache->insertImage( key, img );
+                stored = QPixmap::fromImage( img );
+            }
             else
+            {
                 stored = stored.scaled( currentCardSize );
+            }
         }
         Q_ASSERT( stored.size() == currentCardSize );
     }

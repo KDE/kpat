@@ -73,7 +73,7 @@ public:
     ~KAbstractCardDeckPrivate();
 
     QSvgRenderer * renderer();
-    QPixmap renderCard( const QString & element );
+    QImage renderCard( const QString & element, const QSize & size );
     QSizeF unscaledCardSize();
     QPixmap requestPixmap( quint32 id, bool faceUp );
     void updateCardSize( const QSize & size );
