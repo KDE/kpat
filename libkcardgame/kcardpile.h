@@ -137,7 +137,7 @@ public:
     void clear();
     void swapCards( int index1, int index2 );
 
-    virtual void layoutCards( int duration );
+    virtual QList<QPointF> cardPositions() const;
 
 Q_SIGNALS:
     void clicked( KCard * card );

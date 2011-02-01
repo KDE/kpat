@@ -472,78 +472,6 @@ void KCardPile::swapCards( int index1, int index2 )
 }
 
 
-void KCardPile::layoutCards( int duration )
-{
-    KCardScene * kcs = dynamic_cast<KCardScene*>( scene() );
-
-    if ( !kcs || d->cards.isEmpty() )
-        return;
-
-    const QSize cardSize = kcs->deck()->cardSize();
-
-    qreal minX = 0;
-    qreal maxX = 0;
-    qreal minY = 0;
-    qreal maxY = 0;
-    QPointF totalOffset( 0, 0 );
-    for ( int i = 1; i < d->cards.size(); ++i )
-    {
-        totalOffset += cardOffset( d->cards[i] );
-        minX = qMin( minX, totalOffset.x() );
-        maxX = qMax( maxX, totalOffset.x() );
-        minY = qMin( minY, totalOffset.y() );
-        maxY = qMax( maxY, totalOffset.y() );
-    }
-
-    QPointF absLayoutPos = layoutPos();
-    if ( absLayoutPos.x() < 0 )
-        absLayoutPos.rx() += kcs->contentArea().width() / cardSize.width() - 1;
-    if ( absLayoutPos.y() < 0 )
-        absLayoutPos.ry() += kcs->contentArea().height() / cardSize.height() - 1;
-
-    QRectF available = kcs->spaceAllottedToPile( this );
-    qreal availableTop = absLayoutPos.y() - available.top();
-    qreal availableBottom = available.bottom() - (absLayoutPos.y() + 1);
-    qreal availableLeft = absLayoutPos.x() - available.left();
-    qreal availableRight = available.right() - (absLayoutPos.x() + 1);
-
-    qreal scaleTop = 1;
-    if ( minY < 0 )
-        scaleTop = qMin<qreal>( availableTop / -minY, 1 );
-    qreal scaleBottom = 1;
-    if ( maxY > 0 )
-        scaleBottom = qMin<qreal>( availableBottom / maxY, 1 );
-    qreal scaleY = qMin( scaleTop, scaleBottom );
-
-    qreal scaleLeft = 1;
-    if ( minX < 0 )
-        scaleLeft = qMin<qreal>( availableLeft / -minX, 1 );
-    qreal scaleRight = 1;
-    if ( maxX > 0 )
-        scaleRight = qMin<qreal>( availableRight / maxX, 1 );
-    qreal scaleX = qMin( scaleLeft, scaleRight );
-
-    QPointF cardPos = pos();
-    qreal z = zValue() + 1;
-
-    for ( int i = 0; i < d->cards.size() - 1; ++i )
-    {
-        KCard * card = d->cards[i];
-        card->animate( cardPos, z, 0, card->isFaceUp(), false, duration );
-
-        QPointF offset = cardOffset( card );
-        cardPos.rx() += scaleX * offset.x() * cardSize.width();
-        cardPos.ry() += scaleY * offset.y() * cardSize.height();
-        ++z;
-    }
-
-    if ( d->autoTurnTop && !top()->isFaceUp() )
-        top()->animate( cardPos, z, 0, true, false, duration );
-    else
-        top()->animate( cardPos, z, 0, top()->isFaceUp(), false, duration );
-}
-
-
 void KCardPile::paintGraphic( QPainter * painter, qreal highlightedness )
 {
     int penWidth = boundingRect().width() / 40;
@@ -561,6 +489,19 @@ QPointF KCardPile::cardOffset( const KCard * card ) const
     if (!card->isFaceUp())
         offset *= 0.6;
     return offset;
+}
+
+
+QList<QPointF> KCardPile::cardPositions() const
+{
+    QList<QPointF> positions;
+    QPointF currentPosition( 0, 0 );
+    foreach( KCard * c, d->cards )
+    {
+        positions << currentPosition;
+        currentPosition += cardOffset( c );
+    }
+    return positions;
 }
 
 

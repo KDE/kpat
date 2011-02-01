@@ -291,7 +291,7 @@ void DealerScene::openGame(QDomDocument &doc)
                 break;
             }
         }
-        p->layoutCards( 0 );
+        updatePileLayout( p, 0 );
     }
     setGameState( dealer.attribute("data") );
 
@@ -877,7 +877,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
     if ( e->button() == Qt::RightButton && d->peekedCard && d->peekedCard->pile() )
     {
         e->accept();
-        d->peekedCard->pile()->layoutCards( DURATION_FANCYSHOW );
+        updatePileLayout( d->peekedCard->pile(), DURATION_FANCYSHOW );
         d->peekedCard = 0;
     }
     else
@@ -1112,7 +1112,7 @@ void DealerScene::setState( GameState * state )
         foreach ( KCard * c, p->cards() )
             p->swapCards( p->indexOf( c ), cardIndices.value( c ) );
 
-        p->layoutCards(0);
+        updatePileLayout( p, 0 );
     }
 
     // restore game-specific information
@@ -1729,7 +1729,7 @@ void DealerScene::startDealAnimation()
     qreal speed = sqrt( width() * width() + height() * height() ) / ( DURATION_DEAL );
     foreach ( PatPile * p, patPiles() )
     {
-        p->layoutCards(0);
+        updatePileLayout( p, 0 );
         foreach ( KCard * c, p->cards() )
         {
             if ( !d->initDealPositions.contains( c ) )

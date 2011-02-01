@@ -379,7 +379,7 @@ bool Spider::checkPileDeck( KCardPile * pile, bool checkForDemo )
             }
             m_leg++;
 
-            pile->layoutCards( DURATION_RELAYOUT );
+            updatePileLayout( pile, DURATION_RELAYOUT );
 
             return true;
         }
