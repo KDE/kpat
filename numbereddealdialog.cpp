@@ -91,7 +91,7 @@ void NumberedDealDialog::setVisible( bool visible )
         m_dealNumber->selectAll();
     }
 
-    QDialog::setVisible( visible );
+    KDialog::setVisible( visible );
 }
 
 

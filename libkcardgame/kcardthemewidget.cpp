@@ -339,10 +339,11 @@ void KCardThemeWidgetPrivate::updateListView( const QString & dirName )
 
 void KCardThemeWidgetPrivate::getNewCardThemes()
 {
-    KNS3::DownloadDialog dialog( "kcardtheme.knsrc", q );
-    dialog.exec();
-    if ( !dialog.changedEntries().isEmpty() )
+    QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog( "kcardtheme.knsrc", q );
+    dialog->exec();
+    if ( dialog && !dialog->changedEntries().isEmpty() )
         model->reload();
+    delete dialog;
 }
 
 
