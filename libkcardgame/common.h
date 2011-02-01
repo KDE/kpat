@@ -20,17 +20,11 @@
 #ifndef COMMON_P_H
 #define COMMON_P_H
 
-class KCardTheme;
-
-class KImageCache;
 #include <KSharedDataCache>
 
 #include <QDataStream>
 class QString;
-class QSize;
 
-
-KImageCache * createCache( const KCardTheme & theme );
 
 template<class T>
 bool cacheFind( KSharedDataCache * cache, const QString & key, T * result )

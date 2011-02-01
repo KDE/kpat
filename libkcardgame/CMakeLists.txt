@@ -1,5 +1,4 @@
 set( libkcardgame_SRCS
-    common.cpp
     kabstractcarddeck.cpp
     kcard.cpp
     kcarddeck.cpp

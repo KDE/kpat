@@ -37,6 +37,8 @@
 
 namespace
 {
+    const QString cacheNameTemplate( "libkcardgame-themes/%1" );
+    const QString timeStampKey( "libkcardgame_timestamp" );
     const QString unscaledSizeKey( "libkcardgame_unscaledsize" );
     const QString lastUsedSizeKey( "libkcardgame_lastusedsize" );
 
@@ -452,7 +454,24 @@ void KAbstractCardDeck::setTheme( const KCardTheme & theme )
         }
 
         delete d->cache;
-        d->cache = createCache( d->theme );
+
+        QString cacheName = QString( cacheNameTemplate ).arg( theme.dirName() );
+        d->cache = new KImageCache( cacheName, 3 * 1024 * 1024 );
+        d->cache->setEvictionPolicy( KSharedDataCache::EvictLeastRecentlyUsed );
+
+        // Enabling the pixmap cache has caused issues: we were getting back
+        // different pixmaps than we had inserted. We keep a partial cache of the
+        // pixmaps in KAbstractCardDeck already, so the builtin pixmap caching
+        // doesn't really add that much benefit anyway.
+        d->cache->setPixmapCaching( false );
+
+        QDateTime cacheTimeStamp;
+        if ( !cacheFind( d->cache, timeStampKey, &cacheTimeStamp )
+            || cacheTimeStamp < theme.lastModified() )
+        {
+            d->cache->clear();
+            cacheInsert( d->cache, timeStampKey, theme.lastModified() );
+        }
 
         d->originalCardSize = d->unscaledCardSize();
         Q_ASSERT( !d->originalCardSize.isNull() );
