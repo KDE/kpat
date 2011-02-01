@@ -51,8 +51,6 @@ const int CHUNKSIZE = 100;
 
 void Freecell::initialize()
 {
-    startMovingQueued = false;
-
     setDeckContents();
 
     const qreal topRowDist = 1.08;
@@ -109,16 +107,6 @@ void Freecell::restart( const QList<KCard*> & cards )
     startDealAnimation();
 }
 
-void Freecell::countFreeCells(int &free_cells, int &free_stores) const
-{
-    free_cells = 0;
-    free_stores = 0;
-
-    for (int i = 0; i < 4; i++)
-        if (freecell[i]->isEmpty()) free_cells++;
-    for (int i = 0; i < 8; i++)
-        if (store[i]->isEmpty()) free_stores++;
-}
 
 void Freecell::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration )
 {
@@ -128,145 +116,17 @@ void Freecell::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int durat
         return;
     }
 
-    PatPile * destPile = static_cast<PatPile*>( pile );
-
-    updatePileLayout( cards.first()->pile(), duration );
-
-    QList<PatPile*> emptyFreeCells;
+    QList<KCardPile*> freeCells;
     for ( int i = 0; i < 4; ++i )
         if ( freecell[i]->isEmpty() )
-            emptyFreeCells << freecell[i];
+            freeCells << freecell[i];
 
-    QList<PatPile*> emptyStores;
+    QList<KCardPile*> freeStores;
     for ( int i = 0; i < 8; ++i )
-        if ( store[i]->isEmpty() && destPile != store[i] )
-            emptyStores << store[i];
+        if ( store[i]->isEmpty() && store[i] != pile )
+            freeStores << store[i];
 
-    if ( emptyFreeCells.isEmpty() )
-    {
-        Q_ASSERT( !emptyStores.isEmpty() );
-        emptyFreeCells << emptyStores.takeLast();
-    }
-
-    qDeleteAll( moves );
-    moves.clear();
-
-    sum_moves = 0;
-    current_weight = 1000;
-    moveRunToPile( cards, destPile, emptyStores, emptyFreeCells, 0, cards.size(), 0);
-
-    startMoving();
-}
-
-struct MoveAway {
-    PatPile *firstfree;
-    int start;
-    int count;
-};
-
-void Freecell::moveRunToPile(QList<KCard*> &c, PatPile *to, QList<PatPile*> & fss, QList<PatPile*> & fcs, int start, int count, int debug_level)
-{
-    kDebug() << debug_level << "movePileToPile" << c.count() << " " << start  << " " << count;
-    int moveaway = 0;
-    if (count > fcs.count() + 1) {
-        moveaway = (fcs.count() + 1);
-        while (moveaway * 2 < count)
-            moveaway <<= 1;
-    }
-    kDebug() << debug_level << "moveaway" << moveaway;
-
-    QList<MoveAway> moves_away;
-
-    if (count - moveaway < (fcs.count() + 1) && (count <= 2 * (fcs.count() + 1))) {
-        moveaway = count - (fcs.count() + 1);
-    }
-    while (count > fcs.count() + 1) {
-        Q_ASSERT(fss.count());
-        MoveAway ma;
-        ma.firstfree = fss[0];
-        ma.start = start;
-        ma.count = moveaway;
-        moves_away.append(ma);
-        fss.erase(fss.begin());
-        moveRunToPile(c, ma.firstfree, fss, fcs, start, moveaway, debug_level + 1);
-        start += moveaway;
-        count -= moveaway;
-        moveaway >>= 1;
-        if ((count > (fcs.count() + 1)) && (count <= 2 * (fcs.count() + 1)))
-            moveaway = count - (fcs.count() + 1);
-    }
-    int moving = qMin(count, qMin(c.count() - start, fcs.count() + 1));
-    Q_ASSERT(moving);
-
-    for (int i = 0; i < moving - 1; i++) {
-        moves.append(new MoveHint(c[c.count() - i - 1 - start], fcs[i], current_weight));
-        sum_moves += current_weight;
-        current_weight *= 0.9;
-    }
-    moves.append(new MoveHint(c[c.count() - start - 1 - (moving - 1)], to, current_weight));
-    sum_moves += current_weight;
-    current_weight *= 0.9;
-
-    for (int i = moving - 2; i >= 0; --i) {
-        moves.append(new MoveHint(c[c.count() - i - 1 - start], to, current_weight));
-        sum_moves += current_weight;
-        current_weight *= 0.9;
-    }
-
-    while (moves_away.count())
-    {
-        MoveAway ma = moves_away.takeLast();
-        moveRunToPile(c, to, fss, fcs, ma.start, ma.count, debug_level + 1);
-        fss.append(ma.firstfree);
-    }
-
-    takeState();
-}
-
-void Freecell::startMoving()
-{
-    kDebug() << "startMoving\n";
-
-    if ( moves.isEmpty() )
-        return;
-
-    if ( isCardAnimationRunning() )
-    {
-        startMovingQueued = true;
-        return;
-    }
-
-    MoveHint * mh = moves.takeFirst();
-    QList<KCard*> empty;
-    empty.append(mh->card());
-
-    KCardPile * p = mh->card()->pile();
-    Q_ASSERT(mh->card() == p->top());
-    Q_ASSERT(allowedToAdd(mh->pile(), empty));
-    mh->pile()->add(mh->card());
-
-    int duration = qMax( DURATION_MOVE * mh->priority() / 1000, 1 );
-    mh->card()->raise();
-    updatePileLayout( mh->pile(), duration );
-    updatePileLayout( p, duration );
-    kDebug() << "wait for moving end" << mh->card()->objectName() << mh->priority();
-    delete mh;
-
-    startMoving();
-}
-
-
-void Freecell::animationDone()
-{
-    if ( startMovingQueued )
-    {
-        startMovingQueued = false;
-        startMoving();
-    }
-    else
-    {
-        DealerScene::animationDone();
-    }
+    multiStepMove( cards, pile, freeStores, freeCells, DURATION_MOVE );
 }
 
 
@@ -293,26 +153,23 @@ bool Freecell::tryAutomaticMove(KCard *c)
     return false;
 }
 
-bool Freecell::canPutStore(const PatPile *c1, const QList<KCard*> &c2) const
+bool Freecell::canPutStore( const KCardPile * pile, const QList<KCard*> & cards ) const
 {
-    int fcs, fss;
-    countFreeCells(fcs, fss);
+    int freeCells = 0;
+    for ( int i = 0; i < 4; ++i )
+        if ( freecell[i]->isEmpty() )
+            ++freeCells;
 
-    if (c1->isEmpty()) // destination is empty
-        fss--;
+    int freeStores = 0;
+    for ( int i = 0; i < 8; ++i )
+        if ( store[i]->isEmpty() && store[i] != pile )
+            ++freeStores;
 
-    if (int(c2.count()) > ((fcs)+1)<<fss)
-        return false;
+    return cards.size() <= (freeCells + 1) << freeStores
+           && ( pile->isEmpty()
+                || ( pile->top()->rank() == cards.first()->rank() + 1
+                     && pile->top()->color() != cards.first()->color() ) );
 
-    // ok if the target is empty
-    if (c1->isEmpty())
-        return true;
-
-    KCard *c = c2.first(); // we assume there are only valid sequences
-
-    // ok if in sequence, alternate colors
-    return c1->top()->rank() == c->rank() + 1
-           && c1->top()->color() != c->color();
 }
 
 bool Freecell::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const

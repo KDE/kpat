@@ -70,7 +70,7 @@
 
 #include <cmath>
 
-#define DEBUG_HINTS 1
+#define DEBUG_HINTS 0
 
 
 namespace
@@ -181,6 +181,9 @@ public:
     bool dropQueued;
     bool newCardsQueued;
 
+    QList<QPair<KCard*,KCardPile*> > multiStepMoves;
+    int multiStepDuration;
+
     QStack<GameState*> undoStack;
     GameState * currentState;
     QStack<GameState*> redoStack;
@@ -279,12 +282,11 @@ void DealerScene::openGame(QDomDocument &doc)
                     QDomElement card = cardNodes.item(j).toElement();
                     int s = card.attribute("suit").toInt();
                     int r = card.attribute("value").toInt();
-		    
-		    KCard * c = cards.take( ( s << 4 ) + r );
-		    if (!c)
-		      continue;
-                    Q_ASSERT( c );
-		    
+                    
+                    KCard * c = cards.take( ( s << 4 ) + r );
+                    if (!c)
+                        continue;
+
                     c->setFaceUp(card.attribute("faceup").toInt());
                     p->add(c);
                 }
@@ -1316,6 +1318,12 @@ void DealerScene::animationDone()
 {
     Q_ASSERT( !isCardAnimationRunning() );
 
+    if ( !d->multiStepMoves.isEmpty() )
+    {
+        continueMultiStepMove();
+        return;
+    }
+
     if ( d->takeStateQueued )
     {
         d->takeStateQueued = false;
@@ -1745,6 +1753,130 @@ void DealerScene::startDealAnimation()
         }
     }
     d->initDealPositions.clear();
+}
+
+
+void DealerScene::multiStepMove( const QList<KCard*> & cards,
+                                 KCardPile * pile,
+                                 const QList<KCardPile*> & freePiles,
+                                 const QList<KCardPile*> & freeCells,
+                                 int duration )
+{
+    Q_ASSERT( !freePiles.isEmpty() || !freeCells.isEmpty() );
+
+    QList<KCardPile*> piles = freePiles;
+    QList<KCardPile*> cells = freeCells;
+
+    // Our algorithm requires at least one free cell. If we don't have any, we
+    // pick an arbitrary free pile to act as our free cell.
+    if ( cells.isEmpty() )
+        cells << piles.takeLast();
+
+    d->multiStepMoves.clear();
+    d->multiStepDuration = duration;
+
+    multiStepSubMove( cards, pile, piles, cells );
+    continueMultiStepMove();
+}
+
+
+void DealerScene::multiStepSubMove( QList<KCard*> cards,
+                                    KCardPile * pile,
+                                    QList<KCardPile*> freePiles,
+                                    const QList<KCardPile*> & freeCells )
+{
+    // Note that cards and freePiles are passed by value, as we need to make a
+    // local copy anyway.
+
+    // Using n free cells, we can move a run of n+1 cards. If we want to move
+    // more than that, we have to recursively move some of our cards to one of
+    // the free piles temporarily.
+    int count = cards.size();
+    const int freeCellsPlusOne = freeCells.size() + 1;
+    int tempMoveSize = 0;
+    if ( count > freeCellsPlusOne)
+    {
+        tempMoveSize = freeCellsPlusOne;
+        while ( tempMoveSize * 2 < count )
+            tempMoveSize *= 2;
+    }
+
+    // I have no idea what this does, so I'm not going to remove it.
+    if ( count < freeCellsPlusOne + tempMoveSize && count <= 2 * freeCellsPlusOne )
+        tempMoveSize = count - freeCellsPlusOne;
+
+    QList<QPair<KCardPile*,QList<KCard*> > > tempMoves;
+    while ( count > freeCellsPlusOne )
+    {
+        Q_ASSERT( !freePiles.isEmpty() );
+        KCardPile * nextPile = freePiles.takeFirst();
+        QList<KCard*> subCards;
+        for ( int i = 0; i < tempMoveSize; ++i )
+            subCards.prepend( cards.takeLast() );
+
+        tempMoves << qMakePair( nextPile, subCards );
+        multiStepSubMove( subCards, nextPile, freePiles, freeCells );
+
+        count = cards.size();
+
+        // Since there's now one less free pile, so we can only move half as
+        // many cards.
+        tempMoveSize /= 2;
+
+        // Moving cards in a submove is more "expensive" than moving cards using
+        // free cells (four moves instead of two), so we try to save as many cards
+        // as possible to be moved with the free cells.
+        if ( (freeCellsPlusOne < count) && (count <= 2 * freeCellsPlusOne) )
+            tempMoveSize = count - freeCellsPlusOne;
+    }
+
+    // Move cards to free cells.
+    for ( int i = 0; i < cards.size() - 1; ++i )
+    {
+        KCard * c = cards.at( cards.size() - 1 - i );
+        d->multiStepMoves << qMakePair( c, freeCells[i] );
+    }
+
+    // Move bottom card to destination pile.
+    d->multiStepMoves << qMakePair( cards.first(), pile );
+
+    // Move cards from free cells to destination pile.
+    for ( int i = 1; i < cards.size(); ++i )
+        d->multiStepMoves << qMakePair( cards.at( i ), pile );
+
+    // If we had to do any submoves, we now move those cards from their
+    // temporary pile to the destination pile and free up their temporary pile.
+    while ( !tempMoves.isEmpty() )
+    {
+        QPair<KCardPile*, QList<KCard*> > m = tempMoves.takeLast();
+        multiStepSubMove( m.second, pile, freePiles, freeCells );
+        freePiles << m.first;
+    }
+}
+
+
+void DealerScene::continueMultiStepMove()
+{
+    Q_ASSERT( !d->multiStepMoves.isEmpty() );
+    Q_ASSERT( !isCardAnimationRunning() );
+
+    QPair<KCard*,KCardPile*> m = d->multiStepMoves.takeFirst();
+    KCard * card = m.first;
+    KCardPile * dest = m.second;
+    KCardPile * source = card->pile();
+
+    Q_ASSERT( card == source->top() );
+    Q_ASSERT( allowedToAdd( dest, QList<KCard*>() << card ) );
+
+    d->multiStepDuration = qMax<int>( d->multiStepDuration * 0.9, 50 );
+
+    dest->add( card );
+    card->raise();
+    updatePileLayout( dest, d->multiStepDuration );
+    updatePileLayout( source, d->multiStepDuration );
+
+    if ( d->multiStepMoves.isEmpty() )
+        takeState();
 }
 
 

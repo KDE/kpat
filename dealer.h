@@ -183,6 +183,13 @@ protected:
     void setDeckContents( int copies = 1,
                           const QList<KCardDeck::Suit> & suits = KCardDeck::standardSuits() );
 
+    void multiStepMove( const QList<KCard*> & cards,
+                        KCardPile * pile,
+                        const QList<KCardPile*> & freePiles,
+                        const QList<KCardPile*> & freeCells,
+                        int duration  );
+
+
 protected slots:
     void takeState();
     virtual void animationDone();
@@ -213,6 +220,12 @@ private:
     void won();
 
     int speedUpTime( int delay ) const;
+
+    void multiStepSubMove( QList<KCard*> cards,
+                           KCardPile * pile,
+                           QList<KCardPile*> freePiles,
+                           const QList<KCardPile*> & freeCells );
+    void continueMultiStepMove();
 
     class DealerScenePrivate;
     DealerScenePrivate *d;
