@@ -701,6 +701,8 @@ void KCardScene::flipCardsToPile( QList<KCard*> cards, KCardPile * pile, int dur
         origFaces << c->isFaceUp();
         origZValues << c->zValue();
         origPositions << c->pos();
+
+        c->setFaceUp( !c->isFaceUp() );
     }
 
     moveCardsToPile( revCards, pile, duration );

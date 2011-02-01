@@ -71,7 +71,7 @@ private slots:
 private:
     void setEasy( bool easy );
 
-    bool EasyRules;
+    bool easyRules;
     bool redealt;
 
     KSelectAction *options;
@@ -89,13 +89,13 @@ private:
 class KlondikePile : public PatPile
 {
 public:
-    KlondikePile( KCardScene * cardScene, int _index, int _draw, const QString & objectName = QString() );
-    int draw() const { return m_draw; }
-    void setDraws( int _draw );
-    virtual void layoutCards( int duration );
+    KlondikePile( KCardScene * cardScene, int index, const QString & objectName = QString() );
+    void setCardsToShow( int numCards );
+    int cardsToShow() const;
+    virtual QList<QPointF> cardPositions() const;
 
 private:
-    int m_draw;
+    int m_cardsToShow;
 };
 
 #endif
