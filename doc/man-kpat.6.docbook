@@ -389,10 +389,9 @@ sets the client geometry of the main widget - see the manual page
 &kpatience; is documented in detail in <emphasis>The &kpatience;
 Handbook</emphasis>
 (<filename>$<envar>KDEDIR</envar>/share/doc/HTML/en/kpat/index.html</filename>
-or enter <userinput>help://kpat/index.html</userinput> in
+or enter <userinput>help:/kpat/index.html</userinput> in
 &konqueror;).</para>
 		
-<para>&kde-http;</para>
 </refsect1>
 
 <refsect1>
