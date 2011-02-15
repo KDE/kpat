@@ -282,6 +282,8 @@ void Spider::setGameOptions( const QString & options )
 
 void Spider::restart( const QList<KCard*> & cards )
 {
+    m_pilesWithRuns.clear();
+
     // make the redeal piles visible
     for (int i = 0; i < 5; ++i )
         redeals[i]->setVisible( true );
@@ -321,100 +323,52 @@ void Spider::restart( const QList<KCard*> & cards )
 }
 
 
-QList<KCard*> Spider::getRun(KCard *c) const
-{
-    QList<KCard*> result;
-
-    KCardPile * p = c->pile();
-    if (!p || p->isEmpty())
-        return result;
-
-    result.append(c);
-
-    int suit = c->suit();
-    int rank = c->rank();
-
-    int index = p->indexOf(c);
-    c = p->at(--index);
-    while ( index >= 0
-            && c->isFaceUp()
-            && c->suit() == suit
-            && c->rank() == ++rank )
-    {
-        result.prepend(c);
-        c = p->at(--index);
-    }
-
-    return result;
-}
-
-
 void Spider::cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile )
 {
     PatPile * p = dynamic_cast<PatPile*>( newPile );
 
-    // if the top card of the list I just moved is an Ace,
-    // the run I just moved is the same suit as the pile,
-    // and the destination pile now has more than 12 cards,
-    // then it could have a full deck that needs removed.
-    if ( p
-         && p->pileRole() != PatPile::Foundation
-         && cards.last()->rank() == KCardDeck::Ace
-         && cards.first()->suit() == p->topCard()->suit()
-         && p->count() > 12 )
+    // The solver treats the removal of complete runs from the table as a
+    // separate move, so we don't do it automatically when the demo is active.
+    if ( !isDemoActive()
+         && p
+         && p->pileRole() == PatPile::Tableau
+         && pileHasFullRun( p ) )
     {
-        checkPileDeck( p );
+        m_pilesWithRuns << p;
     }
 
     DealerScene::cardsMoved( cards, oldPile, newPile );
 }
 
 
-bool Spider::checkPileDeck( KCardPile * pile, bool checkForDemo )
+bool Spider::pileHasFullRun( KCardPile * pile )
 {
-    if ( checkForDemo && isDemoActive() )
-        return false;
-
-    if (pile->isEmpty())
-        return false;
-
-    if ( pile->topCard()->rank() == KCardDeck::Ace )
-    {
-        // just using the CardList to see if this goes to King
-        QList<KCard*> run = getRun(pile->topCard());
-        if ( run.first()->rank() == KCardDeck::King )
-        {
-            PatPile *leg = legs[m_leg];
-            leg->setVisible(true);
-
-            recalculatePileLayouts();
-            for ( int i = 0; i < 10; ++i )
-                if ( stack[i] != pile )
-                    updatePileLayout( stack[i], DURATION_RELAYOUT );
-
-            qreal z = 1;
-            foreach ( KCard *c, run ) {
-                leg->add( c );
-                c->animate( leg->pos(), leg->zValue() + z, 0, true, true, DURATION_AUTODROP * (0.7 + z / 10) );
-                ++z;
-            }
-            m_leg++;
-
-            updatePileLayout( pile, DURATION_RELAYOUT );
-
-            return true;
-        }
-    }
-    return false;
+    return pile->count() >= 13 && isSameSuitDescending( pile->topCards( 13 ) );
 }
 
 
-void Spider::checkAllForRuns()
+void Spider::moveFullRunToLeg( KCardPile * pile )
 {
-    disconnect(deck(), SIGNAL(cardAnimationDone()), this, SLOT(checkAllForRuns()));
+    QList<KCard*> run = pile->topCards( 13 );
 
-    for (int i = 0; i < 10; ++i)
-        checkPileDeck( stack[i], false );
+    PatPile * leg = legs[m_leg];
+    ++m_leg;
+    leg->setVisible( true );
+
+    recalculatePileLayouts();
+    for ( int i = 0; i < 10; ++i )
+        if ( stack[i] != pile )
+            updatePileLayout( stack[i], DURATION_RELAYOUT );
+
+    for ( int i = 0; i < run.size(); ++i )
+    {
+        KCard * c = run.at( i );
+        leg->add( c );
+        int duration = DURATION_AUTODROP * (0.7 + i / 10.0);
+        c->animate( leg->pos(), leg->zValue() + i, 0, true, true, duration );
+    }
+
+    updatePileLayout( pile, DURATION_RELAYOUT );
 }
 
 
@@ -429,10 +383,21 @@ QPointF Spider::randomPos()
 
 bool Spider::newCards()
 {
+    // The solver doesn't distinguish between dealing a new row of cards and
+    // removing complete runs from the tableau. So it we're in demo mode and
+    // newCards() is called, we should check to see if there are any complete
+    // runs to move before dealing a new row.
     if ( isDemoActive() )
+    {
         for ( int i = 0; i < 10; ++i )
-            if ( checkPileDeck( stack[i], false ) )
+        {
+            if ( pileHasFullRun( stack[i] ) )
+            {
+                moveFullRunToLeg( stack[i] );
                 return true;
+            }
+        }
+    }
 
     if ( m_redeal > 4 )
         return false;
@@ -450,9 +415,6 @@ bool Spider::newCards()
         c->setZValue( c->zValue() + 10 - column );
     }
 
-    // I may put an Ace on a K->2 pile so it could need cleared.
-    connect(deck(), SIGNAL(cardAnimationDone()), this, SLOT(checkAllForRuns()));
-
     ++m_redeal;
 
     if (m_redeal > 4)
@@ -460,6 +422,16 @@ bool Spider::newCards()
 
     return true;
 }
+
+
+void Spider::animationDone()
+{
+    if ( !m_pilesWithRuns.isEmpty() )
+        moveFullRunToLeg( m_pilesWithRuns.takeFirst() );
+    else
+        DealerScene::animationDone();
+}
+
 
 
 void Spider::mapOldId(int id)

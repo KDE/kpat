@@ -64,14 +64,14 @@ protected:
 
 protected slots:
     virtual bool newCards();
+    virtual void animationDone();
 
 private slots:
     void gameTypeChanged();
-    void checkAllForRuns();
 
 private:
-    bool checkPileDeck( KCardPile * pile, bool checkForDemo = true );
-    QList<KCard*> getRun(KCard *c) const;
+    bool pileHasFullRun( KCardPile * pile );
+    void moveFullRunToLeg( KCardPile * pile );
     void setSuits(int s);
     void createDeck();
     QPointF randomPos();
@@ -82,6 +82,7 @@ private:
     PatPile *redeals[5];
     int m_redeal;
     int m_suits;
+    QList<KCardPile*> m_pilesWithRuns;
 
     KSelectAction *options;
 
