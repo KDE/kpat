@@ -1821,43 +1821,42 @@ void DealerScene::multiStepSubMove( QList<KCard*> cards,
     // Using n free cells, we can move a run of n+1 cards. If we want to move
     // more than that, we have to recursively move some of our cards to one of
     // the free piles temporarily.
-    int count = cards.size();
     const int freeCellsPlusOne = freeCells.size() + 1;
-    int tempMoveSize = 0;
-    if ( count > freeCellsPlusOne)
-    {
-        tempMoveSize = freeCellsPlusOne;
-        while ( tempMoveSize * 2 < count )
-            tempMoveSize *= 2;
-    }
-
-    // I have no idea what this does, so I'm not going to remove it.
-    if ( count < freeCellsPlusOne + tempMoveSize && count <= 2 * freeCellsPlusOne )
-        tempMoveSize = count - freeCellsPlusOne;
+    int cardsToSubMove = cards.size() - freeCellsPlusOne;
 
     QList<QPair<KCardPile*,QList<KCard*> > > tempMoves;
-    while ( count > freeCellsPlusOne )
+    while ( cardsToSubMove > 0 )
     {
-        Q_ASSERT( !freePiles.isEmpty() );
-        KCardPile * nextPile = freePiles.takeFirst();
+        int tempMoveSize;
+        if ( cardsToSubMove <= freePiles.size() * freeCellsPlusOne )
+        {
+            // If the cards that have to be submoved can be spread across the
+            // the free piles without putting more than freeCellsPlusOne cards
+            // on each one, we do so. This means that none of our submoves will
+            // need further submoves, which keeps the total move count down. We
+            // Just to a simple rounding up integer division.
+            tempMoveSize = (cardsToSubMove + freePiles.size() - 1) / freePiles.size();
+        }
+        else
+        {
+            // Otherwise, we use the space optimal method that gets the cards
+            // moved using a minimal number of piles, but uses more submoves.
+            tempMoveSize = freeCellsPlusOne;
+            while ( tempMoveSize * 2 < cardsToSubMove )
+                tempMoveSize *= 2;
+        }
+
         QList<KCard*> subCards;
         for ( int i = 0; i < tempMoveSize; ++i )
             subCards.prepend( cards.takeLast() );
 
+        Q_ASSERT( !freePiles.isEmpty() );
+        KCardPile * nextPile = freePiles.takeFirst();
+
         tempMoves << qMakePair( nextPile, subCards );
         multiStepSubMove( subCards, nextPile, freePiles, freeCells );
 
-        count = cards.size();
-
-        // Since there's now one less free pile, so we can only move half as
-        // many cards.
-        tempMoveSize /= 2;
-
-        // Moving cards in a submove is more "expensive" than moving cards using
-        // free cells (four moves instead of two), so we try to save as many cards
-        // as possible to be moved with the free cells.
-        if ( (freeCellsPlusOne < count) && (count <= 2 * freeCellsPlusOne) )
-            tempMoveSize = count - freeCellsPlusOne;
+        cardsToSubMove -= tempMoveSize;
     }
 
     // Move cards to free cells.
