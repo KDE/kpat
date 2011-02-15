@@ -826,7 +826,7 @@ void KCardScene::keyboardFocusSelect()
     {
         KCardPile * destination = targetPile();
         if ( destination )
-            moveCardsToPile( d->cardsBeingDragged, destination, cardMoveDuration );
+            cardsDroppedOnPile( d->cardsBeingDragged, destination );
         else
             updatePileLayout( d->cardsBeingDragged.first()->pile(), cardMoveDuration );
 
@@ -997,6 +997,12 @@ KCardPile * KCardScene::targetPile()
 }
 
 
+void KCardScene::cardsDroppedOnPile( const QList<KCard*> & cards, KCardPile * pile )
+{
+    moveCardsToPile( cards, pile, cardMoveDuration );
+}
+
+
 void KCardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 {
     if ( isKeyboardModeActive() )
@@ -1104,7 +1110,7 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
 
         KCardPile * destination = targetPile();
         if ( destination )
-            moveCardsToPile( d->cardsBeingDragged, destination, cardMoveDuration );
+            cardsDroppedOnPile( d->cardsBeingDragged, destination );
         else
             updatePileLayout( d->cardsBeingDragged.first()->pile(), cardMoveDuration );
         d->cardsBeingDragged.clear();

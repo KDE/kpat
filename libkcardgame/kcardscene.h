@@ -132,6 +132,7 @@ protected:
     virtual KCardPile * targetPile();
 
     void updatePileLayout( KCardPile * pile, int duration );
+    virtual void cardsDroppedOnPile( const QList<KCard*> & cards, KCardPile * pile );
 
     virtual void setItemHighlight( QGraphicsItem * item, bool highlight );
 

@@ -47,11 +47,11 @@ class Freecell : public DealerScene
 
 public:
     virtual void initialize();
-    virtual void moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
 
 protected:
     virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
     virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
+    virtual void cardsDroppedOnPile( const QList<KCard*> & cards, KCardPile * pile );
     virtual void restart( const QList<KCard*> & cards );
     virtual QList<MoveHint> getHints();
 

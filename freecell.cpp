@@ -108,11 +108,11 @@ void Freecell::restart( const QList<KCard*> & cards )
 }
 
 
-void Freecell::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration )
+void Freecell::cardsDroppedOnPile( const QList<KCard*> & cards, KCardPile * pile )
 {
     if ( cards.size() <= 1 )
     {
-        DealerScene::moveCardsToPile( cards, pile, duration );
+        DealerScene::moveCardsToPile( cards, pile, DURATION_MOVE );
         return;
     }
 
