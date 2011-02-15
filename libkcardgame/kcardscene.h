@@ -136,8 +136,6 @@ protected:
     virtual void cardsDroppedOnPile( const QList<KCard*> & cards, KCardPile * pile );
     virtual void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile );
 
-    virtual void setItemHighlight( QGraphicsItem * item, bool highlight );
-
     virtual void mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e );
     virtual void mouseMoveEvent( QGraphicsSceneMouseEvent * e );
     virtual void mousePressEvent( QGraphicsSceneMouseEvent * e );

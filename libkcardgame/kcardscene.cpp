@@ -51,7 +51,28 @@
 #define DEBUG_LAYOUT 0
 
 
-const int cardMoveDuration = 230;
+namespace
+{
+    const int cardMoveDuration = 230;
+
+
+    void setItemHighlight( QGraphicsItem * item, bool highlight )
+    {
+        KCard * card = qgraphicsitem_cast<KCard*>( item );
+        if ( card )
+        {
+            card->setHighlighted( highlight );
+            return;
+        }
+
+        KCardPile * pile = qgraphicsitem_cast<KCardPile*>( item );
+        if ( pile )
+        {
+            pile->setHighlighted( highlight );
+            return;
+        }
+    }
+}
 
 
 class KCardScenePrivate : public QObject
@@ -310,7 +331,7 @@ void KCardScenePrivate::changeFocus( int pileChange, int cardChange )
 
 void KCardScenePrivate::updateKeyboardFocus()
 {
-    q->setItemHighlight( keyboardFocusItem.data(), false );
+    setItemHighlight( keyboardFocusItem.data(), false );
 
     if ( !keyboardMode )
     {
@@ -347,7 +368,7 @@ void KCardScenePrivate::updateKeyboardFocus()
         keyboardFocusItem = pile->at( keyboardCardIndex );
     }
 
-    q->setItemHighlight( keyboardFocusItem.data(), true );
+    setItemHighlight( keyboardFocusItem.data(), true );
 
     QPointF delta = keyboardFocusItem.data()->pos() - startOfDrag;
     startOfDrag = keyboardFocusItem.data()->pos();
@@ -743,24 +764,6 @@ void KCardScene::clearHighlightedItems()
 QList<QGraphicsItem*> KCardScene::highlightedItems() const
 {
     return d->highlightedItems.toList();
-}
-
-
-void KCardScene::setItemHighlight( QGraphicsItem * item, bool highlight )
-{
-    KCard * card = qgraphicsitem_cast<KCard*>( item );
-    if ( card )
-    {
-        card->setHighlighted( highlight );
-        return;
-    }
-
-    KCardPile * pile = qgraphicsitem_cast<KCardPile*>( item );
-    if ( pile )
-    {
-        pile->setHighlighted( highlight );
-        return;
-    }
 }
 
 
