@@ -1865,6 +1865,13 @@ void DealerScene::multiStepSubMove( QList<KCard*> cards,
     for ( int i = 1; i < cards.size(); ++i )
         d->multiStepMoves << qMakePair( cards.at( i ), pile );
 
+    // If we just moved the bottomost card of the source pile, it must now be
+    // empty and we won't need it any more. So we return it to the list of free
+    // piles.
+    KCardPile * sourcePile = cards.first()->pile();
+    if ( sourcePile->at( 0 ) == cards.first() )
+        freePiles << sourcePile;
+
     // If we had to do any submoves, we now move those cards from their
     // temporary pile to the destination pile and free up their temporary pile.
     while ( !tempMoves.isEmpty() )
