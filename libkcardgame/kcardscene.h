@@ -94,7 +94,7 @@ public:
     void clearHighlightedItems();
     QList<QGraphicsItem*> highlightedItems() const;
 
-    virtual void moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
+    void moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
     void moveCardToPile( KCard * card, KCardPile * pile, int duration );
     void moveCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal velocity );
     void flipCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
@@ -133,6 +133,7 @@ protected:
 
     void updatePileLayout( KCardPile * pile, int duration );
     virtual void cardsDroppedOnPile( const QList<KCard*> & cards, KCardPile * pile );
+    virtual void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile );
 
     virtual void setItemHighlight( QGraphicsItem * item, bool highlight );
 

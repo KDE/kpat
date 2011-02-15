@@ -46,12 +46,12 @@ class Mod3 : public DealerScene
 
 public:
     virtual void initialize();
-    virtual void moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
 
 protected:
     virtual void setGameState(const QString & );
     virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
     virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
+    virtual void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile );
     virtual void restart( const QList<KCard*> & cards );
 
 protected slots:

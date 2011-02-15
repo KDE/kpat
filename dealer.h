@@ -69,12 +69,9 @@ public:
     virtual void relayoutScene();
     void updateWonItem();
 
-
     virtual void addPile( KCardPile * pile );
     virtual void removePile( KCardPile * pile );
     QList<PatPile*> patPiles() const;
-
-    virtual void moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
 
     void setAutoDropEnabled( bool enabled );
     bool autoDropEnabled() const;
@@ -152,6 +149,8 @@ protected:
     virtual bool checkAdd( const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards ) const;
     virtual bool checkRemove( const PatPile * pile, const QList<KCard*> & cards ) const;
     virtual bool checkPrefering( const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards ) const;
+
+    virtual void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile );
 
     virtual void mouseDoubleClickEvent( QGraphicsSceneMouseEvent * mouseEvent );
     virtual void mousePressEvent( QGraphicsSceneMouseEvent * mouseEvent );

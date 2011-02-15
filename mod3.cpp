@@ -154,21 +154,18 @@ bool Mod3::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
     }
 }
 
-void Mod3::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration )
+
+void Mod3::cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile )
 {
-    PatPile * p = dynamic_cast<PatPile*>( cards.first()->pile() );
-
-    DealerScene::moveCardsToPile( cards, pile, duration );
-
-    if ( p
-         && p->pileRole() == PatPile::Tableau
-         && p->isEmpty()
-         && !talon->isEmpty() )
+    if ( oldPile->isEmpty() && !talon->isEmpty() )
     {
-        flipCardToPile( talon->top(), p, duration );
+        PatPile * p = dynamic_cast<PatPile*>( oldPile );
+        if ( p && p->pileRole() == PatPile::Tableau )
+            flipCardToPile( talon->top(), oldPile, DURATION_MOVE );
     }
-}
 
+    DealerScene::cardsMoved( cards, oldPile, newPile );
+}
 
 
 void Mod3::restart( const QList<KCard*> & cards )
@@ -186,13 +183,16 @@ void Mod3::restart( const QList<KCard*> & cards )
         {
             KCard * card = talon->top();
             card->setFaceUp( true );
-            moveCardToPileAtSpeed( card, stack[r][c], DEAL_SPEED );
+//             moveCardToPileAtSpeed( card, stack[r][c], DEAL_SPEED );
+
+            addCardForDeal( stack[r][c], card, true, talon->pos() );
 
             // Fudge the z values to keep cards from popping through one another.
             card->setZValue( card->zValue() + ((4 - r) * (4 - r)) + ((8 - c) * (8 - c)) );
         }
     }
 
+    startDealAnimation();
     emit newCardsPossible(true);
 }
 

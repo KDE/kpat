@@ -334,11 +334,9 @@ QList<KCard*> Spider::getRun(KCard *c) const
 }
 
 
-void Spider::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration )
+void Spider::cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile )
 {
-    DealerScene::moveCardsToPile( cards, pile, duration );
-
-    PatPile * p = dynamic_cast<PatPile*>( pile );
+    PatPile * p = dynamic_cast<PatPile*>( newPile );
 
     // if the top card of the list I just moved is an Ace,
     // the run I just moved is the same suit as the pile,
@@ -352,6 +350,8 @@ void Spider::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duratio
     {
         checkPileDeck( p );
     }
+
+    DealerScene::cardsMoved( cards, oldPile, newPile );
 }
 
 

@@ -661,6 +661,7 @@ void KCardScene::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int dur
 
     updatePileLayout( source, duration );
     updatePileLayout( pile, duration );
+    cardsMoved( cards, source, pile );
 }
 
 
@@ -1000,6 +1001,14 @@ KCardPile * KCardScene::targetPile()
 void KCardScene::cardsDroppedOnPile( const QList<KCard*> & cards, KCardPile * pile )
 {
     moveCardsToPile( cards, pile, cardMoveDuration );
+}
+
+
+void KCardScene::cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile )
+{
+    Q_UNUSED( cards );
+    Q_UNUSED( oldPile );
+    Q_UNUSED( newPile );
 }
 
 

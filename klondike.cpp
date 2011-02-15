@@ -172,6 +172,14 @@ bool Klondike::checkRemove(const PatPile * pile, const QList<KCard*> & cards) co
 }
 
 
+void Klondike::cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile )
+{
+    DealerScene::cardsMoved( cards, oldPile, newPile );
+
+    emit newCardsPossible( !talon->isEmpty() || pile->count() > 1 );
+}
+
+
 QList<QAction*> Klondike::configActions() const
 {
     return QList<QAction*>() << options;
@@ -246,14 +254,14 @@ void Klondike::gameTypeChanged()
     }
 }
 
-QString Klondike::getGameState()
+
+void Klondike::setGameState( const QString & state )
 {
-    // getGameState() is called every time a card is moved, so we use it to
-    // check if there are any cards left to deal. There might be a more elegant
-    // to do this, though.
+    Q_UNUSED( state );
+
     emit newCardsPossible( !talon->isEmpty() || pile->count() > 1 );
-    return QString();
 }
+
 
 QString Klondike::getGameOptions() const
 {

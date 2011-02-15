@@ -422,19 +422,21 @@ QList<PatPile*> DealerScene::patPiles() const
 }
 
 
-void DealerScene::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration )
+void DealerScene::cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile )
 {
-    PatPile * newPile = dynamic_cast<PatPile*>( pile );
-    foreach ( KCard * c, cards )
+    PatPile * newPatPile = dynamic_cast<PatPile*>( newPile );
+    PatPile * oldPatPile = dynamic_cast<PatPile*>( oldPile );
+
+    if ( oldPatPile && oldPatPile->isFoundation() && newPatPile && !newPatPile->isFoundation() )
     {
-        PatPile * oldPile = dynamic_cast<PatPile*>( c->pile() );
-        if ( oldPile && oldPile->isFoundation() && !newPile->isFoundation() )
+        foreach ( KCard * c, cards )
             d->cardsNotToDrop.insert( c );
-        else
+    }
+    else
+    {
+        foreach ( KCard * c, cards )
             d->cardsNotToDrop.remove( c );
     }
-
-    KCardScene::moveCardsToPile( cards, pile, duration );
 
     if ( !d->dropInProgress && !d->dealInProgress )
     {

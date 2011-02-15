@@ -48,7 +48,6 @@ class Spider : public DealerScene
 
 public:
     virtual void initialize();
-    virtual void moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
     virtual void mapOldId(int id);
     virtual int oldId() const;
     virtual QList<QAction*> configActions() const;
@@ -60,6 +59,7 @@ protected:
     virtual void setGameOptions(const QString &options);
     virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
     virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
+    virtual void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile );
     virtual void restart( const QList<KCard*> & cards );
 
 protected slots:
