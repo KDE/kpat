@@ -162,9 +162,9 @@ bool Klondike::checkRemove(const PatPile * pile, const QList<KCard*> & cards) co
     case PatPile::Tableau:
         return isAlternateColorDescending(cards);
     case PatPile::Foundation:
-        return easyRules && cards.first() == pile->top();
+        return easyRules && cards.first() == pile->topCard();
     case PatPile::Waste:
-        return cards.first() == pile->top();
+        return cards.first() == pile->topCard();
     case PatPile::Stock:
     default:
         return false;
@@ -202,7 +202,7 @@ bool Klondike::newCards()
     {
         QList<KCard*> cards = talon->topCards( pile->cardsToShow() );
         flipCardsToPile( cards, pile, DURATION_MOVE );
-        setKeyboardFocus( pile->top() );
+        setKeyboardFocus( pile->topCard() );
     }
 
     if ( talon->isEmpty() && pile->count() <= 1 )

@@ -122,7 +122,7 @@ void Fortyeight::restart( const QList<KCard*> & cards )
 
     startDealAnimation();
 
-    flipCardToPile( talon->top(), pile, DURATION_MOVE );
+    flipCardToPile( talon->topCard(), pile, DURATION_MOVE );
 
     emit newCardsPossible( true );
 }
@@ -144,8 +144,8 @@ bool Fortyeight::newCards()
     }
     else
     {
-        flipCardToPile( talon->top(), pile, DURATION_MOVE );
-        setKeyboardFocus( pile->top() );
+        flipCardToPile( talon->topCard(), pile, DURATION_MOVE );
+        setKeyboardFocus( pile->topCard() );
     }
 
     if ( talon->isEmpty() && lastdeal )
@@ -190,8 +190,8 @@ bool Fortyeight::canPutStore( const KCardPile * pile, const QList<KCard*> &cards
 
     KCard *c = cards.first(); // we assume there are only valid sequences
 
-    return pile->top()->suit() == c->suit()
-      && pile->top()->rank() == c->rank() + 1;
+    return pile->topCard()->suit() == c->suit()
+      && pile->topCard()->rank() == c->rank() + 1;
 }
 
 bool Fortyeight::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
@@ -215,7 +215,7 @@ bool Fortyeight::checkRemove( const PatPile * pile, const QList<KCard*> & cards)
     switch ( pile->pileRole() )
     {
     case PatPile::Waste:
-      return cards.first() == pile->top();
+      return cards.first() == pile->topCard();
     case PatPile::Tableau:
       return isSameSuitDescending(cards);
     case PatPile::Foundation:

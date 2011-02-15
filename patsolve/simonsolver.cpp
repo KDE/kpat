@@ -376,7 +376,7 @@ void SimonSolver::translate_layout()
 
     for (int i = 0; i < 4; ++i) {
         O[i] = -1;
-        KCard *c = deal->target[i]->top();
+        KCard *c = deal->target[i]->topCard();
         if (c) {
             total += 13;
             O[i] = translateSuit( c->suit() );

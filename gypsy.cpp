@@ -128,7 +128,7 @@ bool Gypsy::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
     case PatPile::Tableau:
         return isAlternateColorDescending(cards);
     case PatPile::Foundation:
-        return cards.first() == pile->top();
+        return cards.first() == pile->topCard();
     case PatPile::Stock:
     default:
         return false;
@@ -143,7 +143,7 @@ bool Gypsy::newCards()
 
     for ( int round = 0; round < 8; ++round )
     {
-        KCard * c = talon->top();
+        KCard * c = talon->topCard();
         flipCardToPileAtSpeed( c, store[round], DEAL_SPEED );
         c->setZValue( c->zValue() + 8 - round );
     }

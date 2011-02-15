@@ -145,7 +145,7 @@ void Grandf::deal( const QList<KCard*> & cardsToDeal )
 
     for (int round=0; round < 7; round++)
     {
-        KCard *c = store[round]->top();
+        KCard *c = store[round]->topCard();
         if (c)
             c->setFaceUp(true);
     }

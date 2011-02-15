@@ -146,7 +146,7 @@ bool Mod3::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
     case PatPile::FoundationType3:
     case PatPile::FoundationType4:
     case PatPile::Tableau:
-        return cards.first() == pile->top();
+        return cards.first() == pile->topCard();
     case PatPile::FoundationType1:
     case PatPile::Stock:
     default:
@@ -161,7 +161,7 @@ void Mod3::cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPi
     {
         PatPile * p = dynamic_cast<PatPile*>( oldPile );
         if ( p && p->pileRole() == PatPile::Tableau )
-            flipCardToPile( talon->top(), oldPile, DURATION_MOVE );
+            flipCardToPile( talon->topCard(), oldPile, DURATION_MOVE );
     }
 
     DealerScene::cardsMoved( cards, oldPile, newPile );
@@ -181,7 +181,7 @@ void Mod3::restart( const QList<KCard*> & cards )
     {
         for ( int c = 0; c < 8; ++c )
         {
-            KCard * card = talon->top();
+            KCard * card = talon->topCard();
             card->setFaceUp( true );
 //             moveCardToPileAtSpeed( card, stack[r][c], DEAL_SPEED );
 
@@ -207,7 +207,7 @@ bool Mod3::newCards()
         if ( talon->isEmpty() )
             break;
 
-        flipCardToPileAtSpeed( talon->top(), stack[3][c], DEAL_SPEED * 2 );
+        flipCardToPileAtSpeed( talon->topCard(), stack[3][c], DEAL_SPEED * 2 );
     }
 
     if (talon->isEmpty())

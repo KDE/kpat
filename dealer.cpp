@@ -797,7 +797,7 @@ void DealerScene::updateWonItem()
 
 bool DealerScene::allowedToAdd( const KCardPile * pile, const QList<KCard*> & cards ) const
 {
-    if ( !pile->isEmpty() && !pile->top()->isFaceUp() )
+    if ( !pile->isEmpty() && !pile->topCard()->isFaceUp() )
         return false;
 
     const PatPile * p = dynamic_cast<const PatPile*>( pile );
@@ -855,7 +855,7 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
     else if ( e->button() == Qt::RightButton
               && card
               && card->pile()
-              && card != card->pile()->top()
+              && card != card->pile()->topCard()
               && cardsBeingDragged().isEmpty()
               && !isCardAnimationRunning() )
     {
@@ -907,7 +907,7 @@ bool DealerScene::tryAutomaticMove( KCard * card )
     if ( !isCardAnimationRunning()
          && card
          && card->pile()
-         && card == card->pile()->top()
+         && card == card->pile()->topCard()
          && card->isFaceUp()
          && allowedToRemove( card->pile(), card ) )
     {
@@ -1417,11 +1417,11 @@ void DealerScene::demo()
     MoveHint mh = chooseHint();
     if ( mh.isValid() )
     {
-        kDebug(mh.pile()->top()) << "Moving" << mh.card()->objectName()
+        kDebug(mh.pile()->topCard()) << "Moving" << mh.card()->objectName()
                                  << "from the" << mh.card()->pile()->objectName()
                                  << "pile to the" << mh.pile()->objectName()
-                                 << "pile, putting it on top of" << mh.pile()->top()->objectName();
-        kDebug(!mh.pile()->top()) << "Moving" << mh.card()->objectName()
+                                 << "pile, putting it on top of" << mh.pile()->topCard()->objectName();
+        kDebug(!mh.pile()->topCard()) << "Moving" << mh.card()->objectName()
                                   << "from the" << mh.card()->pile()->objectName()
                                   << "pile to the" << mh.pile()->objectName()
                                   << "pile, which is empty";
@@ -1895,7 +1895,7 @@ void DealerScene::continueMultiStepMove()
     KCardPile * dest = m.second;
     KCardPile * source = card->pile();
 
-    Q_ASSERT( card == source->top() );
+    Q_ASSERT( card == source->topCard() );
     Q_ASSERT( allowedToAdd( dest, QList<KCard*>() << card ) );
 
     d->multiStepDuration = qMax<int>( d->multiStepDuration * 0.9, 50 );

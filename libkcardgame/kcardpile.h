@@ -65,7 +65,7 @@ public:
     bool isEmpty() const;
     int indexOf( const KCard * card ) const;
     KCard * at( int index ) const;
-    KCard * top() const;
+    KCard * topCard() const;
     QList<KCard*> topCards( int depth ) const;
     QList<KCard*> topCardsDownTo( const KCard * card ) const;
 

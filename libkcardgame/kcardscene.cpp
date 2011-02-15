@@ -187,7 +187,7 @@ void KCardScenePrivate::sendCardsToPile( KCardPile * pile, QList<KCard*> newCard
         int duration = layoutDuration;
         if ( i < oldCards.size() )
         {
-            face = face || (allCards[i] == pile->top() && pile->autoTurnTop());
+            face = face || (allCards[i] == pile->topCard() && pile->autoTurnTop());
         }
         else
         {
@@ -307,7 +307,7 @@ void KCardScenePrivate::updateKeyboardFocus()
     }
     else if ( keyboardCardIndex >= pile->count() || hint == KCardPile::ForceFocusTop )
     {
-        keyboardFocusItem = pile->top();
+        keyboardFocusItem = pile->topCard();
     }
     else
     {
@@ -1090,7 +1090,7 @@ void KCardScene::mouseMoveEvent( QGraphicsSceneMouseEvent * e )
                 if ( dropPile->isEmpty() )
                     toHighlight << dropPile;
                 else
-                    toHighlight << dropPile->top();
+                    toHighlight << dropPile->topCard();
             }
 
             setHighlightedItems( toHighlight );

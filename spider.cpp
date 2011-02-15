@@ -360,7 +360,7 @@ void Spider::cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCard
     if ( p
          && p->pileRole() != PatPile::Foundation
          && cards.last()->rank() == KCardDeck::Ace
-         && cards.first()->suit() == p->top()->suit()
+         && cards.first()->suit() == p->topCard()->suit()
          && p->count() > 12 )
     {
         checkPileDeck( p );
@@ -378,10 +378,10 @@ bool Spider::checkPileDeck( KCardPile * pile, bool checkForDemo )
     if (pile->isEmpty())
         return false;
 
-    if ( pile->top()->rank() == KCardDeck::Ace )
+    if ( pile->topCard()->rank() == KCardDeck::Ace )
     {
         // just using the CardList to see if this goes to King
-        QList<KCard*> run = getRun(pile->top());
+        QList<KCard*> run = getRun(pile->topCard());
         if ( run.first()->rank() == KCardDeck::King )
         {
             PatPile *leg = legs[m_leg];
@@ -442,7 +442,7 @@ bool Spider::newCards()
 
     for ( int column = 0; column < 10; ++column )
     {
-        KCard * c = redeals[m_redeal]->top();
+        KCard * c = redeals[m_redeal]->topCard();
         if ( !c )
             break;
 

@@ -437,7 +437,7 @@ void FreecellSolver::translate_layout()
 	}
 	if (total != 52) {
             for (int i = 0; i < 4; ++i) {
-                KCard *c = deal->target[i]->top();
+                KCard *c = deal->target[i]->topCard();
                 if (c) {
                     O[translateSuit( c->suit() ) >> 4] = c->rank();
                     total += c->rank();
@@ -462,7 +462,7 @@ MoveHint FreecellSolver::translateMove( const MOVE &m )
         PatPile *target = 0;
         PatPile *empty = 0;
         for (int i = 0; i < 4; ++i) {
-            KCard *c = deal->target[i]->top();
+            KCard *c = deal->target[i]->topCard();
             if (c) {
                 if ( c->suit() == card->suit() )
                 {

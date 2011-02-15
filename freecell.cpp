@@ -139,7 +139,7 @@ bool Freecell::tryAutomaticMove(KCard *c)
     if (c->isAnimated())
         return false;
 
-    if (c == c->pile()->top() && c->isFaceUp())
+    if (c == c->pile()->topCard() && c->isFaceUp())
     {
         for (int i = 0; i < 4; i++)
         {
@@ -167,8 +167,8 @@ bool Freecell::canPutStore( const KCardPile * pile, const QList<KCard*> & cards 
 
     return cards.size() <= (freeCells + 1) << freeStores
            && ( pile->isEmpty()
-                || ( pile->top()->rank() == cards.first()->rank() + 1
-                     && pile->top()->color() != cards.first()->color() ) );
+                || ( pile->topCard()->rank() == cards.first()->rank() + 1
+                     && pile->topCard()->color() != cards.first()->color() ) );
 
 }
 
@@ -194,7 +194,7 @@ bool Freecell::checkRemove(const PatPile * pile, const QList<KCard*> & cards) co
     case PatPile::Tableau:
         return isAlternateColorDescending(cards);
     case PatPile::Cell:
-        return cards.first() == pile->top();
+        return cards.first() == pile->topCard();
     case PatPile::Foundation:
     default:
         return false;

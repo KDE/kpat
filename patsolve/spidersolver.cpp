@@ -543,7 +543,7 @@ void SpiderSolver::translate_layout()
 
     for (int i = 0; i < 8; ++i) {
         O[i] = -1;
-        KCard *c = deal->legs[i]->top();
+        KCard *c = deal->legs[i]->topCard();
         if (c) {
             total += 13;
             O[i] = translateSuit( c->suit() );
@@ -595,7 +595,7 @@ MoveHint SpiderSolver::translateMove( const MOVE &m )
     if ( m.totype == O_Type )
     {
         return MoveHint(); // the move to the legs is fully automated
-        return MoveHint( frompile->top(), deal->legs[0], m.pri ); // for now
+        return MoveHint( frompile->topCard(), deal->legs[0], m.pri ); // for now
     }
 
     Q_ASSERT( m.from < 10 && m.to < 10 );

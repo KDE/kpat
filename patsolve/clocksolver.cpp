@@ -255,7 +255,7 @@ void ClockSolver::translate_layout()
     /* Output piles, if any. */
     for (int i = 0; i < 12; ++i)
     {
-        KCard *c = deal->target[i]->top();
+        KCard *c = deal->target[i]->topCard();
 
         // It is not safe to assume that each target pile will always have a
         // card on it. If it takes particularly long to render the card graphics
@@ -271,7 +271,7 @@ void ClockSolver::translate_layout()
 MoveHint ClockSolver::translateMove( const MOVE &m )
 {
     PatPile *frompile = deal->store[m.from];
-    KCard *card = frompile->top();
+    KCard *card = frompile->topCard();
 
     if ( m.totype == O_Type )
     {

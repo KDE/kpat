@@ -578,7 +578,7 @@ void FortyeightSolver::translate_layout()
     Osuit[7] = PS_SPADE;
 
     for (int i = 0; i < 8; ++i) {
-      KCard *c = deal->target[i]->top();
+      KCard *c = deal->target[i]->topCard();
       if (c) {
 	int suit = translateSuit( c->suit() ) >> 4;
 	if (O[suit * 2] == NONE)
@@ -640,7 +640,7 @@ MoveHint FortyeightSolver::translateMove( const MOVE &m )
       return MoveHint( card, deal->stack[m.to], m.pri );
 
     for (int i = 0; i < 8; i++) {
-      KCard *top = deal->target[i]->top(); 
+      KCard *top = deal->target[i]->topCard(); 
       if (top) {
 	if (top->suit() == card->suit() && top->rank() + 1 == card->rank())
 	  return MoveHint( card, deal->target[i], m.pri );

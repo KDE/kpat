@@ -124,7 +124,7 @@ bool Idiot::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const
 bool Idiot::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
 {
     return pile->pileRole() == PatPile::Tableau
-           && cards.first() == pile->top()
+           && cards.first() == pile->topCard()
            && ( canMoveAway( cards.first() )
                 || m_play[0]->isEmpty()
                 || m_play[1]->isEmpty()
@@ -137,12 +137,12 @@ bool Idiot::canMoveAway(const KCard * card) const
     if ( card->pile() == talon || card->pile() == m_away )
         return false;
 
-    if ( card != card->pile()->top() )
+    if ( card != card->pile()->topCard() )
         return false;
 
     for ( int i = 0; i < 4; ++i )
     {
-        KCard * c = m_play[i]->top();
+        KCard * c = m_play[i]->topCard();
         if ( c
              && c != card
              && c->suit() == card->suit()
@@ -160,7 +160,7 @@ bool Idiot::canMoveAway(const KCard * card) const
 void Idiot::handleCardClick( KCard * card )
 {
     // Only the top card of a pile can be clicked.
-    if ( card != card->pile()->top())
+    if ( card != card->pile()->topCard())
         return;
 
     KCardPile * destination = 0;
@@ -194,7 +194,7 @@ bool Idiot::isGameWon() const
 
     // Criterium 2.
     for (int i = 0; i < 4; i++) {
-        if (m_play[i]->count() != 1 || m_play[i]->top()->rank() != KCardDeck::Ace)
+        if (m_play[i]->count() != 1 || m_play[i]->topCard()->rank() != KCardDeck::Ace)
             return false;
     }
 
@@ -223,7 +223,7 @@ void Idiot::dealRow()
 
     for ( int i = 0; i < 4; ++i )
     {
-        KCard * c = talon->top();
+        KCard * c = talon->topCard();
         flipCardToPileAtSpeed( c, m_play[i], DEAL_SPEED );
 
         // Fudge the z values so that cards don't appear to pop through one another.

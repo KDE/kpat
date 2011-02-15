@@ -202,7 +202,7 @@ KCard * KCardPile::at( int index ) const
 }
 
 
-KCard * KCardPile::top() const
+KCard * KCardPile::topCard() const
 {
     if ( d->cards.isEmpty() )
         return 0;

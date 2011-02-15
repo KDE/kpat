@@ -139,7 +139,7 @@ bool Clock::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const
 bool Clock::checkRemove(const PatPile* pile, const QList<KCard*> & cards) const
 {
     return pile->pileRole() == PatPile::Tableau
-           && cards.first() == pile->top();
+           && cards.first() == pile->topCard();
 }
 
 

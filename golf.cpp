@@ -98,7 +98,7 @@ bool Golf::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const 
 bool Golf::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
 {
     return pile->pileRole() == PatPile::Tableau
-           && cards.first() == pile->top();
+           && cards.first() == pile->topCard();
 }
 
 
@@ -120,7 +120,7 @@ void Golf::restart( const QList<KCard*> & cards )
 
     startDealAnimation();
 
-    flipCardToPile(talon->top(), waste, DURATION_MOVE);
+    flipCardToPile(talon->topCard(), waste, DURATION_MOVE);
 
     emit newCardsPossible( true );
 }
@@ -131,7 +131,7 @@ bool Golf::newCards()
     if ( talon->isEmpty() )
          return false;
 
-    flipCardToPile(talon->top(), waste, DURATION_MOVE);
+    flipCardToPile(talon->topCard(), waste, DURATION_MOVE);
 
     if ( talon->isEmpty() )
         emit newCardsPossible( false );
@@ -148,7 +148,7 @@ bool Golf::drop()
 
     if ( !talon->isEmpty() )
     {
-        flipCardToPile( talon->top(), waste, DURATION_MOVE );
+        flipCardToPile( talon->topCard(), waste, DURATION_MOVE );
         return true;
     }
 

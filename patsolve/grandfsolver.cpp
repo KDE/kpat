@@ -440,7 +440,7 @@ void GrandfSolver::translate_layout()
         W[offs][i] = NONE;
 
     for (int i = 0; i < 4; ++i) {
-        KCard *c = deal->target[i]->top();
+        KCard *c = deal->target[i]->topCard();
         if (c)
             W[offs][translateSuit( c->suit() ) >> 4] = translateSuit( c->suit() ) + c->rank();
     }
@@ -466,7 +466,7 @@ MoveHint GrandfSolver::translateMove( const MOVE &m )
         PatPile *target = 0;
         PatPile *empty = 0;
         for (int i = 0; i < 4; ++i) {
-            KCard *c = deal->target[i]->top();
+            KCard *c = deal->target[i]->topCard();
             if (c) {
                 if ( c->suit() == card->suit() )
                 {
