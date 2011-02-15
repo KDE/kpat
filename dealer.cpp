@@ -1792,20 +1792,12 @@ void DealerScene::multiStepMove( const QList<KCard*> & cards,
                                  const QList<KCardPile*> & freeCells,
                                  int duration )
 {
-    Q_ASSERT( !freePiles.isEmpty() || !freeCells.isEmpty() );
-
-    QList<KCardPile*> piles = freePiles;
-    QList<KCardPile*> cells = freeCells;
-
-    // Our algorithm requires at least one free cell. If we don't have any, we
-    // pick an arbitrary free pile to act as our free cell.
-    if ( cells.isEmpty() )
-        cells << piles.takeLast();
+    Q_ASSERT( cards.size() == 1 || !freePiles.isEmpty() || !freeCells.isEmpty() );
 
     d->multiStepMoves.clear();
     d->multiStepDuration = duration;
 
-    multiStepSubMove( cards, pile, piles, cells );
+    multiStepSubMove( cards, pile, freePiles, freeCells );
     continueMultiStepMove();
 }
 
