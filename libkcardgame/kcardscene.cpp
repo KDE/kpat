@@ -54,15 +54,6 @@
 const int cardMoveDuration = 230;
 
 
-inline QRectF multRectSize( const QRectF & rect, const QSize & size )
-{
-    return QRectF( rect.x() * size.width(), 
-                   rect.y() * size.height(),
-                   rect.width() * size.width(),
-                   rect.height() * size.height() );
-}
-
-
 class KCardScenePrivate : public QObject
 {
 public:
