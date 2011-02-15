@@ -222,17 +222,17 @@ bool Spider::checkRemove(const PatPile * pile, const QList<KCard*> & cards) cons
 }
 
 
-QString Spider::getGameState()
+QString Spider::getGameState() const
 {
     return QString::number(m_leg*10 + m_redeal);
 }
 
 
-void Spider::setGameState(const QString &stream)
+void Spider::setGameState( const QString & state )
 {
-    int state = stream.toInt();
-    int numLegs = state / 10;
-    int numRedeals = state % 10;
+    int n = state.toInt();
+    int numLegs = n / 10;
+    int numRedeals = n % 10;
 
     if ( numRedeals != m_redeal || numLegs != m_leg )
     {
@@ -259,7 +259,7 @@ QString Spider::getGameOptions() const
 }
 
 
-void Spider::setGameOptions(const QString& options)
+void Spider::setGameOptions( const QString & options )
 {
     setSuits(options.toInt());
 }

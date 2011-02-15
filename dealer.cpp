@@ -1696,12 +1696,40 @@ QImage DealerScene::createDump() const
     return img2;
 }
 
-void DealerScene::mapOldId(int) {}
+
+void DealerScene::mapOldId( int id )
+{
+    Q_UNUSED( id );
+}
 
 
 int DealerScene::oldId() const
 {
     return gameId();
+}
+
+
+QString DealerScene::getGameState() const
+{
+    return QString();
+}
+
+
+void DealerScene::setGameState( const QString & state )
+{
+    Q_UNUSED( state );
+}
+
+
+QString DealerScene::getGameOptions() const
+{
+    return QString();
+}
+
+
+void DealerScene::setGameOptions( const QString & options )
+{
+    Q_UNUSED( options );
 }
 
 

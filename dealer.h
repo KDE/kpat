@@ -166,12 +166,12 @@ protected:
     virtual QList<MoveHint> getHints();
 
     // reimplement these to store and load game-specific information in the state structure
-    virtual QString getGameState() { return QString(); }
-    virtual void setGameState( const QString & ) {}
+    virtual QString getGameState() const;
+    virtual void setGameState( const QString & state );
 
     // reimplement these to store and load game-specific options in the saved game file
-    virtual QString getGameOptions() const { return QString(); }
-    virtual void setGameOptions( const QString & ) {}
+    virtual QString getGameOptions() const;
+    virtual void setGameOptions( const QString & options );
 
     void addCardForDeal( KCardPile * pile, KCard * card, bool faceUp, QPointF startPos );
     void startDealAnimation();

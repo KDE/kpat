@@ -232,8 +232,9 @@ void Idiot::dealRow()
 }
 
 
-void Idiot::setGameState(const QString &)
+void Idiot::setGameState( const QString & state )
 {
+    Q_UNUSED( state );
     emit newCardsPossible( !talon->isEmpty() );
 }
 

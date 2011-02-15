@@ -174,14 +174,14 @@ bool Grandf::checkRemove(const PatPile * pile, const QList<KCard*> & cards) cons
     return pile->pileRole() == PatPile::Tableau && cards.first()->isFaceUp();
 }
 
-QString Grandf::getGameState()
+QString Grandf::getGameState() const
 {
     return QString::number(numberOfDeals);
 }
 
-void Grandf::setGameState( const QString &s)
+void Grandf::setGameState( const QString & state )
 {
-    numberOfDeals = s.toInt();
+    numberOfDeals = state.toInt();
     emit newCardsPossible(numberOfDeals < 3);
 }
 

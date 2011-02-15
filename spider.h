@@ -53,10 +53,10 @@ public:
     virtual QList<QAction*> configActions() const;
 
 protected:
-    virtual QString getGameState();
-    virtual void setGameState(const QString &stream);
+    virtual QString getGameState() const;
+    virtual void setGameState( const QString & state );
     virtual QString getGameOptions() const;
-    virtual void setGameOptions(const QString &options);
+    virtual void setGameOptions( const QString & options );
     virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
     virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
     virtual void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile );

@@ -155,8 +155,9 @@ bool Gypsy::newCards()
 }
 
 
-void Gypsy::setGameState(const QString &)
+void Gypsy::setGameState( const QString & state )
 {
+    Q_UNUSED( state )
     emit newCardsPossible(!talon->isEmpty());
 }
 

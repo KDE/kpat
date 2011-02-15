@@ -47,8 +47,8 @@ public:
     virtual void initialize();
 
 protected:
-    virtual void setGameState( const QString & stream );
-    virtual QString getGameState();
+    virtual void setGameState( const QString & state );
+    virtual QString getGameState() const;
     virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
     virtual bool checkRemove(const PatPile* pile, const QList<KCard*> & cards) const;
     virtual void cardsDroppedOnPile( const QList<KCard*> & cards, KCardPile * pile );

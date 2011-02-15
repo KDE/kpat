@@ -217,8 +217,9 @@ bool Mod3::newCards()
 }
 
 
-void Mod3::setGameState(const QString &)
+void Mod3::setGameState( const QString & state )
 {
+    Q_UNUSED( state );
     emit newCardsPossible(!talon->isEmpty());
 }
 

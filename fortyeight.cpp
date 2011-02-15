@@ -226,15 +226,15 @@ bool Fortyeight::checkRemove( const PatPile * pile, const QList<KCard*> & cards)
 }
 
 
-QString Fortyeight::getGameState()
+QString Fortyeight::getGameState() const
 {
     return QString::number(lastdeal);
 }
 
 
-void Fortyeight::setGameState( const QString &s )
+void Fortyeight::setGameState( const QString & state )
 {
-    lastdeal = s.toInt();
+    lastdeal = state.toInt();
     emit newCardsPossible( !lastdeal || !talon->isEmpty() );
 }
 

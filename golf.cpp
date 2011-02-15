@@ -156,8 +156,9 @@ bool Golf::drop()
 }
 
 
-void Golf::setGameState( const QString & )
+void Golf::setGameState( const QString & state )
 {
+    Q_UNUSED( state );
     emit newCardsPossible( !talon->isEmpty() );
 }
 
