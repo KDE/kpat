@@ -94,12 +94,15 @@ public:
     void clearHighlightedItems();
     QList<QGraphicsItem*> highlightedItems() const;
 
-    void moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
+    void moveCardsToPile( const QList<KCard*> & cards, KCardPile * pile, int duration );
     void moveCardToPile( KCard * card, KCardPile * pile, int duration );
+    void moveCardsToPileAtSpeed( const QList<KCard*> & cards, KCardPile * pile, qreal velocity );
     void moveCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal velocity );
-    void flipCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration );
+    void flipCardsToPile( const QList<KCard*> & cards, KCardPile * pile, int duration );
     void flipCardToPile( KCard * card, KCardPile * pile, int duration );
+    void flipCardsToPileAtSpeed( const QList<KCard*> & cards, KCardPile * pile, qreal velocity );
     void flipCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal velocity );
+    void updatePileLayout( KCardPile * pile, int duration );
 
     bool isCardAnimationRunning() const;
 
@@ -131,7 +134,6 @@ protected:
     virtual bool allowedToRemove( const KCardPile * pile, const KCard * card ) const;
     virtual KCardPile * targetPile();
 
-    void updatePileLayout( KCardPile * pile, int duration );
     virtual void cardsDroppedOnPile( const QList<KCard*> & cards, KCardPile * pile );
     virtual void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile );
 

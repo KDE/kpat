@@ -68,7 +68,7 @@ class KCardScenePrivate : public QObject
 public:
     KCardScenePrivate( KCardScene * p );
 
-    int calculateDuration( QPointF pos1, QPointF pos2, qreal velocity ) const;
+    void sendCardsToPile( KCardPile * pile, QList<KCard*> cards, qreal rate, bool isSpeed, bool flip );
     void changeFocus( int pileChange, int cardChange );
     void updateKeyboardFocus();
 
@@ -105,14 +105,100 @@ KCardScenePrivate::KCardScenePrivate( KCardScene * p )
 }
 
 
-int KCardScenePrivate::calculateDuration( QPointF pos1, QPointF pos2, qreal velocity ) const
+void KCardScenePrivate::sendCardsToPile( KCardPile * pile, QList<KCard*> newCards, qreal rate, bool isSpeed, bool flip )
 {
-    QPointF delta = pos2 - pos1;
-    qreal distance = sqrt( delta.x() * delta.x() + delta.y() * delta.y() );
-    qreal cardUnit = ( deck->cardWidth() + deck->cardHeight() ) / 2.0;
-    qreal unitDistance = distance / cardUnit;
+    if ( pile->isEmpty() && newCards.isEmpty() )
+        return;
 
-    return 1000 * unitDistance / velocity;
+    const QList<KCard*> oldCards = pile->cards();
+
+    foreach ( KCard * c, newCards )
+    {
+        pile->add( c );
+        if ( flip )
+            c->setFaceUp( !c->isFaceUp() );
+        c->raise();
+    }
+
+    const QSize cardSize = deck->cardSize();
+    const qreal cardUnit = (deck->cardWidth() + deck->cardHeight()) / 2.0;
+    const QList<KCard*> allCards = pile->cards();
+    const QList<QPointF> positions = pile->cardPositions();
+
+    qreal minX = 0;
+    qreal maxX = 0;
+    qreal minY = 0;
+    qreal maxY = 0;
+    foreach ( const QPointF & pos, positions )
+    {
+        minX = qMin( minX, pos.x() );
+        maxX = qMax( maxX, pos.x() );
+        minY = qMin( minY, pos.y() );
+        maxY = qMax( maxY, pos.y() );
+    }
+
+    QPointF absLayoutPos = pile->layoutPos();
+    if ( absLayoutPos.x() < 0 )
+        absLayoutPos.rx() += contentSize.width() / cardSize.width() - 1;
+    if ( absLayoutPos.y() < 0 )
+        absLayoutPos.ry() += contentSize.height() / cardSize.height() - 1;
+
+    QRectF available = pileAreas.value( pile, QRectF() );
+    qreal availableTop = absLayoutPos.y() - available.top();
+    qreal availableBottom = available.bottom() - (absLayoutPos.y() + 1);
+    qreal availableLeft = absLayoutPos.x() - available.left();
+    qreal availableRight = available.right() - (absLayoutPos.x() + 1);
+
+    qreal scaleTop = (minY >= 0) ? 1 : qMin<qreal>( availableTop / -minY, 1 );
+    qreal scaleBottom = (maxY <= 0) ? 1 : qMin<qreal>( availableBottom / maxY, 1 );
+    qreal scaleY = qMin( scaleTop, scaleBottom );
+
+    qreal scaleLeft = (minX >= 0) ? 1 : qMin<qreal>( availableLeft / -minX, 1 );
+    qreal scaleRight = (maxX <= 0) ? 1 : qMin<qreal>( availableRight / maxX, 1 );
+    qreal scaleX = qMin( scaleLeft, scaleRight );
+
+    qreal z = pile->zValue();
+
+    QList<QPointF> realPositions;
+    QList<qreal> distances;
+    qreal maxDistance = 0;
+    for ( int i = 0; i < allCards.size(); ++i )
+    {
+        QPointF pos( pile->x() + positions[i].x() * scaleX * cardSize.width(),
+                     pile->y() + positions[i].y() * scaleY * cardSize.height() );
+        realPositions << pos;
+
+        qreal distance = 0;
+        if ( isSpeed && i >= oldCards.size() )
+        {
+            QPointF delta = pos - allCards[i]->pos();
+            distance = sqrt( delta.x() * delta.x() + delta.y() * delta.y() ) / cardUnit;
+            if ( distance > maxDistance )
+                maxDistance = distance;
+        }
+        distances << distance;
+    }
+
+    int layoutDuration = isSpeed ? qMin<int>( cardMoveDuration, maxDistance / rate * 1000 ) : rate;
+
+    for ( int i = 0; i < allCards.size(); ++i )
+    {
+        bool face = allCards[i]->isFaceUp();
+        int duration = layoutDuration;
+        if ( i < oldCards.size() )
+        {
+            face = face || (allCards[i] == pile->top() && pile->autoTurnTop());
+        }
+        else
+        {
+            if ( flip )
+                allCards[i]->setFaceUp( !allCards[i]->isFaceUp() );
+            if ( isSpeed )
+                duration = distances[i] / rate * 1000;
+        }
+        ++z;
+        allCards[i]->animate( realPositions[i], z, 0, face, false, duration );
+    }
 }
 
 
@@ -645,22 +731,14 @@ void KCardScene::setItemHighlight( QGraphicsItem * item, bool highlight )
 }
 
 
-void KCardScene::moveCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration )
+void KCardScene::moveCardsToPile( const QList<KCard*> & cards, KCardPile * pile, int duration )
 {
     if ( cards.isEmpty() )
         return;
 
     KCardPile * source = cards.first()->pile();
-
-    foreach ( KCard * c, cards )
-    {
-        Q_ASSERT( c->pile() == source );
-        pile->add( c );
-        c->raise();
-    }
-
-    updatePileLayout( source, duration );
-    updatePileLayout( pile, duration );
+    d->sendCardsToPile( pile, cards, duration, false, false );
+    d->sendCardsToPile( source, QList<KCard*>(), duration, false, false );
     cardsMoved( cards, source, pile );
 }
 
@@ -671,60 +749,33 @@ void KCardScene::moveCardToPile( KCard * card, KCardPile * pile, int duration )
 }
 
 
-void KCardScene::moveCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal velocity )
+void KCardScene::moveCardsToPileAtSpeed( const QList<KCard*> & cards, KCardPile * pile, qreal velocity )
 {
-    QPointF origPos = card->pos();
+    if ( cards.isEmpty() )
+        return;
 
-    QPointF estimatedDestPos = pile->isEmpty() ? pile->pos() : pile->top()->pos();
-    moveCardToPile( card, pile, d->calculateDuration( origPos, estimatedDestPos, velocity ) );
-
-    card->completeAnimation();
-    QPointF destPos = card->pos();
-    card->setPos( origPos );
-
-    int duration = d->calculateDuration( origPos, destPos, velocity );
-    card->animate( destPos, card->zValue(), 0, card->isFaceUp(), true, duration );
+    KCardPile * source = cards.first()->pile();
+    d->sendCardsToPile( pile, cards, velocity, true, false );
+    d->sendCardsToPile( source, QList<KCard*>(), cardMoveDuration, false, false );
+    cardsMoved( cards, source, pile );
 }
 
 
-void KCardScene::flipCardsToPile( QList<KCard*> cards, KCardPile * pile, int duration )
+void KCardScene::moveCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal velocity )
 {
-    QList<KCard*> revCards;
-    QList<bool> origFaces;
-    QList<QPointF> origPositions;
-    QList<qreal> origZValues;
+    moveCardsToPileAtSpeed( QList<KCard*>() << card, pile, velocity );
+}
 
-    for ( int i = cards.size() - 1; i >= 0; --i )
-    {
-        KCard * c = cards.at( i );
-        revCards << c;
-        origFaces << c->isFaceUp();
-        origZValues << c->zValue();
-        origPositions << c->pos();
 
-        c->setFaceUp( !c->isFaceUp() );
-    }
+void KCardScene::flipCardsToPile( const QList<KCard*> & cards, KCardPile * pile, int duration )
+{
+    if ( cards.isEmpty() )
+        return;
 
-    moveCardsToPile( revCards, pile, duration );
-
-    for ( int i = 0; i < revCards.size(); ++i )
-    {
-        KCard * c = revCards.at( i );
-
-        c->completeAnimation();
-        c->setFaceUp( origFaces.at( i ) );
-        QPointF destPos = c->pos();
-        c->setPos( origPositions.at( i ) );
-        qreal destZValue = c->zValue();
-
-        // This is a bit of a hack. It means we preserve the z ordering of face
-        // up cards, but feel free to mess about with face down ones. This may
-        // need to be smarter in the future.
-        if ( c->isFaceUp() )
-            c->setZValue( origZValues.at( i ) );
-
-        c->animate( destPos, destZValue, 0, !c->isFaceUp(), true, duration );
-    }
+    KCardPile * source = cards.first()->pile();
+    d->sendCardsToPile( pile, cards, duration, false, true );
+    d->sendCardsToPile( source, QList<KCard*>(), duration, false, false );
+    cardsMoved( cards, source, pile );
 }
 
 
@@ -734,22 +785,21 @@ void KCardScene::flipCardToPile( KCard * card, KCardPile * pile, int duration )
 }
 
 
+void KCardScene::flipCardsToPileAtSpeed( const QList<KCard*> & cards, KCardPile * pile, qreal velocity )
+{
+    if ( cards.isEmpty() )
+        return;
+
+    KCardPile * source = cards.first()->pile();
+    d->sendCardsToPile( pile, cards, velocity, true, true );
+    d->sendCardsToPile( source, QList<KCard*>(), cardMoveDuration, false, false );
+    cardsMoved( cards, source, pile );
+}
+
+
 void KCardScene::flipCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal velocity )
 {
-    QPointF origPos = card->pos();
-    bool origFaceUp = card->isFaceUp();
-
-    QPointF estimatedDestPos = pile->isEmpty() ? pile->pos() : pile->top()->pos();
-    card->setFaceUp( !origFaceUp );
-    moveCardToPile( card, pile, d->calculateDuration( origPos, estimatedDestPos, velocity ) );
-
-    card->completeAnimation();
-    QPointF destPos = card->pos();
-    card->setPos( origPos );
-    card->setFaceUp( origFaceUp );
-
-    int duration = d->calculateDuration( origPos, destPos, velocity );
-    card->animate( destPos, card->zValue(), 0, !origFaceUp, true, duration );
+    flipCardsToPileAtSpeed( QList<KCard*>() << card, pile, velocity );
 }
 
 
@@ -889,55 +939,7 @@ bool KCardScene::isKeyboardModeActive() const
 
 void KCardScene::updatePileLayout( KCardPile * pile, int duration )
 {
-    if ( pile->isEmpty() )
-        return;
-
-    const QSize cardSize = d->deck->cardSize();
-    const QList<KCard*> cards = pile->cards();
-    const QList<QPointF> positions = pile->cardPositions();
-
-    qreal minX = 0;
-    qreal maxX = 0;
-    qreal minY = 0;
-    qreal maxY = 0;
-    foreach ( const QPointF & pos, positions )
-    {
-        minX = qMin( minX, pos.x() );
-        maxX = qMax( maxX, pos.x() );
-        minY = qMin( minY, pos.y() );
-        maxY = qMax( maxY, pos.y() );
-    }
-
-    QPointF absLayoutPos = pile->layoutPos();
-    if ( absLayoutPos.x() < 0 )
-        absLayoutPos.rx() += contentArea().width() / cardSize.width() - 1;
-    if ( absLayoutPos.y() < 0 )
-        absLayoutPos.ry() += contentArea().height() / cardSize.height() - 1;
-
-    QRectF available = d->pileAreas.value( pile, QRectF() );
-    qreal availableTop = absLayoutPos.y() - available.top();
-    qreal availableBottom = available.bottom() - (absLayoutPos.y() + 1);
-    qreal availableLeft = absLayoutPos.x() - available.left();
-    qreal availableRight = available.right() - (absLayoutPos.x() + 1);
-
-    qreal scaleTop = (minY >= 0) ? 1 : qMin<qreal>( availableTop / -minY, 1 );
-    qreal scaleBottom = (maxY <= 0) ? 1 : qMin<qreal>( availableBottom / maxY, 1 );
-    qreal scaleY = qMin( scaleTop, scaleBottom );
-
-    qreal scaleLeft = (minX >= 0) ? 1 : qMin<qreal>( availableLeft / -minX, 1 );
-    qreal scaleRight = (maxX <= 0) ? 1 : qMin<qreal>( availableRight / maxX, 1 );
-    qreal scaleX = qMin( scaleLeft, scaleRight );
-
-    qreal z = pile->zValue();
-
-    for ( int i = 0; i < cards.size(); ++i )
-    {
-        QPointF pos( pile->x() + positions[i].x() * scaleX * cardSize.width(),
-                     pile->y() + positions[i].y() * scaleY * cardSize.height() );
-        bool face = cards[i]->isFaceUp() || (cards[i] == pile->top() && pile->autoTurnTop());
-        ++z;
-        cards[i]->animate( pos, z, 0, face, false, duration );
-    }
+    d->sendCardsToPile( pile, QList<KCard*>(), duration, false, false );
 }
 
 
