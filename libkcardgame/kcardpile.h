@@ -66,6 +66,7 @@ public:
     int indexOf( const KCard * card ) const;
     KCard * at( int index ) const;
     KCard * top() const;
+    QList<KCard*> topCards( int depth ) const;
     QList<KCard*> topCardsDownTo( const KCard * card ) const;
 
     void setLayoutPos( QPointF pos );

@@ -202,12 +202,24 @@ KCard * KCardPile::at( int index ) const
 }
 
 
-KCard *KCardPile::top() const
+KCard * KCardPile::top() const
 {
     if ( d->cards.isEmpty() )
         return 0;
 
     return d->cards.last();
+}
+
+
+QList<KCard*> KCardPile::topCards( int depth ) const
+{
+    if ( depth <= 0 )
+        return QList<KCard*>();
+
+    if ( depth > count() )
+        return d->cards;
+
+    return d->cards.mid( count() - depth );
 }
 
 

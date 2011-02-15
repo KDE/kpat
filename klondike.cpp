@@ -200,8 +200,7 @@ bool Klondike::newCards()
     }
     else
     {
-        int depth = qMax( 0, talon->count() - pile->cardsToShow() );
-        QList<KCard*> cards = talon->topCardsDownTo( talon->at( depth ) );
+        QList<KCard*> cards = talon->topCards( pile->cardsToShow() );
         flipCardsToPile( cards, pile, DURATION_MOVE );
         setKeyboardFocus( pile->top() );
     }
