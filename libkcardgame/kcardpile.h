@@ -128,9 +128,6 @@ public:
     void setHighlighted( bool highlighted );
     bool isHighlighted() const;
 
-    void setGraphicVisible( bool visible );
-    bool isGraphicVisible();
-
     void add( KCard * card );
     virtual void insert( KCard * card, int index );
     virtual void remove( KCard * card );

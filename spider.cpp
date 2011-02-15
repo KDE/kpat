@@ -48,6 +48,23 @@
 #include <KSelectAction>
 
 
+class InvisiblePile : public PatPile
+{
+public:
+    InvisiblePile( KCardScene * cardScene, int index, const QString & objectName = QString() )
+      : PatPile( cardScene, index, objectName )
+    {
+    };
+
+protected:
+    virtual void paintGraphic( QPainter * painter, qreal highlightedness )
+    {
+        Q_UNUSED( painter );
+        Q_UNUSED( highlightedness );
+    };
+};
+
+
 void Spider::initialize()
 {
     m_leg = 0;
@@ -64,11 +81,10 @@ void Spider::initialize()
     // sets of 10 cards are left to be dealt out
     for( int column = 0; column < 5; ++column )
     {
-        redeals[column] = new PatPile( this, column + 1, QString( "redeals%1" ).arg( column ) );
+        redeals[column] = new InvisiblePile( this, column + 1, QString( "redeals%1" ).arg( column ) );
         redeals[column]->setPileRole(PatPile::Stock);
         redeals[column]->setLayoutPos( dist_x * (9 - (4.0 - column) / 3), smallNeg );
         redeals[column]->setZValue(12 * ( 5-column ));
-        redeals[column]->setGraphicVisible( false );
         redeals[column]->setSpread(0, 0);
         redeals[column]->setKeyboardSelectHint( KCardPile::NeverFocus );
         redeals[column]->setKeyboardDropHint( KCardPile::NeverFocus );
@@ -93,11 +109,10 @@ void Spider::initialize()
     // else the name Spider?
     for( int column = 0; column < 8; ++column )
     {
-        legs[column] = new PatPile( this, column + 16, QString( "legs%1" ).arg( column ) );
+        legs[column] = new InvisiblePile( this, column + 16, QString( "legs%1" ).arg( column ) );
         legs[column]->setPileRole(PatPile::Foundation);
         legs[column]->setLayoutPos(dist_x / 3 * column, smallNeg);
         legs[column]->setZValue(column+1);
-        legs[column]->setGraphicVisible( false );
         legs[column]->setSpread(0, 0);
         legs[column]->setZValue(14 * column);
         legs[column]->setVisible( false );

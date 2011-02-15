@@ -66,7 +66,6 @@ public:
 
     bool autoTurnTop;
     bool highlighted;
-    bool graphicVisible;
 
     QSize graphicSize;
     QPointF layoutPos;
@@ -116,7 +115,6 @@ KCardPile::KCardPile( KCardScene * cardScene )
     d->autoTurnTop = false;
     d->highlighted = false;
     d->highlightValue = 0;
-    d->graphicVisible = true;
     d->spread = QPointF( 0, 0 );
 
     d->topPadding = 0;
@@ -168,8 +166,7 @@ void KCardPile::paint( QPainter * painter, const QStyleOptionGraphicsItem * opti
     Q_UNUSED( option );
     Q_UNUSED( widget );
 
-    if ( d->graphicVisible )
-        paintGraphic( painter, d->highlightValue );
+    paintGraphic( painter, d->highlightValue );
 }
 
 
@@ -404,22 +401,6 @@ void KCardPile::setHighlighted( bool highlighted )
 bool KCardPile::isHighlighted() const
 {
     return d->highlighted;
-}
-
-
-void KCardPile::setGraphicVisible( bool visible )
-{
-    if ( d->graphicVisible != visible )
-    {
-        d->graphicVisible = visible;
-        update();
-    }
-}
-
-
-bool KCardPile::isGraphicVisible()
-{
-    return d->graphicVisible;
 }
 
 
