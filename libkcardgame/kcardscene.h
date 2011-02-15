@@ -132,7 +132,6 @@ protected:
 
     virtual bool allowedToAdd( const KCardPile * pile, const QList<KCard*> & cards ) const;
     virtual bool allowedToRemove( const KCardPile * pile, const KCard * card ) const;
-    virtual KCardPile * targetPile();
 
     virtual void cardsDroppedOnPile( const QList<KCard*> & cards, KCardPile * pile );
     virtual void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile );

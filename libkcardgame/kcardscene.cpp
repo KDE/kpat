@@ -68,6 +68,7 @@ class KCardScenePrivate : public QObject
 public:
     KCardScenePrivate( KCardScene * p );
 
+    KCardPile * bestDestinationPileUnderCards();
     void sendCardsToPile( KCardPile * pile, QList<KCard*> cards, qreal rate, bool isSpeed, bool flip );
     void changeFocus( int pileChange, int cardChange );
     void updateKeyboardFocus();
@@ -102,6 +103,47 @@ KCardScenePrivate::KCardScenePrivate( KCardScene * p )
     q( p )
 {
   dragStarted = false;
+}
+
+
+KCardPile * KCardScenePrivate::bestDestinationPileUnderCards()
+{
+    QSet<KCardPile*> targets;
+    foreach ( QGraphicsItem * item, q->collidingItems( cardsBeingDragged.first(), Qt::IntersectsItemBoundingRect ) )
+    {
+        KCardPile * p = qgraphicsitem_cast<KCardPile*>( item );
+        if ( !p )
+        {
+            KCard * c = qgraphicsitem_cast<KCard*>( item );
+            if ( c )
+                p = c->pile();
+        }
+        if ( p )
+            targets << p;
+    }
+
+    KCardPile * bestTarget = 0;
+    qreal bestArea = 1;
+
+    foreach ( KCardPile * p, targets )
+    {
+        if ( p != cardsBeingDragged.first()->pile() && q->allowedToAdd( p, cardsBeingDragged ) )
+        {
+            QRectF targetRect = p->sceneBoundingRect();
+            foreach ( KCard *c, p->cards() )
+                targetRect |= c->sceneBoundingRect();
+
+            QRectF intersection = targetRect & cardsBeingDragged.first()->sceneBoundingRect();
+            qreal area = intersection.width() * intersection.height();
+            if ( area > bestArea )
+            {
+                bestTarget = p;
+                bestArea = area;
+            }
+        }
+    }
+
+    return bestTarget;
 }
 
 
@@ -875,7 +917,7 @@ void KCardScene::keyboardFocusSelect()
     }
     else
     {
-        KCardPile * destination = targetPile();
+        KCardPile * destination = d->bestDestinationPileUnderCards();
         if ( destination )
             cardsDroppedOnPile( d->cardsBeingDragged, destination );
         else
@@ -956,47 +998,6 @@ bool KCardScene::allowedToRemove( const KCardPile * pile, const KCard * card ) c
     Q_UNUSED( pile )
     Q_UNUSED( card )
     return true;
-}
-
-
-KCardPile * KCardScene::targetPile()
-{
-    QSet<KCardPile*> targets;
-    foreach ( QGraphicsItem * item, collidingItems( d->cardsBeingDragged.first() ) )
-    {
-        KCardPile * p = qgraphicsitem_cast<KCardPile*>( item );
-        if ( !p )
-        {
-            KCard * c = qgraphicsitem_cast<KCard*>( item );
-            if ( c )
-                p = c->pile();
-        }
-        if ( p )
-            targets << p;
-    }
-
-    KCardPile * bestTarget = 0;
-    qreal bestArea = 1;
-
-    foreach ( KCardPile * p, targets )
-    {
-        if ( p != d->cardsBeingDragged.first()->pile() && allowedToAdd( p, d->cardsBeingDragged ) )
-        {
-            QRectF targetRect = p->sceneBoundingRect();
-            foreach ( KCard *c, p->cards() )
-                targetRect |= c->sceneBoundingRect();
-
-            QRectF intersection = targetRect & d->cardsBeingDragged.first()->sceneBoundingRect();
-            qreal area = intersection.width() * intersection.height();
-            if ( area > bestArea )
-            {
-                bestTarget = p;
-                bestArea = area;
-            }
-        }
-    }
-
-    return bestTarget;
 }
 
 
@@ -1084,7 +1085,7 @@ void KCardScene::mouseMoveEvent( QGraphicsSceneMouseEvent * e )
             d->startOfDrag = e->scenePos();
 
             QList<QGraphicsItem*> toHighlight;
-            KCardPile * dropPile = targetPile();
+            KCardPile * dropPile = d->bestDestinationPileUnderCards();
             if ( dropPile )
             {
                 if ( dropPile->isEmpty() )
@@ -1119,7 +1120,7 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
     {
         e->accept();
 
-        KCardPile * destination = targetPile();
+        KCardPile * destination = d->bestDestinationPileUnderCards();
         if ( destination )
             cardsDroppedOnPile( d->cardsBeingDragged, destination );
         else
