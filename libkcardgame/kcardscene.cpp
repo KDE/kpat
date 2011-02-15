@@ -481,11 +481,13 @@ void KCardScene::relayoutScene()
     d->contentSize = QSizeF( contentWidth, contentHeight );
     setSceneRect( -xOffset, -yOffset, width(), height() );
 
-    relayoutPiles( 0 );
+    recalculatePileLayouts();
+    foreach ( KCardPile * p, piles() )
+        updatePileLayout( p, 0 );
 }
 
 
-void KCardScene::relayoutPiles( int duration )
+void KCardScene::recalculatePileLayouts()
 {
     if ( !d->sizeHasBeenSet || !d->deck )
         return;
@@ -597,9 +599,6 @@ void KCardScene::relayoutPiles( int duration )
             }
         }
     }
-
-    foreach ( KCardPile * p, piles() )
-        updatePileLayout( p, duration );
 }
 
 
@@ -1190,7 +1189,9 @@ void KCardScene::wheelEvent( QGraphicsSceneWheelEvent * e )
         qreal scaleFactor = pow( 2, e->delta() / qreal(10 * 120) );
         int newWidth = d->deck->cardWidth() * scaleFactor;
         d->deck->setCardWidth( newWidth );
-        relayoutPiles();
+        recalculatePileLayouts();
+        foreach ( KCardPile * p, piles() )
+            updatePileLayout( p, 0 );
     }
     else
     {

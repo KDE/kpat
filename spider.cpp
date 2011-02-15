@@ -244,7 +244,9 @@ void Spider::setGameState(const QString &stream)
         for ( int i = 0; i < 8; ++i )
             legs[i]->setVisible( i < m_leg );
 
-        relayoutPiles();
+        recalculatePileLayouts();
+        foreach ( KCardPile * p, piles() )
+            updatePileLayout( p, 0 );
 
         emit newCardsPossible(m_redeal <= 4);
     }
@@ -273,7 +275,7 @@ void Spider::restart( const QList<KCard*> & cards )
     for (int i = 0; i < 8; ++i )
         legs[i]->setVisible( false );
 
-    relayoutPiles();
+    recalculatePileLayouts();
 
     m_leg = 0;
     m_redeal = 0;
@@ -369,7 +371,11 @@ bool Spider::checkPileDeck( KCardPile * pile, bool checkForDemo )
         {
             PatPile *leg = legs[m_leg];
             leg->setVisible(true);
-            relayoutPiles( DURATION_RELAYOUT );
+
+            recalculatePileLayouts();
+            for ( int i = 0; i < 10; ++i )
+                if ( stack[i] != pile )
+                    updatePileLayout( stack[i], DURATION_RELAYOUT );
 
             qreal z = 1;
             foreach ( KCard *c, run ) {
@@ -417,10 +423,7 @@ bool Spider::newCards()
         return false;
 
     redeals[m_redeal]->setVisible(false);
-    relayoutPiles();
-
-    foreach( KCard * c, redeals[m_redeal]->cards() )
-        c->setFaceUp( false );
+    recalculatePileLayouts();
 
     for ( int column = 0; column < 10; ++column )
     {

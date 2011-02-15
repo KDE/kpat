@@ -84,7 +84,7 @@ public:
 
     virtual void resizeScene( const QSize & size );
     virtual void relayoutScene();
-    virtual void relayoutPiles( int duration = 0);
+    virtual void recalculatePileLayouts();
 
     virtual void addPile( KCardPile * pile );
     virtual void removePile( KCardPile * pile );
