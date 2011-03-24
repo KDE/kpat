@@ -387,8 +387,6 @@ DealerScene::~DealerScene()
     delete d->wonItem;
 
     delete d;
-
-    Q_ASSERT( items().isEmpty() );
 }
 
 
