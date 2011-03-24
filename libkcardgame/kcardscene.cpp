@@ -401,8 +401,6 @@ KCardScene::~KCardScene()
         delete p;
     }
     d->piles.clear();
-
-    Q_ASSERT( items().isEmpty() );
 }
 
 
