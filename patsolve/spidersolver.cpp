@@ -229,7 +229,8 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
             bool stroke = true;
             for ( int l = 0; l < 13; ++l )
             {
-                if ( RANK( W[w][Wlen[w]-l-1] ) != l+1 ||
+                if ( DOWN( W[w][Wlen[w]-l-1] ) ||
+                     RANK( W[w][Wlen[w]-l-1] ) != l+1 ||
                      SUIT( W[w][Wlen[w]-l-1] ) != ace_suit )
                 {
                     stroke = false;
