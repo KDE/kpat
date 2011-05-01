@@ -164,22 +164,27 @@ void KCardScenePrivate::sendCardsToPile( KCardPile * pile, QList<KCard*> newCard
     if ( pile->isEmpty() && newCards.isEmpty() )
         return;
 
-    const QList<KCard*> oldCards = pile->cards();
+    int oldCardCount = pile->count();
 
     for ( int i = 0; i < newCards.size(); ++i )
     {
         // If we're flipping the cards, we have to add them to the pile in
         // reverse order.
         KCard * c = newCards[ flip ? newCards.size() - 1 - i : i ];
-        pile->add( c );
+
+        // The layout of the card within the pile may depend on whether it is
+        // face up or down. Therefore, we must flip the card, add it to the
+        // pile, calculate its position, flip it back, then start the animation
+        // which will flip it one more time.
         if ( flip )
             c->setFaceUp( !c->isFaceUp() );
-        c->raise();
+
+        pile->add( c );
     }
 
     const QSize cardSize = deck->cardSize();
     const qreal cardUnit = (deck->cardWidth() + deck->cardHeight()) / 2.0;
-    const QList<KCard*> allCards = pile->cards();
+    const QList<KCard*> cards = pile->cards();
     const QList<QPointF> positions = pile->cardPositions();
 
     qreal minX = 0;
@@ -214,21 +219,19 @@ void KCardScenePrivate::sendCardsToPile( KCardPile * pile, QList<KCard*> newCard
     qreal scaleRight = (maxX <= 0) ? 1 : qMin<qreal>( availableRight / maxX, 1 );
     qreal scaleX = qMin( scaleLeft, scaleRight );
 
-    qreal z = pile->zValue();
-
     QList<QPointF> realPositions;
     QList<qreal> distances;
     qreal maxDistance = 0;
-    for ( int i = 0; i < allCards.size(); ++i )
+    for ( int i = 0; i < cards.size(); ++i )
     {
         QPointF pos( pile->x() + positions[i].x() * scaleX * cardSize.width(),
                      pile->y() + positions[i].y() * scaleY * cardSize.height() );
         realPositions << pos;
 
         qreal distance = 0;
-        if ( isSpeed && i >= oldCards.size() )
+        if ( isSpeed && i >= oldCardCount )
         {
-            QPointF delta = pos - allCards[i]->pos();
+            QPointF delta = pos - cards[i]->pos();
             distance = sqrt( delta.x() * delta.x() + delta.y() * delta.y() ) / cardUnit;
             if ( distance > maxDistance )
                 maxDistance = distance;
@@ -236,25 +239,30 @@ void KCardScenePrivate::sendCardsToPile( KCardPile * pile, QList<KCard*> newCard
         distances << distance;
     }
 
+    qreal z = pile->zValue();
     int layoutDuration = isSpeed ? qMin<int>( cardMoveDuration, maxDistance / rate * 1000 ) : rate;
 
-    for ( int i = 0; i < allCards.size(); ++i )
+    for ( int i = 0; i < cards.size(); ++i )
     {
-        bool face = allCards[i]->isFaceUp();
-        int duration = layoutDuration;
-        if ( i < oldCards.size() )
+        bool isNewCard = i >= oldCardCount;
+
+        int duration = (isNewCard && isSpeed) ? distances[i] / rate * 1000 : layoutDuration;
+
+        // Honour the pile's autoTurnTop property.
+        bool face = cards[i]->isFaceUp() || (cards[i] == pile->topCard() && pile->autoTurnTop());
+
+        if ( isNewCard && flip )
         {
-            face = face || (allCards[i] == pile->topCard() && pile->autoTurnTop());
+            // The card will be flipped as part of the animation, so we return
+            // it to its original face up/down position before starting the
+            // animation.
+            cards[i]->setFaceUp( !cards[i]->isFaceUp() );
         }
-        else
-        {
-            if ( flip )
-                allCards[i]->setFaceUp( !allCards[i]->isFaceUp() );
-            if ( isSpeed )
-                duration = distances[i] / rate * 1000;
-        }
+
+        // Each card has a Z value 1 greater than the card below it.
         ++z;
-        allCards[i]->animate( realPositions[i], z, 0, face, false, duration );
+
+        cards[i]->animate( realPositions[i], z, 0, face, isNewCard, duration );
     }
 }
 
