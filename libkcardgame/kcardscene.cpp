@@ -166,8 +166,11 @@ void KCardScenePrivate::sendCardsToPile( KCardPile * pile, QList<KCard*> newCard
 
     const QList<KCard*> oldCards = pile->cards();
 
-    foreach ( KCard * c, newCards )
+    for ( int i = 0; i < newCards.size(); ++i )
     {
+        // If we're flipping the cards, we have to add them to the pile in
+        // reverse order.
+        KCard * c = newCards[ flip ? newCards.size() - 1 - i : i ];
         pile->add( c );
         if ( flip )
             c->setFaceUp( !c->isFaceUp() );
