@@ -178,7 +178,7 @@ void MainWindow::setupActions()
 
     KStandardGameAction::load(this, SLOT(openGame()), actionCollection());
 
-    recent = KStandardGameAction::loadRecent(this, SLOT(openGame(const KUrl&)), actionCollection());
+    recent = KStandardGameAction::loadRecent(this, SLOT(openGame(KUrl)), actionCollection());
     recent->loadEntries(KGlobal::config()->group( QString() ));
 
     a = KStandardGameAction::saveAs(this, SLOT(saveGame()), actionCollection());
@@ -471,7 +471,7 @@ void MainWindow::slotGameSelected(int id)
     if ( m_dealer_map.contains(id) )
     {
         setGameType( id );
-        QTimer::singleShot(0 , this, SLOT( startRandom() ) );
+        QTimer::singleShot(0 , this, SLOT(startRandom()) );
     }
 }
 
@@ -916,7 +916,7 @@ void MainWindow::slotSnapshot()
     m_dealer->setAutoDropEnabled( false );
     startRandom();
 
-    QTimer::singleShot( 1000, this, SLOT( slotSnapshot2() ) );
+    QTimer::singleShot( 1000, this, SLOT(slotSnapshot2()) );
 }
 
 void MainWindow::slotSnapshot2()
@@ -925,7 +925,7 @@ void MainWindow::slotSnapshot2()
 
     ++m_dealer_it;
     if ( m_dealer_it != m_dealer_map.constEnd() )
-        QTimer::singleShot( 0, this, SLOT( slotSnapshot() ) );
+        QTimer::singleShot( 0, this, SLOT(slotSnapshot()) );
 }
 
 

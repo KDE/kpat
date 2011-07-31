@@ -632,7 +632,7 @@ void DealerScene::startNew(int gameNumber)
 
     if ( isCardAnimationRunning() )
     {
-        QTimer::singleShot( 100, this, SLOT( startNew() ) );
+        QTimer::singleShot( 100, this, SLOT(startNew()) );
         return;
     }
 
