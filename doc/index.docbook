@@ -2,7 +2,7 @@
 <!--IMPORTANT: please note that'do not change this!' notice does not apply to translators -->
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
   <!ENTITY kappname "&kpatience;">
-  <!ENTITY kappversion "3.4"><!--Applicaion version. Use this variable everywhere it's needed.-->
+  <!ENTITY kappversion "3.6"><!--Applicaion version. Use this variable everywhere it's needed.-->
   <!ENTITY package "kdegames">  <!-- do not change this! -->
   <!ENTITY % English "INCLUDE" > <!-- change language only here -->
   <!ENTITY % addindex "IGNORE"> <!-- do not change this! -->
@@ -65,7 +65,7 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2010-01-19</date><!-- Date of (re)writing, or update.-->
+<date>2011-10-17 (&kde; 4.7)</date><!-- Date of (re)writing, or update.-->
 <releaseinfo>&kappversion;</releaseinfo><!-- Application version number. Use the variable definitions within header to change this value.-->
 
 <!--Short description of this document. Do not change unless necessary!-->
@@ -572,7 +572,7 @@ win at Easy level, and very difficult to win at Hard level.
 <chapter id="interface"><title>Interface Overview</title> <!-- do not change this! -->
 <!-- This section has to do with menubar. Describe every single entry in order. Use <variablelist> and <varlistentry>. Split the chapter into sections using <sect1(2,3)> for better viewing.-->
 <sect1 id="game-menu">
-	<title>The <guimenu>Game</guimenu> Menu</title>
+	<title>The Game Menu</title>
 		<variablelist>
 			<varlistentry id="game-menu-new-game">
 				<term><menuchoice>
@@ -651,7 +651,7 @@ win at Easy level, and very difficult to win at Hard level.
 		</variablelist>
 </sect1>
 <sect1 id="move-menu">
-	<title>The <guimenu>Move</guimenu> Menu</title>
+	<title>The Move Menu</title>
 		<variablelist>
 			<varlistentry id="move-menu-undo">
 				<term><menuchoice>
@@ -712,7 +712,7 @@ win at Easy level, and very difficult to win at Hard level.
 		</variablelist>
 </sect1>
 <sect1 id="settings-menu">
-	<title>The <guimenu>Settings</guimenu> Menu</title>
+	<title>The Settings Menu</title>
 		<variablelist>
 			<varlistentry id="settings-menu-game-type-options">
 				<term><menuchoice>
@@ -720,15 +720,15 @@ win at Easy level, and very difficult to win at Hard level.
 					<guisubmenu>"Game Type" Options</guisubmenu>
 					<guimenuitem>List of game type specific options.</guimenuitem>
 				</menuchoice></term>
-				<listitem><para><action>List options specific to the current game type.</action> This menu is available in only certain games.</para></listitem>
+				<listitem><para><action>List options specific to the current game type.</action> This menu is available in only certain games (Klondike and Spider).</para></listitem>
 			</varlistentry>
 			<varlistentry id="settings-menu-deck">
 				<term><menuchoice>
 					<shortcut><keycap>F10</keycap></shortcut>
 					<guimenu>Settings</guimenu>
-					<guimenuitem>Select Deck...</guimenuitem>
+					<guimenuitem>Change Appearance...</guimenuitem>
 				</menuchoice></term>
-				<listitem><para><action>Open a dialog to change the card deck used.</action></para></listitem>
+				<listitem><para><action>Open a dialog to change the card deck and game theme used.</action></para></listitem>
 			</varlistentry>
 			<varlistentry id="settings-menu-autodrop">
 				<term><menuchoice>
@@ -768,7 +768,7 @@ win at Easy level, and very difficult to win at Hard level.
 		</variablelist>
 </sect1>
 <sect1 id="help"><!--This is a standard Help menubar entry. Only change if needed.-->
-<title>The <guimenu>Help</guimenu> Menu</title>
+<title>The Help Menu</title>
 &help.menu.documentation;
 </sect1>
 </chapter>
@@ -779,10 +779,10 @@ win at Easy level, and very difficult to win at Hard level.
 <!--Following is a standard list of FAQ questions.-->
 <qandaentry>
  <question><para>I want to change the way this game looks. Can I? </para></question>
- <answer><para>You can change the faces and backs of the playing cards. To do so please use <menuchoice>
+ <answer><para>You can change the faces and backs of the playing cards and the game theme. To do so please use <menuchoice>
 					<shortcut><keycap>F10</keycap></shortcut>
 					<guimenu>Settings</guimenu>
-					<guimenuitem>Select Deck...</guimenuitem>
+					<guimenuitem>Change Appearance...</guimenuitem>
 				</menuchoice> on the menubar.</para></answer>
 </qandaentry>
 <qandaentry>
