@@ -355,8 +355,8 @@ build sequences as long as possible.
 <para><indexterm><primary>Mod3</primary></indexterm>
 Mod3 is played with two card decks. The goal is to put all
 cards on the top three rows. In those you have to build sequences of the same
-color. In the first row you have to create the sequence 2-5-8-B, in the second
-row the sequence 3-6-9-D, and in the third row the sequence 4-7-10-K. The suit of
+color. In the first row you have to create the sequence 2-5-8-J, in the second
+row the sequence 3-6-9-Q, and in the third row the sequence 4-7-10-K. The suit of
 the cards must be the same in each sequence, so you can only put a five of hearts
 on top of a two of hearts.
 </para>
