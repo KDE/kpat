@@ -343,7 +343,10 @@ void Spider::cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCard
 
 bool Spider::pileHasFullRun( KCardPile * pile )
 {
-    return pile->count() >= 13 && isSameSuitDescending( pile->topCards( 13 ) );
+    QList<KCard*> potentialRun = pile->topCards( 13 );
+    return pile->count() >= 13
+           && potentialRun.first()->isFaceUp()
+           && isSameSuitDescending( potentialRun );
 }
 
 
