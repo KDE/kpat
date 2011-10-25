@@ -149,6 +149,7 @@ bool Golf::drop()
     if ( !talon->isEmpty() )
     {
         flipCardToPile( talon->topCard(), waste, DURATION_MOVE );
+        takeState();
         return true;
     }
 
