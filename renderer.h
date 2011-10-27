@@ -32,12 +32,15 @@ class Renderer : public KGameRenderer
 {
 public:
     static Renderer * self();
+    static void deleteSelf();
 
     qreal aspectRatioOfElement( const QString & elementId );
     QColor colorOfElement( const QString & elementId );
 
 private:
     Renderer();
+
+    static Renderer * s_instance;
 
     QHash<QString,QColor> m_colors;
     QString m_cachedTheme;

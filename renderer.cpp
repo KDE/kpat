@@ -20,21 +20,22 @@
 
 #include "settings.h"
 
-#include <KGlobal>
 
-
-class RendererPrivate
-{
-public:
-    Renderer instance;
-};
-
-K_GLOBAL_STATIC( RendererPrivate, rp )
+Renderer * Renderer::s_instance = 0;
 
 
 Renderer * Renderer::self()
 {
-    return &rp->instance;
+    if ( s_instance == 0 )
+        s_instance = new Renderer();
+    return s_instance;
+}
+
+
+void Renderer::deleteSelf()
+{
+    delete s_instance;
+    s_instance = 0;
 }
 
 
