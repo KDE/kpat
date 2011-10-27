@@ -130,6 +130,7 @@ MainWindow::~MainWindow()
 
     delete m_dealer;
     delete m_view;
+    Renderer::deleteSelf();
 }
 
 
