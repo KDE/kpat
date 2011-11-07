@@ -1417,51 +1417,34 @@ void DealerScene::demo()
     MoveHint mh = chooseHint();
     if ( mh.isValid() )
     {
-        kDebug(mh.pile()->topCard()) << "Moving" << mh.card()->objectName()
-                                 << "from the" << mh.card()->pile()->objectName()
-                                 << "pile to the" << mh.pile()->objectName()
-                                 << "pile, putting it on top of" << mh.pile()->topCard()->objectName();
-        kDebug(!mh.pile()->topCard()) << "Moving" << mh.card()->objectName()
-                                  << "from the" << mh.card()->pile()->objectName()
-                                  << "pile to the" << mh.pile()->objectName()
-                                  << "pile, which is empty";
-        Q_ASSERT(mh.card()->pile() == 0
-                 || allowedToRemove(mh.card()->pile(), mh.card()));
+        KCard * card = mh.card();
+        Q_ASSERT( card );
+        KCardPile * sourcePile = mh.card()->pile();
+        Q_ASSERT( sourcePile );
+        Q_ASSERT( allowedToRemove( sourcePile, card ) );
+        PatPile * destPile = mh.pile();
+        Q_ASSERT( destPile );
+        Q_ASSERT( sourcePile != destPile );
+        QList<KCard*> cards = sourcePile->topCardsDownTo( card );
+        Q_ASSERT( allowedToAdd( destPile, cards ) );
 
-        QList<KCard*> empty;
-        QList<KCard*> cards = mh.card()->pile()->cards();
-        bool after = false;
-        for (QList<KCard*>::Iterator it = cards.begin(); it != cards.end(); ++it) {
-            if (*it == mh.card())
-                after = true;
-            if (after)
-                empty.append(*it);
+        if ( destPile->isEmpty() )
+        {
+            kDebug() << "Moving" << card->objectName()
+                     << "from the" << sourcePile->objectName()
+                     << "pile to the" << destPile->objectName()
+                     << "pile, which is empty";
         }
-
-        Q_ASSERT(!empty.isEmpty());
-
-        QMap<KCard*,QPointF> oldPositions;
-
-        foreach (KCard *c, empty) {
-            c->completeAnimation();
-            c->setFaceUp(true);
-            oldPositions.insert(c, c->pos());
+        else
+        {
+            kDebug() << "Moving" << card->objectName()
+                     << "from the" << sourcePile->objectName()
+                     << "pile to the" << destPile->objectName()
+                     << "pile, putting it on top of"
+                     << destPile->topCard()->objectName();
         }
-
-        Q_ASSERT(mh.card());
-        Q_ASSERT(mh.card()->pile());
-        Q_ASSERT(mh.pile());
-        Q_ASSERT(mh.card()->pile() != mh.pile());
-        Q_ASSERT(mh.pile()->isFoundation() || allowedToAdd(mh.pile(), empty));
-
-        moveCardsToPile( empty, mh.pile(), DURATION_MOVE );
-
-        foreach (KCard *c, empty) {
-            c->completeAnimation();
-            QPointF destPos = c->pos();
-            c->setPos(oldPositions.value(c));
-            c->animate(destPos, c->zValue(), 0, c->isFaceUp(), true, DURATION_DEMO);
-        }
+        
+        moveCardsToPile( cards, destPile, DURATION_DEMO );
     }
     else if ( !newCards() )
     {

@@ -79,7 +79,7 @@ public:
 
     bool isValid() const
     {
-        return m_card;
+        return m_card && m_to;
     }
 
     bool operator<( const MoveHint & other ) const
