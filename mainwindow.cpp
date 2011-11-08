@@ -85,6 +85,13 @@
 #include <QtGui/QStackedWidget>
 
 
+namespace
+{
+    const KUrl dialogUrl( "kfiledialog:///kpat" );
+    const QString kpatMimeType( "application/vnd.kde.kpatience.savedstate" );
+}
+
+
 MainWindow::MainWindow()
   : KXmlGuiWindow( 0 ),
     m_view( 0 ),
@@ -875,9 +882,19 @@ bool MainWindow::loadGame( const KUrl & url, bool addToRecentFiles )
 
 void MainWindow::loadGame()
 {
-    KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///kpat"));
-    if (!url.isEmpty())
-        loadGame( url, true );
+    KFileDialog dialog( dialogUrl, "", this, 0 );
+    dialog.setOperationMode( KFileDialog::Opening );
+    dialog.setMimeFilter( QStringList() << kpatMimeType << "all/allfiles", kpatMimeType );
+    dialog.setCaption( i18n("Load") );
+
+    if ( dialog.exec() != KFileDialog::Accepted )
+        return;
+
+    KUrl url = dialog.selectedUrl();
+    if ( url.isEmpty() )
+        return;
+
+    loadGame( url, true );
 }
 
 void MainWindow::saveGame()
@@ -885,7 +902,15 @@ void MainWindow::saveGame()
     if ( !m_dealer )
         return;
 
-    KUrl url = KFileDialog::getSaveUrl( KUrl("kfiledialog:///kpat") );
+    KFileDialog dialog( dialogUrl, "", this, 0 );
+    dialog.setOperationMode( KFileDialog::Saving );
+    dialog.setMimeFilter( QStringList() << kpatMimeType, kpatMimeType );
+    dialog.setConfirmOverwrite( true );
+    dialog.setCaption( i18n("Save") );
+    if ( dialog.exec() != KFileDialog::Accepted )
+        return;
+
+    KUrl url = dialog.selectedUrl();
     if ( url.isEmpty() )
         return;
 
