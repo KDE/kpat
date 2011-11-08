@@ -53,8 +53,6 @@
 #include <KMessageBox>
 #include <KRandom>
 #include <KSharedConfig>
-#include <KTemporaryFile>
-#include <KIO/NetAccess>
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QMutex>
@@ -63,9 +61,7 @@
 #include <QtCore/QThread>
 #include <QtCore/QTimer>
 #include <QtGui/QGraphicsSceneMouseEvent>
-#include <QtGui/QGraphicsView>
 #include <QtGui/QPainter>
-#include <QtGui/QStyleOptionGraphicsItem>
 #include <QtXml/QDomDocument>
 
 #include <cmath>
@@ -200,8 +196,10 @@ int DealerScene::moveCount() const
 }
 
 
-void DealerScene::saveGame(QDomDocument &doc)
+void DealerScene::saveGame( QIODevice * io )
 {
+    QDomDocument doc("kpat");
+
     QDomElement dealer = doc.createElement("dealer");
     doc.appendChild(dealer);
     dealer.setAttribute("id", gameId());
@@ -228,14 +226,21 @@ void DealerScene::saveGame(QDomDocument &doc)
             pile.appendChild(card);
         }
         dealer.appendChild(pile);
-     }
+    }
+
+    QTextStream stream( io );
+    stream.setCodec("UTF-8");
+    stream << doc.toString();
 
     d->gameWasJustSaved = true;
 }
 
-void DealerScene::openGame(QDomDocument &doc)
+void DealerScene::openGame( QIODevice * io )
 {
     resetInternals();
+
+    QDomDocument doc;
+    doc.setContent( io );
 
     QDomElement dealer = doc.documentElement();
 
@@ -1615,27 +1620,6 @@ void DealerScene::setDeckContents( int copies, const QList<KCardDeck::Suit> & su
     deck()->setDeckContents( ids );
 }
 
-
-QString DealerScene::save_it()
-{
-    // If the game has been won, there's no current state to save.
-    if ( d->gameHasBeenWon )
-        return QString();
-
-    KTemporaryFile file;
-    file.setAutoRemove(false);
-    file.open();
-    QDomDocument doc("kpat");
-    saveGame(doc);
-    QTextStream stream (&file);
-    stream << doc.toString();
-    stream.flush();
-    file.flush();
-    // .close will make fileName() return ""
-    QString filename = file.fileName();
-    file.close();
-    return filename;
-}
 
 QImage DealerScene::createDump() const
 {

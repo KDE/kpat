@@ -98,12 +98,6 @@ QString lowerAlphaNum( const QString & string )
     return result;
 }
 
-void saveGame(QString testdir, QString tmpFile, int dealer, int gameNumber, bool won)
-{
-    QFile f(tmpFile);
-    f.copy(testdir + "/" + QString("%1-%2-%3").arg(dealer).arg(gameNumber).arg(won ? "1" : "0"));
-}
-
 int main( int argc, char **argv )
 {
     KAboutData aboutData( "kpat",
@@ -206,7 +200,7 @@ int main( int argc, char **argv )
 
         DealerScene *f = getDealer( doc.documentElement().attribute("id").toInt() );
 
-        f->openGame( doc );
+        f->openGame( &of );
         f->solver()->translate_layout();
         int ret = f->solver()->patsolve();
         if ( ret == Solver::SolutionExists )
@@ -232,21 +226,24 @@ int main( int argc, char **argv )
                 if (f->deck()) f->deck()->stopAnimations();
                 int i = qrand() % INT_MAX;
                 f->startNew( i );
-                QString tmpfile = f->save_it();
                 mytime.start();
                 f->solver()->translate_layout();
                 int ret = f->solver()->patsolve();
                 if ( ret == Solver::SolutionExists ) {
                    fprintf( stdout, "%d: %d won (%d ms)\n", dealer, i, mytime.elapsed() );
                    count--;
-                   saveGame(testdir, tmpfile, dealer, i, true);
+                   QFile file(QString("%1/%2-%3-1").arg(testdir).arg(dealer).arg(i));
+                   file.open( QFile::WriteOnly );
+                   f->saveGame( &file );
                 }
                 else if ( ret == Solver::NoSolutionExists ) {
                    fprintf( stdout, "%d: %d lost (%d ms)\n", dealer, i, mytime.elapsed()  );
                    count--;
-                   saveGame(testdir, tmpfile, dealer, i, false);
+                   QFile file(QString("%1/%2-%3-0").arg(testdir).arg(dealer).arg(i));
+                   file.open( QFile::WriteOnly );
+                   f->saveGame( &file );
                 } else {
-		  fprintf( stdout, "%d: %d unknown (%d ms)\n", dealer, i, mytime.elapsed() );
+                   fprintf( stdout, "%d: %d unknown (%d ms)\n", dealer, i, mytime.elapsed() );
                 }
              }
           }

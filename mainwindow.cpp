@@ -80,9 +80,9 @@
 #include <QtCore/QList>
 #include <QtCore/QPointer>
 #include <QtCore/QTimer>
+#include <QtCore/QXmlStreamReader>
 #include <QtGui/QDesktopWidget>
 #include <QtGui/QStackedWidget>
-#include <QtXml/QDomDocument>
 
 
 MainWindow::MainWindow()
@@ -726,24 +726,21 @@ void MainWindow::saveNewToolbarConfig()
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
-    QFile savedState(KStandardDirs::locateLocal("appdata", saved_state_file));
-    if (savedState.exists())
-        savedState.remove();
-
     if ( m_dealer )
     {
+        QString stateFileName = KStandardDirs::locateLocal( "appdata", saved_state_file );
+        QFile stateFile( stateFileName );
+
         if ( Settings::rememberStateOnExit() )
         {
-            QString tempFile = m_dealer->save_it();
-            if ( !tempFile.isEmpty() )
-            {
-                QFile temp( tempFile );
-                temp.copy(savedState.fileName());
-                temp.remove();
-            }
+            stateFile.open( QFile::WriteOnly | QFile::Truncate );
+            m_dealer->saveGame( &stateFile );
         }
         else
         {
+            // If we're not going to save state, remove the state file, if any.
+            stateFile.remove();
+
             // If there's a game in progress and we aren't going to save it
             // then record its statistics, since the DealerScene will be destroyed
             // shortly.
@@ -801,71 +798,80 @@ void MainWindow::previousDeal()
 }
 
 
-bool MainWindow::openGame(const KUrl &url, bool addToRecentFiles)
+bool MainWindow::openGame( const KUrl & url, bool addToRecentFiles )
 {
-    QString error;
-    QString tmpFile;
-    if(KIO::NetAccess::download( url, tmpFile, this ))
+    KTemporaryFile tempFile;
+    QFile localFile;
+
+    if ( url.isLocalFile() )
     {
-        QFile of(tmpFile);
-        of.open(QIODevice::ReadOnly);
-        QDomDocument doc;
-
-        if (doc.setContent(&of, &error))
-        {
-            if (doc.documentElement().tagName() == "dealer")
-            {
-                int id = doc.documentElement().attribute("id").toInt();
-                if (m_dealer_map.contains(id))
-                {
-                    // Only ask for permission after we've determined the save game
-                    // file is good.
-                    if (!m_dealer || m_dealer->allowedToStartNewGame())
-                    {
-                        // If the file has a game number, then load it.
-                        // If it only contains an ID, just launch a new game with that ID.
-                        if (doc.documentElement().hasAttribute("number"))
-                        {
-                            setGameType( id );
-                            m_dealer->openGame(doc);
-                            setGameCaption();
-                        }
-                        else
-                        {
-                            slotGameSelected(id);
-                        }
-
-                        if ( addToRecentFiles )
-                            recent->addUrl(url);
-                    }
-                }
-                else
-                {
-                    error = i18n("The saved game is of an unknown type.");
-                }
-            }
-            else
-            {
-                error = i18n("The file is not a KPatience saved game.");
-            }
-        }
-        else
-        {
-            error = i18n("The following error occurred while reading the file:\n\"%1\"", error);
-        }
-
-        KIO::NetAccess::removeTempFile(tmpFile);
+        localFile.setFileName( url.toLocalFile() );
     }
     else
     {
-        error = i18n("Unable to load the saved game file.");
+        tempFile.open();
+        QString fileName = tempFile.fileName();
+        if( !KIO::NetAccess::download( url, fileName, this ) )
+        {
+            KMessageBox::error( this, i18n("Downloading file failed.") );
+            return false;
+        }
     }
 
-    if (!error.isEmpty())
-        KMessageBox::error(this, error);
 
-    return error.isEmpty();
+    QFile & file = url.isLocalFile() ? localFile : tempFile;
+    if ( !file.open( QIODevice::ReadOnly ) )
+    {
+        KMessageBox::error( this, i18n("Opening file failed.") );
+        return false;
+    }
+
+    QXmlStreamReader xml( &file );
+
+    while ( !xml.hasError() && xml.tokenType() != QXmlStreamReader::DTD )
+        xml.readNext();
+
+    QString dtdName = xml.dtdName().toString();
+
+    if ( !xml.readNextStartElement() )
+    {
+        KMessageBox::error( this, i18n("Error reading XML file: ") + xml.errorString() );
+        return false;
+    }
+
+    if ( dtdName != "kpat" || xml.name() != "dealer" )
+    {
+        KMessageBox::error( this, i18n("File is not a valid KPat save.") );
+        return false;
+    }
+
+    bool ok;
+    int gameId = xml.attributes().value("id").toString().toInt( &ok );
+    if ( !ok || !m_dealer_map.contains( gameId ) )
+    {
+        KMessageBox::error( this, i18n("Unrecognized game id.") );
+        return false;
+    }
+
+    // Only bother the user to ask for permission after we've determined the
+    // save game file is at least somewhat valid.
+    if ( m_dealer && !m_dealer->allowedToStartNewGame() )
+        return false;
+
+    xml.clear();
+    file.reset();
+
+    setGameType( gameId );
+    m_dealer->openGame( &file );
+
+    file.close();
+
+    if ( addToRecentFiles )
+        recent->addUrl( url );
+
+    return true;
 }
+
 
 void MainWindow::openGame()
 {
@@ -876,14 +882,42 @@ void MainWindow::openGame()
 
 void MainWindow::saveGame()
 {
-    if (m_dealer)
+    if ( !m_dealer )
+        return;
+
+    KUrl url = KFileDialog::getSaveUrl( KUrl("kfiledialog:///kpat") );
+    if ( url.isEmpty() )
+        return;
+
+    if ( url.isLocalFile() )
     {
-        KUrl url = KFileDialog::getSaveUrl(KUrl("kfiledialog:///kpat"));
-        QString tmpFile = m_dealer->save_it();
-        KIO::NetAccess::upload(tmpFile, url, this);
-        KIO::NetAccess::removeTempFile(tmpFile);
-        recent->addUrl(url);
+        QFile file( url.toLocalFile() );
+        if ( !file.open( QFile::WriteOnly ) )
+        {
+            KMessageBox::error( this, i18n("Error opening file for writing. Saving failed.") );
+            return;
+        }
+        m_dealer->saveGame( &file );
     }
+    else
+    {
+        KTemporaryFile tempFile;
+        if ( !tempFile.open() )
+        {
+            KMessageBox::error( this, i18n("Unable to create temporary file. Saving failed.") );
+            return;
+        }
+
+        m_dealer->saveGame( &tempFile );
+
+        if ( !KIO::NetAccess::upload( tempFile.fileName(), url, this ) )
+        {
+            KMessageBox::error( this, i18n("Error uploading file. Saving failed.") );
+            return;
+        }
+    }
+
+    recent->addUrl( url );
 }
 
 void MainWindow::showStats()
