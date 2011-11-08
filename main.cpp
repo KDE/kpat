@@ -303,7 +303,7 @@ int main( int argc, char **argv )
     MainWindow *w = new MainWindow;
     if (args->count())
     {
-        if (!w->openGame(args->url(0)))
+        if ( !w->loadGame( args->url( 0 ), true ) )
             w->slotShowGameSelectionScreen();
     }
     else if (indexMap.contains(gametype))
@@ -312,7 +312,7 @@ int main( int argc, char **argv )
     }
     else if (savedState.exists())
     {
-        if (!w->openGame(savedState.fileName(), false))
+        if ( !w->loadGame( savedState.fileName(), false ) )
             w->slotShowGameSelectionScreen();
     }
     else

@@ -65,14 +65,14 @@ public:
     ~MainWindow();
 
 public slots:
-    bool openGame(const KUrl &url, bool addToRecentFiles = true);
+    bool loadGame( const KUrl & url, bool addToRecentFiles = true );
     void slotShowGameSelectionScreen();
     void slotGameSelected(int id);
 
 protected slots:
     void newGame();
     void startRandom();
-    void openGame();
+    void loadGame();
     void restart();
     void newNumberedDeal();
     void startNumbered( int gameId, int dealNumber );

@@ -177,9 +177,9 @@ void MainWindow::setupActions()
     a->setShortcut( KShortcut( Qt::ControlModifier | Qt::Key_Minus ) );
     connect( a, SIGNAL(triggered(bool)), this, SLOT(previousDeal()) );
 
-    KStandardGameAction::load(this, SLOT(openGame()), actionCollection());
+    KStandardGameAction::load( this, SLOT(loadGame()), actionCollection() );
 
-    recent = KStandardGameAction::loadRecent(this, SLOT(openGame(KUrl)), actionCollection());
+    recent = KStandardGameAction::loadRecent( this, SLOT(loadGame(KUrl)), actionCollection() );
     recent->loadEntries(KGlobal::config()->group( QString() ));
 
     a = KStandardGameAction::saveAs(this, SLOT(saveGame()), actionCollection());
@@ -798,7 +798,7 @@ void MainWindow::previousDeal()
 }
 
 
-bool MainWindow::openGame( const KUrl & url, bool addToRecentFiles )
+bool MainWindow::loadGame( const KUrl & url, bool addToRecentFiles )
 {
     KTemporaryFile tempFile;
     QFile localFile;
@@ -873,11 +873,11 @@ bool MainWindow::openGame( const KUrl & url, bool addToRecentFiles )
 }
 
 
-void MainWindow::openGame()
+void MainWindow::loadGame()
 {
     KUrl url = KFileDialog::getOpenUrl(KUrl("kfiledialog:///kpat"));
     if (!url.isEmpty())
-        openGame(url);
+        loadGame( url, true );
 }
 
 void MainWindow::saveGame()
