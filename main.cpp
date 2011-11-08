@@ -317,7 +317,6 @@ int main( int argc, char **argv )
     {
         if (!w->openGame(savedState.fileName(), false))
             w->slotShowGameSelectionScreen();
-        savedState.remove();
     }
     else
     {
