@@ -4,6 +4,7 @@ include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/libkcardgame/include )
 
 add_subdirectory( icons )
 add_subdirectory( libkcardgame )
+add_subdirectory( mimetypes )
 add_subdirectory( previews )
 add_subdirectory( sounds )
 add_subdirectory( themes )
