@@ -29,6 +29,7 @@
 #include <cstdarg>
 #include <cstdlib>
 #include <cstring>
+#include <cassert>
 #include <sys/types.h>
 
 
@@ -105,6 +106,7 @@ bool Solver::recursive(POSITION *parent)
     /* Fill in the Possible array. */
 
     alln = get_possible_moves(&a, &numout);
+    assert(alln < MAXMOVES);
 
     if (alln == 0) {
         if ( isWon() ) {
