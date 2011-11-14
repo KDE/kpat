@@ -20,6 +20,7 @@
 #include "../gypsy.h"
 
 #include <KDebug>
+#include <assert.h>
 
 
 #define PRINT 0
@@ -362,14 +363,14 @@ int GypsySolver::get_possible_moves(int *a, int *numout)
                 mp->to = j;
                 mp->totype = W_Type;
                 mp->turn_index = -1;
-                if ( Wlen[i] > l+1 && DOWN( W[i][Wlen[i]-l-2] ) )
-                    mp->turn_index = 1;
-                if ( mp->turn_index > 0 )
-                    mp->pri = params[2];
-                else
-                    mp->pri = params[3];
+                mp->pri = params[3];
 		if (Wlen[i] >= 2+l) {
+		  assert(Wlen[i]-2-l >= 0);
 		  card_t card2 = W[i][Wlen[i]-2-l];
+		  if (DOWN(card2))  {
+		     mp->turn_index = 1;
+		     mp->pri = params[2];
+		  }
 		  if ( Wlen[i] >= l+2 && RANK( card ) == RANK( card2 ) - 1 &&
 		       COLOR( card ) != COLOR( card2 ) && !DOWN( card2 ) )
 		    {
@@ -390,12 +391,16 @@ int GypsySolver::get_possible_moves(int *a, int *numout)
 			mp->pri = ( int )qMin( qreal( 127. ), params[1] + qreal( l ) * params[5] / 10 );
 		    }
 		}
+
                 n++;
                 mp++;
+		// leave one for redeal
+		if (n >= MAXMOVES - 2)  goto redeal;
             }
         }
     }
 
+redeal:
     if ( Wlen[deck] )
     {
         /* check for redeal */
@@ -409,6 +414,7 @@ int GypsySolver::get_possible_moves(int *a, int *numout)
         mp++;
     }
 
+    assert(n < MAXMOVES);
     return n;
 }
 
