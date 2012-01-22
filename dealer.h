@@ -102,6 +102,9 @@ public:
     Solver * solver() const;
     void startSolver() const;
 
+    virtual bool isGameLost() const;
+    virtual bool isGameWon() const;
+
     bool allowedToStartNewGame();
     int moveCount() const;
 
@@ -158,9 +161,6 @@ protected:
     virtual void restart( const QList<KCard*> & cards ) = 0;
 
     void setSolver( Solver * solver );
-
-    virtual bool isGameLost() const;
-    virtual bool isGameWon() const;
 
     virtual QList<MoveHint> getHints();
 
