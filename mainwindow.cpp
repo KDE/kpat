@@ -733,21 +733,21 @@ void MainWindow::saveNewToolbarConfig()
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
+    QString stateFileName = KStandardDirs::locateLocal( "appdata", saved_state_file );
+    QFile stateFile( stateFileName );
+
+    // Remove the existing state file, if any.
+    stateFile.remove();
+    
     if ( m_dealer )
     {
-        QString stateFileName = KStandardDirs::locateLocal( "appdata", saved_state_file );
-        QFile stateFile( stateFileName );
-
-        if ( Settings::rememberStateOnExit() )
+        if ( Settings::rememberStateOnExit() && !m_dealer->isGameWon() )
         {
             stateFile.open( QFile::WriteOnly | QFile::Truncate );
             m_dealer->saveGame( &stateFile );
         }
         else
         {
-            // If we're not going to save state, remove the state file, if any.
-            stateFile.remove();
-
             // If there's a game in progress and we aren't going to save it
             // then record its statistics, since the DealerScene will be destroyed
             // shortly.
