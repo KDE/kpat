@@ -60,6 +60,7 @@
 #include <QtCore/QString>
 #include <QtCore/QThread>
 #include <QtCore/QTimer>
+#include <QtCore/QXmlStreamWriter>
 #include <QtGui/QGraphicsSceneMouseEvent>
 #include <QtGui/QPainter>
 #include <QtXml/QDomDocument>
@@ -217,39 +218,40 @@ int DealerScene::moveCount() const
 
 void DealerScene::saveGame( QIODevice * io )
 {
-    QDomDocument doc("kpat");
+    QXmlStreamWriter xml( io );
+    xml.setCodec( "UTF-8" );
+    xml.setAutoFormatting( true );
+    xml.setAutoFormattingIndent( -1 );
+    xml.writeStartDocument();
+    xml.writeDTD( "<!DOCTYPE kpat>" );
 
-    QDomElement dealer = doc.createElement("dealer");
-    doc.appendChild(dealer);
-    dealer.setAttribute("id", gameId());
-    dealer.setAttribute("options", getGameOptions());
-    dealer.setAttribute("number", QString::number(gameNumber()));
-    dealer.setAttribute("moves", moveCount());
-    dealer.setAttribute("started", d->gameStarted);
-    QString data = getGameState();
-    if (!data.isEmpty())
-        dealer.setAttribute("data", data);
+    xml.writeStartElement( "dealer" );
+    xml.writeAttribute( "id", QString::number( gameId() ) );
+    xml.writeAttribute( "options", getGameOptions() );
+    xml.writeAttribute( "number", QString::number( gameNumber() ) );
+    xml.writeAttribute( "moves", QString::number( moveCount() ) );
+    xml.writeAttribute( "started", QString::number( d->gameStarted ) );
+    xml.writeAttribute( "data", getGameState() );
 
-    foreach( PatPile * p, patPiles() )
+    foreach( const PatPile * p, patPiles() )
     {
-        QDomElement pile = doc.createElement("pile");
-        pile.setAttribute("index", p->index());
-        pile.setAttribute("z", p->zValue());
+        xml.writeStartElement( "pile" );
+        xml.writeAttribute( "index", QString::number( p->index() ) );
+        xml.writeAttribute( "z", QString::number( p->zValue() ) );
 
-        foreach(const KCard * c, p->cards() )
+        foreach( const KCard * c, p->cards() )
         {
-            QDomElement card = doc.createElement("card");
-            card.setAttribute("suit", c->suit());
-            card.setAttribute("value", c->rank());
-            card.setAttribute("faceup", c->isFaceUp());
-            pile.appendChild(card);
+            xml.writeStartElement( "card" );
+            xml.writeAttribute( "suit", QString::number( c->suit() ) );
+            xml.writeAttribute( "value", QString::number( c->rank() ) );
+            xml.writeAttribute( "faceup", QString::number( c->isFaceUp() ) );
+            xml.writeAttribute( "z", QString::number( c->zValue() ) );
+            xml.writeEndElement();
         }
-        dealer.appendChild(pile);
+        xml.writeEndElement();
     }
-
-    QTextStream stream( io );
-    stream.setCodec("UTF-8");
-    stream << doc.toString();
+    xml.writeEndElement();
+    xml.writeEndDocument();
 
     d->gameWasJustSaved = true;
 }
