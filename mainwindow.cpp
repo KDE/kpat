@@ -871,7 +871,12 @@ bool MainWindow::loadGame( const KUrl & url, bool addToRecentFiles )
     file.reset();
 
     setGameType( gameId );
-    m_dealer->openGame( &file );
+    if ( !m_dealer->openGame( &file ) )
+    {
+        KMessageBox::error( this, i18n("Errors encountered while parsing file.") );
+        slotShowGameSelectionScreen();
+        return false;
+    }
 
     file.close();
 

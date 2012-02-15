@@ -60,10 +60,9 @@
 #include <QtCore/QString>
 #include <QtCore/QThread>
 #include <QtCore/QTimer>
+#include <QtCore/QXmlStreamReader>
 #include <QtCore/QXmlStreamWriter>
 #include <QtGui/QGraphicsSceneMouseEvent>
-#include <QtGui/QPainter>
-#include <QtXml/QDomDocument>
 
 #include <cmath>
 
@@ -110,6 +109,12 @@ namespace
         default:
             return QString();
         }
+    }
+
+    int readIntAttribute( const QXmlStreamReader & xml, const QString & key, bool * ok = 0 )
+    {
+        QStringRef value = xml.attributes().value( key );
+        return QString::fromRawData( value.data(), value.length() ).toInt( ok );
     }
 }
 
@@ -256,80 +261,113 @@ void DealerScene::saveGame( QIODevice * io )
     d->gameWasJustSaved = true;
 }
 
-void DealerScene::openGame( QIODevice * io )
+bool DealerScene::openGame( QIODevice * io )
 {
     resetInternals();
 
-    QDomDocument doc;
-    doc.setContent( io );
+    QXmlStreamReader xml( io );
 
-    QDomElement dealer = doc.documentElement();
-
-    QString options = dealer.attribute("options");
+    xml.readNextStartElement();
 
     // Before KDE4.3, KPat didn't store game specific options in the save
     // file. This could cause crashes when loading a Spider game with a
-    // different number of suits than the current setting. Similarly, in 
+    // different number of suits than the current setting. Similarly, in
     // Klondike the number of cards drawn from the deck was forgotten, but
     // this never caused crashes. Fortunately, in Spider we can count the
     // number of suits ourselves. For Klondike, there is no way to recover
     // that information.
-    if (gameId() == 17 && options.isEmpty())
+    QString options = xml.attributes().value( "options" ).toString();
+    if ( gameId() == 17 && options.isEmpty() )
     {
         QSet<int> suits;
-        QDomNodeList cardElements = dealer.elementsByTagName("card");
-        for (int i = 0; i < cardElements.count(); ++i)
-            suits.insert(cardElements.item(i).toElement().attribute("suit").toInt());
-        options = QString::number(suits.count());
+        while ( !xml.atEnd() )
+            if ( xml.readNextStartElement() && xml.name() == "card" )
+                suits << readIntAttribute( xml, "suit" );
+        options = QString::number( suits.size() );
+
+        // "Rewind" back to the <dealer> tag. Yes, this is ugly.
+        xml.clear();
+        io->reset();
+        xml.setDevice( io );
+        xml.readNextStartElement();
     }
+    setGameOptions( options );
 
-    setGameOptions(options);
-    d->gameNumber = dealer.attribute("number").toInt();
-    d->loadedMoveCount = dealer.attribute("moves").toInt();
-    d->gameStarted = bool(dealer.attribute("started").toInt());
-
-    QDomNodeList pileNodes = dealer.elementsByTagName("pile");
+    d->gameNumber = readIntAttribute( xml, "number" );
+    d->loadedMoveCount = readIntAttribute( xml, "moves" );
+    d->gameStarted = readIntAttribute( xml, "started" );
+    QString gameStateData = xml.attributes().value( "data" ).toString();
 
     QMultiHash<quint32,KCard*> cards;
     foreach ( KCard * c, deck()->cards() )
         cards.insert( (c->id() & 0xffff), c );
 
-    foreach (PatPile *p, patPiles())
-    {
-        p->clear();
-        for (int i = 0; i < pileNodes.count(); ++i)
-        {
-            QDomElement pile = pileNodes.item(i).toElement();
-            if (pile.attribute("index").toInt() == p->index())
-            {
-                QDomNodeList cardNodes = pile.elementsByTagName("card");
-                for (int j = 0; j < cardNodes.count(); ++j)
-                {
-                    QDomElement card = cardNodes.item(j).toElement();
-                    int s = card.attribute("suit").toInt();
-                    int r = card.attribute("value").toInt();
-                    
-                    KCard * c = cards.take( ( s << 8 ) + r );
-                    if (!c)
-                        continue;
+    QHash<int,PatPile*> piles;
+    foreach ( PatPile * p, patPiles() )
+        piles.insert( p->index(), p );
 
-                    c->setFaceUp(card.attribute("faceup").toInt());
-                    p->add(c);
-                }
-                break;
+    // Loop through <pile>s.
+    while ( xml.readNextStartElement() )
+    {
+        if ( xml.name() != "pile" )
+        {
+            kWarning() << "Expected a \"pile\" tag. Found a" << xml.name() << "tag.";
+            return false;
+        }
+
+        bool ok;
+        int index = readIntAttribute( xml, "index", &ok );
+        QHash<int,PatPile*>::const_iterator it = piles.find( index );
+        if ( !ok || it == piles.constEnd() )
+        {
+            kWarning() << "Unrecognized pile index:" << xml.attributes().value( "index" );
+            return false;
+        }
+
+        PatPile * p = it.value();
+        p->clear();
+
+        // Loop through <card>s.
+        while ( xml.readNextStartElement() )
+        {
+            if ( xml.name() != "card" )
+            {
+                kWarning() << "Expected a \"card\" tag. Found a" << xml.name() << "tag.";
+                return false;
             }
+            
+            bool suitOk, rankOk, faceUpOk;
+            int suit = readIntAttribute( xml, "suit", &suitOk );
+            int rank = readIntAttribute( xml, "value", &rankOk );
+            bool faceUp = readIntAttribute( xml, "faceup", &faceUpOk );
+            
+            quint32 id = KCardDeck::getId( KCardDeck::Suit( suit ), KCardDeck::Rank( rank ), 0 );
+            KCard * card = cards.take( id );
+
+            if ( !suitOk || !rankOk || !faceUpOk || !card )
+            {
+                kWarning() << "Unrecognized card: suit=" << xml.attributes().value("suit")
+                           << " value=" << xml.attributes().value("value")
+                           << " faceup=" << xml.attributes().value("faceup");
+                return false;
+            }
+
+            card->setFaceUp( faceUp );
+            p->add( card );
+
+            xml.skipCurrentElement();
         }
         updatePileLayout( p, 0 );
     }
-    setGameState( dealer.attribute("data") );
 
-    emit updateMoves( moveCount());
+    setGameState( gameStateData );
 
+
+    emit updateMoves( moveCount() );
     takeState();
-}
 
-// ================================================================
-//                         class DealerScene
+    return true;
+}
 
 
 DealerScene::DealerScene()

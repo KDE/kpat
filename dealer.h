@@ -110,7 +110,7 @@ public:
     int moveCount() const;
 
     void saveGame( QIODevice * io );
-    void openGame( QIODevice * io );
+    bool openGame( QIODevice * io );
     virtual void mapOldId(int id);
     virtual int oldId() const;
     void recordGameStatistics();
