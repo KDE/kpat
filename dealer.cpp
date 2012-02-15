@@ -444,12 +444,17 @@ void DealerScene::saveGameHistory( QIODevice * io )
     for ( int i = d->redoStack.size() - 1; i >= 0; --i )
         allStates << d->redoStack.at( i );
 
+    QString lastGameSpecificState;
+
     for ( int i = 0; i < allStates.size(); ++i )
     {
         const GameState * state = allStates.at( i );
         xml.writeStartElement( "state" );
-        if ( !state->stateData.isEmpty() )
+        if ( state->stateData != lastGameSpecificState )
+        {
             xml.writeAttribute( "game-specific-state", state->stateData );
+            lastGameSpecificState = state->stateData;
+        }
         if ( i == d->undoStack.size() )
             xml.writeAttribute( "current", "true" );
 
@@ -503,7 +508,6 @@ bool DealerScene::loadGameHistory( QIODevice * io )
     }
 
     d->gameNumber = readIntAttribute( xml, "deal-number" );
-
     setGameOptions( xml.attributes().value( "game-type-options" ).toString() );
 
     QMultiHash<quint32,KCard*> cardHash;
@@ -524,7 +528,8 @@ bool DealerScene::loadGameHistory( QIODevice * io )
             return false;
         }
 
-        setGameState( xml.attributes().value( "game-specific-state" ).toString() );
+        if ( xml.attributes().hasAttribute( "game-specific-state" ) )
+            setGameState( xml.attributes().value( "game-specific-state" ).toString() );
 
         if ( undosToDo > -1 )
             ++undosToDo;
