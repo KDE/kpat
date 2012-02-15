@@ -936,42 +936,43 @@ void MainWindow::saveGame()
     KUrl url = dialog.selectedUrl();
     if ( url.isEmpty() )
         return;
-
-    KMimeType::Ptr mimeType = dialog.currentFilterMimeType();
-
+    
+    QFile localFile;
+    KTemporaryFile tempFile;
     if ( url.isLocalFile() )
     {
-        QFile file( url.toLocalFile() );
-        if ( !file.open( QFile::WriteOnly ) )
+        localFile.setFileName( url.toLocalFile() );
+        if ( !localFile.open( QFile::WriteOnly ) )
         {
             KMessageBox::error( this, i18n("Error opening file for writing. Saving failed.") );
             return;
         }
-
-        if ( mimeType->is( legacySaveFileMimeType ) )
-            m_dealer->saveLegacyFile( &file );
-        else
-            m_dealer->saveFile( &file );
     }
     else
     {
-        KTemporaryFile tempFile;
         if ( !tempFile.open() )
         {
             KMessageBox::error( this, i18n("Unable to create temporary file. Saving failed.") );
             return;
         }
+    }
+    QFile & file = url.isLocalFile() ? localFile : tempFile;
 
-        if ( mimeType->is( legacySaveFileMimeType ) )
-            m_dealer->saveLegacyFile( &tempFile );
-        else
-            m_dealer->saveFile( &tempFile );
+    if ( dialog.currentFilterMimeType()->is( legacySaveFileMimeType ) )
+    {
+        m_dealer->saveLegacyFile( &file );
+    }
+    else
+    {
+        m_dealer->saveFile( &file );
+    }
 
-        if ( !KIO::NetAccess::upload( tempFile.fileName(), url, this ) )
-        {
-            KMessageBox::error( this, i18n("Error uploading file. Saving failed.") );
-            return;
-        }
+    file.close();
+
+    if ( !url.isLocalFile() && !KIO::NetAccess::upload( file.fileName(), url, this ) )
+    {
+        KMessageBox::error( this, i18n("Error uploading file. Saving failed.") );
+        return;
     }
 
     m_recentFilesAction->addUrl( url );
