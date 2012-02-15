@@ -167,7 +167,7 @@ int main( int argc, char **argv )
         const QString translatedKey = lowerAlphaNum( localizedKey.toString( tmpLocale ) );
         gameList << translatedKey;
         indexMap.insert( translatedKey, di->baseId() );
-        indexMap.insert( lowerAlphaNum( QString::fromUtf8( di->untranslatedBaseName() ) ), di->baseId() );
+        indexMap.insert( di->baseIdString(), di->baseId() );
     }
     gameList.sort();
     const QString listSeparator = ki18nc( "List separator", ", " ).toString( tmpLocale );

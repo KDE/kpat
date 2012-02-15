@@ -46,6 +46,14 @@ DealerInfo::DealerInfo( const QByteArray & untranslatedBaseName, int baseId )
     m_baseId( baseId )
 {
     DealerInfoList::self()->add( this );
+
+    QString baseName = QString::fromUtf8( m_baseName );
+    for ( int i = 0; i < baseName.size(); ++i )
+    {
+        QChar c = baseName.at( i );
+        if ( c.isLetterOrNumber() )
+            m_baseIdString += c.toLower();
+    }
 }
 
 
@@ -63,6 +71,12 @@ QString DealerInfo::baseName() const
 QByteArray DealerInfo::untranslatedBaseName() const
 {
     return m_baseName;
+}
+
+
+QString DealerInfo::baseIdString() const
+{
+    return m_baseIdString;
 }
 
 

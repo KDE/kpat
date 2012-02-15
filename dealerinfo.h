@@ -45,6 +45,7 @@ class Solver;
 #include <QtCore/QByteArray>
 #include <QtCore/QList>
 #include <QtCore/QMap>
+#include <QtCore/QString>
 
 
 class DealerInfo
@@ -76,6 +77,7 @@ public:
 
     QString baseName() const;
     QByteArray untranslatedBaseName() const;
+    QString baseIdString() const;
     int baseId() const;
 
     void addSubtype( int id, const QByteArray & untranslatedName );
@@ -89,6 +91,7 @@ public:
 
 protected:
     QByteArray m_baseName;
+    QString m_baseIdString;
     int m_baseId;
 
     QMap<int,QByteArray> m_subtypes;
