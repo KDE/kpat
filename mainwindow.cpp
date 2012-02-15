@@ -88,7 +88,8 @@
 namespace
 {
     const KUrl dialogUrl( "kfiledialog:///kpat" );
-    const QString kpatMimeType( "application/vnd.kde.kpatience.savedstate" );
+    const QString savedStateMimeType( "application/vnd.kde.kpatience.savedstate" );
+    const QString savedGameMimeType( "application/vnd.kde.kpatience.savedgame" );    
 }
 
 
@@ -891,17 +892,15 @@ void MainWindow::loadGame()
 {
     KFileDialog dialog( dialogUrl, "", this, 0 );
     dialog.setOperationMode( KFileDialog::Opening );
-    dialog.setMimeFilter( QStringList() << kpatMimeType << "all/allfiles", kpatMimeType );
+    dialog.setMimeFilter( QStringList() << savedStateMimeType << savedGameMimeType << "all/allfiles" );
     dialog.setCaption( i18n("Load") );
 
-    if ( dialog.exec() != KFileDialog::Accepted )
-        return;
-
-    KUrl url = dialog.selectedUrl();
-    if ( url.isEmpty() )
-        return;
-
-    loadGame( url, true );
+    if ( dialog.exec() == KFileDialog::Accepted )
+    {
+        KUrl url = dialog.selectedUrl();
+        if ( !url.isEmpty() )
+            loadGame( url, true );
+    }
 }
 
 void MainWindow::saveGame()
@@ -911,7 +910,7 @@ void MainWindow::saveGame()
 
     KFileDialog dialog( dialogUrl, "", this, 0 );
     dialog.setOperationMode( KFileDialog::Saving );
-    dialog.setMimeFilter( QStringList() << kpatMimeType, kpatMimeType );
+    dialog.setMimeFilter( QStringList() << savedStateMimeType << savedGameMimeType, savedGameMimeType );
     dialog.setConfirmOverwrite( true );
     dialog.setCaption( i18n("Save") );
     if ( dialog.exec() != KFileDialog::Accepted )
