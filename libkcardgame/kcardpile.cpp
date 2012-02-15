@@ -418,11 +418,11 @@ bool KCardPile::isHighlighted() const
 
 void KCardPile::add( KCard * card )
 {
-    insert( card, d->cards.size() );
+    insert( d->cards.size(), card );
 }
 
 
-void KCardPile::insert( KCard * card, int index )
+void KCardPile::insert( int index, KCard * card )
 {
     if ( card->scene() != scene() )
         scene()->addItem( card );

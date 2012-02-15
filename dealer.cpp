@@ -576,7 +576,7 @@ bool DealerScene::loadGameHistory( QIODevice * io )
                 else if ( xml.attributes().value("turn") == "face-down" )
                     card->setFaceUp( false );
                 
-                pile->insert( card, index );
+                pile->insert( index, card );
 
                 ++index;
                 xml.skipCurrentElement();
@@ -1268,7 +1268,7 @@ void DealerScene::undoOrRedo( bool undo )
                 d->cardStates.insert( c, destState );
 
                 c->setFaceUp( destState.faceUp );
-                destState.pile->insert( c, destState.index );
+                destState.pile->insert( destState.index, c );
 
                 if ( notDroppable )
                     d->cardsNotToDrop.insert( c );

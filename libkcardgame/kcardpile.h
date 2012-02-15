@@ -130,7 +130,7 @@ public:
     bool isHighlighted() const;
 
     void add( KCard * card );
-    virtual void insert( KCard * card, int index );
+    virtual void insert( int index, KCard * card );
     virtual void remove( KCard * card );
     void clear();
     void swapCards( int index1, int index2 );
