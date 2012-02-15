@@ -64,7 +64,6 @@
 #include <KFileDialog>
 #include <KGlobal>
 #include <KIcon>
-#include <KInputDialog>
 #include <KLocale>
 #include <KMessageBox>
 #include <KRandom>
@@ -82,7 +81,6 @@
 #include <QtCore/QTimer>
 #include <QtCore/QXmlStreamReader>
 #include <QtGui/QDesktopWidget>
-#include <QtGui/QStackedWidget>
 
 
 namespace
@@ -809,28 +807,18 @@ void MainWindow::previousDeal()
 
 bool MainWindow::loadGame( const KUrl & url, bool addToRecentFiles )
 {
-    // Some trickery to be able to use the same code to handle local and remote files.
-    KTemporaryFile tempFile;
-    QFile localFile;
-    if ( url.isLocalFile() )
+    QString fileName;
+    if( !KIO::NetAccess::download( url, fileName, this ) )
     {
-        localFile.setFileName( url.toLocalFile() );
+        KMessageBox::error( this, i18n("Downloading file failed.") );
+        return false;
     }
-    else
-    {
-        tempFile.open();
-        QString fileName = tempFile.fileName();
-        if( !KIO::NetAccess::download( url, fileName, this ) )
-        {
-            KMessageBox::error( this, i18n("Downloading file failed.") );
-            return false;
-        }
-    }
-    QFile & file = url.isLocalFile() ? localFile : tempFile;
-    
+    QFile file( fileName );
+
     if ( !file.open( QIODevice::ReadOnly ) )
     {
         KMessageBox::error( this, i18n("Opening file failed.") );
+        KIO::NetAccess::removeTempFile( fileName );
         return false;
     }
 
@@ -838,6 +826,7 @@ bool MainWindow::loadGame( const KUrl & url, bool addToRecentFiles )
     if ( !xml.readNextStartElement() )
     {
         KMessageBox::error( this, i18n("Error reading XML file: ") + xml.errorString() );
+        KIO::NetAccess::removeTempFile( fileName );
         return false;
     }
 
@@ -868,34 +857,43 @@ bool MainWindow::loadGame( const KUrl & url, bool addToRecentFiles )
     else
     {
         KMessageBox::error( this, i18n("XML file is not a KPat save.") );
+        KIO::NetAccess::removeTempFile( fileName );
         return false;
     }
 
     if ( !m_dealer_map.contains( gameId ) )
     {
         KMessageBox::error( this, i18n("Unrecognized game id.") );
+        KIO::NetAccess::removeTempFile( fileName );
         return false;
     }
 
     // Only bother the user to ask for permission after we've determined the
     // save game file is at least somewhat valid.
     if ( m_dealer && !m_dealer->allowedToStartNewGame() )
+    {
+        KIO::NetAccess::removeTempFile( fileName );
         return false;
+    }
 
     setGameType( gameId );
-    
+
     xml.clear();
     file.reset();
 
     bool success = isLegacyFile ? m_dealer->loadLegacyFile( &file )
                                 : m_dealer->loadFile( &file );
+
+    file.close();
+    KIO::NetAccess::removeTempFile( fileName );
+
     if ( !success )
     {
         KMessageBox::error( this, i18n("Errors encountered while parsing file.") );
         slotShowGameSelectionScreen();
         return false;
     }
-    
+
     setGameCaption();
 
     if ( addToRecentFiles )
@@ -936,7 +934,7 @@ void MainWindow::saveGame()
     KUrl url = dialog.selectedUrl();
     if ( url.isEmpty() )
         return;
-    
+
     QFile localFile;
     KTemporaryFile tempFile;
     if ( url.isLocalFile() )
