@@ -38,8 +38,8 @@
 #ifndef DEALER_H
 #define DEALER_H
 
-class DealerScene;
 class CardDiff;
+class DealerInfo;
 class GameState;
 class MoveHint;
 #include "patpile.h"
@@ -62,7 +62,7 @@ class DealerScene : public KCardScene
 public:
     enum { None = 0, Hint = 1, Demo = 2, Draw = 4, Deal = 8, Redeal = 16 } Actions;
 
-    DealerScene();
+    DealerScene( const DealerInfo * di );
     ~DealerScene();
 
     virtual void initialize() = 0;
@@ -79,7 +79,6 @@ public:
 
     int gameNumber() const;
 
-    void setGameId( int id );
     int gameId() const;
 
     void setActions( int actions );
@@ -223,6 +222,8 @@ private:
                            QList<KCardPile*> freePiles,
                            const QList<KCardPile*> & freeCells );
     void continueMultiStepMove();
+
+    const DealerInfo * const m_di;
 
     class DealerScenePrivate;
     DealerScenePrivate *d;

@@ -42,6 +42,13 @@
 
 #include <KLocale>
 
+
+Gypsy::Gypsy( const DealerInfo * di )
+  : DealerScene( di )
+{
+}
+
+
 void Gypsy::initialize()
 {
     const qreal dist_x = 1.11;
@@ -172,7 +179,7 @@ public:
 
     virtual DealerScene *createGame() const
     {
-        return new Gypsy();
+        return new Gypsy( this );
     }
 } gypsyDealerInfo;
 

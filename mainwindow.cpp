@@ -518,7 +518,6 @@ void MainWindow::setGameType(int id)
     m_dealer = di->createGame();
     m_dealer->setDeck( m_cardDeck );
     m_dealer->initialize();
-    m_dealer->setGameId( di->baseId() );
     m_dealer->mapOldId( id );
     m_dealer->setSolverEnabled( m_solverEnabledAction->isChecked() );
     m_dealer->setAutoDropEnabled( m_autoDropEnabledAction->isChecked() );

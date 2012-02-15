@@ -44,6 +44,12 @@
 #include <KLocale>
 
 
+Fortyeight::Fortyeight( const DealerInfo* di )
+  : DealerScene( di )
+{
+}
+
+
 void Fortyeight::initialize()
 {
     const qreal dist_x = 1.11;
@@ -248,7 +254,7 @@ public:
 
     virtual DealerScene *createGame() const
     {
-        return new Fortyeight();
+        return new Fortyeight( this );
     }
 } fortyEightDealerInfo;
 

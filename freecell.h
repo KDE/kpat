@@ -46,6 +46,7 @@ class Freecell : public DealerScene
     Q_OBJECT
 
 public:
+    Freecell( const DealerInfo * di );
     virtual void initialize();
 
 protected:

@@ -44,8 +44,8 @@ class Gypsy : public DealerScene
     Q_OBJECT
 
 public:
+    Gypsy( const DealerInfo * di );
     virtual void initialize();
-
 
 protected:
     virtual void setGameState( const QString & state );

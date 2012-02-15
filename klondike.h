@@ -48,6 +48,7 @@ class Klondike : public DealerScene
     Q_OBJECT
 
 public:
+    Klondike( const DealerInfo * di );
     virtual void initialize();
     virtual void mapOldId(int id);
     virtual int oldId() const;

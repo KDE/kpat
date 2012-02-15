@@ -43,6 +43,12 @@
 #include <KLocale>
 
 
+Golf::Golf( const DealerInfo * di )
+  : DealerScene( di )
+{
+}
+
+
 void Golf::initialize()
 {
     const qreal dist_x = 1.11;
@@ -173,7 +179,7 @@ public:
 
     virtual DealerScene *createGame() const
     {
-        return new Golf();
+        return new Golf( this );
     }
 } golfDealerInfo;
 

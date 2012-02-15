@@ -43,6 +43,12 @@
 #include <KLocale>
 
 
+Yukon::Yukon( const DealerInfo * di )
+  : DealerScene( di )
+{
+}
+
+
 void Yukon::initialize()
 {
     const qreal dist_x = 1.11;
@@ -128,7 +134,7 @@ public:
 
     virtual DealerScene *createGame() const
     {
-        return new Yukon();
+        return new Yukon( this );
     }
 } yukonDealerInfo;
 

@@ -79,6 +79,13 @@ QList<QPointF> KlondikePile::cardPositions() const
     return positions;
 }
 
+
+Klondike::Klondike( const DealerInfo * di )
+  : DealerScene( di )
+{
+}
+
+
 void Klondike::initialize()
 {
     // The units of the follwoing constants are pixels
@@ -346,7 +353,7 @@ public:
 
     virtual DealerScene *createGame() const
     {
-        return new Klondike();
+        return new Klondike( this );
     }
 } klondikeDealerInfo;
 

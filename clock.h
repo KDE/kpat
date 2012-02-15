@@ -44,6 +44,7 @@ class Clock : public DealerScene
     Q_OBJECT
 
 public:
+    Clock( const DealerInfo * di );
     virtual void initialize();
 
 protected:

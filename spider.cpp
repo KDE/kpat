@@ -65,6 +65,12 @@ protected:
 };
 
 
+Spider::Spider( const DealerInfo * di )
+  : DealerScene( di )
+{
+}
+
+
 void Spider::initialize()
 {
     m_leg = 0;
@@ -480,7 +486,7 @@ public:
 
     virtual DealerScene *createGame() const
     {
-        return new Spider();
+        return new Spider( this );
     }
 } spideDealerInfo;
 

@@ -46,6 +46,7 @@ class Grandf : public DealerScene
     Q_OBJECT
 
 public:
+    Grandf( const DealerInfo * di );
     virtual void initialize();
 
 protected:

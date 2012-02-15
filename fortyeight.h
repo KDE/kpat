@@ -44,6 +44,7 @@ class Fortyeight : public DealerScene
     Q_OBJECT
 
 public:
+    Fortyeight( const DealerInfo * di );
     virtual void initialize();
 
 protected:

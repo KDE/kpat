@@ -45,6 +45,7 @@ class Idiot: public DealerScene
     Q_OBJECT
 
 public:
+    Idiot( const DealerInfo * di );
     virtual void initialize();
     virtual bool isGameWon() const;
 

@@ -37,6 +37,7 @@
 
 #include "dealer.h"
 
+#include "dealerinfo.h"
 #include "gamestate.h"
 #include "messagebox.h"
 #include "renderer.h"
@@ -207,7 +208,6 @@ private:
 class DealerScene::DealerScenePrivate
 {
 public:
-    int gameId;
     int gameNumber;
 
     bool autodropEnabled;
@@ -592,7 +592,8 @@ bool DealerScene::loadGameHistory( QIODevice * io )
 }
 
 
-DealerScene::DealerScene()
+DealerScene::DealerScene( const DealerInfo * di )
+  : m_di( di )
 {
     setItemIndexMethod(QGraphicsScene::NoIndex);
 
@@ -1868,18 +1869,47 @@ void DealerScene::relayoutScene()
         updateWonItem();
 }
 
-void DealerScene::setGameId(int id) { d->gameId = id; }
-int DealerScene::gameId() const { return d->gameId; }
 
-void DealerScene::setActions(int actions) { d->actions = actions; }
-int DealerScene::actions() const { return d->actions; }
+int DealerScene::gameId() const
+{
+    return m_di->baseId();    
+}
 
-QList<QAction*> DealerScene::configActions() const { return QList<QAction*>(); }
 
-Solver *DealerScene::solver() const { return d->solver; }
+void DealerScene::setActions( int actions )
+{
+    d->actions = actions;
+}
 
-int DealerScene::neededFutureMoves() const { return d->neededFutureMoves; }
-void DealerScene::setNeededFutureMoves( int i ) { d->neededFutureMoves = i; }
+
+int DealerScene::actions() const
+{
+    return d->actions;
+}
+
+
+QList<QAction*> DealerScene::configActions() const
+{
+    return QList<QAction*>();
+}
+
+
+Solver * DealerScene::solver() const
+{
+    return d->solver;
+}
+
+
+int DealerScene::neededFutureMoves() const
+{
+    return d->neededFutureMoves;
+}
+
+
+void DealerScene::setNeededFutureMoves( int i )
+{
+    d->neededFutureMoves = i;
+}
 
 
 void DealerScene::setDeckContents( int copies, const QList<KCardDeck::Suit> & suits )

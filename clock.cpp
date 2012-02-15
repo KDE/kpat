@@ -42,6 +42,11 @@
 #include <KLocale>
 
 
+Clock::Clock( const DealerInfo * di )
+  : DealerScene( di )
+{
+}
+
 void Clock::initialize()
 {
     setSceneAlignment( AlignHCenter | AlignVCenter );
@@ -152,7 +157,7 @@ public:
 
     virtual DealerScene *createGame() const
     {
-        return new Clock();
+        return new Clock( this );
     }
 } clockDealerInfo;
 

@@ -44,6 +44,7 @@ class Simon : public DealerScene
     Q_OBJECT
 
 public:
+    Simon( const DealerInfo * di );
     virtual void initialize();
 
 protected:

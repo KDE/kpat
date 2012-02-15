@@ -46,6 +46,7 @@ class Yukon : public DealerScene
     Q_OBJECT
 
 public:
+    Yukon( const DealerInfo * di );
     virtual void initialize();
 
 public slots:

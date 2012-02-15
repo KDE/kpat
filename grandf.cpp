@@ -45,6 +45,12 @@
 #include <KLocale>
 
 
+Grandf::Grandf( const DealerInfo * di )
+  : DealerScene( di )
+{
+}
+
+
 void Grandf::initialize()
 {
     setDeckContents();
@@ -196,7 +202,7 @@ public:
 
     virtual DealerScene *createGame() const
     {
-        return new Grandf();
+        return new Grandf( this );
     }
 } grandfDealerInfo;
 

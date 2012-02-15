@@ -43,6 +43,12 @@
 #include <KLocale>
 
 
+Mod3::Mod3( const DealerInfo * di )
+  : DealerScene( di )
+{
+}
+
+
 void Mod3::initialize()
 {
     // Piles are placed very close together. Set layoutSpacing to 0 to prevent
@@ -234,7 +240,7 @@ public:
 
     virtual DealerScene *createGame() const
     {
-        return new Mod3();
+        return new Mod3( this );
     }
 } mod3DealerInfo;
 

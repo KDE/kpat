@@ -43,6 +43,12 @@
 #include <KLocale>
 
 
+Simon::Simon( const DealerInfo * di )
+  : DealerScene( di )
+{
+}
+
+
 void Simon::initialize()
 {
     setDeckContents();
@@ -133,7 +139,7 @@ public:
 
     virtual DealerScene *createGame() const
     {
-        return new Simon();
+        return new Simon( this );
     }
 } simonDealerInfo;
 

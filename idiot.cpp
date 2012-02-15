@@ -43,6 +43,12 @@
 #include <KLocale>
 
 
+Idiot::Idiot( const DealerInfo * di )
+  : DealerScene( di )
+{
+}
+
+
 void Idiot::initialize()
 {
     setSceneAlignment( AlignHCenter | AlignVCenter );
@@ -255,7 +261,7 @@ public:
 
     virtual DealerScene *createGame() const
     {
-        return new Idiot();
+        return new Idiot( this );
     }
 } idiotDealerInfo;
 
