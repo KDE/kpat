@@ -109,8 +109,11 @@ public:
     bool allowedToStartNewGame();
     int moveCount() const;
 
-    void saveGame( QIODevice * io );
-    bool openGame( QIODevice * io );
+    void saveGameState( QIODevice * io );
+    bool loadGameState( QIODevice * io );
+    void saveGameHistory( QIODevice * io );
+    bool loadGameHistory( QIODevice * io );
+    
     virtual void mapOldId(int id);
     virtual int oldId() const;
     void recordGameStatistics();

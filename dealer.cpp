@@ -116,6 +116,58 @@ namespace
         QStringRef value = xml.attributes().value( key );
         return QString::fromRawData( value.data(), value.length() ).toInt( ok );
     }
+
+    QString suitToString( int suit )
+    {
+        switch ( suit )
+        {
+        case KCardDeck::Clubs:
+            return "clubs";
+        case KCardDeck::Diamonds:
+            return "diamonds";
+        case KCardDeck::Hearts:
+            return "hearts";
+        case KCardDeck::Spades:
+            return "spades";
+        default:
+            return QString();
+        }
+    }
+
+    QString rankToString( int rank )
+    {
+        switch ( rank )
+        {
+        case KCardDeck::Ace:
+            return "ace";
+        case KCardDeck::Two:
+            return "two";
+        case KCardDeck::Three:
+            return "three";
+        case KCardDeck::Four:
+            return "four";
+        case KCardDeck::Five:
+            return "five";
+        case KCardDeck::Six:
+            return "six";
+        case KCardDeck::Seven:
+            return "seven";
+        case KCardDeck::Eight:
+            return "eight";
+        case KCardDeck::Nine:
+            return "nine";
+        case KCardDeck::Ten:
+            return "ten";
+        case KCardDeck::Jack:
+            return "jack";
+        case KCardDeck::Queen:
+            return "queen";
+        case KCardDeck::King:
+            return "king";
+        default:
+            return QString();
+        }
+    }
 }
 
 
@@ -221,13 +273,14 @@ int DealerScene::moveCount() const
 }
 
 
-void DealerScene::saveGame( QIODevice * io )
+void DealerScene::saveGameState( QIODevice * io )
 {
     QXmlStreamWriter xml( io );
     xml.setCodec( "UTF-8" );
     xml.setAutoFormatting( true );
     xml.setAutoFormattingIndent( -1 );
     xml.writeStartDocument();
+
     xml.writeDTD( "<!DOCTYPE kpat>" );
 
     xml.writeStartElement( "dealer" );
@@ -261,7 +314,7 @@ void DealerScene::saveGame( QIODevice * io )
     d->gameWasJustSaved = true;
 }
 
-bool DealerScene::openGame( QIODevice * io )
+bool DealerScene::loadGameState( QIODevice * io )
 {
     resetInternals();
 
@@ -365,6 +418,175 @@ bool DealerScene::openGame( QIODevice * io )
 
     emit updateMoves( moveCount() );
     takeState();
+
+    return true;
+}
+
+
+void DealerScene::saveGameHistory( QIODevice * io )
+{
+    QXmlStreamWriter xml( io );
+    xml.setCodec( "UTF-8" );
+    xml.setAutoFormatting( true );
+    xml.setAutoFormattingIndent( -1 );
+    xml.writeStartDocument();
+
+    xml.writeStartElement( "kpat-game" );
+    xml.writeAttribute( "game-type", QString::number( gameId() ) );
+    if ( !getGameOptions().isEmpty() )
+        xml.writeAttribute( "game-type-options", getGameOptions() );
+    xml.writeAttribute( "deal-number", QString::number( gameNumber() ) );
+
+    QList<GameState*> allStates;
+    for ( int i = 0; i < d->undoStack.size(); ++i )
+        allStates << d->undoStack.at( i );
+    allStates << d->currentState;
+    for ( int i = d->redoStack.size() - 1; i >= 0; --i )
+        allStates << d->redoStack.at( i );
+
+    for ( int i = 0; i < allStates.size(); ++i )
+    {
+        const GameState * state = allStates.at( i );
+        xml.writeStartElement( "state" );
+        if ( !state->stateData.isEmpty() )
+            xml.writeAttribute( "game-specific-state", state->stateData );
+        if ( i == d->undoStack.size() )
+            xml.writeAttribute( "current", "true" );
+
+        foreach ( const CardStateChange & change, state->changes )
+        {
+            xml.writeStartElement( "move" );
+            xml.writeAttribute( "pile", change.newState.pile->objectName() );
+            xml.writeAttribute( "position", QString::number( change.newState.index ) );
+            xml.writeAttribute( "face", change.newState.faceUp ? "up" : "down" );
+
+            foreach ( const KCard * card, change.cards )
+            {
+                xml.writeStartElement( "card" );
+                xml.writeAttribute( "suit", suitToString( card->suit() ) );
+                xml.writeAttribute( "rank", rankToString( card->rank() ) );
+                xml.writeAttribute( "id", QString::number( card->id() ) );
+                xml.writeEndElement();
+            }
+
+            xml.writeEndElement();
+        }
+        xml.writeEndElement();
+    }
+
+    xml.writeEndElement();
+    xml.writeEndDocument();
+
+    d->gameWasJustSaved = true;
+}
+
+
+bool DealerScene::loadGameHistory( QIODevice * io )
+{
+    resetInternals();
+
+    bool reenableAutoDrop = autoDropEnabled();
+    setAutoDropEnabled( false );
+
+    QXmlStreamReader xml( io );
+
+    xml.readNextStartElement();
+
+    if ( xml.name() != "kpat-game" )
+    {
+        kWarning() << "First tag is not \"kpat-game\"";
+        return false;
+    }
+
+    d->gameNumber = readIntAttribute( xml, "deal-number" );
+
+    setGameOptions( xml.attributes().value( "game-type-options" ).toString() );
+
+    QMultiHash<quint32,KCard*> cardHash;
+    foreach ( KCard * c, deck()->cards() )
+        cardHash.insert( c->id(), c );
+
+    QHash<QString,KCardPile*> pileHash;
+    foreach ( KCardPile * p, piles() )
+        pileHash.insert( p->objectName(), p );
+
+    int undosToDo = -1;
+
+    while( xml.readNextStartElement() )
+    {
+        if ( xml.name() != "state" )
+        {
+            kWarning() << "Expected a \"state\" tag. Found a" << xml.name() << "tag.";
+            return false;
+        }
+
+        setGameState( xml.attributes().value( "game-specific-state" ).toString() );
+
+        if ( undosToDo > -1 )
+            ++undosToDo;
+        else if ( xml.attributes().value( "current" ) == "true" )
+            undosToDo = 0;
+        
+        while( xml.readNextStartElement() )
+        {
+            if ( xml.name() != "move" )
+            {
+                kWarning() << "Expected a \"move\" tag. Found a" << xml.name() << "tag.";
+                return false;
+            }
+
+            QString pileName = xml.attributes().value( "pile" ).toString();
+            KCardPile * pile = pileHash.value( pileName );
+
+            bool indexOk;
+            int index = readIntAttribute( xml, "position", &indexOk );
+
+            bool faceUp = xml.attributes().value( "face" ) == "up";
+
+            if ( !pile || !indexOk )
+            {
+                kWarning() << "Unrecognized pile or index.";
+                return false;
+            }
+
+            while ( xml.readNextStartElement() )
+            {
+                if ( xml.name() != "card" )
+                {
+                    kWarning() << "Expected a \"card\" tag. Found a" << xml.name() << "tag.";
+                    return false;
+                }
+
+                KCard * card = cardHash.value( readIntAttribute( xml, "id" ) );
+                if ( !card )
+                {
+                    kWarning() << "Unrecognized card.";
+                    return false;
+                }
+                card->setFaceUp( faceUp );
+                pile->insert( card, index );
+
+                ++index;
+                xml.skipCurrentElement();
+            }
+        }
+        takeState();
+    }
+    
+    d->loadedMoveCount = 0;
+    d->gameStarted = moveCount() > 0;
+    emit updateMoves( moveCount() );
+
+    while ( undosToDo > 0 )
+    {
+        undo();
+        --undosToDo;
+    }
+    
+    foreach ( KCardPile * p, piles() )
+        updatePileLayout( p, 0 );
+
+    setAutoDropEnabled( reenableAutoDrop );
 
     return true;
 }

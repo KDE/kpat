@@ -747,7 +747,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
         if ( Settings::rememberStateOnExit() && !m_dealer->isGameWon() )
         {
             stateFile.open( QFile::WriteOnly | QFile::Truncate );
-            m_dealer->saveGame( &stateFile );
+            m_dealer->saveGameState( &stateFile );
         }
         else
         {
@@ -810,9 +810,9 @@ void MainWindow::previousDeal()
 
 bool MainWindow::loadGame( const KUrl & url, bool addToRecentFiles )
 {
+    // Some trickery to be able to use the same code to handle local and remote files.
     KTemporaryFile tempFile;
     QFile localFile;
-
     if ( url.isLocalFile() )
     {
         localFile.setFileName( url.toLocalFile() );
@@ -827,9 +827,8 @@ bool MainWindow::loadGame( const KUrl & url, bool addToRecentFiles )
             return false;
         }
     }
-
-
     QFile & file = url.isLocalFile() ? localFile : tempFile;
+    
     if ( !file.open( QIODevice::ReadOnly ) )
     {
         KMessageBox::error( this, i18n("Opening file failed.") );
@@ -837,27 +836,33 @@ bool MainWindow::loadGame( const KUrl & url, bool addToRecentFiles )
     }
 
     QXmlStreamReader xml( &file );
-
-    while ( !xml.hasError() && xml.tokenType() != QXmlStreamReader::DTD )
-        xml.readNext();
-
-    QString dtdName = xml.dtdName().toString();
-
     if ( !xml.readNextStartElement() )
     {
         KMessageBox::error( this, i18n("Error reading XML file: ") + xml.errorString() );
         return false;
     }
 
-    if ( dtdName != "kpat" || xml.name() != "dealer" )
+    bool idOk;
+    int gameId = -1;
+    bool isOldStyleFile;
+
+    if ( xml.name() == "dealer" )
     {
-        KMessageBox::error( this, i18n("File is not a valid KPat save.") );
+        isOldStyleFile = true;
+        gameId = xml.attributes().value("id").toString().toInt( &idOk );
+    }
+    else if ( xml.name() == "kpat-game" )
+    {
+        isOldStyleFile = false;
+        gameId = xml.attributes().value("game-type").toString().toInt( &idOk );
+    }
+    else
+    {
+        KMessageBox::error( this, i18n("XML file is not a KPat save.") );
         return false;
     }
 
-    bool ok;
-    int gameId = xml.attributes().value("id").toString().toInt( &ok );
-    if ( !ok || !m_dealer_map.contains( gameId ) )
+    if ( !idOk || !m_dealer_map.contains( gameId ) )
     {
         KMessageBox::error( this, i18n("Unrecognized game id.") );
         return false;
@@ -868,18 +873,21 @@ bool MainWindow::loadGame( const KUrl & url, bool addToRecentFiles )
     if ( m_dealer && !m_dealer->allowedToStartNewGame() )
         return false;
 
+    setGameType( gameId );
+    
     xml.clear();
     file.reset();
 
-    setGameType( gameId );
-    if ( !m_dealer->openGame( &file ) )
+    bool success = isOldStyleFile ? m_dealer->loadGameState( &file )
+                                  : m_dealer->loadGameHistory( &file );
+    if ( !success )
     {
         KMessageBox::error( this, i18n("Errors encountered while parsing file.") );
         slotShowGameSelectionScreen();
         return false;
     }
-
-    file.close();
+    
+    setGameCaption();
 
     if ( addToRecentFiles )
         m_recentFilesAction->addUrl( url );
@@ -920,6 +928,8 @@ void MainWindow::saveGame()
     if ( url.isEmpty() )
         return;
 
+    KMimeType::Ptr mimeType = dialog.currentFilterMimeType();
+
     if ( url.isLocalFile() )
     {
         QFile file( url.toLocalFile() );
@@ -928,7 +938,11 @@ void MainWindow::saveGame()
             KMessageBox::error( this, i18n("Error opening file for writing. Saving failed.") );
             return;
         }
-        m_dealer->saveGame( &file );
+
+        if ( mimeType->is( savedStateMimeType ) )
+            m_dealer->saveGameState( &file );
+        else
+            m_dealer->saveGameHistory( &file );
     }
     else
     {
@@ -939,7 +953,10 @@ void MainWindow::saveGame()
             return;
         }
 
-        m_dealer->saveGame( &tempFile );
+        if ( mimeType->is( savedStateMimeType ) )
+            m_dealer->saveGameState( &tempFile );
+        else
+            m_dealer->saveGameHistory( &tempFile );
 
         if ( !KIO::NetAccess::upload( tempFile.fileName(), url, this ) )
         {
