@@ -599,13 +599,13 @@ void MainWindow::updateActions()
         connect( m_dealer, SIGNAL(redoPossible(bool)), redo, SLOT(setEnabled(bool)) );
 
         connect( m_dealer, SIGNAL(hintActive(bool)), hintaction, SLOT(setChecked(bool)) );
-        connect( m_dealer, SIGNAL(hintPossible(bool)), hintaction, SLOT(setEnabled(bool)) );
+        connect( m_dealer, SIGNAL(gameInProgress(bool)), hintaction, SLOT(setEnabled(bool)) );
 
         connect( m_dealer, SIGNAL(demoActive(bool)), this, SLOT(toggleDemoAction(bool)) );
-        connect( m_dealer, SIGNAL(demoPossible(bool)), demoaction, SLOT(setEnabled(bool)) );
+        connect( m_dealer, SIGNAL(gameInProgress(bool)), demoaction, SLOT(setEnabled(bool)) );
 
         connect( m_dealer, SIGNAL(dropActive(bool)), dropaction, SLOT(setChecked(bool)) );
-        connect( m_dealer, SIGNAL(demoPossible(bool)), dropaction, SLOT(setEnabled(bool)) );
+        connect( m_dealer, SIGNAL(gameInProgress(bool)), dropaction, SLOT(setEnabled(bool)) );
 
         connect( m_leftAction, SIGNAL(triggered(bool)), m_dealer, SLOT(keyboardFocusLeft()) );
         connect( m_rightAction, SIGNAL(triggered(bool)), m_dealer, SLOT(keyboardFocusRight()) );

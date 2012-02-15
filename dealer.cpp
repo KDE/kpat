@@ -696,9 +696,7 @@ void DealerScene::resetInternals()
     }
 
     emit solverStateChanged( QString() );
-    emit hintPossible( true );
-    emit demoPossible( true );
-    emit dropPossible( true );
+    emit gameInProgress( true );
 }
 
 QPointF posAlongRect( qreal distOnRect, const QRectF & rect )
@@ -728,11 +726,10 @@ void DealerScene::won()
 
     emit solverStateChanged( QString() );
 
-    emit demoPossible( false );
-    emit hintPossible( false );
-    emit dropPossible( false );
     emit newCardsPossible( false );
     emit undoPossible( false );
+    emit redoPossible( false );
+    emit gameInProgress( false );
 
     setKeyboardModeActive( false );
 
@@ -966,9 +963,7 @@ void DealerScene::undoOrRedo( bool undo )
 
         if ( d->toldAboutLostGame ) // everything's possible again
         {
-            hintPossible( true );
-            demoPossible( true );
-            dropPossible( true );
+            gameInProgress( true );
             d->toldAboutLostGame = false;
             d->toldAboutWonGame = false;
         }
@@ -1041,9 +1036,7 @@ void DealerScene::takeState()
 
     if ( !d->toldAboutWonGame && !d->toldAboutLostGame && isGameLost() )
     {
-        emit hintPossible( false );
-        emit demoPossible( false );
-        emit dropPossible( false );
+        emit gameInProgress( false );
         emit solverStateChanged( i18n( "Solver: This game is lost." ) );
         d->toldAboutLostGame = true;
         stopDemo();

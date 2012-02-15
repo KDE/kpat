@@ -119,10 +119,8 @@ public:
 signals:
     void undoPossible(bool poss);
     void redoPossible(bool poss);
-    void hintPossible(bool poss);
-    void demoPossible(bool poss);
-    void dropPossible(bool poss);
     void newCardsPossible(bool poss);
+    void gameInProgress(bool inProgress);
 
     void demoActive(bool active);
     void hintActive(bool active);
