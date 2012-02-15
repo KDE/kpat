@@ -465,9 +465,9 @@ void DealerScene::saveGameHistory( QIODevice * io )
             foreach ( const KCard * card, change.cards )
             {
                 xml.writeStartElement( "card" );
+                xml.writeAttribute( "id", QString("%1").arg( card->id(), 7, 10, QChar('0') ) );
                 xml.writeAttribute( "suit", suitToString( card->suit() ) );
                 xml.writeAttribute( "rank", rankToString( card->rank() ) );
-                xml.writeAttribute( "id", QString::number( card->id() ) );
                 if ( faceChanged )
                     xml.writeAttribute( "turn", change.newState.faceUp ? "face-up" : "face-down" );
                 xml.writeEndElement();
