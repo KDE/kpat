@@ -57,9 +57,7 @@ protected:
 
 protected slots:
     virtual bool newCards();
-
-private slots:
-    void handleCardClick( KCard * card );
+    virtual bool tryAutomaticMove( KCard * card );
 
 private:
     void dealRow();
