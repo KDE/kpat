@@ -746,7 +746,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
         if ( Settings::rememberStateOnExit() && !m_dealer->isGameWon() )
         {
             stateFile.open( QFile::WriteOnly | QFile::Truncate );
-            m_dealer->saveGameState( &stateFile );
+            m_dealer->saveGameHistory( &stateFile );
         }
         else
         {
