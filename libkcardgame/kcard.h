@@ -46,7 +46,6 @@ public:
     int suit() const;
     int color() const;
 
-    void setPile( KCardPile * pile );
     KCardPile * pile() const;
 
     void setFaceUp( bool faceUp );
@@ -72,12 +71,14 @@ public Q_SLOTS:
     void stopAnimation();
 
 private:
+    void setPile( KCardPile * pile );
     void setPixmap( const QPixmap & pix );
 
     class KCardPrivate * const d;
 
     friend class KCardPrivate;
     friend class KAbstractCardDeck;
+    friend class KCardPile;
 };
 
 #endif
