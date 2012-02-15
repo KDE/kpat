@@ -59,7 +59,7 @@ public:
 
     static QList<Suit> standardSuits();
     static QList<Rank> standardRanks();
-    static quint32 getId( Suit suit, Rank rank );
+    static quint32 getId( Suit suit, Rank rank, int number );
     static QList<quint32> generateIdList( int copies = 1,
                                           const QList<Suit> & suits = standardSuits(),
                                           const QList<Rank> & ranks = standardRanks() );

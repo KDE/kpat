@@ -290,7 +290,7 @@ void DealerScene::openGame( QIODevice * io )
 
     QMultiHash<quint32,KCard*> cards;
     foreach ( KCard * c, deck()->cards() )
-        cards.insert( c->id(), c );
+        cards.insert( (c->id() & 0xffff), c );
 
     foreach (PatPile *p, patPiles())
     {
@@ -307,7 +307,7 @@ void DealerScene::openGame( QIODevice * io )
                     int s = card.attribute("suit").toInt();
                     int r = card.attribute("value").toInt();
                     
-                    KCard * c = cards.take( ( s << 4 ) + r );
+                    KCard * c = cards.take( ( s << 8 ) + r );
                     if (!c)
                         continue;
 
@@ -1601,10 +1601,11 @@ void DealerScene::setDeckContents( int copies, const QList<KCardDeck::Suit> & su
     // generates card by rank and then by suit, rather than the more common
     // suit then rank ordering.
     QList<quint32> ids;
+    unsigned int number = 0;
     for ( int i = 0; i < copies; ++i )
         foreach ( const KCardDeck::Rank & r, KCardDeck::standardRanks() )
             foreach ( const KCardDeck::Suit & s, suits )
-                ids << KCardDeck::getId( s, r );
+                ids << KCardDeck::getId( s, r, number++ );
 
     deck()->setDeckContents( ids );
 }

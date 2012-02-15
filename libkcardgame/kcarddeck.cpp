@@ -53,15 +53,15 @@ QList<KCardDeck::Rank> KCardDeck::standardRanks()
 }
 
 
-quint32 KCardDeck::getId( Suit suit, Rank rank )
+quint32 KCardDeck::getId( KCardDeck::Suit suit, KCardDeck::Rank rank, int number )
 {
-    return ((suit & 0x3) << 4) | (rank & 0xf);
+    return (number << 16) | ((suit & 0xff) << 8) | (rank & 0xff);
 }
 
 
 QList<quint32> KCardDeck::generateIdList( int copies,
-                                                  const QList<Suit> & suits,
-                                                  const QList<Rank> & ranks )
+                                          const QList<Suit> & suits,
+                                          const QList<Rank> & ranks )
 {
     Q_ASSERT( copies >= 1 );
     Q_ASSERT( !suits.isEmpty() );
@@ -71,10 +71,11 @@ QList<quint32> KCardDeck::generateIdList( int copies,
     // avoided if at all possible. Doing so may effect the game logic of
     // games relying on LibKCardGame.
     QList<quint32> ids;
-    for ( int i = 0; i < copies; ++i )
+    unsigned int number = 0;
+    for ( int c = 0; c < copies; ++c )
         foreach ( const Suit & s, suits )
             foreach ( const Rank & r, ranks )
-                ids << getId( s, r );
+                ids << getId( s, r, number++ );
 
     return ids;
 }
@@ -94,7 +95,7 @@ KCardDeck::~KCardDeck()
 
 int KCardDeck::rankFromId( quint32 id ) const
 {
-    int rank = id & 0xf;
+    int rank = id & 0xff;
     Q_ASSERT( Ace <= rank && rank <= King );
     return rank;
 }
@@ -102,7 +103,7 @@ int KCardDeck::rankFromId( quint32 id ) const
 
 int KCardDeck::suitFromId( quint32 id ) const
 {
-    int suit = (id >> 4) & 0x3;
+    int suit = (id >> 8) & 0xff;
     Q_ASSERT( Clubs <= suit && suit <= Spades );
     return suit;
 }
@@ -122,7 +123,7 @@ QString KCardDeck::elementName( quint32 id, bool faceUp ) const
 
     QString element;
 
-    int rank = id & 0xf;
+    int rank = rankFromId( id );
     switch( rank )
     {
     case King:
@@ -139,7 +140,7 @@ QString KCardDeck::elementName( quint32 id, bool faceUp ) const
         break;
     }
 
-    switch( id >> 4 )
+    switch( suitFromId( id ) )
     {
     case Clubs:
         element += "_club";
