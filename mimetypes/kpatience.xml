@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
   <mime-type type="application/vnd.kde.kpatience.savedstate">
-    <comment>KPatience saved state</comment>
+    <comment>KPatience legacy save file</comment>
     <sub-class-of type="application/xml"/>
     <magic priority="80">
       <match type="string" value="&lt;!DOCTYPE kpat" offset="0:50"/>
@@ -9,7 +9,7 @@
     <glob pattern="*.kpatience" weight="75"/>
   </mime-type>
   <mime-type type="application/vnd.kde.kpatience.savedgame">
-    <comment>KPatience saved game</comment>
+    <comment>KPatience save file</comment>
     <sub-class-of type="application/xml"/>
     <glob pattern="*.kpat" weight="75"/>
   </mime-type>

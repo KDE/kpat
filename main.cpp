@@ -200,7 +200,7 @@ int main( int argc, char **argv )
 
         DealerScene *f = getDealer( doc.documentElement().attribute("id").toInt() );
 
-        f->loadGameState( &of );
+        f->loadLegacyFile( &of );
         f->solver()->translate_layout();
         int ret = f->solver()->patsolve();
         if ( ret == Solver::SolutionExists )
@@ -234,14 +234,14 @@ int main( int argc, char **argv )
                    count--;
                    QFile file(QString("%1/%2-%3-1").arg(testdir).arg(dealer).arg(i));
                    file.open( QFile::WriteOnly );
-                   f->saveGameState( &file );
+                   f->saveLegacyFile( &file );
                 }
                 else if ( ret == Solver::NoSolutionExists ) {
                    fprintf( stdout, "%d: %d lost (%d ms)\n", dealer, i, mytime.elapsed()  );
                    count--;
                    QFile file(QString("%1/%2-%3-0").arg(testdir).arg(dealer).arg(i));
                    file.open( QFile::WriteOnly );
-                   f->saveGameState( &file );
+                   f->saveLegacyFile( &file );
                 } else {
                    fprintf( stdout, "%d: %d unknown (%d ms)\n", dealer, i, mytime.elapsed() );
                 }

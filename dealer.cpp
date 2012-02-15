@@ -273,7 +273,7 @@ int DealerScene::moveCount() const
 }
 
 
-void DealerScene::saveGameState( QIODevice * io )
+void DealerScene::saveLegacyFile( QIODevice * io )
 {
     QXmlStreamWriter xml( io );
     xml.setCodec( "UTF-8" );
@@ -314,7 +314,7 @@ void DealerScene::saveGameState( QIODevice * io )
     d->gameWasJustSaved = true;
 }
 
-bool DealerScene::loadGameState( QIODevice * io )
+bool DealerScene::loadLegacyFile( QIODevice * io )
 {
     resetInternals();
 
@@ -423,7 +423,7 @@ bool DealerScene::loadGameState( QIODevice * io )
 }
 
 
-void DealerScene::saveGameHistory( QIODevice * io )
+void DealerScene::saveFile( QIODevice * io )
 {
     QXmlStreamWriter xml( io );
     xml.setCodec( "UTF-8" );
@@ -490,7 +490,7 @@ void DealerScene::saveGameHistory( QIODevice * io )
 }
 
 
-bool DealerScene::loadGameHistory( QIODevice * io )
+bool DealerScene::loadFile( QIODevice * io )
 {
     resetInternals();
 

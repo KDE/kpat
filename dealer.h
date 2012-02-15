@@ -108,10 +108,10 @@ public:
     bool allowedToStartNewGame();
     int moveCount() const;
 
-    void saveGameState( QIODevice * io );
-    bool loadGameState( QIODevice * io );
-    void saveGameHistory( QIODevice * io );
-    bool loadGameHistory( QIODevice * io );
+    void saveFile( QIODevice * io );
+    bool loadFile( QIODevice * io );
+    void saveLegacyFile( QIODevice * io );
+    bool loadLegacyFile( QIODevice * io );
     
     virtual void mapOldId(int id);
     virtual int oldId() const;

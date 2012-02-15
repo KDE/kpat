@@ -88,8 +88,8 @@
 namespace
 {
     const KUrl dialogUrl( "kfiledialog:///kpat" );
-    const QString savedStateMimeType( "application/vnd.kde.kpatience.savedstate" );
-    const QString savedGameMimeType( "application/vnd.kde.kpatience.savedgame" );    
+    const QString saveFileMimeType( "application/vnd.kde.kpatience.savedgame" );
+    const QString legacySaveFileMimeType( "application/vnd.kde.kpatience.savedstate" );
 }
 
 
@@ -746,7 +746,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
         if ( Settings::rememberStateOnExit() && !m_dealer->isGameWon() )
         {
             stateFile.open( QFile::WriteOnly | QFile::Truncate );
-            m_dealer->saveGameHistory( &stateFile );
+            m_dealer->saveFile( &stateFile );
         }
         else
         {
@@ -842,11 +842,11 @@ bool MainWindow::loadGame( const KUrl & url, bool addToRecentFiles )
     }
 
     int gameId = -1;
-    bool isOldStyleFile;
+    bool isLegacyFile;
 
     if ( xml.name() == "dealer" )
     {
-        isOldStyleFile = true;
+        isLegacyFile = true;
         bool ok;
         int id = xml.attributes().value("id").toString().toInt( &ok );
         if ( ok )
@@ -854,7 +854,7 @@ bool MainWindow::loadGame( const KUrl & url, bool addToRecentFiles )
     }
     else if ( xml.name() == "kpat-game" )
     {
-        isOldStyleFile = false;
+        isLegacyFile = false;
         QStringRef gameType = xml.attributes().value("game-type");
         foreach ( const DealerInfo * di, DealerInfoList::self()->games() )
         {
@@ -887,8 +887,8 @@ bool MainWindow::loadGame( const KUrl & url, bool addToRecentFiles )
     xml.clear();
     file.reset();
 
-    bool success = isOldStyleFile ? m_dealer->loadGameState( &file )
-                                  : m_dealer->loadGameHistory( &file );
+    bool success = isLegacyFile ? m_dealer->loadLegacyFile( &file )
+                                : m_dealer->loadFile( &file );
     if ( !success )
     {
         KMessageBox::error( this, i18n("Errors encountered while parsing file.") );
@@ -909,7 +909,7 @@ void MainWindow::loadGame()
 {
     KFileDialog dialog( dialogUrl, "", this, 0 );
     dialog.setOperationMode( KFileDialog::Opening );
-    dialog.setMimeFilter( QStringList() << savedStateMimeType << savedGameMimeType << "all/allfiles" );
+    dialog.setMimeFilter( QStringList() << saveFileMimeType << legacySaveFileMimeType << "all/allfiles" );
     dialog.setCaption( i18n("Load") );
 
     if ( dialog.exec() == KFileDialog::Accepted )
@@ -927,7 +927,7 @@ void MainWindow::saveGame()
 
     KFileDialog dialog( dialogUrl, "", this, 0 );
     dialog.setOperationMode( KFileDialog::Saving );
-    dialog.setMimeFilter( QStringList() << savedStateMimeType << savedGameMimeType, savedGameMimeType );
+    dialog.setMimeFilter( QStringList() << saveFileMimeType << legacySaveFileMimeType, saveFileMimeType );
     dialog.setConfirmOverwrite( true );
     dialog.setCaption( i18n("Save") );
     if ( dialog.exec() != KFileDialog::Accepted )
@@ -948,10 +948,10 @@ void MainWindow::saveGame()
             return;
         }
 
-        if ( mimeType->is( savedStateMimeType ) )
-            m_dealer->saveGameState( &file );
+        if ( mimeType->is( legacySaveFileMimeType ) )
+            m_dealer->saveLegacyFile( &file );
         else
-            m_dealer->saveGameHistory( &file );
+            m_dealer->saveFile( &file );
     }
     else
     {
@@ -962,10 +962,10 @@ void MainWindow::saveGame()
             return;
         }
 
-        if ( mimeType->is( savedStateMimeType ) )
-            m_dealer->saveGameState( &tempFile );
+        if ( mimeType->is( legacySaveFileMimeType ) )
+            m_dealer->saveLegacyFile( &tempFile );
         else
-            m_dealer->saveGameHistory( &tempFile );
+            m_dealer->saveFile( &tempFile );
 
         if ( !KIO::NetAccess::upload( tempFile.fileName(), url, this ) )
         {
