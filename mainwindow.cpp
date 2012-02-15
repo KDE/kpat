@@ -120,18 +120,18 @@ MainWindow::MainWindow()
     QSize defaultSize = qApp->desktop()->availableGeometry().size() * 0.7;
     setupGUI(defaultSize, Create | Save | ToolBar | StatusBar | Keys);
 
-    solverStatus = new QLabel(QString(), statusBar());
-    solverStatus->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    statusBar()->addWidget(solverStatus, 1);
+    m_solverStatusLabel = new QLabel(QString(), statusBar());
+    m_solverStatusLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    statusBar()->addWidget( m_solverStatusLabel, 1);
 
-    moveStatus = new QLabel(QString(), statusBar());
-    moveStatus->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    statusBar()->addWidget(moveStatus, 0);
+    m_moveCountStatusLabel = new QLabel(QString(), statusBar());
+    m_moveCountStatusLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    statusBar()->addWidget( m_moveCountStatusLabel, 0);
 }
 
 MainWindow::~MainWindow()
 {
-    recent->saveEntries(KGlobal::config()->group( QString() ));
+    m_recentFilesAction->saveEntries(KGlobal::config()->group( QString() ));
 
     Settings::self()->writeConfig();
 
@@ -186,8 +186,8 @@ void MainWindow::setupActions()
 
     KStandardGameAction::load( this, SLOT(loadGame()), actionCollection() );
 
-    recent = KStandardGameAction::loadRecent( this, SLOT(loadGame(KUrl)), actionCollection() );
-    recent->loadEntries(KGlobal::config()->group( QString() ));
+    m_recentFilesAction = KStandardGameAction::loadRecent( this, SLOT(loadGame(KUrl)), actionCollection() );
+    m_recentFilesAction->loadEntries(KGlobal::config()->group( QString() ));
 
     a = KStandardGameAction::saveAs(this, SLOT(saveGame()), actionCollection());
     a->setShortcut( KShortcut( Qt::ControlModifier | Qt::Key_S ) );
@@ -201,48 +201,48 @@ void MainWindow::setupActions()
 
 
     // Move Menu
-    undo = KStandardGameAction::undo(this, SLOT(undoMove()), actionCollection());
+    m_undoAction = KStandardGameAction::undo(this, SLOT(undoMove()), actionCollection());
 
-    redo = KStandardGameAction::redo(this, SLOT(redoMove()), actionCollection());
+    m_redoAction = KStandardGameAction::redo(this, SLOT(redoMove()), actionCollection());
 
-    demoaction = KStandardGameAction::demo( this, SLOT(toggleDemo()), actionCollection() );
+    m_demoAction = KStandardGameAction::demo( this, SLOT(toggleDemo()), actionCollection() );
 
     // KStandardGameAction::hint is a regular action, but we want a toggle
     // action, so we must create a new action and copy all the standard
     // properties over one by one.
-    hintaction = new KToggleAction( actionCollection() );
+    m_hintAction = new KToggleAction( actionCollection() );
     a = KStandardGameAction::hint( 0, 0, 0 );
-    hintaction->setText( a->text() );
-    hintaction->setIcon( a->icon() );
-    hintaction->setShortcut( a->shortcut() );
-    hintaction->setToolTip( a->toolTip() );
-    hintaction->setWhatsThis( a->whatsThis() );
+    m_hintAction->setText( a->text() );
+    m_hintAction->setIcon( a->icon() );
+    m_hintAction->setShortcut( a->shortcut() );
+    m_hintAction->setToolTip( a->toolTip() );
+    m_hintAction->setWhatsThis( a->whatsThis() );
     delete a;
     QString actionName( KStandardGameAction::name( KStandardGameAction::Hint ) );
-    actionCollection()->addAction( actionName, hintaction );
-    connect( hintaction, SIGNAL(triggered()), this, SLOT(toggleHints()) );
+    actionCollection()->addAction( actionName, m_hintAction );
+    connect( m_hintAction, SIGNAL(triggered()), this, SLOT(toggleHints()) );
 
-    drawaction = actionCollection()->addAction( QLatin1String( "move_draw" ));
-    drawaction->setText( i18nc("Take one or more cards from the deck, flip them, and place them in play", "Dra&w") );
-    drawaction->setIcon( KIcon( QLatin1String( "kpat" )) );
-    drawaction->setShortcut( Qt::Key_Tab );
+    m_drawAction = actionCollection()->addAction( QLatin1String( "move_draw" ));
+    m_drawAction->setText( i18nc("Take one or more cards from the deck, flip them, and place them in play", "Dra&w") );
+    m_drawAction->setIcon( KIcon( QLatin1String( "kpat" )) );
+    m_drawAction->setShortcut( Qt::Key_Tab );
 
-    dealaction = actionCollection()->addAction( QLatin1String( "move_deal" ));
-    dealaction->setText( i18nc("Deal a new row of cards from the deck", "Dea&l Row") );
-    dealaction->setIcon( KIcon( QLatin1String( "kpat" )) );
-    dealaction->setShortcut( Qt::Key_Return );
+    m_dealAction = actionCollection()->addAction( QLatin1String( "move_deal" ));
+    m_dealAction->setText( i18nc("Deal a new row of cards from the deck", "Dea&l Row") );
+    m_dealAction->setIcon( KIcon( QLatin1String( "kpat" )) );
+    m_dealAction->setShortcut( Qt::Key_Return );
 
-    redealaction = actionCollection()->addAction( QLatin1String( "move_redeal" ));
-    redealaction->setText( i18nc("Collect the cards in play, shuffle them and redeal them", "&Redeal") );
-    redealaction->setIcon( KIcon( QLatin1String( "roll" )) );
-    redealaction->setShortcut( Qt::Key_R );
+    m_redealAction = actionCollection()->addAction( QLatin1String( "move_redeal" ));
+    m_redealAction->setText( i18nc("Collect the cards in play, shuffle them and redeal them", "&Redeal") );
+    m_redealAction->setIcon( KIcon( QLatin1String( "roll" )) );
+    m_redealAction->setShortcut( Qt::Key_R );
 
-    dropaction = new KToggleAction( actionCollection() );
-    dropaction->setText( i18nc("Automatically move cards to the foundation piles", "Dro&p") );
-    dropaction->setIcon( KIcon( QLatin1String( "games-endturn" )) );
-    dropaction->setShortcut( Qt::Key_P );
-    actionCollection()->addAction( QLatin1String(  "move_drop" ), dropaction );
-    connect( dropaction, SIGNAL(triggered()), this, SLOT(toggleDrop()) );
+    m_dropAction = new KToggleAction( actionCollection() );
+    m_dropAction->setText( i18nc("Automatically move cards to the foundation piles", "Dro&p") );
+    m_dropAction->setIcon( KIcon( QLatin1String( "games-endturn" )) );
+    m_dropAction->setShortcut( Qt::Key_P );
+    actionCollection()->addAction( QLatin1String(  "move_drop" ), m_dropAction );
+    connect( m_dropAction, SIGNAL(triggered()), this, SLOT(toggleDrop()) );
 
 
     // Settings Menu
@@ -251,32 +251,32 @@ void MainWindow::setupActions()
     connect( a, SIGNAL(triggered(bool)), SLOT(configureAppearance()) );
     a->setShortcuts( KShortcut( Qt::Key_F10 ) );
 
-    autodropaction = new KToggleAction(i18n("&Enable Autodrop"), this);
-    actionCollection()->addAction( QLatin1String( "enable_autodrop" ), autodropaction);
-    connect( autodropaction, SIGNAL(triggered(bool)), SLOT(setAutoDropEnabled(bool)) );
-    autodropaction->setChecked( Settings::autoDropEnabled() );
+    m_autoDropEnabledAction = new KToggleAction(i18n("&Enable Autodrop"), this);
+    actionCollection()->addAction( QLatin1String( "enable_autodrop" ), m_autoDropEnabledAction );
+    connect( m_autoDropEnabledAction, SIGNAL(triggered(bool)), SLOT(setAutoDropEnabled(bool)) );
+    m_autoDropEnabledAction->setChecked( Settings::autoDropEnabled() );
 
-    solveraction = new KToggleAction(i18n("E&nable Solver"), this);
-    actionCollection()->addAction( QLatin1String( "enable_solver" ), solveraction);
-    connect( solveraction, SIGNAL(triggered(bool)), SLOT(enableSolver(bool)) );
-    solveraction->setChecked( Settings::solverEnabled() );
+    m_solverEnabledAction = new KToggleAction(i18n("E&nable Solver"), this);
+    actionCollection()->addAction( QLatin1String( "enable_solver" ), m_solverEnabledAction );
+    connect( m_solverEnabledAction, SIGNAL(triggered(bool)), SLOT(enableSolver(bool)) );
+    m_solverEnabledAction->setChecked( Settings::solverEnabled() );
 
     m_playSoundsAction = new KToggleAction( KIcon( QLatin1String( "preferences-desktop-sound") ), i18n("Play &Sounds" ), this );
     actionCollection()->addAction( QLatin1String(  "play_sounds" ), m_playSoundsAction );
     connect( m_playSoundsAction, SIGNAL(triggered(bool)), SLOT(enableSounds(bool)) );
     m_playSoundsAction->setChecked( Settings::playSounds() );
 
-    rememberstateaction = new KToggleAction(i18n("&Remember State on Exit"), this);
-    actionCollection()->addAction( QLatin1String( "remember_state" ), rememberstateaction);
-    connect( rememberstateaction, SIGNAL(triggered(bool)), SLOT(enableRememberState(bool)) );
-    rememberstateaction->setChecked( Settings::rememberStateOnExit() );
+    m_rememberStateAction = new KToggleAction(i18n("&Remember State on Exit"), this);
+    actionCollection()->addAction( QLatin1String( "remember_state" ), m_rememberStateAction );
+    connect( m_rememberStateAction, SIGNAL(triggered(bool)), SLOT(enableRememberState(bool)) );
+    m_rememberStateAction->setChecked( Settings::rememberStateOnExit() );
 
 
     // Help Menu
-    gamehelpaction = actionCollection()->addAction( QLatin1String( "help_game" ));
-    gamehelpaction->setIcon( KIcon( QLatin1String( "help-browser" )) );
-    connect( gamehelpaction, SIGNAL(triggered(bool)), SLOT(helpGame()));
-    gamehelpaction->setShortcuts( KShortcut( Qt::ControlModifier | Qt::ShiftModifier | Qt::Key_F1 ) );
+    m_gameHelpAction = actionCollection()->addAction( QLatin1String( "help_game" ));
+    m_gameHelpAction->setIcon( KIcon( QLatin1String( "help-browser" )) );
+    connect( m_gameHelpAction, SIGNAL(triggered(bool)), SLOT(helpGame()));
+    m_gameHelpAction->setShortcuts( KShortcut( Qt::ControlModifier | Qt::ShiftModifier | Qt::Key_F1 ) );
 
 
     // Hidden actions
@@ -366,7 +366,7 @@ void MainWindow::setAutoDropEnabled( bool enabled )
 void MainWindow::enableSolver(bool enable)
 {
     Settings::setSolverEnabled( enable );
-    solverStatus->setText( QString() );
+    m_solverStatusLabel->setText( QString() );
     if (m_dealer)
     {
         m_dealer->setSolverEnabled(enable);
@@ -519,22 +519,22 @@ void MainWindow::setGameType(int id)
     m_dealer->initialize();
     m_dealer->setGameId( di->baseId() );
     m_dealer->mapOldId( id );
-    m_dealer->setSolverEnabled( solveraction->isChecked() );
-    m_dealer->setAutoDropEnabled( autodropaction->isChecked() );
+    m_dealer->setSolverEnabled( m_solverEnabledAction->isChecked() );
+    m_dealer->setAutoDropEnabled( m_autoDropEnabledAction->isChecked() );
 
     m_view->setScene( m_dealer );
 
-    gamehelpaction->setText(i18nc("Is disabled and changes to \"Help &with Current Game\" when"
+    m_gameHelpAction->setText(i18nc("Is disabled and changes to \"Help &with Current Game\" when"
                                   " there is no current game.",
                                   "Help &with %1", di->baseName().replace('&', "&&")));
 
     connect(m_dealer, SIGNAL(solverStateChanged(QString)), SLOT(updateSolverDescription(QString)));
     connect(m_dealer, SIGNAL(updateMoves(int)), SLOT(slotUpdateMoves(int)));
 
-    solverStatus->setText(QString());
-    solverStatus->setVisible(true);
-    moveStatus->setText(QString());
-    moveStatus->setVisible(true);
+    m_solverStatusLabel->setText(QString());
+    m_solverStatusLabel->setVisible(true);
+    m_moveCountStatusLabel->setText(QString());
+    m_moveCountStatusLabel->setVisible(true);
 
     updateActions();
     updateSoundEngine();
@@ -559,15 +559,15 @@ void MainWindow::slotShowGameSelectionScreen()
         }
         m_view->setScene(m_selector);
 
-        gamehelpaction->setText(i18nc("Shown when there is no game open. Is always disabled.",
+        m_gameHelpAction->setText(i18nc("Shown when there is no game open. Is always disabled.",
                                       "Help &with Current Game"));
 
         updateActions();
 
         setGameCaption();
 
-        solverStatus->setVisible(false);
-        moveStatus->setVisible(false);
+        m_solverStatusLabel->setVisible(false);
+        m_moveCountStatusLabel->setVisible(false);
     }
 }
 
@@ -579,33 +579,33 @@ void MainWindow::updateActions()
     actionCollection()->action( "new_deal" )->setEnabled( m_dealer );
     actionCollection()->action( "game_restart" )->setEnabled( m_dealer );
     actionCollection()->action( "game_save_as" )->setEnabled( m_dealer );
-    gamehelpaction->setEnabled( m_dealer );
+    m_gameHelpAction->setEnabled( m_dealer );
 
     // Initially disable game actions. They'll be reenabled through signals
     // if/when appropriate.
-    undo->setEnabled( false );
-    redo->setEnabled( false );
-    hintaction->setEnabled( false );
-    demoaction->setEnabled( false );
-    dropaction->setEnabled( false );
-    drawaction->setEnabled( false );
-    dealaction->setEnabled( false );
-    redealaction->setEnabled( false );
+    m_undoAction->setEnabled( false );
+    m_redoAction->setEnabled( false );
+    m_hintAction->setEnabled( false );
+    m_demoAction->setEnabled( false );
+    m_dropAction->setEnabled( false );
+    m_drawAction->setEnabled( false );
+    m_dealAction->setEnabled( false );
+    m_redealAction->setEnabled( false );
 
     // If a dealer exists, connect the game actions to it.
     if ( m_dealer )
     {
-        connect( m_dealer, SIGNAL(undoPossible(bool)), undo, SLOT(setEnabled(bool)) );
-        connect( m_dealer, SIGNAL(redoPossible(bool)), redo, SLOT(setEnabled(bool)) );
+        connect( m_dealer, SIGNAL(undoPossible(bool)), m_undoAction, SLOT(setEnabled(bool)) );
+        connect( m_dealer, SIGNAL(redoPossible(bool)), m_redoAction, SLOT(setEnabled(bool)) );
 
-        connect( m_dealer, SIGNAL(hintActive(bool)), hintaction, SLOT(setChecked(bool)) );
-        connect( m_dealer, SIGNAL(gameInProgress(bool)), hintaction, SLOT(setEnabled(bool)) );
+        connect( m_dealer, SIGNAL(hintActive(bool)), m_hintAction, SLOT(setChecked(bool)) );
+        connect( m_dealer, SIGNAL(gameInProgress(bool)), m_hintAction, SLOT(setEnabled(bool)) );
 
         connect( m_dealer, SIGNAL(demoActive(bool)), this, SLOT(toggleDemoAction(bool)) );
-        connect( m_dealer, SIGNAL(gameInProgress(bool)), demoaction, SLOT(setEnabled(bool)) );
+        connect( m_dealer, SIGNAL(gameInProgress(bool)), m_demoAction, SLOT(setEnabled(bool)) );
 
-        connect( m_dealer, SIGNAL(dropActive(bool)), dropaction, SLOT(setChecked(bool)) );
-        connect( m_dealer, SIGNAL(gameInProgress(bool)), dropaction, SLOT(setEnabled(bool)) );
+        connect( m_dealer, SIGNAL(dropActive(bool)), m_dropAction, SLOT(setChecked(bool)) );
+        connect( m_dealer, SIGNAL(gameInProgress(bool)), m_dropAction, SLOT(setEnabled(bool)) );
 
         connect( m_leftAction, SIGNAL(triggered(bool)), m_dealer, SLOT(keyboardFocusLeft()) );
         connect( m_rightAction, SIGNAL(triggered(bool)), m_dealer, SLOT(keyboardFocusRight()) );
@@ -616,18 +616,18 @@ void MainWindow::updateActions()
 
         if ( m_dealer->actions() & DealerScene::Draw )
         {
-            connect( drawaction, SIGNAL(triggered(bool)), m_dealer, SLOT(drawDealRowOrRedeal()) );
-            connect( m_dealer, SIGNAL(newCardsPossible(bool)), drawaction, SLOT(setEnabled(bool)) );
+            connect( m_drawAction, SIGNAL(triggered(bool)), m_dealer, SLOT(drawDealRowOrRedeal()) );
+            connect( m_dealer, SIGNAL(newCardsPossible(bool)), m_drawAction, SLOT(setEnabled(bool)) );
         }
         else if ( m_dealer->actions() & DealerScene::Deal )
         {
-            connect( dealaction, SIGNAL(triggered(bool)), m_dealer, SLOT(drawDealRowOrRedeal()) );
-            connect( m_dealer, SIGNAL(newCardsPossible(bool)), dealaction, SLOT(setEnabled(bool)) );
+            connect( m_dealAction, SIGNAL(triggered(bool)), m_dealer, SLOT(drawDealRowOrRedeal()) );
+            connect( m_dealer, SIGNAL(newCardsPossible(bool)), m_dealAction, SLOT(setEnabled(bool)) );
         }
         else if ( m_dealer->actions() & DealerScene::Redeal )
         {
-            connect( redealaction, SIGNAL(triggered(bool)), m_dealer, SLOT(drawDealRowOrRedeal()) );
-            connect( m_dealer, SIGNAL(newCardsPossible(bool)), redealaction, SLOT(setEnabled(bool)) );
+            connect( m_redealAction, SIGNAL(triggered(bool)), m_dealer, SLOT(drawDealRowOrRedeal()) );
+            connect( m_dealer, SIGNAL(newCardsPossible(bool)), m_redealAction, SLOT(setEnabled(bool)) );
         }
 
         guiFactory()->unplugActionList( this, "dealer_options" );
@@ -641,23 +641,23 @@ void MainWindow::updateGameActionList()
 {
     guiFactory()->unplugActionList( this, "game_actions" );
 
-    dropaction->setEnabled( m_dealer && !m_dealer->autoDropEnabled() );
+    m_dropAction->setEnabled( m_dealer && !m_dealer->autoDropEnabled() );
 
     if ( m_dealer )
     {
         QList<QAction*> actionList;
         if ( m_dealer->actions() & DealerScene::Hint )
-            actionList.append( hintaction );
+            actionList.append( m_hintAction );
         if ( m_dealer->actions() & DealerScene::Demo )
-            actionList.append( demoaction );
+            actionList.append( m_demoAction );
         if ( m_dealer->actions() & DealerScene::Draw )
-            actionList.append( drawaction );
+            actionList.append( m_drawAction );
         if ( m_dealer->actions() & DealerScene::Deal )
-            actionList.append( dealaction );
+            actionList.append( m_dealAction );
         if ( m_dealer->actions() & DealerScene::Redeal )
-            actionList.append( redealaction );
+            actionList.append( m_redealAction );
         if ( !m_dealer->autoDropEnabled() )
-            actionList.append( dropaction );
+            actionList.append( m_dropAction );
         guiFactory()->plugActionList( this, "game_actions", actionList );
     }
 }
@@ -721,8 +721,8 @@ void MainWindow::toggleDemo()
 
 void MainWindow::toggleDemoAction(bool active) 
 {
-    demoaction->setChecked( active );
-    demoaction->setIcon( KIcon( QLatin1String(  active ? "media-playback-pause" : "media-playback-start" ) ) );
+    m_demoAction->setChecked( active );
+    m_demoAction->setIcon( KIcon( QLatin1String( active ? "media-playback-pause" : "media-playback-start" ) ) );
 }
 
 void MainWindow::saveNewToolbarConfig()
@@ -874,7 +874,7 @@ bool MainWindow::loadGame( const KUrl & url, bool addToRecentFiles )
     file.close();
 
     if ( addToRecentFiles )
-        recent->addUrl( url );
+        m_recentFilesAction->addUrl( url );
 
     return true;
 }
@@ -942,7 +942,7 @@ void MainWindow::saveGame()
         }
     }
 
-    recent->addUrl( url );
+    m_recentFilesAction->addUrl( url );
 }
 
 void MainWindow::showStats()
@@ -956,12 +956,12 @@ void MainWindow::showStats()
 
 void MainWindow::updateSolverDescription( const QString & text )
 {
-    solverStatus->setText( text );
+    m_solverStatusLabel->setText( text );
 }
 
 void MainWindow::slotUpdateMoves(int moves)
 {
-    moveStatus->setText(i18np("1 move", "%1 moves", moves));
+    m_moveCountStatusLabel->setText(i18np("1 move", "%1 moves", moves));
 }
 
 void MainWindow::slotSnapshot()

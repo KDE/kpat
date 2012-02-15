@@ -128,34 +128,34 @@ private:
     KAction * m_cancelAction;
     KAction * m_pickUpSetDownAction;    
 
-    KAction        *undo;
-    KAction        *redo;
-    KAction        *demoaction;
-    KAction        *hintaction;
-    KAction        *drawaction;
-    KAction        *dealaction;
-    KAction        *redealaction;
-    KAction        *dropaction;
-    KAction        *gamehelpaction;
-    KToggleAction  *autodropaction;
-    KToggleAction  *solveraction;
-    KToggleAction  *rememberstateaction;
+    KRecentFilesAction * m_recentFilesAction;
+    KAction * m_undoAction;
+    KAction * m_redoAction;
+    KAction * m_demoAction;
+    KAction * m_hintAction;
+    KAction * m_drawAction;
+    KAction * m_dealAction;
+    KAction * m_redealAction;
+    KAction * m_dropAction;
+    KToggleAction * m_autoDropEnabledAction;
+    KToggleAction * m_solverEnabledAction;
+    KToggleAction * m_rememberStateAction;
     KToggleAction * m_playSoundsAction;
-    KRecentFilesAction  *recent;
+    KAction * m_gameHelpAction;
 
     QMap<int, const DealerInfo*>  m_dealer_map;
     QMap<int, const DealerInfo*>::const_iterator  m_dealer_it;
 
-    PatienceView   *m_view;
-    DealerScene    *m_dealer;
-    GameSelectionScene *m_selector;
-    KCardDeck *m_cardDeck;
+    PatienceView * m_view;
+    DealerScene * m_dealer;
+    GameSelectionScene * m_selector;
+    KCardDeck * m_cardDeck;
     SoundEngine * m_soundEngine;
 
     NumberedDealDialog * m_dealDialog;
 
-    QLabel         *solverStatus;
-    QLabel         *moveStatus;
+    QLabel * m_solverStatusLabel;
+    QLabel * m_moveCountStatusLabel;
 };
 
 #endif
