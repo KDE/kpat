@@ -458,7 +458,9 @@ void DealerScene::saveGameHistory( QIODevice * io )
             xml.writeStartElement( "move" );
             xml.writeAttribute( "pile", change.newState.pile->objectName() );
             xml.writeAttribute( "position", QString::number( change.newState.index ) );
-            xml.writeAttribute( "face", change.newState.faceUp ? "up" : "down" );
+
+            bool faceChanged = !change.oldState.pile
+                               || change.oldState.faceUp != change.newState.faceUp;
 
             foreach ( const KCard * card, change.cards )
             {
@@ -466,6 +468,8 @@ void DealerScene::saveGameHistory( QIODevice * io )
                 xml.writeAttribute( "suit", suitToString( card->suit() ) );
                 xml.writeAttribute( "rank", rankToString( card->rank() ) );
                 xml.writeAttribute( "id", QString::number( card->id() ) );
+                if ( faceChanged )
+                    xml.writeAttribute( "turn", change.newState.faceUp ? "face-up" : "face-down" );
                 xml.writeEndElement();
             }
 
@@ -541,8 +545,6 @@ bool DealerScene::loadGameHistory( QIODevice * io )
             bool indexOk;
             int index = readIntAttribute( xml, "position", &indexOk );
 
-            bool faceUp = xml.attributes().value( "face" ) == "up";
-
             if ( !pile || !indexOk )
             {
                 kWarning() << "Unrecognized pile or index.";
@@ -563,7 +565,12 @@ bool DealerScene::loadGameHistory( QIODevice * io )
                     kWarning() << "Unrecognized card.";
                     return false;
                 }
-                card->setFaceUp( faceUp );
+
+                if ( xml.attributes().value("turn") == "face-up" )
+                    card->setFaceUp( true );
+                else if ( xml.attributes().value("turn") == "face-down" )
+                    card->setFaceUp( false );
+                
                 pile->insert( card, index );
 
                 ++index;
