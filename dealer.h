@@ -39,6 +39,7 @@
 #define DEALER_H
 
 class DealerScene;
+class CardDiff;
 class GameState;
 class MoveHint;
 #include "patpile.h"
@@ -185,6 +186,7 @@ protected:
                         const QList<KCardPile*> & freeCells,
                         int duration  );
 
+    QList<MoveHint> getSolverHints();
 
 protected slots:
     void takeState();
@@ -192,12 +194,6 @@ protected slots:
     virtual bool newCards();
     virtual bool drop();
     virtual bool tryAutomaticMove( KCard * card );
-
-    void undoOrRedo( bool undo );
-    GameState * getState();
-    void setState( GameState * state );
-
-    QList<MoveHint> getSolverHints();
 
 private slots:
     void stopAndRestartSolver();
@@ -209,6 +205,8 @@ private slots:
     void showWonMessage();
 
 private:
+    void undoOrRedo( bool undo );
+
     void resetInternals();
 
     MoveHint chooseHint();

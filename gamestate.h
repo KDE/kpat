@@ -49,47 +49,53 @@ class KCardPile;
 class CardState
 {
 public:
-    KCard * card;
     KCardPile * pile;
+    int index;
     bool faceUp;
     bool takenDown;
-    int cardIndex;
 
     bool operator==( const CardState & rhs ) const
     {
-        return card == rhs.card
-               && pile == rhs.pile
+        return pile == rhs.pile
+               && index == rhs.index
                && faceUp == rhs.faceUp
-               && cardIndex == rhs.cardIndex
                && takenDown == rhs.takenDown;
+    }
+
+    bool operator!=( const CardState & rhs ) const
+    {
+        return !operator==( rhs );
     }
 };
 
 
-uint qHash( const CardState & state )
+class CardDiff
 {
-    return qHash( state.card );
-}
+public:
+    CardState oldState;
+    CardState newState;
+
+    CardDiff( CardState o, CardState n )
+      : oldState( o ),
+        newState( n )
+    {
+    };
+};
 
 
 class GameState
 {
 public:
-    QSet<CardState> cards;
-    QString gameData;
+    QHash<KCard*,CardDiff> diffs;
+    QString stateData;
     Solver::ExitStatus solvability;
     QList<MOVE> winningMoves;
 
-    GameState( QSet<CardState> cardStates, QString gameData )
-      : cards( cardStates ),
-        gameData( gameData ),
+    GameState( QHash<KCard*,CardDiff> diffs, QString stateData )
+      : diffs( diffs ),
+        stateData( stateData ),
         solvability( Solver::SearchAborted )
     {
-    }
-
-    bool operator==( const GameState & rhs ) const
-    {
-        return cards == rhs.cards && gameData == rhs.gameData;
     }
 };
 

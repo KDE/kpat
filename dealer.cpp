@@ -183,6 +183,7 @@ public:
     QStack<GameState*> undoStack;
     GameState * currentState;
     QStack<GameState*> redoStack;
+    QHash<KCard*,CardState> cardStates;
 
     QList<PatPile*> patPiles;
     QSet<KCard*> cardsNotToDrop;
@@ -661,6 +662,7 @@ void DealerScene::resetInternals()
     d->currentState = 0;
     qDeleteAll( d->redoStack );
     d->redoStack.clear();
+    d->cardStates.clear();
 
     d->gameWasJustSaved = false;
     d->gameWasEverWinnable = false;
@@ -935,14 +937,73 @@ void DealerScene::undoOrRedo( bool undo )
     if ( isCardAnimationRunning() )
         return;
 
-    QStack<GameState*> & from = undo ? d->undoStack : d->redoStack;
-    QStack<GameState*> & to = undo ? d->redoStack : d->undoStack;
+    // The undo and redo actions are almost identical, except for where states
+    // are pulled from and pushed to, so to keep things generic, we use
+    // direction dependent const references throughout this code.
+    QStack<GameState*> & fromStack = undo ? d->undoStack : d->redoStack;
+    QStack<GameState*> & toStack = undo ? d->redoStack : d->undoStack;
 
-    if ( !from.isEmpty() && d->currentState )
+    if ( !fromStack.isEmpty() && d->currentState )
     {
-        to.push( d->currentState );
-        d->currentState = from.pop();
-        setState( d->currentState );
+        // If we're undoing, we use the oldStates of the diffs of the current
+        // state. If we're redoing, we use the newStates of the diffs of the
+        // nextState.
+        const QHash<KCard*,CardDiff> & diffs = undo ? d->currentState->diffs
+                                                    : fromStack.top()->diffs;
+
+        // Update the currentState pointer and undo/redo stacks.
+        toStack.push( d->currentState );
+        d->currentState = fromStack.pop();
+        setGameState( d->currentState->stateData );
+
+        QSet<KCardPile*> pilesAffected;
+        QHash<KCard*,CardDiff>::const_iterator it = diffs.constBegin();
+        QHash<KCard*,CardDiff>::const_iterator end = diffs.constEnd();
+        for ( ; it != end; ++it )
+        {
+            KCard * c = it.key();
+            const CardDiff & diff = it.value();
+            const CardState & sourceState = undo ? diff.newState : diff.oldState;
+            const CardState & destState = undo ? diff.oldState : diff.newState;
+
+            d->cardStates.insert( c, destState );
+            pilesAffected << sourceState.pile << destState.pile;
+
+            c->setFaceUp( destState.faceUp );
+            destState.pile->add( c );
+
+            PatPile * sourcePile = dynamic_cast<PatPile*>( sourceState.pile );
+            PatPile * destPile = dynamic_cast<PatPile*>( destState.pile );
+            if ( destState.takenDown
+                 || ((sourcePile && sourcePile->isFoundation())
+                     && !(destPile && destPile->isFoundation())) )
+            {
+                d->cardsNotToDrop.insert( c );
+            }
+            else
+            {
+                d->cardsNotToDrop.remove( c );
+            }
+        }
+
+        // At this point all cards should be in the right piles, but not
+        // necessarily at the right positions within those piles. So we
+        // run through the piles involved and swap card positions until
+        // everything is back in its place, then relayout the piles.
+        foreach( KCardPile * p, pilesAffected )
+        {
+            int i = 0;
+            while ( i < p->count() )
+            {
+                int index = d->cardStates.value( p->at( i ) ).index;
+                if ( i != index )
+                    p->swapCards( i, index );
+                else
+                    ++i;
+            }
+
+            updatePileLayout( p, 0 );
+        }
 
         emit updateMoves( moveCount() );
         emit undoPossible( !d->undoStack.isEmpty() );
@@ -994,11 +1055,33 @@ void DealerScene::takeState()
     if ( !isDemoActive() )
         d->winMoves.clear();
 
-    GameState * newState = getState();
-
-    if ( d->currentState && *newState == *(d->currentState) )
+    QHash<KCard*,CardDiff> cardDiffs;
+    foreach ( KCardPile * p, piles() )
     {
-        delete newState;
+        for ( int i = 0; i < p->count(); ++i )
+        {
+            KCard * c = p->at( i );
+
+            CardState s;
+            s.pile = p;
+            s.index = i;
+            s.faceUp = c->isFaceUp();
+            s.takenDown = d->cardsNotToDrop.contains( c );
+
+            const CardState & oldState = d->cardStates.value( c );
+            if ( s != oldState )
+            {
+                cardDiffs.insert( c, CardDiff( oldState, s ) );
+                d->cardStates.insert( c, s );
+            }
+        }
+    }
+
+    // If nothing has changed, we're done.
+    if ( cardDiffs.isEmpty()
+         && d->currentState
+         && d->currentState->stateData == getGameState() )
+    {
         return;
     }
 
@@ -1008,7 +1091,7 @@ void DealerScene::takeState()
         qDeleteAll( d->redoStack );
         d->redoStack.clear();
     }
-    d->currentState = newState;
+    d->currentState = new GameState( cardDiffs, getGameState() );
 
     emit redoPossible( false );
     emit undoPossible( !d->undoStack.isEmpty() );
@@ -1040,72 +1123,6 @@ void DealerScene::takeState()
         else
             startDrop();
     }
-}
-
-
-GameState *DealerScene::getState()
-{
-    QSet<CardState> cardStates;
-    cardStates.reserve( deck()->cards().size() );
-    foreach (PatPile * p, patPiles())
-    {
-        foreach (KCard * c, p->cards())
-        {
-            CardState s;
-            s.card = c;
-            s.pile = c->pile();
-            if (!s.pile) {
-                kDebug() << c->objectName() << "has no valid parent.";
-                Q_ASSERT(false);
-                continue;
-            }
-            s.cardIndex = s.pile->indexOf( c );
-            s.faceUp = c->isFaceUp();
-            s.takenDown = d->cardsNotToDrop.contains( c );
-            cardStates << s;
-        }
-    }
-
-    return new GameState( cardStates, getGameState() );
-}
-
-
-void DealerScene::setState( GameState * state )
-{
-    d->cardsNotToDrop.clear();
-
-    QSet<KCard*> cardsFromFoundations;
-    foreach (PatPile *p, patPiles())
-    {
-        if ( p->isFoundation() )
-            foreach (KCard *c, p->cards())
-                cardsFromFoundations.insert( c );
-        p->clear();
-    }
-
-    QMap<KCard*,int> cardIndices;
-    foreach ( const CardState & s, state->cards )
-    {
-        KCard *c = s.card;
-        c->setFaceUp( s.faceUp );
-        s.pile->add( c );
-        cardIndices.insert( c, s.cardIndex );
-
-        PatPile * p = dynamic_cast<PatPile*>(c->pile());
-        if ( s.takenDown || (cardsFromFoundations.contains( c ) && !(p && p->isFoundation())) )
-            d->cardsNotToDrop.insert( c );
-    }
-
-    foreach( PatPile * p, patPiles() )
-    {
-        foreach ( KCard * c, p->cards() )
-            p->swapCards( p->indexOf( c ), cardIndices.value( c ) );
-
-        updatePileLayout( p, 0 );
-    }
-
-    // restore game-specific information
-    setGameState( state->gameData );
 }
 
 
