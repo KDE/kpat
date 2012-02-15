@@ -189,8 +189,8 @@ void MainWindow::setupActions()
     m_recentFilesAction = KStandardGameAction::loadRecent( this, SLOT(loadGame(KUrl)), actionCollection() );
     m_recentFilesAction->loadEntries(KGlobal::config()->group( QString() ));
 
-    a = KStandardGameAction::saveAs(this, SLOT(saveGame()), actionCollection());
-    a->setShortcut( KShortcut( Qt::ControlModifier | Qt::Key_S ) );
+    m_saveAction = KStandardGameAction::saveAs(this, SLOT(saveGame()), actionCollection());
+    m_saveAction->setShortcut( KShortcut( Qt::ControlModifier | Qt::Key_S ) );
 
     a = actionCollection()->addAction( QLatin1String( "game_stats" ));
     a->setText(i18n("Statistics"));
@@ -606,6 +606,8 @@ void MainWindow::updateActions()
 
         connect( m_dealer, SIGNAL(dropActive(bool)), m_dropAction, SLOT(setChecked(bool)) );
         connect( m_dealer, SIGNAL(gameInProgress(bool)), m_dropAction, SLOT(setEnabled(bool)) );
+
+        connect( m_dealer, SIGNAL(gameInProgress(bool)), m_saveAction, SLOT(setEnabled(bool)) );
 
         connect( m_leftAction, SIGNAL(triggered(bool)), m_dealer, SLOT(keyboardFocusLeft()) );
         connect( m_rightAction, SIGNAL(triggered(bool)), m_dealer, SLOT(keyboardFocusRight()) );

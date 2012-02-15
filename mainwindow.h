@@ -129,6 +129,7 @@ private:
     KAction * m_pickUpSetDownAction;    
 
     KRecentFilesAction * m_recentFilesAction;
+    KAction * m_saveAction;
     KAction * m_undoAction;
     KAction * m_redoAction;
     KAction * m_demoAction;
