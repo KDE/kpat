@@ -841,19 +841,29 @@ bool MainWindow::loadGame( const KUrl & url, bool addToRecentFiles )
         return false;
     }
 
-    bool idOk;
     int gameId = -1;
     bool isOldStyleFile;
 
     if ( xml.name() == "dealer" )
     {
         isOldStyleFile = true;
-        gameId = xml.attributes().value("id").toString().toInt( &idOk );
+        bool ok;
+        int id = xml.attributes().value("id").toString().toInt( &ok );
+        if ( ok )
+            gameId = id;
     }
     else if ( xml.name() == "kpat-game" )
     {
         isOldStyleFile = false;
-        gameId = xml.attributes().value("game-type").toString().toInt( &idOk );
+        QStringRef gameType = xml.attributes().value("game-type");
+        foreach ( const DealerInfo * di, DealerInfoList::self()->games() )
+        {
+            if ( di->baseIdString() == gameType )
+            {
+                gameId = di->baseId();
+                break;
+            }
+        }
     }
     else
     {
@@ -861,7 +871,7 @@ bool MainWindow::loadGame( const KUrl & url, bool addToRecentFiles )
         return false;
     }
 
-    if ( !idOk || !m_dealer_map.contains( gameId ) )
+    if ( !m_dealer_map.contains( gameId ) )
     {
         KMessageBox::error( this, i18n("Unrecognized game id.") );
         return false;

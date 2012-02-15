@@ -432,7 +432,7 @@ void DealerScene::saveGameHistory( QIODevice * io )
     xml.writeStartDocument();
 
     xml.writeStartElement( "kpat-game" );
-    xml.writeAttribute( "game-type", QString::number( gameId() ) );
+    xml.writeAttribute( "game-type", m_di->baseIdString() );
     if ( !getGameOptions().isEmpty() )
         xml.writeAttribute( "game-type-options", getGameOptions() );
     xml.writeAttribute( "deal-number", QString::number( gameNumber() ) );
