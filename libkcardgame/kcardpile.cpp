@@ -424,8 +424,6 @@ void KCardPile::add( KCard * card )
 
 void KCardPile::insert( KCard * card, int index )
 {
-    Q_ASSERT( 0 <= index && index <= d->cards.size() );
-
     if ( card->scene() != scene() )
         scene()->addItem( card );
 
