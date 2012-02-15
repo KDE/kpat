@@ -86,8 +86,8 @@ public:
     virtual void relayoutScene();
     virtual void recalculatePileLayouts();
 
-    virtual void addPile( KCardPile * pile );
-    virtual void removePile( KCardPile * pile );
+    void addPile( KCardPile * pile );
+    void removePile( KCardPile * pile );
     QList<KCardPile*> piles() const;
 
     void setHighlightedItems( QList<QGraphicsItem*> items );

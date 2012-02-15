@@ -395,34 +395,21 @@ DealerScene::~DealerScene()
 }
 
 
-void DealerScene::addPile( KCardPile * pile )
+void DealerScene::addPatPile( PatPile * pile )
 {
-    d->patPiles.clear();
-
-    KCardScene::addPile( pile );
+    if ( !d->patPiles.contains( pile ) )
+        d->patPiles.append( pile );
 }
 
 
-void DealerScene::removePile( KCardPile * pile )
+void DealerScene::removePatPile( PatPile * pile )
 {
-    d->patPiles.clear();
-
-    KCardScene::removePile( pile );
+    d->patPiles.removeAll( pile );
 }
 
 
 QList<PatPile*> DealerScene::patPiles() const
 {
-    if ( d->patPiles.isEmpty() )
-    {
-        foreach( KCardPile * p, piles() )
-        {
-            PatPile * pp = dynamic_cast<PatPile*>( p );
-            if ( pp )
-                d->patPiles << pp;
-        }
-    }
-
     return d->patPiles;
 }
 

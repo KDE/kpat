@@ -51,8 +51,8 @@
 class InvisiblePile : public PatPile
 {
 public:
-    InvisiblePile( KCardScene * cardScene, int index, const QString & objectName = QString() )
-      : PatPile( cardScene, index, objectName )
+    InvisiblePile( DealerScene * scene, int index, const QString & objectName = QString() )
+      : PatPile( scene, index, objectName )
     {
     };
 

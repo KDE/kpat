@@ -69,8 +69,8 @@ public:
     virtual void relayoutScene();
     void updateWonItem();
 
-    virtual void addPile( KCardPile * pile );
-    virtual void removePile( KCardPile * pile );
+    void addPatPile( PatPile * pile );
+    void removePatPile( PatPile * pile );
     QList<PatPile*> patPiles() const;
 
     void setAutoDropEnabled( bool enabled );

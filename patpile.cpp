@@ -22,8 +22,8 @@
 #include "renderer.h"
 
 
-PatPile::PatPile( KCardScene * cardScene, int index, const QString & objectName )
-  : KCardPile( cardScene ),
+PatPile::PatPile( DealerScene * scene, int index, const QString & objectName )
+  : KCardPile( scene ),
     m_index( index ),
     m_role( NoRole )
 {
@@ -34,6 +34,17 @@ PatPile::PatPile( KCardScene * cardScene, int index, const QString & objectName 
 
     // Set the default spread for all piles in KPat.
     setSpread( 0, 0.33 );
+
+    if ( scene )
+        scene->addPatPile( this );
+}
+
+
+PatPile::~PatPile()
+{
+    DealerScene * dealerScene = dynamic_cast<DealerScene*>( scene() );
+    if ( dealerScene )
+        dealerScene->removePatPile( this );
 }
 
 

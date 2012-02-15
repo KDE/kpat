@@ -47,8 +47,8 @@
 #include <KSelectAction>
 
 
-KlondikePile::KlondikePile( KCardScene * cardScene, int index, const QString & objectName )
-  : PatPile( cardScene, index, objectName ),
+KlondikePile::KlondikePile( DealerScene * scene, int index, const QString & objectName )
+  : PatPile( scene, index, objectName ),
     m_cardsToShow( 1 )
 {
 }

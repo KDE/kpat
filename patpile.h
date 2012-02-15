@@ -19,6 +19,8 @@
 #ifndef PATPILE_H
 #define PATPILE_H
 
+class DealerScene;
+
 #include "KCardPile"
 
 
@@ -43,7 +45,8 @@ public:
         Cell
     };
 
-    PatPile( KCardScene * cardScene, int index, const QString & objectName = QString() );
+    PatPile( DealerScene * scene, int index, const QString & objectName = QString() );
+    virtual ~PatPile();
 
     int index() const;
 

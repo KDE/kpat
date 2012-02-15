@@ -90,7 +90,7 @@ private:
 class KlondikePile : public PatPile
 {
 public:
-    KlondikePile( KCardScene * cardScene, int index, const QString & objectName = QString() );
+    KlondikePile( DealerScene * scene, int index, const QString & objectName = QString() );
     void setCardsToShow( int numCards );
     int cardsToShow() const;
     virtual QList<QPointF> cardPositions() const;
