@@ -1003,11 +1003,11 @@ void DealerScene::undoOrRedo( bool undo )
 
     if ( !fromStack.isEmpty() && d->currentState )
     {
-        // If we're undoing, we use the oldStates of the diffs of the current
-        // state. If we're redoing, we use the newStates of the diffs of the
+        // If we're undoing, we use the oldStates of the changes of the current
+        // state. If we're redoing, we use the newStates of the changes of the
         // nextState.
-        const QHash<KCard*,CardDiff> & diffs = undo ? d->currentState->diffs
-                                                    : fromStack.top()->diffs;
+        const QList<CardStateChange> & changes = undo ? d->currentState->changes
+                                                      : fromStack.top()->changes;
 
         // Update the currentState pointer and undo/redo stacks.
         toStack.push( d->currentState );
@@ -1015,32 +1015,33 @@ void DealerScene::undoOrRedo( bool undo )
         setGameState( d->currentState->stateData );
 
         QSet<KCardPile*> pilesAffected;
-        QHash<KCard*,CardDiff>::const_iterator it = diffs.constBegin();
-        QHash<KCard*,CardDiff>::const_iterator end = diffs.constEnd();
-        for ( ; it != end; ++it )
+        foreach ( const CardStateChange & change, changes )
         {
-            KCard * c = it.key();
-            const CardDiff & diff = it.value();
-            const CardState & sourceState = undo ? diff.newState : diff.oldState;
-            const CardState & destState = undo ? diff.oldState : diff.newState;
-
-            d->cardStates.insert( c, destState );
-            pilesAffected << sourceState.pile << destState.pile;
-
-            c->setFaceUp( destState.faceUp );
-            destState.pile->add( c );
+            CardState sourceState = undo ? change.newState : change.oldState;
+            CardState destState = undo ? change.oldState : change.newState;
 
             PatPile * sourcePile = dynamic_cast<PatPile*>( sourceState.pile );
             PatPile * destPile = dynamic_cast<PatPile*>( destState.pile );
-            if ( destState.takenDown
-                 || ((sourcePile && sourcePile->isFoundation())
-                     && !(destPile && destPile->isFoundation())) )
+            bool notDroppable = destState.takenDown
+                                || ((sourcePile && sourcePile->isFoundation())
+                                    && !(destPile && destPile->isFoundation()));
+
+            pilesAffected << sourceState.pile << destState.pile;
+            
+            foreach ( KCard * c, change.cards )
             {
-                d->cardsNotToDrop.insert( c );
-            }
-            else
-            {
-                d->cardsNotToDrop.remove( c );
+                d->cardStates.insert( c, destState );
+
+                c->setFaceUp( destState.faceUp );
+                destState.pile->insert( c, destState.index );
+
+                if ( notDroppable )
+                    d->cardsNotToDrop.insert( c );
+                else
+                    d->cardsNotToDrop.remove( c );
+
+                ++sourceState.index;
+                ++destState.index;
             }
         }
 
@@ -1054,10 +1055,10 @@ void DealerScene::undoOrRedo( bool undo )
             while ( i < p->count() )
             {
                 int index = d->cardStates.value( p->at( i ) ).index;
-                if ( i != index )
-                    p->swapCards( i, index );
-                else
+                if ( i == index )
                     ++i;
+                else
+                    p->swapCards( i, index );
             }
 
             updatePileLayout( p, 0 );
@@ -1099,30 +1100,58 @@ void DealerScene::takeState()
     if ( !isDemoActive() )
         d->winMoves.clear();
 
-    QHash<KCard*,CardDiff> cardDiffs;
+    QList<CardStateChange> changes;
+
     foreach ( KCardPile * p, piles() )
     {
+        QList<KCard*> currentRun;
+        CardState oldRunState;
+        CardState newRunState;
+        
         for ( int i = 0; i < p->count(); ++i )
         {
             KCard * c = p->at( i );
 
-            CardState s;
-            s.pile = p;
-            s.index = i;
-            s.faceUp = c->isFaceUp();
-            s.takenDown = d->cardsNotToDrop.contains( c );
-
             const CardState & oldState = d->cardStates.value( c );
-            if ( s != oldState )
+            CardState newState( p, i, c->isFaceUp(), d->cardsNotToDrop.contains( c ) );
+
+            // The card has changed.
+            if ( newState != oldState )
             {
-                cardDiffs.insert( c, CardDiff( oldState, s ) );
-                d->cardStates.insert( c, s );
+                // There's a run in progress, but this card isn't part of it.
+                if ( !currentRun.isEmpty()
+                     && (oldState.pile != oldRunState.pile
+                         || (oldState.index != -1 && oldState.index != oldRunState.index + currentRun.size())
+                         || oldState.faceUp != oldRunState.faceUp
+                         || newState.faceUp != newRunState.faceUp
+                         || oldState.takenDown != oldRunState.takenDown
+                         || newState.takenDown != newRunState.takenDown) )
+                {
+                    changes << CardStateChange( oldRunState, newRunState, currentRun );
+                    currentRun.clear();
+                }
+
+                // This card is the start of a new run.
+                if ( currentRun.isEmpty() )
+                {
+                    oldRunState = oldState;
+                    newRunState = newState;
+                }
+                
+                currentRun << c;
+
+                d->cardStates.insert( c, newState );
             }
+        }
+        // Add the last run, if any.
+        if ( !currentRun.isEmpty() )
+        {
+            changes << CardStateChange( oldRunState, newRunState, currentRun );
         }
     }
 
     // If nothing has changed, we're done.
-    if ( cardDiffs.isEmpty()
+    if ( changes.isEmpty()
          && d->currentState
          && d->currentState->stateData == getGameState() )
     {
@@ -1135,7 +1164,7 @@ void DealerScene::takeState()
         qDeleteAll( d->redoStack );
         d->redoStack.clear();
     }
-    d->currentState = new GameState( cardDiffs, getGameState() );
+    d->currentState = new GameState( changes, getGameState() );
 
     emit redoPossible( false );
     emit undoPossible( !d->undoStack.isEmpty() );

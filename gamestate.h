@@ -54,6 +54,22 @@ public:
     bool faceUp;
     bool takenDown;
 
+    CardState()
+      : pile( 0 ),
+        index( -1 ),
+        faceUp( false ),
+        takenDown( false )
+    {
+    }
+    
+    CardState( KCardPile * pile, int index, bool faceUp, bool takenDown )
+      : pile( pile ),
+        index( index ),
+        faceUp( faceUp ),
+        takenDown( takenDown )
+    {
+    }
+
     bool operator==( const CardState & rhs ) const
     {
         return pile == rhs.pile
@@ -69,30 +85,31 @@ public:
 };
 
 
-class CardDiff
+class CardStateChange
 {
 public:
     CardState oldState;
     CardState newState;
+    QList<KCard*> cards;
 
-    CardDiff( CardState o, CardState n )
-      : oldState( o ),
-        newState( n )
+    CardStateChange( CardState oldState, CardState newState, QList<KCard*> cards )
+      : oldState( oldState ),
+        newState( newState ),
+        cards( cards )
     {
     };
 };
 
-
 class GameState
 {
 public:
-    QHash<KCard*,CardDiff> diffs;
+    QList<CardStateChange> changes;
     QString stateData;
     Solver::ExitStatus solvability;
     QList<MOVE> winningMoves;
 
-    GameState( QHash<KCard*,CardDiff> diffs, QString stateData )
-      : diffs( diffs ),
+    GameState( QList<CardStateChange> changes, QString stateData )
+      : changes ( changes ),
         stateData( stateData ),
         solvability( Solver::SearchAborted )
     {
