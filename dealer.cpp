@@ -370,7 +370,7 @@ bool DealerScene::loadLegacyFile( QIODevice * io )
 
         bool ok;
         int index = readIntAttribute( xml, "index", &ok );
-        QHash<int,PatPile*>::const_iterator it = piles.find( index );
+        QHash<int,PatPile*>::const_iterator it = piles.constFind( index );
         if ( !ok || it == piles.constEnd() )
         {
             kWarning() << "Unrecognized pile index:" << xml.attributes().value( "index" );
