@@ -18,7 +18,7 @@
 #ifndef SOUNDENGINE_H
 #define SOUNDENGINE_H
 
-#include <Phonon/MediaObject>
+#include <KgSound>
 
 
 class SoundEngine : public QObject
@@ -34,10 +34,8 @@ public slots:
     void cardsPutDown();
 
 private:
-    Phonon::MediaObject * m_mediaObject;
-
-    Phonon::MediaSource m_cardPickedUp;
-    Phonon::MediaSource m_cardPutDown;
+    KgSound m_cardPickedUp;
+    KgSound m_cardPutDown;
 };
 
 #endif

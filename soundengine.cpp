@@ -21,16 +21,10 @@
 
 
 SoundEngine::SoundEngine( QObject * parent )
-  : QObject( parent )
+  : QObject( parent ),
+    m_cardPickedUp( KStandardDirs::locate( "appdata", "sounds/card-pickup.ogg" ) ),
+    m_cardPutDown( KStandardDirs::locate( "appdata", "sounds/card-down.ogg" ) )
 {
-    m_mediaObject = Phonon::createPlayer( Phonon::GameCategory );
-    m_mediaObject->setParent( this );
-
-    QString path = KStandardDirs::locate( "appdata", "sounds/card-pickup.ogg" );
-    m_cardPickedUp = Phonon::MediaSource( path );
-
-    path = KStandardDirs::locate( "appdata", "sounds/card-down.ogg" );
-    m_cardPutDown = Phonon::MediaSource( path );
 }
 
 
@@ -41,15 +35,13 @@ SoundEngine::~SoundEngine()
 
 void SoundEngine::cardsPickedUp()
 {
-    m_mediaObject->setCurrentSource( m_cardPickedUp );
-    m_mediaObject->play();
+    m_cardPickedUp.start();
 }
 
 
 void SoundEngine::cardsPutDown()
 {
-    m_mediaObject->setCurrentSource( m_cardPutDown );
-    m_mediaObject->play();
+    m_cardPutDown.start();
 }
 
 
