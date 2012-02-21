@@ -40,18 +40,22 @@
 
 class CardDiff;
 class DealerInfo;
-class GameState;
+#include "gamestate.h"
+class MessageBox;
 class MoveHint;
 #include "patpile.h"
+class Solver;
+class SolverThread;
 #include "speeds.h"
 #include "view.h"
-class Solver;
+#include "patsolve/patsolve.h"
 
 #include "KCardDeck"
 #include "KCardScene"
 
 class QAction;
 #include <QtCore/QMap>
+#include <QtCore/QStack>
 class QDomDocument;
 
 
@@ -136,7 +140,7 @@ signals:
     void cardsPutDown();
 
 public slots:
-    void startNew(int gameNumber = -1);
+    void startNew( int dealNumber = -1 );
 
     void undo();
     void redo();
@@ -225,8 +229,63 @@ private:
 
     const DealerInfo * const m_di;
 
-    class DealerScenePrivate;
-    DealerScenePrivate *d;
+    Solver * m_solver;
+    SolverThread * m_solverThread;
+    QList<MOVE> m_winningMoves;
+
+    KCard * m_peekedCard;
+    MessageBox * m_wonItem;
+
+    QTimer * m_solverUpdateTimer;
+    QTimer * m_demoTimer;
+    QTimer * m_dropTimer;
+
+    int m_dealNumber;
+    int m_loadedMoveCount;
+    int m_neededFutureMoves;
+    int m_supportedActions;
+
+    bool m_autoDropEnabled;
+    bool m_solverEnabled;
+
+    bool m_dealStarted;
+    bool m_dealWasEverWinnable;
+    bool m_dealHasBeenWon;
+    bool m_dealWasJustSaved;
+    bool m_statisticsRecorded;
+    bool m_playerReceivedHelp;
+
+    // We need a flag to avoid telling someone the game is lost
+    // just because the winning animation moved the cards away
+    bool m_toldAboutWonGame;
+    bool m_toldAboutLostGame;
+
+    QSet<KCard*> m_cardsRemovedFromFoundations;
+    qreal m_dropSpeedFactor;
+    bool m_interruptAutoDrop;
+
+    bool m_dealInProgress;
+    bool m_hintInProgress;
+    bool m_demoInProgress;
+    bool m_dropInProgress;
+
+    bool m_hintQueued;
+    bool m_demoQueued;
+    bool m_dropQueued;
+    bool m_newCardsQueued;
+    bool m_takeStateQueued;
+
+    QStack<GameState*> m_undoStack;
+    GameState * m_currentState;
+    QStack<GameState*> m_redoStack;
+    QHash<KCard*,CardState> m_lastKnownCardStates;
+
+    QList<QPair<KCard*,KCardPile*> > m_multiStepMoves;
+    int m_multiStepDuration;
+
+    QList<PatPile*> m_patPiles;
+
+    QMap<KCard*,QPointF> m_initDealPositions;
 };
 
 #endif
