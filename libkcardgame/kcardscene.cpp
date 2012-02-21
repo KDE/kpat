@@ -783,7 +783,8 @@ void KCardScene::moveCardsToPile( const QList<KCard*> & cards, KCardPile * pile,
 
     KCardPile * source = cards.first()->pile();
     d->sendCardsToPile( pile, cards, duration, false, false );
-    d->sendCardsToPile( source, QList<KCard*>(), duration, false, false );
+    if ( source )
+        d->sendCardsToPile( source, QList<KCard*>(), duration, false, false );
     cardsMoved( cards, source, pile );
 }
 
@@ -801,7 +802,8 @@ void KCardScene::moveCardsToPileAtSpeed( const QList<KCard*> & cards, KCardPile 
 
     KCardPile * source = cards.first()->pile();
     d->sendCardsToPile( pile, cards, velocity, true, false );
-    d->sendCardsToPile( source, QList<KCard*>(), cardMoveDuration, false, false );
+    if ( source )
+        d->sendCardsToPile( source, QList<KCard*>(), cardMoveDuration, false, false );
     cardsMoved( cards, source, pile );
 }
 
@@ -819,7 +821,8 @@ void KCardScene::flipCardsToPile( const QList<KCard*> & cards, KCardPile * pile,
 
     KCardPile * source = cards.first()->pile();
     d->sendCardsToPile( pile, cards, duration, false, true );
-    d->sendCardsToPile( source, QList<KCard*>(), duration, false, false );
+    if ( source )
+        d->sendCardsToPile( source, QList<KCard*>(), duration, false, false );
     cardsMoved( cards, source, pile );
 }
 
@@ -837,7 +840,8 @@ void KCardScene::flipCardsToPileAtSpeed( const QList<KCard*> & cards, KCardPile 
 
     KCardPile * source = cards.first()->pile();
     d->sendCardsToPile( pile, cards, velocity, true, true );
-    d->sendCardsToPile( source, QList<KCard*>(), cardMoveDuration, false, false );
+    if ( source )
+        d->sendCardsToPile( source, QList<KCard*>(), cardMoveDuration, false, false );
     cardsMoved( cards, source, pile );
 }
 
