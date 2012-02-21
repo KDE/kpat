@@ -56,6 +56,7 @@ class SolverThread;
 class QAction;
 #include <QtCore/QMap>
 #include <QtCore/QStack>
+#include <QtCore/QTimer>
 class QDomDocument;
 
 
@@ -104,7 +105,7 @@ public:
 
     void setSolverEnabled( bool enabled );
     Solver * solver() const;
-    void startSolver() const;
+    void startSolver();
 
     virtual bool isGameLost() const;
     virtual bool isGameWon() const;
@@ -236,9 +237,9 @@ private:
     KCard * m_peekedCard;
     MessageBox * m_wonItem;
 
-    QTimer * m_solverUpdateTimer;
-    QTimer * m_demoTimer;
-    QTimer * m_dropTimer;
+    QTimer m_solverUpdateTimer;
+    QTimer m_demoTimer;
+    QTimer m_dropTimer;
 
     int m_dealNumber;
     int m_loadedMoveCount;

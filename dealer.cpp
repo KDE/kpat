@@ -55,9 +55,7 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QMutex>
-#include <QtCore/QString>
 #include <QtCore/QThread>
-#include <QtCore/QTimer>
 #include <QtCore/QXmlStreamReader>
 #include <QtCore/QXmlStreamWriter>
 #include <QtGui/QGraphicsSceneMouseEvent>
@@ -573,18 +571,15 @@ DealerScene::DealerScene( const DealerInfo * di )
 {
     setItemIndexMethod(QGraphicsScene::NoIndex);
 
-    m_solverUpdateTimer = new QTimer( this );
-    m_solverUpdateTimer->setInterval( 250 );
-    m_solverUpdateTimer->setSingleShot( true );
-    connect( m_solverUpdateTimer, SIGNAL(timeout()), SLOT(stopAndRestartSolver()) );
+    m_solverUpdateTimer.setInterval( 250 );
+    m_solverUpdateTimer.setSingleShot( true );
+    connect( &m_solverUpdateTimer, SIGNAL(timeout()), SLOT(stopAndRestartSolver()) );
 
-    m_demoTimer = new QTimer(this);
-    m_demoTimer->setSingleShot( true );
-    connect( m_demoTimer, SIGNAL(timeout()), SLOT(demo()) );
+    m_demoTimer.setSingleShot( true );
+    connect( &m_demoTimer, SIGNAL(timeout()), SLOT(demo()) );
 
-    m_dropTimer = new QTimer( this );
-    m_dropTimer->setSingleShot( true );
-    connect( m_dropTimer, SIGNAL(timeout()), this, SLOT(drop()) );
+    m_dropTimer.setSingleShot( true );
+    connect( &m_dropTimer, SIGNAL(timeout()), this, SLOT(drop()) );
 
     m_wonItem = new MessageBox();
     m_wonItem->setZValue( 2000 );
@@ -1403,7 +1398,7 @@ void DealerScene::stopDrop()
 {
     if ( m_dropInProgress )
     {
-        m_dropTimer->stop();
+        m_dropTimer.stop();
         m_dropInProgress = false;
         emit dropActive( false );
 
@@ -1560,11 +1555,11 @@ void DealerScene::animationDone()
 
     if ( m_demoInProgress )
     {
-        m_demoTimer->start( TIME_BETWEEN_MOVES );
+        m_demoTimer.start( TIME_BETWEEN_MOVES );
     }
     else if ( m_dropInProgress )
     {
-        m_dropTimer->start( speedUpTime( TIME_BETWEEN_MOVES ) );
+        m_dropTimer.start( speedUpTime( TIME_BETWEEN_MOVES ) );
     }
     else if ( m_newCardsQueued )
     {
@@ -1612,7 +1607,7 @@ void DealerScene::stopDemo()
 {
     if ( m_demoInProgress )
     {
-        m_demoTimer->stop();
+        m_demoTimer.stop();
         m_demoInProgress = false;
         emit demoActive( false );
     }
@@ -1638,7 +1633,7 @@ void DealerScene::demo()
     m_dealStarted = true;
     clearHighlightedItems();
 
-    m_demoTimer->stop();
+    m_demoTimer.stop();
 
     MoveHint mh = chooseHint();
     if ( mh.isValid() )
@@ -1729,10 +1724,10 @@ bool DealerScene::isGameWon() const
     return true;
 }
 
-void DealerScene::startSolver() const
+void DealerScene::startSolver()
 {
     if( m_solverEnabled )
-        m_solverUpdateTimer->start();
+        m_solverUpdateTimer.start();
 }
 
 
