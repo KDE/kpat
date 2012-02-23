@@ -261,7 +261,7 @@ void MainWindow::setupActions()
     m_solverEnabledAction->setChecked( Settings::solverEnabled() );
 
     m_playSoundsAction = new KToggleAction( KIcon( QLatin1String( "preferences-desktop-sound") ), i18n("Play &Sounds" ), this );
-    actionCollection()->addAction( QLatin1String(  "play_sounds" ), m_playSoundsAction );
+    actionCollection()->addAction( QLatin1String( "play_sounds" ), m_playSoundsAction );
     connect( m_playSoundsAction, SIGNAL(triggered(bool)), SLOT(enableSounds(bool)) );
     m_playSoundsAction->setChecked( Settings::playSounds() );
 
