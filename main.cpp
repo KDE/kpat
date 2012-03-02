@@ -154,7 +154,7 @@ int main( int argc, char **argv )
                          "simon.huerlimann@huerlisi.ch" );
     aboutData.addAuthor( ki18n("Parker Coates"),
                          ki18n("Cleanup and polish"),
-                         "parker.coates@kdemail.net" );
+                         "coates@kde.org" );
 
     // Create a KLocale earlier than normal so that we can use i18n to translate
     // the names of the game types in the help text.

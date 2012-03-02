@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 1995 Paul Olav Tvete <paul@troll.no>
  * Copyright (C) 2000-2009 Stephan Kulow <coolo@kde.org>
- * Copyright (C) 2009-2010 Parker Coates <parker.coates@kdemail.net>
+ * Copyright (C) 2009-2010 Parker Coates <coates@kde.org>
  *
  * License of original code:
  * -------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2009-2010 Parker Coates <parker.coates@kdemail.org>
+ *  Copyright (C) 2009-2010 Parker Coates <coates@kde.org>
  *
  *  Original card caching:
  *  Copyright (C) 2008 Andreas Pakulat <apaku@gmx.de>

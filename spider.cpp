@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2003 Josh Metzler <joshdeb@metzlers.org>
  * Copyright (C) 2000-2009 Stephan Kulow <coolo@kde.org>
- * Copyright (C) 2010 Parker Coates <parker.coates@kdemail.net>
+ * Copyright (C) 2010 Parker Coates <coates@kde.org>
  *
  * License of original code:
  * -------------------------------------------------------------------------
