@@ -43,7 +43,7 @@ private:
     static Renderer * s_instance;
 
     QHash<QString,QColor> m_colors;
-    QString m_cachedTheme;
+    QByteArray m_cachedTheme;
 
     friend class RendererPrivate;
 };

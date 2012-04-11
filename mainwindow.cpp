@@ -53,8 +53,7 @@
 #include "KCardTheme"
 #include "KCardThemeWidget"
 
-#include <KGameTheme>
-#include <KGameThemeSelector>
+#include <KgThemeSelector>
 #include <KStandardGameAction>
 
 #include <KAction>
@@ -433,12 +432,14 @@ void MainWindow::configureAppearance()
                          i18n("Select a card deck")
                        );
 
-        dialog->addPage( new KGameThemeSelector( this, Settings::self(), KGameThemeSelector::NewStuffEnableDownload ),
+        KgThemeProvider* provider = Renderer::self()->themeProvider();
+        dialog->addPage( new KgThemeSelector(provider),
                          i18n("Game Theme"),
                          "games-config-theme",
                          i18n("Select a theme for non-card game elements")
                        );
 
+        connect( provider, SIGNAL(currentThemeChanged(const KgTheme*)), SLOT(appearanceChanged()) );
         connect( dialog, SIGNAL(settingsChanged(QString)), this, SLOT(appearanceChanged()) );
         dialog->show();
     }
@@ -447,8 +448,6 @@ void MainWindow::configureAppearance()
 
 void MainWindow::appearanceChanged()
 {
-    Renderer::self()->setTheme( Settings::theme() );
-
     if ( m_cardDeck && Settings::cardTheme() != m_cardDeck->theme().dirName() )
     {
         KCardTheme theme( Settings::cardTheme() );

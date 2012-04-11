@@ -20,6 +20,8 @@
 
 #include "settings.h"
 
+#include <KgThemeProvider>
+
 
 Renderer * Renderer::s_instance = 0;
 
@@ -48,10 +50,10 @@ qreal Renderer::aspectRatioOfElement( const QString & elementId )
 
 QColor Renderer::colorOfElement( const QString & elementId )
 {
-    if ( m_cachedTheme != theme() )
+    if ( m_cachedTheme != theme()->identifier() )
     {
         m_colors.clear();
-        m_cachedTheme = theme();
+        m_cachedTheme = theme()->identifier();
     }
 
     QColor color;
@@ -69,10 +71,18 @@ QColor Renderer::colorOfElement( const QString & elementId )
     return color;
 }
 
+static KgThemeProvider* provider()
+{
+    KgThemeProvider* prov = new KgThemeProvider;
+    prov->discoverThemes(
+        "appdata", QLatin1String("themes"), //theme file location
+        QLatin1String("greenblaze")         //default theme file name
+    );
+    return prov;
+}
 
 Renderer::Renderer()
-  : KGameRenderer( Settings::defaultThemeValue() )
+  : KGameRenderer( provider() )
 {
-    setTheme( Settings::theme() );
 }
 
