@@ -65,8 +65,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2011-10-17 (&kde; 4.7)</date><!-- Date of (re)writing, or update.-->
-<releaseinfo>&kappversion;</releaseinfo><!-- Application version number. Use the variable definitions within header to change this value.-->
+<date>2012-08-06</date><!-- Date of (re)writing, or update.-->
+<releaseinfo>&kappversion; (&kde; 4.9)</releaseinfo><!-- Application version number. Use the variable definitions within header to change this value.-->
 
 <!--Short description of this document. Do not change unless necessary!-->
 <abstract>
@@ -592,6 +592,7 @@ win at Easy level, and very difficult to win at Hard level.
 			</varlistentry>
 			<varlistentry id="game-menu-new-numbered-deal">
 				<term><menuchoice>
+					<shortcut><keycombo action="simul">&Ctrl;<keycap>D</keycap></keycombo></shortcut>
 					<guimenu>Game</guimenu>
 					<guimenuitem>New Numbered Deal...</guimenuitem>
 				</menuchoice></term>
