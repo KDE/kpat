@@ -19,6 +19,7 @@ add_subdirectory( mimetypes )
 add_subdirectory( previews )
 add_subdirectory( sounds )
 add_subdirectory( themes )
+add_subdirectory( doc )
 
 set( kpat_SRCS
     main.cpp
