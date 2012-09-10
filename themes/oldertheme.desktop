@@ -1,6 +1,10 @@
 [KGameTheme]
 Name=Older Theme
+Name[uk]=Стара тема
+Name[x-test]=xxOlder Themexx
 Description=An older, unnamed KPat theme.
+Description[uk]=Стара тема KPat без назви.
+Description[x-test]=xxAn older, unnamed KPat theme.xx
 Author=Sean Wilson & Eugene Trounev
 AuthorEmail=suseux@gmail.com, eugene.trounev@gmail.com
 FileName=oldertheme.svgz

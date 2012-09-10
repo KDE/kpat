@@ -1,6 +1,10 @@
 [KGameTheme]
 Name=Clean Green
+Name[uk]=Чиста зелена
+Name[x-test]=xxClean Greenxx
 Description=A simple green felt theme
+Description[uk]=Проста зелена тема
+Description[x-test]=xxA simple green felt themexx
 Author=Parker Coates
 AuthorEmail=parker.coates@kdemail.net
 Type=SVG

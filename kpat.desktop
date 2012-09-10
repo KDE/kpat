@@ -1,10 +1,14 @@
 [Desktop Entry]
 Name=KPatience
+Name[uk]=Пасьянс
+Name[x-test]=xxKPatiencexx
 Exec=kpat -caption "%c"
 Type=Application
 Icon=kpat
 X-DocPath=kpat/index.html
 GenericName=Patience Card Game
+GenericName[uk]=Гра картами у пасьянс
+GenericName[x-test]=xxPatience Card Gamexx
 X-DBUS-StartupType=Multi
 Categories=Qt;KDE;Game;CardGame;
 MimeType=application/vnd.kde.kpatience.savedstate;

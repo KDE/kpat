@@ -1,6 +1,10 @@
 [KGameTheme]
 Name=Desert Sands
+Name[uk]=Піски пустелі
+Name[x-test]=xxDesert Sandsxx
 Description=Egyptian style theme.
+Description[uk]=Тема у єгипетському стилі.
+Description[x-test]=xxEgyptian style theme.xx
 Author=Sean Wilson
 AuthorEmail=suseux@gmail.com
 Type=SVG
