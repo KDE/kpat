@@ -8,8 +8,8 @@
   <!ENTITY % addindex "IGNORE"> <!-- do not change this! -->
 ]>
 
-<book lang="&language;"> <!-- do not change this! -->
-<bookinfo>
+<book id="kpat" lang="&language;"> <!-- do not change this! -->
+<book id="kpat"info>
 	<title>The &kappname; Handbook</title> <!-- This is the title of the docbook. Leave as is unless change is necessary.-->
 <!-- List of immidiate authors begins here. -->
 <!--INPORTANT! - All other contributors: [to be determined] -->
