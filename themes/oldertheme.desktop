@@ -1,6 +1,5 @@
 [KGameTheme]
 Name=Older Theme
-Name[bs]=Starija tema
 Name[ca]=Tema antic
 Name[ca@valencia]=Tema antic
 Name[da]=Ældre tema
@@ -41,7 +40,6 @@ Name[x-test]=xxOlder Themexx
 Name[zh_CN]=怀旧主题
 Name[zh_TW]=舊式主題
 Description=An older, unnamed KPat theme.
-Description[bs]=Starija, bezimena KPat tema
 Description[ca]=Un antic tema sense nom del KPat.
 Description[ca@valencia]=Un antic tema sense nom del KPat.
 Description[da]=Et ældre, unavngivet KPat-tema.
