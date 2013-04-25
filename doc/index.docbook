@@ -182,7 +182,7 @@ completely new game.
 			</listitem>
 		</varlistentry>
 		<varlistentry><term>4. Playing Piles</term>
-			<listitem><para><indexterm><primary>playing piles</primary></indexterm>These piles are those where the actual reordering happens. The rules for these piles vary a lot between games. Some show all cards on them, some do not. Some allow only one card to be removed, some allow every card to be removed, &etc;.</para>
+			<listitem><para><indexterm><primary>playing piles</primary></indexterm>These piles are those where the actual reordering happens. The rules for these piles vary a lot between games. Some show all cards on them, some do not. Some allow only one card to be removed, some allow every card to be removed, &etc;</para>
 			</listitem>
 		</varlistentry>
 	</variablelist>
