@@ -88,6 +88,7 @@ protected slots:
     void toggleHints();
     void toggleDemo();
     void toggleDemoAction(bool active);
+    void toggleMenubar();
 
     void setAutoDropEnabled( bool enabled );
     void enableSolver(bool enable);
@@ -142,6 +143,7 @@ private:
     KToggleAction * m_solverEnabledAction;
     KToggleAction * m_rememberStateAction;
     KToggleAction * m_playSoundsAction;
+    KToggleAction * m_showMenubarAction;
     KAction * m_gameHelpAction;
 
     QMap<int, const DealerInfo*>  m_dealer_map;

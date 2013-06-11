@@ -55,6 +55,7 @@
 
 #include <KgThemeSelector>
 #include <KStandardGameAction>
+#include <KStandardAction>
 
 #include <KAction>
 #include <KActionCollection>
@@ -69,6 +70,7 @@
 #include <KRecentFilesAction>
 #include <KStandardDirs>
 #include <KStatusBar>
+#include <KMenuBar>
 #include <KTemporaryFile>
 #include <KToggleAction>
 #include <KToolInvocation>
@@ -80,6 +82,7 @@
 #include <QtCore/QTimer>
 #include <QtCore/QXmlStreamReader>
 #include <QtGui/QDesktopWidget>
+#include <QtGui/QKeySequence>
 
 
 namespace
@@ -125,6 +128,8 @@ MainWindow::MainWindow()
     m_moveCountStatusLabel = new QLabel(QString(), statusBar());
     m_moveCountStatusLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     statusBar()->addWidget( m_moveCountStatusLabel, 0);
+
+    m_showMenubarAction->setChecked(!menuBar()->isHidden());
 }
 
 MainWindow::~MainWindow()
@@ -320,8 +325,10 @@ void MainWindow::setupActions()
     m_pickUpSetDownAction = actionCollection()->addAction( QLatin1String( "focus_activate" ));
     m_pickUpSetDownAction->setText("Pick Up or Set Down Focus");
     m_pickUpSetDownAction->setShortcuts( KShortcut( Qt::Key_Space ) );
-}
 
+    // showMenubar isn't a part of KStandardGameAction
+    m_showMenubarAction = KStandardAction::showMenubar(this, SLOT(toggleMenubar()), actionCollection());
+}
 
 void MainWindow::undoMove() {
     if( m_dealer )
@@ -722,6 +729,22 @@ void MainWindow::toggleDemoAction(bool active)
 {
     m_demoAction->setChecked( active );
     m_demoAction->setIcon( KIcon( QLatin1String( active ? "media-playback-pause" : "media-playback-start" ) ) );
+}
+
+void MainWindow::toggleMenubar()
+{
+    if(m_showMenubarAction->isChecked())
+        menuBar()->show();
+    else if(KMessageBox::warningContinueCancel(this,
+            i18n("Are you sure you want to hide the menubar? The current shortcut to show it again is %1.",
+                 m_showMenubarAction->shortcut().toString(QKeySequence::NativeText)),
+            i18n("Hide Menubar"),
+            KStandardGuiItem::cont(),
+            KStandardGuiItem::cancel(),
+            QLatin1String("MenubarWarning")) == KMessageBox::Continue)
+        menuBar()->hide();
+    else
+      m_showMenubarAction->setChecked(true);
 }
 
 void MainWindow::saveNewToolbarConfig()
