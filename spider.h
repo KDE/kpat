@@ -87,6 +87,9 @@ private:
 
     KSelectAction *options;
 
+    KSelectAction *m_stackFaceupOption;
+    int m_stackFaceup;
+
     friend class SpiderSolver;
 };
 

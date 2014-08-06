@@ -81,6 +81,8 @@ void Spider::initialize()
 
     m_suits = Settings::spiderSuitCount();
 
+    m_stackFaceup = Settings::spiderStackFaceup();
+
     createDeck();
 
     // Dealing the cards out into 5 piles so the user can see how many
@@ -143,12 +145,19 @@ void Spider::initialize()
     else
         options->setCurrentItem( 2 );
     connect( options, SIGNAL(triggered(int)), SLOT(gameTypeChanged()) );
+
+    m_stackFaceupOption = new KSelectAction(i18n("S&tack Options"), this );
+    m_stackFaceupOption->addAction( i18n("Face &Down (harder)") );
+    m_stackFaceupOption->addAction( i18n("Face &Up (easier)") );
+    m_stackFaceupOption->setCurrentItem( m_stackFaceup );
+
+    connect( m_stackFaceupOption, SIGNAL(triggered(int)), SLOT(gameTypeChanged()) );
 }
 
 
 QList<QAction*> Spider::configActions() const
 {
-    return QList<QAction*>() << options;
+    return QList<QAction*>() << options << m_stackFaceupOption;
 }
 
 
@@ -164,6 +173,12 @@ void Spider::gameTypeChanged()
             setSuits( 2 );
         else
             setSuits( 4 );
+
+        if ( m_stackFaceup != m_stackFaceupOption->currentItem() ) {
+            m_stackFaceup = m_stackFaceupOption->currentItem();
+            Settings::setSpiderStackFaceup( m_stackFaceup );
+        }
+
         startNew( gameNumber() );
     }
     else
@@ -176,6 +191,8 @@ void Spider::gameTypeChanged()
             options->setCurrentItem( 1 );
         else
             options->setCurrentItem( 2 );
+
+        m_stackFaceupOption->setCurrentItem( m_stackFaceup );
     }
 }
 
@@ -309,7 +326,7 @@ void Spider::restart( const QList<KCard*> & cards )
     // deal face down cards (5 to first 4 piles, 4 to last 6)
     for ( int i = 0; i < 44; ++i )
     {
-        addCardForDeal( stack[column], cardList.takeLast(), false, randomPos() );
+        addCardForDeal( stack[column], cardList.takeLast(), m_stackFaceup == 1, randomPos() );
         column = (column + 1) % 10;
     }
     // deal face up cards, one to each pile
