@@ -723,6 +723,14 @@ win at Easy level, and very difficult to win at Hard level.
 				</menuchoice></term>
 				<listitem><para><action>List options specific to the current game type.</action> This menu is available in only certain games (Klondike and Spider).</para></listitem>
 			</varlistentry>
+			<varlistentry id="settings-menu-stack-options">
+				<term><menuchoice>
+					<guimenu>Settings</guimenu>
+					<guisubmenu>Stack Options</guisubmenu>
+					<guimenuitem>Face Down (harder)/Face Up (easier)</guimenuitem>
+				</menuchoice></term>
+				<listitem><para><action>Allows you to choose if the card faces should be shown.</action> This menu is available in Spider only.</para></listitem>
+			</varlistentry>
 			<varlistentry id="settings-menu-deck">
 				<term><menuchoice>
 					<shortcut><keycap>F10</keycap></shortcut>
