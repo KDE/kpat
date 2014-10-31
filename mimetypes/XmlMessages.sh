@@ -6,7 +6,7 @@ function get_files
 function po_for_file
 {
     case "$1" in
-       kde.xml)
+       kpatience.xml)
            echo kpat_mimetypes.po
        ;;
     esac
