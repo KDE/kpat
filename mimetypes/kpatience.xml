@@ -2,6 +2,8 @@
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
   <mime-type type="application/vnd.kde.kpatience.savedstate">
     <comment>KPatience legacy save file</comment>
+    <comment xml:lang="de">Veraltete KPatience-Speicherdatei</comment>
+    <comment xml:lang="nl">KPatience ouderwets opslagbestand</comment>
     <comment xml:lang="pl">Przestrzały plik zapisu KPatience</comment>
     <comment xml:lang="pt">Ficheiro de gravação antigo do KPatience</comment>
     <comment xml:lang="pt_BR">Arquivo antigo do KPatience</comment>
@@ -14,6 +16,8 @@
   </mime-type>
   <mime-type type="application/vnd.kde.kpatience.savedgame">
     <comment>KPatience save file</comment>
+    <comment xml:lang="de">KPatience-Speicherdatei</comment>
+    <comment xml:lang="nl">KPatience opslagbestand</comment>
     <comment xml:lang="pl">Plik zapisu KPatience</comment>
     <comment xml:lang="pt">Ficheiro de gravação do KPatience</comment>
     <comment xml:lang="pt_BR">Arquivo do KPatience</comment>
