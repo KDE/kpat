@@ -4,6 +4,7 @@
     <comment>KPatience legacy save file</comment>
     <comment xml:lang="cs">Uložený soubor staré verze KPatience</comment>
     <comment xml:lang="de">Veraltete KPatience-Speicherdatei</comment>
+    <comment xml:lang="fi">Vanha KPatience-tallennustiedosto</comment>
     <comment xml:lang="nl">KPatience ouderwets opslagbestand</comment>
     <comment xml:lang="pl">Przestrzały plik zapisu KPatience</comment>
     <comment xml:lang="pt">Ficheiro de gravação antigo do KPatience</comment>
@@ -21,6 +22,7 @@
     <comment>KPatience save file</comment>
     <comment xml:lang="cs">Uložený soubor KPatience</comment>
     <comment xml:lang="de">KPatience-Speicherdatei</comment>
+    <comment xml:lang="fi">KPatience-tallennustiedosto</comment>
     <comment xml:lang="nl">KPatience opslagbestand</comment>
     <comment xml:lang="pl">Plik zapisu KPatience</comment>
     <comment xml:lang="pt">Ficheiro de gravação do KPatience</comment>
