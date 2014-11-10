@@ -4,12 +4,17 @@
     <comment>KPatience legacy save file</comment>
     <comment xml:lang="cs">Uložený soubor staré verze KPatience</comment>
     <comment xml:lang="de">Veraltete KPatience-Speicherdatei</comment>
+    <comment xml:lang="fi">Vanha KPatience-tallennustiedosto</comment>
     <comment xml:lang="nl">KPatience ouderwets opslagbestand</comment>
     <comment xml:lang="pl">Przestrzały plik zapisu KPatience</comment>
     <comment xml:lang="pt">Ficheiro de gravação antigo do KPatience</comment>
     <comment xml:lang="pt_BR">Arquivo antigo do KPatience</comment>
     <comment xml:lang="sk">Starý súbor uloženia KPatience</comment>
     <comment xml:lang="sl">Zastarela shranjena igra KPatience</comment>
+    <comment xml:lang="sr">К‑пасијансов застарели фајл позиције</comment>
+    <comment xml:lang="sr@ijekavian">К‑пасијансов застарели фајл позиције</comment>
+    <comment xml:lang="sr@ijekavianlatin">K‑pasijansov zastareli fajl pozicije</comment>
+    <comment xml:lang="sr@latin">K‑pasijansov zastareli fajl pozicije</comment>
     <comment xml:lang="uk">файл збереженої гри KPatience у застарілому форматі</comment>
     <sub-class-of type="application/xml"/>
     <magic priority="80">
@@ -21,12 +26,17 @@
     <comment>KPatience save file</comment>
     <comment xml:lang="cs">Uložený soubor KPatience</comment>
     <comment xml:lang="de">KPatience-Speicherdatei</comment>
+    <comment xml:lang="fi">KPatience-tallennustiedosto</comment>
     <comment xml:lang="nl">KPatience opslagbestand</comment>
     <comment xml:lang="pl">Plik zapisu KPatience</comment>
     <comment xml:lang="pt">Ficheiro de gravação do KPatience</comment>
     <comment xml:lang="pt_BR">Arquivo do KPatience</comment>
     <comment xml:lang="sk">Súbor uloženia KPatience</comment>
     <comment xml:lang="sl">Shranjena igra KPatience</comment>
+    <comment xml:lang="sr">К‑пасијансов фајл позиције</comment>
+    <comment xml:lang="sr@ijekavian">К‑пасијансов фајл позиције</comment>
+    <comment xml:lang="sr@ijekavianlatin">K‑pasijansov fajl pozicije</comment>
+    <comment xml:lang="sr@latin">K‑pasijansov fajl pozicije</comment>
     <comment xml:lang="uk">файл збереженої гри KPatience</comment>
     <sub-class-of type="application/xml"/>
     <glob pattern="*.kpat" weight="75"/>
