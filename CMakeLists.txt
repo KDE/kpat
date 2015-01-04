@@ -103,6 +103,6 @@ install( TARGETS kpat ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files ###############
 
-install( PROGRAMS kpat.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
-install( FILES kpatui.rc  DESTINATION  ${DATA_INSTALL_DIR}/kpat )
+install( PROGRAMS org.kde.kpat.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
+install( FILES kpatui.rc  DESTINATION  ${KXMLGUI_INSTALL_DIR}/kpat )
 install( FILES kpat.kcfg DESTINATION ${KCFG_INSTALL_DIR} )

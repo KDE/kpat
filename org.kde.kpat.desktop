@@ -126,3 +126,4 @@ GenericName[zh_TW]=單人玩的紙牌遊戲
 X-DBUS-StartupType=Multi
 Categories=Qt;KDE;Game;CardGame;
 MimeType=application/vnd.kde.kpatience.savedstate;
+X-DBUS-ServiceName=org.kde.kpat
