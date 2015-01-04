@@ -21,7 +21,7 @@
 #include "dealerinfo.h"
 
 #include <KComboBox>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include <QtCore/QList>
 #include <QFormLayout>

@@ -40,7 +40,7 @@
 #include "pileutils.h"
 #include "patsolve/simonsolver.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 
 Simon::Simon( const DealerInfo * di )

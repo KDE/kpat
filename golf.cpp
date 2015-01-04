@@ -40,7 +40,7 @@
 #include "speeds.h"
 #include "patsolve/golfsolver.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 
 Golf::Golf( const DealerInfo * di )

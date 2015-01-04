@@ -42,7 +42,7 @@
 #include "speeds.h"
 #include "patsolve/grandfsolver.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 
 Grandf::Grandf( const DealerInfo * di )

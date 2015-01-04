@@ -25,7 +25,7 @@
 #include <QDebug>
 #include <KDialog>
 #include <KLineEdit>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KGlobal>
 #include <KImageCache>
 #include <KPushButton>

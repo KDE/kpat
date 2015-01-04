@@ -39,7 +39,7 @@
 #include "dealerinfo.h"
 #include "patsolve/clocksolver.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 
 Clock::Clock( const DealerInfo * di )

@@ -43,7 +43,7 @@
 #include "patsolve/freecellsolver.h"
 
 #include <QDebug>
-#include <KLocale>
+#include <KLocalizedString>
 
 
 const int CHUNKSIZE = 100;

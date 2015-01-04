@@ -40,7 +40,7 @@
 #include "pileutils.h"
 #include "patsolve/gypsysolver.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 
 Gypsy::Gypsy( const DealerInfo * di )

@@ -43,7 +43,7 @@
 #include <KConfigGroup>
 #include <QDebug>
 #include <KGlobal>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include <QtCore/QList>
 

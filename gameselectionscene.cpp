@@ -23,7 +23,7 @@
 
 #include <KColorUtils>
 #include <QDebug>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KStandardDirs>
 
 #include <QGraphicsObject>

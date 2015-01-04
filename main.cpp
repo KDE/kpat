@@ -48,7 +48,7 @@
 #include <KCmdLineArgs>
 #include <QDebug>
 #include <KGlobal>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMenuBar>
 #include <KStandardDirs>
 #include <KUrl>

@@ -43,7 +43,7 @@
 #include "speeds.h"
 #include "patsolve/klondikesolver.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KSelectAction>
 
 

@@ -40,7 +40,7 @@
 #include "dealerinfo.h"
 #include "patsolve/mod3solver.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 
 Mod3::Mod3( const DealerInfo * di )

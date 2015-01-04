@@ -40,7 +40,7 @@
 #include "pileutils.h"
 #include "patsolve/yukonsolver.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 
 Yukon::Yukon( const DealerInfo * di )

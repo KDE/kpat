@@ -40,7 +40,7 @@
 #include "dealerinfo.h"
 #include "patsolve/idiotsolver.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 
 Idiot::Idiot( const DealerInfo * di )

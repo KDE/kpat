@@ -43,7 +43,7 @@
 #include "speeds.h"
 #include "patsolve/spidersolver.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KRandom>
 #include <KSelectAction>
 

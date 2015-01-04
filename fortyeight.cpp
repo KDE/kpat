@@ -41,7 +41,7 @@
 #include "speeds.h"
 #include "patsolve/fortyeightsolver.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 
 Fortyeight::Fortyeight( const DealerInfo* di )

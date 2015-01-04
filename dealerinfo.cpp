@@ -38,7 +38,7 @@
 #include "dealerinfo.h"
 
 #include <KGlobal>
-#include <KLocale>
+#include <KLocalizedString>
 
 
 DealerInfo::DealerInfo( const QByteArray & untranslatedBaseName, int baseId )

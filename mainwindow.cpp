@@ -64,7 +64,7 @@
 #include <KFileDialog>
 #include <KGlobal>
 #include <KIcon>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KRandom>
 #include <KRecentFilesAction>
