@@ -105,7 +105,7 @@ void StatisticsDialog::showGameType(int gameIndex)
 
 void StatisticsDialog::setGameType(int gameIndex)
 {
-	KConfigGroup cg(KGlobal::config(), scores_group);
+	KConfigGroup cg(KSharedConfig::openConfig(), scores_group);
 	unsigned int t = cg.readEntry(QString("total%1").arg(gameIndex),0);
 	ui->Played->setText(QString::number(t));
 	unsigned int w = cg.readEntry(QString("won%1").arg(gameIndex),0);
@@ -127,7 +127,7 @@ void StatisticsDialog::resetStats()
 {
 	int gameIndex = indexToIdMap[ui->GameType->currentIndex()];
 	Q_ASSERT(gameIndex >= 0);
-	KConfigGroup cg(KGlobal::config(), scores_group);
+	KConfigGroup cg(KSharedConfig::openConfig(), scores_group);
 	cg.writeEntry(QString("total%1").arg(gameIndex),0);
 	cg.writeEntry(QString("won%1").arg(gameIndex),0);
 	cg.writeEntry(QString("maxwinstreak%1").arg(gameIndex),0);

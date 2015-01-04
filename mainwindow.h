@@ -52,6 +52,7 @@ class QAction;
 class KRecentFilesAction;
 class KToggleAction;
 class KUrl;
+class QUrl;
 #include <KXmlGuiWindow>
 
 class QLabel;
@@ -65,7 +66,7 @@ public:
     ~MainWindow();
 
 public slots:
-    bool loadGame( const KUrl & url, bool addToRecentFiles = true );
+    bool loadGame( const QUrl & url, bool addToRecentFiles = true );
     void slotShowGameSelectionScreen();
     void slotGameSelected(int id);
 

@@ -1761,7 +1761,7 @@ void DealerScene::recordGameStatistics()
         QString loseStreakKey = QString("loosestreak%1").arg( id );
         QString maxLoseStreakKey = QString("maxloosestreak%1").arg( id );
 
-        KConfigGroup config(KGlobal::config(), scores_group);
+        KConfigGroup config(KSharedConfig::openConfig(), scores_group);
 
         int totalPlayed = config.readEntry( totalPlayedKey, 0 );
         int won = config.readEntry( wonKey, 0 );

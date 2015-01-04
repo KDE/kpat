@@ -188,7 +188,8 @@ int main( int argc, char **argv )
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
 
     KApplication application;
-    KGlobal::locale()->insertCatalog( QLatin1String( "libkdegames" ));
+    //KF5 port: remove this line and define TRANSLATION_DOMAIN in CMakeLists.txt instead
+//KLocale::global()->insertCatalog( QLatin1String( "libkdegames" ));
 
     QString savegame = args->getOption( "solvegame" );
     if ( !savegame.isEmpty() )
