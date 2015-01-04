@@ -37,7 +37,6 @@
 
 #include "dealerinfo.h"
 
-#include <KGlobal>
 #include <KLocalizedString>
 
 
@@ -132,7 +131,7 @@ public:
     DealerInfoList instance;
 };
 
-K_GLOBAL_STATIC( DealerInfoListPrivate, dilp )
+Q_GLOBAL_STATIC( DealerInfoListPrivate, dilp )
 
 
 
