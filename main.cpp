@@ -43,7 +43,7 @@
 #include "KCardTheme"
 #include "KCardDeck"
 
-#include <KAboutData>
+#include <K4AboutData>
 #include <KApplication>
 #include <KCmdLineArgs>
 #include <KDebug>
@@ -100,12 +100,12 @@ QString lowerAlphaNum( const QString & string )
 
 int main( int argc, char **argv )
 {
-    KAboutData aboutData( "kpat",
+    K4AboutData aboutData( "kpat",
                           0,
                           ki18n("KPatience"),
                           KPAT_VERSION,
                           ki18n("KDE Patience Game"),
-                          KAboutData::License_GPL_V2,
+                          K4AboutData::License_GPL_V2,
                           ki18n("© 1995 Paul Olav Tvete\n© 2000 Stephan Kulow"),
                           KLocalizedString(),
                           "http://games.kde.org/kpat" );
@@ -164,13 +164,13 @@ int main( int argc, char **argv )
     foreach ( const DealerInfo *di, DealerInfoList::self()->games() )
     {
         KLocalizedString localizedKey = ki18n( di->untranslatedBaseName().constData() );
-        const QString translatedKey = lowerAlphaNum( localizedKey.toString( tmpLocale ) );
-        gameList << translatedKey;
-        indexMap.insert( translatedKey, di->baseId() );
+        //QT5 const QString translatedKey = lowerAlphaNum( localizedKey.toString( tmpLocale ) );
+        //QT5 gameList << translatedKey;
+        //QT5 indexMap.insert( translatedKey, di->baseId() );
         indexMap.insert( di->baseIdString(), di->baseId() );
     }
     gameList.sort();
-    const QString listSeparator = ki18nc( "List separator", ", " ).toString( tmpLocale );
+    //QT5 const QString listSeparator = ki18nc( "List separator", ", " ).toString( tmpLocale );
     delete tmpLocale;
 
     KCmdLineArgs::init( argc, argv, &aboutData );
@@ -180,7 +180,7 @@ int main( int argc, char **argv )
     options.add("solve <num>", ki18n("Dealer to solve (debug)" ));
     options.add("start <num>", ki18n("Game range start (default 0:INT_MAX)" ));
     options.add("end <num>", ki18n("Game range end (default start:start if start given)" ));
-    options.add("gametype <game>", ki18n("Skip the selection screen and load a particular game type. Valid values are: %1").subs(gameList.join(listSeparator)));
+    //QT5 options.add("gametype <game>", ki18n("Skip the selection screen and load a particular game type. Valid values are: %1").subs(gameList.join(listSeparator)));
     options.add("testdir <directory>", ki18n( "Directory with test cases" ) );
     options.add("generate", ki18n( "Generate random test cases" ) );
     options.add("+file", ki18n("File to load"));

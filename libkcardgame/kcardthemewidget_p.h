@@ -23,8 +23,7 @@
 #include "kcardthemewidget.h"
 
 #include "kcardtheme.h"
-
-class KImageCache;
+#include <KImageCache>
 class KLineEdit;
 class KPushButton;
 

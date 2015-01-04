@@ -57,7 +57,7 @@
 #include <KStandardGameAction>
 #include <KStandardAction>
 
-#include <KAction>
+#include <QAction>
 #include <KActionCollection>
 #include <KConfigDialog>
 #include <KDebug>
@@ -146,7 +146,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupActions()
 {
-    KAction *a;
+    QAction *a;
 
     // Game Menu
     a = actionCollection()->addAction( QLatin1String( "new_game" ));

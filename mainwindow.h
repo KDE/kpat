@@ -48,7 +48,7 @@ class SoundEngine;
 
 class KCardDeck;
 
-class KAction;
+class QAction;
 class KRecentFilesAction;
 class KToggleAction;
 class KUrl;
@@ -122,29 +122,29 @@ private:
     void updateSoundEngine();
 
     // Members
-    KAction * m_leftAction;
-    KAction * m_rightAction;
-    KAction * m_upAction;
-    KAction * m_downAction;
-    KAction * m_cancelAction;
-    KAction * m_pickUpSetDownAction;    
+    QAction * m_leftAction;
+    QAction * m_rightAction;
+    QAction * m_upAction;
+    QAction * m_downAction;
+    QAction * m_cancelAction;
+    QAction * m_pickUpSetDownAction;    
 
     KRecentFilesAction * m_recentFilesAction;
-    KAction * m_saveAction;
-    KAction * m_undoAction;
-    KAction * m_redoAction;
-    KAction * m_demoAction;
-    KAction * m_hintAction;
-    KAction * m_drawAction;
-    KAction * m_dealAction;
-    KAction * m_redealAction;
-    KAction * m_dropAction;
+    QAction * m_saveAction;
+    QAction * m_undoAction;
+    QAction * m_redoAction;
+    QAction * m_demoAction;
+    QAction * m_hintAction;
+    QAction * m_drawAction;
+    QAction * m_dealAction;
+    QAction * m_redealAction;
+    QAction * m_dropAction;
     KToggleAction * m_autoDropEnabledAction;
     KToggleAction * m_solverEnabledAction;
     KToggleAction * m_rememberStateAction;
     KToggleAction * m_playSoundsAction;
     KToggleAction * m_showMenubarAction;
-    KAction * m_gameHelpAction;
+    QAction * m_gameHelpAction;
 
     QMap<int, const DealerInfo*>  m_dealer_map;
     QMap<int, const DealerInfo*>::const_iterator  m_dealer_it;
