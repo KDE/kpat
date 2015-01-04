@@ -20,7 +20,7 @@
 #define GAMESELECTIONSCENE_H
 
 #include <QtCore/QSignalMapper>
-#include <QtGui/QGraphicsScene>
+#include <QGraphicsScene>
 
 
 class GameSelectionScene : public QGraphicsScene

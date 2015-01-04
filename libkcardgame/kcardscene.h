@@ -46,7 +46,7 @@ class HighlightableItem;
 class KCardPile;
 
 #include <QtCore/QSet>
-#include <QtGui/QGraphicsScene>
+#include <QGraphicsScene>
 
 class LIBKCARDGAME_EXPORT KCardScene : public QGraphicsScene
 {

@@ -42,7 +42,7 @@
 
 #include "KCardScene"
 
-#include <QtGui/QResizeEvent>
+#include <QResizeEvent>
 
 
 // ================================================================

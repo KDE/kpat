@@ -20,7 +20,7 @@
 #include "kcardthemewidget_p.h"
 
 #include "common.h"
-
+#include <KImageCache>
 #include <KConfigDialog>
 #include <KDebug>
 #include <KLineEdit>
@@ -33,12 +33,12 @@
 
 #include <QtCore/QMutexLocker>
 #include <QtCore/QScopedPointer>
-#include <QtGui/QApplication>
-#include <QtGui/QFontMetrics>
-#include <QtGui/QListView>
-#include <QtGui/QPainter>
-#include <QtGui/QPixmap>
-#include <QtGui/QVBoxLayout>
+#include <QApplication>
+#include <QFontMetrics>
+#include <QListView>
+#include <QPainter>
+#include <QPixmap>
+#include <QVBoxLayout>
 #include <QtSvg/QSvgRenderer>
 
 

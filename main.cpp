@@ -55,7 +55,7 @@
 
 #include <QtCore/QFile>
 #include <QtCore/QTime>
-#include <QtGui/QResizeEvent>
+#include <QResizeEvent>
 #include <QtXml/QDomDocument>
 
 #include <climits>

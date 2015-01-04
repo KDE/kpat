@@ -81,8 +81,8 @@
 #include <QtCore/QPointer>
 #include <QtCore/QTimer>
 #include <QtCore/QXmlStreamReader>
-#include <QtGui/QDesktopWidget>
-#include <QtGui/QKeySequence>
+#include <QDesktopWidget>
+#include <QKeySequence>
 
 
 namespace

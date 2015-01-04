@@ -42,8 +42,8 @@
 
 #include <KDebug>
 
-#include <QtGui/QGraphicsSceneWheelEvent>
-#include <QtGui/QPainter>
+#include <QGraphicsSceneWheelEvent>
+#include <QPainter>
 
 #include <cmath>
 

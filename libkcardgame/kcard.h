@@ -24,7 +24,7 @@ class KCardPile;
 #include "libkcardgame_export.h"
 
 #include <QtCore/QObject>
-#include <QtGui/QGraphicsPixmapItem>
+#include <QGraphicsPixmapItem>
 
 
 class LIBKCARDGAME_EXPORT KCard : public QObject, public QGraphicsPixmapItem

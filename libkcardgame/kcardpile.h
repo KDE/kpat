@@ -43,7 +43,7 @@ class KCardScene;
 #include "libkcardgame_export.h"
 
 class QPropertyAnimation;
-#include <QtGui/QGraphicsPixmapItem>
+#include <QGraphicsPixmapItem>
 
 
 class LIBKCARDGAME_EXPORT KCardPile : public QGraphicsObject

@@ -44,7 +44,7 @@
 
 #include <QtCore/QTimer>
 #include <QtCore/QPropertyAnimation>
-#include <QtGui/QPainter>
+#include <QPainter>
 
 #include <cmath>
 

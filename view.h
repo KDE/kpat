@@ -40,7 +40,7 @@
 
 #include <KGameRendererClient>
 
-#include <QtGui/QGraphicsView>
+#include <QGraphicsView>
 
 
 class PatienceView: public QGraphicsView, public KGameRendererClient

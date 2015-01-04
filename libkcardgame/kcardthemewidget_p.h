@@ -33,7 +33,7 @@ class KPushButton;
 #include <QtCore/QSet>
 #include <QtCore/QThread>
 #include <QtCore/QTimer>
-#include <QtGui/QAbstractItemDelegate>
+#include <QAbstractItemDelegate>
 class QListView;
 
 

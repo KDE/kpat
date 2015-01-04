@@ -30,8 +30,8 @@
 #include <KImageCache>
 
 #include <QtCore/QTimer>
-#include <QtGui/QApplication>
-#include <QtGui/QPainter>
+#include <QApplication>
+#include <QPainter>
 #include <QtSvg/QSvgRenderer>
 #include <QGraphicsScene>
 

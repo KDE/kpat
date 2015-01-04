@@ -20,7 +20,7 @@
 
 #include <KGameRenderedItem>
 
-#include <QtGui/QFont>
+#include <QFont>
 
 
 class MessageBox : public KGameRenderedItem

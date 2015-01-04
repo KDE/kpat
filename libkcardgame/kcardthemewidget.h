@@ -22,7 +22,7 @@
 #include "libkcardgame_export.h"
 
 #include <KConfigDialog>
-
+#include <KConfigSkeleton>
 #include <QWidget>
 
 

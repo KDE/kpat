@@ -58,7 +58,7 @@
 #include <QtCore/QThread>
 #include <QtCore/QXmlStreamReader>
 #include <QtCore/QXmlStreamWriter>
-#include <QtGui/QGraphicsSceneMouseEvent>
+#include <QGraphicsSceneMouseEvent>
 
 #include <cmath>
 

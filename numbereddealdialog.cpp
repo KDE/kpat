@@ -24,8 +24,8 @@
 #include <KLocale>
 
 #include <QtCore/QList>
-#include <QtGui/QFormLayout>
-#include <QtGui/QSpinBox>
+#include <QFormLayout>
+#include <QSpinBox>
 
 
 NumberedDealDialog::NumberedDealDialog( QWidget * parent )

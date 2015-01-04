@@ -19,8 +19,8 @@
 
 #include "renderer.h"
 
-#include <QtGui/QFontMetrics>
-#include <QtGui/QPainter>
+#include <QFontMetrics>
+#include <QPainter>
 
 
 namespace

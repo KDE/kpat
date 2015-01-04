@@ -26,10 +26,10 @@
 #include <KLocale>
 #include <KStandardDirs>
 
-#include <QtGui/QGraphicsObject>
-#include <QtGui/QKeyEvent>
-#include <QtGui/QPainter>
-#include <QtGui/QStyleOptionGraphicsItem>
+#include <QGraphicsObject>
+#include <QKeyEvent>
+#include <QPainter>
+#include <QStyleOptionGraphicsItem>
 #include <QtCore/QPropertyAnimation>
 
 #include <cmath>

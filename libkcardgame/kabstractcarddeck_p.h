@@ -31,7 +31,7 @@ class QImage;
 #include <QtCore/QSizeF>
 #include <QtCore/QStringList>
 #include <QtCore/QThread>
-#include <QtGui/QPixmap>
+#include <QPixmap>
 class QSvgRenderer;
 
 
