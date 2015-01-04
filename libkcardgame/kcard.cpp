@@ -367,5 +367,4 @@ void KCard::setPixmap( const QPixmap & pix )
 
 
 
-#include "kcard_p.moc"
 #include "kcard.moc"

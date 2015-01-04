@@ -8,8 +8,8 @@ set( libkcardgame_SRCS
     kcardthemewidget.cpp
 )
 
-kde4_add_library( kcardgame SHARED ${libkcardgame_SRCS} )
-target_link_libraries( kcardgame kdegames ${KDE4_KNEWSTUFF3_LIBS} )
+add_library( kcardgame SHARED ${libkcardgame_SRCS} )
+target_link_libraries( kcardgame KF5KDEGames KF5::NewStuff KF5::KDELibs4Support)
 
 install( TARGETS kcardgame ${INSTALL_TARGETS_DEFAULT_ARGS} )
 install( FILES kcardtheme.knsrc  DESTINATION  ${CONFIG_INSTALL_DIR} )
