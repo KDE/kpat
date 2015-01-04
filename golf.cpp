@@ -184,4 +184,4 @@ public:
 } golfDealerInfo;
 
 
-#include "golf.moc"
+

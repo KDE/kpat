@@ -275,4 +275,4 @@ public:
 } freecellDealerInfo;
 
 
-#include "freecell.moc"
+

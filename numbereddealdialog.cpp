@@ -101,5 +101,5 @@ void NumberedDealDialog::handleOkClicked()
 }
 
 
-#include "numbereddealdialog.moc"
+
 

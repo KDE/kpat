@@ -259,4 +259,4 @@ public:
 } fortyEightDealerInfo;
 
 
-#include "fortyeight.moc"
+

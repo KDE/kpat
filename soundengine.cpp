@@ -45,4 +45,4 @@ void SoundEngine::cardsPutDown()
 }
 
 
-#include "soundengine.moc"
+

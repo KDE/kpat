@@ -33,7 +33,7 @@
 #include <QtGui/QApplication>
 #include <QtGui/QPainter>
 #include <QtSvg/QSvgRenderer>
-
+#include <QGraphicsScene>
 
 namespace
 {
@@ -507,4 +507,4 @@ QPixmap KAbstractCardDeck::cardPixmap( quint32 id, bool faceUp )
 }
 
 
-#include "kabstractcarddeck.moc"
+

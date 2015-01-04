@@ -1257,4 +1257,4 @@ void KCardScene::drawForeground ( QPainter * painter, const QRectF & rect )
 }
 
 
-#include "kcardscene.moc"
+

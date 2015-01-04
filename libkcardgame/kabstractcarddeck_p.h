@@ -22,8 +22,7 @@
 #include "kabstractcarddeck.h"
 
 #include "kcardtheme.h"
-
-class KImageCache;
+#include <KImageCache>
 
 #include <QtCore/QHash>
 class QImage;

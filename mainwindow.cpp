@@ -1070,4 +1070,4 @@ void MainWindow::generateThemePreview()
     m_view->setMaximumSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX );
 }
 
-#include "mainwindow.moc"
+

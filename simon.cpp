@@ -143,4 +143,4 @@ public:
     }
 } simonDealerInfo;
 
-#include "simon.moc"
+

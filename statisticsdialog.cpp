@@ -139,6 +139,6 @@ void StatisticsDialog::resetStats()
 	setGameType(gameIndex);
 }
 
-#include "statisticsdialog.moc"
+
 
 // kate: replace-tabs off; replace-tabs-save off

@@ -184,4 +184,4 @@ public:
 } gypsyDealerInfo;
 
 
-#include "gypsy.moc"
+

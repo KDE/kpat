@@ -508,4 +508,4 @@ public:
 } spideDealerInfo;
 
 
-#include "spider.moc"
+

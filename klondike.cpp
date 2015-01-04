@@ -358,4 +358,4 @@ public:
 } klondikeDealerInfo;
 
 
-#include "klondike.moc"
+

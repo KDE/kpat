@@ -266,4 +266,4 @@ public:
 } idiotDealerInfo;
 
 
-#include "idiot.moc"
+

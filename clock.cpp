@@ -162,4 +162,4 @@ public:
 } clockDealerInfo;
 
 
-#include "clock.moc"
+
