@@ -22,7 +22,7 @@
 #include "common.h"
 #include <KImageCache>
 #include <KConfigDialog>
-#include <KDebug>
+#include <QDebug>
 #include <KDialog>
 #include <KLineEdit>
 #include <KLocale>

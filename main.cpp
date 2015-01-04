@@ -46,7 +46,7 @@
 #include <K4AboutData>
 #include <KApplication>
 #include <KCmdLineArgs>
-#include <KDebug>
+#include <QDebug>
 #include <KGlobal>
 #include <KLocale>
 #include <KMenuBar>
@@ -74,7 +74,7 @@ static DealerScene *getDealer( int wanted_game )
 
             if ( !d->solver() )
             {
-                kError() << "There is no solver for" << di->nameForId( wanted_game );;
+                qCritical() << "There is no solver for" << di->nameForId( wanted_game );;
                 return 0;
             }
 

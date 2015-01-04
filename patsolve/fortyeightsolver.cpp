@@ -19,7 +19,7 @@
 
 #include "../fortyeight.h"
 
-#include <KDebug>
+#include <QDebug>
 
 #define NUM_PILE 8
 #define NUM_DECK 9
@@ -533,7 +533,7 @@ bool FortyeightSolver::isWon()
     for ( int i = 0; i < 8; ++i )
         if ( O[i] != PS_KING )
             return false;
-    kDebug() << "isWon" << getOuts();
+    //qDebug() << "isWon" << getOuts();
     return true;
 }
 

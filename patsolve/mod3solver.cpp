@@ -19,7 +19,7 @@
 
 #include "../mod3.h"
 
-#include <KDebug>
+#include <QDebug>
 
 
 #define PRINT 0

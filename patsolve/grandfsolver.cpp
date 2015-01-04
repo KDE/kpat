@@ -19,7 +19,7 @@
 
 #include "../grandf.h"
 
-#include <KDebug>
+#include <QDebug>
 
 
 #define PRINT 0

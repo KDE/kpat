@@ -22,7 +22,7 @@
 #include "renderer.h"
 
 #include <KColorUtils>
-#include <KDebug>
+#include <QDebug>
 #include <KLocale>
 #include <KStandardDirs>
 

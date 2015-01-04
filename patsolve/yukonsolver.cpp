@@ -19,7 +19,7 @@
 
 #include "../yukon.h"
 
-#include <KDebug>
+#include <QDebug>
 
 
 /* Some macros used in get_possible_moves(). */

@@ -60,7 +60,7 @@
 #include <QAction>
 #include <KActionCollection>
 #include <KConfigDialog>
-#include <KDebug>
+#include <QDebug>
 #include <KFileDialog>
 #include <KGlobal>
 #include <KIcon>

@@ -19,7 +19,7 @@
 
 #include "../clock.h"
 
-#include <KDebug>
+#include <QDebug>
 
 #define PRINT 0
 #define PRINT2 0

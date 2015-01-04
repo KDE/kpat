@@ -48,7 +48,7 @@
 
 #include <KGlobal>
 #include <KConfigGroup>
-#include <KDebug>
+#include <QDebug>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KRandom>
@@ -298,7 +298,7 @@ bool DealerScene::loadLegacyFile( QIODevice * io )
     {
         if ( xml.name() != "pile" )
         {
-            kWarning() << "Expected a \"pile\" tag. Found a" << xml.name() << "tag.";
+            qWarning() << "Expected a \"pile\" tag. Found a" << xml.name() << "tag.";
             return false;
         }
 
@@ -307,7 +307,7 @@ bool DealerScene::loadLegacyFile( QIODevice * io )
         QHash<int,PatPile*>::const_iterator it = piles.constFind( index );
         if ( !ok || it == piles.constEnd() )
         {
-            kWarning() << "Unrecognized pile index:" << xml.attributes().value( "index" );
+            qWarning() << "Unrecognized pile index:" << xml.attributes().value( "index" );
             return false;
         }
 
@@ -319,7 +319,7 @@ bool DealerScene::loadLegacyFile( QIODevice * io )
         {
             if ( xml.name() != "card" )
             {
-                kWarning() << "Expected a \"card\" tag. Found a" << xml.name() << "tag.";
+                qWarning() << "Expected a \"card\" tag. Found a" << xml.name() << "tag.";
                 return false;
             }
             
@@ -333,7 +333,7 @@ bool DealerScene::loadLegacyFile( QIODevice * io )
 
             if ( !suitOk || !rankOk || !faceUpOk || !card )
             {
-                kWarning() << "Unrecognized card: suit=" << xml.attributes().value("suit")
+                qWarning() << "Unrecognized card: suit=" << xml.attributes().value("suit")
                            << " value=" << xml.attributes().value("value")
                            << " faceup=" << xml.attributes().value("faceup");
                 return false;
@@ -437,7 +437,7 @@ bool DealerScene::loadFile( QIODevice * io )
 
     if ( xml.name() != "kpat-game" )
     {
-        kWarning() << "First tag is not \"kpat-game\"";
+        qWarning() << "First tag is not \"kpat-game\"";
         return false;
     }
 
@@ -458,7 +458,7 @@ bool DealerScene::loadFile( QIODevice * io )
     {
         if ( xml.name() != "state" )
         {
-            kWarning() << "Expected a \"state\" tag. Found a" << xml.name() << "tag.";
+            qWarning() << "Expected a \"state\" tag. Found a" << xml.name() << "tag.";
             return false;
         }
 
@@ -474,7 +474,7 @@ bool DealerScene::loadFile( QIODevice * io )
         {
             if ( xml.name() != "move" )
             {
-                kWarning() << "Expected a \"move\" tag. Found a" << xml.name() << "tag.";
+                qWarning() << "Expected a \"move\" tag. Found a" << xml.name() << "tag.";
                 return false;
             }
 
@@ -486,7 +486,7 @@ bool DealerScene::loadFile( QIODevice * io )
 
             if ( !pile || !indexOk )
             {
-                kWarning() << "Unrecognized pile or index.";
+                qWarning() << "Unrecognized pile or index.";
                 return false;
             }
 
@@ -494,14 +494,14 @@ bool DealerScene::loadFile( QIODevice * io )
             {
                 if ( xml.name() != "card" )
                 {
-                    kWarning() << "Expected a \"card\" tag. Found a" << xml.name() << "tag.";
+                    qWarning() << "Expected a \"card\" tag. Found a" << xml.name() << "tag.";
                     return false;
                 }
 
                 KCard * card = cardHash.value( readIntAttribute( xml, "id" ) );
                 if ( !card )
                 {
-                    kWarning() << "Unrecognized card.";
+                    qWarning() << "Unrecognized card.";
                     return false;
                 }
 
@@ -1652,14 +1652,14 @@ void DealerScene::demo()
 
         if ( destPile->isEmpty() )
         {
-            kDebug() << "Moving" << card->objectName()
+            qDebug() << "Moving" << card->objectName()
                      << "from the" << sourcePile->objectName()
                      << "pile to the" << destPile->objectName()
                      << "pile, which is empty";
         }
         else
         {
-            kDebug() << "Moving" << card->objectName()
+            qDebug() << "Moving" << card->objectName()
                      << "from the" << sourcePile->objectName()
                      << "pile to the" << destPile->objectName()
                      << "pile, putting it on top of"

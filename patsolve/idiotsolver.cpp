@@ -19,7 +19,7 @@
 
 #include "../idiot.h"
 
-#include <KDebug>
+#include <QDebug>
 
 
 #define PRINT 0

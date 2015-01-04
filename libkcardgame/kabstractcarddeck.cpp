@@ -26,7 +26,7 @@
 #include "kcardpile.h"
 #include "shuffle.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KImageCache>
 
 #include <QtCore/QTimer>
@@ -88,7 +88,7 @@ void RenderingThread::run()
         QString key = keyForPixmap( element, m_size );
         if ( !d->cache->contains( key ) )
         {
-            kDebug() << "Renderering" << key << "in rendering thread.";
+            //qDebug() << "Renderering" << key << "in rendering thread.";
             QImage img = d->renderCard( element, m_size );
             d->cache->insertImage( key, img );
             emit renderingDone( element, img );
@@ -126,7 +126,7 @@ QSvgRenderer * KAbstractCardDeckPrivate::renderer()
     if ( !svgRenderer )
     {
         QString thread = (qApp->thread() == QThread::currentThread()) ? "main" : "rendering";
-        kDebug() << QString("Loading card deck SVG in %1 thread").arg( thread );
+        //qDebug() << QString("Loading card deck SVG in %1 thread").arg( thread );
 
         svgRenderer = new QSvgRenderer( theme.graphicsFilePath() );
     }
@@ -152,7 +152,7 @@ QImage KAbstractCardDeckPrivate::renderCard( const QString & element, const QSiz
         }
         else
         {
-            kWarning() << "Could not find" << element << "in SVG.";
+            qWarning() << "Could not find" << element << "in SVG.";
             p.fillRect( QRect( 0, 0, img.width(), img.height() ), Qt::white );
             p.setPen( Qt::red );
             p.drawLine( 0, 0, img.width(), img.height() );
@@ -206,7 +206,7 @@ QPixmap KAbstractCardDeckPrivate::requestPixmap( quint32 id, bool faceUp )
         {
             if ( stored.isNull() )
             {
-                kDebug() << "Renderering" << key << "in main thread.";
+                //qDebug() << "Renderering" << key << "in main thread.";
                 QImage img = renderCard( elementId, currentCardSize );
                 cache->insertImage( key, img );
                 stored = QPixmap::fromImage( img );
