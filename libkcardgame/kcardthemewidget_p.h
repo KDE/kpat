@@ -25,7 +25,7 @@
 #include "kcardtheme.h"
 #include <KImageCache>
 class KLineEdit;
-class KPushButton;
+class QPushButton;
 
 #include <QtCore/QAbstractItemModel>
 #include <QtCore/QMutex>
@@ -115,7 +115,7 @@ public:
     CardThemeModel * model;
     QListView * listView;
     KLineEdit * hiddenLineEdit;
-    KPushButton * newDeckButton;
+    QPushButton * newDeckButton;
 
     int itemMargin;
     int textHeight;

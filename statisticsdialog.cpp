@@ -42,9 +42,8 @@
 
 #include <KConfigGroup>
 #include <QDebug>
-#include <KGlobal>
 #include <KLocalizedString>
-
+#include <KSharedConfig>
 #include <QtCore/QList>
 
 

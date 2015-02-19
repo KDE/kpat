@@ -16,14 +16,14 @@
  */
 
 #include "soundengine.h"
+#include <QStandardPaths>
 
-#include <KStandardDirs>
 
 
 SoundEngine::SoundEngine( QObject * parent )
   : QObject( parent ),
-    m_cardPickedUp( KStandardDirs::locate( "appdata", "sounds/card-pickup.ogg" ) ),
-    m_cardPutDown( KStandardDirs::locate( "appdata", "sounds/card-down.ogg" ) )
+    m_cardPickedUp( QStandardPaths::locate(QStandardPaths::DataLocation, "sounds/card-pickup.ogg" ) ),
+    m_cardPutDown( QStandardPaths::locate(QStandardPaths::DataLocation, "sounds/card-down.ogg" ) )
 {
 }
 

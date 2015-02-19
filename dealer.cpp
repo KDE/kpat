@@ -46,7 +46,6 @@
 
 #include "KCardTheme"
 
-#include <KGlobal>
 #include <KConfigGroup>
 #include <QDebug>
 #include <KLocalizedString>

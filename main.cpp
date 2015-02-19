@@ -158,7 +158,6 @@ int main( int argc, char **argv )
 
     // Create a KLocale earlier than normal so that we can use i18n to translate
     // the names of the game types in the help text.
-    KLocale *tmpLocale = new KLocale("kpat");
     QMap<QString, int> indexMap;
     QStringList gameList;
     foreach ( const DealerInfo *di, DealerInfoList::self()->games() )
@@ -170,8 +169,7 @@ int main( int argc, char **argv )
         indexMap.insert( di->baseIdString(), di->baseId() );
     }
     gameList.sort();
-    //QT5 const QString listSeparator = ki18nc( "List separator", ", " ).toString( tmpLocale );
-    delete tmpLocale;
+    const QString listSeparator = i18nc( "List separator", ", " );
 
     KCmdLineArgs::init( argc, argv, &aboutData );
 
@@ -180,7 +178,7 @@ int main( int argc, char **argv )
     options.add("solve <num>", ki18n("Dealer to solve (debug)" ));
     options.add("start <num>", ki18n("Game range start (default 0:INT_MAX)" ));
     options.add("end <num>", ki18n("Game range end (default start:start if start given)" ));
-    //QT5 options.add("gametype <game>", ki18n("Skip the selection screen and load a particular game type. Valid values are: %1").subs(gameList.join(listSeparator)));
+    options.add("gametype <game>", ki18n("Skip the selection screen and load a particular game type. Valid values are: %1").subs(gameList.join(listSeparator)));
     options.add("testdir <directory>", ki18n( "Directory with test cases" ) );
     options.add("generate", ki18n( "Generate random test cases" ) );
     options.add("+file", ki18n("File to load"));
@@ -188,8 +186,6 @@ int main( int argc, char **argv )
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
 
     KApplication application;
-    //KF5 port: remove this line and define TRANSLATION_DOMAIN in CMakeLists.txt instead
-//KLocale::global()->insertCatalog( QLatin1String( "libkdegames" ));
 
     QString savegame = args->getOption( "solvegame" );
     if ( !savegame.isEmpty() )

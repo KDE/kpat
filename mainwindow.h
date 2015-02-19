@@ -51,7 +51,6 @@ class KCardDeck;
 class QAction;
 class KRecentFilesAction;
 class KToggleAction;
-class KUrl;
 class QUrl;
 #include <KXmlGuiWindow>
 

@@ -24,7 +24,7 @@
 #include <KColorUtils>
 #include <QDebug>
 #include <KLocalizedString>
-#include <KStandardDirs>
+
 
 #include <QGraphicsObject>
 #include <QKeyEvent>
@@ -33,6 +33,7 @@
 #include <QtCore/QPropertyAnimation>
 
 #include <cmath>
+#include <QStandardPaths>
 
 
 namespace
@@ -57,7 +58,7 @@ public:
         m_gameId( id ),
         m_anim( new QPropertyAnimation( this, "fade", this ) ),
         m_highlightFadeAmount( 0 ),
-        m_previewPath( KStandardDirs::locate( "data", QString( "kpat/previews/%1.png" ).arg( id ) ) )
+        m_previewPath( QStandardPaths::locate(QStandardPaths::GenericDataLocation, QString( "kpat/previews/%1.png" ).arg( id ) ) )
     {
         setAcceptHoverEvents( true );
         m_anim->setDuration( hoverTransitionDuration );

@@ -28,7 +28,7 @@
 #include <KLocalizedString>
 #include <KGlobal>
 #include <KImageCache>
-#include <KPushButton>
+#include <QPushButton>
 #include <KStandardDirs>
 #include <knewstuff3/downloaddialog.h>
 
@@ -397,7 +397,7 @@ KCardThemeWidget::KCardThemeWidget( const QSet<QString> & requiredFeatures, cons
     connect( d->listView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), d, SLOT(updateLineEdit(QModelIndex)) );
     connect( d->hiddenLineEdit, SIGNAL(textChanged(QString)), d, SLOT(updateListView(QString)) );
 
-    d->newDeckButton = new KPushButton( QIcon::fromTheme( QLatin1String( "get-hot-new-stuff") ), i18n("Get New Card Decks..." ), this );
+    d->newDeckButton = new QPushButton( QIcon::fromTheme( QLatin1String( "get-hot-new-stuff") ), i18n("Get New Card Decks..." ), this );
     connect( d->newDeckButton, SIGNAL(clicked(bool)), d, SLOT(getNewCardThemes()) );
 
     QHBoxLayout * hLayout = new QHBoxLayout();
