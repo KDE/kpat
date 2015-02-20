@@ -45,10 +45,13 @@
 #include <KLocalizedString>
 #include <KSharedConfig>
 #include <QtCore/QList>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 
 StatisticsDialog::StatisticsDialog(QWidget* aParent)
-	: KDialog(aParent),
+	: QDialog(aParent),
 	  indexToIdMap()
 {
 	QWidget* widget = new QWidget(this);
@@ -56,9 +59,15 @@ StatisticsDialog::StatisticsDialog(QWidget* aParent)
 	ui->setupUi(widget);
 
 	setWindowTitle(i18n("Statistics"));
-	setMainWidget(widget);
-	setButtons(KDialog::Reset | KDialog::Close);
-	setDefaultButton(KDialog::Close);
+	
+        QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(widget);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close|QDialogButtonBox::Reset);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	mainLayout->addWidget(buttonBox);
+	buttonBox->button(QDialogButtonBox::Close)->setDefault(true);
 
 
 	QMap<QString,int> nameToIdMap;
@@ -81,7 +90,7 @@ StatisticsDialog::StatisticsDialog(QWidget* aParent)
 	showGameType(indexToIdMap[0]);
 
 	connect(ui->GameType, SIGNAL(activated(int)), SLOT(selectionChanged(int)));
-	connect(this, SIGNAL(resetClicked()), SLOT(resetStats()));
+	connect(buttonBox->button(QDialogButtonBox::Reset), SIGNAL(clicked()), SLOT(resetStats()));
 }
 
 StatisticsDialog::~StatisticsDialog()

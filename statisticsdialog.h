@@ -40,12 +40,12 @@
 
 #include "ui_statisticsdialog.h"
 
-#include <KDialog>
+#include <QDialog>
 
 #include <QtCore/QMap>
 
 
-class StatisticsDialog : public KDialog
+class StatisticsDialog : public QDialog
 {
 	Q_OBJECT
 
