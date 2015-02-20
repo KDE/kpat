@@ -49,7 +49,7 @@
 #include <QDebug>
 #include <KGlobal>
 #include <KLocalizedString>
-#include <KStandardDirs>
+
 #include <KUrl>
 
 #include <QtCore/QFile>
@@ -59,6 +59,7 @@
 
 #include <climits>
 #include <time.h>
+#include <QStandardPaths>
 
 static DealerScene *getDealer( int wanted_game )
 {
@@ -294,7 +295,7 @@ int main( int argc, char **argv )
     }
 
     QString gametype = args->getOption("gametype").toLower();
-    QFile savedState( KStandardDirs::locateLocal("appdata", saved_state_file) );
+    QFile savedState( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + saved_state_file) ;
 
     MainWindow *w = new MainWindow;
     if (args->count())
