@@ -184,8 +184,7 @@ void CardThemeModel::reload()
         qSort( previewsNeeded.begin(), previewsNeeded.end(), lessThanByDisplayName ) ;
 
         m_thread = new PreviewThread( d, previewsNeeded );
-        connect( m_thread, SIGNAL(previewRendered(KCardTheme,QImage)),
-                 this, SLOT(submitPreview(KCardTheme,QImage)), Qt::QueuedConnection );
+        connect(m_thread, &PreviewThread::previewRendered, this, &CardThemeModel::submitPreview, Qt::QueuedConnection );
         m_thread->start();
     }
 }

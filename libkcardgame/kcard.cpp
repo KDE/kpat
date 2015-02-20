@@ -233,7 +233,7 @@ void KCard::animate( QPointF pos, qreal z, qreal rotation, bool faceUp, bool rai
         d->faceUp = faceUp;
 
         d->animation = new KCardAnimation( d, duration, pos, rotation, faceUp );
-        connect( d->animation, SIGNAL(finished()), SLOT(stopAnimation()) );
+        connect(d->animation, &KCardAnimation::finished, this, &KCard::stopAnimation);
         d->animation->start();
         emit animationStarted( this );
     }
