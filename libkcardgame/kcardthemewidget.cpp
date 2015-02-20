@@ -23,13 +23,10 @@
 #include <KImageCache>
 #include <KConfigDialog>
 #include <QDebug>
-#include <KDialog>
 #include <KLineEdit>
 #include <KLocalizedString>
-#include <KGlobal>
 #include <KImageCache>
 #include <QPushButton>
-#include <KStandardDirs>
 #include <knewstuff3/downloaddialog.h>
 
 #include <QtCore/QMutexLocker>

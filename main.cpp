@@ -43,14 +43,11 @@
 #include "KCardTheme"
 #include "KCardDeck"
 
-#include <K4AboutData>
-#include <KApplication>
-#include <KCmdLineArgs>
-#include <QDebug>
-#include <KGlobal>
-#include <KLocalizedString>
+#include <KAboutData>
 
-#include <KUrl>
+
+#include <QDebug>
+#include <KLocalizedString>
 
 #include <QtCore/QFile>
 #include <QtCore/QTime>
@@ -60,6 +57,9 @@
 #include <climits>
 #include <time.h>
 #include <QStandardPaths>
+#include <QApplication>
+#include <QCommandLineParser>
+#include <QCommandLineOption>
 
 static DealerScene *getDealer( int wanted_game )
 {
@@ -100,60 +100,60 @@ QString lowerAlphaNum( const QString & string )
 
 int main( int argc, char **argv )
 {
-    K4AboutData aboutData( "kpat",
-                          0,
-                          ki18n("KPatience"),
+    QApplication app(argc, argv);
+    KAboutData aboutData( "kpat",
+                          i18n("KPatience"),
                           KPAT_VERSION,
-                          ki18n("KDE Patience Game"),
-                          K4AboutData::License_GPL_V2,
-                          ki18n("© 1995 Paul Olav Tvete\n© 2000 Stephan Kulow"),
-                          KLocalizedString(),
+                          i18n("KDE Patience Game"),
+                          KAboutLicense::GPL_V2,
+                          i18n("© 1995 Paul Olav Tvete\n© 2000 Stephan Kulow"),
+                          QString(),
                           "http://games.kde.org/kpat" );
 
-    aboutData.addAuthor( ki18n("Paul Olav Tvete"),
-                         ki18n("Author of original Qt version"),
+    aboutData.addAuthor( i18n("Paul Olav Tvete"),
+                         i18n("Author of original Qt version"),
                          "paul@troll.no" );
-    aboutData.addAuthor( ki18n("Mario Weilguni"),
-                         ki18n("Initial KDE port"),
+    aboutData.addAuthor( i18n("Mario Weilguni"),
+                         i18n("Initial KDE port"),
                          "mweilguni@kde.org" );
-    aboutData.addAuthor( ki18n("Matthias Ettrich"),
-                         KLocalizedString(),
+    aboutData.addAuthor( i18n("Matthias Ettrich"),
+                         QString(),
                          "ettrich@kde.org" );
-    aboutData.addAuthor( ki18n("Rodolfo Borges"),
-                         ki18n("New game types"),
+    aboutData.addAuthor( i18n("Rodolfo Borges"),
+                         i18n("New game types"),
                          "barrett@9hells.org" );
-    aboutData.addAuthor( ki18n("Peter H. Ruegg"),
-                         KLocalizedString(),
+    aboutData.addAuthor( i18n("Peter H. Ruegg"),
+                         QString(),
                          "kpat@incense.org" );
-    aboutData.addAuthor( ki18n("Michael Koch"),
-                         ki18n("Bug fixes"),
+    aboutData.addAuthor( i18n("Michael Koch"),
+                         i18n("Bug fixes"),
                          "koch@kde.org" );
-    aboutData.addAuthor( ki18n("Marcus Meissner"),
-                         ki18n("Shuffle algorithm for game numbers"),
+    aboutData.addAuthor( i18n("Marcus Meissner"),
+                         i18n("Shuffle algorithm for game numbers"),
                          "mm@caldera.de" );
-    aboutData.addAuthor( ki18n("Tom Holroyd"),
-                         ki18n("Initial patience solver"),
+    aboutData.addAuthor( i18n("Tom Holroyd"),
+                         i18n("Initial patience solver"),
                          "tomh@kurage.nimh.nih.gov" );
-    aboutData.addAuthor( ki18n("Stephan Kulow"),
-                         ki18n("Rewrite and current maintainer"),
+    aboutData.addAuthor( i18n("Stephan Kulow"),
+                         i18n("Rewrite and current maintainer"),
                          "coolo@kde.org" );
-    aboutData.addAuthor( ki18n("Erik Sigra"),
-                         ki18n("Klondike improvements"),
+    aboutData.addAuthor( i18n("Erik Sigra"),
+                         i18n("Klondike improvements"),
                          "sigra@home.se" );
-    aboutData.addAuthor( ki18n("Josh Metzler"),
-                         ki18n("Spider implementation"),
+    aboutData.addAuthor( i18n("Josh Metzler"),
+                         i18n("Spider implementation"),
                          "joshdeb@metzlers.org" );
-    aboutData.addAuthor( ki18n("Maren Pakura"),
-                         ki18n("Documentation"),
+    aboutData.addAuthor( i18n("Maren Pakura"),
+                         i18n("Documentation"),
                          "maren@kde.org" );
-    aboutData.addAuthor( ki18n("Inge Wallin"),
-                         ki18n("Bug fixes"),
+    aboutData.addAuthor( i18n("Inge Wallin"),
+                         i18n("Bug fixes"),
                          "inge@lysator.liu.se" );
-    aboutData.addAuthor( ki18n("Simon Hürlimann"),
-                         ki18n("Menu and toolbar work"),
+    aboutData.addAuthor( i18n("Simon Hürlimann"),
+                         i18n("Menu and toolbar work"),
                          "simon.huerlimann@huerlisi.ch" );
-    aboutData.addAuthor( ki18n("Parker Coates"),
-                         ki18n("Cleanup and polish"),
+    aboutData.addAuthor( i18n("Parker Coates"),
+                         i18n("Cleanup and polish"),
                          "coates@kde.org" );
 
     // Create a KLocale earlier than normal so that we can use i18n to translate
@@ -171,23 +171,26 @@ int main( int argc, char **argv )
     gameList.sort();
     const QString listSeparator = i18nc( "List separator", ", " );
 
-    KCmdLineArgs::init( argc, argv, &aboutData );
+    QCommandLineParser parser;
+    KAboutData::setApplicationData(aboutData);
+    parser.addVersionOption();
+    parser.addHelpOption();
 
-    KCmdLineOptions options;
-    options.add("solvegame <file>", ki18n( "Try to find a solution to the given savegame" ) );
-    options.add("solve <num>", ki18n("Dealer to solve (debug)" ));
-    options.add("start <num>", ki18n("Game range start (default 0:INT_MAX)" ));
-    options.add("end <num>", ki18n("Game range end (default start:start if start given)" ));
-    options.add("gametype <game>", ki18n("Skip the selection screen and load a particular game type. Valid values are: %1").subs(gameList.join(listSeparator)));
-    options.add("testdir <directory>", ki18n( "Directory with test cases" ) );
-    options.add("generate", ki18n( "Generate random test cases" ) );
-    options.add("+file", ki18n("File to load"));
-    KCmdLineArgs::addCmdLineOptions (options);
-    KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
+    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("solvegame"), i18n( "Try to find a solution to the given savegame" ), QLatin1String("file")));
+    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("solve"), i18n("Dealer to solve (debug)" ), QLatin1String("num")));
+    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("start"), i18n("Game range start (default 0:INT_MAX)" ), QLatin1String("num")));
+    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("end"), i18n("Game range end (default start:start if start given)" ), QLatin1String("num")));
+    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("gametype"), i18n("Skip the selection screen and load a particular game type. Valid values are: %1",gameList.join(listSeparator)), QLatin1String("game")));
+    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("testdir"), i18n( "Directory with test cases" ), QLatin1String("directory")));
+    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("generate"), i18n( "Generate random test cases" )));
+    parser.addPositionalArgument(QLatin1String("file"), i18n("File to load"));
 
-    KApplication application;
+    aboutData.setupCommandLine(&parser);
+    parser.process(app);
+    aboutData.processCommandLine(&parser);
 
-    QString savegame = args->getOption( "solvegame" );
+
+    QString savegame = parser.value( "solvegame" );
     if ( !savegame.isEmpty() )
     {
         QFile of(savegame);
@@ -210,10 +213,10 @@ int main( int argc, char **argv )
         return 0;
     }
 
-    QString testdir = args->getOption("testdir");
+    QString testdir = parser.value("testdir");
     if ( !testdir.isEmpty() ) {
        qsrand(time(0));
-       if ( args->isSet("generate") ) {
+       if ( parser.isSet("generate") ) {
           for (int dealer = 0; dealer < 20; dealer++) {
               DealerScene *f = getDealer( dealer );
               if (!f) continue;
@@ -250,20 +253,20 @@ int main( int argc, char **argv )
 
     bool ok = false;
     int wanted_game = -1;
-    if ( args->isSet( "solve" ) )
-        wanted_game = args->getOption("solve").toInt( &ok );
+    if ( parser.isSet( "solve" ) )
+        wanted_game = parser.value("solve").toInt( &ok );
     if ( ok )
     {
         ok = false;
         int end_index = -1;
-        if ( args->isSet( "end" ) )
-            end_index = args->getOption("end").toInt( &ok );
+        if ( parser.isSet( "end" ) )
+            end_index = parser.value("end").toInt( &ok );
         if ( !ok )
             end_index = -1;
         ok = false;
         int start_index = -1;
-        if ( args->isSet( "start" ) )
-            start_index = args->getOption("start").toInt( &ok );
+        if ( parser.isSet( "start" ) )
+            start_index = parser.value("start").toInt( &ok );
         if ( !ok ) {
             start_index = 0;
             end_index = INT_MAX;
@@ -294,13 +297,13 @@ int main( int argc, char **argv )
         return 0;
     }
 
-    QString gametype = args->getOption("gametype").toLower();
+    QString gametype = parser.value("gametype").toLower();
     QFile savedState( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + saved_state_file) ;
 
     MainWindow *w = new MainWindow;
-    if (args->count())
+    if (parser.positionalArguments().count())
     {
-        if ( !w->loadGame( args->url( 0 ), true ) )
+        if ( !w->loadGame( parser.positionalArguments().at( 0 ), true ) )
             w->slotShowGameSelectionScreen();
     }
     else if (indexMap.contains(gametype))
@@ -318,6 +321,6 @@ int main( int argc, char **argv )
     }
     w->show();
 
-    args->clear();
-    return application.exec();
+    
+    return app.exec();
 }
