@@ -69,8 +69,8 @@
 #include <KRandom>
 #include <KRecentFilesAction>
 #include <KStandardDirs>
-#include <KStatusBar>
-#include <KMenuBar>
+#include <QStatusBar>
+#include <QMenuBar>
 #include <QTemporaryFile>
 #include <KToggleAction>
 #include <KToolInvocation>

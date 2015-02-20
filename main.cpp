@@ -49,7 +49,6 @@
 #include <QDebug>
 #include <KGlobal>
 #include <KLocalizedString>
-#include <KMenuBar>
 #include <KStandardDirs>
 #include <KUrl>
 
