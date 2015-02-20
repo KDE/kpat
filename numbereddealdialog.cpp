@@ -26,13 +26,24 @@
 #include <QtCore/QList>
 #include <QFormLayout>
 #include <QSpinBox>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 
 NumberedDealDialog::NumberedDealDialog( QWidget * parent )
-    : KDialog( parent )
+    : QDialog( parent )
 {
     setWindowTitle( i18n( "New Numbered Deal" ) );
-    setButtons( KDialog::Ok | KDialog::Cancel );
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    setLayout(mainLayout);
+    QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+    okButton->setDefault(true);
+    okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     QWidget * widget = new QWidget( this );
     QFormLayout * layout = new QFormLayout( widget );
@@ -44,8 +55,6 @@ NumberedDealDialog::NumberedDealDialog( QWidget * parent )
     m_dealNumber = new QSpinBox( widget );
     m_dealNumber->setRange( 1, INT_MAX );
     layout->addRow( i18n( "Deal number:" ), m_dealNumber );
-
-    setMainWidget( widget );
 
     QMap<QString,int> nameToIdMap;
     foreach ( DealerInfo * game, DealerInfoList::self()->games() )
@@ -66,7 +75,9 @@ NumberedDealDialog::NumberedDealDialog( QWidget * parent )
 
     setGameType( m_indexToIdMap[0] );
 
-    connect( this, SIGNAL(okClicked()), this, SLOT(handleOkClicked()) );
+    connect(okButton, SIGNAL(clicked()), this, SLOT(handleOkClicked()) );
+    mainLayout->addWidget(widget);
+    mainLayout->addWidget(buttonBox);
 }
 
 
@@ -91,7 +102,7 @@ void NumberedDealDialog::setVisible( bool visible )
         m_dealNumber->selectAll();
     }
 
-    KDialog::setVisible( visible );
+    QDialog::setVisible( visible );
 }
 
 

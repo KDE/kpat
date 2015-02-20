@@ -20,12 +20,12 @@
 #define NUMBEREDDEALDIALOG_H
 
 class KComboBox;
-#include <KDialog>
+#include <QDialog>
 
 #include <QtCore/QMap>
 class QSpinBox;
 
-class NumberedDealDialog : public KDialog
+class NumberedDealDialog : public QDialog
 {
     Q_OBJECT
 
