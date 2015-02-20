@@ -71,7 +71,7 @@
 #include <KStandardDirs>
 #include <KStatusBar>
 #include <KMenuBar>
-#include <KTemporaryFile>
+#include <QTemporaryFile>
 #include <KToggleAction>
 #include <KToolInvocation>
 #include <KXMLGUIFactory>
@@ -959,7 +959,7 @@ void MainWindow::saveGame()
         return;
 
     QFile localFile;
-    KTemporaryFile tempFile;
+    QTemporaryFile tempFile;
     if ( url.isLocalFile() )
     {
         localFile.setFileName( url.toLocalFile() );

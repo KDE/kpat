@@ -441,8 +441,7 @@ KCardThemeDialog::KCardThemeDialog( QWidget * parent, KConfigSkeleton * config, 
     addPage( new KCardThemeWidget( requiredFeatures, previewString, this ), QString() );
 
     setFaceType( KPageDialog::Plain );
-    //QT5 setButtons( KDialog::Ok | KDialog::Apply | KDialog::Cancel );
-    //QT5 showButtonSeparator( false );
+    setStandardButtons( QDialogButtonBox::Ok | QDialogButtonBox::Apply | QDialogButtonBox::Cancel);
 }
 
 
