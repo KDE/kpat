@@ -280,7 +280,7 @@ void MainWindow::setupActions()
     m_gameHelpAction = actionCollection()->addAction( QLatin1String( "help_game" ));
     m_gameHelpAction->setIcon( QIcon::fromTheme( QLatin1String( "help-browser" )) );
     connect( m_gameHelpAction, SIGNAL(triggered(bool)), SLOT(helpGame()));
-    //QT5 m_gameHelpAction->setShortcuts( KShortcut( Qt::ControlModifier | Qt::ShiftModifier | Qt::Key_F1 ) );
+    actionCollection()->setDefaultShortcut(m_gameHelpAction, Qt::CTRL + Qt::SHIFT + Qt::Key_F1 );
 
 
     // Hidden actions
