@@ -27,7 +27,7 @@
 #include <KLocalizedString>
 #include <KImageCache>
 #include <QPushButton>
-#include <knewstuff3/downloaddialog.h>
+#include <kns3/downloaddialog.h>
 
 #include <QtCore/QMutexLocker>
 #include <QtCore/QScopedPointer>
