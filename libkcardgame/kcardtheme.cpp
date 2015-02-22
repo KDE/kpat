@@ -21,12 +21,13 @@
 #include <KConfig>
 #include <KConfigGroup>
 #include <KGlobal>
-#include <KStandardDirs>
+
 
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 #include <QtCore/QSet>
 #include <QtCore/QSharedData>
+#include <QStandardPaths>
 
 
 class KCardThemePrivate : public QSharedData
@@ -62,7 +63,7 @@ public:
 QList<KCardTheme> KCardTheme::findAll()
 {
     QList<KCardTheme> result;
-    QStringList indexFiles = KGlobal::dirs()->findAllResources( "data", "carddecks/*/index.desktop" );
+    QStringList indexFiles = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "carddecks/*/index.desktop" );
     foreach ( const QString & indexFilePath, indexFiles )
     {
         QString directoryName = QFileInfo( indexFilePath ).dir().dirName();
@@ -76,7 +77,7 @@ QList<KCardTheme> KCardTheme::findAll()
 
 QList<KCardTheme> KCardTheme::findAllWithFeatures( const QSet<QString> & neededFeatures )
 {
-    QStringList indexFiles = KGlobal::dirs()->findAllResources( "data", "carddecks/*/index.desktop" );
+    QStringList indexFiles = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "carddecks/*/index.desktop" );
 
     QList<KCardTheme> result;
     foreach ( const QString & indexFilePath, indexFiles )
@@ -105,7 +106,7 @@ KCardTheme::KCardTheme( const QString & dirName )
     QStringList supportedFeatures;
     QDateTime lastModified;
 
-    QString indexFilePath = KGlobal::dirs()->findResource( "data", QString( "carddecks/%1/index.desktop" ).arg( dirName ) );
+    QString indexFilePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QString( "carddecks/%1/index.desktop" ).arg( dirName ) );
     if ( !indexFilePath.isEmpty() )
     {
         desktopFilePath = indexFilePath;
