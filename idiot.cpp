@@ -62,7 +62,7 @@ void Idiot::initialize()
     talon->setSpread(0, 0);
     talon->setKeyboardSelectHint( KCardPile::NeverFocus );
     talon->setKeyboardDropHint( KCardPile::NeverFocus );
-    connect( talon, SIGNAL(clicked(KCard*)), this, SLOT(newCards()) );
+    connect(talon, &PatPile::clicked, this, &Idiot::newCards);
 
     const qreal distx = 1.1;
 
@@ -86,7 +86,7 @@ void Idiot::initialize()
     m_away->setKeyboardSelectHint(KCardPile::NeverFocus);
     m_away->setKeyboardDropHint(KCardPile::ForceFocusTop);
 
-    connect( this, SIGNAL(cardClicked(KCard*)), this, SLOT(tryAutomaticMove(KCard*)) );
+    connect(this, &Idiot::cardClicked, this, &Idiot::tryAutomaticMove);
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);
     setSolver( new IdiotSolver(this ) );

@@ -42,8 +42,8 @@ NumberedDealDialog::NumberedDealDialog( QWidget * parent )
     QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
     okButton->setDefault(true);
     okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &NumberedDealDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &NumberedDealDialog::reject);
 
     QWidget * widget = new QWidget( this );
     QFormLayout * layout = new QFormLayout( widget );
@@ -75,7 +75,7 @@ NumberedDealDialog::NumberedDealDialog( QWidget * parent )
 
     setGameType( m_indexToIdMap[0] );
 
-    connect(okButton, SIGNAL(clicked()), this, SLOT(handleOkClicked()) );
+    connect(okButton, &QPushButton::clicked, this, &NumberedDealDialog::handleOkClicked);
     mainLayout->addWidget(widget);
     mainLayout->addWidget(buttonBox);
 }

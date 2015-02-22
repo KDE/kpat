@@ -69,7 +69,7 @@ void Mod3::initialize()
     talon->setSpread(0, 0);
     talon->setKeyboardSelectHint( KCardPile::NeverFocus );
     talon->setKeyboardDropHint( KCardPile::NeverFocus );
-    connect( talon, SIGNAL(clicked(KCard*)), SLOT(drawDealRowOrRedeal()) );
+    connect( talon, &KCardPile::clicked, this, &DealerScene::drawDealRowOrRedeal );
 
     aces = new PatPile( this, 50, "aces");
     aces->setPileRole(PatPile::FoundationType1);

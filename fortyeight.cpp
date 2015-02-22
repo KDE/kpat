@@ -64,7 +64,7 @@ void Fortyeight::initialize()
     talon->setSpread(0, 0);
     talon->setKeyboardSelectHint( KCardPile::NeverFocus );
     talon->setKeyboardDropHint( KCardPile::NeverFocus );
-    connect( talon, SIGNAL(clicked(KCard*)), SLOT(drawDealRowOrRedeal()) );
+    connect( talon, &KCardPile::clicked, this, &DealerScene::drawDealRowOrRedeal );
 
     pile = new PatPile( this, 20, "pile" );
     pile->setPileRole(PatPile::Waste);

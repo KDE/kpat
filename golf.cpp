@@ -62,7 +62,7 @@ void Golf::initialize()
     talon->setSpread(0, 0);
     talon->setKeyboardSelectHint( KCardPile::NeverFocus );
     talon->setKeyboardDropHint( KCardPile::NeverFocus );
-    connect( talon, SIGNAL(clicked(KCard*)), SLOT(drawDealRowOrRedeal()) );
+    connect( talon, &KCardPile::clicked, this, &DealerScene::drawDealRowOrRedeal );
 
     waste = new PatPile( this, 8, "waste" );
     waste->setPileRole(PatPile::Foundation);
@@ -89,7 +89,7 @@ void Golf::initialize()
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);
     setSolver( new GolfSolver( this ) );
 
-    connect( this, SIGNAL(cardClicked(KCard*)), this, SLOT(tryAutomaticMove(KCard*)) );
+    connect( this, &KCardScene::cardClicked, this, &DealerScene::tryAutomaticMove );
 }
 
 

@@ -144,14 +144,14 @@ void Spider::initialize()
         options->setCurrentItem( 1 );
     else
         options->setCurrentItem( 2 );
-    connect( options, SIGNAL(triggered(int)), SLOT(gameTypeChanged()) );
+    connect(options, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Spider::gameTypeChanged);
 
     m_stackFaceupOption = new KSelectAction(i18n("S&tack Options"), this );
     m_stackFaceupOption->addAction( i18n("Face &Down (harder)") );
     m_stackFaceupOption->addAction( i18n("Face &Up (easier)") );
     m_stackFaceupOption->setCurrentItem( m_stackFaceup );
 
-    connect( m_stackFaceupOption, SIGNAL(triggered(int)), SLOT(gameTypeChanged()) );
+    connect(m_stackFaceupOption, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Spider::gameTypeChanged);
 }
 
 

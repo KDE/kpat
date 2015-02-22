@@ -154,18 +154,18 @@ void MainWindow::setupActions()
     a->setText(i18nc("Start a new game of a different type","New &Game..."));
     a->setIcon( QIcon::fromTheme( QLatin1String( "document-new" )) );
     actionCollection()->setDefaultShortcut(a, Qt::CTRL + Qt::SHIFT + Qt::Key_N);
-    connect( a, SIGNAL(triggered(bool)), SLOT(slotShowGameSelectionScreen()) );
+    connect(a, &QAction::triggered, this, &MainWindow::slotShowGameSelectionScreen);
 
     a = actionCollection()->addAction( QLatin1String( "new_deal" ));
     a->setText(i18nc("Start a new game of without changing the game type", "New &Deal"));
     a->setIcon( QIcon::fromTheme( QLatin1String( "document-new" )) );
     actionCollection()->setDefaultShortcut(a, Qt::CTRL + Qt::Key_N);
-    connect( a, SIGNAL(triggered(bool)), SLOT(newGame()) );
+    connect(a, &QAction::triggered, this, &MainWindow::newGame);
 
     a = actionCollection()->addAction( QLatin1String( "new_numbered_deal" ));
     a->setText(i18nc("Start a game by giving its particular number", "New &Numbered Deal..."));
     actionCollection()->setDefaultShortcut(a, Qt::CTRL + Qt::Key_D);
-    connect( a, SIGNAL(triggered(bool)), SLOT(newNumberedDeal()) );
+    connect(a, &QAction::triggered, this, &MainWindow::newNumberedDeal);
 
     a = KStandardGameAction::restart(this, SLOT(restart()), actionCollection());
     a->setText(i18nc("Replay the current deal from the start", "Restart Deal"));
@@ -177,7 +177,7 @@ void MainWindow::setupActions()
     a->setText(i18nc("Start the game with the number one greater than the current one", "Next Deal"));
     a->setIcon( QIcon::fromTheme( QLatin1String( "go-next" )) );
     actionCollection()->setDefaultShortcut(a, Qt::CTRL + Qt::Key_Plus);
-    connect( a, SIGNAL(triggered(bool)), this, SLOT(nextDeal()) );
+    connect(a, &QAction::triggered, this, &MainWindow::nextDeal);
 
     // Note that this action is not shown in the menu or toolbar. It is
     // only provided for advanced users who can use it by shorcut or add it to
@@ -186,7 +186,7 @@ void MainWindow::setupActions()
     a->setText(i18nc("Start the game with the number one less than the current one", "Previous Deal"));
     a->setIcon( QIcon::fromTheme( QLatin1String( "go-previous" )) );
     actionCollection()->setDefaultShortcut(a, Qt::CTRL + Qt::Key_Minus);
-    connect( a, SIGNAL(triggered(bool)), this, SLOT(previousDeal()) );
+    connect(a, &QAction::triggered, this, &MainWindow::previousDeal);
 
     KStandardGameAction::load( this, SLOT(loadGame()), actionCollection() );
 
@@ -199,7 +199,7 @@ void MainWindow::setupActions()
     a = actionCollection()->addAction( QLatin1String( "game_stats" ));
     a->setText(i18n("Statistics"));
     a->setIcon( QIcon::fromTheme( QLatin1String( "games-highscores" )) );
-    connect( a, SIGNAL(triggered(bool)), SLOT(showStats()) );
+    connect(a, &QAction::triggered, this, &MainWindow::showStats);
 
     KStandardGameAction::quit(this, SLOT(close()), actionCollection());
 
@@ -224,7 +224,7 @@ void MainWindow::setupActions()
     delete a;
     QString actionName( KStandardGameAction::name( KStandardGameAction::Hint ) );
     actionCollection()->addAction( actionName, m_hintAction );
-    connect( m_hintAction, SIGNAL(triggered()), this, SLOT(toggleHints()) );
+    connect(m_hintAction, &QAction::triggered, this, &MainWindow::toggleHints);
 
     m_drawAction = actionCollection()->addAction( QLatin1String( "move_draw" ));
     m_drawAction->setText( i18nc("Take one or more cards from the deck, flip them, and place them in play", "Dra&w") );
@@ -246,40 +246,40 @@ void MainWindow::setupActions()
     m_dropAction->setIcon( QIcon::fromTheme( QLatin1String( "games-endturn" )) );
     actionCollection()->setDefaultShortcut(m_dropAction, Qt::Key_P );
     actionCollection()->addAction( QLatin1String(  "move_drop" ), m_dropAction );
-    connect( m_dropAction, SIGNAL(triggered()), this, SLOT(toggleDrop()) );
+    connect(m_dropAction, &QAction::triggered, this, &MainWindow::toggleDrop);
 
 
     // Settings Menu
     a = actionCollection()->addAction( QLatin1String( "select_deck" ));
     a->setText(i18n("Change Appearance..."));
-    connect( a, SIGNAL(triggered(bool)), SLOT(configureAppearance()) );
+    connect(a, &QAction::triggered, this, &MainWindow::configureAppearance);
     actionCollection()->setDefaultShortcut(a, Qt::Key_F10 );
 
     m_autoDropEnabledAction = new KToggleAction(i18n("&Enable Autodrop"), this);
     actionCollection()->addAction( QLatin1String( "enable_autodrop" ), m_autoDropEnabledAction );
-    connect( m_autoDropEnabledAction, SIGNAL(triggered(bool)), SLOT(setAutoDropEnabled(bool)) );
+    connect(m_autoDropEnabledAction, &KToggleAction::triggered, this, &MainWindow::setAutoDropEnabled);
     m_autoDropEnabledAction->setChecked( Settings::autoDropEnabled() );
 
     m_solverEnabledAction = new KToggleAction(i18n("E&nable Solver"), this);
     actionCollection()->addAction( QLatin1String( "enable_solver" ), m_solverEnabledAction );
-    connect( m_solverEnabledAction, SIGNAL(triggered(bool)), SLOT(enableSolver(bool)) );
+    connect(m_solverEnabledAction, &KToggleAction::triggered, this, &MainWindow::enableSolver);
     m_solverEnabledAction->setChecked( Settings::solverEnabled() );
 
     m_playSoundsAction = new KToggleAction( QIcon::fromTheme( QLatin1String( "preferences-desktop-sound") ), i18n("Play &Sounds" ), this );
     actionCollection()->addAction( QLatin1String( "play_sounds" ), m_playSoundsAction );
-    connect( m_playSoundsAction, SIGNAL(triggered(bool)), SLOT(enableSounds(bool)) );
+    connect(m_playSoundsAction, &KToggleAction::triggered, this, &MainWindow::enableSounds);
     m_playSoundsAction->setChecked( Settings::playSounds() );
 
     m_rememberStateAction = new KToggleAction(i18n("&Remember State on Exit"), this);
     actionCollection()->addAction( QLatin1String( "remember_state" ), m_rememberStateAction );
-    connect( m_rememberStateAction, SIGNAL(triggered(bool)), SLOT(enableRememberState(bool)) );
+    connect(m_rememberStateAction, &KToggleAction::triggered, this, &MainWindow::enableRememberState);
     m_rememberStateAction->setChecked( Settings::rememberStateOnExit() );
 
 
     // Help Menu
     m_gameHelpAction = actionCollection()->addAction( QLatin1String( "help_game" ));
     m_gameHelpAction->setIcon( QIcon::fromTheme( QLatin1String( "help-browser" )) );
-    connect( m_gameHelpAction, SIGNAL(triggered(bool)), SLOT(helpGame()));
+    connect(m_gameHelpAction, &QAction::triggered, this, &MainWindow::helpGame);
     actionCollection()->setDefaultShortcut(m_gameHelpAction, Qt::CTRL + Qt::SHIFT + Qt::Key_F1 );
 
 
@@ -288,17 +288,17 @@ void MainWindow::setupActions()
     {
         a = actionCollection()->addAction( QLatin1String( "themePreview" ));
         a->setText(i18n("Generate a theme preview image"));
-        connect( a, SIGNAL(triggered(bool)), SLOT(generateThemePreview()) );
+        connect(a, &QAction::triggered, this, &MainWindow::generateThemePreview);
         actionCollection()->setDefaultShortcut(a, Qt::Key_F7 );
 
         a = actionCollection()->addAction( QLatin1String( "snapshot" ));
         a->setText(i18n("Take Game Preview Snapshots"));
-        connect( a, SIGNAL(triggered(bool)), SLOT(slotSnapshot()) );
+        connect(a, &QAction::triggered, this, &MainWindow::slotSnapshot);
         actionCollection()->setDefaultShortcut(a, Qt::Key_F8);
 
         a = actionCollection()->addAction( QLatin1String( "random_set" ));
         a->setText(i18n("Random Cards"));
-        connect( a, SIGNAL(triggered(bool)), SLOT(slotPickRandom()) );
+        connect(a, &QAction::triggered, this, &MainWindow::slotPickRandom);
         actionCollection()->setDefaultShortcut(a, Qt::Key_F9);
     }
 
@@ -447,8 +447,8 @@ void MainWindow::configureAppearance()
                          i18n("Select a theme for non-card game elements")
                        );
 
-        connect( provider, SIGNAL(currentThemeChanged(const KgTheme*)), SLOT(appearanceChanged()) );
-        connect( dialog, SIGNAL(settingsChanged(QString)), this, SLOT(appearanceChanged()) );
+        connect(provider, &KgThemeProvider::currentThemeChanged, this, &MainWindow::appearanceChanged);
+        connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::appearanceChanged);
         dialog->show();
     }
 }
@@ -533,8 +533,8 @@ void MainWindow::setGameType(int id)
                                   " there is no current game.",
                                   "Help &with %1", di->baseName().replace('&', "&&")));
 
-    connect(m_dealer, SIGNAL(solverStateChanged(QString)), SLOT(updateSolverDescription(QString)));
-    connect(m_dealer, SIGNAL(updateMoves(int)), SLOT(slotUpdateMoves(int)));
+    connect(m_dealer, &DealerScene::solverStateChanged, this, &MainWindow::updateSolverDescription);
+    connect(m_dealer, &DealerScene::updateMoves, this, &MainWindow::slotUpdateMoves);
 
     m_solverStatusLabel->setText(QString());
     m_solverStatusLabel->setVisible(true);
@@ -560,7 +560,7 @@ void MainWindow::slotShowGameSelectionScreen()
         if (!m_selector)
         {
             m_selector = new GameSelectionScene(this);
-            connect( m_selector, SIGNAL(gameSelected(int)), SLOT(slotGameSelected(int)) );
+            connect(m_selector, &GameSelectionScene::gameSelected, this, &MainWindow::slotGameSelected);
         }
         m_view->setScene(m_selector);
 
@@ -600,41 +600,41 @@ void MainWindow::updateActions()
     // If a dealer exists, connect the game actions to it.
     if ( m_dealer )
     {
-        connect( m_dealer, SIGNAL(undoPossible(bool)), m_undoAction, SLOT(setEnabled(bool)) );
-        connect( m_dealer, SIGNAL(redoPossible(bool)), m_redoAction, SLOT(setEnabled(bool)) );
+        connect(m_dealer, &DealerScene::undoPossible, m_undoAction, &QAction::setEnabled);
+        connect(m_dealer, &DealerScene::redoPossible, m_redoAction, &QAction::setEnabled);
 
-        connect( m_dealer, SIGNAL(hintActive(bool)), m_hintAction, SLOT(setChecked(bool)) );
-        connect( m_dealer, SIGNAL(gameInProgress(bool)), m_hintAction, SLOT(setEnabled(bool)) );
+        connect(m_dealer, &DealerScene::hintActive, m_hintAction, &QAction::setChecked);
+        connect(m_dealer, &DealerScene::gameInProgress, m_hintAction, &QAction::setEnabled);
 
-        connect( m_dealer, SIGNAL(demoActive(bool)), this, SLOT(toggleDemoAction(bool)) );
-        connect( m_dealer, SIGNAL(gameInProgress(bool)), m_demoAction, SLOT(setEnabled(bool)) );
+        connect(m_dealer, &DealerScene::demoActive, this, &MainWindow::toggleDemoAction);
+        connect(m_dealer, &DealerScene::gameInProgress, m_demoAction, &QAction::setEnabled);
 
-        connect( m_dealer, SIGNAL(dropActive(bool)), m_dropAction, SLOT(setChecked(bool)) );
-        connect( m_dealer, SIGNAL(gameInProgress(bool)), m_dropAction, SLOT(setEnabled(bool)) );
+        connect(m_dealer, &DealerScene::dropActive, m_dropAction, &QAction::setChecked);
+        connect(m_dealer, &DealerScene::gameInProgress, m_dropAction, &QAction::setEnabled);
 
-        connect( m_dealer, SIGNAL(gameInProgress(bool)), m_saveAction, SLOT(setEnabled(bool)) );
+        connect(m_dealer, &DealerScene::gameInProgress, m_saveAction, &QAction::setEnabled);
 
-        connect( m_leftAction, SIGNAL(triggered(bool)), m_dealer, SLOT(keyboardFocusLeft()) );
-        connect( m_rightAction, SIGNAL(triggered(bool)), m_dealer, SLOT(keyboardFocusRight()) );
-        connect( m_upAction, SIGNAL(triggered(bool)), m_dealer, SLOT(keyboardFocusUp()) );
-        connect( m_downAction, SIGNAL(triggered(bool)), m_dealer, SLOT(keyboardFocusDown()) );
-        connect( m_cancelAction, SIGNAL(triggered(bool)), m_dealer, SLOT(keyboardFocusCancel()) );
-        connect( m_pickUpSetDownAction, SIGNAL(triggered(bool)), m_dealer, SLOT(keyboardFocusSelect()) );
+        connect(m_leftAction, &QAction::triggered, m_dealer, &DealerScene::keyboardFocusLeft);
+        connect(m_rightAction, &QAction::triggered, m_dealer, &DealerScene::keyboardFocusRight);
+        connect(m_upAction, &QAction::triggered, m_dealer, &DealerScene::keyboardFocusUp);
+        connect(m_downAction, &QAction::triggered, m_dealer, &DealerScene::keyboardFocusDown);
+        connect(m_cancelAction, &QAction::triggered, m_dealer, &DealerScene::keyboardFocusCancel);
+        connect(m_pickUpSetDownAction, &QAction::triggered, m_dealer, &DealerScene::keyboardFocusSelect);
 
         if ( m_dealer->actions() & DealerScene::Draw )
         {
-            connect( m_drawAction, SIGNAL(triggered(bool)), m_dealer, SLOT(drawDealRowOrRedeal()) );
-            connect( m_dealer, SIGNAL(newCardsPossible(bool)), m_drawAction, SLOT(setEnabled(bool)) );
+            connect(m_drawAction, &QAction::triggered, m_dealer, &DealerScene::drawDealRowOrRedeal);
+            connect(m_dealer, &DealerScene::newCardsPossible, m_drawAction, &QAction::setEnabled);
         }
         else if ( m_dealer->actions() & DealerScene::Deal )
         {
-            connect( m_dealAction, SIGNAL(triggered(bool)), m_dealer, SLOT(drawDealRowOrRedeal()) );
-            connect( m_dealer, SIGNAL(newCardsPossible(bool)), m_dealAction, SLOT(setEnabled(bool)) );
+            connect(m_dealAction, &QAction::triggered, m_dealer, &DealerScene::drawDealRowOrRedeal);
+            connect(m_dealer, &DealerScene::newCardsPossible, m_dealAction, &QAction::setEnabled);
         }
         else if ( m_dealer->actions() & DealerScene::Redeal )
         {
-            connect( m_redealAction, SIGNAL(triggered(bool)), m_dealer, SLOT(drawDealRowOrRedeal()) );
-            connect( m_dealer, SIGNAL(newCardsPossible(bool)), m_redealAction, SLOT(setEnabled(bool)) );
+            connect(m_redealAction, &QAction::triggered, m_dealer, &DealerScene::drawDealRowOrRedeal);
+            connect(m_dealer, &DealerScene::newCardsPossible, m_redealAction, &QAction::setEnabled);
         }
 
         guiFactory()->unplugActionList( this, "dealer_options" );
@@ -679,8 +679,8 @@ void MainWindow::updateSoundEngine()
             if ( !m_soundEngine )
                 m_soundEngine = new SoundEngine( this );
 
-            connect( m_dealer, SIGNAL(cardsPickedUp()), m_soundEngine, SLOT(cardsPickedUp()) );
-            connect( m_dealer, SIGNAL(cardsPutDown()), m_soundEngine, SLOT(cardsPutDown()) );
+            connect(m_dealer, &DealerScene::cardsPickedUp, m_soundEngine, &SoundEngine::cardsPickedUp);
+            connect(m_dealer, &DealerScene::cardsPutDown, m_soundEngine, &SoundEngine::cardsPutDown);
         }
         else if ( m_soundEngine )
         {
@@ -787,7 +787,7 @@ void MainWindow::newNumberedDeal()
     if ( !m_dealDialog )
     {
         m_dealDialog = new NumberedDealDialog( this );
-        connect( m_dealDialog, SIGNAL(dealChosen(int,int)), this, SLOT(startNumbered(int,int)) );
+        connect(m_dealDialog, &NumberedDealDialog::dealChosen, this, &MainWindow::startNumbered);
     }
 
     if ( m_dealer )

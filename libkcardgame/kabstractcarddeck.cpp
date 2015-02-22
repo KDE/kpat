@@ -55,7 +55,7 @@ RenderingThread::RenderingThread( KAbstractCardDeckPrivate * d, QSize size, cons
     m_elementsToRender( elements ),
     m_haltFlag( false )
 {
-    connect( this, SIGNAL(renderingDone(QString,QImage)), d, SLOT(submitRendering(QString,QImage)), Qt::QueuedConnection );
+    connect( this, &RenderingThread::renderingDone, d, &KAbstractCardDeckPrivate::submitRendering, Qt::QueuedConnection );
 }
 
 
@@ -108,7 +108,7 @@ KAbstractCardDeckPrivate::KAbstractCardDeckPrivate( KAbstractCardDeck * q )
 {
     animationCheckTimer->setSingleShot( true );
     animationCheckTimer->setInterval( 0 );
-    connect( animationCheckTimer, SIGNAL(timeout()), this, SLOT(checkIfAnimationIsDone()) );
+    connect( animationCheckTimer, &QTimer::timeout, this, &KAbstractCardDeckPrivate::checkIfAnimationIsDone );
 }
 
 
@@ -325,8 +325,8 @@ void KAbstractCardDeck::setDeckContents( const QList<quint32> & ids )
 
         c->setObjectName( elementName( c->id() ) );
 
-        connect( c, SIGNAL(animationStarted(KCard*)), d, SLOT(cardStartedAnimation(KCard*)) );
-        connect( c, SIGNAL(animationStopped(KCard*)), d, SLOT(cardStoppedAnimation(KCard*)) );
+        connect( c, &KCard::animationStarted, d, &KAbstractCardDeckPrivate::cardStartedAnimation );
+        connect( c, &KCard::animationStopped, d, &KAbstractCardDeckPrivate::cardStoppedAnimation );
 
         QString elementId = elementName( id, true );
         d->frontIndex[ elementId ].cardUsers.append( c );

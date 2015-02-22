@@ -573,24 +573,24 @@ DealerScene::DealerScene( const DealerInfo * di )
 
     m_solverUpdateTimer.setInterval( 250 );
     m_solverUpdateTimer.setSingleShot( true );
-    connect( &m_solverUpdateTimer, SIGNAL(timeout()), SLOT(stopAndRestartSolver()) );
+    connect(&m_solverUpdateTimer, &QTimer::timeout, this, &DealerScene::stopAndRestartSolver);
 
     m_demoTimer.setSingleShot( true );
-    connect( &m_demoTimer, SIGNAL(timeout()), SLOT(demo()) );
+    connect(&m_demoTimer, &QTimer::timeout, this, &DealerScene::demo);
 
     m_dropTimer.setSingleShot( true );
-    connect( &m_dropTimer, SIGNAL(timeout()), this, SLOT(drop()) );
+    connect(&m_dropTimer, &QTimer::timeout, this, &DealerScene::drop);
 
     m_wonItem = new MessageBox();
     m_wonItem->setZValue( 2000 );
     m_wonItem->hide();
     addItem( m_wonItem );
 
-    connect( this, SIGNAL(cardAnimationDone()), this, SLOT(animationDone()) );
+    connect(this, &DealerScene::cardAnimationDone, this, &DealerScene::animationDone);
 
-    connect( this, SIGNAL(cardDoubleClicked(KCard*)), this, SLOT(tryAutomaticMove(KCard*)) );
+    connect(this, &DealerScene::cardDoubleClicked, this, &DealerScene::tryAutomaticMove);
     // Make rightClick == doubleClick. See bug #151921
-    connect( this, SIGNAL(cardRightClicked(KCard*)), this, SLOT(tryAutomaticMove(KCard*)) );
+    connect(this, &DealerScene::cardRightClicked, this, &DealerScene::tryAutomaticMove);
 }
 
 DealerScene::~DealerScene()
@@ -1496,7 +1496,7 @@ void DealerScene::slotSolverEnded()
     if ( !m_solverThread )
     {
         m_solverThread = new SolverThread( m_solver );
-        connect( m_solverThread, SIGNAL(finished(int)), this, SLOT(slotSolverFinished(int)));
+        connect(m_solverThread, &SolverThread::finished, this, &DealerScene::slotSolverFinished);
     }
     m_solverThread->start( m_solverEnabled ? QThread::IdlePriority : QThread::NormalPriority );
 }

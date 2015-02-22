@@ -149,6 +149,7 @@ public slots:
     void stop();
 
     void drawDealRowOrRedeal();
+    virtual bool tryAutomaticMove( KCard * card );
 
 protected:
     virtual bool allowedToAdd(const KCardPile * pile, const QList<KCard*> & cards) const;
@@ -200,7 +201,6 @@ protected slots:
     virtual void animationDone();
     virtual bool newCards();
     virtual bool drop();
-    virtual bool tryAutomaticMove( KCard * card );
 
 private slots:
     void stopAndRestartSolver();

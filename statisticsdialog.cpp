@@ -64,8 +64,8 @@ StatisticsDialog::StatisticsDialog(QWidget* aParent)
 	setLayout(mainLayout);
 	mainLayout->addWidget(widget);
 	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close|QDialogButtonBox::Reset);
-	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	connect(buttonBox, &QDialogButtonBox::accepted, this, &StatisticsDialog::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &StatisticsDialog::reject);
 	mainLayout->addWidget(buttonBox);
 	buttonBox->button(QDialogButtonBox::Close)->setDefault(true);
 
@@ -89,8 +89,8 @@ StatisticsDialog::StatisticsDialog(QWidget* aParent)
 
 	showGameType(indexToIdMap[0]);
 
-	connect(ui->GameType, SIGNAL(activated(int)), SLOT(selectionChanged(int)));
-	connect(buttonBox->button(QDialogButtonBox::Reset), SIGNAL(clicked()), SLOT(resetStats()));
+	connect(ui->GameType, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated), this, &StatisticsDialog::selectionChanged);
+	connect(buttonBox->button(QDialogButtonBox::Reset), &QPushButton::clicked, this, &StatisticsDialog::resetStats);
 }
 
 StatisticsDialog::~StatisticsDialog()

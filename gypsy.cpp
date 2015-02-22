@@ -61,7 +61,7 @@ void Gypsy::initialize()
     talon->setLayoutPos(8.5 * dist_x + 0.4, 4 * dist_y);
     talon->setKeyboardSelectHint( KCardPile::NeverFocus );
     talon->setKeyboardDropHint( KCardPile::NeverFocus );
-    connect( talon, SIGNAL(clicked(KCard*)), SLOT(drawDealRowOrRedeal()) );
+    connect( talon, &KCardPile::clicked, this, &DealerScene::drawDealRowOrRedeal );
 
     for ( int i = 0; i < 8; ++i )
     {

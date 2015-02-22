@@ -219,8 +219,8 @@ GameSelectionScene::GameSelectionScene( QObject * parent )
         m_boxes.append( box );
         addItem( box );
 
-        connect( box, SIGNAL(selected(int)), this, SIGNAL(gameSelected(int)) );
-        connect( box, SIGNAL(hoverChanged(GameSelectionBox*,bool)), this, SLOT(boxHoverChanged(GameSelectionBox*,bool)) );
+        connect( box, &GameSelectionBox::selected, this, &GameSelectionScene::gameSelected );
+        connect( box, &GameSelectionBox::hoverChanged, this, &GameSelectionScene::boxHoverChanged );
     }
 
     qSort( m_boxes.begin(), m_boxes.end(), GameSelectionBox::lessThan );

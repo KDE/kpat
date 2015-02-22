@@ -104,7 +104,7 @@ void Klondike::initialize()
     talon->setZValue( -52 );
     talon->setKeyboardSelectHint( KCardPile::NeverFocus );
     talon->setKeyboardDropHint( KCardPile::NeverFocus );
-    connect( talon, SIGNAL(clicked(KCard*)), SLOT(drawDealRowOrRedeal()) );
+    connect( talon, &KCardPile::clicked, this, &DealerScene::drawDealRowOrRedeal );
 
     pile = new KlondikePile( this, 13, "pile" );
     pile->setCardsToShow( easyRules ? 1 : 3 );
@@ -144,7 +144,7 @@ void Klondike::initialize()
     options->addAction( i18n("Draw 1" ));
     options->addAction( i18n("Draw 3" ));
     options->setCurrentItem( easyRules ? 0 : 1 );
-    connect( options, SIGNAL(triggered(int)), SLOT(gameTypeChanged()) );
+    connect(options, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Klondike::gameTypeChanged);
 }
 
 bool Klondike::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
