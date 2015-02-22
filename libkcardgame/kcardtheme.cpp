@@ -20,7 +20,6 @@
 
 #include <KConfig>
 #include <KConfigGroup>
-#include <KGlobal>
 
 
 #include <QtCore/QDir>
