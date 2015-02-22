@@ -309,7 +309,7 @@ int main( int argc, char **argv )
     MainWindow *w = new MainWindow;
     if (parser.positionalArguments().count())
     {
-        if ( !w->loadGame( parser.positionalArguments().at( 0 ), true ) )
+        if ( !w->loadGame( QUrl::fromLocalFile(parser.positionalArguments().at( 0 )), true ) )
             w->slotShowGameSelectionScreen();
     }
     else if (indexMap.contains(gametype))
@@ -318,7 +318,7 @@ int main( int argc, char **argv )
     }
     else if (savedState.exists())
     {
-        if ( !w->loadGame( savedState.fileName(), false ) )
+        if ( !w->loadGame( QUrl::fromLocalFile(savedState.fileName()), false ) )
             w->slotShowGameSelectionScreen();
     }
     else
