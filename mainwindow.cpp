@@ -61,14 +61,12 @@
 #include <KActionCollection>
 #include <KConfigDialog>
 #include <QDebug>
-#include <KFileDialog>
-#include <KGlobal>
+#include <QFileDialog>
 #include <QIcon>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KRandom>
 #include <KRecentFilesAction>
-#include <KStandardDirs>
 #include <QStatusBar>
 #include <QMenuBar>
 #include <QTemporaryFile>
@@ -84,6 +82,8 @@
 #include <QDesktopWidget>
 #include <QKeySequence>
 #include <KHelpClient>
+#include <QStandardPaths>
+#include <KSharedConfig>
 
 
 namespace
@@ -756,7 +756,7 @@ void MainWindow::saveNewToolbarConfig()
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
-    QString stateFileName = KStandardDirs::locateLocal( "appdata", saved_state_file );
+    QString stateFileName = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + saved_state_file ;
     QFile stateFile( stateFileName );
 
     // Remove the existing state file, if any.
@@ -928,14 +928,15 @@ bool MainWindow::loadGame( const QUrl & url, bool addToRecentFiles )
 
 void MainWindow::loadGame()
 {
-    KFileDialog dialog( dialogUrl, "", this, 0 );
-    dialog.setOperationMode( KFileDialog::Opening );
-    dialog.setMimeFilter( QStringList() << saveFileMimeType << legacySaveFileMimeType << "all/allfiles" );
+    QFileDialog dialog(this);
+    dialog.selectUrl(dialogUrl);
+    dialog.setAcceptMode( QFileDialog::AcceptOpen );
+    dialog.setMimeTypeFilters( QStringList() << saveFileMimeType << legacySaveFileMimeType << "all/allfiles" );
     dialog.setWindowTitle( i18n("Load") );
 
-    if ( dialog.exec() == KFileDialog::Accepted )
+    if ( dialog.exec() == QFileDialog::Accepted )
     {
-        QUrl url = dialog.selectedUrl();
+        QUrl url = dialog.selectedUrls().at(0);
         if ( !url.isEmpty() )
             loadGame( url, true );
     }
@@ -946,15 +947,16 @@ void MainWindow::saveGame()
     if ( !m_dealer )
         return;
 
-    KFileDialog dialog( dialogUrl, "", this, 0 );
-    dialog.setOperationMode( KFileDialog::Saving );
-    dialog.setMimeFilter( QStringList() << saveFileMimeType << legacySaveFileMimeType, saveFileMimeType );
+    QFileDialog dialog( this );
+    dialog.selectUrl(dialogUrl);
+    dialog.setAcceptMode( QFileDialog::AcceptSave );
+    dialog.setMimeTypeFilters( QStringList() << saveFileMimeType << legacySaveFileMimeType );
     dialog.setConfirmOverwrite( true );
     dialog.setWindowTitle( i18n("Save") );
-    if ( dialog.exec() != KFileDialog::Accepted )
+    if ( dialog.exec() != QFileDialog::Accepted )
         return;
 
-    QUrl url = dialog.selectedUrl();
+    QUrl url = dialog.selectedUrls().at(0);
     if ( url.isEmpty() )
         return;
 
