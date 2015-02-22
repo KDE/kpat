@@ -54,6 +54,7 @@
 #include <QResizeEvent>
 #include <QtXml/QDomDocument>
 
+#include <Kdelibs4ConfigMigrator>
 #include <climits>
 #include <time.h>
 #include <QStandardPaths>
@@ -101,6 +102,11 @@ QString lowerAlphaNum( const QString & string )
 int main( int argc, char **argv )
 {
     QApplication app(argc, argv);
+    Kdelibs4ConfigMigrator migrate(QStringLiteral("kpat"));
+    migrate.setConfigFiles(QStringList() << QStringLiteral("kpatrc"));
+    migrate.setUiFiles(QStringList() << QStringLiteral("kpatui.rc"));
+    migrate.migrate();
+
     KAboutData aboutData( "kpat",
                           i18n("KPatience"),
                           KPAT_VERSION,
