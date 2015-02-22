@@ -63,13 +63,19 @@ public:
 QList<KCardTheme> KCardTheme::findAll()
 {
     QList<KCardTheme> result;
-    QStringList indexFiles = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "carddecks/*/index.desktop" );
-    foreach ( const QString & indexFilePath, indexFiles )
-    {
-        QString directoryName = QFileInfo( indexFilePath ).dir().dirName();
-        KCardTheme t( directoryName );
-        if ( t.isValid() )
-            result << t;
+    QStringList indexFiles = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "carddecks", QStandardPaths::LocateDirectory );
+    Q_FOREACH (const QString &index, indexFiles) {
+        const QStringList entries = QDir(index).entryList(QDir::Dirs);
+        Q_FOREACH (const QString &d, entries) {
+            QString indexFilePath = index + '/' + d + "/index.desktop";
+            if (QFile::exists(indexFilePath)) {
+                QString directoryName = QFileInfo( indexFilePath ).dir().dirName();
+                KCardTheme t( directoryName );
+                if ( t.isValid() )
+                    result << t;
+
+            }
+        }
     }
     return result;
 }
@@ -77,15 +83,20 @@ QList<KCardTheme> KCardTheme::findAll()
 
 QList<KCardTheme> KCardTheme::findAllWithFeatures( const QSet<QString> & neededFeatures )
 {
-    QStringList indexFiles = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "carddecks/*/index.desktop" );
-
     QList<KCardTheme> result;
-    foreach ( const QString & indexFilePath, indexFiles )
-    {
-        QString directoryName = QFileInfo( indexFilePath ).dir().dirName();
-        KCardTheme t( directoryName );
-        if ( t.isValid() && t.supportedFeatures().contains( neededFeatures ) )
-            result << t;
+    QStringList indexFiles = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "carddecks", QStandardPaths::LocateDirectory );
+    Q_FOREACH (const QString &index, indexFiles) {
+        const QStringList entries = QDir(index).entryList(QDir::Dirs);
+        Q_FOREACH (const QString &d, entries) {
+            QString indexFilePath = index + '/' + d + "/index.desktop";
+            if (QFile::exists(indexFilePath)) {
+                QString directoryName = QFileInfo( indexFilePath ).dir().dirName();
+                KCardTheme t( directoryName );
+                if ( t.isValid() && t.supportedFeatures().contains( neededFeatures ) )
+                    result << t;
+
+            }
+        }
     }
     return result;
 }
