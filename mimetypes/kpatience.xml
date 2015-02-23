@@ -2,6 +2,7 @@
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
   <mime-type type="application/vnd.kde.kpatience.savedstate">
     <comment>KPatience legacy save file</comment>
+    <comment xml:lang="bs">KPatience starija datoteka za snimanje</comment>
     <comment xml:lang="ca">Fitxer antic de desat del KPatience</comment>
     <comment xml:lang="cs">Uložený soubor staré verze KPatience</comment>
     <comment xml:lang="da">KPatience gammel gemmefil</comment>
@@ -9,7 +10,6 @@
     <comment xml:lang="en_GB">KPatience legacy save file</comment>
     <comment xml:lang="es">Restos del archivo de salvaguardado de KPatience</comment>
     <comment xml:lang="fi">Vanha KPatience-tallennustiedosto</comment>
-    <comment xml:lang="id">Berkas simpanan warisan KPatience</comment>
     <comment xml:lang="it">File di salvataggio obsoleto per KPatience</comment>
     <comment xml:lang="nl">KPatience ouderwets opslagbestand</comment>
     <comment xml:lang="pl">Przestrzały plik zapisu KPatience</comment>
@@ -32,14 +32,14 @@
   </mime-type>
   <mime-type type="application/vnd.kde.kpatience.savedgame">
     <comment>KPatience save file</comment>
+    <comment xml:lang="bs">KPatience datoteka za snimanje</comment>
     <comment xml:lang="ca">Fitxer de desat del KPatience</comment>
     <comment xml:lang="cs">Uložený soubor KPatience</comment>
     <comment xml:lang="da">KPatience gemmefil</comment>
     <comment xml:lang="de">KPatience-Speicherdatei</comment>
     <comment xml:lang="en_GB">KPatience save file</comment>
-    <comment xml:lang="es">Archivo de salvaguardado de KPatience</comment>
+    <comment xml:lang="es">Archvo de salvaguardado de KPatience</comment>
     <comment xml:lang="fi">KPatience-tallennustiedosto</comment>
-    <comment xml:lang="id">Berkas simpanan KPatience</comment>
     <comment xml:lang="it">File di salvataggio per KPatience</comment>
     <comment xml:lang="nl">KPatience opslagbestand</comment>
     <comment xml:lang="pl">Plik zapisu KPatience</comment>
