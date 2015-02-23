@@ -195,6 +195,7 @@ int main( int argc, char **argv )
     parser.process(app);
     aboutData.processCommandLine(&parser);
 
+    app.setWindowIcon(QIcon::fromTheme(QLatin1String("kpat")));
 
     QString savegame = parser.value( "solvegame" );
     if ( !savegame.isEmpty() )
