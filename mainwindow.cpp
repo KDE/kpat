@@ -218,7 +218,7 @@ void MainWindow::setupActions()
     a = KStandardGameAction::hint( 0, 0, 0 );
     m_hintAction->setText( a->text() );
     m_hintAction->setIcon( a->icon() );
-    m_hintAction->setShortcut( a->shortcut() );
+    actionCollection()->setDefaultShortcut( m_hintAction, a->shortcut() );
     m_hintAction->setToolTip( a->toolTip() );
     m_hintAction->setWhatsThis( a->whatsThis() );
     delete a;
