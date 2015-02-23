@@ -980,8 +980,7 @@ void MainWindow::saveGame()
         }
     }
     QFile & file = url.isLocalFile() ? localFile : tempFile;
-#if 0 //QT5
-    if ( dialog.currentFilterMimeType()->is( legacySaveFileMimeType ) )
+    if ( dialog.selectedNameFilter() == legacySaveFileMimeType )
     {
         m_dealer->saveLegacyFile( &file );
     }
@@ -989,7 +988,6 @@ void MainWindow::saveGame()
     {
         m_dealer->saveFile( &file );
     }
-#endif
     file.close();
 
     if ( !url.isLocalFile() && !KIO::NetAccess::upload( file.fileName(), url, this ) )
