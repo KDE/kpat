@@ -12,5 +12,5 @@ add_library( kcardgame SHARED ${libkcardgame_SRCS} )
 generate_export_header(kcardgame BASE_NAME libkcardgame)
 target_link_libraries( kcardgame KF5KDEGames KF5::NewStuff KF5::GuiAddons Qt5::Svg KF5::Completion)
 
-install( TARGETS kcardgame ${INSTALL_TARGETS_DEFAULT_ARGS} )
-install( FILES kcardtheme.knsrc  DESTINATION  ${CONFIG_INSTALL_DIR} )
+install( TARGETS kcardgame ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
+install( FILES kcardtheme.knsrc  DESTINATION  ${KDE_INSTALL_CONFDIR} )

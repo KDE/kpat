@@ -13,4 +13,4 @@ set( kpat_previews
    18.png
 )
 
-install( FILES ${kpat_previews} DESTINATION  ${DATA_INSTALL_DIR}/kpat/previews )
+install( FILES ${kpat_previews} DESTINATION  ${KDE_INSTALL_DATADIR}/kpat/previews )

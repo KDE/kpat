@@ -16,7 +16,7 @@ set( kpat_themes
    oldertheme.png
 )
 
-install( FILES ${kpat_themes} DESTINATION  ${DATA_INSTALL_DIR}/kpat/themes )
+install( FILES ${kpat_themes} DESTINATION  ${KDE_INSTALL_DATADIR}/kpat/themes )
 
-install( FILES kpat.knsrc  DESTINATION  ${CONFIG_INSTALL_DIR} )
+install( FILES kpat.knsrc  DESTINATION  ${KDE_INSTALL_CONFDIR} )
 

@@ -3,4 +3,4 @@ set( kpat_sounds
    card-down.ogg
 )
 
-install( FILES ${kpat_sounds} DESTINATION  ${DATA_INSTALL_DIR}/kpat/sounds )
+install( FILES ${kpat_sounds} DESTINATION  ${KDE_INSTALL_DATADIR}/kpat/sounds )

@@ -3,7 +3,7 @@ project( kpat )
 cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
 set (QT_MIN_VERSION "5.2.0")
 
-find_package(ECM 1.3.0 REQUIRED CONFIG)
+find_package(ECM 1.7.0 REQUIRED CONFIG)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
 
 find_package(Qt5 ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Widgets Qml Quick QuickWidgets Svg Test)
@@ -31,6 +31,7 @@ find_package(KF5KDEGames 4.9.0 REQUIRED)
 find_package(Phonon4Qt5)
 
 include(FeatureSummary)
+include(ECMAddAppIcon)
 include(ECMInstallIcons)
 include(KDEInstallDirs)
 include(KDECompilerSettings)
@@ -94,15 +95,17 @@ set( kpat_SRCS
 
 ki18n_wrap_ui( kpat_SRCS statisticsdialog.ui )
 kconfig_add_kcfg_files( kpat_SRCS settings.kcfgc )
-#kde4_add_app_icon( kpat_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-app-kpat.png" )
+
+file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-apps-kpat.png")
+ecm_add_app_icon(kpat_SRCS ICONS ${ICONS_SRCS})
 add_executable( kpat ${kpat_SRCS} )
 target_link_libraries( kpat kcardgame KF5KDEGames KF5::KIOCore Phonon::phonon4qt5 KF5::I18n KF5::KDELibs4Support)
-install( TARGETS kpat ${INSTALL_TARGETS_DEFAULT_ARGS} )
+install( TARGETS kpat ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
 
 
 ########### install files ###############
 
-install( PROGRAMS org.kde.kpat.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
-install( FILES kpatui.rc  DESTINATION  ${KXMLGUI_INSTALL_DIR}/kpat )
-install( FILES kpat.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
+install( PROGRAMS org.kde.kpat.desktop  DESTINATION  ${KDE_INSTALL_APPDIR} )
+install( FILES kpatui.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kpat )
+install( FILES kpat.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR} )
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
