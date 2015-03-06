@@ -24,7 +24,6 @@
 #include "common.h"
 #include "kcardtheme.h"
 #include "kcardpile.h"
-#include "shuffle.h"
 
 #include <QDebug>
 #include <KImageCache>
