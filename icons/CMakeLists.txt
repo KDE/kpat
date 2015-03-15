@@ -1,2 +1,2 @@
-ecm_install_icons(ICONS hi128-apps-kpat.png  hi16-apps-kpat.png  hi22-apps-kpat.png  hi24-apps-kpat.png  hi256-apps-kpat.png  hi32-apps-kpat.png  hi48-apps-kpat.png  hi64-apps-kpats.png DESTINATION ${KDE_INSTALL_ICONDIR}   )
+ecm_install_icons(ICONS 128-apps-kpat.png  16-apps-kpat.png  22-apps-kpat.png  24-apps-kpat.png  256-apps-kpat.png  32-apps-kpat.png  48-apps-kpat.png  64-apps-kpat.png DESTINATION ${KDE_INSTALL_ICONDIR} THEME hicolor   )
 

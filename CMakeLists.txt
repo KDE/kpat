@@ -96,7 +96,7 @@ set( kpat_SRCS
 ki18n_wrap_ui( kpat_SRCS statisticsdialog.ui )
 kconfig_add_kcfg_files( kpat_SRCS settings.kcfgc )
 
-file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/hi*-apps-kpat.png")
+file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/*-apps-kpat.png")
 ecm_add_app_icon(kpat_SRCS ICONS ${ICONS_SRCS})
 add_executable( kpat ${kpat_SRCS} )
 target_link_libraries( kpat kcardgame KF5KDEGames KF5::KIOCore Phonon::phonon4qt5 KF5::I18n KF5::KDELibs4Support)
