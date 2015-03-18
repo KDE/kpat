@@ -101,11 +101,11 @@ QString lowerAlphaNum( const QString & string )
 
 int main( int argc, char **argv )
 {
-    QApplication app(argc, argv);
     Kdelibs4ConfigMigrator migrate(QStringLiteral("kpat"));
     migrate.setConfigFiles(QStringList() << QStringLiteral("kpatrc"));
     migrate.setUiFiles(QStringList() << QStringLiteral("kpatui.rc"));
     migrate.migrate();
+    QApplication app(argc, argv);
 
     KAboutData aboutData( "kpat",
                           i18n("KPatience"),
