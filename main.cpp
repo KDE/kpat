@@ -48,6 +48,7 @@
 
 #include <QDebug>
 #include <KLocalizedString>
+#include <KDBusService>
 
 #include <QtCore/QFile>
 #include <QtCore/QTime>
@@ -116,6 +117,7 @@ int main( int argc, char **argv )
                           QString(),
                           "http://games.kde.org/kpat" );
 
+    aboutData.setOrganizationDomain(QByteArray("kde.org"));
     aboutData.addAuthor( i18n("Paul Olav Tvete"),
                          i18n("Author of original Qt version"),
                          "paul@troll.no" );
@@ -328,6 +330,7 @@ int main( int argc, char **argv )
     }
     w->show();
 
+    const KDBusService dbusService(KDBusService::Multiple);
     
     return app.exec();
 }
