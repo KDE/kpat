@@ -1,6 +1,5 @@
 [Desktop Entry]
 Name=KPatience
-Name[ast]=KPatience
 Name[bs]=KPatience
 Name[ca]=KPatience
 Name[ca@valencia]=KPatience
@@ -57,7 +56,6 @@ Icon=kpat
 X-DocPath=kpat/index.html
 GenericName=Patience Card Game
 GenericName[af]=Patience Kaart Speletjie
-GenericName[ast]=Xuegu de cartes del solitariu
 GenericName[be]=Картачны пасьянс
 GenericName[bn]=পেশেন্স নামের তাস খেলা
 GenericName[br]=C'hoari a habaskter
