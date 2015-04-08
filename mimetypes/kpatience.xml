@@ -36,7 +36,6 @@
   </mime-type>
   <mime-type type="application/vnd.kde.kpatience.savedgame">
     <comment>KPatience save file</comment>
-    <comment xml:lang="ast">Ficheru de guarda KPatience</comment>
     <comment xml:lang="bs">KPatience datoteka za snimanje</comment>
     <comment xml:lang="ca">Fitxer de desat del KPatience</comment>
     <comment xml:lang="cs">Uložený soubor KPatience</comment>
