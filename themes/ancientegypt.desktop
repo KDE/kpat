@@ -1,5 +1,6 @@
 [KGameTheme]
 Name=Desert Sands
+Name[ast]=Sable del desiertu
 Name[bs]=Pustinjski pjesak
 Name[ca]=Sorres del desert
 Name[ca@valencia]=Sorres del desert
@@ -44,6 +45,7 @@ Name[x-test]=xxDesert Sandsxx
 Name[zh_CN]=沙漠之风
 Name[zh_TW]=沙漠之沙
 Description=Egyptian style theme.
+Description[ast]=Tema d'estilu exipciu.
 Description[bs]=Tema u Egipatskom stilu.
 Description[ca]=Tema d'estil egipci.
 Description[ca@valencia]=Tema d'estil egipci.
