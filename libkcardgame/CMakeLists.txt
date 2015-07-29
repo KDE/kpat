@@ -1,3 +1,4 @@
+include(GenerateExportHeader)
 set( libkcardgame_SRCS
     kabstractcarddeck.cpp
     kcard.cpp
