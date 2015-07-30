@@ -26,6 +26,7 @@ find_package(KF5 REQUIRED COMPONENTS
     NotifyConfig
     NewStuff
     DocTools
+    KDELibs4Support
 )
 
 find_package(KF5KDEGames 4.9.0 REQUIRED)
