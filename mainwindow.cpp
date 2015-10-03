@@ -756,7 +756,14 @@ void MainWindow::saveNewToolbarConfig()
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
-    QString stateFileName = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + saved_state_file ;
+    QString stateDirName = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    QString stateFileName = stateDirName + QLatin1Char('/') + saved_state_file ;
+    QDir stateFileDir(stateDirName);
+    if(!stateFileDir.exists())
+    {
+        //create the directory if it doesn't exist (bug#350160)
+        stateFileDir.mkpath(QStringLiteral("."));
+    }
     QFile stateFile( stateFileName );
 
     // Remove the existing state file, if any.
