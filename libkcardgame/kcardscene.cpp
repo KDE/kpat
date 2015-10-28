@@ -418,12 +418,12 @@ KCardScene::~KCardScene()
 void KCardScene::setDeck( KAbstractCardDeck * deck )
 {
     if ( d->deck )
-        disconnect( d->deck, SIGNAL(cardAnimationDone()), this, SIGNAL(cardAnimationDone()) );
+        disconnect( d->deck, &KAbstractCardDeck::cardAnimationDone, this, &KCardScene::cardAnimationDone );
 
     d->deck = deck;
 
     if ( d->deck )
-        connect( d->deck, SIGNAL(cardAnimationDone()), this, SIGNAL(cardAnimationDone()) );
+        connect( d->deck, &KAbstractCardDeck::cardAnimationDone, this, &KCardScene::cardAnimationDone );
 }
 
 

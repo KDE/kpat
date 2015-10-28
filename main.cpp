@@ -109,61 +109,61 @@ int main( int argc, char **argv )
     migrate.setUiFiles(QStringList() << QStringLiteral("kpatui.rc"));
     migrate.migrate();
 
-    KAboutData aboutData( "kpat",
+    KAboutData aboutData( QStringLiteral("kpat"),
                           i18n("KPatience"),
                           KPAT_VERSION,
                           i18n("KDE Patience Game"),
                           KAboutLicense::GPL_V2,
                           i18n("© 1995 Paul Olav Tvete\n© 2000 Stephan Kulow"),
                           QString(),
-                          "http://games.kde.org/kpat" );
+                          QStringLiteral("http://games.kde.org/kpat") );
 
     aboutData.setOrganizationDomain(QByteArray("kde.org"));
     aboutData.addAuthor( i18n("Paul Olav Tvete"),
                          i18n("Author of original Qt version"),
-                         "paul@troll.no" );
+                         QStringLiteral("paul@troll.no") );
     aboutData.addAuthor( i18n("Mario Weilguni"),
                          i18n("Initial KDE port"),
-                         "mweilguni@kde.org" );
+                         QStringLiteral("mweilguni@kde.org") );
     aboutData.addAuthor( i18n("Matthias Ettrich"),
                          QString(),
-                         "ettrich@kde.org" );
+                         QStringLiteral("ettrich@kde.org") );
     aboutData.addAuthor( i18n("Rodolfo Borges"),
                          i18n("New game types"),
-                         "barrett@9hells.org" );
+                         QStringLiteral("barrett@9hells.org") );
     aboutData.addAuthor( i18n("Peter H. Ruegg"),
                          QString(),
-                         "kpat@incense.org" );
+                         QStringLiteral("kpat@incense.org") );
     aboutData.addAuthor( i18n("Michael Koch"),
                          i18n("Bug fixes"),
-                         "koch@kde.org" );
+                         QStringLiteral("koch@kde.org") );
     aboutData.addAuthor( i18n("Marcus Meissner"),
                          i18n("Shuffle algorithm for game numbers"),
-                         "mm@caldera.de" );
+                         QStringLiteral("mm@caldera.de") );
     aboutData.addAuthor( i18n("Tom Holroyd"),
                          i18n("Initial patience solver"),
-                         "tomh@kurage.nimh.nih.gov" );
+                         QStringLiteral("tomh@kurage.nimh.nih.gov") );
     aboutData.addAuthor( i18n("Stephan Kulow"),
                          i18n("Rewrite and current maintainer"),
-                         "coolo@kde.org" );
+                         QStringLiteral("coolo@kde.org") );
     aboutData.addAuthor( i18n("Erik Sigra"),
                          i18n("Klondike improvements"),
-                         "sigra@home.se" );
+                         QStringLiteral("sigra@home.se") );
     aboutData.addAuthor( i18n("Josh Metzler"),
                          i18n("Spider implementation"),
-                         "joshdeb@metzlers.org" );
+                         QStringLiteral("joshdeb@metzlers.org") );
     aboutData.addAuthor( i18n("Maren Pakura"),
                          i18n("Documentation"),
-                         "maren@kde.org" );
+                         QStringLiteral("maren@kde.org") );
     aboutData.addAuthor( i18n("Inge Wallin"),
                          i18n("Bug fixes"),
-                         "inge@lysator.liu.se" );
+                         QStringLiteral("inge@lysator.liu.se") );
     aboutData.addAuthor( i18n("Simon Hürlimann"),
                          i18n("Menu and toolbar work"),
-                         "simon.huerlimann@huerlisi.ch" );
+                         QStringLiteral("simon.huerlimann@huerlisi.ch") );
     aboutData.addAuthor( i18n("Parker Coates"),
                          i18n("Cleanup and polish"),
-                         "coates@kde.org" );
+                         QStringLiteral("coates@kde.org") );
 
     // Create a KLocale earlier than normal so that we can use i18n to translate
     // the names of the game types in the help text.
@@ -185,22 +185,22 @@ int main( int argc, char **argv )
     parser.addVersionOption();
     parser.addHelpOption();
 
-    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("solvegame"), i18n( "Try to find a solution to the given savegame" ), QLatin1String("file")));
-    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("solve"), i18n("Dealer to solve (debug)" ), QLatin1String("num")));
-    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("start"), i18n("Game range start (default 0:INT_MAX)" ), QLatin1String("num")));
-    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("end"), i18n("Game range end (default start:start if start given)" ), QLatin1String("num")));
-    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("gametype"), i18n("Skip the selection screen and load a particular game type. Valid values are: %1",gameList.join(listSeparator)), QLatin1String("game")));
-    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("testdir"), i18n( "Directory with test cases" ), QLatin1String("directory")));
-    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("generate"), i18n( "Generate random test cases" )));
-    parser.addPositionalArgument(QLatin1String("file"), i18n("File to load"));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("solvegame"), i18n( "Try to find a solution to the given savegame" ), QStringLiteral("file")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("solve"), i18n("Dealer to solve (debug)" ), QStringLiteral("num")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("start"), i18n("Game range start (default 0:INT_MAX)" ), QStringLiteral("num")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("end"), i18n("Game range end (default start:start if start given)" ), QStringLiteral("num")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("gametype"), i18n("Skip the selection screen and load a particular game type. Valid values are: %1",gameList.join(listSeparator)), QStringLiteral("game")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("testdir"), i18n( "Directory with test cases" ), QStringLiteral("directory")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("generate"), i18n( "Generate random test cases" )));
+    parser.addPositionalArgument(QStringLiteral("file"), i18n("File to load"));
 
     aboutData.setupCommandLine(&parser);
     parser.process(app);
     aboutData.processCommandLine(&parser);
 
-    app.setWindowIcon(QIcon::fromTheme(QLatin1String("kpat")));
+    app.setWindowIcon(QIcon::fromTheme(QStringLiteral("kpat")));
 
-    QString savegame = parser.value( "solvegame" );
+    QString savegame = parser.value( QStringLiteral("solvegame") );
     if ( !savegame.isEmpty() )
     {
         QFile of(savegame);
@@ -208,7 +208,7 @@ int main( int argc, char **argv )
         QDomDocument doc;
         doc.setContent(&of);
 
-        DealerScene *f = getDealer( doc.documentElement().attribute("id").toInt() );
+        DealerScene *f = getDealer( doc.documentElement().attribute(QStringLiteral("id")).toInt() );
 
         f->loadLegacyFile( &of );
         f->solver()->translate_layout();
@@ -223,10 +223,10 @@ int main( int argc, char **argv )
         return 0;
     }
 
-    QString testdir = parser.value("testdir");
+    QString testdir = parser.value(QStringLiteral("testdir"));
     if ( !testdir.isEmpty() ) {
        qsrand(time(0));
-       if ( parser.isSet("generate") ) {
+       if ( parser.isSet(QStringLiteral("generate")) ) {
           for (int dealer = 0; dealer < 20; dealer++) {
               DealerScene *f = getDealer( dealer );
               if (!f) continue;
@@ -242,14 +242,14 @@ int main( int argc, char **argv )
                 if ( ret == Solver::SolutionExists ) {
                    fprintf( stdout, "%d: %d won (%d ms)\n", dealer, i, mytime.elapsed() );
                    count--;
-                   QFile file(QString("%1/%2-%3-1").arg(testdir).arg(dealer).arg(i));
+                   QFile file(QStringLiteral("%1/%2-%3-1").arg(testdir).arg(dealer).arg(i));
                    file.open( QFile::WriteOnly );
                    f->saveLegacyFile( &file );
                 }
                 else if ( ret == Solver::NoSolutionExists ) {
                    fprintf( stdout, "%d: %d lost (%d ms)\n", dealer, i, mytime.elapsed()  );
                    count--;
-                   QFile file(QString("%1/%2-%3-0").arg(testdir).arg(dealer).arg(i));
+                   QFile file(QStringLiteral("%1/%2-%3-0").arg(testdir).arg(dealer).arg(i));
                    file.open( QFile::WriteOnly );
                    f->saveLegacyFile( &file );
                 } else {
@@ -263,20 +263,20 @@ int main( int argc, char **argv )
 
     bool ok = false;
     int wanted_game = -1;
-    if ( parser.isSet( "solve" ) )
-        wanted_game = parser.value("solve").toInt( &ok );
+    if ( parser.isSet( QStringLiteral("solve") ) )
+        wanted_game = parser.value(QStringLiteral("solve")).toInt( &ok );
     if ( ok )
     {
         ok = false;
         int end_index = -1;
-        if ( parser.isSet( "end" ) )
-            end_index = parser.value("end").toInt( &ok );
+        if ( parser.isSet( QStringLiteral("end") ) )
+            end_index = parser.value(QStringLiteral("end")).toInt( &ok );
         if ( !ok )
             end_index = -1;
         ok = false;
         int start_index = -1;
-        if ( parser.isSet( "start" ) )
-            start_index = parser.value("start").toInt( &ok );
+        if ( parser.isSet( QStringLiteral("start") ) )
+            start_index = parser.value(QStringLiteral("start")).toInt( &ok );
         if ( !ok ) {
             start_index = 0;
             end_index = INT_MAX;
@@ -307,7 +307,7 @@ int main( int argc, char **argv )
         return 0;
     }
 
-    QString gametype = parser.value("gametype").toLower();
+    QString gametype = parser.value(QStringLiteral("gametype")).toLower();
     QFile savedState( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + saved_state_file) ;
 
     MainWindow *w = new MainWindow;

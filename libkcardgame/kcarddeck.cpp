@@ -119,7 +119,7 @@ int KCardDeck::colorFromId( quint32 id ) const
 QString KCardDeck::elementName( quint32 id, bool faceUp ) const
 {
     if ( !faceUp )
-        return "back";
+        return QStringLiteral("back");
 
     QString element;
 
@@ -127,13 +127,13 @@ QString KCardDeck::elementName( quint32 id, bool faceUp ) const
     switch( rank )
     {
     case King:
-        element = "king";
+        element = QLatin1String("king");
         break;
     case Queen:
-        element = "queen";
+        element = QLatin1String("queen");
         break;
     case Jack:
-        element = "jack";
+        element = QLatin1String("jack");
         break;
     default:
         element = QString::number( rank );
@@ -143,16 +143,16 @@ QString KCardDeck::elementName( quint32 id, bool faceUp ) const
     switch( suitFromId( id ) )
     {
     case Clubs:
-        element += "_club";
+        element += QLatin1String("_club");
         break;
     case Spades:
-        element += "_spade";
+        element += QLatin1String("_spade");
         break;
     case Diamonds:
-        element += "_diamond";
+        element += QLatin1String("_diamond");
         break;
     case Hearts:
-        element += "_heart";
+        element += QLatin1String("_heart");
         break;
     }
 

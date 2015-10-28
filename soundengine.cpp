@@ -22,8 +22,8 @@
 
 SoundEngine::SoundEngine( QObject * parent )
   : QObject( parent ),
-    m_cardPickedUp( QStandardPaths::locate(QStandardPaths::DataLocation, "sounds/card-pickup.ogg" ) ),
-    m_cardPutDown( QStandardPaths::locate(QStandardPaths::DataLocation, "sounds/card-down.ogg" ) )
+    m_cardPickedUp( QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("sounds/card-pickup.ogg") ) ),
+    m_cardPutDown( QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("sounds/card-down.ogg") ) )
 {
 }
 

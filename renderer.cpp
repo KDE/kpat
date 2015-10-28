@@ -75,8 +75,8 @@ static KgThemeProvider* provider()
 {
     KgThemeProvider* prov = new KgThemeProvider;
     prov->discoverThemes(
-        "appdata", QLatin1String("themes"), //theme file location
-        QLatin1String("greenblaze")         //default theme file name
+        "appdata", QStringLiteral("themes"), //theme file location
+        QStringLiteral("greenblaze")         //default theme file name
     );
     return prov;
 }

@@ -56,7 +56,7 @@ void Gypsy::initialize()
 
     setDeckContents( 2 );
 
-    talon = new PatPile( this, 0, "talon" );
+    talon = new PatPile( this, 0, QStringLiteral("talon") );
     talon->setPileRole(PatPile::Stock);
     talon->setLayoutPos(8.5 * dist_x + 0.4, 4 * dist_y);
     talon->setKeyboardSelectHint( KCardPile::NeverFocus );
@@ -65,7 +65,7 @@ void Gypsy::initialize()
 
     for ( int i = 0; i < 8; ++i )
     {
-        target[i] = new PatPile( this, i + 1, QString("target%1").arg(i) );
+        target[i] = new PatPile( this, i + 1, QStringLiteral("target%1").arg(i) );
         target[i]->setPileRole(PatPile::Foundation);
         target[i]->setLayoutPos(dist_x*(8+(i/4)) + 0.4, (i%4)*dist_y);
         target[i]->setKeyboardSelectHint( KCardPile::NeverFocus );
@@ -74,7 +74,7 @@ void Gypsy::initialize()
 
     for ( int i = 0; i < 8; ++i )
     {
-        store[i] = new PatPile( this, 9 + i, QString("store%1").arg(i) );
+        store[i] = new PatPile( this, 9 + i, QStringLiteral("store%1").arg(i) );
         store[i]->setPileRole(PatPile::Tableau);
         store[i]->setLayoutPos(dist_x*i,0);
         store[i]->setAutoTurnTop(true);

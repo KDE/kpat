@@ -36,10 +36,10 @@
 
 namespace
 {
-    const QString cacheNameTemplate( "libkcardgame-themes/%1" );
-    const QString timeStampKey( "libkcardgame_timestamp" );
-    const QString unscaledSizeKey( "libkcardgame_unscaledsize" );
-    const QString lastUsedSizeKey( "libkcardgame_lastusedsize" );
+    const QString cacheNameTemplate( QStringLiteral("libkcardgame-themes/%1") );
+    const QString timeStampKey( QStringLiteral("libkcardgame_timestamp") );
+    const QString unscaledSizeKey( QStringLiteral("libkcardgame_unscaledsize") );
+    const QString lastUsedSizeKey( QStringLiteral("libkcardgame_lastusedsize") );
 
     QString keyForPixmap( const QString & element, const QSize & s )
     {
@@ -176,7 +176,7 @@ QSizeF KAbstractCardDeckPrivate::unscaledCardSize()
     {
         {
             QMutexLocker l( &rendererMutex );
-            size = renderer()->boundsOnElement( "back" ).size();
+            size = renderer()->boundsOnElement( QStringLiteral("back") ).size();
         }
         cacheInsert( cache, unscaledSizeKey, size );
     }

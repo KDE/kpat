@@ -60,7 +60,7 @@ void Grandf::initialize()
 
     for ( int i = 0; i < 4; ++i )
     {
-        target[i] = new PatPile( this, i + 1, QString("target%1").arg(i) );
+        target[i] = new PatPile( this, i + 1, QStringLiteral("target%1").arg(i) );
         target[i]->setPileRole(PatPile::Foundation);
         target[i]->setLayoutPos(targetOffset+i*distx, 0);
         target[i]->setSpread(0, 0);
@@ -70,7 +70,7 @@ void Grandf::initialize()
 
     for ( int i = 0; i < 7; ++i )
     {
-        store[i] = new PatPile( this, 5 + i, QString("store%1").arg(i) );
+        store[i] = new PatPile( this, 5 + i, QStringLiteral("store%1").arg(i) );
         store[i]->setPileRole(PatPile::Tableau);
         store[i]->setLayoutPos(distx*i, 1.2);
         store[i]->setAutoTurnTop(true);

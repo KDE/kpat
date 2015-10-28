@@ -89,20 +89,20 @@ void Spider::initialize()
     // sets of 10 cards are left to be dealt out
     for( int column = 0; column < 5; ++column )
     {
-        redeals[column] = new InvisiblePile( this, column + 1, QString( "redeals%1" ).arg( column ) );
+        redeals[column] = new InvisiblePile( this, column + 1, QStringLiteral( "redeals%1" ).arg( column ) );
         redeals[column]->setPileRole(PatPile::Stock);
         redeals[column]->setLayoutPos( dist_x * (9 - (4.0 - column) / 3), smallNeg );
         redeals[column]->setZValue(12 * ( 5-column ));
         redeals[column]->setSpread(0, 0);
         redeals[column]->setKeyboardSelectHint( KCardPile::NeverFocus );
         redeals[column]->setKeyboardDropHint( KCardPile::NeverFocus );
-        connect( redeals[column], SIGNAL(clicked(KCard*)), SLOT(drawDealRowOrRedeal()) );
+        connect( redeals[column], &KCardPile::clicked, this, &DealerScene::drawDealRowOrRedeal );
     }
 
     // The 10 playing piles
     for( int column = 0; column < 10; ++column )
     {
-        stack[column] = new PatPile( this, column + 6, QString( "stack%1" ).arg( column ) );
+        stack[column] = new PatPile( this, column + 6, QStringLiteral( "stack%1" ).arg( column ) );
         stack[column]->setPileRole(PatPile::Tableau);
         stack[column]->setLayoutPos(dist_x * column, 0);
         stack[column]->setZValue(20);
@@ -117,7 +117,7 @@ void Spider::initialize()
     // else the name Spider?
     for( int column = 0; column < 8; ++column )
     {
-        legs[column] = new InvisiblePile( this, column + 16, QString( "legs%1" ).arg( column ) );
+        legs[column] = new InvisiblePile( this, column + 16, QStringLiteral( "legs%1" ).arg( column ) );
         legs[column]->setPileRole(PatPile::Foundation);
         legs[column]->setLayoutPos(dist_x / 3 * column, smallNeg);
         legs[column]->setZValue(column+1);

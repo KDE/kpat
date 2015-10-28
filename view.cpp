@@ -51,7 +51,7 @@
 
 PatienceView::PatienceView( QWidget * parent )
   : QGraphicsView( parent ),
-    KGameRendererClient( Renderer::self(), "background" )
+    KGameRendererClient( Renderer::self(), QStringLiteral("background") )
 {
     setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
     setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );

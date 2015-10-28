@@ -28,7 +28,7 @@ PatPile::PatPile( DealerScene * scene, int index, const QString & objectName )
     m_role( NoRole )
 {
     if ( objectName.isEmpty() )
-        setObjectName( QString(QLatin1String("pile%1" )).arg( m_index ) );
+        setObjectName( QStringLiteral("pile%1" ).arg( m_index ) );
     else
         setObjectName( objectName );
 
@@ -92,7 +92,7 @@ void PatPile::paintGraphic( QPainter * painter, qreal highlightedness )
     Renderer * r = Renderer::self();
 
     if ( highlightedness < 1 )
-        painter->drawPixmap( 0, 0, r->spritePixmap( "pile", size ) );
+        painter->drawPixmap( 0, 0, r->spritePixmap( QStringLiteral("pile"), size ) );
 
     if ( highlightedness > 0 )
     {
@@ -103,14 +103,14 @@ void PatPile::paintGraphic( QPainter * painter, qreal highlightedness )
             QPixmap transPix( size );
             transPix.fill( Qt::transparent );
             QPainter p( &transPix );
-            p.drawPixmap( 0, 0, r->spritePixmap( "pile_selected", size ) );
+            p.drawPixmap( 0, 0, r->spritePixmap( QStringLiteral("pile_selected"), size ) );
             p.setCompositionMode( QPainter::CompositionMode_DestinationIn );
             p.fillRect( transPix.rect(), QColor( 0, 0, 0, highlightedness * 255 ) );
             painter->drawPixmap( 0, 0, transPix );
         }
         else
         {
-            painter->drawPixmap( 0, 0, r->spritePixmap( "pile_selected", size ) );
+            painter->drawPixmap( 0, 0, r->spritePixmap( QStringLiteral("pile_selected"), size ) );
         }
     }
 }

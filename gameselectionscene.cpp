@@ -58,7 +58,7 @@ public:
         m_gameId( id ),
         m_anim( new QPropertyAnimation( this, "fade", this ) ),
         m_highlightFadeAmount( 0 ),
-        m_previewPath( QStandardPaths::locate(QStandardPaths::GenericDataLocation, QString( "kpat/previews/%1.png" ).arg( id ) ) )
+        m_previewPath( QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral( "kpat/previews/%1.png" ).arg( id ) ) )
     {
         setAcceptHoverEvents( true );
         m_anim->setDuration( hoverTransitionDuration );
@@ -158,7 +158,7 @@ protected:
         QRect textRect( 0, 0, m_size.width(), textAreaHeight );
 
         if ( m_highlightFadeAmount < 1 )
-            painter->drawPixmap( 0, 0, r->spritePixmap( "bubble", m_size ) );
+            painter->drawPixmap( 0, 0, r->spritePixmap( QStringLiteral("bubble"), m_size ) );
 
         if ( m_highlightFadeAmount > 0 )
         {
@@ -169,14 +169,14 @@ protected:
                 QPixmap transPix( m_size );
                 transPix.fill( Qt::transparent );
                 QPainter p( &transPix );
-                p.drawPixmap( 0, 0, r->spritePixmap( "bubble_hover", m_size ) );
+                p.drawPixmap( 0, 0, r->spritePixmap( QStringLiteral("bubble_hover"), m_size ) );
                 p.setCompositionMode( QPainter::CompositionMode_DestinationIn );
                 p.fillRect( transPix.rect(), QColor( 0, 0, 0, m_highlightFadeAmount * 255 ) );
                 painter->drawPixmap( 0, 0, transPix );
             }
             else
             {
-                painter->drawPixmap( 0, 0, r->spritePixmap( "bubble_hover", m_size ) );
+                painter->drawPixmap( 0, 0, r->spritePixmap( QStringLiteral("bubble_hover"), m_size ) );
             }
         }
 
@@ -192,8 +192,8 @@ protected:
 
         // Draw label
         painter->setFont( scene()->font() );
-        painter->setPen( KColorUtils::mix( r->colorOfElement( "bubble_text_color" ),
-                                           r->colorOfElement( "bubble_hover_text_color" ), 
+        painter->setPen( KColorUtils::mix( r->colorOfElement( QStringLiteral("bubble_text_color") ),
+                                           r->colorOfElement( QStringLiteral("bubble_hover_text_color") ), 
                                            m_highlightFadeAmount ) );
         painter->drawText( textRect, Qt::AlignCenter, m_label );
     }
@@ -235,7 +235,7 @@ GameSelectionScene::~GameSelectionScene()
 void GameSelectionScene::resizeScene( const QSize & size )
 {
     int numBoxes = m_boxes.size();
-    qreal boxAspect = Renderer::self()->aspectRatioOfElement( "bubble" );
+    qreal boxAspect = Renderer::self()->aspectRatioOfElement( QStringLiteral("bubble") );
     qreal sceneAspect = qreal( size.width() ) / size.height();
 
     // Determine the optimal number of rows/columns for the grid

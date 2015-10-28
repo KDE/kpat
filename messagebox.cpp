@@ -32,7 +32,7 @@ namespace
 
 
 MessageBox::MessageBox()
-  : KGameRenderedItem( Renderer::self(), "message_frame" ),
+  : KGameRenderedItem( Renderer::self(), QStringLiteral("message_frame") ),
     m_fontCached( false )
 {
 
@@ -113,7 +113,7 @@ void MessageBox::paint( QPainter * painter, const QStyleOptionGraphicsItem * opt
         m_fontCached = true;
     }
 
-    painter->setPen( Renderer::self()->colorOfElement( "message_text_color" ) );
+    painter->setPen( Renderer::self()->colorOfElement( QStringLiteral("message_text_color") ) );
     painter->drawText( rect, Qt::AlignCenter, m_message );
 }
 

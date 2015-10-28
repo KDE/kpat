@@ -89,7 +89,7 @@ void PreviewThread::run()
 
         QSvgRenderer renderer( theme.graphicsFilePath() );
 
-        QSizeF size = renderer.boundsOnElement("back").size();
+        QSizeF size = renderer.boundsOnElement(QStringLiteral("back")).size();
         size.scale( 1.5 * d->baseCardSize.width(), d->baseCardSize.height(), Qt::KeepAspectRatio );
 
         qreal yPos = ( d->previewSize.height() - size.height() ) / 2;
@@ -336,7 +336,7 @@ void KCardThemeWidgetPrivate::updateListView( const QString & dirName )
 
 void KCardThemeWidgetPrivate::getNewCardThemes()
 {
-    QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog( "kcardtheme.knsrc", q );
+    QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog( QStringLiteral("kcardtheme.knsrc"), q );
     dialog->exec();
     if ( dialog && !dialog->changedEntries().isEmpty() )
         model->reload();
@@ -348,7 +348,7 @@ KCardThemeWidget::KCardThemeWidget( const QSet<QString> & requiredFeatures, cons
   : QWidget( parent ),
     d( new KCardThemeWidgetPrivate( this ) )
 {
-    d->cache = new KImageCache( "libkcardgame-themes/previews", 1 * 1024 * 1024 );
+    d->cache = new KImageCache( QStringLiteral("libkcardgame-themes/previews"), 1 * 1024 * 1024 );
     d->cache->setPixmapCaching( false );
     d->cache->setEvictionPolicy( KSharedDataCache::EvictOldest );
 
@@ -388,13 +388,13 @@ KCardThemeWidget::KCardThemeWidget( const QSet<QString> & requiredFeatures, cons
     d->listView->setMinimumHeight( d->itemSize.height() * 2.5 );
 
     d->hiddenLineEdit = new KLineEdit( this );
-    d->hiddenLineEdit->setObjectName( QLatin1String( "kcfg_CardTheme" ) );
+    d->hiddenLineEdit->setObjectName( QStringLiteral( "kcfg_CardTheme" ) );
     d->hiddenLineEdit->hide();
-    connect( d->listView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), d, SLOT(updateLineEdit(QModelIndex)) );
-    connect( d->hiddenLineEdit, SIGNAL(textChanged(QString)), d, SLOT(updateListView(QString)) );
+    connect( d->listView->selectionModel(), &QItemSelectionModel::currentChanged, d, &KCardThemeWidgetPrivate::updateLineEdit );
+    connect( d->hiddenLineEdit, &QLineEdit::textChanged, d, &KCardThemeWidgetPrivate::updateListView );
 
-    d->newDeckButton = new QPushButton( QIcon::fromTheme( QLatin1String( "get-hot-new-stuff") ), i18n("Get New Card Decks..." ), this );
-    connect( d->newDeckButton, SIGNAL(clicked(bool)), d, SLOT(getNewCardThemes()) );
+    d->newDeckButton = new QPushButton( QIcon::fromTheme( QStringLiteral( "get-hot-new-stuff") ), i18n("Get New Card Decks..." ), this );
+    connect( d->newDeckButton, &QAbstractButton::clicked, d, &KCardThemeWidgetPrivate::getNewCardThemes );
 
     QHBoxLayout * hLayout = new QHBoxLayout();
     hLayout->addWidget( d->newDeckButton );
@@ -431,7 +431,7 @@ QString KCardThemeWidget::currentSelection() const
 
 
 KCardThemeDialog::KCardThemeDialog( QWidget * parent, KConfigSkeleton * config, const QSet<QString> & requiredFeatures, const QString & previewString )
-  : KConfigDialog( parent, "KCardThemeDialog", config )
+  : KConfigDialog( parent, QStringLiteral("KCardThemeDialog"), config )
 {
     // Leaving the header text and icon empty prevents the header from being shown.
     addPage( new KCardThemeWidget( requiredFeatures, previewString, this ), QString() );
@@ -448,6 +448,6 @@ KCardThemeDialog::~KCardThemeDialog()
 
 bool KCardThemeDialog::showDialog()
 {
-    return KConfigDialog::showDialog( "KCardThemeDialog" );
+    return KConfigDialog::showDialog( QStringLiteral("KCardThemeDialog") );
 }
 

@@ -62,7 +62,7 @@ public:
 QList<KCardTheme> KCardTheme::findAll()
 {
     QList<KCardTheme> result;
-    QStringList indexFiles = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "carddecks", QStandardPaths::LocateDirectory );
+    QStringList indexFiles = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("carddecks"), QStandardPaths::LocateDirectory );
     Q_FOREACH (const QString &index, indexFiles) {
         const QStringList entries = QDir(index).entryList(QDir::Dirs);
         Q_FOREACH (const QString &d, entries) {
@@ -83,7 +83,7 @@ QList<KCardTheme> KCardTheme::findAll()
 QList<KCardTheme> KCardTheme::findAllWithFeatures( const QSet<QString> & neededFeatures )
 {
     QList<KCardTheme> result;
-    QStringList indexFiles = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "carddecks", QStandardPaths::LocateDirectory );
+    QStringList indexFiles = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("carddecks"), QStandardPaths::LocateDirectory );
     Q_FOREACH (const QString &index, indexFiles) {
         const QStringList entries = QDir(index).entryList(QDir::Dirs);
         Q_FOREACH (const QString &d, entries) {
@@ -116,7 +116,7 @@ KCardTheme::KCardTheme( const QString & dirName )
     QStringList supportedFeatures;
     QDateTime lastModified;
 
-    QString indexFilePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QString( "carddecks/%1/index.desktop" ).arg( dirName ) );
+    QString indexFilePath = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral( "carddecks/%1/index.desktop" ).arg( dirName ) );
     if ( !indexFilePath.isEmpty() )
     {
         desktopFilePath = indexFilePath;
@@ -128,7 +128,7 @@ KCardTheme::KCardTheme( const QString & dirName )
 
             displayName = configGroup.readEntry( "Name" );
 
-            supportedFeatures = configGroup.readEntry( "Features", QStringList() << "AngloAmerican" << "Backs1" );
+            supportedFeatures = configGroup.readEntry( "Features", QStringList() << QStringLiteral("AngloAmerican") << QStringLiteral("Backs1") );
 
             QString svgName = configGroup.readEntry( "SVG" );
             if ( !svgName.isEmpty() )
