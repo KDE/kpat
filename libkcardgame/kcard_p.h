@@ -24,7 +24,7 @@
 class KAbstractCardDeck;
 class KCardPile;
 
-#include <QtCore/QAbstractAnimation>
+#include <QAbstractAnimation>
 class QPropertyAnimation;
 
 

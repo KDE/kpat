@@ -24,13 +24,13 @@
 #include "kcardtheme.h"
 #include <KImageCache>
 
-#include <QtCore/QHash>
+#include <QHash>
 class QImage;
-#include <QtCore/QMutex>
-#include <QtCore/QSet>
-#include <QtCore/QSizeF>
-#include <QtCore/QStringList>
-#include <QtCore/QThread>
+#include <QMutex>
+#include <QSet>
+#include <QSizeF>
+#include <QStringList>
+#include <QThread>
 #include <QPixmap>
 class QSvgRenderer;
 

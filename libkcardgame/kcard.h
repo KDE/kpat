@@ -23,7 +23,7 @@ class KAbstractCardDeck;
 class KCardPile;
 #include "libkcardgame_export.h"
 
-#include <QtCore/QObject>
+#include <QObject>
 #include <QGraphicsPixmapItem>
 
 

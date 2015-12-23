@@ -24,7 +24,7 @@ class KCard;
 class KCardPile;
 #include "kcardtheme.h"
 
-#include <QtCore/QObject>
+#include <QObject>
 class QSize;
 class QPainter;
 

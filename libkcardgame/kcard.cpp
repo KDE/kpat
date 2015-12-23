@@ -23,7 +23,7 @@
 
 #include <QDebug>
 
-#include <QtCore/QPropertyAnimation>
+#include <QPropertyAnimation>
 #include <QPainter>
 
 #include <cmath>

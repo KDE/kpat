@@ -29,15 +29,15 @@
 #include <QPushButton>
 #include <kns3/downloaddialog.h>
 
-#include <QtCore/QMutexLocker>
-#include <QtCore/QScopedPointer>
+#include <QMutexLocker>
+#include <QScopedPointer>
 #include <QApplication>
 #include <QFontMetrics>
 #include <QListView>
 #include <QPainter>
 #include <QPixmap>
 #include <QVBoxLayout>
-#include <QtSvg/QSvgRenderer>
+#include <QSvgRenderer>
 
 
 namespace

@@ -28,10 +28,10 @@
 #include <QDebug>
 #include <KImageCache>
 
-#include <QtCore/QTimer>
+#include <QTimer>
 #include <QApplication>
 #include <QPainter>
-#include <QtSvg/QSvgRenderer>
+#include <QSvgRenderer>
 #include <QGraphicsScene>
 
 namespace

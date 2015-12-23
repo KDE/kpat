@@ -42,8 +42,8 @@
 
 #include <QDebug>
 
-#include <QtCore/QTimer>
-#include <QtCore/QPropertyAnimation>
+#include <QTimer>
+#include <QPropertyAnimation>
 #include <QPainter>
 
 #include <cmath>

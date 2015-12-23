@@ -22,10 +22,10 @@
 #include <KConfigGroup>
 
 
-#include <QtCore/QDir>
-#include <QtCore/QFileInfo>
-#include <QtCore/QSet>
-#include <QtCore/QSharedData>
+#include <QDir>
+#include <QFileInfo>
+#include <QSet>
+#include <QSharedData>
 #include <QStandardPaths>
 
 

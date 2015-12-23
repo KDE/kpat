@@ -21,10 +21,10 @@
 
 #include "libkcardgame_export.h"
 
-#include <QtCore/QDateTime>
-#include <QtCore/QList>
-#include <QtCore/QMetaType>
-#include <QtCore/QSharedDataPointer>
+#include <QDateTime>
+#include <QList>
+#include <QMetaType>
+#include <QSharedDataPointer>
 
 class KCardThemePrivate;
 

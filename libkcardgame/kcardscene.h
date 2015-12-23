@@ -45,7 +45,7 @@ class HighlightableItem;
 #include "libkcardgame_export.h"
 class KCardPile;
 
-#include <QtCore/QSet>
+#include <QSet>
 #include <QGraphicsScene>
 
 class LIBKCARDGAME_EXPORT KCardScene : public QGraphicsScene
