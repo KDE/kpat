@@ -42,10 +42,10 @@ class DealerInfoList;
 class DealerScene;
 class Solver;
 
-#include <QtCore/QByteArray>
-#include <QtCore/QList>
-#include <QtCore/QMap>
-#include <QtCore/QString>
+#include <QByteArray>
+#include <QList>
+#include <QMap>
+#include <QString>
 
 
 class DealerInfo

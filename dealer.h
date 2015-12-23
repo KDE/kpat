@@ -54,9 +54,9 @@ class SolverThread;
 #include "KCardScene"
 
 class QAction;
-#include <QtCore/QMap>
-#include <QtCore/QStack>
-#include <QtCore/QTimer>
+#include <QMap>
+#include <QStack>
+#include <QTimer>
 class QDomDocument;
 
 

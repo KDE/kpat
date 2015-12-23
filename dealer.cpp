@@ -53,11 +53,11 @@
 #include <KRandom>
 #include <KSharedConfig>
 
-#include <QtCore/QCoreApplication>
-#include <QtCore/QMutex>
-#include <QtCore/QThread>
-#include <QtCore/QXmlStreamReader>
-#include <QtCore/QXmlStreamWriter>
+#include <QCoreApplication>
+#include <QMutex>
+#include <QThread>
+#include <QXmlStreamReader>
+#include <QXmlStreamWriter>
 #include <QGraphicsSceneMouseEvent>
 
 #include <cmath>

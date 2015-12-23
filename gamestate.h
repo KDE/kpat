@@ -42,8 +42,8 @@
 class KCard;
 class KCardPile;
 
-#include <QtCore/QSet>
-#include <QtCore/QString>
+#include <QSet>
+#include <QString>
 
 
 class CardState

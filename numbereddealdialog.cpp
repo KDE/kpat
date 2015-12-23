@@ -23,7 +23,7 @@
 #include <KComboBox>
 #include <KLocalizedString>
 
-#include <QtCore/QList>
+#include <QList>
 #include <QFormLayout>
 #include <QSpinBox>
 #include <KConfigGroup>

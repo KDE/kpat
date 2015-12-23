@@ -23,7 +23,6 @@
 
 class QSize;
 class QString;
-#include <QtCore/Qt>
 class QColor;
 class QPixmap;
 

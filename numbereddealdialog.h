@@ -22,7 +22,7 @@
 class KComboBox;
 #include <QDialog>
 
-#include <QtCore/QMap>
+#include <QMap>
 class QSpinBox;
 
 class NumberedDealDialog : public QDialog

@@ -30,7 +30,7 @@
 #include <QKeyEvent>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
-#include <QtCore/QPropertyAnimation>
+#include <QPropertyAnimation>
 
 #include <cmath>
 #include <QStandardPaths>

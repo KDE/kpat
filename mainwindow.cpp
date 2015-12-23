@@ -75,10 +75,10 @@
 #include <KXMLGUIFactory>
 #include <KIO/NetAccess>
 
-#include <QtCore/QList>
-#include <QtCore/QPointer>
-#include <QtCore/QTimer>
-#include <QtCore/QXmlStreamReader>
+#include <QList>
+#include <QPointer>
+#include <QTimer>
+#include <QXmlStreamReader>
 #include <QDesktopWidget>
 #include <QKeySequence>
 #include <KHelpClient>

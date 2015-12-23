@@ -50,10 +50,10 @@
 #include <KLocalizedString>
 #include <KDBusService>
 
-#include <QtCore/QFile>
-#include <QtCore/QTime>
+#include <QFile>
+#include <QTime>
 #include <QResizeEvent>
-#include <QtXml/QDomDocument>
+#include <QDomDocument>
 
 #include <Kdelibs4ConfigMigrator>
 #include <climits>

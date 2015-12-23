@@ -42,7 +42,7 @@
 
 #include <QDialog>
 
-#include <QtCore/QMap>
+#include <QMap>
 
 
 class StatisticsDialog : public QDialog
