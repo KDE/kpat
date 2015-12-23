@@ -26,7 +26,7 @@ class FortyeightSolverState;
 class FortyeightSolver : public Solver
 {
 public:
-    FortyeightSolver(const Fortyeight *dealer);
+    explicit FortyeightSolver(const Fortyeight *dealer);
     int good_automove(int o, int r);
     virtual int get_possible_moves(int *a, int *numout);
     virtual bool isWon();

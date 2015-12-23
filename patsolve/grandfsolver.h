@@ -25,7 +25,7 @@ class Grandf;
 class GrandfSolver : public Solver
 {
 public:
-    GrandfSolver(const Grandf *dealer);
+    explicit GrandfSolver(const Grandf *dealer);
     int good_automove(int o, int r);
     virtual int get_possible_moves(int *a, int *numout);
     virtual bool isWon();

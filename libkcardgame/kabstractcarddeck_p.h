@@ -68,7 +68,7 @@ class KAbstractCardDeckPrivate : public QObject
     Q_OBJECT
 
 public:
-    KAbstractCardDeckPrivate( KAbstractCardDeck * q );
+    explicit KAbstractCardDeckPrivate( KAbstractCardDeck * q );
     ~KAbstractCardDeckPrivate();
 
     QSvgRenderer * renderer();

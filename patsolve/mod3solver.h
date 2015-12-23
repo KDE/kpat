@@ -25,7 +25,7 @@ class Mod3;
 class Mod3Solver : public Solver
 {
 public:
-    Mod3Solver(const Mod3 *dealer);
+    explicit Mod3Solver(const Mod3 *dealer);
     virtual int get_possible_moves(int *a, int *numout);
     virtual bool isWon();
     virtual void make_move(MOVE *m);

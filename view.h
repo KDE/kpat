@@ -46,7 +46,7 @@
 class PatienceView: public QGraphicsView, public KGameRendererClient
 {
 public:
-    PatienceView ( QWidget * parent );
+    explicit PatienceView ( QWidget * parent );
     virtual ~PatienceView();
 
     void setScene( QGraphicsScene * scene );

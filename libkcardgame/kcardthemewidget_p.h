@@ -100,7 +100,7 @@ class KCardThemeWidgetPrivate : public QObject
     Q_OBJECT
 
 public:
-    KCardThemeWidgetPrivate( KCardThemeWidget * parent );
+    explicit KCardThemeWidgetPrivate( KCardThemeWidget * parent );
 
 public Q_SLOTS:
     void updateLineEdit( const QModelIndex & index );

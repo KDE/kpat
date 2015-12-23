@@ -25,7 +25,7 @@ class Golf;
 class GolfSolver : public Solver
 {
 public:
-    GolfSolver(const Golf *dealer);
+    explicit GolfSolver(const Golf *dealer);
     int good_automove(int o, int r);
     virtual int get_possible_moves(int *a, int *numout);
     virtual bool isWon();

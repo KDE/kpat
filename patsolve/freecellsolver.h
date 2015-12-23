@@ -26,7 +26,7 @@ class Freecell;
 class FreecellSolver : public Solver
 {
 public:
-    FreecellSolver(const Freecell *dealer);
+    explicit FreecellSolver(const Freecell *dealer);
     int good_automove(int o, int r);
     virtual int get_possible_moves(int *a, int *numout);
     virtual bool isWon();

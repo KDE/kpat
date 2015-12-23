@@ -66,7 +66,7 @@ public:
     };
     Q_DECLARE_FLAGS(SceneAlignment, SceneAlignmentFlag)
 
-    KCardScene( QObject * parent = 0 );
+    explicit KCardScene( QObject * parent = 0 );
     ~KCardScene();
 
     void setDeck( KAbstractCardDeck * deck );

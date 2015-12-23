@@ -44,7 +44,7 @@ class Gypsy : public DealerScene
     Q_OBJECT
 
 public:
-    Gypsy( const DealerInfo * di );
+    explicit Gypsy( const DealerInfo * di );
     virtual void initialize();
 
 protected:

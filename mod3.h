@@ -45,7 +45,7 @@ class Mod3 : public DealerScene
     Q_OBJECT
 
 public:
-    Mod3( const DealerInfo * di );
+    explicit Mod3( const DealerInfo * di );
     virtual void initialize();
 
 protected:

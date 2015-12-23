@@ -30,7 +30,7 @@ class GameSelectionScene : public QGraphicsScene
     class GameSelectionBox;
 
 public:
-    GameSelectionScene( QObject * parent );
+    explicit GameSelectionScene( QObject * parent );
     ~GameSelectionScene();
 
     void resizeScene( const QSize & size );

@@ -25,7 +25,7 @@ class Yukon;
 class YukonSolver : public Solver
 {
 public:
-    YukonSolver(const Yukon *dealer);
+    explicit YukonSolver(const Yukon *dealer);
     int good_automove(int o, int r);
     virtual int get_possible_moves(int *a, int *numout);
     virtual bool isWon();

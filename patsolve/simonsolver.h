@@ -25,7 +25,7 @@ class Simon;
 class SimonSolver : public Solver
 {
 public:
-    SimonSolver(const Simon *dealer);
+    explicit SimonSolver(const Simon *dealer);
     virtual int get_possible_moves(int *a, int *numout);
     virtual bool isWon();
     virtual void make_move(MOVE *m);

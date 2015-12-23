@@ -25,7 +25,7 @@ class Clock;
 class ClockSolver : public Solver
 {
 public:
-    ClockSolver(const Clock *dealer);
+    explicit ClockSolver(const Clock *dealer);
     virtual int get_possible_moves(int *a, int *numout);
     virtual bool isWon();
     virtual void make_move(MOVE *m);

@@ -67,7 +67,7 @@ class DealerScene : public KCardScene
 public:
     enum { None = 0, Hint = 1, Demo = 2, Draw = 4, Deal = 8, Redeal = 16 } Actions;
 
-    DealerScene( const DealerInfo * di );
+    explicit DealerScene( const DealerInfo * di );
     ~DealerScene();
 
     virtual void initialize() = 0;

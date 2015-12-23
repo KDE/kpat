@@ -44,7 +44,7 @@ class Golf : public DealerScene
     Q_OBJECT
 
 public:
-    Golf( const DealerInfo * di );
+    explicit Golf( const DealerInfo * di );
     virtual void initialize();
 
 protected:

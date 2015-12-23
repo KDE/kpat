@@ -47,7 +47,7 @@ class Spider : public DealerScene
     Q_OBJECT
 
 public:
-    Spider( const DealerInfo * di );
+    explicit Spider( const DealerInfo * di );
     virtual void initialize();
     virtual void mapOldId(int id);
     virtual int oldId() const;

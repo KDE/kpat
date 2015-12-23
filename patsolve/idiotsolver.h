@@ -25,7 +25,7 @@ class Idiot;
 class IdiotSolver : public Solver
 {
 public:
-    IdiotSolver(const Idiot *dealer);
+    explicit IdiotSolver(const Idiot *dealer);
     virtual int get_possible_moves(int *a, int *numout);
     virtual bool isWon();
     virtual void make_move(MOVE *m);

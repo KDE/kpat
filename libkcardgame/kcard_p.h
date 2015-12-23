@@ -61,7 +61,7 @@ class KCardPrivate : public QObject
     Q_PROPERTY( qreal highlightedness READ highlightedness WRITE setHighlightedness )
 
 public:
-    KCardPrivate( KCard * card );
+    explicit KCardPrivate( KCard * card );
 
     void setFlippedness( qreal flippedness );
     qreal flippedness() const;
