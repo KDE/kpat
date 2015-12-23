@@ -935,18 +935,22 @@ bool MainWindow::loadGame( const QUrl & url, bool addToRecentFiles )
 
 void MainWindow::loadGame()
 {
-    QFileDialog dialog(this);
-    dialog.selectUrl(dialogUrl);
-    dialog.setAcceptMode( QFileDialog::AcceptOpen );
-    dialog.setMimeTypeFilters( QStringList() << saveFileMimeType << legacySaveFileMimeType << QStringLiteral("all/allfiles") );
-    dialog.setWindowTitle( i18n("Load") );
+    QPointer<QFileDialog> dialog = new QFileDialog(this);
+    dialog->selectUrl(dialogUrl);
+    dialog->setAcceptMode( QFileDialog::AcceptOpen );
+    dialog->setMimeTypeFilters( QStringList() << saveFileMimeType << legacySaveFileMimeType << QStringLiteral("all/allfiles") );
+    dialog->setWindowTitle( i18n("Load") );
 
-    if ( dialog.exec() == QFileDialog::Accepted )
+    if ( dialog->exec() == QFileDialog::Accepted )
     {
-        QUrl url = dialog.selectedUrls().at(0);
-        if ( !url.isEmpty() )
-            loadGame( url, true );
+        if ( dialog )
+        {
+            QUrl url = dialog->selectedUrls().at(0);
+            if ( !url.isEmpty() )
+                loadGame( url, true );
+        }
     }
+    delete dialog;
 }
 
 void MainWindow::saveGame()
@@ -954,18 +958,22 @@ void MainWindow::saveGame()
     if ( !m_dealer )
         return;
 
-    QFileDialog dialog( this );
-    dialog.selectUrl(dialogUrl);
-    dialog.setAcceptMode( QFileDialog::AcceptSave );
-    dialog.setMimeTypeFilters( QStringList() << saveFileMimeType << legacySaveFileMimeType );
-    dialog.setConfirmOverwrite( true );
-    dialog.setWindowTitle( i18n("Save") );
-    if ( dialog.exec() != QFileDialog::Accepted )
+    QPointer<QFileDialog> dialog = new QFileDialog( this );
+    dialog->selectUrl(dialogUrl);
+    dialog->setAcceptMode( QFileDialog::AcceptSave );
+    dialog->setMimeTypeFilters( QStringList() << saveFileMimeType << legacySaveFileMimeType );
+    dialog->setConfirmOverwrite( true );
+    dialog->setWindowTitle( i18n("Save") );
+    if ( dialog->exec() != QFileDialog::Accepted )
         return;
 
-    QUrl url = dialog.selectedUrls().at(0);
-    if ( url.isEmpty() )
-        return;
+    QUrl url;
+    if ( dialog )
+    {
+        url = dialog->selectedUrls().at(0);
+        if ( url.isEmpty() )
+            return;
+    }
 
     QFile localFile;
     QTemporaryFile tempFile;
@@ -987,7 +995,7 @@ void MainWindow::saveGame()
         }
     }
     QFile & file = url.isLocalFile() ? localFile : tempFile;
-    if ( dialog.selectedNameFilter() == legacySaveFileMimeType )
+    if ( dialog && dialog->selectedNameFilter() == legacySaveFileMimeType )
     {
         m_dealer->saveLegacyFile( &file );
     }
