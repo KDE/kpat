@@ -104,6 +104,8 @@ int main( int argc, char **argv )
 {
     QApplication app(argc, argv);
 
+    KLocalizedString::setApplicationDomain("kpat");
+
     Kdelibs4ConfigMigrator migrate(QStringLiteral("kpat"));
     migrate.setConfigFiles(QStringList() << QStringLiteral("kpatrc"));
     migrate.setUiFiles(QStringList() << QStringLiteral("kpatui.rc"));
