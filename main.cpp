@@ -57,7 +57,7 @@
 
 #include <Kdelibs4ConfigMigrator>
 #include <climits>
-#include <time.h>
+#include <ctime>
 #include <QStandardPaths>
 #include <QApplication>
 #include <QCommandLineParser>
@@ -228,7 +228,7 @@ int main( int argc, char **argv )
 
     QString testdir = parser.value(QStringLiteral("testdir"));
     if ( !testdir.isEmpty() ) {
-       qsrand(time(0));
+       qsrand(std::time(nullptr));
        if ( parser.isSet(QStringLiteral("generate")) ) {
           for (int dealer = 0; dealer < 20; dealer++) {
               DealerScene *f = getDealer( dealer );
