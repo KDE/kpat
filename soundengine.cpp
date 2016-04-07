@@ -3,7 +3,7 @@
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of 
+ * published by the Free Software Foundation; either version 2 of
  * the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -22,8 +22,8 @@
 
 SoundEngine::SoundEngine( QObject * parent )
   : QObject( parent ),
-    m_cardPickedUp( QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("sounds/card-pickup.ogg") ) ),
-    m_cardPutDown( QStandardPaths::locate(QStandardPaths::DataLocation, QStringLiteral("sounds/card-down.ogg") ) )
+    m_cardPickedUp( QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("sounds/card-pickup.ogg") ) ),
+    m_cardPutDown( QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("sounds/card-down.ogg") ) )
 {
 }
 

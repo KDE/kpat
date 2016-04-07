@@ -23,7 +23,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -726,7 +726,7 @@ void MainWindow::toggleDemo()
 }
 
 
-void MainWindow::toggleDemoAction(bool active) 
+void MainWindow::toggleDemoAction(bool active)
 {
     m_demoAction->setChecked( active );
     m_demoAction->setIcon( QIcon::fromTheme( QLatin1String( active ? "media-playback-pause" : "media-playback-start" ) ) );
@@ -756,7 +756,7 @@ void MainWindow::saveNewToolbarConfig()
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
-    QString stateDirName = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    QString stateDirName = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
     QString stateFileName = stateDirName + QLatin1Char('/') + saved_state_file ;
     QDir stateFileDir(stateDirName);
     if(!stateFileDir.exists())
@@ -768,7 +768,7 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
     // Remove the existing state file, if any.
     stateFile.remove();
-    
+
     if ( m_dealer )
     {
         if ( Settings::rememberStateOnExit() && !m_dealer->isGameWon() )

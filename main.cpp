@@ -21,7 +21,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -260,7 +260,7 @@ int main( int argc, char **argv )
                 }
              }
           }
-       } 
+       }
        return 0;
     }
 
@@ -311,7 +311,7 @@ int main( int argc, char **argv )
     }
 
     QString gametype = parser.value(QStringLiteral("gametype")).toLower();
-    QFile savedState( QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + saved_state_file) ;
+    QFile savedState( QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QLatin1Char('/') + saved_state_file);
 
     MainWindow *w = new MainWindow;
     if (parser.positionalArguments().count())
@@ -335,6 +335,6 @@ int main( int argc, char **argv )
     w->show();
 
     const KDBusService dbusService(KDBusService::Multiple);
-    
+
     return app.exec();
 }
