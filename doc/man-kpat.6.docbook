@@ -5,30 +5,39 @@
 ]>
 
 <refentry lang="&language;">
+<refentryinfo>
+<title>KPat User's Manual</title>
+<date>2016-05-11</date>
+<releaseinfo>3.6 (Applications 16.04)</releaseinfo>
+<productname>KDE Applications</productname>
+</refentryinfo>
+
 <refmeta>
-<refentrytitle>KPat</refentrytitle>
+<refentrytitle><command>kpat</command></refentrytitle>
 <manvolnum>6</manvolnum>
-<refmiscinfo class="date">2010-11-09</refmiscinfo>
-<refmiscinfo class="source">kdegames</refmiscinfo>
-<refmiscinfo class="title">KDE User's Manual</refmiscinfo>
 </refmeta>
 
 <refnamediv>
-<refname>&kappname;</refname>
+<refname><command>kpat</command></refname>
 <refpurpose>A highly addictive &kde; card game.</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
 <cmdsynopsis>
 <command>kpat</command>
-<arg choice="opt" rep="repeat">Qt-option</arg>
-<arg choice="opt" rep="repeat">KDE-option</arg>
+<group choice="opt"><option>-v, --version</option></group>
+<group choice="opt"><option>-h, --help</option></group>
 <group choice="opt"><option>--solvegame</option> <replaceable> file</replaceable></group>
 <group choice="opt"><option>--solve</option> <replaceable> num</replaceable></group>
 <group choice="opt"><option>--start</option> <replaceable> num</replaceable></group>
 <group choice="opt"><option>--end</option> <replaceable> num</replaceable></group>
 <group choice="opt"><option>--gametype</option> <replaceable> game</replaceable></group>
-
+<group choice="opt"><option>--testdir</option> <replaceable> directory</replaceable></group>
+<group choice="opt"><option>--generate</option></group>
+<group choice="opt"><option>--author</option></group>
+<group choice="opt"><option>--license</option></group>
+<group choice="opt"><option>--desktopfile</option></group>
+<group choice="opt"><option><replaceable>file</replaceable></option></group>
 </cmdsynopsis>
 </refsynopsisdiv>
 
@@ -49,285 +58,19 @@ with long options starting with two dashes (`--'). A
 summary of the options supported by <command>kpat</command>
 is included below.</para>
 
-<refsect2>
-<title>Generic Options</title>
 <variablelist>
 
 <varlistentry>
-<term><option>--author</option></term>
-<listitem>
-<para>Show author information</para>
+<term><option>-h</option> <option>--help</option></term>
+<listitem><para>This lists the options available at the command line</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
-<term><option>--help</option></term>
+<term><option>-v</option> <option>--version</option></term>
 <listitem>
-<para>Show help about options</para>
-</listitem>
+<para>Lists version information for &kpatience;</para></listitem>
 </varlistentry>
-
-<varlistentry>
-<term><option>--help-qt</option></term>
-<listitem>
-<para>Show Qt specific options</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--help-kde</option></term>
-<listitem>
-<para>Show &kde; specific options</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--help-all</option></term>
-<listitem>
-<para>Show all options</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--license</option></term>
-<listitem>
-<para>Show license information</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>-v</option>, <option>--version</option></term>
-<listitem>
-<para>Show version information and exit.</para>
-</listitem>
-</varlistentry>
-</variablelist>
-
-</refsect2>
-
-<!-- Cut here: From here to the end of the KDE options will be entities -->
-<refsect2>
-<title>Qt Options</title>
-
-<variablelist>
-<varlistentry>
-<term><option>--display <replaceable>displayname</replaceable></option></term>
-<listitem>
-<para>Use the X-server display <emphasis>displayname</emphasis>.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--session <replaceable>sessionId</replaceable></option></term>
-<listitem>
-<para>
-Restore the application for the given <replaceable>sessionId</replaceable>.
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--cmap</option></term>
-<listitem>
-<para>
-Causes the application to install a private 
-color map on an 8-bit display.
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--ncols <replaceable>count</replaceable></option></term>
-<listitem>
-<para>
-Limits the number of colors allocated in the 
-color cube on a 8-bit display, if the application
-is using the <methodname>QApplication::ManyColor</methodname>
-color specification.
-</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--nograb</option></term>
-<listitem>
-<para>tells Qt to never grab the mouse or the keyboard.</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--dograb</option></term>
-<listitem>
-<para>
-running under a debugger can cause an implicit
-<option>-nograb</option>, use <option>-dograb</option>
-to override.
-</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--sync</option></term>
-<listitem>
-<para>switches to synchronous mode for debugging.</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--fn</option>, <option>--font <replaceable>fontname</replaceable></option></term>
-<listitem>
-<para>defines the application font.</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--bg</option>, <option>--background <replaceable>color</replaceable></option></term>
-<listitem>
-<para>
-sets the default background color and an
-application palette (light and dark shades 
-are calculated).
-</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--fg</option>,<option>--foreground <replaceable>color</replaceable></option></term>
-<listitem>
-<para>sets the default foreground color.</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--btn</option>, <option>--button <replaceable>color</replaceable></option></term>
-<listitem>
-<para>sets the default button color.</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--name <replaceable>name</replaceable></option></term>
-<listitem>
-<para>sets the application name.</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--title <replaceable>title</replaceable></option></term>
-<listitem>
-<para>sets the application title (caption).</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--visual <replaceable>TrueColor</replaceable></option></term>
-<listitem>
-<para>
-forces the application to use a TrueColor
-visual on an 8-bit display.
-</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--inputstyle</option></term>
-<listitem>
-<para>
-sets XIM (X Input Method) input style. Possible
-values are onthespot, overthespot, offthespot
-and root.
-</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--im <replaceable>XIM server</replaceable></option></term>
-<listitem>
-<para>set XIM server.</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--noxim</option></term>
-<listitem>
-<para>disable XIM.</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--reverse</option></term>
-<listitem>
-<para>mirrors the whole layout of widgets.</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--stylesheet <replaceable>file.qss</replaceable></option></term>
-<listitem>
-<para>applies the Qt stylesheet to the application widgets.</para>
-</listitem>
-</varlistentry>
-<varlistentry>
-<term><option>--graphicssystem <replaceable>system</replaceable></option></term>
-<listitem>
-<para>use a different graphics system instead of the default one, 
-options are <quote>raster</quote> and <quote>opengl</quote> (experimental).</para>
-</listitem>
-</varlistentry>
-</variablelist>
-</refsect2>
-
-<refsect2>
-<title>KDE Options</title>
-<variablelist>
-<varlistentry>
-<term><option>--caption <replaceable>caption</replaceable></option></term>
-<listitem>
-<para>Use <emphasis>caption</emphasis> as name in the titlebar.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--icon <replaceable>icon</replaceable></option></term>
-<listitem>
-<para>Use <emphasis>icon</emphasis> as the application icon.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--config <replaceable>filename</replaceable></option></term>
-<listitem>
-<para>
-Use alternative configuration file.
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--nocrashhandler</option></term>
-<listitem>
-<para>Disable crash handler, to get core dumps.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--waitforwm</option></term>
-<listitem>
-<para>
-Waits for a WM_NET compatible windowmanager.
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--style <replaceable>style</replaceable></option></term>
-<listitem>
-<para>sets the application &GUI; style.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><option>--geometry <replaceable>geometry</replaceable></option></term>
-<listitem>
-<para>
-sets the client geometry of the main widget - see the manual page 
-<ulink url="man:/X">man:/X</ulink> for the argument format (usually WidthxHeight+XPos+YPos).
-</para>
-</listitem>
-</varlistentry>
-</variablelist>
-</refsect2>
-
-<!-- Stop cutting here: End of entity text -->
-
-<refsect2>
-<title>Options</title>
-<variablelist>
 
 <varlistentry>
 <term><option>--solvegame</option> <replaceable> file</replaceable></term>
@@ -364,12 +107,33 @@ sets the client geometry of the main widget - see the manual page
 </listitem>
 </varlistentry>
 
-</variablelist>
-</refsect2>
+<varlistentry>
+<term><option>--testdir</option> <replaceable> directory</replaceable></term>
+<listitem>
+<para>Directory with test cases</para>
+</listitem>
+</varlistentry>
 
-<refsect2>
-<title>Arguments</title>
-<variablelist>
+<varlistentry>
+<term><option>--generate</option></term>
+<listitem><para>Generate random test cases</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--author</option></term>
+<listitem><para>Lists &kpatience;'s authors in the terminal window</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--license</option></term>
+<listitem><para>Shows license information</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><option>--desktopfile</option> <replaceable>file name</replaceable></term>
+<listitem><para>The base file name of the desktop entry for this application.</para></listitem>
+</varlistentry>
 
 <varlistentry>
 <term><replaceable> file</replaceable></term>
@@ -379,7 +143,6 @@ sets the client geometry of the main widget - see the manual page
 </varlistentry>
 
 </variablelist>
-</refsect2>
 
 </refsect1>
 	

@@ -1,16 +1,13 @@
 <?xml version="1.0" ?>
 <!--IMPORTANT: please note that'do not change this!' notice does not apply to translators -->
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
-  <!ENTITY kappname "&kpatience;">
-  <!ENTITY kappversion "3.6"><!--Applicaion version. Use this variable everywhere it's needed.-->
-  <!ENTITY package "kdegames">  <!-- do not change this! -->
   <!ENTITY % English "INCLUDE" > <!-- change language only here -->
   <!ENTITY % addindex "IGNORE"> <!-- do not change this! -->
 ]>
 
 <book id="kpat" lang="&language;"> <!-- do not change this! -->
 <bookinfo>
-	<title>The &kappname; Handbook</title> <!-- This is the title of the docbook. Leave as is unless change is necessary.-->
+	<title>The &kpatience; Handbook</title> <!-- This is the title of the docbook. Leave as is unless change is necessary.-->
 <!-- List of immidiate authors begins here. -->
 <!--INPORTANT! - All other contributors: [to be determined] -->
 <authorgroup>
@@ -65,12 +62,12 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2012-08-06</date><!-- Date of (re)writing, or update.-->
-<releaseinfo>&kappversion; (&kde; 4.9)</releaseinfo><!-- Application version number. Use the variable definitions within header to change this value.-->
+<date>2016-05-11</date>
+<releaseinfo>3.6 (Applications 16.04)</releaseinfo>
 
 <!--Short description of this document. Do not change unless necessary!-->
 <abstract>
-	<para>This documentation describes the game of &kappname; version &kappversion;</para>
+	<para>This documentation describes the game of &kpatience; version 3.6</para>
 </abstract>
 
 <!--List of relevan keywords-->
@@ -119,7 +116,7 @@ moving, turning and reordering them.
 	<note><title>Objective:</title><para>Rearrange the cards by suit in as few moves as possible.</para></note><!--Describe the objective of the game.-->
 <!--How to play description. Don't be to specific on rules as they have a separate section in this document-->
 	<para>
-	As &kappname; offers you a multiplicity of different solitaire games, there is no straightforward how-to which could fit all of them. Therefore, it is essential that you read each individual subsection of Game Rules, Strategies and Tips section before you start playing a version you are not familiar with.</para>
+	As &kpatience; offers you a multiplicity of different solitaire games, there is no straightforward how-to which could fit all of them. Therefore, it is essential that you read each individual subsection of Game Rules, Strategies and Tips section before you start playing a version you are not familiar with.</para>
 <para>
 Essentially there are two types of solitaire games – the ones that let you arrange the cards by same color and the ones that let you arrange the cards by alternating color. You can easily determine which game you are trying out using trial-and-error method. Once you know which one you are dealing with the rest is easy; keep arranging and rearranging the cards and collecting the matching ones.</para>
 <para>
@@ -178,7 +175,7 @@ completely new game.
 		</varlistentry>
 		<varlistentry><term>3. Foundation</term>
 			<listitem><para><indexterm><primary>foundation</primary></indexterm>The foundation piles are where you want your cards to end up. Typically, the game is one only once all cards have been moved to the foundation piles in the correct order. The number of foundation piles and the ordering required varies from game to game.</para>
-			<para>Most games start with the foundation piles empty. Choosing the <guimenuitem>Drop</guimenuitem> action from the menu or toolbar will cause &kpatience; to scan through all the piles move as many cards to the foundation piles as it can. If you have the <guimenuitem>Enabled Autodrop</guimenuitem> setting activated, &kpatience; will attempt to perform a drop whenever possible.</para>
+                            <para>Most games start with the foundation piles empty. Choosing the <guimenuitem>Drop</guimenuitem> action from the menu or toolbar will cause &kpatience; to scan through all the piles move as many cards to the foundation piles as it can. If you have the <guimenuitem>Enabled Autodrop</guimenuitem> setting activated, &kpatience; will attempt to perform a drop whenever possible.</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry><term>4. Playing Piles</term>
@@ -622,7 +619,7 @@ win at Easy level, and very difficult to win at Hard level.
 				<term><menuchoice>
 					<guimenu>Game</guimenu>
 					<guisubmenu>Load Recent</guisubmenu>
-					<guimenuitem>List of recently accessed files.</guimenuitem>
+					<guimenuitem><replaceable>List of recently accessed files</replaceable></guimenuitem>
 				</menuchoice></term>
 				<listitem><para><action>List recently accessed save files in order of last use.</action> Selecting a game will load it. This action abandons the deal in progress.</para></listitem>
 			</varlistentry>
@@ -647,7 +644,7 @@ win at Easy level, and very difficult to win at Hard level.
 					<guimenu>Game</guimenu>
 					<guimenuitem>Quit</guimenuitem>
 				</menuchoice></term>
-				<listitem><para><action>Quit</action> &kappname;.</para></listitem>
+				<listitem><para><action>Quit</action> &kpatience;.</para></listitem>
 			</varlistentry>
 		</variablelist>
 </sect1>
@@ -712,14 +709,17 @@ win at Easy level, and very difficult to win at Hard level.
 			</varlistentry>
 		</variablelist>
 </sect1>
-<sect1 id="settings-menu">
-	<title>The Settings Menu</title>
+<sect1 id="settings-help-menu">
+	<title>The Settings and Help Menu</title>
+<para>Apart from the common &kde; Settings and Help menus described in the <ulink url="help:/fundamentals/ui.html#menus">Menu</ulink>
+chapter of the &kde; Fundamentals documentation &kpatience; has these application specific menu entries:
+</para>
 		<variablelist>
 			<varlistentry id="settings-menu-game-type-options">
 				<term><menuchoice>
 					<guimenu>Settings</guimenu>
-					<guisubmenu>"Game Type" Options</guisubmenu>
-					<guimenuitem>List of game type specific options.</guimenuitem>
+					<guisubmenu><replaceable>Game Type Options</replaceable></guisubmenu>
+					<guimenuitem><replaceable>List of game type specific options</replaceable></guimenuitem>
 				</menuchoice></term>
 				<listitem><para><action>List options specific to the current game type.</action> This menu is available in only certain games (Klondike and Spider).</para></listitem>
 			</varlistentry>
@@ -760,26 +760,17 @@ win at Easy level, and very difficult to win at Hard level.
 				</menuchoice></term>
 				<listitem><para><action>Enable automatic saving of the game state when &kpatience; is shut down.</action> If enabled, &kpatience; will load the previous game state automatically the next time it is started.</para></listitem>
 			</varlistentry>
-			<varlistentry id="settings-menu-toolbar">
+			<varlistentry id="help-menu-remember">
 				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guimenuitem>Show Toolbar</guimenuitem>
+					<shortcut><keycombo action="simul">&Ctrl;&Shift;<keycap>F1</keycap></keycombo></shortcut>
+					<guimenu>Help</guimenu>
+					<guimenuitem>Help with Current Game</guimenuitem>
 				</menuchoice></term>
-				<listitem><para>Show or hide the toolbar.</para></listitem>
-			</varlistentry>
-			<varlistentry id="settings-menu-statusbar">
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guimenuitem>Show Statusbar</guimenuitem>
-				</menuchoice></term>
-				<listitem><para>Show or hide the statusbar.</para></listitem>
+				<listitem><para>Opens the section with the Rules for the current game in this handbook </para></listitem>
 			</varlistentry>
 		</variablelist>
 </sect1>
-<sect1 id="help"><!--This is a standard Help menubar entry. Only change if needed.-->
-<title>The Help Menu</title>
-&help.menu.documentation;
-</sect1>
+
 </chapter>
 
 <chapter id="faq"><title>Frequently asked questions</title> <!-- do not change this! -->
@@ -796,7 +787,7 @@ win at Easy level, and very difficult to win at Hard level.
 </qandaentry>
 <qandaentry>
  <question><para>Can I use the keyboard to play the game?</para></question>
- <answer><para>No, &kappname; features no keyboard only play. However, most menu options do have keyboard shortcuts.</para></answer>
+ <answer><para>No, &kpatience; features no keyboard only play. However, most menu options do have keyboard shortcuts.</para></answer>
 </qandaentry>
 <qandaentry>
  <question><para>Even with hints I still have no clue how to play. Help!</para></question>
@@ -809,7 +800,7 @@ win at Easy level, and very difficult to win at Hard level.
 <!--This chapter is for credits and licenses.-->
 
 <para>
-&kappname;  <!-- do not change this! -->
+&kpatience;  <!-- do not change this! -->
 </para>
 <!--List all the copyright holders here-->
 <para>
@@ -841,7 +832,7 @@ Documentation rewritten for &kpatience; 2.0 (&kde; 2.1) by &Maren.Pakura;
 </para>
 
 <para>
-Documentation proofread and update for &kpatience; &kappversion; by &Richard.Hawthorne;
+Documentation proofread and update for &kpatience; 3.6 by &Richard.Hawthorne;
 &Richard.Hawthorne.mail;
 </para>
 
@@ -852,20 +843,6 @@ Documentation proofread and update for &kpatience; &kappversion; by &Richard.Haw
 <!-- !!!do not change ANYTHING after this line!!!! -->
 
 </chapter>
-
-<appendix id="installation">
-<title>Installation</title>
-
-&install.intro.documentation;
-
-
-<sect1 id="Compilation">
-<title>Compilation and Installation</title>
-
-&install.compile.documentation;
-
-</sect1>
-</appendix>
 
 &documentation.index; 
 </book>
