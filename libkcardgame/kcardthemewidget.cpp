@@ -142,7 +142,7 @@ void CardThemeModel::reload()
 {
     deleteThread();
 
-    reset();
+    beginResetModel();
 
     m_themes.clear();
     qDeleteAll( m_previews );
@@ -173,8 +173,7 @@ void CardThemeModel::reload()
         m_themes.insert( theme.displayName(), theme );
     }
 
-    beginInsertRows( QModelIndex(), 0, m_themes.size() );
-    endInsertRows();
+    endResetModel();
 
     if ( !previewsNeeded.isEmpty() )
     {
