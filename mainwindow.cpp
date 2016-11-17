@@ -73,7 +73,7 @@
 #include <KToggleAction>
 #include <KToolInvocation>
 #include <KXMLGUIFactory>
-#include <KIO/NetAccess>
+#include <KIOCore/KIO/StoredTransferJob>
 
 #include <QList>
 #include <QPointer>
@@ -837,26 +837,17 @@ void MainWindow::previousDeal()
 
 bool MainWindow::loadGame( const QUrl & url, bool addToRecentFiles )
 {
-    QString fileName;
-    if( !KIO::NetAccess::download( url, fileName, this ) )
+    KIO::StoredTransferJob *job = KIO::storedGet( url );
+    if( !job->exec() )
     {
-        KMessageBox::error( this, i18n("Downloading file failed.") );
-        return false;
-    }
-    QFile file( fileName );
-
-    if ( !file.open( QIODevice::ReadOnly ) )
-    {
-        KMessageBox::error( this, i18n("Opening file failed.") );
-        KIO::NetAccess::removeTempFile( fileName );
+        KMessageBox::error( this, i18n("Downloading file failed: %1", job->errorString()) );
         return false;
     }
 
-    QXmlStreamReader xml( &file );
+    QXmlStreamReader xml( job->data() );
     if ( !xml.readNextStartElement() )
     {
         KMessageBox::error( this, i18n("Error reading XML file: ") + xml.errorString() );
-        KIO::NetAccess::removeTempFile( fileName );
         return false;
     }
 
@@ -887,35 +878,28 @@ bool MainWindow::loadGame( const QUrl & url, bool addToRecentFiles )
     else
     {
         KMessageBox::error( this, i18n("XML file is not a KPat save.") );
-        KIO::NetAccess::removeTempFile( fileName );
         return false;
     }
 
     if ( !m_dealer_map.contains( gameId ) )
     {
         KMessageBox::error( this, i18n("Unrecognized game id.") );
-        KIO::NetAccess::removeTempFile( fileName );
         return false;
     }
 
     // Only bother the user to ask for permission after we've determined the
     // save game file is at least somewhat valid.
     if ( m_dealer && !m_dealer->allowedToStartNewGame() )
-    {
-        KIO::NetAccess::removeTempFile( fileName );
         return false;
-    }
 
     setGameType( gameId );
 
     xml.clear();
-    file.reset();
 
-    bool success = isLegacyFile ? m_dealer->loadLegacyFile( &file )
-                                : m_dealer->loadFile( &file );
-
-    file.close();
-    KIO::NetAccess::removeTempFile( fileName );
+    QBuffer buffer;
+    buffer.setData( job->data() );
+    bool success = isLegacyFile ? m_dealer->loadLegacyFile( &buffer )
+                                : m_dealer->loadFile( &buffer );
 
     if ( !success )
     {
@@ -1005,10 +989,15 @@ void MainWindow::saveGame()
     }
     file.close();
 
-    if ( !url.isLocalFile() && !KIO::NetAccess::upload( file.fileName(), url, this ) )
+    if ( !url.isLocalFile() )
     {
-        KMessageBox::error( this, i18n("Error uploading file. Saving failed.") );
-        return;
+        tempFile.open();
+        KIO::StoredTransferJob *job = KIO::storedPut( &tempFile, url, -1 );
+        if( !job->exec() )
+        {
+            KMessageBox::error( this, i18n("Error uploading file. Saving failed: %1", job->errorString()) );
+            return;
+        }
     }
 
     m_recentFilesAction->addUrl( url );

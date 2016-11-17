@@ -18,7 +18,7 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     DocTools
     GuiAddons
     I18n
-    KDELibs4Support
+    KIO
     NewStuff
     WidgetsAddons
     XmlGui
@@ -98,7 +98,7 @@ target_link_libraries(kpat
     KF5::Crash
     KF5::DBusAddons
     KF5::I18n
-    KF5::KDELibs4Support
+    KF5::KIOCore
     KF5KDEGames
     kcardgame
 )
