@@ -1027,7 +1027,8 @@ void KCardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
     if ( isKeyboardModeActive() )
         setKeyboardModeActive( false );
 
-    QGraphicsItem * item = itemAt( e->scenePos() );
+    const QList<QGraphicsItem *> itemsAtPoint = items( e->scenePos() );
+    QGraphicsItem * item = itemsAtPoint.isEmpty() ? 0 : itemsAtPoint.first();
     KCard * card = qgraphicsitem_cast<KCard*>( item );
     KCardPile * pile = qgraphicsitem_cast<KCardPile*>( item );
 
@@ -1113,7 +1114,8 @@ void KCardScene::mouseMoveEvent( QGraphicsSceneMouseEvent * e )
 
 void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
 {
-    QGraphicsItem * topItem = itemAt( e->scenePos() );
+    const QList<QGraphicsItem *> itemsAtPoint = items( e->scenePos() );
+    QGraphicsItem * topItem = itemsAtPoint.isEmpty() ? 0 : itemsAtPoint.first();
     KCard * card = qgraphicsitem_cast<KCard*>( topItem );
     KCardPile * pile = qgraphicsitem_cast<KCardPile*>( topItem );
 
@@ -1175,7 +1177,8 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
 
 void KCardScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
 {
-    QGraphicsItem * topItem = itemAt( e->scenePos() );
+    const QList<QGraphicsItem *> itemsAtPoint = items( e->scenePos() );
+    QGraphicsItem * topItem = itemsAtPoint.isEmpty() ? 0 : itemsAtPoint.first();
     KCard * card = qgraphicsitem_cast<KCard*>( topItem );
     KCardPile * pile = qgraphicsitem_cast<KCardPile*>( topItem );
 

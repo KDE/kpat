@@ -1052,7 +1052,8 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
 {
     stop();
 
-    KCard * card = qgraphicsitem_cast<KCard*>( itemAt( e->scenePos() ) );
+    const QList<QGraphicsItem *> itemsAtPoint = items( e->scenePos() );
+    KCard * card = qgraphicsitem_cast<KCard*>( itemsAtPoint.isEmpty() ? 0 : itemsAtPoint.first() );
 
     if ( m_peekedCard )
     {
