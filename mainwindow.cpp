@@ -898,6 +898,7 @@ bool MainWindow::loadGame( const QUrl & url, bool addToRecentFiles )
 
     QBuffer buffer;
     buffer.setData( job->data() );
+    buffer.open( QBuffer::ReadOnly );
     bool success = isLegacyFile ? m_dealer->loadLegacyFile( &buffer )
                                 : m_dealer->loadFile( &buffer );
 
