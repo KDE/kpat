@@ -44,6 +44,7 @@
 
 #include <QGraphicsSceneWheelEvent>
 #include <QPainter>
+#include <QPointer>
 
 #include <cmath>
 
@@ -71,6 +72,19 @@ namespace
             pile->setHighlighted( highlight );
             return;
         }
+    }
+
+    QGraphicsItem * toGraphicsItem( QObject * object )
+    {
+        if ( KCard * card = qobject_cast<KCard*>( object ) )
+            return card;
+
+        if ( KCardPile * pile = qobject_cast<KCardPile*>( object ) )
+            return pile;
+
+        Q_ASSERT( object == 0 );
+
+        return 0;
     }
 }
 
@@ -104,7 +118,7 @@ public:
     bool keyboardMode;
     int keyboardPileIndex;
     int keyboardCardIndex;
-    QWeakPointer<QGraphicsItem> keyboardFocusItem;
+    QPointer<QObject> keyboardFocusItem;
 
     bool sizeHasBeenSet;
 };
@@ -342,7 +356,7 @@ void KCardScenePrivate::changeFocus( int pileChange, int cardChange )
 
 void KCardScenePrivate::updateKeyboardFocus()
 {
-    setItemHighlight( keyboardFocusItem.data(), false );
+    setItemHighlight( toGraphicsItem( keyboardFocusItem ), false );
 
     if ( !keyboardMode )
     {
@@ -379,10 +393,13 @@ void KCardScenePrivate::updateKeyboardFocus()
         keyboardFocusItem = pile->at( keyboardCardIndex );
     }
 
-    setItemHighlight( keyboardFocusItem.data(), true );
+    QGraphicsItem * focusItem = toGraphicsItem( keyboardFocusItem );
+    Q_ASSERT( focusItem );
 
-    QPointF delta = keyboardFocusItem.data()->pos() - startOfDrag;
-    startOfDrag = keyboardFocusItem.data()->pos();
+    setItemHighlight( focusItem, true );
+
+    QPointF delta = focusItem->pos() - startOfDrag;
+    startOfDrag = focusItem->pos();
     foreach ( KCard * c, cardsBeingDragged )
         c->setPos( c->pos() + delta );
 }
