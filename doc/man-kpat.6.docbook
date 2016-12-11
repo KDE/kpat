@@ -18,14 +18,12 @@
 
 <refnamediv>
 <refname><command>kpat</command></refname>
-<refpurpose>A highly addictive &kde; card game.</refpurpose>
+<refpurpose>A highly addictive card game.</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
 <cmdsynopsis>
 <command>kpat</command>
-<group choice="opt"><option>-v, --version</option></group>
-<group choice="opt"><option>-h, --help</option></group>
 <group choice="opt"><option>--solvegame</option> <replaceable> file</replaceable></group>
 <group choice="opt"><option>--solve</option> <replaceable> num</replaceable></group>
 <group choice="opt"><option>--start</option> <replaceable> num</replaceable></group>
@@ -33,9 +31,6 @@
 <group choice="opt"><option>--gametype</option> <replaceable> game</replaceable></group>
 <group choice="opt"><option>--testdir</option> <replaceable> directory</replaceable></group>
 <group choice="opt"><option>--generate</option></group>
-<group choice="opt"><option>--author</option></group>
-<group choice="opt"><option>--license</option></group>
-<group choice="opt"><option>--desktopfile</option></group>
 <group choice="opt"><option><replaceable>file</replaceable></option></group>
 </cmdsynopsis>
 </refsynopsisdiv>
@@ -147,13 +142,15 @@ is included below.</para>
 
 <refsect1>
 <title>SEE ALSO</title>
-<para>
-&kpatience; is documented in detail in <emphasis>The &kpatience;
-Handbook</emphasis>
-(<filename>$<envar>KDEDIR</envar>/share/doc/HTML/en/kpat/index.html</filename>
-or enter <userinput>help:/kpat/index.html</userinput> in
-&konqueror;).</para>
-
+<simplelist>
+<member>More detailed user documentation is available from <ulink
+url="help:/kpat">help:/kpat</ulink>
+(either enter this &URL; into &konqueror;, or run
+<userinput><command>khelpcenter</command>
+<parameter>help:/kpat</parameter></userinput>).</member>
+<member>kf5options(7)</member>
+<member>qt5options(7)</member>
+</simplelist>
 </refsect1>
 
 <refsect1>
