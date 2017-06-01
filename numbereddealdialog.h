@@ -35,7 +35,7 @@ class NumberedDealDialog : public QDialog
         void setDealNumber( int dealNumber );
 
     public slots:
-        virtual void setVisible( bool visible );
+        void setVisible( bool visible ) Q_DECL_OVERRIDE;
 
     signals:
         void dealChosen( int gameId, int dealNumber );

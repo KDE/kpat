@@ -47,17 +47,17 @@ class Grandf : public DealerScene
 
 public:
     explicit Grandf( const DealerInfo * di );
-    virtual void initialize();
+    void initialize() Q_DECL_OVERRIDE;
 
 protected:
-    virtual void setGameState( const QString & state );
-    virtual QString getGameState() const;
-    virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
-    virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
-    virtual void restart( const QList<KCard*> & cards );
+    void setGameState( const QString & state ) Q_DECL_OVERRIDE;
+    QString getGameState() const Q_DECL_OVERRIDE;
+    bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const Q_DECL_OVERRIDE;
+    bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const Q_DECL_OVERRIDE;
+    void restart( const QList<KCard*> & cards ) Q_DECL_OVERRIDE;
 
 protected slots:
-    virtual bool newCards();
+    bool newCards() Q_DECL_OVERRIDE;
 
 private:
     void deal( const QList<KCard*> & cardsToDeal );

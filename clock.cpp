@@ -155,7 +155,7 @@ public:
       : DealerInfo(I18N_NOOP("Grandfather's Clock"), GrandfathersClockId)
     {}
 
-    virtual DealerScene *createGame() const
+    DealerScene *createGame() const Q_DECL_OVERRIDE
     {
         return new Clock( this );
     }

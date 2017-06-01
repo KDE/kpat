@@ -104,8 +104,8 @@ protected slots:
     void slotUpdateMoves(int moves);
 
 protected:
-    virtual void closeEvent(QCloseEvent * e);
-    virtual void saveNewToolbarConfig();
+    void closeEvent(QCloseEvent * e) Q_DECL_OVERRIDE;
+    void saveNewToolbarConfig() Q_DECL_OVERRIDE;
 
 private slots:
     void slotSnapshot();

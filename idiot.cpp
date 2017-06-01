@@ -259,7 +259,7 @@ public:
       : DealerInfo(I18N_NOOP("Aces Up"), AcesUpId)
     {}
 
-    virtual DealerScene *createGame() const
+    DealerScene *createGame() const Q_DECL_OVERRIDE
     {
         return new Idiot( this );
     }

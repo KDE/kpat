@@ -39,7 +39,7 @@ signals:
     void gameSelected( int i );
 
 protected:
-    virtual void keyReleaseEvent( QKeyEvent * event );
+    void keyReleaseEvent( QKeyEvent * event ) Q_DECL_OVERRIDE;
 
 private slots:
     void boxHoverChanged( GameSelectionBox * box, bool hovered );

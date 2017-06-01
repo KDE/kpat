@@ -252,7 +252,7 @@ public:
       : DealerInfo(I18N_NOOP("Forty & Eight"), FortyAndEightId)
     {}
 
-    virtual DealerScene *createGame() const
+    DealerScene *createGame() const Q_DECL_OVERRIDE
     {
         return new Fortyeight( this );
     }

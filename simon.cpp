@@ -137,7 +137,7 @@ public:
       : DealerInfo(I18N_NOOP("Simple Simon"), SimpleSimonId)
     {}
 
-    virtual DealerScene *createGame() const
+    DealerScene *createGame() const Q_DECL_OVERRIDE
     {
         return new Simon( this );
     }

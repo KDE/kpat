@@ -49,23 +49,23 @@ class Klondike : public DealerScene
 
 public:
     explicit Klondike( const DealerInfo * di );
-    virtual void initialize();
-    virtual void mapOldId(int id);
-    virtual int oldId() const;
-    QList<QAction*> configActions() const;
+    void initialize() Q_DECL_OVERRIDE;
+    void mapOldId(int id) Q_DECL_OVERRIDE;
+    int oldId() const Q_DECL_OVERRIDE;
+    QList<QAction*> configActions() const Q_DECL_OVERRIDE;
 
 protected:
-    virtual void setGameState( const QString & state );
-    virtual QString getGameOptions() const;
-    virtual void setGameOptions( const QString & options );
-    virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
-    virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
-    virtual void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile );
-    virtual void restart( const QList<KCard*> & cards );
+    void setGameState( const QString & state ) Q_DECL_OVERRIDE;
+    QString getGameOptions() const Q_DECL_OVERRIDE;
+    void setGameOptions( const QString & options ) Q_DECL_OVERRIDE;
+    bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const Q_DECL_OVERRIDE;
+    bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const Q_DECL_OVERRIDE;
+    void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile ) Q_DECL_OVERRIDE;
+    void restart( const QList<KCard*> & cards ) Q_DECL_OVERRIDE;
 
 protected slots:
-    virtual bool drop();
-    virtual bool newCards();
+    bool drop() Q_DECL_OVERRIDE;
+    bool newCards() Q_DECL_OVERRIDE;
 
 private slots:
     void gameTypeChanged();
@@ -94,7 +94,7 @@ public:
     KlondikePile( DealerScene * scene, int index, const QString & objectName = QString() );
     void setCardsToShow( int numCards );
     int cardsToShow() const;
-    virtual QList<QPointF> cardPositions() const;
+    QList<QPointF> cardPositions() const Q_DECL_OVERRIDE;
 
 private:
     int m_cardsToShow;

@@ -42,7 +42,7 @@ class PreviewThread : public QThread
 
 public:
     PreviewThread( const KCardThemeWidgetPrivate * d, const QList<KCardTheme> & themes );
-    void run();
+    void run() Q_DECL_OVERRIDE;
     void halt();
 
 Q_SIGNALS:
@@ -67,8 +67,8 @@ public:
     void reload();
     QModelIndex indexOf( const QString & dirName ) const;
 
-    virtual int rowCount( const QModelIndex & parent = QModelIndex() ) const;
-    virtual QVariant data( const QModelIndex & index, int role = Qt::DisplayRole ) const;
+    int rowCount( const QModelIndex & parent = QModelIndex() ) const Q_DECL_OVERRIDE;
+    QVariant data( const QModelIndex & index, int role = Qt::DisplayRole ) const Q_DECL_OVERRIDE;
 
 private Q_SLOTS:
     void deleteThread();
@@ -87,8 +87,8 @@ class CardThemeDelegate : public QAbstractItemDelegate
 public:
     explicit CardThemeDelegate( KCardThemeWidgetPrivate * d, QObject * parent = 0 );
 
-    virtual void paint( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
-    virtual QSize sizeHint( const QStyleOptionViewItem & option, const QModelIndex & index ) const;
+    void paint( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const Q_DECL_OVERRIDE;
+    QSize sizeHint( const QStyleOptionViewItem & option, const QModelIndex & index ) const Q_DECL_OVERRIDE;
 
 private:
     const KCardThemeWidgetPrivate * const d;

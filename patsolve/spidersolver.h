@@ -26,17 +26,17 @@ class SpiderSolver : public Solver
 {
 public:
     explicit SpiderSolver(const Spider *dealer);
-    virtual int get_possible_moves(int *a, int *numout);
-    virtual bool isWon();
-    virtual void make_move(MOVE *m);
-    virtual void undo_move(MOVE *m);
-    virtual int getOuts();
-    virtual unsigned int getClusterNumber();
-    virtual void translate_layout();
-    virtual void unpack_cluster( unsigned int k );
-    virtual MoveHint translateMove(const MOVE &m);
+    int get_possible_moves(int *a, int *numout) Q_DECL_OVERRIDE;
+    bool isWon() Q_DECL_OVERRIDE;
+    void make_move(MOVE *m) Q_DECL_OVERRIDE;
+    void undo_move(MOVE *m) Q_DECL_OVERRIDE;
+    int getOuts() Q_DECL_OVERRIDE;
+    unsigned int getClusterNumber() Q_DECL_OVERRIDE;
+    void translate_layout() Q_DECL_OVERRIDE;
+    void unpack_cluster( unsigned int k ) Q_DECL_OVERRIDE;
+    MoveHint translateMove(const MOVE &m) Q_DECL_OVERRIDE;
 
-    virtual void print_layout();
+    void print_layout() Q_DECL_OVERRIDE;
 
 /* Names of the cards.  The ordering is defined in pat.h. */
 

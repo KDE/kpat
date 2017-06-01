@@ -46,17 +46,17 @@ class Mod3 : public DealerScene
 
 public:
     explicit Mod3( const DealerInfo * di );
-    virtual void initialize();
+    void initialize() Q_DECL_OVERRIDE;
 
 protected:
-    virtual void setGameState( const QString & state );
-    virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
-    virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
-    virtual void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile );
-    virtual void restart( const QList<KCard*> & cards );
+    void setGameState( const QString & state ) Q_DECL_OVERRIDE;
+    bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const Q_DECL_OVERRIDE;
+    bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const Q_DECL_OVERRIDE;
+    void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile ) Q_DECL_OVERRIDE;
+    void restart( const QList<KCard*> & cards ) Q_DECL_OVERRIDE;
 
 protected slots:
-    virtual bool newCards();
+    bool newCards() Q_DECL_OVERRIDE;
 
 private:
     PatPile  *talon;

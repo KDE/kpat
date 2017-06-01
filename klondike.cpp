@@ -351,7 +351,7 @@ public:
         addSubtype( KlondikeDrawThreeId, I18N_NOOP( "Klondike (Draw 3)" ) );
     }
 
-    virtual DealerScene *createGame() const
+    DealerScene *createGame() const Q_DECL_OVERRIDE
     {
         return new Klondike( this );
     }

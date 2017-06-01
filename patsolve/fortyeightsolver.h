@@ -28,20 +28,20 @@ class FortyeightSolver : public Solver
 public:
     explicit FortyeightSolver(const Fortyeight *dealer);
     int good_automove(int o, int r);
-    virtual int get_possible_moves(int *a, int *numout);
-    virtual bool isWon();
-    virtual void make_move(MOVE *m);
-    virtual void undo_move(MOVE *m);
-    virtual int getOuts();
-    virtual unsigned int getClusterNumber();
-    virtual void translate_layout();
-    virtual void unpack_cluster( unsigned int k );
-    virtual MoveHint translateMove(const MOVE &m);
+    int get_possible_moves(int *a, int *numout) Q_DECL_OVERRIDE;
+    bool isWon() Q_DECL_OVERRIDE;
+    void make_move(MOVE *m) Q_DECL_OVERRIDE;
+    void undo_move(MOVE *m) Q_DECL_OVERRIDE;
+    int getOuts() Q_DECL_OVERRIDE;
+    unsigned int getClusterNumber() Q_DECL_OVERRIDE;
+    void translate_layout() Q_DECL_OVERRIDE;
+    void unpack_cluster( unsigned int k ) Q_DECL_OVERRIDE;
+    MoveHint translateMove(const MOVE &m) Q_DECL_OVERRIDE;
     bool checkMove( int from, int to, MOVE *mp );
     bool checkMoveOut( int from, MOVE *mp, int *dropped );
     void checkState(FortyeightSolverState &d);
 
-    virtual void print_layout();
+    void print_layout() Q_DECL_OVERRIDE;
 
     const Fortyeight *deal;
     bool lastdeal;

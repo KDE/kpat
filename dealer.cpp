@@ -177,7 +177,7 @@ public:
     {
     }
 
-    virtual void run()
+    void run() Q_DECL_OVERRIDE
     {
         Solver::ExitStatus result = m_solver->patsolve();
         emit finished( result );

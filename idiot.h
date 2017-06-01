@@ -46,19 +46,19 @@ class Idiot: public DealerScene
 
 public:
     explicit Idiot( const DealerInfo * di );
-    virtual void initialize();
-    virtual bool isGameWon() const;
+    void initialize() Q_DECL_OVERRIDE;
+    bool isGameWon() const Q_DECL_OVERRIDE;
 
 protected:
-    virtual void setGameState( const QString & state );
-    virtual bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const;
-    virtual bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const;
-    virtual void restart( const QList<KCard*> & cards );
-    virtual bool drop();
+    void setGameState( const QString & state ) Q_DECL_OVERRIDE;
+    bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const Q_DECL_OVERRIDE;
+    bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const Q_DECL_OVERRIDE;
+    void restart( const QList<KCard*> & cards ) Q_DECL_OVERRIDE;
+    bool drop() Q_DECL_OVERRIDE;
 
 protected slots:
-    virtual bool newCards();
-    virtual bool tryAutomaticMove( KCard * card );
+    bool newCards() Q_DECL_OVERRIDE;
+    bool tryAutomaticMove( KCard * card ) Q_DECL_OVERRIDE;
 
 private:
     void dealRow();

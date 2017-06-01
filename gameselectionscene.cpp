@@ -76,7 +76,7 @@ public:
         }
     }
 
-    virtual QRectF boundingRect() const
+    QRectF boundingRect() const Q_DECL_OVERRIDE
     {
         return QRectF( QPointF(), m_size );
     }
@@ -117,19 +117,19 @@ signals:
     void hoverChanged( GameSelectionBox * box, bool hovered );
 
 protected:
-    virtual void mousePressEvent( QGraphicsSceneMouseEvent * event )
+    void mousePressEvent( QGraphicsSceneMouseEvent * event ) Q_DECL_OVERRIDE
     {
         Q_UNUSED( event )
         emit selected( m_gameId );
     }
 
-    virtual void hoverEnterEvent( QGraphicsSceneHoverEvent * event )
+    void hoverEnterEvent( QGraphicsSceneHoverEvent * event ) Q_DECL_OVERRIDE
     {
         Q_UNUSED( event )
         emit hoverChanged( this, true );
     }
 
-    virtual void hoverLeaveEvent( QGraphicsSceneHoverEvent * event )
+    void hoverLeaveEvent( QGraphicsSceneHoverEvent * event ) Q_DECL_OVERRIDE
     {
         Q_UNUSED( event )
         emit hoverChanged( this, false );
@@ -146,7 +146,7 @@ protected:
         update();
     }
 
-    virtual void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 )
+    void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 ) Q_DECL_OVERRIDE
     {
         Q_UNUSED( option )
         Q_UNUSED( widget )
