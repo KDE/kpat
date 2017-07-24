@@ -195,8 +195,9 @@ bool Solver::recursive(POSITION *parent)
         }
 #endif
         Total_positions++;
-        if ( Total_positions % 10000 == 0 )
+        if ( Total_positions % 10000 == 0 ) {
             //qDebug() << "positions" << Total_positions;
+        }
 
         pos->move = *mp;                 /* struct copy */
         pos->cluster = 0;
