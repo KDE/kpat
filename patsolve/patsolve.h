@@ -24,8 +24,8 @@
 
 #include "KCardPile"
 
-#include <QtCore/QMap>
-#include <QtCore/QMutex>
+#include <QMap>
+#include <QMutex>
 
 #include <cstdio>
 
