@@ -25,7 +25,6 @@
 #include <QDebug>
 #include <KLineEdit>
 #include <KLocalizedString>
-#include <KImageCache>
 #include <QPushButton>
 #include <kns3/downloaddialog.h>
 
