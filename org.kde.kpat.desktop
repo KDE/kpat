@@ -122,6 +122,7 @@ GenericName[xh]=Ikhadi lomdlalo wokunyamezela
 GenericName[x-test]=xxPatience Card Gamexx
 GenericName[zh_CN]=考验耐心的牌类游戏
 GenericName[zh_TW]=單人玩的紙牌遊戲
+Comment=Solitaire card game
 X-DBUS-StartupType=Multi
 Categories=Qt;KDE;Game;CardGame;
 MimeType=application/vnd.kde.kpatience.savedstate;
