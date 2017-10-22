@@ -185,8 +185,6 @@ int main( int argc, char **argv )
     QCommandLineParser parser;
     KAboutData::setApplicationData(aboutData);
     KCrash::initialize();
-    parser.addVersionOption();
-    parser.addHelpOption();
 
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("solvegame"), i18n( "Try to find a solution to the given savegame" ), QStringLiteral("file")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("solve"), i18n("Dealer to solve (debug)" ), QStringLiteral("num")));
