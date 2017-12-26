@@ -3,7 +3,7 @@
   <mime-type type="application/vnd.kde.kpatience.savedstate">
     <comment>KPatience legacy save file</comment>
     <comment xml:lang="bs">KPatience starija datoteka za snimanje</comment>
-    <comment xml:lang="ca">Fitxer antic de desat del KPatience</comment>
+    <comment xml:lang="ca">Fitxer antic de desament del KPatience</comment>
     <comment xml:lang="ca@valencia">Fitxer antic de guardat del KPatience</comment>
     <comment xml:lang="cs">Uložený soubor staré verze KPatience</comment>
     <comment xml:lang="da">KPatience gammel gemmefil</comment>
@@ -44,7 +44,7 @@
   <mime-type type="application/vnd.kde.kpatience.savedgame">
     <comment>KPatience save file</comment>
     <comment xml:lang="bs">KPatience datoteka za snimanje</comment>
-    <comment xml:lang="ca">Fitxer de desat del KPatience</comment>
+    <comment xml:lang="ca">Fitxer de desament del KPatience</comment>
     <comment xml:lang="ca@valencia">Fitxer de guardat del KPatience</comment>
     <comment xml:lang="cs">Uložený soubor KPatience</comment>
     <comment xml:lang="da">KPatience gemmefil</comment>
