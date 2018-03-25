@@ -310,6 +310,7 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
             bool wasempty = false;
             for (int j = 0; j < 10; ++j)
             {
+
                 if (i == j)
                     continue;
 
@@ -345,7 +346,8 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
                         printcard( card, stderr );
                         fprintf( stderr, "%d %d %d %d %d\n", i, j, conti[i], conti[j],l );
 #endif
-                        if ( SUIT( card ) != SUIT( *Wp[j] ) )
+                        bool card_stack_j_not_empty = Wlen[j] > 0;
+                        if (card_stack_j_not_empty && SUIT( card ) != SUIT( *Wp[j] ) )
                         {
 			  //fprintf( stderr, "continue %d %d %d %d\n",conti[j]+l, conti[i],conti[j]+l, SUIT( card ) != SUIT( *Wp[j] ) );
                             continue;
@@ -383,8 +385,16 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
                         else {
                             if ( conti[j]+l+1 != 13 || conti[i]>conti[j]+l )
                             {
-                                card_t card_below = W[i][Wlen[i]-l-2];
-                                if ( SUIT( card_below ) != SUIT( card ) || RANK(card_below) != RANK(card) + 1 )
+                                card_t card_below;
+                                bool exists_card_below = Wlen[i] >= l + 2;
+                                if (exists_card_below) {
+                                    card_below = W[i][Wlen[i]-l-2];
+                                }
+                                if ( !exists_card_below || ( exists_card_below &&
+                                                             (  SUIT( card_below ) != SUIT( card ) ||
+                                                                RANK(card_below) != RANK(card) + 1 )
+                                                            )
+                                    )
                                 {
                                     foundgood = true;
                                 } else {
@@ -426,6 +436,9 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
 
                     n++;
                     mp++;
+                    if (n >= MAXMOVES) {
+                        goto cannot_store_any_more_moves;
+                    }
                 }
             }
         }
@@ -445,6 +458,8 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
         mp++;
         break; // one is enough
     }
+
+cannot_store_any_more_moves:
 
     if ( n > toomuch && foundgood)
     {
