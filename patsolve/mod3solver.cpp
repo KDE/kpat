@@ -122,6 +122,12 @@ void Mod3Solver::undo_move(MOVE *m)
             len = 8;
         for ( int i = len; i >= 0; i-- )
         {
+            if (Wlen[i] == 0) {
+                // there exists no card to move
+                /* TODO: determine if we need to call hashpile here
+                / or do any other work */
+                continue;
+            }
             card_t card = *Wp[24+i];
             Wlen[deck]++;
             Wp[deck]++;
@@ -249,7 +255,12 @@ int Mod3Solver::get_possible_moves(int *a, int *numout)
                     if ( Wlen[i] == Wlen[j] + 1 )
                         continue;
                 }
-                mp->pri = qMin(119, 12 + 20 * Wlen[j] + current_row * 2 + RANK(*Wp[j]) * 5);
+
+                if (Wlen[j]) {
+                    mp->pri = qMin(119, 12 + 20 * Wlen[j] + current_row * 2 + RANK(*Wp[j]) * 5);
+                } else {
+                    mp->pri = 119; // TODO: Find out if this is really correct. We can certainly not touch Wp[j], b ut is this the correct mp->pri value?
+                }
 
                 mp->turn_index = -1;
                 if ( i >= 24 && Wlen[i] == 1 && Wlen[deck] )
