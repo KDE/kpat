@@ -42,7 +42,6 @@
 class KCardScene;
 #include "libkcardgame_export.h"
 
-class QPropertyAnimation;
 #include <QGraphicsPixmapItem>
 
 
@@ -58,7 +57,7 @@ public:
     int type() const Q_DECL_OVERRIDE;
 
     QRectF boundingRect() const Q_DECL_OVERRIDE;
-    void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 ) Q_DECL_OVERRIDE;
+    void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = nullptr ) Q_DECL_OVERRIDE;
 
     QList<KCard*> cards() const;
     int count() const;

@@ -136,9 +136,9 @@ KCard::KCard( quint32 id, KAbstractCardDeck * deck )
     d->highlighted = false;
     d->highlightValue = d->highlighted ? 1 : 0;
 
-    d->pile = 0;
+    d->pile = nullptr;
 
-    d->animation = 0;
+    d->animation = nullptr;
 
     d->fadeAnimation = new QPropertyAnimation( d, "highlightedness", d );
     d->fadeAnimation->setDuration( 150 );
@@ -249,7 +249,7 @@ void KCard::animate( QPointF pos, qreal z, qreal rotation, bool faceUp, bool rai
 
 bool KCard::isAnimated() const
 {
-    return d->animation != 0;
+    return d->animation != nullptr;
 }
 
 
@@ -301,7 +301,7 @@ void KCard::stopAnimation()
         return;
 
     delete d->animation;
-    d->animation = 0;
+    d->animation = nullptr;
 
     setZValue( d->destZ );
 

@@ -103,7 +103,7 @@ void Clock::restart( const QList<KCard*> & cards )
             {
                 QPointF initPos = (2 * center + target[(i + 2) % 12]->pos()) / 3;
                 addCardForDeal( target[i], c, true, initPos );
-                c = 0;
+                c = nullptr;
                 break;
             }
         }

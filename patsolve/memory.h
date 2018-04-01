@@ -68,7 +68,7 @@ public:
     TREELIST *cluster_tree(unsigned int cluster);
     inscode insert_node(TREE *n, int d, TREE **tree, TREE **node);
     void give_back_block(unsigned char *p);
-    void init_buckets( int i );
+
     BLOCK *new_block(void);
 
     template<class T>

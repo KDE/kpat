@@ -53,8 +53,6 @@ public:
     }
 };
 
-struct POSITION;
-
 struct POSITION {
         POSITION *queue;      /* next position in the queue */
 	POSITION *parent;     /* point back up the move stack */
@@ -62,7 +60,6 @@ struct POSITION {
 	MOVE move;              /* move that got us here from the parent */
 	quint32 cluster; /* the cluster this node is in */
 	short depth;            /* number of moves so far */
-	quint8 ntemp;           /* number of cards in T */
 	quint8 nchild;          /* number of child nodes left */
 };
 
@@ -83,7 +80,7 @@ public:
     Solver();
     virtual ~Solver();
     ExitStatus patsolve( int max_positions = -1, bool debug = false);
-    bool recursive(POSITION *pos = 0);
+    bool recursive(POSITION *pos = nullptr);
     virtual void translate_layout() = 0;
     bool m_shouldEnd;
     QMutex endMutex;
@@ -99,8 +96,7 @@ protected:
     virtual int get_possible_moves(int *a, int *numout) = 0;
     int translateSuit( int s );
 
-    int wcmp(int a, int b);
-    void queue_position(POSITION *pos, int pri);
+	void queue_position(POSITION *pos, int pri);
     void free_position(POSITION *pos, int);
     POSITION *dequeue_position();
     void hashpile(int w);
@@ -156,7 +152,6 @@ protected:
     POSITION *Qhead[NQUEUES]; /* separate queue for each priority */
     int Maxq;
 
-    bool m_newer_piles_first;
     unsigned long Total_generated, Total_positions;
     qreal depth_sum;
 

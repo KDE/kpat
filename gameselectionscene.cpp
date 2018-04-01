@@ -146,7 +146,7 @@ protected:
         update();
     }
 
-    void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = 0 ) Q_DECL_OVERRIDE
+    void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = nullptr ) Q_DECL_OVERRIDE
     {
         Q_UNUSED( option )
         Q_UNUSED( widget )

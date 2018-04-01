@@ -115,7 +115,7 @@ void PreviewThread::run()
 CardThemeModel::CardThemeModel( KCardThemeWidgetPrivate * d, QObject * parent )
   : QAbstractListModel( parent ),
     d( d ),
-    m_thread( 0 )
+    m_thread( nullptr )
 {
     qRegisterMetaType<KCardTheme>();
 
@@ -190,7 +190,7 @@ void CardThemeModel::deleteThread()
     if ( m_thread && m_thread->isRunning() )
         m_thread->halt();
     delete m_thread;
-    m_thread = 0;
+    m_thread = nullptr;
 }
 
 

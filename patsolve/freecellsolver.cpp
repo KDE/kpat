@@ -450,7 +450,7 @@ MoveHint FreecellSolver::translateMove( const MOVE &m )
 {
     // this is tricky as we need to want to build the "meta moves"
 
-    PatPile *frompile = 0;
+    PatPile *frompile = nullptr;
     if ( m.from < 8 )
         frompile = deal->store[m.from];
     else
@@ -459,8 +459,8 @@ MoveHint FreecellSolver::translateMove( const MOVE &m )
 
     if ( m.totype == O_Type )
     {
-        PatPile *target = 0;
-        PatPile *empty = 0;
+        PatPile *target = nullptr;
+        PatPile *empty = nullptr;
         for (int i = 0; i < 4; ++i) {
             KCard *c = deal->target[i]->topCard();
             if (c) {
@@ -476,7 +476,7 @@ MoveHint FreecellSolver::translateMove( const MOVE &m )
             target = empty;
         return MoveHint( card, target, m.pri );
     } else {
-        PatPile *target = 0;
+        PatPile *target = nullptr;
         if ( m.to < 8 )
             target = deal->store[m.to];
         else

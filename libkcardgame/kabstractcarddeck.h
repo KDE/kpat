@@ -26,7 +26,6 @@ class KCardPile;
 
 #include <QObject>
 class QSize;
-class QPainter;
 
 
 class LIBKCARDGAME_EXPORT KAbstractCardDeck : public QObject
@@ -34,7 +33,7 @@ class LIBKCARDGAME_EXPORT KAbstractCardDeck : public QObject
     Q_OBJECT
 
 public:
-    explicit KAbstractCardDeck( const KCardTheme & theme = KCardTheme(), QObject * parent = 0 );
+    explicit KAbstractCardDeck( const KCardTheme & theme = KCardTheme(), QObject * parent = nullptr );
     virtual ~KAbstractCardDeck();
 
     void setDeckContents( const QList<quint32> & ids );

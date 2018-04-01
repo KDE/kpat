@@ -95,13 +95,13 @@ namespace
 
 
 MainWindow::MainWindow()
-  : KXmlGuiWindow( 0 ),
-    m_view( 0 ),
-    m_dealer( 0 ),
-    m_selector( 0 ),
-    m_cardDeck( 0 ),
-    m_soundEngine( 0 ),
-    m_dealDialog( 0 )
+  : KXmlGuiWindow( nullptr ),
+    m_view( nullptr ),
+    m_dealer( nullptr ),
+    m_selector( nullptr ),
+    m_cardDeck( nullptr ),
+    m_soundEngine( nullptr ),
+    m_dealDialog( nullptr )
 {
     setObjectName( QStringLiteral( "MainWindow" ) );
     // KCrash::setEmergencySaveFunction(::saveGame);
@@ -215,7 +215,7 @@ void MainWindow::setupActions()
     // action, so we must create a new action and copy all the standard
     // properties over one by one.
     m_hintAction = new KToggleAction( actionCollection() );
-    a = KStandardGameAction::hint( 0, 0, 0 );
+    a = KStandardGameAction::hint( nullptr, nullptr, nullptr );
     m_hintAction->setText( a->text() );
     m_hintAction->setIcon( a->icon() );
     actionCollection()->setDefaultShortcut( m_hintAction, a->shortcut() );
@@ -506,8 +506,8 @@ void MainWindow::setGameType(int id)
     {
         m_dealer->recordGameStatistics();
         delete m_dealer;
-        m_view->setScene(0);
-        m_dealer = 0;
+        m_view->setScene(nullptr);
+        m_dealer = nullptr;
     }
 
     if ( !m_cardDeck )
@@ -553,8 +553,8 @@ void MainWindow::slotShowGameSelectionScreen()
         {
             m_dealer->recordGameStatistics();
             delete m_dealer;
-            m_view->setScene(0);
-            m_dealer = 0;
+            m_view->setScene(nullptr);
+            m_dealer = nullptr;
         }
 
         if (!m_selector)
@@ -684,7 +684,7 @@ void MainWindow::updateSoundEngine()
         }
         else if ( m_soundEngine )
         {
-            disconnect( m_dealer, 0, m_soundEngine, 0 );
+            disconnect( m_dealer, nullptr, m_soundEngine, nullptr );
         }
     }
 }

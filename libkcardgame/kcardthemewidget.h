@@ -29,7 +29,7 @@
 class LIBKCARDGAME_EXPORT KCardThemeWidget : public QWidget
 {
 public:
-    explicit KCardThemeWidget( const QSet<QString> & requiredFeatures, const QString & previewString, QWidget * parent = 0 );
+    explicit KCardThemeWidget( const QSet<QString> & requiredFeatures, const QString & previewString, QWidget * parent = nullptr );
     virtual ~KCardThemeWidget();
 
     void setCurrentSelection( const QString & dirName );

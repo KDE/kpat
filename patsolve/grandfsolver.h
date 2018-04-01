@@ -26,7 +26,7 @@ class GrandfSolver : public Solver
 {
 public:
     explicit GrandfSolver(const Grandf *dealer);
-    int good_automove(int o, int r);
+
     int get_possible_moves(int *a, int *numout) Q_DECL_OVERRIDE;
     bool isWon() Q_DECL_OVERRIDE;
     void make_move(MOVE *m) Q_DECL_OVERRIDE;

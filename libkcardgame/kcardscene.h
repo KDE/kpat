@@ -41,7 +41,7 @@
 
 class KCard;
 class KAbstractCardDeck;
-class HighlightableItem;
+
 #include "libkcardgame_export.h"
 class KCardPile;
 
@@ -66,7 +66,7 @@ public:
     };
     Q_DECLARE_FLAGS(SceneAlignment, SceneAlignmentFlag)
 
-    explicit KCardScene( QObject * parent = 0 );
+    explicit KCardScene( QObject * parent = nullptr );
     ~KCardScene();
 
     void setDeck( KAbstractCardDeck * deck );

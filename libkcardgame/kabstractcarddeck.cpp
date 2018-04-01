@@ -37,7 +37,6 @@
 namespace
 {
     const QString cacheNameTemplate( QStringLiteral("libkcardgame-themes/%1") );
-    const QString timeStampKey( QStringLiteral("libkcardgame_timestamp") );
     const QString unscaledSizeKey( QStringLiteral("libkcardgame_unscaledsize") );
     const QString lastUsedSizeKey( QStringLiteral("libkcardgame_lastusedsize") );
 
@@ -100,9 +99,9 @@ KAbstractCardDeckPrivate::KAbstractCardDeckPrivate( KAbstractCardDeck * q )
   : QObject( q ),
     q( q ),
     animationCheckTimer( new QTimer( this ) ),
-    cache( 0 ),
-    svgRenderer( 0 ),
-    thread( 0 )
+    cache( nullptr ),
+    svgRenderer( nullptr ),
+    thread( nullptr )
 
 {
     animationCheckTimer->setSingleShot( true );
@@ -226,7 +225,7 @@ void KAbstractCardDeckPrivate::deleteThread()
     if ( thread && thread->isRunning() )
         thread->halt();
     delete thread;
-    thread = 0;
+    thread = nullptr;
 }
 
 
@@ -449,7 +448,7 @@ void KAbstractCardDeck::setTheme( const KCardTheme & theme )
         {
             QMutexLocker l( &(d->rendererMutex) );
             delete d->svgRenderer;
-            d->svgRenderer = 0;
+            d->svgRenderer = nullptr;
         }
 
         delete d->cache;

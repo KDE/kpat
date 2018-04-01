@@ -64,7 +64,7 @@ public:
                                           const QList<Suit> & suits = standardSuits(),
                                           const QList<Rank> & ranks = standardRanks() );
 
-    explicit KCardDeck( const KCardTheme & theme = KCardTheme(), QObject * parent = 0 );
+    explicit KCardDeck( const KCardTheme & theme = KCardTheme(), QObject * parent = nullptr );
     virtual ~KCardDeck();
 
     int rankFromId( quint32 id ) const Q_DECL_OVERRIDE;

@@ -141,7 +141,7 @@ KCardPile::KCardPile( KCardScene * cardScene )
 KCardPile::~KCardPile()
 {
     foreach ( KCard * c, d->cards )
-        c->setPile( 0 );
+        c->setPile( nullptr );
 
     KCardScene * cardScene = dynamic_cast<KCardScene*>( scene() );
     if ( cardScene )
@@ -197,7 +197,7 @@ int KCardPile::indexOf( const KCard * card ) const
 KCard * KCardPile::at( int index ) const
 {
     if ( index < 0 || index >= d->cards.size() )
-        return 0;
+        return nullptr;
     return d->cards.at( index );
 }
 
@@ -205,7 +205,7 @@ KCard * KCardPile::at( int index ) const
 KCard * KCardPile::topCard() const
 {
     if ( d->cards.isEmpty() )
-        return 0;
+        return nullptr;
 
     return d->cards.last();
 }
@@ -441,7 +441,7 @@ void KCardPile::remove( KCard * card )
 {
     Q_ASSERT( d->cards.contains( card ) );
     d->cards.removeAll( card );
-    card->setPile( 0 );
+    card->setPile( nullptr );
 }
 
 

@@ -82,9 +82,9 @@ namespace
         if ( KCardPile * pile = qobject_cast<KCardPile*>( object ) )
             return pile;
 
-        Q_ASSERT( object == 0 );
+        Q_ASSERT( !object );
 
-        return 0;
+        return nullptr;
     }
 }
 
@@ -148,7 +148,7 @@ KCardPile * KCardScenePrivate::bestDestinationPileUnderCards()
             targets << p;
     }
 
-    KCardPile * bestTarget = 0;
+    KCardPile * bestTarget = nullptr;
     qreal bestArea = 1;
 
     foreach ( KCardPile * p, targets )
@@ -409,7 +409,7 @@ KCardScene::KCardScene( QObject * parent )
   : QGraphicsScene( parent ),
     d( new KCardScenePrivate( this ) )
 {
-    d->deck = 0;
+    d->deck = nullptr;
     d->alignment = AlignHCenter | AlignHSpread;
     d->layoutMargin = 0.15;
     d->layoutSpacing = 0.15;
@@ -1177,12 +1177,12 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
         if ( e->button() == Qt::LeftButton )
         {
             emit pileClicked( pile );
-            emit pile->clicked( 0 );
+            emit pile->clicked( nullptr );
         }
         else if ( e->button() == Qt::RightButton )
         {
             emit pileRightClicked( pile );
-            emit pile->rightClicked( 0 );
+            emit pile->rightClicked( nullptr );
         }
     }
     else
@@ -1216,7 +1216,7 @@ void KCardScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
     {
         e->accept();
         emit pileDoubleClicked( pile );
-        emit pile->doubleClicked( 0 );
+        emit pile->doubleClicked( nullptr );
     }
     else
     {

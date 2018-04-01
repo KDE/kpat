@@ -55,7 +55,7 @@ public:
     bool takenDown;
 
     CardState()
-      : pile( 0 ),
+      : pile( nullptr ),
         index( -1 ),
         faceUp( false ),
         takenDown( false )

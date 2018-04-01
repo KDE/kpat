@@ -102,7 +102,7 @@ QList<KCardTheme> KCardTheme::findAllWithFeatures( const QSet<QString> & neededF
 
 
 KCardTheme::KCardTheme()
-  : d( 0 )
+  : d( nullptr )
 {
 }
 

@@ -21,10 +21,8 @@
 
 #include <KGameRenderer>
 
-class QSize;
 class QString;
 class QColor;
-class QPixmap;
 
 
 class Renderer : public KGameRenderer

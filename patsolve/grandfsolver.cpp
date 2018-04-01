@@ -40,11 +40,10 @@ void GrandfSolver::make_move(MOVE *m)
     //print_layout();
 #endif
 
-    int from, to;
     card_t card = NONE;
 
-    from = m->from;
-    to = m->to;
+    auto from = m->from;
+    auto to = m->to;
 
     if ( from == offs )
     {
@@ -456,15 +455,15 @@ MoveHint GrandfSolver::translateMove( const MOVE &m )
     if ( m.from == offs )
         return MoveHint();
 
-    PatPile *frompile = 0;
+    PatPile *frompile = nullptr;
     frompile = deal->store[m.from % 7];
 
     KCard *card = frompile->at( frompile->count() - m.card_index - 1);
 
     if ( m.totype == O_Type )
     {
-        PatPile *target = 0;
-        PatPile *empty = 0;
+        PatPile *target = nullptr;
+        PatPile *empty = nullptr;
         for (int i = 0; i < 4; ++i) {
             KCard *c = deal->target[i]->topCard();
             if (c) {
@@ -482,7 +481,6 @@ MoveHint GrandfSolver::translateMove( const MOVE &m )
     } else {
         return MoveHint( card, deal->store[m.to % 7], m.pri );
     }
-    return MoveHint();
 }
 
 void GrandfSolver::print_layout()

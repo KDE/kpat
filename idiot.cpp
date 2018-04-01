@@ -171,7 +171,7 @@ bool Idiot::tryAutomaticMove( KCard * card )
          && card->pile() != talon
          && card->pile() != m_away )
     {
-        KCardPile * destination = 0;
+        KCardPile * destination = nullptr;
         if ( canMoveAway( card ) )
             destination = m_away;
         else if ( m_play[0]->isEmpty() )

@@ -107,7 +107,7 @@ namespace
         }
     }
 
-    int readIntAttribute( const QXmlStreamReader & xml, const QString & key, bool * ok = 0 )
+    int readIntAttribute( const QXmlStreamReader & xml, const QString & key, bool * ok = nullptr )
     {
         QStringRef value = xml.attributes().value( key );
         return QString::fromRawData( value.data(), value.length() ).toInt( ok );
@@ -539,9 +539,9 @@ bool DealerScene::loadFile( QIODevice * io )
 
 DealerScene::DealerScene( const DealerInfo * di )
   : m_di( di ),
-    m_solver( 0 ),
-    m_solverThread( 0 ),
-    m_peekedCard( 0 ),
+    m_solver( nullptr ),
+    m_solverThread( nullptr ),
+    m_peekedCard( nullptr ),
     m_dealNumber( 0 ),
     m_loadedMoveCount( 0 ),
     m_neededFutureMoves( 1 ),
@@ -567,7 +567,7 @@ DealerScene::DealerScene( const DealerInfo * di )
     m_dropQueued( false ),
     m_newCardsQueued( false ),
     m_takeStateQueued( false ),
-    m_currentState( 0 )
+    m_currentState( nullptr )
 {
     setItemIndexMethod(QGraphicsScene::NoIndex);
 
@@ -601,9 +601,9 @@ DealerScene::~DealerScene()
     if ( m_solverThread )
         m_solverThread->abort();
     delete m_solverThread;
-    m_solverThread = 0;
+    m_solverThread = nullptr;
     delete m_solver;
-    m_solver = 0;
+    m_solver = nullptr;
     qDeleteAll( m_undoStack );
     delete m_currentState;
     qDeleteAll( m_redoStack );
@@ -874,7 +874,7 @@ void DealerScene::resetInternals()
     qDeleteAll( m_undoStack );
     m_undoStack.clear();
     delete m_currentState;
-    m_currentState = 0;
+    m_currentState = nullptr;
     qDeleteAll( m_redoStack );
     m_redoStack.clear();
     m_lastKnownCardStates.clear();
@@ -1089,7 +1089,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
     {
         e->accept();
         updatePileLayout( m_peekedCard->pile(), DURATION_FANCYSHOW );
-        m_peekedCard = 0;
+        m_peekedCard = nullptr;
     }
     else
     {
@@ -1712,7 +1712,7 @@ void DealerScene::setSolver( Solver *s) {
     delete m_solver;
     delete m_solverThread;
     m_solver = s;
-    m_solverThread = 0;
+    m_solverThread = nullptr;
 }
 
 bool DealerScene::isGameWon() const
@@ -1892,7 +1892,7 @@ QImage DealerScene::createDump() const
         {
             p.save();
             p.setTransform( item->deviceTransform( p.worldTransform() ), false );
-            item->paint( &p, 0 );
+            item->paint( &p, nullptr );
             p.restore();
         }
     }
@@ -1955,7 +1955,7 @@ bool DealerScene::allowedToStartNewGame()
            || m_dealWasJustSaved
            || m_toldAboutWonGame
            || m_toldAboutLostGame
-           || KMessageBox::warningContinueCancel(0,
+           || KMessageBox::warningContinueCancel(nullptr,
                      i18n("A new game has been requested, but there is already a game in progress.\n\n"
                           "A loss will be recorded in the statistics if the current game is abandoned."),
                      i18n("Abandon Current Game?"),

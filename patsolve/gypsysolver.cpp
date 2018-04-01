@@ -538,8 +538,8 @@ MoveHint GypsySolver::translateMove( const MOVE &m )
 
     if ( m.totype == O_Type )
     {
-        PatPile *target = 0;
-        PatPile *empty = 0;
+        PatPile *target = nullptr;
+        PatPile *empty = nullptr;
         for (int i = 0; i < 8; ++i) {
             KCard *c = deal->target[i]->topCard();
             if (c) {

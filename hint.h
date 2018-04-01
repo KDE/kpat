@@ -47,8 +47,8 @@ class MoveHint
 {
 public:
     MoveHint()
-      : m_card( 0 ),
-        m_to( 0 ),
+      : m_card( nullptr ),
+        m_to( nullptr ),
         m_priority( 0 )
     {
     }

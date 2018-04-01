@@ -242,7 +242,7 @@ MoveHint IdiotSolver::translateMove( const MOVE &m )
     KCard *card = frompile->at( frompile->count() - m.card_index - 1);
     Q_ASSERT( card );
 
-    PatPile *target = 0;
+    PatPile *target = nullptr;
     if ( m.to == 5 )
         target = deal->m_away;
     else

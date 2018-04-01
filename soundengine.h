@@ -26,7 +26,7 @@ class SoundEngine : public QObject
     Q_OBJECT
 
 public:
-    explicit SoundEngine( QObject * parent = 0 );
+    explicit SoundEngine( QObject * parent = nullptr );
     virtual ~SoundEngine();
 
 public slots:

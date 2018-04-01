@@ -77,13 +77,13 @@ static DealerScene *getDealer( int wanted_game )
             if ( !d->solver() )
             {
                 qCritical() << "There is no solver for" << di->nameForId( wanted_game );;
-                return 0;
+                return nullptr;
             }
 
             return d;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 // A function to remove all nonalphanumeric characters from a string

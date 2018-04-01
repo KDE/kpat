@@ -95,7 +95,7 @@ bool Solver::recursive(POSITION *parent)
 {
     int i, alln, a, numout = 0;
 
-    if ( parent == NULL ) {
+    if ( parent == nullptr ) {
         init();
         recu_pos.clear();
         delete Stack;
@@ -135,7 +135,7 @@ bool Solver::recursive(POSITION *parent)
         return false;
 
     MOVE *mp0 = new_array(MOVE, alln+1);
-    if (mp0 == NULL) {
+    if (mp0 == nullptr) {
         return false;
     }
     MOVE *mp = mp0;
@@ -152,7 +152,7 @@ bool Solver::recursive(POSITION *parent)
     for (mp = mp0; mp->card_index != -1; ++mp) {
 
         int depth = 0;
-        if (parent != NULL)
+        if (parent != nullptr)
             depth = parent->depth + 1;
 
         make_move(mp);
@@ -164,7 +164,7 @@ bool Solver::recursive(POSITION *parent)
 
         Total_generated++;
         POSITION *pos = &Stack[depth];
-        pos->queue = NULL;
+        pos->queue = nullptr;
         pos->parent = parent;
         pos->node = pack_position();
         quint8 *key = (quint8 *)pos->node + sizeof(TREE);
@@ -183,7 +183,7 @@ bool Solver::recursive(POSITION *parent)
             quint8 *tkey = (quint8 *)Stack[i].node + sizeof(TREE);
             if ( !memcmp( key, tkey, mm->Pilebytes ) )
             {
-                key = 0;
+                key = nullptr;
                 break;
             }
         }
@@ -214,10 +214,10 @@ bool Solver::recursive(POSITION *parent)
 
     MemoryManager::free_array(mp0, alln);
 
-    if ( parent == NULL ) {
+    if ( parent == nullptr ) {
         printf( "Total %ld\n", Total_generated );
         delete [] Stack;
-        Stack = 0;
+        Stack = nullptr;
     }
     return fit;
 }
@@ -254,7 +254,7 @@ MOVE *Solver::get_moves(int *nmoves)
 	if (n == 0) {
             /* No more moves - won or lost */
             //print_layout();
-            return NULL;
+            return nullptr;
 	}
 
 	/* Prioritize these moves.  Automoves don't get queued, so they
@@ -271,8 +271,8 @@ MOVE *Solver::get_moves(int *nmoves)
 	moves. */
 
 	mp = mp0 = new_array(MOVE, n);
-	if (mp == NULL) {
-		return NULL;
+	if (mp == nullptr) {
+		return nullptr;
 	}
 	*nmoves = n;
 	i = 0;
@@ -305,17 +305,6 @@ MOVE *Solver::get_moves(int *nmoves)
 it, along with the pointer to its parent and the move we used to get here. */
 
 int Posbytes;
-
-/* Comparison function for sorting the W piles. */
-
-int Solver::wcmp(int a, int b)
-{
-	if (m_newer_piles_first) {
-		return Wpilenum[b] - Wpilenum[a];       /* newer piles first */
-	} else {
-		return Wpilenum[a] - Wpilenum[b];       /* older piles first */
-	}
-}
 
 void Solver::pilesort(void)
 {
@@ -370,9 +359,9 @@ TREE *Solver::pack_position(void)
 	will get filled in later, by insert_node(). */
 
 	p = mm->new_from_block(Treebytes);
-	if (p == NULL) {
+	if (p == nullptr) {
                 Status = UnableToDetermineSolvability;
-		return NULL;
+		return nullptr;
 	}
 	node = (TREE *)p;
 	p += sizeof(TREE);
@@ -391,7 +380,7 @@ TREE *Solver::pack_position(void)
                 if ( j < 0 )
                 {
                     mm->give_back_block( p );
-                    return NULL;
+                    return nullptr;
                 }
                 *p2++ = j;
 	}
@@ -419,7 +408,6 @@ array following the POSITION struct. */
 void Solver::unpack_position(POSITION *pos)
 {
 	int i, w;
-	quint8 c;
 	BUCKETLIST *l;
 
         unpack_cluster(pos->cluster);
@@ -432,7 +420,7 @@ void Solver::unpack_position(POSITION *pos)
 		       j             j
 	*/
 
-	w = i = c = 0;
+	w = i = 0;
 	quint16 *p2 = ( quint16* )( (quint8 *)(pos->node) + sizeof(TREE) );
 	while (w < m_number_piles) {
                 i = *p2++;
@@ -481,7 +469,7 @@ void Solver::win(POSITION *pos)
     //printf("Winning in %d moves.\n", nmoves);
 
     mpp0 = new_array(MOVE *, nmoves);
-    if (mpp0 == NULL) {
+    if (mpp0 == nullptr) {
         Status = UnableToDetermineSolvability;
         return; /* how sad, so close... */
     }
@@ -551,7 +539,7 @@ int Solver::get_pilenum(int w)
 
 	/* Look for the pile in this bucket. */
 
-	last = NULL;
+	last = nullptr;
 	for (l = Bucketlist[bucket]; l; l = l->next) {
 		if (l->hash == Whash[w] &&
 		    strncmp((char*)l->pile, (char*)W[w], Wlen[w]) == 0) {
@@ -562,20 +550,20 @@ int Solver::get_pilenum(int w)
 
 	/* If we didn't find it, make a new one and add it to the list. */
 
-	if (l == NULL) {
+	if (l == nullptr) {
 		if (Pilenum >= NPILES ) {
                         Status = UnableToDetermineSolvability;
 			//qDebug() << "out of piles";
 			return -1;
 		}
 		l = mm_allocate(BUCKETLIST);
-		if (l == NULL) {
+		if (l == nullptr) {
                         Status = UnableToDetermineSolvability;
 			//qDebug() << "out of buckets";
 			return -1;
 		}
 		l->pile = new_array(quint8, Wlen[w] + 1);
-		if (l->pile == NULL) {
+		if (l->pile == nullptr) {
                     Status = UnableToDetermineSolvability;
                     MemoryManager::free_ptr(l);
 		    //qDebug() << "out of memory";
@@ -588,8 +576,8 @@ int Solver::get_pilenum(int w)
 		strncpy((char*)l->pile, (char*)W[w], Wlen[w] + 1);
 		l->hash = Whash[w];
 		l->pilenum = pilenum = Pilenum++;
-		l->next = NULL;
-		if (last == NULL) {
+		l->next = nullptr;
+		if (last == nullptr) {
 			Bucketlist[bucket] = l;
 		} else {
 			last->next = l;
@@ -642,7 +630,7 @@ void Solver::doit()
 	/* Init the queues. */
 
 	for (i = 0; i < NQUEUES; ++i) {
-		Qhead[i] = NULL;
+		Qhead[i] = nullptr;
 	}
 	Maxq = 0;
 
@@ -652,8 +640,8 @@ void Solver::doit()
 	pilesort();
 	m.card_index = -1;
         m.turn_index = -1;
-	pos = new_position(NULL, &m);
-	if ( pos == NULL )
+	pos = new_position(nullptr, &m);
+	if ( pos == nullptr )
         {
             Status = UnableToDetermineSolvability;
             return;
@@ -662,7 +650,7 @@ void Solver::doit()
 
 	/* Solve it. */
 
-        while ((pos = dequeue_position()) != NULL) {
+        while ((pos = dequeue_position()) != nullptr) {
 		q = solve(pos);
 		if (!q) {
                     free_position(pos, true);
@@ -709,7 +697,7 @@ bool Solver::solve(POSITION *parent)
 
 	/* Generate an array of all the moves we can make. */
 
-	if ((mp0 = get_moves(&nmoves)) == NULL) {
+	if ((mp0 = get_moves(&nmoves)) == nullptr) {
             if ( isWon() ) {
                 Status = SolutionExists;
                 win( parent );
@@ -738,7 +726,7 @@ bool Solver::solve(POSITION *parent)
 
 		/* See if this is a new position. */
 
-		if ((pos = new_position(parent, mp)) == NULL) {
+		if ((pos = new_position(parent, mp)) == nullptr) {
 			undo_move(mp);
 			parent->nchild--;
 			continue;
@@ -790,7 +778,7 @@ void Solver::free_position(POSITION *pos, int rec)
             pos->queue = Freepos;
             Freepos = pos;
             pos = pos->parent;
-            if (pos == NULL) {
+            if (pos == nullptr) {
                 return;
             }
             pos->nchild--;
@@ -827,8 +815,8 @@ void Solver::queue_position(POSITION *pos, int pri)
 	at the head or tail of the queue, depending on whether we're
 	pretending it's a stack or a queue. */
 
-	pos->queue = NULL;
-	if (Qhead[pri] == NULL) {
+	pos->queue = nullptr;
+	if (Qhead[pri] == nullptr) {
 		Qhead[pri] = pos;
 	} else {
             pos->queue = Qhead[pri];
@@ -857,7 +845,7 @@ POSITION *Solver::dequeue_position()
 		qpos--;
 		if (qpos < minpos) {
 			if (last) {
-				return NULL;
+				return nullptr;
 			}
 			qpos = Maxq;
 			minpos--;
@@ -868,14 +856,14 @@ POSITION *Solver::dequeue_position()
 				last = true;
 			}
 		}
-	} while (Qhead[qpos] == NULL);
+	} while (Qhead[qpos] == nullptr);
 
 	pos = Qhead[qpos];
 	Qhead[qpos] = pos->queue;
 
 	/* Decrease Maxq if that queue emptied. */
 
-	while (Qhead[qpos] == NULL && qpos == Maxq && Maxq > 0) {
+	while (Qhead[qpos] == nullptr && qpos == Maxq && Maxq > 0) {
 		Maxq--;
 		qpos--;
 		if (qpos < minpos) {
@@ -893,17 +881,16 @@ POSITION *Solver::dequeue_position()
 Solver::Solver()
 {
     mm = new MemoryManager();
-    Freepos = NULL;
-    m_newer_piles_first = true;
+    Freepos = nullptr;
     /* Work arrays. */
-    W = 0;
-    Wp = 0;
+    W = nullptr;
+    Wp = nullptr;
 
-    Wlen = 0;
+    Wlen = nullptr;
 
-    Whash = 0;
-    Wpilenum = 0;
-    Stack = 0;
+    Whash = nullptr;
+    Wpilenum = nullptr;
+    Stack = nullptr;
 }
 
 Solver::~Solver()
@@ -944,7 +931,7 @@ void Solver::free()
     free_buckets();
     mm->free_clusters();
     mm->free_blocks();
-    Freepos = NULL;
+    Freepos = nullptr;
 }
 
 
@@ -1036,14 +1023,14 @@ MemoryManager::inscode Solver::insert(unsigned int *cluster, int d, TREE **node)
         /* Get the tree for this cluster. */
 
 	TREELIST *tl = mm->cluster_tree(k);
-	if (tl == NULL) {
+	if (tl == nullptr) {
 		return MemoryManager::ERR;
 	}
 
 	/* Create a compact position representation. */
 
 	TREE *newtree = pack_position();
-	if (newtree == NULL) {
+	if (newtree == nullptr) {
 		return MemoryManager::ERR;
 	}
         Total_generated++;
@@ -1068,7 +1055,7 @@ POSITION *Solver::new_position(POSITION *parent, MOVE *m)
 	/* Search the list of stored positions.  If this position is found,
 	then ignore it and return (unless this position is better). */
 
-	if (parent == NULL) {
+	if (parent == nullptr) {
 		depth = 0;
 	} else {
 		depth = parent->depth + 1;
@@ -1078,7 +1065,7 @@ POSITION *Solver::new_position(POSITION *parent, MOVE *m)
                 Total_positions++;
                 depth_sum += depth;
         } else
-            return NULL;
+            return nullptr;
 
 
 	/* A new or better position.  insert() already stashed it in the
@@ -1090,14 +1077,14 @@ POSITION *Solver::new_position(POSITION *parent, MOVE *m)
 		Freepos = Freepos->queue;
 	} else {
 		p = mm->new_from_block(Posbytes);
-		if (p == NULL) {
+		if (p == nullptr) {
                         Status = UnableToDetermineSolvability;
-			return NULL;
+			return nullptr;
 		}
 	}
 
 	pos = (POSITION *)p;
-	pos->queue = NULL;
+	pos->queue = nullptr;
 	pos->parent = parent;
 	pos->node = node;
 	pos->move = *m;                 /* struct copy */

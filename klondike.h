@@ -74,7 +74,6 @@ private:
     void setEasy( bool easy );
 
     bool easyRules;
-    bool redealt;
 
     KSelectAction *options;
 
@@ -83,7 +82,6 @@ private:
     PatPile* target[4];
 
     KlondikePile *pile;
-    KCardDeck::Rank target_tops[4];
 
     friend class KlondikeSolver;
 };

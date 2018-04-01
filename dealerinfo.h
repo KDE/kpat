@@ -40,7 +40,6 @@
 
 class DealerInfoList;
 class DealerScene;
-class Solver;
 
 #include <QByteArray>
 #include <QList>

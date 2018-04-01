@@ -385,14 +385,13 @@ int SpiderSolver::get_possible_moves(int *a, int *numout)
                         else {
                             if ( conti[j]+l+1 != 13 || conti[i]>conti[j]+l )
                             {
-                                card_t card_below;
+                                card_t card_below {};
                                 bool exists_card_below = Wlen[i] >= l + 2;
                                 if (exists_card_below) {
                                     card_below = W[i][Wlen[i]-l-2];
                                 }
-                                if ( !exists_card_below || ( exists_card_below &&
-                                                             (  SUIT( card_below ) != SUIT( card ) ||
-                                                                RANK(card_below) != RANK(card) + 1 )
+                                if ( !exists_card_below || ((SUIT(card_below ) != SUIT(card ) ||
+                                                             RANK(card_below) != RANK(card) + 1)
                                                             )
                                     )
                                 {
@@ -611,7 +610,6 @@ MoveHint SpiderSolver::translateMove( const MOVE &m )
     if ( m.totype == O_Type )
     {
         return MoveHint(); // the move to the legs is fully automated
-        return MoveHint( frompile->topCard(), deal->legs[0], m.pri ); // for now
     }
 
     Q_ASSERT( m.from < 10 && m.to < 10 );

@@ -115,8 +115,6 @@ void ClockSolver::undo_move(MOVE *m)
 
 int ClockSolver::get_possible_moves(int *a, int *numout)
 {
-    int w, o;
-    card_t card;
     MOVE *mp;
 
     /* Check for moves from W to O. */
@@ -126,14 +124,14 @@ int ClockSolver::get_possible_moves(int *a, int *numout)
     int left_in_play = 0;
     int n = 0;
     mp = Possible;
-    for (w = 0; w < 8; ++w)
+    for (int w = 0; w < 8; ++w)
     {
         left_in_play += Wlen[w];
 
         if (Wlen[w] > 0)
         {
-            card = *Wp[w];
-            o = SUIT(card);
+            card_t card = *Wp[w];
+            auto o = SUIT(card);
             for ( int i = 0; i < 12; ++i )
             {
                 if ( o != SUIT( W[8][i] ) )
@@ -155,8 +153,6 @@ int ClockSolver::get_possible_moves(int *a, int *numout)
                 mp->turn_index = -1;
                 n++;
                 mp++;
-                //*a = true;
-                //return n;
             }
         } else if ( first_empty < 0 )
             first_empty = w;
@@ -184,14 +180,14 @@ int ClockSolver::get_possible_moves(int *a, int *numout)
             if ( Wlen[j] == 0 )
             {
                 if ( Wlen[i] > 1 && first_empty == j )
-                    allowed = 1;
+                    allowed = true;
             } else
             {
                 card_t below = *Wp[j];
 
                 if ( RANK(card) == RANK( below ) - 1 )
                 {
-                    allowed = 1;
+                    allowed = true;
                 }
             }
 

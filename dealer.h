@@ -38,7 +38,6 @@
 #ifndef DEALER_H
 #define DEALER_H
 
-class CardDiff;
 class DealerInfo;
 #include "gamestate.h"
 class MessageBox;
@@ -57,7 +56,6 @@ class QAction;
 #include <QMap>
 #include <QStack>
 #include <QTimer>
-class QDomDocument;
 
 
 class DealerScene : public KCardScene

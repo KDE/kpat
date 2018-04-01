@@ -46,9 +46,6 @@
 #include <KLocalizedString>
 
 
-const int CHUNKSIZE = 100;
-
-
 Freecell::Freecell( const DealerInfo * di )
   : DealerScene( di )
 {

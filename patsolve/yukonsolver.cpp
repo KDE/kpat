@@ -392,15 +392,15 @@ unsigned int YukonSolver::getClusterNumber()
 
 MoveHint YukonSolver::translateMove( const MOVE &m )
 {
-    PatPile *frompile = 0;
+    PatPile *frompile = nullptr;
     frompile = deal->store[m.from];
 
     KCard *card = frompile->at( frompile->count() - m.card_index - 1);
 
     if ( m.totype == O_Type )
     {
-        PatPile *target = 0;
-        PatPile *empty = 0;
+        PatPile *target = nullptr;
+        PatPile *empty = nullptr;
         for (int i = 0; i < 4; ++i) {
             KCard *c = deal->target[i]->topCard();
             if (c) {

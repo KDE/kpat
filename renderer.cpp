@@ -23,12 +23,12 @@
 #include <KgThemeProvider>
 
 
-Renderer * Renderer::s_instance = 0;
+Renderer * Renderer::s_instance = nullptr;
 
 
 Renderer * Renderer::self()
 {
-    if ( s_instance == 0 )
+    if ( s_instance == nullptr )
         s_instance = new Renderer();
     return s_instance;
 }
@@ -37,7 +37,7 @@ Renderer * Renderer::self()
 void Renderer::deleteSelf()
 {
     delete s_instance;
-    s_instance = 0;
+    s_instance = nullptr;
 }
 
 

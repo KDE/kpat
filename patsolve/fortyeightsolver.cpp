@@ -626,7 +626,7 @@ MoveHint FortyeightSolver::translateMove( const MOVE &m )
 {
     if ( m.from == NUM_DECK || m.to == NUM_DECK )
         return MoveHint();
-    PatPile *frompile = 0;
+    PatPile *frompile = nullptr;
     if ( m.from < 8 )
         frompile = deal->stack[m.from];
     else

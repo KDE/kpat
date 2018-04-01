@@ -138,7 +138,6 @@ void Klondike::initialize()
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);
     setSolver( new KlondikeSolver( this, pile->cardsToShow() ) );
-    redealt = false;
 
     options = new KSelectAction(i18n("Klondike &Options"), this );
     options->addAction( i18n("Draw 1" ));
@@ -203,7 +202,6 @@ bool Klondike::newCards()
         // Move the cards from the pile back to the deck
         flipCardsToPile( pile->cards(), talon, DURATION_MOVE );
 
-        redealt = true;
     }
     else
     {
@@ -224,7 +222,6 @@ bool Klondike::newCards()
 
 void Klondike::restart( const QList<KCard*> & cards )
 {
-    redealt = false;
 
     QList<KCard*> cardList = cards;
 

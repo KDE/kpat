@@ -42,27 +42,27 @@ MemoryManager::inscode MemoryManager::insert_node(TREE *n, int d, TREE **tree, T
 
 	key = (quint8 *)n + sizeof(TREE);
 	n->depth = d;
-	n->left = n->right = NULL;
+	n->left = n->right = nullptr;
 	*node = n;
 	t = *tree;
-	if (t == NULL) {
+	if (t == nullptr) {
 		*tree = n;
 		return NEW;
 	}
-	while (1) {
+	while (true) {
 		tkey = (quint8 *)t + sizeof(TREE);
 		c = memcmp(key, tkey, Pilebytes);
 		if (c == 0) {
 			break;
 		}
 		if (c < 0) {
-			if (t->left == NULL) {
+			if (t->left == nullptr) {
 				t->left = n;
 				return NEW;
 			}
 			t = t->left;
 		} else {
-			if (t->right == NULL) {
+			if (t->right == nullptr) {
 				t->right = n;
 				return NEW;
 			}
@@ -104,7 +104,7 @@ TREELIST *MemoryManager::cluster_tree(unsigned int cluster)
 
 	/* Find the tree in this bucket with that cluster number. */
 
-	last = NULL;
+	last = nullptr;
 	for (tl = Treelist[bucket]; tl; tl = tl->next) {
 		if (tl->cluster == cluster) {
 			break;
@@ -114,15 +114,15 @@ TREELIST *MemoryManager::cluster_tree(unsigned int cluster)
 
 	/* If we didn't find it, make a new one and add it to the list. */
 
-	if (tl == NULL) {
+	if (tl == nullptr) {
 		tl = mm_allocate(TREELIST);
-		if (tl == NULL) {
-			return NULL;
+		if (tl == nullptr) {
+			return nullptr;
 		}
-		tl->tree = NULL;
+		tl->tree = nullptr;
 		tl->cluster = cluster;
-		tl->next = NULL;
-		if (last == NULL) {
+		tl->next = nullptr;
+		if (last == nullptr) {
 			Treelist[bucket] = tl;
 		} else {
 			last->next = tl;
@@ -139,17 +139,17 @@ BLOCK *MemoryManager::new_block(void)
 	BLOCK *b;
 
 	b = mm_allocate(BLOCK);
-	if (b == NULL) {
-		return NULL;
+	if (b == nullptr) {
+		return nullptr;
 	}
 	b->block = new_array(quint8, BLOCKSIZE);
-	if (b->block == NULL) {
+	if (b->block == nullptr) {
                 MemoryManager::free_ptr(b);
-		return NULL;
+		return nullptr;
 	}
 	b->ptr = b->block;
 	b->remain = BLOCKSIZE;
-	b->next = NULL;
+	b->next = nullptr;
 
 	return b;
 }
@@ -164,8 +164,8 @@ quint8 *MemoryManager::new_from_block(size_t s)
 	b = Block;
 	if (s > b->remain) {
 		b = new_block();
-		if (b == NULL) {
-			return NULL;
+		if (b == nullptr) {
+			return nullptr;
 		}
 		b->next = Block;
 		Block = b;
@@ -228,14 +228,14 @@ void *MemoryManager::allocate_memory(size_t s)
 	void *x;
 
 	if (s > Mem_remain) {
-		return NULL;
+		return nullptr;
 	}
 
-	if ((x = (void *)malloc(s)) == NULL) {
-		return NULL;
+	// use calloc to ensure that the memory is zeroed
+	if ((x = calloc(1, s)) == nullptr) {
+		return nullptr;
 	}
 
-        memset( x, 0, s );
 	Mem_remain -= s;
 	return x;
 }
