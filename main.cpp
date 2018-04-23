@@ -38,7 +38,7 @@
 #include "dealerinfo.h"
 #include "mainwindow.h"
 #include "version.h"
-#include "patsolve/patsolve.h"
+#include "patsolve/solverinterface.h"
 
 #include "KCardTheme"
 #include "KCardDeck"
@@ -214,9 +214,9 @@ int main( int argc, char **argv )
         f->loadLegacyFile( &of );
         f->solver()->translate_layout();
         int ret = f->solver()->patsolve();
-        if ( ret == Solver::SolutionExists )
+        if ( ret == SolverInterface::SolutionExists )
             fprintf( stdout, "won\n");
-        else if ( ret == Solver::NoSolutionExists )
+        else if ( ret == SolverInterface::NoSolutionExists )
             fprintf( stdout, "lost\n" );
         else
             fprintf( stdout, "unknown\n");
@@ -240,14 +240,14 @@ int main( int argc, char **argv )
                 mytime.start();
                 f->solver()->translate_layout();
                 int ret = f->solver()->patsolve();
-                if ( ret == Solver::SolutionExists ) {
+                if ( ret == SolverInterface::SolutionExists ) {
                    fprintf( stdout, "%d: %d won (%d ms)\n", dealer, i, mytime.elapsed() );
                    count--;
                    QFile file(QStringLiteral("%1/%2-%3-1").arg(testdir).arg(dealer).arg(i));
                    file.open( QFile::WriteOnly );
                    f->saveLegacyFile( &file );
                 }
-                else if ( ret == Solver::NoSolutionExists ) {
+                else if ( ret == SolverInterface::NoSolutionExists ) {
                    fprintf( stdout, "%d: %d lost (%d ms)\n", dealer, i, mytime.elapsed()  );
                    count--;
                    QFile file(QStringLiteral("%1/%2-%3-0").arg(testdir).arg(dealer).arg(i));
@@ -297,9 +297,9 @@ int main( int argc, char **argv )
             f->startNew( i );
             f->solver()->translate_layout();
             int ret = f->solver()->patsolve();
-            if ( ret == Solver::SolutionExists )
+            if ( ret == SolverInterface::SolutionExists )
                 fprintf( stdout, "%d won (%d ms)\n", i, mytime.elapsed() );
-            else if ( ret == Solver::NoSolutionExists )
+            else if ( ret == SolverInterface::NoSolutionExists )
                 fprintf( stdout, "%d lost (%d ms)\n", i, mytime.elapsed()  );
             else
                 fprintf( stdout, "%d unknown (%d ms)\n", i, mytime.elapsed() );

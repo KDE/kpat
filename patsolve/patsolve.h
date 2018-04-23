@@ -4,7 +4,7 @@
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of 
+ * published by the Free Software Foundation; either version 2 of
  * the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -19,39 +19,19 @@
 #ifndef PATSOLVE_H
 #define PATSOLVE_H
 
+#include "solverinterface.h"
 #include "../hint.h"
 #include "memory.h"
 
 #include "KCardPile"
 
+#include <atomic>
+#include <memory>
+#include <array>
+
 #include <QMap>
-#include <QMutex>
 
 #include <cstdio>
-
-
-/* A card is represented as ( down << 6 ) + (suit << 4) + rank. */
-
-typedef quint8 card_t;
-
-/* Represent a move. */
-
-enum PileType { O_Type = 1, W_Type };
-
-class MOVE {
-public:
-    int card_index;         /* the card we're moving (0 is the top)*/
-    quint8 from;            /* from pile number */
-    quint8 to;              /* to pile number */
-    PileType totype;
-    signed char pri;        /* move priority (low priority == low value) */
-    int turn_index;         /* turn the card index */
-
-    bool operator<( const MOVE &m) const
-    {
-	return pri < m.pri;
-    }
-};
 
 struct POSITION {
         POSITION *queue;      /* next position in the queue */
@@ -65,27 +45,20 @@ struct POSITION {
 
 class MemoryManager;
 
-class Solver
+template<size_t NumberPiles>
+class Solver : public SolverInterface
 {
 public:
-    enum ExitStatus
-    {
-        MemoryLimitReached = -3,
-        SearchAborted = -2,
-        UnableToDetermineSolvability = -1,
-        NoSolutionExists = 0,
-        SolutionExists = 1
-    };
 
     Solver();
     virtual ~Solver();
-    ExitStatus patsolve( int max_positions = -1, bool debug = false);
+    ExitStatus patsolve( int max_positions = -1) final;
     virtual void translate_layout() = 0;
-    bool m_shouldEnd;
-    QMutex endMutex;
     virtual MoveHint translateMove(const MOVE &m ) = 0;
-    QList<MOVE> firstMoves;
-    QList<MOVE> winMoves;
+
+    void stopExecution() final;
+    QList<MOVE> firstMoves() const final;
+    QList<MOVE> winMoves() const final;
 
 protected:
     MOVE *get_moves(int *nmoves);
@@ -119,31 +92,27 @@ protected:
     virtual int getOuts() = 0;
     virtual unsigned int getClusterNumber() { return 0; }
     virtual void unpack_cluster( unsigned int  ) {}
-
-    void setNumberPiles( int i );
-    int m_number_piles;
-
     void init();
     void free();
 
     /* Work arrays. */
 
-    card_t **W; /* the workspace */
-    card_t **Wp;   /* point to the top card of each work pile */
-    int *Wlen;     /* the number of cards in each pile */
+    std::array<card_t*, NumberPiles> W;    /* the workspace */
+    std::array<card_t*, NumberPiles> Wp;   /* point to the top card of each work pile */
+    std::array<int, NumberPiles>  Wlen; /* the number of cards in each pile */
 
     /* Every different pile has a hash and a unique id. */
-    quint32 *Whash;
-    int *Wpilenum;
+    std::array<quint32, NumberPiles> Whash;
+    std::array<int, NumberPiles> Wpilenum = {}; // = {} for zero initialization
 
     /* Position freelist. */
 
-    POSITION *Freepos;
+    POSITION *Freepos = nullptr;
 
     static constexpr auto MAXMOVES = 64;             /* > max # moves from any position */
     MOVE Possible[MAXMOVES];
 
-    MemoryManager *mm;
+    std::unique_ptr<MemoryManager> mm;
     ExitStatus Status;             /* win, lose, or fail */
 
     static constexpr auto NQUEUES = 127;
@@ -154,10 +123,14 @@ protected:
     unsigned long Total_generated, Total_positions;
     qreal depth_sum;
 
-    POSITION *Stack;
+    POSITION *Stack = nullptr;
     QMap<qint32,bool> recu_pos;
     int max_positions;
-    bool debug;
+
+private:
+    QList<MOVE> m_firstMoves;
+    QList<MOVE> m_winMoves;
+    std::atomic_bool m_shouldEnd;
 };
 
 /* Misc. */
@@ -179,7 +152,5 @@ constexpr card_t SUIT(card_t card) {return (card >> 4 ) & 3;}
 
 constexpr card_t COLOR(card_t card) {return card & PS_COLOR;}
 constexpr card_t DOWN(card_t card) {return (card) & ( 1 << 7 );}
-
-extern long all_moves;
 
 #endif // PATSOLVE_H

@@ -22,7 +22,7 @@ class Mod3;
 #include "patsolve.h"
 
 
-class Mod3Solver : public Solver
+class Mod3Solver : public Solver</* 24 targets, 8 playing fields, deck, aces =*/ 34>
 {
 public:
     explicit Mod3Solver(const Mod3 *dealer);

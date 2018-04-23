@@ -36,11 +36,11 @@
  */
 
 #include "dealer.h"
-
 #include "dealerinfo.h"
 #include "messagebox.h"
 #include "renderer.h"
 #include "speeds.h"
+#include "patsolve/solverinterface.h"
 #include "version.h"
 #include "view.h"
 
@@ -54,15 +54,12 @@
 #include <KSharedConfig>
 
 #include <QCoreApplication>
-#include <QMutex>
 #include <QThread>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 #include <QGraphicsSceneMouseEvent>
 
 #include <cmath>
-
-#define DEBUG_HINTS 0
 
 
 namespace
@@ -93,15 +90,15 @@ namespace
     {
         switch ( status )
         {
-        case Solver::SolutionExists:
+        case SolverInterface::SolutionExists:
             return i18n("Solver: This game is winnable.");
-        case Solver::NoSolutionExists:
+        case SolverInterface::NoSolutionExists:
             return everWinnable ? i18n("Solver: This game is no longer winnable.")
                                 : i18n("Solver: This game cannot be won.");
-        case Solver::UnableToDetermineSolvability:
+        case SolverInterface::UnableToDetermineSolvability:
             return i18n("Solver: Unable to determine if this game is winnable.");
-        case Solver::SearchAborted:
-        case Solver::MemoryLimitReached:
+        case SolverInterface::SearchAborted:
+        case SolverInterface::MemoryLimitReached:
         default:
             return QString();
         }
@@ -172,23 +169,20 @@ class SolverThread : public QThread
     Q_OBJECT
 
 public:
-    SolverThread( Solver * solver )
+    SolverThread( SolverInterface * solver )
       : m_solver( solver )
     {
     }
 
     void run() Q_DECL_OVERRIDE
     {
-        Solver::ExitStatus result = m_solver->patsolve();
+        SolverInterface::ExitStatus result = m_solver->patsolve();
         emit finished( result );
     }
 
     void abort()
     {
-        {
-            QMutexLocker lock( &m_solver->endMutex );
-            m_solver->m_shouldEnd = true;
-        }
+        m_solver->stopExecution();
         wait();
     }
 
@@ -196,7 +190,7 @@ signals:
     void finished( int result );
 
 private:
-    Solver * m_solver;
+    SolverInterface * m_solver;
 };
 
 
@@ -710,13 +704,9 @@ QList<MoveHint> DealerScene::getSolverHints()
         m_solverThread->abort();
 
     solver()->translate_layout();
-    bool debug = false;
-#if DEBUG_HINTS
-    debug = true;
-#endif
-    solver()->patsolve( 1, debug );
+    solver()->patsolve( 1 );
 
-    foreach ( const MOVE & m, solver()->firstMoves )
+    foreach ( const MOVE & m, solver()->firstMoves() )
     {
         MoveHint mh = solver()->translateMove( m );
 	hintList << mh;
@@ -794,7 +784,7 @@ MoveHint DealerScene::chooseHint()
         MOVE m = m_winningMoves.takeFirst();
         MoveHint mh = solver()->translateMove( m );
 
-#if DEBUG_HINTS
+#ifndef NDEBUG
         if ( m.totype == O_Type )
             fprintf( stderr, "move from %d out (at %d) Prio: %d\n", m.from,
                      m.turn_index, m.pri );
@@ -1238,8 +1228,8 @@ void DealerScene::undoOrRedo( bool undo )
 
         emit solverStateChanged( solverStatusMessage( solvability, m_dealWasEverWinnable ) );
 
-        if ( m_solver && ( solvability == Solver::SearchAborted
-                           || solvability == Solver::MemoryLimitReached ) )
+        if ( m_solver && ( solvability == SolverInterface::SearchAborted
+                           || solvability == SolverInterface::MemoryLimitReached ) )
         {
             startSolver();
         }
@@ -1505,9 +1495,9 @@ void DealerScene::slotSolverEnded()
 
 void DealerScene::slotSolverFinished( int result )
 {
-    if ( result == Solver::SolutionExists )
+    if ( result == SolverInterface::SolutionExists )
     {
-        m_winningMoves = m_solver->winMoves;
+        m_winningMoves = m_solver->winMoves();
         m_dealWasEverWinnable = true;
     }
 
@@ -1515,11 +1505,11 @@ void DealerScene::slotSolverFinished( int result )
 
     if ( m_currentState )
     {
-        m_currentState->solvability = static_cast<Solver::ExitStatus>( result );
+        m_currentState->solvability = static_cast<SolverInterface::ExitStatus>( result );
         m_currentState->winningMoves = m_winningMoves;
     }
 
-    if ( result == Solver::SearchAborted )
+    if ( result == SolverInterface::SearchAborted )
         startSolver();
 }
 
@@ -1708,7 +1698,7 @@ bool DealerScene::newCards()
 }
 
 
-void DealerScene::setSolver( Solver *s) {
+void DealerScene::setSolver( SolverInterface *s) {
     delete m_solver;
     delete m_solverThread;
     m_solver = s;
@@ -1740,7 +1730,7 @@ bool DealerScene::isGameLost() const
             m_solverThread->abort();
 
         solver()->translate_layout();
-        return solver()->patsolve( neededFutureMoves() ) == Solver::NoSolutionExists;
+        return solver()->patsolve( neededFutureMoves() ) == SolverInterface::NoSolutionExists;
     }
     return false;
 }
@@ -1830,7 +1820,7 @@ QList<QAction*> DealerScene::configActions() const
 }
 
 
-Solver * DealerScene::solver() const
+SolverInterface * DealerScene::solver() const
 {
     return m_solver;
 }

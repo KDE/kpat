@@ -338,7 +338,6 @@ int SimonSolver::getOuts()
 SimonSolver::SimonSolver(const Simon *dealer)
     : Solver()
 {
-    setNumberPiles( 10 );
     deal = dealer;
 }
 

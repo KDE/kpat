@@ -228,7 +228,6 @@ int ClockSolver::getOuts()
 ClockSolver::ClockSolver(const Clock *dealer)
     : Solver()
 {
-    setNumberPiles( 9 );
     deal = dealer;
 }
 

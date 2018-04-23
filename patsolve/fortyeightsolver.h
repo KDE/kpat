@@ -23,7 +23,7 @@ class Fortyeight;
 
 class FortyeightSolverState;
 
-class FortyeightSolver : public Solver
+class FortyeightSolver : public Solver<10>
 {
 public:
     explicit FortyeightSolver(const Fortyeight *dealer);

@@ -201,7 +201,6 @@ int IdiotSolver::getOuts()
 IdiotSolver::IdiotSolver(const Idiot *dealer)
     : Solver()
 {
-    setNumberPiles( 6 );
     deal = dealer;
 }
 

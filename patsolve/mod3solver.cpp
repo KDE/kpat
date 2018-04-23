@@ -350,8 +350,6 @@ int Mod3Solver::getOuts()
 Mod3Solver::Mod3Solver(const Mod3 *dealer)
     : Solver()
 {
-    // 24 targets, 8 playing fields, deck, aces
-    setNumberPiles( 34 );
     deal = dealer;
 }
 

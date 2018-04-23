@@ -22,7 +22,7 @@
 class Spider;
 
 
-class SpiderSolver : public Solver
+class SpiderSolver : public Solver</* 10 play + 5 redeals*/15>
 {
 public:
     explicit SpiderSolver(const Spider *dealer);

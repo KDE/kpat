@@ -22,7 +22,7 @@ class Grandf;
 #include "patsolve.h"
 
 
-class GrandfSolver : public Solver
+class GrandfSolver : public Solver<7*3+1>
 {
 public:
     explicit GrandfSolver(const Grandf *dealer);

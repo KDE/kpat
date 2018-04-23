@@ -22,7 +22,7 @@ class Golf;
 #include "patsolve.h"
 
 
-class GolfSolver : public Solver
+class GolfSolver : public Solver<9>
 {
 public:
     explicit GolfSolver(const Golf *dealer);

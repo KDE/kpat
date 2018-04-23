@@ -402,8 +402,6 @@ FreecellSolver::FreecellSolver(const Freecell *dealer)
     Nwpiles = 8;
     Ntpiles = 4;
 
-    setNumberPiles( Nwpiles + Ntpiles );
-
     deal = dealer;
 }
 

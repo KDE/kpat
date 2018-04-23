@@ -22,7 +22,7 @@
 class Simon;
 
 
-class SimonSolver : public Solver
+class SimonSolver : public Solver<10>
 {
 public:
     explicit SimonSolver(const Simon *dealer);

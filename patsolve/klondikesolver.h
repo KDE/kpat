@@ -22,7 +22,7 @@ class Klondike;
 #include "patsolve.h"
 
 
-class KlondikeSolver : public Solver
+class KlondikeSolver : public Solver<9>
 {
 public:
     KlondikeSolver(const Klondike *dealer, int draw);

@@ -529,8 +529,6 @@ int SpiderSolver::getOuts()
 SpiderSolver::SpiderSolver(const Spider *dealer)
     : Solver()
 {
-    // 10 play + 5 redeals
-    setNumberPiles( 15 );
     deal = dealer;
 }
 

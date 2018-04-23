@@ -22,7 +22,7 @@
 class Yukon;
 
 
-class YukonSolver : public Solver
+class YukonSolver : public Solver<7>
 {
 public:
     explicit YukonSolver(const Yukon *dealer);

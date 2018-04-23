@@ -409,7 +409,6 @@ GrandfSolver::GrandfSolver(const Grandf *dealer)
     Osuit[2] = PS_HEART;
     Osuit[3] = PS_SPADE;
 
-    setNumberPiles( 7 * 3 + 1 );
     offs = 7 * 3;
     deal = dealer;
     m_redeal = -1;

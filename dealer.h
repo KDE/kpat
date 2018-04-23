@@ -43,7 +43,7 @@ class DealerInfo;
 class MessageBox;
 class MoveHint;
 #include "patpile.h"
-class Solver;
+class SolverInterface;
 class SolverThread;
 #include "speeds.h"
 #include "view.h"
@@ -101,7 +101,7 @@ public:
     bool isDemoActive() const;
 
     void setSolverEnabled( bool enabled );
-    Solver * solver() const;
+    SolverInterface * solver() const;
     void startSolver();
 
     virtual bool isGameLost() const;
@@ -164,7 +164,7 @@ protected:
 
     virtual void restart( const QList<KCard*> & cards ) = 0;
 
-    void setSolver( Solver * solver );
+    void setSolver( SolverInterface * solver );
 
     virtual QList<MoveHint> getHints();
 
@@ -227,7 +227,7 @@ private:
 
     const DealerInfo * const m_di;
 
-    Solver * m_solver;
+    SolverInterface * m_solver;
     SolverThread * m_solverThread;
     QList<MOVE> m_winningMoves;
 

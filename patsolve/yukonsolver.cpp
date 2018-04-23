@@ -346,7 +346,6 @@ YukonSolver::YukonSolver(const Yukon *dealer)
     Osuit[2] = PS_HEART;
     Osuit[3] = PS_SPADE;
 
-    setNumberPiles( 7 );
     deal = dealer;
 }
 

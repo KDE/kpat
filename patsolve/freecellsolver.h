@@ -22,8 +22,10 @@
 class Freecell;
 #include "patsolve.h"
 
+constexpr auto Nwpiles = 8;
+constexpr auto Ntpiles = 4;
 
-class FreecellSolver : public Solver
+class FreecellSolver : public Solver<Nwpiles + Ntpiles>
 {
 public:
     explicit FreecellSolver(const Freecell *dealer);

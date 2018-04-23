@@ -550,7 +550,6 @@ int FortyeightSolver::getOuts()
 FortyeightSolver::FortyeightSolver(const Fortyeight *dealer)
     : Solver()
 {
-    setNumberPiles( 10 );
     deal = dealer;
 }
 

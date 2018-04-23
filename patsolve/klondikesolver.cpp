@@ -482,7 +482,6 @@ KlondikeSolver::KlondikeSolver(const Klondike *dealer, int draw)
     Osuit[2] = PS_HEART;
     Osuit[3] = PS_SPADE;
 
-    setNumberPiles( 9 );
     deal = dealer;
 }
 

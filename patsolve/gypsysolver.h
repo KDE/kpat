@@ -22,7 +22,7 @@ class Gypsy;
 #include "patsolve.h"
 
 
-class GypsySolver : public Solver
+class GypsySolver : public Solver<8 + 1 + 8>
 {
 public:
     explicit GypsySolver(const Gypsy *dealer);

@@ -443,7 +443,6 @@ int GypsySolver::getOuts()
 GypsySolver::GypsySolver(const Gypsy *dealer)
     : Solver()
 {
-    setNumberPiles( 8 + 1 + 8 );
     deal = dealer;
 
     char buffer[10];

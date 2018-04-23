@@ -22,7 +22,7 @@ class Clock;
 #include "patsolve.h"
 
 
-class ClockSolver : public Solver
+class ClockSolver : public Solver<9>
 {
 public:
     explicit ClockSolver(const Clock *dealer);

@@ -4,7 +4,7 @@
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of 
+ * published by the Free Software Foundation; either version 2 of
  * the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -66,7 +66,8 @@ quint32 fnv_hash_str(const quint8 *s)
 
 /* Hash a pile. */
 
-void Solver::hashpile(int w)
+template<size_t NumberPiles>
+void Solver<NumberPiles>::hashpile(int w)
 {
    	W[w][Wlen[w]] = 0;
 	Whash[w] = fnv_hash_str(W[w]);
@@ -78,7 +79,8 @@ void Solver::hashpile(int w)
 
 /* Generate an array of the moves we can make from this position. */
 
-MOVE *Solver::get_moves(int *nmoves)
+template<size_t NumberPiles>
+MOVE *Solver<NumberPiles>::get_moves(int *nmoves)
 {
 	int i, n, alln, a = 0, numout = 0;
 	MOVE *mp, *mp0;
@@ -86,8 +88,8 @@ MOVE *Solver::get_moves(int *nmoves)
 	/* Fill in the Possible array. */
 
         alln = n = get_possible_moves(&a, &numout);
-	if (debug)  
-	  {
+#ifndef NDEBUG
+        {
 	    print_layout();
 	    fprintf( stderr, "moves %d\n", n );
 	    for (int j = 0; j < n; j++) {
@@ -101,6 +103,7 @@ MOVE *Solver::get_moves(int *nmoves)
                          Possible[j].turn_index, Possible[j].pri );
 	    }
 	  }
+#endif
 
 	/* No moves?  Maybe we won. */
 
@@ -159,11 +162,12 @@ it, along with the pointer to its parent and the move we used to get here. */
 
 int Posbytes;
 
-void Solver::pilesort(void)
+template<size_t NumberPiles>
+void Solver<NumberPiles>::pilesort(void)
 {
     	/* Make sure all the piles have id numbers. */
 
-	for (int w = 0; w < m_number_piles; w++) {
+	for (int w = 0; w < NumberPiles; w++) {
 		if (Wpilenum[w] < 0) {
 			Wpilenum[w] = get_pilenum(w);
 			if (Wpilenum[w] < 0) {
@@ -202,7 +206,8 @@ different trees.  */
 
 int Treebytes;
 
-TREE *Solver::pack_position(void)
+template<size_t NumberPiles>
+TREE *Solver<NumberPiles>::pack_position(void)
 {
 	int j, w;
 	quint8 *p;
@@ -228,7 +233,7 @@ TREE *Solver::pack_position(void)
 	*/
 
         quint16 *p2 = ( quint16* ) p;
-	for (w = 0; w < m_number_piles; ++w) {
+	for (w = 0; w < NumberPiles; ++w) {
 		j = Wpilenum[w];
                 if ( j < 0 )
                 {
@@ -258,7 +263,8 @@ static inline int strecpy(unsigned char *d, unsigned char *s)
 /* Unpack a compact position rep.  T cells must be restored from the
 array following the POSITION struct. */
 
-void Solver::unpack_position(POSITION *pos)
+template<size_t NumberPiles>
+void Solver<NumberPiles>::unpack_position(POSITION *pos)
 {
 	int i, w;
 	BUCKETLIST *l;
@@ -275,7 +281,7 @@ void Solver::unpack_position(POSITION *pos)
 
 	w = i = 0;
 	quint16 *p2 = ( quint16* )( (quint8 *)(pos->node) + sizeof(TREE) );
-	while (w < m_number_piles) {
+	while (w < NumberPiles) {
                 i = *p2++;
 		Wpilenum[w] = i;
 		l = Pilebucket[i];
@@ -287,7 +293,8 @@ void Solver::unpack_position(POSITION *pos)
 	}
 }
 
-void Solver::printcard(card_t card, FILE *outfile)
+template<size_t NumberPiles>
+void Solver<NumberPiles>::printcard(card_t card, FILE *outfile)
 {
     static char Rank[] = " A23456789TJQK";
     static char Suit[] = "DCHS";
@@ -304,7 +311,8 @@ void Solver::printcard(card_t card, FILE *outfile)
 
 /* Win.  Print out the move stack. */
 
-void Solver::win(POSITION *pos)
+template<size_t NumberPiles>
+void Solver<NumberPiles>::win(POSITION *pos)
 {
     int i, nmoves;
     POSITION *p;
@@ -332,21 +340,22 @@ void Solver::win(POSITION *pos)
     }
 
     for (i = 0, mpp = mpp0; i < nmoves; ++i, ++mpp)
-        winMoves.append( **mpp );
+        m_winMoves.append( **mpp );
 
     MemoryManager::free_array(mpp0, nmoves);
 }
 
 /* Initialize the hash buckets. */
 
-void Solver::init_buckets(void)
+template<size_t NumberPiles>
+void Solver<NumberPiles>::init_buckets(void)
 {
 	int i;
 
 	/* Packed positions need 3 bytes for every 2 piles. */
 
-	i = ( m_number_piles ) * sizeof( quint16 );
-	i += ( m_number_piles ) & 0x1;
+	i = ( NumberPiles ) * sizeof( quint16 );
+	i += ( NumberPiles ) & 0x1;
 
         mm->Pilebytes = i;
 
@@ -379,7 +388,8 @@ piles appear in any given game.  We'll use the pile's hash to find
 a hash bucket that contains a short list of piles, along with their
 identifiers. */
 
-int Solver::get_pilenum(int w)
+template<size_t NumberPiles>
+int Solver<NumberPiles>::get_pilenum(int w)
 {
 	int bucket, pilenum;
 	BUCKETLIST *l, *last;
@@ -450,7 +460,8 @@ if (w < 4) {
 	return l->pilenum;
 }
 
-void Solver::free_buckets(void)
+template<size_t NumberPiles>
+void Solver<NumberPiles>::free_buckets(void)
 {
 	int i, j;
 	BUCKETLIST *l, *n;
@@ -473,7 +484,8 @@ priority to positions with more cards out, so the solution found is not
 guaranteed to be the shortest, but it'll be better than with a depth-first
 search. */
 
-void Solver::doit()
+template<size_t NumberPiles>
+void Solver<NumberPiles>::doit()
 {
 	int i, q;
 	POSITION *pos;
@@ -515,7 +527,8 @@ void Solver::doit()
 recursively solve them.  Return whether any of the child nodes, or their
 descendents, were queued or not (if not, the position can be freed). */
 
-bool Solver::solve(POSITION *parent)
+template<size_t NumberPiles>
+bool Solver<NumberPiles>::solve(POSITION *parent)
 {
 	int i, nmoves, qq;
 	MOVE *mp, *mp0;
@@ -532,14 +545,12 @@ bool Solver::solve(POSITION *parent)
 		return false;
 	}
 
+        if ( m_shouldEnd.load() )
         {
-            QMutexLocker lock( &endMutex );
-            if ( m_shouldEnd )
-            {
-                Status = SearchAborted;
-                return false;
-            }
+            Status = SearchAborted;
+            return false;
         }
+
 
         if ( max_positions != -1 && Total_positions > ( unsigned long )max_positions )
         {
@@ -560,9 +571,9 @@ bool Solver::solve(POSITION *parent)
 
         if ( parent->depth == 0 )
         {
-            Q_ASSERT( firstMoves.count() == 0 );
+            Q_ASSERT( m_firstMoves.count() == 0 );
             for (int j = 0; j < nmoves; ++j)
-                firstMoves.append( Possible[j] );
+                m_firstMoves.append( Possible[j] );
         }
 
 	parent->nchild = nmoves;
@@ -617,7 +628,8 @@ The nchild element keeps track of descendents, and when there are none left
 in the parent we can free it too after solve() returns and we get called
 recursively (rec == true). */
 
-void Solver::free_position(POSITION *pos, int rec)
+template<size_t NumberPiles>
+void Solver<NumberPiles>::free_position(POSITION *pos, int rec)
 {
     /* We don't really free anything here, we just push it onto a
        freelist (using the queue member), so we can use it again later. */
@@ -643,7 +655,8 @@ void Solver::free_position(POSITION *pos, int rec)
 that got us here.  The work queue is kept sorted by priority (simply by
 having separate queues). */
 
-void Solver::queue_position(POSITION *pos, int pri)
+template<size_t NumberPiles>
+void Solver<NumberPiles>::queue_position(POSITION *pos, int pri)
 {
 	/* In addition to the priority of a move, a position gets an
 	additional priority depending on the number of cards out.  We use a
@@ -679,7 +692,8 @@ void Solver::queue_position(POSITION *pos, int pri)
 
 /* Return the position on the head of the queue, or NULL if there isn't one. */
 
-POSITION *Solver::dequeue_position()
+template<size_t NumberPiles>
+POSITION *Solver<NumberPiles>::dequeue_position()
 {
 	int last;
 	POSITION *pos;
@@ -731,45 +745,34 @@ POSITION *Solver::dequeue_position()
 	return pos;
 }
 
-Solver::Solver()
+template<size_t NumberPiles>
+Solver<NumberPiles>::Solver() : mm(new MemoryManager)
 {
-    mm = new MemoryManager();
-    Freepos = nullptr;
-    /* Work arrays. */
-    W = nullptr;
-    Wp = nullptr;
-
-    Wlen = nullptr;
-
-    Whash = nullptr;
-    Wpilenum = nullptr;
-    Stack = nullptr;
+    /* Initialize work arrays. */
+    for (auto& workspace: W) {
+        workspace = new card_t[84];
+        memset( workspace, 0, sizeof( card_t ) * 84 );
+    }
 }
 
-Solver::~Solver()
+template<size_t NumberPiles>
+Solver<NumberPiles>::~Solver()
 {
-    delete mm;
-
-    for ( int i = 0; i < m_number_piles; ++i )
+    for ( int i = 0; i < NumberPiles; ++i )
     {
         delete [] W[i];
     }
-
-    delete [] W;
-    delete [] Wp;
-    delete [] Wlen;
-    delete [] Whash;
-    delete [] Wpilenum;
 }
 
-void Solver::init()
+template<size_t NumberPiles>
+void Solver<NumberPiles>::init()
 {
-    m_shouldEnd = false;
+    m_shouldEnd.store(false);
     init_buckets();
     mm->init_clusters();
 
-    winMoves.clear();
-    firstMoves.clear();
+    m_winMoves.clear();
+    m_firstMoves.clear();
 
     /* Reset stats. */
 
@@ -779,7 +782,8 @@ void Solver::init()
     depth_sum = 0;
 }
 
-void Solver::free()
+template<size_t NumberPiles>
+void Solver<NumberPiles>::free()
 {
     free_buckets();
     mm->free_clusters();
@@ -787,11 +791,10 @@ void Solver::free()
     Freepos = nullptr;
 }
 
-
-Solver::ExitStatus Solver::patsolve( int _max_positions, bool _debug )
+template<size_t NumberPiles>
+SolverInterface::ExitStatus Solver<NumberPiles>::patsolve( int _max_positions )
 {
     max_positions = _max_positions;
-    debug = _debug;
 
     /* Initialize the suitable() macro variables. */
     init();
@@ -801,8 +804,8 @@ Solver::ExitStatus Solver::patsolve( int _max_positions, bool _debug )
 
     if ( Status == SearchAborted ) // thread quit
     {
-        firstMoves.clear();
-        winMoves.clear();
+        m_firstMoves.clear();
+        m_winMoves.clear();
     }
 #if 0
     printf("%ld positions generated (%f).\n", Total_generated, depth_sum / Total_positions);
@@ -813,31 +816,31 @@ Solver::ExitStatus Solver::patsolve( int _max_positions, bool _debug )
     return Status;
 }
 
-void Solver::print_layout()
+template<size_t NumberPiles>
+void Solver<NumberPiles>::stopExecution()
+{
+    m_shouldEnd.store(true);
+}
+
+template<size_t NumberPiles>
+QList<MOVE> Solver<NumberPiles>::winMoves() const
+{
+    return m_winMoves;
+}
+
+template<size_t NumberPiles>
+QList<MOVE> Solver<NumberPiles>::firstMoves() const
+{
+    return m_firstMoves;
+}
+
+template<size_t NumberPiles>
+void Solver<NumberPiles>::print_layout()
 {
 }
 
-void Solver::setNumberPiles( int p )
-{
-    m_number_piles = p;
-
-    /* Work arrays. */
-    W = new card_t*[m_number_piles];
-    for ( int i = 0; i < m_number_piles; ++i )
-    {
-        W[i] = new card_t[84];
-        memset( W[i], 0, sizeof( card_t ) * 84 );
-    }
-    Wp = new card_t*[m_number_piles];
-
-    Wlen = new int[m_number_piles];
-
-    Whash = new quint32[m_number_piles];
-    Wpilenum = new int[m_number_piles];
-    memset( Wpilenum, 0, sizeof( int ) * m_number_piles );
-}
-
-int Solver::translateSuit( int s )
+template<size_t NumberPiles>
+int Solver<NumberPiles>::translateSuit( int s )
 {
     int suit = s * 0x10;
     if ( suit == PS_DIAMOND )
@@ -847,7 +850,8 @@ int Solver::translateSuit( int s )
     return suit;
 }
 
-int Solver::translate_pile(const KCardPile *pile, card_t *w, int size)
+template<size_t NumberPiles>
+int Solver<NumberPiles>::translate_pile(const KCardPile *pile, card_t *w, int size)
 {
     Q_UNUSED( size );
         Q_ASSERT( pile->count() <= size );
@@ -866,7 +870,8 @@ int Solver::translate_pile(const KCardPile *pile, card_t *w, int size)
 /* Insert key into the tree unless it's already there.  Return true if
 it was new. */
 
-MemoryManager::inscode Solver::insert(unsigned int *cluster, int d, TREE **node)
+template<size_t NumberPiles>
+MemoryManager::inscode Solver<NumberPiles>::insert(unsigned int *cluster, int d, TREE **node)
 {
 	/* Get the cluster number from the Out cell contents. */
 
@@ -898,7 +903,8 @@ MemoryManager::inscode Solver::insert(unsigned int *cluster, int d, TREE **node)
 }
 
 
-POSITION *Solver::new_position(POSITION *parent, MOVE *m)
+template<size_t NumberPiles>
+POSITION *Solver<NumberPiles>::new_position(POSITION *parent, MOVE *m)
 {
 	unsigned int depth, cluster;
 	quint8 *p;
@@ -947,7 +953,7 @@ POSITION *Solver::new_position(POSITION *parent, MOVE *m)
 #if 0
         QString dummy;
         quint16 *t = ( quint16* )( ( char* )node + sizeof( TREE ) );
-        for ( int i = 0; i < m_number_piles; ++i )
+        for ( int i = 0; i < NumberPiles; ++i )
         {
             QString s = "      " + QString( "%1" ).arg( ( int )t[i] );
             dummy += s.right( 5 );
@@ -962,15 +968,30 @@ POSITION *Solver::new_position(POSITION *parent, MOVE *m)
 
 /* Hash the whole layout.  This is called once, at the start. */
 
-void Solver::hash_layout(void)
+template<size_t NumberPiles>
+void Solver<NumberPiles>::hash_layout(void)
 {
 	int w;
 
-	for (w = 0; w < m_number_piles; w++) {
+	for (w = 0; w < NumberPiles; w++) {
 		hashpile(w);
 	}
 }
 
-void Solver::prioritize(MOVE *, int )
+template<size_t NumberPiles>
+void Solver<NumberPiles>::prioritize(MOVE *, int )
 {
 }
+
+constexpr auto Nwpiles = 8;
+constexpr auto Ntpiles = 4;
+
+template class Solver<9>;
+template class Solver<10>;
+template class Solver<7 * 3 + 1>;
+template class Solver<8 + 1 + 8>;
+template class Solver<6>;
+template class Solver<34>;
+template class Solver<15>;
+template class Solver<7>;
+template class Solver<Nwpiles + Ntpiles>;

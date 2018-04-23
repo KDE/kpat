@@ -22,7 +22,7 @@ class Idiot;
 #include "patsolve.h"
 
 
-class IdiotSolver : public Solver
+class IdiotSolver : public Solver<6>
 {
 public:
     explicit IdiotSolver(const Idiot *dealer);

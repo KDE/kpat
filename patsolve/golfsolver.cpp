@@ -185,7 +185,6 @@ int GolfSolver::getOuts()
 GolfSolver::GolfSolver(const Golf *dealer)
     : Solver()
 {
-    setNumberPiles( 9 );
     deal = dealer;
 }
 
