@@ -92,7 +92,12 @@ private:
 
 };
 
-#define new_array( type, size ) ( type* )MemoryManager::allocate_memory( ( size )*sizeof( type ) );
-#define mm_allocate( type ) ( type* )MemoryManager::allocate_memory( sizeof( type ) );
+template<typename T>
+T* mm_new_array(const size_t size) {
+    return static_cast<T*>(MemoryManager::allocate_memory(size * sizeof(T)));
+}
+
+template<typename T>
+T* mm_allocate() {return static_cast<T*>(MemoryManager::allocate_memory(sizeof(T)));}
 
 #endif // MEMORY_H

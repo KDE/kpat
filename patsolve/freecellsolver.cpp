@@ -23,10 +23,12 @@
 
 /* Some macros used in get_possible_moves(). */
 
-/* The following macro implements
+/* The following function implements
 	(Same_suit ? (suit(a) == suit(b)) : (color(a) != color(b)))
 */
-#define suitable(a, b) ((((a) ^ (b)) & PS_COLOR) == PS_COLOR)
+namespace {
+    constexpr bool suitable(const card_t a, const card_t b) {return  ((a ^ b) & PS_COLOR) == PS_COLOR; }
+}
 
 /* Statistics. */
 
@@ -89,7 +91,9 @@ that are a waste of time, especially in the endgame where there are lots of
 possible moves, but few productive ones.  Note that we also prioritize
 positions when they are added to the queue. */
 
-#define NNEED 8
+namespace {
+    constexpr auto NNEED = 8;
+}
 
 void FreecellSolver::prioritize(MOVE *mp0, int n)
 {

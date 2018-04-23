@@ -47,7 +47,6 @@ class Solver;
 class SolverThread;
 #include "speeds.h"
 #include "view.h"
-#include "patsolve/patsolve.h"
 
 #include "KCardDeck"
 #include "KCardScene"

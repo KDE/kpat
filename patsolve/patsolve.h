@@ -80,7 +80,6 @@ public:
     Solver();
     virtual ~Solver();
     ExitStatus patsolve( int max_positions = -1, bool debug = false);
-    bool recursive(POSITION *pos = nullptr);
     virtual void translate_layout() = 0;
     bool m_shouldEnd;
     QMutex endMutex;
@@ -141,13 +140,13 @@ protected:
 
     POSITION *Freepos;
 
-#define MAXMOVES 64             /* > max # moves from any position */
+    static constexpr auto MAXMOVES = 64;             /* > max # moves from any position */
     MOVE Possible[MAXMOVES];
 
     MemoryManager *mm;
     ExitStatus Status;             /* win, lose, or fail */
 
-#define NQUEUES 127
+    static constexpr auto NQUEUES = 127;
 
     POSITION *Qhead[NQUEUES]; /* separate queue for each priority */
     int Maxq;
@@ -163,22 +162,23 @@ protected:
 
 /* Misc. */
 
-#define PS_DIAMOND 0x00         /* red */
-#define PS_CLUB    0x10         /* black */
-#define PS_HEART   0x20         /* red */
-#define PS_SPADE   0x30         /* black */
-#define PS_BLACK   0x10
-#define PS_COLOR   0x10         /* black if set */
-#define PS_SUIT    0x30         /* mask both suit bits */
+constexpr card_t PS_DIAMOND = 0x00;         /* red */
+constexpr card_t PS_CLUB    = 0x10;         /* black */
+constexpr card_t PS_HEART   = 0x20;         /* red */
+constexpr card_t PS_SPADE   = 0x30;         /* black */
+constexpr card_t PS_BLACK   = 0x10;
+constexpr card_t PS_COLOR   = 0x10;         /* black if set */
+constexpr card_t PS_SUIT    = 0x30;         /* mask both suit bits */
 
-#define NONE    0
-#define PS_ACE  1
-#define PS_KING 13
+constexpr card_t NONE    = 0;
+constexpr card_t PS_ACE  = 1;
+constexpr card_t PS_KING = 13;
 
-#define RANK(card) ((card) & 0xF)
-#define SUIT(card) (( (card) >> 4 ) & 3)
-#define COLOR(card) ((card) & PS_COLOR)
-#define DOWN(card) ((card) & ( 1 << 7 ) )
+constexpr card_t RANK(card_t card) {return card & 0xF;}
+constexpr card_t SUIT(card_t card) {return (card >> 4 ) & 3;}
+
+constexpr card_t COLOR(card_t card) {return card & PS_COLOR;}
+constexpr card_t DOWN(card_t card) {return (card) & ( 1 << 7 );}
 
 extern long all_moves;
 

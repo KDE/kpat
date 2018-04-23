@@ -49,9 +49,6 @@
 #include <cmath>
 
 
-#define DEBUG_LAYOUT 0
-
-
 namespace
 {
     const int cardMoveDuration = 230;
@@ -1249,31 +1246,6 @@ void KCardScene::drawForeground ( QPainter * painter, const QRectF & rect )
 {
     Q_UNUSED( painter )
     Q_UNUSED( rect )
-
-#if DEBUG_LAYOUT
-    if ( !d->sizeHasBeenSet || !d->deck  )
-        return;
-
-    painter->setPen( Qt::yellow );
-    painter->drawRect( 0, 0, d->contentSize.width(), d->contentSize.height() );
-
-    foreach ( const KCardPile * p, piles() )
-    {
-        if ( !p->isVisible() )
-            continue;
-
-        QRectF availableRect = multRectSize( d->pileAreas.value( p, QRectF() ), d->deck->cardSize() );
-
-        QRectF reservedRect( -p->leftPadding(), -p->topPadding(), 1 + p->rightPadding(), 1 + p->bottomPadding() );
-        reservedRect = multRectSize( reservedRect, d->deck->cardSize() );
-        reservedRect.translate( p->pos() );
-
-        painter->setPen( Qt::cyan );
-        painter->drawRect( availableRect );
-        painter->setPen( QPen( Qt::red, 1, Qt::DotLine, Qt::FlatCap ) );
-        painter->drawRect( reservedRect );
-    }
-#endif
 }
 
 

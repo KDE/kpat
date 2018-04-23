@@ -21,8 +21,10 @@
 
 #include <QDebug>
 
-#define NUM_PILE 8
-#define NUM_DECK 9
+namespace {
+constexpr auto NUM_PILE = 8;
+constexpr auto NUM_DECK = 9;
+}
 
 #define PRINT 0
 

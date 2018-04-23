@@ -115,7 +115,7 @@ TREELIST *MemoryManager::cluster_tree(unsigned int cluster)
 	/* If we didn't find it, make a new one and add it to the list. */
 
 	if (tl == nullptr) {
-		tl = mm_allocate(TREELIST);
+		tl = mm_allocate<TREELIST>();
 		if (tl == nullptr) {
 			return nullptr;
 		}
@@ -138,11 +138,11 @@ BLOCK *MemoryManager::new_block(void)
 {
 	BLOCK *b;
 
-	b = mm_allocate(BLOCK);
+	b = mm_allocate<BLOCK>();
 	if (b == nullptr) {
 		return nullptr;
 	}
-	b->block = new_array(quint8, BLOCKSIZE);
+	b->block = mm_new_array<quint8>(BLOCKSIZE);
 	if (b->block == nullptr) {
                 MemoryManager::free_ptr(b);
 		return nullptr;

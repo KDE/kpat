@@ -42,30 +42,15 @@ long all_moves = 0;
 /* This is a 32 bit FNV hash.  For more information, see
 http://www.isthe.com/chongo/tech/comp/fnv/index.html */
 
-#define FNV1_32_INIT 0x811C9DC5
-#define FNV_32_PRIME 0x01000193
 
-#define fnv_hash(x, hash) (((hash) * FNV_32_PRIME) ^ (x))
-
-/* Hash a buffer. */
-
-static inline quint32 fnv_hash_buf(quint8 *s, int len)
-{
-	int i;
-	quint32 h;
-
-	h = FNV1_32_INIT;
-	for (i = 0; i < len; i++) {
-		h = fnv_hash(*s++, h);
-	}
-
-	return h;
-}
-
+namespace {
+constexpr qint32 FNV_32_PRIME = 0x01000193; // FIXME: move into fnv_hash once we depend on C++14
+constexpr qint32 fnv_hash(qint32 x, qint32 hash) {return (hash * FNV_32_PRIME) ^ x;}
 /* Hash a 0 terminated string. */
 
-static inline quint32 fnv_hash_str(quint8 *s)
+quint32 fnv_hash_str(const quint8 *s)
 {
+        constexpr qint32 FNV1_32_INIT = 0x811C9DC5;
 	quint32 h;
 
 	h = FNV1_32_INIT;
@@ -75,6 +60,8 @@ static inline quint32 fnv_hash_str(quint8 *s)
 
 	return h;
 }
+}
+
 
 
 /* Hash a pile. */
@@ -88,140 +75,6 @@ void Solver::hashpile(int w)
 
 	Wpilenum[w] = -1;
 }
-
-#define MAXDEPTH 400
-
-bool Solver::recursive(POSITION *parent)
-{
-    int i, alln, a, numout = 0;
-
-    if ( parent == nullptr ) {
-        init();
-        recu_pos.clear();
-        delete Stack;
-        Stack = new POSITION[MAXDEPTH];
-        memset( Stack, 0, sizeof( POSITION ) * MAXDEPTH );
-    }
-
-    /* Fill in the Possible array. */
-
-    alln = get_possible_moves(&a, &numout);
-    assert(alln < MAXMOVES);
-
-    if (alln == 0) {
-        if ( isWon() ) {
-            Status = SolutionExists;
-            Q_ASSERT(parent); // it just is never called with a won game
-            win(parent);
-            return true;
-        }
-        return false;
-    }
-
-    /* Prioritize these moves.  Automoves don't get queued, so they
-       don't need a priority. */
-
-    if (!a) {
-        prioritize(Possible, alln);
-    }
-
-    /* Now copy to safe storage and return.  Non-auto moves out get put
-       at the end.  Queueing them isn't a good idea because they are still
-       good moves, even if they didn't pass the automove test.  So we still
-       do the recursive solve() on them, but only after queueing the other
-       moves. */
-
-    if ( parent && parent->depth >= MAXDEPTH - 2 )
-        return false;
-
-    MOVE *mp0 = new_array(MOVE, alln+1);
-    if (mp0 == nullptr) {
-        return false;
-    }
-    MOVE *mp = mp0;
-    for (i = 0; i < alln; ++i) {
-        if (Possible[i].card_index != -1) {
-            *mp = Possible[i];      /* struct copy */
-            mp++;
-        }
-    }
-    mp->card_index = -1;
-    ++alln;
-
-    bool fit = false;
-    for (mp = mp0; mp->card_index != -1; ++mp) {
-
-        int depth = 0;
-        if (parent != nullptr)
-            depth = parent->depth + 1;
-
-        make_move(mp);
-
-        /* Calculate indices for the new piles. */
-        pilesort();
-
-        /* See if this is a new position. */
-
-        Total_generated++;
-        POSITION *pos = &Stack[depth];
-        pos->queue = nullptr;
-        pos->parent = parent;
-        pos->node = pack_position();
-        quint8 *key = (quint8 *)pos->node + sizeof(TREE);
-#if 0
-        qint32 hash = fnv_hash_buf(key, mm->Pilebytes);
-        if ( recu_pos.contains( hash ) )
-        {
-            undo_move( mp );
-            mm->give_back_block( (quint8 *)pos->node );
-            continue;
-        }
-        recu_pos[hash] = true;
-#else
-        for ( int i = 0; i < depth; ++i )
-        {
-            quint8 *tkey = (quint8 *)Stack[i].node + sizeof(TREE);
-            if ( !memcmp( key, tkey, mm->Pilebytes ) )
-            {
-                key = nullptr;
-                break;
-            }
-        }
-        if ( !key )
-        {
-            undo_move( mp );
-            mm->give_back_block( (quint8 *)pos->node );
-            continue;
-        }
-#endif
-        Total_positions++;
-        if ( Total_positions % 10000 == 0 ) {
-            //qDebug() << "positions" << Total_positions;
-        }
-
-        pos->move = *mp;                 /* struct copy */
-        pos->cluster = 0;
-        pos->depth = depth;
-        pos->nchild = 0;
-
-        bool ret = recursive(pos);
-        fit |= ret;
-        undo_move(mp);
-        mm->give_back_block( (quint8 *)pos->node );
-        if ( ret )
-            break;
-    }
-
-    MemoryManager::free_array(mp0, alln);
-
-    if ( parent == nullptr ) {
-        printf( "Total %ld\n", Total_generated );
-        delete [] Stack;
-        Stack = nullptr;
-    }
-    return fit;
-}
-
 
 /* Generate an array of the moves we can make from this position. */
 
@@ -270,7 +123,7 @@ MOVE *Solver::get_moves(int *nmoves)
 	do the recursive solve() on them, but only after queueing the other
 	moves. */
 
-	mp = mp0 = new_array(MOVE, n);
+	mp = mp0 = mm_new_array<MOVE>(n);
 	if (mp == nullptr) {
 		return nullptr;
 	}
@@ -468,7 +321,7 @@ void Solver::win(POSITION *pos)
 
     //printf("Winning in %d moves.\n", nmoves);
 
-    mpp0 = new_array(MOVE *, nmoves);
+    mpp0 = mm_new_array<MOVE *>(nmoves);
     if (mpp0 == nullptr) {
         Status = UnableToDetermineSolvability;
         return; /* how sad, so close... */
@@ -556,13 +409,13 @@ int Solver::get_pilenum(int w)
 			//qDebug() << "out of piles";
 			return -1;
 		}
-		l = mm_allocate(BUCKETLIST);
+		l = mm_allocate<BUCKETLIST>();
 		if (l == nullptr) {
                         Status = UnableToDetermineSolvability;
 			//qDebug() << "out of buckets";
 			return -1;
 		}
-		l->pile = new_array(quint8, Wlen[w] + 1);
+		l->pile = mm_new_array<quint8>(Wlen[w] + 1);
 		if (l->pile == nullptr) {
                     Status = UnableToDetermineSolvability;
                     MemoryManager::free_ptr(l);

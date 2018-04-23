@@ -296,7 +296,7 @@ bool IdiotSolver::canMoveAway(int pile ) const
     if ( Wlen[pile] == 0 )
         return false;
     for ( int i = 0; i < 4; ++i )
-        Q_ASSERT( Wp[i] = &W[i][Wlen[i] - 1] );
+        Q_ASSERT( Wp[i] == &W[i][Wlen[i] - 1] );
     return ( ( Wlen[0] && higher( *Wp[pile], *Wp[0] ) ) ||
              ( Wlen[1] && higher( *Wp[pile], *Wp[1] ) ) ||
              ( Wlen[2] && higher( *Wp[pile], *Wp[2] ) ) ||
