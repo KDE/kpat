@@ -148,6 +148,7 @@ Comment[sv]=Patienskortspel
 Comment[tr]=Solitaire kart oyunu
 Comment[uk]=Карткова гра у пасьянс
 Comment[x-test]=xxSolitaire card gamexx
+Comment[zh_TW]=接龍卡片遊戲
 X-DBUS-StartupType=Multi
 Categories=Qt;KDE;Game;CardGame;
 MimeType=application/vnd.kde.kpatience.savedstate;
