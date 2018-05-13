@@ -15,17 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <stdlib.h>
+#include <string.h>
+
+#include "freecell-solver/fcs_user.h"
+#include "freecell-solver/fcs_cl.h"
+
 #include "simonsolver.h"
 
 #include "../simon.h"
 
 #include <QDebug>
 
+const int CHUNKSIZE = 100;
+const long int MAX_ITERS_LIMIT = 200000;
 
 #define PRINT 0
 
 /* These two routines make and unmake moves. */
 
+#if 0
 void SimonSolver::make_move(MOVE *m)
 {
 #if PRINT
@@ -136,13 +145,62 @@ void SimonSolver::undo_move(MOVE *m)
         print_layout();
 #endif
 }
+#endif
 
+#define CMD_LINE_ARGS_NUM 4
+static const char * freecell_solver_cmd_line_args[CMD_LINE_ARGS_NUM] =
+{
+    "-g", "simple_simon", "--load-config", "the-last-mohican"
+};
+
+int SimonSolver::get_cmd_line_arg_count()
+{
+    return CMD_LINE_ARGS_NUM;
+}
+
+const char * * SimonSolver::get_cmd_line_args()
+{
+    return freecell_solver_cmd_line_args;
+}
+
+void SimonSolver::setFcSolverGameParams()
+{
+    freecell_solver_user_apply_preset(solver_instance, "simple_simon");
+}
+
+#if 0
 /* Get the possible moves from a position, and store them in Possible[]. */
 
 int SimonSolver::get_possible_moves(int *a, int *numout)
 {
     MOVE *mp;
+    int n;
 
+    mp = Possible;
+    n = 0;
+    *a = 1;
+
+    while (freecell_solver_user_get_moves_left(solver_instance))
+    {
+        fcs_move_t move;
+        fcs_move_t * move_ptr;
+        if (!freecell_solver_user_get_next_move(solver_instance, &move)) {
+            move_ptr = new fcs_move_t;
+            *move_ptr = move;
+            mp->ptr = (void *)move_ptr;
+            mp++;
+            n++;
+        }
+        else
+        {
+            Q_ASSERT(0);
+        }
+    }
+
+    *numout = n;
+    return n;
+
+#if 0
     /* Check for moves from W to O. */
 
     int n = 0;
@@ -301,8 +359,11 @@ int SimonSolver::get_possible_moves(int *a, int *numout)
     }
 
     return n;
+#endif
 }
+#endif
 
+#if 0
 void SimonSolver::unpack_cluster( unsigned int k )
 {
     // TODO: this only works for easy
@@ -314,7 +375,9 @@ void SimonSolver::unpack_cluster( unsigned int k )
             O[i] = -1;
     }
 }
+#endif
 
+#if 0
 bool SimonSolver::isWon()
 {
     // maybe won?
@@ -324,7 +387,9 @@ bool SimonSolver::isWon()
 
     return true;
 }
+#endif
 
+#if 0
 int SimonSolver::getOuts()
 {
     int k = 0;
@@ -334,9 +399,10 @@ int SimonSolver::getOuts()
 
     return k;
 }
+#endif
 
 SimonSolver::SimonSolver(const Simon *dealer)
-    : Solver()
+    : FcSolveSolver()
 {
     deal = dealer;
 }
@@ -346,6 +412,14 @@ card).  Temp cells and Out on the last two lines, if any. */
 
 void SimonSolver::translate_layout()
 {
+    strcpy(board_as_string, deal->solverFormat().toLatin1());
+
+    if (solver_instance)
+    {
+        freecell_solver_user_recycle(solver_instance);
+        solver_ret = FCS_STATE_NOT_BEGAN_YET;
+    }
+#if 0
     /* Read the workspace. */
     int total = 0;
 
@@ -364,8 +438,10 @@ void SimonSolver::translate_layout()
             O[i] = translateSuit( c->suit() );
         }
     }
+#endif
 }
 
+#if 0
 unsigned int SimonSolver::getClusterNumber()
 {
     unsigned int k = 0;
@@ -376,7 +452,9 @@ unsigned int SimonSolver::getClusterNumber()
     }
     return k;
 }
+#endif
 
+#if 0
 void SimonSolver::print_layout()
 {
     int i, w, o;
@@ -397,9 +475,57 @@ void SimonSolver::print_layout()
     }
     fprintf(stderr, "\nprint-layout-end\n");
 }
+#endif
 
 MoveHint SimonSolver::translateMove( const MOVE &m )
 {
+    fcs_move_t move = m.fcs;
+    int cards = fcs_move_get_num_cards_in_seq(move);
+    PatPile *from = 0;
+    PatPile *to = 0;
+
+    switch(fcs_move_get_type(move))
+    {
+        case FCS_MOVE_TYPE_STACK_TO_STACK:
+            from = deal->store[fcs_move_get_src_stack(move)];
+            to = deal->store[fcs_move_get_dest_stack(move)];
+            break;
+
+        case FCS_MOVE_TYPE_SEQ_TO_FOUNDATION:
+            from = deal->store[fcs_move_get_src_stack(move)];
+            cards = 13;
+            to = deal->target[fcs_move_get_foundation(move)];
+            break;
+
+    }
+    Q_ASSERT(from);
+    Q_ASSERT(cards <= from->cards().count());
+    Q_ASSERT(to || cards == 1);
+    KCard *card = from->cards()[from->cards().count() - cards];
+
+    if (!to)
+    {
+        PatPile *target = 0;
+        PatPile *empty = 0;
+        for (int i = 0; i < 4; ++i) {
+            KCard *c = deal->target[i]->topCard();
+            if (c) {
+                if ( c->suit() == card->suit() )
+                {
+                    target = deal->target[i];
+                    break;
+                }
+            } else if ( !empty )
+                empty = deal->target[i];
+        }
+        to = target ? target : empty;
+    }
+
+    Q_ASSERT(to);
+
+    return MoveHint(card, to, 0);
+
+#if 0
     Q_ASSERT( m.from < 10 && m.to < 10 );
 
     PatPile *frompile = deal->store[m.from];
@@ -414,4 +540,5 @@ MoveHint SimonSolver::translateMove( const MOVE &m )
 
     Q_ASSERT( m.to < 10 );
     return MoveHint( card, deal->store[m.to], m.pri );
+#endif
 }

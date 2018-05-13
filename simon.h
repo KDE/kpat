@@ -57,6 +57,7 @@ private:
     PatPile* store[10];
     PatPile* target[4];
 
+    virtual QString solverFormat() const;
     friend class SimonSolver;
 };
 

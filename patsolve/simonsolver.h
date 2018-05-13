@@ -18,29 +18,37 @@
 #ifndef SIMONSOLVER_H
 #define SIMONSOLVER_H
 
-#include "patsolve.h"
+#include "abstract_fc_solve_solver.h"
+#include "simon.h"
 class Simon;
 
 
-class SimonSolver : public Solver<10>
+class SimonSolver : public FcSolveSolver
 {
 public:
     explicit SimonSolver(const Simon *dealer);
+#if 0
     int get_possible_moves(int *a, int *numout) Q_DECL_OVERRIDE;
     bool isWon() Q_DECL_OVERRIDE;
     void make_move(MOVE *m) Q_DECL_OVERRIDE;
     void undo_move(MOVE *m) Q_DECL_OVERRIDE;
     int getOuts() Q_DECL_OVERRIDE;
     unsigned int getClusterNumber() Q_DECL_OVERRIDE;
-    void translate_layout() Q_DECL_OVERRIDE;
+#endif
+    virtual void translate_layout() Q_DECL_OVERRIDE;
+    virtual MoveHint translateMove(const MOVE &m) Q_DECL_OVERRIDE;
+#if 0
     void unpack_cluster( unsigned int k ) Q_DECL_OVERRIDE;
-    MoveHint translateMove(const MOVE &m) Q_DECL_OVERRIDE;
-
     void print_layout() Q_DECL_OVERRIDE;
+#endif
+    virtual void setFcSolverGameParams();
 
+    virtual int get_cmd_line_arg_count();
+    virtual const char * * get_cmd_line_args();
+#if 0
 /* Names of the cards.  The ordering is defined in pat.h. */
-
     int O[4];
+#endif
     const Simon *deal;
 };
 

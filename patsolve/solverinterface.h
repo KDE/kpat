@@ -4,6 +4,7 @@
 #include <QList>
 
 #include "../hint.h"
+#include "freecell-solver/fcs_user.h"
 
 
 /* A card is represented as ( down << 6 ) + (suit << 4) + rank. */
@@ -22,6 +23,7 @@ public:
     PileType totype;
     signed char pri;        /* move priority (low priority == low value) */
     int turn_index;         /* turn the card index */
+    fcs_move_t fcs;         /* A Freecell Solver move. */
 
     bool operator<( const MOVE &m) const
     {

@@ -48,6 +48,33 @@ bool isSameSuitAscending( const QList<KCard*> & cards )
     return true;
 }
 
+int countSameSuitDescendingSequences( const QList<KCard*> & cards )
+{
+    if ( cards.size() <= 1 )
+        return 0;
+
+    int suit = cards.first()->suit();
+    int lastRank = cards.first()->rank();
+
+    int count = 1;
+
+    for( int i = 1; i < cards.size(); ++i )
+    {
+        --lastRank;
+
+        if ( cards[i]->rank() != lastRank )
+            return -1;
+
+        if ( cards[i]->suit() != suit )
+        {
+            count++;
+            suit = cards[i]->suit();
+        }
+    }
+    return count;
+}
+
+
 
 bool isSameSuitDescending( const QList<KCard*> & cards )
 {
@@ -119,5 +146,39 @@ bool checkAddAlternateColorDescendingFromKing( const QList<KCard*> & oldCards, c
     else
         return newCards.first()->color() == alternateColor( oldCards.last()->color() )
             && newCards.first()->rank() == oldCards.last()->rank() - 1;
+}
+
+QString suitToString(int s) {
+    switch (s) {
+        case KCardDeck::Clubs:
+            return "C";
+        case KCardDeck::Hearts:
+            return "H";
+        case KCardDeck::Diamonds:
+            return "D";
+        case KCardDeck::Spades:
+            return "S";
+        default:
+            exit(-1);
+    }
+    return QString();
+}
+
+QString rankToString(int r)
+{
+    switch (r) {
+        case KCardDeck::King:
+            return "K";
+        case KCardDeck::Ace:
+            return "A";
+        case KCardDeck::Jack:
+            return "J";
+        case KCardDeck::Queen:
+            return "Q";
+        case KCardDeck::Ten:
+            return "T";
+        default:
+            return QString::number(r);
+    }
 }
 
