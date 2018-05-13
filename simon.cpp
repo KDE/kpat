@@ -111,24 +111,70 @@ bool Simon::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const
 {
     if (pile->pileRole() == PatPile::Tableau)
     {
-        return oldCards.isEmpty()
-               || oldCards.last()->rank() == newCards.first()->rank() + 1;
+        if (! (oldCards.isEmpty()
+               || oldCards.last()->rank() == newCards.first()->rank() + 1 ))
+        {
+            return false;
+        }
+
+        int seqs_count = countSameSuitDescendingSequences(newCards);
+
+        if (seqs_count < 0)
+            return false;
+
+        // This is similar to the supermoves of Freecell - we can use empty
+        // columns to temporarily hold intermediate sub-sequences which are
+        // not the same suit - only a "false" parent.
+        //      Shlomi Fish
+
+        int empty_piles_count = 0;
+
+        for (int i = 0; i < 10; ++i )
+            if (store[i]->isEmpty() && ( store[i]->index() != pile->index() ))
+                empty_piles_count++;
+
+        return (seqs_count <= (1 << empty_piles_count));
     }
     else
     {
         return oldCards.isEmpty()
                && newCards.first()->rank() == KCardDeck::King
-               && newCards.last()->rank() == KCardDeck::Ace;
+               && newCards.last()->rank() == KCardDeck::Ace
+               && isSameSuitDescending(newCards);
     }
 }
 
 bool Simon::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
 {
-    return pile->pileRole() == PatPile::Tableau
-           && isSameSuitDescending(cards);
+    if (pile->pileRole() != PatPile::Tableau)
+        return false;
+
+    int seqs_count = countSameSuitDescendingSequences(cards);
+
+    return (seqs_count >= 0);
 }
 
+QString Simon::solverFormat() const
+{
+    QString output;
+    QString tmp;
+    for (int i = 0; i < 4 ; i++) {
+        if (target[i]->isEmpty())
+            continue;
+        tmp += suitToString(target[i]->topCard()->suit()) + "-K ";
+    }
+    if (!tmp.isEmpty())
+        output += QString::fromLatin1("Foundations: %1\n").arg(tmp);
 
+    for (int i = 0; i < 10 ; i++)
+    {
+        QList<KCard*> cards = store[i]->cards();
+        for (QList<KCard*>::ConstIterator it = cards.begin(); it != cards.end(); ++it)
+            output += rankToString((*it)->rank()) + suitToString((*it)->suit()) + ' ';
+        output += '\n';
+    }
+    return output;
+}
 
 static class SimonDealerInfo : public DealerInfo
 {

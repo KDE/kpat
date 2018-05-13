@@ -19,16 +19,17 @@
 #ifndef FREECELLSOLVER_H
 #define FREECELLSOLVER_H
 
-class Freecell;
-#include "patsolve.h"
+#include "abstract_fc_solve_solver.h"
 
 constexpr auto Nwpiles = 8;
 constexpr auto Ntpiles = 4;
+class Freecell;
 
-class FreecellSolver : public Solver<Nwpiles + Ntpiles>
+class FreecellSolver : public FcSolveSolver
 {
 public:
     explicit FreecellSolver(const Freecell *dealer);
+#if 0
     int good_automove(int o, int r);
     int get_possible_moves(int *a, int *numout) Q_DECL_OVERRIDE;
     bool isWon() Q_DECL_OVERRIDE;
@@ -40,8 +41,17 @@ public:
     void translate_layout() Q_DECL_OVERRIDE;
     void unpack_cluster( unsigned int k ) Q_DECL_OVERRIDE;
     MoveHint translateMove(const MOVE &m) Q_DECL_OVERRIDE;
-
-    void print_layout() Q_DECL_OVERRIDE;
+#endif
+    virtual void translate_layout();
+#if 0
+    virtual void unpack_cluster( unsigned int k );
+#endif
+    virtual MoveHint translateMove(const MOVE &m);
+    virtual void setFcSolverGameParams();
+    virtual int get_cmd_line_arg_count();
+    virtual const char * * get_cmd_line_args();
+#if 0
+    virtual void print_layout();
 
     int Nwpiles; /* the numbers we're actually using */
     int Ntpiles;
@@ -51,10 +61,11 @@ public:
     card_t O[4]; /* output piles store only the rank or NONE */
     card_t Osuit[4];
 
-    const Freecell *deal;
 
     static int Xparam[];
+#endif
 
+    const Freecell *deal;
 };
 
 #endif // FREECELLSOLVER_H

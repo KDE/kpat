@@ -111,6 +111,41 @@ void Freecell::restart( const QList<KCard*> & cards )
 }
 
 
+QString Freecell::solverFormat() const
+{
+    QString output;
+    QString tmp;
+    for (int i = 0; i < 4 ; i++) {
+        if (target[i]->isEmpty())
+            continue;
+        tmp += suitToString(target[i]->topCard()->suit()) + '-' + rankToString(target[i]->topCard()->rank()) + ' ';
+    }
+    if (!tmp.isEmpty())
+        output += QString::fromLatin1("Foundations: %1\n").arg(tmp);
+
+    tmp.truncate(0);
+    for (int i = 0; i < 4 ; i++) {
+        if (freecell[i]->isEmpty())
+            tmp += "- ";
+        else
+            tmp += rankToString(freecell[i]->topCard()->rank()) + suitToString(freecell[i]->topCard()->suit()) + ' ';
+    }
+    if (!tmp.isEmpty())
+    {
+        QString a = QString::fromLatin1("Freecells: %1\n");
+        output += a.arg(tmp);
+    }
+
+    for (int i = 0; i < 8 ; i++)
+    {
+        QList<KCard*> cards = store[i]->cards();
+        for (QList<KCard*>::ConstIterator it = cards.begin(); it != cards.end(); ++it)
+            output += rankToString((*it)->rank()) + suitToString((*it)->suit()) + ' ';
+        output += '\n';
+    }
+    return output;
+}
+
 void Freecell::cardsDroppedOnPile( const QList<KCard*> & cards, KCardPile * pile )
 {
     if ( cards.size() <= 1 )

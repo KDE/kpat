@@ -26,9 +26,13 @@ class KCard;
 bool isSameSuitAscending( const QList<KCard*> & cards );
 bool isSameSuitDescending( const QList<KCard*> & cards );
 bool isAlternateColorDescending( const QList<KCard*> & cards );
+int countSameSuitDescendingSequences( const QList<KCard*> & cards );
 
 bool checkAddSameSuitAscendingFromAce( const QList<KCard*> & oldCards, const QList<KCard*> & newCards );
 bool checkAddAlternateColorDescending( const QList<KCard*> & oldCards, const QList<KCard*> & newCards );
 bool checkAddAlternateColorDescendingFromKing( const QList<KCard*> & oldCards, const QList<KCard*> & newCards );
+
+extern QString suitToString(int s);
+extern QString rankToString(int r);
 
 #endif

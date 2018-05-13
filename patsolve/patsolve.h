@@ -33,6 +33,10 @@
 
 #include <cstdio>
 
+/* A card is represented as ( down << 6 ) + (suit << 4) + rank. */
+
+typedef quint8 card_t;
+
 struct POSITION {
         POSITION *queue;      /* next position in the queue */
 	POSITION *parent;     /* point back up the move stack */
@@ -48,14 +52,15 @@ class MemoryManager;
 template<size_t NumberPiles>
 class Solver : public SolverInterface
 {
+
 public:
 
     Solver();
     virtual ~Solver();
-    ExitStatus patsolve( int max_positions = -1) final;
+    virtual ExitStatus patsolve( int max_positions = -1);
+    bool recursive(POSITION *pos = nullptr);
     virtual void translate_layout() = 0;
     virtual MoveHint translateMove(const MOVE &m ) = 0;
-
     void stopExecution() final;
     QList<MOVE> firstMoves() const final;
     QList<MOVE> winMoves() const final;
@@ -126,8 +131,7 @@ protected:
     POSITION *Stack = nullptr;
     QMap<qint32,bool> recu_pos;
     int max_positions;
-
-private:
+protected:
     QList<MOVE> m_firstMoves;
     QList<MOVE> m_winMoves;
     std::atomic_bool m_shouldEnd;

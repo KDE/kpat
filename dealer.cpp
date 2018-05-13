@@ -1724,6 +1724,10 @@ void DealerScene::startSolver()
 
 bool DealerScene::isGameLost() const
 {
+    if (! m_winningMoves.isEmpty())
+    {
+        return false;
+    }
     if ( solver() )
     {
         if ( m_solverThread && m_solverThread->isRunning() )

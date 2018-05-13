@@ -16,12 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <stdlib.h>
+#include <string.h>
+
+#include "freecell-solver/fcs_user.h"
+#include "freecell-solver/fcs_cl.h"
+
 #include "freecellsolver.h"
 
 #include "../freecell.h"
 
-
-/* Some macros used in get_possible_moves(). */
+const int CHUNKSIZE = 100;
+const long int MAX_ITERS_LIMIT = 200000;
 
 /* The following function implements
 	(Same_suit ? (suit(a) == suit(b)) : (color(a) != color(b)))
@@ -32,10 +38,13 @@ namespace {
 
 /* Statistics. */
 
+#if 0
 int FreecellSolver::Xparam[] = { 4, 1, 8, -1, 7, 11, 4, 2, 2, 1, 2 };
+#endif
 
 /* These two routines make and unmake moves. */
 
+#if 0
 void FreecellSolver::make_move(MOVE *m)
 {
 	int from, to;
@@ -85,7 +94,9 @@ void FreecellSolver::undo_move(MOVE *m)
         Wlen[from]++;
         hashpile(from);
 }
+#endif
 
+#if 0
 /* Move prioritization.  Given legal, pruned moves, there are still some
 that are a waste of time, especially in the endgame where there are lots of
 possible moves, but few productive ones.  Note that we also prioritize
@@ -178,9 +189,11 @@ void FreecellSolver::prioritize(MOVE *mp0, int n)
 		}
 	}
 }
+#endif
 
 /* Automove logic.  Freecell games must avoid certain types of automoves. */
 
+#if 0
 int FreecellSolver::good_automove(int o, int r)
 {
 	int i;
@@ -220,148 +233,43 @@ int FreecellSolver::good_automove(int o, int r)
 
 	return true;
 }
+#endif
 
-/* Get the possible moves from a position, and store them in Possible[]. */
+#define CMD_LINE_ARGS_NUM 2
 
-int FreecellSolver::get_possible_moves(int *a, int *numout)
+static const char * freecell_solver_cmd_line_args[CMD_LINE_ARGS_NUM] =
 {
-	int i, n, t, w, o, empty, emptyw;
-	card_t card;
-	MOVE *mp;
+    "--load-config", "video-editing"
+};
 
-	/* Check for moves from W to O. */
-
-	n = 0;
-	mp = Possible;
-	for (w = 0; w < Nwpiles + Ntpiles; ++w) {
-		if (Wlen[w] > 0) {
-			card = *Wp[w];
-			o = SUIT(card);
-			empty = (O[o] == NONE);
-			if ((empty && (RANK(card) == PS_ACE)) ||
-			    (!empty && (RANK(card) == O[o] + 1))) {
-				mp->card_index = 0;
-				mp->from = w;
-				mp->to = o;
-				mp->totype = O_Type;
-                                mp->turn_index = -1;
-				mp->pri = 0;    /* unused */
-				n++;
-				mp++;
-
-				/* If it's an automove, just do it. */
-
-				if (good_automove(o, RANK(card))) {
-					*a = true;
-                                        mp[-1].pri = 127;
-					if (n != 1) {
-						Possible[0] = mp[-1];
-						return 1;
-					}
-					return n;
-				}
-			}
-		}
-	}
-
-	/* No more automoves, but remember if there were any moves out. */
-
-	*a = false;
-	*numout = n;
-
-	/* Check for moves from non-singleton W cells to one of any
-	empty W cells. */
-
-	emptyw = -1;
-	for (w = 0; w < Nwpiles; ++w) {
-		if (Wlen[w] == 0) {
-			emptyw = w;
-			break;
-		}
-	}
-	if (emptyw >= 0) {
-		for (i = 0; i < Nwpiles + Ntpiles; ++i) {
-			if (i == emptyw || Wlen[i] == 0) {
-				continue;
-			}
-                        bool allowed = false;
-                        if ( i < Nwpiles)
-                            allowed = true;
-                        if ( i >= Nwpiles )
-                            allowed = true;
-                        if ( allowed ) {
-				card = *Wp[i];
-				mp->card_index = 0;
-				mp->from = i;
-				mp->to = emptyw;
-				mp->totype = W_Type;
-                                mp->turn_index = -1;
-                                if ( i >= Nwpiles )
-                                    mp->pri = Xparam[6];
-                                else
-                                    mp->pri = Xparam[3];
-				n++;
-				mp++;
-			}
-		}
-	}
-
-	/* Check for moves from W to non-empty W cells. */
-
-	for (i = 0; i < Nwpiles + Ntpiles; ++i) {
-		if (Wlen[i] > 0) {
-			card = *Wp[i];
-			for (w = 0; w < Nwpiles; ++w) {
-				if (i == w) {
-					continue;
-				}
-				if (Wlen[w] > 0 &&
-				    (RANK(card) == RANK(*Wp[w]) - 1 &&
-				     suitable(card, *Wp[w]))) {
-					mp->card_index = 0;
-					mp->from = i;
-					mp->to = w;
-					mp->totype = W_Type;
-                                        mp->turn_index = -1;
-                                        if ( i >= Nwpiles )
-                                            mp->pri = Xparam[5];
-                                        else
-                                            mp->pri = Xparam[4];
-					n++;
-					mp++;
-				}
-			}
-		}
-	}
-
-        /* Check for moves from W to one of any empty T cells. */
-
-        for (t = 0; t < Ntpiles; ++t) {
-               if (!Wlen[t+Nwpiles]) {
-                       break;
-               }
-        }
-
-        if (t < Ntpiles) {
-               for (w = 0; w < Nwpiles; ++w) {
-                       if (Wlen[w] > 0) {
-                               card = *Wp[w];
-                               mp->card_index = 0;
-                               mp->from = w;
-                               mp->turn_index = -1;
-                               mp->to = t+Nwpiles;
-                               mp->totype = W_Type;
-                               mp->pri = Xparam[7];
-                               n++;
-                               mp++;
-                       }
-               }
-       }
-
-
-	return n;
+int FreecellSolver::get_cmd_line_arg_count()
+{
+    return CMD_LINE_ARGS_NUM;
 }
 
+const char * * FreecellSolver::get_cmd_line_args()
+{
+    return freecell_solver_cmd_line_args;
+}
+
+
+void FreecellSolver::setFcSolverGameParams()
+{
+    /*
+     * I'm using the more standard interface instead of the depracated
+     * user_set_game one. I'd like that each function will have its
+     * own dedicated purpose.
+     *
+     *     Shlomi Fish
+     * */
+    freecell_solver_user_set_num_freecells(solver_instance,4);
+    freecell_solver_user_set_num_stacks(solver_instance,8);
+    freecell_solver_user_set_num_decks(solver_instance,1);
+    freecell_solver_user_set_sequences_are_built_by_type(solver_instance, FCS_SEQ_BUILT_BY_ALTERNATE_COLOR);
+    freecell_solver_user_set_sequence_move(solver_instance, 0);
+    freecell_solver_user_set_empty_stacks_filled_by(solver_instance, FCS_ES_FILLED_BY_ANY_CARD);
+}
+#if 0
 void FreecellSolver::unpack_cluster( unsigned int k )
 {
     /* Get the Out cells from the cluster number. */
@@ -373,27 +281,13 @@ void FreecellSolver::unpack_cluster( unsigned int k )
     k >>= 4;
     O[3] = k & 0xF;
 }
+#endif
 
-bool FreecellSolver::isWon()
-{
-    // maybe won?
-    for (int o = 0; o < 4; ++o) {
-        if (O[o] != PS_KING) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-int FreecellSolver::getOuts()
-{
-    return O[0] + O[1] + O[2] + O[3];
-}
 
 FreecellSolver::FreecellSolver(const Freecell *dealer)
-    : Solver()
+    : FcSolveSolver()
 {
+#if 0
     Osuit[0] = PS_DIAMOND;
     Osuit[1] = PS_CLUB;
     Osuit[2] = PS_HEART;
@@ -402,12 +296,15 @@ FreecellSolver::FreecellSolver(const Freecell *dealer)
     Nwpiles = 8;
     Ntpiles = 4;
 
+#endif
+
     deal = dealer;
 }
 
 /* Read a layout file.  Format is one pile per line, bottom to top (visible
 card).  Temp cells and Out on the last two lines, if any. */
 
+#if 0
 void FreecellSolver::translate_layout()
 {
 	/* Read the workspace. */
@@ -447,9 +344,78 @@ void FreecellSolver::translate_layout()
             }
 	}
 }
+#endif
 
 MoveHint FreecellSolver::translateMove( const MOVE &m )
 {
+    fcs_move_t move = m.fcs;
+    int cards = fcs_move_get_num_cards_in_seq(move);
+    PatPile *from = 0;
+    PatPile *to = 0;
+
+    switch(fcs_move_get_type(move))
+    {
+        case FCS_MOVE_TYPE_STACK_TO_STACK:
+            from = deal->store[fcs_move_get_src_stack(move)];
+            to = deal->store[fcs_move_get_dest_stack(move)];
+            break;
+
+        case FCS_MOVE_TYPE_FREECELL_TO_STACK:
+            from = deal->freecell[fcs_move_get_src_freecell(move)];
+            to = deal->store[fcs_move_get_dest_stack(move)];
+            cards = 1;
+            break;
+
+        case FCS_MOVE_TYPE_FREECELL_TO_FREECELL:
+            from = deal->freecell[fcs_move_get_src_freecell(move)];
+            to = deal->freecell[fcs_move_get_dest_freecell(move)];
+            cards = 1;
+            break;
+
+        case FCS_MOVE_TYPE_STACK_TO_FREECELL:
+            from = deal->store[fcs_move_get_src_stack(move)];
+            to = deal->freecell[fcs_move_get_dest_freecell(move)];
+            cards = 1;
+            break;
+
+        case FCS_MOVE_TYPE_STACK_TO_FOUNDATION:
+            from = deal->store[fcs_move_get_src_stack(move)];
+            cards = 1;
+            to = 0;
+            break;
+
+        case FCS_MOVE_TYPE_FREECELL_TO_FOUNDATION:
+            from = deal->freecell[fcs_move_get_src_freecell(move)];
+            cards = 1;
+            to = 0;
+    }
+    Q_ASSERT(from);
+    Q_ASSERT(cards <= from->cards().count());
+    Q_ASSERT(to || cards == 1);
+    KCard *card = from->cards()[from->cards().count() - cards];
+
+    if (!to)
+    {
+        PatPile *target = 0;
+        PatPile *empty = 0;
+        for (int i = 0; i < 4; ++i) {
+            KCard *c = deal->target[i]->topCard();
+            if (c) {
+                if ( c->suit() == card->suit() )
+                {
+                    target = deal->target[i];
+                    break;
+                }
+            } else if ( !empty )
+                empty = deal->target[i];
+        }
+        to = target ? target : empty;
+    }
+    Q_ASSERT(to);
+
+    return MoveHint(card, to, 0);
+
+#if 0
     // this is tricky as we need to want to build the "meta moves"
 
     PatPile *frompile = nullptr;
@@ -486,8 +452,43 @@ MoveHint FreecellSolver::translateMove( const MOVE &m )
 
         return MoveHint( card, target, m.pri );
     }
+#endif
 }
 
+void FreecellSolver::translate_layout()
+{
+    strcpy(board_as_string, deal->solverFormat().toLatin1());
+
+    if (solver_instance)
+    {
+        freecell_solver_user_recycle(solver_instance);
+        solver_ret = FCS_STATE_NOT_BEGAN_YET;
+    }
+#if 0
+    /* Read the workspace. */
+    int total = 0;
+
+    for ( int w = 0; w < 10; ++w ) {
+        int i = translate_pile(deal->store[w], W[w], 52);
+        Wp[w] = &W[w][i - 1];
+        Wlen[w] = i;
+        total += i;
+    }
+
+    for (int i = 0; i < 4; ++i) {
+        O[i] = -1;
+        KCard *c = deal->target[i]->top();
+        if (c) {
+            total += 13;
+            O[i] = translateSuit( c->suit() );
+        }
+    }
+#endif
+}
+
+
+
+#if 0
 unsigned int FreecellSolver::getClusterNumber()
 {
     int i = O[0] + (O[1] << 4);
@@ -496,7 +497,9 @@ unsigned int FreecellSolver::getClusterNumber()
     k |= i << 8;
     return k;
 }
+#endif
 
+#if 0
 void FreecellSolver::print_layout()
 {
        int i, t, w, o;
@@ -519,3 +522,4 @@ void FreecellSolver::print_layout()
        }
        fprintf(stderr, "\nprint-layout-end\n");
 }
+#endif

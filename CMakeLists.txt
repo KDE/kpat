@@ -4,6 +4,8 @@ cmake_minimum_required (VERSION 2.8.12 FATAL_ERROR)
 set (QT_MIN_VERSION "5.7.0")
 set (KF5_MIN_VERSION "5.30.0")
 
+include(FindPkgConfig)
+pkg_check_modules(FC_SOLVE REQUIRED libfreecell-solver)
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED CONFIG)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
 
@@ -45,7 +47,7 @@ add_subdirectory(sounds)
 add_subdirectory(themes)
 add_subdirectory(doc)
 
-set(kpat_SRCS
+set(kpat_SRCS ${libfcs_SRCS}
     main.cpp
     dealer.cpp
     dealerinfo.cpp
@@ -59,6 +61,7 @@ set(kpat_SRCS
     soundengine.cpp
     statisticsdialog.cpp
     view.cpp
+    patsolve/abstract_fc_solve_solver.cpp
     patsolve/memory.cpp
     patsolve/patsolve.cpp
 
@@ -101,6 +104,7 @@ target_link_libraries(kpat
     KF5::KIOCore
     KF5KDEGames
     kcardgame
+    ${FC_SOLVE_LIBRARIES}
 )
 
 install(TARGETS kpat ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
