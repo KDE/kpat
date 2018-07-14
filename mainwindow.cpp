@@ -304,27 +304,27 @@ void MainWindow::setupActions()
 
     // Keyboard navigation actions
     m_leftAction = actionCollection()->addAction( QStringLiteral( "focus_left" ));
-    m_leftAction->setText(QStringLiteral("Move Focus to Previous Pile"));
+    m_leftAction->setText(i18n("Move Focus to Previous Pile"));
     actionCollection()->setDefaultShortcut(m_leftAction, Qt::Key_Left );
 
     m_rightAction = actionCollection()->addAction( QStringLiteral( "focus_right" ));
-    m_rightAction->setText(QStringLiteral("Move Focus to Next Pile"));
+    m_rightAction->setText(i18n("Move Focus to Next Pile"));
     actionCollection()->setDefaultShortcut(m_rightAction, Qt::Key_Right );
 
     m_upAction = actionCollection()->addAction( QStringLiteral( "focus_up" ));
-    m_upAction->setText(QStringLiteral("Move Focus to Card Below"));
+    m_upAction->setText(i18n("Move Focus to Card Below"));
     actionCollection()->setDefaultShortcut(m_upAction, Qt::Key_Up );
 
     m_downAction = actionCollection()->addAction( QStringLiteral( "focus_down" ));
-    m_downAction->setText(QStringLiteral("Move Focus to Card Above"));
+    m_downAction->setText(i18n("Move Focus to Card Above"));
     actionCollection()->setDefaultShortcut(m_downAction, Qt::Key_Down );
 
     m_cancelAction = actionCollection()->addAction( QStringLiteral( "focus_cancel" ));
-    m_cancelAction->setText(QStringLiteral("Cancel Focus"));
+    m_cancelAction->setText(i18n("Cancel Focus"));
     actionCollection()->setDefaultShortcut(m_cancelAction, Qt::Key_Escape );
 
     m_pickUpSetDownAction = actionCollection()->addAction( QStringLiteral( "focus_activate" ));
-    m_pickUpSetDownAction->setText(QStringLiteral("Pick Up or Set Down Focus"));
+    m_pickUpSetDownAction->setText(i18n("Pick Up or Set Down Focus"));
     actionCollection()->setDefaultShortcut(m_pickUpSetDownAction, Qt::Key_Space );
 
     // showMenubar isn't a part of KStandardGameAction
