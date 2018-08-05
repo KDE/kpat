@@ -177,11 +177,11 @@ bool Freecell::tryAutomaticMove(KCard *c)
     if (c->isAnimated())
         return false;
 
-    if (c == c->pile()->topCard() && c->isFaceUp())
+    if (allowedToRemove(c->pile(), c))
     {
         for (int i = 0; i < 4; i++)
         {
-            if (freecell[i]->isEmpty())
+            if (allowedToAdd( freecell[i], {c} ))
             {
                 moveCardToPile( c, freecell[i], DURATION_MOVE );
                 return true;
