@@ -20,12 +20,12 @@
 
 #include "patsolve.h"
 
-struct FcSolveSolver : public Solver<10>
+struct FcSolveSolver : public Solver<12>
 {
 public:
     FcSolveSolver();
     virtual ~FcSolveSolver();
-    virtual int get_possible_moves(int *a, int *numout);
+    virtual int get_possible_moves(int *a, int *numout) = 0;
     virtual bool isWon();
     virtual void make_move(MOVE *m);
     virtual void undo_move(MOVE *m);

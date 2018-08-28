@@ -193,18 +193,22 @@ void FreecellSolver::prioritize(MOVE *mp0, int n)
 
 /* Automove logic.  Freecell games must avoid certain types of automoves. */
 
-#if 0
+#if 1
 int FreecellSolver::good_automove(int o, int r)
 {
-	int i;
-
 	if (r <= 2) {
 		return true;
 	}
 
+    for (int foundation_idx = 0; foundation_idx < 4; ++foundation_idx) {
+        KCard *c = deal->target[foundation_idx]->topCard();
+        if (c) {
+            O[translateSuit( c->suit() ) >> 4] = c->rank();
+        }
+    }
 	/* Check the Out piles of opposite color. */
 
-	for (i = 1 - (o & 1); i < 4; i += 2) {
+	for (int i = 1 - (o & 1); i < 4; i += 2) {
 		if (O[i] < r - 1) {
 
 #if 1   /* Raymond's Rule */
@@ -232,6 +236,51 @@ int FreecellSolver::good_automove(int o, int r)
 	}
 
 	return true;
+}
+
+int FreecellSolver::get_possible_moves(int *a, int *numout)
+{
+	int w;
+	card_t card;
+	MOVE *mp;
+
+	/* Check for moves from W to O. */
+
+	int n = 0;
+	mp = Possible;
+	for (w = 0; w < Nwpiles + Ntpiles; ++w) {
+		if (Wlen[w] > 0) {
+			card = *Wp[w];
+			int out_suit = SUIT(card);
+			const bool empty = (O[out_suit] == NONE);
+			if ((empty && (RANK(card) == PS_ACE)) ||
+			    (!empty && (RANK(card) == O[out_suit] + 1))) {
+				mp->card_index = 0;
+				mp->from = w;
+				mp->to = out_suit;
+				mp->totype = O_Type;
+				mp->turn_index = -1;
+				mp->pri = 0;    /* unused */
+				n++;
+				mp++;
+
+				/* If it's an automove, just do it. */
+
+				if (good_automove(out_suit, RANK(card))) {
+					*a = true;
+                    mp[-1].pri = 127;
+					if (n != 1) {
+						Possible[0] = mp[-1];
+						return 1;
+					}
+					*numout = n;
+					return n;
+				}
+			}
+		}
+	}
+    *numout = 0;
+    return 0;
 }
 #endif
 
@@ -301,13 +350,148 @@ FreecellSolver::FreecellSolver(const Freecell *dealer)
     deal = dealer;
 }
 
-/* Read a layout file.  Format is one pile per line, bottom to top (visible
-card).  Temp cells and Out on the last two lines, if any. */
+MoveHint FreecellSolver::translateMove( const MOVE &m )
+{
+    if (m.is_fcs)
+    {
+        fcs_move_t move = m.fcs;
+        int cards = fcs_move_get_num_cards_in_seq(move);
+        PatPile *from = 0;
+        PatPile *to = 0;
 
-#if 0
+        switch(fcs_move_get_type(move))
+        {
+            case FCS_MOVE_TYPE_STACK_TO_STACK:
+            from = deal->store[fcs_move_get_src_stack(move)];
+            to = deal->store[fcs_move_get_dest_stack(move)];
+            break;
+
+            case FCS_MOVE_TYPE_FREECELL_TO_STACK:
+            from = deal->freecell[fcs_move_get_src_freecell(move)];
+            to = deal->store[fcs_move_get_dest_stack(move)];
+            cards = 1;
+            break;
+
+            case FCS_MOVE_TYPE_FREECELL_TO_FREECELL:
+            from = deal->freecell[fcs_move_get_src_freecell(move)];
+            to = deal->freecell[fcs_move_get_dest_freecell(move)];
+            cards = 1;
+            break;
+
+            case FCS_MOVE_TYPE_STACK_TO_FREECELL:
+            from = deal->store[fcs_move_get_src_stack(move)];
+            to = deal->freecell[fcs_move_get_dest_freecell(move)];
+            cards = 1;
+            break;
+
+            case FCS_MOVE_TYPE_STACK_TO_FOUNDATION:
+            from = deal->store[fcs_move_get_src_stack(move)];
+            cards = 1;
+            to = 0;
+            break;
+
+            case FCS_MOVE_TYPE_FREECELL_TO_FOUNDATION:
+            from = deal->freecell[fcs_move_get_src_freecell(move)];
+            cards = 1;
+            to = 0;
+        }
+        Q_ASSERT(from);
+        Q_ASSERT(cards <= from->cards().count());
+        Q_ASSERT(to || cards == 1);
+        KCard *card = from->cards()[from->cards().count() - cards];
+
+        if (!to)
+        {
+            PatPile *target = 0;
+            PatPile *empty = 0;
+            for (int i = 0; i < 4; ++i) {
+                KCard *c = deal->target[i]->topCard();
+                if (c) {
+                    if ( c->suit() == card->suit() )
+                    {
+                        target = deal->target[i];
+                        break;
+                    }
+                } else if ( !empty )
+                    empty = deal->target[i];
+            }
+            to = target ? target : empty;
+        }
+        Q_ASSERT(to);
+
+        return MoveHint(card, to, 0);
+    }
+    else
+    {
+        // this is tricky as we need to want to build the "meta moves"
+
+        PatPile *frompile = nullptr;
+        if ( m.from < 8 )
+            frompile = deal->store[m.from];
+        else
+            frompile = deal->freecell[m.from-8];
+        KCard *card = frompile->at( frompile->count() - m.card_index - 1);
+
+        if ( m.totype == O_Type )
+        {
+            PatPile *target = nullptr;
+            PatPile *empty = nullptr;
+            for (int i = 0; i < 4; ++i) {
+                KCard *c = deal->target[i]->topCard();
+                if (c) {
+                    if ( c->suit() == card->suit() )
+                    {
+                        target = deal->target[i];
+                        break;
+                    }
+                } else if ( !empty )
+                    empty = deal->target[i];
+            }
+            if ( !target )
+                target = empty;
+            return MoveHint( card, target, m.pri );
+        } else {
+            PatPile *target = nullptr;
+            if ( m.to < 8 )
+                target = deal->store[m.to];
+            else
+                target = deal->freecell[m.to-8];
+
+            return MoveHint( card, target, m.pri );
+        }
+    }
+}
+
 void FreecellSolver::translate_layout()
 {
-	/* Read the workspace. */
+    strcpy(board_as_string, deal->solverFormat().toLatin1());
+
+    if (solver_instance)
+    {
+        freecell_solver_user_recycle(solver_instance);
+        solver_ret = FCS_STATE_NOT_BEGAN_YET;
+    }
+#if 0
+    /* Read the workspace. */
+    int total = 0;
+
+    for ( int w = 0; w < 10; ++w ) {
+        int i = translate_pile(deal->store[w], W[w], 52);
+        Wp[w] = &W[w][i - 1];
+        Wlen[w] = i;
+        total += i;
+    }
+
+    for (int i = 0; i < 4; ++i) {
+        O[i] = -1;
+        KCard *c = deal->target[i]->top();
+        if (c) {
+            total += 13;
+            O[i] = translateSuit( c->suit() );
+        }
+    }
+#endif
+    /* Read the workspace. */
 
 	int total = 0;
 	for ( int w = 0; w < 8; ++w ) {
@@ -343,147 +527,7 @@ void FreecellSolver::translate_layout()
                 }
             }
 	}
-}
-#endif
 
-MoveHint FreecellSolver::translateMove( const MOVE &m )
-{
-    fcs_move_t move = m.fcs;
-    int cards = fcs_move_get_num_cards_in_seq(move);
-    PatPile *from = 0;
-    PatPile *to = 0;
-
-    switch(fcs_move_get_type(move))
-    {
-        case FCS_MOVE_TYPE_STACK_TO_STACK:
-            from = deal->store[fcs_move_get_src_stack(move)];
-            to = deal->store[fcs_move_get_dest_stack(move)];
-            break;
-
-        case FCS_MOVE_TYPE_FREECELL_TO_STACK:
-            from = deal->freecell[fcs_move_get_src_freecell(move)];
-            to = deal->store[fcs_move_get_dest_stack(move)];
-            cards = 1;
-            break;
-
-        case FCS_MOVE_TYPE_FREECELL_TO_FREECELL:
-            from = deal->freecell[fcs_move_get_src_freecell(move)];
-            to = deal->freecell[fcs_move_get_dest_freecell(move)];
-            cards = 1;
-            break;
-
-        case FCS_MOVE_TYPE_STACK_TO_FREECELL:
-            from = deal->store[fcs_move_get_src_stack(move)];
-            to = deal->freecell[fcs_move_get_dest_freecell(move)];
-            cards = 1;
-            break;
-
-        case FCS_MOVE_TYPE_STACK_TO_FOUNDATION:
-            from = deal->store[fcs_move_get_src_stack(move)];
-            cards = 1;
-            to = 0;
-            break;
-
-        case FCS_MOVE_TYPE_FREECELL_TO_FOUNDATION:
-            from = deal->freecell[fcs_move_get_src_freecell(move)];
-            cards = 1;
-            to = 0;
-    }
-    Q_ASSERT(from);
-    Q_ASSERT(cards <= from->cards().count());
-    Q_ASSERT(to || cards == 1);
-    KCard *card = from->cards()[from->cards().count() - cards];
-
-    if (!to)
-    {
-        PatPile *target = 0;
-        PatPile *empty = 0;
-        for (int i = 0; i < 4; ++i) {
-            KCard *c = deal->target[i]->topCard();
-            if (c) {
-                if ( c->suit() == card->suit() )
-                {
-                    target = deal->target[i];
-                    break;
-                }
-            } else if ( !empty )
-                empty = deal->target[i];
-        }
-        to = target ? target : empty;
-    }
-    Q_ASSERT(to);
-
-    return MoveHint(card, to, 0);
-
-#if 0
-    // this is tricky as we need to want to build the "meta moves"
-
-    PatPile *frompile = nullptr;
-    if ( m.from < 8 )
-        frompile = deal->store[m.from];
-    else
-        frompile = deal->freecell[m.from-8];
-    KCard *card = frompile->at( frompile->count() - m.card_index - 1);
-
-    if ( m.totype == O_Type )
-    {
-        PatPile *target = nullptr;
-        PatPile *empty = nullptr;
-        for (int i = 0; i < 4; ++i) {
-            KCard *c = deal->target[i]->topCard();
-            if (c) {
-                if ( c->suit() == card->suit() )
-                {
-                    target = deal->target[i];
-                    break;
-                }
-            } else if ( !empty )
-                empty = deal->target[i];
-        }
-        if ( !target )
-            target = empty;
-        return MoveHint( card, target, m.pri );
-    } else {
-        PatPile *target = nullptr;
-        if ( m.to < 8 )
-            target = deal->store[m.to];
-        else
-            target = deal->freecell[m.to-8];
-
-        return MoveHint( card, target, m.pri );
-    }
-#endif
-}
-
-void FreecellSolver::translate_layout()
-{
-    strcpy(board_as_string, deal->solverFormat().toLatin1());
-
-    if (solver_instance)
-    {
-        freecell_solver_user_recycle(solver_instance);
-        solver_ret = FCS_STATE_NOT_BEGAN_YET;
-    }
-#if 0
-    /* Read the workspace. */
-    int total = 0;
-
-    for ( int w = 0; w < 10; ++w ) {
-        int i = translate_pile(deal->store[w], W[w], 52);
-        Wp[w] = &W[w][i - 1];
-        Wlen[w] = i;
-        total += i;
-    }
-
-    for (int i = 0; i < 4; ++i) {
-        O[i] = -1;
-        KCard *c = deal->target[i]->top();
-        if (c) {
-            total += 13;
-            O[i] = translateSuit( c->suit() );
-        }
-    }
-#endif
 }
 
 

@@ -168,6 +168,11 @@ void SimonSolver::setFcSolverGameParams()
     freecell_solver_user_apply_preset(solver_instance, "simple_simon");
 }
 
+int SimonSolver::get_possible_moves(int *, int *)
+{
+    return 0;
+}
+
 #if 0
 /* Get the possible moves from a position, and store them in Possible[]. */
 

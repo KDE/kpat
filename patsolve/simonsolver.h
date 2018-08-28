@@ -27,8 +27,8 @@ class SimonSolver : public FcSolveSolver
 {
 public:
     explicit SimonSolver(const Simon *dealer);
-#if 0
     int get_possible_moves(int *a, int *numout) Q_DECL_OVERRIDE;
+#if 0
     bool isWon() Q_DECL_OVERRIDE;
     void make_move(MOVE *m) Q_DECL_OVERRIDE;
     void undo_move(MOVE *m) Q_DECL_OVERRIDE;

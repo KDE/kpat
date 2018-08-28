@@ -23,12 +23,15 @@ public:
     PileType totype;
     signed char pri;        /* move priority (low priority == low value) */
     int turn_index;         /* turn the card index */
+    bool is_fcs;
     fcs_move_t fcs;         /* A Freecell Solver move. */
 
     bool operator<( const MOVE &m) const
     {
         return pri < m.pri;
     }
+
+    MOVE() : is_fcs(false) {}
 };
 
 class SolverInterface {

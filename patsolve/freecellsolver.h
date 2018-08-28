@@ -29,9 +29,9 @@ class FreecellSolver : public FcSolveSolver
 {
 public:
     explicit FreecellSolver(const Freecell *dealer);
-#if 0
     int good_automove(int o, int r);
-    int get_possible_moves(int *a, int *numout) Q_DECL_OVERRIDE;
+    virtual int get_possible_moves(int *a, int *numout) Q_DECL_OVERRIDE;
+#if 0
     bool isWon() Q_DECL_OVERRIDE;
     void make_move(MOVE *m) Q_DECL_OVERRIDE;
     void undo_move(MOVE *m) Q_DECL_OVERRIDE;
@@ -58,12 +58,12 @@ public:
 
 /* Names of the cards.  The ordering is defined in pat.h. */
 
-    card_t O[4]; /* output piles store only the rank or NONE */
     card_t Osuit[4];
 
 
     static int Xparam[];
 #endif
+    card_t O[4]; /* output piles store only the rank or NONE */
 
     const Freecell *deal;
 };
