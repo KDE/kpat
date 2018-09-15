@@ -121,7 +121,7 @@ void Klondike::initialize()
         play[i]->setPileRole(PatPile::Tableau);
         play[i]->setLayoutPos((1.0 + hspacing) * i, 1.0 + vspacing);
         play[i]->setAutoTurnTop(true);
-        play[i]->setBottomPadding( play[i]->spread().y() * 7 );
+        play[i]->setBottomPadding( play[i]->spread().y() * 5 );
         play[i]->setHeightPolicy( KCardPile::GrowDown );
         play[i]->setKeyboardSelectHint( KCardPile::AutoFocusDeepestFaceUp );
         play[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
