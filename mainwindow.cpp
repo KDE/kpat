@@ -78,6 +78,7 @@
 #include <QList>
 #include <QPointer>
 #include <QTimer>
+#include <QBuffer>
 #include <QXmlStreamReader>
 #include <QDesktopWidget>
 #include <QKeySequence>
