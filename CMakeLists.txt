@@ -9,7 +9,7 @@ pkg_check_modules(FC_SOLVE REQUIRED libfreecell-solver)
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED CONFIG)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
 
-find_package(Qt5 ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Widgets Svg)
+find_package(Qt5 ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Widgets Svg Test)
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     Completion
     Config
@@ -117,3 +117,11 @@ install(FILES kpatui.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kpat)
 install(FILES kpat.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
+
+include(ECMAddTests)
+ecm_add_test(
+    shuffle_test.cpp
+    TEST_NAME ShuffleTest
+    LINK_LIBRARIES Qt5::Test
+    NAME_PREFIX "kpat-"
+)
