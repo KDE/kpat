@@ -66,9 +66,10 @@ namespace
 {
     const qreal wonBoxToSceneSizeRatio = 0.7;
 
-    QList<KCard*> shuffled( const QList<KCard*> & cards, unsigned int seed )
+    template<class T>
+    QList<T> shuffled( const QList<T> & cards, unsigned int seed )
     {
-        QList<KCard*> result = cards;
+        QList<T> result = cards;
         for ( int i = result.size(); i > 1; --i )
         {
             // We use the same pseudorandom number generation algorithm as Windows
@@ -843,7 +844,7 @@ void DealerScene::startNew( int dealNumber )
         p->clear();
 
     m_dealInProgress = true;
-    restart( shuffled( deck()->cards(), m_dealNumber ) );
+    restart( shuffled<KCard*>( deck()->cards(), m_dealNumber ) );
     m_dealInProgress = false;
 
     takeState();
