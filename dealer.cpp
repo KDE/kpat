@@ -66,10 +66,8 @@ namespace
 {
     const qreal wonBoxToSceneSizeRatio = 0.7;
 
-    QList<KCard*> shuffled( const QList<KCard*> & cards, int seed )
+    QList<KCard*> shuffled( const QList<KCard*> & cards, unsigned int seed )
     {
-        Q_ASSERT( seed > 0 );
-
         QList<KCard*> result = cards;
         for ( int i = result.size(); i > 1; --i )
         {
