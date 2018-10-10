@@ -177,7 +177,8 @@ bool Freecell::tryAutomaticMove(KCard *c)
     if (c->isAnimated())
         return false;
 
-    if (allowedToRemove(c->pile(), c))
+    if (allowedToRemove(c->pile(), c)
+        && c == c->pile()->topCard())
     {
         for (int i = 0; i < 4; i++)
         {
