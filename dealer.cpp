@@ -39,6 +39,7 @@
 #include "dealerinfo.h"
 #include "messagebox.h"
 #include "renderer.h"
+#include "shuffle.h"
 #include "speeds.h"
 #include "patsolve/solverinterface.h"
 #include "version.h"
@@ -65,25 +66,6 @@
 namespace
 {
     const qreal wonBoxToSceneSizeRatio = 0.7;
-
-    template<class T>
-    QList<T> shuffled( const QList<T> & cards, unsigned int seed )
-    {
-        QList<T> result = cards;
-        for ( int i = result.size(); i > 1; --i )
-        {
-            // We use the same pseudorandom number generation algorithm as Windows
-            // Freecell, so that game numbers are the same between the two applications.
-            // For more inforation, see
-            // http://support.microsoft.com/default.aspx?scid=kb;EN-US;Q28150
-            seed = 214013 * seed + 2531011;
-            int rand = ( seed >> 16 ) & 0x7fff;
-
-            result.swap( i - 1, rand % i );
-        }
-
-        return result;
-    }
 
     QString solverStatusMessage( int status, bool everWinnable )
     {
@@ -844,7 +826,7 @@ void DealerScene::startNew( int dealNumber )
         p->clear();
 
     m_dealInProgress = true;
-    restart( shuffled<KCard*>( deck()->cards(), m_dealNumber ) );
+    restart( KpatShuffle::shuffled<KCard*>( deck()->cards(), m_dealNumber ) );
     m_dealInProgress = false;
 
     takeState();
