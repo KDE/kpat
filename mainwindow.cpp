@@ -285,7 +285,7 @@ void MainWindow::setupActions()
 
 
     // Hidden actions
-    if (!qgetenv("KDE_DEBUG").isEmpty()) // developer shortcut
+    if (!qEnvironmentVariableIsEmpty("KDE_DEBUG")) // developer shortcut
     {
         a = actionCollection()->addAction( QStringLiteral( "themePreview" ));
         a->setText(i18n("Generate a theme preview image"));
