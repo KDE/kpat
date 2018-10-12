@@ -46,6 +46,7 @@ add_subdirectory(previews)
 add_subdirectory(sounds)
 add_subdirectory(themes)
 add_subdirectory(doc)
+add_subdirectory(autotests)
 
 set(kpat_SRCS ${libfcs_SRCS}
     main.cpp
@@ -117,11 +118,3 @@ install(FILES kpatui.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kpat)
 install(FILES kpat.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
-
-include(ECMAddTests)
-ecm_add_test(
-    shuffle_test.cpp
-    TEST_NAME ShuffleTest
-    LINK_LIBRARIES Qt5::Test
-    NAME_PREFIX "kpat-"
-)
