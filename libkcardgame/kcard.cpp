@@ -21,8 +21,6 @@
 #include "kabstractcarddeck.h"
 #include "kcardpile.h"
 
-#include <QDebug>
-
 #include <QPropertyAnimation>
 #include <QPainter>
 

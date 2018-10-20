@@ -17,10 +17,8 @@
 
 #include "spidersolver.h"
 
+#include "../kpat_debug.h"
 #include "../spider.h"
-
-#include <QDebug>
-
 
 #define PRINT 0
 
@@ -29,7 +27,7 @@
 void SpiderSolver::make_move(MOVE *m)
 {
 #if PRINT
-    //qDebug() << "\n\nmake_move\n";
+    //qCDebug(KPAT_LOG) << "\n\nmake_move\n";
     if ( m->totype == O_Type )
         fprintf( stderr, "move %d from %d out (at %d) Prio: %d\n\n", m->card_index, m->from, m->turn_index, m->pri );
     else
@@ -118,7 +116,7 @@ void SpiderSolver::make_move(MOVE *m)
 void SpiderSolver::undo_move(MOVE *m)
 {
 #if PRINT
-    //qDebug() << "\n\nundo_move\n";
+    //qCDebug(KPAT_LOG) << "\n\nundo_move\n";
     if ( m->totype == O_Type )
         fprintf( stderr, "move %d from %d out (at %d)\n\n", m->card_index, m->from, m->turn_index );
     else

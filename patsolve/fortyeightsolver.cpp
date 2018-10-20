@@ -18,8 +18,7 @@
 #include "fortyeightsolver.h"
 
 #include "../fortyeight.h"
-
-#include <QDebug>
+#include "../kpat_debug.h"
 
 namespace {
 constexpr auto NUM_PILE = 8;
@@ -535,7 +534,7 @@ bool FortyeightSolver::isWon()
     for ( int i = 0; i < 8; ++i )
         if ( O[i] != PS_KING )
             return false;
-    //qDebug() << "isWon" << getOuts();
+    //qCDebug(KPAT_LOG) << "isWon" << getOuts();
     return true;
 }
 

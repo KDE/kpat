@@ -24,8 +24,8 @@
 #include "common.h"
 #include "kcardtheme.h"
 #include "kcardpile.h"
+#include "libkcardgame_debug.h"
 
-#include <QDebug>
 #include <KImageCache>
 
 #include <QTimer>
@@ -86,7 +86,7 @@ void RenderingThread::run()
         QString key = keyForPixmap( element, m_size );
         if ( !d->cache->contains( key ) )
         {
-            //qDebug() << "Renderering" << key << "in rendering thread.";
+            //qCDebug(LIBKCARDGAME_LOG) << "Renderering" << key << "in rendering thread.";
             QImage img = d->renderCard( element, m_size );
             d->cache->insertImage( key, img );
             emit renderingDone( element, img );
@@ -124,7 +124,7 @@ QSvgRenderer * KAbstractCardDeckPrivate::renderer()
     if ( !svgRenderer )
     {
         QString thread = (qApp->thread() == QThread::currentThread()) ? "main" : "rendering";
-        //qDebug() << QString("Loading card deck SVG in %1 thread").arg( thread );
+        //qCDebug(LIBKCARDGAME_LOG) << QString("Loading card deck SVG in %1 thread").arg( thread );
 
         svgRenderer = new QSvgRenderer( theme.graphicsFilePath() );
     }
@@ -150,7 +150,7 @@ QImage KAbstractCardDeckPrivate::renderCard( const QString & element, const QSiz
         }
         else
         {
-            qWarning() << "Could not find" << element << "in SVG.";
+            qCWarning(LIBKCARDGAME_LOG) << "Could not find" << element << "in SVG.";
             p.fillRect( QRect( 0, 0, img.width(), img.height() ), Qt::white );
             p.setPen( Qt::red );
             p.drawLine( 0, 0, img.width(), img.height() );
@@ -204,7 +204,7 @@ QPixmap KAbstractCardDeckPrivate::requestPixmap( quint32 id, bool faceUp )
         {
             if ( stored.isNull() )
             {
-                //qDebug() << "Renderering" << key << "in main thread.";
+                //qCDebug(LIBKCARDGAME_LOG) << "Renderering" << key << "in main thread.";
                 QImage img = renderCard( elementId, currentCardSize );
                 cache->insertImage( key, img );
                 stored = QPixmap::fromImage( img );

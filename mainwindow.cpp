@@ -41,6 +41,7 @@
 #include "dealer.h"
 #include "dealerinfo.h"
 #include "gameselectionscene.h"
+#include "kpat_debug.h"
 #include "numbereddealdialog.h"
 #include "renderer.h"
 #include "settings.h"
@@ -60,7 +61,6 @@
 #include <QAction>
 #include <KActionCollection>
 #include <KConfigDialog>
-#include <QDebug>
 #include <QFileDialog>
 #include <QIcon>
 #include <KLocalizedString>

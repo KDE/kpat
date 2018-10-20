@@ -18,9 +18,7 @@
 #include "klondikesolver.h"
 
 #include "../klondike.h"
-
-#include <QDebug>
-
+#include "../kpat_debug.h"
 
 /* Some macros used in get_possible_moves(). */
 

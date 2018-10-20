@@ -38,11 +38,11 @@
 #include "freecell.h"
 
 #include "dealerinfo.h"
+#include "kpat_debug.h"
 #include "pileutils.h"
 #include "speeds.h"
 #include "patsolve/freecellsolver.h"
 
-#include <QDebug>
 #include <KLocalizedString>
 
 

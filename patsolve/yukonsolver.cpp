@@ -17,10 +17,8 @@
 
 #include "yukonsolver.h"
 
+#include "../kpat_debug.h"
 #include "../yukon.h"
-
-#include <QDebug>
-
 
 /* Some macros used in get_possible_moves(). */
 

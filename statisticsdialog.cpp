@@ -38,10 +38,10 @@
 #include "statisticsdialog.h"
 
 #include "dealerinfo.h"
+#include "kpat_debug.h"
 #include "version.h"
 
 #include <KConfigGroup>
-#include <QDebug>
 #include <KLocalizedString>
 #include <KSharedConfig>
 #include <QList>

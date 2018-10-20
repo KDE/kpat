@@ -19,12 +19,11 @@
 #include "gameselectionscene.h"
 
 #include "dealerinfo.h"
+#include "kpat_debug.h"
 #include "renderer.h"
 
 #include <KColorUtils>
-#include <QDebug>
 #include <KLocalizedString>
-
 
 #include <QGraphicsObject>
 #include <QKeyEvent>

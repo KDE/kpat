@@ -18,9 +18,7 @@
 #include "mod3solver.h"
 
 #include "../mod3.h"
-
-#include <QDebug>
-
+#include "../kpat_debug.h"
 
 #define PRINT 0
 #define PRINT2 0

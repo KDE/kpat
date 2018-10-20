@@ -18,7 +18,7 @@
 
 #include "memory.h"
 
-#include <QDebug>
+#include "../kpat_debug.h"
 
 #include <QtGlobal>
 

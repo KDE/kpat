@@ -19,10 +19,9 @@
 #include "patsolve.h"
 
 #include "../patpile.h"
+#include "../kpat_debug.h"
 
 #include "KCardDeck"
-
-#include <QDebug>
 
 #include <cctype>
 #include <cmath>
@@ -416,20 +415,20 @@ int Solver<NumberPiles>::get_pilenum(int w)
 	if (l == nullptr) {
 		if (Pilenum >= NPILES ) {
                         Status = UnableToDetermineSolvability;
-			//qDebug() << "out of piles";
+			//qCDebug(KPAT_LOG) << "out of piles";
 			return -1;
 		}
 		l = mm_allocate<BUCKETLIST>();
 		if (l == nullptr) {
                         Status = UnableToDetermineSolvability;
-			//qDebug() << "out of buckets";
+			//qCDebug(KPAT_LOG) << "out of buckets";
 			return -1;
 		}
 		l->pile = mm_new_array<quint8>(Wlen[w] + 1);
 		if (l->pile == nullptr) {
                     Status = UnableToDetermineSolvability;
                     MemoryManager::free_ptr(l);
-		    //qDebug() << "out of memory";
+		    //qCDebug(KPAT_LOG) << "out of memory";
                     return -1;
 		}
 
@@ -960,7 +959,7 @@ POSITION *Solver<NumberPiles>::new_position(POSITION *parent, MOVE *m)
         }
         if ( Total_positions % 1000 == 1000 )
             print_layout();
-        //qDebug() << "new" << dummy;
+        //qCDebug(KPAT_LOG) << "new" << dummy;
 #endif
 	p += sizeof(POSITION);
 	return pos;

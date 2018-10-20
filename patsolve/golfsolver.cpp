@@ -18,9 +18,7 @@
 #include "golfsolver.h"
 
 #include "../golf.h"
-
-#include <QDebug>
-
+#include "../kpat_debug.h"
 
 #define PRINT 0
 

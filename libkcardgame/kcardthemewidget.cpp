@@ -22,7 +22,6 @@
 #include "common.h"
 #include <KImageCache>
 #include <KConfigDialog>
-#include <QDebug>
 #include <KLineEdit>
 #include <KLocalizedString>
 #include <QPushButton>

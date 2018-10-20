@@ -36,6 +36,7 @@
 
 #include "dealer.h"
 #include "dealerinfo.h"
+#include "kpat_debug.h"
 #include "mainwindow.h"
 #include "version.h"
 #include "patsolve/solverinterface.h"
@@ -45,8 +46,6 @@
 
 #include <KAboutData>
 #include <KCrash>
-
-#include <QDebug>
 #include <KLocalizedString>
 #include <KDBusService>
 
@@ -76,7 +75,7 @@ static DealerScene *getDealer( int wanted_game )
 
             if ( !d->solver() )
             {
-                qCritical() << "There is no solver for" << di->nameForId( wanted_game );;
+                qCCritical(KPAT_LOG) << "There is no solver for" << di->nameForId( wanted_game );;
                 return nullptr;
             }
 

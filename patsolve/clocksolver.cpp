@@ -18,8 +18,7 @@
 #include "clocksolver.h"
 
 #include "../clock.h"
-
-#include <QDebug>
+#include "../kpat_debug.h"
 
 #define PRINT 0
 #define PRINT2 0

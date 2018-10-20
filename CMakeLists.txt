@@ -34,6 +34,7 @@ include(ECMInstallIcons)
 include(KDEInstallDirs)
 include(KDECompilerSettings NO_POLICY_SCOPE)
 include(KDECMakeSettings)
+include(ECMQtDeclareLoggingCategory)
 
 add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS)
 
@@ -95,6 +96,12 @@ set(kpat_SRCS ${libfcs_SRCS}
 ki18n_wrap_ui( kpat_SRCS statisticsdialog.ui )
 kconfig_add_kcfg_files( kpat_SRCS settings.kcfgc )
 
+ecm_qt_declare_logging_category(kpat_SRCS
+    HEADER kpat_debug.h
+    IDENTIFIER KPAT_LOG
+    CATEGORY_NAME org.kde.kpat
+)
+
 file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/*-apps-kpat.png")
 ecm_add_app_icon(kpat_SRCS ICONS ${ICONS_SRCS})
 add_executable(kpat ${kpat_SRCS})
@@ -113,6 +120,7 @@ install(TARGETS kpat ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### install files ###############
 
+install(FILES kpat.categories DESTINATION ${KDE_INSTALL_CONFDIR})
 install(PROGRAMS org.kde.kpat.desktop  DESTINATION  ${KDE_INSTALL_APPDIR})
 install(FILES kpatui.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kpat)
 install(FILES kpat.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})

@@ -18,10 +18,9 @@
 #include "gypsysolver.h"
 
 #include "../gypsy.h"
+#include "../kpat_debug.h"
 
-#include <QDebug>
 #include <assert.h>
-
 
 #define PRINT 0
 
@@ -32,7 +31,7 @@
 void GypsySolver::make_move(MOVE *m)
 {
 #if PRINT
-    //qDebug() << "\n\nmake_move\n";
+    //qCDebug(KPAT_LOG) << "\n\nmake_move\n";
     if ( m->totype == O_Type )
         fprintf( stderr, "move %d from %d out (at %d) Prio: %d\n\n", m->card_index, m->from, m->turn_index, m->pri );
     else
@@ -120,7 +119,7 @@ void GypsySolver::make_move(MOVE *m)
 void GypsySolver::undo_move(MOVE *m)
 {
 #if PRINT
-    //qDebug() << "\n\nundo_move\n";
+    //qCDebug(KPAT_LOG) << "\n\nundo_move\n";
     if ( m->totype == O_Type )
         fprintf( stderr, "move %d from %d out (at %d)\n\n", m->card_index, m->from, m->turn_index );
     else

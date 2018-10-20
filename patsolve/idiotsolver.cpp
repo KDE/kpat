@@ -18,9 +18,7 @@
 #include "idiotsolver.h"
 
 #include "../idiot.h"
-
-#include <QDebug>
-
+#include "../kpat_debug.h"
 
 #define PRINT 0
 

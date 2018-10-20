@@ -40,8 +40,6 @@
 #include "kabstractcarddeck.h"
 #include "kcardpile.h"
 
-#include <QDebug>
-
 #include <QGraphicsSceneWheelEvent>
 #include <QPainter>
 #include <QPointer>
