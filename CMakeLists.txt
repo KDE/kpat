@@ -38,7 +38,7 @@ include(ECMQtDeclareLoggingCategory)
 
 add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/libkcardgame/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/libkcardgame/include ${FC_SOLVE_INCLUDE_DIRS})
 
 add_subdirectory(icons)
 add_subdirectory(libkcardgame)
