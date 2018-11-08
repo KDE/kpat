@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component type="desktop">
+  <id>org.kde.kpat</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0+</project_license>
+  <name>KPatience</name>
+  <summary>Solitaire card game</summary>
+  <description>
+    <p>KPat (aka KPatience) is a relaxing card sorting game. To win the game a player has to arrange a single deck of cards in certain order amongst each other.</p>
+  </description>
+  <url type="homepage">https://games.kde.org/game.php?game=kpat</url>
+  <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=kpat</url>
+  <url type="help">https://docs.kde.org/?application=kpat</url>
+  <url type="donation">https://www.kde.org/community/donations/?app=kpat&amp;source=appdata</url>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Solitaire selection screen</caption>
+      <image>http://kde.org/images/screenshots/kpatience.png</image>
+    </screenshot>
+  </screenshots>
+  <project_group>KDE</project_group>
+  <provides>
+    <binary>kpat</binary>
+  </provides>
+</component>

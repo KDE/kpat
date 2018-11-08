@@ -122,6 +122,7 @@ install(TARGETS kpat ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(FILES kpat.categories DESTINATION ${KDE_INSTALL_CONFDIR})
 install(PROGRAMS org.kde.kpat.desktop  DESTINATION  ${KDE_INSTALL_APPDIR})
+install(FILES org.kde.kpat.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 install(FILES kpatui.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kpat)
 install(FILES kpat.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 
