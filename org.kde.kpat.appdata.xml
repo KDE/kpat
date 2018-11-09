@@ -4,9 +4,27 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
   <name>KPatience</name>
+  <name xml:lang="ca">KPatience</name>
+  <name xml:lang="nl">KPatience</name>
+  <name xml:lang="pt">Paciência</name>
+  <name xml:lang="sv">Patiens</name>
+  <name xml:lang="uk">KPatience</name>
+  <name xml:lang="x-test">xxKPatiencexx</name>
   <summary>Solitaire card game</summary>
+  <summary xml:lang="ca">Joc de cartes al solitari</summary>
+  <summary xml:lang="nl">Solitaire kaartspel</summary>
+  <summary xml:lang="pt">Jogo de cartas do solitário</summary>
+  <summary xml:lang="sv">Patienskortspel</summary>
+  <summary xml:lang="uk">Карткова гра у пасьянс</summary>
+  <summary xml:lang="x-test">xxSolitaire card gamexx</summary>
   <description>
     <p>KPat (aka KPatience) is a relaxing card sorting game. To win the game a player has to arrange a single deck of cards in certain order amongst each other.</p>
+    <p xml:lang="ca">El KPat (o KPatience) és un joc d'ordenació relaxant de cartes. Per guanyar la partida un jugador té que organitzar una baralla única de cartes en un ordre determinat contra un altre.</p>
+    <p xml:lang="nl">KPat (ook KPatience) is een ontspannend kaart sorteerspel. Om het spel te winnen moet een speler een enkel kaartdek in een bepaalde volgorde naast elke andere arrangeren.</p>
+    <p xml:lang="pt">O KPat (ou KPatience) é um jogo de cartas relaxante. Para ganhar o jogo, o jogador tem de organizar um único baralho de cartas de acordo com uma dada ordem entre si.</p>
+    <p xml:lang="sv">KPat (också känt som Patiens) är ett avkopplande kortsorteringsspel. För att vinna spelet måste spelaren arrangera korten i en kortlek i en viss ordning bland varandra.</p>
+    <p xml:lang="uk">KPat (або KPatience) — заспокійлива гра в упорядковування набору карт. Щоб виграти гру, гравцеві слід за певними правилами упорядкувати колоди карт.</p>
+    <p xml:lang="x-test">xxKPat (aka KPatience) is a relaxing card sorting game. To win the game a player has to arrange a single deck of cards in certain order amongst each other.xx</p>
   </description>
   <url type="homepage">https://games.kde.org/game.php?game=kpat</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=kpat</url>
@@ -15,6 +33,12 @@
   <screenshots>
     <screenshot type="default">
       <caption>Solitaire selection screen</caption>
+      <caption xml:lang="ca">Pantalla de selecció del solitari</caption>
+      <caption xml:lang="nl">Selectiescherm van Solitaire</caption>
+      <caption xml:lang="pt">Ecrã de selecção do solitário</caption>
+      <caption xml:lang="sv">Skärm för val av patiens</caption>
+      <caption xml:lang="uk">Вікно вибору пасьянсу</caption>
+      <caption xml:lang="x-test">xxSolitaire selection screenxx</caption>
       <image>http://kde.org/images/screenshots/kpatience.png</image>
     </screenshot>
   </screenshots>
