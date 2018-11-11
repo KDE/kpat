@@ -345,6 +345,11 @@ void DealerScene::saveFile( QIODevice * io )
         xml.writeAttribute( QStringLiteral("game-type-options"), getGameOptions() );
     xml.writeAttribute( QStringLiteral("deal-number"), QString::number( gameNumber() ) );
 
+    if (!m_currentState) {
+        deck()->stopAnimations();
+        takeState();
+    }
+
     QList<GameState*> allStates;
     for ( int i = 0; i < m_undoStack.size(); ++i )
         allStates << m_undoStack.at( i );
