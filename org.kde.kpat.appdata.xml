@@ -6,8 +6,10 @@
   <name>KPatience</name>
   <name xml:lang="ca">KPatience</name>
   <name xml:lang="ca-valencia">KPatience</name>
+  <name xml:lang="es">KPatience</name>
   <name xml:lang="nl">KPatience</name>
   <name xml:lang="pt">Paciência</name>
+  <name xml:lang="pt-BR">KPatience</name>
   <name xml:lang="sk">KPatience</name>
   <name xml:lang="sv">Patiens</name>
   <name xml:lang="uk">KPatience</name>
@@ -15,6 +17,7 @@
   <summary>Solitaire card game</summary>
   <summary xml:lang="ca">Joc de cartes al solitari</summary>
   <summary xml:lang="ca-valencia">Joc de cartes al solitari</summary>
+  <summary xml:lang="es">Juego de cartas de tipo solitario</summary>
   <summary xml:lang="nl">Solitaire kaartspel</summary>
   <summary xml:lang="pt">Jogo de cartas do solitário</summary>
   <summary xml:lang="sk">Kartová hra typu Solitaire</summary>
@@ -25,6 +28,7 @@
     <p>KPat (aka KPatience) is a relaxing card sorting game. To win the game a player has to arrange a single deck of cards in certain order amongst each other.</p>
     <p xml:lang="ca">El KPat (o KPatience) és un joc d'ordenació relaxant de cartes. Per guanyar la partida un jugador té que organitzar una baralla única de cartes en un ordre determinat contra un altre.</p>
     <p xml:lang="ca-valencia">El KPat (o KPatience) és un joc d'ordenació relaxant de cartes. Per guanyar la partida un jugador té que organitzar una baralla única de cartes en un ordre determinat contra un altre.</p>
+    <p xml:lang="es">KPat (también conocido como KPatience) es un relajante juego de ordenación de cartas. Para ganar la partida, el jugador debe organizar una baraja de cartas en cierto orden.</p>
     <p xml:lang="nl">KPat (ook KPatience) is een ontspannend kaart sorteerspel. Om het spel te winnen moet een speler een enkel kaartdek in een bepaalde volgorde naast elke andere arrangeren.</p>
     <p xml:lang="pt">O KPat (ou KPatience) é um jogo de cartas relaxante. Para ganhar o jogo, o jogador tem de organizar um único baralho de cartas de acordo com uma dada ordem entre si.</p>
     <p xml:lang="sv">KPat (också känt som Patiens) är ett avkopplande kortsorteringsspel. För att vinna spelet måste spelaren arrangera korten i en kortlek i en viss ordning bland varandra.</p>
@@ -40,6 +44,7 @@
       <caption>Solitaire selection screen</caption>
       <caption xml:lang="ca">Pantalla de selecció del solitari</caption>
       <caption xml:lang="ca-valencia">Pantalla de selecció del solitari</caption>
+      <caption xml:lang="es">Pantalla de selección de solitario</caption>
       <caption xml:lang="nl">Selectiescherm van Solitaire</caption>
       <caption xml:lang="pt">Ecrã de selecção do solitário</caption>
       <caption xml:lang="sv">Skärm för val av patiens</caption>
