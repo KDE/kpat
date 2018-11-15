@@ -20,6 +20,7 @@
   <summary xml:lang="es">Juego de cartas de tipo solitario</summary>
   <summary xml:lang="nl">Solitaire kaartspel</summary>
   <summary xml:lang="pt">Jogo de cartas do solitário</summary>
+  <summary xml:lang="pt-BR">Jogo de cartas paciência</summary>
   <summary xml:lang="sk">Kartová hra typu Solitaire</summary>
   <summary xml:lang="sv">Patienskortspel</summary>
   <summary xml:lang="uk">Карткова гра у пасьянс</summary>
@@ -31,6 +32,7 @@
     <p xml:lang="es">KPat (también conocido como KPatience) es un relajante juego de ordenación de cartas. Para ganar la partida, el jugador debe organizar una baraja de cartas en cierto orden.</p>
     <p xml:lang="nl">KPat (ook KPatience) is een ontspannend kaart sorteerspel. Om het spel te winnen moet een speler een enkel kaartdek in een bepaalde volgorde naast elke andere arrangeren.</p>
     <p xml:lang="pt">O KPat (ou KPatience) é um jogo de cartas relaxante. Para ganhar o jogo, o jogador tem de organizar um único baralho de cartas de acordo com uma dada ordem entre si.</p>
+    <p xml:lang="pt-BR">KPat (ou KPatience) é um relaxante jogo de ordenação de cartas. Para ganhar o jogo, o jogador tem que arranjar um baralho de cartas em uma certa ordem entre as cartas.</p>
     <p xml:lang="sv">KPat (också känt som Patiens) är ett avkopplande kortsorteringsspel. För att vinna spelet måste spelaren arrangera korten i en kortlek i en viss ordning bland varandra.</p>
     <p xml:lang="uk">KPat (або KPatience) — заспокійлива гра в упорядковування набору карт. Щоб виграти гру, гравцеві слід за певними правилами упорядкувати колоди карт.</p>
     <p xml:lang="x-test">xxKPat (aka KPatience) is a relaxing card sorting game. To win the game a player has to arrange a single deck of cards in certain order amongst each other.xx</p>
@@ -47,6 +49,7 @@
       <caption xml:lang="es">Pantalla de selección de solitario</caption>
       <caption xml:lang="nl">Selectiescherm van Solitaire</caption>
       <caption xml:lang="pt">Ecrã de selecção do solitário</caption>
+      <caption xml:lang="pt-BR">Tela de seleção de paciência</caption>
       <caption xml:lang="sv">Skärm för val av patiens</caption>
       <caption xml:lang="uk">Вікно вибору пасьянсу</caption>
       <caption xml:lang="x-test">xxSolitaire selection screenxx</caption>
