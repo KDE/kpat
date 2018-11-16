@@ -6,6 +6,8 @@
   <name>KPatience</name>
   <name xml:lang="ca">KPatience</name>
   <name xml:lang="ca-valencia">KPatience</name>
+  <name xml:lang="cs">KPatience</name>
+  <name xml:lang="de">KPatience</name>
   <name xml:lang="es">KPatience</name>
   <name xml:lang="nl">KPatience</name>
   <name xml:lang="pt">Paciência</name>
@@ -17,6 +19,8 @@
   <summary>Solitaire card game</summary>
   <summary xml:lang="ca">Joc de cartes al solitari</summary>
   <summary xml:lang="ca-valencia">Joc de cartes al solitari</summary>
+  <summary xml:lang="cs">Karetní hra Solitaire</summary>
+  <summary xml:lang="de">Solitär-Kartenspiel</summary>
   <summary xml:lang="es">Juego de cartas de tipo solitario</summary>
   <summary xml:lang="nl">Solitaire kaartspel</summary>
   <summary xml:lang="pt">Jogo de cartas do solitário</summary>
@@ -46,6 +50,7 @@
       <caption>Solitaire selection screen</caption>
       <caption xml:lang="ca">Pantalla de selecció del solitari</caption>
       <caption xml:lang="ca-valencia">Pantalla de selecció del solitari</caption>
+      <caption xml:lang="de">Auswahl eines Solitärspiels</caption>
       <caption xml:lang="es">Pantalla de selección de solitario</caption>
       <caption xml:lang="nl">Selectiescherm van Solitaire</caption>
       <caption xml:lang="pt">Ecrã de selecção do solitário</caption>
