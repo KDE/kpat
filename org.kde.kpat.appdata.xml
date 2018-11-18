@@ -9,6 +9,8 @@
   <name xml:lang="cs">KPatience</name>
   <name xml:lang="de">KPatience</name>
   <name xml:lang="es">KPatience</name>
+  <name xml:lang="fr">KPatience</name>
+  <name xml:lang="gl">KPatience</name>
   <name xml:lang="nl">KPatience</name>
   <name xml:lang="pt">Paciência</name>
   <name xml:lang="pt-BR">KPatience</name>
@@ -22,6 +24,7 @@
   <summary xml:lang="cs">Karetní hra Solitaire</summary>
   <summary xml:lang="de">Solitär-Kartenspiel</summary>
   <summary xml:lang="es">Juego de cartas de tipo solitario</summary>
+  <summary xml:lang="gl">Xogo de cartas do solitario.</summary>
   <summary xml:lang="nl">Solitaire kaartspel</summary>
   <summary xml:lang="pt">Jogo de cartas do solitário</summary>
   <summary xml:lang="pt-BR">Jogo de cartas paciência</summary>
@@ -34,6 +37,7 @@
     <p xml:lang="ca">El KPat (o KPatience) és un joc d'ordenació relaxant de cartes. Per guanyar la partida un jugador té que organitzar una baralla única de cartes en un ordre determinat contra un altre.</p>
     <p xml:lang="ca-valencia">El KPat (o KPatience) és un joc d'ordenació relaxant de cartes. Per guanyar la partida un jugador té que organitzar una baralla única de cartes en un ordre determinat contra un altre.</p>
     <p xml:lang="es">KPat (también conocido como KPatience) es un relajante juego de ordenación de cartas. Para ganar la partida, el jugador debe organizar una baraja de cartas en cierto orden.</p>
+    <p xml:lang="gl">KPat (tamén chamado KPatience) é un xogo relaxante que consiste en ordenar cartas. Para gañar hai que ordenar un mazo de cartas dun xeito concreto.</p>
     <p xml:lang="nl">KPat (ook KPatience) is een ontspannend kaart sorteerspel. Om het spel te winnen moet een speler een enkel kaartdek in een bepaalde volgorde naast elke andere arrangeren.</p>
     <p xml:lang="pt">O KPat (ou KPatience) é um jogo de cartas relaxante. Para ganhar o jogo, o jogador tem de organizar um único baralho de cartas de acordo com uma dada ordem entre si.</p>
     <p xml:lang="pt-BR">KPat (ou KPatience) é um relaxante jogo de ordenação de cartas. Para ganhar o jogo, o jogador tem que arranjar um baralho de cartas em uma certa ordem entre as cartas.</p>
@@ -51,6 +55,7 @@
       <caption xml:lang="ca">Pantalla de selecció del solitari</caption>
       <caption xml:lang="ca-valencia">Pantalla de selecció del solitari</caption>
       <caption xml:lang="es">Pantalla de selección de solitario</caption>
+      <caption xml:lang="gl">Pantalla de selección do solitario</caption>
       <caption xml:lang="nl">Selectiescherm van Solitaire</caption>
       <caption xml:lang="pt">Ecrã de selecção do solitário</caption>
       <caption xml:lang="pt-BR">Tela de seleção de paciência</caption>
