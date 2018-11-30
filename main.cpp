@@ -314,7 +314,7 @@ int main( int argc, char **argv )
     QFile savedState( QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QLatin1Char('/') + saved_state_file);
 
     MainWindow *w = new MainWindow;
-    if (parser.positionalArguments().count())
+    if (!parser.positionalArguments().isEmpty())
     {
         if ( !w->loadGame( QUrl::fromLocalFile(parser.positionalArguments().at( 0 )), true ) )
             w->slotShowGameSelectionScreen();
