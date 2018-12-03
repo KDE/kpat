@@ -90,6 +90,7 @@ KCardDeck::KCardDeck( const KCardTheme & theme, QObject * parent )
 
 KCardDeck::~KCardDeck()
 {
+    delete d;
 }
 
 
