@@ -20,6 +20,7 @@
   <name xml:lang="sv">Patiens</name>
   <name xml:lang="uk">KPatience</name>
   <name xml:lang="x-test">xxKPatiencexx</name>
+  <name xml:lang="zh-CN">KPatience</name>
   <summary>Solitaire card game</summary>
   <summary xml:lang="ca">Joc de cartes al solitari</summary>
   <summary xml:lang="ca-valencia">Joc de cartes al solitari</summary>
@@ -37,6 +38,7 @@
   <summary xml:lang="sv">Patienskortspel</summary>
   <summary xml:lang="uk">Карткова гра у пасьянс</summary>
   <summary xml:lang="x-test">xxSolitaire card gamexx</summary>
+  <summary xml:lang="zh-CN">纸牌游戏</summary>
   <description>
     <p>KPat (aka KPatience) is a relaxing card sorting game. To win the game a player has to arrange a single deck of cards in certain order amongst each other.</p>
     <p xml:lang="ca">El KPat (o KPatience) és un joc d'ordenació relaxant de cartes. Per guanyar la partida un jugador té que organitzar una baralla única de cartes en un ordre determinat contra un altre.</p>
