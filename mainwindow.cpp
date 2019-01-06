@@ -350,7 +350,7 @@ void MainWindow::helpGame()
         QString anchor = QString::fromUtf8( di->untranslatedBaseName() );
         anchor = anchor.toLower();
         anchor = anchor.remove('\'').replace('&', QLatin1String("and")).replace(' ', '-');
-        KHelpClient::invokeHelp(anchor);
+        KHelpClient::invokeHelp(QLatin1String("rules-specific.html#") + anchor);
     }
 }
 
