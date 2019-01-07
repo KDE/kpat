@@ -14,7 +14,6 @@
   <name xml:lang="gl">KPatience</name>
   <name xml:lang="id">KPatience</name>
   <name xml:lang="nl">KPatience</name>
-  <name xml:lang="pl">KPatience</name>
   <name xml:lang="pt">Paciência</name>
   <name xml:lang="pt-BR">KPatience</name>
   <name xml:lang="sk">KPatience</name>
@@ -33,7 +32,6 @@
   <summary xml:lang="gl">Xogo de cartas do solitario</summary>
   <summary xml:lang="id">Permainan kartu solitaire</summary>
   <summary xml:lang="nl">Solitaire kaartspel</summary>
-  <summary xml:lang="pl">Gra karciana pasjans</summary>
   <summary xml:lang="pt">Jogo de cartas do solitário</summary>
   <summary xml:lang="pt-BR">Jogo de cartas paciência</summary>
   <summary xml:lang="sk">Kartová hra typu Solitaire</summary>
@@ -52,7 +50,6 @@
     <p xml:lang="gl">KPat (tamén chamado KPatience) é un xogo relaxante que consiste en ordenar cartas. Para gañar hai que ordenar un mazo de cartas dun xeito concreto.</p>
     <p xml:lang="id">KPat (juga dikenal sebagai KPatience) adalah sebuah permainan mengurutkan kartu secara santai. Untuk memenangkan permainan seorang pemain haruslah mengatur dek kartu dalam urutan tertentu di antara satu sama lain.</p>
     <p xml:lang="nl">KPat (ook KPatience) is een ontspannend kaart sorteerspel. Om het spel te winnen moet een speler een enkel kaartdek in een bepaalde volgorde naast elke andere arrangeren.</p>
-    <p xml:lang="pl">KPat (znany również jako KPatience) jest odprężającą grą w układanie kart. Aby wygrać grę, gracz musi ułożyć pojedynczą talię kart w odpowiedniej kolejności względem siebie.</p>
     <p xml:lang="pt">O KPat (ou KPatience) é um jogo de cartas relaxante. Para ganhar o jogo, o jogador tem de organizar um único baralho de cartas de acordo com uma dada ordem entre si.</p>
     <p xml:lang="pt-BR">KPat (ou KPatience) é um relaxante jogo de ordenação de cartas. Para ganhar o jogo, o jogador tem que arranjar um baralho de cartas em uma certa ordem entre as cartas.</p>
     <p xml:lang="sv">KPat (också känt som Patiens) är ett avkopplande kortsorteringsspel. För att vinna spelet måste spelaren arrangera korten i en kortlek i en viss ordning bland varandra.</p>
@@ -75,7 +72,6 @@
       <caption xml:lang="gl">Pantalla de selección do solitario</caption>
       <caption xml:lang="id">Layar pemilihan solitaire</caption>
       <caption xml:lang="nl">Selectiescherm van Solitaire</caption>
-      <caption xml:lang="pl">Ekran wyboru pasjansa</caption>
       <caption xml:lang="pt">Ecrã de selecção do solitário</caption>
       <caption xml:lang="pt-BR">Tela de seleção de paciência</caption>
       <caption xml:lang="sv">Skärm för val av patiens</caption>
