@@ -164,7 +164,7 @@ QString Simon::solverFormat() const
         tmp += suitToString(target[i]->topCard()->suit()) + "-K ";
     }
     if (!tmp.isEmpty())
-        output += QString::fromLatin1("Foundations: %1\n").arg(tmp);
+        output += QStringLiteral("Foundations: %1\n").arg(tmp);
 
     for (int i = 0; i < 10 ; i++)
     {

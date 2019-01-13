@@ -92,7 +92,7 @@ public:
     CardState newState;
     QList<KCard*> cards;
 
-    CardStateChange( CardState oldState, CardState newState, QList<KCard*> cards )
+    CardStateChange( CardState oldState, CardState newState, const QList<KCard*> &cards )
       : oldState( oldState ),
         newState( newState ),
         cards( cards )
@@ -108,7 +108,7 @@ public:
     SolverInterface::ExitStatus solvability;
     QList<MOVE> winningMoves;
 
-    GameState( QList<CardStateChange> changes, QString stateData )
+    GameState( const QList<CardStateChange> &changes, const QString &stateData )
       : changes ( changes ),
         stateData( stateData ),
         solvability( SolverInterface::SearchAborted )

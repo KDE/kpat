@@ -90,7 +90,7 @@ public:
     void removePile( KCardPile * pile );
     QList<KCardPile*> piles() const;
 
-    void setHighlightedItems( QList<QGraphicsItem*> items );
+    void setHighlightedItems( const QList<QGraphicsItem*> &items );
     void clearHighlightedItems();
     QList<QGraphicsItem*> highlightedItems() const;
 

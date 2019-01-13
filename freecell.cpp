@@ -121,18 +121,18 @@ QString Freecell::solverFormat() const
         tmp += suitToString(target[i]->topCard()->suit()) + '-' + rankToString(target[i]->topCard()->rank()) + ' ';
     }
     if (!tmp.isEmpty())
-        output += QString::fromLatin1("Foundations: %1\n").arg(tmp);
+        output += QStringLiteral("Foundations: %1\n").arg(tmp);
 
     tmp.truncate(0);
     for (int i = 0; i < 4 ; i++) {
         if (freecell[i]->isEmpty())
-            tmp += "- ";
+            tmp += QLatin1String("- ");
         else
             tmp += rankToString(freecell[i]->topCard()->rank()) + suitToString(freecell[i]->topCard()->suit()) + ' ';
     }
     if (!tmp.isEmpty())
     {
-        QString a = QString::fromLatin1("Freecells: %1\n");
+        QString a = QStringLiteral("Freecells: %1\n");
         output += a.arg(tmp);
     }
 

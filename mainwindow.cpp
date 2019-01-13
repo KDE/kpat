@@ -532,7 +532,7 @@ void MainWindow::setGameType(int id)
 
     m_gameHelpAction->setText(i18nc("Is disabled and changes to \"Help &with Current Game\" when"
                                   " there is no current game.",
-                                  "Help &with %1", di->baseName().replace('&', "&&")));
+                                  "Help &with %1", di->baseName().replace('&', QLatin1String("&&"))));
 
     connect(m_dealer, &DealerScene::solverStateChanged, this, &MainWindow::updateSolverDescription);
     connect(m_dealer, &DealerScene::updateMoves, this, &MainWindow::slotUpdateMoves);

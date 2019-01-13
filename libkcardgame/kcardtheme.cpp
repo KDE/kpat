@@ -216,13 +216,13 @@ QSet<QString> KCardTheme::supportedFeatures() const
 }
 
 
-bool KCardTheme::operator==( KCardTheme theme ) const
+bool KCardTheme::operator==( const KCardTheme &theme ) const
 {
     return dirName() == theme.dirName();
 }
 
 
-bool KCardTheme::operator!=( KCardTheme theme ) const
+bool KCardTheme::operator!=( const KCardTheme &theme ) const
 {
     return !operator==( theme );
 }

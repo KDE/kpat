@@ -763,7 +763,7 @@ void KCardScene::recalculatePileLayouts()
 }
 
 
-void KCardScene::setHighlightedItems( QList<QGraphicsItem*> items )
+void KCardScene::setHighlightedItems( const QList<QGraphicsItem*> &items )
 {
     QSet<QGraphicsItem*> s = QSet<QGraphicsItem*>::fromList( items );
     foreach ( QGraphicsItem * i, d->highlightedItems.subtract( s ) )

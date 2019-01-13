@@ -128,7 +128,7 @@ void StatisticsDialog::setGameType(int gameIndex)
 		ui->CurrentStreak->setText( i18np("1 loss", "%1 losses", l) );
 	else
 		ui->CurrentStreak->setText( i18np("1 win", "%1 wins",
-	cg.readEntry(QString("winstreak%1").arg(gameIndex),0)) );
+	cg.readEntry(QStringLiteral("winstreak%1").arg(gameIndex),0)) );
 }
 
 void StatisticsDialog::resetStats()

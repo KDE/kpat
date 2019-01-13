@@ -132,7 +132,7 @@ signals:
     void dropActive(bool active);
     void updateMoves(int moves);
 
-    void solverStateChanged(QString text);
+    void solverStateChanged(const QString &text);
 
     void cardsPickedUp();
     void cardsPutDown();

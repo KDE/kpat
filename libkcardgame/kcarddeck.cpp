@@ -128,13 +128,13 @@ QString KCardDeck::elementName( quint32 id, bool faceUp ) const
     switch( rank )
     {
     case King:
-        element = QLatin1String("king");
+        element = QStringLiteral("king");
         break;
     case Queen:
-        element = QLatin1String("queen");
+        element = QStringLiteral("queen");
         break;
     case Jack:
-        element = QLatin1String("jack");
+        element = QStringLiteral("jack");
         break;
     default:
         element = QString::number( rank );

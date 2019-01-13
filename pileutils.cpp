@@ -151,13 +151,13 @@ bool checkAddAlternateColorDescendingFromKing( const QList<KCard*> & oldCards, c
 QString suitToString(int s) {
     switch (s) {
         case KCardDeck::Clubs:
-            return "C";
+            return QStringLiteral("C");
         case KCardDeck::Hearts:
-            return "H";
+            return QStringLiteral("H");
         case KCardDeck::Diamonds:
-            return "D";
+            return QStringLiteral("D");
         case KCardDeck::Spades:
-            return "S";
+            return QStringLiteral("S");
         default:
             exit(-1);
     }
@@ -168,15 +168,15 @@ QString rankToString(int r)
 {
     switch (r) {
         case KCardDeck::King:
-            return "K";
+            return QStringLiteral("K");
         case KCardDeck::Ace:
-            return "A";
+            return QStringLiteral("A");
         case KCardDeck::Jack:
-            return "J";
+            return QStringLiteral("J");
         case KCardDeck::Queen:
-            return "Q";
+            return QStringLiteral("Q");
         case KCardDeck::Ten:
-            return "T";
+            return QStringLiteral("T");
         default:
             return QString::number(r);
     }
