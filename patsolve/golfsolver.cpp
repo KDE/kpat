@@ -20,10 +20,18 @@
 #include "../golf.h"
 #include "../kpat_debug.h"
 
+const int CHUNKSIZE = 100;
+const long int MAX_ITERS_LIMIT = 1000000;
+
+#define BHS__GOLF__NUM_COLUMNS 7
+#define BHS__GOLF__MAX_NUM_CARDS_IN_COL 5
+#define BHS__GOLF__BITS_PER_COL 3
+
 #define PRINT 0
 
 void GolfSolver::make_move(MOVE *m)
 {
+#ifndef WITH_BH_SOLVER
 #if PRINT
     if ( m->totype == O_Type )
         fprintf( stderr, "\nmake move %d from %d out (at %d)\n\n", m->card_index, m->from, m->turn_index );
@@ -71,10 +79,14 @@ void GolfSolver::make_move(MOVE *m)
 #if PRINT
     print_layout();
 #endif
+#else
+    Q_UNUSED(m);
+#endif
 }
 
 void GolfSolver::undo_move(MOVE *m)
 {
+#ifndef WITH_BH_SOLVER
 #if PRINT
     if ( m->totype == O_Type )
         fprintf( stderr, "\nundo move %d from %d out (at %d)\n\n", m->card_index, m->from, m->turn_index );
@@ -121,12 +133,16 @@ void GolfSolver::undo_move(MOVE *m)
 #if PRINT
     print_layout();
 #endif
+#else
+    Q_UNUSED(m);
+#endif
 }
 
 /* Get the possible moves from a position, and store them in Possible[]. */
 
 int GolfSolver::get_possible_moves(int *a, int *numout)
 {
+#ifndef WITH_BH_SOLVER
     int n = 0;
     MOVE *mp = Possible;
 
@@ -167,30 +183,157 @@ int GolfSolver::get_possible_moves(int *a, int *numout)
     }
 
     return n;
+#else
+    Q_UNUSED(a);
+    Q_UNUSED(numout);
+    return 0;
+#endif
 }
 
 bool GolfSolver::isWon()
 {
-
+#ifndef WITH_BH_SOLVER
     return Wlen[7] == 52 ;
+#else
+    return false;
+#endif
 }
 
 int GolfSolver::getOuts()
 {
+#ifndef WITH_BH_SOLVER
     return Wlen[7];
+#else
+    return 0;
+#endif
 }
 
 GolfSolver::GolfSolver(const Golf *dealer)
     : Solver()
 {
     deal = dealer;
+#ifdef WITH_BH_SOLVER
+    solver_instance = NULL;
+    solver_ret = BLACK_HOLE_SOLVER__OUT_OF_ITERS;
+#endif
 }
+
+#ifdef WITH_BH_SOLVER
+void GolfSolver::free_solver_instance()
+{
+    if (solver_instance)
+    {
+        black_hole_solver_free(solver_instance);
+        solver_instance = NULL;
+    }
+}
+
+SolverInterface::ExitStatus GolfSolver::patsolve( int _max_positions )
+{
+    int current_iters_count = 0;
+    max_positions = (_max_positions < 0) ? MAX_ITERS_LIMIT : _max_positions;
+    init();
+
+    if (solver_instance)
+    {
+        return Solver::UnableToDetermineSolvability;
+    }
+    if (black_hole_solver_create(&solver_instance))
+    {
+        fputs("Could not initialise solver_instance (out-of-memory)\n", stderr);
+        exit(-1);
+    }
+    black_hole_solver_enable_rank_reachability_prune(
+        solver_instance, TRUE);
+    black_hole_solver_enable_wrap_ranks(solver_instance, FALSE);
+    black_hole_solver_enable_place_queens_on_kings(
+        solver_instance, TRUE);
+
+    int error_line_num;
+    int num_columns = BHS__GOLF__NUM_COLUMNS;
+    if (black_hole_solver_read_board(solver_instance, board_as_string, &error_line_num,
+            num_columns,
+            BHS__GOLF__MAX_NUM_CARDS_IN_COL,
+            BHS__GOLF__BITS_PER_COL
+    ))
+    {
+        fprintf(stderr, "Error reading the board at line No. %d!\n",
+            error_line_num);
+        exit(-1);
+    }
+    solver_ret = BLACK_HOLE_SOLVER__OUT_OF_ITERS;
+
+    if (solver_instance)
+    {
+        bool continue_loop = true;
+        while (continue_loop &&
+                (   (solver_ret == BLACK_HOLE_SOLVER__OUT_OF_ITERS)
+                  )
+                    &&
+                 (current_iters_count < MAX_ITERS_LIMIT)
+              )
+        {
+            current_iters_count += CHUNKSIZE;
+            black_hole_solver_set_max_iters_limit(solver_instance, current_iters_count);
+
+            solver_ret = black_hole_solver_run(solver_instance);
+            {
+                // QMutexLocker lock( &endMutex );
+                if ( m_shouldEnd )
+                {
+                    continue_loop = false;
+                }
+            }
+        }
+    }
+    switch (solver_ret)
+    {
+        case BLACK_HOLE_SOLVER__OUT_OF_ITERS:
+            free_solver_instance();
+            return Solver::UnableToDetermineSolvability;
+
+        case 0:
+            {
+                if (solver_instance)
+                {
+                    m_winMoves.clear();
+                    int col_idx, card_rank, card_suit;
+                    int next_move_ret_code;
+                    while ((next_move_ret_code = black_hole_solver_get_next_move(
+                                solver_instance, &col_idx, &card_rank, &card_suit)) ==
+                        BLACK_HOLE_SOLVER__SUCCESS)
+                    {
+                        MOVE new_move;
+                        new_move.card_index = 0;
+                        new_move.from = col_idx;
+                        m_winMoves.append( new_move );
+                    }
+
+                }
+                free_solver_instance();
+                return Solver::SolutionExists;
+            }
+
+        default:
+            free_solver_instance();
+            return Solver::UnableToDetermineSolvability;
+
+        case BLACK_HOLE_SOLVER__NOT_SOLVABLE:
+            free_solver_instance();
+            return Solver::NoSolutionExists;
+    }
+}
+#endif
 
 /* Read a layout file.  Format is one pile per line, bottom to top (visible
 card).  Temp cells and Out on the last two lines, if any. */
 
 void GolfSolver::translate_layout()
 {
+#ifdef WITH_BH_SOLVER
+    strcpy(board_as_string, deal->solverFormat().toLatin1());
+    free_solver_instance();
+#else
     /* Read the workspace. */
 
     int total = 0;
@@ -223,6 +366,7 @@ void GolfSolver::translate_layout()
             W[i][l] = card;
         }
     }
+#endif
 }
 
 MoveHint GolfSolver::translateMove( const MOVE &m )
@@ -238,6 +382,7 @@ MoveHint GolfSolver::translateMove( const MOVE &m )
 
 void GolfSolver::print_layout()
 {
+#ifndef WITH_BH_SOLVER
     fprintf(stderr, "print-layout-begin\n");
     for (int w = 0; w < 9; w++) {
         if ( w == 8 )
@@ -252,4 +397,5 @@ void GolfSolver::print_layout()
         fputc('\n', stderr);
     }
     fprintf(stderr, "print-layout-end\n");
+#endif
 }

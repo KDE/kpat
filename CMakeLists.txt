@@ -6,6 +6,11 @@ set (KF5_MIN_VERSION "5.30.0")
 
 include(FindPkgConfig)
 pkg_check_modules(FC_SOLVE REQUIRED libfreecell-solver)
+option(WITH_GOLF_SOLVER "Make use of https://github.com/shlomif/black-hole-solitaire for Golf")
+if (WITH_GOLF_SOLVER)
+    pkg_check_modules(BLACK_HOLE_SOLVER REQUIRED libblack-hole-solver)
+    add_definitions(-DWITH_BH_SOLVER)
+endif()
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED CONFIG)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} ${ECM_KDE_MODULE_DIR})
 
@@ -38,7 +43,7 @@ include(ECMQtDeclareLoggingCategory)
 
 add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/libkcardgame/include ${FC_SOLVE_INCLUDE_DIRS})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/libkcardgame/include ${FC_SOLVE_INCLUDE_DIRS} ${BLACK_HOLE_SOLVER_INCLUDE_DIRS})
 
 add_subdirectory(icons)
 add_subdirectory(libkcardgame)
@@ -113,6 +118,7 @@ target_link_libraries(kpat
     KF5KDEGames
     kcardgame
     ${FC_SOLVE_LDFLAGS}
+    ${BLACK_HOLE_SOLVER_LDFLAGS}
 )
 
 install(TARGETS kpat ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})

@@ -20,6 +20,10 @@
 
 class Golf;
 #include "patsolve.h"
+#ifdef WITH_BH_SOLVER
+#include <black-hole-solver/bool.h>
+#include <black-hole-solver/black_hole_solver.h>
+#endif
 
 
 class GolfSolver : public Solver<9>
@@ -27,6 +31,14 @@ class GolfSolver : public Solver<9>
 public:
     explicit GolfSolver(const Golf *dealer);
 
+#ifdef WITH_BH_SOLVER
+    black_hole_solver_instance_t *solver_instance;
+    int solver_ret;
+    SolverInterface::ExitStatus patsolve( int _max_positions );
+    // More than enough space for two decks.
+    char board_as_string[4 * 13 * 2 * 4 * 3];
+    void free_solver_instance();
+#endif
     int get_possible_moves(int *a, int *numout) Q_DECL_OVERRIDE;
     bool isWon() Q_DECL_OVERRIDE;
     void make_move(MOVE *m) Q_DECL_OVERRIDE;

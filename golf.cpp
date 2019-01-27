@@ -39,6 +39,7 @@
 #include "dealerinfo.h"
 #include "speeds.h"
 #include "patsolve/golfsolver.h"
+#include "pileutils.h"
 
 #include <KLocalizedString>
 
@@ -169,6 +170,35 @@ void Golf::setGameState( const QString & state )
     emit newCardsPossible( !talon->isEmpty() );
 }
 
+#ifdef WITH_BH_SOLVER
+QString Golf::solverFormat() const
+{
+    QString output;
+    if (waste->isEmpty())
+    {
+        output += QStringLiteral("Foundations: -\n");
+    }
+    else
+    {
+        output += QStringLiteral("Foundations: ") + rankToString(waste->topCard()->rank()) + suitToString(waste->topCard()->suit()) + '\n';
+    }
+    output += "Talon:";
+    for ( int i = talon->count()-1; i >= 0; --i )
+    {
+        KCard *c = talon->at( i );
+        output += QStringLiteral(" ")+rankToString(c->rank()) + suitToString(c->suit());
+    }
+    output += "\n";
+    for (int i = 0; i < 7 ; i++)
+    {
+        QList<KCard*> cards = stack[i]->cards();
+        for (QList<KCard*>::ConstIterator it = cards.begin(); it != cards.end(); ++it)
+            output += rankToString((*it)->rank()) + suitToString((*it)->suit()) + ' ';
+        output += '\n';
+    }
+    return output;
+}
+#endif
 
 static class GolfDealerInfo : public DealerInfo
 {
