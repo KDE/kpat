@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2001-2009 Stephan Kulow <coolo@kde.org>
+ * Copyright (C) 1995 Paul Olav Tvete <paul@troll.no>
+ * Copyright (C) 2000-2009 Stephan Kulow <coolo@kde.org>
  *
  * License of original code:
  * -------------------------------------------------------------------------
@@ -20,7 +21,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -32,38 +33,65 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * -------------------------------------------------------------------------
  */
-
-#ifndef GOLF_H
-#define GOLF_H
-
+// Based on main.cpp
+#include <QTest>
 #include "dealer.h"
+#include "dealerinfo.h"
+#include "golf.h"
+#include "../kpat_debug.h"
 
-
-class Golf : public DealerScene
+class TestSolverFormat: public QObject
 {
     Q_OBJECT
-
-public:
-    explicit Golf( const DealerInfo * di );
-    void initialize() Q_DECL_OVERRIDE;
-    QString solverFormat() const;
-
-protected:
-    void setGameState( const QString & state ) Q_DECL_OVERRIDE;
-    bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const Q_DECL_OVERRIDE;
-    bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const Q_DECL_OVERRIDE;
-    void restart( const QList<KCard*> & cards ) Q_DECL_OVERRIDE;
-    bool drop() Q_DECL_OVERRIDE;
-
-protected slots:
-    bool newCards() Q_DECL_OVERRIDE;
-
-private:
-    PatPile* talon;
-    PatPile* stack[7];
-    PatPile* waste;
-
-    friend class GolfSolver;
+private slots:
+    void solverFormat_deal1();
 };
 
-#endif
+static DealerScene *getDealer( int wanted_game )
+{
+    fprintf(stderr, "diuuuuu=\n");
+    foreach ( DealerInfo * di, DealerInfoList::self()->games() )
+    {
+        fprintf(stderr, "di=%p\n", di);
+        if ( di->providesId( wanted_game ) )
+        {
+            DealerScene * d = di->createGame();
+            Q_ASSERT( d );
+            d->setDeck( new KCardDeck( KCardTheme(), d ) );
+            d->initialize();
+
+            if ( !d->solver() )
+            {
+                qCCritical(KPAT_LOG) << "There is no solver for" << di->nameForId( wanted_game );;
+                return nullptr;
+            }
+
+            return d;
+        }
+    }
+    return nullptr;
+}
+
+void TestSolverFormat::solverFormat_deal1()
+{
+    DealerScene *f = getDealer( DealerInfo::GolfId  );
+    assert(f);
+    f->deck()->stopAnimations();
+    f->startNew( 1 );
+    QString have = static_cast<Golf *>(f)->solverFormat();
+    QString want(
+        "Foundations: TH\n"
+        "Talon: 8H 2C JH 7D 6D 8S 8D QS 6C 3D 8C TC 6S 9C 2H 6H\n"
+        "JD 5H KH AS 4H\n"
+        "2D KD 3H AH AC\n"
+        "9H KC 2S 3C 4D\n"
+        "JC 9S KS 4C 7S\n"
+        "5D 5S 9D 5C 3S\n"
+        "7H AD QD TS TD\n"
+        "7C QC JS QH 4S\n"
+    );
+    QCOMPARE(have, want);
+}
+
+QTEST_MAIN(TestSolverFormat)
+#include "solver_format.moc"

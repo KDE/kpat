@@ -170,7 +170,6 @@ void Golf::setGameState( const QString & state )
     emit newCardsPossible( !talon->isEmpty() );
 }
 
-#ifdef WITH_BH_SOLVER
 QString Golf::solverFormat() const
 {
     QString output;
@@ -192,13 +191,20 @@ QString Golf::solverFormat() const
     for (int i = 0; i < 7 ; i++)
     {
         QList<KCard*> cards = stack[i]->cards();
+        bool first = true;
         for (QList<KCard*>::ConstIterator it = cards.begin(); it != cards.end(); ++it)
-            output += rankToString((*it)->rank()) + suitToString((*it)->suit()) + ' ';
+        {
+            if (!first)
+            {
+                output += ' ';
+            }
+            first = false;
+            output += rankToString((*it)->rank()) + suitToString((*it)->suit());
+        }
         output += '\n';
     }
     return output;
 }
-#endif
 
 static class GolfDealerInfo : public DealerInfo
 {
