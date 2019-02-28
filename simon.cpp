@@ -169,7 +169,7 @@ QString Simon::solverFormat() const
     for (int i = 0; i < 10 ; i++)
     {
         QList<KCard*> cards = store[i]->cards();
-        for (QList<KCard*>::ConstIterator it = cards.begin(); it != cards.end(); ++it)
+        for (QList<KCard*>::ConstIterator it = cards.constBegin(); it != cards.constEnd(); ++it)
             output += rankToString((*it)->rank()) + suitToString((*it)->suit()) + ' ';
         output += '\n';
     }

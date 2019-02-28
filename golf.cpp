@@ -192,7 +192,7 @@ QString Golf::solverFormat() const
     {
         QList<KCard*> cards = stack[i]->cards();
         bool first = true;
-        for (QList<KCard*>::ConstIterator it = cards.begin(); it != cards.end(); ++it)
+        for (QList<KCard*>::ConstIterator it = cards.constBegin(); it != cards.constEnd(); ++it)
         {
             if (!first)
             {
