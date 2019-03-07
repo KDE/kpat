@@ -26,3 +26,10 @@ ecm_add_test(
         ${BLACK_HOLE_SOLVER_LDFLAGS}
     NAME_PREFIX "kpat-"
 )
+# kpat code may include generated files, so by using any kpat file in the test
+# the test itself becomes dependent on the entire kpat target, even when not
+# using the target directly.
+# TODO: make libkpat a static library linked into the test and kpat itself so
+# the dependency order is "correct" and the compilation units are only built
+# once.
+add_dependencies(SolverFormatTest kpat)
