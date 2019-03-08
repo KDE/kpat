@@ -35,5 +35,6 @@ bool checkAddAlternateColorDescendingFromKing( const QList<KCard*> & oldCards, c
 extern QString suitToString(int s);
 extern QString rankToString(int r);
 extern QString cardToRankSuitString(const KCard*);
+extern void cardsListToLine(QString & output, const QList<KCard*> cards);
 
 #endif

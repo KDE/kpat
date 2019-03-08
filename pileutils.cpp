@@ -186,3 +186,18 @@ QString cardToRankSuitString(const KCard *const card)
 {
     return rankToString(card->rank()) + suitToString(card->suit());
 }
+
+void cardsListToLine(QString & output, const QList<KCard*> cards)
+{
+    bool first = true;
+    for (QList<KCard*>::ConstIterator it = cards.constBegin(); it != cards.constEnd(); ++it)
+    {
+        if (!first)
+        {
+            output += ' ';
+        }
+        first = false;
+        output += cardToRankSuitString(*it);
+    }
+    output += '\n';
+}

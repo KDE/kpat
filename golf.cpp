@@ -181,20 +181,7 @@ QString Golf::solverFormat() const
     }
     output += "\n";
     for (int i = 0; i < 7 ; i++)
-    {
-        QList<KCard*> cards = stack[i]->cards();
-        bool first = true;
-        for (QList<KCard*>::ConstIterator it = cards.constBegin(); it != cards.constEnd(); ++it)
-        {
-            if (!first)
-            {
-                output += ' ';
-            }
-            first = false;
-            output += cardToRankSuitString(*it);
-        }
-        output += '\n';
-    }
+        cardsListToLine(output, stack[i]->cards());
     return output;
 }
 

@@ -135,12 +135,7 @@ QString Freecell::solverFormat() const
     }
 
     for (int i = 0; i < 8 ; i++)
-    {
-        QList<KCard*> cards = store[i]->cards();
-        for (QList<KCard*>::ConstIterator it = cards.constBegin(); it != cards.constEnd(); ++it)
-            output += cardToRankSuitString(*it) + ' ';
-        output += '\n';
-    }
+        cardsListToLine(output, store[i]->cards());
     return output;
 }
 
