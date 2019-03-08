@@ -179,13 +179,12 @@ QString Golf::solverFormat() const
     }
     else
     {
-        output += QStringLiteral("Foundations: ") + rankToString(waste->topCard()->rank()) + suitToString(waste->topCard()->suit()) + '\n';
+        output += QStringLiteral("Foundations: ") + cardToRankSuitString(waste->topCard()) + '\n';
     }
     output += "Talon:";
     for ( int i = talon->count()-1; i >= 0; --i )
     {
-        KCard *c = talon->at( i );
-        output += QStringLiteral(" ")+rankToString(c->rank()) + suitToString(c->suit());
+        output += QStringLiteral(" ")+cardToRankSuitString(talon->at( i ));
     }
     output += "\n";
     for (int i = 0; i < 7 ; i++)
@@ -199,7 +198,7 @@ QString Golf::solverFormat() const
                 output += ' ';
             }
             first = false;
-            output += rankToString((*it)->rank()) + suitToString((*it)->suit());
+            output += cardToRankSuitString(*it);
         }
         output += '\n';
     }

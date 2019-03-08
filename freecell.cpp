@@ -128,7 +128,7 @@ QString Freecell::solverFormat() const
         if (freecell[i]->isEmpty())
             tmp += QLatin1String("- ");
         else
-            tmp += rankToString(freecell[i]->topCard()->rank()) + suitToString(freecell[i]->topCard()->suit()) + ' ';
+            tmp += cardToRankSuitString(freecell[i]->topCard()) + ' ';
     }
     if (!tmp.isEmpty())
     {
@@ -140,7 +140,7 @@ QString Freecell::solverFormat() const
     {
         QList<KCard*> cards = store[i]->cards();
         for (QList<KCard*>::ConstIterator it = cards.constBegin(); it != cards.constEnd(); ++it)
-            output += rankToString((*it)->rank()) + suitToString((*it)->suit()) + ' ';
+            output += cardToRankSuitString(*it) + ' ';
         output += '\n';
     }
     return output;

@@ -182,3 +182,7 @@ QString rankToString(int r)
     }
 }
 
+QString cardToRankSuitString(const KCard *const card)
+{
+    return rankToString(card->rank()) + suitToString(card->suit());
+}

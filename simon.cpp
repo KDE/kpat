@@ -170,7 +170,7 @@ QString Simon::solverFormat() const
     {
         QList<KCard*> cards = store[i]->cards();
         for (QList<KCard*>::ConstIterator it = cards.constBegin(); it != cards.constEnd(); ++it)
-            output += rankToString((*it)->rank()) + suitToString((*it)->suit()) + ' ';
+            output += cardToRankSuitString(*it) + ' ';
         output += '\n';
     }
     return output;
