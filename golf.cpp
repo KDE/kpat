@@ -173,14 +173,7 @@ void Golf::setGameState( const QString & state )
 QString Golf::solverFormat() const
 {
     QString output;
-    if (waste->isEmpty())
-    {
-        output += QStringLiteral("Foundations: -\n");
-    }
-    else
-    {
-        output += QStringLiteral("Foundations: ") + cardToRankSuitString(waste->topCard()) + '\n';
-    }
+    output += QStringLiteral("Foundations: ") + (waste->isEmpty() ? QStringLiteral("-") : cardToRankSuitString(waste->topCard())) + '\n';
     output += "Talon:";
     for ( int i = talon->count()-1; i >= 0; --i )
     {
