@@ -288,7 +288,7 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
 
 static const char * freecell_solver_cmd_line_args[CMD_LINE_ARGS_NUM] =
 {
-    "--load-config", "video-editing"
+    "--load-config", "slick-rock"
 };
 
 int FreecellSolver::get_cmd_line_arg_count()
