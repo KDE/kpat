@@ -8,6 +8,12 @@ ecm_add_test(
     NAME_PREFIX "kpat-"
 )
 ecm_add_test(
+    freecell_solver.cpp
+    TEST_NAME FcSolveTest
+    LINK_LIBRARIES Qt5::Test
+    NAME_PREFIX "kpat-"
+)
+ecm_add_test(
     "../dealer.cpp"
     "../dealerinfo.cpp"
     "../golf.cpp"

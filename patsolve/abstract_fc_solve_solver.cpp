@@ -126,6 +126,11 @@ SolverInterface::ExitStatus FcSolveSolver::patsolve( int _max_positions )
             }
         }
     }
+    const long reached_iters = freecell_solver_user_get_num_times_long(solver_instance);
+    Q_ASSERT(reached_iters <= MAX_ITERS_LIMIT);
+#if 0
+    fprintf(stderr, "iters = %ld\n", reached_iters);
+#endif
 
     switch (solver_ret)
     {
