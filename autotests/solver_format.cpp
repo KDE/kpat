@@ -40,6 +40,8 @@
 #include "golf.h"
 #include "../kpat_debug.h"
 
+#include <cassert>
+
 class TestSolverFormat: public QObject
 {
     Q_OBJECT
