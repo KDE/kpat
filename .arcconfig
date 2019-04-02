@@ -1,0 +1,5 @@
+{
+    "phabricator.uri" : "https://phabricator.kde.org/",
+    "repository.callsign" : "KPatience",
+    "history.immutable" : true
+}
