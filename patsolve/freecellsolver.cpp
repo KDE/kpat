@@ -288,7 +288,7 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
 
 static const char * freecell_solver_cmd_line_args[CMD_LINE_ARGS_NUM] =
 {
-#if 0
+#ifdef WITH_FCS_SOFT_SUSPEND
     "--load-config", "video-editing"
 #else
     "--load-config", "slick-rock"

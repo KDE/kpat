@@ -39,6 +39,13 @@ void FcSolveSolver::undo_move(MOVE *)
 {
     return;
 }
+#ifdef WITH_FCS_SOFT_SUSPEND
+const auto SOFT_SUSPEND = FCS_STATE_SOFT_SUSPEND_PROCESS;
+#define set_soft_limit(u, limit) freecell_solver_user_soft_limit_iterations_long(u, limit)
+#else
+const auto SOFT_SUSPEND = FCS_STATE_SUSPEND_PROCESS;
+#define set_soft_limit(u, limit) freecell_solver_user_limit_iterations(u, limit)
+#endif
 
 /* Get the possible moves from a position, and store them in Possible[]. */
 SolverInterface::ExitStatus FcSolveSolver::patsolve( int _max_positions )
@@ -100,7 +107,10 @@ SolverInterface::ExitStatus FcSolveSolver::patsolve( int _max_positions )
         setFcSolverGameParams();
 
         current_iters_count = CHUNKSIZE;
-        freecell_solver_user_limit_iterations(solver_instance, current_iters_count);
+        set_soft_limit(solver_instance, current_iters_count);
+#ifdef WITH_FCS_SOFT_SUSPEND
+        freecell_solver_user_limit_iterations(solver_instance, MAX_ITERS_LIMIT);
+#endif
     }
 
     if (solver_instance)
@@ -108,13 +118,13 @@ SolverInterface::ExitStatus FcSolveSolver::patsolve( int _max_positions )
         bool continue_loop = true;
         while (continue_loop &&
                 (   (solver_ret == FCS_STATE_NOT_BEGAN_YET)
-                 || (solver_ret == FCS_STATE_SUSPEND_PROCESS))
+                 || (solver_ret == SOFT_SUSPEND))
                     &&
                  (current_iters_count < MAX_ITERS_LIMIT)
               )
         {
             current_iters_count += CHUNKSIZE;
-            freecell_solver_user_limit_iterations(solver_instance, current_iters_count);
+            set_soft_limit(solver_instance, current_iters_count);
 
             if (solver_ret == FCS_STATE_NOT_BEGAN_YET)
             {
