@@ -21,7 +21,6 @@
 class Golf;
 #include "patsolve.h"
 #ifdef WITH_BH_SOLVER
-#include <black-hole-solver/bool.h>
 #include <black-hole-solver/black_hole_solver.h>
 #endif
 
