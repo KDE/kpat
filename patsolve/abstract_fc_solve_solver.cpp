@@ -54,6 +54,10 @@ SolverInterface::ExitStatus FcSolveSolver::patsolve( int _max_positions )
     Q_ASSERT( m_firstMoves.count() == 0 );
     for (int j = 0; j < num_moves; ++j)
         m_firstMoves.append( Possible[j] );
+    if (max_positions < 20)
+    {
+        return Solver::UnableToDetermineSolvability;
+    }
     if (!solver_instance)
     {
         {
