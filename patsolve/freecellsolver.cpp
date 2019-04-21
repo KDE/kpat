@@ -255,6 +255,7 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
 			const bool empty = (O[out_suit] == NONE);
 			if ((empty && (RANK(card) == PS_ACE)) ||
 			    (!empty && (RANK(card) == O[out_suit] + 1))) {
+				mp->is_fcs = false;
 				mp->card_index = 0;
 				mp->from = w;
 				mp->to = out_suit;
@@ -271,16 +272,14 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
                     mp[-1].pri = 127;
 					if (n != 1) {
 						Possible[0] = mp[-1];
-						return 1;
+						return (*numout = 1);
 					}
-					*numout = n;
-					return n;
+					return (*numout = n);
 				}
 			}
 		}
 	}
-    *numout = 0;
-    return 0;
+    return (*numout = 0);
 }
 #endif
 
