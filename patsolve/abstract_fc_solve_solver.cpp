@@ -54,6 +54,13 @@ SolverInterface::ExitStatus FcSolveSolver::patsolve( int _max_positions )
     Q_ASSERT( m_firstMoves.count() == 0 );
     for (int j = 0; j < num_moves; ++j)
         m_firstMoves.append( Possible[j] );
+    // Sometimes the solver is invoked with a small maximal iterations
+    // quota/limit (e.g: when loading a saved game or checking for autodrop
+    // moves) and it is done frequently, so we return prematurely without
+    // invoking freecell_solver_user_alloc() and friends which incur extra
+    // overhead.
+    //
+    // The m_firstMoves should be good enough in that case.
     if (max_positions < 20)
     {
         return Solver::UnableToDetermineSolvability;
