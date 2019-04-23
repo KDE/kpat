@@ -126,7 +126,7 @@ QString Freecell::solverFormat() const
     tmp.truncate(0);
     for (int i = 0; i < 4 ; i++) {
         const auto fc = freecell[i];
-        tmp += (fc->isEmpty() ? QLatin1String("-") : cardToRankSuitString(fc->topCard())) + ' ';
+        tmp += (fc->isEmpty() ? QStringLiteral("-") : cardToRankSuitString(fc->topCard())) + ' ';
     }
     if (!tmp.isEmpty())
     {

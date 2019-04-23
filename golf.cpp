@@ -174,12 +174,12 @@ QString Golf::solverFormat() const
 {
     QString output;
     output += QStringLiteral("Foundations: ") + (waste->isEmpty() ? QStringLiteral("-") : cardToRankSuitString(waste->topCard())) + '\n';
-    output += "Talon:";
+    output += QLatin1String("Talon:");
     for ( int i = talon->count()-1; i >= 0; --i )
     {
         output += QStringLiteral(" ")+cardToRankSuitString(talon->at( i ));
     }
-    output += "\n";
+    output += QLatin1String("\n");
     for (int i = 0; i < 7 ; i++)
         cardsListToLine(output, stack[i]->cards());
     return output;
