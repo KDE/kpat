@@ -14,6 +14,7 @@
   <name xml:lang="gl">KPatience</name>
   <name xml:lang="id">KPatience</name>
   <name xml:lang="nl">KPatience</name>
+  <name xml:lang="nn">Kabal</name>
   <name xml:lang="pl">KPasjans</name>
   <name xml:lang="pt">Paciência</name>
   <name xml:lang="pt-BR">KPatience</name>
@@ -35,6 +36,7 @@
   <summary xml:lang="gl">Xogo de cartas do solitario</summary>
   <summary xml:lang="id">Permainan kartu solitaire</summary>
   <summary xml:lang="nl">Solitaire kaartspel</summary>
+  <summary xml:lang="nn">Kabelspel</summary>
   <summary xml:lang="pl">Gra karciana pasjans</summary>
   <summary xml:lang="pt">Jogo de cartas do solitário</summary>
   <summary xml:lang="pt-BR">Jogo de cartas paciência</summary>
@@ -79,6 +81,7 @@
       <caption xml:lang="gl">Pantalla de selección do solitario</caption>
       <caption xml:lang="id">Layar pemilihan solitaire</caption>
       <caption xml:lang="nl">Selectiescherm van Solitaire</caption>
+      <caption xml:lang="nn">Val av kabaltype</caption>
       <caption xml:lang="pl">Ekran wyboru pasjansa</caption>
       <caption xml:lang="pt">Ecrã de selecção do solitário</caption>
       <caption xml:lang="pt-BR">Tela de seleção de paciência</caption>
