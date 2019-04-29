@@ -166,7 +166,7 @@ void Solver<NumberPiles>::pilesort(void)
 {
     	/* Make sure all the piles have id numbers. */
 
-	for (int w = 0; w < NumberPiles; w++) {
+	for (size_t w = 0; w < NumberPiles; w++) {
 		if (Wpilenum[w] < 0) {
 			Wpilenum[w] = get_pilenum(w);
 			if (Wpilenum[w] < 0) {
@@ -208,7 +208,7 @@ int Treebytes;
 template<size_t NumberPiles>
 TREE *Solver<NumberPiles>::pack_position(void)
 {
-	int j, w;
+	int j;
 	quint8 *p;
 	TREE *node;
 
@@ -232,7 +232,7 @@ TREE *Solver<NumberPiles>::pack_position(void)
 	*/
 
         quint16 *p2 = ( quint16* ) p;
-	for (w = 0; w < NumberPiles; ++w) {
+	for (size_t w = 0; w < NumberPiles; ++w) {
 		j = Wpilenum[w];
                 if ( j < 0 )
                 {
@@ -265,7 +265,7 @@ array following the POSITION struct. */
 template<size_t NumberPiles>
 void Solver<NumberPiles>::unpack_position(POSITION *pos)
 {
-	int i, w;
+	int i = 0;
 	BUCKETLIST *l;
 
         unpack_cluster(pos->cluster);
@@ -278,7 +278,7 @@ void Solver<NumberPiles>::unpack_position(POSITION *pos)
 		       j             j
 	*/
 
-	w = i = 0;
+	size_t w = 0;
 	quint16 *p2 = ( quint16* )( (quint8 *)(pos->node) + sizeof(TREE) );
 	while (w < NumberPiles) {
                 i = *p2++;
@@ -489,7 +489,6 @@ void Solver<NumberPiles>::doit()
 	int i, q;
 	POSITION *pos;
 	MOVE m;
-        memset( &m, 0, sizeof( MOVE ) );
 
 	/* Init the queues. */
 
@@ -757,7 +756,7 @@ Solver<NumberPiles>::Solver() : mm(new MemoryManager)
 template<size_t NumberPiles>
 Solver<NumberPiles>::~Solver()
 {
-    for ( int i = 0; i < NumberPiles; ++i )
+    for ( size_t i = 0; i < NumberPiles; ++i )
     {
         delete [] W[i];
     }
@@ -970,9 +969,7 @@ POSITION *Solver<NumberPiles>::new_position(POSITION *parent, MOVE *m)
 template<size_t NumberPiles>
 void Solver<NumberPiles>::hash_layout(void)
 {
-	int w;
-
-	for (w = 0; w < NumberPiles; w++) {
+	for (size_t w = 0; w < NumberPiles; w++) {
 		hashpile(w);
 	}
 }

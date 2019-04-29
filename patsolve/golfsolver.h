@@ -33,7 +33,7 @@ public:
 #ifdef WITH_BH_SOLVER
     black_hole_solver_instance_t *solver_instance;
     int solver_ret;
-    SolverInterface::ExitStatus patsolve( int _max_positions );
+    SolverInterface::ExitStatus patsolve( int _max_positions ) Q_DECL_OVERRIDE;
     // More than enough space for two decks.
     char board_as_string[4 * 13 * 2 * 4 * 3];
     void free_solver_instance();

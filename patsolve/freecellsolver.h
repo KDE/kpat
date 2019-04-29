@@ -42,14 +42,14 @@ public:
     void unpack_cluster( unsigned int k ) Q_DECL_OVERRIDE;
     MoveHint translateMove(const MOVE &m) Q_DECL_OVERRIDE;
 #endif
-    virtual void translate_layout();
+    virtual void translate_layout() Q_DECL_OVERRIDE;
 #if 0
     virtual void unpack_cluster( unsigned int k );
 #endif
-    virtual MoveHint translateMove(const MOVE &m);
-    virtual void setFcSolverGameParams();
-    virtual int get_cmd_line_arg_count();
-    virtual const char * * get_cmd_line_args();
+    virtual MoveHint translateMove(const MOVE &m) Q_DECL_OVERRIDE;
+    virtual void setFcSolverGameParams() Q_DECL_OVERRIDE;
+    virtual int get_cmd_line_arg_count() Q_DECL_OVERRIDE;
+    virtual const char * * get_cmd_line_args() Q_DECL_OVERRIDE;
 #if 0
     virtual void print_layout();
 

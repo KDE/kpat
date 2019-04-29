@@ -167,7 +167,7 @@ void SimonSolver::setFcSolverGameParams()
     freecell_solver_user_apply_preset(solver_instance, "simple_simon");
 }
 
-int SimonSolver::get_possible_moves(int *a, int *numout)
+int SimonSolver::get_possible_moves(int *, int *numout)
 {
     return (*numout = 0);
 }

@@ -31,7 +31,7 @@ public:
         return pri < m.pri;
     }
 
-    MOVE() : is_fcs(false) {}
+    MOVE() :  card_index(0), from(0), to(0), totype(O_Type), pri(0), turn_index(0), is_fcs(false), fcs() {}
 };
 
 class SolverInterface {

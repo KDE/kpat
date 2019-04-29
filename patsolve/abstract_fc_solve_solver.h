@@ -25,19 +25,19 @@ struct FcSolveSolver : public Solver<12>
 public:
     FcSolveSolver();
     virtual ~FcSolveSolver();
-    virtual int get_possible_moves(int *a, int *numout) = 0;
-    virtual bool isWon();
-    virtual void make_move(MOVE *m);
-    virtual void undo_move(MOVE *m);
-    virtual int getOuts();
-    virtual unsigned int getClusterNumber();
-    virtual void translate_layout() = 0;
-    virtual void unpack_cluster( unsigned int k );
-    virtual MoveHint translateMove(const MOVE &m) = 0;
-    virtual SolverInterface::ExitStatus patsolve( int _max_positions = -1);
+    virtual int get_possible_moves(int *a, int *numout) Q_DECL_OVERRIDE = 0;
+    virtual bool isWon() Q_DECL_OVERRIDE;
+    virtual void make_move(MOVE *m) Q_DECL_OVERRIDE;
+    virtual void undo_move(MOVE *m) Q_DECL_OVERRIDE;
+    virtual int getOuts() Q_DECL_OVERRIDE;
+    virtual unsigned int getClusterNumber() Q_DECL_OVERRIDE;
+    virtual void translate_layout() Q_DECL_OVERRIDE = 0;
+    virtual void unpack_cluster( unsigned int k ) Q_DECL_OVERRIDE;
+    virtual MoveHint translateMove(const MOVE &m) Q_DECL_OVERRIDE = 0;
+    virtual SolverInterface::ExitStatus patsolve( int _max_positions = -1) Q_DECL_OVERRIDE;
     virtual void setFcSolverGameParams() = 0;
 
-    virtual void print_layout();
+    virtual void print_layout() Q_DECL_OVERRIDE;
 
     virtual int get_cmd_line_arg_count() = 0;
     virtual const char * * get_cmd_line_args() = 0;

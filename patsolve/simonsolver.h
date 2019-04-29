@@ -41,10 +41,10 @@ public:
     void unpack_cluster( unsigned int k ) Q_DECL_OVERRIDE;
     void print_layout() Q_DECL_OVERRIDE;
 #endif
-    virtual void setFcSolverGameParams();
+    virtual void setFcSolverGameParams() Q_DECL_OVERRIDE;
 
-    virtual int get_cmd_line_arg_count();
-    virtual const char * * get_cmd_line_args();
+    virtual int get_cmd_line_arg_count() Q_DECL_OVERRIDE;
+    virtual const char * * get_cmd_line_args() Q_DECL_OVERRIDE;
 #if 0
 /* Names of the cards.  The ordering is defined in pat.h. */
     int O[4];
