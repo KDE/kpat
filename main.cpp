@@ -62,11 +62,11 @@
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 
-static DealerScene *getDealer( int wanted_game )
+static DealerScene *getDealer( int wanted_game , QString name )
 {
     foreach ( DealerInfo * di, DealerInfoList::self()->games() )
     {
-        if ( di->providesId( wanted_game ) )
+        if ( (wanted_game < 0) ? (QString::fromUtf8(di->untranslatedBaseName()) == name) : di->providesId( wanted_game ) )
         {
             DealerScene * d = di->createGame();
             Q_ASSERT( d );
@@ -75,7 +75,7 @@ static DealerScene *getDealer( int wanted_game )
 
             if ( !d->solver() )
             {
-                qCCritical(KPAT_LOG) << "There is no solver for" << di->nameForId( wanted_game );;
+                qCCritical(KPAT_LOG) << "There is no solver for" << di->baseName();
                 return nullptr;
             }
 
@@ -211,7 +211,7 @@ int main( int argc, char **argv )
         QDomDocument doc;
         doc.setContent(&of);
 
-        DealerScene *f = getDealer( doc.documentElement().attribute(QStringLiteral("id")).toInt() );
+        DealerScene *f = getDealer( doc.documentElement().attribute(QStringLiteral("id")).toInt(), "" );
 
         f->loadLegacyFile( &of );
         f->solver()->translate_layout();
@@ -231,7 +231,7 @@ int main( int argc, char **argv )
        qsrand(std::time(nullptr));
        if ( parser.isSet(QStringLiteral("generate")) ) {
           for (int dealer = 0; dealer < 20; dealer++) {
-              DealerScene *f = getDealer( dealer );
+              DealerScene *f = getDealer( dealer, "" );
               if (!f) continue;
               int count = 100;
               QTime mytime;
@@ -265,9 +265,17 @@ int main( int argc, char **argv )
     }
 
     bool ok = false;
+    QString wanted_name;
     int wanted_game = -1;
     if ( parser.isSet( QStringLiteral("solve") ) )
-        wanted_game = parser.value(QStringLiteral("solve")).toInt( &ok );
+    {
+        wanted_name = parser.value(QStringLiteral("solve"));
+        ok = true;
+        bool isInt = false;
+        wanted_game = wanted_name.toInt( &isInt );
+        if (!isInt)
+            wanted_game = -1;
+    }
     if ( ok )
     {
         ok = false;
@@ -287,7 +295,7 @@ int main( int argc, char **argv )
             if ( end_index == -1 )
                 end_index = start_index;
         }
-        DealerScene *f = getDealer( wanted_game );
+        DealerScene *f = getDealer( wanted_game , wanted_name );
         if ( !f )
             return 1;
 
