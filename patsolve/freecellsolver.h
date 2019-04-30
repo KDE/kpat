@@ -30,7 +30,7 @@ class FreecellSolver : public FcSolveSolver
 public:
     explicit FreecellSolver(const Freecell *dealer);
     int good_automove(int o, int r);
-    virtual int get_possible_moves(int *a, int *numout) Q_DECL_OVERRIDE;
+    int get_possible_moves(int *a, int *numout) Q_DECL_OVERRIDE;
 #if 0
     bool isWon() Q_DECL_OVERRIDE;
     void make_move(MOVE *m) Q_DECL_OVERRIDE;
@@ -42,14 +42,14 @@ public:
     void unpack_cluster( unsigned int k ) Q_DECL_OVERRIDE;
     MoveHint translateMove(const MOVE &m) Q_DECL_OVERRIDE;
 #endif
-    virtual void translate_layout() Q_DECL_OVERRIDE;
+    void translate_layout() Q_DECL_OVERRIDE;
 #if 0
     virtual void unpack_cluster( unsigned int k );
 #endif
-    virtual MoveHint translateMove(const MOVE &m) Q_DECL_OVERRIDE;
-    virtual void setFcSolverGameParams() Q_DECL_OVERRIDE;
-    virtual int get_cmd_line_arg_count() Q_DECL_OVERRIDE;
-    virtual const char * * get_cmd_line_args() Q_DECL_OVERRIDE;
+    MoveHint translateMove(const MOVE &m) Q_DECL_OVERRIDE;
+    void setFcSolverGameParams() Q_DECL_OVERRIDE;
+    int get_cmd_line_arg_count() Q_DECL_OVERRIDE;
+    const char * * get_cmd_line_args() Q_DECL_OVERRIDE;
 #if 0
     virtual void print_layout();
 

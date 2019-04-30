@@ -57,10 +57,10 @@ public:
 
     Solver();
     virtual ~Solver();
-    virtual ExitStatus patsolve( int max_positions = -1) Q_DECL_OVERRIDE;
+    ExitStatus patsolve( int max_positions = -1) Q_DECL_OVERRIDE;
     bool recursive(POSITION *pos = nullptr);
-    virtual void translate_layout() Q_DECL_OVERRIDE = 0;
-    virtual MoveHint translateMove(const MOVE &m ) Q_DECL_OVERRIDE = 0;
+    void translate_layout() Q_DECL_OVERRIDE = 0;
+    MoveHint translateMove(const MOVE &m ) Q_DECL_OVERRIDE = 0;
     void stopExecution() final Q_DECL_OVERRIDE;
     QList<MOVE> firstMoves() const final Q_DECL_OVERRIDE;
     QList<MOVE> winMoves() const final Q_DECL_OVERRIDE;
