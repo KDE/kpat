@@ -25,19 +25,19 @@ struct FcSolveSolver : public Solver<12>
 public:
     FcSolveSolver();
     virtual ~FcSolveSolver();
-    int get_possible_moves(int *a, int *numout) Q_DECL_OVERRIDE = 0;
-    bool isWon() Q_DECL_OVERRIDE;
-    void make_move(MOVE *m) Q_DECL_OVERRIDE;
-    void undo_move(MOVE *m) Q_DECL_OVERRIDE;
-    int getOuts() Q_DECL_OVERRIDE;
-    unsigned int getClusterNumber() Q_DECL_OVERRIDE;
-    void translate_layout() Q_DECL_OVERRIDE = 0;
-    void unpack_cluster( unsigned int k ) Q_DECL_OVERRIDE;
-    MoveHint translateMove(const MOVE &m) Q_DECL_OVERRIDE = 0;
-    SolverInterface::ExitStatus patsolve( int _max_positions = -1) Q_DECL_OVERRIDE;
+    virtual int get_possible_moves(int *a, int *numout) Q_DECL_OVERRIDE = 0;
+    virtual bool isWon() Q_DECL_OVERRIDE;
+    virtual void make_move(MOVE *m) Q_DECL_OVERRIDE;
+    virtual void undo_move(MOVE *m) Q_DECL_OVERRIDE;
+    virtual int getOuts() Q_DECL_OVERRIDE;
+    virtual unsigned int getClusterNumber() Q_DECL_OVERRIDE;
+    virtual void translate_layout() Q_DECL_OVERRIDE = 0;
+    virtual void unpack_cluster( unsigned int k ) Q_DECL_OVERRIDE;
+    virtual MoveHint translateMove(const MOVE &m) Q_DECL_OVERRIDE = 0;
+    virtual SolverInterface::ExitStatus patsolve( int _max_positions = -1) Q_DECL_OVERRIDE;
     virtual void setFcSolverGameParams() = 0;
 
-    void print_layout() Q_DECL_OVERRIDE;
+    virtual void print_layout() Q_DECL_OVERRIDE;
 
     virtual int get_cmd_line_arg_count() = 0;
     virtual const char * * get_cmd_line_args() = 0;
