@@ -35,16 +35,16 @@ public:
     int getOuts() Q_DECL_OVERRIDE;
     unsigned int getClusterNumber() Q_DECL_OVERRIDE;
 #endif
-    virtual void translate_layout() Q_DECL_OVERRIDE;
-    virtual MoveHint translateMove(const MOVE &m) Q_DECL_OVERRIDE;
+    void translate_layout() override;
+    MoveHint translateMove(const MOVE &m) override;
 #if 0
     void unpack_cluster( unsigned int k ) Q_DECL_OVERRIDE;
     void print_layout() Q_DECL_OVERRIDE;
 #endif
-    virtual void setFcSolverGameParams() Q_DECL_OVERRIDE;
+    void setFcSolverGameParams() override;
 
-    virtual int get_cmd_line_arg_count() Q_DECL_OVERRIDE;
-    virtual const char * * get_cmd_line_args() Q_DECL_OVERRIDE;
+    int get_cmd_line_arg_count() override;
+    const char * * get_cmd_line_args() override;
 #if 0
 /* Names of the cards.  The ordering is defined in pat.h. */
     int O[4];
