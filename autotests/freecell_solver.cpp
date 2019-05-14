@@ -35,7 +35,7 @@ void TestSolver::runSolver()
 {
     QProcess kpat;
     const char *const deal = "830910836";
-    kpat.start(QStringLiteral("../kpat"), QStringList() << QStringLiteral("--start") << deal << QStringLiteral("--end") << deal << QStringLiteral("--solve") << QStringLiteral("3"));
+    kpat.start(QStringLiteral("../bin/kpat"), QStringList() << QStringLiteral("--start") << deal << QStringLiteral("--end") << deal << QStringLiteral("--solve") << QStringLiteral("3"));
     QCOMPARE(kpat.waitForFinished(), true);
     QCOMPARE(kpat.exitStatus(), QProcess::NormalExit);
     QCOMPARE(kpat.exitCode(), 0);

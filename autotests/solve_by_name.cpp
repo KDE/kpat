@@ -34,7 +34,7 @@ private slots:
 void TestSolver::runSolver()
 {
     QProcess kpat;
-    kpat.start(QStringLiteral("../kpat"), QStringList() << QStringLiteral("--start") << "1" << QStringLiteral("--end") << "3" << QStringLiteral("--solve") << QStringLiteral("Freecell"));
+    kpat.start(QStringLiteral("../bin/kpat"), QStringList() << QStringLiteral("--start") << "1" << QStringLiteral("--end") << "3" << QStringLiteral("--solve") << QStringLiteral("Freecell"));
     QCOMPARE(kpat.waitForFinished(), true);
     QCOMPARE(kpat.exitStatus(), QProcess::NormalExit);
     QCOMPARE(kpat.exitCode(), 0);
