@@ -62,7 +62,7 @@
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 
-static DealerScene *getDealer( int wanted_game , QString name )
+static DealerScene *getDealer( int wanted_game , const QString & name )
 {
     foreach ( DealerInfo * di, DealerInfoList::self()->games() )
     {
@@ -211,7 +211,7 @@ int main( int argc, char **argv )
         QDomDocument doc;
         doc.setContent(&of);
 
-        DealerScene *f = getDealer( doc.documentElement().attribute(QStringLiteral("id")).toInt(), "" );
+        DealerScene *f = getDealer( doc.documentElement().attribute(QStringLiteral("id")).toInt(), QString() );
 
         f->loadLegacyFile( &of );
         f->solver()->translate_layout();
@@ -231,7 +231,7 @@ int main( int argc, char **argv )
        qsrand(std::time(nullptr));
        if ( parser.isSet(QStringLiteral("generate")) ) {
           for (int dealer = 0; dealer < 20; dealer++) {
-              DealerScene *f = getDealer( dealer, "" );
+              DealerScene *f = getDealer( dealer, QString() );
               if (!f) continue;
               int count = 100;
               QTime mytime;
