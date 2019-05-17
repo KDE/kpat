@@ -240,7 +240,7 @@ QVariant CardThemeModel::data( const QModelIndex & index, int role ) const
         QMap<QString,QPixmap*>::const_iterator it = m_previews.constBegin();
         for ( int i = 0; i < index.row(); ++i )
             ++it;
-        return qVariantFromValue( (void*)(it.value()) );
+        return QVariant::fromValue( (void*)(it.value()) );
     }
 
     return QVariant();
