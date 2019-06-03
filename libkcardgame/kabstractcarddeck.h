@@ -21,7 +21,6 @@
 
 #include "libkcardgame_export.h"
 class KCard;
-class KCardPile;
 #include "kcardtheme.h"
 
 #include <QObject>
