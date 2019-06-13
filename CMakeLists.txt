@@ -133,7 +133,11 @@ install(TARGETS kpat ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### install files ###############
 
-install(FILES kpat.categories DESTINATION ${KDE_INSTALL_CONFDIR})
+if (${ECM_VERSION} STRGREATER "5.58.0")
+    install(FILES kpat.categories  DESTINATION  ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
+else()
+    install(FILES kpat.categories  DESTINATION ${KDE_INSTALL_CONFDIR})
+endif()
 install(PROGRAMS org.kde.kpat.desktop  DESTINATION  ${KDE_INSTALL_APPDIR})
 install(FILES org.kde.kpat.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 install(FILES kpatui.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kpat)
