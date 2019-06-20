@@ -14,6 +14,7 @@
   <name xml:lang="fr">KPatience</name>
   <name xml:lang="gl">KPatience</name>
   <name xml:lang="id">KPatience</name>
+  <name xml:lang="it">KPatience</name>
   <name xml:lang="ko">KPatience</name>
   <name xml:lang="nl">KPatience</name>
   <name xml:lang="nn">Kabal</name>
@@ -38,6 +39,7 @@
   <summary xml:lang="fr">Jeu de solitaire</summary>
   <summary xml:lang="gl">Xogo de cartas do solitario</summary>
   <summary xml:lang="id">Permainan kartu solitaire</summary>
+  <summary xml:lang="it">Solitari con le carte</summary>
   <summary xml:lang="ko">솔리테어 카드 게임</summary>
   <summary xml:lang="nl">Solitaire kaartspel</summary>
   <summary xml:lang="nn">Kabelspel</summary>
@@ -61,6 +63,7 @@
     <p xml:lang="fr">KPat (alias KPatience) est un jeu de cartes conçu pour la détente. Afin de remporter la partie, le joueur doit trier un jeu de cartes dans un certain ordre.</p>
     <p xml:lang="gl">KPat (tamén chamado KPatience) é un xogo relaxante que consiste en ordenar cartas. Para gañar hai que ordenar un mazo de cartas dun xeito concreto.</p>
     <p xml:lang="id">KPat (juga dikenal sebagai KPatience) adalah sebuah permainan mengurutkan kartu secara santai. Untuk memenangkan permainan seorang pemain haruslah mengatur dek kartu dalam urutan tertentu di antara satu sama lain.</p>
+    <p xml:lang="it">KPat (conosciuto anche come KPatience) è un rilassante gioco di ordinamento delle carte. Per vincere la partita un giocatore deve mettere un mazzo di carte in un certo ordine tra di loro.</p>
     <p xml:lang="ko">KPat은 카드 게임입니다. 게임을 이기려면 카드 덱을 순서대로 정렬하십시오.</p>
     <p xml:lang="nl">KPat (ook KPatience) is een ontspannend kaart sorteerspel. Om het spel te winnen moet een speler een enkel kaartdek in een bepaalde volgorde naast elke andere arrangeren.</p>
     <p xml:lang="pl">KPat (znany również jako KPatience) jest odprężającą grą w układanie kart. Aby wygrać grę, gracz musi ułożyć pojedynczą talię kart w odpowiedniej kolejności względem siebie.</p>
@@ -87,6 +90,7 @@
       <caption xml:lang="fr">Écran de sélection du solitaire</caption>
       <caption xml:lang="gl">Pantalla de selección do solitario</caption>
       <caption xml:lang="id">Layar pemilihan solitaire</caption>
+      <caption xml:lang="it">Schermata di selezione del solitario</caption>
       <caption xml:lang="ko">솔리테어 선택 화면</caption>
       <caption xml:lang="nl">Selectiescherm van Solitaire</caption>
       <caption xml:lang="nn">Val av kabaltype</caption>
