@@ -27,11 +27,9 @@
 class KLineEdit;
 class QPushButton;
 
-#include <QAbstractItemModel>
 #include <QMutex>
 #include <QSet>
 #include <QThread>
-#include <QTimer>
 #include <QAbstractItemDelegate>
 class QListView;
 

@@ -44,7 +44,6 @@
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KSharedConfig>
-#include <QList>
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QVBoxLayout>

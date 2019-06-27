@@ -18,7 +18,6 @@
 #ifndef SPEEDS_H
 #define SPEEDS_H
 
-#include <QtGlobal>
 
 
 const qreal SPEED_FACTOR = 1;

@@ -28,9 +28,7 @@
 #include <kns3/downloaddialog.h>
 
 #include <QMutexLocker>
-#include <QScopedPointer>
 #include <QApplication>
-#include <QFontMetrics>
 #include <QListView>
 #include <QPainter>
 #include <QPixmap>

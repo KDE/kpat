@@ -51,7 +51,6 @@
 
 #include <QFile>
 #include <QTime>
-#include <QResizeEvent>
 #include <QDomDocument>
 
 #include <Kdelibs4ConfigMigrator>

@@ -23,10 +23,8 @@
 #include <KComboBox>
 #include <KLocalizedString>
 
-#include <QList>
 #include <QFormLayout>
 #include <QSpinBox>
-#include <KConfigGroup>
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QVBoxLayout>

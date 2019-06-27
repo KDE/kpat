@@ -50,7 +50,6 @@
 #include "version.h"
 #include "view.h"
 
-#include "KAbstractCardDeck"
 #include "KCardTheme"
 #include "KCardThemeWidget"
 
@@ -66,14 +65,13 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KRandom>
-#include <KRecentFilesAction>
 #include <QStatusBar>
 #include <QMenuBar>
 #include <QTemporaryFile>
 #include <KToggleAction>
-#include <KToolInvocation>
-#include <KXMLGUIFactory>
 #include <KIOCore/KIO/StoredTransferJob>
+#include <KXMLGUIFactory>
+
 
 #include <QList>
 #include <QPointer>

@@ -40,7 +40,6 @@
 #include "kabstractcarddeck.h"
 #include "kcardscene.h"
 
-#include <QTimer>
 #include <QPropertyAnimation>
 #include <QPainter>
 

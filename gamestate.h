@@ -42,7 +42,6 @@
 class KCard;
 class KCardPile;
 
-#include <QSet>
 #include <QString>
 
 

@@ -54,7 +54,6 @@
 #include <KRandom>
 #include <KSharedConfig>
 
-#include <QCoreApplication>
 #include <QThread>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>

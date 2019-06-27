@@ -45,7 +45,6 @@ class KAbstractCardDeck;
 #include "libkcardgame_export.h"
 class KCardPile;
 
-#include <QSet>
 #include <QGraphicsScene>
 
 class LIBKCARDGAME_EXPORT KCardScene : public QGraphicsScene

@@ -55,7 +55,7 @@ class QAction;
 #include <QMap>
 #include <QStack>
 #include <QTimer>
-
+#include <QSet>
 
 class DealerScene : public KCardScene
 {

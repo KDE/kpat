@@ -20,7 +20,6 @@
 
 #include "../kpat_debug.h"
 
-#include <QtGlobal>
 
 #include <cstdlib>
 #include <cstring>

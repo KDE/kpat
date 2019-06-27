@@ -21,7 +21,6 @@
 #include "../patpile.h"
 #include "../kpat_debug.h"
 
-#include "KCardDeck"
 
 #include <cctype>
 #include <cmath>

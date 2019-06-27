@@ -19,7 +19,6 @@
 
 #include "renderer.h"
 
-#include <QFontMetrics>
 #include <QPainter>
 
 

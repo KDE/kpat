@@ -23,7 +23,6 @@
 #include "renderer.h"
 
 #include <KColorUtils>
-#include <KLocalizedString>
 
 #include <QGraphicsObject>
 #include <QKeyEvent>

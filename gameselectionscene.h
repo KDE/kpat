@@ -19,7 +19,6 @@
 #ifndef GAMESELECTIONSCENE_H
 #define GAMESELECTIONSCENE_H
 
-#include <QSignalMapper>
 #include <QGraphicsScene>
 
 
