@@ -40,6 +40,7 @@
 #include "speeds.h"
 #include "patsolve/golfsolver.h"
 #include "pileutils.h"
+#include "settings.h"
 
 #include <KLocalizedString>
 
@@ -88,7 +89,9 @@ void Golf::initialize()
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);
-    setSolver( new GolfSolver( this ) );
+    auto solver = new GolfSolver( this );
+    solver->default_max_positions = Settings::golfSolverIterationsLimit();
+    setSolver( solver );
 
     connect( this, &KCardScene::cardClicked, this, &DealerScene::tryAutomaticMove );
 }

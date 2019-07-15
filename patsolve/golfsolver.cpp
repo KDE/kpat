@@ -21,7 +21,6 @@
 #include "../kpat_debug.h"
 
 const int CHUNKSIZE = 100;
-const long int MAX_ITERS_LIMIT = 1000000;
 
 #define BHS__GOLF__NUM_COLUMNS 7
 #define BHS__GOLF__MAX_NUM_CARDS_IN_COL 5
@@ -231,7 +230,7 @@ void GolfSolver::free_solver_instance()
 SolverInterface::ExitStatus GolfSolver::patsolve( int _max_positions )
 {
     int current_iters_count = 0;
-    max_positions = (_max_positions < 0) ? MAX_ITERS_LIMIT : _max_positions;
+    max_positions = (_max_positions < 0) ? default_max_positions : _max_positions;
     init();
 
     if (solver_instance)
@@ -276,7 +275,7 @@ black_hole_solver_setup(solver_instance);
                 (   (solver_ret == BLACK_HOLE_SOLVER__OUT_OF_ITERS)
                   )
                     &&
-                 (current_iters_count < MAX_ITERS_LIMIT)
+                 (current_iters_count < max_positions)
               )
         {
             current_iters_count += CHUNKSIZE;

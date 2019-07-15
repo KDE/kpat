@@ -29,6 +29,7 @@ class GolfSolver : public Solver<9>
 {
 public:
     explicit GolfSolver(const Golf *dealer);
+    int default_max_positions;
 
 #ifdef WITH_BH_SOLVER
     black_hole_solver_instance_t *solver_instance;
