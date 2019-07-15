@@ -20,7 +20,7 @@
 #include "../golf.h"
 #include "../kpat_debug.h"
 
-const int CHUNKSIZE = 100;
+const int CHUNKSIZE = 10000;
 
 #define BHS__GOLF__NUM_COLUMNS 7
 #define BHS__GOLF__MAX_NUM_CARDS_IN_COL 5
