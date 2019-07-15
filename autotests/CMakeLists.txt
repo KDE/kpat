@@ -14,6 +14,12 @@ ecm_add_test(
     NAME_PREFIX "kpat-"
 )
 ecm_add_test(
+    golf_solver_wins.cpp
+    TEST_NAME GolfSolveTest
+    LINK_LIBRARIES Qt5::Test
+    NAME_PREFIX "kpat-"
+)
+ecm_add_test(
     solve_by_name.cpp
     TEST_NAME SolveByVariantName
     LINK_LIBRARIES Qt5::Test
