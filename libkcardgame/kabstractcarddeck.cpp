@@ -389,8 +389,11 @@ int KAbstractCardDeck::colorFromId( quint32 id ) const
 
 void KAbstractCardDeck::setCardWidth( int width )
 {
-    if ( width > 200 || width < 20 )
+    if ( width < 20 )
         return;
+
+    if ( width > 200 )
+        width = 200;
 
     int height = width * d->originalCardSize.height() / d->originalCardSize.width();
     QSize newSize( width, height );
