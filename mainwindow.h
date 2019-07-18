@@ -23,7 +23,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -53,6 +53,7 @@ class KRecentFilesAction;
 class KToggleAction;
 class QUrl;
 #include <KXmlGuiWindow>
+#include <QMap>
 
 class QLabel;
 
@@ -127,7 +128,7 @@ private:
     QAction * m_upAction;
     QAction * m_downAction;
     QAction * m_cancelAction;
-    QAction * m_pickUpSetDownAction;    
+    QAction * m_pickUpSetDownAction;
 
     KRecentFilesAction * m_recentFilesAction;
     QAction * m_saveAction;
