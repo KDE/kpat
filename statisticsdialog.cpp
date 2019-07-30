@@ -38,8 +38,8 @@
 #include "statisticsdialog.h"
 
 #include "dealerinfo.h"
+#include "dealer.h"
 #include "kpat_debug.h"
-#include "version.h"
 
 #include <KConfigGroup>
 #include <KLocalizedString>

@@ -43,7 +43,6 @@
 #include "shuffle.h"
 #include "speeds.h"
 #include "patsolve/solverinterface.h"
-#include "version.h"
 #include "view.h"
 
 #include "KCardTheme"

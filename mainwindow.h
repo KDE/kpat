@@ -57,6 +57,7 @@ class QUrl;
 
 class QLabel;
 
+#define saved_state_file "savedstate.xml"
 
 class MainWindow: public KXmlGuiWindow {
     Q_OBJECT

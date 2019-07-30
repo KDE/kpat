@@ -47,7 +47,6 @@
 #include "settings.h"
 #include "soundengine.h"
 #include "statisticsdialog.h"
-#include "version.h"
 #include "view.h"
 
 #include "KCardTheme"

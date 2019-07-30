@@ -57,6 +57,8 @@ class QAction;
 #include <QTimer>
 #include <QSet>
 
+#define scores_group "Scores"
+
 class DealerScene : public KCardScene
 {
     Q_OBJECT
