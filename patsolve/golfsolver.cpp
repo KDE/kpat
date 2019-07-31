@@ -211,6 +211,10 @@ GolfSolver::GolfSolver(const Golf *dealer)
     : Solver()
 {
     deal = dealer;
+    // Set default_max_positions to an initial
+    // value so it will not accidentally be used uninitialized.
+    // Note: it will be overrided by the Settings anyhow.
+    default_max_positions = 100000;
 #ifdef WITH_BH_SOLVER
     solver_instance = NULL;
     solver_ret = BLACK_HOLE_SOLVER__OUT_OF_ITERS;
