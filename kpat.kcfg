@@ -32,5 +32,8 @@
         <entry name="GolfSolverIterationsLimit" key="GolfSolverIterationsLimit" type="Int">
             <default>1000000</default>
         </entry>
+        <entry name="FreecellSolverIterationsLimit" key="FreecellSolverIterationsLimit" type="Int">
+            <default>200000</default>
+        </entry>
     </group>
 </kcfg>

@@ -40,6 +40,7 @@
 #include "dealerinfo.h"
 #include "kpat_debug.h"
 #include "pileutils.h"
+#include "settings.h"
 #include "speeds.h"
 #include "patsolve/freecellsolver.h"
 
@@ -91,7 +92,9 @@ void Freecell::initialize()
     }
 
     setActions(DealerScene::Demo | DealerScene::Hint);
-    setSolver( new FreecellSolver( this ) );
+    auto solver = new FreecellSolver( this );
+    solver->default_max_positions = Settings::freecellSolverIterationsLimit();
+    setSolver( solver );
     setNeededFutureMoves( 4 ); // reserve some
 }
 

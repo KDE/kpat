@@ -24,7 +24,7 @@
 #include "abstract_fc_solve_solver.h"
 
 const int CHUNKSIZE = 100;
-const long int MAX_ITERS_LIMIT = 200000;
+const long int INITIAL_MAX_ITERS_LIMIT = 200000;
 
 #define PRINT 0
 
@@ -51,7 +51,7 @@ const auto SOFT_SUSPEND = FCS_STATE_SUSPEND_PROCESS;
 SolverInterface::ExitStatus FcSolveSolver::patsolve( int _max_positions )
 {
     int current_iters_count;
-    max_positions = (_max_positions < 0) ? MAX_ITERS_LIMIT : _max_positions;
+    max_positions = (_max_positions < 0) ? default_max_positions : _max_positions;
 
     init();
 
@@ -110,7 +110,7 @@ SolverInterface::ExitStatus FcSolveSolver::patsolve( int _max_positions )
         current_iters_count = CHUNKSIZE;
         set_soft_limit(solver_instance, current_iters_count);
 #ifdef WITH_FCS_SOFT_SUSPEND
-        freecell_solver_user_limit_iterations(solver_instance, MAX_ITERS_LIMIT);
+        freecell_solver_user_limit_iterations(solver_instance, max_positions);
 #endif
     }
 
@@ -121,7 +121,7 @@ SolverInterface::ExitStatus FcSolveSolver::patsolve( int _max_positions )
                 (   (solver_ret == FCS_STATE_NOT_BEGAN_YET)
                  || (solver_ret == SOFT_SUSPEND))
                     &&
-                 (current_iters_count < MAX_ITERS_LIMIT)
+                 (current_iters_count < max_positions)
               )
         {
             current_iters_count += CHUNKSIZE;
@@ -149,7 +149,7 @@ SolverInterface::ExitStatus FcSolveSolver::patsolve( int _max_positions )
         }
     }
     const long reached_iters = freecell_solver_user_get_num_times_long(solver_instance);
-    Q_ASSERT(reached_iters <= MAX_ITERS_LIMIT);
+    Q_ASSERT(reached_iters <= default_max_positions);
 #if 0
     fprintf(stderr, "iters = %ld\n", reached_iters);
 #endif
@@ -221,6 +221,7 @@ FcSolveSolver::FcSolveSolver()
     , solver_instance(NULL)
     , solver_ret(FCS_STATE_NOT_BEGAN_YET)
     , board_as_string("")
+    , default_max_positions(INITIAL_MAX_ITERS_LIMIT)
 {
 }
 

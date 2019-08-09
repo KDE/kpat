@@ -44,6 +44,7 @@ public:
 /* Names of the cards.  The ordering is defined in pat.h. */
 
     void * solver_instance;
+    long default_max_positions;
     int solver_ret;
     // More than enough space for two decks.
     char board_as_string[4 * 13 * 2 * 4 * 3];
