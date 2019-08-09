@@ -35,5 +35,8 @@
         <entry name="FreecellSolverIterationsLimit" key="FreecellSolverIterationsLimit" type="Int">
             <default>200000</default>
         </entry>
+        <entry name="SimpleSimonSolverIterationsLimit" key="SimpleSimonSolverIterationsLimit" type="Int">
+            <default>200000</default>
+        </entry>
     </group>
 </kcfg>

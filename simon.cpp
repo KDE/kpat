@@ -39,6 +39,7 @@
 #include "dealerinfo.h"
 #include "pileutils.h"
 #include "patsolve/simonsolver.h"
+#include "settings.h"
 
 #include <KLocalizedString>
 
@@ -78,7 +79,9 @@ void Simon::initialize()
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo);
-    setSolver( new SimonSolver( this ) );
+    auto solver = new SimonSolver( this );
+    solver->default_max_positions = Settings::simpleSimonSolverIterationsLimit();
+    setSolver( solver );
     //setNeededFutureMoves( 1 ); // could be some nonsense moves
 }
 
