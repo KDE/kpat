@@ -221,7 +221,7 @@ GameSelectionScene::GameSelectionScene( QObject * parent )
         connect( box, &GameSelectionBox::hoverChanged, this, &GameSelectionScene::boxHoverChanged );
     }
 
-    qSort( m_boxes.begin(), m_boxes.end(), GameSelectionBox::lessThan );
+    std::sort( m_boxes.begin(), m_boxes.end(), GameSelectionBox::lessThan );
 }
 
 

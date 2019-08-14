@@ -219,9 +219,9 @@ int FcSolveSolver::getOuts()
 FcSolveSolver::FcSolveSolver()
     : Solver()
     , solver_instance(NULL)
+    , default_max_positions(INITIAL_MAX_ITERS_LIMIT)
     , solver_ret(FCS_STATE_NOT_BEGAN_YET)
     , board_as_string("")
-    , default_max_positions(INITIAL_MAX_ITERS_LIMIT)
 {
 }
 

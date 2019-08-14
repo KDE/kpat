@@ -792,7 +792,7 @@ MoveHint DealerScene::chooseHint()
         qreal randomExp = qMin<qreal>( -log( 1 - qreal( KRandom::random() ) / RAND_MAX ) / 4, 1 );
         int randomIndex =  randomExp * ( hintList.size() - 1 );
 
-	qSort(hintList.begin(), hintList.end(), prioSort);
+        std::sort(hintList.begin(), hintList.end(), prioSort);
         return hintList.at( randomIndex );
     }
 }
