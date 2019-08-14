@@ -37,7 +37,7 @@ ecm_add_test(
     "../patpile.cpp"
     "../pileutils.cpp"
     "../renderer.cpp"
-    "../settings.cpp"
+    "settings_for_tests.cpp"
     solver_format.cpp
     TEST_NAME SolverFormatTest
     LINK_LIBRARIES Qt5::Test kcardgame
