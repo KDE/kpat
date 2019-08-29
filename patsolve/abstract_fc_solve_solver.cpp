@@ -55,6 +55,16 @@ SolverInterface::ExitStatus FcSolveSolver::patsolve( int _max_positions )
 
     init();
 
+    // call free once the function ends. ### Replace this mess with QScopeGuard once we can use Qt 5.12
+    auto cleanup = [this](){this->free();};
+    using CleanupFunction = decltype (cleanup);
+    struct CleanupHandler {
+        CleanupHandler(CleanupFunction cleanup) : m_cleanup(std::move(cleanup)) {}
+        ~CleanupHandler() { m_cleanup();}
+
+        CleanupFunction m_cleanup;
+    } cleaner(cleanup);
+
     int no_use = 0;
     int num_moves = 0;
     const auto get_possible_moves__ret = get_possible_moves(&no_use, &num_moves);
