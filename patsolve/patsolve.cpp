@@ -568,7 +568,7 @@ bool Solver<NumberPiles>::solve(POSITION *parent)
 
         if ( parent->depth == 0 )
         {
-            Q_ASSERT( m_firstMoves.count() == 0 );
+            Q_ASSERT( m_firstMoves.isEmpty() );
             for (int j = 0; j < nmoves; ++j)
                 m_firstMoves.append( Possible[j] );
         }

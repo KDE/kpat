@@ -69,7 +69,7 @@ SolverInterface::ExitStatus FcSolveSolver::patsolve( int _max_positions )
     int num_moves = 0;
     const auto get_possible_moves__ret = get_possible_moves(&no_use, &num_moves);
     Q_ASSERT( num_moves == get_possible_moves__ret );
-    Q_ASSERT( m_firstMoves.count() == 0 );
+    Q_ASSERT( m_firstMoves.isEmpty() );
     for (int j = 0; j < num_moves; ++j)
         m_firstMoves.append( Possible[j] );
     // Sometimes the solver is invoked with a small maximal iterations
