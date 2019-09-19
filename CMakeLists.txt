@@ -59,6 +59,9 @@ include(ECMSetupVersion)
 ecm_setup_version(${KDE_APPLICATIONS_VERSION} VARIABLE_PREFIX KPAT VERSION_HEADER kpat_version.h)
 
 add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS)
+if (EXISTS "${CMAKE_SOURCE_DIR}/.git")
+   add_definitions(-DQT_DISABLE_DEPRECATED_BEFORE=0x060000)
+endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/libkcardgame/include ${FC_SOLVE_INCLUDE_DIRS} ${BLACK_HOLE_SOLVER_INCLUDE_DIRS})
 

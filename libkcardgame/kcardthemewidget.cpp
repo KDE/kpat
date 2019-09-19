@@ -173,7 +173,7 @@ void CardThemeModel::reload()
 
     if ( !previewsNeeded.isEmpty() )
     {
-        qSort( previewsNeeded.begin(), previewsNeeded.end(), lessThanByDisplayName ) ;
+        std::sort( previewsNeeded.begin(), previewsNeeded.end(), lessThanByDisplayName ) ;
 
         m_thread = new PreviewThread( d, previewsNeeded );
         connect(m_thread, &PreviewThread::previewRendered, this, &CardThemeModel::submitPreview, Qt::QueuedConnection );

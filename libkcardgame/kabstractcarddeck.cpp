@@ -466,10 +466,10 @@ void KAbstractCardDeck::setTheme( const KCardTheme & theme )
         // doesn't really add that much benefit anyway.
         d->cache->setPixmapCaching( false );
 
-        if ( d->cache->timestamp() < theme.lastModified().toTime_t() )
+        if ( d->cache->timestamp() < theme.lastModified().toSecsSinceEpoch() )
         {
             d->cache->clear();
-            d->cache->setTimestamp( theme.lastModified().toTime_t() );
+            d->cache->setTimestamp( theme.lastModified().toSecsSinceEpoch() );
         }
 
         d->originalCardSize = d->unscaledCardSize();

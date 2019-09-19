@@ -54,8 +54,11 @@ namespace KpatShuffle
             // http://support.microsoft.com/default.aspx?scid=kb;EN-US;Q28150
             seed = 214013 * seed + 2531011;
             int rand = ( seed >> 16 ) & 0x7fff;
-
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
             result.swap( i - 1, rand % i );
+#else
+            result.swapItemsAt( i - 1, rand % i );
+#endif
         }
 
         return result;

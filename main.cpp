@@ -51,6 +51,7 @@
 
 #include <QFile>
 #include <QTime>
+#include <QElapsedTimer>
 #include <QDomDocument>
 
 #include <Kdelibs4ConfigMigrator>
@@ -233,7 +234,7 @@ int main( int argc, char **argv )
               DealerScene *f = getDealer( dealer, QString() );
               if (!f) continue;
               int count = 100;
-              QTime mytime;
+              QElapsedTimer mytime;
               while (count) {
                 if (f->deck()) f->deck()->stopAnimations();
                 int i = qrand() % INT_MAX;
@@ -242,20 +243,20 @@ int main( int argc, char **argv )
                 f->solver()->translate_layout();
                 int ret = f->solver()->patsolve();
                 if ( ret == SolverInterface::SolutionExists ) {
-                   fprintf( stdout, "%d: %d won (%d ms)\n", dealer, i, mytime.elapsed() );
+                   fprintf( stdout, "%d: %d won (%lld ms)\n", dealer, i, mytime.elapsed() );
                    count--;
                    QFile file(QStringLiteral("%1/%2-%3-1").arg(testdir).arg(dealer).arg(i));
                    file.open( QFile::WriteOnly );
                    f->saveLegacyFile( &file );
                 }
                 else if ( ret == SolverInterface::NoSolutionExists ) {
-                   fprintf( stdout, "%d: %d lost (%d ms)\n", dealer, i, mytime.elapsed()  );
+                   fprintf( stdout, "%d: %d lost (%lld ms)\n", dealer, i, mytime.elapsed()  );
                    count--;
                    QFile file(QStringLiteral("%1/%2-%3-0").arg(testdir).arg(dealer).arg(i));
                    file.open( QFile::WriteOnly );
                    f->saveLegacyFile( &file );
                 } else {
-                   fprintf( stdout, "%d: %d unknown (%d ms)\n", dealer, i, mytime.elapsed() );
+                   fprintf( stdout, "%d: %d unknown (%lld ms)\n", dealer, i, mytime.elapsed() );
                 }
              }
           }
@@ -298,7 +299,7 @@ int main( int argc, char **argv )
         if ( !f )
             return 1;
 
-        QTime mytime;
+        QElapsedTimer mytime;
         for ( int i = start_index; i <= end_index; i++ )
         {
             mytime.start();
@@ -307,11 +308,11 @@ int main( int argc, char **argv )
             f->solver()->translate_layout();
             int ret = f->solver()->patsolve();
             if ( ret == SolverInterface::SolutionExists )
-                fprintf( stdout, "%d won (%d ms)\n", i, mytime.elapsed() );
+                fprintf( stdout, "%d won (%lld ms)\n", i, mytime.elapsed() );
             else if ( ret == SolverInterface::NoSolutionExists )
-                fprintf( stdout, "%d lost (%d ms)\n", i, mytime.elapsed()  );
+                fprintf( stdout, "%d lost (%lld ms)\n", i, mytime.elapsed()  );
             else
-                fprintf( stdout, "%d unknown (%d ms)\n", i, mytime.elapsed() );
+                fprintf( stdout, "%d unknown (%lld ms)\n", i, mytime.elapsed() );
         }
         fprintf( stdout, "all_moves %ld\n", all_moves );
         return 0;

@@ -71,7 +71,7 @@
 #include <KIOCore/KIO/StoredTransferJob>
 #include <KXMLGUIFactory>
 
-
+#include <QScreen>
 #include <QList>
 #include <QPointer>
 #include <QTimer>
@@ -81,6 +81,7 @@
 #include <QKeySequence>
 #include <KHelpClient>
 #include <QStandardPaths>
+#include <QApplication>
 #include <KSharedConfig>
 
 
@@ -117,7 +118,8 @@ MainWindow::MainWindow()
     m_view = new PatienceView( this );
     setCentralWidget( m_view );
 
-    QSize defaultSize = qApp->desktop()->availableGeometry().size() * 0.7;
+    const QRect screenSize = QApplication::desktop()->screenGeometry(this);
+    QSize defaultSize = screenSize.size() * 0.7;
     setupGUI(defaultSize, Create | Save | ToolBar | StatusBar | Keys);
 
     m_solverStatusLabel = new QLabel(QString(), statusBar());
@@ -945,7 +947,7 @@ void MainWindow::saveGame()
     dialog->selectUrl(dialogUrl);
     dialog->setAcceptMode( QFileDialog::AcceptSave );
     dialog->setMimeTypeFilters( QStringList() << saveFileMimeType << legacySaveFileMimeType );
-    dialog->setConfirmOverwrite( true );
+    dialog->setOption(QFileDialog::DontConfirmOverwrite, false);
     dialog->setWindowTitle( i18n("Save") );
     if ( dialog->exec() != QFileDialog::Accepted )
         return;
