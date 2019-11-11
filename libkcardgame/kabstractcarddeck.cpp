@@ -75,6 +75,7 @@ void RenderingThread::run()
         d->renderer();
     }
 
+    const auto size = m_size * qApp->devicePixelRatio();
     foreach ( const QString & element, m_elementsToRender )
     {
         {
@@ -83,11 +84,11 @@ void RenderingThread::run()
                 return;
         }
 
-        QString key = keyForPixmap( element, m_size );
+        QString key = keyForPixmap( element, size );
         if ( !d->cache->contains( key ) )
         {
             //qCDebug(LIBKCARDGAME_LOG) << "Renderering" << key << "in rendering thread.";
-            QImage img = d->renderCard( element, m_size );
+            QImage img = d->renderCard( element, size );
             d->cache->insertImage( key, img );
             emit renderingDone( element, img );
         }
@@ -197,24 +198,27 @@ QPixmap KAbstractCardDeckPrivate::requestPixmap( quint32 id, bool faceUp )
         return QPixmap();
 
     QPixmap & stored = it.value().cardPixmap;
-    if ( stored.size() != currentCardSize )
+    const auto dpr = qApp->devicePixelRatio();
+    QSize requestedCardSize = currentCardSize * dpr;
+    if ( stored.size() != requestedCardSize )
     {
-        QString key = keyForPixmap( elementId , currentCardSize );
+        QString key = keyForPixmap( elementId , requestedCardSize );
         if ( !cache->findPixmap( key, &stored ) )
         {
             if ( stored.isNull() )
             {
                 //qCDebug(LIBKCARDGAME_LOG) << "Renderering" << key << "in main thread.";
-                QImage img = renderCard( elementId, currentCardSize );
+                QImage img = renderCard( elementId, requestedCardSize );
                 cache->insertImage( key, img );
                 stored = QPixmap::fromImage( img );
             }
             else
             {
-                stored = stored.scaled( currentCardSize );
+                stored = stored.scaled( requestedCardSize );
             }
         }
-        Q_ASSERT( stored.size() == currentCardSize );
+        Q_ASSERT( stored.size() == requestedCardSize );
+        stored.setDevicePixelRatio( dpr );
     }
     return stored;
 }
@@ -235,15 +239,18 @@ void KAbstractCardDeckPrivate::submitRendering( const QString & elementId, const
 
     // If the currentCardSize has changed since the rendering was performed,
     // we sadly just have to throw it away.
-    if ( image.size() != currentCardSize )
+    const auto dpr = qApp->devicePixelRatio();
+    if ( image.size() != currentCardSize * dpr)
         return;
 
     // The RenderingThread just put the image in the cache, but due to the
     // volatility of the cache there's no guarantee that it'll still be there
     // by the time this slot is called, in which case we convert the QImage
     // passed in the signal.
-    if ( !cache->findPixmap( keyForPixmap( elementId, currentCardSize ), &pix ) )
+    if ( !cache->findPixmap( keyForPixmap( elementId, currentCardSize * dpr ), &pix ) )
         pix = QPixmap::fromImage( image );
+
+    pix.setDevicePixelRatio( dpr );
 
     QHash<QString,CardElementData>::iterator it;
     it = frontIndex.find( elementId );

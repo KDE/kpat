@@ -101,6 +101,8 @@ QString lowerAlphaNum( const QString & string )
 
 int main( int argc, char **argv )
 {
+    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+
     QApplication app(argc, argv);
 
     KLocalizedString::setApplicationDomain("kpat");
