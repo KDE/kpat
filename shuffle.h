@@ -50,8 +50,8 @@ namespace KpatShuffle
         {
             // We use the same pseudorandom number generation algorithm as Windows
             // Freecell, so that game numbers are the same between the two applications.
-            // For more inforation, see
-            // http://support.microsoft.com/default.aspx?scid=kb;EN-US;Q28150
+            // For more information, see
+            // https://fc-solve.shlomifish.org/faq.html#what_are_ms_deals
             seed = 214013 * seed + 2531011;
             int rand = ( seed >> 16 ) & 0x7fff;
 #if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
