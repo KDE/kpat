@@ -711,7 +711,7 @@ win at Easy level, and very difficult to win at Hard level.
 </sect1>
 <sect1 id="settings-help-menu">
 	<title>The Settings and Help Menu</title>
-<para>Apart from the common &kde; Settings and Help menus described in the <ulink url="help:/fundamentals/ui.html#menus">Menu</ulink>
+<para>Apart from the common &kde; Settings and Help menus described in the <ulink url="help:/fundamentals/menus.html">Menu</ulink>
 chapter of the &kde; Fundamentals documentation &kpatience; has these application specific menu entries:
 </para>
 		<variablelist>
