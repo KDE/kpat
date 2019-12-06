@@ -238,7 +238,7 @@ public:
       : DealerInfo(I18N_NOOP("Mod3"), Mod3Id)
     {}
 
-    DealerScene *createGame() const Q_DECL_OVERRIDE
+    DealerScene *createGame() const override
     {
         return new Mod3( this );
     }

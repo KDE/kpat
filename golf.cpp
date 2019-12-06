@@ -195,7 +195,7 @@ public:
       : DealerInfo(I18N_NOOP("Golf"), GolfId)
     {}
 
-    DealerScene *createGame() const Q_DECL_OVERRIDE
+    DealerScene *createGame() const override
     {
         return new Golf( this );
     }

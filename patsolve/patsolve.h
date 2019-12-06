@@ -61,9 +61,9 @@ public:
     bool recursive(POSITION *pos = nullptr);
     void translate_layout() override = 0;
     MoveHint translateMove(const MOVE &m ) override = 0;
-    void stopExecution() final Q_DECL_OVERRIDE;
-    QList<MOVE> firstMoves() const final Q_DECL_OVERRIDE;
-    QList<MOVE> winMoves() const final Q_DECL_OVERRIDE;
+    void stopExecution() final override;
+    QList<MOVE> firstMoves() const final override;
+    QList<MOVE> winMoves() const final override;
 
 protected:
     MOVE *get_moves(int *nmoves);

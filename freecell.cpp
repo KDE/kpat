@@ -297,7 +297,7 @@ public:
       : DealerInfo(I18N_NOOP("Freecell"), FreecellId)
     {}
 
-    DealerScene *createGame() const Q_DECL_OVERRIDE
+    DealerScene *createGame() const override
     {
         return new Freecell( this );
     }

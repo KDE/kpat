@@ -48,24 +48,24 @@ class Spider : public DealerScene
 
 public:
     explicit Spider( const DealerInfo * di );
-    void initialize() Q_DECL_OVERRIDE;
-    void mapOldId(int id) Q_DECL_OVERRIDE;
-    int oldId() const Q_DECL_OVERRIDE;
-    QList<QAction*> configActions() const Q_DECL_OVERRIDE;
+    void initialize() override;
+    void mapOldId(int id) override;
+    int oldId() const override;
+    QList<QAction*> configActions() const override;
 
 protected:
-    QString getGameState() const Q_DECL_OVERRIDE;
-    void setGameState( const QString & state ) Q_DECL_OVERRIDE;
-    QString getGameOptions() const Q_DECL_OVERRIDE;
-    void setGameOptions( const QString & options ) Q_DECL_OVERRIDE;
-    bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const Q_DECL_OVERRIDE;
-    bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const Q_DECL_OVERRIDE;
-    void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile ) Q_DECL_OVERRIDE;
-    void restart( const QList<KCard*> & cards ) Q_DECL_OVERRIDE;
+    QString getGameState() const override;
+    void setGameState( const QString & state ) override;
+    QString getGameOptions() const override;
+    void setGameOptions( const QString & options ) override;
+    bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const override;
+    bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const override;
+    void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile ) override;
+    void restart( const QList<KCard*> & cards ) override;
 
 protected slots:
-    bool newCards() Q_DECL_OVERRIDE;
-    void animationDone() Q_DECL_OVERRIDE;
+    bool newCards() override;
+    void animationDone() override;
 
 private slots:
     void gameTypeChanged();

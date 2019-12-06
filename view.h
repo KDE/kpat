@@ -52,9 +52,9 @@ public:
     void setScene( QGraphicsScene * scene );
 
 protected:
-    void resizeEvent( QResizeEvent * e ) Q_DECL_OVERRIDE;
-    void drawBackground( QPainter * painter, const QRectF & rect ) Q_DECL_OVERRIDE;
-    void receivePixmap( const QPixmap & pixmap ) Q_DECL_OVERRIDE;
+    void resizeEvent( QResizeEvent * e ) override;
+    void drawBackground( QPainter * painter, const QRectF & rect ) override;
+    void receivePixmap( const QPixmap & pixmap ) override;
 
 private:
     void updateSceneSize();

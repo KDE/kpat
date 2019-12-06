@@ -71,7 +71,7 @@ public:
 
     virtual void initialize() = 0;
 
-    void relayoutScene() Q_DECL_OVERRIDE;
+    void relayoutScene() override;
     void updateWonItem();
 
     void addPatPile( PatPile * pile );
@@ -151,18 +151,18 @@ public slots:
     virtual bool tryAutomaticMove( KCard * card );
 
 protected:
-    bool allowedToAdd(const KCardPile * pile, const QList<KCard*> & cards) const Q_DECL_OVERRIDE;
-    bool allowedToRemove(const KCardPile * pile, const KCard * card) const Q_DECL_OVERRIDE;
+    bool allowedToAdd(const KCardPile * pile, const QList<KCard*> & cards) const override;
+    bool allowedToRemove(const KCardPile * pile, const KCard * card) const override;
 
     virtual bool checkAdd( const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards ) const;
     virtual bool checkRemove( const PatPile * pile, const QList<KCard*> & cards ) const;
     virtual bool checkPrefering( const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards ) const;
 
-    void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile ) Q_DECL_OVERRIDE;
+    void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile ) override;
 
-    void mouseDoubleClickEvent( QGraphicsSceneMouseEvent * mouseEvent ) Q_DECL_OVERRIDE;
-    void mousePressEvent( QGraphicsSceneMouseEvent * mouseEvent ) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent( QGraphicsSceneMouseEvent * mouseEvent ) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent( QGraphicsSceneMouseEvent * mouseEvent ) override;
+    void mousePressEvent( QGraphicsSceneMouseEvent * mouseEvent ) override;
+    void mouseReleaseEvent( QGraphicsSceneMouseEvent * mouseEvent ) override;
 
     virtual void restart( const QList<KCard*> & cards ) = 0;
 

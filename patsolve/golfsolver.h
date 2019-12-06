@@ -34,20 +34,20 @@ public:
 #ifdef WITH_BH_SOLVER
     black_hole_solver_instance_t *solver_instance;
     int solver_ret;
-    SolverInterface::ExitStatus patsolve( int _max_positions ) Q_DECL_OVERRIDE;
+    SolverInterface::ExitStatus patsolve( int _max_positions ) override;
     // More than enough space for two decks.
     char board_as_string[4 * 13 * 2 * 4 * 3];
     void free_solver_instance();
 #endif
-    int get_possible_moves(int *a, int *numout) Q_DECL_OVERRIDE;
-    bool isWon() Q_DECL_OVERRIDE;
-    void make_move(MOVE *m) Q_DECL_OVERRIDE;
-    void undo_move(MOVE *m) Q_DECL_OVERRIDE;
-    int getOuts() Q_DECL_OVERRIDE;
-    void translate_layout() Q_DECL_OVERRIDE;
-    MoveHint translateMove(const MOVE &m) Q_DECL_OVERRIDE;
+    int get_possible_moves(int *a, int *numout) override;
+    bool isWon() override;
+    void make_move(MOVE *m) override;
+    void undo_move(MOVE *m) override;
+    int getOuts() override;
+    void translate_layout() override;
+    MoveHint translateMove(const MOVE &m) override;
 
-    void print_layout() Q_DECL_OVERRIDE;
+    void print_layout() override;
 
     const Golf *deal;
 };

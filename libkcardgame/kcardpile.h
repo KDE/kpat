@@ -54,10 +54,10 @@ public:
     virtual ~KCardPile();
 
     enum { Type = QGraphicsItem::UserType + 2 };
-    int type() const Q_DECL_OVERRIDE;
+    int type() const override;
 
-    QRectF boundingRect() const Q_DECL_OVERRIDE;
-    void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = nullptr ) Q_DECL_OVERRIDE;
+    QRectF boundingRect() const override;
+    void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = nullptr ) override;
 
     QList<KCard*> cards() const;
     int count() const;

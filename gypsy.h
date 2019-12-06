@@ -45,16 +45,16 @@ class Gypsy : public DealerScene
 
 public:
     explicit Gypsy( const DealerInfo * di );
-    void initialize() Q_DECL_OVERRIDE;
+    void initialize() override;
 
 protected:
-    void setGameState( const QString & state ) Q_DECL_OVERRIDE;
-    bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const Q_DECL_OVERRIDE;
-    bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const Q_DECL_OVERRIDE;
-    void restart( const QList<KCard*> & cards ) Q_DECL_OVERRIDE;
+    void setGameState( const QString & state ) override;
+    bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const override;
+    bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const override;
+    void restart( const QList<KCard*> & cards ) override;
 
 protected slots:
-    bool newCards() Q_DECL_OVERRIDE;
+    bool newCards() override;
 
 private:
     PatPile* talon;

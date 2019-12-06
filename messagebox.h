@@ -34,7 +34,7 @@ public:
     void setSize( const QSize & size );
     QSize size() const;
 
-    void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget ) Q_DECL_OVERRIDE;
+    void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget ) override;
 
 private:
     QString m_message;

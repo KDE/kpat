@@ -57,7 +57,7 @@ public:
     };
 
 protected:
-    void paintGraphic( QPainter * painter, qreal highlightedness ) Q_DECL_OVERRIDE
+    void paintGraphic( QPainter * painter, qreal highlightedness ) override
     {
         Q_UNUSED( painter );
         Q_UNUSED( highlightedness );
@@ -501,7 +501,7 @@ public:
         addSubtype( SpiderFourSuitId, I18N_NOOP( "Spider (4 Suit)" ) );
     }
 
-    DealerScene *createGame() const Q_DECL_OVERRIDE
+    DealerScene *createGame() const override
     {
         return new Spider( this );
     }

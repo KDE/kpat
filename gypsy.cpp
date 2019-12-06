@@ -177,7 +177,7 @@ public:
       : DealerInfo(I18N_NOOP("Gypsy"), GypsyId)
     {}
 
-    DealerScene *createGame() const Q_DECL_OVERRIDE
+    DealerScene *createGame() const override
     {
         return new Gypsy( this );
     }

@@ -32,8 +32,8 @@ class KCardAnimation : public QAbstractAnimation
 {
 public:
     KCardAnimation( KCardPrivate * d, int duration, QPointF pos, qreal rotation, bool faceUp );
-    int duration() const Q_DECL_OVERRIDE;
-    void updateCurrentTime( int msec ) Q_DECL_OVERRIDE;
+    int duration() const override;
+    void updateCurrentTime( int msec ) override;
 
 private:
     KCardPrivate * d;

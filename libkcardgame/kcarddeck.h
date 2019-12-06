@@ -67,12 +67,12 @@ public:
     explicit KCardDeck( const KCardTheme & theme = KCardTheme(), QObject * parent = nullptr );
     virtual ~KCardDeck();
 
-    int rankFromId( quint32 id ) const Q_DECL_OVERRIDE;
-    int suitFromId( quint32 id ) const Q_DECL_OVERRIDE;
-    int colorFromId( quint32 id ) const Q_DECL_OVERRIDE;
+    int rankFromId( quint32 id ) const override;
+    int suitFromId( quint32 id ) const override;
+    int colorFromId( quint32 id ) const override;
 
 protected:
-    QString elementName( quint32 id, bool faceUp = true ) const Q_DECL_OVERRIDE;
+    QString elementName( quint32 id, bool faceUp = true ) const override;
 
 private:
     class KStandardCardDeckPrivate * const d;

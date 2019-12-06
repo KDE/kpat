@@ -47,17 +47,17 @@ class Freecell : public DealerScene
 
 public:
     explicit Freecell( const DealerInfo * di );
-    void initialize() Q_DECL_OVERRIDE;
+    void initialize() override;
 
 protected:
-    bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const Q_DECL_OVERRIDE;
-    bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const Q_DECL_OVERRIDE;
-    void cardsDroppedOnPile( const QList<KCard*> & cards, KCardPile * pile ) Q_DECL_OVERRIDE;
-    void restart( const QList<KCard*> & cards ) Q_DECL_OVERRIDE;
-    QList<MoveHint> getHints() Q_DECL_OVERRIDE;
+    bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const override;
+    bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const override;
+    void cardsDroppedOnPile( const QList<KCard*> & cards, KCardPile * pile ) override;
+    void restart( const QList<KCard*> & cards ) override;
+    QList<MoveHint> getHints() override;
 
 protected slots:
-    bool tryAutomaticMove( KCard * c ) Q_DECL_OVERRIDE;
+    bool tryAutomaticMove( KCard * c ) override;
 
 private:
     bool canPutStore( const KCardPile * pile, const QList<KCard*> & cards ) const;
