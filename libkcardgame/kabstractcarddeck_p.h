@@ -41,7 +41,7 @@ class RenderingThread : public QThread
 
 public:
     RenderingThread( KAbstractCardDeckPrivate * d, QSize size, const QStringList & elements );
-    void run() Q_DECL_OVERRIDE;
+    void run() override;
     void halt();
 
 Q_SIGNALS:

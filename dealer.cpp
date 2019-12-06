@@ -153,7 +153,7 @@ public:
     {
     }
 
-    void run() Q_DECL_OVERRIDE
+    void run() override
     {
         SolverInterface::ExitStatus result = m_solver->patsolve();
         emit finished( result );

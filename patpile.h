@@ -54,10 +54,10 @@ public:
     PileRole pileRole() const;
     bool isFoundation() const;
 
-    QList<QPointF> cardPositions() const Q_DECL_OVERRIDE;
+    QList<QPointF> cardPositions() const override;
 
 protected:
-    void paintGraphic( QPainter * painter, qreal highlightedness ) Q_DECL_OVERRIDE;
+    void paintGraphic( QPainter * painter, qreal highlightedness ) override;
 
 private:
     int m_index;

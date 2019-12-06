@@ -47,14 +47,14 @@ class Yukon : public DealerScene
 
 public:
     explicit Yukon( const DealerInfo * di );
-    void initialize() Q_DECL_OVERRIDE;
+    void initialize() override;
 
 public slots:
-    void restart( const QList<KCard*> & cards ) Q_DECL_OVERRIDE;
+    void restart( const QList<KCard*> & cards ) override;
 
 protected:
-    bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const Q_DECL_OVERRIDE;
-    bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const Q_DECL_OVERRIDE;
+    bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const override;
+    bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const override;
 
 private:
     PatPile* store[7];

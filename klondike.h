@@ -49,23 +49,23 @@ class Klondike : public DealerScene
 
 public:
     explicit Klondike( const DealerInfo * di );
-    void initialize() Q_DECL_OVERRIDE;
-    void mapOldId(int id) Q_DECL_OVERRIDE;
-    int oldId() const Q_DECL_OVERRIDE;
-    QList<QAction*> configActions() const Q_DECL_OVERRIDE;
+    void initialize() override;
+    void mapOldId(int id) override;
+    int oldId() const override;
+    QList<QAction*> configActions() const override;
 
 protected:
-    void setGameState( const QString & state ) Q_DECL_OVERRIDE;
-    QString getGameOptions() const Q_DECL_OVERRIDE;
-    void setGameOptions( const QString & options ) Q_DECL_OVERRIDE;
-    bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const Q_DECL_OVERRIDE;
-    bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const Q_DECL_OVERRIDE;
-    void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile ) Q_DECL_OVERRIDE;
-    void restart( const QList<KCard*> & cards ) Q_DECL_OVERRIDE;
+    void setGameState( const QString & state ) override;
+    QString getGameOptions() const override;
+    void setGameOptions( const QString & options ) override;
+    bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const override;
+    bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const override;
+    void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile ) override;
+    void restart( const QList<KCard*> & cards ) override;
 
 protected slots:
-    bool drop() Q_DECL_OVERRIDE;
-    bool newCards() Q_DECL_OVERRIDE;
+    bool drop() override;
+    bool newCards() override;
 
 private slots:
     void gameTypeChanged();
@@ -92,7 +92,7 @@ public:
     KlondikePile( DealerScene * scene, int index, const QString & objectName = QString() );
     void setCardsToShow( int numCards );
     int cardsToShow() const;
-    QList<QPointF> cardPositions() const Q_DECL_OVERRIDE;
+    QList<QPointF> cardPositions() const override;
 
 private:
     int m_cardsToShow;

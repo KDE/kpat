@@ -32,15 +32,15 @@ public:
     int good_automove(int o, int r);
     int get_possible_moves(int *a, int *numout) override;
 #if 0
-    bool isWon() Q_DECL_OVERRIDE;
-    void make_move(MOVE *m) Q_DECL_OVERRIDE;
-    void undo_move(MOVE *m) Q_DECL_OVERRIDE;
-    void prioritize(MOVE *mp0, int n) Q_DECL_OVERRIDE;
-    int getOuts() Q_DECL_OVERRIDE;
-    unsigned int getClusterNumber() Q_DECL_OVERRIDE;
-    void translate_layout() Q_DECL_OVERRIDE;
-    void unpack_cluster( unsigned int k ) Q_DECL_OVERRIDE;
-    MoveHint translateMove(const MOVE &m) Q_DECL_OVERRIDE;
+    bool isWon() override;
+    void make_move(MOVE *m) override;
+    void undo_move(MOVE *m) override;
+    void prioritize(MOVE *mp0, int n) override;
+    int getOuts() override;
+    unsigned int getClusterNumber() override;
+    void translate_layout() override;
+    void unpack_cluster( unsigned int k ) override;
+    MoveHint translateMove(const MOVE &m) override;
 #endif
     void translate_layout() override;
 #if 0

@@ -26,15 +26,15 @@ class Mod3Solver : public Solver</* 24 targets, 8 playing fields, deck, aces =*/
 {
 public:
     explicit Mod3Solver(const Mod3 *dealer);
-    int get_possible_moves(int *a, int *numout) Q_DECL_OVERRIDE;
-    bool isWon() Q_DECL_OVERRIDE;
-    void make_move(MOVE *m) Q_DECL_OVERRIDE;
-    void undo_move(MOVE *m) Q_DECL_OVERRIDE;
-    int getOuts() Q_DECL_OVERRIDE;
-    void translate_layout() Q_DECL_OVERRIDE;
-    MoveHint translateMove(const MOVE &m) Q_DECL_OVERRIDE;
+    int get_possible_moves(int *a, int *numout) override;
+    bool isWon() override;
+    void make_move(MOVE *m) override;
+    void undo_move(MOVE *m) override;
+    int getOuts() override;
+    void translate_layout() override;
+    MoveHint translateMove(const MOVE &m) override;
 
-    void print_layout() Q_DECL_OVERRIDE;
+    void print_layout() override;
 
     const Mod3 *deal;
     int aces;

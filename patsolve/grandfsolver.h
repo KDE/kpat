@@ -27,17 +27,17 @@ class GrandfSolver : public Solver<7*3+1>
 public:
     explicit GrandfSolver(const Grandf *dealer);
 
-    int get_possible_moves(int *a, int *numout) Q_DECL_OVERRIDE;
-    bool isWon() Q_DECL_OVERRIDE;
-    void make_move(MOVE *m) Q_DECL_OVERRIDE;
-    void undo_move(MOVE *m) Q_DECL_OVERRIDE;
-    int getOuts() Q_DECL_OVERRIDE;
-    unsigned int getClusterNumber() Q_DECL_OVERRIDE;
-    void translate_layout() Q_DECL_OVERRIDE;
-    void unpack_cluster( unsigned int k ) Q_DECL_OVERRIDE;
-    MoveHint translateMove(const MOVE &m) Q_DECL_OVERRIDE;
+    int get_possible_moves(int *a, int *numout) override;
+    bool isWon() override;
+    void make_move(MOVE *m) override;
+    void undo_move(MOVE *m) override;
+    int getOuts() override;
+    unsigned int getClusterNumber() override;
+    void translate_layout() override;
+    void unpack_cluster( unsigned int k ) override;
+    MoveHint translateMove(const MOVE &m) override;
 
-    void print_layout() Q_DECL_OVERRIDE;
+    void print_layout() override;
 
     card_t Osuit[4];
 

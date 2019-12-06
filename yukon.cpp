@@ -132,7 +132,7 @@ public:
       : DealerInfo(I18N_NOOP("Yukon"), YukonId )
     {}
 
-    DealerScene *createGame() const Q_DECL_OVERRIDE
+    DealerScene *createGame() const override
     {
         return new Yukon( this );
     }

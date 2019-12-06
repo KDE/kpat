@@ -27,15 +27,15 @@ class GypsySolver : public Solver<8 + 1 + 8>
 public:
     explicit GypsySolver(const Gypsy *dealer);
     int good_automove(int o, int r);
-    int get_possible_moves(int *a, int *numout) Q_DECL_OVERRIDE;
-    bool isWon() Q_DECL_OVERRIDE;
-    void make_move(MOVE *m) Q_DECL_OVERRIDE;
-    void undo_move(MOVE *m) Q_DECL_OVERRIDE;
-    int getOuts() Q_DECL_OVERRIDE;
-    void translate_layout() Q_DECL_OVERRIDE;
-    MoveHint translateMove(const MOVE &m) Q_DECL_OVERRIDE;
+    int get_possible_moves(int *a, int *numout) override;
+    bool isWon() override;
+    void make_move(MOVE *m) override;
+    void undo_move(MOVE *m) override;
+    int getOuts() override;
+    void translate_layout() override;
+    MoveHint translateMove(const MOVE &m) override;
 
-    void print_layout() Q_DECL_OVERRIDE;
+    void print_layout() override;
 
 /* Names of the cards.  The ordering is defined in pat.h. */
 

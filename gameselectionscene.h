@@ -38,7 +38,7 @@ signals:
     void gameSelected( int i );
 
 protected:
-    void keyReleaseEvent( QKeyEvent * event ) Q_DECL_OVERRIDE;
+    void keyReleaseEvent( QKeyEvent * event ) override;
 
 private slots:
     void boxHoverChanged( GameSelectionBox * box, bool hovered );

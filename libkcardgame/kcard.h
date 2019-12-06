@@ -37,9 +37,9 @@ private:
 
 public:
     enum { Type = QGraphicsItem::UserType + 1 };
-    int type() const Q_DECL_OVERRIDE;
+    int type() const override;
 
-    void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = nullptr ) Q_DECL_OVERRIDE;
+    void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = nullptr ) override;
 
     quint32 id() const;
     int rank() const;

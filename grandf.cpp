@@ -200,7 +200,7 @@ public:
       : DealerInfo(I18N_NOOP("Grandfather"), GrandfatherId)
     {}
 
-    DealerScene *createGame() const Q_DECL_OVERRIDE
+    DealerScene *createGame() const override
     {
         return new Grandf( this );
     }

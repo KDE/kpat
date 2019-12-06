@@ -135,13 +135,13 @@ protected:
     virtual void cardsDroppedOnPile( const QList<KCard*> & cards, KCardPile * pile );
     virtual void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile );
 
-    void mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e ) Q_DECL_OVERRIDE;
-    void mouseMoveEvent( QGraphicsSceneMouseEvent * e ) Q_DECL_OVERRIDE;
-    void mousePressEvent( QGraphicsSceneMouseEvent * e ) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent( QGraphicsSceneMouseEvent * e ) Q_DECL_OVERRIDE;
-    void wheelEvent( QGraphicsSceneWheelEvent * e ) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e ) override;
+    void mouseMoveEvent( QGraphicsSceneMouseEvent * e ) override;
+    void mousePressEvent( QGraphicsSceneMouseEvent * e ) override;
+    void mouseReleaseEvent( QGraphicsSceneMouseEvent * e ) override;
+    void wheelEvent( QGraphicsSceneWheelEvent * e ) override;
 
-    void drawForeground( QPainter * painter, const QRectF & rect ) Q_DECL_OVERRIDE;
+    void drawForeground( QPainter * painter, const QRectF & rect ) override;
 
 private:
     friend class KCardScenePrivate;
