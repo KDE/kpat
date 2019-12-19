@@ -784,7 +784,7 @@ void KCardScene::clearHighlightedItems()
 
 QList<QGraphicsItem*> KCardScene::highlightedItems() const
 {
-    return d->highlightedItems.toList();
+    return d->highlightedItems.values();
 }
 
 
