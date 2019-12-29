@@ -312,7 +312,7 @@ void KCard::paint( QPainter * painter, const QStyleOptionGraphicsItem * option, 
     Q_UNUSED( option );
     Q_UNUSED( widget );
 
-    if ( pixmap().size() != d->deck->cardSize() )
+    if ( pixmap().size() != d->deck->cardSize() * pixmap().devicePixelRatio() )
     {
         QPixmap newPix = d->deck->cardPixmap( d->id, d->faceUp );
         if ( d->faceUp )

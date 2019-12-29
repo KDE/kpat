@@ -79,7 +79,9 @@ void PreviewThread::run()
                 return;
         }
 
-        QImage img( d->previewSize, QImage::Format_ARGB32 );
+        const auto dpr = qApp->devicePixelRatio();
+        QImage img( d->previewSize * dpr, QImage::Format_ARGB32 );
+        img.setDevicePixelRatio( dpr );
         img.fill( Qt::transparent );
         QPainter p( &img );
 
@@ -145,6 +147,7 @@ void CardThemeModel::reload()
     m_previews.clear();
 
     QList<KCardTheme> previewsNeeded;
+    const auto dpr = qApp->devicePixelRatio();
 
     foreach( const KCardTheme & theme, KCardTheme::findAllWithFeatures( d->requiredFeatures ) )
     {
@@ -155,8 +158,10 @@ void CardThemeModel::reload()
         QDateTime timestamp;
         if ( cacheFind( d->cache, timestampKey( theme ), &timestamp )
              && timestamp >= theme.lastModified() 
-             && d->cache->findPixmap( previewKey( theme, d->previewString ), pix ) )
+             && d->cache->findPixmap( previewKey( theme, d->previewString ), pix )
+             && pix->size() == d->previewSize * dpr )
         {
+            pix->setDevicePixelRatio( dpr );
             m_previews.insert( theme.displayName(), pix );
         }
         else
