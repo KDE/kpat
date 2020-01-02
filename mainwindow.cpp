@@ -407,7 +407,9 @@ void MainWindow::restart()
 
 void MainWindow::startRandom()
 {
-    startNew(QRandomGenerator::global()->generate());
+    const auto seed = QRandomGenerator::global()->generate();
+    const int signed_seed = (int)(seed & (~(((quint32)1) << 31)));
+    startNew(signed_seed);
 }
 
 void MainWindow::startNew(int gameNumber)
