@@ -50,7 +50,7 @@
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KRandom>
+#include <QRandomGenerator>
 #include <KSharedConfig>
 
 #include <QThread>
@@ -789,7 +789,7 @@ MoveHint DealerScene::chooseHint()
     else
     {
         // Generate a random number with an exponentional distribution averaging 1/4.
-        qreal randomExp = qMin<qreal>( -log( 1 - qreal( KRandom::random() ) / RAND_MAX ) / 4, 1 );
+        qreal randomExp = qMin<qreal>( -log( 1 - qreal( QRandomGenerator::global()->generate() ) / RAND_MAX ) / 4, 1 );
         int randomIndex =  randomExp * ( hintList.size() - 1 );
 
         std::sort(hintList.begin(), hintList.end(), prioSort);

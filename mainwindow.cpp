@@ -63,7 +63,7 @@
 #include <QIcon>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KRandom>
+#include <QRandomGenerator>
 #include <QStatusBar>
 #include <QMenuBar>
 #include <QTemporaryFile>
@@ -407,7 +407,7 @@ void MainWindow::restart()
 
 void MainWindow::startRandom()
 {
-    startNew(KRandom::random());
+    startNew(QRandomGenerator::global()->generate());
 }
 
 void MainWindow::startNew(int gameNumber)
@@ -419,7 +419,7 @@ void MainWindow::startNew(int gameNumber)
 void MainWindow::slotPickRandom()
 {
     QList<KCardTheme> themes = KCardTheme::findAll();
-    KCardTheme theme = themes.at( KRandom::random() % themes.size() );
+    KCardTheme theme = themes.at( QRandomGenerator::global()->generate() % themes.size() );
     Settings::setCardTheme( theme.dirName() );
 
     appearanceChanged();
