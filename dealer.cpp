@@ -1738,6 +1738,7 @@ void DealerScene::recordGameStatistics()
         QString maxWinStreakKey = QStringLiteral("maxwinstreak%1").arg( id );
         QString loseStreakKey = QStringLiteral("loosestreak%1").arg( id );
         QString maxLoseStreakKey = QStringLiteral("maxloosestreak%1").arg( id );
+        QString minMovesKey = QStringLiteral("minmoves%1").arg( id );
 
         KConfigGroup config(KSharedConfig::openConfig(), scores_group);
 
@@ -1747,6 +1748,7 @@ void DealerScene::recordGameStatistics()
         int maxWinStreak = config.readEntry( maxWinStreakKey, 0 );
         int loseStreak = config.readEntry( loseStreakKey, 0 );
         int maxLoseStreak = config.readEntry( maxLoseStreakKey, 0 );
+        int minMoves = config.readEntry( minMovesKey, -1 );
 
         ++totalPlayed;
 
@@ -1756,6 +1758,10 @@ void DealerScene::recordGameStatistics()
             ++winStreak;
             maxWinStreak = qMax( winStreak, maxWinStreak );
             loseStreak = 0;
+            if ( minMoves < 0 )
+                minMoves = moveCount();
+            else
+                minMoves = qMin( minMoves, moveCount() );
         }
         else
         {
@@ -1770,6 +1776,7 @@ void DealerScene::recordGameStatistics()
         config.writeEntry( maxWinStreakKey, maxWinStreak );
         config.writeEntry( loseStreakKey, loseStreak );
         config.writeEntry( maxLoseStreakKey, maxLoseStreak );
+        config.writeEntry( minMovesKey, minMoves );
 
         m_statisticsRecorded = true;
     }

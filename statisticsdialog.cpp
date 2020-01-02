@@ -122,6 +122,11 @@ void StatisticsDialog::setGameType(int gameIndex)
 		ui->Won->setText( QString::number(w));
 	ui->WinStreak->setText( QString::number( cg.readEntry(QStringLiteral("maxwinstreak%1").arg(gameIndex), 0)));
 	ui->LoseStreak->setText( QString::number( cg.readEntry(QStringLiteral("maxloosestreak%1").arg(gameIndex), 0)));
+	int minMoves = cg.readEntry(QStringLiteral("minmoves%1").arg(gameIndex), -1);
+	if(minMoves < 0)
+		ui->MinMoves->setText("∞");
+	else
+		ui->MinMoves->setText(QString::number(minMoves));
 	unsigned int l = cg.readEntry(QStringLiteral("loosestreak%1").arg(gameIndex),0);
 	if (l)
 		ui->CurrentStreak->setText( i18np("1 loss", "%1 losses", l) );
@@ -141,6 +146,7 @@ void StatisticsDialog::resetStats()
 	cg.writeEntry(QStringLiteral("maxloosestreak%1").arg(gameIndex),0);
 	cg.writeEntry(QStringLiteral("loosestreak%1").arg(gameIndex),0);
 	cg.writeEntry(QStringLiteral("winstreak%1").arg(gameIndex),0);
+	cg.writeEntry(QStringLiteral("minmoves%1").arg(gameIndex),-1);
 	cg.sync();
 
 	setGameType(gameIndex);
