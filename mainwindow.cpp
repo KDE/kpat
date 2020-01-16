@@ -421,7 +421,7 @@ void MainWindow::startNew(int gameNumber)
 void MainWindow::slotPickRandom()
 {
     QList<KCardTheme> themes = KCardTheme::findAll();
-    KCardTheme theme = themes.at( QRandomGenerator::global()->generate() % themes.size() );
+    KCardTheme theme = themes.at( QRandomGenerator::global()->bounded( themes.size() ) );
     Settings::setCardTheme( theme.dirName() );
 
     appearanceChanged();

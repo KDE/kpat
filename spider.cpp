@@ -402,8 +402,8 @@ void Spider::moveFullRunToLeg( KCardPile * pile )
 QPointF Spider::randomPos()
 {
     QRectF rect = sceneRect();
-    qreal x = rect.left() + qreal(QRandomGenerator::global()->generate()) / RAND_MAX * (rect.width() - deck()->cardWidth());
-    qreal y = rect.top() + qreal(QRandomGenerator::global()->generate()) / RAND_MAX * (rect.height() - deck()->cardHeight());
+    qreal x = rect.left() + QRandomGenerator::global()->bounded( rect.width() - deck()->cardWidth() );
+    qreal y = rect.top() + QRandomGenerator::global()->bounded( rect.height() - deck()->cardHeight() );
     return QPointF( x, y );
 }
 
