@@ -1,5 +1,4 @@
 [KNewStuff3]
-ProvidersUrl=https://autoconfig.kde.org/ocs/providers.xml
 Categories=KDE Card Deck
 TargetDir=carddecks
 Uncompress=archive
