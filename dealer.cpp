@@ -1326,7 +1326,7 @@ void DealerScene::takeState()
         if ( m_interruptAutoDrop )
             m_interruptAutoDrop = false;
         else
-            startDrop();
+            m_dropQueued = true;
     }
 }
 
