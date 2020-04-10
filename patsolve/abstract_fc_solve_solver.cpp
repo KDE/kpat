@@ -167,11 +167,7 @@ SolverInterface::ExitStatus FcSolveSolver::patsolve( int _max_positions )
     switch (solver_ret)
     {
         case FCS_STATE_IS_NOT_SOLVEABLE:
-            if (solver_instance)
-            {
-                freecell_solver_user_free(solver_instance);
-                solver_instance = NULL;
-            }
+            make_solver_instance_ready();
             return Solver::NoSolutionExists;
 
         case FCS_STATE_WAS_SOLVED:
@@ -179,15 +175,10 @@ SolverInterface::ExitStatus FcSolveSolver::patsolve( int _max_positions )
                 if (solver_instance)
                 {
                     m_winMoves.clear();
-                    while (freecell_solver_user_get_moves_left(solver_instance))
+                    fcs_move_t move;
+                    while (!freecell_solver_user_get_next_move(solver_instance, &move))
                     {
-                        fcs_move_t move;
                         MOVE new_move;
-                        const int verdict = !freecell_solver_user_get_next_move(
-                                                                solver_instance, &move)
-                            ;
-
-                        Q_ASSERT (verdict);
 
                         new_move.is_fcs = true;
                         new_move.fcs = move;
@@ -195,8 +186,7 @@ SolverInterface::ExitStatus FcSolveSolver::patsolve( int _max_positions )
                         m_winMoves.append( new_move );
                     }
 
-                    freecell_solver_user_free(solver_instance);
-                    solver_instance = NULL;
+                    make_solver_instance_ready();
                 }
                 return Solver::SolutionExists;
             }
@@ -205,11 +195,7 @@ SolverInterface::ExitStatus FcSolveSolver::patsolve( int _max_positions )
             return Solver::UnableToDetermineSolvability;
 
         default:
-            if (solver_instance)
-            {
-                freecell_solver_user_free(solver_instance);
-                solver_instance = NULL;
-            }
+            make_solver_instance_ready();
             return Solver::NoSolutionExists;
     }
 }
@@ -266,6 +252,15 @@ void FcSolveSolver::print_layout()
 void FcSolveSolver::unpack_cluster( unsigned int)
 {
     return;
+}
+
+void FcSolveSolver::make_solver_instance_ready()
+{
+    if (solver_instance && (solver_ret != FCS_STATE_NOT_BEGAN_YET))
+    {
+        freecell_solver_user_recycle(solver_instance);
+        solver_ret = FCS_STATE_NOT_BEGAN_YET;
+    }
 }
 
 FcSolveSolver::~FcSolveSolver()

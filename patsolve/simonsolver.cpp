@@ -418,11 +418,7 @@ void SimonSolver::translate_layout()
 {
     strcpy(board_as_string, deal->solverFormat().toLatin1());
 
-    if (solver_instance)
-    {
-        freecell_solver_user_recycle(solver_instance);
-        solver_ret = FCS_STATE_NOT_BEGAN_YET;
-    }
+    make_solver_instance_ready();
 #if 0
     /* Read the workspace. */
     int total = 0;
