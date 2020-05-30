@@ -768,7 +768,7 @@ MoveHint DealerScene::chooseHint()
         MOVE m = m_winningMoves.takeFirst();
         MoveHint mh = solver()->translateMove( m );
 
-#ifndef NDEBUG
+#ifdef CHOOSE_HINT_DEBUG
         if ( m.totype == O_Type )
             fprintf( stderr, "move from %d out (at %d) Prio: %d\n", m.from,
                      m.turn_index, m.pri );

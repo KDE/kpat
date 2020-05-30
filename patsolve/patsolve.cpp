@@ -86,7 +86,7 @@ MOVE *Solver<NumberPiles>::get_moves(int *nmoves)
 	/* Fill in the Possible array. */
 
         alln = n = get_possible_moves(&a, &numout);
-#ifndef NDEBUG
+#ifdef GET_MOVES_DEBUG
         {
 	    print_layout();
 	    fprintf( stderr, "moves %d\n", n );
