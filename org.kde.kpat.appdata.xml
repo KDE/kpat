@@ -27,6 +27,7 @@
   <name xml:lang="sl">KPatience</name>
   <name xml:lang="sv">Patiens</name>
   <name xml:lang="uk">KPatience</name>
+  <name xml:lang="x-test">xxKPatiencexx</name>
   <name xml:lang="zh-CN">KPatience</name>
   <name xml:lang="zh-TW">KPatience</name>
   <summary>Solitaire card game</summary>
@@ -52,6 +53,7 @@
   <summary xml:lang="sl">Igra s kartami pasjanse</summary>
   <summary xml:lang="sv">Patienskortspel</summary>
   <summary xml:lang="uk">Карткова гра у пасьянс</summary>
+  <summary xml:lang="x-test">xxSolitaire card gamexx</summary>
   <summary xml:lang="zh-CN">纸牌游戏</summary>
   <description>
     <p>KPat (aka KPatience) is a relaxing card sorting game. To win the game a player has to arrange a single deck of cards in certain order amongst each other.</p>
@@ -77,6 +79,7 @@
     <p xml:lang="sl">KPat (ali KPatience) je sprostitvena igra z urejanjem kart. Za zmago v igri mora igralec zložiti en komplet igralnih kart v določenem redu.</p>
     <p xml:lang="sv">KPat (också känt som Patiens) är ett avkopplande kortsorteringsspel. För att vinna spelet måste spelaren arrangera korten i en kortlek i en viss ordning bland varandra.</p>
     <p xml:lang="uk">KPat (або KPatience) — заспокійлива гра в упорядковування набору карт. Щоб виграти гру, гравцеві слід за певними правилами упорядкувати колоди карт.</p>
+    <p xml:lang="x-test">xxKPat (aka KPatience) is a relaxing card sorting game. To win the game a player has to arrange a single deck of cards in certain order amongst each other.xx</p>
   </description>
   <url type="homepage">https://games.kde.org/game.php?game=kpat</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=kpat</url>
@@ -107,6 +110,7 @@
       <caption xml:lang="sl">Izbirni zaslon vrste pasjanse</caption>
       <caption xml:lang="sv">Skärm för val av patiens</caption>
       <caption xml:lang="uk">Вікно вибору пасьянсу</caption>
+      <caption xml:lang="x-test">xxSolitaire selection screenxx</caption>
       <image>https://cdn.kde.org/screenshots/kpatience/kpatience.png</image>
     </screenshot>
   </screenshots>
