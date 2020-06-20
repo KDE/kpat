@@ -56,7 +56,7 @@ protected:
     void restart( const QList<KCard*> & cards ) override;
     QList<MoveHint> getHints() override;
 
-protected slots:
+protected Q_SLOTS:
     bool tryAutomaticMove( KCard * c ) override;
 
 private:

@@ -29,7 +29,7 @@ public:
     explicit SoundEngine( QObject * parent = nullptr );
     virtual ~SoundEngine();
 
-public slots:
+public Q_SLOTS:
     void cardsPickedUp();
     void cardsPutDown();
 

@@ -52,7 +52,7 @@ protected:
     bool checkRemove(const PatPile* pile, const QList<KCard*> & cards) const override;
     void restart( const QList<KCard*> & cards ) override;
 
-protected slots:
+protected Q_SLOTS:
     bool drop() override;
 
 private:

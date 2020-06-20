@@ -165,7 +165,7 @@ public:
         wait();
     }
 
-signals:
+Q_SIGNALS:
     void finished( int result );
 
 private:

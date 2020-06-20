@@ -49,7 +49,7 @@ public:
     explicit Yukon( const DealerInfo * di );
     void initialize() override;
 
-public slots:
+public Q_SLOTS:
     void restart( const QList<KCard*> & cards ) override;
 
 protected:

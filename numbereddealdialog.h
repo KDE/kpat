@@ -34,13 +34,13 @@ class NumberedDealDialog : public QDialog
         void setGameType( int gameId );
         void setDealNumber( int dealNumber );
 
-    public slots:
+    public Q_SLOTS:
         void setVisible( bool visible ) override;
 
-    signals:
+    Q_SIGNALS:
         void dealChosen( int gameId, int dealNumber );
 
-    private slots:
+    private Q_SLOTS:
         void handleOkClicked();
 
     private:

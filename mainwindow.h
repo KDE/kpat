@@ -66,12 +66,12 @@ public:
     MainWindow();
     ~MainWindow();
 
-public slots:
+public Q_SLOTS:
     bool loadGame( const QUrl & url, bool addToRecentFiles = true );
     void slotShowGameSelectionScreen();
     void slotGameSelected(int id);
 
-protected slots:
+protected Q_SLOTS:
     void newGame();
     void startRandom();
     void loadGame();
@@ -109,7 +109,7 @@ protected:
     void closeEvent(QCloseEvent * e) override;
     void saveNewToolbarConfig() override;
 
-private slots:
+private Q_SLOTS:
     void slotSnapshot();
     void slotSnapshot2();
     void generateThemePreview();

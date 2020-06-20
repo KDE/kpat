@@ -55,7 +55,7 @@ protected:
     void cardsDroppedOnPile( const QList<KCard*> & cards, KCardPile * pile ) override;
     void restart( const QList<KCard*> & cards ) override;
 
-protected slots:
+protected Q_SLOTS:
     bool newCards() override;
 
 private:

@@ -27,7 +27,7 @@
 class TestCardsShuffle: public QObject
 {
     Q_OBJECT
-private slots:
+private Q_SLOTS:
     void shuffle_seed1();
     void shuffle_seed24();
 };

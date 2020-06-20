@@ -55,7 +55,7 @@ protected:
     void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile ) override;
     void restart( const QList<KCard*> & cards ) override;
 
-protected slots:
+protected Q_SLOTS:
     bool newCards() override;
 
 private:

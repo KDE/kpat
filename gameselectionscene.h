@@ -34,13 +34,13 @@ public:
 
     void resizeScene( const QSize & size );
 
-signals:
+Q_SIGNALS:
     void gameSelected( int i );
 
 protected:
     void keyReleaseEvent( QKeyEvent * event ) override;
 
-private slots:
+private Q_SLOTS:
     void boxHoverChanged( GameSelectionBox * box, bool hovered );
 
 private:

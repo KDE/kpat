@@ -56,7 +56,7 @@ protected:
     void restart( const QList<KCard*> & cards ) override;
     bool drop() override;
 
-protected slots:
+protected Q_SLOTS:
     bool newCards() override;
     bool tryAutomaticMove( KCard * card ) override;
 

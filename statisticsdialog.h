@@ -53,11 +53,11 @@ class StatisticsDialog : public QDialog
 		explicit StatisticsDialog(QWidget* aParent);
                 ~StatisticsDialog();
 		void showGameType(int gameIndex);
-	public slots:
+	public Q_SLOTS:
 		void setGameType(int gameIndex);
 		void resetStats();
 
-	private slots:
+	private Q_SLOTS:
 		void selectionChanged(int comboIndex);
 
 	private:

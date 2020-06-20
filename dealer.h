@@ -123,7 +123,7 @@ public:
 
     QImage createDump() const;
 
-signals:
+Q_SIGNALS:
     void undoPossible(bool poss);
     void redoPossible(bool poss);
     void newCardsPossible(bool poss);
@@ -139,7 +139,7 @@ signals:
     void cardsPickedUp();
     void cardsPutDown();
 
-public slots:
+public Q_SLOTS:
     void startNew( int dealNumber = -1 );
 
     void undo();
@@ -195,13 +195,13 @@ protected:
 
     QList<MoveHint> getSolverHints();
 
-protected slots:
+protected Q_SLOTS:
     void takeState();
     virtual void animationDone();
     virtual bool newCards();
     virtual bool drop();
 
-private slots:
+private Q_SLOTS:
     void stopAndRestartSolver();
     void slotSolverEnded();
     void slotSolverFinished( int result );

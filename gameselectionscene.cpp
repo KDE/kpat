@@ -110,7 +110,7 @@ public:
         return a->m_label < b->m_label;
     }
 
-signals:
+Q_SIGNALS:
     void selected( int gameId );
     void hoverChanged( GameSelectionBox * box, bool hovered );
 

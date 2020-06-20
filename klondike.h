@@ -63,11 +63,11 @@ protected:
     void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile ) override;
     void restart( const QList<KCard*> & cards ) override;
 
-protected slots:
+protected Q_SLOTS:
     bool drop() override;
     bool newCards() override;
 
-private slots:
+private Q_SLOTS:
     void gameTypeChanged();
 
 private:
