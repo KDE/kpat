@@ -467,7 +467,7 @@ MoveHint FreecellSolver::translateMove( const MOVE &m )
 
 void FreecellSolver::translate_layout()
 {
-    strcpy(board_as_string, deal->solverFormat().toLatin1());
+    strcpy(board_as_string, deal->solverFormat().toLatin1().constData());
 
     make_solver_instance_ready();
 #if 0

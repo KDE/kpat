@@ -63,7 +63,7 @@ DealerInfo::~DealerInfo()
 
 QString DealerInfo::baseName() const
 {
-    return i18n( m_baseName );
+    return i18n(m_baseName.constData());
 }
 
 
