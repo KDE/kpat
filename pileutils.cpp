@@ -194,10 +194,10 @@ void cardsListToLine(QString & output, const QList<KCard*> &cards)
     {
         if (!first)
         {
-            output += ' ';
+            output += QLatin1Char(' ');
         }
         first = false;
         output += cardToRankSuitString(*it);
     }
-    output += '\n';
+    output += QLatin1Char('\n');
 }

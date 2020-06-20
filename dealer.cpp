@@ -240,7 +240,7 @@ bool DealerScene::loadLegacyFile( QIODevice * io )
     {
         QSet<int> suits;
         while ( !xml.atEnd() )
-            if ( xml.readNextStartElement() && xml.name() == "card" )
+            if (xml.readNextStartElement() && xml.name() == QLatin1String("card"))
                 suits << readIntAttribute( xml, QStringLiteral("suit") );
         options = QString::number( suits.size() );
 
@@ -270,8 +270,7 @@ bool DealerScene::loadLegacyFile( QIODevice * io )
     // Loop through <pile>s.
     while ( xml.readNextStartElement() )
     {
-        if ( xml.name() != "pile" )
-        {
+        if (xml.name() != QLatin1String("pile")) {
             qCWarning(KPAT_LOG) << "Expected a \"pile\" tag. Found a" << xml.name() << "tag.";
             return false;
         }
@@ -291,8 +290,7 @@ bool DealerScene::loadLegacyFile( QIODevice * io )
         // Loop through <card>s.
         while ( xml.readNextStartElement() )
         {
-            if ( xml.name() != "card" )
-            {
+            if (xml.name() != QLatin1String("card")) {
                 qCWarning(KPAT_LOG) << "Expected a \"card\" tag. Found a" << xml.name() << "tag.";
                 return false;
             }
@@ -381,11 +379,11 @@ void DealerScene::saveFile( QIODevice * io )
 
             for (const KCard * card : change.cards) {
                 xml.writeStartElement( QStringLiteral("card") );
-                xml.writeAttribute( QStringLiteral("id"), QStringLiteral("%1").arg( card->id(), 7, 10, QChar('0') ) );
+                xml.writeAttribute( QStringLiteral("id"), QStringLiteral("%1").arg( card->id(), 7, 10, QLatin1Char('0') ) );
                 xml.writeAttribute( QStringLiteral("suit"), suitToString( card->suit() ) );
                 xml.writeAttribute( QStringLiteral("rank"), rankToString( card->rank() ) );
                 if ( faceChanged )
-                    xml.writeAttribute( QStringLiteral("turn"), change.newState.faceUp ? "face-up" : "face-down" );
+                    xml.writeAttribute( QStringLiteral("turn"), change.newState.faceUp ? QStringLiteral("face-up") : QStringLiteral("face-down") );
                 xml.writeEndElement();
             }
 
@@ -412,8 +410,7 @@ bool DealerScene::loadFile( QIODevice * io )
 
     xml.readNextStartElement();
 
-    if ( xml.name() != "kpat-game" )
-    {
+    if (xml.name() != QLatin1String("kpat-game")) {
         qCWarning(KPAT_LOG) << "First tag is not \"kpat-game\"";
         return false;
     }
@@ -435,8 +432,7 @@ bool DealerScene::loadFile( QIODevice * io )
 
     while( xml.readNextStartElement() )
     {
-        if ( xml.name() != "state" )
-        {
+        if (xml.name() != QLatin1String("state")) {
             qCWarning(KPAT_LOG) << "Expected a \"state\" tag. Found a" << xml.name() << "tag.";
             return false;
         }
@@ -446,13 +442,12 @@ bool DealerScene::loadFile( QIODevice * io )
 
         if ( undosToDo > -1 )
             ++undosToDo;
-        else if ( xml.attributes().value( QStringLiteral("current") ) == "true" )
+        else if ( xml.attributes().value( QStringLiteral("current") ) == QLatin1String("true") )
             undosToDo = 0;
         
         while( xml.readNextStartElement() )
         {
-            if ( xml.name() != "move" )
-            {
+            if (xml.name() != QLatin1String("move")) {
                 qCWarning(KPAT_LOG) << "Expected a \"move\" tag. Found a" << xml.name() << "tag.";
                 return false;
             }
@@ -471,8 +466,7 @@ bool DealerScene::loadFile( QIODevice * io )
 
             while ( xml.readNextStartElement() )
             {
-                if ( xml.name() != "card" )
-                {
+                if (xml.name() != QLatin1String("card")) {
                     qCWarning(KPAT_LOG) << "Expected a \"card\" tag. Found a" << xml.name() << "tag.";
                     return false;
                 }
@@ -484,9 +478,9 @@ bool DealerScene::loadFile( QIODevice * io )
                     return false;
                 }
 
-                if ( xml.attributes().value(QStringLiteral("turn")) == "face-up" )
+                if ( xml.attributes().value(QStringLiteral("turn")) == QLatin1String("face-up") )
                     card->setFaceUp( true );
-                else if ( xml.attributes().value(QStringLiteral("turn")) == "face-down" )
+                else if ( xml.attributes().value(QStringLiteral("turn")) == QLatin1String("face-down") )
                     card->setFaceUp( false );
                 
                 pile->insert( index, card );

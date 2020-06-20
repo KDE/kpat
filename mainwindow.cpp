@@ -223,7 +223,7 @@ void MainWindow::setupActions()
     m_hintAction->setToolTip( a->toolTip() );
     m_hintAction->setWhatsThis( a->whatsThis() );
     delete a;
-    QString actionName( KStandardGameAction::name( KStandardGameAction::Hint ) );
+    const QString actionName = QString::fromLatin1(KStandardGameAction::name(KStandardGameAction::Hint));
     actionCollection()->addAction( actionName, m_hintAction );
     connect(m_hintAction, &QAction::triggered, this, &MainWindow::toggleHints);
 
@@ -349,7 +349,7 @@ void MainWindow::helpGame()
         const DealerInfo * di = m_dealer_map.value(m_dealer->gameId());
         QString anchor = QString::fromUtf8( di->untranslatedBaseName() );
         anchor = anchor.toLower();
-        anchor = anchor.remove('\'').replace('&', QLatin1String("and")).replace(' ', '-');
+        anchor = anchor.remove(QLatin1Char('\'')).replace(QLatin1Char('&'), QLatin1String("and")).replace(QLatin1Char(' '), QLatin1Char('-'));
         KHelpClient::invokeHelp(QLatin1String("rules-specific.html#") + anchor);
     }
 }
@@ -533,7 +533,7 @@ void MainWindow::setGameType(int id)
 
     m_gameHelpAction->setText(i18nc("Is disabled and changes to \"Help &with Current Game\" when"
                                   " there is no current game.",
-                                  "Help &with %1", di->baseName().replace('&', QLatin1String("&&"))));
+                                  "Help &with %1", di->baseName().replace(QLatin1Char('&'), QLatin1String("&&"))));
 
     connect(m_dealer, &DealerScene::solverStateChanged, this, &MainWindow::updateSolverDescription);
     connect(m_dealer, &DealerScene::updateMoves, this, &MainWindow::slotUpdateMoves);
@@ -759,7 +759,7 @@ void MainWindow::saveNewToolbarConfig()
 void MainWindow::closeEvent(QCloseEvent *e)
 {
     QString stateDirName = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-    QString stateFileName = stateDirName + QLatin1Char('/') + saved_state_file ;
+    QString stateFileName = stateDirName + QLatin1String("/" saved_state_file);
     QDir stateFileDir(stateDirName);
     if(!stateFileDir.exists())
     {
@@ -856,16 +856,14 @@ bool MainWindow::loadGame( const QUrl & url, bool addToRecentFiles )
     int gameId = -1;
     bool isLegacyFile;
 
-    if ( xml.name() == "dealer" )
-    {
+    if (xml.name() == QLatin1String("dealer")) {
         isLegacyFile = true;
         bool ok;
         int id = xml.attributes().value(QStringLiteral("id")).toString().toInt( &ok );
         if ( ok )
             gameId = id;
     }
-    else if ( xml.name() == "kpat-game" )
-    {
+    else if (xml.name() == QLatin1String("kpat-game")) {
         isLegacyFile = false;
         QStringRef gameType = xml.attributes().value(QStringLiteral("game-type"));
         const auto games = DealerInfoList::self()->games();

@@ -40,12 +40,12 @@ namespace
 {
     inline QString timestampKey( const KCardTheme & theme )
     {
-        return theme.dirName() + "_timestamp";
+        return theme.dirName() + QLatin1String("_timestamp");
     }
 
     inline QString previewKey( const KCardTheme & theme, const QString & previewString )
     {
-        return theme.dirName() + '_' + previewString;
+        return theme.dirName() + QLatin1Char('_') + previewString;
     }
 }
 
@@ -353,9 +353,9 @@ KCardThemeWidget::KCardThemeWidget( const QSet<QString> & requiredFeatures, cons
     d->previewString = previewString;
 
     d->previewLayout.clear();
-    const auto piles = previewString.split(';');
+    const auto piles = previewString.split(QLatin1Char(';'));
     for (const QString & pile : piles)
-        d->previewLayout << pile.split(',');
+        d->previewLayout << pile.split(QLatin1Char(','));
 
     d->abstractPreviewWidth = 0;
     for ( int i = 0; i < d->previewLayout.size(); ++i )

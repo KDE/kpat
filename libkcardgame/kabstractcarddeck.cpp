@@ -42,7 +42,7 @@ namespace
 
     QString keyForPixmap( const QString & element, const QSize & s )
     {
-        return element + '@' + QString::number( s.width() ) + 'x' + QString::number( s.height() );
+        return element + QLatin1Char('@') + QString::number( s.width() ) + QLatin1Char('x') + QString::number( s.height() );
     }
 }
 
@@ -123,7 +123,7 @@ QSvgRenderer * KAbstractCardDeckPrivate::renderer()
 {
     if ( !svgRenderer )
     {
-        QString thread = (qApp->thread() == QThread::currentThread()) ? "main" : "rendering";
+        QString thread = (qApp->thread() == QThread::currentThread()) ? QStringLiteral("main") : QStringLiteral("rendering");
         //qCDebug(LIBKCARDGAME_LOG) << QString("Loading card deck SVG in %1 thread").arg( thread );
 
         svgRenderer = new QSvgRenderer( theme.graphicsFilePath() );

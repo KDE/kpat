@@ -121,7 +121,7 @@ QString Freecell::solverFormat() const
     for (int i = 0; i < 4 ; i++) {
         if (target[i]->isEmpty())
             continue;
-        tmp += suitToString(target[i]->topCard()->suit()) + '-' + rankToString(target[i]->topCard()->rank()) + ' ';
+        tmp += suitToString(target[i]->topCard()->suit()) + QLatin1Char('-') + rankToString(target[i]->topCard()->rank()) + QLatin1Char(' ');
     }
     if (!tmp.isEmpty())
         output += QStringLiteral("Foundations: %1\n").arg(tmp);
@@ -129,7 +129,7 @@ QString Freecell::solverFormat() const
     tmp.truncate(0);
     for (int i = 0; i < 4 ; i++) {
         const auto fc = freecell[i];
-        tmp += (fc->isEmpty() ? QStringLiteral("-") : cardToRankSuitString(fc->topCard())) + ' ';
+        tmp += (fc->isEmpty() ? QStringLiteral("-") : cardToRankSuitString(fc->topCard())) + QLatin1Char(' ');
     }
     if (!tmp.isEmpty())
     {

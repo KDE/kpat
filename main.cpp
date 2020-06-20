@@ -114,7 +114,7 @@ int main( int argc, char **argv )
 
     KAboutData aboutData( QStringLiteral("kpat"),
                           i18n("KPatience"),
-                          KPAT_VERSION_STRING,
+                          QStringLiteral(KPAT_VERSION_STRING),
                           i18n("KDE Patience Game"),
                           KAboutLicense::GPL_V2,
                           i18n("© 1995 Paul Olav Tvete\n© 2000 Stephan Kulow"),
@@ -321,7 +321,7 @@ int main( int argc, char **argv )
     }
 
     QString gametype = parser.value(QStringLiteral("gametype")).toLower();
-    QFile savedState( QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QLatin1Char('/') + saved_state_file);
+    QFile savedState( QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QLatin1String("/" saved_state_file));
 
     MainWindow *w = new MainWindow;
     if (!parser.positionalArguments().isEmpty())

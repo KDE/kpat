@@ -66,7 +66,7 @@ QList<KCardTheme> KCardTheme::findAll()
     for (const QString &index : indexFiles) {
         const QStringList entries = QDir(index).entryList(QDir::Dirs);
         for (const QString &d : entries) {
-            QString indexFilePath = index + '/' + d + "/index.desktop";
+            QString indexFilePath = index + QLatin1Char('/') + d + QLatin1String("/index.desktop");
             if (QFile::exists(indexFilePath)) {
                 QString directoryName = QFileInfo( indexFilePath ).dir().dirName();
                 KCardTheme t( directoryName );
@@ -87,7 +87,7 @@ QList<KCardTheme> KCardTheme::findAllWithFeatures( const QSet<QString> & neededF
     for (const QString &index : indexFiles) {
         const QStringList entries = QDir(index).entryList(QDir::Dirs);
         for (const QString &d : entries) {
-            QString indexFilePath = index + '/' + d + "/index.desktop";
+            QString indexFilePath = index + QLatin1Char('/') + d + QLatin1String("/index.desktop");
             if (QFile::exists(indexFilePath)) {
                 QString directoryName = QFileInfo( indexFilePath ).dir().dirName();
                 KCardTheme t( directoryName );
