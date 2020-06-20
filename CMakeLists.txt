@@ -73,7 +73,9 @@ add_subdirectory(previews)
 add_subdirectory(sounds)
 add_subdirectory(themes)
 add_subdirectory(doc)
-add_subdirectory(autotests)
+if (BUILD_TESTING)
+    add_subdirectory(autotests)
+endif()
 
 set(kpat_SRCS ${libfcs_SRCS}
     main.cpp
