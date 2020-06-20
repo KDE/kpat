@@ -95,8 +95,7 @@ void Idiot::initialize()
 
 void Idiot::restart( const QList<KCard*> & cards )
 {
-    foreach ( KCard * c, cards )
-    {
+    for (KCard * c : cards) {
         c->setPos( talon->pos() );
         c->setFaceUp( false );
         talon->add( c );

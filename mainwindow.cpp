@@ -107,10 +107,11 @@ MainWindow::MainWindow()
 
     setupActions();
 
-    foreach( const DealerInfo * di, DealerInfoList::self()->games() )
-    {
+    const auto games = DealerInfoList::self()->games();
+    for (const DealerInfo * di : games) {
         m_dealer_map.insert( di->baseId(), di );
-        foreach( int id, di->subtypeIds() )
+        const auto subtypeIds = di->subtypeIds();
+        for (int id : subtypeIds)
             m_dealer_map.insert( id, di );
     }
     m_dealer_it = m_dealer_map.constEnd();
@@ -867,8 +868,8 @@ bool MainWindow::loadGame( const QUrl & url, bool addToRecentFiles )
     {
         isLegacyFile = false;
         QStringRef gameType = xml.attributes().value(QStringLiteral("game-type"));
-        foreach ( const DealerInfo * di, DealerInfoList::self()->games() )
-        {
+        const auto games = DealerInfoList::self()->games();
+        for (const DealerInfo * di : games) {
             if ( di->baseIdString() == gameType )
             {
                 gameId = di->baseId();
@@ -1059,7 +1060,8 @@ void MainWindow::generateThemePreview()
     img.fill( Qt::transparent );
     QPainter p( &img );
 
-    foreach ( KCard * c, m_cardDeck->cards() )
+    const auto cards = m_cardDeck->cards();
+    for (KCard * c : cards)
         c->completeAnimation();
 
     m_view->render( &p );

@@ -176,8 +176,7 @@ void Mod3::cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPi
 
 void Mod3::restart( const QList<KCard*> & cards )
 {
-    foreach ( KCard * c, cards )
-    {
+    for (KCard * c : cards) {
         c->setPos( talon->pos() );
         c->setFaceUp( false );
         talon->add( c );

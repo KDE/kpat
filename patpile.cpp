@@ -76,8 +76,8 @@ QList< QPointF > PatPile::cardPositions() const
 {
     QList<QPointF> positions;
     QPointF currentPosition( 0, 0 );
-    foreach( KCard * c, cards() )
-    {
+    const auto cards = this->cards();
+    for( KCard * c : cards) {
         positions << currentPosition;
         qreal adjustment = c->isFaceUp() ? 1 : 0.6;
         currentPosition += adjustment * spread();

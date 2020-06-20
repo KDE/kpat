@@ -76,8 +76,7 @@ void RenderingThread::run()
     }
 
     const auto size = m_size * qApp->devicePixelRatio();
-    foreach ( const QString & element, m_elementsToRender )
-    {
+    for (const QString & element : qAsConst(m_elementsToRender)) {
         {
             QMutexLocker l( &m_haltMutex );
             if ( m_haltFlag )
@@ -257,7 +256,8 @@ void KAbstractCardDeckPrivate::submitRendering( const QString & elementId, const
     if ( it != frontIndex.end() )
     {
         it.value().cardPixmap = pix;
-        foreach ( KCard * c, it.value().cardUsers )
+        const auto cards = it.value().cardUsers;
+        for (KCard * c : cards)
             c->setFrontPixmap( pix );
     }
 
@@ -265,7 +265,8 @@ void KAbstractCardDeckPrivate::submitRendering( const QString & elementId, const
     if ( it != backIndex.end() )
     {
         it.value().cardPixmap = pix;
-        foreach ( KCard * c, it.value().cardUsers )
+        const auto cards = it.value().cardUsers;
+        for (KCard * c : cards)
             c->setBackPixmap( pix );
     }
 }
@@ -305,7 +306,7 @@ KAbstractCardDeck::KAbstractCardDeck( const KCardTheme & theme, QObject * parent
 
 KAbstractCardDeck::~KAbstractCardDeck()
 {
-    foreach ( KCard * c, d->cards )
+    for (KCard * c : qAsConst(d->cards))
         delete c;
     d->cards.clear();
 }
@@ -313,7 +314,7 @@ KAbstractCardDeck::~KAbstractCardDeck()
 
 void KAbstractCardDeck::setDeckContents( const QList<quint32> & ids )
 {
-    foreach ( KCard * c, d->cards )
+    for (KCard * c : qAsConst(d->cards))
         delete c;
     d->cards.clear();
     d->cardsWaitedFor.clear();
@@ -324,8 +325,7 @@ void KAbstractCardDeck::setDeckContents( const QList<quint32> & ids )
     QHash<QString,CardElementData> oldBackIndex = d->backIndex;
     d->backIndex.clear();
 
-    foreach ( quint32 id, ids )
-    {
+    for (quint32 id : ids) {
         KCard * c = new KCard( id, this );
 
         c->setObjectName( elementName( c->id() ) );
@@ -504,8 +504,10 @@ bool KAbstractCardDeck::hasAnimatedCards() const
 
 void KAbstractCardDeck::stopAnimations() 
 {
-    foreach ( KCard * c, d->cardsWaitedFor )
+    const auto currentCardsWaitedFor = d->cardsWaitedFor;
+    for (KCard * c : currentCardsWaitedFor)
        c->stopAnimation();
+    Q_ASSERT(d->cardsWaitedFor.isEmpty());
     d->cardsWaitedFor.clear();
 }
 

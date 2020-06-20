@@ -284,7 +284,8 @@ void Spider::setGameState( const QString & state )
             legs[i]->setVisible( i < m_leg );
 
         recalculatePileLayouts();
-        foreach ( KCardPile * p, piles() )
+        const auto piles = this->piles();
+        for (KCardPile * p : piles)
             updatePileLayout( p, 0 );
 
         emit newCardsPossible(m_redeal <= 4);

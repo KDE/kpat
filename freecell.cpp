@@ -243,8 +243,8 @@ QList<MoveHint> Freecell::getHints()
     if ( isDemoActive() )
         return hintList;
 
-    foreach (PatPile * store, patPiles())
-    {
+    const auto patPiles = this->patPiles();
+    for (PatPile * store : patPiles) {
         if (store->isEmpty())
             continue;
 
@@ -257,8 +257,8 @@ QList<MoveHint> Freecell::getHints()
         {
             if (allowedToRemove(store, (*iti)))
             {
-                foreach (PatPile * dest, patPiles())
-                {
+                const auto patPiles = this->patPiles();
+                for (PatPile * dest : patPiles) {
                     int cardIndex = store->indexOf(*iti);
                     if (cardIndex == 0 && dest->isEmpty() && !dest->isFoundation())
                         continue;

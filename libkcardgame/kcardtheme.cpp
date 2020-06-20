@@ -62,10 +62,10 @@ public:
 QList<KCardTheme> KCardTheme::findAll()
 {
     QList<KCardTheme> result;
-    QStringList indexFiles = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("carddecks"), QStandardPaths::LocateDirectory );
-    Q_FOREACH (const QString &index, indexFiles) {
+    const QStringList indexFiles = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("carddecks"), QStandardPaths::LocateDirectory );
+    for (const QString &index : indexFiles) {
         const QStringList entries = QDir(index).entryList(QDir::Dirs);
-        Q_FOREACH (const QString &d, entries) {
+        for (const QString &d : entries) {
             QString indexFilePath = index + '/' + d + "/index.desktop";
             if (QFile::exists(indexFilePath)) {
                 QString directoryName = QFileInfo( indexFilePath ).dir().dirName();
@@ -83,10 +83,10 @@ QList<KCardTheme> KCardTheme::findAll()
 QList<KCardTheme> KCardTheme::findAllWithFeatures( const QSet<QString> & neededFeatures )
 {
     QList<KCardTheme> result;
-    QStringList indexFiles = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("carddecks"), QStandardPaths::LocateDirectory );
-    Q_FOREACH (const QString &index, indexFiles) {
+    const QStringList indexFiles = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("carddecks"), QStandardPaths::LocateDirectory );
+    for (const QString &index : indexFiles) {
         const QStringList entries = QDir(index).entryList(QDir::Dirs);
-        Q_FOREACH (const QString &d, entries) {
+        for (const QString &d : entries) {
             QString indexFilePath = index + '/' + d + "/index.desktop";
             if (QFile::exists(indexFilePath)) {
                 QString directoryName = QFileInfo( indexFilePath ).dir().dirName();

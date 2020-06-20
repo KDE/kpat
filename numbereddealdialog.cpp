@@ -55,9 +55,12 @@ NumberedDealDialog::NumberedDealDialog( QWidget * parent )
     layout->addRow( i18n( "Deal number:" ), m_dealNumber );
 
     QMap<QString,int> nameToIdMap;
-    foreach ( DealerInfo * game, DealerInfoList::self()->games() )
-        foreach ( int id, game->distinctIds() )
+    const auto games = DealerInfoList::self()->games();
+    for (DealerInfo * game : games) {
+        const auto ids = game->distinctIds();
+        for (int id : ids)
             nameToIdMap.insert( game->nameForId( id ), id );
+    }
 
     QMap<QString,int>::const_iterator it = nameToIdMap.constBegin();
     QMap<QString,int>::const_iterator end = nameToIdMap.constEnd();

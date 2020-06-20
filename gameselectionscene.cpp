@@ -211,8 +211,8 @@ GameSelectionScene::GameSelectionScene( QObject * parent )
   : QGraphicsScene( parent ),
     m_selectionIndex( -1 )
 {
-    foreach (const DealerInfo * i, DealerInfoList::self()->games())
-    {
+    const auto games = DealerInfoList::self()->games();
+    for (const DealerInfo * i : games) {
         GameSelectionBox * box = new GameSelectionBox( i->baseName(), i->baseId() );
         m_boxes.append( box );
         addItem( box );
@@ -293,8 +293,7 @@ void GameSelectionScene::resizeScene( const QSize & size )
     int row = 0;
     int col = 0;
 
-    foreach ( GameSelectionBox * box, m_boxes )
-    {
+    for (GameSelectionBox * box : qAsConst(m_boxes)) {
         // Reduce font size until the label fits
         while ( pixelFontSize > minimumFontSize
                 && p.boundingRect( QRectF(), box->label() ).width() > maxLabelWidth )

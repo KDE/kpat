@@ -73,8 +73,8 @@ QList<quint32> KCardDeck::generateIdList( int copies,
     QList<quint32> ids;
     unsigned int number = 0;
     for ( int c = 0; c < copies; ++c )
-        foreach ( const Suit & s, suits )
-            foreach ( const Rank & r, ranks )
+        for (const Suit & s : suits )
+            for (const Rank & r : ranks )
                 ids << getId( s, r, number++ );
 
     return ids;

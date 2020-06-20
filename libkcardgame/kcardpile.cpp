@@ -137,7 +137,7 @@ KCardPile::KCardPile( KCardScene * cardScene )
 
 KCardPile::~KCardPile()
 {
-    foreach ( KCard * c, d->cards )
+    for (KCard * c : qAsConst(d->cards))
         c->setPile( nullptr );
 
     KCardScene * cardScene = dynamic_cast<KCardScene*>( scene() );
@@ -387,7 +387,7 @@ void KCardPile::setVisible( bool visible )
     if ( visible != isVisible() )
     {
         QGraphicsItem::setVisible( visible );
-        foreach ( KCard * c, d->cards )
+        for (KCard * c : qAsConst(d->cards))
             c->setVisible( visible );
     }
 }
@@ -444,8 +444,10 @@ void KCardPile::remove( KCard * card )
 
 void KCardPile::clear()
 {
-    foreach ( KCard *card, d->cards )
+    const auto currentCards = d->cards;
+    for (KCard *card : currentCards)
         remove( card );
+    Q_ASSERT(d->cards.isEmpty());
 }
 
 

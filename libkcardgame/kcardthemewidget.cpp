@@ -71,8 +71,7 @@ void PreviewThread::halt()
 
 void PreviewThread::run()
 {
-    foreach( const KCardTheme & theme, m_themes )
-    {
+    for (const KCardTheme & theme : qAsConst(m_themes)) {
         {
             QMutexLocker l( &m_haltMutex );
             if ( m_haltFlag )
@@ -96,10 +95,8 @@ void PreviewThread::run()
                              / ( d->previewSize.width() - d->previewLayout.size() * d->baseCardSize.width() );
 
         qreal xPos = 0;
-        foreach ( const QList<QString> & pile, d->previewLayout )
-        {
-            foreach ( const QString & card, pile )
-            {
+        for (const QList<QString> & pile : qAsConst(d->previewLayout)) {
+            for (const QString & card : pile) {
                 renderer.render( &p, card, QRectF( QPointF( xPos, yPos ), size ) );
                 xPos += 0.3 * spacingWidth;
             }
@@ -149,8 +146,8 @@ void CardThemeModel::reload()
     QList<KCardTheme> previewsNeeded;
     const auto dpr = qApp->devicePixelRatio();
 
-    foreach( const KCardTheme & theme, KCardTheme::findAllWithFeatures( d->requiredFeatures ) )
-    {
+    const auto themes = KCardTheme::findAllWithFeatures(d->requiredFeatures);
+    for (const KCardTheme & theme : themes) {
         if ( !theme.isValid() )
             continue;
 
@@ -356,7 +353,8 @@ KCardThemeWidget::KCardThemeWidget( const QSet<QString> & requiredFeatures, cons
     d->previewString = previewString;
 
     d->previewLayout.clear();
-    foreach ( const QString & pile, previewString.split(';') )
+    const auto piles = previewString.split(';');
+    for (const QString & pile : piles)
         d->previewLayout << pile.split(',');
 
     d->abstractPreviewWidth = 0;

@@ -52,8 +52,8 @@ private slots:
 static DealerScene *getDealer( int wanted_game )
 {
     fprintf(stderr, "diuuuuu=\n");
-    foreach ( DealerInfo * di, DealerInfoList::self()->games() )
-    {
+    const auto games = DealerInfoList::self()->games();
+    for (DealerInfo * di : games) {
         fprintf(stderr, "di=%p\n", di);
         if ( di->providesId( wanted_game ) )
         {

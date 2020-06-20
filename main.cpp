@@ -64,8 +64,8 @@
 
 static DealerScene *getDealer( int wanted_game , const QString & name )
 {
-    foreach ( DealerInfo * di, DealerInfoList::self()->games() )
-    {
+    const auto games = DealerInfoList::self()->games();
+    for (DealerInfo * di : games) {
         if ( (wanted_game < 0) ? (QString::fromUtf8(di->untranslatedBaseName()) == name) : di->providesId( wanted_game ) )
         {
             DealerScene * d = di->createGame();
@@ -175,8 +175,8 @@ int main( int argc, char **argv )
     // the names of the game types in the help text.
     QMap<QString, int> indexMap;
     QStringList gameList;
-    foreach ( const DealerInfo *di, DealerInfoList::self()->games() )
-    {
+    const auto games = DealerInfoList::self()->games();
+    for (const DealerInfo *di : games) {
         KLocalizedString localizedKey = ki18n( di->untranslatedBaseName().constData() );
         //QT5 const QString translatedKey = lowerAlphaNum( localizedKey.toString( tmpLocale ) );
         //QT5 gameList << translatedKey;

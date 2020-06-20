@@ -197,14 +197,14 @@ void DealerScene::saveLegacyFile( QIODevice * io )
     xml.writeAttribute( QStringLiteral("started"), QString::number( m_dealStarted ) );
     xml.writeAttribute( QStringLiteral("data"), getGameState() );
 
-    foreach( const PatPile * p, patPiles() )
-    {
+    const auto patPiles = this->patPiles();
+    for (const PatPile * p : patPiles) {
         xml.writeStartElement( QStringLiteral("pile") );
         xml.writeAttribute( QStringLiteral("index"), QString::number( p->index() ) );
         xml.writeAttribute( QStringLiteral("z"), QString::number( p->zValue() ) );
 
-        foreach( const KCard * c, p->cards() )
-        {
+        const auto cards = p->cards();
+        for (const KCard * c : cards) {
             xml.writeStartElement( QStringLiteral("card") );
             xml.writeAttribute( QStringLiteral("suit"), QString::number( c->suit() ) );
             xml.writeAttribute( QStringLiteral("value"), QString::number( c->rank() ) );
@@ -258,11 +258,13 @@ bool DealerScene::loadLegacyFile( QIODevice * io )
     QString gameStateData = xml.attributes().value( QStringLiteral("data") ).toString();
 
     QMultiHash<quint32,KCard*> cards;
-    foreach ( KCard * c, deck()->cards() )
+    const auto deckCards = deck()->cards();
+    for (KCard * c : deckCards)
         cards.insert( (c->id() & 0xffff), c );
 
     QHash<int,PatPile*> piles;
-    foreach ( PatPile * p, patPiles() )
+    const auto patPiles = this->patPiles();
+    for (PatPile * p : patPiles)
         piles.insert( p->index(), p );
 
     // Loop through <pile>s.
@@ -369,8 +371,7 @@ void DealerScene::saveFile( QIODevice * io )
         if ( i == m_undoStack.size() )
             xml.writeAttribute( QStringLiteral("current"), QStringLiteral("true") );
 
-        foreach ( const CardStateChange & change, state->changes )
-        {
+        for (const CardStateChange & change : qAsConst(state->changes)) {
             xml.writeStartElement( QStringLiteral("move") );
             xml.writeAttribute( QStringLiteral("pile"), change.newState.pile->objectName() );
             xml.writeAttribute( QStringLiteral("position"), QString::number( change.newState.index ) );
@@ -378,8 +379,7 @@ void DealerScene::saveFile( QIODevice * io )
             bool faceChanged = !change.oldState.pile
                                || change.oldState.faceUp != change.newState.faceUp;
 
-            foreach ( const KCard * card, change.cards )
-            {
+            for (const KCard * card : change.cards) {
                 xml.writeStartElement( QStringLiteral("card") );
                 xml.writeAttribute( QStringLiteral("id"), QStringLiteral("%1").arg( card->id(), 7, 10, QChar('0') ) );
                 xml.writeAttribute( QStringLiteral("suit"), suitToString( card->suit() ) );
@@ -422,11 +422,13 @@ bool DealerScene::loadFile( QIODevice * io )
     setGameOptions( xml.attributes().value( QStringLiteral("game-type-options") ).toString() );
 
     QMultiHash<quint32,KCard*> cardHash;
-    foreach ( KCard * c, deck()->cards() )
+    const auto cards = deck()->cards();
+    for (KCard * c : cards)
         cardHash.insert( c->id(), c );
 
     QHash<QString,KCardPile*> pileHash;
-    foreach ( KCardPile * p, piles() )
+    const auto piles = this->piles();
+    for (KCardPile * p : piles)
         pileHash.insert( p->objectName(), p );
 
     int undosToDo = -1;
@@ -506,7 +508,7 @@ bool DealerScene::loadFile( QIODevice * io )
         --undosToDo;
     }
     
-    foreach ( KCardPile * p, piles() )
+    for (KCardPile * p : piles)
         updatePileLayout( p, 0 );
 
     setAutoDropEnabled( reenableAutoDrop );
@@ -615,12 +617,12 @@ void DealerScene::cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, 
 
     if ( oldPatPile && oldPatPile->isFoundation() && newPatPile && !newPatPile->isFoundation() )
     {
-        foreach ( KCard * c, cards )
+        for (KCard * c : cards)
             m_cardsRemovedFromFoundations.insert( c );
     }
     else
     {
-        foreach ( KCard * c, cards )
+        for (KCard * c : cards)
             m_cardsRemovedFromFoundations.remove( c );
     }
 
@@ -647,7 +649,8 @@ void DealerScene::startHint()
         setKeyboardModeActive( false );
 
     QList<QGraphicsItem*> toHighlight;
-    foreach ( const MoveHint & h, getHints() )
+    const auto moveHints = getHints();
+    for (const MoveHint & h : moveHints)
         toHighlight << h.card();
 
     if ( !m_winningMoves.isEmpty() )
@@ -690,8 +693,8 @@ QList<MoveHint> DealerScene::getSolverHints()
     solver()->translate_layout();
     solver()->patsolve( 1 );
 
-    foreach ( const MOVE & m, solver()->firstMoves() )
-    {
+    const auto moves = solver()->firstMoves();
+    for (const MOVE & m : moves) {
         MoveHint mh = solver()->translateMove( m );
 	hintList << mh;
     }
@@ -704,8 +707,8 @@ QList<MoveHint> DealerScene::getHints()
         return getSolverHints();
 
     QList<MoveHint> hintList;
-    foreach (PatPile * store, patPiles())
-    {
+    const auto patPiles = this->patPiles();
+    for (PatPile * store : patPiles) {
         if (store->isFoundation() || store->isEmpty())
             continue;
 
@@ -718,8 +721,7 @@ QList<MoveHint> DealerScene::getHints()
         {
             if (allowedToRemove(store, (*iti)))
             {
-                foreach (PatPile * dest, patPiles())
-                {
+                for (PatPile * dest : patPiles) {
                     int cardIndex = store->indexOf(*iti);
                     if (cardIndex == 0 && dest->isEmpty() && !dest->isFoundation())
                         continue;
@@ -825,7 +827,8 @@ void DealerScene::startNew( int dealNumber )
 
     emit updateMoves( 0 );
 
-    foreach( KCardPile * p, piles() )
+    const auto piles = this->piles();
+    for (KCardPile * p : piles)
         p->clear();
 
     m_dealInProgress = true;
@@ -867,8 +870,8 @@ void DealerScene::resetInternals()
     m_dropSpeedFactor = 1;
     m_cardsRemovedFromFoundations.clear();
 
-    foreach (KCard * c, deck()->cards())
-    {
+    const auto cards = deck()->cards();
+    for (KCard * c : cards) {
         c->disconnect( this );
         c->stopAnimation();
     }
@@ -917,8 +920,8 @@ void DealerScene::won()
     qreal spacing = 2 * ( justOffScreen.width() + justOffScreen.height() ) / deck()->cards().size();
     qreal distOnRect = 0;
 
-    foreach ( KCard *c, deck()->cards() )
-    {
+    const auto cards = deck()->cards();
+    for (KCard *c : cards) {
         distOnRect += spacing;
         QPointF pos2 = posAlongRect( distOnRect, justOffScreen );
         QPointF delta = c->pos() - pos2;
@@ -941,7 +944,8 @@ void DealerScene::showWonMessage()
 
     // Hide all cards to prevent them from showing up accidentally if the 
     // window is resized.
-    foreach ( KCard * c, deck()->cards() )
+    const auto cards = deck()->cards();
+    for (KCard * c : cards)
         c->hide();
 
     updateWonItem();
@@ -1094,8 +1098,8 @@ bool DealerScene::tryAutomaticMove( KCard * card )
     {
         QList<KCard*> cardList = QList<KCard*>() << card;
 
-        foreach ( PatPile * p, patPiles() )
-        {
+        const auto patPiles = this->patPiles();
+        for (PatPile * p : patPiles) {
             if ( p->isFoundation() && allowedToAdd( p, cardList ) )
             {
                 moveCardToPile( card , p, DURATION_MOVE );
@@ -1147,8 +1151,7 @@ void DealerScene::undoOrRedo( bool undo )
         setGameState( m_currentState->stateData );
 
         QSet<KCardPile*> pilesAffected;
-        foreach ( const CardStateChange & change, changes )
-        {
+        for (const CardStateChange & change : changes) {
             CardState sourceState = undo ? change.newState : change.oldState;
             CardState destState = undo ? change.oldState : change.newState;
 
@@ -1160,8 +1163,7 @@ void DealerScene::undoOrRedo( bool undo )
 
             pilesAffected << sourceState.pile << destState.pile;
             
-            foreach ( KCard * c, change.cards )
-            {
+            for (KCard * c : change.cards) {
                 m_lastKnownCardStates.insert( c, destState );
 
                 c->setFaceUp( destState.faceUp );
@@ -1181,8 +1183,7 @@ void DealerScene::undoOrRedo( bool undo )
         // necessarily at the right positions within those piles. So we
         // run through the piles involved and swap card positions until
         // everything is back in its place, then relayout the piles.
-        foreach( KCardPile * p, pilesAffected )
-        {
+        for (KCardPile * p : qAsConst(pilesAffected)) {
             int i = 0;
             while ( i < p->count() )
             {
@@ -1234,8 +1235,8 @@ void DealerScene::takeState()
 
     QList<CardStateChange> changes;
 
-    foreach ( KCardPile * p, piles() )
-    {
+    const auto piles = this->piles();
+    for (KCardPile * p : piles) {
         QList<KCard*> currentRun;
         CardState oldRunState;
         CardState newRunState;
@@ -1391,8 +1392,8 @@ bool DealerScene::isDropActive() const
 
 bool DealerScene::drop()
 {
-    foreach ( const MoveHint & mh, getHints() )
-    {
+    const auto moveHints = getHints();
+    for (const MoveHint & mh : moveHints) {
         if ( mh.pile()
              && mh.pile()->isFoundation()
              && mh.priority() > 120
@@ -1401,14 +1402,13 @@ bool DealerScene::drop()
             QList<KCard*> cards = mh.card()->pile()->topCardsDownTo( mh.card() );
 
             QMap<KCard*,QPointF> oldPositions;
-            foreach ( KCard * c, cards )
+            for (KCard * c : qAsConst(cards))
                 oldPositions.insert( c, c->pos() );
 
             moveCardsToPile( cards, mh.pile(), DURATION_MOVE );
 
             int count = 0;
-            foreach ( KCard * c, cards )
-            {
+            for (KCard * c : qAsConst(cards)) {
                 c->completeAnimation();
                 QPointF destPos = c->pos();
                 c->setPos( oldPositions.value( c ) );
@@ -1691,8 +1691,8 @@ void DealerScene::setSolver( SolverInterface *s) {
 
 bool DealerScene::isGameWon() const
 {
-    foreach (PatPile *p, patPiles())
-    {
+    const auto patPiles = this->patPiles();
+    for (PatPile *p : patPiles) {
         if (!p->isFoundation() && !p->isEmpty())
             return false;
     }
@@ -1844,11 +1844,12 @@ void DealerScene::setDeckContents( int copies, const QList<KCardDeck::Suit> & su
     // suit then rank ordering.
     QList<quint32> ids;
     unsigned int number = 0;
-    for ( int i = 0; i < copies; ++i )
-        foreach ( const KCardDeck::Rank & r, KCardDeck::standardRanks() )
-            foreach ( const KCardDeck::Suit & s, suits )
+    for (int i = 0; i < copies; ++i) {
+        const auto ranks = KCardDeck::standardRanks();
+        for (const KCardDeck::Rank & r : ranks)
+            for (const KCardDeck::Suit & s : suits)
                 ids << KCardDeck::getId( s, r, number++ );
-
+    }
     deck()->setDeckContents( ids );
 }
 
@@ -1857,12 +1858,13 @@ QImage DealerScene::createDump() const
 {
     const QSize previewSize( 480, 320 );
 
-    foreach ( KCard * c, deck()->cards() )
+    const auto cards = deck()->cards();
+    for (KCard * c : cards)
         c->completeAnimation();
 
     QMultiMap<qreal,QGraphicsItem*> itemsByZ;
-    foreach ( QGraphicsItem * item, items() )
-    {
+    const auto items = this->items();
+    for (QGraphicsItem * item : items) {
         Q_ASSERT( item->zValue() >= 0 );
         itemsByZ.insert( item->zValue(), item );
     }
@@ -1871,8 +1873,7 @@ QImage DealerScene::createDump() const
     img.fill( Qt::transparent );
     QPainter p( &img );
 
-    foreach ( QGraphicsItem * item, itemsByZ )
-    {
+    for (QGraphicsItem * item : qAsConst(itemsByZ)) {
         if ( item->isVisible() )
         {
             p.save();
@@ -1964,11 +1965,11 @@ void DealerScene::addCardForDeal( KCardPile * pile, KCard * card, bool faceUp, Q
 void DealerScene::startDealAnimation()
 {
     qreal speed = sqrt( width() * width() + height() * height() ) / ( DURATION_DEAL );
-    foreach ( PatPile * p, patPiles() )
-    {
+    const auto patPiles = this->patPiles();
+    for (PatPile * p : patPiles) {
         updatePileLayout( p, 0 );
-        foreach ( KCard * c, p->cards() )
-        {
+        const auto cards = p->cards();
+        for (KCard * c : cards) {
             if ( !m_initDealPositions.contains( c ) )
                 continue;
 
