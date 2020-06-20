@@ -49,6 +49,7 @@
 #include <KLocalizedString>
 #include <KDBusService>
 
+#include <QRandomGenerator>
 #include <QFile>
 #include <QTime>
 #include <QElapsedTimer>
@@ -56,7 +57,6 @@
 
 #include <Kdelibs4ConfigMigrator>
 #include <climits>
-#include <ctime>
 #include <QStandardPaths>
 #include <QApplication>
 #include <QCommandLineParser>
@@ -230,7 +230,6 @@ int main( int argc, char **argv )
 
     QString testdir = parser.value(QStringLiteral("testdir"));
     if ( !testdir.isEmpty() ) {
-       qsrand(std::time(nullptr));
        if ( parser.isSet(QStringLiteral("generate")) ) {
           for (int dealer = 0; dealer < 20; dealer++) {
               DealerScene *f = getDealer( dealer, QString() );
@@ -239,7 +238,7 @@ int main( int argc, char **argv )
               QElapsedTimer mytime;
               while (count) {
                 if (f->deck()) f->deck()->stopAnimations();
-                int i = qrand() % INT_MAX;
+                int i = QRandomGenerator::global()->bounded(INT_MAX);
                 f->startNew( i );
                 mytime.start();
                 f->solver()->translate_layout();
