@@ -92,7 +92,7 @@ SolverInterface::ExitStatus FcSolveSolver::patsolve( int _max_positions )
 
             char * error_string;
             int error_arg;
-            const char * known_parameters[1] = {NULL};
+            const char * known_parameters[1] = {nullptr};
             /*  A "char *" copy instead of "const char *". */
 
             int parse_args_ret_code = freecell_solver_user_cmd_line_parse_args(
@@ -101,8 +101,8 @@ SolverInterface::ExitStatus FcSolveSolver::patsolve( int _max_positions )
                 get_cmd_line_args(),
                 0,
                 known_parameters,
-                NULL,
-                NULL,
+                nullptr,
+                nullptr,
                 &error_string,
                 &error_arg
             );
@@ -214,7 +214,7 @@ int FcSolveSolver::getOuts()
 
 FcSolveSolver::FcSolveSolver()
     : Solver()
-    , solver_instance(NULL)
+    , solver_instance(nullptr)
     , default_max_positions(INITIAL_MAX_ITERS_LIMIT)
     , solver_ret(FCS_STATE_NOT_BEGAN_YET)
     , board_as_string("")
@@ -268,7 +268,7 @@ FcSolveSolver::~FcSolveSolver()
     if (solver_instance)
     {
         freecell_solver_user_free(solver_instance);
-        solver_instance = NULL;
+        solver_instance = nullptr;
     }
 }
 

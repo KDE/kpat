@@ -359,8 +359,8 @@ MoveHint FreecellSolver::translateMove( const MOVE &m )
     {
         fcs_move_t move = m.fcs;
         int cards = fcs_move_get_num_cards_in_seq(move);
-        PatPile *from = 0;
-        PatPile *to = 0;
+        PatPile *from = nullptr;
+        PatPile *to = nullptr;
 
         switch(fcs_move_get_type(move))
         {
@@ -390,13 +390,13 @@ MoveHint FreecellSolver::translateMove( const MOVE &m )
             case FCS_MOVE_TYPE_STACK_TO_FOUNDATION:
             from = deal->store[fcs_move_get_src_stack(move)];
             cards = 1;
-            to = 0;
+            to = nullptr;
             break;
 
             case FCS_MOVE_TYPE_FREECELL_TO_FOUNDATION:
             from = deal->freecell[fcs_move_get_src_freecell(move)];
             cards = 1;
-            to = 0;
+            to = nullptr;
         }
         Q_ASSERT(from);
         Q_ASSERT(cards <= from->cards().count());
@@ -405,8 +405,8 @@ MoveHint FreecellSolver::translateMove( const MOVE &m )
 
         if (!to)
         {
-            PatPile *target = 0;
-            PatPile *empty = 0;
+            PatPile *target = nullptr;
+            PatPile *empty = nullptr;
             for (int i = 0; i < 4; ++i) {
                 KCard *c = deal->target[i]->topCard();
                 if (c) {

@@ -167,7 +167,7 @@ void CardThemeModel::reload()
         else
         {
             delete pix;
-            m_previews.insert( theme.displayName(), 0 );
+            m_previews.insert( theme.displayName(), nullptr );
             previewsNeeded << theme;
         }
 
@@ -202,7 +202,7 @@ void CardThemeModel::submitPreview( const KCardTheme & theme, const QImage & ima
     cacheInsert( d->cache, timestampKey( theme ), theme.lastModified() );
 
     QPixmap * pix = new QPixmap( QPixmap::fromImage( image ) );
-    delete m_previews.value( theme.displayName(), 0 );
+    delete m_previews.value( theme.displayName(), nullptr );
     m_previews.insert( theme.displayName(), pix );
 
     QModelIndex index = indexOf( theme.dirName() );
