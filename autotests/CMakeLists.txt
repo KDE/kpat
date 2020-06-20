@@ -1,4 +1,7 @@
 include(ECMAddTests)
+remove_definitions(
+    -DQT_NO_CAST_FROM_ASCII
+)
 include_directories(AFTER "${CMAKE_CURRENT_SOURCE_DIR}/..")
 include_directories(AFTER "${CMAKE_CURRENT_BINARY_DIR}/..")
 ecm_add_test(
