@@ -8,8 +8,8 @@ set(RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_
 
 project(kpat VERSION ${RELEASE_SERVICE_VERSION})
 
-set (QT_MIN_VERSION "5.10.0")
-set (KF5_MIN_VERSION "5.46.0")
+set (QT_MIN_VERSION "5.12.0")
+set (KF5_MIN_VERSION "5.59.0")
 
 include(FindPkgConfig)
 pkg_check_modules(FC_SOLVE REQUIRED libfreecell-solver)
@@ -147,11 +147,7 @@ install(TARGETS kpat ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### install files ###############
 
-if (${ECM_VERSION} STRGREATER "5.58.0")
-    install(FILES kpat.categories  DESTINATION  ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
-else()
-    install(FILES kpat.categories  DESTINATION ${KDE_INSTALL_CONFDIR})
-endif()
+install(FILES kpat.categories  DESTINATION  ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 install(PROGRAMS org.kde.kpat.desktop  DESTINATION  ${KDE_INSTALL_APPDIR})
 install(FILES org.kde.kpat.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 install(FILES kpatui.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kpat)
