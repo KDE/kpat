@@ -182,7 +182,7 @@ void Klondike::cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCa
 {
     DealerScene::cardsMoved( cards, oldPile, newPile );
 
-    emit newCardsPossible( !talon->isEmpty() || pile->count() > 1 );
+    Q_EMIT newCardsPossible( !talon->isEmpty() || pile->count() > 1 );
 }
 
 
@@ -211,7 +211,7 @@ bool Klondike::newCards()
     }
 
     if ( talon->isEmpty() && pile->count() <= 1 )
-       emit newCardsPossible( false );
+       Q_EMIT newCardsPossible( false );
 
     // we need to look that many steps in the future to see if we can lose
     setNeededFutureMoves( talon->count() + pile->count() );
@@ -262,7 +262,7 @@ void Klondike::setGameState( const QString & state )
 {
     Q_UNUSED( state );
 
-    emit newCardsPossible( !talon->isEmpty() || pile->count() > 1 );
+    Q_EMIT newCardsPossible( !talon->isEmpty() || pile->count() > 1 );
 }
 
 

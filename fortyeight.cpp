@@ -130,7 +130,7 @@ void Fortyeight::restart( const QList<KCard*> & cards )
 
     flipCardToPile( talon->topCard(), pile, DURATION_MOVE );
 
-    emit newCardsPossible( true );
+    Q_EMIT newCardsPossible( true );
 }
 
 
@@ -155,7 +155,7 @@ bool Fortyeight::newCards()
     }
 
     if ( talon->isEmpty() && lastdeal )
-        emit newCardsPossible( false );
+        Q_EMIT newCardsPossible( false );
 
     return true;
 }
@@ -241,7 +241,7 @@ QString Fortyeight::getGameState() const
 void Fortyeight::setGameState( const QString & state )
 {
     lastdeal = state.toInt();
-    emit newCardsPossible( !lastdeal || !talon->isEmpty() );
+    Q_EMIT newCardsPossible( !lastdeal || !talon->isEmpty() );
 }
 
 

@@ -89,7 +89,7 @@ void RenderingThread::run()
             //qCDebug(LIBKCARDGAME_LOG) << "Renderering" << key << "in rendering thread.";
             QImage img = d->renderCard( element, size );
             d->cache->insertImage( key, img );
-            emit renderingDone( element, img );
+            Q_EMIT renderingDone( element, img );
         }
     }
 }
@@ -292,7 +292,7 @@ void KAbstractCardDeckPrivate::cardStoppedAnimation( KCard * card )
 void KAbstractCardDeckPrivate::checkIfAnimationIsDone()
 {
     if ( cardsWaitedFor.isEmpty() )
-        emit q->cardAnimationDone();
+        Q_EMIT q->cardAnimationDone();
 }
 
 

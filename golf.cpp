@@ -132,7 +132,7 @@ void Golf::restart( const QList<KCard*> & cards )
 
     flipCardToPile(talon->topCard(), waste, DURATION_MOVE);
 
-    emit newCardsPossible( true );
+    Q_EMIT newCardsPossible( true );
 }
 
 
@@ -144,7 +144,7 @@ bool Golf::newCards()
     flipCardToPile(talon->topCard(), waste, DURATION_MOVE);
 
     if ( talon->isEmpty() )
-        emit newCardsPossible( false );
+        Q_EMIT newCardsPossible( false );
 
     return true;
 }
@@ -170,7 +170,7 @@ bool Golf::drop()
 void Golf::setGameState( const QString & state )
 {
     Q_UNUSED( state );
-    emit newCardsPossible( !talon->isEmpty() );
+    Q_EMIT newCardsPossible( !talon->isEmpty() );
 }
 
 QString Golf::solverFormat() const

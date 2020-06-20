@@ -103,7 +103,7 @@ void Idiot::restart( const QList<KCard*> & cards )
 
     dealRow();
 
-    emit newCardsPossible(true);
+    Q_EMIT newCardsPossible(true);
 }
 
 
@@ -222,7 +222,7 @@ bool Idiot::newCards()
     dealRow();
 
     if ( talon->isEmpty() )
-        emit newCardsPossible( false );
+        Q_EMIT newCardsPossible( false );
 
     return true;
 }
@@ -246,7 +246,7 @@ void Idiot::dealRow()
 void Idiot::setGameState( const QString & state )
 {
     Q_UNUSED( state );
-    emit newCardsPossible( !talon->isEmpty() );
+    Q_EMIT newCardsPossible( !talon->isEmpty() );
 }
 
 

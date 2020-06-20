@@ -233,7 +233,7 @@ void KCard::animate( QPointF pos, qreal z, qreal rotation, bool faceUp, bool rai
         d->animation = new KCardAnimation( d, duration, pos, rotation, faceUp );
         connect(d->animation, &KCardAnimation::finished, this, &KCard::stopAnimation);
         d->animation->start();
-        emit animationStarted( this );
+        Q_EMIT animationStarted( this );
     }
     else
     {
@@ -303,7 +303,7 @@ void KCard::stopAnimation()
 
     setZValue( d->destZ );
 
-    emit animationStopped( this );
+    Q_EMIT animationStopped( this );
 }
 
 

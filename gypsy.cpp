@@ -111,7 +111,7 @@ void Gypsy::restart( const QList<KCard*> & cards )
 
     startDealAnimation();
 
-    emit newCardsPossible(true);
+    Q_EMIT newCardsPossible(true);
 }
 
 bool Gypsy::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
@@ -156,7 +156,7 @@ bool Gypsy::newCards()
     }
 
     if (talon->isEmpty())
-        emit newCardsPossible(false);
+        Q_EMIT newCardsPossible(false);
 
     return true;
 }
@@ -165,7 +165,7 @@ bool Gypsy::newCards()
 void Gypsy::setGameState( const QString & state )
 {
     Q_UNUSED( state )
-    emit newCardsPossible(!talon->isEmpty());
+    Q_EMIT newCardsPossible(!talon->isEmpty());
 }
 
 

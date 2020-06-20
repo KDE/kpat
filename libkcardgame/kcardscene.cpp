@@ -1152,15 +1152,15 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
         e->accept();
         if ( e->button() == Qt::LeftButton )
         {
-            emit cardClicked( card );
+            Q_EMIT cardClicked( card );
             if ( card->pile() )
-                emit card->pile()->clicked( card );
+                Q_EMIT card->pile()->clicked( card );
         }
         else if ( e->button() == Qt::RightButton )
         {
-            emit cardRightClicked( card );
+            Q_EMIT cardRightClicked( card );
             if ( card->pile() )
-                emit card->pile()->rightClicked( card );
+                Q_EMIT card->pile()->rightClicked( card );
         }
     }
     else if ( pile && !isCardAnimationRunning() )
@@ -1168,13 +1168,13 @@ void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
         e->accept();
         if ( e->button() == Qt::LeftButton )
         {
-            emit pileClicked( pile );
-            emit pile->clicked( nullptr );
+            Q_EMIT pileClicked( pile );
+            Q_EMIT pile->clicked( nullptr );
         }
         else if ( e->button() == Qt::RightButton )
         {
-            emit pileRightClicked( pile );
-            emit pile->rightClicked( nullptr );
+            Q_EMIT pileRightClicked( pile );
+            Q_EMIT pile->rightClicked( nullptr );
         }
     }
     else
@@ -1200,15 +1200,15 @@ void KCardScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
     if ( card && e->button() == Qt::LeftButton && !isCardAnimationRunning() )
     {
         e->accept();
-        emit cardDoubleClicked( card );
+        Q_EMIT cardDoubleClicked( card );
         if ( card->pile() )
-            emit card->pile()->doubleClicked( card );
+            Q_EMIT card->pile()->doubleClicked( card );
     }
     else if ( pile && e->button() == Qt::LeftButton && !isCardAnimationRunning() )
     {
         e->accept();
-        emit pileDoubleClicked( pile );
-        emit pile->doubleClicked( nullptr );
+        Q_EMIT pileDoubleClicked( pile );
+        Q_EMIT pile->doubleClicked( nullptr );
     }
     else
     {

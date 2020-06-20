@@ -88,7 +88,7 @@ void Grandf::restart( const QList<KCard*> & cards )
 {
     deal( cards );
     numberOfDeals = 1;
-    emit newCardsPossible( true );
+    Q_EMIT newCardsPossible( true );
 }
 
 bool Grandf::newCards()
@@ -110,7 +110,7 @@ bool Grandf::newCards()
     numberOfDeals++;
 
     if (numberOfDeals == 3)
-        emit newCardsPossible(false);
+        Q_EMIT newCardsPossible(false);
 
     return true;
 }
@@ -188,7 +188,7 @@ QString Grandf::getGameState() const
 void Grandf::setGameState( const QString & state )
 {
     numberOfDeals = state.toInt();
-    emit newCardsPossible(numberOfDeals < 3);
+    Q_EMIT newCardsPossible(numberOfDeals < 3);
 }
 
 

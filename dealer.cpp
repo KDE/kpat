@@ -156,7 +156,7 @@ public:
     void run() override
     {
         SolverInterface::ExitStatus result = m_solver->patsolve();
-        emit finished( result );
+        Q_EMIT finished( result );
     }
 
     void abort()
@@ -324,7 +324,7 @@ bool DealerScene::loadLegacyFile( QIODevice * io )
     setGameState( gameStateData );
 
 
-    emit updateMoves( moveCount() );
+    Q_EMIT updateMoves( moveCount() );
     takeState();
 
     return true;
@@ -500,7 +500,7 @@ bool DealerScene::loadFile( QIODevice * io )
     
     m_loadedMoveCount = 0;
     m_dealStarted = moveCount() > 0;
-    emit updateMoves( moveCount() );
+    Q_EMIT updateMoves( moveCount() );
 
     while ( undosToDo > 0 )
     {
@@ -663,7 +663,7 @@ void DealerScene::startHint()
 
     m_hintInProgress = !toHighlight.isEmpty();
     setHighlightedItems( toHighlight );
-    emit hintActive( m_hintInProgress );
+    Q_EMIT hintActive( m_hintInProgress );
 }
 
 
@@ -673,7 +673,7 @@ void DealerScene::stopHint()
     {
         m_hintInProgress = false;
         clearHighlightedItems();
-        emit hintActive( false );
+        Q_EMIT hintActive( false );
     }
 }
 
@@ -825,7 +825,7 @@ void DealerScene::startNew( int dealNumber )
 
     resetInternals();
 
-    emit updateMoves( 0 );
+    Q_EMIT updateMoves( 0 );
 
     const auto piles = this->piles();
     for (KCardPile * p : piles)
@@ -876,8 +876,8 @@ void DealerScene::resetInternals()
         c->stopAnimation();
     }
 
-    emit solverStateChanged( QString() );
-    emit gameInProgress( true );
+    Q_EMIT solverStateChanged( QString() );
+    Q_EMIT gameInProgress( true );
 }
 
 QPointF posAlongRect( qreal distOnRect, const QRectF & rect )
@@ -905,12 +905,12 @@ void DealerScene::won()
     stopDemo();
     recordGameStatistics();
 
-    emit solverStateChanged( QString() );
+    Q_EMIT solverStateChanged( QString() );
 
-    emit newCardsPossible( false );
-    emit undoPossible( false );
-    emit redoPossible( false );
-    emit gameInProgress( false );
+    Q_EMIT newCardsPossible( false );
+    Q_EMIT undoPossible( false );
+    Q_EMIT redoPossible( false );
+    Q_EMIT gameInProgress( false );
 
     setKeyboardModeActive( false );
 
@@ -1054,7 +1054,7 @@ void DealerScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
     {
         KCardScene::mousePressEvent( e );
         if ( !cardsBeingDragged().isEmpty() )
-            emit cardsPickedUp();
+            Q_EMIT cardsPickedUp();
     }
 }
 
@@ -1074,7 +1074,7 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
         bool hadCards = !cardsBeingDragged().isEmpty();
         KCardScene::mouseReleaseEvent( e );
         if ( hadCards && cardsBeingDragged().isEmpty() )
-            emit cardsPutDown();
+            Q_EMIT cardsPutDown();
     }
 }
 
@@ -1197,9 +1197,9 @@ void DealerScene::undoOrRedo( bool undo )
             updatePileLayout( p, 0 );
         }
 
-        emit updateMoves( moveCount() );
-        emit undoPossible( !m_undoStack.isEmpty() );
-        emit redoPossible( !m_redoStack.isEmpty() );
+        Q_EMIT updateMoves( moveCount() );
+        Q_EMIT undoPossible( !m_undoStack.isEmpty() );
+        Q_EMIT redoPossible( !m_redoStack.isEmpty() );
 
         if ( m_toldAboutLostGame ) // everything's possible again
         {
@@ -1211,7 +1211,7 @@ void DealerScene::undoOrRedo( bool undo )
         int solvability = m_currentState->solvability;
         m_winningMoves = m_currentState->winningMoves;
 
-        emit solverStateChanged( solverStatusMessage( solvability, m_dealWasEverWinnable ) );
+        Q_EMIT solverStateChanged( solverStatusMessage( solvability, m_dealWasEverWinnable ) );
 
         if ( m_solver && ( solvability == SolverInterface::SearchAborted
                            || solvability == SolverInterface::MemoryLimitReached ) )
@@ -1299,9 +1299,9 @@ void DealerScene::takeState()
     }
     m_currentState = new GameState( changes, getGameState() );
 
-    emit redoPossible( false );
-    emit undoPossible( !m_undoStack.isEmpty() );
-    emit updateMoves( moveCount() );
+    Q_EMIT redoPossible( false );
+    Q_EMIT undoPossible( !m_undoStack.isEmpty() );
+    Q_EMIT updateMoves( moveCount() );
 
     m_dealWasJustSaved = false;
     if ( isGameWon() )
@@ -1312,8 +1312,8 @@ void DealerScene::takeState()
 
     if ( !m_toldAboutWonGame && !m_toldAboutLostGame && isGameLost() )
     {
-        emit gameInProgress( false );
-        emit solverStateChanged( i18n( "Solver: This game is lost." ) );
+        Q_EMIT gameInProgress( false );
+        Q_EMIT solverStateChanged( i18n( "Solver: This game is lost." ) );
         m_toldAboutLostGame = true;
         stopDemo();
         return;
@@ -1364,7 +1364,7 @@ void DealerScene::startDrop()
     m_dropInProgress = true;
     m_interruptAutoDrop = false;
     m_dropSpeedFactor = 1;
-    emit dropActive( true );
+    Q_EMIT dropActive( true );
 
     drop();
 }
@@ -1376,7 +1376,7 @@ void DealerScene::stopDrop()
     {
         m_dropTimer.stop();
         m_dropInProgress = false;
-        emit dropActive( false );
+        Q_EMIT dropActive( false );
 
         if ( autoDropEnabled() && m_takeStateQueued )
             m_interruptAutoDrop = true;
@@ -1428,7 +1428,7 @@ bool DealerScene::drop()
     }
 
     m_dropInProgress = false;
-    emit dropActive( false );
+    Q_EMIT dropActive( false );
 
     return false;
 }
@@ -1467,7 +1467,7 @@ void DealerScene::slotSolverEnded()
 
     m_solver->translate_layout();
     m_winningMoves.clear();
-    emit solverStateChanged( i18n("Solver: Calculating...") );
+    Q_EMIT solverStateChanged( i18n("Solver: Calculating...") );
     if ( !m_solverThread )
     {
         m_solverThread = new SolverThread( m_solver );
@@ -1485,7 +1485,7 @@ void DealerScene::slotSolverFinished( int result )
         m_dealWasEverWinnable = true;
     }
 
-    emit solverStateChanged( solverStatusMessage( result, m_dealWasEverWinnable ) );
+    Q_EMIT solverStateChanged( solverStatusMessage( result, m_dealWasEverWinnable ) );
 
     if ( m_currentState )
     {
@@ -1584,7 +1584,7 @@ void DealerScene::stopDemo()
     {
         m_demoTimer.stop();
         m_demoInProgress = false;
-        emit demoActive( false );
+        Q_EMIT demoActive( false );
     }
 }
 
@@ -1656,7 +1656,7 @@ void DealerScene::demo()
         return;
     }
 
-    emit demoActive( true );
+    Q_EMIT demoActive( true );
     takeState();
 }
 

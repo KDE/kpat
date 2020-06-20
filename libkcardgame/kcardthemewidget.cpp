@@ -103,7 +103,7 @@ void PreviewThread::run()
             xPos += 1 * size.width() + ( 0.1 - 0.3 ) * spacingWidth;
         }
 
-        emit previewRendered( theme, img );
+        Q_EMIT previewRendered( theme, img );
     }
 }
 
@@ -203,7 +203,7 @@ void CardThemeModel::submitPreview( const KCardTheme & theme, const QImage & ima
     m_previews.insert( theme.displayName(), pix );
 
     QModelIndex index = indexOf( theme.dirName() );
-    emit dataChanged( index, index );
+    Q_EMIT dataChanged( index, index );
 }
 
 

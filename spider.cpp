@@ -288,7 +288,7 @@ void Spider::setGameState( const QString & state )
         for (KCardPile * p : piles)
             updatePileLayout( p, 0 );
 
-        emit newCardsPossible(m_redeal <= 4);
+        Q_EMIT newCardsPossible(m_redeal <= 4);
     }
 }
 
@@ -344,7 +344,7 @@ void Spider::restart( const QList<KCard*> & cards )
 
     startDealAnimation();
 
-    emit newCardsPossible(true);
+    Q_EMIT newCardsPossible(true);
 }
 
 
@@ -446,7 +446,7 @@ bool Spider::newCards()
     ++m_redeal;
 
     if (m_redeal > 4)
-        emit newCardsPossible(false);
+        Q_EMIT newCardsPossible(false);
 
     return true;
 }

@@ -109,7 +109,7 @@ void NumberedDealDialog::setVisible( bool visible )
 
 void NumberedDealDialog::handleOkClicked()
 {
-    emit dealChosen( m_indexToIdMap.value( m_gameType->currentIndex() ), m_dealNumber->value() );
+    Q_EMIT dealChosen( m_indexToIdMap.value( m_gameType->currentIndex() ), m_dealNumber->value() );
 }
 
 

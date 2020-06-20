@@ -118,19 +118,19 @@ protected:
     void mousePressEvent( QGraphicsSceneMouseEvent * event ) override
     {
         Q_UNUSED( event )
-        emit selected( m_gameId );
+        Q_EMIT selected( m_gameId );
     }
 
     void hoverEnterEvent( QGraphicsSceneHoverEvent * event ) override
     {
         Q_UNUSED( event )
-        emit hoverChanged( this, true );
+        Q_EMIT hoverChanged( this, true );
     }
 
     void hoverLeaveEvent( QGraphicsSceneHoverEvent * event ) override
     {
         Q_UNUSED( event )
-        emit hoverChanged( this, false );
+        Q_EMIT hoverChanged( this, false );
     }
 
     qreal hoverFadeAmount() const
@@ -361,7 +361,7 @@ void GameSelectionScene::keyReleaseEvent( QKeyEvent * event )
                 || event->key() ==Qt::Key_Space )
               && m_selectionIndex != -1 )
     {
-        emit gameSelected( m_boxes.at( m_selectionIndex )->id() );
+        Q_EMIT gameSelected( m_boxes.at( m_selectionIndex )->id() );
     }
 }
 

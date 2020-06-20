@@ -198,7 +198,7 @@ void Mod3::restart( const QList<KCard*> & cards )
     }
 
     startDealAnimation();
-    emit newCardsPossible(true);
+    Q_EMIT newCardsPossible(true);
 }
 
 
@@ -216,7 +216,7 @@ bool Mod3::newCards()
     }
 
     if (talon->isEmpty())
-        emit newCardsPossible(false);
+        Q_EMIT newCardsPossible(false);
 
     return true;
 }
@@ -225,7 +225,7 @@ bool Mod3::newCards()
 void Mod3::setGameState( const QString & state )
 {
     Q_UNUSED( state );
-    emit newCardsPossible(!talon->isEmpty());
+    Q_EMIT newCardsPossible(!talon->isEmpty());
 }
 
 
