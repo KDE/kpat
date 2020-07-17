@@ -343,7 +343,7 @@ card).  Temp cells and Out on the last two lines, if any. */
 void GolfSolver::translate_layout()
 {
 #ifdef WITH_BH_SOLVER
-    strcpy(board_as_string, deal->solverFormat().toLatin1());
+    strcpy(board_as_string, deal->solverFormat().toLatin1().constData());
     free_solver_instance();
 #else
     /* Read the workspace. */
