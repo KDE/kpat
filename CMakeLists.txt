@@ -13,7 +13,7 @@ set (KF5_MIN_VERSION "5.59.0")
 
 include(FindPkgConfig)
 pkg_check_modules(FC_SOLVE REQUIRED libfreecell-solver)
-option(WITH_BH_SOLVER "Make use of https://github.com/shlomif/black-hole-solitaire for solving Golf")
+option(WITH_BH_SOLVER "Make use of https://github.com/shlomif/black-hole-solitaire for solving Golf" ON)
 if (WITH_BH_SOLVER)
     pkg_check_modules(BLACK_HOLE_SOLVER REQUIRED libblack-hole-solver)
     add_definitions(-DWITH_BH_SOLVER)
