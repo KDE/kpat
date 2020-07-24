@@ -411,7 +411,14 @@ int FortyeightSolver::get_possible_moves(int *a, int *numout)
         }
         if ( Wlen[w] > 1 && d.freestores )
         {
-            if ( SUIT( *Wp[w] ) == SUIT( W[w][Wlen[w]-2] ) )
+            // Column w has two or more cards and there is at least one empty
+            // column, so we can try for multi-card moves from w to other cols.
+            // This is valid only if ALL the cards to move are of the same
+            // suit and in ascending sequence, starting with the top two cards.
+            const card_t nextw = W[w][Wlen[w]-2];	// Next card after top.
+            const bool possMultiMove = ( SUIT( nextw ) == SUIT( *Wp[w] ) ) &&
+                                       ( ( RANK( nextw ) - RANK( *Wp[w] ) ) == 1 );
+            if ( possMultiMove )
             {
                 //print_layout();
 
