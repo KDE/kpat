@@ -1075,9 +1075,15 @@ void DealerScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
 
 void DealerScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
 {
-    stop();
-
-    KCardScene::mouseDoubleClickEvent( e );
+    if ( !m_dealHasBeenWon )
+    {
+        stop();
+        KCardScene::mouseDoubleClickEvent( e );
+    }
+    else
+    {
+        Q_EMIT newDeal();
+    }
 }
 
 
