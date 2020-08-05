@@ -135,6 +135,7 @@ Q_SIGNALS:
     void updateMoves(int moves);
 
     void solverStateChanged(const QString &text);
+    void newDeal();
 
     void cardsPickedUp();
     void cardsPutDown();

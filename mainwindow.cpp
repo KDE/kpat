@@ -622,6 +622,8 @@ void MainWindow::updateActions()
         connect(m_downAction, &QAction::triggered, m_dealer, &DealerScene::keyboardFocusDown);
         connect(m_cancelAction, &QAction::triggered, m_dealer, &DealerScene::keyboardFocusCancel);
         connect(m_pickUpSetDownAction, &QAction::triggered, m_dealer, &DealerScene::keyboardFocusSelect);
+        
+        connect(m_dealer, &DealerScene::newDeal, this, &MainWindow::newGame);
 
         if ( m_dealer->actions() & DealerScene::Draw )
         {
