@@ -7,7 +7,7 @@ function po_for_file
 {
     case "$1" in
        kpatience.xml)
-           echo kpat_mimetypes.po
+           echo kpat_xml_mimetypes.po
        ;;
     esac
 }
