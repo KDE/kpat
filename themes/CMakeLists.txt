@@ -18,5 +18,5 @@ set( kpat_themes
 
 install( FILES ${kpat_themes} DESTINATION  ${KDE_INSTALL_DATADIR}/kpat/themes )
 
-install( FILES kpat.knsrc  DESTINATION  ${KDE_INSTALL_CONFDIR} )
+install( FILES kpat.knsrc DESTINATION ${KDE_INSTALL_KNSRCDIR} )
 
