@@ -39,6 +39,7 @@ Q_SIGNALS:
 
 protected:
     void keyReleaseEvent( QKeyEvent * event ) override;
+    void keyPressEvent( QKeyEvent * event ) override;
 
 private Q_SLOTS:
     void boxHoverChanged( GameSelectionBox * box, bool hovered );

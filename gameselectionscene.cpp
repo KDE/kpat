@@ -356,9 +356,14 @@ void GameSelectionScene::keyReleaseEvent( QKeyEvent * event )
         ++m_selectionIndex;
         m_boxes.at( m_selectionIndex )->setHighlighted( true );
     }
-    else if ( ( event->key() == Qt::Key_Return
-                || event->key() ==Qt::Key_Enter
-                || event->key() ==Qt::Key_Space )
+}
+
+
+void GameSelectionScene::keyPressEvent( QKeyEvent * event )
+{
+    if ( ( event->key() == Qt::Key_Return
+                || event->key() == Qt::Key_Enter
+                || event->key() == Qt::Key_Space )
               && m_selectionIndex != -1 )
     {
         Q_EMIT gameSelected( m_boxes.at( m_selectionIndex )->id() );
