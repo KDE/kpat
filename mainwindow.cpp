@@ -923,7 +923,7 @@ void MainWindow::loadGame()
     QPointer<QFileDialog> dialog = new QFileDialog(this);
     dialog->selectUrl(dialogUrl);
     dialog->setAcceptMode( QFileDialog::AcceptOpen );
-    dialog->setMimeTypeFilters( QStringList() << saveFileMimeType << legacySaveFileMimeType << QStringLiteral("all/allfiles") );
+    dialog->setMimeTypeFilters( QStringList() << saveFileMimeType << legacySaveFileMimeType << QStringLiteral("application/octet-stream") );
     dialog->setWindowTitle( i18n("Load") );
 
     if ( dialog->exec() == QFileDialog::Accepted )
