@@ -9,6 +9,7 @@
   <name xml:lang="cs">KPatience</name>
   <name xml:lang="da">KPatience</name>
   <name xml:lang="de">KPatience</name>
+  <name xml:lang="el">KPatience</name>
   <name xml:lang="en-GB">KPatience</name>
   <name xml:lang="es">KPatience</name>
   <name xml:lang="et">KPatience</name>
@@ -36,6 +37,7 @@
   <summary xml:lang="ca-valencia">Joc de cartes al solitari</summary>
   <summary xml:lang="cs">Karetní hra Solitaire</summary>
   <summary xml:lang="de">Solitär-Kartenspiel</summary>
+  <summary xml:lang="el">Παιχνίδι καρτών solitaire</summary>
   <summary xml:lang="en-GB">Solitaire card game</summary>
   <summary xml:lang="es">Juego de cartas de tipo solitario</summary>
   <summary xml:lang="et">Solitaire kaardimäng</summary>
@@ -62,6 +64,7 @@
     <p xml:lang="ca-valencia">El KPat (o KPatience) és un joc d'ordenació relaxant de cartes. Per a guanyar la partida, un jugador ha d'organitzar una baralla única de cartes en un ordre determinat contra un altre.</p>
     <p xml:lang="cs">KPat (jako KPatience) je uvolňující karetní hra. Chcete-li tuto hru vyhrát, musíte uspořádat karty z jednoho balíčku v jistém pořadí naproti sobě.</p>
     <p xml:lang="de">KPat (auch bekannt als KPatience) ist ein entspannendes Kartensortierspiel. Um das Spiel zu gewinnen, muss der Spieler einen einzelnen Kartenstapel in einer bestimmten Reihenfolge zwischen einzelnen anderen Karten anordnen.</p>
+    <p xml:lang="el">Το KPat (ή αλλιώς KPatience) είναι ένα ευχάριστο παιχνίδι ταξινόμησης καρτών. Ο παίκτης για να κερδίσει πρέπει να διευθετήσει μια τράπουλα σε ορισμένη σειρά.</p>
     <p xml:lang="en-GB">KPat (aka KPatience) is a relaxing card sorting game. To win the game a player has to arrange a single deck of cards in certain order amongst each other.</p>
     <p xml:lang="es">KPat (también conocido como KPatience) es un relajante juego de ordenación de cartas. Para ganar la partida, el jugador debe organizar una baraja de cartas en cierto orden.</p>
     <p xml:lang="et">KPat (tuntud ka kui KPatience) leevendust ja meelerahu pakkuv kaartide sortimise mäng. Võitmiseks tuleb üks kaardipakk korraldada ümber teatud kindlaid reegleid järgides.</p>
@@ -93,6 +96,7 @@
       <caption xml:lang="ca-valencia">Pantalla de selecció del solitari</caption>
       <caption xml:lang="cs">Obrazovka výběru her pro jednoho hráče</caption>
       <caption xml:lang="de">Auswahl eines Solitärspiels</caption>
+      <caption xml:lang="el">Οθόνη επιλογής solitaire</caption>
       <caption xml:lang="en-GB">Solitaire selection screen</caption>
       <caption xml:lang="es">Pantalla de selección de solitario</caption>
       <caption xml:lang="et">KPatience'i valikuekraan</caption>
