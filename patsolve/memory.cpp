@@ -23,7 +23,6 @@
 
 #include <cstdlib>
 #include <cstring>
-#include <sys/types.h>
 
 
 #define BLOCKSIZE (32 * 4096)

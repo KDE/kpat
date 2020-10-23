@@ -22,7 +22,6 @@
 #include "kabstractcarddeck_p.h"
 
 #include "common.h"
-#include "kcardtheme.h"
 #include "kcardpile.h"
 #include "libkcardgame_debug.h"
 

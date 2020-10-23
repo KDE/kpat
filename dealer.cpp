@@ -41,9 +41,7 @@
 #include "messagebox.h"
 #include "renderer.h"
 #include "shuffle.h"
-#include "speeds.h"
 #include "patsolve/solverinterface.h"
-#include "view.h"
 
 #include "KCardTheme"
 
