@@ -4,10 +4,12 @@
     <comment>KPatience legacy save file</comment>
     <comment xml:lang="ca">Fitxer antic de desament del KPatience</comment>
     <comment xml:lang="ca@valencia">Fitxer antic de desament del KPatience</comment>
+    <comment xml:lang="el">Παλαιό αρχείο αποθήκευσης πασιέντζας</comment>
     <comment xml:lang="it">File di salvataggio obsoleto di KPatience</comment>
     <comment xml:lang="lt">KPatience senas išsaugojimo failas</comment>
     <comment xml:lang="nl">KPatience ouderwets opslagbestand</comment>
     <comment xml:lang="pt">Ficheiro de gravação antigo do KPatience</comment>
+    <comment xml:lang="sl">Zapuščina datoteke shranjene igre KPatience</comment>
     <comment xml:lang="sv">Föråldrad sparfil för Patiens</comment>
     <comment xml:lang="uk">файл збереженої гри KPatience у застарілому форматі</comment>
     <sub-class-of type="application/xml"/>
@@ -20,10 +22,12 @@
     <comment>KPatience save file</comment>
     <comment xml:lang="ca">Fitxer de desament del KPatience</comment>
     <comment xml:lang="ca@valencia">Fitxer de desament del KPatience</comment>
+    <comment xml:lang="el">Αρχείο αποθήκευσης πασιέντζας</comment>
     <comment xml:lang="it">File di salvataggio di KPatience</comment>
     <comment xml:lang="lt">KPatience išsaugojimo failas</comment>
     <comment xml:lang="nl">KPatience opslagbestand</comment>
     <comment xml:lang="pt">Ficheiro de gravação do KPatience</comment>
+    <comment xml:lang="sl">Datoteka shranjene igre KPatience</comment>
     <comment xml:lang="sv">Sparfil för Patiens</comment>
     <comment xml:lang="uk">файл збереженої гри KPatience</comment>
     <sub-class-of type="application/xml"/>
