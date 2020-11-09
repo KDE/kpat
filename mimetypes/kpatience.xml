@@ -16,6 +16,10 @@
     <comment xml:lang="pt">Ficheiro de gravação antigo do KPatience</comment>
     <comment xml:lang="pt_BR">Arquivo antigo do KPatience</comment>
     <comment xml:lang="sl">Zapuščina datoteke shranjene igre KPatience</comment>
+    <comment xml:lang="sr">К‑пасијансов застарели фајл позиције</comment>
+    <comment xml:lang="sr@ijekavian">К‑пасијансов застарели фајл позиције</comment>
+    <comment xml:lang="sr@ijekavianlatin">K‑pasijansov zastareli fajl pozicije</comment>
+    <comment xml:lang="sr@latin">K‑pasijansov zastareli fajl pozicije</comment>
     <comment xml:lang="sv">Föråldrad sparfil för Patiens</comment>
     <comment xml:lang="uk">файл збереженої гри KPatience у застарілому форматі</comment>
     <sub-class-of type="application/xml"/>
@@ -40,6 +44,10 @@
     <comment xml:lang="pt">Ficheiro de gravação do KPatience</comment>
     <comment xml:lang="pt_BR">Arquivo do KPatience</comment>
     <comment xml:lang="sl">Datoteka shranjene igre KPatience</comment>
+    <comment xml:lang="sr">К‑пасијансов фајл позиције</comment>
+    <comment xml:lang="sr@ijekavian">К‑пасијансов фајл позиције</comment>
+    <comment xml:lang="sr@ijekavianlatin">K‑pasijansov fajl pozicije</comment>
+    <comment xml:lang="sr@latin">K‑pasijansov fajl pozicije</comment>
     <comment xml:lang="sv">Sparfil för Patiens</comment>
     <comment xml:lang="uk">файл збереженої гри KPatience</comment>
     <sub-class-of type="application/xml"/>
