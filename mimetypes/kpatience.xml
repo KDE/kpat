@@ -3,19 +3,11 @@
   <mime-type type="application/vnd.kde.kpatience.savedstate">
     <comment>KPatience legacy save file</comment>
     <comment xml:lang="ca">Fitxer antic de desament del KPatience</comment>
-    <comment xml:lang="ca@valencia">Fitxer antic de desament del KPatience</comment>
-    <comment xml:lang="el">Παλαιό αρχείο αποθήκευσης πασιέντζας</comment>
-    <comment xml:lang="en_GB">KPatience legacy save file</comment>
     <comment xml:lang="es">Archivo de partida heredada de KPatience</comment>
-    <comment xml:lang="eu">KPatience gordetzeko fitxategi zaharra</comment>
-    <comment xml:lang="fr">Fichier de partie dans l'ancien format pour KPatience</comment>
-    <comment xml:lang="it">File di salvataggio obsoleto di KPatience</comment>
-    <comment xml:lang="lt">KPatience senas išsaugojimo failas</comment>
-    <comment xml:lang="nl">KPatience ouderwets opslagbestand</comment>
+    <comment xml:lang="fi">Vanha KPatience-tallennustiedosto</comment>
+    <comment xml:lang="nl">KPatience verouderd opslagbestand</comment>
     <comment xml:lang="nn">Kabal-lagringsfil frå eldre versjon</comment>
-    <comment xml:lang="pt">Ficheiro de gravação antigo do KPatience</comment>
     <comment xml:lang="pt_BR">Arquivo antigo do KPatience</comment>
-    <comment xml:lang="sl">Zapuščina datoteke shranjene igre KPatience</comment>
     <comment xml:lang="sr">К‑пасијансов застарели фајл позиције</comment>
     <comment xml:lang="sr@ijekavian">К‑пасијансов застарели фајл позиције</comment>
     <comment xml:lang="sr@ijekavianlatin">K‑pasijansov zastareli fajl pozicije</comment>
@@ -31,19 +23,11 @@
   <mime-type type="application/vnd.kde.kpatience.savedgame">
     <comment>KPatience save file</comment>
     <comment xml:lang="ca">Fitxer de desament del KPatience</comment>
-    <comment xml:lang="ca@valencia">Fitxer de desament del KPatience</comment>
-    <comment xml:lang="el">Αρχείο αποθήκευσης πασιέντζας</comment>
-    <comment xml:lang="en_GB">KPatience save file</comment>
     <comment xml:lang="es">Archivo de partida de KPatience</comment>
-    <comment xml:lang="eu">KPatience gordetzeko fitxategia</comment>
-    <comment xml:lang="fr">Fichier de partie pour KPatience</comment>
-    <comment xml:lang="it">File di salvataggio di KPatience</comment>
-    <comment xml:lang="lt">KPatience išsaugojimo failas</comment>
+    <comment xml:lang="fi">KPatience-tallennustiedosto</comment>
     <comment xml:lang="nl">KPatience opslagbestand</comment>
     <comment xml:lang="nn">Kabal-lagringsfil</comment>
-    <comment xml:lang="pt">Ficheiro de gravação do KPatience</comment>
     <comment xml:lang="pt_BR">Arquivo do KPatience</comment>
-    <comment xml:lang="sl">Datoteka shranjene igre KPatience</comment>
     <comment xml:lang="sr">К‑пасијансов фајл позиције</comment>
     <comment xml:lang="sr@ijekavian">К‑пасијансов фајл позиције</comment>
     <comment xml:lang="sr@ijekavianlatin">K‑pasijansov fajl pozicije</comment>
