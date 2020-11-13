@@ -3,6 +3,7 @@
   <mime-type type="application/vnd.kde.kpatience.savedstate">
     <comment>KPatience legacy save file</comment>
     <comment xml:lang="ca">Fitxer antic de desament del KPatience</comment>
+    <comment xml:lang="en_GB">KPatience legacy save file</comment>
     <comment xml:lang="es">Archivo de partida heredada de KPatience</comment>
     <comment xml:lang="it">File di salvataggio obsoleto di KPatience</comment>
     <comment xml:lang="nl">KPatience verouderd opslagbestand</comment>
@@ -18,6 +19,7 @@
   <mime-type type="application/vnd.kde.kpatience.savedgame">
     <comment>KPatience save file</comment>
     <comment xml:lang="ca">Fitxer de desament del KPatience</comment>
+    <comment xml:lang="en_GB">KPatience save file</comment>
     <comment xml:lang="es">Archivo de partida guardada de KPatience</comment>
     <comment xml:lang="it">File di salvataggio di KPatience</comment>
     <comment xml:lang="nl">KPatience opslagbestand</comment>
