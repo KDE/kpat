@@ -10,6 +10,7 @@
     <comment xml:lang="it">File di salvataggio obsoleto di KPatience</comment>
     <comment xml:lang="nl">KPatience verouderd opslagbestand</comment>
     <comment xml:lang="nn">Kabal-lagringsfil frå eldre versjon</comment>
+    <comment xml:lang="pt_BR">Arquivo antigo do KPatience</comment>
     <comment xml:lang="sv">Föråldrad sparfil för Patiens</comment>
     <comment xml:lang="uk">файл збереженої гри KPatience у застарілому форматі</comment>
     <sub-class-of type="application/xml"/>
@@ -28,6 +29,7 @@
     <comment xml:lang="it">File di salvataggio di KPatience</comment>
     <comment xml:lang="nl">KPatience opslagbestand</comment>
     <comment xml:lang="nn">Kabal-lagringsfil</comment>
+    <comment xml:lang="pt_BR">Arquivo do KPatience</comment>
     <comment xml:lang="sv">Sparfil för Patiens</comment>
     <comment xml:lang="uk">файл збереженої гри KPatience</comment>
     <sub-class-of type="application/xml"/>
