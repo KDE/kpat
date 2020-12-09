@@ -154,18 +154,18 @@ void MainWindow::setupActions()
     a = actionCollection()->addAction( QStringLiteral( "new_game" ));
     a->setText(i18nc("Start a new game of a different type","New &Game..."));
     a->setIcon( QIcon::fromTheme( QStringLiteral( "document-new" )) );
-    actionCollection()->setDefaultShortcut(a, Qt::CTRL + Qt::SHIFT + Qt::Key_N);
+    actionCollection()->setDefaultShortcut(a, Qt::CTRL | Qt::SHIFT | Qt::Key_N);
     connect(a, &QAction::triggered, this, &MainWindow::slotShowGameSelectionScreen);
 
     a = actionCollection()->addAction( QStringLiteral( "new_deal" ));
     a->setText(i18nc("Start a new game of without changing the game type", "New &Deal"));
     a->setIcon( QIcon::fromTheme( QStringLiteral( "document-new" )) );
-    actionCollection()->setDefaultShortcut(a, Qt::CTRL + Qt::Key_N);
+    actionCollection()->setDefaultShortcut(a, Qt::CTRL | Qt::Key_N);
     connect(a, &QAction::triggered, this, &MainWindow::newGame);
 
     a = actionCollection()->addAction( QStringLiteral( "new_numbered_deal" ));
     a->setText(i18nc("Start a game by giving its particular number", "New &Numbered Deal..."));
-    actionCollection()->setDefaultShortcut(a, Qt::CTRL + Qt::Key_D);
+    actionCollection()->setDefaultShortcut(a, Qt::CTRL | Qt::Key_D);
     connect(a, &QAction::triggered, this, &MainWindow::newNumberedDeal);
 
     a = KStandardGameAction::restart(this, SLOT(restart()), actionCollection());
@@ -177,7 +177,7 @@ void MainWindow::setupActions()
     a = actionCollection()->addAction( QStringLiteral( "next_deal" ));
     a->setText(i18nc("Start the game with the number one greater than the current one", "Next Deal"));
     a->setIcon( QIcon::fromTheme( QStringLiteral( "go-next" )) );
-    actionCollection()->setDefaultShortcut(a, Qt::CTRL + Qt::Key_Plus);
+    actionCollection()->setDefaultShortcut(a, Qt::CTRL | Qt::Key_Plus);
     connect(a, &QAction::triggered, this, &MainWindow::nextDeal);
 
     // Note that this action is not shown in the menu or toolbar. It is
@@ -186,7 +186,7 @@ void MainWindow::setupActions()
     a = actionCollection()->addAction( QStringLiteral( "previous_deal" ));
     a->setText(i18nc("Start the game with the number one less than the current one", "Previous Deal"));
     a->setIcon( QIcon::fromTheme( QStringLiteral( "go-previous" )) );
-    actionCollection()->setDefaultShortcut(a, Qt::CTRL + Qt::Key_Minus);
+    actionCollection()->setDefaultShortcut(a, Qt::CTRL | Qt::Key_Minus);
     connect(a, &QAction::triggered, this, &MainWindow::previousDeal);
 
     KStandardGameAction::load( this, SLOT(loadGame()), actionCollection() );
@@ -195,7 +195,7 @@ void MainWindow::setupActions()
     m_recentFilesAction->loadEntries(KSharedConfig::openConfig()->group( QString() ));
 
     m_saveAction = KStandardGameAction::saveAs(this, SLOT(saveGame()), actionCollection());
-    actionCollection()->setDefaultShortcut(m_saveAction, Qt::CTRL + Qt::Key_S);
+    actionCollection()->setDefaultShortcut(m_saveAction, Qt::CTRL | Qt::Key_S);
 
     a = actionCollection()->addAction( QStringLiteral( "game_stats" ));
     a->setText(i18n("Statistics"));
@@ -281,7 +281,7 @@ void MainWindow::setupActions()
     m_gameHelpAction = actionCollection()->addAction( QStringLiteral( "help_game" ));
     m_gameHelpAction->setIcon( QIcon::fromTheme( QStringLiteral( "help-browser" )) );
     connect(m_gameHelpAction, &QAction::triggered, this, &MainWindow::helpGame);
-    actionCollection()->setDefaultShortcut(m_gameHelpAction, Qt::CTRL + Qt::SHIFT + Qt::Key_F1 );
+    actionCollection()->setDefaultShortcut(m_gameHelpAction, Qt::CTRL | Qt::SHIFT | Qt::Key_F1 );
 
 
     // Hidden actions
