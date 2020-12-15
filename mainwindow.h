@@ -67,7 +67,7 @@ public:
     ~MainWindow();
 
 public Q_SLOTS:
-    bool loadGame( const QUrl & url, bool addToRecentFiles = true );
+    bool loadGame( const QUrl & url, bool addToRecentFiles);
     void slotShowGameSelectionScreen();
     void slotGameSelected(int id);
 
@@ -75,6 +75,7 @@ protected Q_SLOTS:
     void newGame();
     void startRandom();
     void loadGame();
+    void loadGame(const QUrl & url);
     void restart();
     void newNumberedDeal();
     void startNumbered( int gameId, int dealNumber );

@@ -9,7 +9,7 @@ set(RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_
 project(kpat VERSION ${RELEASE_SERVICE_VERSION})
 
 set (QT_MIN_VERSION "5.12.0")
-set (KF5_MIN_VERSION "5.59.0")
+set (KF5_MIN_VERSION "5.64.0")
 
 include(FindPkgConfig)
 pkg_check_modules(FC_SOLVE REQUIRED libfreecell-solver)
@@ -45,7 +45,7 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     XmlGui
 )
 
-find_package(KF5KDEGames 4.9.0 REQUIRED)
+find_package(KF5KDEGames 7.3.0 REQUIRED)
 
 include(FeatureSummary)
 include(ECMAddAppIcon)

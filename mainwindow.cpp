@@ -168,7 +168,7 @@ void MainWindow::setupActions()
     actionCollection()->setDefaultShortcut(a, Qt::CTRL | Qt::Key_D);
     connect(a, &QAction::triggered, this, &MainWindow::newNumberedDeal);
 
-    a = KStandardGameAction::restart(this, SLOT(restart()), actionCollection());
+    a = KStandardGameAction::restart(this, &MainWindow::restart, actionCollection());
     a->setText(i18nc("Replay the current deal from the start", "Restart Deal"));
 
     // Note that this action is not shown in the menu or toolbar. It is
@@ -189,12 +189,12 @@ void MainWindow::setupActions()
     actionCollection()->setDefaultShortcut(a, Qt::CTRL | Qt::Key_Minus);
     connect(a, &QAction::triggered, this, &MainWindow::previousDeal);
 
-    KStandardGameAction::load( this, SLOT(loadGame()), actionCollection() );
+    KStandardGameAction::load(this, QOverload<>::of(&MainWindow::loadGame), actionCollection());
 
-    m_recentFilesAction = KStandardGameAction::loadRecent( this, SLOT(loadGame(QUrl)), actionCollection() );
+    m_recentFilesAction = KStandardGameAction::loadRecent(this, QOverload<const QUrl&>::of(&MainWindow::loadGame), actionCollection() );
     m_recentFilesAction->loadEntries(KSharedConfig::openConfig()->group( QString() ));
 
-    m_saveAction = KStandardGameAction::saveAs(this, SLOT(saveGame()), actionCollection());
+    m_saveAction = KStandardGameAction::saveAs(this, &MainWindow::saveGame, actionCollection());
     actionCollection()->setDefaultShortcut(m_saveAction, Qt::CTRL | Qt::Key_S);
 
     a = actionCollection()->addAction( QStringLiteral( "game_stats" ));
@@ -202,15 +202,15 @@ void MainWindow::setupActions()
     a->setIcon( QIcon::fromTheme( QStringLiteral( "games-highscores" )) );
     connect(a, &QAction::triggered, this, &MainWindow::showStats);
 
-    KStandardGameAction::quit(this, SLOT(close()), actionCollection());
+    KStandardGameAction::quit(this, &MainWindow::close, actionCollection());
 
 
     // Move Menu
-    m_undoAction = KStandardGameAction::undo(this, SLOT(undoMove()), actionCollection());
+    m_undoAction = KStandardGameAction::undo(this, &MainWindow::undoMove, actionCollection());
 
-    m_redoAction = KStandardGameAction::redo(this, SLOT(redoMove()), actionCollection());
+    m_redoAction = KStandardGameAction::redo(this, &MainWindow::redoMove, actionCollection());
 
-    m_demoAction = KStandardGameAction::demo( this, SLOT(toggleDemo()), actionCollection() );
+    m_demoAction = KStandardGameAction::demo(this, &MainWindow::toggleDemo, actionCollection());
 
     // KStandardGameAction::hint is a regular action, but we want a toggle
     // action, so we must create a new action and copy all the standard
@@ -329,7 +329,7 @@ void MainWindow::setupActions()
     actionCollection()->setDefaultShortcut(m_pickUpSetDownAction, Qt::Key_Space );
 
     // showMenubar isn't a part of KStandardGameAction
-    m_showMenubarAction = KStandardAction::showMenubar(this, SLOT(toggleMenubar()), actionCollection());
+    m_showMenubarAction = KStandardAction::showMenubar(this, &MainWindow::toggleMenubar, actionCollection());
 }
 
 void MainWindow::undoMove() {
@@ -934,10 +934,15 @@ void MainWindow::loadGame()
         {
             QUrl url = dialog->selectedUrls().at(0);
             if ( !url.isEmpty() )
-                loadGame( url, true );
+                loadGame(url);
         }
     }
     delete dialog;
+}
+
+void MainWindow::loadGame(const QUrl & url)
+{
+    loadGame(url, true);
 }
 
 void MainWindow::saveGame()
