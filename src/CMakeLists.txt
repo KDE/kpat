@@ -54,6 +54,7 @@ set(kpat_SRCS ${libfcs_SRCS}
 
 ki18n_wrap_ui( kpat_SRCS statisticsdialog.ui )
 kconfig_add_kcfg_files( kpat_SRCS settings.kcfgc )
+qt5_add_resources(kpat_SRCS kpat.qrc)
 
 ecm_qt_declare_logging_category(kpat_SRCS
     HEADER kpat_debug.h
@@ -90,5 +91,4 @@ install(TARGETS kpat ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 install(FILES kpat.categories  DESTINATION  ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 install(PROGRAMS org.kde.kpat.desktop  DESTINATION  ${KDE_INSTALL_APPDIR})
 install(FILES org.kde.kpat.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
-install(FILES kpatui.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/kpat)
 install(FILES kpat.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
