@@ -2,8 +2,11 @@ include(ECMAddTests)
 remove_definitions(
     -DQT_NO_CAST_FROM_ASCII
 )
-include_directories(AFTER "${CMAKE_CURRENT_SOURCE_DIR}/..")
-include_directories(AFTER "${CMAKE_CURRENT_BINARY_DIR}/..")
+include_directories(
+    AFTER
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_BINARY_DIR}/src
+)
 ecm_add_test(
     shuffle_test.cpp
     TEST_NAME ShuffleTest
@@ -28,18 +31,25 @@ ecm_add_test(
     LINK_LIBRARIES Qt5::Test
     NAME_PREFIX "kpat-"
 )
+
+ecm_qt_declare_logging_category(SolverFormatTest_LOG_SRCS
+    HEADER kpat_debug.h
+    IDENTIFIER KPAT_LOG
+    CATEGORY_NAME org.kde.kpat
+)
+
 ecm_add_test(
-    "../dealer.cpp"
-    "../dealerinfo.cpp"
-    "../golf.cpp"
-    "../patsolve/golfsolver.cpp"
-    "../patsolve/memory.cpp"
-    "../patsolve/patsolve.cpp"
-    "../messagebox.cpp"
-    "../kpat_debug.cpp"
-    "../patpile.cpp"
-    "../pileutils.cpp"
-    "../renderer.cpp"
+    "${CMAKE_SOURCE_DIR}/src/dealer.cpp"
+    "${CMAKE_SOURCE_DIR}/src/dealerinfo.cpp"
+    "${CMAKE_SOURCE_DIR}/src/golf.cpp"
+    "${CMAKE_SOURCE_DIR}/src/patsolve/golfsolver.cpp"
+    "${CMAKE_SOURCE_DIR}/src/patsolve/memory.cpp"
+    "${CMAKE_SOURCE_DIR}/src/patsolve/patsolve.cpp"
+    "${CMAKE_SOURCE_DIR}/src/messagebox.cpp"
+    "${CMAKE_SOURCE_DIR}/src/patpile.cpp"
+    "${CMAKE_SOURCE_DIR}/src/pileutils.cpp"
+    "${CMAKE_SOURCE_DIR}/src/renderer.cpp"
+    ${SolverFormatTest_LOG_SRCS}
     "settings_for_tests.cpp"
     solver_format.cpp
     TEST_NAME SolverFormatTest
