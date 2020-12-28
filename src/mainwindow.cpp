@@ -444,7 +444,7 @@ void MainWindow::configureAppearance()
                        );
 
         KgThemeProvider* provider = Renderer::self()->themeProvider();
-        dialog->addPage( new KgThemeSelector(provider),
+        dialog->addPage( new KgThemeSelector(provider, KgThemeSelector::EnableNewStuffDownload),
                          i18n("Game Theme"),
                          QStringLiteral("games-config-theme"),
                          i18n("Select a theme for non-card game elements")
