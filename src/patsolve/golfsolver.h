@@ -19,6 +19,7 @@
 #define GOLFSOLVER_H
 
 class Golf;
+#include "patsolve-config.h"
 #include "patsolve.h"
 #ifdef WITH_BH_SOLVER
 #include <black-hole-solver/black_hole_solver.h>

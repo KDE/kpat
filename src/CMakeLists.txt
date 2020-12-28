@@ -5,6 +5,9 @@ ecm_setup_version(${kpat_VERSION}
     VERSION_HEADER kpat_version.h
 )
 
+set(WITH_FCS_SOFT_SUSPEND ${fcs_soft_suspend})
+configure_file(patsolve-config.h.in patsolve-config.h)
+
 set(kpat_SRCS ${libfcs_SRCS}
     main.cpp
     dealer.cpp

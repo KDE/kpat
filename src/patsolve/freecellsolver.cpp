@@ -24,6 +24,7 @@
 
 #include "freecellsolver.h"
 
+#include "patsolve-config.h"
 #include "../freecell.h"
 
 const int CHUNKSIZE = 100;

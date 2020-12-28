@@ -21,6 +21,7 @@
 #include "freecell-solver/fcs_user.h"
 #include "freecell-solver/fcs_cl.h"
 
+#include "patsolve-config.h"
 #include "abstract_fc_solve_solver.h"
 
 const int CHUNKSIZE = 100;

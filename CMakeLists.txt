@@ -16,15 +16,10 @@ pkg_check_modules(FC_SOLVE REQUIRED libfreecell-solver)
 option(WITH_BH_SOLVER "Make use of https://github.com/shlomif/black-hole-solitaire for solving Golf" ON)
 if (WITH_BH_SOLVER)
     pkg_check_modules(BLACK_HOLE_SOLVER REQUIRED libblack-hole-solver)
-    add_definitions(-DWITH_BH_SOLVER)
 endif()
 try_compile(fcs_soft_suspend "${CMAKE_CURRENT_BINARY_DIR}" SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/cmake/fcs_soft_suspend_test.c"
     COMPILE_DEFINITIONS ${FC_SOLVE_INCLUDE_DIRS}
     LINK_LIBRARIES ${FC_SOLVE_LDFLAGS})
-
-if (fcs_soft_suspend)
-    add_definitions("-DWITH_FCS_SOFT_SUSPEND=1")
-endif()
 
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED CONFIG)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})

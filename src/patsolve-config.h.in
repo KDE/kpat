@@ -1,0 +1,7 @@
+#ifndef PATSOLVE_CONFIG_H
+#define PATSOLVE_CONFIG_H
+
+#cmakedefine WITH_FCS_SOFT_SUSPEND
+#cmakedefine WITH_BH_SOLVER
+
+#endif
