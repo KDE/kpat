@@ -12,6 +12,8 @@ ecm_qt_declare_logging_category(libkcardgame_SRCS
     HEADER libkcardgame_debug.h
     IDENTIFIER LIBKCARDGAME_LOG
     CATEGORY_NAME org.kde.games.kcardgame
+    DESCRIPTION "LibKCardGame (KPatience)"
+    EXPORT KPAT
 )
 
 add_library(kcardgame SHARED ${libkcardgame_SRCS})

@@ -60,6 +60,8 @@ ecm_qt_declare_logging_category(kpat_SRCS
     HEADER kpat_debug.h
     IDENTIFIER KPAT_LOG
     CATEGORY_NAME org.kde.kpat
+    DESCRIPTION "KPatience"
+    EXPORT KPAT
 )
 
 file(GLOB ICONS_SRCS "${CMAKE_SOURCE_DIR}/icons/*-apps-kpat.png")
@@ -88,7 +90,12 @@ target_include_directories(kpat
 
 install(TARGETS kpat ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
-install(FILES kpat.categories  DESTINATION  ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 install(PROGRAMS org.kde.kpat.desktop  DESTINATION  ${KDE_INSTALL_APPDIR})
 install(FILES org.kde.kpat.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 install(FILES kpat.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
+
+ecm_qt_install_logging_categories(
+    EXPORT KPAT
+    FILE kpat.categories
+    DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR}
+)
