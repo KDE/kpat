@@ -52,6 +52,7 @@ include(ECMAddAppIcon)
 include(ECMInstallIcons)
 include(ECMQtDeclareLoggingCategory)
 include(ECMSetupVersion)
+include(ECMGenerateHeaders)
 include(GenerateExportHeader)
 
 add_definitions(

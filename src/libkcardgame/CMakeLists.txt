@@ -7,7 +7,16 @@ set( libkcardgame_SRCS
     kcardtheme.cpp
     kcardthemewidget.cpp
 )
-
+ecm_generate_headers(libkcardgame_CamelCase_HEADERS
+    HEADER_NAMES
+        KAbstractCardDeck
+        KCard
+        KCardDeck
+        KCardPile
+        KCardScene
+        KCardTheme
+        KCardThemeWidget
+)
 ecm_qt_declare_logging_category(libkcardgame_SRCS
     HEADER libkcardgame_debug.h
     IDENTIFIER LIBKCARDGAME_LOG
@@ -29,9 +38,6 @@ target_link_libraries(kcardgame
         KF5::NewStuff
         KF5::I18n
         Qt5::Svg
-)
-target_include_directories(kcardgame
-    PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
 )
 
 install(TARGETS kcardgame ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
