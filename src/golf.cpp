@@ -36,12 +36,13 @@
 
 #include "golf.h"
 
+// own
 #include "dealerinfo.h"
 #include "speeds.h"
 #include "patsolve/golfsolver.h"
 #include "pileutils.h"
 #include "settings.h"
-
+// KF
 #include <KLocalizedString>
 
 

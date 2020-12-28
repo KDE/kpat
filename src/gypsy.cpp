@@ -36,10 +36,11 @@
 
 #include "gypsy.h"
 
+// own
 #include "dealerinfo.h"
 #include "pileutils.h"
 #include "patsolve/gypsysolver.h"
-
+// KF
 #include <KLocalizedString>
 
 

@@ -37,11 +37,12 @@
 
 #include "grandf.h"
 
+// own
 #include "dealerinfo.h"
 #include "pileutils.h"
 #include "speeds.h"
 #include "patsolve/grandfsolver.h"
-
+// KF
 #include <KLocalizedString>
 
 

@@ -18,8 +18,10 @@
 #ifndef SIMONSOLVER_H
 #define SIMONSOLVER_H
 
+// own
 #include "abstract_fc_solve_solver.h"
 #include "simon.h"
+
 class Simon;
 
 

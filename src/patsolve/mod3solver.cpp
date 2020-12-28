@@ -17,6 +17,7 @@
 
 #include "mod3solver.h"
 
+// own
 #include "../mod3.h"
 #include "../kpat_debug.h"
 

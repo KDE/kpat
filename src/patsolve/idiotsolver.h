@@ -18,9 +18,10 @@
 #ifndef IDIOTSOLVER_H
 #define IDIOTSOLVER_H
 
-class Idiot;
+// own
 #include "patsolve.h"
 
+class Idiot;
 
 class IdiotSolver : public Solver<6>
 {

@@ -18,6 +18,7 @@
 #ifndef ABSTRACT_FC_SOLVE_SOLVER_H
 #define ABSTRACT_FC_SOLVE_SOLVER_H
 
+// own
 #include "patsolve.h"
 
 struct FcSolveSolver : public Solver<12>

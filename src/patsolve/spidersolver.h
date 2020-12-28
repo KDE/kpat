@@ -18,7 +18,9 @@
 #ifndef SPIDERSOLVER_H
 #define SPIDERSOLVER_H
 
+// own
 #include "patsolve.h"
+
 class Spider;
 
 

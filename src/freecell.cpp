@@ -37,13 +37,14 @@
 
 #include "freecell.h"
 
+// own
 #include "dealerinfo.h"
 #include "kpat_debug.h"
 #include "pileutils.h"
 #include "settings.h"
 #include "speeds.h"
 #include "patsolve/freecellsolver.h"
-
+// KF
 #include <KLocalizedString>
 
 

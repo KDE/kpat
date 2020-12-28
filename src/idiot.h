@@ -37,6 +37,7 @@
 #ifndef IDIOT_H
 #define IDIOT_H
 
+// own
 #include "dealer.h"
 
 

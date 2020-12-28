@@ -17,6 +17,7 @@
 
 #include "klondikesolver.h"
 
+// own
 #include "../klondike.h"
 #include "../kpat_debug.h"
 

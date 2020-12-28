@@ -18,9 +18,10 @@
 #ifndef GRANDFSOLVER_H
 #define GRANDFSOLVER_H
 
-class Grandf;
+// own
 #include "patsolve.h"
 
+class Grandf;
 
 class GrandfSolver : public Solver<7*3+1>
 {

@@ -39,9 +39,8 @@
 #define STATISTICSDIALOG_H
 
 #include "ui_statisticsdialog.h"
-
+// Qt
 #include <QDialog>
-
 #include <QMap>
 
 

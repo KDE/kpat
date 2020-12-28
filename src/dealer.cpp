@@ -36,26 +36,28 @@
  */
 
 #include "dealer.h"
+
+// own
 #include "dealerinfo.h"
 #include "kpat_debug.h"
 #include "messagebox.h"
 #include "renderer.h"
 #include "shuffle.h"
 #include "patsolve/solverinterface.h"
-
-#include "KCardTheme"
-
+// KCardGame
+#include <KCardTheme>
+// KF
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <QRandomGenerator>
 #include <KSharedConfig>
-
+// Qt
+#include <QRandomGenerator>
 #include <QThread>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 #include <QGraphicsSceneMouseEvent>
-
+// Std
 #include <cmath>
 
 

@@ -1,10 +1,12 @@
 #ifndef SolverInterface_H
 #define SolverInterface_H
 
-#include <QList>
-
+// own
 #include "../hint.h"
+// freecell-solver
 #include "freecell-solver/fcs_user.h"
+// Qt
+#include <QList>
 
 
 /* A card is represented as ( down << 6 ) + (suit << 4) + rank. */

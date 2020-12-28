@@ -38,8 +38,9 @@
 #ifndef VIEW_H
 #define VIEW_H
 
+// KDEGames
 #include <KGameRendererClient>
-
+// Qt
 #include <QGraphicsView>
 
 

@@ -18,7 +18,9 @@
 #ifndef YUKONSOLVER_H
 #define YUKONSOLVER_H
 
+// own
 #include "patsolve.h"
+
 class Yukon;
 
 

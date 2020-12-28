@@ -21,12 +21,13 @@
 
 #include "kabstractcarddeck_p.h"
 
+// own
 #include "common.h"
 #include "kcardpile.h"
 #include "libkcardgame_debug.h"
-
+// KF
 #include <KImageCache>
-
+// Qt
 #include <QTimer>
 #include <QApplication>
 #include <QPainter>

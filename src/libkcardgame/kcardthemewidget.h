@@ -19,10 +19,12 @@
 #ifndef KCARDTHEMEWIDGET_H
 #define KCARDTHEMEWIDGET_H
 
+// own
 #include "libkcardgame_export.h"
-
+// KF
 #include <KConfigDialog>
 #include <KConfigSkeleton>
+// Qt
 #include <QWidget>
 
 

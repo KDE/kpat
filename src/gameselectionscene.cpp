@@ -18,20 +18,21 @@
 
 #include "gameselectionscene.h"
 
+// own
 #include "dealerinfo.h"
 #include "kpat_debug.h"
 #include "renderer.h"
-
+// KF
 #include <KColorUtils>
-
+// Qt
 #include <QGraphicsObject>
 #include <QKeyEvent>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
 #include <QPropertyAnimation>
-
-#include <cmath>
 #include <QStandardPaths>
+// Std
+#include <cmath>
 
 
 namespace

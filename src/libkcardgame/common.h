@@ -20,9 +20,11 @@
 #ifndef COMMON_P_H
 #define COMMON_P_H
 
+// KF
 #include <KSharedDataCache>
-
+// Qt
 #include <QDataStream>
+
 class QString;
 
 

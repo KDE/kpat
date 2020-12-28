@@ -38,24 +38,27 @@
 #ifndef DEALER_H
 #define DEALER_H
 
-class DealerInfo;
+// own
 #include "gamestate.h"
-class MessageBox;
-class MoveHint;
 #include "patpile.h"
-class SolverInterface;
-class SolverThread;
 #include "speeds.h"
 #include "view.h"
-
-#include "KCardDeck"
-#include "KCardScene"
-
-class QAction;
+// KCardGame
+#include <KCardDeck>
+#include <KCardScene>
+// Qt
 #include <QMap>
 #include <QStack>
 #include <QTimer>
 #include <QSet>
+
+class DealerInfo;
+class MessageBox;
+class MoveHint;
+class SolverInterface;
+class SolverThread;
+
+class QAction;
 
 #define scores_group "Scores"
 

@@ -36,11 +36,12 @@
 
 #include "fortyeight.h"
 
+// own
 #include "dealerinfo.h"
 #include "pileutils.h"
 #include "speeds.h"
 #include "patsolve/fortyeightsolver.h"
-
+// KF
 #include <KLocalizedString>
 
 

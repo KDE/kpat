@@ -18,9 +18,10 @@
 #ifndef KLONDIKESOLVER_H
 #define KLONDIKESOLVER_H
 
-class Klondike;
+// own
 #include "patsolve.h"
 
+class Klondike;
 
 class KlondikeSolver : public Solver<9>
 {

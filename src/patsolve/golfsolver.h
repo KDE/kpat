@@ -18,12 +18,15 @@
 #ifndef GOLFSOLVER_H
 #define GOLFSOLVER_H
 
-class Golf;
+// own
 #include "patsolve-config.h"
 #include "patsolve.h"
+// black-hole-solver
 #ifdef WITH_BH_SOLVER
 #include <black-hole-solver/black_hole_solver.h>
 #endif
+
+class Golf;
 
 
 class GolfSolver : public Solver<9>

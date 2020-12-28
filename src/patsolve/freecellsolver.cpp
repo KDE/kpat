@@ -16,16 +16,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <stdlib.h>
-#include <string.h>
-
-#include "freecell-solver/fcs_user.h"
-#include "freecell-solver/fcs_cl.h"
-
 #include "freecellsolver.h"
 
+// own
 #include "patsolve-config.h"
 #include "../freecell.h"
+// freecell-solver
+#include "freecell-solver/fcs_user.h"
+#include "freecell-solver/fcs_cl.h"
+// St
+#include <cstdlib>
+#include <cstring>
 
 const int CHUNKSIZE = 100;
 const long int MAX_ITERS_LIMIT = 200000;

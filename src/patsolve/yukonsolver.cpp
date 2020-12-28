@@ -17,6 +17,7 @@
 
 #include "yukonsolver.h"
 
+// own
 #include "../kpat_debug.h"
 #include "../yukon.h"
 

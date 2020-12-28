@@ -17,6 +17,7 @@
 
 #include "idiotsolver.h"
 
+// own
 #include "../idiot.h"
 #include "../kpat_debug.h"
 

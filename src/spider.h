@@ -37,6 +37,7 @@
 #ifndef SPIDER_H
 #define SPIDER_H
 
+// own
 #include "dealer.h"
 
 class KSelectAction;

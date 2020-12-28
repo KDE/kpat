@@ -18,9 +18,10 @@
 #ifndef GYPSYSOLVER_H
 #define GYPSYSOLVER_H
 
-class Gypsy;
+// own
 #include "patsolve.h"
 
+class Gypsy;
 
 class GypsySolver : public Solver<8 + 1 + 8>
 {

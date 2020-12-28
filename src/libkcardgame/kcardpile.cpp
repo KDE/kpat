@@ -37,12 +37,13 @@
 
 #include "kcardpile.h"
 
+// own
 #include "kabstractcarddeck.h"
 #include "kcardscene.h"
-
+// Qt
 #include <QPropertyAnimation>
 #include <QPainter>
-
+// Std
 #include <cmath>
 
 class KCardPilePrivate : public QObject

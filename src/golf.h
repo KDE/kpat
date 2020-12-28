@@ -36,6 +36,7 @@
 #ifndef GOLF_H
 #define GOLF_H
 
+// own
 #include "dealer.h"
 
 

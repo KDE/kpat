@@ -17,6 +17,7 @@
 
 #include "grandfsolver.h"
 
+// own
 #include "../grandf.h"
 #include "../kpat_debug.h"
 

@@ -19,9 +19,11 @@
 #ifndef PATPILE_H
 #define PATPILE_H
 
+// KCardGame
+#include <KCardPile>
+
 class DealerScene;
 
-#include "KCardPile"
 
 
 class PatPile : public KCardPile

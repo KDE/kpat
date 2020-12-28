@@ -18,8 +18,9 @@
 
 #include "renderer.h"
 
+// own
 #include "settings.h"
-
+// KDEGames
 #include <KgThemeProvider>
 
 

@@ -18,9 +18,10 @@
 #ifndef MOD3SOLVER_H
 #define MOD3SOLVER_H
 
-class Mod3;
+// own
 #include "patsolve.h"
 
+class Mod3;
 
 class Mod3Solver : public Solver</* 24 targets, 8 playing fields, deck, aces =*/ 34>
 {

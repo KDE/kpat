@@ -17,10 +17,11 @@
 
 #include "gypsysolver.h"
 
+// own
 #include "../gypsy.h"
 #include "../kpat_debug.h"
-
-#include <assert.h>
+/// Std
+#include <cassert>
 
 #define PRINT 0
 

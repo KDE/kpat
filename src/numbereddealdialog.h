@@ -19,10 +19,11 @@
 #ifndef NUMBEREDDEALDIALOG_H
 #define NUMBEREDDEALDIALOG_H
 
-class KComboBox;
+// Qt
 #include <QDialog>
-
 #include <QMap>
+
+class KComboBox;
 class QSpinBox;
 
 class NumberedDealDialog : public QDialog

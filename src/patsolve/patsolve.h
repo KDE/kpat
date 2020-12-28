@@ -19,18 +19,18 @@
 #ifndef PATSOLVE_H
 #define PATSOLVE_H
 
+// own
 #include "solverinterface.h"
 #include "../hint.h"
 #include "memory.h"
-
-#include "KCardPile"
-
+// KCardGame
+#include <KCardPile>
+// Qt
+#include <QMap>
+// Std
 #include <atomic>
 #include <memory>
 #include <array>
-
-#include <QMap>
-
 #include <cstdio>
 
 /* A card is represented as ( down << 6 ) + (suit << 4) + rank. */

@@ -37,9 +37,10 @@
 
 #include "idiot.h"
 
+// own
 #include "dealerinfo.h"
 #include "patsolve/idiotsolver.h"
-
+// KF
 #include <KLocalizedString>
 
 

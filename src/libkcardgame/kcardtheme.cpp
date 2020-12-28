@@ -18,10 +18,10 @@
 
 #include "kcardtheme.h"
 
+// KF
 #include <KConfig>
 #include <KConfigGroup>
-
-
+// Qt
 #include <QDir>
 #include <QFileInfo>
 #include <QSet>

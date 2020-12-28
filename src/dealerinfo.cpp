@@ -37,6 +37,7 @@
 
 #include "dealerinfo.h"
 
+// KF
 #include <KLocalizedString>
 
 

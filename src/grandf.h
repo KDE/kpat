@@ -38,6 +38,7 @@
 #ifndef GRANDF_H
 #define GRANDF_H
 
+// own
 #include "dealer.h"
 
 

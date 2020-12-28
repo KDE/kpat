@@ -37,17 +37,18 @@
 
 #include "spider.h"
 
+// own
 #include "dealerinfo.h"
 #include "pileutils.h"
 #include "settings.h"
 #include "speeds.h"
 #include "patsolve/spidersolver.h"
-
-#include <QRandomGenerator>
 // KF
 #include <kwidgetsaddons_version.h>
 #include <KLocalizedString>
 #include <KSelectAction>
+// Qt
+#include <QRandomGenerator>
 
 
 class InvisiblePile : public PatPile

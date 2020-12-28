@@ -36,11 +36,12 @@
 
 #include "simon.h"
 
+// own
 #include "dealerinfo.h"
 #include "pileutils.h"
 #include "patsolve/simonsolver.h"
 #include "settings.h"
-
+// KF
 #include <KLocalizedString>
 
 

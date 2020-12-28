@@ -19,6 +19,7 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
+// KDEGames
 #include <KGameRenderer>
 
 class QString;

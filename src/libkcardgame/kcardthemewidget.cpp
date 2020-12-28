@@ -19,13 +19,15 @@
 #include "kcardthemewidget.h"
 #include "kcardthemewidget_p.h"
 
+// own
 #include "common.h"
+// KF
 #include <KImageCache>
 #include <KLineEdit>
 #include <KLocalizedString>
+#include <KNS3/DownloadDialog>
+// Qt
 #include <QPushButton>
-#include <kns3/downloaddialog.h>
-
 #include <QMutexLocker>
 #include <QApplication>
 #include <QListView>

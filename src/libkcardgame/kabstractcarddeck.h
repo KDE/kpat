@@ -19,11 +19,13 @@
 #ifndef KABSTRACTCARDDECK_H
 #define KABSTRACTCARDDECK_H
 
+// own
 #include "libkcardgame_export.h"
-class KCard;
 #include "kcardtheme.h"
-
+// Qt
 #include <QObject>
+
+class KCard;
 class QSize;
 
 

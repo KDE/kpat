@@ -18,8 +18,9 @@
 #ifndef MESSAGEBOX_H
 #define MESSAGEBOX_H
 
+// KDEGames
 #include <KGameRenderedItem>
-
+// Qt
 #include <QFont>
 
 

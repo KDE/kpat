@@ -19,8 +19,9 @@
 #ifndef KCARDTHEME_H
 #define KCARDTHEME_H
 
+// own
 #include "libkcardgame_export.h"
-
+// Qt
 #include <QDateTime>
 #include <QList>
 #include <QMetaType>

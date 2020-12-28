@@ -36,6 +36,7 @@
 #ifndef FORTYEIGHT_H
 #define FORTYEIGHT_H
 
+// own
 #include "dealer.h"
 
 

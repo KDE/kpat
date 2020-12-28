@@ -20,20 +20,21 @@
 #define KABSTRACTCARDDECK_P_H
 
 #include "kabstractcarddeck.h"
-
+// own
 #include "kcardtheme.h"
+// KF
 #include <KImageCache>
-
+// Qt
 #include <QHash>
-class QImage;
 #include <QMutex>
 #include <QSet>
 #include <QSizeF>
 #include <QStringList>
 #include <QThread>
 #include <QPixmap>
-class QSvgRenderer;
 
+class QSvgRenderer;
+class QImage;
 
 class RenderingThread : public QThread
 {

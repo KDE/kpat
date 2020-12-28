@@ -17,6 +17,7 @@
 
 #include "fortyeightsolver.h"
 
+// own
 #include "../fortyeight.h"
 #include "../kpat_debug.h"
 

@@ -19,7 +19,8 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
-#include <stdlib.h>
+// Std
+#include <cstdlib>
 #include <sys/types.h>
 
 struct TREE;

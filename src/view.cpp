@@ -37,11 +37,12 @@
 
 #include "view.h"
 
+// own
 #include "gameselectionscene.h"
 #include "renderer.h"
-
-#include "KCardScene"
-
+// KCardGame
+#include <KCardScene>
+// Qt
 #include <QResizeEvent>
 
 

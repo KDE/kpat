@@ -37,9 +37,10 @@
 
 #include "mod3.h"
 
+// own
 #include "dealerinfo.h"
 #include "patsolve/mod3solver.h"
-
+// KF
 #include <KLocalizedString>
 
 

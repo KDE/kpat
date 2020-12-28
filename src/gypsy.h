@@ -36,6 +36,7 @@
 #ifndef GYPSY_H
 #define GYPSY_H
 
+// own
 #include "dealer.h"
 
 

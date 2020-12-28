@@ -17,6 +17,7 @@
 
 #include "clocksolver.h"
 
+// own
 #include "../clock.h"
 #include "../kpat_debug.h"
 

@@ -20,11 +20,12 @@
 #define KCARD_P_H
 
 #include "kcard.h"
+// Qt
+#include <QAbstractAnimation>
 
 class KAbstractCardDeck;
 class KCardPile;
 
-#include <QAbstractAnimation>
 class QPropertyAnimation;
 
 

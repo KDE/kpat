@@ -39,6 +39,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+// KF
+#include <KXmlGuiWindow>
+// Qt
+#include <QMap>
+
 class DealerInfo;
 class DealerScene;
 class GameSelectionScene;
@@ -52,8 +57,6 @@ class QAction;
 class KRecentFilesAction;
 class KToggleAction;
 class QUrl;
-#include <KXmlGuiWindow>
-#include <QMap>
 
 class QLabel;
 

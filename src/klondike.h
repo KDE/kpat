@@ -37,7 +37,9 @@
 #ifndef KLONDIKE_H
 #define KLONDIKE_H
 
+// own
 #include "dealer.h"
+
 class KlondikePile;
 
 class KSelectAction;

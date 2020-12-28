@@ -16,8 +16,9 @@
  */
 
 #include "soundengine.h"
-#include <QStandardPaths>
 
+// Qt
+#include <QStandardPaths>
 
 
 SoundEngine::SoundEngine( QObject * parent )

@@ -38,12 +38,13 @@
 #ifndef KCARDPILE_H
 #define KCARDPILE_H
 
+// own
 #include "kcard.h"
-class KCardScene;
 #include "libkcardgame_export.h"
-
+// Qt
 #include <QGraphicsPixmapItem>
 
+class KCardScene;
 
 class LIBKCARDGAME_EXPORT KCardPile : public QGraphicsObject
 {

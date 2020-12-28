@@ -19,6 +19,7 @@
 #ifndef KCARDDECK_H
 #define KCARDDECK_H
 
+// own
 #include "kabstractcarddeck.h"
 #include "libkcardgame_export.h"
 

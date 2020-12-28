@@ -38,13 +38,14 @@
 #ifndef DEALERINFO_H
 #define DEALERINFO_H
 
-class DealerInfoList;
-class DealerScene;
-
+// Qt
 #include <QByteArray>
 #include <QList>
 #include <QMap>
 #include <QString>
+
+class DealerInfoList;
+class DealerScene;
 
 
 class DealerInfo

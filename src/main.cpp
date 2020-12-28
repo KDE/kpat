@@ -34,33 +34,34 @@
  * -------------------------------------------------------------------------
  */
 
+// own
 #include "dealer.h"
 #include "dealerinfo.h"
 #include "kpat_debug.h"
 #include "mainwindow.h"
 #include "kpat_version.h"
 #include "patsolve/solverinterface.h"
-
-#include "KCardTheme"
-#include "KCardDeck"
-
+// KCardGame
+#include <KCardTheme>
+#include <KCardDeck>
+// KF
 #include <KAboutData>
 #include <KCrash>
 #include <KLocalizedString>
 #include <KDBusService>
-
+#include <Kdelibs4ConfigMigrator>
+// Qt
 #include <QRandomGenerator>
 #include <QFile>
 #include <QTime>
 #include <QElapsedTimer>
 #include <QDomDocument>
-
-#include <Kdelibs4ConfigMigrator>
-#include <climits>
 #include <QStandardPaths>
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
+// Std
+#include <climits>
 
 static DealerScene *getDealer( int wanted_game , const QString & name )
 {

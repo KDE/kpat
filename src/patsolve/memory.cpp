@@ -18,9 +18,9 @@
 
 #include "memory.h"
 
+// own
 #include "../kpat_debug.h"
-
-
+// Std
 #include <cstdlib>
 #include <cstring>
 

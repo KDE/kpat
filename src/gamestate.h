@@ -37,12 +37,13 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 
+// own
 #include "patsolve/solverinterface.h"
+// Qt
+#include <QString>
 
 class KCard;
 class KCardPile;
-
-#include <QString>
 
 
 class CardState

@@ -39,13 +39,15 @@
 #ifndef KCARDSCENE_H
 #define KCARDSCENE_H
 
+// own
+#include "libkcardgame_export.h"
+// Qt
+#include <QGraphicsScene>
+
 class KCard;
 class KAbstractCardDeck;
-
-#include "libkcardgame_export.h"
 class KCardPile;
 
-#include <QGraphicsScene>
 
 class LIBKCARDGAME_EXPORT KCardScene : public QGraphicsScene
 {

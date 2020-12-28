@@ -36,9 +36,10 @@
 
 #include "clock.h"
 
+// own
 #include "dealerinfo.h"
 #include "patsolve/clocksolver.h"
-
+// KF
 #include <KLocalizedString>
 
 

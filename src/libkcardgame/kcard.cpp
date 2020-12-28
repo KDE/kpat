@@ -16,14 +16,16 @@
  *
  */
 
+#include "kcard.h"
 #include "kcard_p.h"
 
+// own
 #include "kabstractcarddeck.h"
 #include "kcardpile.h"
-
+// Qt
 #include <QPropertyAnimation>
 #include <QPainter>
-
+// Std
 #include <cmath>
 
 

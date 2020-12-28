@@ -18,10 +18,10 @@
 
 #include "patsolve.h"
 
+// own
 #include "../patpile.h"
 #include "../kpat_debug.h"
-
-
+// Std
 #include <cctype>
 #include <cmath>
 #include <cstdarg>

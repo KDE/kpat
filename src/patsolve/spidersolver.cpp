@@ -17,6 +17,7 @@
 
 #include "spidersolver.h"
 
+// own
 #include "../kpat_debug.h"
 #include "../spider.h"
 

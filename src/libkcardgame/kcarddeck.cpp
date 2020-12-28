@@ -18,6 +18,7 @@
 
 #include "kcarddeck.h"
 
+// own
 #include "kcard.h"
 
 

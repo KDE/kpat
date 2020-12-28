@@ -18,9 +18,11 @@
 
 #ifndef PILEUTILS_H
 #define PILEUTILS_H
-class KCard;
 
+// Qt
 #include <QList>
+
+class KCard;
 
 
 bool isSameSuitAscending( const QList<KCard*> & cards );

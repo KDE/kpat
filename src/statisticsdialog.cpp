@@ -37,13 +37,15 @@
 
 #include "statisticsdialog.h"
 
+// own
 #include "dealerinfo.h"
 #include "dealer.h"
 #include "kpat_debug.h"
-
+// KF
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KSharedConfig>
+// Qt
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QVBoxLayout>

@@ -37,13 +37,14 @@
 
 #include "kcardscene.h"
 
+// own
 #include "kabstractcarddeck.h"
 #include "kcardpile.h"
-
+// Qt
 #include <QGraphicsSceneWheelEvent>
 #include <QPainter>
 #include <QPointer>
-
+// Std
 #include <cmath>
 
 

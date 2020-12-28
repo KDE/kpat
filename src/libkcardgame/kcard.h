@@ -19,12 +19,14 @@
 #ifndef KCARD_H
 #define KCARD_H
 
-class KAbstractCardDeck;
-class KCardPile;
+// own
 #include "libkcardgame_export.h"
-
+// Qt
 #include <QObject>
 #include <QGraphicsPixmapItem>
+
+class KAbstractCardDeck;
+class KCardPile;
 
 
 class LIBKCARDGAME_EXPORT KCard : public QObject, public QGraphicsPixmapItem

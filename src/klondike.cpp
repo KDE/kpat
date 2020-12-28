@@ -37,6 +37,7 @@
 
 #include "klondike.h"
 
+// own
 #include "dealerinfo.h"
 #include "pileutils.h"
 #include "settings.h"

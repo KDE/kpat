@@ -36,10 +36,11 @@
 
 #include "yukon.h"
 
+// own
 #include "dealerinfo.h"
 #include "pileutils.h"
 #include "patsolve/yukonsolver.h"
-
+// KF
 #include <KLocalizedString>
 
 

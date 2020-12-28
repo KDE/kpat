@@ -18,8 +18,9 @@
 
 #include "pileutils.h"
 
-#include "KCard"
-#include "KCardDeck"
+// KCardGame
+#include <KCard>
+#include <KCardDeck>
 
 
 namespace

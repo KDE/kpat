@@ -17,6 +17,7 @@
 
 #include "golfsolver.h"
 
+// own
 #include "../golf.h"
 #include "../kpat_debug.h"
 

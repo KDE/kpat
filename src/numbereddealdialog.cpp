@@ -18,11 +18,12 @@
 
 #include "numbereddealdialog.h"
 
+// own
 #include "dealerinfo.h"
-
+// KF
 #include <KComboBox>
 #include <KLocalizedString>
-
+// Qt
 #include <QFormLayout>
 #include <QSpinBox>
 #include <QDialogButtonBox>

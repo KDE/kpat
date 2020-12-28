@@ -18,9 +18,10 @@
 #ifndef FORTYEIGHTSOLVER_H
 #define FORTYEIGHTSOLVER_H
 
-class Fortyeight;
+// own
 #include "patsolve.h"
 
+class Fortyeight;
 class FortyeightSolverState;
 
 class FortyeightSolver : public Solver<10>

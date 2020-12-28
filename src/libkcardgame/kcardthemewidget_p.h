@@ -21,16 +21,18 @@
 #define KCARDTHEMEWIDGET_P_H
 
 #include "kcardthemewidget.h"
-
+// own
 #include "kcardtheme.h"
+// KF
 #include <KImageCache>
-class KLineEdit;
-class QPushButton;
-
+// Qt
 #include <QMutex>
 #include <QSet>
 #include <QThread>
 #include <QAbstractItemDelegate>
+
+class KLineEdit;
+class QPushButton;
 class QListView;
 
 

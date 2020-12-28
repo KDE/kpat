@@ -38,6 +38,7 @@
 
 #include "mainwindow.h"
 
+// own
 #include "dealer.h"
 #include "dealerinfo.h"
 #include "gameselectionscene.h"
@@ -48,29 +49,31 @@
 #include "soundengine.h"
 #include "statisticsdialog.h"
 #include "view.h"
-
-#include "KCardTheme"
-#include "KCardThemeWidget"
-
+// KCardGame
+#include <KCardTheme>
+#include <KCardThemeWidget>
+// KDEGames
 #include <KgThemeSelector>
 #include <KStandardGameAction>
+// KF
 #include <KStandardAction>
-
-#include <QAction>
 #include <KActionCollection>
 #include <KConfigDialog>
-#include <QFileDialog>
-#include <QIcon>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <KToggleAction>
+#include <KIO/StoredTransferJob>
+#include <KXMLGUIFactory>
+#include <KSharedConfig>
+#include <KHelpClient>
+// Qt
+#include <QAction>
+#include <QFileDialog>
+#include <QIcon>
 #include <QRandomGenerator>
 #include <QStatusBar>
 #include <QMenuBar>
 #include <QTemporaryFile>
-#include <KToggleAction>
-#include <KIOCore/KIO/StoredTransferJob>
-#include <KXMLGUIFactory>
-
 #include <QScreen>
 #include <QList>
 #include <QPointer>
@@ -79,10 +82,8 @@
 #include <QXmlStreamReader>
 #include <QDesktopWidget>
 #include <QKeySequence>
-#include <KHelpClient>
 #include <QStandardPaths>
 #include <QApplication>
-#include <KSharedConfig>
 
 
 namespace
