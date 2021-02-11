@@ -38,5 +38,17 @@
         <entry name="SimpleSimonSolverIterationsLimit" key="SimpleSimonSolverIterationsLimit" type="Int">
             <default>200000</default>
         </entry>
+        <entry name="BakersDozenSolverIterationsLimit" key="BakersDozenSolverIterationsLimit" type="Int">
+            <default>200000</default>
+        </entry>
+        <entry name="BakersDozenEmptyStackFill" key="BakersDozenEmptyStackFill" type="Int">
+            <default>2</default>
+        </entry>
+        <entry name="BakersDozenStackFacedown" key="BakersDozenStackFacedown" type="Int">
+            <default>0</default>
+        </entry>
+        <entry name="BakersDozenSequenceBuiltBy" key="BakersDozenSequenceBuiltBy" type="Int">
+            <default>2</default>
+        </entry>
     </group>
 </kcfg>

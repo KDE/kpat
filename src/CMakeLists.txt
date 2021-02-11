@@ -26,6 +26,8 @@ set(kpat_SRCS ${libfcs_SRCS}
     patsolve/memory.cpp
     patsolve/patsolve.cpp
 
+    bakersdozen.cpp
+    patsolve/bakersdozensolver.cpp
     clock.cpp 
     patsolve/clocksolver.cpp
     fortyeight.cpp

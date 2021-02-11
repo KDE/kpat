@@ -115,6 +115,23 @@ bool isAlternateColorDescending( const QList<KCard*> & cards )
 }
 
 
+bool isRankDescending( const QList<KCard*> & cards )
+{
+    if ( cards.size() <= 1 )
+        return true;
+
+    int lastRank = cards.first()->rank();
+
+    for( int i = 1; i < cards.size(); ++i )
+    {
+        --lastRank;
+        if ( cards[i]->rank() != lastRank )
+            return false;
+    }
+    return true;
+}
+
+
 bool checkAddSameSuitAscendingFromAce( const QList<KCard*> & oldCards, const QList<KCard*> & newCards )
 {
     if ( !isSameSuitAscending( newCards ) )

@@ -11,6 +11,7 @@ set( kpat_previews
    12.png
    17.png
    18.png
+   19.png
 )
 
 install( FILES ${kpat_previews} DESTINATION  ${KDE_INSTALL_DATADIR}/kpat/previews )

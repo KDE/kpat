@@ -989,4 +989,5 @@ template class Solver<6>;
 template class Solver<34>;
 template class Solver<15>;
 template class Solver<7>;
+template class Solver<13>;
 template class Solver<Nwpiles + Ntpiles>;

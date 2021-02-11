@@ -562,6 +562,58 @@ win at Easy level, and very difficult to win at Hard level.
 
 </sect2>
 
+<sect2 id="bakers-dozen">
+<title>Baker's Dozen</title>
+
+<para><indexterm><primary>Baker's Dozen</primary></indexterm>
+Baker's Dozen is played with one card deck. The game's name originates from  
+the 13 columns in the game, the number in a baker's dozen. 
+The cards are dealt into columns of four on the tableau, resulting in 13 columns. 
+Any king that is in the top or middle of each column must be placed on the 
+bottom before the game starts. Two kings that are mixed into one column are 
+placed on the bottom without changing their order.
+</para>
+
+<para>
+The object of the game is to build all the cards onto the four foundations by suit, each from ace to king
+</para>
+
+<para>
+In the playing piles you have to build descending sequences, regardless of suit.
+You can only move one card that lays on top of a pile.
+</para>
+
+<variablelist>
+<varlistentry><term>Variations:</term>
+<listitem>
+<para>
+- In Spanish Patience, any card can fill empty tableau spaces. (In some sources, 
+the foundations are built up regardless of suit)
+</para>
+
+<para>
+- Castles in Spain is akin to Spanish Patience, but the cards in the tableau are 
+built down by alternate color. In some variations, the tableau is dealt face-down 
+aside from the top cards of each column.
+</para>
+
+<para>
+- Portuguese Solitaire is halfway between Baker's Dozen and Spanish Patience because 
+empty columns can only be filled with Kings.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para>
+To solve this game it is recommended to grab the cards out of the playing
+sequences in the same order they have to be put into the foundation (first the
+aces, then the twos, &etc;) Typically, you want to avoid emptying a column until 
+the last card is ready to be moved to a foundation.
+</para>
+
+</sect2>
+
 </sect1>
 
 </chapter>

@@ -69,7 +69,13 @@ public:
         SpiderTwoSuitId     = 15,
         SpiderFourSuitId    = 16,
         SpiderGeneralId     = 17,
-        KlondikeGeneralId   = 18
+        KlondikeGeneralId   = 18,
+        BakersDozenGeneralId= 19,
+        BakersDozenId       = 20,
+        BakersDozenSpanishId= 21,
+        BakersDozenCastlesId= 22,
+        BakersDozenPortugueseId= 23,
+        BakersDozenCustomId = 24
     };
 
     DealerInfo( const QByteArray & untranslatedBaseName, int baseId );

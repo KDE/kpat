@@ -171,6 +171,9 @@ int main( int argc, char **argv )
     aboutData.addAuthor( i18n("Shlomi Fish"),
                          i18n("Integration with Freecell Solver and further work"),
                          QStringLiteral("shlomif@cpan.org") );
+    aboutData.addAuthor( i18n("Michael Lang"),
+                         i18n("New game types"),
+                         QStringLiteral("criticaltemp@protonmail.com") );
 
     // Create a KLocale earlier than normal so that we can use i18n to translate
     // the names of the game types in the help text.

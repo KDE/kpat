@@ -21,7 +21,7 @@
 // own
 #include "patsolve.h"
 
-struct FcSolveSolver : public Solver<12>
+struct FcSolveSolver : public Solver<13>
 {
 public:
     FcSolveSolver();
