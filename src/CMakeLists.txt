@@ -52,11 +52,11 @@ set(kpat_SRCS ${libfcs_SRCS}
     patsolve/spidersolver.cpp
     yukon.cpp
     patsolve/yukonsolver.cpp
+    kpat.qrc
 )
 
 ki18n_wrap_ui( kpat_SRCS statisticsdialog.ui )
 kconfig_add_kcfg_files( kpat_SRCS settings.kcfgc )
-qt5_add_resources(kpat_SRCS kpat.qrc)
 
 ecm_qt_declare_logging_category(kpat_SRCS
     HEADER kpat_debug.h
