@@ -46,32 +46,36 @@
 #include "patsolve/freecellsolver.h"
 // KF
 #include <KLocalizedString>
-
+#include <kwidgetsaddons_version.h>
+#include <KSelectAction>
 
 Freecell::Freecell( const DealerInfo * di )
   : DealerScene( di )
 {
+    configOptions();
+    getSavedOptions();
 }
 
 
 void Freecell::initialize()
 {
-    setDeckContents();
+    setDeckContents( m_decks + 1 );
 
-    const qreal topRowDist = 1.08;
+    const bool isRightFoundation = m_reserves + 4 * (m_decks + 1) > (m_stacks + 6);
+    const qreal topRowDist = isRightFoundation ? 1.13 : 1.08;
     const qreal bottomRowDist = 1.13;
-    const qreal targetOffsetDist = ( 7 * bottomRowDist + 1 ) - ( 3 * topRowDist + 1 );
+    const qreal targetOffsetDist = ( (m_stacks + 5) * bottomRowDist + 1 ) - ( 3 * topRowDist + 1 ) * (m_decks + 1);
 
-    for ( int i = 0; i < 4; ++i )
+    for ( int i = 0; i < m_reserves; ++i )
     {
-        freecell[i] = new PatPile ( this, 1 + 8 + i, QStringLiteral( "freecell%1" ).arg( i ) );
+        freecell[i] = new PatPile ( this, 1 + i, QStringLiteral( "freecell%1" ).arg( i ) );
         freecell[i]->setPileRole(PatPile::Cell);
         freecell[i]->setLayoutPos(topRowDist * i, 0);
         freecell[i]->setKeyboardSelectHint( KCardPile::AutoFocusTop );
         freecell[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
     }
 
-    for ( int i = 0; i < 8; ++i )
+    for ( int i = 0; i < (m_stacks + 6); ++i )
     {
         store[i] = new PatPile( this, 1 + i, QStringLiteral( "store%1" ).arg( i ) );
         store[i]->setPileRole(PatPile::Tableau);
@@ -82,14 +86,31 @@ void Freecell::initialize()
         store[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
     }
 
-    for ( int i = 0; i < 4; ++i )
+    if ( isRightFoundation )
     {
-        target[i] = new PatPile(this, 1 + 8 + 4 + i, QStringLiteral( "target%1" ).arg( i ));
-        target[i]->setPileRole(PatPile::Foundation);
-        target[i]->setLayoutPos(targetOffsetDist + topRowDist * i, 0);
-        target[i]->setSpread(0, 0);
-        target[i]->setKeyboardSelectHint( KCardPile::NeverFocus );
-        target[i]->setKeyboardDropHint( KCardPile::ForceFocusTop );
+        const int columns = std::max(m_reserves, m_stacks + 6);
+        for ( int i = 0; i < 4 * (m_decks + 1); ++i )
+        {
+            const qreal offsetX = 0.25 + columns * bottomRowDist + i / 4 * bottomRowDist;
+            const qreal offsetY = bottomRowDist * i - i / 4 * bottomRowDist * 4;
+            target[i] = new PatPile( this, 1 + i, QStringLiteral("target%1").arg(i) );
+            target[i]->setPileRole(PatPile::Foundation);
+            target[i]->setLayoutPos(offsetX, offsetY);
+            target[i]->setKeyboardSelectHint( KCardPile::NeverFocus );
+            target[i]->setKeyboardDropHint( KCardPile::ForceFocusTop );
+        }
+    }
+    else
+    {
+        for ( int i = 0; i < 4 * (m_decks + 1); ++i )
+        {
+            target[i] = new PatPile(this, 1 + i, QStringLiteral( "target%1" ).arg( i ));
+            target[i]->setPileRole(PatPile::Foundation);
+            target[i]->setLayoutPos(targetOffsetDist + topRowDist * i, 0);
+            target[i]->setSpread(0, 0);
+            target[i]->setKeyboardSelectHint( KCardPile::NeverFocus );
+            target[i]->setKeyboardDropHint( KCardPile::ForceFocusTop );
+        }
     }
 
     setActions(DealerScene::Demo | DealerScene::Hint);
@@ -100,15 +121,80 @@ void Freecell::initialize()
 }
 
 
+QList<QAction*> Freecell::configActions() const
+{
+    return QList<QAction*>() << options << m_emptyStackFillOption << m_sequenceBuiltByOption << m_reservesOption << m_stacksOption;
+}
+
+
+void Freecell::gameTypeChanged()
+{
+    stopDemo();
+
+    if ( allowedToStartNewGame() )
+    {
+        // remove existing piles
+        for ( int i = 0; i < m_reserves; ++i )
+            removePile(freecell[i]);
+
+        for ( int i = 0; i < (m_stacks + 6); ++i )
+            removePile(store[i]);
+
+        for ( int i = 0; i < 4 * (m_decks + 1); ++i )
+            removePile(target[i]);
+
+
+        if ( m_variation != options->currentItem() )
+        {
+            setOptions(options->currentItem());
+        }
+        else
+        {
+            // update option selections
+            if ( m_emptyStackFill != m_emptyStackFillOption->currentItem() )
+                m_emptyStackFill = m_emptyStackFillOption->currentItem();
+            else if ( m_sequenceBuiltBy != m_sequenceBuiltByOption->currentItem() )
+                m_sequenceBuiltBy = m_sequenceBuiltByOption->currentItem();
+            else if ( m_reserves != m_reservesOption->currentItem() )
+                m_reserves = m_reservesOption->currentItem();
+            else if ( m_stacks != m_stacksOption->currentItem() )
+                m_stacks = m_stacksOption->currentItem();
+            else if ( m_decks != m_decksOption->currentItem() )
+                m_decks = m_decksOption->currentItem();
+
+            matchVariant();
+        }
+
+        initialize();
+        relayoutScene();
+        startNew( gameNumber() );
+        setSavedOptions();
+    }
+    else
+    {
+        // If we're not allowed, reset the options
+        getSavedOptions();
+    }
+}
+
+
 void Freecell::restart( const QList<KCard*> & cards )
 {
     QList<KCard*> cardList = cards;
+
+    // Prefill reserves for select game types
+    if ( m_variation == 4 )
+        for ( int i = 0; i < 2; ++i )
+            addCardForDeal( freecell[i], cardList.takeLast(), true, freecell[0]->pos() );
+    else if ( m_variation == 1 || m_variation == 2 )
+        for ( int i = 0; i < 4; ++i )
+            addCardForDeal( freecell[i], cardList.takeLast(), true, freecell[0]->pos() );
 
     int column = 0;
     while ( !cardList.isEmpty() )
     {
         addCardForDeal( store[column], cardList.takeLast(), true, store[0]->pos() );
-        column = (column + 1) % 8;
+        column = (column + 1) % (m_stacks + 6);
     }
 
     startDealAnimation();
@@ -119,7 +205,7 @@ QString Freecell::solverFormat() const
 {
     QString output;
     QString tmp;
-    for (int i = 0; i < 4 ; i++) {
+    for (int i = 0; i < 4 * (m_decks + 1) ; i++) {
         if (target[i]->isEmpty())
             continue;
         tmp += suitToString(target[i]->topCard()->suit()) + QLatin1Char('-') + rankToString(target[i]->topCard()->rank()) + QLatin1Char(' ');
@@ -128,7 +214,7 @@ QString Freecell::solverFormat() const
         output += QStringLiteral("Foundations: %1\n").arg(tmp);
 
     tmp.truncate(0);
-    for (int i = 0; i < 4 ; i++) {
+    for (int i = 0; i < m_reserves ; i++) {
         const auto fc = freecell[i];
         tmp += (fc->isEmpty() ? QStringLiteral("-") : cardToRankSuitString(fc->topCard())) + QLatin1Char(' ');
     }
@@ -138,10 +224,11 @@ QString Freecell::solverFormat() const
         output += a.arg(tmp);
     }
 
-    for (int i = 0; i < 8 ; i++)
+    for (int i = 0; i < (m_stacks + 6) ; i++)
         cardsListToLine(output, store[i]->cards());
     return output;
 }
+
 
 void Freecell::cardsDroppedOnPile( const QList<KCard*> & cards, KCardPile * pile )
 {
@@ -152,12 +239,12 @@ void Freecell::cardsDroppedOnPile( const QList<KCard*> & cards, KCardPile * pile
     }
 
     QList<KCardPile*> freeCells;
-    for ( int i = 0; i < 4; ++i )
+    for ( int i = 0; i < m_reserves; ++i )
         if ( freecell[i]->isEmpty() )
             freeCells << freecell[i];
 
     QList<KCardPile*> freeStores;
-    for ( int i = 0; i < 8; ++i )
+    for ( int i = 0; i < (m_stacks + 6); ++i )
         if ( store[i]->isEmpty() && store[i] != pile )
             freeStores << store[i];
 
@@ -177,7 +264,7 @@ bool Freecell::tryAutomaticMove(KCard *c)
     if (allowedToRemove(c->pile(), c)
         && c == c->pile()->topCard())
     {
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < m_reserves; i++)
         {
             if (allowedToAdd( freecell[i], {c} ))
             {
@@ -189,24 +276,43 @@ bool Freecell::tryAutomaticMove(KCard *c)
     return false;
 }
 
+
 bool Freecell::canPutStore( const KCardPile * pile, const QList<KCard*> & cards ) const
 {
     int freeCells = 0;
-    for ( int i = 0; i < 4; ++i )
+    for ( int i = 0; i < m_reserves; ++i )
         if ( freecell[i]->isEmpty() )
             ++freeCells;
 
     int freeStores = 0;
-    for ( int i = 0; i < 8; ++i )
-        if ( store[i]->isEmpty() && store[i] != pile )
-            ++freeStores;
+    if (m_emptyStackFill == 0)
+    {
+        for ( int i = 0; i < (m_stacks + 6); ++i )
+            if ( store[i]->isEmpty() && store[i] != pile)
+                ++freeStores;
+    }
 
-    return cards.size() <= (freeCells + 1) << freeStores
-           && ( pile->isEmpty()
-                || ( pile->topCard()->rank() == cards.first()->rank() + 1
-                     && pile->topCard()->color() != cards.first()->color() ) );
+    if (cards.size() <= (freeCells + 1) << freeStores)
+    {
+        if (pile->isEmpty())
+            return m_emptyStackFill == 0 || (m_emptyStackFill == 1 && cards.first()->rank() == KCardDeck::King);
+        else
+            if (m_sequenceBuiltBy == 1)
+                return cards.first()->rank() == pile->topCard()->rank() - 1
+                    && cards.first()->suit() == pile->topCard()->suit();
+            else if (m_sequenceBuiltBy == 0)
+                return cards.first()->rank() == pile->topCard()->rank() - 1
+                    && pile->topCard()->color() != cards.first()->color();
+            else
+                return cards.first()->rank() == pile->topCard()->rank() - 1;
+    }
+    else
+    {
+        return false;
+    }
 
 }
+
 
 bool Freecell::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
 {
@@ -223,12 +329,18 @@ bool Freecell::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, co
     }
 }
 
+
 bool Freecell::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
 {
     switch (pile->pileRole())
     {
     case PatPile::Tableau:
-        return isAlternateColorDescending(cards);
+        if (m_sequenceBuiltBy == 1)
+            return isSameSuitDescending(cards);
+        else if (m_sequenceBuiltBy == 0)
+            return isAlternateColorDescending(cards);
+        else
+            return isRankDescending(cards);
     case PatPile::Cell:
         return cards.first() == pile->topCard();
     case PatPile::Foundation:
@@ -237,66 +349,20 @@ bool Freecell::checkRemove(const PatPile * pile, const QList<KCard*> & cards) co
     }
 }
 
-QList<MoveHint> Freecell::getHints()
-{
-    QList<MoveHint> hintList = getSolverHints();
-
-    if ( isDemoActive() )
-        return hintList;
-
-    const auto patPiles = this->patPiles();
-    for (PatPile * store : patPiles) {
-        if (store->isEmpty())
-            continue;
-
-        QList<KCard*> cards = store->cards();
-        while (cards.count() && !cards.first()->isFaceUp())
-            cards.erase(cards.begin());
-
-        QList<KCard*>::Iterator iti = cards.begin();
-        while (iti != cards.end())
-        {
-            if (allowedToRemove(store, (*iti)))
-            {
-                const auto patPiles = this->patPiles();
-                for (PatPile * dest : patPiles) {
-                    int cardIndex = store->indexOf(*iti);
-                    if (cardIndex == 0 && dest->isEmpty() && !dest->isFoundation())
-                        continue;
-
-                    if (!checkAdd(dest, dest->cards(), cards))
-                        continue;
-
-                    if ( dest->isFoundation() ) // taken care by solver
-                        continue;
-
-                    QList<KCard*> cardsBelow = cards.mid(0, cardIndex);
-                    // if it could be here as well, then it's no use
-                    if ((cardsBelow.isEmpty() && !dest->isEmpty()) || !checkAdd(store, cardsBelow, cards))
-                    {
-                        hintList << MoveHint( *iti, dest, 0 );
-                    }
-                    else if (checkPrefering( dest, dest->cards(), cards )
-                             && !checkPrefering( store, cardsBelow, cards ))
-                    { // if checkPrefers says so, we add it nonetheless
-                        hintList << MoveHint( *iti, dest, 0 );
-                    }
-                }
-            }
-            cards.erase(iti);
-            iti = cards.begin();
-        }
-    }
-    return hintList;
-}
-
 
 static class FreecellDealerInfo : public DealerInfo
 {
 public:
     FreecellDealerInfo()
-      : DealerInfo(I18N_NOOP("Freecell"), FreecellId)
-    {}
+      : DealerInfo(I18N_NOOP("Freecell"), FreecellGeneralId)
+    {
+        addSubtype( FreecellBakersId, I18N_NOOP( "Baker's Game" ) );
+        addSubtype( FreecellEightOffId, I18N_NOOP( "Eight Off" ) );
+        addSubtype( FreecellForeId, I18N_NOOP( "Forecell" ) );
+        addSubtype( FreecellId, I18N_NOOP( "Freecell" ) );
+        addSubtype( FreecellSeahavenId, I18N_NOOP( "Seahaven Towers" ) );
+        addSubtype( FreecellCustomId, I18N_NOOP( "Freecell (Custom)" ) );
+    }
 
     DealerScene *createGame() const override
     {
@@ -305,4 +371,205 @@ public:
 } freecellDealerInfo;
 
 
+void Freecell::matchVariant()
+{
+    if ( m_emptyStackFill == 0 && m_sequenceBuiltBy == 1 && m_reserves == 4  && m_stacks == 2 )
+        m_variation = 0;
+    else if ( m_emptyStackFill == 1 && m_sequenceBuiltBy == 1 && m_reserves == 8  && m_stacks == 2 )
+        m_variation = 1;
+    else if ( m_emptyStackFill == 1 && m_sequenceBuiltBy == 0 && m_reserves == 4  && m_stacks == 2 )
+        m_variation = 2;
+    else if ( m_emptyStackFill == 0 && m_sequenceBuiltBy == 0  && m_reserves == 4  && m_stacks == 2 )
+        m_variation = 3;
+    else if ( m_emptyStackFill == 1 && m_sequenceBuiltBy == 1 && m_reserves == 4  && m_stacks == 4 )
+        m_variation = 4;
+    else
+        m_variation = 5;
+
+    options->setCurrentItem( m_variation );
+}
+
+
+void Freecell::configOptions()
+{
+    options = new KSelectAction(i18n("Popular Variant Presets"), this );
+    options->addAction( i18n("Baker's Game") );
+    options->addAction( i18n("Eight Off") );
+    options->addAction( i18n("Forecell") );
+    options->addAction( i18n("Freecell") );
+    options->addAction( i18n("Seahaven Towers") );
+    options->addAction( i18n("Custom") );
+
+    m_emptyStackFillOption = new KSelectAction(i18n("Empty Stack Fill"), this );
+    m_emptyStackFillOption->addAction( i18n("Any (Easy)") );
+    m_emptyStackFillOption->addAction( i18n("Kings only (Medium)") );
+    m_emptyStackFillOption->addAction( i18n("None (Hard)") );
+
+    m_sequenceBuiltByOption = new KSelectAction(i18n("Build Sequence"), this );
+    m_sequenceBuiltByOption->addAction( i18n("Alternating Color") );
+    m_sequenceBuiltByOption->addAction( i18n("Matching Suit") );
+    m_sequenceBuiltByOption->addAction( i18n("Rank") );
+
+    m_reservesOption = new KSelectAction(i18n("Free cells"), this );
+    m_reservesOption->addAction( i18n("0") );
+    m_reservesOption->addAction( i18n("1") );
+    m_reservesOption->addAction( i18n("2") );
+    m_reservesOption->addAction( i18n("3") );
+    m_reservesOption->addAction( i18n("4") );
+    m_reservesOption->addAction( i18n("5") );
+    m_reservesOption->addAction( i18n("6") );
+    m_reservesOption->addAction( i18n("7") );
+    m_reservesOption->addAction( i18n("8") );
+
+    m_stacksOption = new KSelectAction(i18n("Stacks"), this );
+    m_stacksOption->addAction( i18n("6") );
+    m_stacksOption->addAction( i18n("7") );
+    m_stacksOption->addAction( i18n("8") );
+    m_stacksOption->addAction( i18n("9") );
+    m_stacksOption->addAction( i18n("10") );
+    m_stacksOption->addAction( i18n("11") );
+    m_stacksOption->addAction( i18n("12") );
+
+    m_decksOption = new KSelectAction(i18n("Decks"), this );
+    m_decksOption->addAction( i18n("1") );
+    m_decksOption->addAction( i18n("2") );
+    m_decksOption->addAction( i18n("3") );
+
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 78, 0)
+    connect(options, &KSelectAction::indexTriggered, this, &Freecell::gameTypeChanged);
+    connect(m_emptyStackFillOption, &KSelectAction::indexTriggered, this, &Freecell::gameTypeChanged);
+    connect(m_reservesOption, &KSelectAction::indexTriggered, this, &Freecell::gameTypeChanged);
+    connect(m_sequenceBuiltByOption, &KSelectAction::indexTriggered, this, &Freecell::gameTypeChanged);
+    connect(m_stacksOption, &KSelectAction::indexTriggered, this, &Freecell::gameTypeChanged);
+    connect(m_decksOption, &KSelectAction::indexTriggered, this, &Freecell::gameTypeChanged);
+#else
+    connect(options, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Freecell::gameTypeChanged);
+    connect(m_emptyStackFillOption, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Freecell::gameTypeChanged);
+    connect(m_reservesOption, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Freecell::gameTypeChanged);
+    connect(m_sequenceBuiltByOption, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Freecell::gameTypeChanged);
+    connect(m_stacksOption, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Freecell::gameTypeChanged);
+    connect(m_decksOption, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Freecell::gameTypeChanged);
+#endif
+}
+
+
+void Freecell::setSavedOptions()
+{
+    Settings::setFreecellEmptyStackFill( m_emptyStackFill );
+    Settings::setFreecellSequenceBuiltBy( m_sequenceBuiltBy );
+    Settings::setFreecellReserves( m_reserves );
+    Settings::setFreecellStacks( m_stacks );
+    Settings::setFreecellDecks( m_decks );
+}
+
+
+void Freecell::getSavedOptions()
+{
+    m_emptyStackFill = Settings::freecellEmptyStackFill();
+    m_sequenceBuiltBy = Settings::freecellSequenceBuiltBy();
+    m_reserves = Settings::freecellReserves();
+    m_stacks = Settings::freecellStacks();
+    m_decks = Settings::freecellDecks();
+
+    matchVariant();
+
+    m_emptyStackFillOption->setCurrentItem( m_emptyStackFill );
+    m_sequenceBuiltByOption->setCurrentItem( m_sequenceBuiltBy );
+    m_reservesOption->setCurrentItem( m_reserves );
+    m_stacksOption->setCurrentItem( m_stacks );
+    m_decksOption->setCurrentItem( m_decks );
+}
+
+
+void Freecell::mapOldId(int id)
+{
+   switch (id) {
+
+   case DealerInfo::FreecellBakersId :
+       setOptions(0);
+       break;
+   case DealerInfo::FreecellEightOffId :
+       setOptions(1);
+       break;
+   case DealerInfo::FreecellForeId :
+       setOptions(2);
+       break;
+   case DealerInfo::FreecellId :
+       setOptions(3);
+       break;
+   case DealerInfo::FreecellSeahavenId :
+       setOptions(4);
+       break;
+   case DealerInfo::FreecellCustomId :
+       setOptions(5);
+       break;
+   default:
+       // Do nothing.
+       break;
+   }
+}
+
+
+int Freecell::oldId() const
+{
+    switch (m_variation) {
+    case 0 :
+        return DealerInfo::FreecellBakersId;
+    case 1 :
+        return DealerInfo::FreecellEightOffId;
+    case 2 :
+        return DealerInfo::FreecellForeId;
+    case 3 :
+        return DealerInfo::FreecellId;
+    case 4 :
+        return DealerInfo::FreecellSeahavenId;
+    default :
+        return DealerInfo::FreecellCustomId;
+    }
+}
+
+
+void Freecell::setOptions(int variation)
+{
+    if ( variation != m_variation )
+    {
+        m_variation = variation;
+        m_emptyStackFill = 0;
+        m_sequenceBuiltBy = 0;
+        m_reserves = 4;
+        m_stacks = 2;
+        m_decks = 0;
+
+        switch (m_variation) {
+        case 0 :
+            m_sequenceBuiltBy = 1;
+            break;
+        case 1 :
+            m_emptyStackFill = 1;
+            m_sequenceBuiltBy = 1;
+            m_reserves = 8;
+            break;
+        case 2 :
+            m_emptyStackFill = 1;
+            break;
+        case 3 :
+            break;
+        case 4 :
+            m_emptyStackFill = 1;
+            m_sequenceBuiltBy = 1;
+            m_stacks = 4;
+            break;
+        case 5 :
+            m_emptyStackFill = 2;
+            m_sequenceBuiltBy = 2;
+            break;
+        }
+
+        m_emptyStackFillOption->setCurrentItem( m_emptyStackFill );
+        m_sequenceBuiltByOption->setCurrentItem( m_sequenceBuiltBy );
+        m_reservesOption->setCurrentItem( m_reserves );
+        m_stacksOption->setCurrentItem( m_stacks );
+        m_decksOption->setCurrentItem( m_decks );
+    }
+}
 

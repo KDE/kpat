@@ -333,6 +333,28 @@ The maximum amount of cards you can move is calculated by:
 (#{free cells} + 1) * 2<superscript>#{free piles}</superscript>
 </para></sidebar>
 
+<variablelist>
+<varlistentry><term>Variations:</term>
+<listitem>
+<para>
+- Baker's Game is like Freecell, but the piles are built down by suit.
+</para>
+
+<para>
+- Eight Off is like Freecell, but the piles are built down by suit. You have 8 reserves and only kings can fill empty spaces. Four reserves are filled at game start.
+</para>
+
+<para>
+- Forecell is like Freecell, but the reserves are filled at game start, and only kings can fill empty spaces.
+</para>
+
+<para>
+- Seahaven Towers is like Freecell, but with 10 piles which are built down by suit, and only kings can fill empty spaces. Two reserves are filled at game start.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
 <para>
 To solve this game it is recommended to grab the cards out of the playing
 sequences in the same order they have to be put into the foundation (first the

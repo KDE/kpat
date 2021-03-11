@@ -56,7 +56,7 @@ public:
         KlondikeDrawOneId   = 0,
         GrandfatherId       = 1,
         AcesUpId            = 2,
-        FreecellId          = 3,
+        FreecellGeneralId   = 3,
         Mod3Id              = 5,
         GypsyId             = 7,
         FortyAndEightId     = 8,
@@ -75,7 +75,13 @@ public:
         BakersDozenSpanishId= 21,
         BakersDozenCastlesId= 22,
         BakersDozenPortugueseId= 23,
-        BakersDozenCustomId = 24
+        BakersDozenCustomId = 24,
+        FreecellId          = 30,
+        FreecellBakersId    = 31,
+        FreecellEightOffId  = 32,
+        FreecellForeId      = 33,
+        FreecellSeahavenId  = 34,
+        FreecellCustomId    = 39
     };
 
     DealerInfo( const QByteArray & untranslatedBaseName, int baseId );

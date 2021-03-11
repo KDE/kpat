@@ -64,7 +64,7 @@ public:
 
     static int Xparam[];
 #endif
-    card_t O[4]; /* output piles store only the rank or NONE */
+    card_t O[12]; /* output piles store only the rank or NONE */
 
     const Freecell *deal;
 };

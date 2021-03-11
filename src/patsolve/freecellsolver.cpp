@@ -21,12 +21,19 @@
 // own
 #include "patsolve-config.h"
 #include "../freecell.h"
+#include "../settings.h"
 // freecell-solver
 #include "freecell-solver/fcs_user.h"
 #include "freecell-solver/fcs_cl.h"
 // St
 #include <cstdlib>
 #include <cstring>
+
+int m_reserves = Settings::freecellReserves();
+int m_stacks = Settings::freecellStacks() + 6;
+int m_decks = Settings::freecellDecks() + 1;
+int m_emptyStackFill = Settings::freecellEmptyStackFill();
+int m_sequenceBuiltBy = Settings::freecellSequenceBuiltBy();
 
 const int CHUNKSIZE = 100;
 const long int MAX_ITERS_LIMIT = 200000;
@@ -202,7 +209,7 @@ int FreecellSolver::good_automove(int o, int r)
 		return true;
 	}
 
-    for (int foundation_idx = 0; foundation_idx < 4; ++foundation_idx) {
+    for (int foundation_idx = 0; foundation_idx < 4 * m_decks; ++foundation_idx) {
         KCard *c = deal->target[foundation_idx]->topCard();
         if (c) {
             O[translateSuit( c->suit() ) >> 4] = c->rank();
@@ -210,7 +217,7 @@ int FreecellSolver::good_automove(int o, int r)
     }
 	/* Check the Out piles of opposite color. */
 
-	for (int i = 1 - (o & 1); i < 4; i += 2) {
+	for (int i = 1 - (o & 1); i < 4 * m_decks; i += 2) {
 		if (O[i] < r - 1) {
 
 #if 1   /* Raymond's Rule */
@@ -221,7 +228,7 @@ int FreecellSolver::good_automove(int o, int r)
 			the loop variable i.  We return here and never
 			make it back to the outer loop. */
 
-			for (i = 1 - (o & 1); i < 4; i += 2) {
+			for (i = 1 - (o & 1); i < 4 * m_decks; i += 2) {
 				if (O[i] < r - 2) {
 					return false;
 				}
@@ -250,7 +257,7 @@ int FreecellSolver::get_possible_moves(int *a, int *numout)
 
 	int n = 0;
 	mp = Possible;
-	for (w = 0; w < Nwpiles + Ntpiles; ++w) {
+	for (w = 0; w < m_stacks + m_reserves; ++w) {
 		if (Wlen[w] > 0) {
 			card = *Wp[w];
 			int out_suit = SUIT(card);
@@ -316,12 +323,24 @@ void FreecellSolver::setFcSolverGameParams()
      *
      *     Shlomi Fish
      * */
-    freecell_solver_user_set_num_freecells(solver_instance,4);
-    freecell_solver_user_set_num_stacks(solver_instance,8);
-    freecell_solver_user_set_num_decks(solver_instance,1);
-    freecell_solver_user_set_sequences_are_built_by_type(solver_instance, FCS_SEQ_BUILT_BY_ALTERNATE_COLOR);
     freecell_solver_user_set_sequence_move(solver_instance, 0);
-    freecell_solver_user_set_empty_stacks_filled_by(solver_instance, FCS_ES_FILLED_BY_ANY_CARD);
+
+    m_reserves = Settings::freecellReserves();
+    freecell_solver_user_set_num_freecells(solver_instance, m_reserves);
+
+    m_stacks = Settings::freecellStacks() + 6;
+    freecell_solver_user_set_num_stacks(solver_instance, m_stacks);
+
+    m_decks = Settings::freecellDecks() + 1;
+    freecell_solver_user_set_num_decks(solver_instance, m_decks);
+
+    //FCS_ES_FILLED_BY_ANY_CARD = 0, FCS_ES_FILLED_BY_KINGS_ONLY = 1,FCS_ES_FILLED_BY_NONE = 2
+    m_emptyStackFill = Settings::freecellEmptyStackFill();
+    freecell_solver_user_set_empty_stacks_filled_by(solver_instance, m_emptyStackFill);
+
+    //FCS_SEQ_BUILT_BY_ALTERNATE_COLOR = 0, FCS_SEQ_BUILT_BY_SUIT = 1, FCS_SEQ_BUILT_BY_RANK = 2
+    m_sequenceBuiltBy = Settings::freecellSequenceBuiltBy();
+    freecell_solver_user_set_sequences_are_built_by_type(solver_instance, m_sequenceBuiltBy);
 }
 #if 0
 void FreecellSolver::unpack_cluster( unsigned int k )
@@ -409,7 +428,7 @@ MoveHint FreecellSolver::translateMove( const MOVE &m )
         {
             PatPile *target = nullptr;
             PatPile *empty = nullptr;
-            for (int i = 0; i < 4; ++i) {
+            for (int i = 0; i < 4 * m_decks; ++i) {
                 KCard *c = deal->target[i]->topCard();
                 if (c) {
                     if ( c->suit() == card->suit() )
@@ -431,17 +450,17 @@ MoveHint FreecellSolver::translateMove( const MOVE &m )
         // this is tricky as we need to want to build the "meta moves"
 
         PatPile *frompile = nullptr;
-        if ( m.from < 8 )
+        if ( m.from < m_stacks )
             frompile = deal->store[m.from];
         else
-            frompile = deal->freecell[m.from-8];
+            frompile = deal->freecell[m.from - m_stacks];
         KCard *card = frompile->at( frompile->count() - m.card_index - 1);
 
         if ( m.totype == O_Type )
         {
             PatPile *target = nullptr;
             PatPile *empty = nullptr;
-            for (int i = 0; i < 4; ++i) {
+            for (int i = 0; i < 4 * m_decks; ++i) {
                 KCard *c = deal->target[i]->topCard();
                 if (c) {
                     if ( c->suit() == card->suit() )
@@ -457,10 +476,10 @@ MoveHint FreecellSolver::translateMove( const MOVE &m )
             return MoveHint( card, target, m.pri );
         } else {
             PatPile *target = nullptr;
-            if ( m.to < 8 )
+            if ( m.to < m_stacks )
                 target = deal->store[m.to];
             else
-                target = deal->freecell[m.to-8];
+                target = deal->freecell[m.to - m_stacks];
 
             return MoveHint( card, target, m.pri );
         }
@@ -495,32 +514,32 @@ void FreecellSolver::translate_layout()
     /* Read the workspace. */
 
 	int total = 0;
-	for ( int w = 0; w < 8; ++w ) {
-		int i = translate_pile(deal->store[w], W[w], 52);
+	for ( int w = 0; w < m_stacks; ++w ) {
+		int i = translate_pile(deal->store[w], W[w], 52 * m_decks);
 		Wp[w] = &W[w][i - 1];
 		Wlen[w] = i;
 		total += i;
-		if (w == Nwpiles) {
+		if (w == m_stacks) {
 			break;
 		}
 	}
 
 	/* Temp cells may have some cards too. */
 
-	for (int w = 0; w < Ntpiles; ++w)
+	for (int w = 0; w < m_reserves; ++w)
         {
-            int i = translate_pile( deal->freecell[w], W[w+Nwpiles], 52 );
-            Wp[w+Nwpiles] = &W[w+Nwpiles][i-1];
-            Wlen[w+Nwpiles] = i;
+            int i = translate_pile( deal->freecell[w], W[w+m_stacks], 52 * m_decks );
+            Wp[w+m_stacks] = &W[w+m_stacks][i-1];
+            Wlen[w+m_stacks] = i;
             total += i;
 	}
 
 	/* Output piles, if any. */
-	for (int i = 0; i < 4; ++i) {
+	for (int i = 0; i < 4 * m_decks; ++i) {
 		O[i] = NONE;
 	}
-	if (total != 52) {
-            for (int i = 0; i < 4; ++i) {
+	if (total != 52 * m_decks) {
+        for (int i = 0; i < 4 * m_decks; ++i) {
                 KCard *c = deal->target[i]->topCard();
                 if (c) {
                     O[translateSuit( c->suit() ) >> 4] = c->rank();

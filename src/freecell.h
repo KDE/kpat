@@ -41,6 +41,7 @@
 #include "dealer.h"
 #include "hint.h"
 
+class KSelectAction;
 
 class Freecell : public DealerScene
 {
@@ -49,13 +50,18 @@ class Freecell : public DealerScene
 public:
     explicit Freecell( const DealerInfo * di );
     void initialize() override;
+    void mapOldId(int id) override;
+    int oldId() const override;
+    QList<QAction*> configActions() const override;
 
 protected:
     bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const override;
     bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const override;
     void cardsDroppedOnPile( const QList<KCard*> & cards, KCardPile * pile ) override;
     void restart( const QList<KCard*> & cards ) override;
-    QList<MoveHint> getHints() override;
+
+private Q_SLOTS:
+    void gameTypeChanged();
 
 protected Q_SLOTS:
     bool tryAutomaticMove( KCard * c ) override;
@@ -63,10 +69,34 @@ protected Q_SLOTS:
 private:
     bool canPutStore( const KCardPile * pile, const QList<KCard*> & cards ) const;
 
+    void configOptions();
+    void setOptions(int v);
+    void getSavedOptions();
+    void setSavedOptions();
+    void matchVariant();
+
     virtual QString solverFormat() const;
-    PatPile* store[8];
-    PatPile* freecell[4];
-    PatPile* target[4];
+    PatPile* store[12];
+    PatPile* freecell[8];
+    PatPile* target[12];
+
+    KSelectAction *options;
+    int m_variation;
+
+    KSelectAction *m_emptyStackFillOption;
+    int m_emptyStackFill;
+
+    KSelectAction *m_sequenceBuiltByOption;
+    int m_sequenceBuiltBy;
+
+    KSelectAction *m_reservesOption;
+    int m_reserves;
+
+    KSelectAction *m_stacksOption;
+    int m_stacks;
+
+    KSelectAction *m_decksOption;
+    int m_decks;
 
     friend class FreecellSolver;
 };
