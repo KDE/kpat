@@ -209,6 +209,10 @@ int FreecellSolver::good_automove(int o, int r)
 		return true;
 	}
 
+    if (m_sequenceBuiltBy == 1) {
+        return true;
+    }
+
     for (int foundation_idx = 0; foundation_idx < 4 * m_decks; ++foundation_idx) {
         KCard *c = deal->target[foundation_idx]->topCard();
         if (c) {
