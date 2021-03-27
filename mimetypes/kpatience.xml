@@ -4,6 +4,7 @@
     <comment>KPatience legacy save file</comment>
     <comment xml:lang="ca">Fitxer antic de desament del KPatience</comment>
     <comment xml:lang="ca@valencia">Fitxer antic de desament del KPatience</comment>
+    <comment xml:lang="cs">Uložený soubor staré verze KPatience</comment>
     <comment xml:lang="de">Veraltete KPatience-Speicherdatei</comment>
     <comment xml:lang="el">Παλαιό αρχείο αποθήκευσης πασιέντζας</comment>
     <comment xml:lang="en_GB">KPatience legacy save file</comment>
@@ -32,6 +33,7 @@
     <comment>KPatience save file</comment>
     <comment xml:lang="ca">Fitxer de desament del KPatience</comment>
     <comment xml:lang="ca@valencia">Fitxer de desament del KPatience</comment>
+    <comment xml:lang="cs">Uložený soubor KPatience</comment>
     <comment xml:lang="de">KPatience-Speicherdatei</comment>
     <comment xml:lang="el">Αρχείο αποθήκευσης πασιέντζας</comment>
     <comment xml:lang="en_GB">KPatience save file</comment>
