@@ -265,12 +265,19 @@ bool BakersDozen::checkRemove(const PatPile * pile, const QList<KCard*> & cards)
     switch (pile->pileRole())
     {
     case PatPile::Tableau:
-        if (m_sequenceBuiltBy == 1)
-            return isSameSuitDescending(cards);
-        else if (m_sequenceBuiltBy == 0)
-            return isAlternateColorDescending(cards);
+        if (m_emptyStackFill == 2)
+        {
+            return cards.size() == 1;
+        }
         else
-            return isRankDescending(cards);
+        {
+            if (m_sequenceBuiltBy == 1)
+                return isSameSuitDescending(cards);
+            else if (m_sequenceBuiltBy == 0)
+                return isAlternateColorDescending(cards);
+            else
+                return isRankDescending(cards);
+        }
     case PatPile::Cell:
         return cards.first() == pile->topCard();
     case PatPile::Foundation:
