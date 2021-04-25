@@ -54,7 +54,7 @@ const auto SOFT_SUSPEND = FCS_STATE_SUSPEND_PROCESS;
 /* Get the possible moves from a position, and store them in Possible[]. */
 SolverInterface::ExitStatus FcSolveSolver::patsolve( int _max_positions )
 {
-    int current_iters_count;
+    int current_iters_count = 0;
     max_positions = (_max_positions < 0) ? default_max_positions : _max_positions;
 
     init();
