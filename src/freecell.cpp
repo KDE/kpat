@@ -133,17 +133,6 @@ void Freecell::gameTypeChanged()
 
     if ( allowedToStartNewGame() )
     {
-        // remove existing piles
-        for ( int i = 0; i < m_reserves; ++i )
-            removePile(freecell[i]);
-
-        for ( int i = 0; i < (m_stacks + 6); ++i )
-            removePile(store[i]);
-
-        for ( int i = 0; i < 4 * (m_decks + 1); ++i )
-            removePile(target[i]);
-
-
         if ( m_variation != options->currentItem() )
         {
             setOptions(options->currentItem());
@@ -164,6 +153,9 @@ void Freecell::gameTypeChanged()
 
             matchVariant();
         }
+
+        // remove existing piles
+        clearPatPiles();
 
         initialize();
         relayoutScene();
