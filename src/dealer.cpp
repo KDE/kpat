@@ -598,6 +598,16 @@ void DealerScene::removePatPile( PatPile * pile )
 }
 
 
+void DealerScene::clearPatPiles()
+{
+    const auto patPiles = this->patPiles();
+    for (PatPile * p : patPiles) {
+        removePatPile( p );
+        removePile( p );
+    }
+}
+
+
 QList<PatPile*> DealerScene::patPiles() const
 {
     return m_patPiles;

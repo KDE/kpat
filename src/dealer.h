@@ -79,6 +79,7 @@ public:
 
     void addPatPile( PatPile * pile );
     void removePatPile( PatPile * pile );
+    void clearPatPiles();
     QList<PatPile*> patPiles() const;
 
     void setAutoDropEnabled( bool enabled );
