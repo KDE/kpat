@@ -1,5 +1,5 @@
 [KGameTheme]
-Name=Older Theme
+Name=Royal Hearts
 Name[bs]=Starija tema
 Name[ca]=Tema antic
 Name[ca@valencia]=Tema antic
@@ -48,7 +48,7 @@ Name[uk]=Стара тема
 Name[x-test]=xxOlder Themexx
 Name[zh_CN]=怀旧主题
 Name[zh_TW]=舊式主題
-Description=An older, unnamed KPat theme.
+Description=Card style theme
 Description[bs]=Starija, bezimena KPat tema
 Description[ca]=Un antic tema sense nom del KPat.
 Description[ca@valencia]=Un antic tema sense nom del KPat.
@@ -98,5 +98,5 @@ Description[zh_CN]=一套无名的 KPat 怀旧主题。
 Description[zh_TW]=舊式的，未命名的 KPat 主題
 Author=Sean Wilson & Eugene Trounev
 AuthorEmail=suseux@gmail.com, eugene.trounev@gmail.com
-FileName=oldertheme.svgz
-Preview=oldertheme.png
+FileName=royalhearts.svgz
+Preview=royalhearts.png

@@ -11,9 +11,9 @@ set( kpat_themes
    greenblaze.svgz
    greenblaze.png
 
-   oldertheme.desktop
-   oldertheme.svgz
-   oldertheme.png
+   royalhearts.desktop
+   royalhearts.svgz
+   royalhearts.png
 )
 
 install( FILES ${kpat_themes} DESTINATION  ${KDE_INSTALL_DATADIR}/kpat/themes )
