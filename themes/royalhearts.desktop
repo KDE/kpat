@@ -1,6 +1,7 @@
 [KGameTheme]
 Name=Royal Hearts
 Name[ca]=Cors reials
+Name[ca@valencia]=Cors reials
 Name[de]=Royal Hearts
 Name[es]=Corazones reales
 Name[nl]=Royal Hearts
@@ -10,6 +11,7 @@ Name[uk]=Королівські серця
 Name[x-test]=xxRoyal Heartsxx
 Description=Card style theme
 Description[ca]=Tema d'estil de carta
+Description[ca@valencia]=Tema d'estil de carta
 Description[de]=Karten-Design
 Description[es]=Tema del estilo de cartas
 Description[nl]=Themastijl van kaart
