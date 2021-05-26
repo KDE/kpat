@@ -65,5 +65,29 @@
         <entry name="BakersDozenSequenceBuiltBy" key="BakersDozenSequenceBuiltBy" type="Int">
             <default>2</default>
         </entry>
+        <entry name="CastleSolverIterationsLimit" key="CastleSolverIterationsLimit" type="Int">
+            <default>200000</default>
+        </entry>
+        <entry name="CastleEmptyStackFill" key="CastleEmptyStackFill" type="Int">
+            <default>0</default>
+        </entry>
+        <entry name="CastleSequenceBuiltBy" key="CastleSequenceBuiltBy" type="Int">
+            <default>2</default>
+        </entry>
+        <entry name="CastleReserves" key="CastleReserves" type="Int">
+            <default>0</default>
+        </entry>
+        <entry name="CastleStacks" key="CastleStacks" type="Int">
+            <default>8</default>
+        </entry>
+        <entry name="CastleStackFaceup" key="CastleStackFaceup" type="Int">
+            <default>1</default>
+        </entry>
+        <entry name="CastleFoundation" key="CastleFoundation" type="Int">
+            <default>1</default>
+        </entry>
+        <entry name="CastleLayout" key="CastleLayout" type="Int">
+            <default>0</default>
+        </entry>
     </group>
 </kcfg>

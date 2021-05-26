@@ -636,6 +636,58 @@ the last card is ready to be moved to a foundation.
 
 </sect2>
 
+<sect2 id="castle">
+<title>Castle</title>
+
+<para><indexterm><primary>Castle</primary></indexterm>
+Castle is a family of patience or solitaire card games typically played with a deck of 52 playing cards. It is sometimes described as "Freecell without cells" because its game play is similar but without extra empty spaces to maneuver in most variations.
+</para>
+
+<para>
+The object of the game is to build all the cards onto the four foundations by suit, each from ace to king
+</para>
+
+<para>
+In the playing piles you have to build descending sequences, regardless of suit.
+You can only move one card that lays on top of a pile.
+</para>
+
+<variablelist>
+<varlistentry><term>Variations:</term>
+<listitem>
+<para>
+- Beleaguered Castle. Aces are dealt to the foundations. Any card can fill empty spaces.
+</para>
+
+<para>
+- Citadel is like Beleaguered Castle, but matching cards are moved to the foundation during the deal, leaving uneven piles.
+</para>
+
+<para>
+- Exiled Kings is like Citadel, but only kings can fill empty spaces.
+</para>
+
+<para>
+- Siegecraft is like Beleaguered Castle, but with one free cell.
+</para>
+
+<para>
+- Streets and Alleys is like Beleaguered Castle, but aces are included in shuffling.
+</para>
+
+<para>
+- Stronghold is like Streets and Alleys, but with one free cell.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para>
+To solve this game it is recommended to build evenly on the foundations. Try to create empty piles with can be used to faciliate longer moves to free up buried cards.
+</para>
+
+</sect2>
+
 </sect1>
 
 </chapter>

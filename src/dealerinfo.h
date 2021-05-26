@@ -57,6 +57,7 @@ public:
         GrandfatherId       = 1,
         AcesUpId            = 2,
         FreecellGeneralId   = 3,
+        CastleGeneralId     = 4,
         Mod3Id              = 5,
         GypsyId             = 7,
         FortyAndEightId     = 8,
@@ -78,10 +79,17 @@ public:
         BakersDozenCustomId = 24,
         FreecellId          = 30,
         FreecellBakersId    = 31,
-        FreecellEightOffId  = 32,
+        FreecellEightOffId   = 32,
         FreecellForeId      = 33,
         FreecellSeahavenId  = 34,
-        FreecellCustomId    = 39
+        FreecellCustomId    = 39,
+        CastleBeleagueredId = 40,
+        CastleCitadelId     = 41,
+        CastleExiledKingsId = 42,
+        CastleStreetAlleyId = 43,
+        CastleSiegecraftId  = 44,
+        CastleStrongholdId  = 45,
+        CastleCustomId      = 49
     };
 
     DealerInfo( const QByteArray & untranslatedBaseName, int baseId );
