@@ -396,10 +396,11 @@ KCardThemeWidget::KCardThemeWidget( const QSet<QString> & requiredFeatures, cons
     connect( d->newDeckButton, &QAbstractButton::clicked, d, &KCardThemeWidgetPrivate::getNewCardThemes );
 
     QHBoxLayout * hLayout = new QHBoxLayout();
-    hLayout->addWidget( d->newDeckButton );
     hLayout->addStretch( 1 );
+    hLayout->addWidget( d->newDeckButton );
 
     QVBoxLayout * layout = new QVBoxLayout( this );
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget( d->listView );
     layout->addWidget( d->hiddenLineEdit );
     layout->addLayout( hLayout );
