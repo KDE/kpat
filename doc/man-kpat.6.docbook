@@ -6,9 +6,9 @@
 <refentry lang="&language;">
 <refentryinfo>
 <title>KPat User's Manual</title>
-<date>2016-05-11</date>
-<releaseinfo>3.6 (Applications 16.04)</releaseinfo>
-<productname>KDE Applications</productname>
+<date>2021-06-21</date>
+<releaseinfo>21.04</releaseinfo>
+<productname>KDE Gears</productname>
 </refentryinfo>
 
 <refmeta>
@@ -18,7 +18,7 @@
 
 <refnamediv>
 <refname><command>kpat</command></refname>
-<refpurpose>A highly addictive card game.</refpurpose>
+<refpurpose>A highly addictive card game</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
@@ -40,7 +40,7 @@
 <para>
 &kpatience; is a compendium of several well known patience card games,
 ranging from the well known Klondike and Freecell, to lesser known
-games such as Grandfather's Clock and Mod3.  In all there are 12
+games such as Grandfather's Clock and Mod3. In all there are 12
 variations for you to while away time.</para>
 </refsect1>
 

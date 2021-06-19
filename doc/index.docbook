@@ -62,12 +62,12 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2016-05-11</date>
-<releaseinfo>3.6 (Applications 16.04)</releaseinfo>
+<date>2021-06-21</date>
+<releaseinfo>KDE Gears 21.04</releaseinfo>
 
 <!--Short description of this document. Do not change unless necessary!-->
 <abstract>
-	<para>This documentation describes the game of &kpatience; version 3.6</para>
+	<para>This documentation describes the game of &kpatience; version 21.04</para>
 </abstract>
 
 <!--List of relevan keywords-->
@@ -95,7 +95,7 @@
 <!--Short game description starts here. 3-4 sentences (paragraphs)-->
 
 <para>
-To play patience you need, as the name suggests, patience.  For simple games,
+To play patience you need, as the name suggests, patience. For simple games,
 where the way the game goes depends only upon how the cards fall, your patience might be
 the only thing you need.
 </para>
@@ -272,7 +272,7 @@ hard to win. Despite this, or because of it, this game remains a joy to play.
 <title>Aces Up</title>
 
 <para><indexterm><primary>Aces Up</primary></indexterm>
-This patience has simple rules, yet is hard to win.  It is played
+This patience has simple rules, yet is hard to win. It is played
 with one deck. The goal is to put all cards besides aces onto the
 foundation. There should be an ace left on every playing pile afterwards.
 </para>
@@ -333,27 +333,13 @@ The maximum amount of cards you can move is calculated by:
 (#{free cells} + 1) * 2<superscript>#{free piles}</superscript>
 </para></sidebar>
 
-<variablelist>
-<varlistentry><term>Variations:</term>
-<listitem>
-<para>
-- Baker's Game is like Freecell, but the piles are built down by suit.
-</para>
-
-<para>
-- Eight Off is like Freecell, but the piles are built down by suit. You have 8 reserves and only kings can fill empty spaces. Four reserves are filled at game start.
-</para>
-
-<para>
-- Forecell is like Freecell, but the reserves are filled at game start, and only kings can fill empty spaces.
-</para>
-
-<para>
-- Seahaven Towers is like Freecell, but with 10 piles which are built down by suit, and only kings can fill empty spaces. Two reserves are filled at game start.
-</para>
-</listitem>
-</varlistentry>
-</variablelist>
+<para>Variations:</para>
+<itemizedlist>
+  <listitem><para><quote>Baker's Dozen</quote> is like <quote>Freecell</quote>, but the piles are built down by suit.</para></listitem>
+  <listitem><para><quote>Eight Off</quote> is like <quote>Freecell</quote>, but the piles are built down by suit. You have 8 reserves and only kings can fill empty spaces. Four reserves are filled at game start.</para></listitem>
+  <listitem><para><quote>Forecell</quote> is like <quote>Freecell</quote>, but the reserves are filled at game start, and only kings can fill empty spaces.</para></listitem>
+  <listitem><para><quote>Seahaven Towers</quote> is like <quote>Freecell</quote>, but with 10 piles which are built down by suit, and only kings can fill empty spaces. Two reserves are filled at game start.</para></listitem>
+</itemizedlist>
 
 <para>
 To solve this game it is recommended to grab the cards out of the playing
@@ -541,13 +527,13 @@ You can only move one card at a time.
 <title>Golf</title>
 
 <para><indexterm><primary>Golf</primary></indexterm> 
-Golf is played with one card deck.  The goal of Golf is to move all the cards on the tableau to the foundation. </para>
+Golf is played with one card deck. The goal of Golf is to move all the cards on the tableau to the foundation.</para>
  
 <para>The layout of golf solitaire is straightforward. At the beginning of the game you will see the tableau. 
 On it are seven columns each containing five cards. The talon and the foundation are below. 
 </para>
 
-<para>Playing golf solitaire is simple, but requires strategy to win.  
+<para>Playing golf solitaire is simple, but requires strategy to win.
 The cards at the base of each column on the tableau are available for play. 
 Available cards are built upon the top foundation card in ascending or descending sequence regardless of suit. 
 If there are no moves available a card may be dealt from the talon to the foundation. 
@@ -566,19 +552,19 @@ dealt out 10 at a time, one on each playing pile.
 
 <para>
 In the playing piles, a card can be placed on another card of any suit and
-of one higher value.  A sequence of descending cards of the same suit may be
+of one higher value. A sequence of descending cards of the same suit may be
 moved from one playing pile to another.
 </para>
 
 <para>
 The goal of spider is to put all cards as real families descending from
-Kings anywhere in the playing piles.  When such a family is built in a
+Kings anywhere in the playing piles. When such a family is built in a
 playing pile, it is removed to the lower-left corner of the window.
 </para>
 
 <para>
 The different levels determine how many suits are dealt - Easy uses 1 suit,
-Medium uses 2 suits, and Hard uses all 4 suits.  The game is fairly easy to
+Medium uses 2 suits, and Hard uses all 4 suits. The game is fairly easy to
 win at Easy level, and very difficult to win at Hard level.
 </para>
 
@@ -605,27 +591,12 @@ In the playing piles you have to build descending sequences, regardless of suit.
 You can only move one card that lays on top of a pile.
 </para>
 
-<variablelist>
-<varlistentry><term>Variations:</term>
-<listitem>
-<para>
-- In Spanish Patience, any card can fill empty tableau spaces. (In some sources, 
-the foundations are built up regardless of suit)
-</para>
-
-<para>
-- Castles in Spain is akin to Spanish Patience, but the cards in the tableau are 
-built down by alternate color. In some variations, the tableau is dealt face-down 
-aside from the top cards of each column.
-</para>
-
-<para>
-- Portuguese Solitaire is halfway between Baker's Dozen and Spanish Patience because 
-empty columns can only be filled with Kings.
-</para>
-</listitem>
-</varlistentry>
-</variablelist>
+<para>Variations:</para>
+<itemizedlist>
+  <listitem><para>In <quote>Spanish Patience</quote>, any card can fill empty tableau spaces. (In some sources, the foundations are built up regardless of suit).</para></listitem>
+  <listitem><para><quote>Castles in Spain</quote> is akin to <quote>Spanish Patience</quote>, but the cards in the tableau are built down by alternate color. In some variations, the tableau is dealt face-down aside from the top cards of each column.</para></listitem>
+  <listitem><para><quote>Portuguese Solitaire</quote> is halfway between <quote>Baker's Dozen</quote> and <quote>Spanish Patience</quote> because empty columns can only be filled with Kings.</para></listitem>
+</itemizedlist>
 
 <para>
 To solve this game it is recommended to grab the cards out of the playing
@@ -644,7 +615,7 @@ Castle is a family of patience or solitaire card games typically played with a d
 </para>
 
 <para>
-The object of the game is to build all the cards onto the four foundations by suit, each from ace to king
+The object of the game is to build all the cards onto the four foundations by suit, each from ace to king.
 </para>
 
 <para>
@@ -652,35 +623,15 @@ In the playing piles you have to build descending sequences, regardless of suit.
 You can only move one card that lays on top of a pile.
 </para>
 
-<variablelist>
-<varlistentry><term>Variations:</term>
-<listitem>
-<para>
-- Beleaguered Castle. Aces are dealt to the foundations. Any card can fill empty spaces.
-</para>
-
-<para>
-- Citadel is like Beleaguered Castle, but matching cards are moved to the foundation during the deal, leaving uneven piles.
-</para>
-
-<para>
-- Exiled Kings is like Citadel, but only kings can fill empty spaces.
-</para>
-
-<para>
-- Siegecraft is like Beleaguered Castle, but with one free cell.
-</para>
-
-<para>
-- Streets and Alleys is like Beleaguered Castle, but aces are included in shuffling.
-</para>
-
-<para>
-- Stronghold is like Streets and Alleys, but with one free cell.
-</para>
-</listitem>
-</varlistentry>
-</variablelist>
+<para>Variations:</para>
+<itemizedlist>
+  <listitem><para><quote>Beleaguered Castle</quote>. Aces are dealt to the foundations. Any card can fill empty spaces.</para></listitem>
+  <listitem><para><quote>Citadel</quote> is like <quote>Beleaguered Castle</quote>, but matching cards are moved to the foundation during the deal, leaving uneven piles.</para></listitem>
+  <listitem><para><quote>Exiled Kings</quote> is like <quote>Citadel</quote>, but only kings can fill empty spaces.</para></listitem>
+  <listitem><para><quote>Siegecraft</quote> is like <quote>Beleaguered Castle</quote>, but with one free cell.</para></listitem>
+  <listitem><para><quote>Streets and Alleys</quote> is like <quote>Beleaguered Castle</quote>, but aces are included in shuffling.</para></listitem>
+  <listitem><para><quote>Stronghold</quote> is like <quote>Streets and Alleys</quote>, but with one free cell.</para></listitem>
+</itemizedlist>
 
 <para>
 To solve this game it is recommended to build evenly on the foundations. Try to create empty piles which can be used to facilitate longer moves to free up buried cards.
@@ -721,8 +672,8 @@ To solve this game it is recommended to build evenly on the foundations. Try to 
 				</menuchoice></term>
 				<listitem>
 					<para><action>Start a new deal by specifying the game type and deal number.</action> This action abandons the deal in progress.</para>
-					<para>&kpatience; gives each deal a unique indentifying number (which it uses internally to randomize the deck during the initial deal). This feature allows you to replay a deal of interest or to attempt a particularly difficult deal recommended by a friend. Especially dedicated players may wish to "beat" &kpatience; by playing all 2147483647 deals consecutively for each of the game types.</para>
-					<para>Note that for Freecell, &kpatience;'s deal numbers match those described in <ulink url="http://www.solitairelaboratory.com/fcfaq.html">the Freecell FAQ</ulink>.</para>
+					<para>&kpatience; gives each deal a unique indentifying number (which it uses internally to randomize the deck during the initial deal). This feature allows you to replay a deal of interest or to attempt a particularly difficult deal recommended by a friend. Especially dedicated players may wish to <quote>beat</quote> &kpatience; by playing all 2147483647 deals consecutively for each of the game types.</para>
+					<para>Note that for Freecell, &kpatience;'s deal numbers match those described in <ulink url="http://www.solitairelaboratory.com/fcfaq.html">the Freecell &FAQ;</ulink>.</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry id="game-menu-restart-deal">
@@ -811,7 +762,7 @@ To solve this game it is recommended to build evenly on the foundations. Try to 
 			</varlistentry>
 			<varlistentry  id="game-menu-draw">
 				<term><menuchoice>
-					<shortcut><keycap>Space</keycap></shortcut>
+					<shortcut>&Space;</shortcut>
 					<guimenu>Move</guimenu>
 					<guimenuitem>Draw</guimenuitem>
 				</menuchoice></term>
@@ -819,7 +770,7 @@ To solve this game it is recommended to build evenly on the foundations. Try to 
 			</varlistentry>
 			<varlistentry  id="game-menu-deal-row">
 				<term><menuchoice>
-					<shortcut><keycap>Return</keycap></shortcut>
+					<shortcut>&Enter;</shortcut>
 					<guimenu>Move</guimenu>
 					<guimenuitem>Deal Row</guimenuitem>
 				</menuchoice></term>
@@ -892,7 +843,7 @@ chapter of the &kde; Fundamentals documentation &kpatience; has these applicatio
 					<guimenu>Help</guimenu>
 					<guimenuitem>Help with Current Game</guimenuitem>
 				</menuchoice></term>
-				<listitem><para>Opens the section with the Rules for the current game in this handbook </para></listitem>
+				<listitem><para>Opens the section with the Rules for the current game in this handbook.</para></listitem>
 			</varlistentry>
 		</variablelist>
 </sect1>
