@@ -381,10 +381,12 @@ KCardThemeWidget::KCardThemeWidget( const QSet<QString> & requiredFeatures, cons
     d->listView->setVerticalScrollMode( QAbstractItemView::ScrollPerPixel );
     d->listView->setAlternatingRowColors( true );
 
-    // FIXME This is just a fudge factor. It should be possible to detemine
-    // the actual width necessary including frame and scrollbar somehow.
-    d->listView->setMinimumWidth( d->itemSize.width() * 1.1 ); 
-    d->listView->setMinimumHeight( d->itemSize.height() * 2.5 );
+    if (parent && parent->width() >= 650) {
+        // FIXME This is just a fudge factor. It should be possible to detemine
+        // the actual width necessary including frame and scrollbar somehow.
+        d->listView->setMinimumWidth( d->itemSize.width() * 1.1 );
+        d->listView->setMinimumHeight( d->itemSize.height() * 2.5 );
+    }
 
     d->hiddenLineEdit = new KLineEdit( this );
     d->hiddenLineEdit->setObjectName( QStringLiteral( "kcfg_CardTheme" ) );

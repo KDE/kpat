@@ -437,14 +437,14 @@ void MainWindow::configureAppearance()
     {
         KConfigDialog * dialog = new KConfigDialog( this, QStringLiteral("KPatAppearanceDialog"), Settings::self() );
 
-        dialog->addPage( new KCardThemeWidget( features, previewFormat ),
+        dialog->addPage( new KCardThemeWidget( features, previewFormat, this ),
                          i18n("Card Deck"),
                          QStringLiteral("games-config-theme"),
                          i18n("Select a card deck")
                        );
 
         KgThemeProvider* provider = Renderer::self()->themeProvider();
-        dialog->addPage( new KgThemeSelector(provider, KgThemeSelector::EnableNewStuffDownload),
+        dialog->addPage( new KgThemeSelector(provider, KgThemeSelector::EnableNewStuffDownload, this),
                          i18n("Game Theme"),
                          QStringLiteral("games-config-theme"),
                          i18n("Select a theme for non-card game elements")
