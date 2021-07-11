@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=KPatience
+Name[ar]=سوليتير ك
 Name[bs]=KPatience
 Name[ca]=KPatience
 Name[ca@valencia]=KPatience
@@ -56,6 +57,7 @@ Icon=kpat
 X-DocPath=kpat/index.html
 GenericName=Patience Card Game
 GenericName[af]=Patience Kaart Speletjie
+GenericName[ar]=لعبة ورق سوليتير
 GenericName[be]=Картачны пасьянс
 GenericName[bn]=পেশেন্স নামের তাস খেলা
 GenericName[br]=C'hoari a habaskter
@@ -122,6 +124,7 @@ GenericName[x-test]=xxPatience Card Gamexx
 GenericName[zh_CN]=考验耐心的牌类游戏
 GenericName[zh_TW]=單人玩的紙牌遊戲
 Comment=Solitaire card game
+Comment[ar]=لعبة ورق سوليتير
 Comment[ca]=Joc de cartes al solitari
 Comment[ca@valencia]=Joc de cartes al solitari
 Comment[cs]=Karetní hra Solitaire
