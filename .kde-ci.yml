@@ -5,4 +5,4 @@ Dependencies:
 - 'on': ['@all']
   'require':
     'frameworks/extra-cmake-modules': '@stable'
-    'games/libkdegames' : '@latest'
+    'games/libkdegames': '@same'
