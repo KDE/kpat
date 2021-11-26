@@ -28,7 +28,7 @@ set(kpat_SRCS ${libfcs_SRCS}
 
     bakersdozen.cpp
     patsolve/bakersdozensolver.cpp
-    castle
+    castle.cpp
     patsolve/castlesolver.cpp
     clock.cpp 
     patsolve/clocksolver.cpp
