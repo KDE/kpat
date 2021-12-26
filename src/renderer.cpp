@@ -85,5 +85,6 @@ static KgThemeProvider* provider()
 Renderer::Renderer()
   : KGameRenderer( provider() )
 {
+	setStrategyEnabled(KGameRenderer::UseDiskCache, false);
 }
 
