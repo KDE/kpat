@@ -77,14 +77,8 @@ void RenderingThread::run()
         if ( m_haltFlag )
             return;
 
-        QString key = keyForPixmap( element, size );
-        if ( !d->cache->contains( key ) )
-        {
-            //qCDebug(LIBKCARDGAME_LOG) << "Renderering" << key << "in rendering thread.";
-            QImage img = d->renderCard( element, size );
-            d->cache->insertImage( key, img );
-            Q_EMIT renderingDone( element, img );
-        }
+        const QImage img = d->renderCard( element, size );
+        Q_EMIT renderingDone( element, img );
     }
 }
 
@@ -228,20 +222,14 @@ void KAbstractCardDeckPrivate::deleteThread()
 
 void KAbstractCardDeckPrivate::submitRendering( const QString & elementId, const QImage & image )
 {
-    QPixmap pix;
-
     // If the currentCardSize has changed since the rendering was performed,
     // we sadly just have to throw it away.
     const auto dpr = qApp->devicePixelRatio();
     if ( image.size() != currentCardSize * dpr)
         return;
 
-    // The RenderingThread just put the image in the cache, but due to the
-    // volatility of the cache there's no guarantee that it'll still be there
-    // by the time this slot is called, in which case we convert the QImage
-    // passed in the signal.
-    if ( !cache->findPixmap( keyForPixmap( elementId, currentCardSize * dpr ), &pix ) )
-        pix = QPixmap::fromImage( image );
+    cache->insertImage( keyForPixmap( elementId, currentCardSize * dpr ), image );
+    QPixmap pix = QPixmap::fromImage( image );
 
     pix.setDevicePixelRatio( dpr );
 
