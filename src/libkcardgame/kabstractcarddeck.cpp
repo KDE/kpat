@@ -59,10 +59,7 @@ RenderingThread::RenderingThread( KAbstractCardDeckPrivate * d, QSize size, cons
 
 void RenderingThread::halt()
 {
-    {
-        QMutexLocker l( &m_haltMutex );
-        m_haltFlag = true;
-    }
+    m_haltFlag = true;
     wait();
 }
 
@@ -77,11 +74,8 @@ void RenderingThread::run()
 
     const auto size = m_size * qApp->devicePixelRatio();
     for (const QString & element : qAsConst(m_elementsToRender)) {
-        {
-            QMutexLocker l( &m_haltMutex );
-            if ( m_haltFlag )
-                return;
-        }
+        if ( m_haltFlag )
+            return;
 
         QString key = keyForPixmap( element, size );
         if ( !d->cache->contains( key ) )

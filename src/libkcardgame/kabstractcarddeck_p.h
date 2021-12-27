@@ -52,8 +52,7 @@ private:
     KAbstractCardDeckPrivate * const d;
     const QSize m_size;
     const QStringList m_elementsToRender;
-    bool m_haltFlag;
-    QMutex m_haltMutex;
+    std::atomic_bool m_haltFlag;
 };
 
 
