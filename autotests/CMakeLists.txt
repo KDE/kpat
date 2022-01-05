@@ -10,25 +10,25 @@ include_directories(
 ecm_add_test(
     shuffle_test.cpp
     TEST_NAME ShuffleTest
-    LINK_LIBRARIES Qt5::Test
+    LINK_LIBRARIES Qt${QT_MAJOR_VERSION}::Test
     NAME_PREFIX "kpat-"
 )
 ecm_add_test(
     freecell_solver.cpp
     TEST_NAME FcSolveTest
-    LINK_LIBRARIES Qt5::Test
+    LINK_LIBRARIES Qt${QT_MAJOR_VERSION}::Test
     NAME_PREFIX "kpat-"
 )
 ecm_add_test(
     golf_solver_wins.cpp
     TEST_NAME GolfSolveTest
-    LINK_LIBRARIES Qt5::Test
+    LINK_LIBRARIES Qt${QT_MAJOR_VERSION}::Test
     NAME_PREFIX "kpat-"
 )
 ecm_add_test(
     solve_by_name.cpp
     TEST_NAME SolveByVariantName
-    LINK_LIBRARIES Qt5::Test
+    LINK_LIBRARIES Qt${QT_MAJOR_VERSION}::Test
     NAME_PREFIX "kpat-"
 )
 
@@ -53,7 +53,7 @@ ecm_add_test(
     "settings_for_tests.cpp"
     solver_format.cpp
     TEST_NAME SolverFormatTest
-    LINK_LIBRARIES Qt5::Test kcardgame
+    LINK_LIBRARIES Qt${QT_MAJOR_VERSION}::Test kcardgame
         KF5KDEGames
         ${BLACK_HOLE_SOLVER_LDFLAGS}
     NAME_PREFIX "kpat-"

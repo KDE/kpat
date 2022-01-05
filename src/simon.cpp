@@ -181,7 +181,7 @@ static class SimonDealerInfo : public DealerInfo
 {
 public:
     SimonDealerInfo()
-      : DealerInfo(I18N_NOOP("Simple Simon"), SimpleSimonId)
+      : DealerInfo(kli18n("Simple Simon"), SimpleSimonId)
     {}
 
     DealerScene *createGame() const override

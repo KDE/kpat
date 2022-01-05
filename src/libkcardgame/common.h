@@ -24,7 +24,7 @@
 #include <KSharedDataCache>
 // Qt
 #include <QDataStream>
-
+#include <QIODevice>
 class QString;
 
 

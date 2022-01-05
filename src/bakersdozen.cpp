@@ -25,7 +25,6 @@
 #include "patsolve/bakersdozensolver.h"
 // KF
 #include <KLocalizedString>
-#include <kwidgetsaddons_version.h>
 #include <KSelectAction>
 
 
@@ -91,17 +90,10 @@ void BakersDozen::initialize()
     m_sequenceBuiltByOption->addAction( i18n("Matching Suit") );
     m_sequenceBuiltByOption->addAction( i18n("Rank") );    
     
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 78, 0)
     connect(options, &KSelectAction::indexTriggered, this, &BakersDozen::gameTypeChanged);
     connect(m_emptyStackFillOption, &KSelectAction::indexTriggered, this, &BakersDozen::gameTypeChanged);
     connect(m_stackFacedownOption, &KSelectAction::indexTriggered, this, &BakersDozen::gameTypeChanged);
     connect(m_sequenceBuiltByOption, &KSelectAction::indexTriggered, this, &BakersDozen::gameTypeChanged);
-#else
-    connect(options, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &BakersDozen::gameTypeChanged);
-    connect(m_emptyStackFillOption, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &BakersDozen::gameTypeChanged);
-    connect(m_stackFacedownOption, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &BakersDozen::gameTypeChanged);
-    connect(m_sequenceBuiltByOption, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &BakersDozen::gameTypeChanged);
-#endif
 
     getSavedOptions();
 }
@@ -273,13 +265,13 @@ static class BakersDozenDealerInfo : public DealerInfo
 {
 public:
     BakersDozenDealerInfo()
-      : DealerInfo(I18N_NOOP("Baker's Dozen"), BakersDozenGeneralId )
+      : DealerInfo(kli18n("Baker's Dozen"), BakersDozenGeneralId )
     {
-        addSubtype( BakersDozenId, I18N_NOOP( "Baker's Dozen" ) );
-        addSubtype( BakersDozenSpanishId, I18N_NOOP( "Spanish Patience" ) );
-        addSubtype( BakersDozenCastlesId, I18N_NOOP( "Castles in Spain" ) );
-        addSubtype( BakersDozenPortugueseId, I18N_NOOP( "Portuguese Solitaire" ) );
-        addSubtype( BakersDozenCustomId, I18N_NOOP( "Baker's Dozen (Custom)" ) );
+        addSubtype( BakersDozenId, kli18n( "Baker's Dozen" ) );
+        addSubtype( BakersDozenSpanishId, kli18n( "Spanish Patience" ) );
+        addSubtype( BakersDozenCastlesId, kli18n( "Castles in Spain" ) );
+        addSubtype( BakersDozenPortugueseId, kli18n( "Portuguese Solitaire" ) );
+        addSubtype( BakersDozenCustomId, kli18n( "Baker's Dozen (Custom)" ) );
     }
 
 

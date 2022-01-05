@@ -44,7 +44,6 @@
 #include "speeds.h"
 #include "patsolve/klondikesolver.h"
 // KF
-#include <kwidgetsaddons_version.h>
 #include <KLocalizedString>
 #include <KSelectAction>
 
@@ -145,11 +144,7 @@ void Klondike::initialize()
     options->addAction( i18n("Draw 1" ));
     options->addAction( i18n("Draw 3" ));
     options->setCurrentItem( easyRules ? 0 : 1 );
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 78, 0)
     connect(options, &KSelectAction::indexTriggered, this, &Klondike::gameTypeChanged);
-#else
-    connect(options, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Klondike::gameTypeChanged);
-#endif
 }
 
 bool Klondike::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
@@ -348,10 +343,10 @@ static class KlondikeDealerInfo : public DealerInfo
 {
 public:
     KlondikeDealerInfo()
-      : DealerInfo(I18N_NOOP("Klondike"), DealerInfo::KlondikeGeneralId)
+      : DealerInfo(kli18n("Klondike"), DealerInfo::KlondikeGeneralId)
     {
-        addSubtype( KlondikeDrawOneId, I18N_NOOP( "Klondike (Draw 1)" ) );
-        addSubtype( KlondikeDrawThreeId, I18N_NOOP( "Klondike (Draw 3)" ) );
+        addSubtype( KlondikeDrawOneId, kli18n( "Klondike (Draw 1)" ) );
+        addSubtype( KlondikeDrawThreeId, kli18n( "Klondike (Draw 3)" ) );
     }
 
     DealerScene *createGame() const override

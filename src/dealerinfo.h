@@ -43,7 +43,7 @@
 #include <QList>
 #include <QMap>
 #include <QString>
-
+#include <KLazyLocalizedString>
 class DealerInfoList;
 class DealerScene;
 
@@ -92,15 +92,15 @@ public:
         CastleCustomId      = 49
     };
 
-    DealerInfo( const QByteArray & untranslatedBaseName, int baseId );
+    DealerInfo( const KLazyLocalizedString & untranslatedBaseName, int baseId );
     virtual ~DealerInfo();
 
     QString baseName() const;
-    QByteArray untranslatedBaseName() const;
+    KLazyLocalizedString untranslatedBaseName() const;
     QString baseIdString() const;
     int baseId() const;
 
-    void addSubtype( int id, const QByteArray & untranslatedName );
+    void addSubtype( int id, const KLazyLocalizedString & untranslatedName );
     QList<int> subtypeIds() const;
 
     QList<int> distinctIds() const;
@@ -110,11 +110,11 @@ public:
     virtual DealerScene * createGame() const = 0;
 
 protected:
-    QByteArray m_baseName;
+    KLazyLocalizedString m_baseName;
     QString m_baseIdString;
     int m_baseId;
 
-    QMap<int,QByteArray> m_subtypes;
+    QMap<int,KLazyLocalizedString> m_subtypes;
 };
 
 

@@ -130,7 +130,7 @@ static class YukonDealerInfo : public DealerInfo
 {
 public:
     YukonDealerInfo()
-      : DealerInfo(I18N_NOOP("Yukon"), YukonId )
+      : DealerInfo(kli18n("Yukon"), YukonId )
     {}
 
     DealerScene *createGame() const override

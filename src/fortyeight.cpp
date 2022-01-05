@@ -250,7 +250,7 @@ static class FortyEightDealerInfo : public DealerInfo
 {
 public:
     FortyEightDealerInfo()
-      : DealerInfo(I18N_NOOP("Forty & Eight"), FortyAndEightId)
+      : DealerInfo(kli18n("Forty & Eight"), FortyAndEightId)
     {}
 
     DealerScene *createGame() const override

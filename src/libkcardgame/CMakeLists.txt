@@ -31,13 +31,13 @@ target_link_libraries(kcardgame
     PUBLIC
         KF5::ConfigWidgets
         KF5::ConfigGui
-        Qt5::Widgets
+        Qt${QT_MAJOR_VERSION}::Widgets
     PRIVATE
         KF5::Completion
         KF5::GuiAddons
         KF5::NewStuff
         KF5::I18n
-        Qt5::Svg
+        Qt${QT_MAJOR_VERSION}::Svg
 )
 
 install(TARGETS kcardgame ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})

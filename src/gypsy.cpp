@@ -175,7 +175,7 @@ static class GypsyDealerInfo : public DealerInfo
 {
 public:
     GypsyDealerInfo()
-      : DealerInfo(I18N_NOOP("Gypsy"), GypsyId)
+      : DealerInfo(kli18n("Gypsy"), GypsyId)
     {}
 
     DealerScene *createGame() const override

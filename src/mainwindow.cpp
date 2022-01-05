@@ -80,7 +80,6 @@
 #include <QTimer>
 #include <QBuffer>
 #include <QXmlStreamReader>
-#include <QDesktopWidget>
 #include <QKeySequence>
 #include <QStandardPaths>
 #include <QApplication>
@@ -120,7 +119,7 @@ MainWindow::MainWindow()
     m_view = new PatienceView( this );
     setCentralWidget( m_view );
 
-    const QRect screenSize = QApplication::desktop()->screenGeometry(this);
+    const QRect screenSize = screen()->availableGeometry();
     QSize defaultSize = screenSize.size() * 0.7;
     setupGUI(defaultSize, Create | Save | ToolBar | StatusBar | Keys);
 
@@ -348,7 +347,7 @@ void MainWindow::helpGame()
     if (m_dealer && m_dealer_map.contains(m_dealer->gameId()))
     {
         const DealerInfo * di = m_dealer_map.value(m_dealer->gameId());
-        QString anchor = QString::fromUtf8( di->untranslatedBaseName() );
+        QString anchor = di->untranslatedBaseName().toString();
         anchor = anchor.toLower();
         anchor = anchor.remove(QLatin1Char('\'')).replace(QLatin1Char('&'), QLatin1String("and")).replace(QLatin1Char(' '), QLatin1Char('-'));
         KHelpClient::invokeHelp(QLatin1String("rules-specific.html#") + anchor);
@@ -868,7 +867,11 @@ bool MainWindow::loadGame( const QUrl & url, bool addToRecentFiles )
     }
     else if (xml.name() == QLatin1String("kpat-game")) {
         isLegacyFile = false;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         QStringRef gameType = xml.attributes().value(QStringLiteral("game-type"));
+#else
+        QStringView gameType = xml.attributes().value(QStringLiteral("game-type"));
+#endif
         const auto games = DealerInfoList::self()->games();
         for (const DealerInfo * di : games) {
             if ( di->baseIdString() == gameType )

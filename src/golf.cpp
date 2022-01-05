@@ -193,7 +193,7 @@ static class GolfDealerInfo : public DealerInfo
 {
 public:
     GolfDealerInfo()
-      : DealerInfo(I18N_NOOP("Golf"), GolfId)
+      : DealerInfo(kli18n("Golf"), GolfId)
     {}
 
     DealerScene *createGame() const override

@@ -67,7 +67,7 @@ static DealerScene *getDealer( int wanted_game , const QString & name )
 {
     const auto games = DealerInfoList::self()->games();
     for (DealerInfo * di : games) {
-        if ( (wanted_game < 0) ? (QString::fromUtf8(di->untranslatedBaseName()) == name) : di->providesId( wanted_game ) )
+        if ( (wanted_game < 0) ? (di->untranslatedBaseName().toString() == name) : di->providesId( wanted_game ) )
         {
             DealerScene * d = di->createGame();
             Q_ASSERT( d );
@@ -102,8 +102,9 @@ QString lowerAlphaNum( const QString & string )
 
 int main( int argc, char **argv )
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-
+#endif
     QApplication app(argc, argv);
 
     KLocalizedString::setApplicationDomain("kpat");
@@ -181,7 +182,7 @@ int main( int argc, char **argv )
     QStringList gameList;
     const auto games = DealerInfoList::self()->games();
     for (const DealerInfo *di : games) {
-        KLocalizedString localizedKey = ki18n( di->untranslatedBaseName().constData() );
+        KLocalizedString localizedKey = di->untranslatedBaseName();
         //QT5 const QString translatedKey = lowerAlphaNum( localizedKey.toString( tmpLocale ) );
         //QT5 gameList << translatedKey;
         //QT5 indexMap.insert( translatedKey, di->baseId() );

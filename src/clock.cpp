@@ -153,7 +153,7 @@ static class ClockDealerInfo : public DealerInfo
 {
 public:
     ClockDealerInfo()
-      : DealerInfo(I18N_NOOP("Grandfather's Clock"), GrandfathersClockId)
+      : DealerInfo(kli18n("Grandfather's Clock"), GrandfathersClockId)
     {}
 
     DealerScene *createGame() const override

@@ -26,7 +26,6 @@
 #include "patsolve/castlesolver.h"
 // KF
 #include <KLocalizedString>
-#include <kwidgetsaddons_version.h>
 #include <KSelectAction>
 
 
@@ -359,15 +358,15 @@ static class CastleDealerInfo : public DealerInfo
 {
 public:
     CastleDealerInfo()
-      : DealerInfo(I18N_NOOP("Castle"), CastleGeneralId)
+      : DealerInfo(kli18n("Castle"), CastleGeneralId)
     {
-        addSubtype( CastleBeleagueredId, I18N_NOOP( "Beleaguered Castle" ) );
-        addSubtype( CastleCitadelId, I18N_NOOP( "Citadel" ) );
-        addSubtype( CastleExiledKingsId, I18N_NOOP( "Exiled Kings" ) );
-        addSubtype( CastleStreetAlleyId, I18N_NOOP( "Streets and Alleys" ) );
-        addSubtype( CastleSiegecraftId, I18N_NOOP( "Siegecraft" ) );
-        addSubtype( CastleStrongholdId, I18N_NOOP( "Stronghold" ) );
-        addSubtype( CastleCustomId, I18N_NOOP( "Castle (Custom)" ) );
+        addSubtype( CastleBeleagueredId, kli18n( "Beleaguered Castle" ) );
+        addSubtype( CastleCitadelId, kli18n( "Citadel" ) );
+        addSubtype( CastleExiledKingsId, kli18n( "Exiled Kings" ) );
+        addSubtype( CastleStreetAlleyId, kli18n( "Streets and Alleys" ) );
+        addSubtype( CastleSiegecraftId, kli18n( "Siegecraft" ) );
+        addSubtype( CastleStrongholdId, kli18n( "Stronghold" ) );
+        addSubtype( CastleCustomId, kli18n( "Castle (Custom)" ) );
     }
 
     DealerScene *createGame() const override
@@ -447,7 +446,6 @@ void Castle::configOptions()
     m_layoutOption->addAction( i18n("Classic") );
     m_layoutOption->addAction( i18n("Modern") );
 
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 78, 0)
     connect(options, &KSelectAction::indexTriggered, this, &Castle::gameTypeChanged);
     connect(m_emptyStackFillOption, &KSelectAction::indexTriggered, this, &Castle::gameTypeChanged);
     connect(m_reservesOption, &KSelectAction::indexTriggered, this, &Castle::gameTypeChanged);
@@ -456,16 +454,6 @@ void Castle::configOptions()
     connect(m_stackFaceupOption, &KSelectAction::indexTriggered, this, &Castle::gameTypeChanged);
     connect(m_foundationOption, &KSelectAction::indexTriggered, this, &Castle::gameTypeChanged);
     connect(m_layoutOption, &KSelectAction::indexTriggered, this, &Castle::gameTypeChanged);
-#else
-    connect(options, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Castle::gameTypeChanged);
-    connect(m_emptyStackFillOption, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Castle::gameTypeChanged);
-    connect(m_reservesOption, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Castle::gameTypeChanged);
-    connect(m_sequenceBuiltByOption, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Castle::gameTypeChanged);
-    connect(m_stacksOption, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Castle::gameTypeChanged);
-    connect(m_stackFaceupOption, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Castle::gameTypeChanged);
-    connect(m_foundationOption, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Castle::gameTypeChanged);
-    connect(m_layoutOption, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Castle::gameTypeChanged);
-#endif
 }
 
 

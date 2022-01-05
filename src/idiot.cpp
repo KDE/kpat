@@ -256,7 +256,7 @@ static class IdiotDealerInfo : public DealerInfo
 {
 public:
     IdiotDealerInfo()
-      : DealerInfo(I18N_NOOP("Aces Up"), AcesUpId)
+      : DealerInfo(kli18n("Aces Up"), AcesUpId)
     {}
 
     DealerScene *createGame() const override

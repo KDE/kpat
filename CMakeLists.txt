@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.5 FATAL_ERROR)
+cmake_minimum_required (VERSION 3.16 FATAL_ERROR)
 
 # KDE Application Version, managed by release script
 set(RELEASE_SERVICE_VERSION_MAJOR "22")
@@ -8,8 +8,8 @@ set(RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_
 
 project(kpat VERSION ${RELEASE_SERVICE_VERSION})
 
-set (QT_MIN_VERSION "5.12.0")
-set (KF5_MIN_VERSION "5.64.0")
+set (QT_MIN_VERSION "5.15.0")
+set (KF5_MIN_VERSION "5.90.0")
 
 include(FindPkgConfig)
 pkg_check_modules(FC_SOLVE REQUIRED libfreecell-solver)
@@ -23,8 +23,19 @@ try_compile(fcs_soft_suspend "${CMAKE_CURRENT_BINARY_DIR}" SOURCES "${CMAKE_CURR
 
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED CONFIG)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
+include(KDEInstallDirs)
+include(KDECMakeSettings)
+include(KDECompilerSettings NO_POLICY_SCOPE)
 
-find_package(Qt5 ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Widgets Svg Test)
+include(FeatureSummary)
+include(ECMAddAppIcon)
+include(ECMInstallIcons)
+include(ECMQtDeclareLoggingCategory)
+include(ECMSetupVersion)
+include(ECMGenerateHeaders)
+include(GenerateExportHeader)
+
+find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Widgets Svg Test)
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     Completion
     Config
@@ -43,28 +54,12 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
 
 find_package(KF5KDEGames 7.3.0 REQUIRED)
 
-include(KDEInstallDirs)
-include(KDECMakeSettings)
-include(KDECompilerSettings NO_POLICY_SCOPE)
-
-include(FeatureSummary)
-include(ECMAddAppIcon)
-include(ECMInstallIcons)
-include(ECMQtDeclareLoggingCategory)
-include(ECMSetupVersion)
-include(ECMGenerateHeaders)
-include(GenerateExportHeader)
 
 add_definitions(
-    -DQT_NO_KEYWORDS
     -DQT_NO_URL_CAST_FROM_STRING
     -DQT_NO_CAST_FROM_ASCII
     -DQT_NO_CAST_TO_ASCII
     -DQT_NO_CAST_FROM_BYTEARRAY
-    -DQT_STRICT_ITERATORS
-    -DQT_USE_QSTRINGBUILDER
-    -DQT_NO_NARROWING_CONVERSIONS_IN_CONNECT
-    -DQT_NO_FOREACH
     -DQT_DISABLE_DEPRECATED_BEFORE=0x050e00
     -DQT_DEPRECATED_WARNINGS_SINCE=0x060000
 )

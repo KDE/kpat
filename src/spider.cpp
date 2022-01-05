@@ -44,7 +44,6 @@
 #include "speeds.h"
 #include "patsolve/spidersolver.h"
 // KF
-#include <kwidgetsaddons_version.h>
 #include <KLocalizedString>
 #include <KSelectAction>
 // Qt
@@ -147,22 +146,14 @@ void Spider::initialize()
         options->setCurrentItem( 1 );
     else
         options->setCurrentItem( 2 );
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 78, 0)
     connect(options, &KSelectAction::indexTriggered, this, &Spider::gameTypeChanged);
-#else
-    connect(options, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Spider::gameTypeChanged);
-#endif
 
     m_stackFaceupOption = new KSelectAction(i18n("S&tack Options"), this );
     m_stackFaceupOption->addAction( i18n("Face &Down (harder)") );
     m_stackFaceupOption->addAction( i18n("Face &Up (easier)") );
     m_stackFaceupOption->setCurrentItem( m_stackFaceup );
 
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 78, 0)
     connect(m_stackFaceupOption, &KSelectAction::indexTriggered, this, &Spider::gameTypeChanged);
-#else
-    connect(m_stackFaceupOption, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Spider::gameTypeChanged);
-#endif
 }
 
 
@@ -506,11 +497,11 @@ static class SpideDealerInfo : public DealerInfo
 {
 public:
     SpideDealerInfo()
-      : DealerInfo(I18N_NOOP("Spider"), SpiderGeneralId)
+      : DealerInfo(kli18n("Spider"), SpiderGeneralId)
     {
-        addSubtype( SpiderOneSuitId, I18N_NOOP( "Spider (1 Suit)" ) );
-        addSubtype( SpiderTwoSuitId, I18N_NOOP( "Spider (2 Suit)" ) );
-        addSubtype( SpiderFourSuitId, I18N_NOOP( "Spider (4 Suit)" ) );
+        addSubtype( SpiderOneSuitId, kli18n( "Spider (1 Suit)" ) );
+        addSubtype( SpiderTwoSuitId, kli18n( "Spider (2 Suit)" ) );
+        addSubtype( SpiderFourSuitId, kli18n( "Spider (4 Suit)" ) );
     }
 
     DealerScene *createGame() const override

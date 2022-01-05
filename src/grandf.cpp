@@ -198,7 +198,7 @@ static class GrandfDealerInfo : public DealerInfo
 {
 public:
     GrandfDealerInfo()
-      : DealerInfo(I18N_NOOP("Grandfather"), GrandfatherId)
+      : DealerInfo(kli18n("Grandfather"), GrandfatherId)
     {}
 
     DealerScene *createGame() const override

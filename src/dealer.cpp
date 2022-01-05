@@ -85,7 +85,11 @@ namespace
 
     int readIntAttribute( const QXmlStreamReader & xml, const QString & key, bool * ok = nullptr )
     {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         QStringRef value = xml.attributes().value( key );
+#else
+        QStringView value = xml.attributes().value( key );
+#endif
         return QString::fromRawData( value.data(), value.length() ).toInt( ok );
     }
 
@@ -182,7 +186,9 @@ int DealerScene::moveCount() const
 void DealerScene::saveLegacyFile( QIODevice * io )
 {
     QXmlStreamWriter xml( io );
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     xml.setCodec( "UTF-8" );
+#endif
     xml.setAutoFormatting( true );
     xml.setAutoFormattingIndent( -1 );
     xml.writeStartDocument();
@@ -332,7 +338,9 @@ bool DealerScene::loadLegacyFile( QIODevice * io )
 void DealerScene::saveFile( QIODevice * io )
 {
     QXmlStreamWriter xml( io );
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     xml.setCodec( "UTF-8" );
+#endif
     xml.setAutoFormatting( true );
     xml.setAutoFormattingIndent( -1 );
     xml.writeStartDocument();

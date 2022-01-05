@@ -41,13 +41,13 @@
 #include <KLocalizedString>
 
 
-DealerInfo::DealerInfo( const QByteArray & untranslatedBaseName, int baseId )
+DealerInfo::DealerInfo( const KLazyLocalizedString & untranslatedBaseName, int baseId )
   : m_baseName( untranslatedBaseName ),
     m_baseId( baseId )
 {
     DealerInfoList::self()->add( this );
 
-    QString baseName = QString::fromUtf8( m_baseName );
+    QString baseName = QString::fromUtf8( m_baseName.untranslatedText() );
     for ( int i = 0; i < baseName.size(); ++i )
     {
         QChar c = baseName.at( i );
@@ -64,11 +64,11 @@ DealerInfo::~DealerInfo()
 
 QString DealerInfo::baseName() const
 {
-    return i18n(m_baseName.constData());
+    return m_baseName.toString();
 }
 
 
-QByteArray DealerInfo::untranslatedBaseName() const
+KLazyLocalizedString DealerInfo::untranslatedBaseName() const
 {
     return m_baseName;
 }
@@ -86,7 +86,7 @@ int DealerInfo::baseId() const
 }
 
 
-void DealerInfo::addSubtype( int id, const QByteArray & untranslatedName )
+void DealerInfo::addSubtype(int id, const KLazyLocalizedString &untranslatedName )
 {
     m_subtypes.insert( id, untranslatedName );
 }
@@ -118,9 +118,9 @@ QString DealerInfo::nameForId( int id ) const
     if ( id == m_baseId )
         return baseName();
 
-    QMap<int,QByteArray>::const_iterator it = m_subtypes.find( id );
+    QMap<int,KLazyLocalizedString>::const_iterator it = m_subtypes.find( id );
     if ( it != m_subtypes.constEnd() )
-        return i18n( it.value().constData() );
+        return it.value().toString();
     else
         return QString();
 }

@@ -46,7 +46,6 @@
 #include "patsolve/freecellsolver.h"
 // KF
 #include <KLocalizedString>
-#include <kwidgetsaddons_version.h>
 #include <KSelectAction>
 
 Freecell::Freecell( const DealerInfo * di )
@@ -346,14 +345,14 @@ static class FreecellDealerInfo : public DealerInfo
 {
 public:
     FreecellDealerInfo()
-      : DealerInfo(I18N_NOOP("Freecell"), FreecellGeneralId)
+      : DealerInfo(kli18n("Freecell"), FreecellGeneralId)
     {
-        addSubtype( FreecellBakersId, I18N_NOOP( "Baker's Game" ) );
-        addSubtype( FreecellEightOffId, I18N_NOOP( "Eight Off" ) );
-        addSubtype( FreecellForeId, I18N_NOOP( "Forecell" ) );
-        addSubtype( FreecellId, I18N_NOOP( "Freecell" ) );
-        addSubtype( FreecellSeahavenId, I18N_NOOP( "Seahaven Towers" ) );
-        addSubtype( FreecellCustomId, I18N_NOOP( "Freecell (Custom)" ) );
+        addSubtype( FreecellBakersId, kli18n( "Baker's Game" ) );
+        addSubtype( FreecellEightOffId, kli18n( "Eight Off" ) );
+        addSubtype( FreecellForeId, kli18n( "Forecell" ) );
+        addSubtype( FreecellId, kli18n( "Freecell" ) );
+        addSubtype( FreecellSeahavenId, kli18n( "Seahaven Towers" ) );
+        addSubtype( FreecellCustomId, kli18n( "Freecell (Custom)" ) );
     }
 
     DealerScene *createGame() const override
@@ -427,21 +426,12 @@ void Freecell::configOptions()
     m_decksOption->addAction( i18n("2") );
     m_decksOption->addAction( i18n("3") );
 
-#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 78, 0)
     connect(options, &KSelectAction::indexTriggered, this, &Freecell::gameTypeChanged);
     connect(m_emptyStackFillOption, &KSelectAction::indexTriggered, this, &Freecell::gameTypeChanged);
     connect(m_reservesOption, &KSelectAction::indexTriggered, this, &Freecell::gameTypeChanged);
     connect(m_sequenceBuiltByOption, &KSelectAction::indexTriggered, this, &Freecell::gameTypeChanged);
     connect(m_stacksOption, &KSelectAction::indexTriggered, this, &Freecell::gameTypeChanged);
     connect(m_decksOption, &KSelectAction::indexTriggered, this, &Freecell::gameTypeChanged);
-#else
-    connect(options, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Freecell::gameTypeChanged);
-    connect(m_emptyStackFillOption, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Freecell::gameTypeChanged);
-    connect(m_reservesOption, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Freecell::gameTypeChanged);
-    connect(m_sequenceBuiltByOption, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Freecell::gameTypeChanged);
-    connect(m_stacksOption, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Freecell::gameTypeChanged);
-    connect(m_decksOption, static_cast<void (KSelectAction::*)(int)>(&KSelectAction::triggered), this, &Freecell::gameTypeChanged);
-#endif
 }
 
 
