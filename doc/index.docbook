@@ -174,7 +174,7 @@ completely new game.
 			</listitem>
 		</varlistentry>
 		<varlistentry><term>3. Foundation</term>
-			<listitem><para><indexterm><primary>foundation</primary></indexterm>The foundation piles are where you want your cards to end up. Typically, the game is one only once all cards have been moved to the foundation piles in the correct order. The number of foundation piles and the ordering required varies from game to game.</para>
+			<listitem><para><indexterm><primary>foundation</primary></indexterm>The foundation piles are where you want your cards to end up. Typically, the game is won only once all cards have been moved to the foundation piles in the correct order. The number of foundation piles and the ordering required varies from game to game.</para>
                             <para>Most games start with the foundation piles empty. Choosing the <guimenuitem>Drop</guimenuitem> action from the menu or toolbar will cause &kpatience; to scan through all the piles move as many cards to the foundation piles as it can. If you have the <guimenuitem>Enabled Autodrop</guimenuitem> setting activated, &kpatience; will attempt to perform a drop whenever possible.</para>
 			</listitem>
 		</varlistentry>
