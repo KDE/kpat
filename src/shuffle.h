@@ -56,11 +56,7 @@ namespace KpatShuffle
             // https://fc-solve.shlomifish.org/faq.html#what_are_ms_deals
             seed = 214013 * seed + 2531011;
             int rand = ( seed >> 16 ) & 0x7fff;
-#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
-            result.swap( i - 1, rand % i );
-#else
             result.swapItemsAt( i - 1, rand % i );
-#endif
         }
 
         return result;

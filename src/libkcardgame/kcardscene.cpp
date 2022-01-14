@@ -760,11 +760,7 @@ void KCardScene::recalculatePileLayouts()
 
 void KCardScene::setHighlightedItems( const QList<QGraphicsItem*> &items )
 {
-#if (QT_VERSION < QT_VERSION_CHECK(5, 14, 0))
-    const QSet<QGraphicsItem*> s = QSet<QGraphicsItem*>::fromList( items );
-#else
     const QSet<QGraphicsItem*> s = QSet<QGraphicsItem*>(items.cbegin(), items.cend());
-#endif
     const auto unhighlightedItems = d->highlightedItems.subtract(s);
     for (QGraphicsItem * i : unhighlightedItems)
         setItemHighlight( i, false );

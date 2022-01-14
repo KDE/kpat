@@ -146,11 +146,7 @@ KCardTheme::KCardTheme( const QString & dirName )
         }
     }
 
-#if (QT_VERSION < QT_VERSION_CHECK(5, 14, 0))
-    const QSet<QString> supportedFeaturesSet = supportedFeatures.toSet();
-#else
     const QSet<QString> supportedFeaturesSet(supportedFeatures.cbegin(), supportedFeatures.cend());
-#endif
     d = new KCardThemePrivate( isValid,
                                dirName,
                                displayName,
