@@ -443,11 +443,12 @@ void MainWindow::configureAppearance()
                        );
 
         KgThemeProvider* provider = Renderer::self()->themeProvider();
-        dialog->addPage( new KgThemeSelector(provider, KgThemeSelector::EnableNewStuffDownload, this),
+        auto themeSelector = new KgThemeSelector(provider, KgThemeSelector::EnableNewStuffDownload, this);
+        themeSelector->setNewStuffConfigFileName(QStringLiteral("kpat.knsrc"));
+        dialog->addPage(themeSelector,
                          i18n("Game Theme"),
                          QStringLiteral("games-config-theme"),
-                         i18n("Select a theme for non-card game elements")
-                       );
+                         i18n("Select a theme for non-card game elements"));
 
         connect(provider, &KgThemeProvider::currentThemeChanged, this, &MainWindow::appearanceChanged);
         connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::appearanceChanged);

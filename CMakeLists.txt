@@ -52,7 +52,7 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     XmlGui
 )
 
-find_package(KF5KDEGames 7.3.0 REQUIRED)
+find_package(KF5KDEGames 7.3.1 REQUIRED)
 
 
 add_definitions(
