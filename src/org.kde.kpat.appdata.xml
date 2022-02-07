@@ -25,6 +25,7 @@
   <name xml:lang="pl">KPasjans</name>
   <name xml:lang="pt">Paciência</name>
   <name xml:lang="pt-BR">KPatience</name>
+  <name xml:lang="ro">KPasențe</name>
   <name xml:lang="ru">KPatience</name>
   <name xml:lang="sk">KPatience</name>
   <name xml:lang="sl">KPatience</name>
@@ -54,6 +55,7 @@
   <summary xml:lang="pl">Gra karciana pasjans</summary>
   <summary xml:lang="pt">Jogo de cartas do solitário</summary>
   <summary xml:lang="pt-BR">Jogo de cartas paciência</summary>
+  <summary xml:lang="ro">Joc de cărți Solitaire</summary>
   <summary xml:lang="sk">Kartová hra typu Solitaire</summary>
   <summary xml:lang="sl">Igra s kartami pasjanse</summary>
   <summary xml:lang="sv">Patienskortspel</summary>
@@ -116,6 +118,7 @@
       <caption xml:lang="pl">Ekran wyboru pasjansa</caption>
       <caption xml:lang="pt">Ecrã de selecção do solitário</caption>
       <caption xml:lang="pt-BR">Tela de seleção de paciência</caption>
+      <caption xml:lang="ro">Ecranul de alegere Solitaire</caption>
       <caption xml:lang="sk">Obrazovka výberu solitaire</caption>
       <caption xml:lang="sl">Izbirni zaslon vrste pasjanse</caption>
       <caption xml:lang="sv">Skärm för val av patiens</caption>
