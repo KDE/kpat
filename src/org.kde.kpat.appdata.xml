@@ -56,6 +56,7 @@
   <summary xml:lang="pt">Jogo de cartas do solitário</summary>
   <summary xml:lang="pt-BR">Jogo de cartas paciência</summary>
   <summary xml:lang="ro">Joc de cărți Solitaire</summary>
+  <summary xml:lang="ru">Косынка</summary>
   <summary xml:lang="sk">Kartová hra typu Solitaire</summary>
   <summary xml:lang="sl">Igra s kartami pasjanse</summary>
   <summary xml:lang="sv">Patienskortspel</summary>
@@ -84,6 +85,7 @@
     <p xml:lang="pl">KPat (znany również jako KPatience) jest odprężającą grą w układanie kart. Aby wygrać grę, gracz musi ułożyć pojedynczą talię kart w odpowiedniej kolejności względem siebie.</p>
     <p xml:lang="pt">O KPat (ou KPatience) é um jogo de cartas relaxante. Para ganhar o jogo, o jogador tem de organizar um único baralho de cartas de acordo com uma dada ordem entre si.</p>
     <p xml:lang="pt-BR">KPat (ou KPatience) é um relaxante jogo de ordenação de cartas. Para ganhar o jogo, o jogador tem que arranjar um baralho de cartas em uma certa ordem entre as cartas.</p>
+    <p xml:lang="ru">KPat (или KPatience) — расслабляющая игра на упорядочивание карт. Чтобы выиграть игру, игрок должен расположить колоду карт в определённом порядке.</p>
     <p xml:lang="sk">KPat (aka KPatience) je relaxačná hra na triedenie kariet. Aby hráč vyhral hru, musí si medzi sebou usporiadať jeden balíček kariet v určitom poradí.</p>
     <p xml:lang="sl">KPat (ali KPatience) je sprostitvena igra z urejanjem kart. Za zmago v igri mora igralec zložiti en komplet igralnih kart v določenem redu.</p>
     <p xml:lang="sv">KPat (också känt som Patiens) är ett avkopplande kortsorteringsspel. För att vinna spelet måste spelaren arrangera korten i en kortlek i en viss ordning bland varandra.</p>
@@ -119,6 +121,7 @@
       <caption xml:lang="pt">Ecrã de selecção do solitário</caption>
       <caption xml:lang="pt-BR">Tela de seleção de paciência</caption>
       <caption xml:lang="ro">Ecranul de alegere Solitaire</caption>
+      <caption xml:lang="ru">Окно выбора пасьянса</caption>
       <caption xml:lang="sk">Obrazovka výberu solitaire</caption>
       <caption xml:lang="sl">Izbirni zaslon vrste pasjanse</caption>
       <caption xml:lang="sv">Skärm för val av patiens</caption>
