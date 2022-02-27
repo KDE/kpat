@@ -75,6 +75,8 @@ QSize MessageBox::size() const
 void MessageBox::paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget )
 {
     QRect rect = pixmap().rect();
+    rect.setWidth(rect.width() / pixmap().devicePixelRatio());
+    rect.setHeight(rect.height() / pixmap().devicePixelRatio());
 
     if ( rect.isEmpty() )
         return;
