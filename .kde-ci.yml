@@ -6,3 +6,5 @@ Dependencies:
   'require':
     'frameworks/extra-cmake-modules': '@stable'
     'games/libkdegames': '@same'
+Options:
+  require-passing-tests-on: [ 'Linux', 'FreeBSD']
