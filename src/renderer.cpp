@@ -21,6 +21,7 @@
 // own
 #include "settings.h"
 // KDEGames
+#include <kdegames_version.h>
 #include <KgThemeProvider>
 
 
@@ -76,8 +77,11 @@ static KgThemeProvider* provider()
 {
     KgThemeProvider* prov = new KgThemeProvider;
     prov->discoverThemes(
-        "appdata", QStringLiteral("themes"), //theme file location
-        QStringLiteral("greenblaze")         //default theme file name
+#if KDEGAMES_VERSION < QT_VERSION_CHECK(7, 4, 0)
+        "appdata",
+#endif
+        QStringLiteral("themes"),     //theme file location
+        QStringLiteral("greenblaze")  //default theme file name
     );
     return prov;
 }
