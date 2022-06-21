@@ -49,7 +49,9 @@
 #include <KCrash>
 #include <KLocalizedString>
 #include <KDBusService>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <Kdelibs4ConfigMigrator>
+#endif
 // Qt
 #include <QRandomGenerator>
 #include <QFile>
@@ -109,11 +111,12 @@ int main( int argc, char **argv )
 
     KLocalizedString::setApplicationDomain("kpat");
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     Kdelibs4ConfigMigrator migrate(QStringLiteral("kpat"));
     migrate.setConfigFiles(QStringList() << QStringLiteral("kpatrc"));
     migrate.setUiFiles(QStringList() << QStringLiteral("kpatui.rc"));
     migrate.migrate();
-
+#endif
     KAboutData aboutData( QStringLiteral("kpat"),
                           i18n("KPatience"),
                           QStringLiteral(KPAT_VERSION_STRING),
