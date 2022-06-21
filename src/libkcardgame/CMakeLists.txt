@@ -35,7 +35,7 @@ target_link_libraries(kcardgame
     PRIVATE
         KF5::Completion
         KF5::GuiAddons
-        KF5::NewStuff
+        KF5::NewStuffWidgets
         KF5::I18n
         Qt${QT_MAJOR_VERSION}::Svg
 )

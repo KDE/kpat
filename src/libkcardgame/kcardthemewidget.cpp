@@ -25,7 +25,7 @@
 #include <KImageCache>
 #include <KLineEdit>
 #include <KLocalizedString>
-#include <KNS3/DownloadDialog>
+#include <KNSWidgets/Button>
 // Qt
 #include <QPushButton>
 #include <QMutexLocker>
@@ -331,17 +331,6 @@ void KCardThemeWidgetPrivate::updateListView( const QString & dirName )
         listView->setCurrentIndex( index );
 }
 
-
-void KCardThemeWidgetPrivate::getNewCardThemes()
-{
-    QPointer<KNS3::DownloadDialog> dialog = new KNS3::DownloadDialog( QStringLiteral("kcardtheme.knsrc"), q );
-    dialog->exec();
-    if ( dialog && !dialog->changedEntries().isEmpty() )
-        model->reload();
-    delete dialog;
-}
-
-
 KCardThemeWidget::KCardThemeWidget( const QSet<QString> & requiredFeatures, const QString & previewString, QWidget * parent )
   : QWidget( parent ),
     d( new KCardThemeWidgetPrivate( this ) )
@@ -394,8 +383,13 @@ KCardThemeWidget::KCardThemeWidget( const QSet<QString> & requiredFeatures, cons
     connect( d->listView->selectionModel(), &QItemSelectionModel::currentChanged, d, &KCardThemeWidgetPrivate::updateLineEdit );
     connect( d->hiddenLineEdit, &QLineEdit::textChanged, d, &KCardThemeWidgetPrivate::updateListView );
 
-    d->newDeckButton = new QPushButton( QIcon::fromTheme( QStringLiteral( "get-hot-new-stuff") ), i18n("Get New Card Decks..." ), this );
-    connect( d->newDeckButton, &QAbstractButton::clicked, d, &KCardThemeWidgetPrivate::getNewCardThemes );
+    d->newDeckButton = new KNSWidgets::Button(this);
+    d->newDeckButton->setConfigFile(QStringLiteral("kcardtheme.knsrc"));
+    QObject::connect(d->newDeckButton, &KNSWidgets::Button::dialogFinished, this, [this](const QList<KNSCore::Entry> &changedEntries) {
+        if (!changedEntries.isEmpty()) {
+            d->model->reload();
+        }
+    });
 
     QHBoxLayout * hLayout = new QHBoxLayout();
     hLayout->addStretch( 1 );

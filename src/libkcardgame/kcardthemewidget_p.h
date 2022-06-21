@@ -35,6 +35,9 @@ class KLineEdit;
 class QPushButton;
 class QListView;
 
+namespace KNSWidgets {
+class Button;
+}
 
 class PreviewThread : public QThread
 {
@@ -105,7 +108,6 @@ public:
 public Q_SLOTS:
     void updateLineEdit( const QModelIndex & index );
     void updateListView( const QString & dirName );
-    void getNewCardThemes();
 
 public:
     KCardThemeWidget * q;
@@ -115,7 +117,7 @@ public:
     CardThemeModel * model;
     QListView * listView;
     KLineEdit * hiddenLineEdit;
-    QPushButton * newDeckButton;
+    KNSWidgets::Button * newDeckButton;
 
     int itemMargin;
     int textHeight;
