@@ -100,6 +100,7 @@
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=kpat</url>
   <url type="help">https://docs.kde.org/?application=kpat</url>
   <url type="donation">https://www.kde.org/community/donations/?app=kpat&amp;source=appdata</url>
+  <launchable type="desktop-id">org.kde.kpat.desktop</launchable>
   <screenshots>
     <screenshot type="default">
       <caption>Solitaire selection screen</caption>
