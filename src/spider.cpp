@@ -139,13 +139,16 @@ void Spider::initialize()
     options = new KSelectAction(i18n("Spider &Options"), this );
     options->addAction( i18n("1 Suit (Easy)") );
     options->addAction( i18n("2 Suits (Medium)") );
-    options->addAction( i18n("4 Suits (Hard)") );
+    options->addAction( i18n("3 Suits (Hard)"));
+    options->addAction( i18n("4 Suits (Very Hard)") );
     if ( m_suits == 1 )
         options->setCurrentItem( 0 );
     else if ( m_suits == 2 )
         options->setCurrentItem( 1 );
-    else
+    else if ( m_suits == 3)
         options->setCurrentItem( 2 );
+    else
+        options->setCurrentItem( 3 );
     connect(options, &KSelectAction::indexTriggered, this, &Spider::gameTypeChanged);
 
     m_stackFaceupOption = new KSelectAction(i18n("S&tack Options"), this );
@@ -173,6 +176,8 @@ void Spider::gameTypeChanged()
             setSuits( 1 );
         else if ( options->currentItem() == 1 )
             setSuits( 2 );
+        else if ( options->currentItem() == 2)
+            setSuits( 3 );
         else
             setSuits( 4 );
 
@@ -191,8 +196,10 @@ void Spider::gameTypeChanged()
             options->setCurrentItem( 0 );
         else if ( m_suits == 2 )
             options->setCurrentItem( 1 );
-        else
+        else if ( m_suits == 3)
             options->setCurrentItem( 2 );
+        else
+            options->setCurrentItem( 3 );
 
         m_stackFaceupOption->setCurrentItem( m_stackFaceup );
     }
@@ -219,8 +226,10 @@ void Spider::setSuits(int suits)
             options->setCurrentItem( 0 );
         else if ( m_suits == 2 )
             options->setCurrentItem( 1 );
-        else
+        else if ( m_suits == 3)
             options->setCurrentItem( 2 );
+        else
+            options->setCurrentItem( 3 );
     }
 }
 
@@ -237,6 +246,8 @@ void Spider::createDeck()
         suits << KCardDeck::Spades << KCardDeck::Spades << KCardDeck::Spades << KCardDeck::Spades;
     else if ( m_suits == 2 )
         suits << KCardDeck::Hearts << KCardDeck::Spades << KCardDeck::Hearts << KCardDeck::Spades;
+    else if ( m_suits == 3 )
+        suits << KCardDeck::Clubs << KCardDeck::Spades << KCardDeck::Hearts << KCardDeck::Spades;
     else
         suits << KCardDeck::Clubs << KCardDeck::Diamonds << KCardDeck::Hearts << KCardDeck::Spades;
 
@@ -472,6 +483,9 @@ void Spider::mapOldId(int id)
    case DealerInfo::SpiderTwoSuitId :
        setSuits(2);
        break;
+   case DealerInfo::SpiderThreeSuitId :
+       setSuits(3);
+       break;
    case DealerInfo::SpiderFourSuitId :
        setSuits(4);
        break;
@@ -486,6 +500,8 @@ int Spider::oldId() const
         return DealerInfo::SpiderOneSuitId;
     case 2 :
         return DealerInfo::SpiderTwoSuitId;
+    case 3 :
+        return DealerInfo::SpiderThreeSuitId;
     case 4 :
     default :
         return DealerInfo::SpiderFourSuitId;
@@ -501,6 +517,7 @@ public:
     {
         addSubtype( SpiderOneSuitId, kli18n( "Spider (1 Suit)" ) );
         addSubtype( SpiderTwoSuitId, kli18n( "Spider (2 Suit)" ) );
+        addSubtype( SpiderThreeSuitId, kli18n( "Spider (3 Suit)" ) );
         addSubtype( SpiderFourSuitId, kli18n( "Spider (4 Suit)" ) );
     }
 

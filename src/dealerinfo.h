@@ -89,7 +89,8 @@ public:
         CastleStreetAlleyId = 43,
         CastleSiegecraftId  = 44,
         CastleStrongholdId  = 45,
-        CastleCustomId      = 49
+        CastleCustomId      = 49,
+        SpiderThreeSuitId   = 50
     };
 
     DealerInfo( const KLazyLocalizedString & untranslatedBaseName, int baseId );
