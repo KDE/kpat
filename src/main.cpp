@@ -126,7 +126,6 @@ int main( int argc, char **argv )
                           QString(),
                           QStringLiteral("https://kde.org/applications/games/org.kde.kpat") );
 
-    aboutData.setOrganizationDomain(QByteArray("kde.org"));
     aboutData.addAuthor( i18n("Paul Olav Tvete"),
                          i18n("Author of original Qt version"),
                          QStringLiteral("paul@troll.no") );
