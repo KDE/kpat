@@ -96,7 +96,7 @@
     <p xml:lang="x-test">xxKPat (aka KPatience) is a relaxing card sorting game. To win the game a player has to arrange a single deck of cards in certain order amongst each other.xx</p>
     <p xml:lang="zh-CN">KPat (又称 KPatience) 是一个轻松的卡牌排序游戏。玩家必须率先按一定顺序排序一层卡牌，才能赢下游戏。</p>
   </description>
-  <url type="homepage">https://games.kde.org/games/kpat</url>
+  <url type="homepage">https://apps.kde.org/kpat</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=kpat</url>
   <url type="help">https://docs.kde.org/?application=kpat</url>
   <url type="donation">https://www.kde.org/community/donations/?app=kpat&amp;source=appdata</url>

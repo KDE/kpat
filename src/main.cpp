@@ -124,7 +124,7 @@ int main( int argc, char **argv )
                           KAboutLicense::GPL_V2,
                           i18n("© 1995 Paul Olav Tvete\n© 2000 Stephan Kulow"),
                           QString(),
-                          QStringLiteral("https://kde.org/applications/games/org.kde.kpat") );
+                          QStringLiteral("https://apps.kde.org/kpat") );
 
     aboutData.addAuthor( i18n("Paul Olav Tvete"),
                          i18n("Author of original Qt version"),
