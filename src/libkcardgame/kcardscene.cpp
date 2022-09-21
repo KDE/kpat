@@ -147,7 +147,7 @@ KCardPile * KCardScenePrivate::bestDestinationPileUnderCards()
     KCardPile * bestTarget = nullptr;
     qreal bestArea = 1;
 
-    for (KCardPile * p : qAsConst(targets)) {
+    for (KCardPile * p : std::as_const(targets)) {
         if ( p != cardsBeingDragged.first()->pile() && q->allowedToAdd( p, cardsBeingDragged ) )
         {
             QRectF targetRect = p->sceneBoundingRect();
@@ -395,7 +395,7 @@ void KCardScenePrivate::updateKeyboardFocus()
 
     QPointF delta = focusItem->pos() - startOfDrag;
     startOfDrag = focusItem->pos();
-    for (KCard * c : qAsConst(cardsBeingDragged))
+    for (KCard * c : std::as_const(cardsBeingDragged))
         c->setPos( c->pos() + delta );
 }
 
@@ -689,11 +689,11 @@ void KCardScene::recalculatePileLayouts()
     }
 
     // Grow piles down
-    for (KCardPile * p1 : qAsConst(visiblePiles)) {
+    for (KCardPile * p1 : std::as_const(visiblePiles)) {
         if ( p1->heightPolicy() == KCardPile::GrowDown )
         {
             areas[p1].setBottom( contentHeight );
-            for (KCardPile * p2 : qAsConst(visiblePiles)) {
+            for (KCardPile * p2 : std::as_const(visiblePiles)) {
                 if ( p2 != p1 && areas[p1].intersects( areas[p2] ) )
                 {
                     if ( p2->heightPolicy() == KCardPile::GrowUp )
@@ -706,11 +706,11 @@ void KCardScene::recalculatePileLayouts()
     }
 
     // Grow piles up
-    for (KCardPile * p1 : qAsConst(visiblePiles)) {
+    for (KCardPile * p1 : std::as_const(visiblePiles)) {
         if ( p1->heightPolicy() == KCardPile::GrowUp )
         {
             areas[p1].setTop( 0 );
-            for (KCardPile * p2 : qAsConst(visiblePiles)) {
+            for (KCardPile * p2 : std::as_const(visiblePiles)) {
                 if ( p2 != p1 && areas[p1].intersects( areas[p2] ) )
                 {
                     if ( p2->heightPolicy() == KCardPile::GrowDown )
@@ -723,11 +723,11 @@ void KCardScene::recalculatePileLayouts()
     }
 
     // Grow piles right
-    for (KCardPile * p1 : qAsConst(visiblePiles)) {
+    for (KCardPile * p1 : std::as_const(visiblePiles)) {
         if ( p1->widthPolicy() == KCardPile::GrowRight )
         {
             areas[p1].setRight( contentWidth );
-            for (KCardPile * p2 : qAsConst(visiblePiles)) {
+            for (KCardPile * p2 : std::as_const(visiblePiles)) {
                 if ( p2 != p1 && areas[p1].intersects( areas[p2] ) )
                 {
                     if ( p2->widthPolicy() == KCardPile::GrowLeft )
@@ -740,11 +740,11 @@ void KCardScene::recalculatePileLayouts()
     }
 
     // Grow piles left
-    for (KCardPile * p1 : qAsConst(visiblePiles)) {
+    for (KCardPile * p1 : std::as_const(visiblePiles)) {
         if ( p1->widthPolicy() == KCardPile::GrowLeft )
         {
             areas[p1].setLeft( 0 );
-            for (KCardPile * p2 : qAsConst(visiblePiles)) {
+            for (KCardPile * p2 : std::as_const(visiblePiles)) {
                 if ( p2 != p1 && areas[p1].intersects( areas[p2] ) )
                 {
                     if ( p2->widthPolicy() == KCardPile::GrowRight )
@@ -772,7 +772,7 @@ void KCardScene::setHighlightedItems( const QList<QGraphicsItem*> &items )
 
 void KCardScene::clearHighlightedItems()
 {
-    for (QGraphicsItem * i : qAsConst(d->highlightedItems))
+    for (QGraphicsItem * i : std::as_const(d->highlightedItems))
         setItemHighlight( i, false );
     d->highlightedItems.clear();
 }
@@ -916,7 +916,7 @@ void KCardScene::keyboardFocusSelect()
                           : pile->pos();
 
             QPointF offset = d->startOfDrag - card->pos() + QPointF( d->deck->cardWidth(), d->deck->cardHeight() ) / 10.0;
-            for (KCard * c : qAsConst(d->cardsBeingDragged)) {
+            for (KCard * c : std::as_const(d->cardsBeingDragged)) {
                 c->stopAnimation();
                 c->raise();
                 c->setPos( c->pos() + offset );
@@ -1052,7 +1052,7 @@ void KCardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
             if ( allowedToRemove( card->pile(), cards.first() ) )
             {
                 d->cardsBeingDragged = cards;
-                for (KCard * c : qAsConst(d->cardsBeingDragged)) {
+                for (KCard * c : std::as_const(d->cardsBeingDragged)) {
                     c->stopAnimation();
                     c->raise();
                 }
@@ -1094,7 +1094,7 @@ void KCardScene::mouseMoveEvent( QGraphicsSceneMouseEvent * e )
 
         if ( d->dragStarted )
         {
-            for (KCard * card : qAsConst(d->cardsBeingDragged))
+            for (KCard * card : std::as_const(d->cardsBeingDragged))
                 card->setPos( card->pos() + e->scenePos() - d->startOfDrag );
             d->startOfDrag = e->scenePos();
 

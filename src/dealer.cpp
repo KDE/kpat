@@ -377,7 +377,7 @@ void DealerScene::saveFile( QIODevice * io )
         if ( i == m_undoStack.size() )
             xml.writeAttribute( QStringLiteral("current"), QStringLiteral("true") );
 
-        for (const CardStateChange & change : qAsConst(state->changes)) {
+        for (const CardStateChange & change : std::as_const(state->changes)) {
             xml.writeStartElement( QStringLiteral("move") );
             xml.writeAttribute( QStringLiteral("pile"), change.newState.pile->objectName() );
             xml.writeAttribute( QStringLiteral("position"), QString::number( change.newState.index ) );
@@ -1201,7 +1201,7 @@ void DealerScene::undoOrRedo( bool undo )
         // necessarily at the right positions within those piles. So we
         // run through the piles involved and swap card positions until
         // everything is back in its place, then relayout the piles.
-        for (KCardPile * p : qAsConst(pilesAffected)) {
+        for (KCardPile * p : std::as_const(pilesAffected)) {
             int i = 0;
             while ( i < p->count() )
             {
@@ -1420,13 +1420,13 @@ bool DealerScene::drop()
             QList<KCard*> cards = mh.card()->pile()->topCardsDownTo( mh.card() );
 
             QMap<KCard*,QPointF> oldPositions;
-            for (KCard * c : qAsConst(cards))
+            for (KCard * c : std::as_const(cards))
                 oldPositions.insert( c, c->pos() );
 
             moveCardsToPile( cards, mh.pile(), DURATION_MOVE );
 
             int count = 0;
-            for (KCard * c : qAsConst(cards)) {
+            for (KCard * c : std::as_const(cards)) {
                 c->completeAnimation();
                 QPointF destPos = c->pos();
                 c->setPos( oldPositions.value( c ) );
@@ -1891,7 +1891,7 @@ QImage DealerScene::createDump() const
     img.fill( Qt::transparent );
     QPainter p( &img );
 
-    for (QGraphicsItem * item : qAsConst(itemsByZ)) {
+    for (QGraphicsItem * item : std::as_const(itemsByZ)) {
         if ( item->isVisible() )
         {
             p.save();

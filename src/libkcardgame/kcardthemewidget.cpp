@@ -72,7 +72,7 @@ void PreviewThread::halt()
 
 void PreviewThread::run()
 {
-    for (const KCardTheme & theme : qAsConst(m_themes)) {
+    for (const KCardTheme & theme : std::as_const(m_themes)) {
         {
             QMutexLocker l( &m_haltMutex );
             if ( m_haltFlag )
@@ -96,7 +96,7 @@ void PreviewThread::run()
                              / ( d->previewSize.width() - d->previewLayout.size() * d->baseCardSize.width() );
 
         qreal xPos = 0;
-        for (const QList<QString> & pile : qAsConst(d->previewLayout)) {
+        for (const QList<QString> & pile : std::as_const(d->previewLayout)) {
             for (const QString & card : pile) {
                 renderer.render( &p, card, QRectF( QPointF( xPos, yPos ), size ) );
                 xPos += 0.3 * spacingWidth;

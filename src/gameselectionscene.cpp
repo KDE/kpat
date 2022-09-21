@@ -294,7 +294,7 @@ void GameSelectionScene::resizeScene( const QSize & size )
     int row = 0;
     int col = 0;
 
-    for (GameSelectionBox * box : qAsConst(m_boxes)) {
+    for (GameSelectionBox * box : std::as_const(m_boxes)) {
         // Reduce font size until the label fits
         while ( pixelFontSize > minimumFontSize
                 && p.boundingRect( QRectF(), box->label() ).width() > maxLabelWidth )

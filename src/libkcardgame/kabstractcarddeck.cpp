@@ -73,7 +73,7 @@ void RenderingThread::run()
     }
 
     const auto size = m_size * qApp->devicePixelRatio();
-    for (const QString & element : qAsConst(m_elementsToRender)) {
+    for (const QString & element : std::as_const(m_elementsToRender)) {
         if ( m_haltFlag )
             return;
 
@@ -288,7 +288,7 @@ KAbstractCardDeck::KAbstractCardDeck( const KCardTheme & theme, QObject * parent
 
 KAbstractCardDeck::~KAbstractCardDeck()
 {
-    for (KCard * c : qAsConst(d->cards))
+    for (KCard * c : std::as_const(d->cards))
         delete c;
     d->cards.clear();
 }
@@ -296,7 +296,7 @@ KAbstractCardDeck::~KAbstractCardDeck()
 
 void KAbstractCardDeck::setDeckContents( const QList<quint32> & ids )
 {
-    for (KCard * c : qAsConst(d->cards))
+    for (KCard * c : std::as_const(d->cards))
         delete c;
     d->cards.clear();
     d->cardsWaitedFor.clear();
