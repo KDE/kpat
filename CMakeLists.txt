@@ -9,7 +9,7 @@ set(RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_
 project(kpat VERSION ${RELEASE_SERVICE_VERSION})
 
 set (QT_MIN_VERSION "5.15.2")
-set (KF5_MIN_VERSION "5.90.0")
+set (KF5_MIN_VERSION "5.91.0")
 
 include(FindPkgConfig)
 pkg_check_modules(FC_SOLVE REQUIRED libfreecell-solver)
