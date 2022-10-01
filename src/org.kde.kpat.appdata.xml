@@ -19,6 +19,7 @@
   <name xml:lang="hu">KPatience</name>
   <name xml:lang="id">KPatience</name>
   <name xml:lang="it">KPatience</name>
+  <name xml:lang="ka">KPatience</name>
   <name xml:lang="ko">KPatience</name>
   <name xml:lang="nl">KPatience</name>
   <name xml:lang="nn">KPatience</name>
@@ -50,6 +51,7 @@
   <summary xml:lang="hu">Pasziánsz kártyajáték</summary>
   <summary xml:lang="id">Permainan kartu solitaire</summary>
   <summary xml:lang="it">Solitari con le carte</summary>
+  <summary xml:lang="ka">კარტის თამაში Solitaire</summary>
   <summary xml:lang="ko">솔리테어 카드 게임</summary>
   <summary xml:lang="nl">Solitaire kaartspel</summary>
   <summary xml:lang="nn">Kabelspel</summary>
@@ -118,6 +120,7 @@
       <caption xml:lang="hu">Játékmódválasztó képernyő</caption>
       <caption xml:lang="id">Layar pemilihan solitaire</caption>
       <caption xml:lang="it">Schermata di selezione del solitario</caption>
+      <caption xml:lang="ka">Solitaire -ის ეკრანის არჩევა</caption>
       <caption xml:lang="ko">솔리테어 선택 화면</caption>
       <caption xml:lang="nl">Selectiescherm van Solitaire</caption>
       <caption xml:lang="nn">Val av kabaltype</caption>
