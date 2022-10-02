@@ -1,0 +1,1284 @@
+<?xml version="1.0" ?>
+<!--IMPORTANT: please note that'do not change this!' notice does not apply to translators -->
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Czech "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY % addindex "IGNORE"
+> <!-- do not change this! -->
+]>
+
+<book id="kpat" lang="&language;"
+> <!-- do not change this! -->
+<bookinfo>
+	<title
+>Příručka aplikace &kpatience;</title
+> <!-- This is the title of the docbook. Leave as is unless change is necessary.-->
+<!-- List of immidiate authors begins here. -->
+<!--INPORTANT! - All other contributors: [to be determined] -->
+<authorgroup>
+<author
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> </author>
+<author
+><firstname
+>Maren</firstname
+> <surname
+>Pakura</surname
+> </author>
+<author
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> </author>
+
+<othercredit role="reviewer"
+><firstname
+>Mike</firstname
+><surname
+>McBride</surname
+> <contrib
+>Kontrolor</contrib>
+<affiliation
+><address
+>&Mike.McBride.mail;</address
+></affiliation>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> <contrib
+>Vývojář</contrib>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> <contrib
+>Vývojář</contrib>
+</othercredit>
+
+<othercredit role="translator"
+><firstname
+>Lukáš</firstname
+><surname
+>Vlček</surname
+><affiliation
+><address
+><email
+>lukas.vlcek777@gmail.com</email
+></address
+></affiliation
+><contrib
+>Překlad</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Paul-Olav.Tvete;</holder>
+</copyright>
+
+<copyright>
+<year
+>2001</year
+><year
+>2004</year>
+<holder
+>&Maren.Pakura;</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year>
+<holder
+>&Stephan.Kulow;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>11.5.2016</date>
+<releaseinfo
+>3.6 (Aplikace 16.04)</releaseinfo>
+
+<!--Short description of this document. Do not change unless necessary!-->
+<abstract>
+	<para
+>Tato dokumentace popisuje hru &kpatience; ve verzi 3.6.</para>
+</abstract>
+
+<!--List of relevan keywords-->
+<keywordset>
+	<keyword
+>KDE</keyword
+> <!-- do not change this! -->
+	<keyword
+>kdegames</keyword
+> <!-- do not change this! -->
+	<keyword
+>hra</keyword
+> <!-- do not change this! -->
+	<keyword
+>KPatience</keyword
+><!--Application name goes here-->
+<!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<keyword
+>karetní</keyword>
+	<keyword
+>karetní hra</keyword>
+	<keyword
+>hrací karty</keyword>
+<!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+	<keyword
+>jeden hráč</keyword>
+<!--All other relevant keywords-->
+	<keyword
+>pasiáns</keyword>
+	<keyword
+>solitér</keyword>
+</keywordset>
+</bookinfo>
+<!--Content begins here: -->
+<chapter id="introduction"
+><title
+>Úvod</title
+> <!-- do not change this! -->
+	<note
+><title
+>Typ hry:</title
+><para
+>Karetní</para
+></note
+><!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<note
+><title
+>Počet možných hráčů:</title
+><para
+>Jeden</para
+></note
+><!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+
+<!--Short game description starts here. 3-4 sentences (paragraphs)-->
+
+<para
+>Chcete-li hrát pasiáns potřebujete, jak už název napovídá, trpělivost. U jednoduchých her, u kterých způsob hry závisí pouze na tom, jak přicházejí karty, může být Vaše trpělivost jediná věc, kterou potřebujete. </para>
+
+<para
+>Jsou zde také hry pasiánsu, ve kterých musíte předpovídat strategii a pro výhru myslet hodně dopředu. </para>
+
+<para
+>Úkol je ve všech hrách společný. Hráč musí poskládat karty v určeném pořadí &mdash; jejich přesouváním, otáčením a přeskládáváním. </para>
+</chapter>
+
+<chapter id="howto"
+><title
+>Jak hrát</title
+> <!-- do not change this! -->
+<!--IMPORTANT: If the game has no defined objective, please remove the below line.-->
+	<note
+><title
+>Cíl:</title
+><para
+>Změnit uspořádání karet podle barev co nejméně tahy.</para
+></note
+><!--Describe the objective of the game.-->
+<!--How to play description. Don't be to specific on rules as they have a separate section in this document-->
+	<para
+>Protože &kpatience; nabízí mnoho různých her solitéru, není zde žádný přímý návod, který by vyhovoval všem. Proto se doporučuje, přečíst každou jednotlivou podsekci herních pravidel, strategií a tipů, dříve než začnete některou verzi hrát.</para>
+<para
+>V podstatě existují dva druhy her solitéru - jeden umožňuje uspořádat karty podle stejných barev a druhý uspořádat karty se střídajícími se barvami. Můžete snadno určit, kterou hru zkusíte metodou pokus-omyl. Jakmile víte, která hra je rozdána, zbytek je snadný. Skládejte a přeskládávejte karty a shromažďujte ty odpovídající.</para>
+<para
+>Od začátku však dávejte pozor na balíky karet. Nespěchejte s přesouváním jednotlivých karet. Uvidíte, jestli by mohli být užitečné někde jinde.</para>
+<para
+>Chcete-li dodatečnou pomoc, můžete se také mrknout na stavovou lištu. Každá hra má vestavěného řešitele, který Vás informuje, zda je hra nyní řešitelná či nikoli. Vidíte-li, že řešitel nemůže hru dokončit, Vaše šance nemohou být lepší. V takovém případě můžete buď restartovat hru, nebo začít kompletně novou hru. </para>
+<note
+><title
+>Poznámka:</title
+><para
+>Hraní her solitéru značně pomáhá zlepšit Vaši pozornost a zvýšit schopnost soustředit se.</para
+></note>
+</chapter>
+
+<chapter id="rules_and_tips"
+><title
+>Herní pravidla, strategie a tipy</title
+> <!-- do not change this! -->
+
+<sect1 id="rules-general">
+	<title
+>Obecná pravidla</title>
+	<para
+><indexterm
+><primary
+>barvy</primary
+></indexterm
+>Karetní hra obsahuje jeden nebo více balíků 52 karet. Každý balík obsahuje tyto čtyři barvy:</para>
+	<informaltable pgwide="0" frame="none">
+		<tgroup cols="2"
+><colspec/><colspec/>
+	<tbody>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="clubs.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Kříže</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="spades.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Piky</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="hearts.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Srdce</entry>
+		</row>
+			<row valign="middle"
+><entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="diamonds.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Káry</entry>
+		</row>
+	</tbody
+></tgroup>
+	</informaltable>
+	<para
+>Každá z těchto barev obsahuje následující hodnoty karet: eso, dvojka, trojka, čtyřka, pětka, šestka, sedmička, osmička, devítka, desítka, kluk, královna a král.</para>
+	<para
+><indexterm
+><primary
+>rodina</primary
+></indexterm
+> Kompletní pořadí karet se nazývá rodina. Jsou zde pravé rodiny a falešné rodiny. Pravé rodiny jsou všechny jedné barvy (např. srdce). Ve falešných rodinách se barvy karet mění mezi černou (kříže a piky) a červenou barvou (srdce a káry).</para>
+	<para
+>Není-li rodina kompletní, nazývá se sekvencí.</para>
+	<mediaobject>
+		<imageobject
+><imagedata fileref="playfield.png" format="PNG"/></imageobject>
+		<textobject
+><phrase
+>Snímek hry &kpatience;</phrase
+></textobject>
+	</mediaobject>
+	<para
+>Je zde několik výrazů vycházejících z typických her pasiánsu. Popsány jsou níže.</para>
+	<variablelist>
+		<varlistentry
+><term
+>1. Talon</term>
+			<listitem
+><para
+><indexterm
+><primary
+>talon</primary
+></indexterm
+>Na začátku každé hry jsou všechny karty v balíku zamíchány. V některých hrách nejsou rozdány všechny karty. Zbývající karty jsou umístěny na talon (také nazýván fond). Můžete jej najít docela snadno, protože ve většině her je jen jedna hromádka, ve které jsou karty lícem dolů.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>2. Odkládací řada</term>
+			<listitem
+><para
+><indexterm
+><primary
+>odkládací řada</primary
+></indexterm
+>Mnoho her používá odkládací řadu k pojmutí karet odebraných z talonu. Kliknutí na talon způsobí, že svrchní karta bude otočena lícem nahoru a umístěna na odkládací řadu, ze které karty vstupují do hry.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>3. Základ</term>
+			<listitem
+><para
+><indexterm
+><primary
+>základ</primary
+></indexterm
+>Základové řady jsou místa, kde chcete, aby Vaše karty skončili. Hra všechny karty přesouvá do základových řad ve správném pořadí pouze jednou. Počet základových řad a požadovaná řazení se liší hra od hry.</para>
+                            <para
+>Většina her začíná s prázdnými základovými řadami. Vybráním činnosti <guimenuitem
+>Upustit</guimenuitem
+> z hlavní nabídky nebo nástrojové lišty způsobí, že aplikace &kpatience; prohledá všechny řady a sloupce a přesune co nejvíce možných karet do základových řad. Máte-li povolenu volbu <guimenuitem
+>Povolit automatické upuštění</guimenuitem
+>, aplikace &kpatience; se pokusí provést upuštění vždy, když je to možné.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>4. Herní sloupce</term>
+			<listitem
+><para
+><indexterm
+><primary
+>herní sloupce</primary
+></indexterm
+>Tyto sloupce jsou ty, ve kterých právě přeskládáváte karty. Pravidla pro tyto sloupce se mezi hrami velmi liší. Někdy zobrazují všechny karty, jindy ne. Některé umožňují přesunout jen jednu kartu, jiné umožňují přesunout všechny karty atd.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="rules-specific"
+><title
+>Pravidla pro jednotlivé hry</title>
+
+<sect2 id="klondike">
+<title
+>Klondike</title>
+
+<para
+><indexterm
+><primary
+>Klondike</primary
+></indexterm
+> Klondike je nejznámější pasiáns - nejpravděpodobněji proto, že přichází z dobře známého operačního systému. Hraje se s jedním balíkem karet. </para>
+
+<para
+>Cílem v Klondike je poskládat všechny karty do pravých vzestupných rodin na základ. Nejjednodušeji toho dosáhnete, jakmile budou všechny karty v herních sloupcích lícem nahoru. </para>
+
+<para
+>Sekvence v herních sloupcích musí být poskládány v sestupném pořadí. Karty by měly střídat barvu (červenou a černou). Vyhovuje-li první karta ve druhém sloupci, můžete přesunout celou sekvenci nebo její část. </para>
+
+<para
+>Na volnou řadu můžete položit krále kterékoli barvy nebo sekvenci karet začínající králem. </para>
+
+<para
+>Kliknete-li na talon, jedna karta z něj bude přesunuta na odkládací řadu. Odtud ji můžete přesunout na herní sloupce nebo na základ. Je-li talon prázdný, kliknutím na prázdný talon můžete přesunout celou odkládací řadu na talon. </para>
+
+<para
+>Karty v talonu můžete procházet jakkoli dlouho. </para>
+</sect2>
+
+<sect2 id="grandfather">
+<title
+>Dědeček</title>
+
+<para
+><indexterm
+><primary
+>Dědeček</primary
+></indexterm
+> Tuto hru představil &Paul-Olav.Tvete;, původní vývojář &kpatience;. Hra byla pojmenována podle jeho dědečkovi. Žádné další hry pasiánsu nejsou herní variantou tohoto pasiánsu. </para>
+        
+<para
+>V Dědečkovi je rozdán jeden balík do sedmi herních sloupců. Některé karty jsou po rozdání na každé řadě lícem dolů. </para>
+
+<para
+>Cílem je poskládat všechny karty do pravých vzestupných rodin na základové řady. </para>
+
+<para
+>Můžete přesunout každou kartu na každý sloupec s odpovídající kartou. Sestavte pravou sekvenci v klesajícím pořadí. Například můžete přesunout pětku pikovou na šestku pikovou, přitom nezáleží kolik karet je na pětce pikové. Jen šestka piková musí být navrchu svého sloupce. </para>
+
+<para
+>Na volné pole můžete umístit krále (opět nezáleží kolik karet na něm je). </para>
+
+<para
+>Nejsou-li žádné další tahy možné, můžete karty rozdat znovu. Opětovné rozdání spočívá v sesbírání karet z herních sloupců (sloupec po sloupci zleva doprava) a znovu je rozdá v počátečním uspořádání (klikaté řádky karet lícem dolů vytvářející vrchol a zleva doprava řádky karet lícem nahoru). Povšimněte si, že karty <emphasis
+>nejsou</emphasis
+> zamíchány a že karty na základových řadách jsou ponechány beze změny. Opětovně rozdat nemůžete více než dvakrát v jedné hře. </para>
+
+<para
+>I když jsou pravidla jednoduchá a umožňují mnoho tahů, hru je stále těžké vyhrát. I přesto, nebo právě proto, je radost tuto hru hrát. </para>
+</sect2>
+
+<sect2 id="aces-up">
+<title
+>Esa nahoru</title>
+
+<para
+><indexterm
+><primary
+>Esa nahoru</primary
+></indexterm
+> Tento pasiáns má jednoduché pravidla, ale ještě těžší je vyhrát. Hraje se s jedním balíkem. Cílem je poskládat všechny karty kromě es na základ. Poté by na každém herním sloupci mělo být nějaké eso. </para>
+
+<para
+>Každá vrchní karta, která je stejné barvy (např. piky) a má nižší hodnotu než jiná vrchní karta (např. šestka piková a čtyřka piková), může být kliknutím přesunuta na základ. </para>
+
+<para
+>Nelze-li přesunout žádnou kartu na základ, můžete kliknutím na talon rozdat novou kartu na každý herní sloupec. </para>
+
+<para
+>Na volný sloupec můžete přesunout jakoukoli vrchní kartu na sloupci. Tyto přesuny byste měli použít na volné sloupce. Tímto způsobem mohou být nové karty přesunuty na základ. </para>
+
+<para
+>Funkce automatické upuštění je v této hře zakázána. </para>
+
+</sect2>
+
+<sect2 id="freecell">
+<title
+>Freecell</title>
+
+<para
+><indexterm
+><primary
+>Freecell</primary
+></indexterm
+> Freecell se hraje s jedním balíkem karet. V levém horním rohu máte čtyři volná pole. Kromě toho jsou zde čtyři základové řady a níže osm herních sloupců. </para>
+
+<para
+>Cílem hry je mít všechny karty v pravých vzestupných rodinách na základu. Hru často můžete dokončit, víte-li jak hrát: Freecell je řešitelné přibližně z 99.9% &mdash; z prvních 32 000 rozdání je zde neřešitelné pouze jedno (chcete-li vědět jaké: 11 982). </para>
+
+<para
+>V herních sloupcích musíte sestavit klesající sekvenci, ve které se střídají červené a černé karty. Jakoukoli kartu můžete položit na volná pole. </para>
+
+<para
+>Přesouvat můžete pouze jednu kartu ležící navrchu řady nebo na volném poli. Sekvence může být přesunuta, máte-li dostatek volného místa (buď volných polí nebo volných herních sloupců) pro přesun karet. </para>
+
+<para
+>Maximální počet karet, které lze přesunout, spočítáte takto: </para>
+
+<sidebar
+><para
+>(#{volná pole} + 1) * 2<superscript
+>#{volné řady}</superscript
+> </para
+></sidebar>
+
+<para
+>Chcete-li tuto hru vyřešit, doporučuje se brát karty v herních sekvencích ve stejném pořadí, ve kterém musí být umístěny na základ (první esa, pak dvojky atd.). </para>
+
+<para
+>Měli byste zkusit udržet si hodně volných polí a/nebo prázdných herních sloupců. Tak můžete sestavit sekvence tak dlouhé, jak jen to bude možné. </para>
+
+</sect2>
+
+<sect2 id="mod3">
+<title
+>Mod3</title>
+
+<para
+><indexterm
+><primary
+>Mod3</primary
+></indexterm
+> Mod3 se hraje se dvěma balíky karet. Cílem je poskládat všechny karty na horní tři řady. V těch musíte sestavit sekvence s jednou barvou. V první řadě musíte vytvořit sekvenci 2-5-8-J, ve druhé řadě sekvenci 3-6-9-Q a ve třetí řadě sekvenci 4-7-10-K. Barva karet musí být stejná v každé sekvenci, takže pokládat můžete pouze pětku srdcovou na dvojku srdcovou. </para>
+
+<para
+>Čtvrtá řada je zároveň odkládací a herní řada. Na prázdné pole můžete pokládat jakoukoli kartu z prvních třech řad nebo jinou ze čtvrté řady. </para>
+
+<para
+>Esa můžete pokládat na esové sloupce umístěné nad talonem. Esa jsou ve hře, takže budete mít první možnost pro vytvoření volných polí. </para>
+
+<para
+>Nelze-li přesunout žádné karty, nové karty na čtvrtou řadu můžete získat kliknutím na talon. </para>
+
+<para
+>Funkce automatické upuštění je v této hře zakázána. </para>
+</sect2>
+
+<sect2 id="gypsy">
+<title
+>Cikán</title>
+
+<para
+><indexterm
+><primary
+>Cikán</primary
+></indexterm
+> Cikán se hraje se dvěma balíky karet. Cílem je poskládat všechny karty do pravých vzestupných rodin na základ. </para>
+
+<para
+>Herní sloupce musí být sestupné při střídání červených a černých karet. Přesouvat můžete pouze sekvence nebo jednotlivé karty. Na volné pole můžete pokládat jakoukoli kartu nebo sekvenci. </para>
+
+<para
+>Nelze-li přesunout žádnou kartu, klikněte na talon, abyste na každý herní sloupec obdrželi novou kartu. </para>
+
+<para
+>Použitím funkce <guibutton
+>Zpět</guibutton
+> si můžete hru velice usnadnit, protože musíte vzít v úvahu hodně rozhodnutí a některá z nich nemusí po kliknutí na talon skončit dobře. </para>
+
+</sect2>
+
+<sect2 id="forty-and-eight">
+<title
+>Čtyřicet &amp; osm</title>
+
+<para
+><indexterm
+><primary
+>Čtyřicet &amp; osm</primary
+></indexterm
+> Čtyřicet &amp; osm se hraje se dvěma balíky karet. Cílem je poskládat všechny karty do pravých rodin na základ. </para>
+
+<para
+>Herní sloupce musí být sestupné. Barvy jsou důležité. Například pokládat můžete například pouze pětku srdcovou na šestku srdcovou. </para>
+
+<para
+>Přesouvat můžete pouze jednu kartu sloupce. Na volné pole můžete pokládat jakoukoli kartu. </para>
+
+<para
+>Kliknutím na talon můžete položit kartu na odkládací řadu. Odtud ji můžete položit na herní sloupec nebo na základ (to bude aplikace &kpatience; dělat za Vás). Je-li talon prázdný, můžete všechny karty poskládané na odkládací řadě přesunout zpět na talon. To funguje pouze jednou: po druhém vyprázdnění talonu hra končí. </para>
+
+<para
+>Tento pasiáns je obtížné vyřešit. S několika málo zkušenostmi můžete vyřešit mnoho rozdání, zvláště použijete-li čas od času k opravě Vašich rozhodnutí funkci <guibutton
+>Zpět</guibutton
+>. </para>
+</sect2>
+
+<sect2 id="simple-simon">
+<title
+>Jednoduchý Šimon</title>
+
+<para
+><indexterm
+><primary
+>Jednoduchý Šimon</primary
+></indexterm
+> Jednoduchý Šimon se hraje s jedním balíkem karet. Cílem je poskládat všechny karty do pravých rodin na základ. </para>
+
+<para
+>V herních sloupcích můžete sestavovat sekvence. Obecně se nemusíte starat o barvu karet, ale sekvence mohou být přesunuty, pouze jsou-li to čisté sekvence. Například můžete přesunout šestku pikovou, je-li na ní pětka <emphasis
+>piková</emphasis
+>, ale nemůžete ji přesunout, je-li na ní pětka <emphasis
+>křížová</emphasis
+>. </para>
+
+<para
+>Karty mohou být přesunuty na základ, leží-li všech 13 karet v jedné rodině navrchu některého herního sloupce. </para>
+
+<tip>
+<title
+>Rada</title>
+<para
+>Měli byste se snažit, co nejdříve přemístit karty do správných řad, abyste vytvořili volná pole pro dočasně umístěné karty, protože na ně můžete pokládat kteroukoli kartu. </para>
+
+<para
+>S dostatkem volných polí, můžete sestavit rodinu na volných polích nezávisle na barvě. Máte-li všechny karty v takových rodinách, můžete je uspořádat podle barvy. A tak je můžete přesunout na základ. </para>
+</tip>
+
+</sect2>
+
+<sect2 id="yukon">
+<title
+>Yukon</title>
+
+<para
+><indexterm
+><primary
+>Yukon</primary
+></indexterm
+> Yukon se hraje s jedním balíkem karet. Cílem je poskládat všechny karty do pravých vzestupných rodin na základ. </para>
+
+<para
+>Sekvence na herních sloupcích musí být sestupné se střídajícími se červenými a černými kartami. Přesunout můžete každou kartu otočenou lícem nahoru. A nezáleží kolik karet je na přemisťované kartě. Tak můžete položit pětku srdcovou na šestku pikovou, je-li šestka navrchu sloupce. </para>
+
+<para
+>Na volné pole můžete pokládat krále kterékoli barvy (opět nezávisí kolik karet na něm je). </para>
+</sect2>
+
+<sect2 id="grandfathers-clock">
+<title
+>Dědečkovy hodiny</title>
+
+<para
+><indexterm
+><primary
+>Dědečkovy hodiny</primary
+></indexterm
+> Dědečkovy hodiny je jednoduchá hra pasiánsu. S několika málo zkušenostmi, byste měli vyřešit mnoho rozdání. Hraje se s jedním balíkem karet. Cílem je poskládat karty do pravých vzestupných sekvencí na základ. </para>
+
+<para
+>Základ je po pravé ruce a obsahuje 12 řad ve tvaru hodin. Devítka je na 12 hodinách, královna je na 3 hodinách, trojka je na 6 hodinách a šestka je na 9 hodinách. </para>
+
+<para
+>Vedle hodin je zde 8 herních sloupců a na každém je 5 karet. Na herních sloupcích můžete sestavovat sestupné sekvence. Barva karet není důležitá. Najednou můžete přesouvat pouze jednu kartu. </para>
+
+</sect2>
+
+<sect2 id="golf">
+<title
+>Golf</title>
+
+<para
+><indexterm
+><primary
+>Golf</primary
+></indexterm
+> Golf se hraje s jedním balíkem karet. Cílem v Golfu je přesunout všechny karty na tablu do základu. </para>
+ 
+<para
+>Rozvržení solitéru golf je zřejmé. Na začátku uvidíte tablo. Na něm je sedm sloupců, každý obsahuje pět karet. Talon a základ jsou níže. </para>
+
+<para
+>Hraní solitéru golf je jednoduché, ale k výhře vyžaduje strategii. Vrchní karty na každém sloupci na tablu jsou dostupné pro hraní. Dostupné karty se skládají navrch základových karet ve vzestupné nebo sestupné sekvenci bez ohledu na barvu. Není-li žádná dostupná karta k přesunu, můžete odebrat kartu z talonu do základu. Hra končí, když všechny karty v talonu byly odebrány a nejsou zde žádné další možné tahy.</para>
+
+</sect2>
+
+<sect2 id="spider">
+<title
+>Pavouk</title>
+
+<para
+><indexterm
+><primary
+>Pavouk</primary
+></indexterm
+> Spider se hraje se dvěma balíky karet. Karty jsou rozdány do 10 herních sloupců, vždy 4 po 6 kartách a 6 po 5 kartách. To ponechává 50 karet, které mohou být odebrány 10 pokusy, jedna na každý herní sloupec. </para>
+
+<para
+>V herních sloupcích může být karta umístěna na jinou kartu kterékoli barvy a o jedničku vyšší hodnoty. Sekvence sestupných karet stejné barvy může být přesunuta z jednoho herního sloupce na jiný. </para>
+
+<para
+>Cílem v pavoukovi je poskládat všechny karty do pravých sestupných rodin od krále odkudkoli v herním sloupci. Když je taková rodina v herním sloupci sestavena, je přesunuta do levého dolního rohu okna. </para>
+
+<para
+>Obtížnost úrovně stanovuje, kolik barev je rozdáno - Lehká používá 1 barvu, Střední používá 2 barvy a Těžká používá všechny čtyři barvy. Hru je docela lehké vyhrát na Lehkou úroveň a velice těžké vyhrát na Těžkou úroveň. </para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="interface"
+><title
+>Náhled na rozhraní</title
+> <!-- do not change this! -->
+<!-- This section has to do with menubar. Describe every single entry in order. Use <variablelist
+> and <varlistentry
+>. Split the chapter into sections using <sect1(2,3)
+> for better viewing.-->
+<sect1 id="game-menu">
+	<title
+>Nabídka Hra</title>
+		<variablelist>
+			<varlistentry id="game-menu-new-game">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>N</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Hra</guimenu
+> <guimenuitem
+>Nová hra...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Vrací do obrazovky herního výběru.</action
+> Tato činnost opouští probíhající rozdání.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-deal">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Hra</guimenu
+> <guimenuitem
+>Nově rozdat</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Spouští nové rozdání stejného herního typu.</action
+> Tato činnost opouští probíhající rozdání.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-numbered-deal">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Hra</guimenu
+> <guimenuitem
+>Nové očíslované rozdání...</guimenuitem
+> </menuchoice
+></term>
+				<listitem>
+					<para
+><action
+>Spouští nové rozdání určené tímto herním typem a číslem rozdání.</action
+> Tato činnost opouští probíhající rozdání.</para>
+					<para
+>&kpatience; uděluje každému rozdání jedinečné identifikační číslo (které se použije pro náhodnou desku během počátečního rozdání). Tato funkce umožňuje přehrát mnoho zajímavých rozdání, nebo se pokusit o zvláště obtížné rozdání doporučené přítelem. Obzvláště nadšení hráči si mohou přát, aby "porazili" &kpatience; tím, že postupně zahrají všech 2147483647 rozdání pro každý z herních typů.</para>
+					<para
+>Povšimněte si, že čísla rozdání aplikace &kpatience; pro Freecell odpovídají těm popsaným na <ulink url="http://www.solitairelaboratory.com/fcfaq.html"
+>Freecell FAQ</ulink
+> .</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-restart-deal">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F5</keycap
+></shortcut
+> <guimenu
+>Hra</guimenu
+> <guimenuitem
+>Restartovat rozdání</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Vrací aktuální hru do počátečního stavu rozdání.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Hra</guimenu
+> <guimenuitem
+>Načíst...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Načítá uloženou hru.</action
+> Tato činnost opouští probíhající rozdání.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load-recent">
+				<term
+><menuchoice
+><guimenu
+>Hra</guimenu
+> <guisubmenu
+>Načíst nedávnou</guisubmenu
+> <guimenuitem
+><replaceable
+>Seznam k nedávno přistoupeným souborům</replaceable
+></guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Seznam k nedávno přistoupeným uloženým souborům v pořadí od posledního použitého.</action
+> Vybráním se hra načte. Tato činnost opouští probíhající rozdání.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-save">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Hra</guimenu
+> <guimenuitem
+>Uložit jako...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Ukládá aktuální hru na disk.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-statistics">
+				<term
+><menuchoice
+><guimenu
+>Hra</guimenu
+> <guimenuitem
+>Statistiky</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Zobrazuje různé statistiky o Vašich výkonech prolomených daným herním typem.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-quit">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Hra</guimenu
+> <guimenuitem
+>Ukončit</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Ukončí</action
+> &kpatience;.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="move-menu">
+	<title
+>Nabídka Tah</title>
+		<variablelist>
+			<varlistentry id="move-menu-undo">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Tah</guimenu
+> <guimenuitem
+>Zpět</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Vrací</action
+> poslední tah.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-redo">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>Z</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Tah</guimenu
+> <guimenuitem
+>Znovu</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Opakuje</action
+> tah vrácený pomocí <guimenuitem
+>Zpět</guimenuitem
+>.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-hint">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>H</keycap
+></shortcut
+> <guimenu
+>Tah</guimenu
+> <guimenuitem
+>Rada</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Poskytuje některé rady ohledně možných tahů, které by měl hráč vzít v úvahu. Karty, které mohou být podle pravidel přesunuty na jinou řadu, jsou dočasně zvýrazněny.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-demo">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>D</keycap
+></shortcut
+> <guimenu
+>Tah</guimenu
+> <guimenuitem
+>Demo</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Spouští režim demo.</action
+> V režimu demo se aplikace &kpatience; pokouší vyřešit rozdání za Vás. Abyste ukončili režim demo, spusťte tuto činnost podruhé.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-draw">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>Mezerník</keycap
+></shortcut
+> <guimenu
+>Tah</guimenu
+> <guimenuitem
+>Sejmout</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Obrací jednu z více karet z talonu a přesune ji na odkládací řadu.</action
+> Tato činnost je dostupná pouze v určitých hrách.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-deal-row">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>Return</keycap
+></shortcut
+> <guimenu
+>Tah</guimenu
+> <guimenuitem
+>Rozdat řadu</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Obrací více karet z talonu a přesune jednu na každý herní sloupec.</action
+> Tato činnost je dostupná pouze v určitých hrách.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-redeal">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>R</keycap
+></shortcut
+> <guimenu
+>Tah</guimenu
+> <guimenuitem
+>Rozdat znovu</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Při hře sesbírá zleva všechny karty a opětovně je bez zamíchání rozdá.</action
+> Tato činnost je dostupná pouze v určitých hrách.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="settings-help-menu">
+	<title
+>Nabídky Nastavení a Nápověda</title>
+<para
+>Na rozdíl od běžných &kde; nabídek Nastavení a Nápověda popsaných v příručce Základy &kde; v kapitole popisující <ulink url="help:/fundamentals/ui.html#menus"
+>nabídky</ulink
+> má &kpatience; tyto jedinečné položky nabídek: </para>
+		<variablelist>
+			<varlistentry id="settings-menu-game-type-options">
+				<term
+><menuchoice
+><guimenu
+>Nastavení</guimenu
+> <guisubmenu
+><replaceable
+>Možnosti herního typu</replaceable
+></guisubmenu
+> <guimenuitem
+><replaceable
+>Seznam možností zvoleného herního typu</replaceable
+></guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Seznam možností určených pro aktuální herní typ.</action
+> Tato nabídka je dostupná pouze v určitých hrách (Klondike a Spider).</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-stack-options">
+				<term
+><menuchoice
+><guimenu
+>Nastavení</guimenu
+> <guisubmenu
+>Nastavení herních sloupců</guisubmenu
+> <guimenuitem
+>Lícem dolů (obtížnější) / Lícem nahoru (snadnější)</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Umožňuje vám zvolit, zda by měli být karty lícem nahoru.</action
+> Tato nabídka je dostupná jen ve hře Spider.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-deck">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F10</keycap
+></shortcut
+> <guimenu
+>Nastavení</guimenu
+> <guimenuitem
+>Změnit vzhled...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Otevírá dialogové okno pro změnu použité sady karet a herního motivu.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-autodrop">
+				<term
+><menuchoice
+><guimenu
+>Nastavení</guimenu
+> <guimenuitem
+>Povolit automatické upuštění</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Povoluje automatický přesun karet do základových řad, je-li to možné.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-solver">
+				<term
+><menuchoice
+><guimenu
+>Nastavení</guimenu
+> <guimenuitem
+>Povolit řešitele</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Povoluje nástroj automatického řešení.</action
+> Když je řešitel povolen, bude se neustále snažit zjistit, zda lze aktuální hru vyhrát. Řešitele můžete zakázat, abyste šetřili procesor nebo spotřebu baterie.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-remember">
+				<term
+><menuchoice
+><guimenu
+>Nastavení</guimenu
+> <guimenuitem
+>Zapamatovat stav při ukončení</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Povoluje automatické uložení stavu hry, když je aplikace &kpatience; ukončena.</action
+> Je-li povoleno, aplikace &kpatience; bude načítat předchozí stav hry automaticky při dalším spuštění.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="help-menu-remember">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>F1</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Nápověda</guimenu
+> <guimenuitem
+>Nápověda k aktuální hře</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Otevírá část této příručky s pravidly pro aktuální hru. </para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="faq"
+><title
+>Často kladené otázky</title
+> <!-- do not change this! -->
+<!--This chapter is for frequently asked questions. Please use <qandaset
+> <qandaentry
+> only!-->
+<qandaset>
+<!--Following is a standard list of FAQ questions.-->
+<qandaentry>
+ <question
+><para
+>Chci změnit vzhled hry. Mohu? </para
+></question>
+ <answer
+><para
+>Můžete změnit líc i rub hracích karet a herní motiv. To uděláte použitím hlavní nabídky <menuchoice
+> <shortcut
+><keycap
+>F10</keycap
+></shortcut
+> <guimenu
+>Nastavení</guimenu
+> <guimenuitem
+>Změnit vzhled...</guimenuitem
+> </menuchoice
+>.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Mohu při hraní této hry použít klávesnici?</para
+></question>
+ <answer
+><para
+>Ne, &kpatience; nepodporuje při hraní klávesnici. Avšak nejčastější volby hlavní nabídky mají klávesové zkratky.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Dokonce ani s radou ještě nemám ponětí jak hrát. Pomozte!</para
+></question>
+ <answer
+><para
+>Kromě funkce <quote
+>Rada</quote
+> je zde také použitelný režim <quote
+>Demo</quote
+>, ve kterém bude vestavěná umělá inteligence hrát za Vás. Můžete zkusit sledovat a učit se. Nicméně máte-li jakékoli otázky, je lepší přečíst části příručky <link linkend="howto"
+>Jak hrát</link
+> a <link linkend="rules_and_tips"
+>Herní pravidla, strategie a tipy</link
+>.</para
+></answer>
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits"
+><title
+>Informace o autorech a licenční ujednání</title
+> <!-- do not change this! -->
+<!--This chapter is for credits and licenses.-->
+
+<para
+>&kpatience; </para>
+<!--List all the copyright holders here-->
+<para
+>Autorská práva na aplikaci &kpatience; &copy; 1995-2000: &Paul-Olav.Tvete; </para>
+
+<para
+>Autorská práva na aplikaci &kpatience; &copy; 2001-2007: &Stephan.Kulow; &Stephan.Kulow.mail; </para>
+
+<para
+>Řešitel pro Freecell od: Shlomi Fish <email
+>shlomif@vipe.technion.ac.il</email
+> </para>
+
+<para
+>Autorská práva na dokumentaci &copy; 2000: &Paul-Olav.Tvete; </para>
+
+<para
+>Dokumentace aktualizovaná pro &kde; 2.0: &Mike.McBride; &Mike.McBride.mail; </para>
+
+<para
+>Dokumentace přepsána pro &kpatience; 2.0 (&kde; 2.1): &Maren.Pakura; &Maren.Pakura.mail; </para>
+
+<para
+>Dokumentaci pro &kpatience; 3.6 kontroluje a aktualizuje: &Richard.Hawthorne; &Richard.Hawthorne.mail; </para>
+
+<para
+>Překlad dokumentace Lukáš Vlček <email
+>lukas.vlcek777@gmail.com</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index; 
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-omittag:t
+sgml-shorttag:t
+sgml-namecase-general:t
+sgml-always-quote-attributes:t
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->

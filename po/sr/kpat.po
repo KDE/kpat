@@ -1,0 +1,806 @@
+# Translation of kpat.po into Serbian.
+# Milos Puzovic <m.puzovic@etoncollege.org.uk>, 2001.
+# Bojan Bozovic <bole89@infosky.net>, 2003.
+# Chusslove Illich <caslav.ilic@gmx.net>, 2003, 2004, 2005, 2009, 2010, 2011, 2012, 2013, 2014, 2016.
+# Slobodan Simic <slsimic@gmail.com>, 2009, 2010.
+# Dalibor Djuric <daliborddjuric@gmail.com>, 2010, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: kpat\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2020-01-20 03:10+0100\n"
+"PO-Revision-Date: 2016-11-28 01:33+0100\n"
+"Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
+"Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
+"Language: sr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Accelerator-Marker: &\n"
+"X-Text-Markup: kde4\n"
+"X-Environment: kde\n"
+"X-Generator: Lokalize 1.0\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Милош Пузовић,Часлав Илић,Слободан Симић"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "m.puzovic@etoncollege.org.uk,caslav.ilic@gmx.net,slsimic@gmail.com"
+
+# >> @item game type
+#: clock.cpp:155
+#, kde-format
+msgid "Grandfather's Clock"
+msgstr "дедин часовник|/|$[својства аку 'дедин часовник']"
+
+#: dealer.cpp:73
+#, kde-format
+msgid "Solver: This game is winnable."
+msgstr "Решавач: партија се може добити."
+
+#: dealer.cpp:75
+#, kde-format
+msgid "Solver: This game is no longer winnable."
+msgstr "Решавач: партија се више не може добити."
+
+#: dealer.cpp:76
+#, kde-format
+msgid "Solver: This game cannot be won."
+msgstr "Решавач: партија се не може добити."
+
+#: dealer.cpp:78
+#, kde-format
+msgid "Solver: Unable to determine if this game is winnable."
+msgstr "Решавач: не могу да одредим да ли се партија може добити."
+
+#: dealer.cpp:969
+#, kde-format
+msgid "Congratulations! We have won."
+msgstr "Честитке! Победили смо."
+
+#: dealer.cpp:971
+#, kde-format
+msgid "Congratulations! You have won."
+msgstr "Честитке! Победили сте."
+
+#: dealer.cpp:1315
+#, kde-format
+msgid "Solver: This game is lost."
+msgstr "Решавач: партија је изгубљена."
+
+#: dealer.cpp:1470
+#, kde-format
+msgid "Solver: Calculating..."
+msgstr "Решавач: рачунам..."
+
+#: dealer.cpp:1944
+#, kde-format
+msgid ""
+"A new game has been requested, but there is already a game in progress.\n"
+"\n"
+"A loss will be recorded in the statistics if the current game is abandoned."
+msgstr ""
+"Затражена је нова партија, али је једна већ у току.\n"
+"\n"
+"Ако се тренутна партија напусти, биће забележена у статистику као изгубљена."
+
+#: dealer.cpp:1946
+#, kde-format
+msgid "Abandon Current Game?"
+msgstr "Напустити текућу партију?"
+
+#: dealer.cpp:1947
+#, kde-format
+msgid "Abandon Current Game"
+msgstr "Напусти партију"
+
+# >> @item game type
+#: fortyeight.cpp:252
+#, kde-format
+msgid "Forty & Eight"
+msgstr "четрдесет и осам|/|$[својства аку 'четрдесет и осам']"
+
+#: freecell.cpp:297
+#, kde-format
+msgid "Freecell"
+msgstr "фрисел"
+
+# >> @item game type
+#: golf.cpp:195
+#, kde-format
+msgid "Golf"
+msgstr "голф|/|$[својства аку 'голф']"
+
+# >> @item game type
+#: grandf.cpp:200
+#, kde-format
+msgid "Grandfather"
+msgstr "деда|/|$[својства аку 'деду']"
+
+# >> @item game type
+#: gypsy.cpp:177
+#, kde-format
+msgid "Gypsy"
+msgstr "циганин|/|$[својства аку 'циганина']"
+
+# >> @item game type
+#: idiot.cpp:259
+#, kde-format
+msgid "Aces Up"
+msgstr "асови горе|/|$[својства аку 'асове горе']"
+
+#: klondike.cpp:142
+#, kde-format
+msgid "Klondike &Options"
+msgstr "&Опције клондајка"
+
+#: klondike.cpp:143
+#, kde-format
+msgid "Draw 1"
+msgstr "Извлачење једне"
+
+#: klondike.cpp:144
+#, kde-format
+msgid "Draw 3"
+msgstr "Извлачење три"
+
+# >> @item game type
+#: klondike.cpp:345
+#, kde-format
+msgid "Klondike"
+msgstr "клондајк"
+
+# >> @item game type
+# well-spelled: изв
+#: klondike.cpp:347
+#, kde-format
+msgid "Klondike (Draw 1)"
+msgstr "клондајк (изв. 1)"
+
+# >> @item game type
+# well-spelled: изв
+#: klondike.cpp:348
+#, kde-format
+msgid "Klondike (Draw 3)"
+msgstr "клондајк (изв. 3)"
+
+#. i18n: ectx: Menu (move)
+#: kpatui.rc:23
+#, kde-format
+msgid "Move"
+msgstr "Потез"
+
+#. i18n: ectx: ToolBar (mainToolBar)
+#: kpatui.rc:43
+#, kde-format
+msgid "Main Toolbar"
+msgstr "Главна трака"
+
+#: libkcardgame/kcardthemewidget.cpp:297
+#, kde-format
+msgid "Loading..."
+msgstr "Учитавам..."
+
+#: libkcardgame/kcardthemewidget.cpp:396
+#, kde-format
+msgid "Get New Card Decks..."
+msgstr "Добави нове шпилове карата..."
+
+#: main.cpp:116
+#, kde-format
+msgid "KPatience"
+msgstr "К‑пасијанс"
+
+# rewrite-msgid: /Game//
+#: main.cpp:118
+#, kde-format
+msgid "KDE Patience Game"
+msgstr "Пасијанс за КДЕ‑а"
+
+#: main.cpp:120
+#, kde-format
+msgid ""
+"© 1995 Paul Olav Tvete\n"
+"© 2000 Stephan Kulow"
+msgstr ""
+"© 1995, Паул Олав Твете\n"
+"© 2000, Штефан Кулов"
+
+#: main.cpp:125
+#, kde-format
+msgid "Paul Olav Tvete"
+msgstr "Паул Олав Твете"
+
+#: main.cpp:126
+#, kde-format
+msgid "Author of original Qt version"
+msgstr "Аутор оригиналне КуТ верзије"
+
+#: main.cpp:128
+#, kde-format
+msgid "Mario Weilguni"
+msgstr "Марио Вајлгуни"
+
+#: main.cpp:129
+#, kde-format
+msgid "Initial KDE port"
+msgstr "Почетни пренос на КДЕ"
+
+#: main.cpp:131
+#, kde-format
+msgid "Matthias Ettrich"
+msgstr "Матијас Етрих"
+
+#: main.cpp:134
+#, kde-format
+msgid "Rodolfo Borges"
+msgstr "Родолфо Боржес"
+
+#: main.cpp:135
+#, kde-format
+msgid "New game types"
+msgstr "Нове врсте игара"
+
+#: main.cpp:137
+#, kde-format
+msgid "Peter H. Ruegg"
+msgstr "Петер Х. Риг"
+
+#: main.cpp:140
+#, kde-format
+msgid "Michael Koch"
+msgstr "Михаел Кох"
+
+#: main.cpp:141 main.cpp:162
+#, kde-format
+msgid "Bug fixes"
+msgstr "Исправке грешака"
+
+#: main.cpp:143
+#, kde-format
+msgid "Marcus Meissner"
+msgstr "Маркус Мајснер"
+
+#: main.cpp:144
+#, kde-format
+msgid "Shuffle algorithm for game numbers"
+msgstr "Алгоритам мешања за бројеве игре"
+
+#: main.cpp:146
+#, kde-format
+msgid "Tom Holroyd"
+msgstr "Том Холројд"
+
+#: main.cpp:147
+#, kde-format
+msgid "Initial patience solver"
+msgstr "Почетни решавач пасијанса"
+
+#: main.cpp:149
+#, kde-format
+msgid "Stephan Kulow"
+msgstr "Штефан Кулов"
+
+#: main.cpp:150
+#, kde-format
+msgid "Rewrite and current maintainer"
+msgstr "Писање изнова и тренутни одржавалац"
+
+#: main.cpp:152
+#, kde-format
+msgid "Erik Sigra"
+msgstr "Ерик Сигра"
+
+#: main.cpp:153
+#, kde-format
+msgid "Klondike improvements"
+msgstr "Побољшања клондајка"
+
+#: main.cpp:155
+#, kde-format
+msgid "Josh Metzler"
+msgstr "Џош Мецлер"
+
+#: main.cpp:156
+#, kde-format
+msgid "Spider implementation"
+msgstr "Изведба паука"
+
+#: main.cpp:158
+#, kde-format
+msgid "Maren Pakura"
+msgstr "Марен Пакура"
+
+#: main.cpp:159
+#, kde-format
+msgid "Documentation"
+msgstr "Документација"
+
+#: main.cpp:161
+#, kde-format
+msgid "Inge Wallin"
+msgstr "Инге Валин"
+
+#: main.cpp:164
+#, kde-format
+msgid "Simon Hürlimann"
+msgstr "Симон Хирлиман"
+
+#: main.cpp:165
+#, kde-format
+msgid "Menu and toolbar work"
+msgstr "Рад око менија и траке алатки"
+
+#: main.cpp:167
+#, kde-format
+msgid "Parker Coates"
+msgstr "Паркер Коутс"
+
+#: main.cpp:168
+#, kde-format
+msgid "Cleanup and polish"
+msgstr "Чишћење и полирање"
+
+#: main.cpp:170
+#, kde-format
+msgid "Shlomi Fish"
+msgstr ""
+
+#: main.cpp:171
+#, kde-format
+msgid "Integration with Freecell Solver and further work"
+msgstr ""
+
+#: main.cpp:187
+#, kde-format
+msgctxt "List separator"
+msgid ", "
+msgstr ", "
+
+#: main.cpp:193
+#, kde-format
+msgid "Try to find a solution to the given savegame"
+msgstr "Покушај да нађеш решење за дату позицију"
+
+#: main.cpp:194
+#, kde-format
+msgid "Dealer to solve (debug)"
+msgstr "Делилац решава (исправљање)"
+
+#: main.cpp:195
+#, kde-format
+msgid "Game range start (default 0:INT_MAX)"
+msgstr "Опсег игре почиње (подразумевано 0:максимум)"
+
+#: main.cpp:196
+#, kde-format
+msgid "Game range end (default start:start if start given)"
+msgstr "Опсег игре завршава (подразумевано почетак:почетак ако је дат почетак)"
+
+#: main.cpp:197
+#, kde-format
+msgid ""
+"Skip the selection screen and load a particular game type. Valid values are: "
+"%1"
+msgstr ""
+"Прескочи изборни екран и учитај дату врсту игре. Прихватљиве вредности: %1"
+
+#: main.cpp:198
+#, kde-format
+msgid "Directory with test cases"
+msgstr "Фасцикла са пробним случајевима"
+
+#: main.cpp:199
+#, kde-format
+msgid "Generate random test cases"
+msgstr "Генериши насумичне пробне случајеве"
+
+#: main.cpp:200
+#, kde-format
+msgid "File to load"
+msgstr "Фајл за учитавање"
+
+#: mainwindow.cpp:154
+#, kde-format
+msgctxt "Start a new game of a different type"
+msgid "New &Game..."
+msgstr "Нова &игра..."
+
+#: mainwindow.cpp:160
+#, kde-format
+msgctxt "Start a new game of without changing the game type"
+msgid "New &Deal"
+msgstr "Ново &дељење"
+
+#: mainwindow.cpp:166
+#, kde-format
+msgctxt "Start a game by giving its particular number"
+msgid "New &Numbered Deal..."
+msgstr "Ново &нумерисано дељење..."
+
+#: mainwindow.cpp:171
+#, kde-format
+msgctxt "Replay the current deal from the start"
+msgid "Restart Deal"
+msgstr "Дели из почетка"
+
+#: mainwindow.cpp:177
+#, kde-format
+msgctxt "Start the game with the number one greater than the current one"
+msgid "Next Deal"
+msgstr "Следеће дељење"
+
+#: mainwindow.cpp:186
+#, kde-format
+msgctxt "Start the game with the number one less than the current one"
+msgid "Previous Deal"
+msgstr "Претходно дељење"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, GameStats)
+#: mainwindow.cpp:200 statisticsdialog.cpp:60 statisticsdialog.ui:13
+#, kde-format
+msgid "Statistics"
+msgstr "Статистика"
+
+#: mainwindow.cpp:230
+#, kde-format
+msgctxt ""
+"Take one or more cards from the deck, flip them, and place them in play"
+msgid "Dra&w"
+msgstr "&Вуци"
+
+#: mainwindow.cpp:235
+#, kde-format
+msgctxt "Deal a new row of cards from the deck"
+msgid "Dea&l Row"
+msgstr "Дели &врсту"
+
+#: mainwindow.cpp:240
+#, kde-format
+msgctxt "Collect the cards in play, shuffle them and redeal them"
+msgid "&Redeal"
+msgstr "Дели &поново"
+
+#: mainwindow.cpp:245
+#, kde-format
+msgctxt "Automatically move cards to the foundation piles"
+msgid "Dro&p"
+msgstr "&Спусти"
+
+#: mainwindow.cpp:254
+#, kde-format
+msgid "Change Appearance..."
+msgstr "Промени изглед..."
+
+#: mainwindow.cpp:258
+#, kde-format
+msgid "&Enable Autodrop"
+msgstr "&Аутоматско спуштање"
+
+#: mainwindow.cpp:263
+#, kde-format
+msgid "E&nable Solver"
+msgstr "&Решавач"
+
+#: mainwindow.cpp:268
+#, kde-format
+msgid "Play &Sounds"
+msgstr "&Звукови"
+
+#: mainwindow.cpp:273
+#, kde-format
+msgid "&Remember State on Exit"
+msgstr "&Запамти стање на изласку"
+
+#: mainwindow.cpp:290
+#, kde-format
+msgid "Generate a theme preview image"
+msgstr "Генериши слику прегледа теме"
+
+#: mainwindow.cpp:295
+#, kde-format
+msgid "Take Game Preview Snapshots"
+msgstr "Снимак прегледа игре"
+
+#: mainwindow.cpp:300
+#, kde-format
+msgid "Random Cards"
+msgstr "Случајне карте"
+
+#: mainwindow.cpp:307
+#, kde-format
+msgid "Move Focus to Previous Pile"
+msgstr ""
+
+#: mainwindow.cpp:311
+#, kde-format
+msgid "Move Focus to Next Pile"
+msgstr ""
+
+#: mainwindow.cpp:315
+#, kde-format
+msgid "Move Focus to Card Below"
+msgstr ""
+
+#: mainwindow.cpp:319
+#, kde-format
+msgid "Move Focus to Card Above"
+msgstr ""
+
+#: mainwindow.cpp:323
+#, kde-format
+msgid "Cancel Focus"
+msgstr ""
+
+#: mainwindow.cpp:327
+#, kde-format
+msgid "Pick Up or Set Down Focus"
+msgstr ""
+
+#: mainwindow.cpp:439
+#, kde-format
+msgid "Card Deck"
+msgstr "Шпил карата"
+
+# >> @title:window
+#: mainwindow.cpp:441
+#, kde-format
+msgid "Select a card deck"
+msgstr "Избор шпила карата"
+
+#: mainwindow.cpp:446
+#, kde-format
+msgid "Game Theme"
+msgstr "Тема игре"
+
+#: mainwindow.cpp:448
+#, kde-format
+msgid "Select a theme for non-card game elements"
+msgstr "Изаберите тему за елементе игре осим шпила карата"
+
+# >> %1 is game type
+#: mainwindow.cpp:535
+#, kde-format
+msgctxt ""
+"Is disabled and changes to \"Help &with Current Game\" when there is no "
+"current game."
+msgid "Help &with %1"
+msgstr "Помоћ &за %1|/|Помоћ &за $[аку %1]"
+
+#: mainwindow.cpp:569
+#, kde-format
+msgctxt "Shown when there is no game open. Is always disabled."
+msgid "Help &with Current Game"
+msgstr "Помоћ &за текућу игру"
+
+#: mainwindow.cpp:741
+#, kde-format
+msgid ""
+"Are you sure you want to hide the menubar? The current shortcut to show it "
+"again is %1."
+msgstr ""
+"Желите ли заиста да сакријете траку менија? Пречица за њено поновно дозивање "
+"је %1."
+
+# >> @title:window
+#: mainwindow.cpp:743
+#, kde-format
+msgid "Hide Menubar"
+msgstr "Сакривање траке менија"
+
+#: mainwindow.cpp:844
+#, kde-format
+msgid "Downloading file failed: %1"
+msgstr "Преузимање фајла није успело: %1"
+
+#: mainwindow.cpp:851
+#, kde-format
+msgid "Error reading XML file: "
+msgstr "Грешка при читању ИксМЛ фајла:"
+
+# rewrite-msgid: /save/saved game/
+#: mainwindow.cpp:881
+#, kde-format
+msgid "XML file is not a KPat save."
+msgstr "ИксМЛ фајл није позиција К‑пасијанса."
+
+#: mainwindow.cpp:887
+#, kde-format
+msgid "Unrecognized game id."
+msgstr "Непрепознат ИД игре."
+
+#: mainwindow.cpp:908
+#, kde-format
+msgid "Errors encountered while parsing file."
+msgstr "Грешке при рашчлањивању фајла."
+
+# >> @title:window
+#: mainwindow.cpp:928
+#, kde-format
+msgid "Load"
+msgstr "Учитавање"
+
+# >> @title:window
+#: mainwindow.cpp:952
+#, kde-format
+msgid "Save"
+msgstr "Уписивање"
+
+#: mainwindow.cpp:971
+#, kde-format
+msgid "Error opening file for writing. Saving failed."
+msgstr "Грешка при отварању фајла за писање. Уписивање није успело."
+
+#: mainwindow.cpp:979
+#, kde-format
+msgid "Unable to create temporary file. Saving failed."
+msgstr "Не могу да направим привремени фајл. Уписивање није успело."
+
+#: mainwindow.cpp:1000
+#, kde-format
+msgid "Error uploading file. Saving failed: %1"
+msgstr "Грешка при отпремању фајла. Уписивање није успело: %1"
+
+#: mainwindow.cpp:1024
+#, kde-format
+msgid "1 move"
+msgid_plural "%1 moves"
+msgstr[0] "%1 потез"
+msgstr[1] "%1 потеза"
+msgstr[2] "%1 потеза"
+msgstr[3] "1 потез"
+
+# >> @item game type
+#: mod3.cpp:238
+#, kde-format
+msgid "Mod3"
+msgstr "мод‑3|/|$[својства аку 'мод‑3']"
+
+#: numbereddealdialog.cpp:36
+#, kde-format
+msgid "New Numbered Deal"
+msgstr "Ново нумерисано дељење"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#: numbereddealdialog.cpp:51 statisticsdialog.ui:33
+#, kde-format
+msgid "Game:"
+msgstr "Партија:"
+
+#: numbereddealdialog.cpp:55
+#, kde-format
+msgid "Deal number:"
+msgstr "Број дељења:"
+
+# >> @item game type
+#: simon.cpp:183
+#, kde-format
+msgid "Simple Simon"
+msgstr "прости сајмон|/|$[својства аку 'простог сајмона']"
+
+#: spider.cpp:138
+#, kde-format
+msgid "Spider &Options"
+msgstr "Опције &паука"
+
+#: spider.cpp:139
+#, kde-format
+msgid "1 Suit (Easy)"
+msgstr "једна боја (лако)"
+
+#: spider.cpp:140
+#, kde-format
+msgid "2 Suits (Medium)"
+msgstr "две боје (средње)"
+
+#: spider.cpp:141
+#, kde-format
+msgid "4 Suits (Hard)"
+msgstr "четири боје (тешко)"
+
+#: spider.cpp:150
+#, kde-format
+msgid "S&tack Options"
+msgstr "Опције &слагања"
+
+#: spider.cpp:151
+#, kde-format
+msgid "Face &Down (harder)"
+msgstr "лицем на&доле (теже)"
+
+#: spider.cpp:152
+#, kde-format
+msgid "Face &Up (easier)"
+msgstr "лицем на&горе (лакше)"
+
+# >> @item game type
+#: spider.cpp:498
+#, kde-format
+msgid "Spider"
+msgstr "паук|/|$[својства аку 'паука']"
+
+#: spider.cpp:500
+#, kde-format
+msgid "Spider (1 Suit)"
+msgstr "паук (једна боја)"
+
+#: spider.cpp:501
+#, kde-format
+msgid "Spider (2 Suit)"
+msgstr "паук (две боје)"
+
+#: spider.cpp:502
+#, kde-format
+msgid "Spider (4 Suit)"
+msgstr "паук (четири боје)"
+
+#: statisticsdialog.cpp:120
+#, kde-format
+msgid "%1 (%2%)"
+msgstr "%1 (%2%)"
+
+#: statisticsdialog.cpp:132
+#, kde-format
+msgid "1 loss"
+msgid_plural "%1 losses"
+msgstr[0] "%1 пораз"
+msgstr[1] "%1 пораза"
+msgstr[2] "%1 пораза"
+msgstr[3] "1 пораз"
+
+#: statisticsdialog.cpp:134
+#, kde-format
+msgid "1 win"
+msgid_plural "%1 wins"
+msgstr[0] "%1 победа"
+msgstr[1] "%1 победе"
+msgstr[2] "%1 победа"
+msgstr[3] "1 победа"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel7)
+#: statisticsdialog.ui:75
+#, kde-format
+msgid "Longest winning streak:"
+msgstr "Најдужи низ победа:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel2)
+#: statisticsdialog.ui:82
+#, kde-format
+msgid "Games played:"
+msgstr "Одиграних партија:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel8)
+#: statisticsdialog.ui:99
+#, kde-format
+msgid "Longest losing streak:"
+msgstr "Најдужи низ пораза:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3)
+#: statisticsdialog.ui:116
+#, kde-format
+msgid "Games won:"
+msgstr "Добијених партија:"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: statisticsdialog.ui:133
+#, kde-format
+msgid "Current streak:"
+msgstr "Тренутни низ:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: statisticsdialog.ui:147
+#, kde-format
+msgid "Minimal number of moves:"
+msgstr ""
+
+# >> @item game type
+#: yukon.cpp:132
+#, kde-format
+msgid "Yukon"
+msgstr "јукон|/|$[својства аку 'јукон']"

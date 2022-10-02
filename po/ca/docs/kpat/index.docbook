@@ -1,0 +1,1457 @@
+<?xml version="1.0" ?>
+<!--IMPORTANT: please note that'do not change this!' notice does not apply to translators -->
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Catalan  "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY % addindex "IGNORE"
+> <!-- do not change this! -->
+]>
+
+<book id="kpat" lang="&language;"
+> <!-- do not change this! -->
+<bookinfo>
+	<title
+>El manual del &kpatience;</title
+> <!-- This is the title of the docbook. Leave as is unless change is necessary.-->
+<!-- List of immidiate authors begins here. -->
+<!--INPORTANT! - All other contributors: [to be determined] -->
+<authorgroup>
+<author
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> </author>
+<author
+><firstname
+>Maren</firstname
+> <surname
+>Pakura</surname
+> </author>
+<author
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> </author>
+
+<othercredit role="reviewer"
+><firstname
+>Mike</firstname
+><surname
+>McBride</surname
+> <contrib
+>Revisor</contrib>
+<affiliation
+><address
+>&Mike.McBride.mail;</address
+></affiliation>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> <contrib
+>Desenvolupador</contrib>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> <contrib
+>Desenvolupador</contrib>
+</othercredit>
+
+&traductor.Antoni.Bella; 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Paul-Olav.Tvete;</holder>
+</copyright>
+
+<copyright>
+<year
+>2001</year
+><year
+>2004</year>
+<holder
+>&Maren.Pakura;</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year>
+<holder
+>&Stephan.Kulow;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>20 de juny de 2021</date>
+<releaseinfo
+>KDE Gear 21.04</releaseinfo>
+
+<!--Short description of this document. Do not change unless necessary!-->
+<abstract>
+	<para
+>Aquesta documentació descriu el joc &kpatience; versió 21.04</para>
+</abstract>
+
+<!--List of relevan keywords-->
+<keywordset>
+	<keyword
+>KDE</keyword
+> <!-- do not change this! -->
+	<keyword
+>kdegames</keyword
+> <!-- do not change this! -->
+	<keyword
+>joc</keyword
+> <!-- do not change this! -->
+	<keyword
+>KPatience</keyword
+><!--Application name goes here-->
+<!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<keyword
+>carta</keyword>
+	<keyword
+>partida de cartes</keyword>
+	<keyword
+>cartes de joc</keyword>
+<!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+	<keyword
+>un jugador</keyword>
+<!--All other relevant keywords-->
+	<keyword
+>paciència</keyword>
+	<keyword
+>solitari</keyword>
+</keywordset>
+</bookinfo>
+<!--Content begins here: -->
+<chapter id="introduction"
+><title
+>Introducció</title
+> <!-- do not change this! -->
+	<note
+><title
+>Tipus de joc:</title
+><para
+>Carta</para
+></note
+><!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<note
+><title
+>Nombre de possibles jugadors:</title
+><para
+>Un</para
+></note
+><!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+
+<!--Short game description starts here. 3-4 sentences (paragraphs)-->
+
+<para
+>Per a jugar al solitari es necessita, paciència. Per als jocs senzills, on la forma en què va el joc només depèn de com estan repartides les cartes, la vostra paciència podria ser l'única cosa que necessitareu. </para>
+
+<para
+>També hi ha jocs del solitari en els que per a guanyar heu de planificar una estratègia i pensar com seguir. </para>
+
+<para
+>Un tema comú a tots els jocs és que el jugador ha de posar les cartes en un ordre especial: les haurà de moure, girar i tornar a ordenar. </para>
+</chapter>
+
+<chapter id="howto"
+><title
+>Com jugar</title
+> <!-- do not change this! -->
+<!--IMPORTANT: If the game has no defined objective, please remove the below line.-->
+	<note
+><title
+>Objectiu:</title
+><para
+>Reorganitzar les cartes per coll en la menor quantitat de moviments possible.</para
+></note
+><!--Describe the objective of the game.-->
+<!--How to play description. Don't be to specific on rules as they have a separate section in this document-->
+	<para
+>Com que el &kpatience; ofereix múltiples jocs del solitari diferents, no hi ha un procediment senzill que s'adapti a tots. Per tant, és essencial que llegiu cada subsecció individual de la secció «Les regles del joc, estratègies i consells» abans de començar a jugar amb una modalitat amb la qual no esteu familiaritzat.</para>
+<para
+>Essencialment, hi ha dos tipus de jocs del solitari: els que permeten organitzar les cartes pel mateix color i els que permeten organitzar les cartes alternant els colors. Podreu determinar amb facilitat quin joc esteu provant utilitzant el mètode de prova i error. Un cop sapigueu de quin es tracta, la resta és fàcil: seguiu organitzant i reorganitzant les cartes i recollint les que coincideixin.</para>
+<para
+>Tanmateix, des del començament, presteu atenció als vostres munts de cartes. No us afanyeu a moure cartes individuals, mireu si podrien ser més útils en un altre lloc.</para>
+<para
+>Per a obtenir ajuda addicional, també podeu donar una ullada ràpida a la barra d'estat. Cadascun dels jocs té un solucionador integrat que us informa sobre si la partida que esteu jugant es pot completar o no. Si veieu que el solucionador no pot completar la partida actual, és probable que tampoc ho aconseguiu. En aquest punt, podreu reiniciar la partida actual o començar-ne una de nova. </para>
+<note
+><title
+>Nota:</title
+><para
+>Jugar a jocs del solitari ajuda a millorar la vostra capacitat d'atenció i eleva la capacitat de concentració.</para
+></note>
+</chapter>
+
+<chapter id="rules_and_tips"
+><title
+>Les regles del joc, estratègies i consells</title
+> <!-- do not change this! -->
+
+<sect1 id="rules-general">
+	<title
+>Regles generals</title>
+	<para
+><indexterm
+><primary
+>colls</primary
+></indexterm
+>Un joc de cartes conté una o més baralles de 52 cartes cadascuna. Cada baralla conté quatre colls:</para>
+	<informaltable pgwide="0" frame="none">
+		<tgroup cols="2"
+><colspec/><colspec/>
+	<tbody>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="clubs.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Trèvols</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="spades.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Piques</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="hearts.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Cors</entry>
+		</row>
+			<row valign="middle"
+><entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="diamonds.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Diamants</entry>
+		</row>
+	</tbody
+></tgroup>
+	</informaltable>
+	<para
+>Cadascun d'aquests colls conté els tipus de cartes següents: as, dos, tres, quatre, cinc, sis, set, vuit, nou, deu, sota, reina i rei.</para>
+	<para
+><indexterm
+><primary
+>família</primary
+></indexterm
+> Aquest ordre complet de cartes és el que s'anomena família. Hi ha famílies reials i alternes. Les famílies reials són totes d'un mateix coll (&pex;, Cors), mentre que les famílies alternes es canvia d'un color a un altre, alternant entre el negre (trèvols i piques) i el vermell (cors i diamants).</para>
+	<para
+>Si la família no està completa, és el que s'anomena una seqüència.</para>
+	<mediaobject>
+		<imageobject
+><imagedata fileref="playfield.png" format="PNG"/></imageobject>
+		<textobject
+><phrase
+>El camp de joc del &kpatience;</phrase
+></textobject>
+	</mediaobject>
+	<para
+>Hi ha una sèrie de característiques que es troben en els jocs típics del solitari. Són les que es descriuen a continuació.</para>
+	<variablelist>
+		<varlistentry
+><term
+>1. Mall</term>
+			<listitem
+><para
+><indexterm
+><primary
+>mall</primary
+></indexterm
+>Al començament de cada partida, es barregen totes les cartes de la baralla. En alguns jocs no es reparteixen totes les cartes. Aquestes cartes es queden en l'anomenat mall. Es troba amb força facilitat, ja que en la majoria dels jocs és l'únic munt en el qual totes les cartes estan de cara avall.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>2. Munt de descart</term>
+			<listitem
+><para
+><indexterm
+><primary
+>munt de descart</primary
+></indexterm
+>Molts jocs empren un munt de descart per a guardar les cartes agafades del mall. En general, si feu clic sobre el mall, la carta de dalt es girarà cara amunt i es posarà en el munt de descart, moment en el qual la carta entra en joc.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>3. Basa</term>
+			<listitem
+><para
+><indexterm
+><primary
+>basa</primary
+></indexterm
+>Els munts bases és on voldreu que acabin les cartes. En general, el joc es guanya una vegada totes les cartes s'han mogut als munts bases en l'ordre correcte. El nombre de munts bases i l'ordre requerit varia d'un joc a un altre.</para>
+                            <para
+>La majoria dels jocs comencen amb els munts bases buits. En triar l'acció <guimenuitem
+>Col·loca</guimenuitem
+> des del menú o la barra d'eines farà que el &kpatience; inspeccioni tots els munts i mogui tantes cartes com pugui cap als munts bases. Si teniu activada l'opció <guimenuitem
+>Habilita la col·locació automàtica de les cartes</guimenuitem
+>, el &kpatience; intentarà realitzar una col·locació sempre que sigui possible.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>4. Munts de joc</term>
+			<listitem
+><para
+><indexterm
+><primary
+>munts de joc</primary
+></indexterm
+>Aquests munts són on passa el reordenament real. Les regles per a aquests munts varien molt entre els jocs. En alguns es mostren totes les cartes, en altres no. En alguns només es permet que es tregui una carta, en altres es permet que es treguin totes les cartes, &etc;</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="rules-specific"
+><title
+>Regles per a jocs individuals</title>
+
+<sect2 id="klondike">
+<title
+>Klondike</title>
+
+<para
+><indexterm
+><primary
+>Klondike</primary
+></indexterm
+> El Klondike és el solitari més famós, probablement perquè ve amb un sistema operatiu conegut. Es juga amb una baralla. </para>
+
+<para
+>L'objectiu en el Klondike és posar totes les cartes ordenades en famílies reials, en ordre ascendent sobre la basa. Això es torna més fàcil una vegada totes les cartes estan de cara amunt sobre els munts de joc. </para>
+
+<para
+>Les seqüències en els munts de joc s'han de posar en ordre descendent. Les cartes s'han d'alternar en els colors (vermell i negre). Si la primera carta encaixa en un altre munt, es poden moure seqüències senceres o parts d'elles. </para>
+
+<para
+>En un munt buit es pot posar un rei de qualsevol color o una seqüència que comenci amb un rei. </para>
+
+<para
+>Quan feu clic sobre el mall, es mourà una carta des d'aquest cap al munt de descart. Des d'on la podreu moure cap als munts de joc o la basa. Si el mall està buit, podreu moure tot el munt de descart cap al mall fent clic sobre el mall buit. </para>
+
+<para
+>Es poden mirar les cartes en el mall tant com es vulgui. </para>
+</sect2>
+
+<sect2 id="grandfather">
+<title
+>El iaio</title>
+
+<para
+><indexterm
+><primary
+>El iaio</primary
+></indexterm
+> Aquest joc se'l va ensenyar el seu iaio a en &Paul-Olav.Tvete;, el desenvolupador original del &kpatience; -d'aquí el seu nom-. No es coneixen altres jocs del solitari que implementin aquesta variant del joc. </para>
+        
+<para
+>Es reparteix una baralla entre set munts de joc. En la mà inicial, algunes cartes de cada munt estan cara avall. </para>
+
+<para
+>L'objectiu és posar totes les cartes en famílies reials en ordre ascendent sobre els munts bases. </para>
+
+<para
+>Per a construir una seqüència reial en ordre descendent, es pot moure cada carta de cada munt si encaixa amb una altra carta. Per exemple, es pot moure el cinc de piques damunt el sis de piques, sense importar quantes cartes estiguin damunt del cinc de piques. Només el sis de piques haurà d'estar a dalt del seu munt. </para>
+
+<para
+>En un munt buit es pot posar un rei (sense importar quantes cartes hi hagi damunt seu). </para>
+
+<para
+>Si no hi ha més moviments possibles, podreu tornar a donar les cartes. Tornar a donar consisteix a recollir les cartes dels munts de joc (munt per munt, d'esquerra a dreta) i tornar a donar-les en el mateix patró inicial (fent files en ziga-zaga amb les cartes cara avall formant un bec i després files d'esquerra a dreta amb les cartes cara amunt a dalt). Recordeu que les cartes <emphasis
+>no</emphasis
+> estan barrejades i que les cartes en els munts bases no es toquen. No es pot tornar a donar més de dues vegades en una sola partida. </para>
+
+<para
+>Encara que les regles són senzilles i permeten molts moviments, el joc segueix sent difícil de guanyar. Tot i això, o a causa d'això, aquest joc segueix sent un plaer per jugar. </para>
+</sect2>
+
+<sect2 id="aces-up">
+<title
+>Asos amunt</title>
+
+<para
+><indexterm
+><primary
+>Asos amunt</primary
+></indexterm
+> Aquest solitari té regles senzilles, però és difícil de guanyar. Es juga amb una baralla. L'objectiu és posar totes les cartes excepte els asos sobre la basa. Després, hauria de quedar un as sobre cada munt de joc. </para>
+
+<para
+>Cada carta de dalt que sigui del mateix coll (&pex;, piques) i que tingui un valor més baix que una altra carta de dalt (&pex;, sis i quatre de piques) es podrà posar sobre la basa fent-hi clic. </para>
+
+<para
+>Si no es poden moure més cartes cap a la basa, es pot obtenir una carta nova per a cada munt de joc fent clic sobre el mall. </para>
+
+<para
+>En un munt buit podreu moure totes les altres cartes que hi ha damunt d'un munt. Hauríeu d'utilitzar aquests moviments per als munts buits. D'aquesta manera, es podran moure les cartes noves cap a la basa. </para>
+
+<para
+>En aquest joc del solitari, la característica de col·locació automàtica està inhabilitada. </para>
+
+</sect2>
+
+<sect2 id="freecell">
+<title
+>Cel·la lliure</title>
+
+<para
+><indexterm
+><primary
+>Cel·la lliure</primary
+></indexterm
+> Es juga amb una baralla. Teniu quatre cel·les lliures a la cantonada superior esquerra. A més, hi ha quatre munts bases a la cantonada superior dreta i vuit munts de joc a sota. </para>
+
+<para
+>L'objectiu del joc és tenir totes les cartes en ordre ascendent sobre la basa com a famílies reials. Ho podreu aconseguir sovint si sabeu com jugar: es pot resoldre amb una taxa del 99,9% aproximadament; de les primeres 32.000 mans, només n'hi ha una sense solució (la 11.982, si voleu saber-ho). </para>
+
+<para
+>En els munts de joc haureu de construir seqüències en ordre descendent, on s'alternaran cartes vermelles i negres. En una cel·la lliure podreu posar qualsevol carta. </para>
+
+<para
+>Només podreu moure una carta que estigui a dalt d'un munt o en una cel·la lliure. Les seqüències només es podran moure si teniu prou buits lliures (sigui cel·les lliures o munts de joc buits) per a posar-hi les cartes. </para>
+
+<para
+>La quantitat màxima de cartes que es poden moure es calcula mitjançant: </para>
+
+<sidebar
+><para
+>(#{cel·les lliures} + 1) * 2<superscript
+>#{munts buits}</superscript
+> </para
+></sidebar>
+
+<para
+>Variants:</para>
+<itemizedlist>
+  <listitem
+><para
+>El <quote
+>Joc del forner</quote
+> és com el <quote
+>Cel·la lliure</quote
+>, però els munts es construeixen cap avall per coll.</para
+></listitem>
+  <listitem
+><para
+>El <quote
+>Vuit fora</quote
+> és com el <quote
+>Cel·la lliure</quote
+>, però els munts es construeixen cap avall per coll. Teniu 8 reserves i només els reis poden omplir els espais buits. Al començament del joc s'emplenen quatre reserves.</para
+></listitem>
+  <listitem
+><para
+>El <quote
+>Forecell</quote
+> és com el <quote
+>Cel·la lliure</quote
+>, però les reserves s'emplenen al començament del joc i només els reis poden omplir els espais buits.</para
+></listitem>
+  <listitem
+><para
+>El <quote
+>Torres del refugi de mar</quote
+> és com el <quote
+>Cel·la lliure</quote
+>, però amb 10 munts que es construeixen cap avall per coll, i només els reis poden omplir els espais buits. Al començament del joc s'emplenen dues reserves.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Per a resoldre aquest joc, es recomana prendre les cartes de les seqüències de joc en el mateix ordre en què s'han de posar sobre la basa (primer els asos, després els dosos, &etc;) </para>
+
+<para
+>Hauríeu de tractar mantenir buides tantes cel·les lliures o munts de joc, de manera que pugueu construir seqüències tan llargues com sigui possible. </para>
+
+</sect2>
+
+<sect2 id="mod3">
+<title
+>Mod3</title>
+
+<para
+><indexterm
+><primary
+>Mod3</primary
+></indexterm
+> Es juga amb dues baralles. L'objectiu és posar totes les cartes en les tres files de dalt. En aquest joc haureu de construir seqüències del mateix color. A la primera fila haureu de crear la seqüència 2-5-8-J, a la segona la seqüència 3-6-9-Q i a la tercera la seqüència 4-7-10-K. El coll de les cartes haurà de ser el mateix en cada seqüència, de manera que només podreu posar un cinc de cors damunt d'un dos de cors. </para>
+
+<para
+>La quarta fila és tant el vostre munt de descart com el munt de joc. En una ranura buida podreu posar qualsevol carta de les tres primeres files, o una de dalt de la quarta fila. </para>
+
+<para
+>Es poden posar els asos sobre els munts d'asos, a dalt del mall. Quan entrin a la partida tindreu un punt de partida per a crear ranures lliures. </para>
+
+<para
+>Si no es poden moure més cartes, es poden obtenir cartes noves a la quarta fila fent clic sobre el mall. </para>
+
+<para
+>En aquest joc del solitari, la característica de col·locació automàtica està inhabilitada. </para>
+</sect2>
+
+<sect2 id="gypsy">
+<title
+>Gitano</title>
+
+<para
+><indexterm
+><primary
+>Gitano</primary
+></indexterm
+> Es juga amb dues baralles. L'objectiu és posar totes les cartes en famílies reials en ordre ascendent sobre la basa. </para>
+
+<para
+>Els munts de joc han d'estar en ordre descendent, mentre que s'alternen les cartes vermelles i negres. Només podreu moure seqüències o cartes individuals. En una ranura lliure podreu posar qualsevol carta o seqüència. </para>
+
+<para
+>Si no es poden moure més cartes, es pot fer clic sobre el mall per a obtenir cartes noves a cada munt de joc. </para>
+
+<para
+>En emprar la característica <guibutton
+>Desfés</guibutton
+> fareu que el joc sigui més fàcil, ja que heu de prendre moltes decisions i algunes d'elles poden resultar incorrectes després de fer clic sobre el mall. </para>
+
+</sect2>
+
+<sect2 id="forty-and-eight">
+<title
+>Quaranta i vuit</title>
+
+<para
+><indexterm
+><primary
+>Quaranta i vuit</primary
+></indexterm
+> Es juga amb dues baralles. L'objectiu és posar totes les cartes en famílies reials sobre la basa. </para>
+
+<para
+>Els munts de joc hauran d'estar en ordre descendent. Els colors són importants. Per exemple, només es pot posar un cinc de cors damunt d'un sis de cors. </para>
+
+<para
+>Només podreu moure una carta a dalt d'un munt. En una ranura lliure podreu posar qualsevol carta. </para>
+
+<para
+>En fer clic sobre el mall, podreu posar una carta en el munt de descart, des d'allà, podreu posar-la en un munt de joc o a la basa (ja ho farà el &kpatience;). Si el mall està buit, podreu tornar a posar totes les cartes del munt de descart en el mall. Això només funciona un cop: després de la segona vegada que es buida el mall, el joc s'acaba. </para>
+
+<para
+>Aquest solitari és difícil de solucionar. Amb una mica d'experiència, podreu resoldre moltes de les mans, especialment si empreu de tant en tant la característica <guibutton
+>Desfés</guibutton
+> per a corregir les vostres decisions i les decisions que pren el &nbsp;&kpatience; quan posa les cartes sobre la basa. </para>
+</sect2>
+
+<sect2 id="simple-simon">
+<title
+>El ximple Simó</title>
+
+<para
+><indexterm
+><primary
+>El ximple Simó</primary
+></indexterm
+> Es juga amb una baralla. L'objectiu és posar totes les cartes en famílies reials sobre la basa. </para>
+
+<para
+>En els munts de joc podreu construir seqüències. En general, no haureu de preocupar-vos pel coll de les cartes, però les seqüències només es podran moure si formen part d'una seqüència reial. Per exemple, es pot moure el sis de piques si el cinc de <emphasis
+>piques</emphasis
+> està damunt seu, però no es podrà moure si damunt seu hi ha el cinc de &nbsp;<emphasis
+>trèvols</emphasis
+>. </para>
+
+<para
+>Les cartes només es podran moure a la basa si les 13 cartes d'una família es troben una damunt de l'altra en els munts de joc. </para>
+
+<tip>
+<title
+>Consell</title>
+<para
+>Heu d'intentar moure les cartes com més aviat millor cap als munts correctes, per a crear munts buits en què col·locar temporalment les cartes, ja que hi podreu posar qualsevol carta. </para>
+
+<para
+>Amb prou espai lliure, podreu formar famílies en les ranures lliures independentment del color. Si teniu totes les cartes d'aquestes famílies, es poden ordenar per color per a poder-les moure cap a la basa. </para>
+</tip>
+
+</sect2>
+
+<sect2 id="yukon">
+<title
+>Yukon</title>
+
+<para
+><indexterm
+><primary
+>Yukon</primary
+></indexterm
+> Es juga amb una baralla. L'objectiu és posar totes les cartes en famílies reials en ordre ascendent sobre la basa. </para>
+
+<para
+>Les seqüències en els munts de joc han d'estar en ordre descendent alternant cartes vermelles i negres. Podreu moure totes les cartes cara amunt sense importar quantes cartes hi hagi damunt seu. Així que es pot posar un cinc de cors damunt d'un sis de piques si aquest es troba a dalt del seu munt. </para>
+
+<para
+>En una ranura lliure es pot posar un rei de qualsevol color (sense importar quantes cartes hi hagi damunt seu). </para>
+</sect2>
+
+<sect2 id="grandfathers-clock">
+<title
+>El rellotge de l'avi</title>
+
+<para
+><indexterm
+><primary
+>El rellotge de l'avi</primary
+></indexterm
+> És un joc senzill del solitari. Amb una mica d'experiència, hauríeu de poder resoldre la majoria de les mans. Es juga amb una baralla. L'objectiu és posar les cartes com a seqüències reials en ordre ascendent sobre la basa. </para>
+
+<para
+>La basa es troba a mà dreta i consta de 12 munts amb la forma d'un rellotge. El nou és les 12 en punt, la reina a les 3 en punt, el tres a les 6 en punt i el sis a les 9 en punt. </para>
+
+<para
+>Hi ha 8 munts de joc al costat del rellotge i en cadascun hi ha 5 cartes. En els munts de joc podreu construir seqüències en ordre descendent. El color de les cartes no és important. Només es pot moure una carta cada vegada. </para>
+
+</sect2>
+
+<sect2 id="golf">
+<title
+>Golf</title>
+
+<para
+><indexterm
+><primary
+>Golf</primary
+></indexterm
+> Es juga amb una baralla. L'objectiu és moure totes les cartes que hi ha en el quadre cap a la basa.</para>
+ 
+<para
+>La disposició d'aquest solitari és senzilla. Al començament del joc, veureu el quadre. A dalt hi ha set columnes, cadascuna de les quals conté cinc cartes. El mall i la basa estan a sota. </para>
+
+<para
+>Jugar a aquest solitari és senzill, però requereix estratègia per a guanyar. Estan disponibles per a jugar les cartes a la base de cada columna que hi ha en el quadre. Les cartes disponibles es construeixen damunt de la carta de la basa en una seqüència en ordre ascendent o descendent independentment del coll. Si no hi ha cap moviment disponible, es pot repartir una carta des del mall cap a la basa. El joc acaba quan s'han repartit totes les cartes del mall i no hi ha més moviments possibles.</para>
+
+</sect2>
+
+<sect2 id="spider">
+<title
+>Aranya</title>
+
+<para
+><indexterm
+><primary
+>Aranya</primary
+></indexterm
+> Es juga amb dos malls de cartes. Les cartes es reparteixen en 10 munts de joc, 4 de 6 cartes i 6 de 5 cartes cadascun. Això deixa 50 cartes que es poden repartir 10 a la vegada, una sobre cada munt de joc. </para>
+
+<para
+>En els munts de joc, es pot posar una carta damunt d'una altra de qualsevol coll i d'un valor més alt. Es pot moure una seqüència de cartes en ordre descendent del mateix coll des d'un munt de joc cap a un altre. </para>
+
+<para
+>L'objectiu és posar totes les cartes en famílies reials en ordre descendent, partint des dels reis en qualsevol dels munts de joc. Quan es construeix una família d'aquest tipus en un munt de joc, es traurà cap a la cantonada inferior esquerra de la finestra. </para>
+
+<para
+>Els diferents nivells determinen quants colls es reparteixen: <guilabel
+>Fàcil</guilabel
+> utilitza 1 coll, <guilabel
+>Mitjà</guilabel
+> utilitza 2 colls i <guilabel
+>Difícil</guilabel
+> utilitza 4 colls. El joc és molt fàcil de guanyar en el nivell <quote
+>Fàcil</quote
+> i molt difícil de guanyar en el nivell <quote
+>Difícil</quote
+>. </para>
+
+</sect2>
+
+<sect2 id="bakers-dozen">
+<title
+>Dotzena del forner</title>
+
+<para
+><indexterm
+><primary
+>Dotzena del forner</primary
+></indexterm
+> Es juga amb una baralla. El nom del joc esdevé de les 13 columnes que hi ha a la partida, el número en una dotzena del forner. Les cartes es reparteixen en columnes de quatre sobre el quadre, el qual dona com a resultat 13 columnes. Qualsevol rei que estigui a dalt o al mig de cada columna s'ha de posar a sota abans que comenci la partida. Dos reis que es mesclen en una columna es posaran a sota sense canviar el seu ordre. </para>
+
+<para
+>L'objectiu del joc és construir totes les cartes en les quatre bases per coll, cadascuna des de l'as fins al rei. </para>
+
+<para
+>En els munts de joc s'han de construir seqüències en ordre descendent, sense importar el coll. Només es pot moure una carta que estigui a dalt d'un munt. </para>
+
+<para
+>Variants:</para>
+<itemizedlist>
+  <listitem
+><para
+>En el <quote
+>Solitari espanyol</quote
+>, qualsevol carta pot omplir els espais buits del quadre. (En algunes contrades, les bases es construeixen independentment del coll).</para
+></listitem>
+  <listitem
+><para
+>El <quote
+>Castells a Espanya</quote
+> és similar al <quote
+>Solitari espanyol</quote
+>, però les cartes en el quadre es construeixen cap avall per colors alternatius. En algunes variacions, el quadre es reparteix cara avall a part de les cartes de dalt de cada columna.</para
+></listitem>
+  <listitem
+><para
+>El <quote
+>Solitari portuguès</quote
+> està a mig camí entre el <quote
+>Dotzena del forner</quote
+> i el <quote
+>Solitari espanyol</quote
+>, perquè les columnes buides només es poden omplir amb els reis.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Per a resoldre aquest joc, es recomana prendre les cartes de les seqüències de joc en el mateix ordre en què s'han de posar a la basa (primer els asos, després els dosos, &etc;). En general, voldreu evitar que es buidi una columna fins que l'última carta estigui a punt per a ser moguda cap a una basa. </para>
+
+</sect2>
+
+<sect2 id="castle">
+<title
+>Castell</title>
+
+<para
+><indexterm
+><primary
+>Castell</primary
+></indexterm
+> És una família de jocs de cartes del solitari que se sol jugar amb una baralla de 52 cartes. De vegades es descriu com el «Cel·la lliure sense cel·les», perquè el seu joc és similar però sense espais buits addicionals per a maniobrar en la majoria de les variacions. </para>
+
+<para
+>L'objectiu del joc és construir totes les cartes sobre les quatre bases per coll, cadascuna des de l'as fins al rei. </para>
+
+<para
+>En els munts de joc s'han de construir seqüències en ordre descendent, sense importar el coll. Només es pot moure una carta que estigui a dalt d'un munt. </para>
+
+<para
+>Variants:</para>
+<itemizedlist>
+  <listitem
+><para
+>En el <quote
+>Castell assetjat</quote
+>, els asos es reparteixen a les bases. Qualsevol carta pot omplir els espais buits.</para
+></listitem>
+  <listitem
+><para
+>El <quote
+>Citadel</quote
+> és com el <quote
+>Castell assetjat</quote
+>, però durant la mà, les cartes iguals es mouen cap a la basa, deixant els munts desiguals.</para
+></listitem>
+  <listitem
+><para
+>El <quote
+>Reis exiliats</quote
+> és com el <quote
+>Citadel</quote
+>, però només els reis poden omplir els espais buits.</para
+></listitem>
+  <listitem
+><para
+>El <quote
+>Setge</quote
+> és com el <quote
+>Castell assetjat</quote
+>, però amb una cel·la lliure.</para
+></listitem>
+  <listitem
+><para
+>El <quote
+>Carrers i carrerons</quote
+> és com el <quote
+>Castell assetjat</quote
+>, però en barrejar s'inclouen els asos.</para
+></listitem>
+  <listitem
+><para
+>El <quote
+>Fortalesa</quote
+> és com el <quote
+>Carrers i carrerons</quote
+>, però amb una cel·la lliure.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Per a resoldre aquest joc, es recomana construir uniformement sobre les bases. Intenteu crear munts buits que puguin emprar-se per a facilitar moviments més llargs per a alliberar les cartes enterrades. </para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="interface"
+><title
+>Resum de la interfície</title
+> <!-- do not change this! -->
+<!-- This section has to do with menubar. Describe every single entry in order. Use <variablelist
+> and <varlistentry
+>. Split the chapter into sections using <sect1(2,3)
+> for better viewing.-->
+<sect1 id="game-menu">
+	<title
+>El menú Joc</title>
+		<variablelist>
+			<varlistentry id="game-menu-new-game">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Maj;<keycap
+>N</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Joc</guimenu
+> <guimenuitem
+>Partida nova...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Torna a la pantalla per a la selecció del joc.</action
+>&nbsp; Aquesta acció abandona la mà en curs.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-deal">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Joc</guimenu
+> <guimenuitem
+>Mà nova</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Inicia una mà nova del mateix tipus de joc.</action
+>&nbsp; Aquesta acció abandona la mà en curs.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-numbered-deal">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Joc</guimenu
+> <guimenuitem
+>Mà nova numerada...</guimenuitem
+> </menuchoice
+></term>
+				<listitem>
+					<para
+><action
+>Inicia una mà nova especificant el tipus de joc i el nombre de mà.</action
+>&nbsp; Aquesta acció abandona la mà en curs.</para>
+					<para
+>El &kpatience; dona a cada mà un número únic d'identificació (el qual emprarà internament per a aleatoritzar la baralla durant la mà inicial). Aquesta característica permet tornar a jugar una mà d'interès o provar-ho amb una particularment difícil recomanada per un amic. Els jugadors especialment dedicats poden voler <quote
+>vèncer</quote
+> al &kpatience; jugant totes les 2.147.483.647 mans consecutivament per a cadascun dels tipus de joc.</para>
+					<para
+>Recordeu que per al <quote
+>Cel·la lliure</quote
+>, els números de les mans en el &kpatience; coincideixen amb els descrits en la <ulink url="http://www.solitairelaboratory.com/fcfaq.html"
+>&PMF; del Freecell (Cel·la lliure)</ulink
+>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-restart-deal">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F5</keycap
+></shortcut
+> <guimenu
+>Joc</guimenu
+> <guimenuitem
+>Reinicia el joc</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Retorna la partida actual a la seva condició en el repartiment inicial.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Joc</guimenu
+> <guimenuitem
+>Carrega...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Carrega un joc desat.</action
+> Aquesta acció abandona la mà en curs.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load-recent">
+				<term
+><menuchoice
+><guimenu
+>Joc</guimenu
+> <guisubmenu
+>Carrega'n un de recent</guisubmenu
+> <guimenuitem
+><replaceable
+></replaceable
+>Llista de fitxers accedits recentment</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Llista els fitxers desats als quals s'ha accedit recentment, en ordre d'últim ús.</action
+> En seleccionar un joc, es carregarà. Aquesta acció abandona la mà en curs.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-save">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Joc</guimenu
+> <guimenuitem
+>Desa com a...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Desa la partida actual al disc.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-statistics">
+				<term
+><menuchoice
+><guimenu
+>Joc</guimenu
+> <guimenuitem
+>Estadístiques</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Mostra diverses estadístiques sobre el vostre rendiment, desglossades pel tipus de joc.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-quit">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Joc</guimenu
+> <guimenuitem
+>Surt</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Surt</action
+> del &kpatience;.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="move-menu">
+	<title
+>El menú Mou</title>
+		<variablelist>
+			<varlistentry id="move-menu-undo">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Mou</guimenu
+> <guimenuitem
+>Desfés</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Desfà</action
+> la vostra última jugada.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-redo">
+				<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Maj;<keycap
+>Z</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Mou</guimenu
+> <guimenuitem
+>Refés</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Torna a fer</action
+> una jugada que s'ha desfet amb <guimenuitem
+>Desfés</guimenuitem
+>.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-hint">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>H</keycap
+></shortcut
+> <guimenu
+>Mou</guimenu
+> <guimenuitem
+>Consell</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>En el cas que el jugador s'embussi, proporciona algunes pistes sobre les jugades possibles. Es ressaltaran temporalment les cartes que es poden moure legalment cap a un altre munt.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-demo">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>D</keycap
+></shortcut
+> <guimenu
+>Mou</guimenu
+> <guimenuitem
+>Demo</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Inicia el mode de demostració.</action
+> Mentre està en el mode de demostració, el &kpatience; intentarà resoldre la mà. Cal activar aquesta acció per segona vegada per a sortir del mode de demostració.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-draw">
+				<term
+><menuchoice
+><shortcut
+>&Space;</shortcut
+> <guimenu
+>Mou</guimenu
+> <guimenuitem
+>Roba</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Dona la volta a una o més cartes del mall i les mou cap al munt de descart.</action
+>&nbsp;&nbsp; Aquesta acció només està disponible en certs jocs.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-deal-row">
+				<term
+><menuchoice
+><shortcut
+>&Intro;</shortcut
+> <guimenu
+>Mou</guimenu
+> <guimenuitem
+>Dona una fila</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Dona la volta a diverses cartes del mall i les posa a dalt de cada munt de joc.</action
+>&nbsp;&nbsp; Aquesta acció només està disponible en certs jocs.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-redeal">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>R</keycap
+></shortcut
+> <guimenu
+>Mou</guimenu
+> <guimenuitem
+>Torna a donar</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Recull totes les cartes que queden en joc i les torna a donar sense barrejar.</action
+>&nbsp; Aquesta acció només està disponible en certs jocs.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="settings-help-menu">
+	<title
+>Els menús Arranjament i Ajuda</title>
+<para
+>A part dels menús Arranjament i Ajuda comuns al &kde; que es descriuen en el capítol <ulink url="help:/fundamentals/menus.html"
+>Menú</ulink
+> de la documentació Fonaments del &kde;, el &kpatience; té aquestes entrades de menú específiques de l'aplicació: </para>
+		<variablelist>
+			<varlistentry id="settings-menu-game-type-options">
+				<term
+><menuchoice
+><guimenu
+>Arranjament</guimenu
+> <guisubmenu
+><replaceable
+>Opcions del tipus de joc </replaceable
+></guisubmenu
+> <guimenuitem
+><replaceable
+>Llista d'opcions específiques del tipus de joc</replaceable
+></guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Llista les opcions específiques del tipus de joc actual.</action
+>&nbsp; Aquest menú només està disponible en certs jocs («Klondike» i «Aranya»).</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-stack-options">
+				<term
+><menuchoice
+><guimenu
+>Arranjament</guimenu
+> <guisubmenu
+>Opcions del munt</guisubmenu
+> <guimenuitem
+>Cara avall (més difícil)/Cara amunt (més fàcil)</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Permet triar si s'han de mostrar la cara de les cartes.</action
+>&nbsp; Aquest menú només està disponible a l'«Aranya».</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-deck">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F10</keycap
+></shortcut
+> <guimenu
+>Arranjament</guimenu
+> <guimenuitem
+>Canvia l'aparença...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Obre un diàleg per a canviar la baralla i el tema del joc.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-autodrop">
+				<term
+><menuchoice
+><guimenu
+>Arranjament</guimenu
+> <guimenuitem
+>Habilita la col·locació automàtica de les cartes</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Habilita el moviment automàtic de les cartes cap als munts bases sempre que sigui possible.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-solver">
+				<term
+><menuchoice
+><guimenu
+>Arranjament</guimenu
+> <guimenuitem
+>Habilita el solucionador</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Habilita el motor de solució automàtica.</action
+> Quan està habilitat, el solucionador intentarà determinar constantment si es pot guanyar en l'estat actual del joc. Possiblement voldreu inhabilitar-lo per a conservar l'ús del processador o de la bateria.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-playsounds">
+				<term
+><menuchoice
+><guimenu
+>Arranjament</guimenu
+> <guimenuitem
+>Reprodueix els sons</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Els sons es reprodueixen quan s'agafen prenen o posen les cartes.</action
+> S'esperen més sons en el futur.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-remember">
+				<term
+><menuchoice
+><guimenu
+>Arranjament</guimenu
+> <guimenuitem
+>Recorda l'estat en sortir</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Habilita el desament automàtic de l'estat de la partida quan se surt del &kpatience;.</action
+> Si està habilitada, el &kpatience; carregarà automàticament l'estat anterior de la partida la pròxima vegada que s'iniciï.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="help-menu-remember">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Maj;<keycap
+>F1</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Ajuda</guimenu
+> <guimenuitem
+>Ajuda amb la partida actual</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Obre la secció en aquest manual amb les Regles per al joc actual.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="faq"
+><title
+>Preguntes més freqüents</title
+> <!-- do not change this! -->
+<!--This chapter is for frequently asked questions. Please use <qandaset
+> <qandaentry
+> only!-->
+<qandaset>
+<!--Following is a standard list of FAQ questions.-->
+<qandaentry>
+ <question
+><para
+>Vull canviar l'aparença d'aquest joc. Puc fer-ho? </para
+></question>
+ <answer
+><para
+>Podeu canviar les cares, el revers de les cartes i el tema del joc. Per a fer-ho, utilitzeu <menuchoice
+> <shortcut
+><keycap
+>F10</keycap
+></shortcut
+> <guimenu
+>Arranjament</guimenu
+> <guimenuitem
+>Canvia l'aparença...</guimenuitem
+> </menuchoice
+> a la barra de menús.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Puc utilitzar el teclat per a jugar a aquest joc?</para
+></question>
+ <answer
+><para
+>No, el &kpatience; no l'inclou. No obstant això, la majoria de les opcions de menú tenen dreceres de teclat.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Fins i tot amb els consells, encara no tinc ni idea de com jugar. Ajuda!</para
+></question>
+ <answer
+><para
+>A més de la característica <quote
+>Consell</quote
+>, també hi ha un mode <quote
+>Demo</quote
+> que és molt útil, on la intel·ligència artificial integrada jugarà per vós. Podeu intentar mirant i aprenent. No obstant això, si teniu alguna pregunta, és millor llegir les seccions <link linkend="howto"
+>Com jugar</link
+> i <link linkend="rules_and_tips"
+>Les regles del joc, estratègies i consells</link
+> d'aquest manual.</para
+></answer>
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits"
+><title
+>Crèdits i llicència</title
+> <!-- do not change this! -->
+<!--This chapter is for credits and licenses.-->
+
+<para
+>&kpatience; </para>
+<!--List all the copyright holders here-->
+<para
+>Copyright del &kpatience; &copy; 1995-2000 &Paul-Olav.Tvete; </para>
+
+<para
+>Copyright del &kpatience; &copy; 2001-2007 &Stephan.Kulow; &Stephan.Kulow.mail; </para>
+
+<para
+>Solucionador del <quote
+>Cel·la lliure</quote
+> per en Shlomi Fish <email
+>shlomif@vipe.technion.ac.il</email
+> </para>
+
+<para
+>Copyright de la documentació &copy; 2000 &Paul-Olav.Tvete; </para>
+
+<para
+>Documentació actualitzada per al &kde; 2.0 per en &Mike.McBride; &Mike.McBride.mail; </para>
+
+<para
+>Documentació reescrita per al &kpatience; 2.0 (&kde; 2.1) per en &Maren.Pakura; &Maren.Pakura.mail; </para>
+
+<para
+>Documentació revisada i actualitzada per al &nbsp;&kpatience; 3.6 per en &Richard.Hawthorne; &Richard.Hawthorne.mail; </para>
+
+<para
+>Traductor de la documentació: &credits.Antoni.Bella;</para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index; 
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-omittag:t
+sgml-shorttag:t
+sgml-namecase-general:t
+sgml-always-quote-attributes:t
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->

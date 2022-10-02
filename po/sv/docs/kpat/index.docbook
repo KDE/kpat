@@ -1,0 +1,1453 @@
+<?xml version="1.0" ?>
+<!--IMPORTANT: please note that'do not change this!' notice does not apply to translators -->
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Swedish "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY % addindex "IGNORE"
+> <!-- do not change this! -->
+]>
+
+<book id="kpat" lang="&language;"
+> <!-- do not change this! -->
+<bookinfo>
+	<title
+>Handbok Patiens</title
+> <!-- This is the title of the docbook. Leave as is unless change is necessary.-->
+<!-- List of immidiate authors begins here. -->
+<!--INPORTANT! - All other contributors: [to be determined] -->
+<authorgroup>
+<author
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> </author>
+<author
+><firstname
+>Maren</firstname
+> <surname
+>Pakura</surname
+> </author>
+<author
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> </author>
+
+<othercredit role="reviewer"
+><firstname
+>Mike</firstname
+><surname
+>McBride</surname
+> <contrib
+>Granskare</contrib>
+<affiliation
+><address
+>&Mike.McBride.mail;</address
+></affiliation>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> <contrib
+>Utvecklare</contrib>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> <contrib
+>Utvecklare</contrib>
+</othercredit>
+
+<othercredit role="translator"
+> <firstname
+>Stefan</firstname
+> <surname
+>Asserhäll</surname
+> <affiliation
+><address
+><email
+>stefan.asserhall@bredband.net</email
+></address
+></affiliation
+> <contrib
+>Översättare</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Paul-Olav.Tvete;</holder>
+</copyright>
+
+<copyright>
+<year
+>2001</year
+><year
+>2004</year>
+<holder
+>&Maren.Pakura;</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year>
+<holder
+>&Stephan.Kulow;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2021-06-20</date>
+<releaseinfo
+>KDE Gear 21.04</releaseinfo>
+
+<!--Short description of this document. Do not change unless necessary!-->
+<abstract>
+	<para
+>Denna dokumentation beskriver spelet Patiens, version 21.04</para>
+</abstract>
+
+<!--List of relevan keywords-->
+<keywordset>
+	<keyword
+>KDE</keyword
+> <!-- do not change this! -->
+	<keyword
+>kdegames</keyword
+> <!-- do not change this! -->
+	<keyword
+>spel</keyword
+> <!-- do not change this! -->
+	<keyword
+>Kpatience</keyword
+><!--Application name goes here-->
+<!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<keyword
+>kort</keyword>
+	<keyword
+>kortspel</keyword>
+	<keyword
+>spelkort</keyword>
+<!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+	<keyword
+>en spelare</keyword>
+<!--All other relevant keywords-->
+	<keyword
+>tålamod</keyword>
+	<keyword
+>patiens</keyword>
+</keywordset>
+</bookinfo>
+<!--Content begins here: -->
+<chapter id="introduction"
+><title
+>Inledning</title
+> <!-- do not change this! -->
+	<note
+><title
+>Speltyp:</title
+><para
+>Kort</para
+></note
+><!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<note
+><title
+>Antal möjliga spelare:</title
+><para
+>En</para
+></note
+><!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+
+<!--Short game description starts here. 3-4 sentences (paragraphs)-->
+
+<para
+>För att lägga en patiens behöver du, som namnet anger, tålamod. För enkla patienser, där slutresultatet bara beror på hur korten hamnar, är tålamod kanske det enda du behöver. </para>
+
+<para
+>Men det finns också patienser där du dessutom måste planera din strategi och tänka framåt för att vinna. </para>
+
+<para
+>Allt patienserna har gemensamt är att spelaren måste lägga korten i en särskild ordning genom att flytta, vända och ordna om dem. </para>
+</chapter>
+
+<chapter id="howto"
+><title
+>Hur man spelar</title
+> <!-- do not change this! -->
+<!--IMPORTANT: If the game has no defined objective, please remove the below line.-->
+	<note
+><title
+>Syfte:</title
+><para
+>Arrangera om korten i sviter med så få förflyttningar som möjligt.</para
+></note
+><!--Describe the objective of the game.-->
+<!--How to play description. Don't be to specific on rules as they have a separate section in this document-->
+	<para
+>Eftersom Patiens erbjuder en mängd olika patienser, finns det inte någon enkelt handledning som passar dem alla. Därför är det mycket viktigt att du läser varje enskilt avsnitt i kapitlet Spelregler, strategier och tips innan du börjar lägga en patiens du inte är bekant med.</para>
+<para
+>I stort sett finns det två typer av patienser: de som låter dig ordna korten enligt samma färg, och de som låter dig ordna korten enligt alternerande färger. Du kan enkelt avgöra vilken patiens du spelar med försöksmetoden. När du väl vet vilken typ du har att göra med, är resten enkelt: Fortsätt ordna och ordna om korten och samla de som passar ihop.</para>
+<para
+>Ge dock akt på korthögarna från spelets början. Skynda dig inte att flytta omkring enskilda kort. Se om de kan vara mer användbara på något annat ställe.</para>
+<para
+>Du kan också kasta en blick på statusraden för att få ytterligare hjälp. Var och en av patienserna har en inbyggd lösningskontroll, som talar om för dig om patiensen du lägger kan gå ut eller inte. Om lösningskontrollen anger att patiensen inte går ut, är risken stor att du inte heller lyckas. Vid detta tillfälle kan du antingen starta om den pågående patiensen, eller påbörja en helt ny patiens. </para>
+<note
+><title
+>Observera:</title
+><para
+>Att lägga patiens hjälper till att avsevärt förbättra din uppmärksamhet, och höjer din koncentrationsförmåga.</para
+></note>
+</chapter>
+
+<chapter id="rules_and_tips"
+><title
+>Spelets regler, strategi och tips</title
+> <!-- do not change this! -->
+
+<sect1 id="rules-general">
+	<title
+>Allmän användning</title>
+	<para
+><indexterm
+><primary
+>färger</primary
+></indexterm
+>Ett kortspel innehåller en eller flera kortlekar med 52 kort vardera. Varje kortlek innehåller de fyra färgerna:</para>
+	<informaltable pgwide="0" frame="none">
+		<tgroup cols="2"
+><colspec/><colspec/>
+	<tbody>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="clubs.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Klöver</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="spades.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Spader</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="hearts.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Hjärter</entry>
+		</row>
+			<row valign="middle"
+><entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="diamonds.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Ruter</entry>
+		</row>
+	</tbody
+></tgroup>
+	</informaltable>
+	<para
+>Varje färg innehåller följande korttyper: äss, två, tre, fyra, fem, sex, sju, åtta, nio, tio, knekt, dam och kung.</para>
+	<para
+><indexterm
+><primary
+>familj</primary
+></indexterm
+> Den fullständiga ordningen av kort kallas en familj. Det finns riktiga familjer och alternerande familjer. De riktiga familjerna är alla av samma färg (t.ex. hjärter). I de alternerande familjerna ändras kortfärgen från ett kort till nästa mellan en svart färg (klöver och spader) och en röd färg (hjärter och ruter).</para>
+	<para
+>Om familjen inte är fullständig kallas den en svit.</para>
+	<mediaobject>
+		<imageobject
+><imagedata fileref="playfield.png" format="PNG"/></imageobject>
+		<textobject
+><phrase
+>Spelfältet i Patiens</phrase
+></textobject>
+	</mediaobject>
+	<para
+>Det finns ett antal kännetecken i typiska patienser. De beskrivs nedan.</para>
+	<variablelist>
+		<varlistentry
+><term
+>1. Talong</term>
+			<listitem
+><para
+><indexterm
+><primary
+>talong</primary
+></indexterm
+>Vid början av varje spel är alla kort blandade i leken. I vissa spel delas inte alla kort ut. De återstående korten läggs i den så kallade talongen. Du kan lätt hitta den eftersom det är den enda hög där alla kort har framsidan neråt.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>2. Sakhög</term>
+			<listitem
+><para
+><indexterm
+><primary
+>sakhög</primary
+></indexterm
+>Många patienser använder en sakhög där kort som tas från talongen hamnar. Ofta gör ett klick på talongen att det översta kortet vänds med framsidan uppåt och placeras i sakhögen, vilket gör att kortet ingår i spelet.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>3. Grundkort</term>
+			<listitem
+><para
+><indexterm
+><primary
+>grundkort</primary
+></indexterm
+>Grundhögarna är stället där man vill att korten ska hamna. Ofta har patiensen gått ut när alla kort har flyttats till grundhögarna i rätt ordning. Antal grundhögar och ordningen som krävs varierar från patiens till patiens.</para>
+                            <para
+>De flesta patienser börjar med tomma grundhögar. Genom att välja alternativet <guimenuitem
+>Släpp</guimenuitem
+> i menyn eller från verktygsraden gör att Patiens söker igenom alla högar och flyttar så många kort till grundhögarna som möjligt.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>4. Utläggning</term>
+			<listitem
+><para
+><indexterm
+><primary
+>utläggning</primary
+></indexterm
+>De här högarna används för att ordna om korten. Reglerna för högarna varierar mycket mellan spelen. Vissa visar alla kort i dem, vissa inte. Vissa låter bara ett kort avlägsnas, andra låter varje kort avlägsnas, etc.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="rules-specific"
+><title
+>Regler för enskilda spel</title>
+
+<sect2 id="klondike">
+<title
+>Klondike</title>
+
+<para
+><indexterm
+><primary
+>Klondike</primary
+></indexterm
+> Klondike är den mest berömda patiensen, troligen eftersom den levereras med ett ofta använt operativsystem. Den spelas med en kortlek. </para>
+
+<para
+>Målet med Klondike är att placera alla kort som riktiga familjer i stigande ordning på grundkorten. Det fungerar ofta ganska bra så fort alla kort ligger med framsidan uppåt i utläggningen. </para>
+
+<para
+>Sviterna i utläggningen måste byggas i fallande ordning med kort i alternerande färger (rött och svart). Man kan flytta hela sviter eller delar av en svit om det första kortet passar i en annan hög. </para>
+
+<para
+>I en ledig hög kan en kung med vilken färg som helst placeras, eller en svit som börjar med en kung. </para>
+
+<para
+>När du klickar på talongen, flyttas ett kort från den till sakhögen. Därifrån kan det flyttas till utlägget eller grundkorten. Om talongen är tom, kan hela sakhögen flyttas till talongen genom att klicka på den tomma talongen. </para>
+
+<para
+>Du kan gå igenom korten på talongen så många gånger du vill. </para>
+</sect2>
+
+<sect2 id="grandfather">
+<title
+>Farfarpatiens</title>
+
+<para
+><indexterm
+><primary
+>Farfarpatiens</primary
+></indexterm
+> Den här patiensen lärde sig &Paul-Olav.Tvete;, ursprunglig utvecklare av Patiens, av sin farfar. Därför fick den detta namn. Det finns inte några andra kända patiensprogram som implementerar den här patiensen. </para>
+        
+<para
+>Farfar delar en kortlek i sju utläggningshögar. Vissa kort i varje hög har framsidan neråt från början efter utdelningen. </para>
+
+<para
+>Målet är att placera alla kort som riktiga familjer i stigande ordning på grundkorten. </para>
+
+<para
+>Du kan flytta varje kort i varje hög om det passar på ett annat kort för att bygga en riktig svit i fallande ordning. Du kan till exempel flytta spader fem ovanpå spader sex, oberoende av hur många kort som finns ovanför spader fem. Bara spader sex måste vara överst i sin hög. </para>
+
+<para
+>I en ledig hög kan du placera en kung (återigen oberoende av hur många kort som finns ovanför den). </para>
+
+<para
+>Om det inte finns några fler möjliga förflyttningar, kan du dela ut korten igen. Att dela ut igen består av att ta korten från spelhögarna (hög för hög, från vänster till höger) och dela ut dem igen i startmönstret (rader av kort med framsidan neråt i sicksack som formar en topp, och därefter rader av kort med framsidan uppåt från vänster till höger ovanför). Observera att korten <emphasis
+>inte</emphasis
+> blandas, och att kort på grundhögarna lämnas orörda. Det går inte att dela ut korten igen mer än två gånger i varje patiens. </para>
+
+<para
+>Även om reglerna är enkla och tillåter ett stort antal förflyttningar, så är spelet ändå svårt att vinna. Trots det, eller kanske just därför, är det mycket roligt att spela. </para>
+</sect2>
+
+<sect2 id="aces-up">
+<title
+>Idioten</title>
+
+<para
+><indexterm
+><primary
+>Idioten</primary
+></indexterm
+> Den här patiensen har mycket enkla regler, men är ändå svår att vinna. Den spelas med en kortlek, och målet är att flytta alla kort utom ässen till grundkorten. Efter det är gjort ska det bara finnas ett äss kvar i varje hög av utlägget. </para>
+
+<para
+>Varje kort av samma färg som är överst (t.ex. spader) och har ett lägre värde än ett annat kort som är överst (t.ex. spader sex och spader fyra) kan flyttas till grundkorten genom att klicka på det. </para>
+
+<para
+>Om du inte kan flytta några fler kort till grundkorten, kan du få ett nytt kort till varje hög i utlägget genom att klicka på talongen. </para>
+
+<para
+>Varje annat kort som är överst i en hög kan flyttas till en ledig hög. Du bör utnyttja dessa förflyttningar till lediga högar. På så sätt kan nya kort flyttas till grundkorten. </para>
+
+<para
+>Funktionen för automatiskt flyttning är avstängd för den här patiensen. </para>
+
+</sect2>
+
+<sect2 id="freecell">
+<title
+>Kungen</title>
+
+<para
+><indexterm
+><primary
+>Kungen</primary
+></indexterm
+> Kungen spelas med en kortlek. Du har fyra lediga celler i övre vänstra hörnet. Förutom det finns de fyra grundkortshögarna och under dem åtta högar i utlägget. </para>
+
+<para
+>Målet med spelet är att placera alla kort som riktiga familjer i stigande ordning på grundkorten. Du kan ofta uppnå det om du vet hur man spelar, eftersom Kungen är lösbar i ungefär 99.9% av fallen &mdash; bland de första 32000 utläggen finns det bara ett som är olösbart (11982 om du vill veta). </para>
+
+<para
+>På högarna i utlägget måste du bygga fallande sviter, där röda och svarta kort alterneras. Vilket kort som helst kan placeras i en ledig cell. </para>
+
+<para
+>Du kan bara flytta ett kort som ligger ovanpå en hög eller en ledig cell. Sviter kan bara flyttas om du har tillräckligt med ledigt utrymme (antingen lediga celler eller lediga spelhögar) att placera korten medan du flyttar. </para>
+
+<para
+>Det maximala antalet kort du kan flytta beräknas av: </para>
+
+<sidebar
+><para
+>({antal lediga celler} + 1) * 2<superscript
+>{antal lediga högar}</superscript
+> </para
+></sidebar>
+
+<para
+>Varianter:</para>
+<itemizedlist>
+  <listitem
+><para
+>- <quote
+>Bakers spel</quote
+> är som <quote
+>Kungen</quote
+>, men högarna byggs neråt enligt färg.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Åtta</quote
+> är som <quote
+>Kungen</quote
+>, men högarna byggs neråt enligt färg. Du har åtta i reserv och bara kungar kan fylla tomma platser. Fyra reserver är fyllda när spelet börjar.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Fulla kungen</quote
+> är som <quote
+>Kungen</quote
+>, men reserverna är fyllda när spelet börjar, och bara kungar kan fylla tomma platser.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Hamntorn</quote
+> är som <quote
+>Kungen</quote
+>, men med tio högar som byggs neråt enligt färg, och bara kungar kan fylla tomma platser. Två reserver är fyllda när spelet börjar.</para
+></listitem>
+</itemizedlist>
+
+<para
+>För att vinna det här spelet rekommenderas du att hämta korten ur spelsviterna i samma ordning som de måste läggas bland grundkorten (först ässen, sedan tvåorna, etc.). </para>
+
+<para
+>Du bör försöka behålla så många celler och/eller spelhögar som möjligt lediga, så att du kan bygga så långa sviter som möjligt. </para>
+
+</sect2>
+
+<sect2 id="mod3">
+<title
+>Mod3</title>
+
+<para
+><indexterm
+><primary
+>Mod3</primary
+></indexterm
+> Mod3 spelas med två kortlekar. Målet med spelet är att placera alla kort i de översta tre raderna. I raderna måste du bygga sviter i samma färg. I den första raden måste du skapa sviten 2-5-8-Kn, i den andra raden sviten 3-6-9-D och i den tredje raden sviten 4-7-10-K. Kortens färg måste vara samma i varje svit, så du kan bara lägga hjärter fem ovanpå hjärter två. </para>
+
+<para
+>Den fjärde raden är sakhög och utläggning på samma gång. På en tom plats kan du placera vilket kort som helst från de tre första raderna eller kortet som är överst i den fjärde raden. </para>
+
+<para
+>Äss kan du lägga i ässhögarna längst upp i talongen. De ingår i spelet så du har en startpunkt för att skapa lediga platser. </para>
+
+<para
+>Om du inte kan flytta några fler kort, kan du få nya kort i den fjärde raden genom att klicka på talongen. </para>
+
+<para
+>Funktionen för automatiskt flyttning är avstängd för den här patiensen. </para>
+</sect2>
+
+<sect2 id="gypsy">
+<title
+>Tattare</title>
+
+<para
+><indexterm
+><primary
+>Tattare</primary
+></indexterm
+> Tattare spelas med två kortlekar. Målet med spelet är att placera alla kort som riktiga familjer på grundkorten. </para>
+
+<para
+>Högarna i utlägget måste vara i fallande ordning med alternerande röda och svarta kort. Du kan bara flytta sviter eller enstaka kort. Vilket kort eller svit som helst kan placeras på en tom plats. </para>
+
+<para
+>Om du inte kan flytta några fler kort, kan du klicka på talongen för att få nya kort på alla högar i utlägget. </para>
+
+<para
+>Genom att använda ångerfunktionen kan du underlätta spelet en hel del, eftersom du måste ta ganska många beslut och vissa av dem kan visa sig vara felaktiga efter du har klickat på talongen. </para>
+
+</sect2>
+
+<sect2 id="forty-and-eight">
+<title
+>Fyrtio och åtta</title>
+
+<para
+><indexterm
+><primary
+>Fyrtio och åtta</primary
+></indexterm
+> Fyrtio och åtta spelas med två kortlekar. Målet med spelet är att placera alla kort som riktiga familjer på grundkorten. </para>
+
+<para
+>Högarna i utlägget måste vara i fallande ordning med hänsyn tagen till färger. Du kan till exempel bara placera hjärter fem ovanpå hjärter sex. </para>
+
+<para
+>Du kan bara placera ett kort överst på en hög. Vilket kort som helst kan placeras på en ledig plats. </para>
+
+<para
+>Genom att klicka på talongen lägger du ett kort i sakhögen, som därifrån kan flyttas till en hög i utlägget eller till grundkorten (som Patiens gör åt dig). Är talongen tom kan du lägga tillbaka alla kort från sakhögen till talongen. Det här fungerar bara en gång: andra gången talongen blir tom är spelet slut. </para>
+
+<para
+>Den här patiensen är svår att lösa, men med en viss erfarenhet kan du vinna många omgångar, särskilt om du använder ångerfunktionen då och då för att rätta dina beslut och besluten som Patiens tar när det flyttar kort till grundkorten. </para>
+</sect2>
+
+<sect2 id="simple-simon">
+<title
+>Följa John</title>
+
+<para
+><indexterm
+><primary
+>Följa John</primary
+></indexterm
+> Följa John spelas med bara en kortlek. Målet med spelet är att placera alla kort som riktiga familjer på grundkorten. </para>
+
+<para
+>På högarna i utlägget kan du bygga sviter. I allmänhet behöver du inte bry dig om kortens färg, men sviter kan bara flyttas om de är en del av en riktig svit Du kan till exempel flytta kortet spader sex om <emphasis
+>spader</emphasis
+> fem finns ovanpå det, men du får inte flytta det om <emphasis
+>klöver</emphasis
+> fem finns ovanpå det. </para>
+
+<para
+>Korten kan bara flyttas till grundkorten om alla 13 korten i en familj ligger ovanpå varandra på högarna i utlägget. </para>
+
+<tip>
+<title
+>Förslag</title>
+<para
+>Du bör försöka flytta korten till rätt högar så fort som möjligt för att skapa lediga högar att placera kort på tillfälligt, eftersom du kan placera vilket kort som helst på dem. </para>
+
+<para
+>Med tillräckligt ledigt utrymme kan du bygga familjer på lediga platser oberoende av färg. Om du har alla kort i sådana familjer kan du sortera dem efter färg, så att de kan flyttas till grundkorten. </para>
+</tip>
+
+</sect2>
+
+<sect2 id="yukon">
+<title
+>Yukon</title>
+
+<para
+><indexterm
+><primary
+>Yukon</primary
+></indexterm
+> Yukon spelas med en kortlek. Målet är att placera alla kort som riktiga familjer i stigande ordning på grundkorten. </para>
+
+<para
+>Sviterna på högarna i utlägget måste vara i fallande ordning med alternerande röda och svarta kort. Du kan flytta varje kort med framsidan uppåt oberoende av hur många kort som finns ovanpå det. Du kan alltså placera hjärter fem ovanpå spader sex om det är överst i sin hög. </para>
+
+<para
+>En kung av vilken färg som helst kan placeras på en ledig plats (återigen oberoende av hur många kort som finns ovanför det) </para>
+</sect2>
+
+<sect2 id="grandfathers-clock">
+<title
+>Farfarsklocka</title>
+
+<para
+><indexterm
+><primary
+>Farfarsklocka</primary
+></indexterm
+> Farfarsklocka är en enkel patiens och med en viss erfarenhet bör du kunna lösa de flesta omgångar. Den spelas med en kortlek och målet med spelet är att placera korten som riktiga familjer i stigande ordning på grundkorten. </para>
+
+<para
+>Grundkorten finns på högra sidan och består av tolv högar som formar en klocka. Nian finns vid klockan tolv, damen vid klockan tre, trean vid klockan sex och sexan vid klockan nio. </para>
+
+<para
+>Det finns åtta högar i utlägget vid sidan om klockan och i varje hög finns det fem kort. På högarna i utlägget kan du bygga i fallande svit utan att bry dig om kortens färg. Du kan bara flytta ett kort i taget. </para>
+
+</sect2>
+
+<sect2 id="golf">
+<title
+>Golf</title>
+
+<para
+><indexterm
+><primary
+>Golf</primary
+></indexterm
+> Golf spelas med en kortlek. Målet med Golf är att flytta alla korten i utläggningen till grundkorten.</para>
+ 
+<para
+>Layouten i patiensen Golf är rättfram. I början av spelet ser du utläggningen, där det finns sju kolumner som vardera innehåller fem kort. Därunder finns talongen och grundkorten. </para>
+
+<para
+>Att spela patiensen Golf är enkelt, men det krävs strategi för att kunna vinna. Korten längst ner i varje kolumn i uppläggningen är tillgängliga för spel. Tillgängliga kort byggs på det översta grundkortet i stigande eller fallande sekvens, oberoende av färg. Om inga förflyttningar är möjliga kan ett kort delas ut från talongen till grundkortet. Spelet är slut när alla kort i talongen har delats ut, och inga ytterligare förflyttningar är möjliga.</para>
+
+</sect2>
+
+<sect2 id="spider">
+<title
+>Spindel</title>
+
+<para
+><indexterm
+><primary
+>Spindel</primary
+></indexterm
+> Spindel spelas med två kortlekar. Korten delas ut i tio spelhögar, fyra med sex kort vardera och sex med fem kort vardera. Det lämnar kvar 50 kort som kan delas ut 10 åt gången, ett på varje spelhög. </para>
+
+<para
+>I spelhögarna, kan ett kort placeras på ett annat i vilken färg som helst och med värdet ett högre. En sekvens med kort i fallande ordning och samma färg kan flyttas från en spelhög till en annan. </para>
+
+<para
+>Målet med spindel är att placera alla kort som riktiga familjer i fallande ordning från kungarna var som helst i spelhögarna. När en sådan familj har byggts i en spelhög, flyttas den till nedre vänstra hörnet av fönstret. </para>
+
+<para
+>De olika nivåerna avgör hur många färger som används. Lätt använder en färg, normal använder två färger, och svår använder alla fyra färgerna. Spelet är ganska lätt att vinna på den lätta nivån, och mycket svårt att vinna på den svåra nivån. </para>
+
+</sect2>
+
+<sect2 id="bakers-dozen">
+<title
+>Tretton rader</title>
+
+<para
+><indexterm
+><primary
+>Tretton rader</primary
+></indexterm
+> Tretton högar spelas med en kortlek. Spelets namn kommer från de 13 kolumnerna i spelet. Korten delas ut i kolumner med fyra i uppläggningen, vilket ger 13 kolumner. En kung som är överst eller i mitten av varje kolumn måste placeras längst bak innan spelet börjar. Två kungar som finns i en kolumn placeras längst bak utan att ändra deras ordning. </para>
+
+<para
+>Spelets syfte är att bygga alla korten på de fyra grundkorten enligt färg, var och en från äss till kung. </para>
+
+<para
+>På högarna i utlägget måste du bygga fallande sekvenser, oberoende av svit. Du kan bara flytta ett kort som ligger överst i en hög. </para>
+
+<para
+>Varianter:</para>
+<itemizedlist>
+  <listitem
+><para
+>I <quote
+>Spansk patiens</quote
+> kan vilket kort som helst fylla tomma platser i utläggningen (i vissa källor, byggs grundkorten oberoende av färg).</para
+></listitem>
+  <listitem
+><para
+><quote
+>Slott i Spanien</quote
+> liknar <quote
+>Spansk patiens</quote
+>, men korten i utläggningen byggs neråt i alternerande färger. I vissa varianter, delas utläggningen ut med framsidan neråt förutom det översta kortet i varje kolumn.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Portugisisk patiens</quote
+> är halvvägs mellan <quote
+>Tretton högar</quote
+> och <quote
+>Spansk patiens</quote
+>, eftersom tomma kolumner bara kan fyllas med kungar.</para
+></listitem>
+</itemizedlist>
+
+<para
+>För att vinna det här spelet rekommenderas du att hämta korten ur spelsviterna i samma ordning som de måste läggas bland grundkorten (först ässen, sedan tvåorna, etc.). Oftast vill man undvika att tömma en kolumn innan det sista kortet är redo att flytta till ett grundkort. </para>
+
+</sect2>
+
+<sect2 id="castle">
+<title
+>Slott</title>
+
+<para
+><indexterm
+><primary
+>Slott</primary
+></indexterm
+> Slott är en samling patienser som oftast använder en kortlek med 52 kort. De beskrivs ibland som "Kungen utan celler" eftersom spelet är liknande men utan extra tomma utrymmen för att manövrera i de flesta varianter. </para>
+
+<para
+>Spelets syfte är att bygga alla korten på de fyra grundkorten enligt färg, var och en från äss till kung. </para>
+
+<para
+>På högarna i utlägget måste du bygga fallande sekvenser, oberoende av svit. Du kan bara flytta ett kort som ligger överst i en hög. </para>
+
+<para
+>Varianter:</para>
+<itemizedlist>
+  <listitem
+><para
+><quote
+>Belägrat slott</quote
+>. Äss delas ut på grundhögarna. Alla kort kan fylla i tomma utrymmen.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Citadell</quote
+> är som <quote
+>Belägrat slott</quote
+>, men kort som passar ihop flyttas till grundhögarna under utdelning, vilket lämnar ojämna högar.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Kungar i exil</quote
+> är som <quote
+>Citadell</quote
+>, men bara kungar kan fylla tomma utrymmen.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Belägringskonst</quote
+> är som <quote
+>Belägrat slott</quote
+>, men med en ledig cell.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Gator och gränder</quote
+> är som <quote
+>Belägrat slott</quote
+>, men äss ingår i blandningen.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Högborg</quote
+> är som <quote
+>Gator och gränder</quote
+>, men med en ledig cell.</para
+></listitem>
+</itemizedlist>
+
+<para
+>För att patiensen ska gå ut rekommenderas att bygga jämnt på grundhögarna. Försök att skapa tomma höger som kan användas för att underlätta längre förflyttningar för att frigöra begravda kort. </para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="interface"
+><title
+>Översikt av gränssnittet</title
+> <!-- do not change this! -->
+<!-- This section has to do with menubar. Describe every single entry in order. Use <variablelist
+> and <varlistentry
+>. Split the chapter into sections using <sect1(2,3)
+> for better viewing.-->
+<sect1 id="game-menu">
+	<title
+>Menyn Spel</title>
+		<variablelist>
+			<varlistentry id="game-menu-new-game">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>N</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Spel</guimenu
+> <guimenuitem
+>Nytt spel...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Återgå till spelvalsfönstret.</action
+> Åtgärden överger pågående giv.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-deal">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Spel</guimenu
+> <guimenuitem
+>Ny giv</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Starta en ny giv med samma patiensvariant.</action
+> Åtgärden överger given som pågår.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-numbered-deal">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Spel</guimenu
+> <guimenuitem
+>Ny numrerad giv...</guimenuitem
+> </menuchoice
+></term>
+				<listitem>
+					<para
+><action
+>Starta en ny giv genom att ange typ av spel och givens nummer.</action
+> Åtgärden överger given som pågår.</para>
+					<para
+>Patiens ger varje giv ett unikt identifikationsnummer (som används internt för att göra kortleken slumpmässig vid den inledande given). Den här funktionen låter dig spela om en intressant giv eller försöka en särskilt svår giv rekommenderad av en vän. Särskilt hängivna spelare kan försöka <quote
+>slå</quote
+> Patiens genom att spela alla 2147483647 givar i tur och ordning för var och en av patiensvarianterna.</para>
+					<para
+>Observera att för Kungen motsvarar givnumren i Patiens de som beskrivs i <ulink url="http://www.solitairelaboratory.com/fcfaq.html"
+>Freecell FAQ</ulink
+>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-restart-deal">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F5</keycap
+></shortcut
+> <guimenu
+>Spel</guimenu
+> <guimenuitem
+>Starta om giv</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Låt den pågående patiensen återgå till sitt ursprungliga tillstånd efter given.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Spel</guimenu
+> <guimenuitem
+>Ladda...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Ladda ett sparat spel.</action
+> Åtgärden överger pågående giv.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load-recent">
+				<term
+><menuchoice
+><guimenu
+>Spel</guimenu
+> <guisubmenu
+>Ladda senaste</guisubmenu
+> <guimenuitem
+><replaceable
+>Lista med filer som nyligen använts</replaceable
+></guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Lista senast använda sparade filer i ordning enligt senast använda.</action
+> Väljes en patiens laddas den. Åtgärden överger pågående giv.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-save">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Spel</guimenu
+> <guimenuitem
+>Spara som...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Spara pågående spel på hårddisken.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-statistics">
+				<term
+><menuchoice
+><guimenu
+>Spel</guimenu
+> <guimenuitem
+>Statistik</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Visa diverse statistik om hur du klarat dig, uppdelat enligt patiensvariant.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-quit">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Spel</guimenu
+> <guimenuitem
+>Avsluta</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Avsluta</action
+> Patiens.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="move-menu">
+	<title
+>Menyn Flytta</title>
+		<variablelist>
+			<varlistentry id="move-menu-undo">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Flytta</guimenu
+> <guimenuitem
+>Ångra</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Ångra</action
+> ditt senaste drag.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-redo">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>Z</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Flytta</guimenu
+> <guimenuitem
+>Gör om</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Gör om</action
+> draget som precis ångrades med <guimenuitem
+>Ångra</guimenuitem
+>.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-hint">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>H</keycap
+></shortcut
+> <guimenu
+>Flytta</guimenu
+> <guimenuitem
+>Tips</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Tillhandahåll tips om möjliga förflyttningar, om någon fastnar. Kort som tillåts flyttas till en annan hög, markeras tillfälligt.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-demo">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>D</keycap
+></shortcut
+> <guimenu
+>Flytta</guimenu
+> <guimenuitem
+>Demonstration</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Starta demonstrationsläget</action
+>. I demonstrationsläget försöker Patiens lösa given åt dig. Aktivera åtgärden en andra gång för att lämna demonstrationsläget.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-draw">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>Mellanslag</keycap
+></shortcut
+> <guimenu
+>Flytta</guimenu
+> <guimenuitem
+>Dra</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Vänd ett eller flera kort från talongen och flytta dem till sakhögen.</action
+> Åtgärden är bara tillgänglig i vissa patienser.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-deal-row">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>Retur</keycap
+></shortcut
+> <guimenu
+>Flytta</guimenu
+> <guimenuitem
+>Dela ut rad</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Vänd flera kort från talongen och placera ett på varje spelhög.</action
+> Åtgärden är bara tillgänglig i vissa patienser.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-redeal">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>R</keycap
+></shortcut
+> <guimenu
+>Flytta</guimenu
+> <guimenuitem
+>Ny omgång</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Samla alla kort som fortfarande är i spel och dela ut dem igen utan att blanda.</action
+> Åtgärden är bara tillgänglig i vissa patienser.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="settings-help-menu">
+	<title
+>Menyerna Inställningar och Hjälp</title>
+<para
+>Förutom de vanliga inställnings- och hjälpmenyerna i &kde; som beskrivs i kapitlet <ulink url="help:/fundamentals/menus.html"
+>Meny</ulink
+> i dokumentet &kde;:s grunder, har Patiens följande programspecifika menyalternativ: </para>
+		<variablelist>
+			<varlistentry id="settings-menu-game-type-options">
+				<term
+><menuchoice
+><guimenu
+>Inställningar</guimenu
+> <guisubmenu
+><replaceable
+>Alternativ för speltyp</replaceable
+></guisubmenu
+> <guimenuitem
+><replaceable
+>Lista med specifika alternativ för speltyp</replaceable
+></guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Lista alternativ specifika för den nuvarande patiensvarianten.</action
+> Menyn är bara tillgänglig i vissa patienser (Klondike och Spindel).</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-stack-options">
+				<term
+><menuchoice
+><guimenu
+>Inställningar</guimenu
+> <guisubmenu
+>Högalternativ</guisubmenu
+> <guimenuitem
+>Framsidan neråt (svårare)/Framsidan uppåt (lättare)</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Låter dig välja om kortens framsida ska visas.</action
+> Menyn är bara tillgänglig i Spindel.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-deck">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F10</keycap
+></shortcut
+> <guimenu
+>Inställningar</guimenu
+> <guimenuitem
+>Ändra utseende...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Visa en dialogruta för att ändra kortlek och speltema som används.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-autodrop">
+				<term
+><menuchoice
+><guimenu
+>Inställningar</guimenu
+> <guimenuitem
+>Aktivera automatisk förflyttning</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Aktivera att flytta kort automatiskt till grundhögarna om möjligt.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-solver">
+				<term
+><menuchoice
+><guimenu
+>Inställningar</guimenu
+> <guimenuitem
+>Aktivera patienslösare</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Aktivera den automatiska patienslösaren.</action
+> När den är aktiverade, försöker lösaren hela tiden avgöra om patiensens aktuella tillstånd betyder att den går ut. Du kan inaktivera lösaren för att bevara processor- eller batterikraft.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-playsounds">
+				<term
+><menuchoice
+><guimenu
+>Inställningar</guimenu
+> <guimenuitem
+>Spela ljud</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Ljud spelas när du plockar upp eller lägger kort.</action
+> Fler ljud förväntas i framtiden.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-remember">
+				<term
+><menuchoice
+><guimenu
+>Inställningar</guimenu
+> <guimenuitem
+>Kom ihåg tillståndet vid avslutning</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Aktivera att spelets tillstånd sparas automatiskt när Patiens stängs av</action
+> Om aktiverad, laddas Patiens automatiskt föregående patiens tillstånd nästa gång det startas.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="help-menu-remember">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>F1</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Hjälp</guimenu
+> <guimenuitem
+>Hjälp för aktuellt spel</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Visar avsnittet med regler för aktuellt spel i den här handboken.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="faq"
+><title
+>Vanliga frågor</title
+> <!-- do not change this! -->
+<!--This chapter is for frequently asked questions. Please use <qandaset
+> <qandaentry
+> only!-->
+<qandaset>
+<!--Following is a standard list of FAQ questions.-->
+<qandaentry>
+ <question
+><para
+>Jag vill ändra hur patiensen ser ut. Kan man göra det? </para
+></question>
+ <answer
+><para
+>Man kan ändra spelkortens fram- och baksida och spelets tema. Använd <menuchoice
+><shortcut
+><keycap
+>F10</keycap
+></shortcut
+> <guimenu
+>Inställningar</guimenu
+> <guimenuitem
+>Ändra utseende...</guimenuitem
+></menuchoice
+> i menyraden för att göra det.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Kan man använda tangentbordet för att spela?</para
+></question>
+ <answer
+><para
+>Nej, Patiens har ingen funktion för att spela bara med tangentbordet. Dock har de flesta menyalternativ snabbtangenter.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Jag har fortfarande ingen aning om hur man spelar, även med tips. Hjälp!</para
+></question>
+ <answer
+><para
+>Förutom tipsfunktionen finns det också ett användbart demonstrationsläge, där den inbyggda artificiella intelligensen lägger patiensen åt dig. Du kan försöka att titta på och lära dig. Om du har frågor är det dock bättre att läsa avsnitten <link linkend="howto"
+>Hur man spelar</link
+> och <link linkend="rules_and_tips"
+>Spelets regler, strategi och tips</link
+> i den här handboken.</para
+></answer>
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits"
+><title
+>Tack till och licens</title
+> <!-- do not change this! -->
+<!--This chapter is for credits and licenses.-->
+
+<para
+>&kpatience; </para>
+<!--List all the copyright holders here-->
+<para
+>&kpatience; Copyright &copy; 1995-2000 &Paul-Olav.Tvete; </para>
+
+<para
+>&kpatience; Copyright &copy; 2001-2007 &Stephan.Kulow; &Stephan.Kulow.mail; </para>
+
+<para
+>Lösare till Kungen av Shlomi Fish <email
+>shlomif@vipe.technion.ac.il</email
+> </para>
+
+<para
+>Dokumentation Copyright &copy; 2000 &Paul-Olav.Tvete; </para>
+
+<para
+>Dokumentation uppdaterad för &kde; 2.0 av &Mike.McBride; &Mike.McBride.mail; </para>
+
+<para
+>Dokumentation omskriven för &kpatience; 2.0 (&kde; 2.1) av &Maren.Pakura; &Maren.Pakura.mail; </para>
+
+<para
+>Dokumentation korrekturläst och uppdaterad för &kpatience; 3.6 av &Richard.Hawthorne; &Richard.Hawthorne.mail; </para>
+
+<para
+>Översättning Stefan Asserhäll <email
+>stefan.asserhall@bredband.net</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index; 
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-omittag:t
+sgml-shorttag:t
+sgml-namecase-general:t
+sgml-always-quote-attributes:t
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->

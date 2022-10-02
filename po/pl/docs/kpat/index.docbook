@@ -1,0 +1,1397 @@
+<?xml version="1.0" ?>
+<!--IMPORTANT: please note that'do not change this!' notice does not apply to translators -->
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY kappname "&kpatience;">
+  <!ENTITY kappversion "3.0"
+><!--Applicaion version. Use this variable everywhere it's needed.-->
+  <!ENTITY package "kdegames"
+>  <!-- do not change this! -->
+  <!ENTITY % Polish "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY % addindex "IGNORE"
+> <!-- do not change this! -->
+]>
+
+<book lang="&language;"
+> <!-- do not change this! -->
+<bookinfo>
+	<title
+>Podręcznik programu &kappname;</title
+> <!-- This is the title of the docbook. Leave as is unless change is necessary.-->
+<!-- List of immidiate authors begins here. -->
+<!--INPORTANT! - All other contributors: [to be determined] -->
+<authorgroup>
+<author
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> </author>
+<author
+><firstname
+>Maren</firstname
+> <surname
+>Pakura</surname
+> </author>
+<author
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> </author>
+
+<othercredit role="reviewer"
+><firstname
+>Mike</firstname
+><surname
+>McBride</surname
+> <contrib
+>Recenzent</contrib>
+<affiliation
+><address
+>&Mike.McBride.mail;</address
+></affiliation>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> <contrib
+>Programista</contrib>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> <contrib
+>Programista</contrib>
+</othercredit>
+
+<othercredit role="translator"
+><firstname
+>Suse</firstname
+><surname
+>Polska</surname
+><affiliation
+><address
+><email
+>suse@suse.pl</email
+></address
+></affiliation
+><contrib
+>Polskie tłumaczenie</contrib
+></othercredit
+> <othercredit role="translator"
+><firstname
+>Paweł</firstname
+><surname
+>Dąbek</surname
+><affiliation
+><address
+><email
+>pdabek@onet.pl</email
+></address
+></affiliation
+><contrib
+>Weryfikacja polskiego tłumaczenia</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Paul-Olav.Tvete;</holder>
+</copyright>
+
+<copyright>
+<year
+>2001</year
+><year
+>2004</year>
+<holder
+>&Maren.Pakura;</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year>
+<holder
+>&Stephan.Kulow;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2008-09-25</date
+><!-- Date of (re)writing, or update.-->
+<releaseinfo
+>&kappversion;</releaseinfo
+><!-- Application version number. Use the variable definitions within header to change this value.-->
+
+<!--Short description of this document. Do not change unless necessary!-->
+<abstract>
+	<para
+>Niniejsza dokumentacja opisuje grę &kappname; w wersji &kappversion;</para>
+</abstract>
+
+<!--List of relevan keywords-->
+<keywordset>
+	<keyword
+>KDE</keyword
+> <!-- do not change this! -->
+	<keyword
+>kdegames</keyword
+> <!-- do not change this! -->
+	<keyword
+>gra</keyword
+> <!-- do not change this! -->
+	<keyword
+>Pasjans</keyword
+><!--Application name goes here-->
+<!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<keyword
+>karta</keyword>
+	<keyword
+>gra karciana</keyword>
+	<keyword
+>gra w karty</keyword>
+<!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+	<keyword
+>jeden gracz</keyword>
+<!--All other relevant keywords-->
+	<keyword
+>pasjans</keyword>
+	<keyword
+>samotnik</keyword>
+</keywordset>
+</bookinfo>
+<!--Content begins here: -->
+<chapter id="introduction"
+><title
+>Wprowadzenie</title
+> <!-- do not change this! -->
+	<note
+><title
+>Rodzaj gry:</title
+><para
+>Gra karciana</para
+></note
+><!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<note
+><title
+>Liczba graczy:</title
+><para
+>Jeden</para
+></note
+><!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+
+<!--Short game description starts here. 3-4 sentences (paragraphs)-->
+
+<para
+>Aby układać pasjansa, potrzebujesz cierpliwości (z ang. patience - pasjans, ale też cierpliwość). W przypadku łatwiejszych gier, gdzie powodzenie zależy wyłącznie od kolejności ułożenia się kart, cierpliwość jest jedyną rzeczą, jakiej potrzebujesz. </para>
+
+<para
+>Są również takie pasjanse, gdzie, aby wygrać, musisz planować strategię i myśleć z wyprzedzeniem. </para>
+
+<para
+>Wspólną cechą wszystkich pasjansów jest to, że musisz układać karty w określonej kolejności, przenosząc je i zmieniając ich układy. </para>
+</chapter>
+
+<chapter id="howto"
+><title
+>Jak grać</title
+> <!-- do not change this! -->
+<!--IMPORTANT: If the game has no defined objective, please remove the below line.-->
+	<note
+><title
+>Cel gry:</title
+><para
+>Ustaw karty w kolejności według kolorów w jak najkrótszym możliwym czasie.</para
+></note
+><!--Describe the objective of the game.-->
+<!--How to play description. Don't be to specific on rules as they have a separate section in this document-->
+	<para
+>Ponieważ &kappname; pozwala na grę w wiele różnych pasjansów, nie da się napisać prostej instrukcji pasującej do każdego z nich. Dlatego, ważne jest aby przeczytać poszczególne sekcje zasad gry, strategii i wskazówek przed rozpoczęciem gry w pasjansa, którego nie znasz.</para>
+<para
+>Generalnie występują dwa rodzaje pasjansów - takie, w których zadaniem gracza jest ułożenie kolejne kart w tym samym kolorze lub w naprzemiennych kolorach. Możesz sprawdzić jakie są zasady w danym pasjansie metodą prób i błędów. Jeżeli już wiesz jaki jest wybrany rodzaj pasjansa, to reszta jest prosta, należy przenosić i zmieniać kolejność kart, dobierając pasujące karty.</para>
+<para
+>Od początku jednak, należy zwracać uwagę na swoje stosu kart. Nie należy się spieszyć z przesuwaniem poszczególnych kart, trzeba patrzyć czy nie będą przydatne w innymi miejscu.</para>
+<para
+>Dodatkową pomocą mogą być informacje zawarte w pasku stanu. Dla większości gier, program ma wbudowaną funkcję rozwiązywania, która informuje czy aktualnie grany pasjans może być zakończony, czy nie. Jeżeli program rozwiązujący nie może zakończyć aktualnej gry, to jest bardzo prawdopodobne, że tobie też się to nie uda. W takim przypadku można uruchomić ponownie bieżącą grę lub zacząć całkiem nową. </para>
+<note
+><title
+>Uwaga:</title
+><para
+>Gra w pasjansa pomaga rozwinąć swoje możliwości skupiania uwagi i zdolności koncentracji.</para
+></note>
+</chapter>
+
+<chapter id="rules_and_tips"
+><title
+>Zasady gry, strategia gry i sztuczki</title
+> <!-- do not change this! -->
+
+<sect1 id="rules-general">
+	<title
+>Ogólne reguły</title>
+	<para
+><indexterm
+><primary
+>kolory</primary
+></indexterm
+>Gra karciana wymaga jednej lub dwóch talii, z których każda zawiera 52 karty i cztery kolory:</para>
+	<informaltable pgwide="0" frame="none">
+		<tgroup cols="2"
+><colspec/><colspec/>
+	<tbody>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="clubs.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Trefl</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="spades.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Pik</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="hearts.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Kier</entry>
+		</row>
+			<row valign="middle"
+><entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="diamonds.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Karo</entry>
+		</row>
+	</tbody
+></tgroup>
+	</informaltable>
+	<para
+>Każdy z kolorów zawiera następujące figury: as, dwójka, trójka, czwórka, piątka, szóstka, siódemka, ósemka, dziewiątka, dziesiątka, walet, dama, król.</para>
+	<para
+><indexterm
+><primary
+>rodzina</primary
+></indexterm
+> Wszystkie karty ułożone kolejno nazwijmy "rodziną". Właściwa rodzina składa się z kart tego samego koloru (np. tylko pików). Mieszaną rodzinę tworzą naprzemiennie czarne kolory (piki i trefle) i czerwone (kiery i kara).</para>
+	<para
+>Jeśli rodzina nie jest kompletna, nazywana jest sekwensem.</para>
+	<mediaobject>
+		<imageobject
+><imagedata fileref="playfield.png" format="PNG"/></imageobject>
+		<textobject
+><phrase
+>Pole gry programu &kpatience;</phrase
+></textobject>
+	</mediaobject>
+	<para
+>Typowe pasjanse różnią się od siebie wieloma elementami. Opisane są one poniżej.</para>
+	<variablelist>
+		<varlistentry
+><term
+>1. Pula</term>
+			<listitem
+><para
+><indexterm
+><primary
+>pula</primary
+></indexterm
+>Na początku każdej gry wszystkie karty w talii są tasowane. Ale nie we wszystkich grach wszystkie karty są rozdawane; niektóre zostają w talii. Są one odłożone w tak zwanej puli, którą łatwo zauważyć, ponieważ w większości gier, jest to jedyna kupka kart pokazujących rewers. </para>
+			<para
+>Jeśli żadna z kart nie jest odwrócona rewersem do góry, rozdane zostały wszystkie karty i nie istnieje pula kart. Takie gry należą do najtrudniejszych, ponieważ po rozpoczęciu gry nie ma szansy dalsze losowe rozdania. </para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>2. Stos zrzutu</term>
+			<listitem
+><para
+><indexterm
+><primary
+>stos zrzutu</primary
+></indexterm
+>Wiele gier, po kliknięciu na pulę, odkłada karty najpierw na stos zrzutu.</para>
+			<para
+>Stamtąd możesz wziąć odkrytą kartę i użyć jej w grze.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>3. Stół</term>
+			<listitem
+><para
+><indexterm
+><primary
+>stół</primary
+></indexterm
+>Stół to miejsce, gdzie docelowo powinieneś ułożyć wszystkie karty. Wygrywasz, jeśli wszystkie karty znajdą się tam w odpowiedniej kolejności. Niektóre gry używają więcej niż jednego stosu podstawowego.</para>
+			<para
+>W większości gier miejsca te są na początku puste. Gra &kpatience; niekiedy samodzielnie przekłada tam pasujące karty. </para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>4. Stosy gry</term>
+			<listitem
+><para
+><indexterm
+><primary
+>stosy gry</primary
+></indexterm
+>To miejsca, gdzie sam porządkujesz karty. Reguły układania kart różnią się w zależności od gry. Niekiedy pokazywane są tam wszystkie karty, czasami nie. W niektórych grach możesz przenosić niektóre karty, w innych wszystkie. </para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="rules-specific"
+><title
+>Zasady poszczególnych gier</title>
+
+<sect2 id="klondike">
+<title
+>Klondike</title>
+
+<para
+><indexterm
+><primary
+>Klondike</primary
+></indexterm
+> Klondike jest najbardziej znanym pasjansem - prawdopodobnie dlatego, że dołączany jest do znanych systemów operacyjnych. Do gry używa się jednej talii. </para>
+
+<para
+>Celem Klondike jest ułożenie na stole wszystkich kart w jednym kolorze od asa do króla. Jest to prostsze wtedy gdy karty na stosach gier leżą odkryte. </para>
+
+<para
+>W obszarze przekładania kart, muszą one być ułożone malejąco i naprzemiennie kolorami. Możesz przenosić całe sekwensy lub ich części, jeśli jego pierwsza karta pasuje w innym miejscu. </para>
+
+<para
+>W wolnym miejscu możesz umieścić króla w dowolnym kolorze, lub rozpoczynający się od niego sekwens. </para>
+
+<para
+>Kiedy klikniesz na puli, jedna karta zostanie przeniesiona na stos zrzutu, skąd możesz przełożyć ją na stosy gry lub na stół. Jeśli pula jest pusta, możesz przenieść tam cały stos zrzutu, klikając na pustej puli. </para>
+
+<para
+>Możesz przeglądać karty w puli dowolną liczbę razy. </para>
+</sect2>
+
+<sect2 id="grandfather">
+<title
+>Dziadek</title>
+
+<para
+><indexterm
+><primary
+>Dziadek</primary
+></indexterm
+> Ta gra została pokazana Paulowi (&Paul-Olav.Tvete;) - pierwotnemu twórcy gry &kpatience; -  przez jego dziadka, stąd jego nazwa (ang. grandfather - dziadek). Żaden inny zestaw pasjansów nie zawiera tego pasjansa. </para>
+        
+<para
+>W pasjansie Dziadek rozdaje talię kart na siedem stosów gry. Po pierwszym rozdaniu niektóre karty w każdym stosie są obrócone rewersem do góry. </para>
+
+<para
+>Celem jest ułożenie wszystkich kart rosnąco, kolorami na stosach. </para>
+
+<para
+>Możesz przenosić każdą kartę na każdy stos, jeśli tam pasuje w taki sposób, by stworzyć sekwens w kolejności malejącej. Możesz na przykład przenieść pięć kierów na sześć kierów, niezależnie od tego, ile kart znajduje się na pięciu kierach. Jedynie sześć kierów musi znajdować się na szczycie stosu. </para>
+
+<para
+>W wolnym miejscu możesz umieścić króla (niezależnie od ilości znajdujących się na nim kart). </para>
+
+<para
+>Jeśli nie da się już przenieść żadnych kart, możesz przetasować je do dwóch razy. Wszystkie karty znajdujące się na stole, pozostają tam, ale karty na stosach gry będą również przetasowane, dając nową szansę na znalezienie rozwiązania. </para>
+
+<para
+>Chociaż zasady są proste i pozwalają na wiele ruchów, to osiągnięcie zwycięstwa nie jest łatwe. Mimo tego, albo właśnie dzięki temu, granie w pasjansa jest bardzo przyjemne. </para>
+</sect2>
+
+<sect2 id="aces-up">
+<title
+>Asy</title>
+
+<para
+><indexterm
+><primary
+>Asy</primary
+></indexterm
+> Ten pasjans ma proste zasady, ale ciężko go ułożyć. Wykorzystuje się jedną talię, a celem jest ułożenie na stole wszystkich kart, prócz asów. Na końcu gry, na każdym stosie powinien pozostać jeden as. </para>
+
+<para
+>Każda górna karta, która jest w tym samym kolorze (np. pik) i ma wartość mniejszą niż inna górna karta (np. szóstka i czwórka pik), może być, przez kliknięcie, przeniesiona na stół. </para>
+
+<para
+>Jeśli nie ma więcej możliwości przeniesienia kart na stół, możesz, klikając na pulę, dołożyć do każdego stosu gry jedną kartę. </para>
+
+<para
+>Na pusty stos możesz przenieść każdą kartę ze szczytu stosu. Korzystaj z tego, aby dostać się do kart, które możesz ułożyć na stole. </para>
+
+<para
+>Dla tego pasjansa niedostępna jest funkcja automatycznego upuszczania. </para>
+
+</sect2>
+
+<sect2 id="freecell">
+<title
+>Freecell</title>
+
+<para
+><indexterm
+><primary
+>Freecell</primary
+></indexterm
+> W tym pasjansie używa się jednej talii. W lewym górnym rogu masz cztery puste komórki. Obok znajdziesz cztery stosy stołu, a pod nimi - osiem stosów gry. </para>
+
+<para
+>Celem gry jest umieszczenie wszystkich kart na stole, rosnąco i kolorami. Przeważnie się to udaje jeżeli potrafisz grać, gdyż prawdopodobieństwo ułożenia tego pasjansa to około 99.9%. To znaczy, że z pierwszych 32000 rozdań, nierozwiązywalne jest jedno rozdanie (rozdanie 11982 jeżeli cię to interesuje). </para>
+
+<para
+>Na stosach gry musisz układać malejące, naprzemienne kolorami (czerwone i czarne) sekwensy. W pustych komórkach możesz umieścić każdą kartę. </para>
+
+<para
+>Przenosić możesz tylko pojedyncze karty, znajdujące się na szczycie stosu lub komórki. Sekwensy mogą być przenoszone, jeśli jest wystarczająco dużo miejsca (wolne komórki lub wolne stosy gry), gdzie możesz umieścić karty. </para>
+
+<para
+>Maksymalna liczba kart, którą możesz przenieść jest obliczana następująco: </para>
+
+<sidebar
+><para
+>(#{wolne komórki} + 1) * 2<superscript
+>#{wolne stosy}</superscript
+> </para
+></sidebar>
+
+<para
+>W celu ułożenia tego pasjansa, zaleca się zbieranie kart z sekwensów w takiej samej kolejności, w jakiej powinny być ułożone na stole (najpierw asy, później dwójki, itd.) </para>
+
+<para
+>Powinieneś starać się utrzymać jak największą liczbę wolnych komórek i/lub stosów gry, abyś mógł budować tak długie sekwensy, jak to tylko możliwe. </para>
+
+</sect2>
+
+<sect2 id="mod3">
+<title
+>Mod3</title>
+
+<para
+><indexterm
+><primary
+>Mod3</primary
+></indexterm
+> W grze Mod-3 używasz dwóch talii. Celem jest ułożenie wszystkich kart w trzech rzędach. Musisz w nich budować sekwensy z tych samych kolorów. W pierwszym rzędzie musisz utworzyć sekwens 2-5-8-B, w drugim - 3-6-9-D, a w trzecim - 4-7-10-K. W każdym sekwensie kolor musi być identyczny, tak więc możesz położyć pięć kierów tylko na dwa kiery. </para>
+
+<para
+>Czwarty rząd to jednocześni stos zrzutu i stos gry. W pustym polu możesz umieścić każdą kartę z pierwszych trzech rzędów lub jedną z góry czwartego rzędu. </para>
+
+<para
+>Asy możesz układać na stosach asów na szczycie puli. Korzystasz z nich w czasie gry, tak więc masz punkt wyjścia do tworzenia wolnych pól. </para>
+
+<para
+>Jeśli nie da się już przenieść żadnej karty, możesz dobrać nowe do czwartego rzędu, klikając na puli. </para>
+
+<para
+>Dla tego pasjansa niedostępna jest funkcja automatycznego upuszczania. </para>
+</sect2>
+
+<sect2 id="gypsy">
+<title
+>Cyganka</title>
+
+<para
+><indexterm
+><primary
+>Cyganka</primary
+></indexterm
+> W tej grze korzystasz z dwóch talii. Jej celem jest ułożenie na stole wszystkich kart w kolejności rosnącej. </para>
+
+<para
+>Karty na stosach gry muszą być układane malejąco, naprzemiennie czerwone i czarne. Możesz przenosić tylko sekwensy lub pojedyncze karty. W wolnym polu możesz umieścić każdą kartę lub sekwens. </para>
+
+<para
+>Jeśli nie możesz przenieść więcej kart, kliknij na puli, aby na każdym stosie gry umieścić nowe karty. </para>
+
+<para
+>Korzystając z funkcji <guibutton
+>Cofnij</guibutton
+>, znacznie ułatwiasz sobie grę, ponieważ po kliknięciu na puli, niektóre z podjętych decyzji mogą okazać się błędne. </para>
+
+</sect2>
+
+<sect2 id="forty-and-eight">
+<title
+>Czterdzieści osiem</title>
+
+<para
+><indexterm
+><primary
+>Czterdzieści osiem</primary
+></indexterm
+> W tej grze korzystasz z dwóch talii. Jej celem jest ułożenie na stole wszystkich kart w kolejności rosnącej. </para>
+
+<para
+>Karty na stosach gry muszą być układane malejąco. Kolory są istotne.Tak więc możesz umieścić piątkę tref tylko na szóstce trefl. </para>
+
+<para
+>Na szczyt stosu możesz przenieść tylko jedną kartę. W pustym polu możesz umieścić dowolną kartę. </para>
+
+<para
+>Klikając na puli, umieszczasz kartę na stosie zrzutu, skąd możesz przełożyć ją na stos gry lub stół (to zrobi za Ciebie program &kpatience;). Jeśli pula jest wyczerpana, możesz przenieść tam wszystkie karty ze stosu zrzutu. Zadziała to tylko raz; gra się kończy po ponownym wyczerpaniu puli. </para>
+
+<para
+>Ten pasjans jest dość trudny do ułożenia, ale przy odrobinie doświadczenia powinno Ci się to udać, zwłaszcza, jeśli do skorygowania swoich decyzji (i decyzji programu &kpatience;, umieszczającego karty na stole) korzystasz od czasu do z funkcji <guibutton
+>Cofnij</guibutton
+>. </para>
+</sect2>
+
+<sect2 id="simple-simon">
+<title
+>Simple Simon</title>
+
+<para
+><indexterm
+><primary
+>Simple Simon</primary
+></indexterm
+> W tym pasjansie używasz jednej talii. Celem jest ułożenie na stole wszystkich kart kolorami. </para>
+
+<para
+>Na stosach gry budujesz sekwensy. W zasadzie nie musisz się martwić o kolory, ale sekwensy możesz przenosić tylko, jeśli są częścią sekwensu złożonego z tego samego koloru. Przykładowo możesz przenieść szóstkę <emphasis
+>pik</emphasis
+> tylko, jeśli na niej leży piątka <emphasis
+>pik</emphasis
+>, ale już nie piątka <emphasis
+>kier</emphasis
+>). </para>
+
+<para
+>Karty mogą być przenosone na stół tylko jeśli wszystkie 13 kart sekwensu jest ułożonych jedna na drugiej na stosach gry. </para>
+
+<tip>
+<title
+>Podpowiedź</title>
+<para
+>Powinieneś tak szybko, jak to możliwe przesunąć karty na właściwe stosy, aby otrzymać pusty stos do tymczasowego układania kart, ponieważ możesz tam umieścić dowolną kartę. </para>
+
+<para
+>Jeśli jest dość wolnego miejsca, w pustych polach możesz układać sekwensy niezależnie od koloru. Jeśli w sekwensie znajdują się wszystkie karty, możesz sortować je według koloru, a następnie przenieść je na stół. </para>
+</tip>
+
+</sect2>
+
+<sect2 id="yukon">
+<title
+>Yukon</title>
+
+<para
+><indexterm
+><primary
+>Yukon</primary
+></indexterm
+> W tym pasjansie korzystasz z jednej talii. Celem jest ułożenie wszystkich kart kolorami, w kolejności rosnącej. </para>
+
+<para
+>Sekwensy na stosach gry muszą być rosnące, a kolor kart naprzemiennie czerwony i czarny. Możesz przenieść każdą odkrytą kartę, niezależnie od tego, ile kart na niej się znajduje. Tak więc możesz położyć piątkę kier na szóstce pik, jeśli znajduje się ona na szczycie stosu. </para>
+
+<para
+>W pustym polu możesz umieścić króla w dowolnym kolorze (niezależnie od ilości kart, które się na nim znajdują). </para>
+</sect2>
+
+<sect2 id="grandfathers">
+<title
+>Zegar</title>
+
+<para
+><indexterm
+><primary
+>Zegar</primary
+></indexterm
+> Jest to łatwy pasjans i po chwili eksperymentowania powinieneś być w stanie rozwiązać większość układów. Używasz w nim jednej talii, a celem jest ułożenie kart rosnąco, kolorami. </para>
+
+<para
+>Stół znajduje się po prawej stronie, a składa się z 12 stosów, ułożonych w kształt zegara. As umieszczony jest na godzinie 1.00, walet na 11.00, a dama na godzinie 12.00. </para>
+
+<para
+>Obok zegara znajdziesz 8 stosów gry, a na każdym 5 kart. Na stosach gry budujesz malejące sekwensy. Kolor kart nie ma znaczenia. W każdym ruchu przenosisz tylko jedną kartę. </para>
+
+<para
+>Dla tego pasjansa niedostępna jest funkcja automatycznego upuszczania.</para>
+
+</sect2>
+
+<sect2 id="golf">
+<title
+>Golf</title>
+
+<para
+><indexterm
+><primary
+>Golf</primary
+></indexterm
+> W tym pasjansie używasz jednej talii. Celem gry jest przeniesienie wszystkich kart z tablicy na stół. </para>
+ 
+<para
+>Rozkład gry Golf jest bardzo przejrzysty. Na początku pojawia się tablica z siedmioma kolumnami, zawierającymi każda po pięć kart. Poniżej znajduje się pula i stół. </para>
+
+<para
+>Gra w Golf jest łatwa, ale aby wygrać trzeba użyć pewnej strategii. Grają karty u podstawy każdej kolumny tabeli. Dostępne karty są układane na górnej karcie stołu, w malejących lub rosnących sekwencjach, niezależnie od koloru. Jeśli ruch jest niemożliwy, wówczas można przenieść kartę z puli na stół. Gra kończy się, gdy wszystkie karty z puli są rozdane i niemożliwy jest jakikolwiek ruch.</para>
+
+</sect2>
+
+<sect2 id="spider">
+<title
+>Spider</title>
+
+<para
+><indexterm
+><primary
+>Spider</primary
+></indexterm
+> Ten pasjans wymaga dwóch talii. Kart są rozdawane na 10 stosów gry, każdy po 5 lub 6 kart. </para>
+
+<para
+>Na stosach gry, karta może być umieszczona na innej karcie dowolnego koloru, ale wyższej wartości. Rosnący sekwens kart tego samego koloru może być przeniesiony, z jednego stosu gry na inny. </para>
+
+<para
+>Celem gry jest ułożenie wszystkich kart kolorami w kolejności malejącej (od króla) na którymkolwiek stosie gry. Po osiągnięciu tego warunku, zestaw taki jest przenoszony do lewego, dolnego rogu okna. </para>
+
+<para
+>Poziom trudności decyduje o ilości rozdawanych kolorów - Łatwy wykorzystuje jeden kolor, Średni - dwa kolory, Trudny - cztery kolory. Gra jest łatwa do ułożenia na najniższym poziomie, ale bardzo trudna na najwyższym. </para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="interface"
+><title
+>Przegląd interfejsu</title
+> <!-- do not change this! -->
+<!-- This section has to do with menubar. Describe every single entry in order. Use <variablelist
+> and <varlistentry
+>. Split the chapter into sections using <sect1(2,3)
+> for better viewing.-->
+<sect1 id="game-menu">
+	<title
+>Menu <guimenu
+>Gra</guimenu
+></title>
+		<variablelist>
+			<varlistentry id="game-menu-new">
+				<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Gra</guimenu
+> <guimenuitem
+>Nowa gra</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Rozpoczyna nową grę.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load">
+				<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Gra</guimenu
+> <guimenuitem
+>Wczytaj...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Wczytuje zapisaną grę.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load-recent">
+				<term
+><menuchoice
+><guimenu
+>Gra</guimenu
+> <guisubmenu
+>Otwórz ostatnią</guisubmenu
+> <guimenuitem
+>Lista ostatnio otwieranych plików.</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Wyświetla</action
+> listę ostatnio odczytywanych plików z zapisaną grą.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-restart">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F5</keycap
+></shortcut
+> <guimenu
+>Gra</guimenu
+> <guimenuitem
+>Uruchom grę ponownie</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Uruchamia ponownie</action
+> bieżącą grę.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-save">
+				<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Gra</guimenu
+> <guimenuitem
+>Zapisz</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Zapisuje</action
+> bieżącą grę do domyślnego pliku.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-chose-game">
+				<term
+><menuchoice
+><guimenu
+>Gra</guimenu
+> <guimenuitem
+>Wybierz rozdanie...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Otwiera</action
+> okno dialogowe wyboru gry.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-statistics">
+				<term
+><menuchoice
+><guimenu
+>Gra</guimenu
+> <guimenuitem
+>Statystyka</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Otwiera</action
+> okno dialogowe ze statystyką wygranych i przegranych partii dla danej gry.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-hint">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>H</keycap
+></shortcut
+> <guimenu
+>Przenieś</guimenu
+> <guimenuitem
+>Podpowiedź</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Pokazuje podpowiedź.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-demo">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>D</keycap
+></shortcut
+><guimenu
+>Przenieś</guimenu
+><guimenuitem
+>Demonstracja</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Włącz lub wyłącza</action
+> tryb demonstracyjny.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-quit">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Gra</guimenu
+> <guimenuitem
+>Zakończ</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Kończy</action
+> grę &kappname;.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="move-menu">
+	<title
+>Menu <guimenu
+>Ruch</guimenu
+></title>
+		<variablelist>
+			<varlistentry id="move-menu-undo">
+				<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Przenieś</guimenu
+> <guimenuitem
+>Cofnij</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Cofa</action
+> ostatni ruch.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="settings-menu">
+	<title
+>Menu <guimenu
+>Ustawienia</guimenu
+></title>
+		<variablelist>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guisubmenu
+>Wybierz typ gry</guisubmenu
+> <guimenuitem
+>Klondike</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Przełącza na tryb gry Klondike.</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guisubmenu
+>Wybierz typ gry</guisubmenu
+> <guimenuitem
+>Dziadek</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Przełącza tryb na grę Dziadek.</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guisubmenu
+>Wybierz typ gry</guisubmenu
+> <guimenuitem
+>Asy</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Zmienia tryb na grę Asy.</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guisubmenu
+>Wybierz typ gry</guisubmenu
+> <guimenuitem
+>Freecel</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Zmienia tryb na grę Freecel.</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guisubmenu
+>Wybierz typ gry</guisubmenu
+> <guimenuitem
+>Mod3</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Zmienia tryb na grę Mod3.</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guisubmenu
+>Wybierz typ gry</guisubmenu
+> <guimenuitem
+>Cyganka</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Zmienia tryb na grę Cyganka.</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guisubmenu
+>Wybierz typ gry</guisubmenu
+> <guimenuitem
+>Czterdzieści osiem</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Zmienia tryb na grę Czterdzieści osiem.</para
+> </listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guisubmenu
+>Wybierz typ gry</guisubmenu
+> <guimenuitem
+>Prosty Szymon</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Zmienia tryb na grę Prosty Szymon.</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guisubmenu
+>Wybierz typ gry</guisubmenu
+> <guimenuitem
+>Yukon</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Zmienia tryb na grę Yukon.</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guisubmenu
+>Wybierz typ gry</guisubmenu
+> <guimenuitem
+>Zegar dziadka</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Przełącza na tryb gry Zegar dziadka.</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guisubmenu
+>Wybierz typ gry</guisubmenu
+> <guimenuitem
+>Golf</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Zmienia tryb na grę Golf.</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guisubmenu
+>Wybierz typ gry</guisubmenu
+> <guimenuitem
+>Klondike (dobierz 3)</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Zmienia tryb na grę w Klondike (dobierz 3).</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guisubmenu
+>Wybierz typ gry</guisubmenu
+> <guimenuitem
+>Pająk (Łatwy)</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Zmienia tryb na grę w Pająka (łatwą).</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guisubmenu
+>Wybierz typ gry</guisubmenu
+> <guimenuitem
+>Pająk (Średni)</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Zmienia tryb na grę w Pająka (średnią).</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guisubmenu
+>Wybierz typ gry</guisubmenu
+> <guimenuitem
+>Pająk (Trudny)</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Zmienia tryb na grę w Pająka (trudną).</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-autodrop">
+				<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Wyłącz autoupuszczanie</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Włącza/wyłącza automatyczne przenoszenie pasujących kart.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-random">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F9</keycap
+></shortcut
+> <guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Losowe karty</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Losowo wybiera</action
+> wygląd przodów i spodów kart.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-deck">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F10</keycap
+></shortcut
+> <guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Wybierz talię...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Otwiera</action
+> okno dialogowe wyboru talii.</para
+></listitem>
+			</varlistentry
+>			
+			<varlistentry id="settings-menu-toolbar">
+				<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Wyświetl pasek narzędzi</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Pokazuje lub ukrywa pasek narzędzi.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="help"
+><!--This is a standard Help menubar entry. Only change if needed.-->
+<title
+>Menu <guimenu
+>Pomoc</guimenu
+></title>
+&help.menu.documentation; </sect1>
+</chapter>
+
+<chapter id="faq"
+><title
+>Najczęściej zadawane pytania</title
+> <!-- do not change this! -->
+<!--This chapter is for frequently asked questions. Please use <qandaset
+> <qandaentry
+> only!-->
+<qandaset>
+<!--Following is a standard list of FAQ questions.-->
+<qandaentry>
+ <question
+><para
+>Chciałbym zmienić wygląd gry. Czy mogę? </para
+></question>
+ <answer
+><para
+>Możesz zmieniać wygląd kart, którymi graczy. Aby to zrobić wybierz<menuchoice
+> <shortcut
+><keycap
+>F10</keycap
+></shortcut
+> <guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Wybierz talię...</guimenuitem
+> </menuchoice
+> w menu.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Czy można grać za pomocą klawiatury?</para
+></question>
+ <answer
+><para
+>Nie &kappname; nie oferuje możliwości grania za pomocą klawiatury.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Nawet z podpowiedziami, ciągle nie mam pojęcia jak grać. Pomocy!</para
+></question>
+ <answer
+><para
+>Oprócz funkcji <quote
+>Podpowiedź</quote
+> przydatny jest także tryb <quote
+>Demonstracyjny</quote
+>, w którym wbudowana w program sztuczna inteligencja będzie grać w pasjansa za ciebie. Można uczyć się oglądając jak gra komputer. Jednakże, jeżeli masz jakieś pytania, lepiej przeczytać sekcje <link linkend="howto"
+>Jak grać</link
+> oraz<link linkend="rules_and_tips"
+>Zasady gry, strategie i wskazówki</link
+> tego podręcznika.</para
+></answer>
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits"
+><title
+>Zasługi i licencje</title
+> <!-- do not change this! -->
+<!--This chapter is for credits and licenses.-->
+
+<para
+>&kappname; </para>
+<!--List all the copyright holders here-->
+<para
+>Prawa autorskie do programu &kpatience; 1995-2000 &Paul-Olav.Tvete; </para>
+
+<para
+>Praw autorskie do programu &kpatience; 2001-2007 &Stephan.Kulow; &Stephan.Kulow.mail; </para>
+
+<para
+>Freecell Solver jest autorstwa Shlomi Fish <email
+>shlomif@vipe.technion.ac.il</email
+> </para>
+
+<para
+>Prawa autorskie do dokumetacji 2000 &Paul-Olav.Tvete; </para>
+
+<para
+>Aktualizacja dokumentacji dla KDE 2.0 - &Mike.McBride; &Mike.McBride.mail; </para>
+
+<para
+>Dokumentacja programu &kpatience; 2.0 (KDE 2.1) - &Maren.Pakura; &Maren.Pakura.mail; </para>
+
+<para
+>Korekta i aktualizacja dokumentacji &kpatience; &kappversion; by &Richard.Hawthorne; &Richard.Hawthorne.mail; </para>
+
+<para
+>Weryfikacja i uaktualnienie polskiego tłumaczenia: Paweł Dąbek<email
+>pdabek@onet.pl</email
+></para
+><para
+>Aktualizacja polskiego tłumaczenia: Krzysztof Woźniak<email
+>wozniakk@ceti.pl</email
+></para
+> 
+&underFDL; &underGPL; </chapter>
+
+<appendix id="installation">
+<title
+>Instalacja</title>
+
+&install.intro.documentation;
+
+
+<sect1 id="Compilation">
+<title
+>Kompilacja i instalacja</title>
+&install.compile.documentation; </sect1>
+</appendix>
+
+&documentation.index; 
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-omittag:t
+sgml-shorttag:t
+sgml-namecase-general:t
+sgml-always-quote-attributes:t
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->

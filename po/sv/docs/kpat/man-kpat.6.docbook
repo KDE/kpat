@@ -1,0 +1,335 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Swedish "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>Patiens användarhandbok</title>
+<date
+>2021-06-21</date>
+<releaseinfo
+>21.04</releaseinfo>
+<productname
+>KDE Gear</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>kpat</command
+></refentrytitle>
+<manvolnum
+>6</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>kpat</command
+></refname>
+<refpurpose
+>Ett mycket vanebildande kortspel</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>kpat</command
+> <group choice="opt"
+><option
+>--solvegame</option
+> <replaceable
+> fil</replaceable
+></group
+> <group choice="opt"
+><option
+>--solve</option
+> <replaceable
+> nummer</replaceable
+></group
+> <group choice="opt"
+><option
+>--start</option
+> <replaceable
+> nummer</replaceable
+></group
+> <group choice="opt"
+><option
+>--end</option
+> <replaceable
+> nummer</replaceable
+></group
+> <group choice="opt"
+><option
+>--gametype</option
+> <replaceable
+> spel</replaceable
+></group
+> <group choice="opt"
+><option
+>--testdir</option
+> <replaceable
+> katalog</replaceable
+></group
+> <group choice="opt"
+><option
+>--generate</option
+></group
+> <group choice="opt"
+><option
+><replaceable
+>fil</replaceable
+></option
+></group
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>Beskrivning</title>
+<para
+>&kpatience; är en samling med flera välkända patienser, som går från de välkända Klondike och Kungen, till mindra välkända spel som Farfarsklockan och Mod3. Sammantaget finns det 12 varianter som du kan fördriva tiden med.</para>
+</refsect1>
+
+<refsect1>
+<title
+>Väljare</title>
+<para
+>Det här programmet följer den vanliga syntaxen för kommandoraden som används av GNU-program, med långa väljare som börjar med två streck (`--'). En sammanfattning av väljarna som stöds av <command
+>kpat</command
+> finns nedan.</para>
+
+<variablelist>
+
+<varlistentry>
+<term
+><option
+>-h</option
+> <option
+>--help</option
+></term>
+<listitem
+><para
+>Listar tillgängliga väljare på kommandoraden</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-v</option
+> <option
+>--version</option
+></term>
+<listitem>
+<para
+>Listar versionsinformation för &kpatience;</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--solvegame</option
+> <replaceable
+> fil</replaceable
+></term>
+<listitem>
+<para
+>Försök hitta en lösning på det givna sparade spelet</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--solve</option
+> <replaceable
+> num</replaceable
+></term>
+<listitem>
+<para
+>Givare att lösa (felsökning)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--start</option
+> <replaceable
+> num</replaceable
+></term>
+<listitem>
+<para
+>Spelintervallstart (förval 0:INT_MAX)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--end</option
+> <replaceable
+> num</replaceable
+></term>
+<listitem>
+<para
+>Spelintervallslut (förval start:start om start angiven)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--gametype</option
+> <replaceable
+> spel</replaceable
+></term>
+<listitem>
+<para
+>Hoppa över urvalsfönstret och ladda en viss spelvariant. Giltiga värden är: acesup, fortyeight, freecell, golf, grandfather, grandfathersclock, gypsy, klondike, mod3, simplesimon, spider, yukon.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--testdir</option
+> <replaceable
+> katalog</replaceable
+></term>
+<listitem>
+<para
+>Katalog med testfall</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--generate</option
+></term>
+<listitem
+><para
+>Skapa slumpmässiga testfall</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--author</option
+></term>
+<listitem
+><para
+>Listar &kpatience; upphovsmän i terminalfönstret</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--license</option
+></term>
+<listitem
+><para
+>Visar licensinformation</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--desktopfile</option
+> <replaceable
+>filnamn</replaceable
+></term>
+<listitem
+><para
+>Basfilnamn på programmets skrivbordspost</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><replaceable
+>fil</replaceable
+></term>
+<listitem>
+<para
+>Fil att ladda</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</refsect1>
+
+<refsect1>
+<title
+>Se också</title>
+<simplelist>
+<member
+>Mer detaljerad användardokumentation är tillgänglig med <ulink url="help:/kpat"
+>help:/kpat</ulink
+> (skriv antingen in webbadressen i &konqueror;, eller kör <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/kpat</parameter
+></userinput
+>).</member>
+<member
+>kf5options(7)</member>
+<member
+>qt5options(7)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>Upphovsmän</title>
+
+<para
+>&kpatience; är gjort av:</para>
+<simplelist type="vert">
+<member
+>Paul Olav Tvete</member>
+<member
+>Mario Weilguni <email
+>mweilguni@kde.org</email
+></member>
+<member
+>Matthias Ettrich <email
+>ettrich@kde.org</email
+></member>
+<member
+>Rodolfo Borges <email
+>barrett@labma.ufrj.br</email
+></member>
+<member
+>Peter H. Ruegg <email
+>kpat@incense.org</email
+></member>
+<member
+>Michael Koch <email
+>koch@kde.org</email
+></member>
+<member
+>Marcus Meissner <email
+>mm@caldera.de</email
+></member>
+<member
+>Shlomi Fish <email
+>shlomif@vipe.technion.ac.il</email
+></member>
+<member
+>Stephan Kulow <email
+>coolo@kde.org</email
+></member>
+</simplelist>
+</refsect1>
+</refentry>

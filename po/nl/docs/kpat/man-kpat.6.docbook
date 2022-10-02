@@ -1,0 +1,335 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Dutch "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>Gebruikershandleiding van KPat</title>
+<date
+>2021-06-21</date>
+<releaseinfo
+>21.04</releaseinfo>
+<productname
+>KDE Gear</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>kpat</command
+></refentrytitle>
+<manvolnum
+>6</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>kpat</command
+></refname>
+<refpurpose
+>Een zeer verslavend kaartspel</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>kpat</command
+> <group choice="opt"
+><option
+>--solvegame</option
+> <replaceable
+> bestand</replaceable
+></group
+> <group choice="opt"
+><option
+>--solve</option
+> <replaceable
+> nummer</replaceable
+></group
+> <group choice="opt"
+><option
+>--start</option
+> <replaceable
+> nummer</replaceable
+></group
+> <group choice="opt"
+><option
+>--end</option
+> <replaceable
+> nummer</replaceable
+></group
+> <group choice="opt"
+><option
+>--gametype</option
+> <replaceable
+> spel</replaceable
+></group
+> <group choice="opt"
+><option
+>--testdir</option
+> <replaceable
+> map</replaceable
+></group
+> <group choice="opt"
+><option
+>--generate</option
+></group
+> <group choice="opt"
+><option
+><replaceable
+>bestand</replaceable
+></option
+></group
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>BESCHRIJVING</title>
+<para
+>&kpatience; is een verzameling van een aantal welbekende patience-kaartspellen, variërend van de bekende Klondike en Freecell tot minder bekende spellen zoals Grootvaders klok en Mod3. Bij elkaar kunt u uw tijd verdoen met 12 variaties.</para>
+</refsect1>
+
+<refsect1>
+<title
+>OPTIES</title>
+<para
+>Dit programma volgt de gebruikelijke GNU-opdrachtregelsyntaxis, waarbij lange opties voorafgegaan worden door twee mintekens (`--'). Een samenvatting van de opties die door <command
+>kpat</command
+> ondersteund worden staat hieronder.</para>
+
+<variablelist>
+
+<varlistentry>
+<term
+><option
+>-h</option
+> <option
+>--help</option
+></term>
+<listitem
+><para
+>Dit laat de opties zien die beschikbaar zijn voor de commandoregel</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-v</option
+> <option
+>--version</option
+></term>
+<listitem>
+<para
+>Versie-informatie weergeven voor &kpatience;</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--solvegame</option
+> <replaceable
+> bestand</replaceable
+></term>
+<listitem>
+<para
+>Probeer een oplossing te vinden voor het opgegeven spel</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--solve</option
+> <replaceable
+> nummer</replaceable
+></term>
+<listitem>
+<para
+>Dealer om op te lossen (foutopsporing)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--start</option
+> <replaceable
+> nummer</replaceable
+></term>
+<listitem>
+<para
+>Begin van spelbereik (Standaard 0:INT_MAX)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--end</option
+> <replaceable
+> nummer</replaceable
+></term>
+<listitem>
+<para
+>Einde van spelbereik (standaard start:start als start is opgegeven)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--gametype</option
+> <replaceable
+> spel</replaceable
+></term>
+<listitem>
+<para
+>Sla het keuzescherm over en laadt een specifiek speltype. Geldige waarden zijn: acesup, fortyeight, freecell, golf, grandfather, grandfathersclock, gypsy, klondike, mod3, simplesimon, spider, yukon</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--testdir</option
+> <replaceable
+> map</replaceable
+></term>
+<listitem>
+<para
+>Map met testcases</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--generate</option
+></term>
+<listitem
+><para
+>Willekeurige testcases aanmaken</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--author</option
+></term>
+<listitem
+><para
+>Toont de auteurs van &kpatience; in het terminal venster</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--license</option
+></term>
+<listitem
+><para
+>Toont informatie over de licentie</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--desktopfile</option
+> <replaceable
+>bestandsnaam</replaceable
+></term>
+<listitem
+><para
+>De basis bestandsnaam van het desktop-item voor deze toepassing.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><replaceable
+>bestand</replaceable
+></term>
+<listitem>
+<para
+>Bestand om te laden</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</refsect1>
+
+<refsect1>
+<title
+>ZIE OOK</title>
+<simplelist>
+<member
+>Meer gedetailleerde gebruikersdocumentatie is beschikbaar van <ulink url="help:/kpat"
+>help:/kpat</ulink
+> (voer deze &URL; in in &konqueror; of voer <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/kpat</parameter
+></userinput
+> uit).</member>
+<member
+>kf5options(7)</member>
+<member
+>qt5options(7)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>AUTEUR</title>
+
+<para
+>&kpatience; is door:</para>
+<simplelist type="vert">
+<member
+>Paul Olav Tvete</member>
+<member
+>Mario Weilguni <email
+>mweilguni@kde.org</email
+></member>
+<member
+>Matthias Ettrich <email
+>ettrich@kde.org</email
+></member>
+<member
+>Rodolfo Borges <email
+>barrett@labma.ufrj.br</email
+></member>
+<member
+>Peter H. Ruegg <email
+>kpat@incense.org</email
+></member>
+<member
+>Michael Koch <email
+>koch@kde.org</email
+></member>
+<member
+>Marcus Meissner <email
+>mm@caldera.de</email
+></member>
+<member
+>Shlomi Fish <email
+>shlomif@vipe.technion.ac.il</email
+></member>
+<member
+>Stephan Kulow <email
+>coolo@kde.org</email
+></member>
+</simplelist>
+</refsect1>
+</refentry>

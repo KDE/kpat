@@ -1,0 +1,1442 @@
+<?xml version="1.0" ?>
+<!--IMPORTANT: please note that'do not change this!' notice does not apply to translators -->
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Dutch "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY % addindex "IGNORE"
+> <!-- do not change this! -->
+]>
+
+<book id="kpat" lang="&language;"
+> <!-- do not change this! -->
+<bookinfo>
+	<title
+>Het handboek van &kpatience;</title
+> <!-- This is the title of the docbook. Leave as is unless change is necessary.-->
+<!-- List of immidiate authors begins here. -->
+<!--INPORTANT! - All other contributors: [to be determined] -->
+<authorgroup>
+<author
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> </author>
+<author
+><firstname
+>Maren</firstname
+> <surname
+>Pakura</surname
+> </author>
+<author
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> </author>
+
+<othercredit role="reviewer"
+><firstname
+>Mike</firstname
+><surname
+>McBride</surname
+> <contrib
+>Nalezer</contrib>
+<affiliation
+><address
+>&Mike.McBride.mail;</address
+></affiliation>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> <contrib
+>Ontwikkelaar</contrib>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> <contrib
+>Ontwikkelaar</contrib>
+</othercredit>
+
+&Niels.Reedijk;&Rinse.Devries; 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Paul-Olav.Tvete;</holder>
+</copyright>
+
+<copyright>
+<year
+>2001</year
+><year
+>2004</year>
+<holder
+>&Maren.Pakura;</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year>
+<holder
+>&Stephan.Kulow;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2021-06-20</date>
+<releaseinfo
+>KDE Gear 21.04</releaseinfo>
+
+<!--Short description of this document. Do not change unless necessary!-->
+<abstract>
+	<para
+>Deze documentatie beschrijft het spel &kpatience; versie 21.04</para>
+</abstract>
+
+<!--List of relevan keywords-->
+<keywordset>
+	<keyword
+>KDE</keyword
+> <!-- do not change this! -->
+	<keyword
+>kdegames</keyword
+> <!-- do not change this! -->
+	<keyword
+>spel</keyword
+> <!-- do not change this! -->
+	<keyword
+>KPatience</keyword
+><!--Application name goes here-->
+<!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<keyword
+>kaart</keyword>
+	<keyword
+>kaartspel</keyword>
+	<keyword
+>speelkaarten</keyword>
+<!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+	<keyword
+>één speler</keyword>
+<!--All other relevant keywords-->
+	<keyword
+>patience</keyword>
+	<keyword
+>solitaire</keyword>
+</keywordset>
+</bookinfo>
+<!--Content begins here: -->
+<chapter id="introduction"
+><title
+>Inleiding</title
+> <!-- do not change this! -->
+	<note
+><title
+>Speltype:</title
+><para
+>Kaart</para
+></note
+><!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<note
+><title
+>Aantal mogelijke spelers:</title
+><para
+>Eén</para
+></note
+><!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+
+<!--Short game description starts here. 3-4 sentences (paragraphs)-->
+
+<para
+>Om een patience-spel te spelen hebt u, zoals de naam al suggereert, geduld nodig. Voor eenvoudige spellen, waarbij de manier waarop de spel verloopt alleen afhankelijk is van hoe de kaarten zijn gelegd, is uw geduld mogelijk het enige dat u nodig hebt. </para>
+
+<para
+>Maar geduldspellen betekent ook dat u de tijd moet nemen om uw strategie uit te stippelen en vooruit moet denken om te kunnen winnen. </para>
+
+<para
+>Alle patience-spellen uit dit pakket hebben met elkaar gemeen dat u de kaarten in een speciale volgorde gebruikt &mdash; verplaatsen, omdraaien en herordenen. </para>
+</chapter>
+
+<chapter id="howto"
+><title
+>Hoe te spelen</title
+> <!-- do not change this! -->
+<!--IMPORTANT: If the game has no defined objective, please remove the below line.-->
+	<note
+><title
+>Doel:</title
+><para
+>Herschik de kaarten op kleur en volgorde in zo weinig mogelijk verplaatsingen.</para
+></note
+><!--Describe the objective of the game.-->
+<!--How to play description. Don't be to specific on rules as they have a separate section in this document-->
+	<para
+>Omdat &kpatience; een veelvoud aan verschillende solitaire spellen biedt, is er geen recht-toe-recht-aan handleiding die bij elk van deze spellen past. Het is daarom essentieel dat u elke individuele subsectie van de sectie Spelregels, strategieën en tips leest voordat u met een versie begint waarmee u niet vertrouwd bent.</para>
+<para
+>Er zijn in feite twee typen solitaire-spellen – zij die u de kaarten laten sorteren volgens dezelfde kleur en zij die u de kaarten laten sorteren volgens afwisselende kleur. U kunt gemakkelijk bepalen welk spel u wilt proberen met de trial-en-error methode. Als u eenmaal weet waarmee u van doen hebt is de rest gemakkelijk; blijf de kaarten sorteren en sorteren en verzamel die overeenkomen.</para>
+<para
+>Let echter van het begin afgoed op uw kaartstapels. Verplaats individuele kaarten in een rustig tempo. Kijk of ze elders meer bruikbaar zijn.</para>
+<para
+>Voor extra hulp kunt u snel een kijkje nemen in de statusbalk. Elk van de spellen heeft een ingebouwde oplosser die u informeert of het spel dat u nu aan het spelen bent beëindigt kan worden of niet. Als u ziet dat de oplosser het huidige spel niet kan oplossen, dan is de kans groot dat u dat ook niet kunt. Op dat punt kunt u of het huidige spel herstarten of een volledig nieuw spel starten. </para>
+<note
+><title
+>Notitie:</title
+><para
+>Solitaire spellen spelen helpt u om het bereik van uw aandacht te verbeteren en uw concentratievermogen te verhogen.</para
+></note>
+</chapter>
+
+<chapter id="rules_and_tips"
+><title
+>Spelregels, strategieën en tips</title
+> <!-- do not change this! -->
+
+<sect1 id="rules-general">
+	<title
+>Algemene regels</title>
+	<para
+><indexterm
+><primary
+>typen</primary
+></indexterm
+>Een kaartspel bestaat uit een of meer kaartdeks van 52 kaarten elk. Elk dek bevat de volgende kleuren:</para>
+	<informaltable pgwide="0" frame="none">
+		<tgroup cols="2"
+><colspec/><colspec/>
+	<tbody>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="clubs.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Klavers</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="spades.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Schoppen</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="hearts.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Harten</entry>
+		</row>
+			<row valign="middle"
+><entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="diamonds.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Ruiten</entry>
+		</row>
+	</tbody
+></tgroup>
+	</informaltable>
+	<para
+>Elk van de vier kleuren bevatten de volgende kaarttypes: aas, twee, drie, vier, vijf, zes, zeven, acht, negen, tien, boer, vrouw en heer.</para>
+	<para
+><indexterm
+><primary
+>familie</primary
+></indexterm
+> De complete kaartenorde heet een familie. Er zijn echte families en alternerende. De echte families zijn alle kaarten uit een type (&eg; harten). In de alternerende families veranderen de kleuren van de een naar de ander, tussen de zwarte kleur (schoppen en klavers) en de rode kleur (harten en ruiten).</para>
+	<para
+>Als een familie niet compleet is, dan wordt dat een reeks genoemd.</para>
+	<mediaobject>
+		<imageobject
+><imagedata fileref="playfield.png" format="PNG"/></imageobject>
+		<textobject
+><phrase
+>Het spelveld van &kpatience;</phrase
+></textobject>
+	</mediaobject>
+	<para
+>Er zijn een paar verschillende onderdelen in een typisch patience-spel. Deze worden hierna beschreven.</para>
+	<variablelist>
+		<varlistentry
+><term
+>1. Talon</term>
+			<listitem
+><para
+><indexterm
+><primary
+>talon</primary
+></indexterm
+>Bij aanvang van elk spel zijn de kaarten in het dek geschud. Maar niet in alle spellen zijn alle kaarten uitgedeeld, soms blijven een aantal kaarten achter in het dek. Deze kaarten zijn omgekeerd op de zogenaamde talon geplaatst. Deze kunt u eenvoudig terugvinden, in de meeste spellen is het de enige stapel kaarten met de rug naar boven.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>2. Reststapel</term>
+			<listitem
+><para
+><indexterm
+><primary
+>reststapel</primary
+></indexterm
+>Veel spellen gebruiken een reststapel met kaarten die van de talon zijn genomen. Klikken op de talon veroorzaakt het omdraaien van de kaart en plaatsing op de reststapel, waarmee deze in het spel komt.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>3. Sorteerstapel</term>
+			<listitem
+><para
+><indexterm
+><primary
+>sorteerstapel</primary
+></indexterm
+>De soorteerstapels zijn de plaatsen waar uw kaarten eindigen. Het spel is alleen gewonnen wanneer alle kaarten in de juiste volgorde naar de sorteerstapels zijn verplaatst. Het aantal sorteerstapels en de vereiste volgorde varieert van spel tot spel.</para>
+                            <para
+>De meeste spellen beginnen met lege sorteerstapels. Het kiezen van de actie <guimenuitem
+>Laten vallen</guimenuitem
+> uit het menu of werkbalk laat &kpatience; door alle stapels lopen en zo veel mogelijke kaarten naar de sorteerstapels verplaatsen als mogelijk is. Als u de instelling <guimenuitem
+>Automatisch plaatsen activeren</guimenuitem
+> hebt ingesteld, dan zal &kpatience; op elk moment een Laten vallen proberen.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>4 Speelstapels</term>
+			<listitem
+><para
+><indexterm
+><primary
+>Speelstapels</primary
+></indexterm
+>Deze stapels zijn degenen waar het eigenlijke herordenen plaatsvindt. De regels voor deze stapels verschillen per spel. Sommige tonen alle kaarten, anderen weer niet. Bij sommigen mag u slechts één kaart per keer verplaatsen, bij anderen weer alle kaarten, &etc;</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="rules-specific"
+><title
+>Spelregels voor individuele spellen</title>
+
+<sect2 id="klondike">
+<title
+>Klondike</title>
+
+<para
+><indexterm
+><primary
+>Klondike</primary
+></indexterm
+> Klondike is het beroemdste patience-spel &mdash; zeer waarschijnlijk komt dit doordat het wordt meegeleverd met een veelgebruikt besturingssysteem. Het spel wordt met één kaartdek gespeeld. </para>
+
+<para
+>Het doel van Klondike is om alle kaarten als echte families oplopend op de sorteerstapel te leggen. Dit gaat gemakkelijker wanneer alle kaarten met het plaatje omhoog op de speelstapels liggen. </para>
+
+<para
+>De kaartreeksen op de speelstapels dienen daar aflopend worden geplaatst. De kaartkleuren dienen om-en-om (rood en zwart) gebruikt worden. U kunt hele reeksen of delen daarvan verplaatsen als de eerste kaart op een andere stapel past. </para>
+
+<para
+>Op een vrije stapel kunt u een Heer van elke kleur plaatsen of een kaartenreeks die begint met een Heer. </para>
+
+<para
+>Als u op de talon klikt zal een kaart op de reststapel worden geplaatst. Vanaf die stapel kunt u het naar de speelstapels of de sorteerstapel verplaatsen. Als de talon leeg is kunt u de complete reststapel terugplaatsen door op de lege talon te klikken. </para>
+
+<para
+>U kunt door de kaarten op de talon lopen zoveel als u wilt. </para>
+</sect2>
+
+<sect2 id="grandfather">
+<title
+>Grootvader</title>
+
+<para
+><indexterm
+><primary
+>Grootvader</primary
+></indexterm
+> Dit spel is geïntroduceerd door de grootvader van &Paul-Olav.Tvete;, de oorspronkelijke ontwikkelaar van &kpatience;. Vandaar de naam Grootvader (Grandfather). Er zijn geen andere patience-spellen bij ons bekend die dit speltype bevatten. </para>
+        
+<para
+>Grootvader verdeelt een kaartdek over zeven speelstapels, waarbij sommige kaarten op elke stapel bij de eerste verdeling met de rug omhoog liggen. </para>
+
+<para
+>Het doel is om alle kaarten als echte families oplopend op de sorteerstapels te plaatsen. </para>
+
+<para
+>U kunt elke kaart van elke stapel verplaatsen als deze past op een andere kaart om een echte reeks te bouwen in aflopende volgorde. U kunt bijvoorbeeld de schoppen-vijf op de schoppen-zes plaatsen, ongeacht hoeveel kaarten bovenop de schoppen-vijf liggen. De schoppen-zes moet alleen bovenaan de stapel liggen. </para>
+
+<para
+>Op een vrije speelstapel kunt u een Heer plaatsen (ongeacht het aantal kaarten dat op de Heer ligt) </para>
+
+<para
+>Als er geen mogelijke verplaatsingen meer zijn, dan kunt u de kaarten herverdelen. Herverdelen bestaat uit het oppakken van de kaarten van de speelstapels (stapel voor stapel, links naar rechts) en ze opnieuw uitdelen in het startpatroon (zigzaggend per rij van gesloten kaarten waarbij ze een piek vormen en daarna links naar rechts rijen met open kaarten er bovenop). Opmerking: de kaarten worden <emphasis
+>niet</emphasis
+> geschud en kaarten op de sorteerstapels blijven onaangeroerd. U mag niet meer dan twee keer in een enkel spel herverdelen. </para>
+
+<para
+>Alhoewel de regels eenvoudig zijn en u vrij veel zetten kunt doen is het vrij lastig om dit spel te winnen. Toch is het een leuk spel om te spelen (of misschien juist daardoor). </para>
+</sect2>
+
+<sect2 id="aces-up">
+<title
+>Azen omhoog</title>
+
+<para
+><indexterm
+><primary
+>Azen omhoog</primary
+></indexterm
+> Dit patience-spel (Aces up) heeft vrij eenvoudige regels. Toch is het lastig om te winnen. Het wordt gespeeld met 1 kaartdek en het doel is om alle kaarten naast de azen op de sorteerstapels te plaatsen. Daarna dient dient er een aas op elke speelstapel achter te blijven. </para>
+
+<para
+>Elke bovenste kaart die hetzelfde type heeft (&eg; schoppen) en een lagere waarde dan een andere bovenste kaart (&eg; schoppen-6 en schoppen-4) kan op de sorteerstapel worden gelegd door erop te klikken. </para>
+
+<para
+>Als u geen kaarten meer naar de sorteerstapel kunt verplaatsen, dan kun u een nieuwe kaart voor elke speelstapel krijgen door op de talon te klikken. </para>
+
+<para
+>Op een vrije stapel kunt u elke andere bovenste kaart van een stapel plaatsen. Gebruik deze vrije stapel op zo'n manier dat u de nieuwe kaarten daarna naar de sorteerstapel kunt verplaatsen. </para>
+
+<para
+>In dit spel is het automatisch verslepen van kaarten uitgeschakeld. </para>
+
+</sect2>
+
+<sect2 id="freecell">
+<title
+>Freecell</title>
+
+<para
+><indexterm
+><primary
+>Freecell</primary
+></indexterm
+> Freecell wordt gespeeld met 1 kaartdek. Linksboven ziet u vier vrije cellen. Daarnaast ziet u de vier sorteerstapels. En daaronder bevinden zich 8 speelstapels. </para>
+
+<para
+>Het doel van het spel is om alle kaarten als echte families in oplopende volgorde op de sorteerstapels te plaatsen. Dit is vrijwel altijd mogelijk, aangezien Freecell-spellen voor ongeveer 99,9% oplosbaar zijn (in de eerste 32000 spellen is er slechts één onoplosbaar, no. 11982). </para>
+
+<para
+>In de speelstapels dient u aflopende kaartreeksen te maken. Rood en zwart worden hierbij afgewisseld. Op de vrije cellen kunt u willekeurige kaarten plaatsen. </para>
+
+<para
+>U kunt alleen een losse kaart die bovenop een stapel of een vrije cel ligt verplaatsen. Kaartreeksen kunnen alleen worden verplaatst als er voldoende vrije ruimte (vrije cellen of vrije speelstapels) beschikbaar is om de kaarten tijdens uw zet te verplaatsen. </para>
+
+<para
+>Het maximum aantal kaarten die u kunt verplaatsen wordt berekend met: </para>
+
+<sidebar
+><para
+>(#{vrije cellen} + 1) * 2<superscript
+>#{vrije speelstapels}</superscript
+> </para
+></sidebar>
+
+<para
+>Variaties:</para>
+<itemizedlist>
+  <listitem
+><para
+><quote
+>Baker's spel</quote
+> lijkt op <quote
+>Freecell</quote
+>, maar de stapels worden op kleur aflopend gebouwd.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Eight Off</quote
+> lijkt op <quote
+>Freecell</quote
+>, maar de stapels worden op kleur aflopend gebouwd. U hebt 8 reserve plekken en alleen Heren kunnen lege plekken vullen. Vier reserve plekken zijn bij het begin van het spel gevuld.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Forecell</quote
+> lijkt op <quote
+>Freecell</quote
+>, maar de reserve plekken zijn bij het begin van het spel gevuld en alleen Heren kunnen lege plekken vullen.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Seahaven Towers</quote
+> lijkt op <quote
+>Freecell</quote
+>, maar met 10 stapels die aflopend op kleur zijn gebouwd en alleen Heren kunnen lege plekken vullen. Twee reserve plekken zijn aan het begin van het spel gevuld.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Om dit spel te kunnen oplossen is het aanbevolen om de kaarten uit de kaartreeksen te halen in dezelfde volgorde als waarin ze op de sorteerstapels dienen te worden geplaatst (eerst de azen, dan de tweeën, &etc;) </para>
+
+<para
+>Probeer zoveel mogelijk vrije cellen en/of speelstapels leeg te laten, zodat u zo groot mogelijke kaartreeksen kunt opbouwen. </para>
+
+</sect2>
+
+<sect2 id="mod3">
+<title
+>Mod3</title>
+
+<para
+><indexterm
+><primary
+>Mod3</primary
+></indexterm
+> Mod3 wordt gespeeld met 2 kaartdeks. Het doel van het spel is om alle kaarten op de bovenste drie rijen te plaatsen. U dient reeksen van dezelfde kleur te maken. In de eerste rij dient u de reeks 2-5-8-B, in de tweede rij de reeks 3-6-9-V en in de derde rij de reeks 4-7-10-H De type kaart dient in elke reeks hetzelfde te zijn. U kunt een harten-vijf dus alleen op een harten-twee plaatsen. </para>
+
+<para
+>De vierde rij is zowel de reststapel als speelstapel. Op een leeg veld kunt u elke kaart uit de eerste drie rijen of een van de bovenste kaarten van de vierde rij plaatsen.  </para>
+
+<para
+>U kunt de Azen op de Azenstapel boven de talon plaatsen. Ze zitten in het spel zodat u een beginpunt hebt om vrije velden aan te maken. </para>
+
+<para
+>Als u geen kaarten meer kunt verplaatsen, dan kunt u nieuwe kaarten in de vierde rij plaatsen door op de talon te klikken. </para>
+
+<para
+>In dit spel is het automatisch verslepen van kaarten uitgeschakeld. </para>
+</sect2>
+
+<sect2 id="gypsy">
+<title
+>Zigeuner</title>
+
+<para
+><indexterm
+><primary
+>Zigeuner</primary
+></indexterm
+> Zigeuner (Gypsy) wordt gespeeld met twee kaartdeks. Het doel van het spel is om alle kaarten in echte families oplopend op de sorteerstapel te plaatsen. </para>
+
+<para
+>De speelstapels dienen aflopend te zijn, waarbij rood en zwart wordt afgewisseld. U kunt alleen reeksen of losse kaarten verplaatsen. Op een vrij veld kunt u elke kaart of reeks plaatsen. </para>
+
+<para
+>Als u geen kaarten meer kunt verplaatsen, dan klikt u op de talon om nieuwe kaarten op elke speelstapel te krijgen. </para>
+
+<para
+>Met de knop <guibutton
+>Ongedaan maken</guibutton
+> kunt u het spel een stuk eenvoudiger voor u maken. U moet namelijk een aantal zetten vooruit denken en het kan gebeuren dat dit anders uitpakt dan u had verwacht nadat u op de talon hebt geklikt. </para>
+
+</sect2>
+
+<sect2 id="forty-and-eight">
+<title
+>Eén en veertig</title>
+
+<para
+><indexterm
+><primary
+>Eén en veertig</primary
+></indexterm
+> Eén en veertig (Forty &amp; Eight) wordt gespeeld met twee kaartdeks. Het doel van het spel is om alle kaarten als echte families op de sorteerstapel te plaatsen. </para>
+
+<para
+>De speelstapels dienen aflopend te zijn. Kleuren zijn belangrijk. U kunt dus alleen een harten-vijf plaatsen op een harten-zes. </para>
+
+<para
+>U kunt alleen de bovenste kaart van een stapel verplaatsen. Op een vrij veld kunt u een willekeurige kaart leggen. </para>
+
+<para
+>Door te klikken op de talon kunt u een kaart op de reststapel leggen. Vanaf die stapel kunt u het op een speel- of sorteerstapel (&kpatience; doet dit automatisch voor u) leggen. Als de talon leeg is kunt u de reststapel terug op de talon leggen. Dit kan overigens maar 1 keer, bij de volgende keer dat de talon leeg is is het spel afgelopen. </para>
+
+<para
+>Dit patience-spel is moeilijk om op te lossen. Maar als u enige ervaring hebt kunt u vele delingen oplossen. Maak hierbij veel gebruik van de knop <guibutton
+>Ongedaan maken</guibutton
+> om uw zetten ongedaan te maken en de zetten van &kpatience; om kaarten op de sorteerstapels te leggen terug te draaien. </para>
+</sect2>
+
+<sect2 id="simple-simon">
+<title
+>Eenvoudige Simon</title>
+
+<para
+><indexterm
+><primary
+>Eenvoudige Simon</primary
+></indexterm
+> Eenvoudige Simon (Simple Simon) wordt gespeeld met één kaartdek. Het doel van het spel is om alle kaarten als echte families op de sorteerstapel te plaatsen. </para>
+
+<para
+>In de speelstapels kunt u reeksen opbouwen. In het algemeen hoeft u geen rekening te houden met de kaartkleuren, maar reeksen kunnen alleen worden verplaatst als ze onderdeel zijn van een echte reeks. (u kunt bijvoorbeeld schoppen-zes alleen verplaatsen als er een <emphasis
+>schoppen</emphasis
+>-vijf bovenop ligt, en niet als er een <emphasis
+>klaver</emphasis
+>-vijf op ligt). </para>
+
+<para
+>De kaarten kunnen alleen naar de sorteerstapel worden geplaatst als alle 13 kaarten van één familie op elkaar liggen in de speelstapels. </para>
+
+<tip>
+<title
+>Suggestie</title>
+<para
+>Probeer zo snel mogelijk de kaarten naar de juiste stapels te verplaatsen, zodat u lege velden krijgt om kaarten tijdelijk neer te leggen. Op lege velden kunt u elke willekeurige kaart leggen. </para>
+
+<para
+>Met voldoende vrije ruimte kunt u op de lege plaatsen families opbouwen, waarbij u geen rekening houdt met de kleur. Als u alle kaarten in dergelijke reeksen hebt opgebouwd, dan kunt u ze op kleur sorteren zodat ze naar de sorteerstapel kunnen worden verplaatst. </para>
+</tip>
+
+</sect2>
+
+<sect2 id="yukon">
+<title
+>Yukon</title>
+
+<para
+><indexterm
+><primary
+>Yukon</primary
+></indexterm
+> Yukon wordt gespeeld met één kaartdek. Het doel van het spel is om alle kaarten in echte families oplopend op de sorteerstapels te plaatsen. </para>
+
+<para
+>De reeksen op de speelstapels dienen aflopend te zijn met rood en zwart om-en-om. U kunt elke kaart met de kaartzijde boven verplaatsen, ongeacht hoeveel kaarten daar bovenop liggen. U kunt dus een harten-vijf op een schoppen-zes leggen als deze bovenop zijn stapel ligt. </para>
+
+<para
+>Op een vrij veld kunt u een Heer leggen (ook nu: ongeacht hoeveel kaarten op die Heer lagen). </para>
+</sect2>
+
+<sect2 id="grandfathers-clock">
+<title
+>Grootvaders klok</title>
+
+<para
+><indexterm
+><primary
+>Grootvaders klok</primary
+></indexterm
+> Grootvaders klok (Grandfather's clock) is een eenvoudig patience-spel, en na enige oefening zult u in staat zijn om de meeste delingen op te lossen. Het wordt gespeeld met 1 kaartdek en het doel van het spel is de kaarten als echte families oplopend op de sorteerstapels te leggen. </para>
+
+<para
+>De sorteerstapels bevinden zich aan de rechterzijde en bestaan uit 12 stapels die de vorm van een klok vormen. De negen is op 12 uur, de Vrouw is op 3 uur, de drie is op 6 uur en de zes is op 9 uur. </para>
+
+<para
+>Er zijn acht speelstapels naast de klok. Elke speelstapel bevat 5 kaarten. Op de speelstapels kunt u aflopende reeksen opbouwen. De kleur van de kaart is niet belangrijk. U kunt 1 kaart per keer verleggen. </para>
+
+</sect2>
+
+<sect2 id="golf">
+<title
+>Golf</title>
+
+<para
+><indexterm
+><primary
+>Golf</primary
+></indexterm
+> Golf  wordt gespeeld met 1 kaartdek. Het doel van het spel is om alle kaarten vanuit het speelveld op de sorteerstapel te plaatsen.</para>
+ 
+<para
+>De opmaak van golf-solitaire is vrij rechtuit. Aan het begin van het spel ziet u het speelveld, met daarop zeven kolommen met 5 kaarten. Daaronder bevinden zich de talon en de sorteerstapel. </para>
+
+<para
+>Het spelen van golf-solitaire is eenvoudig, doch vereist wel enige strategie om te winnen. De kaarten aan het begin van elke rij op het speelveld kunnen worden gespeeld. De beschikbare kaarten worden gestapeld op de bovenste kaart van de sorteerstapel, in oplopende of aflopende volgorde, ongeacht de kleur. Als er geen zetten meer gedaan kunnen worden kunt u een kaart van de talon nemen. Het spel is afgelopen als alle kaarten in de talon zijn gespeeld en er geen zetten meer mogelijk zijn.</para>
+
+</sect2>
+
+<sect2 id="spider">
+<title
+>Spin</title>
+
+<para
+><indexterm
+><primary
+>Spin</primary
+></indexterm
+> Spin (Spider) wordt gespeeld met 2 kaartdeks. De kaarten worden uitgedeeld in 10 speelstapels, 4 met 6 kaarten en 6 met 5 kaarten. Er blijven 50 kaarten over die per tien kunnen worden uitgedeeld, een per speelstapel. </para>
+
+<para
+>Op de speelstapels kunnen kaarten met een waarde die één hoger is op een andere kaart worden geplaatst. Hierbij hoeft u geen rekening te houden met het kaarttype (kleur). Een reeks oplopende kaarten van hetzelfde type kunnen van de ene stapel naar de andere worden verplaatst. </para>
+
+<para
+>Het doel van Spin is om alle kaarten als echte families aflopend vanaf de Heren overal op de speelstapels te krijgen. Als zo'n familie is opgebouwd op een speelstapel, dan wordt deze naar de linksonder in het venster geplaatst. </para>
+
+<para
+>De verschillende niveaus bepalen hoeveel kaarttypen worden uitgedeeld. Eenvoudig gebruikt 1 kaarttype, gemiddeld gebruikt twee typen en moeilijk alle 4 kaarttypen. Op het eerste niveau is het spel vrij eenvoudig op te lossen en op het vierde niveau is dat vrij lastig. </para>
+
+</sect2>
+
+<sect2 id="bakers-dozen">
+<title
+>Baker's Dozen</title>
+
+<para
+><indexterm
+><primary
+>Baker's Dozen</primary
+></indexterm
+> Baker's Dozen (iets extra's geven) wordt gespeeld met één kaartdek. De naam van het spel komt van de 13 kolommen in het spel, het getal in een baker's dozen. De kaarten worden uitgedeeld in kolommen van vier op het speelveld, wat resulteert in 13 kolommen. Elke heer die bovenaan of middenin elke kolom zit moet onderaan geplaatst worden voordat het spel start. Twee koningen die in één kolom zitten worden onderaan geplaatst zonder hun volgorde te wijzigen. </para>
+
+<para
+>Het doel van het spel is stapelen van alle kaarten op de vier vakken per kleur, elk van aas naar heer </para>
+
+<para
+>In de speelstapels dient u aflopende kaartreeksen te maken, ongeacht de kleur. U kunt alleen één kaart verplaatsen die bovenop de stapel ligt. </para>
+
+<para
+>Variaties:</para>
+<itemizedlist>
+  <listitem
+><para
+>In <quote
+>Spaanse Patience</quote
+> kan elke kaart een leeg speelveldvak vullen. (In sommige bronnen worden de funderingen opgebouwd ongeacht de kleur)</para
+></listitem>
+  <listitem
+><para
+><quote
+>Kastelen in Spanje</quote
+> lijkt op <quote
+>Spaanse Patience</quote
+>, maar de kaarten in het speelveld worden afgelegd op afwisselende kleuren. In sommige variaties wordt het speelveld uitgedeeld met de rug omhoog naast de bovenste kaarten in elke kolom.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Portugees Solitaire</quote
+> ligt tussen <quote
+>Baker's Dozen</quote
+> en <quote
+>Spaans Patience</quote
+> omdat lege kolommen alleen gevuld kunnen worden met Heren.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Om dit spel te kunnen oplossen is het aanbevolen om de kaarten uit de kaartreeksen te halen in dezelfde volgorde als waarin ze op de sorteerstapels dienen te worden geplaatst (eerst de azen, dan de tweeën, &etc;) U wilt typisch het legen van een kolom vermijden totdat de laatste kaart gereed is om te verplaatsen naar een aflegvak. </para>
+
+</sect2>
+
+<sect2 id="castle">
+<title
+>Kasteel</title>
+
+<para
+><indexterm
+><primary
+>Kasteel</primary
+></indexterm
+> Kasteel is een familie van patience of solitaire kaartspellen die typisch gespeeld worden met een dek van 52 speelkaarten. Het wordt soms beschreven als "Freecell zonder cellen" omdat zijn speelveld gelijk is maar zonder extra lege ruimten om te manoeuvreren in de meeste variaties. </para>
+
+<para
+>Het doel van het spel is stapelen van alle kaarten op de vier vakken per kleur, elk van Aas naar Heer. </para>
+
+<para
+>In de speelstapels dient u aflopende kaartreeksen te maken, ongeacht de kleur. U kunt alleen één kaart verplaatsen die bovenop de stapel ligt. </para>
+
+<para
+>Variaties:</para>
+<itemizedlist>
+  <listitem
+><para
+><quote
+>Belegerd kasteel</quote
+>. Azen zijn uitgedeeld op de aflegvelden. Elke kaart kan lege velden vullen.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Citadel</quote
+> is als <quote
+>Belegerd kasteel</quote
+>, maar overeenkomende kaarten worden verplaats naar de aflegvakken tijden het uitdelen, die ongelijke stapels achterlaten.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Heren in ballingschap</quote
+> is als <quote
+>Citadel</quote
+>, maar alleen Heren kunnen lege vakken vullen.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Siegecraft</quote
+> is als <quote
+>Belegerd kasteel</quote
+>, maar met één vrije cel.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Straten en stegen</quote
+> is als <quote
+>Belegerd kasteel</quote
+>, maar Azen mogen meegaan bij schudden.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Stronghold</quote
+> is als <quote
+>Straten en stegen</quote
+>, maar met één vrije cel.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Om dit spel op te lossen is het aanbevolen om gelijkmatig op te bouwen op de aflegvakken. Probeer lege stapels te maken die gebruikt kunnen worden om langere verplaatsingen mogelijk te maken om begraven kaarten te bevrijden. </para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="interface"
+><title
+>Overzicht van het interface</title
+> <!-- do not change this! -->
+<!-- This section has to do with menubar. Describe every single entry in order. Use <variablelist
+> and <varlistentry
+>. Split the chapter into sections using <sect1(2,3)
+> for better viewing.-->
+<sect1 id="game-menu">
+	<title
+>Het menu Spel</title>
+		<variablelist>
+			<varlistentry id="game-menu-new-game">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>N</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Spel</guimenu
+> <guimenuitem
+>Nieuw Spel...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Terug naar het keuzescherm voor een spel.</action
+> Deze actie breekt het delen dat bezig is af.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-deal">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Spel</guimenu
+> <guimenuitem
+>Opnieuw delen</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Start een nieuw delen van hetzelfde speltype.</action
+> Deze actie breekt het delen dat bezig is af.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-numbered-deal">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Spel</guimenu
+> <guimenuitem
+>Nieuw genummerd spel...</guimenuitem
+> </menuchoice
+></term>
+				<listitem>
+					<para
+><action
+>Start een nieuw delen door het speltype een nummer van het spel te specificeren</action
+> Deze actie breekt het delen dat bezig is af.</para>
+					<para
+>&kpatience; geeft elk spel een uniek identificatienummer (wat intern wordt gebruikt om het spel bij de initiële deling willekeurig te maken). Deze mogelijkheid stelt u in staat om een interessant spel of een speciaal moeilijk spel aanbevolen door een vriend opnieuw te spelen. Speciale aan het spel verknochte spelers zouden &kpatience; willen <quote
+>verslaan</quote
+> door alle 2147483647 spellen achtereenvolgens voor elk van de speltypes te spelen.</para>
+					<para
+>Opmerking: de spelnummers van &kpatience; voor Freecell, komen overeen met die beschreven in <ulink url="http://www.solitairelaboratory.com/fcfaq.html"
+>de Freecell &FAQ;</ulink
+>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-restart-deal">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F5</keycap
+></shortcut
+> <guimenu
+>Spel</guimenu
+> <guimenuitem
+>Spel herstarten</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Laat het huidige spel terugkeren naar de beginsituatie.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load">
+				<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Spel</guimenu
+> <guimenuitem
+>Laden...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Een opgeslagen spel laden.</action
+> Deze actie breekt het delen dat bezig is af.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load-recent">
+				<term
+><menuchoice
+><guimenu
+>Spel</guimenu
+> <guisubmenu
+>Recent spel laden</guisubmenu
+> <guimenuitem
+><replaceable
+>Lijst met recent gebruikte bestanden</replaceable
+></guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Laat een lijst zien van recent gebruikte opslagbestanden in volgorde van laatst gebruik.</action
+> Een spel selecteren laadt het. Deze actie breekt het delen dat bezig is af.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-save">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Spel</guimenu
+> <guimenuitem
+>Opslaan als...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Het huidige spel op schijf opslaan.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-statistics">
+				<term
+><menuchoice
+><guimenu
+>Spel</guimenu
+> <guimenuitem
+>Statistieken</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Verschillende statistieken tonen over uw prestaties per type spel.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-quit">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Spel</guimenu
+> <guimenuitem
+>Afsluiten</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>&kpatience; <action
+>afsluiten</action
+>.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="move-menu">
+	<title
+>Het menu Zet</title>
+		<variablelist>
+			<varlistentry id="move-menu-undo">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Zet</guimenu
+> <guimenuitem
+>Ongedaan maken</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Uw laatste zet wordt <action
+>ongedaan gemaakt</action
+>.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-redo">
+				<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>Z</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Zet</guimenu
+> <guimenuitem
+>Opnieuw</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Een zet waarvoor <guimenuitem
+>Ongedaan maken</guimenuitem
+> is gebruikt wordt <action
+>opnieuw gedaan</action
+>
+>.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-hint">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>H</keycap
+></shortcut
+><guimenu
+>Zet</guimenu
+><guimenuitem
+>Tip</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Geef enige tips voor mogelijke zetten, als de speler vast komt te zitten. Kaarten die verplaatst mogen worden naar een andere stapel worden tijdelijk geaccentueerd.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-demo">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>D</keycap
+></shortcut
+> <guimenu
+>Zet</guimenu
+> <guimenuitem
+>Demo</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Start de demomodus.</action
+> Terwijl &kpatience; in demomodus is, probeert deze het spel voor u op te lossen. Deze actie een tweede keer activeren laat u demomodus verlaten.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-draw">
+				<term
+><menuchoice
+><shortcut
+>&Space;</shortcut
+> <guimenu
+>Zet</guimenu
+> <guimenuitem
+>Trekken</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Draai een of meer kaarten om op de talon en verplaats ze naar de  aflegstapel.</action
+> Deze actie is alleen beschikbaar in bepaalde spellen.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-deal-row">
+				<term
+><menuchoice
+><shortcut
+>&Enter;</shortcut
+> <guimenu
+>Zet</guimenu
+> <guimenuitem
+>Rij delen</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Draai verschillende kaarten om op de talon en plaats er een op elke speelstapel.</action
+> Deze actie is alleen beschikbaar in bepaalde spellen.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-redeal">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>R</keycap
+></shortcut
+> <guimenu
+>Zet</guimenu
+> <guimenuitem
+>Herverdelen</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Verzamel alle overgebleven nog te spelen kaarten en herverdeel ze zonder ze te schudden.</action
+> Deze actie is alleen beschikbaar in bepaalde spellen.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="settings-help-menu">
+	<title
+>De menu's Instellingen en Help</title>
+<para
+>Naast de standaard &kde;-menu's Instellingen en Help zoals beschreven in het hoofdstuk <ulink url="help:/fundamentals/menus.html"
+>Menu</ulink
+> van de documentatie in &kde; Fundamentals heeft &kpatience; specifieke menu-items van het programma: </para>
+		<variablelist>
+			<varlistentry id="settings-menu-game-type-options">
+				<term
+><menuchoice
+><guimenu
+>Instellingen</guimenu
+> <guisubmenu
+><replaceable
+>Speltype-opties</replaceable
+></guisubmenu
+> <guimenuitem
+><replaceable
+>Lijst met opties specifiek per speltype</replaceable
+></guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Toon een lijst met opties specifiek voor het huidige speltype.</action
+> Dit menu is alleen beschikbaar in bepaalde spellen (Klondike en Spider).</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-stack-options">
+				<term
+><menuchoice
+><guimenu
+>Instellingen</guimenu
+> <guisubmenu
+>Stack-opties</guisubmenu
+> <guimenuitem
+>Plaatje omlaag (moeilijker)/Plaatje omhoog (gemakkelijker)</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Stelt u in staat te kiezen of de kaartplaatjes getoond moeten worden.</action
+> Dit menu is alleen beschikbaar in Spider.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-deck">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F10</keycap
+></shortcut
+> <guimenu
+>Instellingen</guimenu
+> <guimenuitem
+>Uiterlijk wijzigen...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Een dialoog openen voor het wijzigen van de te gebruiken kaartrug en spelthema.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-autodrop">
+				<term
+><menuchoice
+><guimenu
+>Instellingen</guimenu
+> <guimenuitem
+>Automatisch plaatsen activeren</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Automatisch kaarten verplaatsen naar de sorteerstapel indien mogelijk.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-solver">
+				<term
+><menuchoice
+><guimenu
+>Instellingen</guimenu
+> <guimenuitem
+>Oplosser inschakelen</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>De automatische oplossingsmachine inschakelen.</action
+> Indien ingeschakeld zal de oplosser steeds proberen om te bepalen of het huidige spel is te winnen. U kunt de oplosser uitschakelen om op gebruik van de processor of de batterij te besparen.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-playsounds">
+				<term
+><menuchoice
+><guimenu
+>Instellingen</guimenu
+> <guimenuitem
+>Geluiden afspelen</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Geluiden worden afgespeeld wanneer u kaarten opneemt of plaatst.</action
+> In de toekomst worden meer geluiden verwacht.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-remember">
+				<term
+><menuchoice
+><guimenu
+>Instellingen</guimenu
+> <guimenuitem
+>Status bij beëindiging onthouden</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Automatisch opslaan van de status van het spel wanneer &kpatience; wordt beëindigd.</action
+> &kpatience; zal de volgende keer dat deze wordt gestart de voorgaande spelstatus automatisch laden.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="help-menu-remember">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>F1</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Help</guimenu
+> <guimenuitem
+>Hulp bij hethuidige spel</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Opent de sectie met de regels voor het huidige spel in dit handboek.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="faq"
+><title
+>Veel voorkomende vragen</title
+> <!-- do not change this! -->
+<!--This chapter is for frequently asked questions. Please use <qandaset
+> <qandaentry
+> only!-->
+<qandaset>
+<!--Following is a standard list of FAQ questions.-->
+<qandaentry>
+ <question
+><para
+>Ik wil het uiterlijk van dit spel wijzigen. Kan dat? </para
+></question>
+ <answer
+><para
+>U kunt de voor- en achterkant van de speelkaarten en het spelthema wijzigen. Om dat te doen gebruikt u <menuchoice
+> <shortcut
+><keycap
+>F10</keycap
+></shortcut
+> <guimenu
+>Instellingen</guimenu
+> <guimenuitem
+>Uiterlijk wijzigen...</guimenuitem
+> </menuchoice
+> in de menubalk.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Kan ik het toetsenbord gebruiken om het spel te spelen?</para
+></question>
+ <answer
+><para
+>Nee, &kpatience; heeft geen mogelijkheid om alleen met het toetsenbord te spelen. De meeste menu-opties hebben sneltoetsen op het toetsenbord.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Zelfs met tips heb ik geen flauw idee hoe te spelen. Help!</para
+></question>
+ <answer
+><para
+>Naast de de functie <quote
+>Tips</quote
+> is ook de <quote
+>Demo</quote
+>-modus te gebruiken, waarbij de ingebouwde kunstmatige intelligentie het spel voor u speelt. U kunt proberen om het te bekijken en te leren. Als u echter vragen hebt, dan is het beter om de secties <link linkend="howto"
+>Hoe spelen</link
+> en <link linkend="rules_and_tips"
+>Spelregels, strategieën en tips</link
+> van deze handleiding.</para
+></answer>
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits"
+><title
+>Dankbetuigingen en licentie</title
+> <!-- do not change this! -->
+<!--This chapter is for credits and licenses.-->
+
+<para
+>&kpatience; </para>
+<!--List all the copyright holders here-->
+<para
+>&kpatience; copyright &copy; 1995-2000 &Paul-Olav.Tvete; </para>
+
+<para
+>&kpatience; copyright &copy; 2001-2007 &Stephan.Kulow; &Stephan.Kulow.mail; </para>
+
+<para
+>Freecell-oplosser door Shlomi Fish <email
+>shlomif@vipe.technion.ac.il</email
+> </para>
+
+<para
+>Documentatie Copyright &copy; 2000 &Paul-Olav.Tvete; </para>
+
+<para
+>Documentatie bijgewerkt voor &kde; 2.0 door &Mike.McBride; &Mike.McBride.mail; </para>
+
+<para
+>Documentatie herschreven voor &kpatience; 2.0 (KDE 2.1) door &Maren.Pakura; &Maren.Pakura.mail; </para>
+
+<para
+>Documentatie nagelezen en bijgewerkt voor &kpatience; 3.6 door &Richard.Hawthorne; &Richard.Hawthorne.mail; </para>
+
+&meld.fouten;&vertaling.niels;&vertaling.rinse; &underFDL; &underGPL; </chapter>
+
+&documentation.index; 
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-omittag:t
+sgml-shorttag:t
+sgml-namecase-general:t
+sgml-always-quote-attributes:t
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->

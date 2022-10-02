@@ -1,0 +1,1361 @@
+<?xml version="1.0" ?>
+<!--IMPORTANT: please note that'do not change this!' notice does not apply to translators -->
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY kappname "&kpatience;">
+  <!ENTITY kappversion "3.0"
+><!--Applicaion version. Use this variable everywhere it's needed.-->
+  <!ENTITY package "kdegames"
+>  <!-- do not change this! -->
+  <!ENTITY % French "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY % addindex "IGNORE"
+> <!-- do not change this! -->
+]>
+
+<book lang="&language;"
+> <!-- do not change this! -->
+<bookinfo>
+	<title
+>Le Manuel de &kappname;</title
+> <!-- This is the title of the docbook. Leave as is unless change is necessary.-->
+<!-- List of immidiate authors begins here. -->
+<!--INPORTANT! - All other contributors: [to be determined] -->
+<authorgroup>
+<author
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> </author>
+<author
+><firstname
+>Maren</firstname
+> <surname
+>Pakura</surname
+> </author>
+<author
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> </author>
+
+<othercredit role="reviewer"
+><firstname
+>Mike</firstname
+><surname
+>McBride</surname
+> <contrib
+>Relecture</contrib>
+<affiliation
+><address
+>&Mike.McBride.mail;</address
+></affiliation>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> <contrib
+>Développeur</contrib>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> <contrib
+>Développeur</contrib>
+</othercredit>
+
+&traducteurEricBischoff; &traducteurGerardDelafond; 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Paul-Olav.Tvete;</holder>
+</copyright>
+
+<copyright>
+<year
+>2001</year
+><year
+>2004</year>
+<holder
+>&Maren.Pakura;</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year>
+<holder
+>&Stephan.Kulow;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2008-09-25</date
+><!-- Date of (re)writing, or update.-->
+<releaseinfo
+>&kappversion;</releaseinfo
+><!-- Application version number. Use the variable definitions within header to change this value.-->
+
+<!--Short description of this document. Do not change unless necessary!-->
+<abstract>
+	<para
+>Cette documentation décrit le jeu &kappname; version &kappversion;</para>
+</abstract>
+
+<!--List of relevan keywords-->
+<keywordset>
+	<keyword
+>KDE</keyword
+> <!-- do not change this! -->
+	<keyword
+>jeux kde</keyword
+> <!-- do not change this! -->
+	<keyword
+>jeu</keyword
+> <!-- do not change this! -->
+	<keyword
+>patience</keyword
+><!--Application name goes here-->
+<!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<keyword
+>carte</keyword>
+	<keyword
+>jeu carte</keyword>
+	<keyword
+>jouer cartes</keyword>
+<!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+	<keyword
+>un joueur</keyword>
+<!--All other relevant keywords-->
+	<keyword
+>patience</keyword>
+	<keyword
+>réussite</keyword>
+</keywordset>
+</bookinfo>
+<!--Content begins here: -->
+<chapter id="introduction"
+><title
+>Introduction</title
+> <!-- do not change this! -->
+	<note
+><title
+>Type de jeu : </title
+><para
+>Carte</para
+></note
+><!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<note
+><title
+>Nombre possible de joueurs : </title
+><para
+>Un</para
+></note
+><!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+
+<!--Short game description starts here. 3-4 sentences (paragraphs)-->
+
+<para
+>Pour réussir un jeu de patience, vous avez besoin, comme son nom l'indique, de patience. Pour les jeux simples, où le déroulement du jeu ne dépend que de l'ordre des cartes, votre patience est même la seule chose dont vous aurez besoin. </para>
+
+<para
+>Mais il y a également des réussites pour lesquelles il vous faudra élaborer une stratégie et anticiper pour gagner. </para>
+
+<para
+>Tous les jeux ont en commun de vous demander d'ordonner les cartes d'une certaine façon en les déplaçant, en les retournant et en les réarrangeant. </para>
+</chapter>
+
+<chapter id="howto"
+><title
+>Comment jouer</title
+> <!-- do not change this! -->
+<!--IMPORTANT: If the game has no defined objective, please remove the below line.-->
+	<note
+><title
+>Objectif : </title
+><para
+>Réordonner les cartes par couleur en moins de temps possible.</para
+></note
+><!--Describe the objective of the game.-->
+<!--How to play description. Don't be to specific on rules as they have a separate section in this document-->
+	<para
+>&kappname; vous offre une multitude de jeux différents, il n'y pas de méthode unique pour aborder tous les jeux. Par conséquent, il est essentiel que vous lisiez chaque sous-section des sections des « Règles du jeu, stratégies et astuces » avant de commencer à jouer à une version qui ne vous est pas familière.</para>
+<para
+>De manière générale, il y a deux types de jeux de cartes en solitaire. Le premier vous laisse grouper les cartes par couleur et le deuxième par couleur alternée. Vous pouvez facilement déterminer quel jeu vous essayez en utilisant la technique « essayer et se tromper ». Une fois que vous comprenez le jeu auquel vous jouez, le reste est facile. Ordonner et réordonner les cartes, en collectant les bonnes cartes correspondantes.</para>
+<para
+>Au début, cependant, faites attention à votre pile de cartes. Ne vous précipitez pas pour déplacer une carte, observez si celle ci est plus utile ailleurs.</para>
+<para
+>Pour une aide additionnelle, vous pouvez aussi jeter un œil sur la barre d'état. Pour la plupart des jeux, il y a une aide de résolution qui vous informe à quel jeu vous jouez et s'il peut être terminé ou pas. Si cette aide de résolution vous informe que la partie ne peut être terminée, elle ne pourra sûrement pas l'être. Dans ce cas, vous pouvez redémarrer la partie actuelle ou recommencer une autre partie. </para>
+<note
+><title
+>Remarque : </title
+><para
+>Jouer à un jeu de cartes de type solitaire vous aide vraiment à améliorer votre durée d'attention et augmente votre habilité de concentration.</para
+></note>
+</chapter>
+
+<chapter id="rules_and_tips"
+><title
+>Règles du jeu, stratégies et astuces</title
+> <!-- do not change this! -->
+
+<sect1 id="rules-general">
+	<title
+>Règles générales</title>
+	<para
+><indexterm
+><primary
+>couleurs</primary
+></indexterm
+>Un jeu de cartes contient un ou plusieurs paquets de 52 cartes chacun. Chaque paquet contient une à quatre couleurs :</para>
+	<informaltable pgwide="0" frame="none">
+		<tgroup cols="2"
+><colspec/><colspec/>
+	<tbody>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="clubs.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Trèfles</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="spades.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Piques</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="hearts.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Cœurs</entry>
+		</row>
+			<row valign="middle"
+><entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="diamonds.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Carreaux</entry>
+		</row>
+	</tbody
+></tgroup>
+	</informaltable>
+	<para
+>Chacune des quatre couleurs contient les types de cartes suivants : as, deux, trois, quatre, cinq, six, sept, huit, neuf, dix, valet, dame et roi.</para>
+	<para
+><indexterm
+><primary
+>famille</primary
+></indexterm
+> Cette séquence complète de cartes s'appelle une famille. Il y a des familles de couleur et des familles alternées. Les familles de couleur sont toutes dans une seule couleur - au sens des jeux de cartes - (&pex; les cœurs) alors que, dans les familles alternées, la couleur - au sens ordinaire - des cartes varie à chaque carte entre une carte noire (trèfle et pique) et une carte rouge (cœur et carreau).</para>
+	<para
+>Si une famille n'est pas complète, on l'appelle une séquence.</para>
+	<mediaobject>
+		<imageobject
+><imagedata fileref="playfield.png" format="PNG"/></imageobject>
+		<textobject
+><phrase
+>Le plateau de jeu de &kpatience;</phrase
+></textobject>
+	</mediaobject>
+	<para
+>Il n'y a d'habitude que peu d'éléments différents dans une réussite. Nous allons les présenter.</para>
+	<variablelist>
+		<varlistentry
+><term
+>1. Le talon</term>
+			<listitem
+><para
+><indexterm
+><primary
+>talon</primary
+></indexterm
+>Au début de chaque partie, toutes les cartes sont mélangées dans le paquet. Dans certains jeux, certaines cartes ne sont pas distribuées. Ces cartes se retrouvent dans ce qu'on appelle le talon, que l'on reconnaît facilement au fait que, dans la plupart des jeux, c'est le seul tas de cartes vues de dos. </para>
+			<para
+>Si aucune carte n'est vue de dos, toutes les cartes sont distribuées et il n'y a pas de talon. Ces jeux sont les plus durs dans la mesure où aucune place n'est laissée au hasard après que la partie a commencé, de telle sorte qu'on ne peut s'en prendre qu'à soi-même. </para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>2. La défausse</term>
+			<listitem
+><para
+><indexterm
+><primary
+>défausse</primary
+></indexterm
+>Beaucoup de jeux placent les cartes du talon d'abord sur une pile de défausse, lorsque vous cliquez sur le dos de la carte au sommet du talon.</para>
+			<para
+>Vous pouvez prendre cette carte (face visible) dans cette pile pour la placer dans le jeu.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>3. Les bases</term>
+			<listitem
+><para
+><indexterm
+><primary
+>bases</primary
+></indexterm
+>Les piles de base sont les emplacements où doivent se trouver vos cartes à la fin. Si toutes les cartes s'y retrouvent dans le bon ordre, vous avez gagné. Certains jeux utilisent plus d'une pile de base.</para>
+			<para
+>Dans la plupart des jeux de cartes, ces piles sont vides au début, et &kpatience; y dépose les cartes quand il voit qu'elles peuvent y aller. </para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>4. Tas intermédiaires</term>
+			<listitem
+><para
+><indexterm
+><primary
+>tas intermédiaires</primary
+></indexterm
+>Ces piles de cartes sont celles où la remise en ordre effective se déroule. Les règles concernant ces piles varient énormément d'un jeu à l'autre. Certains affichent toutes les cartes qui s'y trouvent, d'autres non. Certains n'autorisent de retirer qu'une carte, d'autres permettent de retirer toutes les cartes, &etc; </para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="rules-specific"
+><title
+>Règles pour les parties individuelles</title>
+
+<sect2 id="klondike">
+<title
+>Klondike</title>
+
+<para
+><indexterm
+><primary
+>Klondike</primary
+></indexterm
+> Klondike est la réussite la plus connue, probablement parce qu'un système d'exploitation répandu l'inclut par défaut. Elle se joue avec un seul paquet. </para>
+
+<para
+>Le but de Klondike est de placer toutes les cartes sur les bases en familles croissantes dans la couleur. Cela fonctionne en général assez bien à partir du moment où toutes les cartes sont vues de face dans les piles intermédiaires. </para>
+
+<para
+>Les séquences sur les piles intermédiaires doivent suivre l'ordre décroissant en alternant les cartes rouges et noires. Vous pouvez déplacer des séquences entières ou des parties de celles-ci si leur première carte peut aller sur une autre pile. </para>
+
+<para
+>Sur une pile vide vous pouvez poser un roi de n'importe quelle couleur ou une séquence commençant par un roi. </para>
+
+<para
+>Quand vous cliquez sur le talon, une carte en sera retirée et placée dans la défausse, à partir de laquelle vous pouvez la déplacer vers une des piles intermédiaires ou une des bases. Si la pioche est vide, vous pouvez déplacer la pile de défausse au complet pour reformer le talon en cliquant sur l'emplacement vide du talon. </para>
+
+<para
+>Vous pouvez regarder dans le talon autant que vous le voulez. </para>
+</sect2>
+
+<sect2 id="grandfather">
+<title
+>Grand-père</title>
+
+<para
+><indexterm
+><primary
+>Grand-père</primary
+></indexterm
+> Ce jeu a été présenté à &Paul-Olav.Tvete;, le développeur original de &kpatience;, par son grand-père, d'où son nom. Nous ne connaissons pas d'autres programmes de réussite implantant ce jeu. </para>
+        
+<para
+>Grand-père répartit un paquet de cartes vers sept piles intermédiaires de sorte que certaines cartes soient vues de dos lors de la distribution initiale. </para>
+
+<para
+>Le but est de placer les cartes par familles ascendantes sur les piles de base. </para>
+
+<para
+>Vous pouvez déplacer une carte vers une pile quelconque lorsqu'elle forme avec une autre carte une séquence décroissante. Par exemple, vous pouvez déplacer le cinq de pique par-dessus le six de pique, même s'il y a d'autres cartes sur le cinq de pique. Il est seulement nécessaire que le six de pique soit au sommet du tas. </para>
+
+<para
+>Vous pouvez placer un roi sur une pile vide (encore une fois, peu importe combien de cartes sont dessus). </para>
+
+<para
+>Si plus aucune carte ne peut être déplacée, vous pouvez redistribuer, au maximum deux fois. Toutes les cartes déjà placées sur les bases y restent, mais les piles intermédiaires sont remélangées pour vous laisser une nouvelle chance de trouver une solution. </para>
+
+<para
+>Même si les règles sont simples et permettent pas mal de combinaisons, le jeu est dur à gagner, tout en restant agréable à jouer (à moins que ce n'en soit la cause). </para>
+</sect2>
+
+<sect2 id="aces-up">
+<title
+>Les as</title>
+
+<para
+><indexterm
+><primary
+>Les as</primary
+></indexterm
+> Cette réussite a des règles très simples, mais est quand même dure à gagner. Elle se joue avec un paquet de cartes, et le but est de placer toutes les as sur la base. Après cela il devrait rester un as sur chaque pile intermédiaire. </para>
+
+<para
+>Chaque carte en sommet de pile qui est de la même couleur (&pex; pique) et qui a une valeur inférieure à une autre carte en sommet de pile (&pex; le six de pique et le quatre de pique) peut être déplacé vers la base en cliquant dessus. </para>
+
+<para
+>Si vous ne pouvez déplacer aucune carte vers la base, vous pouvez obtenir une nouvelle carte dans la pile en cliquant sur le talon. </para>
+
+<para
+>Vous pouvez déplacer n'importe quelle carte vers une pile vide. Vous devriez vous arranger pour que ce déplacement libère des cartes qui puissent aller vers la base par la suite. </para>
+
+<para
+>La fonctionnalité de placement automatique des cartes est désactivée dans cette réussite. </para>
+
+</sect2>
+
+<sect2 id="freecell">
+<title
+>Freecell</title>
+
+<para
+><indexterm
+><primary
+>Freecell</primary
+></indexterm
+> Freecell se joue avec un paquet de cartes. Vous avez quatre cellules libres en haut à gauche. En plus, vous avez quatre piles de base et en dessous vous avez huit piles intermédiaires. </para>
+
+<para
+>Le but du jeu est de placer toutes les cartes sur les bases en familles ascendantes. Cela fonctionne assez souvent si vous savez jouer correctement, car Freecell possède une solution dans 99,9 % des cas environ (sur les 32000 premières distributions, une seule est insoluble - celle qui porte le numéro 11982 si vous voulez savoir). </para>
+
+<para
+>Sur les piles intermédiaires vous devez former des séquences décroissantes alternant les cartes rouges et noires. Vous pouvez placer n'importe quelle carte dans une cellule libre. </para>
+
+<para
+>Vous ne pouvez déplacer qu'une carte à la fois depuis le sommet d'une pile ou une des cellules. Les séquences ne peuvent être déplacées que si vous avez suffisamment d'espace (dans des cellules libres ou des piles intermédiaires vides) pour y poser les cartes. </para>
+
+<para
+>La quantité maximale de cartes que vous pouvez déplacer est calculée :  </para>
+
+<sidebar
+><para
+>({nb. cellules libres} + 1) * 2<superscript
+>{nb. piles vides}</superscript
+> </para
+></sidebar>
+
+<para
+>Pour terminer cette réussite, il est recommandé de prendre les cartes dans les piles intermédiaires dans l'ordre desquelles doivent être mises dans les bases (d'abord les as, ensuite les deux, &etc;) </para>
+
+<para
+>Vous devez essayer de maintenir vide autant de cellules et/ou de piles intermédiaires que possible, afin de pouvoir former des séquences aussi longues que possible. </para>
+
+</sect2>
+
+<sect2 id="mod3">
+<title
+>Mod3</title>
+
+<para
+><indexterm
+><primary
+>Mod3</primary
+></indexterm
+> Mod3 se joue avec deux paquets de cartes. Le but du jeu est de placer toutes les cartes dans les trois rangées du haut. Dans celles-ci vous devez former des séquences dans la couleur. Dans la première rangée vous devez créer la séquence 2-5-8-B, dans la deuxième rangée la séquence 3-6-9-D, et dans la troisième rangée la séquence 4-7-10-K. La couleur des cartes doit être la même dans chaque séquence, ainsi vous ne pouvez poser un cinq de cœur que sur un deux de cœur. </para>
+
+<para
+>La quatrième rangée est à la fois une défausse et une pile intermédiaire. Dans un emplacement libre vous pouvez placer n'importe quelle carte de l'une des trois rangées du haut ou une au sommet de la quatrième rangée. </para>
+
+<para
+>Vous pouvez mettre les as sur les piles au-dessus du talon. Ils sont dans le jeu, et ainsi, vous pouvez avoir un point de départ pour la création de cases vides. </para>
+
+<para
+>Si vous ne pouvez plus bouger de cartes, vous obtenez de nouvelles cartes dans la quatrième rangée en cliquant sur le talon. </para>
+
+<para
+>La fonctionnalité de placement automatique des cartes est désactivée dans cette réussite. </para>
+</sect2>
+
+<sect2 id="gypsy">
+<title
+>Le bohémien</title>
+
+<para
+><indexterm
+><primary
+>Le bohémien</primary
+></indexterm
+> Le bohémien se joue avec deux paquets de cartes. Le but du jeu est de placer sur les bases toutes les cartes en suites ascendantes de couleur. </para>
+
+<para
+>Les piles intermédiaires vont en ordre décroissant en alternant les cartes rouges et noires. Vous ne pouvez déplacer que des séquences ou des cartes isolées. Vous pouvez placer n'importe quelle carte ou séquence sur un emplacement libre. </para>
+
+<para
+>Si vous ne pouvez plus déplacer de cartes, vous pouvez cliquer sur le talon pour tirer une nouvelle carte sur chaque pile intermédiaire. </para>
+
+<para
+>La fonctionnalité « <guibutton
+>Annuler</guibutton
+> le dernier coup » peut faciliter la partie dans la mesure où vous devez prendre des décisions rapides et où certaines d'entre elles peuvent se révéler fausses une fois que vous avez cliqué sur le talon. </para>
+
+</sect2>
+
+<sect2 id="forty-and-eight">
+<title
+>Quarante-huit</title>
+
+<para
+><indexterm
+><primary
+>Quarante-huit</primary
+></indexterm
+> Quarante-huit se joue avec deux paquets de cartes. Le but du jeu est de placer toutes les cartes sur les bases en suites de couleur. </para>
+
+<para
+>Les piles intermédiaires doivent être vidées. Les couleurs sont importantes. Ainsi vous ne pouvez poser un cinq de cœur que sur un six de cœur, par exemple. </para>
+
+<para
+>Vous ne pouvez déplacer qu'une carte à la fois au sommet d'une pile. Dans un emplacement libre, vous pouvez placer n'importe quelle carte. </para>
+
+<para
+>Lorsque vous cliquez sur le talon, vous posez une carte sur la pile de défausse, depuis laquelle vous pouvez la déplacer vers une pile intermédiaire ou une des bases (ce que &kpatience; se charge de faire pour vous). Si le talon est vide, vous pouvez remettre toutes les cartes de la pile de défausse dans le talon. Ceci ne fonctionne qu'une fois : lorsque le talon se vide pour la seconde fois, la partie est finie. </para>
+
+<para
+>Cette réussite n'est vraiment pas facile à résoudre, mais avec un peu d'habitude vous arriverez à résoudre plusieurs distributions, en particulier si vous utilisez la fonctionnalité <guibutton
+>Annuler</guibutton
+> de temps en temps pour corriger vos décisions, ainsi que les décisions effectuées par &kpatience; lorsqu'il place des cartes dans les bases. </para>
+</sect2>
+
+<sect2 id="simple-simon">
+<title
+>Simon le simple</title>
+
+<para
+><indexterm
+><primary
+>Simon le simple</primary
+></indexterm
+> Simon le simple se joue avec un seul paquet de cartes. Le but du jeu est de placer toutes les cartes sur les bases en suites de couleur. </para>
+
+<para
+>Dans les piles intermédiaires vous pouvez former des séquences. En général, vous n'avez pas besoin de vous préoccuper de la couleur des cartes, mais les séquences ne peuvent être déplacées que si ce sont de vrais séquences. Par exemple vous pouvez déplacer le six de <emphasis
+>pique</emphasis
+> uniquement sur un cinq de pique et non pas sur un cinq de<emphasis
+> trèfle</emphasis
+>. </para>
+
+<para
+>Les cartes ne peuvent être déplacées vers les bases que lorsque les 13 cartes de la même suite se trouvent dans les piles intermédiaires. </para>
+
+<tip>
+<title
+>Suggestion</title>
+<para
+>Vous devriez essayer de déplacer les cartes dans les bonnes piles dès que c'est possible afin de libérer des piles pour poser des cartes temporairement, puisque vous pouvez placer n'importe quelle carte dans une pile vide. </para>
+
+<para
+>Si vous disposez de suffisamment de place libre, vous pouvez former des familles dans les emplacements libres sans tenir compte de la couleur. Si vous avez toutes les cartes dans de telles familles, vous pouvez les trier d'après leur couleur, pour ensuite les déplacer vers une base. </para>
+</tip>
+
+</sect2>
+
+<sect2 id="yukon">
+<title
+>Yukon</title>
+
+<para
+><indexterm
+><primary
+>Yukon</primary
+></indexterm
+> Yukon se joue avec un paquet de cartes. Le but du jeu est de placer toutes les cartes sur les bases en suites croissantes de couleur. </para>
+
+<para
+>Les séquences sur les piles intermédiaires doivent être décroissantes en alternant les cartes rouges et les cartes noires. Vous pouvez déplacer n'importe quelle carte vue de face même si plusieurs autres cartes la recouvrent. Ainsi vous pouvez poser un cinq de coeur sur un six de pique si celui-ci est au sommet de sa pile.  </para>
+
+<para
+>Vous pouvez placer un roi de n'importe quelle couleur (là aussi indépendamment du nombre de cartes le recouvrant). </para>
+</sect2>
+
+<sect2 id="grandfathers">
+<title
+>L'horloge de grand-père</title>
+
+<para
+><indexterm
+><primary
+>L'horloge de grand-père</primary
+></indexterm
+> L'horloge de grand-père est une réussite simple et après quelques tâtonnements vous devriez pouvoir résoudre la plupart des donnes. Elle se joue avec un paquet de cartes. Le but du jeu est de placer les cartes sur les bases en séquences croissantes de couleur. </para>
+
+<para
+>Les piles de bases sont sur la droite et sont au nombre de 12, disposées de manière à représenter une horloge. L'as est à une heure, le valet est à 11 heure et la reine est à midi. </para>
+
+<para
+>Il y a 8 piles intermédiaires à côté de l'horloge, et chacune d'entre elles comporte cinq cartes. Vous pouvez y former des séquences décroissantes sans tenir compte de la couleur des cartes. Vous ne pouvez déplacer qu'une carte à la fois. </para>
+
+<para
+>La fonctionnalité de placement automatique des cartes est désactivée dans cette réussite.</para>
+
+</sect2>
+
+<sect2 id="golf">
+<title
+>Golf</title>
+
+<para
+><indexterm
+><primary
+>Golf</primary
+></indexterm
+> Golf se joue avec un seul jeu de cartes. Le but du jeu est de placer toutes les cartes du tableau vers la base. </para>
+ 
+<para
+>L'agencement de la réussite golf est simple. Au début du jeu, vous verrez le tableau, avec dessus sept colonnes contenant chacune cinq cartes. En dessous se trouve le talon et la base. </para>
+
+<para
+>Jouer à la réussite golf est simple, mais requiert de la stratégie pour gagner. Les cartes en bas de chaque colonne du tableau sont disponibles pour jouer. Les cartes disponibles sont posées au-dessus de la base afin de former une séquence ascendante ou descendante en fonction de la couleur. S'il n'y a plus de mouvements possibles, une carte peut être tirée du talon vers la base. Un jeu est terminé lorsque toutes les cartes du talon ont été données et qu'il n'y a plus de mouvements possibles.</para>
+
+</sect2>
+
+<sect2 id="spider">
+<title
+>Araignée</title>
+
+<para
+><indexterm
+><primary
+>Araignée</primary
+></indexterm
+> L'araignée se joue avec deux paquets de cartes. Les cartes sont distribuées en dix piles de jeu, 4 de 6 cartes et 6 de 5 cartes. Cela met 50 cartes qui peuvent être recouvertes par 10 à la fois, une sur chaque pile de jeu. </para>
+
+<para
+>Dans les piles de jeu, une carte peut être placée sur une autre carte de n'importe quelle couleur et de n'importe quelle valeur. Une suite de cartes ascendante de la même couleur peut être déplacée d'une pile de jeu à une autre. </para>
+
+<para
+>Le but de l'araignée est de mettre toutes les cartes comme de vraies familles, en descendant des rois n'importe où sur les piles de jeu. Quand une telle famille est construite sur une pile de jeu, elle est déplacée vers le coin bas gauche de la fenêtre. </para>
+
+<para
+>Les différents niveaux déterminent combien de couleurs sont distribuées. « Facile » n'utilise qu'une couleur, « Moyen » utilise 2 couleurs et « Difficile » utilise les 4 couleurs. Le jeu est bien plus facile en mode « Facile » et très difficile à gagner en mode « Difficile ».  </para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="interface"
+><title
+>Vue d'ensemble de l'interface</title
+> <!-- do not change this! -->
+<!-- This section has to do with menubar. Describe every single entry in order. Use <variablelist
+> and <varlistentry
+>. Split the chapter into sections using <sect1(2,3)
+> for better viewing.-->
+<sect1 id="game-menu">
+	<title
+>Le menu <guimenu
+>Jeu</guimenu
+></title>
+		<variablelist>
+			<varlistentry id="game-menu-new">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Jeu</guimenu
+> <guimenuitem
+>Nouveau</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Démarre une nouvelle partie</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Jeu</guimenu
+> <guimenuitem
+>Ouvrir...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Charge une partie enregistrer.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load-recent">
+				<term
+><menuchoice
+><guimenu
+>Jeu</guimenu
+> <guisubmenu
+>Récemment ouvert(s)</guisubmenu
+> <guimenuitem
+>Liste des fichiers récemment ouverts.</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Liste</action
+> tous les fichiers récemment enregistrés.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-restart">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F5</keycap
+></shortcut
+> <guimenu
+>Jeu</guimenu
+> <guimenuitem
+>Recommencer la partie</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Redémarrer</action
+> la partie actuelle.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-save">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Jeu</guimenu
+> <guimenuitem
+>Enregistrer</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Enregistrer</action
+> la partie actuelle comme un fichier enregistré par défaut.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-chose-game">
+				<term
+><menuchoice
+><guimenu
+>Jeu</guimenu
+> <guimenuitem
+>Choisir une partie...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Ouvre</action
+> la boîte de dialogue de sélection du jeu.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-statistics">
+				<term
+><menuchoice
+><guimenu
+>Jeu</guimenu
+> <guimenuitem
+>Statistiques</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Ouvre</action
+> la boîte de dialogue des statistiques victoires et défaites.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-hint">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>H</keycap
+></shortcut
+> <guimenu
+>Jeu</guimenu
+> <guimenuitem
+>Conseil</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Afficher un conseil</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-demo">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>D</keycap
+></shortcut
+> <guimenu
+>Jeu</guimenu
+> <guimenuitem
+>Démonstration</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Lance ou arrête</action
+> le mode de démonstration.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-quit">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Jeu</guimenu
+> <guimenuitem
+>Quitter</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Quitte</action
+> &kappname;.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="move-menu">
+	<title
+>Le menu <guimenu
+>Déplacer</guimenu
+></title>
+		<variablelist>
+			<varlistentry id="move-menu-undo">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Déplacer</guimenu
+> <guimenuitem
+>Annuler</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Annule</action
+> le dernier mouvement.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="settings-menu">
+	<title
+>Le menu <guimenu
+>Configuration</guimenu
+></title>
+		<variablelist>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+> <guisubmenu
+>Type de jeu</guisubmenu
+> <guimenuitem
+>Klondike</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Lance le mode de jeu Klondike.</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+> <guisubmenu
+>Type de jeu</guisubmenu
+> <guimenuitem
+>Grand-père</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Lance le mode de jeu Grand-père.</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+> <guisubmenu
+>Type de jeu</guisubmenu
+> <guimenuitem
+>Les as</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Lance le mode de jeu Les as.</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+> <guisubmenu
+>Type de jeu</guisubmenu
+> <guimenuitem
+>Freecell</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Lance le mode de jeu Freecell.</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+> <guisubmenu
+>Type de jeu</guisubmenu
+> <guimenuitem
+>Mod3</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Lance le mode de jeu Mod3.</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+> <guisubmenu
+>Type de jeu</guisubmenu
+> <guimenuitem
+>Le bohémien</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Lance le mode de jeu Le bohémien.</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+> <guisubmenu
+>Type de jeu</guisubmenu
+> <guimenuitem
+>Quarante-huit</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Lance le mode de jeu Quarante-huit.</para
+> </listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+> <guisubmenu
+>Type de jeu</guisubmenu
+> <guimenuitem
+>Simon le simple</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Lance le mode de jeu Simon le simple.</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+> <guisubmenu
+>Type de jeu</guisubmenu
+> <guimenuitem
+>Yukon</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Lance le mode de jeu Yukon.</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+> <guisubmenu
+>Type de jeu</guisubmenu
+> <guimenuitem
+>L'horloge du grand-père</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Lance le mode de jeu L'horloge du grand-père.</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+> <guisubmenu
+>Type de jeu</guisubmenu
+> <guimenuitem
+>Golf</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Lance le mode de jeu Golf.</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+> <guisubmenu
+>Type de jeu</guisubmenu
+> <guimenuitem
+>Klondike (par 3)</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Lance le mode de jeu Klondike (par3).</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+> <guisubmenu
+>Type de jeu</guisubmenu
+> <guimenuitem
+>Araignée (Facile)</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Lance le mode de jeu Araignée (Facile).</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+> <guisubmenu
+>Type de jeu</guisubmenu
+> <guimenuitem
+>Araignée (Moyen)</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Lance le mode de jeu Araignée (Moyen).</para
+></listitem>
+			</varlistentry>
+			<varlistentry>
+				<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+> <guisubmenu
+>Type de jeu</guisubmenu
+> <guimenuitem
+>Araignée (Difficile)</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Lance le mode de jeu Araignée (Difficile).</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-autodrop">
+				<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+> <guimenuitem
+>Activer les coups automatiques</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Active ou désactive automatiquement le déplacement automatique des cartes.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-random">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F9</keycap
+></shortcut
+> <guimenu
+>Configuration</guimenu
+> <guimenuitem
+>Cartes aléatoires</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Choisir au hasard</action
+> les faces avants et arrières des cartes.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-deck">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F10</keycap
+></shortcut
+> <guimenu
+>Configuration</guimenu
+> <guimenuitem
+>Sélectionner le tas...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Ouvrir</action
+> la boîte de dialogue de sélection du jeu de cartes.</para
+></listitem>
+			</varlistentry
+>			
+			<varlistentry id="settings-menu-toolbar">
+				<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+> <guimenuitem
+>Afficher la barre d'outils</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Affiche ou cache la barre d'outils.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="help"
+><!--This is a standard Help menubar entry. Only change if needed.-->
+<title
+>Le menu <guimenu
+>Aide</guimenu
+></title>
+&help.menu.documentation; </sect1>
+</chapter>
+
+<chapter id="faq"
+><title
+>Foire aux questions</title
+> <!-- do not change this! -->
+<!--This chapter is for frequently asked questions. Please use <qandaset
+> <qandaentry
+> only!-->
+<qandaset>
+<!--Following is a standard list of FAQ questions.-->
+<qandaentry>
+ <question
+><para
+>Je veux modifier la façon dont le jeu s'affiche. Est-ce possible ? </para
+></question>
+ <answer
+><para
+>Vous pouvez modifier les faces avants et arrières des cartes <menuchoice
+> <shortcut
+><keycap
+>F10</keycap
+></shortcut
+> <guimenu
+>Configuration</guimenu
+> <guimenuitem
+>Sélectionner le tas...</guimenuitem
+> </menuchoice
+> sur la barre de menu.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Puis-je utiliser le clavier pour jouer à ce jeu ?</para
+></question>
+ <answer
+><para
+>Non. &kappname; ne fournit pas le moyen de jouer avec le clavier.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Si malgré les conseils, je n'arrive toujours pas à jouer correctement, que faire ? Aidez-moi !</para
+></question>
+ <answer
+><para
+>À coté de la fonctionnalité <quote
+>Conseil</quote
+>, il y a un mode de <quote
+>démonstration</quote
+> très utile, où l'ordinateur joue pour vous. Vous pouvez essayer de regarder et d'apprendre. Cependant, si vous avez des questions, il est plus approprié de lire les sections <link linkend="howto"
+>Comment jouer</link
+> et <link linkend="rules_and_tips"
+>Règles du jeu, stratégies et astuces</link
+> de ce manuel.</para
+></answer>
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits"
+><title
+>Remerciements et licence</title
+> <!-- do not change this! -->
+<!--This chapter is for credits and licenses.-->
+
+<para
+>&kappname; </para>
+<!--List all the copyright holders here-->
+<para
+>&kpatience; Copyright &copy; 1995-2000 &Paul-Olav.Tvete; </para>
+
+<para
+>&kpatience; Copyright &copy; 2001-2007 &Stephan.Kulow; &Stephan.Kulow.mail; </para>
+
+<para
+>Résolveur de Freecell par Shlomi Fish <email
+>shlomif@vipe.technion.ac.il</email
+> </para>
+
+<para
+>Copyright de la documentation &copy; 2000 &Paul-Olav.Tvete; </para>
+
+<para
+>Documentation mise à jour pour &kde; 2.0 par &Mike.McBride; &Mike.McBride.mail; </para>
+
+<para
+>Documentation réécrite pour &kpatience; 2.0 (&kde; 2.1) par &Maren.Pakura; &Maren.Pakura.mail; </para>
+
+<para
+>Relecture et mise à jour de la documentation pour &kpatience; &kappversion; par &Richard.Hawthorne; &Richard.Hawthorne.mail; </para>
+
+<para
+>Traduction française par &EricBischoff;.</para
+> 
+&underFDL; &underGPL; </chapter>
+
+<appendix id="installation">
+<title
+>Installation</title>
+
+&install.intro.documentation;
+
+
+<sect1 id="Compilation">
+<title
+>Compilation et Installation</title>
+&install.compile.documentation; </sect1>
+</appendix>
+
+&documentation.index; 
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-omittag:t
+sgml-shorttag:t
+sgml-namecase-general:t
+sgml-always-quote-attributes:t
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->

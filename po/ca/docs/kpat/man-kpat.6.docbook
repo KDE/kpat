@@ -1,0 +1,335 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Catalan  "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>Manual d'usuari del KPat</title>
+<date
+>21 de juny de 2021</date>
+<releaseinfo
+>21.04</releaseinfo>
+<productname
+>KDE Gear</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>kpat</command
+></refentrytitle>
+<manvolnum
+>6</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>kpat</command
+></refname>
+<refpurpose
+>Un joc de cartes molt addictiu</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>kpat</command
+> <group choice="opt"
+><option
+>--solvegame</option
+> <replaceable
+> fitxer</replaceable
+></group
+> <group choice="opt"
+><option
+>--solve</option
+> <replaceable
+> núm.</replaceable
+></group
+> <group choice="opt"
+><option
+>--start</option
+> <replaceable
+> núm.</replaceable
+></group
+> <group choice="opt"
+><option
+>--end</option
+> <replaceable
+> núm.</replaceable
+></group
+> <group choice="opt"
+><option
+>--gametype</option
+> <replaceable
+> joc</replaceable
+></group
+> <group choice="opt"
+><option
+>--testdir</option
+> <replaceable
+> directori</replaceable
+></group
+> <group choice="opt"
+><option
+>--generate</option
+></group
+> <group choice="opt"
+><option
+><replaceable
+>fitxer</replaceable
+></option
+></group
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>DESCRIPCIÓ</title>
+<para
+>El &kpatience; és un compendi de diversos jocs de cartes del solitari, que van des dels coneguts «Klondike» i «Cel·la lliure», fins a jocs menys coneguts com «El rellotge de l'avi» i «Mod3». En total, hi ha 12 variacions perquè passi el temps.</para>
+</refsect1>
+
+<refsect1>
+<title
+>OPCIONS</title>
+<para
+>Aquest programa segueix la sintaxi habitual de la línia d'ordres de GNU, amb opcions llargues que comencen amb dos guions («--»). A continuació s'inclou un resum de les opcions admeses per l'ordre <command
+>kpat</command
+>.</para>
+
+<variablelist>
+
+<varlistentry>
+<term
+><option
+>-h</option
+> <option
+>--help</option
+></term>
+<listitem
+><para
+>Llista les opcions disponibles a la línia d'ordres.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-v</option
+> <option
+>--version</option
+></term>
+<listitem>
+<para
+>Llista la informació de la versió del &kpatience;.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--solvegame</option
+> <replaceable
+> fitxer</replaceable
+></term>
+<listitem>
+<para
+>Intenta trobar una solució de la partida desada que s'ha indicat.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--solve</option
+> <replaceable
+> núm.</replaceable
+></term>
+<listitem>
+<para
+>Negociador per a la solució (depurador).</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--start</option
+> <replaceable
+> núm.</replaceable
+></term>
+<listitem>
+<para
+>Inici de l'interval del joc (predeterminat 0:INT_MAX).</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--end</option
+> <replaceable
+> núm.</replaceable
+></term>
+<listitem>
+<para
+>Final de l'interval del joc (predeterminat inici:inici si se n'ha indicat).</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--gametype</option
+> <replaceable
+> joc</replaceable
+></term>
+<listitem>
+<para
+>Omet la pantalla de selecció i carrega un tipus de joc específic. Els valors vàlids són: acesup, fortyeight, freecell, golf, grandfather, grandfathersclock, gypsy, klondike, mod3, simplesimon, spider i yukon.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--testdir</option
+> <replaceable
+> directori</replaceable
+></term>
+<listitem>
+<para
+>Directori amb casos de prova.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--generate</option
+></term>
+<listitem
+><para
+>Genera casos aleatoris de prova.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--author</option
+></term>
+<listitem
+><para
+>Llista als autors del &kpatience; a la finestra de terminal.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--license</option
+></term>
+<listitem
+><para
+>Mostra la informació sobre la llicència.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--desktopfile</option
+> <replaceable
+>nom_fitxer</replaceable
+></term>
+<listitem
+><para
+>El nom del fitxer base de l'entrada de l'escriptori per a aquesta aplicació.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><replaceable
+>fitxer</replaceable
+></term>
+<listitem>
+<para
+>Fitxer a carregar.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</refsect1>
+
+<refsect1>
+<title
+>VEGEU TAMBÉ</title>
+<simplelist>
+<member
+>Hi ha disponible documentació d'usuari més detallada des de <ulink url="help:/kpat"
+>help:/kpat</ulink
+> (podeu emprar aquest &URL; al &konqueror; o bé executar <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/kpat</parameter
+></userinput
+>).</member>
+<member
+>kf5options(7)</member>
+<member
+>qt5options(7)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>AUTOR</title>
+
+<para
+>El &kpatience; ha estat creat per:</para>
+<simplelist type="vert">
+<member
+>Paul Olav Tvete</member>
+<member
+>Mario Weilguni <email
+>mweilguni@kde.org</email
+></member>
+<member
+>Matthias Ettrich <email
+>ettrich@kde.org</email
+></member>
+<member
+>Rodolfo Borges <email
+>barrett@labma.ufrj.br</email
+></member>
+<member
+>Peter H. Ruegg <email
+>kpat@incense.org</email
+></member>
+<member
+>Michael Koch <email
+>koch@kde.org</email
+></member>
+<member
+>Marcus Meissner <email
+>mm@caldera.de</email
+></member>
+<member
+>Shlomi Fish <email
+>shlomif@vipe.technion.ac.il</email
+></member>
+<member
+>Stephan Kulow <email
+>coolo@kde.org</email
+></member>
+</simplelist>
+</refsect1>
+</refentry>

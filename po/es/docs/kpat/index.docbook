@@ -1,0 +1,1453 @@
+<?xml version="1.0" ?>
+<!--IMPORTANT: please note that'do not change this!' notice does not apply to translators -->
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Spanish "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY % addindex "IGNORE"
+> <!-- do not change this! -->
+]>
+
+<book id="kpat" lang="&language;"
+> <!-- do not change this! -->
+<bookinfo>
+	<title
+>Manual de &kpatience;</title
+> <!-- This is the title of the docbook. Leave as is unless change is necessary.-->
+<!-- List of immidiate authors begins here. -->
+<!--INPORTANT! - All other contributors: [to be determined] -->
+<authorgroup>
+<author
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> </author>
+<author
+><firstname
+>Maren</firstname
+> <surname
+>Pakura</surname
+> </author>
+<author
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> </author>
+
+<othercredit role="reviewer"
+><firstname
+>Mike</firstname
+><surname
+>McBride</surname
+> <contrib
+>Revisor</contrib>
+<affiliation
+><address
+>&Mike.McBride.mail;</address
+></affiliation>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> <contrib
+>Desarrollador</contrib>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> <contrib
+>Desarrollador</contrib>
+</othercredit>
+
+<othercredit role="translator"
+> <firstname
+>Rocío</firstname
+> <surname
+>Gallego</surname
+> <affiliation
+><address
+><email
+>traducciones@rociogallego.com</email
+></address
+></affiliation
+> <contrib
+>Traductora</contrib
+> </othercredit
+><othercredit role="translator"
+><firstname
+>Rafael</firstname
+><surname
+>Osuna</surname
+><affiliation
+><address
+><email
+>rosuna@wol.es</email
+></address
+></affiliation
+><contrib
+>Traductor</contrib
+></othercredit
+><othercredit role="translator"
+><firstname
+>Santiago</firstname
+><surname
+>Fernández</surname
+><affiliation
+><address
+><email
+>santi@kde-es.org</email
+></address
+></affiliation
+><contrib
+>Traductor</contrib
+></othercredit
+><othercredit role="translator"
+><firstname
+>Kira</firstname
+><surname
+>J. Fernández</surname
+><affiliation
+><address
+> <email
+>kirajfdez@gmail.com</email
+></address
+></affiliation
+><contrib
+>Traductora</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Paul-Olav.Tvete;</holder>
+</copyright>
+
+<copyright>
+<year
+>2001</year
+><year
+>2004</year>
+<holder
+>&Maren.Pakura;</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year>
+<holder
+>&Stephan.Kulow;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2021-06-20</date>
+<releaseinfo
+>KDE Gear 21.04</releaseinfo>
+
+<!--Short description of this document. Do not change unless necessary!-->
+<abstract>
+	<para
+>Esta documentación describe el juego &kpatience; versión 21.04</para>
+</abstract>
+
+<!--List of relevan keywords-->
+<keywordset>
+	<keyword
+>KDE</keyword
+> <!-- do not change this! -->
+	<keyword
+>kdegames</keyword
+> <!-- do not change this! -->
+	<keyword
+>juego</keyword
+> <!-- do not change this! -->
+	<keyword
+>KPatience</keyword
+><!--Application name goes here-->
+<!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<keyword
+>carta</keyword>
+	<keyword
+>juego de cartas</keyword>
+	<keyword
+>jugar a las cartas</keyword>
+<!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+	<keyword
+>un jugador</keyword>
+<!--All other relevant keywords-->
+	<keyword
+>paciencia</keyword>
+	<keyword
+>solitario</keyword>
+</keywordset>
+</bookinfo>
+<!--Content begins here: -->
+<chapter id="introduction"
+><title
+>Introducción</title
+> <!-- do not change this! -->
+	<note
+><title
+>Tipo de juego:</title
+><para
+>Cartas</para
+></note
+><!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<note
+><title
+>Número de posibles jugadores:</title
+><para
+>Uno</para
+></note
+><!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+
+<!--Short game description starts here. 3-4 sentences (paragraphs)-->
+
+<para
+>Para jugar al solitario se necesita paciencia. Para los juegos sencillos, en los que el juego solo depende de cómo estén repartidas las cartas, la paciencia es lo único que necesita. </para>
+
+<para
+>Pero hay algunos solitarios en los que también necesitará planear su estrategia y pensar cómo seguir para ganar. </para>
+
+<para
+>Todos los juegos tienen en común que las cartas han de colocarse en un determinado orden, moviéndolas, girándolas y reordenándolas. </para>
+</chapter>
+
+<chapter id="howto"
+><title
+>Cómo jugar</title
+> <!-- do not change this! -->
+<!--IMPORTANT: If the game has no defined objective, please remove the below line.-->
+	<note
+><title
+>Objetivo:</title
+><para
+>Reorganice las cartas por palo con el menor número de movimientos posible.</para
+></note
+><!--Describe the objective of the game.-->
+<!--How to play description. Don't be to specific on rules as they have a separate section in this document-->
+	<para
+>Como &kpatience; ofrece múltiples juegos de solitario, no hay ningún manual que les venga bien a todos. Por ello, es esencial que lea cada apartado individual de la sección «Reglas del juego, estrategias y consejos» antes de comenzar a jugar con una modalidad con la que no esté familiarizado.</para>
+<para
+>Esencialmente hay dos tipos de solitarios: los que le permiten organizar las cartas por color y los que le permiten organizar las cartas por colores alternos. Puede determinar fácilmente qué juego está probando por el método de ensayo y error. Una vez sepa con cuál está tratando, el resto es fácil: continúe organizando y reorganizando las cartas y recogiendo las que coinciden.</para>
+<para
+>Desde el principio, sin embargo, debe prestar atención a su mazo de cartas. No se apresure en mover cartas individuales, mire si podrían ser más útiles en otro sitio.</para>
+<para
+>Para obtener más ayuda, puede echarle un vistazo  a la barra de estado. Para la mayoría de los juegos existe una utilidad que le informa de si el juego que está jugando actualmente puede completarse o no. Si el indicador dice que el juego no se puede terminar, es posible que usted no lo consiga. En este punto, puede reiniciar el juego o iniciar otro nuevo. </para>
+<note
+><title
+>Nota:</title
+><para
+>Jugar al solitario le ayuda a mejorar su atención y eleva la capacidad de concentración.</para
+></note>
+</chapter>
+
+<chapter id="rules_and_tips"
+><title
+>Reglas del juego, estrategias y consejos</title
+> <!-- do not change this! -->
+
+<sect1 id="rules-general">
+	<title
+>Reglas generales</title>
+	<para
+><indexterm
+><primary
+>palos</primary
+></indexterm
+>Un juego de cartas contiene una o más barajas de 52 cartas cada una. Cada baraja contiene cuatro palos:</para>
+	<informaltable pgwide="0" frame="none">
+		<tgroup cols="2"
+><colspec/><colspec/>
+	<tbody>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="clubs.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Tréboles</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="spades.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Picas</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="hearts.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Corazones</entry>
+		</row>
+			<row valign="middle"
+><entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="diamonds.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Diamantes</entry>
+		</row>
+	</tbody
+></tgroup>
+	</informaltable>
+	<para
+>Cada uno de estos palos contiene los siguientes tipos de cartas: as, dos, tres, cuatro, cinco, seis, siete, ocho, nueve, diez, jota, reina y rey.</para>
+	<para
+><indexterm
+><primary
+>familia</primary
+></indexterm
+> Este orden completo es lo que se llama familia. Hay familias reales y alternas. Las familias reales son todas del mismo palo (por ejemplo, corazones) mientras que en las familias alternas se cambia de un color a otro, alternando entre el negro (tréboles y picas) y el rojo (corazones y diamantes).</para>
+	<para
+>Si la familia no está completa, es lo que se llama una secuencia.</para>
+	<mediaobject>
+		<imageobject
+><imagedata fileref="playfield.png" format="PNG"/></imageobject>
+		<textobject
+><phrase
+>El campo de juego de &kpatience;</phrase
+></textobject>
+	</mediaobject>
+	<para
+>Solo hay unos pocos elementos diferentes en un típico juego de solitario. Son los que se detallan a continuación.</para>
+	<variablelist>
+		<varlistentry
+><term
+>1. Mazo</term>
+			<listitem
+><para
+><indexterm
+><primary
+>mazo</primary
+></indexterm
+>Al comienzo de cada juego se mezclan todas las cartas de la baraja. Pero no en todos los juegos se reparten todas las cartas, quedando algunas en la baraja. Estas cartas se colocan en el llamado mazo, que puede encontrar fácilmente en la mayor parte de los juegos: es el montón que muestra el reverso.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>2. Montón de descarte</term>
+			<listitem
+><para
+><indexterm
+><primary
+>montón de descarte</primary
+></indexterm
+>Muchos juegos usan una pila de descarga para contener las cartas tomadas del mazo. Típicamente, hacer click en el mazo hará que la carta de más arriba se dé la vuelta y se coloque en la pila de descarga, momento en el que la carta entra en el juego.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>3. Base</term>
+			<listitem
+><para
+><indexterm
+><primary
+>base</primary
+></indexterm
+>Las pilas finales son donde usted querrá que terminen sus cartas. Típicamente, el juego se gana una vez que todas las cartas se han movido a las pilas finales en el orden correcto. El número de pilas finales y el orden requerido varía de juego a juego.</para>
+                            <para
+>La mayoría de juegos empiezan con los montones finales vacíos. Elegir la opción <guimenuitem
+>Soltar</guimenuitem
+> del menú o la barra de herramientas hará que &kpatience; inspeccione todos los montones y mueva tantas cartas a los montones finales como pueda. Si tiene activada la opción <guimenuitem
+>Activar soltar de forma automática</guimenuitem
+>, &kpatience; intentará soltar las cartas siempre que sea posible.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>4. Montones de juego</term>
+			<listitem
+><para
+><indexterm
+><primary
+>montones de juego</primary
+></indexterm
+>Dichos montones son aquellos en los que ocurre la reordenación propiamente dicha. Las reglas para los montones varían de unos juegos a otros. Algunos muestran todas sus cartas en ellos, otros no. En algunos solo se puede mover una carta, en otros se puede mover todas, &etc;.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="rules-specific"
+><title
+>Reglas para juegos individuales</title>
+
+<sect2 id="klondike">
+<title
+>Klondike</title>
+
+<para
+><indexterm
+><primary
+>Klondike</primary
+></indexterm
+> Klondike es el solitario más famoso, probablemente porque la mayor parte de los sistemas operativos vienen con él. Se juega con una baraja. </para>
+
+<para
+>Para ganar al Klondike hay que colocar todas las cartas ordenadas en familias reales ascendentes en la base. Se suele resolver con facilidad tan pronto como todas las cartas estén boca arriba en los montones de juego. </para>
+
+<para
+>Las secuencias en los montones de juego son descendentes, debiéndose alternar los colores (rojo y negro). Puede mover secuencias enteras o partes de ellas que encajen en otro montón. </para>
+
+<para
+>En un montón vacío puede colocar un rey de cualquier color o una secuencia que comience con un rey. </para>
+
+<para
+>Cuando pulsa en el mazo, se mueve una carta desde este al montón de descarte. Podrá también mover las cartas del mazo a la base. Si el mazo se vacía puede mover el montón de descarte entero al mazo pulsando en el mazo vacío. </para>
+
+<para
+>Puede buscar por las cartas del mazo tantas veces como desee. </para>
+</sect2>
+
+<sect2 id="grandfather">
+<title
+>Abuelo</title>
+
+<para
+><indexterm
+><primary
+>Abuelo</primary
+></indexterm
+> Este juego se lo enseñó su abuelo a &Paul-Olav.Tvete;, el desarrollador original de &kpatience;, de ahí su nombre. No hay ningún otro compendio de solitarios que incluya este. </para>
+        
+<para
+>En el abuelo se reparte una baraja en siete montones de juego, estando una serie de cartas boca arriba en el reparto inicial. </para>
+
+<para
+>Para ganar deberán colocar todas las cartas como familias reales en la base. </para>
+
+<para
+>Puede mover cada carta de cada montón si puede construir una secuencia de un familia real descendente. Por ejemplo puede mover el cinco de picas para colocarlo sobre el seis de picas siempre que esté en la parte superior de su montón, no importa cuántas cartas haya sobre el cinco de picas si el seis de picas está en la parte superior de su montón. </para>
+
+<para
+>En un montón vacío se puede colocar un rey (sin importar cuántas cartas haya sobre él). </para>
+
+<para
+>Si no hay más movimientos posibles, puede repartir de nuevo las cartas. Un nuevo reparto consiste en tomar las cartas de los montones de juego (montón por montón, de izquierda a derecha) y repartirlas otra vez según el mismo patrón inicial (filas en zigzag de cartas boca abajo formando un pico, y después filas de izquierda a derecha de cartas boca arriba encima). Tenga en cuenta que las cartas <emphasis
+>no</emphasis
+> están barajadas y que las cartas en los mazos base se dejan sin tocar. Puede repartir de nuevo no más de dos veces en un solo juego. </para>
+
+<para
+>Aunque las reglas sean sencillas y permitan bastantes movimientos, el juego puede ser complicado de ganar, aunque siga siendo divertido. </para>
+</sect2>
+
+<sect2 id="aces-up">
+<title
+>Ases arriba</title>
+
+<para
+><indexterm
+><primary
+>Ases arriba</primary
+></indexterm
+> Este solitario tiene unas reglas muy sencillas, pero es difícil de ganar. Se juega con una baraja y para ganar hay que colocar los ases al lado de la base. Después debería tener un as en cada montón de juego de la izquierda. </para>
+
+<para
+>Cuando una carta sea del mismo palo que otra (por ejemplo, picas) y tenga un valor inferior a esta (por ejemplo, seis de picas y cuatro de picas) se podrá colocar en la base pulsando sobre ella. </para>
+
+<para
+>Si no puede mover más cartas a la base, puede colocar más cartas en los montones de juego, pulsando en el mazo. </para>
+
+<para
+>A un montón vacío puede mover otra carta de la parte superior de otro montón. Debería elegir mover a los montones vacíos un nueva carta que le permita mover posteriormente más cartas a la base. </para>
+
+<para
+>La característica de auto arrastre está desactivada para este solitario. </para>
+
+</sect2>
+
+<sect2 id="freecell">
+<title
+>Freecell</title>
+
+<para
+><indexterm
+><primary
+>Freecell</primary
+></indexterm
+> Freecell se juega con una baraja. Tiene cuatro celdas libres en la esquina superior izquierda. Al lado de los cuatro montones de la base y debajo hay ocho montones de juego. </para>
+
+<para
+>Para ganar el juego hay que colocar todas las cartas como familias reales ascendentes en la base. En el momento que sepa jugar bien a Freecell, podrá resolver el 99,9% de los casos aproximadamente, de las 32.000 veces repartidas solo ha habido una irresoluble (la 11.982, si quiere saberlo). </para>
+
+<para
+>En los montones de juego debe construir secuencias descendentes, en las que se alternen las cartas rojas y negras. En una celda libre puede colocar cualquier carta. </para>
+
+<para
+>Solo puede mover una carta para colocarla sobre un montón o en un celda libre. Las secuencias solo se puede mover si tienen suficientes huecos libres (celdas libres o montones de juego libres) para colocar las cartas dentro mientras mueve. </para>
+
+<para
+>El número máximo de cartas que puede mover se calcula de la siguiente forma: </para>
+
+<sidebar
+><para
+>(#{celdas libres} + 1) * 2<superscript
+>#{montones libres}</superscript
+> </para
+></sidebar>
+
+<para
+>Variantes:</para>
+<itemizedlist>
+  <listitem
+><para
+>«El juego de Baker» es similar a «Carta blanca», pero los montones se construyen hacia abajo por palo.</para
+></listitem>
+  <listitem
+><para
+>«Ocho fuera» es similar a «Carta blanca», pero los montones se construyen hacia abajo por palo. Tiene 8 reservas y solo los reyes pueden colocarse en los espacios vacíos. Cuatro reservas se rellenan al principio del juego.</para
+></listitem>
+  <listitem
+><para
+>«Forecell» es similar a «Carta blanca», pero las reservas se rellenan al principio de la partida, y solo los reyes pueden situarse en los espacios vacíos.</para
+></listitem>
+  <listitem
+><para
+>«Torres de Seahaven» es similar a «Carta blanca», pero con 10 montones que se construyen hacia abajo por palo, y solo los reyes pueden ocupar los espacios vacíos. Al principio del juego se rellenan dos reservas.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Para resolver este juego se recomienda guardar las cartas fuera de la secuencia de juego en el mismo orden en que habrán de ser colocadas en la base (primero los ases, luego los doses, &etc;). </para>
+
+<para
+>Debería conservar algunas celdas libres y/o montones de juego vacío, para poder construir secuencias tan largas como sea posible. </para>
+
+</sect2>
+
+<sect2 id="mod3">
+<title
+>Mod3</title>
+
+<para
+><indexterm
+><primary
+>Mod3</primary
+></indexterm
+> Mod-3 se juega con dos barajas. El objetivo es colocar todas las cartas en las tres filas de arriba. En estas tiene que construir secuencias del mismo color. En la primera fila debe crear la secuencia 2-5-8-J, en la segunda fila la secuencia 3-6-9-Q y en la tercera fila la secuencia 4-7-10-K. El palo de las cartas ha de ser el mismo en cada secuencia, por ello debe colocar un cinco de corazones solo encima de un dos de corazones. </para>
+
+<para
+>La cuarta fila es el montón de descarte y el montón de juego a la vez. En una celda vacía puede colocar cualquier carta de las primeras tres filas o una de la parte superior de la cuarta fila. </para>
+
+<para
+>Puede colocar los ases en el montón de los ases en la parte superior del mazo. Al entrar en el juego tendrá un punto de partida para crear celdas libres. </para>
+
+<para
+>En el momento en que no pueda mover más cartas, puede obtenerlas pulsando en el mazo. </para>
+
+<para
+>La característica de auto arrastre está desactivada para este solitario. </para>
+</sect2>
+
+<sect2 id="gypsy">
+<title
+>Gitano</title>
+
+<para
+><indexterm
+><primary
+>Gitano</primary
+></indexterm
+> Gitano se juega con dos barajas. Para ganar este juego habrá que colocar todas las cartas en forma de familias reales ascendentes en la base. </para>
+
+<para
+>Los montones de juego habrán de ser descendentes, alternándose cartas rojas y negras. Podrá mover secuencias o cartas individuales. En una celda libre podrá colocar cualquier carta o una secuencia. </para>
+
+<para
+>Si no puede mover más cartas, pulse en el mazo para conseguir un nuevo grupo de cartas en cada montón de juego. </para>
+
+<para
+>Al usar la característica <guibutton
+>Deshacer</guibutton
+> puede hacer el juego bastante más sencillo, ya que puede tomar algunas decisiones y deshacerlas si se equivoca al pulsar en el mazo. </para>
+
+</sect2>
+
+<sect2 id="forty-and-eight">
+<title
+>Cuarenta y ocho</title>
+
+<para
+><indexterm
+><primary
+>Cuarenta y ocho</primary
+></indexterm
+> Cuarenta y ocho se juega con dos barajas. Para ganar el juego deberá colocar todas las cartas como familias reales en la base. </para>
+
+<para
+>Los montones de juego deben ser descendentes, teniendo cuidado con los colores, es decir, solo podrá colocar un cinco de corazones sobre un seis de corazones. </para>
+
+<para
+>Solo podrá mover una carta a la parte superior del montón. En una celda libre podrá colocar cualquier carta. </para>
+
+<para
+>Al pulsar sobre el mazo podrá colocar una carta en el montón de descarte, desde el que podrá colocarlo en el montón de juego o en la base (esto lo hará &kpatience; por usted). Cuando el mazo esté vacío podrá colocar todas las cartas en el montón de descarte bajo el mazo. Esto solo funcionará una vez, la segunda vez que el mazo se vacíe, el juego terminará. </para>
+
+<para
+>Este solitario no es fácil de resolver, pero con algo de experiencia podrá resolver algunas partidas, especialmente si utiliza la característica <guibutton
+>Deshacer</guibutton
+> de vez en cuando para corregir sus decisiones y las decisiones de &kpatience; de colocar cartas en la base. </para>
+</sect2>
+
+<sect2 id="simple-simon">
+<title
+>Simón simple</title>
+
+<para
+><indexterm
+><primary
+>Simón simple</primary
+></indexterm
+> Simón simple se juega con una baraja. Para ganar el juego habrá de colocar todas las cartas como familias reales en la base. </para>
+
+<para
+>En los montones de juego podrá crear secuencias. En general no necesitará tener cuidado con los palos de las cartas, pero las secuencias solo se podrán mover si forman parte de una secuencia real (por ejemplo, podrá mover el seis de picas solo si sobre él hay un cinco de <emphasis
+>picas</emphasis
+> y no podrá moverlo si sobre él hay un cinco de <emphasis
+>tréboles</emphasis
+>). </para>
+
+<para
+>Las cartas solo se podrán mover a la base si las 13 cartas de una familia están en la parte superior de uno de los montones de juego. </para>
+
+<tip>
+<title
+>Sugerencia</title>
+<para
+>Debería intentar, tan pronto como sea posible, mover las cartas de los montones de la derecha para conseguir huecos libres en los que colocar temporalmente cartas, pudiendo colocar cualquier carta. </para>
+
+<para
+>Con los suficientes huecos libres puede construir familias en las celdas libres con independencia del color. Si tiene todas las cartas como familias puede ordenarlas por su color para que puedan ser movidas a la base. </para>
+</tip>
+
+</sect2>
+
+<sect2 id="yukon">
+<title
+>Yukon</title>
+
+<para
+><indexterm
+><primary
+>Yukon</primary
+></indexterm
+> Yukon se juega con una baraja. Para ganar el juego deberá colocar todas las cartas como familias reales ascendentes en la base. </para>
+
+<para
+>Las secuencias en los montones de juego habrán de ser descendentes, con alternancia de cartas rojas y negras. Podrá mover cualquier carta que esté boca arriba sin importar cuántas cartas haya sobre ellas. Por ello, podrá colocar un cinco de corazones sobre un seis de picas siempre que esté en la parte superior de su montón. </para>
+
+<para
+>En una celda libre podrá colocar un rey de cualquier color (sin importar cuántas cartas haya sobre él) </para>
+</sect2>
+
+<sect2 id="grandfathers-clock">
+<title
+>El reloj del abuelo</title>
+
+<para
+><indexterm
+><primary
+>El reloj del abuelo</primary
+></indexterm
+> El reloj del abuelo es un sencillo juego de solitario. Con algo de experiencia debería ser capaz de resolver la mayor parte de las partidas. Se juega con una baraja, y para ganar el juego deberá colocar cartas en la base como secuencias ascendentes. </para>
+
+<para
+>La base está en la parte derecha y está formada por 12 montones que forman un reloj. El nueve está a las 12 en punto, la reina está a las 3 en punto, el tres está a las 6 en punto y el seis está a las 9 en punto. </para>
+
+<para
+>Hay 8 montones de juego al lado del reloj y en cada uno de ellos 5 cartas. En los montones de juego puede construir secuencias descendentes sin tener cuidado del color de las cartas. Solo podrá mover una carta cada vez. </para>
+
+</sect2>
+
+<sect2 id="golf">
+<title
+>Golf</title>
+
+<para
+><indexterm
+><primary
+>Golf</primary
+></indexterm
+> Golf se juega con una baraja de cartas. Para ganar el juego habrá de colocar todas las cartas del cuadro en la base.</para>
+ 
+<para
+>La distribución del solitario golf es muy sencilla. Al inicio del juego podrá ver un cuadro con siete columnas, cada una de las cuales contendrá cinco cartas. Bajo estas se encontrará el mazo y la base. </para>
+
+<para
+>Jugar al solitario golf es sencillo, pero se precisa de una estrategia para ganar. Las cartas con las que se puede jugar están en la base de cada columna. Las cartas disponibles son las situadas en la parte superior de la base en secuencia ascendente o descendente sin tener en cuenta el palo. Si no existieran movimientos posibles se podrá repartir una carta desde el mazo a la base. La partida termina cuando se han repartido todas las cartas del mazo y no existen más movimientos posibles.</para>
+
+</sect2>
+
+<sect2 id="spider">
+<title
+>Spider</title>
+
+<para
+><indexterm
+><primary
+>Spider</primary
+></indexterm
+> Spider se juega con dos barajas. Las cartas se reparten en 10 montones, 4 de 6 y 6 de 5 cartas. Esto deja 50 cartas que podrán ser repartidas de 10 en 10, una en cada montón de juego. </para>
+
+<para
+>En los montones de juego, una carta podrá colocarse sobre otra de cualquier palo siempre que tenga mayor valor. Una secuencia ascendente de cartas del mismo palo puede ser movida de un montón de juego a otro. </para>
+
+<para
+>Para ganar al spider deberá colocar todas las cartas como familias reales descendentes desde los reyes en cualquiera de los montones de juego. Cuando se construye una familia en uno de los montones de juego, se quitará de la parte inferior izquierda de la ventana. </para>
+
+<para
+>Los diferentes niveles determinan cuántos palos se reparten - fácil utiliza 1 palo, medio utiliza 2 palos, difícil utiliza 4 palos. El juego fácil es sencillo de ganar, pero el difícil es muy complicado. </para>
+
+</sect2>
+
+<sect2 id="bakers-dozen">
+<title
+>Docena del panadero</title>
+
+<para
+><indexterm
+><primary
+>Docena del panadero</primary
+></indexterm
+> La «Docena del panadero» se juega con una baraja de cartas. El nombre del juego proviene de las 13 columnas que hay en el juego, el número de una «docena del panadero». Las cartas se reparten en columnas de cuatro en el cuadro, lo que da como resultado 13 columnas. Cualquier rey que esté en la parte superior o en el centro de cada columna debe colocarse en la parte inferior antes de que comience el juego. Dos reyes que se mezclan en una columna se colocan en la parte inferior sin cambiar su orden. </para>
+
+<para
+>El objeto del juego consiste en construir todas las cartas de las cuatro bases por palo, desde el as hasta el rey. </para>
+
+<para
+>En los montones de juego se deben construir secuencias descendentes, independientemente del palo. Solo se puede mover la carta que está encima de un montón. </para>
+
+<para
+>Variantes:</para>
+<itemizedlist>
+  <listitem
+><para
+>En el «Solitario español», cualquier carta puede llenar espacios vacíos del cuadro (en algunas fuentes, las bases se construyen sin tener en cuenta el palo).</para
+></listitem>
+  <listitem
+><para
+>«Castillos de España» es parecido al «Solitario español», pero las cartas del cuadro se construyen hacia abajo por colores alternativos. En algunas variantes, el cuadro se reparte bocabajo, aparte de las cartas superiores de cada columna.</para
+></listitem>
+  <listitem
+><para
+>El «Solitario portugués» está a mitad de camino de la «Docena del panadero» y del «Solitario español», ya que las columnas vacías solo se pueden rellenar con reyes.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Para resolver este juego se recomienda guardar las cartas fuera de la secuencia de juego en el mismo orden en que habrán de ser colocadas en la base (primero los ases, luego los doses, etc.). Típicamente, deseará evitar que se vacíe una columna hasta que la última carta esté lista para moverse a una base. </para>
+
+</sect2>
+
+<sect2 id="castle">
+<title
+>Castillo</title>
+
+<para
+><indexterm
+><primary
+>Castillo</primary
+></indexterm
+> «Castillo» es una familia de juegos de cartas de paciencia o solitario que se suele jugar con una baraja de 52 cartas. A veces se describe como «Celda libre sin celdas» porque su juego es similar, pero sin espacios vacíos adicionales para maniobrar en la mayoría de las variantes. </para>
+
+<para
+>El objeto del juego consiste en construir todas las cartas de las cuatro bases por palo, desde el as hasta el rey. </para>
+
+<para
+>En los montones de juego se deben construir secuencias descendentes, independientemente del palo. Solo se puede mover la carta que está encima de un montón. </para>
+
+<para
+>Variantes:</para>
+<itemizedlist>
+  <listitem
+><para
+>«Castillo asediado». Los ases se reparten a las bases. Cualquier carta puede llenar los espacios vacíos.</para
+></listitem>
+  <listitem
+><para
+>«Ciudadela» es como «Castillo asediado», pero las cartas iguales se mueven a la base durante el reparto, dejando montones desiguales.</para
+></listitem>
+  <listitem
+><para
+>«Reyes exiliados» es como «Ciudadela», pero solo los reyes pueden ocupar los espacios vacíos.</para
+></listitem>
+  <listitem
+><para
+>«Asedio» es como «Castillo asediado», pero con una celda libre.</para
+></listitem>
+  <listitem
+><para
+>«Calles y callejones» es como «Castillo asediado», pero los ases se incluyen al barajar.</para
+></listitem>
+  <listitem
+><para
+>«Fortaleza» es como «Calles y callejones», pero con una celda libre.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Para resolver este juego se recomienda construir uniformemente sobre las bases. Intente crear montones vacíos que se puedan usar para facilitar movimientos más largos para liberar cartas enterradas. </para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="interface"
+><title
+>Visión general de la interfaz</title
+> <!-- do not change this! -->
+<!-- This section has to do with menubar. Describe every single entry in order. Use <variablelist
+> and <varlistentry
+>. Split the chapter into sections using <sect1(2,3)
+> for better viewing.-->
+<sect1 id="game-menu">
+	<title
+>El menú Juego</title>
+		<variablelist>
+			<varlistentry id="game-menu-new-game">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>N</keycap
+> </keycombo
+></shortcut
+> <guimenu
+>Juego</guimenu
+> <guimenuitem
+>Juego nuevo...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Regresa a la pantalla de selección de juego.</action
+> Esta acción abandona la partida en curso.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-deal">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Juego</guimenu
+><guimenuitem
+>Nueva partida</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Inicia una nueva partida del mismo tipo de juego.</action
+> Esta acción abandona la partida en curso.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-numbered-deal">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Juego</guimenu
+><guimenuitem
+>Nueva partida numerada...</guimenuitem
+> </menuchoice
+></term>
+				<listitem>
+					<para
+><action
+>Inicia una nueva partida especificando el tipo de juego y el número de partida.</action
+> Esta acción abandona la partida en curso.</para>
+					<para
+>&kpatience; le da a cada partida un número de identificación único (que utiliza internamente para barajar el mazo durante el reparto inicial). Esta funcionalidad le permite jugar de nuevo una partida interesante o intentar una particularmente difícil recomendada por un amigo. Los jugadores especialmente dedicados pueden desear «derrotar» a &kpatience; jugando todas las 2.147.483.647 partidas consecutivamente para cada uno de los tipos de juego.</para>
+					<para
+>Tenga en cuenta que, para Freecell, los números de partida de &kpatience; coinciden con los que se describen en <ulink url="http://www.solitairelaboratory.com/fcfaq.html"
+>las preguntas frecuentes de Freecell </ulink
+>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-restart-deal">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F5</keycap
+></shortcut
+> <guimenu
+>Juego</guimenu
+> <guimenuitem
+>Reiniciar partida</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Devuelve el juego actual a su situación inicial.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Juego</guimenu
+> <guimenuitem
+>Cargar...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Cargar un juego guardado.</action
+> Esta acción abandona la partida en curso.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load-recent">
+				<term
+><menuchoice
+><guimenu
+>Juego</guimenu
+> <guisubmenu
+>Load Recent</guisubmenu
+> <guimenuitem
+><replaceable
+>Lista de archivos recientes</replaceable
+></guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Lista los archivos de partidas guardadas recientes en orden de uso.</action
+> Seleccionar un juego hará que este se cargue. Esta acción abandona la partida en curso.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-save">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Juego</guimenu
+><guimenuitem
+>Guardar como...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Guardar el juego actual en disco.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-statistics">
+				<term
+><menuchoice
+><guimenu
+>Juego</guimenu
+> <guimenuitem
+>Estadísticas</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Mostrar varias estadísticas sobre su rendimiento, clasificadas según el tipo de juego.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-quit">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Juego</guimenu
+> <guimenuitem
+>Salir</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Sale</action
+> de &kpatience;.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="move-menu">
+	<title
+>El menú Mover</title>
+		<variablelist>
+			<varlistentry id="move-menu-undo">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Mover</guimenu
+> <guimenuitem
+>Deshacer</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Deshace</action
+> su último movimiento.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-redo">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>Z</keycap
+> </keycombo
+></shortcut
+> <guimenu
+>Mover</guimenu
+> <guimenuitem
+> Rehacer</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Rehacer</action
+> el movimiento que se acaba de deshacer mediante <guimenuitem
+>Deshacer</guimenuitem
+>.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-hint">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>H</keycap
+></shortcut
+> <guimenu
+>Mover</guimenu
+> <guimenuitem
+>Pista</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Proporciona algunas pistas para posibles movimientos en el caso de que el jugador se quede atascado. Las cartas que se pueden mover legalmente  a otra pila se resaltan de forma temporal.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-demo">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>D</keycap
+></shortcut
+> <guimenu
+>Mover</guimenu
+> <guimenuitem
+>Demostración</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Iniciar el modo demostración.</action
+> Mientras esté en modo demostración, &kpatience; intentará resolver la partida por usted. Active esta opción una segunda vez para salir del modo demostración.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-draw">
+				<term
+><menuchoice
+><shortcut
+>&Space;</shortcut
+><guimenu
+>Mover </guimenu
+> <guimenuitem
+>Sacar</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Dele la vuelta a una carta del mazo y muévala a la pila de descarga.</action
+> Esta acción solo está disponible para algunos juegos.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-deal-row">
+				<term
+><menuchoice
+><shortcut
+>&Enter;</shortcut
+> <guimenu
+>Mover</guimenu
+> <guimenuitem
+>Repartir fila</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Darle la vuelta a varias cartas del mazo y colocar una en cada pila de descarga.</action
+> Esta acción solo está disponible para ciertos juegos.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-redeal">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>R</keycap
+></shortcut
+> <guimenu
+>Mover</guimenu
+> <guimenuitem
+>Repartir de nuevo</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Recoger todas las cartas que quedan en el juego y repartirlas sin barajar.</action
+> Esta acción solo está disponible en algunos juegos.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="settings-help-menu">
+	<title
+>Los menús Preferencias y Ayuda</title>
+<para
+>Además de los menús Preferencias y Ayuda comunes de &kde; que se describen en el capítulo <ulink url="help:/fundamentals/menus.html"
+>Menú</ulink
+> de los «Fundamentos de &kde;», &kpatience; tiene las siguientes entradas específicas de la aplicación: </para>
+		<variablelist>
+			<varlistentry id="settings-menu-game-type-options">
+				<term
+><menuchoice
+><guimenu
+>Preferencias</guimenu
+> <guisubmenu
+><replaceable
+>Opciones del tipo de juego</replaceable
+></guisubmenu
+> <guimenuitem
+><replaceable
+>Lista de las opciones propias del tipo de juego</replaceable
+></guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Da una lista de las opciones específicas para el tipo de juego actual.</action
+> Este menú solo está disponible para ciertos juegos (Klondike y Spider).</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-stack-options">
+				<term
+><menuchoice
+><guimenu
+>Preferencias</guimenu
+> <guisubmenu
+>Opciones de la pila</guisubmenu
+> <guimenuitem
+>Boca abajo (más difícil) / Boca arriba (más fácil) </guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Le permite escoger si las cartas se muestran boca arriba.</action
+> Este menú solo está disponible en el modo Spider.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-deck">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F10</keycap
+></shortcut
+> <guimenu
+>Preferencias</guimenu
+> <guimenuitem
+>Cambiar apariencia...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Abre un diálogo para cambiar la baraja de cartas y el tema del juego utilizados.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-autodrop">
+				<term
+><menuchoice
+><guimenu
+>Preferencias</guimenu
+> <guimenuitem
+>Activar autosoltar</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Habilitar mover automáticamente las cartas a las pilas finales cuando sea posible.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-solver">
+				<term
+><menuchoice
+><guimenu
+>Preferencias</guimenu
+> <guimenuitem
+>Habilitar resolutor</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Habilitar el motor de resolución automática.</action
+> Cuando está habilitado, el motor de resolución intentará determinar constantemente si el juego actual se puede ganar. Puede querer deshabilitar el motor para reducir el uso del procesador o la batería.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-playsounds">
+				<term
+><menuchoice
+><guimenu
+>Preferencias</guimenu
+> <guimenuitem
+>Reproducir sonidos</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Los sonidos se reproducen cuando coge o coloca cartas.</action
+> Se esperan más sonidos en el futuro.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-remember">
+				<term
+><menuchoice
+><guimenu
+>Preferencias</guimenu
+> <guimenuitem
+>Recordar estado al salir</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Habilitar el guardado automático del juego cuando se cierra &kpatience;</action
+> Si está habilitado, &kpatience; cargará el juego anterior automáticamente la próxima vez que se inicie.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="help-menu-remember">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>F1</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Ayuda</guimenu
+> <guimenuitem
+>Ayuda para el juego actual</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Abre la sección de este manual que contiene las reglas del juego actual.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="faq"
+><title
+>Preguntas frecuentes</title
+> <!-- do not change this! -->
+<!--This chapter is for frequently asked questions. Please use <qandaset
+> <qandaentry
+> only!-->
+<qandaset>
+<!--Following is a standard list of FAQ questions.-->
+<qandaentry>
+ <question
+><para
+>Deseo cambiar el aspecto del juego ¿puedo? </para
+></question>
+ <answer
+><para
+>Puede cambiar el anverso y el reverso de las cartas. Para hacerlo seleccione <menuchoice
+> <shortcut
+><keycap
+>F10</keycap
+></shortcut
+> <guimenu
+>Preferencias</guimenu
+> <guimenuitem
+>Cambiar apariencia...</guimenuitem
+> </menuchoice
+> en la barra de menús.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>¿Puedo utilizar el teclado para jugar a este juego?</para
+></question>
+ <answer
+><para
+>No. &kpatience; no dispone de una función de uso exclusivo del teclado. Sin embargo, la mayoría de las opciones de menú tienen atajos de teclado.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Incluso con las pistas no tengo idea de cómo jugar ¡Ayuda!</para
+></question>
+ <answer
+><para
+>Junto a la funcionalidad «Pista» existe un práctico modo de «Demostración», en el que la inteligencia artificial jugará por usted. Puede observar y aprender. No obstante, si tiene cualquier pregunta es mejor que lea las secciones <link linkend="howto"
+>Cómo jugar</link
+> y <link linkend="rules_and_tips"
+>Reglas del juego, estrategias y consejos</link
+> de este manual.</para
+></answer>
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits"
+><title
+>Créditos y licencia</title
+> <!-- do not change this! -->
+<!--This chapter is for credits and licenses.-->
+
+<para
+>&kpatience; </para>
+<!--List all the copyright holders here-->
+<para
+>Derechos de autor de &kpatience;. &copy; 1995-2000. &Paul-Olav.Tvete;. </para>
+
+<para
+>Derechos de autor de &kpatience;. &copy; 2001. &Stephan.Kulow; &Stephan.Kulow.mail;. </para>
+
+<para
+>Solitario Freecell por Shlomi Fish <email
+>shlomif@vipe.technion.ac.il</email
+>. </para>
+
+<para
+>Derechos de autor de la documentación. &copy; 2000. &Paul-Olav.Tvete;. </para>
+
+<para
+>Documentación actualizada para &kde; 2.0 por &Mike.McBride; &Mike.McBride.mail;. </para>
+
+<para
+>Documentación rescrita para &kpatience; 2.0 (&kde; 2.1) por &Maren.Pakura; &Maren.Pakura.mail;. </para>
+
+<para
+>Documentación corregida y actualizada para &kpatience; 3.6 por &Richard.Hawthorne; &Richard.Hawthorne.mail;. </para>
+
+<para
+>Traducido por Rocío Gallego <email
+>traducciones@rociogallego.com</email
+>, Rafael Osuna <email
+>rosuna@wol.es</email
+>.</para
+><para
+>Santiago Fernández <email
+>santi@kde-es.org</email
+> y Kira J. Fernández <email
+>kirajfdez@gmail.com</email
+>.</para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index; 
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-omittag:t
+sgml-shorttag:t
+sgml-namecase-general:t
+sgml-always-quote-attributes:t
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->

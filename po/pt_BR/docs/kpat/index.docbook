@@ -1,0 +1,1298 @@
+<?xml version="1.0" ?>
+<!--IMPORTANT: please note that'do not change this!' notice does not apply to translators -->
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Brazilian-Portuguese "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY % addindex "IGNORE"
+> <!-- do not change this! -->
+]>
+
+<book id="kpat" lang="&language;"
+> <!-- do not change this! -->
+<bookinfo>
+	<title
+>Manual do &kpatience;</title
+> <!-- This is the title of the docbook. Leave as is unless change is necessary.-->
+<!-- List of immidiate authors begins here. -->
+<!--INPORTANT! - All other contributors: [to be determined] -->
+<authorgroup>
+<author
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> </author>
+<author
+><firstname
+>Maren</firstname
+> <surname
+>Pakura</surname
+> </author>
+<author
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> </author>
+
+<othercredit role="reviewer"
+><firstname
+>Mike</firstname
+><surname
+>McBride</surname
+> <contrib
+>Revisor</contrib>
+<affiliation
+><address
+>&Mike.McBride.mail;</address
+></affiliation>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> <contrib
+>Desenvolvedor</contrib>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> <contrib
+>Desenvolvedor</contrib>
+</othercredit>
+
+<othercredit role="translator"
+><firstname
+>Marcus</firstname
+><surname
+>Gama</surname
+><affiliation
+><address
+><email
+>marcus.gama@gmail.com</email
+></address
+></affiliation
+><contrib
+>Tradução</contrib
+></othercredit
+><othercredit role="translator"
+><firstname
+>Stephen</firstname
+><surname
+>Killing</surname
+><affiliation
+><address
+><email
+>stephen.killing@kdemail.net</email
+></address
+></affiliation
+><contrib
+>Revisão</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Paul-Olav.Tvete;</holder>
+</copyright>
+
+<copyright>
+<year
+>2001</year
+><year
+>2004</year>
+<holder
+>&Maren.Pakura;</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year>
+<holder
+>&Stephan.Kulow;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>11/05/2016</date>
+<releaseinfo
+>3.6 (Applications 16.04)</releaseinfo>
+
+<!--Short description of this document. Do not change unless necessary!-->
+<abstract>
+	<para
+>Esta documentação descreve o jogo &kpatience; versão 3.6</para>
+</abstract>
+
+<!--List of relevan keywords-->
+<keywordset>
+	<keyword
+>KDE</keyword
+> <!-- do not change this! -->
+	<keyword
+>kdegames</keyword
+> <!-- do not change this! -->
+	<keyword
+>jogo</keyword
+> <!-- do not change this! -->
+	<keyword
+>KPatience</keyword
+><!--Application name goes here-->
+<!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<keyword
+>carta</keyword>
+	<keyword
+>Jogo de cartas</keyword>
+	<keyword
+>jogo de cartas</keyword>
+<!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+	<keyword
+>um jogador</keyword>
+<!--All other relevant keywords-->
+	<keyword
+>paciência</keyword>
+	<keyword
+>solitário</keyword>
+</keywordset>
+</bookinfo>
+<!--Content begins here: -->
+<chapter id="introduction"
+><title
+>Introdução</title
+> <!-- do not change this! -->
+	<note
+><title
+>Tipo de jogo:</title
+><para
+>Carta</para
+></note
+><!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<note
+><title
+>Número de possíveis jogadores:</title
+><para
+>Um</para
+></note
+><!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+
+<!--Short game description starts here. 3-4 sentences (paragraphs)-->
+
+<para
+>Para jogar a paciência, você precisa, como o nome sugere, de paciência. Para os jogos simples, onde a forma como o jogo decorre depende apenas de como as cartas vão caindo, a sua paciência é mesmo a única coisa de que precisa. </para>
+
+<para
+>Mas existem também jogos de paciência onde é preciso planejar a sua estratégia e raciocinar antecipadamente para ganhar. </para>
+
+<para
+>Todos os jogos têm em comum a necessidade do jogador colocar as cartas numa determinada ordem &mdash; enquanto as move, vira e reordena. </para>
+</chapter>
+
+<chapter id="howto"
+><title
+>Como jogar</title
+> <!-- do not change this! -->
+<!--IMPORTANT: If the game has no defined objective, please remove the below line.-->
+	<note
+><title
+>Objetivo:</title
+><para
+>Reorganizar as cartas por naipe no menor número de jogadas possível.</para
+></note
+><!--Describe the objective of the game.-->
+<!--How to play description. Don't be to specific on rules as they have a separate section in this document-->
+	<para
+>Como o &kpatience; lhe oferece uma variedade de jogos de paciência diferentes, não existe um manual intuitivo que os possa incluir todos eles. Como tal, é essencial que leia cada subseção individual das Regras, Estratégias e Dicas do Jogo antes de começar a jogar uma versão com a qual não esteja familiarizado.</para>
+<para
+>Essencialmente, existem dois tipos de jogos de Paciência - os que lhe permitem organizar as cartas pela mesma cor e os que permitem por cores alternadas. Você poderá determinar facilmente qual o jogo que está experimentando pelo método de tentativa-e-erro. Logo que saiba o tipo de jogo, o resto é simples; continue a organizar e reorganizar as cartas, recolhendo as correspondentes.</para>
+<para
+>Desde o início, todavia, preste atenção às suas pilhas de cartas. Não se apresse a mover as cartas individuais. Verifique se tudo poderá ser útil em outro local.</para>
+<para
+>Para alguma ajuda adicional, você poderá também tirar algumas dicas rápidas na barra de estado. Cada jogo possui um módulo de resolução que o informa se o jogo em curso atualmente pode terminar ou não. Se você observar que a resolução não consegue terminar o jogo atual, as chances serão que você também não irá conseguir. Nesse momento, você pode pensar em reiniciar o jogo atual ou começar um completamente novo. </para>
+<note
+><title
+>Nota:</title
+><para
+>A prática de jogos de Paciência ajuda-o a melhorar bastante a sua atenção e a melhorar a capacidade de se concentrar.</para
+></note>
+</chapter>
+
+<chapter id="rules_and_tips"
+><title
+>Regras do jogo, estratégias e dicas</title
+> <!-- do not change this! -->
+
+<sect1 id="rules-general">
+	<title
+>Regras gerais</title>
+	<para
+><indexterm
+><primary
+>naipes</primary
+></indexterm
+>Um jogo de cartas contém um ou dois baralhos de 52 cartas cada um. Cada baralho contém os quatro naipes:</para>
+	<informaltable pgwide="0" frame="none">
+		<tgroup cols="2"
+><colspec/><colspec/>
+	<tbody>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="clubs.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Paus</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="spades.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Espadas</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="hearts.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Copas</entry>
+		</row>
+			<row valign="middle"
+><entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="diamonds.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Ouros</entry>
+		</row>
+	</tbody
+></tgroup>
+	</informaltable>
+	<para
+>Cada um destes naipes contém por sua vez os seguintes tipos de cartas: ás, dois, três, quatro, cinco, seis, sete, oito, nove, dez, valete, dama e rei.</para>
+	<para
+><indexterm
+><primary
+>família</primary
+></indexterm
+> Esta ordem completa das cartas é chamada de família. Existem famílias reais e famílias alternadas. As famílias reais são todas as de um naipe (&eg; Copas), enquanto que as famílias alternadas são compostas por cartas com cores alternadas - entre uma cor preta (Paus e Espadas) e uma vermelha (Copas e Ouros).</para>
+	<para
+>Se a família não estiver completa, chama-se uma sequência.</para>
+	<mediaobject>
+		<imageobject
+><imagedata fileref="playfield.png" format="PNG"/></imageobject>
+		<textobject
+><phrase
+>O tabuleiro de jogo do &kpatience;</phrase
+></textobject>
+	</mediaobject>
+	<para
+>Existem algumas características diferentes encontradas nos jogos típicos da paciência. Estas serão descritas a seguir.</para>
+	<variablelist>
+		<varlistentry
+><term
+>1. Talão</term>
+			<listitem
+><para
+><indexterm
+><primary
+>talão</primary
+></indexterm
+>No início de cada jogo, todas as cartas do baralho são devidamente embaralhadas. Em alguns jogos, nem todas as cartas são dadas ao jogador. As cartas restantes são colocadas no talão (também chamado de pilha). Você poderá encontrá-lo facilmente, uma vez que, na maioria dos jogos, é a única pilha que tem as faces das cartas voltadas para baixo.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>2. Pilha do lixo</term>
+			<listitem
+><para
+><indexterm
+><primary
+>pilha do lixo</primary
+></indexterm
+>Muitos jogos usam uma pilha de lixo para manter as cartas que saíram do talão. Tipicamente, se clicar no talão, fará com que a carta do topo fique de face para cima e colocada na pilha do lixo, sendo que a partir desse momento a carta entra em jogo.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>3. Fundação</term>
+			<listitem
+><para
+><indexterm
+><primary
+>fundação</primary
+></indexterm
+>As pilhas de fundação são para onde você deseja que as cartas vão no fim do jogo. Tipicamente, o jogo termina uma vez que todas as cartas tenham sido movidas para as pilhas de fundação na ordem correta. O número de pilhas de fundação e a ordem exigida varia de jogo para jogo.</para>
+                            <para
+>A maioria dos jogos começam com as pilhas da fundação vazias. Se escolher a ação <guimenuitem
+>Arrastar</guimenuitem
+> do menu ou barra de ferramentas, fará com que o &kpatience; percorra todas as pilhas e mova tantas cartas para as pilhas da fundação quantas possíveis. Se tiver a opção <guimenuitem
+>Ativar arrasto automático</guimenuitem
+> ativada, o &kpatience; irá tentar arrastar as cartas sempre que possível.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>5. Pilhas de jogo</term>
+			<listitem
+><para
+><indexterm
+><primary
+>pilhas de jogo</primary
+></indexterm
+>Estas são as pilhas onde a reordenação propriamente dita acontece. As regras para essas pilhas variam muito entre os jogos. Algumas mostram todas as cartas nas mesmas, enquanto que outras não. Algumas só permitem que uma carta seja removida, outras permitem que quaisquer cartas possam ser removidas, &etc;</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="rules-specific"
+><title
+>Regras dos Jogos Individuais</title>
+
+<sect2 id="klondike">
+<title
+>Klondike</title>
+
+<para
+><indexterm
+><primary
+>Klondike</primary
+></indexterm
+> O Klondike é o jogo mais famoso da paciência &mdash; muito provavelmente porque existe um sistema operacional muito usado que vem com ele. É jogado com um baralho. </para>
+
+<para
+>O objetivo do Klondike é colocar todas as cartas como famílias reais por ordem ascendente na fundação. Isto funciona normalmente muito bem à medida que as cartas vão ficando com a face para cima nas pilhas de jogo. </para>
+
+<para
+>As sequências nas pilhas de jogo têm de ser postas lá por ordem descendente, e as cartas deverão alternar em termos de cores (vermelha e preta). Você poderá mover as sequências completas ou partes delas se a primeira carta se ajustar noutra pilha. </para>
+
+<para
+>Numa pilha livre, o jogador poderá pôr um rei de qualquer cor ou uma sequência que comece por um rei. </para>
+
+<para
+>Quando você clicar no talão, será movida uma carta para a pilha do lixo, a partir da qual você poderá movê-la para as pilhas de jogo ou para a fundação. Se o talão estiver vazio, você poderá mover a pilha do lixo completa no talão se clicar no talão vazio. </para>
+
+<para
+>Você poderá procurar as cartas no talão tantas vezes quantas desejar. </para>
+</sect2>
+
+<sect2 id="grandfather">
+<title
+>Vovô</title>
+
+<para
+><indexterm
+><primary
+>Vovô</primary
+></indexterm
+> Este jogo foi apresentado ao &Paul-Olav.Tvete; pelo seu vovô, daí o nome deste jogo. Não existe nenhum jogo conhecido de paciência que implementem estas regras de jogo. </para>
+        
+<para
+>O Vovô distribui um baralho para sete pilhas de jogo, onde algumas das cartas da pilha estão viradas para baixo no início. </para>
+
+<para
+>O objetivo é colocar todas as cartas como famílias reais, por ordem ascendente, nas fundações. </para>
+
+<para
+>Você poderá mover qualquer carta de qualquer pilha se ela se adequar a outra carta para formar uma sequência real numa ordem descendente. Por exemplo, você pode mover o cinco de espadas para cima do seis de espadas, independentemente de quantas cartas estejam no topo do cinco de espadas. Só o seis de espadas é que pode estar no topo dessa pilha. </para>
+
+<para
+>Numa pilha livre, você pode colocar um rei (mais uma vez, não interessa quantas cartas estão por cima dela). </para>
+
+<para
+>Se não existirem mais movimentos possíveis, você pode redistribuir as cartas. Uma redistribuição consiste em pegar as cartas das pilhas em jogo (pilha por pilha, da esquerda para a direita) e redistribuí-las no padrão inicial (ziguezagueando linhas cartas com a face para baixo formando um bolo e então deixando as linhas à direita com as cartas do topo com a face para cima). Observe que as cartas <emphasis
+>não</emphasis
+> são embaralhadas e que as cartas nas pilhas da fundação não são tocadas. Você pode redistribuir não mais de duas vezes num jogo simples. </para>
+
+<para
+>Ainda que as regras sejam simples e permitam ainda algumas jogadas, o jogo é ainda difícil de ganhar, embora seja ainda divertido de jogar (ou devido a isso). </para>
+</sect2>
+
+<sect2 id="aces-up">
+<title
+>Aces Up</title>
+
+<para
+><indexterm
+><primary
+>Aces Up</primary
+></indexterm
+> Esta paciência tem regras muito simples, mas é ainda difícil de ganhar. É jogado com um baralho e o objetivo é pôr todas as cartas ao lado dos ases na fundação. Depois disso, deverá existir um ás em cada pilha de jogo restante. </para>
+
+<para
+>Cada carta de topo do mesmo naipe (&eg; espadas) e que tenha um valor mais baixo que outra carta de topo (&eg; o seis de espadas e o quatro de espadas) podem ser colocados na fundação se clicar nela. </para>
+
+<para
+>Se você não conseguir mover mais cartas para a fundação, você poderá obter uma nova carta para cada pilha de jogo se clicar no talão. </para>
+
+<para
+>Numa pilha livre, você poderá mover as outras cartas para o topo da pilha. O jogador deverá escolher estes movimentos para libertar as pilhas, de forma a que as novas cartas possam ser movidas para a fundação depois disso. </para>
+
+<para
+>A função de largada automática está desativada para esta paciência. </para>
+
+</sect2>
+
+<sect2 id="freecell">
+<title
+>Freecell</title>
+
+<para
+><indexterm
+><primary
+>Freecell</primary
+></indexterm
+> A Célula Livre é jogada com apenas um baralho de cartas. Você tem quatro células livres no canto superior esquerdo. Além disso, existem as quatro pilhas da fundação e, por baixo, existem oito pilhas de jogo. </para>
+
+<para
+>O objetivo do jogo é ter todas as cartas, como famílias reais por ordem ascendente, na fundação. Isto pode ser conseguido com muita frequência se você souber jogar. O Célula Livre é solucionável com uma taxa aproximada de 99,9% &mdash; das 32.000 primeiras combinações de jogo, só uma não é solucionável (a 11.982, se desejar saber). </para>
+
+<para
+>Nas pilhas de jogo, o jogador tem que ir construindo sequências descendentes, onde as cartas vermelhas e as pretas alternem. Numa célula livre, você poderá colocar qualquer carta. </para>
+
+<para
+>Você só pode mover uma única carta que fique no topo de uma pilha ou de uma célula livre. As sequências só podem ser movidas se tiver espaço suficiente (células livres ou pilhas de jogo livres) para colocar as cartas enquanto as move. </para>
+
+<para
+>O número máximo de cartas que pode mexer é calculado através de: </para>
+
+<sidebar
+><para
+>(#{células livres} + 1) * 2<superscript
+>#{pilhas livres}</superscript
+> </para
+></sidebar>
+
+<para
+>Para resolver este jogo, recomenda-se que pegue nas cartas fora das sequências de jogo na mesma ordem pelas quais terão que ser colocadas na fundação (primeiro os ases, depois os 2, &etc;) </para>
+
+<para
+>Você deverá tentar manter tantas células ou pilhas de jogo livres quantas possível, para que consiga criar sequências suficientemente grandes. </para>
+
+</sect2>
+
+<sect2 id="mod3">
+<title
+>Mod3</title>
+
+<para
+><indexterm
+><primary
+>Mod3</primary
+></indexterm
+> O Mod-3 é jogado com dois baralhos de cartas. O objetivo do jogo é colocar todas as cartas nas três filas superiores. Nelas, você terá que criar sequências da mesma cor. Na primeira fila, você terá que criar a sequência 2-5-8-J, na segunda fila a sequência 3-6-9-Q e, finalmente, na terceira fila a 4-7-10-K. O naipe das cartas terá que ser o mesmo para cada sequência, assim você só pode pôr um cinco de copas por cima de um dois de copas, por exemplo. </para>
+
+<para
+>A quarta fila é a pilha do lixo e a de jogo ao mesmo tempo. Num espaço livre, você poderá colocar qualquer carta das três primeiras filas e uma do topo da quarta fila. </para>
+
+<para
+>Você pode colocar os ases nas suas pilhas em cima do talão. Eles estão no jogo para que você consiga ter um ponto de partida para criar espaços livres. </para>
+
+<para
+>Se você não tiver mais cartas, poderá obter cartas novas na quarta fila se clicar no talão. </para>
+
+<para
+>A função de largada automática está desativada para esta paciência. </para>
+</sect2>
+
+<sect2 id="gypsy">
+<title
+>Cigano</title>
+
+<para
+><indexterm
+><primary
+>Cigano</primary
+></indexterm
+> O Cigano é jogado com dois baralhos. O objetivo do jogo é colocar todas as cartas em famílias reais ascendentes na fundação. </para>
+
+<para
+>As pilhas de jogo têm que estar por ordem descendente enquanto que as cartas pretas e vermelhas têm que estar alternadas. Você só poderá mover sequências ou cartas isoladas. Num espaço livre, você poderá colocar qualquer carta ou sequência. </para>
+
+<para
+>Se você não conseguir mover mais cartas, poderá clicar no talão para obter um novo conjunto de cartas para cada pilha de jogo. </para>
+
+<para
+>Usar a funcionalidade de <guibutton
+>Desfazer</guibutton
+>, você poderá facilitar bastante o jogo, uma vez que terá que tomar algumas decisões, decisões estas que poderão se tornar erradas depois que você clicar no talão. </para>
+
+</sect2>
+
+<sect2 id="forty-and-eight">
+<title
+>Quarenta &amp; Oito</title>
+
+<para
+><indexterm
+><primary
+>Quarenta &amp; Oito</primary
+></indexterm
+> O Quarenta &amp; Oito é jogado com dois baralhos. O objetivo do jogo é pôr todas as cartas como famílias reais na fundação. </para>
+
+<para
+>As pilhas de jogo têm que estar por ordem descendente. Aqui você terá de se preocupar com as cores. Você só poderá colocar um cinco de copas por cima de um seis de copas, por exemplo. </para>
+
+<para
+>Você só poderá mover uma única carta para o topo de uma pilha. Você poderá pôr qualquer carta num espaço livre. </para>
+
+<para
+>Ao clicar no talão, você poderá colocar uma carta na pilha do lixo, a partir da qual poderá colocá-la numa pilha de jogo ou na fundação (o &kpatience; poderá fazer isso por você). No caso do talão ficar vazio, o jogador poderá colocar todas as cartas da pilha do lixo de volta no talão. Isto só funciona uma vez e, se esvaziar o talão uma segunda vez, o jogo irá terminar. </para>
+
+<para
+>Esta paciência não é muito fácil de resolver, mas com alguma experiência, você poderá resolver várias combinações, especialmente se você usar a funcionalidade para <guibutton
+>Desfazer</guibutton
+> da jogada de tempos em tempos para corrigir as suas decisões e as que o &kpatience; faça ao colocar as cartas na fundação. </para>
+</sect2>
+
+<sect2 id="simple-simon">
+<title
+>Simão simples</title>
+
+<para
+><indexterm
+><primary
+>Simão simples</primary
+></indexterm
+> O Simão Simples é jogado com um baralho de cartas. O objetivo do jogo é colocar todas as cartas como famílias reais na fundação. </para>
+
+<para
+>Nas pilhas de jogo, você poderá criar as sequências. De um modo geral, você não terá que se preocupar com os naipes das cartas, mas as sequências só poderão se mover se fizerem parte de uma sequência real. (por exemplo, você poderá mover o seis de espadas somente se por cima dela estiver o cinco de espadas; por outro lado não poderá mover a carta para cima de um cinco de paus). </para>
+
+<para
+>As cartas só poderão ser movidas para a fundação se todas as 13 cartas de uma família estiverem umas por cima das outras nas pilhas de jogo. </para>
+
+<tip>
+<title
+>Sugestão</title>
+<para
+>Você deverá tentar mover o mais cedo possível as cartas das pilhas à direita para ficar com pilhas livres, de modo a poder colocar as cartas temporariamente nelas. </para>
+
+<para
+>Com espaço livre suficiente, você poderá criar famílias nos espaços livres, independentemente da cor. Se você tiver todas as cartas dessas famílias, poderá ordená-las pela sua cor, de modo a enviá-las para a fundação. </para>
+</tip>
+
+</sect2>
+
+<sect2 id="yukon">
+<title
+>Yukon</title>
+
+<para
+><indexterm
+><primary
+>Yukon</primary
+></indexterm
+> O Yukon é jogado com um baralho de cartas. O objetivo do jogo é colocar todas as cartas como famílias reais por ordem ascendente na fundação. </para>
+
+<para
+>As sequências das pilhas de jogo têm que estar por ordem descendente com cartas vermelhas e pretas alternadas. Você poderá mover todas as cartas com a face para cima, independentemente de quantas cartas estão por cima dela. Deste modo, poderá colocar um cinco de copas por cima de um seis de espadas, se esta for a carta no topo da sua pilha. </para>
+
+<para
+>Você poderá colocar um rei de qualquer cor num espaço livre (mais uma vez, não interessa quantas cartas estão por cima dele). </para>
+</sect2>
+
+<sect2 id="grandfathers-clock">
+<title
+>Relógio do Vovô</title>
+
+<para
+><indexterm
+><primary
+>Relógio do Vovô</primary
+></indexterm
+> O Relógio do Vovô é uma paciência simples e, depois de algumas experiências, você deverá ser capaz de resolver a maior parte dos jogos. É jogado com apenas um baralho e o objetivo do jogo é colocar as cartas como sequências reais ascendentes na fundação. </para>
+
+<para
+>A fundação fica no lado direito e consiste em 12 pilhas que formam um relógio. O nove às 12 horas, a dama fica às 3 horas, o três fica às 6 horas e o seis fica às 9 horas. </para>
+
+<para
+>Existem 8 pilhas de jogo ao lado do relógio e existem 5 cartas em cada uma das pilhas. Nas pilhas de jogo, você poderá criar sequências descendentes, ignorando a cor das cartas. Só poderá mover uma única carta de cada vez. </para>
+
+</sect2>
+
+<sect2 id="golf">
+<title
+>Golf</title>
+
+<para
+><indexterm
+><primary
+>Golf</primary
+></indexterm
+> O Golf é jogado com um baralho de cartas. O objetivo do jogo é colocar todas as cartas da mesa na fundação. </para>
+ 
+<para
+>O layout da paciência Golf é relativamente simples. No início do jogo, você verá no tabuleiro sete colunas, nas quais cada uma tem cinco cartas. Por baixo desta, existe o talão e a fundação. </para>
+
+<para
+>O Golf é simples, mas necessita de estratégia para ganhar. As cartas na base de cada coluna do tabuleiro estão disponíveis para jogo. As cartas disponíveis são colocadas na carta de topo da fundação por ordem ascendente ou descendente, independentemente do naipe. Se não existirem mais jogadas possíveis, você poderá mover uma carta do talão para a fundação. O jogo acaba quando todas as cartas do talão tiverem sido jogadas e não houverem mais jogadas possíveis.</para>
+
+</sect2>
+
+<sect2 id="spider">
+<title
+>Aranha</title>
+
+<para
+><indexterm
+><primary
+>Aranha</primary
+></indexterm
+> A Aranha é jogada com dois baralhos de cartas. As cartas são distribuídas por 10 pilhas de jogo, 4 delas com 6 cartas e as outras 6 com 5 cartas cada uma. Isto deixa 50 cartas de sobra que poderão ser distribuídas, 10 de cada vez, por cima de cada pilha de jogo. </para>
+
+<para
+>Nas pilhas de jogo, você poderá colocar uma carta por cima de outra carta de qualquer naipe com um valor superior. Poderá mover-se uma sequência de cartas descendente do mesmo naipe de uma pilha de jogo para outra. </para>
+
+<para
+>O objetivo da Aranha é colocar todas as cartas como famílias reais descendentes a partir do Rei em qualquer local das pilhas de jogo. Quando uma dessas famílias for criada numa pilha de jogo, esta é removida para o canto inferior esquerdo da janela. </para>
+
+<para
+>Os diferentes níveis indicam quantos naipes são distribuídos - o Fácil usa 1 naipe, o Médio usa 2 naipes e o Difícil usa todos os 4 naipes. O jogo é relativamente simples de ganhar no nível Simples e é muito complicado de ganhar no Difícil. </para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="interface"
+><title
+>Resumo da interface</title
+> <!-- do not change this! -->
+<!-- This section has to do with menubar. Describe every single entry in order. Use <variablelist
+> and <varlistentry
+>. Split the chapter into sections using <sect1(2,3)
+> for better viewing.-->
+<sect1 id="game-menu">
+	<title
+>O menu Jogo</title>
+		<variablelist>
+			<varlistentry id="game-menu-new-game">
+				<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Jogo</guimenu
+> <guimenuitem
+>Novo jogo...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Retorna à tela de seleção do jogo.</action
+> Esta ação abandona o jogo em curso.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-deal">
+				<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Jogo</guimenu
+> <guimenuitem
+>Nova jogada</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Inicia um jogo do mesmo tipo.</action
+> Esta ação abandona o jogo em curso.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-numbered-deal">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Jogo</guimenu
+> <guimenuitem
+>Nova partida numerada...</guimenuitem
+> </menuchoice
+></term>
+				<listitem>
+					<para
+><action
+>Inicia um novo jogo definindo o tipo e o número de jogo.</action
+> Esta ação abandona o jogo em curso.</para>
+					<para
+>O &kpatience; atribui a cada jogo um número identificador único (que usa internamente para gerar aleatoriamente o baralho inicial). Esta funcionalidade permite-lhe repetir um jogo de interesse ou tentar resolver um jogo particularmente difícil de um amigo. Os jogadores especialmente dedicados poderão tentar "bater" o &kpatience;, jogando consecutivamente todos os 2147483647 jogos, para cada um dos tipos existentes.</para>
+					<para
+>Observe que para o Freecell, o número de jogo do &kpatience; deve corresponder aos descritos na <ulink url="http://www.solitairelaboratory.com/fcfaq.html"
+>FAQ do Freecell</ulink
+>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-restart-deal">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F5</keycap
+></shortcut
+> <guimenu
+>Jogo</guimenu
+> <guimenuitem
+>Reiniciar a jogada</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Restaura o jogo atual com a sua condição inicial.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Jogo</guimenu
+> <guimenuitem
+>Carregar...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Carrega um jogo salvo.</action
+> Esta ação abandona o jogo em curso.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load-recent">
+				<term
+><menuchoice
+><guimenu
+>Jogo</guimenu
+> <guisubmenu
+>Carregar recente</guisubmenu
+> <guimenuitem
+><replaceable
+>Lista dos jogos acessados recentemente</replaceable
+></guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Lista os arquivos salvos e acessados recentemente, por ordem da última utilização.</action
+> Selecionar um jogo, irá carregá-lo. Esta ação abandona o jogo em curso.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-save">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Jogo</guimenu
+> <guimenuitem
+>Salvar como...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Salvo o jogo atual no disco.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-statistics">
+				<term
+><menuchoice
+><guimenu
+>Jogo</guimenu
+> <guimenuitem
+>Estatísticas</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Mostra diversas estatísticas sobre o seu desempenho, descritas de acordo com o tipo de jogo.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-quit">
+				<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Jogo</guimenu
+> <guimenuitem
+>Sair</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Sai</action
+> do &kpatience;.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="move-menu">
+	<title
+>O menu Mover</title>
+		<variablelist>
+			<varlistentry id="move-menu-undo">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Mover</guimenu
+> <guimenuitem
+>Desfazer</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Anula</action
+> a sua última jogada.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-redo">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>Z</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Movimento</guimenu
+> <guimenuitem
+>Refazer</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Repete</action
+> a jogada que foi anulada pela ação <guimenuitem
+>Desfazer</guimenuitem
+>.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-hint">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>H</keycap
+></shortcut
+> <guimenu
+>Mover</guimenu
+> <guimenuitem
+>Dica</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Fornece algumas dicas de movimentos possíveis, caso o jogador fique empacado. As cartas que podem ser movidas legalmente para outra pilha são temporariamente destacadas.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-demo">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>D</keycap
+></shortcut
+> <guimenu
+>Mover</guimenu
+> <guimenuitem
+>Demonstração</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Inicia o modo de demonstração.</action
+> Enquanto estiver no modo de demonstração, o &kpatience; tenta resolver o jogo para você. Ative esta opção mais uma vez para sair do modo de demonstração.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-draw">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>Espaço</keycap
+></shortcut
+> <guimenu
+>Mover</guimenu
+> <guimenuitem
+>Empatar</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Vira uma ou mais cartas do talão e move-as para a pilha do lixo.</action
+> Esta ação só está disponível para alguns jogos.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-deal-row">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>Return</keycap
+></shortcut
+> <guimenu
+>Mover</guimenu
+> <guimenuitem
+>Distribuir uma rodada</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Vira várias cartas do talão e coloca uma delas em cada pilha do jogo.</action
+> Esta ação só está disponível para alguns jogos.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-redeal">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>R</keycap
+></shortcut
+> <guimenu
+>Mover</guimenu
+> <guimenuitem
+>Redistribuir</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Recolhe todas as cartas deixadas em jogo e volta a dá-las sem embaralhar.</action
+> Esta ação está disponível apenas em alguns jogos.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="settings-help-menu">
+	<title
+>Menus Configurações e Ajuda</title>
+<para
+>Além dos menus de Configuração e Ajuda comuns do &kde;, descritos no capítulo do <ulink url="help:/fundamentals/menus.html"
+>Menu</ulink
+> dos Fundamentos do &kde;, o &kpatience; tem estes itens de menu específicos do aplicativo: </para>
+		<variablelist>
+			<varlistentry id="settings-menu-game-type-options">
+				<term
+><menuchoice
+><guimenu
+>Configurações</guimenu
+> <guisubmenu
+><replaceable
+>Opções do "Tipo de Jogo"</replaceable
+></guisubmenu
+> <guimenuitem
+><replaceable
+>Lista de opções específicas do tipo de jogo.</replaceable
+></guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Apresenta as opções específicas do tipo de jogo atual.</action
+> Este menu só está disponível em alguns jogos (Klondike e Spider).</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-stack-options">
+				<term
+><menuchoice
+><guimenu
+>Configurações</guimenu
+> <guisubmenu
+>Opções do baralho</guisubmenu
+> <guimenuitem
+>Face para baixo (mais difícil)/Face para cima (mais fácil)</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Permite-lhe escolher se as faces das cartas devem ser mostradas.</action
+> Este menu está disponível apenas no jogo Spider.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-deck">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F10</keycap
+></shortcut
+> <guimenu
+>Configurações</guimenu
+> <guimenuitem
+>Mudar aparência...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Abre uma janela para mudar o baralho de cartas e o tema do jogo usado.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-autodrop">
+				<term
+><menuchoice
+><guimenu
+>Configurações</guimenu
+> <guimenuitem
+>Ativar o arrastamento automático</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Ativa o movimento automático das cartas para as pilhas da fundação, sempre que possível.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-solver">
+				<term
+><menuchoice
+><guimenu
+>Configurações</guimenu
+> <guimenuitem
+>Ativar o Solucionador</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Ativa o motor de resolução automática.</action
+> Sempre que estiver ativo, o módulo de resolução irá tentar determinar automaticamente se o estado do jogo atual pode ser ganho. Você poderá querer desativar o módulo de resolução, de modo a conservar o processador ou a bateria.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-remember">
+				<term
+><menuchoice
+><guimenu
+>Configurações</guimenu
+> <guimenuitem
+>Lembrar do estado ao sair</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Ativa o salvamento automático do estado do jogo, sempre que o &kpatience; for desligado.</action
+> Se estiver ativo, o &kpatience; irá carregar o estado anterior do jogo quando for iniciado da próxima vez.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="help-menu-remember">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>F1</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Ajuda</guimenu
+> <guimenuitem
+>Ajuda do jogo atual</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Abre a seção que contém as regras do jogo atual </para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="faq"
+><title
+>Perguntas frequentes</title
+> <!-- do not change this! -->
+<!--This chapter is for frequently asked questions. Please use <qandaset
+> <qandaentry
+> only!-->
+<qandaset>
+<!--Following is a standard list of FAQ questions.-->
+<qandaentry>
+ <question
+><para
+>Eu quero alterar o visual do jogo. É possível? </para
+></question>
+ <answer
+><para
+>Você poderá alterar as faces frontal e traseira das cartas de jogo e o tema do jogo. Para fazer isso, use a opção do menu <menuchoice
+> <shortcut
+><keycap
+>F10</keycap
+></shortcut
+> <guimenu
+>Configurações</guimenu
+> <guimenuitem
+>Mudar aparência...</guimenuitem
+> </menuchoice
+>.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Posso usar o teclado para jogar?</para
+></question>
+ <answer
+><para
+>Não, o &kpatience; não possui um modo de jogo apenas com o teclado. Contudo, a maioria das opções do menu têm atalhos de teclado.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Mesmo com as dicas não faço a mínima ideia como jogar. Socorro!</para
+></question>
+ <answer
+><para
+>Além da funcionalidade de <quote
+>Dica</quote
+>, existe também um modo de <quote
+>Demonstração</quote
+> útil, onde a inteligência artificial incorporada irá jogar por você. Você poderá tentar ver e aprender. Contudo, se tiver alguma dúvida é melhor ler as seções <link linkend="howto"
+>Como Jogar</link
+> e <link linkend="rules_and_tips"
+>Regras, Estratégias e Dicas do Jogo</link
+> deste manual.</para
+></answer>
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits"
+><title
+>Créditos e licença</title
+> <!-- do not change this! -->
+<!--This chapter is for credits and licenses.-->
+
+<para
+>&kpatience; </para>
+<!--List all the copyright holders here-->
+<para
+>Direitos autorais do &kpatience; &copy; 1995-2000 &Paul-Olav.Tvete; </para>
+
+<para
+>Direitos autorais do &kpatience; &copy; 2001-2007 &Stephan.Kulow; &Stephan.Kulow.mail; </para>
+
+<para
+>Solucionador do Freecell por Shlomi Fish <email
+>shlomif@vipe.technion.ac.il</email
+> </para>
+
+<para
+>Direitos autorais da documentação &copy; 2000 &Paul-Olav.Tvete; </para>
+
+<para
+>Documentação atualizada para o &kde; 2.0 por &Mike.McBride; &Mike.McBride.mail; </para>
+
+<para
+>Documentação reescrita para o &kpatience; 2.0 (&kde; 2.1) por &Maren.Pakura; &Maren.Pakura.mail; </para>
+
+<para
+>Documentação revista e atualizada para o &kpatience; 3.6 por &Richard.Hawthorne; &Richard.Hawthorne.mail; </para>
+
+<para
+>Tradução de Marcus Gama <email
+>marcus.gama@gmail.com</email
+></para
+><para
+>Revisão de Stephen Killing <email
+>stephen.killing@kdemail.net</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index; 
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-omittag:t
+sgml-shorttag:t
+sgml-namecase-general:t
+sgml-always-quote-attributes:t
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->

@@ -1,0 +1,1135 @@
+# Translation of kpat.po to Ukrainian
+# Copyright (C) 2003-2021 This_file_is_part_of_KDE
+# This file is distributed under the license LGPL version 2.1 or
+# version 3 or later versions approved by the membership of KDE e.V.
+#
+# Gladky Dima <gladimdim@inbox.ru>, 2003.
+# Andriy Rysin <rysin@kde.org>, 2003.
+# Eugene Onischenko <oneugene@ukr.net>, 2004.
+# Ivan Petrouchtchak <ivanpetrouchtchak@yahoo.com>, 2005, 2007.
+# Yuri Chornoivan <yurchor@ukr.net>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2018, 2020, 2021, 2022.
+msgid ""
+msgstr ""
+"Project-Id-Version: kpat\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-09-04 00:43+0000\n"
+"PO-Revision-Date: 2022-08-19 16:24+0300\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 20.12.0\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Gladky Dima,Іван Петрущак"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "gladimdim@inbox.ru,iip@telus.net"
+
+#: bakersdozen.cpp:72 castle.cpp:402 freecell.cpp:386
+#, kde-format
+msgid "Popular Variant Presets"
+msgstr "Популярні варіанти"
+
+#: bakersdozen.cpp:73 bakersdozen.cpp:268 bakersdozen.cpp:270
+#, kde-format
+msgid "Baker's Dozen"
+msgstr "Чортова дюжина"
+
+#: bakersdozen.cpp:74 bakersdozen.cpp:271
+#, kde-format
+msgid "Spanish Patience"
+msgstr "Іспанський пасьянс"
+
+#: bakersdozen.cpp:75 bakersdozen.cpp:272
+#, kde-format
+msgid "Castles in Spain"
+msgstr "Замки в Іспанії"
+
+#: bakersdozen.cpp:76 bakersdozen.cpp:273
+#, kde-format
+msgid "Portuguese Solitaire"
+msgstr "Португальський пасьянс"
+
+#: bakersdozen.cpp:77 castle.cpp:409 freecell.cpp:392
+#, kde-format
+msgid "Custom"
+msgstr "Нетиповий"
+
+#: bakersdozen.cpp:79 castle.cpp:411 freecell.cpp:394
+#, kde-format
+msgid "Empty Stack Fill"
+msgstr "Заповнення порожнього стосу"
+
+#: bakersdozen.cpp:80 castle.cpp:412 freecell.cpp:395
+#, kde-format
+msgid "Any (Easy)"
+msgstr "Будь-які (простий)"
+
+#: bakersdozen.cpp:81 castle.cpp:413 freecell.cpp:396
+#, kde-format
+msgid "Kings only (Medium)"
+msgstr "Лише королі (середній)"
+
+#: bakersdozen.cpp:82 castle.cpp:414 freecell.cpp:397
+#, kde-format
+msgid "None (Hard)"
+msgstr "Немає (складний)"
+
+#: bakersdozen.cpp:84
+#, kde-format
+msgid "Stack Options"
+msgstr "Параметри колоди"
+
+#: bakersdozen.cpp:85
+#, kde-format
+msgid "Face &Up (Easier)"
+msgstr "Сорочкою до&низу (простіше)"
+
+#: bakersdozen.cpp:86
+#, kde-format
+msgid "Face &Down (Harder)"
+msgstr "Сорочкою до&гори (важче)"
+
+#: bakersdozen.cpp:88 castle.cpp:416 freecell.cpp:399
+#, kde-format
+msgid "Build Sequence"
+msgstr "Послідовність збирання"
+
+#: bakersdozen.cpp:89 castle.cpp:417 freecell.cpp:400
+#, kde-format
+msgid "Alternating Color"
+msgstr "Зміна кольорів"
+
+#: bakersdozen.cpp:90 castle.cpp:418 freecell.cpp:401
+#, kde-format
+msgid "Matching Suit"
+msgstr "Відповідність масті"
+
+#: bakersdozen.cpp:91 castle.cpp:419 freecell.cpp:402
+#, kde-format
+msgid "Rank"
+msgstr "Ранг"
+
+#: bakersdozen.cpp:274
+msgid "Baker's Dozen (Custom)"
+msgstr "Чортова дюжина (нетипова)"
+
+#: castle.cpp:361
+msgid "Castle"
+msgstr "Замок"
+
+#: castle.cpp:363 castle.cpp:403
+#, kde-format
+msgid "Beleaguered Castle"
+msgstr "Облога замку"
+
+#: castle.cpp:364 castle.cpp:404
+#, kde-format
+msgid "Citadel"
+msgstr "Цитадель"
+
+#: castle.cpp:365 castle.cpp:405
+#, kde-format
+msgid "Exiled Kings"
+msgstr "Королі-вигнанці"
+
+#: castle.cpp:366 castle.cpp:406
+#, kde-format
+msgid "Streets and Alleys"
+msgstr "Вулиці і провулки"
+
+#: castle.cpp:367 castle.cpp:407
+#, kde-format
+msgid "Siegecraft"
+msgstr "Мистецтво облоги"
+
+#: castle.cpp:368 castle.cpp:408
+#, kde-format
+msgid "Stronghold"
+msgstr "Твердиня"
+
+#: castle.cpp:369
+msgid "Castle (Custom)"
+msgstr "Замок (нетиповий)"
+
+#: castle.cpp:421
+#, kde-format
+msgid "Free Cells"
+msgstr "Вільні комірки"
+
+#: castle.cpp:422 freecell.cpp:405
+#, kde-format
+msgid "0"
+msgstr "0"
+
+#: castle.cpp:423 freecell.cpp:406 freecell.cpp:425
+#, kde-format
+msgid "1"
+msgstr "1"
+
+#: castle.cpp:424 freecell.cpp:407 freecell.cpp:426
+#, kde-format
+msgid "2"
+msgstr "2"
+
+#: castle.cpp:425 freecell.cpp:408 freecell.cpp:427
+#, kde-format
+msgid "3"
+msgstr "3"
+
+#: castle.cpp:426 freecell.cpp:409
+#, kde-format
+msgid "4"
+msgstr "4"
+
+#: castle.cpp:428 freecell.cpp:415
+#, kde-format
+msgid "Stacks"
+msgstr "Стеки"
+
+#: castle.cpp:429 freecell.cpp:411 freecell.cpp:416
+#, kde-format
+msgid "6"
+msgstr "6"
+
+#: castle.cpp:430 freecell.cpp:412 freecell.cpp:417
+#, kde-format
+msgid "7"
+msgstr "7"
+
+#: castle.cpp:431 freecell.cpp:413 freecell.cpp:418
+#, kde-format
+msgid "8"
+msgstr "8"
+
+#: castle.cpp:432 freecell.cpp:419
+#, kde-format
+msgid "9"
+msgstr "9"
+
+#: castle.cpp:433 freecell.cpp:420
+#, kde-format
+msgid "10"
+msgstr "10"
+
+#: castle.cpp:435 spider.cpp:154
+#, kde-format
+msgid "S&tack Options"
+msgstr "Параметри &колоди"
+
+#: castle.cpp:436
+#, kde-format
+msgid "Face &Down"
+msgstr "Зображенням до&низу"
+
+#: castle.cpp:437
+#, kde-format
+msgid "Face &Up"
+msgstr "Зображенням до&гори"
+
+#: castle.cpp:438
+#, kde-format
+msgid "Alternating Face &Up"
+msgstr "П&еремінний показ зображення"
+
+#: castle.cpp:440
+#, kde-format
+msgid "Foundation Deal"
+msgstr "Здача в основу"
+
+#: castle.cpp:441
+#, kde-format
+msgid "None"
+msgstr "Нічого"
+
+#: castle.cpp:442
+#, kde-format
+msgid "Aces"
+msgstr "Тузи"
+
+#: castle.cpp:443
+#, kde-format
+msgid "Any"
+msgstr "Будь-які"
+
+#: castle.cpp:445
+#, kde-format
+msgid "Layout"
+msgstr "Компонування"
+
+#: castle.cpp:446
+#, kde-format
+msgid "Classic"
+msgstr "Класичне"
+
+#: castle.cpp:447
+#, kde-format
+msgid "Modern"
+msgstr "Сучасне"
+
+#: clock.cpp:156
+msgid "Grandfather's Clock"
+msgstr "Годинник дідуся"
+
+#: dealer.cpp:73
+#, kde-format
+msgid "Solver: This game is winnable."
+msgstr "Інструмент розв’язання: цей пасьянс можна скласти."
+
+#: dealer.cpp:75
+#, kde-format
+msgid "Solver: This game is no longer winnable."
+msgstr "Інструмент розв’язання: цей пасьянс вже не можна скласти."
+
+#: dealer.cpp:76
+#, kde-format
+msgid "Solver: This game cannot be won."
+msgstr "Інструмент розв’язання: цей пасьянс не можна скласти."
+
+#: dealer.cpp:78
+#, kde-format
+msgid "Solver: Unable to determine if this game is winnable."
+msgstr ""
+"Інструмент розв’язання: неможливо визначити, чи можна скласти цей пасьянс."
+
+#: dealer.cpp:985
+#, kde-format
+msgid "Congratulations! We have won."
+msgstr "Вітаємо! Ми виграли!"
+
+#: dealer.cpp:987
+#, kde-format
+msgid "Congratulations! You have won."
+msgstr "Вітаємо! Ви виграли!"
+
+#: dealer.cpp:1334
+#, kde-format
+msgid "Solver: This game is lost."
+msgstr "Інструмент розв’язання: цю гру програно."
+
+#: dealer.cpp:1488
+#, kde-format
+msgid "Solver: Calculating..."
+msgstr "Інструмент розв’язання: опрацювання…"
+
+#: dealer.cpp:1963
+#, kde-format
+msgid ""
+"A new game has been requested, but there is already a game in progress.\n"
+"\n"
+"A loss will be recorded in the statistics if the current game is abandoned."
+msgstr ""
+"Користувачем було надіслано запит на нову гру, але попередню гру ще не "
+"завершено.\n"
+"\n"
+"Якщо ви підтвердите завершення поточної гри, у статистичних даних цю гру "
+"буде враховано як поразку."
+
+#: dealer.cpp:1965
+#, kde-format
+msgid "Abandon Current Game?"
+msgstr "Припинити поточну гру?"
+
+#: dealer.cpp:1966
+#, kde-format
+msgid "Abandon Current Game"
+msgstr "Припинити поточну гру"
+
+#: fortyeight.cpp:253
+msgid "Forty & Eight"
+msgstr "Сорок та Вісім"
+
+#: freecell.cpp:348 freecell.cpp:353 freecell.cpp:390
+#, kde-format
+msgid "Freecell"
+msgstr "Косинка"
+
+#: freecell.cpp:350 freecell.cpp:387
+#, kde-format
+msgid "Baker's Game"
+msgstr "Гра Бейкера"
+
+#: freecell.cpp:351 freecell.cpp:388
+#, kde-format
+msgid "Eight Off"
+msgstr "Вісім вільних"
+
+#: freecell.cpp:352 freecell.cpp:389
+#, kde-format
+msgid "Forecell"
+msgstr "Порожня комірка"
+
+#: freecell.cpp:354 freecell.cpp:391
+#, kde-format
+msgid "Seahaven Towers"
+msgstr "Башти Сіхейвен"
+
+#: freecell.cpp:355
+msgid "Freecell (Custom)"
+msgstr "Косинка (нетипова)"
+
+#: freecell.cpp:404
+#, kde-format
+msgid "Free cells"
+msgstr "Вільні комірки"
+
+#: freecell.cpp:410
+#, kde-format
+msgid "5"
+msgstr "5"
+
+#: freecell.cpp:421
+#, kde-format
+msgid "11"
+msgstr "11"
+
+#: freecell.cpp:422
+#, kde-format
+msgid "12"
+msgstr "12"
+
+#: freecell.cpp:424
+#, kde-format
+msgid "Decks"
+msgstr "Колоди"
+
+#: golf.cpp:196
+msgid "Golf"
+msgstr "Гольф"
+
+#: grandf.cpp:201
+msgid "Grandfather"
+msgstr "Дідусь"
+
+#: gypsy.cpp:178
+msgid "Gypsy"
+msgstr "Циганський"
+
+#: idiot.cpp:259
+msgid "Aces Up"
+msgstr "Тузи вгору"
+
+#: klondike.cpp:143
+#, kde-format
+msgid "Klondike &Options"
+msgstr "П&араметри Клондайка"
+
+#: klondike.cpp:144
+#, kde-format
+msgid "Draw 1"
+msgstr "1 карта"
+
+#: klondike.cpp:145
+#, kde-format
+msgid "Draw 3"
+msgstr "3 карти"
+
+#: klondike.cpp:346
+msgid "Klondike"
+msgstr "Клондайк"
+
+#: klondike.cpp:348
+msgid "Klondike (Draw 1)"
+msgstr "Клондайк (колода 1)"
+
+#: klondike.cpp:349
+msgid "Klondike (Draw 3)"
+msgstr "Клондайк (колода 3)"
+
+#. i18n: ectx: Menu (move)
+#: kpatui.rc:23
+#, kde-format
+msgid "Move"
+msgstr "Хід"
+
+#. i18n: ectx: ToolBar (mainToolBar)
+#: kpatui.rc:43
+#, kde-format
+msgid "Main Toolbar"
+msgstr "Головний пенал"
+
+#: libkcardgame/kcardthemewidget.cpp:295
+#, kde-format
+msgid "Loading..."
+msgstr "Завантаження…"
+
+#: main.cpp:121
+#, kde-format
+msgid "KPatience"
+msgstr "KPatience"
+
+#: main.cpp:123
+#, kde-format
+msgid "KDE Patience Game"
+msgstr "Гра в карти для KDE — Пасьянс"
+
+#: main.cpp:125
+#, kde-format
+msgid ""
+"© 1995 Paul Olav Tvete\n"
+"© 2000 Stephan Kulow"
+msgstr ""
+"© Paul Olav Tvete, 1995\n"
+"© Stephan Kulow, 2000"
+
+#: main.cpp:129
+#, kde-format
+msgid "Paul Olav Tvete"
+msgstr "Paul Olav Tvete"
+
+#: main.cpp:130
+#, kde-format
+msgid "Author of original Qt version"
+msgstr "Автор першої версії на Qt"
+
+#: main.cpp:132
+#, kde-format
+msgid "Mario Weilguni"
+msgstr "Mario Weilguni"
+
+#: main.cpp:133
+#, kde-format
+msgid "Initial KDE port"
+msgstr "Початкове портування на KDE"
+
+#: main.cpp:135
+#, kde-format
+msgid "Matthias Ettrich"
+msgstr "Matthias Ettrich"
+
+#: main.cpp:138
+#, kde-format
+msgid "Rodolfo Borges"
+msgstr "Rodolfo Borges"
+
+#: main.cpp:139 main.cpp:178
+#, kde-format
+msgid "New game types"
+msgstr "Нові типи ігор"
+
+#: main.cpp:141
+#, kde-format
+msgid "Peter H. Ruegg"
+msgstr "Peter H. Ruegg"
+
+#: main.cpp:144
+#, kde-format
+msgid "Michael Koch"
+msgstr "Michael Koch"
+
+#: main.cpp:145 main.cpp:166
+#, kde-format
+msgid "Bug fixes"
+msgstr "Виправлення помилок"
+
+#: main.cpp:147
+#, kde-format
+msgid "Marcus Meissner"
+msgstr "Marcus Meissner"
+
+#: main.cpp:148
+#, kde-format
+msgid "Shuffle algorithm for game numbers"
+msgstr "Алгоритм тасування для номерів гри"
+
+#: main.cpp:150
+#, kde-format
+msgid "Tom Holroyd"
+msgstr "Tom Holroyd"
+
+#: main.cpp:151
+#, kde-format
+msgid "Initial patience solver"
+msgstr "Початковий варіант розв’язувача пасьянсів"
+
+#: main.cpp:153
+#, kde-format
+msgid "Stephan Kulow"
+msgstr "Stephan Kulow"
+
+#: main.cpp:154
+#, kde-format
+msgid "Rewrite and current maintainer"
+msgstr "Переробка і поточний супровід"
+
+#: main.cpp:156
+#, kde-format
+msgid "Erik Sigra"
+msgstr "Erik Sigra"
+
+#: main.cpp:157
+#, kde-format
+msgid "Klondike improvements"
+msgstr "Покращення «Клондайка»"
+
+#: main.cpp:159
+#, kde-format
+msgid "Josh Metzler"
+msgstr "Josh Metzler"
+
+#: main.cpp:160
+#, kde-format
+msgid "Spider implementation"
+msgstr "Реалізація «Павука»"
+
+#: main.cpp:162
+#, kde-format
+msgid "Maren Pakura"
+msgstr "Maren Pakura"
+
+#: main.cpp:163
+#, kde-format
+msgid "Documentation"
+msgstr "Документація"
+
+#: main.cpp:165
+#, kde-format
+msgid "Inge Wallin"
+msgstr "Inge Wallin"
+
+#: main.cpp:168
+#, kde-format
+msgid "Simon Hürlimann"
+msgstr "Simon Hürlimann"
+
+#: main.cpp:169
+#, kde-format
+msgid "Menu and toolbar work"
+msgstr "Робота над меню та пеналом інструментів"
+
+#: main.cpp:171
+#, kde-format
+msgid "Parker Coates"
+msgstr "Parker Coates"
+
+#: main.cpp:172
+#, kde-format
+msgid "Cleanup and polish"
+msgstr "Вдосконалення і покращення"
+
+#: main.cpp:174
+#, kde-format
+msgid "Shlomi Fish"
+msgstr "Shlomi Fish"
+
+#: main.cpp:175
+#, kde-format
+msgid "Integration with Freecell Solver and further work"
+msgstr "Інтеграція із розв'язувачем косинки і подальша робота"
+
+#: main.cpp:177
+#, kde-format
+msgid "Michael Lang"
+msgstr "Michael Lang"
+
+#: main.cpp:194
+#, kde-format
+msgctxt "List separator"
+msgid ", "
+msgstr ", "
+
+#: main.cpp:200
+#, kde-format
+msgid "Try to find a solution to the given savegame"
+msgstr "Спробувати знайти розв’язання для заданої збереженої гри"
+
+#: main.cpp:201
+#, kde-format
+msgid "Dealer to solve (debug)"
+msgstr "Роздача для розв’язання (налагодження)"
+
+#: main.cpp:202
+#, kde-format
+msgid "Game range start (default 0:INT_MAX)"
+msgstr "Рівень початку гри (типово 0:INT_MAX)"
+
+#: main.cpp:203
+#, kde-format
+msgid "Game range end (default start:start if start given)"
+msgstr "Рівень кінця гри (типово start:start, якщо задано початок)"
+
+#: main.cpp:204
+#, kde-format
+msgid ""
+"Skip the selection screen and load a particular game type. Valid values are: "
+"%1"
+msgstr ""
+"Пропустити вікно вибору і завантажити гру вказаного типу. Можливі значення: "
+"%1"
+
+#: main.cpp:205
+#, kde-format
+msgid "Directory with test cases"
+msgstr "Каталог з тестовими розкладами"
+
+#: main.cpp:206
+#, kde-format
+msgid "Generate random test cases"
+msgstr "Створити випадкові тестові розклади"
+
+#: main.cpp:207
+#, kde-format
+msgid "File to load"
+msgstr "Завантажити файл"
+
+#: mainwindow.cpp:155
+#, kde-format
+msgctxt "Start a new game of a different type"
+msgid "New &Game..."
+msgstr "Нова &гра..."
+
+#: mainwindow.cpp:161
+#, kde-format
+msgctxt "Start a new game of without changing the game type"
+msgid "New &Deal"
+msgstr "Нова &роздача"
+
+#: mainwindow.cpp:167
+#, kde-format
+msgctxt "Start a game by giving its particular number"
+msgid "New &Numbered Deal..."
+msgstr "Нова &нумерована роздача..."
+
+#: mainwindow.cpp:172
+#, kde-format
+msgctxt "Replay the current deal from the start"
+msgid "Restart Deal"
+msgstr "Розпочати з початку"
+
+#: mainwindow.cpp:178
+#, kde-format
+msgctxt "Start the game with the number one greater than the current one"
+msgid "Next Deal"
+msgstr "Наступна роздача"
+
+#: mainwindow.cpp:187
+#, kde-format
+msgctxt "Start the game with the number one less than the current one"
+msgid "Previous Deal"
+msgstr "Попередня роздача"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, GameStats)
+#: mainwindow.cpp:201 statisticsdialog.cpp:62 statisticsdialog.ui:13
+#, kde-format
+msgid "Statistics"
+msgstr "Статистика"
+
+#: mainwindow.cpp:231
+#, kde-format
+msgctxt ""
+"Take one or more cards from the deck, flip them, and place them in play"
+msgid "Dra&w"
+msgstr "Розда&ча"
+
+#: mainwindow.cpp:236
+#, kde-format
+msgctxt "Deal a new row of cards from the deck"
+msgid "Dea&l Row"
+msgstr "Новий р&ядок карт"
+
+#: mainwindow.cpp:241
+#, kde-format
+msgctxt "Collect the cards in play, shuffle them and redeal them"
+msgid "&Redeal"
+msgstr "П&ерероздати"
+
+#: mainwindow.cpp:246
+#, kde-format
+msgctxt "Automatically move cards to the foundation piles"
+msgid "Dro&p"
+msgstr "Скин&ути"
+
+#: mainwindow.cpp:255
+#, kde-format
+msgid "Change Appearance..."
+msgstr "Змінити вигляд..."
+
+#: mainwindow.cpp:259
+#, kde-format
+msgid "&Enable Autodrop"
+msgstr "&Увімкнути автовипадання"
+
+#: mainwindow.cpp:264
+#, kde-format
+msgid "E&nable Solver"
+msgstr "&Увімкнути розв’язувач"
+
+#: mainwindow.cpp:269
+#, kde-format
+msgid "Play &Sounds"
+msgstr "Відтворювати &звуки"
+
+#: mainwindow.cpp:274
+#, kde-format
+msgid "&Remember State on Exit"
+msgstr "&Запам’ятати стан до виходу"
+
+#: mainwindow.cpp:291
+#, kde-format
+msgid "Generate a theme preview image"
+msgstr "Створити зображення попереднього перегляду теми"
+
+#: mainwindow.cpp:296
+#, kde-format
+msgid "Take Game Preview Snapshots"
+msgstr "Зробити знімки мініатюр гри"
+
+#: mainwindow.cpp:301
+#, kde-format
+msgid "Random Cards"
+msgstr "Випадкові карти"
+
+#: mainwindow.cpp:308
+#, kde-format
+msgid "Move Focus to Previous Pile"
+msgstr "Пересунути фокус на попередній стос"
+
+#: mainwindow.cpp:312
+#, kde-format
+msgid "Move Focus to Next Pile"
+msgstr "Пересунути фокус на наступний стос"
+
+#: mainwindow.cpp:316
+#, kde-format
+msgid "Move Focus to Card Below"
+msgstr "Пересунути фокус на карту нижче"
+
+#: mainwindow.cpp:320
+#, kde-format
+msgid "Move Focus to Card Above"
+msgstr "Пересунути фокус на карту вище"
+
+#: mainwindow.cpp:324
+#, kde-format
+msgid "Cancel Focus"
+msgstr "Скасувати фокусування"
+
+#: mainwindow.cpp:328
+#, kde-format
+msgid "Pick Up or Set Down Focus"
+msgstr "Вибрати або скинути фокусування"
+
+#: mainwindow.cpp:440
+#, kde-format
+msgid "Card Deck"
+msgstr "Колода карт"
+
+#: mainwindow.cpp:442
+#, kde-format
+msgid "Select a card deck"
+msgstr "Виберіть колоду карт"
+
+#: mainwindow.cpp:449
+#, kde-format
+msgid "Game Theme"
+msgstr "Тема гри"
+
+#: mainwindow.cpp:451
+#, kde-format
+msgid "Select a theme for non-card game elements"
+msgstr "Виберіть тему для елементів гри, не пов’язаних з картами"
+
+#: mainwindow.cpp:537
+#, kde-format
+msgctxt ""
+"Is disabled and changes to \"Help &with Current Game\" when there is no "
+"current game."
+msgid "Help &with %1"
+msgstr "Довідка &з %1"
+
+#: mainwindow.cpp:571
+#, kde-format
+msgctxt "Shown when there is no game open. Is always disabled."
+msgid "Help &with Current Game"
+msgstr "Довідка з &поточної гри"
+
+#: mainwindow.cpp:745
+#, kde-format
+msgid ""
+"Are you sure you want to hide the menubar? The current shortcut to show it "
+"again is %1."
+msgstr ""
+"Ви справді хочете приховати смужку меню? Поточним клавіатурним скороченням "
+"для відновлення показу цієї смужки є %1."
+
+#: mainwindow.cpp:747
+#, kde-format
+msgid "Hide Menubar"
+msgstr "Приховування смужки меню"
+
+#: mainwindow.cpp:848
+#, kde-format
+msgid "Downloading file failed: %1"
+msgstr "Спроба отримання файла зазнала невдачі: %1"
+
+#: mainwindow.cpp:855
+#, kde-format
+msgid "Error reading XML file: "
+msgstr "Помилка під час спроби читання файла XML: "
+
+#: mainwindow.cpp:887
+#, kde-format
+msgid "XML file is not a KPat save."
+msgstr "Цей файл XML не є файлом збереженої гри KPat."
+
+#: mainwindow.cpp:893
+#, kde-format
+msgid "Unrecognized game id."
+msgstr "Нерозпізнаний ідентифікатор гри."
+
+#: mainwindow.cpp:914
+#, kde-format
+msgid "Errors encountered while parsing file."
+msgstr "Помилка під час спроби обробки даних файла."
+
+#: mainwindow.cpp:934
+#, kde-format
+msgid "Load"
+msgstr "Завантажити"
+
+#: mainwindow.cpp:963
+#, kde-format
+msgid "Save"
+msgstr "Зберегти"
+
+#: mainwindow.cpp:982
+#, kde-format
+msgid "Error opening file for writing. Saving failed."
+msgstr ""
+"Помилка під час спроби відкрити файл для запису. Спроба збереження даних "
+"зазнала невдачі."
+
+#: mainwindow.cpp:990
+#, kde-format
+msgid "Unable to create temporary file. Saving failed."
+msgstr ""
+"Не вдалося створити тимчасовий файл даних. Спроба збереження зазнала невдачі."
+
+#: mainwindow.cpp:1011
+#, kde-format
+msgid "Error uploading file. Saving failed: %1"
+msgstr ""
+"Помилка під час спроби вивантаження файла. Спроба збереження зазнала "
+"невдачі: %1"
+
+#: mainwindow.cpp:1035
+#, kde-format
+msgid "1 move"
+msgid_plural "%1 moves"
+msgstr[0] "%1 хід"
+msgstr[1] "%1 ходи"
+msgstr[2] "%1 ходів"
+msgstr[3] "%1 хід"
+
+#: mod3.cpp:238
+msgid "Mod3"
+msgstr "Mod3"
+
+#: numbereddealdialog.cpp:37
+#, kde-format
+msgid "New Numbered Deal"
+msgstr "Нова нумерована роздача"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#: numbereddealdialog.cpp:52 statisticsdialog.ui:33
+#, kde-format
+msgid "Game:"
+msgstr "Гра:"
+
+#: numbereddealdialog.cpp:56
+#, kde-format
+msgid "Deal number:"
+msgstr "Число роздачі:"
+
+#: simon.cpp:184
+msgid "Simple Simon"
+msgstr "Простак Саймон"
+
+#: spider.cpp:139
+#, kde-format
+msgid "Spider &Options"
+msgstr "Па&раметри Павука"
+
+#: spider.cpp:140
+#, kde-format
+msgid "1 Suit (Easy)"
+msgstr "Одна масть (простий)"
+
+#: spider.cpp:141
+#, kde-format
+msgid "2 Suits (Medium)"
+msgstr "2 масті (середній)"
+
+#: spider.cpp:142
+#, kde-format
+msgid "3 Suits (Hard)"
+msgstr "3 масті (складний)"
+
+#: spider.cpp:143
+#, kde-format
+msgid "4 Suits (Very Hard)"
+msgstr "4 масті (дуже складний)"
+
+#: spider.cpp:155
+#, kde-format
+msgid "Face &Down (harder)"
+msgstr "Сорочкою до&гори (важче)"
+
+#: spider.cpp:156
+#, kde-format
+msgid "Face &Up (easier)"
+msgstr "Сорочкою до&низу (простіше)"
+
+#: spider.cpp:516
+msgid "Spider"
+msgstr "Павук"
+
+#: spider.cpp:518
+msgid "Spider (1 Suit)"
+msgstr "Павук (1 масть)"
+
+#: spider.cpp:519
+msgid "Spider (2 Suit)"
+msgstr "Павук (2 масті)"
+
+#: spider.cpp:520
+msgid "Spider (3 Suit)"
+msgstr "Павук (3 масть)"
+
+#: spider.cpp:521
+msgid "Spider (4 Suit)"
+msgstr "Павук (4 масті)"
+
+#: statisticsdialog.cpp:125
+#, kde-format
+msgid "%1 (%2%)"
+msgstr "%1 (%2%)"
+
+#: statisticsdialog.cpp:137
+#, kde-format
+msgid "1 loss"
+msgid_plural "%1 losses"
+msgstr[0] "%1 поразка"
+msgstr[1] "%1 поразки"
+msgstr[2] "%1 поразок"
+msgstr[3] "%1 поразка"
+
+#: statisticsdialog.cpp:139
+#, kde-format
+msgid "1 win"
+msgid_plural "%1 wins"
+msgstr[0] "%1 перемога"
+msgstr[1] "%1 перемоги"
+msgstr[2] "%1 перемог"
+msgstr[3] "%1 перемога"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel7)
+#: statisticsdialog.ui:75
+#, kde-format
+msgid "Longest winning streak:"
+msgstr "Найдовша виграшна серія:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel2)
+#: statisticsdialog.ui:82
+#, kde-format
+msgid "Games played:"
+msgstr "Зіграно ігор:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel8)
+#: statisticsdialog.ui:99
+#, kde-format
+msgid "Longest losing streak:"
+msgstr "Найдовша програшна серія:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3)
+#: statisticsdialog.ui:116
+#, kde-format
+msgid "Games won:"
+msgstr "Виграно ігор:"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: statisticsdialog.ui:133
+#, kde-format
+msgid "Current streak:"
+msgstr "Поточна серія:"
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: statisticsdialog.ui:147
+#, kde-format
+msgid "Minimal number of moves:"
+msgstr "Мінімальна кількість ходів:"
+
+#: yukon.cpp:133
+msgid "Yukon"
+msgstr "Юкон"
+
+#~ msgid "Get New Card Decks..."
+#~ msgstr "Отримати нові колоди карт…"
+
+#~ msgid "Opening file failed."
+#~ msgstr "Спроба відкриття файла зазнала невдачі."
+
+#~ msgid "The saved game is of an unknown type."
+#~ msgstr "Збережена гра має невідомий тип."
+
+#~ msgid ""
+#~ "The following error occurred while reading the file:\n"
+#~ "\"%1\""
+#~ msgstr ""
+#~ "Під час спроби читання файла сталася така помилка:\n"
+#~ "«%1»"
+
+#~ msgid "Unable to load the saved game file."
+#~ msgstr "Не вдалося завантажити файл збереженої гри."
+
+#~ msgid ""
+#~ "Enter a deal number (Freecell deals are numbered the same as those in the "
+#~ "Freecell FAQ):"
+#~ msgstr "Введіть номер роздачі (нумерація та сама, що і у ЧаП Косинки):"
+
+#~ msgid "Choose Numbered Deal"
+#~ msgstr "Вибір нумерованої роздачі"
+
+#~ msgid "Solver: This game is not winnable in its current state."
+#~ msgstr ""
+#~ "Інструмент розв’язання: у поточному стані скласти пасьянс неможливо."
+
+#~ msgid "Ported to KDE"
+#~ msgstr "Портування на KDE"
+
+#~ msgid "Dr. Tom"
+#~ msgstr "Dr. Tom"
+
+#~ msgid "Improved Klondike"
+#~ msgstr "Вдосконалений Клондайк"
+
+#~ msgid "This game is lost. No moves remain."
+#~ msgstr "Цю гру програно. Ви не можете зробити жодного ходу."
+
+#~ msgid ""
+#~ "You are already running an unfinished game. If you abort the old game to "
+#~ "start a new one, the old game will be registered as a loss in the "
+#~ "statistics file.\n"
+#~ "What do you want to do?"
+#~ msgstr ""
+#~ "Ви вже граєте ще не закінчену гру. Якщо ви припините стару гру й почнете "
+#~ "нову, то стару гру буде записано в статистичний файл як програш.\n"
+#~ "Що ви хочете робити?"
+
+#~ msgid "This game can still be won! Good luck to you."
+#~ msgstr "Цю гру ще можна виграти! Нехай таланить."
+
+#~ msgid "Timeout while playing - unknown if it can be won"
+#~ msgstr "Пауза під час гри — невідомо, чи можливий виграш"
+
+#~ msgid "&Settings"
+#~ msgstr "&Параметри"

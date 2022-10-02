@@ -1,0 +1,335 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Ukrainian "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>Інструкція користувача KPat</title>
+<date
+>21 червня 2021 року</date>
+<releaseinfo
+>21.04</releaseinfo>
+<productname
+>KDE Gear</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>kpat</command
+></refentrytitle>
+<manvolnum
+>6</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>kpat</command
+></refname>
+<refpurpose
+>Страшенно захоплива гра у карти</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>kpat</command
+> <group choice="opt"
+><option
+>--solvegame</option
+> <replaceable
+> file</replaceable
+></group
+> <group choice="opt"
+><option
+>--solve</option
+> <replaceable
+> число</replaceable
+></group
+> <group choice="opt"
+><option
+>--start</option
+> <replaceable
+> число</replaceable
+></group
+> <group choice="opt"
+><option
+>--end</option
+> <replaceable
+> число</replaceable
+></group
+> <group choice="opt"
+><option
+>--gametype</option
+> <replaceable
+> гра</replaceable
+></group
+> <group choice="opt"
+><option
+>--testdir</option
+> <replaceable
+> каталог</replaceable
+></group
+> <group choice="opt"
+><option
+>--generate</option
+></group
+> <group choice="opt"
+><option
+><replaceable
+>файл</replaceable
+></option
+></group
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>ОПИС</title>
+<para
+>&kpatience; — це збірка декількох широко відомих карткових пасьянсів, серед яких добре відомі Клондайк і Косинка, та менш відомі ігри на зразок Годинника дідуся або Mod3. Загалом у програмі існує 12 різновидів пасьянсів, за розкладанням яких ви можете згаяти час.</para>
+</refsect1>
+
+<refsect1>
+<title
+>ПАРАМЕТРИ</title>
+<para
+>У цій програмі виконується звичайний синтаксис командного рядка GNU, за яким довгі параметри починаються з двох дефісів (`--'). Короткий перелік параметрів, які підтримуються у <command
+>kpat</command
+> наведено далі за текстом.</para>
+
+<variablelist>
+
+<varlistentry>
+<term
+><option
+>-h</option
+> <option
+>--help</option
+></term>
+<listitem
+><para
+>Виводить список параметрів командного рядка програми</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-v</option
+> <option
+>--version</option
+></term>
+<listitem>
+<para
+>Виводить дані щодо версії &kpatience;</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--solvegame</option
+> <replaceable
+>файл</replaceable
+></term>
+<listitem>
+<para
+>Спробувати знайти розв’язання для заданої збереженої гри</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--solve</option
+> <replaceable
+>число</replaceable
+></term>
+<listitem>
+<para
+>Роздача для розв’язання (налагодження)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--start</option
+> <replaceable
+>число</replaceable
+></term>
+<listitem>
+<para
+>Рівень початку гри (типово 0:INT_MAX)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--end</option
+> <replaceable
+>число</replaceable
+></term>
+<listitem>
+<para
+>Рівень кінця гри (типово start:start, якщо задано початок)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--gametype</option
+> <replaceable
+>гра</replaceable
+></term>
+<listitem>
+<para
+>Пропустити вікно вибору і завантажити гру вказаного типу. Можливі значення: acesup, fortyeight, freecell, golf, grandfather, grandfathersclock, gypsy, klondike, mod3, simplesimon, spider, yukon</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--testdir</option
+> <replaceable
+> каталог</replaceable
+></term>
+<listitem>
+<para
+>Каталог із тестами</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--generate</option
+></term>
+<listitem
+><para
+>Створити випадкові тести</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--author</option
+></term>
+<listitem
+><para
+>Показує список авторів &kpatience; у вікні термінала</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--license</option
+></term>
+<listitem
+><para
+>Показує інформацію щодо ліцензування програми</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--desktopfile</option
+> <replaceable
+>назва файла</replaceable
+></term>
+<listitem
+><para
+>Базова назва файла для стільничного запису цієї програми.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><replaceable
+>файл</replaceable
+></term>
+<listitem>
+<para
+>Файл, який слід завантажити</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</refsect1>
+
+<refsect1>
+<title
+>ТАКОЖ ПЕРЕГЛЯНЬТЕ</title>
+<simplelist>
+<member
+>Докладніша документація для користувачів доступна у <ulink url="help:/kpat"
+>help:/kpat</ulink
+> (або введіть цю адресу у поле адреси &konqueror;, або віддайте команду <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/kpat</parameter
+></userinput
+>).</member>
+<member
+>kf5options(7)</member>
+<member
+>qt5options(7)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>АВТОР</title>
+
+<para
+>Авторами &kpatience; є такі особи:</para>
+<simplelist type="vert">
+<member
+>Paul Olav Tvete</member>
+<member
+>Mario Weilguni <email
+>mweilguni@kde.org</email
+></member>
+<member
+>Matthias Ettrich <email
+>ettrich@kde.org</email
+></member>
+<member
+>Rodolfo Borges <email
+>barrett@labma.ufrj.br</email
+></member>
+<member
+>Peter H. Ruegg <email
+>kpat@incense.org</email
+></member>
+<member
+>Michael Koch <email
+>koch@kde.org</email
+></member>
+<member
+>Marcus Meissner <email
+>mm@caldera.de</email
+></member>
+<member
+>Shlomi Fish <email
+>shlomif@vipe.technion.ac.il</email
+></member>
+<member
+>Stephan Kulow <email
+>coolo@kde.org</email
+></member>
+</simplelist>
+</refsect1>
+</refentry>

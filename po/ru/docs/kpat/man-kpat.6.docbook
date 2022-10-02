@@ -1,0 +1,537 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY kappname "kpat">
+  <!ENTITY % Russian "INCLUDE">
+]>
+
+<refentry id="kpat">
+<refmeta>
+<refentrytitle
+>KPAT</refentrytitle>
+<manvolnum
+>6</manvolnum>
+<refmiscinfo class="date"
+>24 января 2002</refmiscinfo>
+<refmiscinfo class="source"
+>kde-games</refmiscinfo>
+<refmiscinfo class="title"
+>Руководство пользователя KDE</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname
+>&kappname;</refname>
+<refpurpose
+>Увлекательная карточная игра для &kde;.</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>kpat</command
+> <arg choice="opt" rep="repeat"
+>Qt-option</arg
+> <arg choice="opt" rep="repeat"
+>KDE-option</arg
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>ОПИСАНИЕ</title>
+<para
+>&kpatience; - это подборка нескольких популярных пасьянсов, начиная от Косынки и Свободной ячейки, и заканчивая Дедушкиными часами и Mod3, а всего тринадцать вариантов чем-нибудь занять себя в свободное время.</para>
+</refsect1>
+	
+<refsect1>
+<title
+>КЛЮЧИ</title>
+<para
+>Программа использует стандартный синтаксис командной строки GNU, с длинными ключами, начинающимися с двух дефисов ('--'). Ниже описаны все ключи, распознаваемые <command
+>kpat</command
+>. </para>
+		
+
+<refsect2>
+<title
+>Общие параметры</title>
+<variablelist>
+
+<varlistentry>
+<term
+><option
+>--author</option
+></term>
+<listitem>
+<para
+>Информация об авторах программы</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>--help</term>
+<listitem>
+<para
+>Краткая справка о возможных ключах</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--help-qt</option
+></term>
+<listitem>
+<para
+>Список ключей, специфичных для программ Qt</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--help-kde</option
+></term>
+<listitem>
+<para
+>Список ключей, специфичных для программ &kde;</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--help-all</option
+></term>
+<listitem>
+<para
+>Список всех ключей</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--license</option
+></term>
+<listitem>
+<para
+>Информация о лицензировании программы</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-v</option
+>, <option
+>--version</option
+></term>
+<listitem>
+<para
+>Версия программы.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+</refsect2>
+
+<!-- Cut here: From here to the end of the KDE options will be entities -->
+<refsect2>
+<title
+>Ключи Qt</title>
+
+<variablelist>
+<varlistentry>
+<term
+><option
+>--display <replaceable
+>имя_монитора</replaceable
+></option
+></term>
+<listitem>
+<para
+>Использовать монитор X-сервера <emphasis
+>имя_монитора</emphasis
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--session <replaceable
+>Id_сеанса</replaceable
+></option
+></term>
+<listitem>
+<para
+>Продолжить по переданному идентификатору сеанса </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--cmap</option
+></term>
+<listitem>
+<para
+>Установить собственную цветовую схему на 8-битном экране. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--ncols <replaceable
+>количество</replaceable
+></option
+></term>
+<listitem>
+<para
+>Ограничить число цветов, расположенных в цветном кубе на 8-битном экране, но только при использовании спецификации цветов через <methodname
+>QApplication::ManyColor</methodname
+>. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--nograb</option
+></term>
+<listitem>
+<para
+>Никогда не перехватывать информацию с клавиатуры и мыши.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--dograb</option
+></term>
+<listitem>
+<para
+>Отладка может привести к эффекту ключа <option
+>-nograb</option
+>, для форсирования перехвата используйте <option
+>-dograb</option
+>. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--sync</option
+></term>
+<listitem>
+<para
+>Переключиться в режим синхронизации (для отладки).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--fn</option
+>, <option
+>--font <replaceable
+>имя_шрифта</replaceable
+></option
+></term>
+<listitem>
+<para
+>Определить шрифт, используемый в программе.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--bg</option
+>, <option
+>--background <replaceable
+>цвет</replaceable
+></option
+></term>
+<listitem>
+<para
+>Установить цвет фона, а следовательно и палитру приложения (цвет тёмных и светлых теней подсчитывается автоматически). </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--fg</option
+>,<option
+>--foreground <replaceable
+>цвет</replaceable
+></option
+></term>
+<listitem>
+<para
+>Цвет переднего плана.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--btn</option
+>, <option
+>--button <replaceable
+>цвет</replaceable
+></option
+></term>
+<listitem>
+<para
+>Цвет кнопок.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--name <replaceable
+>имя</replaceable
+></option
+></term>
+<listitem>
+<para
+>Установить имя приложения.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--title <replaceable
+>заголовок</replaceable
+></option
+></term>
+<listitem>
+<para
+>Установить заголовок приложения.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--visual <replaceable
+>TrueColor</replaceable
+></option
+></term>
+<listitem>
+<para
+>Форсировать использование TrueColor на 8-битном экране. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--inputstyle</option
+></term>
+<listitem>
+<para
+>Установить стиль ввода XIM (X Input Method). Возможные значения этого параметра: onthespot, overthespot, offthespot и root. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--im <replaceable
+>сервер XIM</replaceable
+></option
+></term>
+<listitem>
+<para
+>Установить имя сервера XIM.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--noxim</option
+></term>
+<listitem>
+<para
+>Выключить XIM.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+
+<refsect2>
+<title
+>Ключи KDE</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>--caption <replaceable
+>заголовок</replaceable
+></option
+></term>
+<listitem>
+<para
+>Установить <emphasis
+>заголовок</emphasis
+> окна приложения.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--icon <replaceable
+>значок</replaceable
+></option
+></term>
+<listitem>
+<para
+>Установить <emphasis
+>значок</emphasis
+> приложения.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--miniicon <replaceable
+>значок</replaceable
+></option
+></term>
+<listitem>
+<para
+>Установить <emphasis
+>значок</emphasis
+> окна приложения.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--dcopserver <replaceable
+>сервер</replaceable
+></option
+></term>
+<listitem>
+<para
+>Использовать указанный сервер DCOP. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--nocrashhandler</option
+></term>
+<listitem>
+<para
+>Отключить отслеживание сбоев, чтобы получить аварийный дамп.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--waitforwm</option
+></term>
+<listitem>
+<para
+>Ожидать менеджера окон, совместимого с WM_NET. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--style <replaceable
+>стиль</replaceable
+></option
+></term>
+<listitem>
+<para
+>Установить визуальный &GUI; стиль.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--geometry <replaceable
+>геометрия</replaceable
+></option
+></term>
+<listitem>
+<para
+>установить геометрию главного окна. </para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+
+<!-- Stop cutting here: End of entity text -->
+
+</refsect1>
+	
+<refsect1>
+<title
+>СМ. ТАКЖЕ</title>
+<para
+>&kpatience; документирован в соответствующем <emphasis
+>руководстве</emphasis
+> (<filename
+>$<envar
+>KDEDIR</envar
+>share/doc/HTML/ru/kpat/index.html</filename
+> или введите <userinput
+>help://kpat/index.html</userinput
+> в строке адреса &konqueror;).</para>
+		
+<para
+>&kde-http;</para>
+</refsect1>
+
+<refsect1>
+<title
+>АВТОРЫ</title>
+
+<para
+>Разработчики &kpatience;:</para>
+<simplelist type="vert">
+<member
+>Paul Olav Tvete</member>
+<member
+>Mario Weilguni <email
+>mweilguni@kde.org</email
+></member>
+<member
+>Matthias Ettrich <email
+>ettrich@kde.org</email
+></member>
+<member
+>Rodolfo Borges <email
+>barrett@labma.ufrj.br</email
+></member>
+<member
+>Peter H. Ruegg <email
+>kpat@incense.org</email
+></member>
+<member
+>Michael Koch <email
+>koch@kde.org</email
+></member>
+<member
+>Marcus Meissner <email
+>mm@caldera.de</email
+></member>
+<member
+>Shlomi Fish <email
+>shlomif@vipe.technion.ac.il</email
+></member>
+<member
+>Stephan Kulow <email
+>coolo@kde.org</email
+></member>
+</simplelist>
+</refsect1>
+</refentry>

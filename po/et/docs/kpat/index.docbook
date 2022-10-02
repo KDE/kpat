@@ -1,0 +1,1281 @@
+<?xml version="1.0" ?>
+<!--IMPORTANT: please note that'do not change this!' notice does not apply to translators -->
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY kappname "&kpatience;">
+  <!ENTITY kappversion "3.6"
+><!--Applicaion version. Use this variable everywhere it's needed.-->
+  <!ENTITY package "kdegames"
+>  <!-- do not change this! -->
+  <!ENTITY % Estonian  "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY % addindex "IGNORE"
+> <!-- do not change this! -->
+]>
+
+<book id="kpat" lang="&language;"
+> <!-- do not change this! -->
+<bookinfo>
+	<title
+>&kappname;'i käsiraamat</title
+> <!-- This is the title of the docbook. Leave as is unless change is necessary.-->
+<!-- List of immidiate authors begins here. -->
+<!--INPORTANT! - All other contributors: [to be determined] -->
+<authorgroup>
+<author
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> </author>
+<author
+><firstname
+>Maren</firstname
+> <surname
+>Pakura</surname
+> </author>
+<author
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> </author>
+
+<othercredit role="reviewer"
+><firstname
+>Mike</firstname
+><surname
+>McBride</surname
+> <contrib
+>Korrigeerija</contrib>
+<affiliation
+><address
+>&Mike.McBride.mail;</address
+></affiliation>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> <contrib
+>Arendaja</contrib>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> <contrib
+>Arendaja</contrib>
+</othercredit>
+
+<othercredit role="translator"
+><firstname
+>Marek</firstname
+> <surname
+>Laane</surname
+> <affiliation
+><address
+><email
+>bald@smail.ee</email
+></address
+></affiliation
+><contrib
+>Tõlge eesti keelde</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Paul-Olav.Tvete;</holder>
+</copyright>
+
+<copyright>
+<year
+>2001</year
+><year
+>2004</year>
+<holder
+>&Maren.Pakura;</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year>
+<holder
+>&Stephan.Kulow;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2012-08-06</date
+><!-- Date of (re)writing, or update.-->
+<releaseinfo
+>&kappversion; (&kde; 4.9)</releaseinfo
+><!-- Application version number. Use the variable definitions within header to change this value.-->
+
+<!--Short description of this document. Do not change unless necessary!-->
+<abstract>
+	<para
+>See käsiraamat kirjeldab mängu &kappname; versiooni &kappversion;.</para>
+</abstract>
+
+<!--List of relevan keywords-->
+<keywordset>
+	<keyword
+>KDE</keyword
+> <!-- do not change this! -->
+	<keyword
+>kdegames</keyword
+> <!-- do not change this! -->
+	<keyword
+>mäng</keyword
+> <!-- do not change this! -->
+	<keyword
+>KPatience</keyword
+><!--Application name goes here-->
+<!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<keyword
+>kaart</keyword>
+	<keyword
+>kaardimäng</keyword>
+	<keyword
+>kaardimäng</keyword>
+<!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+	<keyword
+>üks mängija</keyword>
+<!--All other relevant keywords-->
+	<keyword
+>pasjanss</keyword>
+	<keyword
+>solitaire</keyword>
+</keywordset>
+</bookinfo>
+<!--Content begins here: -->
+<chapter id="introduction"
+><title
+>Sissejuhatus</title
+> <!-- do not change this! -->
+	<note
+><title
+>Mängu tüüp:</title
+><para
+>kaardimäng</para
+></note
+><!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<note
+><title
+>Mängijate arv:</title
+><para
+>Üks</para
+></note
+><!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+
+<!--Short game description starts here. 3-4 sentences (paragraphs)-->
+
+<para
+>Kaardimängu Patience mängimiseks läheb vaja, nagu selle ingliskeelne nimigi ütleb, kannatust. Lihtsamate mängude puhul, kus mängu käik sõltub ainult sellest, kuidas kaardipakk on segatud, on kannatus ka ainus asi, mida sul tõeliselt vaja läheb. </para>
+
+<para
+>Kuid kannatust läheb vaja ka siis, kui kavatsed ellu viia oma võiduka strateegia. </para>
+
+<para
+>Kõigile mängudele on ühine see, et sul tuleb seada kaardid neid liigutades ja ümber asetades kindlasse järjekorda. </para>
+</chapter>
+
+<chapter id="howto"
+><title
+>Kuidas mängida</title
+> <!-- do not change this! -->
+<!--IMPORTANT: If the game has no defined objective, please remove the below line.-->
+	<note
+><title
+>Eesmärk:</title
+><para
+>korraldada kaardid võimalikult väheste käikudega mastide kaupa ümber.</para
+></note
+><!--Describe the objective of the game.-->
+<!--How to play description. Don't be to specific on rules as they have a separate section in this document-->
+	<para
+>&kappname; pakub väga mitmesuguseid kaardimänge, mistõttu päris kõigile ühtmoodi sobivat õpetust ei saagi koostada. Seepärast tasub uurida mängureeglitest, strateegiast ja nõuannetest kõneleva osa vastavat sektsiooni, enne kui asud mõne tundmatu mängu kallale.</para>
+<para
+>Põhimõtteliselt on solitaire'i tüüpi mänge kaht liiki: ühtedes tuleb kaardid korraldada värvi järgi, teistes värve vaheldades. Seda, kumba liiki mänguga on tegu, saab kindlaks teha kas või katse-eksituse meetodil. Kui see on selge, on ka ülejäänu lihtne: korralda lihtsalt kaardid nii, et kokku satuksid need, mis kokku sobivad.</para>
+<para
+>Hoia siiski algusest peale silm peal kaardipakil. Ära hakka uisapäisa üksikuid kaarte siia-sinna tõstma, vaid uuri hoolikalt, kas kuskil on koht, kuhu mõni kaart kindlasti peab sobima.</para>
+<para
+>Lisaks tasub silm peal hoida olekuribal. Kõigis mängudes on olemas lahendaja, mis annab teada, kas parajasti mängitav mäng on võidetav või mitte. Kui näed, et lahendaja ei suuda mängu edukalt lõpetada, on üpris usutav, et ka sina seda ei suuda. Sel juhul oleks vahest mõttekam kas mäng uuesti käivitada või alustada üldse uut mängu. </para>
+<note
+><title
+>Märkus:</title
+><para
+>Selliste kaardimängude mängimine parandab tunduvalt tähelepanuvõimet ning aitab paremini keskenduda.</para
+></note>
+</chapter>
+
+<chapter id="rules_and_tips"
+><title
+>Mängureeglid, strateegia ja nõuanded</title
+> <!-- do not change this! -->
+
+<sect1 id="rules-general">
+	<title
+>Üldised reeglid</title>
+	<para
+><indexterm
+><primary
+>mastid</primary
+></indexterm
+>Iga mäng sisaldab vähemalt üht 52-kaardilist pakki. Igas pakis on neli masti:</para>
+	<informaltable pgwide="0" frame="none">
+		<tgroup cols="2"
+><colspec/><colspec/>
+	<tbody>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="clubs.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Risti</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="spades.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Poti</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="hearts.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Ärtu</entry>
+		</row>
+			<row valign="middle"
+><entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="diamonds.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Ruutu</entry>
+		</row>
+	</tbody
+></tgroup>
+	</informaltable>
+	<para
+>Igas mastis on järgmised kaardid: äss, kaks, kolm, neli, viis, kuus, seitse, kaheksa, üheksa, kümme, soldat, emand ja kuningas.</para>
+	<para
+><indexterm
+><primary
+>mastirida</primary
+></indexterm
+> Kokku teeb see mastirea. Need jagunevad pärismastireaks ja pseudomastireaks. Pärismastirida tähendab üht masti tervikuna (&eg; ruutu), pseudomastirida aga seda, et mastireas vahelduvad värvid musta (risti ja poti) ning punase (ärtu ja ruutu) vahel.</para>
+	<para
+>Kui rida ei ole täielik, nimetatakse seda osareaks.</para>
+	<mediaobject>
+		<imageobject
+><imagedata fileref="playfield.png" format="PNG"/></imageobject>
+		<textobject
+><phrase
+>&kpatience;'i mänguväli</phrase
+></textobject>
+	</mediaobject>
+	<para
+>Tüüpilises kaardimängus on vaid mõned elemendid, mida kirjeldame allpool.</para>
+	<variablelist>
+		<varlistentry
+><term
+>1. Algpakk</term>
+			<listitem
+><para
+><indexterm
+><primary
+>algpakk</primary
+></indexterm
+>Iga mängu alguses on kaardid mänguväljal segamini. Kuid mitte igas mängus ei jagata kõiki kaarte välja, vaid mõned on jäetud pakki. Selle leiab mänguväljalt enamasti üsna lihtsalt üles, kuivõrd see on peaaegu kõigis mängudes ainuke pakk väljal, mis on mängija poole seljaga.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>2. Heitepakk</term>
+			<listitem
+><para
+><indexterm
+><primary
+>heitepakk</primary
+></indexterm
+>Paljudes mängudes kasutatakse heitepakki, millesse lähevad algpakist võetud kaardid. Tavaliselt põhjustab klõps algpakil selle pealmise kaardi ümberkeeramise ning asetamise heitepakki, mille järel seda saab mängus kasutada.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>3. Lõpp-pakk</term>
+			<listitem
+><para
+><indexterm
+><primary
+>lõpp-pakk</primary
+></indexterm
+>Lõpp-pakid on koht, kuhu kaardid peavad viimaks jõudma. Reeglina saab mäng läbi siis, kui kõik kaardid on korrektses järjekorras asetatud lõpp-pakkidesse. Lõpp-pakkide arv ja kaartide vajalik järjekord erinevad mänguti.</para>
+			<para
+>Enamikus mängudes on lõpp-pakid algul tühjad. Kui valida menüüst või tööriistaribalt <guimenuitem
+>Paiguta</guimenuitem
+>, uurib &kpatience; kõigis pakkides kõiki võimalusi ja liigutab lõpp-pakkidesse nii palju kaarte kui võimalik. Kui sisse on lülitatud <guimenuitem
+>Automaatkäikude lubamine</guimenuitem
+>, sooritab &kpatience; paigutamise alati, kui see on üldse võimalik.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>4. Mängupakid</term>
+			<listitem
+><para
+><indexterm
+><primary
+>mängupakid</primary
+></indexterm
+>Need on pakid, kus tegelikult käib kaartide ümberjagamine. Milliseid reegleid seejuures järgitakse, sõltub mängust. Mõnes on näha kõik kaardid, mõnes ainult pealmine. Mõned lubavad eemaldada ainult pealmise kaardi, mõned suvalise jne.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="rules-specific"
+><title
+>Konkreetsete mängude reeglid</title>
+
+<sect2 id="klondike">
+<title
+>Klondike</title>
+
+<para
+><indexterm
+><primary
+>Klondike</primary
+></indexterm
+> Klondike on usutavasti kuulsaim kaardimäng &mdash; eriti seepärast, et see käib kaasas ühe sageli kasutatava operatsioonisüsteemiga. Seda mängitakse ühe kaardipakiga. </para>
+
+<para
+>Klondike'i eesmärk on seada kõik kaardid kasvavasse pärismastiritta. Tavaliselt läheb see üsna edukalt niipea, kui kõik kaardid on jõudnud mängupakkidesse. </para>
+
+<para
+>Osaread mängupakkides peavad olema kahanevad, kaardid võivad aga olla vahelduva värviga (must punasel ja vastupidi). Liigutada saab terveid osaridu või ka osa sellest, kui selle esimene kaart sobib mõne muu mängupaki peale. </para>
+
+<para
+>Tühjaks jäänud mängupaki väljale saab asetada kuninga või kuningaga algava osarea. </para>
+
+<para
+>Algpakil klõpsates liigutatakse üks kaart heitepakki, kust selle saab liigutada mängu- või lõpp-pakki. Kui algpakk on tühjaks saanud, saab kogu heitepaki uuesti algpakiks moondada, klõpsates tühjaks jäänud algpaki väljal. </para>
+
+<para
+>Algpaki kaarte võib läbi lapata nii palju, kui süda lustib. </para>
+</sect2>
+
+<sect2 id="grandfather">
+<title
+>Vanaisa</title>
+
+<para
+><indexterm
+><primary
+>Vanaisa</primary
+></indexterm
+> Seda mängu tutvustas &kpatience;'i esialgsele loojale &Paul-Olav.Tvete;le tema vanaisa, millest tuleneb ka selle nimi. Teadaolevalt ei ole teisi samasuguseid mänge olemas. </para>
+        
+<para
+>Vanaisas on üks kaardipakk jagatud seitsmele väljale, mõned kaardid on mängu alguses seljaga. </para>
+
+<para
+>Eesmärk on seada kõik kaardid pärismastiridadena kasvavas järjekorras lõpp-pakkidesse. </para>
+
+<para
+>Liigutada saab iga paki iga kaarti, kui see sobib mõne muu kaardiga, luues kahaneva osarea. Nii saab asetada poti viie poti kuuele sõltumata sellest, mitu kaarti poti viie peal asub. Kuid poti kuus peab olema oma paki pealmine kaart. </para>
+
+<para
+>Vabaks jäänud väljale võib asetada kuninga (taas ei ole oluline, kas selle peal on kaarte ja kui palju neid on). </para>
+
+<para
+>Kui käike enam ei ole, võib kaardid ümber jagada. Ümberjagamine tähendab kaartide võtmist mängupakkidest (pakk paki haaval vasakult paremale) ning nende ümberjagamist algusmustri järgi (siksakiliselt varjatud kaartidega ridades ja seejärel vasakult paremale avatud kaartidega ridades). Pane tähele, et kaarte <emphasis
+>ei</emphasis
+> segata ning aluspakkide kaardid jäetakse puutumata. Ühes mängus võib kaarte ümber jagada ainult kaks korda. </para>
+
+<para
+>Kuigi reeglid on päris lihtsad ja lubavad sooritada mitmekesiseid käike, ei ole mängu võitmine ometi lihtne ja pakub suurt naudingut. </para>
+</sect2>
+
+<sect2 id="aces-up">
+<title
+>Ässad välja</title>
+
+<para
+><indexterm
+><primary
+>Ässad välja</primary
+></indexterm
+> Sellel mängul on äärmiselt lihtsad reeglid, kuid seda pole sugugi lihtne võita. Seda mängitakse ühe kaardipakiga ning eesmärk on asetada kõik kaardid lõpp-pakki, välja arvatud ässad, nii et lõpuks oleks igal mänguväljal üks äss. </para>
+
+<para
+>Lõpp-pakki saab klõpsates asetada iga paki ülemist kaarti, mis on sama värvi (&eg; poti) ning väiksema väärtusega kui teine pealmine kaart (&eg; poti kuus ja poti neli). </para>
+
+<para
+>Kui ühtegi kaarti ei saa enam lõpp-pakki liigutada, saab igale mänguväljale asetada uue kaardi,  klõpsates algpakil. </para>
+
+<para
+>Vabaks jäänud väljale saab liigutada suvalise mängupaki pealmise kaardi. Sellise liigutamisega saab vabastada alumisi kaarte, et neid oleks võimalik lõpp-pakki asetada. </para>
+
+<para
+>Automaatkäike selles mängus kasutada ei saa. </para>
+
+</sect2>
+
+<sect2 id="freecell">
+<title
+>Freecell</title>
+
+<para
+><indexterm
+><primary
+>Freecell</primary
+></indexterm
+> Freecelli mängitakse ühe kaardipakiga. Vasakul ülal on neli vaba välja. Nende kõrval asub neli lõpp-pakivälja ning all kaheksa mänguvälja. </para>
+
+<para
+>Mängu eesmärk on asetada kõik kaardid kasvavate pärismastiridadena lõpp-pakkidesse. See läheb enamasti korda, kui sa tead, kuidas mängida, sest Freecell on võidetav umbes 99,9% juhtudel (esimesest 32 000 variandist on ainult üks mittevõidetav - 11 982 nimelt, kui see sind huvitab). </para>
+
+<para
+>Mänguväljadel tuleb luua kahanevaid osaridu, kus punased ja mustad mastid vahelduvad. Vabale väljale võib asetada suvalise kaardi. </para>
+
+<para
+>Liigutada saab vaid üht kaarti, mis on mängupaki ülemine või asub vabal väljal. Osaridu saab liigutada vaid siis, kui on piisavalt vaba ruumi (vabu välju või vabu mänguvälju), kuhu asetada liigutatavaid kaarte. </para>
+
+<para
+>Liigutatavate kaartide koguarv arvutatakse järgmiselt: </para>
+
+<sidebar
+><para
+>({vabade väljade arv} + 1) * 2<superscript
+>{vabade mänguväljade arv}</superscript
+> </para
+></sidebar>
+
+<para
+>Mängu võitmiseks on soovitatav vabastada osaridade loomisel võimalikult palju kaarte, mida saab kohe asetada lõpp-pakki (see tähendab esmalt ässad, siis kahed &etc;). </para>
+
+<para
+>Kui vähegi võimalik, tuleks hoida vabad väljad ja/või mänguväljad vabana, et luua võimalikult pikki osaridu. </para>
+
+</sect2>
+
+<sect2 id="mod3">
+<title
+>Mod3</title>
+
+<para
+><indexterm
+><primary
+>Mod3</primary
+></indexterm
+> Mod3 mängitakse kahe kaardipakiga. Eesmärk on seada kõik kaardid ülemisse kolme ritta, kus tuleb luua ühest mastist osaread. Esimese rea osarida peab olema järjestuses 2-5-8-S, teine 3-6-9-E ja kolmandas reas peavad osaread olema 4-7-10-K. Mast peab igas osareas olema ühesugune, see tähendab, et ärtu kahe peale sobib ainult ärtu viis. </para>
+
+<para
+>Neljas rida on korraga nii heitepakk kui mängupakk. Tühjale väljale võib asetada suvalise kaardi ülemisest kolmest reast või mõne mitme kaardiga neljanda rea paki ülemise kaardi. </para>
+
+<para
+>Ässad saab panna ässade pakki algpaki kohal. Ässad osalevad mängus, pakkudes hea võimaluse luua vabu välju. </para>
+
+<para
+>Kui kaarte enam liigutada ei saa, on võimalik lisada neljandasse ritta üks kiht kaarte, klõpsates algpakil. </para>
+
+<para
+>Automaatkäike selles mängus kasutada ei saa. </para>
+</sect2>
+
+<sect2 id="gypsy">
+<title
+>Mustlane</title>
+
+<para
+><indexterm
+><primary
+>Mustlane</primary
+></indexterm
+> Mustlast mängitakse kahe kaardipakiga. Eesmärk on asetada kõik kaardid kasvavatesse pärismastiridadesse. </para>
+
+<para
+>Mängupakkides peavad olema kahanevad read ning punased ja mustad peavad vahelduma. Liigutada saab ainult osaridu või üksikuid kaarte. Vabale väljale võib asetada suvalise kaardi või osarea. </para>
+
+<para
+>Kui enam ühtegi kaarti liigutada ei saa, katab klõps algpakil mänguvälja uue kaardikihiga. </para>
+
+<para
+>Käigu tagasivõtmise võimalust kasutades saab mängu tublisti lihtsamaks muuta, sest mängus tuleb sul sageli valida mitme variandi vahel ning mõned neist võivad algpakile klõpsamise järel päris valeks osutuda. </para>
+
+</sect2>
+
+<sect2 id="forty-and-eight">
+<title
+>48</title>
+
+<para
+><indexterm
+><primary
+>48</primary
+></indexterm
+> 48 mängitakse kahe kaardipakiga. Mängu eesmärk on asetada kõik kaardid pärismastiridadena lõpp-pakki. </para>
+
+<para
+>Mängupakid peavad olema kahanevad ning mastist tuleb kinni pidada. See tähendab, et ärtu kuuele saab asetada ainult ärtu viit. </para>
+
+<para
+>Liigutada saab ainult paki ülemist kaarti. Vabale väljale võib asetada suvalise kaardi. </para>
+
+<para
+>Algpakil klõpsates ilmub kaart heitepakki, kust selle saab asetada mängupakki või lõpp-pakki (selle teeb &kpatience; sinu eest ära). Kui algpakk on tühjaks saanud, saab heitepaki kaardid tagasi algpakiks moondada. Seda saab aga vaid korra teha: kui algpakk saab teist korda läbi, on läbi ka mäng. </para>
+
+<para
+>Selle mängu võitmine ei ole kuigi kerge, kuid natuke harjutades suudad kindlasti enamiku mänge võita, eriti kui kasutad aegajalt käigu tagasivõtmise võimalust oma ekslike otsuste parandamiseks, samuti &kpatience;'i otsuse parandamiseks asetada kaart või kaardid lõpp-pakki. </para>
+</sect2>
+
+<sect2 id="simple-simon">
+<title
+>Lihtsameelne Siim</title>
+
+<para
+><indexterm
+><primary
+>Lihtsameelne Siim</primary
+></indexterm
+> Lihtsameelset Siimu mängitakse ühe kaardipakiga. Eesmärk on asetada kõik kaardid pärismastiridadena lõpp-pakki. </para>
+
+<para
+>Mängupakkides saad luua osaridu. Üldiselt ei ole vaja masti pärast muret tunda, kuid osaridu saab liigutada vaid siis, kui need on ühest mastist (&eg; pakis teisena asetsevat poti kuut saab liigutada ainult siis, kui tema peal on poti viis, aga mitte siis, kui selleks on näiteks ruutu viis). </para>
+
+<para
+>Kaarte saab lõpp-pakki liigutada alles siis, kui mastirea kõik 13 kaarti on mängupakis ritta saanud. </para>
+
+<tip>
+<title
+>Soovitus</title>
+<para
+>Võiksid püüda võimalikult ruttu eemaldada kaardid parempoolsetelt vähema kaartide arvuga mänguväljadelt, et saada vabu kohti, kuhu kaarte ridade loomise ajal puhverdada. </para>
+
+<para
+>Kui ruumi on rohkem tekkinud, võib vabadel väljadel luua ridu mastile vaatamata. Kui oled sellised read kokku saanud, on aeg sortida nad mastide järgi, et neid oleks võimalik liigutada lõpp-pakki. </para>
+</tip>
+
+</sect2>
+
+<sect2 id="yukon">
+<title
+>Yukon</title>
+
+<para
+><indexterm
+><primary
+>Yukon</primary
+></indexterm
+> Yukonit mängitakse ühe kaardipakiga. Eesmärk on asetada kõik kaardid kasvavate pärismastiridadena lõpp-pakki. </para>
+
+<para
+>Osaread mängupakkides peavad olema kahanevad ning punase ja musta masti vaheldusega. Liigutada saab iga kaarti sõltumata sellest, mitu kaarti tema peal asetseb. Nii saab asetada ärtu viie poti kuuele, kui viimane on mõne paki ülemine kaart. </para>
+
+<para
+>Vabale väljale saab asetada suvalist masti kuninga (taas ei ole vahet, mitu kaarti tema peal asetseb). </para>
+</sect2>
+
+<sect2 id="grandfathers-clock">
+<title
+>Vanaisa kell</title>
+
+<para
+><indexterm
+><primary
+>Vanaisa kell</primary
+></indexterm
+> Vanaisa kell on lihtne kaardimäng ning pärast mõningast harjutamist peaksid suutma enamiku mänge võita. Seda mängitakse ühe kaardipakiga ning eesmärk on asetada kaardid kasvavate pärismastiridadena lõpp-pakki. </para>
+
+<para
+>Lõpp-pakid asuvad paremal, koosnedes 12 kellakujuliselt seatud pakist. Üheksa asub kela 12, emand kella 3, kolm kella 6 ja kuus kella 9 juures. </para>
+
+<para
+>Kella kõrval on kaheksa mängupakki, igas viis kaarti. Mängupakis saab luua kahanevaid osaridu ilma mastile vaatamata. Korraga saab liigutada vaid üht kaarti. </para>
+
+</sect2>
+
+<sect2 id="golf">
+<title
+>Golf</title>
+
+<para
+><indexterm
+><primary
+>Golf</primary
+></indexterm
+> Golfi mängitakse ühe kaardipakiga. Eesmärk on liigutada kõik kaardid lõpp-pakki. </para>
+ 
+<para
+>Golfi mänguväli on päris lihtne. Mängu alguses näed ülal seitset kaardirida, igas viis kaarti. All asuvad algpakk ja lõpp-pakk. </para>
+
+<para
+>Golfi mängimine pole keeruline, aga nõuab kindlasti korralikku strateegiat. Liigutada saab kõiki mängupakkide pealmisi kaarte. Need tuleb asetada lõpp-paki pealmisele kaardile alanevas või ülenevas järjekorras, kusjuures mast ei ole oluline. Kui ühtegi kaarti enam lõpp-pakki viia ei saa, saab klõpsuga algpakile lisada sinna uue kaardi. Mäng saab läbi, kui kõik algpaki kaardid on välja jagatud ja ühtki käiku enam pole.</para>
+
+</sect2>
+
+<sect2 id="spider">
+<title
+>Ämblik</title>
+
+<para
+><indexterm
+><primary
+>Ämblik</primary
+></indexterm
+> Ämblikku mängitakse kahe kaardipakiga. Kaardid on jaotatud kümnesse mängupakki, millest neljas on 6 ja kuues 5 kaarti. See jätab järgi 50 kaarti, mida saab kümnekaupa välja jagada, nii et iga jagamisega lisandub igale mängupakile üks kaart. </para>
+
+<para
+>Mänguväljadel saab kaarti seada mis tahes mastist, aga väärtuselt ühe võrra suurema kaardi peale. Ühest mastist alanevat osarida võib ühest mängupakist teise liigutada. </para>
+
+<para
+>Ämbliku eesmärk on seada kõik kaardid kuningast algavate alanevate pärismastiridadena mängupakkidesse. Kui selline mastirida valmis saab, eemaldatakse see akna alumisse vasakusse nurka. </para>
+
+<para
+>Mängul on vastavalt sellele, mitu masti välja jagatakse, erinevad tasemed: lihtsal tasemel kasutatakse üht masti, keskmisel tasemel kaht ja raskel tasemel kõiki nelja. Lihtsal tasemel on võitmine suhteliselt hõlpus, raskel tasemel, nojah, seal peab ikka päris tugevasti pingutama ja ka siis ei pruugi välja tulla :-) </para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="interface"
+><title
+>Liidese tutvustus</title
+> <!-- do not change this! -->
+<!-- This section has to do with menubar. Describe every single entry in order. Use <variablelist
+> and <varlistentry
+>. Split the chapter into sections using <sect1(2,3)
+> for better viewing.-->
+<sect1 id="game-menu">
+	<title
+>Menüü Mäng</title>
+		<variablelist>
+			<varlistentry id="game-menu-new-game">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>N</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Mäng</guimenu
+> <guimenuitem
+>Uus mäng...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Naaseb mängu valimise ekraanile.</action
+> Ühtlasi loobutakse sellega parajasti käimas olevast mängust.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-deal">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Mäng</guimenu
+> <guimenuitem
+>Uus jagamine</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Uue sama tüüpi mängu käivitamine.</action
+> Ühtlasi loobutakse käimas olevast mängust.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-numbered-deal">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Mäng</guimenu
+> <guimenuitem
+>Uus jagamine numbri järgi...</guimenuitem
+> </menuchoice
+></term>
+				<listitem>
+					<para
+><action
+>Uue mängu käivitamine mängu tüübi ja numbri järgi.</action
+> Ühtlasi loobutakse käimasolevast mängust.</para>
+					<para
+>&kpatience; annab igale mängule unikaalse identifitseerimisnumbri (mida kasutatakse seesmiselt juhusliku paki valimiselt esialgse jagamise ajal). See valik võimaldab mängida mõnda huvitama hakanud mängu või eriti keerulist ja rasket mängu, mida näiteks sõber soovitas. Erilise pühendumisega mängijad võivad aga näiteks soovida &kpatience;'i põhjalikult "lüüa", mängides järjest ära kõigi mängutüüpide kõik 2 147 483 647 jaotust.</para>
+					<para
+>Pane tähele, et Freecelli puhul kattuvad &kpatience;'i mängunumbrid nendega, mida kirjeldab <ulink url="http://www.solitairelaboratory.com/fcfaq.html"
+>Freecelli KKK</ulink
+>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-restart-deal">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F5</keycap
+></shortcut
+> <guimenu
+>Mäng</guimenu
+> <guimenuitem
+>Käivita mäng uuesti</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Taastab aktiivse mängu algjaotuse.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load">
+				<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Mäng</guimenu
+> <guimenuitem
+>Ava...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Laadib salvestatud mängu.</action
+> Ühtlasi loobutakse sellega parajasti käimas olevast mängust.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load-recent">
+				<term
+><menuchoice
+><guimenu
+>Mäng</guimenu
+><guisubmenu
+>Ava viimati kasutatud</guisubmenu
+><guimenuitem
+>Viimati kasutatud failide loend</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Viimati kasutatud salvestatud failide loend kasutamise järjekorras.</action
+> Mängu valimisel see laaditakse. Ühtlasi loobutakse sellega parajasti käimas olevast mängust.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-save">
+				<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Mäng</guimenu
+> <guimenuitem
+>Salvesta kui...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Aktiivse mängu salvestamine kettale.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-statistics">
+				<term
+><menuchoice
+><guimenu
+>Mäng</guimenu
+><guimenuitem
+>Statistika</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Mitmesuguse statistika näitamine sinu saavutuste kohta mängutüüpide kaupa.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-quit">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Mäng</guimenu
+> <guimenuitem
+>Välju</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Lõpetab</action
+> &kappname;'i töö.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="move-menu">
+	<title
+>Menüü Liikumine</title>
+		<variablelist>
+			<varlistentry id="move-menu-undo">
+				<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+> </keycombo
+> </shortcut
+> <guimenu
+>Käik</guimenu
+> <guimenuitem
+>Võta tagasi</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Tühistab</action
+> viimase käigu.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-redo">
+				<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>Z</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Käik</guimenu
+> <guimenuitem
+>Tee uuesti</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Sooritab uuesti</action
+> käigu, mille tühistasid viimati käsuga <guimenuitem
+>Võta tagasi</guimenuitem
+>.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-hint">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>H</keycap
+></shortcut
+> <guimenu
+>Käik</guimenu
+> <guimenuitem
+>Vihje</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Mõningad vihjed võimalike käikude kohta, kui mängija ei suuda neid enam ise välja mõelda. Kaardid, mida on võimalik liigutada teise pakki, tõstetakse ajutiselt esile.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-demo">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>D</keycap
+></shortcut
+> <guimenu
+>Käik</guimenu
+><guimenuitem
+>Demo</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Käivitab demo.</action
+> Demorežiimis püüab &kpatience; kaardid sinu eest lahti mängida. Sama toimingu valimine teist korda lõpetab demorežiimi.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-draw">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>Tühik</keycap
+></shortcut
+> <guimenu
+>Käik</guimenu
+> <guimenuitem
+>Võta</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Võtab kaardi algpakist ja liigutab selle heitepakki.</action
+> Seda toimingut saab kasutada ainult mõningates mängudes.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-deal-row">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>Return</keycap
+></shortcut
+> <guimenu
+>Käik</guimenu
+> <guimenuitem
+>Jaga uus rida</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Võtab mitu kaarti algpakist ja liigutab need heitepakki.</action
+> Seda toimingut saab kasutada ainult mõningates mängudes.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-redeal">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>R</keycap
+></shortcut
+> <guimenu
+>Käik</guimenu
+> <guimenuitem
+>Jaga uuesti</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Kogub kõik mängu jäänud kaardid ja jagab need uuesti ilma kaarte segamata</action
+> Seda toimingut saab kasutada ainult mõningates mängudes.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="settings-menu">
+	<title
+>Menüü Seadistused</title>
+		<variablelist>
+			<varlistentry id="settings-menu-game-type-options">
+				<term
+><menuchoice
+><guimenu
+>Seadistused</guimenu
+><guisubmenu
+>"Mängu tüübi" valikud</guisubmenu
+><guimenuitem
+>Mängu tüübile omaste valikute loend.</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Aktiivsele mängutüübile omaste valikute loend.</action
+> See on kasutusel ainult mõningates mängudes (Klondike ja Ämblik).</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-deck">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F10</keycap
+></shortcut
+><guimenu
+>Seadistused</guimenu
+><guimenuitem
+>Muuda välimust...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Avab dialoogi, kus saab valida kasutatava kaardipaki ja mängu teema.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-autodrop">
+				<term
+><menuchoice
+><guimenu
+>Seadistused</guimenu
+><guimenuitem
+>Automaatkäikude lubamine</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Lülitab sisse kaartide automaatse liigutamise lõpp-pakkidesse, kui see on võimalik.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-solver">
+				<term
+><menuchoice
+><guimenu
+>Seadistused</guimenu
+><guimenuitem
+>Lahendaja lubamine</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Lülitab sisse automaatse lahendaja kasutamise.</action
+> Kui see on sisse lülitatud, püüab lahendaja järjepidevalt kindlaks määrata, kas aktiivne mäng on võidetav. Protsessori või aku koormuse vähendamise huvides on mõistlik lahendaja välja lülitada.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-remember">
+				<term
+><menuchoice
+><guimenu
+>Seadistused</guimenu
+><guimenuitem
+>Oleku meelespidamine väljumisel</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Lülitab sisse mänguseisu automaatse salvestamise &kpatience;'i töö lõpetamisel.</action
+> Kui see on sisse lülitatud, laadib &kpatience; rakenduse järgmisel käivitamisel automaatselt varasema mängu selles seisus, nagu see pooleli jäi.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-toolbar">
+				<term
+><menuchoice
+><guimenu
+>Seadistused</guimenu
+> <guimenuitem
+>Tööriistariba näitamine</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Näitab või peidab tööriistariba..</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-statusbar">
+				<term
+><menuchoice
+><guimenu
+>Seadistused</guimenu
+> <guimenuitem
+>Olekuriba näitamine</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Näitab või peidab olekuriba.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="help"
+><!--This is a standard Help menubar entry. Only change if needed.-->
+<title
+>Menüü Abi</title>
+&help.menu.documentation; </sect1>
+</chapter>
+
+<chapter id="faq"
+><title
+>Korduma kippuvad küsimused</title
+> <!-- do not change this! -->
+<!--This chapter is for frequently asked questions. Please use <qandaset
+> <qandaentry
+> only!-->
+<qandaset>
+<!--Following is a standard list of FAQ questions.-->
+<qandaentry>
+ <question
+><para
+>Ma soovin muuta mängu välimust. On see võimalik? </para
+></question>
+ <answer
+><para
+>Muuta saab kaartide esi- ja tagakülje välimust ning mängu teemat. Selleks kasuta menüükäsku <menuchoice
+><shortcut
+><keycap
+>F10</keycap
+></shortcut
+><guimenu
+>Seadistused</guimenu
+><guimenuitem
+>Muuda välimust...</guimenuitem
+></menuchoice
+></para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Kas mängida saab ka klaviatuuri abil?</para
+></question>
+ <answer
+><para
+>Ei, &kappname;'i ei saa klaviatuuri abil mängida. Küll on enamikul menüükäskudel olemas kiirklahvid.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Ma ei saa isegi vihjetega aru, kuidas mängida. Aidake!</para
+></question>
+ <answer
+><para
+>Lisaks <quote
+>vihjetele</quote
+> on väga kasulik ka <quote
+>demorežiim</quote
+>, milles tehisaju mängib mängu sinu eest. Sinu ülesandeks on lihtsalt vaadata ja õppida. Aga kui tekib mingeid küsimusi, uuri lähemalt käsiraamatu osasid <link linkend="howto"
+>Kuidas mängida</link
+> ja <link linkend="rules_and_tips"
+>Mängureeglid, strateegia ja nõuanded</link
+>.</para
+></answer>
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits"
+><title
+>Autorid ja litsents</title
+> <!-- do not change this! -->
+<!--This chapter is for credits and licenses.-->
+
+<para
+>&kappname; </para>
+<!--List all the copyright holders here-->
+<para
+>&kpatience;'i autoriõigus &copy; 1995-2000: &Paul-Olav.Tvete; </para>
+
+<para
+>&kpatience;'i autoriõigus &copy; 2001-2007: &Stephan.Kulow; &Stephan.Kulow.mail; </para>
+
+<para
+>Freecelli lahendaja: Shlomi Fish <email
+>shlomif@vipe.technion.ac.il</email
+> </para>
+
+<para
+>Dokumentatsiooni autoriõigus &copy; 2000: &Paul-Olav.Tvete; </para>
+
+<para
+>Dokumentatsiooni uuendas &kde; 2.0 tarbeks: &Mike.McBride; &Mike.McBride.mail; </para>
+
+<para
+>Dokumentatsiooni kirjutas &kpatience; 2.0 (&kde; 2.1) tarbeks ümber: &Maren.Pakura; &Maren.Pakura.mail; </para>
+
+<para
+>Dokumentatsiooni korrigeeris ja uuendas &kpatience; &kappversion; tarbeks: &Richard.Hawthorne; &Richard.Hawthorne.mail; </para>
+
+<para
+>Tõlge eesti keelde: Marek Laane <email
+>bald@smail.ee</email
+></para
+> 
+&underFDL; &underGPL; </chapter>
+
+<appendix id="installation">
+<title
+>Paigaldamine</title>
+
+&install.intro.documentation;
+
+
+<sect1 id="Compilation">
+<title
+>Kompileerimine ja paigaldamine</title>
+&install.compile.documentation; </sect1>
+</appendix>
+
+&documentation.index; 
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-omittag:t
+sgml-shorttag:t
+sgml-namecase-general:t
+sgml-always-quote-attributes:t
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->

@@ -1,0 +1,335 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Italian "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>Manuale utente di KPat</title>
+<date
+>21/6/2021</date>
+<releaseinfo
+>21.04</releaseinfo>
+<productname
+>KDE Gear</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>kpat</command
+></refentrytitle>
+<manvolnum
+>6</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>kpat</command
+></refname>
+<refpurpose
+>Un gioco di carte molto appassionante</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>kpat</command
+> <group choice="opt"
+><option
+>--solvegame</option
+> <replaceable
+> file</replaceable
+></group
+> <group choice="opt"
+><option
+>--solve</option
+> <replaceable
+> num</replaceable
+></group
+> <group choice="opt"
+><option
+>--start</option
+> <replaceable
+> num</replaceable
+></group
+> <group choice="opt"
+><option
+>--end</option
+> <replaceable
+> num</replaceable
+></group
+> <group choice="opt"
+><option
+>--gametype</option
+> <replaceable
+> gioco</replaceable
+></group
+> <group choice="opt"
+><option
+>--testdir</option
+> <replaceable
+> cartella</replaceable
+></group
+> <group choice="opt"
+><option
+>--generate</option
+></group
+> <group choice="opt"
+><option
+><replaceable
+>file</replaceable
+></option
+></group
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>DESCRIZIONE</title>
+<para
+>&kpatience; è una raccolta di parecchi solitari, che vanno dai famosissimi Klondike e Freecell, ad altri meno noti come Mod3 e l'Orologio del nonno. In tutto ce ne sono 12 per aiutarti a passare il tempo.</para>
+</refsect1>
+
+<refsect1>
+<title
+>OPZIONI</title>
+<para
+>Questo programma utilizza l'abituale sintassi delle righe di comando GNU, in cui le opzioni lunghe iniziano con due trattini (`--'). Di seguito si trova un elenco delle opzioni previste per <command
+>kpat</command
+>.</para>
+
+<variablelist>
+
+<varlistentry>
+<term
+><option
+>-h</option
+> <option
+>--help</option
+></term>
+<listitem
+><para
+>Elenca le opzioni disponibili nella riga di comando</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-v</option
+> <option
+>--version</option
+></term>
+<listitem>
+<para
+>Elenca le informazioni di versione per &kpatience;</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--solvegame</option
+> <replaceable
+> file</replaceable
+></term>
+<listitem>
+<para
+>Cerca di risolvere il solitario salvato nel file</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--solve</option
+> <replaceable
+> num</replaceable
+></term>
+<listitem>
+<para
+>Distribuisce carte e risolve (debug)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--start</option
+> <replaceable
+> num</replaceable
+></term>
+<listitem>
+<para
+>Avvia un intervallo di gioco (predefinito  0:INT_MAX)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--end</option
+> <replaceable
+> num</replaceable
+></term>
+<listitem>
+<para
+>Fine di un intervallo di gioco (predefinito start:start se start esiste)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--gametype</option
+> <replaceable
+> gioco</replaceable
+></term>
+<listitem>
+<para
+>Salta la schermata di selezione e avvia direttamente il solitario scelto. I valori accettati sono: acesup, fortyeight, freecell, golf, grandfather, grandfathersclock, gypsy, klondike, mod3, simplesimon, spider e yukon</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--testdir</option
+> <replaceable
+> cartella</replaceable
+></term>
+<listitem>
+<para
+>Cartella con i test</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--generate</option
+></term>
+<listitem
+><para
+>Genera test casuali</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--author</option
+></term>
+<listitem
+><para
+>Elenca gli autori di &kpatience; nella finestra di terminale</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--license</option
+></term>
+<listitem
+><para
+>Mostra le informazioni sulla licenza</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--desktopfile</option
+> <replaceable
+>nome file</replaceable
+></term>
+<listitem
+><para
+>Il nome file della voce del desktop per questa applicazione.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><replaceable
+>file</replaceable
+></term>
+<listitem>
+<para
+>File da caricare</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</refsect1>
+
+<refsect1>
+<title
+>VEDERE ANCHE</title>
+<simplelist>
+<member
+>Documentazione utente più dettagliata è disponibile da <ulink url="help:/kpat"
+>help:/kpat</ulink
+> (sia digitando questo &URL; in &konqueror;, o eseguendo <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/kpat</parameter
+></userinput
+>).</member>
+<member
+>kf5options(7)</member>
+<member
+>qt5options(7)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>AUTORE</title>
+
+<para
+>&kpatience; è stato prodotto da:</para>
+<simplelist type="vert">
+<member
+>Paul Olav Tvete</member>
+<member
+>Mario Weilguni <email
+>mweilguni@kde.org</email
+></member>
+<member
+>Matthias Ettrich <email
+>ettrich@kde.org</email
+></member>
+<member
+>Rodolfo Borges <email
+>barrett@labma.ufrj.br</email
+></member>
+<member
+>Peter H. Ruegg <email
+>kpat@incense.org</email
+></member>
+<member
+>Michael Koch <email
+>koch@kde.org</email
+></member>
+<member
+>Marcus Meissner <email
+>mm@caldera.de</email
+></member>
+<member
+>Shlomi Fish <email
+>shlomif@vipe.technion.ac.il</email
+></member>
+<member
+>Stephan Kulow <email
+>coolo@kde.org</email
+></member>
+</simplelist>
+</refsect1>
+</refentry>

@@ -1,0 +1,1483 @@
+<?xml version="1.0" ?>
+<!--IMPORTANT: please note that'do not change this!' notice does not apply to translators -->
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % German "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY % addindex "IGNORE"
+> <!-- do not change this! -->
+]>
+
+<book id="kpat" lang="&language;"
+> <!-- do not change this! -->
+<bookinfo>
+	<title
+>Das Handbuch zu &kpatience;</title
+> <!-- This is the title of the docbook. Leave as is unless change is necessary.-->
+<!-- List of immidiate authors begins here. -->
+<!--INPORTANT! - All other contributors: [to be determined] -->
+<authorgroup>
+<author
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> </author>
+<author
+><firstname
+>Maren</firstname
+> <surname
+>Pakura</surname
+> </author>
+<author
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> </author>
+
+<othercredit role="reviewer"
+><firstname
+>Mike</firstname
+><surname
+>McBride</surname
+> <contrib
+>Korrektur</contrib>
+<affiliation
+><address
+>&Mike.McBride.mail;</address
+></affiliation>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> <contrib
+>Entwickler</contrib>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> <contrib
+>Entwickler</contrib>
+</othercredit>
+
+<othercredit role="translator"
+><firstname
+>Stephan</firstname
+><surname
+>Kulow</surname
+><affiliation
+><address
+><email
+>coolo@kde.org</email
+></address
+></affiliation
+><contrib
+>Übersetzer</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Paul-Olav.Tvete;</holder>
+</copyright>
+
+<copyright>
+<year
+>2001</year
+><year
+>2004</year>
+<holder
+>&Maren.Pakura;</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year>
+<holder
+>&Stephan.Kulow;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2021-06-20</date>
+<releaseinfo
+>KDE Gear 21.04</releaseinfo>
+
+<!--Short description of this document. Do not change unless necessary!-->
+<abstract>
+	<para
+>Dieses Handbuch beschreibt das Spiel &kpatience; in der Version 21.04</para>
+</abstract>
+
+<!--List of relevan keywords-->
+<keywordset>
+	<keyword
+>KDE</keyword
+> <!-- do not change this! -->
+	<keyword
+>kdegames</keyword
+> <!-- do not change this! -->
+	<keyword
+>Spiel</keyword
+> <!-- do not change this! -->
+	<keyword
+>Patience</keyword
+><!--Application name goes here-->
+<!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<keyword
+>Karte</keyword>
+	<keyword
+>Kartenspiel</keyword>
+	<keyword
+>Karten spielen</keyword>
+<!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+	<keyword
+>Einzelspieler</keyword>
+<!--All other relevant keywords-->
+	<keyword
+>Patience</keyword>
+	<keyword
+>Solitär</keyword>
+</keywordset>
+</bookinfo>
+<!--Content begins here: -->
+<chapter id="introduction"
+><title
+>Einführung</title
+> <!-- do not change this! -->
+	<note
+><title
+>Spielart:</title
+><para
+>Karte</para
+></note
+><!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<note
+><title
+>Anzahl der Spieler:</title
+><para
+>Einer</para
+></note
+><!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+
+<!--Short game description starts here. 3-4 sentences (paragraphs)-->
+
+<para
+>Eine Patience zu spielen erfordert, wie der Name schon sagt, Geduld. Für einfache Spiele, in denen der Spielverlauf nur davon abhängig ist, wie die Karten fallen, ist das auch ausreichend. </para>
+
+<para
+>Es gibt auch Patiencen, in denen zusätzlich strategisches Planen und Vorausdenken für das Gewinnen notwendig sind. </para>
+
+<para
+>In allen Spielen müssen die Karten durch Auslegen und Ordnen nach einem jeweils festgelegten Schema in eine bestimmte Reihenfolge gebracht werden. </para>
+</chapter>
+
+<chapter id="howto"
+><title
+>Spielanleitung</title
+> <!-- do not change this! -->
+<!--IMPORTANT: If the game has no defined objective, please remove the below line.-->
+	<note
+><title
+>Spielziel:</title
+><para
+>Die Karten mit möglichst wenigen Zügen nach Farben ordnen.</para
+></note
+><!--Describe the objective of the game.-->
+<!--How to play description. Don't be to specific on rules as they have a separate section in this document-->
+	<para
+>Da &kpatience; eine Vielzahl verschiedener Solitär-Spiele anbietet, gibt es keine allgemeingültige Anleitung, die für alle zutrifft. Bei unbekannten Spielarten sollten daher zunächst alle Unterkapitel mit den Spielregeln, -strategien und -tipps gelesen werden.</para>
+<para
+>Grundsätzlich gibt es zwei Arten Solitärspiele - die bei denen die Karten nach Farben sortiert werden und die bei denen die Farben abwechselnd angeordnet werden müssen. Die Spielart kann durch Ausprobieren leicht herausgefunden werden. Danach müssen die Karten nur noch durch mehrmaliges Umsortieren entsprechend zusammengeführt werden.</para>
+<para
+>Bereits zu Beginn sollte mit den Kartenstapeln Vorsicht walten. Bevor Karten bewegt werden, sollte überlegt werden, ob diese an anderer Stelle vielleicht sinnvoller untergebracht währen.</para>
+<para
+>Eine weiterer kleiner Hinweis ist, die Statusleiste im Auge zu behalten. Die meisten Spiele haben einen integrierten <emphasis
+>Löser</emphasis
+>, der darüber informiert, ob das aktuelle Spiel vollendet werden kann. Zeigt dieser an, dass das Spiel nicht mehr gewonnen werden kann, ist die Lösung unwahrscheinlich. An dieser Stelle kann das aktuelle Spiel neu gestartet oder ein völlig neues Spiel begonnen werden. </para>
+<note
+><title
+>Hinweis:</title
+><para
+>Das Spielen von Solitär verbessert die Konzentrationsfähigkeit.</para
+></note>
+</chapter>
+
+<chapter id="rules_and_tips"
+><title
+>Spielregeln, Spielstrategien und Tipps</title
+> <!-- do not change this! -->
+
+<sect1 id="rules-general">
+	<title
+>Spielregeln</title>
+	<para
+><indexterm
+><primary
+>Farben</primary
+></indexterm
+>Ein Kartenspiel enthält ein oder mehrere Kartenpäckchen mit je 52 Karten. Jedes Kartenpäckchen enthält die vier Farben:</para>
+	<informaltable pgwide="0" frame="none">
+		<tgroup cols="2"
+><colspec/><colspec/>
+	<tbody>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="clubs.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Kreuz</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="spades.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Pik</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="hearts.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Herz</entry>
+		</row>
+			<row valign="middle"
+><entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="diamonds.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Karo</entry>
+		</row>
+	</tbody
+></tgroup>
+	</informaltable>
+	<para
+>Jede dieser Farben enthält wiederum die folgenden Werte: Ass, Zwei, Drei, Vier, Fünf, Sechs, Sieben, Acht, Neun, Zehn, Bube, Dame und König.</para>
+	<para
+><indexterm
+><primary
+>Familie</primary
+></indexterm
+> Diese komplette Liste von Karten nennt man eine Familie. Es gibt echte Familien und unechte Familien. Die echten Familien sind alle von einer Farbe (z. B. Herz), während in unechten Familien die Farbe zwischen schwarz (Kreuz und Pik) und rot (Herz und Karo) abwechselt.</para>
+	<para
+>Wenn eine Familie nicht komplett ist, nennt man sie Folge.</para>
+	<mediaobject>
+		<imageobject
+><imagedata fileref="playfield.png" format="PNG"/></imageobject>
+		<textobject
+><phrase
+>Das Spielfeld von &kpatience;</phrase
+></textobject>
+	</mediaobject>
+	<para
+>Es gibt einige typische Elemente in einer Patience. Diese sollen im Folgenden vorgestellt werden.</para>
+	<variablelist>
+		<varlistentry
+><term
+>1. Talon</term>
+			<listitem
+><para
+><indexterm
+><primary
+>Talon</primary
+></indexterm
+>Am Anfang eines jeden Spiels werden die Kartenpäckchen gemischt. In einigen Spielen werden nicht alle Karten ausgeteilt und es verbleiben ein paar im <emphasis
+>Talon</emphasis
+> (auch <emphasis
+>Päckchen</emphasis
+> genannt). Diesen erkennt man in den einzelnen Spielarten meist recht einfach daran, dass er der einzige Stapel ist, der die Rückseite zeigt.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>2. Hilfsstapel</term>
+			<listitem
+><para
+><indexterm
+><primary
+>Hilfsstapel</primary
+></indexterm
+>Viele Spielarten verwenden einen Hilfsstapel zur Ablage der Karten, die vom Talon genommen wurden. Typischerweise wird durch Mausklick auf den Talon die oberste Karte mit dem Gesicht nach oben gedreht und auf dem Hilfsstapel gelegt, wodurch die Karte am Spiel teilnimmt.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>3. Ablagestapel</term>
+			<listitem
+><para
+><indexterm
+><primary
+>Ablagestapel</primary
+></indexterm
+>Auf den Ablagestapeln werden die Karten endgelagert. Typischerweise ist das Spiel gewonnen sobald alle Karte in der richtigen Reihenfolge auf den Ablagestapeln gelegt sind. Die Anzahl der Ablagestapel sowie die Reihenfolge sind verschieden und bestimmen sich nach der Spielart.</para>
+                            <para
+>Die meisten Spiele beginnen mit leeren Ablagestapeln. Durch das Aktivieren von <menuchoice
+><guimenu
+>Zug</guimenu
+><guimenuitem
+>Ablegen</guimenuitem
+></menuchoice
+> oder <guimenuitem
+>Ablegen</guimenuitem
+> in der Werkzeugleiste durchsucht &kpatience; alle Stapel und versucht möglichst viele Karten auf den Ablagestapeln abzulegen. Falls <menuchoice
+><guimenu
+>Einstellungen</guimenu
+><guimenuitem
+>Automatisches Ablegen aktivieren</guimenuitem
+></menuchoice
+> aktiviert ist, legt &kpatience; die ablegbaren Karten ständig ab.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>4. Spielstapel</term>
+			<listitem
+><para
+><indexterm
+><primary
+>Spielstapel</primary
+></indexterm
+>Diese Stapel sind der Ort, an dem das eigentliche Neuordnen stattfindet. Die Regeln für diese Stapel sind von Spiel zu Spiel sehr verschieden. Einige zeigen alle Karten auf den <emphasis
+>Spielstapeln</emphasis
+>, bei anderen sind manche Karten verdeckt. Einige Spiele erlauben nur, einzelne Karten zu verschieben, bei anderen kann jede Karte verschoben werden &etc;</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="rules-specific"
+><title
+>Regeln der einzelnen Spiele</title>
+
+<sect2 id="klondike">
+<title
+>Klondike</title>
+
+<para
+><indexterm
+><primary
+>Klondike</primary
+></indexterm
+> Klondike ist die bekannteste Patience &mdash; wahrscheinlich weil ein sehr bekanntes Betriebssystem diese Patience als Standard mitliefert. Klondike wird mit einem einzelnen Kartenpäckchen gespielt. </para>
+
+<para
+>Ziel des Spiels ist es, alle Karten als echte Familien aufsteigend auf den Ablagestapeln anzuordnen. Dies gelingt problemlos, sobald alle Karten mit der Vorderseite nach oben im Spielfeld liegen. </para>
+
+<para
+>Die Folgen müssen absteigend angeordnet werden, dabei müssen sich immer schwarze und rote Karten abwechseln. Es können ganze oder Teile von Folgen verschoben werden, wenn die erste Karte auf eine andere Ablage passt. </para>
+
+<para
+>Auf eine freie Ablage kann jeder beliebige König oder auch jede mit einem König beginnende Folge gelegt werden. </para>
+
+<para
+>Mit einem Klick auf den Talon wird eine Karte auf den Hilfsstapel gelegt, von wo aus sie auf die Spielstapel oder die Ablagestapel verschoben werden kann. Ist der Talon leer, wird mit einem weiteren Klick der Hilfsstapel zu einem neuen Talon. </para>
+
+<para
+>Die Karten im Talon können beliebig oft durchgeblättert werden. </para>
+</sect2>
+
+<sect2 id="grandfather">
+<title
+>Großvater</title>
+
+<para
+><indexterm
+><primary
+>Großvater</primary
+></indexterm
+> Erfinder dieser Spielart ist der Großvater von &Paul-Olav.Tvete;, dem ursprünglichen Entwickler von &kpatience;. Daher erhielt diese Patience ihren Namen. Es sind keine anderen Patience-Pakete bekannt, die dieses Spiel anbieten. </para>
+        
+<para
+>Bei Großvater wird ein Kartenpäckchen auf sieben Spielstapel ausgeteilt. Die Karten der Spielstapel sind nur zum Teil aufgedeckt. </para>
+
+<para
+>Ziel ist es, alle Karten als echte Familien aufsteigend auf den Ablagestapeln anzuordnen. </para>
+
+<para
+>Jede Karte kann auf jeden Spielstapel gelegt werden, wenn sich dadurch echte fallende Spielfolgen bilden. So kann &eg; die Pik-Fünf auf eine oben liegende Pik-Sechs gelegt werden, unabhängig davon, wieviele Karten auf der Pik-Fünf liegen. </para>
+
+<para
+>Auf eine freie Ablage kann ein König gelegt werden (wiederum egal, wieviele Karten auf diesem König liegen). </para>
+
+<para
+>Sobald keine Spielzüge mehr möglich sind, können die Karten erneut gegeben werden. Beim <emphasis
+>Neu Geben</emphasis
+> werden die Karten von den Spielstapeln genommen (Stapel für Stapel von links nach rechts) und diese nach dem Anfangsmuster erneut gelegt (eine Spitze bildende Zick-Zack-Reihen bei den verdeckten Karten und von links nach rechts Reihen mit aufgedeckten Karten). Anmerkung: Die Karten werden <emphasis
+>nicht</emphasis
+> gemischt und die Karten auf den Ablagestapeln werden nicht angerührt. Das <emphasis
+>Neu Geben</emphasis
+> ist nur zweimal in einem Spiel möglich. </para>
+
+<para
+>Auch wenn die Regeln einfach sind und es eine Menge möglicher Züge gibt, geht das Spiel doch recht selten auf. Trotzdem macht es Spaß zu spielen (vielleicht auch gerade deshalb). </para>
+</sect2>
+
+<sect2 id="aces-up">
+<title
+>Asse hoch</title>
+
+<para
+><indexterm
+><primary
+>Asse hoch</primary
+></indexterm
+> Diese Patience hat einfache Regeln, ist aber schwer zu gewinnen. Sie wird mit einem Kartenpäckchen gespielt. Ziel ist es, alle Karten außer den Assen auf die Ablagestapel zu legen, wobei am Schluss auf jedem Spielstapel ein Ass liegen muss. </para>
+
+<para
+>Jede obere Karte, die von geringerem Wert als eine andere obere Karte und von derselben Farbe (&eg; Pik) ist, kann per Klick auf die Ablagestapel gelegt werden. </para>
+
+<para
+>Können keine weiteren Karten auf die Ablagestapel gelegt werden, wird mit einem Klick auf den Talon auf jeden Spielstapel eine neue Karte gelegt. </para>
+
+<para
+>Bei einem freien Stapel kann jede Karte als Basis verwendet werden. Diese Spielzüge sollten zum Abbau bestehender Stapel dienen. Mit dieser Vorgehensweise können neue Karten auf die Ablagestapel gelegt werden. </para>
+
+<para
+>Das automatische Ablegen von Karten ist bei dieser Patience nicht verfügbar. </para>
+
+</sect2>
+
+<sect2 id="freecell">
+<title
+>Freecell</title>
+
+<para
+><indexterm
+><primary
+>Freecell</primary
+></indexterm
+> Freecell wird mit einem Kartenpäckchen gespielt. Das Spielfeld besteht aus vier freien Zellen (links oben), den vier Ablagestapeln (rechts oben) und den acht Spielstapeln. </para>
+
+<para
+>Ziel ist es, alle Karten als echte Familien aufsteigend auf den Ablagestapeln anzuordnen. Dies gelingt sehr oft, da Freecell zu ca. 99,9 % lösbar ist (von den ersten 32000 Spielen ist nur die Nummer 11982 unlösbar). </para>
+
+<para
+>In den Spielstapeln müssen die Spielfolgen fallend, mit roten und schwarzen Karten im Wechsel, angeordnet werden. In eine freie Zelle kann nur eine einzige Karte gelegt werden. </para>
+
+<para
+>Bei einem Spielzug darf immer nur eine oben liegende Karte verschoben werden. Sequenzen oder Teile von Sequenzen können nur verschoben werden, wenn genügend freie Zellen und/oder freie Spielstapel vorhanden sind. Dabei kann jede beliebige Karte auf eine freie Position gelegt werden. </para>
+
+<para
+>Die maximale Anzahl der verschiebbaren Karten berechnet sich wie folgt: </para>
+
+<sidebar
+><para
+>(#{freie Zellen} + 1) * 2<superscript
+>#{freie Spielstapel}</superscript
+> </para
+></sidebar>
+
+<para
+>Varianten:</para>
+<itemizedlist>
+  <listitem
+><para
+><quote
+>Bäckers Dutzend</quote
+>, wie <quote
+>Freecell</quote
+>, aber die Stapel werden nach Farben abgelegt.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Acht aus</quote
+>, wie <quote
+>Freecell</quote
+>, aber die Stapel werden nach Farben abgelegt. Es gibt 8 Reservekarten und nur Könige können auf leere Ablagestapel gelegt werden. Vier Reservekarten werden bei Spielbeginn ausgelegt.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Forecell</quote
+>, wie <quote
+>Freecell</quote
+>, aber die Reservekarten werden bei Spielbeginn ausgelegt und nur Könige können auf leere Ablagestapel gelegt werden.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Seahaven-Türme</quote
+>, wie <quote
+>Freecell</quote
+>, aber mit 10 Stapeln, die nach Farben abgelegt werden. Es gibt 8 Reservekarten und nur Könige können auf leere Ablagestapel gelegt werden. Zwei Reservekarten werden bei Spielbeginn ausgelegt.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Zur Lösung dieses Spiels sollten die Karten in derjenigen Reihenfolge <emphasis
+>freigelegt</emphasis
+> werden, in der sie auf die Ablagestapel gelegt werden können. (zuerst die Asse, dann die Zweier, &etc;) </para>
+
+<para
+>Dabei sollten so viele freie Zellen und/oder Ablagen frei gehalten werden, dass möglichst lange Folgen gebaut und verschoben werden können. </para>
+
+</sect2>
+
+<sect2 id="mod3">
+<title
+>Mod3</title>
+
+<para
+><indexterm
+><primary
+>Mod3</primary
+></indexterm
+> Mod3 wird mit zwei Kartenpäckchen ohne Asse gespielt. Ziel ist es, alle Karten in den drei oberen Reihen anzuordnen. In der ersten Reihe sollen echte Abfolgen der Form 2-5-8-B, in der zweiten Reihe der Form 3-6-9-D und in der dritten Reihe der Form 4-7-10-K angeordnet werden. Hier ist die Farbe der Karte wichtig, so kann beispielsweise auf eine Herz-Zwei nur eine Herz-Fünf gelegt werden. </para>
+
+<para
+>Die vierte Reihe ist gleichzeitig Hilfs- und Spielstapel. Auf einen leeren Spielstapel kann eine beliebige Karte aus den oberen drei Reihen oder die oberste Karte der vierten Reihe gelegt werden. </para>
+
+<para
+>Asse können auf den Ass-Stapel oberhalb des Talon gelegt werden. Dadurch können Plätze frei gemacht werden. </para>
+
+<para
+>Können keine weiteren Karten verschoben werden, ergeben sich neue Möglichkeiten durch einen Klick auf den Talon. Dadurch wird auf jeden Spielstapel eine neue Karte gelegt. </para>
+
+<para
+>Das automatische Ablegen von Karten ist bei dieser Patience nicht verfügbar. </para>
+</sect2>
+
+<sect2 id="gypsy">
+<title
+>Zigeuner</title>
+
+<para
+><indexterm
+><primary
+>Zigeuner</primary
+></indexterm
+> Zigeuner wird mit zwei Kartenpäckchen gespielt. Ziel des Spiels ist es, alle Karten als echte Familien aufsteigend auf den Ablagestapeln anzuordnen. </para>
+
+<para
+>Die Spielfolgen müssen fallend angeordnet werden, wobei sich immer schwarze und rote Karten abwechseln. Es können nur Sequenzen oder einzelne Karten verschoben werden. Auf einen freien Spielstapel kann jede beliebige Karte oder Sequenz gelegt werden. </para>
+
+<para
+>Können keine weiteren Karten verschoben werden, ergeben sich neue Möglichkeiten durch einen Klick auf den Talon. Dadurch wird auf jeden Spielstapel eine neue Karte gelegt. </para>
+
+<para
+>Das häufige Verwenden der Funktion <guibutton
+>Zurücknehmen</guibutton
+> ermöglicht ein leichteres Gewinnen des Spiels. Dadurch können die Auswirkungen einer Entscheidung zunächst beobachtet und möglicherweise eine andere Entscheidungen getroffen werden. </para>
+
+</sect2>
+
+<sect2 id="forty-and-eight">
+<title
+>Vierzig &amp; Acht</title>
+
+<para
+><indexterm
+><primary
+>Vierzig &amp; Acht</primary
+></indexterm
+> Vierzig &amp; Acht wird mit zwei Kartenpäckchen gespielt. Ziel des Spiels ist es, alle Karten als echte Familien aufsteigend auf den Ablagestapeln anzuordnen. </para>
+
+<para
+>Die Spielstapel müssen fallend angeordnet werden, wobei nur Herz auf Herz, Pik auf Pik, usw. gelegt werden darf. </para>
+
+<para
+>Es kann nur eine oben liegende Karte pro Spielzug bewegt werden. Auf einer freien Ablage lässt sich jede beliebige Karte ablegen. </para>
+
+<para
+>Mit einem Klick auf den Talon wird eine Karte auf den Hilfsstapel gelegt, von wo aus sie auf die Spiel- oder Ablagestapel verschoben werden kann (letzteres übernimmt &kpatience;). Ist der Talon leer, wird mit einem weiteren Klick der Hilfsstapel zu einem neuen Talon. Jedoch kann der Talon nur zweimal durchgesehen werden. </para>
+
+<para
+>Diese Patience ist nicht einfach zu lösen, aber mit ein wenig Erfahrung wird das Gewinnen vieler Spiele möglich. Dabei bietet sich vor allem das häufigere Verwenden der <guibutton
+>Zurücknehmen</guibutton
+>-Funktion an, um Entscheidungen im Spielverlauf zu berichtigen. Dies gilt auch für den Fall, dass &kpatience; eine Karte automatisch auf einen Ablagestapel legt. </para>
+</sect2>
+
+<sect2 id="simple-simon">
+<title
+>Einfach Simon</title>
+
+<para
+><indexterm
+><primary
+>Einfach Simon</primary
+></indexterm
+> Einfach Simon wird mit einem Kartenpäckchen gespielt. Ziel des Spiels ist es, alle Karten als echte Familien aufsteigend auf den Ablagestapeln anzuordnen. </para>
+
+<para
+>Auf den Ablagestapeln können echte und unechte, fallende Sequenzen gebildet werden. Mehrere Karten lassen sich nur dann bewegen, wenn sie Mitglied einer echten Familie sind. So kann beispielsweise die Pik-Sechs verschoben werden, wenn die <emphasis
+>Pik</emphasis
+>-Fünf auf ihr liegt, aber nicht, wenn es die <emphasis
+>Herz</emphasis
+>-Fünf ist. </para>
+
+<para
+>Die Karten werden nur auf die Ablagestapel gelegt, wenn alle 13 Karten einer Farbe im Spielfeld als echte fallende Familie angeordnet wurden. </para>
+
+<tip>
+<title
+>Hinweis</title>
+<para
+>Es empfiehlt sich möglichst früh Karten auf die richtigen Spielstapel zu verschieben, um freie Spielstapel zu schaffen. Auf einen freien Spielstapel kann jede Karte oder Sequenz gelegt werden. </para>
+
+<para
+>Mit ausreichend Platz kann begonnen werden, fallende Familien auf einen freien Spielstapel zu legen. Sind alle Karten so angeordnet, können sie anschließend der Farbe nach sortiert werden. </para>
+</tip>
+
+</sect2>
+
+<sect2 id="yukon">
+<title
+>Yukon</title>
+
+<para
+><indexterm
+><primary
+>Yukon</primary
+></indexterm
+> Yukon wird mit einem Kartenpäckchen gespielt. Ziel des Spiels ist es, alle Karten als echte Familien aufsteigend auf den Ablagestapeln anzuordnen. </para>
+
+<para
+>Die Spielfolgen müssen fallend angeordnet werden, wobei sich immer schwarze und rote Karten abwechseln. Jede aufgedeckte Karte kann bewegt werden. So kann beispielsweise die Herz-Fünf auf eine oben liegende Pik-Sechs gelegt werden, unabhängig davon, wieviele Karten unter der Pik-Sechs liegen. </para>
+
+<para
+>Auf einen freien Spielstapel kann ein König jeder beliebigen Farbe gelegt werden (auf diesem können beliebig viele Karten liegen). </para>
+</sect2>
+
+<sect2 id="grandfathers-clock">
+<title
+>Großvaters Uhr</title>
+
+<para
+><indexterm
+><primary
+>Großvaters Uhr</primary
+></indexterm
+> Großvaters Uhr ist eine einfache Patience und mit ein bisschen Erfahrung sollte fast jedes Spiel lösbar sein. Diese Patience wird mit einem Kartenpäckchen gespielt. Ziel des Spiels ist es, alle Karten als echte Familien aufsteigend auf den Ablagestapeln anzuordnen. </para>
+
+<para
+>Die zwölf Ablagestapel befinden sich auf der rechten Seite und bilden die Form einer Uhr. Dabei befinden sich die Neun auf 12 Uhr, die Dame auf 3 Uhr, die Drei auf 6 Uhr und die Sechs auf 9 Uhr. </para>
+
+<para
+>Die acht Spielstapel bestehen aus je fünf Karten. Auf diesen können die Karten als fallende Sequenzen angeordnet werden, wobei die Farbe unberücksichtigt bleibt. Bei jedem Spielzug kann nur eine Karte bewegt werden. </para>
+
+</sect2>
+
+<sect2 id="golf">
+<title
+>Golf</title>
+
+<para
+><indexterm
+><primary
+>Golf</primary
+></indexterm
+> Golf wird mit einem Kartenpäckchen gespielt. Ziel des Spiels ist es, alle Karten als echte Familien aufsteigend auf den Ablagestapeln anzuordnen.</para>
+ 
+<para
+>Der Aufbau des Spielfeldes von Golf-Solitär ist ziemlich geradlinig. Am Anfang des Spiels ist das Spielfeld und darauf sieben Spalten mit je fünf Karten sichtbar. Darunter befinden sich der Talon und die Ablagestapel. </para>
+
+<para
+>Golf-Solitär ist einfach zu spielen, erfordert aber eine Strategie, um zu gewinnen. Die Karten oben auf jedem Kartenstapel des Spielfeldes können gespielt werden. Die erreichbaren Karten werden auf der obersten Karte der Ablagestapel in auf- oder absteigender Reihenfolge abgelegt, wobei die Farbe unberücksichtigt bleibt. Sind keine Spielzüge mehr möglich, kann eine Karte vom Talon auf die Ablagestapel gelegt werden. Das Spiel ist beendet, wenn alle Karten vom Talon gespielt wurden und keine anderen Spielzüge mehr möglich sind.</para>
+
+</sect2>
+
+<sect2 id="spider">
+<title
+>Spider</title>
+
+<para
+><indexterm
+><primary
+>Spider</primary
+></indexterm
+> Spider wird mit zwei Kartenpäckchen gespielt. Zu Beginn werden 10 Spielstapel gebildet, 4 mit 6 Karten und 6 mit 5 Karten. Bei jedem Klicken auf den Talon werden von den restlichen 50 Karten jeweils 10 Karten gleichzeitig auf die zehn Spielstapel verteilt. </para>
+
+<para
+>Auf den Spielstapeln darf eine Karte auf eine andere Karte beliebiger Farbe gelegt werden, deren Wert um eins höher ist. Eine Folge absteigender Karten der gleichen Farbe darf in einem Zug von einem Spielstapel auf einen anderen verschoben werden. </para>
+
+<para
+>Das Ziel von Spider ist, alle Karten entsprechend ihrer Familie absteigend vom König aus irgendwo in den Spielstapeln zu platzieren. Eine vollständige Familie wird von den Spielstapeln entfernt und links unten im Fenster abgelegt. </para>
+
+<para
+>Die verschiedenen Spielstufen unterscheiden sich in der Anzahl der ausgeteilten Farben. Leicht verwendet eine Farbe, mittel zwei und schwer verwendet alle vier Farben. In der leichten Stufe ist das Spiel einfach zu gewinnen, in der schweren Spielstufe sehr schwierig. </para>
+
+</sect2>
+
+<sect2 id="bakers-dozen">
+<title
+>Bäckers Dutzend</title>
+
+<para
+><indexterm
+><primary
+>Bäckers Dutzend</primary
+></indexterm
+> Bäckers Dutzend wird mit einem Kartenspiel gespielt. Der Name kommt von der 12 Stapeln im Spiel. Das entspricht dem Anzahl in einem Bäckerdutzend. Die Karten werden jeweils zu viert in 13 Stapeln auf dem Spielfeld abgelegt. Jeder König oben oder in der Mitte jedes Stapels muss unten abgelegt werden, ehe das Spiel beginnt. Zwei Könige in einem Stapel werden unten in gleicher Reihenfolge abgelegt. </para>
+
+<para
+>Ziel ist es, alle Karten nach Farben auf den vier Ablagestapeln jeweils vom Ass bis zum König anzuordnen. </para>
+
+<para
+>In den Spielstapeln müssen die Spielfolgen fallend,unabhängig von der Farbe angeordnet werden. Sie können nur eine Karte oben auf dem Stapel ziehen. </para>
+
+<para
+>Varianten:</para>
+<itemizedlist>
+  <listitem
+><para
+>In der <quote
+>Spanischen Patience</quote
+> kann jede Karte auf leere Bereiche des Spielfelds abgelegt werden.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Burgen in Spanien</quote
+> ist etwa so wie die <quote
+>Spanische Patience</quote
+>, aber die Karten auf dem Spielfeld werden mit abwechselnden Farben abgelegt. In einigen Varianten sind die Karten auf den Spielfeld verdeckt abgelegt, abgesehen von den obersten Karten auf jedem Stapel.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Portugiesisches Solitaire</quote
+> ist ein Mittelding aus <quote
+>Bäckers Dutzend</quote
+> und der <quote
+>Spanischen Patience</quote
+>, weil leere Spalten nur mit Königen belegt werden können.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Zur Lösung dieses Spiels sollten die Karten in derjenigen Reihenfolge <emphasis
+>freigelegt</emphasis
+> werden, in der sie auf die Ablagestapel gelegt werden können. (zuerst die Asse, dann die Zweier, &etc;). Normalerweise sollten Sie es vermeiden, einen Kartenstapel zu leeren, bis die letzte Karte auf einem Ablagestapel abgelegt werden kann. </para>
+
+</sect2>
+
+<sect2 id="castle">
+<title
+>Burg</title>
+
+<para
+><indexterm
+><primary
+>Burg</primary
+></indexterm
+> Burg ist eine Familie von Patience- oder Solitaire-Kartenspielen, die typischerweise mit einem Satz von 52 Spielkarten gespielt wird. Es wird manchmal auch als „Freecell ohne Zellen“ bezeichnet, da das Spiel ähnlich abläuft, aber in den meisten Varianten keine zusätzlichen leeren Felder zum Manövrieren vorhanden sind.  </para>
+
+<para
+>Ziel ist es, alle Karten nach Farben auf den vier Ablagestapeln jeweils vom Ass bis zum König anzuordnen. </para>
+
+<para
+>In den Spielstapeln müssen die Spielfolgen fallend,unabhängig von der Farbe angeordnet werden. Sie können nur eine Karte oben auf dem Stapel ziehen. </para>
+
+<para
+>Varianten:</para>
+<itemizedlist>
+  <listitem
+><para
+><quote
+>Belagerte Burg</quote
+>. Asse werden auf die Ablagestapel verteilt. Jede Karte kann leere Felder füllen.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Zitadelle</quote
+> ist wie <quote
+>Belagerte Burg</quote
+>, aber passende Karten werden während des Austeilens auf den Ablagestapel verschoben, sodass ungleiche Stapel entstehen.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Verbannte Könige</quote
+> ist wie <quote
+>Zitadelle</quote
+>, aber nur Könige können leere Felder füllen.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Belagerung</quote
+> ist wie <quote
+>Belagerte Burg</quote
+>, aber mit einer freien Zelle.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Straßen und Wege</quote
+> ist wie <quote
+>Belagerte Burg</quote
+>, aber die Asse werden mit gemischt.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Festung</quote
+> ist wie <quote
+>Straßen und Wege</quote
+>, aber mit einer freien Zelle.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Um dieses Spiel zu lösen, empfiehlt es sich, gleichmäßig auf den Ablagestapel zu spielen. Versuchen Sie leere Stapel zu schaffen, die für längere Züge genutzt werden können, um verdeckte Karten freizulegen. </para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="interface"
+><title
+>Benutzeroberfläche</title
+> <!-- do not change this! -->
+<!-- This section has to do with menubar. Describe every single entry in order. Use <variablelist
+> and <varlistentry
+>. Split the chapter into sections using <sect1(2,3)
+> for better viewing.-->
+<sect1 id="game-menu">
+	<title
+>Das Menü Spiel</title>
+		<variablelist>
+			<varlistentry id="game-menu-new-game">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>N</keycap
+></keycombo
+></shortcut
+><guimenu
+>Spiel</guimenu
+><guimenuitem
+>Neues Spiel ...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Rückkehr zur Spielauswahl.</action
+> Mit dieser Aktion wird das laufende Spiel verworfen.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-deal">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></shortcut
+><guimenu
+>Spiel</guimenu
+><guimenuitem
+>Neue Karten</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Eine neue Partie des selben Spiels wird gestartet.</action
+> Mit dieser Aktion wird das laufende Spiel verworfen.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-numbered-deal">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+></shortcut
+><guimenu
+>Spiel</guimenu
+><guimenuitem
+>Neue Spielnummer ...</guimenuitem
+> </menuchoice
+></term>
+				<listitem>
+					<para
+><action
+>Eine neue Partie mit einer bestimmten Spielnummer und Spielart wird gestartet.</action
+> Mit dieser Aktion wird das laufende Spiel verworfen.</para>
+					<para
+>&kpatience; vergibt an jede Partie eine einzigartige Identifikationsnummer (und verwendet diese intern zur zufälligen Auswahl der Karten). Dadurch kann jede interessante Partie nochmals gewählt und gespielt werden. Besonders ehrgeizige Spieler möchten möglicherweise alle 2.147.483.647 Partien in alle Spielarten spielen und dabei &kpatience; <emphasis
+>schlagen.</emphasis
+></para>
+					<para
+>Zu beachten ist, dass alle Nummern der Freecell-Partien in &kpatience; mit denen der <ulink url="http://www.solitairelaboratory.com/fcfaq.html"
+>Häufig gestellten Fragen</ulink
+> von Freecell übereinstimmen.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-restart-deal">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F5</keycap
+></shortcut
+><guimenu
+>Spiel</guimenu
+><guimenuitem
+>Spiel neu starten</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Das aktuelle Spiel wird in den Anfangszustand zurückgesetzt.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+></shortcut
+><guimenu
+>Spiel</guimenu
+><guimenuitem
+>Laden ...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Ein gespeichertes Spiel wird geladen.</action
+> Mit dieser Aktion wird das laufende Spiel verworfen.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load-recent">
+				<term
+><menuchoice
+><guimenu
+>Spiel</guimenu
+><guisubmenu
+>Zuletzt geöffnete Spiele</guisubmenu
+><guimenuitem
+><replaceable
+>Liste der zuletzt geöffneten Spiele</replaceable
+></guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Die zuletzt gespielten und gespeicherten Spiele in der Reihenfolge der letzten Verwendung werden angezeigt.</action
+> Durch Auswahl eines Eintrags wird das entsprechende Spiel geladen. Mit dieser Aktion wird das laufende Spiel verworfen.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-save">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+></shortcut
+><guimenu
+>Spiel</guimenu
+><guimenuitem
+>Speichern unter ...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Das aktuelle Spiel wird nach Angabe eines Dateinamens auf der Festplatte gespeichert.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-statistics">
+				<term
+><menuchoice
+><guimenu
+>Spiel</guimenu
+><guimenuitem
+>Statistik</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Die Statistiken zu den verschiedenen Spielarten werden angezeigt.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-quit">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+></shortcut
+><guimenu
+>Spiel</guimenu
+><guimenuitem
+>Beenden</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>&kpatience; wird <action
+>beendet</action
+>.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="move-menu">
+	<title
+>Das Menü Zug</title>
+		<variablelist>
+			<varlistentry id="move-menu-undo">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+></shortcut
+><guimenu
+>Zug</guimenu
+><guimenuitem
+>Zurücknehmen</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Der letzte Spielzug wird <action
+>zurückgenommen</action
+>.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-redo">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>Z</keycap
+></keycombo
+></shortcut
+><guimenu
+>Zug</guimenu
+><guimenuitem
+>Wiederherstellen</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Der zurückgenommene Spielzug wird <action
+>wiederhergestellt</action
+>.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-hint">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>H</keycap
+></shortcut
+><guimenu
+>Zug</guimenu
+><guimenuitem
+>Tipp</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Tipps zu möglichen Spielzüge werden gegeben (sofern der Spieler nicht mehr weiter weiß). Dabei werden vorübergehend Karten angezeigt, die gespielt werden können.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-demo">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>D</keycap
+></shortcut
+><guimenu
+>Zug</guimenu
+><guimenuitem
+>Demomodus</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Der Demomodus wird gestartet.</action
+> Im Demomodus versucht &kpatience; eine Partie und verdeutlicht damit den Spielablauf. Eine nochmalige Auswahl des Demomodus beendet diesen wieder.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-draw">
+				<term
+><menuchoice
+><shortcut
+>&Space;</shortcut
+><guimenu
+>Zug</guimenu
+><guimenuitem
+>Ziehen</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Eine Karte wird vom Talon genommen und auf den Hilfsstapel gelegt.</action
+> Diese Aktion ist nur in bestimmten Spielarten verfügbar.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-deal-row">
+				<term
+><menuchoice
+><shortcut
+>&Enter;</shortcut
+><guimenu
+>Zug</guimenu
+><guimenuitem
+>Reihe geben</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Mehrere Karten werden vom Talon genommen und jeweils eine auf jeden Spielstapel gelegt.</action
+> diese Aktion ist nur in bestimmten Spielarten verfügbar.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-redeal">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>R</keycap
+></shortcut
+><guimenu
+>Zug</guimenu
+><guimenuitem
+>Neu geben</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Alle Karten auf den Spielstapeln werden eingesammelt, gemischt und neu ausgegeben.</action
+> Diese Aktion ist nur in bestimmten Spielarten verfügbar.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="settings-help-menu">
+	<title
+>Die Menüs Einstellungen und Hilfe</title>
+<para
+>Außer den bekannten &kde;-Menüeinträgen Einstellungen und Hilfe, die im Kapitel <ulink url="help:/fundamentals/menus.html"
+>Menüs</ulink
+> der &kde;-Grundlagen beschrieben werden, gibt es folgende spezielle Menüeinträge für &kpatience;: </para>
+		<variablelist>
+			<varlistentry id="settings-menu-game-type-options">
+				<term
+><menuchoice
+><guimenu
+>Einstellungen</guimenu
+><guisubmenu
+><replaceable
+>„Spielart“-Einstellungen</replaceable
+></guisubmenu
+><guimenuitem
+>Liste spezieller Einstellungsmöglichkeiten für die Spielart</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Die spezifischen Einstellungsmöglichkeiten für die aktuelle Spielart werden angezeigt.</action
+> Dieses Menü ist nur in den Spielarten Klondike und Spider verfügbar.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-stack-options">
+				<term
+><menuchoice
+><guimenu
+>Einstellungen</guimenu
+> <guisubmenu
+>Stapel-Einstellungen</guisubmenu
+><guimenuitem
+>Vorderseite unten (schwerer)/Vorderseite oben (leichter)</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Ermöglicht die Einstellung, ob die Kartenvorderseiten angezeigt werden sollen.</action
+> Dieses Menü ist nur in der Spielarten Spider verfügbar.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-deck">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F10</keycap
+></shortcut
+><guimenu
+>Einstellungen</guimenu
+><guimenuitem
+>Erscheinungsbild ändern ...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Ein Dialog zum Ändern des verwendeten Blatt- und Spieldesigns wird geöffnet.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-autodrop">
+				<term
+><menuchoice
+><guimenu
+>Einstellungen</guimenu
+><guimenuitem
+>Automatisches Ablegen aktivieren</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Ist diese Einstellung aktiviert, werden die Karten automatisch auf den Ablagestapel verschoben (soweit möglich).</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-solver">
+				<term
+><menuchoice
+><guimenu
+>Einstellungen</guimenu
+><guimenuitem
+>Löser aktivieren</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Das automatische Löser-Modul wird aktiviert.</action
+> Ist diese Einstellung aktiviert, versucht der Löser ständig herauszufinden, ob das Spiel beim aktuellen Spielstand gewonnen werden kann. Zum Schonen des Prozessors oder des Akkus sollte der Löser deaktiviert werden.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-playsounds">
+				<term
+><menuchoice
+><guimenu
+>Einstellungen</guimenu
+><guimenuitem
+>Klänge wiedergeben</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Wenn Sie Karten aufnehmen oder ablegen, werden Klänge abgespielt.</action
+> Für die Zukunft sind weitere Klänge geplant.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-remember">
+				<term
+><menuchoice
+><guimenu
+>Einstellungen</guimenu
+><guimenuitem
+>Spielstand beim Beenden merken</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Das automatische Speichern des Spielstandes beim Beenden von &kpatience; wird aktiviert.</action
+> Ist diese Einstellung aktiviert, lädt &kpatience; den letzten Spielstand beim nächsten Aufruf automatisch.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="help-menu-remember">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>F1</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Hilfe</guimenu
+> <guimenuitem
+>Hilfe zum aktuellen Spiel</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Öffnet den Abschnitt mit den Regeln für das aktuelle Spiel in diesem Handbuch.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="faq"
+><title
+>Häufig gestellte Fragen</title
+> <!-- do not change this! -->
+<!--This chapter is for frequently asked questions. Please use <qandaset
+> <qandaentry
+> only!-->
+<qandaset>
+<!--Following is a standard list of FAQ questions.-->
+<qandaentry>
+ <question
+><para
+>Kann das Erscheinungsbild des Spiels geändert werden? </para
+></question>
+ <answer
+><para
+>Die Vorder- und Rückseite des Kartenblatts sowie das Design können geändert werden. Dazu wird in der Menüleiste <menuchoice
+> <shortcut
+><keycap
+>F10</keycap
+></shortcut
+><guimenu
+>Einstellungen</guimenu
+><guimenuitem
+>Erscheinungsbild ändern ...</guimenuitem
+></menuchoice
+> ausgewählt.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Kann mit der Tastatur gespielt werden?</para
+></question>
+ <answer
+><para
+>Nein, &kpatience; kann nicht ausschließlich mit der Tastatur gespielt werden. Jedoch haben die meisten Menüeinträge entsprechende Tastenkürzel.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Die Tipps tragen nicht zur Lösung des Spiels bei. Gibt es noch weitere Hilfen?</para
+></question>
+ <answer
+><para
+>Außer den Tipps gibt es noch einen <quote
+>Demomodus</quote
+>, in dem der Computer spielt und die Spielweise dadurch verdeutlicht. Weitere Fragen sollten die Kapitel <link linkend="howto"
+>Spielanleitung</link
+> und <link linkend="rules_and_tips"
+>Spielregeln, Spielstrategien und Tipps</link
+> in diesem Handbuch klären.</para
+></answer>
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits"
+><title
+>Danksagungen und Lizenz</title
+> <!-- do not change this! -->
+<!--This chapter is for credits and licenses.-->
+
+<para
+>&kpatience; </para>
+<!--List all the copyright holders here-->
+<para
+>&kpatience; Copyright &copy; 1995-2000 &Paul-Olav.Tvete; </para>
+
+<para
+>&kpatience; Copyright &copy; 2001-2007 &Stephan.Kulow; &Stephan.Kulow.mail; </para>
+
+<para
+>Freecell-Löser von Shlomi Fish <email
+>shlomif@vipe.technion.ac.il</email
+> </para>
+
+<para
+>Dokumentation Copyright &copy; 2000 &Paul-Olav.Tvete; </para>
+
+<para
+>Dokumentation für &kde; 2.0 von &Mike.McBride; &Mike.McBride.mail; überarbeitet </para>
+
+<para
+>Dokumentation für &kpatience; 2.0 (&kde; 2.1) neu geschrieben von &Maren.Pakura; &Maren.Pakura.mail; </para>
+
+<para
+>Dokumentation für &kpatience; 3.6 von &Richard.Hawthorne; &Richard.Hawthorne.mail; überarbeitet </para>
+
+<para
+>Übersetzung: Stephan Kulow<email
+>coolo@kde.org</email
+></para
+><para
+>Überarbeitung der Übersetzung: Johannes Obermayr<email
+>johannesobermayr@gmx.de</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index; 
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-omittag:t
+sgml-shorttag:t
+sgml-namecase-general:t
+sgml-always-quote-attributes:t
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->

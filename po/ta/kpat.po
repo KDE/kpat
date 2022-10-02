@@ -1,0 +1,1232 @@
+# translation of kpat.po to English
+# translation of kpat.po to
+# translation of kpat.po to
+# translation of kpat.po to
+# Copyright (C) 2004 Free Software Foundation, Inc.
+# Ambalam <tamilpc@ambalam.com>, 2004.
+# root <root@localhost.localdomain>, 2004.
+# root <root@intranet.ddsl>, 2004.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: kpat\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-09-04 00:43+0000\n"
+"PO-Revision-Date: 2005-03-07 03:28-0800\n"
+"Last-Translator: Tamil PC <tamilpc@ambalam.com>\n"
+"Language-Team:  <ta@li.org>\n"
+"Language: ta\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "சரவணன்"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "tel2sara@rediffmail.com"
+
+#: bakersdozen.cpp:72 castle.cpp:402 freecell.cpp:386
+#, kde-format
+msgid "Popular Variant Presets"
+msgstr ""
+
+#: bakersdozen.cpp:73 bakersdozen.cpp:268 bakersdozen.cpp:270
+#, kde-format
+msgid "Baker's Dozen"
+msgstr ""
+
+#: bakersdozen.cpp:74 bakersdozen.cpp:271
+#, fuzzy, kde-format
+#| msgid "KPatience"
+msgid "Spanish Patience"
+msgstr "KPatience"
+
+#: bakersdozen.cpp:75 bakersdozen.cpp:272
+#, kde-format
+msgid "Castles in Spain"
+msgstr ""
+
+#: bakersdozen.cpp:76 bakersdozen.cpp:273
+#, kde-format
+msgid "Portuguese Solitaire"
+msgstr ""
+
+#: bakersdozen.cpp:77 castle.cpp:409 freecell.cpp:392
+#, kde-format
+msgid "Custom"
+msgstr ""
+
+#: bakersdozen.cpp:79 castle.cpp:411 freecell.cpp:394
+#, kde-format
+msgid "Empty Stack Fill"
+msgstr ""
+
+#: bakersdozen.cpp:80 castle.cpp:412 freecell.cpp:395
+#, kde-format
+msgid "Any (Easy)"
+msgstr ""
+
+#: bakersdozen.cpp:81 castle.cpp:413 freecell.cpp:396
+#, fuzzy, kde-format
+#| msgid "Spider (&Medium)"
+msgid "Kings only (Medium)"
+msgstr "ஸ்பைடர்(நடுநிலை)"
+
+#: bakersdozen.cpp:82 castle.cpp:414 freecell.cpp:397
+#, kde-format
+msgid "None (Hard)"
+msgstr ""
+
+#: bakersdozen.cpp:84
+#, fuzzy, kde-format
+#| msgid "Spider Implementation"
+msgid "Stack Options"
+msgstr "ஸ்பைடர் கருவிகள்"
+
+#: bakersdozen.cpp:85
+#, kde-format
+msgid "Face &Up (Easier)"
+msgstr ""
+
+#: bakersdozen.cpp:86
+#, kde-format
+msgid "Face &Down (Harder)"
+msgstr ""
+
+#: bakersdozen.cpp:88 castle.cpp:416 freecell.cpp:399
+#, kde-format
+msgid "Build Sequence"
+msgstr ""
+
+#: bakersdozen.cpp:89 castle.cpp:417 freecell.cpp:400
+#, kde-format
+msgid "Alternating Color"
+msgstr ""
+
+#: bakersdozen.cpp:90 castle.cpp:418 freecell.cpp:401
+#, kde-format
+msgid "Matching Suit"
+msgstr ""
+
+#: bakersdozen.cpp:91 castle.cpp:419 freecell.cpp:402
+#, kde-format
+msgid "Rank"
+msgstr ""
+
+#: bakersdozen.cpp:274
+msgid "Baker's Dozen (Custom)"
+msgstr ""
+
+#: castle.cpp:361
+msgid "Castle"
+msgstr ""
+
+#: castle.cpp:363 castle.cpp:403
+#, kde-format
+msgid "Beleaguered Castle"
+msgstr ""
+
+#: castle.cpp:364 castle.cpp:404
+#, kde-format
+msgid "Citadel"
+msgstr ""
+
+#: castle.cpp:365 castle.cpp:405
+#, kde-format
+msgid "Exiled Kings"
+msgstr ""
+
+#: castle.cpp:366 castle.cpp:406
+#, kde-format
+msgid "Streets and Alleys"
+msgstr ""
+
+#: castle.cpp:367 castle.cpp:407
+#, kde-format
+msgid "Siegecraft"
+msgstr ""
+
+#: castle.cpp:368 castle.cpp:408
+#, kde-format
+msgid "Stronghold"
+msgstr ""
+
+#: castle.cpp:369
+#, fuzzy
+#| msgid "&Freecell"
+msgid "Castle (Custom)"
+msgstr "ஃப்ரி செல்"
+
+#: castle.cpp:421
+#, fuzzy, kde-format
+#| msgid "&Freecell"
+msgid "Free Cells"
+msgstr "ஃப்ரி செல்"
+
+#: castle.cpp:422 freecell.cpp:405
+#, kde-format
+msgid "0"
+msgstr ""
+
+#: castle.cpp:423 freecell.cpp:406 freecell.cpp:425
+#, fuzzy, kde-format
+#| msgid "%1"
+msgid "1"
+msgstr "%1"
+
+#: castle.cpp:424 freecell.cpp:407 freecell.cpp:426
+#, kde-format
+msgid "2"
+msgstr ""
+
+#: castle.cpp:425 freecell.cpp:408 freecell.cpp:427
+#, kde-format
+msgid "3"
+msgstr ""
+
+#: castle.cpp:426 freecell.cpp:409
+#, kde-format
+msgid "4"
+msgstr ""
+
+#: castle.cpp:428 freecell.cpp:415
+#, fuzzy, kde-format
+#| msgid "Spider Implementation"
+msgid "Stacks"
+msgstr "ஸ்பைடர் கருவிகள்"
+
+#: castle.cpp:429 freecell.cpp:411 freecell.cpp:416
+#, kde-format
+msgid "6"
+msgstr ""
+
+#: castle.cpp:430 freecell.cpp:412 freecell.cpp:417
+#, kde-format
+msgid "7"
+msgstr ""
+
+#: castle.cpp:431 freecell.cpp:413 freecell.cpp:418
+#, kde-format
+msgid "8"
+msgstr ""
+
+#: castle.cpp:432 freecell.cpp:419
+#, kde-format
+msgid "9"
+msgstr ""
+
+#: castle.cpp:433 freecell.cpp:420
+#, kde-format
+msgid "10"
+msgstr ""
+
+#: castle.cpp:435 spider.cpp:154
+#, fuzzy, kde-format
+#| msgid "Spider Implementation"
+msgid "S&tack Options"
+msgstr "ஸ்பைடர் கருவிகள்"
+
+#: castle.cpp:436
+#, kde-format
+msgid "Face &Down"
+msgstr ""
+
+#: castle.cpp:437
+#, kde-format
+msgid "Face &Up"
+msgstr ""
+
+#: castle.cpp:438
+#, kde-format
+msgid "Alternating Face &Up"
+msgstr ""
+
+#: castle.cpp:440
+#, kde-format
+msgid "Foundation Deal"
+msgstr ""
+
+#: castle.cpp:441
+#, kde-format
+msgid "None"
+msgstr ""
+
+#: castle.cpp:442
+#, fuzzy, kde-format
+#| msgid "&Aces Up"
+msgid "Aces"
+msgstr "& ஏஸ் மேலே"
+
+#: castle.cpp:443
+#, kde-format
+msgid "Any"
+msgstr ""
+
+#: castle.cpp:445
+#, kde-format
+msgid "Layout"
+msgstr ""
+
+#: castle.cpp:446
+#, kde-format
+msgid "Classic"
+msgstr ""
+
+#: castle.cpp:447
+#, kde-format
+msgid "Modern"
+msgstr ""
+
+#: clock.cpp:156
+#, fuzzy
+#| msgid "G&randfather's Clock"
+msgid "Grandfather's Clock"
+msgstr "தாத்தா கடிகாரம்"
+
+#: dealer.cpp:73
+#, kde-format
+msgid "Solver: This game is winnable."
+msgstr ""
+
+#: dealer.cpp:75
+#, kde-format
+msgid "Solver: This game is no longer winnable."
+msgstr ""
+
+#: dealer.cpp:76
+#, kde-format
+msgid "Solver: This game cannot be won."
+msgstr ""
+
+#: dealer.cpp:78
+#, kde-format
+msgid "Solver: Unable to determine if this game is winnable."
+msgstr ""
+
+#: dealer.cpp:985
+#, fuzzy, kde-format
+msgid "Congratulations! We have won."
+msgstr "வாழ்த்துக்கள்! நாம் வெற்றிப் பெற்றுவிட்டோம்!"
+
+#: dealer.cpp:987
+#, fuzzy, kde-format
+msgid "Congratulations! You have won."
+msgstr "வாழ்த்துக்கள்! நீங்கள் வெற்றிப் பெற்றுவிட்டீர்கள்!"
+
+#: dealer.cpp:1334
+#, kde-format
+msgid "Solver: This game is lost."
+msgstr ""
+
+#: dealer.cpp:1488
+#, fuzzy, kde-format
+#| msgid "&Calculation"
+msgid "Solver: Calculating..."
+msgstr "கணக்கிடல்"
+
+#: dealer.cpp:1963
+#, kde-format
+msgid ""
+"A new game has been requested, but there is already a game in progress.\n"
+"\n"
+"A loss will be recorded in the statistics if the current game is abandoned."
+msgstr ""
+
+#: dealer.cpp:1965
+#, fuzzy, kde-format
+#| msgid "Abort Current Game?"
+msgid "Abandon Current Game?"
+msgstr "தற்போதைய விளையாட்டை நிறுத்தவேண்டுமா"
+
+#: dealer.cpp:1966
+#, fuzzy, kde-format
+msgid "Abandon Current Game"
+msgstr "தற்போதைய விளையாட்டை நிறுத்தவேண்டுமா"
+
+#: fortyeight.cpp:253
+#, fuzzy
+#| msgid "Forty && &Eight"
+msgid "Forty & Eight"
+msgstr "நாற்பத்தி எட்டு "
+
+#: freecell.cpp:348 freecell.cpp:353 freecell.cpp:390
+#, fuzzy, kde-format
+#| msgid "&Freecell"
+msgid "Freecell"
+msgstr "ஃப்ரி செல்"
+
+#: freecell.cpp:350 freecell.cpp:387
+#, kde-format
+msgid "Baker's Game"
+msgstr ""
+
+#: freecell.cpp:351 freecell.cpp:388
+#, kde-format
+msgid "Eight Off"
+msgstr ""
+
+#: freecell.cpp:352 freecell.cpp:389
+#, fuzzy, kde-format
+#| msgid "&Freecell"
+msgid "Forecell"
+msgstr "ஃப்ரி செல்"
+
+#: freecell.cpp:354 freecell.cpp:391
+#, kde-format
+msgid "Seahaven Towers"
+msgstr ""
+
+#: freecell.cpp:355
+#, fuzzy
+#| msgid "&Freecell"
+msgid "Freecell (Custom)"
+msgstr "ஃப்ரி செல்"
+
+#: freecell.cpp:404
+#, fuzzy, kde-format
+#| msgid "&Freecell"
+msgid "Free cells"
+msgstr "ஃப்ரி செல்"
+
+#: freecell.cpp:410
+#, kde-format
+msgid "5"
+msgstr ""
+
+#: freecell.cpp:421
+#, kde-format
+msgid "11"
+msgstr ""
+
+#: freecell.cpp:422
+#, kde-format
+msgid "12"
+msgstr ""
+
+#: freecell.cpp:424
+#, kde-format
+msgid "Decks"
+msgstr ""
+
+#: golf.cpp:196
+#, fuzzy
+#| msgid "Go&lf"
+msgid "Golf"
+msgstr "கோல்ப்"
+
+#: grandf.cpp:201
+#, fuzzy
+#| msgid "&Grandfather"
+msgid "Grandfather"
+msgstr "கிராண்ட் ஃபாதர்"
+
+#: gypsy.cpp:178
+#, fuzzy
+#| msgid "Gy&psy"
+msgid "Gypsy"
+msgstr "ஜிப்சி"
+
+#: idiot.cpp:259
+#, fuzzy
+#| msgid "&Aces Up"
+msgid "Aces Up"
+msgstr "& ஏஸ் மேலே"
+
+#: klondike.cpp:143
+#, fuzzy, kde-format
+#| msgid "&Klondike"
+msgid "Klondike &Options"
+msgstr "&கிலான்டைக்"
+
+#: klondike.cpp:144
+#, kde-format
+msgid "Draw 1"
+msgstr ""
+
+#: klondike.cpp:145
+#, kde-format
+msgid "Draw 3"
+msgstr ""
+
+#: klondike.cpp:346
+#, fuzzy
+#| msgid "&Klondike"
+msgid "Klondike"
+msgstr "&கிலான்டைக்"
+
+#: klondike.cpp:348
+#, fuzzy
+#| msgid "Klondike (&draw 3)"
+msgid "Klondike (Draw 1)"
+msgstr "கிலான்டைக்(வரை3)"
+
+#: klondike.cpp:349
+#, fuzzy
+#| msgid "Klondike (&draw 3)"
+msgid "Klondike (Draw 3)"
+msgstr "கிலான்டைக்(வரை3)"
+
+#. i18n: ectx: Menu (move)
+#: kpatui.rc:23
+#, fuzzy, kde-format
+msgid "Move"
+msgstr "1 நகர்த்து"
+
+#. i18n: ectx: ToolBar (mainToolBar)
+#: kpatui.rc:43
+#, kde-format
+msgid "Main Toolbar"
+msgstr ""
+
+#: libkcardgame/kcardthemewidget.cpp:295
+#, kde-format
+msgid "Loading..."
+msgstr ""
+
+#: main.cpp:121
+#, kde-format
+msgid "KPatience"
+msgstr "KPatience"
+
+#: main.cpp:123
+#, kde-format
+msgid "KDE Patience Game"
+msgstr "KDE Patience விளையாட்டு"
+
+#: main.cpp:125
+#, kde-format
+msgid ""
+"© 1995 Paul Olav Tvete\n"
+"© 2000 Stephan Kulow"
+msgstr ""
+
+#: main.cpp:129
+#, kde-format
+msgid "Paul Olav Tvete"
+msgstr ""
+
+#: main.cpp:130
+#, kde-format
+msgid "Author of original Qt version"
+msgstr ""
+
+#: main.cpp:132
+#, kde-format
+msgid "Mario Weilguni"
+msgstr ""
+
+#: main.cpp:133
+#, kde-format
+msgid "Initial KDE port"
+msgstr ""
+
+#: main.cpp:135
+#, kde-format
+msgid "Matthias Ettrich"
+msgstr ""
+
+#: main.cpp:138
+#, kde-format
+msgid "Rodolfo Borges"
+msgstr ""
+
+#: main.cpp:139 main.cpp:178
+#, fuzzy, kde-format
+#| msgid "Some Game Types"
+msgid "New game types"
+msgstr "சில விளையாட்டு வகைகள்"
+
+#: main.cpp:141
+#, kde-format
+msgid "Peter H. Ruegg"
+msgstr ""
+
+#: main.cpp:144
+#, kde-format
+msgid "Michael Koch"
+msgstr ""
+
+#: main.cpp:145 main.cpp:166
+#, kde-format
+msgid "Bug fixes"
+msgstr "வழு நீக்கம்"
+
+#: main.cpp:147
+#, kde-format
+msgid "Marcus Meissner"
+msgstr ""
+
+#: main.cpp:148
+#, kde-format
+msgid "Shuffle algorithm for game numbers"
+msgstr "விளையாட்டு எண்களுக்கு குழுக்கள் படிமுறை செய்யவும்"
+
+#: main.cpp:150
+#, kde-format
+msgid "Tom Holroyd"
+msgstr ""
+
+#: main.cpp:151
+#, fuzzy, kde-format
+msgid "Initial patience solver"
+msgstr "KPatience"
+
+#: main.cpp:153
+#, kde-format
+msgid "Stephan Kulow"
+msgstr ""
+
+#: main.cpp:154
+#, kde-format
+msgid "Rewrite and current maintainer"
+msgstr "மறுபடியும் எழுது மற்றும் கரண்ட் மேய்ட்டனர்"
+
+#: main.cpp:156
+#, kde-format
+msgid "Erik Sigra"
+msgstr ""
+
+#: main.cpp:157
+#, fuzzy, kde-format
+#| msgid "&Klondike"
+msgid "Klondike improvements"
+msgstr "&கிலான்டைக்"
+
+#: main.cpp:159
+#, kde-format
+msgid "Josh Metzler"
+msgstr ""
+
+#: main.cpp:160
+#, fuzzy, kde-format
+#| msgid "Spider Implementation"
+msgid "Spider implementation"
+msgstr "ஸ்பைடர் கருவிகள்"
+
+#: main.cpp:162
+#, kde-format
+msgid "Maren Pakura"
+msgstr ""
+
+#: main.cpp:163
+#, kde-format
+msgid "Documentation"
+msgstr "புத்தகம்"
+
+#: main.cpp:165
+#, kde-format
+msgid "Inge Wallin"
+msgstr ""
+
+#: main.cpp:168
+#, kde-format
+msgid "Simon Hürlimann"
+msgstr ""
+
+#: main.cpp:169
+#, kde-format
+msgid "Menu and toolbar work"
+msgstr ""
+
+#: main.cpp:171
+#, kde-format
+msgid "Parker Coates"
+msgstr ""
+
+#: main.cpp:172
+#, kde-format
+msgid "Cleanup and polish"
+msgstr ""
+
+#: main.cpp:174
+#, kde-format
+msgid "Shlomi Fish"
+msgstr ""
+
+#: main.cpp:175
+#, kde-format
+msgid "Integration with Freecell Solver and further work"
+msgstr ""
+
+#: main.cpp:177
+#, kde-format
+msgid "Michael Lang"
+msgstr ""
+
+#: main.cpp:194
+#, kde-format
+msgctxt "List separator"
+msgid ", "
+msgstr ""
+
+#: main.cpp:200
+#, kde-format
+msgid "Try to find a solution to the given savegame"
+msgstr ""
+
+#: main.cpp:201
+#, kde-format
+msgid "Dealer to solve (debug)"
+msgstr ""
+
+#: main.cpp:202
+#, kde-format
+msgid "Game range start (default 0:INT_MAX)"
+msgstr ""
+
+#: main.cpp:203
+#, kde-format
+msgid "Game range end (default start:start if start given)"
+msgstr ""
+
+#: main.cpp:204
+#, kde-format
+msgid ""
+"Skip the selection screen and load a particular game type. Valid values are: "
+"%1"
+msgstr ""
+
+#: main.cpp:205
+#, kde-format
+msgid "Directory with test cases"
+msgstr ""
+
+#: main.cpp:206
+#, kde-format
+msgid "Generate random test cases"
+msgstr ""
+
+#: main.cpp:207
+#, kde-format
+msgid "File to load"
+msgstr "கோப்பு உள்வாங்குதல்"
+
+#: mainwindow.cpp:155
+#, kde-format
+msgctxt "Start a new game of a different type"
+msgid "New &Game..."
+msgstr ""
+
+#: mainwindow.cpp:161
+#, kde-format
+msgctxt "Start a new game of without changing the game type"
+msgid "New &Deal"
+msgstr ""
+
+#: mainwindow.cpp:167
+#, fuzzy, kde-format
+#| msgid "&Choose Game..."
+msgctxt "Start a game by giving its particular number"
+msgid "New &Numbered Deal..."
+msgstr "விளையாட்டைத் தேர்ந்தெடு..."
+
+#: mainwindow.cpp:172
+#, fuzzy, kde-format
+#| msgid "Restart &Game"
+msgctxt "Replay the current deal from the start"
+msgid "Restart Deal"
+msgstr "விளையாட்டைத் திரும்பவும் ஆரம்பி"
+
+#: mainwindow.cpp:178
+#, fuzzy, kde-format
+#| msgid "Restart &Game"
+msgctxt "Start the game with the number one greater than the current one"
+msgid "Next Deal"
+msgstr "விளையாட்டைத் திரும்பவும் ஆரம்பி"
+
+#: mainwindow.cpp:187
+#, kde-format
+msgctxt "Start the game with the number one less than the current one"
+msgid "Previous Deal"
+msgstr ""
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, GameStats)
+#: mainwindow.cpp:201 statisticsdialog.cpp:62 statisticsdialog.ui:13
+#, kde-format
+msgid "Statistics"
+msgstr "புள்ளியியல்"
+
+#: mainwindow.cpp:231
+#, kde-format
+msgctxt ""
+"Take one or more cards from the deck, flip them, and place them in play"
+msgid "Dra&w"
+msgstr ""
+
+#: mainwindow.cpp:236
+#, kde-format
+msgctxt "Deal a new row of cards from the deck"
+msgid "Dea&l Row"
+msgstr ""
+
+#: mainwindow.cpp:241
+#, fuzzy, kde-format
+#| msgid "&Redeal"
+msgctxt "Collect the cards in play, shuffle them and redeal them"
+msgid "&Redeal"
+msgstr "& மறுபடியும்"
+
+#: mainwindow.cpp:246
+#, kde-format
+msgctxt "Automatically move cards to the foundation piles"
+msgid "Dro&p"
+msgstr ""
+
+#: mainwindow.cpp:255
+#, fuzzy, kde-format
+#| msgid "Some Game Types"
+msgid "Change Appearance..."
+msgstr "சில விளையாட்டு வகைகள்"
+
+#: mainwindow.cpp:259
+#, kde-format
+msgid "&Enable Autodrop"
+msgstr "&தானியங்கு விடு"
+
+#: mainwindow.cpp:264
+#, fuzzy, kde-format
+msgid "E&nable Solver"
+msgstr "KPatience"
+
+#: mainwindow.cpp:269
+#, kde-format
+msgid "Play &Sounds"
+msgstr ""
+
+#: mainwindow.cpp:274
+#, kde-format
+msgid "&Remember State on Exit"
+msgstr ""
+
+#: mainwindow.cpp:291
+#, kde-format
+msgid "Generate a theme preview image"
+msgstr ""
+
+#: mainwindow.cpp:296
+#, kde-format
+msgid "Take Game Preview Snapshots"
+msgstr ""
+
+#: mainwindow.cpp:301
+#, kde-format
+msgid "Random Cards"
+msgstr ""
+
+#: mainwindow.cpp:308
+#, kde-format
+msgid "Move Focus to Previous Pile"
+msgstr ""
+
+#: mainwindow.cpp:312
+#, kde-format
+msgid "Move Focus to Next Pile"
+msgstr ""
+
+#: mainwindow.cpp:316
+#, kde-format
+msgid "Move Focus to Card Below"
+msgstr ""
+
+#: mainwindow.cpp:320
+#, kde-format
+msgid "Move Focus to Card Above"
+msgstr ""
+
+#: mainwindow.cpp:324
+#, kde-format
+msgid "Cancel Focus"
+msgstr ""
+
+#: mainwindow.cpp:328
+#, kde-format
+msgid "Pick Up or Set Down Focus"
+msgstr ""
+
+#: mainwindow.cpp:440
+#, kde-format
+msgid "Card Deck"
+msgstr ""
+
+#: mainwindow.cpp:442
+#, kde-format
+msgid "Select a card deck"
+msgstr ""
+
+#: mainwindow.cpp:449
+#, fuzzy, kde-format
+#| msgid "&Game Type"
+msgid "Game Theme"
+msgstr "விளையாட்டு வகை"
+
+#: mainwindow.cpp:451
+#, kde-format
+msgid "Select a theme for non-card game elements"
+msgstr ""
+
+#: mainwindow.cpp:537
+#, fuzzy, kde-format
+msgctxt ""
+"Is disabled and changes to \"Help &with Current Game\" when there is no "
+"current game."
+msgid "Help &with %1"
+msgstr "தற்போதைய விளையாட்டை நிறுத்தவேண்டுமா"
+
+#: mainwindow.cpp:571
+#, fuzzy, kde-format
+msgctxt "Shown when there is no game open. Is always disabled."
+msgid "Help &with Current Game"
+msgstr "தற்போதைய விளையாட்டை நிறுத்தவேண்டுமா"
+
+#: mainwindow.cpp:745
+#, kde-format
+msgid ""
+"Are you sure you want to hide the menubar? The current shortcut to show it "
+"again is %1."
+msgstr ""
+
+#: mainwindow.cpp:747
+#, kde-format
+msgid "Hide Menubar"
+msgstr ""
+
+#: mainwindow.cpp:848
+#, kde-format
+msgid "Downloading file failed: %1"
+msgstr ""
+
+#: mainwindow.cpp:855
+#, kde-format
+msgid "Error reading XML file: "
+msgstr ""
+
+#: mainwindow.cpp:887
+#, kde-format
+msgid "XML file is not a KPat save."
+msgstr ""
+
+#: mainwindow.cpp:893
+#, kde-format
+msgid "Unrecognized game id."
+msgstr ""
+
+#: mainwindow.cpp:914
+#, kde-format
+msgid "Errors encountered while parsing file."
+msgstr ""
+
+#: mainwindow.cpp:934
+#, kde-format
+msgid "Load"
+msgstr ""
+
+#: mainwindow.cpp:963
+#, kde-format
+msgid "Save"
+msgstr ""
+
+#: mainwindow.cpp:982
+#, kde-format
+msgid "Error opening file for writing. Saving failed."
+msgstr ""
+
+#: mainwindow.cpp:990
+#, kde-format
+msgid "Unable to create temporary file. Saving failed."
+msgstr ""
+
+#: mainwindow.cpp:1011
+#, kde-format
+msgid "Error uploading file. Saving failed: %1"
+msgstr ""
+
+#: mainwindow.cpp:1035
+#, fuzzy, kde-format
+msgid "1 move"
+msgid_plural "%1 moves"
+msgstr[0] "1 நகர்த்து"
+msgstr[1] "%1 நகர்த்துதல்"
+
+#: mod3.cpp:238
+#, fuzzy
+#| msgid "M&od3"
+msgid "Mod3"
+msgstr "வகை 3"
+
+#: numbereddealdialog.cpp:37
+#, fuzzy, kde-format
+#| msgid "&Choose Game..."
+msgid "New Numbered Deal"
+msgstr "விளையாட்டைத் தேர்ந்தெடு..."
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#: numbereddealdialog.cpp:52 statisticsdialog.ui:33
+#, kde-format
+msgid "Game:"
+msgstr "விளையாட்டு:"
+
+#: numbereddealdialog.cpp:56
+#, fuzzy, kde-format
+#| msgid "Game Number"
+msgid "Deal number:"
+msgstr "விளையாட்டு எண்"
+
+#: simon.cpp:184
+#, fuzzy
+#| msgid "&Simple Simon"
+msgid "Simple Simon"
+msgstr "&எளிய சைமன் "
+
+#: spider.cpp:139
+#, fuzzy, kde-format
+#| msgid "Spider Implementation"
+msgid "Spider &Options"
+msgstr "ஸ்பைடர் கருவிகள்"
+
+#: spider.cpp:140
+#, kde-format
+msgid "1 Suit (Easy)"
+msgstr ""
+
+#: spider.cpp:141
+#, fuzzy, kde-format
+#| msgid "Spider (&Medium)"
+msgid "2 Suits (Medium)"
+msgstr "ஸ்பைடர்(நடுநிலை)"
+
+#: spider.cpp:142
+#, fuzzy, kde-format
+#| msgid "Spider (&Hard)"
+msgid "3 Suits (Hard)"
+msgstr "ஸ்பைடர்(கடினம்)"
+
+#: spider.cpp:143
+#, fuzzy, kde-format
+#| msgid "Spider (&Hard)"
+msgid "4 Suits (Very Hard)"
+msgstr "ஸ்பைடர்(கடினம்)"
+
+#: spider.cpp:155
+#, kde-format
+msgid "Face &Down (harder)"
+msgstr ""
+
+#: spider.cpp:156
+#, kde-format
+msgid "Face &Up (easier)"
+msgstr ""
+
+#: spider.cpp:516
+#, fuzzy
+#| msgid "S&pider (Easy)"
+msgid "Spider"
+msgstr "ஸ்பைடர்(எளிய)"
+
+#: spider.cpp:518
+msgid "Spider (1 Suit)"
+msgstr ""
+
+#: spider.cpp:519
+msgid "Spider (2 Suit)"
+msgstr ""
+
+#: spider.cpp:520
+msgid "Spider (3 Suit)"
+msgstr ""
+
+#: spider.cpp:521
+msgid "Spider (4 Suit)"
+msgstr ""
+
+#: statisticsdialog.cpp:125
+#, fuzzy, kde-format
+msgid "%1 (%2%)"
+msgstr "(%1%)"
+
+#: statisticsdialog.cpp:137
+#, kde-format
+msgid "1 loss"
+msgid_plural "%1 losses"
+msgstr[0] ""
+msgstr[1] ""
+
+#: statisticsdialog.cpp:139
+#, kde-format
+msgid "1 win"
+msgid_plural "%1 wins"
+msgstr[0] ""
+msgstr[1] ""
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel7)
+#: statisticsdialog.ui:75
+#, kde-format
+msgid "Longest winning streak:"
+msgstr "நீண்ட வெற்றியின் தொடர்ச்சி:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel2)
+#: statisticsdialog.ui:82
+#, kde-format
+msgid "Games played:"
+msgstr "விளையாடப்பட்ட விளையாட்டுகள்:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel8)
+#: statisticsdialog.ui:99
+#, kde-format
+msgid "Longest losing streak:"
+msgstr "நீண்ட தோல்வியின் தொடர்ச்சி:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3)
+#: statisticsdialog.ui:116
+#, kde-format
+msgid "Games won:"
+msgstr "வெற்றிப் பெற்ற விளையாட்டுகள்:"
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: statisticsdialog.ui:133
+#, kde-format
+msgid "Current streak:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, label_2)
+#: statisticsdialog.ui:147
+#, kde-format
+msgid "Minimal number of moves:"
+msgstr ""
+
+#: yukon.cpp:133
+#, fuzzy
+#| msgid "&Yukon"
+msgid "Yukon"
+msgstr "&யுகான்"
+
+#, fuzzy
+#~| msgid "The saved game is of unknown type!"
+#~ msgid "The saved game is of an unknown type."
+#~ msgstr "அறியாத வகை விளையாட்டு சேமிக்கப்பட்டுள்ளது"
+
+#, fuzzy
+#~| msgid ""
+#~| "Enter a game number (FreeCell deals are the same as in the FreeCell FAQ):"
+#~ msgid ""
+#~ "Enter a deal number (Freecell deals are numbered the same as those in the "
+#~ "Freecell FAQ):"
+#~ msgstr "விளையாட்டு எண்ணை உள்ளிடு(ஃப்ரி செல் தீர்வும், ஃப்ரி செல் FAQ ஒன்றாகவே உள்ளது);"
+
+#~ msgid "Improved Klondike"
+#~ msgstr "முன்னேறிய கிலோன்டைக்"
+
+#, fuzzy
+#~| msgid ""
+#~| "You are already running an unfinished game.  If you abort the old game "
+#~| "to start a new one, the old game will be registered as a loss in the "
+#~| "statistics file.\n"
+#~| "What do you want to do?"
+#~ msgid ""
+#~ "You are already running an unfinished game. If you abort the old game to "
+#~ "start a new one, the old game will be registered as a loss in the "
+#~ "statistics file.\n"
+#~ "What do you want to do?"
+#~ msgstr ""
+#~ "நீங்கள் ஏற்கெனவே ஒரு முடிக்கப்படாத விளையாட்டை இயக்கிக் கொண்டிருக்கிறீர்கள். ஒரு புதிய "
+#~ "விளையாட்டை துவக்க பழைய விளையாட்டை நிறுத்தினால், பழைய விளையாட்டு புள்ளிவிவரப்பட்டிக் "
+#~ "கோப்பில் ஒரு இழப்பாக பதிவாகும்.\n"
+#~ "நீங்கள் என்ன செய்ய விரும்புகிறீர்கள்?"
+
+#, fuzzy
+#~ msgid "&Settings"
+#~ msgstr "& மன்னர்கள்"
+
+#, fuzzy
+#~| msgid "&Redeal"
+#~ msgid "&Reset"
+#~ msgstr "& மறுபடியும்"
+
+#~ msgid "&Calculation"
+#~ msgstr "கணக்கிடல்"
+
+#~ msgid "&Napoleon's Tomb"
+#~ msgstr "&நெப்போலியனின் சமாதி"
+
+#~ msgid "Disable Autodrop"
+#~ msgstr "தானியங்குவை செயலற்றதாக்கு"
+
+#, fuzzy
+#~ msgid "&Game"
+#~ msgstr "விளையாட்டு:"
+
+#, fuzzy
+#~ msgid "&Edit"
+#~ msgstr "குறிப்பு"
+
+#~ msgid "&Hint"
+#~ msgstr "குறிப்பு"
+
+#~ msgid "&Demo"
+#~ msgstr "&தரம்"
+
+#~ msgid "please wait, loading cards..."
+#~ msgstr "அட்டை உள்ளிடுதல் நடைபெறுகிறது தயவு செய்து காத்திருக்கவும்"
+
+#~ msgid "KPatience - a Solitaire game"
+#~ msgstr "KPatience - ஒரு சீட்டுக்கட்டு விளையாட்டு"
+
+#~ msgid "%1 tries - depth %2"
+#~ msgstr "%1 முயற்சிகள் - %2  ஆழம்"
+
+#~ msgid "solved after %1 tries"
+#~ msgstr "%1 முயற்சிகள் பிறகு தீர்க்கப்பட்டது"
+
+#~ msgid "unsolved after %1 moves"
+#~ msgstr "%1 பின்பு நகர்த்தியவை தீர்க்கப்படவில்லை"
+
+#~ msgid "%1 moves before finish"
+#~ msgstr "முடிவதற்கு முன் %1 நகரும்"
+
+#~ msgid "Freecell Solver"
+#~ msgstr "ஃப்ரி செல் தீர்வி"
+
+#~ msgid "&Change Background"
+#~ msgstr "பின்னணியை மாற்று"
+
+#~ msgid "&Switch Cards..."
+#~ msgstr "&அட்டைகளை மாற்று..."
+
+#~ msgid "&Statistics"
+#~ msgstr "&புள்ளியியல்"
+
+#~ msgid "&Animation on Startup"
+#~ msgstr "&அசைவூட்டு துவக்கம்"
+
+#~ msgid ""
+#~ "The cards you have chosen have a different size than the ones you are "
+#~ "currently using. This requires the current game to be restarted."
+#~ msgstr ""
+#~ "நடப்பில் உள்ள அட்டைகள் நீங்கள் முன்பு தேர்வு செய்ததை விட வேறு அளவுகளில் உள்ளது.  "
+
+#~ msgid "<qt>Couldn't load wallpaper<br/>%1</qt>"
+#~ msgstr "<qt>சுவரொட்டியை உள்வாங்க முடியாது<br/>%1</qt>"
+
+#~ msgid "Abort Old Game"
+#~ msgstr "பழைய விளையாட்டை நிறுத்தவும்"
+
+#~ msgid "Could not load background image!"
+#~ msgstr "பின்னணி பிம்பங்களை உள்வாங்க இயலவில்லை!"
+
+#~ msgid "Congratulations!"
+#~ msgstr "வாழ்த்துக்கள்!"
+
+#~ msgid ""
+#~ "You could not win this game, but there is always a second try.\n"
+#~ "Start a new game?"
+#~ msgstr ""
+#~ "இந்த விளையாட்டில் வெற்றி பெற இயலவில்லை. இன்னொரு முறை முயற்சிக்கலாம்.\n"
+#~ " புது விளையாட்டை ஆரம்பிக்கலாமா?"
+
+#~ msgid "Could Not Win!"
+#~ msgstr "வெற்றி பெற இயலவில்லை!"

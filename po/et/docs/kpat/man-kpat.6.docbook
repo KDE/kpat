@@ -1,0 +1,685 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY kappname "kpat">
+  <!ENTITY % Estonian  "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refmeta>
+<refentrytitle
+>KPat</refentrytitle>
+<manvolnum
+>6</manvolnum>
+<refmiscinfo class="date"
+>2010-11-09</refmiscinfo>
+<refmiscinfo class="source"
+>kdegames</refmiscinfo>
+<refmiscinfo class="title"
+>KDE kasutaja käsiraamat</refmiscinfo>
+</refmeta>
+
+<refnamediv>
+<refname
+>&kappname;</refname>
+<refpurpose
+>Äärmiselt köitev &kde; kaardimäng.</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>kpat</command
+> <arg choice="opt" rep="repeat"
+>Qt valikud</arg
+> <arg choice="opt" rep="repeat"
+>KDE valikud</arg
+> <group choice="opt"
+><option
+>--solvegame</option
+> <replaceable
+> fail</replaceable
+></group
+> <group choice="opt"
+><option
+>--solve</option
+> <replaceable
+> number</replaceable
+></group
+> <group choice="opt"
+><option
+>--start</option
+> <replaceable
+> number</replaceable
+></group
+> <group choice="opt"
+><option
+>--end</option
+> <replaceable
+> number</replaceable
+></group
+> <group choice="opt"
+><option
+>--gametype</option
+> <replaceable
+> mäng</replaceable
+></group
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>KIRJELDUS</title>
+<para
+>&kpatience; on kogumik tuntud kaardimänge alates kuulsatest, nagu Klondike ja Freecell, vähemkuulduteni, nagu Vanaisa Kell ja Mod3. Kokku kuulub valimikku 12 erinevat mängu.</para>
+</refsect1>
+	
+<refsect1>
+<title
+>VÕTMED</title>
+<para
+>Rakendus kasutab tavapärast GNU käsurea süntaksit, mille puhul pikad võtmed algavad kahe kriipsuga (`--'). Allpool on toodud loetelu võtmetest, mida <command
+>kpat</command
+> toetab.</para>
+
+<refsect2>
+<title
+>Üldised võtmed</title>
+<variablelist>
+
+<varlistentry>
+<term
+><option
+>--author</option
+></term>
+<listitem>
+<para
+>Näitab infot autori kohta</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--help</option
+></term>
+<listitem>
+<para
+>Näitab abi võtmete kohta</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--help-qt</option
+></term>
+<listitem>
+<para
+>Näitab Qt spetsiifilisi võtmeid</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--help-kde</option
+></term>
+<listitem>
+<para
+>Näitab &kde; spetsiifilisi võtmeid</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--help-all</option
+></term>
+<listitem>
+<para
+>Näitab kõiki võtmeid</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--license</option
+></term>
+<listitem>
+<para
+>Näitab litsentsiinfot</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-v</option
+>, <option
+>--version</option
+></term>
+<listitem>
+<para
+>Näitab versiooniinfot ja väljub.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+</refsect2>
+
+<!-- Cut here: From here to the end of the KDE options will be entities -->
+<refsect2>
+<title
+>Qt võtmed</title>
+
+<variablelist>
+<varlistentry>
+<term
+><option
+>--display <replaceable
+>kuva_nimi</replaceable
+></option
+></term>
+<listitem>
+<para
+>Kasutatakse X serveri kuva <emphasis
+>kuva_nimi</emphasis
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--session <replaceable
+>sessionId</replaceable
+></option
+></term>
+<listitem>
+<para
+>Taastab rakenduse määratud väärtusega <replaceable
+>sessionId</replaceable
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--cmap</option
+></term>
+<listitem>
+<para
+>Sunnib rakenduse paigaldama omaenda värvitabelit 8-bitisel kuval. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--ncols <replaceable
+>arv</replaceable
+></option
+></term>
+<listitem>
+<para
+>Piirab värvide arvu, mida eraldatakse 8-bitisel kuval, kui rakendus kasutab värvispetsifikatsiooni <methodname
+>QApplication::ManyColor</methodname
+>. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--nograb</option
+></term>
+<listitem>
+<para
+>käseb Qt'l mitte kunagi haarata hiirt ja klaviatuuri enda valdusesse.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--dograb</option
+></term>
+<listitem>
+<para
+>silujas rakendatuna võib põhjustada selge <option
+>-nograb</option
+>, kasuta selle tühistamiseks <option
+>-dograb</option
+>. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--sync</option
+></term>
+<listitem>
+<para
+>lülitub silumiseks sünkroonrežiimi.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--fn</option
+>, <option
+>--font <replaceable
+>fondi_nimi</replaceable
+></option
+></term>
+<listitem>
+<para
+>määrab rakenduse fondi.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--bg</option
+>, <option
+>--background <replaceable
+>värv</replaceable
+></option
+></term>
+<listitem>
+<para
+>seab vaikimisi taustavärvi ja rakenduse paleti (arvutatakse heledad ja tumedad varjud). </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--fg</option
+>,<option
+>--foreground <replaceable
+>värv</replaceable
+></option
+></term>
+<listitem>
+<para
+>seab esiplaani vaikevärvi.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--btn</option
+>, <option
+>--button <replaceable
+>värv</replaceable
+></option
+></term>
+<listitem>
+<para
+>seab nupu vaikevärvi.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--name <replaceable
+>nimi</replaceable
+></option
+></term>
+<listitem>
+<para
+>seab rakenduse nime.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--title <replaceable
+>tiitel</replaceable
+></option
+></term>
+<listitem>
+<para
+>seab rakenduse tiitli (pealkirja).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--visual <replaceable
+>TrueColor</replaceable
+></option
+></term>
+<listitem>
+<para
+>sunnib rakendust kasutama TrueColorit 8-bitisel kuval. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--inputstyle</option
+></term>
+<listitem>
+<para
+>seab XIM (X'i sisendimeetod) sisendistiili. Võimalikud parameetrid on onthespot, overthespot, offthespot ja root. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--im <replaceable
+>XIM server</replaceable
+></option
+></term>
+<listitem>
+<para
+>seab XIM serveri.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--noxim</option
+></term>
+<listitem>
+<para
+>keelab XIM kasutamise.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--reverse</option
+></term>
+<listitem>
+<para
+>peegeldab kogu vidinate paigutuse.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--stylesheet <replaceable
+>fail.qss</replaceable
+></option
+></term>
+<listitem>
+<para
+>Qt laaditabeli rakendamine rakenduse vidinatele.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><option
+>--graphicssystem <replaceable
+>süsteem</replaceable
+></option
+></term>
+<listitem>
+<para
+>Mõne muu graafikasüsteemi kasutamine, valikuteks on <quote
+>raster</quote
+> ja <quote
+>opengl</quote
+> (eksperimentaalne).</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+
+<refsect2>
+<title
+>KDE võtmed</title>
+<variablelist>
+<varlistentry>
+<term
+><option
+>--caption <replaceable
+>pealkiri</replaceable
+></option
+></term>
+<listitem>
+<para
+><emphasis
+>Pealkirja</emphasis
+> kasutamine tiitliriba nimena.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--icon <replaceable
+>ikoon</replaceable
+></option
+></term>
+<listitem>
+<para
+>Rakenduse ikoonina kasutatakse <emphasis
+>ikooni</emphasis
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--config <replaceable
+>failinimi</replaceable
+></option
+></term>
+<listitem>
+<para
+>Alternatiivse seadistustefaili kasutamine. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--nocrashhandler</option
+></term>
+<listitem>
+<para
+>Keelatakse koorikute saamiseks ämbri käsitleja.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--waitforwm</option
+></term>
+<listitem>
+<para
+>Ootab WM_NET ühilduvat aknahaldurit. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--style <replaceable
+>stiil</replaceable
+></option
+></term>
+<listitem>
+<para
+>määrab rakenduse &GUI; stiili.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--geometry <replaceable
+>geomeetria</replaceable
+></option
+></term>
+<listitem>
+<para
+>Kliendi peamise akna geomeetria - argumendi vormingu (tavaliselt LaiusxKõrgus+XPos+YPos) kohta vaata <ulink url="man:/X"
+>man:/X</ulink
+>. </para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect2>
+
+<!-- Stop cutting here: End of entity text -->
+
+<refsect2>
+<title
+>Võtmed</title>
+<variablelist>
+
+<varlistentry>
+<term
+><option
+>--solvegame</option
+> <replaceable
+> fail</replaceable
+></term>
+<listitem>
+<para
+>Katse leida lahendust määratud salvestatud mängule</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--solve</option
+> <replaceable
+> number</replaceable
+></term>
+<listitem>
+<para
+>Lahendatav jagaja (silumine)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--start</option
+> <replaceable
+> number</replaceable
+></term>
+<listitem>
+<para
+>Mänguvahemiku algus (vaikimisi 0:INT_MAX)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--end</option
+> <replaceable
+> number</replaceable
+></term>
+<listitem>
+<para
+>Mänguvahemiku lõpp (vaikimisi start:start, kui algus on antud)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--gametype</option
+> <replaceable
+> mäng</replaceable
+></term>
+<listitem>
+<para
+>Valikuekraani ärajätmine ja konkreetse mängutüübi laadimine. Korrektsed väärtused on järgmised: acesup, fortyeight, freecell, golf, grandfather, grandfathersclock, gypsy, klondike, mod3, simplesimon, spider, yukon</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect2>
+
+<refsect2>
+<title
+>Argumendid</title>
+<variablelist>
+
+<varlistentry>
+<term
+><replaceable
+>fail</replaceable
+></term>
+<listitem>
+<para
+>Avatav fail</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect2>
+
+</refsect1>
+	
+<refsect1>
+<title
+>VAATA KA</title>
+<para
+>&kpatience; on põhjalikult dokumenteeritud <emphasis
+>&kpatience;'i käsiraamatus</emphasis
+> (<filename
+>$<envar
+>KDEDIR</envar
+>share/doc/HTML/en/kpat/index.html</filename
+> või sisesta &konqueror;is <userinput
+>help:/kpat/index.html</userinput
+>).</para>
+		
+</refsect1>
+
+<refsect1>
+<title
+>AUTOR</title>
+
+<para
+>&kpatience;'i autor:</para>
+<simplelist type="vert">
+<member
+>Paul Olav Tvete</member>
+<member
+>Mario Weilguni <email
+>mweilguni@kde.org</email
+></member>
+<member
+>Matthias Ettrich <email
+>ettrich@kde.org</email
+></member>
+<member
+>Rodolfo Borges <email
+>barrett@labma.ufrj.br</email
+></member>
+<member
+>Peter H. Ruegg <email
+>kpat@incense.org</email
+></member>
+<member
+>Michael Koch <email
+>koch@kde.org</email
+></member>
+<member
+>Marcus Meissner <email
+>mm@caldera.de</email
+></member>
+<member
+>Shlomi Fish<email
+>shlomif@vipe.technion.ac.il</email
+></member>
+<member
+>Stephan Kulow <email
+>coolo@kde.org</email
+></member>
+</simplelist>
+</refsect1>
+</refentry>
