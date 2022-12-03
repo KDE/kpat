@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat 1.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-04 00:43+0000\n"
+"POT-Creation-Date: 2022-12-03 02:33+0000\n"
 "PO-Revision-Date: 2002-03-07 22:27GMT\n"
 "Last-Translator: Wolfram Diestel <wolfram@steloj.de>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -406,7 +406,7 @@ msgstr ""
 msgid "Decks"
 msgstr ""
 
-#: golf.cpp:196
+#: golf.cpp:198
 #, fuzzy
 msgid "Golf"
 msgstr "&Golfo"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-04 00:43+0000\n"
+"POT-Creation-Date: 2022-12-03 02:33+0000\n"
 "PO-Revision-Date: 2021-11-30 14:22+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -396,7 +396,7 @@ msgstr "12"
 msgid "Decks"
 msgstr "Paklik"
 
-#: golf.cpp:196
+#: golf.cpp:198
 msgid "Golf"
 msgstr "Golf"
 

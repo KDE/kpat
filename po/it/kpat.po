@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-04 00:43+0000\n"
+"POT-Creation-Date: 2022-12-03 02:33+0000\n"
 "PO-Revision-Date: 2022-08-19 17:46+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -396,7 +396,7 @@ msgstr "12"
 msgid "Decks"
 msgstr "Mazzi"
 
-#: golf.cpp:196
+#: golf.cpp:198
 msgid "Golf"
 msgstr "Golf"
 
