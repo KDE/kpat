@@ -2,7 +2,7 @@
 # Bulgarian translation of KDE.
 # This file is licensed under the GPL.
 #
-# $Id: kpat.po 1632914 2022-09-04 01:33:14Z scripty $
+# $Id: kpat.po 1639353 2022-12-03 01:41:59Z scripty $
 #
 # Zlatko Popov <zlatkopopov@fsa-bg.org>, 2007.
 # Petar Toushkov <pt.launchpad@gmail.com>, 2009.
@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-04 00:43+0000\n"
+"POT-Creation-Date: 2022-12-03 00:43+0000\n"
 "PO-Revision-Date: 2009-05-24 19:29+0200\n"
 "Last-Translator: Petar Toushkov <pt.launchpad@gmail.com>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -399,7 +399,7 @@ msgstr ""
 msgid "Decks"
 msgstr ""
 
-#: golf.cpp:196
+#: golf.cpp:198
 msgid "Golf"
 msgstr "Голф"
 
