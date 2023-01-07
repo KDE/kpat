@@ -1,641 +1,851 @@
 <?xml version="1.0" ?>
 <!--IMPORTANT: please note that'do not change this!' notice does not apply to translators -->
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
-  <!ENTITY % English "INCLUDE" > <!-- change language only here -->
-  <!ENTITY % addindex "IGNORE"> <!-- do not change this! -->
+  <!ENTITY % German "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY % addindex "IGNORE"
+> <!-- do not change this! -->
 ]>
 
-<book id="kpat" lang="&language;"> <!-- do not change this! -->
+<book id="kpat" lang="&language;"
+> <!-- do not change this! -->
 <bookinfo>
-	<title>The &kpatience; Handbook</title> <!-- This is the title of the docbook. Leave as is unless change is necessary.-->
+	<title
+>Das Handbuch zu &kpatience;</title
+> <!-- This is the title of the docbook. Leave as is unless change is necessary.-->
 <!-- List of immidiate authors begins here. -->
 <!--INPORTANT! - All other contributors: [to be determined] -->
 <authorgroup>
-<author>
-<firstname>Paul Olav</firstname>
-<surname>Tvete</surname>
-</author>
-<author>
-<firstname>Maren</firstname>
-<surname>Pakura</surname>
-</author>
-<author>
-<firstname>Stephan</firstname>
-<surname>Kulow</surname>
-</author>
+<author
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> </author>
+<author
+><firstname
+>Maren</firstname
+> <surname
+>Pakura</surname
+> </author>
+<author
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> </author>
 
-<othercredit role="reviewer">
-<firstname>Mike</firstname><surname>McBride</surname>
-<contrib>Reviewer</contrib>
-<affiliation><address>&Mike.McBride.mail;</address></affiliation>
+<othercredit role="reviewer"
+><firstname
+>Mike</firstname
+><surname
+>McBride</surname
+> <contrib
+>Korrektur</contrib>
+<affiliation
+><address
+>&Mike.McBride.mail;</address
+></affiliation>
 </othercredit>
 
-<othercredit role="developer">
-<firstname>Paul Olav</firstname>
-<surname>Tvete</surname>
-<contrib>Developer</contrib>
+<othercredit role="developer"
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> <contrib
+>Entwickler</contrib>
 </othercredit>
 
-<othercredit role="developer">
-<firstname>Stephan</firstname>
-<surname>Kulow</surname>
-<contrib>Developer</contrib>
+<othercredit role="developer"
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> <contrib
+>Entwickler</contrib>
 </othercredit>
 
-<!-- TRANS:ROLES_OF_TRANSLATORS -->
+<othercredit role="translator"
+><firstname
+>Stephan</firstname
+><surname
+>Kulow</surname
+><affiliation
+><address
+><email
+>coolo@kde.org</email
+></address
+></affiliation
+><contrib
+>Übersetzer</contrib
+></othercredit
+> 
 </authorgroup>
 
 <copyright>
-<year>2000</year>
-<holder>&Paul-Olav.Tvete;</holder>
+<year
+>2000</year>
+<holder
+>&Paul-Olav.Tvete;</holder>
 </copyright>
 
 <copyright>
-<year>2001</year><year>2004</year>
-<holder>&Maren.Pakura;</holder>
+<year
+>2001</year
+><year
+>2004</year>
+<holder
+>&Maren.Pakura;</holder>
 </copyright>
 
 <copyright>
-<year>2007</year>
-<holder>&Stephan.Kulow;</holder>
+<year
+>2007</year>
+<holder
+>&Stephan.Kulow;</holder>
 </copyright>
 
-<legalnotice>&FDLNotice;</legalnotice>
+<legalnotice
+>&FDLNotice;</legalnotice>
 
-<date>2021-06-20</date>
-<releaseinfo>KDE Gear 21.04</releaseinfo>
+<date
+>2021-06-20</date>
+<releaseinfo
+>KDE Gear 21.04</releaseinfo>
 
 <!--Short description of this document. Do not change unless necessary!-->
 <abstract>
-	<para>This documentation describes the game of &kpatience; version 21.04</para>
+	<para
+>Dieses Handbuch beschreibt das Spiel &kpatience; in der Version 21.04</para>
 </abstract>
 
 <!--List of relevan keywords-->
 <keywordset>
-	<keyword>KDE</keyword> <!-- do not change this! -->
-	<keyword>kdegames</keyword> <!-- do not change this! -->
-	<keyword>game</keyword> <!-- do not change this! -->
-	<keyword>KPatience</keyword><!--Application name goes here-->
+	<keyword
+>KDE</keyword
+> <!-- do not change this! -->
+	<keyword
+>kdegames</keyword
+> <!-- do not change this! -->
+	<keyword
+>Spiel</keyword
+> <!-- do not change this! -->
+	<keyword
+>Patience</keyword
+><!--Application name goes here-->
 <!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
-	<keyword>card</keyword>
-	<keyword>card game</keyword>
-	<keyword>playing cards</keyword>
+	<keyword
+>Karte</keyword>
+	<keyword
+>Kartenspiel</keyword>
+	<keyword
+>Karten spielen</keyword>
 <!--Number of possible players. It can be: One, Two,..., Multiplayer-->
-	<keyword>one player</keyword>
+	<keyword
+>Einzelspieler</keyword>
 <!--All other relevant keywords-->
-	<keyword>patience</keyword>
-	<keyword>solitaire</keyword>
+	<keyword
+>Patience</keyword>
+	<keyword
+>Solitär</keyword>
 </keywordset>
 </bookinfo>
 <!--Content begins here: -->
-<chapter id="introduction"><title>Introduction</title> <!-- do not change this! -->
-	<note><title>Gametype:</title><para>Card</para></note><!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
-	<note><title>Number of possible players:</title><para>One</para></note><!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+<chapter id="introduction"
+><title
+>Einführung</title
+> <!-- do not change this! -->
+	<note
+><title
+>Spielart:</title
+><para
+>Karte</para
+></note
+><!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<note
+><title
+>Anzahl der Spieler:</title
+><para
+>Einer</para
+></note
+><!--Number of possible players. It can be: One, Two,..., Multiplayer-->
 
 <!--Short game description starts here. 3-4 sentences (paragraphs)-->
 
-<para>
-To play patience you need, as the name suggests, patience. For simple games,
-where the way the game goes depends only upon how the cards fall, your patience might be
-the only thing you need.
-</para>
+<para
+>Eine Patience zu spielen erfordert, wie der Name schon sagt, Geduld. Für einfache Spiele, in denen der Spielverlauf nur davon abhängig ist, wie die Karten fallen, ist das auch ausreichend. </para>
 
-<para>
-There are also patience games where you must plan your strategy and think
-ahead in order to win.
-</para>
+<para
+>Es gibt auch Patiencen, in denen zusätzlich strategisches Planen und Vorausdenken für das Gewinnen notwendig sind. </para>
 
-<para>
-A theme common to all the games is the player must put the cards in a special order &mdash; 
-moving, turning and reordering them.
-</para>
+<para
+>In allen Spielen müssen die Karten durch Auslegen und Ordnen nach einem jeweils festgelegten Schema in eine bestimmte Reihenfolge gebracht werden. </para>
 </chapter>
 
-<chapter id="howto"><title>How to Play</title> <!-- do not change this! -->
+<chapter id="howto"
+><title
+>Spielanleitung</title
+> <!-- do not change this! -->
 <!--IMPORTANT: If the game has no defined objective, please remove the below line.-->
-	<note><title>Objective:</title><para>Rearrange the cards by suit in as few moves as possible.</para></note><!--Describe the objective of the game.-->
+	<note
+><title
+>Spielziel:</title
+><para
+>Die Karten mit möglichst wenigen Zügen nach Farben ordnen.</para
+></note
+><!--Describe the objective of the game.-->
 <!--How to play description. Don't be to specific on rules as they have a separate section in this document-->
-	<para>
-	As &kpatience; offers you a multiplicity of different solitaire games, there is no straightforward how-to which could fit all of them. Therefore, it is essential that you read each individual subsection of Game Rules, Strategies and Tips section before you start playing a version you are not familiar with.</para>
-<para>
-Essentially there are two types of solitaire games – the ones that let you arrange the cards by same color and the ones that let you arrange the cards by alternating color. You can easily determine which game you are trying out using trial-and-error method. Once you know which one you are dealing with the rest is easy; keep arranging and rearranging the cards and collecting the matching ones.</para>
-<para>
-From the beginning, however, pay attention to your card stacks. Do not rush to move individual cards around. See if it might be more useful elsewhere.</para>
-<para>
-For additional help you can also take quick peeks onto the statusbar. Each of the games has a built in solver which informs you whether the game
-you are currently playing can be completed or not. If you see that solver could
-not complete the current game, chances are you will not be able to do so as
-well. At this point you can either restart the current game, or start a
-completely new game.
-</para>
-<note><title>Note:</title><para>Playing solitaire games helps you to greatly improve your attention span and enhance the ability to concentrate.</para></note>
+	<para
+>Da &kpatience; eine Vielzahl verschiedener Solitär-Spiele anbietet, gibt es keine allgemeingültige Anleitung, die für alle zutrifft. Bei unbekannten Spielarten sollten daher zunächst alle Unterkapitel mit den Spielregeln, -strategien und -tipps gelesen werden.</para>
+<para
+>Grundsätzlich gibt es zwei Arten Solitärspiele - die bei denen die Karten nach Farben sortiert werden und die bei denen die Farben abwechselnd angeordnet werden müssen. Die Spielart kann durch Ausprobieren leicht herausgefunden werden. Danach müssen die Karten nur noch durch mehrmaliges Umsortieren entsprechend zusammengeführt werden.</para>
+<para
+>Bereits zu Beginn sollte mit den Kartenstapeln Vorsicht walten. Bevor Karten bewegt werden, sollte überlegt werden, ob diese an anderer Stelle vielleicht sinnvoller untergebracht währen.</para>
+<para
+>Eine weiterer kleiner Hinweis ist, die Statusleiste im Auge zu behalten. Die meisten Spiele haben einen integrierten <emphasis
+>Löser</emphasis
+>, der darüber informiert, ob das aktuelle Spiel vollendet werden kann. Zeigt dieser an, dass das Spiel nicht mehr gewonnen werden kann, ist die Lösung unwahrscheinlich. An dieser Stelle kann das aktuelle Spiel neu gestartet oder ein völlig neues Spiel begonnen werden. </para>
+<note
+><title
+>Hinweis:</title
+><para
+>Das Spielen von Solitär verbessert die Konzentrationsfähigkeit.</para
+></note>
 </chapter>
 
-<chapter id="rules_and_tips"><title>Game Rules, Strategies and Tips</title> <!-- do not change this! -->
+<chapter id="rules_and_tips"
+><title
+>Spielregeln, Spielstrategien und Tipps</title
+> <!-- do not change this! -->
 
 <sect1 id="rules-general">
-	<title>General Rules</title>
-	<para><indexterm><primary>suits</primary></indexterm>A card game contains one or more card decks of 52 cards each. Each deck contains the four suits:</para>
+	<title
+>Spielregeln</title>
+	<para
+><indexterm
+><primary
+>Farben</primary
+></indexterm
+>Ein Kartenspiel enthält ein oder mehrere Kartenpäckchen mit je 52 Karten. Jedes Kartenpäckchen enthält die vier Farben:</para>
 	<informaltable pgwide="0" frame="none">
-		<tgroup cols="2"><colspec/><colspec/>
+		<tgroup cols="2"
+><colspec/><colspec/>
 	<tbody>
 		<row valign="middle">
-			<entry><inlinemediaobject><imageobject><imagedata fileref="clubs.png"/></imageobject></inlinemediaobject></entry>
-			<entry>Clubs</entry>
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="clubs.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Kreuz</entry>
 		</row>
 		<row valign="middle">
-			<entry><inlinemediaobject><imageobject><imagedata fileref="spades.png"/></imageobject></inlinemediaobject></entry>
-			<entry>Spades</entry>
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="spades.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Pik</entry>
 		</row>
 		<row valign="middle">
-			<entry><inlinemediaobject><imageobject><imagedata fileref="hearts.png"/></imageobject></inlinemediaobject></entry>
-			<entry>Hearts</entry>
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="hearts.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Herz</entry>
 		</row>
-			<row valign="middle"><entry><inlinemediaobject><imageobject><imagedata fileref="diamonds.png"/></imageobject></inlinemediaobject></entry>
-			<entry>Diamonds</entry>
+			<row valign="middle"
+><entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="diamonds.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Karo</entry>
 		</row>
-	</tbody></tgroup>
+	</tbody
+></tgroup>
 	</informaltable>
-	<para>Each of these suits contains the following card types: ace, two, three, four, five, six, seven, eight, nine, ten, jack, queen, and king.</para>
-	<para><indexterm><primary>family</primary></indexterm> This complete order of cards is called a family. There are real families and alternating ones. The real families are all of one suit (&eg; Hearts). In the alternating families the card color changes from one to another, between a black color (Clubs and Spades) and a red color (Hearts and Diamonds).</para>
-	<para>If the family is not complete it is called a sequence.</para>
+	<para
+>Jede dieser Farben enthält wiederum die folgenden Werte: Ass, Zwei, Drei, Vier, Fünf, Sechs, Sieben, Acht, Neun, Zehn, Bube, Dame und König.</para>
+	<para
+><indexterm
+><primary
+>Familie</primary
+></indexterm
+> Diese komplette Liste von Karten nennt man eine Familie. Es gibt echte Familien und unechte Familien. Die echten Familien sind alle von einer Farbe (z. B. Herz), während in unechten Familien die Farbe zwischen schwarz (Kreuz und Pik) und rot (Herz und Karo) abwechselt.</para>
+	<para
+>Wenn eine Familie nicht komplett ist, nennt man sie Folge.</para>
 	<mediaobject>
-		<imageobject><imagedata fileref="playfield.png" format="PNG"/></imageobject>
-		<textobject><phrase>The game field of &kpatience;</phrase></textobject>
+		<imageobject
+><imagedata fileref="playfield.png" format="PNG"/></imageobject>
+		<textobject
+><phrase
+>Das Spielfeld von &kpatience;</phrase
+></textobject>
 	</mediaobject>
-	<para>There are a number of features found in typical patience games. These are described below.</para>
+	<para
+>Es gibt einige typische Elemente in einer Patience. Diese sollen im Folgenden vorgestellt werden.</para>
 	<variablelist>
-		<varlistentry><term>1. Talon</term>
-			<listitem><para><indexterm><primary>talon</primary></indexterm>At the beginning of each game all cards are mixed in the deck. In some games not all cards are dealt out. The remaining cards are put down on the talon (also called the stock). You can find this quite easily, since in most games it is the only pile in which all cards are face down.</para>
+		<varlistentry
+><term
+>1. Talon</term>
+			<listitem
+><para
+><indexterm
+><primary
+>Talon</primary
+></indexterm
+>Am Anfang eines jeden Spiels werden die Kartenpäckchen gemischt. In einigen Spielen werden nicht alle Karten ausgeteilt und es verbleiben ein paar im <emphasis
+>Talon</emphasis
+> (auch <emphasis
+>Päckchen</emphasis
+> genannt). Diesen erkennt man in den einzelnen Spielarten meist recht einfach daran, dass er der einzige Stapel ist, der die Rückseite zeigt.</para>
 			</listitem>
 		</varlistentry>
-		<varlistentry><term>2. Waste Pile</term>
-			<listitem><para><indexterm><primary>waste pile</primary></indexterm>Many games use a waste pile to hold cards taken from the talon. Typically clicking on the talon will cause the topmost card to be flipped face up and placed on the waste pile, at which point the card enters play.</para>
+		<varlistentry
+><term
+>2. Hilfsstapel</term>
+			<listitem
+><para
+><indexterm
+><primary
+>Hilfsstapel</primary
+></indexterm
+>Viele Spielarten verwenden einen Hilfsstapel zur Ablage der Karten, die vom Talon genommen wurden. Typischerweise wird durch Mausklick auf den Talon die oberste Karte mit dem Gesicht nach oben gedreht und auf dem Hilfsstapel gelegt, wodurch die Karte am Spiel teilnimmt.</para>
 			</listitem>
 		</varlistentry>
-		<varlistentry><term>3. Foundation</term>
-			<listitem><para><indexterm><primary>foundation</primary></indexterm>The foundation piles are where you want your cards to end up. Typically, the game is won only once all cards have been moved to the foundation piles in the correct order. The number of foundation piles and the ordering required varies from game to game.</para>
-                            <para>Most games start with the foundation piles empty. Choosing the <guimenuitem>Drop</guimenuitem> action from the menu or toolbar will cause &kpatience; to scan through all the piles move as many cards to the foundation piles as it can. If you have the <guimenuitem>Enabled Autodrop</guimenuitem> setting activated, &kpatience; will attempt to perform a drop whenever possible.</para>
+		<varlistentry
+><term
+>3. Ablagestapel</term>
+			<listitem
+><para
+><indexterm
+><primary
+>Ablagestapel</primary
+></indexterm
+>Auf den Ablagestapeln werden die Karten endgelagert. Typischerweise ist das Spiel gewonnen sobald alle Karte in der richtigen Reihenfolge auf den Ablagestapeln gelegt sind. Die Anzahl der Ablagestapel sowie die Reihenfolge sind verschieden und bestimmen sich nach der Spielart.</para>
+                            <para
+>Die meisten Spiele beginnen mit leeren Ablagestapeln. Durch das Aktivieren von <menuchoice
+><guimenu
+>Zug</guimenu
+><guimenuitem
+>Ablegen</guimenuitem
+></menuchoice
+> oder <guimenuitem
+>Ablegen</guimenuitem
+> in der Werkzeugleiste durchsucht &kpatience; alle Stapel und versucht möglichst viele Karten auf den Ablagestapeln abzulegen. Falls <menuchoice
+><guimenu
+>Einstellungen</guimenu
+><guimenuitem
+>Automatisches Ablegen aktivieren</guimenuitem
+></menuchoice
+> aktiviert ist, legt &kpatience; die ablegbaren Karten ständig ab.</para>
 			</listitem>
 		</varlistentry>
-		<varlistentry><term>4. Playing Piles</term>
-			<listitem><para><indexterm><primary>playing piles</primary></indexterm>These piles are those where the actual reordering happens. The rules for these piles vary a lot between games. Some show all cards on them, some do not. Some allow only one card to be removed, some allow every card to be removed, &etc;</para>
+		<varlistentry
+><term
+>4. Spielstapel</term>
+			<listitem
+><para
+><indexterm
+><primary
+>Spielstapel</primary
+></indexterm
+>Diese Stapel sind der Ort, an dem das eigentliche Neuordnen stattfindet. Die Regeln für diese Stapel sind von Spiel zu Spiel sehr verschieden. Einige zeigen alle Karten auf den <emphasis
+>Spielstapeln</emphasis
+>, bei anderen sind manche Karten verdeckt. Einige Spiele erlauben nur, einzelne Karten zu verschieben, bei anderen kann jede Karte verschoben werden &etc;</para>
 			</listitem>
 		</varlistentry>
 	</variablelist>
 </sect1>
 
-<sect1 id="rules-specific"><title>Rules for Individual Games</title>
+<sect1 id="rules-specific"
+><title
+>Regeln der einzelnen Spiele</title>
 
 <sect2 id="klondike">
-<title>Klondike</title>
+<title
+>Klondike</title>
 
-<para><indexterm><primary>Klondike</primary></indexterm>
-Klondike is the most famous patience &mdash; most likely because it comes with a well-known operating system. 
-It is played with one deck.
-</para>
+<para
+><indexterm
+><primary
+>Klondike</primary
+></indexterm
+> Klondike ist die bekannteste Patience &mdash; wahrscheinlich weil ein sehr bekanntes Betriebssystem diese Patience als Standard mitliefert. Klondike wird mit einem einzelnen Kartenpäckchen gespielt. </para>
 
-<para>
-The goal in Klondike is to put all cards, as real families, ascending on the
-foundation. This gets easier once all cards are lying face
-up in the playing piles.
-</para>
+<para
+>Ziel des Spiels ist es, alle Karten als echte Familien aufsteigend auf den Ablagestapeln anzuordnen. Dies gelingt problemlos, sobald alle Karten mit der Vorderseite nach oben im Spielfeld liegen. </para>
 
-<para>
-The sequences on the playing piles have to be put there in descending order. The cards
-should alternate in colors (red and black). You can move whole sequences or
-parts of it, if the first card fits on another pile.
-</para>
+<para
+>Die Folgen müssen absteigend angeordnet werden, dabei müssen sich immer schwarze und rote Karten abwechseln. Es können ganze oder Teile von Folgen verschoben werden, wenn die erste Karte auf eine andere Ablage passt. </para>
 
-<para>
-On a free pile you can put a king of any color, or a sequence starting with a
-king.
-</para>
+<para
+>Auf eine freie Ablage kann jeder beliebige König oder auch jede mit einem König beginnende Folge gelegt werden. </para>
 
-<para>
-When you click on the talon, one card from it will be moved to the waste pile.
-You can move it to the playing piles or the foundation from there.
-If the talon is empty, you can move the complete waste pile to the talon
-by clicking on the empty talon.
-</para>
+<para
+>Mit einem Klick auf den Talon wird eine Karte auf den Hilfsstapel gelegt, von wo aus sie auf die Spielstapel oder die Ablagestapel verschoben werden kann. Ist der Talon leer, wird mit einem weiteren Klick der Hilfsstapel zu einem neuen Talon. </para>
 
-<para>
-You can look through the cards on the talon as much as you like.
-</para>
+<para
+>Die Karten im Talon können beliebig oft durchgeblättert werden. </para>
 </sect2>
 
 <sect2 id="grandfather">
-<title>Grandfather</title>
+<title
+>Großvater</title>
 
-<para><indexterm><primary>Grandfather</primary></indexterm>
-This game was introduced to &Paul-Olav.Tvete;, the original developer of &kpatience;, by his grandfather; it is named after this. 
-No other patience games are known to implement this patience game variant.
-</para>
+<para
+><indexterm
+><primary
+>Großvater</primary
+></indexterm
+> Erfinder dieser Spielart ist der Großvater von &Paul-Olav.Tvete;, dem ursprünglichen Entwickler von &kpatience;. Daher erhielt diese Patience ihren Namen. Es sind keine anderen Patience-Pakete bekannt, die dieses Spiel anbieten. </para>
         
-<para>
-In Grandfather, one deck is dealt to seven playing piles. Some cards on each pile
-are face down on the initial deal.
-</para>
+<para
+>Bei Großvater wird ein Kartenpäckchen auf sieben Spielstapel ausgeteilt. Die Karten der Spielstapel sind nur zum Teil aufgedeckt. </para>
 
-<para>
-The goal is to put all cards as real families ascending on the foundation piles.
-</para>
+<para
+>Ziel ist es, alle Karten als echte Familien aufsteigend auf den Ablagestapeln anzuordnen. </para>
 
-<para>
-You can move every card on every pile if it fits on another card, to build a real
-sequence of descending order. For example, you can move the five of spades on
-top of the six of spades, no matter how many cards on are on top of the five of
-spades. Just the six of spades has to be on top of its pile.
-</para>
+<para
+>Jede Karte kann auf jeden Spielstapel gelegt werden, wenn sich dadurch echte fallende Spielfolgen bilden. So kann &eg; die Pik-Fünf auf eine oben liegende Pik-Sechs gelegt werden, unabhängig davon, wieviele Karten auf der Pik-Fünf liegen. </para>
 
-<para>
-On a free pile you can place a king (again no matter how many cards are on top of
-it).
-</para>
+<para
+>Auf eine freie Ablage kann ein König gelegt werden (wiederum egal, wieviele Karten auf diesem König liegen). </para>
 
-<para>
-If there are no more possible moves, you can redeal the cards. A redeal
-consists of picking up the cards from the playing piles (pile by pile, left to
-right) and redealing them in the starting pattern (zigzagging rows of face down
-cards forming a peak and then left to right rows of face up cards on top). Note
-that the cards are <emphasis>not</emphasis> shuffled and that cards on the foundation piles
-are left untouched. You may redeal no more than twice in a single game.
-</para>
+<para
+>Sobald keine Spielzüge mehr möglich sind, können die Karten erneut gegeben werden. Beim <emphasis
+>Neu Geben</emphasis
+> werden die Karten von den Spielstapeln genommen (Stapel für Stapel von links nach rechts) und diese nach dem Anfangsmuster erneut gelegt (eine Spitze bildende Zick-Zack-Reihen bei den verdeckten Karten und von links nach rechts Reihen mit aufgedeckten Karten). Anmerkung: Die Karten werden <emphasis
+>nicht</emphasis
+> gemischt und die Karten auf den Ablagestapeln werden nicht angerührt. Das <emphasis
+>Neu Geben</emphasis
+> ist nur zweimal in einem Spiel möglich. </para>
 
-<para>
-Even though the rules are simple and allow many moves, the game is still
-hard to win. Despite this, or because of it, this game remains a joy to play.
-</para>
+<para
+>Auch wenn die Regeln einfach sind und es eine Menge möglicher Züge gibt, geht das Spiel doch recht selten auf. Trotzdem macht es Spaß zu spielen (vielleicht auch gerade deshalb). </para>
 </sect2>
 
 <sect2 id="aces-up">
-<title>Aces Up</title>
+<title
+>Asse hoch</title>
 
-<para><indexterm><primary>Aces Up</primary></indexterm>
-This patience has simple rules, yet is hard to win. It is played
-with one deck. The goal is to put all cards besides aces onto the
-foundation. There should be an ace left on every playing pile afterwards.
-</para>
+<para
+><indexterm
+><primary
+>Asse hoch</primary
+></indexterm
+> Diese Patience hat einfache Regeln, ist aber schwer zu gewinnen. Sie wird mit einem Kartenpäckchen gespielt. Ziel ist es, alle Karten außer den Assen auf die Ablagestapel zu legen, wobei am Schluss auf jedem Spielstapel ein Ass liegen muss. </para>
 
-<para>
-Each top card that is of the same suit (&eg; spades) and has a lower
-value than another top card (&eg; six of spades and four of spades) can be
-put on the foundation by clicking on it.
-</para>
+<para
+>Jede obere Karte, die von geringerem Wert als eine andere obere Karte und von derselben Farbe (&eg; Pik) ist, kann per Klick auf die Ablagestapel gelegt werden. </para>
 
-<para>
-If you cannot move any more cards to the foundation, you can get a new card for
-each playing pile by clicking on the talon.
-</para>
+<para
+>Können keine weiteren Karten auf die Ablagestapel gelegt werden, wird mit einem Klick auf den Talon auf jeden Spielstapel eine neue Karte gelegt. </para>
 
-<para>
-On a free pile you can move every other card on top of a pile. You should use these
-moves to free piles. That way, new cards can be moved to the foundation.
-</para>
+<para
+>Bei einem freien Stapel kann jede Karte als Basis verwendet werden. Diese Spielzüge sollten zum Abbau bestehender Stapel dienen. Mit dieser Vorgehensweise können neue Karten auf die Ablagestapel gelegt werden. </para>
 
-<para>
-The auto drop feature is disabled in this patience game.
-</para>
+<para
+>Das automatische Ablegen von Karten ist bei dieser Patience nicht verfügbar. </para>
 
 </sect2>
 
 <sect2 id="freecell">
-<title>Freecell</title>
+<title
+>Freecell</title>
 
-<para><indexterm><primary>Freecell</primary></indexterm>
-Freecell is played with one card deck. You have four free cells in the top left
-corner. In addition there are four foundation piles, and eight playing piles below.
-</para>
+<para
+><indexterm
+><primary
+>Freecell</primary
+></indexterm
+> Freecell wird mit einem Kartenpäckchen gespielt. Das Spielfeld besteht aus vier freien Zellen (links oben), den vier Ablagestapeln (rechts oben) und den acht Spielstapeln. </para>
 
-<para>
-The goal of the game is to have all cards as real families ascending on the
-foundation. You can achieve this often if you know how to play: 
-Freecell is solvable at a rate of 99.9% approximately &mdash; of the first 32,000 deals there is only
-one unsolvable (11,982 if you want to know).
-</para>
+<para
+>Ziel ist es, alle Karten als echte Familien aufsteigend auf den Ablagestapeln anzuordnen. Dies gelingt sehr oft, da Freecell zu ca. 99,9 % lösbar ist (von den ersten 32000 Spielen ist nur die Nummer 11982 unlösbar). </para>
 
-<para>
-In the playing piles you have to build descending sequences, where red and black
-cards alternate. You can put any card in a free cell.
-</para>
+<para
+>In den Spielstapeln müssen die Spielfolgen fallend, mit roten und schwarzen Karten im Wechsel, angeordnet werden. In eine freie Zelle kann nur eine einzige Karte gelegt werden. </para>
 
-<para>
-You can only move one card that lays on top of a pile or a free cell.
-Sequences can only be moved if you have enough free space (either free cells or free
-playing piles) to place the cards.
-</para>
+<para
+>Bei einem Spielzug darf immer nur eine oben liegende Karte verschoben werden. Sequenzen oder Teile von Sequenzen können nur verschoben werden, wenn genügend freie Zellen und/oder freie Spielstapel vorhanden sind. Dabei kann jede beliebige Karte auf eine freie Position gelegt werden. </para>
 
-<para>
-The maximum amount of cards you can move is calculated by:
-</para>
+<para
+>Die maximale Anzahl der verschiebbaren Karten berechnet sich wie folgt: </para>
 
-<sidebar><para>
-(#{free cells} + 1) * 2<superscript>#{free piles}</superscript>
-</para></sidebar>
+<sidebar
+><para
+>(#{freie Zellen} + 1) * 2<superscript
+>#{freie Spielstapel}</superscript
+> </para
+></sidebar>
 
-<para>Variations:</para>
+<para
+>Varianten:</para>
 <itemizedlist>
-  <listitem><para><quote>Baker's Game</quote> is like <quote>Freecell</quote>, but the piles are built down by suit.</para></listitem>
-  <listitem><para><quote>Eight Off</quote> is like <quote>Freecell</quote>, but the piles are built down by suit. You have 8 reserves and only kings can fill empty spaces. Four reserves are filled at game start.</para></listitem>
-  <listitem><para><quote>Forecell</quote> is like <quote>Freecell</quote>, but the reserves are filled at game start, and only kings can fill empty spaces.</para></listitem>
-  <listitem><para><quote>Seahaven Towers</quote> is like <quote>Freecell</quote>, but with 10 piles which are built down by suit, and only kings can fill empty spaces. Two reserves are filled at game start.</para></listitem>
+  <listitem
+><para
+><quote
+>Bäckers Dutzend</quote
+>, wie <quote
+>Freecell</quote
+>, aber die Stapel werden nach Farben abgelegt.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Acht aus</quote
+>, wie <quote
+>Freecell</quote
+>, aber die Stapel werden nach Farben abgelegt. Es gibt 8 Reservekarten und nur Könige können auf leere Ablagestapel gelegt werden. Vier Reservekarten werden bei Spielbeginn ausgelegt.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Forecell</quote
+>, wie <quote
+>Freecell</quote
+>, aber die Reservekarten werden bei Spielbeginn ausgelegt und nur Könige können auf leere Ablagestapel gelegt werden.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Seahaven-Türme</quote
+>, wie <quote
+>Freecell</quote
+>, aber mit 10 Stapeln, die nach Farben abgelegt werden. Es gibt 8 Reservekarten und nur Könige können auf leere Ablagestapel gelegt werden. Zwei Reservekarten werden bei Spielbeginn ausgelegt.</para
+></listitem>
 </itemizedlist>
 
-<para>
-To solve this game it is recommended to grab the cards out of the playing
-sequences in the same order they have to be put into the foundation (first the
-aces, then the twos, &etc;)
-</para>
+<para
+>Zur Lösung dieses Spiels sollten die Karten in derjenigen Reihenfolge <emphasis
+>freigelegt</emphasis
+> werden, in der sie auf die Ablagestapel gelegt werden können. (zuerst die Asse, dann die Zweier, &etc;) </para>
 
-<para>
-You should try to keep as many free cells and/or playing piles empty, so you can
-build sequences as long as possible.
-</para>
+<para
+>Dabei sollten so viele freie Zellen und/oder Ablagen frei gehalten werden, dass möglichst lange Folgen gebaut und verschoben werden können. </para>
 
 </sect2>
 
 <sect2 id="mod3">
-<title>Mod3</title>
+<title
+>Mod3</title>
 
-<para><indexterm><primary>Mod3</primary></indexterm>
-Mod3 is played with two card decks. The goal is to put all
-cards on the top three rows. In those you have to build sequences of the same
-color. In the first row you have to create the sequence 2-5-8-J, in the second
-row the sequence 3-6-9-Q, and in the third row the sequence 4-7-10-K. The suit of
-the cards must be the same in each sequence, so you can only put a five of hearts
-on top of a two of hearts.
-</para>
+<para
+><indexterm
+><primary
+>Mod3</primary
+></indexterm
+> Mod3 wird mit zwei Kartenpäckchen ohne Asse gespielt. Ziel ist es, alle Karten in den drei oberen Reihen anzuordnen. In der ersten Reihe sollen echte Abfolgen der Form 2-5-8-B, in der zweiten Reihe der Form 3-6-9-D und in der dritten Reihe der Form 4-7-10-K angeordnet werden. Hier ist die Farbe der Karte wichtig, so kann beispielsweise auf eine Herz-Zwei nur eine Herz-Fünf gelegt werden. </para>
 
-<para>
-The fourth row is both your waste pile and playing pile. On an empty slot you can
-put any card from the first three rows, or one from the top of the fourth row.
-</para>
+<para
+>Die vierte Reihe ist gleichzeitig Hilfs- und Spielstapel. Auf einen leeren Spielstapel kann eine beliebige Karte aus den oberen drei Reihen oder die oberste Karte der vierten Reihe gelegt werden. </para>
 
-<para>
-You can put aces on the aces piles, on top of the talon. They are in the game
-so you have a starting point for creating free slots.
-</para>
+<para
+>Asse können auf den Ass-Stapel oberhalb des Talon gelegt werden. Dadurch können Plätze frei gemacht werden. </para>
 
-<para>
-If you cannot move any more cards, you can get new cards on the fourth row by
-clicking on the talon.
-</para>
+<para
+>Können keine weiteren Karten verschoben werden, ergeben sich neue Möglichkeiten durch einen Klick auf den Talon. Dadurch wird auf jeden Spielstapel eine neue Karte gelegt. </para>
 
-<para>
-The auto drop feature is disabled in this patience game.
-</para>
+<para
+>Das automatische Ablegen von Karten ist bei dieser Patience nicht verfügbar. </para>
 </sect2>
 
 <sect2 id="gypsy">
-<title>Gypsy</title>
+<title
+>Zigeuner</title>
 
-<para><indexterm><primary>Gypsy</primary></indexterm>
-Gypsy is played with two card decks. The aim is to put all cards in
-real families ascending on the foundation.
-</para>
+<para
+><indexterm
+><primary
+>Zigeuner</primary
+></indexterm
+> Zigeuner wird mit zwei Kartenpäckchen gespielt. Ziel des Spiels ist es, alle Karten als echte Familien aufsteigend auf den Ablagestapeln anzuordnen. </para>
 
-<para>
-The playing piles have to be descending, while red and black cards have to
-alternate. You can only move sequences or single cards. On a free slot you can
-put any card or sequence.
-</para>
+<para
+>Die Spielfolgen müssen fallend angeordnet werden, wobei sich immer schwarze und rote Karten abwechseln. Es können nur Sequenzen oder einzelne Karten verschoben werden. Auf einen freien Spielstapel kann jede beliebige Karte oder Sequenz gelegt werden. </para>
 
-<para>
-If you cannot move any more cards, you can click on the talon to get new cards on each playing pile.
-</para>
+<para
+>Können keine weiteren Karten verschoben werden, ergeben sich neue Möglichkeiten durch einen Klick auf den Talon. Dadurch wird auf jeden Spielstapel eine neue Karte gelegt. </para>
 
-<para>
-In using the <guibutton>Undo</guibutton> feature you can ease the game quite a lot, as you have to take
-many decisions and some of them might turn out to be wrong after you
-clicked the talon.
-</para>
+<para
+>Das häufige Verwenden der Funktion <guibutton
+>Zurücknehmen</guibutton
+> ermöglicht ein leichteres Gewinnen des Spiels. Dadurch können die Auswirkungen einer Entscheidung zunächst beobachtet und möglicherweise eine andere Entscheidungen getroffen werden. </para>
 
 </sect2>
 
 <sect2 id="forty-and-eight">
-<title>Forty &amp; Eight</title>
+<title
+>Vierzig &amp; Acht</title>
 
-<para><indexterm><primary>Forty &amp; Eight</primary></indexterm>
-Forty &amp; Eight is played with two card decks. The goal is to put all
-cards as real families on the foundation.
-</para>
+<para
+><indexterm
+><primary
+>Vierzig &amp; Acht</primary
+></indexterm
+> Vierzig &amp; Acht wird mit zwei Kartenpäckchen gespielt. Ziel des Spiels ist es, alle Karten als echte Familien aufsteigend auf den Ablagestapeln anzuordnen. </para>
 
-<para>
-The playing piles have to be descending. 
-Colors are important. You can only put a five of hearts on a six of hearts, for example.
-</para>
+<para
+>Die Spielstapel müssen fallend angeordnet werden, wobei nur Herz auf Herz, Pik auf Pik, usw. gelegt werden darf. </para>
 
-<para>
-You can only move one card on top of a pile. You can put any card in a free slot.
-</para>
+<para
+>Es kann nur eine oben liegende Karte pro Spielzug bewegt werden. Auf einer freien Ablage lässt sich jede beliebige Karte ablegen. </para>
 
-<para>
-By clicking on the talon you can put a card on the waste pile; from there you
-can put it on a playing pile or the foundation (&kpatience; will do this for you).
-If the talon is empty you can put all cards on the waste pile back on the talon.
-This works only once: after the second time the talon empties, the game is over.
-</para>
+<para
+>Mit einem Klick auf den Talon wird eine Karte auf den Hilfsstapel gelegt, von wo aus sie auf die Spiel- oder Ablagestapel verschoben werden kann (letzteres übernimmt &kpatience;). Ist der Talon leer, wird mit einem weiteren Klick der Hilfsstapel zu einem neuen Talon. Jedoch kann der Talon nur zweimal durchgesehen werden. </para>
 
-<para>
-This patience is difficult to solve. With some experience you can
-solve many of the deals, especially if you use the <guibutton>Undo</guibutton> feature from time to time to
-correct your decisions, and the decisions &kpatience; makes in putting cards on the
-foundation.
-</para>
+<para
+>Diese Patience ist nicht einfach zu lösen, aber mit ein wenig Erfahrung wird das Gewinnen vieler Spiele möglich. Dabei bietet sich vor allem das häufigere Verwenden der <guibutton
+>Zurücknehmen</guibutton
+>-Funktion an, um Entscheidungen im Spielverlauf zu berichtigen. Dies gilt auch für den Fall, dass &kpatience; eine Karte automatisch auf einen Ablagestapel legt. </para>
 </sect2>
 
 <sect2 id="simple-simon">
-<title>Simple Simon</title>
+<title
+>Einfach Simon</title>
 
-<para><indexterm><primary>Simple Simon</primary></indexterm>
-Simple Simon is played with one card deck. The goal is to put all cards
-as real families on the foundation.
-</para>
+<para
+><indexterm
+><primary
+>Einfach Simon</primary
+></indexterm
+> Einfach Simon wird mit einem Kartenpäckchen gespielt. Ziel des Spiels ist es, alle Karten als echte Familien aufsteigend auf den Ablagestapeln anzuordnen. </para>
 
-<para>
-In the playing piles you can build sequences. In general you don't have to care
-about the suits of the cards, but sequences can only be moved if they are part
-of a real sequence. For example, you can move the six of spades if the five 
-of <emphasis>spades</emphasis> is on top of it, 
-but may not move it if the five of <emphasis>clubs</emphasis> is on top of it.
-</para>
+<para
+>Auf den Ablagestapeln können echte und unechte, fallende Sequenzen gebildet werden. Mehrere Karten lassen sich nur dann bewegen, wenn sie Mitglied einer echten Familie sind. So kann beispielsweise die Pik-Sechs verschoben werden, wenn die <emphasis
+>Pik</emphasis
+>-Fünf auf ihr liegt, aber nicht, wenn es die <emphasis
+>Herz</emphasis
+>-Fünf ist. </para>
 
-<para>
-The cards can only be moved to the foundation if all 13 cards of one family lay
-on top of each other in the playing piles.
-</para>
+<para
+>Die Karten werden nur auf die Ablagestapel gelegt, wenn alle 13 Karten einer Farbe im Spielfeld als echte fallende Familie angeordnet wurden. </para>
 
 <tip>
-<title>Suggestion</title>
-<para>
-You should try as soon as possible to move the cards to the correct piles, to
-create free piles to place cards on temporarily, since you can put any card on those.
-</para>
+<title
+>Hinweis</title>
+<para
+>Es empfiehlt sich möglichst früh Karten auf die richtigen Spielstapel zu verschieben, um freie Spielstapel zu schaffen. Auf einen freien Spielstapel kann jede Karte oder Sequenz gelegt werden. </para>
 
-<para>
-With enough free room you can build families on free slots independently of the
-color. If you have all cards in such families you can sort them by color, so they can be moved to the foundation.
-</para>
+<para
+>Mit ausreichend Platz kann begonnen werden, fallende Familien auf einen freien Spielstapel zu legen. Sind alle Karten so angeordnet, können sie anschließend der Farbe nach sortiert werden. </para>
 </tip>
 
 </sect2>
 
 <sect2 id="yukon">
-<title>Yukon</title>
+<title
+>Yukon</title>
 
-<para><indexterm><primary>Yukon</primary></indexterm>
-Yukon is played with one card deck. The goal is to put all cards as real
-families ascending on the foundation.
-</para>
+<para
+><indexterm
+><primary
+>Yukon</primary
+></indexterm
+> Yukon wird mit einem Kartenpäckchen gespielt. Ziel des Spiels ist es, alle Karten als echte Familien aufsteigend auf den Ablagestapeln anzuordnen. </para>
 
-<para>
-The sequences on the playing piles have to be descending with alternating red and
-black cards. You can move every face up card no matter how many cards are on top
-of it. So you can put a five of hearts on a six of spades if that one is on top of its pile.
-</para>
+<para
+>Die Spielfolgen müssen fallend angeordnet werden, wobei sich immer schwarze und rote Karten abwechseln. Jede aufgedeckte Karte kann bewegt werden. So kann beispielsweise die Herz-Fünf auf eine oben liegende Pik-Sechs gelegt werden, unabhängig davon, wieviele Karten unter der Pik-Sechs liegen. </para>
 
-<para>
-In a free slot you can put a king of any color (again, no matter how many cards are on top
-of it).
-</para>
+<para
+>Auf einen freien Spielstapel kann ein König jeder beliebigen Farbe gelegt werden (auf diesem können beliebig viele Karten liegen). </para>
 </sect2>
 
 <sect2 id="grandfathers-clock">
-<title>Grandfather's Clock</title>
+<title
+>Großvaters Uhr</title>
 
-<para><indexterm><primary>Grandfathers Clock</primary></indexterm>
-Grandfather's clock is a simple patience game. With some experience you should
-be able to solve most deals. It is played with one card deck. The aim is to put the cards 
-as real ascending sequences on the foundation.
-</para>
+<para
+><indexterm
+><primary
+>Großvaters Uhr</primary
+></indexterm
+> Großvaters Uhr ist eine einfache Patience und mit ein bisschen Erfahrung sollte fast jedes Spiel lösbar sein. Diese Patience wird mit einem Kartenpäckchen gespielt. Ziel des Spiels ist es, alle Karten als echte Familien aufsteigend auf den Ablagestapeln anzuordnen. </para>
 
-<para>
-The foundation is on the right-hand side and consists of 12 piles that form the shape
-of a clock. The nine is at 12 o'clock, the queen is at 3 o'clock, the three is at 6 o'clock
-and the six is at 9 o'clock.
-</para>
+<para
+>Die zwölf Ablagestapel befinden sich auf der rechten Seite und bilden die Form einer Uhr. Dabei befinden sich die Neun auf 12 Uhr, die Dame auf 3 Uhr, die Drei auf 6 Uhr und die Sechs auf 9 Uhr. </para>
 
-<para>
-There are 8 playing piles beside the clock and on each are 5 cards. On the
-playing piles you can build descending sequences. The color of the cards is not important. 
-You can only move one card at a time.
-</para>
+<para
+>Die acht Spielstapel bestehen aus je fünf Karten. Auf diesen können die Karten als fallende Sequenzen angeordnet werden, wobei die Farbe unberücksichtigt bleibt. Bei jedem Spielzug kann nur eine Karte bewegt werden. </para>
 
 </sect2>
 
 <sect2 id="golf">
-<title>Golf</title>
+<title
+>Golf</title>
 
-<para><indexterm><primary>Golf</primary></indexterm> 
-Golf is played with one card deck. The goal of Golf is to move all the cards on the tableau to the foundation.</para>
+<para
+><indexterm
+><primary
+>Golf</primary
+></indexterm
+> Golf wird mit einem Kartenpäckchen gespielt. Ziel des Spiels ist es, alle Karten als echte Familien aufsteigend auf den Ablagestapeln anzuordnen.</para>
  
-<para>The layout of golf solitaire is straightforward. At the beginning of the game you will see the tableau. 
-On it are seven columns each containing five cards. The talon and the foundation are below. 
-</para>
+<para
+>Der Aufbau des Spielfeldes von Golf-Solitär ist ziemlich geradlinig. Am Anfang des Spiels ist das Spielfeld und darauf sieben Spalten mit je fünf Karten sichtbar. Darunter befinden sich der Talon und die Ablagestapel. </para>
 
-<para>Playing golf solitaire is simple, but requires strategy to win.
-The cards at the base of each column on the tableau are available for play. 
-Available cards are built upon the top foundation card in ascending or descending sequence regardless of suit. 
-If there are no moves available a card may be dealt from the talon to the foundation. 
-The game is over when all the cards in the talon have been dealt and there are no more possible moves.</para>
+<para
+>Golf-Solitär ist einfach zu spielen, erfordert aber eine Strategie, um zu gewinnen. Die Karten oben auf jedem Kartenstapel des Spielfeldes können gespielt werden. Die erreichbaren Karten werden auf der obersten Karte der Ablagestapel in auf- oder absteigender Reihenfolge abgelegt, wobei die Farbe unberücksichtigt bleibt. Sind keine Spielzüge mehr möglich, kann eine Karte vom Talon auf die Ablagestapel gelegt werden. Das Spiel ist beendet, wenn alle Karten vom Talon gespielt wurden und keine anderen Spielzüge mehr möglich sind.</para>
 
 </sect2>
 
 <sect2 id="spider">
-<title>Spider</title>
+<title
+>Spider</title>
 
-<para><indexterm><primary>Spider</primary></indexterm>
-Spider is played with two card decks. The cards are dealt out into 10 playing
-piles, 4 of 6 cards and 6 of 5 cards each. This leaves 50 cards that can be
-dealt out 10 at a time, one on each playing pile.
-</para>
+<para
+><indexterm
+><primary
+>Spider</primary
+></indexterm
+> Spider wird mit zwei Kartenpäckchen gespielt. Zu Beginn werden 10 Spielstapel gebildet, 4 mit 6 Karten und 6 mit 5 Karten. Bei jedem Klicken auf den Talon werden von den restlichen 50 Karten jeweils 10 Karten gleichzeitig auf die zehn Spielstapel verteilt. </para>
 
-<para>
-In the playing piles, a card can be placed on another card of any suit and
-of one higher value. A sequence of descending cards of the same suit may be
-moved from one playing pile to another.
-</para>
+<para
+>Auf den Spielstapeln darf eine Karte auf eine andere Karte beliebiger Farbe gelegt werden, deren Wert um eins höher ist. Eine Folge absteigender Karten der gleichen Farbe darf in einem Zug von einem Spielstapel auf einen anderen verschoben werden. </para>
 
-<para>
-The goal of spider is to put all cards as real families descending from
-Kings anywhere in the playing piles. When such a family is built in a
-playing pile, it is removed to the lower-left corner of the window.
-</para>
+<para
+>Das Ziel von Spider ist, alle Karten entsprechend ihrer Familie absteigend vom König aus irgendwo in den Spielstapeln zu platzieren. Eine vollständige Familie wird von den Spielstapeln entfernt und links unten im Fenster abgelegt. </para>
 
-<para>
-The different levels determine how many suits are dealt - Easy uses 1 suit,
-Medium uses 2 suits, and Hard uses all 4 suits. The game is fairly easy to
-win at Easy level, and very difficult to win at Hard level.
-</para>
+<para
+>Die verschiedenen Spielstufen unterscheiden sich in der Anzahl der ausgeteilten Farben. Leicht verwendet eine Farbe, mittel zwei und schwer verwendet alle vier Farben. In der leichten Stufe ist das Spiel einfach zu gewinnen, in der schweren Spielstufe sehr schwierig. </para>
 
 </sect2>
 
 <sect2 id="bakers-dozen">
-<title>Baker's Dozen</title>
+<title
+>Bäckers Dutzend</title>
 
-<para><indexterm><primary>Baker's Dozen</primary></indexterm>
-Baker's Dozen is played with one card deck. The game's name originates from  
-the 13 columns in the game, the number in a baker's dozen. 
-The cards are dealt into columns of four on the tableau, resulting in 13 columns. 
-Any king that is in the top or middle of each column must be placed on the 
-bottom before the game starts. Two kings that are mixed into one column are 
-placed on the bottom without changing their order.
-</para>
+<para
+><indexterm
+><primary
+>Bäckers Dutzend</primary
+></indexterm
+> Bäckers Dutzend wird mit einem Kartenspiel gespielt. Der Name kommt von der 12 Stapeln im Spiel. Das entspricht dem Anzahl in einem Bäckerdutzend. Die Karten werden jeweils zu viert in 13 Stapeln auf dem Spielfeld abgelegt. Jeder König oben oder in der Mitte jedes Stapels muss unten abgelegt werden, ehe das Spiel beginnt. Zwei Könige in einem Stapel werden unten in gleicher Reihenfolge abgelegt. </para>
 
-<para>
-The object of the game is to build all the cards onto the four foundations by suit, each from ace to king
-</para>
+<para
+>Ziel ist es, alle Karten nach Farben auf den vier Ablagestapeln jeweils vom Ass bis zum König anzuordnen. </para>
 
-<para>
-In the playing piles you have to build descending sequences, regardless of suit.
-You can only move one card that lays on top of a pile.
-</para>
+<para
+>In den Spielstapeln müssen die Spielfolgen fallend,unabhängig von der Farbe angeordnet werden. Sie können nur eine Karte oben auf dem Stapel ziehen. </para>
 
-<para>Variations:</para>
+<para
+>Varianten:</para>
 <itemizedlist>
-  <listitem><para>In <quote>Spanish Patience</quote>, any card can fill empty tableau spaces. (In some sources, the foundations are built up regardless of suit).</para></listitem>
-  <listitem><para><quote>Castles in Spain</quote> is akin to <quote>Spanish Patience</quote>, but the cards in the tableau are built down by alternate color. In some variations, the tableau is dealt face-down aside from the top cards of each column.</para></listitem>
-  <listitem><para><quote>Portuguese Solitaire</quote> is halfway between <quote>Baker's Dozen</quote> and <quote>Spanish Patience</quote> because empty columns can only be filled with Kings.</para></listitem>
+  <listitem
+><para
+>In der <quote
+>Spanischen Patience</quote
+> kann jede Karte auf leere Bereiche des Spielfelds abgelegt werden.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Burgen in Spanien</quote
+> ist etwa so wie die <quote
+>Spanische Patience</quote
+>, aber die Karten auf dem Spielfeld werden mit abwechselnden Farben abgelegt. In einigen Varianten sind die Karten auf den Spielfeld verdeckt abgelegt, abgesehen von den obersten Karten auf jedem Stapel.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Portugiesisches Solitaire</quote
+> ist ein Mittelding aus <quote
+>Bäckers Dutzend</quote
+> und der <quote
+>Spanischen Patience</quote
+>, weil leere Spalten nur mit Königen belegt werden können.</para
+></listitem>
 </itemizedlist>
 
-<para>
-To solve this game it is recommended to grab the cards out of the playing
-sequences in the same order they have to be put into the foundation (first the
-aces, then the twos, &etc;) Typically, you want to avoid emptying a column until 
-the last card is ready to be moved to a foundation.
-</para>
+<para
+>Zur Lösung dieses Spiels sollten die Karten in derjenigen Reihenfolge <emphasis
+>freigelegt</emphasis
+> werden, in der sie auf die Ablagestapel gelegt werden können. (zuerst die Asse, dann die Zweier, &etc;). Normalerweise sollten Sie es vermeiden, einen Kartenstapel zu leeren, bis die letzte Karte auf einem Ablagestapel abgelegt werden kann. </para>
 
 </sect2>
 
 <sect2 id="castle">
-<title>Castle</title>
+<title
+>Burg</title>
 
-<para><indexterm><primary>Castle</primary></indexterm>
-Castle is a family of patience or solitaire card games typically played with a deck of 52 playing cards. It is sometimes described as "Freecell without cells" because its game play is similar but without extra empty spaces to maneuver in most variations.
-</para>
+<para
+><indexterm
+><primary
+>Burg</primary
+></indexterm
+> Burg ist eine Familie von Patience- oder Solitaire-Kartenspielen, die typischerweise mit einem Satz von 52 Spielkarten gespielt wird. Es wird manchmal auch als „Freecell ohne Zellen“ bezeichnet, da das Spiel ähnlich abläuft, aber in den meisten Varianten keine zusätzlichen leeren Felder zum Manövrieren vorhanden sind.  </para>
 
-<para>
-The object of the game is to build all the cards onto the four foundations by suit, each from ace to king.
-</para>
+<para
+>Ziel ist es, alle Karten nach Farben auf den vier Ablagestapeln jeweils vom Ass bis zum König anzuordnen. </para>
 
-<para>
-In the playing piles you have to build descending sequences, regardless of suit.
-You can only move one card that lays on top of a pile.
-</para>
+<para
+>In den Spielstapeln müssen die Spielfolgen fallend,unabhängig von der Farbe angeordnet werden. Sie können nur eine Karte oben auf dem Stapel ziehen. </para>
 
-<para>Variations:</para>
+<para
+>Varianten:</para>
 <itemizedlist>
-  <listitem><para><quote>Beleaguered Castle</quote>. Aces are dealt to the foundations. Any card can fill empty spaces.</para></listitem>
-  <listitem><para><quote>Citadel</quote> is like <quote>Beleaguered Castle</quote>, but matching cards are moved to the foundation during the deal, leaving uneven piles.</para></listitem>
-  <listitem><para><quote>Exiled Kings</quote> is like <quote>Citadel</quote>, but only kings can fill empty spaces.</para></listitem>
-  <listitem><para><quote>Siegecraft</quote> is like <quote>Beleaguered Castle</quote>, but with one free cell.</para></listitem>
-  <listitem><para><quote>Streets and Alleys</quote> is like <quote>Beleaguered Castle</quote>, but aces are included in shuffling.</para></listitem>
-  <listitem><para><quote>Stronghold</quote> is like <quote>Streets and Alleys</quote>, but with one free cell.</para></listitem>
+  <listitem
+><para
+><quote
+>Belagerte Burg</quote
+>. Asse werden auf die Ablagestapel verteilt. Jede Karte kann leere Felder füllen.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Zitadelle</quote
+> ist wie <quote
+>Belagerte Burg</quote
+>, aber passende Karten werden während des Austeilens auf den Ablagestapel verschoben, sodass ungleiche Stapel entstehen.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Verbannte Könige</quote
+> ist wie <quote
+>Zitadelle</quote
+>, aber nur Könige können leere Felder füllen.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Belagerung</quote
+> ist wie <quote
+>Belagerte Burg</quote
+>, aber mit einer freien Zelle.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Straßen und Wege</quote
+> ist wie <quote
+>Belagerte Burg</quote
+>, aber die Asse werden mit gemischt.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Festung</quote
+> ist wie <quote
+>Straßen und Wege</quote
+>, aber mit einer freien Zelle.</para
+></listitem>
 </itemizedlist>
 
-<para>
-To solve this game it is recommended to build evenly on the foundations. Try to create empty piles which can be used to facilitate longer moves to free up buried cards.
-</para>
+<para
+>Um dieses Spiel zu lösen, empfiehlt es sich, gleichmäßig auf den Ablagestapel zu spielen. Versuchen Sie leere Stapel zu schaffen, die für längere Züge genutzt werden können, um verdeckte Karten freizulegen. </para>
 
 </sect2>
 
@@ -643,290 +853,614 @@ To solve this game it is recommended to build evenly on the foundations. Try to 
 
 </chapter>
 
-<chapter id="interface"><title>Interface Overview</title> <!-- do not change this! -->
-<!-- This section has to do with menubar. Describe every single entry in order. Use <variablelist> and <varlistentry>. Split the chapter into sections using <sect1(2,3)> for better viewing.-->
+<chapter id="interface"
+><title
+>Benutzeroberfläche</title
+> <!-- do not change this! -->
+<!-- This section has to do with menubar. Describe every single entry in order. Use <variablelist
+> and <varlistentry
+>. Split the chapter into sections using <sect1(2,3)
+> for better viewing.-->
 <sect1 id="game-menu">
-	<title>The Game Menu</title>
+	<title
+>Das Menü Spiel</title>
 		<variablelist>
 			<varlistentry id="game-menu-new-game">
-				<term><menuchoice>
-					<shortcut><keycombo action="simul">&Ctrl;&Shift;<keycap>N</keycap></keycombo></shortcut>
-					<guimenu>Game</guimenu>
-					<guimenuitem>New Game...</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Return to the game selection screen.</action> This action abandons the deal in progress.</para></listitem>
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>N</keycap
+></keycombo
+></shortcut
+><guimenu
+>Spiel</guimenu
+><guimenuitem
+>Neues Spiel ...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Rückkehr zur Spielauswahl.</action
+> Mit dieser Aktion wird das laufende Spiel verworfen.</para
+></listitem>
 			</varlistentry>
 			<varlistentry id="game-menu-new-deal">
-				<term><menuchoice>
-					<shortcut><keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo></shortcut>
-					<guimenu>Game</guimenu>
-					<guimenuitem>New Deal</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Start a new deal of the same game type.</action> This action abandons the deal in progress.</para></listitem>
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></shortcut
+><guimenu
+>Spiel</guimenu
+><guimenuitem
+>Neue Karten</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Eine neue Partie des selben Spiels wird gestartet.</action
+> Mit dieser Aktion wird das laufende Spiel verworfen.</para
+></listitem>
 			</varlistentry>
 			<varlistentry id="game-menu-new-numbered-deal">
-				<term><menuchoice>
-					<shortcut><keycombo action="simul">&Ctrl;<keycap>D</keycap></keycombo></shortcut>
-					<guimenu>Game</guimenu>
-					<guimenuitem>New Numbered Deal...</guimenuitem>
-				</menuchoice></term>
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+></shortcut
+><guimenu
+>Spiel</guimenu
+><guimenuitem
+>Neue Spielnummer ...</guimenuitem
+> </menuchoice
+></term>
 				<listitem>
-					<para><action>Start a new deal by specifying the game type and deal number.</action> This action abandons the deal in progress.</para>
-					<para>&kpatience; gives each deal a unique indentifying number (which it uses internally to randomize the deck during the initial deal). This feature allows you to replay a deal of interest or to attempt a particularly difficult deal recommended by a friend. Especially dedicated players may wish to <quote>beat</quote> &kpatience; by playing all 2147483647 deals consecutively for each of the game types.</para>
-					<para>Note that for Freecell, &kpatience;'s deal numbers match those described in <ulink url="http://www.solitairelaboratory.com/fcfaq.html">the Freecell &FAQ;</ulink>.</para>
+					<para
+><action
+>Eine neue Partie mit einer bestimmten Spielnummer und Spielart wird gestartet.</action
+> Mit dieser Aktion wird das laufende Spiel verworfen.</para>
+					<para
+>&kpatience; vergibt an jede Partie eine einzigartige Identifikationsnummer (und verwendet diese intern zur zufälligen Auswahl der Karten). Dadurch kann jede interessante Partie nochmals gewählt und gespielt werden. Besonders ehrgeizige Spieler möchten möglicherweise alle 2.147.483.647 Partien in alle Spielarten spielen und dabei &kpatience; <emphasis
+>schlagen.</emphasis
+></para>
+					<para
+>Zu beachten ist, dass alle Nummern der Freecell-Partien in &kpatience; mit denen der <ulink url="http://www.solitairelaboratory.com/fcfaq.html"
+>Häufig gestellten Fragen</ulink
+> von Freecell übereinstimmen.</para>
 				</listitem>
 			</varlistentry>
 			<varlistentry id="game-menu-restart-deal">
-				<term><menuchoice>
-					<shortcut><keycap>F5</keycap></shortcut>
-					<guimenu>Game</guimenu>
-					<guimenuitem>Restart Deal</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Return the current game to its initially dealt condition.</action></para></listitem>
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F5</keycap
+></shortcut
+><guimenu
+>Spiel</guimenu
+><guimenuitem
+>Spiel neu starten</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Das aktuelle Spiel wird in den Anfangszustand zurückgesetzt.</action
+></para
+></listitem>
 			</varlistentry>
 			<varlistentry id="game-menu-load">
-				<term><menuchoice>
-					<shortcut><keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo></shortcut>
-					<guimenu>Game</guimenu>
-					<guimenuitem>Load...</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Load a saved game.</action> This action abandons the deal in progress.</para></listitem>
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+></shortcut
+><guimenu
+>Spiel</guimenu
+><guimenuitem
+>Laden ...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Ein gespeichertes Spiel wird geladen.</action
+> Mit dieser Aktion wird das laufende Spiel verworfen.</para
+></listitem>
 			</varlistentry>
 			<varlistentry id="game-menu-load-recent">
-				<term><menuchoice>
-					<guimenu>Game</guimenu>
-					<guisubmenu>Load Recent</guisubmenu>
-					<guimenuitem><replaceable>List of recently accessed files</replaceable></guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>List recently accessed save files in order of last use.</action> Selecting a game will load it. This action abandons the deal in progress.</para></listitem>
+				<term
+><menuchoice
+><guimenu
+>Spiel</guimenu
+><guisubmenu
+>Zuletzt geöffnete Spiele</guisubmenu
+><guimenuitem
+><replaceable
+>Liste der zuletzt geöffneten Spiele</replaceable
+></guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Die zuletzt gespielten und gespeicherten Spiele in der Reihenfolge der letzten Verwendung werden angezeigt.</action
+> Durch Auswahl eines Eintrags wird das entsprechende Spiel geladen. Mit dieser Aktion wird das laufende Spiel verworfen.</para
+></listitem>
 			</varlistentry>
 			<varlistentry id="game-menu-save">
-				<term><menuchoice>
-					<shortcut><keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo></shortcut>
-					<guimenu>Game</guimenu>
-					<guimenuitem>Save As...</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Save the current game to disk.</action></para></listitem>
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+></shortcut
+><guimenu
+>Spiel</guimenu
+><guimenuitem
+>Speichern unter ...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Das aktuelle Spiel wird nach Angabe eines Dateinamens auf der Festplatte gespeichert.</action
+></para
+></listitem>
 			</varlistentry>
 			<varlistentry id="game-menu-statistics">
-				<term><menuchoice>
-					<guimenu>Game</guimenu>
-					<guimenuitem>Statistics</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Display various statistics about your performance broken down by game type.</action></para></listitem>
+				<term
+><menuchoice
+><guimenu
+>Spiel</guimenu
+><guimenuitem
+>Statistik</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Die Statistiken zu den verschiedenen Spielarten werden angezeigt.</action
+></para
+></listitem>
 			</varlistentry>
 			<varlistentry  id="game-menu-quit">
-				<term><menuchoice>
-					<shortcut><keycombo action="simul">&Ctrl;<keycap>Q</keycap></keycombo></shortcut>
-					<guimenu>Game</guimenu>
-					<guimenuitem>Quit</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Quit</action> &kpatience;.</para></listitem>
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+></shortcut
+><guimenu
+>Spiel</guimenu
+><guimenuitem
+>Beenden</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>&kpatience; wird <action
+>beendet</action
+>.</para
+></listitem>
 			</varlistentry>
 		</variablelist>
 </sect1>
 <sect1 id="move-menu">
-	<title>The Move Menu</title>
+	<title
+>Das Menü Zug</title>
 		<variablelist>
 			<varlistentry id="move-menu-undo">
-				<term><menuchoice>
-					<shortcut><keycombo action="simul">&Ctrl;<keycap>Z</keycap></keycombo></shortcut>
-					<guimenu>Move</guimenu>
-					<guimenuitem>Undo</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Undo</action> your last move.</para></listitem>
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+></shortcut
+><guimenu
+>Zug</guimenu
+><guimenuitem
+>Zurücknehmen</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Der letzte Spielzug wird <action
+>zurückgenommen</action
+>.</para
+></listitem>
 			</varlistentry>
 			<varlistentry id="move-menu-redo">
-				<term><menuchoice>
-					<shortcut><keycombo action="simul">&Ctrl;&Shift;<keycap>Z</keycap></keycombo></shortcut>
-					<guimenu>Move</guimenu>
-					<guimenuitem>Redo</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Redo</action> the move that was just undone by <guimenuitem>Undo</guimenuitem>.</para></listitem>
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>Z</keycap
+></keycombo
+></shortcut
+><guimenu
+>Zug</guimenu
+><guimenuitem
+>Wiederherstellen</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Der zurückgenommene Spielzug wird <action
+>wiederhergestellt</action
+>.</para
+></listitem>
 			</varlistentry>
 			<varlistentry id="move-menu-hint">
-				<term><menuchoice>
-					<shortcut><keycap>H</keycap></shortcut>
-					<guimenu>Move</guimenu>
-					<guimenuitem>Hint</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Provide some hints as to possible moves, should the player become stuck. Cards that can be legally moved to another pile are temporarily highlighted.</action></para></listitem>
+				<term
+><menuchoice
+><shortcut
+><keycap
+>H</keycap
+></shortcut
+><guimenu
+>Zug</guimenu
+><guimenuitem
+>Tipp</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Tipps zu möglichen Spielzüge werden gegeben (sofern der Spieler nicht mehr weiter weiß). Dabei werden vorübergehend Karten angezeigt, die gespielt werden können.</action
+></para
+></listitem>
 			</varlistentry>
 			<varlistentry  id="game-menu-demo">
-				<term><menuchoice>
-					<shortcut><keycap>D</keycap></shortcut>
-					<guimenu>Move</guimenu>
-					<guimenuitem>Demo</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Start the demo mode.</action> While in demo mode, &kpatience; attempts to solve the deal for you. Activate this action a second time to exit demo mode.</para></listitem>
+				<term
+><menuchoice
+><shortcut
+><keycap
+>D</keycap
+></shortcut
+><guimenu
+>Zug</guimenu
+><guimenuitem
+>Demomodus</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Der Demomodus wird gestartet.</action
+> Im Demomodus versucht &kpatience; eine Partie und verdeutlicht damit den Spielablauf. Eine nochmalige Auswahl des Demomodus beendet diesen wieder.</para
+></listitem>
 			</varlistentry>
 			<varlistentry  id="game-menu-draw">
-				<term><menuchoice>
-					<shortcut>&Space;</shortcut>
-					<guimenu>Move</guimenu>
-					<guimenuitem>Draw</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Flip one of more cards from the talon and move them to the waste pile.</action> This action is available in only certain games.</para></listitem>
+				<term
+><menuchoice
+><shortcut
+>&Space;</shortcut
+><guimenu
+>Zug</guimenu
+><guimenuitem
+>Ziehen</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Eine Karte wird vom Talon genommen und auf den Hilfsstapel gelegt.</action
+> Diese Aktion ist nur in bestimmten Spielarten verfügbar.</para
+></listitem>
 			</varlistentry>
 			<varlistentry  id="game-menu-deal-row">
-				<term><menuchoice>
-					<shortcut>&Enter;</shortcut>
-					<guimenu>Move</guimenu>
-					<guimenuitem>Deal Row</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Flip several cards from the talon and place one on each playing pile.</action> This action is available in only certain games.</para></listitem>
+				<term
+><menuchoice
+><shortcut
+>&Enter;</shortcut
+><guimenu
+>Zug</guimenu
+><guimenuitem
+>Reihe geben</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Mehrere Karten werden vom Talon genommen und jeweils eine auf jeden Spielstapel gelegt.</action
+> diese Aktion ist nur in bestimmten Spielarten verfügbar.</para
+></listitem>
 			</varlistentry>
 			<varlistentry  id="game-menu-redeal">
-				<term><menuchoice>
-					<shortcut><keycap>R</keycap></shortcut>
-					<guimenu>Move</guimenu>
-					<guimenuitem>Redeal</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Collect all the card left in play and redeal them without shuffling.</action> This action is available in only certain games.</para></listitem>
+				<term
+><menuchoice
+><shortcut
+><keycap
+>R</keycap
+></shortcut
+><guimenu
+>Zug</guimenu
+><guimenuitem
+>Neu geben</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Alle Karten auf den Spielstapeln werden eingesammelt, gemischt und neu ausgegeben.</action
+> Diese Aktion ist nur in bestimmten Spielarten verfügbar.</para
+></listitem>
 			</varlistentry>
 		</variablelist>
 </sect1>
 <sect1 id="settings-help-menu">
-	<title>The Settings and Help Menu</title>
-<para>Apart from the common &kde; Settings and Help menus described in the <ulink url="help:/fundamentals/menus.html">Menu</ulink>
-chapter of the &kde; Fundamentals documentation &kpatience; has these application specific menu entries:
-</para>
+	<title
+>Die Menüs Einstellungen und Hilfe</title>
+<para
+>Außer den bekannten &kde;-Menüeinträgen Einstellungen und Hilfe, die im Kapitel <ulink url="help:/fundamentals/menus.html"
+>Menüs</ulink
+> der &kde;-Grundlagen beschrieben werden, gibt es folgende spezielle Menüeinträge für &kpatience;: </para>
 		<variablelist>
 			<varlistentry id="settings-menu-game-type-options">
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guisubmenu><replaceable>Game Type Options</replaceable></guisubmenu>
-					<guimenuitem><replaceable>List of game type specific options</replaceable></guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>List options specific to the current game type.</action> This menu is available in only certain games (Klondike and Spider).</para></listitem>
+				<term
+><menuchoice
+><guimenu
+>Einstellungen</guimenu
+><guisubmenu
+><replaceable
+>„Spielart“-Einstellungen</replaceable
+></guisubmenu
+><guimenuitem
+>Liste spezieller Einstellungsmöglichkeiten für die Spielart</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Die spezifischen Einstellungsmöglichkeiten für die aktuelle Spielart werden angezeigt.</action
+> Dieses Menü ist nur in den Spielarten Klondike und Spider verfügbar.</para
+></listitem>
 			</varlistentry>
 			<varlistentry id="settings-menu-stack-options">
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guisubmenu>Stack Options</guisubmenu>
-					<guimenuitem>Face Down (harder)/Face Up (easier)</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Allows you to choose if the card faces should be shown.</action> This menu is available in Spider only.</para></listitem>
+				<term
+><menuchoice
+><guimenu
+>Einstellungen</guimenu
+> <guisubmenu
+>Stapel-Einstellungen</guisubmenu
+><guimenuitem
+>Vorderseite unten (schwerer)/Vorderseite oben (leichter)</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Ermöglicht die Einstellung, ob die Kartenvorderseiten angezeigt werden sollen.</action
+> Dieses Menü ist nur in der Spielarten Spider verfügbar.</para
+></listitem>
 			</varlistentry>
 			<varlistentry id="settings-menu-deck">
-				<term><menuchoice>
-					<shortcut><keycap>F10</keycap></shortcut>
-					<guimenu>Settings</guimenu>
-					<guimenuitem>Change Appearance...</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Open a dialog to change the card deck and game theme used.</action></para></listitem>
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F10</keycap
+></shortcut
+><guimenu
+>Einstellungen</guimenu
+><guimenuitem
+>Erscheinungsbild ändern ...</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Ein Dialog zum Ändern des verwendeten Blatt- und Spieldesigns wird geöffnet.</action
+></para
+></listitem>
 			</varlistentry>
 			<varlistentry id="settings-menu-autodrop">
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guimenuitem>Enable Autodrop</guimenuitem>
-				</menuchoice></term>
-				<listitem><para>Enable automatically moving cards to the foundation piles when possible.</para></listitem>
+				<term
+><menuchoice
+><guimenu
+>Einstellungen</guimenu
+><guimenuitem
+>Automatisches Ablegen aktivieren</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Ist diese Einstellung aktiviert, werden die Karten automatisch auf den Ablagestapel verschoben (soweit möglich).</para
+></listitem>
 			</varlistentry>
 			<varlistentry id="settings-menu-solver">
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guimenuitem>Enable Solver</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Enable the automatic solving engine.</action> When enabled, the solver will constantly try to determine whether the current game state is winnable. You may wish to disable the solver to conserve processor or battery usage.</para></listitem>
+				<term
+><menuchoice
+><guimenu
+>Einstellungen</guimenu
+><guimenuitem
+>Löser aktivieren</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Das automatische Löser-Modul wird aktiviert.</action
+> Ist diese Einstellung aktiviert, versucht der Löser ständig herauszufinden, ob das Spiel beim aktuellen Spielstand gewonnen werden kann. Zum Schonen des Prozessors oder des Akkus sollte der Löser deaktiviert werden.</para
+></listitem>
 			</varlistentry>
 			<varlistentry id="settings-menu-playsounds">
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guimenuitem>Play Sounds</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Sounds are played when you taken or place cards.</action> More sounds are expected in the future.</para></listitem>
+				<term
+><menuchoice
+><guimenu
+>Einstellungen</guimenu
+><guimenuitem
+>Klänge wiedergeben</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Wenn Sie Karten aufnehmen oder ablegen, werden Klänge abgespielt.</action
+> Für die Zukunft sind weitere Klänge geplant.</para
+></listitem>
 			</varlistentry>
 			<varlistentry id="settings-menu-remember">
-				<term><menuchoice>
-					<guimenu>Settings</guimenu>
-					<guimenuitem>Remember State on Exit</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Enable automatic saving of the game state when &kpatience; is shut down.</action> If enabled, &kpatience; will load the previous game state automatically the next time it is started.</para></listitem>
+				<term
+><menuchoice
+><guimenu
+>Einstellungen</guimenu
+><guimenuitem
+>Spielstand beim Beenden merken</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Das automatische Speichern des Spielstandes beim Beenden von &kpatience; wird aktiviert.</action
+> Ist diese Einstellung aktiviert, lädt &kpatience; den letzten Spielstand beim nächsten Aufruf automatisch.</para
+></listitem>
 			</varlistentry>
 			<varlistentry id="help-menu-remember">
-				<term><menuchoice>
-					<shortcut><keycombo action="simul">&Ctrl;&Shift;<keycap>F1</keycap></keycombo></shortcut>
-					<guimenu>Help</guimenu>
-					<guimenuitem>Help with Current Game</guimenuitem>
-				</menuchoice></term>
-				<listitem><para>Opens the section with the Rules for the current game in this handbook.</para></listitem>
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>F1</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Hilfe</guimenu
+> <guimenuitem
+>Hilfe zum aktuellen Spiel</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Öffnet den Abschnitt mit den Regeln für das aktuelle Spiel in diesem Handbuch.</para
+></listitem>
 			</varlistentry>
 		</variablelist>
 </sect1>
 
 </chapter>
 
-<chapter id="faq"><title>Frequently asked questions</title> <!-- do not change this! -->
-<!--This chapter is for frequently asked questions. Please use <qandaset> <qandaentry> only!-->
+<chapter id="faq"
+><title
+>Häufig gestellte Fragen</title
+> <!-- do not change this! -->
+<!--This chapter is for frequently asked questions. Please use <qandaset
+> <qandaentry
+> only!-->
 <qandaset>
 <!--Following is a standard list of FAQ questions.-->
 <qandaentry>
- <question><para>I want to change the way this game looks. Can I? </para></question>
- <answer><para>You can change the faces and backs of the playing cards and the game theme. To do so please use <menuchoice>
-					<shortcut><keycap>F10</keycap></shortcut>
-					<guimenu>Settings</guimenu>
-					<guimenuitem>Change Appearance...</guimenuitem>
-				</menuchoice> on the menubar.</para></answer>
+ <question
+><para
+>Kann das Erscheinungsbild des Spiels geändert werden? </para
+></question>
+ <answer
+><para
+>Die Vorder- und Rückseite des Kartenblatts sowie das Design können geändert werden. Dazu wird in der Menüleiste <menuchoice
+> <shortcut
+><keycap
+>F10</keycap
+></shortcut
+><guimenu
+>Einstellungen</guimenu
+><guimenuitem
+>Erscheinungsbild ändern ...</guimenuitem
+></menuchoice
+> ausgewählt.</para
+></answer>
 </qandaentry>
 <qandaentry>
- <question><para>Can I use the keyboard to play the game?</para></question>
- <answer><para>No, &kpatience; features no keyboard only play. However, most menu options do have keyboard shortcuts.</para></answer>
+ <question
+><para
+>Kann mit der Tastatur gespielt werden?</para
+></question>
+ <answer
+><para
+>Nein, &kpatience; kann nicht ausschließlich mit der Tastatur gespielt werden. Jedoch haben die meisten Menüeinträge entsprechende Tastenkürzel.</para
+></answer>
 </qandaentry>
 <qandaentry>
- <question><para>Even with hints I still have no clue how to play. Help!</para></question>
- <answer><para>Besides the <quote>Hint</quote> feature there also is a useful <quote>Demo</quote> mode, where the built-in artificial intelligence will play the game for you. You can try to watch and learn. However, if you have any questions it is better to read the <link linkend="howto">How to Play</link> and <link linkend="rules_and_tips">Game Rules, Strategies and Tips</link> sections of this handbook.</para></answer>
+ <question
+><para
+>Die Tipps tragen nicht zur Lösung des Spiels bei. Gibt es noch weitere Hilfen?</para
+></question>
+ <answer
+><para
+>Außer den Tipps gibt es noch einen <quote
+>Demomodus</quote
+>, in dem der Computer spielt und die Spielweise dadurch verdeutlicht. Weitere Fragen sollten die Kapitel <link linkend="howto"
+>Spielanleitung</link
+> und <link linkend="rules_and_tips"
+>Spielregeln, Spielstrategien und Tipps</link
+> in diesem Handbuch klären.</para
+></answer>
 </qandaentry>
 </qandaset>
 </chapter>
 
-<chapter id="credits"><title>Credits and License</title> <!-- do not change this! -->
+<chapter id="credits"
+><title
+>Danksagungen und Lizenz</title
+> <!-- do not change this! -->
 <!--This chapter is for credits and licenses.-->
 
-<para>
-&kpatience;  <!-- do not change this! -->
-</para>
+<para
+>&kpatience; </para>
 <!--List all the copyright holders here-->
-<para>
-&kpatience; Copyright &copy; 1995-2000 &Paul-Olav.Tvete;
-</para>
+<para
+>&kpatience; Copyright &copy; 1995-2000 &Paul-Olav.Tvete; </para>
 
-<para>
-&kpatience; Copyright &copy; 2001-2007 &Stephan.Kulow;
-&Stephan.Kulow.mail;
-</para>
+<para
+>&kpatience; Copyright &copy; 2001-2007 &Stephan.Kulow; &Stephan.Kulow.mail; </para>
 
-<para>
-Freecell Solver by Shlomi Fish
-<email>shlomif@vipe.technion.ac.il</email>
-</para>
+<para
+>Freecell-Löser von Shlomi Fish <email
+>shlomif@vipe.technion.ac.il</email
+> </para>
 
-<para>
-Documentation Copyright &copy; 2000 &Paul-Olav.Tvete;
-</para>
+<para
+>Dokumentation Copyright &copy; 2000 &Paul-Olav.Tvete; </para>
 
-<para>
-Documentation updated for &kde; 2.0 by &Mike.McBride;
-&Mike.McBride.mail;
-</para>
+<para
+>Dokumentation für &kde; 2.0 von &Mike.McBride; &Mike.McBride.mail; überarbeitet </para>
 
-<para>
-Documentation rewritten for &kpatience; 2.0 (&kde; 2.1) by &Maren.Pakura;
-&Maren.Pakura.mail;
-</para>
+<para
+>Dokumentation für &kpatience; 2.0 (&kde; 2.1) neu geschrieben von &Maren.Pakura; &Maren.Pakura.mail; </para>
 
-<para>
-Documentation proofread and update for &kpatience; 3.6 by &Richard.Hawthorne;
-&Richard.Hawthorne.mail;
-</para>
+<para
+>Dokumentation für &kpatience; 3.6 von &Richard.Hawthorne; &Richard.Hawthorne.mail; überarbeitet </para>
 
-<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
-&underFDL;
-&underGPL;
-
-<!-- !!!do not change ANYTHING after this line!!!! -->
-
-</chapter>
+<para
+>Übersetzung: Stephan Kulow<email
+>coolo@kde.org</email
+></para
+><para
+>Überarbeitung der Übersetzung: Johannes Obermayr<email
+>johannesobermayr@gmx.de</email
+></para
+> &underFDL; &underGPL; </chapter>
 
 &documentation.index; 
 </book>
