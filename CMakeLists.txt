@@ -35,6 +35,8 @@ include(ECMSetupVersion)
 include(ECMGenerateHeaders)
 include(ECMDeprecationSettings)
 include(GenerateExportHeader)
+include(KDEGitCommitHooks)
+include(KDEClangFormat)
 
 find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Widgets Svg Test)
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
@@ -76,3 +78,8 @@ ki18n_install(po)
 kdoctools_install(po)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
+
+file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES src/*.cpp src/*.h)
+kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
+
+kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
