@@ -381,9 +381,6 @@ void KAbstractCardDeck::setCardWidth( int width )
     if ( width < 20 )
         return;
 
-    if ( width > 200 )
-        width = 200;
-
     int height = width * d->originalCardSize.height() / d->originalCardSize.width();
     QSize newSize( width, height );
 
