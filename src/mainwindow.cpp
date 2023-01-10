@@ -330,6 +330,8 @@ void MainWindow::setupActions()
 
     // showMenubar isn't a part of KStandardGameAction
     m_showMenubarAction = KStandardAction::showMenubar(this, &MainWindow::toggleMenubar, actionCollection());
+
+    KStandardAction::fullScreen(this, &MainWindow::toggleFullscreen, this, actionCollection());
 }
 
 void MainWindow::undoMove() {
@@ -751,6 +753,11 @@ void MainWindow::toggleMenubar()
         menuBar()->hide();
     else
       m_showMenubarAction->setChecked(true);
+}
+
+void MainWindow::toggleFullscreen(bool fullScreen)
+{
+    KToggleFullScreenAction::setFullScreen(this, fullScreen);
 }
 
 void MainWindow::saveNewToolbarConfig()

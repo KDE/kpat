@@ -95,6 +95,7 @@ protected Q_SLOTS:
     void toggleDemo();
     void toggleDemoAction(bool active);
     void toggleMenubar();
+    void toggleFullscreen(bool fullScreen);
 
     void setAutoDropEnabled( bool enabled );
     void enableSolver(bool enable);
