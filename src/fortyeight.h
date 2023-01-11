@@ -20,7 +20,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -39,28 +39,27 @@
 // own
 #include "dealer.h"
 
-
 class Fortyeight : public DealerScene
 {
     Q_OBJECT
 
 public:
-    explicit Fortyeight( const DealerInfo * di );
+    explicit Fortyeight(const DealerInfo *di);
     void initialize() override;
 
 protected:
-    void setGameState( const QString & state ) override;
+    void setGameState(const QString &state) override;
     QString getGameState() const override;
-    bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const override;
-    bool checkRemove(const PatPile* pile, const QList<KCard*> & cards) const override;
-    void cardsDroppedOnPile( const QList<KCard*> & cards, KCardPile * pile ) override;
-    void restart( const QList<KCard*> & cards ) override;
+    bool checkAdd(const PatPile *pile, const QList<KCard *> &oldCards, const QList<KCard *> &newCards) const override;
+    bool checkRemove(const PatPile *pile, const QList<KCard *> &cards) const override;
+    void cardsDroppedOnPile(const QList<KCard *> &cards, KCardPile *pile) override;
+    void restart(const QList<KCard *> &cards) override;
 
 protected Q_SLOTS:
     bool newCards() override;
 
 private:
-    bool canPutStore( const KCardPile * pile, const QList<KCard*> &cards ) const;
+    bool canPutStore(const KCardPile *pile, const QList<KCard *> &cards) const;
 
     PatPile *talon;
     PatPile *stack[8];

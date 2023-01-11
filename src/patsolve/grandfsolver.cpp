@@ -3,7 +3,7 @@
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of 
+ * published by the Free Software Foundation; either version 2 of
  * the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -28,15 +28,15 @@
 void GrandfSolver::make_move(MOVE *m)
 {
 #if PRINT
-    if ( m->totype == O_Type )
-        fprintf( stderr, "\nmake move %d from %d out (at %d)\n\n", m->card_index, m->from, m->turn_index );
-    else if ( m->from == offs )
-        fprintf( stderr, "\nmake redeal\n\n" );
+    if (m->totype == O_Type)
+        fprintf(stderr, "\nmake move %d from %d out (at %d)\n\n", m->card_index, m->from, m->turn_index);
+    else if (m->from == offs)
+        fprintf(stderr, "\nmake redeal\n\n");
     else
-        fprintf( stderr, "\nmake move %d from %d to %d (%d)\n\n", m->card_index, m->from, m->to, m->turn_index );
+        fprintf(stderr, "\nmake move %d from %d to %d (%d)\n\n", m->card_index, m->from, m->to, m->turn_index);
     print_layout();
 #else
-    //print_layout();
+    // print_layout();
 #endif
 
     card_t card = NONE;
@@ -44,79 +44,69 @@ void GrandfSolver::make_move(MOVE *m)
     auto from = m->from;
     auto to = m->to;
 
-    if ( from == offs )
-    {
+    if (from == offs) {
         // redeal
         m_redeal++;
 
         card_t deck[52];
         int len = 0;
 
-        for ( int i = m_redeal * 7; i < m_redeal * 7 + 7; ++i )
-        {
+        for (int i = m_redeal * 7; i < m_redeal * 7 + 7; ++i) {
             Wlen[i] = 0;
             Wp[i] = &W[i][-1];
         }
 
-        for (int pos = 6; pos >= 0; --pos)
-        {
-            int oldpile = ( m_redeal - 1 ) * 7 + pos;
-            for ( int l = 0; l < Wlen[oldpile]; ++l )
-            {
+        for (int pos = 6; pos >= 0; --pos) {
+            int oldpile = (m_redeal - 1) * 7 + pos;
+            for (int l = 0; l < Wlen[oldpile]; ++l) {
                 card_t card = W[oldpile][l];
-                deck[len++] = ( SUIT( card ) << 4 ) + RANK( card );
+                deck[len++] = (SUIT(card) << 4) + RANK(card);
             }
         }
 
         int start = 0;
-        int stop = 7-1;
+        int stop = 7 - 1;
         int dir = 1;
 
-        for (int round=0; round < 7; ++round)
-        {
+        for (int round = 0; round < 7; ++round) {
             int i = start;
-            do
-            {
+            do {
                 card_t card = NONE;
-                if (len > 0)
-                {
+                if (len > 0) {
                     card = deck[--len];
                     int currentpile = m_redeal * 7 + i;
                     Wp[currentpile]++;
                     *Wp[currentpile] = card;
-                    if ( i != start )
-                        *Wp[currentpile] += ( 1 << 7 );
+                    if (i != start)
+                        *Wp[currentpile] += (1 << 7);
                     Wlen[currentpile]++;
                 }
                 i += dir;
-            } while ( i != stop + dir);
+            } while (i != stop + dir);
             int t = start;
             start = stop;
-            stop = t+dir;
+            stop = t + dir;
             dir = -dir;
         }
 
         int j = 0;
-        while (len > 0)
-        {
+        while (len > 0) {
             card_t card = deck[--len];
-            int currentpile = m_redeal * 7 + ( j + 1 );
+            int currentpile = m_redeal * 7 + (j + 1);
             Wp[currentpile]++;
             *Wp[currentpile] = card;
             Wlen[currentpile]++;
-            j = (j+1)%6;
+            j = (j + 1) % 6;
         }
 
-        for (int round=0; round < 7; ++round)
-        {
+        for (int round = 0; round < 7; ++round) {
             int currentpile = m_redeal * 7 + round;
-            if ( Wlen[currentpile] )
-            {
-                card_t card = W[currentpile][Wlen[currentpile]-1];
-                W[currentpile][Wlen[currentpile]-1] = ( SUIT( card ) << 4 ) + RANK( card );
+            if (Wlen[currentpile]) {
+                card_t card = W[currentpile][Wlen[currentpile] - 1];
+                W[currentpile][Wlen[currentpile] - 1] = (SUIT(card) << 4) + RANK(card);
             }
-            hashpile( currentpile );
-            hashpile( currentpile - 7 );
+            hashpile(currentpile);
+            hashpile(currentpile - 7);
         }
 
 #if PRINT
@@ -125,12 +115,10 @@ void GrandfSolver::make_move(MOVE *m)
         return;
     }
 
-    for ( int l = m->card_index; l >= 0; --l )
-    {
-        card = W[from][Wlen[from]-l-1];
+    for (int l = m->card_index; l >= 0; --l) {
+        card = W[from][Wlen[from] - l - 1];
         Wp[from]--;
-        if ( m->totype != O_Type )
-        {
+        if (m->totype != O_Type) {
             Wp[to]++;
             *Wp[to] = card;
             Wlen[to]++;
@@ -138,18 +126,16 @@ void GrandfSolver::make_move(MOVE *m)
     }
     Wlen[from] -= m->card_index + 1;
 
-    if ( m->turn_index == 0 )
-    {
-        if ( DOWN( card ) )
-            card = ( SUIT( card ) << 4 ) + RANK( card );
+    if (m->turn_index == 0) {
+        if (DOWN(card))
+            card = (SUIT(card) << 4) + RANK(card);
         else
-            card += ( 1 << 7 );
-        W[to][Wlen[to]-m->card_index-1] = card;
-    } else if ( m->turn_index != -1 )
-    {
+            card += (1 << 7);
+        W[to][Wlen[to] - m->card_index - 1] = card;
+    } else if (m->turn_index != -1) {
         card_t card2 = *Wp[from];
-        if ( DOWN( card2 ) )
-            card2 = ( SUIT( card2 ) << 4 ) + RANK( card2 );
+        if (DOWN(card2))
+            card2 = (SUIT(card2) << 4) + RANK(card2);
         *Wp[from] = card2;
     }
 
@@ -157,12 +143,12 @@ void GrandfSolver::make_move(MOVE *m)
     /* Add to pile. */
 
     if (m->totype == O_Type) {
-        if ( DOWN( W[offs][to] ) )
-            W[offs][to] = ( SUIT( card ) << 4 ) + PS_ACE;
+        if (DOWN(W[offs][to]))
+            W[offs][to] = (SUIT(card) << 4) + PS_ACE;
         else
             W[offs][to]++;
-        Q_ASSERT( m->card_index == 0 );
-        hashpile( offs );
+        Q_ASSERT(m->card_index == 0);
+        hashpile(offs);
     } else {
         hashpile(to);
     }
@@ -174,12 +160,12 @@ void GrandfSolver::make_move(MOVE *m)
 void GrandfSolver::undo_move(MOVE *m)
 {
 #if PRINT
-    if ( m->totype == O_Type )
-        fprintf( stderr, "\nundo move %d from %d out (at %d)\n\n", m->card_index, m->from, m->turn_index );
-    else if ( m->from == offs )
-        fprintf( stderr, "\nundo redeal\n\n" );
+    if (m->totype == O_Type)
+        fprintf(stderr, "\nundo move %d from %d out (at %d)\n\n", m->card_index, m->from, m->turn_index);
+    else if (m->from == offs)
+        fprintf(stderr, "\nundo redeal\n\n");
     else
-        fprintf( stderr, "\nundo move %d from %d to %d (%d)\n\n", m->card_index, m->from, m->to, m->turn_index );
+        fprintf(stderr, "\nundo move %d from %d to %d (%d)\n\n", m->card_index, m->from, m->to, m->turn_index);
     print_layout();
 
 #endif
@@ -189,30 +175,27 @@ void GrandfSolver::undo_move(MOVE *m)
     from = m->from;
     to = m->to;
 
-    if ( from == offs )
-    {
+    if (from == offs) {
         /* just erase */
 
-        for ( int i = 0; i < 7; ++i )
-        {
+        for (int i = 0; i < 7; ++i) {
             int pile = m_redeal * 7 + i;
             Wlen[pile] = 0;
             Wp[pile] = &W[pile][0];
-            hashpile( pile );
+            hashpile(pile);
         }
         m_redeal--;
 #if PRINT
-    print_layout();
+        print_layout();
 #endif
         return;
     }
 
     /* Add to 'from' pile. */
-    if ( m->turn_index > 0 )
-    {
+    if (m->turn_index > 0) {
         card_t card2 = *Wp[from];
-        if ( !DOWN( card2 ) )
-            card2 = ( SUIT( card2 ) << 4 ) + RANK( card2 ) + ( 1 << 7 );
+        if (!DOWN(card2))
+            card2 = (SUIT(card2) << 4) + RANK(card2) + (1 << 7);
         *Wp[from] = card2;
     }
 
@@ -223,25 +206,23 @@ void GrandfSolver::undo_move(MOVE *m)
         *Wp[from] = card;
         Wlen[from]++;
     } else {
-        for ( int l = m->card_index; l >= 0; --l )
-        {
-            card = W[to][Wlen[to]-l-1];
+        for (int l = m->card_index; l >= 0; --l) {
+            card = W[to][Wlen[to] - l - 1];
             Wp[from]++;
             *Wp[from] = card;
             Wlen[from]++;
-	    Wp[to]--;
+            Wp[to]--;
         }
         Wlen[to] -= m->card_index + 1;
         hashpile(to);
     }
 
-    if ( m->turn_index == 0 )
-    {
+    if (m->turn_index == 0) {
         card_t card = *Wp[from];
-        if ( DOWN( card ) )
-            card = ( SUIT( card ) << 4 ) + RANK( card );
+        if (DOWN(card))
+            card = (SUIT(card) << 4) + RANK(card);
         else
-            card += ( 1 << 7 );
+            card += (1 << 7);
         *Wp[from] = card;
     }
 
@@ -268,17 +249,15 @@ int GrandfSolver::get_possible_moves(int *a, int *numout)
         if (Wlen[w] > 0) {
             card = *Wp[w];
             o = SUIT(card);
-            empty = DOWN( W[offs][o] );
-            if ((empty && (RANK(card) == PS_ACE)) ||
-                (!empty && (RANK(card) == RANK( W[offs][o] ) + 1)))
-            {
+            empty = DOWN(W[offs][o]);
+            if ((empty && (RANK(card) == PS_ACE)) || (!empty && (RANK(card) == RANK(W[offs][o]) + 1))) {
                 mp->card_index = 0;
                 mp->from = w;
                 mp->to = o;
                 mp->totype = O_Type;
-                mp->pri = 127;    /* unused */
+                mp->pri = 127; /* unused */
                 mp->turn_index = -1;
-                if ( Wlen[w] > 1 && DOWN( W[w][Wlen[w]-2] ) )
+                if (Wlen[w] > 1 && DOWN(W[w][Wlen[w] - 2]))
                     mp->turn_index = 1;
                 n++;
                 mp++;
@@ -294,35 +273,27 @@ int GrandfSolver::get_possible_moves(int *a, int *numout)
     *a = false;
     *numout = n;
 
-    for(int i= m_redeal * 7 + 0; i < m_redeal * 7 + 7; ++i)
-    {
+    for (int i = m_redeal * 7 + 0; i < m_redeal * 7 + 7; ++i) {
         int len = Wlen[i];
-        for (int l=0; l < len; ++l )
-        {
-            card_t card = W[i][Wlen[i]-1-l];
-            if ( DOWN( card ) )
+        for (int l = 0; l < len; ++l) {
+            card_t card = W[i][Wlen[i] - 1 - l];
+            if (DOWN(card))
                 break;
 
-            for (int j = m_redeal * 7 + 0; j < m_redeal * 7 + 7; ++j)
-            {
+            for (int j = m_redeal * 7 + 0; j < m_redeal * 7 + 7; ++j) {
                 if (i == j)
                     continue;
 
                 int allowed = 0;
 
-                if ( Wlen[j] > 0 &&
-                     RANK(card) == RANK(*Wp[j]) - 1 &&
-                     SUIT( card ) == SUIT( *Wp[j] ) )
-                {
+                if (Wlen[j] > 0 && RANK(card) == RANK(*Wp[j]) - 1 && SUIT(card) == SUIT(*Wp[j])) {
                     allowed = 1;
-
                 }
-                if ( RANK( card ) == PS_KING && Wlen[j] == 0 )
-                {
-                    if ( l != Wlen[i]-1 )
+                if (RANK(card) == PS_KING && Wlen[j] == 0) {
+                    if (l != Wlen[i] - 1)
                         allowed = 4;
-		    else if (m_redeal < 2)
-  		        allowed = 1;
+                    else if (m_redeal < 2)
+                        allowed = 1;
                 }
                 // TODO: there is no point in moving if we're not opening anything
                 // e.g. if both i and j have perfect runs below the cards
@@ -332,21 +303,20 @@ int GrandfSolver::get_possible_moves(int *a, int *numout)
                 printcard( *Wp[j], stderr );
                 fprintf( stderr, " allowed %d\n",allowed );
 #endif
-                if ( allowed )
-		{
+                if (allowed) {
                     mp->card_index = l;
                     mp->from = i;
                     mp->to = j;
                     mp->totype = W_Type;
                     mp->turn_index = -1;
-                    if ( Wlen[i] > l+1 && DOWN( W[i][Wlen[i]-l-2] ) )
+                    if (Wlen[i] > l + 1 && DOWN(W[i][Wlen[i] - l - 2]))
                         mp->turn_index = 1;
-                    if ( mp->turn_index > 0 || Wlen[i] == l+1)
-                         mp->pri = 30;
+                    if (mp->turn_index > 0 || Wlen[i] == l + 1)
+                        mp->pri = 30;
                     else
-                         mp->pri = 1;
-		    /*if (mp->pri == 30 && mp->from == 9 && mp->to == 10)
-		      abort();*/
+                        mp->pri = 1;
+                    /*if (mp->pri == 30 && mp->from == 9 && mp->to == 10)
+                      abort();*/
                     n++;
                     mp++;
                 }
@@ -354,8 +324,7 @@ int GrandfSolver::get_possible_moves(int *a, int *numout)
         }
     }
 
-    if ( !n && m_redeal < 2 )
-    {
+    if (!n && m_redeal < 2) {
         mp->card_index = 0;
         mp->from = offs;
         mp->to = 0; // unused
@@ -374,7 +343,7 @@ unsigned int GrandfSolver::getClusterNumber()
     return m_redeal;
 }
 
-void GrandfSolver::unpack_cluster( unsigned int k )
+void GrandfSolver::unpack_cluster(unsigned int k)
 {
     m_redeal = k;
 }
@@ -383,7 +352,7 @@ bool GrandfSolver::isWon()
 {
     // maybe won?
     for (int o = 0; o < 4; ++o) {
-        if (RANK( W[offs][o] ) != PS_KING) {
+        if (RANK(W[offs][o]) != PS_KING) {
             return false;
         }
     }
@@ -394,9 +363,9 @@ bool GrandfSolver::isWon()
 int GrandfSolver::getOuts()
 {
     int outs = 0;
-    for ( int i = 0; i< 4; ++i )
-        if ( !DOWN( W[offs][i] ) )
-            outs += RANK( W[offs][i] );
+    for (int i = 0; i < 4; ++i)
+        if (!DOWN(W[offs][i]))
+            outs += RANK(W[offs][i]);
     return outs;
 }
 
@@ -422,62 +391,60 @@ void GrandfSolver::translate_layout()
 
     m_redeal = deal->numberOfDeals - 1;
 
-    for ( int w = 0; w < 7 * 3; ++w )
+    for (int w = 0; w < 7 * 3; ++w)
         Wlen[w] = 0;
 
-    for ( int w = 0; w < 7; ++w ) {
-        int i = translate_pile(deal->store[w], W[w + m_redeal * 7 ], 52);
+    for (int w = 0; w < 7; ++w) {
+        int i = translate_pile(deal->store[w], W[w + m_redeal * 7], 52);
         Wp[w + m_redeal * 7] = &W[w + m_redeal * 7][i - 1];
         Wlen[w + m_redeal * 7] = i;
     }
 
     Wlen[offs] = 4;
 
-    for ( int i = 0; i < 4; ++i )
+    for (int i = 0; i < 4; ++i)
         W[offs][i] = NONE;
 
     for (int i = 0; i < 4; ++i) {
         KCard *c = deal->target[i]->topCard();
         if (c)
-            W[offs][translateSuit( c->suit() ) >> 4] = translateSuit( c->suit() ) + c->rank();
+            W[offs][translateSuit(c->suit()) >> 4] = translateSuit(c->suit()) + c->rank();
     }
-    for ( int i = 0; i < 4; ++i )
-        if ( W[offs][i] == NONE )
-            W[offs][i] = ( i << 4 ) + PS_ACE + ( 1 << 7 );
+    for (int i = 0; i < 4; ++i)
+        if (W[offs][i] == NONE)
+            W[offs][i] = (i << 4) + PS_ACE + (1 << 7);
 
     Wp[offs] = &W[offs][3];
 }
 
-MoveHint GrandfSolver::translateMove( const MOVE &m )
+MoveHint GrandfSolver::translateMove(const MOVE &m)
 {
-    if ( m.from == offs )
+    if (m.from == offs)
         return MoveHint();
 
     PatPile *frompile = nullptr;
     frompile = deal->store[m.from % 7];
 
-    KCard *card = frompile->at( frompile->count() - m.card_index - 1);
+    KCard *card = frompile->at(frompile->count() - m.card_index - 1);
 
-    if ( m.totype == O_Type )
-    {
+    if (m.totype == O_Type) {
         PatPile *target = nullptr;
         PatPile *empty = nullptr;
         for (int i = 0; i < 4; ++i) {
             KCard *c = deal->target[i]->topCard();
             if (c) {
-                if ( c->suit() == card->suit() )
-                {
+                if (c->suit() == card->suit()) {
                     target = deal->target[i];
                     break;
                 }
-            } else if ( !empty )
+            } else if (!empty)
                 empty = deal->target[i];
         }
-        if ( !target )
+        if (!target)
             target = empty;
-        return MoveHint( card, target, m.pri );
+        return MoveHint(card, target, m.pri);
     } else {
-        return MoveHint( card, deal->store[m.to % 7], m.pri );
+        return MoveHint(card, deal->store[m.to % 7], m.pri);
     }
 }
 
@@ -487,17 +454,17 @@ void GrandfSolver::print_layout()
 
     fprintf(stderr, "print-layout-begin\n");
     for (w = 0; w < 21; ++w) {
-        fprintf( stderr, "Play%d-%d(%d): ", w / 7, w % 7, w );
+        fprintf(stderr, "Play%d-%d(%d): ", w / 7, w % 7, w);
         for (i = 0; i < Wlen[w]; ++i) {
             printcard(W[w][i], stderr);
         }
         fputc('\n', stderr);
     }
-    fprintf( stderr, "Off: " );
+    fprintf(stderr, "Off: ");
     for (o = 0; o < 4; ++o) {
-        if ( !DOWN( W[offs][o] ) )
-            printcard(RANK( W[offs][o] ) + Osuit[o], stderr);
+        if (!DOWN(W[offs][o]))
+            printcard(RANK(W[offs][o]) + Osuit[o], stderr);
     }
-    fprintf( stderr, "\nRedeals: %d", m_redeal );
+    fprintf(stderr, "\nRedeals: %d", m_redeal);
     fprintf(stderr, "\nprint-layout-end\n");
 }

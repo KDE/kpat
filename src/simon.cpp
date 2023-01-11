@@ -21,7 +21,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -38,18 +38,16 @@
 
 // own
 #include "dealerinfo.h"
-#include "pileutils.h"
 #include "patsolve/simonsolver.h"
+#include "pileutils.h"
 #include "settings.h"
 // KF
 #include <KLocalizedString>
 
-
-Simon::Simon( const DealerInfo * di )
-  : DealerScene( di )
+Simon::Simon(const DealerInfo *di)
+    : DealerScene(di)
 {
 }
-
 
 void Simon::initialize()
 {
@@ -57,67 +55,60 @@ void Simon::initialize()
 
     const qreal dist_x = 1.11;
 
-    for ( int i = 0; i < 4; ++i )
-    {
-        target[i] = new PatPile( this, i + 1, QStringLiteral( "target%1" ).arg( i ) );
+    for (int i = 0; i < 4; ++i) {
+        target[i] = new PatPile(this, i + 1, QStringLiteral("target%1").arg(i));
         target[i]->setPileRole(PatPile::Foundation);
-        target[i]->setLayoutPos((i+3)*dist_x, 0);
+        target[i]->setLayoutPos((i + 3) * dist_x, 0);
         target[i]->setSpread(0, 0);
-        target[i]->setKeyboardSelectHint( KCardPile::NeverFocus );
-        target[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
+        target[i]->setKeyboardSelectHint(KCardPile::NeverFocus);
+        target[i]->setKeyboardDropHint(KCardPile::AutoFocusTop);
     }
 
-    for ( int i = 0; i < 10; ++i )
-    {
-        store[i] = new PatPile( this, 5 + i, QStringLiteral( "store%1" ).arg( i ) );
+    for (int i = 0; i < 10; ++i) {
+        store[i] = new PatPile(this, 5 + i, QStringLiteral("store%1").arg(i));
         store[i]->setPileRole(PatPile::Tableau);
-        store[i]->setLayoutPos(dist_x*i, 1.2);
-        store[i]->setBottomPadding( 2.5 );
-        store[i]->setHeightPolicy( KCardPile::GrowDown );
-        store[i]->setZValue( 0.01 * i );
-        store[i]->setKeyboardSelectHint( KCardPile::AutoFocusDeepestRemovable );
-        store[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
+        store[i]->setLayoutPos(dist_x * i, 1.2);
+        store[i]->setBottomPadding(2.5);
+        store[i]->setHeightPolicy(KCardPile::GrowDown);
+        store[i]->setZValue(0.01 * i);
+        store[i]->setKeyboardSelectHint(KCardPile::AutoFocusDeepestRemovable);
+        store[i]->setKeyboardDropHint(KCardPile::AutoFocusTop);
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo);
-    auto solver = new SimonSolver( this );
+    auto solver = new SimonSolver(this);
     solver->default_max_positions = Settings::simpleSimonSolverIterationsLimit();
-    setSolver( solver );
-    //setNeededFutureMoves( 1 ); // could be some nonsense moves
+    setSolver(solver);
+    // setNeededFutureMoves( 1 ); // could be some nonsense moves
 }
 
-void Simon::restart( const QList<KCard*> & cards )
+void Simon::restart(const QList<KCard *> &cards)
 {
-    QList<KCard*> cardList = cards;
+    QList<KCard *> cardList = cards;
 
-    QPointF initPos( 0, -deck()->cardHeight() );
+    QPointF initPos(0, -deck()->cardHeight());
 
-    for ( int piles = 9; piles >= 3; --piles )
-        for ( int j = 0; j < piles; ++j )
-            addCardForDeal( store[j], cardList.takeLast(), true, initPos );
+    for (int piles = 9; piles >= 3; --piles)
+        for (int j = 0; j < piles; ++j)
+            addCardForDeal(store[j], cardList.takeLast(), true, initPos);
 
-    for ( int j = 0; j < 10; ++j )
-        addCardForDeal( store[j], cardList.takeLast(), true, initPos );
+    for (int j = 0; j < 10; ++j)
+        addCardForDeal(store[j], cardList.takeLast(), true, initPos);
 
-    Q_ASSERT( cardList.isEmpty() );
+    Q_ASSERT(cardList.isEmpty());
 
     startDealAnimation();
 }
 
-bool Simon::checkPrefering(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
+bool Simon::checkPrefering(const PatPile *pile, const QList<KCard *> &oldCards, const QList<KCard *> &newCards) const
 {
-    return pile->pileRole() == PatPile::Tableau
-           && !oldCards.isEmpty()
-           && oldCards.last()->suit() == newCards.first()->suit();
+    return pile->pileRole() == PatPile::Tableau && !oldCards.isEmpty() && oldCards.last()->suit() == newCards.first()->suit();
 }
 
-bool Simon::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
+bool Simon::checkAdd(const PatPile *pile, const QList<KCard *> &oldCards, const QList<KCard *> &newCards) const
 {
-    if (pile->pileRole() == PatPile::Tableau)
-    {
-        if (! (oldCards.isEmpty()
-               || oldCards.last()->rank() == newCards.first()->rank() + 1 ))
-        {
+    if (pile->pileRole() == PatPile::Tableau) {
+        if (!(oldCards.isEmpty() || oldCards.last()->rank() == newCards.first()->rank() + 1)) {
             return false;
         }
 
@@ -133,22 +124,17 @@ bool Simon::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const
 
         int empty_piles_count = 0;
 
-        for (int i = 0; i < 10; ++i )
-            if (store[i]->isEmpty() && ( store[i]->index() != pile->index() ))
+        for (int i = 0; i < 10; ++i)
+            if (store[i]->isEmpty() && (store[i]->index() != pile->index()))
                 empty_piles_count++;
 
         return (seqs_count <= (1 << empty_piles_count));
-    }
-    else
-    {
-        return oldCards.isEmpty()
-               && newCards.first()->rank() == KCardDeck::King
-               && newCards.last()->rank() == KCardDeck::Ace
-               && isSameSuitDescending(newCards);
+    } else {
+        return oldCards.isEmpty() && newCards.first()->rank() == KCardDeck::King && newCards.last()->rank() == KCardDeck::Ace && isSameSuitDescending(newCards);
     }
 }
 
-bool Simon::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
+bool Simon::checkRemove(const PatPile *pile, const QList<KCard *> &cards) const
 {
     if (pile->pileRole() != PatPile::Tableau)
         return false;
@@ -162,7 +148,7 @@ QString Simon::solverFormat() const
 {
     QString output;
     QString tmp;
-    for (int i = 0; i < 4 ; i++) {
+    for (int i = 0; i < 4; i++) {
         if (target[i]->isEmpty())
             continue;
         tmp += suitToString(target[i]->topCard()->suit()) + QLatin1String("-K ");
@@ -170,8 +156,7 @@ QString Simon::solverFormat() const
     if (!tmp.isEmpty())
         output += QStringLiteral("Foundations: %1\n").arg(tmp);
 
-    for (int i = 0; i < 10 ; i++)
-    {
+    for (int i = 0; i < 10; i++) {
         cardsListToLine(output, store[i]->cards());
     }
     return output;
@@ -181,13 +166,12 @@ static class SimonDealerInfo : public DealerInfo
 {
 public:
     SimonDealerInfo()
-      : DealerInfo(kli18n("Simple Simon"), SimpleSimonId)
-    {}
+        : DealerInfo(kli18n("Simple Simon"), SimpleSimonId)
+    {
+    }
 
     DealerScene *createGame() const override
     {
-        return new Simon( this );
+        return new Simon(this);
     }
 } simonDealerInfo;
-
-

@@ -22,7 +22,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -39,53 +39,46 @@
 
 // own
 #include "dealerinfo.h"
+#include "patsolve/klondikesolver.h"
 #include "pileutils.h"
 #include "settings.h"
 #include "speeds.h"
-#include "patsolve/klondikesolver.h"
 // KF
 #include <KLocalizedString>
 #include <KSelectAction>
 
-
-KlondikePile::KlondikePile( DealerScene * scene, int index, const QString & objectName )
-  : PatPile( scene, index, objectName ),
-    m_cardsToShow( 1 )
+KlondikePile::KlondikePile(DealerScene *scene, int index, const QString &objectName)
+    : PatPile(scene, index, objectName)
+    , m_cardsToShow(1)
 {
 }
 
-
-void KlondikePile::setCardsToShow( int draw )
+void KlondikePile::setCardsToShow(int draw)
 {
     m_cardsToShow = draw;
 }
-
 
 int KlondikePile::cardsToShow() const
 {
     return m_cardsToShow;
 }
 
-
 QList<QPointF> KlondikePile::cardPositions() const
 {
     QList<QPointF> positions;
-    QPointF currentPos( 0, 0 );
-    for ( int i = 0; i < count(); ++i )
-    {
+    QPointF currentPos(0, 0);
+    for (int i = 0; i < count(); ++i) {
         positions << currentPos;
-        if ( i >= count() - m_cardsToShow )
+        if (i >= count() - m_cardsToShow)
             currentPos += spread();
     }
     return positions;
 }
 
-
-Klondike::Klondike( const DealerInfo * di )
-  : DealerScene( di )
+Klondike::Klondike(const DealerInfo *di)
+    : DealerScene(di)
 {
 }
-
 
 void Klondike::initialize()
 {
@@ -97,60 +90,57 @@ void Klondike::initialize()
 
     easyRules = Settings::klondikeIsDrawOne();
 
-    talon = new PatPile( this, 0, QStringLiteral("talon") );
+    talon = new PatPile(this, 0, QStringLiteral("talon"));
     talon->setPileRole(PatPile::Stock);
     talon->setLayoutPos(0, 0);
     // Give the talon a low Z value to keep it out of the way during there
     // deal animation.
-    talon->setZValue( -52 );
-    talon->setKeyboardSelectHint( KCardPile::NeverFocus );
-    talon->setKeyboardDropHint( KCardPile::NeverFocus );
-    connect( talon, &KCardPile::clicked, this, &DealerScene::drawDealRowOrRedeal );
+    talon->setZValue(-52);
+    talon->setKeyboardSelectHint(KCardPile::NeverFocus);
+    talon->setKeyboardDropHint(KCardPile::NeverFocus);
+    connect(talon, &KCardPile::clicked, this, &DealerScene::drawDealRowOrRedeal);
 
-    pile = new KlondikePile( this, 13, QStringLiteral("pile") );
-    pile->setCardsToShow( easyRules ? 1 : 3 );
-    pile->setPileRole( PatPile::Waste );
-    pile->setRightPadding( 1.1 );
-    pile->setLayoutPos( 1 + hspacing, 0 );
-    pile->setSpread( 0.33, 0 );
-    pile->setKeyboardSelectHint( KCardPile::ForceFocusTop );
-    pile->setKeyboardDropHint( KCardPile::NeverFocus );
+    pile = new KlondikePile(this, 13, QStringLiteral("pile"));
+    pile->setCardsToShow(easyRules ? 1 : 3);
+    pile->setPileRole(PatPile::Waste);
+    pile->setRightPadding(1.1);
+    pile->setLayoutPos(1 + hspacing, 0);
+    pile->setSpread(0.33, 0);
+    pile->setKeyboardSelectHint(KCardPile::ForceFocusTop);
+    pile->setKeyboardDropHint(KCardPile::NeverFocus);
 
-    for( int i = 0; i < 7; ++i )
-    {
-        play[i] = new PatPile( this, i + 5, QStringLiteral( "play%1" ).arg( i ));
+    for (int i = 0; i < 7; ++i) {
+        play[i] = new PatPile(this, i + 5, QStringLiteral("play%1").arg(i));
         play[i]->setPileRole(PatPile::Tableau);
         play[i]->setLayoutPos((1.0 + hspacing) * i, 1.0 + vspacing);
         play[i]->setAutoTurnTop(true);
-        play[i]->setBottomPadding( play[i]->spread().y() * 5 );
-        play[i]->setHeightPolicy( KCardPile::GrowDown );
-        play[i]->setKeyboardSelectHint( KCardPile::AutoFocusDeepestFaceUp );
-        play[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
+        play[i]->setBottomPadding(play[i]->spread().y() * 5);
+        play[i]->setHeightPolicy(KCardPile::GrowDown);
+        play[i]->setKeyboardSelectHint(KCardPile::AutoFocusDeepestFaceUp);
+        play[i]->setKeyboardDropHint(KCardPile::AutoFocusTop);
     }
 
-    for( int i = 0; i < 4; ++i )
-    {
-        target[i] = new PatPile( this, i + 1, QStringLiteral( "target%1" ).arg( i ) );
+    for (int i = 0; i < 4; ++i) {
+        target[i] = new PatPile(this, i + 1, QStringLiteral("target%1").arg(i));
         target[i]->setPileRole(PatPile::Foundation);
         target[i]->setLayoutPos((3 + i) * (1.0 + hspacing), 0);
-        target[i]->setKeyboardSelectHint( KCardPile::ForceFocusTop );
-        target[i]->setKeyboardDropHint( KCardPile::ForceFocusTop );
+        target[i]->setKeyboardSelectHint(KCardPile::ForceFocusTop);
+        target[i]->setKeyboardDropHint(KCardPile::ForceFocusTop);
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);
-    setSolver( new KlondikeSolver( this, pile->cardsToShow() ) );
+    setSolver(new KlondikeSolver(this, pile->cardsToShow()));
 
-    options = new KSelectAction(i18n("Klondike &Options"), this );
-    options->addAction( i18n("Draw 1" ));
-    options->addAction( i18n("Draw 3" ));
-    options->setCurrentItem( easyRules ? 0 : 1 );
+    options = new KSelectAction(i18n("Klondike &Options"), this);
+    options->addAction(i18n("Draw 1"));
+    options->addAction(i18n("Draw 3"));
+    options->setCurrentItem(easyRules ? 0 : 1);
     connect(options, &KSelectAction::indexTriggered, this, &Klondike::gameTypeChanged);
 }
 
-bool Klondike::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
+bool Klondike::checkAdd(const PatPile *pile, const QList<KCard *> &oldCards, const QList<KCard *> &newCards) const
 {
-    switch (pile->pileRole())
-    {
+    switch (pile->pileRole()) {
     case PatPile::Tableau:
         return checkAddAlternateColorDescendingFromKing(oldCards, newCards);
     case PatPile::Foundation:
@@ -162,10 +152,9 @@ bool Klondike::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, co
     }
 }
 
-bool Klondike::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
+bool Klondike::checkRemove(const PatPile *pile, const QList<KCard *> &cards) const
 {
-    switch (pile->pileRole())
-    {
+    switch (pile->pileRole()) {
     case PatPile::Tableau:
         return isAlternateColorDescending(cards);
     case PatPile::Foundation:
@@ -178,64 +167,55 @@ bool Klondike::checkRemove(const PatPile * pile, const QList<KCard*> & cards) co
     }
 }
 
-
-void Klondike::cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile )
+void Klondike::cardsMoved(const QList<KCard *> &cards, KCardPile *oldPile, KCardPile *newPile)
 {
-    DealerScene::cardsMoved( cards, oldPile, newPile );
+    DealerScene::cardsMoved(cards, oldPile, newPile);
 
-    Q_EMIT newCardsPossible( !talon->isEmpty() || pile->count() > 1 );
+    Q_EMIT newCardsPossible(!talon->isEmpty() || pile->count() > 1);
 }
 
-
-QList<QAction*> Klondike::configActions() const
+QList<QAction *> Klondike::configActions() const
 {
-    return QList<QAction*>() << options;
+    return QList<QAction *>() << options;
 }
-
 
 bool Klondike::newCards()
 {
-    if ( talon->isEmpty() && pile->count() <= 1 )
+    if (talon->isEmpty() && pile->count() <= 1)
         return false;
 
-    if ( talon->isEmpty() )
-    {
+    if (talon->isEmpty()) {
         // Move the cards from the pile back to the deck
-        flipCardsToPile( pile->cards(), talon, DURATION_MOVE );
+        flipCardsToPile(pile->cards(), talon, DURATION_MOVE);
 
-    }
-    else
-    {
-        QList<KCard*> cards = talon->topCards( pile->cardsToShow() );
-        flipCardsToPile( cards, pile, DURATION_MOVE );
-        setKeyboardFocus( pile->topCard() );
+    } else {
+        QList<KCard *> cards = talon->topCards(pile->cardsToShow());
+        flipCardsToPile(cards, pile, DURATION_MOVE);
+        setKeyboardFocus(pile->topCard());
     }
 
-    if ( talon->isEmpty() && pile->count() <= 1 )
-       Q_EMIT newCardsPossible( false );
+    if (talon->isEmpty() && pile->count() <= 1)
+        Q_EMIT newCardsPossible(false);
 
     // we need to look that many steps in the future to see if we can lose
-    setNeededFutureMoves( talon->count() + pile->count() );
+    setNeededFutureMoves(talon->count() + pile->count());
 
     return true;
 }
 
-
-void Klondike::restart( const QList<KCard*> & cards )
+void Klondike::restart(const QList<KCard *> &cards)
 {
+    QList<KCard *> cardList = cards;
 
-    QList<KCard*> cardList = cards;
+    for (int round = 0; round < 7; ++round)
+        for (int i = round; i < 7; ++i)
+            addCardForDeal(play[i], cardList.takeLast(), (i == round), talon->pos());
 
-    for( int round = 0; round < 7; ++round )
-        for ( int i = round; i < 7; ++i )
-            addCardForDeal( play[i], cardList.takeLast(), (i == round), talon->pos());
-
-    while ( !cardList.isEmpty() )
-    {
-        KCard * c = cardList.takeFirst();
-        c->setPos( talon->pos() );
-        c->setFaceUp( false );
-        talon->add( c );
+    while (!cardList.isEmpty()) {
+        KCard *c = cardList.takeFirst();
+        c->setPos(talon->pos());
+        c->setFaceUp(false);
+        talon->add(c);
     }
 
     startDealAnimation();
@@ -245,60 +225,51 @@ void Klondike::gameTypeChanged()
 {
     stopDemo();
 
-    if ( allowedToStartNewGame() )
-    {
-        setEasy( options->currentItem() == 0 );
-        startNew( gameNumber() );
-    }
-    else
-    {
+    if (allowedToStartNewGame()) {
+        setEasy(options->currentItem() == 0);
+        startNew(gameNumber());
+    } else {
         // If we're not allowed, reset the option to
         // the current number of suits.
-        options->setCurrentItem( easyRules ? 0 : 1 );
+        options->setCurrentItem(easyRules ? 0 : 1);
     }
 }
 
-
-void Klondike::setGameState( const QString & state )
+void Klondike::setGameState(const QString &state)
 {
-    Q_UNUSED( state );
+    Q_UNUSED(state);
 
-    Q_EMIT newCardsPossible( !talon->isEmpty() || pile->count() > 1 );
+    Q_EMIT newCardsPossible(!talon->isEmpty() || pile->count() > 1);
 }
-
 
 QString Klondike::getGameOptions() const
 {
-    return QString::number( pile->cardsToShow() );
+    return QString::number(pile->cardsToShow());
 }
 
-void Klondike::setGameOptions( const QString & options )
+void Klondike::setGameOptions(const QString &options)
 {
-    setEasy( options.toInt() == 1 );
+    setEasy(options.toInt() == 1);
 }
 
-void Klondike::setEasy( bool _EasyRules )
+void Klondike::setEasy(bool _EasyRules)
 {
-    if ( _EasyRules != easyRules )
-    {
+    if (_EasyRules != easyRules) {
         easyRules = _EasyRules;
-        options->setCurrentItem( easyRules ? 0 : 1 );
+        options->setCurrentItem(easyRules ? 0 : 1);
 
         int drawNumber = easyRules ? 1 : 3;
-        pile->setCardsToShow( drawNumber );
+        pile->setCardsToShow(drawNumber);
 
-        KCardPile::KeyboardFocusHint hint = easyRules
-                                          ? KCardPile::ForceFocusTop
-                                          : KCardPile::NeverFocus;
-        for( int i = 0; i < 4; ++i )
-            target[i]->setKeyboardSelectHint( hint );
+        KCardPile::KeyboardFocusHint hint = easyRules ? KCardPile::ForceFocusTop : KCardPile::NeverFocus;
+        for (int i = 0; i < 4; ++i)
+            target[i]->setKeyboardSelectHint(hint);
 
-        setSolver( new KlondikeSolver( this, drawNumber ) );
+        setSolver(new KlondikeSolver(this, drawNumber));
 
-        Settings::setKlondikeIsDrawOne( easyRules );
+        Settings::setKlondikeIsDrawOne(easyRules);
     }
 }
-
 
 bool Klondike::drop()
 {
@@ -312,13 +283,12 @@ bool Klondike::drop()
 
 void Klondike::mapOldId(int id)
 {
-    switch ( id )
-    {
+    switch (id) {
     case DealerInfo::KlondikeDrawOneId:
-        setEasy( true );
+        setEasy(true);
         break;
     case DealerInfo::KlondikeDrawThreeId:
-        setEasy( false );
+        setEasy(false);
         break;
     case DealerInfo::KlondikeGeneralId:
     default:
@@ -327,33 +297,26 @@ void Klondike::mapOldId(int id)
     }
 }
 
-
 int Klondike::oldId() const
 {
-    if ( easyRules )
+    if (easyRules)
         return DealerInfo::KlondikeDrawOneId;
     else
         return DealerInfo::KlondikeDrawThreeId;
 }
 
-
-
-
 static class KlondikeDealerInfo : public DealerInfo
 {
 public:
     KlondikeDealerInfo()
-      : DealerInfo(kli18n("Klondike"), DealerInfo::KlondikeGeneralId)
+        : DealerInfo(kli18n("Klondike"), DealerInfo::KlondikeGeneralId)
     {
-        addSubtype( KlondikeDrawOneId, kli18n( "Klondike (Draw 1)" ) );
-        addSubtype( KlondikeDrawThreeId, kli18n( "Klondike (Draw 3)" ) );
+        addSubtype(KlondikeDrawOneId, kli18n("Klondike (Draw 1)"));
+        addSubtype(KlondikeDrawThreeId, kli18n("Klondike (Draw 3)"));
     }
 
     DealerScene *createGame() const override
     {
-        return new Klondike( this );
+        return new Klondike(this);
     }
 } klondikeDealerInfo;
-
-
-

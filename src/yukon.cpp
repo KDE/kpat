@@ -21,7 +21,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -38,17 +38,15 @@
 
 // own
 #include "dealerinfo.h"
-#include "pileutils.h"
 #include "patsolve/yukonsolver.h"
+#include "pileutils.h"
 // KF
 #include <KLocalizedString>
 
-
-Yukon::Yukon( const DealerInfo * di )
-  : DealerScene( di )
+Yukon::Yukon(const DealerInfo *di)
+    : DealerScene(di)
 {
 }
-
 
 void Yukon::initialize()
 {
@@ -57,66 +55,57 @@ void Yukon::initialize()
 
     setDeckContents();
 
-    for ( int i = 0; i < 4; ++i )
-    {
-        target[i] = new PatPile( this, i + 1, QStringLiteral("target%1").arg(i) );
+    for (int i = 0; i < 4; ++i) {
+        target[i] = new PatPile(this, i + 1, QStringLiteral("target%1").arg(i));
         target[i]->setPileRole(PatPile::Foundation);
-        target[i]->setLayoutPos(0.11+7*dist_x, dist_y *i);
-        target[i]->setKeyboardSelectHint( KCardPile::NeverFocus );
-        target[i]->setKeyboardDropHint( KCardPile::ForceFocusTop );
+        target[i]->setLayoutPos(0.11 + 7 * dist_x, dist_y * i);
+        target[i]->setKeyboardSelectHint(KCardPile::NeverFocus);
+        target[i]->setKeyboardDropHint(KCardPile::ForceFocusTop);
     }
 
-    for ( int i = 0; i < 7; ++i )
-    {
-        store[i] = new PatPile( this, 5 + i, QStringLiteral("store%1").arg(i) );
+    for (int i = 0; i < 7; ++i) {
+        store[i] = new PatPile(this, 5 + i, QStringLiteral("store%1").arg(i));
         store[i]->setPileRole(PatPile::Tableau);
-        store[i]->setLayoutPos(dist_x*i, 0);
+        store[i]->setLayoutPos(dist_x * i, 0);
         store[i]->setAutoTurnTop(true);
-        store[i]->setBottomPadding( 3 * dist_y );
-        store[i]->setHeightPolicy( KCardPile::GrowDown );
-        store[i]->setKeyboardSelectHint( KCardPile::FreeFocus );
-        store[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
+        store[i]->setBottomPadding(3 * dist_y);
+        store[i]->setHeightPolicy(KCardPile::GrowDown);
+        store[i]->setKeyboardSelectHint(KCardPile::FreeFocus);
+        store[i]->setKeyboardDropHint(KCardPile::AutoFocusTop);
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo);
-    setSolver( new YukonSolver( this ) );
-    setNeededFutureMoves( 10 ); // it's a bit hard to judge as there are so many nonsense moves
+    setSolver(new YukonSolver(this));
+    setNeededFutureMoves(10); // it's a bit hard to judge as there are so many nonsense moves
 }
 
-bool Yukon::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
+bool Yukon::checkAdd(const PatPile *pile, const QList<KCard *> &oldCards, const QList<KCard *> &newCards) const
 {
-    if (pile->pileRole() == PatPile::Tableau)
-    {
+    if (pile->pileRole() == PatPile::Tableau) {
         if (oldCards.isEmpty())
             return newCards.first()->rank() == KCardDeck::King;
         else
-            return newCards.first()->rank() == oldCards.last()->rank() - 1
-                   && newCards.first()->color() != oldCards.last()->color();
-    }
-    else
-    {
+            return newCards.first()->rank() == oldCards.last()->rank() - 1 && newCards.first()->color() != oldCards.last()->color();
+    } else {
         return checkAddSameSuitAscendingFromAce(oldCards, newCards);
     }
 }
 
-bool Yukon::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
+bool Yukon::checkRemove(const PatPile *pile, const QList<KCard *> &cards) const
 {
     return pile->pileRole() == PatPile::Tableau && cards.first()->isFaceUp();
 }
 
-void Yukon::restart( const QList<KCard*> & cards )
+void Yukon::restart(const QList<KCard *> &cards)
 {
-    QList<KCard*> cardList = cards;
+    QList<KCard *> cardList = cards;
 
-    for ( int round = 0; round < 11; ++round )
-    {
-        for ( int j = 0; j < 7; ++j )
-        {
-            if ( ( j == 0 && round == 0 ) || ( j && round < j + 5 ) )
-            {
+    for (int round = 0; round < 11; ++round) {
+        for (int j = 0; j < 7; ++j) {
+            if ((j == 0 && round == 0) || (j && round < j + 5)) {
                 QPointF initPos = store[j]->pos();
                 initPos.ry() += ((7 - j / 3.0) + round) * deck()->cardHeight();
-                addCardForDeal( store[j], cardList.takeLast(), (round >= j || j == 0), initPos );
+                addCardForDeal(store[j], cardList.takeLast(), (round >= j || j == 0), initPos);
             }
         }
     }
@@ -124,20 +113,16 @@ void Yukon::restart( const QList<KCard*> & cards )
     startDealAnimation();
 }
 
-
-
 static class YukonDealerInfo : public DealerInfo
 {
 public:
     YukonDealerInfo()
-      : DealerInfo(kli18n("Yukon"), YukonId )
-    {}
+        : DealerInfo(kli18n("Yukon"), YukonId)
+    {
+    }
 
     DealerScene *createGame() const override
     {
-        return new Yukon( this );
+        return new Yukon(this);
     }
 } yukonDealerInfo;
-
-
-

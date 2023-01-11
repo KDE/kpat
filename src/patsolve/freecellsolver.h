@@ -4,7 +4,7 @@
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of 
+ * published by the Free Software Foundation; either version 2 of
  * the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -50,7 +50,7 @@ public:
     MoveHint translateMove(const MOVE &m) override;
     void setFcSolverGameParams() override;
     int get_cmd_line_arg_count() override;
-    const char * * get_cmd_line_args() override;
+    const char **get_cmd_line_args() override;
 #if 0
     virtual void print_layout();
 

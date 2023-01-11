@@ -21,7 +21,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -42,27 +42,26 @@
 
 class KSelectAction;
 
-
 class Spider : public DealerScene
 {
     Q_OBJECT
 
 public:
-    explicit Spider( const DealerInfo * di );
+    explicit Spider(const DealerInfo *di);
     void initialize() override;
     void mapOldId(int id) override;
     int oldId() const override;
-    QList<QAction*> configActions() const override;
+    QList<QAction *> configActions() const override;
 
 protected:
     QString getGameState() const override;
-    void setGameState( const QString & state ) override;
+    void setGameState(const QString &state) override;
     QString getGameOptions() const override;
-    void setGameOptions( const QString & options ) override;
-    bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const override;
-    bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const override;
-    void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile ) override;
-    void restart( const QList<KCard*> & cards ) override;
+    void setGameOptions(const QString &options) override;
+    bool checkAdd(const PatPile *pile, const QList<KCard *> &oldCards, const QList<KCard *> &newCards) const override;
+    bool checkRemove(const PatPile *pile, const QList<KCard *> &cards) const override;
+    void cardsMoved(const QList<KCard *> &cards, KCardPile *oldPile, KCardPile *newPile) override;
+    void restart(const QList<KCard *> &cards) override;
 
 protected Q_SLOTS:
     bool newCards() override;
@@ -72,8 +71,8 @@ private Q_SLOTS:
     void gameTypeChanged();
 
 private:
-    bool pileHasFullRun( KCardPile * pile );
-    void moveFullRunToLeg( KCardPile * pile );
+    bool pileHasFullRun(KCardPile *pile);
+    void moveFullRunToLeg(KCardPile *pile);
     void setSuits(int s);
     void createDeck();
     QPointF randomPos();
@@ -84,7 +83,7 @@ private:
     PatPile *redeals[5];
     int m_redeal;
     int m_suits;
-    QList<KCardPile*> m_pilesWithRuns;
+    QList<KCardPile *> m_pilesWithRuns;
 
     KSelectAction *options;
 

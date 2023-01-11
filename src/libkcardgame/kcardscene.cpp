@@ -22,7 +22,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -47,62 +47,57 @@
 // Std
 #include <cmath>
 
-
 namespace
 {
-    const int cardMoveDuration = 230;
+const int cardMoveDuration = 230;
 
-
-    void setItemHighlight( QGraphicsItem * item, bool highlight )
-    {
-        KCard * card = qgraphicsitem_cast<KCard*>( item );
-        if ( card )
-        {
-            card->setHighlighted( highlight );
-            return;
-        }
-
-        KCardPile * pile = qgraphicsitem_cast<KCardPile*>( item );
-        if ( pile )
-        {
-            pile->setHighlighted( highlight );
-            return;
-        }
+void setItemHighlight(QGraphicsItem *item, bool highlight)
+{
+    KCard *card = qgraphicsitem_cast<KCard *>(item);
+    if (card) {
+        card->setHighlighted(highlight);
+        return;
     }
 
-    QGraphicsItem * toGraphicsItem( QObject * object )
-    {
-        if ( KCard * card = qobject_cast<KCard*>( object ) )
-            return card;
-
-        if ( KCardPile * pile = qobject_cast<KCardPile*>( object ) )
-            return pile;
-
-        Q_ASSERT( !object );
-
-        return nullptr;
+    KCardPile *pile = qgraphicsitem_cast<KCardPile *>(item);
+    if (pile) {
+        pile->setHighlighted(highlight);
+        return;
     }
 }
 
+QGraphicsItem *toGraphicsItem(QObject *object)
+{
+    if (KCard *card = qobject_cast<KCard *>(object))
+        return card;
+
+    if (KCardPile *pile = qobject_cast<KCardPile *>(object))
+        return pile;
+
+    Q_ASSERT(!object);
+
+    return nullptr;
+}
+}
 
 class KCardScenePrivate : public QObject
 {
 public:
-    KCardScenePrivate( KCardScene * p );
+    KCardScenePrivate(KCardScene *p);
 
-    KCardPile * bestDestinationPileUnderCards();
-    void sendCardsToPile( KCardPile * pile, QList<KCard*> cards, qreal rate, bool isSpeed, bool flip );
-    void changeFocus( int pileChange, int cardChange );
+    KCardPile *bestDestinationPileUnderCards();
+    void sendCardsToPile(KCardPile *pile, QList<KCard *> cards, qreal rate, bool isSpeed, bool flip);
+    void changeFocus(int pileChange, int cardChange);
     void updateKeyboardFocus();
 
-    KCardScene * const q;
+    KCardScene *const q;
 
-    KAbstractCardDeck * deck;
-    QList<KCardPile*> piles;
-    QHash<const KCardPile*,QRectF> pileAreas;
-    QSet<QGraphicsItem*> highlightedItems;
+    KAbstractCardDeck *deck;
+    QList<KCardPile *> piles;
+    QHash<const KCardPile *, QRectF> pileAreas;
+    QSet<QGraphicsItem *> highlightedItems;
 
-    QList<KCard*> cardsBeingDragged;
+    QList<KCard *> cardsBeingDragged;
     QPointF startOfDrag;
     bool dragStarted;
 
@@ -119,37 +114,33 @@ public:
     bool sizeHasBeenSet;
 };
 
-
-KCardScenePrivate::KCardScenePrivate( KCardScene * p )
-  : QObject( p ),
-    q( p )
+KCardScenePrivate::KCardScenePrivate(KCardScene *p)
+    : QObject(p)
+    , q(p)
 {
-  dragStarted = false;
+    dragStarted = false;
 }
 
-
-KCardPile * KCardScenePrivate::bestDestinationPileUnderCards()
+KCardPile *KCardScenePrivate::bestDestinationPileUnderCards()
 {
-    QSet<KCardPile*> targets;
+    QSet<KCardPile *> targets;
     const auto items = q->collidingItems(cardsBeingDragged.first(), Qt::IntersectsItemBoundingRect);
-    for (QGraphicsItem * item : items) {
-        KCardPile * p = qgraphicsitem_cast<KCardPile*>( item );
-        if ( !p )
-        {
-            KCard * c = qgraphicsitem_cast<KCard*>( item );
-            if ( c )
+    for (QGraphicsItem *item : items) {
+        KCardPile *p = qgraphicsitem_cast<KCardPile *>(item);
+        if (!p) {
+            KCard *c = qgraphicsitem_cast<KCard *>(item);
+            if (c)
                 p = c->pile();
         }
-        if ( p )
+        if (p)
             targets << p;
     }
 
-    KCardPile * bestTarget = nullptr;
+    KCardPile *bestTarget = nullptr;
     qreal bestArea = 1;
 
-    for (KCardPile * p : std::as_const(targets)) {
-        if ( p != cardsBeingDragged.first()->pile() && q->allowedToAdd( p, cardsBeingDragged ) )
-        {
+    for (KCardPile *p : std::as_const(targets)) {
+        if (p != cardsBeingDragged.first()->pile() && q->allowedToAdd(p, cardsBeingDragged)) {
             QRectF targetRect = p->sceneBoundingRect();
             const auto cards = p->cards();
             for (KCard *c : cards)
@@ -157,8 +148,7 @@ KCardPile * KCardScenePrivate::bestDestinationPileUnderCards()
 
             QRectF intersection = targetRect & cardsBeingDragged.first()->sceneBoundingRect();
             qreal area = intersection.width() * intersection.height();
-            if ( area > bestArea )
-            {
+            if (area > bestArea) {
                 bestTarget = p;
                 bestArea = area;
             }
@@ -168,91 +158,85 @@ KCardPile * KCardScenePrivate::bestDestinationPileUnderCards()
     return bestTarget;
 }
 
-
-void KCardScenePrivate::sendCardsToPile( KCardPile * pile, QList<KCard*> newCards, qreal rate, bool isSpeed, bool flip )
+void KCardScenePrivate::sendCardsToPile(KCardPile *pile, QList<KCard *> newCards, qreal rate, bool isSpeed, bool flip)
 {
-    if ( pile->isEmpty() && newCards.isEmpty() )
+    if (pile->isEmpty() && newCards.isEmpty())
         return;
 
     int oldCardCount = pile->count();
 
-    for ( int i = 0; i < newCards.size(); ++i )
-    {
+    for (int i = 0; i < newCards.size(); ++i) {
         // If we're flipping the cards, we have to add them to the pile in
         // reverse order.
-        KCard * c = newCards[ flip ? newCards.size() - 1 - i : i ];
+        KCard *c = newCards[flip ? newCards.size() - 1 - i : i];
 
         // The layout of the card within the pile may depend on whether it is
         // face up or down. Therefore, we must flip the card, add it to the
         // pile, calculate its position, flip it back, then start the animation
         // which will flip it one more time.
-        if ( flip )
-            c->setFaceUp( !c->isFaceUp() );
+        if (flip)
+            c->setFaceUp(!c->isFaceUp());
 
-        pile->add( c );
+        pile->add(c);
     }
 
     const QSize cardSize = deck->cardSize();
     const qreal cardUnit = (deck->cardWidth() + deck->cardHeight()) / 2.0;
-    const QList<KCard*> cards = pile->cards();
+    const QList<KCard *> cards = pile->cards();
     const QList<QPointF> positions = pile->cardPositions();
 
     qreal minX = 0;
     qreal maxX = 0;
     qreal minY = 0;
     qreal maxY = 0;
-    for (const QPointF & pos : positions) {
-        minX = qMin( minX, pos.x() );
-        maxX = qMax( maxX, pos.x() );
-        minY = qMin( minY, pos.y() );
-        maxY = qMax( maxY, pos.y() );
+    for (const QPointF &pos : positions) {
+        minX = qMin(minX, pos.x());
+        maxX = qMax(maxX, pos.x());
+        minY = qMin(minY, pos.y());
+        maxY = qMax(maxY, pos.y());
     }
 
     QPointF absLayoutPos = pile->layoutPos();
-    if ( absLayoutPos.x() < 0 )
+    if (absLayoutPos.x() < 0)
         absLayoutPos.rx() += contentSize.width() / cardSize.width() - 1;
-    if ( absLayoutPos.y() < 0 )
+    if (absLayoutPos.y() < 0)
         absLayoutPos.ry() += contentSize.height() / cardSize.height() - 1;
 
-    QRectF available = pileAreas.value( pile, QRectF() );
+    QRectF available = pileAreas.value(pile, QRectF());
     qreal availableTop = absLayoutPos.y() - available.top();
     qreal availableBottom = available.bottom() - (absLayoutPos.y() + 1);
     qreal availableLeft = absLayoutPos.x() - available.left();
     qreal availableRight = available.right() - (absLayoutPos.x() + 1);
 
-    qreal scaleTop = (minY >= 0) ? 1 : qMin<qreal>( availableTop / -minY, 1 );
-    qreal scaleBottom = (maxY <= 0) ? 1 : qMin<qreal>( availableBottom / maxY, 1 );
-    qreal scaleY = qMin( scaleTop, scaleBottom );
+    qreal scaleTop = (minY >= 0) ? 1 : qMin<qreal>(availableTop / -minY, 1);
+    qreal scaleBottom = (maxY <= 0) ? 1 : qMin<qreal>(availableBottom / maxY, 1);
+    qreal scaleY = qMin(scaleTop, scaleBottom);
 
-    qreal scaleLeft = (minX >= 0) ? 1 : qMin<qreal>( availableLeft / -minX, 1 );
-    qreal scaleRight = (maxX <= 0) ? 1 : qMin<qreal>( availableRight / maxX, 1 );
-    qreal scaleX = qMin( scaleLeft, scaleRight );
+    qreal scaleLeft = (minX >= 0) ? 1 : qMin<qreal>(availableLeft / -minX, 1);
+    qreal scaleRight = (maxX <= 0) ? 1 : qMin<qreal>(availableRight / maxX, 1);
+    qreal scaleX = qMin(scaleLeft, scaleRight);
 
     QList<QPointF> realPositions;
     QList<qreal> distances;
     qreal maxDistance = 0;
-    for ( int i = 0; i < cards.size(); ++i )
-    {
-        QPointF pos( pile->x() + positions[i].x() * scaleX * cardSize.width(),
-                     pile->y() + positions[i].y() * scaleY * cardSize.height() );
+    for (int i = 0; i < cards.size(); ++i) {
+        QPointF pos(pile->x() + positions[i].x() * scaleX * cardSize.width(), pile->y() + positions[i].y() * scaleY * cardSize.height());
         realPositions << pos;
 
         qreal distance = 0;
-        if ( isSpeed && i >= oldCardCount )
-        {
+        if (isSpeed && i >= oldCardCount) {
             QPointF delta = pos - cards[i]->pos();
-            distance = sqrt( delta.x() * delta.x() + delta.y() * delta.y() ) / cardUnit;
-            if ( distance > maxDistance )
+            distance = sqrt(delta.x() * delta.x() + delta.y() * delta.y()) / cardUnit;
+            if (distance > maxDistance)
                 maxDistance = distance;
         }
         distances << distance;
     }
 
     qreal z = pile->zValue();
-    int layoutDuration = isSpeed ? qMin<int>( cardMoveDuration, maxDistance / rate * 1000 ) : rate;
+    int layoutDuration = isSpeed ? qMin<int>(cardMoveDuration, maxDistance / rate * 1000) : rate;
 
-    for ( int i = 0; i < cards.size(); ++i )
-    {
+    for (int i = 0; i < cards.size(); ++i) {
         bool isNewCard = i >= oldCardCount;
 
         int duration = (isNewCard && isSpeed) ? distances[i] / rate * 1000 : layoutDuration;
@@ -260,87 +244,67 @@ void KCardScenePrivate::sendCardsToPile( KCardPile * pile, QList<KCard*> newCard
         // Honour the pile's autoTurnTop property.
         bool face = cards[i]->isFaceUp() || (cards[i] == pile->topCard() && pile->autoTurnTop());
 
-        if ( isNewCard && flip )
-        {
+        if (isNewCard && flip) {
             // The card will be flipped as part of the animation, so we return
             // it to its original face up/down position before starting the
             // animation.
-            cards[i]->setFaceUp( !cards[i]->isFaceUp() );
+            cards[i]->setFaceUp(!cards[i]->isFaceUp());
         }
 
         // Each card has a Z value 1 greater than the card below it.
         ++z;
 
-        cards[i]->animate( realPositions[i], z, 0, face, isNewCard, duration );
+        cards[i]->animate(realPositions[i], z, 0, face, isNewCard, duration);
     }
 }
 
-
-void KCardScenePrivate::changeFocus( int pileChange, int cardChange )
+void KCardScenePrivate::changeFocus(int pileChange, int cardChange)
 {
-    if ( !keyboardMode )
-    {
-        q->setKeyboardModeActive( true );
+    if (!keyboardMode) {
+        q->setKeyboardModeActive(true);
         return;
     }
 
-    if ( pileChange )
-    {
-        KCardPile * pile;
+    if (pileChange) {
+        KCardPile *pile;
         KCardPile::KeyboardFocusHint hint;
-        do
-        {
+        do {
             keyboardPileIndex += pileChange;
-            if ( keyboardPileIndex < 0 )
+            if (keyboardPileIndex < 0)
                 keyboardPileIndex = piles.size() - 1;
-            else if ( keyboardPileIndex >= piles.size() )
+            else if (keyboardPileIndex >= piles.size())
                 keyboardPileIndex = 0;
 
-            pile = piles.at( keyboardPileIndex );
-            hint = cardsBeingDragged.isEmpty()
-                 ? pile->keyboardSelectHint()
-                 : pile->keyboardDropHint();
-        }
-        while ( hint == KCardPile::NeverFocus );
+            pile = piles.at(keyboardPileIndex);
+            hint = cardsBeingDragged.isEmpty() ? pile->keyboardSelectHint() : pile->keyboardDropHint();
+        } while (hint == KCardPile::NeverFocus);
 
-        if ( !pile->isEmpty() )
-        {
-            if ( hint == KCardPile::AutoFocusTop || hint == KCardPile::ForceFocusTop )
-            {
+        if (!pile->isEmpty()) {
+            if (hint == KCardPile::AutoFocusTop || hint == KCardPile::ForceFocusTop) {
                 keyboardCardIndex = pile->count() - 1;
-            }
-            else if ( hint == KCardPile::AutoFocusDeepestRemovable )
-            {
+            } else if (hint == KCardPile::AutoFocusDeepestRemovable) {
                 keyboardCardIndex = pile->count() - 1;
-                while ( keyboardCardIndex > 0 && q->allowedToRemove( pile, pile->at( keyboardCardIndex - 1 ) ) )
+                while (keyboardCardIndex > 0 && q->allowedToRemove(pile, pile->at(keyboardCardIndex - 1)))
                     --keyboardCardIndex;
-            }
-            else if ( hint == KCardPile::AutoFocusDeepestFaceUp )
-            {
+            } else if (hint == KCardPile::AutoFocusDeepestFaceUp) {
                 keyboardCardIndex = pile->count() - 1;
-                while ( keyboardCardIndex > 0 && pile->at( keyboardCardIndex - 1 )->isFaceUp() )
+                while (keyboardCardIndex > 0 && pile->at(keyboardCardIndex - 1)->isFaceUp())
                     --keyboardCardIndex;
-            }
-            else if ( hint == KCardPile::AutoFocusBottom )
-            {
+            } else if (hint == KCardPile::AutoFocusBottom) {
                 keyboardCardIndex = 0;
             }
         }
     }
 
-    if ( cardChange )
-    {
-        KCardPile * pile = piles.at( keyboardPileIndex );
-        if ( cardChange < 0 && keyboardCardIndex >= pile->count() )
-        {
-            keyboardCardIndex = qMax( 0, pile->count() - 2 );
-        }
-        else
-        {
+    if (cardChange) {
+        KCardPile *pile = piles.at(keyboardPileIndex);
+        if (cardChange < 0 && keyboardCardIndex >= pile->count()) {
+            keyboardCardIndex = qMax(0, pile->count() - 2);
+        } else {
             keyboardCardIndex += cardChange;
-            if ( keyboardCardIndex < 0 )
-                keyboardCardIndex =  pile->count() - 1;
-            else if ( keyboardCardIndex >= pile->count() )
+            if (keyboardCardIndex < 0)
+                keyboardCardIndex = pile->count() - 1;
+            else if (keyboardCardIndex >= pile->count())
                 keyboardCardIndex = 0;
         }
     }
@@ -348,61 +312,48 @@ void KCardScenePrivate::changeFocus( int pileChange, int cardChange )
     updateKeyboardFocus();
 }
 
-
 void KCardScenePrivate::updateKeyboardFocus()
 {
-    setItemHighlight( toGraphicsItem( keyboardFocusItem ), false );
+    setItemHighlight(toGraphicsItem(keyboardFocusItem), false);
 
-    if ( !keyboardMode )
-    {
+    if (!keyboardMode) {
         keyboardFocusItem.clear();
         keyboardPileIndex = 0;
         keyboardCardIndex = 0;
         return;
     }
 
-    KCardPile * pile = piles.at( keyboardPileIndex );
-    KCardPile::KeyboardFocusHint hint = cardsBeingDragged.isEmpty()
-                                      ? pile->keyboardSelectHint()
-                                      : pile->keyboardDropHint();
+    KCardPile *pile = piles.at(keyboardPileIndex);
+    KCardPile::KeyboardFocusHint hint = cardsBeingDragged.isEmpty() ? pile->keyboardSelectHint() : pile->keyboardDropHint();
 
-    if ( !cardsBeingDragged.isEmpty()
-         && cardsBeingDragged.first()->pile() == pile )
-    {
-        int index = pile->indexOf( cardsBeingDragged.first() );
-        if ( index == 0 )
+    if (!cardsBeingDragged.isEmpty() && cardsBeingDragged.first()->pile() == pile) {
+        int index = pile->indexOf(cardsBeingDragged.first());
+        if (index == 0)
             keyboardFocusItem = pile;
         else
-            keyboardFocusItem = pile->at( index - 1 );
-    }
-    else if ( pile->isEmpty() )
-    {
+            keyboardFocusItem = pile->at(index - 1);
+    } else if (pile->isEmpty()) {
         keyboardFocusItem = pile;
-    }
-    else if ( keyboardCardIndex >= pile->count() || hint == KCardPile::ForceFocusTop )
-    {
+    } else if (keyboardCardIndex >= pile->count() || hint == KCardPile::ForceFocusTop) {
         keyboardFocusItem = pile->topCard();
-    }
-    else
-    {
-        keyboardFocusItem = pile->at( keyboardCardIndex );
+    } else {
+        keyboardFocusItem = pile->at(keyboardCardIndex);
     }
 
-    QGraphicsItem * focusItem = toGraphicsItem( keyboardFocusItem );
-    Q_ASSERT( focusItem );
+    QGraphicsItem *focusItem = toGraphicsItem(keyboardFocusItem);
+    Q_ASSERT(focusItem);
 
-    setItemHighlight( focusItem, true );
+    setItemHighlight(focusItem, true);
 
     QPointF delta = focusItem->pos() - startOfDrag;
     startOfDrag = focusItem->pos();
-    for (KCard * c : std::as_const(cardsBeingDragged))
-        c->setPos( c->pos() + delta );
+    for (KCard *c : std::as_const(cardsBeingDragged))
+        c->setPos(c->pos() + delta);
 }
 
-
-KCardScene::KCardScene( QObject * parent )
-  : QGraphicsScene( parent ),
-    d( new KCardScenePrivate( this ) )
+KCardScene::KCardScene(QObject *parent)
+    : QGraphicsScene(parent)
+    , d(new KCardScenePrivate(this))
 {
     d->deck = nullptr;
     d->alignment = AlignHCenter | AlignHSpread;
@@ -415,144 +366,124 @@ KCardScene::KCardScene( QObject * parent )
     d->sizeHasBeenSet = false;
 }
 
-
 KCardScene::~KCardScene()
 {
     const auto currentPiles = d->piles;
-    for (KCardPile * p : currentPiles) {
-        removePile( p );
+    for (KCardPile *p : currentPiles) {
+        removePile(p);
         delete p;
     }
     Q_ASSERT(d->piles.isEmpty());
     d->piles.clear();
 }
 
-
-void KCardScene::setDeck( KAbstractCardDeck * deck )
+void KCardScene::setDeck(KAbstractCardDeck *deck)
 {
-    if ( d->deck )
-        disconnect( d->deck, &KAbstractCardDeck::cardAnimationDone, this, &KCardScene::cardAnimationDone );
+    if (d->deck)
+        disconnect(d->deck, &KAbstractCardDeck::cardAnimationDone, this, &KCardScene::cardAnimationDone);
 
     d->deck = deck;
 
-    if ( d->deck )
-        connect( d->deck, &KAbstractCardDeck::cardAnimationDone, this, &KCardScene::cardAnimationDone );
+    if (d->deck)
+        connect(d->deck, &KAbstractCardDeck::cardAnimationDone, this, &KCardScene::cardAnimationDone);
 }
 
-
-KAbstractCardDeck * KCardScene::deck() const
+KAbstractCardDeck *KCardScene::deck() const
 {
     return d->deck;
 }
-
 
 bool KCardScene::isCardAnimationRunning() const
 {
     return d->deck && d->deck->hasAnimatedCards();
 }
 
-
-QList<KCard*> KCardScene::cardsBeingDragged() const
+QList<KCard *> KCardScene::cardsBeingDragged() const
 {
     return d->cardsBeingDragged;
 }
 
-
-void KCardScene::addPile( KCardPile * pile )
+void KCardScene::addPile(KCardPile *pile)
 {
-    KCardScene * origScene = dynamic_cast<KCardScene*>( pile->scene() );
-    if ( origScene )
-        origScene->removePile( pile );
+    KCardScene *origScene = dynamic_cast<KCardScene *>(pile->scene());
+    if (origScene)
+        origScene->removePile(pile);
 
-    addItem( pile );
+    addItem(pile);
     const auto cards = pile->cards();
-    for (KCard * c : cards)
-        addItem( c );
-    d->piles.append( pile );
+    for (KCard *c : cards)
+        addItem(c);
+    d->piles.append(pile);
 }
 
-
-void KCardScene::removePile( KCardPile * pile )
+void KCardScene::removePile(KCardPile *pile)
 {
     const auto cards = pile->cards();
-    for (KCard * c : cards)
-        removeItem( c );
-    removeItem( pile );
-    d->piles.removeAll( pile );
+    for (KCard *c : cards)
+        removeItem(c);
+    removeItem(pile);
+    d->piles.removeAll(pile);
 }
 
-
-QList<KCardPile*> KCardScene::piles() const
+QList<KCardPile *> KCardScene::piles() const
 {
     return d->piles;
 }
 
-
-void KCardScene::setSceneAlignment( KCardScene::SceneAlignment alignment )
+void KCardScene::setSceneAlignment(KCardScene::SceneAlignment alignment)
 {
-    if ( alignment != d->alignment )
-    {
+    if (alignment != d->alignment) {
         d->alignment = alignment;
         relayoutScene();
     }
 }
-
 
 KCardScene::SceneAlignment KCardScene::sceneAlignment() const
 {
     return d->alignment;
 }
 
-
-void KCardScene::setLayoutMargin( qreal margin )
+void KCardScene::setLayoutMargin(qreal margin)
 {
-    if ( margin != d->layoutMargin )
-    {
+    if (margin != d->layoutMargin) {
         d->layoutMargin = margin;
         relayoutScene();
     }
 }
-
 
 qreal KCardScene::layoutMargin() const
 {
     return d->layoutMargin;
 }
 
-
-void KCardScene::setLayoutSpacing( qreal spacing )
+void KCardScene::setLayoutSpacing(qreal spacing)
 {
-    if ( spacing != d->layoutSpacing )
-    {
+    if (spacing != d->layoutSpacing) {
         d->layoutSpacing = spacing;
         relayoutScene();
     }
 }
-
 
 qreal KCardScene::layoutSpacing() const
 {
     return d->layoutSpacing;
 }
 
-
 QRectF KCardScene::contentArea() const
 {
-    return QRectF( QPoint( 0, 0 ), d->contentSize );
+    return QRectF(QPoint(0, 0), d->contentSize);
 }
 
-
-void KCardScene::resizeScene( const QSize & size )
+void KCardScene::resizeScene(const QSize &size)
 {
     d->sizeHasBeenSet = true;
-    setSceneRect( QRectF( sceneRect().topLeft(), size ) );
+    setSceneRect(QRectF(sceneRect().topLeft(), size));
     relayoutScene();
 }
 
-
 void KCardScene::relayoutScene()
 {
-    if ( !d->sizeHasBeenSet || !d->deck  )
+    if (!d->sizeHasBeenSet || !d->deck)
         return;
 
     qreal usedWidth = 1;
@@ -560,36 +491,34 @@ void KCardScene::relayoutScene()
     qreal extraWidth = 0;
     qreal extraHeight = 0;
     const auto piles = this->piles();
-    for (const KCardPile * p : piles) {
-        if ( p->layoutPos().x() >= 0 )
-            usedWidth = qMax( usedWidth, p->layoutPos().x() + 1 + p->rightPadding() );
+    for (const KCardPile *p : piles) {
+        if (p->layoutPos().x() >= 0)
+            usedWidth = qMax(usedWidth, p->layoutPos().x() + 1 + p->rightPadding());
         else
-            extraWidth = qMax( extraWidth, p->leftPadding() + 1 + p->rightPadding() );
+            extraWidth = qMax(extraWidth, p->leftPadding() + 1 + p->rightPadding());
 
-        if ( p->layoutPos().y() >= 0 )
-            usedHeight = qMax( usedHeight, p->layoutPos().y() + 1 + p->bottomPadding() );
+        if (p->layoutPos().y() >= 0)
+            usedHeight = qMax(usedHeight, p->layoutPos().y() + 1 + p->bottomPadding());
         else
-            extraHeight = qMax( extraHeight, p->topPadding() + 1 + p->bottomPadding() );
+            extraHeight = qMax(extraHeight, p->topPadding() + 1 + p->bottomPadding());
     }
-    if ( extraWidth )
-    {
+    if (extraWidth) {
         qreal hSpacing = d->layoutSpacing * (1 + d->deck->cardHeight() / d->deck->cardWidth()) / 2;
         usedWidth += hSpacing + extraWidth;
     }
-    if ( extraHeight )
-    {
+    if (extraHeight) {
         qreal vSpacing = d->layoutSpacing * (1 + d->deck->cardWidth() / d->deck->cardHeight()) / 2;
         usedHeight += vSpacing + extraHeight;
     }
 
     // Add the border to the size of the contents
-    QSizeF sizeToFit( usedWidth + 2 * d->layoutMargin, usedHeight+ 2 * d->layoutMargin );
+    QSizeF sizeToFit(usedWidth + 2 * d->layoutMargin, usedHeight + 2 * d->layoutMargin);
 
-    qreal scaleX = width() / ( d->deck->cardWidth() * sizeToFit.width() );
-    qreal scaleY = height() / ( d->deck->cardHeight() * sizeToFit.height() );
-    qreal n_scaleFactor = qMin( scaleX, scaleY );
+    qreal scaleX = width() / (d->deck->cardWidth() * sizeToFit.width());
+    qreal scaleY = height() / (d->deck->cardHeight() * sizeToFit.height());
+    qreal n_scaleFactor = qMin(scaleX, scaleY);
 
-    d->deck->setCardWidth( n_scaleFactor * d->deck->cardWidth() );
+    d->deck->setCardWidth(n_scaleFactor * d->deck->cardWidth());
 
     int usedPixelWidth = usedWidth * d->deck->cardWidth();
     int usedPixelHeight = usedHeight * d->deck->cardHeight();
@@ -598,62 +527,47 @@ void KCardScene::relayoutScene()
 
     int contentWidth;
     int xOffset;
-    if ( d->alignment & AlignLeft )
-    {
+    if (d->alignment & AlignLeft) {
         contentWidth = usedPixelWidth;
         xOffset = pixelHMargin;
-    }
-    else if ( d->alignment & AlignRight )
-    {
+    } else if (d->alignment & AlignRight) {
         contentWidth = usedPixelWidth;
         xOffset = width() - contentWidth - pixelHMargin;
-    }
-    else if ( d->alignment & AlignHCenter )
-    {
+    } else if (d->alignment & AlignHCenter) {
         contentWidth = usedPixelWidth;
-        xOffset = ( width() - contentWidth ) / 2;
-    }
-    else
-    {
+        xOffset = (width() - contentWidth) / 2;
+    } else {
         contentWidth = width() - 2 * d->layoutMargin * d->deck->cardWidth();
         xOffset = pixelHMargin;
     }
 
     int contentHeight;
     int yOffset;
-    if ( d->alignment & AlignTop )
-    {
+    if (d->alignment & AlignTop) {
         contentHeight = usedPixelHeight;
         yOffset = pixelVMargin;
-    }
-    else if ( d->alignment & AlignBottom )
-    {
+    } else if (d->alignment & AlignBottom) {
         contentHeight = usedPixelHeight;
         yOffset = height() - contentHeight - pixelVMargin;
-    }
-    else if ( d->alignment & AlignVCenter )
-    {
+    } else if (d->alignment & AlignVCenter) {
         contentHeight = usedPixelHeight;
-        yOffset = ( height() - contentHeight ) / 2;
-    }
-    else
-    {
+        yOffset = (height() - contentHeight) / 2;
+    } else {
         contentHeight = height() - 2 * d->layoutMargin * d->deck->cardHeight();
         yOffset = pixelVMargin;
     }
 
-    d->contentSize = QSizeF( contentWidth, contentHeight );
-    setSceneRect( -xOffset, -yOffset, width(), height() );
+    d->contentSize = QSizeF(contentWidth, contentHeight);
+    setSceneRect(-xOffset, -yOffset, width(), height());
 
     recalculatePileLayouts();
-    for (KCardPile * p : piles)
-        updatePileLayout( p, 0 );
+    for (KCardPile *p : piles)
+        updatePileLayout(p, 0);
 }
-
 
 void KCardScene::recalculatePileLayouts()
 {
-    if ( !d->sizeHasBeenSet || !d->deck )
+    if (!d->sizeHasBeenSet || !d->deck)
         return;
 
     QSize cardSize = d->deck->cardSize();
@@ -661,324 +575,277 @@ void KCardScene::recalculatePileLayouts()
     const qreal contentHeight = d->contentSize.height() / cardSize.height();
     const qreal spacing = d->layoutSpacing;
 
-    QList<KCardPile*> visiblePiles;
-    QHash<KCardPile*,QRectF> reserve;
-    QHash<const KCardPile*,QRectF> & areas = d->pileAreas;
+    QList<KCardPile *> visiblePiles;
+    QHash<KCardPile *, QRectF> reserve;
+    QHash<const KCardPile *, QRectF> &areas = d->pileAreas;
     areas.clear();
     const auto piles = this->piles();
-    for (KCardPile * p : piles) {
+    for (KCardPile *p : piles) {
         QPointF layoutPos = p->layoutPos();
-        if ( layoutPos.x() < 0 )
+        if (layoutPos.x() < 0)
             layoutPos.rx() += contentWidth - 1;
-        if ( layoutPos.y() < 0 )
+        if (layoutPos.y() < 0)
             layoutPos.ry() += contentHeight - 1;
 
-        p->setPos( layoutPos.x() * cardSize.width(), layoutPos.y() * cardSize.height() );
-        p->setGraphicSize( cardSize );
+        p->setPos(layoutPos.x() * cardSize.width(), layoutPos.y() * cardSize.height());
+        p->setGraphicSize(cardSize);
 
-        if ( p->isVisible() )
-        {
+        if (p->isVisible()) {
             visiblePiles << p;
 
-            reserve[p] = QRectF( layoutPos, QSize( 1, 1 ) ).adjusted( -p->leftPadding(),
-                                                                      -p->topPadding(),
-                                                                       p->rightPadding(),
-                                                                       p->bottomPadding() );
-            areas[p] =  reserve[p];
+            reserve[p] = QRectF(layoutPos, QSize(1, 1)).adjusted(-p->leftPadding(), -p->topPadding(), p->rightPadding(), p->bottomPadding());
+            areas[p] = reserve[p];
         }
     }
 
     // Grow piles down
-    for (KCardPile * p1 : std::as_const(visiblePiles)) {
-        if ( p1->heightPolicy() == KCardPile::GrowDown )
-        {
-            areas[p1].setBottom( contentHeight );
-            for (KCardPile * p2 : std::as_const(visiblePiles)) {
-                if ( p2 != p1 && areas[p1].intersects( areas[p2] ) )
-                {
-                    if ( p2->heightPolicy() == KCardPile::GrowUp )
-                        areas[p1].setBottom( (reserve[p1].bottom() + reserve[p2].top() - spacing) / 2 );
+    for (KCardPile *p1 : std::as_const(visiblePiles)) {
+        if (p1->heightPolicy() == KCardPile::GrowDown) {
+            areas[p1].setBottom(contentHeight);
+            for (KCardPile *p2 : std::as_const(visiblePiles)) {
+                if (p2 != p1 && areas[p1].intersects(areas[p2])) {
+                    if (p2->heightPolicy() == KCardPile::GrowUp)
+                        areas[p1].setBottom((reserve[p1].bottom() + reserve[p2].top() - spacing) / 2);
                     else
-                        areas[p1].setBottom( reserve[p2].top() - spacing );
+                        areas[p1].setBottom(reserve[p2].top() - spacing);
                 }
             }
         }
     }
 
     // Grow piles up
-    for (KCardPile * p1 : std::as_const(visiblePiles)) {
-        if ( p1->heightPolicy() == KCardPile::GrowUp )
-        {
-            areas[p1].setTop( 0 );
-            for (KCardPile * p2 : std::as_const(visiblePiles)) {
-                if ( p2 != p1 && areas[p1].intersects( areas[p2] ) )
-                {
-                    if ( p2->heightPolicy() == KCardPile::GrowDown )
-                        areas[p1].setTop( (reserve[p1].top() + reserve[p2].bottom() + spacing) / 2 );
+    for (KCardPile *p1 : std::as_const(visiblePiles)) {
+        if (p1->heightPolicy() == KCardPile::GrowUp) {
+            areas[p1].setTop(0);
+            for (KCardPile *p2 : std::as_const(visiblePiles)) {
+                if (p2 != p1 && areas[p1].intersects(areas[p2])) {
+                    if (p2->heightPolicy() == KCardPile::GrowDown)
+                        areas[p1].setTop((reserve[p1].top() + reserve[p2].bottom() + spacing) / 2);
                     else
-                        areas[p1].setTop( reserve[p2].bottom() + spacing );
+                        areas[p1].setTop(reserve[p2].bottom() + spacing);
                 }
             }
         }
     }
 
     // Grow piles right
-    for (KCardPile * p1 : std::as_const(visiblePiles)) {
-        if ( p1->widthPolicy() == KCardPile::GrowRight )
-        {
-            areas[p1].setRight( contentWidth );
-            for (KCardPile * p2 : std::as_const(visiblePiles)) {
-                if ( p2 != p1 && areas[p1].intersects( areas[p2] ) )
-                {
-                    if ( p2->widthPolicy() == KCardPile::GrowLeft )
-                        areas[p1].setRight( (reserve[p1].right() + reserve[p2].left() - spacing) / 2 );
+    for (KCardPile *p1 : std::as_const(visiblePiles)) {
+        if (p1->widthPolicy() == KCardPile::GrowRight) {
+            areas[p1].setRight(contentWidth);
+            for (KCardPile *p2 : std::as_const(visiblePiles)) {
+                if (p2 != p1 && areas[p1].intersects(areas[p2])) {
+                    if (p2->widthPolicy() == KCardPile::GrowLeft)
+                        areas[p1].setRight((reserve[p1].right() + reserve[p2].left() - spacing) / 2);
                     else
-                        areas[p1].setRight( reserve[p2].left() - spacing );
+                        areas[p1].setRight(reserve[p2].left() - spacing);
                 }
             }
         }
     }
 
     // Grow piles left
-    for (KCardPile * p1 : std::as_const(visiblePiles)) {
-        if ( p1->widthPolicy() == KCardPile::GrowLeft )
-        {
-            areas[p1].setLeft( 0 );
-            for (KCardPile * p2 : std::as_const(visiblePiles)) {
-                if ( p2 != p1 && areas[p1].intersects( areas[p2] ) )
-                {
-                    if ( p2->widthPolicy() == KCardPile::GrowRight )
-                        areas[p1].setLeft( (reserve[p1].left() + reserve[p2].right() + spacing) / 2 );
+    for (KCardPile *p1 : std::as_const(visiblePiles)) {
+        if (p1->widthPolicy() == KCardPile::GrowLeft) {
+            areas[p1].setLeft(0);
+            for (KCardPile *p2 : std::as_const(visiblePiles)) {
+                if (p2 != p1 && areas[p1].intersects(areas[p2])) {
+                    if (p2->widthPolicy() == KCardPile::GrowRight)
+                        areas[p1].setLeft((reserve[p1].left() + reserve[p2].right() + spacing) / 2);
                     else
-                        areas[p1].setLeft( reserve[p2].right() + spacing );
+                        areas[p1].setLeft(reserve[p2].right() + spacing);
                 }
             }
         }
     }
 }
 
-
-void KCardScene::setHighlightedItems( const QList<QGraphicsItem*> &items )
+void KCardScene::setHighlightedItems(const QList<QGraphicsItem *> &items)
 {
-    const QSet<QGraphicsItem*> s = QSet<QGraphicsItem*>(items.cbegin(), items.cend());
+    const QSet<QGraphicsItem *> s = QSet<QGraphicsItem *>(items.cbegin(), items.cend());
     const auto unhighlightedItems = d->highlightedItems.subtract(s);
-    for (QGraphicsItem * i : unhighlightedItems)
-        setItemHighlight( i, false );
-    for (QGraphicsItem * i : s)
-        setItemHighlight( i, true );
+    for (QGraphicsItem *i : unhighlightedItems)
+        setItemHighlight(i, false);
+    for (QGraphicsItem *i : s)
+        setItemHighlight(i, true);
     d->highlightedItems = s;
 }
 
-
 void KCardScene::clearHighlightedItems()
 {
-    for (QGraphicsItem * i : std::as_const(d->highlightedItems))
-        setItemHighlight( i, false );
+    for (QGraphicsItem *i : std::as_const(d->highlightedItems))
+        setItemHighlight(i, false);
     d->highlightedItems.clear();
 }
 
-
-QList<QGraphicsItem*> KCardScene::highlightedItems() const
+QList<QGraphicsItem *> KCardScene::highlightedItems() const
 {
     return d->highlightedItems.values();
 }
 
-
-void KCardScene::moveCardsToPile( const QList<KCard*> & cards, KCardPile * pile, int duration )
+void KCardScene::moveCardsToPile(const QList<KCard *> &cards, KCardPile *pile, int duration)
 {
-    if ( cards.isEmpty() )
+    if (cards.isEmpty())
         return;
 
-    KCardPile * source = cards.first()->pile();
-    d->sendCardsToPile( pile, cards, duration, false, false );
-    if ( source )
-        d->sendCardsToPile( source, QList<KCard*>(), duration, false, false );
-    cardsMoved( cards, source, pile );
+    KCardPile *source = cards.first()->pile();
+    d->sendCardsToPile(pile, cards, duration, false, false);
+    if (source)
+        d->sendCardsToPile(source, QList<KCard *>(), duration, false, false);
+    cardsMoved(cards, source, pile);
 }
 
-
-void KCardScene::moveCardToPile( KCard * card, KCardPile * pile, int duration )
+void KCardScene::moveCardToPile(KCard *card, KCardPile *pile, int duration)
 {
-    moveCardsToPile( QList<KCard*>() << card, pile, duration );
+    moveCardsToPile(QList<KCard *>() << card, pile, duration);
 }
 
-
-void KCardScene::moveCardsToPileAtSpeed( const QList<KCard*> & cards, KCardPile * pile, qreal velocity )
+void KCardScene::moveCardsToPileAtSpeed(const QList<KCard *> &cards, KCardPile *pile, qreal velocity)
 {
-    if ( cards.isEmpty() )
+    if (cards.isEmpty())
         return;
 
-    KCardPile * source = cards.first()->pile();
-    d->sendCardsToPile( pile, cards, velocity, true, false );
-    if ( source )
-        d->sendCardsToPile( source, QList<KCard*>(), cardMoveDuration, false, false );
-    cardsMoved( cards, source, pile );
+    KCardPile *source = cards.first()->pile();
+    d->sendCardsToPile(pile, cards, velocity, true, false);
+    if (source)
+        d->sendCardsToPile(source, QList<KCard *>(), cardMoveDuration, false, false);
+    cardsMoved(cards, source, pile);
 }
 
-
-void KCardScene::moveCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal velocity )
+void KCardScene::moveCardToPileAtSpeed(KCard *card, KCardPile *pile, qreal velocity)
 {
-    moveCardsToPileAtSpeed( QList<KCard*>() << card, pile, velocity );
+    moveCardsToPileAtSpeed(QList<KCard *>() << card, pile, velocity);
 }
 
-
-void KCardScene::flipCardsToPile( const QList<KCard*> & cards, KCardPile * pile, int duration )
+void KCardScene::flipCardsToPile(const QList<KCard *> &cards, KCardPile *pile, int duration)
 {
-    if ( cards.isEmpty() )
+    if (cards.isEmpty())
         return;
 
-    KCardPile * source = cards.first()->pile();
-    d->sendCardsToPile( pile, cards, duration, false, true );
-    if ( source )
-        d->sendCardsToPile( source, QList<KCard*>(), duration, false, false );
-    cardsMoved( cards, source, pile );
+    KCardPile *source = cards.first()->pile();
+    d->sendCardsToPile(pile, cards, duration, false, true);
+    if (source)
+        d->sendCardsToPile(source, QList<KCard *>(), duration, false, false);
+    cardsMoved(cards, source, pile);
 }
 
-
-void KCardScene::flipCardToPile( KCard * card, KCardPile * pile, int duration )
+void KCardScene::flipCardToPile(KCard *card, KCardPile *pile, int duration)
 {
-    flipCardsToPile( QList<KCard*>() << card, pile, duration );
+    flipCardsToPile(QList<KCard *>() << card, pile, duration);
 }
 
-
-void KCardScene::flipCardsToPileAtSpeed( const QList<KCard*> & cards, KCardPile * pile, qreal velocity )
+void KCardScene::flipCardsToPileAtSpeed(const QList<KCard *> &cards, KCardPile *pile, qreal velocity)
 {
-    if ( cards.isEmpty() )
+    if (cards.isEmpty())
         return;
 
-    KCardPile * source = cards.first()->pile();
-    d->sendCardsToPile( pile, cards, velocity, true, true );
-    if ( source )
-        d->sendCardsToPile( source, QList<KCard*>(), cardMoveDuration, false, false );
-    cardsMoved( cards, source, pile );
+    KCardPile *source = cards.first()->pile();
+    d->sendCardsToPile(pile, cards, velocity, true, true);
+    if (source)
+        d->sendCardsToPile(source, QList<KCard *>(), cardMoveDuration, false, false);
+    cardsMoved(cards, source, pile);
 }
 
-
-void KCardScene::flipCardToPileAtSpeed( KCard * card, KCardPile * pile, qreal velocity )
+void KCardScene::flipCardToPileAtSpeed(KCard *card, KCardPile *pile, qreal velocity)
 {
-    flipCardsToPileAtSpeed( QList<KCard*>() << card, pile, velocity );
+    flipCardsToPileAtSpeed(QList<KCard *>() << card, pile, velocity);
 }
-
 
 void KCardScene::keyboardFocusLeft()
 {
-    d->changeFocus( -1, 0 );
+    d->changeFocus(-1, 0);
 }
-
 
 void KCardScene::keyboardFocusRight()
 {
-    d->changeFocus( +1, 0 );
+    d->changeFocus(+1, 0);
 }
-
 
 void KCardScene::keyboardFocusUp()
 {
-    d->changeFocus( 0, -1 );
+    d->changeFocus(0, -1);
 }
-
 
 void KCardScene::keyboardFocusDown()
 {
-    d->changeFocus( 0, +1 );
+    d->changeFocus(0, +1);
 }
-
 
 void KCardScene::keyboardFocusCancel()
 {
-    setKeyboardModeActive( false );
+    setKeyboardModeActive(false);
 }
-
 
 void KCardScene::keyboardFocusSelect()
 {
-    if ( !isKeyboardModeActive() )
-    {
-        setKeyboardModeActive( true );
+    if (!isKeyboardModeActive()) {
+        setKeyboardModeActive(true);
         return;
     }
 
-    if ( d->cardsBeingDragged.isEmpty() )
-    {
-        KCardPile * pile = d->piles.at( d->keyboardPileIndex );
-        if ( pile->isEmpty() )
+    if (d->cardsBeingDragged.isEmpty()) {
+        KCardPile *pile = d->piles.at(d->keyboardPileIndex);
+        if (pile->isEmpty())
             return;
 
-        if ( d->keyboardCardIndex >= pile->count() )
+        if (d->keyboardCardIndex >= pile->count())
             d->keyboardCardIndex = pile->count() - 1;
 
-        KCard * card = pile->at( d->keyboardCardIndex );
-        d->cardsBeingDragged = card->pile()->topCardsDownTo( card );
-        if ( allowedToRemove( card->pile(), d->cardsBeingDragged.first() ) )
-        {
-            d->startOfDrag = d->keyboardCardIndex > 0
-                          ? pile->at( d->keyboardCardIndex - 1 )->pos()
-                          : pile->pos();
+        KCard *card = pile->at(d->keyboardCardIndex);
+        d->cardsBeingDragged = card->pile()->topCardsDownTo(card);
+        if (allowedToRemove(card->pile(), d->cardsBeingDragged.first())) {
+            d->startOfDrag = d->keyboardCardIndex > 0 ? pile->at(d->keyboardCardIndex - 1)->pos() : pile->pos();
 
-            QPointF offset = d->startOfDrag - card->pos() + QPointF( d->deck->cardWidth(), d->deck->cardHeight() ) / 10.0;
-            for (KCard * c : std::as_const(d->cardsBeingDragged)) {
+            QPointF offset = d->startOfDrag - card->pos() + QPointF(d->deck->cardWidth(), d->deck->cardHeight()) / 10.0;
+            for (KCard *c : std::as_const(d->cardsBeingDragged)) {
                 c->stopAnimation();
                 c->raise();
-                c->setPos( c->pos() + offset );
+                c->setPos(c->pos() + offset);
             }
             d->dragStarted = true;
             d->updateKeyboardFocus();
-        }
-        else
-        {
+        } else {
             d->cardsBeingDragged.clear();
         }
-    }
-    else
-    {
-        KCardPile * destination = d->bestDestinationPileUnderCards();
-        if ( destination )
-            cardsDroppedOnPile( d->cardsBeingDragged, destination );
+    } else {
+        KCardPile *destination = d->bestDestinationPileUnderCards();
+        if (destination)
+            cardsDroppedOnPile(d->cardsBeingDragged, destination);
         else
-            updatePileLayout( d->cardsBeingDragged.first()->pile(), cardMoveDuration );
+            updatePileLayout(d->cardsBeingDragged.first()->pile(), cardMoveDuration);
 
-        QGraphicsItem * toFocus = d->cardsBeingDragged.first();
+        QGraphicsItem *toFocus = d->cardsBeingDragged.first();
         d->cardsBeingDragged.clear();
         d->dragStarted = false;
-        setKeyboardFocus( toFocus );
+        setKeyboardFocus(toFocus);
     }
 }
 
-
-void KCardScene::setKeyboardFocus( QGraphicsItem * item )
+void KCardScene::setKeyboardFocus(QGraphicsItem *item)
 {
-    KCard * c = qgraphicsitem_cast<KCard*>( item );
-    if ( c && c->pile() )
-    {
-        KCardPile * p = c->pile();
-        d->keyboardPileIndex = d->piles.indexOf( p );
-        d->keyboardCardIndex = p->indexOf( c );
-    }
-    else
-    {
-        KCardPile * p = qgraphicsitem_cast<KCardPile*>( item );
-        if ( p )
-        {
-            d->keyboardPileIndex = d->piles.indexOf( p );
+    KCard *c = qgraphicsitem_cast<KCard *>(item);
+    if (c && c->pile()) {
+        KCardPile *p = c->pile();
+        d->keyboardPileIndex = d->piles.indexOf(p);
+        d->keyboardCardIndex = p->indexOf(c);
+    } else {
+        KCardPile *p = qgraphicsitem_cast<KCardPile *>(item);
+        if (p) {
+            d->keyboardPileIndex = d->piles.indexOf(p);
             d->keyboardCardIndex = 0;
         }
     }
     d->updateKeyboardFocus();
 }
 
-
-void KCardScene::setKeyboardModeActive( bool keyboardMode )
+void KCardScene::setKeyboardModeActive(bool keyboardMode)
 {
-    if ( !d->keyboardMode && keyboardMode )
-    {
+    if (!d->keyboardMode && keyboardMode) {
         clearHighlightedItems();
         d->keyboardMode = true;
         d->updateKeyboardFocus();
-    }
-    else if ( d->keyboardMode && !keyboardMode )
-    {
-        if ( !d->cardsBeingDragged.isEmpty() )
-            updatePileLayout( d->cardsBeingDragged.first()->pile(), cardMoveDuration );
+    } else if (d->keyboardMode && !keyboardMode) {
+        if (!d->cardsBeingDragged.isEmpty())
+            updatePileLayout(d->cardsBeingDragged.first()->pile(), cardMoveDuration);
         d->cardsBeingDragged.clear();
 
         d->keyboardMode = false;
@@ -986,73 +853,61 @@ void KCardScene::setKeyboardModeActive( bool keyboardMode )
     }
 }
 
-
 bool KCardScene::isKeyboardModeActive() const
 {
     return d->keyboardMode;
 }
 
-
-void KCardScene::updatePileLayout( KCardPile * pile, int duration )
+void KCardScene::updatePileLayout(KCardPile *pile, int duration)
 {
-    d->sendCardsToPile( pile, QList<KCard*>(), duration, false, false );
+    d->sendCardsToPile(pile, QList<KCard *>(), duration, false, false);
 }
 
-
-bool KCardScene::allowedToAdd( const KCardPile * pile, const QList<KCard*> & cards ) const
+bool KCardScene::allowedToAdd(const KCardPile *pile, const QList<KCard *> &cards) const
 {
-    Q_UNUSED( pile )
-    Q_UNUSED( cards )
+    Q_UNUSED(pile)
+    Q_UNUSED(cards)
     return true;
 }
 
-
-bool KCardScene::allowedToRemove( const KCardPile * pile, const KCard * card ) const
+bool KCardScene::allowedToRemove(const KCardPile *pile, const KCard *card) const
 {
-    Q_UNUSED( pile )
-    Q_UNUSED( card )
+    Q_UNUSED(pile)
+    Q_UNUSED(card)
     return true;
 }
 
-
-void KCardScene::cardsDroppedOnPile( const QList<KCard*> & cards, KCardPile * pile )
+void KCardScene::cardsDroppedOnPile(const QList<KCard *> &cards, KCardPile *pile)
 {
-    moveCardsToPile( cards, pile, cardMoveDuration );
+    moveCardsToPile(cards, pile, cardMoveDuration);
 }
 
-
-void KCardScene::cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile )
+void KCardScene::cardsMoved(const QList<KCard *> &cards, KCardPile *oldPile, KCardPile *newPile)
 {
-    Q_UNUSED( cards );
-    Q_UNUSED( oldPile );
-    Q_UNUSED( newPile );
+    Q_UNUSED(cards);
+    Q_UNUSED(oldPile);
+    Q_UNUSED(newPile);
 }
 
-
-void KCardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
+void KCardScene::mousePressEvent(QGraphicsSceneMouseEvent *e)
 {
-    if ( isKeyboardModeActive() )
-        setKeyboardModeActive( false );
+    if (isKeyboardModeActive())
+        setKeyboardModeActive(false);
 
-    const QList<QGraphicsItem *> itemsAtPoint = items( e->scenePos() );
-    QGraphicsItem * item = itemsAtPoint.isEmpty() ? nullptr : itemsAtPoint.first();
-    KCard * card = qgraphicsitem_cast<KCard*>( item );
-    KCardPile * pile = qgraphicsitem_cast<KCardPile*>( item );
+    const QList<QGraphicsItem *> itemsAtPoint = items(e->scenePos());
+    QGraphicsItem *item = itemsAtPoint.isEmpty() ? nullptr : itemsAtPoint.first();
+    KCard *card = qgraphicsitem_cast<KCard *>(item);
+    KCardPile *pile = qgraphicsitem_cast<KCardPile *>(item);
 
-    if ( e->button() == Qt::LeftButton && ( card || pile ) )
-    {
+    if (e->button() == Qt::LeftButton && (card || pile)) {
         e->accept();
 
-        if ( card
-             && !isCardAnimationRunning()
-             && !d->cardsBeingDragged.contains( card ) )
-        {
-            QList<KCard*> cards = card->pile()->topCardsDownTo( card );
+        if (card && !isCardAnimationRunning() && !d->cardsBeingDragged.contains(card)) {
+            QList<KCard *> cards = card->pile()->topCardsDownTo(card);
 
-            if ( allowedToRemove( card->pile(), cards.first() ) )
-            {
+            if (allowedToRemove(card->pile(), cards.first())) {
                 d->cardsBeingDragged = cards;
-                for (KCard * c : std::as_const(d->cardsBeingDragged)) {
+                for (KCard *c : std::as_const(d->cardsBeingDragged)) {
                     c->stopAnimation();
                     c->raise();
                 }
@@ -1061,185 +916,145 @@ void KCardScene::mousePressEvent( QGraphicsSceneMouseEvent * e )
             d->dragStarted = false;
             d->startOfDrag = e->scenePos();
         }
-    }
-    else
-    {
-        QGraphicsScene::mousePressEvent( e );
+    } else {
+        QGraphicsScene::mousePressEvent(e);
     }
 }
 
-
-void KCardScene::mouseMoveEvent( QGraphicsSceneMouseEvent * e )
+void KCardScene::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 {
-    if ( !d->cardsBeingDragged.isEmpty() )
-    {
+    if (!d->cardsBeingDragged.isEmpty()) {
         e->accept();
 
-        if ( !d->dragStarted )
-        {
-            bool overCard = d->cardsBeingDragged.first()->sceneBoundingRect().contains( e->scenePos() );
+        if (!d->dragStarted) {
+            bool overCard = d->cardsBeingDragged.first()->sceneBoundingRect().contains(e->scenePos());
             QPointF delta = e->scenePos() - d->startOfDrag;
             qreal distanceSquared = delta.x() * delta.x() + delta.y() * delta.y();
             // Ignore the move event until we've moved at least 4 pixels or the
             // cursor leaves the card.
-            if ( distanceSquared > 16.0 || !overCard )
-            {
+            if (distanceSquared > 16.0 || !overCard) {
                 d->dragStarted = true;
                 // If the cursor hasn't left the card, then continue the drag from
                 // the current position, which makes it look smoother.
-                if ( overCard )
+                if (overCard)
                     d->startOfDrag = e->scenePos();
             }
         }
 
-        if ( d->dragStarted )
-        {
-            for (KCard * card : std::as_const(d->cardsBeingDragged))
-                card->setPos( card->pos() + e->scenePos() - d->startOfDrag );
+        if (d->dragStarted) {
+            for (KCard *card : std::as_const(d->cardsBeingDragged))
+                card->setPos(card->pos() + e->scenePos() - d->startOfDrag);
             d->startOfDrag = e->scenePos();
 
-            QList<QGraphicsItem*> toHighlight;
-            KCardPile * dropPile = d->bestDestinationPileUnderCards();
-            if ( dropPile )
-            {
-                if ( dropPile->isEmpty() )
+            QList<QGraphicsItem *> toHighlight;
+            KCardPile *dropPile = d->bestDestinationPileUnderCards();
+            if (dropPile) {
+                if (dropPile->isEmpty())
                     toHighlight << dropPile;
                 else
                     toHighlight << dropPile->topCard();
             }
 
-            setHighlightedItems( toHighlight );
+            setHighlightedItems(toHighlight);
         }
-    }
-    else
-    {
-        QGraphicsScene::mouseMoveEvent( e );
+    } else {
+        QGraphicsScene::mouseMoveEvent(e);
     }
 }
 
-
-void KCardScene::mouseReleaseEvent( QGraphicsSceneMouseEvent * e )
+void KCardScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
 {
-    const QList<QGraphicsItem *> itemsAtPoint = items( e->scenePos() );
-    QGraphicsItem * topItem = itemsAtPoint.isEmpty() ? nullptr : itemsAtPoint.first();
-    KCard * card = qgraphicsitem_cast<KCard*>( topItem );
-    KCardPile * pile = qgraphicsitem_cast<KCardPile*>( topItem );
+    const QList<QGraphicsItem *> itemsAtPoint = items(e->scenePos());
+    QGraphicsItem *topItem = itemsAtPoint.isEmpty() ? nullptr : itemsAtPoint.first();
+    KCard *card = qgraphicsitem_cast<KCard *>(topItem);
+    KCardPile *pile = qgraphicsitem_cast<KCardPile *>(topItem);
 
-    if ( e->button() == Qt::LeftButton && !d->dragStarted && !d->cardsBeingDragged.isEmpty() )
-    {
-        updatePileLayout( d->cardsBeingDragged.first()->pile(), cardMoveDuration );
+    if (e->button() == Qt::LeftButton && !d->dragStarted && !d->cardsBeingDragged.isEmpty()) {
+        updatePileLayout(d->cardsBeingDragged.first()->pile(), cardMoveDuration);
         d->cardsBeingDragged.clear();
     }
 
-    if ( e->button() == Qt::LeftButton && !d->cardsBeingDragged.isEmpty() )
-    {
+    if (e->button() == Qt::LeftButton && !d->cardsBeingDragged.isEmpty()) {
         e->accept();
 
-        KCardPile * destination = d->bestDestinationPileUnderCards();
-        if ( destination )
-            cardsDroppedOnPile( d->cardsBeingDragged, destination );
+        KCardPile *destination = d->bestDestinationPileUnderCards();
+        if (destination)
+            cardsDroppedOnPile(d->cardsBeingDragged, destination);
         else
-            updatePileLayout( d->cardsBeingDragged.first()->pile(), cardMoveDuration );
+            updatePileLayout(d->cardsBeingDragged.first()->pile(), cardMoveDuration);
         d->cardsBeingDragged.clear();
         d->dragStarted = false;
         clearHighlightedItems();
-    }
-    else if ( card && !isCardAnimationRunning() )
-    {
+    } else if (card && !isCardAnimationRunning()) {
         e->accept();
-        if ( e->button() == Qt::LeftButton )
-        {
-            Q_EMIT cardClicked( card );
-            if ( card->pile() )
-                Q_EMIT card->pile()->clicked( card );
+        if (e->button() == Qt::LeftButton) {
+            Q_EMIT cardClicked(card);
+            if (card->pile())
+                Q_EMIT card->pile()->clicked(card);
+        } else if (e->button() == Qt::RightButton) {
+            Q_EMIT cardRightClicked(card);
+            if (card->pile())
+                Q_EMIT card->pile()->rightClicked(card);
         }
-        else if ( e->button() == Qt::RightButton )
-        {
-            Q_EMIT cardRightClicked( card );
-            if ( card->pile() )
-                Q_EMIT card->pile()->rightClicked( card );
-        }
-    }
-    else if ( pile && !isCardAnimationRunning() )
-    {
+    } else if (pile && !isCardAnimationRunning()) {
         e->accept();
-        if ( e->button() == Qt::LeftButton )
-        {
-            Q_EMIT pileClicked( pile );
-            Q_EMIT pile->clicked( nullptr );
+        if (e->button() == Qt::LeftButton) {
+            Q_EMIT pileClicked(pile);
+            Q_EMIT pile->clicked(nullptr);
+        } else if (e->button() == Qt::RightButton) {
+            Q_EMIT pileRightClicked(pile);
+            Q_EMIT pile->rightClicked(nullptr);
         }
-        else if ( e->button() == Qt::RightButton )
-        {
-            Q_EMIT pileRightClicked( pile );
-            Q_EMIT pile->rightClicked( nullptr );
-        }
-    }
-    else
-    {
-        QGraphicsScene::mouseReleaseEvent( e );
+    } else {
+        QGraphicsScene::mouseReleaseEvent(e);
     }
 }
 
-
-void KCardScene::mouseDoubleClickEvent( QGraphicsSceneMouseEvent * e )
+void KCardScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *e)
 {
-    const QList<QGraphicsItem *> itemsAtPoint = items( e->scenePos() );
-    QGraphicsItem * topItem = itemsAtPoint.isEmpty() ? nullptr : itemsAtPoint.first();
-    KCard * card = qgraphicsitem_cast<KCard*>( topItem );
-    KCardPile * pile = qgraphicsitem_cast<KCardPile*>( topItem );
+    const QList<QGraphicsItem *> itemsAtPoint = items(e->scenePos());
+    QGraphicsItem *topItem = itemsAtPoint.isEmpty() ? nullptr : itemsAtPoint.first();
+    KCard *card = qgraphicsitem_cast<KCard *>(topItem);
+    KCardPile *pile = qgraphicsitem_cast<KCardPile *>(topItem);
 
-    if ( !d->cardsBeingDragged.isEmpty() )
-    {
-        updatePileLayout( d->cardsBeingDragged.first()->pile(), cardMoveDuration );
+    if (!d->cardsBeingDragged.isEmpty()) {
+        updatePileLayout(d->cardsBeingDragged.first()->pile(), cardMoveDuration);
         d->cardsBeingDragged.clear();
     }
 
-    if ( card && e->button() == Qt::LeftButton && !isCardAnimationRunning() )
-    {
+    if (card && e->button() == Qt::LeftButton && !isCardAnimationRunning()) {
         e->accept();
-        Q_EMIT cardDoubleClicked( card );
-        if ( card->pile() )
-            Q_EMIT card->pile()->doubleClicked( card );
-    }
-    else if ( pile && e->button() == Qt::LeftButton && !isCardAnimationRunning() )
-    {
+        Q_EMIT cardDoubleClicked(card);
+        if (card->pile())
+            Q_EMIT card->pile()->doubleClicked(card);
+    } else if (pile && e->button() == Qt::LeftButton && !isCardAnimationRunning()) {
         e->accept();
-        Q_EMIT pileDoubleClicked( pile );
-        Q_EMIT pile->doubleClicked( nullptr );
-    }
-    else
-    {
-        QGraphicsScene::mouseDoubleClickEvent( e );
+        Q_EMIT pileDoubleClicked(pile);
+        Q_EMIT pile->doubleClicked(nullptr);
+    } else {
+        QGraphicsScene::mouseDoubleClickEvent(e);
     }
 }
 
-
-void KCardScene::wheelEvent( QGraphicsSceneWheelEvent * e )
+void KCardScene::wheelEvent(QGraphicsSceneWheelEvent *e)
 {
-    if ( d->deck && e->modifiers() & Qt::ControlModifier )
-    {
+    if (d->deck && e->modifiers() & Qt::ControlModifier) {
         e->accept();
 
-        qreal scaleFactor = pow( 2, e->delta() / qreal(10 * 120) );
+        qreal scaleFactor = pow(2, e->delta() / qreal(10 * 120));
         int newWidth = d->deck->cardWidth() * scaleFactor;
-        d->deck->setCardWidth( newWidth );
+        d->deck->setCardWidth(newWidth);
         recalculatePileLayouts();
         const auto piles = this->piles();
-        for (KCardPile * p : piles)
-            updatePileLayout( p, 0 );
-    }
-    else
-    {
-        QGraphicsScene::wheelEvent( e );
+        for (KCardPile *p : piles)
+            updatePileLayout(p, 0);
+    } else {
+        QGraphicsScene::wheelEvent(e);
     }
 }
 
-
-void KCardScene::drawForeground ( QPainter * painter, const QRectF & rect )
+void KCardScene::drawForeground(QPainter *painter, const QRectF &rect)
 {
-    Q_UNUSED( painter )
-    Q_UNUSED( rect )
+    Q_UNUSED(painter)
+    Q_UNUSED(rect)
 }
-
-
-

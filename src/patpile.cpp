@@ -3,7 +3,7 @@
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License as
- *  published by the Free Software Foundation; either version 2 of 
+ *  published by the Free Software Foundation; either version 2 of
  *  the License, or (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
@@ -22,63 +22,56 @@
 #include "dealer.h"
 #include "renderer.h"
 
-
-PatPile::PatPile( DealerScene * scene, int index, const QString & objectName )
-  : KCardPile( scene ),
-    m_index( index ),
-    m_role( NoRole )
+PatPile::PatPile(DealerScene *scene, int index, const QString &objectName)
+    : KCardPile(scene)
+    , m_index(index)
+    , m_role(NoRole)
 {
-    if ( objectName.isEmpty() )
-        setObjectName( QStringLiteral("pile%1" ).arg( m_index ) );
+    if (objectName.isEmpty())
+        setObjectName(QStringLiteral("pile%1").arg(m_index));
     else
-        setObjectName( objectName );
+        setObjectName(objectName);
 
     // Set the default spread for all piles in KPat.
-    setSpread( 0, 0.33 );
+    setSpread(0, 0.33);
 
-    if ( scene )
-        scene->addPatPile( this );
+    if (scene)
+        scene->addPatPile(this);
 }
-
 
 PatPile::~PatPile()
 {
-    DealerScene * dealerScene = dynamic_cast<DealerScene*>( scene() );
-    if ( dealerScene )
-        dealerScene->removePatPile( this );
+    DealerScene *dealerScene = dynamic_cast<DealerScene *>(scene());
+    if (dealerScene)
+        dealerScene->removePatPile(this);
 }
-
 
 int PatPile::index() const
 {
     return m_index;
 }
 
-
-void PatPile::setPileRole( PileRole role )
+void PatPile::setPileRole(PileRole role)
 {
     m_role = role;
 }
-
 
 PatPile::PileRole PatPile::pileRole() const
 {
     return m_role;
 }
 
-
 bool PatPile::isFoundation() const
 {
     return FoundationType1 <= m_role && m_role <= FoundationType4;
 }
 
-
-QList< QPointF > PatPile::cardPositions() const
+QList<QPointF> PatPile::cardPositions() const
 {
     QList<QPointF> positions;
-    QPointF currentPosition( 0, 0 );
+    QPointF currentPosition(0, 0);
     const auto cards = this->cards();
-    for( KCard * c : cards) {
+    for (KCard *c : cards) {
         positions << currentPosition;
         qreal adjustment = c->isFaceUp() ? 1 : 0.6;
         currentPosition += adjustment * spread();
@@ -86,33 +79,27 @@ QList< QPointF > PatPile::cardPositions() const
     return positions;
 }
 
-
-void PatPile::paintGraphic( QPainter * painter, qreal highlightedness )
+void PatPile::paintGraphic(QPainter *painter, qreal highlightedness)
 {
     const QSize size = boundingRect().size().toSize();
-    Renderer * r = Renderer::self();
+    Renderer *r = Renderer::self();
 
-    if ( highlightedness < 1 )
-        painter->drawPixmap( 0, 0, r->spritePixmap( QStringLiteral("pile"), size ) );
+    if (highlightedness < 1)
+        painter->drawPixmap(0, 0, r->spritePixmap(QStringLiteral("pile"), size));
 
-    if ( highlightedness > 0 )
-    {
-        if ( highlightedness < 1 )
-        {
+    if (highlightedness > 0) {
+        if (highlightedness < 1) {
             // Using QPainter::setOpacity is currently very inefficient, so to
             // paint a semitransparent pixmap, we have to do some fiddling.
-            QPixmap transPix( size );
-            transPix.fill( Qt::transparent );
-            QPainter p( &transPix );
-            p.drawPixmap( 0, 0, r->spritePixmap( QStringLiteral("pile_selected"), size ) );
-            p.setCompositionMode( QPainter::CompositionMode_DestinationIn );
-            p.fillRect( transPix.rect(), QColor( 0, 0, 0, highlightedness * 255 ) );
-            painter->drawPixmap( 0, 0, transPix );
-        }
-        else
-        {
-            painter->drawPixmap( 0, 0, r->spritePixmap( QStringLiteral("pile_selected"), size ) );
+            QPixmap transPix(size);
+            transPix.fill(Qt::transparent);
+            QPainter p(&transPix);
+            p.drawPixmap(0, 0, r->spritePixmap(QStringLiteral("pile_selected"), size));
+            p.setCompositionMode(QPainter::CompositionMode_DestinationIn);
+            p.fillRect(transPix.rect(), QColor(0, 0, 0, highlightedness * 255));
+            painter->drawPixmap(0, 0, transPix);
+        } else {
+            painter->drawPixmap(0, 0, r->spritePixmap(QStringLiteral("pile_selected"), size));
         }
     }
 }
-

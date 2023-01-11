@@ -21,7 +21,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -42,32 +42,31 @@
 class KCard;
 class PatPile;
 
-
 class MoveHint
 {
 public:
     MoveHint()
-      : m_card( nullptr ),
-        m_to( nullptr ),
-        m_priority( 0 )
+        : m_card(nullptr)
+        , m_to(nullptr)
+        , m_priority(0)
     {
     }
 
-    MoveHint( KCard * card, PatPile * to, int prio )
-      : m_card( card ),
-        m_to( to ),
-        m_priority( prio )
+    MoveHint(KCard *card, PatPile *to, int prio)
+        : m_card(card)
+        , m_to(to)
+        , m_priority(prio)
     {
-        Q_ASSERT( card );
-        Q_ASSERT( to );
+        Q_ASSERT(card);
+        Q_ASSERT(to);
     }
 
-    KCard * card() const
+    KCard *card() const
     {
         return m_card;
     }
 
-    PatPile * pile() const
+    PatPile *pile() const
     {
         return m_to;
     }
@@ -82,14 +81,14 @@ public:
         return m_card && m_to;
     }
 
-    bool operator<( const MoveHint & other ) const
+    bool operator<(const MoveHint &other) const
     {
         return m_priority < other.m_priority;
     }
 
 private:
-    KCard * m_card;
-    PatPile * m_to;
+    KCard *m_card;
+    PatPile *m_to;
     int m_priority;
 };
 

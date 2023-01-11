@@ -21,7 +21,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -38,76 +38,71 @@
 
 // own
 #include "dealerinfo.h"
-#include "pileutils.h"
 #include "patsolve/gypsysolver.h"
+#include "pileutils.h"
 // KF
 #include <KLocalizedString>
 
-
-Gypsy::Gypsy( const DealerInfo * di )
-  : DealerScene( di )
+Gypsy::Gypsy(const DealerInfo *di)
+    : DealerScene(di)
 {
 }
-
 
 void Gypsy::initialize()
 {
     const qreal dist_x = 1.11;
     const qreal dist_y = 1.11;
 
-    setDeckContents( 2 );
+    setDeckContents(2);
 
-    talon = new PatPile( this, 0, QStringLiteral("talon") );
+    talon = new PatPile(this, 0, QStringLiteral("talon"));
     talon->setPileRole(PatPile::Stock);
     talon->setLayoutPos(8.5 * dist_x + 0.4, 4 * dist_y);
-    talon->setKeyboardSelectHint( KCardPile::NeverFocus );
-    talon->setKeyboardDropHint( KCardPile::NeverFocus );
-    connect( talon, &KCardPile::clicked, this, &DealerScene::drawDealRowOrRedeal );
+    talon->setKeyboardSelectHint(KCardPile::NeverFocus);
+    talon->setKeyboardDropHint(KCardPile::NeverFocus);
+    connect(talon, &KCardPile::clicked, this, &DealerScene::drawDealRowOrRedeal);
 
-    for ( int i = 0; i < 8; ++i )
-    {
-        target[i] = new PatPile( this, i + 1, QStringLiteral("target%1").arg(i) );
+    for (int i = 0; i < 8; ++i) {
+        target[i] = new PatPile(this, i + 1, QStringLiteral("target%1").arg(i));
         target[i]->setPileRole(PatPile::Foundation);
-        target[i]->setLayoutPos(dist_x*(8+(i/4)) + 0.4, (i%4)*dist_y);
-        target[i]->setKeyboardSelectHint( KCardPile::NeverFocus );
-        target[i]->setKeyboardDropHint( KCardPile::ForceFocusTop );
+        target[i]->setLayoutPos(dist_x * (8 + (i / 4)) + 0.4, (i % 4) * dist_y);
+        target[i]->setKeyboardSelectHint(KCardPile::NeverFocus);
+        target[i]->setKeyboardDropHint(KCardPile::ForceFocusTop);
     }
 
-    for ( int i = 0; i < 8; ++i )
-    {
-        store[i] = new PatPile( this, 9 + i, QStringLiteral("store%1").arg(i) );
+    for (int i = 0; i < 8; ++i) {
+        store[i] = new PatPile(this, 9 + i, QStringLiteral("store%1").arg(i));
         store[i]->setPileRole(PatPile::Tableau);
-        store[i]->setLayoutPos(dist_x*i,0);
+        store[i]->setLayoutPos(dist_x * i, 0);
         store[i]->setAutoTurnTop(true);
-        store[i]->setBottomPadding( 4 * dist_y );
-        store[i]->setHeightPolicy( KCardPile::GrowDown );
-        store[i]->setKeyboardSelectHint( KCardPile::AutoFocusDeepestRemovable );
-        store[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
+        store[i]->setBottomPadding(4 * dist_y);
+        store[i]->setHeightPolicy(KCardPile::GrowDown);
+        store[i]->setKeyboardSelectHint(KCardPile::AutoFocusDeepestRemovable);
+        store[i]->setKeyboardDropHint(KCardPile::AutoFocusTop);
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);
-    setSolver( new GypsySolver( this ) );
+    setSolver(new GypsySolver(this));
 }
 
-void Gypsy::restart( const QList<KCard*> & cards )
+void Gypsy::restart(const QList<KCard *> &cards)
 {
-    QList<KCard*> cardList = cards;
+    QList<KCard *> cardList = cards;
 
-    for ( int round = 0; round < 8; ++round )
-        addCardForDeal(store[round], cardList.takeLast(), false, store[round]->pos() + QPointF(-2*deck()->cardWidth(),-1.1*deck()->cardHeight()));
+    for (int round = 0; round < 8; ++round)
+        addCardForDeal(store[round], cardList.takeLast(), false, store[round]->pos() + QPointF(-2 * deck()->cardWidth(), -1.1 * deck()->cardHeight()));
 
-    for ( int round = 0; round < 8; ++round )
-        addCardForDeal(store[round], cardList.takeLast(), true, store[round]->pos() + QPointF(-3*deck()->cardWidth(),-1.6*deck()->cardHeight()));
+    for (int round = 0; round < 8; ++round)
+        addCardForDeal(store[round], cardList.takeLast(), true, store[round]->pos() + QPointF(-3 * deck()->cardWidth(), -1.6 * deck()->cardHeight()));
 
-    for ( int round = 0; round < 8; ++round )
-        addCardForDeal(store[round], cardList.takeLast(), true, store[round]->pos() + QPointF(-4*deck()->cardWidth(),-2.1*deck()->cardHeight()));
+    for (int round = 0; round < 8; ++round)
+        addCardForDeal(store[round], cardList.takeLast(), true, store[round]->pos() + QPointF(-4 * deck()->cardWidth(), -2.1 * deck()->cardHeight()));
 
-    while ( !cardList.isEmpty() )
-    {
-        KCard * c = cardList.takeFirst();
-        c->setPos( talon->pos() );
-        c->setFaceUp( false );
-        talon->add( c );
+    while (!cardList.isEmpty()) {
+        KCard *c = cardList.takeFirst();
+        c->setPos(talon->pos());
+        c->setFaceUp(false);
+        talon->add(c);
     }
 
     startDealAnimation();
@@ -115,10 +110,9 @@ void Gypsy::restart( const QList<KCard*> & cards )
     Q_EMIT newCardsPossible(true);
 }
 
-bool Gypsy::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
+bool Gypsy::checkAdd(const PatPile *pile, const QList<KCard *> &oldCards, const QList<KCard *> &newCards) const
 {
-    switch (pile->pileRole())
-    {
+    switch (pile->pileRole()) {
     case PatPile::Tableau:
         return checkAddAlternateColorDescending(oldCards, newCards);
     case PatPile::Foundation:
@@ -129,10 +123,9 @@ bool Gypsy::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const
     }
 }
 
-bool Gypsy::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
+bool Gypsy::checkRemove(const PatPile *pile, const QList<KCard *> &cards) const
 {
-    switch (pile->pileRole())
-    {
+    switch (pile->pileRole()) {
     case PatPile::Tableau:
         return isAlternateColorDescending(cards);
     case PatPile::Foundation:
@@ -143,17 +136,15 @@ bool Gypsy::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
     }
 }
 
-
 bool Gypsy::newCards()
 {
-    if ( talon->isEmpty() )
+    if (talon->isEmpty())
         return false;
 
-    for ( int round = 0; round < 8; ++round )
-    {
-        KCard * c = talon->topCard();
-        flipCardToPileAtSpeed( c, store[round], DEAL_SPEED );
-        c->setZValue( c->zValue() + 8 - round );
+    for (int round = 0; round < 8; ++round) {
+        KCard *c = talon->topCard();
+        flipCardToPileAtSpeed(c, store[round], DEAL_SPEED);
+        c->setZValue(c->zValue() + 8 - round);
     }
 
     if (talon->isEmpty())
@@ -162,27 +153,22 @@ bool Gypsy::newCards()
     return true;
 }
 
-
-void Gypsy::setGameState( const QString & state )
+void Gypsy::setGameState(const QString &state)
 {
-    Q_UNUSED( state )
+    Q_UNUSED(state)
     Q_EMIT newCardsPossible(!talon->isEmpty());
 }
-
-
 
 static class GypsyDealerInfo : public DealerInfo
 {
 public:
     GypsyDealerInfo()
-      : DealerInfo(kli18n("Gypsy"), GypsyId)
-    {}
+        : DealerInfo(kli18n("Gypsy"), GypsyId)
+    {
+    }
 
     DealerScene *createGame() const override
     {
-        return new Gypsy( this );
+        return new Gypsy(this);
     }
 } gypsyDealerInfo;
-
-
-

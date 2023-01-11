@@ -21,7 +21,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -42,75 +42,86 @@
 // KF
 #include <KLocalizedString>
 
-
-Clock::Clock( const DealerInfo * di )
-  : DealerScene( di )
+Clock::Clock(const DealerInfo *di)
+    : DealerScene(di)
 {
 }
 
 void Clock::initialize()
 {
-    setSceneAlignment( AlignHCenter | AlignVCenter );
+    setSceneAlignment(AlignHCenter | AlignVCenter);
 
     setDeckContents();
 
     const qreal dist_x = 1.11;
-    const qreal ys[12] = {   0./96,  15./96,  52./96, 158./96, 264./96, 301./96, 316./96, 301./96, 264./96, 158./96,  52./96,  15./96};
-    const qreal xs[12] = { 200./72, 280./72, 360./72, 400./72, 360./72, 280./72, 200./72, 120./72, 40./72, 0./72, 40./72, 120./72};
+    const qreal ys[12] = {0. / 96, 15. / 96, 52. / 96, 158. / 96, 264. / 96, 301. / 96, 316. / 96, 301. / 96, 264. / 96, 158. / 96, 52. / 96, 15. / 96};
+    const qreal xs[12] = {200. / 72, 280. / 72, 360. / 72, 400. / 72, 360. / 72, 280. / 72, 200. / 72, 120. / 72, 40. / 72, 0. / 72, 40. / 72, 120. / 72};
 
-    for ( int i = 0; i < 12; ++i )
-    {
-        target[i] = new PatPile( this, i + 1, QStringLiteral("target%1").arg(i) );
+    for (int i = 0; i < 12; ++i) {
+        target[i] = new PatPile(this, i + 1, QStringLiteral("target%1").arg(i));
         target[i]->setPileRole(PatPile::Foundation);
         target[i]->setLayoutPos(4 * dist_x + 0.4 + xs[i], 0.2 + ys[i]);
         target[i]->setSpread(0, 0);
-        target[i]->setKeyboardSelectHint( KCardPile::NeverFocus );
-        target[i]->setKeyboardDropHint( KCardPile::ForceFocusTop );
+        target[i]->setKeyboardSelectHint(KCardPile::NeverFocus);
+        target[i]->setKeyboardDropHint(KCardPile::ForceFocusTop);
     }
 
-    for ( int i = 0; i < 8; ++i )
-    {
-        store[i] = new PatPile( this, 14 + i, QStringLiteral("store%1").arg(i) );
+    for (int i = 0; i < 8; ++i) {
+        store[i] = new PatPile(this, 14 + i, QStringLiteral("store%1").arg(i));
         store[i]->setPileRole(PatPile::Tableau);
-        store[i]->setLayoutPos(dist_x*(i%4), 2.5 * (i/4));
-        store[i]->setBottomPadding( 1.3 );
-        store[i]->setKeyboardSelectHint( KCardPile::AutoFocusTop );
-        store[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
+        store[i]->setLayoutPos(dist_x * (i % 4), 2.5 * (i / 4));
+        store[i]->setBottomPadding(1.3);
+        store[i]->setKeyboardSelectHint(KCardPile::AutoFocusTop);
+        store[i]->setKeyboardDropHint(KCardPile::AutoFocusTop);
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo);
-    setSolver( new ClockSolver( this ) );
+    setSolver(new ClockSolver(this));
 }
 
-void Clock::restart( const QList<KCard*> & cards )
+void Clock::restart(const QList<KCard *> &cards)
 {
-    static const KCardDeck::Suit suits[12] = { KCardDeck::Diamonds, KCardDeck::Spades, KCardDeck::Hearts, KCardDeck::Clubs,
-                                               KCardDeck::Diamonds, KCardDeck::Spades, KCardDeck::Hearts, KCardDeck::Clubs,
-                                               KCardDeck::Diamonds, KCardDeck::Spades, KCardDeck::Hearts, KCardDeck::Clubs };
-    static const KCardDeck::Rank ranks[12] = { KCardDeck::Nine, KCardDeck::Ten, KCardDeck::Jack, KCardDeck::Queen,
-                                               KCardDeck::King, KCardDeck::Two, KCardDeck::Three, KCardDeck::Four,
-                                               KCardDeck::Five, KCardDeck::Six, KCardDeck::Seven, KCardDeck::Eight };
+    static const KCardDeck::Suit suits[12] = {KCardDeck::Diamonds,
+                                              KCardDeck::Spades,
+                                              KCardDeck::Hearts,
+                                              KCardDeck::Clubs,
+                                              KCardDeck::Diamonds,
+                                              KCardDeck::Spades,
+                                              KCardDeck::Hearts,
+                                              KCardDeck::Clubs,
+                                              KCardDeck::Diamonds,
+                                              KCardDeck::Spades,
+                                              KCardDeck::Hearts,
+                                              KCardDeck::Clubs};
+    static const KCardDeck::Rank ranks[12] = {KCardDeck::Nine,
+                                              KCardDeck::Ten,
+                                              KCardDeck::Jack,
+                                              KCardDeck::Queen,
+                                              KCardDeck::King,
+                                              KCardDeck::Two,
+                                              KCardDeck::Three,
+                                              KCardDeck::Four,
+                                              KCardDeck::Five,
+                                              KCardDeck::Six,
+                                              KCardDeck::Seven,
+                                              KCardDeck::Eight};
 
-    const QPointF center = ( target[0]->pos() + target[6]->pos() ) / 2;
+    const QPointF center = (target[0]->pos() + target[6]->pos()) / 2;
 
     int j = 0;
-    QList<KCard*> cardList = cards;
-    while ( !cardList.isEmpty() )
-    {
-        KCard * c = cardList.takeLast();
-        for ( int i = 0; i < 12; ++i )
-        {
-            if ( c->rank() == ranks[i] && c->suit() == suits[i] )
-            {
+    QList<KCard *> cardList = cards;
+    while (!cardList.isEmpty()) {
+        KCard *c = cardList.takeLast();
+        for (int i = 0; i < 12; ++i) {
+            if (c->rank() == ranks[i] && c->suit() == suits[i]) {
                 QPointF initPos = (2 * center + target[(i + 2) % 12]->pos()) / 3;
-                addCardForDeal( target[i], c, true, initPos );
+                addCardForDeal(target[i], c, true, initPos);
                 c = nullptr;
                 break;
             }
         }
-        if ( c )
-        {
-            addCardForDeal( store[j], c, true, store[ j < 4 ? 0 : 4 ]->pos() );
+        if (c) {
+            addCardForDeal(store[j], c, true, store[j < 4 ? 0 : 4]->pos());
             j = (j + 1) % 8;
         }
     }
@@ -118,49 +129,37 @@ void Clock::restart( const QList<KCard*> & cards )
     startDealAnimation();
 }
 
-
 bool Clock::drop()
 {
     return false;
 }
 
-
-bool Clock::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
+bool Clock::checkAdd(const PatPile *pile, const QList<KCard *> &oldCards, const QList<KCard *> &newCards) const
 {
-    if ( pile->pileRole() == PatPile::Tableau )
-    {
-        return oldCards.isEmpty()
-               || newCards.first()->rank() == oldCards.last()->rank() - 1;
-    }
-    else
-    {
+    if (pile->pileRole() == PatPile::Tableau) {
+        return oldCards.isEmpty() || newCards.first()->rank() == oldCards.last()->rank() - 1;
+    } else {
         return oldCards.last()->suit() == newCards.first()->suit()
-               && ( newCards.first()->rank() == oldCards.last()->rank() + 1
-                    || ( oldCards.last()->rank() == KCardDeck::King
-                         && newCards.first()->rank() == KCardDeck::Ace ) );
+            && (newCards.first()->rank() == oldCards.last()->rank() + 1
+                || (oldCards.last()->rank() == KCardDeck::King && newCards.first()->rank() == KCardDeck::Ace));
     }
 }
 
-
-bool Clock::checkRemove(const PatPile* pile, const QList<KCard*> & cards) const
+bool Clock::checkRemove(const PatPile *pile, const QList<KCard *> &cards) const
 {
-    return pile->pileRole() == PatPile::Tableau
-           && cards.first() == pile->topCard();
+    return pile->pileRole() == PatPile::Tableau && cards.first() == pile->topCard();
 }
-
 
 static class ClockDealerInfo : public DealerInfo
 {
 public:
     ClockDealerInfo()
-      : DealerInfo(kli18n("Grandfather's Clock"), GrandfathersClockId)
-    {}
+        : DealerInfo(kli18n("Grandfather's Clock"), GrandfathersClockId)
+    {
+    }
 
     DealerScene *createGame() const override
     {
-        return new Clock( this );
+        return new Clock(this);
     }
 } clockDealerInfo;
-
-
-

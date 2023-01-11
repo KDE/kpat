@@ -20,30 +20,23 @@
 // Qt
 #include <QStandardPaths>
 
-
-SoundEngine::SoundEngine( QObject * parent )
-  : QObject( parent ),
-    m_cardPickedUp( QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("sounds/card-pickup.ogg") ) ),
-    m_cardPutDown( QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("sounds/card-down.ogg") ) )
+SoundEngine::SoundEngine(QObject *parent)
+    : QObject(parent)
+    , m_cardPickedUp(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("sounds/card-pickup.ogg")))
+    , m_cardPutDown(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("sounds/card-down.ogg")))
 {
 }
-
 
 SoundEngine::~SoundEngine()
 {
 }
-
 
 void SoundEngine::cardsPickedUp()
 {
     m_cardPickedUp.start();
 }
 
-
 void SoundEngine::cardsPutDown()
 {
     m_cardPutDown.start();
 }
-
-
-

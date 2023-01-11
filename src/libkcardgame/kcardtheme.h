@@ -3,7 +3,7 @@
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License as
- *  published by the Free Software Foundation; either version 2 of 
+ *  published by the Free Software Foundation; either version 2 of
  *  the License, or (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
@@ -33,14 +33,14 @@ class LIBKCARDGAME_EXPORT KCardTheme
 {
 public:
     static QList<KCardTheme> findAll();
-    static QList<KCardTheme> findAllWithFeatures( const QSet<QString> & neededFeatures );
+    static QList<KCardTheme> findAllWithFeatures(const QSet<QString> &neededFeatures);
 
     KCardTheme();
-    explicit KCardTheme( const QString & dirName );
-    KCardTheme( const KCardTheme & other );
+    explicit KCardTheme(const QString &dirName);
+    KCardTheme(const KCardTheme &other);
     ~KCardTheme();
 
-    KCardTheme & operator=( const KCardTheme & other );
+    KCardTheme &operator=(const KCardTheme &other);
 
     bool isValid() const;
     QString dirName() const;
@@ -50,13 +50,13 @@ public:
     QDateTime lastModified() const;
     QSet<QString> supportedFeatures() const;
 
-    bool operator==( const KCardTheme &theme ) const;
-    bool operator!=( const KCardTheme &theme ) const;
+    bool operator==(const KCardTheme &theme) const;
+    bool operator!=(const KCardTheme &theme) const;
 
 private:
     QSharedDataPointer<const KCardThemePrivate> d;
 };
 
-Q_DECLARE_METATYPE( KCardTheme )
+Q_DECLARE_METATYPE(KCardTheme)
 
 #endif

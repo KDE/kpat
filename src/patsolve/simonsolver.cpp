@@ -3,7 +3,7 @@
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of 
+ * published by the Free Software Foundation; either version 2 of
  * the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -21,8 +21,8 @@
 #include "../kpat_debug.h"
 #include "../simon.h"
 // freecell-solver
-#include "freecell-solver/fcs_user.h"
 #include "freecell-solver/fcs_cl.h"
+#include "freecell-solver/fcs_user.h"
 // Std
 #include <cstdlib>
 #include <cstring>
@@ -148,17 +148,14 @@ void SimonSolver::undo_move(MOVE *m)
 #endif
 
 #define CMD_LINE_ARGS_NUM 4
-static const char * freecell_solver_cmd_line_args[CMD_LINE_ARGS_NUM] =
-{
-    "-g", "simple_simon", "--load-config", "the-last-mohican"
-};
+static const char *freecell_solver_cmd_line_args[CMD_LINE_ARGS_NUM] = {"-g", "simple_simon", "--load-config", "the-last-mohican"};
 
 int SimonSolver::get_cmd_line_arg_count()
 {
     return CMD_LINE_ARGS_NUM;
 }
 
-const char * * SimonSolver::get_cmd_line_args()
+const char **SimonSolver::get_cmd_line_args()
 {
     return freecell_solver_cmd_line_args;
 }
@@ -478,45 +475,41 @@ void SimonSolver::print_layout()
 }
 #endif
 
-MoveHint SimonSolver::translateMove( const MOVE &m )
+MoveHint SimonSolver::translateMove(const MOVE &m)
 {
     fcs_move_t move = m.fcs;
     int cards = fcs_move_get_num_cards_in_seq(move);
     PatPile *from = nullptr;
     PatPile *to = nullptr;
 
-    switch(fcs_move_get_type(move))
-    {
-        case FCS_MOVE_TYPE_STACK_TO_STACK:
-            from = deal->store[fcs_move_get_src_stack(move)];
-            to = deal->store[fcs_move_get_dest_stack(move)];
-            break;
+    switch (fcs_move_get_type(move)) {
+    case FCS_MOVE_TYPE_STACK_TO_STACK:
+        from = deal->store[fcs_move_get_src_stack(move)];
+        to = deal->store[fcs_move_get_dest_stack(move)];
+        break;
 
-        case FCS_MOVE_TYPE_SEQ_TO_FOUNDATION:
-            from = deal->store[fcs_move_get_src_stack(move)];
-            cards = 13;
-            to = deal->target[fcs_move_get_foundation(move)];
-            break;
-
+    case FCS_MOVE_TYPE_SEQ_TO_FOUNDATION:
+        from = deal->store[fcs_move_get_src_stack(move)];
+        cards = 13;
+        to = deal->target[fcs_move_get_foundation(move)];
+        break;
     }
     Q_ASSERT(from);
     Q_ASSERT(cards <= from->cards().count());
     Q_ASSERT(to || cards == 1);
     KCard *card = from->cards()[from->cards().count() - cards];
 
-    if (!to)
-    {
+    if (!to) {
         PatPile *target = nullptr;
         PatPile *empty = nullptr;
         for (int i = 0; i < 4; ++i) {
             KCard *c = deal->target[i]->topCard();
             if (c) {
-                if ( c->suit() == card->suit() )
-                {
+                if (c->suit() == card->suit()) {
                     target = deal->target[i];
                     break;
                 }
-            } else if ( !empty )
+            } else if (!empty)
                 empty = deal->target[i];
         }
         to = target ? target : empty;

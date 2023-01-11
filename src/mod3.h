@@ -21,7 +21,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -40,29 +40,28 @@
 // own
 #include "dealer.h"
 
-
 class Mod3 : public DealerScene
 {
     Q_OBJECT
 
 public:
-    explicit Mod3( const DealerInfo * di );
+    explicit Mod3(const DealerInfo *di);
     void initialize() override;
 
 protected:
-    void setGameState( const QString & state ) override;
-    bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const override;
-    bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const override;
-    void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile ) override;
-    void restart( const QList<KCard*> & cards ) override;
+    void setGameState(const QString &state) override;
+    bool checkAdd(const PatPile *pile, const QList<KCard *> &oldCards, const QList<KCard *> &newCards) const override;
+    bool checkRemove(const PatPile *pile, const QList<KCard *> &cards) const override;
+    void cardsMoved(const QList<KCard *> &cards, KCardPile *oldPile, KCardPile *newPile) override;
+    void restart(const QList<KCard *> &cards) override;
 
 protected Q_SLOTS:
     bool newCards() override;
 
 private:
-    PatPile  *talon;
-    PatPile  *stack[4][8];
-    PatPile  *aces;
+    PatPile *talon;
+    PatPile *stack[4][8];
+    PatPile *aces;
 
     friend class Mod3Solver;
 };

@@ -27,14 +27,12 @@
 #include <QIODevice>
 class QString;
 
-
 template<class T>
-bool cacheFind( KSharedDataCache * cache, const QString & key, T * result )
+bool cacheFind(KSharedDataCache *cache, const QString &key, T *result)
 {
     QByteArray buffer;
-    if ( cache->find( key, &buffer ) )
-    {
-        QDataStream stream( &buffer, QIODevice::ReadOnly );
+    if (cache->find(key, &buffer)) {
+        QDataStream stream(&buffer, QIODevice::ReadOnly);
         stream >> *result;
         return true;
     }
@@ -42,12 +40,12 @@ bool cacheFind( KSharedDataCache * cache, const QString & key, T * result )
 }
 
 template<class T>
-bool cacheInsert( KSharedDataCache * cache, const QString & key, const T & value )
+bool cacheInsert(KSharedDataCache *cache, const QString &key, const T &value)
 {
     QByteArray buffer;
-    QDataStream stream( &buffer, QIODevice::WriteOnly );
+    QDataStream stream(&buffer, QIODevice::WriteOnly);
     stream << value;
-    return cache->insert( key, buffer );
+    return cache->insert(key, buffer);
 }
 
 #endif

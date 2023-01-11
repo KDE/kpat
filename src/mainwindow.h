@@ -62,7 +62,8 @@ class QLabel;
 
 #define saved_state_file "savedstate.xml"
 
-class MainWindow: public KXmlGuiWindow {
+class MainWindow : public KXmlGuiWindow
+{
     Q_OBJECT
 
 public:
@@ -70,7 +71,7 @@ public:
     ~MainWindow();
 
 public Q_SLOTS:
-    bool loadGame( const QUrl & url, bool addToRecentFiles);
+    bool loadGame(const QUrl &url, bool addToRecentFiles);
     void slotShowGameSelectionScreen();
     void slotGameSelected(int id);
 
@@ -78,10 +79,10 @@ protected Q_SLOTS:
     void newGame();
     void startRandom();
     void loadGame();
-    void loadGame(const QUrl & url);
+    void loadGame(const QUrl &url);
     void restart();
     void newNumberedDeal();
-    void startNumbered( int gameId, int dealNumber );
+    void startNumbered(int gameId, int dealNumber);
     void nextDeal();
     void previousDeal();
     void saveGame();
@@ -97,7 +98,7 @@ protected Q_SLOTS:
     void toggleMenubar();
     void toggleFullscreen(bool fullScreen);
 
-    void setAutoDropEnabled( bool enabled );
+    void setAutoDropEnabled(bool enabled);
     void enableSolver(bool enable);
     void enableSounds(bool enable);
     void enableRememberState(bool enable);
@@ -107,11 +108,11 @@ protected Q_SLOTS:
 
     void helpGame();
 
-    void updateSolverDescription(const QString & text);
+    void updateSolverDescription(const QString &text);
     void slotUpdateMoves(int moves);
 
 protected:
-    void closeEvent(QCloseEvent * e) override;
+    void closeEvent(QCloseEvent *e) override;
     void saveNewToolbarConfig() override;
 
 private Q_SLOTS:
@@ -121,7 +122,7 @@ private Q_SLOTS:
 
 private:
     void setupActions();
-    void setGameType( int id );
+    void setGameType(int id);
     void setGameCaption();
     void startNew(int gameNumber);
     void updateActions();
@@ -129,43 +130,43 @@ private:
     void updateSoundEngine();
 
     // Members
-    QAction * m_leftAction;
-    QAction * m_rightAction;
-    QAction * m_upAction;
-    QAction * m_downAction;
-    QAction * m_cancelAction;
-    QAction * m_pickUpSetDownAction;
+    QAction *m_leftAction;
+    QAction *m_rightAction;
+    QAction *m_upAction;
+    QAction *m_downAction;
+    QAction *m_cancelAction;
+    QAction *m_pickUpSetDownAction;
 
-    KRecentFilesAction * m_recentFilesAction;
-    QAction * m_saveAction;
-    QAction * m_undoAction;
-    QAction * m_redoAction;
-    QAction * m_demoAction;
-    QAction * m_hintAction;
-    QAction * m_drawAction;
-    QAction * m_dealAction;
-    QAction * m_redealAction;
-    QAction * m_dropAction;
-    KToggleAction * m_autoDropEnabledAction;
-    KToggleAction * m_solverEnabledAction;
-    KToggleAction * m_rememberStateAction;
-    KToggleAction * m_playSoundsAction;
-    KToggleAction * m_showMenubarAction;
-    QAction * m_gameHelpAction;
+    KRecentFilesAction *m_recentFilesAction;
+    QAction *m_saveAction;
+    QAction *m_undoAction;
+    QAction *m_redoAction;
+    QAction *m_demoAction;
+    QAction *m_hintAction;
+    QAction *m_drawAction;
+    QAction *m_dealAction;
+    QAction *m_redealAction;
+    QAction *m_dropAction;
+    KToggleAction *m_autoDropEnabledAction;
+    KToggleAction *m_solverEnabledAction;
+    KToggleAction *m_rememberStateAction;
+    KToggleAction *m_playSoundsAction;
+    KToggleAction *m_showMenubarAction;
+    QAction *m_gameHelpAction;
 
-    QMap<int, const DealerInfo*>  m_dealer_map;
-    QMap<int, const DealerInfo*>::const_iterator  m_dealer_it;
+    QMap<int, const DealerInfo *> m_dealer_map;
+    QMap<int, const DealerInfo *>::const_iterator m_dealer_it;
 
-    PatienceView * m_view;
-    DealerScene * m_dealer;
-    GameSelectionScene * m_selector;
-    KCardDeck * m_cardDeck;
-    SoundEngine * m_soundEngine;
+    PatienceView *m_view;
+    DealerScene *m_dealer;
+    GameSelectionScene *m_selector;
+    KCardDeck *m_cardDeck;
+    SoundEngine *m_soundEngine;
 
-    NumberedDealDialog * m_dealDialog;
+    NumberedDealDialog *m_dealDialog;
 
-    QLabel * m_solverStatusLabel;
-    QLabel * m_moveCountStatusLabel;
+    QLabel *m_solverStatusLabel;
+    QLabel *m_moveCountStatusLabel;
 };
 
 #endif

@@ -3,7 +3,7 @@
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License as
- *  published by the Free Software Foundation; either version 2 of 
+ *  published by the Free Software Foundation; either version 2 of
  *  the License, or (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
@@ -24,13 +24,10 @@
 
 class DealerScene;
 
-
-
 class PatPile : public KCardPile
 {
 public:
-    enum PileRole
-    {
+    enum PileRole {
         NoRole,
         Stock,
         Waste,
@@ -47,19 +44,19 @@ public:
         Cell
     };
 
-    PatPile( DealerScene * scene, int index, const QString & objectName = QString() );
+    PatPile(DealerScene *scene, int index, const QString &objectName = QString());
     virtual ~PatPile();
 
     int index() const;
 
-    void setPileRole( PileRole role );
+    void setPileRole(PileRole role);
     PileRole pileRole() const;
     bool isFoundation() const;
 
     QList<QPointF> cardPositions() const override;
 
 protected:
-    void paintGraphic( QPainter * painter, qreal highlightedness ) override;
+    void paintGraphic(QPainter *painter, qreal highlightedness) override;
 
 private:
     int m_index;

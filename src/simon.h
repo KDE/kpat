@@ -20,7 +20,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -39,24 +39,23 @@
 // own
 #include "dealer.h"
 
-
 class Simon : public DealerScene
 {
     Q_OBJECT
 
 public:
-    explicit Simon( const DealerInfo * di );
+    explicit Simon(const DealerInfo *di);
     void initialize() override;
 
 protected:
-    bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const override;
-    bool checkPrefering(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const override;
-    bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const override;
-    void restart( const QList<KCard*> & cards ) override;
+    bool checkAdd(const PatPile *pile, const QList<KCard *> &oldCards, const QList<KCard *> &newCards) const override;
+    bool checkPrefering(const PatPile *pile, const QList<KCard *> &oldCards, const QList<KCard *> &newCards) const override;
+    bool checkRemove(const PatPile *pile, const QList<KCard *> &cards) const override;
+    void restart(const QList<KCard *> &cards) override;
 
 private:
-    PatPile* store[10];
-    PatPile* target[4];
+    PatPile *store[10];
+    PatPile *target[4];
 
     virtual QString solverFormat() const;
     friend class SimonSolver;

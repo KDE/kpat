@@ -21,7 +21,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -34,37 +34,35 @@
  * -------------------------------------------------------------------------
  */
 
-
 #ifndef GRANDF_H
 #define GRANDF_H
 
 // own
 #include "dealer.h"
 
-
 class Grandf : public DealerScene
 {
     Q_OBJECT
 
 public:
-    explicit Grandf( const DealerInfo * di );
+    explicit Grandf(const DealerInfo *di);
     void initialize() override;
 
 protected:
-    void setGameState( const QString & state ) override;
+    void setGameState(const QString &state) override;
     QString getGameState() const override;
-    bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const override;
-    bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const override;
-    void restart( const QList<KCard*> & cards ) override;
+    bool checkAdd(const PatPile *pile, const QList<KCard *> &oldCards, const QList<KCard *> &newCards) const override;
+    bool checkRemove(const PatPile *pile, const QList<KCard *> &cards) const override;
+    void restart(const QList<KCard *> &cards) override;
 
 protected Q_SLOTS:
     bool newCards() override;
 
 private:
-    void deal( const QList<KCard*> & cardsToDeal );
+    void deal(const QList<KCard *> &cardsToDeal);
 
-    PatPile* store[7];
-    PatPile* target[4];
+    PatPile *store[7];
+    PatPile *target[4];
     int numberOfDeals;
 
     friend class GrandfSolver;

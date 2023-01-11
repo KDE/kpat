@@ -44,23 +44,22 @@
 #define SHUFFLE_H
 namespace KpatShuffle
 {
-    template<class T>
-    QList<T> shuffled( const QList<T> & cards, unsigned int seed )
-    {
-        QList<T> result = cards;
-        for ( int i = result.size(); i > 1; --i )
-        {
-            // We use the same pseudorandom number generation algorithm as Windows
-            // Freecell, so that game numbers are the same between the two applications.
-            // For more information, see
-            // https://fc-solve.shlomifish.org/faq.html#what_are_ms_deals
-            seed = 214013 * seed + 2531011;
-            int rand = ( seed >> 16 ) & 0x7fff;
-            result.swapItemsAt( i - 1, rand % i );
-        }
-
-        return result;
+template<class T>
+QList<T> shuffled(const QList<T> &cards, unsigned int seed)
+{
+    QList<T> result = cards;
+    for (int i = result.size(); i > 1; --i) {
+        // We use the same pseudorandom number generation algorithm as Windows
+        // Freecell, so that game numbers are the same between the two applications.
+        // For more information, see
+        // https://fc-solve.shlomifish.org/faq.html#what_are_ms_deals
+        seed = 214013 * seed + 2531011;
+        int rand = (seed >> 16) & 0x7fff;
+        result.swapItemsAt(i - 1, rand % i);
     }
+
+    return result;
+}
 };
 
 #endif

@@ -22,7 +22,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -39,61 +39,59 @@
 #define DEALERINFO_H
 
 // Qt
+#include <KLazyLocalizedString>
 #include <QByteArray>
 #include <QList>
 #include <QMap>
 #include <QString>
-#include <KLazyLocalizedString>
 class DealerInfoList;
 class DealerScene;
-
 
 class DealerInfo
 {
 public:
-    enum GameIds
-    {
-        KlondikeDrawOneId   = 0,
-        GrandfatherId       = 1,
-        AcesUpId            = 2,
-        FreecellGeneralId   = 3,
-        CastleGeneralId     = 4,
-        Mod3Id              = 5,
-        GypsyId             = 7,
-        FortyAndEightId     = 8,
-        SimpleSimonId       = 9,
-        YukonId             = 10,
+    enum GameIds {
+        KlondikeDrawOneId = 0,
+        GrandfatherId = 1,
+        AcesUpId = 2,
+        FreecellGeneralId = 3,
+        CastleGeneralId = 4,
+        Mod3Id = 5,
+        GypsyId = 7,
+        FortyAndEightId = 8,
+        SimpleSimonId = 9,
+        YukonId = 10,
         GrandfathersClockId = 11,
-        GolfId              = 12,
+        GolfId = 12,
         KlondikeDrawThreeId = 13,
-        SpiderOneSuitId     = 14,
-        SpiderTwoSuitId     = 15,
-        SpiderFourSuitId    = 16,
-        SpiderGeneralId     = 17,
-        KlondikeGeneralId   = 18,
-        BakersDozenGeneralId= 19,
-        BakersDozenId       = 20,
-        BakersDozenSpanishId= 21,
-        BakersDozenCastlesId= 22,
-        BakersDozenPortugueseId= 23,
+        SpiderOneSuitId = 14,
+        SpiderTwoSuitId = 15,
+        SpiderFourSuitId = 16,
+        SpiderGeneralId = 17,
+        KlondikeGeneralId = 18,
+        BakersDozenGeneralId = 19,
+        BakersDozenId = 20,
+        BakersDozenSpanishId = 21,
+        BakersDozenCastlesId = 22,
+        BakersDozenPortugueseId = 23,
         BakersDozenCustomId = 24,
-        FreecellId          = 30,
-        FreecellBakersId    = 31,
-        FreecellEightOffId   = 32,
-        FreecellForeId      = 33,
-        FreecellSeahavenId  = 34,
-        FreecellCustomId    = 39,
+        FreecellId = 30,
+        FreecellBakersId = 31,
+        FreecellEightOffId = 32,
+        FreecellForeId = 33,
+        FreecellSeahavenId = 34,
+        FreecellCustomId = 39,
         CastleBeleagueredId = 40,
-        CastleCitadelId     = 41,
+        CastleCitadelId = 41,
         CastleExiledKingsId = 42,
         CastleStreetAlleyId = 43,
-        CastleSiegecraftId  = 44,
-        CastleStrongholdId  = 45,
-        CastleCustomId      = 49,
-        SpiderThreeSuitId   = 50
+        CastleSiegecraftId = 44,
+        CastleStrongholdId = 45,
+        CastleCustomId = 49,
+        SpiderThreeSuitId = 50
     };
 
-    DealerInfo( const KLazyLocalizedString & untranslatedBaseName, int baseId );
+    DealerInfo(const KLazyLocalizedString &untranslatedBaseName, int baseId);
     virtual ~DealerInfo();
 
     QString baseName() const;
@@ -101,23 +99,22 @@ public:
     QString baseIdString() const;
     int baseId() const;
 
-    void addSubtype( int id, const KLazyLocalizedString & untranslatedName );
+    void addSubtype(int id, const KLazyLocalizedString &untranslatedName);
     QList<int> subtypeIds() const;
 
     QList<int> distinctIds() const;
-    bool providesId( int id ) const;
-    QString nameForId( int id ) const;
+    bool providesId(int id) const;
+    QString nameForId(int id) const;
 
-    virtual DealerScene * createGame() const = 0;
+    virtual DealerScene *createGame() const = 0;
 
 protected:
     KLazyLocalizedString m_baseName;
     QString m_baseIdString;
     int m_baseId;
 
-    QMap<int,KLazyLocalizedString> m_subtypes;
+    QMap<int, KLazyLocalizedString> m_subtypes;
 };
-
 
 class DealerInfoList
 {
@@ -127,12 +124,12 @@ private:
     virtual ~DealerInfoList();
 
 public:
-    static DealerInfoList * self();
-    void add( DealerInfo * di );
-    const QList<DealerInfo*> games() const;
+    static DealerInfoList *self();
+    void add(DealerInfo *di);
+    const QList<DealerInfo *> games() const;
 
 private:
-    QList<DealerInfo*> m_list;
+    QList<DealerInfo *> m_list;
 };
 
 #endif

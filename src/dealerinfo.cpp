@@ -22,7 +22,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -40,91 +40,78 @@
 // KF
 #include <KLocalizedString>
 
-
-DealerInfo::DealerInfo( const KLazyLocalizedString & untranslatedBaseName, int baseId )
-  : m_baseName( untranslatedBaseName ),
-    m_baseId( baseId )
+DealerInfo::DealerInfo(const KLazyLocalizedString &untranslatedBaseName, int baseId)
+    : m_baseName(untranslatedBaseName)
+    , m_baseId(baseId)
 {
-    DealerInfoList::self()->add( this );
+    DealerInfoList::self()->add(this);
 
-    QString baseName = QString::fromUtf8( m_baseName.untranslatedText() );
-    for ( int i = 0; i < baseName.size(); ++i )
-    {
-        QChar c = baseName.at( i );
-        if ( c.isLetterOrNumber() )
+    QString baseName = QString::fromUtf8(m_baseName.untranslatedText());
+    for (int i = 0; i < baseName.size(); ++i) {
+        QChar c = baseName.at(i);
+        if (c.isLetterOrNumber())
             m_baseIdString += c.toLower();
     }
 }
 
-
 DealerInfo::~DealerInfo()
 {
 }
-
 
 QString DealerInfo::baseName() const
 {
     return m_baseName.toString();
 }
 
-
 KLazyLocalizedString DealerInfo::untranslatedBaseName() const
 {
     return m_baseName;
 }
-
 
 QString DealerInfo::baseIdString() const
 {
     return m_baseIdString;
 }
 
-
 int DealerInfo::baseId() const
 {
     return m_baseId;
 }
 
-
-void DealerInfo::addSubtype(int id, const KLazyLocalizedString &untranslatedName )
+void DealerInfo::addSubtype(int id, const KLazyLocalizedString &untranslatedName)
 {
-    m_subtypes.insert( id, untranslatedName );
+    m_subtypes.insert(id, untranslatedName);
 }
-
 
 QList<int> DealerInfo::subtypeIds() const
 {
     return m_subtypes.keys();
 }
 
-
 QList<int> DealerInfo::distinctIds() const
 {
-    if ( m_subtypes.isEmpty() )
+    if (m_subtypes.isEmpty())
         return QList<int>() << m_baseId;
     else
         return m_subtypes.keys();
 }
 
-
-bool DealerInfo::providesId( int id ) const
+bool DealerInfo::providesId(int id) const
 {
-    return id == m_baseId || m_subtypes.contains( id );
+    return id == m_baseId || m_subtypes.contains(id);
 }
 
-
-QString DealerInfo::nameForId( int id ) const
+QString DealerInfo::nameForId(int id) const
 {
-    if ( id == m_baseId )
+    if (id == m_baseId)
         return baseName();
 
-    QMap<int,KLazyLocalizedString>::const_iterator it = m_subtypes.find( id );
-    if ( it != m_subtypes.constEnd() )
+    QMap<int, KLazyLocalizedString>::const_iterator it = m_subtypes.find(id);
+    if (it != m_subtypes.constEnd())
         return it.value().toString();
     else
         return QString();
 }
-
 
 class DealerInfoListPrivate
 {
@@ -132,9 +119,7 @@ public:
     DealerInfoList instance;
 };
 
-Q_GLOBAL_STATIC( DealerInfoListPrivate, dilp )
-
-
+Q_GLOBAL_STATIC(DealerInfoListPrivate, dilp)
 
 DealerInfoList *DealerInfoList::self()
 {
@@ -149,12 +134,12 @@ DealerInfoList::~DealerInfoList()
 {
 }
 
-void DealerInfoList::add( DealerInfo * di )
+void DealerInfoList::add(DealerInfo *di)
 {
-    m_list.append( di );
+    m_list.append(di);
 }
 
-const QList< DealerInfo* > DealerInfoList::games() const
+const QList<DealerInfo *> DealerInfoList::games() const
 {
     return m_list;
 }

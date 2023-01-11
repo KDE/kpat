@@ -21,7 +21,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -48,26 +48,26 @@ class Freecell : public DealerScene
     Q_OBJECT
 
 public:
-    explicit Freecell( const DealerInfo * di );
+    explicit Freecell(const DealerInfo *di);
     void initialize() override;
     void mapOldId(int id) override;
     int oldId() const override;
-    QList<QAction*> configActions() const override;
+    QList<QAction *> configActions() const override;
 
 protected:
-    bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const override;
-    bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const override;
-    void cardsDroppedOnPile( const QList<KCard*> & cards, KCardPile * pile ) override;
-    void restart( const QList<KCard*> & cards ) override;
+    bool checkAdd(const PatPile *pile, const QList<KCard *> &oldCards, const QList<KCard *> &newCards) const override;
+    bool checkRemove(const PatPile *pile, const QList<KCard *> &cards) const override;
+    void cardsDroppedOnPile(const QList<KCard *> &cards, KCardPile *pile) override;
+    void restart(const QList<KCard *> &cards) override;
 
 private Q_SLOTS:
     void gameTypeChanged();
 
 protected Q_SLOTS:
-    bool tryAutomaticMove( KCard * c ) override;
+    bool tryAutomaticMove(KCard *c) override;
 
 private:
-    bool canPutStore( const KCardPile * pile, const QList<KCard*> & cards ) const;
+    bool canPutStore(const KCardPile *pile, const QList<KCard *> &cards) const;
 
     void configOptions();
     void setOptions(int v);
@@ -76,9 +76,9 @@ private:
     void matchVariant();
 
     virtual QString solverFormat() const;
-    PatPile* store[12];
-    PatPile* freecell[8];
-    PatPile* target[12];
+    PatPile *store[12];
+    PatPile *freecell[8];
+    PatPile *target[12];
 
     KSelectAction *options;
     int m_variation;

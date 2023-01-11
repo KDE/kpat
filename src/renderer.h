@@ -3,7 +3,7 @@
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License as
- *  published by the Free Software Foundation; either version 2 of 
+ *  published by the Free Software Foundation; either version 2 of
  *  the License, or (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
@@ -25,26 +25,24 @@
 class QString;
 class QColor;
 
-
 class Renderer : public KGameRenderer
 {
 public:
-    static Renderer * self();
+    static Renderer *self();
     static void deleteSelf();
 
-    qreal aspectRatioOfElement( const QString & elementId );
-    QColor colorOfElement( const QString & elementId );
+    qreal aspectRatioOfElement(const QString &elementId);
+    QColor colorOfElement(const QString &elementId);
 
 private:
     Renderer();
 
-    static Renderer * s_instance;
+    static Renderer *s_instance;
 
-    QHash<QString,QColor> m_colors;
+    QHash<QString, QColor> m_colors;
     QByteArray m_cachedTheme;
 
     friend class RendererPrivate;
 };
-
 
 #endif

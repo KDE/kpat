@@ -3,7 +3,7 @@
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License as
- *  published by the Free Software Foundation; either version 2 of 
+ *  published by the Free Software Foundation; either version 2 of
  *  the License, or (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
@@ -21,113 +21,84 @@
 // own
 #include "kcard.h"
 
-
 class KStandardCardDeckPrivate
 {
 };
 
-
 QList<KCardDeck::Suit> KCardDeck::standardSuits()
 {
-    return QList<Suit>() << Clubs
-                         << Diamonds
-                         << Hearts
-                         << Spades;
+    return QList<Suit>() << Clubs << Diamonds << Hearts << Spades;
 }
-
 
 QList<KCardDeck::Rank> KCardDeck::standardRanks()
 {
-    return QList<Rank>() << Ace
-                         << Two
-                         << Three
-                         << Four
-                         << Five
-                         << Six
-                         << Seven
-                         << Eight
-                         << Nine
-                         << Ten
-                         << Jack
-                         << Queen
-                         << King;
+    return QList<Rank>() << Ace << Two << Three << Four << Five << Six << Seven << Eight << Nine << Ten << Jack << Queen << King;
 }
 
-
-quint32 KCardDeck::getId( KCardDeck::Suit suit, KCardDeck::Rank rank, int number )
+quint32 KCardDeck::getId(KCardDeck::Suit suit, KCardDeck::Rank rank, int number)
 {
     return (number << 16) | ((suit & 0xff) << 8) | (rank & 0xff);
 }
 
-
-QList<quint32> KCardDeck::generateIdList( int copies,
-                                          const QList<Suit> & suits,
-                                          const QList<Rank> & ranks )
+QList<quint32> KCardDeck::generateIdList(int copies, const QList<Suit> &suits, const QList<Rank> &ranks)
 {
-    Q_ASSERT( copies >= 1 );
-    Q_ASSERT( !suits.isEmpty() );
-    Q_ASSERT( !ranks.isEmpty() );
+    Q_ASSERT(copies >= 1);
+    Q_ASSERT(!suits.isEmpty());
+    Q_ASSERT(!ranks.isEmpty());
 
     // Note that changing the order in which the cards are created should be
     // avoided if at all possible. Doing so may effect the game logic of
     // games relying on LibKCardGame.
     QList<quint32> ids;
     unsigned int number = 0;
-    for ( int c = 0; c < copies; ++c )
-        for (const Suit & s : suits )
-            for (const Rank & r : ranks )
-                ids << getId( s, r, number++ );
+    for (int c = 0; c < copies; ++c)
+        for (const Suit &s : suits)
+            for (const Rank &r : ranks)
+                ids << getId(s, r, number++);
 
     return ids;
 }
 
-
-KCardDeck::KCardDeck( const KCardTheme & theme, QObject * parent )
-  : KAbstractCardDeck( theme, parent ),
-    d( new KStandardCardDeckPrivate )
+KCardDeck::KCardDeck(const KCardTheme &theme, QObject *parent)
+    : KAbstractCardDeck(theme, parent)
+    , d(new KStandardCardDeckPrivate)
 {
 }
-
 
 KCardDeck::~KCardDeck()
 {
     delete d;
 }
 
-
-int KCardDeck::rankFromId( quint32 id ) const
+int KCardDeck::rankFromId(quint32 id) const
 {
     int rank = id & 0xff;
-    Q_ASSERT( Ace <= rank && rank <= King );
+    Q_ASSERT(Ace <= rank && rank <= King);
     return rank;
 }
 
-
-int KCardDeck::suitFromId( quint32 id ) const
+int KCardDeck::suitFromId(quint32 id) const
 {
     int suit = (id >> 8) & 0xff;
-    Q_ASSERT( Clubs <= suit && suit <= Spades );
+    Q_ASSERT(Clubs <= suit && suit <= Spades);
     return suit;
 }
 
-
-int KCardDeck::colorFromId( quint32 id ) const
+int KCardDeck::colorFromId(quint32 id) const
 {
-    int suit = suitFromId( id );
+    int suit = suitFromId(id);
     return (suit == Clubs || suit == Spades) ? Black : Red;
 }
 
-
-QString KCardDeck::elementName( quint32 id, bool faceUp ) const
+QString KCardDeck::elementName(quint32 id, bool faceUp) const
 {
-    if ( !faceUp )
+    if (!faceUp)
         return QStringLiteral("back");
 
     QString element;
 
-    int rank = rankFromId( id );
-    switch( rank )
-    {
+    int rank = rankFromId(id);
+    switch (rank) {
     case King:
         element = QStringLiteral("king");
         break;
@@ -138,12 +109,11 @@ QString KCardDeck::elementName( quint32 id, bool faceUp ) const
         element = QStringLiteral("jack");
         break;
     default:
-        element = QString::number( rank );
+        element = QString::number(rank);
         break;
     }
 
-    switch( suitFromId( id ) )
-    {
+    switch (suitFromId(id)) {
     case Clubs:
         element += QLatin1String("_club");
         break;
@@ -160,4 +130,3 @@ QString KCardDeck::elementName( quint32 id, bool faceUp ) const
 
     return element;
 }
-

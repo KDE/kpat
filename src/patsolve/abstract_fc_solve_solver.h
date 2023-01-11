@@ -3,7 +3,7 @@
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of 
+ * published by the Free Software Foundation; either version 2 of
  * the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -21,8 +21,7 @@
 // own
 #include "patsolve.h"
 
-struct FcSolveSolver : public Solver<20>
-{
+struct FcSolveSolver : public Solver<20> {
 public:
     FcSolveSolver();
     virtual ~FcSolveSolver();
@@ -33,22 +32,23 @@ public:
     int getOuts() override;
     unsigned int getClusterNumber() override;
     void translate_layout() override = 0;
-    void unpack_cluster( unsigned int k ) override;
+    void unpack_cluster(unsigned int k) override;
     MoveHint translateMove(const MOVE &m) override = 0;
-    SolverInterface::ExitStatus patsolve( int _max_positions = -1) override;
+    SolverInterface::ExitStatus patsolve(int _max_positions = -1) override;
     virtual void setFcSolverGameParams() = 0;
 
     void print_layout() override;
 
     virtual int get_cmd_line_arg_count() = 0;
-    virtual const char * * get_cmd_line_args() = 0;
-/* Names of the cards.  The ordering is defined in pat.h. */
+    virtual const char **get_cmd_line_args() = 0;
+    /* Names of the cards.  The ordering is defined in pat.h. */
 
-    void * solver_instance;
+    void *solver_instance;
     long default_max_positions;
     int solver_ret;
     // More than enough space for two decks.
     char board_as_string[4 * 13 * 2 * 4 * 3];
+
 protected:
     void make_solver_instance_ready();
 };

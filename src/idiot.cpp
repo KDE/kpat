@@ -22,7 +22,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -43,44 +43,41 @@
 // KF
 #include <KLocalizedString>
 
-
-Idiot::Idiot( const DealerInfo * di )
-  : DealerScene( di )
+Idiot::Idiot(const DealerInfo *di)
+    : DealerScene(di)
 {
 }
 
-
 void Idiot::initialize()
 {
-    setSceneAlignment( AlignHCenter | AlignVCenter );
+    setSceneAlignment(AlignHCenter | AlignVCenter);
 
     setDeckContents();
 
     // Create the talon to the left.
-    talon = new PatPile( this, 0, QStringLiteral("talon") );
+    talon = new PatPile(this, 0, QStringLiteral("talon"));
     talon->setPileRole(PatPile::Stock);
     talon->setLayoutPos(0, 0);
     talon->setSpread(0, 0);
-    talon->setKeyboardSelectHint( KCardPile::NeverFocus );
-    talon->setKeyboardDropHint( KCardPile::NeverFocus );
+    talon->setKeyboardSelectHint(KCardPile::NeverFocus);
+    talon->setKeyboardDropHint(KCardPile::NeverFocus);
     connect(talon, &PatPile::clicked, this, &Idiot::newCards);
 
     const qreal distx = 1.1;
 
     // Create 4 piles where the cards will be placed during the game.
-    for( int i = 0; i < 4; ++i )
-    {
-        m_play[i] = new PatPile( this, i + 1, QStringLiteral( "play%1" ).arg( i ));
+    for (int i = 0; i < 4; ++i) {
+        m_play[i] = new PatPile(this, i + 1, QStringLiteral("play%1").arg(i));
         m_play[i]->setPileRole(PatPile::Tableau);
         m_play[i]->setLayoutPos(1.5 + distx * i, 0);
-        m_play[i]->setBottomPadding( 2 );
-        m_play[i]->setHeightPolicy( KCardPile::GrowDown );
-        m_play[i]->setKeyboardSelectHint( KCardPile::AutoFocusTop );
-        m_play[i]->setKeyboardDropHint( KCardPile::AutoFocusTop );
+        m_play[i]->setBottomPadding(2);
+        m_play[i]->setHeightPolicy(KCardPile::GrowDown);
+        m_play[i]->setKeyboardSelectHint(KCardPile::AutoFocusTop);
+        m_play[i]->setKeyboardDropHint(KCardPile::AutoFocusTop);
     }
 
     // Create the discard pile to the right
-    m_away = new PatPile( this, 5, QStringLiteral("away") );
+    m_away = new PatPile(this, 5, QStringLiteral("away"));
     m_away->setPileRole(PatPile::Foundation);
     m_away->setLayoutPos(1.9 + distx * 4, 0);
     m_away->setSpread(0, 0);
@@ -90,16 +87,15 @@ void Idiot::initialize()
     connect(this, &Idiot::cardClicked, this, &Idiot::tryAutomaticMove);
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);
-    setSolver( new IdiotSolver(this ) );
+    setSolver(new IdiotSolver(this));
 }
 
-
-void Idiot::restart( const QList<KCard*> & cards )
+void Idiot::restart(const QList<KCard *> &cards)
 {
-    for (KCard * c : cards) {
-        c->setPos( talon->pos() );
-        c->setFaceUp( false );
-        talon->add( c );
+    for (KCard *c : cards) {
+        c->setPos(talon->pos());
+        c->setFaceUp(false);
+        talon->add(c);
     }
 
     dealRow();
@@ -107,19 +103,16 @@ void Idiot::restart( const QList<KCard*> & cards )
     Q_EMIT newCardsPossible(true);
 }
 
-
 bool Idiot::drop()
 {
     return false;
 }
 
-
-bool Idiot::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
+bool Idiot::checkAdd(const PatPile *pile, const QList<KCard *> &oldCards, const QList<KCard *> &newCards) const
 {
-    switch ( pile->pileRole() )
-    {
+    switch (pile->pileRole()) {
     case PatPile::Foundation:
-        return newCards.size() == 1 && canMoveAway( newCards.first() );
+        return newCards.size() == 1 && canMoveAway(newCards.first());
     case PatPile::Tableau:
         return oldCards.isEmpty() && newCards.size() == 1;
     case PatPile::Stock:
@@ -128,70 +121,49 @@ bool Idiot::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const
     }
 }
 
-bool Idiot::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
+bool Idiot::checkRemove(const PatPile *pile, const QList<KCard *> &cards) const
 {
-    return pile->pileRole() == PatPile::Tableau
-           && cards.first() == pile->topCard()
-           && ( canMoveAway( cards.first() )
-                || m_play[0]->isEmpty()
-                || m_play[1]->isEmpty()
-                || m_play[2]->isEmpty()
-                || m_play[3]->isEmpty() );
+    return pile->pileRole() == PatPile::Tableau && cards.first() == pile->topCard()
+        && (canMoveAway(cards.first()) || m_play[0]->isEmpty() || m_play[1]->isEmpty() || m_play[2]->isEmpty() || m_play[3]->isEmpty());
 }
 
-bool Idiot::canMoveAway(const KCard * card) const
+bool Idiot::canMoveAway(const KCard *card) const
 {
-    Q_ASSERT( card->pile() != talon );
-    Q_ASSERT( card->pile() != m_away );
-    Q_ASSERT( card == card->pile()->topCard() );
+    Q_ASSERT(card->pile() != talon);
+    Q_ASSERT(card->pile() != m_away);
+    Q_ASSERT(card == card->pile()->topCard());
 
-    for ( int i = 0; i < 4; ++i )
-    {
-        KCard * c = m_play[i]->topCard();
-        if ( c
-             && c != card
-             && c->suit() == card->suit()
-             && ( c->rank() == KCardDeck::Ace
-                  || ( card->rank() != KCardDeck::Ace
-                       && c->rank() > card->rank() ) ) )
+    for (int i = 0; i < 4; ++i) {
+        KCard *c = m_play[i]->topCard();
+        if (c && c != card && c->suit() == card->suit() && (c->rank() == KCardDeck::Ace || (card->rank() != KCardDeck::Ace && c->rank() > card->rank())))
             return true;
     }
 
     return false;
 }
 
-
-
-bool Idiot::tryAutomaticMove( KCard * card )
+bool Idiot::tryAutomaticMove(KCard *card)
 {
-    if ( !isCardAnimationRunning()
-         && card
-         && card->pile()
-         && card == card->pile()->topCard()
-         && card->pile() != talon
-         && card->pile() != m_away )
-    {
-        KCardPile * destination = nullptr;
-        if ( canMoveAway( card ) )
+    if (!isCardAnimationRunning() && card && card->pile() && card == card->pile()->topCard() && card->pile() != talon && card->pile() != m_away) {
+        KCardPile *destination = nullptr;
+        if (canMoveAway(card))
             destination = m_away;
-        else if ( m_play[0]->isEmpty() )
+        else if (m_play[0]->isEmpty())
             destination = m_play[0];
-        else if ( m_play[1]->isEmpty() )
+        else if (m_play[1]->isEmpty())
             destination = m_play[1];
-        else if ( m_play[2]->isEmpty() )
+        else if (m_play[2]->isEmpty())
             destination = m_play[2];
-        else if ( m_play[3]->isEmpty() )
+        else if (m_play[3]->isEmpty())
             destination = m_play[3];
 
-        if ( destination )
-        {
-            moveCardToPile( card, destination, DURATION_MOVE );
+        if (destination) {
+            moveCardToPile(card, destination, DURATION_MOVE);
             return true;
         }
     }
     return false;
 }
-
 
 // The game is won when:
 //  1. all cards are dealt.
@@ -213,57 +185,49 @@ bool Idiot::isGameWon() const
     return true;
 }
 
-
 // Deal 4 cards face up - one on each pile.
 bool Idiot::newCards()
 {
-    if ( talon->isEmpty() )
+    if (talon->isEmpty())
         return false;
 
     dealRow();
 
-    if ( talon->isEmpty() )
-        Q_EMIT newCardsPossible( false );
+    if (talon->isEmpty())
+        Q_EMIT newCardsPossible(false);
 
     return true;
 }
-
 
 void Idiot::dealRow()
 {
     Q_ASSERT(talon->count() >= 4);
 
-    for ( int i = 0; i < 4; ++i )
-    {
-        KCard * c = talon->topCard();
-        flipCardToPileAtSpeed( c, m_play[i], DEAL_SPEED );
+    for (int i = 0; i < 4; ++i) {
+        KCard *c = talon->topCard();
+        flipCardToPileAtSpeed(c, m_play[i], DEAL_SPEED);
 
         // Fudge the z values so that cards don't appear to pop through one another.
-        c->setZValue( c->zValue() + i );
+        c->setZValue(c->zValue() + i);
     }
 }
 
-
-void Idiot::setGameState( const QString & state )
+void Idiot::setGameState(const QString &state)
 {
-    Q_UNUSED( state );
-    Q_EMIT newCardsPossible( !talon->isEmpty() );
+    Q_UNUSED(state);
+    Q_EMIT newCardsPossible(!talon->isEmpty());
 }
-
-
 
 static class IdiotDealerInfo : public DealerInfo
 {
 public:
     IdiotDealerInfo()
-      : DealerInfo(kli18n("Aces Up"), AcesUpId)
-    {}
+        : DealerInfo(kli18n("Aces Up"), AcesUpId)
+    {
+    }
 
     DealerScene *createGame() const override
     {
-        return new Idiot( this );
+        return new Idiot(this);
     }
 } idiotDealerInfo;
-
-
-

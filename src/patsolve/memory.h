@@ -4,7 +4,7 @@
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of 
+ * published by the Free Software Foundation; either version 2 of
  * the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -29,17 +29,17 @@ struct TREE;
 
 struct BLOCK;
 struct BLOCK {
-	unsigned char *block;
-	unsigned char *ptr;
-	size_t remain;
-        BLOCK *next;
+    unsigned char *block;
+    unsigned char *ptr;
+    size_t remain;
+    BLOCK *next;
 };
 
 struct TREELIST;
 struct TREELIST {
-	TREE *tree;
-	unsigned int cluster;
-	TREELIST *next;
+    TREE *tree;
+    unsigned int cluster;
+    TREELIST *next;
 };
 
 /* Position information.  We store a compact representation of the position;
@@ -48,9 +48,9 @@ We also store the move that led to this position from the parent, as well
 as a pointers back to the parent, and the btree of all positions examined so
 far. */
 struct TREE {
-	TREE *left;
-	TREE *right;
-	short depth;
+    TREE *left;
+    TREE *right;
+    short depth;
 };
 
 #ifdef ERR
@@ -73,12 +73,15 @@ public:
     BLOCK *new_block(void);
 
     template<class T>
-    static void free_ptr(T *ptr) {
-        free(ptr); Mem_remain += sizeof(T);
+    static void free_ptr(T *ptr)
+    {
+        free(ptr);
+        Mem_remain += sizeof(T);
     }
 
     template<class T>
-    static void free_array(T *ptr, size_t size) {
+    static void free_array(T *ptr, size_t size)
+    {
         free(ptr);
         Mem_remain += size * sizeof(T);
     }
@@ -88,17 +91,21 @@ public:
     // ugly hack
     int Pilebytes;
     static size_t Mem_remain;
+
 private:
     BLOCK *Block;
-
 };
 
 template<typename T>
-T* mm_new_array(const size_t size) {
-    return static_cast<T*>(MemoryManager::allocate_memory(size * sizeof(T)));
+T *mm_new_array(const size_t size)
+{
+    return static_cast<T *>(MemoryManager::allocate_memory(size * sizeof(T)));
 }
 
 template<typename T>
-T* mm_allocate() {return static_cast<T*>(MemoryManager::allocate_memory(sizeof(T)));}
+T *mm_allocate()
+{
+    return static_cast<T *>(MemoryManager::allocate_memory(sizeof(T)));
+}
 
 #endif // MEMORY_H

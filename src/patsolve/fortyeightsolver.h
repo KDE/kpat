@@ -3,7 +3,7 @@
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of 
+ * published by the Free Software Foundation; either version 2 of
  * the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -35,10 +35,10 @@ public:
     int getOuts() override;
     unsigned int getClusterNumber() override;
     void translate_layout() override;
-    void unpack_cluster( unsigned int k ) override;
+    void unpack_cluster(unsigned int k) override;
     MoveHint translateMove(const MOVE &m) override;
-    bool checkMove( int from, int to, MOVE *mp );
-    bool checkMoveOut( int from, MOVE *mp, int *dropped );
+    bool checkMove(int from, int to, MOVE *mp);
+    bool checkMoveOut(int from, MOVE *mp, int *dropped);
     void checkState(FortyeightSolverState &d);
 
     void print_layout() override;
@@ -48,7 +48,6 @@ public:
 
     card_t O[8]; /* output piles store only the rank or NONE */
     card_t Osuit[8];
-
 };
 
 #endif // FORTYEIGHTSOLVER_H

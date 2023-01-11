@@ -3,7 +3,7 @@
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of 
+ * published by the Free Software Foundation; either version 2 of
  * the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -28,7 +28,6 @@
 
 class Golf;
 
-
 class GolfSolver : public Solver<9>
 {
 public:
@@ -38,7 +37,7 @@ public:
 #ifdef WITH_BH_SOLVER
     black_hole_solver_instance_t *solver_instance;
     int solver_ret;
-    SolverInterface::ExitStatus patsolve( int _max_positions ) override;
+    SolverInterface::ExitStatus patsolve(int _max_positions) override;
     // More than enough space for two decks.
     char board_as_string[4 * 13 * 2 * 4 * 3];
     void free_solver_instance();

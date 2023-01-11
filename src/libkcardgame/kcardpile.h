@@ -22,7 +22,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -51,104 +51,85 @@ class LIBKCARDGAME_EXPORT KCardPile : public QGraphicsObject
     Q_OBJECT
 
 public:
-    explicit KCardPile( KCardScene * cardScene );
+    explicit KCardPile(KCardScene *cardScene);
     virtual ~KCardPile();
 
     enum { Type = QGraphicsItem::UserType + 2 };
     int type() const override;
 
     QRectF boundingRect() const override;
-    void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = nullptr ) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
-    QList<KCard*> cards() const;
+    QList<KCard *> cards() const;
     int count() const;
     bool isEmpty() const;
-    int indexOf( const KCard * card ) const;
-    KCard * at( int index ) const;
-    KCard * topCard() const;
-    QList<KCard*> topCards( int depth ) const;
-    QList<KCard*> topCardsDownTo( const KCard * card ) const;
+    int indexOf(const KCard *card) const;
+    KCard *at(int index) const;
+    KCard *topCard() const;
+    QList<KCard *> topCards(int depth) const;
+    QList<KCard *> topCardsDownTo(const KCard *card) const;
 
-    void setLayoutPos( QPointF pos );
-    void setLayoutPos( qreal x, qreal y );
+    void setLayoutPos(QPointF pos);
+    void setLayoutPos(qreal x, qreal y);
     QPointF layoutPos() const;
 
-    enum WidthPolicy
-    {
-        FixedWidth,
-        GrowLeft,
-        GrowRight
-    };
-    void setWidthPolicy( WidthPolicy policy );
+    enum WidthPolicy { FixedWidth, GrowLeft, GrowRight };
+    void setWidthPolicy(WidthPolicy policy);
     WidthPolicy widthPolicy() const;
 
-    enum HeightPolicy
-    {
-        FixedHeight,
-        GrowUp,
-        GrowDown
-    };
-    void setHeightPolicy( HeightPolicy policy );
+    enum HeightPolicy { FixedHeight, GrowUp, GrowDown };
+    void setHeightPolicy(HeightPolicy policy);
     HeightPolicy heightPolicy() const;
 
-    void setPadding( qreal topPadding, qreal rightPadding, qreal bottomPadding, qreal leftPadding );
-    void setTopPadding( qreal padding );
+    void setPadding(qreal topPadding, qreal rightPadding, qreal bottomPadding, qreal leftPadding);
+    void setTopPadding(qreal padding);
     qreal topPadding() const;
-    void setRightPadding( qreal padding );
+    void setRightPadding(qreal padding);
     qreal rightPadding() const;
-    void setBottomPadding( qreal padding );
+    void setBottomPadding(qreal padding);
     qreal bottomPadding() const;
-    void setLeftPadding( qreal padding );
+    void setLeftPadding(qreal padding);
     qreal leftPadding() const;
 
-    void setSpread( QPointF spread );
-    void setSpread( qreal width, qreal height );
+    void setSpread(QPointF spread);
+    void setSpread(qreal width, qreal height);
     QPointF spread() const;
 
-    void setAutoTurnTop( bool autoTurnTop );
+    void setAutoTurnTop(bool autoTurnTop);
     bool autoTurnTop() const;
 
-    enum KeyboardFocusHint
-    {
-        FreeFocus,
-        AutoFocusTop,
-        AutoFocusDeepestRemovable,
-        AutoFocusDeepestFaceUp,
-        AutoFocusBottom,
-        ForceFocusTop,
-        NeverFocus
-    };
+    enum KeyboardFocusHint { FreeFocus, AutoFocusTop, AutoFocusDeepestRemovable, AutoFocusDeepestFaceUp, AutoFocusBottom, ForceFocusTop, NeverFocus };
 
-    void setKeyboardSelectHint( KeyboardFocusHint hint );
+    void setKeyboardSelectHint(KeyboardFocusHint hint);
     KeyboardFocusHint keyboardSelectHint() const;
-    void setKeyboardDropHint( KeyboardFocusHint hint );
+    void setKeyboardDropHint(KeyboardFocusHint hint);
     KeyboardFocusHint keyboardDropHint() const;
 
     virtual void setVisible(bool vis);
 
-    void setHighlighted( bool highlighted );
+    void setHighlighted(bool highlighted);
     bool isHighlighted() const;
 
-    void add( KCard * card );
-    virtual void insert( int index, KCard * card );
-    virtual void remove( KCard * card );
+    void add(KCard *card);
+    virtual void insert(int index, KCard *card);
+    virtual void remove(KCard *card);
     void clear();
-    void swapCards( int index1, int index2 );
+    void swapCards(int index1, int index2);
 
     virtual QList<QPointF> cardPositions() const;
 
 Q_SIGNALS:
-    void clicked( KCard * card );
-    void doubleClicked( KCard * card );
-    void rightClicked( KCard * card );
+    void clicked(KCard *card);
+    void doubleClicked(KCard *card);
+    void rightClicked(KCard *card);
 
 protected:
-    virtual void paintGraphic( QPainter * painter, qreal highlightedness );
+    virtual void paintGraphic(QPainter *painter, qreal highlightedness);
 
 private:
-    void setGraphicSize( QSize size );
+    void setGraphicSize(QSize size);
 
-    class KCardPilePrivate * const d;
+    class KCardPilePrivate *const d;
     friend class KCardPilePrivate;
     friend class KCardScene;
 };

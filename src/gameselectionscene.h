@@ -4,7 +4,7 @@
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of 
+ * published by the Free Software Foundation; either version 2 of
  * the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -22,7 +22,6 @@
 // Qt
 #include <QGraphicsScene>
 
-
 class GameSelectionScene : public QGraphicsScene
 {
     Q_OBJECT
@@ -30,25 +29,25 @@ class GameSelectionScene : public QGraphicsScene
     class GameSelectionBox;
 
 public:
-    explicit GameSelectionScene( QObject * parent );
+    explicit GameSelectionScene(QObject *parent);
     ~GameSelectionScene();
 
-    void resizeScene( const QSize & size );
+    void resizeScene(const QSize &size);
 
 Q_SIGNALS:
-    void gameSelected( int i );
+    void gameSelected(int i);
 
 protected:
-    void keyReleaseEvent( QKeyEvent * event ) override;
-    void keyPressEvent( QKeyEvent * event ) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 
 private Q_SLOTS:
-    void boxHoverChanged( GameSelectionBox * box, bool hovered );
+    void boxHoverChanged(GameSelectionBox *box, bool hovered);
 
 private:
     int m_columns;
     int m_selectionIndex;
-    QList<GameSelectionBox*> m_boxes;
+    QList<GameSelectionBox *> m_boxes;
 };
 
 #endif

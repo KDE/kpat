@@ -22,7 +22,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -48,9 +48,9 @@
 #include <KCardScene>
 // Qt
 #include <QMap>
+#include <QSet>
 #include <QStack>
 #include <QTimer>
-#include <QSet>
 
 class DealerInfo;
 class MessageBox;
@@ -69,7 +69,7 @@ class DealerScene : public KCardScene
 public:
     enum { None = 0, Hint = 1, Demo = 2, Draw = 4, Deal = 8, Redeal = 16 } Actions;
 
-    explicit DealerScene( const DealerInfo * di );
+    explicit DealerScene(const DealerInfo *di);
     ~DealerScene();
 
     virtual void initialize() = 0;
@@ -77,27 +77,27 @@ public:
     void relayoutScene() override;
     void updateWonItem();
 
-    void addPatPile( PatPile * pile );
-    void removePatPile( PatPile * pile );
+    void addPatPile(PatPile *pile);
+    void removePatPile(PatPile *pile);
     void clearPatPiles();
-    QList<PatPile*> patPiles() const;
+    QList<PatPile *> patPiles() const;
 
-    void setAutoDropEnabled( bool enabled );
+    void setAutoDropEnabled(bool enabled);
     bool autoDropEnabled() const;
 
     int gameNumber() const;
 
     int gameId() const;
 
-    void setActions( int actions );
+    void setActions(int actions);
     int actions() const;
 
-    virtual QList<QAction*> configActions() const;
+    virtual QList<QAction *> configActions() const;
 
     void startHint();
     void stopHint();
     bool isHintActive() const;
- 
+
     void startDrop();
     void stopDrop();
     bool isDropActive() const;
@@ -106,8 +106,8 @@ public:
     void stopDemo();
     bool isDemoActive() const;
 
-    void setSolverEnabled( bool enabled );
-    SolverInterface * solver() const;
+    void setSolverEnabled(bool enabled);
+    SolverInterface *solver() const;
     void startSolver();
 
     virtual bool isGameLost() const;
@@ -116,11 +116,11 @@ public:
     bool allowedToStartNewGame();
     int moveCount() const;
 
-    void saveFile( QIODevice * io );
-    bool loadFile( QIODevice * io );
-    void saveLegacyFile( QIODevice * io );
-    bool loadLegacyFile( QIODevice * io );
-    
+    void saveFile(QIODevice *io);
+    bool loadFile(QIODevice *io);
+    void saveLegacyFile(QIODevice *io);
+    bool loadLegacyFile(QIODevice *io);
+
     virtual void mapOldId(int id);
     virtual int oldId() const;
     void recordGameStatistics();
@@ -145,7 +145,7 @@ Q_SIGNALS:
     void cardsPutDown();
 
 public Q_SLOTS:
-    void startNew( int dealNumber = -1 );
+    void startNew(int dealNumber = -1);
 
     void undo();
     void redo();
@@ -153,50 +153,45 @@ public Q_SLOTS:
     void stop();
 
     void drawDealRowOrRedeal();
-    virtual bool tryAutomaticMove( KCard * card );
+    virtual bool tryAutomaticMove(KCard *card);
 
 protected:
-    bool allowedToAdd(const KCardPile * pile, const QList<KCard*> & cards) const override;
-    bool allowedToRemove(const KCardPile * pile, const KCard * card) const override;
+    bool allowedToAdd(const KCardPile *pile, const QList<KCard *> &cards) const override;
+    bool allowedToRemove(const KCardPile *pile, const KCard *card) const override;
 
-    virtual bool checkAdd( const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards ) const;
-    virtual bool checkRemove( const PatPile * pile, const QList<KCard*> & cards ) const;
-    virtual bool checkPrefering( const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards ) const;
+    virtual bool checkAdd(const PatPile *pile, const QList<KCard *> &oldCards, const QList<KCard *> &newCards) const;
+    virtual bool checkRemove(const PatPile *pile, const QList<KCard *> &cards) const;
+    virtual bool checkPrefering(const PatPile *pile, const QList<KCard *> &oldCards, const QList<KCard *> &newCards) const;
 
-    void cardsMoved( const QList<KCard*> & cards, KCardPile * oldPile, KCardPile * newPile ) override;
+    void cardsMoved(const QList<KCard *> &cards, KCardPile *oldPile, KCardPile *newPile) override;
 
-    void mouseDoubleClickEvent( QGraphicsSceneMouseEvent * mouseEvent ) override;
-    void mousePressEvent( QGraphicsSceneMouseEvent * mouseEvent ) override;
-    void mouseReleaseEvent( QGraphicsSceneMouseEvent * mouseEvent ) override;
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
+    void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
 
-    virtual void restart( const QList<KCard*> & cards ) = 0;
+    virtual void restart(const QList<KCard *> &cards) = 0;
 
-    void setSolver( SolverInterface * solver );
+    void setSolver(SolverInterface *solver);
 
     virtual QList<MoveHint> getHints();
 
     // reimplement these to store and load game-specific information in the state structure
     virtual QString getGameState() const;
-    virtual void setGameState( const QString & state );
+    virtual void setGameState(const QString &state);
 
     // reimplement these to store and load game-specific options in the saved game file
     virtual QString getGameOptions() const;
-    virtual void setGameOptions( const QString & options );
+    virtual void setGameOptions(const QString &options);
 
-    void addCardForDeal( KCardPile * pile, KCard * card, bool faceUp, QPointF startPos );
+    void addCardForDeal(KCardPile *pile, KCard *card, bool faceUp, QPointF startPos);
     void startDealAnimation();
 
-    void setNeededFutureMoves( int moves );
+    void setNeededFutureMoves(int moves);
     int neededFutureMoves() const;
 
-    void setDeckContents( int copies = 1,
-                          const QList<KCardDeck::Suit> & suits = KCardDeck::standardSuits() );
+    void setDeckContents(int copies = 1, const QList<KCardDeck::Suit> &suits = KCardDeck::standardSuits());
 
-    void multiStepMove( const QList<KCard*> & cards,
-                        KCardPile * pile,
-                        const QList<KCardPile*> & freePiles,
-                        const QList<KCardPile*> & freeCells,
-                        int duration  );
+    void multiStepMove(const QList<KCard *> &cards, KCardPile *pile, const QList<KCardPile *> &freePiles, const QList<KCardPile *> &freeCells, int duration);
 
     QList<MoveHint> getSolverHints();
 
@@ -209,14 +204,14 @@ protected Q_SLOTS:
 private Q_SLOTS:
     void stopAndRestartSolver();
     void slotSolverEnded();
-    void slotSolverFinished( int result );
+    void slotSolverFinished(int result);
 
     void demo();
 
     void showWonMessage();
 
 private:
-    void undoOrRedo( bool undo );
+    void undoOrRedo(bool undo);
 
     void resetInternals();
 
@@ -224,22 +219,19 @@ private:
 
     void won();
 
-    int speedUpTime( int delay ) const;
+    int speedUpTime(int delay) const;
 
-    void multiStepSubMove( QList<KCard*> cards,
-                           KCardPile * pile,
-                           QList<KCardPile*> freePiles,
-                           const QList<KCardPile*> & freeCells );
+    void multiStepSubMove(QList<KCard *> cards, KCardPile *pile, QList<KCardPile *> freePiles, const QList<KCardPile *> &freeCells);
     void continueMultiStepMove();
 
-    const DealerInfo * const m_di;
+    const DealerInfo *const m_di;
 
-    SolverInterface * m_solver;
-    SolverThread * m_solverThread;
+    SolverInterface *m_solver;
+    SolverThread *m_solverThread;
     QList<MOVE> m_winningMoves;
 
-    KCard * m_peekedCard;
-    MessageBox * m_wonItem;
+    KCard *m_peekedCard;
+    MessageBox *m_wonItem;
 
     QTimer m_solverUpdateTimer;
     QTimer m_demoTimer;
@@ -265,7 +257,7 @@ private:
     bool m_toldAboutWonGame;
     bool m_toldAboutLostGame;
 
-    QSet<KCard*> m_cardsRemovedFromFoundations;
+    QSet<KCard *> m_cardsRemovedFromFoundations;
     qreal m_dropSpeedFactor;
     bool m_interruptAutoDrop;
 
@@ -280,17 +272,17 @@ private:
     bool m_newCardsQueued;
     bool m_takeStateQueued;
 
-    QStack<GameState*> m_undoStack;
-    GameState * m_currentState;
-    QStack<GameState*> m_redoStack;
-    QHash<KCard*,CardState> m_lastKnownCardStates;
+    QStack<GameState *> m_undoStack;
+    GameState *m_currentState;
+    QStack<GameState *> m_redoStack;
+    QHash<KCard *, CardState> m_lastKnownCardStates;
 
-    QList<QPair<KCard*,KCardPile*> > m_multiStepMoves;
+    QList<QPair<KCard *, KCardPile *>> m_multiStepMoves;
     int m_multiStepDuration;
 
-    QList<PatPile*> m_patPiles;
+    QList<PatPile *> m_patPiles;
 
-    QMap<KCard*,QPointF> m_initDealPositions;
+    QMap<KCard *, QPointF> m_initDealPositions;
 };
 
 #endif

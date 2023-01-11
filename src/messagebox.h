@@ -3,7 +3,7 @@
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of 
+ * published by the Free Software Foundation; either version 2 of
  * the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -23,19 +23,18 @@
 // Qt
 #include <QFont>
 
-
 class MessageBox : public KGameRenderedItem
 {
 public:
     MessageBox();
 
-    void setMessage( const QString & message );
+    void setMessage(const QString &message);
     QString message() const;
 
-    void setSize( const QSize & size );
+    void setSize(const QSize &size);
     QSize size() const;
 
-    void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget ) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
 private:
     QString m_message;

@@ -21,7 +21,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -38,19 +38,17 @@
 
 // own
 #include "dealerinfo.h"
-#include "speeds.h"
 #include "patsolve/golfsolver.h"
 #include "pileutils.h"
 #include "settings.h"
+#include "speeds.h"
 // KF
 #include <KLocalizedString>
 
-
-Golf::Golf( const DealerInfo * di )
-  : DealerScene( di )
+Golf::Golf(const DealerInfo *di)
+    : DealerScene(di)
 {
 }
-
 
 void Golf::initialize()
 {
@@ -59,107 +57,97 @@ void Golf::initialize()
 
     setDeckContents();
 
-    talon = new PatPile( this, 0, QStringLiteral("talon") );
+    talon = new PatPile(this, 0, QStringLiteral("talon"));
     talon->setPileRole(PatPile::Stock);
     talon->setLayoutPos(0, smallNeg);
     talon->setSpread(0, 0);
-    talon->setKeyboardSelectHint( KCardPile::NeverFocus );
-    talon->setKeyboardDropHint( KCardPile::NeverFocus );
-    connect( talon, &KCardPile::clicked, this, &DealerScene::drawDealRowOrRedeal );
+    talon->setKeyboardSelectHint(KCardPile::NeverFocus);
+    talon->setKeyboardDropHint(KCardPile::NeverFocus);
+    connect(talon, &KCardPile::clicked, this, &DealerScene::drawDealRowOrRedeal);
 
-    waste = new PatPile( this, 8, QStringLiteral("waste") );
+    waste = new PatPile(this, 8, QStringLiteral("waste"));
     waste->setPileRole(PatPile::Foundation);
     waste->setLayoutPos(1.1, smallNeg);
     waste->setSpread(0.12, 0);
-    waste->setRightPadding( 5 * dist_x );
-    waste->setWidthPolicy( KCardPile::GrowRight );
-    waste->setKeyboardSelectHint( KCardPile::NeverFocus );
-    waste->setKeyboardDropHint( KCardPile::AutoFocusTop );
+    waste->setRightPadding(5 * dist_x);
+    waste->setWidthPolicy(KCardPile::GrowRight);
+    waste->setKeyboardSelectHint(KCardPile::NeverFocus);
+    waste->setKeyboardDropHint(KCardPile::AutoFocusTop);
 
-    for( int r = 0; r < 7; ++r )
-    {
-        stack[r] = new PatPile( this, 1 + r, QStringLiteral("stack%1").arg(r) );
+    for (int r = 0; r < 7; ++r) {
+        stack[r] = new PatPile(this, 1 + r, QStringLiteral("stack%1").arg(r));
         stack[r]->setPileRole(PatPile::Tableau);
-        stack[r]->setLayoutPos(r*dist_x,0);
+        stack[r]->setLayoutPos(r * dist_x, 0);
         // Manual tweak of the pile z values to make some animations better.
-        stack[r]->setZValue((7-r)/100.0);
-        stack[r]->setBottomPadding( 1.3 );
-        stack[r]->setHeightPolicy( KCardPile::GrowDown );
-        stack[r]->setKeyboardSelectHint( KCardPile::AutoFocusTop );
-        stack[r]->setKeyboardDropHint( KCardPile::NeverFocus );
+        stack[r]->setZValue((7 - r) / 100.0);
+        stack[r]->setBottomPadding(1.3);
+        stack[r]->setHeightPolicy(KCardPile::GrowDown);
+        stack[r]->setKeyboardSelectHint(KCardPile::AutoFocusTop);
+        stack[r]->setKeyboardDropHint(KCardPile::NeverFocus);
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);
-    auto solver = new GolfSolver( this );
+    auto solver = new GolfSolver(this);
     solver->default_max_positions = Settings::golfSolverIterationsLimit();
-    setSolver( solver );
+    setSolver(solver);
 
-    connect( this, &KCardScene::cardClicked, this, &DealerScene::tryAutomaticMove );
+    connect(this, &KCardScene::cardClicked, this, &DealerScene::tryAutomaticMove);
 }
 
-
-bool Golf::checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const
+bool Golf::checkAdd(const PatPile *pile, const QList<KCard *> &oldCards, const QList<KCard *> &newCards) const
 {
     return pile->pileRole() == PatPile::Foundation
-           && ( newCards.first()->rank() == oldCards.last()->rank() + 1
-                || newCards.first()->rank() == oldCards.last()->rank() - 1 );
+        && (newCards.first()->rank() == oldCards.last()->rank() + 1 || newCards.first()->rank() == oldCards.last()->rank() - 1);
 }
 
-
-bool Golf::checkRemove(const PatPile * pile, const QList<KCard*> & cards) const
+bool Golf::checkRemove(const PatPile *pile, const QList<KCard *> &cards) const
 {
-    return pile->pileRole() == PatPile::Tableau
-           && cards.first() == pile->topCard();
+    return pile->pileRole() == PatPile::Tableau && cards.first() == pile->topCard();
 }
 
-
-void Golf::restart( const QList<KCard*> & cards )
+void Golf::restart(const QList<KCard *> &cards)
 {
-    QList<KCard*> cardList = cards;
+    QList<KCard *> cardList = cards;
 
-    for ( int i = 0; i < 5; ++i )
-        for ( int r = 0; r < 7; ++r )
-            addCardForDeal( stack[r], cardList.takeLast(), true, stack[6]->pos() );
+    for (int i = 0; i < 5; ++i)
+        for (int r = 0; r < 7; ++r)
+            addCardForDeal(stack[r], cardList.takeLast(), true, stack[6]->pos());
 
-    while ( !cardList.isEmpty() )
-    {
-        KCard * c = cardList.takeFirst();
-        c->setPos( talon->pos() );
-        c->setFaceUp( false );
-        talon->add( c );
+    while (!cardList.isEmpty()) {
+        KCard *c = cardList.takeFirst();
+        c->setPos(talon->pos());
+        c->setFaceUp(false);
+        talon->add(c);
     }
 
     startDealAnimation();
 
     flipCardToPile(talon->topCard(), waste, DURATION_MOVE);
 
-    Q_EMIT newCardsPossible( true );
+    Q_EMIT newCardsPossible(true);
 }
-
 
 bool Golf::newCards()
 {
-    if ( talon->isEmpty() )
-         return false;
+    if (talon->isEmpty())
+        return false;
 
     flipCardToPile(talon->topCard(), waste, DURATION_MOVE);
 
-    if ( talon->isEmpty() )
-        Q_EMIT newCardsPossible( false );
+    if (talon->isEmpty())
+        Q_EMIT newCardsPossible(false);
 
     return true;
 }
 
-
 bool Golf::drop()
 {
-    for ( int i = 0; i < 7; ++i )
-        if ( !stack[i]->isEmpty() )
+    for (int i = 0; i < 7; ++i)
+        if (!stack[i]->isEmpty())
             return false;
 
-    if ( !talon->isEmpty() )
-    {
-        flipCardToPile( talon->topCard(), waste, DURATION_MOVE );
+    if (!talon->isEmpty()) {
+        flipCardToPile(talon->topCard(), waste, DURATION_MOVE);
         takeState();
         return true;
     }
@@ -167,11 +155,10 @@ bool Golf::drop()
     return false;
 }
 
-
-void Golf::setGameState( const QString & state )
+void Golf::setGameState(const QString &state)
 {
-    Q_UNUSED( state );
-    Q_EMIT newCardsPossible( !talon->isEmpty() );
+    Q_UNUSED(state);
+    Q_EMIT newCardsPossible(!talon->isEmpty());
 }
 
 QString Golf::solverFormat() const
@@ -179,14 +166,13 @@ QString Golf::solverFormat() const
     QString output;
     output += QLatin1String("Foundations: ") + (waste->isEmpty() ? QLatin1String("-") : cardToRankSuitString(waste->topCard())) + QLatin1Char('\n');
     output += QLatin1String("Talon: ");
-    for ( int i = talon->count()-1; i >= 0; --i )
-    {
-        output += cardToRankSuitString(talon->at( i ));
-        if ( i > 0 )
+    for (int i = talon->count() - 1; i >= 0; --i) {
+        output += cardToRankSuitString(talon->at(i));
+        if (i > 0)
             output += QLatin1Char(' ');
     }
     output += QLatin1Char('\n');
-    for (int i = 0; i < 7 ; i++)
+    for (int i = 0; i < 7; i++)
         cardsListToLine(output, stack[i]->cards());
     return output;
 }
@@ -195,14 +181,12 @@ static class GolfDealerInfo : public DealerInfo
 {
 public:
     GolfDealerInfo()
-      : DealerInfo(kli18n("Golf"), GolfId)
-    {}
+        : DealerInfo(kli18n("Golf"), GolfId)
+    {
+    }
 
     DealerScene *createGame() const override
     {
-        return new Golf( this );
+        return new Golf(this);
     }
 } golfDealerInfo;
-
-
-

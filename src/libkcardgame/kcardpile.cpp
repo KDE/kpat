@@ -22,7 +22,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -41,8 +41,8 @@
 #include "kabstractcarddeck.h"
 #include "kcardscene.h"
 // Qt
-#include <QPropertyAnimation>
 #include <QPainter>
+#include <QPropertyAnimation>
 // Std
 #include <cmath>
 
@@ -50,17 +50,17 @@ class KCardPilePrivate : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY( qreal highlightedness READ highlightedness WRITE setHighlightedness )
+    Q_PROPERTY(qreal highlightedness READ highlightedness WRITE setHighlightedness)
 
 public:
-    KCardPilePrivate( KCardPile * q );
+    KCardPilePrivate(KCardPile *q);
 
-    void setHighlightedness( qreal highlightedness );
+    void setHighlightedness(qreal highlightedness);
     qreal highlightedness() const;
 
-    KCardPile * q;
+    KCardPile *q;
 
-    QList<KCard*> cards;
+    QList<KCard *> cards;
 
     bool autoTurnTop;
     bool highlighted;
@@ -82,38 +82,34 @@ public:
 
     qreal highlightValue;
 
-    QPropertyAnimation * fadeAnimation;
+    QPropertyAnimation *fadeAnimation;
 };
 
-
-KCardPilePrivate::KCardPilePrivate( KCardPile * q )
-  : QObject( q ),
-    q( q )
+KCardPilePrivate::KCardPilePrivate(KCardPile *q)
+    : QObject(q)
+    , q(q)
 {
 }
 
-
-void KCardPilePrivate::setHighlightedness( qreal highlightedness )
+void KCardPilePrivate::setHighlightedness(qreal highlightedness)
 {
     highlightValue = highlightedness;
     q->update();
 }
-
 
 qreal KCardPilePrivate::highlightedness() const
 {
     return highlightValue;
 }
 
-
-KCardPile::KCardPile( KCardScene * cardScene )
-  : QGraphicsObject(),
-    d( new KCardPilePrivate( this ) )
+KCardPile::KCardPile(KCardScene *cardScene)
+    : QGraphicsObject()
+    , d(new KCardPilePrivate(this))
 {
     d->autoTurnTop = false;
     d->highlighted = false;
     d->highlightValue = 0;
-    d->spread = QPointF( 0, 0 );
+    d->spread = QPointF(0, 0);
 
     d->topPadding = 0;
     d->rightPadding = 0;
@@ -123,376 +119,322 @@ KCardPile::KCardPile( KCardScene * cardScene )
     d->widthPolicy = FixedWidth;
     d->heightPolicy = FixedHeight;
 
-    d->fadeAnimation = new QPropertyAnimation( d, "highlightedness", d );
-    d->fadeAnimation->setDuration( 150 );
-    d->fadeAnimation->setKeyValueAt( 0, 0 );
-    d->fadeAnimation->setKeyValueAt( 1, 1 );
+    d->fadeAnimation = new QPropertyAnimation(d, "highlightedness", d);
+    d->fadeAnimation->setDuration(150);
+    d->fadeAnimation->setKeyValueAt(0, 0);
+    d->fadeAnimation->setKeyValueAt(1, 1);
 
-    setZValue( 0 );
-    QGraphicsItem::setVisible( true );
+    setZValue(0);
+    QGraphicsItem::setVisible(true);
 
-    if ( cardScene )
-        cardScene->addPile( this );
+    if (cardScene)
+        cardScene->addPile(this);
 }
-
 
 KCardPile::~KCardPile()
 {
-    for (KCard * c : std::as_const(d->cards))
-        c->setPile( nullptr );
+    for (KCard *c : std::as_const(d->cards))
+        c->setPile(nullptr);
 
-    KCardScene * cardScene = dynamic_cast<KCardScene*>( scene() );
-    if ( cardScene )
-        cardScene->removePile( this );
+    KCardScene *cardScene = dynamic_cast<KCardScene *>(scene());
+    if (cardScene)
+        cardScene->removePile(this);
 }
-
 
 int KCardPile::type() const
 {
     return KCardPile::Type;
 }
 
-
 QRectF KCardPile::boundingRect() const
 {
-    return QRectF( QPointF( 0, 0 ), d->graphicSize );
+    return QRectF(QPointF(0, 0), d->graphicSize);
 }
 
-
-void KCardPile::paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget )
+void KCardPile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    Q_UNUSED( option );
-    Q_UNUSED( widget );
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
 
-    paintGraphic( painter, d->highlightValue );
+    paintGraphic(painter, d->highlightValue);
 }
 
-
-QList<KCard*> KCardPile::cards() const
+QList<KCard *> KCardPile::cards() const
 {
     return d->cards;
 }
-
 
 int KCardPile::count() const
 {
     return d->cards.count();
 }
 
-
 bool KCardPile::isEmpty() const
 {
     return d->cards.isEmpty();
 }
 
-
-int KCardPile::indexOf( const KCard * card ) const
+int KCardPile::indexOf(const KCard *card) const
 {
-    return d->cards.indexOf( const_cast<KCard*>( card ) );
+    return d->cards.indexOf(const_cast<KCard *>(card));
 }
 
-
-KCard * KCardPile::at( int index ) const
+KCard *KCardPile::at(int index) const
 {
-    if ( index < 0 || index >= d->cards.size() )
+    if (index < 0 || index >= d->cards.size())
         return nullptr;
-    return d->cards.at( index );
+    return d->cards.at(index);
 }
 
-
-KCard * KCardPile::topCard() const
+KCard *KCardPile::topCard() const
 {
-    if ( d->cards.isEmpty() )
+    if (d->cards.isEmpty())
         return nullptr;
 
     return d->cards.last();
 }
 
-
-QList<KCard*> KCardPile::topCards( int depth ) const
+QList<KCard *> KCardPile::topCards(int depth) const
 {
-    if ( depth <= 0 )
-        return QList<KCard*>();
+    if (depth <= 0)
+        return QList<KCard *>();
 
-    if ( depth > count() )
+    if (depth > count())
         return d->cards;
 
-    return d->cards.mid( count() - depth );
+    return d->cards.mid(count() - depth);
 }
 
-
-QList<KCard*> KCardPile::topCardsDownTo( const KCard * card ) const
+QList<KCard *> KCardPile::topCardsDownTo(const KCard *card) const
 {
-    int index = d->cards.indexOf( const_cast<KCard*>( card ) );
-    if ( index == -1 )
-        return QList<KCard*>();
-    return d->cards.mid( index );
+    int index = d->cards.indexOf(const_cast<KCard *>(card));
+    if (index == -1)
+        return QList<KCard *>();
+    return d->cards.mid(index);
 }
 
-
-void KCardPile::setLayoutPos( QPointF pos )
+void KCardPile::setLayoutPos(QPointF pos)
 {
     d->layoutPos = pos;
 }
 
-
-void KCardPile::setLayoutPos( qreal x,  qreal y )
+void KCardPile::setLayoutPos(qreal x, qreal y)
 {
-    setLayoutPos( QPointF( x, y ) );
+    setLayoutPos(QPointF(x, y));
 }
-
 
 QPointF KCardPile::layoutPos() const
 {
     return d->layoutPos;
 }
 
-
-void KCardPile::setWidthPolicy( WidthPolicy policy )
+void KCardPile::setWidthPolicy(WidthPolicy policy)
 {
     d->widthPolicy = policy;
 }
-
 
 KCardPile::WidthPolicy KCardPile::widthPolicy() const
 {
     return d->widthPolicy;
 }
 
-
-void KCardPile::setHeightPolicy( HeightPolicy policy )
+void KCardPile::setHeightPolicy(HeightPolicy policy)
 {
     d->heightPolicy = policy;
 }
-
 
 KCardPile::HeightPolicy KCardPile::heightPolicy() const
 {
     return d->heightPolicy;
 }
 
-
-void KCardPile::setPadding( qreal topPadding, qreal rightPadding, qreal bottomPadding, qreal leftPadding )
+void KCardPile::setPadding(qreal topPadding, qreal rightPadding, qreal bottomPadding, qreal leftPadding)
 {
-    setTopPadding( topPadding );
-    setRightPadding( rightPadding );
-    setBottomPadding( bottomPadding );
-    setLeftPadding( leftPadding);
+    setTopPadding(topPadding);
+    setRightPadding(rightPadding);
+    setBottomPadding(bottomPadding);
+    setLeftPadding(leftPadding);
 }
 
-
-void KCardPile::setTopPadding( qreal padding )
+void KCardPile::setTopPadding(qreal padding)
 {
     d->topPadding = padding;
 }
-
 
 qreal KCardPile::topPadding() const
 {
     return d->topPadding;
 }
 
-
-void KCardPile::setRightPadding( qreal padding )
+void KCardPile::setRightPadding(qreal padding)
 {
     d->rightPadding = padding;
 }
-
 
 qreal KCardPile::rightPadding() const
 {
     return d->rightPadding;
 }
 
-
-void KCardPile::setBottomPadding( qreal padding )
+void KCardPile::setBottomPadding(qreal padding)
 {
     d->bottomPadding = padding;
 }
-
 
 qreal KCardPile::bottomPadding() const
 {
     return d->bottomPadding;
 }
 
-
-void KCardPile::setLeftPadding( qreal padding )
+void KCardPile::setLeftPadding(qreal padding)
 {
     d->leftPadding = padding;
 }
-
 
 qreal KCardPile::leftPadding() const
 {
     return d->leftPadding;
 }
 
-
-void KCardPile::setSpread( QPointF spread )
+void KCardPile::setSpread(QPointF spread)
 {
     d->spread = spread;
 }
 
-
-void KCardPile::setSpread( qreal width, qreal height )
+void KCardPile::setSpread(qreal width, qreal height)
 {
-    setSpread( QPointF( width, height ) );
+    setSpread(QPointF(width, height));
 }
-
 
 QPointF KCardPile::spread() const
 {
     return d->spread;
 }
 
-
-void KCardPile::setAutoTurnTop( bool autoTurnTop )
+void KCardPile::setAutoTurnTop(bool autoTurnTop)
 {
     d->autoTurnTop = autoTurnTop;
 }
-
 
 bool KCardPile::autoTurnTop() const
 {
     return d->autoTurnTop;
 }
 
-
-void KCardPile::setKeyboardSelectHint( KeyboardFocusHint hint )
+void KCardPile::setKeyboardSelectHint(KeyboardFocusHint hint)
 {
     d->selectHint = hint;
 }
-
 
 KCardPile::KeyboardFocusHint KCardPile::keyboardSelectHint() const
 {
     return d->selectHint;
 }
 
-
-void KCardPile::setKeyboardDropHint( KeyboardFocusHint hint )
+void KCardPile::setKeyboardDropHint(KeyboardFocusHint hint)
 {
     d->dropHint = hint;
 }
-
 
 KCardPile::KeyboardFocusHint KCardPile::keyboardDropHint() const
 {
     return d->dropHint;
 }
 
-
-void KCardPile::setVisible( bool visible )
+void KCardPile::setVisible(bool visible)
 {
-    if ( visible != isVisible() )
-    {
-        QGraphicsItem::setVisible( visible );
-        for (KCard * c : std::as_const(d->cards))
-            c->setVisible( visible );
+    if (visible != isVisible()) {
+        QGraphicsItem::setVisible(visible);
+        for (KCard *c : std::as_const(d->cards))
+            c->setVisible(visible);
     }
 }
 
-
-void KCardPile::setHighlighted( bool highlighted )
+void KCardPile::setHighlighted(bool highlighted)
 {
-    if ( highlighted != d->highlighted )
-    {
+    if (highlighted != d->highlighted) {
         d->highlighted = highlighted;
-        d->fadeAnimation->setDirection( highlighted
-                                       ? QAbstractAnimation::Forward
-                                       : QAbstractAnimation::Backward );
-        if ( d->fadeAnimation->state() != QAbstractAnimation::Running )
+        d->fadeAnimation->setDirection(highlighted ? QAbstractAnimation::Forward : QAbstractAnimation::Backward);
+        if (d->fadeAnimation->state() != QAbstractAnimation::Running)
             d->fadeAnimation->start();
     }
 }
-
 
 bool KCardPile::isHighlighted() const
 {
     return d->highlighted;
 }
 
-
-void KCardPile::add( KCard * card )
+void KCardPile::add(KCard *card)
 {
-    insert( d->cards.size(), card );
+    insert(d->cards.size(), card);
 }
 
-
-void KCardPile::insert( int index, KCard * card )
+void KCardPile::insert(int index, KCard *card)
 {
-    if ( card->scene() != scene() )
-        scene()->addItem( card );
+    if (card->scene() != scene())
+        scene()->addItem(card);
 
-    if ( card->pile() )
-        card->pile()->remove( card );
+    if (card->pile())
+        card->pile()->remove(card);
 
-    card->setPile( this );
-    card->setVisible( isVisible() );
+    card->setPile(this);
+    card->setVisible(isVisible());
 
-    d->cards.insert( index, card );
+    d->cards.insert(index, card);
 }
 
-
-void KCardPile::remove( KCard * card )
+void KCardPile::remove(KCard *card)
 {
-    Q_ASSERT( d->cards.contains( card ) );
-    d->cards.removeAll( card );
-    card->setPile( nullptr );
+    Q_ASSERT(d->cards.contains(card));
+    d->cards.removeAll(card);
+    card->setPile(nullptr);
 }
-
 
 void KCardPile::clear()
 {
     const auto currentCards = d->cards;
     for (KCard *card : currentCards)
-        remove( card );
+        remove(card);
     Q_ASSERT(d->cards.isEmpty());
 }
 
-
-void KCardPile::swapCards( int index1, int index2 )
+void KCardPile::swapCards(int index1, int index2)
 {
-    if ( index1 == index2 )
+    if (index1 == index2)
         return;
 
-    KCard * temp = d->cards.at( index1 );
-    d->cards[ index1 ] = d->cards.at( index2 );
-    d->cards[ index2 ] = temp;
+    KCard *temp = d->cards.at(index1);
+    d->cards[index1] = d->cards.at(index2);
+    d->cards[index2] = temp;
 }
 
-
-void KCardPile::paintGraphic( QPainter * painter, qreal highlightedness )
+void KCardPile::paintGraphic(QPainter *painter, qreal highlightedness)
 {
     int penWidth = boundingRect().width() / 40;
     int topLeft = penWidth / 2;
     int bottomRight = topLeft - penWidth;
-    painter->setPen( QPen( Qt::black, penWidth ) );
-    painter->setBrush( QColor( 0, 0, 0, 64 * highlightedness ) );
-    painter->drawRect( boundingRect().adjusted( topLeft, topLeft, bottomRight, bottomRight ) );
+    painter->setPen(QPen(Qt::black, penWidth));
+    painter->setBrush(QColor(0, 0, 0, 64 * highlightedness));
+    painter->drawRect(boundingRect().adjusted(topLeft, topLeft, bottomRight, bottomRight));
 }
-
 
 QList<QPointF> KCardPile::cardPositions() const
 {
     QList<QPointF> positions;
-    for ( int i = 0; i < count(); ++i )
+    for (int i = 0; i < count(); ++i)
         positions << i * spread();
     return positions;
 }
 
-
-void KCardPile::setGraphicSize( QSize size )
+void KCardPile::setGraphicSize(QSize size)
 {
-    if ( size != d->graphicSize )
-    {
+    if (size != d->graphicSize) {
         prepareGeometryChange();
         d->graphicSize = size;
         update();
     }
 }
-
 
 #include "kcardpile.moc"
 #include "moc_kcardpile.cpp"

@@ -3,7 +3,7 @@
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License as
- *  published by the Free Software Foundation; either version 2 of 
+ *  published by the Free Software Foundation; either version 2 of
  *  the License, or (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
@@ -28,16 +28,15 @@ class KCardPile;
 
 class QPropertyAnimation;
 
-
 class KCardAnimation : public QAbstractAnimation
 {
 public:
-    KCardAnimation( KCardPrivate * d, int duration, QPointF pos, qreal rotation, bool faceUp );
+    KCardAnimation(KCardPrivate *d, int duration, QPointF pos, qreal rotation, bool faceUp);
     int duration() const override;
-    void updateCurrentTime( int msec ) override;
+    void updateCurrentTime(int msec) override;
 
 private:
-    KCardPrivate * d;
+    KCardPrivate *d;
 
     int m_duration;
 
@@ -54,20 +53,19 @@ private:
     qreal m_flipProgressFactor;
 };
 
-
 class KCardPrivate : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY( qreal highlightedness READ highlightedness WRITE setHighlightedness )
+    Q_PROPERTY(qreal highlightedness READ highlightedness WRITE setHighlightedness)
 
 public:
-    explicit KCardPrivate( KCard * card );
+    explicit KCardPrivate(KCard *card);
 
-    void setFlippedness( qreal flippedness );
+    void setFlippedness(qreal flippedness);
     qreal flippedness() const;
 
-    void setHighlightedness( qreal highlightedness );
+    void setHighlightedness(qreal highlightedness);
     qreal highlightedness() const;
 
     bool faceUp;
@@ -78,16 +76,15 @@ public:
     qreal flipValue;
     qreal highlightValue;
 
-    KCard * q;
-    KAbstractCardDeck * deck;
-    KCardPile * pile;
+    KCard *q;
+    KAbstractCardDeck *deck;
+    KCardPile *pile;
 
     QPixmap frontPixmap;
     QPixmap backPixmap;
 
-    KCardAnimation * animation;
-    QPropertyAnimation * fadeAnimation;
+    KCardAnimation *animation;
+    QPropertyAnimation *fadeAnimation;
 };
-
 
 #endif

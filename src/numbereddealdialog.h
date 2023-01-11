@@ -3,7 +3,7 @@
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License as
- *  published by the Free Software Foundation; either version 2 of 
+ *  published by the Free Software Foundation; either version 2 of
  *  the License, or (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
@@ -30,25 +30,24 @@ class NumberedDealDialog : public QDialog
 {
     Q_OBJECT
 
-    public:
-        explicit NumberedDealDialog( QWidget * parent );
-        void setGameType( int gameId );
-        void setDealNumber( int dealNumber );
+public:
+    explicit NumberedDealDialog(QWidget *parent);
+    void setGameType(int gameId);
+    void setDealNumber(int dealNumber);
 
-    public Q_SLOTS:
-        void setVisible( bool visible ) override;
+public Q_SLOTS:
+    void setVisible(bool visible) override;
 
-    Q_SIGNALS:
-        void dealChosen( int gameId, int dealNumber );
+Q_SIGNALS:
+    void dealChosen(int gameId, int dealNumber);
 
-    private Q_SLOTS:
-        void handleOkClicked();
+private Q_SLOTS:
+    void handleOkClicked();
 
-    private:
-        KComboBox * m_gameType;
-        QSpinBox * m_dealNumber;
-        QMap<int,int> m_indexToIdMap;
+private:
+    KComboBox *m_gameType;
+    QSpinBox *m_dealNumber;
+    QMap<int, int> m_indexToIdMap;
 };
 
 #endif
-

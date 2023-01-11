@@ -3,7 +3,7 @@
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License as
- *  published by the Free Software Foundation; either version 2 of 
+ *  published by the Free Software Foundation; either version 2 of
  *  the License, or (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
@@ -20,52 +20,51 @@
 #define KABSTRACTCARDDECK_H
 
 // own
-#include "libkcardgame_export.h"
 #include "kcardtheme.h"
+#include "libkcardgame_export.h"
 // Qt
 #include <QObject>
 
 class KCard;
 class QSize;
 
-
 class LIBKCARDGAME_EXPORT KAbstractCardDeck : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit KAbstractCardDeck( const KCardTheme & theme = KCardTheme(), QObject * parent = nullptr );
+    explicit KAbstractCardDeck(const KCardTheme &theme = KCardTheme(), QObject *parent = nullptr);
     virtual ~KAbstractCardDeck();
 
-    void setDeckContents( const QList<quint32> & ids );
-    QList<KCard*> cards() const;
+    void setDeckContents(const QList<quint32> &ids);
+    QList<KCard *> cards() const;
 
-    virtual int rankFromId( quint32 id ) const;
-    virtual int suitFromId( quint32 id ) const;
-    virtual int colorFromId( quint32 id ) const;
+    virtual int rankFromId(quint32 id) const;
+    virtual int suitFromId(quint32 id) const;
+    virtual int colorFromId(quint32 id) const;
 
-    void setCardWidth( int width );
+    void setCardWidth(int width);
     int cardWidth() const;
-    void setCardHeight( int height );
+    void setCardHeight(int height);
     int cardHeight() const;
     QSize cardSize() const;
 
-    void setTheme( const KCardTheme & theme );
+    void setTheme(const KCardTheme &theme);
     KCardTheme theme() const;
 
     bool hasAnimatedCards() const;
     void stopAnimations();
 
-    QPixmap cardPixmap( quint32 id, bool faceUp );
+    QPixmap cardPixmap(quint32 id, bool faceUp);
 
 Q_SIGNALS:
     void cardAnimationDone();
 
 protected:
-    virtual QString elementName( quint32 id, bool faceUp = true ) const = 0;
+    virtual QString elementName(quint32 id, bool faceUp = true) const = 0;
 
 private:
-    class KAbstractCardDeckPrivate * const d;
+    class KAbstractCardDeckPrivate *const d;
 
     friend class KAbstractCardDeckPrivate;
 };

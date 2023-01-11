@@ -3,7 +3,7 @@
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of 
+ * published by the Free Software Foundation; either version 2 of
  * the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -29,13 +29,13 @@
 void ClockSolver::make_move(MOVE *m)
 {
 #if PRINT
-    if ( m->totype == O_Type )
-        fprintf( stderr, "\nmake move %d from %d out %d (at %d)\n\n", m->card_index, m->from, m->to, m->turn_index );
+    if (m->totype == O_Type)
+        fprintf(stderr, "\nmake move %d from %d out %d (at %d)\n\n", m->card_index, m->from, m->to, m->turn_index);
     else
-        fprintf( stderr, "\nmake move %d from %d to %d (%d)\n\n", m->card_index, m->from, m->to, m->turn_index );
+        fprintf(stderr, "\nmake move %d from %d to %d (%d)\n\n", m->card_index, m->from, m->to, m->turn_index);
     print_layout();
 #else
-    //print_layout();
+    // print_layout();
 #endif
 
     int from, to;
@@ -50,17 +50,17 @@ void ClockSolver::make_move(MOVE *m)
     /* Add to pile. */
 
     if (m->totype == O_Type) {
-        if ( RANK( W[8][to] ) == PS_KING )
+        if (RANK(W[8][to]) == PS_KING)
             W[8][to] = W[8][to] - PS_KING + PS_ACE;
         else
             W[8][to]++;
-        Q_ASSERT( m->card_index == 0 );
-        hashpile( 8 );
+        Q_ASSERT(m->card_index == 0);
+        hashpile(8);
     } else {
         Wp[to]++;
         *Wp[to] = card;
         Wlen[to]++;
-        hashpile( to );
+        hashpile(to);
     }
 
 #if PRINT
@@ -71,10 +71,10 @@ void ClockSolver::make_move(MOVE *m)
 void ClockSolver::undo_move(MOVE *m)
 {
 #if PRINT2
-    if ( m->totype == O_Type )
-        fprintf( stderr, "\nundo move %d from %d out (at %d)\n\n", m->card_index, m->from, m->turn_index );
+    if (m->totype == O_Type)
+        fprintf(stderr, "\nundo move %d from %d out (at %d)\n\n", m->card_index, m->from, m->turn_index);
     else
-        fprintf( stderr, "\nundo move %d from %d to %d (%d)\n\n", m->card_index, m->from, m->to, m->turn_index );
+        fprintf(stderr, "\nundo move %d from %d to %d (%d)\n\n", m->card_index, m->from, m->to, m->turn_index);
     print_layout();
 
 #endif
@@ -86,15 +86,15 @@ void ClockSolver::undo_move(MOVE *m)
 
     if (m->totype == O_Type) {
         card = W[8][to];
-        if ( RANK( card ) == PS_ACE )
+        if (RANK(card) == PS_ACE)
             W[8][to] = W[8][to] - PS_ACE + PS_KING;
         else
             W[8][to]--;
         Wp[from]++;
         *Wp[from] = card;
         Wlen[from]++;
-        hashpile( 8 );
-        hashpile( from );
+        hashpile(8);
+        hashpile(from);
     } else {
         card = *Wp[to];
         Wp[from]++;
@@ -103,7 +103,7 @@ void ClockSolver::undo_move(MOVE *m)
         Wp[to]--;
         Wlen[to]--;
         hashpile(to);
-        hashpile( from );
+        hashpile(from);
     }
 
 #if PRINT2
@@ -124,25 +124,21 @@ int ClockSolver::get_possible_moves(int *a, int *numout)
     int left_in_play = 0;
     int n = 0;
     mp = Possible;
-    for (int w = 0; w < 8; ++w)
-    {
+    for (int w = 0; w < 8; ++w) {
         left_in_play += Wlen[w];
 
-        if (Wlen[w] > 0)
-        {
+        if (Wlen[w] > 0) {
             card_t card = *Wp[w];
             auto o = SUIT(card);
-            for ( int i = 0; i < 12; ++i )
-            {
-                if ( o != SUIT( W[8][i] ) )
+            for (int i = 0; i < 12; ++i) {
+                if (o != SUIT(W[8][i]))
                     continue;
 
-                if ( RANK( card ) == PS_ACE )
-                {
-                    if ( RANK( W[8][i] ) != PS_KING )
+                if (RANK(card) == PS_ACE) {
+                    if (RANK(W[8][i]) != PS_KING)
                         continue;
                 } else {
-                    if ( RANK( W[8][i] ) != RANK( card ) - 1 )
+                    if (RANK(W[8][i]) != RANK(card) - 1)
                         continue;
                 }
                 mp->card_index = 0;
@@ -154,7 +150,7 @@ int ClockSolver::get_possible_moves(int *a, int *numout)
                 n++;
                 mp++;
             }
-        } else if ( first_empty < 0 )
+        } else if (first_empty < 0)
             first_empty = w;
     }
 
@@ -163,44 +159,38 @@ int ClockSolver::get_possible_moves(int *a, int *numout)
     *a = false;
     *numout = n;
 
-    for(int i=0; i<8; ++i)
-    {
-        if ( !Wlen[i] )
+    for (int i = 0; i < 8; ++i) {
+        if (!Wlen[i])
             continue;
 
-        for (int j=0; j < 8; ++j )
-        {
-            if ( i == j )
+        for (int j = 0; j < 8; ++j) {
+            if (i == j)
                 continue;
 
             card_t card = *Wp[i];
 
             bool allowed = false;
 
-            if ( Wlen[j] == 0 )
-            {
-                if ( Wlen[i] > 1 && first_empty == j )
+            if (Wlen[j] == 0) {
+                if (Wlen[i] > 1 && first_empty == j)
                     allowed = true;
-            } else
-            {
+            } else {
                 card_t below = *Wp[j];
 
-                if ( RANK(card) == RANK( below ) - 1 )
-                {
+                if (RANK(card) == RANK(below) - 1) {
                     allowed = true;
                 }
             }
 
-            if ( allowed )
-            {
-                    mp->card_index = 0;
-                    mp->from = i;
-                    mp->to = j;
-                    mp->totype = W_Type;
-                    mp->turn_index = -1;
-                    mp->pri = 1;
-                    n++;
-                    mp++;
+            if (allowed) {
+                mp->card_index = 0;
+                mp->from = i;
+                mp->to = j;
+                mp->totype = W_Type;
+                mp->turn_index = -1;
+                mp->pri = 1;
+                n++;
+                mp++;
             }
         }
     }
@@ -211,8 +201,8 @@ int ClockSolver::get_possible_moves(int *a, int *numout)
 bool ClockSolver::isWon()
 {
     // maybe won?
-    for ( int i = 0; i < 8; ++i )
-        if ( Wlen[i] )
+    for (int i = 0; i < 8; ++i)
+        if (Wlen[i])
             return false;
     return true;
 }
@@ -220,7 +210,7 @@ bool ClockSolver::isWon()
 int ClockSolver::getOuts()
 {
     int ret = 52;
-    for ( int i = 0; i < 8; ++i )
+    for (int i = 0; i < 8; ++i)
         ret -= Wlen[i];
     return ret;
 }
@@ -239,8 +229,7 @@ void ClockSolver::translate_layout()
     /* Read the workspace. */
 
     int total = 0;
-    for ( int w = 0; w < 8; ++w )
-    {
+    for (int w = 0; w < 8; ++w) {
         int i = translate_pile(deal->store[w], W[w], 52);
         Wp[w] = &W[w][i - 1];
         Wlen[w] = i;
@@ -248,8 +237,7 @@ void ClockSolver::translate_layout()
     }
 
     /* Output piles, if any. */
-    for (int i = 0; i < 12; ++i)
-    {
+    for (int i = 0; i < 12; ++i) {
         KCard *c = deal->target[i]->topCard();
 
         // It is not safe to assume that each target pile will always have a
@@ -257,22 +245,21 @@ void ClockSolver::translate_layout()
         // at the start of a new game, it is possible that this method can be
         // called before the initial deal has been completed.
         if (c)
-            W[8][i] = translateSuit( c->suit() ) + c->rank();
+            W[8][i] = translateSuit(c->suit()) + c->rank();
     }
     Wp[8] = &W[8][11];
     Wlen[8] = 12;
 }
 
-MoveHint ClockSolver::translateMove( const MOVE &m )
+MoveHint ClockSolver::translateMove(const MOVE &m)
 {
     PatPile *frompile = deal->store[m.from];
     KCard *card = frompile->topCard();
 
-    if ( m.totype == O_Type )
-    {
-        return MoveHint( card, deal->target[m.to], m.pri );
+    if (m.totype == O_Type) {
+        return MoveHint(card, deal->target[m.to], m.pri);
     } else {
-        return MoveHint( card, deal->store[m.to], m.pri );
+        return MoveHint(card, deal->store[m.to], m.pri);
     }
 }
 
@@ -282,13 +269,13 @@ void ClockSolver::print_layout()
 
     fprintf(stderr, "print-layout-begin\n");
     for (w = 0; w < 8; ++w) {
-        fprintf( stderr, "Play%d: ", w );
+        fprintf(stderr, "Play%d: ", w);
         for (i = 0; i < Wlen[w]; ++i) {
             printcard(W[w][i], stderr);
         }
         fputc('\n', stderr);
     }
-    fprintf( stderr, "Off: " );
+    fprintf(stderr, "Off: ");
     for (o = 0; o < 12; ++o) {
         printcard(W[8][o], stderr);
     }

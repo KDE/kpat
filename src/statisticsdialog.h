@@ -22,7 +22,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -43,25 +43,24 @@
 #include <QDialog>
 #include <QMap>
 
-
 class StatisticsDialog : public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		explicit StatisticsDialog(QWidget* aParent);
-                ~StatisticsDialog();
-		void showGameType(int gameIndex);
-	public Q_SLOTS:
-		void setGameType(int gameIndex);
-		void resetStats();
+public:
+    explicit StatisticsDialog(QWidget *aParent);
+    ~StatisticsDialog();
+    void showGameType(int gameIndex);
+public Q_SLOTS:
+    void setGameType(int gameIndex);
+    void resetStats();
 
-	private Q_SLOTS:
-		void selectionChanged(int comboIndex);
+private Q_SLOTS:
+    void selectionChanged(int comboIndex);
 
-	private:
-		Ui::GameStats * ui;
-		QMap<int,int> indexToIdMap;
+private:
+    Ui::GameStats *ui;
+    QMap<int, int> indexToIdMap;
 };
 
 #endif

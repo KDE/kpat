@@ -22,7 +22,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -43,19 +43,18 @@
 // Qt
 #include <QGraphicsView>
 
-
-class PatienceView: public QGraphicsView, public KGameRendererClient
+class PatienceView : public QGraphicsView, public KGameRendererClient
 {
 public:
-    explicit PatienceView ( QWidget * parent );
+    explicit PatienceView(QWidget *parent);
     virtual ~PatienceView();
 
-    void setScene( QGraphicsScene * scene );
+    void setScene(QGraphicsScene *scene);
 
 protected:
-    void resizeEvent( QResizeEvent * e ) override;
-    void drawBackground( QPainter * painter, const QRectF & rect ) override;
-    void receivePixmap( const QPixmap & pixmap ) override;
+    void resizeEvent(QResizeEvent *e) override;
+    void drawBackground(QPainter *painter, const QRectF &rect) override;
+    void receivePixmap(const QPixmap &pixmap) override;
 
 private:
     void updateSceneSize();

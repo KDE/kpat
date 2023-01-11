@@ -3,7 +3,7 @@
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License as
- *  published by the Free Software Foundation; either version 2 of 
+ *  published by the Free Software Foundation; either version 2 of
  *  the License, or (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
@@ -21,20 +21,17 @@
 // own
 #include "settings.h"
 // KDEGames
-#include <kdegames_version.h>
 #include <KgThemeProvider>
+#include <kdegames_version.h>
 
+Renderer *Renderer::s_instance = nullptr;
 
-Renderer * Renderer::s_instance = nullptr;
-
-
-Renderer * Renderer::self()
+Renderer *Renderer::self()
 {
-    if ( s_instance == nullptr )
+    if (s_instance == nullptr)
         s_instance = new Renderer();
     return s_instance;
 }
-
 
 void Renderer::deleteSelf()
 {
@@ -42,53 +39,46 @@ void Renderer::deleteSelf()
     s_instance = nullptr;
 }
 
-
-qreal Renderer::aspectRatioOfElement( const QString & elementId )
+qreal Renderer::aspectRatioOfElement(const QString &elementId)
 {
-    const QSizeF size = boundsOnSprite( elementId ).size();
+    const QSizeF size = boundsOnSprite(elementId).size();
     return size.width() / size.height();
 }
 
-
-QColor Renderer::colorOfElement( const QString & elementId )
+QColor Renderer::colorOfElement(const QString &elementId)
 {
-    if ( m_cachedTheme != theme()->identifier() )
-    {
+    if (m_cachedTheme != theme()->identifier()) {
         m_colors.clear();
         m_cachedTheme = theme()->identifier();
     }
 
     QColor color;
-    QHash<QString,QColor>::const_iterator it = m_colors.constFind( elementId );
-    if ( it != m_colors.constEnd() )
-    {
+    QHash<QString, QColor>::const_iterator it = m_colors.constFind(elementId);
+    if (it != m_colors.constEnd()) {
         color = it.value();
-    }
-    else
-    {
-        QPixmap pix = spritePixmap( elementId, QSize( 3, 3 ) );
-        color = pix.toImage().pixel( 1, 1 );
-        m_colors.insert( elementId, color );
+    } else {
+        QPixmap pix = spritePixmap(elementId, QSize(3, 3));
+        color = pix.toImage().pixel(1, 1);
+        m_colors.insert(elementId, color);
     }
     return color;
 }
 
-static KgThemeProvider* provider()
+static KgThemeProvider *provider()
 {
-    KgThemeProvider* prov = new KgThemeProvider;
+    KgThemeProvider *prov = new KgThemeProvider;
     prov->discoverThemes(
 #if KDEGAMES_VERSION < QT_VERSION_CHECK(7, 4, 0)
         "appdata",
 #endif
-        QStringLiteral("themes"),     //theme file location
-        QStringLiteral("greenblaze")  //default theme file name
+        QStringLiteral("themes"), // theme file location
+        QStringLiteral("greenblaze") // default theme file name
     );
     return prov;
 }
 
 Renderer::Renderer()
-  : KGameRenderer( provider() )
+    : KGameRenderer(provider())
 {
-	setStrategyEnabled(KGameRenderer::UseDiskCache, false);
+    setStrategyEnabled(KGameRenderer::UseDiskCache, false);
 }
-

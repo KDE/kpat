@@ -20,31 +20,31 @@
 #define PATSOLVE_H
 
 // own
-#include "solverinterface.h"
 #include "../hint.h"
 #include "memory.h"
+#include "solverinterface.h"
 // KCardGame
 #include <KCardPile>
 // Qt
 #include <QMap>
 // Std
-#include <atomic>
-#include <memory>
 #include <array>
+#include <atomic>
 #include <cstdio>
+#include <memory>
 
 /* A card is represented as ( down << 6 ) + (suit << 4) + rank. */
 
 typedef quint8 card_t;
 
 struct POSITION {
-        POSITION *queue;      /* next position in the queue */
-	POSITION *parent;     /* point back up the move stack */
-	TREE *node;             /* compact position rep.'s tree node */
-	MOVE move;              /* move that got us here from the parent */
-	quint32 cluster; /* the cluster this node is in */
-	short depth;            /* number of moves so far */
-	quint8 nchild;          /* number of child nodes left */
+    POSITION *queue; /* next position in the queue */
+    POSITION *parent; /* point back up the move stack */
+    TREE *node; /* compact position rep.'s tree node */
+    MOVE move; /* move that got us here from the parent */
+    quint32 cluster; /* the cluster this node is in */
+    short depth; /* number of moves so far */
+    quint8 nchild; /* number of child nodes left */
 };
 
 class MemoryManager;
@@ -52,15 +52,13 @@ class MemoryManager;
 template<size_t NumberPiles>
 class Solver : public SolverInterface
 {
-
 public:
-
     Solver();
     virtual ~Solver();
-    ExitStatus patsolve( int max_positions = -1) override;
+    ExitStatus patsolve(int max_positions = -1) override;
     bool recursive(POSITION *pos = nullptr);
     void translate_layout() override = 0;
-    MoveHint translateMove(const MOVE &m ) override = 0;
+    MoveHint translateMove(const MOVE &m) override = 0;
     void stopExecution() final override;
     QList<MOVE> firstMoves() const final override;
     QList<MOVE> winMoves() const final override;
@@ -71,9 +69,9 @@ protected:
     void doit();
     void win(POSITION *pos);
     virtual int get_possible_moves(int *a, int *numout) = 0;
-    int translateSuit( int s );
+    int translateSuit(int s);
 
-	void queue_position(POSITION *pos, int pri);
+    void queue_position(POSITION *pos, int pri);
     void free_position(POSITION *pos, int);
     POSITION *dequeue_position();
     void hashpile(int w);
@@ -89,22 +87,27 @@ protected:
     virtual void print_layout();
 
     void pilesort(void);
-    void hash_layout( void );
+    void hash_layout(void);
     virtual void make_move(MOVE *m) = 0;
     virtual void undo_move(MOVE *m) = 0;
     virtual void prioritize(MOVE *mp0, int n);
     virtual bool isWon() = 0;
     virtual int getOuts() = 0;
-    virtual unsigned int getClusterNumber() { return 0; }
-    virtual void unpack_cluster( unsigned int  ) {}
+    virtual unsigned int getClusterNumber()
+    {
+        return 0;
+    }
+    virtual void unpack_cluster(unsigned int)
+    {
+    }
     void init();
     void free();
 
     /* Work arrays. */
 
-    std::array<card_t*, NumberPiles> W;    /* the workspace */
-    std::array<card_t*, NumberPiles> Wp;   /* point to the top card of each work pile */
-    std::array<int, NumberPiles>  Wlen; /* the number of cards in each pile */
+    std::array<card_t *, NumberPiles> W; /* the workspace */
+    std::array<card_t *, NumberPiles> Wp; /* point to the top card of each work pile */
+    std::array<int, NumberPiles> Wlen; /* the number of cards in each pile */
 
     /* Every different pile has a hash and a unique id. */
     std::array<quint32, NumberPiles> Whash;
@@ -114,11 +117,11 @@ protected:
 
     POSITION *Freepos = nullptr;
 
-    static constexpr auto MAXMOVES = 64;             /* > max # moves from any position */
+    static constexpr auto MAXMOVES = 64; /* > max # moves from any position */
     MOVE Possible[MAXMOVES];
 
     std::unique_ptr<MemoryManager> mm;
-    ExitStatus Status;             /* win, lose, or fail */
+    ExitStatus Status; /* win, lose, or fail */
 
     static constexpr auto NQUEUES = 127;
 
@@ -129,8 +132,9 @@ protected:
     qreal depth_sum;
 
     POSITION *Stack = nullptr;
-    QMap<qint32,bool> recu_pos;
+    QMap<qint32, bool> recu_pos;
     int max_positions;
+
 protected:
     QList<MOVE> m_firstMoves;
     QList<MOVE> m_winMoves;
@@ -139,22 +143,34 @@ protected:
 
 /* Misc. */
 
-constexpr card_t PS_DIAMOND = 0x00;         /* red */
-constexpr card_t PS_CLUB    = 0x10;         /* black */
-constexpr card_t PS_HEART   = 0x20;         /* red */
-constexpr card_t PS_SPADE   = 0x30;         /* black */
-constexpr card_t PS_BLACK   = 0x10;
-constexpr card_t PS_COLOR   = 0x10;         /* black if set */
-constexpr card_t PS_SUIT    = 0x30;         /* mask both suit bits */
+constexpr card_t PS_DIAMOND = 0x00; /* red */
+constexpr card_t PS_CLUB = 0x10; /* black */
+constexpr card_t PS_HEART = 0x20; /* red */
+constexpr card_t PS_SPADE = 0x30; /* black */
+constexpr card_t PS_BLACK = 0x10;
+constexpr card_t PS_COLOR = 0x10; /* black if set */
+constexpr card_t PS_SUIT = 0x30; /* mask both suit bits */
 
-constexpr card_t NONE    = 0;
-constexpr card_t PS_ACE  = 1;
+constexpr card_t NONE = 0;
+constexpr card_t PS_ACE = 1;
 constexpr card_t PS_KING = 13;
 
-constexpr card_t RANK(card_t card) {return card & 0xF;}
-constexpr card_t SUIT(card_t card) {return (card >> 4 ) & 3;}
+constexpr card_t RANK(card_t card)
+{
+    return card & 0xF;
+}
+constexpr card_t SUIT(card_t card)
+{
+    return (card >> 4) & 3;
+}
 
-constexpr card_t COLOR(card_t card) {return card & PS_COLOR;}
-constexpr card_t DOWN(card_t card) {return (card) & ( 1 << 7 );}
+constexpr card_t COLOR(card_t card)
+{
+    return card & PS_COLOR;
+}
+constexpr card_t DOWN(card_t card)
+{
+    return (card) & (1 << 7);
+}
 
 #endif // PATSOLVE_H

@@ -21,7 +21,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -40,34 +40,33 @@
 // own
 #include "dealer.h"
 
-
-class Idiot: public DealerScene
+class Idiot : public DealerScene
 {
     Q_OBJECT
 
 public:
-    explicit Idiot( const DealerInfo * di );
+    explicit Idiot(const DealerInfo *di);
     void initialize() override;
     bool isGameWon() const override;
 
 protected:
-    void setGameState( const QString & state ) override;
-    bool checkAdd(const PatPile * pile, const QList<KCard*> & oldCards, const QList<KCard*> & newCards) const override;
-    bool checkRemove(const PatPile * pile, const QList<KCard*> & cards) const override;
-    void restart( const QList<KCard*> & cards ) override;
+    void setGameState(const QString &state) override;
+    bool checkAdd(const PatPile *pile, const QList<KCard *> &oldCards, const QList<KCard *> &newCards) const override;
+    bool checkRemove(const PatPile *pile, const QList<KCard *> &cards) const override;
+    void restart(const QList<KCard *> &cards) override;
     bool drop() override;
 
 protected Q_SLOTS:
     bool newCards() override;
-    bool tryAutomaticMove( KCard * card ) override;
+    bool tryAutomaticMove(KCard *card) override;
 
 private:
     void dealRow();
-    bool canMoveAway(const KCard * card) const;
+    bool canMoveAway(const KCard *card) const;
 
-    PatPile  *talon;
-    PatPile  *m_play[ 4 ];
-    PatPile  *m_away;
+    PatPile *talon;
+    PatPile *m_play[4];
+    PatPile *m_away;
 
     friend class IdiotSolver;
 };

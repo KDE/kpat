@@ -3,7 +3,7 @@
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of 
+ * published by the Free Software Foundation; either version 2 of
  * the License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -23,7 +23,7 @@
 
 class Mod3;
 
-class Mod3Solver : public Solver</* 24 targets, 8 playing fields, deck, aces =*/ 34>
+class Mod3Solver : public Solver</* 24 targets, 8 playing fields, deck, aces =*/34>
 {
 public:
     explicit Mod3Solver(const Mod3 *dealer);

@@ -3,7 +3,7 @@
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License as
- *  published by the Free Software Foundation; either version 2 of 
+ *  published by the Free Software Foundation; either version 2 of
  *  the License, or (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
@@ -22,61 +22,60 @@
 // own
 #include "libkcardgame_export.h"
 // Qt
-#include <QObject>
 #include <QGraphicsPixmapItem>
+#include <QObject>
 
 class KAbstractCardDeck;
 class KCardPile;
-
 
 class LIBKCARDGAME_EXPORT KCard : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 
 private:
-    KCard( quint32 id, KAbstractCardDeck * deck );
+    KCard(quint32 id, KAbstractCardDeck *deck);
     virtual ~KCard();
 
 public:
     enum { Type = QGraphicsItem::UserType + 1 };
     int type() const override;
 
-    void paint( QPainter * painter, const QStyleOptionGraphicsItem * option, QWidget * widget = nullptr ) override;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
 
     quint32 id() const;
     int rank() const;
     int suit() const;
     int color() const;
 
-    KCardPile * pile() const;
+    KCardPile *pile() const;
 
-    void setFaceUp( bool faceUp );
+    void setFaceUp(bool faceUp);
     bool isFaceUp() const;
 
-    void animate( QPointF pos, qreal z, qreal rotation, bool faceUp, bool raised, int duration );
+    void animate(QPointF pos, qreal z, qreal rotation, bool faceUp, bool raised, int duration);
     bool isAnimated() const;
 
     void raise();
 
-    void setHighlighted( bool highlighted );
+    void setHighlighted(bool highlighted);
     bool isHighlighted() const;
 
-    void setFrontPixmap( const QPixmap & pix );
-    void setBackPixmap( const QPixmap & pix );
+    void setFrontPixmap(const QPixmap &pix);
+    void setBackPixmap(const QPixmap &pix);
 
 Q_SIGNALS:
-    void animationStarted( KCard * card );
-    void animationStopped( KCard * card );
+    void animationStarted(KCard *card);
+    void animationStopped(KCard *card);
 
 public Q_SLOTS:
     void completeAnimation();
     void stopAnimation();
 
 private:
-    void setPile( KCardPile * pile );
-    void setPixmap( const QPixmap & pix );
+    void setPile(KCardPile *pile);
+    void setPixmap(const QPixmap &pix);
 
-    class KCardPrivate * const d;
+    class KCardPrivate *const d;
 
     friend class KCardPrivate;
     friend class KAbstractCardDeck;

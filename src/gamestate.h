@@ -21,7 +21,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -45,59 +45,52 @@
 class KCard;
 class KCardPile;
 
-
 class CardState
 {
 public:
-    KCardPile * pile;
+    KCardPile *pile;
     int index;
     bool faceUp;
     bool takenDown;
 
     CardState()
-      : pile( nullptr ),
-        index( -1 ),
-        faceUp( false ),
-        takenDown( false )
-    {
-    }
-    
-    CardState( KCardPile * pile, int index, bool faceUp, bool takenDown )
-      : pile( pile ),
-        index( index ),
-        faceUp( faceUp ),
-        takenDown( takenDown )
+        : pile(nullptr)
+        , index(-1)
+        , faceUp(false)
+        , takenDown(false)
     {
     }
 
-    bool operator==( const CardState & rhs ) const
+    CardState(KCardPile *pile, int index, bool faceUp, bool takenDown)
+        : pile(pile)
+        , index(index)
+        , faceUp(faceUp)
+        , takenDown(takenDown)
     {
-        return pile == rhs.pile
-               && index == rhs.index
-               && faceUp == rhs.faceUp
-               && takenDown == rhs.takenDown;
     }
 
-    bool operator!=( const CardState & rhs ) const
+    bool operator==(const CardState &rhs) const
     {
-        return !operator==( rhs );
+        return pile == rhs.pile && index == rhs.index && faceUp == rhs.faceUp && takenDown == rhs.takenDown;
+    }
+
+    bool operator!=(const CardState &rhs) const
+    {
+        return !operator==(rhs);
     }
 };
-
 
 class CardStateChange
 {
 public:
     CardState oldState;
     CardState newState;
-    QList<KCard*> cards;
+    QList<KCard *> cards;
 
-    CardStateChange( CardState oldState, CardState newState, const QList<KCard*> &cards )
-      : oldState( oldState ),
-        newState( newState ),
-        cards( cards )
-    {
-    };
+    CardStateChange(CardState oldState, CardState newState, const QList<KCard *> &cards)
+        : oldState(oldState)
+        , newState(newState)
+        , cards(cards){};
 };
 
 class GameState
@@ -108,13 +101,12 @@ public:
     SolverInterface::ExitStatus solvability;
     QList<MOVE> winningMoves;
 
-    GameState( const QList<CardStateChange> &changes, const QString &stateData )
-      : changes ( changes ),
-        stateData( stateData ),
-        solvability( SolverInterface::SearchAborted )
+    GameState(const QList<CardStateChange> &changes, const QString &stateData)
+        : changes(changes)
+        , stateData(stateData)
+        , solvability(SolverInterface::SearchAborted)
     {
     }
 };
-
 
 #endif

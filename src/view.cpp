@@ -22,7 +22,7 @@
  * -------------------------------------------------------------------------
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
- *   published by the Free Software Foundation; either version 2 of 
+ *   published by the Free Software Foundation; either version 2 of
  *   the License, or (at your option) any later version.
  *
  *   This program is distributed in the hope that it will be useful,
@@ -45,90 +45,75 @@
 // Qt
 #include <QResizeEvent>
 
-
 // ================================================================
 //                        class PatienceView
 
-
-PatienceView::PatienceView( QWidget * parent )
-  : QGraphicsView( parent ),
-    KGameRendererClient( Renderer::self(), QStringLiteral("background") )
+PatienceView::PatienceView(QWidget *parent)
+    : QGraphicsView(parent)
+    , KGameRendererClient(Renderer::self(), QStringLiteral("background"))
 {
-    setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
-    setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
-    setFrameStyle( QFrame::NoFrame );
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setFrameStyle(QFrame::NoFrame);
 
     // This makes the background of the widget transparent so that Oxygen's
     // (or any other style's) window gradient is visible in unpainted areas of
     // the scene.
     QPalette p = palette();
-    QColor c = p.color( QPalette::Base );
-    c.setAlpha( 0 );
-    p.setColor( QPalette::Base, c );
-    setPalette( p );
-    setBackgroundRole( QPalette::Base );
+    QColor c = p.color(QPalette::Base);
+    c.setAlpha(0);
+    p.setColor(QPalette::Base, c);
+    setPalette(p);
+    setBackgroundRole(QPalette::Base);
 
-    setAlignment( Qt::AlignLeft | Qt::AlignTop );
-    setCacheMode( QGraphicsView::CacheBackground );
+    setAlignment(Qt::AlignLeft | Qt::AlignTop);
+    setCacheMode(QGraphicsView::CacheBackground);
 }
-
 
 PatienceView::~PatienceView()
 {
 }
 
-
-void PatienceView::setScene( QGraphicsScene * scene )
+void PatienceView::setScene(QGraphicsScene *scene)
 {
-    QGraphicsView::setScene( scene );
+    QGraphicsView::setScene(scene);
     updateSceneSize();
 }
 
-
-void PatienceView::resizeEvent( QResizeEvent * e )
+void PatienceView::resizeEvent(QResizeEvent *e)
 {
-    QGraphicsView::resizeEvent( e );
-    setRenderSize( e->size() );
+    QGraphicsView::resizeEvent(e);
+    setRenderSize(e->size());
     resetCachedContent();
     updateSceneSize();
 }
 
-
-void PatienceView::drawBackground( QPainter * painter, const QRectF & rect )
+void PatienceView::drawBackground(QPainter *painter, const QRectF &rect)
 {
-    QRectF source = rect.translated( -sceneRect().topLeft() );
-    if ( m_background.size() != size() )
-    {
+    QRectF source = rect.translated(-sceneRect().topLeft());
+    if (m_background.size() != size()) {
         qreal xScale = m_background.width() / width();
         qreal yScale = m_background.height() / height();
-        source = QRectF( source.x() * xScale,
-                         source.y() * yScale,
-                         source.width() * xScale,
-                         source.height() * yScale );
+        source = QRectF(source.x() * xScale, source.y() * yScale, source.width() * xScale, source.height() * yScale);
     }
 
-    painter->drawPixmap( rect, m_background, source );
+    painter->drawPixmap(rect, m_background, source);
 }
 
-
-void PatienceView::receivePixmap( const QPixmap & pixmap )
+void PatienceView::receivePixmap(const QPixmap &pixmap)
 {
     m_background = pixmap;
     resetCachedContent();
 }
 
-
 void PatienceView::updateSceneSize()
 {
-    KCardScene * cs = dynamic_cast<KCardScene*>( scene() );
-    if ( cs )
-    {
-        cs->resizeScene( size() );
-    }
-    else
-    {
-        GameSelectionScene * gss = dynamic_cast<GameSelectionScene*>( scene() );
-        if ( gss )
-            gss->resizeScene( size() );
+    KCardScene *cs = dynamic_cast<KCardScene *>(scene());
+    if (cs) {
+        cs->resizeScene(size());
+    } else {
+        GameSelectionScene *gss = dynamic_cast<GameSelectionScene *>(scene());
+        if (gss)
+            gss->resizeScene(size());
     }
 }
