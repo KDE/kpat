@@ -13,6 +13,7 @@
   <name xml:lang="en-GB">KPatience</name>
   <name xml:lang="es">KPatience</name>
   <name xml:lang="et">KPatience</name>
+  <name xml:lang="eu">KPatience</name>
   <name xml:lang="fi">KPatience</name>
   <name xml:lang="fr">KPatience</name>
   <name xml:lang="gl">KPatience</name>
@@ -45,6 +46,7 @@
   <summary xml:lang="en-GB">Solitaire card game</summary>
   <summary xml:lang="es">Juego de cartas de tipo solitario</summary>
   <summary xml:lang="et">Solitaire kaardimäng</summary>
+  <summary xml:lang="eu">Bakarkako karta-jokoa</summary>
   <summary xml:lang="fi">Pasianssikorttipeli</summary>
   <summary xml:lang="fr">Jeu de solitaire</summary>
   <summary xml:lang="gl">Xogo de cartas do solitario</summary>
@@ -77,6 +79,7 @@
     <p xml:lang="en-GB">KPat (aka KPatience) is a relaxing card sorting game. To win the game a player has to arrange a single deck of cards in certain order amongst each other.</p>
     <p xml:lang="es">KPat (también conocido como KPatience) es un relajante juego de ordenación de cartas. Para ganar la partida, el jugador debe organizar una baraja de cartas en cierto orden.</p>
     <p xml:lang="et">KPat (tuntud ka kui KPatience) leevendust ja meelerahu pakkuv kaartide sortimise mäng. Võitmiseks tuleb üks kaardipakk korraldada ümber teatud kindlaid reegleid järgides.</p>
+    <p xml:lang="eu">KPat, KPatience bezala ere ezaguna, kartak sailkatzeko karta-joko lasaigarri bat da. Jokoa irabazteko, jokalariak karta-sorta bakar bat karten elkarrekiko hurrenkera jakin batean antolatu behar du.</p>
     <p xml:lang="fi">KPat (tai KPatience) on rento korttien lajittelupeli. Pelin voittaakseen pelaajan on järjestettävä kortit määräjärjestykseen.</p>
     <p xml:lang="fr">KPat (alias KPatience) est un jeu de cartes conçu pour la détente. Afin de remporter la partie, le joueur doit trier un jeu de cartes dans un certain ordre.</p>
     <p xml:lang="gl">KPat (tamén chamado KPatience) é un xogo relaxante que consiste en ordenar cartas. Para gañar hai que ordenar un mazo de cartas dun xeito concreto.</p>
@@ -114,6 +117,7 @@
       <caption xml:lang="en-GB">Solitaire selection screen</caption>
       <caption xml:lang="es">Pantalla de selección de solitario</caption>
       <caption xml:lang="et">KPatience'i valikuekraan</caption>
+      <caption xml:lang="eu">Bakar-jokoa hautatzeko pantaila</caption>
       <caption xml:lang="fi">Pasianssi valintanäkymä</caption>
       <caption xml:lang="fr">Écran de sélection du solitaire</caption>
       <caption xml:lang="gl">Pantalla de selección do solitario</caption>
