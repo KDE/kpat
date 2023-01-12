@@ -52,6 +52,7 @@
 #include <KMessageBox>
 #include <KSharedConfig>
 // Qt
+#include <QApplication>
 #include <QRandomGenerator>
 #include <QThread>
 #include <QXmlStreamReader>
@@ -1959,7 +1960,7 @@ bool DealerScene::allowedToStartNewGame()
            || m_dealWasJustSaved
            || m_toldAboutWonGame
            || m_toldAboutLostGame
-           || KMessageBox::warningContinueCancel(nullptr,
+           || KMessageBox::warningContinueCancel(QApplication::activeWindow(),
                      i18n("A new game has been requested, but there is already a game in progress.\n\n"
                           "A loss will be recorded in the statistics if the current game is abandoned."),
                      i18n("Abandon Current Game?"),
