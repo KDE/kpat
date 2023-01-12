@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-03 00:43+0000\n"
+"POT-Creation-Date: 2023-01-12 00:52+0000\n"
 "PO-Revision-Date: 2020-01-03 20:32+0200\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -828,27 +828,27 @@ msgstr "Fookuse tühistamine"
 msgid "Pick Up or Set Down Focus"
 msgstr "Fookuse kasutamine või tühistamine"
 
-#: mainwindow.cpp:440
+#: mainwindow.cpp:442
 #, kde-format
 msgid "Card Deck"
 msgstr "Kaardipakk"
 
-#: mainwindow.cpp:442
+#: mainwindow.cpp:444
 #, kde-format
 msgid "Select a card deck"
 msgstr "Kaardipaki valimine"
 
-#: mainwindow.cpp:449
+#: mainwindow.cpp:451
 #, kde-format
 msgid "Game Theme"
 msgstr "Mängu teema"
 
-#: mainwindow.cpp:451
+#: mainwindow.cpp:453
 #, kde-format
 msgid "Select a theme for non-card game elements"
 msgstr "Muude elementide kui kaartide teema valimine"
 
-#: mainwindow.cpp:537
+#: mainwindow.cpp:539
 #, kde-format
 msgctxt ""
 "Is disabled and changes to \"Help &with Current Game\" when there is no "
@@ -856,75 +856,75 @@ msgctxt ""
 msgid "Help &with %1"
 msgstr "&Mängu %1 abi"
 
-#: mainwindow.cpp:571
+#: mainwindow.cpp:573
 #, kde-format
 msgctxt "Shown when there is no game open. Is always disabled."
 msgid "Help &with Current Game"
 msgstr "A&ktiivne mängu abi"
 
-#: mainwindow.cpp:745
+#: mainwindow.cpp:747
 #, kde-format
 msgid ""
 "Are you sure you want to hide the menubar? The current shortcut to show it "
 "again is %1."
 msgstr "Kas tõesti peita menüüriba? Uuesti saab seda näidata kiirklahviga %1."
 
-#: mainwindow.cpp:747
+#: mainwindow.cpp:749
 #, kde-format
 msgid "Hide Menubar"
 msgstr "Menüüriba peitmine"
 
-#: mainwindow.cpp:848
+#: mainwindow.cpp:855
 #, kde-format
 msgid "Downloading file failed: %1"
 msgstr "Faili allalaadimine nurjus: %1."
 
-#: mainwindow.cpp:855
+#: mainwindow.cpp:862
 #, kde-format
 msgid "Error reading XML file: "
 msgstr "Viga XML-faili lugemisel: "
 
-#: mainwindow.cpp:887
+#: mainwindow.cpp:894
 #, kde-format
 msgid "XML file is not a KPat save."
 msgstr "XML-fail ei ole KPati salvestatud mäng."
 
-#: mainwindow.cpp:893
+#: mainwindow.cpp:900
 #, kde-format
 msgid "Unrecognized game id."
 msgstr "Tundmatu mängu ID."
 
-#: mainwindow.cpp:914
+#: mainwindow.cpp:921
 #, kde-format
 msgid "Errors encountered while parsing file."
 msgstr "Faili parsimisel tekkis tõrkeid."
 
-#: mainwindow.cpp:934
+#: mainwindow.cpp:941
 #, kde-format
 msgid "Load"
 msgstr "Laadi"
 
-#: mainwindow.cpp:963
+#: mainwindow.cpp:970
 #, kde-format
 msgid "Save"
 msgstr "Salvesta"
 
-#: mainwindow.cpp:982
+#: mainwindow.cpp:989
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
 msgstr "Tõrge faili avamisel kirjutamiseks. Salvestamine nurjus."
 
-#: mainwindow.cpp:990
+#: mainwindow.cpp:997
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
 msgstr "Ajutise faili loomine nurjus. Salvestamine ei õnnestunud."
 
-#: mainwindow.cpp:1011
+#: mainwindow.cpp:1018
 #, kde-format
 msgid "Error uploading file. Saving failed: %1"
 msgstr "Tõrge faili üleslaadimisel. Salvestamine nurjus: %1."
 
-#: mainwindow.cpp:1035
+#: mainwindow.cpp:1042
 #, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"

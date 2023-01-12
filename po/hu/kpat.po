@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-03 00:43+0000\n"
+"POT-Creation-Date: 2023-01-12 00:52+0000\n"
 "PO-Revision-Date: 2021-11-30 14:22+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -812,27 +812,27 @@ msgstr "Fókusz megszakítása"
 msgid "Pick Up or Set Down Focus"
 msgstr "Fókusz felvétele vagy leadása"
 
-#: mainwindow.cpp:440
+#: mainwindow.cpp:442
 #, kde-format
 msgid "Card Deck"
 msgstr "Kártyacsomag"
 
-#: mainwindow.cpp:442
+#: mainwindow.cpp:444
 #, kde-format
 msgid "Select a card deck"
 msgstr "Kártyacsomag kiválasztása"
 
-#: mainwindow.cpp:449
+#: mainwindow.cpp:451
 #, kde-format
 msgid "Game Theme"
 msgstr "Játéktéma"
 
-#: mainwindow.cpp:451
+#: mainwindow.cpp:453
 #, kde-format
 msgid "Select a theme for non-card game elements"
 msgstr "Téma választása a nem-kártyajáték elemekhez"
 
-#: mainwindow.cpp:537
+#: mainwindow.cpp:539
 #, kde-format
 msgctxt ""
 "Is disabled and changes to \"Help &with Current Game\" when there is no "
@@ -840,13 +840,13 @@ msgctxt ""
 msgid "Help &with %1"
 msgstr "Sú&gó: %1"
 
-#: mainwindow.cpp:571
+#: mainwindow.cpp:573
 #, kde-format
 msgctxt "Shown when there is no game open. Is always disabled."
 msgid "Help &with Current Game"
 msgstr "Súgó a f&utó játékhoz"
 
-#: mainwindow.cpp:745
+#: mainwindow.cpp:747
 #, kde-format
 msgid ""
 "Are you sure you want to hide the menubar? The current shortcut to show it "
@@ -855,62 +855,62 @@ msgstr ""
 "Biztosan el szeretné rejteni a menüsávot? A jelenlegi gyorsbillentyű az "
 "újbóli megjelenítésére: %1."
 
-#: mainwindow.cpp:747
+#: mainwindow.cpp:749
 #, kde-format
 msgid "Hide Menubar"
 msgstr "Menüsáv elrejtése"
 
-#: mainwindow.cpp:848
+#: mainwindow.cpp:855
 #, kde-format
 msgid "Downloading file failed: %1"
 msgstr "A fájl letöltése nem sikerült: %1"
 
-#: mainwindow.cpp:855
+#: mainwindow.cpp:862
 #, kde-format
 msgid "Error reading XML file: "
 msgstr "Hiba történt az XML-fájl olvasása közben: "
 
-#: mainwindow.cpp:887
+#: mainwindow.cpp:894
 #, kde-format
 msgid "XML file is not a KPat save."
 msgstr "Az XML-fájl nem KPat mentés."
 
-#: mainwindow.cpp:893
+#: mainwindow.cpp:900
 #, kde-format
 msgid "Unrecognized game id."
 msgstr "Ismeretlen játékazonosító."
 
-#: mainwindow.cpp:914
+#: mainwindow.cpp:921
 #, kde-format
 msgid "Errors encountered while parsing file."
 msgstr "Hiba a fájl feldolgozása során."
 
-#: mainwindow.cpp:934
+#: mainwindow.cpp:941
 #, kde-format
 msgid "Load"
 msgstr "Betöltés"
 
-#: mainwindow.cpp:963
+#: mainwindow.cpp:970
 #, kde-format
 msgid "Save"
 msgstr "Mentés"
 
-#: mainwindow.cpp:982
+#: mainwindow.cpp:989
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
 msgstr "Nem sikerült megnyitni a fájlt írásra. A mentés nem sikerült."
 
-#: mainwindow.cpp:990
+#: mainwindow.cpp:997
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
 msgstr "Nem lehet ideiglenes fájlt létrehozni. A mentés nem sikerült."
 
-#: mainwindow.cpp:1011
+#: mainwindow.cpp:1018
 #, kde-format
 msgid "Error uploading file. Saving failed: %1"
 msgstr "Hiba történt a fájl feltöltése közben. A mentés nem sikerült: %1"
 
-#: mainwindow.cpp:1035
+#: mainwindow.cpp:1042
 #, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"

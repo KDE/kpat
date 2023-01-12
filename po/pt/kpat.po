@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-03 00:43+0000\n"
+"POT-Creation-Date: 2023-01-12 00:52+0000\n"
 "PO-Revision-Date: 2022-08-21 20:55+0100\n"
 "Last-Translator: José Nuno Pires <zepires@gmail.com>\n"
 "Language-Team: Portuguese <kde-i18n-pt@kde.org>\n"
@@ -815,27 +815,27 @@ msgstr "Cancelar o Primeiro Plano"
 msgid "Pick Up or Set Down Focus"
 msgstr "Subir ou Descer o Primeiro Plano"
 
-#: mainwindow.cpp:440
+#: mainwindow.cpp:442
 #, kde-format
 msgid "Card Deck"
 msgstr "Baralho de Cartas"
 
-#: mainwindow.cpp:442
+#: mainwindow.cpp:444
 #, kde-format
 msgid "Select a card deck"
 msgstr "Seleccionar um baralho"
 
-#: mainwindow.cpp:449
+#: mainwindow.cpp:451
 #, kde-format
 msgid "Game Theme"
 msgstr "Tema do Jogo"
 
-#: mainwindow.cpp:451
+#: mainwindow.cpp:453
 #, kde-format
 msgid "Select a theme for non-card game elements"
 msgstr "Seleccione um tema para os elementos fora do jogo de cartas"
 
-#: mainwindow.cpp:537
+#: mainwindow.cpp:539
 #, kde-format
 msgctxt ""
 "Is disabled and changes to \"Help &with Current Game\" when there is no "
@@ -843,13 +843,13 @@ msgctxt ""
 msgid "Help &with %1"
 msgstr "Ajuda &com o %1"
 
-#: mainwindow.cpp:571
+#: mainwindow.cpp:573
 #, kde-format
 msgctxt "Shown when there is no game open. Is always disabled."
 msgid "Help &with Current Game"
 msgstr "Ajuda &no Jogo Actual"
 
-#: mainwindow.cpp:745
+#: mainwindow.cpp:747
 #, kde-format
 msgid ""
 "Are you sure you want to hide the menubar? The current shortcut to show it "
@@ -858,63 +858,63 @@ msgstr ""
 "Tem a certeza que deseja esconder o menu? A combinação de teclas para o "
 "voltar a mostrar é %1."
 
-#: mainwindow.cpp:747
+#: mainwindow.cpp:749
 #, kde-format
 msgid "Hide Menubar"
 msgstr "Esconder o Menu"
 
-#: mainwindow.cpp:848
+#: mainwindow.cpp:855
 #, kde-format
 msgid "Downloading file failed: %1"
 msgstr "A transferência do ficheiro foi mal-sucedida: %1"
 
-#: mainwindow.cpp:855
+#: mainwindow.cpp:862
 #, kde-format
 msgid "Error reading XML file: "
 msgstr "Erro ao ler do ficheiro XML: "
 
-#: mainwindow.cpp:887
+#: mainwindow.cpp:894
 #, kde-format
 msgid "XML file is not a KPat save."
 msgstr "O ficheiro XML não é uma gravação do KPat."
 
-#: mainwindow.cpp:893
+#: mainwindow.cpp:900
 #, kde-format
 msgid "Unrecognized game id."
 msgstr "O ID do jogo não é válido."
 
-#: mainwindow.cpp:914
+#: mainwindow.cpp:921
 #, kde-format
 msgid "Errors encountered while parsing file."
 msgstr "Foram encontrados erros ao processar o ficheiro."
 
-#: mainwindow.cpp:934
+#: mainwindow.cpp:941
 #, kde-format
 msgid "Load"
 msgstr "Carregar"
 
-#: mainwindow.cpp:963
+#: mainwindow.cpp:970
 #, kde-format
 msgid "Save"
 msgstr "Gravar"
 
-#: mainwindow.cpp:982
+#: mainwindow.cpp:989
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
 msgstr "Erro ao aceder ao ficheiro para escrita. A gravação foi mal-sucedida."
 
-#: mainwindow.cpp:990
+#: mainwindow.cpp:997
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
 msgstr ""
 "Não foi possível criar um ficheiro temporário. A gravação foi mal-sucedida."
 
-#: mainwindow.cpp:1011
+#: mainwindow.cpp:1018
 #, kde-format
 msgid "Error uploading file. Saving failed: %1"
 msgstr "Erro ao enviar o ficheiro. A gravação foi mal-sucedida: %1"
 
-#: mainwindow.cpp:1035
+#: mainwindow.cpp:1042
 #, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"

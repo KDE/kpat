@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdegames/kpat.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-03 00:43+0000\n"
+"POT-Creation-Date: 2023-01-12 00:52+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -825,27 +825,27 @@ msgstr ""
 msgid "Pick Up or Set Down Focus"
 msgstr ""
 
-#: mainwindow.cpp:440
+#: mainwindow.cpp:442
 #, kde-format
 msgid "Card Deck"
 msgstr "Deic"
 
-#: mainwindow.cpp:442
+#: mainwindow.cpp:444
 #, kde-format
 msgid "Select a card deck"
 msgstr "Roghnaigh deic"
 
-#: mainwindow.cpp:449
+#: mainwindow.cpp:451
 #, kde-format
 msgid "Game Theme"
 msgstr "Téama an Chluiche"
 
-#: mainwindow.cpp:451
+#: mainwindow.cpp:453
 #, kde-format
 msgid "Select a theme for non-card game elements"
 msgstr "Roghnaigh téama d'eilimintí an chluiche seachas na cártaí"
 
-#: mainwindow.cpp:537
+#: mainwindow.cpp:539
 #, kde-format
 msgctxt ""
 "Is disabled and changes to \"Help &with Current Game\" when there is no "
@@ -853,77 +853,77 @@ msgctxt ""
 msgid "Help &with %1"
 msgstr "&Cabhair le %1"
 
-#: mainwindow.cpp:571
+#: mainwindow.cpp:573
 #, kde-format
 msgctxt "Shown when there is no game open. Is always disabled."
 msgid "Help &with Current Game"
 msgstr "&Cabhair leis an gCluiche Reatha"
 
-#: mainwindow.cpp:745
+#: mainwindow.cpp:747
 #, kde-format
 msgid ""
 "Are you sure you want to hide the menubar? The current shortcut to show it "
 "again is %1."
 msgstr ""
 
-#: mainwindow.cpp:747
+#: mainwindow.cpp:749
 #, kde-format
 msgid "Hide Menubar"
 msgstr ""
 
-#: mainwindow.cpp:848
+#: mainwindow.cpp:855
 #, fuzzy, kde-format
 #| msgid "Downloading file failed."
 msgid "Downloading file failed: %1"
 msgstr "Níorbh fhéidir an comhad a íosluchtú."
 
-#: mainwindow.cpp:855
+#: mainwindow.cpp:862
 #, kde-format
 msgid "Error reading XML file: "
 msgstr "Earráid agus comhad XML á léamh: "
 
-#: mainwindow.cpp:887
+#: mainwindow.cpp:894
 #, kde-format
 msgid "XML file is not a KPat save."
 msgstr "Ní comhad bailí sábháilte KPat é an comhad XML."
 
-#: mainwindow.cpp:893
+#: mainwindow.cpp:900
 #, kde-format
 msgid "Unrecognized game id."
 msgstr ""
 
-#: mainwindow.cpp:914
+#: mainwindow.cpp:921
 #, kde-format
 msgid "Errors encountered while parsing file."
 msgstr ""
 
-#: mainwindow.cpp:934
+#: mainwindow.cpp:941
 #, kde-format
 msgid "Load"
 msgstr "Luchtaigh"
 
-#: mainwindow.cpp:963
+#: mainwindow.cpp:970
 #, kde-format
 msgid "Save"
 msgstr "Sábháil"
 
-#: mainwindow.cpp:982
+#: mainwindow.cpp:989
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
 msgstr ""
 
-#: mainwindow.cpp:990
+#: mainwindow.cpp:997
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
 msgstr ""
 
-#: mainwindow.cpp:1011
+#: mainwindow.cpp:1018
 #, fuzzy, kde-format
 #| msgid "Downloading file failed."
 msgid "Error uploading file. Saving failed: %1"
 msgstr "Níorbh fhéidir an comhad a íosluchtú."
 
-#: mainwindow.cpp:1035
+#: mainwindow.cpp:1042
 #, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"

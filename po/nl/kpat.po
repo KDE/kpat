@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-03 00:43+0000\n"
+"POT-Creation-Date: 2023-01-12 00:52+0000\n"
 "PO-Revision-Date: 2022-08-19 13:53+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -817,27 +817,27 @@ msgstr "Focus annuleren"
 msgid "Pick Up or Set Down Focus"
 msgstr "Oppakken of focus neerzetten"
 
-#: mainwindow.cpp:440
+#: mainwindow.cpp:442
 #, kde-format
 msgid "Card Deck"
 msgstr "Kaartspel"
 
-#: mainwindow.cpp:442
+#: mainwindow.cpp:444
 #, kde-format
 msgid "Select a card deck"
 msgstr "Kaartspel selecteren..."
 
-#: mainwindow.cpp:449
+#: mainwindow.cpp:451
 #, kde-format
 msgid "Game Theme"
 msgstr "Spelthema"
 
-#: mainwindow.cpp:451
+#: mainwindow.cpp:453
 #, kde-format
 msgid "Select a theme for non-card game elements"
 msgstr "Selecteer een thema voor niet-kaartspel elementen"
 
-#: mainwindow.cpp:537
+#: mainwindow.cpp:539
 #, kde-format
 msgctxt ""
 "Is disabled and changes to \"Help &with Current Game\" when there is no "
@@ -845,13 +845,13 @@ msgctxt ""
 msgid "Help &with %1"
 msgstr "Hulp &voor %1"
 
-#: mainwindow.cpp:571
+#: mainwindow.cpp:573
 #, kde-format
 msgctxt "Shown when there is no game open. Is always disabled."
 msgid "Help &with Current Game"
 msgstr "Hulp &bij het huidig spel"
 
-#: mainwindow.cpp:745
+#: mainwindow.cpp:747
 #, kde-format
 msgid ""
 "Are you sure you want to hide the menubar? The current shortcut to show it "
@@ -860,62 +860,62 @@ msgstr ""
 "Weet u zeker dat u de menubalk wilt verbergen? De huidige sneltoets om deze "
 "weer te tonen is %1."
 
-#: mainwindow.cpp:747
+#: mainwindow.cpp:749
 #, kde-format
 msgid "Hide Menubar"
 msgstr "Menubalk verbergen"
 
-#: mainwindow.cpp:848
+#: mainwindow.cpp:855
 #, kde-format
 msgid "Downloading file failed: %1"
 msgstr "Het downloaden van bestand is mislukt: %1"
 
-#: mainwindow.cpp:855
+#: mainwindow.cpp:862
 #, kde-format
 msgid "Error reading XML file: "
 msgstr "Fout bij het lezen van XML-bestand: "
 
-#: mainwindow.cpp:887
+#: mainwindow.cpp:894
 #, kde-format
 msgid "XML file is not a KPat save."
 msgstr "XML-bestand is geen opgeslagen KPat."
 
-#: mainwindow.cpp:893
+#: mainwindow.cpp:900
 #, kde-format
 msgid "Unrecognized game id."
 msgstr "Onbekend spel-id."
 
-#: mainwindow.cpp:914
+#: mainwindow.cpp:921
 #, kde-format
 msgid "Errors encountered while parsing file."
 msgstr "Fouten tegen gekomen bij interpreteren van bestand."
 
-#: mainwindow.cpp:934
+#: mainwindow.cpp:941
 #, kde-format
 msgid "Load"
 msgstr "Laden"
 
-#: mainwindow.cpp:963
+#: mainwindow.cpp:970
 #, kde-format
 msgid "Save"
 msgstr "Opslaan"
 
-#: mainwindow.cpp:982
+#: mainwindow.cpp:989
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
 msgstr "Fout bij het openen voor schrijven. Opslaan is mislukt."
 
-#: mainwindow.cpp:990
+#: mainwindow.cpp:997
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
 msgstr "Kon geen tijdelijk bestand aanmaken. Opslaan is mislukt."
 
-#: mainwindow.cpp:1011
+#: mainwindow.cpp:1018
 #, kde-format
 msgid "Error uploading file. Saving failed: %1"
 msgstr "Fout bij het uploaden van bestand. Opslaan is mislukt: %1"
 
-#: mainwindow.cpp:1035
+#: mainwindow.cpp:1042
 #, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"
