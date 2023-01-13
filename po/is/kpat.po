@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-12 00:52+0000\n"
+"POT-Creation-Date: 2023-01-13 00:53+0000\n"
 "PO-Revision-Date: 2015-01-29 09:07+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -295,47 +295,47 @@ msgstr ""
 msgid "Grandfather's Clock"
 msgstr "Afaklukka"
 
-#: dealer.cpp:73
+#: dealer.cpp:74
 #, kde-format
 msgid "Solver: This game is winnable."
 msgstr "Lausn: Þessi leikur er vinnanlegur."
 
-#: dealer.cpp:75
+#: dealer.cpp:76
 #, kde-format
 msgid "Solver: This game is no longer winnable."
 msgstr "Lausn: Þessi leikur er ekki lengur vinnanlegur."
 
-#: dealer.cpp:76
+#: dealer.cpp:77
 #, kde-format
 msgid "Solver: This game cannot be won."
 msgstr "Lausn: Þessi leikur er ekki vinnanlegur."
 
-#: dealer.cpp:78
+#: dealer.cpp:79
 #, kde-format
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr "Lausn: Get ekki fundið út hvort hægt sé að vinna þennan leik."
 
-#: dealer.cpp:985
+#: dealer.cpp:986
 #, kde-format
 msgid "Congratulations! We have won."
 msgstr "Til hamingju! Við sigruðum!"
 
-#: dealer.cpp:987
+#: dealer.cpp:988
 #, kde-format
 msgid "Congratulations! You have won."
 msgstr "Til hamingju! Þú sigraðir!"
 
-#: dealer.cpp:1334
+#: dealer.cpp:1335
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "Lausn: Þessi leikur er tapaður."
 
-#: dealer.cpp:1488
+#: dealer.cpp:1489
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "Lausn: Reiknina út..."
 
-#: dealer.cpp:1963
+#: dealer.cpp:1964
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -346,12 +346,12 @@ msgstr ""
 "\n"
 "Það verður skráð sem tap í tölfræðina ef hætt er í núverandi leik."
 
-#: dealer.cpp:1965
+#: dealer.cpp:1966
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "Hætta í núverandi leik?"
 
-#: dealer.cpp:1966
+#: dealer.cpp:1967
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "Hætta í núverandi leik"

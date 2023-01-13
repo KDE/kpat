@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-12 00:52+0000\n"
+"POT-Creation-Date: 2023-01-13 00:53+0000\n"
 "PO-Revision-Date: 2020-01-08 18:47+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -291,47 +291,47 @@ msgstr ""
 msgid "Grandfather's Clock"
 msgstr "Dedkove hodiny"
 
-#: dealer.cpp:73
+#: dealer.cpp:74
 #, kde-format
 msgid "Solver: This game is winnable."
 msgstr "Riešiteľ: túto hru je možné vyhrať."
 
-#: dealer.cpp:75
+#: dealer.cpp:76
 #, kde-format
 msgid "Solver: This game is no longer winnable."
 msgstr "Riešiteľ: túto hru už nie je možné vyhrať."
 
-#: dealer.cpp:76
+#: dealer.cpp:77
 #, kde-format
 msgid "Solver: This game cannot be won."
 msgstr "Riešiteľ: túto hru nie je možné vyhrať."
 
-#: dealer.cpp:78
+#: dealer.cpp:79
 #, kde-format
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr "Riešiteľ: nepodarilo sa zistiť, či sa dá táto hra vyhrať."
 
-#: dealer.cpp:985
+#: dealer.cpp:986
 #, kde-format
 msgid "Congratulations! We have won."
 msgstr "Blahoželám! Vyhrali sme!"
 
-#: dealer.cpp:987
+#: dealer.cpp:988
 #, kde-format
 msgid "Congratulations! You have won."
 msgstr "Blahoželám! Vyhrali ste!"
 
-#: dealer.cpp:1334
+#: dealer.cpp:1335
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "Riešiteľ: táto hra je stratená."
 
-#: dealer.cpp:1488
+#: dealer.cpp:1489
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "Riešiteľ: vypočítava sa..."
 
-#: dealer.cpp:1963
+#: dealer.cpp:1964
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -342,12 +342,12 @@ msgstr ""
 "\n"
 "Ak ukončíte aktuálnu hru, bude do štatistik zaznamenaná prehra."
 
-#: dealer.cpp:1965
+#: dealer.cpp:1966
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "Ukončiť aktuálnu hru?"
 
-#: dealer.cpp:1966
+#: dealer.cpp:1967
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "Ukončiť aktuálnu hru"

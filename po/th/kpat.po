@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-12 00:52+0000\n"
+"POT-Creation-Date: 2023-01-13 00:53+0000\n"
 "PO-Revision-Date: 2010-03-28 18:21+0700\n"
 "Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -283,47 +283,47 @@ msgstr ""
 msgid "Grandfather's Clock"
 msgstr "นาฬิกาของคุณตา"
 
-#: dealer.cpp:73
+#: dealer.cpp:74
 #, kde-format
 msgid "Solver: This game is winnable."
 msgstr "ตัวแก้ปัญหา: เกมนี้สามารถเอาชนะได้"
 
-#: dealer.cpp:75
+#: dealer.cpp:76
 #, kde-format
 msgid "Solver: This game is no longer winnable."
 msgstr "ตัวแก้ปัญหา: เกมนี้ไม่มีทางที่จะชนะ"
 
-#: dealer.cpp:76
+#: dealer.cpp:77
 #, kde-format
 msgid "Solver: This game cannot be won."
 msgstr "ตัวแก้ปัญหา: เกมนี้ไม่สามารถจะชนะได้"
 
-#: dealer.cpp:78
+#: dealer.cpp:79
 #, kde-format
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr "ตัวแก้ปัญหา: ไม่สามารถระบุได้ว่า เกมนี้จะสามารถเอาชนะได้หรือไม่"
 
-#: dealer.cpp:985
+#: dealer.cpp:986
 #, kde-format
 msgid "Congratulations! We have won."
 msgstr "ยินดีด้วย ! เราชนะแล้ว"
 
-#: dealer.cpp:987
+#: dealer.cpp:988
 #, kde-format
 msgid "Congratulations! You have won."
 msgstr "ยินดีด้วย ! คุณชนะแล้ว"
 
-#: dealer.cpp:1334
+#: dealer.cpp:1335
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "ตัวแก้ปัญหา: เกมนี้แพ้แน่นอน"
 
-#: dealer.cpp:1488
+#: dealer.cpp:1489
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "ตัวแก้ปัญหา: กำลังทำการคำนวณ..."
 
-#: dealer.cpp:1963
+#: dealer.cpp:1964
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -334,12 +334,12 @@ msgstr ""
 "\n"
 "หากเลิกเล่นเกมปัจจุบัน จะมีการบันทึกว่าคุณแพ้เพิ่มไว้ในสถิติ"
 
-#: dealer.cpp:1965
+#: dealer.cpp:1966
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "เลิกเล่นเกมปัจจุบันจริงหรือไม่ ?"
 
-#: dealer.cpp:1966
+#: dealer.cpp:1967
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "เลิกเล่นเกมปัจจุบัน"

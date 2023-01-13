@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-12 00:52+0000\n"
+"POT-Creation-Date: 2023-01-13 00:53+0000\n"
 "PO-Revision-Date: 2022-08-19 20:36+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -287,49 +287,49 @@ msgstr ""
 msgid "Grandfather's Clock"
 msgstr "Grandfather's Clock"
 
-#: dealer.cpp:73
+#: dealer.cpp:74
 #, kde-format
 msgid "Solver: This game is winnable."
 msgstr "Solver: Permainan ini bisa dimenangkan."
 
-#: dealer.cpp:75
+#: dealer.cpp:76
 #, kde-format
 msgid "Solver: This game is no longer winnable."
 msgstr "Solver: Permainan ini tidak lama lagi bisa dimenangkan."
 
-#: dealer.cpp:76
+#: dealer.cpp:77
 #, kde-format
 msgid "Solver: This game cannot be won."
 msgstr "Solver: Permainan ini tidak bisa menang."
 
-#: dealer.cpp:78
+#: dealer.cpp:79
 #, kde-format
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr ""
 "Solver: Tak sanggup menentukan kalau permainan ini bisa dimenangkan atau "
 "tidak."
 
-#: dealer.cpp:985
+#: dealer.cpp:986
 #, kde-format
 msgid "Congratulations! We have won."
 msgstr "Selamat! Kita menang."
 
-#: dealer.cpp:987
+#: dealer.cpp:988
 #, kde-format
 msgid "Congratulations! You have won."
 msgstr "Selamat! Kamu menang."
 
-#: dealer.cpp:1334
+#: dealer.cpp:1335
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "Solver: Permainan ini kalah."
 
-#: dealer.cpp:1488
+#: dealer.cpp:1489
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "Solver: Menghitung..."
 
-#: dealer.cpp:1963
+#: dealer.cpp:1964
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -342,12 +342,12 @@ msgstr ""
 "Sebuah kekalahan akan direkam di dalam statistik kalau permainan saat ini "
 "ditinggalkan."
 
-#: dealer.cpp:1965
+#: dealer.cpp:1966
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "Tinggalkan Permainan Saat Ini?"
 
-#: dealer.cpp:1966
+#: dealer.cpp:1967
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "Tinggalkan Permainan Saat Ini"

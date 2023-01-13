@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-12 00:52+0000\n"
+"POT-Creation-Date: 2023-01-13 00:53+0000\n"
 "PO-Revision-Date: 2022-01-29 13:25+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -279,47 +279,47 @@ msgstr "حديث"
 msgid "Grandfather's Clock"
 msgstr "ساعة الجد"
 
-#: dealer.cpp:73
+#: dealer.cpp:74
 #, kde-format
 msgid "Solver: This game is winnable."
 msgstr "الحلّال: يمكنك ربح هذه اللعبة."
 
-#: dealer.cpp:75
+#: dealer.cpp:76
 #, fuzzy, kde-format
 msgid "Solver: This game is no longer winnable."
 msgstr "خُسرت هذه اللعبة."
 
-#: dealer.cpp:76
+#: dealer.cpp:77
 #, fuzzy, kde-format
 msgid "Solver: This game cannot be won."
 msgstr "نوب ، هذه اللعبة لا يمكن ربحها."
 
-#: dealer.cpp:78
+#: dealer.cpp:79
 #, kde-format
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr "الحلّال: لا أستطيع تحديد إذا ما كان يمكن ربح هذه اللعبة."
 
-#: dealer.cpp:985
+#: dealer.cpp:986
 #, kde-format
 msgid "Congratulations! We have won."
 msgstr "تهانينا! لقد ربحنا."
 
-#: dealer.cpp:987
+#: dealer.cpp:988
 #, kde-format
 msgid "Congratulations! You have won."
 msgstr "تهانينا! لقد ربحت."
 
-#: dealer.cpp:1334
+#: dealer.cpp:1335
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "الحلّال: خسرت هذه اللعبة."
 
-#: dealer.cpp:1488
+#: dealer.cpp:1489
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "الحلّال: يسحب..."
 
-#: dealer.cpp:1963
+#: dealer.cpp:1964
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -330,12 +330,12 @@ msgstr ""
 "\n"
 "ستسجل خسارة في الاحصائيات إذا أنهيت اللعبة الحالية."
 
-#: dealer.cpp:1965
+#: dealer.cpp:1966
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "أنه اللعبة الحالية ؟"
 
-#: dealer.cpp:1966
+#: dealer.cpp:1967
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "أنه اللعبة الحالية"

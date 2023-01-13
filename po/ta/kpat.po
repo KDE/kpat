@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-12 00:52+0000\n"
+"POT-Creation-Date: 2023-01-13 00:53+0000\n"
 "PO-Revision-Date: 2005-03-07 03:28-0800\n"
 "Last-Translator: Tamil PC <tamilpc@ambalam.com>\n"
 "Language-Team:  <ta@li.org>\n"
@@ -289,48 +289,48 @@ msgstr ""
 msgid "Grandfather's Clock"
 msgstr "தாத்தா கடிகாரம்"
 
-#: dealer.cpp:73
+#: dealer.cpp:74
 #, kde-format
 msgid "Solver: This game is winnable."
 msgstr ""
 
-#: dealer.cpp:75
+#: dealer.cpp:76
 #, kde-format
 msgid "Solver: This game is no longer winnable."
 msgstr ""
 
-#: dealer.cpp:76
+#: dealer.cpp:77
 #, kde-format
 msgid "Solver: This game cannot be won."
 msgstr ""
 
-#: dealer.cpp:78
+#: dealer.cpp:79
 #, kde-format
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr ""
 
-#: dealer.cpp:985
+#: dealer.cpp:986
 #, fuzzy, kde-format
 msgid "Congratulations! We have won."
 msgstr "வாழ்த்துக்கள்! நாம் வெற்றிப் பெற்றுவிட்டோம்!"
 
-#: dealer.cpp:987
+#: dealer.cpp:988
 #, fuzzy, kde-format
 msgid "Congratulations! You have won."
 msgstr "வாழ்த்துக்கள்! நீங்கள் வெற்றிப் பெற்றுவிட்டீர்கள்!"
 
-#: dealer.cpp:1334
+#: dealer.cpp:1335
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr ""
 
-#: dealer.cpp:1488
+#: dealer.cpp:1489
 #, fuzzy, kde-format
 #| msgid "&Calculation"
 msgid "Solver: Calculating..."
 msgstr "கணக்கிடல்"
 
-#: dealer.cpp:1963
+#: dealer.cpp:1964
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -338,13 +338,13 @@ msgid ""
 "A loss will be recorded in the statistics if the current game is abandoned."
 msgstr ""
 
-#: dealer.cpp:1965
+#: dealer.cpp:1966
 #, fuzzy, kde-format
 #| msgid "Abort Current Game?"
 msgid "Abandon Current Game?"
 msgstr "தற்போதைய விளையாட்டை நிறுத்தவேண்டுமா"
 
-#: dealer.cpp:1966
+#: dealer.cpp:1967
 #, fuzzy, kde-format
 msgid "Abandon Current Game"
 msgstr "தற்போதைய விளையாட்டை நிறுத்தவேண்டுமா"

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-12 00:52+0000\n"
+"POT-Creation-Date: 2023-01-13 00:53+0000\n"
 "PO-Revision-Date: 2007-08-20 12:18+0545\n"
 "Last-Translator: Nabin Gautam <nabin@mpp.org.np>\n"
 "Language-Team: Nepali <info@mpp.org.np>\n"
@@ -284,52 +284,52 @@ msgstr ""
 msgid "Grandfather's Clock"
 msgstr "हजुरबुवाको घडी"
 
-#: dealer.cpp:73
+#: dealer.cpp:74
 #, fuzzy, kde-format
 #| msgid "This game is lost."
 msgid "Solver: This game is winnable."
 msgstr "यो खेल हारेको छ ।"
 
-#: dealer.cpp:75
+#: dealer.cpp:76
 #, fuzzy, kde-format
 #| msgid "This game is lost."
 msgid "Solver: This game is no longer winnable."
 msgstr "यो खेल हारेको छ ।"
 
-#: dealer.cpp:76
+#: dealer.cpp:77
 #, fuzzy, kde-format
 #| msgid "Nope, this game cannot be won anymore."
 msgid "Solver: This game cannot be won."
 msgstr "छैन, यो खेल अब जित्न सकिँदैन ।"
 
-#: dealer.cpp:78
+#: dealer.cpp:79
 #, kde-format
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr ""
 
-#: dealer.cpp:985
+#: dealer.cpp:986
 #, kde-format
 msgid "Congratulations! We have won."
 msgstr "बधाइ छ! हामीले जितेका छौ ।"
 
-#: dealer.cpp:987
+#: dealer.cpp:988
 #, kde-format
 msgid "Congratulations! You have won."
 msgstr "बधाइ छ! तपाईँले जित्नु भएको छ ।"
 
-#: dealer.cpp:1334
+#: dealer.cpp:1335
 #, fuzzy, kde-format
 #| msgid "This game is lost."
 msgid "Solver: This game is lost."
 msgstr "यो खेल हारेको छ ।"
 
-#: dealer.cpp:1488
+#: dealer.cpp:1489
 #, fuzzy, kde-format
 #| msgid "&Calculation"
 msgid "Solver: Calculating..."
 msgstr "गणना"
 
-#: dealer.cpp:1963
+#: dealer.cpp:1964
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -337,13 +337,13 @@ msgid ""
 "A loss will be recorded in the statistics if the current game is abandoned."
 msgstr ""
 
-#: dealer.cpp:1965
+#: dealer.cpp:1966
 #, fuzzy, kde-format
 #| msgid "Abort Current Game?"
 msgid "Abandon Current Game?"
 msgstr "हालको खेल परित्याग गर्नुहुन्छ?"
 
-#: dealer.cpp:1966
+#: dealer.cpp:1967
 #, fuzzy, kde-format
 #| msgid "Abort Current Game"
 msgid "Abandon Current Game"

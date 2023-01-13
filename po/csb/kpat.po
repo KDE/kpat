@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-12 00:52+0000\n"
+"POT-Creation-Date: 2023-01-13 00:53+0000\n"
 "PO-Revision-Date: 2008-01-01 11:12+0100\n"
 "Last-Translator: Michôł Òstrowsczi <michol@linuxcsb.org>\n"
 "Language-Team: Kashubian\n"
@@ -285,52 +285,52 @@ msgstr ""
 msgid "Grandfather's Clock"
 msgstr "&Zédżer"
 
-#: dealer.cpp:73
+#: dealer.cpp:74
 #, fuzzy, kde-format
 #| msgid "This game is lost."
 msgid "Solver: This game is winnable."
 msgstr "Ta gra je przerzniãtô."
 
-#: dealer.cpp:75
+#: dealer.cpp:76
 #, fuzzy, kde-format
 #| msgid "This game is lost."
 msgid "Solver: This game is no longer winnable."
 msgstr "Ta gra je przerzniãtô."
 
-#: dealer.cpp:76
+#: dealer.cpp:77
 #, fuzzy, kde-format
 #| msgid "Nope, this game cannot be won anymore."
 msgid "Solver: This game cannot be won."
 msgstr "Nié, ta gra ni mòże bëc dobëtô."
 
-#: dealer.cpp:78
+#: dealer.cpp:79
 #, kde-format
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr ""
 
-#: dealer.cpp:985
+#: dealer.cpp:986
 #, kde-format
 msgid "Congratulations! We have won."
 msgstr "Gratulacëje! Mómë dobëté."
 
-#: dealer.cpp:987
+#: dealer.cpp:988
 #, kde-format
 msgid "Congratulations! You have won."
 msgstr "Gratulacëje! Môsz dobëté."
 
-#: dealer.cpp:1334
+#: dealer.cpp:1335
 #, fuzzy, kde-format
 #| msgid "This game is lost."
 msgid "Solver: This game is lost."
 msgstr "Ta gra je przerzniãtô."
 
-#: dealer.cpp:1488
+#: dealer.cpp:1489
 #, fuzzy, kde-format
 #| msgid "&Calculation"
 msgid "Solver: Calculating..."
 msgstr "&Kalkùlacëje"
 
-#: dealer.cpp:1963
+#: dealer.cpp:1964
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -338,13 +338,13 @@ msgid ""
 "A loss will be recorded in the statistics if the current game is abandoned."
 msgstr ""
 
-#: dealer.cpp:1965
+#: dealer.cpp:1966
 #, fuzzy, kde-format
 #| msgid "Abort Current Game?"
 msgid "Abandon Current Game?"
 msgstr "Òprzestac nã grã?"
 
-#: dealer.cpp:1966
+#: dealer.cpp:1967
 #, fuzzy, kde-format
 #| msgid "Abort Current Game"
 msgid "Abandon Current Game"
