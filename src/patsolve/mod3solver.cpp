@@ -34,8 +34,6 @@ void Mod3Solver::make_move(MOVE *m)
     else
         fprintf(stderr, "\nmake move %d from %d to %d (%d)\n\n", m->card_index, m->from, m->to, m->turn_index);
     print_layout();
-#else
-    // print_layout();
 #endif
 
     int from, to;
@@ -103,8 +101,8 @@ void Mod3Solver::undo_move(MOVE *m)
     else
         fprintf(stderr, "\nundo move %d from %d to %d (%d)\n\n", m->card_index, m->from, m->to, m->turn_index);
     print_layout();
-
 #endif
+
     int from, to;
     card_t card;
 
@@ -336,15 +334,12 @@ Mod3Solver::Mod3Solver(const Mod3 *dealer)
 void Mod3Solver::translate_layout()
 {
     /* Read the workspace. */
-
     int w = 0;
-    int total = 0;
     for (int row = 0; row < 4; ++row) {
         for (int col = 0; col < 8; ++col) {
             int i = translate_pile(deal->stack[row][col], W[w], 52);
             Wp[w] = &W[w][i - 1];
             Wlen[w] = i;
-            total += i;
             w++;
         }
     }

@@ -199,9 +199,10 @@ int main(int argc, char **argv)
             }
             f = getDealer(DealerInfoList::self()->gameIdForFile(xml), QString());
             of.seek(0);
-            f->loadFile(&of);
+            f->loadFile(&of, false);
         }
         f->solver()->translate_layout();
+
         int ret = f->solver()->patsolve();
         if (ret == SolverInterface::SolutionExists)
             fprintf(stdout, "won\n");

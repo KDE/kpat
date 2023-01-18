@@ -117,7 +117,7 @@ public:
     int moveCount() const;
 
     void saveFile(QIODevice *io);
-    bool loadFile(QIODevice *io);
+    bool loadFile(QIODevice *io, bool takestate = true);
     void saveLegacyFile(QIODevice *io);
     bool loadLegacyFile(QIODevice *io);
 

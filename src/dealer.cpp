@@ -389,7 +389,8 @@ void DealerScene::saveFile(QIODevice *io)
     m_dealWasJustSaved = true;
 }
 
-bool DealerScene::loadFile(QIODevice *io)
+// arg_takeState is default true, but we disable it for command line usage of this function
+bool DealerScene::loadFile(QIODevice *io, bool arg_takeState)
 {
     resetInternals();
 
@@ -474,7 +475,9 @@ bool DealerScene::loadFile(QIODevice *io)
                 xml.skipCurrentElement();
             }
         }
-        takeState();
+        if (arg_takeState) {
+            takeState();
+        }
     }
 
     m_loadedMoveCount = 0;
