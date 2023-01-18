@@ -270,9 +270,6 @@ int Mod3Solver::get_possible_moves(int *a, int *numout)
                 }
 
             } else {
-                if (foundone)
-                    continue;
-
                 if (Wlen[j] || (Wlen[i] > 1 && current_row != 3))
                     continue;
 
