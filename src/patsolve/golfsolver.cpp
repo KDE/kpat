@@ -313,9 +313,6 @@ SolverInterface::ExitStatus GolfSolver::patsolve(int _max_positions)
 }
 #endif
 
-/* Read a layout file.  Format is one pile per line, bottom to top (visible
-card).  Temp cells and Out on the last two lines, if any. */
-
 void GolfSolver::translate_layout()
 {
 #ifdef WITH_BH_SOLVER

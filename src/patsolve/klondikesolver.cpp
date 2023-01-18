@@ -456,9 +456,6 @@ KlondikeSolver::KlondikeSolver(const Klondike *dealer, int draw)
     deal = dealer;
 }
 
-/* Read a layout file.  Format is one pile per line, bottom to top (visible
-card).  Temp cells and Out on the last two lines, if any. */
-
 void KlondikeSolver::translate_layout()
 {
     /* Read the workspace. */

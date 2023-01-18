@@ -246,7 +246,7 @@ int Mod3Solver::get_possible_moves(int *a, int *numout)
                 if (Wlen[j]) {
                     mp->pri = qMin(119, 12 + 20 * Wlen[j] + current_row * 2 + RANK(*Wp[j]) * 5);
                 } else {
-                    mp->pri = 119; // TODO: Find out if this is really correct. We can certainly not touch Wp[j], b ut is this the correct mp->pri value?
+                    mp->pri = 119; // TODO: Find out if this is really correct. We can certainly not touch Wp[j], but is this the correct mp->pri value?
                 }
 
                 mp->turn_index = -1;
@@ -335,9 +335,6 @@ Mod3Solver::Mod3Solver(const Mod3 *dealer)
 {
     deal = dealer;
 }
-
-/* Read a layout file.  Format is one pile per line, bottom to top (visible
-card).  Temp cells and Out on the last two lines, if any. */
 
 void Mod3Solver::translate_layout()
 {

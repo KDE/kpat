@@ -382,9 +382,6 @@ GrandfSolver::GrandfSolver(const Grandf *dealer)
     m_redeal = -1;
 }
 
-/* Read a layout file.  Format is one pile per line, bottom to top (visible
-card).  Temp cells and Out on the last two lines, if any. */
-
 void GrandfSolver::translate_layout()
 {
     /* Read the workspace. */
