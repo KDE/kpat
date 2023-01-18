@@ -670,6 +670,11 @@ QList<MoveHint> DealerScene::getSolverHints()
         MoveHint mh = solver()->translateMove(m);
         hintList << mh;
     }
+    if (hintList.isEmpty()) {
+        // if the solver only reports winning moves but has none, we fall back to
+        // brute force
+        return bruteForceHints();
+    }
     return hintList;
 }
 
@@ -678,6 +683,11 @@ QList<MoveHint> DealerScene::getHints()
     if (solver())
         return getSolverHints();
 
+    return bruteForceHints();
+}
+
+QList<MoveHint> DealerScene::bruteForceHints()
+{
     QList<MoveHint> hintList;
     const auto patPiles = this->patPiles();
     for (PatPile *store : patPiles) {

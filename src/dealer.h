@@ -223,6 +223,7 @@ private:
 
     void multiStepSubMove(QList<KCard *> cards, KCardPile *pile, QList<KCardPile *> freePiles, const QList<KCardPile *> &freeCells);
     void continueMultiStepMove();
+    QList<MoveHint> bruteForceHints();
 
     const DealerInfo *const m_di;
 

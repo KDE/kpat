@@ -140,7 +140,6 @@ bool Simon::checkRemove(const PatPile *pile, const QList<KCard *> &cards) const
         return false;
 
     int seqs_count = countSameSuitDescendingSequences(cards);
-
     return (seqs_count >= 0);
 }
 

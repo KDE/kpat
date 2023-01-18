@@ -62,7 +62,6 @@ card).  Temp cells and Out on the last two lines, if any. */
 void SimonSolver::translate_layout()
 {
     strcpy(board_as_string, deal->solverFormat().toLatin1().constData());
-
     make_solver_instance_ready();
 }
 
@@ -109,21 +108,4 @@ MoveHint SimonSolver::translateMove(const MOVE &m)
     Q_ASSERT(to);
 
     return MoveHint(card, to, 0);
-
-#if 0
-    Q_ASSERT( m.from < 10 && m.to < 10 );
-
-    PatPile *frompile = deal->store[m.from];
-    KCard *card = frompile->at( frompile->count() - m.card_index - 1);
-
-    if ( m.totype == O_Type )
-    {
-        for ( int i = 0; i < 4; ++i )
-            if ( deal->target[i]->isEmpty() )
-                return MoveHint( card, deal->target[i], 127 );
-    }
-
-    Q_ASSERT( m.to < 10 );
-    return MoveHint( card, deal->store[m.to], m.pri );
-#endif
 }
