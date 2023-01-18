@@ -186,9 +186,21 @@ int main(int argc, char **argv)
         QDomDocument doc;
         doc.setContent(&of);
 
-        DealerScene *f = getDealer(doc.documentElement().attribute(QStringLiteral("id")).toInt(), QString());
-
-        f->loadLegacyFile(&of);
+        DealerScene *f;
+        QString id_attr = doc.documentElement().attribute(QStringLiteral("id"));
+        if (!id_attr.isEmpty()) {
+            f = getDealer(id_attr.toInt(), QString());
+            f->loadLegacyFile(&of);
+        } else {
+            of.seek(0);
+            QXmlStreamReader xml(&of);
+            if (!xml.readNextStartElement()) {
+                qCritical() << "Failed to read XML" << savegame;
+            }
+            f = getDealer(DealerInfoList::self()->gameIdForFile(xml), QString());
+            of.seek(0);
+            f->loadFile(&of);
+        }
         f->solver()->translate_layout();
         int ret = f->solver()->patsolve();
         if (ret == SolverInterface::SolutionExists)

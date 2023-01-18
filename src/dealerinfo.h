@@ -44,6 +44,7 @@
 #include <QList>
 #include <QMap>
 #include <QString>
+#include <QXmlStreamReader>
 class DealerInfoList;
 class DealerScene;
 
@@ -127,6 +128,7 @@ public:
     static DealerInfoList *self();
     void add(DealerInfo *di);
     const QList<DealerInfo *> games() const;
+    int gameIdForFile(QXmlStreamReader &xml) const;
 
 private:
     QList<DealerInfo *> m_list;

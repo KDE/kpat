@@ -813,18 +813,7 @@ bool MainWindow::loadGame(const QUrl &url, bool addToRecentFiles)
             gameId = id;
     } else if (xml.name() == QLatin1String("kpat-game")) {
         isLegacyFile = false;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-        QStringRef gameType = xml.attributes().value(QStringLiteral("game-type"));
-#else
-        QStringView gameType = xml.attributes().value(QStringLiteral("game-type"));
-#endif
-        const auto games = DealerInfoList::self()->games();
-        for (const DealerInfo *di : games) {
-            if (di->baseIdString() == gameType) {
-                gameId = di->baseId();
-                break;
-            }
-        }
+        gameId = DealerInfoList::self()->gameIdForFile(xml);
     } else {
         KMessageBox::error(this, i18n("XML file is not a KPat save."));
         return false;
