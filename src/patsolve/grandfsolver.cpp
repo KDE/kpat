@@ -324,7 +324,7 @@ int GrandfSolver::get_possible_moves(int *a, int *numout)
         }
     }
 
-    if (!n && m_redeal < 2) {
+    if (m_redeal < 2) {
         mp->card_index = 0;
         mp->from = offs;
         mp->to = 0; // unused
