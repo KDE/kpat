@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-13 00:53+0000\n"
+"POT-Creation-Date: 2023-01-19 00:55+0000\n"
 "PO-Revision-Date: 2022-09-24 16:14+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -31,293 +31,293 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "f93-cgn@sm.luth.se,per.lindstrom@osd.privataccess.nu"
 
-#: bakersdozen.cpp:72 castle.cpp:402 freecell.cpp:386
+#: bakersdozen.cpp:68 castle.cpp:357 freecell.cpp:343
 #, kde-format
 msgid "Popular Variant Presets"
 msgstr "Förinställning av populär variant"
 
-#: bakersdozen.cpp:73 bakersdozen.cpp:268 bakersdozen.cpp:270
+#: bakersdozen.cpp:69 bakersdozen.cpp:237 bakersdozen.cpp:239
 #, kde-format
 msgid "Baker's Dozen"
 msgstr "Tretton högar"
 
-#: bakersdozen.cpp:74 bakersdozen.cpp:271
+#: bakersdozen.cpp:70 bakersdozen.cpp:240
 #, kde-format
 msgid "Spanish Patience"
 msgstr "Spansk patiens"
 
-#: bakersdozen.cpp:75 bakersdozen.cpp:272
+#: bakersdozen.cpp:71 bakersdozen.cpp:241
 #, kde-format
 msgid "Castles in Spain"
 msgstr "Slott i Spanien"
 
-#: bakersdozen.cpp:76 bakersdozen.cpp:273
+#: bakersdozen.cpp:72 bakersdozen.cpp:242
 #, kde-format
 msgid "Portuguese Solitaire"
 msgstr "Portugisisk patiens"
 
-#: bakersdozen.cpp:77 castle.cpp:409 freecell.cpp:392
+#: bakersdozen.cpp:73 castle.cpp:364 freecell.cpp:349
 #, kde-format
 msgid "Custom"
 msgstr "Egen"
 
-#: bakersdozen.cpp:79 castle.cpp:411 freecell.cpp:394
+#: bakersdozen.cpp:75 castle.cpp:366 freecell.cpp:351
 #, kde-format
 msgid "Empty Stack Fill"
 msgstr "Fyll tom hög"
 
-#: bakersdozen.cpp:80 castle.cpp:412 freecell.cpp:395
+#: bakersdozen.cpp:76 castle.cpp:367 freecell.cpp:352
 #, kde-format
 msgid "Any (Easy)"
 msgstr "Alla (lätt)"
 
-#: bakersdozen.cpp:81 castle.cpp:413 freecell.cpp:396
+#: bakersdozen.cpp:77 castle.cpp:368 freecell.cpp:353
 #, kde-format
 msgid "Kings only (Medium)"
 msgstr "Bara kungar (medelsvår)"
 
-#: bakersdozen.cpp:82 castle.cpp:414 freecell.cpp:397
+#: bakersdozen.cpp:78 castle.cpp:369 freecell.cpp:354
 #, kde-format
 msgid "None (Hard)"
 msgstr "Ingen (svår)"
 
-#: bakersdozen.cpp:84
+#: bakersdozen.cpp:80
 #, kde-format
 msgid "Stack Options"
 msgstr "Högalternativ"
 
-#: bakersdozen.cpp:85
+#: bakersdozen.cpp:81
 #, kde-format
 msgid "Face &Up (Easier)"
 msgstr "Framsidan &uppåt (lättare)"
 
-#: bakersdozen.cpp:86
+#: bakersdozen.cpp:82
 #, kde-format
 msgid "Face &Down (Harder)"
 msgstr "Framsidan &neråt (svårare)"
 
-#: bakersdozen.cpp:88 castle.cpp:416 freecell.cpp:399
+#: bakersdozen.cpp:84 castle.cpp:371 freecell.cpp:356
 #, kde-format
 msgid "Build Sequence"
 msgstr "Byggföljd"
 
-#: bakersdozen.cpp:89 castle.cpp:417 freecell.cpp:400
+#: bakersdozen.cpp:85 castle.cpp:372 freecell.cpp:357
 #, kde-format
 msgid "Alternating Color"
 msgstr "Alternerande färg"
 
-#: bakersdozen.cpp:90 castle.cpp:418 freecell.cpp:401
+#: bakersdozen.cpp:86 castle.cpp:373 freecell.cpp:358
 #, kde-format
 msgid "Matching Suit"
 msgstr "Samma färg"
 
-#: bakersdozen.cpp:91 castle.cpp:419 freecell.cpp:402
+#: bakersdozen.cpp:87 castle.cpp:374 freecell.cpp:359
 #, kde-format
 msgid "Rank"
 msgstr "Valör"
 
-#: bakersdozen.cpp:274
+#: bakersdozen.cpp:243
 msgid "Baker's Dozen (Custom)"
 msgstr "Tretton högar (egen)"
 
-#: castle.cpp:361
+#: castle.cpp:318
 msgid "Castle"
 msgstr "Slott"
 
-#: castle.cpp:363 castle.cpp:403
+#: castle.cpp:320 castle.cpp:358
 #, kde-format
 msgid "Beleaguered Castle"
 msgstr "Belägrat slott"
 
-#: castle.cpp:364 castle.cpp:404
+#: castle.cpp:321 castle.cpp:359
 #, kde-format
 msgid "Citadel"
 msgstr "Citadell"
 
-#: castle.cpp:365 castle.cpp:405
+#: castle.cpp:322 castle.cpp:360
 #, kde-format
 msgid "Exiled Kings"
 msgstr "Kungar i exil"
 
-#: castle.cpp:366 castle.cpp:406
+#: castle.cpp:323 castle.cpp:361
 #, kde-format
 msgid "Streets and Alleys"
 msgstr "Gator och gränder"
 
-#: castle.cpp:367 castle.cpp:407
+#: castle.cpp:324 castle.cpp:362
 #, kde-format
 msgid "Siegecraft"
 msgstr "Belägringskonst"
 
-#: castle.cpp:368 castle.cpp:408
+#: castle.cpp:325 castle.cpp:363
 #, kde-format
 msgid "Stronghold"
 msgstr "Högborg"
 
-#: castle.cpp:369
+#: castle.cpp:326
 msgid "Castle (Custom)"
 msgstr "Slott (egen)"
 
-#: castle.cpp:421
+#: castle.cpp:376
 #, kde-format
 msgid "Free Cells"
 msgstr "Lediga celler"
 
-#: castle.cpp:422 freecell.cpp:405
+#: castle.cpp:377 freecell.cpp:362
 #, kde-format
 msgid "0"
 msgstr "0"
 
-#: castle.cpp:423 freecell.cpp:406 freecell.cpp:425
+#: castle.cpp:378 freecell.cpp:363 freecell.cpp:382
 #, kde-format
 msgid "1"
 msgstr "1"
 
-#: castle.cpp:424 freecell.cpp:407 freecell.cpp:426
+#: castle.cpp:379 freecell.cpp:364 freecell.cpp:383
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: castle.cpp:425 freecell.cpp:408 freecell.cpp:427
+#: castle.cpp:380 freecell.cpp:365 freecell.cpp:384
 #, kde-format
 msgid "3"
 msgstr "3"
 
-#: castle.cpp:426 freecell.cpp:409
+#: castle.cpp:381 freecell.cpp:366
 #, kde-format
 msgid "4"
 msgstr "4"
 
-#: castle.cpp:428 freecell.cpp:415
+#: castle.cpp:383 freecell.cpp:372
 #, kde-format
 msgid "Stacks"
 msgstr "Högar"
 
-#: castle.cpp:429 freecell.cpp:411 freecell.cpp:416
+#: castle.cpp:384 freecell.cpp:368 freecell.cpp:373
 #, kde-format
 msgid "6"
 msgstr "6"
 
-#: castle.cpp:430 freecell.cpp:412 freecell.cpp:417
+#: castle.cpp:385 freecell.cpp:369 freecell.cpp:374
 #, kde-format
 msgid "7"
 msgstr "7"
 
-#: castle.cpp:431 freecell.cpp:413 freecell.cpp:418
+#: castle.cpp:386 freecell.cpp:370 freecell.cpp:375
 #, kde-format
 msgid "8"
 msgstr "8"
 
-#: castle.cpp:432 freecell.cpp:419
+#: castle.cpp:387 freecell.cpp:376
 #, kde-format
 msgid "9"
 msgstr "9"
 
-#: castle.cpp:433 freecell.cpp:420
+#: castle.cpp:388 freecell.cpp:377
 #, kde-format
 msgid "10"
 msgstr "10"
 
-#: castle.cpp:435 spider.cpp:154
+#: castle.cpp:390 spider.cpp:146
 #, kde-format
 msgid "S&tack Options"
 msgstr "&Högalternativ"
 
-#: castle.cpp:436
+#: castle.cpp:391
 #, kde-format
 msgid "Face &Down"
 msgstr "Framsidan &neråt"
 
-#: castle.cpp:437
+#: castle.cpp:392
 #, kde-format
 msgid "Face &Up"
 msgstr "Framsidan &uppåt"
 
-#: castle.cpp:438
+#: castle.cpp:393
 #, kde-format
 msgid "Alternating Face &Up"
 msgstr "Alternerande färg &uppåt"
 
-#: castle.cpp:440
+#: castle.cpp:395
 #, kde-format
 msgid "Foundation Deal"
 msgstr "Utdelning på grundhögar"
 
-#: castle.cpp:441
+#: castle.cpp:396
 #, kde-format
 msgid "None"
 msgstr "Ingen"
 
-#: castle.cpp:442
+#: castle.cpp:397
 #, kde-format
 msgid "Aces"
 msgstr "Äss"
 
-#: castle.cpp:443
+#: castle.cpp:398
 #, kde-format
 msgid "Any"
 msgstr "Vilka som helst"
 
-#: castle.cpp:445
+#: castle.cpp:400
 #, kde-format
 msgid "Layout"
 msgstr "Layout"
 
-#: castle.cpp:446
+#: castle.cpp:401
 #, kde-format
 msgid "Classic"
 msgstr "Klassisk"
 
-#: castle.cpp:447
+#: castle.cpp:402
 #, kde-format
 msgid "Modern"
 msgstr "Modern"
 
-#: clock.cpp:156
+#: clock.cpp:157
 msgid "Grandfather's Clock"
 msgstr "Farfarsklocka"
 
-#: dealer.cpp:74
+#: dealer.cpp:72
 #, kde-format
 msgid "Solver: This game is winnable."
 msgstr "Patienslösare: Spelet går att vinna."
 
-#: dealer.cpp:76
+#: dealer.cpp:74
 #, kde-format
 msgid "Solver: This game is no longer winnable."
 msgstr "Lösare: Spelet går inte längre att vinna."
 
-#: dealer.cpp:77
+#: dealer.cpp:74
 #, kde-format
 msgid "Solver: This game cannot be won."
 msgstr "Lösare: Spelet kan inte vinnas."
 
-#: dealer.cpp:79
+#: dealer.cpp:76
 #, kde-format
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr "Patienslösare: Kan inte avgöra om spelet går att vinna."
 
-#: dealer.cpp:986
+#: dealer.cpp:934
 #, kde-format
 msgid "Congratulations! We have won."
 msgstr "Gratulerar! Vi vann."
 
-#: dealer.cpp:988
+#: dealer.cpp:936
 #, kde-format
 msgid "Congratulations! You have won."
 msgstr "Gratulerar! Du vann."
 
-#: dealer.cpp:1335
+#: dealer.cpp:1222
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "Patienslösare: Spelet är förlorat."
 
-#: dealer.cpp:1489
+#: dealer.cpp:1360
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "Patienslösare: Beräknar..."
 
-#: dealer.cpp:1964
+#: dealer.cpp:1764
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -329,114 +329,114 @@ msgstr ""
 "En förlust kommer att registreras i statistiken om det pågående spelet "
 "avbryts."
 
-#: dealer.cpp:1966
+#: dealer.cpp:1766
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "Avbryt pågående spel?"
 
-#: dealer.cpp:1967
+#: dealer.cpp:1767
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "Avbryt pågående spel"
 
-#: fortyeight.cpp:253
+#: fortyeight.cpp:229
 msgid "Forty & Eight"
 msgstr "Fyrtio och åtta"
 
-#: freecell.cpp:348 freecell.cpp:353 freecell.cpp:390
+#: freecell.cpp:307 freecell.cpp:312 freecell.cpp:347
 #, kde-format
 msgid "Freecell"
 msgstr "Kungen"
 
-#: freecell.cpp:350 freecell.cpp:387
+#: freecell.cpp:309 freecell.cpp:344
 #, kde-format
 msgid "Baker's Game"
 msgstr "Bakers spel"
 
-#: freecell.cpp:351 freecell.cpp:388
+#: freecell.cpp:310 freecell.cpp:345
 #, kde-format
 msgid "Eight Off"
 msgstr "Åtta"
 
-#: freecell.cpp:352 freecell.cpp:389
+#: freecell.cpp:311 freecell.cpp:346
 #, kde-format
 msgid "Forecell"
 msgstr "Fulla kungen"
 
-#: freecell.cpp:354 freecell.cpp:391
+#: freecell.cpp:313 freecell.cpp:348
 #, kde-format
 msgid "Seahaven Towers"
 msgstr "Hamntorn"
 
-#: freecell.cpp:355
+#: freecell.cpp:314
 msgid "Freecell (Custom)"
 msgstr "Kungen (egen)"
 
-#: freecell.cpp:404
+#: freecell.cpp:361
 #, kde-format
 msgid "Free cells"
 msgstr "Lediga platser"
 
-#: freecell.cpp:410
+#: freecell.cpp:367
 #, kde-format
 msgid "5"
 msgstr "5"
 
-#: freecell.cpp:421
+#: freecell.cpp:378
 #, kde-format
 msgid "11"
 msgstr "11"
 
-#: freecell.cpp:422
+#: freecell.cpp:379
 #, kde-format
 msgid "12"
 msgstr "12"
 
-#: freecell.cpp:424
+#: freecell.cpp:381
 #, kde-format
 msgid "Decks"
 msgstr "Kortlekar"
 
-#: golf.cpp:198
+#: golf.cpp:184
 msgid "Golf"
 msgstr "Golf"
 
-#: grandf.cpp:201
+#: grandf.cpp:188
 msgid "Grandfather"
 msgstr "Farfarpatiens"
 
-#: gypsy.cpp:178
+#: gypsy.cpp:166
 msgid "Gypsy"
 msgstr "Tattare"
 
-#: idiot.cpp:259
+#: idiot.cpp:225
 msgid "Aces Up"
 msgstr "Idioten"
 
-#: klondike.cpp:143
+#: klondike.cpp:134
 #, kde-format
 msgid "Klondike &Options"
 msgstr "&Alternativ för Klondike"
 
-#: klondike.cpp:144
+#: klondike.cpp:135
 #, kde-format
 msgid "Draw 1"
 msgstr "Dra 1"
 
-#: klondike.cpp:145
+#: klondike.cpp:136
 #, kde-format
 msgid "Draw 3"
 msgstr "Dra 3"
 
-#: klondike.cpp:346
+#: klondike.cpp:312
 msgid "Klondike"
 msgstr "Klondike"
 
-#: klondike.cpp:348
+#: klondike.cpp:314
 msgid "Klondike (Draw 1)"
 msgstr "Klondike (dra 1)"
 
-#: klondike.cpp:349
+#: klondike.cpp:315
 msgid "Klondike (Draw 3)"
 msgstr "Klondike (dra 3)"
 
@@ -452,22 +452,22 @@ msgstr "Flytta"
 msgid "Main Toolbar"
 msgstr "Huvudverktygsrad"
 
-#: libkcardgame/kcardthemewidget.cpp:295
+#: libkcardgame/kcardthemewidget.cpp:266
 #, kde-format
 msgid "Loading..."
 msgstr "Laddar..."
 
-#: main.cpp:121
+#: main.cpp:118
 #, kde-format
 msgid "KPatience"
 msgstr "Patiens"
 
-#: main.cpp:123
+#: main.cpp:120
 #, kde-format
 msgid "KDE Patience Game"
 msgstr "KDE:s patiensspel"
 
-#: main.cpp:125
+#: main.cpp:122
 #, kde-format
 msgid ""
 "© 1995 Paul Olav Tvete\n"
@@ -476,183 +476,183 @@ msgstr ""
 "© 1995 Paul Olav Tvete\n"
 "© 2000 Stephan Kulow"
 
-#: main.cpp:129
+#: main.cpp:126
 #, kde-format
 msgid "Paul Olav Tvete"
 msgstr "Paul Olav Tvete"
 
-#: main.cpp:130
+#: main.cpp:126
 #, kde-format
 msgid "Author of original Qt version"
 msgstr "Upphovsman till den ursprungliga versionen för Qt"
 
-#: main.cpp:132
+#: main.cpp:127
 #, kde-format
 msgid "Mario Weilguni"
 msgstr "Mario Weilguni"
 
-#: main.cpp:133
+#: main.cpp:127
 #, kde-format
 msgid "Initial KDE port"
 msgstr "Ursprunglig överföring till KDE"
 
-#: main.cpp:135
+#: main.cpp:128
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:138
+#: main.cpp:129
 #, kde-format
 msgid "Rodolfo Borges"
 msgstr "Rodolfo Borges"
 
-#: main.cpp:139 main.cpp:178
+#: main.cpp:129 main.cpp:142
 #, kde-format
 msgid "New game types"
 msgstr "Ny spellogotyp"
 
-#: main.cpp:141
+#: main.cpp:130
 #, kde-format
 msgid "Peter H. Ruegg"
 msgstr "Peter H. Ruegg"
 
-#: main.cpp:144
+#: main.cpp:131
 #, kde-format
 msgid "Michael Koch"
 msgstr "Michael Koch"
 
-#: main.cpp:145 main.cpp:166
+#: main.cpp:131 main.cpp:138
 #, kde-format
 msgid "Bug fixes"
 msgstr "Felkorrigeringar"
 
-#: main.cpp:147
+#: main.cpp:132
 #, kde-format
 msgid "Marcus Meissner"
 msgstr "Marcus Meissner"
 
-#: main.cpp:148
+#: main.cpp:132
 #, kde-format
 msgid "Shuffle algorithm for game numbers"
 msgstr "Blandningsalgoritm för spelnummer"
 
-#: main.cpp:150
+#: main.cpp:133
 #, kde-format
 msgid "Tom Holroyd"
 msgstr "Tom Holroyd"
 
-#: main.cpp:151
+#: main.cpp:133
 #, kde-format
 msgid "Initial patience solver"
 msgstr "Ursprunglig patienslösare"
 
-#: main.cpp:153
+#: main.cpp:134
 #, kde-format
 msgid "Stephan Kulow"
 msgstr "Stephan Kulow"
 
-#: main.cpp:154
+#: main.cpp:134
 #, kde-format
 msgid "Rewrite and current maintainer"
 msgstr "Omarbetning och nuvarande utvecklare"
 
-#: main.cpp:156
+#: main.cpp:135
 #, kde-format
 msgid "Erik Sigra"
 msgstr "Erik Sigra"
 
-#: main.cpp:157
+#: main.cpp:135
 #, kde-format
 msgid "Klondike improvements"
 msgstr "Förbättringar av Klondike"
 
-#: main.cpp:159
+#: main.cpp:136
 #, kde-format
 msgid "Josh Metzler"
 msgstr "Josh Metzler"
 
-#: main.cpp:160
+#: main.cpp:136
 #, kde-format
 msgid "Spider implementation"
 msgstr "Implementering av Spindel"
 
-#: main.cpp:162
+#: main.cpp:137
 #, kde-format
 msgid "Maren Pakura"
 msgstr "Maren Pakura"
 
-#: main.cpp:163
+#: main.cpp:137
 #, kde-format
 msgid "Documentation"
 msgstr "Dokumentation"
 
-#: main.cpp:165
+#: main.cpp:138
 #, kde-format
 msgid "Inge Wallin"
 msgstr "Inge Wallin"
 
-#: main.cpp:168
+#: main.cpp:139
 #, kde-format
 msgid "Simon Hürlimann"
 msgstr "Simon Hürlimann"
 
-#: main.cpp:169
+#: main.cpp:139
 #, kde-format
 msgid "Menu and toolbar work"
 msgstr "Arbete med meny och verktygsrad"
 
-#: main.cpp:171
+#: main.cpp:140
 #, kde-format
 msgid "Parker Coates"
 msgstr "Parker Coates"
 
-#: main.cpp:172
+#: main.cpp:140
 #, kde-format
 msgid "Cleanup and polish"
 msgstr "Städning och polering"
 
-#: main.cpp:174
+#: main.cpp:141
 #, kde-format
 msgid "Shlomi Fish"
 msgstr "Shlomi Fish"
 
-#: main.cpp:175
+#: main.cpp:141
 #, kde-format
 msgid "Integration with Freecell Solver and further work"
 msgstr "Integration med Freecell Solver och ytterligare arbete"
 
-#: main.cpp:177
+#: main.cpp:142
 #, kde-format
 msgid "Michael Lang"
 msgstr "Michael Lang"
 
-#: main.cpp:194
+#: main.cpp:157
 #, kde-format
 msgctxt "List separator"
 msgid ", "
 msgstr ", "
 
-#: main.cpp:200
+#: main.cpp:164
 #, kde-format
 msgid "Try to find a solution to the given savegame"
 msgstr "Försök hitta en lösning på det givna sparade spelet"
 
-#: main.cpp:201
+#: main.cpp:165
 #, kde-format
 msgid "Dealer to solve (debug)"
 msgstr "Givare att lösa (felsökning)"
 
-#: main.cpp:202
+#: main.cpp:166
 #, kde-format
 msgid "Game range start (default 0:INT_MAX)"
 msgstr "Spelintervallstart (förval 0:INT_MAX)"
 
-#: main.cpp:203
+#: main.cpp:168
 #, kde-format
 msgid "Game range end (default start:start if start given)"
 msgstr "Spelintervallslut (förval start:start om start angiven)"
 
-#: main.cpp:204
+#: main.cpp:170
 #, kde-format
 msgid ""
 "Skip the selection screen and load a particular game type. Valid values are: "
@@ -661,179 +661,179 @@ msgstr ""
 "Hoppa över urvalsfönstret och ladda en viss spelvariant. Giltiga värden är: "
 "%1"
 
-#: main.cpp:205
+#: main.cpp:172
 #, kde-format
 msgid "Directory with test cases"
 msgstr "Katalog med testfall"
 
-#: main.cpp:206
+#: main.cpp:173
 #, kde-format
 msgid "Generate random test cases"
 msgstr "Skapa slumpmässiga testfall"
 
-#: main.cpp:207
+#: main.cpp:174
 #, kde-format
 msgid "File to load"
 msgstr "Fil att ladda"
 
-#: mainwindow.cpp:155
+#: mainwindow.cpp:152
 #, kde-format
 msgctxt "Start a new game of a different type"
 msgid "New &Game..."
 msgstr "Nytt &spel..."
 
-#: mainwindow.cpp:161
+#: mainwindow.cpp:158
 #, kde-format
 msgctxt "Start a new game of without changing the game type"
 msgid "New &Deal"
 msgstr "Ny &giv"
 
-#: mainwindow.cpp:167
+#: mainwindow.cpp:164
 #, kde-format
 msgctxt "Start a game by giving its particular number"
 msgid "New &Numbered Deal..."
 msgstr "Ny &numrerad giv..."
 
-#: mainwindow.cpp:172
+#: mainwindow.cpp:169
 #, kde-format
 msgctxt "Replay the current deal from the start"
 msgid "Restart Deal"
 msgstr "Starta om giv"
 
-#: mainwindow.cpp:178
+#: mainwindow.cpp:175
 #, kde-format
 msgctxt "Start the game with the number one greater than the current one"
 msgid "Next Deal"
 msgstr "Ny giv"
 
-#: mainwindow.cpp:187
+#: mainwindow.cpp:184
 #, kde-format
 msgctxt "Start the game with the number one less than the current one"
 msgid "Previous Deal"
 msgstr "Föregående giv"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, GameStats)
-#: mainwindow.cpp:201 statisticsdialog.cpp:62 statisticsdialog.ui:13
+#: mainwindow.cpp:198 statisticsdialog.cpp:61 statisticsdialog.ui:13
 #, kde-format
 msgid "Statistics"
 msgstr "Statistik"
 
-#: mainwindow.cpp:231
+#: mainwindow.cpp:227
 #, kde-format
 msgctxt ""
 "Take one or more cards from the deck, flip them, and place them in play"
 msgid "Dra&w"
 msgstr "&Dra"
 
-#: mainwindow.cpp:236
+#: mainwindow.cpp:232
 #, kde-format
 msgctxt "Deal a new row of cards from the deck"
 msgid "Dea&l Row"
 msgstr "De&la ut rad"
 
-#: mainwindow.cpp:241
+#: mainwindow.cpp:237
 #, kde-format
 msgctxt "Collect the cards in play, shuffle them and redeal them"
 msgid "&Redeal"
 msgstr "N&y omgång"
 
-#: mainwindow.cpp:246
+#: mainwindow.cpp:242
 #, kde-format
 msgctxt "Automatically move cards to the foundation piles"
 msgid "Dro&p"
 msgstr "Slä&pp"
 
-#: mainwindow.cpp:255
+#: mainwindow.cpp:250
 #, kde-format
 msgid "Change Appearance..."
 msgstr "Ändra utseende..."
 
-#: mainwindow.cpp:259
+#: mainwindow.cpp:254
 #, kde-format
 msgid "&Enable Autodrop"
 msgstr "Aktiv&era automatisk förflyttning"
 
-#: mainwindow.cpp:264
+#: mainwindow.cpp:259
 #, kde-format
 msgid "E&nable Solver"
 msgstr "A&ktivera patienslösare"
 
-#: mainwindow.cpp:269
+#: mainwindow.cpp:264
 #, kde-format
 msgid "Play &Sounds"
 msgstr "&Spela ljud"
 
-#: mainwindow.cpp:274
+#: mainwindow.cpp:269
 #, kde-format
 msgid "&Remember State on Exit"
 msgstr "&Kom ihåg tillståndet vid avslutning"
 
-#: mainwindow.cpp:291
+#: mainwindow.cpp:284
 #, kde-format
 msgid "Generate a theme preview image"
 msgstr "Skapa en förhandsgranskningsbild av temat"
 
-#: mainwindow.cpp:296
+#: mainwindow.cpp:289
 #, kde-format
 msgid "Take Game Preview Snapshots"
 msgstr "Spara skärmbilder med spelexempel"
 
-#: mainwindow.cpp:301
+#: mainwindow.cpp:294
 #, kde-format
 msgid "Random Cards"
 msgstr "Slumpmässiga kort"
 
-#: mainwindow.cpp:308
+#: mainwindow.cpp:301
 #, kde-format
 msgid "Move Focus to Previous Pile"
 msgstr "Flytta fokus till föregående hög"
 
-#: mainwindow.cpp:312
+#: mainwindow.cpp:305
 #, kde-format
 msgid "Move Focus to Next Pile"
 msgstr "Flytta fokus till nästa hög"
 
-#: mainwindow.cpp:316
+#: mainwindow.cpp:309
 #, kde-format
 msgid "Move Focus to Card Below"
 msgstr "Flytta fokus till kortet nedanför"
 
-#: mainwindow.cpp:320
+#: mainwindow.cpp:313
 #, kde-format
 msgid "Move Focus to Card Above"
 msgstr "Flytta fokus till kortet ovanför"
 
-#: mainwindow.cpp:324
+#: mainwindow.cpp:317
 #, kde-format
 msgid "Cancel Focus"
 msgstr "Avbryt fokusering"
 
-#: mainwindow.cpp:328
+#: mainwindow.cpp:321
 #, kde-format
 msgid "Pick Up or Set Down Focus"
 msgstr "Plocka upp eller lägg ner fokus"
 
-#: mainwindow.cpp:442
+#: mainwindow.cpp:429
 #, kde-format
 msgid "Card Deck"
 msgstr "Kortlek"
 
-#: mainwindow.cpp:444
+#: mainwindow.cpp:431
 #, kde-format
 msgid "Select a card deck"
 msgstr "Välj en kortlek"
 
-#: mainwindow.cpp:451
+#: mainwindow.cpp:436
 #, kde-format
 msgid "Game Theme"
 msgstr "Speltema"
 
-#: mainwindow.cpp:453
+#: mainwindow.cpp:436
 #, kde-format
 msgid "Select a theme for non-card game elements"
 msgstr "Välj ett tema för element som inte är spelkort"
 
-#: mainwindow.cpp:539
+#: mainwindow.cpp:514
 #, kde-format
 msgctxt ""
 "Is disabled and changes to \"Help &with Current Game\" when there is no "
@@ -841,13 +841,13 @@ msgctxt ""
 msgid "Help &with %1"
 msgstr "Hjälp &med %1"
 
-#: mainwindow.cpp:573
+#: mainwindow.cpp:545
 #, kde-format
 msgctxt "Shown when there is no game open. Is always disabled."
 msgid "Help &with Current Game"
 msgstr "Hjälp &med pågående spel"
 
-#: mainwindow.cpp:747
+#: mainwindow.cpp:700
 #, kde-format
 msgid ""
 "Are you sure you want to hide the menubar? The current shortcut to show it "
@@ -856,160 +856,160 @@ msgstr ""
 "Är du säker på att du vill dölja menyraden? Den nuvarande genvägen för att "
 "visa den igen är %1."
 
-#: mainwindow.cpp:749
+#: mainwindow.cpp:702
 #, kde-format
 msgid "Hide Menubar"
 msgstr "Dölj menyrad"
 
-#: mainwindow.cpp:855
+#: mainwindow.cpp:795
 #, kde-format
 msgid "Downloading file failed: %1"
 msgstr "Nerladdning av fil misslyckades: %1"
 
-#: mainwindow.cpp:862
+#: mainwindow.cpp:801
 #, kde-format
 msgid "Error reading XML file: "
 msgstr "Fel vid läsning av XML-fil: "
 
-#: mainwindow.cpp:894
+#: mainwindow.cpp:829
 #, kde-format
 msgid "XML file is not a KPat save."
 msgstr "XML-filen är inte ett giltigt sparat spel från Patiens."
 
-#: mainwindow.cpp:900
+#: mainwindow.cpp:834
 #, kde-format
 msgid "Unrecognized game id."
 msgstr "Okänd spelidentifierare."
 
-#: mainwindow.cpp:921
+#: mainwindow.cpp:853
 #, kde-format
 msgid "Errors encountered while parsing file."
 msgstr "Fel uppstod vid tolkning av fil."
 
-#: mainwindow.cpp:941
+#: mainwindow.cpp:872
 #, kde-format
 msgid "Load"
 msgstr "Läs in"
 
-#: mainwindow.cpp:970
+#: mainwindow.cpp:899
 #, kde-format
 msgid "Save"
 msgstr "Spara"
 
-#: mainwindow.cpp:989
+#: mainwindow.cpp:915
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
 msgstr "Fel vid försök att öppna filen för skrivning. Misslyckades spara."
 
-#: mainwindow.cpp:997
+#: mainwindow.cpp:920
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
 msgstr "Kan inte skapa tillfällig fil. Misslyckades spara."
 
-#: mainwindow.cpp:1018
+#: mainwindow.cpp:936
 #, kde-format
 msgid "Error uploading file. Saving failed: %1"
 msgstr "Fel vid uppladdning av fil. Misslyckades spara: %1"
 
-#: mainwindow.cpp:1042
+#: mainwindow.cpp:960
 #, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"
 msgstr[0] "1 förflyttning"
 msgstr[1] "%1 förflyttningar"
 
-#: mod3.cpp:238
+#: mod3.cpp:218
 msgid "Mod3"
 msgstr "Mod3"
 
-#: numbereddealdialog.cpp:37
+#: numbereddealdialog.cpp:36
 #, kde-format
 msgid "New Numbered Deal"
 msgstr "Ny numrerad giv"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
-#: numbereddealdialog.cpp:52 statisticsdialog.ui:33
+#: numbereddealdialog.cpp:51 statisticsdialog.ui:33
 #, kde-format
 msgid "Game:"
 msgstr "Spel:"
 
-#: numbereddealdialog.cpp:56
+#: numbereddealdialog.cpp:55
 #, kde-format
 msgid "Deal number:"
 msgstr "Givnummer:"
 
-#: simon.cpp:184
+#: simon.cpp:168
 msgid "Simple Simon"
 msgstr "Följa John"
 
-#: spider.cpp:139
+#: spider.cpp:131
 #, kde-format
 msgid "Spider &Options"
 msgstr "&Alternativ för Spindel"
 
-#: spider.cpp:140
+#: spider.cpp:132
 #, kde-format
 msgid "1 Suit (Easy)"
 msgstr "1 färg (enkel)"
 
-#: spider.cpp:141
+#: spider.cpp:133
 #, kde-format
 msgid "2 Suits (Medium)"
 msgstr "2 färger (normal)"
 
-#: spider.cpp:142
+#: spider.cpp:134
 #, kde-format
 msgid "3 Suits (Hard)"
 msgstr "3 färger (svår)"
 
-#: spider.cpp:143
+#: spider.cpp:135
 #, kde-format
 msgid "4 Suits (Very Hard)"
 msgstr "4 färger (mycket svår)"
 
-#: spider.cpp:155
+#: spider.cpp:147
 #, kde-format
 msgid "Face &Down (harder)"
 msgstr "Framsidan &neråt (svårare)"
 
-#: spider.cpp:156
+#: spider.cpp:148
 #, kde-format
 msgid "Face &Up (easier)"
 msgstr "Framsidan &uppåt (lättare)"
 
-#: spider.cpp:516
+#: spider.cpp:466
 msgid "Spider"
 msgstr "Spindel"
 
-#: spider.cpp:518
+#: spider.cpp:468
 msgid "Spider (1 Suit)"
 msgstr "Spindel (1 svit)"
 
-#: spider.cpp:519
+#: spider.cpp:469
 msgid "Spider (2 Suit)"
 msgstr "Spindel (2 sviter)"
 
-#: spider.cpp:520
+#: spider.cpp:470
 msgid "Spider (3 Suit)"
 msgstr "Spindel (3 sviter)"
 
-#: spider.cpp:521
+#: spider.cpp:471
 msgid "Spider (4 Suit)"
 msgstr "Spindel (4 sviter)"
 
-#: statisticsdialog.cpp:125
+#: statisticsdialog.cpp:122
 #, kde-format
 msgid "%1 (%2%)"
 msgstr "%1 (%2 %)"
 
-#: statisticsdialog.cpp:137
+#: statisticsdialog.cpp:134
 #, kde-format
 msgid "1 loss"
 msgid_plural "%1 losses"
 msgstr[0] "1 förlust"
 msgstr[1] "%1 förluster"
 
-#: statisticsdialog.cpp:139
+#: statisticsdialog.cpp:136
 #, kde-format
 msgid "1 win"
 msgid_plural "%1 wins"
@@ -1052,7 +1052,7 @@ msgstr "Nuvarande följd:"
 msgid "Minimal number of moves:"
 msgstr "Minimalt antal förflyttningar:"
 
-#: yukon.cpp:133
+#: yukon.cpp:120
 msgid "Yukon"
 msgstr "Yukon"
 
