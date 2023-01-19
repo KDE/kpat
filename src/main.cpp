@@ -275,11 +275,9 @@ int main(int argc, char **argv)
             start_index = parser.value(QStringLiteral("start")).toInt(&ok);
         if (!ok) {
             start_index = 0;
-            end_index = INT_MAX;
-        } else {
-            if (end_index == -1)
-                end_index = start_index;
         }
+        if (end_index == -1)
+            end_index = start_index;
         DealerScene *f = getDealer(wanted_game, wanted_name);
         if (!f)
             return 1;
