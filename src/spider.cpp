@@ -39,7 +39,7 @@
 
 // own
 #include "dealerinfo.h"
-#include "patsolve/spidersolver.h"
+#include "patsolve/spidersolver2.h"
 #include "pileutils.h"
 #include "settings.h"
 #include "speeds.h"
@@ -126,7 +126,7 @@ void Spider::initialize()
     // user should have no choice.
     setAutoDropEnabled(false);
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);
-    setSolver(new SpiderSolver(this));
+    setSolver(new SpiderSolver2(this));
 
     options = new KSelectAction(i18n("Spider &Options"), this);
     options->addAction(i18n("1 Suit (Easy)"));

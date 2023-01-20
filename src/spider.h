@@ -53,6 +53,20 @@ public:
     int oldId() const override;
     QList<QAction *> configActions() const override;
 
+    // interface for the solver - avoiding friend classes
+    PatPile *getStack(int i) const
+    {
+        return stack[i];
+    };
+    PatPile *getLeg(int i) const
+    {
+        return legs[i];
+    };
+    PatPile *getRedeal(int i) const
+    {
+        return redeals[i];
+    };
+
 protected:
     QString getGameState() const override;
     void setGameState(const QString &state) override;

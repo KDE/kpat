@@ -51,7 +51,7 @@ set(kpat_SRCS ${libfcs_SRCS}
     simon.cpp
     patsolve/simonsolver.cpp
     spider.cpp
-    patsolve/spidersolver.cpp
+    patsolve/spidersolver2.cpp
     yukon.cpp
     patsolve/yukonsolver.cpp
     kpat.qrc
