@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-19 00:55+0000\n"
+"POT-Creation-Date: 2023-01-20 00:54+0000\n"
 "PO-Revision-Date: 2014-08-11 13:22+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -886,48 +886,48 @@ msgstr "Daalladen vun de Datei is fehlslaan."
 msgid "Error reading XML file: "
 msgstr "De XML-Datei lett sik nich lesen: "
 
-#: mainwindow.cpp:829
+#: mainwindow.cpp:818
 #, kde-format
 msgid "XML file is not a KPat save."
 msgstr "De XML-Datei keen Speel, dat KPat sekert hett."
 
-#: mainwindow.cpp:834
+#: mainwindow.cpp:823
 #, kde-format
 msgid "Unrecognized game id."
 msgstr "Nich begäng Speel-ID."
 
-#: mainwindow.cpp:853
+#: mainwindow.cpp:842
 #, kde-format
 msgid "Errors encountered while parsing file."
 msgstr "Bi't Inlesen vun de Datei geev dat Fehlers."
 
-#: mainwindow.cpp:872
+#: mainwindow.cpp:861
 #, kde-format
 msgid "Load"
 msgstr "Laden"
 
-#: mainwindow.cpp:899
+#: mainwindow.cpp:888
 #, kde-format
 msgid "Save"
 msgstr "Sekern"
 
-#: mainwindow.cpp:915
+#: mainwindow.cpp:904
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
 msgstr "De Datei lett sik  nich för't Schrieven opmaken. Sekern fehlslaan."
 
-#: mainwindow.cpp:920
+#: mainwindow.cpp:909
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
 msgstr "Temporeerdatei lett sik nich opstellen. Sekern fehlslaan."
 
-#: mainwindow.cpp:936
+#: mainwindow.cpp:925
 #, fuzzy, kde-format
 #| msgid "Error uploading file. Saving failed."
 msgid "Error uploading file. Saving failed: %1"
 msgstr "De Datei lett sik  nich hoochladen. Sekern fehlslaan."
 
-#: mainwindow.cpp:960
+#: mainwindow.cpp:949
 #, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-19 00:55+0000\n"
+"POT-Creation-Date: 2023-01-20 00:54+0000\n"
 "PO-Revision-Date: 2009-10-25 09:23+0700\n"
 "Last-Translator: Morn Met\n"
 "Language-Team: Khmer <kde-i18n-doc@kde.org>\n"
@@ -879,48 +879,48 @@ msgstr "ការ​ទាញ​យក​ឯកសារ​បាន​បរា
 msgid "Error reading XML file: "
 msgstr "កំហុស​ក្នុង​ការ​អាន​ឯកសារ XML ៖"
 
-#: mainwindow.cpp:829
+#: mainwindow.cpp:818
 #, kde-format
 msgid "XML file is not a KPat save."
 msgstr "ឯកសារ XML មិនមែន​ជា​ឯកសារ KPat ទេ ។"
 
-#: mainwindow.cpp:834
+#: mainwindow.cpp:823
 #, kde-format
 msgid "Unrecognized game id."
 msgstr "មិន​ស្គាល់​លេខ​សម្គាល់​ល្បែង ។"
 
-#: mainwindow.cpp:853
+#: mainwindow.cpp:842
 #, kde-format
 msgid "Errors encountered while parsing file."
 msgstr "កំហុស​បាន​កើតឡើង ខណៈ​ពេល​កំពុង​ញែក​ឯកសារ ។"
 
-#: mainwindow.cpp:872
+#: mainwindow.cpp:861
 #, kde-format
 msgid "Load"
 msgstr "ផ្ទុក"
 
-#: mainwindow.cpp:899
+#: mainwindow.cpp:888
 #, kde-format
 msgid "Save"
 msgstr "រក្សាទុក"
 
-#: mainwindow.cpp:915
+#: mainwindow.cpp:904
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
 msgstr "កំហុស​ក្នុង​ការ​បើក​ឯកសារ​ដើម្បី​សរសេរ ។ បាន​បរាជ័យ​ក្នុង​ការ​រក្សាទុក ។"
 
-#: mainwindow.cpp:920
+#: mainwindow.cpp:909
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
 msgstr "មិន​អាច​បង្កើត​ឯកសារ​បណ្ដោះអាសន្ន​បាន​ទេ ។ បាន​បរាជ័យ​ក្នុង​ការ​រក្សាទុក ។"
 
-#: mainwindow.cpp:936
+#: mainwindow.cpp:925
 #, fuzzy, kde-format
 #| msgid "Error uploading file. Saving failed."
 msgid "Error uploading file. Saving failed: %1"
 msgstr "កំហុស​ក្នុង​ការ​ផ្ទុក​ឯកសារ​ឡើង ។ បាន​បរាជ័យ​ក្នុង​ការ​រក្សាទុក ។"
 
-#: mainwindow.cpp:960
+#: mainwindow.cpp:949
 #, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"

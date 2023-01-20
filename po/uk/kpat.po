@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-19 00:55+0000\n"
+"POT-Creation-Date: 2023-01-20 00:54+0000\n"
 "PO-Revision-Date: 2022-08-19 16:24+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -876,52 +876,52 @@ msgstr "Спроба отримання файла зазнала невдачі
 msgid "Error reading XML file: "
 msgstr "Помилка під час спроби читання файла XML: "
 
-#: mainwindow.cpp:829
+#: mainwindow.cpp:818
 #, kde-format
 msgid "XML file is not a KPat save."
 msgstr "Цей файл XML не є файлом збереженої гри KPat."
 
-#: mainwindow.cpp:834
+#: mainwindow.cpp:823
 #, kde-format
 msgid "Unrecognized game id."
 msgstr "Нерозпізнаний ідентифікатор гри."
 
-#: mainwindow.cpp:853
+#: mainwindow.cpp:842
 #, kde-format
 msgid "Errors encountered while parsing file."
 msgstr "Помилка під час спроби обробки даних файла."
 
-#: mainwindow.cpp:872
+#: mainwindow.cpp:861
 #, kde-format
 msgid "Load"
 msgstr "Завантажити"
 
-#: mainwindow.cpp:899
+#: mainwindow.cpp:888
 #, kde-format
 msgid "Save"
 msgstr "Зберегти"
 
-#: mainwindow.cpp:915
+#: mainwindow.cpp:904
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
 msgstr ""
 "Помилка під час спроби відкрити файл для запису. Спроба збереження даних "
 "зазнала невдачі."
 
-#: mainwindow.cpp:920
+#: mainwindow.cpp:909
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
 msgstr ""
 "Не вдалося створити тимчасовий файл даних. Спроба збереження зазнала невдачі."
 
-#: mainwindow.cpp:936
+#: mainwindow.cpp:925
 #, kde-format
 msgid "Error uploading file. Saving failed: %1"
 msgstr ""
 "Помилка під час спроби вивантаження файла. Спроба збереження зазнала "
 "невдачі: %1"
 
-#: mainwindow.cpp:960
+#: mainwindow.cpp:949
 #, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"

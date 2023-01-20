@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-19 00:55+0000\n"
+"POT-Creation-Date: 2023-01-20 00:54+0000\n"
 "PO-Revision-Date: 2013-07-11 03:47+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -880,48 +880,48 @@ msgstr "Жүктеп алу жыңылысы."
 msgid "Error reading XML file: "
 msgstr "XML файлын оқығандағы қате: "
 
-#: mainwindow.cpp:829
+#: mainwindow.cpp:818
 #, kde-format
 msgid "XML file is not a KPat save."
 msgstr "XML файлы сақталған KPat файлы емес."
 
-#: mainwindow.cpp:834
+#: mainwindow.cpp:823
 #, kde-format
 msgid "Unrecognized game id."
 msgstr "Ойынның идентификаторы түсініксіз."
 
-#: mainwindow.cpp:853
+#: mainwindow.cpp:842
 #, kde-format
 msgid "Errors encountered while parsing file."
 msgstr "Файлды талдағанда қате табылды."
 
-#: mainwindow.cpp:872
+#: mainwindow.cpp:861
 #, kde-format
 msgid "Load"
 msgstr "Жүктеу"
 
-#: mainwindow.cpp:899
+#: mainwindow.cpp:888
 #, kde-format
 msgid "Save"
 msgstr "Сақтау"
 
-#: mainwindow.cpp:915
+#: mainwindow.cpp:904
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
 msgstr "Файлды жазу үшін ашу қатесі. Сақтау жаңылды."
 
-#: mainwindow.cpp:920
+#: mainwindow.cpp:909
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
 msgstr "Уақытша файл құрылмады. Сақтау жаңылысы."
 
-#: mainwindow.cpp:936
+#: mainwindow.cpp:925
 #, fuzzy, kde-format
 #| msgid "Error uploading file. Saving failed."
 msgid "Error uploading file. Saving failed: %1"
 msgstr "Файлды жүктеп беру қатесі Сақтау жаңылды."
 
-#: mainwindow.cpp:960
+#: mainwindow.cpp:949
 #, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"

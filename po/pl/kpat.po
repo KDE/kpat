@@ -1,5 +1,5 @@
 # translation of kpat.po to Polish
-# Version: $Revision: 1642668 $
+# Version: $Revision: 1642740 $
 # translation of kpat.po to
 # translation of kpat.po to
 # translation of kpat.po to
@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-19 00:55+0000\n"
+"POT-Creation-Date: 2023-01-20 00:54+0000\n"
 "PO-Revision-Date: 2022-08-21 07:17+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -880,47 +880,47 @@ msgstr "Pobieranie pliku nie udało się: %1"
 msgid "Error reading XML file: "
 msgstr "Błąd czytania pliku XML: "
 
-#: mainwindow.cpp:829
+#: mainwindow.cpp:818
 #, kde-format
 msgid "XML file is not a KPat save."
 msgstr "Plik XML nie jest zapisem KPat."
 
-#: mainwindow.cpp:834
+#: mainwindow.cpp:823
 #, kde-format
 msgid "Unrecognized game id."
 msgstr "Nierozpoznany id gry."
 
-#: mainwindow.cpp:853
+#: mainwindow.cpp:842
 #, kde-format
 msgid "Errors encountered while parsing file."
 msgstr "Wystąpiły błędy podczas przetwarzania pliku."
 
-#: mainwindow.cpp:872
+#: mainwindow.cpp:861
 #, kde-format
 msgid "Load"
 msgstr "Wczytaj"
 
-#: mainwindow.cpp:899
+#: mainwindow.cpp:888
 #, kde-format
 msgid "Save"
 msgstr "Zapisz"
 
-#: mainwindow.cpp:915
+#: mainwindow.cpp:904
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
 msgstr "Błąd otwierania pliku do zapisu. Nieudane zapisywanie."
 
-#: mainwindow.cpp:920
+#: mainwindow.cpp:909
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
 msgstr "Nie można utworzyć tymczasowego pliku. Nieudane zapisywanie."
 
-#: mainwindow.cpp:936
+#: mainwindow.cpp:925
 #, kde-format
 msgid "Error uploading file. Saving failed: %1"
 msgstr "Błąd wysyłania pliku. Nie udało się zapisywanie: %1"
 
-#: mainwindow.cpp:960
+#: mainwindow.cpp:949
 #, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"

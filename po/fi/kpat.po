@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-19 00:55+0000\n"
+"POT-Creation-Date: 2023-01-20 00:54+0000\n"
 "PO-Revision-Date: 2022-10-16 23:34+0300\n"
 "Last-Translator: Lasse Liehu <lasse.liehu@iki.fi>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -893,48 +893,48 @@ msgstr "Tiedoston lataaminen epäonnistui: %1"
 msgid "Error reading XML file: "
 msgstr "Virhe XML-tiedoston lukemisessa: "
 
-#: mainwindow.cpp:829
+#: mainwindow.cpp:818
 #, kde-format
 msgid "XML file is not a KPat save."
 msgstr "XML-tiedosto ei ole KPasianssi-tallennus."
 
-#: mainwindow.cpp:834
+#: mainwindow.cpp:823
 #, kde-format
 msgid "Unrecognized game id."
 msgstr "Tunnistamaton pelitunniste."
 
-#: mainwindow.cpp:853
+#: mainwindow.cpp:842
 #, kde-format
 msgid "Errors encountered while parsing file."
 msgstr "Virhe jäsennettäessä tiedostoa."
 
-#: mainwindow.cpp:872
+#: mainwindow.cpp:861
 #, kde-format
 msgid "Load"
 msgstr "Lataa"
 
-#: mainwindow.cpp:899
+#: mainwindow.cpp:888
 #, kde-format
 msgid "Save"
 msgstr "Tallenna"
 
-#: mainwindow.cpp:915
+#: mainwindow.cpp:904
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
 msgstr ""
 "Virhe avattaessa tiedostoa kirjoitusta varten. Tallentaminen epäonnistui."
 
-#: mainwindow.cpp:920
+#: mainwindow.cpp:909
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
 msgstr "Väliaikaistiedoston luonti epäonnistui. Tallentaminen epäonnistui."
 
-#: mainwindow.cpp:936
+#: mainwindow.cpp:925
 #, kde-format
 msgid "Error uploading file. Saving failed: %1"
 msgstr "Virhe tiedoston lähettämisessä. Tallentaminen epäonnistui: %1"
 
-#: mainwindow.cpp:960
+#: mainwindow.cpp:949
 #, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"

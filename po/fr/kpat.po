@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-19 00:55+0000\n"
+"POT-Creation-Date: 2023-01-20 00:54+0000\n"
 "PO-Revision-Date: 2023-01-08 12:55+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: fr\n"
@@ -896,48 +896,48 @@ msgstr "Impossible de télécharger un fichier : %1"
 msgid "Error reading XML file: "
 msgstr "Impossible de lire un fichier XML : "
 
-#: mainwindow.cpp:829
+#: mainwindow.cpp:818
 #, kde-format
 msgid "XML file is not a KPat save."
 msgstr "Le fichier XML n'est pas une sauvegarde de partie de KPat."
 
-#: mainwindow.cpp:834
+#: mainwindow.cpp:823
 #, kde-format
 msgid "Unrecognized game id."
 msgstr "Identifiant de jeu inconnu."
 
-#: mainwindow.cpp:853
+#: mainwindow.cpp:842
 #, kde-format
 msgid "Errors encountered while parsing file."
 msgstr "Erreurs rencontrées durant l'analyse du fichier."
 
-#: mainwindow.cpp:872
+#: mainwindow.cpp:861
 #, kde-format
 msgid "Load"
 msgstr "Charger"
 
-#: mainwindow.cpp:899
+#: mainwindow.cpp:888
 #, kde-format
 msgid "Save"
 msgstr "Enregistrer"
 
-#: mainwindow.cpp:915
+#: mainwindow.cpp:904
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
 msgstr ""
 "Impossible d'ouvrir le fichier pour y écrire. L'enregistrement a échoué."
 
-#: mainwindow.cpp:920
+#: mainwindow.cpp:909
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
 msgstr "Impossible de créer un fichier temporaire. L'enregistrement a échoué."
 
-#: mainwindow.cpp:936
+#: mainwindow.cpp:925
 #, kde-format
 msgid "Error uploading file. Saving failed: %1"
 msgstr "Erreur lors de l'envoi du fichier. L'enregistrement a échoué : %1"
 
-#: mainwindow.cpp:960
+#: mainwindow.cpp:949
 #, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"

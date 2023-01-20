@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-19 00:55+0000\n"
+"POT-Creation-Date: 2023-01-20 00:54+0000\n"
 "PO-Revision-Date: 2013-10-18 20:24+0000\n"
 "Last-Translator: Samir Ribić <Unknown>\n"
 "Language-Team: bosanski <bs@li.org>\n"
@@ -888,48 +888,48 @@ msgstr "Preuzimanje datoteke neuspjelo."
 msgid "Error reading XML file: "
 msgstr "Greška u čitanju XML datoteke. "
 
-#: mainwindow.cpp:829
+#: mainwindow.cpp:818
 #, kde-format
 msgid "XML file is not a KPat save."
 msgstr "XML datoteka  nije KPat snimak."
 
-#: mainwindow.cpp:834
+#: mainwindow.cpp:823
 #, kde-format
 msgid "Unrecognized game id."
 msgstr "Neprepoznat id igre."
 
-#: mainwindow.cpp:853
+#: mainwindow.cpp:842
 #, kde-format
 msgid "Errors encountered while parsing file."
 msgstr "Greška pri analizi datoteke."
 
-#: mainwindow.cpp:872
+#: mainwindow.cpp:861
 #, kde-format
 msgid "Load"
 msgstr "Učitaj"
 
-#: mainwindow.cpp:899
+#: mainwindow.cpp:888
 #, kde-format
 msgid "Save"
 msgstr "Snimi"
 
-#: mainwindow.cpp:915
+#: mainwindow.cpp:904
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
 msgstr "Greška u otvaranju datoteke za pisanje. Snimanje neuspjelo."
 
-#: mainwindow.cpp:920
+#: mainwindow.cpp:909
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
 msgstr "Nemoguće kreirati privremenu datoteku. Snimanje neuspjelo."
 
-#: mainwindow.cpp:936
+#: mainwindow.cpp:925
 #, fuzzy, kde-format
 #| msgid "Error uploading file. Saving failed."
 msgid "Error uploading file. Saving failed: %1"
 msgstr "Greška u slanju datoteke. Snimanje neuspjelo."
 
-#: mainwindow.cpp:960
+#: mainwindow.cpp:949
 #, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"
