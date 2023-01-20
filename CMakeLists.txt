@@ -9,7 +9,7 @@ set(RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_
 project(kpat VERSION ${RELEASE_SERVICE_VERSION})
 
 set (QT_MIN_VERSION "5.15.2")
-set (KF5_MIN_VERSION "5.91.0")
+set (KF_MIN_VERSION "5.91.0")
 
 include(FindPkgConfig)
 pkg_check_modules(FC_SOLVE REQUIRED libfreecell-solver)
@@ -21,7 +21,7 @@ try_compile(fcs_soft_suspend "${CMAKE_CURRENT_BINARY_DIR}" SOURCES "${CMAKE_CURR
     COMPILE_DEFINITIONS ${FC_SOLVE_INCLUDE_DIRS}
     LINK_LIBRARIES ${FC_SOLVE_LDFLAGS})
 
-find_package(ECM ${KF5_MIN_VERSION} REQUIRED CONFIG)
+find_package(ECM ${KF_MIN_VERSION} REQUIRED CONFIG)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
 include(KDEInstallDirs)
 include(KDECMakeSettings)
@@ -39,7 +39,7 @@ include(KDEGitCommitHooks)
 include(KDEClangFormat)
 
 find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Widgets Svg Test)
-find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
+find_package(KF5 ${KF_MIN_VERSION} REQUIRED COMPONENTS
     Completion
     Config
     ConfigWidgets
