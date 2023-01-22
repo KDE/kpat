@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-03 02:33+0000\n"
-"PO-Revision-Date: 2022-09-30 11:08+0200\n"
+"PO-Revision-Date: 2023-01-21 19:35+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -61,27 +61,27 @@ msgstr "ხელით"
 #: bakersdozen.cpp:79 castle.cpp:411 freecell.cpp:394
 #, kde-format
 msgid "Empty Stack Fill"
-msgstr ""
+msgstr "ცარიელი დასტის შევსება"
 
 #: bakersdozen.cpp:80 castle.cpp:412 freecell.cpp:395
 #, kde-format
 msgid "Any (Easy)"
-msgstr ""
+msgstr "ნებისმიერი (მარტივი)"
 
 #: bakersdozen.cpp:81 castle.cpp:413 freecell.cpp:396
 #, kde-format
 msgid "Kings only (Medium)"
-msgstr ""
+msgstr "მხოლოდ მეფე (საშუალო)"
 
 #: bakersdozen.cpp:82 castle.cpp:414 freecell.cpp:397
 #, kde-format
 msgid "None (Hard)"
-msgstr ""
+msgstr "არცერთი (ძნელი)"
 
 #: bakersdozen.cpp:84
 #, kde-format
 msgid "Stack Options"
-msgstr ""
+msgstr "დასტის მორგება"
 
 #: bakersdozen.cpp:85
 #, kde-format
@@ -101,7 +101,7 @@ msgstr "აგების თანამიმდევრობა"
 #: bakersdozen.cpp:89 castle.cpp:417 freecell.cpp:400
 #, kde-format
 msgid "Alternating Color"
-msgstr ""
+msgstr "მონაცვლებადი ფერები"
 
 #: bakersdozen.cpp:90 castle.cpp:418 freecell.cpp:401
 #, kde-format
@@ -134,12 +134,12 @@ msgstr "Citadel"
 #: castle.cpp:365 castle.cpp:405
 #, kde-format
 msgid "Exiled Kings"
-msgstr ""
+msgstr "გაძევებული-მეფეები"
 
 #: castle.cpp:366 castle.cpp:406
 #, kde-format
 msgid "Streets and Alleys"
-msgstr ""
+msgstr "ქუჩები და ხეივნები"
 
 #: castle.cpp:367 castle.cpp:407
 #, kde-format
@@ -149,7 +149,7 @@ msgstr ""
 #: castle.cpp:368 castle.cpp:408
 #, kde-format
 msgid "Stronghold"
-msgstr ""
+msgstr "სიმაგრე"
 
 #: castle.cpp:369
 msgid "Castle (Custom)"
@@ -158,7 +158,7 @@ msgstr ""
 #: castle.cpp:421
 #, kde-format
 msgid "Free Cells"
-msgstr ""
+msgstr "თავისუფალი უჯრედები"
 
 #: castle.cpp:422 freecell.cpp:405
 #, kde-format
@@ -248,7 +248,7 @@ msgstr ""
 #: castle.cpp:442
 #, kde-format
 msgid "Aces"
-msgstr ""
+msgstr "ტუზები"
 
 #: castle.cpp:443
 #, kde-format
@@ -272,22 +272,22 @@ msgstr "თანამედროვე"
 
 #: clock.cpp:156
 msgid "Grandfather's Clock"
-msgstr ""
+msgstr "ბაბუის საათი"
 
 #: dealer.cpp:73
 #, kde-format
 msgid "Solver: This game is winnable."
-msgstr ""
+msgstr "ამომხსნელი: ეს თამაში მოგებადია."
 
 #: dealer.cpp:75
 #, kde-format
 msgid "Solver: This game is no longer winnable."
-msgstr ""
+msgstr "ამომხსნელი: ეს თამაში მოგებადი აღარაა."
 
 #: dealer.cpp:76
 #, kde-format
 msgid "Solver: This game cannot be won."
-msgstr ""
+msgstr "ამომხსნელი: ამ თამაშის მოგება შეუძლებელია."
 
 #: dealer.cpp:78
 #, kde-format
@@ -297,22 +297,22 @@ msgstr ""
 #: dealer.cpp:985
 #, kde-format
 msgid "Congratulations! We have won."
-msgstr ""
+msgstr "გილოცავთ! მოვიგეთ."
 
 #: dealer.cpp:987
 #, kde-format
 msgid "Congratulations! You have won."
-msgstr ""
+msgstr "გილოცავთ! მოიგეთ."
 
 #: dealer.cpp:1334
 #, kde-format
 msgid "Solver: This game is lost."
-msgstr ""
+msgstr "ამომხსნელი: ეს თამაში წაგებულია."
 
 #: dealer.cpp:1488
 #, kde-format
 msgid "Solver: Calculating..."
-msgstr ""
+msgstr "ამომხსნელი: გამოთვლა..."
 
 #: dealer.cpp:1963
 #, kde-format
@@ -325,12 +325,12 @@ msgstr ""
 #: dealer.cpp:1965
 #, kde-format
 msgid "Abandon Current Game?"
-msgstr ""
+msgstr "მივატოვო მიმდინარე თამაში?"
 
 #: dealer.cpp:1966
 #, kde-format
 msgid "Abandon Current Game"
-msgstr ""
+msgstr "მიმდინარე თამაშის მიტოვება"
 
 #: fortyeight.cpp:253
 msgid "Forty & Eight"
@@ -339,22 +339,22 @@ msgstr ""
 #: freecell.cpp:348 freecell.cpp:353 freecell.cpp:390
 #, kde-format
 msgid "Freecell"
-msgstr ""
+msgstr "თავისუფალი უჯრედი"
 
 #: freecell.cpp:350 freecell.cpp:387
 #, kde-format
 msgid "Baker's Game"
-msgstr ""
+msgstr "ბეიკერის თამაში"
 
 #: freecell.cpp:351 freecell.cpp:388
 #, kde-format
 msgid "Eight Off"
-msgstr ""
+msgstr "8 თავისუფალი"
 
 #: freecell.cpp:352 freecell.cpp:389
 #, kde-format
 msgid "Forecell"
-msgstr ""
+msgstr "შვედური თავისუფალი უჯრედი"
 
 #: freecell.cpp:354 freecell.cpp:391
 #, kde-format
@@ -368,7 +368,7 @@ msgstr ""
 #: freecell.cpp:404
 #, kde-format
 msgid "Free cells"
-msgstr ""
+msgstr "თავისუფალი უჯრედები"
 
 #: freecell.cpp:410
 #, kde-format
@@ -400,11 +400,11 @@ msgstr "პაპა"
 
 #: gypsy.cpp:178
 msgid "Gypsy"
-msgstr ""
+msgstr "ბოშური"
 
 #: idiot.cpp:259
 msgid "Aces Up"
-msgstr ""
+msgstr "ტუზები მაღლა"
 
 #: klondike.cpp:143
 #, kde-format
@@ -414,12 +414,12 @@ msgstr ""
 #: klondike.cpp:144
 #, kde-format
 msgid "Draw 1"
-msgstr ""
+msgstr "სათითაოდ დარიგება"
 
 #: klondike.cpp:145
 #, kde-format
 msgid "Draw 3"
-msgstr ""
+msgstr "სამ-სამი კარტის დარიგება"
 
 #: klondike.cpp:346
 msgid "Klondike"
@@ -475,7 +475,7 @@ msgstr "Paul Olav Tvete"
 #: main.cpp:130
 #, kde-format
 msgid "Author of original Qt version"
-msgstr ""
+msgstr "ორიგინალური Qt ვერსიის ავტორი"
 
 #: main.cpp:132
 #, kde-format
@@ -500,7 +500,7 @@ msgstr "Rodolfo Borges"
 #: main.cpp:139 main.cpp:178
 #, kde-format
 msgid "New game types"
-msgstr ""
+msgstr "ახალი თამაშის ტიპები"
 
 #: main.cpp:141
 #, kde-format
@@ -515,7 +515,7 @@ msgstr "Michael Koch"
 #: main.cpp:145 main.cpp:166
 #, kde-format
 msgid "Bug fixes"
-msgstr ""
+msgstr "შეცდომების გასწორება"
 
 #: main.cpp:147
 #, kde-format
@@ -663,19 +663,19 @@ msgstr ""
 #: main.cpp:207
 #, kde-format
 msgid "File to load"
-msgstr ""
+msgstr "ჩასატვირთი ფაილი"
 
 #: mainwindow.cpp:155
 #, kde-format
 msgctxt "Start a new game of a different type"
 msgid "New &Game..."
-msgstr ""
+msgstr "&ახალი თამაში..."
 
 #: mainwindow.cpp:161
 #, kde-format
 msgctxt "Start a new game of without changing the game type"
 msgid "New &Deal"
-msgstr ""
+msgstr "&ახალი დარიგება"
 
 #: mainwindow.cpp:167
 #, kde-format
@@ -693,13 +693,13 @@ msgstr ""
 #, kde-format
 msgctxt "Start the game with the number one greater than the current one"
 msgid "Next Deal"
-msgstr ""
+msgstr "შემდეგი დარიგება"
 
 #: mainwindow.cpp:187
 #, kde-format
 msgctxt "Start the game with the number one less than the current one"
 msgid "Previous Deal"
-msgstr ""
+msgstr "წინა დარიგება"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, GameStats)
 #: mainwindow.cpp:201 statisticsdialog.cpp:62 statisticsdialog.ui:13
@@ -712,7 +712,7 @@ msgstr "სტატისტიკა"
 msgctxt ""
 "Take one or more cards from the deck, flip them, and place them in play"
 msgid "Dra&w"
-msgstr ""
+msgstr "&დარიგება"
 
 #: mainwindow.cpp:236
 #, kde-format
@@ -770,7 +770,7 @@ msgstr ""
 #: mainwindow.cpp:301
 #, kde-format
 msgid "Random Cards"
-msgstr ""
+msgstr "შემთხვევითი კარტები"
 
 #: mainwindow.cpp:308
 #, kde-format
@@ -834,7 +834,7 @@ msgstr "%1-სთან დახმარება"
 #, kde-format
 msgctxt "Shown when there is no game open. Is always disabled."
 msgid "Help &with Current Game"
-msgstr ""
+msgstr "დახმარება &მიმდინარე თამაშში"
 
 #: mainwindow.cpp:745
 #, kde-format
@@ -923,7 +923,7 @@ msgstr "თამაში:"
 #: numbereddealdialog.cpp:56
 #, kde-format
 msgid "Deal number:"
-msgstr ""
+msgstr "დარიგების ნომერი:"
 
 #: simon.cpp:184
 msgid "Simple Simon"
@@ -987,21 +987,21 @@ msgstr ""
 #: statisticsdialog.cpp:125
 #, kde-format
 msgid "%1 (%2%)"
-msgstr ""
+msgstr "%1 (%2%)"
 
 #: statisticsdialog.cpp:137
 #, kde-format
 msgid "1 loss"
 msgid_plural "%1 losses"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 წაგება"
+msgstr[1] "%1 წაგება"
 
 #: statisticsdialog.cpp:139
 #, kde-format
 msgid "1 win"
 msgid_plural "%1 wins"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 მოგება"
+msgstr[1] "%1 მოგება"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel7)
 #: statisticsdialog.ui:75
@@ -1013,7 +1013,7 @@ msgstr ""
 #: statisticsdialog.ui:82
 #, kde-format
 msgid "Games played:"
-msgstr ""
+msgstr "თამაშების რაოდენობა:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel8)
 #: statisticsdialog.ui:99
@@ -1025,7 +1025,7 @@ msgstr ""
 #: statisticsdialog.ui:116
 #, kde-format
 msgid "Games won:"
-msgstr ""
+msgstr "მოგებული თამაშები:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: statisticsdialog.ui:133
@@ -1037,7 +1037,7 @@ msgstr ""
 #: statisticsdialog.ui:147
 #, kde-format
 msgid "Minimal number of moves:"
-msgstr ""
+msgstr "სვლების მინიმალური რაოდენობა:"
 
 #: yukon.cpp:133
 msgid "Yukon"
