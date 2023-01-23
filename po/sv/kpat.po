@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-20 00:54+0000\n"
+"POT-Creation-Date: 2023-01-23 00:54+0000\n"
 "PO-Revision-Date: 2022-09-24 16:14+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -297,27 +297,27 @@ msgstr "Lösare: Spelet kan inte vinnas."
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr "Patienslösare: Kan inte avgöra om spelet går att vinna."
 
-#: dealer.cpp:934
+#: dealer.cpp:937
 #, kde-format
 msgid "Congratulations! We have won."
 msgstr "Gratulerar! Vi vann."
 
-#: dealer.cpp:936
+#: dealer.cpp:939
 #, kde-format
 msgid "Congratulations! You have won."
 msgstr "Gratulerar! Du vann."
 
-#: dealer.cpp:1222
+#: dealer.cpp:1225
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "Patienslösare: Spelet är förlorat."
 
-#: dealer.cpp:1360
+#: dealer.cpp:1363
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "Patienslösare: Beräknar..."
 
-#: dealer.cpp:1764
+#: dealer.cpp:1767
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -329,12 +329,12 @@ msgstr ""
 "En förlust kommer att registreras i statistiken om det pågående spelet "
 "avbryts."
 
-#: dealer.cpp:1766
+#: dealer.cpp:1769
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "Avbryt pågående spel?"
 
-#: dealer.cpp:1767
+#: dealer.cpp:1770
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "Avbryt pågående spel"

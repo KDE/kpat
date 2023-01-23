@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-20 00:54+0000\n"
+"POT-Creation-Date: 2023-01-23 00:54+0000\n"
 "PO-Revision-Date: 2023-01-12 10:30\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -293,27 +293,27 @@ msgstr "解牌：这局游戏无解。"
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr "解牌：无法确定此局游戏是否可以赢。"
 
-#: dealer.cpp:934
+#: dealer.cpp:937
 #, kde-format
 msgid "Congratulations! We have won."
 msgstr "恭喜！我们赢了。"
 
-#: dealer.cpp:936
+#: dealer.cpp:939
 #, kde-format
 msgid "Congratulations! You have won."
 msgstr "恭喜！您赢了。"
 
-#: dealer.cpp:1222
+#: dealer.cpp:1225
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "解牌：这局游戏已经输了。"
 
-#: dealer.cpp:1360
+#: dealer.cpp:1363
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "解牌：计算中..."
 
-#: dealer.cpp:1764
+#: dealer.cpp:1767
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -324,12 +324,12 @@ msgstr ""
 "\n"
 "如果您中止当前游戏，内部统计会将其计为一次失败。"
 
-#: dealer.cpp:1766
+#: dealer.cpp:1769
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "中止当前游戏吗？"
 
-#: dealer.cpp:1767
+#: dealer.cpp:1770
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "中止当前游戏吗"

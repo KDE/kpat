@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat-0.7.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-20 00:54+0000\n"
+"POT-Creation-Date: 2023-01-23 00:54+0000\n"
 "PO-Revision-Date: 2022-02-06 19:06+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -300,27 +300,27 @@ msgstr "Rezolvator: Acest joc nu poate fi câștigat."
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr "Rezolvator: Nu se poate determina dacă acest joc poate fi câștigat."
 
-#: dealer.cpp:934
+#: dealer.cpp:937
 #, kde-format
 msgid "Congratulations! We have won."
 msgstr "Felicitări! Am câștigat."
 
-#: dealer.cpp:936
+#: dealer.cpp:939
 #, kde-format
 msgid "Congratulations! You have won."
 msgstr "Felicitări! Ați câștigat."
 
-#: dealer.cpp:1222
+#: dealer.cpp:1225
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "Rezolvator: acest joc este pierdut."
 
-#: dealer.cpp:1360
+#: dealer.cpp:1363
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "Rezolvator: Se calculează..."
 
-#: dealer.cpp:1764
+#: dealer.cpp:1767
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -332,12 +332,12 @@ msgstr ""
 "O înfrângere va fi înregistrată în statistici dacă jocul actual este "
 "abandonat."
 
-#: dealer.cpp:1766
+#: dealer.cpp:1769
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "Abandonați jocul actual?"
 
-#: dealer.cpp:1767
+#: dealer.cpp:1770
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "Abandonează jocul actual"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-20 00:54+0000\n"
+"POT-Creation-Date: 2023-01-23 00:54+0000\n"
 "PO-Revision-Date: 2015-12-29 18:10+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: lt <kde-i18n-lt@kde.org>\n"
@@ -297,27 +297,27 @@ msgstr "Žaidimas pralaimėtas."
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr ""
 
-#: dealer.cpp:934
+#: dealer.cpp:937
 #, kde-format
 msgid "Congratulations! We have won."
 msgstr "Sveikiname! Mes laimėjome."
 
-#: dealer.cpp:936
+#: dealer.cpp:939
 #, kde-format
 msgid "Congratulations! You have won."
 msgstr "Sveikiname! Jūs laimėjote."
 
-#: dealer.cpp:1222
+#: dealer.cpp:1225
 #, fuzzy, kde-format
 msgid "Solver: This game is lost."
 msgstr "Žaidimas pralaimėtas."
 
-#: dealer.cpp:1360
+#: dealer.cpp:1363
 #, fuzzy, kde-format
 msgid "Solver: Calculating..."
 msgstr "Skaičiuojama..."
 
-#: dealer.cpp:1764
+#: dealer.cpp:1767
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -325,12 +325,12 @@ msgid ""
 "A loss will be recorded in the statistics if the current game is abandoned."
 msgstr ""
 
-#: dealer.cpp:1766
+#: dealer.cpp:1769
 #, fuzzy, kde-format
 msgid "Abandon Current Game?"
 msgstr "Nutraukti dabartinį žaidimą?"
 
-#: dealer.cpp:1767
+#: dealer.cpp:1770
 #, fuzzy, kde-format
 msgid "Abandon Current Game"
 msgstr "Nutraukti dabartinį žaidimą"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-20 00:54+0000\n"
+"POT-Creation-Date: 2023-01-23 00:54+0000\n"
 "PO-Revision-Date: 2008-08-24 12:41+0800\n"
 "Last-Translator: Muhammad Najmi bin Ahmad Zabidi <najmi.zabidi@gmail.com>\n"
 "Language-Team: Malay <kedidiemas@yahoogroups.com>\n"
@@ -299,27 +299,27 @@ msgstr "ialah."
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr ""
 
-#: dealer.cpp:934
+#: dealer.cpp:937
 #, kde-format
 msgid "Congratulations! We have won."
 msgstr "Tahniah! Anda.menang."
 
-#: dealer.cpp:936
+#: dealer.cpp:939
 #, fuzzy, kde-format
 msgid "Congratulations! You have won."
 msgstr "Tahniah! Anda.menang."
 
-#: dealer.cpp:1222
+#: dealer.cpp:1225
 #, fuzzy, kde-format
 msgid "Solver: This game is lost."
 msgstr "ialah."
 
-#: dealer.cpp:1360
+#: dealer.cpp:1363
 #, fuzzy, kde-format
 msgid "Solver: Calculating..."
 msgstr "Mengira..."
 
-#: dealer.cpp:1764
+#: dealer.cpp:1767
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -327,12 +327,12 @@ msgid ""
 "A loss will be recorded in the statistics if the current game is abandoned."
 msgstr ""
 
-#: dealer.cpp:1766
+#: dealer.cpp:1769
 #, fuzzy, kde-format
 msgid "Abandon Current Game?"
 msgstr "Henti Paksa Semasa Permainan?"
 
-#: dealer.cpp:1767
+#: dealer.cpp:1770
 #, fuzzy, kde-format
 msgid "Abandon Current Game"
 msgstr "Henti Paksa Semasa Permainan"

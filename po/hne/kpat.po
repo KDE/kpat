@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-20 00:54+0000\n"
+"POT-Creation-Date: 2023-01-23 00:54+0000\n"
 "PO-Revision-Date: 2009-02-26 10:57+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -304,29 +304,29 @@ msgstr "नइ, काबर कि अब खेल जीता नइ जा 
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr ""
 
-#: dealer.cpp:934
+#: dealer.cpp:937
 #, kde-format
 msgid "Congratulations! We have won."
 msgstr "गाड़ा गाड़ा बधाई! आप मन जीत गए."
 
-#: dealer.cpp:936
+#: dealer.cpp:939
 #, kde-format
 msgid "Congratulations! You have won."
 msgstr "गाड़ा गाड़ा बधाई! आप मन जीत गए."
 
-#: dealer.cpp:1222
+#: dealer.cpp:1225
 #, fuzzy, kde-format
 #| msgid "This game is lost."
 msgid "Solver: This game is lost."
 msgstr "खेल मं हार होइस."
 
-#: dealer.cpp:1360
+#: dealer.cpp:1363
 #, fuzzy, kde-format
 #| msgid "Calculating..."
 msgid "Solver: Calculating..."
 msgstr "गनना मं..."
 
-#: dealer.cpp:1764
+#: dealer.cpp:1767
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -334,13 +334,13 @@ msgid ""
 "A loss will be recorded in the statistics if the current game is abandoned."
 msgstr ""
 
-#: dealer.cpp:1766
+#: dealer.cpp:1769
 #, fuzzy, kde-format
 #| msgid "Abort Current Game?"
 msgid "Abandon Current Game?"
 msgstr "अभी हाल के खेल छोड़व?"
 
-#: dealer.cpp:1767
+#: dealer.cpp:1770
 #, fuzzy, kde-format
 #| msgid "Abort Current Game"
 msgid "Abandon Current Game"

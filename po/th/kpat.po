@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-20 00:54+0000\n"
+"POT-Creation-Date: 2023-01-23 00:54+0000\n"
 "PO-Revision-Date: 2010-03-28 18:21+0700\n"
 "Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -303,27 +303,27 @@ msgstr "ตัวแก้ปัญหา: เกมนี้ไม่สาม�
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr "ตัวแก้ปัญหา: ไม่สามารถระบุได้ว่า เกมนี้จะสามารถเอาชนะได้หรือไม่"
 
-#: dealer.cpp:934
+#: dealer.cpp:937
 #, kde-format
 msgid "Congratulations! We have won."
 msgstr "ยินดีด้วย ! เราชนะแล้ว"
 
-#: dealer.cpp:936
+#: dealer.cpp:939
 #, kde-format
 msgid "Congratulations! You have won."
 msgstr "ยินดีด้วย ! คุณชนะแล้ว"
 
-#: dealer.cpp:1222
+#: dealer.cpp:1225
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "ตัวแก้ปัญหา: เกมนี้แพ้แน่นอน"
 
-#: dealer.cpp:1360
+#: dealer.cpp:1363
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "ตัวแก้ปัญหา: กำลังทำการคำนวณ..."
 
-#: dealer.cpp:1764
+#: dealer.cpp:1767
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -334,12 +334,12 @@ msgstr ""
 "\n"
 "หากเลิกเล่นเกมปัจจุบัน จะมีการบันทึกว่าคุณแพ้เพิ่มไว้ในสถิติ"
 
-#: dealer.cpp:1766
+#: dealer.cpp:1769
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "เลิกเล่นเกมปัจจุบันจริงหรือไม่ ?"
 
-#: dealer.cpp:1767
+#: dealer.cpp:1770
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "เลิกเล่นเกมปัจจุบัน"
