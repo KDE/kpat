@@ -26,7 +26,7 @@
     <comment xml:lang="ru">Сохранённая игра KPatience в старом формате</comment>
     <comment xml:lang="sl">Zapuščina datoteke shranjene igre KPatience</comment>
     <comment xml:lang="sv">Föråldrad sparfil för Patiens</comment>
-    <comment xml:lang="tr">KPatience eski kayıt dosyası</comment>
+    <comment xml:lang="tr">K Sabır eski kayıt dosyası</comment>
     <comment xml:lang="uk">файл збереженої гри KPatience у застарілому форматі</comment>
     <comment xml:lang="zh_CN">KPatience 旧存档文件</comment>
     <sub-class-of type="application/xml"/>
@@ -61,7 +61,7 @@
     <comment xml:lang="ru">Сохранённая игра KPatience</comment>
     <comment xml:lang="sl">Datoteka shranjene igre KPatience</comment>
     <comment xml:lang="sv">Sparfil för Patiens</comment>
-    <comment xml:lang="tr">KPatience kayıt dosyası</comment>
+    <comment xml:lang="tr">K Sabır kayıt dosyası</comment>
     <comment xml:lang="uk">файл збереженої гри KPatience</comment>
     <comment xml:lang="zh_CN">KPatience 存档文件</comment>
     <sub-class-of type="application/xml"/>
