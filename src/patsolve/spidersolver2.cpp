@@ -13,10 +13,16 @@
 #include <unordered_map>
 #include <unordered_set>
 
+namespace spidersolver2
+{
 static volatile bool stop_exec = false;
 
 enum Suit { Clubs = 0, Diamonds, Hearts, Spades };
 enum Rank { None = 0, Ace = 1, Two = 2, Three = 3, Four = 4, Five = 5, Six = 6, Seven = 7, Eight = 8, Nine = 9, Ten = 10, Jack = 11, Queen = 12, King = 13 };
+
+// give magic numbers a name
+const int REDEALS_NR = 6;
+const int MAX_MOVES = 230;
 
 struct Card {
     // 4 bits rank
@@ -37,6 +43,7 @@ struct Card {
 
     Card(KCard *c)
     {
+        value = 0;
         set_faceup(c->isFaceUp());
         set_rank(Rank(c->rank()));
         set_suit(Suit(c->suit()));
@@ -230,6 +237,8 @@ const int MAX_CARDS = 104;
 class Pile;
 class Pile
 {
+    friend class MemoryManager;
+
 public:
     Pile()
     {
@@ -267,26 +276,81 @@ public:
     {
         return m_hash;
     }
-    static const Pile *createEmpty();
-    static const Pile *translate_pile(const KCardPile *pile, bool reverse);
 
 private:
     int m_chaos;
+    unsigned char cards[MAX_CARDS];
+    size_t count;
+    uint64_t m_hash;
+    int m_seqs[4];
+    int sequenceOf_(Suit suit) const;
     void setAt(int index, const Card &c)
     {
         cards[index] = c.raw_value();
     }
-    unsigned char cards[MAX_CARDS];
-    size_t count;
-    uint64_t m_hash;
-    static const Pile *query_or_insert(const unsigned char *cards, size_t count);
-    int m_seqs[4];
-    int sequenceOf_(Suit suit) const;
 };
 
-std::unordered_map<uint64_t, Pile *> pilemap;
+class Deck
+{
+private:
+    // Deck(const Deck &other);
 
-const Pile *Pile::query_or_insert(const unsigned char *cards, size_t count)
+public:
+    Deck()
+    {
+        // leaving the pointers stale on purpose
+        // for performance
+    }
+
+    std::string toString() const;
+    void update(const Deck *);
+    void translate(const Spider *dealer);
+    void getMoves(std::vector<Move> &moves) const;
+    void applyMove(const Move &m, Deck &newdeck) const;
+    uint64_t id() const;
+    int leftTalons() const;
+    int chaos() const;
+    SolverInterface::ExitStatus shortestPath();
+    int playableCards() const;
+    int inOff() const;
+    int freePlays() const;
+    void makeEmpty();
+    std::vector<Card> parse(int game_type, const std::string &filename);
+    std::vector<Move> getWinMoves() const;
+
+private:
+    const Pile *play[10];
+    const Pile *talon[5];
+    const Pile *off;
+    Move moves[MAX_MOVES];
+    int moves_index;
+};
+
+class MemoryManager
+{
+public:
+    MemoryManager();
+    ~MemoryManager();
+    const Pile *createEmptyPile();
+    const Pile *translatePile(const KCardPile *pile, bool reverse);
+    const Pile *createPile(const unsigned char *cards, size_t count);
+    Deck &deckAt(size_t index)
+    {
+        return deckstore[index];
+    }
+    void clean();
+    static MemoryManager *self()
+    {
+        return m_self;
+    }
+
+private:
+    static MemoryManager *m_self;
+    std::unordered_map<uint64_t, Pile *> pilemap;
+    Deck *deckstore;
+};
+
+const Pile *MemoryManager::createPile(const unsigned char *cards, size_t count)
 {
     std::hash<unsigned char> hasher;
     std::size_t seed = 0;
@@ -309,28 +373,6 @@ const Pile *Pile::query_or_insert(const unsigned char *cards, size_t count)
     return p;
 }
 
-const Pile *Pile::createEmpty()
-{
-    unsigned char newcards[2] = {0, 0};
-    return query_or_insert(newcards, 0);
-}
-
-const Pile *Pile::translate_pile(const KCardPile *pile, bool reverse)
-{
-    unsigned char newcards[MAX_CARDS];
-    size_t count = 0;
-    size_t len = pile->cards().length();
-    for (auto &card : pile->cards()) {
-        size_t index = count;
-        if (reverse) {
-            index = len - count - 1;
-        }
-        newcards[index] = Card(card).raw_value();
-        count++;
-    }
-    return query_or_insert(newcards, count);
-}
-
 std::string Pile::toString() const
 {
     std::string ret;
@@ -349,12 +391,12 @@ const Pile *Pile::remove(int index) const
             memcpy(newcards, cards, MAX_CARDS);
             c.set_faceup(true);
             newcards[index - 1] = c.raw_value();
-            return query_or_insert(newcards, index);
+            return MemoryManager::self()->createPile(newcards, index);
         } else {
-            return query_or_insert(cards, index);
+            return MemoryManager::self()->createPile(cards, index);
         }
     } else {
-        return query_or_insert(cards, 0);
+        return MemoryManager::self()->createPile(cards, 0);
     }
 }
 
@@ -366,7 +408,7 @@ const Pile *Pile::copyFrom(const Pile *from, int index) const
     for (size_t i = index; i < from->count; i++) {
         newcards[newcount++] = from->cards[i];
     }
-    return query_or_insert(newcards, newcount);
+    return MemoryManager::self()->createPile(newcards, newcount);
 }
 
 const Pile *Pile::addCard(const Card &c) const
@@ -374,7 +416,7 @@ const Pile *Pile::addCard(const Card &c) const
     unsigned char newcards[MAX_CARDS];
     memcpy(newcards, cards, MAX_CARDS);
     newcards[count] = c.raw_value();
-    return query_or_insert(newcards, count + 1);
+    return MemoryManager::self()->createPile(newcards, count + 1);
 }
 
 void Pile::calculateChaos()
@@ -401,7 +443,7 @@ const Pile *Pile::replaceAt(int index, const Card &c) const
     unsigned char newcards[MAX_CARDS];
     memcpy(newcards, cards, MAX_CARDS);
     newcards[index] = c.raw_value();
-    return query_or_insert(newcards, count);
+    return MemoryManager::self()->createPile(newcards, count);
 }
 
 int Pile::sequenceOf_(Suit suit) const
@@ -430,46 +472,6 @@ int Pile::playableCards() const
     return sequenceOf(at(count - 1).suit());
 }
 
-const int MAX_MOVES = 230;
-
-class Deck
-{
-private:
-    // Deck(const Deck &other);
-
-public:
-    Deck()
-    {
-        // leaving the pointers stale on purpose
-        // for performance
-    }
-
-    std::string toString() const;
-    void update(const Deck *);
-    void translate(const Spider *dealer);
-    void getMoves(std::vector<Move> &moves) const;
-    void applyMove(const Move &m, Deck &newdeck) const;
-    uint64_t id() const;
-    int leftTalons() const;
-    int chaos() const;
-    SolverInterface::ExitStatus shortestPath(int cap);
-    int playableCards() const;
-    int inOff() const;
-    int freePlays() const;
-    void makeEmpty();
-    std::vector<Card> parse(int game_type, const std::string &filename);
-    std::vector<Move> getWinMoves() const;
-
-private:
-    const Pile *play[10];
-    const Pile *talon[5];
-    const Pile *off;
-    Move moves[MAX_MOVES];
-    int moves_index;
-};
-
-static Deck *deckstore = NULL;
-
 struct WeightedDeck {
     unsigned char left_talons;
     unsigned char in_off;
@@ -485,12 +487,13 @@ struct WeightedDeck {
 
 void WeightedDeck::update(uint64_t hash)
 {
-    left_talons = deckstore[index].leftTalons();
+    Deck &deck = MemoryManager::self()->deckAt(index);
+    left_talons = deck.leftTalons();
     id = hash;
-    in_off = deckstore[index].inOff();
-    free_plays = deckstore[index].freePlays();
-    playable = deckstore[index].playableCards();
-    chaos = deckstore[index].chaos();
+    in_off = deck.inOff();
+    free_plays = deck.freePlays();
+    playable = deck.playableCards();
+    chaos = deck.chaos();
 }
 
 // smaller is better!
@@ -653,6 +656,8 @@ void Deck::getMoves(std::vector<Move> &moves) const
 
 void Deck::update(const Deck *other)
 {
+    if (this == other)
+        return;
     memcpy(moves, other->moves, sizeof(Move) * other->moves_index);
     moves_index = other->moves_index;
     for (int i = 0; i < 10; i++)
@@ -673,7 +678,6 @@ std::vector<Move> Deck::getWinMoves() const
 
 void Deck::applyMove(const Move &m, Deck &newdeck) const
 {
-    // newdeck could be this - but no worries
     newdeck.update(this);
     newdeck.moves[moves_index] = m;
     newdeck.moves_index = moves_index + 1;
@@ -685,7 +689,7 @@ void Deck::applyMove(const Move &m, Deck &newdeck) const
             newdeck.play[to] = newdeck.play[to]->addCard(c);
         }
         // empty pile
-        newdeck.talon[m.from] = Pile::createEmpty();
+        newdeck.talon[m.from] = MemoryManager::self()->createEmptyPile();
     } else if (m.off) {
         Card c = newdeck.play[m.from]->at(newdeck.play[m.from]->cardCount() - 13);
         newdeck.off = newdeck.off->addCard(c);
@@ -768,26 +772,18 @@ int Deck::chaos() const
     return chaos;
 }
 
-SolverInterface::ExitStatus Deck::shortestPath(int cap)
+SolverInterface::ExitStatus Deck::shortestPath()
 {
     int depth = 1;
-    const int REDEALS_NR = 6;
     bool discarded_siblings = false;
 
-    if (!deckstore) {
-        // do not call constructors!!
-        // "leaks"
-        deckstore = (Deck *)malloc(sizeof(Deck) * cap * REDEALS_NR * 30);
-    }
-    Deck *unvisited = new Deck[REDEALS_NR * cap];
+    Deck *unvisited = new Deck[REDEALS_NR * LEVEL_CAP];
     int unvisited_count[6] = {0, 0, 0, 0, 0, 0};
     int unvisited_count_total = 0;
     unvisited[unvisited_count_total++].update(this);
 
     std::unordered_set<uint64_t> seen;
-    // how many siblings do we expect for a set of decks (not counting dups)
-    const int AVG_OPTIONS = 40;
-    const int max_new_unvisited = cap * REDEALS_NR * AVG_OPTIONS;
+    const int max_new_unvisited = LEVEL_CAP * REDEALS_NR * AVG_OPTIONS;
     WeightedDeck *new_unvisited = new WeightedDeck[max_new_unvisited];
     for (int i = 0; i < max_new_unvisited; i++) {
         new_unvisited[i].index = i;
@@ -798,7 +794,8 @@ SolverInterface::ExitStatus Deck::shortestPath(int cap)
         for (int i = 0; i < unvisited_count_total; i++) {
             unvisited[i].getMoves(current_moves);
             for (const Move &m : current_moves) {
-                Deck &deck = deckstore[new_unvisited[new_unvisited_counter].index];
+                size_t deck_index = new_unvisited[new_unvisited_counter].index;
+                Deck &deck = MemoryManager::self()->deckAt(deck_index);
                 unvisited[i].applyMove(m, deck);
                 uint64_t hash = deck.id();
 
@@ -832,7 +829,7 @@ SolverInterface::ExitStatus Deck::shortestPath(int cap)
                 printed = true;
             }
             if (new_unvisited[i].in_off == 104) {
-                Deck &deck = deckstore[new_unvisited[i].index];
+                Deck &deck = MemoryManager::self()->deckAt(new_unvisited[i].index);
                 memcpy(moves, deck.moves, sizeof(Move) * deck.moves_index);
                 moves_index = deck.moves_index;
 
@@ -841,8 +838,9 @@ SolverInterface::ExitStatus Deck::shortestPath(int cap)
                 return SolverInterface::SolutionExists;
             }
             int lt = new_unvisited[i].left_talons;
-            if (unvisited_count[lt] < cap) {
-                unvisited[unvisited_count_total++].update(&deckstore[new_unvisited[i].index]);
+            if (unvisited_count[lt] < LEVEL_CAP) {
+                Deck &deck = MemoryManager::self()->deckAt(new_unvisited[i].index);
+                unvisited[unvisited_count_total++].update(&deck);
                 unvisited_count[lt]++;
             } else {
                 discarded_siblings = true;
@@ -886,11 +884,11 @@ int Deck::freePlays() const
 
 void Deck::makeEmpty()
 {
-    off = Pile::createEmpty();
+    off = MemoryManager::self()->createEmptyPile();
     for (int i = 0; i < 10; i++)
-        play[i] = Pile::createEmpty();
+        play[i] = MemoryManager::self()->createEmptyPile();
     for (int i = 0; i < 5; i++)
-        talon[i] = Pile::createEmpty();
+        talon[i] = MemoryManager::self()->createEmptyPile();
     moves_index = 0;
 }
 
@@ -898,10 +896,10 @@ void Deck::translate(const Spider *dealer)
 {
     makeEmpty();
     for (int i = 0; i < 5; i++) {
-        talon[i] = Pile::translate_pile(dealer->getRedeal(i), true);
+        talon[i] = MemoryManager::self()->translatePile(dealer->getRedeal(i), true);
     }
     for (int i = 0; i < 10; i++) {
-        play[i] = Pile::translate_pile(dealer->getStack(i), false);
+        play[i] = MemoryManager::self()->translatePile(dealer->getStack(i), false);
     }
     for (int i = 0; i < 8; i++) {
         if (dealer->getLeg(i)->isEmpty())
@@ -916,14 +914,13 @@ SpiderSolver2::SpiderSolver2(Spider *dealer)
     m_dealer = dealer;
     orig = new Deck();
     // singleton
-    Q_ASSERT(deckstore == NULL);
+    memManager = new MemoryManager();
 }
 
 SpiderSolver2::~SpiderSolver2()
 {
     delete orig;
-    free(deckstore);
-    deckstore = NULL;
+    delete memManager;
 }
 
 SolverInterface::ExitStatus SpiderSolver2::patsolve(int max_positions)
@@ -934,11 +931,8 @@ SolverInterface::ExitStatus SpiderSolver2::patsolve(int max_positions)
         return UnableToDetermineSolvability;
     }
     stop_exec = false;
-    // limit the number of paths to visit in each level
-    // higher cap mostly finds better solutions (or sometimes some at all), but also takes
-    // way more time
-    const int cap = 150;
-    ExitStatus ret = orig->shortestPath(cap);
+
+    ExitStatus ret = orig->shortestPath();
     if (ret == SolutionExists) {
         for (auto &move : orig->getWinMoves())
             m_winMoves.push_back(move.to_MOVE());
@@ -948,6 +942,7 @@ SolverInterface::ExitStatus SpiderSolver2::patsolve(int max_positions)
 
 void SpiderSolver2::translate_layout()
 {
+    MemoryManager::self()->clean();
     orig->translate(m_dealer);
 }
 
@@ -972,4 +967,53 @@ MoveHint SpiderSolver2::translateMove(const MOVE &m)
 void SpiderSolver2::stopExecution()
 {
     stop_exec = true;
+}
+
+MemoryManager *MemoryManager::m_self = nullptr;
+MemoryManager::MemoryManager()
+{
+    Q_ASSERT(!m_self);
+    m_self = this;
+    size_t deckstore_size = LEVEL_CAP * REDEALS_NR * AVG_OPTIONS;
+    // do not call constructors!!
+    deckstore = (Deck *)malloc(sizeof(Deck) * deckstore_size);
+}
+
+void MemoryManager::clean()
+{
+    for (auto &it : pilemap) {
+        delete it.second;
+    }
+    pilemap.clear();
+}
+
+MemoryManager::~MemoryManager()
+{
+    clean();
+    free(deckstore);
+    m_self = nullptr;
+}
+
+const Pile *MemoryManager::createEmptyPile()
+{
+    unsigned char newcards[2] = {0, 0};
+    return createPile(newcards, 0);
+}
+
+const Pile *MemoryManager::translatePile(const KCardPile *pile, bool reverse)
+{
+    unsigned char newcards[MAX_CARDS];
+    size_t count = 0;
+    size_t len = pile->cards().length();
+    for (auto &card : pile->cards()) {
+        size_t index = count;
+        if (reverse) {
+            index = len - count - 1;
+        }
+        newcards[index] = Card(card).raw_value();
+        count++;
+    }
+    return createPile(newcards, count);
+}
+
 }

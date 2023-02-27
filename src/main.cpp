@@ -186,24 +186,24 @@ int main(int argc, char **argv)
         QDomDocument doc;
         doc.setContent(&of);
 
-        DealerScene *f;
+        DealerScene *dealer;
         QString id_attr = doc.documentElement().attribute(QStringLiteral("id"));
         if (!id_attr.isEmpty()) {
-            f = getDealer(id_attr.toInt(), QString());
-            f->loadLegacyFile(&of);
+            dealer = getDealer(id_attr.toInt(), QString());
+            dealer->loadLegacyFile(&of);
         } else {
             of.seek(0);
             QXmlStreamReader xml(&of);
             if (!xml.readNextStartElement()) {
                 qCritical() << "Failed to read XML" << savegame;
             }
-            f = getDealer(DealerInfoList::self()->gameIdForFile(xml), QString());
+            dealer = getDealer(DealerInfoList::self()->gameIdForFile(xml), QString());
             of.seek(0);
-            f->loadFile(&of, false);
+            dealer->loadFile(&of, false);
         }
-        f->solver()->translate_layout();
+        dealer->solver()->translate_layout();
 
-        int ret = f->solver()->patsolve();
+        int ret = dealer->solver()->patsolve();
         if (ret == SolverInterface::SolutionExists)
             fprintf(stdout, "won\n");
         else if (ret == SolverInterface::NoSolutionExists)
@@ -211,40 +211,41 @@ int main(int argc, char **argv)
         else
             fprintf(stdout, "unknown\n");
 
+        delete dealer;
         return 0;
     }
 
     QString testdir = parser.value(QStringLiteral("testdir"));
     if (!testdir.isEmpty()) {
         if (parser.isSet(QStringLiteral("generate"))) {
-            for (int dealer = 0; dealer < 20; dealer++) {
-                DealerScene *f = getDealer(dealer, QString());
-                if (!f)
+            for (int dealer_id = 0; dealer_id < 20; dealer_id++) {
+                DealerScene *dealer = getDealer(dealer_id, QString());
+                if (!dealer)
                     continue;
                 int count = 100;
                 QElapsedTimer mytime;
                 while (count) {
-                    if (f->deck())
-                        f->deck()->stopAnimations();
-                    int i = QRandomGenerator::global()->bounded(INT_MAX);
-                    f->startNew(i);
+                    if (dealer->deck())
+                        dealer->deck()->stopAnimations();
+                    int game_id = QRandomGenerator::global()->bounded(INT_MAX);
+                    dealer->startNew(game_id);
                     mytime.start();
-                    f->solver()->translate_layout();
-                    int ret = f->solver()->patsolve();
+                    dealer->solver()->translate_layout();
+                    int ret = dealer->solver()->patsolve();
                     if (ret == SolverInterface::SolutionExists) {
-                        fprintf(stdout, "%d: %d won (%lld ms)\n", dealer, i, mytime.elapsed());
+                        fprintf(stdout, "%d: %d won (%lld ms)\n", dealer_id, game_id, mytime.elapsed());
                         count--;
-                        QFile file(QStringLiteral("%1/%2-%3-1").arg(testdir).arg(dealer).arg(i));
+                        QFile file(QStringLiteral("%1/%2-%3-1").arg(testdir).arg(dealer_id).arg(game_id));
                         file.open(QFile::WriteOnly);
-                        f->saveLegacyFile(&file);
+                        dealer->saveLegacyFile(&file);
                     } else if (ret == SolverInterface::NoSolutionExists) {
-                        fprintf(stdout, "%d: %d lost (%lld ms)\n", dealer, i, mytime.elapsed());
+                        fprintf(stdout, "%d: %d lost (%lld ms)\n", dealer_id, game_id, mytime.elapsed());
                         count--;
-                        QFile file(QStringLiteral("%1/%2-%3-0").arg(testdir).arg(dealer).arg(i));
+                        QFile file(QStringLiteral("%1/%2-%3-0").arg(testdir).arg(dealer_id).arg(game_id));
                         file.open(QFile::WriteOnly);
-                        f->saveLegacyFile(&file);
+                        dealer->saveLegacyFile(&file);
                     } else {
-                        fprintf(stdout, "%d: %d unknown (%lld ms)\n", dealer, i, mytime.elapsed());
+                        fprintf(stdout, "%d: %d unknown (%lld ms)\n", dealer_id, game_id, mytime.elapsed());
                     }
                 }
             }
@@ -279,17 +280,17 @@ int main(int argc, char **argv)
         }
         if (end_index == -1)
             end_index = start_index;
-        DealerScene *f = getDealer(wanted_game, wanted_name);
-        if (!f)
+        DealerScene *dealer = getDealer(wanted_game, wanted_name);
+        if (!dealer)
             return 1;
 
         QElapsedTimer mytime;
         for (int i = start_index; i <= end_index; i++) {
             mytime.start();
-            f->deck()->stopAnimations();
-            f->startNew(i);
-            f->solver()->translate_layout();
-            int ret = f->solver()->patsolve();
+            dealer->deck()->stopAnimations();
+            dealer->startNew(i);
+            dealer->solver()->translate_layout();
+            int ret = dealer->solver()->patsolve();
             if (ret == SolverInterface::SolutionExists)
                 fprintf(stdout, "%d won (%lld ms)\n", i, mytime.elapsed());
             else if (ret == SolverInterface::NoSolutionExists)
@@ -298,6 +299,7 @@ int main(int argc, char **argv)
                 fprintf(stdout, "%d unknown (%lld ms)\n", i, mytime.elapsed());
         }
         fprintf(stdout, "all_moves %ld\n", all_moves);
+        delete dealer;
         return 0;
     }
 

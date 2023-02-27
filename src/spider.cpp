@@ -126,7 +126,7 @@ void Spider::initialize()
     // user should have no choice.
     setAutoDropEnabled(false);
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);
-    setSolver(new SpiderSolver2(this));
+    setSolver(new spidersolver2::SpiderSolver2(this));
 
     options = new KSelectAction(i18n("Spider &Options"), this);
     options->addAction(i18n("1 Suit (Easy)"));
