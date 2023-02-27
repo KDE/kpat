@@ -6,8 +6,22 @@
 #define SPIDERSOLVER2_H
 
 #include "solverinterface.h"
+#include <unordered_map>
 class Spider;
+class KCardPile;
+
+namespace spidersolver2
+{
 class Deck;
+class MemoryManager;
+
+// how many siblings do we expect for a set of decks (not counting dups)
+const int AVG_OPTIONS = 50;
+
+// limit the number of paths to visit in each level
+// higher cap mostly finds better solutions (or sometimes some at all), but also takes
+// way more time
+const int LEVEL_CAP = 150;
 
 class SpiderSolver2 : public SolverInterface
 {
@@ -34,6 +48,8 @@ private:
     Deck *orig;
     QList<MOVE> m_firstMoves;
     QList<MOVE> m_winMoves;
+    MemoryManager *memManager;
 };
+}
 
 #endif
