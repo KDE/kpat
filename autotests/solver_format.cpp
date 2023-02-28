@@ -51,7 +51,7 @@ private Q_SLOTS:
 
 static DealerScene *getDealer( int wanted_game )
 {
-    fprintf(stderr, "diuuuuu=\n");
+    fprintf(stderr, "diuuuuu=%d\n", wanted_game);
     const auto games = DealerInfoList::self()->games();
     for (DealerInfo * di : games) {
         fprintf(stderr, "di=%p\n", (void *)di);
@@ -76,11 +76,11 @@ static DealerScene *getDealer( int wanted_game )
 
 void TestSolverFormat::solverFormat_deal1()
 {
-    DealerScene *f = getDealer( DealerInfo::GolfId  );
-    assert(f);
-    f->deck()->stopAnimations();
-    f->startNew( 1 );
-    QString have = static_cast<Golf *>(f)->solverFormat();
+    DealerScene *dealer = getDealer(DealerInfo::GolfId);
+    assert(dealer);
+    dealer->deck()->stopAnimations();
+    dealer->startNew(1);
+    QString have = static_cast<Golf *>(dealer)->solverFormat();
     QString want(
         "Foundations: TH\n"
         "Talon: 8H 2C JH 7D 6D 8S 8D QS 6C 3D 8C TC 6S 9C 2H 6H\n"
@@ -93,6 +93,7 @@ void TestSolverFormat::solverFormat_deal1()
         "7C QC JS QH 4S\n"
     );
     QCOMPARE(have, want);
+    delete dealer;
 }
 
 QTEST_MAIN(TestSolverFormat)

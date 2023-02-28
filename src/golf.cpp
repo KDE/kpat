@@ -38,10 +38,13 @@
 
 // own
 #include "dealerinfo.h"
-#include "patsolve/golfsolver.h"
+#include "patsolve-config.h"
 #include "pileutils.h"
 #include "settings.h"
 #include "speeds.h"
+#ifdef WITH_BH_SOLVER
+#include "patsolve/golfsolver.h"
+#endif
 // KF
 #include <KLocalizedString>
 

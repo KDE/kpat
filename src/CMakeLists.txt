@@ -8,6 +8,10 @@ ecm_setup_version(${kpat_VERSION}
 set(WITH_FCS_SOFT_SUSPEND ${fcs_soft_suspend})
 configure_file(patsolve-config.h.in patsolve-config.h)
 
+if (WITH_BH_SOLVER)
+  set(GOLFSOLVER_SOURCE "patsolve/golfsolver.cpp")
+endif()
+
 set(kpat_SRCS ${libfcs_SRCS}
     main.cpp
     dealer.cpp
@@ -37,7 +41,7 @@ set(kpat_SRCS ${libfcs_SRCS}
     freecell.cpp 
     patsolve/freecellsolver.cpp
     golf.cpp
-    patsolve/golfsolver.cpp
+    ${GOLFSOLVER_SOURCE}
     grandf.cpp
     patsolve/grandfsolver.cpp
     gypsy.cpp

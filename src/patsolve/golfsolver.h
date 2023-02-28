@@ -20,9 +20,7 @@
 
 #include "solverinterface.h"
 // black-hole-solver
-#ifdef WITH_BH_SOLVER
 #include <black-hole-solver/black_hole_solver.h>
-#endif
 
 class Golf;
 
@@ -35,13 +33,13 @@ public:
     }
     int default_max_positions;
 
-    SolverInterface::ExitStatus patsolve(int _max_positions = -1) override;
+    SolverInterface::ExitStatus patsolve(int max_positions = -1) override;
     void translate_layout() override;
     MoveHint translateMove(const MOVE &m) override;
     void stopExecution() override;
     QList<MOVE> firstMoves() const override
     {
-        return m_firstMoves;
+        return QList<MOVE>();
     }
     QList<MOVE> winMoves() const override
     {
@@ -51,14 +49,12 @@ public:
 private:
     const Golf *deal;
 
-#ifdef WITH_BH_SOLVER
     black_hole_solver_instance_t *solver_instance;
     int solver_ret;
     // More than enough space for two decks.
     char board_as_string[4 * 13 * 2 * 4 * 3];
     void free_solver_instance();
-#endif
-    QList<MOVE> m_firstMoves;
+
     QList<MOVE> m_winMoves;
 };
 
