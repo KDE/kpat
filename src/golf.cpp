@@ -87,9 +87,11 @@ void Golf::initialize()
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);
+#ifdef WITH_BH_SOLVER
     auto solver = new GolfSolver(this);
     solver->default_max_positions = Settings::golfSolverIterationsLimit();
     setSolver(solver);
+#endif
 
     connect(this, &KCardScene::cardClicked, this, &DealerScene::tryAutomaticMove);
 }
