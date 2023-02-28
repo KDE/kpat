@@ -18,9 +18,7 @@
 #ifndef GOLFSOLVER_H
 #define GOLFSOLVER_H
 
-// own
-#include "patsolve-config.h"
-#include "patsolve.h"
+#include "solverinterface.h"
 // black-hole-solver
 #ifdef WITH_BH_SOLVER
 #include <black-hole-solver/black_hole_solver.h>
@@ -28,31 +26,40 @@
 
 class Golf;
 
-class GolfSolver : public Solver<9>
+class GolfSolver : public SolverInterface
 {
 public:
-    explicit GolfSolver(const Golf *dealer);
+    GolfSolver(const Golf *dealer);
+    ~GolfSolver()
+    {
+    }
     int default_max_positions;
+
+    SolverInterface::ExitStatus patsolve(int _max_positions = -1) override;
+    void translate_layout() override;
+    MoveHint translateMove(const MOVE &m) override;
+    void stopExecution() override;
+    QList<MOVE> firstMoves() const override
+    {
+        return m_firstMoves;
+    }
+    QList<MOVE> winMoves() const override
+    {
+        return m_winMoves;
+    }
+
+private:
+    const Golf *deal;
 
 #ifdef WITH_BH_SOLVER
     black_hole_solver_instance_t *solver_instance;
     int solver_ret;
-    SolverInterface::ExitStatus patsolve(int _max_positions) override;
     // More than enough space for two decks.
     char board_as_string[4 * 13 * 2 * 4 * 3];
     void free_solver_instance();
 #endif
-    int get_possible_moves(int *a, int *numout) override;
-    bool isWon() override;
-    void make_move(MOVE *m) override;
-    void undo_move(MOVE *m) override;
-    int getOuts() override;
-    void translate_layout() override;
-    MoveHint translateMove(const MOVE &m) override;
-
-    void print_layout() override;
-
-    const Golf *deal;
+    QList<MOVE> m_firstMoves;
+    QList<MOVE> m_winMoves;
 };
 
 #endif // GOLFSOLVER_H

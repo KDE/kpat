@@ -54,7 +54,7 @@ static DealerScene *getDealer( int wanted_game )
     fprintf(stderr, "diuuuuu=\n");
     const auto games = DealerInfoList::self()->games();
     for (DealerInfo * di : games) {
-        fprintf(stderr, "di=%p\n", di);
+        fprintf(stderr, "di=%p\n", (void *)di);
         if ( di->providesId( wanted_game ) )
         {
             DealerScene * d = di->createGame();
