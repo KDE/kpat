@@ -29,14 +29,14 @@ add_library(kcardgame SHARED ${libkcardgame_SRCS})
 generate_export_header(kcardgame BASE_NAME libkcardgame)
 target_link_libraries(kcardgame
     PUBLIC
-        KF5::ConfigWidgets
-        KF5::ConfigGui
+        KF${KF_MAJOR_VERSION}::ConfigWidgets
+        KF${KF_MAJOR_VERSION}::ConfigGui
         Qt${QT_MAJOR_VERSION}::Widgets
     PRIVATE
-        KF5::Completion
-        KF5::GuiAddons
-        KF5::NewStuffWidgets
-        KF5::I18n
+        KF${KF_MAJOR_VERSION}::Completion
+        KF${KF_MAJOR_VERSION}::GuiAddons
+        KF${KF_MAJOR_VERSION}::NewStuffWidgets
+        KF${KF_MAJOR_VERSION}::I18n
         Qt${QT_MAJOR_VERSION}::Svg
 )
 

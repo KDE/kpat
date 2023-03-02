@@ -74,13 +74,13 @@ ecm_add_app_icon(kpat_SRCS ICONS ${ICONS_SRCS})
 add_executable(kpat ${kpat_SRCS})
 
 target_link_libraries(kpat
-    KF5::Crash
-    KF5::DBusAddons
-    KF5::I18n
-    KF5::KIOCore
-    KF5::GuiAddons
-    KF5::Completion
-    KF5::XmlGui
+    KF${KF_MAJOR_VERSION}::Crash
+    KF${KF_MAJOR_VERSION}::DBusAddons
+    KF${KF_MAJOR_VERSION}::I18n
+    KF${KF_MAJOR_VERSION}::KIOCore
+    KF${KF_MAJOR_VERSION}::GuiAddons
+    KF${KF_MAJOR_VERSION}::Completion
+    KF${KF_MAJOR_VERSION}::XmlGui
     KF5KDEGames
     kcardgame
     ${FC_SOLVE_LDFLAGS}
