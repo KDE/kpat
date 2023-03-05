@@ -86,34 +86,8 @@ static DealerScene *getDealer(int wanted_game, const QString &name)
     return nullptr;
 }
 
-// A function to remove all nonalphanumeric characters from a string
-// and convert all letters to lowercase.
-QString lowerAlphaNum(const QString &string)
+KAboutData fillAboutData()
 {
-    QString result;
-    for (int i = 0; i < string.size(); ++i) {
-        QChar c = string.at(i);
-        if (c.isLetterOrNumber())
-            result += c.toLower();
-    }
-    return result;
-}
-
-int main(int argc, char **argv)
-{
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-#endif
-    QApplication app(argc, argv);
-
-    KLocalizedString::setApplicationDomain("kpat");
-
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    Kdelibs4ConfigMigrator migrate(QStringLiteral("kpat"));
-    migrate.setConfigFiles(QStringList() << QStringLiteral("kpatrc"));
-    migrate.setUiFiles(QStringList() << QStringLiteral("kpatui.rc"));
-    migrate.migrate();
-#endif
     KAboutData aboutData(QStringLiteral("kpat"),
                          i18n("KPatience"),
                          QStringLiteral(KPAT_VERSION_STRING),
@@ -140,178 +114,234 @@ int main(int argc, char **argv)
     aboutData.addAuthor(i18n("Parker Coates"), i18n("Cleanup and polish"), QStringLiteral("coates@kde.org"));
     aboutData.addAuthor(i18n("Shlomi Fish"), i18n("Integration with Freecell Solver and further work"), QStringLiteral("shlomif@cpan.org"));
     aboutData.addAuthor(i18n("Michael Lang"), i18n("New game types"), QStringLiteral("criticaltemp@protonmail.com"));
+    return aboutData;
+}
 
-    // Create a KLocale earlier than normal so that we can use i18n to translate
-    // the names of the game types in the help text.
-    QMap<QString, int> indexMap;
-    QStringList gameList;
-    const auto games = DealerInfoList::self()->games();
-    for (const DealerInfo *di : games) {
-        KLocalizedString localizedKey = di->untranslatedBaseName();
-        // QT5 const QString translatedKey = lowerAlphaNum( localizedKey.toString( tmpLocale ) );
-        // QT5 gameList << translatedKey;
-        // QT5 indexMap.insert( translatedKey, di->baseId() );
-        indexMap.insert(di->baseIdString(), di->baseId());
-    }
-    gameList.sort();
-    const QString listSeparator = i18nc("List separator", ", ");
-
-    QCommandLineParser parser;
-    KAboutData::setApplicationData(aboutData);
-    KCrash::initialize();
-
+void addParserOptions(QCommandLineParser &parser)
+{
     parser.addOption(
         QCommandLineOption(QStringList() << QStringLiteral("solvegame"), i18n("Try to find a solution to the given savegame"), QStringLiteral("file")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("solve"), i18n("Dealer to solve (debug)"), QStringLiteral("num")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("start"), i18n("Game range start (default 0:INT_MAX)"), QStringLiteral("num")));
     parser.addOption(
         QCommandLineOption(QStringList() << QStringLiteral("end"), i18n("Game range end (default start:start if start given)"), QStringLiteral("num")));
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("gametype"),
-                                        i18n("Skip the selection screen and load a particular game type. Valid values are: %1", gameList.join(listSeparator)),
-                                        QStringLiteral("game")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("testdir"), i18n("Directory with test cases"), QStringLiteral("directory")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("generate"), i18n("Generate random test cases")));
     parser.addPositionalArgument(QStringLiteral("file"), i18n("File to load"));
+}
 
+DealerScene *loadSaveGame(QString savegame)
+{
+    QFile of(savegame);
+    of.open(QIODevice::ReadOnly);
+    QDomDocument doc;
+    doc.setContent(&of);
+
+    DealerScene *dealer;
+    QString id_attr = doc.documentElement().attribute(QStringLiteral("id"));
+    if (!id_attr.isEmpty()) {
+        dealer = getDealer(id_attr.toInt(), QString());
+        if (!dealer)
+            return nullptr;
+        dealer->loadLegacyFile(&of);
+    } else {
+        of.seek(0);
+        QXmlStreamReader xml(&of);
+        if (!xml.readNextStartElement()) {
+            qCritical() << "Failed to read XML" << savegame;
+        }
+        dealer = getDealer(DealerInfoList::self()->gameIdForFile(xml), QString());
+        if (!dealer)
+            return nullptr;
+
+        of.seek(0);
+        dealer->loadFile(&of, false);
+    }
+    return dealer;
+}
+
+bool singleSolve(QCommandLineParser &parser)
+{
+    QString savegame = parser.value(QStringLiteral("solvegame"));
+    if (savegame.isEmpty())
+        return false;
+
+    DealerScene *dealer = loadSaveGame(savegame);
+    if (!dealer) {
+        // we tried
+        return true;
+    }
+    dealer->solver()->translate_layout();
+
+    int ret = dealer->solver()->patsolve();
+    if (ret == SolverInterface::SolutionExists)
+        fprintf(stdout, "won\n");
+    else if (ret == SolverInterface::NoSolutionExists)
+        fprintf(stdout, "lost\n");
+    else
+        fprintf(stdout, "unknown\n");
+
+    delete dealer;
+    return true;
+}
+
+bool generateDeal(DealerScene *dealer, int dealer_id, QString testdir)
+{
+    QElapsedTimer mytime;
+
+    if (dealer->deck())
+        dealer->deck()->stopAnimations();
+    int game_id = QRandomGenerator::global()->bounded(INT_MAX);
+    dealer->startNew(game_id);
+    mytime.start();
+    dealer->solver()->translate_layout();
+    int ret = dealer->solver()->patsolve();
+    if (ret == SolverInterface::SolutionExists) {
+        fprintf(stdout, "%d: %d won (%lld ms)\n", dealer_id, game_id, mytime.elapsed());
+        QFile file(QStringLiteral("%1/%2-%3-1").arg(testdir).arg(dealer_id).arg(game_id));
+        file.open(QFile::WriteOnly);
+        dealer->saveLegacyFile(&file);
+        return true;
+    } else if (ret == SolverInterface::NoSolutionExists) {
+        fprintf(stdout, "%d: %d lost (%lld ms)\n", dealer_id, game_id, mytime.elapsed());
+        QFile file(QStringLiteral("%1/%2-%3-0").arg(testdir).arg(dealer_id).arg(game_id));
+        file.open(QFile::WriteOnly);
+        dealer->saveLegacyFile(&file);
+        return true;
+    } else {
+        fprintf(stdout, "%d: %d unknown (%lld ms)\n", dealer_id, game_id, mytime.elapsed());
+        return false;
+    }
+}
+
+bool generate(QCommandLineParser &parser)
+{
+    QString testdir = parser.value(QStringLiteral("testdir"));
+    if (testdir.isEmpty())
+        return false;
+    if (!parser.isSet(QStringLiteral("generate")))
+        return false;
+    for (int dealer_id = 0; dealer_id < 20; dealer_id++) {
+        DealerScene *dealer = getDealer(dealer_id, QString());
+        if (!dealer)
+            continue;
+        int count = 100;
+        while (count) {
+            if (generateDeal(dealer, dealer_id, testdir))
+                count--;
+        }
+        delete dealer;
+    }
+    return true;
+}
+
+bool determineRange(QCommandLineParser &parser, int &wanted_game, QString &wanted_name, int &start_index, int &end_index)
+{
+    wanted_game = -1;
+    if (parser.isSet(QStringLiteral("solve"))) {
+        wanted_name = parser.value(QStringLiteral("solve"));
+        bool isInt = false;
+        wanted_game = wanted_name.toInt(&isInt);
+        if (!isInt)
+            wanted_game = -1;
+    } else {
+        return false;
+    }
+
+    bool ok = false;
+    end_index = -1;
+    if (parser.isSet(QStringLiteral("end")))
+        end_index = parser.value(QStringLiteral("end")).toInt(&ok);
+    if (!ok)
+        end_index = -1;
+    ok = false;
+    start_index = -1;
+    if (parser.isSet(QStringLiteral("start")))
+        start_index = parser.value(QStringLiteral("start")).toInt(&ok);
+    if (!ok) {
+        start_index = 0;
+    }
+    if (end_index == -1)
+        end_index = start_index;
+
+    return ok;
+}
+
+bool solveRange(QCommandLineParser &parser)
+{
+    int wanted_game, start_index, end_index;
+    QString wanted_name;
+    if (!determineRange(parser, wanted_game, wanted_name, start_index, end_index))
+        return false;
+
+    DealerScene *dealer = getDealer(wanted_game, wanted_name);
+    if (!dealer)
+        return true;
+
+    QElapsedTimer mytime;
+    for (int i = start_index; i <= end_index; i++) {
+        mytime.start();
+        dealer->deck()->stopAnimations();
+        dealer->startNew(i);
+        dealer->solver()->translate_layout();
+        int ret = dealer->solver()->patsolve();
+        if (ret == SolverInterface::SolutionExists)
+            fprintf(stdout, "%d won (%lld ms)\n", i, mytime.elapsed());
+        else if (ret == SolverInterface::NoSolutionExists)
+            fprintf(stdout, "%d lost (%lld ms)\n", i, mytime.elapsed());
+        else
+            fprintf(stdout, "%d unknown (%lld ms)\n", i, mytime.elapsed());
+    }
+    fprintf(stdout, "all_moves %ld\n", all_moves);
+    delete dealer;
+    return true;
+}
+
+int main(int argc, char **argv)
+{
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+#endif
+    QApplication app(argc, argv);
+
+    KLocalizedString::setApplicationDomain("kpat");
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    Kdelibs4ConfigMigrator migrate(QStringLiteral("kpat"));
+    migrate.setConfigFiles(QStringList() << QStringLiteral("kpatrc"));
+    migrate.setUiFiles(QStringList() << QStringLiteral("kpatui.rc"));
+    migrate.migrate();
+#endif
+    KAboutData aboutData = fillAboutData();
+
+    QCommandLineParser parser;
+    KAboutData::setApplicationData(aboutData);
+    KCrash::initialize();
+    addParserOptions(parser);
     aboutData.setupCommandLine(&parser);
     parser.process(app);
     aboutData.processCommandLine(&parser);
 
     app.setWindowIcon(QIcon::fromTheme(QStringLiteral("kpat")));
 
-    QString savegame = parser.value(QStringLiteral("solvegame"));
-    if (!savegame.isEmpty()) {
-        QFile of(savegame);
-        of.open(QIODevice::ReadOnly);
-        QDomDocument doc;
-        doc.setContent(&of);
-
-        DealerScene *dealer;
-        QString id_attr = doc.documentElement().attribute(QStringLiteral("id"));
-        if (!id_attr.isEmpty()) {
-            dealer = getDealer(id_attr.toInt(), QString());
-            dealer->loadLegacyFile(&of);
-        } else {
-            of.seek(0);
-            QXmlStreamReader xml(&of);
-            if (!xml.readNextStartElement()) {
-                qCritical() << "Failed to read XML" << savegame;
-            }
-            dealer = getDealer(DealerInfoList::self()->gameIdForFile(xml), QString());
-            of.seek(0);
-            dealer->loadFile(&of, false);
-        }
-        dealer->solver()->translate_layout();
-
-        int ret = dealer->solver()->patsolve();
-        if (ret == SolverInterface::SolutionExists)
-            fprintf(stdout, "won\n");
-        else if (ret == SolverInterface::NoSolutionExists)
-            fprintf(stdout, "lost\n");
-        else
-            fprintf(stdout, "unknown\n");
-
-        delete dealer;
+    if (singleSolve(parser)) {
         return 0;
     }
 
-    QString testdir = parser.value(QStringLiteral("testdir"));
-    if (!testdir.isEmpty()) {
-        if (parser.isSet(QStringLiteral("generate"))) {
-            for (int dealer_id = 0; dealer_id < 20; dealer_id++) {
-                DealerScene *dealer = getDealer(dealer_id, QString());
-                if (!dealer)
-                    continue;
-                int count = 100;
-                QElapsedTimer mytime;
-                while (count) {
-                    if (dealer->deck())
-                        dealer->deck()->stopAnimations();
-                    int game_id = QRandomGenerator::global()->bounded(INT_MAX);
-                    dealer->startNew(game_id);
-                    mytime.start();
-                    dealer->solver()->translate_layout();
-                    int ret = dealer->solver()->patsolve();
-                    if (ret == SolverInterface::SolutionExists) {
-                        fprintf(stdout, "%d: %d won (%lld ms)\n", dealer_id, game_id, mytime.elapsed());
-                        count--;
-                        QFile file(QStringLiteral("%1/%2-%3-1").arg(testdir).arg(dealer_id).arg(game_id));
-                        file.open(QFile::WriteOnly);
-                        dealer->saveLegacyFile(&file);
-                    } else if (ret == SolverInterface::NoSolutionExists) {
-                        fprintf(stdout, "%d: %d lost (%lld ms)\n", dealer_id, game_id, mytime.elapsed());
-                        count--;
-                        QFile file(QStringLiteral("%1/%2-%3-0").arg(testdir).arg(dealer_id).arg(game_id));
-                        file.open(QFile::WriteOnly);
-                        dealer->saveLegacyFile(&file);
-                    } else {
-                        fprintf(stdout, "%d: %d unknown (%lld ms)\n", dealer_id, game_id, mytime.elapsed());
-                    }
-                }
-            }
-        }
+    if (generate(parser)) {
         return 0;
     }
 
-    bool ok = false;
-    QString wanted_name;
-    int wanted_game = -1;
-    if (parser.isSet(QStringLiteral("solve"))) {
-        wanted_name = parser.value(QStringLiteral("solve"));
-        ok = true;
-        bool isInt = false;
-        wanted_game = wanted_name.toInt(&isInt);
-        if (!isInt)
-            wanted_game = -1;
-    }
-    if (ok) {
-        ok = false;
-        int end_index = -1;
-        if (parser.isSet(QStringLiteral("end")))
-            end_index = parser.value(QStringLiteral("end")).toInt(&ok);
-        if (!ok)
-            end_index = -1;
-        ok = false;
-        int start_index = -1;
-        if (parser.isSet(QStringLiteral("start")))
-            start_index = parser.value(QStringLiteral("start")).toInt(&ok);
-        if (!ok) {
-            start_index = 0;
-        }
-        if (end_index == -1)
-            end_index = start_index;
-        DealerScene *dealer = getDealer(wanted_game, wanted_name);
-        if (!dealer)
-            return 1;
-
-        QElapsedTimer mytime;
-        for (int i = start_index; i <= end_index; i++) {
-            mytime.start();
-            dealer->deck()->stopAnimations();
-            dealer->startNew(i);
-            dealer->solver()->translate_layout();
-            int ret = dealer->solver()->patsolve();
-            if (ret == SolverInterface::SolutionExists)
-                fprintf(stdout, "%d won (%lld ms)\n", i, mytime.elapsed());
-            else if (ret == SolverInterface::NoSolutionExists)
-                fprintf(stdout, "%d lost (%lld ms)\n", i, mytime.elapsed());
-            else
-                fprintf(stdout, "%d unknown (%lld ms)\n", i, mytime.elapsed());
-        }
-        fprintf(stdout, "all_moves %ld\n", all_moves);
-        delete dealer;
+    if (solveRange(parser)) {
         return 0;
     }
 
-    QString gametype = parser.value(QStringLiteral("gametype")).toLower();
     QFile savedState(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QLatin1String("/" saved_state_file));
 
     MainWindow *w = new MainWindow;
     if (!parser.positionalArguments().isEmpty()) {
         if (!w->loadGame(QUrl::fromLocalFile(parser.positionalArguments().at(0)), true))
             w->slotShowGameSelectionScreen();
-    } else if (indexMap.contains(gametype)) {
-        w->slotGameSelected(indexMap.value(gametype));
     } else if (savedState.exists()) {
         if (!w->loadGame(QUrl::fromLocalFile(savedState.fileName()), false))
             w->slotShowGameSelectionScreen();
