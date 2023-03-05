@@ -471,7 +471,7 @@ msgstr "سوليتير ك"
 #: main.cpp:123
 #, kde-format
 msgid "KDE Patience Game"
-msgstr "لعبة سوليتر للكدي"
+msgstr "لعبة سوليتر للكِيدِي"
 
 #: main.cpp:125
 #, kde-format
