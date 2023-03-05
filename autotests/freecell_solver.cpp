@@ -24,14 +24,14 @@
 #include <QProcess>
 #include <QTest>
 
-class TestSolver: public QObject
+class TestSolverFC : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
     void runSolver();
 };
 
-void TestSolver::runSolver()
+void TestSolverFC::runSolver()
 {
     QProcess kpat;
     const char *const deal = "830910836";
@@ -41,5 +41,5 @@ void TestSolver::runSolver()
     QCOMPARE(kpat.exitCode(), 0);
 }
 
-QTEST_MAIN(TestSolver)
+QTEST_MAIN(TestSolverFC)
 #include "freecell_solver.moc"

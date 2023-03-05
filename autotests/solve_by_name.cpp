@@ -24,14 +24,14 @@
 #include <QProcess>
 #include <QTest>
 
-class TestSolver: public QObject
+class TestSolverBN : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
     void runSolver();
 };
 
-void TestSolver::runSolver()
+void TestSolverBN::runSolver()
 {
     QProcess kpat;
     kpat.start(QStringLiteral("../bin/kpat"), QStringList() << QStringLiteral("--start") << "1" << QStringLiteral("--end") << "3" << QStringLiteral("--solve") << QStringLiteral("Freecell"));
@@ -40,5 +40,5 @@ void TestSolver::runSolver()
     QCOMPARE(kpat.exitCode(), 0);
 }
 
-QTEST_MAIN(TestSolver)
+QTEST_MAIN(TestSolverBN)
 #include "solve_by_name.moc"

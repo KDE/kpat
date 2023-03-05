@@ -25,14 +25,14 @@
 #include <QRegularExpression>
 #include <QTest>
 
-class TestSolver: public QObject
+class TestSolverGolf : public QObject
 {
     Q_OBJECT
 private Q_SLOTS:
     void runSolver();
 };
 
-void TestSolver::runSolver()
+void TestSolverGolf::runSolver()
 {
     QProcess kpat;
     kpat.start(QStringLiteral("../bin/kpat"), QStringList() << QStringLiteral("--start") << "1" << QStringLiteral("--end") << "3" << QStringLiteral("--solve") << QStringLiteral("Golf"));
@@ -43,5 +43,5 @@ void TestSolver::runSolver()
     QCOMPARE(QRegularExpression("\\n2 won \\(").match(QString(bytes)).hasMatch(), true);
 }
 
-QTEST_MAIN(TestSolver)
+QTEST_MAIN(TestSolverGolf)
 #include "golf_solver_wins.moc"
