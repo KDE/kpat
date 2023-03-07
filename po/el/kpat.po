@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-23 00:54+0000\n"
+"POT-Creation-Date: 2023-03-07 00:43+0000\n"
 "PO-Revision-Date: 2021-06-30 09:46+0300\n"
 "Last-Translator: Stelios <sstavra@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -403,7 +403,7 @@ msgstr "12"
 msgid "Decks"
 msgstr "Τράπουλες"
 
-#: golf.cpp:184
+#: golf.cpp:189
 msgid "Golf"
 msgstr "Γκολφ"
 

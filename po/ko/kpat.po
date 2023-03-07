@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-23 00:54+0000\n"
+"POT-Creation-Date: 2023-03-07 00:43+0000\n"
 "PO-Revision-Date: 2022-05-07 01:08+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -396,7 +396,7 @@ msgstr "12"
 msgid "Decks"
 msgstr "덱"
 
-#: golf.cpp:184
+#: golf.cpp:189
 msgid "Golf"
 msgstr "골프"
 
