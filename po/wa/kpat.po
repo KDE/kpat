@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-07 00:43+0000\n"
+"POT-Creation-Date: 2023-03-09 00:43+0000\n"
 "PO-Revision-Date: 2011-01-09 09:53+0100\n"
 "Last-Translator: Jean Cayron <jean.cayron@gmail.com>\n"
 "Language-Team: Walloon <linux@walon.org>\n"
@@ -469,17 +469,17 @@ msgstr "Mwaisse bår ås usteyes"
 msgid "Loading..."
 msgstr "Dji tchedje..."
 
-#: main.cpp:118
+#: main.cpp:92
 #, kde-format
 msgid "KPatience"
 msgstr "KPacyince"
 
-#: main.cpp:120
+#: main.cpp:94
 #, kde-format
 msgid "KDE Patience Game"
 msgstr "Djeu d' pacyince po KDE"
 
-#: main.cpp:122
+#: main.cpp:96
 #, kde-format
 msgid ""
 "© 1995 Paul Olav Tvete\n"
@@ -488,205 +488,190 @@ msgstr ""
 "© 1995, Paul Olav Tvete\n"
 "© 2000 Stephan Kulow"
 
-#: main.cpp:126
+#: main.cpp:100
 #, kde-format
 msgid "Paul Olav Tvete"
 msgstr "Paul Olav Tvete"
 
-#: main.cpp:126
+#: main.cpp:100
 #, kde-format
 msgid "Author of original Qt version"
 msgstr "Oteur del prumire modêye Qt"
 
-#: main.cpp:127
+#: main.cpp:101
 #, kde-format
 msgid "Mario Weilguni"
 msgstr "Mario Weilguni"
 
-#: main.cpp:127
+#: main.cpp:101
 #, kde-format
 msgid "Initial KDE port"
 msgstr "Prumî poirtaedje viè KDE"
 
-#: main.cpp:128
+#: main.cpp:102
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:129
+#: main.cpp:103
 #, kde-format
 msgid "Rodolfo Borges"
 msgstr "Rodolfo Borges"
 
-#: main.cpp:129 main.cpp:142
+#: main.cpp:103 main.cpp:116
 #, kde-format
 msgid "New game types"
 msgstr "Novelès sôres di djeus"
 
-#: main.cpp:130
+#: main.cpp:104
 #, kde-format
 msgid "Peter H. Ruegg"
 msgstr "Peter H. Ruegg"
 
-#: main.cpp:131
+#: main.cpp:105
 #, kde-format
 msgid "Michael Koch"
 msgstr "Michael Koch"
 
-#: main.cpp:131 main.cpp:138
+#: main.cpp:105 main.cpp:112
 #, kde-format
 msgid "Bug fixes"
 msgstr "Coridjaedjes di bugs"
 
-#: main.cpp:132
+#: main.cpp:106
 #, kde-format
 msgid "Marcus Meissner"
 msgstr "Marcus Meissner"
 
-#: main.cpp:132
+#: main.cpp:106
 #, kde-format
 msgid "Shuffle algorithm for game numbers"
 msgstr "Algorisse di maxhaedje po les limeros des pårt"
 
-#: main.cpp:133
+#: main.cpp:107
 #, kde-format
 msgid "Tom Holroyd"
 msgstr "Tom Holroyd"
 
-#: main.cpp:133
+#: main.cpp:107
 #, kde-format
 msgid "Initial patience solver"
 msgstr "Prumî rezoudeu d' pacyince"
 
-#: main.cpp:134
+#: main.cpp:108
 #, kde-format
 msgid "Stephan Kulow"
 msgstr "Stephan Kulow"
 
-#: main.cpp:134
+#: main.cpp:108
 #, kde-format
 msgid "Rewrite and current maintainer"
 msgstr "Riscrijhaedje et mintneu do moumint"
 
-#: main.cpp:135
+#: main.cpp:109
 #, kde-format
 msgid "Erik Sigra"
 msgstr "Erik Sigra"
 
-#: main.cpp:135
+#: main.cpp:109
 #, kde-format
 msgid "Klondike improvements"
 msgstr "Amidraedjes a Klondike"
 
-#: main.cpp:136
+#: main.cpp:110
 #, kde-format
 msgid "Josh Metzler"
 msgstr "Josh Metzler"
 
-#: main.cpp:136
+#: main.cpp:110
 #, kde-format
 msgid "Spider implementation"
 msgstr "Implemintåcion di l' araegne"
 
-#: main.cpp:137
+#: main.cpp:111
 #, kde-format
 msgid "Maren Pakura"
 msgstr "Maren Pakura"
 
-#: main.cpp:137
+#: main.cpp:111
 #, kde-format
 msgid "Documentation"
 msgstr "Documintåcion"
 
-#: main.cpp:138
+#: main.cpp:112
 #, kde-format
 msgid "Inge Wallin"
 msgstr "Inge Wallin"
 
-#: main.cpp:139
+#: main.cpp:113
 #, kde-format
 msgid "Simon Hürlimann"
 msgstr "Simon Hürlimann"
 
-#: main.cpp:139
+#: main.cpp:113
 #, kde-format
 msgid "Menu and toolbar work"
 msgstr "Ovraedje sol dressêye et l' bår ås usteyes"
 
-#: main.cpp:140
+#: main.cpp:114
 #, kde-format
 msgid "Parker Coates"
 msgstr "Parker Coates"
 
-#: main.cpp:140
+#: main.cpp:114
 #, kde-format
 msgid "Cleanup and polish"
 msgstr "Rinetiaedje eyet afroyaedje"
 
-#: main.cpp:141
+#: main.cpp:115
 #, kde-format
 msgid "Shlomi Fish"
 msgstr ""
 
-#: main.cpp:141
+#: main.cpp:115
 #, kde-format
 msgid "Integration with Freecell Solver and further work"
 msgstr ""
 
-#: main.cpp:142
+#: main.cpp:116
 #, fuzzy, kde-format
 #| msgid "Michael Koch"
 msgid "Michael Lang"
 msgstr "Michael Koch"
 
-#: main.cpp:157
-#, kde-format
-msgctxt "List separator"
-msgid ", "
-msgstr ", "
-
-#: main.cpp:164
+#: main.cpp:123
 #, kde-format
 msgid "Try to find a solution to the given savegame"
 msgstr "Sayîz d' trover ene solucion pol djeu d' schapaedje diné"
 
-#: main.cpp:165
+#: main.cpp:124
 #, kde-format
 msgid "Dealer to solve (debug)"
 msgstr "Dineu d' cwårdjeus a rezoude (disbogaedje)"
 
-#: main.cpp:166
+#: main.cpp:125
 #, kde-format
 msgid "Game range start (default 0:INT_MAX)"
 msgstr "Fortchete d' enondaedje do djeu (prémetou 0:INT_MAX)"
 
-#: main.cpp:168
+#: main.cpp:127
 #, kde-format
 msgid "Game range end (default start:start if start given)"
 msgstr ""
 "Fortchete di finixhaedje do djeu (prémetou start:start si l' enondaedje est "
 "dné)"
 
-#: main.cpp:170
-#, kde-format
-msgid ""
-"Skip the selection screen and load a particular game type. Valid values are: "
-"%1"
-msgstr ""
-"Passer l' waitroûle di tchoes eyet tcherdjî ene sôre di djeu dnêye. Les "
-"valåbès valixhances sont: %1"
-
-#: main.cpp:172
+#: main.cpp:128
 #, kde-format
 msgid "Directory with test cases"
 msgstr ""
 
-#: main.cpp:173
+#: main.cpp:129
 #, kde-format
 msgid "Generate random test cases"
 msgstr ""
 
-#: main.cpp:174
+#: main.cpp:130
 #, kde-format
 msgid "File to load"
 msgstr "Fitchî a tcherdjî"
@@ -1073,6 +1058,17 @@ msgstr ""
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Yukon"
+
+#~ msgctxt "List separator"
+#~ msgid ", "
+#~ msgstr ", "
+
+#~ msgid ""
+#~ "Skip the selection screen and load a particular game type. Valid values "
+#~ "are: %1"
+#~ msgstr ""
+#~ "Passer l' waitroûle di tchoes eyet tcherdjî ene sôre di djeu dnêye. Les "
+#~ "valåbès valixhances sont: %1"
 
 #~ msgid "Get New Card Decks..."
 #~ msgstr "Cweri des noveas dos d' cwåtes..."

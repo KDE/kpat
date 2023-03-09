@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-07 00:43+0000\n"
+"POT-Creation-Date: 2023-03-09 00:43+0000\n"
 "PO-Revision-Date: 2022-08-19 18:36+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -465,17 +465,17 @@ msgstr "Barra d'eines principal"
 msgid "Loading..."
 msgstr "S'està carregant..."
 
-#: main.cpp:118
+#: main.cpp:92
 #, kde-format
 msgid "KPatience"
 msgstr "KPatience"
 
-#: main.cpp:120
+#: main.cpp:94
 #, kde-format
 msgid "KDE Patience Game"
 msgstr "Joc del solitari creat per KDE"
 
-#: main.cpp:122
+#: main.cpp:96
 #, kde-format
 msgid ""
 "© 1995 Paul Olav Tvete\n"
@@ -484,203 +484,188 @@ msgstr ""
 "© 1995 Paul Olav Tvete\n"
 "© 2000 Stephan Kulow"
 
-#: main.cpp:126
+#: main.cpp:100
 #, kde-format
 msgid "Paul Olav Tvete"
 msgstr "Paul Olav Tvete"
 
-#: main.cpp:126
+#: main.cpp:100
 #, kde-format
 msgid "Author of original Qt version"
 msgstr "Autor original de la versió Qt"
 
-#: main.cpp:127
+#: main.cpp:101
 #, kde-format
 msgid "Mario Weilguni"
 msgstr "Mario Weilguni"
 
-#: main.cpp:127
+#: main.cpp:101
 #, kde-format
 msgid "Initial KDE port"
 msgstr "Adaptació inicial a KDE"
 
-#: main.cpp:128
+#: main.cpp:102
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:129
+#: main.cpp:103
 #, kde-format
 msgid "Rodolfo Borges"
 msgstr "Rodolfo Borges"
 
-#: main.cpp:129 main.cpp:142
+#: main.cpp:103 main.cpp:116
 #, kde-format
 msgid "New game types"
 msgstr "Tipus de joc nous"
 
-#: main.cpp:130
+#: main.cpp:104
 #, kde-format
 msgid "Peter H. Ruegg"
 msgstr "Peter H. Ruegg"
 
-#: main.cpp:131
+#: main.cpp:105
 #, kde-format
 msgid "Michael Koch"
 msgstr "Michael Koch"
 
-#: main.cpp:131 main.cpp:138
+#: main.cpp:105 main.cpp:112
 #, kde-format
 msgid "Bug fixes"
 msgstr "Correcció d'errors"
 
-#: main.cpp:132
+#: main.cpp:106
 #, kde-format
 msgid "Marcus Meissner"
 msgstr "Marcus Meissner"
 
-#: main.cpp:132
+#: main.cpp:106
 #, kde-format
 msgid "Shuffle algorithm for game numbers"
 msgstr "Algorisme de barreja per als números de joc"
 
-#: main.cpp:133
+#: main.cpp:107
 #, kde-format
 msgid "Tom Holroyd"
 msgstr "Tom Holroyd"
 
-#: main.cpp:133
+#: main.cpp:107
 #, kde-format
 msgid "Initial patience solver"
 msgstr "Solucionador inicial del solitari"
 
-#: main.cpp:134
+#: main.cpp:108
 #, kde-format
 msgid "Stephan Kulow"
 msgstr "Stephan Kulow"
 
-#: main.cpp:134
+#: main.cpp:108
 #, kde-format
 msgid "Rewrite and current maintainer"
 msgstr "Reescriptura i mantenidor actual"
 
-#: main.cpp:135
+#: main.cpp:109
 #, kde-format
 msgid "Erik Sigra"
 msgstr "Erik Sigra"
 
-#: main.cpp:135
+#: main.cpp:109
 #, kde-format
 msgid "Klondike improvements"
 msgstr "Millores al Klondike"
 
-#: main.cpp:136
+#: main.cpp:110
 #, kde-format
 msgid "Josh Metzler"
 msgstr "Josh Metzler"
 
-#: main.cpp:136
+#: main.cpp:110
 #, kde-format
 msgid "Spider implementation"
 msgstr "Implementació de l'Aranya"
 
-#: main.cpp:137
+#: main.cpp:111
 #, kde-format
 msgid "Maren Pakura"
 msgstr "Maren Pakura"
 
-#: main.cpp:137
+#: main.cpp:111
 #, kde-format
 msgid "Documentation"
 msgstr "Documentació"
 
-#: main.cpp:138
+#: main.cpp:112
 #, kde-format
 msgid "Inge Wallin"
 msgstr "Inge Wallin"
 
-#: main.cpp:139
+#: main.cpp:113
 #, kde-format
 msgid "Simon Hürlimann"
 msgstr "Simon Hürlimann"
 
-#: main.cpp:139
+#: main.cpp:113
 #, kde-format
 msgid "Menu and toolbar work"
 msgstr "Treball en el menú i la barra d'eines"
 
-#: main.cpp:140
+#: main.cpp:114
 #, kde-format
 msgid "Parker Coates"
 msgstr "Parker Coates"
 
-#: main.cpp:140
+#: main.cpp:114
 #, kde-format
 msgid "Cleanup and polish"
 msgstr "Neteja i polit"
 
-#: main.cpp:141
+#: main.cpp:115
 #, kde-format
 msgid "Shlomi Fish"
 msgstr "Shlomi Fish"
 
-#: main.cpp:141
+#: main.cpp:115
 #, kde-format
 msgid "Integration with Freecell Solver and further work"
 msgstr "Integració amb el solucionador del «Cel·la lliure» i altres treballs"
 
-#: main.cpp:142
+#: main.cpp:116
 #, kde-format
 msgid "Michael Lang"
 msgstr "Michael Lang"
 
-#: main.cpp:157
-#, kde-format
-msgctxt "List separator"
-msgid ", "
-msgstr ", "
-
-#: main.cpp:164
+#: main.cpp:123
 #, kde-format
 msgid "Try to find a solution to the given savegame"
 msgstr "Intenta trobar una solució de la partida guardada proporcionada"
 
-#: main.cpp:165
+#: main.cpp:124
 #, kde-format
 msgid "Dealer to solve (debug)"
 msgstr "Negociador per a la solució (depurador)"
 
-#: main.cpp:166
+#: main.cpp:125
 #, kde-format
 msgid "Game range start (default 0:INT_MAX)"
 msgstr "Inici de l'interval del joc (per defecte 0:INT_MAX)"
 
-#: main.cpp:168
+#: main.cpp:127
 #, kde-format
 msgid "Game range end (default start:start if start given)"
 msgstr ""
 "Final de l'interval del joc (predeterminat inici:inici si se n'ha indicat)"
 
-#: main.cpp:170
-#, kde-format
-msgid ""
-"Skip the selection screen and load a particular game type. Valid values are: "
-"%1"
-msgstr ""
-"Omet la pantalla de selecció i carrega i un tipus de joc específic. Els "
-"valors vàlids són: %1"
-
-#: main.cpp:172
+#: main.cpp:128
 #, kde-format
 msgid "Directory with test cases"
 msgstr "Directori amb casos de prova"
 
-#: main.cpp:173
+#: main.cpp:129
 #, kde-format
 msgid "Generate random test cases"
 msgstr "Genera casos de proves aleatoris"
 
-#: main.cpp:174
+#: main.cpp:130
 #, kde-format
 msgid "File to load"
 msgstr "Fitxer que s'ha de carregar"
@@ -1066,3 +1051,14 @@ msgstr "Nombre mínim de moviments:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Yukon"
+
+#~ msgctxt "List separator"
+#~ msgid ", "
+#~ msgstr ", "
+
+#~ msgid ""
+#~ "Skip the selection screen and load a particular game type. Valid values "
+#~ "are: %1"
+#~ msgstr ""
+#~ "Omet la pantalla de selecció i carrega i un tipus de joc específic. Els "
+#~ "valors vàlids són: %1"

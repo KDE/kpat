@@ -2,7 +2,7 @@
 # Bulgarian translation of KDE.
 # This file is licensed under the GPL.
 #
-# $Id: kpat.po 1646202 2023-03-07 01:32:39Z scripty $
+# $Id: kpat.po 1646363 2023-03-09 01:30:43Z scripty $
 #
 # Zlatko Popov <zlatkopopov@fsa-bg.org>, 2007.
 # Petar Toushkov <pt.launchpad@gmail.com>, 2009.
@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-07 00:43+0000\n"
+"POT-Creation-Date: 2023-03-09 00:43+0000\n"
 "PO-Revision-Date: 2009-05-24 19:29+0200\n"
 "Last-Translator: Petar Toushkov <pt.launchpad@gmail.com>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -461,17 +461,17 @@ msgstr "Главна лента с инструменти"
 msgid "Loading..."
 msgstr ""
 
-#: main.cpp:118
+#: main.cpp:92
 #, kde-format
 msgid "KPatience"
 msgstr "KPatience"
 
-#: main.cpp:120
+#: main.cpp:94
 #, kde-format
 msgid "KDE Patience Game"
 msgstr "KDE пасианс"
 
-#: main.cpp:122
+#: main.cpp:96
 #, fuzzy, kde-format
 msgid ""
 "© 1995 Paul Olav Tvete\n"
@@ -480,202 +480,187 @@ msgstr ""
 "(c) 1995, Paul Olav Tvete\n"
 "(c) 2000 Stephan Kulow"
 
-#: main.cpp:126
+#: main.cpp:100
 #, kde-format
 msgid "Paul Olav Tvete"
 msgstr "Paul Olav Tvete"
 
-#: main.cpp:126
+#: main.cpp:100
 #, kde-format
 msgid "Author of original Qt version"
 msgstr ""
 
-#: main.cpp:127
+#: main.cpp:101
 #, kde-format
 msgid "Mario Weilguni"
 msgstr "Mario Weilguni"
 
-#: main.cpp:127
+#: main.cpp:101
 #, kde-format
 msgid "Initial KDE port"
 msgstr ""
 
-#: main.cpp:128
+#: main.cpp:102
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:129
+#: main.cpp:103
 #, kde-format
 msgid "Rodolfo Borges"
 msgstr "Rodolfo Borges"
 
-#: main.cpp:129 main.cpp:142
+#: main.cpp:103 main.cpp:116
 #, fuzzy, kde-format
 msgid "New game types"
 msgstr "Някои видове пасианси"
 
-#: main.cpp:130
+#: main.cpp:104
 #, kde-format
 msgid "Peter H. Ruegg"
 msgstr "Peter H. Ruegg"
 
-#: main.cpp:131
+#: main.cpp:105
 #, kde-format
 msgid "Michael Koch"
 msgstr "Michael Koch"
 
-#: main.cpp:131 main.cpp:138
+#: main.cpp:105 main.cpp:112
 #, kde-format
 msgid "Bug fixes"
 msgstr "Поправка на грешки"
 
-#: main.cpp:132
+#: main.cpp:106
 #, kde-format
 msgid "Marcus Meissner"
 msgstr "Marcus Meissner"
 
-#: main.cpp:132
+#: main.cpp:106
 #, kde-format
 msgid "Shuffle algorithm for game numbers"
 msgstr "Алгоритъм за разбъркване номерата на игрите"
 
-#: main.cpp:133
+#: main.cpp:107
 #, kde-format
 msgid "Tom Holroyd"
 msgstr ""
 
-#: main.cpp:133
+#: main.cpp:107
 #, fuzzy, kde-format
 msgid "Initial patience solver"
 msgstr "Прогнозиращ алгоритъм"
 
-#: main.cpp:134
+#: main.cpp:108
 #, kde-format
 msgid "Stephan Kulow"
 msgstr "Stephan Kulow"
 
-#: main.cpp:134
+#: main.cpp:108
 #, kde-format
 msgid "Rewrite and current maintainer"
 msgstr "Пренаписване и текуща поддръжка"
 
-#: main.cpp:135
+#: main.cpp:109
 #, kde-format
 msgid "Erik Sigra"
 msgstr "Erik Sigra"
 
-#: main.cpp:135
+#: main.cpp:109
 #, fuzzy, kde-format
 msgid "Klondike improvements"
 msgstr "Клондайк - &настройки"
 
-#: main.cpp:136
+#: main.cpp:110
 #, kde-format
 msgid "Josh Metzler"
 msgstr "Josh Metzler"
 
-#: main.cpp:136
+#: main.cpp:110
 #, fuzzy, kde-format
 msgid "Spider implementation"
 msgstr "Имплементация на пасианса \"Паяк\""
 
-#: main.cpp:137
+#: main.cpp:111
 #, kde-format
 msgid "Maren Pakura"
 msgstr "Maren Pakura"
 
-#: main.cpp:137
+#: main.cpp:111
 #, kde-format
 msgid "Documentation"
 msgstr "Документация"
 
-#: main.cpp:138
+#: main.cpp:112
 #, kde-format
 msgid "Inge Wallin"
 msgstr "Inge Wallin"
 
-#: main.cpp:139
+#: main.cpp:113
 #, kde-format
 msgid "Simon Hürlimann"
 msgstr "Simon Hürlimann"
 
-#: main.cpp:139
+#: main.cpp:113
 #, fuzzy, kde-format
 msgid "Menu and toolbar work"
 msgstr "Работа по менюто и лентите с инструменти"
 
-#: main.cpp:140
+#: main.cpp:114
 #, kde-format
 msgid "Parker Coates"
 msgstr ""
 
-#: main.cpp:140
+#: main.cpp:114
 #, kde-format
 msgid "Cleanup and polish"
 msgstr ""
 
-#: main.cpp:141
+#: main.cpp:115
 #, kde-format
 msgid "Shlomi Fish"
 msgstr ""
 
-#: main.cpp:141
+#: main.cpp:115
 #, kde-format
 msgid "Integration with Freecell Solver and further work"
 msgstr ""
 
-#: main.cpp:142
+#: main.cpp:116
 #, fuzzy, kde-format
 msgid "Michael Lang"
 msgstr "Michael Koch"
 
-#: main.cpp:157
-#, kde-format
-msgctxt "List separator"
-msgid ", "
-msgstr ", "
-
-#: main.cpp:164
+#: main.cpp:123
 #, kde-format
 msgid "Try to find a solution to the given savegame"
 msgstr "Опитайте да решите дадената запазена игра"
 
-#: main.cpp:165
+#: main.cpp:124
 #, kde-format
 msgid "Dealer to solve (debug)"
 msgstr "Dealer to solve (debug)"
 
-#: main.cpp:166
+#: main.cpp:125
 #, kde-format
 msgid "Game range start (default 0:INT_MAX)"
 msgstr "Game range start (default 0:INT_MAX)"
 
-#: main.cpp:168
+#: main.cpp:127
 #, kde-format
 msgid "Game range end (default start:start if start given)"
 msgstr "Game range end (default start:start if start given)"
 
-#: main.cpp:170
-#, kde-format
-msgid ""
-"Skip the selection screen and load a particular game type. Valid values are: "
-"%1"
-msgstr ""
-"Прескачане на екрана за избор и зареждане на определена игра. Валидни "
-"стойности са: %1"
-
-#: main.cpp:172
+#: main.cpp:128
 #, kde-format
 msgid "Directory with test cases"
 msgstr ""
 
-#: main.cpp:173
+#: main.cpp:129
 #, kde-format
 msgid "Generate random test cases"
 msgstr ""
 
-#: main.cpp:174
+#: main.cpp:130
 #, kde-format
 msgid "File to load"
 msgstr "Файл за зареждане"
@@ -1057,3 +1042,14 @@ msgstr ""
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Юкон"
+
+#~ msgctxt "List separator"
+#~ msgid ", "
+#~ msgstr ", "
+
+#~ msgid ""
+#~ "Skip the selection screen and load a particular game type. Valid values "
+#~ "are: %1"
+#~ msgstr ""
+#~ "Прескачане на екрана за избор и зареждане на определена игра. Валидни "
+#~ "стойности са: %1"

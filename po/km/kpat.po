@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-07 00:43+0000\n"
+"POT-Creation-Date: 2023-03-09 00:43+0000\n"
 "PO-Revision-Date: 2009-10-25 09:23+0700\n"
 "Last-Translator: Morn Met\n"
 "Language-Team: Khmer <kde-i18n-doc@kde.org>\n"
@@ -467,17 +467,17 @@ msgstr "របារ​ឧបករណ៍​មេ"
 msgid "Loading..."
 msgstr "កំពុង​ផ្ទុក​..."
 
-#: main.cpp:118
+#: main.cpp:92
 #, kde-format
 msgid "KPatience"
 msgstr "KPatience"
 
-#: main.cpp:120
+#: main.cpp:94
 #, kde-format
 msgid "KDE Patience Game"
 msgstr "ល្បែង​ ​Patience របស់​ KDE "
 
-#: main.cpp:122
+#: main.cpp:96
 #, kde-format
 msgid ""
 "© 1995 Paul Olav Tvete\n"
@@ -486,201 +486,188 @@ msgstr ""
 "រក្សាសិទ្ធិ​ឆ្នាំ ១​៩​៩​៥ ដោយ Paul Olav Tvete\n"
 "រក្សា​សិទ្ធិ​ឆ្នាំ ២​០​០​០ ដោយ Stephan Kulow"
 
-#: main.cpp:126
+#: main.cpp:100
 #, kde-format
 msgid "Paul Olav Tvete"
 msgstr "Paul Olav Tvete"
 
-#: main.cpp:126
+#: main.cpp:100
 #, kde-format
 msgid "Author of original Qt version"
 msgstr "អ្នក​និពន្ធ​​កំណែ Qt ដើម​"
 
-#: main.cpp:127
+#: main.cpp:101
 #, kde-format
 msgid "Mario Weilguni"
 msgstr "Mario Weilguni"
 
-#: main.cpp:127
+#: main.cpp:101
 #, kde-format
 msgid "Initial KDE port"
 msgstr "ច្រក​ KDE ដំបូង"
 
-#: main.cpp:128
+#: main.cpp:102
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:129
+#: main.cpp:103
 #, kde-format
 msgid "Rodolfo Borges"
 msgstr "Rodolfo Borges"
 
-#: main.cpp:129 main.cpp:142
+#: main.cpp:103 main.cpp:116
 #, kde-format
 msgid "New game types"
 msgstr "ប្រភេទ​ល្បែង​ថ្មី"
 
-#: main.cpp:130
+#: main.cpp:104
 #, kde-format
 msgid "Peter H. Ruegg"
 msgstr "Peter H. Ruegg"
 
-#: main.cpp:131
+#: main.cpp:105
 #, kde-format
 msgid "Michael Koch"
 msgstr "Michael Koch"
 
-#: main.cpp:131 main.cpp:138
+#: main.cpp:105 main.cpp:112
 #, kde-format
 msgid "Bug fixes"
 msgstr "កែ​កំហុស"
 
-#: main.cpp:132
+#: main.cpp:106
 #, kde-format
 msgid "Marcus Meissner"
 msgstr "Marcus Meissner"
 
-#: main.cpp:132
+#: main.cpp:106
 #, kde-format
 msgid "Shuffle algorithm for game numbers"
 msgstr "ក្បួន​ដោះស្រាយ​ការ​សាប់ សម្រាប់​លេខ​ល្បែង"
 
-#: main.cpp:133
+#: main.cpp:107
 #, kde-format
 msgid "Tom Holroyd"
 msgstr "Tom Holroyd"
 
-#: main.cpp:133
+#: main.cpp:107
 #, kde-format
 msgid "Initial patience solver"
 msgstr "អ្នក​ដោះ​ស្រាយ​ patience ដំបូង"
 
-#: main.cpp:134
+#: main.cpp:108
 #, kde-format
 msgid "Stephan Kulow"
 msgstr "Stephan Kulow"
 
-#: main.cpp:134
+#: main.cpp:108
 #, kde-format
 msgid "Rewrite and current maintainer"
 msgstr "សរសេរ​ឡើង​វិញ និង អ្នក​ថែទាំ​បច្ចុប្បន្ន"
 
-#: main.cpp:135
+#: main.cpp:109
 #, kde-format
 msgid "Erik Sigra"
 msgstr "Erik Sigra"
 
-#: main.cpp:135
+#: main.cpp:109
 #, kde-format
 msgid "Klondike improvements"
 msgstr "ការ​ធ្វើ​ឲ្យ​ Klondike កាន់​តែ​ប្រសើរ​ឡើង"
 
-#: main.cpp:136
+#: main.cpp:110
 #, kde-format
 msgid "Josh Metzler"
 msgstr "Josh Metzler"
 
-#: main.cpp:136
+#: main.cpp:110
 #, kde-format
 msgid "Spider implementation"
 msgstr "ការ​អនុវត្ត ពីងពាង"
 
-#: main.cpp:137
+#: main.cpp:111
 #, kde-format
 msgid "Maren Pakura"
 msgstr "Maren Pakura"
 
-#: main.cpp:137
+#: main.cpp:111
 #, kde-format
 msgid "Documentation"
 msgstr "ឯកសារ"
 
-#: main.cpp:138
+#: main.cpp:112
 #, kde-format
 msgid "Inge Wallin"
 msgstr "Inge Wallin"
 
-#: main.cpp:139
+#: main.cpp:113
 #, kde-format
 msgid "Simon Hürlimann"
 msgstr "Simon Hürlimann"
 
-#: main.cpp:139
+#: main.cpp:113
 #, kde-format
 msgid "Menu and toolbar work"
 msgstr "ម៉ឺនុយ​ និង​កា​រដំណើរការ​របារ​ឧបករណ៍"
 
-#: main.cpp:140
+#: main.cpp:114
 #, kde-format
 msgid "Parker Coates"
 msgstr "Parker Coates"
 
-#: main.cpp:140
+#: main.cpp:114
 #, kde-format
 msgid "Cleanup and polish"
 msgstr "សំអាត និង​ខាត់"
 
-#: main.cpp:141
+#: main.cpp:115
 #, kde-format
 msgid "Shlomi Fish"
 msgstr ""
 
-#: main.cpp:141
+#: main.cpp:115
 #, kde-format
 msgid "Integration with Freecell Solver and further work"
 msgstr ""
 
-#: main.cpp:142
+#: main.cpp:116
 #, fuzzy, kde-format
 #| msgid "Michael Koch"
 msgid "Michael Lang"
 msgstr "Michael Koch"
 
-#: main.cpp:157
-#, kde-format
-msgctxt "List separator"
-msgid ", "
-msgstr ", "
-
-#: main.cpp:164
+#: main.cpp:123
 #, kde-format
 msgid "Try to find a solution to the given savegame"
 msgstr "ព្យាយាម​រក​ដំណោះស្រាយ​ចំពោះ​​ល្បែង​រក្សាទុក​ដែល​បាន​ផ្ដល់"
 
-#: main.cpp:165
+#: main.cpp:124
 #, kde-format
 msgid "Dealer to solve (debug)"
 msgstr "អ្នក​ចែក​បៀ​ត្រូវ​ដោះ​ស្រាយ​ (បំបាត់​កំហុស​)"
 
-#: main.cpp:166
+#: main.cpp:125
 #, kde-format
 msgid "Game range start (default 0:INT_MAX)"
 msgstr "ចាប់ផ្ដើម​ជួរ​ល្បែង (លំនាំដើម 0 ៖ INT_MAX)"
 
-#: main.cpp:168
+#: main.cpp:127
 #, kde-format
 msgid "Game range end (default start:start if start given)"
 msgstr "បញ្ចប់​ជួរ​ល្បែង (ចាប់ផ្ដើម​លំនាំដើម ៖ ចាប់ផ្ដើម​ប្រសិន​បើ​ការ​ចាប់ផ្ដើម​ត្រូវ​ផ្ដល់)"
 
-#: main.cpp:170
-#, kde-format
-msgid ""
-"Skip the selection screen and load a particular game type. Valid values are: "
-"%1"
-msgstr "រំលង​ការ​ជ្រើស​អេក្រង់ រួច​ផ្ទុក​ប្រភេទ​ល្បែង​ពិសេស ។ តម្លៃ​ត្រឹម​ត្រូវ​គឺ​ ៖ %1"
-
-#: main.cpp:172
+#: main.cpp:128
 #, kde-format
 msgid "Directory with test cases"
 msgstr "ថត​ដែល​មាន​ករណី​សាកល្បង"
 
-#: main.cpp:173
+#: main.cpp:129
 #, kde-format
 msgid "Generate random test cases"
 msgstr "បង្កើត​ករណី​សាកល្បង​សាកល្បង​ចៃដន្យ"
 
-#: main.cpp:174
+#: main.cpp:130
 #, kde-format
 msgid "File to load"
 msgstr "ឯកសារ​ដែល​ត្រូវ​​​​ផ្ទុក"
@@ -1065,6 +1052,15 @@ msgstr ""
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Yukon"
+
+#~ msgctxt "List separator"
+#~ msgid ", "
+#~ msgstr ", "
+
+#~ msgid ""
+#~ "Skip the selection screen and load a particular game type. Valid values "
+#~ "are: %1"
+#~ msgstr "រំលង​ការ​ជ្រើស​អេក្រង់ រួច​ផ្ទុក​ប្រភេទ​ល្បែង​ពិសេស ។ តម្លៃ​ត្រឹម​ត្រូវ​គឺ​ ៖ %1"
 
 #~ msgid "Get New Card Decks..."
 #~ msgstr "យក​ហ៊ូបៀថ្មី..."
