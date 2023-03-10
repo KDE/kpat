@@ -1045,14 +1045,3 @@ msgstr "Minimální počet pohybů:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Yukon"
-
-#~ msgctxt "List separator"
-#~ msgid ", "
-#~ msgstr ", "
-
-#~ msgid ""
-#~ "Skip the selection screen and load a particular game type. Valid values "
-#~ "are: %1"
-#~ msgstr ""
-#~ "Přeskočit obrazovku s výběrem a načíst určitý typ hry. Platné hodnoty "
-#~ "jsou: %1"
