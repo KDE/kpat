@@ -77,6 +77,12 @@ ecm_add_app_icon(kpat_SRCS ICONS ${ICONS_SRCS})
 
 add_executable(kpat ${kpat_SRCS})
 
+if (QT_MAJOR_VERSION STREQUAL "6")
+    target_link_libraries(kpat KDEGames6)
+else()
+    target_link_libraries(kpat KF5KDEGames)
+endif()
+
 target_link_libraries(kpat
     KF${KF_MAJOR_VERSION}::Crash
     KF${KF_MAJOR_VERSION}::DBusAddons
@@ -85,7 +91,6 @@ target_link_libraries(kpat
     KF${KF_MAJOR_VERSION}::GuiAddons
     KF${KF_MAJOR_VERSION}::Completion
     KF${KF_MAJOR_VERSION}::XmlGui
-    KF5KDEGames
     kcardgame
     ${FC_SOLVE_LDFLAGS}
     ${BLACK_HOLE_SOLVER_LDFLAGS}

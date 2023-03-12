@@ -41,6 +41,11 @@ if (WITH_BH_SOLVER)
         NAME_PREFIX "kpat-"
     )
 
+    if (QT_MAJOR_VERSION STREQUAL "6")
+        set(KDEGames_LIB KDEGames6)
+    else()
+        set(KDEGames_LIB KF5KDEGames)
+    endif()
     ecm_add_test(
         "${CMAKE_SOURCE_DIR}/src/dealer.cpp"
         "${CMAKE_SOURCE_DIR}/src/dealerinfo.cpp"
@@ -57,7 +62,7 @@ if (WITH_BH_SOLVER)
         solver_format.cpp
         TEST_NAME SolverFormatTest
         LINK_LIBRARIES Qt${QT_MAJOR_VERSION}::Test kcardgame
-            KF5KDEGames
+            ${KDEGames_LIB}
             ${BLACK_HOLE_SOLVER_LDFLAGS}
         NAME_PREFIX "kpat-"
     )
