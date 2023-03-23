@@ -2,14 +2,13 @@
 # Copyright (C) 1998 Free Software Foundation, Inc.
 # Wolfram Diestel <diestel@rzaix340.rz.uni-leipzig.de>, 1998.
 #
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: kpat 1.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-03-09 00:43+0000\n"
-"PO-Revision-Date: 2002-03-07 22:27GMT\n"
-"Last-Translator: Wolfram Diestel <wolfram@steloj.de>\n"
+"PO-Revision-Date: 2023-03-22 19:14+01\n"
+"Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
@@ -39,10 +38,9 @@ msgid "Baker's Dozen"
 msgstr ""
 
 #: bakersdozen.cpp:70 bakersdozen.cpp:240
-#, fuzzy, kde-format
-#| msgid "KPatience"
+#, kde-format
 msgid "Spanish Patience"
-msgstr "Solitero"
+msgstr ""
 
 #: bakersdozen.cpp:71 bakersdozen.cpp:241
 #, kde-format
@@ -80,10 +78,9 @@ msgid "None (Hard)"
 msgstr ""
 
 #: bakersdozen.cpp:80
-#, fuzzy, kde-format
-#| msgid "&Klondike"
+#, kde-format
 msgid "Stack Options"
-msgstr "&Klondiko"
+msgstr ""
 
 #: bakersdozen.cpp:81
 #, kde-format
@@ -154,16 +151,13 @@ msgid "Stronghold"
 msgstr ""
 
 #: castle.cpp:326
-#, fuzzy
-#| msgid "&Freecell"
 msgid "Castle (Custom)"
-msgstr "&Libera ĉelo"
+msgstr ""
 
 #: castle.cpp:376
-#, fuzzy, kde-format
-#| msgid "&Freecell"
+#, kde-format
 msgid "Free Cells"
-msgstr "&Libera ĉelo"
+msgstr ""
 
 #: castle.cpp:377 freecell.cpp:362
 #, kde-format
@@ -191,10 +185,9 @@ msgid "4"
 msgstr ""
 
 #: castle.cpp:383 freecell.cpp:372
-#, fuzzy, kde-format
-#| msgid "&Klondike"
+#, kde-format
 msgid "Stacks"
-msgstr "&Klondiko"
+msgstr ""
 
 #: castle.cpp:384 freecell.cpp:368 freecell.cpp:373
 #, kde-format
@@ -252,10 +245,9 @@ msgid "None"
 msgstr ""
 
 #: castle.cpp:397
-#, fuzzy, kde-format
-#| msgid "&Aces Up"
+#, kde-format
 msgid "Aces"
-msgstr "&Asoj supre"
+msgstr ""
 
 #: castle.cpp:398
 #, kde-format
@@ -278,10 +270,8 @@ msgid "Modern"
 msgstr ""
 
 #: clock.cpp:157
-#, fuzzy
-#| msgid "G&randfather's Clock"
 msgid "Grandfather's Clock"
-msgstr "La &horloĝo de la Avo"
+msgstr "Horloĝo de Avo"
 
 #: dealer.cpp:72
 #, kde-format
@@ -304,14 +294,14 @@ msgid "Solver: Unable to determine if this game is winnable."
 msgstr ""
 
 #: dealer.cpp:937
-#, fuzzy, kde-format
+#, kde-format
 msgid "Congratulations! We have won."
-msgstr "Gratulon! Ni venkis!"
+msgstr ""
 
 #: dealer.cpp:939
-#, fuzzy, kde-format
+#, kde-format
 msgid "Congratulations! You have won."
-msgstr "Gratulon! Vi venkis!"
+msgstr ""
 
 #: dealer.cpp:1225
 #, kde-format
@@ -319,10 +309,9 @@ msgid "Solver: This game is lost."
 msgstr ""
 
 #: dealer.cpp:1363
-#, fuzzy, kde-format
-#| msgid "&Calculation"
+#, kde-format
 msgid "Solver: Calculating..."
-msgstr "&Kalkulado"
+msgstr ""
 
 #: dealer.cpp:1767
 #, kde-format
@@ -343,15 +332,13 @@ msgid "Abandon Current Game"
 msgstr ""
 
 #: fortyeight.cpp:229
-#, fuzzy
 msgid "Forty & Eight"
-msgstr "&Kvardek kaj ok"
+msgstr ""
 
 #: freecell.cpp:307 freecell.cpp:312 freecell.cpp:347
-#, fuzzy, kde-format
-#| msgid "&Freecell"
+#, kde-format
 msgid "Freecell"
-msgstr "&Libera ĉelo"
+msgstr "Freecell"
 
 #: freecell.cpp:309 freecell.cpp:344
 #, kde-format
@@ -364,10 +351,9 @@ msgid "Eight Off"
 msgstr ""
 
 #: freecell.cpp:311 freecell.cpp:346
-#, fuzzy, kde-format
-#| msgid "&Freecell"
+#, kde-format
 msgid "Forecell"
-msgstr "&Libera ĉelo"
+msgstr ""
 
 #: freecell.cpp:313 freecell.cpp:348
 #, kde-format
@@ -375,16 +361,13 @@ msgid "Seahaven Towers"
 msgstr ""
 
 #: freecell.cpp:314
-#, fuzzy
-#| msgid "&Freecell"
 msgid "Freecell (Custom)"
-msgstr "&Libera ĉelo"
+msgstr ""
 
 #: freecell.cpp:361
-#, fuzzy, kde-format
-#| msgid "&Freecell"
+#, kde-format
 msgid "Free cells"
-msgstr "&Libera ĉelo"
+msgstr ""
 
 #: freecell.cpp:367
 #, kde-format
@@ -407,33 +390,25 @@ msgid "Decks"
 msgstr ""
 
 #: golf.cpp:189
-#, fuzzy
 msgid "Golf"
-msgstr "&Golfo"
+msgstr ""
 
 #: grandf.cpp:188
-#, fuzzy
-#| msgid "&Grandfather"
 msgid "Grandfather"
-msgstr "&Laŭ la Avo"
+msgstr "Avo"
 
 #: gypsy.cpp:166
-#, fuzzy
-#| msgid "Gy&psy"
 msgid "Gypsy"
-msgstr "&Ciganino"
+msgstr "Ciganino"
 
 #: idiot.cpp:225
-#, fuzzy
-#| msgid "&Aces Up"
 msgid "Aces Up"
-msgstr "&Asoj supre"
+msgstr "Asoj supre"
 
 #: klondike.cpp:134
-#, fuzzy, kde-format
-#| msgid "&Klondike"
+#, kde-format
 msgid "Klondike &Options"
-msgstr "&Klondiko"
+msgstr ""
 
 #: klondike.cpp:135
 #, kde-format
@@ -450,14 +425,12 @@ msgid "Klondike"
 msgstr "Klondike"
 
 #: klondike.cpp:314
-#, fuzzy
 msgid "Klondike (Draw 1)"
-msgstr "&Klondiko"
+msgstr ""
 
 #: klondike.cpp:315
-#, fuzzy
 msgid "Klondike (Draw 3)"
-msgstr "&Klondiko"
+msgstr ""
 
 #. i18n: ectx: Menu (move)
 #: kpatui.rc:23
@@ -526,10 +499,9 @@ msgid "Rodolfo Borges"
 msgstr "Rodolfo Borges"
 
 #: main.cpp:103 main.cpp:116
-#, fuzzy, kde-format
-#| msgid "Some Game Types"
+#, kde-format
 msgid "New game types"
-msgstr "Kelkaj ludtipoj"
+msgstr ""
 
 #: main.cpp:104
 #, kde-format
@@ -562,9 +534,9 @@ msgid "Tom Holroyd"
 msgstr "Tom Holroyd"
 
 #: main.cpp:107
-#, fuzzy, kde-format
+#, kde-format
 msgid "Initial patience solver"
-msgstr "Solitero"
+msgstr ""
 
 #: main.cpp:108
 #, kde-format
@@ -582,10 +554,9 @@ msgid "Erik Sigra"
 msgstr "Erik Sigra"
 
 #: main.cpp:109
-#, fuzzy, kde-format
-#| msgid "&Klondike"
+#, kde-format
 msgid "Klondike improvements"
-msgstr "&Klondiko"
+msgstr ""
 
 #: main.cpp:110
 #, kde-format
@@ -643,10 +614,9 @@ msgid "Integration with Freecell Solver and further work"
 msgstr ""
 
 #: main.cpp:116
-#, fuzzy, kde-format
-#| msgid "Michael Koch"
+#, kde-format
 msgid "Michael Lang"
-msgstr "Michael Koch"
+msgstr ""
 
 #: main.cpp:123
 #, kde-format
@@ -696,23 +666,22 @@ msgid "New &Deal"
 msgstr ""
 
 #: mainwindow.cpp:164
-#, fuzzy, kde-format
-#| msgid "&Choose Game..."
+#, kde-format
 msgctxt "Start a game by giving its particular number"
 msgid "New &Numbered Deal..."
-msgstr "&Elektu ludon..."
+msgstr ""
 
 #: mainwindow.cpp:169
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Replay the current deal from the start"
 msgid "Restart Deal"
-msgstr "&Rekomencu"
+msgstr ""
 
 #: mainwindow.cpp:175
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Start the game with the number one greater than the current one"
 msgid "Next Deal"
-msgstr "&Rekomencu"
+msgstr ""
 
 #: mainwindow.cpp:184
 #, kde-format
@@ -752,10 +721,9 @@ msgid "Dro&p"
 msgstr ""
 
 #: mainwindow.cpp:250
-#, fuzzy, kde-format
-#| msgid "Some Game Types"
+#, kde-format
 msgid "Change Appearance..."
-msgstr "Kelkaj ludtipoj"
+msgstr ""
 
 #: mainwindow.cpp:254
 #, kde-format
@@ -763,9 +731,9 @@ msgid "&Enable Autodrop"
 msgstr ""
 
 #: mainwindow.cpp:259
-#, fuzzy, kde-format
+#, kde-format
 msgid "E&nable Solver"
-msgstr "Solitero"
+msgstr ""
 
 #: mainwindow.cpp:264
 #, kde-format
@@ -833,10 +801,9 @@ msgid "Select a card deck"
 msgstr ""
 
 #: mainwindow.cpp:436
-#, fuzzy, kde-format
-#| msgid "&Game Type"
+#, kde-format
 msgid "Game Theme"
-msgstr "&Ludtipo"
+msgstr ""
 
 #: mainwindow.cpp:436
 #, kde-format
@@ -931,10 +898,9 @@ msgid "Mod3"
 msgstr "Mod3"
 
 #: numbereddealdialog.cpp:36
-#, fuzzy, kde-format
-#| msgid "&Choose Game..."
+#, kde-format
 msgid "New Numbered Deal"
-msgstr "&Elektu ludon..."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: numbereddealdialog.cpp:51 statisticsdialog.ui:33
@@ -943,16 +909,13 @@ msgid "Game:"
 msgstr ""
 
 #: numbereddealdialog.cpp:55
-#, fuzzy, kde-format
-#| msgid "Game Number"
+#, kde-format
 msgid "Deal number:"
-msgstr "Ludnumero"
+msgstr ""
 
 #: simon.cpp:168
-#, fuzzy
-#| msgid "&Simple Simon"
 msgid "Simple Simon"
-msgstr "&Simpla Simono"
+msgstr "Simpla Simono"
 
 #: spider.cpp:131
 #, kde-format
@@ -1036,9 +999,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: statisticsdialog.ui:82
-#, fuzzy, kde-format
+#, kde-format
 msgid "Games played:"
-msgstr "&Ludtipo"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel8)
 #: statisticsdialog.ui:99
@@ -1048,9 +1011,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: statisticsdialog.ui:116
-#, fuzzy, kde-format
+#, kde-format
 msgid "Games won:"
-msgstr "Malgajnita ludo."
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: statisticsdialog.ui:133
@@ -1067,93 +1030,3 @@ msgstr ""
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Yukon"
-
-#~ msgctxt "List separator"
-#~ msgid ", "
-#~ msgstr ", "
-
-#, fuzzy
-#~| msgid "The saved game is of unknown type!"
-#~ msgid "The saved game is of an unknown type."
-#~ msgstr "La sekurigita ludo havas nekonatan tipon!"
-
-#, fuzzy
-#~ msgid ""
-#~ "Enter a deal number (Freecell deals are numbered the same as those in the "
-#~ "Freecell FAQ):"
-#~ msgstr ""
-#~ "Donu ludnumeron (1 kaj 32000 estas la samaj kiel en la Oftaj Demandoj pri "
-#~ "Libera Ĉelo)"
-
-#, fuzzy
-#~ msgid "Improved Klondike"
-#~ msgstr "&Klondiko"
-
-#, fuzzy
-#~ msgid "&Settings"
-#~ msgstr "&La reĝo"
-
-#, fuzzy
-#~| msgid "&Redeal"
-#~ msgid "&Reset"
-#~ msgstr "&Redonu kartojn"
-
-#~ msgid "&Calculation"
-#~ msgstr "&Kalkulado"
-
-#~ msgid "&Napoleon's Tomb"
-#~ msgstr "&Tombo de Napoleono"
-
-#, fuzzy
-#~ msgid "&Game"
-#~ msgstr "&Ludtipo"
-
-#, fuzzy
-#~ msgid "&Edit"
-#~ msgstr "&Helpindiko"
-
-#~ msgid "&Hint"
-#~ msgstr "&Helpindiko"
-
-#~ msgid "&Demo"
-#~ msgstr "&Demonstro"
-
-#~ msgid "please wait, loading cards..."
-#~ msgstr "bonvolu atendi, legante kartojn..."
-
-#~ msgid "KPatience - a Solitaire game"
-#~ msgstr "Soliterludo"
-
-#~ msgid "%1 tries - depth %2"
-#~ msgstr "%1 provoj - profundeco %2"
-
-#~ msgid "solved after %1 tries"
-#~ msgstr "solvita post %1 provoj"
-
-#~ msgid "unsolved after %1 moves"
-#~ msgstr "nesolvita post %1 movoj"
-
-#~ msgid "%1 moves before finish"
-#~ msgstr "%1 movoj antaŭ fino"
-
-#~ msgid "Freecell Solver"
-#~ msgstr "Solvilo por Libera ĉelo"
-
-#~ msgid "&Change Background"
-#~ msgstr "Ŝ&anĝu fonon"
-
-#~ msgid "&Switch Cards..."
-#~ msgstr "&Ŝanĝu kartojn..."
-
-#, fuzzy
-#~ msgid "&Statistics"
-#~ msgstr "&Ŝanĝu kartojn..."
-
-#~ msgid "&Animation on Startup"
-#~ msgstr "&Viglaĵo je komenco"
-
-#~ msgid "Could not load background image!"
-#~ msgstr "Ne eblis legi fonbildon!"
-
-#~ msgid "Congratulations!"
-#~ msgstr "Gratulon!"
