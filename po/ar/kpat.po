@@ -167,27 +167,27 @@ msgstr "الخلية الحرة"
 #: castle.cpp:377 freecell.cpp:362
 #, kde-format
 msgid "0"
-msgstr "٠ "
+msgstr "0 "
 
 #: castle.cpp:378 freecell.cpp:363 freecell.cpp:382
 #, kde-format
 msgid "1"
-msgstr "١"
+msgstr "1"
 
 #: castle.cpp:379 freecell.cpp:364 freecell.cpp:383
 #, kde-format
 msgid "2"
-msgstr "٢"
+msgstr "2"
 
 #: castle.cpp:380 freecell.cpp:365 freecell.cpp:384
 #, kde-format
 msgid "3"
-msgstr "٣"
+msgstr "3"
 
 #: castle.cpp:381 freecell.cpp:366
 #, kde-format
 msgid "4"
-msgstr "٤"
+msgstr "4"
 
 #: castle.cpp:383 freecell.cpp:372
 #, kde-format
@@ -197,27 +197,27 @@ msgstr "الأكوام"
 #: castle.cpp:384 freecell.cpp:368 freecell.cpp:373
 #, kde-format
 msgid "6"
-msgstr "٦"
+msgstr "6"
 
 #: castle.cpp:385 freecell.cpp:369 freecell.cpp:374
 #, kde-format
 msgid "7"
-msgstr "٧"
+msgstr "7"
 
 #: castle.cpp:386 freecell.cpp:370 freecell.cpp:375
 #, kde-format
 msgid "8"
-msgstr "٨"
+msgstr "8"
 
 #: castle.cpp:387 freecell.cpp:376
 #, kde-format
 msgid "9"
-msgstr "٩"
+msgstr "9"
 
 #: castle.cpp:388 freecell.cpp:377
 #, kde-format
 msgid "10"
-msgstr "١٠"
+msgstr "10"
 
 #: castle.cpp:390 spider.cpp:146
 #, kde-format
@@ -384,17 +384,17 @@ msgstr "الخلية الحرة"
 #: freecell.cpp:367
 #, kde-format
 msgid "5"
-msgstr "٥"
+msgstr "5"
 
 #: freecell.cpp:378
 #, kde-format
 msgid "11"
-msgstr "١١"
+msgstr "11"
 
 #: freecell.cpp:379
 #, kde-format
 msgid "12"
-msgstr "١٢"
+msgstr "12"
 
 #: freecell.cpp:381
 #, kde-format
