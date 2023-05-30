@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 
@@ -917,8 +917,7 @@ msgstr ""
 #, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"
-msgstr[0] "移動回数: 1"
-msgstr[1] "移動回数: %1"
+msgstr[0] "移動回数: %1"
 
 #: mod3.cpp:218
 msgid "Mod3"
@@ -1012,15 +1011,13 @@ msgstr "%1 (%2%)"
 #, kde-format
 msgid "1 loss"
 msgid_plural "%1 losses"
-msgstr[0] "1 敗"
-msgstr[1] "%1 敗"
+msgstr[0] "%1 敗"
 
 #: statisticsdialog.cpp:136
 #, kde-format
 msgid "1 win"
 msgid_plural "%1 wins"
-msgstr[0] "1 勝"
-msgstr[1] "%1 勝"
+msgstr[0] "%1 勝"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel7)
 #: statisticsdialog.ui:75
