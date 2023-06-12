@@ -59,7 +59,7 @@ SolverInterface::ExitStatus GolfSolver::patsolve(int max_positions)
     if (max_positions < 0) {
         max_positions = default_max_positions;
     }
-
+    stop_exec = false;
     if (solver_instance) {
         return SolverInterface::UnableToDetermineSolvability;
     }
