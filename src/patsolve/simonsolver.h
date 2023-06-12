@@ -29,27 +29,12 @@ class SimonSolver : public FcSolveSolver
 public:
     explicit SimonSolver(const Simon *dealer);
     int get_possible_moves(int *a, int *numout) override;
-#if 0
-    bool isWon() override;
-    void make_move(MOVE *m) override;
-    void undo_move(MOVE *m) override;
-    int getOuts() override;
-    unsigned int getClusterNumber() override;
-#endif
     void translate_layout() override;
     MoveHint translateMove(const MOVE &m) override;
-#if 0
-    void unpack_cluster( unsigned int k ) override;
-    void print_layout() override;
-#endif
     void setFcSolverGameParams() override;
 
     int get_cmd_line_arg_count() override;
     const char **get_cmd_line_args() override;
-#if 0
-/* Names of the cards.  The ordering is defined in pat.h. */
-    int O[4];
-#endif
     const Simon *deal;
 };
 
