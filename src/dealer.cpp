@@ -673,11 +673,6 @@ QList<MoveHint> DealerScene::getSolverHints()
         MoveHint mh = solver()->translateMove(m);
         hintList << mh;
     }
-    if (hintList.isEmpty()) {
-        // if the solver only reports winning moves but has none, we fall back to
-        // brute force
-        return bruteForceHints();
-    }
     return hintList;
 }
 

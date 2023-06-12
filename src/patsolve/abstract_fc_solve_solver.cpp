@@ -83,13 +83,22 @@ SolverInterface::ExitStatus FcSolveSolver::patsolve(int _max_positions)
     Q_ASSERT(m_firstMoves.isEmpty());
     for (int j = 0; j < num_moves; ++j)
         m_firstMoves.append(Possible[j]);
+
     // Sometimes the solver is invoked with a small maximal iterations
     // quota/limit (e.g: when loading a saved game or checking for autodrop
     // moves) and it is done frequently, so we return prematurely without
     // invoking freecell_solver_user_alloc() and friends which incur extra
     // overhead.
     //
-    // The m_firstMoves should be good enough in that case.
+    // The m_firstMoves should be good enough in that case. But if there is no
+    // valid return from get_possible_moves, we need to ignore the wish of the
+    // dealer and calculate the full solution. This is a trade off, for fast solved
+    // games, implementing a special first move calculation is just not feasible,
+    // but as mentioned we need this for autodrop
+    if (!num_moves) {
+        max_positions = default_max_positions;
+    }
+
     if (max_positions < 20) {
         return Solver::UnableToDetermineSolvability;
     }
@@ -172,6 +181,8 @@ SolverInterface::ExitStatus FcSolveSolver::patsolve(int _max_positions)
                 new_move.fcs = move;
 
                 m_winMoves.append(new_move);
+                if (m_firstMoves.empty())
+                    m_firstMoves.append(new_move);
             }
 
             make_solver_instance_ready();
@@ -202,7 +213,6 @@ int FcSolveSolver::getOuts()
 
 FcSolveSolver::FcSolveSolver()
     : Solver()
-    , solver_instance(nullptr)
     , default_max_positions(INITIAL_MAX_ITERS_LIMIT)
     , solver_ret(FCS_STATE_NOT_BEGAN_YET)
     , board_as_string("")

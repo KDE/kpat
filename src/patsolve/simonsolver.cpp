@@ -68,6 +68,7 @@ MoveHint SimonSolver::translateMove(const MOVE &m)
     int cards = fcs_move_get_num_cards_in_seq(move);
     PatPile *from = nullptr;
     PatPile *to = nullptr;
+    int priority = 0;
 
     switch (fcs_move_get_type(move)) {
     case FCS_MOVE_TYPE_STACK_TO_STACK:
@@ -79,6 +80,8 @@ MoveHint SimonSolver::translateMove(const MOVE &m)
         from = deal->store[fcs_move_get_src_stack(move)];
         cards = 13;
         to = deal->target[fcs_move_get_foundation(move)];
+        // no reason to delay this
+        priority = 127;
         break;
     }
     Q_ASSERT(from);
@@ -103,6 +106,5 @@ MoveHint SimonSolver::translateMove(const MOVE &m)
     }
 
     Q_ASSERT(to);
-
-    return MoveHint(card, to, 0);
+    return MoveHint(card, to, priority);
 }

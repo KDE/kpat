@@ -43,7 +43,7 @@ public:
     virtual const char **get_cmd_line_args() = 0;
     /* Names of the cards.  The ordering is defined in pat.h. */
 
-    void *solver_instance;
+    void *solver_instance{nullptr};
     long default_max_positions;
     int solver_ret;
     // More than enough space for two decks.
