@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-09 00:43+0000\n"
+"POT-Creation-Date: 2023-06-13 00:44+0000\n"
 "PO-Revision-Date: 2011-01-09 09:53+0100\n"
 "Last-Translator: Jean Cayron <jean.cayron@gmail.com>\n"
 "Language-Team: Walloon <linux@walon.org>\n"
@@ -305,27 +305,27 @@ msgstr "Rezoudeu : ci djeu ci n' sait pus esse wangnî."
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr "Rezoudeu: Dji n' sai dire si ci djeu est wangnåve."
 
-#: dealer.cpp:937
+#: dealer.cpp:932
 #, kde-format
 msgid "Congratulations! We have won."
 msgstr "Alabouneur! Nos avans wangnî!"
 
-#: dealer.cpp:939
+#: dealer.cpp:934
 #, kde-format
 msgid "Congratulations! You have won."
 msgstr "Alabouneur! Vos avoz wangnî!"
 
-#: dealer.cpp:1225
+#: dealer.cpp:1220
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "Rezoudeu: Ci djeu est pierdou."
 
-#: dealer.cpp:1363
+#: dealer.cpp:1358
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "Rezoudeu: Dji carcule..."
 
-#: dealer.cpp:1767
+#: dealer.cpp:1762
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -337,12 +337,12 @@ msgstr ""
 "Dji va edjîstré k' c' est kine ezès statistikes sel djeu do moumint est leyî "
 "la."
 
-#: dealer.cpp:1769
+#: dealer.cpp:1764
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "Abandner l' djeu do moumint?"
 
-#: dealer.cpp:1770
+#: dealer.cpp:1765
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "Abandner l' djeu do moumint"
