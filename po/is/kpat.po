@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-09 00:43+0000\n"
+"POT-Creation-Date: 2023-06-13 02:38+0000\n"
 "PO-Revision-Date: 2015-01-29 09:07+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -315,27 +315,27 @@ msgstr "Lausn: Þessi leikur er ekki vinnanlegur."
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr "Lausn: Get ekki fundið út hvort hægt sé að vinna þennan leik."
 
-#: dealer.cpp:937
+#: dealer.cpp:932
 #, kde-format
 msgid "Congratulations! We have won."
 msgstr "Til hamingju! Við sigruðum!"
 
-#: dealer.cpp:939
+#: dealer.cpp:934
 #, kde-format
 msgid "Congratulations! You have won."
 msgstr "Til hamingju! Þú sigraðir!"
 
-#: dealer.cpp:1225
+#: dealer.cpp:1220
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "Lausn: Þessi leikur er tapaður."
 
-#: dealer.cpp:1363
+#: dealer.cpp:1358
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "Lausn: Reiknina út..."
 
-#: dealer.cpp:1767
+#: dealer.cpp:1762
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -346,12 +346,12 @@ msgstr ""
 "\n"
 "Það verður skráð sem tap í tölfræðina ef hætt er í núverandi leik."
 
-#: dealer.cpp:1769
+#: dealer.cpp:1764
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "Hætta í núverandi leik?"
 
-#: dealer.cpp:1770
+#: dealer.cpp:1765
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "Hætta í núverandi leik"

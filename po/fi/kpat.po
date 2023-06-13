@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-09 00:43+0000\n"
+"POT-Creation-Date: 2023-06-13 02:38+0000\n"
 "PO-Revision-Date: 2023-04-17 13:18+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -310,27 +310,27 @@ msgstr "Ratkaisin: Tätä peliä ei voi enää voittaa."
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr "Ratkaisin: Ei voida päätellä, onko peli voitettavissa."
 
-#: dealer.cpp:937
+#: dealer.cpp:932
 #, kde-format
 msgid "Congratulations! We have won."
 msgstr "Onnittelut! Voitimme pelin."
 
-#: dealer.cpp:939
+#: dealer.cpp:934
 #, kde-format
 msgid "Congratulations! You have won."
 msgstr "Onnittelut! Voitit pelin."
 
-#: dealer.cpp:1225
+#: dealer.cpp:1220
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "Ratkaisin: Peli on hävitty."
 
-#: dealer.cpp:1363
+#: dealer.cpp:1358
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "Ratkaisin: Lasketaan…"
 
-#: dealer.cpp:1767
+#: dealer.cpp:1762
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -341,12 +341,12 @@ msgstr ""
 "\n"
 "Tilastoihin merkitään tappio, jos nykyinen peli jätetään kesken."
 
-#: dealer.cpp:1769
+#: dealer.cpp:1764
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "Keskeytetäänkö nykyinen peli?"
 
-#: dealer.cpp:1770
+#: dealer.cpp:1765
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "Keskeytä nykyinen peli"

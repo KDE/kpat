@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-03-09 00:43+0000\n"
+"POT-Creation-Date: 2023-06-13 02:38+0000\n"
 "PO-Revision-Date: 2022-08-21 06:40+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -306,27 +306,27 @@ msgstr "Reševalnik: V tej igri se ne da zmagati."
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr "Reševalnik: Ni mogoče ugotoviti, ali se v tej igri da zmagati."
 
-#: dealer.cpp:937
+#: dealer.cpp:932
 #, kde-format
 msgid "Congratulations! We have won."
 msgstr "Čestitke! Zmagali smo."
 
-#: dealer.cpp:939
+#: dealer.cpp:934
 #, kde-format
 msgid "Congratulations! You have won."
 msgstr "Čestitke! Zmagali ste."
 
-#: dealer.cpp:1225
+#: dealer.cpp:1220
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "Reševalnik: Ta igra je izgubljena."
 
-#: dealer.cpp:1363
+#: dealer.cpp:1358
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "Reševalnik: Preračunavanje ..."
 
-#: dealer.cpp:1767
+#: dealer.cpp:1762
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -337,12 +337,12 @@ msgstr ""
 "\n"
 "Če bo trenutna igra prekinjena, bo v statistiko vpisan poraz."
 
-#: dealer.cpp:1769
+#: dealer.cpp:1764
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "Zapusti trenutno igro?"
 
-#: dealer.cpp:1770
+#: dealer.cpp:1765
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "Zapusti trenutno igro"
