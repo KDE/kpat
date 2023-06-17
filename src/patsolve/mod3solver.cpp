@@ -177,7 +177,6 @@ int Mod3Solver::get_possible_moves(int *a, int *numout)
     mp = Possible;
 
     int first_empty_pile = -1;
-    bool foundone = false;
 
     int firstfree[4] = {-1, -1, -1, -1};
 
@@ -250,22 +249,6 @@ int Mod3Solver::get_possible_moves(int *a, int *numout)
                 mp->turn_index = -1;
                 if (i >= 24 && Wlen[i] == 1 && Wlen[deck])
                     mp->turn_index = 1;
-
-                if (Wlen[j] > 0 && !foundone) {
-                    foundone = true;
-                    // we want to make sure we do not get useless moves
-                    // if there are target moves
-                    int index = 0;
-                    while (index < n) {
-                        if (Possible[index].pri == 0) {
-                            Possible[index] = Possible[n - 1];
-                            Possible[n - 1] = *mp;
-                            mp--;
-                            n--;
-                        } else
-                            index++;
-                    }
-                }
 
             } else {
                 if (Wlen[j] || (Wlen[i] > 1 && current_row != 3))
