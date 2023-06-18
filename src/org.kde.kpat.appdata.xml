@@ -11,6 +11,7 @@
   <name xml:lang="de">KPatience</name>
   <name xml:lang="el">KPatience</name>
   <name xml:lang="en-GB">KPatience</name>
+  <name xml:lang="eo">KPatience</name>
   <name xml:lang="es">KPatience</name>
   <name xml:lang="et">KPatience</name>
   <name xml:lang="eu">KPatience</name>
@@ -44,6 +45,7 @@
   <summary xml:lang="de">Solitär-Kartenspiel</summary>
   <summary xml:lang="el">Παιχνίδι καρτών solitaire</summary>
   <summary xml:lang="en-GB">Solitaire card game</summary>
+  <summary xml:lang="eo">Solitaire-kartludo</summary>
   <summary xml:lang="es">Juego de cartas de tipo solitario</summary>
   <summary xml:lang="et">Solitaire kaardimäng</summary>
   <summary xml:lang="eu">Bakarkako karta-jokoa</summary>
@@ -115,6 +117,7 @@
       <caption xml:lang="de">Auswahl eines Solitärspiels</caption>
       <caption xml:lang="el">Οθόνη επιλογής solitaire</caption>
       <caption xml:lang="en-GB">Solitaire selection screen</caption>
+      <caption xml:lang="eo">Elekta ekrano de Solitaire</caption>
       <caption xml:lang="es">Pantalla de selección de solitario</caption>
       <caption xml:lang="et">KPatience'i valikuekraan</caption>
       <caption xml:lang="eu">Bakar-jokoa hautatzeko pantaila</caption>
