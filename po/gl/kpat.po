@@ -841,7 +841,7 @@ msgid ""
 "Are you sure you want to hide the menubar? The current shortcut to show it "
 "again is %1."
 msgstr ""
-"Seguro que queres agochar a barra do menú? O atallo que hai para mostrala de "
+"Seguro que queres agochar a barra do menú? O atallo que hai para amosala de "
 "novo é %1."
 
 #: mainwindow.cpp:702
