@@ -678,7 +678,7 @@
 >En els munts de joc, es pot posar una carta damunt d'una altra de qualsevol coll i d'un valor més alt. Es pot moure una seqüència de cartes en ordre descendent del mateix coll des d'un munt de joc cap a un altre. </para>
 
 <para
->L'objectiu és posar totes les cartes en famílies reials en ordre descendent, partint des dels reis en qualsevol dels munts de joc. Quan es construeix una família d'aquest tipus en un munt de joc, es traurà cap a la cantonada inferior esquerra de la finestra. </para>
+>L'objectiu és posar totes les cartes en famílies reials en ordre descendent, partint des dels reis en qualsevol dels munts de joc. Quan s'integra una família d'aquest tipus en un munt de joc, es traurà cap a la cantonada inferior esquerra de la finestra. </para>
 
 <para
 >Els diferents nivells determinen quants colls es reparteixen: <guilabel
