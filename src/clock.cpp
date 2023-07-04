@@ -163,3 +163,5 @@ public:
         return new Clock(this);
     }
 } clockDealerInfo;
+
+#include "moc_clock.cpp"

@@ -40,3 +40,5 @@ void SoundEngine::cardsPutDown()
 {
     m_cardPutDown.start();
 }
+
+#include "moc_soundengine.cpp"

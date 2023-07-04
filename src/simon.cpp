@@ -174,3 +174,5 @@ public:
         return new Simon(this);
     }
 } simonDealerInfo;
+
+#include "moc_simon.cpp"

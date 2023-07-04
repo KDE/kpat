@@ -504,3 +504,5 @@ void Freecell::setOptions(int variation)
         m_decksOption->setCurrentItem(m_decks);
     }
 }
+
+#include "moc_freecell.cpp"

@@ -126,3 +126,5 @@ public:
         return new Yukon(this);
     }
 } yukonDealerInfo;
+
+#include "moc_yukon.cpp"

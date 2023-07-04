@@ -105,3 +105,5 @@ void NumberedDealDialog::handleOkClicked()
 {
     Q_EMIT dealChosen(m_indexToIdMap.value(m_gameType->currentIndex()), m_dealNumber->value());
 }
+
+#include "moc_numbereddealdialog.cpp"

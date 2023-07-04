@@ -224,3 +224,5 @@ public:
         return new Mod3(this);
     }
 } mod3DealerInfo;
+
+#include "moc_mod3.cpp"

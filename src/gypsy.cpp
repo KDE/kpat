@@ -172,3 +172,5 @@ public:
         return new Gypsy(this);
     }
 } gypsyDealerInfo;
+
+#include "moc_gypsy.cpp"

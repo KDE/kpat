@@ -476,3 +476,5 @@ public:
         return new Spider(this);
     }
 } spideDealerInfo;
+
+#include "moc_spider.cpp"

@@ -195,3 +195,5 @@ public:
         return new Golf(this);
     }
 } golfDealerInfo;
+
+#include "moc_golf.cpp"

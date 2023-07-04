@@ -312,3 +312,6 @@ void KCard::setPixmap(const QPixmap &pix)
 {
     QGraphicsPixmapItem::setPixmap(pix);
 }
+
+#include "moc_kcard.cpp"
+#include "moc_kcard_p.cpp"

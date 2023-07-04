@@ -320,3 +320,5 @@ public:
         return new Klondike(this);
     }
 } klondikeDealerInfo;
+
+#include "moc_klondike.cpp"

@@ -542,3 +542,5 @@ void Castle::setOptions(int variation)
         m_foundationOption->setCurrentItem(m_foundation);
     }
 }
+
+#include "moc_castle.cpp"

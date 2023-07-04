@@ -231,3 +231,5 @@ public:
         return new Idiot(this);
     }
 } idiotDealerInfo;
+
+#include "moc_idiot.cpp"

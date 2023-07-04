@@ -447,3 +447,6 @@ QPixmap KAbstractCardDeck::cardPixmap(quint32 id, bool faceUp)
 {
     return d->requestPixmap(id, faceUp);
 }
+
+#include "moc_kabstractcarddeck.cpp"
+#include "moc_kabstractcarddeck_p.cpp"

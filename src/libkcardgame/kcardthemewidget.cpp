@@ -406,3 +406,5 @@ bool KCardThemeDialog::showDialog()
 {
     return KConfigDialog::showDialog(QStringLiteral("KCardThemeDialog"));
 }
+
+#include "moc_kcardthemewidget_p.cpp"

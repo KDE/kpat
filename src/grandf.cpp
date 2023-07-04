@@ -194,3 +194,5 @@ public:
         return new Grandf(this);
     }
 } grandfDealerInfo;
+
+#include "moc_grandf.cpp"

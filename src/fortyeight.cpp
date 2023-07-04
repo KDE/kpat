@@ -235,3 +235,5 @@ public:
         return new Fortyeight(this);
     }
 } fortyEightDealerInfo;
+
+#include "moc_fortyeight.cpp"

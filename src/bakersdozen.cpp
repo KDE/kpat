@@ -363,3 +363,5 @@ void BakersDozen::setOptions(int variation)
         m_sequenceBuiltByOption->setCurrentItem(m_sequenceBuiltBy);
     }
 }
+
+#include "moc_bakersdozen.cpp"
