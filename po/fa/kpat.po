@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -939,10 +939,11 @@ msgid "Error uploading file. Saving failed: %1"
 msgstr ""
 
 #: mainwindow.cpp:949
-#, kde-format
+#, fuzzy, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"
 msgstr[0] "%1 حرکت"
+msgstr[1] ""
 
 #: mod3.cpp:218
 #, fuzzy
@@ -1041,16 +1042,18 @@ msgid "%1 (%2%)"
 msgstr "%1 (%2٪)"
 
 #: statisticsdialog.cpp:134
-#, kde-format
+#, fuzzy, kde-format
 msgid "1 loss"
 msgid_plural "%1 losses"
 msgstr[0] "%1 باخت"
+msgstr[1] ""
 
 #: statisticsdialog.cpp:136
-#, kde-format
+#, fuzzy, kde-format
 msgid "1 win"
 msgid_plural "%1 wins"
 msgstr[0] "%1 برد"
+msgstr[1] ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel7)
 #: statisticsdialog.ui:75
