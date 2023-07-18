@@ -11,6 +11,7 @@
   <name xml:lang="de">KPatience</name>
   <name xml:lang="el">KPatience</name>
   <name xml:lang="en-GB">KPatience</name>
+  <name xml:lang="eo">KPatience</name>
   <name xml:lang="es">KPatience</name>
   <name xml:lang="et">KPatience</name>
   <name xml:lang="eu">KPatience</name>
@@ -44,6 +45,7 @@
   <summary xml:lang="de">Solitär-Kartenspiel</summary>
   <summary xml:lang="el">Παιχνίδι καρτών solitaire</summary>
   <summary xml:lang="en-GB">Solitaire card game</summary>
+  <summary xml:lang="eo">Solitaire-kartludo</summary>
   <summary xml:lang="es">Juego de cartas de tipo solitario</summary>
   <summary xml:lang="et">Solitaire kaardimäng</summary>
   <summary xml:lang="eu">Bakarkako karta-jokoa</summary>
@@ -77,6 +79,7 @@
     <p xml:lang="de">KPat (auch bekannt als KPatience) ist ein entspannendes Kartensortierspiel. Um das Spiel zu gewinnen, muss der Spieler einen einzelnen Kartenstapel in einer bestimmten Reihenfolge zwischen einzelnen anderen Karten anordnen.</p>
     <p xml:lang="el">Το KPat (ή αλλιώς KPatience) είναι ένα ευχάριστο παιχνίδι ταξινόμησης καρτών. Ο παίκτης για να κερδίσει πρέπει να διευθετήσει μια τράπουλα σε ορισμένη σειρά.</p>
     <p xml:lang="en-GB">KPat (aka KPatience) is a relaxing card sorting game. To win the game a player has to arrange a single deck of cards in certain order amongst each other.</p>
+    <p xml:lang="eo">KPat (alinome KPatience) estas malstreĉa kartordiga ludo. Por venki en la ludo, ludanto devas aranĝi ununuran ludkartaron en certa sinsekvo inter si.</p>
     <p xml:lang="es">KPat (también conocido como KPatience) es un relajante juego de ordenación de cartas. Para ganar la partida, el jugador debe organizar una baraja de cartas en cierto orden.</p>
     <p xml:lang="et">KPat (tuntud ka kui KPatience) leevendust ja meelerahu pakkuv kaartide sortimise mäng. Võitmiseks tuleb üks kaardipakk korraldada ümber teatud kindlaid reegleid järgides.</p>
     <p xml:lang="eu">KPat, KPatience bezala ere ezaguna, kartak sailkatzeko karta-joko lasaigarri bat da. Jokoa irabazteko, jokalariak karta-sorta bakar bat karten elkarrekiko hurrenkera jakin batean antolatu behar du.</p>
@@ -115,6 +118,7 @@
       <caption xml:lang="de">Auswahl eines Solitärspiels</caption>
       <caption xml:lang="el">Οθόνη επιλογής solitaire</caption>
       <caption xml:lang="en-GB">Solitaire selection screen</caption>
+      <caption xml:lang="eo">Elekta ekrano de Solitaire</caption>
       <caption xml:lang="es">Pantalla de selección de solitario</caption>
       <caption xml:lang="et">KPatience'i valikuekraan</caption>
       <caption xml:lang="eu">Bakar-jokoa hautatzeko pantaila</caption>
