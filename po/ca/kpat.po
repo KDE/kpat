@@ -1049,14 +1049,3 @@ msgstr "Nombre mínim de moviments:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Yukon"
-
-#~ msgctxt "List separator"
-#~ msgid ", "
-#~ msgstr ", "
-
-#~ msgid ""
-#~ "Skip the selection screen and load a particular game type. Valid values "
-#~ "are: %1"
-#~ msgstr ""
-#~ "Omet la pantalla de selecció i carrega i un tipus de joc específic. Els "
-#~ "valors vàlids són: %1"
