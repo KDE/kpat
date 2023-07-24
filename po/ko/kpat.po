@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-13 00:44+0000\n"
-"PO-Revision-Date: 2023-04-22 00:40+0200\n"
+"PO-Revision-Date: 2023-07-23 21:04+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -769,32 +769,32 @@ msgstr "무작위 카드"
 #: mainwindow.cpp:301
 #, kde-format
 msgid "Move Focus to Previous Pile"
-msgstr "이전 파일로 초점 이동"
+msgstr "이전 파일로 포커스 이동"
 
 #: mainwindow.cpp:305
 #, kde-format
 msgid "Move Focus to Next Pile"
-msgstr "다음 파일로 초점 이동"
+msgstr "다음 파일로 포커스 이동"
 
 #: mainwindow.cpp:309
 #, kde-format
 msgid "Move Focus to Card Below"
-msgstr "아래쪽 카드로 초점 이동"
+msgstr "아래쪽 카드로 포커스 이동"
 
 #: mainwindow.cpp:313
 #, kde-format
 msgid "Move Focus to Card Above"
-msgstr "위쪽 카드로 초점 이동"
+msgstr "위쪽 카드로 포커스 이동"
 
 #: mainwindow.cpp:317
 #, kde-format
 msgid "Cancel Focus"
-msgstr "초점 취소"
+msgstr "포커스 취소"
 
 #: mainwindow.cpp:321
 #, kde-format
 msgid "Pick Up or Set Down Focus"
-msgstr "카드를 줍거나 아래로 초점 설정"
+msgstr "카드를 줍거나 아래로 포커스 설정"
 
 #: mainwindow.cpp:429
 #, kde-format
