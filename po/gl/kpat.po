@@ -841,13 +841,13 @@ msgid ""
 "Are you sure you want to hide the menubar? The current shortcut to show it "
 "again is %1."
 msgstr ""
-"Seguro que queres agochar a barra do menú? O atallo que hai para amosala de "
+"Seguro que queres agochar a barra de menú? O atallo que hai para amosala de "
 "novo é %1."
 
 #: mainwindow.cpp:702
 #, kde-format
 msgid "Hide Menubar"
-msgstr "Agochar a barra do menú"
+msgstr "Agochar a barra de menú"
 
 #: mainwindow.cpp:795
 #, kde-format
