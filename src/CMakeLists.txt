@@ -1,5 +1,7 @@
 add_subdirectory(libkcardgame)
 
+add_executable(kpat)
+
 ecm_setup_version(${kpat_VERSION}
     VARIABLE_PREFIX KPAT
     VERSION_HEADER kpat_version.h
@@ -8,11 +10,7 @@ ecm_setup_version(${kpat_VERSION}
 set(WITH_FCS_SOFT_SUSPEND ${fcs_soft_suspend})
 configure_file(patsolve-config.h.in patsolve-config.h)
 
-if (WITH_BH_SOLVER)
-  set(GOLFSOLVER_SOURCE "patsolve/golfsolver.cpp")
-endif()
-
-set(kpat_SRCS
+target_sources(kpat PRIVATE
     main.cpp
     dealer.cpp
     dealerinfo.cpp
@@ -41,7 +39,6 @@ set(kpat_SRCS
     freecell.cpp 
     patsolve/freecellsolver.cpp
     golf.cpp
-    ${GOLFSOLVER_SOURCE}
     grandf.cpp
     patsolve/grandfsolver.cpp
     gypsy.cpp
@@ -60,11 +57,16 @@ set(kpat_SRCS
     patsolve/yukonsolver.cpp
     kpat.qrc
 )
+if (WITH_BH_SOLVER)
+    target_sources(kpat PRIVATE
+        patsolve/golfsolver.cpp
+    )
+endif()
 
-ki18n_wrap_ui( kpat_SRCS statisticsdialog.ui )
-kconfig_add_kcfg_files( kpat_SRCS settings.kcfgc )
+ki18n_wrap_ui(kpat statisticsdialog.ui)
+kconfig_add_kcfg_files(kpat settings.kcfgc)
 
-ecm_qt_declare_logging_category(kpat_SRCS
+ecm_qt_declare_logging_category(kpat
     HEADER kpat_debug.h
     IDENTIFIER KPAT_LOG
     CATEGORY_NAME org.kde.kpat
@@ -73,9 +75,7 @@ ecm_qt_declare_logging_category(kpat_SRCS
 )
 
 file(GLOB ICONS_SRCS "${CMAKE_SOURCE_DIR}/icons/*-apps-kpat.png")
-ecm_add_app_icon(kpat_SRCS ICONS ${ICONS_SRCS})
-
-add_executable(kpat ${kpat_SRCS})
+ecm_add_app_icon(kpat ICONS ${ICONS_SRCS})
 
 if (QT_MAJOR_VERSION STREQUAL "6")
     target_link_libraries(kpat KDEGames6)

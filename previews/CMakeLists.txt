@@ -1,4 +1,4 @@
-set( kpat_previews
+install( FILES
    1.png
    2.png
    3.png
@@ -13,6 +13,5 @@ set( kpat_previews
    17.png
    18.png
    19.png
+   DESTINATION  ${KDE_INSTALL_DATADIR}/kpat/previews
 )
-
-install( FILES ${kpat_previews} DESTINATION  ${KDE_INSTALL_DATADIR}/kpat/previews )

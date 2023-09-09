@@ -1,4 +1,6 @@
-set( libkcardgame_SRCS
+add_library(kcardgame)
+
+target_sources(kcardgame PRIVATE
     kabstractcarddeck.cpp
     kcard.cpp
     kcarddeck.cpp
@@ -17,7 +19,7 @@ ecm_generate_headers(libkcardgame_CamelCase_HEADERS
         KCardTheme
         KCardThemeWidget
 )
-ecm_qt_declare_logging_category(libkcardgame_SRCS
+ecm_qt_declare_logging_category(kcardgame
     HEADER libkcardgame_debug.h
     IDENTIFIER LIBKCARDGAME_LOG
     CATEGORY_NAME org.kde.games.kcardgame
@@ -25,7 +27,6 @@ ecm_qt_declare_logging_category(libkcardgame_SRCS
     EXPORT KPAT
 )
 
-add_library(kcardgame SHARED ${libkcardgame_SRCS})
 generate_export_header(kcardgame BASE_NAME libkcardgame)
 target_link_libraries(kcardgame
     PUBLIC

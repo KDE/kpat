@@ -1,4 +1,4 @@
-set( kpat_themes
+install(FILES
    ancientegypt.desktop
    ancientegypt.svgz
    ancientegypt.png
@@ -14,9 +14,9 @@ set( kpat_themes
    royalhearts.desktop
    royalhearts.svgz
    royalhearts.png
-)
 
-install( FILES ${kpat_themes} DESTINATION  ${KDE_INSTALL_DATADIR}/kpat/themes )
+   DESTINATION  ${KDE_INSTALL_DATADIR}/kpat/themes
+)
 
 install( FILES kpat.knsrc DESTINATION ${KDE_INSTALL_KNSRCDIR} )
 
