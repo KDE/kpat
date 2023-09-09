@@ -7,7 +7,7 @@ ecm_setup_version(${kpat_VERSION}
     VERSION_HEADER kpat_version.h
 )
 
-set(WITH_FCS_SOFT_SUSPEND ${fcs_soft_suspend})
+get_target_property(WITH_FCS_SOFT_SUSPEND FreecellSolver::FreecellSolver FREECELLSOLVER_HAS_SOFT_SUSPEND)
 configure_file(patsolve-config.h.in patsolve-config.h)
 
 target_sources(kpat PRIVATE
@@ -92,12 +92,11 @@ target_link_libraries(kpat
     KF${KF_MAJOR_VERSION}::Completion
     KF${KF_MAJOR_VERSION}::XmlGui
     kcardgame
-    ${FC_SOLVE_LDFLAGS}
+    FreecellSolver::FreecellSolver
     ${BLACK_HOLE_SOLVER_LDFLAGS}
 )
 target_include_directories(kpat
     PRIVATE
-        ${FC_SOLVE_INCLUDE_DIRS}
         ${BLACK_HOLE_SOLVER_INCLUDE_DIRS}
 )
 

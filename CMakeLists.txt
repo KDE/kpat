@@ -12,7 +12,7 @@ set (QT_MIN_VERSION "5.15.2")
 set (KF_MIN_VERSION "5.91.0")
 
 find_package(ECM ${KF_MIN_VERSION} REQUIRED CONFIG)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake ${ECM_MODULE_PATH})
 
 include(KDEInstallDirs)
 include(KDECMakeSettings)
@@ -38,14 +38,10 @@ else()
     set(KF_MAJOR_VERSION "5")
 endif()
 
-pkg_check_modules(FC_SOLVE REQUIRED libfreecell-solver)
 option(WITH_BH_SOLVER "Make use of https://github.com/shlomif/black-hole-solitaire for solving Golf" ON)
 if (WITH_BH_SOLVER)
     pkg_check_modules(BLACK_HOLE_SOLVER REQUIRED libblack-hole-solver)
 endif()
-try_compile(fcs_soft_suspend "${CMAKE_CURRENT_BINARY_DIR}" SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/cmake/fcs_soft_suspend_test.c"
-    COMPILE_DEFINITIONS ${FC_SOLVE_INCLUDE_DIRS}
-    LINK_LIBRARIES ${FC_SOLVE_LDFLAGS})
 
 find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Widgets Svg Test)
 find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS
@@ -69,6 +65,9 @@ if (QT_MAJOR_VERSION STREQUAL "6")
 else()
     find_package(KF5KDEGames 7.3.1 REQUIRED)
 endif()
+
+find_package(FreecellSolver)
+set_package_properties(FreecellSolver PROPERTIES TYPE REQUIRED)
 
 if (QT_MAJOR_VERSION STREQUAL "6")
     ecm_set_disabled_deprecation_versions(
