@@ -12,7 +12,7 @@ if (WITH_BH_SOLVER)
   set(GOLFSOLVER_SOURCE "patsolve/golfsolver.cpp")
 endif()
 
-set(kpat_SRCS ${libfcs_SRCS}
+set(kpat_SRCS
     main.cpp
     dealer.cpp
     dealerinfo.cpp
