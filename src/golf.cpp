@@ -42,7 +42,7 @@
 #include "pileutils.h"
 #include "settings.h"
 #include "speeds.h"
-#ifdef WITH_BH_SOLVER
+#if WITH_BH_SOLVER
 #include "patsolve/golfsolver.h"
 #endif
 // KF
@@ -90,7 +90,7 @@ void Golf::initialize()
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);
-#ifdef WITH_BH_SOLVER
+#if WITH_BH_SOLVER
     auto solver = new GolfSolver(this);
     solver->default_max_positions = Settings::golfSolverIterationsLimit();
     setSolver(solver);

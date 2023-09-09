@@ -42,7 +42,7 @@ void FcSolveSolver::undo_move(MOVE *)
 {
     return;
 }
-#ifdef WITH_FCS_SOFT_SUSPEND
+#if WITH_FCS_SOFT_SUSPEND
 const auto SOFT_SUSPEND = FCS_STATE_SOFT_SUSPEND_PROCESS;
 #define set_soft_limit(u, limit) freecell_solver_user_soft_limit_iterations_long(u, limit)
 #else
@@ -135,7 +135,7 @@ SolverInterface::ExitStatus FcSolveSolver::patsolve(int _max_positions)
 
         current_iters_count = CHUNKSIZE;
         set_soft_limit(solver_instance, current_iters_count);
-#ifdef WITH_FCS_SOFT_SUSPEND
+#if WITH_FCS_SOFT_SUSPEND
         freecell_solver_user_limit_iterations(solver_instance, max_positions);
 #endif
     }

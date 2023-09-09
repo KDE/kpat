@@ -32,7 +32,7 @@
 #define CMD_LINE_ARGS_NUM 2
 
 static const char *freecell_solver_cmd_line_args[CMD_LINE_ARGS_NUM] = {
-#ifdef WITH_FCS_SOFT_SUSPEND
+#if WITH_FCS_SOFT_SUSPEND
     "--load-config",
     "video-editing"
 #else
