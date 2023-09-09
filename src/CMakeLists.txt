@@ -93,12 +93,12 @@ target_link_libraries(kpat
     KF${KF_MAJOR_VERSION}::XmlGui
     kcardgame
     FreecellSolver::FreecellSolver
-    ${BLACK_HOLE_SOLVER_LDFLAGS}
 )
-target_include_directories(kpat
-    PRIVATE
-        ${BLACK_HOLE_SOLVER_INCLUDE_DIRS}
-)
+if (WITH_BH_SOLVER)
+    target_link_libraries(kpat
+        BlackHoleSolver::BlackHoleSolver
+    )
+endif()
 
 install(TARGETS kpat ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 

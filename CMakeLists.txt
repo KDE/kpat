@@ -39,9 +39,6 @@ else()
 endif()
 
 option(WITH_BH_SOLVER "Make use of https://github.com/shlomif/black-hole-solitaire for solving Golf" ON)
-if (WITH_BH_SOLVER)
-    pkg_check_modules(BLACK_HOLE_SOLVER REQUIRED libblack-hole-solver)
-endif()
 
 find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Widgets Svg Test)
 find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS
@@ -68,6 +65,11 @@ endif()
 
 find_package(FreecellSolver)
 set_package_properties(FreecellSolver PROPERTIES TYPE REQUIRED)
+
+if (WITH_BH_SOLVER)
+    find_package(BlackHoleSolver)
+    set_package_properties(BlackHoleSolver PROPERTIES TYPE REQUIRED)
+endif()
 
 if (QT_MAJOR_VERSION STREQUAL "6")
     ecm_set_disabled_deprecation_versions(

@@ -61,9 +61,11 @@ if (WITH_BH_SOLVER)
         "settings_for_tests.cpp"
         solver_format.cpp
         TEST_NAME SolverFormatTest
-        LINK_LIBRARIES Qt${QT_MAJOR_VERSION}::Test kcardgame
+        LINK_LIBRARIES
+            Qt${QT_MAJOR_VERSION}::Test
+            kcardgame
             ${KDEGames_LIB}
-            ${BLACK_HOLE_SOLVER_LDFLAGS}
+            BlackHoleSolver::BlackHoleSolver
         NAME_PREFIX "kpat-"
     )
     # kpat code may include generated files, so by using any kpat file in the test
