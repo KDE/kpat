@@ -10,20 +10,20 @@ include_directories(
 ecm_add_test(
     shuffle_test.cpp
     TEST_NAME ShuffleTest
-    LINK_LIBRARIES Qt${QT_MAJOR_VERSION}::Test
+    LINK_LIBRARIES Qt6::Test
     NAME_PREFIX "kpat-"
 )
 ecm_add_test(
     freecell_solver.cpp
     TEST_NAME FcSolveTest
-    LINK_LIBRARIES Qt${QT_MAJOR_VERSION}::Test
+    LINK_LIBRARIES Qt6::Test
     NAME_PREFIX "kpat-"
 )
 
 ecm_add_test(
     solve_by_name.cpp
     TEST_NAME SolveByVariantName
-    LINK_LIBRARIES Qt${QT_MAJOR_VERSION}::Test
+    LINK_LIBRARIES Qt6::Test
     NAME_PREFIX "kpat-"
 )
 
@@ -37,15 +37,10 @@ if (WITH_BH_SOLVER)
     ecm_add_test(
         golf_solver_wins.cpp
         TEST_NAME GolfSolveTest
-        LINK_LIBRARIES Qt${QT_MAJOR_VERSION}::Test
+        LINK_LIBRARIES Qt6::Test
         NAME_PREFIX "kpat-"
     )
 
-    if (QT_MAJOR_VERSION STREQUAL "6")
-        set(KDEGames_LIB KDEGames6)
-    else()
-        set(KDEGames_LIB KF5KDEGames)
-    endif()
     ecm_add_test(
         "${CMAKE_SOURCE_DIR}/src/dealer.cpp"
         "${CMAKE_SOURCE_DIR}/src/dealerinfo.cpp"
@@ -62,9 +57,9 @@ if (WITH_BH_SOLVER)
         solver_format.cpp
         TEST_NAME SolverFormatTest
         LINK_LIBRARIES
-            Qt${QT_MAJOR_VERSION}::Test
+            Qt6::Test
             kcardgame
-            ${KDEGames_LIB}
+            KDEGames6
             BlackHoleSolver::BlackHoleSolver
         NAME_PREFIX "kpat-"
     )

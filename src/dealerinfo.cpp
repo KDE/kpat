@@ -146,11 +146,7 @@ const QList<DealerInfo *> DealerInfoList::games() const
 
 int DealerInfoList::gameIdForFile(QXmlStreamReader &xml) const
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QStringRef gameType = xml.attributes().value(QStringLiteral("game-type"));
-#else
     QStringView gameType = xml.attributes().value(QStringLiteral("game-type"));
-#endif
     for (const DealerInfo *di : games()) {
         if (di->baseIdString() == gameType) {
             return di->baseId();

@@ -49,9 +49,6 @@
 #include <KCrash>
 #include <KDBusService>
 #include <KLocalizedString>
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include <Kdelibs4ConfigMigrator>
-#endif
 // Qt
 #include <QApplication>
 #include <QCommandLineOption>
@@ -299,19 +296,10 @@ bool solveRange(QCommandLineParser &parser)
 
 int main(int argc, char **argv)
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-#endif
     QApplication app(argc, argv);
 
     KLocalizedString::setApplicationDomain("kpat");
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    Kdelibs4ConfigMigrator migrate(QStringLiteral("kpat"));
-    migrate.setConfigFiles(QStringList() << QStringLiteral("kpatrc"));
-    migrate.setUiFiles(QStringList() << QStringLiteral("kpatui.rc"));
-    migrate.migrate();
-#endif
     KAboutData aboutData = fillAboutData();
 
     QCommandLineParser parser;

@@ -8,8 +8,8 @@ set(RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_
 
 project(kpat VERSION ${RELEASE_SERVICE_VERSION})
 
-set (QT_MIN_VERSION "5.15.2")
-set (KF_MIN_VERSION "5.91.0")
+set(QT_MIN_VERSION "6.5.0")
+set(KF_MIN_VERSION "5.240.0")
 
 find_package(ECM ${KF_MIN_VERSION} REQUIRED CONFIG)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake ${ECM_MODULE_PATH})
@@ -30,18 +30,16 @@ include(FindPkgConfig)
 include(FeatureSummary)
 include(GenerateExportHeader)
 
-if (QT_MAJOR_VERSION STREQUAL "6")
-    set(QT_REQUIRED_VERSION "6.5.0")
-    set(KF_MIN_VERSION "5.240.0")
-    set(KF_MAJOR_VERSION "6")
-else()
-    set(KF_MAJOR_VERSION "5")
-endif()
-
 option(WITH_BH_SOLVER "Make use of https://github.com/shlomif/black-hole-solitaire for solving Golf" ON)
 
-find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} REQUIRED NO_MODULE COMPONENTS Widgets Svg Test Xml)
-find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS
+find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS
+    Widgets
+    Svg
+    Test
+    Xml
+)
+
+find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS
     Completion
     Config
     ConfigWidgets
@@ -57,11 +55,7 @@ find_package(KF${KF_MAJOR_VERSION} ${KF_MIN_VERSION} REQUIRED COMPONENTS
     XmlGui
 )
 
-if (QT_MAJOR_VERSION STREQUAL "6")
-    find_package(KDEGames6 7.5.0 REQUIRED)
-else()
-    find_package(KF5KDEGames 7.3.1 REQUIRED)
-endif()
+find_package(KDEGames6 7.5.0 REQUIRED)
 
 find_package(FreecellSolver)
 set_package_properties(FreecellSolver PROPERTIES TYPE REQUIRED)
@@ -71,19 +65,11 @@ if (WITH_BH_SOLVER)
     set_package_properties(BlackHoleSolver PROPERTIES TYPE REQUIRED)
 endif()
 
-if (QT_MAJOR_VERSION STREQUAL "6")
-    ecm_set_disabled_deprecation_versions(
-        QT 6.5
-        KF 5.239
-        KDEGAMES 7.5
-    )
-else()
-    ecm_set_disabled_deprecation_versions(
-        QT 5.15
-        KF 5.101
-        KDEGAMES 7.3
-    )
-endif()
+ecm_set_disabled_deprecation_versions(
+    QT 6.5
+    KF 5.239
+    KDEGAMES 7.5
+)
 
 add_subdirectory(icons)
 add_subdirectory(mimetypes)

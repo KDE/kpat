@@ -30,15 +30,15 @@ ecm_qt_declare_logging_category(kcardgame
 generate_export_header(kcardgame BASE_NAME libkcardgame)
 target_link_libraries(kcardgame
     PUBLIC
-        KF${KF_MAJOR_VERSION}::ConfigWidgets
-        KF${KF_MAJOR_VERSION}::ConfigGui
-        Qt${QT_MAJOR_VERSION}::Widgets
+        KF6::ConfigWidgets
+        KF6::ConfigGui
+        Qt6::Widgets
     PRIVATE
-        KF${KF_MAJOR_VERSION}::Completion
-        KF${KF_MAJOR_VERSION}::GuiAddons
-        KF${KF_MAJOR_VERSION}::NewStuffWidgets
-        KF${KF_MAJOR_VERSION}::I18n
-        Qt${QT_MAJOR_VERSION}::Svg
+        KF6::Completion
+        KF6::GuiAddons
+        KF6::NewStuffWidgets
+        KF6::I18n
+        Qt6::Svg
 )
 
 install(TARGETS kcardgame ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})

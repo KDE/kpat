@@ -77,20 +77,15 @@ ecm_qt_declare_logging_category(kpat
 file(GLOB ICONS_SRCS "${CMAKE_SOURCE_DIR}/icons/*-apps-kpat.png")
 ecm_add_app_icon(kpat ICONS ${ICONS_SRCS})
 
-if (QT_MAJOR_VERSION STREQUAL "6")
-    target_link_libraries(kpat KDEGames6)
-else()
-    target_link_libraries(kpat KF5KDEGames)
-endif()
-
 target_link_libraries(kpat
-    KF${KF_MAJOR_VERSION}::Crash
-    KF${KF_MAJOR_VERSION}::DBusAddons
-    KF${KF_MAJOR_VERSION}::I18n
-    KF${KF_MAJOR_VERSION}::KIOCore
-    KF${KF_MAJOR_VERSION}::GuiAddons
-    KF${KF_MAJOR_VERSION}::Completion
-    KF${KF_MAJOR_VERSION}::XmlGui
+    KDEGames6
+    KF6::Crash
+    KF6::DBusAddons
+    KF6::I18n
+    KF6::KIOCore
+    KF6::GuiAddons
+    KF6::Completion
+    KF6::XmlGui
     kcardgame
     FreecellSolver::FreecellSolver
 )

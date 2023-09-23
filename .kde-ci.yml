@@ -8,10 +8,5 @@ Dependencies:
     'frameworks/kio': '@latest-kf6'
     'games/libkdegames': '@latest-kf6'
 
-- 'on': ['Linux/Qt5', 'FreeBSD/Qt5']
-  'require':
-    'frameworks/extra-cmake-modules': '@stable'
-    'frameworks/kio': '@stable'
-    'games/libkdegames': '@same'
 Options:
   require-passing-tests-on: [ 'Linux', 'FreeBSD']

@@ -22,7 +22,6 @@
 #include "settings.h"
 // KDEGames
 #include <KgThemeProvider>
-#include <kdegames_version.h>
 
 Renderer *Renderer::s_instance = nullptr;
 
@@ -67,12 +66,8 @@ QColor Renderer::colorOfElement(const QString &elementId)
 static KgThemeProvider *provider()
 {
     KgThemeProvider *prov = new KgThemeProvider;
-    prov->discoverThemes(
-#if KDEGAMES_VERSION < QT_VERSION_CHECK(7, 4, 0)
-        "appdata",
-#endif
-        QStringLiteral("themes"), // theme file location
-        QStringLiteral("greenblaze") // default theme file name
+    prov->discoverThemes(QStringLiteral("themes"), // theme file location
+                         QStringLiteral("greenblaze") // default theme file name
     );
     return prov;
 }
