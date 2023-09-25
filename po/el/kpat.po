@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-13 00:44+0000\n"
+"POT-Creation-Date: 2023-09-25 01:40+0000\n"
 "PO-Revision-Date: 2021-06-30 09:46+0300\n"
 "Last-Translator: Stelios <sstavra@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -303,27 +303,27 @@ msgstr ""
 "Επίλυση: Δεν είναι δυνατό να προσδιοριστεί αν αυτό το παιχνίδι μπορεί να "
 "κερδηθεί."
 
-#: dealer.cpp:932
+#: dealer.cpp:922
 #, kde-format
 msgid "Congratulations! We have won."
 msgstr "Συγχαρητήρια! Κερδίσαμε!"
 
-#: dealer.cpp:934
+#: dealer.cpp:924
 #, kde-format
 msgid "Congratulations! You have won."
 msgstr "Συγχαρητήρια! Κερδίσατε!"
 
-#: dealer.cpp:1220
+#: dealer.cpp:1210
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "Επίλυση: Αυτό το παιχνίδι έχει χαθεί."
 
-#: dealer.cpp:1358
+#: dealer.cpp:1348
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "Επίλυση: Υπολογισμός..."
 
-#: dealer.cpp:1762
+#: dealer.cpp:1752
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -335,12 +335,12 @@ msgstr ""
 "\n"
 "Αν ακυρώσετε το παιχνίδι θα καταχωρηθεί στα στατιστικά ως ήττα."
 
-#: dealer.cpp:1764
+#: dealer.cpp:1754
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "Εγκατάλειψη του τρέχοντος παιχνιδιού;"
 
-#: dealer.cpp:1765
+#: dealer.cpp:1755
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "Εγκατάλειψη του τρέχοντος παιχνιδιού"
@@ -463,17 +463,17 @@ msgstr "Κύρια γραμμή εργαλείων"
 msgid "Loading..."
 msgstr "Φόρτωση..."
 
-#: main.cpp:92
+#: main.cpp:89
 #, kde-format
 msgid "KPatience"
 msgstr "KPatience"
 
-#: main.cpp:94
+#: main.cpp:91
 #, kde-format
 msgid "KDE Patience Game"
 msgstr "Παιχνίδι πασιέντζας του KDE"
 
-#: main.cpp:96
+#: main.cpp:93
 #, kde-format
 msgid ""
 "© 1995 Paul Olav Tvete\n"
@@ -482,187 +482,187 @@ msgstr ""
 "© 1995 Paul Olav Tvete\n"
 "© 2000 Stephan Kulow"
 
-#: main.cpp:100
+#: main.cpp:97
 #, kde-format
 msgid "Paul Olav Tvete"
 msgstr "Paul Olav Tvete"
 
-#: main.cpp:100
+#: main.cpp:97
 #, kde-format
 msgid "Author of original Qt version"
 msgstr "Συγγραφέας της αρχικής έκδοσης Qt"
 
-#: main.cpp:101
+#: main.cpp:98
 #, kde-format
 msgid "Mario Weilguni"
 msgstr "Mario Weilguni"
 
-#: main.cpp:101
+#: main.cpp:98
 #, kde-format
 msgid "Initial KDE port"
 msgstr "Αρχική μεταφορά στο KDE"
 
-#: main.cpp:102
+#: main.cpp:99
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:103
+#: main.cpp:100
 #, kde-format
 msgid "Rodolfo Borges"
 msgstr "Rodolfo Borges"
 
-#: main.cpp:103 main.cpp:116
+#: main.cpp:100 main.cpp:113
 #, kde-format
 msgid "New game types"
 msgstr "Νέοι τύποι παιχνιδιών"
 
-#: main.cpp:104
+#: main.cpp:101
 #, kde-format
 msgid "Peter H. Ruegg"
 msgstr "Peter H. Ruegg"
 
-#: main.cpp:105
+#: main.cpp:102
 #, kde-format
 msgid "Michael Koch"
 msgstr "Michael Koch"
 
-#: main.cpp:105 main.cpp:112
+#: main.cpp:102 main.cpp:109
 #, kde-format
 msgid "Bug fixes"
 msgstr "Διόρθωση σφαλμάτων"
 
-#: main.cpp:106
+#: main.cpp:103
 #, kde-format
 msgid "Marcus Meissner"
 msgstr "Marcus Meissner"
 
-#: main.cpp:106
+#: main.cpp:103
 #, kde-format
 msgid "Shuffle algorithm for game numbers"
 msgstr "Αλγόριθμος ανακατέματος για τους αριθμούς παιχνιδιών"
 
-#: main.cpp:107
+#: main.cpp:104
 #, kde-format
 msgid "Tom Holroyd"
 msgstr "Tom Holroyd"
 
-#: main.cpp:107
+#: main.cpp:104
 #, kde-format
 msgid "Initial patience solver"
 msgstr "Αυτός που αρχικά επίλυσε τις πασιέντζες"
 
-#: main.cpp:108
+#: main.cpp:105
 #, kde-format
 msgid "Stephan Kulow"
 msgstr "Stephan Kulow"
 
-#: main.cpp:108
+#: main.cpp:105
 #, kde-format
 msgid "Rewrite and current maintainer"
 msgstr "Επανασυγγραφή και τρέχων συντηρητής"
 
-#: main.cpp:109
+#: main.cpp:106
 #, kde-format
 msgid "Erik Sigra"
 msgstr "Erik Sigra"
 
-#: main.cpp:109
+#: main.cpp:106
 #, kde-format
 msgid "Klondike improvements"
 msgstr "Βελτιώσεις του Klondike"
 
-#: main.cpp:110
+#: main.cpp:107
 #, kde-format
 msgid "Josh Metzler"
 msgstr "Josh Metzler"
 
-#: main.cpp:110
+#: main.cpp:107
 #, kde-format
 msgid "Spider implementation"
 msgstr "Ενσωμάτωση αράχνης"
 
-#: main.cpp:111
+#: main.cpp:108
 #, kde-format
 msgid "Maren Pakura"
 msgstr "Maren Pakura"
 
-#: main.cpp:111
+#: main.cpp:108
 #, kde-format
 msgid "Documentation"
 msgstr "Τεκμηρίωση"
 
-#: main.cpp:112
+#: main.cpp:109
 #, kde-format
 msgid "Inge Wallin"
 msgstr "Inge Wallin"
 
-#: main.cpp:113
+#: main.cpp:110
 #, kde-format
 msgid "Simon Hürlimann"
 msgstr "Simon Hürlimann"
 
-#: main.cpp:113
+#: main.cpp:110
 #, kde-format
 msgid "Menu and toolbar work"
 msgstr "Εργασία στα μενού και στις γραμμές εργαλείων"
 
-#: main.cpp:114
+#: main.cpp:111
 #, kde-format
 msgid "Parker Coates"
 msgstr "Parker Coates"
 
-#: main.cpp:114
+#: main.cpp:111
 #, kde-format
 msgid "Cleanup and polish"
 msgstr "Καθαρισμός και ωραιοποίηση"
 
-#: main.cpp:115
+#: main.cpp:112
 #, kde-format
 msgid "Shlomi Fish"
 msgstr "Shlomi Fish"
 
-#: main.cpp:115
+#: main.cpp:112
 #, kde-format
 msgid "Integration with Freecell Solver and further work"
 msgstr "Ενοποίηση με το Freecell Solver και συνακόλουθη εργασία"
 
-#: main.cpp:116
+#: main.cpp:113
 #, kde-format
 msgid "Michael Lang"
 msgstr "Michael Lang"
 
-#: main.cpp:123
+#: main.cpp:120
 #, kde-format
 msgid "Try to find a solution to the given savegame"
 msgstr "Προσπάθεια εύρεσης λύσης στο δοσμένο αποθηκευμένο παιχνίδι"
 
-#: main.cpp:124
+#: main.cpp:121
 #, kde-format
 msgid "Dealer to solve (debug)"
 msgstr "Χαρτοπαίκτης για επίλυση (αποσφαλμάτωση)"
 
-#: main.cpp:125
+#: main.cpp:122
 #, kde-format
 msgid "Game range start (default 0:INT_MAX)"
 msgstr "Αρχή εύρους παιχνιδιού (προκαθορισμένο 0:INT_MAX)"
 
-#: main.cpp:127
+#: main.cpp:124
 #, kde-format
 msgid "Game range end (default start:start if start given)"
 msgstr "Τέλος εύρους παιχνιδιού (προκαθορισμένη αρχή: αρχή αν έχει καθοριστεί)"
 
-#: main.cpp:128
+#: main.cpp:125
 #, kde-format
 msgid "Directory with test cases"
 msgstr "Κατάλογος με δοκιμαστικές περιπτώσεις"
 
-#: main.cpp:129
+#: main.cpp:126
 #, kde-format
 msgid "Generate random test cases"
 msgstr "Δημιουργία τυχαίων δοκιμαστικών περιπτώσεων"
 
-#: main.cpp:130
+#: main.cpp:127
 #, kde-format
 msgid "File to load"
 msgstr "Αρχείο για φόρτωση"

@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-13 00:44+0000\n"
+"POT-Creation-Date: 2023-09-25 01:40+0000\n"
 "PO-Revision-Date: 2023-04-17 13:18+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -310,27 +310,27 @@ msgstr "Ratkaisin: Tätä peliä ei voi enää voittaa."
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr "Ratkaisin: Ei voida päätellä, onko peli voitettavissa."
 
-#: dealer.cpp:932
+#: dealer.cpp:922
 #, kde-format
 msgid "Congratulations! We have won."
 msgstr "Onnittelut! Voitimme pelin."
 
-#: dealer.cpp:934
+#: dealer.cpp:924
 #, kde-format
 msgid "Congratulations! You have won."
 msgstr "Onnittelut! Voitit pelin."
 
-#: dealer.cpp:1220
+#: dealer.cpp:1210
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "Ratkaisin: Peli on hävitty."
 
-#: dealer.cpp:1358
+#: dealer.cpp:1348
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "Ratkaisin: Lasketaan…"
 
-#: dealer.cpp:1762
+#: dealer.cpp:1752
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -341,12 +341,12 @@ msgstr ""
 "\n"
 "Tilastoihin merkitään tappio, jos nykyinen peli jätetään kesken."
 
-#: dealer.cpp:1764
+#: dealer.cpp:1754
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "Keskeytetäänkö nykyinen peli?"
 
-#: dealer.cpp:1765
+#: dealer.cpp:1755
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "Keskeytä nykyinen peli"
@@ -479,17 +479,17 @@ msgstr "Ladataan…"
 
 # pmap: =/gen=KPatiencen/
 # pmap: =/elat=KPatiencesta/
-#: main.cpp:92
+#: main.cpp:89
 #, kde-format
 msgid "KPatience"
 msgstr "KPatience"
 
-#: main.cpp:94
+#: main.cpp:91
 #, kde-format
 msgid "KDE Patience Game"
 msgstr "KDE:n pasianssipeli"
 
-#: main.cpp:96
+#: main.cpp:93
 #, kde-format
 msgid ""
 "© 1995 Paul Olav Tvete\n"
@@ -498,187 +498,187 @@ msgstr ""
 "© 1995 Paul Olav Tvete\n"
 "© 2000 Stephan Kulow"
 
-#: main.cpp:100
+#: main.cpp:97
 #, kde-format
 msgid "Paul Olav Tvete"
 msgstr "Paul Olav Tvete"
 
-#: main.cpp:100
+#: main.cpp:97
 #, kde-format
 msgid "Author of original Qt version"
 msgstr "Alkuperäisen Qt-version tekijä"
 
-#: main.cpp:101
+#: main.cpp:98
 #, kde-format
 msgid "Mario Weilguni"
 msgstr "Mario Weilguni"
 
-#: main.cpp:101
+#: main.cpp:98
 #, kde-format
 msgid "Initial KDE port"
 msgstr "Alkuperäinen KDE-siirros"
 
-#: main.cpp:102
+#: main.cpp:99
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:103
+#: main.cpp:100
 #, kde-format
 msgid "Rodolfo Borges"
 msgstr "Rodolfo Borges"
 
-#: main.cpp:103 main.cpp:116
+#: main.cpp:100 main.cpp:113
 #, kde-format
 msgid "New game types"
 msgstr "Uusia pelityyppejä"
 
-#: main.cpp:104
+#: main.cpp:101
 #, kde-format
 msgid "Peter H. Ruegg"
 msgstr "Peter H. Ruegg"
 
-#: main.cpp:105
+#: main.cpp:102
 #, kde-format
 msgid "Michael Koch"
 msgstr "Michael Koch"
 
-#: main.cpp:105 main.cpp:112
+#: main.cpp:102 main.cpp:109
 #, kde-format
 msgid "Bug fixes"
 msgstr "Virhekorjauksia"
 
-#: main.cpp:106
+#: main.cpp:103
 #, kde-format
 msgid "Marcus Meissner"
 msgstr "Marcus Meissner"
 
-#: main.cpp:106
+#: main.cpp:103
 #, kde-format
 msgid "Shuffle algorithm for game numbers"
 msgstr "Sekoitusalgoritmi pelinumeroille"
 
-#: main.cpp:107
+#: main.cpp:104
 #, kde-format
 msgid "Tom Holroyd"
 msgstr "Tom Holroyd"
 
-#: main.cpp:107
+#: main.cpp:104
 #, kde-format
 msgid "Initial patience solver"
 msgstr "Alkuperäinen pasianssiratkaisin"
 
-#: main.cpp:108
+#: main.cpp:105
 #, kde-format
 msgid "Stephan Kulow"
 msgstr "Stephan Kulow"
 
-#: main.cpp:108
+#: main.cpp:105
 #, kde-format
 msgid "Rewrite and current maintainer"
 msgstr "Uudelleenkirjoittaja ja ylläpitäjä"
 
-#: main.cpp:109
+#: main.cpp:106
 #, kde-format
 msgid "Erik Sigra"
 msgstr "Erik Sigra"
 
-#: main.cpp:109
+#: main.cpp:106
 #, kde-format
 msgid "Klondike improvements"
 msgstr "Klondiken parannukset"
 
-#: main.cpp:110
+#: main.cpp:107
 #, kde-format
 msgid "Josh Metzler"
 msgstr "Josh Metzler"
 
-#: main.cpp:110
+#: main.cpp:107
 #, kde-format
 msgid "Spider implementation"
 msgstr "Hämähäkin toteutus"
 
-#: main.cpp:111
+#: main.cpp:108
 #, kde-format
 msgid "Maren Pakura"
 msgstr "Maren Pakura"
 
-#: main.cpp:111
+#: main.cpp:108
 #, kde-format
 msgid "Documentation"
 msgstr "Ohjeistus"
 
-#: main.cpp:112
+#: main.cpp:109
 #, kde-format
 msgid "Inge Wallin"
 msgstr "Inge Wallin"
 
-#: main.cpp:113
+#: main.cpp:110
 #, kde-format
 msgid "Simon Hürlimann"
 msgstr "Simon Hürlimann"
 
-#: main.cpp:113
+#: main.cpp:110
 #, kde-format
 msgid "Menu and toolbar work"
 msgstr "Valikko- ja työkalurivityö"
 
-#: main.cpp:114
+#: main.cpp:111
 #, kde-format
 msgid "Parker Coates"
 msgstr "Parker Coates"
 
-#: main.cpp:114
+#: main.cpp:111
 #, kde-format
 msgid "Cleanup and polish"
 msgstr "Kiillotus ja viimeistely"
 
-#: main.cpp:115
+#: main.cpp:112
 #, kde-format
 msgid "Shlomi Fish"
 msgstr "Shlomi Fish"
 
-#: main.cpp:115
+#: main.cpp:112
 #, kde-format
 msgid "Integration with Freecell Solver and further work"
 msgstr "Freecell Solver -integrointi sekä muu työ"
 
-#: main.cpp:116
+#: main.cpp:113
 #, kde-format
 msgid "Michael Lang"
 msgstr "Michael Lang"
 
-#: main.cpp:123
+#: main.cpp:120
 #, kde-format
 msgid "Try to find a solution to the given savegame"
 msgstr "yritä löytää ratkaisu tallennetulle pelille"
 
-#: main.cpp:124
+#: main.cpp:121
 #, kde-format
 msgid "Dealer to solve (debug)"
 msgstr "Jakajan ratkaistava (virheenpaikannus)"
 
-#: main.cpp:125
+#: main.cpp:122
 #, kde-format
 msgid "Game range start (default 0:INT_MAX)"
 msgstr "Pelialueen alku (oletus 0:INT_MAX)"
 
-#: main.cpp:127
+#: main.cpp:124
 #, kde-format
 msgid "Game range end (default start:start if start given)"
 msgstr "Pelialueen loppu (oletus alku:alku, jos alku on annettu)"
 
-#: main.cpp:128
+#: main.cpp:125
 #, kde-format
 msgid "Directory with test cases"
 msgstr "Testitapaukset sisältävät kansio"
 
-#: main.cpp:129
+#: main.cpp:126
 #, kde-format
 msgid "Generate random test cases"
 msgstr "Tuota satunnaisia testitapauksia"
 
-#: main.cpp:130
+#: main.cpp:127
 #, kde-format
 msgid "File to load"
 msgstr "Ladattava tiedosto"

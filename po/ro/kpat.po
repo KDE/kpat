@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat-0.7.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-13 00:44+0000\n"
+"POT-Creation-Date: 2023-09-25 01:40+0000\n"
 "PO-Revision-Date: 2022-02-06 19:06+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -300,27 +300,27 @@ msgstr "Rezolvator: Acest joc nu poate fi câștigat."
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr "Rezolvator: Nu se poate determina dacă acest joc poate fi câștigat."
 
-#: dealer.cpp:932
+#: dealer.cpp:922
 #, kde-format
 msgid "Congratulations! We have won."
 msgstr "Felicitări! Am câștigat."
 
-#: dealer.cpp:934
+#: dealer.cpp:924
 #, kde-format
 msgid "Congratulations! You have won."
 msgstr "Felicitări! Ați câștigat."
 
-#: dealer.cpp:1220
+#: dealer.cpp:1210
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "Rezolvator: acest joc este pierdut."
 
-#: dealer.cpp:1358
+#: dealer.cpp:1348
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "Rezolvator: Se calculează..."
 
-#: dealer.cpp:1762
+#: dealer.cpp:1752
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -332,12 +332,12 @@ msgstr ""
 "O înfrângere va fi înregistrată în statistici dacă jocul actual este "
 "abandonat."
 
-#: dealer.cpp:1764
+#: dealer.cpp:1754
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "Abandonați jocul actual?"
 
-#: dealer.cpp:1765
+#: dealer.cpp:1755
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "Abandonează jocul actual"
@@ -464,17 +464,17 @@ msgstr "Bara de unelte principală"
 msgid "Loading..."
 msgstr "Se încarcă..."
 
-#: main.cpp:92
+#: main.cpp:89
 #, kde-format
 msgid "KPatience"
 msgstr "KPasențe"
 
-#: main.cpp:94
+#: main.cpp:91
 #, kde-format
 msgid "KDE Patience Game"
 msgstr "Joc de pasențe pentru KDE"
 
-#: main.cpp:96
+#: main.cpp:93
 #, kde-format
 msgid ""
 "© 1995 Paul Olav Tvete\n"
@@ -483,188 +483,188 @@ msgstr ""
 "© 1995 Paul Olav Tvete\n"
 "© 2000 Stephan Kulow"
 
-#: main.cpp:100
+#: main.cpp:97
 #, kde-format
 msgid "Paul Olav Tvete"
 msgstr "Paul Olav Tvete"
 
-#: main.cpp:100
+#: main.cpp:97
 #, kde-format
 msgid "Author of original Qt version"
 msgstr "Autorul versiunii Qt originale"
 
-#: main.cpp:101
+#: main.cpp:98
 #, kde-format
 msgid "Mario Weilguni"
 msgstr "Mario Weilguni"
 
-#: main.cpp:101
+#: main.cpp:98
 #, kde-format
 msgid "Initial KDE port"
 msgstr "Portare KDE inițială"
 
-#: main.cpp:102
+#: main.cpp:99
 #, kde-format
 msgid "Matthias Ettrich"
 msgstr "Matthias Ettrich"
 
-#: main.cpp:103
+#: main.cpp:100
 #, kde-format
 msgid "Rodolfo Borges"
 msgstr "Rodolfo Borges"
 
-#: main.cpp:103 main.cpp:116
+#: main.cpp:100 main.cpp:113
 #, kde-format
 msgid "New game types"
 msgstr "Tipuri de joc noi"
 
-#: main.cpp:104
+#: main.cpp:101
 #, kde-format
 msgid "Peter H. Ruegg"
 msgstr "Peter H. Ruegg"
 
-#: main.cpp:105
+#: main.cpp:102
 #, kde-format
 msgid "Michael Koch"
 msgstr "Michael Koch"
 
-#: main.cpp:105 main.cpp:112
+#: main.cpp:102 main.cpp:109
 #, kde-format
 msgid "Bug fixes"
 msgstr "Corecții de erori"
 
-#: main.cpp:106
+#: main.cpp:103
 #, kde-format
 msgid "Marcus Meissner"
 msgstr "Marcus Meissner"
 
-#: main.cpp:106
+#: main.cpp:103
 #, kde-format
 msgid "Shuffle algorithm for game numbers"
 msgstr "Algoritm de amestecare pentru numerele jocurilor"
 
-#: main.cpp:107
+#: main.cpp:104
 #, kde-format
 msgid "Tom Holroyd"
 msgstr "Tom Holroyd"
 
-#: main.cpp:107
+#: main.cpp:104
 #, kde-format
 msgid "Initial patience solver"
 msgstr "Rezolvator de pacințe inițial"
 
-#: main.cpp:108
+#: main.cpp:105
 #, kde-format
 msgid "Stephan Kulow"
 msgstr "Stephan Kulow"
 
-#: main.cpp:108
+#: main.cpp:105
 #, kde-format
 msgid "Rewrite and current maintainer"
 msgstr "Rescriere și responsabil actual"
 
-#: main.cpp:109
+#: main.cpp:106
 #, kde-format
 msgid "Erik Sigra"
 msgstr "Erik Sigra"
 
-#: main.cpp:109
+#: main.cpp:106
 #, kde-format
 msgid "Klondike improvements"
 msgstr "Îmbunătățiri Klondike"
 
-#: main.cpp:110
+#: main.cpp:107
 #, kde-format
 msgid "Josh Metzler"
 msgstr "Josh Metzler"
 
-#: main.cpp:110
+#: main.cpp:107
 #, kde-format
 msgid "Spider implementation"
 msgstr "Implementare Păianjen"
 
-#: main.cpp:111
+#: main.cpp:108
 #, kde-format
 msgid "Maren Pakura"
 msgstr "Maren Pakura"
 
-#: main.cpp:111
+#: main.cpp:108
 #, kde-format
 msgid "Documentation"
 msgstr "Documentație"
 
-#: main.cpp:112
+#: main.cpp:109
 #, kde-format
 msgid "Inge Wallin"
 msgstr "Inge Wallin"
 
-#: main.cpp:113
+#: main.cpp:110
 #, kde-format
 msgid "Simon Hürlimann"
 msgstr "Simon Hürlimann"
 
-#: main.cpp:113
+#: main.cpp:110
 #, kde-format
 msgid "Menu and toolbar work"
 msgstr "Lucru asupra meniului și a barei de unelte"
 
-#: main.cpp:114
+#: main.cpp:111
 #, kde-format
 msgid "Parker Coates"
 msgstr "Parker Coates"
 
-#: main.cpp:114
+#: main.cpp:111
 #, kde-format
 msgid "Cleanup and polish"
 msgstr "Curățare și lustruire"
 
-#: main.cpp:115
+#: main.cpp:112
 #, kde-format
 msgid "Shlomi Fish"
 msgstr ""
 
-#: main.cpp:115
+#: main.cpp:112
 #, kde-format
 msgid "Integration with Freecell Solver and further work"
 msgstr ""
 
-#: main.cpp:116
+#: main.cpp:113
 #, kde-format
 msgid "Michael Lang"
 msgstr "Michael Lang"
 
-#: main.cpp:123
+#: main.cpp:120
 #, kde-format
 msgid "Try to find a solution to the given savegame"
 msgstr "Încearcă să găsească o soluție pentru jocul salvat dat"
 
-#: main.cpp:124
+#: main.cpp:121
 #, kde-format
 msgid "Dealer to solve (debug)"
 msgstr "Distribuitor de rezolvat (depanare)"
 
-#: main.cpp:125
+#: main.cpp:122
 #, kde-format
 msgid "Game range start (default 0:INT_MAX)"
 msgstr "Începutul intervalului de joc (implicit 0:INT_MAX)"
 
-#: main.cpp:127
+#: main.cpp:124
 #, kde-format
 msgid "Game range end (default start:start if start given)"
 msgstr ""
 "Sfârșitul intervalului de joc (început implicit:început dacă începutul e dat)"
 
-#: main.cpp:128
+#: main.cpp:125
 #, kde-format
 msgid "Directory with test cases"
 msgstr "Dosar cu scenarii de testare"
 
-#: main.cpp:129
+#: main.cpp:126
 #, kde-format
 msgid "Generate random test cases"
 msgstr "Generează cazuri de testare aleatorii"
 
-#: main.cpp:130
+#: main.cpp:127
 #, kde-format
 msgid "File to load"
 msgstr "Fișier de încărcat"
