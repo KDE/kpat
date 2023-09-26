@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-09-25 01:40+0000\n"
-"PO-Revision-Date: 2023-01-23 06:52+0100\n"
+"PO-Revision-Date: 2023-09-25 13:20+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -86,12 +86,12 @@ msgstr "დასტის მორგება"
 #: bakersdozen.cpp:81
 #, kde-format
 msgid "Face &Up (Easier)"
-msgstr ""
+msgstr "&ამოტრიალებული (ადვილი)"
 
 #: bakersdozen.cpp:82
 #, kde-format
 msgid "Face &Down (Harder)"
-msgstr ""
+msgstr "&დაფარული (ძნელი)"
 
 #: bakersdozen.cpp:84 castle.cpp:371 freecell.cpp:356
 #, kde-format
@@ -106,7 +106,7 @@ msgstr "მონაცვლებადი ფერები"
 #: bakersdozen.cpp:86 castle.cpp:373 freecell.cpp:358
 #, kde-format
 msgid "Matching Suit"
-msgstr ""
+msgstr "იგივე ფერი"
 
 #: bakersdozen.cpp:87 castle.cpp:374 freecell.cpp:359
 #, kde-format
@@ -115,7 +115,7 @@ msgstr "რანგი"
 
 #: bakersdozen.cpp:243
 msgid "Baker's Dozen (Custom)"
-msgstr ""
+msgstr "ეშმაკისეული ათეული (ხელით)"
 
 #: castle.cpp:318
 msgid "Castle"
@@ -124,7 +124,7 @@ msgstr "სასახლე"
 #: castle.cpp:320 castle.cpp:358
 #, kde-format
 msgid "Beleaguered Castle"
-msgstr ""
+msgstr "ალყაშემორტყმული ციხესიმაგრე"
 
 #: castle.cpp:321 castle.cpp:359
 #, kde-format
@@ -144,7 +144,7 @@ msgstr "ქუჩები და ხეივნები"
 #: castle.cpp:324 castle.cpp:362
 #, kde-format
 msgid "Siegecraft"
-msgstr ""
+msgstr "ალყის ხელოვნება"
 
 #: castle.cpp:325 castle.cpp:363
 #, kde-format
@@ -153,7 +153,7 @@ msgstr "სიმაგრე"
 
 #: castle.cpp:326
 msgid "Castle (Custom)"
-msgstr ""
+msgstr "სასახლე (ხელით)"
 
 #: castle.cpp:376
 #, kde-format
@@ -188,7 +188,7 @@ msgstr "4"
 #: castle.cpp:383 freecell.cpp:372
 #, kde-format
 msgid "Stacks"
-msgstr ""
+msgstr "ზვინები"
 
 #: castle.cpp:384 freecell.cpp:368 freecell.cpp:373
 #, kde-format
@@ -218,27 +218,27 @@ msgstr "10"
 #: castle.cpp:390 spider.cpp:146
 #, kde-format
 msgid "S&tack Options"
-msgstr ""
+msgstr "&ფერის მორგება"
 
 #: castle.cpp:391
 #, kde-format
 msgid "Face &Down"
-msgstr ""
+msgstr "&დაფარული"
 
 #: castle.cpp:392
 #, kde-format
 msgid "Face &Up"
-msgstr ""
+msgstr "&ამოტრიალებული"
 
 #: castle.cpp:393
 #, kde-format
 msgid "Alternating Face &Up"
-msgstr ""
+msgstr "კარტის ამობრუნება ერთის გამოტოვებით"
 
 #: castle.cpp:395
 #, kde-format
 msgid "Foundation Deal"
-msgstr ""
+msgstr "ძირითადი"
 
 #: castle.cpp:396
 #, kde-format
@@ -292,7 +292,7 @@ msgstr "ამომხსნელი: ამ თამაშის მოგ�
 #: dealer.cpp:76
 #, kde-format
 msgid "Solver: Unable to determine if this game is winnable."
-msgstr ""
+msgstr "ამომხსნელი: თამაშის მოგებადობის მიხვედრა შეუძლებელია."
 
 #: dealer.cpp:922
 #, kde-format
@@ -321,6 +321,9 @@ msgid ""
 "\n"
 "A loss will be recorded in the statistics if the current game is abandoned."
 msgstr ""
+"მოთხოვნილია ახალი თამაში, მაგრამ თამაში უკვე მიმდინარეობს.\n"
+"\n"
+"თუ მიმდინარე თამაშს მიატოვებთ, სტატისტიკაში წაგებას ჩაგიწერთ."
 
 #: dealer.cpp:1754
 #, kde-format
@@ -334,7 +337,7 @@ msgstr "მიმდინარე თამაშის მიტოვებ�
 
 #: fortyeight.cpp:229
 msgid "Forty & Eight"
-msgstr ""
+msgstr "ორმოცი & რვა"
 
 #: freecell.cpp:307 freecell.cpp:312 freecell.cpp:347
 #, kde-format
@@ -359,11 +362,11 @@ msgstr "შვედური თავისუფალი უჯრედი"
 #: freecell.cpp:313 freecell.cpp:348
 #, kde-format
 msgid "Seahaven Towers"
-msgstr ""
+msgstr "სიჰევენის კოშკები"
 
 #: freecell.cpp:314
 msgid "Freecell (Custom)"
-msgstr ""
+msgstr "თავისუფალი უჯრედი (ხელით)"
 
 #: freecell.cpp:361
 #, kde-format
@@ -388,7 +391,7 @@ msgstr "12"
 #: freecell.cpp:381
 #, kde-format
 msgid "Decks"
-msgstr ""
+msgstr "მაგიდები"
 
 #: golf.cpp:189
 msgid "Golf"
@@ -409,7 +412,7 @@ msgstr "ტუზები მაღლა"
 #: klondike.cpp:134
 #, kde-format
 msgid "Klondike &Options"
-msgstr ""
+msgstr "განძის &მორგება"
 
 #: klondike.cpp:135
 #, kde-format
@@ -423,15 +426,15 @@ msgstr "სამ-სამი კარტის დარიგება"
 
 #: klondike.cpp:312
 msgid "Klondike"
-msgstr ""
+msgstr "განძი"
 
 #: klondike.cpp:314
 msgid "Klondike (Draw 1)"
-msgstr ""
+msgstr "განძი (ნახატი 1)"
 
 #: klondike.cpp:315
 msgid "Klondike (Draw 3)"
-msgstr ""
+msgstr "განძი (ნახატი 3)"
 
 #. i18n: ectx: Menu (move)
 #: kpatui.rc:23
@@ -458,7 +461,7 @@ msgstr "KPatience"
 #: main.cpp:91
 #, kde-format
 msgid "KDE Patience Game"
-msgstr ""
+msgstr "პასეანსები KDE-სთვის"
 
 #: main.cpp:93
 #, kde-format
@@ -466,6 +469,8 @@ msgid ""
 "© 1995 Paul Olav Tvete\n"
 "© 2000 Stephan Kulow"
 msgstr ""
+"© 1995 Paul Olav Tvete\n"
+"© 2000 Stephan Kulow"
 
 #: main.cpp:97
 #, kde-format
@@ -485,7 +490,7 @@ msgstr "Mario Weilguni"
 #: main.cpp:98
 #, kde-format
 msgid "Initial KDE port"
-msgstr ""
+msgstr "საწყისი პორტი KDE-ზე"
 
 #: main.cpp:99
 #, kde-format
@@ -525,7 +530,7 @@ msgstr "Marcus Meissner"
 #: main.cpp:103
 #, kde-format
 msgid "Shuffle algorithm for game numbers"
-msgstr ""
+msgstr "შემთხვევის ალგორითმი თამაშის ნომრებისთვის"
 
 #: main.cpp:104
 #, kde-format
@@ -535,7 +540,7 @@ msgstr "Tom Holroyd"
 #: main.cpp:104
 #, kde-format
 msgid "Initial patience solver"
-msgstr ""
+msgstr "საწყისი ამომხსნელი პასეანსისთვის"
 
 #: main.cpp:105
 #, kde-format
@@ -545,7 +550,7 @@ msgstr "Stephan Kulow"
 #: main.cpp:105
 #, kde-format
 msgid "Rewrite and current maintainer"
-msgstr ""
+msgstr "თავიდან გადაწერა და მიმდინარე ლიდერი"
 
 #: main.cpp:106
 #, kde-format
@@ -555,7 +560,7 @@ msgstr "Erik Sigra"
 #: main.cpp:106
 #, kde-format
 msgid "Klondike improvements"
-msgstr ""
+msgstr "განძის გაუმჯობესებები"
 
 #: main.cpp:107
 #, kde-format
@@ -565,7 +570,7 @@ msgstr "Josh Metzler"
 #: main.cpp:107
 #, kde-format
 msgid "Spider implementation"
-msgstr ""
+msgstr "ობობის განხორციელება"
 
 #: main.cpp:108
 #, kde-format
@@ -590,7 +595,7 @@ msgstr "Simon Hürlimann"
 #: main.cpp:110
 #, kde-format
 msgid "Menu and toolbar work"
-msgstr ""
+msgstr "მენიუსა და ხელსაწყოების ზოლის დამუშავება"
 
 #: main.cpp:111
 #, kde-format
@@ -600,7 +605,7 @@ msgstr "Parker Coates"
 #: main.cpp:111
 #, kde-format
 msgid "Cleanup and polish"
-msgstr ""
+msgstr "გასუფთავება და გაპრიალება"
 
 #: main.cpp:112
 #, kde-format
@@ -610,7 +615,7 @@ msgstr "Shlomi Fish"
 #: main.cpp:112
 #, kde-format
 msgid "Integration with Freecell Solver and further work"
-msgstr ""
+msgstr "Freecell-ის ამომხსნელთან ინტეგრაცია და დამატებითი სამუშაოები"
 
 #: main.cpp:113
 #, kde-format
@@ -620,32 +625,34 @@ msgstr "Michael Lang"
 #: main.cpp:120
 #, kde-format
 msgid "Try to find a solution to the given savegame"
-msgstr ""
+msgstr "მითითებული შენახული თამაშის ამოხსნის ცდა"
 
 #: main.cpp:121
 #, kde-format
 msgid "Dealer to solve (debug)"
-msgstr ""
+msgstr "ამოსახსნელი თამაშის ნომერი (გამართვა)"
 
 #: main.cpp:122
 #, kde-format
 msgid "Game range start (default 0:INT_MAX)"
-msgstr ""
+msgstr "თამაშის დიაპაზონის დასაწყისი (ნაგულისხმევი 0:INT_MAX)"
 
 #: main.cpp:124
 #, kde-format
 msgid "Game range end (default start:start if start given)"
 msgstr ""
+"თამაშის დიაპაზონის დასასრული (ნაგულისხმევი დასაწყისი: დასაწყისი, თუ "
+"დასაწყისი მითითებულია)"
 
 #: main.cpp:125
 #, kde-format
 msgid "Directory with test cases"
-msgstr ""
+msgstr "საქაღალდე ტესტის შემთხვევებით"
 
 #: main.cpp:126
 #, kde-format
 msgid "Generate random test cases"
-msgstr ""
+msgstr "შემთხვევითი ტესტის შემთხვევების გენერაცია"
 
 #: main.cpp:127
 #, kde-format
@@ -668,13 +675,13 @@ msgstr "&ახალი დარიგება"
 #, kde-format
 msgctxt "Start a game by giving its particular number"
 msgid "New &Numbered Deal..."
-msgstr ""
+msgstr "თამაშის &ნომრის არჩევა..."
 
 #: mainwindow.cpp:169
 #, kde-format
 msgctxt "Replay the current deal from the start"
 msgid "Restart Deal"
-msgstr ""
+msgstr "თავიდან დარიგება"
 
 #: mainwindow.cpp:175
 #, kde-format
@@ -705,19 +712,19 @@ msgstr "&დარიგება"
 #, kde-format
 msgctxt "Deal a new row of cards from the deck"
 msgid "Dea&l Row"
-msgstr ""
+msgstr "&ახლა დარიგება"
 
 #: mainwindow.cpp:237
 #, kde-format
 msgctxt "Collect the cards in play, shuffle them and redeal them"
 msgid "&Redeal"
-msgstr ""
+msgstr "&თავდან დარიგება"
 
 #: mainwindow.cpp:242
 #, kde-format
 msgctxt "Automatically move cards to the foundation piles"
 msgid "Dro&p"
-msgstr ""
+msgstr "&დაყრა"
 
 #: mainwindow.cpp:250
 #, kde-format
@@ -727,7 +734,7 @@ msgstr "გარეგნობის შეცვლა..."
 #: mainwindow.cpp:254
 #, kde-format
 msgid "&Enable Autodrop"
-msgstr ""
+msgstr "&ავტომატურად დაყრის ჩართვა"
 
 #: mainwindow.cpp:259
 #, kde-format
@@ -742,17 +749,17 @@ msgstr "&ხმის დაკვრა"
 #: mainwindow.cpp:269
 #, kde-format
 msgid "&Remember State on Exit"
-msgstr ""
+msgstr "&მდგომარეობის შენახვა გასვლისას"
 
 #: mainwindow.cpp:284
 #, kde-format
 msgid "Generate a theme preview image"
-msgstr ""
+msgstr "თემის მინიატურის გამოსახულების გენერაცია"
 
 #: mainwindow.cpp:289
 #, kde-format
 msgid "Take Game Preview Snapshots"
-msgstr ""
+msgstr "თამაშის მინიატურის სწრაფი ასლების აღება"
 
 #: mainwindow.cpp:294
 #, kde-format
@@ -762,22 +769,22 @@ msgstr "შემთხვევითი კარტები"
 #: mainwindow.cpp:301
 #, kde-format
 msgid "Move Focus to Previous Pile"
-msgstr ""
+msgstr "ფოკუსის წინა შეკვრაზე გადატანა"
 
 #: mainwindow.cpp:305
 #, kde-format
 msgid "Move Focus to Next Pile"
-msgstr ""
+msgstr "ფოკუსის შემდეგ შეკვრაზე გადატანა"
 
 #: mainwindow.cpp:309
 #, kde-format
 msgid "Move Focus to Card Below"
-msgstr ""
+msgstr "ფოკუსის ქვედა კარტზე გადატანა"
 
 #: mainwindow.cpp:313
 #, kde-format
 msgid "Move Focus to Card Above"
-msgstr ""
+msgstr "ფოკუსის ზედა კარტზე გადატანა"
 
 #: mainwindow.cpp:317
 #, kde-format
@@ -787,17 +794,17 @@ msgstr "ფოკუსის მოხსნა"
 #: mainwindow.cpp:321
 #, kde-format
 msgid "Pick Up or Set Down Focus"
-msgstr ""
+msgstr "ფოკუსის მოხსნა ან დაყენება"
 
 #: mainwindow.cpp:429
 #, kde-format
 msgid "Card Deck"
-msgstr ""
+msgstr "კარტის ფერი"
 
 #: mainwindow.cpp:431
 #, kde-format
 msgid "Select a card deck"
-msgstr ""
+msgstr "აირჩიეთ კარტის ფერი"
 
 #: mainwindow.cpp:436
 #, kde-format
@@ -807,7 +814,7 @@ msgstr "თამაშის თემა"
 #: mainwindow.cpp:436
 #, kde-format
 msgid "Select a theme for non-card game elements"
-msgstr ""
+msgstr "აირჩიეთ თემა არა-კარტის თამაშის ელემენტებისთვის"
 
 #: mainwindow.cpp:514
 #, kde-format
@@ -829,6 +836,8 @@ msgid ""
 "Are you sure you want to hide the menubar? The current shortcut to show it "
 "again is %1."
 msgstr ""
+"მართლა გნებავთ ხელსაწყოების პანელის დამალვა? მალსახმობი, რომ ის ისევ "
+"აჩვენოთ, არის %1."
 
 #: mainwindow.cpp:702
 #, kde-format
@@ -848,17 +857,17 @@ msgstr "XML ფაილის წაკითხვის შეცდომა
 #: mainwindow.cpp:818
 #, kde-format
 msgid "XML file is not a KPat save."
-msgstr ""
+msgstr "XML ფაილი KPat-ის შენახულ ფაილს არ წარმოადგენს."
 
 #: mainwindow.cpp:823
 #, kde-format
 msgid "Unrecognized game id."
-msgstr ""
+msgstr "უცნობი თამაშის ID."
 
 #: mainwindow.cpp:842
 #, kde-format
 msgid "Errors encountered while parsing file."
-msgstr ""
+msgstr "შეცდომა ფაილის დამუშავებისას."
 
 #: mainwindow.cpp:861
 #, kde-format
@@ -873,17 +882,17 @@ msgstr "შენახვა"
 #: mainwindow.cpp:904
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
-msgstr ""
+msgstr "ფაილის ჩასაწერად გახსნის შეცდომა. შენახვა ჩავარდა."
 
 #: mainwindow.cpp:909
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
-msgstr ""
+msgstr "დროებითი ფაილის შექმნის შეცდომა. შენახვა ჩავარდა."
 
 #: mainwindow.cpp:925
 #, kde-format
 msgid "Error uploading file. Saving failed: %1"
-msgstr ""
+msgstr "ფაილის ატვირთვის შეცდომა. შენახვა ჩავარდა: %1"
 
 #: mainwindow.cpp:949
 #, kde-format
@@ -899,7 +908,7 @@ msgstr "Mod3"
 #: numbereddealdialog.cpp:36
 #, kde-format
 msgid "New Numbered Deal"
-msgstr ""
+msgstr "თამაშის ნომრის არჩევა"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: numbereddealdialog.cpp:51 statisticsdialog.ui:33
@@ -914,42 +923,42 @@ msgstr "დარიგების ნომერი:"
 
 #: simon.cpp:168
 msgid "Simple Simon"
-msgstr ""
+msgstr "მარტივი სიმონი"
 
 #: spider.cpp:131
 #, kde-format
 msgid "Spider &Options"
-msgstr ""
+msgstr "&ობობის მორგება"
 
 #: spider.cpp:132
 #, kde-format
 msgid "1 Suit (Easy)"
-msgstr ""
+msgstr "1 ფერი (ადვილი)"
 
 #: spider.cpp:133
 #, kde-format
 msgid "2 Suits (Medium)"
-msgstr ""
+msgstr "2 ფერი (საშუალო)"
 
 #: spider.cpp:134
 #, kde-format
 msgid "3 Suits (Hard)"
-msgstr ""
+msgstr "3 ფერი (ძნელი)"
 
 #: spider.cpp:135
 #, kde-format
 msgid "4 Suits (Very Hard)"
-msgstr ""
+msgstr "4 ფერი (ძალიან ძნელი)"
 
 #: spider.cpp:147
 #, kde-format
 msgid "Face &Down (harder)"
-msgstr ""
+msgstr "&დაფარული (ძნელი)"
 
 #: spider.cpp:148
 #, kde-format
 msgid "Face &Up (easier)"
-msgstr ""
+msgstr "&ამოტრიალებული (ადვილი)"
 
 #: spider.cpp:466
 msgid "Spider"
@@ -957,24 +966,24 @@ msgstr "ობობა"
 
 #: spider.cpp:468
 msgid "Spider (1 Suit)"
-msgstr ""
+msgstr "ობობა (1 ფერი)"
 
 #: spider.cpp:469
 msgid "Spider (2 Suit)"
-msgstr ""
+msgstr "ობობა (2 ფერი)"
 
 #: spider.cpp:470
 msgid "Spider (3 Suit)"
-msgstr ""
+msgstr "ობობა (3 ფერი)"
 
 #: spider.cpp:471
 msgid "Spider (4 Suit)"
-msgstr ""
+msgstr "ობობა (4 ფერი)"
 
 #: statisticsdialog.cpp:122
 #, kde-format
 msgid "%1 (%2%)"
-msgstr ""
+msgstr "%1 (%2%)"
 
 #: statisticsdialog.cpp:134
 #, kde-format
@@ -994,7 +1003,7 @@ msgstr[1] "%1 მოგება"
 #: statisticsdialog.ui:75
 #, kde-format
 msgid "Longest winning streak:"
-msgstr ""
+msgstr "უგრძესი გამართლება:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: statisticsdialog.ui:82
@@ -1006,7 +1015,7 @@ msgstr "თამაშების რაოდენობა:"
 #: statisticsdialog.ui:99
 #, kde-format
 msgid "Longest losing streak:"
-msgstr ""
+msgstr "უგრძესი არ-გამართლება:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: statisticsdialog.ui:116
@@ -1018,7 +1027,7 @@ msgstr "მოგებული თამაშები:"
 #: statisticsdialog.ui:133
 #, kde-format
 msgid "Current streak:"
-msgstr ""
+msgstr "მიმდინარე გამართლება:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: statisticsdialog.ui:147
