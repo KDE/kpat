@@ -282,14 +282,14 @@
 	<variablelist>
 		<varlistentry
 ><term
->1. Mall</term>
+>1. Pila</term>
 			<listitem
 ><para
 ><indexterm
 ><primary
->mall</primary
+>pila</primary
 ></indexterm
->Al començament de cada partida, es barregen totes les cartes de la baralla. En alguns jocs no es reparteixen totes les cartes. Aquestes cartes es queden en l'anomenat mall. Es troba amb força facilitat, ja que en la majoria dels jocs és l'únic munt en el qual totes les cartes estan de cara avall.</para>
+>Al començament de cada partida, es barregen totes les cartes de la baralla. En alguns jocs no es reparteixen totes les cartes. Aquestes cartes es queden en l'anomenada pila. Es troba amb força facilitat, ja que en la majoria dels jocs és l'únic munt en el qual totes les cartes estan de cara avall.</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry
@@ -301,7 +301,7 @@
 ><primary
 >munt de descart</primary
 ></indexterm
->Molts jocs empren un munt de descart per a guardar les cartes agafades del mall. En general, si feu clic sobre el mall, la carta de dalt es girarà cara amunt i es posarà en el munt de descart, moment en el qual la carta entra en joc.</para>
+>Molts jocs empren un munt de descart per a guardar les cartes agafades de la pila. En general, si feu clic sobre la pila, la carta de dalt es girarà cara amunt i es posarà en el munt de descart, moment en el qual la carta entra en joc.</para>
 			</listitem>
 		</varlistentry>
 		<varlistentry
@@ -313,7 +313,7 @@
 ><primary
 >basa</primary
 ></indexterm
->Els munts bases és on voldreu que acabin les cartes. En general, el joc es guanya una vegada totes les cartes s'han mogut als munts bases en l'ordre correcte. El nombre de munts bases i l'ordre requerit varia d'un joc a un altre.</para>
+>Els munts bases són on voldreu que acabin les cartes. En general, el joc es guanya una vegada totes les cartes s'han mogut als munts bases en l'ordre correcte. El nombre de munts bases i l'ordre requerit varia d'un joc a un altre.</para>
                             <para
 >La majoria dels jocs comencen amb els munts bases buits. En triar l'acció <guimenuitem
 >Col·loca</guimenuitem
@@ -362,10 +362,10 @@
 >En un munt buit es pot posar un rei de qualsevol color o una seqüència que comenci amb un rei. </para>
 
 <para
->Quan feu clic sobre el mall, es mourà una carta des d'aquest cap al munt de descart. Des d'on la podreu moure cap als munts de joc o la basa. Si el mall està buit, podreu moure tot el munt de descart cap al mall fent clic sobre el mall buit. </para>
+>Quan feu clic sobre la pila, es mourà una carta des d'aquesta cap al munt de descart. Des d'on la podreu moure cap als munts de joc o la basa. Si la pila està buida, podreu moure tot el munt de descart cap a la pila fent clic sobre la pila buida. </para>
 
 <para
->Es poden mirar les cartes en el mall tant com es vulgui. </para>
+>Es poden mirar les cartes en la pila tant com es vulgui. </para>
 </sect2>
 
 <sect2 id="grandfather">
@@ -392,12 +392,12 @@
 >En un munt buit es pot posar un rei (sense importar quantes cartes hi hagi damunt seu). </para>
 
 <para
->Si no hi ha més moviments possibles, podreu tornar a donar les cartes. Tornar a donar consisteix a recollir les cartes dels munts de joc (munt per munt, d'esquerra a dreta) i tornar a donar-les en el mateix patró inicial (fent files en ziga-zaga amb les cartes cara avall formant un bec i després files d'esquerra a dreta amb les cartes cara amunt a dalt). Recordeu que les cartes <emphasis
+>Si no hi ha més moviments possibles, podreu tornar a donar les cartes. Tornar a donar consisteix a recollir les cartes dels munts de joc (munt per munt, d'esquerra a dreta) i tornar a donar-les en el mateix patró inicial (fent files en ziga-zaga amb les cartes cara avall formant un pic i després files d'esquerra a dreta amb les cartes cara amunt a dalt). Recordeu que les cartes <emphasis
 >no</emphasis
 > estan barrejades i que les cartes en els munts bases no es toquen. No es pot tornar a donar més de dues vegades en una sola partida. </para>
 
 <para
->Encara que les regles són senzilles i permeten molts moviments, el joc segueix sent difícil de guanyar. Tot i això, o a causa d'això, aquest joc segueix sent un plaer per jugar. </para>
+>Encara que les regles són senzilles i permeten molts moviments, el joc segueix sent difícil de guanyar. Malgrat això, o per aquest motiu, aquest joc segueix sent un plaer jugar-hi. </para>
 </sect2>
 
 <sect2 id="aces-up">
@@ -415,7 +415,7 @@
 >Cada carta de dalt que sigui del mateix coll (&pex;, piques) i que tingui un valor més baix que una altra carta de dalt (&pex;, sis i quatre de piques) es podrà posar sobre la basa fent-hi clic. </para>
 
 <para
->Si no es poden moure més cartes cap a la basa, es pot obtenir una carta nova per a cada munt de joc fent clic sobre el mall. </para>
+>Si no es poden moure més cartes cap a la basa, es pot obtenir una carta nova per a cada munt de joc fent clic sobre la pila. </para>
 
 <para
 >En un munt buit podreu moure totes les altres cartes que hi ha damunt d'un munt. Hauríeu d'utilitzar aquests moviments per als munts buits. D'aquesta manera, es podran moure les cartes noves cap a la basa. </para>
@@ -515,10 +515,10 @@
 >La quarta fila és tant el vostre munt de descart com el munt de joc. En una ranura buida podreu posar qualsevol carta de les tres primeres files, o una de dalt de la quarta fila. </para>
 
 <para
->Es poden posar els asos sobre els munts d'asos, a dalt del mall. Quan entrin a la partida tindreu un punt de partida per a crear ranures lliures. </para>
+>Es poden posar els asos sobre els munts d'asos, a dalt de la pila. Quan entrin a la partida tindreu un punt de partida per a crear ranures lliures. </para>
 
 <para
->Si no es poden moure més cartes, es poden obtenir cartes noves a la quarta fila fent clic sobre el mall. </para>
+>Si no es poden moure més cartes, es poden obtenir cartes noves a la quarta fila fent clic sobre la pila. </para>
 
 <para
 >En aquest joc del solitari, la característica de col·locació automàtica està inhabilitada. </para>
@@ -539,12 +539,12 @@
 >Els munts de joc han d'estar en ordre descendent, mentre que s'alternen les cartes vermelles i negres. Només podreu moure seqüències o cartes individuals. En una ranura lliure podreu posar qualsevol carta o seqüència. </para>
 
 <para
->Si no es poden moure més cartes, es pot fer clic sobre el mall per a obtenir cartes noves a cada munt de joc. </para>
+>Si no es poden moure més cartes, es pot fer clic sobre la pila per a obtenir cartes noves a cada munt de joc. </para>
 
 <para
 >En emprar la característica <guibutton
 >Desfés</guibutton
-> fareu que el joc sigui més fàcil, ja que heu de prendre moltes decisions i algunes d'elles poden resultar incorrectes després de fer clic sobre el mall. </para>
+> fareu que el joc sigui més fàcil, ja que heu de prendre moltes decisions i algunes d'elles poden resultar incorrectes després de fer clic sobre la pila. </para>
 
 </sect2>
 
@@ -566,7 +566,7 @@
 >Només podreu moure una carta a dalt d'un munt. En una ranura lliure podreu posar qualsevol carta. </para>
 
 <para
->En fer clic sobre el mall, podreu posar una carta en el munt de descart, des d'allà, podreu posar-la en un munt de joc o a la basa (ja ho farà el &kpatience;). Si el mall està buit, podreu tornar a posar totes les cartes del munt de descart en el mall. Això només funciona un cop: després de la segona vegada que es buida el mall, el joc s'acaba. </para>
+>En fer clic sobre la pila, podreu posar una carta en el munt de descart, des d'allà, podreu posar-la en un munt de joc o a la basa (ja ho farà el &kpatience;). Si la pila està buida, podreu tornar a posar totes les cartes del munt de descart en la pila. Això només funciona un cop: després de la segona vegada que es buida la pila, el joc s'acaba. </para>
 
 <para
 >Aquest solitari és difícil de solucionar. Amb una mica d'experiència, podreu resoldre moltes de les mans, especialment si empreu de tant en tant la característica <guibutton
@@ -656,10 +656,10 @@
 > Es juga amb una baralla. L'objectiu és moure totes les cartes que hi ha en el quadre cap a la basa.</para>
  
 <para
->La disposició d'aquest solitari és senzilla. Al començament del joc, veureu el quadre. A dalt hi ha set columnes, cadascuna de les quals conté cinc cartes. El mall i la basa estan a sota. </para>
+>La disposició d'aquest solitari és senzilla. Al començament del joc, veureu el quadre. A dalt hi ha set columnes, cadascuna de les quals conté cinc cartes. La pila i la basa estan a sota. </para>
 
 <para
->Jugar a aquest solitari és senzill, però requereix estratègia per a guanyar. Estan disponibles per a jugar les cartes a la base de cada columna que hi ha en el quadre. Les cartes disponibles es construeixen damunt de la carta de la basa en una seqüència en ordre ascendent o descendent independentment del coll. Si no hi ha cap moviment disponible, es pot repartir una carta des del mall cap a la basa. El joc acaba quan s'han repartit totes les cartes del mall i no hi ha més moviments possibles.</para>
+>Jugar a aquest solitari és senzill, però requereix estratègia per a guanyar. Estan disponibles per a jugar les cartes a la base de cada columna que hi ha en el quadre. Les cartes disponibles es construeixen damunt de la carta de la basa en una seqüència en ordre ascendent o descendent independentment del coll. Si no hi ha cap moviment disponible, es pot repartir una carta des de la pila cap a la basa. El joc acaba quan s'han repartit totes les cartes de la pila i no hi ha més moviments possibles.</para>
 
 </sect2>
 
@@ -672,7 +672,7 @@
 ><primary
 >Aranya</primary
 ></indexterm
-> Es juga amb dos malls de cartes. Les cartes es reparteixen en 10 munts de joc, 4 de 6 cartes i 6 de 5 cartes cadascun. Això deixa 50 cartes que es poden repartir 10 a la vegada, una sobre cada munt de joc. </para>
+> Es juga amb dos piles de cartes. Les cartes es reparteixen en 10 munts de joc, 4 de 6 cartes i 6 de 5 cartes cadascun. Això deixa 50 cartes que es poden repartir 10 a la vegada, una sobre cada munt de joc. </para>
 
 <para
 >En els munts de joc, es pot posar una carta damunt d'una altra de qualsevol coll i d'un valor més alt. Es pot moure una seqüència de cartes en ordre descendent del mateix coll des d'un munt de joc cap a un altre. </para>
@@ -897,7 +897,7 @@
 				<listitem>
 					<para
 ><action
->Inicia una mà nova especificant el tipus de joc i el nombre de mà.</action
+>Inicia una mà nova especificant el tipus de joc i el nombre de mans.</action
 >&nbsp; Aquesta acció abandona la mà en curs.</para>
 					<para
 >El &kpatience; dona a cada mà un número únic d'identificació (el qual emprarà internament per a aleatoritzar la baralla durant la mà inicial). Aquesta característica permet tornar a jugar una mà d'interès o provar-ho amb una particularment difícil recomanada per un amic. Els jugadors especialment dedicats poden voler <quote
@@ -1139,7 +1139,7 @@
 				<listitem
 ><para
 ><action
->Dona la volta a una o més cartes del mall i les mou cap al munt de descart.</action
+>Dona la volta a una o més cartes de la pila i les mou cap al munt de descart.</action
 >&nbsp;&nbsp; Aquesta acció només està disponible en certs jocs.</para
 ></listitem>
 			</varlistentry>
@@ -1157,7 +1157,7 @@
 				<listitem
 ><para
 ><action
->Dona la volta a diverses cartes del mall i les posa a dalt de cada munt de joc.</action
+>Dona la volta a diverses cartes de la pila i les posa a dalt de cada munt de joc.</action
 >&nbsp;&nbsp; Aquesta acció només està disponible en certs jocs.</para
 ></listitem>
 			</varlistentry>
