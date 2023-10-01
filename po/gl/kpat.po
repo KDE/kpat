@@ -892,7 +892,7 @@ msgstr "Produciuse un erro ao abrir o ficheiro para escribir. Fallou a garda."
 #: mainwindow.cpp:909
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
-msgstr "Non se pode crear o ficheiro temporal. Fallou a garda."
+msgstr "Non é posíbel crear o ficheiro temporal. Fallou a garda."
 
 #: mainwindow.cpp:925
 #, kde-format
