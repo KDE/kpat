@@ -186,9 +186,9 @@ void MainWindow::setupActions()
     actionCollection()->setDefaultShortcut(a, Qt::CTRL | Qt::Key_Minus);
     connect(a, &QAction::triggered, this, &MainWindow::previousDeal);
 
-    KStandardGameAction::load(this, QOverload<>::of(&MainWindow::loadGame), actionCollection());
+    KStandardGameAction::load(this, qOverload<>(&MainWindow::loadGame), actionCollection());
 
-    m_recentFilesAction = KStandardGameAction::loadRecent(this, QOverload<const QUrl &>::of(&MainWindow::loadGame), actionCollection());
+    m_recentFilesAction = KStandardGameAction::loadRecent(this, qOverload<const QUrl &>(&MainWindow::loadGame), actionCollection());
     m_recentFilesAction->loadEntries(KSharedConfig::openConfig()->group(QString()));
 
     m_saveAction = KStandardGameAction::saveAs(this, &MainWindow::saveGame, actionCollection());
