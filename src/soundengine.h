@@ -19,7 +19,7 @@
 #define SOUNDENGINE_H
 
 // KDEGames
-#include <KgSound>
+#include <KGameSound>
 
 class SoundEngine : public QObject
 {
@@ -34,8 +34,8 @@ public Q_SLOTS:
     void cardsPutDown();
 
 private:
-    KgSound m_cardPickedUp;
-    KgSound m_cardPutDown;
+    KGameSound m_cardPickedUp;
+    KGameSound m_cardPutDown;
 };
 
 #endif
