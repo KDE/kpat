@@ -53,8 +53,8 @@
 #include <KCardTheme>
 #include <KCardThemeWidget>
 // KDEGames
+#include <KGameThemeSelector>
 #include <KStandardGameAction>
-#include <KgThemeSelector>
 // KF
 #include <KActionCollection>
 #include <KConfigDialog>
@@ -430,12 +430,12 @@ void MainWindow::configureAppearance()
                         QStringLiteral("games-config-theme"),
                         i18n("Select a card deck"));
 
-        KgThemeProvider *provider = Renderer::self()->themeProvider();
-        auto themeSelector = new KgThemeSelector(provider, KgThemeSelector::EnableNewStuffDownload, this);
+        KGameThemeProvider *provider = Renderer::self()->themeProvider();
+        auto themeSelector = new KGameThemeSelector(provider, KGameThemeSelector::EnableNewStuffDownload, this);
         themeSelector->setNewStuffConfigFileName(QStringLiteral("kpat.knsrc"));
         dialog->addPage(themeSelector, i18n("Game Theme"), QStringLiteral("games-config-theme"), i18n("Select a theme for non-card game elements"));
 
-        connect(provider, &KgThemeProvider::currentThemeChanged, this, &MainWindow::appearanceChanged);
+        connect(provider, &KGameThemeProvider::currentThemeChanged, this, &MainWindow::appearanceChanged);
         connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::appearanceChanged);
         dialog->show();
     }
