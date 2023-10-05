@@ -60,6 +60,7 @@ if (WITH_BH_SOLVER)
             Qt6::Test
             kcardgame
             KDEGames6
+            KF6::I18n
             BlackHoleSolver::BlackHoleSolver
         NAME_PREFIX "kpat-"
     )
