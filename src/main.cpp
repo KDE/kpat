@@ -301,10 +301,11 @@ int main(int argc, char **argv)
     KLocalizedString::setApplicationDomain("kpat");
 
     KAboutData aboutData = fillAboutData();
+    KAboutData::setApplicationData(aboutData);
+
+    KCrash::initialize();
 
     QCommandLineParser parser;
-    KAboutData::setApplicationData(aboutData);
-    KCrash::initialize();
     addParserOptions(parser);
     aboutData.setupCommandLine(&parser);
     parser.process(app);
