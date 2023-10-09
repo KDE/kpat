@@ -1058,7 +1058,3 @@ msgstr ""
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "ユーコン"
-
-#~ msgctxt "List separator"
-#~ msgid ", "
-#~ msgstr ", "
