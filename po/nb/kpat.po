@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-25 01:40+0000\n"
+"POT-Creation-Date: 2023-10-09 01:45+0000\n"
 "PO-Revision-Date: 2014-01-07 14:24+0100\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
@@ -921,7 +921,7 @@ msgid "New Numbered Deal"
 msgstr "Nytt nummerert spill"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
-#: numbereddealdialog.cpp:51 statisticsdialog.ui:33
+#: numbereddealdialog.cpp:51 statisticsdialog.ui:30
 #, kde-format
 msgid "Game:"
 msgstr "Spill:"
@@ -1010,37 +1010,37 @@ msgstr[0] "1 seier"
 msgstr[1] "%1 seire"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel7)
-#: statisticsdialog.ui:75
+#: statisticsdialog.ui:66
 #, kde-format
 msgid "Longest winning streak:"
 msgstr "Fleste seiere på rad:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
-#: statisticsdialog.ui:82
+#: statisticsdialog.ui:73
 #, kde-format
 msgid "Games played:"
 msgstr "Antall spill spilt:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel8)
-#: statisticsdialog.ui:99
+#: statisticsdialog.ui:90
 #, kde-format
 msgid "Longest losing streak:"
 msgstr "Fleste tap på rad:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
-#: statisticsdialog.ui:116
+#: statisticsdialog.ui:107
 #, kde-format
 msgid "Games won:"
 msgstr "Spill vunnet:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: statisticsdialog.ui:133
+#: statisticsdialog.ui:124
 #, kde-format
 msgid "Current streak:"
 msgstr "Tap- eller vinn på rad:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: statisticsdialog.ui:147
+#: statisticsdialog.ui:138
 #, kde-format
 msgid "Minimal number of moves:"
 msgstr ""

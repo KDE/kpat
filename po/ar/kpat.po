@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-25 01:40+0000\n"
+"POT-Creation-Date: 2023-10-09 01:45+0000\n"
 "PO-Revision-Date: 2022-01-29 13:25+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -921,7 +921,7 @@ msgid "New Numbered Deal"
 msgstr "ا&ختر لعبة..."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
-#: numbereddealdialog.cpp:51 statisticsdialog.ui:33
+#: numbereddealdialog.cpp:51 statisticsdialog.ui:30
 #, kde-format
 msgid "Game:"
 msgstr "اللعبة:"
@@ -1020,37 +1020,37 @@ msgstr[4] "ربحت %1 مرة"
 msgstr[5] "ربحت %1 مرة"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel7)
-#: statisticsdialog.ui:75
+#: statisticsdialog.ui:66
 #, kde-format
 msgid "Longest winning streak:"
 msgstr "أطول سلسلة انتصارات:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
-#: statisticsdialog.ui:82
+#: statisticsdialog.ui:73
 #, kde-format
 msgid "Games played:"
 msgstr "الألعاب الملعوبة:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel8)
-#: statisticsdialog.ui:99
+#: statisticsdialog.ui:90
 #, kde-format
 msgid "Longest losing streak:"
 msgstr "أطول سلسلة خسارات:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
-#: statisticsdialog.ui:116
+#: statisticsdialog.ui:107
 #, kde-format
 msgid "Games won:"
 msgstr "الألعاب المربوحة:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: statisticsdialog.ui:133
+#: statisticsdialog.ui:124
 #, kde-format
 msgid "Current streak:"
 msgstr "السلسلة الحالية:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: statisticsdialog.ui:147
+#: statisticsdialog.ui:138
 #, kde-format
 msgid "Minimal number of moves:"
 msgstr ""

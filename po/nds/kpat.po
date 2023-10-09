@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-25 01:40+0000\n"
+"POT-Creation-Date: 2023-10-09 01:45+0000\n"
 "PO-Revision-Date: 2014-08-11 13:22+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -930,7 +930,7 @@ msgid "New Numbered Deal"
 msgstr "Nieg nummereert Utdelen"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
-#: numbereddealdialog.cpp:51 statisticsdialog.ui:33
+#: numbereddealdialog.cpp:51 statisticsdialog.ui:30
 #, kde-format
 msgid "Game:"
 msgstr "Speel:"
@@ -1023,37 +1023,37 @@ msgstr[0] "1 wunnen"
 msgstr[1] "%1 wunnen"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel7)
-#: statisticsdialog.ui:75
+#: statisticsdialog.ui:66
 #, kde-format
 msgid "Longest winning streak:"
 msgstr "Längst Glückstreek:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
-#: statisticsdialog.ui:82
+#: statisticsdialog.ui:73
 #, kde-format
 msgid "Games played:"
 msgstr "Speelt Spelen:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel8)
-#: statisticsdialog.ui:99
+#: statisticsdialog.ui:90
 #, kde-format
 msgid "Longest losing streak:"
 msgstr "Längst Malöörstreek:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
-#: statisticsdialog.ui:116
+#: statisticsdialog.ui:107
 #, kde-format
 msgid "Games won:"
 msgstr "Wunnen Spelen:"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: statisticsdialog.ui:133
+#: statisticsdialog.ui:124
 #, kde-format
 msgid "Current streak:"
 msgstr "Aktuell Streek:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: statisticsdialog.ui:147
+#: statisticsdialog.ui:138
 #, kde-format
 msgid "Minimal number of moves:"
 msgstr ""
