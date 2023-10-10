@@ -863,12 +863,12 @@ msgstr "No s'ha pogut baixar el fitxer: %1"
 #: mainwindow.cpp:801
 #, kde-format
 msgid "Error reading XML file: "
-msgstr "S'ha produït un error en llegir el fitxer XML: "
+msgstr "S'ha produït un error en llegir el fitxer en XML: "
 
 #: mainwindow.cpp:818
 #, kde-format
 msgid "XML file is not a KPat save."
-msgstr "El fitxer XML no és un joc guardat del KPat."
+msgstr "El fitxer en XML no és un joc guardat de KPat."
 
 #: mainwindow.cpp:823
 #, kde-format
@@ -878,7 +878,7 @@ msgstr "Id de joc desconegut."
 #: mainwindow.cpp:842
 #, kde-format
 msgid "Errors encountered while parsing file."
-msgstr "S'han detectat errors en analitzar el fitxer."
+msgstr "S'han detectat errors en l'anàlisi sintàctica del fitxer."
 
 #: mainwindow.cpp:861
 #, kde-format
