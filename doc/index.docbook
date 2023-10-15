@@ -808,14 +808,6 @@ chapter of the &kde; Fundamentals documentation &kpatience; has these applicatio
 				</menuchoice></term>
 				<listitem><para><action>Allows you to choose if the card faces should be shown.</action> This menu is available in Spider only.</para></listitem>
 			</varlistentry>
-			<varlistentry id="settings-menu-deck">
-				<term><menuchoice>
-					<shortcut><keycap>F10</keycap></shortcut>
-					<guimenu>Settings</guimenu>
-					<guimenuitem>Change Appearance...</guimenuitem>
-				</menuchoice></term>
-				<listitem><para><action>Open a dialog to change the card deck and game theme used.</action></para></listitem>
-			</varlistentry>
 			<varlistentry id="settings-menu-autodrop">
 				<term><menuchoice>
 					<guimenu>Settings</guimenu>

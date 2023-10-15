@@ -246,11 +246,6 @@ void MainWindow::setupActions()
     connect(m_dropAction, &QAction::triggered, this, &MainWindow::toggleDrop);
 
     // Settings Menu
-    a = actionCollection()->addAction(QStringLiteral("select_deck"));
-    a->setText(i18n("Change Appearance..."));
-    connect(a, &QAction::triggered, this, &MainWindow::configureAppearance);
-    KActionCollection::setDefaultShortcut(a, Qt::Key_F10);
-
     m_autoDropEnabledAction = new KToggleAction(i18n("&Enable Autodrop"), this);
     actionCollection()->addAction(QStringLiteral("enable_autodrop"), m_autoDropEnabledAction);
     connect(m_autoDropEnabledAction, &KToggleAction::triggered, this, &MainWindow::setAutoDropEnabled);
@@ -276,6 +271,8 @@ void MainWindow::setupActions()
     m_gameHelpAction->setIcon(QIcon::fromTheme(QStringLiteral("help-browser")));
     connect(m_gameHelpAction, &QAction::triggered, this, &MainWindow::helpGame);
     KActionCollection::setDefaultShortcut(m_gameHelpAction, Qt::CTRL | Qt::SHIFT | Qt::Key_F1);
+
+    KStandardAction::preferences(this, &MainWindow::configureAppearance, actionCollection());
 
     // Hidden actions
     if (!qEnvironmentVariableIsEmpty("KDE_DEBUG")) // developer shortcut

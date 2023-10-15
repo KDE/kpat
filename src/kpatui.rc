@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gui name="kpat"
-     version="30"
+     version="31"
      xmlns="http://www.kde.org/standards/kxmlgui/1.0"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xsi:schemaLocation="http://www.kde.org/standards/kxmlgui/1.0
@@ -29,7 +29,6 @@
   <Menu name="settings">
     <ActionList name="dealer_options"/>
     <Separator/>
-    <Action name="select_deck"/>
     <Action name="enable_autodrop"/>
     <Action name="enable_solver"/>
     <Action name="play_sounds"/>
