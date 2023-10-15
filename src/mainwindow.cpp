@@ -151,18 +151,18 @@ void MainWindow::setupActions()
     a = actionCollection()->addAction(QStringLiteral("new_game"));
     a->setText(i18nc("Start a new game of a different type", "New &Game..."));
     a->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
-    actionCollection()->setDefaultShortcut(a, Qt::CTRL | Qt::SHIFT | Qt::Key_N);
+    KActionCollection::setDefaultShortcut(a, Qt::CTRL | Qt::SHIFT | Qt::Key_N);
     connect(a, &QAction::triggered, this, &MainWindow::slotShowGameSelectionScreen);
 
     a = actionCollection()->addAction(QStringLiteral("new_deal"));
     a->setText(i18nc("Start a new game of without changing the game type", "New &Deal"));
     a->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
-    actionCollection()->setDefaultShortcut(a, Qt::CTRL | Qt::Key_N);
+    KActionCollection::setDefaultShortcut(a, Qt::CTRL | Qt::Key_N);
     connect(a, &QAction::triggered, this, &MainWindow::newGame);
 
     a = actionCollection()->addAction(QStringLiteral("new_numbered_deal"));
     a->setText(i18nc("Start a game by giving its particular number", "New &Numbered Deal..."));
-    actionCollection()->setDefaultShortcut(a, Qt::CTRL | Qt::Key_D);
+    KActionCollection::setDefaultShortcut(a, Qt::CTRL | Qt::Key_D);
     connect(a, &QAction::triggered, this, &MainWindow::newNumberedDeal);
 
     a = KStandardGameAction::restart(this, &MainWindow::restart, actionCollection());
@@ -174,7 +174,7 @@ void MainWindow::setupActions()
     a = actionCollection()->addAction(QStringLiteral("next_deal"));
     a->setText(i18nc("Start the game with the number one greater than the current one", "Next Deal"));
     a->setIcon(QIcon::fromTheme(QStringLiteral("go-next")));
-    actionCollection()->setDefaultShortcut(a, Qt::CTRL | Qt::Key_Plus);
+    KActionCollection::setDefaultShortcut(a, Qt::CTRL | Qt::Key_Plus);
     connect(a, &QAction::triggered, this, &MainWindow::nextDeal);
 
     // Note that this action is not shown in the menu or toolbar. It is
@@ -183,7 +183,7 @@ void MainWindow::setupActions()
     a = actionCollection()->addAction(QStringLiteral("previous_deal"));
     a->setText(i18nc("Start the game with the number one less than the current one", "Previous Deal"));
     a->setIcon(QIcon::fromTheme(QStringLiteral("go-previous")));
-    actionCollection()->setDefaultShortcut(a, Qt::CTRL | Qt::Key_Minus);
+    KActionCollection::setDefaultShortcut(a, Qt::CTRL | Qt::Key_Minus);
     connect(a, &QAction::triggered, this, &MainWindow::previousDeal);
 
     KStandardGameAction::load(this, qOverload<>(&MainWindow::loadGame), actionCollection());
@@ -192,7 +192,7 @@ void MainWindow::setupActions()
     m_recentFilesAction->loadEntries(KSharedConfig::openConfig()->group(QString()));
 
     m_saveAction = KStandardGameAction::saveAs(this, &MainWindow::saveGame, actionCollection());
-    actionCollection()->setDefaultShortcut(m_saveAction, Qt::CTRL | Qt::Key_S);
+    KActionCollection::setDefaultShortcut(m_saveAction, Qt::CTRL | Qt::Key_S);
 
     a = actionCollection()->addAction(QStringLiteral("game_stats"));
     a->setText(i18n("Statistics"));
@@ -215,7 +215,7 @@ void MainWindow::setupActions()
     a = KStandardGameAction::hint(nullptr, nullptr, nullptr);
     m_hintAction->setText(a->text());
     m_hintAction->setIcon(a->icon());
-    actionCollection()->setDefaultShortcut(m_hintAction, a->shortcut());
+    KActionCollection::setDefaultShortcut(m_hintAction, a->shortcut());
     m_hintAction->setToolTip(a->toolTip());
     m_hintAction->setWhatsThis(a->whatsThis());
     delete a;
@@ -226,22 +226,22 @@ void MainWindow::setupActions()
     m_drawAction = actionCollection()->addAction(QStringLiteral("move_draw"));
     m_drawAction->setText(i18nc("Take one or more cards from the deck, flip them, and place them in play", "Dra&w"));
     m_drawAction->setIcon(QIcon::fromTheme(QStringLiteral("kpat")));
-    actionCollection()->setDefaultShortcut(m_drawAction, Qt::Key_Tab);
+    KActionCollection::setDefaultShortcut(m_drawAction, Qt::Key_Tab);
 
     m_dealAction = actionCollection()->addAction(QStringLiteral("move_deal"));
     m_dealAction->setText(i18nc("Deal a new row of cards from the deck", "Dea&l Row"));
     m_dealAction->setIcon(QIcon::fromTheme(QStringLiteral("kpat")));
-    actionCollection()->setDefaultShortcut(m_dealAction, Qt::Key_Return);
+    KActionCollection::setDefaultShortcut(m_dealAction, Qt::Key_Return);
 
     m_redealAction = actionCollection()->addAction(QStringLiteral("move_redeal"));
     m_redealAction->setText(i18nc("Collect the cards in play, shuffle them and redeal them", "&Redeal"));
     m_redealAction->setIcon(QIcon::fromTheme(QStringLiteral("roll")));
-    actionCollection()->setDefaultShortcut(m_redealAction, Qt::Key_R);
+    KActionCollection::setDefaultShortcut(m_redealAction, Qt::Key_R);
 
     m_dropAction = new KToggleAction(actionCollection());
     m_dropAction->setText(i18nc("Automatically move cards to the foundation piles", "Dro&p"));
     m_dropAction->setIcon(QIcon::fromTheme(QStringLiteral("games-endturn")));
-    actionCollection()->setDefaultShortcut(m_dropAction, Qt::Key_P);
+    KActionCollection::setDefaultShortcut(m_dropAction, Qt::Key_P);
     actionCollection()->addAction(QStringLiteral("move_drop"), m_dropAction);
     connect(m_dropAction, &QAction::triggered, this, &MainWindow::toggleDrop);
 
@@ -249,7 +249,7 @@ void MainWindow::setupActions()
     a = actionCollection()->addAction(QStringLiteral("select_deck"));
     a->setText(i18n("Change Appearance..."));
     connect(a, &QAction::triggered, this, &MainWindow::configureAppearance);
-    actionCollection()->setDefaultShortcut(a, Qt::Key_F10);
+    KActionCollection::setDefaultShortcut(a, Qt::Key_F10);
 
     m_autoDropEnabledAction = new KToggleAction(i18n("&Enable Autodrop"), this);
     actionCollection()->addAction(QStringLiteral("enable_autodrop"), m_autoDropEnabledAction);
@@ -275,7 +275,7 @@ void MainWindow::setupActions()
     m_gameHelpAction = actionCollection()->addAction(QStringLiteral("help_game"));
     m_gameHelpAction->setIcon(QIcon::fromTheme(QStringLiteral("help-browser")));
     connect(m_gameHelpAction, &QAction::triggered, this, &MainWindow::helpGame);
-    actionCollection()->setDefaultShortcut(m_gameHelpAction, Qt::CTRL | Qt::SHIFT | Qt::Key_F1);
+    KActionCollection::setDefaultShortcut(m_gameHelpAction, Qt::CTRL | Qt::SHIFT | Qt::Key_F1);
 
     // Hidden actions
     if (!qEnvironmentVariableIsEmpty("KDE_DEBUG")) // developer shortcut
@@ -283,43 +283,43 @@ void MainWindow::setupActions()
         a = actionCollection()->addAction(QStringLiteral("themePreview"));
         a->setText(i18n("Generate a theme preview image"));
         connect(a, &QAction::triggered, this, &MainWindow::generateThemePreview);
-        actionCollection()->setDefaultShortcut(a, Qt::Key_F7);
+        KActionCollection::setDefaultShortcut(a, Qt::Key_F7);
 
         a = actionCollection()->addAction(QStringLiteral("snapshot"));
         a->setText(i18n("Take Game Preview Snapshots"));
         connect(a, &QAction::triggered, this, &MainWindow::slotSnapshot);
-        actionCollection()->setDefaultShortcut(a, Qt::Key_F8);
+        KActionCollection::setDefaultShortcut(a, Qt::Key_F8);
 
         a = actionCollection()->addAction(QStringLiteral("random_set"));
         a->setText(i18n("Random Cards"));
         connect(a, &QAction::triggered, this, &MainWindow::slotPickRandom);
-        actionCollection()->setDefaultShortcut(a, Qt::Key_F9);
+        KActionCollection::setDefaultShortcut(a, Qt::Key_F9);
     }
 
     // Keyboard navigation actions
     m_leftAction = actionCollection()->addAction(QStringLiteral("focus_left"));
     m_leftAction->setText(i18n("Move Focus to Previous Pile"));
-    actionCollection()->setDefaultShortcut(m_leftAction, Qt::Key_Left);
+    KActionCollection::setDefaultShortcut(m_leftAction, Qt::Key_Left);
 
     m_rightAction = actionCollection()->addAction(QStringLiteral("focus_right"));
     m_rightAction->setText(i18n("Move Focus to Next Pile"));
-    actionCollection()->setDefaultShortcut(m_rightAction, Qt::Key_Right);
+    KActionCollection::setDefaultShortcut(m_rightAction, Qt::Key_Right);
 
     m_upAction = actionCollection()->addAction(QStringLiteral("focus_up"));
     m_upAction->setText(i18n("Move Focus to Card Below"));
-    actionCollection()->setDefaultShortcut(m_upAction, Qt::Key_Up);
+    KActionCollection::setDefaultShortcut(m_upAction, Qt::Key_Up);
 
     m_downAction = actionCollection()->addAction(QStringLiteral("focus_down"));
     m_downAction->setText(i18n("Move Focus to Card Above"));
-    actionCollection()->setDefaultShortcut(m_downAction, Qt::Key_Down);
+    KActionCollection::setDefaultShortcut(m_downAction, Qt::Key_Down);
 
     m_cancelAction = actionCollection()->addAction(QStringLiteral("focus_cancel"));
     m_cancelAction->setText(i18n("Cancel Focus"));
-    actionCollection()->setDefaultShortcut(m_cancelAction, Qt::Key_Escape);
+    KActionCollection::setDefaultShortcut(m_cancelAction, Qt::Key_Escape);
 
     m_pickUpSetDownAction = actionCollection()->addAction(QStringLiteral("focus_activate"));
     m_pickUpSetDownAction->setText(i18n("Pick Up or Set Down Focus"));
-    actionCollection()->setDefaultShortcut(m_pickUpSetDownAction, Qt::Key_Space);
+    KActionCollection::setDefaultShortcut(m_pickUpSetDownAction, Qt::Key_Space);
 
     // showMenubar isn't a part of KStandardGameAction
     m_showMenubarAction = KStandardAction::showMenubar(this, &MainWindow::toggleMenubar, actionCollection());
