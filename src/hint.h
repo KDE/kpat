@@ -37,7 +37,7 @@
 #ifndef HINT_H
 #define HINT_H
 
-#include <QtAssert>
+#include <QtGlobal>
 
 class KCard;
 class PatPile;
