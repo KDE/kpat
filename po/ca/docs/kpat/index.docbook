@@ -672,7 +672,7 @@
 ><primary
 >Aranya</primary
 ></indexterm
-> Es juga amb dos piles de cartes. Les cartes es reparteixen en 10 munts de joc, 4 de 6 cartes i 6 de 5 cartes cadascun. Això deixa 50 cartes que es poden repartir 10 a la vegada, una sobre cada munt de joc. </para>
+> Es juga amb dues piles de cartes. Les cartes es reparteixen en 10 munts de joc, 4 de 6 cartes i 6 de 5 cartes cadascun. Això deixa 50 cartes que es poden repartir 10 a la vegada, una sobre cada munt de joc. </para>
 
 <para
 >En els munts de joc, es pot posar una carta damunt d'una altra de qualsevol coll i d'un valor més alt. Es pot moure una seqüència de cartes en ordre descendent del mateix coll des d'un munt de joc cap a un altre. </para>
@@ -1388,7 +1388,7 @@
 >Consell</quote
 >, també hi ha un mode <quote
 >Demo</quote
-> que és molt útil, on la intel·ligència artificial integrada jugarà per vós. Podeu intentar mirant i aprenent. No obstant això, si teniu alguna pregunta, és millor llegir les seccions <link linkend="howto"
+> que és molt útil, on la intel·ligència artificial integrada jugarà per vós. Podeu intentar mirar i aprendre. No obstant això, si teniu alguna pregunta, és millor llegir les seccions <link linkend="howto"
 >Com jugar</link
 > i <link linkend="rules_and_tips"
 >Les regles del joc, estratègies i consells</link

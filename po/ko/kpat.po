@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-09 01:45+0000\n"
+"POT-Creation-Date: 2023-10-18 01:41+0000\n"
 "PO-Revision-Date: 2023-07-23 21:04+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -445,7 +445,7 @@ msgid "Move"
 msgstr "이동"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: kpatui.rc:43
+#: kpatui.rc:42
 #, kde-format
 msgid "Main Toolbar"
 msgstr "주 도구 모음"
@@ -726,97 +726,92 @@ msgctxt "Automatically move cards to the foundation piles"
 msgid "Dro&p"
 msgstr "떨어트리기(&P)"
 
-#: mainwindow.cpp:250
-#, kde-format
-msgid "Change Appearance..."
-msgstr "모양 바꾸기..."
-
-#: mainwindow.cpp:254
+#: mainwindow.cpp:249
 #, kde-format
 msgid "&Enable Autodrop"
 msgstr "자동 떨어트리기 사용(&E)"
 
-#: mainwindow.cpp:259
+#: mainwindow.cpp:254
 #, kde-format
 msgid "E&nable Solver"
 msgstr "해결사 사용(&N)"
 
-#: mainwindow.cpp:264
+#: mainwindow.cpp:259
 #, kde-format
 msgid "Play &Sounds"
 msgstr "소리 재생(&S)"
 
-#: mainwindow.cpp:269
+#: mainwindow.cpp:264
 #, kde-format
 msgid "&Remember State on Exit"
 msgstr "끝낼 때 상태 저장(&R)"
 
-#: mainwindow.cpp:284
+#: mainwindow.cpp:281
 #, kde-format
 msgid "Generate a theme preview image"
 msgstr "테마 미리 보기 그림 만들기"
 
-#: mainwindow.cpp:289
+#: mainwindow.cpp:286
 #, kde-format
 msgid "Take Game Preview Snapshots"
 msgstr "게임 미리 보기 스냅샷 찍기"
 
-#: mainwindow.cpp:294
+#: mainwindow.cpp:291
 #, kde-format
 msgid "Random Cards"
 msgstr "무작위 카드"
 
-#: mainwindow.cpp:301
+#: mainwindow.cpp:298
 #, kde-format
 msgid "Move Focus to Previous Pile"
 msgstr "이전 파일로 포커스 이동"
 
-#: mainwindow.cpp:305
+#: mainwindow.cpp:302
 #, kde-format
 msgid "Move Focus to Next Pile"
 msgstr "다음 파일로 포커스 이동"
 
-#: mainwindow.cpp:309
+#: mainwindow.cpp:306
 #, kde-format
 msgid "Move Focus to Card Below"
 msgstr "아래쪽 카드로 포커스 이동"
 
-#: mainwindow.cpp:313
+#: mainwindow.cpp:310
 #, kde-format
 msgid "Move Focus to Card Above"
 msgstr "위쪽 카드로 포커스 이동"
 
-#: mainwindow.cpp:317
+#: mainwindow.cpp:314
 #, kde-format
 msgid "Cancel Focus"
 msgstr "포커스 취소"
 
-#: mainwindow.cpp:321
+#: mainwindow.cpp:318
 #, kde-format
 msgid "Pick Up or Set Down Focus"
 msgstr "카드를 줍거나 아래로 포커스 설정"
 
-#: mainwindow.cpp:429
+#: mainwindow.cpp:426
 #, kde-format
 msgid "Card Deck"
 msgstr "카드 덱"
 
-#: mainwindow.cpp:431
+#: mainwindow.cpp:428
 #, kde-format
 msgid "Select a card deck"
 msgstr "카드 덱 선택"
 
-#: mainwindow.cpp:436
+#: mainwindow.cpp:433
 #, kde-format
 msgid "Game Theme"
 msgstr "게임 테마"
 
-#: mainwindow.cpp:436
+#: mainwindow.cpp:433
 #, kde-format
 msgid "Select a theme for non-card game elements"
 msgstr "카드 이외 게임 구성 요소의 테마를 선택하십시오"
 
-#: mainwindow.cpp:514
+#: mainwindow.cpp:511
 #, kde-format
 msgctxt ""
 "Is disabled and changes to \"Help &with Current Game\" when there is no "
@@ -824,75 +819,75 @@ msgctxt ""
 msgid "Help &with %1"
 msgstr "%1 도움말(&W)"
 
-#: mainwindow.cpp:545
+#: mainwindow.cpp:542
 #, kde-format
 msgctxt "Shown when there is no game open. Is always disabled."
 msgid "Help &with Current Game"
 msgstr "현재 게임 도움말(&W)"
 
-#: mainwindow.cpp:700
+#: mainwindow.cpp:697
 #, kde-format
 msgid ""
 "Are you sure you want to hide the menubar? The current shortcut to show it "
 "again is %1."
 msgstr "메뉴 표시줄을 숨기시겠습니까? 다시 보이려면 %1 키를 누르십시오."
 
-#: mainwindow.cpp:702
+#: mainwindow.cpp:699
 #, kde-format
 msgid "Hide Menubar"
 msgstr "메뉴 표시줄 숨기기"
 
-#: mainwindow.cpp:795
+#: mainwindow.cpp:792
 #, kde-format
 msgid "Downloading file failed: %1"
 msgstr "파일 다운로드 실패: %1"
 
-#: mainwindow.cpp:801
+#: mainwindow.cpp:798
 #, kde-format
 msgid "Error reading XML file: "
 msgstr "XML 파일 읽는 중 오류 발생:"
 
-#: mainwindow.cpp:818
+#: mainwindow.cpp:815
 #, kde-format
 msgid "XML file is not a KPat save."
 msgstr "XML 파일이 저장된 KPat 게임이 아닙니다."
 
-#: mainwindow.cpp:823
+#: mainwindow.cpp:820
 #, kde-format
 msgid "Unrecognized game id."
 msgstr "알 수 없는 게임 ID입니다."
 
-#: mainwindow.cpp:842
+#: mainwindow.cpp:839
 #, kde-format
 msgid "Errors encountered while parsing file."
 msgstr "파일을 처리하는 중 오류가 발생했습니다."
 
-#: mainwindow.cpp:861
+#: mainwindow.cpp:858
 #, kde-format
 msgid "Load"
 msgstr "불러오기"
 
-#: mainwindow.cpp:888
+#: mainwindow.cpp:885
 #, kde-format
 msgid "Save"
 msgstr "저장"
 
-#: mainwindow.cpp:904
+#: mainwindow.cpp:901
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
 msgstr "파일에 쓰려고 여는 중 오류가 발생했습니다. 저장할 수 없습니다."
 
-#: mainwindow.cpp:909
+#: mainwindow.cpp:906
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
 msgstr "임시 파일을 만들 수 없습니다. 저장할 수 없습니다."
 
-#: mainwindow.cpp:925
+#: mainwindow.cpp:922
 #, kde-format
 msgid "Error uploading file. Saving failed: %1"
 msgstr "파일을 업로드하는 중 오류가 발생했습니다. 저장할 수 없습니다: %1"
 
-#: mainwindow.cpp:949
+#: mainwindow.cpp:946
 #, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"
@@ -1033,6 +1028,9 @@ msgstr "최소 이동 수:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "유콘"
+
+#~ msgid "Change Appearance..."
+#~ msgstr "모양 바꾸기..."
 
 #~ msgctxt "List separator"
 #~ msgid ", "

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-09 01:45+0000\n"
+"POT-Creation-Date: 2023-10-18 01:41+0000\n"
 "PO-Revision-Date: 2023-01-10 22:59+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -449,7 +449,7 @@ msgid "Move"
 msgstr "Mugitu"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: kpatui.rc:43
+#: kpatui.rc:42
 #, kde-format
 msgid "Main Toolbar"
 msgstr "Tresna-barra nagusia"
@@ -730,97 +730,92 @@ msgctxt "Automatically move cards to the foundation piles"
 msgid "Dro&p"
 msgstr "&Jaregin"
 
-#: mainwindow.cpp:250
-#, kde-format
-msgid "Change Appearance..."
-msgstr "Aldatu itxura..."
-
-#: mainwindow.cpp:254
+#: mainwindow.cpp:249
 #, kde-format
 msgid "&Enable Autodrop"
 msgstr "&Gaitu mugimendu automatikoak"
 
-#: mainwindow.cpp:259
+#: mainwindow.cpp:254
 #, kde-format
 msgid "E&nable Solver"
 msgstr "Gai&tu ebazlea"
 
-#: mainwindow.cpp:264
+#: mainwindow.cpp:259
 #, kde-format
 msgid "Play &Sounds"
 msgstr "Jo &soinuak"
 
-#: mainwindow.cpp:269
+#: mainwindow.cpp:264
 #, kde-format
 msgid "&Remember State on Exit"
 msgstr "&Oroitu egoera irtetean"
 
-#: mainwindow.cpp:284
+#: mainwindow.cpp:281
 #, kde-format
 msgid "Generate a theme preview image"
 msgstr "Sortu gaia aurreikusteko irudi bat"
 
-#: mainwindow.cpp:289
+#: mainwindow.cpp:286
 #, kde-format
 msgid "Take Game Preview Snapshots"
 msgstr "Hartu jokoaren aurrebistaren argazkiak"
 
-#: mainwindow.cpp:294
+#: mainwindow.cpp:291
 #, kde-format
 msgid "Random Cards"
 msgstr "Ausazko kartak"
 
-#: mainwindow.cpp:301
+#: mainwindow.cpp:298
 #, kde-format
 msgid "Move Focus to Previous Pile"
 msgstr "Mugitu fokua aurreko pilara"
 
-#: mainwindow.cpp:305
+#: mainwindow.cpp:302
 #, kde-format
 msgid "Move Focus to Next Pile"
 msgstr "Mugitu fokua hurrengo pilara"
 
-#: mainwindow.cpp:309
+#: mainwindow.cpp:306
 #, kde-format
 msgid "Move Focus to Card Below"
 msgstr "Mugitu fokua azpiko kartara"
 
-#: mainwindow.cpp:313
+#: mainwindow.cpp:310
 #, kde-format
 msgid "Move Focus to Card Above"
 msgstr "Mugitu fokua gaineko kartara"
 
-#: mainwindow.cpp:317
+#: mainwindow.cpp:314
 #, kde-format
 msgid "Cancel Focus"
 msgstr "Utzi fokua"
 
-#: mainwindow.cpp:321
+#: mainwindow.cpp:318
 #, kde-format
 msgid "Pick Up or Set Down Focus"
 msgstr "Fokua aktibatu edo desaktibatu"
 
-#: mainwindow.cpp:429
+#: mainwindow.cpp:426
 #, kde-format
 msgid "Card Deck"
 msgstr "Karta-sorta"
 
-#: mainwindow.cpp:431
+#: mainwindow.cpp:428
 #, kde-format
 msgid "Select a card deck"
 msgstr "Hautatu karta-sorta bat"
 
-#: mainwindow.cpp:436
+#: mainwindow.cpp:433
 #, kde-format
 msgid "Game Theme"
 msgstr "Jokoaren gaia"
 
-#: mainwindow.cpp:436
+#: mainwindow.cpp:433
 #, kde-format
 msgid "Select a theme for non-card game elements"
 msgstr "Aukeratu kartak ez diren elementuentzako gai bat"
 
-#: mainwindow.cpp:514
+#: mainwindow.cpp:511
 #, kde-format
 msgctxt ""
 "Is disabled and changes to \"Help &with Current Game\" when there is no "
@@ -828,13 +823,13 @@ msgctxt ""
 msgid "Help &with %1"
 msgstr "Lagundu &honekin: %1"
 
-#: mainwindow.cpp:545
+#: mainwindow.cpp:542
 #, kde-format
 msgctxt "Shown when there is no game open. Is always disabled."
 msgid "Help &with Current Game"
 msgstr "Lagundu &uneko jokoarekin"
 
-#: mainwindow.cpp:700
+#: mainwindow.cpp:697
 #, kde-format
 msgid ""
 "Are you sure you want to hide the menubar? The current shortcut to show it "
@@ -843,62 +838,62 @@ msgstr ""
 "Ziur zaude menu-barra ezkutatu nahi duzula? Berriz erakusteko laster-tekla "
 "%1 da."
 
-#: mainwindow.cpp:702
+#: mainwindow.cpp:699
 #, kde-format
 msgid "Hide Menubar"
 msgstr "Ezkutatu menu-barra"
 
-#: mainwindow.cpp:795
+#: mainwindow.cpp:792
 #, kde-format
 msgid "Downloading file failed: %1"
 msgstr "Fitxategia zama-jaistea huts egin du: %1"
 
-#: mainwindow.cpp:801
+#: mainwindow.cpp:798
 #, kde-format
 msgid "Error reading XML file: "
 msgstr "XML fitxategia irakurtzeko errorea:"
 
-#: mainwindow.cpp:818
+#: mainwindow.cpp:815
 #, kde-format
 msgid "XML file is not a KPat save."
 msgstr "XML fitxategia ez da gordetako KPat joko bat."
 
-#: mainwindow.cpp:823
+#: mainwindow.cpp:820
 #, kde-format
 msgid "Unrecognized game id."
 msgstr "Joko ID ezezaguna."
 
-#: mainwindow.cpp:842
+#: mainwindow.cpp:839
 #, kde-format
 msgid "Errors encountered while parsing file."
 msgstr "Erroreak aurkitu dira fitxategiaren azterketa sintaktikoa egitean."
 
-#: mainwindow.cpp:861
+#: mainwindow.cpp:858
 #, kde-format
 msgid "Load"
 msgstr "Zamatu"
 
-#: mainwindow.cpp:888
+#: mainwindow.cpp:885
 #, kde-format
 msgid "Save"
 msgstr "Gorde"
 
-#: mainwindow.cpp:904
+#: mainwindow.cpp:901
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
 msgstr "Errorea fitxategia idazteko irekitzean. Gordetzea huts egin du."
 
-#: mainwindow.cpp:909
+#: mainwindow.cpp:906
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
 msgstr "Ezin du aldi baterako fitxategia sortu. Gordetzea huts egin du."
 
-#: mainwindow.cpp:925
+#: mainwindow.cpp:922
 #, kde-format
 msgid "Error uploading file. Saving failed: %1"
 msgstr "Errorea fitxategia zama-igotzean. Gordetzea huts egin du: %1"
 
-#: mainwindow.cpp:949
+#: mainwindow.cpp:946
 #, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"
@@ -1042,6 +1037,9 @@ msgstr "Mugimendu kopuru minimoa:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Yukon"
+
+#~ msgid "Change Appearance..."
+#~ msgstr "Aldatu itxura..."
 
 #~ msgctxt "List separator"
 #~ msgid ", "

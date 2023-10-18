@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-09 01:45+0000\n"
+"POT-Creation-Date: 2023-10-18 01:41+0000\n"
 "PO-Revision-Date: 2022-08-21 06:40+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -455,7 +455,7 @@ msgid "Move"
 msgstr "Poteza"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: kpatui.rc:43
+#: kpatui.rc:42
 #, kde-format
 msgid "Main Toolbar"
 msgstr "Glavna orodna vrstica"
@@ -736,97 +736,92 @@ msgctxt "Automatically move cards to the foundation piles"
 msgid "Dro&p"
 msgstr "Spusti"
 
-#: mainwindow.cpp:250
-#, kde-format
-msgid "Change Appearance..."
-msgstr "Spremeni videz ..."
-
-#: mainwindow.cpp:254
+#: mainwindow.cpp:249
 #, kde-format
 msgid "&Enable Autodrop"
 msgstr "Omogoči samodejni spust"
 
-#: mainwindow.cpp:259
+#: mainwindow.cpp:254
 #, kde-format
 msgid "E&nable Solver"
 msgstr "Omogoči reševalnik"
 
-#: mainwindow.cpp:264
+#: mainwindow.cpp:259
 #, kde-format
 msgid "Play &Sounds"
 msgstr "Predvajaj zvoke"
 
-#: mainwindow.cpp:269
+#: mainwindow.cpp:264
 #, kde-format
 msgid "&Remember State on Exit"
 msgstr "Ob izhodu si zapomni stanje"
 
-#: mainwindow.cpp:284
+#: mainwindow.cpp:281
 #, kde-format
 msgid "Generate a theme preview image"
 msgstr "Ustvari sliko predogleda teme"
 
-#: mainwindow.cpp:289
+#: mainwindow.cpp:286
 #, kde-format
 msgid "Take Game Preview Snapshots"
 msgstr "Zajemi posnetke predogleda iger"
 
-#: mainwindow.cpp:294
+#: mainwindow.cpp:291
 #, kde-format
 msgid "Random Cards"
 msgstr "Naključne karte"
 
-#: mainwindow.cpp:301
+#: mainwindow.cpp:298
 #, kde-format
 msgid "Move Focus to Previous Pile"
 msgstr "Premakni fokus na prejšnji kup"
 
-#: mainwindow.cpp:305
+#: mainwindow.cpp:302
 #, kde-format
 msgid "Move Focus to Next Pile"
 msgstr "Premakni fokus na naslednji kup"
 
-#: mainwindow.cpp:309
+#: mainwindow.cpp:306
 #, kde-format
 msgid "Move Focus to Card Below"
 msgstr "Premakni fokus na kartico spodaj"
 
-#: mainwindow.cpp:313
+#: mainwindow.cpp:310
 #, kde-format
 msgid "Move Focus to Card Above"
 msgstr "Premakni fokus na kartico zgoraj"
 
-#: mainwindow.cpp:317
+#: mainwindow.cpp:314
 #, kde-format
 msgid "Cancel Focus"
 msgstr "Prekliči fokus"
 
-#: mainwindow.cpp:321
+#: mainwindow.cpp:318
 #, kde-format
 msgid "Pick Up or Set Down Focus"
 msgstr "Izberite ali nastavite fokus"
 
-#: mainwindow.cpp:429
+#: mainwindow.cpp:426
 #, kde-format
 msgid "Card Deck"
 msgstr "Izgled kart"
 
-#: mainwindow.cpp:431
+#: mainwindow.cpp:428
 #, kde-format
 msgid "Select a card deck"
 msgstr "Izberite izgled kart"
 
-#: mainwindow.cpp:436
+#: mainwindow.cpp:433
 #, kde-format
 msgid "Game Theme"
 msgstr "Tema igre"
 
-#: mainwindow.cpp:436
+#: mainwindow.cpp:433
 #, kde-format
 msgid "Select a theme for non-card game elements"
 msgstr "Izberite temo za predmete igre, ki niso povezane s kartami"
 
-#: mainwindow.cpp:514
+#: mainwindow.cpp:511
 #, kde-format
 msgctxt ""
 "Is disabled and changes to \"Help &with Current Game\" when there is no "
@@ -834,13 +829,13 @@ msgctxt ""
 msgid "Help &with %1"
 msgstr "Pomoč za %1"
 
-#: mainwindow.cpp:545
+#: mainwindow.cpp:542
 #, kde-format
 msgctxt "Shown when there is no game open. Is always disabled."
 msgid "Help &with Current Game"
 msgstr "Pomoč za trenutno igro"
 
-#: mainwindow.cpp:700
+#: mainwindow.cpp:697
 #, kde-format
 msgid ""
 "Are you sure you want to hide the menubar? The current shortcut to show it "
@@ -849,62 +844,62 @@ msgstr ""
 "Ali ste prepričani, da želite skriti menijsko vrstico? Trenutna bližnjica za "
 "ponovni prikaz je %1."
 
-#: mainwindow.cpp:702
+#: mainwindow.cpp:699
 #, kde-format
 msgid "Hide Menubar"
 msgstr "Skrij menijsko vrstico"
 
-#: mainwindow.cpp:795
+#: mainwindow.cpp:792
 #, kde-format
 msgid "Downloading file failed: %1"
 msgstr "Prejemanje datoteke je spodletelo: %1"
 
-#: mainwindow.cpp:801
+#: mainwindow.cpp:798
 #, kde-format
 msgid "Error reading XML file: "
 msgstr "Napaka med branjem datoteke XML: "
 
-#: mainwindow.cpp:818
+#: mainwindow.cpp:815
 #, kde-format
 msgid "XML file is not a KPat save."
 msgstr "Datoteka XML ni shranjena igra KPat."
 
-#: mainwindow.cpp:823
+#: mainwindow.cpp:820
 #, kde-format
 msgid "Unrecognized game id."
 msgstr "Id igre ni bil prepoznan."
 
-#: mainwindow.cpp:842
+#: mainwindow.cpp:839
 #, kde-format
 msgid "Errors encountered while parsing file."
 msgstr "Med razčlenjevanjem datoteke je prišlo do napak."
 
-#: mainwindow.cpp:861
+#: mainwindow.cpp:858
 #, kde-format
 msgid "Load"
 msgstr "Naloži"
 
-#: mainwindow.cpp:888
+#: mainwindow.cpp:885
 #, kde-format
 msgid "Save"
 msgstr "Shrani"
 
-#: mainwindow.cpp:904
+#: mainwindow.cpp:901
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
 msgstr "Napaka med odpiranjem datoteke za pisanje. Shranjevanje je spodletelo."
 
-#: mainwindow.cpp:909
+#: mainwindow.cpp:906
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
 msgstr "Začasne datoteke ni bilo mogoče ustvariti. Shranjevanje je spodletelo."
 
-#: mainwindow.cpp:925
+#: mainwindow.cpp:922
 #, kde-format
 msgid "Error uploading file. Saving failed: %1"
 msgstr "Napaka med pošiljanjem datoteke: shranjevanje ni uspelo: %1"
 
-#: mainwindow.cpp:949
+#: mainwindow.cpp:946
 #, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"
@@ -1054,6 +1049,9 @@ msgstr "Minimalno število potez:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Jukon"
+
+#~ msgid "Change Appearance..."
+#~ msgstr "Spremeni videz ..."
 
 #~ msgctxt "List separator"
 #~ msgid ", "

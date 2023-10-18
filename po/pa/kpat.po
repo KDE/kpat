@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-09 01:45+0000\n"
+"POT-Creation-Date: 2023-10-18 01:41+0000\n"
 "PO-Revision-Date: 2014-03-29 18:30-0500\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
 "Language-Team: Punjabi/Panjabi <punjabi-users@lists.sf.net>\n"
@@ -453,7 +453,7 @@ msgid "Move"
 msgstr "ਚਾਲ"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: kpatui.rc:43
+#: kpatui.rc:42
 #, kde-format
 msgid "Main Toolbar"
 msgstr "ਮੁੱਖ ਸੰਦ-ਪੱਟੀ"
@@ -734,97 +734,92 @@ msgctxt "Automatically move cards to the foundation piles"
 msgid "Dro&p"
 msgstr "ਛੱਡੋ(&p)"
 
-#: mainwindow.cpp:250
-#, kde-format
-msgid "Change Appearance..."
-msgstr "...ਦਿੱਖ ਬਦਲੋ"
-
-#: mainwindow.cpp:254
+#: mainwindow.cpp:249
 #, kde-format
 msgid "&Enable Autodrop"
 msgstr "ਸਵੈ-ਚਾਲਿਤ ਪੱਤੇ ਚੱਕਣਾ ਯੋਗ(&E)"
 
-#: mainwindow.cpp:259
+#: mainwindow.cpp:254
 #, kde-format
 msgid "E&nable Solver"
 msgstr "ਹੱਲਕਰਤਾ ਯੋਗ(&n)"
 
-#: mainwindow.cpp:264
+#: mainwindow.cpp:259
 #, kde-format
 msgid "Play &Sounds"
 msgstr "ਆਵਾਜ਼ਾ ਚਲਾਓ(&S)"
 
-#: mainwindow.cpp:269
+#: mainwindow.cpp:264
 #, kde-format
 msgid "&Remember State on Exit"
 msgstr "ਬੰਦ ਕਰਨ ਸਮੇਂ ਸਥਿਤੀ ਯਾਦ ਰੱਖੋ(&R)"
 
-#: mainwindow.cpp:284
+#: mainwindow.cpp:281
 #, kde-format
 msgid "Generate a theme preview image"
 msgstr ""
 
-#: mainwindow.cpp:289
+#: mainwindow.cpp:286
 #, kde-format
 msgid "Take Game Preview Snapshots"
 msgstr ""
 
-#: mainwindow.cpp:294
+#: mainwindow.cpp:291
 #, kde-format
 msgid "Random Cards"
 msgstr "ਰਲਵੇਂ ਕਾਰਡ"
 
-#: mainwindow.cpp:301
+#: mainwindow.cpp:298
 #, kde-format
 msgid "Move Focus to Previous Pile"
 msgstr ""
 
-#: mainwindow.cpp:305
+#: mainwindow.cpp:302
 #, kde-format
 msgid "Move Focus to Next Pile"
 msgstr ""
 
-#: mainwindow.cpp:309
+#: mainwindow.cpp:306
 #, kde-format
 msgid "Move Focus to Card Below"
 msgstr ""
 
-#: mainwindow.cpp:313
+#: mainwindow.cpp:310
 #, kde-format
 msgid "Move Focus to Card Above"
 msgstr ""
 
-#: mainwindow.cpp:317
+#: mainwindow.cpp:314
 #, kde-format
 msgid "Cancel Focus"
 msgstr ""
 
-#: mainwindow.cpp:321
+#: mainwindow.cpp:318
 #, kde-format
 msgid "Pick Up or Set Down Focus"
 msgstr ""
 
-#: mainwindow.cpp:429
+#: mainwindow.cpp:426
 #, kde-format
 msgid "Card Deck"
 msgstr "ਕਾਰਡ ਡੈਕ"
 
-#: mainwindow.cpp:431
+#: mainwindow.cpp:428
 #, kde-format
 msgid "Select a card deck"
 msgstr "ਕਾਰਡ ਡੈਕ ਚੁਣੋ"
 
-#: mainwindow.cpp:436
+#: mainwindow.cpp:433
 #, kde-format
 msgid "Game Theme"
 msgstr "ਖੇਡ ਥੀਮ"
 
-#: mainwindow.cpp:436
+#: mainwindow.cpp:433
 #, kde-format
 msgid "Select a theme for non-card game elements"
 msgstr ""
 
-#: mainwindow.cpp:514
+#: mainwindow.cpp:511
 #, kde-format
 msgctxt ""
 "Is disabled and changes to \"Help &with Current Game\" when there is no "
@@ -832,77 +827,77 @@ msgctxt ""
 msgid "Help &with %1"
 msgstr "%1 ਨਾਲ ਮੱਦਦ(&w)"
 
-#: mainwindow.cpp:545
+#: mainwindow.cpp:542
 #, kde-format
 msgctxt "Shown when there is no game open. Is always disabled."
 msgid "Help &with Current Game"
 msgstr "ਮੌਜੂਦਾ ਖੇਡ ਲਈ ਮੱਦਦ(&w)"
 
-#: mainwindow.cpp:700
+#: mainwindow.cpp:697
 #, kde-format
 msgid ""
 "Are you sure you want to hide the menubar? The current shortcut to show it "
 "again is %1."
 msgstr ""
 
-#: mainwindow.cpp:702
+#: mainwindow.cpp:699
 #, kde-format
 msgid "Hide Menubar"
 msgstr "ਮੇਨੂ-ਪੱਟੀ ਓਹਲੇ"
 
-#: mainwindow.cpp:795
+#: mainwindow.cpp:792
 #, fuzzy, kde-format
 #| msgid "Downloading file failed."
 msgid "Downloading file failed: %1"
 msgstr "ਫਾਇਲ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਫੇਲ੍ਹ ਹੈ।"
 
-#: mainwindow.cpp:801
+#: mainwindow.cpp:798
 #, kde-format
 msgid "Error reading XML file: "
 msgstr "XML ਫਾਇਲ ਪੜ੍ਹਨ ਵਿੱਚ ਗਲਤੀ: "
 
-#: mainwindow.cpp:818
+#: mainwindow.cpp:815
 #, kde-format
 msgid "XML file is not a KPat save."
 msgstr ""
 
-#: mainwindow.cpp:823
+#: mainwindow.cpp:820
 #, kde-format
 msgid "Unrecognized game id."
 msgstr ""
 
-#: mainwindow.cpp:842
+#: mainwindow.cpp:839
 #, kde-format
 msgid "Errors encountered while parsing file."
 msgstr ""
 
-#: mainwindow.cpp:861
+#: mainwindow.cpp:858
 #, kde-format
 msgid "Load"
 msgstr "ਲੋਡ"
 
-#: mainwindow.cpp:888
+#: mainwindow.cpp:885
 #, kde-format
 msgid "Save"
 msgstr "ਸੰਭਾਲੋ"
 
-#: mainwindow.cpp:904
+#: mainwindow.cpp:901
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
 msgstr ""
 
-#: mainwindow.cpp:909
+#: mainwindow.cpp:906
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
 msgstr ""
 
-#: mainwindow.cpp:925
+#: mainwindow.cpp:922
 #, fuzzy, kde-format
 #| msgid "Downloading file failed."
 msgid "Error uploading file. Saving failed: %1"
 msgstr "ਫਾਇਲ ਡਾਊਨਲੋਡ ਕਰਨ ਲਈ ਫੇਲ੍ਹ ਹੈ।"
 
-#: mainwindow.cpp:949
+#: mainwindow.cpp:946
 #, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"
@@ -1050,6 +1045,9 @@ msgstr ""
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "ਯੂਕੋਨ"
+
+#~ msgid "Change Appearance..."
+#~ msgstr "...ਦਿੱਖ ਬਦਲੋ"
 
 #~ msgctxt "List separator"
 #~ msgid ", "

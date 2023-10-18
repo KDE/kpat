@@ -1,5 +1,5 @@
 # translation of kpat.po to Polish
-# Version: $Revision: 1661987 $
+# Version: $Revision: 1662531 $
 # translation of kpat.po to
 # translation of kpat.po to
 # translation of kpat.po to
@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-09 01:45+0000\n"
+"POT-Creation-Date: 2023-10-18 01:41+0000\n"
 "PO-Revision-Date: 2022-08-21 07:17+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -456,7 +456,7 @@ msgid "Move"
 msgstr "Ruch"
 
 #. i18n: ectx: ToolBar (mainToolBar)
-#: kpatui.rc:43
+#: kpatui.rc:42
 #, kde-format
 msgid "Main Toolbar"
 msgstr "Główny pasek narzędzi"
@@ -738,97 +738,92 @@ msgctxt "Automatically move cards to the foundation piles"
 msgid "Dro&p"
 msgstr "U&puść"
 
-#: mainwindow.cpp:250
-#, kde-format
-msgid "Change Appearance..."
-msgstr "Zmień wygląd..."
-
-#: mainwindow.cpp:254
+#: mainwindow.cpp:249
 #, kde-format
 msgid "&Enable Autodrop"
 msgstr "Włącz auto&upuszczanie"
 
-#: mainwindow.cpp:259
+#: mainwindow.cpp:254
 #, kde-format
 msgid "E&nable Solver"
 msgstr "&Włącz układacza"
 
-#: mainwindow.cpp:264
+#: mainwindow.cpp:259
 #, kde-format
 msgid "Play &Sounds"
 msgstr "Odtwarzaj &dźwięki"
 
-#: mainwindow.cpp:269
+#: mainwindow.cpp:264
 #, kde-format
 msgid "&Remember State on Exit"
 msgstr "&Zapamiętaj stan przed wyjściem"
 
-#: mainwindow.cpp:284
+#: mainwindow.cpp:281
 #, kde-format
 msgid "Generate a theme preview image"
 msgstr "Generuj obraz podglądu wystroju"
 
-#: mainwindow.cpp:289
+#: mainwindow.cpp:286
 #, kde-format
 msgid "Take Game Preview Snapshots"
 msgstr "Zrzut ekranu gry"
 
-#: mainwindow.cpp:294
+#: mainwindow.cpp:291
 #, kde-format
 msgid "Random Cards"
 msgstr "Losowe karty"
 
-#: mainwindow.cpp:301
+#: mainwindow.cpp:298
 #, kde-format
 msgid "Move Focus to Previous Pile"
 msgstr "Skieruj uwagę na poprzedni stos"
 
-#: mainwindow.cpp:305
+#: mainwindow.cpp:302
 #, kde-format
 msgid "Move Focus to Next Pile"
 msgstr "Skieruj uwagę na następny stos"
 
-#: mainwindow.cpp:309
+#: mainwindow.cpp:306
 #, kde-format
 msgid "Move Focus to Card Below"
 msgstr "Skieruj uwagę na kartę poniżej"
 
-#: mainwindow.cpp:313
+#: mainwindow.cpp:310
 #, kde-format
 msgid "Move Focus to Card Above"
 msgstr "Skieruj uwagę na kartę powyżej"
 
-#: mainwindow.cpp:317
+#: mainwindow.cpp:314
 #, kde-format
 msgid "Cancel Focus"
 msgstr "Porzuć uwagę"
 
-#: mainwindow.cpp:321
+#: mainwindow.cpp:318
 #, kde-format
 msgid "Pick Up or Set Down Focus"
 msgstr "Uwaga na podniesienie lub opuszczenie"
 
-#: mainwindow.cpp:429
+#: mainwindow.cpp:426
 #, kde-format
 msgid "Card Deck"
 msgstr "Talia kart"
 
-#: mainwindow.cpp:431
+#: mainwindow.cpp:428
 #, kde-format
 msgid "Select a card deck"
 msgstr "Wybierz talię kart"
 
-#: mainwindow.cpp:436
+#: mainwindow.cpp:433
 #, kde-format
 msgid "Game Theme"
 msgstr "Wygląd gry"
 
-#: mainwindow.cpp:436
+#: mainwindow.cpp:433
 #, kde-format
 msgid "Select a theme for non-card game elements"
 msgstr "Wybierz wygląd dla niekarcianych elementów gry"
 
-#: mainwindow.cpp:514
+#: mainwindow.cpp:511
 #, kde-format
 msgctxt ""
 "Is disabled and changes to \"Help &with Current Game\" when there is no "
@@ -836,13 +831,13 @@ msgctxt ""
 msgid "Help &with %1"
 msgstr "Pomoc &dla %1"
 
-#: mainwindow.cpp:545
+#: mainwindow.cpp:542
 #, kde-format
 msgctxt "Shown when there is no game open. Is always disabled."
 msgid "Help &with Current Game"
 msgstr "Pomoc &dla obecnej gry"
 
-#: mainwindow.cpp:700
+#: mainwindow.cpp:697
 #, kde-format
 msgid ""
 "Are you sure you want to hide the menubar? The current shortcut to show it "
@@ -851,62 +846,62 @@ msgstr ""
 "Czy na pewno chcesz ukryć pasek menu? Obecny skrót do jego ponownego "
 "pokazania to %1."
 
-#: mainwindow.cpp:702
+#: mainwindow.cpp:699
 #, kde-format
 msgid "Hide Menubar"
 msgstr "Ukryj pasek menu"
 
-#: mainwindow.cpp:795
+#: mainwindow.cpp:792
 #, kde-format
 msgid "Downloading file failed: %1"
 msgstr "Pobieranie pliku nie udało się: %1"
 
-#: mainwindow.cpp:801
+#: mainwindow.cpp:798
 #, kde-format
 msgid "Error reading XML file: "
 msgstr "Błąd czytania pliku XML: "
 
-#: mainwindow.cpp:818
+#: mainwindow.cpp:815
 #, kde-format
 msgid "XML file is not a KPat save."
 msgstr "Plik XML nie jest zapisem KPat."
 
-#: mainwindow.cpp:823
+#: mainwindow.cpp:820
 #, kde-format
 msgid "Unrecognized game id."
 msgstr "Nierozpoznany id gry."
 
-#: mainwindow.cpp:842
+#: mainwindow.cpp:839
 #, kde-format
 msgid "Errors encountered while parsing file."
 msgstr "Wystąpiły błędy podczas przetwarzania pliku."
 
-#: mainwindow.cpp:861
+#: mainwindow.cpp:858
 #, kde-format
 msgid "Load"
 msgstr "Wczytaj"
 
-#: mainwindow.cpp:888
+#: mainwindow.cpp:885
 #, kde-format
 msgid "Save"
 msgstr "Zapisz"
 
-#: mainwindow.cpp:904
+#: mainwindow.cpp:901
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
 msgstr "Błąd otwierania pliku do zapisu. Nieudane zapisywanie."
 
-#: mainwindow.cpp:909
+#: mainwindow.cpp:906
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
 msgstr "Nie można utworzyć tymczasowego pliku. Nieudane zapisywanie."
 
-#: mainwindow.cpp:925
+#: mainwindow.cpp:922
 #, kde-format
 msgid "Error uploading file. Saving failed: %1"
 msgstr "Błąd wysyłania pliku. Nie udało się zapisywanie: %1"
 
-#: mainwindow.cpp:949
+#: mainwindow.cpp:946
 #, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"
@@ -1053,6 +1048,9 @@ msgstr "Najmniejsza liczba ruchów:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Jukon"
+
+#~ msgid "Change Appearance..."
+#~ msgstr "Zmień wygląd..."
 
 #~ msgctxt "List separator"
 #~ msgid ", "
