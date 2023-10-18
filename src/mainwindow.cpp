@@ -53,8 +53,8 @@
 #include <KCardTheme>
 #include <KCardThemeWidget>
 // KDEGames
+#include <KGameStandardAction>
 #include <KGameThemeSelector>
-#include <KStandardGameAction>
 // KF
 #include <KActionCollection>
 #include <KConfigDialog>
@@ -165,7 +165,7 @@ void MainWindow::setupActions()
     KActionCollection::setDefaultShortcut(a, Qt::CTRL | Qt::Key_D);
     connect(a, &QAction::triggered, this, &MainWindow::newNumberedDeal);
 
-    a = KStandardGameAction::restart(this, &MainWindow::restart, actionCollection());
+    a = KGameStandardAction::restart(this, &MainWindow::restart, actionCollection());
     a->setText(i18nc("Replay the current deal from the start", "Restart Deal"));
 
     // Note that this action is not shown in the menu or toolbar. It is
@@ -186,12 +186,12 @@ void MainWindow::setupActions()
     KActionCollection::setDefaultShortcut(a, Qt::CTRL | Qt::Key_Minus);
     connect(a, &QAction::triggered, this, &MainWindow::previousDeal);
 
-    KStandardGameAction::load(this, qOverload<>(&MainWindow::loadGame), actionCollection());
+    KGameStandardAction::load(this, qOverload<>(&MainWindow::loadGame), actionCollection());
 
-    m_recentFilesAction = KStandardGameAction::loadRecent(this, qOverload<const QUrl &>(&MainWindow::loadGame), actionCollection());
+    m_recentFilesAction = KGameStandardAction::loadRecent(this, qOverload<const QUrl &>(&MainWindow::loadGame), actionCollection());
     m_recentFilesAction->loadEntries(KSharedConfig::openConfig()->group(QString()));
 
-    m_saveAction = KStandardGameAction::saveAs(this, &MainWindow::saveGame, actionCollection());
+    m_saveAction = KGameStandardAction::saveAs(this, &MainWindow::saveGame, actionCollection());
     KActionCollection::setDefaultShortcut(m_saveAction, Qt::CTRL | Qt::Key_S);
 
     a = actionCollection()->addAction(QStringLiteral("game_stats"));
@@ -199,27 +199,27 @@ void MainWindow::setupActions()
     a->setIcon(QIcon::fromTheme(QStringLiteral("games-highscores")));
     connect(a, &QAction::triggered, this, &MainWindow::showStats);
 
-    KStandardGameAction::quit(this, &MainWindow::close, actionCollection());
+    KGameStandardAction::quit(this, &MainWindow::close, actionCollection());
 
     // Move Menu
-    m_undoAction = KStandardGameAction::undo(this, &MainWindow::undoMove, actionCollection());
+    m_undoAction = KGameStandardAction::undo(this, &MainWindow::undoMove, actionCollection());
 
-    m_redoAction = KStandardGameAction::redo(this, &MainWindow::redoMove, actionCollection());
+    m_redoAction = KGameStandardAction::redo(this, &MainWindow::redoMove, actionCollection());
 
-    m_demoAction = KStandardGameAction::demo(this, &MainWindow::toggleDemo, actionCollection());
+    m_demoAction = KGameStandardAction::demo(this, &MainWindow::toggleDemo, actionCollection());
 
-    // KStandardGameAction::hint is a regular action, but we want a toggle
+    // KGameStandardAction::hint is a regular action, but we want a toggle
     // action, so we must create a new action and copy all the standard
     // properties over one by one.
     m_hintAction = new KToggleAction(actionCollection());
-    a = KStandardGameAction::hint(nullptr, nullptr, nullptr);
+    a = KGameStandardAction::hint(nullptr, nullptr, nullptr);
     m_hintAction->setText(a->text());
     m_hintAction->setIcon(a->icon());
     KActionCollection::setDefaultShortcut(m_hintAction, a->shortcut());
     m_hintAction->setToolTip(a->toolTip());
     m_hintAction->setWhatsThis(a->whatsThis());
     delete a;
-    const QString actionName = QString::fromLatin1(KStandardGameAction::name(KStandardGameAction::Hint));
+    const QString actionName = QString::fromLatin1(KGameStandardAction::name(KGameStandardAction::Hint));
     actionCollection()->addAction(actionName, m_hintAction);
     connect(m_hintAction, &QAction::triggered, this, &MainWindow::toggleHints);
 
@@ -318,7 +318,7 @@ void MainWindow::setupActions()
     m_pickUpSetDownAction->setText(i18n("Pick Up or Set Down Focus"));
     KActionCollection::setDefaultShortcut(m_pickUpSetDownAction, Qt::Key_Space);
 
-    // showMenubar isn't a part of KStandardGameAction
+    // showMenubar isn't a part of KGameStandardAction
     m_showMenubarAction = KStandardAction::showMenubar(this, &MainWindow::toggleMenubar, actionCollection());
 
     KStandardAction::fullScreen(this, &MainWindow::toggleFullscreen, this, actionCollection());
