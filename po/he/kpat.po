@@ -25,7 +25,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Zanata 3.9.6\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
+"n % 10 == 0) ? 2 : 3));\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -907,6 +908,8 @@ msgid "1 move"
 msgid_plural "%1 moves"
 msgstr[0] "מהלך אחד"
 msgstr[1] "%1 מהלכים"
+msgstr[2] ""
+msgstr[3] ""
 
 #: mod3.cpp:218
 #, fuzzy
@@ -1001,6 +1004,8 @@ msgid "1 loss"
 msgid_plural "%1 losses"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: statisticsdialog.cpp:136
 #, kde-format
@@ -1008,6 +1013,8 @@ msgid "1 win"
 msgid_plural "%1 wins"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel7)
 #: statisticsdialog.ui:66
