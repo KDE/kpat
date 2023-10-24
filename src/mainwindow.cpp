@@ -219,7 +219,7 @@ void MainWindow::setupActions()
     m_hintAction->setToolTip(a->toolTip());
     m_hintAction->setWhatsThis(a->whatsThis());
     delete a;
-    const QString actionName = QString::fromLatin1(KGameStandardAction::name(KGameStandardAction::Hint));
+    const QString actionName = KGameStandardAction::name(KGameStandardAction::Hint);
     actionCollection()->addAction(actionName, m_hintAction);
     connect(m_hintAction, &QAction::triggered, this, &MainWindow::toggleHints);
 
