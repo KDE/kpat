@@ -1220,26 +1220,6 @@
 > Dit menu is alleen beschikbaar in Spider.</para
 ></listitem>
 			</varlistentry>
-			<varlistentry id="settings-menu-deck">
-				<term
-><menuchoice
-><shortcut
-><keycap
->F10</keycap
-></shortcut
-> <guimenu
->Instellingen</guimenu
-> <guimenuitem
->Uiterlijk wijzigen...</guimenuitem
-> </menuchoice
-></term>
-				<listitem
-><para
-><action
->Een dialoog openen voor het wijzigen van de te gebruiken kaartrug en spelthema.</action
-></para
-></listitem>
-			</varlistentry>
 			<varlistentry id="settings-menu-autodrop">
 				<term
 ><menuchoice
