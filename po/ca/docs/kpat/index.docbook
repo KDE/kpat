@@ -460,35 +460,19 @@
 <itemizedlist>
   <listitem
 ><para
->El <quote
->Joc del forner</quote
-> és com el <quote
->Cel·la lliure</quote
->, però els munts es construeixen cap avall per coll.</para
+>El «Joc del forner» és com el «Cel·la lliure», però els munts es construeixen cap avall per coll.</para
 ></listitem>
   <listitem
 ><para
->El <quote
->Vuit fora</quote
-> és com el <quote
->Cel·la lliure</quote
->, però els munts es construeixen cap avall per coll. Teniu 8 reserves i només els reis poden omplir els espais buits. Al començament del joc s'emplenen quatre reserves.</para
+>El «Vuit fora» és com el «Cel·la lliure», però els munts es construeixen cap avall per coll. Teniu 8 reserves i només els reis poden omplir els espais buits. Al començament del joc s'emplenen quatre reserves.</para
 ></listitem>
   <listitem
 ><para
->El <quote
->Forecell</quote
-> és com el <quote
->Cel·la lliure</quote
->, però les reserves s'emplenen al començament del joc i només els reis poden omplir els espais buits.</para
+>El «Forecell» és com el «Cel·la lliure», però les reserves s'emplenen al començament del joc i només els reis poden omplir els espais buits.</para
 ></listitem>
   <listitem
 ><para
->El <quote
->Torres del refugi de mar</quote
-> és com el <quote
->Cel·la lliure</quote
->, però amb 10 munts que es construeixen cap avall per coll, i només els reis poden omplir els espais buits. Al començament del joc s'emplenen dues reserves.</para
+>El «Torres del refugi de mar» és com el «Cel·la lliure», però amb 10 munts que es construeixen cap avall per coll, i només els reis poden omplir els espais buits. Al començament del joc s'emplenen dues reserves.</para
 ></listitem>
 </itemizedlist>
 
@@ -687,11 +671,7 @@
 >Mitjà</guilabel
 > utilitza 2 colls i <guilabel
 >Difícil</guilabel
-> utilitza 4 colls. El joc és molt fàcil de guanyar en el nivell <quote
->Fàcil</quote
-> i molt difícil de guanyar en el nivell <quote
->Difícil</quote
->. </para>
+> utilitza 4 colls. El joc és molt fàcil de guanyar en el nivell «Fàcil» i molt difícil de guanyar en el nivell «Difícil». </para>
 
 </sect2>
 
@@ -717,27 +697,15 @@
 <itemizedlist>
   <listitem
 ><para
->En el <quote
->Solitari espanyol</quote
->, qualsevol carta pot omplir els espais buits del quadre. (En algunes contrades, les bases es construeixen independentment del coll).</para
+>En el «Solitari espanyol», qualsevol carta pot omplir els espais buits del quadre. (En algunes contrades, les bases es construeixen independentment del coll).</para
 ></listitem>
   <listitem
 ><para
->El <quote
->Castells a Espanya</quote
-> és similar al <quote
->Solitari espanyol</quote
->, però les cartes en el quadre es construeixen cap avall per colors alternatius. En algunes variacions, el quadre es reparteix cara avall a part de les cartes de dalt de cada columna.</para
+>El «Castells a Espanya» és similar al «Solitari espanyol», però les cartes en el quadre es construeixen cap avall per colors alternatius. En algunes variacions, el quadre es reparteix cara avall a part de les cartes de dalt de cada columna.</para
 ></listitem>
   <listitem
 ><para
->El <quote
->Solitari portuguès</quote
-> està a mig camí entre el <quote
->Dotzena del forner</quote
-> i el <quote
->Solitari espanyol</quote
->, perquè les columnes buides només es poden omplir amb els reis.</para
+>El «Solitari portuguès» està a mig camí entre el «Dotzena del forner» i el «Solitari espanyol», perquè les columnes buides només es poden omplir amb els reis.</para
 ></listitem>
 </itemizedlist>
 
@@ -768,49 +736,27 @@
 <itemizedlist>
   <listitem
 ><para
->En el <quote
->Castell assetjat</quote
->, els asos es reparteixen a les bases. Qualsevol carta pot omplir els espais buits.</para
+>En el «Castell assetjat», els asos es reparteixen a les bases. Qualsevol carta pot omplir els espais buits.</para
 ></listitem>
   <listitem
 ><para
->El <quote
->Citadel</quote
-> és com el <quote
->Castell assetjat</quote
->, però durant la mà, les cartes iguals es mouen cap a la basa, deixant els munts desiguals.</para
+>El «Citadel» és com el «Castell assetjat», però durant la mà, les cartes iguals es mouen cap a la basa, deixant els munts desiguals.</para
 ></listitem>
   <listitem
 ><para
->El <quote
->Reis exiliats</quote
-> és com el <quote
->Citadel</quote
->, però només els reis poden omplir els espais buits.</para
+>El «Reis exiliats» és com el «Citadel», però només els reis poden omplir els espais buits.</para
 ></listitem>
   <listitem
 ><para
->El <quote
->Setge</quote
-> és com el <quote
->Castell assetjat</quote
->, però amb una cel·la lliure.</para
+>El «Setge» és com el «Castell assetjat», però amb una cel·la lliure.</para
 ></listitem>
   <listitem
 ><para
->El <quote
->Carrers i carrerons</quote
-> és com el <quote
->Castell assetjat</quote
->, però en barrejar s'inclouen els asos.</para
+>El «Carrers i carrerons» és com el «Castell assetjat», però en barrejar s'inclouen els asos.</para
 ></listitem>
   <listitem
 ><para
->El <quote
->Fortalesa</quote
-> és com el <quote
->Carrers i carrerons</quote
->, però amb una cel·la lliure.</para
+>El «Fortalesa» és com el «Carrers i carrerons», però amb una cel·la lliure.</para
 ></listitem>
 </itemizedlist>
 
@@ -900,13 +846,9 @@
 >Inicia una mà nova especificant el tipus de joc i el nombre de mans.</action
 >&nbsp; Aquesta acció abandona la mà en curs.</para>
 					<para
->El &kpatience; dona a cada mà un número únic d'identificació (el qual emprarà internament per a aleatoritzar la baralla durant la mà inicial). Aquesta característica permet tornar a jugar una mà d'interès o provar-ho amb una particularment difícil recomanada per un amic. Els jugadors especialment dedicats poden voler <quote
->vèncer</quote
-> al &kpatience; jugant totes les 2.147.483.647 mans consecutivament per a cadascun dels tipus de joc.</para>
+>El &kpatience; dona a cada mà un número únic d'identificació (el qual emprarà internament per a aleatoritzar la baralla durant la mà inicial). Aquesta característica permet tornar a jugar una mà d'interès o provar-ho amb una particularment difícil recomanada per un amic. Els jugadors especialment dedicats poden voler «vèncer» al &kpatience; jugant totes les 2.147.483.647 mans consecutivament per a cadascun dels tipus de joc.</para>
 					<para
->Recordeu que per al <quote
->Cel·la lliure</quote
->, els números de les mans en el &kpatience; coincideixen amb els descrits en la <ulink url="http://www.solitairelaboratory.com/fcfaq.html"
+>Recordeu que per al «Cel·la lliure», els números de les mans en el &kpatience; coincideixen amb els descrits en la <ulink url="http://www.solitairelaboratory.com/fcfaq.html"
 >&PMF; del Freecell (Cel·la lliure)</ulink
 >.</para>
 				</listitem>
@@ -1231,26 +1173,6 @@
 >&nbsp; Aquest menú només està disponible a l'«Aranya».</para
 ></listitem>
 			</varlistentry>
-			<varlistentry id="settings-menu-deck">
-				<term
-><menuchoice
-><shortcut
-><keycap
->F10</keycap
-></shortcut
-> <guimenu
->Arranjament</guimenu
-> <guimenuitem
->Canvia l'aparença...</guimenuitem
-> </menuchoice
-></term>
-				<listitem
-><para
-><action
->Obre un diàleg per a canviar la baralla i el tema del joc.</action
-></para
-></listitem>
-			</varlistentry>
 			<varlistentry id="settings-menu-autodrop">
 				<term
 ><menuchoice
@@ -1384,11 +1306,7 @@
 ></question>
  <answer
 ><para
->A més de la característica <quote
->Consell</quote
->, també hi ha un mode <quote
->Demo</quote
-> que és molt útil, on la intel·ligència artificial integrada jugarà per vós. Podeu intentar mirar i aprendre. No obstant això, si teniu alguna pregunta, és millor llegir les seccions <link linkend="howto"
+>A més de la característica «Consell», també hi ha un mode «Demo» que és molt útil, on la intel·ligència artificial integrada jugarà per vós. Podeu intentar mirar i aprendre. No obstant això, si teniu alguna pregunta, és millor llegir les seccions <link linkend="howto"
 >Com jugar</link
 > i <link linkend="rules_and_tips"
 >Les regles del joc, estratègies i consells</link
@@ -1414,9 +1332,7 @@
 >Copyright del &kpatience; &copy; 2001-2007 &Stephan.Kulow; &Stephan.Kulow.mail; </para>
 
 <para
->Solucionador del <quote
->Cel·la lliure</quote
-> per en Shlomi Fish <email
+>Solucionador del «Cel·la lliure» per en Shlomi Fish <email
 >shlomif@vipe.technion.ac.il</email
 > </para>
 
