@@ -1045,6 +1045,3 @@ msgstr "Minimumstal for trekk:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Yukon"
-
-#~ msgid "Change Appearance..."
-#~ msgstr "Byt utsjånad …"

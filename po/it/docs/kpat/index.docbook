@@ -1259,26 +1259,6 @@
 > Questo menu è disponibile sono in Spider.</para
 ></listitem>
 			</varlistentry>
-			<varlistentry id="settings-menu-deck">
-				<term
-><menuchoice
-><shortcut
-><keycap
->F10</keycap
-></shortcut
-> <guimenu
->Impostazioni</guimenu
-> <guimenuitem
->Cambia aspetto...</guimenuitem
-> </menuchoice
-></term>
-				<listitem
-><para
-><action
->Apre una finestra per cambiare il mazzo di carte e il tema del gioco utilizzato.</action
-></para
-></listitem>
-			</varlistentry>
 			<varlistentry id="settings-menu-autodrop">
 				<term
 ><menuchoice
