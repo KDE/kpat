@@ -59,7 +59,7 @@ void Mod3::initialize()
     const qreal bottomRowY = 3 * dist_y + 0.2;
     const qreal rightColumX = 8 * dist_x + 0.8;
 
-    // This patience uses 2 deck of cards.
+    // This patience uses 2 decks of cards.
     setDeckContents(2);
 
     talon = new PatPile(this, 0, QStringLiteral("talon"));

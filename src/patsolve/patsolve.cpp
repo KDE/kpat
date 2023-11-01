@@ -476,8 +476,8 @@ void Solver<NumberPiles>::free_buckets(void)
     }
 }
 
-/* Solve patience games.  Prioritized breadth-first search.  Simple breadth-
-first uses exponential memory.  Here the work queue is kept sorted to give
+/* Solve patience games. Prioritized breadth-first search. Simple breadth-
+first uses exponential memory. Here the work queue is kept sorted to give
 priority to positions with more cards out, so the solution found is not
 guaranteed to be the shortest, but it'll be better than with a depth-first
 search. */
