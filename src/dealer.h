@@ -60,7 +60,7 @@ class SolverThread;
 
 class QAction;
 
-#define scores_group "Scores"
+#define scores_group QStringLiteral("Scores")
 
 class DealerScene : public KCardScene
 {

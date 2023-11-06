@@ -112,8 +112,8 @@ KCardTheme::KCardTheme(const QString &dirName)
         desktopFilePath = indexFilePath;
 
         KConfig config(indexFilePath, KConfig::SimpleConfig);
-        if (config.hasGroup("KDE Backdeck")) {
-            KConfigGroup configGroup = config.group("KDE Backdeck");
+        if (config.hasGroup(QStringLiteral("KDE Backdeck"))) {
+            KConfigGroup configGroup = config.group(QStringLiteral("KDE Backdeck"));
 
             displayName = configGroup.readEntry("Name");
 
