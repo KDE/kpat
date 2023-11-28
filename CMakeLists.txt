@@ -9,7 +9,7 @@ set(RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_
 project(kpat VERSION ${RELEASE_SERVICE_VERSION})
 
 set(QT_MIN_VERSION "6.5.0")
-set(KF_MIN_VERSION "5.240.0")
+set(KF_MIN_VERSION "5.245.0")
 
 find_package(ECM ${KF_MIN_VERSION} REQUIRED CONFIG)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake ${ECM_MODULE_PATH})
@@ -29,6 +29,8 @@ include(ECMDeprecationSettings)
 include(FindPkgConfig)
 include(FeatureSummary)
 include(GenerateExportHeader)
+
+include(InternalMacros)
 
 option(WITH_BH_SOLVER "Make use of https://github.com/shlomif/black-hole-solitaire for solving Golf" ON)
 
