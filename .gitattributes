@@ -1,0 +1,2 @@
+# KDE VCS tools have issues with SVG files with looong lines (due to pixmap as base64 data URIs), so mark as binary when committing new
+*.svg binary
