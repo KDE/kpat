@@ -815,11 +815,7 @@ msgid "Select a theme for non-card game elements"
 msgstr "Elekti temon por ne-kartludaj elementoj"
 
 #: mainwindow.cpp:514
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Is disabled and changes to \"Help &with Current Game\" when there is no "
-#| "¦current game."
-#| msgid "Help &with %1"
+#, kde-format
 msgctxt ""
 "Is disabled and changes to \"Help &with Current Game\" when there is no "
 "current game."
