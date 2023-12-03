@@ -1066,7 +1066,8 @@ void DealerScene::undoOrRedo(bool undo)
         setGameState(m_currentState->stateData);
 
         QSet<KCardPile *> pilesAffected;
-        for (const CardStateChange &change : changes) {
+
+        auto processCardStateChange = [&](const CardStateChange &change) {
             CardState sourceState = undo ? change.newState : change.oldState;
             CardState destState = undo ? change.oldState : change.newState;
 
@@ -1089,6 +1090,16 @@ void DealerScene::undoOrRedo(bool undo)
 
                 ++sourceState.index;
                 ++destState.index;
+            }
+        };
+
+        if (undo) {
+            for (auto it = changes.rbegin(); it != changes.rend(); ++it) {
+                processCardStateChange(*it);
+            }
+        } else {
+            for (const CardStateChange &change : changes) {
+                processCardStateChange(change);
             }
         }
 
