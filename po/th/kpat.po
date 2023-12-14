@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-18 01:41+0000\n"
+"POT-Creation-Date: 2023-12-14 01:34+0000\n"
 "PO-Revision-Date: 2010-03-28 18:21+0700\n"
 "Last-Translator: Thanomsub Noppaburana <donga.nb@gmail.com>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
@@ -313,17 +313,17 @@ msgstr "ยินดีด้วย ! เราชนะแล้ว"
 msgid "Congratulations! You have won."
 msgstr "ยินดีด้วย ! คุณชนะแล้ว"
 
-#: dealer.cpp:1210
+#: dealer.cpp:1221
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "ตัวแก้ปัญหา: เกมนี้แพ้แน่นอน"
 
-#: dealer.cpp:1348
+#: dealer.cpp:1359
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "ตัวแก้ปัญหา: กำลังทำการคำนวณ..."
 
-#: dealer.cpp:1752
+#: dealer.cpp:1763
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -334,12 +334,12 @@ msgstr ""
 "\n"
 "หากเลิกเล่นเกมปัจจุบัน จะมีการบันทึกว่าคุณแพ้เพิ่มไว้ในสถิติ"
 
-#: dealer.cpp:1754
+#: dealer.cpp:1765
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "เลิกเล่นเกมปัจจุบันจริงหรือไม่ ?"
 
-#: dealer.cpp:1755
+#: dealer.cpp:1766
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "เลิกเล่นเกมปัจจุบัน"

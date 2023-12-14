@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-18 01:41+0000\n"
+"POT-Creation-Date: 2023-12-14 01:34+0000\n"
 "PO-Revision-Date: 2011-04-06 18:00-0700\n"
 "Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -321,17 +321,17 @@ msgstr "おめでとう! 我々の勝ちです!"
 msgid "Congratulations! You have won."
 msgstr "おめでとう! あなたの勝ちです!"
 
-#: dealer.cpp:1210
+#: dealer.cpp:1221
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "ソルバー: このゲームは負けです。"
 
-#: dealer.cpp:1348
+#: dealer.cpp:1359
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "ソルバー: 計算中..."
 
-#: dealer.cpp:1752
+#: dealer.cpp:1763
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -342,12 +342,12 @@ msgstr ""
 "\n"
 "プレイ中のゲームを中止すると負けとして統計に記録されます。"
 
-#: dealer.cpp:1754
+#: dealer.cpp:1765
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "現在のゲームを中止しますか？"
 
-#: dealer.cpp:1755
+#: dealer.cpp:1766
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "現在のゲームを中止"

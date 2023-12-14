@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-18 01:41+0000\n"
+"POT-Creation-Date: 2023-12-14 01:34+0000\n"
 "PO-Revision-Date: 2022-08-19 17:46+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -306,17 +306,17 @@ msgstr "Ottimo! Lo abbiamo risolto!"
 msgid "Congratulations! You have won."
 msgstr "Complimenti! Lo hai risolto!"
 
-#: dealer.cpp:1210
+#: dealer.cpp:1221
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "Solutore: Non puoi risolvere questo solitario."
 
-#: dealer.cpp:1348
+#: dealer.cpp:1359
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "Solutore: calcoli in corso..."
 
-#: dealer.cpp:1752
+#: dealer.cpp:1763
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -328,12 +328,12 @@ msgstr ""
 "\n"
 "Se abbandoni il solitario in corso, verrà registrato come non risolto."
 
-#: dealer.cpp:1754
+#: dealer.cpp:1765
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "Chiudere il solitario in corso?"
 
-#: dealer.cpp:1755
+#: dealer.cpp:1766
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "Chiude il solitario in corso"

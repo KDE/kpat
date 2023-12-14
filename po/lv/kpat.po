@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-18 01:41+0000\n"
+"POT-Creation-Date: 2023-12-14 01:34+0000\n"
 "PO-Revision-Date: 2012-06-29 22:36+0300\n"
 "Last-Translator: Einars Sprugis <einars8@gmail.com>\n"
 "Language-Team: Latvian <locale@laka.lv>\n"
@@ -319,17 +319,17 @@ msgstr "Apsveicu! Mēs uzvarējām!"
 msgid "Congratulations! You have won."
 msgstr "Apsveicu! Tu uzvarēji!"
 
-#: dealer.cpp:1210
+#: dealer.cpp:1221
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "Atrisinātājs: šī spēle ir zaudēta."
 
-#: dealer.cpp:1348
+#: dealer.cpp:1359
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "Atrisinātājs: aprēķina..."
 
-#: dealer.cpp:1752
+#: dealer.cpp:1763
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -340,12 +340,12 @@ msgstr ""
 "\n"
 "Ja esošā spēle tiks pārtraukta, tad statistikā tiks ierakstīts zaudējums."
 
-#: dealer.cpp:1754
+#: dealer.cpp:1765
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "Pārtraukt esošo spēli?"
 
-#: dealer.cpp:1755
+#: dealer.cpp:1766
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "Pārtraukt esošo spēli"

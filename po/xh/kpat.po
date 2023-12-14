@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-18 01:41+0000\n"
+"POT-Creation-Date: 2023-12-14 01:34+0000\n"
 "PO-Revision-Date: 2002-10-10 13:42SAST\n"
 "Last-Translator: Lwandle Mgidlana <lwandle@translate.org.za>\n"
 "Language-Team: Xhosa <xhosa@translate.org.za>\n"
@@ -320,18 +320,18 @@ msgstr "Siyavuyisana! Siphumelele!"
 msgid "Congratulations! You have won."
 msgstr "Siyavuyisana! Uphumelele!"
 
-#: dealer.cpp:1210
+#: dealer.cpp:1221
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr ""
 
-#: dealer.cpp:1348
+#: dealer.cpp:1359
 #, fuzzy, kde-format
 #| msgid "&Calculation"
 msgid "Solver: Calculating..."
 msgstr "&Ubalo"
 
-#: dealer.cpp:1752
+#: dealer.cpp:1763
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -339,12 +339,12 @@ msgid ""
 "A loss will be recorded in the statistics if the current game is abandoned."
 msgstr ""
 
-#: dealer.cpp:1754
+#: dealer.cpp:1765
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr ""
 
-#: dealer.cpp:1755
+#: dealer.cpp:1766
 #, kde-format
 msgid "Abandon Current Game"
 msgstr ""

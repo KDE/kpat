@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdegames/kpat.po\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-18 01:41+0000\n"
+"POT-Creation-Date: 2023-12-14 01:34+0000\n"
 "PO-Revision-Date: 2004-12-03 14:52-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -314,17 +314,17 @@ msgstr "Comhghairdeas! Bhí an bua againn."
 msgid "Congratulations! You have won."
 msgstr "Comhghairdeas! Bhí an bua agat."
 
-#: dealer.cpp:1210
+#: dealer.cpp:1221
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "Réiteoir: Tá an cluiche seo caillte."
 
-#: dealer.cpp:1348
+#: dealer.cpp:1359
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "Réiteoir: Á Áireamh..."
 
-#: dealer.cpp:1752
+#: dealer.cpp:1763
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -336,12 +336,12 @@ msgstr ""
 "Taifeadfar cluiche caillte sna staitisticí má thréigeann tú an cluiche seo "
 "anois."
 
-#: dealer.cpp:1754
+#: dealer.cpp:1765
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "Tréig an Cluiche Reatha?"
 
-#: dealer.cpp:1755
+#: dealer.cpp:1766
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "Tréig an Cluiche Reatha"
