@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-13 00:44+0000\n"
-"PO-Revision-Date: 2023-12-09 09:29\n"
+"PO-Revision-Date: 2023-12-17 11:32\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -85,12 +85,12 @@ msgstr "牌堆选项"
 #: bakersdozen.cpp:81
 #, kde-format
 msgid "Face &Up (Easier)"
-msgstr "牌面向上 (简单)(&U)"
+msgstr "牌面向上 (简单) (&U)"
 
 #: bakersdozen.cpp:82
 #, kde-format
 msgid "Face &Down (Harder)"
-msgstr "牌面向下 (困难)(&D)"
+msgstr "牌面向下 (困难) (&D)"
 
 #: bakersdozen.cpp:84 castle.cpp:371 freecell.cpp:356
 #, kde-format
