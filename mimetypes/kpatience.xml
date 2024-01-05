@@ -32,6 +32,7 @@
     <comment xml:lang="tr">K Sabır eski kayıt dosyası</comment>
     <comment xml:lang="uk">файл збереженої гри KPatience у застарілому форматі</comment>
     <comment xml:lang="zh_CN">KPatience 旧存档文件</comment>
+    <comment xml:lang="zh_TW">KPatience 舊式存檔</comment>
     <sub-class-of type="application/xml"/>
     <magic priority="80">
       <match type="string" value="&lt;!DOCTYPE kpat" offset="0:50"/>
@@ -69,6 +70,7 @@
     <comment xml:lang="tr">K Sabır kayıt dosyası</comment>
     <comment xml:lang="uk">файл збереженої гри KPatience</comment>
     <comment xml:lang="zh_CN">KPatience 存档文件</comment>
+    <comment xml:lang="zh_TW">KPatience 存檔</comment>
     <sub-class-of type="application/xml"/>
     <glob pattern="*.kpat" weight="75"/>
   </mime-type>
