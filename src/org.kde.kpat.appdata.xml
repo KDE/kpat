@@ -24,6 +24,7 @@
   <name xml:lang="it">KPatience</name>
   <name xml:lang="ka">KPatience</name>
   <name xml:lang="ko">KPatience</name>
+  <name xml:lang="lv">KPatience</name>
   <name xml:lang="nl">KPatience</name>
   <name xml:lang="nn">KPatience</name>
   <name xml:lang="pl">KPasjans</name>
@@ -58,6 +59,7 @@
   <summary xml:lang="it">Solitari con le carte</summary>
   <summary xml:lang="ka">კარტის თამაში Solitaire</summary>
   <summary xml:lang="ko">솔리테어 카드 게임</summary>
+  <summary xml:lang="lv">Pasjansa kāršu spēle</summary>
   <summary xml:lang="nl">Solitaire kaartspel</summary>
   <summary xml:lang="nn">Kabelspel</summary>
   <summary xml:lang="pl">Gra karciana pasjans</summary>
@@ -92,6 +94,7 @@
     <p xml:lang="it">KPat (conosciuto anche come KPatience) è un rilassante gioco di ordinamento delle carte. Per vincere la partita un giocatore deve mettere un mazzo di carte in un certo ordine tra di loro.</p>
     <p xml:lang="ka">KPat (ე.წ. KPatience) დასასვენებელი კარტების დალაგების თამაშია. მის მოსაგებად მოთამაშემ ერთი დასტა გარკვეული თანამიმდევრობით უნდა დაალაგოს ერთმანეთზე.</p>
     <p xml:lang="ko">KPat은 카드 게임입니다. 게임을 이기려면 카드 덱을 순서대로 정렬하십시오.</p>
+    <p xml:lang="lv">„KPat“ (arī „KPatience“) ir relaksējoša kāršu kārtošanas spēle. Lai uzvarētu spēli, spēlētājam jāsakārto vienas kāršu kavas kārtis noteiktā secībā cita aiz citas.</p>
     <p xml:lang="nl">KPat (ook KPatience) is een ontspannend kaart sorteerspel. Om het spel te winnen moet een speler een enkel kaartdek in een bepaalde volgorde naast elke andere arrangeren.</p>
     <p xml:lang="nn">KPatience (Kpat) er eit avslappande kabalspel. For å vinna må du sortera kort frå ein stokka kortstokk i ei spesiell rekkjefølgje eller i eit spesielt mønster.</p>
     <p xml:lang="pl">KPat (znany również jako KPatience) jest odprężającą grą w układanie kart. Aby wygrać grę, gracz musi ułożyć pojedynczą talię kart w odpowiedniej kolejności względem siebie.</p>
@@ -132,6 +135,7 @@
       <caption xml:lang="it">Schermata di selezione del solitario</caption>
       <caption xml:lang="ka">Solitaire -ის ეკრანის არჩევა</caption>
       <caption xml:lang="ko">솔리테어 선택 화면</caption>
+      <caption xml:lang="lv">Pasjansa izvēlnes ekrāns</caption>
       <caption xml:lang="nl">Selectiescherm van Solitaire</caption>
       <caption xml:lang="nn">Val av kabaltype</caption>
       <caption xml:lang="pl">Ekran wyboru pasjansa</caption>
