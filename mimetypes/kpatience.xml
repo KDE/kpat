@@ -2,38 +2,6 @@
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
   <mime-type type="application/vnd.kde.kpatience.savedstate">
     <comment>KPatience legacy save file</comment>
-    <comment xml:lang="ast">asdasd</comment>
-    <comment xml:lang="ca">Fitxer antic de desament del KPatience</comment>
-    <comment xml:lang="ca@valencia">Fitxer antic de guardada de KPatience</comment>
-    <comment xml:lang="cs">Uložený soubor staré verze KPatience</comment>
-    <comment xml:lang="de">Veraltete KPatience-Speicherdatei</comment>
-    <comment xml:lang="el">Παλαιό αρχείο αποθήκευσης πασιέντζας</comment>
-    <comment xml:lang="en_GB">KPatience legacy save file</comment>
-    <comment xml:lang="eo">KPatience heredaĵa konservodosiero</comment>
-    <comment xml:lang="es">Archivo heredado de partida de KPatience</comment>
-    <comment xml:lang="eu">KPatience gordetzeko fitxategi zaharra</comment>
-    <comment xml:lang="fi">Vanha KPatience-tallennustiedosto</comment>
-    <comment xml:lang="fr">Fichier de partie dans l'ancien format pour KPatience</comment>
-    <comment xml:lang="gl">Ficheiro de partida dunha versión antiga de KPatience</comment>
-    <comment xml:lang="hu">KPatience régebbi mentésfájl</comment>
-    <comment xml:lang="it">File di salvataggio obsoleto di KPatience</comment>
-    <comment xml:lang="ka">KPatience მოძველებული შენახვის ფაილი</comment>
-    <comment xml:lang="ko">KPatience 레거시 저장 파일</comment>
-    <comment xml:lang="lt">KPatience senas išsaugojimo failas</comment>
-    <comment xml:lang="lv">KPatience vecākas versijas spēles datne</comment>
-    <comment xml:lang="nl">KPatience ouderwets opslagbestand</comment>
-    <comment xml:lang="nn">Kabal-lagringsfil frå eldre versjon</comment>
-    <comment xml:lang="pl">Przestrzały plik zapisu KPatience</comment>
-    <comment xml:lang="pt">Ficheiro de gravação antigo do KPatience</comment>
-    <comment xml:lang="pt_BR">Arquivo antigo do KPatience</comment>
-    <comment xml:lang="ro">Fișier cu salvare KPasențe moștenit</comment>
-    <comment xml:lang="ru">Сохранённая игра KPatience в старом формате</comment>
-    <comment xml:lang="sl">Zapuščina datoteke shranjene igre KPatience</comment>
-    <comment xml:lang="sv">Föråldrad sparfil för Patiens</comment>
-    <comment xml:lang="tr">K Sabır eski kayıt dosyası</comment>
-    <comment xml:lang="uk">файл збереженої гри KPatience у застарілому форматі</comment>
-    <comment xml:lang="zh_CN">KPatience 旧存档文件</comment>
-    <comment xml:lang="zh_TW">KPatience 舊式存檔</comment>
     <sub-class-of type="application/xml"/>
     <magic priority="80">
       <match type="string" value="&lt;!DOCTYPE kpat" offset="0:50"/>
@@ -42,37 +10,6 @@
   </mime-type>
   <mime-type type="application/vnd.kde.kpatience.savedgame">
     <comment>KPatience save file</comment>
-    <comment xml:lang="ca">Fitxer de desament del KPatience</comment>
-    <comment xml:lang="ca@valencia">Fitxer de guardada de KPatience</comment>
-    <comment xml:lang="cs">Uložený soubor KPatience</comment>
-    <comment xml:lang="de">KPatience-Speicherdatei</comment>
-    <comment xml:lang="el">Αρχείο αποθήκευσης πασιέντζας</comment>
-    <comment xml:lang="en_GB">KPatience save file</comment>
-    <comment xml:lang="eo">KPatience konservodosiero</comment>
-    <comment xml:lang="es">Archivo de partida de KPatience</comment>
-    <comment xml:lang="eu">KPatience gordetzeko fitxategia</comment>
-    <comment xml:lang="fi">KPatience-tallennustiedosto</comment>
-    <comment xml:lang="fr">Fichier de partie pour KPatience</comment>
-    <comment xml:lang="gl">Ficheiro de partida de KPatience</comment>
-    <comment xml:lang="hu">KPatience mentésfájl</comment>
-    <comment xml:lang="it">File di salvataggio di KPatience</comment>
-    <comment xml:lang="ka">KPatience -ის შენახვის ფაილი</comment>
-    <comment xml:lang="ko">KPatience 저장 파일</comment>
-    <comment xml:lang="lt">KPatience išsaugojimo failas</comment>
-    <comment xml:lang="lv">KPatience spēles datne</comment>
-    <comment xml:lang="nl">KPatience opslagbestand</comment>
-    <comment xml:lang="nn">Kabal-lagringsfil</comment>
-    <comment xml:lang="pl">Plik zapisu KPatience</comment>
-    <comment xml:lang="pt">Ficheiro de gravação do KPatience</comment>
-    <comment xml:lang="pt_BR">Arquivo do KPatience</comment>
-    <comment xml:lang="ro">Fișier cu salvare KPasențe</comment>
-    <comment xml:lang="ru">Сохранённая игра KPatience</comment>
-    <comment xml:lang="sl">Datoteka shranjene igre KPatience</comment>
-    <comment xml:lang="sv">Sparfil för Patiens</comment>
-    <comment xml:lang="tr">K Sabır kayıt dosyası</comment>
-    <comment xml:lang="uk">файл збереженої гри KPatience</comment>
-    <comment xml:lang="zh_CN">KPatience 存档文件</comment>
-    <comment xml:lang="zh_TW">KPatience 存檔</comment>
     <sub-class-of type="application/xml"/>
     <glob pattern="*.kpat" weight="75"/>
   </mime-type>
