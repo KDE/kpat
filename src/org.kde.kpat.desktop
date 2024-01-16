@@ -168,7 +168,5 @@ Comment[uk]=Карткова гра у пасьянс
 Comment[x-test]=xxSolitaire card gamexx
 Comment[zh_CN]=纸牌游戏
 Comment[zh_TW]=接龍卡片遊戲
-X-DBUS-StartupType=Multi
 Categories=Qt;KDE;Game;CardGame;
 MimeType=application/vnd.kde.kpatience.savedstate;
-X-DBUS-ServiceName=org.kde.kpat
