@@ -298,7 +298,7 @@ int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
 
-    KLocalizedString::setApplicationDomain("kpat");
+    KLocalizedString::setApplicationDomain(QByteArrayLiteral("kpat"));
 
     KAboutData aboutData = fillAboutData();
     KAboutData::setApplicationData(aboutData);
