@@ -1046,6 +1046,3 @@ msgstr "Nombre mínim de moviments:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Yukon"
-
-#~ msgid "Change Appearance..."
-#~ msgstr "Canvia l'aparença..."
