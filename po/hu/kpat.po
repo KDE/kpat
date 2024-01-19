@@ -5,13 +5,13 @@
 # Kiszel Kristóf <ulysses@kubuntu.org>, 2010.
 # Kristóf Kiszel <ulysses@kubuntu.org>, 2010, 2011, 2015.
 # Balázs Úr <urbalazs@gmail.com>, 2012, 2013.
-# Kristof Kiszel <ulysses@fsf.hu>, 2021.
+# SPDX-FileCopyrightText: 2021, 2024 Kristof Kiszel <ulysses@fsf.hu>
 msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-14 01:34+0000\n"
-"PO-Revision-Date: 2021-11-30 14:22+0100\n"
+"PO-Revision-Date: 2024-01-18 10:04+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
@@ -19,17 +19,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 21.11.90\n"
+"X-Generator: Lokalize 24.01.90\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Kiszel Kristóf,John Zero,Szántó Tamás"
+msgstr "Kiszel Kristóf"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "ulysses@fsf.hu,johnzero@telnet.hu,taszanto@gmail.com"
+msgstr "ulysses@fsf.hu"
 
 #: bakersdozen.cpp:68 castle.cpp:357 freecell.cpp:343
 #, kde-format
@@ -937,16 +937,14 @@ msgid "2 Suits (Medium)"
 msgstr "2 szín (közepes)"
 
 #: spider.cpp:134
-#, fuzzy, kde-format
-#| msgid "4 Suits (Hard)"
+#, kde-format
 msgid "3 Suits (Hard)"
-msgstr "4 szín (nehéz)"
+msgstr "3 szín (nehéz)"
 
 #: spider.cpp:135
-#, fuzzy, kde-format
-#| msgid "4 Suits (Hard)"
+#, kde-format
 msgid "4 Suits (Very Hard)"
-msgstr "4 szín (nehéz)"
+msgstr "4 szín (nagyon nehéz)"
 
 #: spider.cpp:147
 #, kde-format
@@ -971,10 +969,8 @@ msgid "Spider (2 Suit)"
 msgstr "Fekete özvegy (2 szín)"
 
 #: spider.cpp:470
-#, fuzzy
-#| msgid "Spider (1 Suit)"
 msgid "Spider (3 Suit)"
-msgstr "Fekete özvegy (1 szín)"
+msgstr "Fekete özvegy (3 szín)"
 
 #: spider.cpp:471
 msgid "Spider (4 Suit)"
