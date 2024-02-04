@@ -12,31 +12,32 @@
 # Diego Iastrubni <elcuco@kde.org>, 2005, 2012.
 # Israel Berger <israelb@gmail.com>, 2005.
 # Elkana Bardugo <ttv200@gmail.com>, 2017. #zanata
+# SPDX-FileCopyrightText: 2024 Yaron Shahrabani <sh.yaron@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-14 01:34+0000\n"
-"PO-Revision-Date: 2017-05-16 07:01-0400\n"
-"Last-Translator: Copied by Zanata <copied-by-zanata@zanata.org>\n"
-"Language-Team: Hebrew <kde-i18n-he@kde.org>\n"
+"PO-Revision-Date: 2024-02-03 23:18+0200\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
+"Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Zanata 3.9.6\n"
+"X-Generator: Lokalize 23.08.4\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "צוות התרגום של KDE ישראל, Israel Berger"
+msgstr "צוות התרגום של KDE ישראל,Israel Berger"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "kde-l10n-he@kde.org, israelb@gmail.com"
+msgstr "kde-l10n-he@kde.org,israelb@gmail.com"
 
 #: bakersdozen.cpp:68 castle.cpp:357 freecell.cpp:343
 #, kde-format
@@ -57,12 +58,12 @@ msgstr "KPatience"
 #: bakersdozen.cpp:71 bakersdozen.cpp:241
 #, kde-format
 msgid "Castles in Spain"
-msgstr ""
+msgstr "טירות בספרד"
 
 #: bakersdozen.cpp:72 bakersdozen.cpp:242
 #, kde-format
 msgid "Portuguese Solitaire"
-msgstr ""
+msgstr "סוליטר פורטוגלי"
 
 #: bakersdozen.cpp:73 castle.cpp:364 freecell.cpp:349
 #, kde-format
@@ -973,9 +974,8 @@ msgid "Face &Up (easier)"
 msgstr ""
 
 #: spider.cpp:466
-#, fuzzy
 msgid "Spider"
-msgstr "&עכביש (קל)"
+msgstr "עכביש"
 
 #: spider.cpp:468
 msgid "Spider (1 Suit)"
@@ -994,9 +994,9 @@ msgid "Spider (4 Suit)"
 msgstr ""
 
 #: statisticsdialog.cpp:122
-#, fuzzy, kde-format
+#, kde-format
 msgid "%1 (%2%)"
-msgstr "(%1%)"
+msgstr "%1 (%2%)"
 
 #: statisticsdialog.cpp:134
 #, kde-format
@@ -1053,9 +1053,8 @@ msgid "Minimal number of moves:"
 msgstr ""
 
 #: yukon.cpp:120
-#, fuzzy
 msgid "Yukon"
-msgstr "&יוקון"
+msgstr "יוקון"
 
 #, fuzzy
 #~ msgid "Change Appearance..."
