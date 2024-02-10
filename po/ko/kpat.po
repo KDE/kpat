@@ -1,14 +1,14 @@
 # Translation of kpat to Korean.
 # Copyright (C) 1999, 2007 Free Software Foundation, Inc.
 # Byeong-Chan Kim <redhands@linux.sarang.net>, 1999.
-# Shinjo Park <kde@peremen.name>, 2007, 2011, 2013, 2014, 2015, 2019, 2020, 2021, 2022, 2023.
+# SPDX-FileCopyrightText: 2007, 2011, 2013, 2014, 2015, 2019, 2020, 2021, 2022, 2023, 2024 Shinjo Park <kde@peremen.name>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-14 01:34+0000\n"
-"PO-Revision-Date: 2023-07-23 21:04+0200\n"
+"PO-Revision-Date: 2024-02-09 23:55+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -240,7 +240,7 @@ msgstr "번갈아 가면서 위로(&U)"
 #: castle.cpp:395
 #, kde-format
 msgid "Foundation Deal"
-msgstr ""
+msgstr "파운데이션 딜"
 
 #: castle.cpp:396
 #, kde-format
