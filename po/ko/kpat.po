@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-14 01:34+0000\n"
-"PO-Revision-Date: 2024-02-09 23:55+0100\n"
+"PO-Revision-Date: 2024-02-11 00:49+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -119,43 +119,41 @@ msgstr "빵 장수의 한 다스(사용자 정의)"
 
 #: castle.cpp:318
 msgid "Castle"
-msgstr ""
+msgstr "성"
 
 #: castle.cpp:320 castle.cpp:358
 #, kde-format
 msgid "Beleaguered Castle"
-msgstr ""
+msgstr "포위된 성"
 
 #: castle.cpp:321 castle.cpp:359
 #, kde-format
 msgid "Citadel"
-msgstr ""
+msgstr "요새"
 
 #: castle.cpp:322 castle.cpp:360
 #, kde-format
 msgid "Exiled Kings"
-msgstr ""
+msgstr "도망간 왕"
 
 #: castle.cpp:323 castle.cpp:361
 #, kde-format
 msgid "Streets and Alleys"
-msgstr ""
+msgstr "도로와 골목길"
 
 #: castle.cpp:324 castle.cpp:362
 #, kde-format
 msgid "Siegecraft"
-msgstr ""
+msgstr "공성전"
 
 #: castle.cpp:325 castle.cpp:363
 #, kde-format
 msgid "Stronghold"
-msgstr ""
+msgstr "성채"
 
 #: castle.cpp:326
-#, fuzzy
-#| msgid "Baker's Dozen (Custom)"
 msgid "Castle (Custom)"
-msgstr "빵 장수의 한 다스(사용자 정의)"
+msgstr "성(사용자 정의)"
 
 #: castle.cpp:376
 #, kde-format
@@ -294,7 +292,7 @@ msgstr "해결사: 이 게임을 이길 수 없습니다."
 #: dealer.cpp:76
 #, kde-format
 msgid "Solver: Unable to determine if this game is winnable."
-msgstr "해결사: 게임에서 이길 수 있는 지 알 수 없습니다."
+msgstr "해결사: 게임에서 이길 수 있는지 알 수 없습니다."
 
 #: dealer.cpp:922
 #, kde-format
