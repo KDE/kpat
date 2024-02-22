@@ -18,16 +18,16 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-14 01:34+0000\n"
-"PO-Revision-Date: 2024-02-03 23:18+0200\n"
+"PO-Revision-Date: 2024-02-20 23:23+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.08.4\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
+"X-Generator: Poedit 3.4.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -50,10 +50,9 @@ msgid "Baker's Dozen"
 msgstr ""
 
 #: bakersdozen.cpp:70 bakersdozen.cpp:240
-#, fuzzy, kde-format
-#| msgid "KPatience"
+#, kde-format
 msgid "Spanish Patience"
-msgstr "KPatience"
+msgstr "סבלנות ספרדית"
 
 #: bakersdozen.cpp:71 bakersdozen.cpp:241
 #, kde-format
@@ -81,9 +80,9 @@ msgid "Any (Easy)"
 msgstr ""
 
 #: bakersdozen.cpp:77 castle.cpp:368 freecell.cpp:353
-#, fuzzy, kde-format
+#, kde-format
 msgid "Kings only (Medium)"
-msgstr "עכביש (&בינוני)"
+msgstr "מלכים בלבד (בינוני)"
 
 #: bakersdozen.cpp:78 castle.cpp:369 freecell.cpp:354
 #, kde-format
@@ -91,9 +90,9 @@ msgid "None (Hard)"
 msgstr ""
 
 #: bakersdozen.cpp:80
-#, fuzzy, kde-format
+#, kde-format
 msgid "Stack Options"
-msgstr "מימוש spider"
+msgstr "אפשרויות חפיסה"
 
 #: bakersdozen.cpp:81
 #, kde-format
@@ -164,14 +163,13 @@ msgid "Stronghold"
 msgstr ""
 
 #: castle.cpp:326
-#, fuzzy
 msgid "Castle (Custom)"
-msgstr "&פריסל"
+msgstr "טירה (התאמה אישית)"
 
 #: castle.cpp:376
-#, fuzzy, kde-format
+#, kde-format
 msgid "Free Cells"
-msgstr "&פריסל"
+msgstr "תאים פנויים"
 
 #: castle.cpp:377 freecell.cpp:362
 #, kde-format
@@ -199,9 +197,9 @@ msgid "4"
 msgstr ""
 
 #: castle.cpp:383 freecell.cpp:372
-#, fuzzy, kde-format
+#, kde-format
 msgid "Stacks"
-msgstr "מימוש spider"
+msgstr "ערימות"
 
 #: castle.cpp:384 freecell.cpp:368 freecell.cpp:373
 #, kde-format
@@ -229,9 +227,9 @@ msgid "10"
 msgstr ""
 
 #: castle.cpp:390 spider.cpp:146
-#, fuzzy, kde-format
+#, kde-format
 msgid "S&tack Options"
-msgstr "מימוש spider"
+msgstr "אפשרויות &ערימה"
 
 #: castle.cpp:391
 #, kde-format
@@ -259,9 +257,9 @@ msgid "None"
 msgstr ""
 
 #: castle.cpp:397
-#, fuzzy, kde-format
+#, kde-format
 msgid "Aces"
-msgstr "&אסים למעלה"
+msgstr "אסים"
 
 #: castle.cpp:398
 #, kde-format
@@ -271,22 +269,21 @@ msgstr ""
 #: castle.cpp:400
 #, kde-format
 msgid "Layout"
-msgstr ""
+msgstr "פריסה"
 
 #: castle.cpp:401
 #, kde-format
 msgid "Classic"
-msgstr ""
+msgstr "קלסית"
 
 #: castle.cpp:402
 #, kde-format
 msgid "Modern"
-msgstr ""
+msgstr "מודרנית"
 
 #: clock.cpp:157
-#, fuzzy
 msgid "Grandfather's Clock"
-msgstr "השעון של &סבא"
+msgstr "השעון של סבא"
 
 #: dealer.cpp:72
 #, kde-format
@@ -309,14 +306,14 @@ msgid "Solver: Unable to determine if this game is winnable."
 msgstr ""
 
 #: dealer.cpp:922
-#, fuzzy, kde-format
+#, kde-format
 msgid "Congratulations! We have won."
-msgstr "מזל טוב! ניצחנו!"
+msgstr "ברכותינו! ניצחנו."
 
 #: dealer.cpp:924
-#, fuzzy, kde-format
+#, kde-format
 msgid "Congratulations! You have won."
-msgstr "מזל טוב! ניצחת!"
+msgstr "ברכותינו! ניצחת."
 
 #: dealer.cpp:1221
 #, kde-format
@@ -324,9 +321,9 @@ msgid "Solver: This game is lost."
 msgstr ""
 
 #: dealer.cpp:1359
-#, fuzzy, kde-format
+#, kde-format
 msgid "Solver: Calculating..."
-msgstr "&חישוב"
+msgstr "פותר: מחושב…"
 
 #: dealer.cpp:1763
 #, kde-format
@@ -337,24 +334,23 @@ msgid ""
 msgstr ""
 
 #: dealer.cpp:1765
-#, fuzzy, kde-format
+#, kde-format
 msgid "Abandon Current Game?"
-msgstr "לפרוש מהמשחק הנוכחי?"
+msgstr "לנטוש את המשחק הנוכחי?"
 
 #: dealer.cpp:1766
-#, fuzzy, kde-format
+#, kde-format
 msgid "Abandon Current Game"
-msgstr "לפרוש מהמשחק הנוכחי?"
+msgstr "נטישת המשחק הנוכחי"
 
 #: fortyeight.cpp:229
-#, fuzzy
 msgid "Forty & Eight"
-msgstr "ארבעים &ושניים"
+msgstr "ארבעים ושמונה"
 
 #: freecell.cpp:307 freecell.cpp:312 freecell.cpp:347
-#, fuzzy, kde-format
+#, kde-format
 msgid "Freecell"
-msgstr "&פריסל"
+msgstr "פריסל"
 
 #: freecell.cpp:309 freecell.cpp:344
 #, kde-format
@@ -367,9 +363,9 @@ msgid "Eight Off"
 msgstr ""
 
 #: freecell.cpp:311 freecell.cpp:346
-#, fuzzy, kde-format
+#, kde-format
 msgid "Forecell"
-msgstr "&פריסל"
+msgstr "פורסל"
 
 #: freecell.cpp:313 freecell.cpp:348
 #, kde-format
@@ -377,14 +373,13 @@ msgid "Seahaven Towers"
 msgstr ""
 
 #: freecell.cpp:314
-#, fuzzy
 msgid "Freecell (Custom)"
-msgstr "&פריסל"
+msgstr "פריסל (מותאם אישית)"
 
 #: freecell.cpp:361
-#, fuzzy, kde-format
+#, kde-format
 msgid "Free cells"
-msgstr "&פריסל"
+msgstr "תאים פנויים"
 
 #: freecell.cpp:367
 #, kde-format
@@ -404,32 +399,28 @@ msgstr ""
 #: freecell.cpp:381
 #, kde-format
 msgid "Decks"
-msgstr ""
+msgstr "חפיסות"
 
 #: golf.cpp:189
-#, fuzzy
 msgid "Golf"
-msgstr "&גולף"
+msgstr "גולף"
 
 #: grandf.cpp:188
-#, fuzzy
 msgid "Grandfather"
-msgstr "&&סבא"
+msgstr "סבא"
 
 #: gypsy.cpp:166
-#, fuzzy
 msgid "Gypsy"
-msgstr "&צועני"
+msgstr "צועני"
 
 #: idiot.cpp:225
-#, fuzzy
 msgid "Aces Up"
-msgstr "&אסים למעלה"
+msgstr "אסים למעלה"
 
 #: klondike.cpp:134
-#, fuzzy, kde-format
+#, kde-format
 msgid "Klondike &Options"
-msgstr "&קלונדי"
+msgstr "&אפשרויות קלונדייק"
 
 #: klondike.cpp:135
 #, kde-format
@@ -442,36 +433,33 @@ msgid "Draw 3"
 msgstr ""
 
 #: klondike.cpp:312
-#, fuzzy
 msgid "Klondike"
-msgstr "&קלונדי"
+msgstr "קלונדייק"
 
 #: klondike.cpp:314
-#, fuzzy
 msgid "Klondike (Draw 1)"
-msgstr "קלונדי (&חלק 3)"
+msgstr "קלונדייק (שליפת 1)"
 
 #: klondike.cpp:315
-#, fuzzy
 msgid "Klondike (Draw 3)"
-msgstr "קלונדי (&חלק 3)"
+msgstr "קלונדייק (שליפת 3)"
 
 #. i18n: ectx: Menu (move)
 #: kpatui.rc:23
-#, fuzzy, kde-format
+#, kde-format
 msgid "Move"
-msgstr "מהלך אחד"
+msgstr "מהלך"
 
 #. i18n: ectx: ToolBar (mainToolBar)
 #: kpatui.rc:42
 #, kde-format
 msgid "Main Toolbar"
-msgstr ""
+msgstr "סרגל כלים ראשי"
 
 #: libkcardgame/kcardthemewidget.cpp:266
 #, kde-format
 msgid "Loading..."
-msgstr ""
+msgstr "בטעינה…"
 
 #: main.cpp:89
 #, kde-format
@@ -521,9 +509,9 @@ msgid "Rodolfo Borges"
 msgstr ""
 
 #: main.cpp:100 main.cpp:113
-#, fuzzy, kde-format
+#, kde-format
 msgid "New game types"
-msgstr "מספר סוגי משחקים"
+msgstr "סוגי משחקים חדשים"
 
 #: main.cpp:101
 #, kde-format
@@ -556,9 +544,9 @@ msgid "Tom Holroyd"
 msgstr ""
 
 #: main.cpp:104
-#, fuzzy, kde-format
+#, kde-format
 msgid "Initial patience solver"
-msgstr "KPatience"
+msgstr "פותר סבלנות ראשוני"
 
 #: main.cpp:105
 #, kde-format
@@ -576,9 +564,9 @@ msgid "Erik Sigra"
 msgstr ""
 
 #: main.cpp:106
-#, fuzzy, kde-format
+#, kde-format
 msgid "Klondike improvements"
-msgstr "&קלונדי"
+msgstr "שיפורים לקלונדייק"
 
 #: main.cpp:107
 #, kde-format
@@ -586,9 +574,9 @@ msgid "Josh Metzler"
 msgstr ""
 
 #: main.cpp:107
-#, fuzzy, kde-format
+#, kde-format
 msgid "Spider implementation"
-msgstr "מימוש spider"
+msgstr "מימוש של עכביש"
 
 #: main.cpp:108
 #, kde-format
@@ -613,7 +601,7 @@ msgstr ""
 #: main.cpp:110
 #, kde-format
 msgid "Menu and toolbar work"
-msgstr ""
+msgstr "עבודה על התפריט וסרגל הכלים"
 
 #: main.cpp:111
 #, kde-format
@@ -623,17 +611,17 @@ msgstr ""
 #: main.cpp:111
 #, kde-format
 msgid "Cleanup and polish"
-msgstr ""
+msgstr "ניקוי וליטוש"
 
 #: main.cpp:112
 #, kde-format
 msgid "Shlomi Fish"
-msgstr ""
+msgstr "שלומי פיש"
 
 #: main.cpp:112
 #, kde-format
 msgid "Integration with Freecell Solver and further work"
-msgstr ""
+msgstr "שילוב פותר פריסל ומגוון שיפורים"
 
 #: main.cpp:113
 #, kde-format
@@ -688,22 +676,22 @@ msgid "New &Deal"
 msgstr ""
 
 #: mainwindow.cpp:164
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Start a game by giving its particular number"
 msgid "New &Numbered Deal..."
-msgstr "בחירת &משחק..."
+msgstr "חלוקה ממו&ספרת חדשה…"
 
 #: mainwindow.cpp:169
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Replay the current deal from the start"
 msgid "Restart Deal"
-msgstr "&התחל משחק מחדש"
+msgstr "התחלת חלוקה מחדש"
 
 #: mainwindow.cpp:175
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Start the game with the number one greater than the current one"
 msgid "Next Deal"
-msgstr "&התחל משחק מחדש"
+msgstr "החלוקה הבאה"
 
 #: mainwindow.cpp:184
 #, kde-format
@@ -731,10 +719,10 @@ msgid "Dea&l Row"
 msgstr ""
 
 #: mainwindow.cpp:237
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Collect the cards in play, shuffle them and redeal them"
 msgid "&Redeal"
-msgstr "&חלק מחדש"
+msgstr "&חלוקה מחדש"
 
 #: mainwindow.cpp:242
 #, kde-format
@@ -748,9 +736,9 @@ msgid "&Enable Autodrop"
 msgstr "אפשר &גרירה אוטומטית"
 
 #: mainwindow.cpp:254
-#, fuzzy, kde-format
+#, kde-format
 msgid "E&nable Solver"
-msgstr "KPatience"
+msgstr "הפעלת &פותר"
 
 #: mainwindow.cpp:259
 #, kde-format
@@ -775,7 +763,7 @@ msgstr ""
 #: mainwindow.cpp:291
 #, kde-format
 msgid "Random Cards"
-msgstr ""
+msgstr "קלפי אקראיים"
 
 #: mainwindow.cpp:298
 #, kde-format
@@ -790,17 +778,17 @@ msgstr ""
 #: mainwindow.cpp:306
 #, kde-format
 msgid "Move Focus to Card Below"
-msgstr ""
+msgstr "העברת המיקוד לקלף שלמטה"
 
 #: mainwindow.cpp:310
 #, kde-format
 msgid "Move Focus to Card Above"
-msgstr ""
+msgstr "העברת המיקוד לקלף שלמעלה"
 
 #: mainwindow.cpp:314
 #, kde-format
 msgid "Cancel Focus"
-msgstr ""
+msgstr "ביטול מיקוד"
 
 #: mainwindow.cpp:318
 #, kde-format
@@ -810,107 +798,107 @@ msgstr ""
 #: mainwindow.cpp:426
 #, kde-format
 msgid "Card Deck"
-msgstr ""
+msgstr "חפיסת קלפים"
 
 #: mainwindow.cpp:428
 #, kde-format
 msgid "Select a card deck"
-msgstr ""
+msgstr "נא לבחור חפיסת קלפים"
 
 #: mainwindow.cpp:433
-#, fuzzy, kde-format
+#, kde-format
 msgid "Game Theme"
-msgstr "&סוג משחק"
+msgstr "ערכת עיצוב של המשחק"
 
 #: mainwindow.cpp:433
 #, kde-format
 msgid "Select a theme for non-card game elements"
-msgstr ""
+msgstr "נא לבחור ערכת עיצוב לכל הרכיבים שאינם קלפים"
 
 #: mainwindow.cpp:511
-#, fuzzy, kde-format
+#, kde-format
 msgctxt ""
 "Is disabled and changes to \"Help &with Current Game\" when there is no "
 "current game."
 msgid "Help &with %1"
-msgstr "לפרוש מהמשחק הנוכחי?"
+msgstr "ע&זרה עם %1"
 
 #: mainwindow.cpp:542
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "Shown when there is no game open. Is always disabled."
 msgid "Help &with Current Game"
-msgstr "לפרוש מהמשחק הנוכחי?"
+msgstr "עזרה עם המשחק ה&נוכחי"
 
 #: mainwindow.cpp:697
 #, kde-format
 msgid ""
 "Are you sure you want to hide the menubar? The current shortcut to show it "
 "again is %1."
-msgstr ""
+msgstr "להסיר את סרגל התפריטים? הקיצור הנוכחי כדי להציג אותו שוב הוא %1."
 
 #: mainwindow.cpp:699
 #, kde-format
 msgid "Hide Menubar"
-msgstr ""
+msgstr "הסתרת סרגל תפריטים"
 
 #: mainwindow.cpp:792
 #, kde-format
 msgid "Downloading file failed: %1"
-msgstr ""
+msgstr "הורדת הקובץ נכשלה: %1"
 
 #: mainwindow.cpp:798
 #, kde-format
 msgid "Error reading XML file: "
-msgstr ""
+msgstr "שגיאה בקריאת קובץ XML:"
 
 #: mainwindow.cpp:815
 #, kde-format
 msgid "XML file is not a KPat save."
-msgstr ""
+msgstr "קובץ ה־XML אינו שמירה של KPat."
 
 #: mainwindow.cpp:820
 #, kde-format
 msgid "Unrecognized game id."
-msgstr ""
+msgstr "מזהה המשחק לא ידוע."
 
 #: mainwindow.cpp:839
 #, kde-format
 msgid "Errors encountered while parsing file."
-msgstr ""
+msgstr "אירעה שגיאה בפענוח הקובץ."
 
 #: mainwindow.cpp:858
 #, kde-format
 msgid "Load"
-msgstr ""
+msgstr "טעינה"
 
 #: mainwindow.cpp:885
 #, kde-format
 msgid "Save"
-msgstr ""
+msgstr "שמירה"
 
 #: mainwindow.cpp:901
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
-msgstr ""
+msgstr "שגיאה בפתיחת הקובץ לכתיבה. השמירה נכשלה."
 
 #: mainwindow.cpp:906
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
-msgstr ""
+msgstr "לא ניתן ליצור קובץ זמני. השמירה נכשלה."
 
 #: mainwindow.cpp:922
 #, kde-format
 msgid "Error uploading file. Saving failed: %1"
-msgstr ""
+msgstr "שגיאה בהעלאת קבצים. השמירה נכשלה: %1"
 
 #: mainwindow.cpp:946
-#, fuzzy, kde-format
+#, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"
 msgstr[0] "מהלך אחד"
-msgstr[1] "%1 מהלכים"
-msgstr[2] ""
-msgstr[3] ""
+msgstr[1] "שני מהלכים"
+msgstr[2] "%1 מהלכים"
+msgstr[3] "%1 מהלכים"
 
 #: mod3.cpp:218
 #, fuzzy
@@ -918,9 +906,9 @@ msgid "Mod3"
 msgstr "&Mod3"
 
 #: numbereddealdialog.cpp:36
-#, fuzzy, kde-format
+#, kde-format
 msgid "New Numbered Deal"
-msgstr "בחירת &משחק..."
+msgstr "חלוקה ממוספרת חדשה"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: numbereddealdialog.cpp:51 statisticsdialog.ui:30
@@ -929,9 +917,9 @@ msgid "Game:"
 msgstr "משחק:"
 
 #: numbereddealdialog.cpp:55
-#, fuzzy, kde-format
+#, kde-format
 msgid "Deal number:"
-msgstr "מספר משחק"
+msgstr "מספר חלוקה:"
 
 #: simon.cpp:168
 #, fuzzy
@@ -939,39 +927,39 @@ msgid "Simple Simon"
 msgstr "Simon &פשוט"
 
 #: spider.cpp:131
-#, fuzzy, kde-format
+#, kde-format
 msgid "Spider &Options"
-msgstr "מימוש spider"
+msgstr "&אפשרויות עכביש"
 
 #: spider.cpp:132
 #, kde-format
 msgid "1 Suit (Easy)"
-msgstr ""
+msgstr "סדרה אחת (קל)"
 
 #: spider.cpp:133
-#, fuzzy, kde-format
+#, kde-format
 msgid "2 Suits (Medium)"
-msgstr "עכביש (&בינוני)"
+msgstr "2 סדרות (בינוני)"
 
 #: spider.cpp:134
-#, fuzzy, kde-format
+#, kde-format
 msgid "3 Suits (Hard)"
-msgstr "עכביש (&קשה)"
+msgstr "3 סדרות (קשה)"
 
 #: spider.cpp:135
-#, fuzzy, kde-format
+#, kde-format
 msgid "4 Suits (Very Hard)"
-msgstr "עכביש (&קשה)"
+msgstr "4 סדרות (קשה מאוד)"
 
 #: spider.cpp:147
 #, kde-format
 msgid "Face &Down (harder)"
-msgstr ""
+msgstr "פני הקלף מו&סתרים (קשה יותר)"
 
 #: spider.cpp:148
 #, kde-format
 msgid "Face &Up (easier)"
-msgstr ""
+msgstr "פני הקלף &חשופים (הכי קל)"
 
 #: spider.cpp:466
 msgid "Spider"
@@ -979,19 +967,19 @@ msgstr "עכביש"
 
 #: spider.cpp:468
 msgid "Spider (1 Suit)"
-msgstr ""
+msgstr "עכביש (סדרה אחת)"
 
 #: spider.cpp:469
 msgid "Spider (2 Suit)"
-msgstr ""
+msgstr "עכביש (2 סדרות)"
 
 #: spider.cpp:470
 msgid "Spider (3 Suit)"
-msgstr ""
+msgstr "עכביש (3 סדרות)"
 
 #: spider.cpp:471
 msgid "Spider (4 Suit)"
-msgstr ""
+msgstr "עכביש (4 סדרות)"
 
 #: statisticsdialog.cpp:122
 #, kde-format
@@ -1002,19 +990,19 @@ msgstr "%1 (%2%)"
 #, kde-format
 msgid "1 loss"
 msgid_plural "%1 losses"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "הפסד אחד"
+msgstr[1] "שני הפסדים"
+msgstr[2] "%1 הפסדים"
+msgstr[3] "%1 הפסדים"
 
 #: statisticsdialog.cpp:136
 #, kde-format
 msgid "1 win"
 msgid_plural "%1 wins"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "ניצחון אחד"
+msgstr[1] "שני ניצחונות"
+msgstr[2] "%1 ניצחונות"
+msgstr[3] "%1 ניצחונות"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel7)
 #: statisticsdialog.ui:66
@@ -1044,13 +1032,13 @@ msgstr "משחקים שנוצחו:"
 #: statisticsdialog.ui:124
 #, kde-format
 msgid "Current streak:"
-msgstr ""
+msgstr "רצף נוכחי:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: statisticsdialog.ui:138
 #, kde-format
 msgid "Minimal number of moves:"
-msgstr ""
+msgstr "מספר המהלכים המזערי:"
 
 #: yukon.cpp:120
 msgid "Yukon"
