@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-14 01:34+0000\n"
-"PO-Revision-Date: 2024-02-20 23:23+0200\n"
+"PO-Revision-Date: 2024-02-22 09:32+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Poedit 3.4.1\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -174,27 +174,27 @@ msgstr "תאים פנויים"
 #: castle.cpp:377 freecell.cpp:362
 #, kde-format
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: castle.cpp:378 freecell.cpp:363 freecell.cpp:382
 #, kde-format
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: castle.cpp:379 freecell.cpp:364 freecell.cpp:383
 #, kde-format
 msgid "2"
-msgstr ""
+msgstr "2"
 
 #: castle.cpp:380 freecell.cpp:365 freecell.cpp:384
 #, kde-format
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: castle.cpp:381 freecell.cpp:366
 #, kde-format
 msgid "4"
-msgstr ""
+msgstr "4"
 
 #: castle.cpp:383 freecell.cpp:372
 #, kde-format
@@ -204,27 +204,27 @@ msgstr "ערימות"
 #: castle.cpp:384 freecell.cpp:368 freecell.cpp:373
 #, kde-format
 msgid "6"
-msgstr ""
+msgstr "6"
 
 #: castle.cpp:385 freecell.cpp:369 freecell.cpp:374
 #, kde-format
 msgid "7"
-msgstr ""
+msgstr "7"
 
 #: castle.cpp:386 freecell.cpp:370 freecell.cpp:375
 #, kde-format
 msgid "8"
-msgstr ""
+msgstr "8"
 
 #: castle.cpp:387 freecell.cpp:376
 #, kde-format
 msgid "9"
-msgstr ""
+msgstr "9"
 
 #: castle.cpp:388 freecell.cpp:377
 #, kde-format
 msgid "10"
-msgstr ""
+msgstr "10"
 
 #: castle.cpp:390 spider.cpp:146
 #, kde-format
@@ -234,12 +234,12 @@ msgstr "אפשרויות &ערימה"
 #: castle.cpp:391
 #, kde-format
 msgid "Face &Down"
-msgstr ""
+msgstr "פנים למ&טה"
 
 #: castle.cpp:392
 #, kde-format
 msgid "Face &Up"
-msgstr ""
+msgstr "פנים למ&עלה"
 
 #: castle.cpp:393
 #, kde-format
@@ -384,17 +384,17 @@ msgstr "תאים פנויים"
 #: freecell.cpp:367
 #, kde-format
 msgid "5"
-msgstr ""
+msgstr "5"
 
 #: freecell.cpp:378
 #, kde-format
 msgid "11"
-msgstr ""
+msgstr "11"
 
 #: freecell.cpp:379
 #, kde-format
 msgid "12"
-msgstr ""
+msgstr "12"
 
 #: freecell.cpp:381
 #, kde-format
@@ -425,12 +425,12 @@ msgstr "&אפשרויות קלונדייק"
 #: klondike.cpp:135
 #, kde-format
 msgid "Draw 1"
-msgstr ""
+msgstr "משיכת 1"
 
 #: klondike.cpp:136
 #, kde-format
 msgid "Draw 3"
-msgstr ""
+msgstr "משיכת 3"
 
 #: klondike.cpp:312
 msgid "Klondike"
@@ -486,22 +486,22 @@ msgstr ""
 #: main.cpp:97
 #, kde-format
 msgid "Author of original Qt version"
-msgstr ""
+msgstr "יוצר גרסת ה־Qt המקורית"
 
 #: main.cpp:98
 #, kde-format
 msgid "Mario Weilguni"
-msgstr ""
+msgstr "מריו ויילגוני"
 
 #: main.cpp:98
 #, kde-format
 msgid "Initial KDE port"
-msgstr ""
+msgstr "הסבה ראשונית ל־KDE"
 
 #: main.cpp:99
 #, kde-format
 msgid "Matthias Ettrich"
-msgstr ""
+msgstr "מטיאס אטריך"
 
 #: main.cpp:100
 #, kde-format
@@ -541,7 +541,7 @@ msgstr "אלגוריתם ערבול למספרי משחקים"
 #: main.cpp:104
 #, kde-format
 msgid "Tom Holroyd"
-msgstr ""
+msgstr "טום הולוריד"
 
 #: main.cpp:104
 #, kde-format
@@ -551,7 +551,7 @@ msgstr "פותר סבלנות ראשוני"
 #: main.cpp:105
 #, kde-format
 msgid "Stephan Kulow"
-msgstr ""
+msgstr "סטיבן קולוב"
 
 #: main.cpp:105
 #, kde-format
@@ -571,7 +571,7 @@ msgstr "שיפורים לקלונדייק"
 #: main.cpp:107
 #, kde-format
 msgid "Josh Metzler"
-msgstr ""
+msgstr "ג׳וש מצלר"
 
 #: main.cpp:107
 #, kde-format
@@ -581,7 +581,7 @@ msgstr "מימוש של עכביש"
 #: main.cpp:108
 #, kde-format
 msgid "Maren Pakura"
-msgstr ""
+msgstr "מארן פאקורה"
 
 #: main.cpp:108
 #, kde-format
@@ -591,12 +591,12 @@ msgstr "תיעוד"
 #: main.cpp:109
 #, kde-format
 msgid "Inge Wallin"
-msgstr ""
+msgstr "אינגה וולין"
 
 #: main.cpp:110
 #, kde-format
 msgid "Simon Hürlimann"
-msgstr ""
+msgstr "סיימון הרלימן"
 
 #: main.cpp:110
 #, kde-format
@@ -626,7 +626,7 @@ msgstr "שילוב פותר פריסל ומגוון שיפורים"
 #: main.cpp:113
 #, kde-format
 msgid "Michael Lang"
-msgstr ""
+msgstr "מייקל לנג"
 
 #: main.cpp:120
 #, kde-format
@@ -667,13 +667,13 @@ msgstr "קובץ לטעינה"
 #, kde-format
 msgctxt "Start a new game of a different type"
 msgid "New &Game..."
-msgstr ""
+msgstr "משחק &חדש…"
 
 #: mainwindow.cpp:158
 #, kde-format
 msgctxt "Start a new game of without changing the game type"
 msgid "New &Deal"
-msgstr ""
+msgstr "ח&לוקה חדשה…"
 
 #: mainwindow.cpp:164
 #, kde-format
@@ -697,7 +697,7 @@ msgstr "החלוקה הבאה"
 #, kde-format
 msgctxt "Start the game with the number one less than the current one"
 msgid "Previous Deal"
-msgstr ""
+msgstr "חלוקה קודמת"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, GameStats)
 #: mainwindow.cpp:198 statisticsdialog.cpp:61 statisticsdialog.ui:13
@@ -710,13 +710,13 @@ msgstr "סטטיסטיקה"
 msgctxt ""
 "Take one or more cards from the deck, flip them, and place them in play"
 msgid "Dra&w"
-msgstr ""
+msgstr "מ&שיכה"
 
 #: mainwindow.cpp:232
 #, kde-format
 msgctxt "Deal a new row of cards from the deck"
 msgid "Dea&l Row"
-msgstr ""
+msgstr "משיכת &שורה"
 
 #: mainwindow.cpp:237
 #, kde-format
@@ -728,7 +728,7 @@ msgstr "&חלוקה מחדש"
 #, kde-format
 msgctxt "Automatically move cards to the foundation piles"
 msgid "Dro&p"
-msgstr ""
+msgstr "הש&מטה"
 
 #: mainwindow.cpp:249
 #, kde-format
@@ -743,12 +743,12 @@ msgstr "הפעלת &פותר"
 #: mainwindow.cpp:259
 #, kde-format
 msgid "Play &Sounds"
-msgstr ""
+msgstr "השמעת &צלילים"
 
 #: mainwindow.cpp:264
 #, kde-format
 msgid "&Remember State on Exit"
-msgstr ""
+msgstr "ל&זכור את המצב ביציאה"
 
 #: mainwindow.cpp:281
 #, kde-format
