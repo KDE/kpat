@@ -39,7 +39,7 @@
   <name xml:lang="uk">KPatience</name>
   <name xml:lang="x-test">xxKPatiencexx</name>
   <name xml:lang="zh-CN">KPatience</name>
-  <name xml:lang="zh-TW">KPatience</name>
+  <name xml:lang="zh-TW">KPatience 接龍</name>
   <summary>Solitaire card game</summary>
   <summary xml:lang="ca">Joc de cartes al solitari</summary>
   <summary xml:lang="ca-valencia">Joc de cartes al solitari</summary>
@@ -74,6 +74,7 @@
   <summary xml:lang="uk">Карткова гра у пасьянс</summary>
   <summary xml:lang="x-test">xxSolitaire card gamexx</summary>
   <summary xml:lang="zh-CN">纸牌游戏</summary>
+  <summary xml:lang="zh-TW">接龍卡片遊戲</summary>
   <description>
     <p>KPat (aka KPatience) is a relaxing card sorting game. To win the game a player has to arrange a single deck of cards in certain order amongst each other.</p>
     <p xml:lang="ca">El KPat (o KPatience) és un joc d'ordenació relaxant de cartes. Per a guanyar la partida, un jugador ha d'organitzar una baralla única de cartes en un ordre determinat contra un altre.</p>
@@ -108,6 +109,7 @@
     <p xml:lang="uk">KPat (або KPatience) — заспокійлива гра в упорядковування набору карт. Щоб виграти гру, гравцеві слід за певними правилами упорядкувати колоди карт.</p>
     <p xml:lang="x-test">xxKPat (aka KPatience) is a relaxing card sorting game. To win the game a player has to arrange a single deck of cards in certain order amongst each other.xx</p>
     <p xml:lang="zh-CN">KPat (又称 KPatience) 是一个轻松的卡牌排序游戏。玩家必须率先按一定顺序排序一层卡牌，才能赢下游戏。</p>
+    <p xml:lang="zh-TW">KPat（又稱 KPatience 接龍）是一個讓人放鬆的卡片排序遊戲。To win the game a player has to arrange a single deck of cards in certain order amongst each other.</p>
   </description>
   <url type="homepage">https://apps.kde.org/kpat</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=kpat</url>
@@ -150,6 +152,7 @@
       <caption xml:lang="uk">Вікно вибору пасьянсу</caption>
       <caption xml:lang="x-test">xxSolitaire selection screenxx</caption>
       <caption xml:lang="zh-CN">纸牌选择界面</caption>
+      <caption xml:lang="zh-TW">接龍選取畫面</caption>
       <image>https://cdn.kde.org/screenshots/kpatience/kpatience.png</image>
     </screenshot>
   </screenshots>
