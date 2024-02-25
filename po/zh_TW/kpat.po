@@ -6,32 +6,34 @@
 # pan93412 <pan93412@gmail.com>, 2018, 2020.
 # Frank Weng (a.k.a. Franklin) <franklin at goodhorse dot idv dot tw>, 2006, 2008, 2009, 2010.
 # Franklin Weng <franklin at goodhorse dot idv dot tw>, 2007, 2008.
+# Kisaragi Hiu <mail@kisaragi-hiu.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-14 01:34+0000\n"
-"PO-Revision-Date: 2020-01-05 15:50+0800\n"
-"Last-Translator: pan93412 <pan93412@gmail.com>\n"
-"Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
+"PO-Revision-Date: 2024-02-25 01:31+0900\n"
+"Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
+"Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.12.0\n"
+"X-Generator: Lokalize 23.11.70\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Hydonsingore Sie, Frank Weng (a.k.a. Franklin), Jeff Huang"
+msgstr ""
+"Hydonsingore Sie, Frank Weng (a.k.a. Franklin), Jeff Huang, Kisaragi Hiu"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
 "hydonsingore@mail.educities.edu.tw, franklin@goodhorse.idv.tw, "
-"s8321414@gmail.com"
+"s8321414@gmail.com, mail@kisaragi-hiu.com"
 
 #: bakersdozen.cpp:68 castle.cpp:357 freecell.cpp:343
 #, kde-format
@@ -44,10 +46,9 @@ msgid "Baker's Dozen"
 msgstr ""
 
 #: bakersdozen.cpp:70 bakersdozen.cpp:240
-#, fuzzy, kde-format
-#| msgid "KPatience"
+#, kde-format
 msgid "Spanish Patience"
-msgstr "KPatience"
+msgstr "西班牙接龍"
 
 #: bakersdozen.cpp:71 bakersdozen.cpp:241
 #, kde-format
@@ -70,16 +71,14 @@ msgid "Empty Stack Fill"
 msgstr ""
 
 #: bakersdozen.cpp:76 castle.cpp:367 freecell.cpp:352
-#, fuzzy, kde-format
-#| msgid "1 Suit (Easy)"
+#, kde-format
 msgid "Any (Easy)"
-msgstr "一種花色（簡單）"
+msgstr "任何（簡單）"
 
 #: bakersdozen.cpp:77 castle.cpp:368 freecell.cpp:353
-#, fuzzy, kde-format
-#| msgid "2 Suits (Medium)"
+#, kde-format
 msgid "Kings only (Medium)"
-msgstr "兩種花色（中等）"
+msgstr "僅王牌（中等）"
 
 #: bakersdozen.cpp:78 castle.cpp:369 freecell.cpp:354
 #, kde-format
@@ -87,20 +86,17 @@ msgid "None (Hard)"
 msgstr ""
 
 #: bakersdozen.cpp:80
-#, fuzzy, kde-format
-#| msgid "S&tack Options"
+#, kde-format
 msgid "Stack Options"
-msgstr "堆疊選項(&T)"
+msgstr "堆疊選項"
 
 #: bakersdozen.cpp:81
-#, fuzzy, kde-format
-#| msgid "Face &Up (easier)"
+#, kde-format
 msgid "Face &Up (Easier)"
 msgstr "亮牌（較簡單）(&U)"
 
 #: bakersdozen.cpp:82
-#, fuzzy, kde-format
-#| msgid "Face &Down (harder)"
+#, kde-format
 msgid "Face &Down (Harder)"
 msgstr "蓋牌（較難）(&D)"
 
@@ -169,10 +165,9 @@ msgid "Castle (Custom)"
 msgstr "新接龍（Freecell）"
 
 #: castle.cpp:376
-#, fuzzy, kde-format
-#| msgid "Freecell"
+#, kde-format
 msgid "Free Cells"
-msgstr "新接龍（Freecell）"
+msgstr "新接龍"
 
 #: castle.cpp:377 freecell.cpp:362
 #, kde-format
@@ -236,16 +231,14 @@ msgid "S&tack Options"
 msgstr "堆疊選項(&T)"
 
 #: castle.cpp:391
-#, fuzzy, kde-format
-#| msgid "Face &Down (harder)"
+#, kde-format
 msgid "Face &Down"
-msgstr "蓋牌（較難）(&D)"
+msgstr "蓋牌(&D)"
 
 #: castle.cpp:392
-#, fuzzy, kde-format
-#| msgid "Face &Up (easier)"
+#, kde-format
 msgid "Face &Up"
-msgstr "亮牌（較簡單）(&U)"
+msgstr "亮牌(&U)"
 
 #: castle.cpp:393
 #, kde-format
@@ -413,7 +406,7 @@ msgstr ""
 #: freecell.cpp:381
 #, kde-format
 msgid "Decks"
-msgstr ""
+msgstr "牌組"
 
 #: golf.cpp:189
 msgid "Golf"
@@ -640,10 +633,9 @@ msgid "Integration with Freecell Solver and further work"
 msgstr "整合 Freecell 解答器和後續作業"
 
 #: main.cpp:113
-#, fuzzy, kde-format
-#| msgid "Michael Koch"
+#, kde-format
 msgid "Michael Lang"
-msgstr "Michael Koch"
+msgstr "Michael Lang"
 
 #: main.cpp:120
 #, kde-format
@@ -954,16 +946,14 @@ msgid "2 Suits (Medium)"
 msgstr "兩種花色（中等）"
 
 #: spider.cpp:134
-#, fuzzy, kde-format
-#| msgid "4 Suits (Hard)"
+#, kde-format
 msgid "3 Suits (Hard)"
-msgstr "四種花色（困難）"
+msgstr "三種花色（困難）"
 
 #: spider.cpp:135
-#, fuzzy, kde-format
-#| msgid "4 Suits (Hard)"
+#, kde-format
 msgid "4 Suits (Very Hard)"
-msgstr "四種花色（困難）"
+msgstr "四種花色（非常困難）"
 
 #: spider.cpp:147
 #, kde-format
@@ -981,21 +971,19 @@ msgstr "連環新接龍（Spider）"
 
 #: spider.cpp:468
 msgid "Spider (1 Suit)"
-msgstr "Spider (1 種花色)"
+msgstr "連環新接龍 (1 種花色)"
 
 #: spider.cpp:469
 msgid "Spider (2 Suit)"
-msgstr "Spider (2 種花色)"
+msgstr "連環新接龍 (2 種花色)"
 
 #: spider.cpp:470
-#, fuzzy
-#| msgid "Spider (1 Suit)"
 msgid "Spider (3 Suit)"
-msgstr "Spider (1 種花色)"
+msgstr "連環新接龍 (3 種花色)"
 
 #: spider.cpp:471
 msgid "Spider (4 Suit)"
-msgstr "Spider (4 種花色)"
+msgstr "連環新接龍 (4 種花色)"
 
 #: statisticsdialog.cpp:122
 #, kde-format
