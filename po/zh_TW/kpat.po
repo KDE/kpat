@@ -6,20 +6,20 @@
 # pan93412 <pan93412@gmail.com>, 2018, 2020.
 # Frank Weng (a.k.a. Franklin) <franklin at goodhorse dot idv dot tw>, 2006, 2008, 2009, 2010.
 # Franklin Weng <franklin at goodhorse dot idv dot tw>, 2007, 2008.
-# Kisaragi Hiu <mail@kisaragi-hiu.com>, 2024.
+# SPDX-FileCopyrightText: 2024 Kisaragi Hiu <mail@kisaragi-hiu.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-14 01:34+0000\n"
-"PO-Revision-Date: 2024-02-25 01:31+0900\n"
+"PO-Revision-Date: 2024-02-25 20:53+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 23.11.70\n"
+"X-Generator: Lokalize 24.04.70\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #, kde-format
@@ -38,7 +38,7 @@ msgstr ""
 #: bakersdozen.cpp:68 castle.cpp:357 freecell.cpp:343
 #, kde-format
 msgid "Popular Variant Presets"
-msgstr ""
+msgstr "受歡迎的變種預設檔"
 
 #: bakersdozen.cpp:69 bakersdozen.cpp:237 bakersdozen.cpp:239
 #, kde-format
@@ -53,17 +53,17 @@ msgstr "西班牙接龍"
 #: bakersdozen.cpp:71 bakersdozen.cpp:241
 #, kde-format
 msgid "Castles in Spain"
-msgstr ""
+msgstr "西班牙城堡"
 
 #: bakersdozen.cpp:72 bakersdozen.cpp:242
 #, kde-format
 msgid "Portuguese Solitaire"
-msgstr ""
+msgstr "葡萄牙接龍"
 
 #: bakersdozen.cpp:73 castle.cpp:364 freecell.cpp:349
 #, kde-format
 msgid "Custom"
-msgstr ""
+msgstr "自訂"
 
 #: bakersdozen.cpp:75 castle.cpp:366 freecell.cpp:351
 #, kde-format
@@ -83,7 +83,7 @@ msgstr "僅王牌（中等）"
 #: bakersdozen.cpp:78 castle.cpp:369 freecell.cpp:354
 #, kde-format
 msgid "None (Hard)"
-msgstr ""
+msgstr "無（困難）"
 
 #: bakersdozen.cpp:80
 #, kde-format
@@ -108,7 +108,7 @@ msgstr ""
 #: bakersdozen.cpp:85 castle.cpp:372 freecell.cpp:357
 #, kde-format
 msgid "Alternating Color"
-msgstr ""
+msgstr "交錯色彩"
 
 #: bakersdozen.cpp:86 castle.cpp:373 freecell.cpp:358
 #, kde-format
@@ -126,7 +126,7 @@ msgstr ""
 
 #: castle.cpp:318
 msgid "Castle"
-msgstr ""
+msgstr "城堡"
 
 #: castle.cpp:320 castle.cpp:358
 #, kde-format
@@ -146,7 +146,7 @@ msgstr ""
 #: castle.cpp:323 castle.cpp:361
 #, kde-format
 msgid "Streets and Alleys"
-msgstr ""
+msgstr "巷弄"
 
 #: castle.cpp:324 castle.cpp:362
 #, kde-format
@@ -159,10 +159,8 @@ msgid "Stronghold"
 msgstr ""
 
 #: castle.cpp:326
-#, fuzzy
-#| msgid "Freecell"
 msgid "Castle (Custom)"
-msgstr "新接龍（Freecell）"
+msgstr "城堡（自訂）"
 
 #: castle.cpp:376
 #, kde-format
@@ -172,58 +170,57 @@ msgstr "新接龍"
 #: castle.cpp:377 freecell.cpp:362
 #, kde-format
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: castle.cpp:378 freecell.cpp:363 freecell.cpp:382
 #, kde-format
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: castle.cpp:379 freecell.cpp:364 freecell.cpp:383
 #, kde-format
 msgid "2"
-msgstr ""
+msgstr "2"
 
 #: castle.cpp:380 freecell.cpp:365 freecell.cpp:384
 #, kde-format
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: castle.cpp:381 freecell.cpp:366
 #, kde-format
 msgid "4"
-msgstr ""
+msgstr "4"
 
 #: castle.cpp:383 freecell.cpp:372
-#, fuzzy, kde-format
-#| msgid "S&tack Options"
+#, kde-format
 msgid "Stacks"
-msgstr "堆疊選項(&T)"
+msgstr "堆疊"
 
 #: castle.cpp:384 freecell.cpp:368 freecell.cpp:373
 #, kde-format
 msgid "6"
-msgstr ""
+msgstr "6"
 
 #: castle.cpp:385 freecell.cpp:369 freecell.cpp:374
 #, kde-format
 msgid "7"
-msgstr ""
+msgstr "7"
 
 #: castle.cpp:386 freecell.cpp:370 freecell.cpp:375
 #, kde-format
 msgid "8"
-msgstr ""
+msgstr "8"
 
 #: castle.cpp:387 freecell.cpp:376
 #, kde-format
 msgid "9"
-msgstr ""
+msgstr "9"
 
 #: castle.cpp:388 freecell.cpp:377
 #, kde-format
 msgid "10"
-msgstr ""
+msgstr "10"
 
 #: castle.cpp:390 spider.cpp:146
 #, kde-format
@@ -253,33 +250,32 @@ msgstr ""
 #: castle.cpp:396
 #, kde-format
 msgid "None"
-msgstr ""
+msgstr "無"
 
 #: castle.cpp:397
-#, fuzzy, kde-format
-#| msgid "Aces Up"
+#, kde-format
 msgid "Aces"
-msgstr "Aces Up"
+msgstr ""
 
 #: castle.cpp:398
 #, kde-format
 msgid "Any"
-msgstr ""
+msgstr "任何"
 
 #: castle.cpp:400
 #, kde-format
 msgid "Layout"
-msgstr ""
+msgstr "佈局"
 
 #: castle.cpp:401
 #, kde-format
 msgid "Classic"
-msgstr ""
+msgstr "經典"
 
 #: castle.cpp:402
 #, kde-format
 msgid "Modern"
-msgstr ""
+msgstr "現代"
 
 #: clock.cpp:157
 msgid "Grandfather's Clock"
@@ -377,10 +373,8 @@ msgid "Seahaven Towers"
 msgstr ""
 
 #: freecell.cpp:314
-#, fuzzy
-#| msgid "Freecell"
 msgid "Freecell (Custom)"
-msgstr "新接龍（Freecell）"
+msgstr "新接龍（自訂）"
 
 #: freecell.cpp:361
 #, fuzzy, kde-format
@@ -391,17 +385,17 @@ msgstr "新接龍（Freecell）"
 #: freecell.cpp:367
 #, kde-format
 msgid "5"
-msgstr ""
+msgstr "5"
 
 #: freecell.cpp:378
 #, kde-format
 msgid "11"
-msgstr ""
+msgstr "11"
 
 #: freecell.cpp:379
 #, kde-format
 msgid "12"
-msgstr ""
+msgstr "12"
 
 #: freecell.cpp:381
 #, kde-format
