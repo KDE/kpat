@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-14 01:34+0000\n"
-"PO-Revision-Date: 2024-02-22 09:32+0200\n"
+"PO-Revision-Date: 2024-03-01 16:09+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -67,7 +67,7 @@ msgstr "סוליטר פורטוגלי"
 #: bakersdozen.cpp:73 castle.cpp:364 freecell.cpp:349
 #, kde-format
 msgid "Custom"
-msgstr ""
+msgstr "משלך"
 
 #: bakersdozen.cpp:75 castle.cpp:366 freecell.cpp:351
 #, kde-format
@@ -112,7 +112,7 @@ msgstr ""
 #: bakersdozen.cpp:85 castle.cpp:372 freecell.cpp:357
 #, kde-format
 msgid "Alternating Color"
-msgstr ""
+msgstr "צבע מתחלף"
 
 #: bakersdozen.cpp:86 castle.cpp:373 freecell.cpp:358
 #, kde-format
@@ -130,7 +130,7 @@ msgstr ""
 
 #: castle.cpp:318
 msgid "Castle"
-msgstr ""
+msgstr "טירה"
 
 #: castle.cpp:320 castle.cpp:358
 #, kde-format
@@ -140,17 +140,17 @@ msgstr ""
 #: castle.cpp:321 castle.cpp:359
 #, kde-format
 msgid "Citadel"
-msgstr ""
+msgstr "מצודה"
 
 #: castle.cpp:322 castle.cpp:360
 #, kde-format
 msgid "Exiled Kings"
-msgstr ""
+msgstr "המלכים המגורשים"
 
 #: castle.cpp:323 castle.cpp:361
 #, kde-format
 msgid "Streets and Alleys"
-msgstr ""
+msgstr "רחובות וסמטאות"
 
 #: castle.cpp:324 castle.cpp:362
 #, kde-format
@@ -254,7 +254,7 @@ msgstr ""
 #: castle.cpp:396
 #, kde-format
 msgid "None"
-msgstr ""
+msgstr "ללא"
 
 #: castle.cpp:397
 #, kde-format
@@ -264,7 +264,7 @@ msgstr "אסים"
 #: castle.cpp:398
 #, kde-format
 msgid "Any"
-msgstr ""
+msgstr "כלשהו"
 
 #: castle.cpp:400
 #, kde-format
@@ -288,22 +288,22 @@ msgstr "השעון של סבא"
 #: dealer.cpp:72
 #, kde-format
 msgid "Solver: This game is winnable."
-msgstr ""
+msgstr "פותר: אפשר לנצח במשחק הזה"
 
 #: dealer.cpp:74
 #, kde-format
 msgid "Solver: This game is no longer winnable."
-msgstr ""
+msgstr "פותר: אי אפשר עוד לנצח במשחק הזה."
 
 #: dealer.cpp:74
 #, kde-format
 msgid "Solver: This game cannot be won."
-msgstr ""
+msgstr "פותר: אי אפשר לנצח במשחק הזה."
 
 #: dealer.cpp:76
 #, kde-format
 msgid "Solver: Unable to determine if this game is winnable."
-msgstr ""
+msgstr "פותר: לא ניתן לזהות אם אפשר לנצח במשחק הזה."
 
 #: dealer.cpp:922
 #, kde-format
@@ -318,7 +318,7 @@ msgstr "ברכותינו! ניצחת."
 #: dealer.cpp:1221
 #, kde-format
 msgid "Solver: This game is lost."
-msgstr ""
+msgstr "פותר: המשחק הזה אבוד."
 
 #: dealer.cpp:1359
 #, kde-format
@@ -521,7 +521,7 @@ msgstr ""
 #: main.cpp:102
 #, kde-format
 msgid "Michael Koch"
-msgstr ""
+msgstr "מייקל קוך"
 
 #: main.cpp:102 main.cpp:109
 #, kde-format
@@ -531,7 +531,7 @@ msgstr "תיקוני באגים"
 #: main.cpp:103
 #, kde-format
 msgid "Marcus Meissner"
-msgstr ""
+msgstr "מרקוס מייסנר"
 
 #: main.cpp:103
 #, kde-format
@@ -561,7 +561,7 @@ msgstr "כתיבה מחדש ומתחזק נוכחי"
 #: main.cpp:106
 #, kde-format
 msgid "Erik Sigra"
-msgstr ""
+msgstr "אריק סיגרה"
 
 #: main.cpp:106
 #, kde-format
@@ -606,7 +606,7 @@ msgstr "עבודה על התפריט וסרגל הכלים"
 #: main.cpp:111
 #, kde-format
 msgid "Parker Coates"
-msgstr ""
+msgstr "פארקר קוטס"
 
 #: main.cpp:111
 #, kde-format
@@ -901,9 +901,8 @@ msgstr[2] "%1 מהלכים"
 msgstr[3] "%1 מהלכים"
 
 #: mod3.cpp:218
-#, fuzzy
 msgid "Mod3"
-msgstr "&Mod3"
+msgstr "מוד3"
 
 #: numbereddealdialog.cpp:36
 #, kde-format
@@ -922,9 +921,8 @@ msgid "Deal number:"
 msgstr "מספר חלוקה:"
 
 #: simon.cpp:168
-#, fuzzy
 msgid "Simple Simon"
-msgstr "Simon &פשוט"
+msgstr "סיימון &פשוט"
 
 #: spider.cpp:131
 #, kde-format
