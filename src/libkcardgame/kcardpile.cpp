@@ -381,7 +381,12 @@ void KCardPile::insert(int index, KCard *card)
     card->setPile(this);
     card->setVisible(isVisible());
 
-    d->cards.insert(index, card);
+    // The code was written with older Qt where inserting an index bigger than size just appended
+    if (index > d->cards.size()) {
+        d->cards.append(card);
+    } else {
+        d->cards.insert(index, card);
+    }
 }
 
 void KCardPile::remove(KCard *card)

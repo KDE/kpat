@@ -1067,7 +1067,7 @@ void DealerScene::undoOrRedo(bool undo)
 
         QSet<KCardPile *> pilesAffected;
 
-        auto processCardStateChange = [&](const CardStateChange &change) {
+        for (const CardStateChange &change : changes) {
             CardState sourceState = undo ? change.newState : change.oldState;
             CardState destState = undo ? change.oldState : change.newState;
 
@@ -1092,16 +1092,6 @@ void DealerScene::undoOrRedo(bool undo)
                 ++destState.index;
             }
         };
-
-        if (undo) {
-            for (auto it = changes.rbegin(); it != changes.rend(); ++it) {
-                processCardStateChange(*it);
-            }
-        } else {
-            for (const CardStateChange &change : changes) {
-                processCardStateChange(change);
-            }
-        }
 
         // At this point all cards should be in the right piles, but not
         // necessarily at the right positions within those piles. So we
