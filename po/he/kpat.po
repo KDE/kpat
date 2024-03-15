@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-14 01:34+0000\n"
-"PO-Revision-Date: 2024-03-01 16:09+0200\n"
+"POT-Creation-Date: 2024-03-15 00:36+0000\n"
+"PO-Revision-Date: 2024-03-14 07:30+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -315,17 +315,17 @@ msgstr "ברכותינו! ניצחנו."
 msgid "Congratulations! You have won."
 msgstr "ברכותינו! ניצחת."
 
-#: dealer.cpp:1221
+#: dealer.cpp:1211
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "פותר: המשחק הזה אבוד."
 
-#: dealer.cpp:1359
+#: dealer.cpp:1349
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "פותר: מחושב…"
 
-#: dealer.cpp:1763
+#: dealer.cpp:1753
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -333,12 +333,12 @@ msgid ""
 "A loss will be recorded in the statistics if the current game is abandoned."
 msgstr ""
 
-#: dealer.cpp:1765
+#: dealer.cpp:1755
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "לנטוש את המשחק הנוכחי?"
 
-#: dealer.cpp:1766
+#: dealer.cpp:1756
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "נטישת המשחק הנוכחי"
@@ -526,7 +526,7 @@ msgstr "מייקל קוך"
 #: main.cpp:102 main.cpp:109
 #, kde-format
 msgid "Bug fixes"
-msgstr "תיקוני באגים"
+msgstr "תיקוני תקלות"
 
 #: main.cpp:103
 #, kde-format

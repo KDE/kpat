@@ -2,7 +2,7 @@
 # Bulgarian translation of KDE.
 # This file is licensed under the GPL.
 #
-# $Id: kpat.po 1670299 2024-01-18 20:37:58Z mkkdr $
+# $Id: kpat.po 1675696 2024-03-15 01:07:20Z scripty $
 #
 # Zlatko Popov <zlatkopopov@fsa-bg.org>, 2007.
 # Petar Toushkov <pt.launchpad@gmail.com>, 2009.
@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-14 01:34+0000\n"
+"POT-Creation-Date: 2024-03-15 00:36+0000\n"
 "PO-Revision-Date: 2009-05-24 19:29+0200\n"
 "Last-Translator: Petar Toushkov <pt.launchpad@gmail.com>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -310,17 +310,17 @@ msgstr "Поздравления! Ние победихме!"
 msgid "Congratulations! You have won."
 msgstr "Поздравления! Вие победихте!"
 
-#: dealer.cpp:1221
+#: dealer.cpp:1211
 #, fuzzy, kde-format
 msgid "Solver: This game is lost."
 msgstr "Прогнозиращ алгоритъм: Тази игра може да бъде спечелена."
 
-#: dealer.cpp:1359
+#: dealer.cpp:1349
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "Прогнозиращ алгоритъм: Изчисление..."
 
-#: dealer.cpp:1763
+#: dealer.cpp:1753
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -330,12 +330,12 @@ msgstr ""
 "Беше дадена заявка за нова игра, но понастоящем има незавършена.\n"
 "Ако я изоставите, ще бъде записана като загуба в статистиката."
 
-#: dealer.cpp:1765
+#: dealer.cpp:1755
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "Изоставяне на текущата игра?"
 
-#: dealer.cpp:1766
+#: dealer.cpp:1756
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "Изоставяне на текущата игра"
