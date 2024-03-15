@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-14 01:34+0000\n"
+"POT-Creation-Date: 2024-03-15 03:03+0000\n"
 "PO-Revision-Date: 2020-01-03 20:32+0200\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -318,17 +318,17 @@ msgstr "Õnnitlused! Me võitsime."
 msgid "Congratulations! You have won."
 msgstr "Õnnitlused! Sa võitsid."
 
-#: dealer.cpp:1221
+#: dealer.cpp:1211
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "Lahendaja: see mäng on kaotatud."
 
-#: dealer.cpp:1359
+#: dealer.cpp:1349
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "Lahendaja: arvestamine..."
 
-#: dealer.cpp:1763
+#: dealer.cpp:1753
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -339,12 +339,12 @@ msgstr ""
 "\n"
 "Praeguse mängu hülgamisel läheb statistikasse kirja kaotus."
 
-#: dealer.cpp:1765
+#: dealer.cpp:1755
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "Kas hüljata praegune mäng?"
 
-#: dealer.cpp:1766
+#: dealer.cpp:1756
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "Hülga praegune mäng"

@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-14 01:34+0000\n"
+"POT-Creation-Date: 2024-03-15 03:03+0000\n"
 "PO-Revision-Date: 2005-10-11 16:49+0500\n"
 "Last-Translator: Victor Ibragimov <youth_opportunities@tajikngo.org>\n"
 "Language-Team: Tajik\n"
@@ -324,18 +324,18 @@ msgstr "Табрик! Мо ғолиб шудем!"
 msgid "Congratulations! You have won."
 msgstr "Табрик! Шумо ғолиб шудед!"
 
-#: dealer.cpp:1221
+#: dealer.cpp:1211
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr ""
 
-#: dealer.cpp:1359
+#: dealer.cpp:1349
 #, fuzzy, kde-format
 #| msgid "&Calculation"
 msgid "Solver: Calculating..."
 msgstr "&Муҳосиба"
 
-#: dealer.cpp:1763
+#: dealer.cpp:1753
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -343,13 +343,13 @@ msgid ""
 "A loss will be recorded in the statistics if the current game is abandoned."
 msgstr ""
 
-#: dealer.cpp:1765
+#: dealer.cpp:1755
 #, fuzzy, kde-format
 #| msgid "Abort Current Game?"
 msgid "Abandon Current Game?"
 msgstr "Қатъи ҷории бозӣ?"
 
-#: dealer.cpp:1766
+#: dealer.cpp:1756
 #, fuzzy, kde-format
 msgid "Abandon Current Game"
 msgstr "Қатъи ҷории бозӣ?"

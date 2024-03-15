@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat-1.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-14 01:34+0000\n"
+"POT-Creation-Date: 2024-03-15 03:03+0000\n"
 "PO-Revision-Date: 1999-03-29 16:45+0200\n"
 "Last-Translator: Jañ-Mai Drapier <jdrapier@club-internet.fr>\n"
 "Language-Team: Brezhoneg <Suav.Icb@wanadoo.fr>\n"
@@ -312,18 +312,18 @@ msgstr "Gourc'hemennoù ! Ni zo trec'h !"
 msgid "Congratulations! You have won."
 msgstr "Gourc'hemennoù ! C'hwi zo trec'h !"
 
-#: dealer.cpp:1221
+#: dealer.cpp:1211
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr ""
 
-#: dealer.cpp:1359
+#: dealer.cpp:1349
 #, fuzzy, kde-format
 #| msgid "&Calculation"
 msgid "Solver: Calculating..."
 msgstr "&Jedadenn"
 
-#: dealer.cpp:1763
+#: dealer.cpp:1753
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -331,13 +331,13 @@ msgid ""
 "A loss will be recorded in the statistics if the current game is abandoned."
 msgstr ""
 
-#: dealer.cpp:1765
+#: dealer.cpp:1755
 #, fuzzy, kde-format
 #| msgid "Abort Current Game?"
 msgid "Abandon Current Game?"
 msgstr "Herzel ar c'hoari red ?"
 
-#: dealer.cpp:1766
+#: dealer.cpp:1756
 #, fuzzy, kde-format
 #| msgid "Abort Current Game"
 msgid "Abandon Current Game"

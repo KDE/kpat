@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-14 01:34+0000\n"
+"POT-Creation-Date: 2024-03-15 03:03+0000\n"
 "PO-Revision-Date: 2024-02-11 00:49+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -304,17 +304,17 @@ msgstr "축하합니다! 우리가 이겼습니다."
 msgid "Congratulations! You have won."
 msgstr "축하합니다! 이겼습니다."
 
-#: dealer.cpp:1221
+#: dealer.cpp:1211
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "해결사: 이 게임에서 졌습니다."
 
-#: dealer.cpp:1359
+#: dealer.cpp:1349
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "해결사: 계산 중..."
 
-#: dealer.cpp:1763
+#: dealer.cpp:1753
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -325,12 +325,12 @@ msgstr ""
 "\n"
 "현재 게임을 중단하면 진 것으로 기록됩니다."
 
-#: dealer.cpp:1765
+#: dealer.cpp:1755
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "현재 게임을 끝내시겠습니까?"
 
-#: dealer.cpp:1766
+#: dealer.cpp:1756
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "현재 게임 끝내기"

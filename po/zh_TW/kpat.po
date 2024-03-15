@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-14 01:34+0000\n"
+"POT-Creation-Date: 2024-03-15 03:03+0000\n"
 "PO-Revision-Date: 2024-02-25 20:53+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -311,17 +311,17 @@ msgstr "恭喜！我們贏了。"
 msgid "Congratulations! You have won."
 msgstr "恭喜！您贏了。"
 
-#: dealer.cpp:1221
+#: dealer.cpp:1211
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "解答器：這一局輸了。"
 
-#: dealer.cpp:1359
+#: dealer.cpp:1349
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "解答器：計算中..."
 
-#: dealer.cpp:1763
+#: dealer.cpp:1753
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -332,12 +332,12 @@ msgstr ""
 "\n"
 "若您放棄目前的遊戲，則會被標記為失敗。"
 
-#: dealer.cpp:1765
+#: dealer.cpp:1755
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "放棄目前這一局嗎？"
 
-#: dealer.cpp:1766
+#: dealer.cpp:1756
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "放棄目前這一局"

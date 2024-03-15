@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-14 01:34+0000\n"
+"POT-Creation-Date: 2024-03-15 03:03+0000\n"
 "PO-Revision-Date: 2023-01-08 12:55+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -330,17 +330,17 @@ msgstr "Félicitations ! La partie a été gagnée ensemble."
 msgid "Congratulations! You have won."
 msgstr "Félicitations ! Vous avez gagné."
 
-#: dealer.cpp:1221
+#: dealer.cpp:1211
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "Outil de résolution : cette partie est perdue."
 
-#: dealer.cpp:1359
+#: dealer.cpp:1349
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "Outil de résolution : calcul en cours..."
 
-#: dealer.cpp:1763
+#: dealer.cpp:1753
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -352,12 +352,12 @@ msgstr ""
 "Une défaite sera enregistrée dans les statistiques si vous abandonnez ainsi "
 "la partie actuelle."
 
-#: dealer.cpp:1765
+#: dealer.cpp:1755
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "Abandonner la partie actuelle ?"
 
-#: dealer.cpp:1766
+#: dealer.cpp:1756
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "Abandonner la partie actuelle"

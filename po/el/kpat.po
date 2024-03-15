@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-14 01:34+0000\n"
+"POT-Creation-Date: 2024-03-15 03:03+0000\n"
 "PO-Revision-Date: 2021-06-30 09:46+0300\n"
 "Last-Translator: Stelios <sstavra@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -313,17 +313,17 @@ msgstr "Συγχαρητήρια! Κερδίσαμε!"
 msgid "Congratulations! You have won."
 msgstr "Συγχαρητήρια! Κερδίσατε!"
 
-#: dealer.cpp:1221
+#: dealer.cpp:1211
 #, kde-format
 msgid "Solver: This game is lost."
 msgstr "Επίλυση: Αυτό το παιχνίδι έχει χαθεί."
 
-#: dealer.cpp:1359
+#: dealer.cpp:1349
 #, kde-format
 msgid "Solver: Calculating..."
 msgstr "Επίλυση: Υπολογισμός..."
 
-#: dealer.cpp:1763
+#: dealer.cpp:1753
 #, kde-format
 msgid ""
 "A new game has been requested, but there is already a game in progress.\n"
@@ -335,12 +335,12 @@ msgstr ""
 "\n"
 "Αν ακυρώσετε το παιχνίδι θα καταχωρηθεί στα στατιστικά ως ήττα."
 
-#: dealer.cpp:1765
+#: dealer.cpp:1755
 #, kde-format
 msgid "Abandon Current Game?"
 msgstr "Εγκατάλειψη του τρέχοντος παιχνιδιού;"
 
-#: dealer.cpp:1766
+#: dealer.cpp:1756
 #, kde-format
 msgid "Abandon Current Game"
 msgstr "Εγκατάλειψη του τρέχοντος παιχνιδιού"
