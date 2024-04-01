@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-15 00:36+0000\n"
-"PO-Revision-Date: 2024-03-24 10:35+0200\n"
+"PO-Revision-Date: 2024-03-31 08:37+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -42,7 +42,7 @@ msgstr "kde-l10n-he@kde.org,israelb@gmail.com"
 #: bakersdozen.cpp:68 castle.cpp:357 freecell.cpp:343
 #, kde-format
 msgid "Popular Variant Presets"
-msgstr ""
+msgstr "ערכות של סוגים נפוצים"
 
 #: bakersdozen.cpp:69 bakersdozen.cpp:237 bakersdozen.cpp:239
 #, kde-format
@@ -107,7 +107,7 @@ msgstr ""
 #: bakersdozen.cpp:84 castle.cpp:371 freecell.cpp:356
 #, kde-format
 msgid "Build Sequence"
-msgstr ""
+msgstr "רצף בנייה"
 
 #: bakersdozen.cpp:85 castle.cpp:372 freecell.cpp:357
 #, kde-format
@@ -135,7 +135,7 @@ msgstr "טירה"
 #: castle.cpp:320 castle.cpp:358
 #, kde-format
 msgid "Beleaguered Castle"
-msgstr ""
+msgstr "טירה נצורה"
 
 #: castle.cpp:321 castle.cpp:359
 #, kde-format
@@ -155,12 +155,12 @@ msgstr "רחובות וסמטאות"
 #: castle.cpp:324 castle.cpp:362
 #, kde-format
 msgid "Siegecraft"
-msgstr ""
+msgstr "מיומנות הטלת מצור"
 
 #: castle.cpp:325 castle.cpp:363
 #, kde-format
 msgid "Stronghold"
-msgstr ""
+msgstr "מעוז"
 
 #: castle.cpp:326
 msgid "Castle (Custom)"
