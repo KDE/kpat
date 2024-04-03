@@ -3,6 +3,9 @@
   <id>org.kde.kpat</id>
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-2.0+</project_license>
+  <developer id="org.kde">
+    <name translate="no">KDE</name>
+  </developer>
   <name>KPatience</name>
   <name xml:lang="ast">KPatience</name>
   <name xml:lang="ca">KPatience</name>
