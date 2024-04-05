@@ -1223,26 +1223,6 @@
 > Este menú solo está disponible en el modo Spider.</para
 ></listitem>
 			</varlistentry>
-			<varlistentry id="settings-menu-deck">
-				<term
-><menuchoice
-><shortcut
-><keycap
->F10</keycap
-></shortcut
-> <guimenu
->Preferencias</guimenu
-> <guimenuitem
->Cambiar apariencia...</guimenuitem
-> </menuchoice
-></term>
-				<listitem
-><para
-><action
->Abre un diálogo para cambiar la baraja de cartas y el tema del juego utilizados.</action
-></para
-></listitem>
-			</varlistentry>
 			<varlistentry id="settings-menu-autodrop">
 				<term
 ><menuchoice
