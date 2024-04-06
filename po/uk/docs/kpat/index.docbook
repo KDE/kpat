@@ -1183,26 +1183,6 @@
 > Цим меню можна скористатися лише у пасьянсі «Павук».</para
 ></listitem>
 			</varlistentry>
-			<varlistentry id="settings-menu-deck">
-				<term
-><menuchoice
-><shortcut
-><keycap
->F10</keycap
-></shortcut
-> <guimenu
->Параметри</guimenu
-> <guimenuitem
->Змінити параметри вигляду...</guimenuitem
-> </menuchoice
-></term>
-				<listitem
-><para
-><action
->Відкрити діалогове вікно, призначене для зміни використаної колоди карт та графічної теми гри.</action
-></para
-></listitem>
-			</varlistentry>
 			<varlistentry id="settings-menu-autodrop">
 				<term
 ><menuchoice
