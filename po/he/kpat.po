@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-15 00:36+0000\n"
-"PO-Revision-Date: 2024-03-31 08:37+0300\n"
+"PO-Revision-Date: 2024-04-06 14:57+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -477,11 +477,13 @@ msgid ""
 "© 1995 Paul Olav Tvete\n"
 "© 2000 Stephan Kulow"
 msgstr ""
+"© 1995 פול אולאב טבטה\n"
+"© 2000 סטפן קולוב"
 
 #: main.cpp:97
 #, kde-format
 msgid "Paul Olav Tvete"
-msgstr ""
+msgstr "פול אולאב טבטה"
 
 #: main.cpp:97
 #, kde-format
@@ -506,7 +508,7 @@ msgstr "מטיאס אטריך"
 #: main.cpp:100
 #, kde-format
 msgid "Rodolfo Borges"
-msgstr ""
+msgstr "רודולפו בורהז"
 
 #: main.cpp:100 main.cpp:113
 #, kde-format
@@ -516,7 +518,7 @@ msgstr "סוגי משחקים חדשים"
 #: main.cpp:101
 #, kde-format
 msgid "Peter H. Ruegg"
-msgstr ""
+msgstr "פיטר ה. רויגה"
 
 #: main.cpp:102
 #, kde-format
@@ -631,7 +633,7 @@ msgstr "מייקל לנג"
 #: main.cpp:120
 #, kde-format
 msgid "Try to find a solution to the given savegame"
-msgstr ""
+msgstr "לנסות למצוא פתרון למשחק השמור שצוין"
 
 #: main.cpp:121
 #, kde-format
