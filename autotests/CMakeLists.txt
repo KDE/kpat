@@ -30,7 +30,7 @@ ecm_add_test(
 ecm_qt_declare_logging_category(SolverFormatTest_LOG_SRCS
     HEADER kpat_debug.h
     IDENTIFIER KPAT_LOG
-    CATEGORY_NAME org.kde.kpat
+    CATEGORY_NAME kpat
 )
 
 if (WITH_BH_SOLVER)

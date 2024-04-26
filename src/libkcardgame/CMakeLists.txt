@@ -22,7 +22,8 @@ ecm_generate_headers(libkcardgame_CamelCase_HEADERS
 ecm_qt_declare_logging_category(kcardgame
     HEADER libkcardgame_debug.h
     IDENTIFIER LIBKCARDGAME_LOG
-    CATEGORY_NAME org.kde.games.kcardgame
+    CATEGORY_NAME kpat.kcardgame
+    OLD_CATEGORY_NAMES org.kde.games.kcardgame
     DESCRIPTION "LibKCardGame (KPatience)"
     EXPORT KPAT
 )

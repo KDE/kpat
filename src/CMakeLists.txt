@@ -69,8 +69,9 @@ kconfig_add_kcfg_files(kpat settings.kcfgc)
 ecm_qt_declare_logging_category(kpat
     HEADER kpat_debug.h
     IDENTIFIER KPAT_LOG
-    CATEGORY_NAME org.kde.kpat
-    DESCRIPTION "KPatience"
+    CATEGORY_NAME kpat
+    OLD_CATEGORY_NAMES org.kde.kpat
+    DESCRIPTION "KPatience game"
     EXPORT KPAT
 )
 
