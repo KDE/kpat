@@ -256,7 +256,7 @@ void MainWindow::setupActions()
     connect(m_solverEnabledAction, &KToggleAction::triggered, this, &MainWindow::enableSolver);
     m_solverEnabledAction->setChecked(Settings::solverEnabled());
 
-    m_playSoundsAction = new KToggleAction(i18nc("@option:check", "Play Sounds"), this);
+    m_playSoundsAction = new KToggleAction(QIcon::fromTheme(QStringLiteral("speaker")), i18nc("@option:check", "Play Sounds"), this);
     actionCollection()->addAction(QStringLiteral("play_sounds"), m_playSoundsAction);
     connect(m_playSoundsAction, &KToggleAction::triggered, this, &MainWindow::enableSounds);
     m_playSoundsAction->setChecked(Settings::playSounds());
