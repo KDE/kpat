@@ -652,7 +652,7 @@ To solve this game it is recommended to build evenly on the foundations. Try to 
 				<term><menuchoice>
 					<shortcut><keycombo action="simul">&Ctrl;&Shift;<keycap>N</keycap></keycombo></shortcut>
 					<guimenu>Game</guimenu>
-					<guimenuitem>New Game...</guimenuitem>
+					<guimenuitem>New Game…</guimenuitem>
 				</menuchoice></term>
 				<listitem><para><action>Return to the game selection screen.</action> This action abandons the deal in progress.</para></listitem>
 			</varlistentry>
@@ -668,7 +668,7 @@ To solve this game it is recommended to build evenly on the foundations. Try to 
 				<term><menuchoice>
 					<shortcut><keycombo action="simul">&Ctrl;<keycap>D</keycap></keycombo></shortcut>
 					<guimenu>Game</guimenu>
-					<guimenuitem>New Numbered Deal...</guimenuitem>
+					<guimenuitem>New Numbered Deal…</guimenuitem>
 				</menuchoice></term>
 				<listitem>
 					<para><action>Start a new deal by specifying the game type and deal number.</action> This action abandons the deal in progress.</para>
@@ -688,7 +688,7 @@ To solve this game it is recommended to build evenly on the foundations. Try to 
 				<term><menuchoice>
 					<shortcut><keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo></shortcut>
 					<guimenu>Game</guimenu>
-					<guimenuitem>Load...</guimenuitem>
+					<guimenuitem>Load…</guimenuitem>
 				</menuchoice></term>
 				<listitem><para><action>Load a saved game.</action> This action abandons the deal in progress.</para></listitem>
 			</varlistentry>
@@ -704,7 +704,7 @@ To solve this game it is recommended to build evenly on the foundations. Try to 
 				<term><menuchoice>
 					<shortcut><keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo></shortcut>
 					<guimenu>Game</guimenu>
-					<guimenuitem>Save As...</guimenuitem>
+					<guimenuitem>Save As…</guimenuitem>
 				</menuchoice></term>
 				<listitem><para><action>Save the current game to disk.</action></para></listitem>
 			</varlistentry>
@@ -858,7 +858,7 @@ chapter of the &kde; Fundamentals documentation &kpatience; has these applicatio
  <answer><para>You can change the faces and backs of the playing cards and the game theme. To do so please use <menuchoice>
 					<shortcut><keycap>F10</keycap></shortcut>
 					<guimenu>Settings</guimenu>
-					<guimenuitem>Change Appearance...</guimenuitem>
+					<guimenuitem>Change Appearance…</guimenuitem>
 				</menuchoice> on the menubar.</para></answer>
 </qandaentry>
 <qandaentry>
