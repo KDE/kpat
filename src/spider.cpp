@@ -128,11 +128,11 @@ void Spider::initialize()
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);
     setSolver(new spidersolver2::SpiderSolver2(this));
 
-    options = new KSelectAction(i18n("Spider &Options"), this);
-    options->addAction(i18n("1 Suit (Easy)"));
-    options->addAction(i18n("2 Suits (Medium)"));
-    options->addAction(i18n("3 Suits (Hard)"));
-    options->addAction(i18n("4 Suits (Very Hard)"));
+    options = new KSelectAction(i18nc("@title:menu", "Spider &Options"), this);
+    options->addAction(i18nc("@item:inmenu spider option", "1 Suit (Easy)"));
+    options->addAction(i18nc("@item:inmenu spider option", "2 Suits (Medium)"));
+    options->addAction(i18nc("@item:inmenu spider option", "3 Suits (Hard)"));
+    options->addAction(i18nc("@item:inmenu spider option", "4 Suits (Very Hard)"));
     if (m_suits == 1)
         options->setCurrentItem(0);
     else if (m_suits == 2)
@@ -143,9 +143,9 @@ void Spider::initialize()
         options->setCurrentItem(3);
     connect(options, &KSelectAction::indexTriggered, this, &Spider::gameTypeChanged);
 
-    m_stackFaceupOption = new KSelectAction(i18n("S&tack Options"), this);
-    m_stackFaceupOption->addAction(i18n("Face &Down (harder)"));
-    m_stackFaceupOption->addAction(i18n("Face &Up (easier)"));
+    m_stackFaceupOption = new KSelectAction(i18nc("@title:menu", "Stack Options"), this);
+    m_stackFaceupOption->addAction(i18nc("@item:inmenu stack option", "Face Down (Harder)"));
+    m_stackFaceupOption->addAction(i18nc("@item:inmenu stack option", "Face Up (Easier)"));
     m_stackFaceupOption->setCurrentItem(m_stackFaceup);
 
     connect(m_stackFaceupOption, &KSelectAction::indexTriggered, this, &Spider::gameTypeChanged);

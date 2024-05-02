@@ -58,7 +58,7 @@ StatisticsDialog::StatisticsDialog(QWidget *aParent)
     ui = new Ui::GameStats();
     ui->setupUi(widget);
 
-    setWindowTitle(i18n("Statistics"));
+    setWindowTitle(i18nc("@title:window", "Statistics"));
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     setLayout(mainLayout);

@@ -1346,7 +1346,7 @@ void DealerScene::slotSolverEnded()
 
     m_solver->translate_layout();
     m_winningMoves.clear();
-    Q_EMIT solverStateChanged(i18n("Solver: Calculating..."));
+    Q_EMIT solverStateChanged(i18n("Solver: Calculating…"));
     if (!m_solverThread) {
         m_solverThread = new SolverThread(m_solver);
         connect(m_solverThread, &SolverThread::finished, this, &DealerScene::slotSolverFinished);
@@ -1752,8 +1752,8 @@ bool DealerScene::allowedToStartNewGame()
         || KMessageBox::warningContinueCancel(QApplication::activeWindow(),
                                               i18n("A new game has been requested, but there is already a game in progress.\n\n"
                                                    "A loss will be recorded in the statistics if the current game is abandoned."),
-                                              i18n("Abandon Current Game?"),
-                                              KGuiItem(i18n("Abandon Current Game")),
+                                              i18nc("@title:window", "Abandon Current Game?"),
+                                              KGuiItem(i18nc("@action:button", "Abandon Current Game")),
                                               KStandardGuiItem::cancel(),
                                               QStringLiteral("careaboutstats"))
         == KMessageBox::Continue;

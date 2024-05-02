@@ -131,9 +131,9 @@ void Klondike::initialize()
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Draw);
     setSolver(new KlondikeSolver(this, pile->cardsToShow()));
 
-    options = new KSelectAction(i18n("Klondike &Options"), this);
-    options->addAction(i18n("Draw 1"));
-    options->addAction(i18n("Draw 3"));
+    options = new KSelectAction(i18nc("@title:menu", "Klondike &Options"), this);
+    options->addAction(i18nc("@item:inmenu klondike option", "Draw 1"));
+    options->addAction(i18nc("@item:inmenu klondike option", "Draw 3"));
     options->setCurrentItem(easyRules ? 0 : 1);
     connect(options, &KSelectAction::indexTriggered, this, &Klondike::gameTypeChanged);
 }

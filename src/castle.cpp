@@ -354,52 +354,52 @@ void Castle::matchVariant()
 
 void Castle::configOptions()
 {
-    options = new KSelectAction(i18n("Popular Variant Presets"), this);
-    options->addAction(i18n("Beleaguered Castle"));
-    options->addAction(i18n("Citadel"));
-    options->addAction(i18n("Exiled Kings"));
-    options->addAction(i18n("Streets and Alleys"));
-    options->addAction(i18n("Siegecraft"));
-    options->addAction(i18n("Stronghold"));
-    options->addAction(i18n("Custom"));
+    options = new KSelectAction(i18nc("@title:menu", "Popular Variant Presets"), this);
+    options->addAction(i18nc("@item:inmenu preset", "Beleaguered Castle"));
+    options->addAction(i18nc("@item:inmenu preset", "Citadel"));
+    options->addAction(i18nc("@item:inmenu preset", "Exiled Kings"));
+    options->addAction(i18nc("@item:inmenu preset", "Streets and Alleys"));
+    options->addAction(i18nc("@item:inmenu preset", "Siegecraft"));
+    options->addAction(i18nc("@item:inmenu preset", "Stronghold"));
+    options->addAction(i18nc("@item:inmenu preset", "Custom"));
 
-    m_emptyStackFillOption = new KSelectAction(i18n("Empty Stack Fill"), this);
-    m_emptyStackFillOption->addAction(i18n("Any (Easy)"));
-    m_emptyStackFillOption->addAction(i18n("Kings only (Medium)"));
-    m_emptyStackFillOption->addAction(i18n("None (Hard)"));
+    m_emptyStackFillOption = new KSelectAction(i18nc("@title:menu", "Empty Stack Fill"), this);
+    m_emptyStackFillOption->addAction(i18nc("@item:inmenu empty stack fill", "Any (Easy)"));
+    m_emptyStackFillOption->addAction(i18nc("@item:inmenu empty stack fill", "Kings only (Medium)"));
+    m_emptyStackFillOption->addAction(i18nc("@item:inmenu empty stack fill", "None (Hard)"));
 
-    m_sequenceBuiltByOption = new KSelectAction(i18n("Build Sequence"), this);
-    m_sequenceBuiltByOption->addAction(i18n("Alternating Color"));
-    m_sequenceBuiltByOption->addAction(i18n("Matching Suit"));
-    m_sequenceBuiltByOption->addAction(i18n("Rank"));
+    m_sequenceBuiltByOption = new KSelectAction(i18nc("@title:menu", "Build Sequence"), this);
+    m_sequenceBuiltByOption->addAction(i18nc("@item:inmenu build sequence", "Alternating Color"));
+    m_sequenceBuiltByOption->addAction(i18nc("@item:inmenu build sequence", "Matching Suit"));
+    m_sequenceBuiltByOption->addAction(i18nc("@item:inmenu build sequence", "Rank"));
 
-    m_reservesOption = new KSelectAction(i18n("Free Cells"), this);
+    m_reservesOption = new KSelectAction(i18nc("@title:menu", "Free Cells"), this);
     m_reservesOption->addAction(i18n("0"));
     m_reservesOption->addAction(i18n("1"));
     m_reservesOption->addAction(i18n("2"));
     m_reservesOption->addAction(i18n("3"));
     m_reservesOption->addAction(i18n("4"));
 
-    m_stacksOption = new KSelectAction(i18n("Stacks"), this);
+    m_stacksOption = new KSelectAction(i18nc("@title:menu", "Stacks"), this);
     m_stacksOption->addAction(i18n("6"));
     m_stacksOption->addAction(i18n("7"));
     m_stacksOption->addAction(i18n("8"));
     m_stacksOption->addAction(i18n("9"));
     m_stacksOption->addAction(i18n("10"));
 
-    m_stackFaceupOption = new KSelectAction(i18n("S&tack Options"), this);
-    m_stackFaceupOption->addAction(i18n("Face &Down"));
-    m_stackFaceupOption->addAction(i18n("Face &Up"));
-    m_stackFaceupOption->addAction(i18n("Alternating Face &Up"));
+    m_stackFaceupOption = new KSelectAction(i18nc("@title:menu", "Stack Options"), this);
+    m_stackFaceupOption->addAction(i18nc("@item:inmenu stack option", "Face Down"));
+    m_stackFaceupOption->addAction(i18nc("@item:inmenu stack option", "Face Up"));
+    m_stackFaceupOption->addAction(i18nc("@item:inmenu stack option", "Alternating Face Up"));
 
-    m_foundationOption = new KSelectAction(i18n("Foundation Deal"), this);
-    m_foundationOption->addAction(i18n("None"));
-    m_foundationOption->addAction(i18n("Aces"));
-    m_foundationOption->addAction(i18n("Any"));
+    m_foundationOption = new KSelectAction(i18nc("@title:menu", "Foundation Deal"), this);
+    m_foundationOption->addAction(i18nc("@item:inmenu foundation deal", "None"));
+    m_foundationOption->addAction(i18nc("@item:inmenu foundation deal", "Aces"));
+    m_foundationOption->addAction(i18nc("@item:inmenu foundation deal", "Any"));
 
-    m_layoutOption = new KSelectAction(i18n("Layout"), this);
-    m_layoutOption->addAction(i18n("Classic"));
-    m_layoutOption->addAction(i18n("Modern"));
+    m_layoutOption = new KSelectAction(i18nc("@title:menu", "Layout"), this);
+    m_layoutOption->addAction(i18nc("@item:inmenu layout", "Classic"));
+    m_layoutOption->addAction(i18nc("@item:inmenu layout", "Modern"));
 
     connect(options, &KSelectAction::indexTriggered, this, &Castle::gameTypeChanged);
     connect(m_emptyStackFillOption, &KSelectAction::indexTriggered, this, &Castle::gameTypeChanged);

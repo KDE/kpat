@@ -340,25 +340,25 @@ void Freecell::matchVariant()
 
 void Freecell::configOptions()
 {
-    options = new KSelectAction(i18n("Popular Variant Presets"), this);
-    options->addAction(i18n("Baker's Game"));
-    options->addAction(i18n("Eight Off"));
-    options->addAction(i18n("Forecell"));
-    options->addAction(i18n("Freecell"));
-    options->addAction(i18n("Seahaven Towers"));
-    options->addAction(i18n("Custom"));
+    options = new KSelectAction(i18nc("@title:menu", "Popular Variant Presets"), this);
+    options->addAction(i18nc("@item:inmenu preset", "Baker's Game"));
+    options->addAction(i18nc("@item:inmenu preset", "Eight Off"));
+    options->addAction(i18nc("@item:inmenu preset", "Forecell"));
+    options->addAction(i18nc("@item:inmenu preset", "Freecell"));
+    options->addAction(i18nc("@item:inmenu preset", "Seahaven Towers"));
+    options->addAction(i18nc("@item:inmenu preset", "Custom"));
 
-    m_emptyStackFillOption = new KSelectAction(i18n("Empty Stack Fill"), this);
-    m_emptyStackFillOption->addAction(i18n("Any (Easy)"));
-    m_emptyStackFillOption->addAction(i18n("Kings only (Medium)"));
-    m_emptyStackFillOption->addAction(i18n("None (Hard)"));
+    m_emptyStackFillOption = new KSelectAction(i18nc("@title:menu", "Empty Stack Fill"), this);
+    m_emptyStackFillOption->addAction(i18nc("@item:inmenu empty stack fill", "Any (Easy)"));
+    m_emptyStackFillOption->addAction(i18nc("@item:inmenu empty stack fill", "Kings only (Medium)"));
+    m_emptyStackFillOption->addAction(i18nc("@item:inmenu empty stack fill", "None (Hard)"));
 
-    m_sequenceBuiltByOption = new KSelectAction(i18n("Build Sequence"), this);
-    m_sequenceBuiltByOption->addAction(i18n("Alternating Color"));
-    m_sequenceBuiltByOption->addAction(i18n("Matching Suit"));
-    m_sequenceBuiltByOption->addAction(i18n("Rank"));
+    m_sequenceBuiltByOption = new KSelectAction(i18nc("@title:menu", "Build Sequence"), this);
+    m_sequenceBuiltByOption->addAction(i18nc("@item:inmenu build sequence", "Alternating Color"));
+    m_sequenceBuiltByOption->addAction(i18nc("@item:inmenu build sequence", "Matching Suit"));
+    m_sequenceBuiltByOption->addAction(i18nc("@item:inmenu build sequence", "Rank"));
 
-    m_reservesOption = new KSelectAction(i18n("Free cells"), this);
+    m_reservesOption = new KSelectAction(i18nc("@title:menu", "Free Cells"), this);
     m_reservesOption->addAction(i18n("0"));
     m_reservesOption->addAction(i18n("1"));
     m_reservesOption->addAction(i18n("2"));
@@ -369,7 +369,7 @@ void Freecell::configOptions()
     m_reservesOption->addAction(i18n("7"));
     m_reservesOption->addAction(i18n("8"));
 
-    m_stacksOption = new KSelectAction(i18n("Stacks"), this);
+    m_stacksOption = new KSelectAction(i18nc("@title:menu", "Stacks"), this);
     m_stacksOption->addAction(i18n("6"));
     m_stacksOption->addAction(i18n("7"));
     m_stacksOption->addAction(i18n("8"));
@@ -378,7 +378,7 @@ void Freecell::configOptions()
     m_stacksOption->addAction(i18n("11"));
     m_stacksOption->addAction(i18n("12"));
 
-    m_decksOption = new KSelectAction(i18n("Decks"), this);
+    m_decksOption = new KSelectAction(i18nc("@title:menu", "Decks"), this);
     m_decksOption->addAction(i18n("1"));
     m_decksOption->addAction(i18n("2"));
     m_decksOption->addAction(i18n("3"));

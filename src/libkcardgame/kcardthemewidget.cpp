@@ -263,7 +263,7 @@ void CardThemeDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
         painter->drawPixmap(previewRect.topLeft(), *pix);
     } else {
         painter->fillRect(previewRect, QColor(0, 0, 0, 16));
-        painter->drawText(previewRect, Qt::AlignCenter, i18n("Loading..."));
+        painter->drawText(previewRect, Qt::AlignCenter, i18nc("@info", "Loading…"));
     }
 
     QRect textRect = option.rect.adjusted(0, 0, 0, -d->itemMargin);

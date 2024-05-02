@@ -33,7 +33,7 @@
 NumberedDealDialog::NumberedDealDialog(QWidget *parent)
     : QDialog(parent)
 {
-    setWindowTitle(i18n("New Numbered Deal"));
+    setWindowTitle(i18nc("@title:window", "New Numbered Deal"));
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
     QVBoxLayout *mainLayout = new QVBoxLayout;
     setLayout(mainLayout);
@@ -48,11 +48,11 @@ NumberedDealDialog::NumberedDealDialog(QWidget *parent)
     layout->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
 
     m_gameType = new KComboBox(widget);
-    layout->addRow(i18n("Game:"), m_gameType);
+    layout->addRow(i18nc("@label", "Game:"), m_gameType);
 
     m_dealNumber = new QSpinBox(widget);
     m_dealNumber->setRange(1, INT_MAX);
-    layout->addRow(i18n("Deal number:"), m_dealNumber);
+    layout->addRow(i18nc("@label", "Deal number:"), m_dealNumber);
 
     QMap<QString, int> nameToIdMap;
     const auto games = DealerInfoList::self()->games();

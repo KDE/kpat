@@ -65,26 +65,26 @@ void BakersDozen::initialize()
     setSolver(solver);
     setNeededFutureMoves(4); // reserve some
 
-    options = new KSelectAction(i18n("Popular Variant Presets"), this);
-    options->addAction(i18n("Baker's Dozen"));
-    options->addAction(i18n("Spanish Patience"));
-    options->addAction(i18n("Castles in Spain"));
-    options->addAction(i18n("Portuguese Solitaire"));
-    options->addAction(i18n("Custom"));
+    options = new KSelectAction(i18nc("@title:menu", "Popular Variant Presets"), this);
+    options->addAction(i18nc("@item:inmenu preset", "Baker's Dozen"));
+    options->addAction(i18nc("@item:inmenu preset", "Spanish Patience"));
+    options->addAction(i18nc("@item:inmenu preset", "Castles in Spain"));
+    options->addAction(i18nc("@item:inmenu preset", "Portuguese Solitaire"));
+    options->addAction(i18nc("@item:inmenu preset", "Custom"));
 
-    m_emptyStackFillOption = new KSelectAction(i18n("Empty Stack Fill"), this);
-    m_emptyStackFillOption->addAction(i18n("Any (Easy)"));
-    m_emptyStackFillOption->addAction(i18n("Kings only (Medium)"));
-    m_emptyStackFillOption->addAction(i18n("None (Hard)"));
+    m_emptyStackFillOption = new KSelectAction(i18nc("@title:menu", "Empty Stack Fill"), this);
+    m_emptyStackFillOption->addAction(i18nc("@item:inmenu empty stack fill", "Any (Easy)"));
+    m_emptyStackFillOption->addAction(i18nc("@item:inmenu empty stack fill", "Kings only (Medium)"));
+    m_emptyStackFillOption->addAction(i18nc("@item:inmenu empty stack fill", "None (Hard)"));
 
-    m_stackFacedownOption = new KSelectAction(i18n("Stack Options"), this);
-    m_stackFacedownOption->addAction(i18n("Face &Up (Easier)"));
-    m_stackFacedownOption->addAction(i18n("Face &Down (Harder)"));
+    m_stackFacedownOption = new KSelectAction(i18nc("@title:menu", "Stack Options"), this);
+    m_stackFacedownOption->addAction(i18nc("@item:inmenu stack option", "Face Up (Easier)"));
+    m_stackFacedownOption->addAction(i18nc("@item:inmenu stack option", "Face Down (Harder)"));
 
-    m_sequenceBuiltByOption = new KSelectAction(i18n("Build Sequence"), this);
-    m_sequenceBuiltByOption->addAction(i18n("Alternating Color"));
-    m_sequenceBuiltByOption->addAction(i18n("Matching Suit"));
-    m_sequenceBuiltByOption->addAction(i18n("Rank"));
+    m_sequenceBuiltByOption = new KSelectAction(i18nc("@title:menu", "Build Sequence"), this);
+    m_sequenceBuiltByOption->addAction(i18nc("@item:inmenu build sequence", "Alternating Color"));
+    m_sequenceBuiltByOption->addAction(i18nc("@item:inmenu build sequence", "Matching Suit"));
+    m_sequenceBuiltByOption->addAction(i18nc("@item:inmenu build sequence", "Rank"));
 
     connect(options, &KSelectAction::indexTriggered, this, &BakersDozen::gameTypeChanged);
     connect(m_emptyStackFillOption, &KSelectAction::indexTriggered, this, &BakersDozen::gameTypeChanged);
