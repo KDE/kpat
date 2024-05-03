@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-03-15 00:36+0000\n"
+"POT-Creation-Date: 2024-05-03 00:37+0000\n"
 "PO-Revision-Date: 2024-02-11 00:49+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -29,89 +29,139 @@ msgid "Your emails"
 msgstr "kde@peremen.name"
 
 #: bakersdozen.cpp:68 castle.cpp:357 freecell.cpp:343
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Popular Variant Presets"
+msgctxt "@title:menu"
 msgid "Popular Variant Presets"
 msgstr "인기 있는 파생형 사전 설정"
 
-#: bakersdozen.cpp:69 bakersdozen.cpp:237 bakersdozen.cpp:239
-#, kde-format
+#: bakersdozen.cpp:69
+#, fuzzy, kde-format
+#| msgid "Baker's Dozen"
+msgctxt "@item:inmenu preset"
 msgid "Baker's Dozen"
 msgstr "빵 장수의 한 다스"
 
-#: bakersdozen.cpp:70 bakersdozen.cpp:240
-#, kde-format
+#: bakersdozen.cpp:70
+#, fuzzy, kde-format
+#| msgid "Spanish Patience"
+msgctxt "@item:inmenu preset"
 msgid "Spanish Patience"
 msgstr "스페인식 Patience"
 
-#: bakersdozen.cpp:71 bakersdozen.cpp:241
-#, kde-format
+#: bakersdozen.cpp:71
+#, fuzzy, kde-format
+#| msgid "Castles in Spain"
+msgctxt "@item:inmenu preset"
 msgid "Castles in Spain"
 msgstr "스페인의 성"
 
-#: bakersdozen.cpp:72 bakersdozen.cpp:242
-#, kde-format
+#: bakersdozen.cpp:72
+#, fuzzy, kde-format
+#| msgid "Portuguese Solitaire"
+msgctxt "@item:inmenu preset"
 msgid "Portuguese Solitaire"
 msgstr "포르투갈식 솔리테어"
 
 #: bakersdozen.cpp:73 castle.cpp:364 freecell.cpp:349
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Custom"
+msgctxt "@item:inmenu preset"
 msgid "Custom"
 msgstr "사용자 정의"
 
 #: bakersdozen.cpp:75 castle.cpp:366 freecell.cpp:351
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Empty Stack Fill"
+msgctxt "@title:menu"
 msgid "Empty Stack Fill"
 msgstr "빈 스택 채우기"
 
 #: bakersdozen.cpp:76 castle.cpp:367 freecell.cpp:352
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Any (Easy)"
+msgctxt "@item:inmenu empty stack fill"
 msgid "Any (Easy)"
 msgstr "임의(쉬움)"
 
 #: bakersdozen.cpp:77 castle.cpp:368 freecell.cpp:353
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Kings only (Medium)"
+msgctxt "@item:inmenu empty stack fill"
 msgid "Kings only (Medium)"
 msgstr "킹만(중간)"
 
 #: bakersdozen.cpp:78 castle.cpp:369 freecell.cpp:354
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "None (Hard)"
+msgctxt "@item:inmenu empty stack fill"
 msgid "None (Hard)"
 msgstr "없음(어려움)"
 
-#: bakersdozen.cpp:80
-#, kde-format
+#: bakersdozen.cpp:80 castle.cpp:390 spider.cpp:146
+#, fuzzy, kde-format
+#| msgid "Stack Options"
+msgctxt "@title:menu"
 msgid "Stack Options"
 msgstr "스택 옵션"
 
-#: bakersdozen.cpp:81
-#, kde-format
-msgid "Face &Up (Easier)"
+#: bakersdozen.cpp:81 spider.cpp:148
+#, fuzzy, kde-format
+#| msgid "Face &Up (Easier)"
+msgctxt "@item:inmenu stack option"
+msgid "Face Up (Easier)"
 msgstr "위로(쉬움)(&U)"
 
-#: bakersdozen.cpp:82
-#, kde-format
-msgid "Face &Down (Harder)"
+#: bakersdozen.cpp:82 spider.cpp:147
+#, fuzzy, kde-format
+#| msgid "Face &Down (Harder)"
+msgctxt "@item:inmenu stack option"
+msgid "Face Down (Harder)"
 msgstr "아래로(어려움)(&D)"
 
 #: bakersdozen.cpp:84 castle.cpp:371 freecell.cpp:356
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Build Sequence"
+msgctxt "@title:menu"
 msgid "Build Sequence"
 msgstr "빌드 순서"
 
 #: bakersdozen.cpp:85 castle.cpp:372 freecell.cpp:357
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Alternating Color"
+msgctxt "@item:inmenu build sequence"
 msgid "Alternating Color"
 msgstr "번갈아 가면서 색 변경"
 
 #: bakersdozen.cpp:86 castle.cpp:373 freecell.cpp:358
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Matching Suit"
+msgctxt "@item:inmenu build sequence"
 msgid "Matching Suit"
 msgstr "일치하는 짝"
 
 #: bakersdozen.cpp:87 castle.cpp:374 freecell.cpp:359
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Rank"
+msgctxt "@item:inmenu build sequence"
 msgid "Rank"
 msgstr "순위"
+
+#: bakersdozen.cpp:237 bakersdozen.cpp:239
+msgid "Baker's Dozen"
+msgstr "빵 장수의 한 다스"
+
+#: bakersdozen.cpp:240
+msgid "Spanish Patience"
+msgstr "스페인식 Patience"
+
+#: bakersdozen.cpp:241
+msgid "Castles in Spain"
+msgstr "스페인의 성"
+
+#: bakersdozen.cpp:242
+msgid "Portuguese Solitaire"
+msgstr "포르투갈식 솔리테어"
 
 #: bakersdozen.cpp:243
 msgid "Baker's Dozen (Custom)"
@@ -121,33 +171,27 @@ msgstr "빵 장수의 한 다스(사용자 정의)"
 msgid "Castle"
 msgstr "성"
 
-#: castle.cpp:320 castle.cpp:358
-#, kde-format
+#: castle.cpp:320
 msgid "Beleaguered Castle"
 msgstr "포위된 성"
 
-#: castle.cpp:321 castle.cpp:359
-#, kde-format
+#: castle.cpp:321
 msgid "Citadel"
 msgstr "요새"
 
-#: castle.cpp:322 castle.cpp:360
-#, kde-format
+#: castle.cpp:322
 msgid "Exiled Kings"
 msgstr "도망간 왕"
 
-#: castle.cpp:323 castle.cpp:361
-#, kde-format
+#: castle.cpp:323
 msgid "Streets and Alleys"
 msgstr "도로와 골목길"
 
-#: castle.cpp:324 castle.cpp:362
-#, kde-format
+#: castle.cpp:324
 msgid "Siegecraft"
 msgstr "공성전"
 
-#: castle.cpp:325 castle.cpp:363
-#, kde-format
+#: castle.cpp:325
 msgid "Stronghold"
 msgstr "성채"
 
@@ -155,8 +199,52 @@ msgstr "성채"
 msgid "Castle (Custom)"
 msgstr "성(사용자 정의)"
 
-#: castle.cpp:376
-#, kde-format
+#: castle.cpp:358
+#, fuzzy, kde-format
+#| msgid "Beleaguered Castle"
+msgctxt "@item:inmenu preset"
+msgid "Beleaguered Castle"
+msgstr "포위된 성"
+
+#: castle.cpp:359
+#, fuzzy, kde-format
+#| msgid "Citadel"
+msgctxt "@item:inmenu preset"
+msgid "Citadel"
+msgstr "요새"
+
+#: castle.cpp:360
+#, fuzzy, kde-format
+#| msgid "Exiled Kings"
+msgctxt "@item:inmenu preset"
+msgid "Exiled Kings"
+msgstr "도망간 왕"
+
+#: castle.cpp:361
+#, fuzzy, kde-format
+#| msgid "Streets and Alleys"
+msgctxt "@item:inmenu preset"
+msgid "Streets and Alleys"
+msgstr "도로와 골목길"
+
+#: castle.cpp:362
+#, fuzzy, kde-format
+#| msgid "Siegecraft"
+msgctxt "@item:inmenu preset"
+msgid "Siegecraft"
+msgstr "공성전"
+
+#: castle.cpp:363
+#, fuzzy, kde-format
+#| msgid "Stronghold"
+msgctxt "@item:inmenu preset"
+msgid "Stronghold"
+msgstr "성채"
+
+#: castle.cpp:376 freecell.cpp:361
+#, fuzzy, kde-format
+#| msgid "Free Cells"
+msgctxt "@title:menu"
 msgid "Free Cells"
 msgstr "빈 셀"
 
@@ -186,7 +274,9 @@ msgid "4"
 msgstr "4"
 
 #: castle.cpp:383 freecell.cpp:372
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Stacks"
+msgctxt "@title:menu"
 msgid "Stacks"
 msgstr "스택"
 
@@ -215,58 +305,73 @@ msgstr "9"
 msgid "10"
 msgstr "10"
 
-#: castle.cpp:390 spider.cpp:146
-#, kde-format
-msgid "S&tack Options"
-msgstr "스택 옵션(&T)"
-
 #: castle.cpp:391
-#, kde-format
-msgid "Face &Down"
+#, fuzzy, kde-format
+#| msgid "Face &Down"
+msgctxt "@item:inmenu stack option"
+msgid "Face Down"
 msgstr "아래로(&D)"
 
 #: castle.cpp:392
-#, kde-format
-msgid "Face &Up"
+#, fuzzy, kde-format
+#| msgid "Face &Up"
+msgctxt "@item:inmenu stack option"
+msgid "Face Up"
 msgstr "위로(&U)"
 
 #: castle.cpp:393
-#, kde-format
-msgid "Alternating Face &Up"
+#, fuzzy, kde-format
+#| msgid "Alternating Face &Up"
+msgctxt "@item:inmenu stack option"
+msgid "Alternating Face Up"
 msgstr "번갈아 가면서 위로(&U)"
 
 #: castle.cpp:395
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Foundation Deal"
+msgctxt "@title:menu"
 msgid "Foundation Deal"
 msgstr "파운데이션 딜"
 
 #: castle.cpp:396
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "None"
+msgctxt "@item:inmenu foundation deal"
 msgid "None"
 msgstr "없음"
 
 #: castle.cpp:397
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Aces"
+msgctxt "@item:inmenu foundation deal"
 msgid "Aces"
 msgstr "에이스"
 
 #: castle.cpp:398
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Any"
+msgctxt "@item:inmenu foundation deal"
 msgid "Any"
 msgstr "임의"
 
 #: castle.cpp:400
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Layout"
+msgctxt "@title:menu"
 msgid "Layout"
 msgstr "레이아웃"
 
 #: castle.cpp:401
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Classic"
+msgctxt "@item:inmenu layout"
 msgid "Classic"
 msgstr "고전"
 
 #: castle.cpp:402
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Modern"
+msgctxt "@item:inmenu layout"
 msgid "Modern"
 msgstr "현대"
 
@@ -310,8 +415,9 @@ msgid "Solver: This game is lost."
 msgstr "해결사: 이 게임에서 졌습니다."
 
 #: dealer.cpp:1349
-#, kde-format
-msgid "Solver: Calculating..."
+#, fuzzy, kde-format
+#| msgid "Solver: Calculating..."
+msgid "Solver: Calculating…"
 msgstr "해결사: 계산 중..."
 
 #: dealer.cpp:1753
@@ -326,12 +432,16 @@ msgstr ""
 "현재 게임을 중단하면 진 것으로 기록됩니다."
 
 #: dealer.cpp:1755
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Abandon Current Game?"
+msgctxt "@title:window"
 msgid "Abandon Current Game?"
 msgstr "현재 게임을 끝내시겠습니까?"
 
 #: dealer.cpp:1756
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Abandon Current Game"
+msgctxt "@action:button"
 msgid "Abandon Current Game"
 msgstr "현재 게임 끝내기"
 
@@ -339,28 +449,23 @@ msgstr "현재 게임 끝내기"
 msgid "Forty & Eight"
 msgstr "40과 8"
 
-#: freecell.cpp:307 freecell.cpp:312 freecell.cpp:347
-#, kde-format
+#: freecell.cpp:307 freecell.cpp:312
 msgid "Freecell"
 msgstr "프리셀"
 
-#: freecell.cpp:309 freecell.cpp:344
-#, kde-format
+#: freecell.cpp:309
 msgid "Baker's Game"
 msgstr "빵 장수의 게임"
 
-#: freecell.cpp:310 freecell.cpp:345
-#, kde-format
+#: freecell.cpp:310
 msgid "Eight Off"
 msgstr "에이트 오프"
 
-#: freecell.cpp:311 freecell.cpp:346
-#, kde-format
+#: freecell.cpp:311
 msgid "Forecell"
 msgstr "포어셀"
 
-#: freecell.cpp:313 freecell.cpp:348
-#, kde-format
+#: freecell.cpp:313
 msgid "Seahaven Towers"
 msgstr "시헤븐 타워"
 
@@ -368,10 +473,40 @@ msgstr "시헤븐 타워"
 msgid "Freecell (Custom)"
 msgstr "프리셀(사용자 정의)"
 
-#: freecell.cpp:361
-#, kde-format
-msgid "Free cells"
-msgstr "빈 셀"
+#: freecell.cpp:344
+#, fuzzy, kde-format
+#| msgid "Baker's Game"
+msgctxt "@item:inmenu preset"
+msgid "Baker's Game"
+msgstr "빵 장수의 게임"
+
+#: freecell.cpp:345
+#, fuzzy, kde-format
+#| msgid "Eight Off"
+msgctxt "@item:inmenu preset"
+msgid "Eight Off"
+msgstr "에이트 오프"
+
+#: freecell.cpp:346
+#, fuzzy, kde-format
+#| msgid "Forecell"
+msgctxt "@item:inmenu preset"
+msgid "Forecell"
+msgstr "포어셀"
+
+#: freecell.cpp:347
+#, fuzzy, kde-format
+#| msgid "Freecell"
+msgctxt "@item:inmenu preset"
+msgid "Freecell"
+msgstr "프리셀"
+
+#: freecell.cpp:348
+#, fuzzy, kde-format
+#| msgid "Seahaven Towers"
+msgctxt "@item:inmenu preset"
+msgid "Seahaven Towers"
+msgstr "시헤븐 타워"
 
 #: freecell.cpp:367
 #, kde-format
@@ -389,7 +524,9 @@ msgid "12"
 msgstr "12"
 
 #: freecell.cpp:381
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Decks"
+msgctxt "@title:menu"
 msgid "Decks"
 msgstr "덱"
 
@@ -410,17 +547,23 @@ msgid "Aces Up"
 msgstr "에이스 업"
 
 #: klondike.cpp:134
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Klondike &Options"
+msgctxt "@title:menu"
 msgid "Klondike &Options"
 msgstr "클론다이크 설정(&O)"
 
 #: klondike.cpp:135
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Draw 1"
+msgctxt "@item:inmenu klondike option"
 msgid "Draw 1"
 msgstr "1장 꺼내기"
 
 #: klondike.cpp:136
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Draw 3"
+msgctxt "@item:inmenu klondike option"
 msgid "Draw 3"
 msgstr "3장 꺼내기"
 
@@ -449,8 +592,10 @@ msgid "Main Toolbar"
 msgstr "주 도구 모음"
 
 #: libkcardgame/kcardthemewidget.cpp:266
-#, kde-format
-msgid "Loading..."
+#, fuzzy, kde-format
+#| msgid "Loading..."
+msgctxt "@info"
+msgid "Loading…"
 msgstr "불러오는 중..."
 
 #: main.cpp:89
@@ -658,139 +803,190 @@ msgid "File to load"
 msgstr "불러올 파일"
 
 #: mainwindow.cpp:152
-#, kde-format
-msgctxt "Start a new game of a different type"
-msgid "New &Game..."
+#, fuzzy, kde-format
+#| msgctxt "Start a new game of a different type"
+#| msgid "New &Game..."
+msgctxt "@action Start a new game of a different type"
+msgid "New &Game…"
 msgstr "새 게임(&G)..."
 
 #: mainwindow.cpp:158
-#, kde-format
-msgctxt "Start a new game of without changing the game type"
+#, fuzzy, kde-format
+#| msgctxt "Start a new game of without changing the game type"
+#| msgid "New &Deal"
+msgctxt "@action Start a new game of without changing the game type"
 msgid "New &Deal"
 msgstr "새 판(&D)"
 
 #: mainwindow.cpp:164
-#, kde-format
-msgctxt "Start a game by giving its particular number"
-msgid "New &Numbered Deal..."
-msgstr "번호 지정된 새 판(&N)..."
+#, fuzzy, kde-format
+#| msgid "New Numbered Deal"
+msgctxt "@action Start a game by giving its particular number"
+msgid "New &Numbered Deal…"
+msgstr "번호 지정된 새 게임"
 
 #: mainwindow.cpp:169
-#, kde-format
-msgctxt "Replay the current deal from the start"
+#, fuzzy, kde-format
+#| msgctxt "Replay the current deal from the start"
+#| msgid "Restart Deal"
+msgctxt "@action Replay the current deal from the start"
 msgid "Restart Deal"
 msgstr "판 다시 시작"
 
 #: mainwindow.cpp:175
-#, kde-format
-msgctxt "Start the game with the number one greater than the current one"
+#, fuzzy, kde-format
+#| msgctxt "Start the game with the number one greater than the current one"
+#| msgid "Next Deal"
+msgctxt ""
+"@action Start the game with the number one greater than the current one"
 msgid "Next Deal"
 msgstr "다음 판"
 
 #: mainwindow.cpp:184
-#, kde-format
-msgctxt "Start the game with the number one less than the current one"
+#, fuzzy, kde-format
+#| msgctxt "Start the game with the number one less than the current one"
+#| msgid "Previous Deal"
+msgctxt "@action Start the game with the number one less than the current one"
 msgid "Previous Deal"
 msgstr "이전 판"
 
-#. i18n: ectx: property (windowTitle), widget (QWidget, GameStats)
-#: mainwindow.cpp:198 statisticsdialog.cpp:61 statisticsdialog.ui:13
-#, kde-format
+#: mainwindow.cpp:198
+#, fuzzy, kde-format
+#| msgid "Statistics"
+msgctxt "@action"
 msgid "Statistics"
 msgstr "통계"
 
 #: mainwindow.cpp:227
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt ""
+#| "Take one or more cards from the deck, flip them, and place them in play"
+#| msgid "Dra&w"
 msgctxt ""
-"Take one or more cards from the deck, flip them, and place them in play"
+"@action Take one or more cards from the deck, flip them, and place them in "
+"play"
 msgid "Dra&w"
 msgstr "꺼내기(&W)"
 
 #: mainwindow.cpp:232
-#, kde-format
-msgctxt "Deal a new row of cards from the deck"
+#, fuzzy, kde-format
+#| msgctxt "Deal a new row of cards from the deck"
+#| msgid "Dea&l Row"
+msgctxt "@action Deal a new row of cards from the deck"
 msgid "Dea&l Row"
 msgstr "열 섞기(&L)"
 
 #: mainwindow.cpp:237
-#, kde-format
-msgctxt "Collect the cards in play, shuffle them and redeal them"
+#, fuzzy, kde-format
+#| msgctxt "Collect the cards in play, shuffle them and redeal them"
+#| msgid "&Redeal"
+msgctxt "@action Collect the cards in play, shuffle them and redeal them"
 msgid "&Redeal"
 msgstr "다시 섞기(&R)"
 
 #: mainwindow.cpp:242
-#, kde-format
-msgctxt "Automatically move cards to the foundation piles"
+#, fuzzy, kde-format
+#| msgctxt "Automatically move cards to the foundation piles"
+#| msgid "Dro&p"
+msgctxt "@action Automatically move cards to the foundation piles"
 msgid "Dro&p"
 msgstr "떨어트리기(&P)"
 
 #: mainwindow.cpp:249
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "&Enable Autodrop"
+msgctxt "@option:check"
 msgid "&Enable Autodrop"
 msgstr "자동 떨어트리기 사용(&E)"
 
 #: mainwindow.cpp:254
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "E&nable Solver"
+msgctxt "@option:check"
 msgid "E&nable Solver"
 msgstr "해결사 사용(&N)"
 
 #: mainwindow.cpp:259
-#, kde-format
-msgid "Play &Sounds"
+#, fuzzy, kde-format
+#| msgid "Play &Sounds"
+msgctxt "@option:check"
+msgid "Play Sounds"
 msgstr "소리 재생(&S)"
 
 #: mainwindow.cpp:264
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "&Remember State on Exit"
+msgctxt "@option:check"
 msgid "&Remember State on Exit"
 msgstr "끝낼 때 상태 저장(&R)"
 
 #: mainwindow.cpp:281
-#, kde-format
-msgid "Generate a theme preview image"
+#, fuzzy, kde-format
+#| msgid "Generate a theme preview image"
+msgctxt "@action"
+msgid "Generate a Theme Preview Image"
 msgstr "테마 미리 보기 그림 만들기"
 
 #: mainwindow.cpp:286
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Take Game Preview Snapshots"
+msgctxt "@action"
 msgid "Take Game Preview Snapshots"
 msgstr "게임 미리 보기 스냅샷 찍기"
 
 #: mainwindow.cpp:291
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Random Cards"
+msgctxt "@action"
 msgid "Random Cards"
 msgstr "무작위 카드"
 
 #: mainwindow.cpp:298
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Move Focus to Previous Pile"
+msgctxt "@action"
 msgid "Move Focus to Previous Pile"
 msgstr "이전 파일로 포커스 이동"
 
 #: mainwindow.cpp:302
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Move Focus to Next Pile"
+msgctxt "@action"
 msgid "Move Focus to Next Pile"
 msgstr "다음 파일로 포커스 이동"
 
 #: mainwindow.cpp:306
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Move Focus to Card Below"
+msgctxt "@action"
 msgid "Move Focus to Card Below"
 msgstr "아래쪽 카드로 포커스 이동"
 
 #: mainwindow.cpp:310
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Move Focus to Card Above"
+msgctxt "@action"
 msgid "Move Focus to Card Above"
 msgstr "위쪽 카드로 포커스 이동"
 
 #: mainwindow.cpp:314
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Cancel Focus"
+msgctxt "@action"
 msgid "Cancel Focus"
 msgstr "포커스 취소"
 
 #: mainwindow.cpp:318
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Pick Up or Set Down Focus"
+msgctxt "@action"
 msgid "Pick Up or Set Down Focus"
 msgstr "카드를 줍거나 아래로 포커스 설정"
 
 #: mainwindow.cpp:426
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Card Deck"
+msgctxt "@title:tab"
 msgid "Card Deck"
 msgstr "카드 덱"
 
@@ -799,93 +995,107 @@ msgstr "카드 덱"
 msgid "Select a card deck"
 msgstr "카드 덱 선택"
 
-#: mainwindow.cpp:433
-#, kde-format
+#: mainwindow.cpp:434
+#, fuzzy, kde-format
+#| msgid "Game Theme"
+msgctxt "@title:tab"
 msgid "Game Theme"
 msgstr "게임 테마"
 
-#: mainwindow.cpp:433
+#: mainwindow.cpp:436
 #, kde-format
 msgid "Select a theme for non-card game elements"
 msgstr "카드 이외 게임 구성 요소의 테마를 선택하십시오"
 
-#: mainwindow.cpp:511
-#, kde-format
+#: mainwindow.cpp:514
+#, fuzzy, kde-format
+#| msgctxt ""
+#| "Is disabled and changes to \"Help &with Current Game\" when there is no "
+#| "current game."
+#| msgid "Help &with %1"
 msgctxt ""
-"Is disabled and changes to \"Help &with Current Game\" when there is no "
-"current game."
+"@action Is disabled and changes to \"Help &with Current Game\" when there is "
+"no current game."
 msgid "Help &with %1"
 msgstr "%1 도움말(&W)"
 
-#: mainwindow.cpp:542
-#, kde-format
-msgctxt "Shown when there is no game open. Is always disabled."
+#: mainwindow.cpp:545
+#, fuzzy, kde-format
+#| msgctxt "Shown when there is no game open. Is always disabled."
+#| msgid "Help &with Current Game"
+msgctxt "@action Shown when there is no game open. Is always disabled."
 msgid "Help &with Current Game"
 msgstr "현재 게임 도움말(&W)"
 
-#: mainwindow.cpp:697
+#: mainwindow.cpp:700
 #, kde-format
 msgid ""
 "Are you sure you want to hide the menubar? The current shortcut to show it "
 "again is %1."
 msgstr "메뉴 표시줄을 숨기시겠습니까? 다시 보이려면 %1 키를 누르십시오."
 
-#: mainwindow.cpp:699
-#, kde-format
+#: mainwindow.cpp:702
+#, fuzzy, kde-format
+#| msgid "Hide Menubar"
+msgctxt "@title:window"
 msgid "Hide Menubar"
 msgstr "메뉴 표시줄 숨기기"
 
-#: mainwindow.cpp:792
+#: mainwindow.cpp:795
 #, kde-format
 msgid "Downloading file failed: %1"
 msgstr "파일 다운로드 실패: %1"
 
-#: mainwindow.cpp:798
+#: mainwindow.cpp:801
 #, kde-format
 msgid "Error reading XML file: "
 msgstr "XML 파일 읽는 중 오류 발생:"
 
-#: mainwindow.cpp:815
+#: mainwindow.cpp:818
 #, kde-format
 msgid "XML file is not a KPat save."
 msgstr "XML 파일이 저장된 KPat 게임이 아닙니다."
 
-#: mainwindow.cpp:820
+#: mainwindow.cpp:823
 #, kde-format
 msgid "Unrecognized game id."
 msgstr "알 수 없는 게임 ID입니다."
 
-#: mainwindow.cpp:839
+#: mainwindow.cpp:842
 #, kde-format
 msgid "Errors encountered while parsing file."
 msgstr "파일을 처리하는 중 오류가 발생했습니다."
 
-#: mainwindow.cpp:858
-#, kde-format
-msgid "Load"
+#: mainwindow.cpp:861
+#, fuzzy, kde-format
+#| msgid "Load"
+msgctxt "@title:window"
+msgid "Load Game"
 msgstr "불러오기"
 
-#: mainwindow.cpp:885
-#, kde-format
-msgid "Save"
-msgstr "저장"
+#: mainwindow.cpp:888
+#, fuzzy, kde-format
+#| msgid "Baker's Game"
+msgctxt "@title:window"
+msgid "Save Game"
+msgstr "빵 장수의 게임"
 
-#: mainwindow.cpp:901
+#: mainwindow.cpp:904
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
 msgstr "파일에 쓰려고 여는 중 오류가 발생했습니다. 저장할 수 없습니다."
 
-#: mainwindow.cpp:906
+#: mainwindow.cpp:909
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
 msgstr "임시 파일을 만들 수 없습니다. 저장할 수 없습니다."
 
-#: mainwindow.cpp:922
+#: mainwindow.cpp:925
 #, kde-format
 msgid "Error uploading file. Saving failed: %1"
 msgstr "파일을 업로드하는 중 오류가 발생했습니다. 저장할 수 없습니다: %1"
 
-#: mainwindow.cpp:946
+#: mainwindow.cpp:949
 #, kde-format
 msgid "1 move"
 msgid_plural "%1 moves"
@@ -896,18 +1106,23 @@ msgid "Mod3"
 msgstr "Mod3"
 
 #: numbereddealdialog.cpp:36
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "New Numbered Deal"
+msgctxt "@title:window"
 msgid "New Numbered Deal"
 msgstr "번호 지정된 새 게임"
 
-#. i18n: ectx: property (text), widget (QLabel, textLabel1)
-#: numbereddealdialog.cpp:51 statisticsdialog.ui:30
-#, kde-format
+#: numbereddealdialog.cpp:51
+#, fuzzy, kde-format
+#| msgid "Game:"
+msgctxt "@label"
 msgid "Game:"
 msgstr "게임:"
 
 #: numbereddealdialog.cpp:55
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Deal number:"
+msgctxt "@label"
 msgid "Deal number:"
 msgstr "판 번호:"
 
@@ -916,39 +1131,39 @@ msgid "Simple Simon"
 msgstr "간단한 사이먼"
 
 #: spider.cpp:131
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "Spider &Options"
+msgctxt "@title:menu"
 msgid "Spider &Options"
 msgstr "스파이더 옵션(&O)"
 
 #: spider.cpp:132
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "1 Suit (Easy)"
+msgctxt "@item:inmenu spider option"
 msgid "1 Suit (Easy)"
 msgstr "1종류(쉬움)"
 
 #: spider.cpp:133
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "2 Suits (Medium)"
+msgctxt "@item:inmenu spider option"
 msgid "2 Suits (Medium)"
 msgstr "2종류(중간)"
 
 #: spider.cpp:134
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "3 Suits (Hard)"
+msgctxt "@item:inmenu spider option"
 msgid "3 Suits (Hard)"
 msgstr "3종류(어려움)"
 
 #: spider.cpp:135
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "4 Suits (Very Hard)"
+msgctxt "@item:inmenu spider option"
 msgid "4 Suits (Very Hard)"
 msgstr "4종류(매우 어려움)"
-
-#: spider.cpp:147
-#, kde-format
-msgid "Face &Down (harder)"
-msgstr "아래로(어려움)(&D)"
-
-#: spider.cpp:148
-#, kde-format
-msgid "Face &Up (easier)"
-msgstr "위로(쉬움)(&U)"
 
 #: spider.cpp:466
 msgid "Spider"
@@ -970,6 +1185,13 @@ msgstr "스파이더(3종류)"
 msgid "Spider (4 Suit)"
 msgstr "스파이더(4종류)"
 
+#: statisticsdialog.cpp:61
+#, fuzzy, kde-format
+#| msgid "Statistics"
+msgctxt "@title:window"
+msgid "Statistics"
+msgstr "통계"
+
 #: statisticsdialog.cpp:122
 #, kde-format
 msgid "%1 (%2%)"
@@ -986,6 +1208,18 @@ msgstr[0] "%1회 짐"
 msgid "1 win"
 msgid_plural "%1 wins"
 msgstr[0] "%1회 이김"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, GameStats)
+#: statisticsdialog.ui:13
+#, kde-format
+msgid "Statistics"
+msgstr "통계"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#: statisticsdialog.ui:30
+#, kde-format
+msgid "Game:"
+msgstr "게임:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel7)
 #: statisticsdialog.ui:66
@@ -1026,6 +1260,25 @@ msgstr "최소 이동 수:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "유콘"
+
+#~ msgid "S&tack Options"
+#~ msgstr "스택 옵션(&T)"
+
+#~ msgid "Free cells"
+#~ msgstr "빈 셀"
+
+#~ msgctxt "Start a game by giving its particular number"
+#~ msgid "New &Numbered Deal..."
+#~ msgstr "번호 지정된 새 판(&N)..."
+
+#~ msgid "Save"
+#~ msgstr "저장"
+
+#~ msgid "Face &Down (harder)"
+#~ msgstr "아래로(어려움)(&D)"
+
+#~ msgid "Face &Up (easier)"
+#~ msgstr "위로(쉬움)(&U)"
 
 #~ msgid "Change Appearance..."
 #~ msgstr "모양 바꾸기..."
