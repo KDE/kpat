@@ -10,13 +10,13 @@
 # Serdar Dalgıç, 2010.
 # obsoleteman <tulliana@gmail.com>, 2008-2009.
 # Volkan Gezer <volkangezer@gmail.com>, 2013-2014.
-# Emir SARI <emir_sari@icloud.com>, 2022, 2023.
+# SPDX-FileCopyrightText: 2022, 2023, 2024 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kdegames-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-15 00:36+0000\n"
-"PO-Revision-Date: 2023-08-22 01:02+0300\n"
+"PO-Revision-Date: 2024-05-04 01:19+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.11.70\n"
+"X-Generator: Lokalize 24.07.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -56,7 +56,7 @@ msgstr "İspanyol Sabrı"
 #: bakersdozen.cpp:71 bakersdozen.cpp:241
 #, kde-format
 msgid "Castles in Spain"
-msgstr "İspanya'daki Kaleler"
+msgstr "İspanya’daki Kaleler"
 
 #: bakersdozen.cpp:72 bakersdozen.cpp:242
 #, kde-format
@@ -1031,7 +1031,7 @@ msgstr "Kazanılan oyun:"
 #: statisticsdialog.ui:124
 #, kde-format
 msgid "Current streak:"
-msgstr "Mevcut nişan:"
+msgstr "Geçerli sürekli kazanma:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: statisticsdialog.ui:138
