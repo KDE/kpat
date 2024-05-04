@@ -837,7 +837,7 @@
 > <guimenu
 >Spel</guimenu
 > <guimenuitem
->Nieuw Spel...</guimenuitem
+>Nieuw Spel…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem
@@ -881,7 +881,7 @@
 > <guimenu
 >Spel</guimenu
 > <guimenuitem
->Nieuw genummerd spel...</guimenuitem
+>Nieuw genummerd spel…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem>
@@ -931,7 +931,7 @@
 > <guimenu
 >Spel</guimenu
 > <guimenuitem
->Laden...</guimenuitem
+>Laden…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem
@@ -973,7 +973,7 @@
 > <guimenu
 >Spel</guimenu
 > <guimenuitem
->Opslaan als...</guimenuitem
+>Opslaan als…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem
@@ -1331,7 +1331,7 @@
 > <guimenu
 >Instellingen</guimenu
 > <guimenuitem
->Uiterlijk wijzigen...</guimenuitem
+>Uiterlijk wijzigen…</guimenuitem
 > </menuchoice
 > in de menubalk.</para
 ></answer>

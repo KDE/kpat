@@ -106,7 +106,7 @@
 >Aquesta documentació descriu el joc &kpatience; versió 21.04</para>
 </abstract>
 
-<!--List of relevan keywords-->
+<!--List of relevant keywords-->
 <keywordset>
 	<keyword
 >KDE</keyword
@@ -793,7 +793,7 @@
 > <guimenu
 >Joc</guimenu
 > <guimenuitem
->Partida nova...</guimenuitem
+>Partida nova…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem
@@ -837,7 +837,7 @@
 > <guimenu
 >Joc</guimenu
 > <guimenuitem
->Mà nova numerada...</guimenuitem
+>Mà nova numerada…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem>
@@ -885,7 +885,7 @@
 > <guimenu
 >Joc</guimenu
 > <guimenuitem
->Carrega...</guimenuitem
+>Carrega…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem
@@ -927,7 +927,7 @@
 > <guimenu
 >Joc</guimenu
 > <guimenuitem
->Desa com a...</guimenuitem
+>Desa com a…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem
@@ -1284,7 +1284,7 @@
 > <guimenu
 >Arranjament</guimenu
 > <guimenuitem
->Canvia l'aparença...</guimenuitem
+>Canvia l'aparença…</guimenuitem
 > </menuchoice
 > a la barra de menús.</para
 ></answer>

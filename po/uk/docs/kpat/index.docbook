@@ -801,7 +801,7 @@
 > <guimenu
 >Гра</guimenu
 > <guimenuitem
->Нова гра...</guimenuitem
+>Нова гра…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem
@@ -845,7 +845,7 @@
 > <guimenu
 >Гра</guimenu
 > <guimenuitem
->Нова нумерована роздача...</guimenuitem
+>Нова нумерована роздача…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem>
@@ -893,7 +893,7 @@
 > <guimenu
 >Гра</guimenu
 > <guimenuitem
->Завантажити...</guimenuitem
+>Завантажити…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem
@@ -1294,7 +1294,7 @@
 > <guimenu
 >Параметри</guimenu
 > <guimenuitem
->Змінити параметри вигляду...</guimenuitem
+>Змінити параметри вигляду…</guimenuitem
 > </menuchoice
 >.</para
 ></answer>
