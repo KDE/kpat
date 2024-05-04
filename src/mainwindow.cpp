@@ -689,7 +689,7 @@ void MainWindow::toggleDemo()
 void MainWindow::toggleDemoAction(bool active)
 {
     m_demoAction->setChecked(active);
-    m_demoAction->setIcon(QIcon::fromTheme(QLatin1String(active ? "media-playback-pause" : "media-playback-start")));
+    m_demoAction->setIcon(QIcon::fromTheme(active ? QStringLiteral("media-playback-pause") : QStringLiteral("media-playback-start")));
 }
 
 void MainWindow::toggleMenubar()
