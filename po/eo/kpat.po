@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-03 00:37+0000\n"
-"PO-Revision-Date: 2023-10-15 09:42+0100\n"
+"PO-Revision-Date: 2024-05-04 07:47+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
 "Language: eo\n"
@@ -29,120 +29,103 @@ msgid "Your emails"
 msgstr "wolfram@steloj.de,okellogg@users.sourceforge.net"
 
 #: bakersdozen.cpp:68 castle.cpp:357 freecell.cpp:343
-#, fuzzy, kde-format
-#| msgid "Popular Variant Presets"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Popular Variant Presets"
 msgstr "Popularaj Variaj Antaŭagordoj"
 
 #: bakersdozen.cpp:69
-#, fuzzy, kde-format
-#| msgid "Baker's Dozen"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Baker's Dozen"
 msgstr "Baker's Dekduo"
 
 #: bakersdozen.cpp:70
-#, fuzzy, kde-format
-#| msgid "Spanish Patience"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Spanish Patience"
 msgstr "Hispana Pacienco"
 
 #: bakersdozen.cpp:71
-#, fuzzy, kde-format
-#| msgid "Castles in Spain"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Castles in Spain"
 msgstr "Kasteloj en Hispanio"
 
 #: bakersdozen.cpp:72
-#, fuzzy, kde-format
-#| msgid "Portuguese Solitaire"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Portuguese Solitaire"
 msgstr "Portugala Solitario"
 
 #: bakersdozen.cpp:73 castle.cpp:364 freecell.cpp:349
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Custom"
 msgstr "Propra"
 
 #: bakersdozen.cpp:75 castle.cpp:366 freecell.cpp:351
-#, fuzzy, kde-format
-#| msgid "Empty Stack Fill"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Empty Stack Fill"
 msgstr "Plenigo de Malplena Stako"
 
 #: bakersdozen.cpp:76 castle.cpp:367 freecell.cpp:352
-#, fuzzy, kde-format
-#| msgid "Any (Easy)"
+#, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "Any (Easy)"
 msgstr "Ajna (Facila)"
 
 #: bakersdozen.cpp:77 castle.cpp:368 freecell.cpp:353
-#, fuzzy, kde-format
-#| msgid "Kings only (Medium)"
+#, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "Kings only (Medium)"
 msgstr "Reĝoj nur (Meza)"
 
 #: bakersdozen.cpp:78 castle.cpp:369 freecell.cpp:354
-#, fuzzy, kde-format
-#| msgid "None (Hard)"
+#, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "None (Hard)"
 msgstr "Neniu (Malfacila)"
 
 #: bakersdozen.cpp:80 castle.cpp:390 spider.cpp:146
-#, fuzzy, kde-format
-#| msgid "Stack Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Stack Options"
 msgstr "Stakaj Opcioj"
 
 #: bakersdozen.cpp:81 spider.cpp:148
-#, fuzzy, kde-format
-#| msgid "Face &Up (Easier)"
+#, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Up (Easier)"
-msgstr "Vizaĝo S&upre (Pli facila)"
+msgstr "Vizaĝo S&upre (Pli Facila)"
 
 #: bakersdozen.cpp:82 spider.cpp:147
-#, fuzzy, kde-format
-#| msgid "Face &Down (Harder)"
+#, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Down (Harder)"
 msgstr "Vizaĝo Malvi&debla (Pli Malfacila)"
 
 #: bakersdozen.cpp:84 castle.cpp:371 freecell.cpp:356
-#, fuzzy, kde-format
-#| msgid "Build Sequence"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Build Sequence"
 msgstr "Konstrui Sekvencon"
 
 #: bakersdozen.cpp:85 castle.cpp:372 freecell.cpp:357
-#, fuzzy, kde-format
-#| msgid "Alternating Color"
+#, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Alternating Color"
 msgstr "Alterna Koloro"
 
 #: bakersdozen.cpp:86 castle.cpp:373 freecell.cpp:358
-#, fuzzy, kde-format
-#| msgid "Matching Suit"
+#, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Matching Suit"
 msgstr "Kongrua Kartkompleto"
 
 #: bakersdozen.cpp:87 castle.cpp:374 freecell.cpp:359
-#, fuzzy, kde-format
-#| msgid "Rank"
+#, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Rank"
 msgstr "Rango"
@@ -200,50 +183,43 @@ msgid "Castle (Custom)"
 msgstr "Kastelo ( Propra)"
 
 #: castle.cpp:358
-#, fuzzy, kde-format
-#| msgid "Beleaguered Castle"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Beleaguered Castle"
 msgstr "Sieĝita Kastelo"
 
 #: castle.cpp:359
-#, fuzzy, kde-format
-#| msgid "Citadel"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Citadel"
 msgstr "Citadelo"
 
 #: castle.cpp:360
-#, fuzzy, kde-format
-#| msgid "Exiled Kings"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Exiled Kings"
 msgstr "Ekzilitaj Reĝoj"
 
 #: castle.cpp:361
-#, fuzzy, kde-format
-#| msgid "Streets and Alleys"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Streets and Alleys"
 msgstr "Stratoj kaj Stratetoj"
 
 #: castle.cpp:362
-#, fuzzy, kde-format
-#| msgid "Siegecraft"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Siegecraft"
 msgstr "Sieĝo"
 
 #: castle.cpp:363
-#, fuzzy, kde-format
-#| msgid "Stronghold"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Stronghold"
 msgstr "Fortikejo"
 
 #: castle.cpp:376 freecell.cpp:361
-#, fuzzy, kde-format
-#| msgid "Free Cells"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Free Cells"
 msgstr "Liberaj Ĉeloj"
@@ -274,8 +250,7 @@ msgid "4"
 msgstr "4"
 
 #: castle.cpp:383 freecell.cpp:372
-#, fuzzy, kde-format
-#| msgid "Stacks"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Stacks"
 msgstr "Stakoj"
@@ -306,71 +281,61 @@ msgid "10"
 msgstr "10"
 
 #: castle.cpp:391
-#, fuzzy, kde-format
-#| msgid "Face &Down"
+#, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Down"
-msgstr "Vizaĝo Malvi&debla"
+msgstr "Vizaĝo Malvidebla"
 
 #: castle.cpp:392
-#, fuzzy, kde-format
-#| msgid "Face &Up"
+#, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Up"
-msgstr "Vizaĝo &Videbla"
+msgstr "Vizaĝo Videbla"
 
 #: castle.cpp:393
-#, fuzzy, kde-format
-#| msgid "Alternating Face &Up"
+#, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Alternating Face Up"
-msgstr "Alternante Vizaĝo &Videbla"
+msgstr "Alternante Vizaĝon Videbla"
 
 #: castle.cpp:395
-#, fuzzy, kde-format
-#| msgid "Foundation Deal"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Foundation Deal"
 msgstr "Fundamenta Disvastigo"
 
 #: castle.cpp:396
-#, fuzzy, kde-format
-#| msgid "None"
+#, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "None"
 msgstr "Neniu"
 
 #: castle.cpp:397
-#, fuzzy, kde-format
-#| msgid "Aces"
+#, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "Aces"
 msgstr "Asoj"
 
 #: castle.cpp:398
-#, fuzzy, kde-format
-#| msgid "Any"
+#, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "Any"
 msgstr "Ajna"
 
 #: castle.cpp:400
-#, fuzzy, kde-format
-#| msgid "Layout"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Layout"
 msgstr "Aranĝo"
 
 #: castle.cpp:401
-#, fuzzy, kde-format
-#| msgid "Classic"
+#, kde-format
 msgctxt "@item:inmenu layout"
 msgid "Classic"
 msgstr "Klasika"
 
 #: castle.cpp:402
-#, fuzzy, kde-format
-#| msgid "Modern"
+#, kde-format
 msgctxt "@item:inmenu layout"
 msgid "Modern"
 msgstr "Moderna"
@@ -415,10 +380,9 @@ msgid "Solver: This game is lost."
 msgstr "Solvanto: Ĉi tiu ludo estas perdita."
 
 #: dealer.cpp:1349
-#, fuzzy, kde-format
-#| msgid "Solver: Calculating..."
+#, kde-format
 msgid "Solver: Calculating…"
-msgstr "Solvanto: Kalkulo..."
+msgstr "Solvanto: Kalkulante…"
 
 #: dealer.cpp:1753
 #, kde-format
@@ -432,15 +396,13 @@ msgstr ""
 "Perdo estos registrita en la statistiko se la nuna ludo estas forlasita."
 
 #: dealer.cpp:1755
-#, fuzzy, kde-format
-#| msgid "Abandon Current Game?"
+#, kde-format
 msgctxt "@title:window"
 msgid "Abandon Current Game?"
 msgstr "Ĉu Forlasi Nunan Ludon?"
 
 #: dealer.cpp:1756
-#, fuzzy, kde-format
-#| msgid "Abandon Current Game"
+#, kde-format
 msgctxt "@action:button"
 msgid "Abandon Current Game"
 msgstr "Forlasi Nunan Ludon"
@@ -474,36 +436,31 @@ msgid "Freecell (Custom)"
 msgstr "Freecell (Persona)"
 
 #: freecell.cpp:344
-#, fuzzy, kde-format
-#| msgid "Baker's Game"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Baker's Game"
 msgstr "Baker's Game"
 
 #: freecell.cpp:345
-#, fuzzy, kde-format
-#| msgid "Eight Off"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Eight Off"
 msgstr "Ok For"
 
 #: freecell.cpp:346
-#, fuzzy, kde-format
-#| msgid "Forecell"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Forecell"
 msgstr "Forecell"
 
 #: freecell.cpp:347
-#, fuzzy, kde-format
-#| msgid "Freecell"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Freecell"
 msgstr "Freecell"
 
 #: freecell.cpp:348
-#, fuzzy, kde-format
-#| msgid "Seahaven Towers"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Seahaven Towers"
 msgstr "Seahaven-Turoj"
@@ -524,8 +481,7 @@ msgid "12"
 msgstr "12"
 
 #: freecell.cpp:381
-#, fuzzy, kde-format
-#| msgid "Decks"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Decks"
 msgstr "Ferdekoj"
@@ -547,22 +503,19 @@ msgid "Aces Up"
 msgstr "Asoj supre"
 
 #: klondike.cpp:134
-#, fuzzy, kde-format
-#| msgid "Klondike &Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Klondike &Options"
 msgstr "Klondike &Opcioj"
 
 #: klondike.cpp:135
-#, fuzzy, kde-format
-#| msgid "Draw 1"
+#, kde-format
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 1"
 msgstr "Desegno 1"
 
 #: klondike.cpp:136
-#, fuzzy, kde-format
-#| msgid "Draw 3"
+#, kde-format
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 3"
 msgstr "Desegno 3"
@@ -592,11 +545,10 @@ msgid "Main Toolbar"
 msgstr "Ĉefa ilobreto"
 
 #: libkcardgame/kcardthemewidget.cpp:266
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgctxt "@info"
 msgid "Loading…"
-msgstr "Ŝargas..."
+msgstr "Ŝargas…"
 
 #: main.cpp:89
 #, kde-format
@@ -803,65 +755,50 @@ msgid "File to load"
 msgstr "Dosiero por ŝargi"
 
 #: mainwindow.cpp:152
-#, fuzzy, kde-format
-#| msgctxt "Start a new game of a different type"
-#| msgid "New &Game..."
+#, kde-format
 msgctxt "@action Start a new game of a different type"
 msgid "New &Game…"
-msgstr "Nova &Ludo..."
+msgstr "Nova &Ludo…"
 
 #: mainwindow.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "Start a new game of without changing the game type"
-#| msgid "New &Deal"
+#, kde-format
 msgctxt "@action Start a new game of without changing the game type"
 msgid "New &Deal"
 msgstr "Nova &Disdono"
 
 #: mainwindow.cpp:164
-#, fuzzy, kde-format
-#| msgid "New Numbered Deal"
+#, kde-format
 msgctxt "@action Start a game by giving its particular number"
 msgid "New &Numbered Deal…"
-msgstr "Nova Numera Interkonsento"
+msgstr "Nova &Numerita Disdono…"
 
 #: mainwindow.cpp:169
-#, fuzzy, kde-format
-#| msgctxt "Replay the current deal from the start"
-#| msgid "Restart Deal"
+#, kde-format
 msgctxt "@action Replay the current deal from the start"
 msgid "Restart Deal"
 msgstr "Rekomenci Disdonon"
 
 #: mainwindow.cpp:175
-#, fuzzy, kde-format
-#| msgctxt "Start the game with the number one greater than the current one"
-#| msgid "Next Deal"
+#, kde-format
 msgctxt ""
 "@action Start the game with the number one greater than the current one"
 msgid "Next Deal"
 msgstr "Sekva Disdono"
 
 #: mainwindow.cpp:184
-#, fuzzy, kde-format
-#| msgctxt "Start the game with the number one less than the current one"
-#| msgid "Previous Deal"
+#, kde-format
 msgctxt "@action Start the game with the number one less than the current one"
 msgid "Previous Deal"
 msgstr "Antaŭa Disdono"
 
 #: mainwindow.cpp:198
-#, fuzzy, kde-format
-#| msgid "Statistics"
+#, kde-format
 msgctxt "@action"
 msgid "Statistics"
 msgstr "Statistikoj"
 
 #: mainwindow.cpp:227
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Take one or more cards from the deck, flip them, and place them in play"
-#| msgid "Dra&w"
+#, kde-format
 msgctxt ""
 "@action Take one or more cards from the deck, flip them, and place them in "
 "play"
@@ -869,123 +806,103 @@ msgid "Dra&w"
 msgstr "&Preni"
 
 #: mainwindow.cpp:232
-#, fuzzy, kde-format
-#| msgctxt "Deal a new row of cards from the deck"
-#| msgid "Dea&l Row"
+#, kde-format
 msgctxt "@action Deal a new row of cards from the deck"
 msgid "Dea&l Row"
 msgstr "Pre&na Vico"
 
 #: mainwindow.cpp:237
-#, fuzzy, kde-format
-#| msgctxt "Collect the cards in play, shuffle them and redeal them"
-#| msgid "&Redeal"
+#, kde-format
 msgctxt "@action Collect the cards in play, shuffle them and redeal them"
 msgid "&Redeal"
 msgstr "&Redonu kartojn"
 
 #: mainwindow.cpp:242
-#, fuzzy, kde-format
-#| msgctxt "Automatically move cards to the foundation piles"
-#| msgid "Dro&p"
+#, kde-format
 msgctxt "@action Automatically move cards to the foundation piles"
 msgid "Dro&p"
 msgstr "Fali&gi"
 
 #: mainwindow.cpp:249
-#, fuzzy, kde-format
-#| msgid "&Enable Autodrop"
+#, kde-format
 msgctxt "@option:check"
 msgid "&Enable Autodrop"
 msgstr "&Ebligi Aŭtomatan faligon"
 
 #: mainwindow.cpp:254
-#, fuzzy, kde-format
-#| msgid "E&nable Solver"
+#, kde-format
 msgctxt "@option:check"
 msgid "E&nable Solver"
-msgstr "E&bligi Solvanton"
+msgstr "Ebligi Solva&nton"
 
 #: mainwindow.cpp:259
-#, fuzzy, kde-format
-#| msgid "Play &Sounds"
+#, kde-format
 msgctxt "@option:check"
 msgid "Play Sounds"
-msgstr "Ludi &Sonojn"
+msgstr "Aŭdigi Sonorojn"
 
 #: mainwindow.cpp:264
-#, fuzzy, kde-format
-#| msgid "&Remember State on Exit"
+#, kde-format
 msgctxt "@option:check"
 msgid "&Remember State on Exit"
 msgstr "&Memori Staton ĉe Eliro"
 
 #: mainwindow.cpp:281
-#, fuzzy, kde-format
-#| msgid "Generate a theme preview image"
+#, kde-format
 msgctxt "@action"
 msgid "Generate a Theme Preview Image"
-msgstr "Generi etosn antaŭrigardan bildon"
+msgstr "Generi Etosan Antaŭrigard-Bildon"
 
 #: mainwindow.cpp:286
-#, fuzzy, kde-format
-#| msgid "Take Game Preview Snapshots"
+#, kde-format
 msgctxt "@action"
 msgid "Take Game Preview Snapshots"
 msgstr "Preni Lud-Antaŭrigardajn Momentfotojn"
 
 #: mainwindow.cpp:291
-#, fuzzy, kde-format
-#| msgid "Random Cards"
+#, kde-format
 msgctxt "@action"
 msgid "Random Cards"
 msgstr "Hazardaj Kartoj"
 
 #: mainwindow.cpp:298
-#, fuzzy, kde-format
-#| msgid "Move Focus to Previous Pile"
+#, kde-format
 msgctxt "@action"
 msgid "Move Focus to Previous Pile"
 msgstr "Movi Fokuson al Antaŭa Amaso"
 
 #: mainwindow.cpp:302
-#, fuzzy, kde-format
-#| msgid "Move Focus to Next Pile"
+#, kde-format
 msgctxt "@action"
 msgid "Move Focus to Next Pile"
 msgstr "Movi Fokuson al Sekva Amaso"
 
 #: mainwindow.cpp:306
-#, fuzzy, kde-format
-#| msgid "Move Focus to Card Below"
+#, kde-format
 msgctxt "@action"
 msgid "Move Focus to Card Below"
 msgstr "Movi Fokuson al Karto Malsupre"
 
 #: mainwindow.cpp:310
-#, fuzzy, kde-format
-#| msgid "Move Focus to Card Above"
+#, kde-format
 msgctxt "@action"
 msgid "Move Focus to Card Above"
 msgstr "Movi Fokuson al Karto Supre"
 
 #: mainwindow.cpp:314
-#, fuzzy, kde-format
-#| msgid "Cancel Focus"
+#, kde-format
 msgctxt "@action"
 msgid "Cancel Focus"
 msgstr "Nuligi Fokuson"
 
 #: mainwindow.cpp:318
-#, fuzzy, kde-format
-#| msgid "Pick Up or Set Down Focus"
+#, kde-format
 msgctxt "@action"
 msgid "Pick Up or Set Down Focus"
 msgstr "Preni aŭ Malpreni Fokuson"
 
 #: mainwindow.cpp:426
-#, fuzzy, kde-format
-#| msgid "Card Deck"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Card Deck"
 msgstr "Kartaro"
@@ -996,8 +913,7 @@ msgid "Select a card deck"
 msgstr "Elektu kartaron"
 
 #: mainwindow.cpp:434
-#, fuzzy, kde-format
-#| msgid "Game Theme"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Game Theme"
 msgstr "Luda Etoso"
@@ -1005,14 +921,10 @@ msgstr "Luda Etoso"
 #: mainwindow.cpp:436
 #, kde-format
 msgid "Select a theme for non-card game elements"
-msgstr "Elekti temon por ne-kartludaj elementoj"
+msgstr "Elekti etoson por ne-kartludaj elementoj"
 
 #: mainwindow.cpp:514
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Is disabled and changes to \"Help &with Current Game\" when there is no "
-#| "current game."
-#| msgid "Help &with %1"
+#, kde-format
 msgctxt ""
 "@action Is disabled and changes to \"Help &with Current Game\" when there is "
 "no current game."
@@ -1020,9 +932,7 @@ msgid "Help &with %1"
 msgstr "Helpo p&ri %1"
 
 #: mainwindow.cpp:545
-#, fuzzy, kde-format
-#| msgctxt "Shown when there is no game open. Is always disabled."
-#| msgid "Help &with Current Game"
+#, kde-format
 msgctxt "@action Shown when there is no game open. Is always disabled."
 msgid "Help &with Current Game"
 msgstr "Helpo p&ri Nuna Ludo"
@@ -1037,8 +947,7 @@ msgstr ""
 "ĝin denove estas %1."
 
 #: mainwindow.cpp:702
-#, fuzzy, kde-format
-#| msgid "Hide Menubar"
+#, kde-format
 msgctxt "@title:window"
 msgid "Hide Menubar"
 msgstr "Kaŝi Menubreton"
@@ -1069,18 +978,16 @@ msgid "Errors encountered while parsing file."
 msgstr "Eraroj renkontitaj dum analizado de dosiero."
 
 #: mainwindow.cpp:861
-#, fuzzy, kde-format
-#| msgid "Load"
+#, kde-format
 msgctxt "@title:window"
 msgid "Load Game"
-msgstr "Ŝargi"
+msgstr "Ŝargi Ludon"
 
 #: mainwindow.cpp:888
-#, fuzzy, kde-format
-#| msgid "Baker's Game"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Game"
-msgstr "Baker's Game"
+msgstr "Konservi Ludon"
 
 #: mainwindow.cpp:904
 #, kde-format
@@ -1109,61 +1016,53 @@ msgid "Mod3"
 msgstr "Mod3"
 
 #: numbereddealdialog.cpp:36
-#, fuzzy, kde-format
-#| msgid "New Numbered Deal"
+#, kde-format
 msgctxt "@title:window"
 msgid "New Numbered Deal"
-msgstr "Nova Numera Interkonsento"
+msgstr "Nova Numerita Disdono"
 
 #: numbereddealdialog.cpp:51
-#, fuzzy, kde-format
-#| msgid "Game:"
+#, kde-format
 msgctxt "@label"
 msgid "Game:"
 msgstr "Ludo:"
 
 #: numbereddealdialog.cpp:55
-#, fuzzy, kde-format
-#| msgid "Deal number:"
+#, kde-format
 msgctxt "@label"
 msgid "Deal number:"
-msgstr "Numero de interkonsento:"
+msgstr "Numero de disdono:"
 
 #: simon.cpp:168
 msgid "Simple Simon"
 msgstr "Simpla Simono"
 
 #: spider.cpp:131
-#, fuzzy, kde-format
-#| msgid "Spider &Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Spider &Options"
 msgstr "Araneo-&Opcioj"
 
 #: spider.cpp:132
-#, fuzzy, kde-format
-#| msgid "1 Suit (Easy)"
+#, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "1 Suit (Easy)"
 msgstr "1 Kartkompleto (Facila)"
 
 #: spider.cpp:133
-#, fuzzy, kde-format
-#| msgid "2 Suits (Medium)"
+#, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "2 Suits (Medium)"
 msgstr "2 Kartkompletoj (Mezaj)"
 
 #: spider.cpp:134
-#, fuzzy, kde-format
-#| msgid "3 Suits (Hard)"
+#, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "3 Suits (Hard)"
 msgstr "3 Kartkompletoj (Malfacila)"
 
 #: spider.cpp:135
-#, fuzzy, kde-format
-#| msgid "4 Suits (Very Hard)"
+#, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "4 Suits (Very Hard)"
 msgstr "4 Kartkompletoj (Tre Malfacila)"
@@ -1189,8 +1088,7 @@ msgid "Spider (4 Suit)"
 msgstr "Araneo (4 Kartkompleto)"
 
 #: statisticsdialog.cpp:61
-#, fuzzy, kde-format
-#| msgid "Statistics"
+#, kde-format
 msgctxt "@title:window"
 msgid "Statistics"
 msgstr "Statistikoj"
@@ -1265,25 +1163,3 @@ msgstr "Minimuma nombro da movoj:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Yukon"
-
-#~ msgid "S&tack Options"
-#~ msgstr "S&takaj Opcioj"
-
-#~ msgid "Free cells"
-#~ msgstr "Liberaj ĉeloj"
-
-#~ msgctxt "Start a game by giving its particular number"
-#~ msgid "New &Numbered Deal..."
-#~ msgstr "Nova &Numerita Disdono..."
-
-#~ msgid "Save"
-#~ msgstr "Konservi"
-
-#~ msgid "Face &Down (harder)"
-#~ msgstr "Vizaĝo Nevi&debla (pli malfacila)"
-
-#~ msgid "Face &Up (easier)"
-#~ msgstr "Vizaĝo S&upre (pli facila)"
-
-#~ msgid "Change Appearance..."
-#~ msgstr "Ŝanĝi Aspekton..."
