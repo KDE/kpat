@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the kpat package.
 #
-# giovanni <g.sora@tiscali.it>, 2023.
+# giovanni <g.sora@tiscali.it>, 2023, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-03 00:37+0000\n"
-"PO-Revision-Date: 2023-11-16 11:26+0100\n"
+"PO-Revision-Date: 2024-05-06 12:50+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -58,8 +58,7 @@ msgid "Portuguese Solitaire"
 msgstr ""
 
 #: bakersdozen.cpp:73 castle.cpp:364 freecell.cpp:349
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Custom"
 msgstr "Personalisate"
@@ -89,11 +88,10 @@ msgid "None (Hard)"
 msgstr ""
 
 #: bakersdozen.cpp:80 castle.cpp:390 spider.cpp:146
-#, fuzzy, kde-format
-#| msgid "Stacks"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Stack Options"
-msgstr "Pilas"
+msgstr "Optiones de Pilas"
 
 #: bakersdozen.cpp:81 spider.cpp:148
 #, kde-format
@@ -190,8 +188,7 @@ msgid "Beleaguered Castle"
 msgstr ""
 
 #: castle.cpp:359
-#, fuzzy, kde-format
-#| msgid "Citadel"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Citadel"
 msgstr "Citadel"
@@ -221,11 +218,10 @@ msgid "Stronghold"
 msgstr ""
 
 #: castle.cpp:376 freecell.cpp:361
-#, fuzzy, kde-format
-#| msgid "Freecell"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Free Cells"
-msgstr "FreeCell"
+msgstr "Cellas Libere"
 
 #: castle.cpp:377 freecell.cpp:362
 #, kde-format
@@ -253,8 +249,7 @@ msgid "4"
 msgstr "4"
 
 #: castle.cpp:383 freecell.cpp:372
-#, fuzzy, kde-format
-#| msgid "Stacks"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Stacks"
 msgstr "Pilas"
@@ -309,8 +304,7 @@ msgid "Foundation Deal"
 msgstr ""
 
 #: castle.cpp:396
-#, fuzzy, kde-format
-#| msgid "None"
+#, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "None"
 msgstr "Necun"
@@ -322,29 +316,25 @@ msgid "Aces"
 msgstr ""
 
 #: castle.cpp:398
-#, fuzzy, kde-format
-#| msgid "Any"
+#, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "Any"
 msgstr "Ulle"
 
 #: castle.cpp:400
-#, fuzzy, kde-format
-#| msgid "Layout"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Layout"
 msgstr "Disposition"
 
 #: castle.cpp:401
-#, fuzzy, kde-format
-#| msgid "Classic"
+#, kde-format
 msgctxt "@item:inmenu layout"
 msgid "Classic"
 msgstr "Classic"
 
 #: castle.cpp:402
-#, fuzzy, kde-format
-#| msgid "Modern"
+#, kde-format
 msgctxt "@item:inmenu layout"
 msgid "Modern"
 msgstr "Moderne"
@@ -381,7 +371,7 @@ msgstr ""
 #: dealer.cpp:924
 #, kde-format
 msgid "Congratulations! You have won."
-msgstr ""
+msgstr "Congratulationes! Tu ha ganiate."
 
 #: dealer.cpp:1211
 #, kde-format
@@ -454,15 +444,13 @@ msgid "Eight Off"
 msgstr ""
 
 #: freecell.cpp:346
-#, fuzzy, kde-format
-#| msgid "Freecell"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Forecell"
 msgstr "FreeCell"
 
 #: freecell.cpp:347
-#, fuzzy, kde-format
-#| msgid "Freecell"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Freecell"
 msgstr "FreeCell"
@@ -517,15 +505,13 @@ msgid "Klondike &Options"
 msgstr ""
 
 #: klondike.cpp:135
-#, fuzzy, kde-format
-#| msgid "Draw 1"
+#, kde-format
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 1"
 msgstr "Dessigna 1"
 
 #: klondike.cpp:136
-#, fuzzy, kde-format
-#| msgid "Draw 3"
+#, kde-format
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 3"
 msgstr "Dessigna 3"
@@ -555,8 +541,7 @@ msgid "Main Toolbar"
 msgstr "Barra de instrumento principal"
 
 #: libkcardgame/kcardthemewidget.cpp:266
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgctxt "@info"
 msgid "Loading…"
 msgstr "Cargante..."
@@ -564,7 +549,7 @@ msgstr "Cargante..."
 #: main.cpp:89
 #, kde-format
 msgid "KPatience"
-msgstr ""
+msgstr "KPatience"
 
 #: main.cpp:91
 #, kde-format
@@ -726,7 +711,7 @@ msgstr ""
 #: main.cpp:113
 #, kde-format
 msgid "Michael Lang"
-msgstr ""
+msgstr "Michael Lang"
 
 #: main.cpp:120
 #, kde-format
@@ -764,9 +749,7 @@ msgid "File to load"
 msgstr ""
 
 #: mainwindow.cpp:152
-#, fuzzy, kde-format
-#| msgctxt "Start a new game of a different type"
-#| msgid "New &Game..."
+#, kde-format
 msgctxt "@action Start a new game of a different type"
 msgid "New &Game…"
 msgstr "Nove &Joco..."
@@ -803,17 +786,13 @@ msgid "Previous Deal"
 msgstr ""
 
 #: mainwindow.cpp:198
-#, fuzzy, kde-format
-#| msgid "Statistics"
+#, kde-format
 msgctxt "@action"
 msgid "Statistics"
 msgstr "Statistica"
 
 #: mainwindow.cpp:227
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Take one or more cards from the deck, flip them, and place them in play"
-#| msgid "Dra&w"
+#, kde-format
 msgctxt ""
 "@action Take one or more cards from the deck, flip them, and place them in "
 "play"
@@ -833,9 +812,7 @@ msgid "&Redeal"
 msgstr ""
 
 #: mainwindow.cpp:242
-#, fuzzy, kde-format
-#| msgctxt "Automatically move cards to the foundation piles"
-#| msgid "Dro&p"
+#, kde-format
 msgctxt "@action Automatically move cards to the foundation piles"
 msgid "Dro&p"
 msgstr "Aban&dona (Drop)"
@@ -853,11 +830,10 @@ msgid "E&nable Solver"
 msgstr ""
 
 #: mainwindow.cpp:259
-#, fuzzy, kde-format
-#| msgid "Play &Sounds"
+#, kde-format
 msgctxt "@option:check"
 msgid "Play Sounds"
-msgstr "Re&produce sonos"
+msgstr "Reproduce sonos"
 
 #: mainwindow.cpp:264
 #, kde-format
@@ -963,8 +939,7 @@ msgid ""
 msgstr ""
 
 #: mainwindow.cpp:702
-#, fuzzy, kde-format
-#| msgid "Hide Menubar"
+#, kde-format
 msgctxt "@title:window"
 msgid "Hide Menubar"
 msgstr "Cela barra de menu"
@@ -995,18 +970,16 @@ msgid "Errors encountered while parsing file."
 msgstr ""
 
 #: mainwindow.cpp:861
-#, fuzzy, kde-format
-#| msgid "Load"
+#, kde-format
 msgctxt "@title:window"
 msgid "Load Game"
-msgstr "Carga"
+msgstr "Carga Joco"
 
 #: mainwindow.cpp:888
-#, fuzzy, kde-format
-#| msgid "Save"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Game"
-msgstr "Salveguarda"
+msgstr "Salveguarda  Joco"
 
 #: mainwindow.cpp:904
 #, kde-format
@@ -1041,8 +1014,7 @@ msgid "New Numbered Deal"
 msgstr ""
 
 #: numbereddealdialog.cpp:51
-#, fuzzy, kde-format
-#| msgid "Game:"
+#, kde-format
 msgctxt "@label"
 msgid "Game:"
 msgstr "Joco:"
@@ -1108,8 +1080,7 @@ msgid "Spider (4 Suit)"
 msgstr ""
 
 #: statisticsdialog.cpp:61
-#, fuzzy, kde-format
-#| msgid "Statistics"
+#, kde-format
 msgctxt "@title:window"
 msgid "Statistics"
 msgstr "Statistica"
