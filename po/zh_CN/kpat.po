@@ -28,8 +28,7 @@ msgid "Your emails"
 msgstr "kde-china@kde.org"
 
 #: bakersdozen.cpp:68 castle.cpp:357 freecell.cpp:343
-#, fuzzy, kde-format
-#| msgid "Popular Variant Presets"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Popular Variant Presets"
 msgstr "热门变种玩法预设"
@@ -41,11 +40,10 @@ msgid "Baker's Dozen"
 msgstr ""
 
 #: bakersdozen.cpp:70
-#, fuzzy, kde-format
-#| msgid "KPatience"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Spanish Patience"
-msgstr "KPatience"
+msgstr ""
 
 #: bakersdozen.cpp:71
 #, kde-format
@@ -60,85 +58,73 @@ msgid "Portuguese Solitaire"
 msgstr ""
 
 #: bakersdozen.cpp:73 castle.cpp:364 freecell.cpp:349
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Custom"
 msgstr "自定义"
 
 #: bakersdozen.cpp:75 castle.cpp:366 freecell.cpp:351
-#, fuzzy, kde-format
-#| msgid "Empty Stack Fill"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Empty Stack Fill"
 msgstr "空牌堆可放纸牌"
 
 #: bakersdozen.cpp:76 castle.cpp:367 freecell.cpp:352
-#, fuzzy, kde-format
-#| msgid "Any (Easy)"
+#, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "Any (Easy)"
 msgstr "任意牌 (简单)"
 
 #: bakersdozen.cpp:77 castle.cpp:368 freecell.cpp:353
-#, fuzzy, kde-format
-#| msgid "Kings only (Medium)"
+#, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "Kings only (Medium)"
 msgstr "仅限国王牌 (中等)"
 
 #: bakersdozen.cpp:78 castle.cpp:369 freecell.cpp:354
-#, fuzzy, kde-format
-#| msgid "None (Hard)"
+#, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "None (Hard)"
 msgstr "不允许放牌 (困难)"
 
 #: bakersdozen.cpp:80 castle.cpp:390 spider.cpp:146
-#, fuzzy, kde-format
-#| msgid "Stack Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Stack Options"
 msgstr "牌堆选项"
 
 #: bakersdozen.cpp:81 spider.cpp:148
-#, fuzzy, kde-format
-#| msgid "Face &Up (Easier)"
+#, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Up (Easier)"
-msgstr "牌面向上 (简单) (&U)"
+msgstr ""
 
 #: bakersdozen.cpp:82 spider.cpp:147
-#, fuzzy, kde-format
-#| msgid "Face &Down (Harder)"
+#, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Down (Harder)"
-msgstr "牌面向下 (困难) (&D)"
+msgstr ""
 
 #: bakersdozen.cpp:84 castle.cpp:371 freecell.cpp:356
-#, fuzzy, kde-format
-#| msgid "Build Sequence"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Build Sequence"
 msgstr "放牌顺序"
 
 #: bakersdozen.cpp:85 castle.cpp:372 freecell.cpp:357
-#, fuzzy, kde-format
-#| msgid "Alternating Color"
+#, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Alternating Color"
 msgstr "交替花色"
 
 #: bakersdozen.cpp:86 castle.cpp:373 freecell.cpp:358
-#, fuzzy, kde-format
-#| msgid "Matching Suit"
+#, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Matching Suit"
 msgstr "同色连续"
 
 #: bakersdozen.cpp:87 castle.cpp:374 freecell.cpp:359
-#, fuzzy, kde-format
-#| msgid "Rank"
+#, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Rank"
 msgstr "牌号连续"
@@ -232,11 +218,10 @@ msgid "Stronghold"
 msgstr ""
 
 #: castle.cpp:376 freecell.cpp:361
-#, fuzzy, kde-format
-#| msgid "Free cells"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Free Cells"
-msgstr "空当接龙"
+msgstr ""
 
 #: castle.cpp:377 freecell.cpp:362
 #, kde-format
@@ -264,11 +249,10 @@ msgid "4"
 msgstr "4"
 
 #: castle.cpp:383 freecell.cpp:372
-#, fuzzy, kde-format
-#| msgid "Stack Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Stacks"
-msgstr "牌堆选项"
+msgstr ""
 
 #: castle.cpp:384 freecell.cpp:368 freecell.cpp:373
 #, kde-format
@@ -296,71 +280,61 @@ msgid "10"
 msgstr "10"
 
 #: castle.cpp:391
-#, fuzzy, kde-format
-#| msgid "Face &Down"
+#, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Down"
-msgstr "牌面朝下 (&D)"
+msgstr ""
 
 #: castle.cpp:392
-#, fuzzy, kde-format
-#| msgid "Face &Up"
+#, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Up"
-msgstr "牌面朝上 (&U)"
+msgstr ""
 
 #: castle.cpp:393
-#, fuzzy, kde-format
-#| msgid "Alternating Face &Up"
+#, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Alternating Face Up"
-msgstr "牌面交替朝上 (&U)"
+msgstr ""
 
 #: castle.cpp:395
-#, fuzzy, kde-format
-#| msgid "Foundation Deal"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Foundation Deal"
 msgstr "基础牌"
 
 #: castle.cpp:396
-#, fuzzy, kde-format
-#| msgid "None"
+#, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "None"
 msgstr "无"
 
 #: castle.cpp:397
-#, fuzzy, kde-format
-#| msgid "Aces"
+#, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "Aces"
 msgstr "A 牌"
 
 #: castle.cpp:398
-#, fuzzy, kde-format
-#| msgid "Any"
+#, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "Any"
 msgstr "任意"
 
 #: castle.cpp:400
-#, fuzzy, kde-format
-#| msgid "Layout"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Layout"
 msgstr "布局"
 
 #: castle.cpp:401
-#, fuzzy, kde-format
-#| msgid "Classic"
+#, kde-format
 msgctxt "@item:inmenu layout"
 msgid "Classic"
 msgstr "经典"
 
 #: castle.cpp:402
-#, fuzzy, kde-format
-#| msgid "Modern"
+#, kde-format
 msgctxt "@item:inmenu layout"
 msgid "Modern"
 msgstr "现代"
@@ -405,10 +379,9 @@ msgid "Solver: This game is lost."
 msgstr "解牌：这局游戏已经输了。"
 
 #: dealer.cpp:1349
-#, fuzzy, kde-format
-#| msgid "Solver: Calculating..."
+#, kde-format
 msgid "Solver: Calculating…"
-msgstr "解牌：计算中..."
+msgstr ""
 
 #: dealer.cpp:1753
 #, kde-format
@@ -422,15 +395,13 @@ msgstr ""
 "如果您中止当前游戏，内部统计会将其计为一次失败。"
 
 #: dealer.cpp:1755
-#, fuzzy, kde-format
-#| msgid "Abandon Current Game?"
+#, kde-format
 msgctxt "@title:window"
 msgid "Abandon Current Game?"
 msgstr "中止当前游戏吗？"
 
 #: dealer.cpp:1756
-#, fuzzy, kde-format
-#| msgid "Abandon Current Game"
+#, kde-format
 msgctxt "@action:button"
 msgid "Abandon Current Game"
 msgstr "中止当前游戏吗"
@@ -476,15 +447,13 @@ msgid "Eight Off"
 msgstr ""
 
 #: freecell.cpp:346
-#, fuzzy, kde-format
-#| msgid "Freecell"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Forecell"
-msgstr "空当接龙"
+msgstr ""
 
 #: freecell.cpp:347
-#, fuzzy, kde-format
-#| msgid "Freecell"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Freecell"
 msgstr "空当接龙"
@@ -533,22 +502,19 @@ msgid "Aces Up"
 msgstr "二对子"
 
 #: klondike.cpp:134
-#, fuzzy, kde-format
-#| msgid "Klondike &Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Klondike &Options"
 msgstr "纸牌接龙选项(&O)"
 
 #: klondike.cpp:135
-#, fuzzy, kde-format
-#| msgid "Draw 1"
+#, kde-format
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 1"
 msgstr "一次发一张"
 
 #: klondike.cpp:136
-#, fuzzy, kde-format
-#| msgid "Draw 3"
+#, kde-format
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 3"
 msgstr "一次发三张"
@@ -578,11 +544,10 @@ msgid "Main Toolbar"
 msgstr "主工具栏"
 
 #: libkcardgame/kcardthemewidget.cpp:266
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgctxt "@info"
 msgid "Loading…"
-msgstr "正在加载..."
+msgstr ""
 
 #: main.cpp:89
 #, kde-format
@@ -789,65 +754,50 @@ msgid "File to load"
 msgstr "要加载的文件"
 
 #: mainwindow.cpp:152
-#, fuzzy, kde-format
-#| msgctxt "Start a new game of a different type"
-#| msgid "New &Game..."
+#, kde-format
 msgctxt "@action Start a new game of a different type"
 msgid "New &Game…"
-msgstr "新建游戏(&G)..."
+msgstr ""
 
 #: mainwindow.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "Start a new game of without changing the game type"
-#| msgid "New &Deal"
+#, kde-format
 msgctxt "@action Start a new game of without changing the game type"
 msgid "New &Deal"
 msgstr "新建牌局(&D)"
 
 #: mainwindow.cpp:164
-#, fuzzy, kde-format
-#| msgid "New Numbered Deal"
+#, kde-format
 msgctxt "@action Start a game by giving its particular number"
 msgid "New &Numbered Deal…"
-msgstr "根据编号新建牌局"
+msgstr ""
 
 #: mainwindow.cpp:169
-#, fuzzy, kde-format
-#| msgctxt "Replay the current deal from the start"
-#| msgid "Restart Deal"
+#, kde-format
 msgctxt "@action Replay the current deal from the start"
 msgid "Restart Deal"
 msgstr "重新发牌"
 
 #: mainwindow.cpp:175
-#, fuzzy, kde-format
-#| msgctxt "Start the game with the number one greater than the current one"
-#| msgid "Next Deal"
+#, kde-format
 msgctxt ""
 "@action Start the game with the number one greater than the current one"
 msgid "Next Deal"
 msgstr "玩下一局"
 
 #: mainwindow.cpp:184
-#, fuzzy, kde-format
-#| msgctxt "Start the game with the number one less than the current one"
-#| msgid "Previous Deal"
+#, kde-format
 msgctxt "@action Start the game with the number one less than the current one"
 msgid "Previous Deal"
 msgstr "玩上一局"
 
 #: mainwindow.cpp:198
-#, fuzzy, kde-format
-#| msgid "Statistics"
+#, kde-format
 msgctxt "@action"
 msgid "Statistics"
 msgstr "统计"
 
 #: mainwindow.cpp:227
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Take one or more cards from the deck, flip them, and place them in play"
-#| msgid "Dra&w"
+#, kde-format
 msgctxt ""
 "@action Take one or more cards from the deck, flip them, and place them in "
 "play"
@@ -855,123 +805,103 @@ msgid "Dra&w"
 msgstr "发牌(&W)"
 
 #: mainwindow.cpp:232
-#, fuzzy, kde-format
-#| msgctxt "Deal a new row of cards from the deck"
-#| msgid "Dea&l Row"
+#, kde-format
 msgctxt "@action Deal a new row of cards from the deck"
 msgid "Dea&l Row"
 msgstr "发一列牌(&L)"
 
 #: mainwindow.cpp:237
-#, fuzzy, kde-format
-#| msgctxt "Collect the cards in play, shuffle them and redeal them"
-#| msgid "&Redeal"
+#, kde-format
 msgctxt "@action Collect the cards in play, shuffle them and redeal them"
 msgid "&Redeal"
 msgstr "重新发牌(&R)"
 
 #: mainwindow.cpp:242
-#, fuzzy, kde-format
-#| msgctxt "Automatically move cards to the foundation piles"
-#| msgid "Dro&p"
+#, kde-format
 msgctxt "@action Automatically move cards to the foundation piles"
 msgid "Dro&p"
 msgstr "封牌(&P)"
 
 #: mainwindow.cpp:249
-#, fuzzy, kde-format
-#| msgid "&Enable Autodrop"
+#, kde-format
 msgctxt "@option:check"
 msgid "&Enable Autodrop"
 msgstr "允许自动落下(&E)"
 
 #: mainwindow.cpp:254
-#, fuzzy, kde-format
-#| msgid "E&nable Solver"
+#, kde-format
 msgctxt "@option:check"
 msgid "E&nable Solver"
 msgstr "允许自动求解(&N)"
 
 #: mainwindow.cpp:259
-#, fuzzy, kde-format
-#| msgid "Play &Sounds"
+#, kde-format
 msgctxt "@option:check"
 msgid "Play Sounds"
-msgstr "播放声音(&S)"
+msgstr ""
 
 #: mainwindow.cpp:264
-#, fuzzy, kde-format
-#| msgid "&Remember State on Exit"
+#, kde-format
 msgctxt "@option:check"
 msgid "&Remember State on Exit"
 msgstr "退出时记住游戏状态(&R)"
 
 #: mainwindow.cpp:281
-#, fuzzy, kde-format
-#| msgid "Generate a theme preview image"
+#, kde-format
 msgctxt "@action"
 msgid "Generate a Theme Preview Image"
-msgstr "生成主题预览图"
+msgstr ""
 
 #: mainwindow.cpp:286
-#, fuzzy, kde-format
-#| msgid "Take Game Preview Snapshots"
+#, kde-format
 msgctxt "@action"
 msgid "Take Game Preview Snapshots"
 msgstr "获取游戏预览图"
 
 #: mainwindow.cpp:291
-#, fuzzy, kde-format
-#| msgid "Random Cards"
+#, kde-format
 msgctxt "@action"
 msgid "Random Cards"
 msgstr "随机牌样"
 
 #: mainwindow.cpp:298
-#, fuzzy, kde-format
-#| msgid "Move Focus to Previous Pile"
+#, kde-format
 msgctxt "@action"
 msgid "Move Focus to Previous Pile"
 msgstr "移动焦点到上一摞"
 
 #: mainwindow.cpp:302
-#, fuzzy, kde-format
-#| msgid "Move Focus to Next Pile"
+#, kde-format
 msgctxt "@action"
 msgid "Move Focus to Next Pile"
 msgstr "移动焦点到下一摞"
 
 #: mainwindow.cpp:306
-#, fuzzy, kde-format
-#| msgid "Move Focus to Card Below"
+#, kde-format
 msgctxt "@action"
 msgid "Move Focus to Card Below"
 msgstr "移动焦点到下面的牌"
 
 #: mainwindow.cpp:310
-#, fuzzy, kde-format
-#| msgid "Move Focus to Card Above"
+#, kde-format
 msgctxt "@action"
 msgid "Move Focus to Card Above"
 msgstr "移动焦点到上面的牌"
 
 #: mainwindow.cpp:314
-#, fuzzy, kde-format
-#| msgid "Cancel Focus"
+#, kde-format
 msgctxt "@action"
 msgid "Cancel Focus"
 msgstr "取消焦点"
 
 #: mainwindow.cpp:318
-#, fuzzy, kde-format
-#| msgid "Pick Up or Set Down Focus"
+#, kde-format
 msgctxt "@action"
 msgid "Pick Up or Set Down Focus"
 msgstr "拿起或放下焦点"
 
 #: mainwindow.cpp:426
-#, fuzzy, kde-format
-#| msgid "Card Deck"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Card Deck"
 msgstr "牌垛"
@@ -982,8 +912,7 @@ msgid "Select a card deck"
 msgstr "选择一套牌垛"
 
 #: mainwindow.cpp:434
-#, fuzzy, kde-format
-#| msgid "Game Theme"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Game Theme"
 msgstr "游戏主题"
@@ -994,11 +923,7 @@ msgid "Select a theme for non-card game elements"
 msgstr "为非牌类游戏选择主题"
 
 #: mainwindow.cpp:514
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Is disabled and changes to \"Help &with Current Game\" when there is no "
-#| "current game."
-#| msgid "Help &with %1"
+#, kde-format
 msgctxt ""
 "@action Is disabled and changes to \"Help &with Current Game\" when there is "
 "no current game."
@@ -1006,9 +931,7 @@ msgid "Help &with %1"
 msgstr "%1 的帮助(&W)"
 
 #: mainwindow.cpp:545
-#, fuzzy, kde-format
-#| msgctxt "Shown when there is no game open. Is always disabled."
-#| msgid "Help &with Current Game"
+#, kde-format
 msgctxt "@action Shown when there is no game open. Is always disabled."
 msgid "Help &with Current Game"
 msgstr "当前游戏的帮助(&W)"
@@ -1021,8 +944,7 @@ msgid ""
 msgstr "您确定要隐藏菜单栏吗？当前显示菜单栏的快捷键为 %1。"
 
 #: mainwindow.cpp:702
-#, fuzzy, kde-format
-#| msgid "Hide Menubar"
+#, kde-format
 msgctxt "@title:window"
 msgid "Hide Menubar"
 msgstr "隐藏菜单栏"
@@ -1053,18 +975,16 @@ msgid "Errors encountered while parsing file."
 msgstr "解析文件出错。"
 
 #: mainwindow.cpp:861
-#, fuzzy, kde-format
-#| msgid "Load"
+#, kde-format
 msgctxt "@title:window"
 msgid "Load Game"
-msgstr "加载"
+msgstr ""
 
 #: mainwindow.cpp:888
-#, fuzzy, kde-format
-#| msgid "Save"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Game"
-msgstr "保存"
+msgstr ""
 
 #: mainwindow.cpp:904
 #, kde-format
@@ -1092,22 +1012,19 @@ msgid "Mod3"
 msgstr "余三"
 
 #: numbereddealdialog.cpp:36
-#, fuzzy, kde-format
-#| msgid "New Numbered Deal"
+#, kde-format
 msgctxt "@title:window"
 msgid "New Numbered Deal"
 msgstr "根据编号新建牌局"
 
 #: numbereddealdialog.cpp:51
-#, fuzzy, kde-format
-#| msgid "Game:"
+#, kde-format
 msgctxt "@label"
 msgid "Game:"
 msgstr "游戏："
 
 #: numbereddealdialog.cpp:55
-#, fuzzy, kde-format
-#| msgid "Deal number:"
+#, kde-format
 msgctxt "@label"
 msgid "Deal number:"
 msgstr "牌局编号："
@@ -1117,39 +1034,34 @@ msgid "Simple Simon"
 msgstr "笨蛋"
 
 #: spider.cpp:131
-#, fuzzy, kde-format
-#| msgid "Spider &Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Spider &Options"
 msgstr "蜘蛛纸牌选项(&O)"
 
 #: spider.cpp:132
-#, fuzzy, kde-format
-#| msgid "1 Suit (Easy)"
+#, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "1 Suit (Easy)"
 msgstr "1 种花色(简单)"
 
 #: spider.cpp:133
-#, fuzzy, kde-format
-#| msgid "2 Suits (Medium)"
+#, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "2 Suits (Medium)"
 msgstr "2 种花色(中等)"
 
 #: spider.cpp:134
-#, fuzzy, kde-format
-#| msgid "2 Suits (Medium)"
+#, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "3 Suits (Hard)"
-msgstr "2 种花色(中等)"
+msgstr ""
 
 #: spider.cpp:135
-#, fuzzy, kde-format
-#| msgid "2 Suits (Medium)"
+#, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "4 Suits (Very Hard)"
-msgstr "2 种花色(中等)"
+msgstr ""
 
 #: spider.cpp:466
 msgid "Spider"
@@ -1172,8 +1084,7 @@ msgid "Spider (4 Suit)"
 msgstr "蜘蛛(4 种花色)"
 
 #: statisticsdialog.cpp:61
-#, fuzzy, kde-format
-#| msgid "Statistics"
+#, kde-format
 msgctxt "@title:window"
 msgid "Statistics"
 msgstr "统计"
@@ -1246,16 +1157,3 @@ msgstr "最小移牌数："
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "育空"
-
-#~ msgid "S&tack Options"
-#~ msgstr "纸牌选项(&T)"
-
-#~ msgctxt "Start a game by giving its particular number"
-#~ msgid "New &Numbered Deal..."
-#~ msgstr "根据编号新建牌局(&N)..."
-
-#~ msgid "Face &Down (harder)"
-#~ msgstr "牌面向下（困难）(&D)"
-
-#~ msgid "Face &Up (easier)"
-#~ msgstr "牌面向上（简单）(&U)"
