@@ -871,15 +871,15 @@
 				<term
 ><menuchoice
 ><shortcut
-> <keycombo action="simul"
->&Ctrl;<keycap
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
 >N</keycap
 ></keycombo
-> </shortcut
+></shortcut
 > <guimenu
 >Partita</guimenu
 > <guimenuitem
->Nuova partita...</guimenuitem
+>Nuova partita…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem
@@ -915,15 +915,15 @@
 				<term
 ><menuchoice
 ><shortcut
-> <keycombo action="simul"
+><keycombo action="simul"
 >&Ctrl;<keycap
->N</keycap
+>D</keycap
 ></keycombo
-> </shortcut
+></shortcut
 > <guimenu
 >Partita</guimenu
 > <guimenuitem
->Nuova partita numerata...</guimenuitem
+>Nuova smazzata (numero)…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem>
@@ -965,15 +965,15 @@
 				<term
 ><menuchoice
 ><shortcut
-> <keycombo action="simul"
+><keycombo action="simul"
 >&Ctrl;<keycap
 >O</keycap
 ></keycombo
-> </shortcut
+></shortcut
 > <guimenu
 >Partita</guimenu
 > <guimenuitem
->Carica...</guimenuitem
+>Carica…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem
@@ -1013,7 +1013,7 @@
 > <guimenu
 >Partita</guimenu
 > <guimenuitem
->Salva come...</guimenuitem
+>Salva come…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem
@@ -1362,7 +1362,7 @@
 ></question>
  <answer
 ><para
->È possibile cambiare il fronte e il retro delle carte da gioco e il tema del gioco. Per farlo usa la voce <menuchoice
+>È possibile cambiare il fronte e il retro delle carte da gioco e il tema del gioco. Per farlo utilizzare <menuchoice
 > <shortcut
 ><keycap
 >F10</keycap
