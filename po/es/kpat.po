@@ -5,7 +5,7 @@
 # Rafael Osuna <rosuna@wol.es>, 2004.
 # Santiago Fernandez Sancho <santi@kde-es.org>, 2004, 2005.
 # Santiago Fernández Sancho <santi@kde-es.org>, 2007, 2008.
-# SPDX-FileCopyrightText: 2009, 2016, 2018, 2019, 2020, 2021, 2022, 2023 Eloy Cuadra <ecuadra@eloihr.net>
+# SPDX-FileCopyrightText: 2009, 2016, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Eloy Cuadra <ecuadra@eloihr.net>
 # Huever, 2009.
 # Kira J. Fernandez <kirajfdez@gmail.com>, 2010, 2011, 2012.
 # Rocio Gallego <traducciones@rociogallego.com>, 2013, 2014.
@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-15 00:36+0000\n"
-"PO-Revision-Date: 2023-10-02 21:04+0100\n"
+"PO-Revision-Date: 2024-05-11 00:47+0100\n"
 "Last-Translator: Sofía Priego <spriego@darksylvania.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "First-Translator: Víctor Romero <livingstone@thepentagon.com>\n"
-"X-Generator: Lokalize 23.08.1\n"
+"X-Generator: Lokalize 24.02.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -291,38 +291,38 @@ msgstr "El reloj del abuelo"
 #: dealer.cpp:72
 #, kde-format
 msgid "Solver: This game is winnable."
-msgstr "Buscador de soluciones: Este juego se puede ganar."
+msgstr "Buscador de soluciones: Esta partida se puede ganar."
 
 #: dealer.cpp:74
 #, kde-format
 msgid "Solver: This game is no longer winnable."
-msgstr "Buscador de soluciones: Este juego ya no se puede ganar."
+msgstr "Buscador de soluciones: Esta partida ya no se puede ganar."
 
 #: dealer.cpp:74
 #, kde-format
 msgid "Solver: This game cannot be won."
-msgstr "Buscador de soluciones: Este juego no se puede ganar."
+msgstr "Buscador de soluciones: Esta partida no se puede ganar."
 
 #: dealer.cpp:76
 #, kde-format
 msgid "Solver: Unable to determine if this game is winnable."
 msgstr ""
-"Buscador de soluciones: No se puede determinar si el juego se puede ganar."
+"Buscador de soluciones: No se puede determinar si la partida se puede ganar."
 
 #: dealer.cpp:922
 #, kde-format
 msgid "Congratulations! We have won."
-msgstr "¡Felicidades! Hemos ganado."
+msgstr "¡Enhorabuena! Hemos ganado."
 
 #: dealer.cpp:924
 #, kde-format
 msgid "Congratulations! You have won."
-msgstr "¡Felicidades! Ha ganado."
+msgstr "¡Enhorabuena! Has ganado."
 
 #: dealer.cpp:1211
 #, kde-format
 msgid "Solver: This game is lost."
-msgstr "Buscador de soluciones: Este juego está perdido."
+msgstr "Buscador de soluciones: Esta partida está perdida."
 
 #: dealer.cpp:1349
 #, kde-format
@@ -336,9 +336,10 @@ msgid ""
 "\n"
 "A loss will be recorded in the statistics if the current game is abandoned."
 msgstr ""
-"Se ha solicitado una partida nueva, pero ya hay otra en progreso.\n"
+"Se ha solicitado una partida nueva, pero hay otra en curso.\n"
 "\n"
-"Se guardará una pérdida en las estadísticas si se abandona la partida actual."
+"Se registrará una partida perdida en las estadísticas si se abandona la "
+"partida actual."
 
 #: dealer.cpp:1755
 #, kde-format
@@ -352,7 +353,7 @@ msgstr "Abandonar la partida actual"
 
 #: fortyeight.cpp:229
 msgid "Forty & Eight"
-msgstr "Cuarenta & ocho"
+msgstr "Cuarenta y ocho"
 
 #: freecell.cpp:307 freecell.cpp:312 freecell.cpp:347
 #, kde-format
@@ -476,7 +477,7 @@ msgstr "KPatience"
 #: main.cpp:91
 #, kde-format
 msgid "KDE Patience Game"
-msgstr "Juego de paciencia para KDE"
+msgstr "Juego de solitario para KDE"
 
 #: main.cpp:93
 #, kde-format
@@ -495,7 +496,7 @@ msgstr "Paul Olav Tvete"
 #: main.cpp:97
 #, kde-format
 msgid "Author of original Qt version"
-msgstr "Autor de la versión original para Qt"
+msgstr "Autor de la versión original para Qt."
 
 #: main.cpp:98
 #, kde-format
@@ -505,7 +506,7 @@ msgstr "Mario Weilguni"
 #: main.cpp:98
 #, kde-format
 msgid "Initial KDE port"
-msgstr "Adaptación inicial a KDE"
+msgstr "Adaptación inicial para KDE."
 
 #: main.cpp:99
 #, kde-format
@@ -520,7 +521,7 @@ msgstr "Rodolfo Borges"
 #: main.cpp:100 main.cpp:113
 #, kde-format
 msgid "New game types"
-msgstr "Nuevos tipos de juegos"
+msgstr "Nuevos tipos de juegos."
 
 #: main.cpp:101
 #, kde-format
@@ -535,7 +536,7 @@ msgstr "Michael Koch"
 #: main.cpp:102 main.cpp:109
 #, kde-format
 msgid "Bug fixes"
-msgstr "Corrección de errores"
+msgstr "Corrección de errores."
 
 #: main.cpp:103
 #, kde-format
@@ -545,7 +546,7 @@ msgstr "Marcus Meissner"
 #: main.cpp:103
 #, kde-format
 msgid "Shuffle algorithm for game numbers"
-msgstr "Algoritmo de barajado para los números de juego"
+msgstr "Algoritmo de barajado para los números de partidas."
 
 #: main.cpp:104
 #, kde-format
@@ -555,7 +556,7 @@ msgstr "Tom Holroyd"
 #: main.cpp:104
 #, kde-format
 msgid "Initial patience solver"
-msgstr "Buscador de soluciones iniciales del solitario"
+msgstr "Buscador de soluciones inicial del solitario."
 
 #: main.cpp:105
 #, kde-format
@@ -565,7 +566,7 @@ msgstr "Stephan Kulow"
 #: main.cpp:105
 #, kde-format
 msgid "Rewrite and current maintainer"
-msgstr "Reescritura y responsable actual"
+msgstr "Reescritura y responsable actual."
 
 #: main.cpp:106
 #, kde-format
@@ -575,7 +576,7 @@ msgstr "Erik Sigra"
 #: main.cpp:106
 #, kde-format
 msgid "Klondike improvements"
-msgstr "Mejoras de Klondike"
+msgstr "Mejoras de Klondike."
 
 #: main.cpp:107
 #, kde-format
@@ -585,7 +586,7 @@ msgstr "Josh Metzler"
 #: main.cpp:107
 #, kde-format
 msgid "Spider implementation"
-msgstr "Implementación de Spider"
+msgstr "Implementación de Spider."
 
 #: main.cpp:108
 #, kde-format
@@ -595,7 +596,7 @@ msgstr "Maren Pakura"
 #: main.cpp:108
 #, kde-format
 msgid "Documentation"
-msgstr "Documentación"
+msgstr "Documentación."
 
 #: main.cpp:109
 #, kde-format
@@ -610,7 +611,7 @@ msgstr "Simon Hürlimann"
 #: main.cpp:110
 #, kde-format
 msgid "Menu and toolbar work"
-msgstr "Trabajo en el menú y la barra de herramientas"
+msgstr "Trabajo en el menú y la barra de herramientas."
 
 #: main.cpp:111
 #, kde-format
@@ -620,7 +621,7 @@ msgstr "Parker Coates"
 #: main.cpp:111
 #, kde-format
 msgid "Cleanup and polish"
-msgstr "Limpieza y pulido"
+msgstr "Limpieza y pulido."
 
 #: main.cpp:112
 #, kde-format
@@ -631,7 +632,7 @@ msgstr "Shlomi Fish"
 #, kde-format
 msgid "Integration with Freecell Solver and further work"
 msgstr ""
-"Integración con el buscador de soluciones de «Carta blanca» y otros trabajos"
+"Integración con el buscador de soluciones de «Carta blanca» y otros trabajos."
 
 #: main.cpp:113
 #, kde-format
@@ -641,7 +642,7 @@ msgstr "Michael Lang"
 #: main.cpp:120
 #, kde-format
 msgid "Try to find a solution to the given savegame"
-msgstr "Intente encontrar una solución para el juego guardado"
+msgstr "Intentar encontrar una solución para la partida guardada"
 
 #: main.cpp:121
 #, kde-format
@@ -657,8 +658,8 @@ msgstr "Inicio del intervalo de partida (predeterminado 0:INT_MAX)"
 #, kde-format
 msgid "Game range end (default start:start if start given)"
 msgstr ""
-"Fin del intervalo de partida (inicio predeterminado: inicio si se ha dado "
-"inicio)"
+"Fin del intervalo de partida (el predeterminado es inicio:inicio, si se ha "
+"dado inicio)"
 
 #: main.cpp:125
 #, kde-format
@@ -673,7 +674,7 @@ msgstr "Generar casos de prueba aleatorios"
 #: main.cpp:127
 #, kde-format
 msgid "File to load"
-msgstr "Archivo a cargar"
+msgstr "Archivo que se va a cargar"
 
 #: mainwindow.cpp:152
 #, kde-format
@@ -703,7 +704,7 @@ msgstr "Reiniciar reparto"
 #, kde-format
 msgctxt "Start the game with the number one greater than the current one"
 msgid "Next Deal"
-msgstr "Nuevo reparto"
+msgstr "Reparto siguiente"
 
 #: mainwindow.cpp:184
 #, kde-format
@@ -722,13 +723,13 @@ msgstr "Estadísticas"
 msgctxt ""
 "Take one or more cards from the deck, flip them, and place them in play"
 msgid "Dra&w"
-msgstr "Ec&har"
+msgstr "&Robar"
 
 #: mainwindow.cpp:232
 #, kde-format
 msgctxt "Deal a new row of cards from the deck"
 msgid "Dea&l Row"
-msgstr "Repar&tir"
+msgstr "Repar&tir fila"
 
 #: mainwindow.cpp:237
 #, kde-format
@@ -740,17 +741,17 @@ msgstr "Volver a &repartir"
 #, kde-format
 msgctxt "Automatically move cards to the foundation piles"
 msgid "Dro&p"
-msgstr "S&oltar"
+msgstr "&Descartar"
 
 #: mainwindow.cpp:249
 #, kde-format
 msgid "&Enable Autodrop"
-msgstr "&Activar autosoltar"
+msgstr "&Activar descarte automático"
 
 #: mainwindow.cpp:254
 #, kde-format
 msgid "E&nable Solver"
-msgstr "Acti&var el buscador de soluciones"
+msgstr "Acti&var buscador de soluciones"
 
 #: mainwindow.cpp:259
 #, kde-format
@@ -825,7 +826,7 @@ msgstr "Tema del juego"
 #: mainwindow.cpp:433
 #, kde-format
 msgid "Select a theme for non-card game elements"
-msgstr "Seleccione un tema para elementos del juego distintos de las cartas"
+msgstr "Selecciona un tema para elementos del juego distintos de las cartas"
 
 #: mainwindow.cpp:511
 #, kde-format
@@ -847,8 +848,8 @@ msgid ""
 "Are you sure you want to hide the menubar? The current shortcut to show it "
 "again is %1."
 msgstr ""
-"¿Seguro que quiere ocultar la barra de menú? El atajo de teclado actual para "
-"volver a mostrarla es %1."
+"¿Seguro que quieres ocultar la barra de menú? El atajo de teclado actual "
+"para volver a mostrarla es %1."
 
 #: mainwindow.cpp:699
 #, kde-format
@@ -863,7 +864,7 @@ msgstr "La descarga del archivo ha fallado: %1"
 #: mainwindow.cpp:798
 #, kde-format
 msgid "Error reading XML file: "
-msgstr "Error al leer el archivo XML:"
+msgstr "Ha ocurrido un error al leer el archivo XML: "
 
 #: mainwindow.cpp:815
 #, kde-format
@@ -873,7 +874,7 @@ msgstr "El archivo XML no es una partida guardada de KPat."
 #: mainwindow.cpp:820
 #, kde-format
 msgid "Unrecognized game id."
-msgstr "Identificación del juego no reconocida."
+msgstr "Identificador de partida no reconocido."
 
 #: mainwindow.cpp:839
 #, kde-format
@@ -893,17 +894,19 @@ msgstr "Guardar"
 #: mainwindow.cpp:901
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
-msgstr "Error al abrir el archivo para escritura. Fallo al guardar."
+msgstr ""
+"Ha ocurrido un error al abrir el archivo para escritura. No se ha podido "
+"guardar."
 
 #: mainwindow.cpp:906
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
-msgstr "No se ha podido crear un archivo temporal. Fallo al guardar."
+msgstr "No se ha podido crear un archivo temporal. No se ha podido guardar."
 
 #: mainwindow.cpp:922
 #, kde-format
 msgid "Error uploading file. Saving failed: %1"
-msgstr "Error al enviar el archivo. Fallo al guardar: %1"
+msgstr "Ha ocurrido un error al enviar el archivo. No se ha podido guardar: %1"
 
 #: mainwindow.cpp:946
 #, kde-format
@@ -930,11 +933,11 @@ msgstr "Partida:"
 #: numbereddealdialog.cpp:55
 #, kde-format
 msgid "Deal number:"
-msgstr "Número de partida:"
+msgstr "Número de reparto:"
 
 #: simon.cpp:168
 msgid "Simple Simon"
-msgstr "Simón simple"
+msgstr "Simón Simple"
 
 #: spider.cpp:131
 #, kde-format
@@ -994,7 +997,7 @@ msgstr "Spider (4 palos)"
 #: statisticsdialog.cpp:122
 #, kde-format
 msgid "%1 (%2%)"
-msgstr "%1 (%2%)"
+msgstr "%1 (%2 %)"
 
 #: statisticsdialog.cpp:134
 #, kde-format
@@ -1014,7 +1017,7 @@ msgstr[1] "%1 ganadas"
 #: statisticsdialog.ui:66
 #, kde-format
 msgid "Longest winning streak:"
-msgstr "Lista de ganadores:"
+msgstr "Racha ganadora más larga:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: statisticsdialog.ui:73
@@ -1026,7 +1029,7 @@ msgstr "Partidas jugadas:"
 #: statisticsdialog.ui:90
 #, kde-format
 msgid "Longest losing streak:"
-msgstr "Lista de perdedores:"
+msgstr "Racha perdedora más larga:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel3)
 #: statisticsdialog.ui:107
