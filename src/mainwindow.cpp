@@ -268,7 +268,7 @@ void MainWindow::setupActions()
 
     // Help Menu
     m_gameHelpAction = actionCollection()->addAction(QStringLiteral("help_game"));
-    m_gameHelpAction->setIcon(QIcon::fromTheme(QStringLiteral("help-browser")));
+    m_gameHelpAction->setIcon(QIcon::fromTheme(QStringLiteral("help-contents")));
     connect(m_gameHelpAction, &QAction::triggered, this, &MainWindow::helpGame);
     KActionCollection::setDefaultShortcut(m_gameHelpAction, Qt::CTRL | Qt::SHIFT | Qt::Key_F1);
 
