@@ -349,7 +349,7 @@ KCardThemeWidget::KCardThemeWidget(const QSet<QString> &requiredFeatures, const 
     connect(d->listView->selectionModel(), &QItemSelectionModel::currentChanged, d, &KCardThemeWidgetPrivate::updateLineEdit);
     connect(d->hiddenLineEdit, &QLineEdit::textChanged, d, &KCardThemeWidgetPrivate::updateListView);
 
-    d->newDeckButton = new KNSWidgets::Button(this);
+    d->newDeckButton = new KNSWidgets::Button(i18nc("@action:button", "Get New Card Decks…"), QString(), this);
     d->newDeckButton->setConfigFile(QStringLiteral("kcardtheme.knsrc"));
     QObject::connect(d->newDeckButton, &KNSWidgets::Button::dialogFinished, this, [this](const QList<KNSCore::Entry> &changedEntries) {
         if (!changedEntries.isEmpty()) {
