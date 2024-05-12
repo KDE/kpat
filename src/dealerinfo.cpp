@@ -37,19 +37,27 @@
 
 #include "dealerinfo.h"
 
+static QString createBaseIdString(const KLocalizedString &baseName)
+{
+    QString result;
+
+    const QString untranslatedBaseName = QString::fromUtf8(baseName.untranslatedText());
+    result.reserve(untranslatedBaseName.size());
+    for (QChar c : untranslatedBaseName) {
+        if (c.isLetterOrNumber())
+            result += c.toLower();
+    }
+    result.squeeze();
+    return result;
+}
+
 DealerInfo::DealerInfo(const KLocalizedString &untranslatedBaseName, int baseId, const QMap<int, KLocalizedString> &subTypes)
     : m_baseName(untranslatedBaseName)
+    , m_baseIdString(createBaseIdString(untranslatedBaseName))
     , m_baseId(baseId)
     , m_subtypes(subTypes)
 {
     DealerInfoList::self()->add(this);
-
-    QString baseName = QString::fromUtf8(m_baseName.untranslatedText());
-    for (int i = 0; i < baseName.size(); ++i) {
-        QChar c = baseName.at(i);
-        if (c.isLetterOrNumber())
-            m_baseIdString += c.toLower();
-    }
 }
 
 DealerInfo::~DealerInfo()

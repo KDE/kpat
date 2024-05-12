@@ -108,10 +108,10 @@ public:
 
     virtual DealerScene *createGame() const = 0;
 
-protected:
-    KLocalizedString m_baseName;
-    QString m_baseIdString;
-    int m_baseId;
+private:
+    const KLocalizedString m_baseName;
+    const QString m_baseIdString;
+    const int m_baseId;
 
     const QMap<int, KLocalizedString> m_subtypes;
 };
