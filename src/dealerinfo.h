@@ -96,7 +96,7 @@ public:
     virtual ~DealerInfo();
 
     QString baseName() const;
-    KLazyLocalizedString untranslatedBaseName() const;
+    QString untranslatedBaseName() const;
     QString baseIdString() const;
     int baseId() const;
 

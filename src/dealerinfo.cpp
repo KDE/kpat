@@ -63,9 +63,9 @@ QString DealerInfo::baseName() const
     return m_baseName.toString();
 }
 
-KLazyLocalizedString DealerInfo::untranslatedBaseName() const
+QString DealerInfo::untranslatedBaseName() const
 {
-    return m_baseName;
+    return QString::fromUtf8(m_baseName.untranslatedText());
 }
 
 QString DealerInfo::baseIdString() const

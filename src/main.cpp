@@ -66,7 +66,7 @@ static DealerScene *getDealer(int wanted_game, const QString &name)
 {
     const auto games = DealerInfoList::self()->games();
     for (DealerInfo *di : games) {
-        if ((wanted_game < 0) ? (di->untranslatedBaseName().toString() == name) : di->providesId(wanted_game)) {
+        if ((wanted_game < 0) ? (di->untranslatedBaseName() == name) : di->providesId(wanted_game)) {
             DealerScene *d = di->createGame();
             Q_ASSERT(d);
             d->setDeck(new KCardDeck(KCardTheme(), d));
