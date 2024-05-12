@@ -235,13 +235,16 @@ static class BakersDozenDealerInfo : public DealerInfo
 {
 public:
     BakersDozenDealerInfo()
-        : DealerInfo(kli18n("Baker's Dozen"), BakersDozenGeneralId)
+        : DealerInfo(kli18n("Baker's Dozen"),
+                     BakersDozenGeneralId,
+                     {
+                         {BakersDozenId, kli18n("Baker's Dozen")},
+                         {BakersDozenSpanishId, kli18n("Spanish Patience")},
+                         {BakersDozenCastlesId, kli18n("Castles in Spain")},
+                         {BakersDozenPortugueseId, kli18n("Portuguese Solitaire")},
+                         {BakersDozenCustomId, kli18n("Baker's Dozen (Custom)")},
+                     })
     {
-        addSubtype(BakersDozenId, kli18n("Baker's Dozen"));
-        addSubtype(BakersDozenSpanishId, kli18n("Spanish Patience"));
-        addSubtype(BakersDozenCastlesId, kli18n("Castles in Spain"));
-        addSubtype(BakersDozenPortugueseId, kli18n("Portuguese Solitaire"));
-        addSubtype(BakersDozenCustomId, kli18n("Baker's Dozen (Custom)"));
     }
 
     DealerScene *createGame() const override

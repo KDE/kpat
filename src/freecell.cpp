@@ -305,14 +305,17 @@ static class FreecellDealerInfo : public DealerInfo
 {
 public:
     FreecellDealerInfo()
-        : DealerInfo(kli18n("Freecell"), FreecellGeneralId)
+        : DealerInfo(kli18n("Freecell"),
+                     FreecellGeneralId,
+                     {
+                         {FreecellBakersId, kli18n("Baker's Game")},
+                         {FreecellEightOffId, kli18n("Eight Off")},
+                         {FreecellForeId, kli18n("Forecell")},
+                         {FreecellId, kli18n("Freecell")},
+                         {FreecellSeahavenId, kli18n("Seahaven Towers")},
+                         {FreecellCustomId, kli18n("Freecell (Custom)")},
+                     })
     {
-        addSubtype(FreecellBakersId, kli18n("Baker's Game"));
-        addSubtype(FreecellEightOffId, kli18n("Eight Off"));
-        addSubtype(FreecellForeId, kli18n("Forecell"));
-        addSubtype(FreecellId, kli18n("Freecell"));
-        addSubtype(FreecellSeahavenId, kli18n("Seahaven Towers"));
-        addSubtype(FreecellCustomId, kli18n("Freecell (Custom)"));
     }
 
     DealerScene *createGame() const override

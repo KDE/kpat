@@ -92,7 +92,7 @@ public:
         SpiderThreeSuitId = 50
     };
 
-    DealerInfo(const KLocalizedString &untranslatedBaseName, int baseId);
+    DealerInfo(const KLocalizedString &untranslatedBaseName, int baseId, const QMap<int, KLocalizedString> &subTypes = {});
     virtual ~DealerInfo();
 
     QString baseName() const;
@@ -100,7 +100,6 @@ public:
     QString baseIdString() const;
     int baseId() const;
 
-    void addSubtype(int id, const KLocalizedString &untranslatedName);
     QList<int> subtypeIds() const;
 
     QList<int> distinctIds() const;
@@ -114,7 +113,7 @@ protected:
     QString m_baseIdString;
     int m_baseId;
 
-    QMap<int, KLocalizedString> m_subtypes;
+    const QMap<int, KLocalizedString> m_subtypes;
 };
 
 class DealerInfoList

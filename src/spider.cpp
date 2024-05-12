@@ -464,12 +464,15 @@ static class SpideDealerInfo : public DealerInfo
 {
 public:
     SpideDealerInfo()
-        : DealerInfo(kli18n("Spider"), SpiderGeneralId)
+        : DealerInfo(kli18n("Spider"),
+                     SpiderGeneralId,
+                     {
+                         {SpiderOneSuitId, kli18n("Spider (1 Suit)")},
+                         {SpiderTwoSuitId, kli18n("Spider (2 Suit)")},
+                         {SpiderThreeSuitId, kli18n("Spider (3 Suit)")},
+                         {SpiderFourSuitId, kli18n("Spider (4 Suit)")},
+                     })
     {
-        addSubtype(SpiderOneSuitId, kli18n("Spider (1 Suit)"));
-        addSubtype(SpiderTwoSuitId, kli18n("Spider (2 Suit)"));
-        addSubtype(SpiderThreeSuitId, kli18n("Spider (3 Suit)"));
-        addSubtype(SpiderFourSuitId, kli18n("Spider (4 Suit)"));
     }
 
     DealerScene *createGame() const override

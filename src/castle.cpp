@@ -316,15 +316,18 @@ static class CastleDealerInfo : public DealerInfo
 {
 public:
     CastleDealerInfo()
-        : DealerInfo(kli18n("Castle"), CastleGeneralId)
+        : DealerInfo(kli18n("Castle"),
+                     CastleGeneralId,
+                     {
+                         {CastleBeleagueredId, kli18n("Beleaguered Castle")},
+                         {CastleCitadelId, kli18n("Citadel")},
+                         {CastleExiledKingsId, kli18n("Exiled Kings")},
+                         {CastleStreetAlleyId, kli18n("Streets and Alleys")},
+                         {CastleSiegecraftId, kli18n("Siegecraft")},
+                         {CastleStrongholdId, kli18n("Stronghold")},
+                         {CastleCustomId, kli18n("Castle (Custom)")},
+                     })
     {
-        addSubtype(CastleBeleagueredId, kli18n("Beleaguered Castle"));
-        addSubtype(CastleCitadelId, kli18n("Citadel"));
-        addSubtype(CastleExiledKingsId, kli18n("Exiled Kings"));
-        addSubtype(CastleStreetAlleyId, kli18n("Streets and Alleys"));
-        addSubtype(CastleSiegecraftId, kli18n("Siegecraft"));
-        addSubtype(CastleStrongholdId, kli18n("Stronghold"));
-        addSubtype(CastleCustomId, kli18n("Castle (Custom)"));
     }
 
     DealerScene *createGame() const override

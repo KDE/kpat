@@ -37,9 +37,10 @@
 
 #include "dealerinfo.h"
 
-DealerInfo::DealerInfo(const KLocalizedString &untranslatedBaseName, int baseId)
+DealerInfo::DealerInfo(const KLocalizedString &untranslatedBaseName, int baseId, const QMap<int, KLocalizedString> &subTypes)
     : m_baseName(untranslatedBaseName)
     , m_baseId(baseId)
+    , m_subtypes(subTypes)
 {
     DealerInfoList::self()->add(this);
 
@@ -73,11 +74,6 @@ QString DealerInfo::baseIdString() const
 int DealerInfo::baseId() const
 {
     return m_baseId;
-}
-
-void DealerInfo::addSubtype(int id, const KLocalizedString &untranslatedName)
-{
-    m_subtypes.insert(id, untranslatedName);
 }
 
 QList<int> DealerInfo::subtypeIds() const

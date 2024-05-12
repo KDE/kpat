@@ -310,10 +310,13 @@ static class KlondikeDealerInfo : public DealerInfo
 {
 public:
     KlondikeDealerInfo()
-        : DealerInfo(kli18n("Klondike"), DealerInfo::KlondikeGeneralId)
+        : DealerInfo(kli18n("Klondike"),
+                     DealerInfo::KlondikeGeneralId,
+                     {
+                         {KlondikeDrawOneId, kli18n("Klondike (Draw 1)")},
+                         {KlondikeDrawThreeId, kli18n("Klondike (Draw 3)")},
+                     })
     {
-        addSubtype(KlondikeDrawOneId, kli18n("Klondike (Draw 1)"));
-        addSubtype(KlondikeDrawThreeId, kli18n("Klondike (Draw 3)"));
     }
 
     DealerScene *createGame() const override
