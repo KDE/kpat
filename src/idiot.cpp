@@ -41,7 +41,7 @@
 #include "dealerinfo.h"
 #include "patsolve/idiotsolver.h"
 // KF
-#include <KLocalizedString>
+#include <KLazyLocalizedString>
 
 Idiot::Idiot(const DealerInfo *di)
     : DealerScene(di)

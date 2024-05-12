@@ -42,7 +42,7 @@
 #include "pileutils.h"
 #include "speeds.h"
 // KF
-#include <KLocalizedString>
+#include <KLazyLocalizedString>
 
 Fortyeight::Fortyeight(const DealerInfo *di)
     : DealerScene(di)

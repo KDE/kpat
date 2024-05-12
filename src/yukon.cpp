@@ -41,7 +41,7 @@
 #include "patsolve/yukonsolver.h"
 #include "pileutils.h"
 // KF
-#include <KLocalizedString>
+#include <KLazyLocalizedString>
 
 Yukon::Yukon(const DealerInfo *di)
     : DealerScene(di)

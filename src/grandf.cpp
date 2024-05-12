@@ -43,7 +43,7 @@
 #include "pileutils.h"
 #include "speeds.h"
 // KF
-#include <KLocalizedString>
+#include <KLazyLocalizedString>
 
 Grandf::Grandf(const DealerInfo *di)
     : DealerScene(di)

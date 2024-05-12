@@ -42,7 +42,7 @@
 #include "pileutils.h"
 #include "settings.h"
 // KF
-#include <KLocalizedString>
+#include <KLazyLocalizedString>
 
 Simon::Simon(const DealerInfo *di)
     : DealerScene(di)

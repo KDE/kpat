@@ -39,7 +39,7 @@
 #define DEALERINFO_H
 
 // Qt
-#include <KLazyLocalizedString>
+#include <KLocalizedString>
 #include <QByteArray>
 #include <QList>
 #include <QMap>
@@ -92,7 +92,7 @@ public:
         SpiderThreeSuitId = 50
     };
 
-    DealerInfo(const KLazyLocalizedString &untranslatedBaseName, int baseId);
+    DealerInfo(const KLocalizedString &untranslatedBaseName, int baseId);
     virtual ~DealerInfo();
 
     QString baseName() const;
@@ -100,7 +100,7 @@ public:
     QString baseIdString() const;
     int baseId() const;
 
-    void addSubtype(int id, const KLazyLocalizedString &untranslatedName);
+    void addSubtype(int id, const KLocalizedString &untranslatedName);
     QList<int> subtypeIds() const;
 
     QList<int> distinctIds() const;
@@ -110,11 +110,11 @@ public:
     virtual DealerScene *createGame() const = 0;
 
 protected:
-    KLazyLocalizedString m_baseName;
+    KLocalizedString m_baseName;
     QString m_baseIdString;
     int m_baseId;
 
-    QMap<int, KLazyLocalizedString> m_subtypes;
+    QMap<int, KLocalizedString> m_subtypes;
 };
 
 class DealerInfoList

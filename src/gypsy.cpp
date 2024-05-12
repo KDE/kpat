@@ -41,7 +41,7 @@
 #include "patsolve/gypsysolver.h"
 #include "pileutils.h"
 // KF
-#include <KLocalizedString>
+#include <KLazyLocalizedString>
 
 Gypsy::Gypsy(const DealerInfo *di)
     : DealerScene(di)

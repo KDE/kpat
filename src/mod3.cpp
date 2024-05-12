@@ -41,7 +41,7 @@
 #include "dealerinfo.h"
 #include "patsolve/mod3solver.h"
 // KF
-#include <KLocalizedString>
+#include <KLazyLocalizedString>
 
 Mod3::Mod3(const DealerInfo *di)
     : DealerScene(di)

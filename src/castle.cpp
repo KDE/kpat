@@ -25,6 +25,7 @@
 #include "settings.h"
 #include "speeds.h"
 // KF
+#include <KLazyLocalizedString>
 #include <KLocalizedString>
 #include <KSelectAction>
 

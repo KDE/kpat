@@ -37,10 +37,7 @@
 
 #include "dealerinfo.h"
 
-// KF
-#include <KLocalizedString>
-
-DealerInfo::DealerInfo(const KLazyLocalizedString &untranslatedBaseName, int baseId)
+DealerInfo::DealerInfo(const KLocalizedString &untranslatedBaseName, int baseId)
     : m_baseName(untranslatedBaseName)
     , m_baseId(baseId)
 {
@@ -78,7 +75,7 @@ int DealerInfo::baseId() const
     return m_baseId;
 }
 
-void DealerInfo::addSubtype(int id, const KLazyLocalizedString &untranslatedName)
+void DealerInfo::addSubtype(int id, const KLocalizedString &untranslatedName)
 {
     m_subtypes.insert(id, untranslatedName);
 }
@@ -106,7 +103,7 @@ QString DealerInfo::nameForId(int id) const
     if (id == m_baseId)
         return baseName();
 
-    QMap<int, KLazyLocalizedString>::const_iterator it = m_subtypes.find(id);
+    auto it = m_subtypes.find(id);
     if (it != m_subtypes.constEnd())
         return it.value().toString();
     else

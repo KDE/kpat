@@ -46,7 +46,7 @@
 #include "patsolve/golfsolver.h"
 #endif
 // KF
-#include <KLocalizedString>
+#include <KLazyLocalizedString>
 
 Golf::Golf(const DealerInfo *di)
     : DealerScene(di)
