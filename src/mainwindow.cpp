@@ -340,7 +340,7 @@ void MainWindow::helpGame()
 {
     if (m_dealer && m_dealer_map.contains(m_dealer->gameId())) {
         const DealerInfo *di = m_dealer_map.value(m_dealer->gameId());
-        QString anchor = di->untranslatedBaseName().toString();
+        QString anchor = di->untranslatedBaseName();
         anchor = anchor.toLower();
         anchor = anchor.remove(QLatin1Char('\'')).replace(QLatin1Char('&'), QLatin1String("and")).replace(QLatin1Char(' '), QLatin1Char('-'));
         KHelpClient::invokeHelp(QLatin1String("rules-specific.html#") + anchor);
