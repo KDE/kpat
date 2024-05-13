@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-03 00:37+0000\n"
+"POT-Creation-Date: 2024-05-13 00:37+0000\n"
 "PO-Revision-Date: 2024-05-03 07:49+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian\n"
@@ -34,313 +34,313 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "gladimdim@inbox.ru,iip@telus.net"
 
-#: bakersdozen.cpp:68 castle.cpp:357 freecell.cpp:343
+#: bakersdozen.cpp:69 castle.cpp:361 freecell.cpp:347
 #, kde-format
 msgctxt "@title:menu"
 msgid "Popular Variant Presets"
 msgstr "Популярні варіанти"
 
-#: bakersdozen.cpp:69
+#: bakersdozen.cpp:70
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Baker's Dozen"
 msgstr "Чортова дюжина"
 
-#: bakersdozen.cpp:70
+#: bakersdozen.cpp:71
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Spanish Patience"
 msgstr "Іспанський пасьянс"
 
-#: bakersdozen.cpp:71
+#: bakersdozen.cpp:72
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Castles in Spain"
 msgstr "Замки в Іспанії"
 
-#: bakersdozen.cpp:72
+#: bakersdozen.cpp:73
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Portuguese Solitaire"
 msgstr "Португальський пасьянс"
 
-#: bakersdozen.cpp:73 castle.cpp:364 freecell.cpp:349
+#: bakersdozen.cpp:74 castle.cpp:368 freecell.cpp:353
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Custom"
 msgstr "Нетиповий"
 
-#: bakersdozen.cpp:75 castle.cpp:366 freecell.cpp:351
+#: bakersdozen.cpp:76 castle.cpp:370 freecell.cpp:355
 #, kde-format
 msgctxt "@title:menu"
 msgid "Empty Stack Fill"
 msgstr "Заповнення порожнього стосу"
 
-#: bakersdozen.cpp:76 castle.cpp:367 freecell.cpp:352
+#: bakersdozen.cpp:77 castle.cpp:371 freecell.cpp:356
 #, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "Any (Easy)"
 msgstr "Будь-які (простий)"
 
-#: bakersdozen.cpp:77 castle.cpp:368 freecell.cpp:353
+#: bakersdozen.cpp:78 castle.cpp:372 freecell.cpp:357
 #, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "Kings only (Medium)"
 msgstr "Лише королі (середній)"
 
-#: bakersdozen.cpp:78 castle.cpp:369 freecell.cpp:354
+#: bakersdozen.cpp:79 castle.cpp:373 freecell.cpp:358
 #, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "None (Hard)"
 msgstr "Немає (складний)"
 
-#: bakersdozen.cpp:80 castle.cpp:390 spider.cpp:146
+#: bakersdozen.cpp:81 castle.cpp:394 spider.cpp:147
 #, kde-format
 msgctxt "@title:menu"
 msgid "Stack Options"
 msgstr "Параметри колоди"
 
-#: bakersdozen.cpp:81 spider.cpp:148
+#: bakersdozen.cpp:82 spider.cpp:149
 #, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Up (Easier)"
 msgstr "Сорочкою донизу (простіше)"
 
-#: bakersdozen.cpp:82 spider.cpp:147
+#: bakersdozen.cpp:83 spider.cpp:148
 #, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Down (Harder)"
 msgstr "Сорочкою догори (важче)"
 
-#: bakersdozen.cpp:84 castle.cpp:371 freecell.cpp:356
+#: bakersdozen.cpp:85 castle.cpp:375 freecell.cpp:360
 #, kde-format
 msgctxt "@title:menu"
 msgid "Build Sequence"
 msgstr "Послідовність збирання"
 
-#: bakersdozen.cpp:85 castle.cpp:372 freecell.cpp:357
+#: bakersdozen.cpp:86 castle.cpp:376 freecell.cpp:361
 #, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Alternating Color"
 msgstr "Зміна кольорів"
 
-#: bakersdozen.cpp:86 castle.cpp:373 freecell.cpp:358
+#: bakersdozen.cpp:87 castle.cpp:377 freecell.cpp:362
 #, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Matching Suit"
 msgstr "Відповідність масті"
 
-#: bakersdozen.cpp:87 castle.cpp:374 freecell.cpp:359
+#: bakersdozen.cpp:88 castle.cpp:378 freecell.cpp:363
 #, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Rank"
 msgstr "Ранг"
 
-#: bakersdozen.cpp:237 bakersdozen.cpp:239
+#: bakersdozen.cpp:238 bakersdozen.cpp:241
 msgid "Baker's Dozen"
 msgstr "Чортова дюжина"
 
-#: bakersdozen.cpp:240
+#: bakersdozen.cpp:242
 msgid "Spanish Patience"
 msgstr "Іспанський пасьянс"
 
-#: bakersdozen.cpp:241
+#: bakersdozen.cpp:243
 msgid "Castles in Spain"
 msgstr "Замки в Іспанії"
 
-#: bakersdozen.cpp:242
+#: bakersdozen.cpp:244
 msgid "Portuguese Solitaire"
 msgstr "Португальський пасьянс"
 
-#: bakersdozen.cpp:243
+#: bakersdozen.cpp:245
 msgid "Baker's Dozen (Custom)"
 msgstr "Чортова дюжина (нетипова)"
 
-#: castle.cpp:318
+#: castle.cpp:319
 msgid "Castle"
 msgstr "Замок"
 
-#: castle.cpp:320
+#: castle.cpp:322
 msgid "Beleaguered Castle"
 msgstr "Облога замку"
 
-#: castle.cpp:321
+#: castle.cpp:323
 msgid "Citadel"
 msgstr "Цитадель"
 
-#: castle.cpp:322
+#: castle.cpp:324
 msgid "Exiled Kings"
 msgstr "Королі-вигнанці"
 
-#: castle.cpp:323
+#: castle.cpp:325
 msgid "Streets and Alleys"
 msgstr "Вулиці і провулки"
 
-#: castle.cpp:324
+#: castle.cpp:326
 msgid "Siegecraft"
 msgstr "Мистецтво облоги"
 
-#: castle.cpp:325
+#: castle.cpp:327
 msgid "Stronghold"
 msgstr "Твердиня"
 
-#: castle.cpp:326
+#: castle.cpp:328
 msgid "Castle (Custom)"
 msgstr "Замок (нетиповий)"
-
-#: castle.cpp:358
-#, kde-format
-msgctxt "@item:inmenu preset"
-msgid "Beleaguered Castle"
-msgstr "Облога замку"
-
-#: castle.cpp:359
-#, kde-format
-msgctxt "@item:inmenu preset"
-msgid "Citadel"
-msgstr "Цитадель"
-
-#: castle.cpp:360
-#, kde-format
-msgctxt "@item:inmenu preset"
-msgid "Exiled Kings"
-msgstr "Королі-вигнанці"
-
-#: castle.cpp:361
-#, kde-format
-msgctxt "@item:inmenu preset"
-msgid "Streets and Alleys"
-msgstr "Вулиці і провулки"
 
 #: castle.cpp:362
 #, kde-format
 msgctxt "@item:inmenu preset"
+msgid "Beleaguered Castle"
+msgstr "Облога замку"
+
+#: castle.cpp:363
+#, kde-format
+msgctxt "@item:inmenu preset"
+msgid "Citadel"
+msgstr "Цитадель"
+
+#: castle.cpp:364
+#, kde-format
+msgctxt "@item:inmenu preset"
+msgid "Exiled Kings"
+msgstr "Королі-вигнанці"
+
+#: castle.cpp:365
+#, kde-format
+msgctxt "@item:inmenu preset"
+msgid "Streets and Alleys"
+msgstr "Вулиці і провулки"
+
+#: castle.cpp:366
+#, kde-format
+msgctxt "@item:inmenu preset"
 msgid "Siegecraft"
 msgstr "Мистецтво облоги"
 
-#: castle.cpp:363
+#: castle.cpp:367
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Stronghold"
 msgstr "Твердиня"
 
-#: castle.cpp:376 freecell.cpp:361
+#: castle.cpp:380 freecell.cpp:365
 #, kde-format
 msgctxt "@title:menu"
 msgid "Free Cells"
 msgstr "Вільні комірки"
 
-#: castle.cpp:377 freecell.cpp:362
+#: castle.cpp:381 freecell.cpp:366
 #, kde-format
 msgid "0"
 msgstr "0"
 
-#: castle.cpp:378 freecell.cpp:363 freecell.cpp:382
+#: castle.cpp:382 freecell.cpp:367 freecell.cpp:386
 #, kde-format
 msgid "1"
 msgstr "1"
 
-#: castle.cpp:379 freecell.cpp:364 freecell.cpp:383
+#: castle.cpp:383 freecell.cpp:368 freecell.cpp:387
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: castle.cpp:380 freecell.cpp:365 freecell.cpp:384
+#: castle.cpp:384 freecell.cpp:369 freecell.cpp:388
 #, kde-format
 msgid "3"
 msgstr "3"
 
-#: castle.cpp:381 freecell.cpp:366
+#: castle.cpp:385 freecell.cpp:370
 #, kde-format
 msgid "4"
 msgstr "4"
 
-#: castle.cpp:383 freecell.cpp:372
+#: castle.cpp:387 freecell.cpp:376
 #, kde-format
 msgctxt "@title:menu"
 msgid "Stacks"
 msgstr "Стеки"
 
-#: castle.cpp:384 freecell.cpp:368 freecell.cpp:373
+#: castle.cpp:388 freecell.cpp:372 freecell.cpp:377
 #, kde-format
 msgid "6"
 msgstr "6"
 
-#: castle.cpp:385 freecell.cpp:369 freecell.cpp:374
+#: castle.cpp:389 freecell.cpp:373 freecell.cpp:378
 #, kde-format
 msgid "7"
 msgstr "7"
 
-#: castle.cpp:386 freecell.cpp:370 freecell.cpp:375
+#: castle.cpp:390 freecell.cpp:374 freecell.cpp:379
 #, kde-format
 msgid "8"
 msgstr "8"
 
-#: castle.cpp:387 freecell.cpp:376
+#: castle.cpp:391 freecell.cpp:380
 #, kde-format
 msgid "9"
 msgstr "9"
 
-#: castle.cpp:388 freecell.cpp:377
+#: castle.cpp:392 freecell.cpp:381
 #, kde-format
 msgid "10"
 msgstr "10"
 
-#: castle.cpp:391
+#: castle.cpp:395
 #, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Down"
 msgstr "Зображенням донизу"
 
-#: castle.cpp:392
+#: castle.cpp:396
 #, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Up"
 msgstr "Зображенням догори"
 
-#: castle.cpp:393
+#: castle.cpp:397
 #, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Alternating Face Up"
 msgstr "Перемінний показ зображення"
 
-#: castle.cpp:395
+#: castle.cpp:399
 #, kde-format
 msgctxt "@title:menu"
 msgid "Foundation Deal"
 msgstr "Здача в основу"
 
-#: castle.cpp:396
+#: castle.cpp:400
 #, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "None"
 msgstr "Нічого"
 
-#: castle.cpp:397
+#: castle.cpp:401
 #, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "Aces"
 msgstr "Тузи"
 
-#: castle.cpp:398
+#: castle.cpp:402
 #, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "Any"
 msgstr "Будь-які"
 
-#: castle.cpp:400
+#: castle.cpp:404
 #, kde-format
 msgctxt "@title:menu"
 msgid "Layout"
 msgstr "Компонування"
 
-#: castle.cpp:401
+#: castle.cpp:405
 #, kde-format
 msgctxt "@item:inmenu layout"
 msgid "Classic"
 msgstr "Класичне"
 
-#: castle.cpp:402
+#: castle.cpp:406
 #, kde-format
 msgctxt "@item:inmenu layout"
 msgid "Modern"
@@ -420,76 +420,76 @@ msgstr "Припинити поточну гру"
 msgid "Forty & Eight"
 msgstr "Сорок та Вісім"
 
-#: freecell.cpp:307 freecell.cpp:312
+#: freecell.cpp:308 freecell.cpp:314
 msgid "Freecell"
 msgstr "Косинка"
 
-#: freecell.cpp:309
+#: freecell.cpp:311
 msgid "Baker's Game"
 msgstr "Гра Бейкера"
 
-#: freecell.cpp:310
+#: freecell.cpp:312
 msgid "Eight Off"
 msgstr "Вісім вільних"
 
-#: freecell.cpp:311
+#: freecell.cpp:313
 msgid "Forecell"
 msgstr "Порожня комірка"
 
-#: freecell.cpp:313
+#: freecell.cpp:315
 msgid "Seahaven Towers"
 msgstr "Башти Сіхейвен"
 
-#: freecell.cpp:314
+#: freecell.cpp:316
 msgid "Freecell (Custom)"
 msgstr "Косинка (нетипова)"
-
-#: freecell.cpp:344
-#, kde-format
-msgctxt "@item:inmenu preset"
-msgid "Baker's Game"
-msgstr "Гра Бейкера"
-
-#: freecell.cpp:345
-#, kde-format
-msgctxt "@item:inmenu preset"
-msgid "Eight Off"
-msgstr "Вісім вільних"
-
-#: freecell.cpp:346
-#, kde-format
-msgctxt "@item:inmenu preset"
-msgid "Forecell"
-msgstr "Порожня комірка"
-
-#: freecell.cpp:347
-#, kde-format
-msgctxt "@item:inmenu preset"
-msgid "Freecell"
-msgstr "Косинка"
 
 #: freecell.cpp:348
 #, kde-format
 msgctxt "@item:inmenu preset"
+msgid "Baker's Game"
+msgstr "Гра Бейкера"
+
+#: freecell.cpp:349
+#, kde-format
+msgctxt "@item:inmenu preset"
+msgid "Eight Off"
+msgstr "Вісім вільних"
+
+#: freecell.cpp:350
+#, kde-format
+msgctxt "@item:inmenu preset"
+msgid "Forecell"
+msgstr "Порожня комірка"
+
+#: freecell.cpp:351
+#, kde-format
+msgctxt "@item:inmenu preset"
+msgid "Freecell"
+msgstr "Косинка"
+
+#: freecell.cpp:352
+#, kde-format
+msgctxt "@item:inmenu preset"
 msgid "Seahaven Towers"
 msgstr "Башти Сіхейвен"
 
-#: freecell.cpp:367
+#: freecell.cpp:371
 #, kde-format
 msgid "5"
 msgstr "5"
 
-#: freecell.cpp:378
+#: freecell.cpp:382
 #, kde-format
 msgid "11"
 msgstr "11"
 
-#: freecell.cpp:379
+#: freecell.cpp:383
 #, kde-format
 msgid "12"
 msgstr "12"
 
-#: freecell.cpp:381
+#: freecell.cpp:385
 #, kde-format
 msgctxt "@title:menu"
 msgid "Decks"
@@ -511,33 +511,33 @@ msgstr "Циганський"
 msgid "Aces Up"
 msgstr "Тузи вгору"
 
-#: klondike.cpp:134
+#: klondike.cpp:135
 #, kde-format
 msgctxt "@title:menu"
 msgid "Klondike &Options"
 msgstr "П&араметри Клондайка"
 
-#: klondike.cpp:135
+#: klondike.cpp:136
 #, kde-format
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 1"
 msgstr "1 карта"
 
-#: klondike.cpp:136
+#: klondike.cpp:137
 #, kde-format
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 3"
 msgstr "3 карти"
 
-#: klondike.cpp:312
+#: klondike.cpp:313
 msgid "Klondike"
 msgstr "Клондайк"
 
-#: klondike.cpp:314
+#: klondike.cpp:316
 msgid "Klondike (Draw 1)"
 msgstr "Клондайк (колода 1)"
 
-#: klondike.cpp:315
+#: klondike.cpp:317
 msgid "Klondike (Draw 3)"
 msgstr "Клондайк (колода 3)"
 
@@ -558,6 +558,13 @@ msgstr "Головний пенал"
 msgctxt "@info"
 msgid "Loading…"
 msgstr "Завантаження…"
+
+#: libkcardgame/kcardthemewidget.cpp:352
+#, fuzzy, kde-format
+#| msgid "Get New Card Decks..."
+msgctxt "@action:button"
+msgid "Get New Card Decks…"
+msgstr "Отримати нові колоди карт…"
 
 #: main.cpp:89
 #, kde-format
@@ -1053,53 +1060,53 @@ msgstr "Число роздачі:"
 msgid "Simple Simon"
 msgstr "Простак Саймон"
 
-#: spider.cpp:131
+#: spider.cpp:132
 #, kde-format
 msgctxt "@title:menu"
 msgid "Spider &Options"
 msgstr "Па&раметри Павука"
 
-#: spider.cpp:132
+#: spider.cpp:133
 #, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "1 Suit (Easy)"
 msgstr "Одна масть (простий)"
 
-#: spider.cpp:133
+#: spider.cpp:134
 #, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "2 Suits (Medium)"
 msgstr "2 масті (середній)"
 
-#: spider.cpp:134
+#: spider.cpp:135
 #, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "3 Suits (Hard)"
 msgstr "3 масті (складний)"
 
-#: spider.cpp:135
+#: spider.cpp:136
 #, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "4 Suits (Very Hard)"
 msgstr "4 масті (дуже складний)"
 
-#: spider.cpp:466
+#: spider.cpp:467
 msgid "Spider"
 msgstr "Павук"
 
-#: spider.cpp:468
+#: spider.cpp:470
 msgid "Spider (1 Suit)"
 msgstr "Павук (1 масть)"
 
-#: spider.cpp:469
+#: spider.cpp:471
 msgid "Spider (2 Suit)"
 msgstr "Павук (2 масті)"
 
-#: spider.cpp:470
+#: spider.cpp:472
 msgid "Spider (3 Suit)"
 msgstr "Павук (3 масть)"
 
-#: spider.cpp:471
+#: spider.cpp:473
 msgid "Spider (4 Suit)"
 msgstr "Павук (4 масті)"
 
@@ -1216,9 +1223,6 @@ msgstr "Юкон"
 #~ msgstr ""
 #~ "Пропустити вікно вибору і завантажити гру вказаного типу. Можливі "
 #~ "значення: %1"
-
-#~ msgid "Get New Card Decks..."
-#~ msgstr "Отримати нові колоди карт…"
 
 #~ msgid "Opening file failed."
 #~ msgstr "Спроба відкриття файла зазнала невдачі."

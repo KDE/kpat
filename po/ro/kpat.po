@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat-0.7.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-03 00:37+0000\n"
+"POT-Creation-Date: 2024-05-13 00:37+0000\n"
 "PO-Revision-Date: 2022-02-06 19:06+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -26,334 +26,334 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "sergiu@cip.md,ovidiu.b13@gmail.com"
 
-#: bakersdozen.cpp:68 castle.cpp:357 freecell.cpp:343
+#: bakersdozen.cpp:69 castle.cpp:361 freecell.cpp:347
 #, kde-format
 msgctxt "@title:menu"
 msgid "Popular Variant Presets"
 msgstr ""
 
-#: bakersdozen.cpp:69
+#: bakersdozen.cpp:70
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Baker's Dozen"
 msgstr ""
 
-#: bakersdozen.cpp:70
+#: bakersdozen.cpp:71
 #, fuzzy, kde-format
 #| msgid "Spanish Patience"
 msgctxt "@item:inmenu preset"
 msgid "Spanish Patience"
 msgstr "Pasențe spaniole"
 
-#: bakersdozen.cpp:71
+#: bakersdozen.cpp:72
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Castles in Spain"
 msgstr ""
 
-#: bakersdozen.cpp:72
+#: bakersdozen.cpp:73
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Portuguese Solitaire"
 msgstr ""
 
-#: bakersdozen.cpp:73 castle.cpp:364 freecell.cpp:349
+#: bakersdozen.cpp:74 castle.cpp:368 freecell.cpp:353
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgctxt "@item:inmenu preset"
 msgid "Custom"
 msgstr "Personalizat"
 
-#: bakersdozen.cpp:75 castle.cpp:366 freecell.cpp:351
+#: bakersdozen.cpp:76 castle.cpp:370 freecell.cpp:355
 #, kde-format
 msgctxt "@title:menu"
 msgid "Empty Stack Fill"
 msgstr ""
 
-#: bakersdozen.cpp:76 castle.cpp:367 freecell.cpp:352
+#: bakersdozen.cpp:77 castle.cpp:371 freecell.cpp:356
 #, fuzzy, kde-format
 #| msgid "Any (Easy)"
 msgctxt "@item:inmenu empty stack fill"
 msgid "Any (Easy)"
 msgstr "Oricare (Ușor)"
 
-#: bakersdozen.cpp:77 castle.cpp:368 freecell.cpp:353
+#: bakersdozen.cpp:78 castle.cpp:372 freecell.cpp:357
 #, fuzzy, kde-format
 #| msgid "2 Suits (Medium)"
 msgctxt "@item:inmenu empty stack fill"
 msgid "Kings only (Medium)"
 msgstr "Două suite (Mediu)"
 
-#: bakersdozen.cpp:78 castle.cpp:369 freecell.cpp:354
+#: bakersdozen.cpp:79 castle.cpp:373 freecell.cpp:358
 #, fuzzy, kde-format
 #| msgid "Face &Down (harder)"
 msgctxt "@item:inmenu empty stack fill"
 msgid "None (Hard)"
 msgstr "Fața &ascunsă (mai dificil)"
 
-#: bakersdozen.cpp:80 castle.cpp:390 spider.cpp:146
+#: bakersdozen.cpp:81 castle.cpp:394 spider.cpp:147
 #, fuzzy, kde-format
 #| msgid "S&tack Options"
 msgctxt "@title:menu"
 msgid "Stack Options"
 msgstr "Opțiuni de stivuire"
 
-#: bakersdozen.cpp:81 spider.cpp:148
+#: bakersdozen.cpp:82 spider.cpp:149
 #, fuzzy, kde-format
 #| msgid "Face &Up (easier)"
 msgctxt "@item:inmenu stack option"
 msgid "Face Up (Easier)"
 msgstr "Fața a&rătată (mai ușor)"
 
-#: bakersdozen.cpp:82 spider.cpp:147
+#: bakersdozen.cpp:83 spider.cpp:148
 #, fuzzy, kde-format
 #| msgid "Face &Down (harder)"
 msgctxt "@item:inmenu stack option"
 msgid "Face Down (Harder)"
 msgstr "Fața &ascunsă (mai dificil)"
 
-#: bakersdozen.cpp:84 castle.cpp:371 freecell.cpp:356
+#: bakersdozen.cpp:85 castle.cpp:375 freecell.cpp:360
 #, kde-format
 msgctxt "@title:menu"
 msgid "Build Sequence"
 msgstr ""
 
-#: bakersdozen.cpp:85 castle.cpp:372 freecell.cpp:357
+#: bakersdozen.cpp:86 castle.cpp:376 freecell.cpp:361
 #, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Alternating Color"
 msgstr ""
 
-#: bakersdozen.cpp:86 castle.cpp:373 freecell.cpp:358
+#: bakersdozen.cpp:87 castle.cpp:377 freecell.cpp:362
 #, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Matching Suit"
 msgstr ""
 
-#: bakersdozen.cpp:87 castle.cpp:374 freecell.cpp:359
+#: bakersdozen.cpp:88 castle.cpp:378 freecell.cpp:363
 #, fuzzy, kde-format
 #| msgid "Rank"
 msgctxt "@item:inmenu build sequence"
 msgid "Rank"
 msgstr "Rang"
 
-#: bakersdozen.cpp:237 bakersdozen.cpp:239
+#: bakersdozen.cpp:238 bakersdozen.cpp:241
 msgid "Baker's Dozen"
 msgstr ""
 
-#: bakersdozen.cpp:240
+#: bakersdozen.cpp:242
 msgid "Spanish Patience"
 msgstr "Pasențe spaniole"
 
-#: bakersdozen.cpp:241
+#: bakersdozen.cpp:243
 msgid "Castles in Spain"
 msgstr ""
 
-#: bakersdozen.cpp:242
+#: bakersdozen.cpp:244
 msgid "Portuguese Solitaire"
 msgstr ""
 
-#: bakersdozen.cpp:243
+#: bakersdozen.cpp:245
 msgid "Baker's Dozen (Custom)"
 msgstr ""
 
-#: castle.cpp:318
+#: castle.cpp:319
 msgid "Castle"
 msgstr "Castel"
 
-#: castle.cpp:320
+#: castle.cpp:322
 msgid "Beleaguered Castle"
 msgstr "Castel asediat"
 
-#: castle.cpp:321
+#: castle.cpp:323
 msgid "Citadel"
 msgstr "Citadelă"
 
-#: castle.cpp:322
+#: castle.cpp:324
 msgid "Exiled Kings"
 msgstr "Regi exilați"
 
-#: castle.cpp:323
+#: castle.cpp:325
 msgid "Streets and Alleys"
 msgstr "Străzi și alei"
 
-#: castle.cpp:324
+#: castle.cpp:326
 msgid "Siegecraft"
 msgstr ""
 
-#: castle.cpp:325
+#: castle.cpp:327
 msgid "Stronghold"
 msgstr ""
 
-#: castle.cpp:326
+#: castle.cpp:328
 msgid "Castle (Custom)"
 msgstr "Castel (Personalizat)"
 
-#: castle.cpp:358
+#: castle.cpp:362
 #, fuzzy, kde-format
 #| msgid "Beleaguered Castle"
 msgctxt "@item:inmenu preset"
 msgid "Beleaguered Castle"
 msgstr "Castel asediat"
 
-#: castle.cpp:359
+#: castle.cpp:363
 #, fuzzy, kde-format
 #| msgid "Citadel"
 msgctxt "@item:inmenu preset"
 msgid "Citadel"
 msgstr "Citadelă"
 
-#: castle.cpp:360
+#: castle.cpp:364
 #, fuzzy, kde-format
 #| msgid "Exiled Kings"
 msgctxt "@item:inmenu preset"
 msgid "Exiled Kings"
 msgstr "Regi exilați"
 
-#: castle.cpp:361
+#: castle.cpp:365
 #, fuzzy, kde-format
 #| msgid "Streets and Alleys"
 msgctxt "@item:inmenu preset"
 msgid "Streets and Alleys"
 msgstr "Străzi și alei"
 
-#: castle.cpp:362
+#: castle.cpp:366
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Siegecraft"
 msgstr ""
 
-#: castle.cpp:363
+#: castle.cpp:367
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Stronghold"
 msgstr ""
 
-#: castle.cpp:376 freecell.cpp:361
+#: castle.cpp:380 freecell.cpp:365
 #, fuzzy, kde-format
 #| msgid "Freecell"
 msgctxt "@title:menu"
 msgid "Free Cells"
 msgstr "Freecell"
 
-#: castle.cpp:377 freecell.cpp:362
+#: castle.cpp:381 freecell.cpp:366
 #, kde-format
 msgid "0"
 msgstr "0"
 
-#: castle.cpp:378 freecell.cpp:363 freecell.cpp:382
+#: castle.cpp:382 freecell.cpp:367 freecell.cpp:386
 #, kde-format
 msgid "1"
 msgstr "1"
 
-#: castle.cpp:379 freecell.cpp:364 freecell.cpp:383
+#: castle.cpp:383 freecell.cpp:368 freecell.cpp:387
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: castle.cpp:380 freecell.cpp:365 freecell.cpp:384
+#: castle.cpp:384 freecell.cpp:369 freecell.cpp:388
 #, kde-format
 msgid "3"
 msgstr "3"
 
-#: castle.cpp:381 freecell.cpp:366
+#: castle.cpp:385 freecell.cpp:370
 #, kde-format
 msgid "4"
 msgstr "4"
 
-#: castle.cpp:383 freecell.cpp:372
+#: castle.cpp:387 freecell.cpp:376
 #, fuzzy, kde-format
 #| msgid "Stacks"
 msgctxt "@title:menu"
 msgid "Stacks"
 msgstr "Stive"
 
-#: castle.cpp:384 freecell.cpp:368 freecell.cpp:373
+#: castle.cpp:388 freecell.cpp:372 freecell.cpp:377
 #, kde-format
 msgid "6"
 msgstr "6"
 
-#: castle.cpp:385 freecell.cpp:369 freecell.cpp:374
+#: castle.cpp:389 freecell.cpp:373 freecell.cpp:378
 #, kde-format
 msgid "7"
 msgstr "7"
 
-#: castle.cpp:386 freecell.cpp:370 freecell.cpp:375
+#: castle.cpp:390 freecell.cpp:374 freecell.cpp:379
 #, kde-format
 msgid "8"
 msgstr "8"
 
-#: castle.cpp:387 freecell.cpp:376
+#: castle.cpp:391 freecell.cpp:380
 #, kde-format
 msgid "9"
 msgstr "9"
 
-#: castle.cpp:388 freecell.cpp:377
+#: castle.cpp:392 freecell.cpp:381
 #, kde-format
 msgid "10"
 msgstr "10"
 
-#: castle.cpp:391
+#: castle.cpp:395
 #, fuzzy, kde-format
 #| msgid "Face &Down (harder)"
 msgctxt "@item:inmenu stack option"
 msgid "Face Down"
 msgstr "Fața &ascunsă (mai dificil)"
 
-#: castle.cpp:392
+#: castle.cpp:396
 #, fuzzy, kde-format
 #| msgid "Face &Up (easier)"
 msgctxt "@item:inmenu stack option"
 msgid "Face Up"
 msgstr "Fața a&rătată (mai ușor)"
 
-#: castle.cpp:393
+#: castle.cpp:397
 #, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Alternating Face Up"
 msgstr ""
 
-#: castle.cpp:395
+#: castle.cpp:399
 #, kde-format
 msgctxt "@title:menu"
 msgid "Foundation Deal"
 msgstr ""
 
-#: castle.cpp:396
+#: castle.cpp:400
 #, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "None"
 msgstr ""
 
-#: castle.cpp:397
+#: castle.cpp:401
 #, fuzzy, kde-format
 #| msgid "Aces Up"
 msgctxt "@item:inmenu foundation deal"
 msgid "Aces"
 msgstr "Sus așii"
 
-#: castle.cpp:398
+#: castle.cpp:402
 #, fuzzy, kde-format
 #| msgid "Any"
 msgctxt "@item:inmenu foundation deal"
 msgid "Any"
 msgstr "Oricare"
 
-#: castle.cpp:400
+#: castle.cpp:404
 #, fuzzy, kde-format
 #| msgid "Layout"
 msgctxt "@title:menu"
 msgid "Layout"
 msgstr "Aranjament"
 
-#: castle.cpp:401
+#: castle.cpp:405
 #, fuzzy, kde-format
 #| msgid "Classic"
 msgctxt "@item:inmenu layout"
 msgid "Classic"
 msgstr "Clasic"
 
-#: castle.cpp:402
+#: castle.cpp:406
 #, fuzzy, kde-format
 #| msgid "Modern"
 msgctxt "@item:inmenu layout"
@@ -435,82 +435,82 @@ msgstr "Abandonează jocul actual"
 msgid "Forty & Eight"
 msgstr "Patruzeci și opt"
 
-#: freecell.cpp:307 freecell.cpp:312
+#: freecell.cpp:308 freecell.cpp:314
 msgid "Freecell"
 msgstr "Freecell"
 
-#: freecell.cpp:309
+#: freecell.cpp:311
 msgid "Baker's Game"
 msgstr ""
 
-#: freecell.cpp:310
+#: freecell.cpp:312
 msgid "Eight Off"
 msgstr ""
 
-#: freecell.cpp:311
+#: freecell.cpp:313
 #, fuzzy
 #| msgid "Freecell"
 msgid "Forecell"
 msgstr "Freecell"
 
-#: freecell.cpp:313
+#: freecell.cpp:315
 msgid "Seahaven Towers"
 msgstr ""
 
-#: freecell.cpp:314
+#: freecell.cpp:316
 #, fuzzy
 #| msgid "Freecell"
 msgid "Freecell (Custom)"
 msgstr "Freecell"
 
-#: freecell.cpp:344
+#: freecell.cpp:348
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Baker's Game"
 msgstr ""
 
-#: freecell.cpp:345
+#: freecell.cpp:349
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Eight Off"
 msgstr ""
 
-#: freecell.cpp:346
+#: freecell.cpp:350
 #, fuzzy, kde-format
 #| msgid "Freecell"
 msgctxt "@item:inmenu preset"
 msgid "Forecell"
 msgstr "Freecell"
 
-#: freecell.cpp:347
+#: freecell.cpp:351
 #, fuzzy, kde-format
 #| msgid "Freecell"
 msgctxt "@item:inmenu preset"
 msgid "Freecell"
 msgstr "Freecell"
 
-#: freecell.cpp:348
+#: freecell.cpp:352
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Seahaven Towers"
 msgstr ""
 
-#: freecell.cpp:367
+#: freecell.cpp:371
 #, kde-format
 msgid "5"
 msgstr ""
 
-#: freecell.cpp:378
+#: freecell.cpp:382
 #, kde-format
 msgid "11"
 msgstr ""
 
-#: freecell.cpp:379
+#: freecell.cpp:383
 #, kde-format
 msgid "12"
 msgstr ""
 
-#: freecell.cpp:381
+#: freecell.cpp:385
 #, kde-format
 msgctxt "@title:menu"
 msgid "Decks"
@@ -532,36 +532,36 @@ msgstr "Țiganul"
 msgid "Aces Up"
 msgstr "Sus așii"
 
-#: klondike.cpp:134
+#: klondike.cpp:135
 #, fuzzy, kde-format
 #| msgid "Klondike &Options"
 msgctxt "@title:menu"
 msgid "Klondike &Options"
 msgstr "&Opțiuni Klondike"
 
-#: klondike.cpp:135
+#: klondike.cpp:136
 #, fuzzy, kde-format
 #| msgid "Draw 1"
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 1"
 msgstr "Trage 1"
 
-#: klondike.cpp:136
+#: klondike.cpp:137
 #, fuzzy, kde-format
 #| msgid "Draw 3"
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 3"
 msgstr "Trage 3"
 
-#: klondike.cpp:312
+#: klondike.cpp:313
 msgid "Klondike"
 msgstr "Klondike"
 
-#: klondike.cpp:314
+#: klondike.cpp:316
 msgid "Klondike (Draw 1)"
 msgstr "Klondike (trage 1)"
 
-#: klondike.cpp:315
+#: klondike.cpp:317
 msgid "Klondike (Draw 3)"
 msgstr "Klondike (trage 3)"
 
@@ -583,6 +583,13 @@ msgstr "Bara de unelte principală"
 msgctxt "@info"
 msgid "Loading…"
 msgstr "Se încarcă..."
+
+#: libkcardgame/kcardthemewidget.cpp:352
+#, fuzzy, kde-format
+#| msgid "Get New Card Decks..."
+msgctxt "@action:button"
+msgid "Get New Card Decks…"
+msgstr "Obține pachete noi de cărți..."
 
 #: main.cpp:89
 #, kde-format
@@ -1122,60 +1129,60 @@ msgstr "Partida numărul:"
 msgid "Simple Simon"
 msgstr "Simple Simon"
 
-#: spider.cpp:131
+#: spider.cpp:132
 #, fuzzy, kde-format
 #| msgid "Spider &Options"
 msgctxt "@title:menu"
 msgid "Spider &Options"
 msgstr "&Opțiuni Păianjen"
 
-#: spider.cpp:132
+#: spider.cpp:133
 #, fuzzy, kde-format
 #| msgid "1 Suit (Easy)"
 msgctxt "@item:inmenu spider option"
 msgid "1 Suit (Easy)"
 msgstr "O suită (Ușor)"
 
-#: spider.cpp:133
+#: spider.cpp:134
 #, fuzzy, kde-format
 #| msgid "2 Suits (Medium)"
 msgctxt "@item:inmenu spider option"
 msgid "2 Suits (Medium)"
 msgstr "Două suite (Mediu)"
 
-#: spider.cpp:134
+#: spider.cpp:135
 #, fuzzy, kde-format
 #| msgid "4 Suits (Hard)"
 msgctxt "@item:inmenu spider option"
 msgid "3 Suits (Hard)"
 msgstr "4 Suite (Dificil)"
 
-#: spider.cpp:135
+#: spider.cpp:136
 #, fuzzy, kde-format
 #| msgid "4 Suits (Hard)"
 msgctxt "@item:inmenu spider option"
 msgid "4 Suits (Very Hard)"
 msgstr "4 Suite (Dificil)"
 
-#: spider.cpp:466
+#: spider.cpp:467
 msgid "Spider"
 msgstr "Păianjen"
 
-#: spider.cpp:468
+#: spider.cpp:470
 msgid "Spider (1 Suit)"
 msgstr "Păianjen (O suită) "
 
-#: spider.cpp:469
+#: spider.cpp:471
 msgid "Spider (2 Suit)"
 msgstr "Păianjen (Două suite)"
 
-#: spider.cpp:470
+#: spider.cpp:472
 #, fuzzy
 #| msgid "Spider (1 Suit)"
 msgid "Spider (3 Suit)"
 msgstr "Păianjen (O suită) "
 
-#: spider.cpp:471
+#: spider.cpp:473
 msgid "Spider (4 Suit)"
 msgstr "Păianjen (4 suite)"
 
@@ -1290,9 +1297,6 @@ msgstr "Yukon"
 #~ msgstr ""
 #~ "Sari peste ecranul de selecție și încarcă un anumit tip de joc. Valori "
 #~ "valide sunt: %1"
-
-#~ msgid "Get New Card Decks..."
-#~ msgstr "Obține pachete noi de cărți..."
 
 #~ msgid "Opening file failed."
 #~ msgstr "Deschiderea fișierului a eșuat."

@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-03 00:37+0000\n"
+"POT-Creation-Date: 2024-05-13 00:37+0000\n"
 "PO-Revision-Date: 2023-04-17 13:18+0300\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -42,7 +42,7 @@ msgstr ""
 "kim.enkovaara@iki.fi,teemu.rytilahti@kde-fi.org,ilpo@iki.fi,,"
 "translator@legisign.org,lasse.liehu@gmail.com,karvonen.jorma@gmail.com"
 
-#: bakersdozen.cpp:68 castle.cpp:357 freecell.cpp:343
+#: bakersdozen.cpp:69 castle.cpp:361 freecell.cpp:347
 #, fuzzy, kde-format
 #| msgid "Popular Variant Presets"
 msgctxt "@title:menu"
@@ -50,112 +50,112 @@ msgid "Popular Variant Presets"
 msgstr "Suosikkimuunnelmien esiasetukset"
 
 # pmap: =:gen=Leipurin tusinan:
-#: bakersdozen.cpp:69
+#: bakersdozen.cpp:70
 #, fuzzy, kde-format
 #| msgid "Baker's Dozen"
 msgctxt "@item:inmenu preset"
 msgid "Baker's Dozen"
 msgstr "Leipurin tusina"
 
-#: bakersdozen.cpp:70
+#: bakersdozen.cpp:71
 #, fuzzy, kde-format
 #| msgid "Spanish Patience"
 msgctxt "@item:inmenu preset"
 msgid "Spanish Patience"
 msgstr "Espanjalainen pasianssi"
 
-#: bakersdozen.cpp:71
+#: bakersdozen.cpp:72
 #, fuzzy, kde-format
 #| msgid "Castles in Spain"
 msgctxt "@item:inmenu preset"
 msgid "Castles in Spain"
 msgstr "Linnat Espanjassa"
 
-#: bakersdozen.cpp:72
+#: bakersdozen.cpp:73
 #, fuzzy, kde-format
 #| msgid "Portuguese Solitaire"
 msgctxt "@item:inmenu preset"
 msgid "Portuguese Solitaire"
 msgstr "Portugalilainen pasianssi"
 
-#: bakersdozen.cpp:73 castle.cpp:364 freecell.cpp:349
+#: bakersdozen.cpp:74 castle.cpp:368 freecell.cpp:353
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgctxt "@item:inmenu preset"
 msgid "Custom"
 msgstr "Mukautettu"
 
-#: bakersdozen.cpp:75 castle.cpp:366 freecell.cpp:351
+#: bakersdozen.cpp:76 castle.cpp:370 freecell.cpp:355
 #, fuzzy, kde-format
 #| msgid "Empty Stack Fill"
 msgctxt "@title:menu"
 msgid "Empty Stack Fill"
 msgstr "Tyhjän pinon täyttö"
 
-#: bakersdozen.cpp:76 castle.cpp:367 freecell.cpp:352
+#: bakersdozen.cpp:77 castle.cpp:371 freecell.cpp:356
 #, fuzzy, kde-format
 #| msgid "Any (Easy)"
 msgctxt "@item:inmenu empty stack fill"
 msgid "Any (Easy)"
 msgstr "Mikä tahansa (helppo)"
 
-#: bakersdozen.cpp:77 castle.cpp:368 freecell.cpp:353
+#: bakersdozen.cpp:78 castle.cpp:372 freecell.cpp:357
 #, fuzzy, kde-format
 #| msgid "Kings only (Medium)"
 msgctxt "@item:inmenu empty stack fill"
 msgid "Kings only (Medium)"
 msgstr "Vain kuninkaat (keskivaikea)"
 
-#: bakersdozen.cpp:78 castle.cpp:369 freecell.cpp:354
+#: bakersdozen.cpp:79 castle.cpp:373 freecell.cpp:358
 #, fuzzy, kde-format
 #| msgid "None (Hard)"
 msgctxt "@item:inmenu empty stack fill"
 msgid "None (Hard)"
 msgstr "Ei mitään (vaikea)"
 
-#: bakersdozen.cpp:80 castle.cpp:390 spider.cpp:146
+#: bakersdozen.cpp:81 castle.cpp:394 spider.cpp:147
 #, fuzzy, kde-format
 #| msgid "Stack Options"
 msgctxt "@title:menu"
 msgid "Stack Options"
 msgstr "Pinovalinnat"
 
-#: bakersdozen.cpp:81 spider.cpp:148
+#: bakersdozen.cpp:82 spider.cpp:149
 #, fuzzy, kde-format
 #| msgid "Face &Up (Easier)"
 msgctxt "@item:inmenu stack option"
 msgid "Face Up (Easier)"
 msgstr "Kuvapuoli &ylöspäin (helpompi)"
 
-#: bakersdozen.cpp:82 spider.cpp:147
+#: bakersdozen.cpp:83 spider.cpp:148
 #, fuzzy, kde-format
 #| msgid "Face &Down (Harder)"
 msgctxt "@item:inmenu stack option"
 msgid "Face Down (Harder)"
 msgstr "Kuvapuoli &alaspäin (vaikeampi)"
 
-#: bakersdozen.cpp:84 castle.cpp:371 freecell.cpp:356
+#: bakersdozen.cpp:85 castle.cpp:375 freecell.cpp:360
 #, fuzzy, kde-format
 #| msgid "Build Sequence"
 msgctxt "@title:menu"
 msgid "Build Sequence"
 msgstr "Rakenna sarja"
 
-#: bakersdozen.cpp:85 castle.cpp:372 freecell.cpp:357
+#: bakersdozen.cpp:86 castle.cpp:376 freecell.cpp:361
 #, fuzzy, kde-format
 #| msgid "Alternating Color"
 msgctxt "@item:inmenu build sequence"
 msgid "Alternating Color"
 msgstr "Vuorotteleva väri"
 
-#: bakersdozen.cpp:86 castle.cpp:373 freecell.cpp:358
+#: bakersdozen.cpp:87 castle.cpp:377 freecell.cpp:362
 #, fuzzy, kde-format
 #| msgid "Matching Suit"
 msgctxt "@item:inmenu build sequence"
 msgid "Matching Suit"
 msgstr "Sama maa"
 
-#: bakersdozen.cpp:87 castle.cpp:374 freecell.cpp:359
+#: bakersdozen.cpp:88 castle.cpp:378 freecell.cpp:363
 #, fuzzy, kde-format
 #| msgid "Rank"
 msgctxt "@item:inmenu build sequence"
@@ -163,228 +163,228 @@ msgid "Rank"
 msgstr "Arvo"
 
 # pmap: =:gen=Leipurin tusinan:
-#: bakersdozen.cpp:237 bakersdozen.cpp:239
+#: bakersdozen.cpp:238 bakersdozen.cpp:241
 msgid "Baker's Dozen"
 msgstr "Leipurin tusina"
 
-#: bakersdozen.cpp:240
+#: bakersdozen.cpp:242
 msgid "Spanish Patience"
 msgstr "Espanjalainen pasianssi"
 
-#: bakersdozen.cpp:241
+#: bakersdozen.cpp:243
 msgid "Castles in Spain"
 msgstr "Linnat Espanjassa"
 
-#: bakersdozen.cpp:242
+#: bakersdozen.cpp:244
 msgid "Portuguese Solitaire"
 msgstr "Portugalilainen pasianssi"
 
-#: bakersdozen.cpp:243
+#: bakersdozen.cpp:245
 msgid "Baker's Dozen (Custom)"
 msgstr "Leipurin tusina (mukautettu)"
 
-#: castle.cpp:318
+#: castle.cpp:319
 msgid "Castle"
 msgstr "Linnoitus"
 
-#: castle.cpp:320
+#: castle.cpp:322
 msgid "Beleaguered Castle"
 msgstr "Piiritetty linnoitus"
 
-#: castle.cpp:321
+#: castle.cpp:323
 msgid "Citadel"
 msgstr "Linnoitus"
 
-#: castle.cpp:322
+#: castle.cpp:324
 msgid "Exiled Kings"
 msgstr "Karkotetut kuninkaat"
 
-#: castle.cpp:323
+#: castle.cpp:325
 msgid "Streets and Alleys"
 msgstr "Kadut ja kujat"
 
-#: castle.cpp:324
+#: castle.cpp:326
 msgid "Siegecraft"
 msgstr "Piiritys"
 
-#: castle.cpp:325
+#: castle.cpp:327
 msgid "Stronghold"
 msgstr "Linnake"
 
-#: castle.cpp:326
+#: castle.cpp:328
 msgid "Castle (Custom)"
 msgstr "Linna (mukautettu)"
 
-#: castle.cpp:358
+#: castle.cpp:362
 #, fuzzy, kde-format
 #| msgid "Beleaguered Castle"
 msgctxt "@item:inmenu preset"
 msgid "Beleaguered Castle"
 msgstr "Piiritetty linnoitus"
 
-#: castle.cpp:359
+#: castle.cpp:363
 #, fuzzy, kde-format
 #| msgid "Citadel"
 msgctxt "@item:inmenu preset"
 msgid "Citadel"
 msgstr "Linnoitus"
 
-#: castle.cpp:360
+#: castle.cpp:364
 #, fuzzy, kde-format
 #| msgid "Exiled Kings"
 msgctxt "@item:inmenu preset"
 msgid "Exiled Kings"
 msgstr "Karkotetut kuninkaat"
 
-#: castle.cpp:361
+#: castle.cpp:365
 #, fuzzy, kde-format
 #| msgid "Streets and Alleys"
 msgctxt "@item:inmenu preset"
 msgid "Streets and Alleys"
 msgstr "Kadut ja kujat"
 
-#: castle.cpp:362
+#: castle.cpp:366
 #, fuzzy, kde-format
 #| msgid "Siegecraft"
 msgctxt "@item:inmenu preset"
 msgid "Siegecraft"
 msgstr "Piiritys"
 
-#: castle.cpp:363
+#: castle.cpp:367
 #, fuzzy, kde-format
 #| msgid "Stronghold"
 msgctxt "@item:inmenu preset"
 msgid "Stronghold"
 msgstr "Linnake"
 
-#: castle.cpp:376 freecell.cpp:361
+#: castle.cpp:380 freecell.cpp:365
 #, fuzzy, kde-format
 #| msgid "Free Cells"
 msgctxt "@title:menu"
 msgid "Free Cells"
 msgstr "Vapaat kentät"
 
-#: castle.cpp:377 freecell.cpp:362
+#: castle.cpp:381 freecell.cpp:366
 #, kde-format
 msgid "0"
 msgstr "0"
 
-#: castle.cpp:378 freecell.cpp:363 freecell.cpp:382
+#: castle.cpp:382 freecell.cpp:367 freecell.cpp:386
 #, kde-format
 msgid "1"
 msgstr "1"
 
-#: castle.cpp:379 freecell.cpp:364 freecell.cpp:383
+#: castle.cpp:383 freecell.cpp:368 freecell.cpp:387
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: castle.cpp:380 freecell.cpp:365 freecell.cpp:384
+#: castle.cpp:384 freecell.cpp:369 freecell.cpp:388
 #, kde-format
 msgid "3"
 msgstr "3"
 
-#: castle.cpp:381 freecell.cpp:366
+#: castle.cpp:385 freecell.cpp:370
 #, kde-format
 msgid "4"
 msgstr "4"
 
-#: castle.cpp:383 freecell.cpp:372
+#: castle.cpp:387 freecell.cpp:376
 #, fuzzy, kde-format
 #| msgid "Stacks"
 msgctxt "@title:menu"
 msgid "Stacks"
 msgstr "Pinot"
 
-#: castle.cpp:384 freecell.cpp:368 freecell.cpp:373
+#: castle.cpp:388 freecell.cpp:372 freecell.cpp:377
 #, kde-format
 msgid "6"
 msgstr "6"
 
-#: castle.cpp:385 freecell.cpp:369 freecell.cpp:374
+#: castle.cpp:389 freecell.cpp:373 freecell.cpp:378
 #, kde-format
 msgid "7"
 msgstr "7"
 
-#: castle.cpp:386 freecell.cpp:370 freecell.cpp:375
+#: castle.cpp:390 freecell.cpp:374 freecell.cpp:379
 #, kde-format
 msgid "8"
 msgstr "8"
 
-#: castle.cpp:387 freecell.cpp:376
+#: castle.cpp:391 freecell.cpp:380
 #, kde-format
 msgid "9"
 msgstr "9"
 
-#: castle.cpp:388 freecell.cpp:377
+#: castle.cpp:392 freecell.cpp:381
 #, kde-format
 msgid "10"
 msgstr "10"
 
-#: castle.cpp:391
+#: castle.cpp:395
 #, fuzzy, kde-format
 #| msgid "Face &Down"
 msgctxt "@item:inmenu stack option"
 msgid "Face Down"
 msgstr "Kuvapuoli &alaspäin"
 
-#: castle.cpp:392
+#: castle.cpp:396
 #, fuzzy, kde-format
 #| msgid "Face &Up"
 msgctxt "@item:inmenu stack option"
 msgid "Face Up"
 msgstr "Kuvapuoli &ylöspäin"
 
-#: castle.cpp:393
+#: castle.cpp:397
 #, fuzzy, kde-format
 #| msgid "Alternating Face &Up"
 msgctxt "@item:inmenu stack option"
 msgid "Alternating Face Up"
 msgstr "&Vuorotellen kuvapuoli ylös"
 
-#: castle.cpp:395
+#: castle.cpp:399
 #, fuzzy, kde-format
 #| msgid "Foundation Deal"
 msgctxt "@title:menu"
 msgid "Foundation Deal"
 msgstr "Peruspakkajako"
 
-#: castle.cpp:396
+#: castle.cpp:400
 #, fuzzy, kde-format
 #| msgid "None"
 msgctxt "@item:inmenu foundation deal"
 msgid "None"
 msgstr "Ei mikään"
 
-#: castle.cpp:397
+#: castle.cpp:401
 #, fuzzy, kde-format
 #| msgid "Aces"
 msgctxt "@item:inmenu foundation deal"
 msgid "Aces"
 msgstr "Ässät"
 
-#: castle.cpp:398
+#: castle.cpp:402
 #, fuzzy, kde-format
 #| msgid "Any"
 msgctxt "@item:inmenu foundation deal"
 msgid "Any"
 msgstr "Mikä tahansa"
 
-#: castle.cpp:400
+#: castle.cpp:404
 #, fuzzy, kde-format
 #| msgid "Layout"
 msgctxt "@title:menu"
 msgid "Layout"
 msgstr "Asettelu"
 
-#: castle.cpp:401
+#: castle.cpp:405
 #, fuzzy, kde-format
 #| msgid "Classic"
 msgctxt "@item:inmenu layout"
 msgid "Classic"
 msgstr "Perinteinen"
 
-#: castle.cpp:402
+#: castle.cpp:406
 #, fuzzy, kde-format
 #| msgid "Modern"
 msgctxt "@item:inmenu layout"
@@ -469,39 +469,39 @@ msgid "Forty & Eight"
 msgstr "48"
 
 # pmap: =:gen=Vapaakentän:
-#: freecell.cpp:307 freecell.cpp:312
+#: freecell.cpp:308 freecell.cpp:314
 msgid "Freecell"
 msgstr "Vapaakenttä"
 
-#: freecell.cpp:309
+#: freecell.cpp:311
 msgid "Baker's Game"
 msgstr "Leipurin tusina"
 
-#: freecell.cpp:310
+#: freecell.cpp:312
 msgid "Eight Off"
 msgstr "Kahdeksan ulos"
 
 # pmap: =:gen=Vapaakentän:
-#: freecell.cpp:311
+#: freecell.cpp:313
 msgid "Forecell"
 msgstr "Forecell"
 
-#: freecell.cpp:313
+#: freecell.cpp:315
 msgid "Seahaven Towers"
 msgstr "Seahaven Towers"
 
-#: freecell.cpp:314
+#: freecell.cpp:316
 msgid "Freecell (Custom)"
 msgstr "Vapaakenttä (mukautettu)"
 
-#: freecell.cpp:344
+#: freecell.cpp:348
 #, fuzzy, kde-format
 #| msgid "Baker's Game"
 msgctxt "@item:inmenu preset"
 msgid "Baker's Game"
 msgstr "Leipurin tusina"
 
-#: freecell.cpp:345
+#: freecell.cpp:349
 #, fuzzy, kde-format
 #| msgid "Eight Off"
 msgctxt "@item:inmenu preset"
@@ -509,7 +509,7 @@ msgid "Eight Off"
 msgstr "Kahdeksan ulos"
 
 # pmap: =:gen=Vapaakentän:
-#: freecell.cpp:346
+#: freecell.cpp:350
 #, fuzzy, kde-format
 #| msgid "Forecell"
 msgctxt "@item:inmenu preset"
@@ -517,36 +517,36 @@ msgid "Forecell"
 msgstr "Forecell"
 
 # pmap: =:gen=Vapaakentän:
-#: freecell.cpp:347
+#: freecell.cpp:351
 #, fuzzy, kde-format
 #| msgid "Freecell"
 msgctxt "@item:inmenu preset"
 msgid "Freecell"
 msgstr "Vapaakenttä"
 
-#: freecell.cpp:348
+#: freecell.cpp:352
 #, fuzzy, kde-format
 #| msgid "Seahaven Towers"
 msgctxt "@item:inmenu preset"
 msgid "Seahaven Towers"
 msgstr "Seahaven Towers"
 
-#: freecell.cpp:367
+#: freecell.cpp:371
 #, kde-format
 msgid "5"
 msgstr "5"
 
-#: freecell.cpp:378
+#: freecell.cpp:382
 #, kde-format
 msgid "11"
 msgstr "11"
 
-#: freecell.cpp:379
+#: freecell.cpp:383
 #, kde-format
 msgid "12"
 msgstr "12"
 
-#: freecell.cpp:381
+#: freecell.cpp:385
 #, fuzzy, kde-format
 #| msgid "Decks"
 msgctxt "@title:menu"
@@ -572,21 +572,21 @@ msgstr "Mustalainen"
 msgid "Aces Up"
 msgstr "Ässät ylös"
 
-#: klondike.cpp:134
+#: klondike.cpp:135
 #, fuzzy, kde-format
 #| msgid "Klondike &Options"
 msgctxt "@title:menu"
 msgid "Klondike &Options"
 msgstr "Kl&ondiken asetukset"
 
-#: klondike.cpp:135
+#: klondike.cpp:136
 #, fuzzy, kde-format
 #| msgid "Draw 1"
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 1"
 msgstr "Nosta 1"
 
-#: klondike.cpp:136
+#: klondike.cpp:137
 #, fuzzy, kde-format
 #| msgid "Draw 3"
 msgctxt "@item:inmenu klondike option"
@@ -594,15 +594,15 @@ msgid "Draw 3"
 msgstr "Nosta 3"
 
 # pmap: =:gen=Klondiken:
-#: klondike.cpp:312
+#: klondike.cpp:313
 msgid "Klondike"
 msgstr "Klondike"
 
-#: klondike.cpp:314
+#: klondike.cpp:316
 msgid "Klondike (Draw 1)"
 msgstr "Klondike (nosta 1)"
 
-#: klondike.cpp:315
+#: klondike.cpp:317
 msgid "Klondike (Draw 3)"
 msgstr "Klondike (nosta 3)"
 
@@ -624,6 +624,13 @@ msgstr "Päätyökalurivi"
 msgctxt "@info"
 msgid "Loading…"
 msgstr "Ladataan…"
+
+#: libkcardgame/kcardthemewidget.cpp:352
+#, fuzzy, kde-format
+#| msgid "Get New Card Decks..."
+msgctxt "@action:button"
+msgid "Get New Card Decks…"
+msgstr "Hae uusia korttipakkoja…"
 
 # pmap: =/gen=KPatiencen/
 # pmap: =/elat=KPatiencesta/
@@ -1165,35 +1172,35 @@ msgstr "Jaon numero:"
 msgid "Simple Simon"
 msgstr "Yksinkertainen Simon"
 
-#: spider.cpp:131
+#: spider.cpp:132
 #, fuzzy, kde-format
 #| msgid "Spider &Options"
 msgctxt "@title:menu"
 msgid "Spider &Options"
 msgstr "&Hämähäkin asetukset"
 
-#: spider.cpp:132
+#: spider.cpp:133
 #, fuzzy, kde-format
 #| msgid "1 Suit (Easy)"
 msgctxt "@item:inmenu spider option"
 msgid "1 Suit (Easy)"
 msgstr "1 maa (helppo)"
 
-#: spider.cpp:133
+#: spider.cpp:134
 #, fuzzy, kde-format
 #| msgid "2 Suits (Medium)"
 msgctxt "@item:inmenu spider option"
 msgid "2 Suits (Medium)"
 msgstr "2 maata (keskitaso)"
 
-#: spider.cpp:134
+#: spider.cpp:135
 #, fuzzy, kde-format
 #| msgid "3 Suits (Hard)"
 msgctxt "@item:inmenu spider option"
 msgid "3 Suits (Hard)"
 msgstr "3 maata (vaikea)"
 
-#: spider.cpp:135
+#: spider.cpp:136
 #, fuzzy, kde-format
 #| msgid "4 Suits (Very Hard)"
 msgctxt "@item:inmenu spider option"
@@ -1201,23 +1208,23 @@ msgid "4 Suits (Very Hard)"
 msgstr "4 maata (hyvin vaikea)"
 
 # pmap: =:gen=Hämähäkin:
-#: spider.cpp:466
+#: spider.cpp:467
 msgid "Spider"
 msgstr "Hämähäkki"
 
-#: spider.cpp:468
+#: spider.cpp:470
 msgid "Spider (1 Suit)"
 msgstr "Hämähäkki (1 maa)"
 
-#: spider.cpp:469
+#: spider.cpp:471
 msgid "Spider (2 Suit)"
 msgstr "Hämähäkki (2 maata)"
 
-#: spider.cpp:470
+#: spider.cpp:472
 msgid "Spider (3 Suit)"
 msgstr "Hämähäkki (3 maata)"
 
-#: spider.cpp:471
+#: spider.cpp:473
 msgid "Spider (4 Suit)"
 msgstr "Hämähäkki (4 maata)"
 
@@ -1332,9 +1339,6 @@ msgstr "Yukon"
 #~ msgstr ""
 #~ "Ohita valintanäyttö ja lataa tietty pelityyppi. Kelvollisia arvoja ovat: "
 #~ "%1"
-
-#~ msgid "Get New Card Decks..."
-#~ msgstr "Hae uusia korttipakkoja…"
 
 #~ msgid "Opening file failed."
 #~ msgstr "Tiedoston avaaminen epäonnistui."

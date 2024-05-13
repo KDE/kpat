@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-03 00:37+0000\n"
+"POT-Creation-Date: 2024-05-13 00:37+0000\n"
 "PO-Revision-Date: 2024-02-25 20:53+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -35,336 +35,336 @@ msgstr ""
 "hydonsingore@mail.educities.edu.tw, franklin@goodhorse.idv.tw, "
 "s8321414@gmail.com, mail@kisaragi-hiu.com"
 
-#: bakersdozen.cpp:68 castle.cpp:357 freecell.cpp:343
+#: bakersdozen.cpp:69 castle.cpp:361 freecell.cpp:347
 #, fuzzy, kde-format
 #| msgid "Popular Variant Presets"
 msgctxt "@title:menu"
 msgid "Popular Variant Presets"
 msgstr "受歡迎的變種預設檔"
 
-#: bakersdozen.cpp:69
+#: bakersdozen.cpp:70
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Baker's Dozen"
 msgstr ""
 
-#: bakersdozen.cpp:70
+#: bakersdozen.cpp:71
 #, fuzzy, kde-format
 #| msgid "Spanish Patience"
 msgctxt "@item:inmenu preset"
 msgid "Spanish Patience"
 msgstr "西班牙接龍"
 
-#: bakersdozen.cpp:71
+#: bakersdozen.cpp:72
 #, fuzzy, kde-format
 #| msgid "Castles in Spain"
 msgctxt "@item:inmenu preset"
 msgid "Castles in Spain"
 msgstr "西班牙城堡"
 
-#: bakersdozen.cpp:72
+#: bakersdozen.cpp:73
 #, fuzzy, kde-format
 #| msgid "Portuguese Solitaire"
 msgctxt "@item:inmenu preset"
 msgid "Portuguese Solitaire"
 msgstr "葡萄牙接龍"
 
-#: bakersdozen.cpp:73 castle.cpp:364 freecell.cpp:349
+#: bakersdozen.cpp:74 castle.cpp:368 freecell.cpp:353
 #, fuzzy, kde-format
 #| msgid "Custom"
 msgctxt "@item:inmenu preset"
 msgid "Custom"
 msgstr "自訂"
 
-#: bakersdozen.cpp:75 castle.cpp:366 freecell.cpp:351
+#: bakersdozen.cpp:76 castle.cpp:370 freecell.cpp:355
 #, kde-format
 msgctxt "@title:menu"
 msgid "Empty Stack Fill"
 msgstr ""
 
-#: bakersdozen.cpp:76 castle.cpp:367 freecell.cpp:352
+#: bakersdozen.cpp:77 castle.cpp:371 freecell.cpp:356
 #, fuzzy, kde-format
 #| msgid "Any (Easy)"
 msgctxt "@item:inmenu empty stack fill"
 msgid "Any (Easy)"
 msgstr "任何（簡單）"
 
-#: bakersdozen.cpp:77 castle.cpp:368 freecell.cpp:353
+#: bakersdozen.cpp:78 castle.cpp:372 freecell.cpp:357
 #, fuzzy, kde-format
 #| msgid "Kings only (Medium)"
 msgctxt "@item:inmenu empty stack fill"
 msgid "Kings only (Medium)"
 msgstr "僅王牌（中等）"
 
-#: bakersdozen.cpp:78 castle.cpp:369 freecell.cpp:354
+#: bakersdozen.cpp:79 castle.cpp:373 freecell.cpp:358
 #, fuzzy, kde-format
 #| msgid "None (Hard)"
 msgctxt "@item:inmenu empty stack fill"
 msgid "None (Hard)"
 msgstr "無（困難）"
 
-#: bakersdozen.cpp:80 castle.cpp:390 spider.cpp:146
+#: bakersdozen.cpp:81 castle.cpp:394 spider.cpp:147
 #, fuzzy, kde-format
 #| msgid "Stack Options"
 msgctxt "@title:menu"
 msgid "Stack Options"
 msgstr "堆疊選項"
 
-#: bakersdozen.cpp:81 spider.cpp:148
+#: bakersdozen.cpp:82 spider.cpp:149
 #, fuzzy, kde-format
 #| msgid "Face &Up (Easier)"
 msgctxt "@item:inmenu stack option"
 msgid "Face Up (Easier)"
 msgstr "亮牌（較簡單）(&U)"
 
-#: bakersdozen.cpp:82 spider.cpp:147
+#: bakersdozen.cpp:83 spider.cpp:148
 #, fuzzy, kde-format
 #| msgid "Face &Down (Harder)"
 msgctxt "@item:inmenu stack option"
 msgid "Face Down (Harder)"
 msgstr "蓋牌（較難）(&D)"
 
-#: bakersdozen.cpp:84 castle.cpp:371 freecell.cpp:356
+#: bakersdozen.cpp:85 castle.cpp:375 freecell.cpp:360
 #, kde-format
 msgctxt "@title:menu"
 msgid "Build Sequence"
 msgstr ""
 
-#: bakersdozen.cpp:85 castle.cpp:372 freecell.cpp:357
+#: bakersdozen.cpp:86 castle.cpp:376 freecell.cpp:361
 #, fuzzy, kde-format
 #| msgid "Alternating Color"
 msgctxt "@item:inmenu build sequence"
 msgid "Alternating Color"
 msgstr "交錯色彩"
 
-#: bakersdozen.cpp:86 castle.cpp:373 freecell.cpp:358
+#: bakersdozen.cpp:87 castle.cpp:377 freecell.cpp:362
 #, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Matching Suit"
 msgstr ""
 
-#: bakersdozen.cpp:87 castle.cpp:374 freecell.cpp:359
+#: bakersdozen.cpp:88 castle.cpp:378 freecell.cpp:363
 #, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Rank"
 msgstr ""
 
-#: bakersdozen.cpp:237 bakersdozen.cpp:239
+#: bakersdozen.cpp:238 bakersdozen.cpp:241
 msgid "Baker's Dozen"
 msgstr ""
 
-#: bakersdozen.cpp:240
+#: bakersdozen.cpp:242
 msgid "Spanish Patience"
 msgstr "西班牙接龍"
 
-#: bakersdozen.cpp:241
+#: bakersdozen.cpp:243
 msgid "Castles in Spain"
 msgstr "西班牙城堡"
 
-#: bakersdozen.cpp:242
+#: bakersdozen.cpp:244
 msgid "Portuguese Solitaire"
 msgstr "葡萄牙接龍"
 
-#: bakersdozen.cpp:243
+#: bakersdozen.cpp:245
 msgid "Baker's Dozen (Custom)"
 msgstr ""
 
-#: castle.cpp:318
+#: castle.cpp:319
 msgid "Castle"
 msgstr "城堡"
 
-#: castle.cpp:320
-msgid "Beleaguered Castle"
-msgstr ""
-
-#: castle.cpp:321
-msgid "Citadel"
-msgstr ""
-
 #: castle.cpp:322
-msgid "Exiled Kings"
+msgid "Beleaguered Castle"
 msgstr ""
 
 #: castle.cpp:323
-msgid "Streets and Alleys"
-msgstr "巷弄"
+msgid "Citadel"
+msgstr ""
 
 #: castle.cpp:324
-msgid "Siegecraft"
+msgid "Exiled Kings"
 msgstr ""
 
 #: castle.cpp:325
+msgid "Streets and Alleys"
+msgstr "巷弄"
+
+#: castle.cpp:326
+msgid "Siegecraft"
+msgstr ""
+
+#: castle.cpp:327
 msgid "Stronghold"
 msgstr ""
 
-#: castle.cpp:326
+#: castle.cpp:328
 msgid "Castle (Custom)"
 msgstr "城堡（自訂）"
 
-#: castle.cpp:358
+#: castle.cpp:362
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Beleaguered Castle"
 msgstr ""
 
-#: castle.cpp:359
+#: castle.cpp:363
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Citadel"
 msgstr ""
 
-#: castle.cpp:360
+#: castle.cpp:364
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Exiled Kings"
 msgstr ""
 
-#: castle.cpp:361
+#: castle.cpp:365
 #, fuzzy, kde-format
 #| msgid "Streets and Alleys"
 msgctxt "@item:inmenu preset"
 msgid "Streets and Alleys"
 msgstr "巷弄"
 
-#: castle.cpp:362
+#: castle.cpp:366
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Siegecraft"
 msgstr ""
 
-#: castle.cpp:363
+#: castle.cpp:367
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Stronghold"
 msgstr ""
 
-#: castle.cpp:376 freecell.cpp:361
+#: castle.cpp:380 freecell.cpp:365
 #, fuzzy, kde-format
 #| msgid "Free Cells"
 msgctxt "@title:menu"
 msgid "Free Cells"
 msgstr "新接龍"
 
-#: castle.cpp:377 freecell.cpp:362
+#: castle.cpp:381 freecell.cpp:366
 #, kde-format
 msgid "0"
 msgstr "0"
 
-#: castle.cpp:378 freecell.cpp:363 freecell.cpp:382
+#: castle.cpp:382 freecell.cpp:367 freecell.cpp:386
 #, kde-format
 msgid "1"
 msgstr "1"
 
-#: castle.cpp:379 freecell.cpp:364 freecell.cpp:383
+#: castle.cpp:383 freecell.cpp:368 freecell.cpp:387
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: castle.cpp:380 freecell.cpp:365 freecell.cpp:384
+#: castle.cpp:384 freecell.cpp:369 freecell.cpp:388
 #, kde-format
 msgid "3"
 msgstr "3"
 
-#: castle.cpp:381 freecell.cpp:366
+#: castle.cpp:385 freecell.cpp:370
 #, kde-format
 msgid "4"
 msgstr "4"
 
-#: castle.cpp:383 freecell.cpp:372
+#: castle.cpp:387 freecell.cpp:376
 #, fuzzy, kde-format
 #| msgid "Stacks"
 msgctxt "@title:menu"
 msgid "Stacks"
 msgstr "堆疊"
 
-#: castle.cpp:384 freecell.cpp:368 freecell.cpp:373
+#: castle.cpp:388 freecell.cpp:372 freecell.cpp:377
 #, kde-format
 msgid "6"
 msgstr "6"
 
-#: castle.cpp:385 freecell.cpp:369 freecell.cpp:374
+#: castle.cpp:389 freecell.cpp:373 freecell.cpp:378
 #, kde-format
 msgid "7"
 msgstr "7"
 
-#: castle.cpp:386 freecell.cpp:370 freecell.cpp:375
+#: castle.cpp:390 freecell.cpp:374 freecell.cpp:379
 #, kde-format
 msgid "8"
 msgstr "8"
 
-#: castle.cpp:387 freecell.cpp:376
+#: castle.cpp:391 freecell.cpp:380
 #, kde-format
 msgid "9"
 msgstr "9"
 
-#: castle.cpp:388 freecell.cpp:377
+#: castle.cpp:392 freecell.cpp:381
 #, kde-format
 msgid "10"
 msgstr "10"
 
-#: castle.cpp:391
+#: castle.cpp:395
 #, fuzzy, kde-format
 #| msgid "Face &Down"
 msgctxt "@item:inmenu stack option"
 msgid "Face Down"
 msgstr "蓋牌(&D)"
 
-#: castle.cpp:392
+#: castle.cpp:396
 #, fuzzy, kde-format
 #| msgid "Face &Up"
 msgctxt "@item:inmenu stack option"
 msgid "Face Up"
 msgstr "亮牌(&U)"
 
-#: castle.cpp:393
+#: castle.cpp:397
 #, fuzzy, kde-format
 #| msgid "Alternating Color"
 msgctxt "@item:inmenu stack option"
 msgid "Alternating Face Up"
 msgstr "交錯色彩"
 
-#: castle.cpp:395
+#: castle.cpp:399
 #, kde-format
 msgctxt "@title:menu"
 msgid "Foundation Deal"
 msgstr ""
 
-#: castle.cpp:396
+#: castle.cpp:400
 #, fuzzy, kde-format
 #| msgid "None"
 msgctxt "@item:inmenu foundation deal"
 msgid "None"
 msgstr "無"
 
-#: castle.cpp:397
+#: castle.cpp:401
 #, fuzzy, kde-format
 #| msgid "Aces Up"
 msgctxt "@item:inmenu foundation deal"
 msgid "Aces"
 msgstr "Aces Up"
 
-#: castle.cpp:398
+#: castle.cpp:402
 #, fuzzy, kde-format
 #| msgid "Any"
 msgctxt "@item:inmenu foundation deal"
 msgid "Any"
 msgstr "任何"
 
-#: castle.cpp:400
+#: castle.cpp:404
 #, fuzzy, kde-format
 #| msgid "Layout"
 msgctxt "@title:menu"
 msgid "Layout"
 msgstr "佈局"
 
-#: castle.cpp:401
+#: castle.cpp:405
 #, fuzzy, kde-format
 #| msgid "Classic"
 msgctxt "@item:inmenu layout"
 msgid "Classic"
 msgstr "經典"
 
-#: castle.cpp:402
+#: castle.cpp:406
 #, fuzzy, kde-format
 #| msgid "Modern"
 msgctxt "@item:inmenu layout"
@@ -445,80 +445,80 @@ msgstr "放棄目前這一局"
 msgid "Forty & Eight"
 msgstr "40 和 8"
 
-#: freecell.cpp:307 freecell.cpp:312
+#: freecell.cpp:308 freecell.cpp:314
 msgid "Freecell"
 msgstr "新接龍（Freecell）"
 
-#: freecell.cpp:309
+#: freecell.cpp:311
 msgid "Baker's Game"
 msgstr ""
 
-#: freecell.cpp:310
+#: freecell.cpp:312
 msgid "Eight Off"
 msgstr ""
 
-#: freecell.cpp:311
+#: freecell.cpp:313
 #, fuzzy
 #| msgid "Freecell"
 msgid "Forecell"
 msgstr "新接龍（Freecell）"
 
-#: freecell.cpp:313
+#: freecell.cpp:315
 msgid "Seahaven Towers"
 msgstr ""
 
-#: freecell.cpp:314
+#: freecell.cpp:316
 msgid "Freecell (Custom)"
 msgstr "新接龍（自訂）"
 
-#: freecell.cpp:344
+#: freecell.cpp:348
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Baker's Game"
 msgstr ""
 
-#: freecell.cpp:345
+#: freecell.cpp:349
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Eight Off"
 msgstr ""
 
-#: freecell.cpp:346
+#: freecell.cpp:350
 #, fuzzy, kde-format
 #| msgid "Freecell"
 msgctxt "@item:inmenu preset"
 msgid "Forecell"
 msgstr "新接龍（Freecell）"
 
-#: freecell.cpp:347
+#: freecell.cpp:351
 #, fuzzy, kde-format
 #| msgid "Freecell"
 msgctxt "@item:inmenu preset"
 msgid "Freecell"
 msgstr "新接龍（Freecell）"
 
-#: freecell.cpp:348
+#: freecell.cpp:352
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Seahaven Towers"
 msgstr ""
 
-#: freecell.cpp:367
+#: freecell.cpp:371
 #, kde-format
 msgid "5"
 msgstr "5"
 
-#: freecell.cpp:378
+#: freecell.cpp:382
 #, kde-format
 msgid "11"
 msgstr "11"
 
-#: freecell.cpp:379
+#: freecell.cpp:383
 #, kde-format
 msgid "12"
 msgstr "12"
 
-#: freecell.cpp:381
+#: freecell.cpp:385
 #, fuzzy, kde-format
 #| msgid "Decks"
 msgctxt "@title:menu"
@@ -541,36 +541,36 @@ msgstr "吉普賽"
 msgid "Aces Up"
 msgstr "Aces Up"
 
-#: klondike.cpp:134
+#: klondike.cpp:135
 #, fuzzy, kde-format
 #| msgid "Klondike &Options"
 msgctxt "@title:menu"
 msgid "Klondike &Options"
 msgstr "Klondike 選項(&O)"
 
-#: klondike.cpp:135
+#: klondike.cpp:136
 #, fuzzy, kde-format
 #| msgid "Draw 1"
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 1"
 msgstr "一次發一張"
 
-#: klondike.cpp:136
+#: klondike.cpp:137
 #, fuzzy, kde-format
 #| msgid "Draw 3"
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 3"
 msgstr "一次發三張"
 
-#: klondike.cpp:312
+#: klondike.cpp:313
 msgid "Klondike"
 msgstr "接龍（Klondike）"
 
-#: klondike.cpp:314
+#: klondike.cpp:316
 msgid "Klondike (Draw 1)"
 msgstr "Klondike（一次發一張）"
 
-#: klondike.cpp:315
+#: klondike.cpp:317
 msgid "Klondike (Draw 3)"
 msgstr "Klondike（一次發三張）"
 
@@ -592,6 +592,13 @@ msgstr "主工具列"
 msgctxt "@info"
 msgid "Loading…"
 msgstr "載入中..."
+
+#: libkcardgame/kcardthemewidget.cpp:352
+#, fuzzy, kde-format
+#| msgid "Get New Card Decks..."
+msgctxt "@action:button"
+msgid "Get New Card Decks…"
+msgstr "取得新的紙牌圖案"
 
 #: main.cpp:89
 #, kde-format
@@ -1125,58 +1132,58 @@ msgstr "遊戲編號："
 msgid "Simple Simon"
 msgstr "Simple Simon"
 
-#: spider.cpp:131
+#: spider.cpp:132
 #, fuzzy, kde-format
 #| msgid "Spider &Options"
 msgctxt "@title:menu"
 msgid "Spider &Options"
 msgstr "Spider 選項(&O)"
 
-#: spider.cpp:132
+#: spider.cpp:133
 #, fuzzy, kde-format
 #| msgid "1 Suit (Easy)"
 msgctxt "@item:inmenu spider option"
 msgid "1 Suit (Easy)"
 msgstr "一種花色（簡單）"
 
-#: spider.cpp:133
+#: spider.cpp:134
 #, fuzzy, kde-format
 #| msgid "2 Suits (Medium)"
 msgctxt "@item:inmenu spider option"
 msgid "2 Suits (Medium)"
 msgstr "兩種花色（中等）"
 
-#: spider.cpp:134
+#: spider.cpp:135
 #, fuzzy, kde-format
 #| msgid "3 Suits (Hard)"
 msgctxt "@item:inmenu spider option"
 msgid "3 Suits (Hard)"
 msgstr "三種花色（困難）"
 
-#: spider.cpp:135
+#: spider.cpp:136
 #, fuzzy, kde-format
 #| msgid "4 Suits (Very Hard)"
 msgctxt "@item:inmenu spider option"
 msgid "4 Suits (Very Hard)"
 msgstr "四種花色（非常困難）"
 
-#: spider.cpp:466
+#: spider.cpp:467
 msgid "Spider"
 msgstr "連環新接龍（Spider）"
 
-#: spider.cpp:468
+#: spider.cpp:470
 msgid "Spider (1 Suit)"
 msgstr "連環新接龍 (1 種花色)"
 
-#: spider.cpp:469
+#: spider.cpp:471
 msgid "Spider (2 Suit)"
 msgstr "連環新接龍 (2 種花色)"
 
-#: spider.cpp:470
+#: spider.cpp:472
 msgid "Spider (3 Suit)"
 msgstr "連環新接龍 (3 種花色)"
 
-#: spider.cpp:471
+#: spider.cpp:473
 msgid "Spider (4 Suit)"
 msgstr "連環新接龍 (4 種花色)"
 
@@ -1285,6 +1292,3 @@ msgstr "育空（Yukon）"
 #~ "Skip the selection screen and load a particular game type. Valid values "
 #~ "are: %1"
 #~ msgstr "跳過選取螢幕，並載入特別的遊戲型態。合法的值包括： %1"
-
-#~ msgid "Get New Card Decks..."
-#~ msgstr "取得新的紙牌圖案"

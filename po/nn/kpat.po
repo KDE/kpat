@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-03 00:37+0000\n"
+"POT-Creation-Date: 2024-05-13 00:37+0000\n"
 "PO-Revision-Date: 2024-05-08 19:58+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
@@ -29,315 +29,315 @@ msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr "gaute@verdsveven.com,karl@huftis.org"
 
-#: bakersdozen.cpp:68 castle.cpp:357 freecell.cpp:343
+#: bakersdozen.cpp:69 castle.cpp:361 freecell.cpp:347
 #, kde-format
 msgctxt "@title:menu"
 msgid "Popular Variant Presets"
 msgstr "Vanlege variantar"
 
-#: bakersdozen.cpp:69
+#: bakersdozen.cpp:70
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Baker's Dozen"
 msgstr "Tretten på dusinet"
 
-#: bakersdozen.cpp:70
+#: bakersdozen.cpp:71
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Spanish Patience"
 msgstr "Spansk kabal"
 
-#: bakersdozen.cpp:71
+#: bakersdozen.cpp:72
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Castles in Spain"
 msgstr "Spanske slott"
 
-#: bakersdozen.cpp:72
+#: bakersdozen.cpp:73
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Portuguese Solitaire"
 msgstr "Portugisisk kabal"
 
-#: bakersdozen.cpp:73 castle.cpp:364 freecell.cpp:349
+#: bakersdozen.cpp:74 castle.cpp:368 freecell.cpp:353
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Custom"
 msgstr "Tilpassa"
 
-#: bakersdozen.cpp:75 castle.cpp:366 freecell.cpp:351
+#: bakersdozen.cpp:76 castle.cpp:370 freecell.cpp:355
 #, kde-format
 msgctxt "@title:menu"
 msgid "Empty Stack Fill"
 msgstr "Legg på ledige plassar"
 
-#: bakersdozen.cpp:76 castle.cpp:367 freecell.cpp:352
+#: bakersdozen.cpp:77 castle.cpp:371 freecell.cpp:356
 #, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "Any (Easy)"
 msgstr "Kva som helst (lett)"
 
-#: bakersdozen.cpp:77 castle.cpp:368 freecell.cpp:353
+#: bakersdozen.cpp:78 castle.cpp:372 freecell.cpp:357
 #, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "Kings only (Medium)"
 msgstr "Berre kongar (middels)"
 
-#: bakersdozen.cpp:78 castle.cpp:369 freecell.cpp:354
+#: bakersdozen.cpp:79 castle.cpp:373 freecell.cpp:358
 #, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "None (Hard)"
 msgstr "Ingenting (vanskeleg)"
 
-#: bakersdozen.cpp:80 castle.cpp:390 spider.cpp:146
+#: bakersdozen.cpp:81 castle.cpp:394 spider.cpp:147
 #, kde-format
 msgctxt "@title:menu"
 msgid "Stack Options"
 msgstr "Stabelval"
 
-#: bakersdozen.cpp:81 spider.cpp:148
+#: bakersdozen.cpp:82 spider.cpp:149
 #, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Up (Easier)"
 msgstr "Framsida opp (lettare)"
 
-#: bakersdozen.cpp:82 spider.cpp:147
+#: bakersdozen.cpp:83 spider.cpp:148
 #, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Down (Harder)"
 msgstr "Framsida ned (vanskelegare)"
 
-#: bakersdozen.cpp:84 castle.cpp:371 freecell.cpp:356
+#: bakersdozen.cpp:85 castle.cpp:375 freecell.cpp:360
 #, kde-format
 msgctxt "@title:menu"
 msgid "Build Sequence"
 msgstr "Byggjesekvens"
 
 # «Farge» er noko anna i norsk kortspel­terminologi (sjå neste tekst).
-#: bakersdozen.cpp:85 castle.cpp:372 freecell.cpp:357
+#: bakersdozen.cpp:86 castle.cpp:376 freecell.cpp:361
 #, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Alternating Color"
 msgstr "Vekslande raud/svart"
 
 # Her tyder «farge» spar (♠), hjarter (♥), kløver (♣) og ruter (♦), ikkje raud/svart.
-#: bakersdozen.cpp:86 castle.cpp:373 freecell.cpp:358
+#: bakersdozen.cpp:87 castle.cpp:377 freecell.cpp:362
 #, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Matching Suit"
 msgstr "Same farge (♠♥♣♦)"
 
-#: bakersdozen.cpp:87 castle.cpp:374 freecell.cpp:359
+#: bakersdozen.cpp:88 castle.cpp:378 freecell.cpp:363
 #, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Rank"
 msgstr "Valør"
 
-#: bakersdozen.cpp:237 bakersdozen.cpp:239
+#: bakersdozen.cpp:238 bakersdozen.cpp:241
 msgid "Baker's Dozen"
 msgstr "Tretten på dusinet"
 
-#: bakersdozen.cpp:240
+#: bakersdozen.cpp:242
 msgid "Spanish Patience"
 msgstr "Spansk kabal"
 
-#: bakersdozen.cpp:241
+#: bakersdozen.cpp:243
 msgid "Castles in Spain"
 msgstr "Spanske slott"
 
-#: bakersdozen.cpp:242
+#: bakersdozen.cpp:244
 msgid "Portuguese Solitaire"
 msgstr "Portugisisk kabal"
 
-#: bakersdozen.cpp:243
+#: bakersdozen.cpp:245
 msgid "Baker's Dozen (Custom)"
 msgstr "Tretten på dusinet (tilpassa)"
 
-#: castle.cpp:318
+#: castle.cpp:319
 msgid "Castle"
 msgstr "Festning"
 
-#: castle.cpp:320
+#: castle.cpp:322
 msgid "Beleaguered Castle"
 msgstr "Omleira festning"
 
-#: castle.cpp:321
+#: castle.cpp:323
 msgid "Citadel"
 msgstr "Citadell"
 
-#: castle.cpp:322
+#: castle.cpp:324
 msgid "Exiled Kings"
 msgstr "Kongar i eksil"
 
-#: castle.cpp:323
+#: castle.cpp:325
 msgid "Streets and Alleys"
 msgstr "Gater og smau"
 
-#: castle.cpp:324
+#: castle.cpp:326
 msgid "Siegecraft"
 msgstr "Omleiringskunst"
 
-#: castle.cpp:325
+#: castle.cpp:327
 msgid "Stronghold"
 msgstr "Høgborg"
 
-#: castle.cpp:326
+#: castle.cpp:328
 msgid "Castle (Custom)"
 msgstr "Festning (tilpassa)"
-
-#: castle.cpp:358
-#, kde-format
-msgctxt "@item:inmenu preset"
-msgid "Beleaguered Castle"
-msgstr "Omleira festning"
-
-#: castle.cpp:359
-#, kde-format
-msgctxt "@item:inmenu preset"
-msgid "Citadel"
-msgstr "Citadell"
-
-#: castle.cpp:360
-#, kde-format
-msgctxt "@item:inmenu preset"
-msgid "Exiled Kings"
-msgstr "Kongar i eksil"
-
-#: castle.cpp:361
-#, kde-format
-msgctxt "@item:inmenu preset"
-msgid "Streets and Alleys"
-msgstr "Gater og smau"
 
 #: castle.cpp:362
 #, kde-format
 msgctxt "@item:inmenu preset"
+msgid "Beleaguered Castle"
+msgstr "Omleira festning"
+
+#: castle.cpp:363
+#, kde-format
+msgctxt "@item:inmenu preset"
+msgid "Citadel"
+msgstr "Citadell"
+
+#: castle.cpp:364
+#, kde-format
+msgctxt "@item:inmenu preset"
+msgid "Exiled Kings"
+msgstr "Kongar i eksil"
+
+#: castle.cpp:365
+#, kde-format
+msgctxt "@item:inmenu preset"
+msgid "Streets and Alleys"
+msgstr "Gater og smau"
+
+#: castle.cpp:366
+#, kde-format
+msgctxt "@item:inmenu preset"
 msgid "Siegecraft"
 msgstr "Omleiringskunst"
 
-#: castle.cpp:363
+#: castle.cpp:367
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Stronghold"
 msgstr "Høgborg"
 
-#: castle.cpp:376 freecell.cpp:361
+#: castle.cpp:380 freecell.cpp:365
 #, kde-format
 msgctxt "@title:menu"
 msgid "Free Cells"
 msgstr "Frie felt"
 
-#: castle.cpp:377 freecell.cpp:362
+#: castle.cpp:381 freecell.cpp:366
 #, kde-format
 msgid "0"
 msgstr "0"
 
-#: castle.cpp:378 freecell.cpp:363 freecell.cpp:382
+#: castle.cpp:382 freecell.cpp:367 freecell.cpp:386
 #, kde-format
 msgid "1"
 msgstr "1"
 
-#: castle.cpp:379 freecell.cpp:364 freecell.cpp:383
+#: castle.cpp:383 freecell.cpp:368 freecell.cpp:387
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: castle.cpp:380 freecell.cpp:365 freecell.cpp:384
+#: castle.cpp:384 freecell.cpp:369 freecell.cpp:388
 #, kde-format
 msgid "3"
 msgstr "3"
 
-#: castle.cpp:381 freecell.cpp:366
+#: castle.cpp:385 freecell.cpp:370
 #, kde-format
 msgid "4"
 msgstr "4"
 
-#: castle.cpp:383 freecell.cpp:372
+#: castle.cpp:387 freecell.cpp:376
 #, kde-format
 msgctxt "@title:menu"
 msgid "Stacks"
 msgstr "Bunkar"
 
-#: castle.cpp:384 freecell.cpp:368 freecell.cpp:373
+#: castle.cpp:388 freecell.cpp:372 freecell.cpp:377
 #, kde-format
 msgid "6"
 msgstr "6"
 
-#: castle.cpp:385 freecell.cpp:369 freecell.cpp:374
+#: castle.cpp:389 freecell.cpp:373 freecell.cpp:378
 #, kde-format
 msgid "7"
 msgstr "7"
 
-#: castle.cpp:386 freecell.cpp:370 freecell.cpp:375
+#: castle.cpp:390 freecell.cpp:374 freecell.cpp:379
 #, kde-format
 msgid "8"
 msgstr "8"
 
-#: castle.cpp:387 freecell.cpp:376
+#: castle.cpp:391 freecell.cpp:380
 #, kde-format
 msgid "9"
 msgstr "9"
 
-#: castle.cpp:388 freecell.cpp:377
+#: castle.cpp:392 freecell.cpp:381
 #, kde-format
 msgid "10"
 msgstr "10"
 
-#: castle.cpp:391
+#: castle.cpp:395
 #, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Down"
 msgstr "Framsida ned"
 
-#: castle.cpp:392
+#: castle.cpp:396
 #, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Up"
 msgstr "Framsida opp"
 
-#: castle.cpp:393
+#: castle.cpp:397
 #, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Alternating Face Up"
 msgstr "Vekslande framside"
 
-#: castle.cpp:395
+#: castle.cpp:399
 #, kde-format
 msgctxt "@title:menu"
 msgid "Foundation Deal"
 msgstr "Startkort på grunnbunkar"
 
-#: castle.cpp:396
+#: castle.cpp:400
 #, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "None"
 msgstr "Ingen"
 
-#: castle.cpp:397
+#: castle.cpp:401
 #, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "Aces"
 msgstr "Ess"
 
-#: castle.cpp:398
+#: castle.cpp:402
 #, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "Any"
 msgstr "Vilkårlege"
 
-#: castle.cpp:400
+#: castle.cpp:404
 #, kde-format
 msgctxt "@title:menu"
 msgid "Layout"
 msgstr "Utforming"
 
-#: castle.cpp:401
+#: castle.cpp:405
 #, kde-format
 msgctxt "@item:inmenu layout"
 msgid "Classic"
 msgstr "Klassisk"
 
-#: castle.cpp:402
+#: castle.cpp:406
 #, kde-format
 msgctxt "@item:inmenu layout"
 msgid "Modern"
@@ -416,43 +416,43 @@ msgstr "Gje opp kabalen"
 msgid "Forty & Eight"
 msgstr "Førti og åtte"
 
-#: freecell.cpp:307 freecell.cpp:312
+#: freecell.cpp:308 freecell.cpp:314
 msgid "Freecell"
 msgstr "Frifelt"
 
 # Forklaring: «Baker’s Game is like Freecell, but the piles are built down by suit.»
 # https://en.wikipedia.org/wiki/Baker%27s_Game
 # Oppkalla etter C.L. Baker (og er altså noko heilt anna enn Baker’s Dozen), så kallar det berre «Bakers spel» på norsk.
-#: freecell.cpp:309
+#: freecell.cpp:311
 msgid "Baker's Game"
 msgstr "Bakers spel"
 
 # Forklaring: «Eight Off is like Freecell, but the piles are built down by suit. You have 8 reserves and only kings can fill empty spaces. Four reserves are filled at game start.».
 # https://en.wikipedia.org/wiki/Eight_Off
-#: freecell.cpp:310
+#: freecell.cpp:312
 msgid "Eight Off"
 msgstr "Åtte ledige"
 
 # Forklaring: «Forecell is like Freecell, but the reserves are filled at game start, and only kings can fill empty spaces.» Brukar «Førfelt», som peikar på at felta er førehandsfylte.
-#: freecell.cpp:311
+#: freecell.cpp:313
 msgid "Forecell"
 msgstr "Førfelt"
 
 # Forklaring: «Seahaven Towers is like Freecell, but with 10 piles which are built down by suit, and only kings can fill empty spaces. Two reserves are filled at game start.»
 # https://en.wikipedia.org/wiki/Seahaven_Towers
 # Går òg under namnet «Sea Towers», så kallar det «Sjøtårn» på norsk.
-#: freecell.cpp:313
+#: freecell.cpp:315
 msgid "Seahaven Towers"
 msgstr "Sjøtårn"
 
-#: freecell.cpp:314
+#: freecell.cpp:316
 msgid "Freecell (Custom)"
 msgstr "Frifelt (tilpassa)"
 
 # Forklaring: «Baker’s Game is like Freecell, but the piles are built down by suit.»
 # https://en.wikipedia.org/wiki/Baker%27s_Game
 # Oppkalla etter C.L. Baker (og er altså noko heilt anna enn Baker’s Dozen), så kallar det berre «Bakers spel» på norsk.
-#: freecell.cpp:344
+#: freecell.cpp:348
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Baker's Game"
@@ -460,20 +460,20 @@ msgstr "Bakers spel"
 
 # Forklaring: «Eight Off is like Freecell, but the piles are built down by suit. You have 8 reserves and only kings can fill empty spaces. Four reserves are filled at game start.».
 # https://en.wikipedia.org/wiki/Eight_Off
-#: freecell.cpp:345
+#: freecell.cpp:349
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Eight Off"
 msgstr "Åtte ledige"
 
 # Forklaring: «Forecell is like Freecell, but the reserves are filled at game start, and only kings can fill empty spaces.» Brukar «Førfelt», som peikar på at felta er førehandsfylte.
-#: freecell.cpp:346
+#: freecell.cpp:350
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Forecell"
 msgstr "Førfelt"
 
-#: freecell.cpp:347
+#: freecell.cpp:351
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Freecell"
@@ -482,28 +482,28 @@ msgstr "Frifelt"
 # Forklaring: «Seahaven Towers is like Freecell, but with 10 piles which are built down by suit, and only kings can fill empty spaces. Two reserves are filled at game start.»
 # https://en.wikipedia.org/wiki/Seahaven_Towers
 # Går òg under namnet «Sea Towers», så kallar det «Sjøtårn» på norsk.
-#: freecell.cpp:348
+#: freecell.cpp:352
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Seahaven Towers"
 msgstr "Sjøtårn"
 
-#: freecell.cpp:367
+#: freecell.cpp:371
 #, kde-format
 msgid "5"
 msgstr "5"
 
-#: freecell.cpp:378
+#: freecell.cpp:382
 #, kde-format
 msgid "11"
 msgstr "11"
 
-#: freecell.cpp:379
+#: freecell.cpp:383
 #, kde-format
 msgid "12"
 msgstr "12"
 
-#: freecell.cpp:381
+#: freecell.cpp:385
 #, kde-format
 msgctxt "@title:menu"
 msgid "Decks"
@@ -525,33 +525,33 @@ msgstr "Sigøynar"
 msgid "Aces Up"
 msgstr "Ess i ermet"
 
-#: klondike.cpp:134
+#: klondike.cpp:135
 #, kde-format
 msgctxt "@title:menu"
 msgid "Klondike &Options"
 msgstr "&Val for Sjuaren"
 
-#: klondike.cpp:135
+#: klondike.cpp:136
 #, kde-format
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 1"
 msgstr "Trekk 1 kort"
 
-#: klondike.cpp:136
+#: klondike.cpp:137
 #, kde-format
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 3"
 msgstr "Trekk 3 kort"
 
-#: klondike.cpp:312
+#: klondike.cpp:313
 msgid "Klondike"
 msgstr "Sjuaren"
 
-#: klondike.cpp:314
+#: klondike.cpp:316
 msgid "Klondike (Draw 1)"
 msgstr "Sjuaren (1 kort)"
 
-#: klondike.cpp:315
+#: klondike.cpp:317
 msgid "Klondike (Draw 3)"
 msgstr "Sjuaren (3 kort)"
 
@@ -572,6 +572,12 @@ msgstr "Hovudverktøylinje"
 msgctxt "@info"
 msgid "Loading…"
 msgstr "Lastar …"
+
+#: libkcardgame/kcardthemewidget.cpp:352
+#, kde-format
+msgctxt "@action:button"
+msgid "Get New Card Decks…"
+msgstr ""
 
 #: main.cpp:89
 #, kde-format
@@ -1059,53 +1065,53 @@ msgstr "Partinummer:"
 msgid "Simple Simon"
 msgstr "Sleipe-Simon"
 
-#: spider.cpp:131
+#: spider.cpp:132
 #, kde-format
 msgctxt "@title:menu"
 msgid "Spider &Options"
 msgstr "&Val for Edderkoppen"
 
-#: spider.cpp:132
+#: spider.cpp:133
 #, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "1 Suit (Easy)"
 msgstr "1 farge (lett)"
 
-#: spider.cpp:133
+#: spider.cpp:134
 #, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "2 Suits (Medium)"
 msgstr "2 fargar (middels)"
 
-#: spider.cpp:134
+#: spider.cpp:135
 #, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "3 Suits (Hard)"
 msgstr "3 fargar (vanskeleg)"
 
-#: spider.cpp:135
+#: spider.cpp:136
 #, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "4 Suits (Very Hard)"
 msgstr "4 fargar (veldig vanskeleg)"
 
-#: spider.cpp:466
+#: spider.cpp:467
 msgid "Spider"
 msgstr "Edderkoppen"
 
-#: spider.cpp:468
+#: spider.cpp:470
 msgid "Spider (1 Suit)"
 msgstr "Edderkoppen (1 farge)"
 
-#: spider.cpp:469
+#: spider.cpp:471
 msgid "Spider (2 Suit)"
 msgstr "Edderkoppen (2 fargar)"
 
-#: spider.cpp:470
+#: spider.cpp:472
 msgid "Spider (3 Suit)"
 msgstr "Edderkoppen (3 fargar)"
 
-#: spider.cpp:471
+#: spider.cpp:473
 msgid "Spider (4 Suit)"
 msgstr "Edderkoppen (4 fargar)"
 
