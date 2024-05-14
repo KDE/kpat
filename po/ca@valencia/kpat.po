@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-13 00:37+0000\n"
-"PO-Revision-Date: 2024-05-03 09:31+0200\n"
+"PO-Revision-Date: 2024-05-13 11:09+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -566,7 +566,7 @@ msgstr "S'està carregant…"
 #, kde-format
 msgctxt "@action:button"
 msgid "Get New Card Decks…"
-msgstr ""
+msgstr "Obtín baralles noves…"
 
 #: main.cpp:89
 #, kde-format
