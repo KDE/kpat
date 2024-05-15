@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-13 00:37+0000\n"
+"POT-Creation-Date: 2024-05-15 00:37+0000\n"
 "PO-Revision-Date: 2022-09-24 16:14+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -606,7 +606,7 @@ msgstr "Laddar..."
 #, fuzzy, kde-format
 #| msgid "Get New Card Decks..."
 msgctxt "@action:button"
-msgid "Get New Card Decks…"
+msgid "Download New Card Decks…"
 msgstr "Hämta nya kortlekar..."
 
 #: main.cpp:89

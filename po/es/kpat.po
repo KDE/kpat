@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-13 00:37+0000\n"
+"POT-Creation-Date: 2024-05-15 00:37+0000\n"
 "PO-Revision-Date: 2024-05-13 23:59+0100\n"
 "Last-Translator: Sofía Priego <spriego@darksylvania.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -567,9 +567,11 @@ msgid "Loading…"
 msgstr "Cargando..."
 
 #: libkcardgame/kcardthemewidget.cpp:352
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Get New Card Decks…"
 msgctxt "@action:button"
-msgid "Get New Card Decks…"
+msgid "Download New Card Decks…"
 msgstr "Obtener nuevas barajas de cartas..."
 
 #: main.cpp:89

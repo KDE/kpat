@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-13 00:37+0000\n"
+"POT-Creation-Date: 2024-05-15 00:37+0000\n"
 "PO-Revision-Date: 2015-12-29 18:10+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: lt <kde-i18n-lt@kde.org>\n"
@@ -559,7 +559,7 @@ msgstr "Įkeliama..."
 #: libkcardgame/kcardthemewidget.cpp:352
 #, kde-format
 msgctxt "@action:button"
-msgid "Get New Card Decks…"
+msgid "Download New Card Decks…"
 msgstr ""
 
 #: main.cpp:89

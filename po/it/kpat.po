@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-13 00:37+0000\n"
-"PO-Revision-Date: 2024-05-03 17:00+0200\n"
+"POT-Creation-Date: 2024-05-15 00:37+0000\n"
+"PO-Revision-Date: 2024-05-13 10:04+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -555,10 +555,11 @@ msgstr "Caricamento…"
 
 #: libkcardgame/kcardthemewidget.cpp:352
 #, fuzzy, kde-format
-#| msgid "Get New Card Decks..."
+#| msgctxt "@action:button"
+#| msgid "Get New Card Decks…"
 msgctxt "@action:button"
-msgid "Get New Card Decks…"
-msgstr "Scarica nuovi mazzi di carte..."
+msgid "Download New Card Decks…"
+msgstr "Ottieni nuovi mazzi di carte…"
 
 #: main.cpp:89
 #, kde-format
