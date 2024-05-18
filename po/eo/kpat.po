@@ -1,16 +1,16 @@
 # Esperantaj mesaĝoj por "kpat"
 # Copyright (C) 1998 Free Software Foundation, Inc.
 # Wolfram Diestel <diestel@rzaix340.rz.uni-leipzig.de>, 1998.
-# Oliver Kellogg <okellogg@users.sourceforge.net>, 2023.
+# Oliver Kellogg <olivermkellogg@gmail.com>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-15 00:36+0000\n"
-"PO-Revision-Date: 2023-10-15 09:42+0100\n"
-"Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
-"Language-Team: Esperanto <eo@li.org>\n"
+"PO-Revision-Date: 2024-05-15 09:56+0100\n"
+"Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
+"Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +26,7 @@ msgstr "Wolfram Diestel,Oliver Kellogg"
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "wolfram@steloj.de,okellogg@users.sourceforge.net"
+msgstr "wolfram@steloj.de,olivermkellogg@gmail.com"
 
 #: bakersdozen.cpp:68 castle.cpp:357 freecell.cpp:343
 #, kde-format
@@ -732,7 +732,7 @@ msgstr "&Ebligi Aŭtomatan faligon"
 #: mainwindow.cpp:254
 #, kde-format
 msgid "E&nable Solver"
-msgstr "E&bligi Solvanton"
+msgstr "Ebligi Solva&nton"
 
 #: mainwindow.cpp:259
 #, kde-format
@@ -807,7 +807,7 @@ msgstr "Luda Etoso"
 #: mainwindow.cpp:433
 #, kde-format
 msgid "Select a theme for non-card game elements"
-msgstr "Elekti temon por ne-kartludaj elementoj"
+msgstr "Elekti etoson por ne-kartludaj elementoj"
 
 #: mainwindow.cpp:511
 #, kde-format
@@ -901,7 +901,7 @@ msgstr "Mod3"
 #: numbereddealdialog.cpp:36
 #, kde-format
 msgid "New Numbered Deal"
-msgstr "Nova Numera Interkonsento"
+msgstr "Nova Numerita Disdono"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: numbereddealdialog.cpp:51 statisticsdialog.ui:30
@@ -912,7 +912,7 @@ msgstr "Ludo:"
 #: numbereddealdialog.cpp:55
 #, kde-format
 msgid "Deal number:"
-msgstr "Numero de interkonsento:"
+msgstr "Numero de disdono:"
 
 #: simon.cpp:168
 msgid "Simple Simon"
@@ -1031,6 +1031,3 @@ msgstr "Minimuma nombro da movoj:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Yukon"
-
-#~ msgid "Change Appearance..."
-#~ msgstr "Ŝanĝi Aspekton..."
