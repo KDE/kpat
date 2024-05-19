@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-15 00:37+0000\n"
-"PO-Revision-Date: 2024-05-17 13:52+0300\n"
+"PO-Revision-Date: 2024-05-18 14:14+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -98,7 +98,7 @@ msgstr "מלכים בלבד (בינוני)"
 #, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "None (Hard)"
-msgstr ""
+msgstr "ללא (קשה)"
 
 #: bakersdozen.cpp:81 castle.cpp:394 spider.cpp:147
 #, kde-format
@@ -314,7 +314,7 @@ msgstr "פנים גלויות מתחלף"
 #, kde-format
 msgctxt "@title:menu"
 msgid "Foundation Deal"
-msgstr ""
+msgstr "חלוקת ערימת היסוד"
 
 #: castle.cpp:400
 #, kde-format
@@ -403,6 +403,9 @@ msgid ""
 "\n"
 "A loss will be recorded in the statistics if the current game is abandoned."
 msgstr ""
+"התקבלה בקשה למשחק חדש, בעוד אנו בעיצומו של משחק אחר.\n"
+"\n"
+"בסטטיסטיקה יתועד הפסד עקב בחירה לנטוש את המשחק."
 
 #: dealer.cpp:1755
 #, kde-format
