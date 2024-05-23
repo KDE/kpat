@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-15 00:37+0000\n"
-"PO-Revision-Date: 2024-05-18 14:14+0300\n"
+"PO-Revision-Date: 2024-05-22 21:59+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -82,11 +82,10 @@ msgid "Empty Stack Fill"
 msgstr ""
 
 #: bakersdozen.cpp:77 castle.cpp:371 freecell.cpp:356
-#, fuzzy, kde-format
-#| msgid "1 Suit (Easy)"
+#, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "Any (Easy)"
-msgstr "סדרה אחת (קל)"
+msgstr "כלשהו (קל)"
 
 #: bakersdozen.cpp:78 castle.cpp:372 freecell.cpp:357
 #, kde-format
@@ -566,7 +565,7 @@ msgstr "בטעינה…"
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Card Decks…"
-msgstr ""
+msgstr "הורדת חפיסות קלפים חדשות…"
 
 #: main.cpp:89
 #, kde-format
