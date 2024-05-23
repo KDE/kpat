@@ -1,7 +1,7 @@
 # Translation for kpat.po to Euskara/Basque (eu).
 # Copyright (C) 2005-2023 This file is copyright:
 # This file is distributed under the same license as the kpat package.
-# KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>.
+# SPDX-FileCopyrightText: 2024 KDE euskaratzeko proiektuko arduraduna <xalba@ni.eus>
 #
 # Translators:
 # Ion Gaztañaga <igaztanaga@gmail.com>, 2005.
@@ -14,14 +14,14 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-15 00:36+0000\n"
-"PO-Revision-Date: 2023-01-10 22:59+0100\n"
+"PO-Revision-Date: 2024-05-22 22:14+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.12.1\n"
+"X-Generator: Lokalize 24.02.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
@@ -343,7 +343,7 @@ msgstr "Utzi uneko jokoa"
 
 #: fortyeight.cpp:229
 msgid "Forty & Eight"
-msgstr "Berrogeita &zortzi"
+msgstr "Berrogei eta zortzi"
 
 #: freecell.cpp:307 freecell.cpp:312 freecell.cpp:347
 #, kde-format
@@ -436,11 +436,11 @@ msgstr "Klondike"
 
 #: klondike.cpp:314
 msgid "Klondike (Draw 1)"
-msgstr "Klondike (banaka)"
+msgstr "Klondike (Atera 1)"
 
 #: klondike.cpp:315
 msgid "Klondike (Draw 3)"
-msgstr "Klondike (hirunaka)"
+msgstr "Klondike (Atera 3)"
 
 #. i18n: ectx: Menu (move)
 #: kpatui.rc:23
