@@ -2,6 +2,7 @@
 # traduction de kpat.po en français
 # traduction de kpat.po en Français
 # First-Translator : 1999-02-02
+# SPDX-FileCopyrightText: 2013, 2021, 2022, 2024 Xavier Besnard <xavier.besnard@kde.org>
 # Serge "sergio" Tellène <tells@mygale.org>
 # Philippe Thomin <Philippe.Thomin@univ-valenciennes.fr>
 # Gérard Delafond <gerard@delafond.org>, 2002, 2004.
@@ -15,7 +16,6 @@
 # Stanislas Zeller <uncensored.assault@gmail.com>, 2008.
 # Mickaël Sibelle <kimael@gmail.com>, 2009.
 # Sébastien Renard <renard@kde.org>, 2012, 2013, 2015.
-# Xavier Besnard <xavier.besnard@kde.org>, 2013, 2021, 2022.
 # Simon Depiets <sdepiets@gmail.com>, 2017, 2018, 2020.
 # Xavier Besnard <xavier.besnard@kde.org>, 2023.
 # Update : 1999-03-16
@@ -25,9 +25,9 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-15 00:37+0000\n"
-"PO-Revision-Date: 2023-01-08 12:55+0100\n"
-"Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
-"Language-Team: French <kde-francophone@kde.org>\n"
+"PO-Revision-Date: 2024-05-27 17:37+0200\n"
+"Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
+"Language-Team: French <French <kde-francophone@kde.org>>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,7 +36,7 @@ msgstr ""
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
-"X-Generator: Lokalize 22.12.1\n"
+"X-Generator: Lokalize 23.08.5\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -53,120 +53,103 @@ msgstr ""
 "com, renard@kde.org, sdepiets@gmail.com"
 
 #: bakersdozen.cpp:69 castle.cpp:361 freecell.cpp:347
-#, fuzzy, kde-format
-#| msgid "Popular Variant Presets"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Popular Variant Presets"
 msgstr "Préréglages de variations populaires"
 
 #: bakersdozen.cpp:70
-#, fuzzy, kde-format
-#| msgid "Baker's Dozen"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Baker's Dozen"
 msgstr "Treize à la douzaine"
 
 #: bakersdozen.cpp:71
-#, fuzzy, kde-format
-#| msgid "Spanish Patience"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Spanish Patience"
 msgstr "Patience espagnole"
 
 #: bakersdozen.cpp:72
-#, fuzzy, kde-format
-#| msgid "Castles in Spain"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Castles in Spain"
 msgstr "Châteaux en Espagne"
 
 #: bakersdozen.cpp:73
-#, fuzzy, kde-format
-#| msgid "Portuguese Solitaire"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Portuguese Solitaire"
 msgstr "Solitaire portugais"
 
 #: bakersdozen.cpp:74 castle.cpp:368 freecell.cpp:353
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Custom"
 msgstr "Personnalisé"
 
 #: bakersdozen.cpp:76 castle.cpp:370 freecell.cpp:355
-#, fuzzy, kde-format
-#| msgid "Empty Stack Fill"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Empty Stack Fill"
-msgstr "Vider le remplissage de la pile"
+msgstr "Remplissage de la pile vide"
 
 #: bakersdozen.cpp:77 castle.cpp:371 freecell.cpp:356
-#, fuzzy, kde-format
-#| msgid "Any (Easy)"
+#, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "Any (Easy)"
-msgstr "Tout (Facile)"
+msgstr "Quelconque (Facile)"
 
 #: bakersdozen.cpp:78 castle.cpp:372 freecell.cpp:357
-#, fuzzy, kde-format
-#| msgid "Kings only (Medium)"
+#, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "Kings only (Medium)"
 msgstr "Rois uniquement (Moyen)"
 
 #: bakersdozen.cpp:79 castle.cpp:373 freecell.cpp:358
-#, fuzzy, kde-format
-#| msgid "None (Hard)"
+#, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "None (Hard)"
 msgstr "Aucun (Difficile)"
 
 #: bakersdozen.cpp:81 castle.cpp:394 spider.cpp:147
-#, fuzzy, kde-format
-#| msgid "Stack Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Stack Options"
 msgstr "Options d'empilage"
 
 #: bakersdozen.cpp:82 spider.cpp:149
-#, fuzzy, kde-format
-#| msgid "Face &Up (Easier)"
+#, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Up (Easier)"
-msgstr "Face montrée (Plus facile)"
+msgstr "Coté avec les faces (Plus facile)"
 
 #: bakersdozen.cpp:83 spider.cpp:148
-#, fuzzy, kde-format
-#| msgid "Face &Down (Harder)"
+#, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Down (Harder)"
 msgstr "Face cachée (Plus difficile)"
 
 #: bakersdozen.cpp:85 castle.cpp:375 freecell.cpp:360
-#, fuzzy, kde-format
-#| msgid "Build Sequence"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Build Sequence"
-msgstr "Séquence de construction"
+msgstr "Construire une séquence"
 
 #: bakersdozen.cpp:86 castle.cpp:376 freecell.cpp:361
-#, fuzzy, kde-format
-#| msgid "Alternating Color"
+#, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Alternating Color"
-msgstr "Couleur alternative"
+msgstr "Couleur alternée"
 
 #: bakersdozen.cpp:87 castle.cpp:377 freecell.cpp:362
-#, fuzzy, kde-format
-#| msgid "Matching Suit"
+#, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Matching Suit"
-msgstr "Suite correcte"
+msgstr "Combinaison correcte"
 
 #: bakersdozen.cpp:88 castle.cpp:378 freecell.cpp:363
-#, fuzzy, kde-format
-#| msgid "Rank"
+#, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Rank"
 msgstr "Classement"
@@ -224,50 +207,43 @@ msgid "Castle (Custom)"
 msgstr "Château (Personnalisé)"
 
 #: castle.cpp:362
-#, fuzzy, kde-format
-#| msgid "Beleaguered Castle"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Beleaguered Castle"
 msgstr "Château assiégé"
 
 #: castle.cpp:363
-#, fuzzy, kde-format
-#| msgid "Citadel"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Citadel"
 msgstr "Citadelle"
 
 #: castle.cpp:364
-#, fuzzy, kde-format
-#| msgid "Exiled Kings"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Exiled Kings"
 msgstr "Rois exilés"
 
 #: castle.cpp:365
-#, fuzzy, kde-format
-#| msgid "Streets and Alleys"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Streets and Alleys"
 msgstr "Rues et allées"
 
 #: castle.cpp:366
-#, fuzzy, kde-format
-#| msgid "Siegecraft"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Siegecraft"
 msgstr "Engin de siège"
 
 #: castle.cpp:367
-#, fuzzy, kde-format
-#| msgid "Stronghold"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Stronghold"
 msgstr "Forteresse"
 
 #: castle.cpp:380 freecell.cpp:365
-#, fuzzy, kde-format
-#| msgid "Free Cells"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Free Cells"
 msgstr "Cellules libres"
@@ -298,8 +274,7 @@ msgid "4"
 msgstr "4"
 
 #: castle.cpp:387 freecell.cpp:376
-#, fuzzy, kde-format
-#| msgid "Stacks"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Stacks"
 msgstr "Piles"
@@ -330,71 +305,61 @@ msgid "10"
 msgstr "10"
 
 #: castle.cpp:395
-#, fuzzy, kde-format
-#| msgid "Face &Down"
+#, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Down"
-msgstr "Face &cachée"
+msgstr "Face cachée"
 
 #: castle.cpp:396
-#, fuzzy, kde-format
-#| msgid "Face &Up"
+#, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Up"
-msgstr "Face m&ontrée"
+msgstr "Côté face"
 
 #: castle.cpp:397
-#, fuzzy, kde-format
-#| msgid "Alternating Face &Up"
+#, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Alternating Face Up"
-msgstr "Face m&ontrée en alternance"
+msgstr "Côté face avec alternance"
 
 #: castle.cpp:399
-#, fuzzy, kde-format
-#| msgid "Foundation Deal"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Foundation Deal"
-msgstr "Contrat de fondation"
+msgstr "Contrat de base"
 
 #: castle.cpp:400
-#, fuzzy, kde-format
-#| msgid "None"
+#, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "None"
 msgstr "Aucun"
 
 #: castle.cpp:401
-#, fuzzy, kde-format
-#| msgid "Aces"
+#, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "Aces"
 msgstr "As"
 
 #: castle.cpp:402
-#, fuzzy, kde-format
-#| msgid "Any"
+#, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "Any"
 msgstr "Quelconque"
 
 #: castle.cpp:404
-#, fuzzy, kde-format
-#| msgid "Layout"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Layout"
 msgstr "Disposition"
 
 #: castle.cpp:405
-#, fuzzy, kde-format
-#| msgid "Classic"
+#, kde-format
 msgctxt "@item:inmenu layout"
 msgid "Classic"
 msgstr "Classique"
 
 #: castle.cpp:406
-#, fuzzy, kde-format
-#| msgid "Modern"
+#, kde-format
 msgctxt "@item:inmenu layout"
 msgid "Modern"
 msgstr "Moderne"
@@ -441,8 +406,7 @@ msgid "Solver: This game is lost."
 msgstr "Outil de résolution : cette partie est perdue."
 
 #: dealer.cpp:1349
-#, fuzzy, kde-format
-#| msgid "Solver: Calculating..."
+#, kde-format
 msgid "Solver: Calculating…"
 msgstr "Outil de résolution : calcul en cours..."
 
@@ -459,18 +423,16 @@ msgstr ""
 "la partie actuelle."
 
 #: dealer.cpp:1755
-#, fuzzy, kde-format
-#| msgid "Abandon Current Game?"
+#, kde-format
 msgctxt "@title:window"
 msgid "Abandon Current Game?"
-msgstr "Abandonner la partie actuelle ?"
+msgstr "Abandonner la partie courante ?"
 
 #: dealer.cpp:1756
-#, fuzzy, kde-format
-#| msgid "Abandon Current Game"
+#, kde-format
 msgctxt "@action:button"
 msgid "Abandon Current Game"
-msgstr "Abandonner la partie actuelle"
+msgstr "Abandonner la partie courante"
 
 #: fortyeight.cpp:229
 msgid "Forty & Eight"
@@ -501,36 +463,31 @@ msgid "Freecell (Custom)"
 msgstr "Freecell (Personnalisé)"
 
 #: freecell.cpp:348
-#, fuzzy, kde-format
-#| msgid "Baker's Game"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Baker's Game"
 msgstr "Treize à la douzaine"
 
 #: freecell.cpp:349
-#, fuzzy, kde-format
-#| msgid "Eight Off"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Eight Off"
 msgstr "Huit à retirer"
 
 #: freecell.cpp:350
-#, fuzzy, kde-format
-#| msgid "Forecell"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Forecell"
 msgstr "Forecell"
 
 #: freecell.cpp:351
-#, fuzzy, kde-format
-#| msgid "Freecell"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Freecell"
 msgstr "Freecell"
 
 #: freecell.cpp:352
-#, fuzzy, kde-format
-#| msgid "Seahaven Towers"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Seahaven Towers"
 msgstr "Tours de Seahaven"
@@ -551,8 +508,7 @@ msgid "12"
 msgstr "12"
 
 #: freecell.cpp:385
-#, fuzzy, kde-format
-#| msgid "Decks"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Decks"
 msgstr "Plate-formes"
@@ -574,22 +530,19 @@ msgid "Aces Up"
 msgstr "Les as"
 
 #: klondike.cpp:135
-#, fuzzy, kde-format
-#| msgid "Klondike &Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Klondike &Options"
-msgstr "Options de Klondike"
+msgstr "&Options de Klondike"
 
 #: klondike.cpp:136
-#, fuzzy, kde-format
-#| msgid "Draw 1"
+#, kde-format
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 1"
 msgstr "Piocher 1"
 
 #: klondike.cpp:137
-#, fuzzy, kde-format
-#| msgid "Draw 3"
+#, kde-format
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 3"
 msgstr "Piocher 3"
@@ -619,15 +572,13 @@ msgid "Main Toolbar"
 msgstr "Barre principale d'outils"
 
 #: libkcardgame/kcardthemewidget.cpp:266
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgctxt "@info"
 msgid "Loading…"
-msgstr "Chargement..."
+msgstr "Chargement en cours..."
 
 #: libkcardgame/kcardthemewidget.cpp:352
-#, fuzzy, kde-format
-#| msgid "Get New Card Decks..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Download New Card Decks…"
 msgstr "Obtenir de nouveaux jeux de cartes..."
@@ -839,65 +790,50 @@ msgid "File to load"
 msgstr "Fichier à charger"
 
 #: mainwindow.cpp:152
-#, fuzzy, kde-format
-#| msgctxt "Start a new game of a different type"
-#| msgid "New &Game..."
+#, kde-format
 msgctxt "@action Start a new game of a different type"
 msgid "New &Game…"
 msgstr "Nouvelle &partie..."
 
 #: mainwindow.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "Start a new game of without changing the game type"
-#| msgid "New &Deal"
+#, kde-format
 msgctxt "@action Start a new game of without changing the game type"
 msgid "New &Deal"
 msgstr "Nouvelle &donne"
 
 #: mainwindow.cpp:164
-#, fuzzy, kde-format
-#| msgid "New Numbered Deal"
+#, kde-format
 msgctxt "@action Start a game by giving its particular number"
 msgid "New &Numbered Deal…"
-msgstr "Nouvelle donne numérotée"
+msgstr "Nouvelle donne &numérotée..."
 
 #: mainwindow.cpp:169
-#, fuzzy, kde-format
-#| msgctxt "Replay the current deal from the start"
-#| msgid "Restart Deal"
+#, kde-format
 msgctxt "@action Replay the current deal from the start"
 msgid "Restart Deal"
 msgstr "Refaire une donne"
 
 #: mainwindow.cpp:175
-#, fuzzy, kde-format
-#| msgctxt "Start the game with the number one greater than the current one"
-#| msgid "Next Deal"
+#, kde-format
 msgctxt ""
 "@action Start the game with the number one greater than the current one"
 msgid "Next Deal"
 msgstr "Donne suivante"
 
 #: mainwindow.cpp:184
-#, fuzzy, kde-format
-#| msgctxt "Start the game with the number one less than the current one"
-#| msgid "Previous Deal"
+#, kde-format
 msgctxt "@action Start the game with the number one less than the current one"
 msgid "Previous Deal"
 msgstr "Donne précédente"
 
 #: mainwindow.cpp:198
-#, fuzzy, kde-format
-#| msgid "Statistics"
+#, kde-format
 msgctxt "@action"
 msgid "Statistics"
 msgstr "Statistiques"
 
 #: mainwindow.cpp:227
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Take one or more cards from the deck, flip them, and place them in play"
-#| msgid "Dra&w"
+#, kde-format
 msgctxt ""
 "@action Take one or more cards from the deck, flip them, and place them in "
 "play"
@@ -905,109 +841,91 @@ msgid "Dra&w"
 msgstr "Pio&cher"
 
 #: mainwindow.cpp:232
-#, fuzzy, kde-format
-#| msgctxt "Deal a new row of cards from the deck"
-#| msgid "Dea&l Row"
+#, kde-format
 msgctxt "@action Deal a new row of cards from the deck"
 msgid "Dea&l Row"
-msgstr "Distribuer une ligne"
+msgstr "Distribuer une &ligne"
 
 #: mainwindow.cpp:237
-#, fuzzy, kde-format
-#| msgctxt "Collect the cards in play, shuffle them and redeal them"
-#| msgid "&Redeal"
+#, kde-format
 msgctxt "@action Collect the cards in play, shuffle them and redeal them"
 msgid "&Redeal"
 msgstr "&Re-distribuer"
 
 #: mainwindow.cpp:242
-#, fuzzy, kde-format
-#| msgctxt "Automatically move cards to the foundation piles"
-#| msgid "Dro&p"
+#, kde-format
 msgctxt "@action Automatically move cards to the foundation piles"
 msgid "Dro&p"
-msgstr "En&voyer"
+msgstr "Écar&ter"
 
 #: mainwindow.cpp:249
-#, fuzzy, kde-format
-#| msgid "&Enable Autodrop"
+#, kde-format
 msgctxt "@option:check"
 msgid "&Enable Autodrop"
-msgstr "Activ&er les coups automatiques"
+msgstr "Activ&er les écarts automatiques"
 
 #: mainwindow.cpp:254
-#, fuzzy, kde-format
-#| msgid "E&nable Solver"
+#, kde-format
 msgctxt "@option:check"
 msgid "E&nable Solver"
-msgstr "Acti&ver l'outil de résolution"
+msgstr "Activer l'outil de résolutio&n"
 
 #: mainwindow.cpp:259
-#, fuzzy, kde-format
-#| msgid "Play &Sounds"
+#, kde-format
 msgctxt "@option:check"
 msgid "Play Sounds"
-msgstr "Jouer des &sons"
+msgstr "Jouer les sons"
 
 #: mainwindow.cpp:264
-#, fuzzy, kde-format
-#| msgid "&Remember State on Exit"
+#, kde-format
 msgctxt "@option:check"
 msgid "&Remember State on Exit"
-msgstr "Se souveni&r de l'état de la partie en quittant"
+msgstr "Se souveni&r de l'état de la partie à sa fermeture"
 
 #: mainwindow.cpp:281
-#, fuzzy, kde-format
-#| msgid "Generate a theme preview image"
+#, kde-format
 msgctxt "@action"
 msgid "Generate a Theme Preview Image"
-msgstr "Générer une image d'aperçu pour un thème"
+msgstr "Générer une image d'aperçu de thème"
 
 #: mainwindow.cpp:286
-#, fuzzy, kde-format
-#| msgid "Take Game Preview Snapshots"
+#, kde-format
 msgctxt "@action"
 msgid "Take Game Preview Snapshots"
-msgstr "Réaliser des captures d'écran pour l'aperçu des parties"
+msgstr "Réaliser des copies d'écran pour l'aperçu de partie"
 
 #: mainwindow.cpp:291
-#, fuzzy, kde-format
-#| msgid "Random Cards"
+#, kde-format
 msgctxt "@action"
 msgid "Random Cards"
 msgstr "Cartes aléatoires"
 
 #: mainwindow.cpp:298
-#, fuzzy, kde-format
-#| msgid "Move Focus to Previous Pile"
+#, kde-format
 msgctxt "@action"
 msgid "Move Focus to Previous Pile"
 msgstr "Déplacer le focus vers la pile précédente"
 
 #: mainwindow.cpp:302
-#, fuzzy, kde-format
-#| msgid "Move Focus to Next Pile"
+#, kde-format
 msgctxt "@action"
 msgid "Move Focus to Next Pile"
 msgstr "Déplacer le focus vers la pile suivante"
 
 #: mainwindow.cpp:306
-#, fuzzy, kde-format
-#| msgid "Move Focus to Card Below"
+#, kde-format
 msgctxt "@action"
 msgid "Move Focus to Card Below"
-msgstr "Déplacer le focus vers la carte en dessous"
+msgstr "Déplacer le focus vers la carte du dessous"
 
 #: mainwindow.cpp:310
-#, fuzzy, kde-format
-#| msgid "Move Focus to Card Above"
+#, kde-format
 msgctxt "@action"
 msgid "Move Focus to Card Above"
-msgstr "Déplacer le focus vers la carte au dessus"
+msgstr "Déplacer le focus vers la carte du dessus"
 
 #: mainwindow.cpp:314
-#, fuzzy, kde-format
-#| msgid "Cancel Focus"
+#, kde-format
 msgctxt "@action"
 msgid "Cancel Focus"
 msgstr "Annuler le focus"
@@ -1020,8 +938,7 @@ msgid "Pick Up or Set Down Focus"
 msgstr "Prendre ou poser la carte sur le focus"
 
 #: mainwindow.cpp:426
-#, fuzzy, kde-format
-#| msgid "Card Deck"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Card Deck"
 msgstr "Jeux de cartes"
@@ -1032,8 +949,7 @@ msgid "Select a card deck"
 msgstr "Sélectionnez un jeu de cartes"
 
 #: mainwindow.cpp:434
-#, fuzzy, kde-format
-#| msgid "Game Theme"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Game Theme"
 msgstr "Thème du jeu"
@@ -1044,24 +960,18 @@ msgid "Select a theme for non-card game elements"
 msgstr "Sélectionnez un thème pour les éléments du jeu n'étant pas des cartes"
 
 #: mainwindow.cpp:514
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Is disabled and changes to \"Help &with Current Game\" when there is no "
-#| "current game."
-#| msgid "Help &with %1"
+#, kde-format
 msgctxt ""
 "@action Is disabled and changes to \"Help &with Current Game\" when there is "
 "no current game."
 msgid "Help &with %1"
-msgstr "De l'aide a&vec %1"
+msgstr "Aider a&vec %1"
 
 #: mainwindow.cpp:545
-#, fuzzy, kde-format
-#| msgctxt "Shown when there is no game open. Is always disabled."
-#| msgid "Help &with Current Game"
+#, kde-format
 msgctxt "@action Shown when there is no game open. Is always disabled."
 msgid "Help &with Current Game"
-msgstr "Aide &durant la partie actuelle"
+msgstr "Aide &durant la partie courante"
 
 #: mainwindow.cpp:700
 #, kde-format
@@ -1073,11 +983,10 @@ msgstr ""
 "l'afficher à nouveau est %1."
 
 #: mainwindow.cpp:702
-#, fuzzy, kde-format
-#| msgid "Hide Menubar"
+#, kde-format
 msgctxt "@title:window"
 msgid "Hide Menubar"
-msgstr "Cacher la barre de menus"
+msgstr "Masquer la barre de menus"
 
 #: mainwindow.cpp:795
 #, kde-format
@@ -1105,18 +1014,16 @@ msgid "Errors encountered while parsing file."
 msgstr "Erreurs rencontrées durant l'analyse du fichier."
 
 #: mainwindow.cpp:861
-#, fuzzy, kde-format
-#| msgid "Load"
+#, kde-format
 msgctxt "@title:window"
 msgid "Load Game"
-msgstr "Charger"
+msgstr "Charger une partie"
 
 #: mainwindow.cpp:888
-#, fuzzy, kde-format
-#| msgid "Baker's Game"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Game"
-msgstr "Treize à la douzaine"
+msgstr "Enregistrer une partie"
 
 #: mainwindow.cpp:904
 #, kde-format
@@ -1146,22 +1053,19 @@ msgid "Mod3"
 msgstr "Mod3"
 
 #: numbereddealdialog.cpp:36
-#, fuzzy, kde-format
-#| msgid "New Numbered Deal"
+#, kde-format
 msgctxt "@title:window"
 msgid "New Numbered Deal"
 msgstr "Nouvelle donne numérotée"
 
 #: numbereddealdialog.cpp:51
-#, fuzzy, kde-format
-#| msgid "Game:"
+#, kde-format
 msgctxt "@label"
 msgid "Game:"
-msgstr "Jeu :"
+msgstr "Partie :"
 
 #: numbereddealdialog.cpp:55
-#, fuzzy, kde-format
-#| msgid "Deal number:"
+#, kde-format
 msgctxt "@label"
 msgid "Deal number:"
 msgstr "Numéro de la donne :"
@@ -1171,36 +1075,31 @@ msgid "Simple Simon"
 msgstr "Simon le simple"
 
 #: spider.cpp:132
-#, fuzzy, kde-format
-#| msgid "Spider &Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Spider &Options"
 msgstr "&Options de Spider"
 
 #: spider.cpp:133
-#, fuzzy, kde-format
-#| msgid "1 Suit (Easy)"
+#, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "1 Suit (Easy)"
-msgstr "1 combinaison (facile)"
+msgstr "1 combinaison (Facile)"
 
 #: spider.cpp:134
-#, fuzzy, kde-format
-#| msgid "2 Suits (Medium)"
+#, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "2 Suits (Medium)"
-msgstr "2 combinaisons (moyen)"
+msgstr "2 combinaisons (Moyen)"
 
 #: spider.cpp:135
-#, fuzzy, kde-format
-#| msgid "3 Suits (Hard)"
+#, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "3 Suits (Hard)"
 msgstr "3 combinaisons (Difficile)"
 
 #: spider.cpp:136
-#, fuzzy, kde-format
-#| msgid "4 Suits (Very Hard)"
+#, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "4 Suits (Very Hard)"
 msgstr "4 combinaisons (Très difficile)"
@@ -1226,8 +1125,7 @@ msgid "Spider (4 Suit)"
 msgstr "Spider (4 combinaisons)"
 
 #: statisticsdialog.cpp:61
-#, fuzzy, kde-format
-#| msgid "Statistics"
+#, kde-format
 msgctxt "@title:window"
 msgid "Statistics"
 msgstr "Statistiques"
