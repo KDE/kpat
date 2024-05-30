@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-15 00:36+0000\n"
-"PO-Revision-Date: 2024-02-25 20:53+0900\n"
+"PO-Revision-Date: 2024-05-30 02:31+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -255,7 +255,7 @@ msgstr "無"
 #: castle.cpp:397
 #, kde-format
 msgid "Aces"
-msgstr ""
+msgstr "Aces"
 
 #: castle.cpp:398
 #, kde-format
