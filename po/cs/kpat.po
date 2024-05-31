@@ -3,22 +3,22 @@
 # Lukáš Tinkl <ltinkl@redhat.com>, 2010.
 # Vít Pelčák <vit@pelcak.org>, 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2020.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
-# Vit Pelcak <vit@pelcak.org>, 2021, 2023.
+# SPDX-FileCopyrightText: 2021, 2023, 2024 Vit Pelcak <vit@pelcak.org>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-15 00:37+0000\n"
-"PO-Revision-Date: 2023-01-24 15:30+0100\n"
-"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
+"PO-Revision-Date: 2024-05-30 16:33+0200\n"
+"Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 22.12.1\n"
+"X-Generator: Lokalize 24.02.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -66,7 +66,7 @@ msgstr ""
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Custom"
-msgstr ""
+msgstr "Vlastní"
 
 #: bakersdozen.cpp:76 castle.cpp:370 freecell.cpp:355
 #, kde-format
@@ -96,19 +96,19 @@ msgstr ""
 #, kde-format
 msgctxt "@title:menu"
 msgid "Stack Options"
-msgstr ""
+msgstr "Nastavení herních sloupců"
 
 #: bakersdozen.cpp:82 spider.cpp:149
 #, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Up (Easier)"
-msgstr ""
+msgstr "Lícem nahoru (snadnější)"
 
 #: bakersdozen.cpp:83 spider.cpp:148
 #, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Down (Harder)"
-msgstr ""
+msgstr "Lícem dolů (obtížnější)"
 
 #: bakersdozen.cpp:85 castle.cpp:375 freecell.cpp:360
 #, kde-format
@@ -132,7 +132,7 @@ msgstr ""
 #, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Rank"
-msgstr ""
+msgstr "Pořadí"
 
 #: bakersdozen.cpp:238 bakersdozen.cpp:241
 msgid "Baker's Dozen"
@@ -196,7 +196,7 @@ msgstr ""
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Citadel"
-msgstr ""
+msgstr "Citadel"
 
 #: castle.cpp:364
 #, kde-format
@@ -308,41 +308,42 @@ msgctxt "@title:menu"
 msgid "Foundation Deal"
 msgstr ""
 
+# žádné parametry funkce v inspektoru funkcí
 #: castle.cpp:400
 #, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "None"
-msgstr ""
+msgstr "Nic"
 
 #: castle.cpp:401
 #, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "Aces"
-msgstr ""
+msgstr "Esa"
 
 #: castle.cpp:402
 #, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "Any"
-msgstr ""
+msgstr "Cokoliv"
 
 #: castle.cpp:404
 #, kde-format
 msgctxt "@title:menu"
 msgid "Layout"
-msgstr ""
+msgstr "Rozvržení"
 
 #: castle.cpp:405
 #, kde-format
 msgctxt "@item:inmenu layout"
 msgid "Classic"
-msgstr ""
+msgstr "Klasický"
 
 #: castle.cpp:406
 #, kde-format
 msgctxt "@item:inmenu layout"
 msgid "Modern"
-msgstr ""
+msgstr "Moderní"
 
 #: clock.cpp:157
 msgid "Grandfather's Clock"
@@ -386,7 +387,7 @@ msgstr "Řešitel: tato hra je ztracena."
 #: dealer.cpp:1349
 #, kde-format
 msgid "Solver: Calculating…"
-msgstr ""
+msgstr "Probíhá výpočet…"
 
 #: dealer.cpp:1753
 #, kde-format
@@ -403,13 +404,13 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Abandon Current Game?"
-msgstr ""
+msgstr "Ukončit aktuální hru?"
 
 #: dealer.cpp:1756
 #, kde-format
 msgctxt "@action:button"
 msgid "Abandon Current Game"
-msgstr ""
+msgstr "Ukončit aktuální hru"
 
 #: fortyeight.cpp:229
 msgid "Forty & Eight"
@@ -461,7 +462,7 @@ msgstr ""
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Freecell"
-msgstr ""
+msgstr "Freecell"
 
 #: freecell.cpp:352
 #, kde-format
@@ -488,7 +489,7 @@ msgstr "12"
 #, kde-format
 msgctxt "@title:menu"
 msgid "Decks"
-msgstr ""
+msgstr "Balíčky"
 
 #: golf.cpp:189
 msgid "Golf"
@@ -510,7 +511,7 @@ msgstr "Esa nahoru"
 #, kde-format
 msgctxt "@title:menu"
 msgid "Klondike &Options"
-msgstr ""
+msgstr "M&ožnosti Klondike"
 
 #: klondike.cpp:136
 #, kde-format
@@ -769,44 +770,44 @@ msgstr "Soubor k otevření"
 #, kde-format
 msgctxt "@action Start a new game of a different type"
 msgid "New &Game…"
-msgstr ""
+msgstr "Nová &hra…"
 
 #: mainwindow.cpp:158
 #, kde-format
 msgctxt "@action Start a new game of without changing the game type"
 msgid "New &Deal"
-msgstr ""
+msgstr "Nově roz&dat"
 
 #: mainwindow.cpp:164
 #, kde-format
 msgctxt "@action Start a game by giving its particular number"
 msgid "New &Numbered Deal…"
-msgstr ""
+msgstr "&Nové očíslované rozdání…"
 
 #: mainwindow.cpp:169
 #, kde-format
 msgctxt "@action Replay the current deal from the start"
 msgid "Restart Deal"
-msgstr ""
+msgstr "Restartovat rozdání"
 
 #: mainwindow.cpp:175
 #, kde-format
 msgctxt ""
 "@action Start the game with the number one greater than the current one"
 msgid "Next Deal"
-msgstr ""
+msgstr "Následující rozdání"
 
 #: mainwindow.cpp:184
 #, kde-format
 msgctxt "@action Start the game with the number one less than the current one"
 msgid "Previous Deal"
-msgstr ""
+msgstr "Předchozí rozdání"
 
 #: mainwindow.cpp:198
 #, kde-format
 msgctxt "@action"
 msgid "Statistics"
-msgstr ""
+msgstr "Statistika"
 
 #: mainwindow.cpp:227
 #, kde-format
@@ -820,103 +821,103 @@ msgstr ""
 #, kde-format
 msgctxt "@action Deal a new row of cards from the deck"
 msgid "Dea&l Row"
-msgstr ""
+msgstr "Rozd&at řadu"
 
 #: mainwindow.cpp:237
 #, kde-format
 msgctxt "@action Collect the cards in play, shuffle them and redeal them"
 msgid "&Redeal"
-msgstr ""
+msgstr "&Rozdat znovu"
 
 #: mainwindow.cpp:242
 #, kde-format
 msgctxt "@action Automatically move cards to the foundation piles"
 msgid "Dro&p"
-msgstr ""
+msgstr "U&pustit"
 
 #: mainwindow.cpp:249
 #, kde-format
 msgctxt "@option:check"
 msgid "&Enable Autodrop"
-msgstr ""
+msgstr "Povo&lit automatické upuštění"
 
 #: mainwindow.cpp:254
 #, kde-format
 msgctxt "@option:check"
 msgid "E&nable Solver"
-msgstr ""
+msgstr "Povolit ř&ešitele"
 
 #: mainwindow.cpp:259
 #, kde-format
 msgctxt "@option:check"
 msgid "Play Sounds"
-msgstr ""
+msgstr "Přehrávat zvuky"
 
 #: mainwindow.cpp:264
 #, kde-format
 msgctxt "@option:check"
 msgid "&Remember State on Exit"
-msgstr ""
+msgstr "Zapa&matovat stav při ukončení"
 
 #: mainwindow.cpp:281
 #, kde-format
 msgctxt "@action"
 msgid "Generate a Theme Preview Image"
-msgstr ""
+msgstr "Vygenerovat obrázek s náhledem motivu"
 
 #: mainwindow.cpp:286
 #, kde-format
 msgctxt "@action"
 msgid "Take Game Preview Snapshots"
-msgstr ""
+msgstr "Získat snímky náhledu hry"
 
 #: mainwindow.cpp:291
 #, kde-format
 msgctxt "@action"
 msgid "Random Cards"
-msgstr ""
+msgstr "Náhodné karty"
 
 #: mainwindow.cpp:298
 #, kde-format
 msgctxt "@action"
 msgid "Move Focus to Previous Pile"
-msgstr ""
+msgstr "Přepnout na předchozí hromadu"
 
 #: mainwindow.cpp:302
 #, kde-format
 msgctxt "@action"
 msgid "Move Focus to Next Pile"
-msgstr ""
+msgstr "Přepnout na následující hromadu"
 
 #: mainwindow.cpp:306
 #, kde-format
 msgctxt "@action"
 msgid "Move Focus to Card Below"
-msgstr ""
+msgstr "Přepnout na kartu níže"
 
 #: mainwindow.cpp:310
 #, kde-format
 msgctxt "@action"
 msgid "Move Focus to Card Above"
-msgstr ""
+msgstr "Přepnout na kartu výše"
 
 #: mainwindow.cpp:314
 #, kde-format
 msgctxt "@action"
 msgid "Cancel Focus"
-msgstr ""
+msgstr "Vrátit kartu"
 
 #: mainwindow.cpp:318
 #, kde-format
 msgctxt "@action"
 msgid "Pick Up or Set Down Focus"
-msgstr ""
+msgstr "Vzít kartu nebo umístit kartu"
 
 #: mainwindow.cpp:426
 #, kde-format
 msgctxt "@title:tab"
 msgid "Card Deck"
-msgstr ""
+msgstr "Sada karet"
 
 #: mainwindow.cpp:428
 #, kde-format
@@ -927,7 +928,7 @@ msgstr "Vybrat sadu karet"
 #, kde-format
 msgctxt "@title:tab"
 msgid "Game Theme"
-msgstr ""
+msgstr "Herní motiv"
 
 #: mainwindow.cpp:436
 #, kde-format
@@ -940,13 +941,13 @@ msgctxt ""
 "@action Is disabled and changes to \"Help &with Current Game\" when there is "
 "no current game."
 msgid "Help &with %1"
-msgstr ""
+msgstr "Nápověda &k %1"
 
 #: mainwindow.cpp:545
 #, kde-format
 msgctxt "@action Shown when there is no game open. Is always disabled."
 msgid "Help &with Current Game"
-msgstr ""
+msgstr "Nápověda &k aktuální hře"
 
 #: mainwindow.cpp:700
 #, kde-format
@@ -961,7 +962,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:window"
 msgid "Hide Menubar"
-msgstr ""
+msgstr "Skrýt hlavní nabídku"
 
 #: mainwindow.cpp:795
 #, kde-format
@@ -1031,19 +1032,19 @@ msgstr "Mod3"
 #, kde-format
 msgctxt "@title:window"
 msgid "New Numbered Deal"
-msgstr ""
+msgstr "Nové očíslované rozdání"
 
 #: numbereddealdialog.cpp:51
 #, kde-format
 msgctxt "@label"
 msgid "Game:"
-msgstr ""
+msgstr "Hra:"
 
 #: numbereddealdialog.cpp:55
 #, kde-format
 msgctxt "@label"
 msgid "Deal number:"
-msgstr ""
+msgstr "Zadejte číslo hry:"
 
 #: simon.cpp:168
 msgid "Simple Simon"
@@ -1053,31 +1054,31 @@ msgstr "Jednoduchý Šimon"
 #, kde-format
 msgctxt "@title:menu"
 msgid "Spider &Options"
-msgstr ""
+msgstr "M&ožnosti Pavouka"
 
 #: spider.cpp:133
 #, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "1 Suit (Easy)"
-msgstr ""
+msgstr "1 barva (lehké)"
 
 #: spider.cpp:134
 #, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "2 Suits (Medium)"
-msgstr ""
+msgstr "2 barvy (střední)"
 
 #: spider.cpp:135
 #, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "3 Suits (Hard)"
-msgstr ""
+msgstr "3 barvy (těžké)"
 
 #: spider.cpp:136
 #, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "4 Suits (Very Hard)"
-msgstr ""
+msgstr "4 barvy (velmi těžké)"
 
 #: spider.cpp:467
 msgid "Spider"

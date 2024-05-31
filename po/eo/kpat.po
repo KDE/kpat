@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-15 00:37+0000\n"
-"PO-Revision-Date: 2024-05-15 09:56+0100\n"
+"PO-Revision-Date: 2024-05-30 07:49+0200\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
@@ -98,13 +98,13 @@ msgstr "Stakaj Opcioj"
 #, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Up (Easier)"
-msgstr "Vizaĝo S&upre (Pli Facila)"
+msgstr "Vizaĝo Supre (Pli Facila)"
 
 #: bakersdozen.cpp:83 spider.cpp:148
 #, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Down (Harder)"
-msgstr "Vizaĝo Malvi&debla (Pli Malfacila)"
+msgstr "Vizaĝo Malvidebla (Pli Malfacila)"
 
 #: bakersdozen.cpp:85 castle.cpp:375 freecell.cpp:360
 #, kde-format
