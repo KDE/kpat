@@ -3,14 +3,14 @@
 # Lukáš Tinkl <ltinkl@redhat.com>, 2010.
 # Vít Pelčák <vit@pelcak.org>, 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2020.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
-# Vit Pelcak <vit@pelcak.org>, 2021, 2023.
+# SPDX-FileCopyrightText: 2021, 2023, 2024 Vit Pelcak <vit@pelcak.org>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-03-15 00:36+0000\n"
-"PO-Revision-Date: 2021-06-17 11:30+0200\n"
+"PO-Revision-Date: 2024-05-30 16:33+0200\n"
 "Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 22.12.1\n"
+"X-Generator: Lokalize 24.02.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -85,17 +85,17 @@ msgstr ""
 #: bakersdozen.cpp:80
 #, kde-format
 msgid "Stack Options"
-msgstr ""
+msgstr "Nastavení herních sloupců"
 
 #: bakersdozen.cpp:81
 #, kde-format
 msgid "Face &Up (Easier)"
-msgstr ""
+msgstr "Lícem nahor&u (snadnější)"
 
 #: bakersdozen.cpp:82
 #, kde-format
 msgid "Face &Down (Harder)"
-msgstr ""
+msgstr "Lícem &dolů (obtížnější)"
 
 #: bakersdozen.cpp:84 castle.cpp:371 freecell.cpp:356
 #, kde-format
@@ -396,7 +396,7 @@ msgstr "12"
 #: freecell.cpp:381
 #, kde-format
 msgid "Decks"
-msgstr ""
+msgstr "Balíčky"
 
 #: golf.cpp:189
 msgid "Golf"
@@ -943,12 +943,12 @@ msgstr "2 barvy (střední)"
 #: spider.cpp:134
 #, kde-format
 msgid "3 Suits (Hard)"
-msgstr ""
+msgstr "3 barvy (těžké)"
 
 #: spider.cpp:135
 #, kde-format
 msgid "4 Suits (Very Hard)"
-msgstr ""
+msgstr "4 barvy (velmi těžké)"
 
 #: spider.cpp:147
 #, kde-format
