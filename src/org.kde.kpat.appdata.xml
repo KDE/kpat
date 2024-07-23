@@ -24,6 +24,7 @@
   <name xml:lang="gl">KPatience</name>
   <name xml:lang="he">KPatience</name>
   <name xml:lang="hu">KPatience</name>
+  <name xml:lang="ia">KPatience</name>
   <name xml:lang="id">KPatience</name>
   <name xml:lang="it">KPatience</name>
   <name xml:lang="ka">KPatience</name>
@@ -60,6 +61,7 @@
   <summary xml:lang="gl">Xogo de cartas do solitario</summary>
   <summary xml:lang="he">משחק קלפים יחידני</summary>
   <summary xml:lang="hu">Pasziánsz kártyajáték</summary>
+  <summary xml:lang="ia">Joco de cartas solitario</summary>
   <summary xml:lang="id">Permainan kartu solitaire</summary>
   <summary xml:lang="it">Solitari con le carte</summary>
   <summary xml:lang="ka">კარტის თამაში Solitaire</summary>
@@ -140,6 +142,7 @@
       <caption xml:lang="gl">Pantalla de selección do solitario</caption>
       <caption xml:lang="he">מסך בחירת משחק יחידני</caption>
       <caption xml:lang="hu">Játékmódválasztó képernyő</caption>
+      <caption xml:lang="ia">Schermo de selection de solitario</caption>
       <caption xml:lang="id">Layar pemilihan solitaire</caption>
       <caption xml:lang="it">Schermata di selezione del solitario</caption>
       <caption xml:lang="ka">Solitaire -ის ეკრანის არჩევა</caption>
