@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-15 00:37+0000\n"
-"PO-Revision-Date: 2024-06-12 06:56+0300\n"
+"PO-Revision-Date: 2024-08-02 09:53+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 24.05.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -49,7 +49,7 @@ msgstr "ערכות של סוגים נפוצים"
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Baker's Dozen"
-msgstr ""
+msgstr "תריסר האופה"
 
 #: bakersdozen.cpp:71
 #, kde-format
@@ -133,17 +133,17 @@ msgstr "צבע מתחלף"
 #, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Matching Suit"
-msgstr ""
+msgstr "סוג תואם"
 
 #: bakersdozen.cpp:88 castle.cpp:378 freecell.cpp:363
 #, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Rank"
-msgstr ""
+msgstr "עוצמה"
 
 #: bakersdozen.cpp:238 bakersdozen.cpp:241
 msgid "Baker's Dozen"
-msgstr ""
+msgstr "תריסר האופה"
 
 #: bakersdozen.cpp:242
 msgid "Spanish Patience"
@@ -159,7 +159,7 @@ msgstr "סוליטר פורטוגלי"
 
 #: bakersdozen.cpp:245
 msgid "Baker's Dozen (Custom)"
-msgstr ""
+msgstr "תריסר האופה (מותאם אישית)"
 
 #: castle.cpp:319
 msgid "Castle"
@@ -428,11 +428,11 @@ msgstr "פריסל"
 
 #: freecell.cpp:311
 msgid "Baker's Game"
-msgstr ""
+msgstr "משחק האופה"
 
 #: freecell.cpp:312
 msgid "Eight Off"
-msgstr ""
+msgstr "שמונה חופשי"
 
 #: freecell.cpp:313
 msgid "Forecell"
@@ -440,7 +440,7 @@ msgstr "פורסל"
 
 #: freecell.cpp:315
 msgid "Seahaven Towers"
-msgstr ""
+msgstr "מגדלי סיהייבן"
 
 #: freecell.cpp:316
 msgid "Freecell (Custom)"
@@ -450,13 +450,13 @@ msgstr "פריסל (מותאם אישית)"
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Baker's Game"
-msgstr ""
+msgstr "משחק האופה"
 
 #: freecell.cpp:349
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Eight Off"
-msgstr ""
+msgstr "שומנה חופשי"
 
 #: freecell.cpp:350
 #, kde-format
@@ -474,7 +474,7 @@ msgstr "פריסל"
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Seahaven Towers"
-msgstr ""
+msgstr "מגדלי סיהייבן"
 
 #: freecell.cpp:371
 #, kde-format
@@ -744,7 +744,7 @@ msgstr "לנסות למצוא פתרון למשחק השמור שצוין"
 #: main.cpp:121
 #, kde-format
 msgid "Dealer to solve (debug)"
-msgstr ""
+msgstr "בעיה של המחלק (ניפוי שגיאות)"
 
 #: main.cpp:122
 #, kde-format
@@ -916,7 +916,7 @@ msgstr "ביטול מיקוד"
 #, kde-format
 msgctxt "@action"
 msgid "Pick Up or Set Down Focus"
-msgstr ""
+msgstr "לקיחת או מסירת המיקוד"
 
 #: mainwindow.cpp:426
 #, kde-format
