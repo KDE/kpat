@@ -28,16 +28,16 @@ class SpiderSolver2 : public SolverInterface
 public:
     SpiderSolver2(Spider *dealer);
     ~SpiderSolver2();
-    virtual ExitStatus patsolve(int max_positions = -1) override;
-    virtual void translate_layout() override;
-    virtual MoveHint translateMove(const MOVE &m) override;
+    ExitStatus patsolve(int max_positions = -1) override;
+    void translate_layout() override;
+    MoveHint translateMove(const MOVE &m) override;
 
-    virtual void stopExecution() override;
-    virtual QList<MOVE> firstMoves() const override
+    void stopExecution() override;
+    QList<MOVE> firstMoves() const override
     {
         return m_firstMoves;
     }
-    virtual QList<MOVE> winMoves() const override
+    QList<MOVE> winMoves() const override
     {
         return m_winMoves;
     }
