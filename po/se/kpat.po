@@ -43,7 +43,6 @@ msgstr ""
 
 #: bakersdozen.cpp:71
 #, fuzzy, kde-format
-#| msgid "KPatience"
 msgctxt "@item:inmenu preset"
 msgid "Spanish Patience"
 msgstr "Kabála"
@@ -222,7 +221,6 @@ msgstr ""
 
 #: castle.cpp:380 freecell.cpp:365
 #, fuzzy, kde-format
-#| msgid "Freecell"
 msgctxt "@title:menu"
 msgid "Free Cells"
 msgstr "Guorusgieddi"
@@ -384,7 +382,6 @@ msgstr "Čoavdejeaddji: Dát speallu lea táhpejuvvon."
 
 #: dealer.cpp:1349
 #, fuzzy, kde-format
-#| msgid "Solver: Calculating..."
 msgid "Solver: Calculating…"
 msgstr "Čoavdejeaddji: Rehkenastimin …"
 
@@ -401,14 +398,12 @@ msgstr ""
 
 #: dealer.cpp:1755
 #, fuzzy, kde-format
-#| msgid "Abandon Current Game?"
 msgctxt "@title:window"
 msgid "Abandon Current Game?"
 msgstr "Vuollánit dáinna spealuin?"
 
 #: dealer.cpp:1756
 #, fuzzy, kde-format
-#| msgid "Abandon Current Game"
 msgctxt "@action:button"
 msgid "Abandon Current Game"
 msgstr "Vuollán dáinna spealuin"
@@ -455,14 +450,12 @@ msgstr ""
 
 #: freecell.cpp:350
 #, fuzzy, kde-format
-#| msgid "Freecell"
 msgctxt "@item:inmenu preset"
 msgid "Forecell"
 msgstr "Guorusgieddi"
 
 #: freecell.cpp:351
 #, fuzzy, kde-format
-#| msgid "Freecell"
 msgctxt "@item:inmenu preset"
 msgid "Freecell"
 msgstr "Guorusgieddi"
@@ -518,14 +511,12 @@ msgstr ""
 
 #: klondike.cpp:136
 #, fuzzy, kde-format
-#| msgid "Draw 1"
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 1"
 msgstr "Gease ovtta"
 
 #: klondike.cpp:137
 #, fuzzy, kde-format
-#| msgid "Draw 3"
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 3"
 msgstr "Gease golmma"
@@ -556,7 +547,6 @@ msgstr "Váldoreaidoholga"
 
 #: libkcardgame/kcardthemewidget.cpp:266
 #, fuzzy, kde-format
-#| msgid "Loading..."
 msgctxt "@info"
 msgid "Loading…"
 msgstr "Viežžamin …"
@@ -810,7 +800,6 @@ msgstr ""
 
 #: mainwindow.cpp:198
 #, fuzzy, kde-format
-#| msgid "Statistics"
 msgctxt "@action"
 msgid "Statistics"
 msgstr "Statistihkka"
@@ -843,14 +832,12 @@ msgstr ""
 
 #: mainwindow.cpp:249
 #, fuzzy, kde-format
-#| msgid "&Enable Autodrop"
 msgctxt "@option:check"
 msgid "&Enable Autodrop"
 msgstr "Bija autoluoitima &johtui"
 
 #: mainwindow.cpp:254
 #, fuzzy, kde-format
-#| msgid "&Enable Autodrop"
 msgctxt "@option:check"
 msgid "E&nable Solver"
 msgstr "Bija autoluoitima &johtui"
@@ -953,7 +940,6 @@ msgstr ""
 
 #: mainwindow.cpp:545
 #, fuzzy, kde-format
-#| msgid "Abandon Current Game"
 msgctxt "@action Shown when there is no game open. Is always disabled."
 msgid "Help &with Current Game"
 msgstr "Vuollán dáinna spealuin"
@@ -1041,7 +1027,6 @@ msgstr ""
 
 #: numbereddealdialog.cpp:51
 #, fuzzy, kde-format
-#| msgid "Game:"
 msgctxt "@label"
 msgid "Game:"
 msgstr "Speallu:"
@@ -1108,7 +1093,6 @@ msgstr ""
 
 #: statisticsdialog.cpp:61
 #, fuzzy, kde-format
-#| msgid "Statistics"
 msgctxt "@title:window"
 msgid "Statistics"
 msgstr "Statistihkka"
