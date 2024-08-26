@@ -52,7 +52,6 @@ msgstr ""
 
 #: bakersdozen.cpp:71
 #, fuzzy, kde-format
-#| msgid "KPatience"
 msgctxt "@item:inmenu preset"
 msgid "Spanish Patience"
 msgstr "Kabal"
@@ -83,14 +82,12 @@ msgstr ""
 
 #: bakersdozen.cpp:77 castle.cpp:371 freecell.cpp:356
 #, fuzzy, kde-format
-#| msgid "1 Suit (Easy)"
 msgctxt "@item:inmenu empty stack fill"
 msgid "Any (Easy)"
 msgstr "1 farge (lett)"
 
 #: bakersdozen.cpp:78 castle.cpp:372 freecell.cpp:357
 #, fuzzy, kde-format
-#| msgid "2 Suits (Medium)"
 msgctxt "@item:inmenu empty stack fill"
 msgid "Kings only (Medium)"
 msgstr "2 farger (middels)"
@@ -103,7 +100,6 @@ msgstr ""
 
 #: bakersdozen.cpp:81 castle.cpp:394 spider.cpp:147
 #, fuzzy, kde-format
-#| msgid "Spider &Options"
 msgctxt "@title:menu"
 msgid "Stack Options"
 msgstr "&Valg for Edderkoppen"
@@ -234,7 +230,6 @@ msgstr ""
 
 #: castle.cpp:380 freecell.cpp:365
 #, fuzzy, kde-format
-#| msgid "Freecell"
 msgctxt "@title:menu"
 msgid "Free Cells"
 msgstr "Frifelt"
@@ -327,7 +322,6 @@ msgstr ""
 
 #: castle.cpp:401
 #, fuzzy, kde-format
-#| msgid "Aces Up"
 msgctxt "@item:inmenu foundation deal"
 msgid "Aces"
 msgstr "Ess i ermet"
@@ -397,7 +391,6 @@ msgstr "Kaballøser: Ingen flere mulige trekk."
 
 #: dealer.cpp:1349
 #, fuzzy, kde-format
-#| msgid "Solver: Calculating..."
 msgid "Solver: Calculating…"
 msgstr "Kaballøser: Tenker …"
 
@@ -416,14 +409,12 @@ msgstr ""
 
 #: dealer.cpp:1755
 #, fuzzy, kde-format
-#| msgid "Abandon Current Game?"
 msgctxt "@title:window"
 msgid "Abandon Current Game?"
 msgstr "Vil du gi opp kabalen?"
 
 #: dealer.cpp:1756
 #, fuzzy, kde-format
-#| msgid "Abandon Current Game"
 msgctxt "@action:button"
 msgid "Abandon Current Game"
 msgstr "Gi opp kabalen"
@@ -470,14 +461,12 @@ msgstr ""
 
 #: freecell.cpp:350
 #, fuzzy, kde-format
-#| msgid "Freecell"
 msgctxt "@item:inmenu preset"
 msgid "Forecell"
 msgstr "Frifelt"
 
 #: freecell.cpp:351
 #, fuzzy, kde-format
-#| msgid "Freecell"
 msgctxt "@item:inmenu preset"
 msgid "Freecell"
 msgstr "Frifelt"
@@ -527,21 +516,18 @@ msgstr "Ess i ermet"
 
 #: klondike.cpp:135
 #, fuzzy, kde-format
-#| msgid "Klondike &Options"
 msgctxt "@title:menu"
 msgid "Klondike &Options"
 msgstr "&Valg for sjueren"
 
 #: klondike.cpp:136
 #, fuzzy, kde-format
-#| msgid "Draw 1"
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 1"
 msgstr "Trekk 1 kort"
 
 #: klondike.cpp:137
 #, fuzzy, kde-format
-#| msgid "Draw 3"
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 3"
 msgstr "Trekk 3 kort"
@@ -572,7 +558,6 @@ msgstr "Hovedverktøylinje"
 
 #: libkcardgame/kcardthemewidget.cpp:266
 #, fuzzy, kde-format
-#| msgid "Loading..."
 msgctxt "@info"
 msgid "Loading…"
 msgstr "Laster …"
@@ -789,39 +774,30 @@ msgstr "Fil som skal lastes inn"
 
 #: mainwindow.cpp:152
 #, fuzzy, kde-format
-#| msgctxt "Start a new game of a different type"
-#| msgid "New &Game..."
 msgctxt "@action Start a new game of a different type"
 msgid "New &Game…"
 msgstr "&Nytt spill …"
 
 #: mainwindow.cpp:158
 #, fuzzy, kde-format
-#| msgctxt "Start a new game of without changing the game type"
-#| msgid "New &Deal"
 msgctxt "@action Start a new game of without changing the game type"
 msgid "New &Deal"
 msgstr "&Legg opp på nytt"
 
 #: mainwindow.cpp:164
 #, fuzzy, kde-format
-#| msgid "New Numbered Deal"
 msgctxt "@action Start a game by giving its particular number"
 msgid "New &Numbered Deal…"
 msgstr "Nytt nummerert spill"
 
 #: mainwindow.cpp:169
 #, fuzzy, kde-format
-#| msgctxt "Replay the current deal from the start"
-#| msgid "Restart Deal"
 msgctxt "@action Replay the current deal from the start"
 msgid "Restart Deal"
 msgstr "Start spillet på nytt"
 
 #: mainwindow.cpp:175
 #, fuzzy, kde-format
-#| msgctxt "Start the game with the number one greater than the current one"
-#| msgid "Next Deal"
 msgctxt ""
 "@action Start the game with the number one greater than the current one"
 msgid "Next Deal"
@@ -829,24 +805,18 @@ msgstr "Neste opplegg"
 
 #: mainwindow.cpp:184
 #, fuzzy, kde-format
-#| msgctxt "Start the game with the number one less than the current one"
-#| msgid "Previous Deal"
 msgctxt "@action Start the game with the number one less than the current one"
 msgid "Previous Deal"
 msgstr "Forrige oppleg"
 
 #: mainwindow.cpp:198
 #, fuzzy, kde-format
-#| msgid "Statistics"
 msgctxt "@action"
 msgid "Statistics"
 msgstr "Statistikk"
 
 #: mainwindow.cpp:227
 #, fuzzy, kde-format
-#| msgctxt ""
-#| "Take one or more cards from the deck, flip them, and place them in play"
-#| msgid "Dra&w"
 msgctxt ""
 "@action Take one or more cards from the deck, flip them, and place them in "
 "play"
@@ -855,73 +825,60 @@ msgstr "&Trekk"
 
 #: mainwindow.cpp:232
 #, fuzzy, kde-format
-#| msgctxt "Deal a new row of cards from the deck"
-#| msgid "Dea&l Row"
 msgctxt "@action Deal a new row of cards from the deck"
 msgid "Dea&l Row"
 msgstr "Legg opp en &rad"
 
 #: mainwindow.cpp:237
 #, fuzzy, kde-format
-#| msgctxt "Collect the cards in play, shuffle them and redeal them"
-#| msgid "&Redeal"
 msgctxt "@action Collect the cards in play, shuffle them and redeal them"
 msgid "&Redeal"
 msgstr "&Stokk om og legg ut"
 
 #: mainwindow.cpp:242
 #, fuzzy, kde-format
-#| msgctxt "Automatically move cards to the foundation piles"
-#| msgid "Dro&p"
 msgctxt "@action Automatically move cards to the foundation piles"
 msgid "Dro&p"
 msgstr "&Flytt"
 
 #: mainwindow.cpp:249
 #, fuzzy, kde-format
-#| msgid "&Enable Autodrop"
 msgctxt "@option:check"
 msgid "&Enable Autodrop"
 msgstr "Slå på &autoflytt"
 
 #: mainwindow.cpp:254
 #, fuzzy, kde-format
-#| msgid "E&nable Solver"
 msgctxt "@option:check"
 msgid "E&nable Solver"
 msgstr "Slå på &kaballøser"
 
 #: mainwindow.cpp:259
 #, fuzzy, kde-format
-#| msgid "Play &Sounds"
 msgctxt "@option:check"
 msgid "Play Sounds"
 msgstr "Spill &lyder"
 
 #: mainwindow.cpp:264
 #, fuzzy, kde-format
-#| msgid "&Remember State on Exit"
 msgctxt "@option:check"
 msgid "&Remember State on Exit"
 msgstr "&Husk tilstanden ved avslutting"
 
 #: mainwindow.cpp:281
 #, fuzzy, kde-format
-#| msgid "Generate a theme preview image"
 msgctxt "@action"
 msgid "Generate a Theme Preview Image"
 msgstr "Lag et bilde med forhåndsvisning av tema"
 
 #: mainwindow.cpp:286
 #, fuzzy, kde-format
-#| msgid "Take Game Preview Snapshots"
 msgctxt "@action"
 msgid "Take Game Preview Snapshots"
 msgstr "Vis øyeblikksbilde av spillet"
 
 #: mainwindow.cpp:291
 #, fuzzy, kde-format
-#| msgid "Random Cards"
 msgctxt "@action"
 msgid "Random Cards"
 msgstr "Tilfeldige kort"
@@ -964,7 +921,6 @@ msgstr ""
 
 #: mainwindow.cpp:426
 #, fuzzy, kde-format
-#| msgid "Card Deck"
 msgctxt "@title:tab"
 msgid "Card Deck"
 msgstr "Kortstokk"
@@ -976,7 +932,6 @@ msgstr "Velg kortstokk"
 
 #: mainwindow.cpp:434
 #, fuzzy, kde-format
-#| msgid "Game Theme"
 msgctxt "@title:tab"
 msgid "Game Theme"
 msgstr "Spilltema"
@@ -988,10 +943,6 @@ msgstr "Velg et terma for spill-elementer som ikke er kort"
 
 #: mainwindow.cpp:514
 #, fuzzy, kde-format
-#| msgctxt ""
-#| "Is disabled and changes to \"Help &with Current Game\" when there is no "
-#| "current game."
-#| msgid "Help &with %1"
 msgctxt ""
 "@action Is disabled and changes to \"Help &with Current Game\" when there is "
 "no current game."
@@ -1000,8 +951,6 @@ msgstr "Hjelp &med %1"
 
 #: mainwindow.cpp:545
 #, fuzzy, kde-format
-#| msgctxt "Shown when there is no game open. Is always disabled."
-#| msgid "Help &with Current Game"
 msgctxt "@action Shown when there is no game open. Is always disabled."
 msgid "Help &with Current Game"
 msgstr "Hjelp &med denne kabalen"
@@ -1017,7 +966,6 @@ msgstr ""
 
 #: mainwindow.cpp:702
 #, fuzzy, kde-format
-#| msgid "Hide Menubar"
 msgctxt "@title:window"
 msgid "Hide Menubar"
 msgstr "Gjem menylinja"
@@ -1049,14 +997,12 @@ msgstr "Det oppsto en feil under tolking av fila."
 
 #: mainwindow.cpp:861
 #, fuzzy, kde-format
-#| msgid "Load"
 msgctxt "@title:window"
 msgid "Load Game"
 msgstr "Last inn"
 
 #: mainwindow.cpp:888
 #, fuzzy, kde-format
-#| msgid "Save"
 msgctxt "@title:window"
 msgid "Save Game"
 msgstr "Lagre"
@@ -1089,21 +1035,18 @@ msgstr "Mod3"
 
 #: numbereddealdialog.cpp:36
 #, fuzzy, kde-format
-#| msgid "New Numbered Deal"
 msgctxt "@title:window"
 msgid "New Numbered Deal"
 msgstr "Nytt nummerert spill"
 
 #: numbereddealdialog.cpp:51
 #, fuzzy, kde-format
-#| msgid "Game:"
 msgctxt "@label"
 msgid "Game:"
 msgstr "Spill:"
 
 #: numbereddealdialog.cpp:55
 #, fuzzy, kde-format
-#| msgid "Deal number:"
 msgctxt "@label"
 msgid "Deal number:"
 msgstr "Spillnummer:"
@@ -1114,35 +1057,30 @@ msgstr "Sleipe-Simon"
 
 #: spider.cpp:132
 #, fuzzy, kde-format
-#| msgid "Spider &Options"
 msgctxt "@title:menu"
 msgid "Spider &Options"
 msgstr "&Valg for Edderkoppen"
 
 #: spider.cpp:133
 #, fuzzy, kde-format
-#| msgid "1 Suit (Easy)"
 msgctxt "@item:inmenu spider option"
 msgid "1 Suit (Easy)"
 msgstr "1 farge (lett)"
 
 #: spider.cpp:134
 #, fuzzy, kde-format
-#| msgid "2 Suits (Medium)"
 msgctxt "@item:inmenu spider option"
 msgid "2 Suits (Medium)"
 msgstr "2 farger (middels)"
 
 #: spider.cpp:135
 #, fuzzy, kde-format
-#| msgid "2 Suits (Medium)"
 msgctxt "@item:inmenu spider option"
 msgid "3 Suits (Hard)"
 msgstr "2 farger (middels)"
 
 #: spider.cpp:136
 #, fuzzy, kde-format
-#| msgid "2 Suits (Medium)"
 msgctxt "@item:inmenu spider option"
 msgid "4 Suits (Very Hard)"
 msgstr "2 farger (middels)"
@@ -1169,7 +1107,6 @@ msgstr "Edderkoppen (4 farger)"
 
 #: statisticsdialog.cpp:61
 #, fuzzy, kde-format
-#| msgid "Statistics"
 msgctxt "@title:window"
 msgid "Statistics"
 msgstr "Statistikk"
