@@ -8,22 +8,22 @@
 # Spiros Georgaras <sngeorgaras@otenet.gr>, 2008.
 # George Pantsis <gpantsis@gmail.com>, 2008.
 # Dimitrios Glentadakis <dglent@gmail.com>, 2011.
-# Antonis Geralis <capoiosct@gmail.com>, 2011, 2012.
+# SPDX-FileCopyrightText: 2011, 2012, 2024 Antonis Geralis <capoiosct@gmail.com>
 # Stelios <sstavra@gmail.com>, 2016, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-15 00:37+0000\n"
-"PO-Revision-Date: 2021-06-30 09:46+0300\n"
-"Last-Translator: Stelios <sstavra@gmail.com>\n"
+"PO-Revision-Date: 2024-09-20 09:32+0300\n"
+"Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 20.04.2\n"
+"X-Generator: Lokalize 24.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -327,7 +327,7 @@ msgstr "Άσοι"
 #, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "Any"
-msgstr "Ο,τιδήποτε"
+msgstr "Οτιδήποτε"
 
 #: castle.cpp:404
 #, kde-format
@@ -345,7 +345,7 @@ msgstr "Κλασική"
 #, kde-format
 msgctxt "@item:inmenu layout"
 msgid "Modern"
-msgstr "Σϋγχρονη"
+msgstr "Σύγχρονη"
 
 #: clock.cpp:157
 msgid "Grandfather's Clock"
