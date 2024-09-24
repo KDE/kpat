@@ -1,0 +1,1439 @@
+<?xml version="1.0" ?>
+<!--IMPORTANT: please note that'do not change this!' notice does not apply to translators -->
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Slovenian "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY % addindex "IGNORE"
+> <!-- do not change this! -->
+]>
+
+<book id="kpat" lang="&language;"
+> <!-- do not change this! -->
+<bookinfo>
+	<title
+>&kpatience; Priročnik</title
+> <!-- This is the title of the docbook. Leave as is unless change is necessary.-->
+<!-- List of immidiate authors begins here. -->
+<!--INPORTANT! - All other contributors: [to be determined] -->
+<authorgroup>
+<author
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> </author>
+<author
+><firstname
+>Maren</firstname
+> <surname
+>Pakura</surname
+> </author>
+<author
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> </author>
+
+<othercredit role="reviewer"
+><firstname
+>Mike</firstname
+><surname
+>McBride</surname
+> <contrib
+>Recenzent</contrib>
+<affiliation
+><address
+>&Mike.McBride.mail;</address
+></affiliation>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> <contrib
+>Razvijalec</contrib>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> <contrib
+>Razvijalec</contrib>
+</othercredit>
+
+<othercredit role="translator"
+><firstname
+>Matjaž</firstname
+><surname
+>Jeran</surname
+><affiliation
+><address
+><email
+>matjaz.jeran@amis.net</email
+></address
+></affiliation
+><contrib
+>Prevod</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Paul-Olav.Tvete;</holder>
+</copyright>
+
+<copyright>
+<year
+>2001</year
+><year
+>2004</year>
+<holder
+>&Maren.Pakura;</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year>
+<holder
+>&Stephan.Kulow;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>20.06.2021</date>
+<releaseinfo
+>KDE Gear 21.04</releaseinfo>
+
+<!--Short description of this document. Do not change unless necessary!-->
+<abstract>
+	<para
+>Ta dokumentacija opisuje igro &kpatience; različica 21.04</para>
+</abstract>
+
+<!--List of relevant keywords-->
+<keywordset>
+	<keyword
+>KDE</keyword
+> <!-- do not change this! -->
+	<keyword
+>kdegames</keyword
+> <!-- do not change this! -->
+	<keyword
+>igra</keyword
+> <!-- do not change this! -->
+	<keyword
+>KPatience</keyword
+><!--Application name goes here-->
+<!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<keyword
+>kartica</keyword>
+	<keyword
+>igra s kartami</keyword>
+	<keyword
+>igranje kart</keyword>
+<!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+	<keyword
+>en igralec</keyword>
+<!--All other relevant keywords-->
+	<keyword
+>potrpežljivost</keyword>
+	<keyword
+>pasjansa</keyword>
+</keywordset>
+</bookinfo>
+<!--Content begins here: -->
+<chapter id="introduction"
+><title
+>Uvod</title
+> <!-- do not change this! -->
+	<note
+><title
+>Vrsta igre:</title
+><para
+>Kartična</para
+></note
+><!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<note
+><title
+>Število možnih igralcev:</title
+><para
+>Eden</para
+></note
+><!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+
+<!--Short game description starts here. 3-4 sentences (paragraphs)-->
+
+<para
+>Če želite igrati potrpežljivost, potrebujete, kot že ime pove, potrpežljivost. Pri preprostih igrah, kjer je potek igre odvisen samo od tega, kako padajo karte, je morda edina stvar, ki jo potrebujete, vaša potrpežljivost. </para>
+
+<para
+>Obstajajo tudi igre potrpežljivosti, kjer morate načrtovati svojo strategijo in razmišljati vnaprej, da lahko zmagate. </para>
+
+<para
+>Tema, ki je skupna vsem igram, je, da mora igralec karte postaviti v poseben vrstni red &mdash; premikanje, obračanje in preurejanje. </para>
+</chapter>
+
+<chapter id="howto"
+><title
+>Kako igrati</title
+> <!-- do not change this! -->
+<!--IMPORTANT: If the game has no defined objective, please remove the below line.-->
+	<note
+><title
+>Cilj:</title
+><para
+>Prerazporedite karte glede na barvo v čim manj potezah.</para
+></note
+><!--Describe the objective of the game.-->
+<!--How to play description. Don't be to specific on rules as they have a separate section in this document-->
+	<para
+>Kot &kpatience; vam ponuja množico različnih iger pasjanse, ni enostavnega navodila, ki bi ustrezalo vsem. Zato je bistveno, da preberete vsak posamezen pododdelek razdelka Pravila igre, strategije in nasveti, preden začnete igrati različico, ki je ne poznate.</para>
+<para
+>V bistvu obstajata dve vrsti iger pasjanse – tiste, ki vam omogočajo, da karte razporedite po isti barvi, in tiste, ki vam omogočajo, da karte razporedite po izmenični barvi. Z metodo poskusov in napak lahko preprosto ugotovite, katero igro preizkušate. Ko enkrat veste, s katero imate opravka, je ostalo enostavno; nadaljujte z urejanjem in preurejanjem kart ter zbiranjem ujemajočih se.</para>
+<para
+>Od začetka pa bodite pozorni na svoje kupe kart. Ne hitite s premikanjem posameznih kart. Poglejte, če bi bilo morda bolj uporabno kje drugje.</para>
+<para
+>Za dodatno pomoč lahko tudi hitro pokukate v vrstico stanja. Vsaka od iger ima vgrajenega reševalca, ki vas obvesti, ali je igro, ki jo trenutno igrate, mogoče dokončati ali ne. Če vidite, da reševalec ni mogel dokončati trenutne igre, je verjetno, da tudi vi tega ne boste mogli storiti. Na tej točki lahko znova zaženete trenutno igro ali začnete povsem novo igro. </para>
+<note
+><title
+>Opomba:</title
+><para
+>Igranje pasjanse vam pomaga močno izboljšati razpon pozornosti in izboljšati sposobnost koncentracije.</para
+></note>
+</chapter>
+
+<chapter id="rules_and_tips"
+><title
+>Pravila igre, strategije in nasveti</title
+> <!-- do not change this! -->
+
+<sect1 id="rules-general">
+	<title
+>Splošna pravila</title>
+	<para
+><indexterm
+><primary
+>barve kart</primary
+></indexterm
+>Igra s kartami vsebuje enega ali več kompletov kart po 52 kart. Vsak komplet vsebuje štiri barve:</para>
+	<informaltable pgwide="0" frame="none">
+		<tgroup cols="2"
+><colspec/><colspec/>
+	<tbody>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="clubs.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Križi</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="spades.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Piki</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="hearts.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Srca</entry>
+		</row>
+			<row valign="middle"
+><entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="diamonds.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>Kare</entry>
+		</row>
+	</tbody
+></tgroup>
+	</informaltable>
+	<para
+>Vsaka od teh barv vsebuje naslednje vrste kart: asa, dvojko, trojko, štirico, petico, šestico, sedmico, osmico, devetko, desetico, fanta, damo in kralja.</para>
+	<para
+><indexterm
+><primary
+>družina</primary
+></indexterm
+> Ta popolni vrstni red kart se imenuje družina. Obstajajo prave družine in izmenične. Prave družine so vse iste barve (npr. Srca). V izmeničnih družinah se barva kart spreminja od ene do druge, med črno barvo (Križi in Piki) ter rdečo barvo (Srca in Kare).</para>
+	<para
+>Če družina ni popolna, se imenuje zaporedje.</para>
+	<mediaobject>
+		<imageobject
+><imagedata fileref="playfield.png" format="PNG"/></imageobject>
+		<textobject
+><phrase
+>Igralno polje &kpatience;</phrase
+></textobject>
+	</mediaobject>
+	<para
+>Tipične igre potrpežljivosti vsebujejo številne funkcije. Ti so opisani spodaj.</para>
+	<variablelist>
+		<varlistentry
+><term
+>1. Talon</term>
+			<listitem
+><para
+><indexterm
+><primary
+>talon</primary
+></indexterm
+>Na začetku vsake igre se vse karte zmešajo v plošči. V nekaterih igrah niso razdeljene vse karte. Preostale karte se odložijo na talon (imenovan tudi zaloga). To lahko najdete precej enostavno, saj je v večini iger to edini kup, v katerem so vse karte obrnjene navzdol.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>2. Kup odpadkov</term>
+			<listitem
+><para
+><indexterm
+><primary
+>kup odpadkov</primary
+></indexterm
+>Veliko iger uporablja kup odpadkov za shranjevanje kart, vzetih iz talona. Običajno klik na talon povzroči, da se najvišja karta obrne z licem navzgor in odloži na kup odpadkov, na kateri točki vstopi karta v igro.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>3. Temelj</term>
+			<listitem
+><para
+><indexterm
+><primary
+>temelj</primary
+></indexterm
+>Temeljni skupki kart so tam, kjer želite, da končajo vaše karte. Običajno je igra zmagana šele, ko so vse karte premaknjene na temeljne kupe v pravilnem vrstnem redu. Število temeljnih skupkov in potreben vrstni red se razlikujeta od igre do igre.</para>
+                            <para
+>Večina iger se začne s praznimi temeljnimi skupki. Če v meniju ali orodni vrstici izberete dejanje <guimenuitem
+>Spusti</guimenuitem
+>, bo &kpatience; za pregledovanje vseh kupov premakni čim več kart na temeljne kupe. Če imate aktivirano nastavitev <guimenuitem
+>Omogočeno samodejno polaganje</guimenuitem
+>, &kpatience; bo poskušal izvesti polaganje, kadar koli bo to mogoče.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>4. Igranje kupčkov</term>
+			<listitem
+><para
+><indexterm
+><primary
+>igranje kupčkov</primary
+></indexterm
+>Ti kupi so tisti, kjer pride do dejanskega preurejanja. Pravila za te kupe se med igrami zelo razlikujejo. Nekateri pokažejo vse karte na njih, nekateri ne. Nekateri dovoljujejo odstranitev samo ene kartice, nekateri dovoljujejo odstranitev vseh kartic itd.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="rules-specific"
+><title
+>Pravila za posamezne igre</title>
+
+<sect2 id="klondike">
+<title
+>Klondike</title>
+
+<para
+><indexterm
+><primary
+>Klondike</primary
+></indexterm
+> Klondike je najbolj znana potrpežljivost &mdash; najverjetneje zato, ker prihaja z znanim operacijskim sistemom. Igra se z enim kompletom. </para>
+
+<para
+>Cilj v Klondiku je postaviti vse karte kot prave družine navzgor na temelje. To postane lažje, ko so vse karte v igralnih kupčkih obrnjene navzgor. </para>
+
+<para
+>Zaporedja na igralnih kupčkih morajo biti postavljena v padajočem vrstnem redu. Barve kart naj se izmenjujejo (rdeča in črna). Lahko premaknete celotno zaporedje ali njegove dele, če se prva karta prilega drugemu kupu. </para>
+
+<para
+>Na prosti kupček lahko postavite kralja katere koli barve ali zaporedje, ki se začne s kraljem. </para>
+
+<para
+>Ko kliknete talon, se ena karta iz njega premakne na kup odpadkov. Od tam ga lahko premaknete na igralne kupe ali temelj. Če je talon prazen, lahko premaknete celoten kup smeti v talon s klikom na prazen talon. </para>
+
+<para
+>Karte na talonu lahko pregledujete, kolikor želite. </para>
+</sect2>
+
+<sect2 id="grandfather">
+<title
+>Dedek</title>
+
+<para
+><indexterm
+><primary
+>Dedek</primary
+></indexterm
+> To igro je &Paul-Olav.Tvete;, izvirnemu razvijalcu &kpatience;, predstavil njegov dedek; po tem se imenuje. Nobena druga potrpežljiva igra ni znana, da bi izvajala to različico potrpežljive igre. </para>
+        
+<para
+>V igri Dedek se en komplet razdeli sedmim igralnim kupčkom. Nekatere karte na vsakem kupu so pri začetni delitvi obrnjene navzdol. </para>
+
+<para
+>Cilj je postaviti vse karte kot prave družine, ki se dvigajo na temeljne skupke. </para>
+
+<para
+>Vsako karto lahko premaknete na vsakem kupu, če se prilega drugi karti, da sestavite pravo zaporedje v padajočem vrstnem redu. Na primer, pikovo petico lahko premaknete na pikovo šestico, ne glede na to, koliko kart je na vrhu pikove petice. Samo pikova šestica mora biti na vrhu svojega kupa. </para>
+
+<para
+>Na prosti kupček lahko postavite kralja (spet ne glede na to, koliko kart je na vrhu). </para>
+
+<para
+>Če ni več možnih potez, lahko ponovno delite karte. Ponovna delitev je sestavljena iz pobiranja kart iz igralnih kupčkov (kupček za kupčkom, od leve proti desni) in njihovega ponovnega razdeljevanja po začetnem vzorcu (cikcakaste vrste obrnjenih kart navzdol, ki tvorijo vrh, nato pa od leve proti desni vrstice obrnjenih kart na vrhu ). Upoštevajte, da karte <emphasis
+>niso</emphasis
+> premešane in da karte na temeljnih skupkih ostanejo nedotaknjene. V eni igri lahko znova delite največ dvakrat. </para>
+
+<para
+>Čeprav so pravila preprosta in dovoljujejo veliko potez, je igro vseeno težko zmagati. Kljub temu ali prav zaradi tega je ta igra še vedno užitek igrati. </para>
+</sect2>
+
+<sect2 id="aces-up">
+<title
+>Aces Up</title>
+
+<para
+><indexterm
+><primary
+>Aces Up</primary
+></indexterm
+> Ta potrpežljivost ima preprosta pravila, vendar jo je težko osvojiti. Igra se z enim kompletom. Cilj je postaviti vse karte razen asov na temelj. Nato mora na vsakem igralnem kupčku ostati as. </para>
+
+<para
+>Vsako zgornjo karto, ki je iste barve (npr. pik) in ima nižjo vrednost kot druga zgornja karta (npr. pik šest in štiri), lahko postavite na temelj s klikom nanjo. </para>
+
+<para
+>Če ne morete premakniti več kart na temelj, lahko dobite novo karto za vsak igralni kup s klikom na talon. </para>
+
+<para
+>Na prostem kupu lahko premaknete vsako drugo karto na vrh kupa. Te poteze bi morali uporabiti za osvobajanje kupčkov. Na ta način je mogoče nove kartice premakniti v temelj. </para>
+
+<para
+>Funkcija samodejnega spuščanja je v tej igri potrpežljivosti onemogočena. </para>
+
+</sect2>
+
+<sect2 id="freecell">
+<title
+>Freecell</title>
+
+<para
+><indexterm
+><primary
+>Freecell</primary
+></indexterm
+> Freecell se igra z enim kompletom kart. V zgornjem levem kotu imate štiri proste celice. Poleg tega so še štirje temeljni piloti in osem igralnih skupkov spodaj. </para>
+
+<para
+>Cilj igre je imeti vse karte kot prave družine, ki se dvignejo na temelj. To lahko pogosto dosežete, če znate igrati: Freecell je rešljiv s stopnjo približno 99,9 % &mdash; od prvih 32.000 deljenj je samo ena nerešljiva (11.982, če ravno želite vedeti). </para>
+
+<para
+>V igralnih kupčkih morate graditi padajoče nize, kjer se izmenjujejo rdeče in črne karte. V prosto celico lahko postavite katero koli kartico. </para>
+
+<para
+>Premaknete lahko samo eno karto, ki je na vrhu kupa ali proste celice. Zaporedja lahko premikate samo, če imate dovolj prostega prostora (bodisi proste celice ali proste igralne kupčke) za postavitev kart. </para>
+
+<para
+>Največje število kart, ki jih lahko premaknete, se izračuna po: </para>
+
+<sidebar
+><para
+>(#{proste celice} + 1) * 2<superscript
+>#{prosti kupčki}</superscript
+> </para
+></sidebar>
+
+<para
+>Različice:</para>
+<itemizedlist>
+  <listitem
+><para
+><quote
+>Baker's Game</quote
+> je kot <quote
+>Freecell</quote
+>, vendar so kupi sestavljeni z barvo kart.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Eight Off</quote
+> je kot <quote
+>Freecell</quote
+>, vendar so kupčki zgrajeni z barvo kart. Imate 8 rezerv in samo kralji lahko zapolnijo prazna mesta. Štiri rezerve so zapolnjene na začetku igre.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Forecell</quote
+> je kot <quote
+>Freecell</quote
+>, vendar se rezerve zapolnijo na začetku igre in le kralji lahko zapolnijo prazna mesta.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Seahaven Towers</quote
+> je kot <quote
+>Freecell</quote
+>, vendar z 10 skupkov, ki so zgrajeni po barvi, prazna mesta pa lahko zapolnijo le kralji. Dve rezervi se zapolnita na začetku igre.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Če želite rešiti to igro, je priporočljivo, da zgrabite karte iz igralnih zaporedij v istem vrstnem redu, kot jih je treba postaviti v temelj (najprej asi, nato dvojke itd.) </para>
+
+<para
+>Potrudite se, da bo čim več prostih celic in/ali igralnih kupčkov praznih, da boste lahko gradili zaporedja čim dlje. </para>
+
+</sect2>
+
+<sect2 id="mod3">
+<title
+>Mod3</title>
+
+<para
+><indexterm
+><primary
+>Mod3</primary
+></indexterm
+> Mod3 se igra z dvema kompletoma kart. Cilj je postaviti vse karte v zgornje tri vrstice. V njih morate zgraditi zaporedja iste barve. V prvi vrsti morate ustvariti zaporedje 2-5-8-J, v drugi vrsti zaporedje 3-6-9-Q in v tretji vrsti zaporedje 4-7-10-K. Barva kart mora biti enaka v vsakem zaporedju, tako da lahko na srčno dvojko položite samo petico. </para>
+
+<para
+>Četrta vrsta je vaš kup odpadkov in kup za igro. Na prazno režo lahko vstavite katero koli karto iz prvih treh vrstic ali eno z vrha četrte vrstice. </para>
+
+<para
+>Ase lahko postavite na kupe asov, na vrh talona. So v igri, tako da imate izhodišče za ustvarjanje brezplačnih igralnih avtomatov. </para>
+
+<para
+>Če ne morete premakniti več kart, lahko dobite nove karte v četrti vrstici s klikom na talon. </para>
+
+<para
+>Funkcija samodejnega spuščanja je v tej igri potrpežljivosti onemogočena. </para>
+</sect2>
+
+<sect2 id="gypsy">
+<title
+>Cigan</title>
+
+<para
+><indexterm
+><primary
+>Cigan</primary
+></indexterm
+> Cigan se igra z dvema kompletoma kart. Cilj je postaviti vse karte v prave družine, ki se dvigajo na temelju. </para>
+
+<para
+>Igralni kupčki se morajo padati, rdeče in črne karte pa se morajo izmenjevati. Premikate lahko samo zaporedja ali posamezne karte. Na prosto režo lahko postavite poljubno karto ali zaporedje. </para>
+
+<para
+>Če ne morete premakniti več kart, lahko kliknete talon, da dobite nove karte na vsakem igralnem kupu. </para>
+
+<para
+>Z uporabo funkcije <guibutton
+>Razveljavi</guibutton
+> lahko precej olajšate igro, saj morate sprejeti veliko odločitev in nekatere od njih se lahko izkažejo za napačne, potem ko kliknete talon. </para>
+
+</sect2>
+
+<sect2 id="forty-and-eight">
+<title
+>Štirideset &amp; Osem</title>
+
+<para
+><indexterm
+><primary
+>Štirideset &amp; Osem</primary
+></indexterm
+> Štirideset &amp; Osmica se igra z dvema kompletoma kart. Cilj je postaviti vse karte kot prave družine na temelj. </para>
+
+<para
+>Igralni kupčki se morajo spuščati. Barve so pomembne. Na srčno šestico lahko na primer postavite samo petico. </para>
+
+<para
+>Na vrh kupa lahko premaknete samo eno karto. V prosto režo lahko vstavite katero koli kartico. </para>
+
+<para
+>S klikom na talon lahko odložite karto na kup odpadkov; od tam ga lahko postavite na igralni kup ali temelj (&kpatience; bo to naredil namesto vas). Če je talon prazen, lahko vrnete vse karte s kupa odpadkov nazaj na talon. To deluje samo enkrat: ko se talon drugič izprazni, je igre konec. </para>
+
+<para
+>To potrpežljivost je težko rešiti. Z nekaj izkušnjami lahko rešite veliko poslov, zlasti če občasno uporabite funkcijo <guibutton
+>Razveljavi</guibutton
+>, da popravite svoje odločitve, in odločitve &kpatience; naredi pri polaganju kart na temelj. </para>
+</sect2>
+
+<sect2 id="simple-simon">
+<title
+>Preprosti Simon</title>
+
+<para
+><indexterm
+><primary
+>Preprosti Simon</primary
+></indexterm
+> Preprosti Simon se igra z enim kompletom kart. Cilj je postaviti vse karte kot prave družine na temelj. </para>
+
+<para
+>V igralnih kupčkih lahko gradite zaporedja. Na splošno vam ni treba skrbeti za barve kart, vendar lahko zaporedja premikate le, če so del pravega zaporedja. Na primer, pikovo šestico lahko premaknete, če je petica <emphasis
+>pik</emphasis
+> na vrhu, ne smete pa je premakniti, če je na vrhu petica <emphasis
+>križa</emphasis
+> . </para>
+
+<para
+>Karte je mogoče premakniti na temelj le, če vseh 13 kart ene družine leži druga na drugi v igralnih kupčkih. </para>
+
+<tip>
+<title
+>Predlog</title>
+<para
+>Poskusite čim prej premakniti karte na pravilne kupčke, ustvariti proste kupčke, na katere lahko začasno položite karte, saj lahko nanje postavite katero koli karto. </para>
+
+<para
+>Z dovolj prostim prostorom lahko zgradite družine na prostih mestih neodvisno od barve. Če imate vse karte v takšnih družinah, jih lahko razvrstite po barvi, tako da jih lahko premaknete na temelj. </para>
+</tip>
+
+</sect2>
+
+<sect2 id="yukon">
+<title
+>Yukon</title>
+
+<para
+><indexterm
+><primary
+>Yukon</primary
+></indexterm
+> Yukon se igra z enim kompletom kart. Cilj je postaviti vse karte kot prave družine, ki se vzpenjajo na temelje. </para>
+
+<para
+>Zaporedja na igralnih kupčkih morajo biti padajoča z izmenjujočimi se rdečimi in črnimi kartami. Premaknete lahko vsako obrnjeno karto navzgor, ne glede na to, koliko kart je na njej. Torej lahko petico s pikami postavite na pikovo šestico, če je ta na vrhu svojega kupa. </para>
+
+<para
+>V prosto režo lahko postavite kralja katere koli barve (spet ne glede na to, koliko kart je na vrhu). </para>
+</sect2>
+
+<sect2 id="grandfathers-clock">
+<title
+>Dedkova ura</title>
+
+<para
+><indexterm
+><primary
+>Dedkova ura</primary
+></indexterm
+> Dedkova ura je preprosta igra potrpežljivosti. Z nekaj izkušnjami bi morali rešiti večino poslov. Igra se z enim kompletom kart. Cilj je postaviti karte kot prava naraščajoča zaporedja na temelj. </para>
+
+<para
+>Temelj je na desni strani in je sestavljen iz 12 skupkov, ki tvorijo obliko ure. Devetka je ob 12. uri, dama ob 15. uri, trojka ob 18. uri in šestica ob 21. uri. </para>
+
+<para
+>Ob uri je 8 igralnih kupčkov in na vsakem je 5 kart. Na igralnih kupčkih lahko gradite padajoče nize. Barva kart ni pomembna. Premaknete lahko le eno karto naenkrat. </para>
+
+</sect2>
+
+<sect2 id="golf">
+<title
+>Golf</title>
+
+<para
+><indexterm
+><primary
+>Golf</primary
+></indexterm
+> Golf se igra z enim kompletom kart. Cilj igre Golf je premakniti vse karte na mizi na temelj.</para>
+ 
+<para
+>Postavitev golf pasijanse je preprosta. Na začetku igre boste videli tabelo. Na njem je sedem stolpcev, od katerih vsak vsebuje pet kart. Talon in temelj sta spodaj. </para>
+
+<para
+>Igranje golf pasjanse je preprosto, vendar zahteva strategijo za zmago. Karte na dnu vsakega stolpca na tabeli so na voljo za igro. Razpoložljive karte so zgrajene na zgornji osnovni karti v naraščajočem ali padajočem zaporedju, ne glede na barvo. Če ni na voljo nobenih potez, se lahko karta razdeli od talona do temelja. Igre je konec, ko so vse karte v talonu razdeljene in ni več možnih potez.</para>
+
+</sect2>
+
+<sect2 id="spider">
+<title
+>Pajek</title>
+
+<para
+><indexterm
+><primary
+>Pajek</primary
+></indexterm
+> Pajek se igra z dvema kompletoma kart. Karte so razdeljene v 10 igralnih kupčkov, po 4 od 6 kart in 6 od 5 kart. Tako ostane 50 kart, ki jih je mogoče razdeliti po 10 hkrati, po eno na vsakem igralnem kupu. </para>
+
+<para
+>V igralnih kupčkih lahko karto položite na drugo karto poljubne barve in z eno višjo vrednostjo. Zaporedje padajočih kart iste barve se lahko premika iz enega igralnega kupa v drugega. </para>
+
+<para
+>Cilj pajka je postaviti vse karte kot prave družine, ki izvirajo iz kraljev, kamor koli v igralne kupe. Ko je taka družina sestavljena v igralni kup, se le-ta odstrani v levi spodnji kot okna. </para>
+
+<para
+>Različne ravni določajo, koliko barv je razdeljenih - Enostavna uporabi 1 barvo, srednja uporabi 2 barvi, težka pa uporabi vse 4 barve. Igro je dokaj enostavno zmagati na preprosti ravni in zelo težko zmagati na težki ravni. </para>
+
+</sect2>
+
+<sect2 id="bakers-dozen">
+<title
+>Pekov ducat</title>
+
+<para
+><indexterm
+><primary
+>Pekov ducat</primary
+></indexterm
+> Pekov ducat se igra z enim kompletom kart. Ime igre izhaja iz 13 stolpcev v igri, števila v pekovskem ducatu. Karte so razdeljene v stolpce po štiri na tabeli, kar ima za posledico 13 stolpcev. Vsak kralj, ki je na vrhu ali sredini vsakega stolpca, mora biti pred začetkom igre postavljen na dno. Dva kralja, ki sta pomešana v en stolpec, sta postavljena na dno, ne da bi spremenila njun vrstni red. </para>
+
+<para
+>Cilj igre je sestaviti vse karte na štiri temelje po barvi, vsako od asa do kralja </para>
+
+<para
+>V igralnih kupih morate zgraditi padajoče zaporedje, ne glede na barvo. Premaknete lahko le eno karto, ki je na vrhu kupa. </para>
+
+<para
+>Različice:</para>
+<itemizedlist>
+  <listitem
+><para
+>V <quote
+>Spanish Patience</quote
+> lahko katera koli karta zapolni prazne prostore tabele. (V nekaterih virih se temelji gradijo ne glede na barvo).</para
+></listitem>
+  <listitem
+><para
+><quote
+>Gradovi v Španiji</quote
+> je podoben <quote
+>Španski potrpežljivosti</quote
+>, vendar so karte v tabeli sestavljene z nadomestno barvo. V nekaterih različicah se tabela deli obrnjena navzdol poleg zgornjih kart vsakega stolpca.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Portugalska pasjansa</quote
+> je na pol poti med <quote
+>Pekovih ducat</quote
+> in <quote
+>Špansko potrpežljivostjo</quote
+>, ker se prazne stolpce lahko zapolni samo s kralji.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Če želite rešiti to igro, je priporočljivo, da zgrabite karte iz igralnih zaporedij v istem vrstnem redu, kot jih morate dati v temelj (najprej asi, nato dvojke itd.). Običajno se želite izogniti praznjenju stolpca, dokler zadnja karta je pripravljena za premik na temelj. </para>
+
+</sect2>
+
+<sect2 id="castle">
+<title
+>Grad</title>
+
+<para
+><indexterm
+><primary
+>Grad</primary
+></indexterm
+> Castle je družina iger potrpežljivosti ali pasjans, ki se običajno igrajo s kompletom 52 igralnih kart. Včasih jo opisujejo kot "prosto celico brez celic", ker je njena igra podobna, vendar brez dodatnih praznih prostorov za manevriranje v večini različic. </para>
+
+<para
+>Cilj igre je sestaviti vse karte na štiri temelje po barvi, vsako od asa do kralja. </para>
+
+<para
+>V igralnih kupih morate zgraditi padajoče zaporedje, ne glede na barvo. Premaknete lahko le eno karto, ki je na vrhu kupa. </para>
+
+<para
+>Različice:</para>
+<itemizedlist>
+  <listitem
+><para
+><quote
+>Oblegani grad</quote
+>. Asi se delijo do temeljev. Vsaka karta lahko zapolni prazne prostore.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Citadela</quote
+> je kot <quote
+>Oblegani grad</quote
+>, vendar se ujemajoče se karte med delitvijo premaknejo na temelj, tako da ostanejo neenakomerni kupčki.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Izgnani kralji</quote
+> je kot <quote
+>Citadela</quote
+>, vendar samo kralji lahko zapolnijo prazne prostore.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Obrt obleganja</quote
+> je kot <quote
+>Oblegani grad</quote
+>, vendar z eno prosto celico.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Ulice in aleje</quote
+> je kot <quote
+>Oblegani grad</quote
+>, vendar so asi vključeni v mešanje.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Utrdba</quote
+> je kot <quote
+>Ulice in ulice</quote
+>, vendar z eno prosto celico.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Za rešitev te igre je priporočljivo graditi enakomerno na temeljih. Poskusite ustvariti prazne kupčke, ki jih lahko uporabite za omogočanje daljših premikov, da sprostite zakopane karte. </para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="interface"
+><title
+>Pregled vmesnika</title
+> <!-- do not change this! -->
+<!-- This section has to do with menubar. Describe every single entry in order. Use <variablelist
+> and <varlistentry
+>. Split the chapter into sections using <sect1(2,3)
+> for better viewing.-->
+<sect1 id="game-menu">
+	<title
+>Meni igre</title>
+		<variablelist>
+			<varlistentry id="game-menu-new-game">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>N</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Igra</guimenu
+> <guimenuitem
+>Nova igra…</guimenuitem 
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Vrnitev na zaslon za izbiro igre.</action
+> To dejanje opusti igro v teku.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-deal">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Igra</guimenu
+> <guimenuitem
+>Novo deljenje</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Začni novo deljenje iste vrste igre.</action
+> To dejanje opusti deljenje v teku.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-numbered-deal">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Igra</guimenu
+> <guimenuitem
+>Novo oštevilčeno deljenje…</guimenuitem
+> </menuchoice
+></term>
+				<listitem>
+					<para
+><action
+>Začnite novo deljenje tako, da navedete vrsto igre in številko deljenja.</action
+> To dejanje opusti deljenje v teku.</para>
+					<para
+>&kpatience; vsakemu razdelku dodeli edinstveno identifikacijsko številko (ki jo interno uporablja za naključno razvrščanje kompleta med začetnim razdelitvijo). Ta funkcija vam omogoča, da ponovno predvajate deljenje, ki vas zanima, ali poskusite s posebno težkim deljenjem, ki ga priporoča prijatelj. Še posebej predani igralci bodo morda želeli <quote
+>premagati</quote
+> &kpatience; z igranjem vseh 2147483647 deljenj zaporedoma za vsako vrsto igre.</para>
+					<para
+>Upoštevajte, da se za Freecell številke &kpatience; ujemajo s tistimi, ki so opisane v <ulink url="http://www.solitairelaboratory.com/fcfaq.html"
+>Freecell &FAQ;</ulink
+>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-restart-deal">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F5</keycap
+></shortcut
+> <guimenu
+>Igra</guimenu
+> <guimenuitem
+>Ponovno deljenje</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Vrni trenutno igro na prvotno razdeljeno stanje.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Igra</guimenu
+> <guimenuitem
+>Naloži…</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Naloži shranjeno igro.</action
+> To dejanje opusti deljenje v teku.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load-recent">
+				<term
+><menuchoice
+><guimenu
+>Igra</guimenu
+> <guisubmenu
+>Naloži nedavne</guisubmenu
+> <guimenuitem
+><replaceable
+>Seznam nedavno dostopanih datotek</replaceable
+></guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Seznam nedavno dostopanih shranjenih datotek po vrstnem redu zadnje uporabe.</action
+> Če izberete igro, se bo naložila. To dejanje opusti deljenje v teku.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-save">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Igra</guimenu
+> <guimenuitem
+>Shrani kot…</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Shranite trenutno igro na disk.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-statistics">
+				<term
+><menuchoice
+><guimenu
+>Igra</guimenu
+> <guimenuitem
+>Statistika</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Prikažite različne statistične podatke o vaši uspešnosti, razčlenjene po vrsti igre.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-quit">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Igra</guimenu
+> <guimenuitem
+>Zapusti</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Zapusti</action
+> &kpatience;.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="move-menu">
+	<title
+>Meni Premakni</title>
+		<variablelist>
+			<varlistentry id="move-menu-undo">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Premakni</guimenu
+> <guimenuitem
+>Razveljavi</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Razveljavi</action
+> svojo zadnjo potezo.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-redo">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>Z</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Premakni</guimenu
+> <guimenuitem
+>Ponovi</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Ponovi</action
+> potezo, ki je bila pravkar razveljavljena z <guimenuitem
+>Razveljavi</guimenuitem
+>.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-hint">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>H</keycap
+></shortcut
+> <guimenu
+>Premakni</guimenu
+> <guimenuitem
+>Namig</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Podajte nekaj namigov o možnih potezah, če se igralec zatakne. Karte, ki jih je mogoče zakonito premakniti na drug kup, so začasno označene.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-demo">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>D</keycap
+></shortcut
+> <guimenu
+>Premakni</guimenu
+> <guimenuitem
+>Demo</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Zaženite demo način.</action
+> Ko ste v demo načinu, &kpatience; poskuša rešiti posel namesto vas. Drugič aktivirajte to dejanje, da zapustite predstavitveni način.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-draw">
+				<term
+><menuchoice
+><shortcut
+>&Space;</shortcut
+> <guimenu
+>Premakni</guimenu
+> <guimenuitem
+>Potegni</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Obrnite eno ali več kart iz talona in jih premaknite na kup smeti.</action
+> To dejanje je na voljo samo v nekaterih igrah.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-deal-row">
+				<term
+><menuchoice
+><shortcut
+>&Enter;</shortcut
+> <guimenu
+>Premakni</guimenu
+> <guimenuitem
+>Vrstica deljenja</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Obrnite več kart iz talona in položite eno na vsak igralni kup.</action
+> To dejanje je na voljo samo v določenih igrah.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-redeal">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>R</keycap
+></shortcut
+> <guimenu
+>Premakni</guimenu
+> <guimenuitem
+>Ponovno deljenje</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Zberite vse karte, ki so ostale v igri, in jih znova razdelite brez mešanja.</action
+> To dejanje je na voljo samo v določenih igrah.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="settings-help-menu">
+	<title
+>Meni Nastavitve in pomoč</title>
+<para
+>Poleg običajnega &kde; Meniji Nastavitve in Pomoč, opisani v poglavju <ulink url="help:/fundamentals/menus.html"
+>Meni</ulink
+> v &kde; Dokumentacija o osnovah &kpatience; ima te menijske vnose za posamezne aplikacije: </para>
+		<variablelist>
+			<varlistentry id="settings-menu-game-type-options">
+				<term
+><menuchoice
+><guimenu
+>Nastavitve</guimenu
+> <guisubmenu
+><replaceable
+>Možnosti vrste igre</replaceable
+></guisubmenu
+> <guimenuitem
+><replaceable
+>Seznam posebnih možnosti vrste igre</replaceable
+></guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Seznam možnosti, značilnih za trenutno vrsto igre.</action
+> Ta meni je na voljo samo v nekaterih igrah (Klondike in Pajek).</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-stack-options">
+				<term
+><menuchoice
+><guimenu
+>Nastavitve</guimenu
+> <guisubmenu
+>Možnosti sklada</guisubmenu
+> <guimenuitem
+>Obrnjeno navzdol (težje)/obrnjeno navzgor (lažje)</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Omogoča vam, da izberete, ali naj bodo obrazi kartic prikazani.</action
+> Ta meni je na voljo samo v Pajku.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-autodrop">
+				<term
+><menuchoice
+><guimenu
+>Nastavitve</guimenu
+> <guimenuitem
+>Omogoči samodejni polaganje</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Omogočite samodejno premikanje kartic na temeljne skupke, ko je to mogoče.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-solver">
+				<term
+><menuchoice
+><guimenu
+>Nastavitve</guimenu
+> <guimenuitem
+>Omogoči reševalca</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Omogoči mehanizem za samodejno reševanje.</action
+> Ko je omogočen, bo reševalec nenehno poskušal ugotoviti, ali je trenutno stanje igre mogoče zmagati. Morda boste želeli onemogočiti reševalca, da prihranite procesor ali porabo baterije.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-playsounds">
+				<term
+><menuchoice
+><guimenu
+>Nastavitve</guimenu
+> <guimenuitem
+>Predvajaj zvoke</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Zvoki se predvajajo, ko vzamete ali položite karte.</action
+> V prihodnosti pričakujemo več zvokov.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-remember">
+				<term
+><menuchoice
+><guimenu
+>Nastavitve</guimenu
+> <guimenuitem
+>Zapomni si stanje ob izhodu</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Omogoči samodejno shranjevanje stanja igre, ko &kpatience; je izklopljen.</action
+> Če je omogočeno, &kpatience; ob naslednjem zagonu samodejno naloži prejšnje stanje igre.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="help-menu-remember">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>F1</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Pomoč</guimenu
+> <guimenuitem
+>Pomoč pri trenutni igri</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Odpre razdelek s pravili za trenutno igro v tem priročniku.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="faq"
+><title
+>Pogosto zastavljena vprašanja</title
+> <!-- do not change this! -->
+<!--This chapter is for frequently asked questions. Please use <qandaset
+> <qandaentry
+> only!-->
+<qandaset>
+<!--Following is a standard list of FAQ questions.-->
+<qandaentry>
+ <question
+><para
+>Želim spremeniti videz te igre. Ali lahko? </para
+></question>
+ <answer
+><para
+>Spremenite lahko obraze in hrbtne strani igralnih kart ter temo igre. Za to uporabite <menuchoice
+> <shortcut
+><keycap
+>F10</keycap
+></shortcut
+> <guimenu
+>Nastavitve</guimenu
+> <guimenuitem
+>Spremeni videz…</guimenuitem
+> </menuchoice
+> v menijski vrstici .</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Ali lahko uporabljam tipkovnico za igranje igre?</para
+></question>
+ <answer
+><para
+>Ne, &kpatience; ne vsebuje samo igranja s tipkovnico. Vendar ima večina možnosti menija bližnjice na tipkovnici.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Tudi z namigi še vedno nimam pojma, kako igrati. pomoč!</para
+></question>
+ <answer
+><para
+>Poleg funkcije <quote
+>Namig</quote
+> obstaja tudi uporaben način <quote
+>Demo</quote
+>, kjer bo vgrajena umetna inteligenca igrala igro namesto vas. Lahko poskusite gledati in se učiti. Če pa imate kakršna koli vprašanja, je bolje, da preberete razdelka <link linkend="howto"
+>Kako igrati</link
+> in <link linkend="rules_and_tips"
+>Pravila, strategije in nasveti</link
+> tega priročnika.</para
+></answer>
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits"
+><title
+>Zasluge in licenca</title
+> <!-- do not change this! -->
+<!--This chapter is for credits and licenses.-->
+
+<para
+>&kpatience; </para>
+<!--List all the copyright holders here-->
+<para
+>&kpatience; Copyright &copy; 1995-2000 &Paul-Olav.Tvete; </para>
+
+<para
+>&kpatience; Copyright &copy; 2001-2007 &Stephan.Kulow; &Stephan.Kulow.mail; </para>
+
+<para
+>Freecell Solver avtor Shlomi Fish <email
+>shlomif@vipe.technion.ac.il</email
+> </para>
+
+<para
+>Dokumentacija Copyright &copy; 2000 &Paul-Olav.Tvete; </para>
+
+<para
+>Posodobljena dokumentacija za &kde; 2.0 avtor &Mike.McBride; &Mike.McBride.mail; </para>
+
+<para
+>Dokumentacija, prepisana za &kpatience; 2.0 (&kde; 2.1) avtor &Maren.Pakura; &Maren.Pakura.mail; </para>
+
+<para
+>Lektoriranje in posodobitev dokumentacije za &kpatience; 3.6 &Richard.Hawthorne; &Richard.Hawthorne.mail; </para>
+
+<para
+>Prevod: Matjaž Jeran<email
+>matjaz.jeran@amis.net</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index; 
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-omittag:t
+sgml-shorttag:t
+sgml-namecase-general:t
+sgml-always-quote-attributes:t
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->
