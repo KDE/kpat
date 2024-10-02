@@ -156,7 +156,7 @@ void MainWindow::setupActions()
 
     a = actionCollection()->addAction(QStringLiteral("new_deal"));
     a->setText(i18nc("@action Start a new game of without changing the game type", "New &Deal"));
-    a->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
+    a->setIcon(QIcon::fromTheme(QStringLiteral("shuffle")));
     KActionCollection::setDefaultShortcut(a, Qt::CTRL | Qt::Key_N);
     connect(a, &QAction::triggered, this, &MainWindow::newGame);
 
