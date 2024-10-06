@@ -1,6 +1,7 @@
 [KGameTheme]
 Name=Desert Sands
 Name[ar]=رمال الصحراء
+Name[bg]=Desert Sands
 Name[bs]=Pustinjski pjesak
 Name[ca]=Sorres del desert
 Name[ca@valencia]=Arenes del desert
@@ -52,6 +53,7 @@ Name[zh_CN]=沙漠之风
 Name[zh_TW]=沙漠之沙
 Description=Egyptian style theme.
 Description[ar]=سمة النمط المصري.
+Description[bg]=Изглед с египетски мотиви.
 Description[bs]=Tema u Egipatskom stilu.
 Description[ca]=Tema d'estil egipci.
 Description[ca@valencia]=Tema d'estil egipci.
