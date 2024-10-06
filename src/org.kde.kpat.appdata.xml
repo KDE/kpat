@@ -8,6 +8,7 @@
   </developer>
   <name>KPatience</name>
   <name xml:lang="ast">KPatience</name>
+  <name xml:lang="bg">KPatience</name>
   <name xml:lang="ca">KPatience</name>
   <name xml:lang="ca-valencia">KPatience</name>
   <name xml:lang="cs">KPatience</name>
@@ -46,6 +47,7 @@
   <name xml:lang="zh-CN">KPatience</name>
   <name xml:lang="zh-TW">KPatience 接龍</name>
   <summary>Solitaire card game</summary>
+  <summary xml:lang="bg">Пасианс с карти</summary>
   <summary xml:lang="ca">Joc de cartes al solitari</summary>
   <summary xml:lang="ca-valencia">Joc de cartes al solitari</summary>
   <summary xml:lang="cs">Karetní hra Solitaire</summary>
@@ -84,6 +86,7 @@
   <summary xml:lang="zh-TW">接龍卡片遊戲</summary>
   <description>
     <p>KPat (aka KPatience) is a relaxing card sorting game. To win the game a player has to arrange a single deck of cards in certain order amongst each other.</p>
+    <p xml:lang="bg">KPat (известна още като KPatience) е релаксираща игра за подреждане на карти. За да спечели играта, играчът трябва да подреди едно тесте карти в определен ред.</p>
     <p xml:lang="ca">El KPat (o KPatience) és un joc d'ordenació relaxant de cartes. Per a guanyar la partida, un jugador ha d'organitzar una baralla única de cartes en un ordre determinat contra un altre.</p>
     <p xml:lang="ca-valencia">KPat (o KPatience) és un joc d'ordenació relaxant de cartes. Per a guanyar la partida, un jugador ha d'organitzar una baralla única de cartes en un ordre determinat contra un altre.</p>
     <p xml:lang="cs">KPat (jako KPatience) je uvolňující karetní hra. Chcete-li tuto hru vyhrát, musíte uspořádat karty z jednoho balíčku v jistém pořadí naproti sobě.</p>
@@ -127,6 +130,7 @@
   <screenshots>
     <screenshot type="default">
       <caption>Solitaire selection screen</caption>
+      <caption xml:lang="bg">Екран за избор на пасианс</caption>
       <caption xml:lang="ca">Pantalla de selecció del solitari</caption>
       <caption xml:lang="ca-valencia">Pantalla de selecció del solitari</caption>
       <caption xml:lang="cs">Obrazovka výběru her pro jednoho hráče</caption>
