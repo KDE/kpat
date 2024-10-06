@@ -1,6 +1,7 @@
 [KGameTheme]
 Name=Royal Hearts
 Name[ar]=القلوب الملكية
+Name[bg]=Royal Hearts
 Name[ca]=Cors reials
 Name[ca@valencia]=Cors reials
 Name[cs]=Královská srdce
@@ -34,6 +35,7 @@ Name[zh_CN]=皇家之心
 Name[zh_TW]=王牌紅心
 Description=Card style theme
 Description[ar]=سمة نمط الورق
+Description[bg]=Стил и изглед на картите
 Description[ca]=Tema d'estil de carta
 Description[ca@valencia]=Tema d'estil de carta
 Description[cs]=Motiv stylu karet
