@@ -820,7 +820,7 @@ msgctxt ""
 "@action Take one or more cards from the deck, flip them, and place them in "
 "play"
 msgid "Dra&w"
-msgstr "&τράβηξε"
+msgstr "&Τράβηξε"
 
 #: mainwindow.cpp:232
 #, kde-format
@@ -838,7 +838,7 @@ msgstr "&Μοίρασε ξανά"
 #, kde-format
 msgctxt "@action Automatically move cards to the foundation piles"
 msgid "Dro&p"
-msgstr "&ρίψη"
+msgstr "&Ρίψη"
 
 #: mainwindow.cpp:249
 #, kde-format
