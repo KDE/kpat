@@ -36,6 +36,9 @@ void Renderer::deleteSelf()
 {
     delete s_instance;
     s_instance = nullptr;
+    // We need to sync here, otherwise the theme change does not
+    // get saved to disk
+    KSharedConfig::openConfig()->sync();
 }
 
 qreal Renderer::aspectRatioOfElement(const QString &elementId)
