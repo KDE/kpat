@@ -37,7 +37,7 @@ parts:
     plugin: cmake
     source: .
     source-type: local
-    build-package:
+    build-packages:
       - libfreecell-solver-dev
       - libblack-hole-solver-dev
     stage-packages:
