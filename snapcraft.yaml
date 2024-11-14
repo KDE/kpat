@@ -43,6 +43,7 @@ parts:
     stage-packages:
       - libfreecell-solver0
       - freecell-solver-bin
+      - black-hole-solver
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
