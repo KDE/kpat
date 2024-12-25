@@ -1,0 +1,335 @@
+<?xml version="1.0" ?>
+<!DOCTYPE refentry PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % French "INCLUDE">
+]>
+
+<refentry lang="&language;">
+<refentryinfo>
+<title
+>Manuel de l'utilisateur de KPat</title>
+<date
+>21-06-2021</date>
+<releaseinfo
+>21.04</releaseinfo>
+<productname
+>KDE Gear</productname>
+</refentryinfo>
+
+<refmeta>
+<refentrytitle
+><command
+>kpat</command
+></refentrytitle>
+<manvolnum
+>6</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname
+><command
+>kpat</command
+></refname>
+<refpurpose
+>Un jeu de cartes hautement addictif</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis
+><command
+>kpat</command
+> <group choice="opt"
+><option
+>--solvegame</option
+> <replaceable
+> file</replaceable
+></group
+> <group choice="opt"
+><option
+>--solve</option
+> <replaceable
+> num</replaceable
+></group
+> <group choice="opt"
+><option
+>--start</option
+> <replaceable
+> numéro</replaceable
+></group
+> <group choice="opt"
+><option
+>--end</option
+> <replaceable
+> num</replaceable
+></group
+> <group choice="opt"
+><option
+>--gametype</option
+> <replaceable
+> jeu</replaceable
+></group
+> <group choice="opt"
+><option
+>--testdir</option
+> <replaceable
+> dossier</replaceable
+></group
+> <group choice="opt"
+><option
+>--generate</option
+></group
+> <group choice="opt"
+><option
+><replaceable
+>fichier</replaceable
+></option
+></group
+> </cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title
+>DESCRIPTION</title>
+<para
+>&kpatience; est un condensé de plusieurs jeux de patience biens connus, allant des célèbres Klondike et Freecell, aux jeux moins connus comme « Grandfather's Clock » et « Mod3 ». En tout, 12 variations pour que vous puissiez passer du temps.</para>
+</refsect1>
+
+<refsect1>
+<title
+>OPTIONS</title>
+<para
+>Ce logiciel suit la syntaxe en ligne de commande usuelle GNU, avec les options longues commençant avec deux tirets (« -- »). Un résumé des options prises en charge par <command
+>kpat</command
+> est inclus ci-dessous.</para>
+
+<variablelist>
+
+<varlistentry>
+<term
+><option
+>-h</option
+> <option
+>--help</option
+></term>
+<listitem
+><para
+>Ceci affiche la liste des options disponibles en ligne de commandes.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>-v</option
+> <option
+>--version</option
+></term>
+<listitem>
+<para
+>Affiche la liste des informations de version de &kpatience;</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--solvegame</option
+> <replaceable
+> fichier</replaceable
+></term>
+<listitem>
+<para
+>Essayez de trouver une solution à la partie enregistrée fournie</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--solve</option
+> <replaceable
+> num</replaceable
+></term>
+<listitem>
+<para
+>Résolution de problème (Débogage)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--start</option
+> <replaceable
+> num</replaceable
+></term>
+<listitem>
+<para
+>Début de l'intervalle du jeu (Par défaut 0 : INT_MAX)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--end</option
+> <replaceable
+> num</replaceable
+></term>
+<listitem>
+<para
+>Fin de l'intervalle de la partie (Par défaut, ce paramètre vaut « départ : départ » si le paramètre « départ » est fourni)</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--gametype</option
+> <replaceable
+> partie</replaceable
+></term>
+<listitem>
+<para
+>Ignorez l'écran de sélection et chargez un type de jeu particulier. Les valeurs valides sont : acesup, fortyeight, freecell, golf, grandfather, grandfathersclock, gypsy, klondike, mod3, simplesimon, spider et yukon</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--testdir</option
+> <replaceable
+> dossier</replaceable
+></term>
+<listitem>
+<para
+>Dossier avec cas de tests</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--generate</option
+></term>
+<listitem
+><para
+>Générer des cas de test aléatoires</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--author</option
+></term>
+<listitem
+><para
+>Affiche la liste des auteurs de &kpatience; dans la fenêtre du terminal</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--license</option
+></term>
+<listitem
+><para
+>Afficher les informations de licence</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><option
+>--desktopfile</option
+> <replaceable
+>nom de fichier</replaceable
+></term>
+<listitem
+><para
+>Le nom de fichier de base pour l'entrée de bureau pour cette application.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><replaceable
+>fichier</replaceable
+></term>
+<listitem>
+<para
+>Fichier à charger</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</refsect1>
+
+<refsect1>
+<title
+>VOIR AUSSI</title>
+<simplelist>
+<member
+>Une documentation utilisateur plus détaillée est disponible à la page <ulink url="help:/kpat"
+>help:/kpat</ulink
+> (Soit par saisie de cette &URL; dans &konqueror; ou par exécution de <userinput
+><command
+>khelpcenter</command
+> <parameter
+>help:/kpat</parameter
+></userinput
+>).</member>
+<member
+>kf6options(7)</member>
+<member
+>qt6options(7)</member>
+</simplelist>
+</refsect1>
+
+<refsect1>
+<title
+>AUTEURS</title>
+
+<para
+>&kpatience; écrit par :</para>
+<simplelist type="vert">
+<member
+>Paul Olav Tvete</member>
+<member
+>Mario Weilguni <email
+>mweilguni@kde.org</email
+></member>
+<member
+>Matthias Ettrich <email
+>ettrich@kde.org</email
+></member>
+<member
+>Rodolfo Borges <email
+>barrett@labma.ufrj.br</email
+></member>
+<member
+>Peter H. Ruegg <email
+>kpat@incense.org</email
+></member>
+<member
+>Michael Koch <email
+>koch@kde.org</email
+></member>
+<member
+>Marcus Meissner <email
+>mm@caldera.de</email
+></member>
+<member
+>Shlomi Fish <email
+>shlomif@vipe.technion.ac.il</email
+></member>
+<member
+>Stephan Kulow <email
+>coolo@kde.org</email
+></member>
+</simplelist>
+</refsect1>
+</refentry>
