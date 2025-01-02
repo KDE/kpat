@@ -37,6 +37,13 @@ parts:
     plugin: cmake
     source: .
     source-type: local
+    build-packages:
+      - libfreecell-solver-dev
+      - libblack-hole-solver-dev
+    stage-packages:
+      - libfreecell-solver0
+      - freecell-solver-bin
+      - black-hole-solver
     cmake-parameters:
       - -DCMAKE_INSTALL_PREFIX=/usr
       - -DCMAKE_BUILD_TYPE=Release
@@ -70,10 +77,9 @@ parts:
     build-snaps:
       - core22
       - kf6-core22
-      - qt-common-themes
     override-prime: |
       set -eux
-      for snap in "core22" "kf6-core22" "qt-common-themes"; do
+      for snap in "core22" "kf6-core22"; do
           cd "/snap/$snap/current" && find . -type f,l -exec rm -rf "${CRAFT_PRIME}/{}" \;
       done
 
