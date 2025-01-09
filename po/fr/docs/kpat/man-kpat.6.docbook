@@ -190,7 +190,7 @@
 ></term>
 <listitem>
 <para
->Ignorez l'écran de sélection et chargez un type de jeu particulier. Les valeurs valides sont : acesup, fortyeight, freecell, golf, grandfather, grandfathersclock, gypsy, klondike, mod3, simplesimon, spider et yukon</para>
+>Ignorez l'écran de sélection et chargez un type de jeu particulier. Les valeurs possibles sont : acesup, fortyeight, freecell, golf, grandfather, grandfathersclock, gypsy, klondike, mod3, simplesimon, spider et yukon</para>
 </listitem>
 </varlistentry>
 
