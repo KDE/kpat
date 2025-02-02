@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-15 00:37+0000\n"
-"PO-Revision-Date: 2024-08-01 09:05+0300\n"
+"PO-Revision-Date: 2025-02-01 09:36+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 24.05.2\n"
+"X-Generator: Lokalize 24.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -79,7 +79,7 @@ msgstr "משלך"
 #, kde-format
 msgctxt "@title:menu"
 msgid "Empty Stack Fill"
-msgstr "מילוי ערימה ריקה"
+msgstr "מילוי ערמה ריקה"
 
 #: bakersdozen.cpp:77 castle.cpp:371 freecell.cpp:356
 #, kde-format
@@ -103,7 +103,7 @@ msgstr "ללא (קשה)"
 #, kde-format
 msgctxt "@title:menu"
 msgid "Stack Options"
-msgstr "אפשרויות ערימה"
+msgstr "אפשרויות ערמה"
 
 #: bakersdozen.cpp:82 spider.cpp:149
 #, kde-format
@@ -264,7 +264,7 @@ msgstr "4"
 #, kde-format
 msgctxt "@title:menu"
 msgid "Stacks"
-msgstr "ערימות"
+msgstr "ערמות"
 
 #: castle.cpp:388 freecell.cpp:372 freecell.cpp:377
 #, kde-format
@@ -313,7 +313,7 @@ msgstr "פנים גלויות מתחלף"
 #, kde-format
 msgctxt "@title:menu"
 msgid "Foundation Deal"
-msgstr "חלוקת ערימת היסוד"
+msgstr "חלוקת ערמת היסוד"
 
 #: castle.cpp:400
 #, kde-format
@@ -886,13 +886,13 @@ msgstr "קלפים אקראיים"
 #, kde-format
 msgctxt "@action"
 msgid "Move Focus to Previous Pile"
-msgstr "העברת המיקוד לערימה הקודמת"
+msgstr "העברת המיקוד לערמה הקודמת"
 
 #: mainwindow.cpp:302
 #, kde-format
 msgctxt "@action"
 msgid "Move Focus to Next Pile"
-msgstr "העברת המיקוד לערימה הבאה"
+msgstr "העברת המיקוד לערמה הבאה"
 
 #: mainwindow.cpp:306
 #, kde-format
