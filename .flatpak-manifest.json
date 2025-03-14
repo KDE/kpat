@@ -6,7 +6,9 @@
     "sdk": "org.kde.Sdk",
     "command": "kpat",
     "rename-icon": "kpat",
-    "tags": ["nightly"],
+    "tags": [
+        "nightly"
+    ],
     "desktop-file-name-suffix": " (Nightly)",
     "finish-args": [
         "--device=dri",
@@ -15,28 +17,36 @@
         "--socket=fallback-x11",
         "--socket=wayland"
     ],
-
     "modules": [
         {
-            "config-opts": [ "-DENABLE_TESTING=OFF" ],
+            "config-opts": [
+                "-DENABLE_TESTING=OFF"
+            ],
             "name": "libkdegames",
             "buildsystem": "cmake-ninja",
-            "sources": [ { "type": "git", "url": "https://invent.kde.org/kde/libkdegames.git" } ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://invent.kde.org/kde/libkdegames.git"
+                }
+            ],
             "modules": [
                 {
-                    "config-opts": [ "-DENABLE_TESTING=OFF" ],
+                    "config-opts": [
+                        "-DENABLE_TESTING=OFF"
+                    ],
                     "name": "openal",
                     "buildsystem": "cmake-ninja",
                     "sources": [
                         {
                             "type": "git",
                             "url": "https://github.com/kcat/openal-soft.git",
-                            "tag": "1.23.1",
+                            "tag": "1.24.2",
                             "x-checker-data": {
                                 "type": "git",
                                 "tag-pattern": "^([\\d.]+)$"
                             },
-                            "commit": "d3875f333fb6abe2f39d82caca329414871ae53b"
+                            "commit": "b621b5fce739525418f36e0474a46f9e1cab5e64"
                         }
                     ]
                 }
@@ -45,8 +55,11 @@
         {
             "name": "freecell-solver",
             "buildsystem": "cmake",
-            "config-opts": [ "-DFCS_WITH_TEST_SUITE=OFF", "-DFCS_BUILD_DOCS=OFF" ],
-            "build-options" : {
+            "config-opts": [
+                "-DFCS_WITH_TEST_SUITE=OFF",
+                "-DFCS_BUILD_DOCS=OFF"
+            ],
+            "build-options": {
                 "env": {
                     "PERLLIB": "/app/lib/perl5/site_perl/5.40.1:/app/lib/perl5/site_perl/5.40.1/arch"
                 }
@@ -54,8 +67,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://fc-solve.shlomifish.org/downloads/fc-solve/freecell-solver-6.6.0.tar.xz",
-                    "sha256": "16b58e78d44d95d0ff1b10496dd2d8bd27de592a26f8f874e95a1d841309048c",
+                    "url": "https://fc-solve.shlomifish.org/downloads/fc-solve/freecell-solver-6.12.0.tar.xz",
+                    "sha256": "a2b89e804ce4b918ef749031676210f2095fea3a8cb129805602843c7c4884a0",
                     "x-checker-data": {
                         "type": "html",
                         "url": "https://fc-solve.shlomifish.org/download.html",
@@ -68,12 +81,14 @@
                 {
                     "name": "rinutils",
                     "buildsystem": "cmake-ninja",
-                    "config-opts": [ "-DWITH_TEST_SUITE=OFF" ],
+                    "config-opts": [
+                        "-DWITH_TEST_SUITE=OFF"
+                    ],
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://github.com/shlomif/rinutils/releases/download/0.10.0/rinutils-0.10.0.tar.xz",
-                            "sha256": "70d89f0a8464f8f494f33704b7c9396e7fca392e8aafaa4465710c1a389e9806",
+                            "url": "https://github.com/shlomif/rinutils/releases/download/0.10.3/rinutils-0.10.3.tar.xz",
+                            "sha256": "f9e527d37a6cc8c7b8870ada63caa24f32ab0d29fd1116df3ebb686583030955",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 230526,
@@ -107,11 +122,12 @@
                         {
                             "type": "git",
                             "url": "https://github.com/openstack/pbr.git",
-                            "tag": "5.6.0",
+                            "tag": "6.1.1",
                             "x-checker-data": {
                                 "type": "git",
                                 "tag-pattern": "^([\\d.]+)$"
-                            }
+                            },
+                            "commit": "5d4a1815afa920cf20e889be20617105446f7ce2"
                         }
                     ]
                 },
@@ -152,8 +168,8 @@
                     "sources": [
                         {
                             "type": "file",
-                            "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Path-Tiny-0.144.tar.gz",
-                            "sha256": "f6ea094ece845c952a02c2789332579354de8d410a707f9b7045bd241206487d",
+                            "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Path-Tiny-0.146.tar.gz",
+                            "sha256": "861ef09bca68254e9ab24337bb6ec9d58593a792e9d68a27ee6bec2150f06741",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 11962,
@@ -212,7 +228,7 @@
         {
             "name": "black-hole-solver",
             "buildsystem": "cmake-ninja",
-            "build-options" : {
+            "build-options": {
                 "env": {
                     "PERLLIB": "/app/lib/perl5/site_perl/5.40.1:/app/lib/perl5/site_perl/5.40.1/arch"
                 }
@@ -228,9 +244,14 @@
         {
             "name": "kpat",
             "buildsystem": "cmake-ninja",
-            "config-opts": [ "-DENABLE_TESTING=OFF" ],
+            "config-opts": [
+                "-DENABLE_TESTING=OFF"
+            ],
             "sources": [
-                { "type": "git", "url": "https://invent.kde.org/kde/kpat.git" }
+                {
+                    "type": "git",
+                    "url": "https://invent.kde.org/kde/kpat.git"
+                }
             ]
         }
     ]
