@@ -11,9 +11,9 @@
     "finish-args": [
         "--device=dri",
         "--share=ipc",
+        "--share=network",
         "--socket=fallback-x11",
-        "--socket=wayland",
-        "--share=network"
+        "--socket=wayland"
     ],
 
     "modules": [
