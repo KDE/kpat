@@ -107,8 +107,12 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://files.pythonhosted.org/packages/ee/b5/5aca5217501fbd06b1e5aed6d5986baa0da5380880e6bb6f421ed18e3a32/random2-1.0.1.zip",
-                            "sha256": "34ad30aac341039872401595df9ab2c9dc36d0b7c077db1cea9ade430ed1c007"
+                            "url": "https://files.pythonhosted.org/packages/c2/f8/aba7ea7900492da2dd405aa42aa6160b83490421c7d70cf2d5aa44238a13/random2-1.0.2.tar.gz",
+                            "sha256": "3754fcef48267567cd5705fa7da6bbc3809cb3f808740313e6705acc3c057e77",
+                            "x-checker-data": {
+                                "type": "pypi",
+                                "name": "random2"
+                            }
                         }
                     ]
                 },
@@ -120,14 +124,13 @@
                     ],
                     "sources": [
                         {
-                            "type": "git",
-                            "url": "https://github.com/openstack/pbr.git",
-                            "tag": "6.1.1",
+                            "type": "archive",
+                            "url": "https://files.pythonhosted.org/packages/01/d2/510cc0d218e753ba62a1bc1434651db3cd797a9716a0a66cc714cb4f0935/pbr-6.1.1.tar.gz",
+                            "sha256": "93ea72ce6989eb2eed99d0f75721474f69ad88128afdef5ac377eb797c4bf76b",
                             "x-checker-data": {
-                                "type": "git",
-                                "tag-pattern": "^([\\d.]+)$"
-                            },
-                            "commit": "5d4a1815afa920cf20e889be20617105446f7ce2"
+                                "type": "pypi",
+                                "name": "pbr"
+                            }
                         }
                     ]
                 },
