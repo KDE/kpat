@@ -67,7 +67,7 @@
             "modules": [
                 {
                     "name": "rinutils",
-                    "buildsystem": "cmake",
+                    "buildsystem": "cmake-ninja",
                     "config-opts": [ "-DWITH_TEST_SUITE=OFF" ],
                     "sources": [
                         {
@@ -211,7 +211,7 @@
         },
         {
             "name": "black-hole-solver",
-            "buildsystem": "cmake",
+            "buildsystem": "cmake-ninja",
             "build-options" : {
                 "env": {
                     "PERLLIB": "/app/lib/perl5/site_perl/5.40.1:/app/lib/perl5/site_perl/5.40.1/arch"
