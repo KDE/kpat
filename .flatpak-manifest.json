@@ -228,6 +228,7 @@
         {
             "name": "kpat",
             "buildsystem": "cmake-ninja",
+            "config-opts": [ "-DENABLE_TESTING=OFF" ],
             "sources": [
                 { "type": "git", "url": "https://invent.kde.org/kde/kpat.git" }
             ]
