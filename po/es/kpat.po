@@ -1,22 +1,21 @@
-# translation of kpat.po to Español
-# Sofía Priego <spriego@darksylvania.net>, %Y.
-# Miguel Revilla Rodríguez <yo@miguelrevilla.com>, 2002, 2003.
-# Lucas Garcia <tanke@escomposlinux.org>, 2003.
-# Rafael Osuna <rosuna@wol.es>, 2004.
-# Santiago Fernandez Sancho <santi@kde-es.org>, 2004, 2005.
-# Santiago Fernández Sancho <santi@kde-es.org>, 2007, 2008.
-# SPDX-FileCopyrightText: 2009, 2016, 2018, 2019, 2020, 2021, 2022, 2023, 2024 Eloy Cuadra <ecuadra@eloihr.net>
-# Huever, 2009.
-# Kira J. Fernandez <kirajfdez@gmail.com>, 2010, 2011, 2012.
-# Rocio Gallego <traducciones@rociogallego.com>, 2013, 2014.
-# David Paul <eodos0@gmail.com>, 2014.
+# Spanish translations for kpat.po package.
+#
+# SPDX-FileCopyrightText: 2002, 2003 Miguel Revilla Rodríguez <yo@miguelrevilla.com>
+# SPDX-FileCopyrightText: 2003 Lucas Garcia <tanke@escomposlinux.org>
+# SPDX-FileCopyrightText: 2004 Rafael Osuna <rosuna@wol.es>
+# SPDX-FileCopyrightText: 2004, 2006, 2007, 2008 Santiago Fernández Sancho <santi@kde-es.org>
+# SPDX-FileCopyrightText: 2009, 2016, 2018, 2019, 2020, 2021, 2022, 2023, 2025 Eloy Cuadra <ecuadra@eloihr.net>
+# SPDX-FileCopyrightText: 2010, 2011, 2012 Kira J. Fernandez <kirajfdez@gmail.com>
+# SPDX-FileCopyrightText: 2013, 2014 Rocio Gallego <traducciones@rociogallego.com>
+# SPDX-FileCopyrightText: 2014 David Paul <eodos0@gmail.com>
+# SPDX-FileCopyrightText: 2024, 2025 Sofía Priego <spriego@darksylvania.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2024-05-15 00:37+0000\n"
-"PO-Revision-Date: 2024-05-16 23:48+0100\n"
-"Last-Translator: Sofía Priego <spriego@darksylvania.net>\n"
+"PO-Revision-Date: 2025-04-07 21:55+0100\n"
+"Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -397,7 +396,7 @@ msgstr "Buscador de soluciones: Esta partida está perdida."
 #: dealer.cpp:1349
 #, kde-format
 msgid "Solver: Calculating…"
-msgstr "Buscador de soluciones: Calculando..."
+msgstr "Buscador de soluciones: Calculando…"
 
 #: dealer.cpp:1753
 #, kde-format
@@ -564,13 +563,13 @@ msgstr "Barra de herramientas principal"
 #, kde-format
 msgctxt "@info"
 msgid "Loading…"
-msgstr "Cargando..."
+msgstr "Cargando…"
 
 #: libkcardgame/kcardthemewidget.cpp:352
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Card Decks…"
-msgstr "Descargar nuevas barajas de cartas..."
+msgstr "Descargar nuevas barajas de cartas…"
 
 #: main.cpp:89
 #, kde-format
@@ -783,7 +782,7 @@ msgstr "Archivo que se va a cargar"
 #, kde-format
 msgctxt "@action Start a new game of a different type"
 msgid "New &Game…"
-msgstr "Nueva &partida..."
+msgstr "Nueva &partida…"
 
 #: mainwindow.cpp:158
 #, kde-format
@@ -795,7 +794,7 @@ msgstr "Nuevo &reparto"
 #, kde-format
 msgctxt "@action Start a game by giving its particular number"
 msgid "New &Numbered Deal…"
-msgstr "&Nueva partida numerada..."
+msgstr "&Nueva partida numerada…"
 
 #: mainwindow.cpp:169
 #, kde-format
@@ -1190,39 +1189,3 @@ msgstr "Número mínimo de movimientos:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Yukon"
-
-#~ msgid "S&tack Options"
-#~ msgstr "&Opciones de la pila"
-
-#~ msgid "Free cells"
-#~ msgstr "Celdas libres"
-
-#~ msgctxt "Start a game by giving its particular number"
-#~ msgid "New &Numbered Deal..."
-#~ msgstr "Ele&gir apuesta numerada..."
-
-#~ msgid "Save"
-#~ msgstr "Guardar"
-
-#~ msgid "Face &Down (harder)"
-#~ msgstr "Boca A&bajo (más difícil)"
-
-#~ msgid "Face &Up (easier)"
-#~ msgstr "Boca  &Arriba (más fácil)"
-
-#~ msgid "Change Appearance..."
-#~ msgstr "Cambiar apariencia..."
-
-#~ msgctxt "List separator"
-#~ msgid ", "
-#~ msgstr ", "
-
-#~ msgid ""
-#~ "Skip the selection screen and load a particular game type. Valid values "
-#~ "are: %1"
-#~ msgstr ""
-#~ "Saltar la pantalla de selección y cargar un tipo de juego determinado. "
-#~ "Los valores válidos son: %1"
-
-#~ msgid "Opening file failed."
-#~ msgstr "Fallo al abrir el archivo."
