@@ -41,7 +41,7 @@ class RenderingThread : public QThread
     Q_OBJECT
 
 public:
-    RenderingThread(KAbstractCardDeckPrivate *d, QSize size, const QStringList &elements);
+    RenderingThread(KAbstractCardDeckPrivate *d, QSize size, qreal dpr, const QStringList &elements);
     void run() override;
     void halt();
 
@@ -51,6 +51,7 @@ Q_SIGNALS:
 private:
     KAbstractCardDeckPrivate *const d;
     const QSize m_size;
+    const qreal m_devicePixelRatio;
     const QStringList m_elementsToRender;
     std::atomic_bool m_haltFlag;
 };
@@ -72,7 +73,7 @@ public:
     QImage renderCard(const QString &element, const QSize &size);
     QSizeF unscaledCardSize();
     QPixmap requestPixmap(quint32 id, bool faceUp);
-    void updateCardSize(const QSize &size);
+    void setDevicePixelRatio(qreal devicePixelRatio);
     void deleteThread();
 
 public Q_SLOTS:
@@ -84,6 +85,7 @@ public Q_SLOTS:
 public:
     KAbstractCardDeck *q;
 
+    qreal devicePixelRatio = 1.0;
     QSizeF originalCardSize;
     QSize currentCardSize;
 

@@ -49,6 +49,9 @@ public:
     int cardHeight() const;
     QSize cardSize() const;
 
+    void setDevicePixelRatio(qreal devicePixelRatio);
+    qreal devicePixelRatio() const;
+
     void setTheme(const KCardTheme &theme);
     KCardTheme theme() const;
 

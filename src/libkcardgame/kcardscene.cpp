@@ -42,6 +42,7 @@
 #include "kcardpile.h"
 // Qt
 #include <QGraphicsSceneWheelEvent>
+#include <QGraphicsView>
 #include <QPainter>
 #include <QPointer>
 // Std
@@ -518,6 +519,7 @@ void KCardScene::relayoutScene()
     qreal scaleY = height() / (d->deck->cardHeight() * sizeToFit.height());
     qreal n_scaleFactor = qMin(scaleX, scaleY);
 
+    d->deck->setDevicePixelRatio(views().constFirst()->devicePixelRatioF());
     d->deck->setCardWidth(n_scaleFactor * d->deck->cardWidth());
 
     int usedPixelWidth = usedWidth * d->deck->cardWidth();
