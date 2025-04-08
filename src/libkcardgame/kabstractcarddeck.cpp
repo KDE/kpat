@@ -46,9 +46,10 @@ QString keyForPixmap(const QString &element, const QSize &s)
 }
 }
 
-RenderingThread::RenderingThread(KAbstractCardDeckPrivate *d, QSize size, const QStringList &elements)
+RenderingThread::RenderingThread(KAbstractCardDeckPrivate *d, QSize size, qreal devicePixelRatio, const QStringList &elements)
     : d(d)
     , m_size(size)
+    , m_devicePixelRatio(devicePixelRatio)
     , m_elementsToRender(elements)
     , m_haltFlag(false)
 {
@@ -69,7 +70,7 @@ void RenderingThread::run()
         d->renderer();
     }
 
-    const auto size = m_size * qApp->devicePixelRatio();
+    const auto size = m_size * m_devicePixelRatio;
     for (const QString &element : std::as_const(m_elementsToRender)) {
         if (m_haltFlag)
             return;
@@ -171,8 +172,7 @@ QPixmap KAbstractCardDeckPrivate::requestPixmap(quint32 id, bool faceUp)
         return QPixmap();
 
     QPixmap &stored = it.value().cardPixmap;
-    const auto dpr = qApp->devicePixelRatio();
-    QSize requestedCardSize = currentCardSize * dpr;
+    QSize requestedCardSize = currentCardSize * devicePixelRatio;
     if (stored.size() != requestedCardSize) {
         QString key = keyForPixmap(elementId, requestedCardSize);
         if (!cache->findPixmap(key, &stored)) {
@@ -186,7 +186,7 @@ QPixmap KAbstractCardDeckPrivate::requestPixmap(quint32 id, bool faceUp)
             }
         }
         Q_ASSERT(stored.size() == requestedCardSize);
-        stored.setDevicePixelRatio(dpr);
+        stored.setDevicePixelRatio(devicePixelRatio);
     }
     return stored;
 }
@@ -203,14 +203,13 @@ void KAbstractCardDeckPrivate::submitRendering(const QString &elementId, const Q
 {
     // If the currentCardSize has changed since the rendering was performed,
     // we sadly just have to throw it away.
-    const auto dpr = qApp->devicePixelRatio();
-    if (image.size() != currentCardSize * dpr)
+    if (image.size() != currentCardSize * devicePixelRatio)
         return;
 
-    cache->insertImage(keyForPixmap(elementId, currentCardSize * dpr), image);
+    cache->insertImage(keyForPixmap(elementId, currentCardSize * devicePixelRatio), image);
     QPixmap pix = QPixmap::fromImage(image);
 
-    pix.setDevicePixelRatio(dpr);
+    pix.setDevicePixelRatio(devicePixelRatio);
 
     QHash<QString, CardElementData>::iterator it;
     it = frontIndex.find(elementId);
@@ -359,7 +358,7 @@ void KAbstractCardDeck::setCardWidth(int width)
         cacheInsert(d->cache, lastUsedSizeKey, d->currentCardSize);
 
         QStringList elementsToRender = d->frontIndex.keys() + d->backIndex.keys();
-        d->thread = new RenderingThread(d, d->currentCardSize, elementsToRender);
+        d->thread = new RenderingThread(d, d->currentCardSize, d->devicePixelRatio, elementsToRender);
         d->thread->start();
     }
 }
@@ -382,6 +381,32 @@ int KAbstractCardDeck::cardHeight() const
 QSize KAbstractCardDeck::cardSize() const
 {
     return d->currentCardSize;
+}
+
+qreal KAbstractCardDeck::devicePixelRatio() const
+{
+    return d->devicePixelRatio;
+}
+
+void KAbstractCardDeck::setDevicePixelRatio(qreal devicePixelRatio)
+{
+    if (qFuzzyCompare(d->devicePixelRatio, devicePixelRatio)) {
+        return;
+    }
+
+    d->deleteThread();
+
+    if (!d->theme.isValid() || d->currentCardSize.isEmpty()) {
+        return;
+    }
+
+    d->devicePixelRatio = devicePixelRatio;
+
+    cacheInsert(d->cache, lastUsedSizeKey, d->currentCardSize);
+
+    const QStringList elementsToRender = d->frontIndex.keys() + d->backIndex.keys();
+    d->thread = new RenderingThread(d, d->currentCardSize, d->devicePixelRatio, elementsToRender);
+    d->thread->start();
 }
 
 void KAbstractCardDeck::setTheme(const KCardTheme &theme)

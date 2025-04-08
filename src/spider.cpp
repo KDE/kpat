@@ -202,8 +202,10 @@ void Spider::setSuits(int suits)
         clearHighlightedItems();
         setKeyboardModeActive(false);
 
+        const qreal dpr = deck()->devicePixelRatio();
         int cardWidth = deck()->cardWidth();
         createDeck();
+        deck()->setDevicePixelRatio(dpr);
         deck()->setCardWidth(cardWidth);
 
         Settings::setSpiderSuitCount(m_suits);
