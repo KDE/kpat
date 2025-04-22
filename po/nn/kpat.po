@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-15 00:37+0000\n"
+"POT-Creation-Date: 2025-04-22 00:39+0000\n"
 "PO-Revision-Date: 2024-05-15 20:36+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
@@ -1095,23 +1095,23 @@ msgctxt "@item:inmenu spider option"
 msgid "4 Suits (Very Hard)"
 msgstr "4 fargar (veldig vanskeleg)"
 
-#: spider.cpp:467
+#: spider.cpp:469
 msgid "Spider"
 msgstr "Edderkoppen"
 
-#: spider.cpp:470
+#: spider.cpp:472
 msgid "Spider (1 Suit)"
 msgstr "Edderkoppen (1 farge)"
 
-#: spider.cpp:471
+#: spider.cpp:473
 msgid "Spider (2 Suit)"
 msgstr "Edderkoppen (2 fargar)"
 
-#: spider.cpp:472
+#: spider.cpp:474
 msgid "Spider (3 Suit)"
 msgstr "Edderkoppen (3 fargar)"
 
-#: spider.cpp:473
+#: spider.cpp:475
 msgid "Spider (4 Suit)"
 msgstr "Edderkoppen (4 fargar)"
 

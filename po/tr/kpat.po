@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdegames-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-15 00:37+0000\n"
+"POT-Creation-Date: 2025-04-22 00:39+0000\n"
 "PO-Revision-Date: 2025-03-07 23:41+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -1084,23 +1084,23 @@ msgctxt "@item:inmenu spider option"
 msgid "4 Suits (Very Hard)"
 msgstr "4 Takım (Çok Zor)"
 
-#: spider.cpp:467
+#: spider.cpp:469
 msgid "Spider"
 msgstr "Örümcek"
 
-#: spider.cpp:470
+#: spider.cpp:472
 msgid "Spider (1 Suit)"
 msgstr "Örümcek (1 Takım)"
 
-#: spider.cpp:471
+#: spider.cpp:473
 msgid "Spider (2 Suit)"
 msgstr "Örümcek (2 Takım)"
 
-#: spider.cpp:472
+#: spider.cpp:474
 msgid "Spider (3 Suit)"
 msgstr "Örümcek (3 Takım)"
 
-#: spider.cpp:473
+#: spider.cpp:475
 msgid "Spider (4 Suit)"
 msgstr "Örümcek (4 Takım)"
 

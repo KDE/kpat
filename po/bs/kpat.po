@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-15 00:37+0000\n"
+"POT-Creation-Date: 2025-04-22 00:39+0000\n"
 "PO-Revision-Date: 2013-10-18 20:24+0000\n"
 "Last-Translator: Samir Ribić <Unknown>\n"
 "Language-Team: bosanski <bs@li.org>\n"
@@ -1156,25 +1156,25 @@ msgctxt "@item:inmenu spider option"
 msgid "4 Suits (Very Hard)"
 msgstr "4 Odijela (teško)"
 
-#: spider.cpp:467
+#: spider.cpp:469
 msgid "Spider"
 msgstr "Pauk"
 
-#: spider.cpp:470
+#: spider.cpp:472
 msgid "Spider (1 Suit)"
 msgstr "Pauk (1 odijelo)"
 
-#: spider.cpp:471
+#: spider.cpp:473
 msgid "Spider (2 Suit)"
 msgstr "Pauk (2 odijela)"
 
-#: spider.cpp:472
+#: spider.cpp:474
 #, fuzzy
 #| msgid "Spider (1 Suit)"
 msgid "Spider (3 Suit)"
 msgstr "Pauk (1 odijelo)"
 
-#: spider.cpp:473
+#: spider.cpp:475
 msgid "Spider (4 Suit)"
 msgstr "Pauk (4 odijela)"
 

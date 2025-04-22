@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-15 00:37+0000\n"
+"POT-Creation-Date: 2025-04-22 00:39+0000\n"
 "PO-Revision-Date: 2016-11-28 01:33+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -1178,25 +1178,25 @@ msgid "4 Suits (Very Hard)"
 msgstr "четири боје (тешко)"
 
 # >> @item game type
-#: spider.cpp:467
+#: spider.cpp:469
 msgid "Spider"
 msgstr "паук|/|$[својства аку 'паука']"
 
-#: spider.cpp:470
+#: spider.cpp:472
 msgid "Spider (1 Suit)"
 msgstr "паук (једна боја)"
 
-#: spider.cpp:471
+#: spider.cpp:473
 msgid "Spider (2 Suit)"
 msgstr "паук (две боје)"
 
-#: spider.cpp:472
+#: spider.cpp:474
 #, fuzzy
 #| msgid "Spider (1 Suit)"
 msgid "Spider (3 Suit)"
 msgstr "паук (једна боја)"
 
-#: spider.cpp:473
+#: spider.cpp:475
 msgid "Spider (4 Suit)"
 msgstr "паук (четири боје)"
 

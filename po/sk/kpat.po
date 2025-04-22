@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2024-05-15 00:37+0000\n"
+"POT-Creation-Date: 2025-04-22 00:39+0000\n"
 "PO-Revision-Date: 2020-01-08 18:47+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -1162,25 +1162,25 @@ msgctxt "@item:inmenu spider option"
 msgid "4 Suits (Very Hard)"
 msgstr "4 farby (ťažké)"
 
-#: spider.cpp:467
+#: spider.cpp:469
 msgid "Spider"
 msgstr "Pavúk"
 
-#: spider.cpp:470
+#: spider.cpp:472
 msgid "Spider (1 Suit)"
 msgstr "Pavúk (1 farba)"
 
-#: spider.cpp:471
+#: spider.cpp:473
 msgid "Spider (2 Suit)"
 msgstr "Pavúk (2 farby)"
 
-#: spider.cpp:472
+#: spider.cpp:474
 #, fuzzy
 #| msgid "Spider (1 Suit)"
 msgid "Spider (3 Suit)"
 msgstr "Pavúk (1 farba)"
 
-#: spider.cpp:473
+#: spider.cpp:475
 msgid "Spider (4 Suit)"
 msgstr "Pavúk (4 farby)"
 
