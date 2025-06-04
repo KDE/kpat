@@ -58,7 +58,7 @@ public:
         FreecellGeneralId = 3,
         CastleGeneralId = 4,
         Mod3Id = 5,
-        GypsyId = 7,
+        NormandyId = 7,
         FortyAndEightId = 8,
         SimpleSimonId = 9,
         YukonId = 10,

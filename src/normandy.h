@@ -33,18 +33,18 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef GYPSY_H
-#define GYPSY_H
+#ifndef NORMANDY_H
+#define NORMANDY_H
 
 // own
 #include "dealer.h"
 
-class Gypsy : public DealerScene
+class Normandy : public DealerScene
 {
     Q_OBJECT
 
 public:
-    explicit Gypsy(const DealerInfo *di);
+    explicit Normandy(const DealerInfo *di);
     void initialize() override;
 
 protected:
@@ -61,7 +61,7 @@ private:
     PatPile *store[8];
     PatPile *target[8];
 
-    friend class GypsySolver;
+    friend class NormandySolver;
 };
 
 #endif

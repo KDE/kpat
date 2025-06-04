@@ -15,10 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "gypsysolver.h"
+#include "normandysolver.h"
 
 // own
-#include "../gypsy.h"
+#include "../normandy.h"
 #include "../kpat_debug.h"
 /// Std
 #include <cassert>
@@ -29,7 +29,7 @@
 
 /* These two routines make and unmake moves. */
 
-void GypsySolver::make_move(MOVE *m)
+void NormandySolver::make_move(MOVE *m)
 {
 #if PRINT
     // qCDebug(KPAT_LOG) << "\n\nmake_move\n";
@@ -111,7 +111,7 @@ void GypsySolver::make_move(MOVE *m)
 #endif
 }
 
-void GypsySolver::undo_move(MOVE *m)
+void NormandySolver::undo_move(MOVE *m)
 {
 #if PRINT
     // qCDebug(KPAT_LOG) << "\n\nundo_move\n";
@@ -196,9 +196,9 @@ void GypsySolver::undo_move(MOVE *m)
 #endif
 }
 
-/* Automove logic.  Gypsy games must avoid certain types of automoves. */
+/* Automove logic.  Normandy games must avoid certain types of automoves. */
 
-int GypsySolver::good_automove(int o, int r)
+int NormandySolver::good_automove(int o, int r)
 {
     int i;
 
@@ -251,7 +251,7 @@ int GypsySolver::good_automove(int o, int r)
 
 /* Get the possible moves from a position, and store them in Possible[]. */
 
-int GypsySolver::get_possible_moves(int *a, int *numout)
+int NormandySolver::get_possible_moves(int *a, int *numout)
 {
     MOVE *mp;
 
@@ -386,7 +386,7 @@ redeal:
     return n;
 }
 
-bool GypsySolver::isWon()
+bool NormandySolver::isWon()
 {
     // maybe won?
     for (int o = 0; o < 8; ++o) {
@@ -397,7 +397,7 @@ bool GypsySolver::isWon()
     return true;
 }
 
-int GypsySolver::getOuts()
+int NormandySolver::getOuts()
 {
     int k = 0;
     for (int o = 0; o < 8; ++o)
@@ -407,7 +407,7 @@ int GypsySolver::getOuts()
     return k;
 }
 
-GypsySolver::GypsySolver(const Gypsy *dealer)
+NormandySolver::NormandySolver(const Normandy *dealer)
     : Solver()
 {
     deal = dealer;
@@ -427,7 +427,7 @@ GypsySolver::GypsySolver(const Gypsy *dealer)
     }
 }
 
-void GypsySolver::translate_layout()
+void NormandySolver::translate_layout()
 {
     /* Read the workspace. */
     for (int w = 0; w < 8; ++w) {
@@ -463,7 +463,7 @@ void GypsySolver::translate_layout()
     }
 }
 
-void GypsySolver::print_layout()
+void NormandySolver::print_layout()
 {
     int i, w, o;
 
@@ -488,7 +488,7 @@ void GypsySolver::print_layout()
     return;
 }
 
-MoveHint GypsySolver::translateMove(const MOVE &m)
+MoveHint NormandySolver::translateMove(const MOVE &m)
 {
     // print_layout();
     if (m.from == deck)

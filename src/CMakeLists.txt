@@ -41,8 +41,8 @@ target_sources(kpat PRIVATE
     golf.cpp
     grandf.cpp
     patsolve/grandfsolver.cpp
-    gypsy.cpp
-    patsolve/gypsysolver.cpp
+    normandy.cpp
+    patsolve/normandysolver.cpp
     idiot.cpp
     patsolve/idiotsolver.cpp
     klondike.cpp

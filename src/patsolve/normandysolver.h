@@ -15,18 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GYPSYSOLVER_H
-#define GYPSYSOLVER_H
+#ifndef NORMANDYSOLVER_H
+#define NORMANDYSOLVER_H
 
 // own
 #include "patsolve.h"
 
-class Gypsy;
+class Normandy;
 
-class GypsySolver : public Solver<8 + 1 + 8>
+class NormandySolver : public Solver<8 + 1 + 8>
 {
 public:
-    explicit GypsySolver(const Gypsy *dealer);
+    explicit NormandySolver(const Normandy *dealer);
     int good_automove(int o, int r);
     int get_possible_moves(int *a, int *numout) override;
     bool isWon() override;
@@ -40,10 +40,10 @@ public:
 
     /* Names of the cards.  The ordering is defined in pat.h. */
 
-    const Gypsy *deal;
+    const Normandy *deal;
 
     int deck, outs;
     int params[6];
 };
 
-#endif // GYPSYSOLVER_H
+#endif // NORMANDYSOLVER_H

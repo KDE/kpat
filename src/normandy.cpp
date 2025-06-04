@@ -34,21 +34,21 @@
  * -------------------------------------------------------------------------
  */
 
-#include "gypsy.h"
+#include "normandy.h"
 
 // own
 #include "dealerinfo.h"
-#include "patsolve/gypsysolver.h"
+#include "patsolve/normandysolver.h"
 #include "pileutils.h"
 // KF
 #include <KLazyLocalizedString>
 
-Gypsy::Gypsy(const DealerInfo *di)
+Normandy::Normandy(const DealerInfo *di)
     : DealerScene(di)
 {
 }
 
-void Gypsy::initialize()
+void Normandy::initialize()
 {
     const qreal dist_x = 1.11;
     const qreal dist_y = 1.11;
@@ -82,10 +82,10 @@ void Gypsy::initialize()
     }
 
     setActions(DealerScene::Hint | DealerScene::Demo | DealerScene::Deal);
-    setSolver(new GypsySolver(this));
+    setSolver(new NormandySolver(this));
 }
 
-void Gypsy::restart(const QList<KCard *> &cards)
+void Normandy::restart(const QList<KCard *> &cards)
 {
     QList<KCard *> cardList = cards;
 
@@ -110,7 +110,7 @@ void Gypsy::restart(const QList<KCard *> &cards)
     Q_EMIT newCardsPossible(true);
 }
 
-bool Gypsy::checkAdd(const PatPile *pile, const QList<KCard *> &oldCards, const QList<KCard *> &newCards) const
+bool Normandy::checkAdd(const PatPile *pile, const QList<KCard *> &oldCards, const QList<KCard *> &newCards) const
 {
     switch (pile->pileRole()) {
     case PatPile::Tableau:
@@ -123,7 +123,7 @@ bool Gypsy::checkAdd(const PatPile *pile, const QList<KCard *> &oldCards, const 
     }
 }
 
-bool Gypsy::checkRemove(const PatPile *pile, const QList<KCard *> &cards) const
+bool Normandy::checkRemove(const PatPile *pile, const QList<KCard *> &cards) const
 {
     switch (pile->pileRole()) {
     case PatPile::Tableau:
@@ -136,7 +136,7 @@ bool Gypsy::checkRemove(const PatPile *pile, const QList<KCard *> &cards) const
     }
 }
 
-bool Gypsy::newCards()
+bool Normandy::newCards()
 {
     if (talon->isEmpty())
         return false;
@@ -153,24 +153,24 @@ bool Gypsy::newCards()
     return true;
 }
 
-void Gypsy::setGameState(const QString &state)
+void Normandy::setGameState(const QString &state)
 {
     Q_UNUSED(state)
     Q_EMIT newCardsPossible(!talon->isEmpty());
 }
 
-static class GypsyDealerInfo : public DealerInfo
+static class NormandyDealerInfo : public DealerInfo
 {
 public:
-    GypsyDealerInfo()
-        : DealerInfo(kli18n("Gypsy"), GypsyId)
+    NormandyDealerInfo()
+        : DealerInfo(kli18n("Normandy"), NormandyId)
     {
     }
 
     DealerScene *createGame() const override
     {
-        return new Gypsy(this);
+        return new Normandy(this);
     }
-} gypsyDealerInfo;
+} normandyDealerInfo;
 
-#include "moc_gypsy.cpp"
+#include "moc_normandy.cpp"
