@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdegames-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2025-03-07 23:41+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -503,10 +503,6 @@ msgstr "Golf"
 #: grandf.cpp:188
 msgid "Grandfather"
 msgstr "Büyükbaba"
-
-#: gypsy.cpp:166
-msgid "Gypsy"
-msgstr "Çingene"
 
 #: idiot.cpp:225
 msgid "Aces Up"
@@ -1032,6 +1028,10 @@ msgstr[1] "%1. hamle"
 msgid "Mod3"
 msgstr "Mod3"
 
+#: normandy.cpp:166
+msgid "Normandy"
+msgstr ""
+
 #: numbereddealdialog.cpp:36
 #, kde-format
 msgctxt "@title:window"
@@ -1180,6 +1180,9 @@ msgstr "En az hareket sayısı:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Yukon"
+
+#~ msgid "Gypsy"
+#~ msgstr "Çingene"
 
 #~ msgid "S&tack Options"
 #~ msgstr "Yığın &Seçenekleri"

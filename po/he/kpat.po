@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2025-04-07 08:18+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -504,10 +504,6 @@ msgstr "גולף"
 #: grandf.cpp:188
 msgid "Grandfather"
 msgstr "סבא"
-
-#: gypsy.cpp:166
-msgid "Gypsy"
-msgstr "צועני"
 
 #: idiot.cpp:225
 msgid "Aces Up"
@@ -1032,6 +1028,10 @@ msgstr[3] "%1 מהלכים"
 msgid "Mod3"
 msgstr "מוד3"
 
+#: normandy.cpp:166
+msgid "Normandy"
+msgstr ""
+
 #: numbereddealdialog.cpp:36
 #, kde-format
 msgctxt "@title:window"
@@ -1184,6 +1184,9 @@ msgstr "מספר המהלכים המזערי:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "יוקון"
+
+#~ msgid "Gypsy"
+#~ msgstr "צועני"
 
 #~ msgid "S&tack Options"
 #~ msgstr "אפשרויות &ערימה"

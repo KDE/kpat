@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2005-09-21 13:12+0100\n"
 "Last-Translator: Kevin Donnelly <kevin@dotmon.com>\n"
 "Language-Team: Cymraeg <cy@li.org>\n"
@@ -522,12 +522,6 @@ msgstr "Go&lf"
 #| msgid "&Grandfather"
 msgid "Grandfather"
 msgstr "&Taid"
-
-#: gypsy.cpp:166
-#, fuzzy
-#| msgid "Gy&psy"
-msgid "Gypsy"
-msgstr "Si&psiwn"
 
 #: idiot.cpp:225
 #, fuzzy
@@ -1071,6 +1065,10 @@ msgstr[1] "%1 symudiad"
 msgid "Mod3"
 msgstr "M&od3"
 
+#: normandy.cpp:166
+msgid "Normandy"
+msgstr ""
+
 #: numbereddealdialog.cpp:36
 #, fuzzy, kde-format
 #| msgid "&Choose Game..."
@@ -1234,6 +1232,11 @@ msgstr ""
 #| msgid "&Yukon"
 msgid "Yukon"
 msgstr "&Yukon"
+
+#, fuzzy
+#~| msgid "Gy&psy"
+#~ msgid "Gypsy"
+#~ msgstr "Si&psiwn"
 
 #, fuzzy
 #~| msgid "Spider Implementation"

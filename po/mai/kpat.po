@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2010-09-24 16:41+0530\n"
 "Last-Translator: Rajesh Ranjan <rajesh672@gmail.com>\n"
 "Language-Team: Maithili <bhashaghar@googlegroups.com>\n"
@@ -500,10 +500,6 @@ msgstr "गोल्फ"
 #: grandf.cpp:188
 msgid "Grandfather"
 msgstr ""
-
-#: gypsy.cpp:166
-msgid "Gypsy"
-msgstr "जिप्सी"
 
 #: idiot.cpp:225
 msgid "Aces Up"
@@ -1028,6 +1024,10 @@ msgstr[1] ""
 msgid "Mod3"
 msgstr "परि.3"
 
+#: normandy.cpp:166
+msgid "Normandy"
+msgstr ""
+
 #: numbereddealdialog.cpp:36
 #, kde-format
 msgctxt "@title:window"
@@ -1177,6 +1177,9 @@ msgstr ""
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "यूकान"
+
+#~ msgid "Gypsy"
+#~ msgstr "जिप्सी"
 
 #, fuzzy
 #~| msgid "Freecell"

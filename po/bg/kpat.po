@@ -2,7 +2,7 @@
 # Bulgarian translation of KDE.
 # This file is licensed under the GPL.
 #
-# $Id: kpat.po 1707544 2025-04-22 01:20:19Z scripty $
+# $Id: kpat.po 1710456 2025-06-05 01:22:39Z scripty $
 #
 # Zlatko Popov <zlatkopopov@fsa-bg.org>, 2007.
 # Petar Toushkov <pt.launchpad@gmail.com>, 2009.
@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2024-10-02 17:38+0200\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -498,10 +498,6 @@ msgstr "Голф"
 #: grandf.cpp:188
 msgid "Grandfather"
 msgstr "Дядовият пасианс"
-
-#: gypsy.cpp:166
-msgid "Gypsy"
-msgstr "Цигански пасианс"
 
 #: idiot.cpp:225
 msgid "Aces Up"
@@ -1028,6 +1024,10 @@ msgstr[1] "%1 хода"
 msgid "Mod3"
 msgstr "Mod3"
 
+#: normandy.cpp:166
+msgid "Normandy"
+msgstr ""
+
 #: numbereddealdialog.cpp:36
 #, kde-format
 msgctxt "@title:window"
@@ -1176,3 +1176,6 @@ msgstr "Минимален брой ходове:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Юкон"
+
+#~ msgid "Gypsy"
+#~ msgstr "Цигански пасианс"

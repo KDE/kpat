@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -492,10 +492,6 @@ msgstr "高尔夫"
 #: grandf.cpp:188
 msgid "Grandfather"
 msgstr "祖父"
-
-#: gypsy.cpp:166
-msgid "Gypsy"
-msgstr "吉普赛"
 
 #: idiot.cpp:225
 msgid "Aces Up"
@@ -1017,6 +1013,10 @@ msgstr[0] "%1 次移动"
 msgid "Mod3"
 msgstr "余三"
 
+#: normandy.cpp:166
+msgid "Normandy"
+msgstr ""
+
 #: numbereddealdialog.cpp:36
 #, kde-format
 msgctxt "@title:window"
@@ -1163,3 +1163,6 @@ msgstr "最小移牌数："
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "育空"
+
+#~ msgid "Gypsy"
+#~ msgstr "吉普赛"

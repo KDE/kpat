@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2025-03-03 20:07+0700\n"
 "Last-Translator: Pongsakorn S. <kde@xerusion.me>\n"
 "Language-Team: Thai\n"
@@ -513,10 +513,6 @@ msgstr "กอล์ฟ"
 #: grandf.cpp:188
 msgid "Grandfather"
 msgstr "คุณตา"
-
-#: gypsy.cpp:166
-msgid "Gypsy"
-msgstr "ยิบซี"
 
 #: idiot.cpp:225
 msgid "Aces Up"
@@ -1073,6 +1069,10 @@ msgstr[0] "%1 ตา"
 msgid "Mod3"
 msgstr "ม็อด 3"
 
+#: normandy.cpp:166
+msgid "Normandy"
+msgstr ""
+
 #: numbereddealdialog.cpp:36
 #, fuzzy, kde-format
 #| msgctxt "Start a game by giving its particular number"
@@ -1231,6 +1231,9 @@ msgstr ""
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "ยูคอน"
+
+#~ msgid "Gypsy"
+#~ msgstr "ยิบซี"
 
 #, fuzzy
 #~| msgid "Spider &Options"

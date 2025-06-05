@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2023-11-07 21:27+0100\n"
 "Last-Translator: Enol P. <enolp@softastur.org>\n"
 "Language-Team: \n"
@@ -488,10 +488,6 @@ msgstr ""
 
 #: grandf.cpp:188
 msgid "Grandfather"
-msgstr ""
-
-#: gypsy.cpp:166
-msgid "Gypsy"
 msgstr ""
 
 #: idiot.cpp:225
@@ -1011,6 +1007,10 @@ msgstr[1] ""
 
 #: mod3.cpp:218
 msgid "Mod3"
+msgstr ""
+
+#: normandy.cpp:166
+msgid "Normandy"
 msgstr ""
 
 #: numbereddealdialog.cpp:36

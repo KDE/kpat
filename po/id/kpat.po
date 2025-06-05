@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2022-08-19 20:36+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -522,10 +522,6 @@ msgstr "Golf"
 #: grandf.cpp:188
 msgid "Grandfather"
 msgstr "Grandfather"
-
-#: gypsy.cpp:166
-msgid "Gypsy"
-msgstr "Gypsy"
 
 #: idiot.cpp:225
 msgid "Aces Up"
@@ -1102,6 +1098,10 @@ msgstr[1] "%1 langkah"
 msgid "Mod3"
 msgstr "Mod3"
 
+#: normandy.cpp:166
+msgid "Normandy"
+msgstr ""
+
 #: numbereddealdialog.cpp:36
 #, fuzzy, kde-format
 #| msgid "New Numbered Deal"
@@ -1261,6 +1261,9 @@ msgstr ""
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Yukon"
+
+#~ msgid "Gypsy"
+#~ msgstr "Gypsy"
 
 #~ msgid "S&tack Options"
 #~ msgstr "O&psi Tumpukan"

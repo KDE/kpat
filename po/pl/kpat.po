@@ -1,5 +1,5 @@
 # translation of kpat.po to Polish
-# Version: $Revision: 1709616 $
+# Version: $Revision: 1710456 $
 # translation of kpat.po to
 # translation of kpat.po to
 # translation of kpat.po to
@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2024-06-01 08:34+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
@@ -501,10 +501,6 @@ msgstr "Golf"
 #: grandf.cpp:188
 msgid "Grandfather"
 msgstr "Dziadek"
-
-#: gypsy.cpp:166
-msgid "Gypsy"
-msgstr "Cyganka"
 
 #: idiot.cpp:225
 msgid "Aces Up"
@@ -1031,6 +1027,10 @@ msgstr[2] "%1 ruchów"
 msgid "Mod3"
 msgstr "Mod3"
 
+#: normandy.cpp:166
+msgid "Normandy"
+msgstr ""
+
 #: numbereddealdialog.cpp:36
 #, kde-format
 msgctxt "@title:window"
@@ -1181,6 +1181,9 @@ msgstr "Najmniejsza liczba ruchów:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Jukon"
+
+#~ msgid "Gypsy"
+#~ msgstr "Cyganka"
 
 #~ msgid "S&tack Options"
 #~ msgstr "Ustawienia s&tosu"

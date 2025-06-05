@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat-0.7.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2022-02-06 19:06+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -523,10 +523,6 @@ msgstr "Golf"
 #: grandf.cpp:188
 msgid "Grandfather"
 msgstr "Bunicul"
-
-#: gypsy.cpp:166
-msgid "Gypsy"
-msgstr "Țiganul"
 
 #: idiot.cpp:225
 msgid "Aces Up"
@@ -1104,6 +1100,10 @@ msgstr[2] "%1 de mutări"
 msgid "Mod3"
 msgstr "Mod3"
 
+#: normandy.cpp:166
+msgid "Normandy"
+msgstr ""
+
 #: numbereddealdialog.cpp:36
 #, fuzzy, kde-format
 #| msgid "New Numbered Deal"
@@ -1265,6 +1265,9 @@ msgstr "Număr minim de mutări:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Yukon"
+
+#~ msgid "Gypsy"
+#~ msgstr "Țiganul"
 
 #~ msgid "S&tack Options"
 #~ msgstr "Opțiuni s&tivă"

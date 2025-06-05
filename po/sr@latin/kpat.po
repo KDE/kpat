@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2016-11-28 01:33+0100\n"
 "Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
 "Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
@@ -526,11 +526,6 @@ msgstr "golf|/|$[svojstva aku 'golf']"
 #: grandf.cpp:188
 msgid "Grandfather"
 msgstr "deda|/|$[svojstva aku 'dedu']"
-
-# >> @item game type
-#: gypsy.cpp:166
-msgid "Gypsy"
-msgstr "ciganin|/|$[svojstva aku 'ciganina']"
 
 # >> @item game type
 #: idiot.cpp:225
@@ -1116,6 +1111,10 @@ msgstr[3] "1 potez"
 msgid "Mod3"
 msgstr "mod‑3|/|$[svojstva aku 'mod‑3']"
 
+#: normandy.cpp:166
+msgid "Normandy"
+msgstr ""
+
 #: numbereddealdialog.cpp:36
 #, fuzzy, kde-format
 #| msgid "New Numbered Deal"
@@ -1282,6 +1281,10 @@ msgstr ""
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "jukon|/|$[svojstva aku 'jukon']"
+
+# >> @item game type
+#~ msgid "Gypsy"
+#~ msgstr "ciganin|/|$[svojstva aku 'ciganina']"
 
 #~ msgid "S&tack Options"
 #~ msgstr "Opcije &slaganja"

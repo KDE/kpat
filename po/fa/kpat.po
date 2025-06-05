@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2007-09-02 18:23+0330\n"
 "Last-Translator: Nazanin Kazemi <kazemi@itland.ir>\n"
 "Language-Team: Persian <kde-i18n-fa@kde.org>\n"
@@ -520,12 +520,6 @@ msgstr "&گلف‌"
 #| msgid "&Grandfather"
 msgid "Grandfather"
 msgstr "&پدربزرگ‌"
-
-#: gypsy.cpp:166
-#, fuzzy
-#| msgid "Gy&psy"
-msgid "Gypsy"
-msgstr "&کولی‌"
 
 #: idiot.cpp:225
 #, fuzzy
@@ -1074,6 +1068,10 @@ msgstr[1] ""
 msgid "Mod3"
 msgstr "&به پیمانه ۳‌"
 
+#: normandy.cpp:166
+msgid "Normandy"
+msgstr ""
+
 #: numbereddealdialog.cpp:36
 #, fuzzy, kde-format
 #| msgid "&Choose Game..."
@@ -1235,6 +1233,11 @@ msgstr ""
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Gy&psy"
+#~ msgid "Gypsy"
+#~ msgstr "&کولی‌"
 
 #, fuzzy
 #~| msgid "Spider Implementation"

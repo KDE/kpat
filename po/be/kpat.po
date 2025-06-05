@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2008-01-01 22:44+0200\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@gmail.com>\n"
 "Language-Team: Belarusian (Official spelling) <i18n@mova.org>\n"
@@ -509,12 +509,6 @@ msgstr "Гольф"
 #| msgid "&Grandfather"
 msgid "Grandfather"
 msgstr "Дзядуля"
-
-#: gypsy.cpp:166
-#, fuzzy
-#| msgid "Gy&psy"
-msgid "Gypsy"
-msgstr "Цыган"
 
 #: idiot.cpp:225
 #, fuzzy
@@ -1042,6 +1036,10 @@ msgstr[2] ""
 msgid "Mod3"
 msgstr "Mod3"
 
+#: normandy.cpp:166
+msgid "Normandy"
+msgstr ""
+
 #: numbereddealdialog.cpp:36
 #, fuzzy, kde-format
 msgctxt "@title:window"
@@ -1195,6 +1193,11 @@ msgstr ""
 #, fuzzy
 msgid "Yukon"
 msgstr "Юкон"
+
+#, fuzzy
+#~| msgid "Gy&psy"
+#~ msgid "Gypsy"
+#~ msgstr "Цыган"
 
 #, fuzzy
 #~ msgid "S&tack Options"

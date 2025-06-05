@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2024-05-15 20:36+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
@@ -516,10 +516,6 @@ msgstr "Golf"
 #: grandf.cpp:188
 msgid "Grandfather"
 msgstr "Bestefarkabal"
-
-#: gypsy.cpp:166
-msgid "Gypsy"
-msgstr "Sigøynar"
 
 #: idiot.cpp:225
 msgid "Aces Up"
@@ -1043,6 +1039,10 @@ msgstr[1] "%1 trekk"
 msgid "Mod3"
 msgstr "Mod3"
 
+#: normandy.cpp:166
+msgid "Normandy"
+msgstr ""
+
 #: numbereddealdialog.cpp:36
 #, kde-format
 msgctxt "@title:window"
@@ -1191,3 +1191,6 @@ msgstr "Minimumstal for trekk:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Yukon"
+
+#~ msgid "Gypsy"
+#~ msgstr "Sigøynar"

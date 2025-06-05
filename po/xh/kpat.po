@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2002-10-10 13:42SAST\n"
 "Last-Translator: Lwandle Mgidlana <lwandle@translate.org.za>\n"
 "Language-Team: Xhosa <xhosa@translate.org.za>\n"
@@ -523,12 +523,6 @@ msgstr "I&galufa"
 #| msgid "&Grandfather"
 msgid "Grandfather"
 msgstr "&Utatomkhulu"
-
-#: gypsy.cpp:166
-#, fuzzy
-#| msgid "Gy&psy"
-msgid "Gypsy"
-msgstr "Gy&psy"
 
 #: idiot.cpp:225
 #, fuzzy
@@ -1069,6 +1063,10 @@ msgstr[1] ""
 msgid "Mod3"
 msgstr "M&od3"
 
+#: normandy.cpp:166
+msgid "Normandy"
+msgstr ""
+
 #: numbereddealdialog.cpp:36
 #, fuzzy, kde-format
 #| msgid "&Choose Game..."
@@ -1224,6 +1222,11 @@ msgstr ""
 #| msgid "&Yukon"
 msgid "Yukon"
 msgstr "&Yukon"
+
+#, fuzzy
+#~| msgid "Gy&psy"
+#~ msgid "Gypsy"
+#~ msgstr "Gy&psy"
 
 #, fuzzy
 #~| msgid "&Freecell"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2024-05-30 02:32+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -504,10 +504,6 @@ msgstr "高爾夫"
 #: grandf.cpp:188
 msgid "Grandfather"
 msgstr "老祖父"
-
-#: gypsy.cpp:166
-msgid "Gypsy"
-msgstr "吉普賽"
 
 #: idiot.cpp:225
 msgid "Aces Up"
@@ -1029,6 +1025,10 @@ msgstr[0] "移動 %1 步"
 msgid "Mod3"
 msgstr "Mod3"
 
+#: normandy.cpp:166
+msgid "Normandy"
+msgstr ""
+
 #: numbereddealdialog.cpp:36
 #, kde-format
 msgctxt "@title:window"
@@ -1175,6 +1175,9 @@ msgstr "最小移動數："
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "育空（Yukon）"
+
+#~ msgid "Gypsy"
+#~ msgstr "吉普賽"
 
 #~ msgid "S&tack Options"
 #~ msgstr "堆疊選項(&T)"

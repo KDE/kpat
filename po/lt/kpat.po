@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2015-12-29 18:10+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: lt <kde-i18n-lt@kde.org>\n"
@@ -496,10 +496,6 @@ msgstr "Golfas"
 #: grandf.cpp:188
 msgid "Grandfather"
 msgstr "Senelis"
-
-#: gypsy.cpp:166
-msgid "Gypsy"
-msgstr "Čigonas"
 
 #: idiot.cpp:225
 msgid "Aces Up"
@@ -1035,6 +1031,10 @@ msgstr[3] "%1 ėjimas"
 msgid "Mod3"
 msgstr ""
 
+#: normandy.cpp:166
+msgid "Normandy"
+msgstr ""
+
 #: numbereddealdialog.cpp:36
 #, fuzzy, kde-format
 msgctxt "@title:window"
@@ -1189,6 +1189,9 @@ msgstr ""
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr ""
+
+#~ msgid "Gypsy"
+#~ msgstr "Čigonas"
 
 #, fuzzy
 #~ msgid "S&tack Options"

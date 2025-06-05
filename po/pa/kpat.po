@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2014-03-29 18:30-0500\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
 "Language-Team: Punjabi/Panjabi <punjabi-users@lists.sf.net>\n"
@@ -509,10 +509,6 @@ msgstr "ਗੋਲਫ"
 #: grandf.cpp:188
 msgid "Grandfather"
 msgstr "ਦਾਦਾ"
-
-#: gypsy.cpp:166
-msgid "Gypsy"
-msgstr "ਜਿਪਸੀ"
 
 #: idiot.cpp:225
 msgid "Aces Up"
@@ -1075,6 +1071,10 @@ msgstr[1] "%1 ਚਾਲਾਂ"
 msgid "Mod3"
 msgstr "Mod3"
 
+#: normandy.cpp:166
+msgid "Normandy"
+msgstr ""
+
 #: numbereddealdialog.cpp:36
 #, fuzzy, kde-format
 #| msgid "New Numbered Deal"
@@ -1234,6 +1234,9 @@ msgstr ""
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "ਯੂਕੋਨ"
+
+#~ msgid "Gypsy"
+#~ msgstr "ਜਿਪਸੀ"
 
 #, fuzzy
 #~| msgid "Spider &Options"

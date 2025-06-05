@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2008-08-24 12:41+0800\n"
 "Last-Translator: Muhammad Najmi bin Ahmad Zabidi <najmi.zabidi@gmail.com>\n"
 "Language-Team: Malay <kedidiemas@yahoogroups.com>\n"
@@ -506,10 +506,6 @@ msgstr ""
 #, fuzzy
 msgid "Grandfather"
 msgstr "Jam"
-
-#: gypsy.cpp:166
-msgid "Gypsy"
-msgstr ""
 
 #: idiot.cpp:225
 #, fuzzy
@@ -1031,6 +1027,10 @@ msgstr[1] ""
 
 #: mod3.cpp:218
 msgid "Mod3"
+msgstr ""
+
+#: normandy.cpp:166
+msgid "Normandy"
 msgstr ""
 
 #: numbereddealdialog.cpp:36

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2024-05-26 20:53+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -500,10 +500,6 @@ msgstr "Golfs"
 #: grandf.cpp:188
 msgid "Grandfather"
 msgstr "Vectēvs"
-
-#: gypsy.cpp:166
-msgid "Gypsy"
-msgstr "Čigāns"
 
 #: idiot.cpp:225
 msgid "Aces Up"
@@ -1029,6 +1025,10 @@ msgstr[2] "%1 gājienu"
 msgid "Mod3"
 msgstr "Mod3"
 
+#: normandy.cpp:166
+msgid "Normandy"
+msgstr ""
+
 #: numbereddealdialog.cpp:36
 #, kde-format
 msgctxt "@title:window"
@@ -1179,6 +1179,9 @@ msgstr "Mazākais gājienu skaits:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Jukona"
+
+#~ msgid "Gypsy"
+#~ msgstr "Čigāns"
 
 #~ msgid "S&tack Options"
 #~ msgstr "&Kavas iestatījumi"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2024-05-24 16:44+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -494,10 +494,6 @@ msgstr "Golf"
 #: grandf.cpp:188
 msgid "Grandfather"
 msgstr "Grandfather"
-
-#: gypsy.cpp:166
-msgid "Gypsy"
-msgstr "Gypsy"
 
 #: idiot.cpp:225
 msgid "Aces Up"
@@ -1022,6 +1018,10 @@ msgstr[1] "%1 moves"
 msgid "Mod3"
 msgstr "Mod3"
 
+#: normandy.cpp:166
+msgid "Normandy"
+msgstr ""
+
 #: numbereddealdialog.cpp:36
 #, kde-format
 msgctxt "@title:window"
@@ -1170,6 +1170,9 @@ msgstr "Minimal number of moves:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Yukon"
+
+#~ msgid "Gypsy"
+#~ msgstr "Gypsy"
 
 #~ msgid "S&tack Options"
 #~ msgstr "S&tack Options"

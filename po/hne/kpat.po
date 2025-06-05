@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-04-22 00:39+0000\n"
+"POT-Creation-Date: 2025-06-05 00:40+0000\n"
 "PO-Revision-Date: 2009-02-26 10:57+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -513,10 +513,6 @@ msgstr "गोल्फ"
 #: grandf.cpp:188
 msgid "Grandfather"
 msgstr "दादाजी"
-
-#: gypsy.cpp:166
-msgid "Gypsy"
-msgstr "जिप्सी"
 
 #: idiot.cpp:225
 msgid "Aces Up"
@@ -1062,6 +1058,10 @@ msgstr[1] "%1 चाल"
 msgid "Mod3"
 msgstr "मोड3"
 
+#: normandy.cpp:166
+msgid "Normandy"
+msgstr ""
+
 #: numbereddealdialog.cpp:36
 #, fuzzy, kde-format
 #| msgid "&Choose Game..."
@@ -1218,6 +1218,9 @@ msgstr ""
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "युकोन"
+
+#~ msgid "Gypsy"
+#~ msgstr "जिप्सी"
 
 #, fuzzy
 #~ msgid "S&tack Options"
