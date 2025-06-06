@@ -190,7 +190,7 @@
 ></term>
 <listitem>
 <para
->Omet la pantalla de selecció i carrega un tipus de joc específic. Els valors vàlids són: acesup, fortyeight, freecell, golf, grandfather, grandfathersclock, gypsy, klondike, mod3, simplesimon, spider i yukon.</para>
+>Omet la pantalla de selecció i carrega un tipus de joc específic. Els valors vàlids són: acesup, fortyeight, freecell, golf, grandfather, grandfathersclock, normandia, klondike, mod3, simplesimon, spider i yukon.</para>
 </listitem>
 </varlistentry>
 

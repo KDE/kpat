@@ -524,16 +524,16 @@
 >In dit spel is het automatisch verslepen van kaarten uitgeschakeld. </para>
 </sect2>
 
-<sect2 id="gypsy">
+<sect2 id="normandy">
 <title
->Zigeuner</title>
+>Normandy</title>
 
 <para
 ><indexterm
 ><primary
->Zigeuner</primary
+>Normandy</primary
 ></indexterm
-> Zigeuner (Gypsy) wordt gespeeld met twee kaartdeks. Het doel van het spel is om alle kaarten in echte families oplopend op de sorteerstapel te plaatsen. </para>
+> Normandy wordt gespeeld met twee kaartdecks. Het doel van het spel is om alle kaarten in echte families oplopend op de sorteerstapel te plaatsen. </para>
 
 <para
 >De speelstapels dienen aflopend te zijn, waarbij rood en zwart wordt afgewisseld. U kunt alleen reeksen of losse kaarten verplaatsen. Op een vrij veld kunt u elke kaart of reeks plaatsen. </para>
@@ -545,6 +545,9 @@
 >Met de knop <guibutton
 >Ongedaan maken</guibutton
 > kunt u het spel een stuk eenvoudiger voor u maken. U moet namelijk een aantal zetten vooruit denken en het kan gebeuren dat dit anders uitpakt dan u had verwacht nadat u op de talon hebt geklikt. </para>
+
+<para
+>Dit spel is ook bekend onder de naam "Gypsy", maar omdat deze term door velen beschouwd wordt als degraderend en beledigend, hebben we in plaats daarvan gekozen om de alternatieve naam "Normandy" te gebruiken. </para>
 
 </sect2>
 

@@ -1,10 +1,12 @@
 # Spanish translations for kpat.po package.
+# Copyright (C) 2002-2025 This file is copyright:
+# This file is distributed under the same license as the kpat package.
 #
 # SPDX-FileCopyrightText: 2002, 2003 Miguel Revilla Rodríguez <yo@miguelrevilla.com>
 # SPDX-FileCopyrightText: 2003 Lucas Garcia <tanke@escomposlinux.org>
 # SPDX-FileCopyrightText: 2004 Rafael Osuna <rosuna@wol.es>
 # SPDX-FileCopyrightText: 2004, 2006, 2007, 2008 Santiago Fernández Sancho <santi@kde-es.org>
-# SPDX-FileCopyrightText: 2009, 2016, 2018, 2019, 2020, 2021, 2022, 2023, 2025 Eloy Cuadra <ecuadra@eloihr.net>
+# SPDX-FileCopyrightText: 2009, 2016, 2018, 2019, 2020, 2021, 2022, 2023 Eloy Cuadra <ecuadra@eloihr.net>
 # SPDX-FileCopyrightText: 2010, 2011, 2012 Kira J. Fernandez <kirajfdez@gmail.com>
 # SPDX-FileCopyrightText: 2013, 2014 Rocio Gallego <traducciones@rociogallego.com>
 # SPDX-FileCopyrightText: 2014 David Paul <eodos0@gmail.com>
@@ -14,15 +16,15 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-05 00:40+0000\n"
-"PO-Revision-Date: 2025-04-07 21:55+0100\n"
-"Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
+"PO-Revision-Date: 2025-06-05 14:47+0100\n"
+"Last-Translator: Sofía Priego <spriego@darksylvania.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "First-Translator: Víctor Romero <livingstone@thepentagon.com>\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 25.04.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -1039,7 +1041,7 @@ msgstr "Mod3"
 
 #: normandy.cpp:166
 msgid "Normandy"
-msgstr ""
+msgstr "Normandía"
 
 #: numbereddealdialog.cpp:36
 #, kde-format
@@ -1189,6 +1191,3 @@ msgstr "Número mínimo de movimientos:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Yukon"
-
-#~ msgid "Gypsy"
-#~ msgstr "Gitano"

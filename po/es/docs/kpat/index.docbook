@@ -578,16 +578,16 @@
 >La función de arrastre automático está desactivada para este solitario. </para>
 </sect2>
 
-<sect2 id="gypsy">
+<sect2 id="normandy">
 <title
->Gitano</title>
+>Normandía</title>
 
 <para
 ><indexterm
 ><primary
->Gitano</primary
+>Normandía</primary
 ></indexterm
-> El «Gitano» se juega con dos barajas. Para ganar este juego habrá que colocar todas las cartas en forma de familias reales ascendentes en la base. </para>
+> «Normandía» se juega con dos barajas. Para ganar este juego habrá que colocar todas las cartas en forma de familias reales ascendentes en la base. </para>
 
 <para
 >Los montones de juego deben ser descendentes, alternándose cartas rojas y negras. Podrás mover secuencias o cartas individuales. En una celda libre podrás colocar cualquier carta o una secuencia. </para>
@@ -599,6 +599,9 @@
 >Al usar la función <guibutton
 >Deshacer</guibutton
 >, puedes hacer el juego bastante más sencillo, ya que puedes tomar algunas decisiones y deshacerlas si te equivocas al pulsar en el mazo. </para>
+
+<para
+>Este juego también se conoce como «Gitano» pero, como muchas personas consideran este término derogatorio y ofensivo, hemos optado por usar el nombre alternativo «Normandía» en su lugar. </para>
 
 </sect2>
 
@@ -857,7 +860,7 @@
 > <guimenu
 >Juego</guimenu
 > <guimenuitem
->Nuevo juego...</guimenuitem
+>Nuevo juego…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem
@@ -901,7 +904,7 @@
 > <guimenu
 >Juego</guimenu
 ><guimenuitem
->Nueva partida numerada...</guimenuitem
+>Nueva partida numerada…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem>
@@ -949,7 +952,7 @@
 > <guimenu
 >Juego</guimenu
 > <guimenuitem
->Cargar...</guimenuitem
+>Cargar…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem
@@ -991,7 +994,7 @@
 > <guimenu
 >Juego</guimenu
 ><guimenuitem
->Guardar como...</guimenuitem
+>Guardar como…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem
@@ -1348,7 +1351,7 @@
 > <guimenu
 >Preferencias</guimenu
 > <guimenuitem
->Cambiar apariencia...</guimenuitem
+>Cambiar apariencia…</guimenuitem
 > </menuchoice
 > en la barra del menú.</para
 ></answer>

@@ -190,7 +190,7 @@
 ></term>
 <listitem>
 <para
->Saltarse la pantalla de selección y cargar un tipo particular de juego. Los valores válidos son: acesup, fortyeight, freecell, golf, grandfather, grandfathersclock, gypsy, klondike, mod3, simplesimon, spider, yukon</para>
+>Saltarse la pantalla de selección y cargar un tipo particular de juego. Los valores válidos son: acesup, fortyeight, freecell, golf, grandfather, grandfathersclock, normandy, klondike, mod3, simplesimon, spider, yukon</para>
 </listitem>
 </varlistentry>
 

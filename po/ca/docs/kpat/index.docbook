@@ -508,16 +508,16 @@
 >En aquest joc del solitari, la característica de col·locació automàtica està inhabilitada. </para>
 </sect2>
 
-<sect2 id="gypsy">
+<sect2 id="normandy">
 <title
->Gitano</title>
+>Normandia</title>
 
 <para
 ><indexterm
 ><primary
->Gitano</primary
+>Normandia</primary
 ></indexterm
-> Es juga amb dues baralles. L'objectiu és posar totes les cartes en famílies reials en ordre ascendent sobre la basa. </para>
+> Normandia es juga amb dues baralles. L'objectiu és posar totes les cartes en famílies reials en ordre ascendent sobre la basa. </para>
 
 <para
 >Els munts de joc han d'estar en ordre descendent, mentre que s'alternen les cartes vermelles i negres. Només podreu moure seqüències o cartes individuals. En una ranura lliure podreu posar qualsevol carta o seqüència. </para>
@@ -529,6 +529,9 @@
 >En emprar la característica <guibutton
 >Desfés</guibutton
 > fareu que el joc sigui més fàcil, ja que heu de prendre moltes decisions i algunes d'elles poden resultar incorrectes després de fer clic sobre la pila. </para>
+
+<para
+>Aquest joc també es coneix amb el nom de «Gitano», però com que aquest terme és considerat despectiu i ofensiu per molta gent, en el seu lloc hem optat per utilitzar el nom alternatiu «Normandia». </para>
 
 </sect2>
 
