@@ -1163,6 +1163,3 @@ msgstr "最小移牌数："
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "育空"
-
-#~ msgid "Gypsy"
-#~ msgstr "吉普赛"
