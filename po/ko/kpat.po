@@ -1,14 +1,14 @@
 # Translation of kpat to Korean.
 # Copyright (C) 1999, 2007 Free Software Foundation, Inc.
 # Byeong-Chan Kim <redhands@linux.sarang.net>, 1999.
-# SPDX-FileCopyrightText: 2007, 2011, 2013, 2014, 2015, 2019, 2020, 2021, 2022, 2023, 2024 Shinjo Park <kde@peremen.name>
+# SPDX-FileCopyrightText: 2007, 2011, 2013, 2014, 2015, 2019, 2020, 2021, 2022, 2023, 2024, 2025 Shinjo Park <kde@peremen.name>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-05 00:40+0000\n"
-"PO-Revision-Date: 2024-08-19 23:53+0200\n"
+"PO-Revision-Date: 2025-06-10 23:16+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 24.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1016,7 +1016,7 @@ msgstr "Mod3"
 
 #: normandy.cpp:166
 msgid "Normandy"
-msgstr ""
+msgstr "노르망디"
 
 #: numbereddealdialog.cpp:36
 #, kde-format
