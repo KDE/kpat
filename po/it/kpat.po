@@ -1,6 +1,6 @@
 # translation of kpat.po to Italian
 #
-# SPDX-FileCopyrightText: 2017, 2018, 2020, 2021, 2022, 2024 Vincenzo Reale <smart2128vr@gmail.com>
+# SPDX-FileCopyrightText: 2017, 2018, 2020, 2021, 2022, 2024, 2025 Vincenzo Reale <smart2128vr@gmail.com>
 # Tore Brigaglia <opensourcecat@gmail.com>, 2009.
 # Andrea Celli <andrea.celli@libero.it>, 2003, 2004, 2005, 2007, 2008, 2009, 2010, 2011, 2012.
 # Valter Mura <valtermura@gmail.com>, 2012.
@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-05 00:40+0000\n"
-"PO-Revision-Date: 2024-05-15 15:31+0200\n"
+"PO-Revision-Date: 2025-06-10 08:41+0200\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding:  8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 24.02.2\n"
+"X-Generator: Lokalize 25.04.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1022,7 +1022,7 @@ msgstr "Mod3"
 
 #: normandy.cpp:166
 msgid "Normandy"
-msgstr ""
+msgstr "Normandia"
 
 #: numbereddealdialog.cpp:36
 #, kde-format
