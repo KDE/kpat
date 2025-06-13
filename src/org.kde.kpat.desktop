@@ -179,6 +179,7 @@ Comment[zh_TW]=接龍卡片遊戲
 Categories=Qt;KDE;Game;CardGame;
 MimeType=application/vnd.kde.kpatience.savedstate;
 Keywords=Aces up;baker's dozen;castle;forty and eight;forty-eight;freecell;gold;grandfather;grandfather's clock;normandy;klondike;mod3;simple simon;spider;yukon;
+Keywords[ar]=الآسات ;دزينة الخباز;القلعة;ثمانية وأربعون;الخلية الحرة;الذهب;الجد;ساعة الجد;الغجرية;كلوندايك;mod3;سيمون بسيط; العنكبوت;يوكون;
 Keywords[bg]=Aces up;baker's dozen;castle;forty and eight;forty-eight;freecell;gold;grandfather;grandfather's clock;gypsy;klondike;mod3;simple simon;spider;yukon;
 Keywords[ca]=Asos amunt;dotzena del forner;castell;quaranta i vuit;quaranta-vuit;cel·la lliure;or;avi;rellotge de l'avi;normandia;klondike;mod3;ximple simó;aranya;yukon;
 Keywords[ca@valencia]=Asos amunt;dotzena del forner;castell;quaranta i huit;quaranta-huit;cel·la lliure;or;avi;rellotge de l'avi;normandia;klondike;mod3;ximple simó;aranya;yukon;
