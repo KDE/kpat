@@ -190,7 +190,7 @@
 ></term>
 <listitem>
 <para
->Salta la schermata di selezione e avvia direttamente il solitario scelto. I valori accettati sono: acesup, fortyeight, freecell, golf, grandfather, grandfathersclock, gypsy, klondike, mod3, simplesimon, spider e yukon</para>
+>Salta la schermata di selezione e caricare un particolare tipo di gioco. I valori accettati sono: acesup, fortyeight, freecell, golf, grandfather, grandfathersclock, normandy, klondike, mod3, simplesimon, spider e yukon</para>
 </listitem>
 </varlistentry>
 

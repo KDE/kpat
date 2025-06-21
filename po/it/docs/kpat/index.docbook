@@ -566,16 +566,16 @@
 >La funzione di spostamento automatico è disabilitata per questo solitario. </para>
 </sect2>
 
-<sect2 id="gypsy">
+<sect2 id="normandy">
 <title
->Gitano</title>
+>Normandy</title>
 
 <para
 ><indexterm
 ><primary
->Gitano</primary
+>Normandy</primary
 ></indexterm
-> Gitano si gioca con due mazzi di carte. L'obiettivo è di portare sulla casa, in famiglie reali crescenti, tutte le carte. </para>
+> Normandia si gioca con due mazzi di carte. L'obiettivo è di portare  tutte le carte sulla casa, in famiglie reali crescenti. </para>
 
 <para
 >Nelle colonne di gioco si devono formare sequenze decrescenti di colore alterno rosso e nero. Si possono spostare solo sequenze o carte singole. Su una colonna libera si può porre una sequenza o una carta qualsiasi. </para>
@@ -585,6 +585,9 @@
 
 <para
 >La possibilità di annullare le mosse, può facilitare molto il gioco. Infatti, dovrai prendere parecchie decisioni e, dopo aver fatto clic sul tallone, potresti accorgerti che alcune erano sbagliate. </para>
+
+<para
+>Questo gioco è conosciuto anche con il nome «Gitano», ma poiché questo termine è considerato dispregiativo e offensivo da molti, abbiamo scelto di utilizzare il nome alternativo «Normandia». </para>
 
 </sect2>
 
