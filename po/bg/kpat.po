@@ -2,7 +2,7 @@
 # Bulgarian translation of KDE.
 # This file is licensed under the GPL.
 #
-# $Id: kpat.po 1710617 2025-06-07 20:28:50Z mkkdr $
+# $Id: kpat.po 1711750 2025-06-21 10:54:20Z mkkdr $
 #
 # Zlatko Popov <zlatkopopov@fsa-bg.org>, 2007.
 # Petar Toushkov <pt.launchpad@gmail.com>, 2009.
@@ -1176,6 +1176,3 @@ msgstr "Минимален брой ходове:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Юкон"
-
-#~ msgid "Gypsy"
-#~ msgstr "Цигански пасианс"
