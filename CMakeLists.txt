@@ -33,6 +33,7 @@ include(GenerateExportHeader)
 include(InternalMacros)
 
 option(WITH_BH_SOLVER "Make use of https://github.com/shlomif/black-hole-solitaire for solving Golf" ON)
+option(WITH_DOC "Whether to build the documentation" ON)
 
 find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS
     Widgets
@@ -48,7 +49,6 @@ find_package(KF6 ${KF_MIN_VERSION} REQUIRED COMPONENTS
     CoreAddons
     Crash
     DBusAddons
-    DocTools
     GuiAddons
     I18n
     KIO
@@ -67,6 +67,14 @@ if (WITH_BH_SOLVER)
     set_package_properties(BlackHoleSolver PROPERTIES TYPE REQUIRED)
 endif()
 
+if (WITH_DOC)
+    find_package(KF6DocTools ${KF_MIN_VERSION})
+    set_package_properties(KF6DocTools PROPERTIES
+        DESCRIPTION "Tools to generate documentation"
+        TYPE REQUIRED
+    )
+endif()
+
 ecm_set_disabled_deprecation_versions(
     QT 6.5
     KF 6.0
@@ -78,14 +86,17 @@ add_subdirectory(mimetypes)
 add_subdirectory(previews)
 add_subdirectory(sounds)
 add_subdirectory(themes)
-add_subdirectory(doc)
 add_subdirectory(src)
 if (BUILD_TESTING)
     add_subdirectory(autotests)
 endif()
 
 ki18n_install(po)
-kdoctools_install(po)
+
+if (WITH_DOC)
+    add_subdirectory(doc)
+    kdoctools_install(po)
+endif()
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
