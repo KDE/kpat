@@ -33,7 +33,7 @@ include(GenerateExportHeader)
 include(InternalMacros)
 
 option(WITH_BH_SOLVER "Make use of https://github.com/shlomif/black-hole-solitaire for solving Golf" ON)
-option(WITH_DOC "Whether to build the documentation" ON)
+option(BUILD_DOC "Whether to build the documentation" ON)
 
 find_package(Qt6 ${QT_MIN_VERSION} REQUIRED COMPONENTS
     Widgets
@@ -67,7 +67,7 @@ if (WITH_BH_SOLVER)
     set_package_properties(BlackHoleSolver PROPERTIES TYPE REQUIRED)
 endif()
 
-if (WITH_DOC)
+if (BUILD_DOC)
     find_package(KF6DocTools ${KF_MIN_VERSION})
     set_package_properties(KF6DocTools PROPERTIES
         DESCRIPTION "Tools to generate documentation"
@@ -93,7 +93,7 @@ endif()
 
 ki18n_install(po)
 
-if (WITH_DOC)
+if (BUILD_DOC)
     add_subdirectory(doc)
     kdoctools_install(po)
 endif()
