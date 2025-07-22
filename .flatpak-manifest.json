@@ -48,7 +48,7 @@
             "config-opts": [ "-DFCS_WITH_TEST_SUITE=OFF", "-DFCS_BUILD_DOCS=OFF" ],
             "build-options" : {
                 "env": {
-                    "PERLLIB": "/app/lib/perl5/site_perl/5.40.1:/app/lib/perl5/site_perl/5.40.1/arch"
+                    "PERLLIB": "/app/lib/perl5/site_perl/5.40.2:/app/lib/perl5/site_perl/5.40.2/arch"
                 }
             },
             "sources": [
@@ -144,7 +144,7 @@
                         "cd Moo-2.005005 && perl Makefile.PL PREFIX=/app && make && make install",
                         "cd Module-Runtime-0.016 && perl Makefile.PL PREFIX=/app && make && make install",
                         "cd Sub-Quote-2.006008 && perl Makefile.PL PREFIX=/app && make && make install",
-                        "ln -s /app/lib/perl5/site_perl/5.40.1/$(basename `ls -d /usr/lib/perl5/5.40.1/*-linux`) /app/lib/perl5/site_perl/5.40.1/arch"
+                        "ln -s /app/lib/perl5/site_perl/5.40.2/$(basename `ls -d /usr/lib/perl5/5.40.2/*-linux`) /app/lib/perl5/site_perl/5.40.2/arch"
                     ],
                     "post-install": [
                         "chmod -R u+w /app/lib/perl5/site_perl"
@@ -214,7 +214,7 @@
             "buildsystem": "cmake",
             "build-options" : {
                 "env": {
-                    "PERLLIB": "/app/lib/perl5/site_perl/5.40.1:/app/lib/perl5/site_perl/5.40.1/arch"
+                    "PERLLIB": "/app/lib/perl5/site_perl/5.40.2:/app/lib/perl5/site_perl/5.40.2/arch"
                 }
             },
             "sources": [
