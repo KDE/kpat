@@ -17,6 +17,11 @@
         "--socket=wayland",
         "--share=network"
     ],
+    "cleanup": [
+        "/lib/*.a",
+        "/lib/cmake",
+        "/lib/pkgconfig"
+    ],
     "modules": [
         {
             "config-opts": [
