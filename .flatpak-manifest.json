@@ -6,7 +6,9 @@
     "sdk": "org.kde.Sdk",
     "command": "kpat",
     "rename-icon": "kpat",
-    "tags": ["nightly"],
+    "tags": [
+        "nightly"
+    ],
     "desktop-file-name-suffix": " (Nightly)",
     "finish-args": [
         "--device=dri",
@@ -15,28 +17,41 @@
         "--socket=wayland",
         "--share=network"
     ],
-
+    "cleanup": [
+        "/lib/*.a",
+        "/lib/cmake",
+        "/lib/pkgconfig"
+    ],
     "modules": [
         {
-            "config-opts": [ "-DENABLE_TESTING=OFF" ],
+            "config-opts": [
+                "-DENABLE_TESTING=OFF"
+            ],
             "name": "libkdegames",
             "buildsystem": "cmake-ninja",
-            "sources": [ { "type": "git", "url": "https://invent.kde.org/kde/libkdegames.git" } ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://invent.kde.org/kde/libkdegames.git"
+                }
+            ],
             "modules": [
                 {
-                    "config-opts": [ "-DENABLE_TESTING=OFF" ],
+                    "config-opts": [
+                        "-DENABLE_TESTING=OFF"
+                    ],
                     "name": "openal",
                     "buildsystem": "cmake-ninja",
                     "sources": [
                         {
                             "type": "git",
                             "url": "https://github.com/kcat/openal-soft.git",
-                            "tag": "1.23.1",
+                            "tag": "1.24.3",
                             "x-checker-data": {
                                 "type": "git",
                                 "tag-pattern": "^([\\d.]+)$"
                             },
-                            "commit": "d3875f333fb6abe2f39d82caca329414871ae53b"
+                            "commit": "dc7d7054a5b4f3bec1dc23a42fd616a0847af948"
                         }
                     ]
                 }
@@ -45,8 +60,11 @@
         {
             "name": "freecell-solver",
             "buildsystem": "cmake",
-            "config-opts": [ "-DFCS_WITH_TEST_SUITE=OFF", "-DFCS_BUILD_DOCS=OFF" ],
-            "build-options" : {
+            "config-opts": [
+                "-DFCS_WITH_TEST_SUITE=OFF",
+                "-DFCS_BUILD_DOCS=OFF"
+            ],
+            "build-options": {
                 "env": {
                     "PERLLIB": "/app/lib/perl5/site_perl/5.40.2:/app/lib/perl5/site_perl/5.40.2/arch"
                 }
@@ -54,8 +72,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://fc-solve.shlomifish.org/downloads/fc-solve/freecell-solver-6.6.0.tar.xz",
-                    "sha256": "16b58e78d44d95d0ff1b10496dd2d8bd27de592a26f8f874e95a1d841309048c",
+                    "url": "https://fc-solve.shlomifish.org/downloads/fc-solve/freecell-solver-6.14.0.tar.xz",
+                    "sha256": "1d1125d85422bcd521102d7cb1e7c84b76863fe445dd21879f9779dc6b2ce7dc",
                     "x-checker-data": {
                         "type": "html",
                         "url": "https://fc-solve.shlomifish.org/download.html",
@@ -68,12 +86,14 @@
                 {
                     "name": "rinutils",
                     "buildsystem": "cmake",
-                    "config-opts": [ "-DWITH_TEST_SUITE=OFF" ],
+                    "config-opts": [
+                        "-DWITH_TEST_SUITE=OFF"
+                    ],
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://github.com/shlomif/rinutils/releases/download/0.10.0/rinutils-0.10.0.tar.xz",
-                            "sha256": "70d89f0a8464f8f494f33704b7c9396e7fca392e8aafaa4465710c1a389e9806",
+                            "url": "https://github.com/shlomif/rinutils/releases/download/0.10.3/rinutils-0.10.3.tar.xz",
+                            "sha256": "f9e527d37a6cc8c7b8870ada63caa24f32ab0d29fd1116df3ebb686583030955",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 230526,
@@ -124,8 +144,14 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://pypi.io/packages/source/p/pysol_cards/pysol_cards-0.10.1.tar.gz",
-                            "sha256": "ea6ac7e5849d0002cc880868f3a82a84332d5bbb79eb6496ed9676a104046297"
+                            "url": "https://pypi.io/packages/source/p/pysol_cards/pysol_cards-0.24.0.tar.gz",
+                            "sha256": "a985492da81aa1588dfc056d9a7c6ca83f66254c0b90f25afc682a70713d4d4b",
+                            "x-checker-data": {
+                                "type": "anitya",
+                                "project-id": 19639,
+                                "stable-only": true,
+                                "url-template": "https://pypi.io/packages/source/p/pysol_cards/pysol_cards-$version.tar.gz"
+                            }
                         }
                     ]
                 },
@@ -134,12 +160,12 @@
                     "buildsystem": "simple",
                     "build-commands": [
                         "echo 'this is a workaround for a flatpak+perl limitation'",
-                        "tar xhf Path-Tiny-0.144.tar.gz",
+                        "tar xhf Path-Tiny-0.148.tar.gz",
                         "tar xhf Template-Toolkit-3.101.tar.gz",
                         "tar xhf Moo-2.005005.tar.gz",
                         "tar xhf Module-Runtime-0.016.tar.gz",
                         "tar xhf Sub-Quote-2.006008.tar.gz",
-                        "cd Path-Tiny-0.144 && perl Makefile.PL PREFIX=/app && make && make install",
+                        "cd Path-Tiny-0.148 && perl Makefile.PL PREFIX=/app && make && make install",
                         "cd Template-Toolkit-3.101 && perl Makefile.PL PREFIX=/app && make && make install",
                         "cd Moo-2.005005 && perl Makefile.PL PREFIX=/app && make && make install",
                         "cd Module-Runtime-0.016 && perl Makefile.PL PREFIX=/app && make && make install",
@@ -152,8 +178,8 @@
                     "sources": [
                         {
                             "type": "file",
-                            "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Path-Tiny-0.144.tar.gz",
-                            "sha256": "f6ea094ece845c952a02c2789332579354de8d410a707f9b7045bd241206487d",
+                            "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Path-Tiny-0.148.tar.gz",
+                            "sha256": "818aed754b74f399e42c238bea738e20a52af89a6e3feb58bec9d0130eea4746",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 11962,
@@ -212,7 +238,7 @@
         {
             "name": "black-hole-solver",
             "buildsystem": "cmake",
-            "build-options" : {
+            "build-options": {
                 "env": {
                     "PERLLIB": "/app/lib/perl5/site_perl/5.40.2:/app/lib/perl5/site_perl/5.40.2/arch"
                 }
@@ -229,7 +255,10 @@
             "name": "kpat",
             "buildsystem": "cmake-ninja",
             "sources": [
-                { "type": "git", "url": "https://invent.kde.org/kde/kpat.git" }
+                {
+                    "type": "git",
+                    "url": "https://invent.kde.org/kde/kpat.git"
+                }
             ]
         }
     ]
