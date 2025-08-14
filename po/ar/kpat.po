@@ -650,7 +650,7 @@ msgstr "ستيفن كولو"
 #: main.cpp:105
 #, kde-format
 msgid "Rewrite and current maintainer"
-msgstr "إعادة الكتابة ، و المشرف الحالي"
+msgstr "إعادة الكتابة، و المشرف الحالي"
 
 #: main.cpp:106
 #, kde-format
