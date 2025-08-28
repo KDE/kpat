@@ -1178,6 +1178,3 @@ msgstr "Minimální počet pohybů:"
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Yukon"
-
-#~ msgid "Gypsy"
-#~ msgstr "Cikán"
