@@ -914,7 +914,7 @@ msgstr "Cancel·la el focus"
 #, kde-format
 msgctxt "@action"
 msgid "Pick Up or Set Down Focus"
-msgstr "Selecciona o omet el focus"
+msgstr "Tria o omet el focus"
 
 #: mainwindow.cpp:426
 #, kde-format
@@ -925,7 +925,7 @@ msgstr "Baralla"
 #: mainwindow.cpp:428
 #, kde-format
 msgid "Select a card deck"
-msgstr "Seleccioneu una baralla"
+msgstr "Trieu una baralla"
 
 #: mainwindow.cpp:434
 #, kde-format
@@ -936,7 +936,7 @@ msgstr "Tema del joc"
 #: mainwindow.cpp:436
 #, kde-format
 msgid "Select a theme for non-card game elements"
-msgstr "Seleccioneu un tema per als elements que no siguen les cartes"
+msgstr "Trieu un tema per als elements que no siguen les cartes"
 
 #: mainwindow.cpp:514
 #, kde-format
