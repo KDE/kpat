@@ -13,14 +13,10 @@
     "finish-args": [
         "--device=dri",
         "--share=ipc",
+        "--share=network",
         "--socket=fallback-x11",
-        "--socket=wayland",
-        "--share=network"
-    ],
-    "cleanup": [
-        "/lib/*.a",
-        "/lib/cmake",
-        "/lib/pkgconfig"
+        "--socket=pulseaudio",
+        "--socket=wayland"
     ],
     "modules": [
         {
@@ -34,27 +30,6 @@
                     "type": "git",
                     "url": "https://invent.kde.org/kde/libkdegames.git"
                 }
-            ],
-            "modules": [
-                {
-                    "config-opts": [
-                        "-DENABLE_TESTING=OFF"
-                    ],
-                    "name": "openal",
-                    "buildsystem": "cmake-ninja",
-                    "sources": [
-                        {
-                            "type": "git",
-                            "url": "https://github.com/kcat/openal-soft.git",
-                            "tag": "1.24.3",
-                            "x-checker-data": {
-                                "type": "git",
-                                "tag-pattern": "^([\\d.]+)$"
-                            },
-                            "commit": "dc7d7054a5b4f3bec1dc23a42fd616a0847af948"
-                        }
-                    ]
-                }
             ]
         },
         {
@@ -66,7 +41,7 @@
             ],
             "build-options": {
                 "env": {
-                    "PERLLIB": "/app/lib/perl5/site_perl/5.40.2:/app/lib/perl5/site_perl/5.40.2/arch"
+                    "PERLLIB": "/app/lib/perl5:/app/lib/perl5/arch"
                 }
             },
             "sources": [
@@ -75,9 +50,8 @@
                     "url": "https://fc-solve.shlomifish.org/downloads/fc-solve/freecell-solver-6.14.0.tar.xz",
                     "sha256": "1d1125d85422bcd521102d7cb1e7c84b76863fe445dd21879f9779dc6b2ce7dc",
                     "x-checker-data": {
-                        "type": "html",
-                        "url": "https://fc-solve.shlomifish.org/download.html",
-                        "version-pattern": "freecell-solver-([\\d\\.-]+)\\.tar\\.xz",
+                        "type": "anitya",
+                        "project-id": 227651,
                         "url-template": "https://fc-solve.shlomifish.org/downloads/fc-solve/freecell-solver-$version.tar.xz"
                     }
                 }
@@ -97,7 +71,6 @@
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 230526,
-                                "stable-only": true,
                                 "url-template": "https://github.com/shlomif/rinutils/releases/download/$version/rinutils-$version.tar.xz"
                             }
                         }
@@ -112,25 +85,11 @@
                     "sources": [
                         {
                             "type": "archive",
-                            "url": "https://files.pythonhosted.org/packages/ee/b5/5aca5217501fbd06b1e5aed6d5986baa0da5380880e6bb6f421ed18e3a32/random2-1.0.1.zip",
-                            "sha256": "34ad30aac341039872401595df9ab2c9dc36d0b7c077db1cea9ade430ed1c007"
-                        }
-                    ]
-                },
-                {
-                    "name": "pbr",
-                    "buildsystem": "simple",
-                    "build-commands": [
-                        "pip3 install --prefix=/app --no-deps ."
-                    ],
-                    "sources": [
-                        {
-                            "type": "git",
-                            "url": "https://github.com/openstack/pbr.git",
-                            "tag": "5.6.0",
+                            "url": "https://files.pythonhosted.org/packages/c2/f8/aba7ea7900492da2dd405aa42aa6160b83490421c7d70cf2d5aa44238a13/random2-1.0.2.tar.gz",
+                            "sha256": "3754fcef48267567cd5705fa7da6bbc3809cb3f808740313e6705acc3c057e77",
                             "x-checker-data": {
-                                "type": "git",
-                                "tag-pattern": "^([\\d.]+)$"
+                                "type": "pypi",
+                                "name": "random2"
                             }
                         }
                     ]
@@ -149,7 +108,6 @@
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 19639,
-                                "stable-only": true,
                                 "url-template": "https://pypi.io/packages/source/p/pysol_cards/pysol_cards-$version.tar.gz"
                             }
                         }
@@ -160,74 +118,69 @@
                     "buildsystem": "simple",
                     "build-commands": [
                         "echo 'this is a workaround for a flatpak+perl limitation'",
-                        "tar xhf Path-Tiny-0.148.tar.gz",
-                        "tar xhf Template-Toolkit-3.101.tar.gz",
-                        "tar xhf Moo-2.005005.tar.gz",
-                        "tar xhf Module-Runtime-0.016.tar.gz",
-                        "tar xhf Sub-Quote-2.006008.tar.gz",
-                        "cd Path-Tiny-0.148 && perl Makefile.PL PREFIX=/app && make && make install",
-                        "cd Template-Toolkit-3.101 && perl Makefile.PL PREFIX=/app && make && make install",
-                        "cd Moo-2.005005 && perl Makefile.PL PREFIX=/app && make && make install",
-                        "cd Module-Runtime-0.016 && perl Makefile.PL PREFIX=/app && make && make install",
-                        "cd Sub-Quote-2.006008 && perl Makefile.PL PREFIX=/app && make && make install",
-                        "ln -s /app/lib/perl5/site_perl/5.40.2/$(basename `ls -d /usr/lib/perl5/5.40.2/*-linux`) /app/lib/perl5/site_perl/5.40.2/arch"
+                        "cd Path-Tiny && perl Makefile.PL INSTALL_BASE=/app && make && make install",
+                        "cd Template-Toolkit && perl Makefile.PL INSTALL_BASE=/app && make && make install",
+                        "cd Moo && perl Makefile.PL INSTALL_BASE=/app && make && make install",
+                        "cd Module-Runtime && perl Makefile.PL INSTALL_BASE=/app && make && make install",
+                        "cd Sub-Quote && perl Makefile.PL INSTALL_BASE=/app && make && make install",
+                        "ln -s /app/lib/perl5/$(basename `ls -d /usr/lib/perl5/5.*/*-linux`) /app/lib/perl5/arch"
                     ],
                     "post-install": [
-                        "chmod -R u+w /app/lib/perl5/site_perl"
+                        "chmod -R u+w /app/lib/perl5"
                     ],
                     "sources": [
                         {
-                            "type": "file",
-                            "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Path-Tiny-0.148.tar.gz",
-                            "sha256": "818aed754b74f399e42c238bea738e20a52af89a6e3feb58bec9d0130eea4746",
+                            "type": "archive",
+                            "dest": "Path-Tiny",
+                            "url": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Path-Tiny-0.150.tar.gz",
+                            "sha256": "ff20713d1a14d257af9c78209001f40dc177e4b9d1496115cbd8726d577946c7",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 11962,
-                                "stable-only": true,
                                 "url-template": "https://cpan.metacpan.org/authors/id/D/DA/DAGOLDEN/Path-Tiny-$version.tar.gz"
                             }
                         },
                         {
-                            "type": "file",
-                            "url": "https://cpan.metacpan.org/authors/id/A/AB/ABW/Template-Toolkit-3.101.tar.gz",
-                            "sha256": "d2a32dd6c21e4b37c6a93df8087ca9e880cfae613a3e5efaea307b0bdcaedb58",
+                            "type": "archive",
+                            "dest": "Template-Toolkit",
+                            "url": "https://cpan.metacpan.org/authors/id/T/TO/TODDR/Template-Toolkit-3.102.tar.gz",
+                            "sha256": "d161c89dee9b213a7c55709ea782e2dd5923dbd1215b9576612889e6e74a2e06",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 11970,
-                                "stable-only": true,
-                                "url-template": "https://cpan.metacpan.org/authors/id/A/AB/ABW/Template-Toolkit-$version.tar.gz"
+                                "url-template": "https://cpan.metacpan.org/authors/id/T/TO/TODDR/Template-Toolkit-$version.tar.gz"
                             }
                         },
                         {
-                            "type": "file",
+                            "type": "archive",
+                            "dest": "Moo",
                             "url": "https://cpan.metacpan.org/authors/id/H/HA/HAARG/Moo-2.005005.tar.gz",
                             "sha256": "fb5a2952649faed07373f220b78004a9c6aba387739133740c1770e9b1f4b108",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 3123,
-                                "stable-only": true,
                                 "url-template": "https://cpan.metacpan.org/authors/id/H/HA/HAARG/Moo-$version.tar.gz"
                             }
                         },
                         {
-                            "type": "file",
-                            "url": "https://search.cpan.org/CPAN/authors/id/Z/ZE/ZEFRAM/Module-Runtime-0.016.tar.gz",
-                            "sha256": "68302ec646833547d410be28e09676db75006f4aa58a11f3bdb44ffe99f0f024",
+                            "type": "archive",
+                            "dest": "Module-Runtime",
+                            "url": "https://cpan.metacpan.org/authors/id/H/HA/HAARG/Module-Runtime-0.018.tar.gz",
+                            "sha256": "0bf77ef68e53721914ff554eada20973596310b4e2cf1401fc958601807de577",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 3111,
-                                "stable-only": true,
-                                "url-template": "https://search.cpan.org/CPAN/authors/id/Z/ZE/ZEFRAM/Module-Runtime-$version.tar.gz"
+                                "url-template": "https://cpan.metacpan.org/authors/id/H/HA/HAARG/Module-Runtime-$version.tar.gz"
                             }
                         },
                         {
-                            "type": "file",
-                            "url": "https://search.cpan.org/CPAN/authors/id/H/HA/HAARG/Sub-Quote-2.006008.tar.gz",
-                            "sha256": "94bebd500af55762e83ea2f2bc594d87af828072370c7110c60c238a800d15b2",
+                            "type": "archive",
+                            "dest": "Sub-Quote",
+                            "url": "https://search.cpan.org/CPAN/authors/id/H/HA/HAARG/Sub-Quote-2.006009.tar.gz",
+                            "sha256": "967282d54d2d51b198c67935594f93e4dea3e54d1e5bced158c94e29be868a4b",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 12678,
-                                "stable-only": true,
                                 "url-template": "https://search.cpan.org/CPAN/authors/id/H/HA/HAARG/Sub-Quote-$version.tar.gz"
                             }
                         }
@@ -240,14 +193,19 @@
             "buildsystem": "cmake",
             "build-options": {
                 "env": {
-                    "PERLLIB": "/app/lib/perl5/site_perl/5.40.2:/app/lib/perl5/site_perl/5.40.2/arch"
+                    "PERLLIB": "/app/lib/perl5:/app/lib/perl5/arch"
                 }
             },
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://fc-solve.shlomifish.org/downloads/fc-solve/black-hole-solver-1.10.1.tar.xz",
-                    "sha256": "36e1953a99e02e82489a3cb109fb590bcab307b4ddaec34cb0e67347668511e2"
+                    "url": "https://fc-solve.shlomifish.org/downloads/fc-solve/black-hole-solver-1.14.0.tar.xz",
+                    "sha256": "5c47bd093dbb160f4b090fd670ab7c12b4371d39b17b3bbd8c6c4a12975557c0",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 229362,
+                        "url-template": "https://fc-solve.shlomifish.org/downloads/fc-solve/black-hole-solver-$version.tar.xz"
+                    }
                 }
             ]
         },
@@ -263,3 +221,4 @@
         }
     ]
 }
+
