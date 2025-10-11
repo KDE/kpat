@@ -1,15 +1,15 @@
 # SPDX-FileCopyrightText: 2024, 2025 Alois.spitzbart <spitz234@hotmail.com>
-# Thomas Diehl <thd@kde.org>, 2003.
-# Stefan Winter <swinter@kde.org>, 2004, 2005, 2007.
-# Stephan Johach <hunsum@gmx.de>, 2005.
-# Thomas Reitelbach <tr@erdfunkstelle.de>, 2005, 2008, 2009.
-# Stephan Kulow <coolo@kde.org>, 2007.
-# Burkhard Lück <lueck@hube-lueck.de>, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2018, 2020, 2021.
-# Johannes Obermayr <johannesobermayr@gmx.de>, 2009, 2010, 2011.
-# Panagiotis Papadopoulos <pano_90@gmx.net>, 2009, 2011.
-# Frederik Schwarzer <schwarzer@kde.org>, 2010, 2011, 2013, 2016.
-# Wolfgang Rohdewald <wolfgang@rohdewald.de>, 2011.
-# Frank Steinmetzger <dev-kde@felsenfleischer.de>, 2022.
+# SPDX-FileCopyrightText: 2003 Thomas Diehl <thd@kde.org>
+# SPDX-FileCopyrightText: 2004, 2005, 2007 Stefan Winter <swinter@kde.org>
+# SPDX-FileCopyrightText: 2005 Stephan Johach <hunsum@gmx.de>
+# SPDX-FileCopyrightText: 2005, 2008, 2009 Thomas Reitelbach <tr@erdfunkstelle.de>
+# SPDX-FileCopyrightText: 2007 Stephan Kulow <coolo@kde.org>
+# SPDX-FileCopyrightText: 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2018, 2020, 2021 Burkhard Lück <lueck@hube-lueck.de>
+# SPDX-FileCopyrightText: 2009, 2010, 2011 Johannes Obermayr <johannesobermayr@gmx.de>
+# SPDX-FileCopyrightText: 2009, 2011 Panagiotis Papadopoulos <pano_90@gmx.net>
+# SPDX-FileCopyrightText: 2010, 2011, 2013, 2016 Frederik Schwarzer <schwarzer@kde.org>
+# SPDX-FileCopyrightText: 2011 Wolfgang Rohdewald <wolfgang@rohdewald.de>
+# SPDX-FileCopyrightText: 2022 Frank Steinmetzger <dev-kde@felsenfleischer.de>
 msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
