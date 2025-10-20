@@ -114,7 +114,7 @@ KAboutData fillAboutData()
     return aboutData;
 }
 
-void addParserOptions(QCommandLineParser &parser)
+void addParserOptions(QCommandLineParser &parser, QStringList &gameList, const QString &listSeparator)
 {
     parser.addOption(
         QCommandLineOption(QStringList() << QStringLiteral("solvegame"), i18n("Try to find a solution to the given savegame"), QStringLiteral("file")));
@@ -122,6 +122,10 @@ void addParserOptions(QCommandLineParser &parser)
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("start"), i18n("Game range start (default 0:INT_MAX)"), QStringLiteral("num")));
     parser.addOption(
         QCommandLineOption(QStringList() << QStringLiteral("end"), i18n("Game range end (default start:start if start given)"), QStringLiteral("num")));
+    parser.addOption(
+        QCommandLineOption(QStringList() << QStringLiteral("gametype"),
+                                        i18n("Skip the selection screen and load a particular game type. Valid values are: %1", gameList.join(listSeparator)),
+                                        QStringLiteral("game")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("testdir"), i18n("Directory with test cases"), QStringLiteral("directory")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("generate"), i18n("Generate random test cases")));
     parser.addPositionalArgument(QStringLiteral("file"), i18n("File to load"));
@@ -305,8 +309,23 @@ int main(int argc, char **argv)
 
     KCrash::initialize();
 
+    // Create a KLocale earlier than normal so that we can use i18n to translate
+    // the names of the game types in the help text.
+    QMap<QString, int> indexMap;
+    QStringList gameList;
+    const auto games = DealerInfoList::self()->games();
+    for (const DealerInfo *di : games) {
+        QString untranslatedString = di->untranslatedBaseName();
+        QByteArray untraslatedBA = untranslatedString.toLocal8Bit();
+        KLocalizedString localizedKey = ki18n(untraslatedBA.data());
+        gameList << localizedKey.toString();
+        indexMap.insert(localizedKey.toString().toLower(), di->baseId());
+    }
+    gameList.sort();
+    const QString listSeparator = i18nc("List separator", ", ");
+
     QCommandLineParser parser;
-    addParserOptions(parser);
+    addParserOptions(parser, gameList, listSeparator);
     aboutData.setupCommandLine(&parser);
     parser.process(app);
     aboutData.processCommandLine(&parser);
@@ -325,12 +344,15 @@ int main(int argc, char **argv)
         return 0;
     }
 
+    QString gametype = parser.value(QStringLiteral("gametype")).toLower();
     QFile savedState(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QLatin1String("/" saved_state_file));
 
     MainWindow *w = new MainWindow;
     if (!parser.positionalArguments().isEmpty()) {
         if (!w->loadGame(QUrl::fromLocalFile(parser.positionalArguments().at(0)), true))
             w->slotShowGameSelectionScreen();
+    } else if (indexMap.contains(gametype)) {
+        w->slotGameSelected(indexMap.value(gametype));
     } else if (savedState.exists()) {
         if (!w->loadGame(QUrl::fromLocalFile(savedState.fileName()), false))
             w->slotShowGameSelectionScreen();
