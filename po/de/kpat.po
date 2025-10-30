@@ -1,4 +1,3 @@
-# SPDX-FileCopyrightText: 2024, 2025 Alois.spitzbart <spitz234@hotmail.com>
 # SPDX-FileCopyrightText: 2003 Thomas Diehl <thd@kde.org>
 # SPDX-FileCopyrightText: 2004, 2005, 2007 Stefan Winter <swinter@kde.org>
 # SPDX-FileCopyrightText: 2005 Stephan Johach <hunsum@gmx.de>
@@ -10,12 +9,13 @@
 # SPDX-FileCopyrightText: 2010, 2011, 2013, 2016 Frederik Schwarzer <schwarzer@kde.org>
 # SPDX-FileCopyrightText: 2011 Wolfgang Rohdewald <wolfgang@rohdewald.de>
 # SPDX-FileCopyrightText: 2022 Frank Steinmetzger <dev-kde@felsenfleischer.de>
+# SPDX-FileCopyrightText: 2024, 2025 Alois.spitzbart <spitz234@hotmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-06-05 00:40+0000\n"
-"PO-Revision-Date: 2025-06-29 19:49+0200\n"
+"PO-Revision-Date: 2025-10-20 22:48+0200\n"
 "Last-Translator: Alois Spitzbart <spitz234@hotmail.com>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 25.04.2\n"
+"X-Generator: Lokalize 25.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1034,7 +1034,7 @@ msgstr "Mod3"
 
 #: normandy.cpp:166
 msgid "Normandy"
-msgstr ""
+msgstr "Normandie"
 
 #: numbereddealdialog.cpp:36
 #, kde-format
