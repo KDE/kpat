@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:50+0000\n"
+"POT-Creation-Date: 2025-11-20 00:40+0000\n"
 "PO-Revision-Date: 2025-06-10 08:13+0200\n"
 "Last-Translator: Xavier Besnard <xavier.besnard@kde.org>\n"
 "Language-Team: French <French <kde-francophone@kde.org>>\n"
@@ -770,20 +770,35 @@ msgstr ""
 "Fin de l'intervalle de la partie (par défaut, ce paramètre vaut « départ : "
 "départ » si le paramètre « départ » est fourni)"
 
-#: main.cpp:125
+#: main.cpp:127
+#, kde-format
+msgid ""
+"Skip the selection screen and load a particular game type. Valid values are: "
+"%1"
+msgstr ""
+"Ignorer l'écran de sélection et charger un type de jeu particulier. Les "
+"valeurs possibles sont : %1"
+
+#: main.cpp:129
 #, kde-format
 msgid "Directory with test cases"
 msgstr "Dossier avec des cas de tests"
 
-#: main.cpp:126
+#: main.cpp:130
 #, kde-format
 msgid "Generate random test cases"
 msgstr "Générer des cas aléatoires de tests"
 
-#: main.cpp:127
+#: main.cpp:131
 #, kde-format
 msgid "File to load"
 msgstr "Fichier à charger"
+
+#: main.cpp:325
+#, kde-format
+msgctxt "List separator"
+msgid ", "
+msgstr ", "
 
 #: mainwindow.cpp:152
 #, kde-format
@@ -1225,17 +1240,6 @@ msgstr "Yukon"
 
 #~ msgid "Change Appearance..."
 #~ msgstr "Changer d'apparence..."
-
-#~ msgctxt "List separator"
-#~ msgid ", "
-#~ msgstr ", "
-
-#~ msgid ""
-#~ "Skip the selection screen and load a particular game type. Valid values "
-#~ "are: %1"
-#~ msgstr ""
-#~ "Ignorer l'écran de sélection et charger un type de jeu particulier. Les "
-#~ "valeurs possibles sont : %1"
 
 #~ msgid "Opening file failed."
 #~ msgstr "Impossible d'ouvrir un fichier."

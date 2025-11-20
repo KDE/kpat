@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:50+0000\n"
+"POT-Creation-Date: 2025-11-20 00:40+0000\n"
 "PO-Revision-Date: 2015-01-29 09:07+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -778,20 +778,33 @@ msgstr ""
 msgid "Game range end (default start:start if start given)"
 msgstr ""
 
-#: main.cpp:125
+#: main.cpp:127
+#, kde-format
+msgid ""
+"Skip the selection screen and load a particular game type. Valid values are: "
+"%1"
+msgstr ""
+
+#: main.cpp:129
 #, kde-format
 msgid "Directory with test cases"
 msgstr ""
 
-#: main.cpp:126
+#: main.cpp:130
 #, kde-format
 msgid "Generate random test cases"
 msgstr ""
 
-#: main.cpp:127
+#: main.cpp:131
 #, kde-format
 msgid "File to load"
 msgstr "Sækja skrá"
+
+#: main.cpp:325
+#, kde-format
+msgctxt "List separator"
+msgid ", "
+msgstr ", "
 
 #: mainwindow.cpp:152
 #, fuzzy, kde-format
@@ -1272,10 +1285,6 @@ msgstr "Yukon"
 
 #~ msgid "Change Appearance..."
 #~ msgstr "Breyta útliti..."
-
-#~ msgctxt "List separator"
-#~ msgid ", "
-#~ msgstr ", "
 
 #~ msgid "The saved game is of an unknown type."
 #~ msgstr "Vistaði leikurinn er af óþekktri gerð."

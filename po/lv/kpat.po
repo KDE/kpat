@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:50+0000\n"
+"POT-Creation-Date: 2025-11-20 00:40+0000\n"
 "PO-Revision-Date: 2024-05-26 20:53+0300\n"
 "Last-Translator: Toms Trasuns <toms.trasuns@posteo.net>\n"
 "Language-Team: Latvian <kde-i18n-doc@kde.org>\n"
@@ -748,20 +748,35 @@ msgstr "Spēles diapazona sākums (noklusējuma 0:INT_MAX)"
 msgid "Game range end (default start:start if start given)"
 msgstr "Spēles diapazona beigas (noklusējuma sākuma:sākuma, ja sākums ir dots)"
 
-#: main.cpp:125
+#: main.cpp:127
+#, kde-format
+msgid ""
+"Skip the selection screen and load a particular game type. Valid values are: "
+"%1"
+msgstr ""
+"Izlaist izvēles logu un uzreiz ielādēt noteiktu spēles tipu. Derīgas "
+"vērtības ir: %1"
+
+#: main.cpp:129
 #, kde-format
 msgid "Directory with test cases"
 msgstr "Mape ar testa paraugiem"
 
-#: main.cpp:126
+#: main.cpp:130
 #, kde-format
 msgid "Generate random test cases"
 msgstr "Ģenerēt nejaušus testa paraugus"
 
-#: main.cpp:127
+#: main.cpp:131
 #, kde-format
 msgid "File to load"
 msgstr "Ielādējamā datne"
+
+#: main.cpp:325
+#, kde-format
+msgctxt "List separator"
+msgid ", "
+msgstr ", "
 
 #: mainwindow.cpp:152
 #, kde-format
@@ -1204,17 +1219,6 @@ msgstr "Jukona"
 
 #~ msgid "Change Appearance..."
 #~ msgstr "Mainīt izskatu..."
-
-#~ msgctxt "List separator"
-#~ msgid ", "
-#~ msgstr ", "
-
-#~ msgid ""
-#~ "Skip the selection screen and load a particular game type. Valid values "
-#~ "are: %1"
-#~ msgstr ""
-#~ "Izlaist izvēles logu un uzreiz ielādēt noteiktu spēles tipu. Derīgas "
-#~ "vērtības ir: %1"
 
 #~ msgid "Opening file failed."
 #~ msgstr "Faila atvēršana neizdevās."

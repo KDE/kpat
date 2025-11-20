@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:50+0000\n"
+"POT-Creation-Date: 2025-11-20 00:40+0000\n"
 "PO-Revision-Date: 2009-10-25 09:23+0700\n"
 "Last-Translator: Morn Met\n"
 "Language-Team: Khmer <kde-i18n-doc@kde.org>\n"
@@ -767,20 +767,33 @@ msgstr "ចាប់ផ្ដើម​ជួរ​ល្បែង (លំនា�
 msgid "Game range end (default start:start if start given)"
 msgstr "បញ្ចប់​ជួរ​ល្បែង (ចាប់ផ្ដើម​លំនាំដើម ៖ ចាប់ផ្ដើម​ប្រសិន​បើ​ការ​ចាប់ផ្ដើម​ត្រូវ​ផ្ដល់)"
 
-#: main.cpp:125
+#: main.cpp:127
+#, kde-format
+msgid ""
+"Skip the selection screen and load a particular game type. Valid values are: "
+"%1"
+msgstr "រំលង​ការ​ជ្រើស​អេក្រង់ រួច​ផ្ទុក​ប្រភេទ​ល្បែង​ពិសេស ។ តម្លៃ​ត្រឹម​ត្រូវ​គឺ​ ៖ %1"
+
+#: main.cpp:129
 #, kde-format
 msgid "Directory with test cases"
 msgstr "ថត​ដែល​មាន​ករណី​សាកល្បង"
 
-#: main.cpp:126
+#: main.cpp:130
 #, kde-format
 msgid "Generate random test cases"
 msgstr "បង្កើត​ករណី​សាកល្បង​សាកល្បង​ចៃដន្យ"
 
-#: main.cpp:127
+#: main.cpp:131
 #, kde-format
 msgid "File to load"
 msgstr "ឯកសារ​ដែល​ត្រូវ​​​​ផ្ទុក"
+
+#: main.cpp:325
+#, kde-format
+msgctxt "List separator"
+msgid ", "
+msgstr ", "
 
 #: mainwindow.cpp:152
 #, fuzzy, kde-format
@@ -1261,15 +1274,6 @@ msgstr "Yukon"
 
 #~ msgid "Change Appearance..."
 #~ msgstr "ផ្លាស់​ប្ដូរ​​រូប​រាង..."
-
-#~ msgctxt "List separator"
-#~ msgid ", "
-#~ msgstr ", "
-
-#~ msgid ""
-#~ "Skip the selection screen and load a particular game type. Valid values "
-#~ "are: %1"
-#~ msgstr "រំលង​ការ​ជ្រើស​អេក្រង់ រួច​ផ្ទុក​ប្រភេទ​ល្បែង​ពិសេស ។ តម្លៃ​ត្រឹម​ត្រូវ​គឺ​ ៖ %1"
 
 #~ msgid "Opening file failed."
 #~ msgstr "ការ​បើក​ឯកសារ​បាន​បរាជ័យ ។"

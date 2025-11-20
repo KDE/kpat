@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:50+0000\n"
+"POT-Creation-Date: 2025-11-20 00:40+0000\n"
 "PO-Revision-Date: 2008-01-01 22:44+0200\n"
 "Last-Translator: Darafei Praliaskouski <komzpa@gmail.com>\n"
 "Language-Team: Belarusian (Official spelling) <i18n@mova.org>\n"
@@ -760,20 +760,33 @@ msgstr "Гульня прадвызначана"
 msgid "Game range end (default start:start if start given)"
 msgstr "Гульня прадвызначана калі"
 
-#: main.cpp:125
+#: main.cpp:127
+#, kde-format
+msgid ""
+"Skip the selection screen and load a particular game type. Valid values are: "
+"%1"
+msgstr ""
+
+#: main.cpp:129
 #, kde-format
 msgid "Directory with test cases"
 msgstr ""
 
-#: main.cpp:126
+#: main.cpp:130
 #, kde-format
 msgid "Generate random test cases"
 msgstr ""
 
-#: main.cpp:127
+#: main.cpp:131
 #, fuzzy, kde-format
 msgid "File to load"
 msgstr "Адкрыць файл"
+
+#: main.cpp:325
+#, kde-format
+msgctxt "List separator"
+msgid ", "
+msgstr ""
 
 #: mainwindow.cpp:152
 #, kde-format

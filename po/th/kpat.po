@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-17 11:50+0000\n"
+"POT-Creation-Date: 2025-11-20 00:40+0000\n"
 "PO-Revision-Date: 2025-03-03 20:07+0700\n"
 "Last-Translator: Pongsakorn S. <kde@xerusion.me>\n"
 "Language-Team: Thai\n"
@@ -766,20 +766,33 @@ msgstr "ช่วงเริ่มการเล่นเกม (ค่าป�
 msgid "Game range end (default start:start if start given)"
 msgstr "ช่วงจบของเกม (ค่าปริยาย start:start หากให้ start มา)"
 
-#: main.cpp:125
+#: main.cpp:127
+#, kde-format
+msgid ""
+"Skip the selection screen and load a particular game type. Valid values are: "
+"%1"
+msgstr "ข้ามการเลือกหน้าจอและโหลดชนิดเกมโดยเฉพาะ ค่าต่าง ๆ ที่ใช้ได้คือ: %1"
+
+#: main.cpp:129
 #, kde-format
 msgid "Directory with test cases"
 msgstr ""
 
-#: main.cpp:126
+#: main.cpp:130
 #, kde-format
 msgid "Generate random test cases"
 msgstr ""
 
-#: main.cpp:127
+#: main.cpp:131
 #, kde-format
 msgid "File to load"
 msgstr "แฟ้มที่จะโหลด"
+
+#: main.cpp:325
+#, kde-format
+msgctxt "List separator"
+msgid ", "
+msgstr ", "
 
 #: mainwindow.cpp:152
 #, fuzzy, kde-format
@@ -1248,15 +1261,6 @@ msgstr "ยูคอน"
 #~ msgctxt "Start a game by giving its particular number"
 #~ msgid "New &Numbered Deal..."
 #~ msgstr "&จ่ายไพ่ตามรูปแบบหมายเลขใหม่..."
-
-#~ msgctxt "List separator"
-#~ msgid ", "
-#~ msgstr ", "
-
-#~ msgid ""
-#~ "Skip the selection screen and load a particular game type. Valid values "
-#~ "are: %1"
-#~ msgstr "ข้ามการเลือกหน้าจอและโหลดชนิดเกมโดยเฉพาะ ค่าต่าง ๆ ที่ใช้ได้คือ: %1"
 
 #~ msgid "The saved game is of an unknown type."
 #~ msgstr "เกมที่บันทึกไว้ เป็นชนิดที่ไม่รู้จัก"
