@@ -2,7 +2,7 @@
 # Bulgarian translation of KDE.
 # This file is licensed under the GPL.
 #
-# $Id: kpat.po 1723260 2025-11-20 01:24:15Z scripty $
+# $Id: kpat.po 1723368 2025-11-20 10:26:49Z mkkdr $
 #
 # Zlatko Popov <zlatkopopov@fsa-bg.org>, 2007.
 # Petar Toushkov <pt.launchpad@gmail.com>, 2009.
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-20 00:40+0000\n"
-"PO-Revision-Date: 2025-06-07 22:25+0200\n"
+"PO-Revision-Date: 2025-11-20 11:03+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -754,6 +754,7 @@ msgid ""
 "Skip the selection screen and load a particular game type. Valid values are: "
 "%1"
 msgstr ""
+"Пропускане на екрана за избор и зареждане на игра. Валидни стойности са: %1"
 
 #: main.cpp:129
 #, kde-format
@@ -774,7 +775,7 @@ msgstr "Файл за зареждане"
 #, kde-format
 msgctxt "List separator"
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: mainwindow.cpp:152
 #, kde-format

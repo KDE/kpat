@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-11-20 00:40+0000\n"
-"PO-Revision-Date: 2025-06-05 11:44+0300\n"
+"PO-Revision-Date: 2025-11-20 10:50+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
 "Language: he\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 25.04.1\n"
+"X-Generator: Lokalize 25.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -757,7 +757,7 @@ msgstr "סוף טווח משחק (ברירת מחדל start:start אם סופק�
 msgid ""
 "Skip the selection screen and load a particular game type. Valid values are: "
 "%1"
-msgstr ""
+msgstr "לדלג על מסך הבחירה ולטעון סוג מסוים שלך משחק. הערכים התקפים הם: %1"
 
 #: main.cpp:129
 #, kde-format
@@ -778,7 +778,7 @@ msgstr "קובץ לטעינה"
 #, kde-format
 msgctxt "List separator"
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: mainwindow.cpp:152
 #, kde-format
