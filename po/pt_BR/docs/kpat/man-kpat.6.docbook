@@ -8,11 +8,11 @@
 <title
 >Manual do usuário do KPat</title>
 <date
->11/05/2016</date>
+>21/06/2021</date>
 <releaseinfo
->3.6 (Applications 16.04)</releaseinfo>
+>21.04</releaseinfo>
 <productname
->KDE Applications</productname>
+>KDE Gear</productname>
 </refentryinfo>
 
 <refmeta>
@@ -30,7 +30,7 @@
 >kpat</command
 ></refname>
 <refpurpose
->Um jogo de cartas viciante.</refpurpose>
+>Um jogo de cartas viciante</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
@@ -190,7 +190,7 @@
 ></term>
 <listitem>
 <para
->Pula a tela de seleção e carrega um tipo particular de jogo. Os valores válidos são: acesup, fortyeight, freecell, golf, grandfather, grandfathersclock, gypsy, klondike, mod3, simplesimon, spider, yukon</para>
+>Pula a tela de seleção e carrega um tipo particular de jogo. Os valores válidos são: acesup, fortyeight, freecell, golf, grandfather, grandfathersclock, normandy, klondike, mod3, simplesimon, spider, yukon</para>
 </listitem>
 </varlistentry>
 
@@ -283,9 +283,9 @@
 ></userinput
 >).</member>
 <member
->kf5options(7)</member>
+>kf6options(7)</member>
 <member
->qt5options(7)</member>
+>qt6options(7)</member>
 </simplelist>
 </refsect1>
 
