@@ -124,17 +124,17 @@
 >&FDLNotice;</legalnotice>
 
 <date
->11/05/2016</date>
+>20/06/2021</date>
 <releaseinfo
->3.6 (Applications 16.04)</releaseinfo>
+>KDE Gear 21.04</releaseinfo>
 
 <!--Short description of this document. Do not change unless necessary!-->
 <abstract>
 	<para
->Esta documentação descreve o jogo &kpatience; versão 3.6</para>
+>Esta documentação descreve o jogo &kpatience; versão 21.04</para>
 </abstract>
 
-<!--List of relevan keywords-->
+<!--List of relevant keywords-->
 <keywordset>
 	<keyword
 >KDE</keyword
@@ -341,7 +341,7 @@
 ><primary
 >fundação</primary
 ></indexterm
->As pilhas de fundação são para onde você deseja que as cartas vão no fim do jogo. Tipicamente, o jogo termina uma vez que todas as cartas tenham sido movidas para as pilhas de fundação na ordem correta. O número de pilhas de fundação e a ordem exigida varia de jogo para jogo.</para>
+>As pilhas de fundação são para onde você deseja que as cartas vão no fim do jogo. Tipicamente, o jogo é ganho uma vez que todas as cartas tenham sido movidas para as pilhas de fundação na ordem correta. O número de pilhas de fundação e a ordem exigida varia de jogo para jogo.</para>
                             <para
 >A maioria dos jogos começam com as pilhas da fundação vazias. Se escolher a ação <guimenuitem
 >Arrastar</guimenuitem
@@ -484,6 +484,43 @@
 ></sidebar>
 
 <para
+>Variações:</para>
+<itemizedlist>
+  <listitem
+><para
+><quote
+>O Jogo do Padeiro</quote
+> é como o <quote
+>Freecell</quote
+>, mas as pilhas são construídas em ordem decrescente de naipe.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Fora Oito</quote
+> é como <quote
+>Freecell</quote
+>, mas as pilhas são construídas em ordem decrescente por naipe. Você tem 8 reservas e apenas reis podem preencher espaços vazios. Quatro reservas são preenchidas no início do jogo.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Forecell</quote
+> é como <quote
+>Freecell</quote
+>, mas as reservas são preenchidas no início do jogo, e apenas os reis podem preencher os espaços vazios.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Torres Seahaven</quote
+> é como <quote
+>Freecell</quote
+>, mas com 10 pilhas que são construídas em ordem decrescente de naipe, e apenas reis podem preencher espaços vazios. Dois espaços de reserva são preenchidos no início do jogo.</para
+></listitem>
+</itemizedlist>
+
+<para
 >Para resolver este jogo, recomenda-se que pegue nas cartas fora das sequências de jogo na mesma ordem pelas quais terão que ser colocadas na fundação (primeiro os ases, depois os 2, &etc;) </para>
 
 <para
@@ -515,16 +552,16 @@
 >A função de largada automática está desativada para esta paciência. </para>
 </sect2>
 
-<sect2 id="gypsy">
+<sect2 id="normandy">
 <title
->Cigano</title>
+>Normandia</title>
 
 <para
 ><indexterm
 ><primary
->Cigano</primary
+>Normandia</primary
 ></indexterm
-> O Cigano é jogado com dois baralhos. O objetivo do jogo é colocar todas as cartas em famílias reais ascendentes na fundação. </para>
+> Normandia é jogado com dois baralhos. O objetivo do jogo é colocar todas as cartas em famílias reais ascendentes na fundação. </para>
 
 <para
 >As pilhas de jogo têm que estar por ordem descendente enquanto que as cartas pretas e vermelhas têm que estar alternadas. Você só poderá mover sequências ou cartas isoladas. Num espaço livre, você poderá colocar qualquer carta ou sequência. </para>
@@ -536,6 +573,9 @@
 >Usar a funcionalidade de <guibutton
 >Desfazer</guibutton
 >, você poderá facilitar bastante o jogo, uma vez que terá que tomar algumas decisões, decisões estas que poderão se tornar erradas depois que você clicar no talão. </para>
+
+<para
+>Este jogo também é conhecido pelo nome "Gypsy", mas como este termo é considerado depreciativo e ofensivo por muitos, optamos por usar o nome alternativo "Normandia". </para>
 
 </sect2>
 
@@ -640,7 +680,7 @@
 ><primary
 >Golf</primary
 ></indexterm
-> O Golf é jogado com um baralho de cartas. O objetivo do jogo é colocar todas as cartas da mesa na fundação. </para>
+> O Golf é jogado com um baralho de cartas. O objetivo do jogo é colocar todas as cartas da mesa na fundação.</para>
  
 <para
 >O layout da paciência Golf é relativamente simples. No início do jogo, você verá no tabuleiro sete colunas, nas quais cada uma tem cinco cartas. Por baixo desta, existe o talão e a fundação. </para>
@@ -672,6 +712,130 @@
 
 </sect2>
 
+<sect2 id="bakers-dozen">
+<title
+>Dúzia do padeiro</title>
+
+<para
+><indexterm
+><primary
+>Dúzia do padeiro</primary
+></indexterm
+> Dúzia do padeiro é jogado com um baralho de cartas. O nome do jogo tem origem nas 13 colunas do jogo, o número de colunas de uma dúzia de padeiro. As cartas são distribuídas em colunas de quatro no tabuleiro, resultando em 13 colunas. Qualquer rei que esteja no topo ou no meio de cada coluna deve ser colocado na parte inferior antes do início do jogo. Dois reis que estejam misturados em uma mesma coluna são colocados na parte inferior sem alterar sua ordem. </para>
+
+<para
+>O objetivo do jogo é construir todas as cartas nas quatro bases por naipe, cada uma do ás ao rei </para>
+
+<para
+>Nas pilhas de jogo, você deve construir sequências decrescentes, independentemente do naipe. Você só pode mover uma carta que esteja no topo de uma pilha. </para>
+
+<para
+>Variações:</para>
+<itemizedlist>
+  <listitem
+><para
+>Em <quote
+>Paciência espanhola</quote
+>, qualquer carta pode preencher espaços vazios no tableau. (Em algumas fontes, as fundações são construídas independentemente do naipe).</para
+></listitem>
+  <listitem
+><para
+><quote
+>Castelos na Espanha</quote
+> é semelhante a <quote
+>Paciência espanhola</quote
+>, mas as cartas no tabuleiro são dispostas em ordem decrescente de cor. Em algumas variações, as cartas do tabuleiro são distribuídas viradas para baixo, exceto as cartas do topo de cada coluna.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Paciência portuguesa</quote
+> fica a meio caminho entre <quote
+>Dúzia do padeiro</quote
+> e <quote
+>Paciência espanhola</quote
+> porque colunas vazias só podem ser preenchidas com Reis.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Para resolver este jogo, recomenda-se que pegue nas cartas fora das sequências de jogo na mesma ordem pelas quais terão que ser colocadas na fundação (primeiro os ases, depois os 2, &etc;). Tipicamente, você deve evitar esvaziar uma coluna até que o último cartão esteja pronto para ser movido para uma fundação. </para>
+
+</sect2>
+
+<sect2 id="castle">
+<title
+>Castelo</title>
+
+<para
+><indexterm
+><primary
+>Castelo</primary
+></indexterm
+> Castelo é uma família de jogos de cartas de paciência ou solitário, geralmente jogados com um baralho de 52 cartas. Às vezes é descrito como "Freecell sem células" porque sua mecânica de jogo é semelhante, mas sem espaços vazios extras para manobrar na maioria das variações. </para>
+
+<para
+>O objetivo do jogo é construir todas as cartas nas quatro bases por naipe, cada uma do ás ao rei. </para>
+
+<para
+>Nas pilhas de jogo, você deve construir sequências decrescentes, independentemente do naipe. Você só pode mover uma carta que esteja no topo de uma pilha. </para>
+
+<para
+>Variações:</para>
+<itemizedlist>
+  <listitem
+><para
+><quote
+>Castelo sitiado</quote
+>. Os ases são distribuídos para as fundações. Qualquer carta pode preencher os espaços vazios.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Citadela</quote
+> é como <quote
+>Castelo sitiado</quote
+>, mas as cartas correspondentes são movidas para a fundação durante a distribuição, deixandopilhas desiguais.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Reis exilados</quote
+> é como <quote
+>Citadela</quote
+>, mas apenas reis podem preencher espaços vazios.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Cerco</quote
+> é como <quote
+>Castelo sitiado</quote
+>, mas com uma célula livre.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Ruas e vielas</quote
+> é como <quote
+>Castelo sitiado</quote
+>, mas os ases estão incluídos no embaralhamento.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Ponto forte</quote
+> é como <quote
+>Ruas e vielas</quote
+>, mas com uma célula livre.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Para resolver este jogo, recomenda-se construir uniformemente sobre as fundações. Tente criar pilhas vazias que podem ser usadas para facilitar movimentos mais longos para liberar cartas enterradas. </para>
+
+</sect2>
+
 </sect1>
 
 </chapter>
@@ -700,7 +864,7 @@
 > <guimenu
 >Jogo</guimenu
 > <guimenuitem
->Novo jogo...</guimenuitem
+>Novo jogo…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem
@@ -744,7 +908,7 @@
 > <guimenu
 >Jogo</guimenu
 > <guimenuitem
->Nova partida numerada...</guimenuitem
+>Nova partida numerada…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem>
@@ -753,10 +917,12 @@
 >Inicia um novo jogo definindo o tipo e o número de jogo.</action
 > Esta ação abandona o jogo em curso.</para>
 					<para
->O &kpatience; atribui a cada jogo um número identificador único (que usa internamente para gerar aleatoriamente o baralho inicial). Esta funcionalidade permite-lhe repetir um jogo de interesse ou tentar resolver um jogo particularmente difícil de um amigo. Os jogadores especialmente dedicados poderão tentar "bater" o &kpatience;, jogando consecutivamente todos os 2147483647 jogos, para cada um dos tipos existentes.</para>
+>O &kpatience; atribui a cada jogo um número identificador único (que usa internamente para gerar aleatoriamente o baralho inicial). Esta funcionalidade permite-lhe repetir um jogo de interesse ou tentar resolver um jogo particularmente difícil de um amigo. Os jogadores especialmente dedicados poderão tentar <quote
+>bater</quote
+> o &kpatience;, jogando consecutivamente todos os 2147483647 jogos, para cada um dos tipos existentes.</para>
 					<para
 >Observe que para o Freecell, o número de jogo do &kpatience; deve corresponder aos descritos na <ulink url="http://www.solitairelaboratory.com/fcfaq.html"
->FAQ do Freecell</ulink
+>&FAQ; do Freecell</ulink
 >.</para>
 				</listitem>
 			</varlistentry>
@@ -792,7 +958,7 @@
 > <guimenu
 >Jogo</guimenu
 > <guimenuitem
->Carregar...</guimenuitem
+>Carregar…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem
@@ -834,7 +1000,7 @@
 > <guimenu
 >Jogo</guimenu
 > <guimenuitem
->Salvar como...</guimenuitem
+>Salvar como…</guimenuitem
 > </menuchoice
 ></term>
 				<listitem
@@ -978,9 +1144,7 @@
 				<term
 ><menuchoice
 ><shortcut
-><keycap
->Espaço</keycap
-></shortcut
+>&Space;</shortcut
 > <guimenu
 >Mover</guimenu
 > <guimenuitem
@@ -998,9 +1162,7 @@
 				<term
 ><menuchoice
 ><shortcut
-><keycap
->Return</keycap
-></shortcut
+>&Enter;</shortcut
 > <guimenu
 >Mover</guimenu
 > <guimenuitem
@@ -1084,26 +1246,6 @@
 > Este menu está disponível apenas no jogo Spider.</para
 ></listitem>
 			</varlistentry>
-			<varlistentry id="settings-menu-deck">
-				<term
-><menuchoice
-><shortcut
-><keycap
->F10</keycap
-></shortcut
-> <guimenu
->Configurações</guimenu
-> <guimenuitem
->Mudar aparência...</guimenuitem
-> </menuchoice
-></term>
-				<listitem
-><para
-><action
->Abre uma janela para mudar o baralho de cartas e o tema do jogo usado.</action
-></para
-></listitem>
-			</varlistentry>
 			<varlistentry id="settings-menu-autodrop">
 				<term
 ><menuchoice
@@ -1132,6 +1274,22 @@
 ><action
 >Ativa o motor de resolução automática.</action
 > Sempre que estiver ativo, o módulo de resolução irá tentar determinar automaticamente se o estado do jogo atual pode ser ganho. Você poderá querer desativar o módulo de resolução, de modo a conservar o processador ou a bateria.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-playsounds">
+				<term
+><menuchoice
+><guimenu
+>Configurações</guimenu
+> <guimenuitem
+>Reproduzir sons</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Sons são reproduzidos quando você pega ou coloca cartas.</action
+> Mais sons são esperados no futuro.</para
 ></listitem>
 			</varlistentry>
 			<varlistentry id="settings-menu-remember">
@@ -1167,7 +1325,7 @@
 ></term>
 				<listitem
 ><para
->Abre a seção que contém as regras do jogo atual </para
+>Abre a seção do manual que contém as regras do jogo atual.</para
 ></listitem>
 			</varlistentry>
 		</variablelist>
@@ -1199,7 +1357,7 @@
 > <guimenu
 >Configurações</guimenu
 > <guimenuitem
->Mudar aparência...</guimenuitem
+>Mudar aparência…</guimenuitem
 > </menuchoice
 >.</para
 ></answer>
