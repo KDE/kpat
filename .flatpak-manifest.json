@@ -47,8 +47,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://fc-solve.shlomifish.org/downloads/fc-solve/freecell-solver-6.14.0.tar.xz",
-                    "sha256": "1d1125d85422bcd521102d7cb1e7c84b76863fe445dd21879f9779dc6b2ce7dc",
+                    "url": "https://fc-solve.shlomifish.org/downloads/fc-solve/freecell-solver-6.16.0.tar.xz",
+                    "sha256": "71b8882e68f1be62529069018d0c732b75078669077c96348279575849f34313",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 227651,
@@ -221,4 +221,3 @@
         }
     ]
 }
-
