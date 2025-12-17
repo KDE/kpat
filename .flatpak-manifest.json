@@ -231,7 +231,6 @@
                 {
                     "type": "git",
                     "url": "https://invent.kde.org/kde/kpat.git"
-
                 }
             ]
         }
