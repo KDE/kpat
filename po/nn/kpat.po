@@ -770,6 +770,7 @@ msgid ""
 "Skip the selection screen and load a particular game type. Valid values are: "
 "%1"
 msgstr ""
+"Hopp over kabalvalsskjermen og opna vald kabalvariant. Moglege verdiar: %1"
 
 #: main.cpp:129
 #, kde-format
@@ -790,7 +791,7 @@ msgstr "Fil som skal lastast"
 #, kde-format
 msgctxt "List separator"
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: mainwindow.cpp:152
 #, kde-format

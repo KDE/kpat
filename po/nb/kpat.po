@@ -759,6 +759,7 @@ msgid ""
 "Skip the selection screen and load a particular game type. Valid values are: "
 "%1"
 msgstr ""
+"Hopp over kabalvalgskjermeen og last en valgt variant. Mulige verdier: %1 "
 
 #: main.cpp:129
 #, kde-format
@@ -779,7 +780,7 @@ msgstr "Fil som skal lastes inn"
 #, kde-format
 msgctxt "List separator"
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: mainwindow.cpp:152
 #, fuzzy, kde-format
