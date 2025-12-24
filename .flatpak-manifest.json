@@ -2,7 +2,7 @@
     "id": "org.kde.kpat",
     "branch": "master",
     "runtime": "org.kde.Platform",
-    "runtime-version": "6.9",
+    "runtime-version": "6.10",
     "sdk": "org.kde.Sdk",
     "command": "kpat",
     "rename-icon": "kpat",
@@ -20,9 +20,6 @@
     ],
     "modules": [
         {
-            "config-opts": [
-                "-DENABLE_TESTING=OFF"
-            ],
             "name": "libkdegames",
             "buildsystem": "cmake-ninja",
             "sources": [
@@ -41,14 +38,14 @@
             ],
             "build-options": {
                 "env": {
-                    "PERLLIB": "/app/lib/perl5:/app/lib/perl5/arch"
+                    "PERL5LIB": "/app/lib/perl5:/app/lib/perl5/arch"
                 }
             },
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://fc-solve.shlomifish.org/downloads/fc-solve/freecell-solver-6.14.0.tar.xz",
-                    "sha256": "1d1125d85422bcd521102d7cb1e7c84b76863fe445dd21879f9779dc6b2ce7dc",
+                    "url": "https://fc-solve.shlomifish.org/downloads/fc-solve/freecell-solver-6.16.0.tar.xz",
+                    "sha256": "71b8882e68f1be62529069018d0c732b75078669077c96348279575849f34313",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 227651,
@@ -77,19 +74,39 @@
                     ]
                 },
                 {
-                    "name": "random2",
+                    "name": "six",
                     "buildsystem": "simple",
                     "build-commands": [
-                        "pip3 install --prefix=/app --no-deps ."
+                        "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"six\" --no-build-isolation"
                     ],
                     "sources": [
                         {
-                            "type": "archive",
-                            "url": "https://files.pythonhosted.org/packages/c2/f8/aba7ea7900492da2dd405aa42aa6160b83490421c7d70cf2d5aa44238a13/random2-1.0.2.tar.gz",
-                            "sha256": "3754fcef48267567cd5705fa7da6bbc3809cb3f808740313e6705acc3c057e77",
+                            "type": "file",
+                            "url": "https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl",
+                            "sha256": "4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274",
                             "x-checker-data": {
                                 "type": "pypi",
-                                "name": "random2"
+                                "name": "six",
+                                "packagetype": "bdist_wheel"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "random2",
+                    "buildsystem": "simple",
+                    "build-commands": [
+                        "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"random2\" --no-build-isolation"
+                    ],
+                    "sources": [
+                        {
+                            "type": "file",
+                            "url": "https://files.pythonhosted.org/packages/78/22/2fb1b057fbcf3f3c51f2cb706f2d3aec181e7fdfc46d560c133b7de81cde/random2-1.0.2-py3-none-any.whl",
+                            "sha256": "c2b92ac9d28f94d3759075302c12f94e3dcc09f2d1c9e9f65fdbbb1d6b710024",
+                            "x-checker-data": {
+                                "type": "pypi",
+                                "name": "random2",
+                                "packagetype": "bdist_wheel"
                             }
                         }
                     ]
@@ -98,17 +115,16 @@
                     "name": "pysol_cards",
                     "buildsystem": "simple",
                     "build-commands": [
-                        "pip3 install --prefix=/app --no-deps ."
+                        "pip3 install --verbose --exists-action=i --no-index --find-links=\"file://${PWD}\" --prefix=${FLATPAK_DEST} \"pysol_cards\" --no-build-isolation"
                     ],
                     "sources": [
                         {
-                            "type": "archive",
-                            "url": "https://pypi.io/packages/source/p/pysol_cards/pysol_cards-0.24.0.tar.gz",
+                            "type": "file",
+                            "url": "https://files.pythonhosted.org/packages/b8/83/b14bf5b2c8a8c6e6d793c0ebd292e8d82c20e9ee8104045087a1cabc6399/pysol_cards-0.24.0.tar.gz",
                             "sha256": "a985492da81aa1588dfc056d9a7c6ca83f66254c0b90f25afc682a70713d4d4b",
                             "x-checker-data": {
-                                "type": "anitya",
-                                "project-id": 19639,
-                                "url-template": "https://pypi.io/packages/source/p/pysol_cards/pysol_cards-$version.tar.gz"
+                                "type": "pypi",
+                                "name": "pysol_cards"
                             }
                         }
                     ]
@@ -122,8 +138,7 @@
                         "cd Template-Toolkit && perl Makefile.PL INSTALL_BASE=/app && make && make install",
                         "cd Moo && perl Makefile.PL INSTALL_BASE=/app && make && make install",
                         "cd Module-Runtime && perl Makefile.PL INSTALL_BASE=/app && make && make install",
-                        "cd Sub-Quote && perl Makefile.PL INSTALL_BASE=/app && make && make install",
-                        "ln -s /app/lib/perl5/$(basename `ls -d /usr/lib/perl5/5.*/*-linux`) /app/lib/perl5/arch"
+                        "cd Sub-Quote && perl Makefile.PL INSTALL_BASE=/app && make && make install"
                     ],
                     "post-install": [
                         "chmod -R u+w /app/lib/perl5"
@@ -193,7 +208,7 @@
             "buildsystem": "cmake",
             "build-options": {
                 "env": {
-                    "PERLLIB": "/app/lib/perl5:/app/lib/perl5/arch"
+                    "PERL5LIB": "/app/lib/perl5:/app/lib/perl5/arch"
                 }
             },
             "sources": [
@@ -221,4 +236,3 @@
         }
     ]
 }
-
