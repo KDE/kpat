@@ -56,6 +56,7 @@
 #include <QDomDocument>
 #include <QElapsedTimer>
 #include <QFile>
+#include <QLocale>
 #include <QRandomGenerator>
 #include <QStandardPaths>
 #include <QTime>
@@ -114,7 +115,7 @@ KAboutData fillAboutData()
     return aboutData;
 }
 
-void addParserOptions(QCommandLineParser &parser, QStringList &gameList, const QString &listSeparator)
+void addParserOptions(QCommandLineParser &parser, QStringList &gameList)
 {
     parser.addOption(
         QCommandLineOption(QStringList() << QStringLiteral("solvegame"), i18n("Try to find a solution to the given savegame"), QStringLiteral("file")));
@@ -124,8 +125,8 @@ void addParserOptions(QCommandLineParser &parser, QStringList &gameList, const Q
         QCommandLineOption(QStringList() << QStringLiteral("end"), i18n("Game range end (default start:start if start given)"), QStringLiteral("num")));
     parser.addOption(
         QCommandLineOption(QStringList() << QStringLiteral("gametype"),
-                                        i18n("Skip the selection screen and load a particular game type. Valid values are: %1", gameList.join(listSeparator)),
-                                        QStringLiteral("game")));
+                           i18n("Skip the selection screen and load a particular game type. Valid values are: %1", QLocale().createSeparatedList(gameList)),
+                           QStringLiteral("game")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("testdir"), i18n("Directory with test cases"), QStringLiteral("directory")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("generate"), i18n("Generate random test cases")));
     parser.addPositionalArgument(QStringLiteral("file"), i18n("File to load"));
@@ -322,10 +323,9 @@ int main(int argc, char **argv)
         indexMap.insert(localizedKey.toString().toLower(), di->baseId());
     }
     gameList.sort();
-    const QString listSeparator = i18nc("List separator", ", ");
 
     QCommandLineParser parser;
-    addParserOptions(parser, gameList, listSeparator);
+    addParserOptions(parser, gameList);
     aboutData.setupCommandLine(&parser);
     parser.process(app);
     aboutData.processCommandLine(&parser);
