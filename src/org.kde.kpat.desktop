@@ -198,3 +198,60 @@ Keywords[sl]=Aces up;pekovih ducat;grad;štirideset in osem;oseminštirideset;fr
 Keywords[sv]=Idioten;tretton högar;slott;fyrtio och åtta;fyrtio-åtta;kungen;guld;farfarpatiens;farfarsklocka;normandie;klondike;mod3;följa john;spindel;yukon;
 Keywords[tr]=aces up;aslar yukarı;baker's dozen;fırıncı düzinesi;castle;kale;forty and eight;forty-eight;kırk sekiz;freecell;özgür hücre;gold;altın;grandfather;büyükbaba;grandfather's clock;büyükbabanın saati;gypsy;çingene;klondike;klondike;mod3;mod3;simple simon;basit simon;spider;örümcek;yukon;Yukon;normandy;
 Keywords[uk]=Aces up;baker's dozen;castle;forty and eight;forty-eight;freecell;gold;grandfather;grandfather's clock;normandy;klondike;mod3;simple simon;spider;yukon;тузи згори;дюжина пекаря;замок;сорок вісім;косинка;золото;дідусь;годинник дідуся;нормандія;клондайк;мод3;саймон-простак;павук;юкон;
+Actions=aces;bakersdozen;castle;fortyeight;freecell;golf;grandfather;grandfathersclock;klondike;mod3;normandy;simplesimon;spider;yukon;
+
+[Desktop Action aces]
+Name=Aces Up
+Exec=kpat --gametype "aces up"
+
+[Desktop Action bakersdozen]
+Name=Baker's Dozen
+Exec=kpat --gametype "baker's dozen"
+
+[Desktop Action castle]
+Name=Castle
+Exec=kpat --gametype castle
+
+[Desktop Action fortyeight]
+Name=Forty & Eight
+Exec=kpat --gametype "forty & eight"
+
+[Desktop Action freecell]
+Name=Freecell
+Exec=kpat --gametype freecell
+
+[Desktop Action golf]
+Name=Golf
+Exec=kpat --gametype golf
+
+[Desktop Action grandfather]
+Name=Grandfather
+Exec=kpat --gametype grandfather
+
+[Desktop Action grandfathersclock]
+Name=Grandfather's Clock
+Exec=kpat --gametype "grandfather's clock"
+
+[Desktop Action klondike]
+Name=Klondike
+Exec=kpat --gametype klondike
+
+[Desktop Action mod3]
+Name=Mod3
+Exec=kpat --gametype mod3
+
+[Desktop Action normandy]
+Name=Normandy
+Exec=kpat --gametype normandy
+
+[Desktop Action simplesimon]
+Name=Simple Simon
+Exec=kpat --gametype "simple simon"
+
+[Desktop Action spider]
+Name=Spider
+Exec=kpat --gametype spider
+
+[Desktop Action yukon]
+Name=Yukon
+Exec=kpat --gametype yukon

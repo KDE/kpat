@@ -311,7 +311,8 @@ int main(int argc, char **argv)
 
     // Create a KLocale earlier than normal so that we can use i18n to translate
     // the names of the game types in the help text.
-    QMap<QString, int> indexMap;
+    QMap<QString, int> untranslatedIndexMap;
+    QMap<QString, int> localizedIndexMap;
     QStringList gameList;
     const auto games = DealerInfoList::self()->games();
     for (const DealerInfo *di : games) {
@@ -319,7 +320,8 @@ int main(int argc, char **argv)
         QByteArray untraslatedBA = untranslatedString.toLocal8Bit();
         KLocalizedString localizedKey = ki18n(untraslatedBA.data());
         gameList << localizedKey.toString();
-        indexMap.insert(localizedKey.toString().toLower(), di->baseId());
+        untranslatedIndexMap.insert(untranslatedString.toLower(), di->baseId());
+        localizedIndexMap.insert(localizedKey.toString().toLower(), di->baseId());
     }
     gameList.sort();
     const QString listSeparator = i18nc("List separator", ", ");
@@ -351,8 +353,10 @@ int main(int argc, char **argv)
     if (!parser.positionalArguments().isEmpty()) {
         if (!w->loadGame(QUrl::fromLocalFile(parser.positionalArguments().at(0)), true))
             w->slotShowGameSelectionScreen();
-    } else if (indexMap.contains(gametype)) {
-        w->slotGameSelected(indexMap.value(gametype));
+    } else if (auto it = localizedIndexMap.constFind(gametype); it != localizedIndexMap.constEnd()) {
+        w->slotGameSelected(*it);
+    } else if (auto it = untranslatedIndexMap.constFind(gametype); it != untranslatedIndexMap.constEnd()) {
+        w->slotGameSelected(*it);
     } else if (savedState.exists()) {
         if (!w->loadGame(QUrl::fromLocalFile(savedState.fileName()), false))
             w->slotShowGameSelectionScreen();
