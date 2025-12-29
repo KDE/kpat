@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-20 00:40+0000\n"
+"POT-Creation-Date: 2025-12-29 00:40+0000\n"
 "PO-Revision-Date: 2014-08-11 13:22+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -795,7 +795,7 @@ msgstr "Tofällige Bispillen för't Utproberen opstellen"
 msgid "File to load"
 msgstr "Datei för't Laden"
 
-#: main.cpp:325
+#: main.cpp:327
 #, kde-format
 msgctxt "List separator"
 msgid ", "

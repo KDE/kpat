@@ -2,7 +2,7 @@
 # Bulgarian translation of KDE.
 # This file is licensed under the GPL.
 #
-# $Id: kpat.po 1723368 2025-11-20 10:26:49Z mkkdr $
+# $Id: kpat.po 1726017 2025-12-29 01:26:05Z scripty $
 #
 # Zlatko Popov <zlatkopopov@fsa-bg.org>, 2007.
 # Petar Toushkov <pt.launchpad@gmail.com>, 2009.
@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-20 00:40+0000\n"
+"POT-Creation-Date: 2025-12-29 00:40+0000\n"
 "PO-Revision-Date: 2025-11-20 11:03+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
@@ -771,7 +771,7 @@ msgstr "Генериране на случайни тестови случаи"
 msgid "File to load"
 msgstr "Файл за зареждане"
 
-#: main.cpp:325
+#: main.cpp:327
 #, kde-format
 msgctxt "List separator"
 msgid ", "

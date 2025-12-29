@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-20 00:40+0000\n"
+"POT-Creation-Date: 2025-12-29 00:40+0000\n"
 "PO-Revision-Date: 2005-03-07 03:28-0800\n"
 "Last-Translator: Tamil PC <tamilpc@ambalam.com>\n"
 "Language-Team:  <ta@li.org>\n"
@@ -802,7 +802,7 @@ msgstr ""
 msgid "File to load"
 msgstr "கோப்பு உள்வாங்குதல்"
 
-#: main.cpp:325
+#: main.cpp:327
 #, kde-format
 msgctxt "List separator"
 msgid ", "

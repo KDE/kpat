@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2025-11-20 00:40+0000\n"
+"POT-Creation-Date: 2025-12-29 00:40+0000\n"
 "PO-Revision-Date: 2024-04-22 15:58\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -762,7 +762,7 @@ msgstr "生成随机测试用例"
 msgid "File to load"
 msgstr "要加载的文件"
 
-#: main.cpp:325
+#: main.cpp:327
 #, kde-format
 msgctxt "List separator"
 msgid ", "
