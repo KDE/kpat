@@ -210,6 +210,29 @@ Exec=kpat --gametype "baker's dozen"
 
 [Desktop Action castle]
 Name=Castle
+Name[da]=Slot
+Name[de]=Burg
+Name[el]=Κάστρο
+Name[en_GB]=Castle
+Name[et]=Linnus
+Name[eu]=Gaztelua
+Name[fr]=Chateau
+Name[ga]=Caisleán
+Name[gl]=Castelo
+Name[hr]=Castle
+Name[hu]=Kastély
+Name[kk]=Қорған
+Name[km]=ប្រាសាទ
+Name[lv]=Pils
+Name[nds]=Slott
+Name[nl]=Kasteel
+Name[pl]=Zamek
+Name[pt_BR]=Castelo
+Name[ro]=Castel
+Name[ru]=Замок
+Name[sq]=Kështjella
+Name[sv]=Slott
+Name[wa]=Tchestea
 Exec=kpat --gametype castle
 
 [Desktop Action fortyeight]
@@ -250,6 +273,29 @@ Exec=kpat --gametype "simple simon"
 
 [Desktop Action spider]
 Name=Spider
+Name[da]=Edderkop
+Name[de]=Spinne
+Name[el]=Αράχνη
+Name[en_GB]=Spider
+Name[et]=Ämblik
+Name[eu]=Armiarma
+Name[fr]=Araignée
+Name[ga]=Damhán Alla
+Name[gl]=Araña
+Name[hr]=Spider
+Name[hu]=Pók
+Name[kk]=Өрмекші
+Name[km]=ពីងពាង​
+Name[lv]=Zirneklis
+Name[mai]=मकड़ी
+Name[nds]=Spinn
+Name[nl]=Spin
+Name[pl]=Pająk
+Name[pt_BR]=Aranha
+Name[ru]=Паук
+Name[sq]=Merimanga
+Name[sv]=Spindel
+Name[ug]=ئۆمۈچۈك
 Exec=kpat --gametype spider
 
 [Desktop Action yukon]
