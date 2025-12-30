@@ -769,7 +769,10 @@ msgid "Game range end (default start:start if start given)"
 msgstr "Pelialueen loppu (oletus alku:alku, jos alku on annettu)"
 
 #: main.cpp:127
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Skip the selection screen and load a particular game type. Valid values "
+#| "are: %1"
 msgid ""
 "Skip the selection screen and load a particular game type. Valid values are: "
 "%1"
@@ -792,7 +795,9 @@ msgid "File to load"
 msgstr "Ladattava tiedosto"
 
 #: main.cpp:327
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "List separator"
+#| msgid ", "
 msgctxt "List separator"
 msgid ", "
 msgstr ", "
