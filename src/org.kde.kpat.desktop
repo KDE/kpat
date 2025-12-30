@@ -115,7 +115,7 @@ GenericName[ru]=Карточный пасьянс
 GenericName[sa]=धैर्य कार्ड गेम
 GenericName[se]=Kabálaspeallu
 GenericName[sk]=Kartová hra Patience
-GenericName[sl]=Igra s kartami Patience
+GenericName[sl]=Igra s kartami Pasjansa
 GenericName[sr]=Пасијанс са картама
 GenericName[sr@ijekavian]=Пасијанс са картама
 GenericName[sr@ijekavianlatin]=Pasijans sa kartama
@@ -202,25 +202,44 @@ Actions=aces;bakersdozen;castle;fortyeight;freecell;golf;grandfather;grandfather
 
 [Desktop Action aces]
 Name=Aces Up
+Name[ca]=Asos amunt
+Name[ca@valencia]=Asos amunt
+Name[he]=אסים למעלה
+Name[ka]=ტუზები მაღლა
+Name[nl]=Azen omhoog
+Name[pt_BR]=Ases para cima
+Name[sl]=Asi gor
+Name[tr]=Aslar Yukarı
+Name[uk]=Тузи вгору
 Exec=kpat --gametype "aces up"
 
 [Desktop Action bakersdozen]
 Name=Baker's Dozen
+Name[ca]=Dotzena del forner
+Name[ca@valencia]=Dotzena del forner
+Name[he]=תריסר האופה
+Name[ka]=Baker's Dozen
+Name[nl]=Baker's Dozen
+Name[pt_BR]=Dúzia do padeiro
+Name[sl]=Pekovih ducat
+Name[tr]=Fırıncı Düzinesi
+Name[uk]=Чортова дюжина
 Exec=kpat --gametype "baker's dozen"
 
 [Desktop Action castle]
 Name=Castle
+Name[ca]=Castell
+Name[ca@valencia]=Castell
 Name[da]=Slot
-Name[de]=Burg
 Name[el]=Κάστρο
 Name[en_GB]=Castle
 Name[et]=Linnus
 Name[eu]=Gaztelua
-Name[fr]=Chateau
-Name[ga]=Caisleán
 Name[gl]=Castelo
+Name[he]=טירה
 Name[hr]=Castle
 Name[hu]=Kastély
+Name[ka]=სასახლე
 Name[kk]=Қорған
 Name[km]=ប្រាសាទ
 Name[lv]=Pils
@@ -230,60 +249,145 @@ Name[pl]=Zamek
 Name[pt_BR]=Castelo
 Name[ro]=Castel
 Name[ru]=Замок
+Name[sl]=Grad
 Name[sq]=Kështjella
 Name[sv]=Slott
+Name[tr]=Kale
+Name[uk]=Замок
 Name[wa]=Tchestea
 Exec=kpat --gametype castle
 
 [Desktop Action fortyeight]
 Name=Forty & Eight
+Name[ca]=Quaranta i vuit
+Name[ca@valencia]=Quaranta i huit
+Name[he]=ארבעים ושמונה
+Name[ka]=ორმოცი & რვა
+Name[nl]=Veertig & acht
+Name[pt_BR]=Quarenta e oito
+Name[sl]=Štirideset in osem
+Name[tr]=Kırk ve Sekiz
+Name[uk]=Сорок та Вісім
 Exec=kpat --gametype "forty & eight"
 
 [Desktop Action freecell]
 Name=Freecell
+Name[ca]=Cel·la lliure
+Name[ca@valencia]=Cel·la lliure
+Name[he]=פריסל
+Name[ka]=თავისუფალი უჯრედი
+Name[nl]=Freecell
+Name[pt_BR]=Freecell
+Name[sl]=Freecell
+Name[tr]=Freecell
+Name[uk]=Косинка
 Exec=kpat --gametype freecell
 
 [Desktop Action golf]
 Name=Golf
+Name[ca]=Golf
+Name[ca@valencia]=Golf
+Name[he]=גולף
+Name[ka]=გოლფი
+Name[nl]=Golf
+Name[pt_BR]=Golfe
+Name[sl]=Golf
+Name[tr]=Golf
+Name[uk]=Гольф
 Exec=kpat --gametype golf
 
 [Desktop Action grandfather]
 Name=Grandfather
+Name[ca]=El iaio
+Name[ca@valencia]=L'iaio
+Name[he]=סבא
+Name[ka]=პაპა
+Name[nl]=Grootvader
+Name[pt_BR]=Avô
+Name[sl]=Dedek
+Name[tr]=Büyükbaba
+Name[uk]=Дідусь
 Exec=kpat --gametype grandfather
 
 [Desktop Action grandfathersclock]
 Name=Grandfather's Clock
+Name[ca]=El rellotge de l'avi
+Name[ca@valencia]=El rellotge de l'avi
+Name[he]=השעון של סבא
+Name[ka]=ბაბუის საათი
+Name[nl]=Grootvaders klok
+Name[pt_BR]=Relógio do vovô
+Name[sl]=Dedkova ura
+Name[tr]=Büyükbabanın Saati
+Name[uk]=Годинник дідуся
 Exec=kpat --gametype "grandfather's clock"
 
 [Desktop Action klondike]
 Name=Klondike
+Name[ca]=Klondike
+Name[ca@valencia]=Klondike
+Name[he]=קלונדייק
+Name[ka]=განძი
+Name[nl]=Klondike
+Name[pt_BR]=Klondike
+Name[sl]=Klondike
+Name[tr]=Klondike
+Name[uk]=Клондайк
 Exec=kpat --gametype klondike
 
 [Desktop Action mod3]
 Name=Mod3
+Name[ca]=Mod3
+Name[ca@valencia]=Mod3
+Name[he]=Mod3
+Name[ka]=Mod3
+Name[nl]=Mod3
+Name[pt_BR]=Mod3
+Name[sl]=Mod3
+Name[tr]=Mod3
+Name[uk]=Mod3
 Exec=kpat --gametype mod3
 
 [Desktop Action normandy]
 Name=Normandy
+Name[ca]=Normandia
+Name[ca@valencia]=Normandia
+Name[he]=נורמנדי
+Name[ka]=ნორმანდია
+Name[nl]=Normandy
+Name[pt_BR]=Normandia
+Name[sl]=Normandija
+Name[tr]=Normandy
+Name[uk]=Нормандія
 Exec=kpat --gametype normandy
 
 [Desktop Action simplesimon]
 Name=Simple Simon
+Name[ca]=El ximple Simó
+Name[ca@valencia]=El ximple Simó
+Name[he]=סיימון פשוט
+Name[ka]=მარტივი სიმონი
+Name[nl]=Eenvoudige Simon
+Name[pt_BR]=Simple Simon
+Name[sl]=Preprosti Simon
+Name[tr]=Basit Simon
+Name[uk]=Простак Саймон
 Exec=kpat --gametype "simple simon"
 
 [Desktop Action spider]
 Name=Spider
+Name[ca]=Aranya
+Name[ca@valencia]=Aranya
 Name[da]=Edderkop
-Name[de]=Spinne
 Name[el]=Αράχνη
 Name[en_GB]=Spider
 Name[et]=Ämblik
 Name[eu]=Armiarma
-Name[fr]=Araignée
-Name[ga]=Damhán Alla
 Name[gl]=Araña
+Name[he]=עכביש
 Name[hr]=Spider
 Name[hu]=Pók
+Name[ka]=ობობა
 Name[kk]=Өрмекші
 Name[km]=ពីងពាង​
 Name[lv]=Zirneklis
@@ -293,11 +397,23 @@ Name[nl]=Spin
 Name[pl]=Pająk
 Name[pt_BR]=Aranha
 Name[ru]=Паук
+Name[sl]=Pajek
 Name[sq]=Merimanga
 Name[sv]=Spindel
+Name[tr]=Örümcek
 Name[ug]=ئۆمۈچۈك
+Name[uk]=Павук
 Exec=kpat --gametype spider
 
 [Desktop Action yukon]
 Name=Yukon
+Name[ca]=Yukon
+Name[ca@valencia]=Yukon
+Name[he]=יוקון
+Name[ka]=იუკონი
+Name[nl]=Yukon
+Name[pt_BR]=Yukon
+Name[sl]=Jukon
+Name[tr]=Yukon
+Name[uk]=Юкон
 Exec=kpat --gametype yukon
