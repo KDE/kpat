@@ -60,7 +60,7 @@ QList<KCardTheme> KCardTheme::findAll()
     QList<KCardTheme> result;
     const QStringList indexFiles = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("carddecks"), QStandardPaths::LocateDirectory);
     for (const QString &index : indexFiles) {
-        const QStringList entries = QDir(index).entryList(QDir::Dirs);
+        const QStringList entries = QDir(index).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
         for (const QString &d : entries) {
             QString indexFilePath = index + QLatin1Char('/') + d + QLatin1String("/index.desktop");
             if (QFile::exists(indexFilePath)) {
@@ -79,7 +79,7 @@ QList<KCardTheme> KCardTheme::findAllWithFeatures(const QSet<QString> &neededFea
     QList<KCardTheme> result;
     const QStringList indexFiles = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("carddecks"), QStandardPaths::LocateDirectory);
     for (const QString &index : indexFiles) {
-        const QStringList entries = QDir(index).entryList(QDir::Dirs);
+        const QStringList entries = QDir(index).entryList(QDir::Dirs | QDir::NoDotAndDotDot);
         for (const QString &d : entries) {
             QString indexFilePath = index + QLatin1Char('/') + d + QLatin1String("/index.desktop");
             if (QFile::exists(indexFilePath)) {
