@@ -202,6 +202,7 @@ Actions=aces;bakersdozen;castle;fortyeight;freecell;golf;grandfather;grandfather
 
 [Desktop Action aces]
 Name=Aces Up
+Name[ar]=أيس أب
 Name[bg]=Aces Up
 Name[ca]=Asos amunt
 Name[ca@valencia]=Asos amunt
@@ -220,6 +221,7 @@ Exec=kpat --gametype "aces up"
 
 [Desktop Action bakersdozen]
 Name=Baker's Dozen
+Name[ar]=دزينة الخباز
 Name[bg]=Baker's Dozen
 Name[ca]=Dotzena del forner
 Name[ca@valencia]=Dotzena del forner
@@ -238,6 +240,7 @@ Exec=kpat --gametype "baker's dozen"
 
 [Desktop Action castle]
 Name=Castle
+Name[ar]=القلعة
 Name[bg]=Замък
 Name[ca]=Castell
 Name[ca@valencia]=Castell
@@ -272,6 +275,7 @@ Exec=kpat --gametype castle
 
 [Desktop Action fortyeight]
 Name=Forty & Eight
+Name[ar]=أربعون وثمانون
 Name[bg]=Четиридесет и осем
 Name[ca]=Quaranta i vuit
 Name[ca@valencia]=Quaranta i huit
@@ -290,6 +294,7 @@ Exec=kpat --gametype "forty & eight"
 
 [Desktop Action freecell]
 Name=Freecell
+Name[ar]=الخلية الحرة
 Name[bg]=Freecell
 Name[ca]=Cel·la lliure
 Name[ca@valencia]=Cel·la lliure
@@ -308,6 +313,7 @@ Exec=kpat --gametype freecell
 
 [Desktop Action golf]
 Name=Golf
+Name[ar]=غولف
 Name[bg]=Голф
 Name[ca]=Golf
 Name[ca@valencia]=Golf
@@ -326,6 +332,7 @@ Exec=kpat --gametype golf
 
 [Desktop Action grandfather]
 Name=Grandfather
+Name[ar]=الجد
 Name[bg]=Дядовият пасианс
 Name[ca]=El iaio
 Name[ca@valencia]=L'iaio
@@ -344,6 +351,7 @@ Exec=kpat --gametype grandfather
 
 [Desktop Action grandfathersclock]
 Name=Grandfather's Clock
+Name[ar]=ساعة الجد
 Name[bg]=Часовникът на дядо
 Name[ca]=El rellotge de l'avi
 Name[ca@valencia]=El rellotge de l'avi
@@ -362,6 +370,7 @@ Exec=kpat --gametype "grandfather's clock"
 
 [Desktop Action klondike]
 Name=Klondike
+Name[ar]=كلونداكي
 Name[bg]=Клондайк
 Name[ca]=Klondike
 Name[ca@valencia]=Klondike
@@ -380,6 +389,7 @@ Exec=kpat --gametype klondike
 
 [Desktop Action mod3]
 Name=Mod3
+Name[ar]=مود3
 Name[bg]=Mod3
 Name[ca]=Mod3
 Name[ca@valencia]=Mod3
@@ -398,6 +408,7 @@ Exec=kpat --gametype mod3
 
 [Desktop Action normandy]
 Name=Normandy
+Name[ar]=نورمندي
 Name[bg]=Нормандия
 Name[ca]=Normandia
 Name[ca@valencia]=Normandia
@@ -416,6 +427,7 @@ Exec=kpat --gametype normandy
 
 [Desktop Action simplesimon]
 Name=Simple Simon
+Name[ar]=سايمون بسيط
 Name[bg]=Simple Simon
 Name[ca]=El ximple Simó
 Name[ca@valencia]=El ximple Simó
@@ -434,6 +446,7 @@ Exec=kpat --gametype "simple simon"
 
 [Desktop Action spider]
 Name=Spider
+Name[ar]=العنكبوت
 Name[bg]=Паяк
 Name[ca]=Aranya
 Name[ca@valencia]=Aranya
@@ -469,6 +482,7 @@ Exec=kpat --gametype spider
 
 [Desktop Action yukon]
 Name=Yukon
+Name[ar]=يوكون
 Name[bg]=Юкон
 Name[ca]=Yukon
 Name[ca@valencia]=Yukon
