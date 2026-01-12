@@ -970,12 +970,12 @@ msgstr "Oculta la barra de menús"
 #: mainwindow.cpp:795
 #, kde-format
 msgid "Downloading file failed: %1"
-msgstr "No s'ha pogut baixar el fitxer: %1"
+msgstr "Ha fallat mentre es baixava el fitxer: %1"
 
 #: mainwindow.cpp:801
 #, kde-format
 msgid "Error reading XML file: "
-msgstr "S'ha produït un error en llegir el fitxer en XML: "
+msgstr "S'ha produït un error mentre es llegia el fitxer en XML: "
 
 #: mainwindow.cpp:818
 #, kde-format
@@ -990,7 +990,7 @@ msgstr "Id de joc desconegut."
 #: mainwindow.cpp:842
 #, kde-format
 msgid "Errors encountered while parsing file."
-msgstr "S'han detectat errors en l'anàlisi sintàctica del fitxer."
+msgstr "S'han detectat errors durant l'anàlisi sintàctica del fitxer."
 
 #: mainwindow.cpp:861
 #, kde-format
@@ -1008,18 +1008,20 @@ msgstr "Guardeu la partida"
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
 msgstr ""
-"S'ha produït un error en obrir el fitxer per a escriptura. No s'ha pogut "
-"guardar."
+"S'ha produït un error mentre s'obria el fitxer per a escriptura. Ha fallat "
+"mentre es guardava."
 
 #: mainwindow.cpp:909
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
-msgstr "No s'ha pogut crear el fitxer temporal. No s'ha pogut guardar."
+msgstr "No s'ha pogut crear el fitxer temporal. Ha fallat mentre es guardava."
 
 #: mainwindow.cpp:925
 #, kde-format
 msgid "Error uploading file. Saving failed: %1"
-msgstr "S'ha produït un error en pujar el fitxer. No s'ha pogut guardar: %1"
+msgstr ""
+"S'ha produït un error mentre es pujava el fitxer. Ha fallat mentre es "
+"guardava: %1"
 
 #: mainwindow.cpp:949
 #, kde-format
