@@ -40,11 +40,10 @@ msgid "Baker's Dozen"
 msgstr ""
 
 #: bakersdozen.cpp:71
-#, fuzzy, kde-format
-#| msgid "KPatience"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Spanish Patience"
-msgstr "KPatience"
+msgstr ""
 
 #: bakersdozen.cpp:72
 #, kde-format
@@ -71,18 +70,16 @@ msgid "Empty Stack Fill"
 msgstr ""
 
 #: bakersdozen.cpp:77 castle.cpp:371 freecell.cpp:356
-#, fuzzy, kde-format
-#| msgid "1 Suit (Easy)"
+#, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "Any (Easy)"
-msgstr "Dath amháin (Éasca)"
+msgstr ""
 
 #: bakersdozen.cpp:78 castle.cpp:372 freecell.cpp:357
-#, fuzzy, kde-format
-#| msgid "2 Suits (Medium)"
+#, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "Kings only (Medium)"
-msgstr "2 Dhath (Measartha)"
+msgstr ""
 
 #: bakersdozen.cpp:79 castle.cpp:373 freecell.cpp:358
 #, kde-format
@@ -91,11 +88,10 @@ msgid "None (Hard)"
 msgstr ""
 
 #: bakersdozen.cpp:81 castle.cpp:394 spider.cpp:147
-#, fuzzy, kde-format
-#| msgid "Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Stack Options"
-msgstr "Roghanna"
+msgstr ""
 
 #: bakersdozen.cpp:82 spider.cpp:149
 #, kde-format
@@ -138,10 +134,8 @@ msgid "Baker's Dozen"
 msgstr ""
 
 #: bakersdozen.cpp:242
-#, fuzzy
-#| msgid "KPatience"
 msgid "Spanish Patience"
-msgstr "KPatience"
+msgstr ""
 
 #: bakersdozen.cpp:243
 msgid "Castles in Spain"
@@ -184,10 +178,8 @@ msgid "Stronghold"
 msgstr ""
 
 #: castle.cpp:328
-#, fuzzy
-#| msgid "Freecell"
 msgid "Castle (Custom)"
-msgstr "Freecell"
+msgstr ""
 
 #: castle.cpp:362
 #, kde-format
@@ -226,11 +218,10 @@ msgid "Stronghold"
 msgstr ""
 
 #: castle.cpp:380 freecell.cpp:365
-#, fuzzy, kde-format
-#| msgid "Freecell"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Free Cells"
-msgstr "Freecell"
+msgstr ""
 
 #: castle.cpp:381 freecell.cpp:366
 #, kde-format
@@ -238,10 +229,9 @@ msgid "0"
 msgstr ""
 
 #: castle.cpp:382 freecell.cpp:367 freecell.cpp:386
-#, fuzzy, kde-format
-#| msgid "%1"
+#, kde-format
 msgid "1"
-msgstr "%1"
+msgstr ""
 
 #: castle.cpp:383 freecell.cpp:368 freecell.cpp:387
 #, kde-format
@@ -259,11 +249,10 @@ msgid "4"
 msgstr ""
 
 #: castle.cpp:387 freecell.cpp:376
-#, fuzzy, kde-format
-#| msgid "Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Stacks"
-msgstr "Roghanna"
+msgstr ""
 
 #: castle.cpp:388 freecell.cpp:372 freecell.cpp:377
 #, kde-format
@@ -321,11 +310,10 @@ msgid "None"
 msgstr ""
 
 #: castle.cpp:401
-#, fuzzy, kde-format
-#| msgid "Aces Up"
+#, kde-format
 msgctxt "@item:inmenu foundation deal"
 msgid "Aces"
-msgstr "Aonta In Airde"
+msgstr ""
 
 #: castle.cpp:402
 #, kde-format
@@ -391,10 +379,9 @@ msgid "Solver: This game is lost."
 msgstr "Réiteoir: Tá an cluiche seo caillte."
 
 #: dealer.cpp:1349
-#, fuzzy, kde-format
-#| msgid "Solver: Calculating..."
+#, kde-format
 msgid "Solver: Calculating…"
-msgstr "Réiteoir: Á Áireamh..."
+msgstr ""
 
 #: dealer.cpp:1753
 #, kde-format
@@ -409,18 +396,16 @@ msgstr ""
 "anois."
 
 #: dealer.cpp:1755
-#, fuzzy, kde-format
-#| msgid "Abandon Current Game?"
+#, kde-format
 msgctxt "@title:window"
 msgid "Abandon Current Game?"
-msgstr "Tréig an Cluiche Reatha?"
+msgstr ""
 
 #: dealer.cpp:1756
-#, fuzzy, kde-format
-#| msgid "Abandon Current Game"
+#, kde-format
 msgctxt "@action:button"
 msgid "Abandon Current Game"
-msgstr "Tréig an Cluiche Reatha"
+msgstr ""
 
 #: fortyeight.cpp:229
 msgid "Forty & Eight"
@@ -439,20 +424,16 @@ msgid "Eight Off"
 msgstr ""
 
 #: freecell.cpp:313
-#, fuzzy
-#| msgid "Freecell"
 msgid "Forecell"
-msgstr "Freecell"
+msgstr ""
 
 #: freecell.cpp:315
 msgid "Seahaven Towers"
 msgstr ""
 
 #: freecell.cpp:316
-#, fuzzy
-#| msgid "Freecell"
 msgid "Freecell (Custom)"
-msgstr "Freecell"
+msgstr ""
 
 #: freecell.cpp:348
 #, kde-format
@@ -467,18 +448,16 @@ msgid "Eight Off"
 msgstr ""
 
 #: freecell.cpp:350
-#, fuzzy, kde-format
-#| msgid "Freecell"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Forecell"
-msgstr "Freecell"
+msgstr ""
 
 #: freecell.cpp:351
-#, fuzzy, kde-format
-#| msgid "Freecell"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Freecell"
-msgstr "Freecell"
+msgstr ""
 
 #: freecell.cpp:352
 #, kde-format
@@ -520,25 +499,22 @@ msgid "Aces Up"
 msgstr "Aonta In Airde"
 
 #: klondike.cpp:135
-#, fuzzy, kde-format
-#| msgid "Klondike &Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Klondike &Options"
-msgstr "R&oghanna Klondike"
+msgstr ""
 
 #: klondike.cpp:136
-#, fuzzy, kde-format
-#| msgid "Draw 1"
+#, kde-format
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 1"
-msgstr "Tarraing 1"
+msgstr ""
 
 #: klondike.cpp:137
-#, fuzzy, kde-format
-#| msgid "Draw 3"
+#, kde-format
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 3"
-msgstr "Tarraing 3"
+msgstr ""
 
 #: klondike.cpp:313
 msgid "Klondike"
@@ -565,18 +541,16 @@ msgid "Main Toolbar"
 msgstr "Príomhbharra Uirlisí"
 
 #: libkcardgame/kcardthemewidget.cpp:266
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgctxt "@info"
 msgid "Loading…"
-msgstr "Á Luchtú..."
+msgstr ""
 
 #: libkcardgame/kcardthemewidget.cpp:352
-#, fuzzy, kde-format
-#| msgid "Get New Card Decks..."
+#, kde-format
 msgctxt "@action:button"
 msgid "Download New Card Decks…"
-msgstr "Faigh Deiceanna Nua..."
+msgstr ""
 
 #: main.cpp:89
 #, kde-format
@@ -743,10 +717,9 @@ msgid "Integration with Freecell Solver and further work"
 msgstr ""
 
 #: main.cpp:113
-#, fuzzy, kde-format
-#| msgid "Michael Koch"
+#, kde-format
 msgid "Michael Lang"
-msgstr "Michael Koch"
+msgstr ""
 
 #: main.cpp:120
 #, kde-format
@@ -799,44 +772,35 @@ msgid ", "
 msgstr ", "
 
 #: mainwindow.cpp:152
-#, fuzzy, kde-format
-#| msgctxt "Start a new game of a different type"
-#| msgid "New &Game..."
+#, kde-format
 msgctxt "@action Start a new game of a different type"
 msgid "New &Game…"
-msgstr "&Cluiche Nua..."
+msgstr ""
 
 #: mainwindow.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "Start a new game of without changing the game type"
-#| msgid "New &Deal"
+#, kde-format
 msgctxt "@action Start a new game of without changing the game type"
 msgid "New &Deal"
-msgstr "&Déanamh Nua"
+msgstr ""
 
 #: mainwindow.cpp:164
-#, fuzzy, kde-format
-#| msgid "New Numbered Deal"
+#, kde-format
 msgctxt "@action Start a game by giving its particular number"
 msgid "New &Numbered Deal…"
-msgstr "Déanamh Nua Uimhrithe"
+msgstr ""
 
 #: mainwindow.cpp:169
-#, fuzzy, kde-format
-#| msgctxt "Replay the current deal from the start"
-#| msgid "Restart Deal"
+#, kde-format
 msgctxt "@action Replay the current deal from the start"
 msgid "Restart Deal"
-msgstr "Atosaigh an Déanamh Seo"
+msgstr ""
 
 #: mainwindow.cpp:175
-#, fuzzy, kde-format
-#| msgctxt "Start a new game of without changing the game type"
-#| msgid "New &Deal"
+#, kde-format
 msgctxt ""
 "@action Start the game with the number one greater than the current one"
 msgid "Next Deal"
-msgstr "&Déanamh Nua"
+msgstr ""
 
 #: mainwindow.cpp:184
 #, kde-format
@@ -845,95 +809,78 @@ msgid "Previous Deal"
 msgstr ""
 
 #: mainwindow.cpp:198
-#, fuzzy, kde-format
-#| msgid "Statistics"
+#, kde-format
 msgctxt "@action"
 msgid "Statistics"
-msgstr "Staitisticí"
+msgstr ""
 
 #: mainwindow.cpp:227
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Take one or more cards from the deck, flip them, and place them in play"
-#| msgid "Dra&w"
+#, kde-format
 msgctxt ""
 "@action Take one or more cards from the deck, flip them, and place them in "
 "play"
 msgid "Dra&w"
-msgstr "&Tarraing"
+msgstr ""
 
 #: mainwindow.cpp:232
-#, fuzzy, kde-format
-#| msgctxt "Deal a new row of cards from the deck"
-#| msgid "Dea&l Row"
+#, kde-format
 msgctxt "@action Deal a new row of cards from the deck"
 msgid "Dea&l Row"
-msgstr "Déan &Ró"
+msgstr ""
 
 #: mainwindow.cpp:237
-#, fuzzy, kde-format
-#| msgctxt "Collect the cards in play, shuffle them and redeal them"
-#| msgid "&Redeal"
+#, kde-format
 msgctxt "@action Collect the cards in play, shuffle them and redeal them"
 msgid "&Redeal"
-msgstr "Ath&roinn"
+msgstr ""
 
 #: mainwindow.cpp:242
-#, fuzzy, kde-format
-#| msgctxt "Automatically move cards to the foundation piles"
-#| msgid "Dro&p"
+#, kde-format
 msgctxt "@action Automatically move cards to the foundation piles"
 msgid "Dro&p"
-msgstr "&Titim"
+msgstr ""
 
 #: mainwindow.cpp:249
-#, fuzzy, kde-format
-#| msgid "&Enable Autodrop"
+#, kde-format
 msgctxt "@option:check"
 msgid "&Enable Autodrop"
-msgstr "&Cumasaigh Titim Uathoibríoch"
+msgstr ""
 
 #: mainwindow.cpp:254
-#, fuzzy, kde-format
-#| msgid "E&nable Solver"
+#, kde-format
 msgctxt "@option:check"
 msgid "E&nable Solver"
-msgstr "C&umasaigh an Réiteoir"
+msgstr ""
 
 #: mainwindow.cpp:259
-#, fuzzy, kde-format
-#| msgid "Play &Sounds"
+#, kde-format
 msgctxt "@option:check"
 msgid "Play Sounds"
-msgstr "Le &Fuaim"
+msgstr ""
 
 #: mainwindow.cpp:264
-#, fuzzy, kde-format
-#| msgid "&Remember State on Exit"
+#, kde-format
 msgctxt "@option:check"
 msgid "&Remember State on Exit"
-msgstr "&Meabhraigh staid an chluiche ag am scortha"
+msgstr ""
 
 #: mainwindow.cpp:281
-#, fuzzy, kde-format
-#| msgid "Generate a theme preview image"
+#, kde-format
 msgctxt "@action"
 msgid "Generate a Theme Preview Image"
-msgstr "Gin íomhá réamhamhairc don téama"
+msgstr ""
 
 #: mainwindow.cpp:286
-#, fuzzy, kde-format
-#| msgid "Take Game Preview Snapshots"
+#, kde-format
 msgctxt "@action"
 msgid "Take Game Preview Snapshots"
-msgstr "Tóg Grianghraif de Réamhamharc Cluiche"
+msgstr ""
 
 #: mainwindow.cpp:291
-#, fuzzy, kde-format
-#| msgid "Random Cards"
+#, kde-format
 msgctxt "@action"
 msgid "Random Cards"
-msgstr "Cártaí Randamacha"
+msgstr ""
 
 #: mainwindow.cpp:298
 #, kde-format
@@ -972,11 +919,10 @@ msgid "Pick Up or Set Down Focus"
 msgstr ""
 
 #: mainwindow.cpp:426
-#, fuzzy, kde-format
-#| msgid "Card Deck"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Card Deck"
-msgstr "Deic"
+msgstr ""
 
 #: mainwindow.cpp:428
 #, kde-format
@@ -984,11 +930,10 @@ msgid "Select a card deck"
 msgstr "Roghnaigh deic"
 
 #: mainwindow.cpp:434
-#, fuzzy, kde-format
-#| msgid "Game Theme"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Game Theme"
-msgstr "Téama an Chluiche"
+msgstr ""
 
 #: mainwindow.cpp:436
 #, kde-format
@@ -996,24 +941,18 @@ msgid "Select a theme for non-card game elements"
 msgstr "Roghnaigh téama d'eilimintí an chluiche seachas na cártaí"
 
 #: mainwindow.cpp:514
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Is disabled and changes to \"Help &with Current Game\" when there is no "
-#| "current game."
-#| msgid "Help &with %1"
+#, kde-format
 msgctxt ""
 "@action Is disabled and changes to \"Help &with Current Game\" when there is "
 "no current game."
 msgid "Help &with %1"
-msgstr "&Cabhair le %1"
+msgstr ""
 
 #: mainwindow.cpp:545
-#, fuzzy, kde-format
-#| msgctxt "Shown when there is no game open. Is always disabled."
-#| msgid "Help &with Current Game"
+#, kde-format
 msgctxt "@action Shown when there is no game open. Is always disabled."
 msgid "Help &with Current Game"
-msgstr "&Cabhair leis an gCluiche Reatha"
+msgstr ""
 
 #: mainwindow.cpp:700
 #, kde-format
@@ -1029,10 +968,9 @@ msgid "Hide Menubar"
 msgstr ""
 
 #: mainwindow.cpp:795
-#, fuzzy, kde-format
-#| msgid "Downloading file failed."
+#, kde-format
 msgid "Downloading file failed: %1"
-msgstr "Níorbh fhéidir an comhad a íosluchtú."
+msgstr ""
 
 #: mainwindow.cpp:801
 #, kde-format
@@ -1055,18 +993,16 @@ msgid "Errors encountered while parsing file."
 msgstr ""
 
 #: mainwindow.cpp:861
-#, fuzzy, kde-format
-#| msgid "Load"
+#, kde-format
 msgctxt "@title:window"
 msgid "Load Game"
-msgstr "Luchtaigh"
+msgstr ""
 
 #: mainwindow.cpp:888
-#, fuzzy, kde-format
-#| msgid "Save"
+#, kde-format
 msgctxt "@title:window"
 msgid "Save Game"
-msgstr "Sábháil"
+msgstr ""
 
 #: mainwindow.cpp:904
 #, kde-format
@@ -1079,10 +1015,9 @@ msgid "Unable to create temporary file. Saving failed."
 msgstr ""
 
 #: mainwindow.cpp:925
-#, fuzzy, kde-format
-#| msgid "Downloading file failed."
+#, kde-format
 msgid "Error uploading file. Saving failed: %1"
-msgstr "Níorbh fhéidir an comhad a íosluchtú."
+msgstr ""
 
 #: mainwindow.cpp:949
 #, kde-format
@@ -1103,64 +1038,56 @@ msgid "Normandy"
 msgstr ""
 
 #: numbereddealdialog.cpp:36
-#, fuzzy, kde-format
-#| msgid "New Numbered Deal"
+#, kde-format
 msgctxt "@title:window"
 msgid "New Numbered Deal"
-msgstr "Déanamh Nua Uimhrithe"
+msgstr ""
 
 #: numbereddealdialog.cpp:51
-#, fuzzy, kde-format
-#| msgid "Game:"
+#, kde-format
 msgctxt "@label"
 msgid "Game:"
-msgstr "Cluiche:"
+msgstr ""
 
 #: numbereddealdialog.cpp:55
-#, fuzzy, kde-format
-#| msgid "Deal number:"
+#, kde-format
 msgctxt "@label"
 msgid "Deal number:"
-msgstr "Uimhir an déanaimh:"
+msgstr ""
 
 #: simon.cpp:168
 msgid "Simple Simon"
 msgstr "Síomón Simplí"
 
 #: spider.cpp:132
-#, fuzzy, kde-format
-#| msgid "Spider &Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Spider &Options"
-msgstr "R&oghanna Damháin Alla"
+msgstr ""
 
 #: spider.cpp:133
-#, fuzzy, kde-format
-#| msgid "1 Suit (Easy)"
+#, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "1 Suit (Easy)"
-msgstr "Dath amháin (Éasca)"
+msgstr ""
 
 #: spider.cpp:134
-#, fuzzy, kde-format
-#| msgid "2 Suits (Medium)"
+#, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "2 Suits (Medium)"
-msgstr "2 Dhath (Measartha)"
+msgstr ""
 
 #: spider.cpp:135
-#, fuzzy, kde-format
-#| msgid "4 Suits (Hard)"
+#, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "3 Suits (Hard)"
-msgstr "4 Dhath (Crua)"
+msgstr ""
 
 #: spider.cpp:136
-#, fuzzy, kde-format
-#| msgid "4 Suits (Hard)"
+#, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "4 Suits (Very Hard)"
-msgstr "4 Dhath (Crua)"
+msgstr ""
 
 #: spider.cpp:469
 msgid "Spider"
@@ -1175,21 +1102,18 @@ msgid "Spider (2 Suit)"
 msgstr "Damhán Alla (2 Dhath)"
 
 #: spider.cpp:474
-#, fuzzy
-#| msgid "Spider (1 Suit)"
 msgid "Spider (3 Suit)"
-msgstr "Damhán Alla (Dath amháin)"
+msgstr ""
 
 #: spider.cpp:475
 msgid "Spider (4 Suit)"
 msgstr "Damhán Alla (4 Dhath)"
 
 #: statisticsdialog.cpp:61
-#, fuzzy, kde-format
-#| msgid "Statistics"
+#, kde-format
 msgctxt "@title:window"
 msgid "Statistics"
-msgstr "Staitisticí"
+msgstr ""
 
 #: statisticsdialog.cpp:122
 #, kde-format
@@ -1267,125 +1191,3 @@ msgstr ""
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "Yukon"
-
-#~ msgid "Gypsy"
-#~ msgstr "Giofóg"
-
-#, fuzzy
-#~| msgid "Options"
-#~ msgid "S&tack Options"
-#~ msgstr "Roghanna"
-
-#, fuzzy
-#~| msgid "Freecell"
-#~ msgid "Free cells"
-#~ msgstr "Freecell"
-
-#~ msgctxt "Start a game by giving its particular number"
-#~ msgid "New &Numbered Deal..."
-#~ msgstr "Déanamh Nua &Uimhrithe..."
-
-#~ msgid "Change Appearance..."
-#~ msgstr "Athraigh Cuma..."
-
-#~ msgid "Opening file failed."
-#~ msgstr "Níorbh fhéidir an comhad a oscailt."
-
-#~ msgid "The saved game is of an unknown type."
-#~ msgstr "Tá an cluiche sábháilte de chineál anaithnid."
-
-#~ msgid ""
-#~ "The following error occurred while reading the file:\n"
-#~ "\"%1\""
-#~ msgstr ""
-#~ "Tharla an earráid seo a leanas agus an comhad á léamh:\n"
-#~ "\"%1\""
-
-#~ msgid "Unable to load the saved game file."
-#~ msgstr "Ní féidir an cluiche sábháilte a luchtú."
-
-#~| msgid ""
-#~| "Enter a game number (Freecell deals are the same as in the Freecell FAQ):"
-#~ msgid ""
-#~ "Enter a deal number (Freecell deals are numbered the same as those in the "
-#~ "Freecell FAQ):"
-#~ msgstr ""
-#~ "Iontráil uimhir chluiche (is ionann rannta Freecell agus na cinn i "
-#~ "gCeisteanna Coitianta Freecell):"
-
-#~ msgid "Game Number"
-#~ msgstr "Uimhir an Chluiche"
-
-#~ msgid "Dr. Tom"
-#~ msgstr "Dr. Tom"
-
-#~ msgid "Improved Klondike"
-#~ msgstr "Klondike feabhsaithe"
-
-#~ msgid ""
-#~ "You are already running an unfinished game. If you abort the old game to "
-#~ "start a new one, the old game will be registered as a loss in the "
-#~ "statistics file.\n"
-#~ "What do you want to do?"
-#~ msgstr ""
-#~ "Tá tú ag rith cluiche neamhchríochnaithe cheana. Má thobscoireann tú an "
-#~ "seanchluiche chun ceann nua a thosú, clárófar an seanchluiche mar "
-#~ "chluiche caillte i gcomhad na staitisticí.\n"
-#~ "Cad is mian leat a dhéanamh?"
-
-#~ msgid "This game can still be won! Good luck to you."
-#~ msgstr "Is féidir leat an cluiche seo a bhuachan fós! Ádh mór."
-
-#~ msgid "Timeout while playing - unknown if it can be won"
-#~ msgstr "Sos le linn an chluiche - níl a fhios más féidir é a bhuachan"
-
-#~ msgid "&Settings"
-#~ msgstr "&Socruithe"
-
-#~ msgid "&OK"
-#~ msgstr "&OK"
-
-#~ msgid "&Calculation"
-#~ msgstr "Ái&reamh"
-
-#~ msgid "&Napoleon's Tomb"
-#~ msgstr "Tuama &Napoléon"
-
-#~ msgid "&Hint"
-#~ msgstr "&Leid"
-
-#~ msgid "&Demo"
-#~ msgstr "&Taispeántas"
-
-#~ msgid "please wait, loading cards..."
-#~ msgstr "fan go fóill, tá na cártaí á luchtú..."
-
-#~ msgid "KPatience - a Solitaire game"
-#~ msgstr "KPatience - cluiche aonair"
-
-#~ msgid "solved after %1 tries"
-#~ msgstr "réitithe tar éis %1 beart"
-
-#~ msgid "unsolved after %1 moves"
-#~ msgstr "gan réiteach tar éis %1 beart"
-
-#~ msgid "&Change Background"
-#~ msgstr "Athraigh an &Cúlra"
-
-#~ msgid "&Switch Cards..."
-#~ msgstr "Ai&strigh Cártaí..."
-
-#~ msgid "&Statistics"
-#~ msgstr "&Staitisticí"
-
-#~ msgid "&Animation on Startup"
-#~ msgstr "&Beochan ag am Tosaithe"
-
-#~ msgid "<qt>Couldn't load wallpaper<br/>%1</qt>"
-#~ msgstr "<qt>Ní féidir an cúlbhrat <br/>%1</qt> a luchtú"
-
-#~ msgid "Abort Old Game"
-#~ msgstr "Tobscoir an Seanchluiche"
-
-#~ msgid "Congratulations!"
-#~ msgstr "Comhghairdeas!"
