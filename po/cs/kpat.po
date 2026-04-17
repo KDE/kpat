@@ -4,63 +4,65 @@
 # SPDX-FileCopyrightText: 2010, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2020, 2025 Vít Pelčák <vit@pelcak.org>
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
 # SPDX-FileCopyrightText: 2021, 2023, 2024 Vit Pelcak <vit@pelcak.org>
+# SPDX-FileCopyrightText: 2026 Libor Filípek <filipek.libor@protonmail.com>
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-29 00:40+0000\n"
-"PO-Revision-Date: 2025-12-01 10:07+0100\n"
-"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
-"Language-Team: Czech <kde-i18n-doc@kde.org>\n"
+"PO-Revision-Date: 2026-04-16 11:09+0200\n"
+"Last-Translator: Libor Filípek <filipek.libor@protonmail.com>\n"
+"Language-Team: \n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 25.08.3\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Lukáš Tinkl, Ivo Jánský, David Kolibáč, Pavel Fric, Lukáš Vlček"
+msgstr ""
+"Lukáš Tinkl,Ivo Jánský,David Kolibáč,Pavel Fric,Lukáš Vlček,Libor Filípek"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
-"lukas@kde.org, Ivo.Jansky@seznam.cz, david@kolibac.cz, pavelfric@seznam.cz, "
-"lukas.vlcek777@gmail.com"
+"lukas@kde.org,Ivo.Jansky@seznam.cz,david@kolibac.cz,pavelfric@seznam.cz,"
+"lukas.vlcek777@gmail.com,libor.filipek@gmail.com"
 
 #: bakersdozen.cpp:69 castle.cpp:361 freecell.cpp:347
 #, kde-format
 msgctxt "@title:menu"
 msgid "Popular Variant Presets"
-msgstr ""
+msgstr "Oblíbené předvolby variant"
 
 #: bakersdozen.cpp:70
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Baker's Dozen"
-msgstr ""
+msgstr "Baker's Dozen"
 
 #: bakersdozen.cpp:71
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Spanish Patience"
-msgstr ""
+msgstr "Španělský pasiáns"
 
 #: bakersdozen.cpp:72
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Castles in Spain"
-msgstr ""
+msgstr "Hrady ve Španělsku"
 
 #: bakersdozen.cpp:73
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Portuguese Solitaire"
-msgstr ""
+msgstr "Portugalský solitaire"
 
 #: bakersdozen.cpp:74 castle.cpp:368 freecell.cpp:353
 #, kde-format
@@ -72,25 +74,25 @@ msgstr "Vlastní"
 #, kde-format
 msgctxt "@title:menu"
 msgid "Empty Stack Fill"
-msgstr ""
+msgstr "Doplnit prázdný zásobník"
 
 #: bakersdozen.cpp:77 castle.cpp:371 freecell.cpp:356
 #, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "Any (Easy)"
-msgstr ""
+msgstr "Cokoliv (snadné)"
 
 #: bakersdozen.cpp:78 castle.cpp:372 freecell.cpp:357
 #, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "Kings only (Medium)"
-msgstr ""
+msgstr "Pouze králové (střední)"
 
 #: bakersdozen.cpp:79 castle.cpp:373 freecell.cpp:358
 #, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "None (Hard)"
-msgstr ""
+msgstr "Žádné (obtížné)"
 
 #: bakersdozen.cpp:81 castle.cpp:394 spider.cpp:147
 #, kde-format
@@ -114,19 +116,19 @@ msgstr "Lícem dolů (obtížnější)"
 #, kde-format
 msgctxt "@title:menu"
 msgid "Build Sequence"
-msgstr ""
+msgstr "Pořadí sestavování"
 
 #: bakersdozen.cpp:86 castle.cpp:376 freecell.cpp:361
 #, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Alternating Color"
-msgstr ""
+msgstr "Střídání barev"
 
 #: bakersdozen.cpp:87 castle.cpp:377 freecell.cpp:362
 #, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Matching Suit"
-msgstr ""
+msgstr "Odpovídající oblek"
 
 #: bakersdozen.cpp:88 castle.cpp:378 freecell.cpp:363
 #, kde-format
@@ -136,23 +138,23 @@ msgstr "Pořadí"
 
 #: bakersdozen.cpp:238 bakersdozen.cpp:241
 msgid "Baker's Dozen"
-msgstr ""
+msgstr "Zeslabit basy"
 
 #: bakersdozen.cpp:242
 msgid "Spanish Patience"
-msgstr ""
+msgstr "Španělský pasiáns"
 
 #: bakersdozen.cpp:243
 msgid "Castles in Spain"
-msgstr ""
+msgstr "Hrady ve Španělsku"
 
 #: bakersdozen.cpp:244
 msgid "Portuguese Solitaire"
-msgstr ""
+msgstr "Portugalský solitaire"
 
 #: bakersdozen.cpp:245
 msgid "Baker's Dozen (Custom)"
-msgstr ""
+msgstr "Baker's Dozen (vlastní)"
 
 #: castle.cpp:319
 msgid "Castle"
@@ -160,7 +162,7 @@ msgstr "Hrad"
 
 #: castle.cpp:322
 msgid "Beleaguered Castle"
-msgstr ""
+msgstr "Obležený hrad"
 
 #: castle.cpp:323
 msgid "Citadel"
@@ -168,29 +170,29 @@ msgstr "Citadel"
 
 #: castle.cpp:324
 msgid "Exiled Kings"
-msgstr ""
+msgstr "Vyhnaní králové"
 
 #: castle.cpp:325
 msgid "Streets and Alleys"
-msgstr ""
+msgstr "Ulice a uličky"
 
 #: castle.cpp:326
 msgid "Siegecraft"
-msgstr ""
+msgstr "Obranné stavby"
 
 #: castle.cpp:327
 msgid "Stronghold"
-msgstr ""
+msgstr "Pevnost"
 
 #: castle.cpp:328
 msgid "Castle (Custom)"
-msgstr ""
+msgstr "Hrad (vlastní)"
 
 #: castle.cpp:362
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Beleaguered Castle"
-msgstr ""
+msgstr "Obležený hrad"
 
 #: castle.cpp:363
 #, kde-format
@@ -202,31 +204,31 @@ msgstr "Citadel"
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Exiled Kings"
-msgstr ""
+msgstr "Vyhnaní králové"
 
 #: castle.cpp:365
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Streets and Alleys"
-msgstr ""
+msgstr "Ulice a uličky"
 
 #: castle.cpp:366
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Siegecraft"
-msgstr ""
+msgstr "Obranné stavby"
 
 #: castle.cpp:367
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Stronghold"
-msgstr ""
+msgstr "Pevnost"
 
 #: castle.cpp:380 freecell.cpp:365
 #, kde-format
 msgctxt "@title:menu"
 msgid "Free Cells"
-msgstr ""
+msgstr "Free Cells"
 
 #: castle.cpp:381 freecell.cpp:366
 #, kde-format
@@ -257,7 +259,7 @@ msgstr "4"
 #, kde-format
 msgctxt "@title:menu"
 msgid "Stacks"
-msgstr ""
+msgstr "Zásobníky"
 
 #: castle.cpp:388 freecell.cpp:372 freecell.cpp:377
 #, kde-format
@@ -288,25 +290,25 @@ msgstr "10"
 #, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Down"
-msgstr ""
+msgstr "Lícem dolů"
 
 #: castle.cpp:396
 #, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Up"
-msgstr ""
+msgstr "Lícem nahoru"
 
 #: castle.cpp:397
 #, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Alternating Face Up"
-msgstr ""
+msgstr "Alternativně lícem nahoru"
 
 #: castle.cpp:399
 #, kde-format
 msgctxt "@title:menu"
 msgid "Foundation Deal"
-msgstr ""
+msgstr "Základní dohoda"
 
 # žádné parametry funkce v inspektoru funkcí
 #: castle.cpp:400
@@ -422,41 +424,41 @@ msgstr "Freecell"
 
 #: freecell.cpp:311
 msgid "Baker's Game"
-msgstr ""
+msgstr "Baker's Game"
 
 #: freecell.cpp:312
 msgid "Eight Off"
-msgstr ""
+msgstr "Eight Off"
 
 #: freecell.cpp:313
 msgid "Forecell"
-msgstr ""
+msgstr "Forecell"
 
 #: freecell.cpp:315
 msgid "Seahaven Towers"
-msgstr ""
+msgstr "Seahaven Towers"
 
 #: freecell.cpp:316
 msgid "Freecell (Custom)"
-msgstr ""
+msgstr "Freecell (vlastní)"
 
 #: freecell.cpp:348
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Baker's Game"
-msgstr ""
+msgstr "Baker's Game"
 
 #: freecell.cpp:349
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Eight Off"
-msgstr ""
+msgstr "Eight Off"
 
 #: freecell.cpp:350
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Forecell"
-msgstr ""
+msgstr "Forecell"
 
 #: freecell.cpp:351
 #, kde-format
@@ -468,7 +470,7 @@ msgstr "Freecell"
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Seahaven Towers"
-msgstr ""
+msgstr "Seahaven Towers"
 
 #: freecell.cpp:371
 #, kde-format
@@ -513,13 +515,13 @@ msgstr "M&ožnosti Klondike"
 #, kde-format
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 1"
-msgstr ""
+msgstr "Vzít 1"
 
 #: klondike.cpp:137
 #, kde-format
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 3"
-msgstr ""
+msgstr "Vzít 3"
 
 #: klondike.cpp:313
 msgid "Klondike"
@@ -549,13 +551,13 @@ msgstr "Hlavní panel nástrojů"
 #, kde-format
 msgctxt "@info"
 msgid "Loading…"
-msgstr ""
+msgstr "Probíhá načítání…"
 
 #: libkcardgame/kcardthemewidget.cpp:352
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Card Decks…"
-msgstr ""
+msgstr "Stáhnout nové balíčky karet…"
 
 #: main.cpp:89
 #, kde-format
@@ -826,7 +828,7 @@ msgctxt ""
 "@action Take one or more cards from the deck, flip them, and place them in "
 "play"
 msgid "Dra&w"
-msgstr ""
+msgstr "V&zít"
 
 #: mainwindow.cpp:232
 #, kde-format
@@ -1063,7 +1065,7 @@ msgstr "Zadejte číslo hry:"
 
 #: simon.cpp:168
 msgid "Simple Simon"
-msgstr "Jednoduchý Šimon"
+msgstr "Simple Simon"
 
 #: spider.cpp:132
 #, kde-format
@@ -1109,7 +1111,7 @@ msgstr "Pavouk (2 barvy)"
 
 #: spider.cpp:474
 msgid "Spider (3 Suit)"
-msgstr ""
+msgstr "Pavouk (3 barvy)"
 
 #: spider.cpp:475
 msgid "Spider (4 Suit)"
