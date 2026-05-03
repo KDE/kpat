@@ -320,9 +320,9 @@ cards alternate. You can put any card in a free cell.
 </para>
 
 <para>
-You can only move one card that lays on top of a pile or a free cell.
-Sequences can only be moved if you have enough free space (either free cells or free
-playing piles) to place the cards.
+Only the top card of a pile or a card in a free cell can be moved.
+Moving a sequence is only permitted if there are enough empty cells or
+piles available to move the cards individually, one by one.
 </para>
 
 <para>
@@ -555,7 +555,7 @@ piles, 4 of 6 cards and 6 of 5 cards each. This leaves 50 cards that can be
 dealt out 10 at a time, one on each playing pile.
 </para>
 
-<para>
+<para>Only the top card of a pile or a card in a free cell can be moved. Moving a sequence is only permitted if there are enough empty cells or piles available to move the cards individually, one by one.
 In the playing piles, a card can be placed on another card of any suit and
 of one higher value. A sequence of descending cards of the same suit may be
 moved from one playing pile to another.
