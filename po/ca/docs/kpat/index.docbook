@@ -443,7 +443,7 @@
 >En els munts de joc haureu de construir seqüències en ordre descendent, on s'alternaran cartes vermelles i negres. En una cel·la lliure podreu posar qualsevol carta. </para>
 
 <para
->Només podreu moure una carta que estigui a dalt d'un munt o en una cel·la lliure. Les seqüències només es podran moure si teniu prou buits lliures (sigui cel·les lliures o munts de joc buits) per a posar-hi les cartes. </para>
+>Només es pot moure la carta superior d'un munt o d'una carta en una cel·la lliure. Només es permet moure una seqüència si hi ha prou cel·les o munts buits disponibles per a moure les cartes individualment, una a una. </para>
 
 <para
 >La quantitat màxima de cartes que es poden moure es calcula mitjançant: </para>
@@ -662,7 +662,7 @@
 > Es juga amb dues piles de cartes. Les cartes es reparteixen en 10 munts de joc, 4 de 6 cartes i 6 de 5 cartes cadascun. Això deixa 50 cartes que es poden repartir 10 a la vegada, una sobre cada munt de joc. </para>
 
 <para
->En els munts de joc, es pot posar una carta damunt d'una altra de qualsevol coll i d'un valor més alt. Es pot moure una seqüència de cartes en ordre descendent del mateix coll des d'un munt de joc cap a un altre. </para>
+>Només es pot moure la carta superior d'un munt o d'una carta en una cel·la lliure. Només es permet moure una seqüència si hi ha prou cel·les o munts buits disponibles per a moure les cartes individualment, una a una. En els munts de joc, es pot posar una carta damunt d'una altra de qualsevol coll i d'un valor més alt. Es pot moure una seqüència de cartes en ordre descendent del mateix coll des d'un munt de joc cap a un altre. </para>
 
 <para
 >L'objectiu és posar totes les cartes en famílies reials en ordre descendent, partint des dels reis en qualsevol dels munts de joc. Quan s'integra una família d'aquest tipus en un munt de joc, es traurà cap a la cantonada inferior esquerra de la finestra. </para>

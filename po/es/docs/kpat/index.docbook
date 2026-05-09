@@ -513,7 +513,7 @@
 >En los montones de juego debes construir secuencias descendentes, en las que se alternen las cartas rojas y negras. En una celda libre puedes colocar cualquier carta. </para>
 
 <para
->Solo puedes mover una carta para colocarla sobre un montón o en un celda libre. Las secuencias solo se pueden mover si tienen suficientes huecos libres (celdas libres o montones de juego libres) para colocar las cartas dentro mientras mueves. </para>
+>Solo se puede mover la carta superior de una pila o una carta en una celda libre. Solo se puede mover una secuencia si hay suficientes celdas o pilas vacías disponibles para mover las cartas individualmente, una por una. </para>
 
 <para
 >El número máximo de cartas que puedes mover se calcula de la siguiente forma: </para>
@@ -732,7 +732,7 @@
 > El «Spider» se juega con dos barajas. Las cartas se reparten en 10 montones, 4 de 6 y 6 de 5 cartas. Esto deja 50 cartas que se podrán repartir de 10 en 10, una en cada montón de juego. </para>
 
 <para
->En los montones de juego, una carta podrá colocarse sobre otra de cualquier palo siempre que tenga mayor valor. Una secuencia ascendente de cartas del mismo palo se puede mover de un montón de juego a otro. </para>
+>Solo se puede mover la carta superior de una pila o una carta en una celda libre. Solo se puede mover una secuencia si hay suficientes celdas o pilas vacías disponibles para mover las cartas individualmente, una por una. En las pilas de juego, una carta puede colocarse sobre otra carta de cualquier palo y de un valor superior. Una secuencia descendente de cartas del mismo palo puede moverse de una pila de juego a otra. </para>
 
 <para
 >Para ganar al «Spider» deberás colocar todas las cartas como familias reales descendentes, empezando por los reyes, en cualquiera de los montones de juego. Cuando se construye una familia en uno de los montones de juego, se eliminará y se sitúa en la parte inferior izquierda de la ventana. </para>

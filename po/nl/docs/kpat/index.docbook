@@ -443,7 +443,7 @@
 >In de speelstapels dient u aflopende kaartreeksen te maken. Rood en zwart worden hierbij afgewisseld. Op de vrije cellen kunt u willekeurige kaarten plaatsen. </para>
 
 <para
->U kunt alleen een losse kaart die bovenop een stapel of een vrije cel ligt verplaatsen. Kaartreeksen kunnen alleen worden verplaatst als er voldoende vrije ruimte (vrije cellen of vrije speelstapels) beschikbaar is om de kaarten tijdens uw zet te verplaatsen. </para>
+>Alleen de bovenste kaart van een stapel of een kaart in een vrije cel mag worden verplaatst. Het verplaatsen van een reeks is alleen toegestaan ​​als er voldoende lege cellen of stapels beschikbaar zijn om de kaarten één voor één te verplaatsen. </para>
 
 <para
 >Het maximum aantal kaarten die u kunt verplaatsen wordt berekend met: </para>
@@ -678,7 +678,7 @@
 > Spin (Spider) wordt gespeeld met 2 kaartdeks. De kaarten worden uitgedeeld in 10 speelstapels, 4 met 6 kaarten en 6 met 5 kaarten. Er blijven 50 kaarten over die per tien kunnen worden uitgedeeld, een per speelstapel. </para>
 
 <para
->Op de speelstapels kunnen kaarten met een waarde die één hoger is op een andere kaart worden geplaatst. Hierbij hoeft u geen rekening te houden met het kaarttype (kleur). Een reeks oplopende kaarten van hetzelfde type kunnen van de ene stapel naar de andere worden verplaatst. </para>
+>Alleen de bovenste kaart van een stapel of een kaart in een vrije cel mag worden verplaatst. Het verplaatsen van een reeks is alleen toegestaan ​​als er voldoende lege cellen of stapels beschikbaar zijn om de kaarten één voor één te verplaatsen. Op de speelstapels kunnen kaarten met een waarde die één hoger is op een andere kaart worden geplaatst. Hierbij hoeft u geen rekening te houden met het kaarttype (kleur). Een reeks oplopende kaarten van hetzelfde type kunnen van de ene stapel naar de andere worden verplaatst. </para>
 
 <para
 >Het doel van Spin is om alle kaarten als echte families aflopend vanaf de Heren overal op de speelstapels te krijgen. Als zo'n familie is opgebouwd op een speelstapel, dan wordt deze naar de linksonder in het venster geplaatst. </para>

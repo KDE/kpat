@@ -471,7 +471,7 @@
 >Nas pilhas de jogo, o jogador tem que ir construindo sequências descendentes, onde as cartas vermelhas e as pretas alternem. Numa célula livre, você poderá colocar qualquer carta. </para>
 
 <para
->Você só pode mover uma única carta que fique no topo de uma pilha ou de uma célula livre. As sequências só podem ser movidas se tiver espaço suficiente (células livres ou pilhas de jogo livres) para colocar as cartas enquanto as move. </para>
+>You can only move one card that lays on top of a pile or a free cell. Sequences can only be moved if you have enough free space (either free cells or free playing piles) to place the cards. </para>
 
 <para
 >O número máximo de cartas que pode mexer é calculado através de: </para>
@@ -702,7 +702,7 @@
 > A Aranha é jogada com dois baralhos de cartas. As cartas são distribuídas por 10 pilhas de jogo, 4 delas com 6 cartas e as outras 6 com 5 cartas cada uma. Isto deixa 50 cartas de sobra que poderão ser distribuídas, 10 de cada vez, por cima de cada pilha de jogo. </para>
 
 <para
->Nas pilhas de jogo, você poderá colocar uma carta por cima de outra carta de qualquer naipe com um valor superior. Poderá mover-se uma sequência de cartas descendente do mesmo naipe de uma pilha de jogo para outra. </para>
+>In the playing piles, a card can be placed on another card of any suit and of one higher value. A sequence of descending cards of the same suit may be moved from one playing pile to another. </para>
 
 <para
 >O objetivo da Aranha é colocar todas as cartas como famílias reais descendentes a partir do Rei em qualquer local das pilhas de jogo. Quando uma dessas famílias for criada numa pilha de jogo, esta é removida para o canto inferior esquerdo da janela. </para>
