@@ -1,5 +1,6 @@
 install(FILES
-   card-pickup.ogg
-   card-down.ogg
-   DESTINATION  ${KDE_INSTALL_DATADIR}/kpat/sounds
+  card-pickup.ogg
+  card-down.ogg
+  gameover.ogg
+  DESTINATION ${KDE_INSTALL_DATADIR}/kpat/sounds
 )

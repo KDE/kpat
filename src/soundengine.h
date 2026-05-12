@@ -32,10 +32,12 @@ public:
 public Q_SLOTS:
     void cardsPickedUp();
     void cardsPutDown();
+    void gameUnwinnable();
 
 private:
     KGameSound m_cardPickedUp;
     KGameSound m_cardPutDown;
+    KGameSound m_gameUnwinnable;
 };
 
 #endif

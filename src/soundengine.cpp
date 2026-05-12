@@ -24,6 +24,7 @@ SoundEngine::SoundEngine(QObject *parent)
     : QObject(parent)
     , m_cardPickedUp(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("sounds/card-pickup.ogg")))
     , m_cardPutDown(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("sounds/card-down.ogg")))
+    , m_gameUnwinnable(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("sounds/gameover.ogg")))
 {
 }
 
@@ -39,6 +40,11 @@ void SoundEngine::cardsPickedUp()
 void SoundEngine::cardsPutDown()
 {
     m_cardPutDown.start();
+}
+
+void SoundEngine::gameUnwinnable()
+{
+    m_gameUnwinnable.start();
 }
 
 #include "moc_soundengine.cpp"

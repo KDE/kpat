@@ -143,6 +143,8 @@ Q_SIGNALS:
 
     void cardsPickedUp();
     void cardsPutDown();
+    void gameIsUnwinnable();
+    void unwinnableStateCleared();
 
 public Q_SLOTS:
     void startNew(int dealNumber = -1);
@@ -154,6 +156,8 @@ public Q_SLOTS:
 
     void drawDealRowOrRedeal();
     virtual bool tryAutomaticMove(KCard *card);
+
+    void debugForceUnwinnable();
 
 protected:
     bool allowedToAdd(const KCardPile *pile, const QList<KCard *> &cards) const override;
@@ -257,6 +261,7 @@ private:
     // just because the winning animation moved the cards away
     bool m_toldAboutWonGame;
     bool m_toldAboutLostGame;
+    bool m_soundedUnwinnable;
 
     QSet<KCard *> m_cardsRemovedFromFoundations;
     qreal m_dropSpeedFactor;

@@ -67,10 +67,12 @@
 #include <KToggleAction>
 #include <KXMLGUIFactory>
 // Qt
+#include <KToolBar>
 #include <QAction>
 #include <QApplication>
 #include <QBuffer>
 #include <QFileDialog>
+#include <QGraphicsEffect>
 #include <QIcon>
 #include <QKeySequence>
 #include <QList>
@@ -83,6 +85,33 @@
 #include <QTemporaryFile>
 #include <QTimer>
 #include <QXmlStreamReader>
+
+class GrayscaleEffect : public QGraphicsEffect
+{
+public:
+    explicit GrayscaleEffect(QObject *parent = nullptr)
+        : QGraphicsEffect(parent)
+    {
+    }
+
+    void draw(QPainter *painter) override
+    {
+        QPoint offset;
+        QPixmap pixmap = sourcePixmap(Qt::LogicalCoordinates, &offset);
+        if (pixmap.isNull())
+            return;
+
+        QImage img = pixmap.toImage().convertToFormat(QImage::Format_ARGB32);
+        for (int y = 0; y < img.height(); ++y) {
+            QRgb *line = reinterpret_cast<QRgb *>(img.scanLine(y));
+            for (int x = 0; x < img.width(); ++x) {
+                const int gray = qGray(line[x]);
+                line[x] = qRgba(gray, gray, gray, qAlpha(line[x]));
+            }
+        }
+        painter->drawImage(offset, img);
+    }
+};
 
 namespace
 {
@@ -291,6 +320,14 @@ void MainWindow::setupActions()
         a->setText(i18nc("@action", "Random Cards"));
         connect(a, &QAction::triggered, this, &MainWindow::slotPickRandom);
         KActionCollection::setDefaultShortcut(a, Qt::Key_F9);
+
+        a = actionCollection()->addAction(QStringLiteral("debug_unwinnable"));
+        a->setText(i18nc("@action", "Force Unwinnable State"));
+        connect(a, &QAction::triggered, this, [this]() {
+            if (m_dealer)
+                m_dealer->debugForceUnwinnable();
+        });
+        KActionCollection::setDefaultShortcut(a, Qt::Key_F12);
     }
 
     // Keyboard navigation actions
@@ -650,9 +687,59 @@ void MainWindow::updateSoundEngine()
 
             connect(m_dealer, &DealerScene::cardsPickedUp, m_soundEngine, &SoundEngine::cardsPickedUp);
             connect(m_dealer, &DealerScene::cardsPutDown, m_soundEngine, &SoundEngine::cardsPutDown);
+            connect(m_dealer, &DealerScene::gameIsUnwinnable, m_soundEngine, &SoundEngine::gameUnwinnable);
         } else if (m_soundEngine) {
             disconnect(m_dealer, nullptr, m_soundEngine, nullptr);
         }
+
+        // Highlight New Deal and Undo when the game becomes unwinnable
+        connect(m_dealer, &DealerScene::gameIsUnwinnable, this, [this]() {
+            const QString highlight = QStringLiteral(
+                "QToolButton { border: 2px solid #e05c00; border-radius: 4px;"
+                " background: #e05c00; color: #ffffff; font-weight: bold; }");
+            QAction *newDeal = actionCollection()->action(QStringLiteral("new_deal"));
+            QAction *undo = actionCollection()->action(QStringLiteral("move_undo"));
+            const auto toolBars = this->toolBars();
+            for (KToolBar *tb : toolBars) {
+                if (QWidget *w = tb->widgetForAction(newDeal))
+                    w->setStyleSheet(highlight);
+                if (QWidget *w = tb->widgetForAction(undo))
+                    w->setStyleSheet(highlight);
+            }
+
+            // Apply grayscale to the game view
+            m_view->setGraphicsEffect(new GrayscaleEffect(m_view));
+        });
+
+        // Clear highlights and grayscale when a new game starts
+        connect(m_dealer, &DealerScene::gameInProgress, this, [this](bool inProgress) {
+            if (inProgress) {
+                QAction *newDeal = actionCollection()->action(QStringLiteral("new_deal"));
+                QAction *undo = actionCollection()->action(QStringLiteral("move_undo"));
+                const auto toolBars = this->toolBars();
+                for (KToolBar *tb : toolBars) {
+                    if (QWidget *w = tb->widgetForAction(newDeal))
+                        w->setStyleSheet(QString());
+                    if (QWidget *w = tb->widgetForAction(undo))
+                        w->setStyleSheet(QString());
+                }
+                m_view->setGraphicsEffect(nullptr);
+            }
+        });
+
+        // Clear highlights and grayscale when undo clears the unwinnable state
+        connect(m_dealer, &DealerScene::unwinnableStateCleared, this, [this]() {
+            QAction *newDeal = actionCollection()->action(QStringLiteral("new_deal"));
+            QAction *undo = actionCollection()->action(QStringLiteral("move_undo"));
+            const auto toolBars = this->toolBars();
+            for (KToolBar *tb : toolBars) {
+                if (QWidget *w = tb->widgetForAction(newDeal))
+                    w->setStyleSheet(QString());
+                if (QWidget *w = tb->widgetForAction(undo))
+                    w->setStyleSheet(QString());
+            }
+            m_view->setGraphicsEffect(nullptr);
+        });
     }
 }
 

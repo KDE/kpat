@@ -506,6 +506,7 @@ DealerScene::DealerScene(const DealerInfo *di)
     , m_playerReceivedHelp(false)
     , m_toldAboutWonGame(false)
     , m_toldAboutLostGame(false)
+    , m_soundedUnwinnable(false)
     , m_dropSpeedFactor(1)
     , m_interruptAutoDrop(false)
     , m_dealInProgress(false)
@@ -812,6 +813,7 @@ void DealerScene::resetInternals()
     m_dealWasEverWinnable = false;
     m_toldAboutLostGame = false;
     m_toldAboutWonGame = false;
+    m_soundedUnwinnable = false;
     m_loadedMoveCount = 0;
 
     m_playerReceivedHelp = false;
@@ -1126,7 +1128,9 @@ void DealerScene::undoOrRedo(bool undo)
 
         Q_EMIT solverStateChanged(solverStatusMessage(solvability, m_dealWasEverWinnable));
 
-        if (m_solver && (solvability == SolverInterface::SearchAborted || solvability == SolverInterface::MemoryLimitReached)) {
+        if (m_solver
+            && (solvability == SolverInterface::SearchAborted || solvability == SolverInterface::MemoryLimitReached
+                || (undo && solvability == SolverInterface::NoSolutionExists))) {
             startSolver();
         }
     }
@@ -1361,6 +1365,15 @@ void DealerScene::slotSolverFinished(int result)
         m_dealWasEverWinnable = true;
     }
 
+    const bool nowUnwinnable = (result == SolverInterface::NoSolutionExists);
+    if (nowUnwinnable && !m_soundedUnwinnable) {
+        m_soundedUnwinnable = true;
+        Q_EMIT gameIsUnwinnable();
+    } else if (!nowUnwinnable && m_soundedUnwinnable) {
+        m_soundedUnwinnable = false;
+        Q_EMIT unwinnableStateCleared();
+    }
+
     Q_EMIT solverStateChanged(solverStatusMessage(result, m_dealWasEverWinnable));
 
     if (m_currentState) {
@@ -1375,6 +1388,13 @@ void DealerScene::slotSolverFinished(int result)
 int DealerScene::gameNumber() const
 {
     return m_dealNumber;
+}
+
+void DealerScene::debugForceUnwinnable()
+{
+    if (m_currentState)
+        m_currentState->solvability = SolverInterface::NoSolutionExists;
+    slotSolverFinished(SolverInterface::NoSolutionExists);
 }
 
 void DealerScene::stop()
