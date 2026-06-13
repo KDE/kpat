@@ -158,8 +158,8 @@
                         {
                             "type": "archive",
                             "dest": "Template-Toolkit",
-                            "url": "https://cpan.metacpan.org/authors/id/T/TO/TODDR/Template-Toolkit-3.102.tar.gz",
-                            "sha256": "d161c89dee9b213a7c55709ea782e2dd5923dbd1215b9576612889e6e74a2e06",
+                            "url": "https://cpan.metacpan.org/authors/id/T/TO/TODDR/Template-Toolkit-3.106.tar.gz",
+                            "sha256": "c7474050be80201f1fb55f0a569b9c0ab6c1c3f0cebbd7e601bda9b4046eec85",
                             "x-checker-data": {
                                 "type": "anitya",
                                 "project-id": 11970,
