@@ -485,7 +485,7 @@
 >Sulle colonne devi costruire delle sequenze decrescenti di carte in cui si alternino carte rosse e nere. Su una cella libera puoi appoggiare qualsiasi carta. </para>
 
 <para
->Puoi spostare solo la prima carta di una colonna o una che stia in una cella libera. Una sequenza può essere spostata solo se hai abbastanza posto (celle libere o colonne vuote) per appoggiarvi le carte durante gli spostamenti. </para>
+>È possibile spostare solo la carta in cima a una colonna o una carta in una cella libera. Lo spostamento di una sequenza è consentito solo se sono disponibili celle o colonne vuote a sufficienza per spostare le carte singolarmente, una alla volta. </para>
 
 <para
 >Il numero massimo di carte che puoi spostare è calcolato come: </para>
@@ -720,7 +720,7 @@
 > Spider viene giocato con due mazzi di carte. Queste vengono distribuite su 10 colonne (4 da 6 carte e 6 da 5 carte l'una). Rimangono 50 carte che verranno distribuite in seguito, 10 per volta, una su ogni colonna. </para>
 
 <para
->Una carta può essere spostata da una colonna all'altra appoggiandola su un'altra di valore immediatamente superiore, indipendentemente dal seme. Una sequenza decrescente di carte dello stesso seme può essere spostata in blocco. </para>
+>Solo la carta in cima a una colonna o una carta in una casella libera può essere spostata. Lo spostamento di una sequenza è consentito solo se ci sono abbastanza caselle o colonne vuote disponibili per spostare le carte singolarmente, una alla volta. Nelle colonne di gioco, una carta può essere posizionata sopra un'altra carta di qualsiasi seme e di un valore superiore. Una sequenza di carte decrescenti dello stesso seme può essere spostata da una colonna di gioco all'altra. </para>
 
 <para
 >L'obiettivo di spider è di portare tutte le carte, ordinate in famiglie reali decrescenti dal re all'asso, in una qualche colonna. Non appena una famiglia di questo tipo viene formata, essa viene rimossa e messa nell'angolo in basso a sinistra della finestra. </para>
