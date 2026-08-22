@@ -6,19 +6,20 @@
 # Naoya KOJIMA <naoya@fullmoon.dyndns.org>, 2005.
 # Yukiko Bando <ybando@k6.dion.ne.jp>, 2007, 2008, 2010.
 # Fumiaki Okushi <okushi@kde.gr.jp>, 2011.
+# SPDX-FileCopyrightText: 2026 Ryuichi Yamada <ryuichi_ya220@outlook.jp>
 msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2025-12-29 00:40+0000\n"
-"PO-Revision-Date: 2011-04-06 18:00-0700\n"
-"Last-Translator: Fumiaki Okushi <okushi@kde.gr.jp>\n"
+"PO-Revision-Date: 2026-08-19 08:30+0900\n"
+"Last-Translator: Ryuichi Yamada <ryuichi_ya220@outlook.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.9.1\n"
+"X-Generator: Lokalize 26.04.3\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
@@ -26,26 +27,24 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Taiki Komoda,Takuro Ashie,Kurose Shushi,Naoya KOJIMA"
+msgstr "Taiki Komoda,Takuro Ashie,Kurose Shushi,Naoya KOJIMA,Ryuichi Yamada"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ""
-"kom@kde.gr.jp,ashie@homa.ne.jp,md81@bird.email.ne.jp,naoya@fullmoon.dyndns."
-"org"
+msgstr "kom@kde.gr.jp,ashie@homa.ne.jp,md81@bird.email.ne.jp,naoya@fullmoon.dyndns.org,ryuichi_ya220@outlook.jp"
 
 #: bakersdozen.cpp:69 castle.cpp:361 freecell.cpp:347
 #, kde-format
 msgctxt "@title:menu"
 msgid "Popular Variant Presets"
-msgstr ""
+msgstr "人気のある変種のプリセット"
 
 #: bakersdozen.cpp:70
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Baker's Dozen"
-msgstr ""
+msgstr "ベイカーズダズン"
 
 #: bakersdozen.cpp:71
 #, fuzzy, kde-format
@@ -70,80 +69,77 @@ msgstr ""
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Custom"
-msgstr ""
+msgstr "カスタム"
 
 #: bakersdozen.cpp:76 castle.cpp:370 freecell.cpp:355
 #, kde-format
 msgctxt "@title:menu"
 msgid "Empty Stack Fill"
-msgstr ""
+msgstr "空の列に置けるカード"
 
 #: bakersdozen.cpp:77 castle.cpp:371 freecell.cpp:356
-#, fuzzy, kde-format
-#| msgid "1 Suit (Easy)"
+#, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "Any (Easy)"
-msgstr "1 組 (初級)"
+msgstr "任意のカード (初級)"
 
 #: bakersdozen.cpp:78 castle.cpp:372 freecell.cpp:357
-#, fuzzy, kde-format
-#| msgid "2 Suits (Medium)"
+#, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "Kings only (Medium)"
-msgstr "2 組 (中級)"
+msgstr "キングのみ (中級)"
 
 #: bakersdozen.cpp:79 castle.cpp:373 freecell.cpp:358
 #, kde-format
 msgctxt "@item:inmenu empty stack fill"
 msgid "None (Hard)"
-msgstr ""
+msgstr "なし (上級)"
 
 #: bakersdozen.cpp:81 castle.cpp:394 spider.cpp:147
-#, fuzzy, kde-format
-#| msgid "Spider &Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Stack Options"
-msgstr "スパイダーのオプション(&O)"
+msgstr "場札のオプション"
 
 #: bakersdozen.cpp:82 spider.cpp:149
 #, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Up (Easier)"
-msgstr ""
+msgstr "表向き (易しめ)"
 
 #: bakersdozen.cpp:83 spider.cpp:148
 #, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Down (Harder)"
-msgstr ""
+msgstr "裏向き (難しめ)"
 
 #: bakersdozen.cpp:85 castle.cpp:375 freecell.cpp:360
 #, kde-format
 msgctxt "@title:menu"
 msgid "Build Sequence"
-msgstr ""
+msgstr "積み重ねのルール"
 
 #: bakersdozen.cpp:86 castle.cpp:376 freecell.cpp:361
 #, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Alternating Color"
-msgstr ""
+msgstr "交互に違う色"
 
 #: bakersdozen.cpp:87 castle.cpp:377 freecell.cpp:362
 #, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Matching Suit"
-msgstr ""
+msgstr "同じマーク"
 
 #: bakersdozen.cpp:88 castle.cpp:378 freecell.cpp:363
 #, kde-format
 msgctxt "@item:inmenu build sequence"
 msgid "Rank"
-msgstr ""
+msgstr "数字の順番のみ"
 
 #: bakersdozen.cpp:238 bakersdozen.cpp:241
 msgid "Baker's Dozen"
-msgstr ""
+msgstr "ベイカーズダズン"
 
 #: bakersdozen.cpp:242
 #, fuzzy
@@ -161,11 +157,11 @@ msgstr ""
 
 #: bakersdozen.cpp:245
 msgid "Baker's Dozen (Custom)"
-msgstr ""
+msgstr "ベイカーズダズン (カスタム)"
 
 #: castle.cpp:319
 msgid "Castle"
-msgstr ""
+msgstr "キャッスル"
 
 #: castle.cpp:322
 msgid "Beleaguered Castle"
@@ -192,10 +188,8 @@ msgid "Stronghold"
 msgstr ""
 
 #: castle.cpp:328
-#, fuzzy
-#| msgid "Freecell"
 msgid "Castle (Custom)"
-msgstr "フリーセル"
+msgstr "キャッスル (カスタム)"
 
 #: castle.cpp:362
 #, kde-format
@@ -234,80 +228,78 @@ msgid "Stronghold"
 msgstr ""
 
 #: castle.cpp:380 freecell.cpp:365
-#, fuzzy, kde-format
-#| msgid "Freecell"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Free Cells"
-msgstr "フリーセル"
+msgstr "フリーセルの数"
 
 #: castle.cpp:381 freecell.cpp:366
 #, kde-format
 msgid "0"
-msgstr ""
+msgstr "0"
 
 #: castle.cpp:382 freecell.cpp:367 freecell.cpp:386
 #, kde-format
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: castle.cpp:383 freecell.cpp:368 freecell.cpp:387
 #, kde-format
 msgid "2"
-msgstr ""
+msgstr "2"
 
 #: castle.cpp:384 freecell.cpp:369 freecell.cpp:388
 #, kde-format
 msgid "3"
-msgstr ""
+msgstr "3"
 
 #: castle.cpp:385 freecell.cpp:370
 #, kde-format
 msgid "4"
-msgstr ""
+msgstr "4"
 
 #: castle.cpp:387 freecell.cpp:376
-#, fuzzy, kde-format
-#| msgid "Spider &Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Stacks"
-msgstr "スパイダーのオプション(&O)"
+msgstr "場札の列の数"
 
 #: castle.cpp:388 freecell.cpp:372 freecell.cpp:377
 #, kde-format
 msgid "6"
-msgstr ""
+msgstr "6"
 
 #: castle.cpp:389 freecell.cpp:373 freecell.cpp:378
 #, kde-format
 msgid "7"
-msgstr ""
+msgstr "7"
 
 #: castle.cpp:390 freecell.cpp:374 freecell.cpp:379
 #, kde-format
 msgid "8"
-msgstr ""
+msgstr "8"
 
 #: castle.cpp:391 freecell.cpp:380
 #, kde-format
 msgid "9"
-msgstr ""
+msgstr "9"
 
 #: castle.cpp:392 freecell.cpp:381
 #, kde-format
 msgid "10"
-msgstr ""
+msgstr "10"
 
 #: castle.cpp:395
 #, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Down"
-msgstr ""
+msgstr "裏向き"
 
 #: castle.cpp:396
 #, kde-format
 msgctxt "@item:inmenu stack option"
 msgid "Face Up"
-msgstr ""
+msgstr "表向き"
 
 #: castle.cpp:397
 #, kde-format
@@ -398,8 +390,7 @@ msgid "Solver: This game is lost."
 msgstr "ソルバー: このゲームは負けです。"
 
 #: dealer.cpp:1349
-#, fuzzy, kde-format
-#| msgid "Solver: Calculating..."
+#, kde-format
 msgid "Solver: Calculating…"
 msgstr "ソルバー: 計算中..."
 
@@ -415,15 +406,13 @@ msgstr ""
 "プレイ中のゲームを中止すると負けとして統計に記録されます。"
 
 #: dealer.cpp:1755
-#, fuzzy, kde-format
-#| msgid "Abandon Current Game?"
+#, kde-format
 msgctxt "@title:window"
 msgid "Abandon Current Game?"
 msgstr "現在のゲームを中止しますか？"
 
 #: dealer.cpp:1756
-#, fuzzy, kde-format
-#| msgid "Abandon Current Game"
+#, kde-format
 msgctxt "@action:button"
 msgid "Abandon Current Game"
 msgstr "現在のゲームを中止"
@@ -438,50 +427,44 @@ msgstr "フリーセル"
 
 #: freecell.cpp:311
 msgid "Baker's Game"
-msgstr ""
+msgstr "ベイカーズゲーム"
 
 #: freecell.cpp:312
 msgid "Eight Off"
-msgstr ""
+msgstr "エイトオフ"
 
 #: freecell.cpp:313
-#, fuzzy
-#| msgid "Freecell"
 msgid "Forecell"
-msgstr "フリーセル"
+msgstr "フォアセル"
 
 #: freecell.cpp:315
 msgid "Seahaven Towers"
-msgstr ""
+msgstr "シーヘイブンタワーズ"
 
 #: freecell.cpp:316
-#, fuzzy
-#| msgid "Freecell"
 msgid "Freecell (Custom)"
-msgstr "フリーセル"
+msgstr "フリーセル (カスタム)"
 
 #: freecell.cpp:348
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Baker's Game"
-msgstr ""
+msgstr "ベイカーズゲーム"
 
 #: freecell.cpp:349
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Eight Off"
-msgstr ""
+msgstr "エイトオフ"
 
 #: freecell.cpp:350
-#, fuzzy, kde-format
-#| msgid "Freecell"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Forecell"
-msgstr "フリーセル"
+msgstr "フォアセル"
 
 #: freecell.cpp:351
-#, fuzzy, kde-format
-#| msgid "Freecell"
+#, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Freecell"
 msgstr "フリーセル"
@@ -490,28 +473,28 @@ msgstr "フリーセル"
 #, kde-format
 msgctxt "@item:inmenu preset"
 msgid "Seahaven Towers"
-msgstr ""
+msgstr "シーヘイブンタワーズ"
 
 #: freecell.cpp:371
 #, kde-format
 msgid "5"
-msgstr ""
+msgstr "5"
 
 #: freecell.cpp:382
 #, kde-format
 msgid "11"
-msgstr ""
+msgstr "11"
 
 #: freecell.cpp:383
 #, kde-format
 msgid "12"
-msgstr ""
+msgstr "12"
 
 #: freecell.cpp:385
 #, kde-format
 msgctxt "@title:menu"
 msgid "Decks"
-msgstr ""
+msgstr "デッキ"
 
 #: golf.cpp:189
 msgid "Golf"
@@ -526,22 +509,19 @@ msgid "Aces Up"
 msgstr "切り札"
 
 #: klondike.cpp:135
-#, fuzzy, kde-format
-#| msgid "Klondike &Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Klondike &Options"
 msgstr "クロンダイクのオプション(&O)"
 
 #: klondike.cpp:136
-#, fuzzy, kde-format
-#| msgid "Draw 1"
+#, kde-format
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 1"
 msgstr "1 枚めくり"
 
 #: klondike.cpp:137
-#, fuzzy, kde-format
-#| msgid "Draw 3"
+#, kde-format
 msgctxt "@item:inmenu klondike option"
 msgid "Draw 3"
 msgstr "3 枚めくり"
@@ -571,8 +551,7 @@ msgid "Main Toolbar"
 msgstr "メインツールバー"
 
 #: libkcardgame/kcardthemewidget.cpp:266
-#, fuzzy, kde-format
-#| msgid "Loading..."
+#, kde-format
 msgctxt "@info"
 msgid "Loading…"
 msgstr "読み込み中..."
@@ -581,7 +560,7 @@ msgstr "読み込み中..."
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Card Decks…"
-msgstr ""
+msgstr "新しいカードデッキをダウンロード..."
 
 #: main.cpp:89
 #, kde-format
@@ -735,23 +714,22 @@ msgstr "Parker Coates"
 #: main.cpp:111
 #, kde-format
 msgid "Cleanup and polish"
-msgstr ""
+msgstr "クリーンアップと仕上げ"
 
 #: main.cpp:112
 #, kde-format
 msgid "Shlomi Fish"
-msgstr ""
+msgstr "Shlomi Fish"
 
 #: main.cpp:112
 #, kde-format
 msgid "Integration with Freecell Solver and further work"
-msgstr ""
+msgstr "フリーセルソルバーの統合とその他の作業"
 
 #: main.cpp:113
-#, fuzzy, kde-format
-#| msgid "Michael Koch"
+#, kde-format
 msgid "Michael Lang"
-msgstr "Michael Koch"
+msgstr "Michael Lang"
 
 #: main.cpp:120
 #, kde-format
@@ -799,66 +777,53 @@ msgstr "読み込むファイル"
 #, kde-format
 msgctxt "List separator"
 msgid ", "
-msgstr ""
+msgstr ", "
 
 #: mainwindow.cpp:152
-#, fuzzy, kde-format
-#| msgctxt "Start a new game of a different type"
-#| msgid "New &Game..."
+#, kde-format
 msgctxt "@action Start a new game of a different type"
 msgid "New &Game…"
 msgstr "新しいゲーム(&G)..."
 
 #: mainwindow.cpp:158
-#, fuzzy, kde-format
-#| msgctxt "Start a new game of without changing the game type"
-#| msgid "New &Deal"
+#, kde-format
 msgctxt "@action Start a new game of without changing the game type"
 msgid "New &Deal"
 msgstr "新しいディール(&D)"
 
 #: mainwindow.cpp:164
-#, fuzzy, kde-format
-#| msgid "New Numbered Deal"
+#, kde-format
 msgctxt "@action Start a game by giving its particular number"
 msgid "New &Numbered Deal…"
-msgstr "ディール番号を指定"
+msgstr "ディール番号を指定(&N)..."
 
 #: mainwindow.cpp:169
-#, fuzzy, kde-format
-#| msgctxt "Replay the current deal from the start"
-#| msgid "Restart Deal"
+#, kde-format
 msgctxt "@action Replay the current deal from the start"
 msgid "Restart Deal"
 msgstr "ディールを最初からやり直す"
 
 #: mainwindow.cpp:175
-#, fuzzy, kde-format
-#| msgctxt "Start the game with the number one greater than the current one"
-#| msgid "Next Deal"
+#, kde-format
 msgctxt ""
 "@action Start the game with the number one greater than the current one"
 msgid "Next Deal"
-msgstr "新しいディール"
+msgstr "次のディール番号で開始"
 
 #: mainwindow.cpp:184
 #, kde-format
 msgctxt "@action Start the game with the number one less than the current one"
 msgid "Previous Deal"
-msgstr ""
+msgstr "前のディール番号で開始"
 
 #: mainwindow.cpp:198
-#, fuzzy, kde-format
-#| msgid "Statistics"
+#, kde-format
 msgctxt "@action"
 msgid "Statistics"
 msgstr "統計"
 
 #: mainwindow.cpp:227
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Take one or more cards from the deck, flip them, and place them in play"
-#| msgid "Dra&w"
+#, kde-format
 msgctxt ""
 "@action Take one or more cards from the deck, flip them, and place them in "
 "play"
@@ -866,39 +831,31 @@ msgid "Dra&w"
 msgstr "めくる(&W)"
 
 #: mainwindow.cpp:232
-#, fuzzy, kde-format
-#| msgctxt "Deal a new row of cards from the deck"
-#| msgid "Dea&l Row"
+#, kde-format
 msgctxt "@action Deal a new row of cards from the deck"
 msgid "Dea&l Row"
 msgstr "1 列めくる(&L)"
 
 #: mainwindow.cpp:237
-#, fuzzy, kde-format
-#| msgctxt "Collect the cards in play, shuffle them and redeal them"
-#| msgid "&Redeal"
+#, kde-format
 msgctxt "@action Collect the cards in play, shuffle them and redeal them"
 msgid "&Redeal"
 msgstr "配り直す(&R)"
 
 #: mainwindow.cpp:242
-#, fuzzy, kde-format
-#| msgctxt "Automatically move cards to the foundation piles"
-#| msgid "Dro&p"
+#, kde-format
 msgctxt "@action Automatically move cards to the foundation piles"
 msgid "Dro&p"
 msgstr "自動ドロップ(&P)"
 
 #: mainwindow.cpp:249
-#, fuzzy, kde-format
-#| msgid "&Enable Autodrop"
+#, kde-format
 msgctxt "@option:check"
 msgid "&Enable Autodrop"
 msgstr "自動ドロップを有効にする(&E)"
 
 #: mainwindow.cpp:254
-#, fuzzy, kde-format
-#| msgid "E&nable Solver"
+#, kde-format
 msgctxt "@option:check"
 msgid "E&nable Solver"
 msgstr "ソルバーを有効にする(&N)"
@@ -907,11 +864,10 @@ msgstr "ソルバーを有効にする(&N)"
 #, kde-format
 msgctxt "@option:check"
 msgid "Play Sounds"
-msgstr ""
+msgstr "サウンドを再生"
 
 #: mainwindow.cpp:264
-#, fuzzy, kde-format
-#| msgid "&Remember State on Exit"
+#, kde-format
 msgctxt "@option:check"
 msgid "&Remember State on Exit"
 msgstr "終了時の状態を保存する(&R)"
@@ -929,8 +885,7 @@ msgid "Take Game Preview Snapshots"
 msgstr ""
 
 #: mainwindow.cpp:291
-#, fuzzy, kde-format
-#| msgid "Random Cards"
+#, kde-format
 msgctxt "@action"
 msgid "Random Cards"
 msgstr "ランダム"
@@ -975,7 +930,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:tab"
 msgid "Card Deck"
-msgstr ""
+msgstr "カードデッキ"
 
 #: mainwindow.cpp:428
 #, kde-format
@@ -983,8 +938,7 @@ msgid "Select a card deck"
 msgstr "カードデッキを選択"
 
 #: mainwindow.cpp:434
-#, fuzzy, kde-format
-#| msgid "Game Theme"
+#, kde-format
 msgctxt "@title:tab"
 msgid "Game Theme"
 msgstr "ゲームのテーマ"
@@ -992,24 +946,18 @@ msgstr "ゲームのテーマ"
 #: mainwindow.cpp:436
 #, kde-format
 msgid "Select a theme for non-card game elements"
-msgstr ""
+msgstr "カード以外のゲーム要素のテーマを選択"
 
 #: mainwindow.cpp:514
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "Is disabled and changes to \"Help &with Current Game\" when there is no "
-#| "current game."
-#| msgid "Help &with %1"
+#, kde-format
 msgctxt ""
 "@action Is disabled and changes to \"Help &with Current Game\" when there is "
 "no current game."
 msgid "Help &with %1"
-msgstr "%1 のヘルプ"
+msgstr "%1のヘルプ"
 
 #: mainwindow.cpp:545
-#, fuzzy, kde-format
-#| msgctxt "Shown when there is no game open. Is always disabled."
-#| msgid "Help &with Current Game"
+#, kde-format
 msgctxt "@action Shown when there is no game open. Is always disabled."
 msgid "Help &with Current Game"
 msgstr "現在のゲームのヘルプ(&W)"
@@ -1020,65 +968,67 @@ msgid ""
 "Are you sure you want to hide the menubar? The current shortcut to show it "
 "again is %1."
 msgstr ""
+"本当にメニューバーを隠しますか？再度表示するためのショートカットは現在 %1 で"
+"す。"
 
 #: mainwindow.cpp:702
 #, kde-format
 msgctxt "@title:window"
 msgid "Hide Menubar"
-msgstr ""
+msgstr "メニューバーを隠す"
 
 #: mainwindow.cpp:795
 #, kde-format
 msgid "Downloading file failed: %1"
-msgstr ""
+msgstr "ファイルのダウンロードに失敗しました: %1"
 
 #: mainwindow.cpp:801
 #, kde-format
 msgid "Error reading XML file: "
-msgstr ""
+msgstr "XML ファイルの読み取り中にエラー: "
 
 #: mainwindow.cpp:818
-#, fuzzy, kde-format
-#| msgid "The file is not a KPatience saved game."
+#, kde-format
 msgid "XML file is not a KPat save."
-msgstr "ファイルは KPatience の保存されたゲームではありません。"
+msgstr "この XML ファイルは KPat の保存データではありません。"
 
 #: mainwindow.cpp:823
 #, kde-format
 msgid "Unrecognized game id."
-msgstr ""
+msgstr "ゲーム ID を認識できません。"
 
 #: mainwindow.cpp:842
 #, kde-format
 msgid "Errors encountered while parsing file."
-msgstr ""
+msgstr "ファイルの解析中にエラーが発生しました。"
 
 #: mainwindow.cpp:861
 #, kde-format
 msgctxt "@title:window"
 msgid "Load Game"
-msgstr ""
+msgstr "ゲームを読み込み"
 
 #: mainwindow.cpp:888
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Game"
-msgstr ""
+msgstr "ゲームを保存"
 
 #: mainwindow.cpp:904
 #, kde-format
 msgid "Error opening file for writing. Saving failed."
 msgstr ""
+"書き込むためにファイルを開く際にエラーが発生しました。保存に失敗しました。"
 
 #: mainwindow.cpp:909
 #, kde-format
 msgid "Unable to create temporary file. Saving failed."
-msgstr ""
+msgstr "一時ファイルを作成できません。保存に失敗しました。"
 
 #: mainwindow.cpp:925
 #, kde-format
 msgid "Error uploading file. Saving failed: %1"
-msgstr ""
+msgstr "ファイルのアップロード中にエラーが発生しました。保存に失敗しました: %1"
 
 #: mainwindow.cpp:949
 #, kde-format
@@ -1092,25 +1042,22 @@ msgstr "Mod3"
 
 #: normandy.cpp:166
 msgid "Normandy"
-msgstr ""
+msgstr "ノルマンディ"
 
 #: numbereddealdialog.cpp:36
-#, fuzzy, kde-format
-#| msgid "New Numbered Deal"
+#, kde-format
 msgctxt "@title:window"
 msgid "New Numbered Deal"
 msgstr "ディール番号を指定"
 
 #: numbereddealdialog.cpp:51
-#, fuzzy, kde-format
-#| msgid "Game:"
+#, kde-format
 msgctxt "@label"
 msgid "Game:"
 msgstr "ゲーム:"
 
 #: numbereddealdialog.cpp:55
-#, fuzzy, kde-format
-#| msgid "Deal number:"
+#, kde-format
 msgctxt "@label"
 msgid "Deal number:"
 msgstr "ディール番号:"
@@ -1120,39 +1067,34 @@ msgid "Simple Simon"
 msgstr "まぬけのサイモン"
 
 #: spider.cpp:132
-#, fuzzy, kde-format
-#| msgid "Spider &Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Spider &Options"
 msgstr "スパイダーのオプション(&O)"
 
 #: spider.cpp:133
-#, fuzzy, kde-format
-#| msgid "1 Suit (Easy)"
+#, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "1 Suit (Easy)"
 msgstr "1 組 (初級)"
 
 #: spider.cpp:134
-#, fuzzy, kde-format
-#| msgid "2 Suits (Medium)"
+#, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "2 Suits (Medium)"
 msgstr "2 組 (中級)"
 
 #: spider.cpp:135
-#, fuzzy, kde-format
-#| msgid "4 Suits (Hard)"
+#, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "3 Suits (Hard)"
-msgstr "4 組 (上級)"
+msgstr "3 組 (上級)"
 
 #: spider.cpp:136
-#, fuzzy, kde-format
-#| msgid "4 Suits (Hard)"
+#, kde-format
 msgctxt "@item:inmenu spider option"
 msgid "4 Suits (Very Hard)"
-msgstr "4 組 (上級)"
+msgstr "4 組 (超上級)"
 
 #: spider.cpp:469
 msgid "Spider"
@@ -1167,18 +1109,15 @@ msgid "Spider (2 Suit)"
 msgstr "スパイダー (2 組)"
 
 #: spider.cpp:474
-#, fuzzy
-#| msgid "Spider (1 Suit)"
 msgid "Spider (3 Suit)"
-msgstr "スパイダー (1 組)"
+msgstr "スパイダー (3 組)"
 
 #: spider.cpp:475
 msgid "Spider (4 Suit)"
 msgstr "スパイダー (4 組)"
 
 #: statisticsdialog.cpp:61
-#, fuzzy, kde-format
-#| msgid "Statistics"
+#, kde-format
 msgctxt "@title:window"
 msgid "Statistics"
 msgstr "統計"
@@ -1246,25 +1185,8 @@ msgstr "現在の連勝/連敗数:"
 #: statisticsdialog.ui:138
 #, kde-format
 msgid "Minimal number of moves:"
-msgstr ""
+msgstr "最小移動回数:"
 
 #: yukon.cpp:120
 msgid "Yukon"
 msgstr "ユーコン"
-
-#~ msgid "Gypsy"
-#~ msgstr "ジプシー"
-
-#, fuzzy
-#~| msgid "Spider &Options"
-#~ msgid "S&tack Options"
-#~ msgstr "スパイダーのオプション(&O)"
-
-#, fuzzy
-#~| msgid "Freecell"
-#~ msgid "Free cells"
-#~ msgstr "フリーセル"
-
-#~ msgctxt "Start a game by giving its particular number"
-#~ msgid "New &Numbered Deal..."
-#~ msgstr "ディール番号を指定(&N)..."
