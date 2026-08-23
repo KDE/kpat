@@ -32,7 +32,9 @@ msgstr "Taiki Komoda,Takuro Ashie,Kurose Shushi,Naoya KOJIMA,Ryuichi Yamada"
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "kom@kde.gr.jp,ashie@homa.ne.jp,md81@bird.email.ne.jp,naoya@fullmoon.dyndns.org,ryuichi_ya220@outlook.jp"
+msgstr ""
+"kom@kde.gr.jp,ashie@homa.ne.jp,md81@bird.email.ne.jp,naoya@fullmoon.dyndns."
+"org,ryuichi_ya220@outlook.jp"
 
 #: bakersdozen.cpp:69 castle.cpp:361 freecell.cpp:347
 #, kde-format
