@@ -4,8 +4,8 @@
 Dependencies:
  - 'on': ['Linux', 'FreeBSD']
    'require':
-    'frameworks/extra-cmake-modules': '@latest-kf6'
-    'frameworks/kio': '@latest-kf6'
+    'frameworks/extra-cmake-modules': 'Frameworks/6.24'
+    'frameworks/kio': 'Frameworks/6.24'
     'games/libkdegames': '@same'
 
 Options:
