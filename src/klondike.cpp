@@ -94,7 +94,7 @@ void Klondike::initialize()
     talon = new PatPile(this, 0, QStringLiteral("talon"));
     talon->setPileRole(PatPile::Stock);
     talon->setLayoutPos(0, 0);
-    // Give the talon a low Z value to keep it out of the way during there
+    // Give the talon a low Z value to keep it out of the way during three
     // deal animation.
     talon->setZValue(-52);
     talon->setKeyboardSelectHint(KCardPile::NeverFocus);

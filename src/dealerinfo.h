@@ -89,7 +89,10 @@ public:
         CastleSiegecraftId = 44,
         CastleStrongholdId = 45,
         CastleCustomId = 49,
-        SpiderThreeSuitId = 50
+        SpiderThreeSuitId = 50,
+        BiziliziId = 60,
+        BiziliziExtra2Id = 61,
+        BiziliziExtra3Id = 62
     };
 
     DealerInfo(const KLocalizedString &untranslatedBaseName, int baseId, const QMap<int, KLocalizedString> &subTypes = {});

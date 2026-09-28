@@ -678,42 +678,63 @@ QList<MoveHint> DealerScene::bruteForceHints()
 {
     QList<MoveHint> hintList;
     const auto patPiles = this->patPiles();
-    for (PatPile *store : patPiles) {
-        if (store->isFoundation() || store->isEmpty())
+    for (PatPile *source : patPiles) {
+        if (source->isFoundation() || source->isEmpty())
             continue;
 
-        QList<KCard *> cards = store->cards();
-        while (cards.count() && !cards.first()->isFaceUp())
-            cards.erase(cards.begin());
+        // Get only the face-up cards to evaluate
+        QList<KCard *> faceUpCards = source->cards();
+        while (faceUpCards.count() && !faceUpCards.first()->isFaceUp())
+            faceUpCards.erase(faceUpCards.begin());
 
-        QList<KCard *>::Iterator iti = cards.begin();
-        while (iti != cards.end()) {
-            if (allowedToRemove(store, (*iti))) {
-                for (PatPile *dest : patPiles) {
-                    int cardIndex = store->indexOf(*iti);
-                    if (cardIndex == 0 && dest->isEmpty() && !dest->isFoundation())
-                        continue;
+        // Iterate through every face-up card as a potential move candidate
+        for (int i = 0; i < faceUpCards.count(); ++i) {
+            KCard *targetCard = faceUpCards[i];
 
-                    if (!checkAdd(dest, dest->cards(), cards))
-                        continue;
+            if (!allowedToRemove(source, targetCard))
+                continue;
 
-                    if (dest->isFoundation()) {
-                        hintList << MoveHint(*iti, dest, 127);
-                    } else {
-                        QList<KCard *> cardsBelow = cards.mid(0, cardIndex);
+            // This is the moving stack: from our target card to the top of the pile
+            QList<KCard *> movingStack = faceUpCards.mid(i);
 
-                        // if it could be here as well, then it's no use
-                        if ((cardsBelow.isEmpty() && !dest->isEmpty()) || !checkAdd(store, cardsBelow, cards)) {
-                            hintList << MoveHint(*iti, dest, 0);
-                        } else if (checkPrefering(dest, dest->cards(), cards)
-                                   && !checkPrefering(store, cardsBelow, cards)) { // if checkPrefers says so, we add it nonetheless
-                            hintList << MoveHint(*iti, dest, 10);
-                        }
+            // This is what remains below the target card in the face-up space
+            QList<KCard *> cardsBelow = faceUpCards.mid(0, i);
+
+            // Are we moving the pile or singleton?
+            bool singleCardSource = pickBuriedSingleton(targetCard->pile());
+            if (singleCardSource && movingStack.size() > 1) {
+                movingStack = movingStack.mid(0, 1);
+            }
+
+            int persistentIndex = source->indexOf(targetCard);
+
+            for (PatPile *dest : patPiles) {
+                if (dest == source)
+                    continue;
+
+                // no hint for tableau move of full pile to empty pile
+                if (persistentIndex == 0 && dest->isEmpty() && !dest->isFoundation() && !singleCardSource)
+                    continue;
+
+                // nix invalid moves
+                if (!checkAdd(dest, dest->cards(), movingStack))
+                    continue;
+
+                // card can be added to dest, add hint
+                if (dest->isFoundation()) {
+                    // highest priority move-out
+                    hintList << MoveHint(targetCard, dest, 127);
+                } else {
+                    // top card to occupied destination or connected source pile off source disconnect
+                    if ((cardsBelow.isEmpty() && !dest->isEmpty()) || !checkAdd(source, cardsBelow, movingStack)) {
+                        hintList << MoveHint(targetCard, dest, 0);
+
+                        // as above but checking for preference instead of connection
+                    } else if (checkPrefering(dest, dest->cards(), movingStack) && !checkPrefering(source, cardsBelow, movingStack)) {
+                        hintList << MoveHint(targetCard, dest, 10);
                     }
                 }
             }
-            cards.erase(iti);
-            iti = cards.begin();
         }
     }
     return hintList;
@@ -974,8 +995,8 @@ void DealerScene::mousePressEvent(QGraphicsSceneMouseEvent *e)
 
     if (m_peekedCard) {
         e->accept();
-    } else if (e->button() == Qt::RightButton && card && card->pile() && card != card->pile()->topCard() && cardsBeingDragged().isEmpty()
-               && !isCardAnimationRunning()) {
+    } else if (e->button() == Qt::RightButton && card && card->pile() && (card != card->pile()->topCard() && !pickBuriedSingleton(card->pile()))
+               && cardsBeingDragged().isEmpty() && !isCardAnimationRunning()) {
         e->accept();
         m_peekedCard = card;
         QPointF pos2(card->x() + deck()->cardWidth() / 3.0, card->y() - deck()->cardHeight() / 3.0);
@@ -1016,7 +1037,8 @@ void DealerScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *e)
 
 bool DealerScene::tryAutomaticMove(KCard *card)
 {
-    if (!isCardAnimationRunning() && card && card->pile() && card == card->pile()->topCard() && card->isFaceUp() && allowedToRemove(card->pile(), card)) {
+    if (!isCardAnimationRunning() && card && card->pile() && (card == card->pile()->topCard() || pickBuriedSingleton(card->pile())) && card->isFaceUp()
+        && allowedToRemove(card->pile(), card)) {
         QList<KCard *> cardList = QList<KCard *>() << card;
 
         const auto patPiles = this->patPiles();
@@ -1281,6 +1303,9 @@ bool DealerScene::drop()
     for (const MoveHint &mh : moveHints) {
         if (mh.pile() && mh.pile()->isFoundation() && mh.priority() > 120 && !m_cardsRemovedFromFoundations.contains(mh.card())) {
             QList<KCard *> cards = mh.card()->pile()->topCardsDownTo(mh.card());
+            if ((cards.size() > 1) && pickBuriedSingleton(mh.card()->pile())) {
+                cards = cards.mid(0, 1);
+            }
 
             QMap<KCard *, QPointF> oldPositions;
             for (KCard *c : std::as_const(cards))
@@ -1473,6 +1498,9 @@ void DealerScene::demo()
         Q_ASSERT(destPile);
         Q_ASSERT(sourcePile != destPile);
         QList<KCard *> cards = sourcePile->topCardsDownTo(card);
+        if ((cards.size() > 1) && pickBuriedSingleton(card->pile())) {
+            cards = cards.mid(0, 1);
+        }
         Q_ASSERT(allowedToAdd(destPile, cards));
 
         if (destPile->isEmpty()) {

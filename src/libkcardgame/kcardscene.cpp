@@ -794,6 +794,9 @@ void KCardScene::keyboardFocusSelect()
 
         KCard *card = pile->at(d->keyboardCardIndex);
         d->cardsBeingDragged = card->pile()->topCardsDownTo(card);
+        if ((d->cardsBeingDragged.size() > 1) && pickBuriedSingleton(card->pile())) {
+            d->cardsBeingDragged = d->cardsBeingDragged.mid(0, 1);
+        }
         if (allowedToRemove(card->pile(), d->cardsBeingDragged.first())) {
             d->startOfDrag = d->keyboardCardIndex > 0 ? pile->at(d->keyboardCardIndex - 1)->pos() : pile->pos();
 
@@ -879,6 +882,16 @@ bool KCardScene::allowedToRemove(const KCardPile *pile, const KCard *card) const
     return true;
 }
 
+// once established that we are allowedToRemove, most (or all) games will want
+// to remove the pile from the selected card up, but if true this will allow
+// a mid pile card to be removed without the pile above it.
+// Used when a pile is intended for selection without structure, pick a card
+bool KCardScene::pickBuriedSingleton(const KCardPile *pile) const
+{
+    Q_UNUSED(pile)
+    return false;
+}
+
 void KCardScene::cardsDroppedOnPile(const QList<KCard *> &cards, KCardPile *pile)
 {
     moveCardsToPile(cards, pile, cardMoveDuration);
@@ -908,6 +921,10 @@ void KCardScene::mousePressEvent(QGraphicsSceneMouseEvent *e)
             QList<KCard *> cards = card->pile()->topCardsDownTo(card);
 
             if (allowedToRemove(card->pile(), cards.first())) {
+                // all games except bizilizi always move the pile above the chosen buried (non-top) card
+                if ((cards.size() > 1) && pickBuriedSingleton(card->pile())) {
+                    cards = cards.mid(0, 1);
+                }
                 d->cardsBeingDragged = cards;
                 for (KCard *c : std::as_const(d->cardsBeingDragged)) {
                     c->stopAnimation();

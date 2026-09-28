@@ -23,6 +23,15 @@
         <entry name="KlondikeIsDrawOne" key="KlondikeEasy" type="Bool">
             <default>true</default>
         </entry>
+        <entry name="biziliziIsExtra3" key="BiziliziHard" type="Bool">
+            <default>false</default>
+        </entry>
+        <entry name="poolAnalysisEnabled" key="BiziliziPoolHints" type="Int">
+            <default>0</default>
+        </entry>
+        <entry name="rideHints" key="BiziliziRideHints" type="Int">
+            <default>0</default>
+        </entry>
         <entry name="SpiderSuitCount" key="SpiderSuits" type="Int">
             <default>2</default>
         </entry>

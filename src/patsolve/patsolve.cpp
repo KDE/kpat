@@ -972,14 +972,15 @@ void Solver<NumberPiles>::prioritize(MOVE *, int)
 constexpr auto Nwpiles = 8;
 constexpr auto Ntpiles = 4;
 
-template class Solver<9>;
-template class Solver<10>;
-template class Solver<7 * 3 + 1>;
-template class Solver<8 + 1 + 8>;
-template class Solver<6>;
-template class Solver<34>;
-template class Solver<15>;
-template class Solver<7>;
-template class Solver<13>;
-template class Solver<20>;
-template class Solver<Nwpiles + Ntpiles>;
+template class Solver<6>; // Aces Up
+template class Solver<7>; // Yukon
+template class Solver<8>; // Bizilizi
+template class Solver<9>; // g's clock, klondike
+template class Solver<10>; // fortyeight
+template class Solver<Nwpiles + Ntpiles>; // (12) b12, ??
+// template class Solver<13>;          // unused?
+// template class Solver<15>;          // unused?
+template class Solver<8 + 1 + 8>; // (17) Normandy
+template class Solver<20>; // Freecell (b12, castle, simon)
+template class Solver<7 * 3 + 1>; // (22) Grandfather
+template class Solver<34>; // mod3

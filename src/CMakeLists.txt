@@ -1,6 +1,7 @@
 add_subdirectory(libkcardgame)
 
-add_executable(kpat)
+add_executable(kpat
+    biziutils.h)
 
 ecm_setup_version(${kpat_VERSION}
     VARIABLE_PREFIX KPAT
@@ -30,6 +31,8 @@ target_sources(kpat PRIVATE
 
     bakersdozen.cpp
     patsolve/bakersdozensolver.cpp
+    bizilizi.cpp
+    patsolve/bizilizisolver.cpp
     castle.cpp
     patsolve/castlesolver.cpp
     clock.cpp 
