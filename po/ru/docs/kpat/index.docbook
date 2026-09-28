@@ -1,0 +1,1458 @@
+<?xml version="1.0" ?>
+<!--IMPORTANT: please note that'do not change this!' notice does not apply to translators -->
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % Russian "INCLUDE"
+> <!-- change language only here -->
+  <!ENTITY % addindex "IGNORE"
+> <!-- do not change this! -->
+]>
+
+<book id="kpat" lang="&language;"
+> <!-- do not change this! -->
+<bookinfo>
+	<title
+>Руководство пользователя &kpatience;</title
+> <!-- This is the title of the docbook. Leave as is unless change is necessary.-->
+<!-- List of immidiate authors begins here. -->
+<!--INPORTANT! - All other contributors: [to be determined] -->
+<authorgroup>
+<author
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> </author>
+<author
+><firstname
+>Maren</firstname
+> <surname
+>Pakura</surname
+> </author>
+<author
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> </author>
+
+<othercredit role="reviewer"
+><firstname
+>Mike</firstname
+><surname
+>McBride</surname
+> <contrib
+>Редактор</contrib>
+<affiliation
+><address
+>&Mike.McBride.mail;</address
+></affiliation>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Paul Olav</firstname
+> <surname
+>Tvete</surname
+> <contrib
+>Разработчик</contrib>
+</othercredit>
+
+<othercredit role="developer"
+><firstname
+>Stephan</firstname
+> <surname
+>Kulow</surname
+> <contrib
+>Разработчик</contrib>
+</othercredit>
+
+<othercredit role="translator"
+><firstname
+>Валя</firstname
+><surname
+>Ванеева</surname
+><affiliation
+><address
+><email
+>fattie@altlinux.ru</email
+></address
+></affiliation
+><contrib
+>Перевод на русский язык</contrib
+></othercredit
+><othercredit role="reviewer"
+><firstname
+>Николай</firstname
+><surname
+>Шафоростов</surname
+><affiliation
+><address
+><email
+>shafff@ukr.net</email
+></address
+></affiliation
+><contrib
+>Редакция и обновление перевода</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2000</year>
+<holder
+>&Paul-Olav.Tvete;</holder>
+</copyright>
+
+<copyright>
+<year
+>2001</year
+><year
+>2004</year>
+<holder
+>&Maren.Pakura;</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year>
+<holder
+>&Stephan.Kulow;</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>20 июня 2021 г.</date>
+<releaseinfo
+>KDE Gear 21.04</releaseinfo>
+
+<!--Short description of this document. Do not change unless necessary!-->
+<abstract>
+	<para
+>В этом руководстве описывается игра &kpatience; версии 21.04</para>
+</abstract>
+
+<!--List of relevant keywords-->
+<keywordset>
+	<keyword
+>KDE</keyword
+> <!-- do not change this! -->
+	<keyword
+>kdegames</keyword
+> <!-- do not change this! -->
+	<keyword
+>игра</keyword
+> <!-- do not change this! -->
+	<keyword
+>KPatience</keyword
+><!--Application name goes here-->
+<!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<keyword
+>карты</keyword>
+	<keyword
+>карточная игра</keyword>
+	<keyword
+>игральные карты</keyword>
+<!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+	<keyword
+>один игрок</keyword>
+<!--All other relevant keywords-->
+	<keyword
+>пасьянс</keyword>
+	<keyword
+>карты</keyword>
+</keywordset>
+</bookinfo>
+<!--Content begins here: -->
+<chapter id="introduction"
+><title
+>Введение</title
+> <!-- do not change this! -->
+	<note
+><title
+>Тип игры:</title
+><para
+>Карточная</para
+></note
+><!-- Game genre. Use as many as necessary. Available game types are: Arcade, Board, Card, Dice, Toys, Logic, Strategy.-->
+	<note
+><title
+>Количество игроков:</title
+><para
+>Один</para
+></note
+><!--Number of possible players. It can be: One, Two,..., Multiplayer-->
+
+<!--Short game description starts here. 3-4 sentences (paragraphs)-->
+
+<para
+>Чтобы раскладывать пасьянс, нужно, как следует из английского названия (patience), запастись терпением. В простых пасьянсах, где всё зависит только от того, как лягут карты, терпение — единственное, что нужно. </para>
+
+<para
+>Есть и пасьянсы, в которых для победы нужно продумывать стратегию и планировать ходы наперёд. </para>
+
+<para
+>Общее во всех пасьянсах то, что карты нужно разложить в особом порядке — перемещая, переворачивая и перекладывая их. </para>
+</chapter>
+
+<chapter id="howto"
+><title
+>Как играть</title
+> <!-- do not change this! -->
+<!--IMPORTANT: If the game has no defined objective, please remove the below line.-->
+	<note
+><title
+>Цель:</title
+><para
+>Разложить карты по мастям за наименьшее число ходов.</para
+></note
+><!--Describe the objective of the game.-->
+<!--How to play description. Don't be to specific on rules as they have a separate section in this document-->
+	<para
+>В &kpatience; множество разных пасьянсов, поэтому единой инструкции для всех быть не может. Прежде чем раскладывать незнакомый пасьянс, обязательно прочитайте его подраздел в разделе «Правила игры, стратегия и советы».</para>
+<para
+>По сути, пасьянсы бывают двух видов: в одних карты складываются по одному цвету, в других — с чередованием цветов. Какой перед вами, легко понять методом проб и ошибок, а дальше всё просто: раскладывайте и перекладывайте карты, собирая подходящие.</para>
+<para
+>Но с самого начала следите за стопками карт. Не спешите перекладывать отдельные карты — возможно, карта пригодится в другом месте.</para>
+<para
+>Кроме того, стоит поглядывать на строку состояния. В каждый пасьянс встроен помощник, который сообщает, можно ли разложить текущий пасьянс. Если помощник не может его разложить, скорее всего, не получится и у вас. Тогда можно начать раздачу сначала или начать новую игру. </para>
+<note
+><title
+>Примечание:</title
+><para
+>Пасьянсы помогают заметно улучшить внимание и способность сосредоточиться.</para
+></note>
+</chapter>
+
+<chapter id="rules_and_tips"
+><title
+>Правила игры, стратегия и советы</title
+> <!-- do not change this! -->
+
+<sect1 id="rules-general">
+	<title
+>Общие правила</title>
+	<para
+><indexterm
+><primary
+>масти</primary
+></indexterm
+>В игре используются одна или две колоды из 52 карт. В каждой колоде четыре масти:</para>
+	<informaltable pgwide="0" frame="none">
+		<tgroup cols="2"
+><colspec/><colspec/>
+	<tbody>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="clubs.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>трефы;</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="spades.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>пики;</entry>
+		</row>
+		<row valign="middle">
+			<entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="hearts.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>червы;</entry>
+		</row>
+			<row valign="middle"
+><entry
+><inlinemediaobject
+><imageobject
+><imagedata fileref="diamonds.png"/></imageobject
+></inlinemediaobject
+></entry>
+			<entry
+>бубны.</entry>
+		</row>
+	</tbody
+></tgroup>
+	</informaltable>
+	<para
+>В каждой масти есть по одной карте следующих достоинств: туз, двойка, тройка, четвёрка, пятёрка, шестёрка, семёрка, восьмёрка, девятка, десятка, валет, дама и король.</para>
+	<para
+><indexterm
+><primary
+>полный набор</primary
+></indexterm
+> Полный ряд карт от туза до короля называется набором. Наборы бывают настоящими и чередующимися. Настоящий набор состоит из карт одной масти (например, червей). В чередующемся наборе цвет карт чередуется: чёрный (трефы и пики) и красный (черви и бубны).</para>
+	<para
+>Если набор неполный, он называется последовательностью.</para>
+	<mediaobject>
+		<imageobject
+><imagedata fileref="playfield.png" format="PNG"/></imageobject>
+		<textobject
+><phrase
+>Игровой стол</phrase
+></textobject>
+	</mediaobject>
+	<para
+>В типичном пасьянсе есть элементы, описанные ниже.</para>
+	<variablelist>
+		<varlistentry
+><term
+>1. Остаток колоды</term>
+			<listitem
+><para
+><indexterm
+><primary
+>остаток колоды</primary
+></indexterm
+>В начале игры все карты в колоде перемешаны. В некоторых пасьянсах раздаётся не вся колода; оставшиеся карты кладутся в остаток колоды (его ещё называют запасом). Найти его легко: в большинстве пасьянсов это единственная стопка, где все карты лежат рубашкой вверх.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>2. Открытый остаток</term>
+			<listitem
+><para
+><indexterm
+><primary
+>открытый остаток</primary
+></indexterm
+>Во многих пасьянсах карты, взятые из остатка колоды, кладутся в открытый остаток. Обычно при щелчке по остатку колоды верхняя карта переворачивается лицом вверх и кладётся в открытый остаток, после чего вступает в игру.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>3. База</term>
+			<listitem
+><para
+><indexterm
+><primary
+>база</primary
+></indexterm
+>База — стопки, куда в конце концов должны попасть карты. Как правило, пасьянс разложен, только когда все карты в правильном порядке перенесены на базу. Число стопок базы и нужный порядок зависят от пасьянса.</para>
+                            <para
+>В большинстве пасьянсов база в начале пуста. Если выбрать действие <guimenuitem
+>Сбросить</guimenuitem
+> в меню или на панели инструментов, &kpatience; просмотрит все стопки и перенесёт на базу все карты, какие можно. Если включён параметр <guimenuitem
+>Включить автосброс</guimenuitem
+>, &kpatience; будет делать это при каждой возможности.</para>
+			</listitem>
+		</varlistentry>
+		<varlistentry
+><term
+>4. Игровые стопки</term>
+			<listitem
+><para
+><indexterm
+><primary
+>игровые стопки</primary
+></indexterm
+>Это стопки, в которых собственно и перекладываются карты. Правила для них сильно различаются от пасьянса к пасьянсу: где-то видны все карты, где-то нет; где-то можно брать только одну карту, где-то любую, и т. д.</para>
+			</listitem>
+		</varlistentry>
+	</variablelist>
+</sect1>
+
+<sect1 id="rules-specific"
+><title
+>Правила отдельных игр</title>
+
+<sect2 id="klondike">
+<title
+>Косынка (Клондайк)</title>
+
+<para
+><indexterm
+><primary
+>Косынка</primary
+></indexterm
+> «Косынка» — самый известный пасьянс, скорее всего потому, что входит в состав одной известной операционной системы. Раскладывается одной колодой. </para>
+
+<para
+>Цель пасьянса &mdash; разложить все карты в базовые стопки по настоящим наборам в порядке возрастания. Это становится проще, когда все карты в игровых стопках лежат открытыми. </para>
+
+<para
+>Последовательности в игровых стопках составляются в убывающем порядке. Карты должны чередоваться по цвету (красный и чёрный). Можно перемещать целые последовательности или их части, если первая карта подходит к другой стопке. </para>
+
+<para
+>На пустое место можно положить короля любого цвета или последовательность, начинающуюся с короля. </para>
+
+<para
+>При щёлчке по остатку колоды одна карта оттуда перемещается в открытый остаток, откуда её можно перенести в игровую стопку или на базу. Если остаток пуст, можно переместить весь открытый остаток обратно в остаток колоды, щёлкнув по пустому остатку. </para>
+
+<para
+>Карты в остатке колоды можно перебирать сколько угодно раз. </para>
+</sect2>
+
+<sect2 id="grandfather">
+<title
+>Дедушка</title>
+
+<para
+><indexterm
+><primary
+>Дедушка</primary
+></indexterm
+> Об этом пасьянсе &Paul-Olav.Tvete;, создатель &kpatience;, узнал от своего дедушки, отсюда и название. Других пасьянсов с таким вариантом правил не известно. </para>
+        
+<para
+>Здесь одна колода раздаётся в семь игровых стопок, причём в некоторых стопках часть карт лежит рубашкой вверх. </para>
+
+<para
+>Цель пасьянса &mdash; разложить все карты в базовые стопки по настоящим наборам в порядке возрастания. </para>
+
+<para
+>Любую карту из любой стопки можно переложить на другую карту, если получается настоящая убывающая последовательность. Например, пятёрку пик можно положить на шестёрку пик, сколько бы карт ни лежало на пятёрке. Нужно лишь, чтобы шестёрка пик была верхней картой своей стопки. </para>
+
+<para
+>На пустое место можно положить короля (неважно, сколько карт лежит на нём). </para>
+
+<para
+>Если ходов больше нет, карты можно пересдать: они собираются из игровых стопок (по стопке, слева направо) и снова раскладываются в исходном порядке (зигзагом ряды закрытых карт, образующие пирамиду, а поверх — ряды открытых карт слева направо). Учтите, что карты при этом <emphasis
+>не</emphasis
+> перемешиваются, а карты на базе остаются на месте. Пересдавать можно не больше двух раз за игру. </para>
+
+<para
+>Правила простые и допускают много ходов, но выиграть всё равно трудно. Несмотря на это — а может, именно поэтому — раскладывать этот пасьянс одно удовольствие. </para>
+</sect2>
+
+<sect2 id="aces-up">
+<title
+>Тузы вверх</title>
+
+<para
+><indexterm
+><primary
+>Тузы вверх</primary
+></indexterm
+> Правила этого пасьянса просты, но разложить его трудно. Раскладывается одной колодой. Цель — перенести на базу все карты, кроме тузов: в итоге в каждой игровой стопке должно остаться по тузу. </para>
+
+<para
+>На базу может быть положена любая верхняя карта, если она такой же масти, как и ещё какая-нибудь верхняя карта (например, пики), и её достоинство меньше этой другой карты (например, есть шестёрка и четвёрка пик &mdash; класть можно четвёрку). </para>
+
+<para
+>Если больше карт нельзя переместить на базу, можно получить по новой карте для каждой игровой стопки, щёлкнув по остатку колоды. </para>
+
+<para
+>На свободное место можно переложить любую верхнюю карту стопки. Используйте такие ходы, чтобы освобождать стопки: тогда новые карты можно будет переложить на базу. </para>
+
+<para
+>В этом пасьянсе автосброс отключён. </para>
+
+</sect2>
+
+<sect2 id="freecell">
+<title
+>Свободная ячейка</title>
+
+<para
+><indexterm
+><primary
+>Свободная ячейка</primary
+></indexterm
+> «Свободная ячейка» раскладывается одной колодой. В левом верхнем углу четыре свободные ячейки, кроме того есть четыре стопки базы и восемь игровых стопок внизу. </para>
+
+<para
+>Цель — разложить все карты на базе настоящими наборами по возрастанию. Если знать, как играть, это обычно удаётся: «Свободная ячейка» раскладывается примерно в 99,9% случаев — из первых 32 000 раздач неразрешима только одна (номер 11 982, если интересно). </para>
+
+<para
+>В игровых стопках нужно составлять убывающие последовательности, в которых чередуются чёрные и красные карты. В свободную ячейку можно класть любую карту. </para>
+
+<para
+>Перемещать можно только верхнюю карту стопки или карту из свободной ячейки. Последовательность можно переместить, только если хватает пустых ячеек или стопок, чтобы переложить её карты по одной. </para>
+
+<para
+>Наибольшее число карт, которое можно переместить за раз, вычисляется так: </para>
+
+<sidebar
+><para
+>(#{свободные ячейки} + 1) * 2<superscript
+>#{пустые стопки}</superscript
+> </para
+></sidebar>
+
+<para
+>Варианты:</para>
+<itemizedlist>
+  <listitem
+><para
+><quote
+>Игра Бейкера</quote
+> похожа на <quote
+>Свободную ячейку</quote
+>, но стопки собираются по убыванию в одной масти.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Восемь свободных</quote
+> похож на <quote
+>Свободную ячейку</quote
+>, но стопки собираются по убыванию в одной масти, свободных ячеек восемь, а на пустые места можно класть только королей. В начале игры четыре ячейки уже заняты.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Шведская свободная ячейка</quote
+> похожа на <quote
+>Свободную ячейку</quote
+>, но свободные ячейки заполняются при раздаче, а на пустые места можно класть только королей.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Башни Сихейвен</quote
+> похожи на <quote
+>Свободную ячейку</quote
+>, но стопок десять, собираются они по убыванию в одной масти, а на пустые места можно класть только королей. В начале игры две ячейки уже заняты.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Чтобы разложить этот пасьянс, рекомендуется раскладывать карты в игровых стопках в том порядке, в котором они будут перекладываться на базу (тузы, двойки, тройки и т. д.). </para>
+
+<para
+>Старайтесь держать как можно больше свободных ячеек и/или игровых стопок пустыми, чтобы строить как можно более длинные последовательности. </para>
+
+</sect2>
+
+<sect2 id="mod3">
+<title
+>Мод 3</title>
+
+<para
+><indexterm
+><primary
+>Мод 3</primary
+></indexterm
+> «Мод 3» раскладывается двумя колодами. Цель — разложить все карты в трёх верхних рядах, собирая в них последовательности одного цвета: в первом ряду 2-5-8-В, во втором 3-6-9-Д, в третьем 4-7-10-К. Масть в каждой последовательности должна быть одна, поэтому пятёрку червей можно положить только на двойку червей. </para>
+
+<para
+>Четвёртый ряд представляет собой открытый остаток и игровые стопки одновременно. На пустое место можно положить любую карту из первых трёх рядов или верхнюю карту из четвёртого. </para>
+
+<para
+>Тузов можно класть на стопки для тузов над остатком колоды. Они нужны в игре как отправная точка для освобождения мест. </para>
+
+<para
+>Если ходов больше нет, щёлкните по остатку колоды, чтобы сдать новые карты в четвёртый ряд. </para>
+
+<para
+>В этом пасьянсе автосброс отключён. </para>
+</sect2>
+
+<sect2 id="normandy">
+<title
+>Нормандия</title>
+
+<para
+><indexterm
+><primary
+>Нормандия</primary
+></indexterm
+> «Нормандия» раскладывается двумя колодами. Цель — разложить все карты на базе настоящими наборами по возрастанию. </para>
+
+<para
+>В игровых стопках должны быть убывающие последовательности, в которых чередуются чёрные и красные карты. Вы можете перемещать только последовательности и отдельные карты. На пустое место можно класть любую карту или последовательность. </para>
+
+<para
+>Если карты больше нельзя перемещать, щёлкните по остатку колоды, чтобы в каждой игровой стопке появились новые карты. </para>
+
+<para
+>Кнопкой <guibutton
+>Отменить</guibutton
+> можно заметно облегчить себе игру: решений приходится принимать много, и некоторые оказываются ошибочными уже после щелчка по остатку колоды. </para>
+
+<para
+>Этот пасьянс также известен под названием «Цыганка», но многие считают это слово уничижительным и оскорбительным, поэтому выбрано другое название — «Нормандия». </para>
+
+</sect2>
+
+<sect2 id="forty-and-eight">
+<title
+>Сорок и восемь</title>
+
+<para
+><indexterm
+><primary
+>Сорок и восемь</primary
+></indexterm
+> «Сорок и восемь» раскладывается двумя колодами. Цель — разложить все карты на базе настоящими наборами. </para>
+
+<para
+>В игровых стопках нужно выстраивать убывающие последовательности, причём карты в последовательностях должны быть одной масти. Например, пятёрку червей можно положить только на шестёрку червей. </para>
+
+<para
+>Вы можете перемещать на верх стопки только одну карту. На свободное место можно класть любую карту. </para>
+
+<para
+>Щелчком по остатку колоды карта кладётся в открытый остаток, откуда её можно переложить в игровую стопку или на базу (&kpatience; сделает это сам). Когда остаток колоды пуст, все карты из открытого остатка можно вернуть в него, но только один раз: когда остаток колоды опустеет во второй раз, игра закончится. </para>
+
+<para
+>Этот пасьянс раскладывается с трудом. Набравшись опыта, можно разложить многие раздачи, особенно если время от времени пользоваться кнопкой <guibutton
+>Отменить</guibutton
+>, чтобы исправить свои решения и решения &kpatience;, перекладывающего карты на базу. </para>
+</sect2>
+
+<sect2 id="simple-simon">
+<title
+>Простофиля Симон</title>
+
+<para
+><indexterm
+><primary
+>Простофиля Симон</primary
+></indexterm
+> «Простофиля Симон» раскладывается одной колодой. Цель — разложить все карты на базе настоящими наборами. </para>
+
+<para
+>В игровых стопках можно составлять последовательности. Вообще неважно, какой масти карты в последовательности, но перемещать можно только те, которые являются частью настоящего набора (то есть пиковую шестёрку можно переложить, только если на ней <emphasis
+>пиковая</emphasis
+> пятёрка, а не <emphasis
+>трефовая</emphasis
+>). </para>
+
+<para
+>Карты могут быть перенесены на базу, только если в одной из игровых стопок составлена последовательность из всех 13 карт. </para>
+
+<tip>
+<title
+>Предложение</title>
+<para
+>Старайтесь как можно быстрее переносить карты в нужные стопки, чтобы освобождать стопки для временного хранения карт: на пустую стопку можно положить любую карту. </para>
+
+<para
+>Если достаточно свободного места, можно составлять наборы в пустых местах независимо от цвета. Если все карты собраны в такие наборы, их можно пересортировать по цвету, чтобы перенести на базу. </para>
+</tip>
+
+</sect2>
+
+<sect2 id="yukon">
+<title
+>Юкон</title>
+
+<para
+><indexterm
+><primary
+>Юкон</primary
+></indexterm
+> «Юкон» раскладывается одной колодой. Цель — разложить все карты на базе настоящими наборами по возрастанию. </para>
+
+<para
+>Последовательности в игровых стопках должны убывать с чередованием красных и чёрных карт. Перемещать можно любую открытую карту, сколько бы карт на ней ни лежало. Например, пятёрку червей можно положить на шестёрку пик, если та лежит сверху своей стопки. </para>
+
+<para
+>На пустое место можно класть любого короля (опять же, неважно, сколько на нём карт). </para>
+</sect2>
+
+<sect2 id="grandfathers-clock">
+<title
+>Дедушкины часы</title>
+
+<para
+><indexterm
+><primary
+>Дедушкины часы</primary
+></indexterm
+> «Дедушкины часы» — простой пасьянс; набравшись опыта, можно разложить почти любую раздачу. Раскладывается одной колодой. Цель — разложить карты на базе настоящими возрастающими последовательностями. </para>
+
+<para
+>База расположена справа и состоит из 12 стопок, размещённых в виде часов. Девятка лежит на 12 часах, дама &mdash; на 3 часах, тройка &mdash; на 6 часах, а шестёрка &mdash; на 9 часах. </para>
+
+<para
+>Рядом с часами расположены 8 игровых стопок, по 5 карт в каждой. На игровых стопках можно составлять убывающие последовательности. Цвет карт не имеет значения. За раз можно перекладывать только одну карту. </para>
+
+</sect2>
+
+<sect2 id="golf">
+<title
+>Golf</title>
+
+<para
+><indexterm
+><primary
+>Golf</primary
+></indexterm
+> Используется одна колода. Цель игры &mdash; разложить все карты на базе по настоящим наборам.</para>
+ 
+<para
+>Раскладка «Гольфа» проста. В начале игры на столе семь столбцов по пять карт. Ниже — остаток колоды и база. </para>
+
+<para
+>Правила «Гольфа» просты, но для победы нужна стратегия. В игру можно брать нижние карты каждого столбца. Они выкладываются на верхнюю карту базы по возрастанию или убыванию, независимо от масти. Если ходов нет, можно сдать на базу карту из остатка колоды. Игра заканчивается, когда остаток колоды пуст и ходов больше нет.</para>
+
+</sect2>
+
+<sect2 id="spider">
+<title
+>Паук</title>
+
+<para
+><indexterm
+><primary
+>Паук</primary
+></indexterm
+> Этот пасьянс раскладывается двумя колодами. Карты распределяются по 10 стопкам, 4 стопки по 6 карт и 6 - по 5, причём верхняя карта каждой стопки открыта. Остальные карты лежат в пяти столбцах в правом нижнем углу окна и используются для раздачи следующих рядов. </para>
+
+<para
+>Перемещать можно только верхнюю карту стопки или карту из свободной ячейки. Перемещение последовательности допускается, только если имеется достаточно пустых ячеек или стопок, чтобы переложить карты по одной. В игровых стопках карту можно положить на другую карту любой масти, достоинство которой на единицу больше. Последовательность убывающих карт одной масти можно перемещать из одной игровой стопки в другую. </para>
+
+<para
+>Цель пасьянса — сложить настоящие наборы по убыванию начиная с короля за наименьшее число ходов. Когда такой набор собирается, он перемещается в левый нижний угол окна. </para>
+
+<para
+>От уровня сложности зависит, сколько мастей в раздаче: «Лёгкий» — одна масть, «Средний» — две, «Трудный» — все четыре. На лёгком уровне выиграть довольно просто, на трудном — очень сложно. </para>
+
+</sect2>
+
+<sect2 id="bakers-dozen">
+<title
+>Чёртова дюжина</title>
+
+<para
+><indexterm
+><primary
+>Чёртова дюжина</primary
+></indexterm
+> «Чёртова дюжина» раскладывается одной колодой. Название связано с 13 столбцами в игре — ровно чёртова дюжина. Карты раздаются на стол столбцами по четыре, всего 13 столбцов. Короли, оказавшиеся вверху или в середине столбца, перед началом игры перекладываются вниз; два короля в одном столбце перекладываются вниз, не меняя порядка. </para>
+
+<para
+>Цель игры — собрать все карты на четырёх стопках базы по мастям, от туза до короля </para>
+
+<para
+>В игровых стопках нужно составлять убывающие последовательности независимо от масти. Перемещать можно только одну карту, лежащую сверху стопки. </para>
+
+<para
+>Варианты:</para>
+<itemizedlist>
+  <listitem
+><para
+>В <quote
+>Пасьянсе «Испанский»</quote
+> пустые места на столе можно занимать любой картой. (По некоторым источникам, база собирается без учёта масти.)</para
+></listitem>
+  <listitem
+><para
+><quote
+>Воздушные замки</quote
+> похожи на <quote
+>Пасьянс «Испанский»</quote
+>, но карты на столе собираются по убыванию с чередованием цвета. В некоторых вариантах карты на столе раздаются рубашкой вверх, кроме верхних карт столбцов.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Португальский пасьянс</quote
+> — нечто среднее между <quote
+>Чёртовой дюжиной</quote
+> и <quote
+>Пасьянсом «Испанский»</quote
+>: пустые столбцы можно занимать только королями.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Чтобы разложить этот пасьянс, рекомендуется вынимать карты из игровых последовательностей в том же порядке, в каком их нужно класть на базу (сначала тузы, потом двойки и т. д.). Обычно не стоит освобождать столбец, пока последняя его карта не будет готова лечь на базу. </para>
+
+</sect2>
+
+<sect2 id="castle">
+<title
+>Замок</title>
+
+<para
+><indexterm
+><primary
+>Замок</primary
+></indexterm
+> «Замок» — семейство пасьянсов, обычно раскладываемых колодой из 52 карт. Его иногда называют «Свободной ячейкой без ячеек»: игра похожа, но в большинстве вариантов нет дополнительных свободных мест для манёвра. </para>
+
+<para
+>Цель игры — собрать все карты на четырёх стопках базы по мастям, от туза до короля. </para>
+
+<para
+>В игровых стопках нужно составлять убывающие последовательности независимо от масти. Перемещать можно только одну карту, лежащую сверху стопки. </para>
+
+<para
+>Варианты:</para>
+<itemizedlist>
+  <listitem
+><para
+><quote
+>Осаждённый замок</quote
+>. Тузы сразу выкладываются на базу. Пустые места можно занимать любой картой.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Цитадель</quote
+> похожа на <quote
+>Осаждённый замок</quote
+>, но подходящие карты переносятся на базу прямо во время раздачи, и стопки получаются неравными.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Короли-изгнанники</quote
+> похожи на <quote
+>Цитадель</quote
+>, но пустые места можно занимать только королями.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Мастерство осады</quote
+> похоже на <quote
+>Осаждённый замок</quote
+>, но с одной свободной ячейкой.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Улицы и переулки</quote
+> похожи на <quote
+>Осаждённый замок</quote
+>, но тузы тасуются вместе с остальными картами.</para
+></listitem>
+  <listitem
+><para
+><quote
+>Твердыня</quote
+> похожа на <quote
+>Улицы и переулки</quote
+>, но с одной свободной ячейкой.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Чтобы разложить этот пасьянс, рекомендуется собирать базу равномерно. Старайтесь освобождать стопки: это позволяет делать длинные ходы и добираться до закрытых карт. </para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="interface"
+><title
+>Обзор интерфейса</title
+> <!-- do not change this! -->
+<!-- This section has to do with menubar. Describe every single entry in order. Use <variablelist
+> and <varlistentry
+>. Split the chapter into sections using <sect1(2,3)
+> for better viewing.-->
+<sect1 id="game-menu">
+	<title
+>Меню «Игра»</title>
+		<variablelist>
+			<varlistentry id="game-menu-new-game">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>N</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Игра</guimenu
+> <guimenuitem
+>Новая игра…</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Вернуться к экрану выбора игры.</action
+> Текущая раздача при этом бросается.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-deal">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Игра</guimenu
+> <guimenuitem
+>Раздать заново</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Начать новую раздачу той же игры.</action
+> Текущая раздача при этом бросается.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-new-numbered-deal">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Игра</guimenu
+> <guimenuitem
+>Выбрать номер расклада…</guimenuitem
+> </menuchoice
+></term>
+				<listitem>
+					<para
+><action
+>Начать новую раздачу, указав игру и номер раздачи.</action
+> Текущая раздача при этом бросается.</para>
+					<para
+>&kpatience; даёт каждой раздаче уникальный номер (по нему колода перемешивается при раздаче). Благодаря этому можно переиграть понравившуюся раздачу или попробовать особенно трудную, которую посоветовал друг. Самые упорные могут попытаться <quote
+>обыграть</quote
+> &kpatience;, разложив подряд все 2147483647 раздач каждого пасьянса.</para>
+					<para
+>Учтите, что номера раздач «Свободной ячейки» в &kpatience; совпадают с номерами из <ulink url="http://www.solitairelaboratory.com/fcfaq.html"
+>&FAQ; по «Свободной ячейке»</ulink
+>.</para>
+				</listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-restart-deal">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>F5</keycap
+></shortcut
+> <guimenu
+>Игра</guimenu
+> <guimenuitem
+>Начать сначала</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Вернуть текущую игру к состоянию сразу после раздачи.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Игра</guimenu
+> <guimenuitem
+>Загрузить…</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Загрузить сохранённую игру.</action
+> Текущая раздача при этом бросается.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-load-recent">
+				<term
+><menuchoice
+><guimenu
+>Игра</guimenu
+> <guisubmenu
+>Последние игры</guisubmenu
+> <guimenuitem
+><replaceable
+>Список недавно открывавшихся файлов</replaceable
+></guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Список недавно открывавшихся файлов сохранения, последние — вверху.</action
+> Выбранная игра загружается. Текущая раздача при этом бросается.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-save">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Игра</guimenu
+> <guimenuitem
+>Сохранить как…</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Сохранить текущую игру на диск.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry id="game-menu-statistics">
+				<term
+><menuchoice
+><guimenu
+>Игра</guimenu
+> <guimenuitem
+>Статистика</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Показать статистику ваших результатов по каждому пасьянсу.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-quit">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Игра</guimenu
+> <guimenuitem
+>Выход</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Выйти</action
+> из &kpatience;.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="move-menu">
+	<title
+>Меню «Ход»</title>
+		<variablelist>
+			<varlistentry id="move-menu-undo">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Ход</guimenu
+> <guimenuitem
+>Отменить</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Отменить</action
+> последний ход.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-redo">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>Z</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Ход</guimenu
+> <guimenuitem
+>Вернуть</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Вернуть</action
+> ход, отменённый пунктом <guimenuitem
+>Отменить</guimenuitem
+>.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="move-menu-hint">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>H</keycap
+></shortcut
+> <guimenu
+>Ход</guimenu
+> <guimenuitem
+>Подсказка</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Подсказать возможные ходы, если вы зашли в тупик: карты, которые можно по правилам переложить в другую стопку, ненадолго подсвечиваются.</action
+></para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-demo">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>D</keycap
+></shortcut
+> <guimenu
+>Ход</guimenu
+> <guimenuitem
+>Демонстрация</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Включить демонстрационный режим.</action
+> В этом режиме &kpatience; сам пытается разложить пасьянс. Чтобы выйти из демонстрационного режима, выберите это действие ещё раз.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-draw">
+				<term
+><menuchoice
+><shortcut
+>&Space;</shortcut
+> <guimenu
+>Ход</guimenu
+> <guimenuitem
+>Раздать</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Перевернуть одну или несколько карт из остатка колоды и положить их в открытый остаток.</action
+> Доступно только в некоторых пасьянсах.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-deal-row">
+				<term
+><menuchoice
+><shortcut
+>&Enter;</shortcut
+> <guimenu
+>Ход</guimenu
+> <guimenuitem
+>Раздать ряд</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Перевернуть несколько карт из остатка колоды и положить по одной на каждую игровую стопку.</action
+> Доступно только в некоторых пасьянсах.</para
+></listitem>
+			</varlistentry>
+			<varlistentry  id="game-menu-redeal">
+				<term
+><menuchoice
+><shortcut
+><keycap
+>R</keycap
+></shortcut
+> <guimenu
+>Ход</guimenu
+> <guimenuitem
+>Сдать заново</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Собрать все оставшиеся в игре карты и раздать их заново без перемешивания.</action
+> Доступно только в некоторых пасьянсах.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+<sect1 id="settings-help-menu">
+	<title
+>Меню «Настройка» и «Справка»</title>
+<para
+>Кроме стандартных меню &kde; «Настройка» и «Справка», описанных в главе <ulink url="help:/fundamentals/menus.html"
+>Меню</ulink
+> руководства «Основы &kde;», в &kpatience; есть следующие собственные пункты меню: </para>
+		<variablelist>
+			<varlistentry id="settings-menu-game-type-options">
+				<term
+><menuchoice
+><guimenu
+>Настройка</guimenu
+> <guisubmenu
+><replaceable
+>Параметры пасьянса</replaceable
+></guisubmenu
+> <guimenuitem
+><replaceable
+>Список параметров текущего пасьянса</replaceable
+></guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Список параметров текущего пасьянса.</action
+> Это меню есть только в некоторых пасьянсах («Косынка» и «Паук»).</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-stack-options">
+				<term
+><menuchoice
+><guimenu
+>Настройка</guimenu
+> <guisubmenu
+>Параметры колоды</guisubmenu
+> <guimenuitem
+>Рубашками вверх (сложнее)/Рубашками вниз (проще)</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Выбрать, показывать ли карты лицом.</action
+> Это меню есть только в «Пауке».</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-autodrop">
+				<term
+><menuchoice
+><guimenu
+>Настройка</guimenu
+> <guimenuitem
+>Включить автосброс</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Автоматически переносить карты на базу, когда это возможно.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-solver">
+				<term
+><menuchoice
+><guimenu
+>Настройка</guimenu
+> <guimenuitem
+>Включить помощник</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Включить помощник, автоматически решающий пасьянс.</action
+> Помощник постоянно проверяет, можно ли ещё выиграть текущую игру. Чтобы сберечь ресурсы процессора или заряд батареи, помощник можно отключить.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-playsounds">
+				<term
+><menuchoice
+><guimenu
+>Настройка</guimenu
+> <guimenuitem
+>Звуковое сопровождение</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Воспроизводить звуки, когда вы берёте или кладёте карты.</action
+> В будущем звуков станет больше.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="settings-menu-remember">
+				<term
+><menuchoice
+><guimenu
+>Настройка</guimenu
+> <guimenuitem
+>Запоминать состояние при выходе</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+><action
+>Автоматически сохранять состояние игры при выходе из &kpatience;.</action
+> Если параметр включён, при следующем запуске &kpatience; автоматически восстановит игру.</para
+></listitem>
+			</varlistentry>
+			<varlistentry id="help-menu-remember">
+				<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>F1</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Справка</guimenu
+> <guimenuitem
+>Помощь с текущей игрой</guimenuitem
+> </menuchoice
+></term>
+				<listitem
+><para
+>Открыть в этом руководстве раздел с правилами текущего пасьянса.</para
+></listitem>
+			</varlistentry>
+		</variablelist>
+</sect1>
+
+</chapter>
+
+<chapter id="faq"
+><title
+>Вопросы и ответы</title
+> <!-- do not change this! -->
+<!--This chapter is for frequently asked questions. Please use <qandaset
+> <qandaentry
+> only!-->
+<qandaset>
+<!--Following is a standard list of FAQ questions.-->
+<qandaentry>
+ <question
+><para
+>Можно ли изменить внешний вид игры? </para
+></question>
+ <answer
+><para
+>Можно изменить лицевую сторону и рубашку карт, а также тему оформления игры. Для этого выберите в меню <menuchoice
+> <shortcut
+><keycap
+>F10</keycap
+></shortcut
+> <guimenu
+>Настройка</guimenu
+> <guimenuitem
+>Изменить внешний вид…</guimenuitem
+> </menuchoice
+>.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Можно ли играть с помощью клавиатуры?</para
+></question>
+ <answer
+><para
+>Нет, играть только с клавиатуры в &kpatience; нельзя. Но у большинства пунктов меню есть комбинации клавиш.</para
+></answer>
+</qandaentry>
+<qandaentry>
+ <question
+><para
+>Даже с подсказками не понимаю, как играть. Помогите!</para
+></question>
+ <answer
+><para
+>Кроме <quote
+>Подсказки</quote
+> есть полезный режим <quote
+>Демонстрация</quote
+>, в котором встроенный искусственный интеллект играет за вас: можно смотреть и учиться. А если остались вопросы, лучше прочитать разделы <link linkend="howto"
+>Как играть</link
+> и <link linkend="rules_and_tips"
+>Правила игры, стратегия и советы</link
+> этого руководства.</para
+></answer>
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits"
+><title
+>Авторские права и лицензия</title
+> <!-- do not change this! -->
+<!--This chapter is for credits and licenses.-->
+
+<para
+>&kpatience; </para>
+<!--List all the copyright holders here-->
+<para
+>© &Paul-Olav.Tvete;, 1995–2000 (&kpatience;) </para>
+
+<para
+>© &Stephan.Kulow; &Stephan.Kulow.mail;, 2001–2007 (&kpatience;) </para>
+
+<para
+>Пасьянс <quote
+>Свободная ячейка</quote
+> создан Шломи Фишем (Shlomi Fish) <email
+>shlomif@vipe.technion.ac.il</email
+>. </para>
+
+<para
+>© &Paul-Olav.Tvete;, 2000 (документация) </para>
+
+<para
+>Документация обновлена для &kde; 2.0: &Mike.McBride; &Mike.McBride.mail; </para>
+
+<para
+>Документация переписана для &kpatience; 2.0 (&kde; 2.1): &Maren.Pakura; &Maren.Pakura.mail; </para>
+
+<para
+>Документация вычитана и обновлена для &kpatience; 3.6: &Richard.Hawthorne; &Richard.Hawthorne.mail; </para>
+
+<para
+>Перевод на русский — Валя Ванеева <email
+>fattie@altlinux.ru</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index; 
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-omittag:t
+sgml-shorttag:t
+sgml-namecase-general:t
+sgml-always-quote-attributes:t
+sgml-indent-step:0
+sgml-indent-data:nil
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->
