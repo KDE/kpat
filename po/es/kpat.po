@@ -1,22 +1,22 @@
 # Spanish translations for kpat.po package.
-# Copyright (C) 2002-2025 This file is copyright:
+# Copyright (C) 2002-2026 This file is copyright:
 # This file is distributed under the same license as the kpat package.
 #
-# SPDX-FileCopyrightText: 2002, 2003 Miguel Revilla Rodríguez <yo@miguelrevilla.com>
+# SPDX-FileCopyrightText: 2002-2003 Miguel Revilla Rodríguez <yo@miguelrevilla.com>
 # SPDX-FileCopyrightText: 2003 Lucas Garcia <tanke@escomposlinux.org>
 # SPDX-FileCopyrightText: 2004 Rafael Osuna <rosuna@wol.es>
-# SPDX-FileCopyrightText: 2004, 2006, 2007, 2008 Santiago Fernández Sancho <santi@kde-es.org>
-# SPDX-FileCopyrightText: 2009, 2016, 2018, 2019, 2020, 2021, 2022, 2023 Eloy Cuadra <ecuadra@eloihr.net>
-# SPDX-FileCopyrightText: 2010, 2011, 2012 Kira J. Fernandez <kirajfdez@gmail.com>
-# SPDX-FileCopyrightText: 2013, 2014 Rocio Gallego <traducciones@rociogallego.com>
+# SPDX-FileCopyrightText: 2004, 2006-2008 Santiago Fernández Sancho <santi@kde-es.org>
+# SPDX-FileCopyrightText: 2009, 2016, 2018-2023 Eloy Cuadra <ecuadra@eloihr.net>
+# SPDX-FileCopyrightText: 2010-2012 Kira J. Fernandez <kirajfdez@gmail.com>
+# SPDX-FileCopyrightText: 2013-2014 Rocio Gallego <traducciones@rociogallego.com>
 # SPDX-FileCopyrightText: 2014 David Paul <eodos0@gmail.com>
-# SPDX-FileCopyrightText: 2024, 2025 Sofía Priego <spriego@darksylvania.net>
+# SPDX-FileCopyrightText: 2024-2025, 2026 Sofía Priego <spriego@darksylvania.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-29 00:42+0000\n"
-"PO-Revision-Date: 2025-11-21 02:17+0100\n"
+"PO-Revision-Date: 2026-09-29 12:02+0100\n"
 "Last-Translator: Sofía Priego <spriego@darksylvania.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "First-Translator: Víctor Romero <livingstone@thepentagon.com>\n"
-"X-Generator: Lokalize 25.08.3\n"
+"X-Generator: Lokalize 26.08.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -166,102 +166,100 @@ msgid "Baker's Dozen (Custom)"
 msgstr "Docena del panadero (personalizado)"
 
 #: bizilizi.cpp:204
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Klondike &Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Bizilizi &Options"
-msgstr "&Opciones de Klondike"
+msgstr "&Opciones de Bizilizi"
 
 #: bizilizi.cpp:205
 #, kde-format
 msgctxt "@item:inmenu bizilizi option"
 msgid "23 Covered Cards"
-msgstr ""
+msgstr "23 cartas cubiertas"
 
 #: bizilizi.cpp:206
 #, kde-format
 msgctxt "@item:inmenu bizilizi option"
 msgid "24 Covered Cards"
-msgstr ""
+msgstr "24 cartas cubiertas"
 
 #: bizilizi.cpp:210
 #, kde-format
 msgctxt "@title:menu"
 msgid "Pool Analysis"
-msgstr ""
+msgstr "Análisis del pozo"
 
 #: bizilizi.cpp:211
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Off"
-msgstr ""
+msgstr "Desactivado"
 
 #: bizilizi.cpp:212
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Instant"
-msgstr ""
+msgstr "Instantáneo"
 
 #: bizilizi.cpp:213
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 4"
-msgstr ""
+msgstr "Esperar 4"
 
 #: bizilizi.cpp:214
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 10"
-msgstr ""
+msgstr "Esperar 10"
 
 #: bizilizi.cpp:215
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 18"
-msgstr ""
+msgstr "Esperar 18"
 
 #: bizilizi.cpp:219
 #, kde-format
 msgctxt "@title:menu"
 msgid "Delayed Hints"
-msgstr ""
+msgstr "Pistas demoradas"
 
 #: bizilizi.cpp:220
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "Off"
-msgstr ""
+msgstr "Desactivado"
 
 #: bizilizi.cpp:221
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "6 Seconds"
-msgstr ""
+msgstr "6 segundos"
 
 #: bizilizi.cpp:222
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "14 Seconds"
-msgstr ""
+msgstr "14 segundos"
 
 #: bizilizi.cpp:223
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "22 Seconds"
-msgstr ""
+msgstr "22 segundos"
 
 #: bizilizi.cpp:891
 msgid "Bizilizi"
-msgstr ""
+msgstr "Bizilizi"
 
 #: bizilizi.cpp:894
 msgid "Bizilizi (23 Covered)"
-msgstr ""
+msgstr "Bizilizi (23 cubiertas)"
 
 #: bizilizi.cpp:895
 msgid "Bizilizi (24 Covered)"
-msgstr ""
+msgstr "Bizilizi (24 cubiertas)"
 
 #: castle.cpp:319
 msgid "Castle"

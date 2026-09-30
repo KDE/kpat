@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-29 00:42+0000\n"
-"PO-Revision-Date: 2025-08-22 17:59+0300\n"
+"PO-Revision-Date: 2026-09-29 08:39+0200\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -165,102 +165,100 @@ msgid "Baker's Dozen (Custom)"
 msgstr "Чёртова дюжина (другой)"
 
 #: bizilizi.cpp:204
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Klondike &Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Bizilizi &Options"
-msgstr "Параметры &косынки"
+msgstr "&Параметры «Бизилизи»"
 
 #: bizilizi.cpp:205
 #, kde-format
 msgctxt "@item:inmenu bizilizi option"
 msgid "23 Covered Cards"
-msgstr ""
+msgstr "23 закрытые карты"
 
 #: bizilizi.cpp:206
 #, kde-format
 msgctxt "@item:inmenu bizilizi option"
 msgid "24 Covered Cards"
-msgstr ""
+msgstr "24 закрытые карты"
 
 #: bizilizi.cpp:210
 #, kde-format
 msgctxt "@title:menu"
 msgid "Pool Analysis"
-msgstr ""
+msgstr "Анализ запаса"
 
 #: bizilizi.cpp:211
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Off"
-msgstr ""
+msgstr "Выключен"
 
 #: bizilizi.cpp:212
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Instant"
-msgstr ""
+msgstr "Сразу"
 
 #: bizilizi.cpp:213
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 4"
-msgstr ""
+msgstr "Через 4 секунды"
 
 #: bizilizi.cpp:214
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 10"
-msgstr ""
+msgstr "Через 10 секунд"
 
 #: bizilizi.cpp:215
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 18"
-msgstr ""
+msgstr "Через 18 секунд"
 
 #: bizilizi.cpp:219
 #, kde-format
 msgctxt "@title:menu"
 msgid "Delayed Hints"
-msgstr ""
+msgstr "Отложенные подсказки"
 
 #: bizilizi.cpp:220
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "Off"
-msgstr ""
+msgstr "Выключены"
 
 #: bizilizi.cpp:221
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "6 Seconds"
-msgstr ""
+msgstr "6 секунд"
 
 #: bizilizi.cpp:222
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "14 Seconds"
-msgstr ""
+msgstr "14 секунд"
 
 #: bizilizi.cpp:223
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "22 Seconds"
-msgstr ""
+msgstr "22 секунды"
 
 #: bizilizi.cpp:891
 msgid "Bizilizi"
-msgstr ""
+msgstr "Бизилизи"
 
 #: bizilizi.cpp:894
 msgid "Bizilizi (23 Covered)"
-msgstr ""
+msgstr "Бизилизи (23 закрытые карты)"
 
 #: bizilizi.cpp:895
 msgid "Bizilizi (24 Covered)"
-msgstr ""
+msgstr "Бизилизи (24 закрытые карты)"
 
 #: castle.cpp:319
 msgid "Castle"

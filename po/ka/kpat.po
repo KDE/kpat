@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-29 00:42+0000\n"
-"PO-Revision-Date: 2025-11-20 04:56+0100\n"
+"PO-Revision-Date: 2026-09-29 05:47+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -151,102 +151,100 @@ msgid "Baker's Dozen (Custom)"
 msgstr "ეშმაკისეული ათეული (ხელით)"
 
 #: bizilizi.cpp:204
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Klondike &Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Bizilizi &Options"
-msgstr "განძის &მორგება"
+msgstr "Bizilizi-ის მ&ორგება"
 
 #: bizilizi.cpp:205
 #, kde-format
 msgctxt "@item:inmenu bizilizi option"
 msgid "23 Covered Cards"
-msgstr ""
+msgstr "23 დაფარული ბარათი"
 
 #: bizilizi.cpp:206
 #, kde-format
 msgctxt "@item:inmenu bizilizi option"
 msgid "24 Covered Cards"
-msgstr ""
+msgstr "24 დაფარული ბარათი"
 
 #: bizilizi.cpp:210
 #, kde-format
 msgctxt "@title:menu"
 msgid "Pool Analysis"
-msgstr ""
+msgstr "პულის ანალიზი"
 
 #: bizilizi.cpp:211
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Off"
-msgstr ""
+msgstr "გამორთ"
 
 #: bizilizi.cpp:212
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Instant"
-msgstr ""
+msgstr "მყისი"
 
 #: bizilizi.cpp:213
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 4"
-msgstr ""
+msgstr "დაელოდეთ 4"
 
 #: bizilizi.cpp:214
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 10"
-msgstr ""
+msgstr "დაელოდეთ 10"
 
 #: bizilizi.cpp:215
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 18"
-msgstr ""
+msgstr "დაელოდეთ 18"
 
 #: bizilizi.cpp:219
 #, kde-format
 msgctxt "@title:menu"
 msgid "Delayed Hints"
-msgstr ""
+msgstr "დაგვიანებული მინიშნებები"
 
 #: bizilizi.cpp:220
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "Off"
-msgstr ""
+msgstr "გამორთ"
 
 #: bizilizi.cpp:221
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "6 Seconds"
-msgstr ""
+msgstr "6 წამი"
 
 #: bizilizi.cpp:222
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "14 Seconds"
-msgstr ""
+msgstr "14 წამი"
 
 #: bizilizi.cpp:223
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "22 Seconds"
-msgstr ""
+msgstr "22 წამი"
 
 #: bizilizi.cpp:891
 msgid "Bizilizi"
-msgstr ""
+msgstr "Bizilizi"
 
 #: bizilizi.cpp:894
 msgid "Bizilizi (23 Covered)"
-msgstr ""
+msgstr "Bizilizi (23 დაფარული)"
 
 #: bizilizi.cpp:895
 msgid "Bizilizi (24 Covered)"
-msgstr ""
+msgstr "Bizilizi (24 დაფარული)"
 
 #: castle.cpp:319
 msgid "Castle"

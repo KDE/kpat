@@ -1,11 +1,11 @@
 # Translation of kpat.po to Catalan
-# Copyright (C) 2000-2025 This_file_is_part_of_KDE
+# Copyright (C) 2000-2026 This_file_is_part_of_KDE
 # This file is distributed under the license LGPL version 2 or later.
 #
 # SPDX-FileCopyrightText: 2000-2001 Francesc J Devesa i Berenguer <frandeve@hotmail.com>
 # SPDX-FileCopyrightText: 2003-2005, 2008 Albert Astals Cid <aacid@kde.org>
 # SPDX-FileCopyrightText: 2007 Aleix Pol <aleixpol@gmail.com>
-# SPDX-FileCopyrightText: 2007, 2009-2016, 2018, 2020-2022, 2024-2025 Josep M. Ferrer <txemaq@gmail.com>
+# SPDX-FileCopyrightText: 2007, 2009-2016, 2018, 2020-2022, 2024-2026 Josep M. Ferrer <txemaq@gmail.com>
 # SPDX-FileCopyrightText: 2009 Joan Maspons <joanmaspons@gmail.com>
 # SPDX-FileCopyrightText: 2010-2011 Manuel Tortosa <manutortosa@chakra-project.org>
 # SPDX-FileCopyrightText: 2016-2018, 2020-2021 Antoni Bella Pérez <antonibella5@yahoo.com>
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-29 00:42+0000\n"
-"PO-Revision-Date: 2025-11-20 10:05+0100\n"
+"PO-Revision-Date: 2026-09-29 10:30+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -162,102 +162,100 @@ msgid "Baker's Dozen (Custom)"
 msgstr "Dotzena del forner (personalitzat)"
 
 #: bizilizi.cpp:204
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Klondike &Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Bizilizi &Options"
-msgstr "&Opcions del Klondike"
+msgstr "&Opcions del Bizilizi"
 
 #: bizilizi.cpp:205
 #, kde-format
 msgctxt "@item:inmenu bizilizi option"
 msgid "23 Covered Cards"
-msgstr ""
+msgstr "23 cartes cobertes"
 
 #: bizilizi.cpp:206
 #, kde-format
 msgctxt "@item:inmenu bizilizi option"
 msgid "24 Covered Cards"
-msgstr ""
+msgstr "24 cartes cobertes"
 
 #: bizilizi.cpp:210
 #, kde-format
 msgctxt "@title:menu"
 msgid "Pool Analysis"
-msgstr ""
+msgstr "Anàlisi de conjunt"
 
 #: bizilizi.cpp:211
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Off"
-msgstr ""
+msgstr "Inactiu"
 
 #: bizilizi.cpp:212
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Instant"
-msgstr ""
+msgstr "Instantani"
 
 #: bizilizi.cpp:213
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 4"
-msgstr ""
+msgstr "Espera 4"
 
 #: bizilizi.cpp:214
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 10"
-msgstr ""
+msgstr "Espera 10"
 
 #: bizilizi.cpp:215
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 18"
-msgstr ""
+msgstr "Espera 18"
 
 #: bizilizi.cpp:219
 #, kde-format
 msgctxt "@title:menu"
 msgid "Delayed Hints"
-msgstr ""
+msgstr "Pistes retardades"
 
 #: bizilizi.cpp:220
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "Off"
-msgstr ""
+msgstr "Apagat"
 
 #: bizilizi.cpp:221
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "6 Seconds"
-msgstr ""
+msgstr "6 segons"
 
 #: bizilizi.cpp:222
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "14 Seconds"
-msgstr ""
+msgstr "14 segons"
 
 #: bizilizi.cpp:223
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "22 Seconds"
-msgstr ""
+msgstr "22 segons"
 
 #: bizilizi.cpp:891
 msgid "Bizilizi"
-msgstr ""
+msgstr "Bizilizi"
 
 #: bizilizi.cpp:894
 msgid "Bizilizi (23 Covered)"
-msgstr ""
+msgstr "Bizilizi (23 cobertes)"
 
 #: bizilizi.cpp:895
 msgid "Bizilizi (24 Covered)"
-msgstr ""
+msgstr "Bizilizi (24 cobertes)"
 
 #: castle.cpp:319
 msgid "Castle"
