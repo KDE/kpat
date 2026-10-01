@@ -2,13 +2,13 @@
 # Copyright (C) 2002, 2007 Free Software Foundation, Inc.
 # Isam Bayazidi <bayazidi@arabeyes.org>, 2002.
 # Youssef Chahibi <chahibi@gmail.com>, 2007.
-# SPDX-FileCopyrightText: 2021, 2022, 2024, 2025 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
+# SPDX-FileCopyrightText: 2021, 2022, 2024, 2025, 2026 Zayed Al-Saidi <zayed.alsaidi@gmail.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kpat\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-29 00:42+0000\n"
-"PO-Revision-Date: 2025-11-20 18:43+0400\n"
+"PO-Revision-Date: 2026-09-30 19:22+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Lokalize 25.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -152,102 +152,100 @@ msgid "Baker's Dozen (Custom)"
 msgstr "دزينة الخباز (مخصصة)"
 
 #: bizilizi.cpp:204
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Klondike &Options"
+#, kde-format
 msgctxt "@title:menu"
 msgid "Bizilizi &Options"
-msgstr "&خيارات كلونداكي"
+msgstr "خيارات &بيزيليزي"
 
 #: bizilizi.cpp:205
 #, kde-format
 msgctxt "@item:inmenu bizilizi option"
 msgid "23 Covered Cards"
-msgstr ""
+msgstr "23 ورقة مغطاة"
 
 #: bizilizi.cpp:206
 #, kde-format
 msgctxt "@item:inmenu bizilizi option"
 msgid "24 Covered Cards"
-msgstr ""
+msgstr "24 ورقة مغطاة"
 
 #: bizilizi.cpp:210
 #, kde-format
 msgctxt "@title:menu"
 msgid "Pool Analysis"
-msgstr ""
+msgstr "تحليل المجموعة"
 
 #: bizilizi.cpp:211
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Off"
-msgstr ""
+msgstr "مطفأ"
 
 #: bizilizi.cpp:212
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Instant"
-msgstr ""
+msgstr "فوري"
 
 #: bizilizi.cpp:213
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 4"
-msgstr ""
+msgstr "انتظر 4"
 
 #: bizilizi.cpp:214
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 10"
-msgstr ""
+msgstr "انتظر 10"
 
 #: bizilizi.cpp:215
 #, kde-format
 msgctxt "@item:inmenu analysis option"
 msgid "Wait 18"
-msgstr ""
+msgstr "انتظر 18"
 
 #: bizilizi.cpp:219
 #, kde-format
 msgctxt "@title:menu"
 msgid "Delayed Hints"
-msgstr ""
+msgstr "تلميحات مؤجلة"
 
 #: bizilizi.cpp:220
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "Off"
-msgstr ""
+msgstr "مطفأ"
 
 #: bizilizi.cpp:221
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "6 Seconds"
-msgstr ""
+msgstr "6 ثوان"
 
 #: bizilizi.cpp:222
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "14 Seconds"
-msgstr ""
+msgstr "14 ثانية"
 
 #: bizilizi.cpp:223
 #, kde-format
 msgctxt "@item:inmenu ridehints option"
 msgid "22 Seconds"
-msgstr ""
+msgstr "22 ثانية"
 
 #: bizilizi.cpp:891
 msgid "Bizilizi"
-msgstr ""
+msgstr "بيزيليزي"
 
 #: bizilizi.cpp:894
 msgid "Bizilizi (23 Covered)"
-msgstr ""
+msgstr "بيزيليزي (23 مغطاة)"
 
 #: bizilizi.cpp:895
 msgid "Bizilizi (24 Covered)"
-msgstr ""
+msgstr "بيزيليزي (24 مغطاة)"
 
 #: castle.cpp:319
 msgid "Castle"
