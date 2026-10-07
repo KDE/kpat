@@ -42,6 +42,10 @@
   <name xml:lang="sa">केधैर्यम्</name>
   <name xml:lang="sk">KPatience</name>
   <name xml:lang="sl">KPatience</name>
+  <name xml:lang="sr">К‑пасијанс</name>
+  <name xml:lang="sr-Latn">K‑pasijans</name>
+  <name xml:lang="sr-ijekavian">К‑пасијанс</name>
+  <name xml:lang="sr-ijekavianlatin">K‑pasijans</name>
   <name xml:lang="sv">Patiens</name>
   <name xml:lang="tr">K Sabır</name>
   <name xml:lang="ug">KPatience</name>
@@ -82,6 +86,10 @@
   <summary xml:lang="sa">एकांत ताश खेल</summary>
   <summary xml:lang="sk">Kartová hra typu Solitaire</summary>
   <summary xml:lang="sl">Igra s kartami pasjanse</summary>
+  <summary xml:lang="sr">Игра пасијанса</summary>
+  <summary xml:lang="sr-Latn">Igra pasijansa</summary>
+  <summary xml:lang="sr-ijekavian">Игра пасијанса</summary>
+  <summary xml:lang="sr-ijekavianlatin">Igra pasijansa</summary>
   <summary xml:lang="sv">Patienskortspel</summary>
   <summary xml:lang="tr">Solitaire kart oyunu</summary>
   <summary xml:lang="ug">قەغەز قارتا ئويۇنى</summary>
@@ -121,6 +129,10 @@
     <p xml:lang="sa">KPat (उर्फ KPatience) एकः आरामदायकः कार्ड-क्रमण-क्रीडा अस्ति । क्रीडां जितुम् क्रीडकेन परस्परं निश्चितक्रमेण एकं ताशपत्रं व्यवस्थितं कर्तव्यम् ।</p>
     <p xml:lang="sk">KPat (aka KPatience) je relaxačná hra na triedenie kariet. Aby hráč vyhral hru, musí si medzi sebou usporiadať jeden balíček kariet v určitom poradí.</p>
     <p xml:lang="sl">KPat (ali KPatience) (sl. pasjansa) je sprostitvena igra z urejanjem kart. Za zmago v igri mora igralec zložiti en komplet igralnih kart v določenem redu.</p>
+    <p xml:lang="sr">К‑пасијанс (KPat) је опуштајућа игра ређања карата. Да би добио партију, играч мора да поређа карте једног шпила по одређеном редоследу.</p>
+    <p xml:lang="sr-Latn">K‑pasijans (KPat) je opuštajuća igra ređanja karata. Da bi dobio partiju, igrač mora da poređa karte jednog špila po određenom redosledu.</p>
+    <p xml:lang="sr-ijekavian">К‑пасијанс (KPat) је опуштајућа игра ређања карата. Да би добио партију, играч мора да поређа карте једног шпила по одређеном редослиједу.</p>
+    <p xml:lang="sr-ijekavianlatin">K‑pasijans (KPat) je opuštajuća igra ređanja karata. Da bi dobio partiju, igrač mora da poređa karte jednog špila po određenom redoslijedu.</p>
     <p xml:lang="sv">KPat (också känt som Patiens) är ett avkopplande kortsorteringsspel. För att vinna spelet måste spelaren arrangera korten i en kortlek i en viss ordning bland varandra.</p>
     <p xml:lang="tr">KPat (diğer adıyla K Sabır), rahatlatıcı bir kart sıralama oyunudur. Oyunu kazanmak için oyuncu bir kart destesini belirli bir sırada dizmelidir.</p>
     <p xml:lang="uk">KPat (або KPatience) — заспокійлива гра в упорядковування набору карт. Щоб виграти гру, гравцеві слід за певними правилами упорядкувати колоди карт.</p>
@@ -168,6 +180,10 @@
       <caption xml:lang="sa">एकान्तवासी चयन पटल</caption>
       <caption xml:lang="sk">Obrazovka výberu solitaire</caption>
       <caption xml:lang="sl">Izbirni zaslon vrste pasjanse</caption>
+      <caption xml:lang="sr">Екран за избор пасијанса</caption>
+      <caption xml:lang="sr-Latn">Ekran za izbor pasijansa</caption>
+      <caption xml:lang="sr-ijekavian">Екран за избор пасијанса</caption>
+      <caption xml:lang="sr-ijekavianlatin">Ekran za izbor pasijansa</caption>
       <caption xml:lang="sv">Skärm för val av patiens</caption>
       <caption xml:lang="tr">Solitaire seçim ekranı</caption>
       <caption xml:lang="uk">Вікно вибору пасьянсу</caption>
